@@ -18,7 +18,7 @@ COMPILING
 If you're got a CVS copy, you will need to regenerate the configure
 script using:
 
-    autoreconf -s -i
+    ./bootstrap
 
 Once you have the configure script (which comes with the source
 deistribution), run it with the "--with-pic" option, as well as any
@@ -32,7 +32,7 @@ NETBSD:
 	./configure --with-pic --prefix=/usr/pkg
 
 mingw cross-compiler from Debian Linux:
-    ./configure --with-pic --build=`./config.guess` --host=i586-mingw32msvc \
+    ./configure --with-pic --host=i586-mingw32msvc \
 	--prefix=/usr/i586-mingw32msvc
 
 Once the configure script writes a Makefile, you should be able to just

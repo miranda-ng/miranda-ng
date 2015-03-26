@@ -1,6 +1,8 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2014  Ian Goldberg, David Goulet, Rob Smits,
+ *                           Chris Alexander, Willy Lew, Lisa Du,
+ *                           Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -14,7 +16,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 /* system headers */
@@ -27,33 +29,73 @@
 #include "privkey.h"
 #include "auth.h"
 #include "serial.h"
+#include "proto.h"
+#include "context.h"
+#include "mem.h"
+
+#if OTRL_DEBUGGING
+#include <stdio.h>
+
+/* Dump the contents of an OtrlAuthInfo to the FILE *f. */
+void otrl_auth_dump(FILE *f, const OtrlAuthInfo *auth)
+{
+    int i;
+
+    fprintf(f, "  Auth info %p:\n", auth);
+    fprintf(f, "    State: %d (%s)\n", auth->authstate,
+	auth->authstate == OTRL_AUTHSTATE_NONE ? "NONE" :
+	auth->authstate == OTRL_AUTHSTATE_AWAITING_DHKEY ? "AWAITING_DHKEY" :
+	auth->authstate == OTRL_AUTHSTATE_AWAITING_REVEALSIG ?
+	    "AWAITING_REVEALSIG" :
+	auth->authstate == OTRL_AUTHSTATE_AWAITING_SIG ? "AWAITING_SIG" :
+	auth->authstate == OTRL_AUTHSTATE_V1_SETUP ? "V1_SETUP" :
+	"INVALID");
+    fprintf(f, "    Context: %p\n", auth->context);
+    fprintf(f, "    Our keyid:   %u\n", auth->our_keyid);
+    fprintf(f, "    Their keyid: %u\n", auth->their_keyid);
+    fprintf(f, "    Their fingerprint: ");
+    for (i=0;i<20;++i) {
+	fprintf(f, "%02x", auth->their_fingerprint[i]);
+    }
+    fprintf(f, "\n    Initiated = %d\n", auth->initiated);
+    fprintf(f, "\n    Proto version = %d\n", auth->protocol_version);
+    fprintf(f, "\n    Lastauthmsg = %s\n",
+	auth->lastauthmsg ? auth->lastauthmsg : "(nil)");
+    fprintf(f, "\n    Commit sent time = %ld\n",
+	(long) auth->commit_sent_time);
+}
+
+#endif
 
 /*
  * Initialize the fields of an OtrlAuthInfo (already allocated).
  */
-void otrl_auth_new(OtrlAuthInfo *auth)
+void otrl_auth_new(struct context *context)
 {
-	auth->authstate = OTRL_AUTHSTATE_NONE;
-	otrl_dh_keypair_init(&(auth->our_dh));
-	auth->our_keyid = 0;
-	auth->encgx = NULL;
-	auth->encgx_len = 0;
-	memset(auth->r, 0, 16);
-	memset(auth->hashgx, 0, 32);
-	auth->their_pub = NULL;
-	auth->their_keyid = 0;
-	auth->enc_c = NULL;
-	auth->enc_cp = NULL;
-	auth->mac_m1 = NULL;
-	auth->mac_m1p = NULL;
-	auth->mac_m2 = NULL;
-	auth->mac_m2p = NULL;
-	memset(auth->their_fingerprint, 0, 20);
-	auth->initiated = 0;
-	auth->protocol_version = 0;
-	memset(auth->secure_session_id, 0, 20);
-	auth->secure_session_id_len = 0;
-	auth->lastauthmsg = NULL;
+    OtrlAuthInfo *auth = &(context->auth);
+    auth->authstate = OTRL_AUTHSTATE_NONE;
+    otrl_dh_keypair_init(&(auth->our_dh));
+    auth->our_keyid = 0;
+    auth->encgx = NULL;
+    auth->encgx_len = 0;
+    memset(auth->r, 0, 16);
+    memset(auth->hashgx, 0, 32);
+    auth->their_pub = NULL;
+    auth->their_keyid = 0;
+    auth->enc_c = NULL;
+    auth->enc_cp = NULL;
+    auth->mac_m1 = NULL;
+    auth->mac_m1p = NULL;
+    auth->mac_m2 = NULL;
+    auth->mac_m2p = NULL;
+    memset(auth->their_fingerprint, 0, 20);
+    auth->initiated = 0;
+    auth->protocol_version = 0;
+    memset(auth->secure_session_id, 0, 20);
+    auth->secure_session_id_len = 0;
+    auth->lastauthmsg = NULL;
+    auth->commit_sent_time = 0;
+    auth->context = context;
 }
 
 /*
@@ -61,135 +103,145 @@ void otrl_auth_new(OtrlAuthInfo *auth)
  */
 void otrl_auth_clear(OtrlAuthInfo *auth)
 {
-	auth->authstate = OTRL_AUTHSTATE_NONE;
-	otrl_dh_keypair_free(&(auth->our_dh));
-	auth->our_keyid = 0;
-	free(auth->encgx);
-	auth->encgx = NULL;
-	auth->encgx_len = 0;
-	memset(auth->r, 0, 16);
-	memset(auth->hashgx, 0, 32);
-	gcry_mpi_release(auth->their_pub);
-	auth->their_pub = NULL;
-	auth->their_keyid = 0;
-	gcry_cipher_close(auth->enc_c);
-	gcry_cipher_close(auth->enc_cp);
-	gcry_md_close(auth->mac_m1);
-	gcry_md_close(auth->mac_m1p);
-	gcry_md_close(auth->mac_m2);
-	gcry_md_close(auth->mac_m2p);
-	auth->enc_c = NULL;
-	auth->enc_cp = NULL;
-	auth->mac_m1 = NULL;
-	auth->mac_m1p = NULL;
-	auth->mac_m2 = NULL;
-	auth->mac_m2p = NULL;
-	memset(auth->their_fingerprint, 0, 20);
-	auth->initiated = 0;
-	auth->protocol_version = 0;
-	memset(auth->secure_session_id, 0, 20);
-	auth->secure_session_id_len = 0;
-	free(auth->lastauthmsg);
-	auth->lastauthmsg = NULL;
+    auth->authstate = OTRL_AUTHSTATE_NONE;
+    otrl_dh_keypair_free(&(auth->our_dh));
+    auth->our_keyid = 0;
+    free(auth->encgx);
+    auth->encgx = NULL;
+    auth->encgx_len = 0;
+    memset(auth->r, 0, 16);
+    memset(auth->hashgx, 0, 32);
+    gcry_mpi_release(auth->their_pub);
+    auth->their_pub = NULL;
+    auth->their_keyid = 0;
+    gcry_cipher_close(auth->enc_c);
+    gcry_cipher_close(auth->enc_cp);
+    gcry_md_close(auth->mac_m1);
+    gcry_md_close(auth->mac_m1p);
+    gcry_md_close(auth->mac_m2);
+    gcry_md_close(auth->mac_m2p);
+    auth->enc_c = NULL;
+    auth->enc_cp = NULL;
+    auth->mac_m1 = NULL;
+    auth->mac_m1p = NULL;
+    auth->mac_m2 = NULL;
+    auth->mac_m2p = NULL;
+    memset(auth->their_fingerprint, 0, 20);
+    auth->initiated = 0;
+    auth->protocol_version = 0;
+    memset(auth->secure_session_id, 0, 20);
+    auth->secure_session_id_len = 0;
+    free(auth->lastauthmsg);
+    auth->lastauthmsg = NULL;
+    auth->commit_sent_time = 0;
 }
 
 /*
- * Start a fresh AKE (version 2) using the given OtrlAuthInfo.  Generate
+ * Start a fresh AKE (version 2 or 3) using the given OtrlAuthInfo.  Generate
  * a fresh DH keypair to use.  If no error is returned, the message to
  * transmit will be contained in auth->lastauthmsg.
  */
-gcry_error_t otrl_auth_start_v2(OtrlAuthInfo *auth)
+gcry_error_t otrl_auth_start_v23(OtrlAuthInfo *auth, int version)
 {
-	gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
-	const enum gcry_mpi_format format = GCRYMPI_FMT_USG;
-	size_t npub;
-	gcry_cipher_hd_t enc = NULL;
-	unsigned char ctr[16];
-	unsigned char *buf, *bufp;
-	size_t buflen, lenp;
+    gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
+    const enum gcry_mpi_format format = GCRYMPI_FMT_USG;
+    size_t npub;
+    gcry_cipher_hd_t enc = NULL;
+    unsigned char ctr[16];
+    unsigned char *buf, *bufp;
+    size_t buflen, lenp;
 
-	/* Clear out this OtrlAuthInfo and start over */
-	otrl_auth_clear(auth);
-	auth->initiated = 1;
+    /* Clear out this OtrlAuthInfo and start over */
+    otrl_auth_clear(auth);
+    auth->initiated = 1;
+    auth->protocol_version = version;
+    auth->context->protocol_version = version;
 
-	otrl_dh_gen_keypair(DH1536_GROUP_ID, &(auth->our_dh));
-	auth->our_keyid = 1;
+    otrl_dh_gen_keypair(DH1536_GROUP_ID, &(auth->our_dh));
+    auth->our_keyid = 1;
 
-	/* Pick an encryption key */
-	gcry_randomize(auth->r, 16, GCRY_STRONG_RANDOM);
+    /* Pick an encryption key */
+    gcry_randomize(auth->r, 16, GCRY_STRONG_RANDOM);
 
-	/* Allocate space for the encrypted g^x */
-	gcry_mpi_print(format, NULL, 0, &npub, auth->our_dh.pub);
-	auth->encgx = malloc(4+npub);
-	if (auth->encgx == NULL) goto memerr;
-	auth->encgx_len = 4+npub;
-	bufp = auth->encgx;
-	lenp = auth->encgx_len;
-	write_mpi(auth->our_dh.pub, npub, "g^x");
-	assert(lenp == 0);
+    /* Allocate space for the encrypted g^x */
+    gcry_mpi_print(format, NULL, 0, &npub, auth->our_dh.pub);
+    auth->encgx = malloc(4+npub);
+    if (auth->encgx == NULL) goto memerr;
+    auth->encgx_len = 4+npub;
+    bufp = auth->encgx;
+    lenp = auth->encgx_len;
+    write_mpi(auth->our_dh.pub, npub, "g^x");
+    assert(lenp == 0);
 
-	/* Hash g^x */
-	gcry_md_hash_buffer(GCRY_MD_SHA256, auth->hashgx, auth->encgx,
-		auth->encgx_len);
+    /* Hash g^x */
+    gcry_md_hash_buffer(GCRY_MD_SHA256, auth->hashgx, auth->encgx,
+	    auth->encgx_len);
 
-	/* Encrypt g^x using the key r */
-	err = gcry_cipher_open(&enc, GCRY_CIPHER_AES, GCRY_CIPHER_MODE_CTR,
-		GCRY_CIPHER_SECURE);
-	if (err) goto err;
+    /* Encrypt g^x using the key r */
+    err = gcry_cipher_open(&enc, GCRY_CIPHER_AES, GCRY_CIPHER_MODE_CTR,
+	    GCRY_CIPHER_SECURE);
+    if (err) goto err;
 
-	err = gcry_cipher_setkey(enc, auth->r, 16);
-	if (err) goto err;
+    err = gcry_cipher_setkey(enc, auth->r, 16);
+    if (err) goto err;
 
-	memset(ctr, 0, 16);
-	err = gcry_cipher_setctr(enc, ctr, 16);
-	if (err) goto err;
+    memset(ctr, 0, 16);
+    err = gcry_cipher_setctr(enc, ctr, 16);
+    if (err) goto err;
 
-	err = gcry_cipher_encrypt(enc, auth->encgx, auth->encgx_len, NULL, 0);
-	if (err) goto err;
+    err = gcry_cipher_encrypt(enc, auth->encgx, auth->encgx_len, NULL, 0);
+    if (err) goto err;
 
-	gcry_cipher_close(enc);
-	enc = NULL;
+    gcry_cipher_close(enc);
+    enc = NULL;
 
-	/* Now serialize the message */
-	lenp = 3 + 4 + auth->encgx_len + 4 + 32;
-	bufp = malloc(lenp);
-	if (bufp == NULL) goto memerr;
-	buf = bufp;
-	buflen = lenp;
+    /* Now serialize the message */
+    lenp = OTRL_HEADER_LEN + (auth->protocol_version == 3 ? 8 : 0) + 4
+	    + auth->encgx_len + 4 + 32;
+    bufp = malloc(lenp);
+    if (bufp == NULL) goto memerr;
+    buf = bufp;
+    buflen = lenp;
 
-	memcpy(bufp, "\x00\x02\x02", 3); /* header */
-	debug_data("Header", bufp, 3);
-	bufp += 3; lenp -= 3;
+    /* Header */
+    write_header(auth->protocol_version, '\x02');
+    if (auth->protocol_version == 3) {
+	/* instance tags */
+	write_int(auth->context->our_instance);
+	debug_int("Sender instag", bufp-4);
+	write_int(auth->context->their_instance);
+	debug_int("Recipient instag", bufp-4);
+    }
 
-	/* Encrypted g^x */
-	write_int(auth->encgx_len);
-	debug_int("Enc gx len", bufp-4);
-	memcpy(bufp, auth->encgx, auth->encgx_len);
-	debug_data("Enc gx", bufp, auth->encgx_len);
-	bufp += auth->encgx_len; lenp -= auth->encgx_len;
+    /* Encrypted g^x */
+    write_int(auth->encgx_len);
+    debug_int("Enc gx len", bufp-4);
+    memmove(bufp, auth->encgx, auth->encgx_len);
+    debug_data("Enc gx", bufp, auth->encgx_len);
+    bufp += auth->encgx_len; lenp -= auth->encgx_len;
 
-	/* Hashed g^x */
-	write_int(32);
-	debug_int("hashgx len", bufp-4);
-	memcpy(bufp, auth->hashgx, 32);
-	debug_data("hashgx", bufp, 32);
-	bufp += 32; lenp -= 32;
+    /* Hashed g^x */
+    write_int(32);
+    debug_int("hashgx len", bufp-4);
+    memmove(bufp, auth->hashgx, 32);
+    debug_data("hashgx", bufp, 32);
+    bufp += 32; lenp -= 32;
 
-	assert(lenp == 0);
+    assert(lenp == 0);
 
-	auth->lastauthmsg = otrl_base64_otr_encode(buf, buflen);
-	free(buf);
-	if (auth->lastauthmsg == NULL) goto memerr;
-	auth->authstate = OTRL_AUTHSTATE_AWAITING_DHKEY;
+    auth->lastauthmsg = otrl_base64_otr_encode(buf, buflen);
+    free(buf);
+    if (auth->lastauthmsg == NULL) goto memerr;
+    auth->authstate = OTRL_AUTHSTATE_AWAITING_DHKEY;
 
-	return err;
+    return err;
 
 memerr:
-	err = gcry_error(GPG_ERR_ENOMEM);
+    err = gcry_error(GPG_ERR_ENOMEM);
 err:
-	otrl_auth_clear(auth);
-	gcry_cipher_close(enc);
-	return err;
+    otrl_auth_clear(auth);
+    gcry_cipher_close(enc);
+    return err;
 }
 
 /*
@@ -198,38 +250,44 @@ err:
  */
 static gcry_error_t create_key_message(OtrlAuthInfo *auth)
 {
-	gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
-	const enum gcry_mpi_format format = GCRYMPI_FMT_USG;
-	unsigned char *buf, *bufp;
-	size_t buflen, lenp;
-	size_t npub;
+    gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
+    const enum gcry_mpi_format format = GCRYMPI_FMT_USG;
+    unsigned char *buf, *bufp;
+    size_t buflen, lenp;
+    size_t npub;
 
-	gcry_mpi_print(format, NULL, 0, &npub, auth->our_dh.pub);
-	buflen = 3 + 4 + npub;
-	buf = malloc(buflen);
-	if (buf == NULL) goto memerr;
-	bufp = buf;
-	lenp = buflen;
+    gcry_mpi_print(format, NULL, 0, &npub, auth->our_dh.pub);
+    buflen = OTRL_HEADER_LEN + (auth->protocol_version == 3 ? 8 : 0) + 4 + npub;
+    buf = malloc(buflen);
+    if (buf == NULL) goto memerr;
+    bufp = buf;
+    lenp = buflen;
 
-	memcpy(bufp, "\x00\x02\x0a", 3); /* header */
-	debug_data("Header", bufp, 3);
-	bufp += 3; lenp -= 3;
+    /* header */
+    write_header(auth->protocol_version, '\x0a');
+    if (auth->protocol_version == 3) {
+	/* instance tags */
+	write_int(auth->context->our_instance);
+	debug_int("Sender instag", bufp-4);
+	write_int(auth->context->their_instance);
+	debug_int("Recipient instag", bufp-4);
+    }
 
-	/* g^y */
-	write_mpi(auth->our_dh.pub, npub, "g^y");
+    /* g^y */
+    write_mpi(auth->our_dh.pub, npub, "g^y");
 
-	assert(lenp == 0);
+    assert(lenp == 0);
 
-	free(auth->lastauthmsg);
-	auth->lastauthmsg = otrl_base64_otr_encode(buf, buflen);
-	free(buf);
-	if (auth->lastauthmsg == NULL) goto memerr;
+    free(auth->lastauthmsg);
+    auth->lastauthmsg = otrl_base64_otr_encode(buf, buflen);
+    free(buf);
+    if (auth->lastauthmsg == NULL) goto memerr;
 
-	return err;
+    return err;
 
 memerr:
-	err = gcry_error(GPG_ERR_ENOMEM);
-	return err;
+    err = gcry_error(GPG_ERR_ENOMEM);
+    return err;
 }
 
 /*
@@ -238,112 +296,131 @@ memerr:
  * keypair to use.
  */
 gcry_error_t otrl_auth_handle_commit(OtrlAuthInfo *auth,
-	const char *commitmsg)
+	const char *commitmsg, int version)
 {
-	gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
-	unsigned char *buf = NULL, *bufp = NULL, *encbuf = NULL;
-	unsigned char hashbuf[32];
-	size_t buflen, lenp, enclen, hashlen;
-	int res;
+    gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
+    unsigned char *buf = NULL, *bufp = NULL, *encbuf = NULL;
+    unsigned char hashbuf[32];
+    size_t buflen, lenp, enclen, hashlen;
+    int res;
 
-	res = otrl_base64_otr_decode(commitmsg, &buf, &buflen);
-	if (res == -1) goto memerr;
-	if (res == -2) goto invval;
+    /* Are we the auth for the master context? */
+    int is_master = (auth->context->m_context == auth->context);
 
-	bufp = buf;
-	lenp = buflen;
+    res = otrl_base64_otr_decode(commitmsg, &buf, &buflen);
+    if (res == -1) goto memerr;
+    if (res == -2) goto invval;
 
-	/* Header */
-	require_len(3);
-	if (memcmp(bufp, "\x00\x02\x02", 3)) goto invval;
-	bufp += 3; lenp -= 3;
+    bufp = buf;
+    lenp = buflen;
 
-	/* Encrypted g^x */
-	read_int(enclen);
-	require_len(enclen);
-	encbuf = malloc(enclen);
-	if (encbuf == NULL && enclen > 0) goto memerr;
-	memcpy(encbuf, bufp, enclen);
-	bufp += enclen; lenp -= enclen;
+    /* Header */
+    auth->protocol_version = version;
+    auth->context->protocol_version = version;
+    skip_header('\x02');
 
-	/* Hashed g^x */
-	read_int(hashlen);
-	if (hashlen != 32) goto invval;
-	require_len(32);
-	memcpy(hashbuf, bufp, 32);
-	bufp += 32; lenp -= 32;
+    if (version == 3) {
+	require_len(8);
+	bufp += 8; lenp -= 8;
+    }
 
-	if (lenp != 0) goto invval;
-	free(buf);
-	buf = NULL;
+    /* Encrypted g^x */
+    read_int(enclen);
+    require_len(enclen);
+    encbuf = malloc(enclen);
+    if (encbuf == NULL && enclen > 0) goto memerr;
+    memmove(encbuf, bufp, enclen);
+    bufp += enclen; lenp -= enclen;
 
-	switch(auth->authstate) {
+    /* Hashed g^x */
+    read_int(hashlen);
+    if (hashlen != 32) goto invval;
+    require_len(32);
+    memmove(hashbuf, bufp, 32);
+    bufp += 32; lenp -= 32;
+
+    if (lenp != 0) goto invval;
+    free(buf);
+    buf = NULL;
+
+    switch(auth->authstate) {
 	case OTRL_AUTHSTATE_NONE:
 	case OTRL_AUTHSTATE_AWAITING_SIG:
 	case OTRL_AUTHSTATE_V1_SETUP:
+	    /* Store the incoming information */
+	    otrl_auth_clear(auth);
+	    auth->protocol_version = version;
 
-		/* Store the incoming information */
-		otrl_auth_clear(auth);
-		otrl_dh_gen_keypair(DH1536_GROUP_ID, &(auth->our_dh));
-		auth->our_keyid = 1;
-		auth->encgx = encbuf;
-		encbuf = NULL;
-		auth->encgx_len = enclen;
-		memcpy(auth->hashgx, hashbuf, 32);
+	    otrl_dh_gen_keypair(DH1536_GROUP_ID, &(auth->our_dh));
 
-		/* Create a D-H Key Message */
-		err = create_key_message(auth);
-		if (err) goto err;
-		auth->authstate = OTRL_AUTHSTATE_AWAITING_REVEALSIG;
+	    auth->our_keyid = 1;
+	    auth->encgx = encbuf;
+	    encbuf = NULL;
+	    auth->encgx_len = enclen;
+	    memmove(auth->hashgx, hashbuf, 32);
 
-		break;
+	    /* Create a D-H Key Message */
+	    err = create_key_message(auth);
+	    if (err) goto err;
+	    auth->authstate = OTRL_AUTHSTATE_AWAITING_REVEALSIG;
+	    break;
 
 	case OTRL_AUTHSTATE_AWAITING_DHKEY:
-		/* We sent a D-H Commit Message, and we also received one
-		 * back.  Compare the hashgx values to see which one wins. */
-		if (memcmp(auth->hashgx, hashbuf, 32) > 0) {
+	    /* We sent a D-H Commit Message, and we also received one
+	     * back.  If we're the master context, then the keypair in here
+	     * is probably stale; we just kept it around for a little
+	     * while in case some other logged in instance of our buddy
+	     * replied with a DHKEY message.  In that case, use the
+	     * incoming parameters.  Otherwise, compare the hashgx
+	     * values to see which one wins.
+	     *
+	     * This does NOT use constant time comparison because these
+	     * are two public values thus don't need it. Also, this checks
+	     * which pubkey is larger and not if they are the same. */
+	    if (!is_master && memcmp(auth->hashgx, hashbuf, 32) > 0) {
 		/* Ours wins.  Ignore the message we received, and just
 		 * resend the same D-H Commit message again. */
 		free(encbuf);
 		encbuf = NULL;
-		} else {
+	    } else {
 		/* Ours loses.  Use the incoming parameters instead. */
 		otrl_auth_clear(auth);
+		auth->protocol_version = version;
 		otrl_dh_gen_keypair(DH1536_GROUP_ID, &(auth->our_dh));
 		auth->our_keyid = 1;
 		auth->encgx = encbuf;
 		encbuf = NULL;
 		auth->encgx_len = enclen;
-		memcpy(auth->hashgx, hashbuf, 32);
+		memmove(auth->hashgx, hashbuf, 32);
 
 		/* Create a D-H Key Message */
 		err = create_key_message(auth);
 		if (err) goto err;
 		auth->authstate = OTRL_AUTHSTATE_AWAITING_REVEALSIG;
-		}
-		break;
+	    }
+	    break;
 	case OTRL_AUTHSTATE_AWAITING_REVEALSIG:
-		/* Use the incoming parameters, but just retransmit the old
-		 * D-H Key Message. */
-		free(auth->encgx);
-		auth->encgx = encbuf;
-		encbuf = NULL;
-		auth->encgx_len = enclen;
-		memcpy(auth->hashgx, hashbuf, 32);
-		break;
-	}
+	    /* Use the incoming parameters, but just retransmit the old
+	     * D-H Key Message. */
+	    free(auth->encgx);
+	    auth->encgx = encbuf;
+	    encbuf = NULL;
+	    auth->encgx_len = enclen;
+	    memmove(auth->hashgx, hashbuf, 32);
+	    break;
+    }
 
-	return err;
+    return err;
 
 invval:
-	err = gcry_error(GPG_ERR_INV_VALUE);
-	goto err;
+    err = gcry_error(GPG_ERR_INV_VALUE);
+    goto err;
 memerr:
-	err = gcry_error(GPG_ERR_ENOMEM);
+    err = gcry_error(GPG_ERR_ENOMEM);
 err:
-	free(buf);
-	free(encbuf);
-	return err;
+    free(buf);
+    free(encbuf);
+    return err;
 }
 
 /*
@@ -358,92 +435,92 @@ static gcry_error_t calculate_pubkey_auth(unsigned char **authbufp,
 	gcry_mpi_t our_dh_pub, gcry_mpi_t their_dh_pub,
 	OtrlPrivKey *privkey, unsigned int keyid)
 {
-	gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
-	const enum gcry_mpi_format format = GCRYMPI_FMT_USG;
-	size_t ourpublen, theirpublen, totallen, lenp;
-	unsigned char *buf = NULL, *bufp = NULL;
-	unsigned char macbuf[32];
-	unsigned char *sigbuf = NULL;
-	size_t siglen;
+    gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
+    const enum gcry_mpi_format format = GCRYMPI_FMT_USG;
+    size_t ourpublen, theirpublen, totallen, lenp;
+    unsigned char *buf = NULL, *bufp = NULL;
+    unsigned char macbuf[32];
+    unsigned char *sigbuf = NULL;
+    size_t siglen;
 
-	/* How big are the DH public keys? */
-	gcry_mpi_print(format, NULL, 0, &ourpublen, our_dh_pub);
-	gcry_mpi_print(format, NULL, 0, &theirpublen, their_dh_pub);
+    /* How big are the DH public keys? */
+    gcry_mpi_print(format, NULL, 0, &ourpublen, our_dh_pub);
+    gcry_mpi_print(format, NULL, 0, &theirpublen, their_dh_pub);
 
-	/* How big is the total structure to be MAC'd? */
-	totallen = 4 + ourpublen + 4 + theirpublen + 2 + privkey->pubkey_datalen
-	+ 4;
-	buf = malloc(totallen);
-	if (buf == NULL) goto memerr;
+    /* How big is the total structure to be MAC'd? */
+    totallen = 4 + ourpublen + 4 + theirpublen + 2 + privkey->pubkey_datalen
+	    + 4;
+    buf = malloc(totallen);
+    if (buf == NULL) goto memerr;
 
-	bufp = buf;
-	lenp = totallen;
+    bufp = buf;
+    lenp = totallen;
 
-	/* Write the data to be MAC'd */
-	write_mpi(our_dh_pub, ourpublen, "Our DH pubkey");
-	write_mpi(their_dh_pub, theirpublen, "Their DH pubkey");
-	bufp[0] = ((privkey->pubkey_type) >> 8) & 0xff;
-	bufp[1] = (privkey->pubkey_type) & 0xff;
-	bufp += 2; lenp -= 2;
-	memcpy(bufp, privkey->pubkey_data, privkey->pubkey_datalen);
-	debug_data("Pubkey", bufp, privkey->pubkey_datalen);
-	bufp += privkey->pubkey_datalen; lenp -= privkey->pubkey_datalen;
-	write_int(keyid);
-	debug_int("Keyid", bufp-4);
+    /* Write the data to be MAC'd */
+    write_mpi(our_dh_pub, ourpublen, "Our DH pubkey");
+    write_mpi(their_dh_pub, theirpublen, "Their DH pubkey");
+    bufp[0] = ((privkey->pubkey_type) >> 8) & 0xff;
+    bufp[1] = (privkey->pubkey_type) & 0xff;
+    bufp += 2; lenp -= 2;
+    memmove(bufp, privkey->pubkey_data, privkey->pubkey_datalen);
+    debug_data("Pubkey", bufp, privkey->pubkey_datalen);
+    bufp += privkey->pubkey_datalen; lenp -= privkey->pubkey_datalen;
+    write_int(keyid);
+    debug_int("Keyid", bufp-4);
 
-	assert(lenp == 0);
+    assert(lenp == 0);
 
-	/* Do the MAC */
-	gcry_md_reset(mackey);
-	gcry_md_write(mackey, buf, totallen);
-	memcpy(macbuf, gcry_md_read(mackey, GCRY_MD_SHA256), 32);
+    /* Do the MAC */
+    gcry_md_reset(mackey);
+    gcry_md_write(mackey, buf, totallen);
+    memmove(macbuf, gcry_md_read(mackey, GCRY_MD_SHA256), 32);
 
-	free(buf);
-	buf = NULL;
+    free(buf);
+    buf = NULL;
 
-	/* Sign the MAC */
-	err = otrl_privkey_sign(&sigbuf, &siglen, privkey, macbuf, 32);
-	if (err) goto err;
+    /* Sign the MAC */
+    err = otrl_privkey_sign(&sigbuf, &siglen, privkey, macbuf, 32);
+    if (err) goto err;
 
-	/* Calculate the total size of the structure to be encrypted */
-	totallen = 2 + privkey->pubkey_datalen + 4 + siglen;
-	buf = malloc(totallen);
-	if (buf == NULL) goto memerr;
-	bufp = buf;
-	lenp = totallen;
+    /* Calculate the total size of the structure to be encrypted */
+    totallen = 2 + privkey->pubkey_datalen + 4 + siglen;
+    buf = malloc(totallen);
+    if (buf == NULL) goto memerr;
+    bufp = buf;
+    lenp = totallen;
 
-	/* Write the data to be encrypted */
-	bufp[0] = ((privkey->pubkey_type) >> 8) & 0xff;
-	bufp[1] = (privkey->pubkey_type) & 0xff;
-	bufp += 2; lenp -= 2;
-	memcpy(bufp, privkey->pubkey_data, privkey->pubkey_datalen);
-	debug_data("Pubkey", bufp, privkey->pubkey_datalen);
-	bufp += privkey->pubkey_datalen; lenp -= privkey->pubkey_datalen;
-	write_int(keyid);
-	debug_int("Keyid", bufp-4);
-	memcpy(bufp, sigbuf, siglen);
-	debug_data("Signature", bufp, siglen);
-	bufp += siglen; lenp -= siglen;
-	free(sigbuf);
-	sigbuf = NULL;
+    /* Write the data to be encrypted */
+    bufp[0] = ((privkey->pubkey_type) >> 8) & 0xff;
+    bufp[1] = (privkey->pubkey_type) & 0xff;
+    bufp += 2; lenp -= 2;
+    memmove(bufp, privkey->pubkey_data, privkey->pubkey_datalen);
+    debug_data("Pubkey", bufp, privkey->pubkey_datalen);
+    bufp += privkey->pubkey_datalen; lenp -= privkey->pubkey_datalen;
+    write_int(keyid);
+    debug_int("Keyid", bufp-4);
+    memmove(bufp, sigbuf, siglen);
+    debug_data("Signature", bufp, siglen);
+    bufp += siglen; lenp -= siglen;
+    free(sigbuf);
+    sigbuf = NULL;
 
-	assert(lenp == 0);
+    assert(lenp == 0);
 
-	/* Now do the encryption */
-	err = gcry_cipher_encrypt(enckey, buf, totallen, NULL, 0);
-	if (err) goto err;
+    /* Now do the encryption */
+    err = gcry_cipher_encrypt(enckey, buf, totallen, NULL, 0);
+    if (err) goto err;
 
-	*authbufp = buf;
-	buf = NULL;
-	*authlenp = totallen;
+    *authbufp = buf;
+    buf = NULL;
+    *authlenp = totallen;
 
-	return err;
+    return err;
 memerr:
-	err = gcry_error(GPG_ERR_ENOMEM);
+    err = gcry_error(GPG_ERR_ENOMEM);
 err:
-	free(buf);
-	free(sigbuf);
-	return err;
+    free(buf);
+    free(sigbuf);
+    return err;
 }
 
 /*
@@ -458,107 +535,107 @@ static gcry_error_t check_pubkey_auth(unsigned char fingerprintbufp[20],
 	gcry_md_hd_t mackey, gcry_cipher_hd_t enckey,
 	gcry_mpi_t our_dh_pub, gcry_mpi_t their_dh_pub)
 {
-	gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
-	const enum gcry_mpi_format format = GCRYMPI_FMT_USG;
-	size_t ourpublen, theirpublen, totallen, lenp;
-	unsigned char *buf = NULL, *bufp = NULL;
-	unsigned char macbuf[32];
-	unsigned short pubkey_type;
-	gcry_mpi_t p,q,g,y;
-	gcry_sexp_t pubs = NULL;
-	unsigned int received_keyid;
-	unsigned char *fingerprintstart, *fingerprintend, *sigbuf;
-	size_t siglen;
+    gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
+    const enum gcry_mpi_format format = GCRYMPI_FMT_USG;
+    size_t ourpublen, theirpublen, totallen, lenp;
+    unsigned char *buf = NULL, *bufp = NULL;
+    unsigned char macbuf[32];
+    unsigned short pubkey_type;
+    gcry_mpi_t p,q,g,y;
+    gcry_sexp_t pubs = NULL;
+    unsigned int received_keyid;
+    unsigned char *fingerprintstart, *fingerprintend, *sigbuf;
+    size_t siglen;
 
-	/* Start by decrypting it */
-	err = gcry_cipher_decrypt(enckey, authbuf, authlen, NULL, 0);
-	if (err) goto err;
+    /* Start by decrypting it */
+    err = gcry_cipher_decrypt(enckey, authbuf, authlen, NULL, 0);
+    if (err) goto err;
 
-	bufp = authbuf;
-	lenp = authlen;
+    bufp = authbuf;
+    lenp = authlen;
 
-	/* Get the public key and calculate its fingerprint */
-	require_len(2);
-	pubkey_type = (bufp[0] << 8) + bufp[1];
-	bufp += 2; lenp -= 2;
-	if (pubkey_type != OTRL_PUBKEY_TYPE_DSA) goto invval;
-	fingerprintstart = bufp;
-	read_mpi(p);
-	read_mpi(q);
-	read_mpi(g);
-	read_mpi(y);
-	fingerprintend = bufp;
-	gcry_md_hash_buffer(GCRY_MD_SHA1, fingerprintbufp,
-		fingerprintstart, fingerprintend-fingerprintstart);
-	gcry_sexp_build(&pubs, NULL,
+    /* Get the public key and calculate its fingerprint */
+    require_len(2);
+    pubkey_type = (bufp[0] << 8) + bufp[1];
+    bufp += 2; lenp -= 2;
+    if (pubkey_type != OTRL_PUBKEY_TYPE_DSA) goto invval;
+    fingerprintstart = bufp;
+    read_mpi(p);
+    read_mpi(q);
+    read_mpi(g);
+    read_mpi(y);
+    fingerprintend = bufp;
+    gcry_md_hash_buffer(GCRY_MD_SHA1, fingerprintbufp,
+	    fingerprintstart, fingerprintend-fingerprintstart);
+    gcry_sexp_build(&pubs, NULL,
 	"(public-key (dsa (p %m)(q %m)(g %m)(y %m)))", p, q, g, y);
-	gcry_mpi_release(p);
-	gcry_mpi_release(q);
-	gcry_mpi_release(g);
-	gcry_mpi_release(y);
+    gcry_mpi_release(p);
+    gcry_mpi_release(q);
+    gcry_mpi_release(g);
+    gcry_mpi_release(y);
 
-	/* Get the keyid */
-	read_int(received_keyid);
-	if (received_keyid == 0) goto invval;
+    /* Get the keyid */
+    read_int(received_keyid);
+    if (received_keyid == 0) goto invval;
 
-	/* Get the signature */
-	sigbuf = bufp;
-	siglen = lenp;
+    /* Get the signature */
+    sigbuf = bufp;
+    siglen = lenp;
 
-	/* How big are the DH public keys? */
-	gcry_mpi_print(format, NULL, 0, &ourpublen, our_dh_pub);
-	gcry_mpi_print(format, NULL, 0, &theirpublen, their_dh_pub);
+    /* How big are the DH public keys? */
+    gcry_mpi_print(format, NULL, 0, &ourpublen, our_dh_pub);
+    gcry_mpi_print(format, NULL, 0, &theirpublen, their_dh_pub);
 
-	/* Now calculate the message to be MAC'd. */
-	totallen = 4 + ourpublen + 4 + theirpublen + 2 +
+    /* Now calculate the message to be MAC'd. */
+    totallen = 4 + ourpublen + 4 + theirpublen + 2 +
 	(fingerprintend - fingerprintstart) + 4;
-	buf = malloc(totallen);
-	if (buf == NULL) goto memerr;
+    buf = malloc(totallen);
+    if (buf == NULL) goto memerr;
 
-	bufp = buf;
-	lenp = totallen;
+    bufp = buf;
+    lenp = totallen;
 
-	write_mpi(their_dh_pub, theirpublen, "Their DH pubkey");
-	write_mpi(our_dh_pub, ourpublen, "Our DH pubkey");
-	bufp[0] = (pubkey_type >> 8) & 0xff;
-	bufp[1] = pubkey_type & 0xff;
-	bufp += 2; lenp -= 2;
-	memcpy(bufp, fingerprintstart, fingerprintend - fingerprintstart);
-	debug_data("Pubkey", bufp, fingerprintend - fingerprintstart);
-	bufp += fingerprintend - fingerprintstart;
-	lenp -= fingerprintend - fingerprintstart;
-	write_int(received_keyid);
-	debug_int("Keyid", bufp-4);
+    write_mpi(their_dh_pub, theirpublen, "Their DH pubkey");
+    write_mpi(our_dh_pub, ourpublen, "Our DH pubkey");
+    bufp[0] = (pubkey_type >> 8) & 0xff;
+    bufp[1] = pubkey_type & 0xff;
+    bufp += 2; lenp -= 2;
+    memmove(bufp, fingerprintstart, fingerprintend - fingerprintstart);
+    debug_data("Pubkey", bufp, fingerprintend - fingerprintstart);
+    bufp += fingerprintend - fingerprintstart;
+    lenp -= fingerprintend - fingerprintstart;
+    write_int(received_keyid);
+    debug_int("Keyid", bufp-4);
 
-	assert(lenp == 0);
+    assert(lenp == 0);
 
-	/* Do the MAC */
-	gcry_md_reset(mackey);
-	gcry_md_write(mackey, buf, totallen);
-	memcpy(macbuf, gcry_md_read(mackey, GCRY_MD_SHA256), 32);
+    /* Do the MAC */
+    gcry_md_reset(mackey);
+    gcry_md_write(mackey, buf, totallen);
+    memmove(macbuf, gcry_md_read(mackey, GCRY_MD_SHA256), 32);
 
-	free(buf);
-	buf = NULL;
+    free(buf);
+    buf = NULL;
 
-	/* Verify the signature on the MAC */
-	err = otrl_privkey_verify(sigbuf, siglen, pubkey_type, pubs, macbuf, 32);
-	if (err) goto err;
-	gcry_sexp_release(pubs);
-	pubs = NULL;
+    /* Verify the signature on the MAC */
+    err = otrl_privkey_verify(sigbuf, siglen, pubkey_type, pubs, macbuf, 32);
+    if (err) goto err;
+    gcry_sexp_release(pubs);
+    pubs = NULL;
 
-	/* Everything checked out */
-	*keyidp = received_keyid;
+    /* Everything checked out */
+    *keyidp = received_keyid;
 
-	return err;
+    return err;
 invval:
-	err = gcry_error(GPG_ERR_INV_VALUE);
-	goto err;
+    err = gcry_error(GPG_ERR_INV_VALUE);
+    goto err;
 memerr:
-	err = gcry_error(GPG_ERR_ENOMEM);
+    err = gcry_error(GPG_ERR_ENOMEM);
 err:
-	free(buf);
-	gcry_sexp_release(pubs);
-	return err;
+    free(buf);
+    gcry_sexp_release(pubs);
+    return err;
 }
 
 /*
@@ -569,67 +646,74 @@ err:
 static gcry_error_t create_revealsig_message(OtrlAuthInfo *auth,
 	OtrlPrivKey *privkey)
 {
-	gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
-	unsigned char *buf = NULL, *bufp, *startmac;
-	size_t buflen, lenp;
+    gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
+    unsigned char *buf = NULL, *bufp, *startmac;
+    size_t buflen, lenp;
 
-	unsigned char *authbuf = NULL;
-	size_t authlen;
+    unsigned char *authbuf = NULL;
+    size_t authlen;
 
-	/* Get the encrypted authenticator */
-	err = calculate_pubkey_auth(&authbuf, &authlen, auth->mac_m1, auth->enc_c,
-		auth->our_dh.pub, auth->their_pub, privkey, auth->our_keyid);
-	if (err) goto err;
+    /* Get the encrypted authenticator */
+    err = calculate_pubkey_auth(&authbuf, &authlen, auth->mac_m1, auth->enc_c,
+	    auth->our_dh.pub, auth->their_pub, privkey, auth->our_keyid);
+    if (err) goto err;
 
-	buflen = 3 + 4 + 16 + 4 + authlen + 20;
-	buf = malloc(buflen);
-	if (buf == NULL) goto memerr;
+    buflen = OTRL_HEADER_LEN + (auth->protocol_version == 3 ? 8 : 0) + 4 + 16
+	    + 4 + authlen + 20;
+    buf = malloc(buflen);
+    if (buf == NULL) goto memerr;
 
-	bufp = buf;
-	lenp = buflen;
+    bufp = buf;
+    lenp = buflen;
 
-	memcpy(bufp, "\x00\x02\x11", 3); /* header */
-	debug_data("Header", bufp, 3);
-	bufp += 3; lenp -= 3;
+    /* header */
+    write_header(auth->protocol_version, '\x11');
+    if (auth->protocol_version == 3) {
+	/* instance tags */
+	write_int(auth->context->our_instance);
+	debug_int("Sender instag", bufp-4);
+	write_int(auth->context->their_instance);
+	debug_int("Recipient instag", bufp-4);
+    }
 
-	/* r */
-	write_int(16);
-	memcpy(bufp, auth->r, 16);
-	debug_data("r", bufp, 16);
-	bufp += 16; lenp -= 16;
+    /* r */
+    write_int(16);
+    memmove(bufp, auth->r, 16);
+    debug_data("r", bufp, 16);
+    bufp += 16; lenp -= 16;
 
-	/* Encrypted authenticator */
-	startmac = bufp;
-	write_int(authlen);
-	memcpy(bufp, authbuf, authlen);
-	debug_data("auth", bufp, authlen);
-	bufp += authlen; lenp -= authlen;
-	free(authbuf);
-	authbuf = NULL;
+    /* Encrypted authenticator */
+    startmac = bufp;
+    write_int(authlen);
+    memmove(bufp, authbuf, authlen);
+    debug_data("auth", bufp, authlen);
+    bufp += authlen; lenp -= authlen;
+    free(authbuf);
+    authbuf = NULL;
 
-	/* MAC it, but only take the first 20 bytes */
-	gcry_md_reset(auth->mac_m2);
-	gcry_md_write(auth->mac_m2, startmac, bufp - startmac);
-	memcpy(bufp, gcry_md_read(auth->mac_m2, GCRY_MD_SHA256), 20);
-	debug_data("MAC", bufp, 20);
-	bufp += 20; lenp -= 20;
+    /* MAC it, but only take the first 20 bytes */
+    gcry_md_reset(auth->mac_m2);
+    gcry_md_write(auth->mac_m2, startmac, bufp - startmac);
+    memmove(bufp, gcry_md_read(auth->mac_m2, GCRY_MD_SHA256), 20);
+    debug_data("MAC", bufp, 20);
+    bufp += 20; lenp -= 20;
 
-	assert(lenp == 0);
+    assert(lenp == 0);
 
-	free(auth->lastauthmsg);
-	auth->lastauthmsg = otrl_base64_otr_encode(buf, buflen);
-	if (auth->lastauthmsg == NULL) goto memerr;
-	free(buf);
-	buf = NULL;
+    free(auth->lastauthmsg);
+    auth->lastauthmsg = otrl_base64_otr_encode(buf, buflen);
+    if (auth->lastauthmsg == NULL) goto memerr;
+    free(buf);
+    buf = NULL;
 
-	return err;
+    return err;
 
 memerr:
-	err = gcry_error(GPG_ERR_ENOMEM);
+    err = gcry_error(GPG_ERR_ENOMEM);
 err:
-	free(buf);
-	free(authbuf);
-	return err;
+    free(buf);
+    free(authbuf);
+    return err;
 }
 
 /*
@@ -640,62 +724,69 @@ err:
 static gcry_error_t create_signature_message(OtrlAuthInfo *auth,
 	OtrlPrivKey *privkey)
 {
-	gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
-	unsigned char *buf = NULL, *bufp, *startmac;
-	size_t buflen, lenp;
+    gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
+    unsigned char *buf = NULL, *bufp, *startmac;
+    size_t buflen, lenp;
 
-	unsigned char *authbuf = NULL;
-	size_t authlen;
+    unsigned char *authbuf = NULL;
+    size_t authlen;
 
-	/* Get the encrypted authenticator */
-	err = calculate_pubkey_auth(&authbuf, &authlen, auth->mac_m1p,
-		auth->enc_cp, auth->our_dh.pub, auth->their_pub, privkey,
-		auth->our_keyid);
-	if (err) goto err;
+    /* Get the encrypted authenticator */
+    err = calculate_pubkey_auth(&authbuf, &authlen, auth->mac_m1p,
+	    auth->enc_cp, auth->our_dh.pub, auth->their_pub, privkey,
+	    auth->our_keyid);
+    if (err) goto err;
 
-	buflen = 3 + 4 + authlen + 20;
-	buf = malloc(buflen);
-	if (buf == NULL) goto memerr;
+    buflen = OTRL_HEADER_LEN + (auth->protocol_version == 3 ? 8 : 0) + 4
+	    + authlen + 20;
+    buf = malloc(buflen);
+    if (buf == NULL) goto memerr;
 
-	bufp = buf;
-	lenp = buflen;
+    bufp = buf;
+    lenp = buflen;
 
-	memcpy(bufp, "\x00\x02\x12", 3); /* header */
-	debug_data("Header", bufp, 3);
-	bufp += 3; lenp -= 3;
+    /* header */
+    write_header(auth->protocol_version, '\x12');
+    if (auth->protocol_version == 3) {
+	/* instance tags */
+	write_int(auth->context->our_instance);
+	debug_int("Sender instag", bufp-4);
+	write_int(auth->context->their_instance);
+	debug_int("Recipient instag", bufp-4);
+    }
 
-	/* Encrypted authenticator */
-	startmac = bufp;
-	write_int(authlen);
-	memcpy(bufp, authbuf, authlen);
-	debug_data("auth", bufp, authlen);
-	bufp += authlen; lenp -= authlen;
-	free(authbuf);
-	authbuf = NULL;
+    /* Encrypted authenticator */
+    startmac = bufp;
+    write_int(authlen);
+    memmove(bufp, authbuf, authlen);
+    debug_data("auth", bufp, authlen);
+    bufp += authlen; lenp -= authlen;
+    free(authbuf);
+    authbuf = NULL;
 
-	/* MAC it, but only take the first 20 bytes */
-	gcry_md_reset(auth->mac_m2p);
-	gcry_md_write(auth->mac_m2p, startmac, bufp - startmac);
-	memcpy(bufp, gcry_md_read(auth->mac_m2p, GCRY_MD_SHA256), 20);
-	debug_data("MAC", bufp, 20);
-	bufp += 20; lenp -= 20;
+    /* MAC it, but only take the first 20 bytes */
+    gcry_md_reset(auth->mac_m2p);
+    gcry_md_write(auth->mac_m2p, startmac, bufp - startmac);
+    memmove(bufp, gcry_md_read(auth->mac_m2p, GCRY_MD_SHA256), 20);
+    debug_data("MAC", bufp, 20);
+    bufp += 20; lenp -= 20;
 
-	assert(lenp == 0);
+    assert(lenp == 0);
 
-	free(auth->lastauthmsg);
-	auth->lastauthmsg = otrl_base64_otr_encode(buf, buflen);
-	if (auth->lastauthmsg == NULL) goto memerr;
-	free(buf);
-	buf = NULL;
+    free(auth->lastauthmsg);
+    auth->lastauthmsg = otrl_base64_otr_encode(buf, buflen);
+    if (auth->lastauthmsg == NULL) goto memerr;
+    free(buf);
+    buf = NULL;
 
-	return err;
+    return err;
 
 memerr:
-	err = gcry_error(GPG_ERR_ENOMEM);
+    err = gcry_error(GPG_ERR_ENOMEM);
 err:
-	free(buf);
-	free(authbuf);
-	return err;
+    free(buf);
+    free(authbuf);
+    return err;
 }
 
 /*
@@ -706,85 +797,99 @@ err:
 gcry_error_t otrl_auth_handle_key(OtrlAuthInfo *auth, const char *keymsg,
 	int *havemsgp, OtrlPrivKey *privkey)
 {
-	gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
-	unsigned char *buf = NULL, *bufp = NULL;
-	size_t buflen, lenp;
-	gcry_mpi_t incoming_pub = NULL;
-	int res;
+    gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
+    unsigned char *buf = NULL, *bufp = NULL;
+    size_t buflen, lenp;
+    gcry_mpi_t incoming_pub = NULL;
+    int res;
+    unsigned int msg_version;
 
-	*havemsgp = 0;
+    *havemsgp = 0;
 
-	res = otrl_base64_otr_decode(keymsg, &buf, &buflen);
-	if (res == -1) goto memerr;
-	if (res == -2) goto invval;
+    msg_version = otrl_proto_message_version(keymsg);
 
-	bufp = buf;
-	lenp = buflen;
+    res = otrl_base64_otr_decode(keymsg, &buf, &buflen);
+    if (res == -1) goto memerr;
+    if (res == -2) goto invval;
 
-	/* Header */
-	if (memcmp(bufp, "\x00\x02\x0a", 3)) goto invval;
-	bufp += 3; lenp -= 3;
+    bufp = buf;
+    lenp = buflen;
 
-	/* g^y */
-	read_mpi(incoming_pub);
+    /* Header */
+    skip_header('\x0a');
 
-	if (lenp != 0) goto invval;
-	free(buf);
-	buf = NULL;
+    if (msg_version == 3) {
+	require_len(8);
+	bufp += 8; lenp -= 8;
+    }
 
-	switch(auth->authstate) {
+    /* g^y */
+    read_mpi(incoming_pub);
+
+    if (lenp != 0) goto invval;
+    free(buf);
+    buf = NULL;
+
+    switch(auth->authstate) {
 	case OTRL_AUTHSTATE_AWAITING_DHKEY:
-		/* Store the incoming public key */
-		gcry_mpi_release(auth->their_pub);
-		auth->their_pub = incoming_pub;
-		incoming_pub = NULL;
+	    /* The other party may also be establishing a session with
+	    another instance running a different version. Ignore any
+	    DHKEY messages we aren't expecting. */
+	    if (msg_version != auth->protocol_version) {
+	      goto err;
+	    }
 
-		/* Compute the encryption and MAC keys */
-		err = otrl_dh_compute_v2_auth_keys(&(auth->our_dh),
-			auth->their_pub, auth->secure_session_id,
-			&(auth->secure_session_id_len),
-			&(auth->enc_c), &(auth->enc_cp),
-			&(auth->mac_m1), &(auth->mac_m1p),
-			&(auth->mac_m2), &(auth->mac_m2p));
-		if (err) goto err;
+	    /* Store the incoming public key */
+	    gcry_mpi_release(auth->their_pub);
+	    auth->their_pub = incoming_pub;
+	    incoming_pub = NULL;
 
-		/* Create the Reveal Signature Message */
-		err = create_revealsig_message(auth, privkey);
-		if (err) goto err;
-		*havemsgp = 1;
-		auth->authstate = OTRL_AUTHSTATE_AWAITING_SIG;
+	    /* Compute the encryption and MAC keys */
+	    err = otrl_dh_compute_v2_auth_keys(&(auth->our_dh),
+		    auth->their_pub, auth->secure_session_id,
+		    &(auth->secure_session_id_len),
+		    &(auth->enc_c), &(auth->enc_cp),
+		    &(auth->mac_m1), &(auth->mac_m1p),
+		    &(auth->mac_m2), &(auth->mac_m2p));
+	    if (err) goto err;
 
-		break;
+	    /* Create the Reveal Signature Message */
+	    err = create_revealsig_message(auth, privkey);
+	    if (err) goto err;
+	    *havemsgp = 1;
+	    auth->authstate = OTRL_AUTHSTATE_AWAITING_SIG;
+
+	    break;
 
 	case OTRL_AUTHSTATE_AWAITING_SIG:
-		if (gcry_mpi_cmp(incoming_pub, auth->their_pub) == 0) {
+	    if (gcry_mpi_cmp(incoming_pub, auth->their_pub) == 0) {
 		/* Retransmit the Reveal Signature Message */
 		*havemsgp = 1;
-		} else {
+	    } else {
 		/* Ignore this message */
 		*havemsgp = 0;
-		}
-		break;
+	    }
+	    break;
 	case OTRL_AUTHSTATE_NONE:
 	case OTRL_AUTHSTATE_AWAITING_REVEALSIG:
 	case OTRL_AUTHSTATE_V1_SETUP:
-		/* Ignore this message */
-		*havemsgp = 0;
-		break;
-	}
+	    /* Ignore this message */
+	    *havemsgp = 0;
+	    break;
+    }
 
-	gcry_mpi_release(incoming_pub);
-	return err;
+    gcry_mpi_release(incoming_pub);
+    return err;
 
 invval:
-	err = gcry_error(GPG_ERR_INV_VALUE);
-	goto err;
+    err = gcry_error(GPG_ERR_INV_VALUE);
+    goto err;
 memerr:
-	err = gcry_error(GPG_ERR_ENOMEM);
+    err = gcry_error(GPG_ERR_ENOMEM);
 err:
-	free(buf);
-	gcry_mpi_release(incoming_pub);
-	return err;
+    free(buf);
+    gcry_mpi_release(incoming_pub);
+    return err;
 }
 
 /*
@@ -799,162 +904,172 @@ gcry_error_t otrl_auth_handle_revealsig(OtrlAuthInfo *auth,
 	gcry_error_t (*auth_succeeded)(const OtrlAuthInfo *auth, void *asdata),
 	void *asdata)
 {
-	gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
-	unsigned char *buf = NULL, *bufp = NULL, *gxbuf = NULL;
-	unsigned char *authstart, *authend, *macstart;
-	size_t buflen, lenp, rlen, authlen;
-	gcry_cipher_hd_t enc = NULL;
-	gcry_mpi_t incoming_pub = NULL;
-	unsigned char ctr[16], hashbuf[32];
-	int res;
+    gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
+    unsigned char *buf = NULL, *bufp = NULL, *gxbuf = NULL;
+    unsigned char *authstart, *authend, *macstart;
+    size_t buflen, lenp, rlen, authlen;
+    gcry_cipher_hd_t enc = NULL;
+    gcry_mpi_t incoming_pub = NULL;
+    unsigned char ctr[16], hashbuf[32];
+    int res;
+    unsigned char version;
 
-	*havemsgp = 0;
+    *havemsgp = 0;
 
-	res = otrl_base64_otr_decode(revealmsg, &buf, &buflen);
-	if (res == -1) goto memerr;
-	if (res == -2) goto invval;
+    res = otrl_base64_otr_decode(revealmsg, &buf, &buflen);
+    if (res == -1) goto memerr;
+    if (res == -2) goto invval;
 
-	bufp = buf;
-	lenp = buflen;
+    bufp = buf;
+    lenp = buflen;
 
-	/* Header */
-	if (memcmp(bufp, "\x00\x02\x11", 3)) goto invval;
-	bufp += 3; lenp -= 3;
+    require_len(3);
+    version = bufp[1];
 
-	/* r */
-	read_int(rlen);
-	if (rlen != 16) goto invval;
-	require_len(rlen);
-	memcpy(auth->r, bufp, rlen);
-	bufp += rlen; lenp -= rlen;
+    /* Header */
+    skip_header('\x11');
 
-	/* auth */
-	authstart = bufp;
-	read_int(authlen);
-	require_len(authlen);
-	bufp += authlen; lenp -= authlen;
-	authend = bufp;
+    if (version == 3) {
+	require_len(8);
+	bufp += 8; lenp -= 8;
+    }
 
-	/* MAC */
-	require_len(20);
-	macstart = bufp;
-	bufp += 20; lenp -= 20;
+    /* r */
+    read_int(rlen);
+    if (rlen != 16) goto invval;
+    require_len(rlen);
+    memmove(auth->r, bufp, rlen);
+    bufp += rlen; lenp -= rlen;
 
-	if (lenp != 0) goto invval;
+    /* auth */
+    authstart = bufp;
+    read_int(authlen);
+    require_len(authlen);
+    bufp += authlen; lenp -= authlen;
+    authend = bufp;
 
-	switch(auth->authstate) {
+    /* MAC */
+    require_len(20);
+    macstart = bufp;
+    bufp += 20; lenp -= 20;
+
+    if (lenp != 0) goto invval;
+
+    switch(auth->authstate) {
 	case OTRL_AUTHSTATE_AWAITING_REVEALSIG:
-		gxbuf = malloc(auth->encgx_len);
-		if (auth->encgx_len && gxbuf == NULL) goto memerr;
+	    gxbuf = malloc(auth->encgx_len);
+	    if (auth->encgx_len && gxbuf == NULL) goto memerr;
 
-		/* Use r to decrypt the value of g^x we received earlier */
-		err = gcry_cipher_open(&enc, GCRY_CIPHER_AES, GCRY_CIPHER_MODE_CTR,
-			GCRY_CIPHER_SECURE);
-		if (err) goto err;
+	    /* Use r to decrypt the value of g^x we received earlier */
+	    err = gcry_cipher_open(&enc, GCRY_CIPHER_AES, GCRY_CIPHER_MODE_CTR,
+		    GCRY_CIPHER_SECURE);
+	    if (err) goto err;
 
-		err = gcry_cipher_setkey(enc, auth->r, 16);
-		if (err) goto err;
+	    err = gcry_cipher_setkey(enc, auth->r, 16);
+	    if (err) goto err;
 
-		memset(ctr, 0, 16);
-		err = gcry_cipher_setctr(enc, ctr, 16);
-		if (err) goto err;
+	    memset(ctr, 0, 16);
+	    err = gcry_cipher_setctr(enc, ctr, 16);
+	    if (err) goto err;
 
-		err = gcry_cipher_decrypt(enc, gxbuf, auth->encgx_len,
-			auth->encgx, auth->encgx_len);
-		if (err) goto err;
+	    err = gcry_cipher_decrypt(enc, gxbuf, auth->encgx_len,
+		    auth->encgx, auth->encgx_len);
+	    if (err) goto err;
 
-		gcry_cipher_close(enc);
-		enc = NULL;
+	    gcry_cipher_close(enc);
+	    enc = NULL;
 
-		/* Check the hash */
-		gcry_md_hash_buffer(GCRY_MD_SHA256, hashbuf, gxbuf,
-			auth->encgx_len);
-		if (memcmp(hashbuf, auth->hashgx, 32)) goto decfail;
+	    /* Check the hash */
+	    gcry_md_hash_buffer(GCRY_MD_SHA256, hashbuf, gxbuf,
+		    auth->encgx_len);
+	    /* This isn't comparing secret data, but may as well use the
+	     * constant-time version. */
+	    if (otrl_mem_differ(hashbuf, auth->hashgx, 32)) goto decfail;
 
-		/* Extract g^x */
-		bufp = gxbuf;
-		lenp = auth->encgx_len;
+	    /* Extract g^x */
+	    bufp = gxbuf;
+	    lenp = auth->encgx_len;
 
-		read_mpi(incoming_pub);
-		free(gxbuf);
-		gxbuf = NULL;
+	    read_mpi(incoming_pub);
+	    free(gxbuf);
+	    gxbuf = NULL;
 
-		if (lenp != 0) goto invval;
+	    if (lenp != 0) goto invval;
 
-		gcry_mpi_release(auth->their_pub);
-		auth->their_pub = incoming_pub;
-		incoming_pub = NULL;
+	    gcry_mpi_release(auth->their_pub);
+	    auth->their_pub = incoming_pub;
+	    incoming_pub = NULL;
 
-		/* Compute the encryption and MAC keys */
-		err = otrl_dh_compute_v2_auth_keys(&(auth->our_dh),
-			auth->their_pub, auth->secure_session_id,
-			&(auth->secure_session_id_len),
-			&(auth->enc_c), &(auth->enc_cp),
-			&(auth->mac_m1), &(auth->mac_m1p),
-			&(auth->mac_m2), &(auth->mac_m2p));
-		if (err) goto err;
+	    /* Compute the encryption and MAC keys */
+	    err = otrl_dh_compute_v2_auth_keys(&(auth->our_dh),
+		    auth->their_pub, auth->secure_session_id,
+		    &(auth->secure_session_id_len),
+		    &(auth->enc_c), &(auth->enc_cp),
+		    &(auth->mac_m1), &(auth->mac_m1p),
+		    &(auth->mac_m2), &(auth->mac_m2p));
+	    if (err) goto err;
 
-		/* Check the MAC */
-		gcry_md_reset(auth->mac_m2);
-		gcry_md_write(auth->mac_m2, authstart, authend - authstart);
-		if (memcmp(macstart,
+	    /* Check the MAC */
+	    gcry_md_reset(auth->mac_m2);
+	    gcry_md_write(auth->mac_m2, authstart, authend - authstart);
+
+	    if (otrl_mem_differ(macstart,
 			gcry_md_read(auth->mac_m2, GCRY_MD_SHA256),
 			20)) goto invval;
 
-		/* Check the auth */
-		err = check_pubkey_auth(auth->their_fingerprint,
-			&(auth->their_keyid), authstart + 4,
-			authend - authstart - 4, auth->mac_m1, auth->enc_c,
-			auth->our_dh.pub, auth->their_pub);
-		if (err) goto err;
+	    /* Check the auth */
+	    err = check_pubkey_auth(auth->their_fingerprint,
+		    &(auth->their_keyid), authstart + 4,
+		    authend - authstart - 4, auth->mac_m1, auth->enc_c,
+		    auth->our_dh.pub, auth->their_pub);
+	    if (err) goto err;
 
-		authstart = NULL;
-		authend = NULL;
-		macstart = NULL;
-		free(buf);
-		buf = NULL;
+	    authstart = NULL;
+	    authend = NULL;
+	    macstart = NULL;
+	    free(buf);
+	    buf = NULL;
 
-		/* Create the Signature Message */
-		err = create_signature_message(auth, privkey);
-		if (err) goto err;
+	    /* Create the Signature Message */
+	    err = create_signature_message(auth, privkey);
+	    if (err) goto err;
 
-		/* No error?  Then we've completed our end of the
-		 * authentication. */
-		auth->protocol_version = 2;
-		auth->session_id_half = OTRL_SESSIONID_SECOND_HALF_BOLD;
-		if (auth_succeeded) err = auth_succeeded(auth, asdata);
-		*havemsgp = 1;
-		auth->our_keyid = 0;
-		auth->authstate = OTRL_AUTHSTATE_NONE;
+	    /* No error?  Then we've completed our end of the
+	     * authentication. */
+	    auth->session_id_half = OTRL_SESSIONID_SECOND_HALF_BOLD;
+	    if (auth_succeeded) err = auth_succeeded(auth, asdata);
+	    *havemsgp = 1;
+	    auth->our_keyid = 0;
+	    auth->authstate = OTRL_AUTHSTATE_NONE;
 
-		break;
+	    break;
 	case OTRL_AUTHSTATE_NONE:
 	case OTRL_AUTHSTATE_AWAITING_DHKEY:
 	case OTRL_AUTHSTATE_AWAITING_SIG:
 	case OTRL_AUTHSTATE_V1_SETUP:
-		/* Ignore this message */
-		*havemsgp = 0;
-		free(buf);
-		buf = NULL;
-		break;
-	}
+	    /* Ignore this message */
+	    *havemsgp = 0;
+	    free(buf);
+	    buf = NULL;
+	    break;
+    }
 
-	return err;
+    return err;
 
 decfail:
-	err = gcry_error(GPG_ERR_NO_ERROR);
-	goto err;
+    err = gcry_error(GPG_ERR_NO_ERROR);
+    goto err;
 invval:
-	err = gcry_error(GPG_ERR_INV_VALUE);
-	goto err;
+    err = gcry_error(GPG_ERR_INV_VALUE);
+    goto err;
 memerr:
-	err = gcry_error(GPG_ERR_ENOMEM);
+    err = gcry_error(GPG_ERR_ENOMEM);
 err:
-	free(buf);
-	free(gxbuf);
-	gcry_cipher_close(enc);
-	gcry_mpi_release(incoming_pub);
-	return err;
+    free(buf);
+    free(gxbuf);
+    gcry_cipher_close(enc);
+    gcry_mpi_release(incoming_pub);
+    return err;
 }
 
 /*
@@ -968,92 +1083,101 @@ gcry_error_t otrl_auth_handle_signature(OtrlAuthInfo *auth,
 	gcry_error_t (*auth_succeeded)(const OtrlAuthInfo *auth, void *asdata),
 	void *asdata)
 {
-	gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
-	unsigned char *buf = NULL, *bufp = NULL;
-	unsigned char *authstart, *authend, *macstart;
-	size_t buflen, lenp, authlen;
-	int res;
+    gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
+    unsigned char *buf = NULL, *bufp = NULL;
+    unsigned char *authstart, *authend, *macstart;
+    size_t buflen, lenp, authlen;
+    int res;
+    unsigned char version;
 
-	*havemsgp = 0;
+    *havemsgp = 0;
 
-	res = otrl_base64_otr_decode(sigmsg, &buf, &buflen);
-	if (res == -1) goto memerr;
-	if (res == -2) goto invval;
+    res = otrl_base64_otr_decode(sigmsg, &buf, &buflen);
+    if (res == -1) goto memerr;
+    if (res == -2) goto invval;
 
-	bufp = buf;
-	lenp = buflen;
+    bufp = buf;
+    lenp = buflen;
 
-	/* Header */
-	if (memcmp(bufp, "\x00\x02\x12", 3)) goto invval;
-	bufp += 3; lenp -= 3;
+    require_len(3);
+    version = bufp[1];
 
-	/* auth */
-	authstart = bufp;
-	read_int(authlen);
-	require_len(authlen);
-	bufp += authlen; lenp -= authlen;
-	authend = bufp;
+    /* Header */
+    skip_header('\x12');
 
-	/* MAC */
-	require_len(20);
-	macstart = bufp;
-	bufp += 20; lenp -= 20;
+    if (version == 3) {
+	require_len(8);
+	bufp += 8; lenp -= 8;
+    }
 
-	if (lenp != 0) goto invval;
+    /* auth */
+    authstart = bufp;
+    read_int(authlen);
+    require_len(authlen);
+    bufp += authlen; lenp -= authlen;
+    authend = bufp;
 
-	switch(auth->authstate) {
+    /* MAC */
+    require_len(20);
+    macstart = bufp;
+    bufp += 20; lenp -= 20;
+
+    if (lenp != 0) goto invval;
+
+    switch(auth->authstate) {
 	case OTRL_AUTHSTATE_AWAITING_SIG:
-		/* Check the MAC */
-		gcry_md_reset(auth->mac_m2p);
-		gcry_md_write(auth->mac_m2p, authstart, authend - authstart);
-		if (memcmp(macstart,
+	    /* Check the MAC */
+	    gcry_md_reset(auth->mac_m2p);
+	    gcry_md_write(auth->mac_m2p, authstart, authend - authstart);
+	    if (otrl_mem_differ(macstart,
 			gcry_md_read(auth->mac_m2p, GCRY_MD_SHA256),
 			20)) goto invval;
 
-		/* Check the auth */
-		err = check_pubkey_auth(auth->their_fingerprint,
-			&(auth->their_keyid), authstart + 4,
-			authend - authstart - 4, auth->mac_m1p, auth->enc_cp,
-			auth->our_dh.pub, auth->their_pub);
-		if (err) goto err;
+	    /* Check the auth */
+	    err = check_pubkey_auth(auth->their_fingerprint,
+		    &(auth->their_keyid), authstart + 4,
+		    authend - authstart - 4, auth->mac_m1p, auth->enc_cp,
+		    auth->our_dh.pub, auth->their_pub);
+	    if (err) goto err;
 
-		authstart = NULL;
-		authend = NULL;
-		macstart = NULL;
-		free(buf);
-		buf = NULL;
+	    authstart = NULL;
+	    authend = NULL;
+	    macstart = NULL;
+	    free(buf);
+	    buf = NULL;
 
-		/* No error?  Then we've completed our end of the
-		 * authentication. */
-		auth->protocol_version = 2;
-		auth->session_id_half = OTRL_SESSIONID_FIRST_HALF_BOLD;
-		if (auth_succeeded) err = auth_succeeded(auth, asdata);
-		free(auth->lastauthmsg);
-		auth->lastauthmsg = NULL;
-		*havemsgp = 1;
-		auth->our_keyid = 0;
-		auth->authstate = OTRL_AUTHSTATE_NONE;
+	    /* No error?  Then we've completed our end of the
+	     * authentication. */
+	    auth->session_id_half = OTRL_SESSIONID_FIRST_HALF_BOLD;
+	    if (auth_succeeded) err = auth_succeeded(auth, asdata);
+	    free(auth->lastauthmsg);
+	    auth->lastauthmsg = NULL;
+	    *havemsgp = 0;
+	    auth->our_keyid = 0;
+	    auth->authstate = OTRL_AUTHSTATE_NONE;
 
-		break;
+	    break;
 	case OTRL_AUTHSTATE_NONE:
 	case OTRL_AUTHSTATE_AWAITING_DHKEY:
 	case OTRL_AUTHSTATE_AWAITING_REVEALSIG:
 	case OTRL_AUTHSTATE_V1_SETUP:
-		/* Ignore this message */
-		*havemsgp = 0;
-		break;
-	}
+	    /* Ignore this message */
+	    *havemsgp = 0;
+	    free(buf);
+	    buf = NULL;
+	    break;
+    }
 
-	return err;
+    return err;
 
 invval:
-	err = gcry_error(GPG_ERR_INV_VALUE);
-	goto err;
+    err = gcry_error(GPG_ERR_INV_VALUE);
+    goto err;
 memerr:
-	err = gcry_error(GPG_ERR_ENOMEM);
+    err = gcry_error(GPG_ERR_ENOMEM);
 err:
-	free(buf);
-	return err;
+    free(buf);
+    return err;
 }
 
 /* Version 1 routines, for compatibility */
@@ -1066,75 +1190,75 @@ err:
 static gcry_error_t create_v1_key_exchange_message(OtrlAuthInfo *auth,
 	unsigned char reply, OtrlPrivKey *privkey)
 {
-	gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
-	const enum gcry_mpi_format format = GCRYMPI_FMT_USG;
-	unsigned char *buf = NULL, *bufp = NULL, *sigbuf = NULL;
-	size_t lenp, ourpublen, totallen, siglen;
-	unsigned char hashbuf[20];
+    gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
+    const enum gcry_mpi_format format = GCRYMPI_FMT_USG;
+    unsigned char *buf = NULL, *bufp = NULL, *sigbuf = NULL;
+    size_t lenp, ourpublen, totallen, siglen;
+    unsigned char hashbuf[20];
 
-	if (privkey->pubkey_type != OTRL_PUBKEY_TYPE_DSA) {
+    if (privkey->pubkey_type != OTRL_PUBKEY_TYPE_DSA) {
 	return gpg_error(GPG_ERR_INV_VALUE);
-	}
+    }
 
-	/* How big is the DH public key? */
-	gcry_mpi_print(format, NULL, 0, &ourpublen, auth->our_dh.pub);
+    /* How big is the DH public key? */
+    gcry_mpi_print(format, NULL, 0, &ourpublen, auth->our_dh.pub);
 
-	totallen = 3 + 1 + privkey->pubkey_datalen + 4 + 4 + ourpublen + 40;
-	buf = malloc(totallen);
-	if (buf == NULL) goto memerr;
+    totallen = 3 + 1 + privkey->pubkey_datalen + 4 + 4 + ourpublen + 40;
+    buf = malloc(totallen);
+    if (buf == NULL) goto memerr;
 
-	bufp = buf;
-	lenp = totallen;
+    bufp = buf;
+    lenp = totallen;
 
-	memcpy(bufp, "\x00\x01\x0a", 3); /* header */
-	debug_data("Header", bufp, 3);
-	bufp += 3; lenp -= 3;
+    memmove(bufp, "\x00\x01\x0a", 3); /* header */
+    debug_data("Header", bufp, 3);
+    bufp += 3; lenp -= 3;
 
-	bufp[0] = reply;
-	debug_data("Reply", bufp, 1);
-	bufp += 1; lenp -= 1;
+    bufp[0] = reply;
+    debug_data("Reply", bufp, 1);
+    bufp += 1; lenp -= 1;
 
-	memcpy(bufp, privkey->pubkey_data, privkey->pubkey_datalen);
-	debug_data("Pubkey", bufp, privkey->pubkey_datalen);
-	bufp += privkey->pubkey_datalen; lenp -= privkey->pubkey_datalen;
+    memmove(bufp, privkey->pubkey_data, privkey->pubkey_datalen);
+    debug_data("Pubkey", bufp, privkey->pubkey_datalen);
+    bufp += privkey->pubkey_datalen; lenp -= privkey->pubkey_datalen;
 
-	write_int(auth->our_keyid);
-	debug_int("Keyid", bufp-4);
+    write_int(auth->our_keyid);
+    debug_int("Keyid", bufp-4);
 
-	write_mpi(auth->our_dh.pub, ourpublen, "D-H y");
+    write_mpi(auth->our_dh.pub, ourpublen, "D-H y");
 
-	/* Hash all the data written so far, and sign the hash */
-	gcry_md_hash_buffer(GCRY_MD_SHA1, hashbuf, buf, bufp - buf);
+    /* Hash all the data written so far, and sign the hash */
+    gcry_md_hash_buffer(GCRY_MD_SHA1, hashbuf, buf, bufp - buf);
 
-	err = otrl_privkey_sign(&sigbuf, &siglen, privkey, hashbuf, 20);
-	if (err) goto err;
+    err = otrl_privkey_sign(&sigbuf, &siglen, privkey, hashbuf, 20);
+    if (err) goto err;
 
-	if (siglen != 40) goto invval;
-	memcpy(bufp, sigbuf, 40);
-	debug_data("Signature", bufp, 40);
-	bufp += 40; lenp -= 40;
-	free(sigbuf);
-	sigbuf = NULL;
+    if (siglen != 40) goto invval;
+    memmove(bufp, sigbuf, 40);
+    debug_data("Signature", bufp, 40);
+    bufp += 40; lenp -= 40;
+    free(sigbuf);
+    sigbuf = NULL;
 
-	assert(lenp == 0);
+    assert(lenp == 0);
 
-	free(auth->lastauthmsg);
-	auth->lastauthmsg = otrl_base64_otr_encode(buf, totallen);
-	if (auth->lastauthmsg == NULL) goto memerr;
-	free(buf);
-	buf = NULL;
+    free(auth->lastauthmsg);
+    auth->lastauthmsg = otrl_base64_otr_encode(buf, totallen);
+    if (auth->lastauthmsg == NULL) goto memerr;
+    free(buf);
+    buf = NULL;
 
-	return err;
+    return err;
 
 invval:
-	err = gcry_error(GPG_ERR_INV_VALUE);
-	goto err;
+    err = gcry_error(GPG_ERR_INV_VALUE);
+    goto err;
 memerr:
-	err = gcry_error(GPG_ERR_ENOMEM);
+    err = gcry_error(GPG_ERR_ENOMEM);
 err:
-	free(buf);
-	free(sigbuf);
-	return err;
+    free(buf);
+    free(sigbuf);
+    return err;
 }
 
 /*
@@ -1147,27 +1271,28 @@ err:
 gcry_error_t otrl_auth_start_v1(OtrlAuthInfo *auth, DH_keypair *our_dh,
 	unsigned int our_keyid, OtrlPrivKey *privkey)
 {
-	gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
+    gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
 
-	/* Clear out this OtrlAuthInfo and start over */
-	otrl_auth_clear(auth);
-	auth->initiated = 1;
+    /* Clear out this OtrlAuthInfo and start over */
+    otrl_auth_clear(auth);
+    auth->initiated = 1;
+    auth->protocol_version = 1;
 
-	/* Import the given DH keypair, or else create a fresh one */
-	if (our_dh) {
+    /* Import the given DH keypair, or else create a fresh one */
+    if (our_dh) {
 	otrl_dh_keypair_copy(&(auth->our_dh), our_dh);
 	auth->our_keyid = our_keyid;
-	} else {
+    } else {
 	otrl_dh_gen_keypair(DH1536_GROUP_ID, &(auth->our_dh));
 	auth->our_keyid = 1;
-	}
+    }
 
-	err = create_v1_key_exchange_message(auth, 0, privkey);
-	if (!err) {
+    err = create_v1_key_exchange_message(auth, 0, privkey);
+    if (!err) {
 	auth->authstate = OTRL_AUTHSTATE_V1_SETUP;
-	}
+    }
 
-	return err;
+    return err;
 }
 
 /*
@@ -1184,230 +1309,265 @@ gcry_error_t otrl_auth_handle_v1_key_exchange(OtrlAuthInfo *auth,
 	gcry_error_t (*auth_succeeded)(const OtrlAuthInfo *auth, void *asdata),
 	void *asdata)
 {
-	gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
-	unsigned char *buf = NULL, *bufp = NULL;
-	unsigned char *fingerprintstart, *fingerprintend;
-	unsigned char fingerprintbuf[20], hashbuf[20];
-	gcry_mpi_t p, q, g, y, received_pub = NULL;
-	gcry_sexp_t pubs = NULL;
-	size_t buflen, lenp;
-	unsigned char received_reply;
-	unsigned int received_keyid;
-	int res;
+    gcry_error_t err = gcry_error(GPG_ERR_NO_ERROR);
+    unsigned char *buf = NULL, *bufp = NULL;
+    unsigned char *fingerprintstart, *fingerprintend;
+    unsigned char fingerprintbuf[20], hashbuf[20];
+    gcry_mpi_t p, q, g, y, received_pub = NULL;
+    gcry_sexp_t pubs = NULL;
+    size_t buflen, lenp;
+    unsigned char received_reply;
+    unsigned int received_keyid;
+    int res;
 
-	*havemsgp = 0;
+    *havemsgp = 0;
 
-	res = otrl_base64_otr_decode(keyexchmsg, &buf, &buflen);
-	if (res == -1) goto memerr;
-	if (res == -2) goto invval;
+    res = otrl_base64_otr_decode(keyexchmsg, &buf, &buflen);
+    if (res == -1) goto memerr;
+    if (res == -2) goto invval;
 
-	bufp = buf;
-	lenp = buflen;
+    bufp = buf;
+    lenp = buflen;
 
-	/* Header */
-	require_len(3);
-	if (memcmp(bufp, "\x00\x01\x0a", 3)) goto invval;
-	bufp += 3; lenp -= 3;
+    /* Header */
+    require_len(3);
+    if (memcmp(bufp, "\x00\x01\x0a", 3)) goto invval;
+    bufp += 3; lenp -= 3;
 
-	/* Reply */
-	require_len(1);
-	received_reply = bufp[0];
-	bufp += 1; lenp -= 1;
+    /* Reply */
+    require_len(1);
+    received_reply = bufp[0];
+    bufp += 1; lenp -= 1;
 
-	/* Public Key */
-	fingerprintstart = bufp;
-	read_mpi(p);
-	read_mpi(q);
-	read_mpi(g);
-	read_mpi(y);
-	fingerprintend = bufp;
-	gcry_md_hash_buffer(GCRY_MD_SHA1, fingerprintbuf,
-		fingerprintstart, fingerprintend-fingerprintstart);
-	gcry_sexp_build(&pubs, NULL,
+    /* Public Key */
+    fingerprintstart = bufp;
+    read_mpi(p);
+    read_mpi(q);
+    read_mpi(g);
+    read_mpi(y);
+    fingerprintend = bufp;
+    gcry_md_hash_buffer(GCRY_MD_SHA1, fingerprintbuf,
+	    fingerprintstart, fingerprintend-fingerprintstart);
+    gcry_sexp_build(&pubs, NULL,
 	"(public-key (dsa (p %m)(q %m)(g %m)(y %m)))", p, q, g, y);
-	gcry_mpi_release(p);
-	gcry_mpi_release(q);
-	gcry_mpi_release(g);
-	gcry_mpi_release(y);
+    gcry_mpi_release(p);
+    gcry_mpi_release(q);
+    gcry_mpi_release(g);
+    gcry_mpi_release(y);
 
-	/* keyid */
-	read_int(received_keyid);
-	if (received_keyid == 0) goto invval;
+    /* keyid */
+    read_int(received_keyid);
+    if (received_keyid == 0) goto invval;
 
-	/* D-H pubkey */
-	read_mpi(received_pub);
+    /* D-H pubkey */
+    read_mpi(received_pub);
 
-	/* Verify the signature */
-	if (lenp != 40) goto invval;
-	gcry_md_hash_buffer(GCRY_MD_SHA1, hashbuf, buf, bufp - buf);
-	err = otrl_privkey_verify(bufp, lenp, OTRL_PUBKEY_TYPE_DSA,
-		pubs, hashbuf, 20);
-	if (err) goto err;
-	gcry_sexp_release(pubs);
-	pubs = NULL;
-	free(buf);
-	buf = NULL;
-	
-	if (auth->authstate != OTRL_AUTHSTATE_V1_SETUP && received_reply == 0x01) {
+    /* Verify the signature */
+    if (lenp != 40) goto invval;
+    gcry_md_hash_buffer(GCRY_MD_SHA1, hashbuf, buf, bufp - buf);
+    err = otrl_privkey_verify(bufp, lenp, OTRL_PUBKEY_TYPE_DSA,
+	    pubs, hashbuf, 20);
+    if (err) goto err;
+    gcry_sexp_release(pubs);
+    pubs = NULL;
+    free(buf);
+    buf = NULL;
+
+    if (auth->authstate != OTRL_AUTHSTATE_V1_SETUP && received_reply == 0x01) {
 	/* They're replying to something we never sent.  We must be
 	 * logged in more than once; ignore the message. */
 	err = gpg_error(GPG_ERR_NO_ERROR);
 	goto err;
-	}
+    }
 
-	if (auth->authstate != OTRL_AUTHSTATE_V1_SETUP) {
+    if (auth->authstate != OTRL_AUTHSTATE_V1_SETUP) {
 	/* Clear the auth and start over */
 	otrl_auth_clear(auth);
-	}
+    }
 
-	/* Everything checked out */
-	auth->their_keyid = received_keyid;
-	gcry_mpi_release(auth->their_pub);
-	auth->their_pub = received_pub;
-	received_pub = NULL;
-	memcpy(auth->their_fingerprint, fingerprintbuf, 20);
+    /* Everything checked out */
+    auth->their_keyid = received_keyid;
+    gcry_mpi_release(auth->their_pub);
+    auth->their_pub = received_pub;
+    received_pub = NULL;
+    memmove(auth->their_fingerprint, fingerprintbuf, 20);
 
-	if (received_reply == 0x01) {
+    if (received_reply == 0x01) {
 	/* Don't send a reply to this. */
 	*havemsgp = 0;
-	} else {
+    } else {
 	/* Import the given DH keypair, or else create a fresh one */
 	if (our_dh) {
-		otrl_dh_keypair_copy(&(auth->our_dh), our_dh);
-		auth->our_keyid = our_keyid;
+	    otrl_dh_keypair_copy(&(auth->our_dh), our_dh);
+	    auth->our_keyid = our_keyid;
 	} else if (auth->our_keyid == 0) {
-		otrl_dh_gen_keypair(DH1536_GROUP_ID, &(auth->our_dh));
-		auth->our_keyid = 1;
+	    otrl_dh_gen_keypair(DH1536_GROUP_ID, &(auth->our_dh));
+	    auth->our_keyid = 1;
 	}
 
 	/* Reply with our own Key Exchange Message */
 	err = create_v1_key_exchange_message(auth, 1, privkey);
 	if (err) goto err;
 	*havemsgp = 1;
-	}
+    }
 
-	/* Compute the session id */
-	err = otrl_dh_compute_v1_session_id(&(auth->our_dh),
-		auth->their_pub, auth->secure_session_id,
-		&(auth->secure_session_id_len),
-		&(auth->session_id_half));
-	if (err) goto err;
+    /* Compute the session id */
+    err = otrl_dh_compute_v1_session_id(&(auth->our_dh),
+	    auth->their_pub, auth->secure_session_id,
+	    &(auth->secure_session_id_len),
+	    &(auth->session_id_half));
+    if (err) goto err;
 
-	/* We've completed our end of the authentication */
-	auth->protocol_version = 1;
-	if (auth_succeeded) err = auth_succeeded(auth, asdata);
-	auth->our_keyid = 0;
-	auth->authstate = OTRL_AUTHSTATE_NONE;
+    /* We've completed our end of the authentication */
+    auth->protocol_version = 1;
+    if (auth_succeeded) err = auth_succeeded(auth, asdata);
+    auth->our_keyid = 0;
+    auth->authstate = OTRL_AUTHSTATE_NONE;
 
-	return err;
+    return err;
 
 invval:
-	err = gcry_error(GPG_ERR_INV_VALUE);
-	goto err;
+    err = gcry_error(GPG_ERR_INV_VALUE);
+    goto err;
 memerr:
-	err = gcry_error(GPG_ERR_ENOMEM);
+    err = gcry_error(GPG_ERR_ENOMEM);
 err:
-	free(buf);
-	gcry_sexp_release(pubs);
-	gcry_mpi_release(received_pub);
-	return err;
+    free(buf);
+    gcry_sexp_release(pubs);
+    gcry_mpi_release(received_pub);
+    return err;
+}
+
+/*
+ * Copy relevant information from the master OtrlAuthInfo to an
+ * instance OtrlAuthInfo in response to a D-H Key with a new
+ * instance. The fields copied will depend on the state of the
+ * master auth.
+ */
+void otrl_auth_copy_on_key(OtrlAuthInfo *m_auth, OtrlAuthInfo *auth)
+{
+    switch(m_auth->authstate) {
+	case OTRL_AUTHSTATE_AWAITING_DHKEY:
+	case OTRL_AUTHSTATE_AWAITING_SIG:
+	    /* Copy our D-H Commit information to the new instance */
+	    otrl_dh_keypair_free(&(auth->our_dh));
+	    auth->initiated = m_auth->initiated;
+	    otrl_dh_keypair_copy(&(auth->our_dh), &(m_auth->our_dh));
+	    auth->our_keyid = m_auth->our_keyid;
+	    memmove(auth->r, m_auth->r, 16);
+	    if (auth->encgx) free(auth->encgx);
+	    auth->encgx = malloc(m_auth->encgx_len);
+	    memmove(auth->encgx, m_auth->encgx, m_auth->encgx_len);
+	    memmove(auth->hashgx, m_auth->hashgx, 32);
+
+	    auth->authstate = OTRL_AUTHSTATE_AWAITING_DHKEY;
+	    break;
+
+	default:
+	    /* This bad state will be detected and handled later */
+	    break;
+    }
 }
 
 #ifdef OTRL_TESTING_AUTH
 #include "mem.h"
 #include "privkey.h"
 
-#define CHECK_ERR if (err) { printf("Error: %s\n", gcry_strerror(err)); return 1; }
+#define CHECK_ERR if (err) { printf("Error: %s\n", gcry_strerror(err)); \
+			return 1; }
 
 static gcry_error_t starting(const OtrlAuthInfo *auth, void *asdata)
 {
-	char *name = asdata;
+    char *name = asdata;
 
-	fprintf(stderr, "\nStarting ENCRYPTED mode for %s (v%d).\n", name, auth->protocol_version);
+    fprintf(stderr, "\nStarting ENCRYPTED mode for %s (v%d).\n",
+	    name, auth->protocol_version);
 
-	fprintf(stderr, "\nour_dh (%d):", auth->our_keyid);
-	gcry_mpi_dump(auth->our_dh.pub);
-	fprintf(stderr, "\ntheir_pub (%d):", auth->their_keyid);
-	gcry_mpi_dump(auth->their_pub);
+    fprintf(stderr, "\nour_dh (%d):", auth->our_keyid);
+    gcry_mpi_dump(auth->our_dh.pub);
+    fprintf(stderr, "\ntheir_pub (%d):", auth->their_keyid);
+    gcry_mpi_dump(auth->their_pub);
 
-	debug_data("\nTheir fingerprint", auth->their_fingerprint, 20);
-	debug_data("\nSecure session id", auth->secure_session_id,
-		auth->secure_session_id_len);
-	fprintf(stderr, "Sessionid half: %d\n\n", auth->session_id_half);
+    debug_data("\nTheir fingerprint", auth->their_fingerprint, 20);
+    debug_data("\nSecure session id", auth->secure_session_id,
+	    auth->secure_session_id_len);
+    fprintf(stderr, "Sessionid half: %d\n\n", auth->session_id_half);
 
-	return gpg_error(GPG_ERR_NO_ERROR);
+    return gpg_error(GPG_ERR_NO_ERROR);
 }
 
 int main(int argc, char **argv)
 {
-	OtrlAuthInfo alice, bob;
-	gcry_error_t err;
-	int havemsg;
-	OtrlUserState us;
-	OtrlPrivKey *alicepriv, *bobpriv;
+    OtrlAuthInfo alice, bob;
+    gcry_error_t err;
+    int havemsg;
+    OtrlUserState us;
+    OtrlPrivKey *alicepriv, *bobpriv;
 
-	otrl_mem_init();
-	otrl_dh_init();
-	otrl_auth_new(&alice);
-	otrl_auth_new(&bob);
+    otrl_mem_init();
+    otrl_dh_init();
+    otrl_auth_new(&alice);
+    otrl_auth_new(&bob);
 
-	us = otrl_userstate_create();
-	otrl_privkey_read(us, "/home/iang/.gaim/otr.private_key");
-	alicepriv = otrl_privkey_find(us, "oneeyedian", "prpl-oscar");
-	bobpriv = otrl_privkey_find(us, "otr4ian", "prpl-oscar");
+    us = otrl_userstate_create();
+    otrl_privkey_read(us, "/home/iang/.gaim/otr.private_key");
+    alicepriv = otrl_privkey_find(us, "oneeyedian", "prpl-oscar");
+    bobpriv = otrl_privkey_find(us, "otr4ian", "prpl-oscar");
 
-	printf("\n\n  ***** V2 *****\n\n");
+    printf("\n\n  ***** V2 *****\n\n");
 
-	err = otrl_auth_start_v2(&bob, NULL, 0);
-	CHECK_ERR
+    err = otrl_auth_start_v23(&bob, NULL, 0);
+    CHECK_ERR
+    printf("\nBob: %d\n%s\n\n", strlen(bob.lastauthmsg), bob.lastauthmsg);
+    err = otrl_auth_handle_commit(&alice, bob.lastauthmsg, NULL, 0);
+    CHECK_ERR
+    printf("\nAlice: %d\n%s\n\n", strlen(alice.lastauthmsg), alice.lastauthmsg);
+    err = otrl_auth_handle_key(&bob, alice.lastauthmsg, &havemsg, bobpriv);
+    CHECK_ERR
+    if (havemsg) {
 	printf("\nBob: %d\n%s\n\n", strlen(bob.lastauthmsg), bob.lastauthmsg);
-	err = otrl_auth_handle_commit(&alice, bob.lastauthmsg, NULL, 0);
-	CHECK_ERR
-	printf("\nAlice: %d\n%s\n\n", strlen(alice.lastauthmsg), alice.lastauthmsg);
-	err = otrl_auth_handle_key(&bob, alice.lastauthmsg, &havemsg, bobpriv);
-	CHECK_ERR
-	if (havemsg) {
-	printf("\nBob: %d\n%s\n\n", strlen(bob.lastauthmsg), bob.lastauthmsg);
-	} else {
+    } else {
 	printf("\nIGNORE\n\n");
-	}
-	err = otrl_auth_handle_revealsig(&alice, bob.lastauthmsg, &havemsg,
-		alicepriv, starting, "Alice");
-	CHECK_ERR
-	if (havemsg) {
-	printf("\nAlice: %d\n%s\n\n", strlen(alice.lastauthmsg), alice.lastauthmsg);
-	} else {
+    }
+    err = otrl_auth_handle_revealsig(&alice, bob.lastauthmsg, &havemsg,
+	    alicepriv, starting, "Alice");
+    CHECK_ERR
+    if (havemsg) {
+	printf("\nAlice: %d\n%s\n\n", strlen(alice.lastauthmsg),
+		alice.lastauthmsg);
+    } else {
 	printf("\nIGNORE\n\n");
-	}
-	err = otrl_auth_handle_signature(&bob, alice.lastauthmsg, &havemsg,
-		starting, "Bob");
-	CHECK_ERR
+    }
+    err = otrl_auth_handle_signature(&bob, alice.lastauthmsg, &havemsg,
+	    starting, "Bob");
+    CHECK_ERR
 
-	printf("\n\n  ***** V1 *****\n\n");
+    printf("\n\n  ***** V1 *****\n\n");
 
-	err = otrl_auth_start_v1(&bob, NULL, 0, bobpriv);
-	CHECK_ERR
-	printf("\nBob: %d\n%s\n\n", strlen(bob.lastauthmsg), bob.lastauthmsg);
-	err = otrl_auth_handle_v1_key_exchange(&alice, bob.lastauthmsg,
-		&havemsg, alicepriv, NULL, 0, starting, "Alice");
-	CHECK_ERR
-	if (havemsg) {
-	printf("\nAlice: %d\n%s\n\n", strlen(alice.lastauthmsg), alice.lastauthmsg);
-	} else {
+    err = otrl_auth_start_v1(&bob, NULL, 0, bobpriv);
+    CHECK_ERR
+    printf("\nBob: %d\n%s\n\n", strlen(bob.lastauthmsg), bob.lastauthmsg);
+    err = otrl_auth_handle_v1_key_exchange(&alice, bob.lastauthmsg,
+	    &havemsg, alicepriv, NULL, 0, starting, "Alice");
+    CHECK_ERR
+    if (havemsg) {
+	printf("\nAlice: %d\n%s\n\n", strlen(alice.lastauthmsg),
+		alice.lastauthmsg);
+    } else {
 	printf("\nIGNORE\n\n");
-	}
-	err = otrl_auth_handle_v1_key_exchange(&bob, alice.lastauthmsg,
-		&havemsg, bobpriv, NULL, 0, starting, "Bob");
-	CHECK_ERR
-	if (havemsg) {
+    }
+    err = otrl_auth_handle_v1_key_exchange(&bob, alice.lastauthmsg,
+	    &havemsg, bobpriv, NULL, 0, starting, "Bob");
+    CHECK_ERR
+    if (havemsg) {
 	printf("\nBob: %d\n%s\n\n", strlen(bob.lastauthmsg), bob.lastauthmsg);
-	} else {
+    } else {
 	printf("\nIGNORE\n\n");
-	}
+    }
 
-	otrl_userstate_free(us);
-	otrl_auth_clear(&alice);
-	otrl_auth_clear(&bob);
-	return 0;
+    otrl_userstate_free(us);
+    otrl_auth_clear(&alice);
+    otrl_auth_clear(&bob);
+    return 0;
 }
 #endif

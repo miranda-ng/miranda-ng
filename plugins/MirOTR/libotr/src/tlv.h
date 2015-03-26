@@ -1,6 +1,7 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2012  Ian Goldberg, Chris Alexander, Willy Lew,
+ *  			     Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -14,7 +15,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #ifndef __TLV_H__
@@ -35,7 +36,7 @@ typedef struct s_OtrlTLV {
 /* The sender has thrown away his OTR session keys with you */
 #define OTRL_TLV_DISCONNECTED    0x0001
 
-/* The message contains a step in the Socialist Millionaires' Protocol. */ 
+/* The message contains a step in the Socialist Millionaires' Protocol. */
 #define OTRL_TLV_SMP1            0x0002
 #define OTRL_TLV_SMP2            0x0003
 #define OTRL_TLV_SMP3            0x0004
@@ -44,6 +45,13 @@ typedef struct s_OtrlTLV {
 /* Like OTRL_TLV_SMP1, but there's a question for the buddy at the
  * beginning */
 #define OTRL_TLV_SMP1Q           0x0007
+/* Tell the application the current "extra" symmetric key */
+/* XXX: Document this in the protocol spec:
+ * The body of the TLV will begin with a 4-byte indication of what this
+ * symmetric key will be used for (file transfer, voice encryption,
+ * etc.).  After that, the contents are use-specific (which file, etc.).
+ * There are no currently defined uses. */
+#define OTRL_TLV_SYMKEY          0x0008
 
 /* Make a single TLV, copying the supplied data */
 OtrlTLV *otrl_tlv_new(unsigned short type, unsigned short len,

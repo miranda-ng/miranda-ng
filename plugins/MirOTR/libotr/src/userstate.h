@@ -1,6 +1,7 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2012  Ian Goldberg, Rob Smits, Chris Alexander,
+ *  			      Willy Lew, Lisa Du, Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -14,7 +15,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #ifndef __USERSTATE_H__
@@ -22,12 +23,16 @@
 
 typedef struct s_OtrlUserState* OtrlUserState;
 
+#include "instag.h"
 #include "context.h"
 #include "privkey-t.h"
 
 struct s_OtrlUserState {
     ConnContext *context_root;
     OtrlPrivKey *privkey_root;
+    OtrlInsTag *instag_root;
+    OtrlPendingPrivKey *pending_root;
+    int timer_running;
 };
 
 /* Create a new OtrlUserState.  Most clients will only need one of
@@ -39,7 +44,8 @@ struct s_OtrlUserState {
  * OtrlUserState. */
 OtrlUserState otrl_userstate_create(void);
 
-/* Free a OtrlUserState */
+/* Free a OtrlUserState.  If you have a timer running for this userstate,
+stop it before freeing the userstate. */
 void otrl_userstate_free(OtrlUserState us);
 
 #endif

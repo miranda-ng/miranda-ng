@@ -1,6 +1,7 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2012  Ian Goldberg, Rob Smits, Chris Alexander,
+ *  			      Willy Lew, Lisa Du, Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -14,7 +15,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #ifndef __PROTO_H__
@@ -30,6 +31,7 @@
 /* The following must each be of length 8 */
 #define OTRL_MESSAGE_TAG_V1 " \t \t  \t "
 #define OTRL_MESSAGE_TAG_V2 "  \t\t  \t "
+#define OTRL_MESSAGE_TAG_V3 "  \t\t  \t\t"
 
 /* The possible flags contained in a Data Message */
 #define OTRL_MSGFLAGS_IGNORE_UNREADABLE		0x01
@@ -38,27 +40,33 @@ typedef unsigned int OtrlPolicy;
 
 #define OTRL_POLICY_ALLOW_V1			0x01
 #define OTRL_POLICY_ALLOW_V2			0x02
-#define OTRL_POLICY_REQUIRE_ENCRYPTION		0x04
-#define OTRL_POLICY_SEND_WHITESPACE_TAG		0x08
-#define OTRL_POLICY_WHITESPACE_START_AKE	0x10
-#define OTRL_POLICY_ERROR_START_AKE		0x20
+#define OTRL_POLICY_ALLOW_V3			0x04
+#define OTRL_POLICY_REQUIRE_ENCRYPTION		0x08
+#define OTRL_POLICY_SEND_WHITESPACE_TAG		0x10
+#define OTRL_POLICY_WHITESPACE_START_AKE	0x20
+#define OTRL_POLICY_ERROR_START_AKE		0x40
 
-#define OTRL_POLICY_VERSION_MASK (OTRL_POLICY_ALLOW_V1 | OTRL_POLICY_ALLOW_V2)
+#define OTRL_POLICY_VERSION_MASK (OTRL_POLICY_ALLOW_V1 | OTRL_POLICY_ALLOW_V2 |\
+	OTRL_POLICY_ALLOW_V3)
 
-/* For v1 compatibility */
+/* Length of OTR message headers */
+#define OTRL_HEADER_LEN		3
+#define OTRL_B64_HEADER_LEN	4
+
+/* Analogous to v1 policies */
 #define OTRL_POLICY_NEVER			0x00
 #define OTRL_POLICY_OPPORTUNISTIC \
-	    ( OTRL_POLICY_ALLOW_V1 | \
-	    OTRL_POLICY_ALLOW_V2 | \
+	    ( OTRL_POLICY_ALLOW_V2 | \
+	    OTRL_POLICY_ALLOW_V3 | \
 	    OTRL_POLICY_SEND_WHITESPACE_TAG | \
 	    OTRL_POLICY_WHITESPACE_START_AKE | \
 	    OTRL_POLICY_ERROR_START_AKE )
 #define OTRL_POLICY_MANUAL \
-	    ( OTRL_POLICY_ALLOW_V1 | \
-	    OTRL_POLICY_ALLOW_V2 )
+	    ( OTRL_POLICY_ALLOW_V2 | \
+	    OTRL_POLICY_ALLOW_V3)
 #define OTRL_POLICY_ALWAYS \
-	    ( OTRL_POLICY_ALLOW_V1 | \
-	    OTRL_POLICY_ALLOW_V2 | \
+	    ( OTRL_POLICY_ALLOW_V2 | \
+	    OTRL_POLICY_ALLOW_V3 | \
 	    OTRL_POLICY_REQUIRE_ENCRYPTION | \
 	    OTRL_POLICY_WHITESPACE_START_AKE | \
 	    OTRL_POLICY_ERROR_START_AKE )
@@ -85,6 +93,8 @@ typedef enum {
 } OtrlFragmentResult;
 
 typedef enum {
+    OTRL_FRAGMENT_SEND_SKIP, /* Return new message back to caller,
+			      * but don't inject. */
     OTRL_FRAGMENT_SEND_ALL,
     OTRL_FRAGMENT_SEND_ALL_BUT_FIRST,
     OTRL_FRAGMENT_SEND_ALL_BUT_LAST
@@ -92,12 +102,15 @@ typedef enum {
 
 /* Initialize the OTR library.  Pass the version of the API you are
  * using. */
-void otrl_init(unsigned int ver_major, unsigned int ver_minor,
+gcry_error_t otrl_init(unsigned int ver_major, unsigned int ver_minor,
 	unsigned int ver_sub);
 
 /* Shortcut */
 #define OTRL_INIT do { \
-	otrl_init(OTRL_VERSION_MAJOR, OTRL_VERSION_MINOR, OTRL_VERSION_SUB); \
+	if (otrl_init(OTRL_VERSION_MAJOR, OTRL_VERSION_MINOR, \
+		OTRL_VERSION_SUB)) { \
+	    exit(1); \
+	} \
     } while(0)
 
 /* Return a pointer to a static string containing the version number of
@@ -120,14 +133,23 @@ unsigned int otrl_proto_query_bestversion(const char *querymsg,
 unsigned int otrl_proto_whitespace_bestversion(const char *msg,
 	const char **starttagp, const char **endtagp, OtrlPolicy policy);
 
-/* Return the Message type of the given message. */
+/* Find the message type. */
 OtrlMessageType otrl_proto_message_type(const char *message);
+
+/* Find the message version. */
+int otrl_proto_message_version(const char *message);
+
+/* Find the instance tags in this message. */
+gcry_error_t otrl_proto_instance(const char *otrmsg,
+	unsigned int *instance_from, unsigned int *instance_to);
 
 /* Create an OTR Data message.  Pass the plaintext as msg, and an
  * optional chain of TLVs.  A newly-allocated string will be returned in
- * *encmessagep. */
+ * *encmessagep. Put the current extra symmetric key into extrakey
+ * (if non-NULL). */
 gcry_error_t otrl_proto_create_data(char **encmessagep, ConnContext *context,
-	const char *msg, const OtrlTLV *tlvs, unsigned char flags);
+	const char *msg, const OtrlTLV *tlvs, unsigned char flags,
+	unsigned char *extrakey);
 
 /* Extract the flags from an otherwise unreadable Data Message. */
 gcry_error_t otrl_proto_data_read_flags(const char *datamsg,
@@ -135,16 +157,18 @@ gcry_error_t otrl_proto_data_read_flags(const char *datamsg,
 
 /* Accept an OTR Data Message in datamsg.  Decrypt it and put the
  * plaintext into *plaintextp, and any TLVs into tlvsp.  Put any
- * received flags into *flagsp (if non-NULL). */
+ * received flags into *flagsp (if non-NULL).  Put the current extra
+ * symmetric key into extrakey (if non-NULL). */
 gcry_error_t otrl_proto_accept_data(char **plaintextp, OtrlTLV **tlvsp,
-	ConnContext *context, const char *datamsg, unsigned char *flagsp);
+	ConnContext *context, const char *datamsg, unsigned char *flagsp,
+	unsigned char *extrakey);
 
 /* Accumulate a potential fragment into the current context. */
 OtrlFragmentResult otrl_proto_fragment_accumulate(char **unfragmessagep,
 	ConnContext *context, const char *msg);
 
 gcry_error_t otrl_proto_fragment_create(int mms, int fragment_count,
-	char ***fragments, const char *message);
+	char ***fragments, ConnContext *context, const char *message);
 
 void otrl_proto_fragment_free(char ***fragments, unsigned short arraylen);
 #endif
