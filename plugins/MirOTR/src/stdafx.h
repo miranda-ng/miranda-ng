@@ -74,9 +74,9 @@ using namespace std;
 #include "svcs_proto.h"
 
 #ifdef _DEBUG
-	#define DEBUGOUTA(x)	OutputDebugStringA(x);
-	#define DEBUGOUT(x)		OutputDebugString(x);
-	#define DEBUGOUT_T(x)	OutputDebugString(__T(x));
+	#define DEBUGOUTA(x)	OutputDebugStringA(x)
+	#define DEBUGOUT(x)		OutputDebugString(x)
+	#define DEBUGOUT_T(x)	OutputDebugString(__T(x))
 #else
 	#define DEBUGOUTA(x);
 	#define DEBUGOUT(x)		
@@ -92,5 +92,3 @@ using namespace std;
 #define PREF_NO_HISTORY  0x10000
 
 extern HINSTANCE hInst;
-
-// TODO: Hier auf zusätzliche Header, die das Programm erfordert, verweisen.

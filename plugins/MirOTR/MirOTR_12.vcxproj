@@ -190,6 +190,7 @@
     <ClCompile Include="src\mirotrmenu.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\otr.cpp" />
+    <ClCompile Include="src\otrlextensions.c" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -208,6 +209,7 @@
     <ClInclude Include="src\mirotrmenu.h" />
     <ClInclude Include="src\options.h" />
     <ClInclude Include="src\otr.h" />
+    <ClInclude Include="src\otrlextensions.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\striphtml.h" />

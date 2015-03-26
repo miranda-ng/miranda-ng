@@ -26,6 +26,8 @@ char* contact_get_id(MCONTACT hContact, bool bNameOnError=true);
 __inline const char* contact_get_account(MCONTACT hContact);
 extern __inline const TCHAR* contact_get_nameT(MCONTACT hContact);
 
+TCHAR* ProtoGetNickname(const char* proto);
+
 void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTACT hContact = NULL);
 void ShowWarning(TCHAR* msg);
 void ShowError(TCHAR* msg);

@@ -15,9 +15,9 @@ int StartOTR(MCONTACT hContact) {
 	
 	lib_cs_lock();
 	char *msg = otrl_proto_default_query_msg(MODULENAME, pol);
-	otr_gui_inject_message((void*)hContact, proto, proto, uname, msg ? msg : "?OTRv2?");
+	otr_gui_inject_message((void*)hContact, proto, proto, uname, msg ? msg : MIROTR_PROTO_HELLO);
+	free(msg);
 	lib_cs_unlock();
-	otrl_message_free(msg);
 	mir_free(uname);
 	return 0;
 }
@@ -77,7 +77,7 @@ int otr_disconnect_contact(MCONTACT hContact)
 	if (!uname) return 1; // error
 
 	lib_cs_lock();
-	otrl_message_disconnect(otr_user_state, &ops, (void*)hContact, proto, proto, uname);
+	otrl_message_disconnect_all_instances(otr_user_state, &ops, (void*)hContact, proto, proto, uname);
 	lib_cs_unlock();
 	mir_free(uname);
 	return 0;
@@ -181,7 +181,7 @@ hide_all:
 	if(pol == OTRL_POLICY_NEVER || pol == OTRL_POLICY_ALWAYS)
 		goto hide_all;
 
-	ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);	
+	ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
 	TrustLevel encrypted = otr_context_get_trust(context);
 	Menu_ShowItem(hStartItem, encrypted == TRUST_NOT_PRIVATE);
 	Menu_ShowItem(hStopItem, encrypted != TRUST_NOT_PRIVATE);

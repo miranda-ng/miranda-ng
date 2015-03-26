@@ -285,7 +285,7 @@ int StatusModeChange(WPARAM wParam, LPARAM lParam) {
 				hContact = (MCONTACT)context->app_data;
 				
 				if(hContact) {
-					otrl_message_disconnect(otr_user_state, &ops, (void*)hContact, context->accountname, context->protocol, context->username);
+					otrl_message_disconnect(otr_user_state, &ops, (void*)hContact, context->accountname, context->protocol, context->username, OTRL_INSTAG_BEST);
 					SetEncryptionStatus(hContact, TRUST_NOT_PRIVATE);
 				}
 				
