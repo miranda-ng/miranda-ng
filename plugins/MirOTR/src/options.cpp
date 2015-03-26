@@ -90,7 +90,7 @@ void LoadOptions() {
 		options.prefix[OPTIONS_PREFIXLEN-1] = 0;
 		db_free(&dbv);
 	} else
-		strncpy(options.prefix, ("OTR: "), OPTIONS_PREFIXLEN-1);
+		strncpy(options.prefix, OPTIONS_DEFAULT_PREFIX, OPTIONS_PREFIXLEN-1);
 
 	options.end_offline = (db_get_b(0, MODULENAME, "EndOffline", 1) == 1);
 	options.end_window_close = (db_get_b(0, MODULENAME, "EndWindowClose", 0) == 1);
@@ -265,7 +265,11 @@ static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			GetDlgItemText(hwndDlg, IDC_ED_PREFIX, prefix, OPTIONS_PREFIXLEN);
 			prefix_utf = mir_utf8encodeT(prefix);
 			mir_free(prefix);
-			strncpy(options.prefix, prefix_utf, OPTIONS_PREFIXLEN-1);
+			if(!prefix_utf[0]){
+				SetDlgItemTextA(hwndDlg, IDC_ED_PREFIX, OPTIONS_DEFAULT_PREFIX);
+				strncpy(options.prefix, OPTIONS_DEFAULT_PREFIX, OPTIONS_PREFIXLEN-1);
+			} else
+				strncpy(options.prefix, prefix_utf, OPTIONS_PREFIXLEN-1);
 			mir_free(prefix_utf);
 
 			SaveOptions();
@@ -808,9 +812,13 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 								ListView_GetItem(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST), &lvi);
 								Fingerprint *fp = (Fingerprint*) lvi.lParam;
 								if (fp->context->active_fingerprint == fp) {
+									MCONTACT hContact = (MCONTACT)fp->context->app_data;
 									TCHAR buff[1024], hash[45];
 									otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
-									mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT((MCONTACT)fp->context->app_data));
+									TCHAR *proto = mir_a2t(GetContactProto(hContact));
+									mir_sntprintf(buff, SIZEOF(buff)-1, TranslateT(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT(hContact), proto);
+									mir_free(proto);
+									buff[SIZEOF(buff)-1] = '\0';
 									ShowError(buff);
 								} else {
 									FPModifyMap* fpm = (FPModifyMap*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -837,9 +845,13 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 				switch (it->second) {
 					case FPM_DELETE:
 						if (it->first->context->active_fingerprint == it->first) {
+							MCONTACT hContact = (MCONTACT)it->first->context->app_data;
 							TCHAR buff[1024], hash[45];
 							otrl_privkey_hash_to_humanT(hash, it->first->fingerprint);
-							mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT((MCONTACT)it->first->context->app_data));
+							TCHAR *proto = mir_a2t(GetContactProto(hContact));
+							mir_sntprintf(buff, SIZEOF(buff)-1, TranslateT(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT(hContact), proto);
+							mir_free(proto);
+							buff[SIZEOF(buff)-1] = '\0';
 							ShowError(buff);
 						} else {
 							otrl_context_forget_fingerprint(it->first, 1);

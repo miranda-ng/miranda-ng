@@ -53,27 +53,27 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "",IDC_STATIC,0,0,1,1,NOT WS_GROUP | WS_TABSTOP
     GROUPBOX        "Default Policy",IDC_GRP_POLICY,5,3,139,60
-    CONTROL         "Always",IDC_RAD_ALWAYS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,12,126,10
-    CONTROL         "Opportunistic",IDC_RAD_OPP,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,24,126,10
-    CONTROL         "Manual",IDC_RAD_MANUAL,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,12,36,126,10
-    CONTROL         "Never",IDC_RAD_NEVER,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,48,126,10
+    CONTROL         "Always",IDC_RAD_ALWAYS,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,12,12,126,10
+    CONTROL         "Opportunistic",IDC_RAD_OPP,"Button",BS_AUTORADIOBUTTON,12,24,126,10
+    CONTROL         "Manual",IDC_RAD_MANUAL,"Button",BS_AUTORADIOBUTTON,12,36,126,10
+    CONTROL         "Never",IDC_RAD_NEVER,"Button",BS_AUTORADIOBUTTON,12,48,126,10
     CONTROL         "End sessions on window close",IDC_CHK_ENDCLOSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,70,265,10
     CONTROL         "End sessions when contacts go offline",IDC_CHK_ENDOFFLINE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,82,265,10
     CONTROL         "Prefix encrypted IMs:",IDC_CHK_PREFIX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,94,108,10
     EDITTEXT        IDC_ED_PREFIX,120,93,159,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_CLIENTEDGE
+    LTEXT           """?OTR? "" is a protected prefix and can't be faked",IDC_STATIC,23,106,271,8,SS_LEFT
     CONTROL         "Don't add encrypted messages to the history",IDC_CHK_PREVENTSAVE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,106,265,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,118,265,10
     CONTROL         "Also remove OTR system messages",IDC_CHK_PREVENTSYSSAVE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,117,245,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,130,245,10
     CONTROL         "Show OTR system messages inline",IDC_CHK_MSGINLINE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,130,265,10
-    CONTROL         "Show OTR system messages as popup",IDC_CHK_MSGPOPUP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,142,265,10
+    CONTROL         "Show OTR system messages as popup",IDC_CHK_MSGPOPUP,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,154,265,10
     CONTROL         "Show verification dialog when receiving unverified fingerprint",IDC_CHK_AUTOSHOW_VERIFY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,166,265,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,175,265,10
 END
 
 IDD_OPT_PROTO DIALOGEX 0, 0, 296, 220
