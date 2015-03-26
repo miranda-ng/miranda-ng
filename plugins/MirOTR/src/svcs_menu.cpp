@@ -14,9 +14,36 @@ int StartOTR(MCONTACT hContact) {
 	if(pol == CONTACT_DEFAULT_POLICY) pol = options.default_policy;
 	
 	lib_cs_lock();
+	#ifndef MIROTR_PROTO_HELLO_MSG
 	char *msg = otrl_proto_default_query_msg(MODULENAME, pol);
 	otr_gui_inject_message((void*)hContact, proto, proto, uname, msg ? msg : MIROTR_PROTO_HELLO);
 	free(msg);
+	#else
+	TCHAR* nick=ProtoGetNickname(proto);
+	if(nick){
+		TCHAR msg[1024];
+		TCHAR* msgend = msg+SIZEOF(msg)-1;
+		TCHAR* msgoff = msg;
+		for(const char* c=MIROTR_PROTO_HELLO; *c; *msgoff++=*c++);
+		*msgoff++ = '\n';
+		for(const TCHAR* c=nick; *c && msgoff<msgend; *msgoff++=*c++);
+		for(const TCHAR* c=MIROTR_PROTO_HELLO_MSG; *c && msgoff<msgend; *msgoff++=*c++);
+		LCID langid = Langpack_GetDefaultLocale();
+		if(langid != 0x0409/*US*/ && langid != 0x1009/*CA*/ && langid != 0x0809/*GB*/){ // non english
+			const TCHAR* translated=TranslateTS(MIROTR_PROTO_HELLO_MSG);
+			if(_tcscmp(MIROTR_PROTO_HELLO_MSG,translated)){
+				*msgoff++ = '\n';
+				for(const TCHAR* c=nick; *c && msgoff<msgend; *msgoff++=*c++);
+				for(const TCHAR* c=translated; *c && msgoff<msgend; *msgoff++=*c++);
+			}
+		}
+		*msgoff='\0';
+		mir_free(nick);
+		char* msg_utf8 = mir_utf8encodeT(msg);
+		otr_gui_inject_message((void*)hContact, proto, proto, uname, msg_utf8 ? msg_utf8 : MIROTR_PROTO_HELLO);
+		mir_free(msg_utf8);
+	}
+	#endif
 	lib_cs_unlock();
 	mir_free(uname);
 	return 0;
