@@ -46,13 +46,11 @@ MCONTACT find_contact(const char* userid, const char* protocol)
 * filled in by the application, and set *addedp to 1. */
 ConnContext * otrl_context_find_miranda(OtrlUserState us, MCONTACT hContact)
 {
-	ConnContext ** curp;
-	if (!hContact) return NULL;
-	for (curp = &(us->context_root); *curp; curp = &((*curp)->next)) {
-		if ((*curp)->app_data == (void*)hContact)
-			return *curp;
-	}
-	return NULL;
+	const char *proto = GetContactProto(hContact);
+	char *username = contact_get_id(hContact);
+	ConnContext* ret = otrl_context_find(us, username, proto, proto, OTRL_INSTAG_BEST, 0, NULL, NULL, NULL);
+	mir_free(username);
+	return ret;
 }
 
 /* What level of trust do we have in the privacy of this ConnContext? */
@@ -61,9 +59,8 @@ TrustLevel otr_context_get_trust(ConnContext *context)
 	TrustLevel level = TRUST_NOT_PRIVATE;
 
 	if (context && context->msgstate == OTRL_MSGSTATE_ENCRYPTED) {
-		if (context->active_fingerprint->trust &&
-			context->active_fingerprint->trust[0] != '\0') {
-				level = TRUST_PRIVATE;
+		if (context->active_fingerprint->trust && context->active_fingerprint->trust[0]) {
+			level = TRUST_PRIVATE;
 		} else {
 			level = TRUST_UNVERIFIED;
 		}
@@ -151,6 +148,28 @@ __inline const TCHAR* contact_get_nameT(MCONTACT hContact) {
 __inline const char* contact_get_account(MCONTACT hContact) {
 	char *uacc = (char *)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, hContact, 0);
 	return uacc;
+}
+
+TCHAR* ProtoGetNickname(const char* proto)
+{
+	CONTACTINFO ci = {sizeof(ci)};
+	ci.dwFlag = CNF_TCHAR | CNF_NICK;
+	ci.szProto = (char*)proto;
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
+		switch (ci.type) {
+		case CNFT_ASCIIZ:
+			return ci.pszVal;
+		case CNFT_DWORD:
+			mir_free(ci.pszVal);
+			ci.pszVal=(TCHAR*)mir_alloc(12*sizeof(TCHAR)); // long can only have up to 11 characters (unsigned = 10)
+			if(ci.pszVal)
+				_ltot(ci.dVal, ci.pszVal, 10);
+			return ci.pszVal;
+		default:
+			mir_free(ci.pszVal);
+		}
+	}
+	return mir_tstrdup(TranslateT("'(Unknown contact)'"));
 }
 
 void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTACT hContact) {

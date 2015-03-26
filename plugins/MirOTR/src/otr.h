@@ -3,6 +3,9 @@
 extern OtrlUserState otr_user_state;
 extern OtrlMessageAppOps ops;
 
+/// @todo : add OTR version 3 instance tag choice (currently we use the most secure/active one)
+#define MIROTR_PROTO_HELLO "?OTRv23?"
+
 extern "C" {
 
 	/* Return the OTR policy for the given context. */
@@ -16,15 +19,7 @@ extern "C" {
 
 	void otr_gui_inject_message(void *opdata, const char *accountname, const char *protocol, const char *recipient, const char *message);
 
-	void otr_gui_notify(void *opdata, OtrlNotifyLevel level, const char *accountname, const char *protocol, const char *username, const char *title, const char *primary, const char *secondary);
-
-	int otr_gui_display_otr_message(void *opdata, const char *accountname, const char *protocol, const char *username, const char *msg);
-
 	void otr_gui_update_context_list(void *opdata);
-
-	const char *otr_gui_protocol_name(void *opdata, const char *protocol);
-
-	void otr_gui_protocol_name_free(void *opdata, const char *protocol_name);
 
 	void otr_gui_new_fingerprint(void *opdata, OtrlUserState us, const char *accountname, const char *protocol, const char *username, unsigned char fingerprint[20]);
 
@@ -36,8 +31,6 @@ extern "C" {
 
 	void otr_gui_still_secure(void *opdata, ConnContext *context, int is_reply);
 
-	void otr_gui_log_message(void *opdata, const char *message);
-
 	int max_message_size(void *opdata, ConnContext *context);
 
 	const char *account_name(void *opdata, const char *account, const char *protocol);
@@ -46,6 +39,12 @@ extern "C" {
 
 	void add_appdata(void *data, ConnContext *context);
 
+	const char* resent_msg_prefix(void *opdata, ConnContext *context);
+	void resent_msg_prefix_free(void *opdata, const char *prefix);
+	
+	void handle_smp_event(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, unsigned short progress_percent, char *question);
+	
+	void handle_msg_event(void *opdata, OtrlMessageEvent msg_event, ConnContext *context, const char *message, gcry_error_t err);
+	
+	void otr_create_instag(void *opdata, const char *accountname, const char *protocol);
 }
-
-gcry_error_t otrl_privkey_write(OtrlUserState us, const char *filename);

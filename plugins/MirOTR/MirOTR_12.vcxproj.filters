@@ -39,6 +39,9 @@
     <ClCompile Include="src\otr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\otrlextensions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -81,6 +84,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\otr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\otrlextensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\resource.h">

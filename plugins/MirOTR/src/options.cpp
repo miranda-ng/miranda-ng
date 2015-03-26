@@ -1,7 +1,11 @@
 #include "stdafx.h"
+extern "C"{
+	#include "otrlextensions.h"
+}
 
-char g_fingerprint_store_filename[MAX_PATH];
 char g_private_key_filename[MAX_PATH];
+char g_fingerprint_store_filename[MAX_PATH];
+char g_instag_filename[MAX_PATH];
 HANDLE hPATH_MIROTR;
 Options options;
 #define DATA_DIRECTORY MIRANDA_USERDATA "\\" MODULENAME
@@ -15,15 +19,19 @@ void SetFilenames(const char *path)
 {
 	if (!path || !path[0]) 
 		return;
-
 	CreateDirectoryTree(path);
-	strcpy(g_fingerprint_store_filename, path);
+	
 	strcpy(g_private_key_filename, path);
-	strcat(g_fingerprint_store_filename, ("\\"));
 	strcat(g_private_key_filename, ("\\"));
-
-	strcat(g_fingerprint_store_filename, FINGERPRINT_STORE_FILENAME);
 	strcat(g_private_key_filename, PRIVATE_KEY_FILENAME);
+	
+	strcpy(g_fingerprint_store_filename, path);
+	strcat(g_fingerprint_store_filename, ("\\"));
+	strcat(g_fingerprint_store_filename, FINGERPRINT_STORE_FILENAME);
+	
+	strcpy(g_instag_filename, path);
+	strcat(g_instag_filename, ("\\"));
+	strcat(g_instag_filename, INSTAG_FILENAME);
 }
 
 int FoldersChanged(WPARAM wParam, LPARAM lParam)
@@ -162,6 +170,7 @@ void ReadPrivkeyFiles() {
 	lib_cs_lock();
 	otrl_privkey_read(otr_user_state, g_private_key_filename);
 	otrl_privkey_read_fingerprints(otr_user_state, g_fingerprint_store_filename, set_context_contact, 0);
+	otrl_instag_read(otr_user_state, g_instag_filename);
 	lib_cs_unlock();
 }
 

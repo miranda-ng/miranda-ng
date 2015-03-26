@@ -71,15 +71,17 @@ void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 
 	if (!chat_room) {
 		MCONTACT hMeta = db_mc_getMeta(hContact);
-		MCONTACT hMostOnline = db_mc_getMostOnline(hMeta);
-		if(hMeta && hContact == hMostOnline)
-			SetEncryptionStatus(hMeta, level);
-		else if(hMeta) {
-			/* in case the new most online contact has changed
-			(e.g. when the otr subcontact goes offline) */
-			ConnContext *context = otrl_context_find_miranda(otr_user_state, hMostOnline);
-			TrustLevel encrypted = otr_context_get_trust(context);
-			SetEncryptionStatus(hMeta, encrypted);
+		if(hMeta){
+			MCONTACT hMostOnline = db_mc_getMostOnline(hMeta);
+			if(hContact == hMostOnline) {
+				SetEncryptionStatus(hMeta, level);
+			} else {
+				/* in case the new most online contact has changed
+				(e.g. when the otr subcontact goes offline) */
+				ConnContext *context = otrl_context_find_miranda(otr_user_state, hMostOnline);
+				TrustLevel encrypted = otr_context_get_trust(context);
+				SetEncryptionStatus(hMeta, encrypted);
+			}
 		}
 	}
 }
