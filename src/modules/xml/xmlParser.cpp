@@ -1317,7 +1317,10 @@ char XMLNode::maybeAddTxT(void *pa, XMLCSTR tokenPStr)
 				n = xstrlen(d->pText[i]);
 				size_t n2 = xstrlen(lpt)+1;
 				d->pText[i] = (XMLSTR)realloc((void*)d->pText[i], (n+n2)*sizeof(XMLCHAR));
-				if (!d->pText[i]) return 1;
+				if (!d->pText[i]) {
+					free(lpt);
+					return 1;
+				}
 				memcpy((void*)(d->pText[i]+n), lpt, n2*sizeof(XMLCHAR));
 				free(lpt);
 				return 0;
