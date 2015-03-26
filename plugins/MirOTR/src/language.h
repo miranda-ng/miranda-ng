@@ -35,13 +35,6 @@
 #define LANG_OTR_INFO						LPGEN("OTR Information")
 #define LANG_INLINE_PREFIX					LPGEN("[OTR INFO] ")
 
-#define LANG_SMP_AUTH_FROM					LPGEN("Authentication from %s")
-#define LANG_SMP_AUTH						LPGEN("Authenticate %s")
-
-#define LANG_UNKNOWN						LPGEN("Unknown")
-#define LANG_OTR_USERMESSAGE				LPGEN("OTR: %s (%s)")
-#define LANG_OTR_NOTIFY						LPGEN("OTR %s (%s)")
-
 #define LANG_FINGERPRINT_VERIFIED			LPGEN("OTR encrypted session with '%s' is now using a VERIFIED fingerprint")
 #define LANG_FINGERPRINT_NOT_VERIFIED		LPGEN("OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint")
 
