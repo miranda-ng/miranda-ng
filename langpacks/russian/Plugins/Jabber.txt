@@ -759,6 +759,8 @@ Jabber ошибка
 Ошибка запроса информации
 [Items request error]
 Ошибка запроса значений
+[Set filter...]
+Фильтр...
 [First Name]
 Имя
 [Last Name]
@@ -2193,5 +2195,3 @@ Jabber vCard: редактирование телефона
 Настроения
 [Activities]
 Занятия
-[Set filter...]
-Фильтр...

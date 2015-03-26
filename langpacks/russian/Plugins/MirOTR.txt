@@ -123,12 +123,6 @@ OTR-шифрование: завершено
 OTR не может шифровать во время отправки сообщения
 [OTR Information]
 Информация OTR
-[Authentication from %s]
-Идентификация от %s
-[Authenticate %s]
-Идентификация %s
-[Unknown]
-Неизвестно
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 Шифрованная сессия с '%s' теперь использует ПРОВЕРЕННЫЙ отпечаток.
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
@@ -243,3 +237,5 @@ OTR: установлен SecureIM
 Личные данные
 [Services]
 Службы
+['(Unknown contact)']
+'(Неизвестный контакт)'
