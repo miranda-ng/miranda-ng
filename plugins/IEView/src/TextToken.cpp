@@ -526,10 +526,9 @@ wchar_t *TextToken::htmlEncode(const wchar_t *str)
 	if (str == NULL)
 		return NULL;
 	int c = 0;
+	bool wasSpace = false;
 	for (ptr = str; *ptr != '\0'; ptr++) {
-		bool wasSpace = false;
 		if (*ptr == ' ' && wasSpace) {
-			wasSpace = true;
 			c += 6;
 		}
 		else {
@@ -542,13 +541,12 @@ wchar_t *TextToken::htmlEncode(const wchar_t *str)
 			case '<': c += 4; break;
 			case '"': c += 6; break;
 			case ' ': wasSpace = true;
-			default: c += 1; break;
+			default: c++;
 			}
 		}
 	}
 	wchar_t *output = new wchar_t[c + 1];
 	for (out = output, ptr = str; *ptr != '\0'; ptr++) {
-		bool wasSpace = false;
 		if (*ptr == ' ' && wasSpace) {
 			wcscpy(out, L"&nbsp;");
 			out += 6;
@@ -563,7 +561,7 @@ wchar_t *TextToken::htmlEncode(const wchar_t *str)
 			case '<': wcscpy(out, L"&lt;"); out += 4; break;
 			case '"': wcscpy(out, L"&quot;"); out += 6; break;
 			case ' ': wasSpace = true;
-			default: *out = *ptr; out += 1; break;
+			default: *out = *ptr; out++;
 			}
 		}
 	}
@@ -754,6 +752,6 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 		}
 		break;
 	}
-	if (eText != NULL) delete eText;
-	if (eLink != NULL) delete eLink;
+	if (eText != NULL) delete[] eText;
+	if (eLink != NULL) delete[] eLink;
 }
