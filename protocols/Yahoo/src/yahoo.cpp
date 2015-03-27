@@ -68,9 +68,7 @@ extern int poll_loop;
 
 char * yahoo_status_code(enum yahoo_status s)
 {
-	int i;
-
-	for(i=0; yahoo_status_codes[i].label; i++)
+	for(int i=0; yahoo_status_codes[i].label; i++)
 		if (yahoo_status_codes[i].id == s)
 			return yahoo_status_codes[i].label;
 		
@@ -79,86 +77,58 @@ char * yahoo_status_code(enum yahoo_status s)
 
 yahoo_status miranda_to_yahoo(int myyahooStatus)
 {
-	yahoo_status ret = YAHOO_STATUS_AVAILABLE;
-
 	switch (myyahooStatus) {
 	case ID_STATUS_OFFLINE:
-		ret = YAHOO_STATUS_OFFLINE;
-		break;
-
+		return YAHOO_STATUS_OFFLINE;
 	case ID_STATUS_FREECHAT:
 	case ID_STATUS_ONLINE: 
-		ret = YAHOO_STATUS_AVAILABLE;
-		break;
-
+		return YAHOO_STATUS_AVAILABLE;
 	case ID_STATUS_AWAY:
-		ret = YAHOO_STATUS_STEPPEDOUT;
-		break;
-
+		return YAHOO_STATUS_STEPPEDOUT;
 	case ID_STATUS_NA:
-		ret = YAHOO_STATUS_BRB;
-		break;
-
+		return YAHOO_STATUS_BRB;
 	case ID_STATUS_OCCUPIED:
-		ret = YAHOO_STATUS_BUSY;
-		break;
-
+		return YAHOO_STATUS_BUSY;
 	case ID_STATUS_DND:
-		ret = YAHOO_STATUS_BUSY;
-		break;
-
+		return YAHOO_STATUS_BUSY;
 	case ID_STATUS_ONTHEPHONE:
-		ret = YAHOO_STATUS_ONPHONE;
-		break;
-
+		return YAHOO_STATUS_ONPHONE;
 	case ID_STATUS_OUTTOLUNCH:
-		ret = YAHOO_STATUS_OUTTOLUNCH;                            
-		break;
-
+		return YAHOO_STATUS_OUTTOLUNCH;
 	case ID_STATUS_INVISIBLE:
-		ret = YAHOO_STATUS_INVISIBLE;
-		break;
-	}                                                
-
-    return ret;
+		return YAHOO_STATUS_INVISIBLE;
+	default:
+		return YAHOO_STATUS_AVAILABLE;
+	}
 }
 
 int yahoo_to_miranda_status(int m_iStatus, int away)
 {
-	int ret = ID_STATUS_OFFLINE;
-
 	switch (m_iStatus) {
 	case YAHOO_STATUS_AVAILABLE: 
-		ret = ID_STATUS_ONLINE;
-		break;
+		return ID_STATUS_ONLINE;
 	case YAHOO_STATUS_BRB:
-		ret = ID_STATUS_NA;
-		break;
+		return ID_STATUS_NA;
 	case YAHOO_STATUS_BUSY:
-		ret = ID_STATUS_OCCUPIED;
-		break;
+		return ID_STATUS_OCCUPIED;
 	case YAHOO_STATUS_ONPHONE:
-		ret = ID_STATUS_ONTHEPHONE;
-		break;
+		return ID_STATUS_ONTHEPHONE;
 	case YAHOO_STATUS_OUTTOLUNCH:
-		ret = ID_STATUS_OUTTOLUNCH;                            
-		break;
+		return ID_STATUS_OUTTOLUNCH;
 	case YAHOO_STATUS_INVISIBLE:
-		ret = ID_STATUS_INVISIBLE;
-		break;
+		return ID_STATUS_INVISIBLE;
 	case YAHOO_STATUS_NOTATHOME:
 	case YAHOO_STATUS_NOTATDESK:
 	case YAHOO_STATUS_NOTINOFFICE:
 	case YAHOO_STATUS_ONVACATION:
 	case YAHOO_STATUS_STEPPEDOUT:
 	case YAHOO_STATUS_IDLE:
-		ret = ID_STATUS_AWAY;
-		break;
+		return ID_STATUS_AWAY;
 	case YAHOO_STATUS_CUSTOM:
-		ret = (away ? ID_STATUS_AWAY:ID_STATUS_ONLINE);
-		break;
+		return (away ? ID_STATUS_AWAY:ID_STATUS_ONLINE);
+	default:
+		return ID_STATUS_OFFLINE;
 	}
-	return ret;
 }
 
 void CYahooProto::set_status(int myyahooStatus, char *msg, int away)
@@ -340,15 +310,14 @@ MCONTACT CYahooProto::add_buddy(const char *yahoo_id, const char *yahoo_name, in
 const char* CYahooProto::find_buddy( const char *yahoo_id)
 {
 	static char nick[128];
-	MCONTACT hContact;
 	DBVARIANT dbv;
 
-	hContact = getbuddyH(yahoo_id);
+	MCONTACT hContact = getbuddyH(yahoo_id);
 	if (hContact != NULL) {
 		if (GetStringUtf(hContact, "Nick", &dbv))
 			return NULL;
 
-		strncpy(nick, dbv.pszVal, 128);
+		strncpy(nick, dbv.pszVal, sizeof(nick)-1);
 		db_free(&dbv);
 		return nick;
 	}
@@ -961,7 +930,7 @@ void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, con
 			mir_strcat(z, "\r\n\r\nhttp://games.yahoo.com/games/");
 			mir_strcat(z, u);
 			c = strchr(z, 0x09);
-			(*c) = '\0';
+			if (c) (*c) = '\0';
 		}
 
 		SetStringUtf(hContact, "YGMsg", z);
@@ -1129,7 +1098,7 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 	}
 	else if (succ == YAHOO_LOGIN_LOCK) {
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it."), url);
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it."), _A2T(url));
 	}
 	else if (succ == YAHOO_LOGIN_DUPL) {
 		mir_sntprintf(buff, SIZEOF(buff), TranslateT("You have been logged out of the Yahoo service, possibly due to a duplicate login."));
