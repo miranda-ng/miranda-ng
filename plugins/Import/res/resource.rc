@@ -60,7 +60,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click ""Other Profile"" if your profile is not listed, or if the list is empty.",IDC_STATIC,5,10,210,24
     LISTBOX         IDC_LIST,5,36,210,36,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "&Other Profile...",IDC_OTHER,149,74,66,14
+    PUSHBUTTON      "&Other Profile...",IDC_OTHER,145,74,70,14
     RTEXT           "&Filename:",IDC_STATIC,5,93,34,8
     EDITTEXT        IDC_FILENAME,41,91,174,12,ES_AUTOHSCROLL
 END
