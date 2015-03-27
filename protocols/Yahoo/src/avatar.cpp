@@ -133,7 +133,7 @@ void CYahooProto::SendAvatar(const TCHAR *szFile)
 	sf->filesize = statbuf.st_size;
 
 	wchar_t tszFilename[MAX_PATH];
-	wcscpy(tszFilename, szFile);
+	wcsncpy(tszFilename, szFile, SIZEOF(szFile)-1);
 	GetShortPathNameW(szFile, tszFilename, SIZEOF(tszFilename));
 	char szFilename[MAX_PATH];
 	WideCharToMultiByte(CP_ACP, 0, tszFilename, -1, szFilename, MAX_PATH, 0, 0);
@@ -152,7 +152,6 @@ struct avatar_info{
 
 void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 {
-	PROTO_AVATAR_INFORMATIONT AI;
 	struct avatar_info *avt = ( avatar_info* )pavt;
 	int 	error = 0;
 	TCHAR  buf[4096];
@@ -203,13 +202,11 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 				LOG(("No data??? Got %d bytes.", nlhrReply->dataLength));
 				error = 1;
 			} else {
-				HANDLE myhFile;
-
 				GetAvatarFileName(hContact, buf, 1024, getByte(hContact, "AvatarType", 0));
 				DeleteFile(buf);
 
 				LOG(("Saving file: %s size: %u", buf, nlhrReply->dataLength));
-				myhFile = CreateFile(buf,
+				HANDLE myhFile = CreateFile(buf,
 					GENERIC_WRITE,
 					FILE_SHARE_WRITE,
 					NULL, OPEN_ALWAYS,  FILE_ATTRIBUTE_NORMAL,  0);
@@ -244,11 +241,12 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 	free(avt->who);
 	free(avt->pic_url);
 	free(avt);
-
+	
+	PROTO_AVATAR_INFORMATIONT AI;
 	AI.cbSize = sizeof AI;
 	AI.format = PA_FORMAT_PNG;
 	AI.hContact = hContact;
-	_tcsncpy(AI.filename, buf, SIZEOF(AI.filename));
+	_tcsncpy(AI.filename, buf, SIZEOF(AI.filename)-1);
 
 	if (error)
 		setDword(hContact, "PictCK", 0);
@@ -450,11 +448,9 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 
 void CYahooProto::ext_got_picture_checksum(const char *me, const char *who, int cksum)
 {
-	MCONTACT hContact = 0;
-
 	LOG(("ext_yahoo_got_picture_checksum for %s checksum: %d", who, cksum));
 
-	hContact = getbuddyH(who);
+	MCONTACT hContact = getbuddyH(who);
 	if (hContact == NULL) {
 		LOG(("Buddy Not Found. Skipping avatar update"));
 		return;
@@ -472,7 +468,7 @@ void CYahooProto::ext_got_picture_checksum(const char *me, const char *who, int 
 
 			// Need to delete the Avatar File!!
 			TCHAR szFile[MAX_PATH];
-			GetAvatarFileName(hContact, szFile, sizeof szFile, 0);
+			GetAvatarFileName(hContact, szFile, SIZEOF(szFile)-1, 0);
 			DeleteFile(szFile);
 
 			// Reset the avatar and cleanup.
@@ -488,11 +484,9 @@ void CYahooProto::ext_got_picture_checksum(const char *me, const char *who, int 
 
 void CYahooProto::ext_got_picture_update(const char *me, const char *who, int buddy_icon)
 {
-	MCONTACT hContact = 0;
-
 	LOG(("ext_got_picture_update for %s buddy_icon: %d", who, buddy_icon));
 
-	hContact = getbuddyH(who);
+	MCONTACT hContact = getbuddyH(who);
 	if (hContact == NULL) {
 		LOG(("Buddy Not Found. Skipping avatar update"));
 		return;
@@ -806,12 +800,7 @@ INT_PTR __cdecl CYahooProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 		DeleteFile(tszMyFile);
 	} else {
-		DWORD  dwPngSize, dw;
-		BYTE* pResult;
-		unsigned int hash;
-		HANDLE  hFile;
-
-		hFile = CreateFile(tszFile,
+		HANDLE hFile = CreateFile(tszFile,
 			GENERIC_READ,
 			FILE_SHARE_READ|FILE_SHARE_WRITE,
 			NULL,
@@ -822,10 +811,14 @@ INT_PTR __cdecl CYahooProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 		if ( hFile ==  INVALID_HANDLE_VALUE )
 			return 1;
 
-		dwPngSize = GetFileSize( hFile, NULL);
-		if (( pResult = ( BYTE* )malloc( dwPngSize )) == NULL)
+		DWORD dwPngSize = GetFileSize( hFile, NULL);
+		BYTE *pResult = ( BYTE* )malloc(dwPngSize);
+		if (pResult == NULL) {
+			CloseHandle(hFile);
 			return 2;
+		}
 
+		DWORD dw;
 		ReadFile( hFile, pResult, dwPngSize, &dw, NULL);
 		CloseHandle( hFile );
 
@@ -842,7 +835,7 @@ INT_PTR __cdecl CYahooProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 		SetEndOfFile( hFile);
 		CloseHandle( hFile );
 
-		hash = YAHOO_avt_hash(( const char* )pResult, dwPngSize);
+		unsigned int hash = YAHOO_avt_hash(( const char* )pResult, dwPngSize);
 		free( pResult );
 
 		if ( hash ) {

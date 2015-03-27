@@ -106,6 +106,7 @@ void ext_yahoo_conf_userjoin(int id, const char *me, const char *who, const char
 	if (!ppro) return;
 
 	CYahooProto::ChatRoom *cm = ppro->m_chatrooms.find((CYahooProto::ChatRoom*)&room);
+	if (!cm) return;
 	for (YList *l = cm->members; l; l = l->next)
 	{
 		if (!strcmp(who, (char*)l->data))

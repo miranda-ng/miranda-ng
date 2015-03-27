@@ -367,9 +367,7 @@ int __cdecl CYahooProto::SetStatus(int iNewStatus)
 	LOG(("[SetStatus] New status %S", pcli->pfnGetStatusModeDescription(iNewStatus, 0)));
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-
 		logout();
-
 	}
 	else if (!m_bLoggedIn) {
 		DBVARIANT dbv;
@@ -422,9 +420,6 @@ int __cdecl CYahooProto::SetStatus(int iNewStatus)
 			ShowError(TranslateT("Yahoo Login Error"), _A2T(errmsg));
 			return 0;
 		}
-
-		if (iNewStatus == ID_STATUS_OFFLINE)
-			iNewStatus = ID_STATUS_ONLINE;
 
 		FREE(m_pw_token); // No Token yet.
 
