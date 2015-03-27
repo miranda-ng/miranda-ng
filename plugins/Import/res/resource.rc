@@ -95,7 +95,7 @@ BEGIN
                     "Button",BS_AUTORADIOBUTTON | BS_LEFT | BS_TOP | WS_TABSTOP,8,38,206,10
     CONTROL         "Only import contacts",IDC_RADIO_CONTACTS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,7,68,206,10
     CONTROL         "Custom import",IDC_RADIO_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_DISABLED | WS_TABSTOP,7,98,206,10
-    LTEXT           "Makes precise copy of the original profile, including all settings, contacts and history",IDC_STATIC,27,18,187,16
+    LTEXT           "Makes precise copy of the original profile, including all settings, contacts and history.",IDC_STATIC,27,18,187,16
     LTEXT           "Imports only contacts and history, and a few settings. Ideal for synchronizing.",IDC_STATIC_ALL,26,48,187,16
     LTEXT           "Imports contacts only, doesn't import any message history.",IDC_STATIC_CONTACTS,26,78,187,16
     LTEXT           "Custom schema: you can choose what to import.",IDC_STATIC_CUSTOM,26,108,187,8,WS_DISABLED
