@@ -43,18 +43,22 @@
 Скасувати
 [< &Back]
 < &Назад
+[Import all settings, contacts and all messages]
+Імпортувати всі налаштування, контакти і повідомлення
 [Import all contacts and all messages]
-Імпортувати контакти та повідомлення
-[Select this if you want to import as much data as possible. This is the recommended option.]
-Виберіть цю опцію, щоб імпортувати якомога більше даних (рекомендується).
+Імпортувати контакти і повідомлення
 [Only import contacts]
 Імпортувати контакти
-[Select this if you want to import contacts but don't want to import any message history.]
-Виберіть цю опцію, щоб імпортувати контакти (без історії повідомлень).
 [Custom import]
 Імпорт вручну
-[Select this if you want to customize what to import.]
-Виберіть цю опцію, щоб вказати, що саме імпортувати
+[Makes precise copy of the original profile, including all settings, contacts and history.]
+Створює точну копію оригінального профілю з усіма налаштуваннями, контактами та історією повідомлень.
+[Imports only contacts and history, and a few settings. Ideal for synchronizing.]
+Імпортує контакти, історію повідомлень і деякі налаштування (рекомендується).
+[Imports contacts only, doesn't import any message history.]
+Імпортує тільки контакти (без історії повідомлень).
+[Custom schema: you can choose what to import.]
+Ви вибираєте, що саме імпортувати.
 [New contacts && groups]
 Нові контакти і групи
 [System history]
