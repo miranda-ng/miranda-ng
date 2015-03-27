@@ -169,7 +169,7 @@ TCHAR* ProtoGetNickname(const char* proto)
 			mir_free(ci.pszVal);
 		}
 	}
-	return mir_tstrdup(TranslateT("'(Unknown contact)'"));
+	return mir_tstrdup(_T(""));
 }
 
 void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTACT hContact) {
