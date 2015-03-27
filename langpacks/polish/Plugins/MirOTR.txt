@@ -28,6 +28,8 @@ Zamknij sesję podczas zamykania okna
 Zamknij sesję kiedy kontakt rozłącza się
 [Prefix encrypted IMs:]
 Prefiks szyfrowanych wiadomości:
+[don't rely on the prefix, always check the OTR status icon]
+Nie polegaj na prefiksie, zawsze sprawdzaj ikonę statusu OTR
 [Don't add encrypted messages to the history]
 Nie dodawaj szyfrowanych wiadomości do historii
 [Also remove OTR system messages]
@@ -127,16 +129,6 @@ OTR nie mogło zaszyfrować wiadomości podczas jej wysyłania
 Informacje OTR
 [[OTR INFO] ]
 Info OTR
-[Authentication from %s]
-Uwierzytelnienie od "%s"
-[Authenticate %s]
-Autoryzuj %s
-[Unknown]
-Nieznany
-[OTR: %s (%s)]
-OTR: %s (%s)
-[OTR %s (%s)]
-OTR %s (%s)
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 Szyfrowana sesja OTR z "%s" używa teraz zweryfikowanego odcisku palca
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
@@ -253,3 +245,32 @@ Status OTR
 Dane Prywatne
 [Services]
 Usługi
+;file \plugins\MirOTR\src\otr.cpp
+[\nusing older protocol version %i]
+\nużywanie starszej wersji protokołu %i
+[Attempting to start a private conversation...]
+Próba rozpoczęcia rozmowy prywatnej...
+[An error occurred when encrypting your message.\nThe message was not sent]
+Wystąpił błąd podczas szyfrowania twojej wiadomości.\nWiadomość nie została wysłana
+['%s' has already closed his/her private connection to you; you should do the same]
+"%s" zamknął już prywatne połączenie z Tobą; powinieneś zrobić to samo
+[Error setting up private conversation: %s]
+Błąd ustanawiania rozmowy prywatnej:  %s
+[Malformed message received]
+Otrzymano zniekształconą wiadomość
+[We are receiving our own OTR messages.\nYou are either trying to talk to yourself, or someone is reflecting your messages back at you]
+Otrzymujemy swoje własne wiadomości OTR.\nPróbujesz rozmawiać z samym sobą lub ktoś odbija twoje wiadomości do Ciebie.
+[The last message to '%s' was resent]
+Ostatnia wiadomość do "%s" została wysłana ponownie
+[The encrypted message received from '%s' is unreadable, as you are not currently communicating privately]
+Zaszyfrowana wiadomość od "%s" jest nieczytelna, ponieważ nie komunikujecie się prywatnie
+[We received an unreadable encrypted message from '%s']
+Otrzymaliśmy nieczytelną, zaszyfrowaną wiadomość od "%s"
+[We received a malformed data message from '%s']
+Otrzymaliśmy wiadomość ze zniekształconymi danymi od "%s"
+[The following message received from '%s' was NOT encrypted: [%s]]
+Następująca wiadomość, otrzymana od "%s", nie została zaszyfrowana: [%s]
+['%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message.]
+"%s" wysłał wiadomość przeznaczoną dla innej sesji. Jeżeli jesteś zalogowany wielokrotnie, inna sesja mogła otrzymać wiadomość.
+[unknown OTR message received, please report that to Miranda NG]
+Otrzymano nieznaną wiadomość OTR, proszę zgłosić to Miranda NG
