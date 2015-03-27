@@ -29,7 +29,7 @@
 [Import all contacts and all messages]
 [Only import contacts]
 [Custom import]
-[Makes precise copy of the original profile, including all settings, contacts and history]
+[Makes precise copy of the original profile, including all settings, contacts and history.]
 [Imports only contacts and history, and a few settings. Ideal for synchronizing.]
 [Imports contacts only, doesn't import any message history.]
 [Custom schema: you can choose what to import.]
