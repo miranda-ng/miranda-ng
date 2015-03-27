@@ -1957,6 +1957,9 @@ Pokaż/Zmień moje &dane...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s jest Dostępny
+;file \src\mir_core\src\ui_utils.cpp
+[Account]
+Konto
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Dodaj kontakt
@@ -2569,6 +2572,42 @@ Musisz wyłączyć wtyczkę, by usunąć to konto.
 [&Accounts...]
 &Konta...
 ;file \src\modules\skin\hotkey_opts.cpp
+[Browser: Back]
+Przeglądarka: wstecz
+[Browser: Forward]
+Przeglądarka: do przodu
+[Browser: Refresh]
+Przeglądarka: odśwież
+[Browser: Stop]
+Przeglądarka: zatrzymaj
+[Browser: Search]
+Przeglądarka: szukaj
+[Browser: Fav]
+Przeglądarka: ulubione
+[Browser: Home]
+Przeglądarka: strona główna
+[Mute]
+Wycisz
+[Vol-]
+Głośność-
+[Vol+]
+Głośność+
+[Media: Next Track]
+Multimedia: następny utwór
+[Media: Prev. Track]
+Multimedia: poprzedni utwór
+[Media: Stop]
+Multimedia: stop
+[Media: Play/Pause]
+Multimedia: odtwarzaj/pauza
+[Mail]
+E-mail
+[Media: Select]
+Media: wybierz
+[App 1]
+Aplikacja 1
+[App 2]
+Aplikacja 2
 [Ctrl + ]
 Ctrl +\s
 [Alt + ]

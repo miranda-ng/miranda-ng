@@ -46,20 +46,20 @@ Anuluj
 < &Wstecz
 [Import all settings, contacts and all messages]
 Importuj wszystkie ustawienia, kontakty i wszystkie wiadomości
-[Makes precise copy of the original profile]
-Tworzy precyzyjną kopię profilu źródłowego
 [Import all contacts and all messages]
 Importuj wszystkie kontakty i wiadomości
-[Select this if you want to import as much data as possible. This is the recommended option.]
-Wybierz tą opcję jeśli chcesz zaimportować tyle danych ile to możliwe. Ta opcja jest zalecana.
 [Only import contacts]
 Importuj tylko kontakty
-[Select this if you want to import contacts but don't want to import any message history.]
-Wybierz tą opcję jeśli chcesz zaimportować kontakty, ale bez wiadomości i historii.
 [Custom import]
 Importuj niestandardowe
-[Select this if you want to customize what to import.]
-Wybierz tą opcję jeśli chcesz ustalić informacje do zaimportowania.
+[Makes precise copy of the original profile, including all settings, contacts and history.]
+Tworzy dokładną kopię oryginau profilu uwzględniającą wszystkie ustawieni,a kontakty i historię rozmów.
+[Imports only contacts and history, and a few settings. Ideal for synchronizing.]
+Importuje jedynie kontakty, historię i niektóre ustawienia. Idealny do synchronizacji.
+[Imports contacts only, doesn't import any message history.]
+Importuje jedynie kontakty, nie importuje żadnej historii wiadomości.
+[Custom schema: you can choose what to import.]
+Własny schemat: możesz wybrać co chcesz importować.
 [New contacts && groups]
 Nowe kontakty i grupy
 [System history]
