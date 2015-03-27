@@ -18,7 +18,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const PROTOCHAR* _desc, PROTOCHAR** _files) :
-hContact(_hContact), filetype(typeInvalid), atr(NULL), fname(NULL), iErrorCode(0)
+	hContact(_hContact), 
+	filetype(typeInvalid), 
+	atr(NULL), 
+	fname(NULL), 
+	iErrorCode(0)
 {
 	Desc = mir_tstrdup(_desc);
 	FileName = mir_tstrdup(_files[0]);
