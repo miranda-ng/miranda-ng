@@ -170,7 +170,7 @@ int CVkProto::PollServer()
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = mir_strdup(szReqUrl.GetBuffer());
-	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT | NLHRF_HTTP11;
+	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;
 	req.timeout = 30000;
 	req.nlc = m_pollingConn;
 
