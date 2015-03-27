@@ -8,7 +8,7 @@ extern OtrlMessageAppOps ops;
 #define MIROTR_PROTO_HELLO "?OTRv23?"
 /* OTR link normally is https://otr.cypherpunks.ca/ but it's blocked by ICQ as of March 2015 (even something like "ot-r.cyp her_ pun ks. ca")
 	It might be a good idea to use http://wikipedia.org/wiki/Off-the-Record_Messaging instead as it's not yet blocked by ICQ but might still help users to find a client/plugin */
-#define MIROTR_PROTO_HELLO_MSG _T(" has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee http://wikipedia.org/wiki/Off-the-Record_Messaging for more information.")
+#define MIROTR_PROTO_HELLO_MSG LPGENT(" has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee http://wikipedia.org/wiki/Off-the-Record_Messaging for more information.")
 
 extern "C" {
 
