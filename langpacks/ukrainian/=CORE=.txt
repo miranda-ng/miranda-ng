@@ -1903,6 +1903,8 @@ URL від %s
 Особисті дані...
 [%s is online]
 %s в мережі
+[Account]
+Обліковий запис
 [Add contact]
 Додати контакт
 [Please authorize my request and add me to your contact list.]

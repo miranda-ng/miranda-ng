@@ -761,6 +761,8 @@ xHTML-формат повідомлень чату
 Помилка запиту інформації
 [Items request error]
 Помилка запиту значень
+[Set filter...]
+Фільтр...
 [One or more addresses for communication related to abusive traffic]
 Одна або кілька адрес для зв'язку з питань скарг
 [One or more addresses for customer feedback]
@@ -2475,5 +2477,3 @@ Jabber vCard: редагування телефону
 Настрої
 [Activities]
 Заняття
-[Set filter...]
-Фільтр...

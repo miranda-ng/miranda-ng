@@ -123,12 +123,6 @@ OTR: Створення приватного ключа
 OTR не може шифрувати під час відправлення повідомлення
 [OTR Information]
 Інформація OTR
-[Authentication from %s]
-Ідентифікація від %s
-[Authenticate %s]
-Ідентифікація %s
-[Unknown]
-Невідомо
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 Шифрована сесія з '%s' використовує ПЕРЕВІРЕНИЙ відбиток.
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
