@@ -67,7 +67,7 @@ BEGIN
     CONTROL         "Don't add encrypted messages to the history",IDC_CHK_PREVENTSAVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,118,265,10
     CONTROL         "Also remove OTR system messages",IDC_CHK_PREVENTSYSSAVE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,130,245,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,130,245,10
     CONTROL         "Show OTR system messages inline",IDC_CHK_MSGINLINE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,142,265,10
     CONTROL         "Show OTR system messages as popup",IDC_CHK_MSGPOPUP,
