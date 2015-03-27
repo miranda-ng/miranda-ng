@@ -243,8 +243,7 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 			Utils::appendIcon(&output, &outputSize, iconFile);
 		}
 		if (dwData & IEEDD_GC_SHOW_TIME) {
-			Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s </span>",
-				isSent ? "timestamp" : "timestamp", timestampToString(eventData->time));
+			Utils::appendText(&output, &outputSize, "<span class=\"timestamp\">%s </span>", timestampToString(eventData->time));
 		}
 		if ((dwData & IEEDD_GC_SHOW_NICK) && eventData->iType == IEED_GC_EVENT_MESSAGE) {
 			Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s: </span>",

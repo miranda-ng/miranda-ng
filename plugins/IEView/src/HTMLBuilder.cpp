@@ -487,9 +487,10 @@ void HTMLBuilder::setLastIEViewEvent(IEVIEWEVENT *event)
 
 void HTMLBuilder::clear(IEView *view, IEVIEWEVENT *event)
 {
-	if (event != NULL)
+	if (event != NULL) {
 		setLastIEViewEvent(event);
 
-	if (lastIEViewEvent.pszProto != NULL || event->hContact == NULL)
-		buildHead(view, &lastIEViewEvent);
+		if (lastIEViewEvent.pszProto != NULL || event->hContact == NULL)
+			buildHead(view, &lastIEViewEvent);
+	}
 }
