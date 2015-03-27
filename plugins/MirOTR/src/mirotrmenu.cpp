@@ -110,14 +110,14 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam,LPARAM)
 					mir_tstrncpy(text,TranslateT(LANG_STATUS_PRIVATE),SIZEOF(text));
 					size_t len = mir_tstrlen(text);
 					if(len < SIZEOF(text))
-						mir_sntprintf(text+len, SIZEOF(text)-len, TranslateT(" [v%i]"), context->protocol_version);
+						mir_sntprintf(text+len, SIZEOF(text)-len, _T(" [v%i]"), context->protocol_version);
 					break;}
 				case TRUST_UNVERIFIED:{
 					mi.hIcolibItem = GetIconHandle(ICON_UNVERIFIED);
 					mir_tstrncpy(text,TranslateT(LANG_STATUS_UNVERIFIED),SIZEOF(text));
 					size_t len = mir_tstrlen(text);
 					if(len < SIZEOF(text))
-						mir_sntprintf(text+len, SIZEOF(text)-len, TranslateT(" [v%i]"), context->protocol_version);
+						mir_sntprintf(text+len, SIZEOF(text)-len, _T(" [v%i]"), context->protocol_version);
 					break;}
 				case TRUST_FINISHED:
 					mi.hIcolibItem = GetIconHandle(ICON_FINISHED);
