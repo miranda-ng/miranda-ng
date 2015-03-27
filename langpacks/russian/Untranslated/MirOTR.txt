@@ -1,6 +1,5 @@
 ﻿[don't rely on the prefix, always check the OTR status icon]
 [[OTR INFO] ]
-[ [v%i]]
 [\nusing older protocol version %i]
 [Attempting to start a private conversation...]
 [An error occurred when encrypting your message.\nThe message was not sent]
