@@ -122,7 +122,6 @@
 [OTR: SecureIM installed]
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 ;file \plugins\MirOTR\src\mirotrmenu.cpp
-[ [v%i]]
 [MirOTR menu]
 [OTR Status]
 ;file \plugins\MirOTR\src\options.cpp
@@ -143,5 +142,3 @@
 [The following message received from '%s' was NOT encrypted: [%s]]
 ['%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message.]
 [unknown OTR message received, please report that to Miranda NG]
-;file \plugins\MirOTR\src\utils.cpp
-['(Unknown contact)']
