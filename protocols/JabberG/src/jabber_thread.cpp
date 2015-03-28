@@ -1348,10 +1348,8 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 	if (szMessage == NULL)
 		return;
 
-	ptrT tmp(JabberUnixToDosT(szMessage));
-	if (tmp == NULL)
-		tmp = mir_tstrdup(_T(""));
-
+	CMString tmp(szMessage);
+	tmp.Replace(_T("\n"), _T("\r\n"));
 	ptrA buf(mir_utf8encodeW(tmp));
 
 	if (item != NULL) {

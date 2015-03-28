@@ -981,9 +981,9 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 			else if (!mir_tstrcmp(xmlGetName(n), _T("DESC"))) {
 				if (!hasDesc && xmlGetText(n) != NULL) {
 					hasDesc = true;
-					TCHAR *szMemo = JabberUnixToDosT(xmlGetText(n));
-					setTString(hContact, "About", szMemo);
-					mir_free(szMemo);
+					CMString tszMemo(xmlGetText(n));
+					tszMemo.Replace(_T("\n"), _T("\r\n"));
+					setTString(hContact, "About", tszMemo);
 				}
 			}
 			else if (!mir_tstrcmp(xmlGetName(n), _T("PHOTO")))
