@@ -208,58 +208,6 @@ TCHAR* __stdcall JabberStrFixLines(const TCHAR *str)
 	return buf;
 }
 
-char* __stdcall JabberUnixToDos(const char* str)
-{
-	char* p, *q, *res;
-	int extra;
-
-	if (str == NULL || str[0] == '\0')
-		return NULL;
-
-	extra = 0;
-	for (p = (char*)str; *p != '\0'; p++) {
-		if (*p == '\n')
-			extra++;
-	}
-	if ((res = (char*)mir_alloc(strlen(str) + extra + 1)) != NULL) {
-		for (p = (char*)str, q = res; *p != '\0'; p++, q++) {
-			if (*p == '\n') {
-				*q = '\r';
-				q++;
-			}
-			*q = *p;
-		}
-		*q = '\0';
-	}
-	return res;
-}
-
-WCHAR* __stdcall JabberUnixToDosW(const WCHAR* str)
-{
-	if (str == NULL || str[0] == '\0')
-		return NULL;
-
-	const WCHAR* p;
-	WCHAR* q, *res;
-	int extra = 0;
-
-	for (p = str; *p != '\0'; p++)
-		if (*p == '\n')
-			extra++;
-
-	if ((res = (WCHAR*)mir_alloc(sizeof(WCHAR)*(wcslen(str) + extra + 1))) != NULL) {
-		for (p = str, q = res; *p != '\0'; p++, q++) {
-			if (*p == '\n') {
-				*q = '\r';
-				q++;
-			}
-			*q = *p;
-		}
-		*q = '\0';
-	}
-	return res;
-}
-
 void __stdcall JabberHttpUrlDecode(TCHAR *str)
 {
 	TCHAR *p, *q;

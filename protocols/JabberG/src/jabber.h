@@ -745,8 +745,6 @@ TCHAR*                  JabberPrepareJid(LPCTSTR jid);
 void          __stdcall JabberUrlDecodeW(WCHAR *str);
 char*         __stdcall JabberSha1(const char *str, JabberShaStrBuf buf);
 TCHAR*        __stdcall JabberStrFixLines(const TCHAR *str);
-char*         __stdcall JabberUnixToDos(const char *str);
-WCHAR*        __stdcall JabberUnixToDosW(const WCHAR *str);
 void          __stdcall JabberHttpUrlDecode(TCHAR *str);
 int           __stdcall JabberCombineStatus(int status1, int status2);
 TCHAR*        __stdcall JabberErrorStr(int errorCode);
@@ -760,8 +758,6 @@ LPCTSTR       __stdcall JabberGetPictureType(HXML node, const char *picBuf);
 
 TCHAR* time2str(time_t _time, TCHAR *buf, size_t bufLen);
 time_t str2time(const TCHAR*);
-
-#define JabberUnixToDosT JabberUnixToDosW
 
 const TCHAR *JabberStrIStr(const TCHAR *str, const TCHAR *substr);
 void JabberCopyText(HWND hwnd, const TCHAR *text);

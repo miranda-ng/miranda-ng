@@ -82,7 +82,7 @@ public:
 	void setLink(const wchar_t *wlink);
 
 	void toString(wchar_t **str, int *sizeAlloced);
-	wchar_t* htmlEncode(const wchar_t *str);
+	static wchar_t* htmlEncode(const wchar_t *str);
 
 	static TextToken* tokenizeLinks(const wchar_t *wtext);
 	static TextToken* tokenizeSmileys(MCONTACT hContact, const char *proto, const wchar_t *wtext, bool isSent);
