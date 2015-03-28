@@ -316,7 +316,6 @@ int CJabberProto::ByteSendParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* b
 	int nMethods;
 	BYTE data[10];
 	int i;
-	char* str;
 
 	switch (jbt->state) {
 	case JBT_INIT:
@@ -368,30 +367,29 @@ int CJabberProto::ByteSendParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* b
 			mir_free(szInitiatorJid);
 			mir_free(szTargetJid);
 
-			char* szAuthString = mir_utf8encodeT(text);
+			ptrA szAuthString(mir_utf8encodeT(text));
 			debugLogA("Auth: '%s'", szAuthString);
-			if ((str = JabberSha1(szAuthString)) != NULL) {
-				for (i=0; i<40 && buffer[i+5]==str[i]; i++);
-				mir_free(str);
 
-				memset(data, 0, sizeof(data));
-				data[1] = (i>=20)?0:2;
-				data[0] = 5;
-				data[3] = 1;
-				Netlib_Send(hConn, (char*)data, 10, 0);
+			JabberShaStrBuf buf;
+			JabberSha1(szAuthString, buf);
+			for (i=0; i<40 && buffer[i+5]==buf[i]; i++);
 
-				// wait stream activation
-				WaitForSingleObject(jbt->hSendEvent, INFINITE);
+			memset(data, 0, sizeof(data));
+			data[1] = (i>=20)?0:2;
+			data[0] = 5;
+			data[3] = 1;
+			Netlib_Send(hConn, (char*)data, 10, 0);
 
-				if (jbt->state == JBT_ERROR)
-					break;
+			// wait stream activation
+			WaitForSingleObject(jbt->hSendEvent, INFINITE);
 
-				if (i>=20 && (this->*jbt->pfnSend)(hConn, jbt->ft)==TRUE)
-					jbt->state = JBT_DONE;
-				else
-					jbt->state = JBT_ERROR;
-			}
-			mir_free(szAuthString);
+			if (jbt->state == JBT_ERROR)
+				break;
+
+			if (i>=20 && (this->*jbt->pfnSend)(hConn, jbt->ft)==TRUE)
+				jbt->state = JBT_DONE;
+			else
+				jbt->state = JBT_ERROR;
 		}
 		else
 			jbt->state = JBT_ERROR;
@@ -520,9 +518,10 @@ int CJabberProto::ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, ch
 
 			char* szAuthString = mir_utf8encodeT(text);
 			debugLogA("Auth: '%s'", szAuthString);
-			char* szHash = JabberSha1(szAuthString);
-			strncpy_s((char*)(data + 5), 40, szHash, _TRUNCATE);
-			mir_free(szHash);
+
+			JabberShaStrBuf buf;
+			strncpy_s((char*)(data + 5), 40, JabberSha1(szAuthString, buf), _TRUNCATE);
+
 			Netlib_Send(hConn, (char*)data, 47, 0);
 			jbt->state = JBT_CONNECT;
 			mir_free(szAuthString);
@@ -713,9 +712,10 @@ int CJabberProto::ByteReceiveParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char
 			mir_free(szTargetJid);
 			char* szAuthString = mir_utf8encodeT(text);
 			debugLogA("Auth: '%s'", szAuthString);
-			char* szHash = JabberSha1(szAuthString);
-			strncpy_s((char*)(data + 5), 40, szHash, _TRUNCATE);
-			mir_free(szHash);
+
+			JabberShaStrBuf buf;
+			strncpy_s((char*)(data + 5), 40, JabberSha1(szAuthString, buf), _TRUNCATE);
+
 			Netlib_Send(hConn, (char*)data, 47, 0);
 			jbt->state = JBT_CONNECT;
 			mir_free(szAuthString);
