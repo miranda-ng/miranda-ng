@@ -216,14 +216,11 @@ void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo*)
 		HXML query = iq << XQUERY(_T("jabber:iq:auth"));
 		query << XCHILD(_T("username"), m_ThreadInfo->conn.username);
 		if (xmlGetChild(queryNode, "digest") != NULL && m_ThreadInfo->szStreamId) {
-			char* str = mir_utf8encodeT(m_ThreadInfo->conn.password);
+			JabberShaStrBuf buf;
+			ptrA str(mir_utf8encodeT(m_ThreadInfo->conn.password));
 			char text[200];
 			mir_snprintf(text, SIZEOF(text), "%s%s", m_ThreadInfo->szStreamId, str);
-			mir_free(str);
-			if ((str = JabberSha1(text)) != NULL) {
-				query << XCHILD(_T("digest"), _A2T(str));
-				mir_free(str);
-			}
+			query << XCHILD(_T("digest"), _A2T(JabberSha1(text, buf)));
 		}
 		else if (xmlGetChild(queryNode, "password") != NULL)
 			query << XCHILD(_T("password"), m_ThreadInfo->conn.password);

@@ -738,22 +738,21 @@ struct TStringPairs
 	TStringPairsElem* elems;
 };
 
+typedef char JabberShaStrBuf[2*MIR_SHA1_HASH_SIZE + 1];
+
 TCHAR*        __stdcall JabberNickFromJID(const TCHAR *jid);
 TCHAR*                  JabberPrepareJid(LPCTSTR jid);
-char*         __stdcall JabberUrlDecode(char* str);
-void          __stdcall JabberUrlDecodeW(WCHAR* str);
-char*         __stdcall JabberUrlEncode(const char* str);
-char*         __stdcall JabberSha1(char* str);
+void          __stdcall JabberUrlDecodeW(WCHAR *str);
+char*         __stdcall JabberSha1(const char *str, JabberShaStrBuf buf);
 TCHAR*        __stdcall JabberStrFixLines(const TCHAR *str);
-char*         __stdcall JabberUnixToDos(const char* str);
-WCHAR*        __stdcall JabberUnixToDosW(const WCHAR* str);
-void          __stdcall JabberHttpUrlDecode(TCHAR* str);
+char*         __stdcall JabberUnixToDos(const char *str);
+WCHAR*        __stdcall JabberUnixToDosW(const WCHAR *str);
+void          __stdcall JabberHttpUrlDecode(TCHAR *str);
 int           __stdcall JabberCombineStatus(int status1, int status2);
 TCHAR*        __stdcall JabberErrorStr(int errorCode);
-TCHAR*        __stdcall JabberErrorMsg(HXML errorNode, int* errorCode = NULL);
-void          __stdcall JabberUtfToTchar(const char* str, size_t cbLen, LPTSTR& dest);
+TCHAR*        __stdcall JabberErrorMsg(HXML errorNode, int *errorCode = NULL);
 time_t        __stdcall JabberIsoToUnixTime(const TCHAR *stamp);
-TCHAR*        __stdcall JabberStripJid(const TCHAR *jid, TCHAR* dest, size_t destLen);
+TCHAR*        __stdcall JabberStripJid(const TCHAR *jid, TCHAR *dest, size_t destLen);
 int           __stdcall JabberGetPacketID(HXML n);
 TCHAR*        __stdcall JabberId2string(int id);
 

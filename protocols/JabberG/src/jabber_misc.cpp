@@ -192,7 +192,8 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t c
 	const TCHAR* szFileType = ProtoGetAvatarExtension( getByte(hContact, "AvatarType", PA_FORMAT_PNG));
 
 	if (hContact != NULL) {
-		char str[ 256 ];
+		char str[256];
+		JabberShaStrBuf buf;
 		DBVARIANT dbv;
 		if (!db_get_utf(hContact, m_szModuleName, "jid", &dbv)) {
 			strncpy_s(str, dbv.pszVal, _TRUNCATE);
@@ -200,7 +201,7 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t c
 			db_free(&dbv);
 		}
 		else _i64toa((LONG_PTR)hContact, str, 10);
-		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S%s"), ptrA(JabberSha1(str)), szFileType);
+		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S%s"), JabberSha1(str, buf), szFileType);
 	}
 	else if (m_ThreadInfo != NULL) {
 		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%s@%S avatar%s"),

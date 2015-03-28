@@ -143,40 +143,6 @@ void strdel(char* parBuffer, int len)
 	p[-len] = '\0';
 }
 
-char* __stdcall JabberUrlDecode(char *str)
-{
-	char* p, *q;
-
-	if (str == NULL)
-		return NULL;
-
-	for (p = q = str; *p != '\0'; p++, q++) {
-		if (*p == '<') {
-			// skip CDATA
-			if (!strncmp(p, "<![CDATA[", 9)) {
-				p += 9;
-				char *tail = strstr(p, "]]>");
-				size_t count = tail ? (tail - p) : strlen(p);
-				memmove(q, p, count);
-				q += count - 1;
-				p = (tail ? (tail + 3) : (p + count)) - 1;
-			}
-			else *q = *p;
-		}
-		else if (*p == '&') {
-			if (!strncmp(p, "&amp;", 5)) { *q = '&'; p += 4; }
-			else if (!strncmp(p, "&apos;", 6)) { *q = '\''; p += 5; }
-			else if (!strncmp(p, "&gt;", 4)) { *q = '>'; p += 3; }
-			else if (!strncmp(p, "&lt;", 4)) { *q = '<'; p += 3; }
-			else if (!strncmp(p, "&quot;", 6)) { *q = '"'; p += 5; }
-			else { *q = *p; }
-		}
-		else *q = *p;
-	}
-	*q = '\0';
-	return str;
-}
-
 void __stdcall JabberUrlDecodeW(WCHAR *str)
 {
 	if (str == NULL)
@@ -199,97 +165,16 @@ void __stdcall JabberUrlDecodeW(WCHAR *str)
 	*q = '\0';
 }
 
-char* __stdcall JabberUrlEncode(const char *str)
+char* __stdcall JabberSha1(const char *str, JabberShaStrBuf buf)
 {
-	char* s, *p, *q;
-	int c;
-
-	if (str == NULL)
-		return NULL;
-
-	for (c = 0, p = (char*)str; *p != '\0'; p++) {
-		switch (*p) {
-		case '&': c += 5; break;
-		case '\'': c += 6; break;
-		case '>': c += 4; break;
-		case '<': c += 4; break;
-		case '"': c += 6; break;
-		default: c++; break;
-		}
-	}
-	if ((s = (char*)mir_alloc(c + 1)) != NULL) {
-		for (p = (char*)str, q = s; *p != '\0'; p++) {
-			switch (*p) {
-			case '&': strcpy(q, "&amp;"); q += 5; break;
-			case '\'': strcpy(q, "&apos;"); q += 6; break;
-			case '>': strcpy(q, "&gt;"); q += 4; break;
-			case '<': strcpy(q, "&lt;"); q += 4; break;
-			case '"': strcpy(q, "&quot;"); q += 6; break;
-			default:
-				if (*p > 0 && *p < 32) {
-					switch (*p) {
-					case '\r':
-					case '\n':
-					case '\t':
-						*q = *p;
-						break;
-					default:
-						*q = '?';
-					}
-				}
-				else *q = *p;
-				q++;
-				break;
-			}
-		}
-		*q = '\0';
-	}
-
-	return s;
-}
-
-void __stdcall JabberUtfToTchar(const char *pszValue, size_t cbLen, LPTSTR &dest)
-{
-	char* pszCopy = NULL;
-	bool  bNeedsFree = false;
-	__try {
-		// this code can cause access violation when a stack overflow occurs
-		pszCopy = (char*)alloca(cbLen + 1);
-	}
-	__except (EXCEPTION_EXECUTE_HANDLER)
-	{
-		bNeedsFree = true;
-		pszCopy = (char*)malloc(cbLen + 1);
-	}
-	if (pszCopy == NULL)
-		return;
-
-	memcpy(pszCopy, pszValue, cbLen);
-	pszCopy[cbLen] = 0;
-
-	JabberUrlDecode(pszCopy);
-
-	mir_utf8decode(pszCopy, &dest);
-
-	if (bNeedsFree)
-		free(pszCopy);
-}
-
-char* __stdcall JabberSha1(char* str)
-{
-	if (str == NULL)
-		return NULL;
-
 	BYTE digest[MIR_SHA1_HASH_SIZE];
 	mir_sha1_ctx sha;
 	mir_sha1_init(&sha);
 	mir_sha1_append(&sha, (BYTE*)str, (int)strlen(str));
 	mir_sha1_finish(&sha, digest);
 
-	char *result = (char*)mir_alloc(41);
-	if (result)
-		bin2hex(digest, sizeof(digest), result);
-	return result;
+	bin2hex(digest, sizeof(digest), buf);
+	return buf;
 }
 
 TCHAR* __stdcall JabberStrFixLines(const TCHAR *str)
