@@ -60,30 +60,33 @@ public:
 	TextToken(int type, const char *text, int len);
 	TextToken(int type, const wchar_t *wtext, int len);
 	~TextToken();
-	int 				getType();
-	const char *		getText();
-	const wchar_t*      getTextW();
-	const char *		getLink();
-	const wchar_t *		getLinkW();
-	void 				setLink(const char *link);
-	void 				setLink(const wchar_t *wlink);
-	int 				getTag();
-	void                setTag(int);
-	bool 				isEnd();
-	void                setEnd(bool);
-	TextToken *			getNext();
-	void   				setNext(TextToken *);
-	//	void				toString(char **str, int *sizeAlloced);
-	void				toString(wchar_t **str, int *sizeAlloced);
-	//	static char *		htmlEncode(const char *str);
-	//	static char *		urlEncode2(const char *str);
-	//	static TextToken* 	tokenizeLinks(const char *text);
-	//	static TextToken*	tokenizeSmileys(const char *proto, const char *text);
-	// UNICODE
-	wchar_t *			htmlEncode(const wchar_t *str);
-	static TextToken* 	tokenizeLinks(const wchar_t *wtext);
-	static TextToken* 	tokenizeSmileys(MCONTACT hContact, const char *proto, const wchar_t *wtext, bool isSent);
-	static TextToken* 	tokenizeBBCodes(const wchar_t *text);
-	static TextToken*	tokenizeChatFormatting(const wchar_t *text);
+	
+	__inline int getType() const { return type; }
+	__inline int getTag() const { return tag; }
+	
+	__inline TextToken* getNext() const { return next; }
+
+	__inline const char* getText() const { return text; }
+	__inline const wchar_t* getTextW() const { return wtext; }
+	
+	__inline const char* getLink() const { return link; }
+	__inline const wchar_t* getLinkW() const { return wlink; }
+
+	__inline bool isEnd() const { return end; }
+
+	__inline void setTag(int _val) { tag = _val; }
+	__inline void setEnd(bool _val) { end = _val; }
+	__inline void setNext(TextToken *_val) { next = _val; }
+
+	void setLink(const char *link);
+	void setLink(const wchar_t *wlink);
+
+	void toString(wchar_t **str, int *sizeAlloced);
+	wchar_t* htmlEncode(const wchar_t *str);
+
+	static TextToken* tokenizeLinks(const wchar_t *wtext);
+	static TextToken* tokenizeSmileys(MCONTACT hContact, const char *proto, const wchar_t *wtext, bool isSent);
+	static TextToken* tokenizeBBCodes(const wchar_t *text);
+	static TextToken* tokenizeChatFormatting(const wchar_t *text);
 };
 #endif
