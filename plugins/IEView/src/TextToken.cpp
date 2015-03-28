@@ -21,28 +21,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "ieview_common.h"
 
-TextToken::TextToken(int type, const char *text, int len)
+TextToken::TextToken(int _type, const char *_text, int _len)
 {
 	next = NULL;
 	tag = 0;
 	end = false;
-	this->type = type;
-	this->text = mir_strndup(text, len);
-	this->wtext = mir_a2t(this->text);
-	this->link = NULL;
-	this->wlink = NULL;
+	type = _type;
+	text = mir_strndup(_text, _len);
+	wtext = mir_a2t(_text);
+	link = NULL;
+	wlink = NULL;
 }
 
-TextToken::TextToken(int type, const wchar_t *wtext, int len)
+TextToken::TextToken(int _type, const wchar_t *_wtext, int _len)
 {
 	next = NULL;
 	tag = 0;
 	end = false;
-	this->type = type;
-	this->wtext = mir_tstrndup(wtext, len);
-	this->text = mir_t2a(this->wtext);
-	this->link = NULL;
-	this->wlink = NULL;
+	type = _type;
+	wtext = mir_tstrndup(_wtext, _len);
+	text = mir_t2a(_wtext);
+	link = NULL;
+	wlink = NULL;
 }
 
 TextToken::~TextToken()
@@ -51,61 +51,6 @@ TextToken::~TextToken()
 	mir_free(wtext);
 	mir_free(link);
 	mir_free(wlink);
-}
-
-TextToken * TextToken::getNext()
-{
-	return next;
-}
-
-void TextToken::setNext(TextToken *ptr)
-{
-	next = ptr;
-}
-
-int TextToken::getType()
-{
-	return type;
-}
-
-const char *TextToken::getText()
-{
-	return text;
-}
-
-const wchar_t *TextToken::getTextW()
-{
-	return wtext;
-}
-
-int TextToken::getTag()
-{
-	return tag;
-}
-
-void TextToken::setTag(int tag)
-{
-	this->tag = tag;
-}
-
-bool TextToken::isEnd()
-{
-	return end;
-}
-
-void TextToken::setEnd(bool b)
-{
-	this->end = b;
-}
-
-const char *TextToken::getLink()
-{
-	return link;
-}
-
-const wchar_t *TextToken::getLinkW()
-{
-	return wlink;
 }
 
 void TextToken::setLink(const char *_link)
@@ -268,27 +213,23 @@ TextToken* TextToken::tokenizeBBCodes(const wchar_t *text, int l)
 			if (textLen > 0) {
 				TextToken *newToken = new TextToken(TEXT, text + i - textLen, textLen);
 				textLen = 0;
-				if (lastToken == NULL) {
+				if (lastToken == NULL)
 					firstToken = newToken;
-				}
-				else {
+				else
 					lastToken->setNext(newToken);
-				}
 				lastToken = newToken;
 			}
 			if (newTokenType == BBCODE) {
-				if (lastToken == NULL) {
+				if (lastToken == NULL)
 					firstToken = bbToken;
-				}
-				else {
+				else
 					lastToken->setNext(bbToken);
-				}
+
 				lastToken = bbToken;
 			}
 		}
-		else {
-			textLen += newTokenSize;
-		}
+		else textLen += newTokenSize;
+
 		i += newTokenSize;
 	}
 	return firstToken;
@@ -326,29 +267,26 @@ TextToken* TextToken::tokenizeLinks(const wchar_t *text)
 			if (textLen > 0) {
 				TextToken *newToken = new TextToken(TEXT, text + i - textLen, textLen);
 				textLen = 0;
-				if (lastToken == NULL) {
+				if (lastToken == NULL)
 					firstToken = newToken;
-				}
-				else {
+				else
 					lastToken->setNext(newToken);
-				}
+
 				lastToken = newToken;
 			}
 			if (newTokenType == WWWLINK || newTokenType == LINK) {
 				TextToken *newToken = new TextToken(newTokenType, text + i, newTokenSize);
 				newToken->setLink(newToken->getText());
-				if (lastToken == NULL) {
+				if (lastToken == NULL)
 					firstToken = newToken;
-				}
-				else {
+				else
 					lastToken->setNext(newToken);
-				}
+
 				lastToken = newToken;
 			}
 		}
-		else {
-			textLen += newTokenSize;
-		}
+		else textLen += newTokenSize;
+
 		i += newTokenSize;
 	}
 	return firstToken;
@@ -358,9 +296,8 @@ TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, cons
 {
 	TextToken *firstToken = NULL, *lastToken = NULL;
 	int l = (int)wcslen(text);
-	if (!Options::isSmileyAdd()) {
+	if (!Options::isSmileyAdd())
 		return new TextToken(TEXT, text, l);
-	}
 
 	SMADD_BATCHPARSE2 sp;
 	sp.cbSize = sizeof(sp);
@@ -375,41 +312,37 @@ TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, cons
 			if (spRes[i].filepath != NULL && strlen((char *)spRes[i].filepath) > 0) {
 				if ((int)spRes[i].startChar - last_pos > 0) {
 					TextToken *newToken = new TextToken(TEXT, text + last_pos, spRes[i].startChar - last_pos);
-					if (lastToken == NULL) {
+					if (lastToken == NULL)
 						firstToken = newToken;
-					}
-					else {
+					else
 						lastToken->setNext(newToken);
-					}
+
 					lastToken = newToken;
 				}
 				TextToken *newToken = new TextToken(SMILEY, text + spRes[i].startChar, spRes[i].size);
-				if (sp.oflag & SAFL_UNICODE) {
+				if (sp.oflag & SAFL_UNICODE)
 					newToken->setLink((wchar_t *)spRes[i].filepath);
-				}
-				else {
+				else
 					newToken->setLink((char *)spRes[i].filepath);
-				}
-				if (lastToken == NULL) {
+
+				if (lastToken == NULL)
 					firstToken = newToken;
-				}
-				else {
+				else
 					lastToken->setNext(newToken);
-				}
+
 				lastToken = newToken;
 				last_pos = spRes[i].startChar + spRes[i].size;
 			}
 		}
 		CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)spRes);
 	}
-	if (last_pos < l)  {
+	if (last_pos < l) {
 		TextToken *newToken = new TextToken(TEXT, text + last_pos, l - last_pos);
-		if (lastToken == NULL) {
+		if (lastToken == NULL)
 			firstToken = newToken;
-		}
-		else {
+		else
 			lastToken->setNext(newToken);
-		}
+
 		lastToken = newToken;
 	}
 	return firstToken;
@@ -430,9 +363,8 @@ TextToken* TextToken::tokenizeChatFormatting(const wchar_t *text)
 		bool endToken = false;
 
 
-		if (i == l) {
+		if (i == l)
 			newTokenType = END;
-		}
 		else {
 			if (text[i] == '%') {
 				newTokenSize = 2;
@@ -488,24 +420,22 @@ TextToken* TextToken::tokenizeChatFormatting(const wchar_t *text)
 			if (textLen > 0) {
 				TextToken *newToken = new TextToken(TEXT, tokenBuffer, textLen);
 				textLen = 0;
-				if (lastToken == NULL) {
+				if (lastToken == NULL)
 					firstToken = newToken;
-				}
-				else {
+				else
 					lastToken->setNext(newToken);
-				}
+
 				lastToken = newToken;
 			}
 			if (newTokenType == BBCODE) {
 				TextToken *newToken = new TextToken(newTokenType, newTokenText, newTokenTextLen);
 				newToken->setEnd(endToken);
 				newToken->setTag(newTokenTag);
-				if (lastToken == NULL) {
+				if (lastToken == NULL)
 					firstToken = newToken;
-				}
-				else {
+				else
 					lastToken->setNext(newToken);
-				}
+
 				lastToken = newToken;
 			}
 		}
@@ -528,9 +458,8 @@ wchar_t *TextToken::htmlEncode(const wchar_t *str)
 	int c = 0;
 	bool wasSpace = false;
 	for (ptr = str; *ptr != '\0'; ptr++) {
-		if (*ptr == ' ' && wasSpace) {
+		if (*ptr == ' ' && wasSpace)
 			c += 6;
-		}
 		else {
 			wasSpace = false;
 			switch (*ptr) {
@@ -545,6 +474,8 @@ wchar_t *TextToken::htmlEncode(const wchar_t *str)
 			}
 		}
 	}
+
+	wasSpace = false;
 	wchar_t *output = new wchar_t[c + 1];
 	for (out = output, ptr = str; *ptr != '\0'; ptr++) {
 		if (*ptr == ' ' && wasSpace) {
@@ -579,65 +510,65 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 		break;
 	case WWWLINK:
 	case LINK:
-	{
 		eText = htmlEncode(wtext);
 		eLink = htmlEncode(wlink);
-		const wchar_t *linkPrefix = type == WWWLINK ? L"http://" : L"";
-		if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_EMBED)) {
-			wchar_t *match = wcsstr(wlink, L"youtube.com");
-			if (match != NULL) {
-				match = wcsstr(match + 11, L"v=");
+		{
+			const wchar_t *linkPrefix = type == WWWLINK ? L"http://" : L"";
+			if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_EMBED)) {
+				wchar_t *match = wcsstr(wlink, L"youtube.com");
 				if (match != NULL) {
-					match += 2;
-					wchar_t *match2 = wcsstr(match, L"&");
-					int len = match2 != NULL ? match2 - match : (int)wcslen(match);
-					match = mir_wstrdup(match);
-					match[len] = 0;
-					int width = 0;
-					int height = 0;
-					int Embedsize = Options::getEmbedsize();
-					switch (Embedsize){
-					case 0:
-						width = 320;
-						height = 205;
-						break;
-					case 1:
-						width = 480;
-						height = 385;
-						break;
-					case 2:
-						width = 560;
-						height = 349;
-						break;
-					case 3:
-						width = 640;
-						height = 390;
-						break;
+					match = wcsstr(match + 11, L"v=");
+					if (match != NULL) {
+						match += 2;
+						wchar_t *match2 = wcsstr(match, L"&");
+						int len = match2 != NULL ? match2 - match : (int)wcslen(match);
+						match = mir_wstrdup(match);
+						match[len] = 0;
+						int width = 0;
+						int height = 0;
+						int Embedsize = Options::getEmbedsize();
+						switch (Embedsize) {
+						case 0:
+							width = 320;
+							height = 205;
+							break;
+						case 1:
+							width = 480;
+							height = 385;
+							break;
+						case 2:
+							width = 560;
+							height = 349;
+							break;
+						case 3:
+							width = 640;
+							height = 390;
+							break;
 
-					};
+						};
 
-					Utils::appendText(str, sizeAlloced, L"<div><object width=\"%d\" height=\"%d\">\
-														 														 																	 <param name=\"movie\" value=\"http://www.youtube.com/v/%s&feature=player_embedded&version=3\"/>\
-																																													 																															 																 <param name=\"allowFullScreen\" value=\"true\"/>\
-																																																																																												 																																															 																 <param name=\"allowScriptAccess\" value=\"true\"/>\
-																																																																																																																																																											 																																																															 																 <embed src=\"http://www.youtube.com/v/%s&feature=player_embedded&version=3\" type=\"application/x-shockwave-flash\" allowfullscreen=\"true\" allowScriptAccess=\"always\" width=\"%d\" height=\"%d\"/>\
-																																																																																																																																																																																																																																										 																																																																															 																 </object></div>", width, height, match, match, width, height);
-					mir_free(match);
-					break;
+						Utils::appendText(str, sizeAlloced, L"<div><object width=\"%d\" height=\"%d\">\
+							<param name=\"movie\" value=\"http://www.youtube.com/v/%s&feature=player_embedded&version=3\"/>\
+							<param name=\"allowFullScreen\" value=\"true\"/>\
+							<param name=\"allowScriptAccess\" value=\"true\"/>\
+							<embed src=\"http://www.youtube.com/v/%s&feature=player_embedded&version=3\" type=\"application/x-shockwave-flash\" allowfullscreen=\"true\" allowScriptAccess=\"always\" width=\"%d\" height=\"%d\"/>\
+							</object></div>", width, height, match, match, width, height);
+						mir_free(match);
+						break;
+					}
 				}
 			}
+			Utils::appendText(str, sizeAlloced, L"<a class=\"link\" target=\"_self\" href=\"%s%s\">%s</a>", linkPrefix, eLink, eText);
 		}
-		Utils::appendText(str, sizeAlloced, L"<a class=\"link\" target=\"_self\" href=\"%s%s\">%s</a>", linkPrefix, eLink, eText);
-	}
-	break;
+		break;
 	case SMILEY:
 		eText = htmlEncode(wtext);
 		if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && (wcsstr(wlink, L".swf") != NULL)) {
 			Utils::appendText(str, sizeAlloced,
 				L"<span title=\"%s\" class=\"img\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
-				 				 		codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" >\
-																		<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></span>",
-																		eText, wlink);
+				 	codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" >\
+					<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></span>",
+					eText, wlink);
 		}
 		else {
 			Utils::appendText(str, sizeAlloced, L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", wlink, eText, eText);
@@ -675,9 +606,9 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 				if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && eText != NULL && (wcsstr(eText, L".swf") != NULL)) {
 					Utils::appendText(str, sizeAlloced,
 						L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
-						 						 		codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
-																								<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
-																								eText);
+							codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
+							<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
+							eText);
 				}
 				else {
 					if (eText != NULL && wcsncmp(eText, L"http://", 7) && wcsncmp(eText, L"https://", 8)) {
@@ -694,9 +625,9 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 				if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && (wcsstr(eText, L".swf") != NULL)) {
 					Utils::appendText(str, sizeAlloced,
 						L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
-						 						 		codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
-																								<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
-																								eText);
+						 	codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
+							<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
+							eText);
 				}
 				else {
 					Utils::appendText(str, sizeAlloced, L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"file://%s\" /></div>", eText);
