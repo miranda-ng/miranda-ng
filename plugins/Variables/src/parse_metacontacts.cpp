@@ -55,10 +55,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 		szUniqueID = mir_tstrdup(tszID);
 	}
 
-	if (szUniqueID == NULL)
-		return NULL;
-
-	return mir_tstrdup(CMString(FORMAT, _T("<%S:%s>"), szProto, szUniqueID));
+	return CMString(FORMAT, _T("<%S:%s>"), szProto, szUniqueID).Detouch();
 }
 
 static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
@@ -86,34 +83,19 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 	if (hContact == NULL)
 		return NULL;
 
-	TCHAR* szUniqueID = NULL;
+	ptrT szUniqueID;
 	char* szProto = GetContactProto(hContact);
 	if (szProto != NULL)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
-		szUniqueID = (TCHAR *)mir_alloc(32);
-		mir_sntprintf(szUniqueID, 32, _T("%p"), hContact);
-		if (szProto == NULL || szUniqueID == NULL)
-			return NULL;
+		TCHAR tszID[40];
+		mir_sntprintf(tszID, SIZEOF(tszID), _T("%p"), hContact);
+		szUniqueID = mir_tstrdup(tszID);
 	}
 
-	size_t size = strlen(szProto) + _tcslen(szUniqueID) + 4;
-	TCHAR *res = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
-	if (res == NULL) {
-		mir_free(szUniqueID);
-		return NULL;
-	}
-
-	TCHAR *tszProto = mir_a2t(szProto);
-	if (tszProto != NULL && szUniqueID != NULL) {
-		mir_sntprintf(res, size, _T("<%s:%s>"), tszProto, szUniqueID);
-		mir_free(szUniqueID);
-		mir_free(tszProto);
-	}
-
-	return res;
+	return CMString(FORMAT, _T("<%S:%s>"), szProto, szUniqueID).Detouch();
 }
 
 static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
@@ -141,36 +123,19 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 	if (hContact == NULL)
 		return NULL;
 
-	TCHAR* szUniqueID = NULL;
-	char* szProto = GetContactProto(hContact);
+	ptrT szUniqueID;
+	char *szProto = GetContactProto(hContact);
 	if (szProto != NULL)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
-		if (szProto == NULL)
-			return NULL;
-		szUniqueID = (TCHAR *)mir_alloc(32);
-		if (szUniqueID == NULL)
-			return NULL;
-		mir_sntprintf(szUniqueID, 32, _T("%p"), hContact);
+		TCHAR tszID[40];
+		mir_sntprintf(tszID, SIZEOF(tszID), _T("%p"), hContact);
+		szUniqueID = mir_tstrdup(tszID);
 	}
 
-	size_t size = strlen(szProto) + _tcslen(szUniqueID) + 4;
-	TCHAR *res = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
-	if (res == NULL) {
-		mir_free(szUniqueID);
-		return NULL;
-	}
-
-	TCHAR *tszProto = mir_a2t(szProto);
-	if (tszProto != NULL && szUniqueID != NULL) {
-		mir_sntprintf(res, size, _T("<%s:%s>"), tszProto, szUniqueID);
-		mir_free(szUniqueID);
-		mir_free(tszProto);
-	}
-
-	return res;
+	return CMString(FORMAT, _T("<%S:%s>"), szProto, szUniqueID).Detouch();
 }
 
 void registerMetaContactsTokens()
