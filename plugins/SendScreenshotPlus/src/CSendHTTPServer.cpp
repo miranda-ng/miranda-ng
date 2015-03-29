@@ -66,13 +66,13 @@ int CSendHTTPServer::Send()
 	mir_stradd(m_fsi_pszSrvPath, "/");
 	mir_stradd(m_fsi_pszSrvPath, m_pszFileName);
 
-	replaceStrT(m_fsi_pszRealPath, m_pszFile);
+	replaceStr(m_fsi_pszRealPath, _T2A(m_pszFile));
 
 	memset(&m_fsi, 0, sizeof(m_fsi));
 	m_fsi.lStructSize	= sizeof(STFileShareInfo);
 	m_fsi.pszSrvPath	= m_fsi_pszSrvPath;
 	m_fsi.nMaxDownloads	= -1;					// -1 = infinite
-	m_fsi.pszRealPath	= _T2A(m_fsi_pszRealPath);
+	m_fsi.pszRealPath	= m_fsi_pszRealPath;
 	//m_fsi.dwOptions		= NULL;					//OPT_SEND_LINK only work on single chat;
 
 	//start Send thread

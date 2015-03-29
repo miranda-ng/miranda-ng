@@ -41,7 +41,7 @@ class CSendHTTPServer : public CSend {
 	protected:
 		char*  m_pszFileName;
 		char* m_fsi_pszSrvPath;
-		TCHAR* m_fsi_pszRealPath;
+		char* m_fsi_pszRealPath;
 
 		STFileShareInfo m_fsi;
 
