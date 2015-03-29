@@ -25,9 +25,9 @@
 
 typedef struct {
 	DWORD lStructSize;  // Set to sizeof(STFileShareInfo)
-	TCHAR * pszSrvPath;  // Server path
+	char *pszSrvPath;  // Server path
 	DWORD dwMaxSrvPath; // Buffer allocated for Server path only used when information is requested from HTTP server.
-	TCHAR * pszRealPath; // Real path can be relative or complete
+	char *pszRealPath; // Real path can be relative or complete
 	DWORD dwMaxRealPath;// Buffer allocated for Real path only used when information is requested from HTTP server.
 	DWORD dwAllowedIP;   // The IP address which is allowed to access this share
 	DWORD dwAllowedMask; // A mask which is applied to IP address to allow other IP addresses

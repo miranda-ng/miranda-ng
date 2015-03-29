@@ -53,7 +53,7 @@ CSendHTTPServer::~CSendHTTPServer(){
 int CSendHTTPServer::Send()
 {
 	if(!m_hContact) return 1;
-	if (CallService(MS_HTTP_ACCEPT_CONNECTIONS, (WPARAM)true, 0) != 0) {
+	if (CallService(MS_HTTP_ACCEPT_CONNECTIONS, TRUE, 0) != 0) {
 		Error(LPGENT("Could not start the HTTP Server plugin."));
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
@@ -63,8 +63,8 @@ int CSendHTTPServer::Send()
 		m_pszFileName = GetFileNameA(m_pszFile);
 	}
 	mir_freeAndNil(m_fsi_pszSrvPath);
-	mir_tstradd(m_fsi_pszSrvPath, _T("/"));
-	mir_tstradd(m_fsi_pszSrvPath, _A2T(m_pszFileName));
+	mir_stradd(m_fsi_pszSrvPath, "/");
+	mir_stradd(m_fsi_pszSrvPath, m_pszFileName);
 
 	replaceStrT(m_fsi_pszRealPath, m_pszFile);
 
@@ -72,7 +72,7 @@ int CSendHTTPServer::Send()
 	m_fsi.lStructSize	= sizeof(STFileShareInfo);
 	m_fsi.pszSrvPath	= m_fsi_pszSrvPath;
 	m_fsi.nMaxDownloads	= -1;					// -1 = infinite
-	m_fsi.pszRealPath	= m_fsi_pszRealPath;
+	m_fsi.pszRealPath	= _T2A(m_fsi_pszRealPath);
 	//m_fsi.dwOptions		= NULL;					//OPT_SEND_LINK only work on single chat;
 
 	//start Send thread
