@@ -28,7 +28,7 @@ TextToken::TextToken(int _type, const char *_text, int _len)
 	end = false;
 	type = _type;
 	text = mir_strndup(_text, _len);
-	wtext = mir_a2t(_text);
+	wtext = mir_a2t(text);
 	link = NULL;
 	wlink = NULL;
 }
@@ -40,7 +40,7 @@ TextToken::TextToken(int _type, const wchar_t *_wtext, int _len)
 	end = false;
 	type = _type;
 	wtext = mir_tstrndup(_wtext, _len);
-	text = mir_t2a(_wtext);
+	text = mir_t2a(wtext);
 	link = NULL;
 	wlink = NULL;
 }
