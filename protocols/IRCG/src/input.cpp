@@ -805,7 +805,7 @@ bool CIrcProto::PostIrcMessage(const TCHAR* fmt, ...)
 	return PostIrcMessageWnd(NULL, NULL, szBuf);
 }
 
-bool CIrcProto::PostIrcMessageWnd(TCHAR* window, MCONTACT hContact, const TCHAR* szBuf)
+bool CIrcProto::PostIrcMessageWnd(TCHAR *window, MCONTACT hContact, const TCHAR *szBuf)
 {
 	DBVARIANT dbv;
 	TCHAR windowname[256];
