@@ -71,26 +71,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define ICQCORPPROTONAME "ICQ Corp"
 #define AIMPROTONAME     "AIM"
 
-// Import type
-#define IMPORT_CONTACTS 0
-#define IMPORT_ALL      1
-#define IMPORT_CUSTOM   2
-
 // Custom import options
-#define IOPT_ADDUNKNOWN 1
-#define IOPT_MSGSENT    2
-#define IOPT_MSGRECV    4
-#define IOPT_URLSENT    8
-#define IOPT_URLRECV    16
-#define IOPT_AUTHREQ    32
-#define IOPT_ADDED      64
-#define IOPT_FILESENT   128
-#define IOPT_FILERECV   256
-#define IOPT_OTHERSENT  512
-#define IOPT_OTHERRECV  1024
-#define IOPT_SYSTEM     2048
-#define IOPT_CONTACTS   4096
-#define IOPT_GROUPS     8192
+#define IOPT_ADDUNKNOWN    0x00000001
+#define IOPT_MSGSENT       0x00000002
+#define IOPT_MSGRECV       0x00000004
+#define IOPT_URLSENT       0x00000008
+#define IOPT_URLRECV       0x00000010
+#define IOPT_AUTHREQ       0x00000020
+#define IOPT_ADDED         0x00000040
+#define IOPT_FILESENT      0x00000080
+#define IOPT_FILERECV      0x00000100
+#define IOPT_OTHERSENT     0x00000200
+#define IOPT_OTHERRECV     0x00000400
+#define IOPT_SYSTEM        0x00000800
+#define IOPT_CONTACTS      0x00001000
+#define IOPT_GROUPS        0x00002000
+#define IOPT_SYS_SETTINGS  0x00004000
+
+#define IOPT_HISTORY 		0x000007FE
 
 void AddMessage(const TCHAR* fmt, ...);
 
@@ -107,8 +105,7 @@ int CreateGroup(const TCHAR* name, MCONTACT hContact);
 
 extern HINSTANCE hInst;
 extern HWND hdlgProgress, hwndAccMerge;
-extern int nImportOption;
-extern int nCustomOptions;
+extern int nImportOptions;
 extern TCHAR importFile[];
 extern time_t dwSinceDate;
 
