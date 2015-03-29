@@ -771,7 +771,6 @@ public:
 	CMStringT(wchar_t ch, int nLength = 1);
 
 	CMStringT(const XCHAR* pch, int nLength);
-
 	CMStringT(const YCHAR* pch, int nLength);
 
 	// Destructor

@@ -24,14 +24,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CMessageBoxDlg : public CProtoDlgBase < CIrcProto >
 {
-	DCCINFO* pdci;
+	DCCINFO *pdci;
 
 	CMessageBoxDlg(CIrcProto* _pro, DCCINFO* _dci);
 
-	CCtrlButton  m_Ok;
+	CCtrlButton m_Ok;
 	void OnOk(CCtrlButton*);
-
-	virtual void OnInitDialog();
 };
 
 struct CCoolIrcDlg : public CProtoDlgBase < CIrcProto >

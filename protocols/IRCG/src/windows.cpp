@@ -24,16 +24,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // Message Box
 
-CMessageBoxDlg::CMessageBoxDlg(CIrcProto* _pro, DCCINFO* _dci) :
-	CProtoDlgBase<CIrcProto>(_pro, IDD_MESSAGEBOX, NULL),
+CMessageBoxDlg::CMessageBoxDlg(CIrcProto *_pro, DCCINFO *_dci)
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_MESSAGEBOX, NULL, false),
 	pdci(_dci),
 	m_Ok(this, IDOK)
 {
 	m_Ok.OnClick = Callback(this, &CMessageBoxDlg::OnOk);
-}
-
-void CMessageBoxDlg::OnInitDialog()
-{
 }
 
 void CMessageBoxDlg::OnOk(CCtrlButton*)
@@ -51,8 +47,8 @@ void CMessageBoxDlg::OnOk(CCtrlButton*)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Whois dialog
 
-CWhoisDlg::CWhoisDlg(CIrcProto* _pro) :
-	CCoolIrcDlg(_pro, IDD_INFO),
+CWhoisDlg::CWhoisDlg(CIrcProto *_pro)
+	: CCoolIrcDlg(_pro, IDD_INFO),
 	m_InfoNick(this, IDC_INFO_NICK),
 	m_Reply(this, IDC_REPLY),
 	m_Caption(this, IDC_CAPTION),
@@ -182,7 +178,7 @@ void CWhoisDlg::ShowMessage(const CIrcMessage* pmsg)
 	InvalidateRect(m_hwnd, NULL, TRUE);
 }
 
-void CWhoisDlg::ShowMessageNoUser(const CIrcMessage* pmsg)
+void CWhoisDlg::ShowMessageNoUser(const CIrcMessage *pmsg)
 {
 	m_InfoNick.SetText(pmsg->parameters[2].c_str());
 	m_InfoNick.SendMsg(CB_SETEDITSEL, 0, MAKELPARAM(0, -1));
@@ -201,8 +197,8 @@ void CWhoisDlg::ShowMessageNoUser(const CIrcMessage* pmsg)
 /////////////////////////////////////////////////////////////////////////////////////////
 // 'Change nickname' dialog
 
-CNickDlg::CNickDlg(CIrcProto *_pro) :
-	CCoolIrcDlg(_pro, IDD_NICK),
+CNickDlg::CNickDlg(CIrcProto *_pro)
+	: CCoolIrcDlg(_pro, IDD_NICK),
 	m_Ok(this, IDOK),
 	m_Enick(this, IDC_ENICK)
 {
@@ -217,8 +213,8 @@ void CNickDlg::OnInitDialog()
 	DBVARIANT dbv;
 	if (!m_proto->getTString("RecentNicks", &dbv)) {
 		for (int i = 0; i < 10; i++)
-		if (!GetWord(dbv.ptszVal, i).IsEmpty())
-			SendDlgItemMessage(m_hwnd, IDC_ENICK, CB_ADDSTRING, 0, (LPARAM)GetWord(dbv.ptszVal, i).c_str());
+			if (!GetWord(dbv.ptszVal, i).IsEmpty())
+				SendDlgItemMessage(m_hwnd, IDC_ENICK, CB_ADDSTRING, 0, (LPARAM)GetWord(dbv.ptszVal, i).c_str());
 
 		db_free(&dbv);
 	}
@@ -254,8 +250,8 @@ void CNickDlg::OnOk(CCtrlButton*)
 
 #define LIST_TIMER 10
 
-CListDlg::CListDlg(CIrcProto *_pro) :
-	CProtoDlgBase<CIrcProto>(_pro, IDD_LIST, NULL),
+CListDlg::CListDlg(CIrcProto *_pro)
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_LIST, NULL, false),
 	m_Join(this, IDC_JOIN),
 	m_list(this, IDC_INFO_LISTVIEW),
 	m_list2(this, IDC_INFO_LISTVIEW2),
@@ -331,7 +327,7 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 				// Match the text?
 				TCHAR* t = _tcsstr(lvm.pszText, strFilterText);
-				if (t == NULL)	{ // If no, then Check if in the topics
+				if (t == NULL) { // If no, then Check if in the topics
 					m_list.GetItem(&lvm);
 
 					// Match the text?
@@ -394,7 +390,7 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CProtoDlgBase<CIrcProto>::DlgProc(msg, wParam, lParam);
 }
 
-void CListDlg::OnChange(CCtrlBase* ctrl)
+void CListDlg::OnChange(CCtrlBase *ctrl)
 {
 	if (ctrl->GetCtrlId() == IDC_FILTER_STRING)
 		m_timer = ::SetTimer(m_hwnd, LIST_TIMER, 200, NULL);
@@ -411,7 +407,7 @@ void CListDlg::OnDestroy()
 struct ListViewSortParam
 {
 	CCtrlListView* pList;
-	int            iSubItem;
+	int iSubItem;
 };
 
 static int CALLBACK ListViewSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
@@ -458,7 +454,7 @@ int CListDlg::Resizer(UTILRESIZECONTROL *urc)
 	return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 }
 
-void CListDlg::List_OnColumnClick(CCtrlListView::TEventInfo* ev)
+void CListDlg::List_OnColumnClick(CCtrlListView::TEventInfo *ev)
 {
 	ListViewSortParam param = { &m_list, ev->nmlv->iSubItem };
 	m_list.SortItems(ListViewSort, (LPARAM)&param);
@@ -495,8 +491,8 @@ void CListDlg::UpdateList()
 /////////////////////////////////////////////////////////////////////////////////////////
 // 'Join' dialog
 
-CJoinDlg::CJoinDlg(CIrcProto *_pro) :
-	CCoolIrcDlg(_pro, IDD_NICK, NULL),
+CJoinDlg::CJoinDlg(CIrcProto *_pro)
+	: CCoolIrcDlg(_pro, IDD_NICK, NULL),
 	m_Ok(this, IDOK)
 {
 	m_Ok.OnClick = Callback(this, &CJoinDlg::OnOk);
@@ -553,8 +549,8 @@ void CJoinDlg::OnOk(CCtrlButton*)
 /////////////////////////////////////////////////////////////////////////////////////////
 // 'Quick' dialog
 
-CQuickDlg::CQuickDlg(CIrcProto *_pro) :
-	CCoolIrcDlg(_pro, IDD_QUICKCONN),
+CQuickDlg::CQuickDlg(CIrcProto *_pro)
+	: CCoolIrcDlg(_pro, IDD_QUICKCONN),
 	m_Ok(this, IDOK),
 	m_serverCombo(this, IDC_SERVERCOMBO)
 {
@@ -704,8 +700,8 @@ void CQuickDlg::OnServerCombo(CCtrlData*)
 /////////////////////////////////////////////////////////////////////////////////////////
 // 'Question' dialog
 
-CQuestionDlg::CQuestionDlg(CIrcProto *_pro, CManagerDlg* owner) :
-	CCoolIrcDlg(_pro, IDD_QUESTION, (owner == NULL) ? NULL : owner->GetHwnd()),
+CQuestionDlg::CQuestionDlg(CIrcProto *_pro, CManagerDlg *owner)
+	: CCoolIrcDlg(_pro, IDD_QUESTION, (owner == NULL) ? NULL : owner->GetHwnd()),
 	m_Ok(this, IDOK),
 	m_owner(owner)
 {
@@ -733,12 +729,12 @@ void CQuestionDlg::OnOk(CCtrlButton*)
 		GetDlgItemText(m_hwnd, IDC_EDIT, l, i + 1);
 
 		int j = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_HIDDENEDIT));
-		TCHAR* m = new TCHAR[j + 2];
+		TCHAR *m = new TCHAR[j + 2];
 		GetDlgItemText(m_hwnd, IDC_HIDDENEDIT, m, j + 1);
 
-		TCHAR* text = _tcsstr(m, _T("%question"));
-		TCHAR* p1 = text;
-		TCHAR* p2 = NULL;
+		TCHAR *text = _tcsstr(m, _T("%question"));
+		TCHAR *p1 = text;
+		TCHAR *p2 = NULL;
 		if (p1) {
 			p1 += 9;
 			if (*p1 == '=' && p1[1] == '\"') {
@@ -758,11 +754,10 @@ void CQuestionDlg::OnOk(CCtrlButton*)
 			else *p1 = '\0';
 		}
 
-		TCHAR* n = (TCHAR*)alloca(sizeof(TCHAR)*(j + 2));
-		GetDlgItemText(m_hwnd, IDC_HIDDENEDIT, n, j + 1);
-		CMString S(n);
+		CMString S(_T('\0'), j + 2);
+		GetDlgItemText(m_hwnd, IDC_HIDDENEDIT, S.GetBuffer(), j + 1);
 		S.Replace(text, l);
-		m_proto->PostIrcMessageWnd(NULL, NULL, (TCHAR*)S.c_str());
+		m_proto->PostIrcMessageWnd(NULL, NULL, S);
 
 		delete[]m;
 		delete[]l;
@@ -781,8 +776,8 @@ void CQuestionDlg::Activate()
 /////////////////////////////////////////////////////////////////////////////////////////
 // 'Channel Manager' dialog
 
-CManagerDlg::CManagerDlg(CIrcProto *_pro) :
-	CCoolIrcDlg(_pro, IDD_CHANMANAGER),
+CManagerDlg::CManagerDlg(CIrcProto *_pro)
+	: CCoolIrcDlg(_pro, IDD_CHANMANAGER),
 	m_list(this, IDC_LIST),
 
 	m_check1(this, IDC_CHECK1),
@@ -1290,7 +1285,7 @@ void CManagerDlg::InitManager(int mode, const TCHAR* window)
 				for (int i = 0; i < 5; i++) {
 					CMString S = GetWord(dbv.ptszVal, i);
 					if (!S.IsEmpty()) {
-/* FIXME: What the hell does it mean!? GCC won't compile this on UNICODE */
+						/* FIXME: What the hell does it mean!? GCC won't compile this on UNICODE */
 #if !defined(__GNUC__) || !defined(UNICODE)
 						S.Replace(_T("%¤"), _T(" "));
 #endif
@@ -1361,7 +1356,9 @@ void CManagerDlg::InitManager(int mode, const TCHAR* window)
 					CheckDlgButton(m_hwnd, IDC_NOTOP, BST_CHECKED);
 				}
 				ShowWindow(m_hwnd, SW_SHOW);
-	}	}	}
+			}
+		}
+	}
 
 	if (strchr(m_proto->sChannelModes.c_str(), 'b')) {
 		m_radio1.SetState(true);
@@ -1372,10 +1369,9 @@ void CManagerDlg::InitManager(int mode, const TCHAR* window)
 /////////////////////////////////////////////////////////////////////////////////////////
 // 'cool' dialog
 
-CCoolIrcDlg::CCoolIrcDlg( CIrcProto* _pro, int dlgId, HWND parent ) :
-	CProtoDlgBase<CIrcProto>( _pro, dlgId, parent )
-{
-}
+CCoolIrcDlg::CCoolIrcDlg(CIrcProto* _pro, int dlgId, HWND parent)
+	: CProtoDlgBase<CIrcProto>(_pro, dlgId, parent, false)
+{}
 
 void CCoolIrcDlg::OnInitDialog()
 {
