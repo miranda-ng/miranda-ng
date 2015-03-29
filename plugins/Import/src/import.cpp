@@ -371,6 +371,11 @@ static INT_PTR CALLBACK AccountsMatcherProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static char* newStr(const char *s)
+{
+	return (s == NULL) ? NULL : strcpy(new char[strlen(s) + 1], s);
+}
+
 static bool FindDestAccount(const char *szProto)
 {
 	for (int i = 0; i < arAccountMap.getCount(); i++) {
@@ -434,7 +439,7 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto,
 	return (bStrict) ? NULL : pProto;
 }
 
-bool ImportAccounts()
+bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 {
 	int protoCount = myGetD(NULL, "Protocols", "ProtoCount", 0);
 	bool bNeedManualMerge = false;
@@ -519,12 +524,16 @@ bool ImportAccounts()
 			db_set_ts(NULL, "Protocols", szSetting, p.pa->tszAccountName);
 		}
 
-		if (!bImportSysAll)
-			CopySettings(NULL, p.szSrcAcc, NULL, p.pa->szModuleName);
+		CopySettings(NULL, p.szSrcAcc, NULL, p.pa->szModuleName);
+		if (bImportSysAll)
+			arSkippedModules.insert(newStr(p.szSrcAcc));
 	}
 
-	if (!bImportSysAll)
-		CopySettings(NULL, META_PROTO, NULL, META_PROTO);
+	CopySettings(NULL, META_PROTO, NULL, META_PROTO);
+	if (bImportSysAll) {
+		arSkippedModules.insert(newStr(META_PROTO));
+		arSkippedModules.insert(newStr("Protocols"));
+	}
 	return true;
 }
 
@@ -853,9 +862,11 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 /////////////////////////////////////////////////////////////////////////////////////////
 // copying system settings
 
-static int CopySystemSettings(const char *szModuleName, DWORD, LPARAM)
+static int CopySystemSettings(const char *szModuleName, DWORD, LPARAM param)
 {
-	CopySettings(NULL, szModuleName, NULL, szModuleName);
+	LIST<char> *arSkippedAccs = (LIST<char>*)param;
+	if (!arSkippedAccs->find((char*)szModuleName))
+		CopySettings(NULL, szModuleName, NULL, szModuleName);
 	return 0;
 }
 
@@ -982,6 +993,10 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static int CompareModules(const char *p1, const char *p2)
+{	return stricmp(p1, p2);
+}
+
 void MirandaImport(HWND hdlg)
 {
 	hdlgProgress = hdlg;
@@ -1022,14 +1037,16 @@ void MirandaImport(HWND hdlg)
 	// Start benchmark timer
 	DWORD dwTimer = time(NULL);
 
-	if (!ImportAccounts()) {
+	OBJLIST<char> arSkippedAccs(1, CompareModules);
+	if (!ImportAccounts(arSkippedAccs)) {
 		AddMessage(LPGENT("Error mapping accounts, exiting."));
 		return;
 	}
 
 	// copy system settings if needed
 	if (nImportOptions & IOPT_SYS_SETTINGS)
-		srcDb->EnumModuleNames(CopySystemSettings, 0);
+		srcDb->EnumModuleNames(CopySystemSettings, &arSkippedAccs);
+	arSkippedAccs.destroy();
 
 	// Import Groups
 	if (nImportOptions & IOPT_GROUPS) {
