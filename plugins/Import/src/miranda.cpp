@@ -170,22 +170,19 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wPara
 
 		case IDOK:
 			if (IsDlgButtonChecked(hwndDlg, IDC_RADIO_COMPLETE)) {
-				nImportOption = IMPORT_CUSTOM;
-				nCustomOptions = INT32_MAX;
+				nImportOptions = INT32_MAX;
 				PostMessage(GetParent(hwndDlg), WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressPageProc);
 				break;
 			}
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_RADIO_ALL)) {
-				nImportOption = IMPORT_ALL;
-				nCustomOptions = 0;
+				nImportOptions = IOPT_HISTORY | IOPT_SYSTEM | IOPT_GROUPS | IOPT_CONTACTS;
 				PostMessage(GetParent(hwndDlg), WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressPageProc);
 				break;
 			}
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_RADIO_CONTACTS)) {
-				nImportOption = IMPORT_CONTACTS;
-				nCustomOptions = 0;
+				nImportOptions = IOPT_CONTACTS;
 				PostMessage(GetParent(hwndDlg), WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressPageProc);
 				break;
 			}
@@ -237,33 +234,32 @@ INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wP
 			break;
 
 		case IDOK:
-			nImportOption = IMPORT_CUSTOM;
-			nCustomOptions = 0;
+			nImportOptions = 0;
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_CONTACTS))
-				nCustomOptions |= IOPT_CONTACTS | IOPT_GROUPS;
+				nImportOptions |= IOPT_CONTACTS | IOPT_GROUPS;
 			if (IsDlgButtonChecked(hwndDlg, IDC_SYSTEM))
-				nCustomOptions |= IOPT_SYSTEM;
+				nImportOptions |= IOPT_SYSTEM;
 
 			// incoming
 			if (IsDlgButtonChecked(hwndDlg, IDC_IN_MSG))
-				nCustomOptions |= IOPT_MSGRECV;
+				nImportOptions |= IOPT_MSGRECV;
 			if (IsDlgButtonChecked(hwndDlg, IDC_IN_URL))
-				nCustomOptions |= IOPT_URLRECV;
+				nImportOptions |= IOPT_URLRECV;
 			if (IsDlgButtonChecked(hwndDlg, IDC_IN_FT))
-				nCustomOptions |= IOPT_FILERECV;
+				nImportOptions |= IOPT_FILERECV;
 			if (IsDlgButtonChecked(hwndDlg, IDC_IN_OTHER))
-				nCustomOptions |= IOPT_OTHERRECV;
+				nImportOptions |= IOPT_OTHERRECV;
 
 			// outgoing
 			if (IsDlgButtonChecked(hwndDlg, IDC_OUT_MSG))
-				nCustomOptions |= IOPT_MSGSENT;
+				nImportOptions |= IOPT_MSGSENT;
 			if (IsDlgButtonChecked(hwndDlg, IDC_OUT_URL))
-				nCustomOptions |= IOPT_URLSENT;
+				nImportOptions |= IOPT_URLSENT;
 			if (IsDlgButtonChecked(hwndDlg, IDC_OUT_FT))
-				nCustomOptions |= IOPT_FILESENT;
+				nImportOptions |= IOPT_FILESENT;
 			if (IsDlgButtonChecked(hwndDlg, IDC_OUT_OTHER))
-				nCustomOptions |= IOPT_OTHERSENT;
+				nImportOptions |= IOPT_OTHERSENT;
 
 			// since date
 			dwSinceDate = 0;
@@ -284,7 +280,7 @@ INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wP
 				}
 			}
 
-			if (nCustomOptions)
+			if (nImportOptions)
 				PostMessage(GetParent(hwndDlg), WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressPageProc);
 			break;
 

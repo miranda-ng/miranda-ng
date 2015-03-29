@@ -477,12 +477,14 @@ bool ImportAccounts()
 		if (DialogBox(hInst, MAKEINTRESOURCE(IDD_ACCMERGE), NULL, AccountsMatcherProc) != IDOK)
 			return false;
 
+	bool bImportSysAll = (nImportOptions & IOPT_SYS_SETTINGS) != 0;
+
 	for (int i = 0; i < arAccountMap.getCount(); i++) {
 		AccountMap &p = arAccountMap[i];
 		if (p.pa != NULL || p.szBaseProto == NULL || !mir_strcmp(p.szSrcAcc, META_PROTO))
 			continue;
 
-		if (!IsProtocolLoaded(p.szBaseProto)) {
+		if (!Proto_IsProtocolLoaded(p.szBaseProto)) {
 			AddMessage(LPGENT("Protocol %S is not loaded, skipping account %s creation"), p.szBaseProto, p.tszSrcName);
 			continue;
 		}
@@ -517,10 +519,12 @@ bool ImportAccounts()
 			db_set_ts(NULL, "Protocols", szSetting, p.pa->tszAccountName);
 		}
 
-		CopySettings(NULL, p.szSrcAcc, NULL, p.pa->szModuleName);
+		if (!bImportSysAll)
+			CopySettings(NULL, p.szSrcAcc, NULL, p.pa->szModuleName);
 	}
 
-	CopySettings(NULL, META_PROTO, NULL, META_PROTO);
+	if (!bImportSysAll)
+		CopySettings(NULL, META_PROTO, NULL, META_PROTO);
 	return true;
 }
 
@@ -847,28 +851,35 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// copying system settings
+
+static int CopySystemSettings(const char *szModuleName, DWORD, LPARAM)
+{
+	CopySettings(NULL, szModuleName, NULL, szModuleName);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // contact's history import
 
 static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoCount)
 {
 	MCONTACT hDst;
-	bool bIsMeta = false;
 
 	// Is it contact's history import?
 	if (hContact) {
+		// we ignore history import for metacontacts
+		// the metahistory will be generated automatically by gathering subs' histories
+		DBCachedContact *cc = srcDb->m_cache->GetCachedContact(hContact);
+		if (cc == NULL || cc->IsMeta())
+			return;
+
 		if ((hDst = MapContact(hContact)) == INVALID_CONTACT_ID) {
 			nSkippedContacts++;
 			return;
 		}
-
-		// history for subs will be imported via metahistory
-		DBCachedContact *cc = srcDb->m_cache->GetCachedContact(hContact);
-		if (cc == NULL || cc->IsSub())
-			return;
-
-		bIsMeta = cc->IsMeta();
 	}
-	else hDst = 0;
+	else hDst = NULL;
 
 	bool bSkipAll = false;
 	DWORD cbAlloc = 4096;
@@ -901,7 +912,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 			}
 
 			// custom filtering
-			if (!bSkipThis && nImportOption == IMPORT_CUSTOM) {
+			if (!bSkipThis) {
 				BOOL sent = (dbei.flags & DBEF_SENT);
 
 				if (dbei.timestamp < (DWORD)dwSinceDate)
@@ -912,24 +923,24 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 						bSkipThis = 1;
 						switch (dbei.eventType) {
 						case EVENTTYPE_MESSAGE:
-							if ((sent ? IOPT_MSGSENT : IOPT_MSGRECV) & nCustomOptions)
+							if ((sent ? IOPT_MSGSENT : IOPT_MSGRECV) & nImportOptions)
 								bSkipThis = 0;
 							break;
 						case EVENTTYPE_FILE:
-							if ((sent ? IOPT_FILESENT : IOPT_FILERECV) & nCustomOptions)
+							if ((sent ? IOPT_FILESENT : IOPT_FILERECV) & nImportOptions)
 								bSkipThis = 0;
 							break;
 						case EVENTTYPE_URL:
-							if ((sent ? IOPT_URLSENT : IOPT_URLRECV) & nCustomOptions)
+							if ((sent ? IOPT_URLSENT : IOPT_URLRECV) & nImportOptions)
 								bSkipThis = 0;
 							break;
 						default:
-							if ((sent ? IOPT_OTHERSENT : IOPT_OTHERRECV) & nCustomOptions)
+							if ((sent ? IOPT_OTHERSENT : IOPT_OTHERRECV) & nImportOptions)
 								bSkipThis = 0;
 							break;
 						}
 					}
-					else if (!(nCustomOptions & IOPT_SYSTEM))
+					else if (!(nImportOptions & IOPT_SYSTEM))
 						bSkipThis = 1;
 				}
 
@@ -944,15 +955,11 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 					if (dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_ADDED)
 						dbei.flags |= DBEF_READ;
 
-					// calculate sub's handle for metahistory
-					MCONTACT hOwner = (bIsMeta) ? MapContact(srcDb->GetEventContact(hEvent)) : hDst;
-					if (hOwner != INVALID_CONTACT_ID) {
-						// add dbevent
-						if (dstDb->AddEvent(hOwner, &dbei) != NULL)
-							nMessagesCount++;
-						else
-							AddMessage(LPGENT("Failed to add message"));
-					}
+					// add dbevent
+					if (dstDb->AddEvent(hDst, &dbei) != NULL)
+						nMessagesCount++;
+					else
+						AddMessage(LPGENT("Failed to add message"));
 				}
 				else nDupes++;
 			}
@@ -1020,8 +1027,12 @@ void MirandaImport(HWND hdlg)
 		return;
 	}
 
+	// copy system settings if needed
+	if (nImportOptions & IOPT_SYS_SETTINGS)
+		srcDb->EnumModuleNames(CopySystemSettings, 0);
+
 	// Import Groups
-	if (nImportOption == IMPORT_ALL || (nCustomOptions & IOPT_GROUPS)) {
+	if (nImportOptions & IOPT_GROUPS) {
 		AddMessage(LPGENT("Importing groups."));
 		nGroupsCount = ImportGroups();
 		if (nGroupsCount == -1)
@@ -1032,7 +1043,7 @@ void MirandaImport(HWND hdlg)
 	// End of Import Groups
 
 	// Import Contacts
-	if (nImportOption != IMPORT_CUSTOM || (nCustomOptions & IOPT_CONTACTS)) {
+	if (nImportOptions & IOPT_CONTACTS) {
 		AddMessage(LPGENT("Importing contacts."));
 		int i = 1;
 		MCONTACT hContact = srcDb->FindFirstContact();
@@ -1061,39 +1072,33 @@ void MirandaImport(HWND hdlg)
 	AddMessage(_T(""));
 	// End of Import Contacts
 
-	// Import history
-	if (nImportOption != IMPORT_CONTACTS) {
-		// Import NULL contact message chain
-		if (nImportOption == IMPORT_ALL || (nCustomOptions & IOPT_SYSTEM)) {
-			AddMessage(LPGENT("Importing system history."));
+	// Import NULL contact message chain
+	if (nImportOptions & IOPT_SYSTEM) {
+		AddMessage(LPGENT("Importing system history."));
 
-			int protoCount;
-			PROTOACCOUNT **accs;
-			CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&protoCount, (LPARAM)&accs);
+		int protoCount;
+		PROTOACCOUNT **accs;
+		CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&protoCount, (LPARAM)&accs);
 
-			if (protoCount > 0)
-				ImportHistory(NULL, accs, protoCount);
-		}
-		else AddMessage(LPGENT("Skipping system history import."));
-
-		AddMessage(_T(""));
-
-		// Import other contact messages
-		if (nImportOption == IMPORT_ALL || (nCustomOptions & 2046)) { // 2 - 1024 types
-			AddMessage(LPGENT("Importing history."));
-			MCONTACT hContact = srcDb->FindFirstContact();
-			for (int i = 1; hContact != NULL; i++) {
-				ImportHistory(hContact, NULL, NULL);
-
-				SetProgress(100 * i / nNumberOfContacts);
-				hContact = srcDb->FindNextContact(hContact);
-			}
-		}
-		else AddMessage(LPGENT("Skipping history import."));
-
-		AddMessage(_T(""));
+		if (protoCount > 0)
+			ImportHistory(NULL, accs, protoCount);
 	}
-	// End of Import History
+	else AddMessage(LPGENT("Skipping system history import."));
+	AddMessage(_T(""));
+
+	// Import other contact messages
+	if (nImportOptions & IOPT_HISTORY) {
+		AddMessage(LPGENT("Importing history."));
+		MCONTACT hContact = srcDb->FindFirstContact();
+		for (int i = 1; hContact != NULL; i++) {
+			ImportHistory(hContact, NULL, NULL);
+
+			SetProgress(100 * i / nNumberOfContacts);
+			hContact = srcDb->FindNextContact(hContact);
+		}
+	}
+	else AddMessage(LPGENT("Skipping history import."));
+	AddMessage(_T(""));
 
 	// Restore database writing mode
 	dstDb->SetCacheSafetyMode(TRUE);
@@ -1107,18 +1112,15 @@ void MirandaImport(HWND hdlg)
 	// Print statistics
 	AddMessage(LPGENT("Import completed in %d seconds."), dwTimer);
 	SetProgress(100);
-	AddMessage((nImportOption == IMPORT_CONTACTS) ?
+	AddMessage(nMessagesCount == 0 ?
 		LPGENT("Added %d contacts and %d groups.") : LPGENT("Added %d contacts, %d groups and %d events."),
 		nContactsCount, nGroupsCount, nMessagesCount);
 
-	if (nImportOption != IMPORT_CONTACTS) {
-		if (nSkippedContacts)
-			AddMessage(LPGENT("Skipped %d contacts."), nSkippedContacts);
+	if (nSkippedContacts)
+		AddMessage(LPGENT("Skipped %d contacts."), nSkippedContacts);
 
-		AddMessage((nImportOption == IMPORT_CUSTOM) ?
-			LPGENT("Skipped %d duplicates and %d filtered events.") : LPGENT("Skipped %d duplicates."),
-			nDupes, nSkippedEvents);
-	}
+	if (nDupes || nSkippedEvents)
+		AddMessage(LPGENT("Skipped %d duplicates and %d filtered events."), nDupes, nSkippedEvents);
 
 	arMetas.destroy();
 	arAccountMap.destroy();
