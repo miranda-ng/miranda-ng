@@ -1076,3 +1076,5 @@ ProtoWindowAdd @1073
 ProtoWindowRemove @1074
 Proto_IsProtocolLoaded @1075
 Proto_RegisterModule @1076
+?Detouch@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAPEADXZ @1077 NONAME
+?Detouch@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAPEA_WXZ @1078 NONAME
