@@ -30,6 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct PROTO_INTERFACE;
 
 #include "statusmodes.h"
+#include <m_core.h>
 
 // send a general request through the protocol chain for a contact
 // wParam = 0
@@ -223,9 +224,10 @@ typedef struct {
 // NULL if it isn't.
 #define MS_PROTO_ISPROTOCOLLOADED  "Proto/IsProtocolLoaded"
 
-__forceinline PROTOCOLDESCRIPTOR* IsProtocolLoaded(const char *szProto)
-{	return (PROTOCOLDESCRIPTOR*)CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)szProto);
-}
+#ifdef __cplusplus
+extern "C"
+#endif
+MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName);
 
 // gets the network-level protocol associated with a contact
 // wParam = (MCONTACT)hContact
