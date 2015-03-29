@@ -271,12 +271,12 @@ private:
 
 
 template< typename _CharType = char >
-class ChTraitsCRT : public ChTraitsBase< _CharType >
+class ChTraitsCRT : public ChTraitsBase < _CharType >
 {
 public:
 	static char* __stdcall CharNext(const char* p)
 	{
-		return reinterpret_cast< char* >(_mbsinc(reinterpret_cast< const unsigned char* >(p)));
+		return reinterpret_cast<char*>(_mbsinc(reinterpret_cast<const unsigned char*>(p)));
 	}
 
 	static int __stdcall IsDigit(char ch)
@@ -291,59 +291,59 @@ public:
 
 	static int __stdcall StringCompare(LPCSTR pszA, LPCSTR pszB)
 	{
-		return _mbscmp(reinterpret_cast< const unsigned char* >(pszA), reinterpret_cast< const unsigned char* >(pszB));
+		return _mbscmp(reinterpret_cast<const unsigned char*>(pszA), reinterpret_cast<const unsigned char*>(pszB));
 	}
 
 	static int __stdcall StringCompareIgnore(LPCSTR pszA, LPCSTR pszB)
 	{
-		return _mbsicmp(reinterpret_cast< const unsigned char* >(pszA), reinterpret_cast< const unsigned char* >(pszB));
+		return _mbsicmp(reinterpret_cast<const unsigned char*>(pszA), reinterpret_cast<const unsigned char*>(pszB));
 	}
 
 	static int __stdcall StringCollate(LPCSTR pszA, LPCSTR pszB)
 	{
-		return _mbscoll(reinterpret_cast< const unsigned char* >(pszA), reinterpret_cast< const unsigned char* >(pszB));
+		return _mbscoll(reinterpret_cast<const unsigned char*>(pszA), reinterpret_cast<const unsigned char*>(pszB));
 	}
 
 	static int __stdcall StringCollateIgnore(LPCSTR pszA, LPCSTR pszB)
 	{
-		return _mbsicoll(reinterpret_cast< const unsigned char* >(pszA), reinterpret_cast< const unsigned char* >(pszB));
+		return _mbsicoll(reinterpret_cast<const unsigned char*>(pszA), reinterpret_cast<const unsigned char*>(pszB));
 	}
 
 	static LPCSTR __stdcall StringFindString(LPCSTR pszBlock, LPCSTR pszMatch)
 	{
-		return reinterpret_cast< LPCSTR >(_mbsstr(reinterpret_cast< const unsigned char* >(pszBlock),
-			reinterpret_cast< const unsigned char* >(pszMatch)));
+		return reinterpret_cast<LPCSTR>(_mbsstr(reinterpret_cast<const unsigned char*>(pszBlock),
+			reinterpret_cast<const unsigned char*>(pszMatch)));
 	}
 
 	static LPSTR __stdcall StringFindString(LPSTR pszBlock, LPCSTR pszMatch)
 	{
-		return const_cast< LPSTR >(StringFindString(const_cast< LPCSTR >(pszBlock), pszMatch));
+		return const_cast<LPSTR>(StringFindString(const_cast<LPCSTR>(pszBlock), pszMatch));
 	}
 
 	static LPCSTR __stdcall StringFindChar(LPCSTR pszBlock, char chMatch)
 	{
-		return reinterpret_cast< LPCSTR >(_mbschr(reinterpret_cast< const unsigned char* >(pszBlock), (unsigned char)chMatch));
+		return reinterpret_cast<LPCSTR>(_mbschr(reinterpret_cast<const unsigned char*>(pszBlock), (unsigned char)chMatch));
 	}
 
 	static LPCSTR __stdcall StringFindCharRev(LPCSTR psz, char ch)
 	{
-		return reinterpret_cast< LPCSTR >(_mbsrchr(reinterpret_cast< const unsigned char* >(psz), (unsigned char)ch));
+		return reinterpret_cast<LPCSTR>(_mbsrchr(reinterpret_cast<const unsigned char*>(psz), (unsigned char)ch));
 	}
 
 	static LPCSTR __stdcall StringScanSet(LPCSTR pszBlock, LPCSTR pszMatch)
 	{
-		return reinterpret_cast< LPCSTR >(_mbspbrk(reinterpret_cast< const unsigned char* >(pszBlock),
-			reinterpret_cast< const unsigned char* >(pszMatch)));
+		return reinterpret_cast<LPCSTR>(_mbspbrk(reinterpret_cast<const unsigned char*>(pszBlock),
+			reinterpret_cast<const unsigned char*>(pszMatch)));
 	}
 
 	static int __stdcall StringSpanIncluding(LPCSTR pszBlock, LPCSTR pszSet)
 	{
-		return (int)_mbsspn(reinterpret_cast< const unsigned char* >(pszBlock), reinterpret_cast< const unsigned char* >(pszSet));
+		return (int)_mbsspn(reinterpret_cast<const unsigned char*>(pszBlock), reinterpret_cast<const unsigned char*>(pszSet));
 	}
 
 	static int __stdcall StringSpanExcluding(LPCSTR pszBlock, LPCSTR pszSet)
 	{
-		return (int)_mbscspn(reinterpret_cast< const unsigned char* >(pszBlock), reinterpret_cast< const unsigned char* >(pszSet));
+		return (int)_mbscspn(reinterpret_cast<const unsigned char*>(pszBlock), reinterpret_cast<const unsigned char*>(pszSet));
 	}
 
 	static LPSTR __stdcall StringUppercase(LPSTR psz)
@@ -372,7 +372,7 @@ public:
 
 	static LPSTR __stdcall StringReverse(LPSTR psz)
 	{
-		return reinterpret_cast< LPSTR >(_mbsrev(reinterpret_cast< unsigned char* >(psz)));
+		return reinterpret_cast<LPSTR>(_mbsrev(reinterpret_cast<unsigned char*>(psz)));
 	}
 
 	static int __stdcall GetFormattedLength(LPCSTR pszFormat, va_list args)
@@ -401,7 +401,7 @@ public:
 	static int __stdcall GetBaseTypeLength(LPCWSTR pszSource)
 	{
 		// Returns required buffer length in XCHARs
-		return ::WideCharToMultiByte(Langpack_GetDefaultCodePage(), 0, pszSource, -1, NULL, 0, NULL, NULL)-1;
+		return ::WideCharToMultiByte(Langpack_GetDefaultCodePage(), 0, pszSource, -1, NULL, 0, NULL, NULL) - 1;
 	}
 
 	static int __stdcall GetBaseTypeLength(LPCWSTR pszSource, int nLength)
@@ -412,7 +412,7 @@ public:
 
 	static void __stdcall ConvertToBaseType(LPSTR pszDest, int nDestLength, LPCSTR pszSrc, int nSrcLength = -1)
 	{
-		if (nSrcLength == -1) { nSrcLength=1 + GetBaseTypeLength(pszSrc); }
+		if (nSrcLength == -1) { nSrcLength = 1 + GetBaseTypeLength(pszSrc); }
 		// nLen is in XCHARs
 		memcpy_s(pszDest, nDestLength*sizeof(char), pszSrc, nSrcLength*sizeof(char));
 	}
@@ -425,31 +425,30 @@ public:
 
 	static void ConvertToOem(_CharType* pstrString)
 	{
-		BOOL fSuccess=::CharToOemA(pstrString, pstrString);
+		BOOL fSuccess = ::CharToOemA(pstrString, pstrString);
 	}
 
 	static void ConvertToAnsi(_CharType* pstrString)
 	{
-		BOOL fSuccess=::OemToCharA(pstrString, pstrString);
+		BOOL fSuccess = ::OemToCharA(pstrString, pstrString);
 	}
 
 	static void ConvertToOem(_CharType* pstrString, size_t size)
 	{
-		if (size>UINT_MAX)
-		{
+		if (size > UINT_MAX) {
 			return;
 		}
-		DWORD dwSize=static_cast<DWORD>(size);
-		BOOL fSuccess=::CharToOemBuffA(pstrString, pstrString, dwSize);
+		DWORD dwSize = static_cast<DWORD>(size);
+		BOOL fSuccess = ::CharToOemBuffA(pstrString, pstrString, dwSize);
 	}
 
 	static void ConvertToAnsi(_CharType* pstrString, size_t size)
 	{
-		if (size>UINT_MAX)
+		if (size > UINT_MAX)
 			return;
 
-		DWORD dwSize=static_cast<DWORD>(size);
-		BOOL fSuccess=::OemToCharBuffA(pstrString, pstrString, dwSize);
+		DWORD dwSize = static_cast<DWORD>(size);
+		BOOL fSuccess = ::OemToCharBuffA(pstrString, pstrString, dwSize);
 	}
 
 	static void __stdcall FloodCharacters(char ch, int nLength, char* pch)
@@ -499,12 +498,17 @@ public:
 	static int __stdcall GetCharLen(const char* pch)
 	{
 		// returns char length
-		return int(_mbclen(reinterpret_cast< const unsigned char* >(pch)));
+		return int(_mbclen(reinterpret_cast<const unsigned char*>(pch)));
 	}
 
 	static DWORD __stdcall GetEnvironmentVariable(LPCSTR pszVar, LPSTR pszBuffer, DWORD dwSize)
 	{
 		return ::GetEnvironmentVariableA(pszVar, pszBuffer, dwSize);
+	}
+
+	static char* MirCopy(const char *pstrString, size_t size)
+	{
+		return mir_strndup(pstrString, size);
 	}
 };
 
@@ -741,6 +745,11 @@ public:
 	static void __stdcall ConvertToAnsi(LPWSTR /*psz*/, size_t)
 	{
 	}
+
+	static LPWSTR MirCopy(LPCWSTR pstrString, size_t size)
+	{
+		return mir_wstrndup(pstrString, size);
+	}
 };
 
 template< typename BaseType, class StringTraits >
@@ -912,6 +921,9 @@ public:
 	// Append formatted data using format string 'pszFormat'
 	PCXSTR AppendFormat(PCXSTR pszFormat, ...);
 	void   AppendFormatV(PCXSTR pszFormat, va_list args);
+
+	// return a copy of string to be freed by mir_free()
+	PXSTR Detouch() const;
 
 	// OLE BSTR support
 

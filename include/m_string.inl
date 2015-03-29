@@ -1411,6 +1411,13 @@ BOOL CMStringT<BaseType, StringTraits>::GetEnvironmentVariable(PCXSTR pszVar)
 	return bRetVal;
 }
 
+// Set the string to the value of environment variable 'pszVar'
+template< typename BaseType, class StringTraits >
+typename CMStringT<BaseType, StringTraits>::PXSTR CMStringT<BaseType, StringTraits>::Detouch() const
+{
+	return StringTraits::MirCopy(CMStringT<BaseType, StringTraits>::GetString(), GetLength());
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template< typename BaseType, class StringTraits >
