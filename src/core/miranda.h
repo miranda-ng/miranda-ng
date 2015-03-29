@@ -214,6 +214,5 @@ extern "C"
 	MIR_CORE_DLL(int)  GetSubscribersCount(HANDLE hHook);
 	MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db);
 
-	MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName);
 	MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd);
 };
