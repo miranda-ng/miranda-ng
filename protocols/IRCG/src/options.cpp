@@ -305,8 +305,8 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 	CCtrlEdit m_server, m_address, m_port, m_port2;
 	CCtrlCombo m_groupCombo;
 
-	CServerDlg(CIrcProto* _pro, CConnectPrefsDlg* _owner, int _action) :
-		CProtoDlgBase<CIrcProto>(_pro, IDD_ADDSERVER, _owner->GetHwnd()),
+	CServerDlg(CIrcProto* _pro, CConnectPrefsDlg* _owner, int _action)
+		: CProtoDlgBase<CIrcProto>(_pro, IDD_ADDSERVER, _owner->GetHwnd(), false),
 		m_owner(_owner),
 		m_action(_action),
 		m_OK(this, IDOK),
@@ -449,8 +449,8 @@ static TDbSetting ConnectSettings[] =
 	{ FIELD_OFFSET(CIrcProto, m_autoOnlineNotification), "AutoOnlineNotification", DBVT_BYTE },
 };
 
-CConnectPrefsDlg::CConnectPrefsDlg(CIrcProto* _pro) :
-	CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_CONNECT, NULL),
+CConnectPrefsDlg::CConnectPrefsDlg(CIrcProto* _pro)
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_CONNECT, NULL, false),
 	m_serverCombo(this, IDC_SERVERCOMBO),
 	m_server(this, IDC_SERVER),
 	m_port(this, IDC_PORT),
@@ -811,8 +811,8 @@ static TDbSetting CtcpSettings[] =
 	{ FIELD_OFFSET(CIrcProto, m_sendNotice), "SendNotice", DBVT_BYTE, 0, 1 }
 };
 
-CCtcpPrefsDlg::CCtcpPrefsDlg(CIrcProto* _pro) :
-	CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_CTCP, NULL),
+CCtcpPrefsDlg::CCtcpPrefsDlg(CIrcProto* _pro)
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_CTCP, NULL, false),
 	m_enableIP(this, IDC_ENABLEIP),
 	m_fromServer(this, IDC_FROMSERVER),
 	m_combo(this, IDC_COMBO),
@@ -990,8 +990,8 @@ static LRESULT CALLBACK EditSubclassProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	return mir_callNextSubclass(hwndDlg, EditSubclassProc, msg, wParam, lParam);
 }
 
-COtherPrefsDlg::COtherPrefsDlg(CIrcProto* _pro) :
-	CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_OTHER, NULL),
+COtherPrefsDlg::COtherPrefsDlg(CIrcProto* _pro)
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_OTHER, NULL, false),
 	m_url(this, IDC_CUSTOM),
 	m_performCombo(this, IDC_PERFORMCOMBO),
 	m_codepage(this, IDC_CODEPAGE),
@@ -1207,10 +1207,10 @@ void COtherPrefsDlg::addPerformComboValue(int idx, const char* szValueName)
 /////////////////////////////////////////////////////////////////////////////////////////
 // 'add ignore' preferences dialog
 
-CAddIgnoreDlg::CAddIgnoreDlg(CIrcProto* _pro, const TCHAR* mask, CIgnorePrefsDlg* _owner) :
-CProtoDlgBase<CIrcProto>(_pro, IDD_ADDIGNORE, _owner->GetHwnd()),
-m_Ok(this, IDOK),
-m_owner(_owner)
+CAddIgnoreDlg::CAddIgnoreDlg(CIrcProto* _pro, const TCHAR* mask, CIgnorePrefsDlg* _owner)
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_ADDIGNORE, _owner->GetHwnd(), false),
+	m_Ok(this, IDOK),
+	m_owner(_owner)
 {
 	if (mask == NULL)
 		szOldMask[0] = 0;
@@ -1406,17 +1406,17 @@ void CIrcProto::RewriteIgnoreSettings(void)
 	}
 }
 
-CIgnorePrefsDlg::CIgnorePrefsDlg(CIrcProto* _pro) :
-CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_IGNORE, NULL),
-m_list(this, IDC_LIST),
-m_add(this, IDC_ADD, LoadIconEx(IDI_ADD), LPGEN("Add new ignore")),
-m_edit(this, IDC_EDIT, LoadIconEx(IDI_EDIT), LPGEN("Edit this ignore")),
-m_del(this, IDC_DELETE, LoadIconEx(IDI_DELETE), LPGEN("Delete this ignore")),
-m_enable(this, IDC_ENABLEIGNORE),
-m_ignoreChat(this, IDC_IGNORECHAT),
-m_ignoreFile(this, IDC_IGNOREFILE),
-m_ignoreChannel(this, IDC_IGNORECHANNEL),
-m_ignoreUnknown(this, IDC_IGNOREUNKNOWN)
+CIgnorePrefsDlg::CIgnorePrefsDlg(CIrcProto* _pro)
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_IGNORE, NULL, false),
+	m_list(this, IDC_LIST),
+	m_add(this, IDC_ADD, LoadIconEx(IDI_ADD), LPGEN("Add new ignore")),
+	m_edit(this, IDC_EDIT, LoadIconEx(IDI_EDIT), LPGEN("Edit this ignore")),
+	m_del(this, IDC_DELETE, LoadIconEx(IDI_DELETE), LPGEN("Delete this ignore")),
+	m_enable(this, IDC_ENABLEIGNORE),
+	m_ignoreChat(this, IDC_IGNORECHAT),
+	m_ignoreFile(this, IDC_IGNOREFILE),
+	m_ignoreChannel(this, IDC_IGNORECHANNEL),
+	m_ignoreUnknown(this, IDC_IGNOREUNKNOWN)
 {
 	m_enable.OnChange = Callback(this, &CIgnorePrefsDlg::OnEnableIgnore);
 	m_ignoreChat.OnChange = Callback(this, &CIgnorePrefsDlg::OnIgnoreChat);
@@ -1764,8 +1764,8 @@ struct CDlgAccMgrUI : public CProtoDlgBase<CIrcProto>
 	CCtrlCombo m_serverCombo;
 	CCtrlEdit  m_server, m_port, m_port2, m_pass, m_nick, m_nick2, m_name, m_userID, m_ssl;
 
-	CDlgAccMgrUI(CIrcProto* _pro, HWND _owner) :
-		CProtoDlgBase<CIrcProto>(_pro, IDD_ACCMGRUI, _owner),
+	CDlgAccMgrUI(CIrcProto* _pro, HWND _owner)
+		: CProtoDlgBase<CIrcProto>(_pro, IDD_ACCMGRUI, _owner, false),
 		m_serverCombo(this, IDC_SERVERCOMBO),
 		m_server(this, IDC_SERVER),
 		m_port(this, IDC_PORT),
