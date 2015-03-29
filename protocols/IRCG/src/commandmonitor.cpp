@@ -2159,7 +2159,7 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 
 				// Post message
 				if (!mess.IsEmpty())
-					PostIrcMessageWnd(NULL, NULL, mess.c_str());
+					PostIrcMessageWnd(NULL, NULL, mess);
 			}
 
 			// Status-check post-processing: make buddies in ckeck-list offline
