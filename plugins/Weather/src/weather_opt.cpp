@@ -36,43 +36,43 @@ void SetTextDefault(const char* in)
 	TCHAR str[MAX_TEXT_SIZE];
 
 	if (strchr(in, 'C') != NULL) {
-		_tcscpy(str, C_DEFAULT);
+		_tcsncpy(str, C_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.cText, str);
 	}
 	if (strchr(in, 'b') != NULL) {
-		_tcscpy(str, b_DEFAULT);
+		_tcsncpy(str, b_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.bTitle, str);
 	}
 	if (strchr(in, 'B') != NULL) {
-		_tcscpy(str, B_DEFAULT);
+		_tcsncpy(str, B_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.bText, str);
 	}
 	if (strchr(in, 'N') != NULL) {
-		_tcscpy(str, N_DEFAULT);
+		_tcsncpy(str, N_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.nText, str);
 	}
 	if (strchr(in, 'E') != NULL) {
-		_tcscpy(str, E_DEFAULT);
+		_tcsncpy(str, E_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.eText, str);
 	}
 	if (strchr(in, 'H') != NULL) {
-		_tcscpy(str, H_DEFAULT);
+		_tcsncpy(str, H_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.hText, str);
 	}
 	if (strchr(in, 'X') != NULL) {
-		_tcscpy(str, X_DEFAULT);
+		_tcsncpy(str, X_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.xText, str);
 	}
 	if (strchr(in, 'P') != NULL) {
-		_tcscpy(str, P_DEFAULT);
+		_tcsncpy(str, P_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.pTitle, str);
 	}
 	if (strchr(in, 'p') != NULL) {
-		_tcscpy(str, p_DEFAULT);
+		_tcsncpy(str, p_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.pText, str);
 	}
 	if (strchr(in, 'S') != NULL) {
-		_tcscpy(str, s_DEFAULT);
+		_tcsncpy(str, s_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.sText, str);
 	}
 }
@@ -472,7 +472,7 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		SetWindowPos(hdlg, HWND_TOPMOST, rc.left, rc.top, 0, 0, SWP_NOSIZE);
 		TranslateDialogDefault(hdlg);
 		// generate the display text for variable list
-		_tcscpy(str, TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line"));
+		_tcsncpy(str, VAR_LIST_OPT, SIZEOF(str) - 1);
 		SetDlgItemText(hdlg, IDC_VARLIST, str);
 
 		// make the more variable and other buttons flat

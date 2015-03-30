@@ -336,7 +336,7 @@ void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 	winfo = LoadWeatherInfo(hContact);
 	// check if data exist.  If not, display error message box
 	if ( !(BOOL)db_get_b(hContact, WEATHERPROTONAME, "IsUpdated", FALSE))
-		_tcscpy(str, TranslateT("No information available.\r\nPlease update weather condition first."));
+		_tcsncpy(str, WEATHER_NO_INFO, SIZEOF(str) - 1);
 	else
 		// set the display text and show the message box
 		GetDisplay(&winfo, opt.bText, str);
@@ -351,7 +351,7 @@ void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 
 // show brief information dialog
 // wParam = current contact
-int BriefInfo(WPARAM wParam, LPARAM lParam) 
+int BriefInfo(WPARAM wParam, LPARAM) 
 {
 	// make sure that the contact is actually a weather one
 	if (IsMyContact(wParam)) {

@@ -250,7 +250,7 @@ int IDSearchProc(TCHAR *sID, const int searchId, WIIDSEARCH *sData, TCHAR *svc, 
 	}
 
 	// give no station name but only ID if the search is unavailable
-	else _tcscpy(str, TranslateT("<Enter station name here>"));
+	else _tcsncpy(str, TranslateT("<Enter station name here>"), MAX_DATA_LEN - 1);
 	mir_sntprintf(newID, SIZEOF(newID), _T("%s/%s"), svc, sID);
 
 	// set the search result and broadcast it

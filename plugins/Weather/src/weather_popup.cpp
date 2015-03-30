@@ -76,17 +76,21 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 	else if ((DWORD)lParam == SM_WEATHERALERT) 
 	{
 		POPUPDATAT ppd = {0};
-		TCHAR *chop, str1[512], str2[512];
+		TCHAR str1[512], str2[512];
 
 		// get the 2 strings
-		_tcscpy(str1, tszMsg);
-		_tcscpy(str2, tszMsg);
-		chop = _tcschr(str1, 255);
-		if (chop != NULL)	*chop = '\0';
-		else				str1[0] = 0;
+		_tcsncpy(str1, tszMsg, SIZEOF(str1) - 1);
+		_tcsncpy(str2, tszMsg, SIZEOF(str2) - 1);
+		TCHAR *chop = _tcschr(str1, 255);
+		if (chop != NULL)
+			*chop = '\0';
+		else
+			str1[0] = 0;
 		chop = _tcschr(str2, 255);
-		if (chop != NULL)	_tcscpy(str2, chop+1);
-		else				str2[0] = 0;
+		if (chop != NULL)
+			_tcsncpy(str2, chop+1, SIZEOF(str2) - 1);
+		else
+			str2[0] = 0;
 
 		// setup the popup
 		ppd.lchIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(OIC_BANG), IMAGE_ICON, 
@@ -211,7 +215,6 @@ static void SelectMenuItem(HMENU hMenu, int Check)
 void ReadPopupOpt(HWND hdlg) 
 {
 	TCHAR text[MAX_TEXT_SIZE];
-	int num;
 	TCHAR str[512];
 
 	// popup colour
@@ -220,7 +223,7 @@ void ReadPopupOpt(HWND hdlg)
 
 	// get delay time
 	GetDlgItemText(hdlg, IDC_DELAY, str, SIZEOF(str));
-	num = _ttoi(str);
+	int num = _ttoi(str);
 	opt.pDelay = num;
 
 	// other options
@@ -393,10 +396,10 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_VAR3:
 			// display variable list
-			_tcscpy(str, _T("                                                            \n"));		// to make the message box wider
-			_tcscat(str, TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set"));
-			_tcscat(str, _T("\n"));
-			_tcscat(str, TranslateT("%[..]\tcustom variables"));
+			_tcsncpy(str, _T("                                                            \n"),SIZEOF(str) - 1);		// to make the message box wider
+			_tcsncat(str, VAR_LIST_POPUP, SIZEOF(str) - 1);
+			_tcsncat(str, _T("\n"),SIZEOF(str) - 1);
+			_tcsncat(str, CUSTOM_VARS,SIZEOF(str) - 1);
 			MessageBox(NULL, str, TranslateT("Variable List"), MB_OK|MB_ICONASTERISK|MB_TOPMOST);
 			break;
 
