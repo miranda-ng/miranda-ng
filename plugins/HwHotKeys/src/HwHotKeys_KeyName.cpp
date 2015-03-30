@@ -204,7 +204,7 @@ const CHAR *t_SS = k02A + 2;
 
 
 
-const CHAR *key_tab[0x200]
+const CHAR *key_tab[0x200] = 
 {
 	k000, k001, k002, k003, k004, k005, k006, k007, k008, k009, k00A, k00B, k00C, k00D, k00E, k00F, // 000 - простые KbdLLHookStruct.scanCode
 	k010, k011, k012, k013, k014, k015, k016, k017, k018, k019, k01A, k01B, k01C, k01D, k01E, k01F, // 010
