@@ -1,5 +1,10 @@
 ﻿#muuid {315b3800-8258-44c4-b60e-58c50b9303b6}
-;langpack template for HwHotKeys
+;============================================================
+;  File: HwHotKeys.dll
+;  Plugin: Hardware HotKeys
+;  Version: 1.0.0.6
+;  Authors: Eugene f2065
+;============================================================
 ;file \plugins\HwHotKeys\res\HwHotKeys.rc
 [Hardware HotKeys plugin\r\nAllows to assign expanded multimedia-keys (only for PS/2-keyboards)]
 [Close Miranda]
