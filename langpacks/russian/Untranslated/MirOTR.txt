@@ -14,3 +14,4 @@
 [The following message received from '%s' was NOT encrypted: [%s]]
 ['%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message.]
 [unknown OTR message received, please report that to Miranda NG]
+[ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee http://wikipedia.org/wiki/Off-the-Record_Messaging for more information.]

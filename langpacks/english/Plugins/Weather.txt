@@ -172,6 +172,13 @@
 [%n   (%u)]
 [%c, %t\\nToday:  High %h, Low %l]
 [Temperature: %[Temperature]]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
+[No information available.\r\nPlease update weather condition first.]
+[%[..]\tcustom variables]
+[Here is a list of custom variables that are currently available]
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 [%s is now the default weather station]
@@ -181,8 +188,6 @@
 [<Enter station ID here>]
 ;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
-[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
-[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 [Get city name from ID]
 [Weather INI information]
 [Browse]
@@ -233,7 +238,6 @@
 [Memory Used:]
 [bytes]
 [Description:]
-[Here is a list of custom variables that are currently available]
 ;file \plugins\Weather\src\weather_ini.cpp
 [No update data file is found. Please check your Plugins\\Weather directory.]
 [Invalid ini format for: %s]
@@ -247,11 +251,8 @@
 [General]
 [Display]
 [Popups]
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
 [Weather Protocol Text Preview]
 ;file \plugins\Weather\src\weather_popup.cpp
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-[%[..]\tcustom variables]
 ;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 [Disable &weather notification]
@@ -275,4 +276,3 @@
 [Information]
 [Retrieving new data, please wait...]
 [More Info]
-[No information available.\r\nPlease update weather condition first.]
