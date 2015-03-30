@@ -51,10 +51,13 @@ STDMETHODIMP_(MEVENT) CDbxKV::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 	if (cc->IsSub()) {
 		ccSub = cc;
+		if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
+			return 0;
+
 		// set default sub to the event's source
 		if (!(dbei->flags & DBEF_SENT))
-			db_mc_setDefault(cc->parentID, contactID, false);
-		contactID = cc->parentID; // and add an event to a metahistory
+			db_mc_setDefault(cc->contactID, contactID, false);
+		contactID = cc->contactID; // and add an event to a metahistory
 		if (db_mc_isEnabled())
 			contactNotifyID = contactID;
 	}

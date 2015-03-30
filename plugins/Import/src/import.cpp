@@ -924,35 +924,35 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 
 			// custom filtering
 			if (!bSkipThis) {
-				BOOL sent = (dbei.flags & DBEF_SENT);
+				bool bIsSent = (dbei.flags & DBEF_SENT) != 0;
 
 				if (dbei.timestamp < (DWORD)dwSinceDate)
-					bSkipThis = 1;
+					bSkipThis = true;
 
 				if (!bSkipThis) {
 					if (hDst) {
 						bSkipThis = 1;
 						switch (dbei.eventType) {
 						case EVENTTYPE_MESSAGE:
-							if ((sent ? IOPT_MSGSENT : IOPT_MSGRECV) & nImportOptions)
-								bSkipThis = 0;
+							if ((bIsSent ? IOPT_MSGSENT : IOPT_MSGRECV) & nImportOptions)
+								bSkipThis = false;
 							break;
 						case EVENTTYPE_FILE:
-							if ((sent ? IOPT_FILESENT : IOPT_FILERECV) & nImportOptions)
-								bSkipThis = 0;
+							if ((bIsSent ? IOPT_FILESENT : IOPT_FILERECV) & nImportOptions)
+								bSkipThis = false;
 							break;
 						case EVENTTYPE_URL:
-							if ((sent ? IOPT_URLSENT : IOPT_URLRECV) & nImportOptions)
-								bSkipThis = 0;
+							if ((bIsSent ? IOPT_URLSENT : IOPT_URLRECV) & nImportOptions)
+								bSkipThis = false;
 							break;
 						default:
-							if ((sent ? IOPT_OTHERSENT : IOPT_OTHERRECV) & nImportOptions)
-								bSkipThis = 0;
+							if ((bIsSent ? IOPT_OTHERSENT : IOPT_OTHERRECV) & nImportOptions)
+								bSkipThis = false;
 							break;
 						}
 					}
 					else if (!(nImportOptions & IOPT_SYSTEM))
-						bSkipThis = 1;
+						bSkipThis = true;
 				}
 
 				if (bSkipThis)
