@@ -183,8 +183,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\HwHotKeys.h" />
-    <ClInclude Include="src\HwHotKeys_version.h" />
-    <ClInclude Include="src\HwHotKeys_resource.h" />
+    <ClInclude Include="src\Version.h" />
+    <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\HwHotKeys_Dlg.cpp" />
@@ -197,7 +197,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\HwHotKeys_version.rc" />
+    <ResourceCompile Include="res\Version.rc" />
     <ResourceCompile Include="res\HwHotKeys.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

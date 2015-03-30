@@ -1,7 +1,7 @@
 
 
 #include "afxres.h"
-#include "..\src\HwHotKeys_version.h"
+#include "..\src\Version.h"
 
 // https://msdn.microsoft.com/en-us/library/windows/desktop/aa381058%28v=vs.85%29.aspx
 
