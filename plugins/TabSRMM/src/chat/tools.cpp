@@ -622,18 +622,22 @@ void Chat_SetFilters(SESSION_INFO *si)
 	DWORD dwMask = db_get_dw(si->hContact, CHAT_MODULE, "FilterMask", 0);
 
 	si->iLogFilterFlags = dwFlags_default;
-	for (int i = 0; i < 32; i++)
-		if (dwMask & (1 << i))
-			si->iLogFilterFlags = (dwFlags_local & (1 << i) ? si->iLogFilterFlags | (1 << i) : si->iLogFilterFlags & ~(1 << i));
+	for (int i = 0; i < 32; i++) {
+		DWORD dwBit = 1 << i;
+		if (dwMask & dwBit)
+			si->iLogFilterFlags = (dwFlags_local & dwBit) ? si->iLogFilterFlags | dwBit : si->iLogFilterFlags & ~dwBit;
+	}
 
 	dwFlags_default = M.GetDword(CHAT_MODULE, "PopupFlags", 0x03E0);
 	dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "PopupFlags", 0x03E0);
 	dwMask = db_get_dw(si->hContact, CHAT_MODULE, "PopupMask", 0);
 
 	si->iLogPopupFlags = dwFlags_default;
-	for (int i = 0; i < 32; i++)
-		if (dwMask & (1 << i))
-			si->iLogPopupFlags = (dwFlags_local & (1 << i) ? si->iLogPopupFlags | (1 << i) : si->iLogPopupFlags & ~(1 << i));
+	for (int i = 0; i < 32; i++) {
+		DWORD dwBit = 1 << i;
+		if (dwMask & dwBit)
+			si->iLogPopupFlags = (dwFlags_local & dwBit) ? si->iLogPopupFlags | dwBit : si->iLogPopupFlags & ~dwBit;
+	}
 
 	dwFlags_default = M.GetDword(CHAT_MODULE, "TrayIconFlags", 0x03E0);
 	dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconFlags", 0x03E0);
@@ -642,9 +646,11 @@ void Chat_SetFilters(SESSION_INFO *si)
 	si->iDiskLogFlags = M.GetDword(CHAT_MODULE, "DiskLogFlags", 0xFFFF);
 
 	si->iLogTrayFlags = dwFlags_default;
-	for (int i = 0; i < 32; i++)
-		if (dwMask & (1 << i))
-			si->iLogTrayFlags = (dwFlags_local & (1 << i) ? si->iLogTrayFlags | (1 << i) : si->iLogTrayFlags & ~(1 << i));
+	for (int i = 0; i < 32; i++) {
+		DWORD dwBit = 1 << i;
+		if (dwMask & dwBit)
+			si->iLogTrayFlags = (dwFlags_local & dwBit) ? si->iLogTrayFlags | dwBit : si->iLogTrayFlags & ~dwBit;
+	}
 
 	if (si->iLogFilterFlags == 0)
 		si->bFilterEnabled = 0;

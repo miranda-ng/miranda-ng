@@ -127,7 +127,8 @@ static FontOptionsList IP_fontOptionsList[] = {
 static FontOptionsList *fontOptionsList = IM_fontOptionsList;
 static int fontCount = MSGDLGFONTCOUNT;
 
-struct branch_t {
+struct branch_t
+{
 	TCHAR*    szDescr;
 	char*     szDBName;
 	int       iMode;
@@ -483,7 +484,8 @@ static TCHAR* chatcolorsnames[] =
 	LPGENT("Incremental search highlight")
 };
 
-void RegisterFontServiceFonts() {
+void RegisterFontServiceFonts()
+{
 	char szTemp[100];
 	LOGFONT lf;
 	FontIDT fid = { 0 };
