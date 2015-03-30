@@ -728,11 +728,11 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 
 			share.pszRealPath = szRealPath;
 			share.dwMaxRealPath = sizeof(szRealPath);
-			strcpy(share.pszRealPath, p[0]);
+			strncpy(share.pszRealPath, p[0], SIZEOF(share.pszRealPath) - 1);
 
 			share.pszSrvPath = szSrvPath;
 			share.dwMaxSrvPath = sizeof(szSrvPath);
-			strcpy(share.pszSrvPath, p[1]);
+			strncpy(share.pszSrvPath, p[1], SIZEOF(share.pszSrvPath) - 1);
 
 			if (CallService(MS_HTTP_ADD_CHANGE_REMOVE, 0, (LPARAM)&share))
 				break;

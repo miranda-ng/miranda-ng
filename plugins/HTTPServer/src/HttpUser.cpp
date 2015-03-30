@@ -396,8 +396,8 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 			char* pszRealPath = pclCur->st.pszRealPath;
 
 			if (pclCur->bIsDirectory()) {
-				strcpy(szRealPath, pclCur->st.pszRealPath);
-				strcpy(szSrvPath, pclCur->st.pszSrvPath);
+				strncpy(szRealPath, pclCur->st.pszRealPath, MAX_PATH);
+				strncpy(szSrvPath, pclCur->st.pszSrvPath, MAX_PATH);
 				pszRealPath = szRealPath;
 				pszSrvPath = szSrvPath;
 
