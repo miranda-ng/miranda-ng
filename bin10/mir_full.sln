@@ -252,7 +252,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdCrypt", "..\src\core\std
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdSsl", "..\src\core\stdssl\stdssl_10.vcxproj", "{2C9F6CB6-3E70-4E7A-945D-2A7C148B0DF3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdSSL", "..\src\core\stdssl\stdssl_10.vcxproj", "{2C9F6CB6-3E70-4E7A-945D-2A7C148B0DF3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
@@ -416,6 +416,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Steam", "..\protocols\Steam\Steam_10.vcxproj", "{8236EA1F-579A-4AFB-9DFE-5FA056AEDDBB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenSSL", "..\plugins\OpenSSL\OpenSSL_10.vcxproj", "{6C0C35E7-6522-403C-BB60-9805CDB9E52F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HwHotKeys", "..\plugins\HwHotKeys\HwHotKeys_10.vcxproj", "{639E2B3A-64F2-4152-B5BB-12468E5D60B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1875,6 +1877,14 @@ Global
 		{6C0C35E7-6522-403C-BB60-9805CDB9E52F}.Release|Win32.Build.0 = Release|Win32
 		{6C0C35E7-6522-403C-BB60-9805CDB9E52F}.Release|x64.ActiveCfg = Release|x64
 		{6C0C35E7-6522-403C-BB60-9805CDB9E52F}.Release|x64.Build.0 = Release|x64
+		{639E2B3A-64F2-4152-B5BB-12468E5D60B6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{639E2B3A-64F2-4152-B5BB-12468E5D60B6}.Debug|Win32.Build.0 = Debug|Win32
+		{639E2B3A-64F2-4152-B5BB-12468E5D60B6}.Debug|x64.ActiveCfg = Debug|x64
+		{639E2B3A-64F2-4152-B5BB-12468E5D60B6}.Debug|x64.Build.0 = Debug|x64
+		{639E2B3A-64F2-4152-B5BB-12468E5D60B6}.Release|Win32.ActiveCfg = Release|Win32
+		{639E2B3A-64F2-4152-B5BB-12468E5D60B6}.Release|Win32.Build.0 = Release|Win32
+		{639E2B3A-64F2-4152-B5BB-12468E5D60B6}.Release|x64.ActiveCfg = Release|x64
+		{639E2B3A-64F2-4152-B5BB-12468E5D60B6}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
