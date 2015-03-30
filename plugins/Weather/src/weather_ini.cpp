@@ -50,15 +50,12 @@ void WIListAdd(WIDATA Data)
 // return value = the matching WIDATA struct for pszServ, NULL if no match found
 WIDATA* GetWIData(TCHAR *pszServ)
 {
-	WIDATALIST *Item = WIHead;
-
 	// loop through the list to find matching internal name
-	while (Item != NULL) {
+	for (WIDATALIST *Item = WIHead;Item != NULL;Item = Item->next)
 		// if internal name found, return the data
 		if ( _tcscmp(Item->Data.InternalName, pszServ) == 0)
 			return &Item->Data;
-		Item = Item->next;
-	}
+		
 	// return NULL when no match found
 	return NULL;
 }
@@ -186,8 +183,8 @@ bool LoadWIData(bool dial)
 	if (chop == NULL)
 		return false;
 	*chop = '\0';
-	_tcsncat(szSearchPath, _T("\\Plugins\\Weather\\*.ini"),SIZEOF(szSearchPath));
-	_tcsncpy(FileName, szSearchPath, SIZEOF(FileName));
+	_tcsncat(szSearchPath, _T("\\Plugins\\Weather\\*.ini"),MAX_PATH - 1);
+	_tcsncpy(FileName, szSearchPath, MAX_PATH - 1);
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(szSearchPath, &fd);
@@ -198,7 +195,7 @@ bool LoadWIData(bool dial)
 		do {
 			chop = _tcsrchr(FileName, '\\');
 			chop[1] = '\0';
-			_tcscat(FileName, fd.cFileName);
+			_tcsncat(FileName, fd.cFileName, SIZEOF(FileName) - 1);
 			if ( _tcsicmp(fd.cFileName, _T("SAMPLE_INI.INI"))) {
 				WIDATA Data;
 				LoadStationData(FileName, fd.cFileName, &Data);
@@ -570,7 +567,7 @@ INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				TCHAR *chop = _tcsrchr(szPath, '\\');
 				if (chop) {
 					*chop = '\0';
-					_tcsncat(szPath, _T("\\Plugins\\weather\\"),SIZEOF(szPath));
+					_tcsncat(szPath, _T("\\Plugins\\weather\\"),SIZEOF(szPath) - 1);
 					_tmkdir(szPath);
 					ShellExecute((HWND)lParam, _T("open"), szPath, _T(""), _T(""), SW_SHOW);
 				}

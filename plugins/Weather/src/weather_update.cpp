@@ -60,9 +60,9 @@ int UpdateWeather(MCONTACT hContact)
 			// show warnings by popup
 			mir_sntprintf(str, SIZEOF(str) - 105,
 				TranslateT("Unable to retrieve weather information for %s"), dbv.ptszVal);
-			_tcscat(str, _T("\n"));
+			_tcsncat(str, _T("\n"), SIZEOF(str) - 1);
 			TCHAR *tszError = GetError(code);
-			_tcscat(str, tszError);
+			_tcsncat(str, tszError, SIZEOF(str) - 1);
 			WPShowMessage(str, SM_WARNING);
 			mir_free(tszError);
 		}
@@ -458,7 +458,7 @@ int GetWeatherData(MCONTACT hContact)
 				// to get a data value.
 				GetDataValue(&Item->Item, DataValue, &szInfo);
 				if ( _tcscmp(Item->Item.Name, _T("Condition")) && _tcsicmp(Item->Item.Unit, _T("Cond")))
-					_tcscpy(DataValue, TranslateTS(DataValue));
+					_tcsncpy(DataValue, TranslateTS(DataValue), MAX_DATA_LEN - 1);
 				break;
 
 			case WID_SET: 

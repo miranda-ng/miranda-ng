@@ -63,8 +63,7 @@ INT_PTR LoadForecast(WPARAM wParam, LPARAM lParam)
 	if (id[0] != 0) {
 		// check if the complte forecast URL is set. If it is not, display warning and quit
 		if (DBGetStaticString(wParam, WEATHERPROTONAME, "InfoURL", loc2, SIZEOF(loc2)) || loc2[0] == 0) {
-			MessageBox(NULL, TranslateT("The URL for complete forecast have not been set. You can set it from the Edit Settings dialog."), 
-				TranslateT("Weather Protocol"), MB_ICONINFORMATION);
+			MessageBox(NULL, NO_FORECAST_URL, TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}
 		// set the url and open the webpage
@@ -82,7 +81,7 @@ INT_PTR WeatherMap(WPARAM wParam, LPARAM lParam)
 	if (id[0] != 0) {
 		// check if the weather map URL is set. If it is not, display warning and quit
 		if (DBGetStaticString(wParam, WEATHERPROTONAME, "MapURL", loc2, SIZEOF(loc2)) || loc2[0] == 0) {
-			MessageBox(NULL, TranslateT("The URL for weather map have not been set. You can set it from the Edit Settings dialog."), TranslateT("Weather Protocol"), MB_ICONINFORMATION);
+			MessageBox(NULL, NO_MAP_URL, TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}
 
@@ -294,15 +293,15 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			ofn.lpstrFile = str;
 			ofn.nMaxFile = SIZEOF(str);
 			// set filters
-			_tcsncpy(filter, TranslateT("Text Files"), SIZEOF(filter));
-			_tcsncat(filter, _T(" (*.txt)"), SIZEOF(filter));
+			_tcsncpy(filter, TranslateT("Text Files"), SIZEOF(filter) - 1);
+			_tcsncat(filter, _T(" (*.txt)"), SIZEOF(filter) - 1);
 			pfilter = filter + _tcslen(filter)+1;
-			_tcsncpy(pfilter, _T("*.txt"), SIZEOF(filter));
+			_tcsncpy(pfilter, _T("*.txt"), SIZEOF(filter) - 1);
 			pfilter = pfilter + _tcslen(pfilter)+1;
-			_tcsncpy(pfilter, TranslateT("All Files"), SIZEOF(filter));
-			_tcsncat(pfilter, _T(" (*.*)"), SIZEOF(filter));
+			_tcsncpy(pfilter, TranslateT("All Files"), SIZEOF(filter) - 1);
+			_tcsncat(pfilter, _T(" (*.*)"), SIZEOF(filter) - 1);
 			pfilter = pfilter + _tcslen(pfilter)+1;
-			_tcsncpy(pfilter, _T("*.*"), SIZEOF(filter));
+			_tcsncpy(pfilter, _T("*.*"), SIZEOF(filter) - 1);
 			pfilter = pfilter + _tcslen(pfilter)+1;
 			*pfilter = '\0';
 			ofn.lpstrFilter = filter;
@@ -453,7 +452,7 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 			// if the station is not a default station, set it as the new default station
 			// this is the first weather station encountered from the search
 			if ( _tcscmp(opt.Default, dbv.ptszVal)) {
-				_tcscpy(opt.Default, dbv.ptszVal);
+				_tcsncpy(opt.Default, dbv.ptszVal, SIZEOF(opt.Default) - 1);
 				opt.DefStn = hContact;
 				db_free(&dbv);
 				if ( !db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {

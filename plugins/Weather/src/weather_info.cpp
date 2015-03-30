@@ -34,7 +34,7 @@ void INIInfo(HWND hwndDlg)
 {
 	TCHAR str[16]; 
 	size_t memused = 0;
-	WIDATALIST *Item = WIHead;
+	
 
 	HWND hIniList = GetDlgItem(hwndDlg, IDC_INFOLIST);
 
@@ -43,7 +43,7 @@ void INIInfo(HWND hwndDlg)
 	LVITEM lvi = {0};
 	lvi.mask = LVIF_TEXT;
 	lvi.iItem = 0;
-	while (Item != NULL) 
+	for (WIDATALIST *Item = WIHead;Item != NULL;Item = Item->next) 
 	{
 		// get the data for the ini file
 		lvi.iSubItem = 0;
@@ -80,7 +80,6 @@ void INIInfo(HWND hwndDlg)
 
 		memused += Item->Data.MemUsed;
 
-		Item = Item->next;
 		++lvi.iItem;
 	}
 	SetDlgItemText(hwndDlg, IDC_INICOUNT, _itot(lvi.iItem, str, 10));
@@ -160,48 +159,48 @@ void GetINIInfo(TCHAR *pszSvc)
 	else
 	{
 		mir_sntprintf(str2, SIZEOF(str2), TranslateT("Weather INI information for \"%s\":"), pszSvc);
-		_tcscat(str2,_T("\n\n"));
-		_tcscat(str2, TranslateT("Name:"));
-		_tcscat(str2,_T("\t\t"));
-		_tcscat(str2, sData->DisplayName);
-		_tcscat(str2,_T("\n"));
-		_tcscat(str2, TranslateT("Internal Name:"));
-		_tcscat(str2,_T("\t"));
-		_tcscat(str2, sData->InternalName);
-		_tcscat(str2,_T("\n"));
-		_tcscat(str2, TranslateT("Author:"));
-		_tcscat(str2,_T("\t\t"));
-		_tcscat(str2, sData->Author);
-		_tcscat(str2,_T("\n"));
-		_tcscat(str2, TranslateT("Version:"));
-		_tcscat(str2,_T("\t\t"));
-		_tcscat(str2, sData->Version);
-		_tcscat(str2,_T("\n"));
-		_tcscat(str2, TranslateT("INI Version:"));
-		_tcscat(str2,_T("\t"));
+		_tcsncat(str2,_T("\n\n"), SIZEOF(str2) - 1);
+		_tcsncat(str2, TranslateT("Name:"), SIZEOF(str2) - 1);
+		_tcsncat(str2,_T("\t\t"), SIZEOF(str2) - 1);
+		_tcsncat(str2, sData->DisplayName, SIZEOF(str2) - 1);
+		_tcsncat(str2,_T("\n"), SIZEOF(str2) - 1);
+		_tcsncat(str2, TranslateT("Internal Name:"), SIZEOF(str2) - 1);
+		_tcsncat(str2,_T("\t"), SIZEOF(str2) - 1);
+		_tcsncat(str2, sData->InternalName, SIZEOF(str2) - 1);
+		_tcsncat(str2,_T("\n"), SIZEOF(str2) - 1);
+		_tcsncat(str2, TranslateT("Author:"), SIZEOF(str2) - 1);
+		_tcsncat(str2,_T("\t\t"), SIZEOF(str2) - 1);
+		_tcsncat(str2, sData->Author, SIZEOF(str2) - 1);
+		_tcsncat(str2,_T("\n"), SIZEOF(str2) - 1);
+		_tcsncat(str2, TranslateT("Version:"), SIZEOF(str2) - 1);
+		_tcsncat(str2,_T("\t\t"), SIZEOF(str2) - 1);
+		_tcsncat(str2, sData->Version, SIZEOF(str2) - 1);
+		_tcsncat(str2,_T("\n"), SIZEOF(str2) - 1);
+		_tcsncat(str2, TranslateT("INI Version:"), SIZEOF(str2) - 1);
+		_tcsncat(str2,_T("\t"), SIZEOF(str2) - 1);
 		switch (sData->InternalVer) {
-			case 1: _tcscat(str2,_T("1.0")); break;
-			case 2: _tcscat(str2,_T("1.1")); break;
-			case 3: _tcscat(str2,_T("1.1a")); break;
-			case 4: _tcscat(str2,_T("1.2")); break;
-			case 5: _tcscat(str2,_T("1.3")); break;
-			case 6: _tcscat(str2,_T("1.4")); break;
-			case 7: _tcscat(str2,_T("1.5")); break;
+			case 1: _tcsncat(str2,_T("1.0"), SIZEOF(str2) - 1); break;
+			case 2: _tcsncat(str2,_T("1.1"), SIZEOF(str2) - 1); break;
+			case 3: _tcsncat(str2,_T("1.1a"), SIZEOF(str2) - 1); break;
+			case 4: _tcsncat(str2,_T("1.2"), SIZEOF(str2) - 1); break;
+			case 5: _tcsncat(str2,_T("1.3"), SIZEOF(str2) - 1); break;
+			case 6: _tcsncat(str2,_T("1.4"), SIZEOF(str2) - 1); break;
+			case 7: _tcsncat(str2,_T("1.5"), SIZEOF(str2) - 1); break;
 		}
-		_tcscat(str2,_T("\n"));
-		_tcscat(str2, TranslateT("File Name:"));
-		_tcscat(str2,_T("\t"));
-		_tcscat(str2, sData->ShortFileName);
-		_tcscat(str2, _T("\n"));
-		_tcscat(str2, TranslateT("Item Count:"));
+		_tcsncat(str2,_T("\n"), SIZEOF(str2) - 1);
+		_tcsncat(str2, TranslateT("File Name:"), SIZEOF(str2) - 1);
+		_tcsncat(str2,_T("\t"), SIZEOF(str2) - 1);
+		_tcsncat(str2, sData->ShortFileName, SIZEOF(str2) - 1);
+		_tcsncat(str2, _T("\n"), SIZEOF(str2) - 1);
+		_tcsncat(str2, TranslateT("Item Count:"), SIZEOF(str2) - 1);
 		mir_sntprintf(str2, SIZEOF(str2), _T("%s\t%i\n"), str2, sData->UpdateDataCount);
-		_tcscat(str2, TranslateT("Memory Used:"));
+		_tcsncat(str2, TranslateT("Memory Used:"), SIZEOF(str2) - 1);
 		mir_sntprintf(str2, SIZEOF(str2), _T("%s\t%i "), str2, sData->MemUsed);
-		_tcscat(str2, TranslateT("bytes")); 
-		_tcscat(str2,_T("\n\n")); 
-		_tcscat(str2, TranslateT("Description:"));
-		_tcscat(str2,_T("\n"));
-		_tcscat(str2, sData->Description);
+		_tcsncat(str2, TranslateT("bytes"), SIZEOF(str2) - 1); 
+		_tcsncat(str2,_T("\n\n"), SIZEOF(str2) - 1); 
+		_tcsncat(str2, TranslateT("Description:"), SIZEOF(str2) - 1);
+		_tcsncat(str2,_T("\n"), SIZEOF(str2) - 1);
+		_tcsncat(str2, sData->Description, SIZEOF(str2) - 1);
 
 		// display the message box and quit
 		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK|MB_ICONINFORMATION);
@@ -216,16 +215,14 @@ void MoreVarList(void)
 {
 	TCHAR str[10240], tempstr[1024];
 
-	WIDATALIST *Item = WIHead;
 	// heading
-	_tcscpy(str, TranslateT("Here is a list of custom variables that are currently available"));
-	_tcscat(str, _T("\n\n"));
+	_tcsncpy(str, VARS_LIST, SIZEOF(str) - 1);
+	_tcsncat(str, _T("\n\n"), SIZEOF(str) - 1);
 	// loop through all weather services to find custom variables
-	while (Item != NULL) 
+	for (WIDATALIST *Item = WIHead;Item != NULL;Item = Item->next) 
 	{
-		WIDATAITEMLIST *WItem = Item->Data.UpdateData;
 		// loop through all update items in a service
-		while (WItem != NULL) 
+		for (WIDATAITEMLIST *WItem = Item->Data.UpdateData;WItem != NULL;WItem = WItem->Next) 
 		{
 			// the custom variable is defined as "%[<variable name>]"
 			// ignore the "hi" item and hidden items
@@ -234,13 +231,11 @@ void MoreVarList(void)
 				TCHAR* find = _tcsstr(str, tempstr);
 				// if the custom variable does not exist in the list, add it to the list
 				if (find == NULL) {
-					_tcscat(str, tempstr);
-					_tcscat(str, _T(", "));
+					_tcsncat(str, tempstr, SIZEOF(str) - 1);
+					_tcsncat(str, _T(", "), SIZEOF(str) - 1);
 				}
 			}
-			WItem = WItem->Next;
 		}
-		Item = Item->next;
 	}
 	// remove the last comma in the list
 	TCHAR* find = _tcsrchr(str, ',');
