@@ -638,7 +638,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		break;
 
 	case WM_CHAR:
-	{
 		BOOL isShift, isAlt, isCtrl;
 		KbdState(mwdat, isShift, isCtrl, isAlt);
 
@@ -700,17 +699,13 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				return 0;
 			}
 		}
-	}
-	break;
+		break;
 
 	case WM_KEYDOWN:
-	{
-		static size_t start, end;
-		BOOL isShift, isCtrl, isAlt;
 		KbdState(mwdat, isShift, isCtrl, isAlt);
 
 		// sound on typing..
-		if (PluginConfig.m_bSoundOnTyping&&!isAlt&&wParam == VK_DELETE)
+		if (PluginConfig.m_bSoundOnTyping && !isAlt && wParam == VK_DELETE)
 			SkinPlaySound("SoundOnTyping");
 
 		if (wParam == VK_INSERT && !isShift && !isCtrl && !isAlt) {
@@ -892,8 +887,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		}
 		if (wParam == VK_RETURN)
 			break;
-		//fall through
-	}
+		// fall through
 
 	case WM_LBUTTONDOWN:
 	case WM_MBUTTONDOWN:
@@ -905,11 +899,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 	case WM_LBUTTONUP:
 	case WM_RBUTTONUP:
 	case WM_MBUTTONUP:
-	{
-		UINT u = 0;
-		UINT u2 = 0;
-		MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
-
 		COLORREF cr;
 		LoadLogfont(MSGFONTID_MESSAGEAREA, NULL, &cr, FONTMODULE);
 
@@ -918,71 +907,75 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_BACKCOLOR | CFM_COLOR | CFM_UNDERLINETYPE;
 		cf.dwEffects = 0;
 		SendMessage(hwnd, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+		{
+			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+			if (mi == NULL)
+				break;
 
-		if (mi && mi->bColor) {
-			int index = Chat_GetColorIndex(si->pszModule, cf.crTextColor);
-			u = IsDlgButtonChecked(GetParent(hwnd), IDC_COLOR);
+			if (mi->bColor) {
+				int index = Chat_GetColorIndex(si->pszModule, cf.crTextColor);
+				UINT u = IsDlgButtonChecked(GetParent(hwnd), IDC_COLOR);
 
-			if (index >= 0) {
-				si->bFGSet = TRUE;
-				si->iFG = index;
+				if (index >= 0) {
+					si->bFGSet = TRUE;
+					si->iFG = index;
+				}
+
+				if (u == BST_UNCHECKED && cf.crTextColor != cr)
+					CheckDlgButton(hwndParent, IDC_COLOR, BST_CHECKED);
+				else if (u == BST_CHECKED && cf.crTextColor == cr)
+					CheckDlgButton(hwndParent, IDC_COLOR, BST_UNCHECKED);
 			}
 
-			if (u == BST_UNCHECKED && cf.crTextColor != cr)
-				CheckDlgButton(hwndParent, IDC_COLOR, BST_CHECKED);
-			else if (u == BST_CHECKED && cf.crTextColor == cr)
-				CheckDlgButton(hwndParent, IDC_COLOR, BST_UNCHECKED);
-		}
+			if (mi->bBkgColor) {
+				int index = Chat_GetColorIndex(si->pszModule, cf.crBackColor);
+				COLORREF crB = (COLORREF)M.GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
+				UINT u = IsDlgButtonChecked(hwndParent, IDC_BKGCOLOR);
 
-		if (mi && mi->bBkgColor) {
-			int index = Chat_GetColorIndex(si->pszModule, cf.crBackColor);
-			COLORREF crB = (COLORREF)M.GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
-			u = IsDlgButtonChecked(hwndParent, IDC_BKGCOLOR);
+				if (index >= 0) {
+					si->bBGSet = TRUE;
+					si->iBG = index;
+				}
 
-			if (index >= 0) {
-				si->bBGSet = TRUE;
-				si->iBG = index;
+				if (u == BST_UNCHECKED && cf.crBackColor != crB)
+					CheckDlgButton(hwndParent, IDC_BKGCOLOR, BST_CHECKED);
+				else if (u == BST_CHECKED && cf.crBackColor == crB)
+					CheckDlgButton(hwndParent, IDC_BKGCOLOR, BST_UNCHECKED);
 			}
 
-			if (u == BST_UNCHECKED && cf.crBackColor != crB)
-				CheckDlgButton(hwndParent, IDC_BKGCOLOR, BST_CHECKED);
-			else if (u == BST_CHECKED && cf.crBackColor == crB)
-				CheckDlgButton(hwndParent, IDC_BKGCOLOR, BST_UNCHECKED);
-		}
-
-		if (mi && mi->bBold) {
-			u = IsDlgButtonChecked(hwndParent, IDC_CHAT_BOLD);
-			u2 = cf.dwEffects;
-			u2 &= CFE_BOLD;
-			if (u == BST_UNCHECKED && u2)
-				CheckDlgButton(hwndParent, IDC_CHAT_BOLD, BST_CHECKED);
-			else if (u == BST_CHECKED && u2 == 0)
-				CheckDlgButton(hwndParent, IDC_CHAT_BOLD, BST_UNCHECKED);
-		}
-
-		if (mi && mi->bItalics) {
-			u = IsDlgButtonChecked(hwndParent, IDC_ITALICS);
-			u2 = cf.dwEffects;
-			u2 &= CFE_ITALIC;
-			if (u == BST_UNCHECKED && u2)
-				CheckDlgButton(hwndParent, IDC_ITALICS, BST_CHECKED);
-			else if (u == BST_CHECKED && u2 == 0)
-				CheckDlgButton(hwndParent, IDC_ITALICS, BST_UNCHECKED);
-		}
-
-		if (mi && mi->bUnderline) {
-			u = IsDlgButtonChecked(hwndParent, IDC_CHAT_UNDERLINE);
-			if (cf.dwEffects & CFE_UNDERLINE && (cf.bUnderlineType & CFU_UNDERLINE || cf.bUnderlineType & CFU_UNDERLINEWORD)) {
-				if (u == BST_UNCHECKED)
-					CheckDlgButton(hwndParent, IDC_CHAT_UNDERLINE, BST_CHECKED);
+			if (mi->bBold) {
+				UINT u = IsDlgButtonChecked(hwndParent, IDC_CHAT_BOLD);
+				UINT u2 = cf.dwEffects;
+				u2 &= CFE_BOLD;
+				if (u == BST_UNCHECKED && u2)
+					CheckDlgButton(hwndParent, IDC_CHAT_BOLD, BST_CHECKED);
+				else if (u == BST_CHECKED && u2 == 0)
+					CheckDlgButton(hwndParent, IDC_CHAT_BOLD, BST_UNCHECKED);
 			}
-			else {
-				if (u == BST_CHECKED)
-					CheckDlgButton(hwndParent, IDC_CHAT_UNDERLINE, BST_UNCHECKED);
+
+			if (mi->bItalics) {
+				UINT u = IsDlgButtonChecked(hwndParent, IDC_ITALICS);
+				UINT u2 = cf.dwEffects;
+				u2 &= CFE_ITALIC;
+				if (u == BST_UNCHECKED && u2)
+					CheckDlgButton(hwndParent, IDC_ITALICS, BST_CHECKED);
+				else if (u == BST_CHECKED && u2 == 0)
+					CheckDlgButton(hwndParent, IDC_ITALICS, BST_UNCHECKED);
+			}
+
+			if (mi->bUnderline) {
+				UINT u = IsDlgButtonChecked(hwndParent, IDC_CHAT_UNDERLINE);
+				if (cf.dwEffects & CFE_UNDERLINE && (cf.bUnderlineType & CFU_UNDERLINE || cf.bUnderlineType & CFU_UNDERLINEWORD)) {
+					if (u == BST_UNCHECKED)
+						CheckDlgButton(hwndParent, IDC_CHAT_UNDERLINE, BST_CHECKED);
+				}
+				else {
+					if (u == BST_CHECKED)
+						CheckDlgButton(hwndParent, IDC_CHAT_UNDERLINE, BST_UNCHECKED);
+				}
 			}
 		}
-	}
-	break;
+		break;
 
 	case WM_INPUTLANGCHANGE:
 		if (PluginConfig.m_bAutoLocaleSupport && GetFocus() == hwnd && mwdat->pContainer->hwndActive == hwndParent && GetForegroundWindow() == mwdat->pContainer->hwnd && GetActiveWindow() == mwdat->pContainer->hwnd) {
@@ -1813,16 +1806,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 		SendDlgItemMessage(hwndDlg, IDC_COLOR, BUTTONSETASPUSHBTN, TRUE, 0);
 
-		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTERX), SplitterSubclassProc);
-		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTERY), SplitterSubclassProc);
-		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_LIST), NicklistSubclassProc);
-		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_LOG), LogSubclassProc);
-		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_FILTER), ButtonSubclassProc);
-		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_COLOR), ButtonSubclassProc);
-		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOR), ButtonSubclassProc);
-		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), MessageSubclassProc);
-
-		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SUBCLASSED, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_AUTOURLDETECT, 1, 0);
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PANELSPLITTER), GWLP_WNDPROC, (LONG_PTR)SplitterSubclassProc);
 		TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPENING, 0);
@@ -1856,6 +1839,17 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		DM_InitTip(dat);
 		BB_InitDlgButtons(dat);
 		SendMessage(hwndDlg, DM_LOADBUTTONBARICONS, 0, 0);
+
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTERX), SplitterSubclassProc);
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTERY), SplitterSubclassProc);
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_LIST), NicklistSubclassProc);
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_LOG), LogSubclassProc);
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_FILTER), ButtonSubclassProc);
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_COLOR), ButtonSubclassProc);
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOR), ButtonSubclassProc);
+
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), MessageSubclassProc);
+		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SUBCLASSED, 0, 0);
 
 		dat->hwndIEView = dat->hwndHPP = 0;
 
