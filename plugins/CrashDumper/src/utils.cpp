@@ -614,12 +614,13 @@ void StoreStringToClip(CMString& buffer)
 
 	GlobalUnlock(hData);
 
-	OpenClipboard(NULL);
-	EmptyClipboard();
+	if(OpenClipboard(NULL)) {
+		EmptyClipboard();
 
 
-	SetClipboardData(CF_UNICODETEXT, hData);
-	CloseClipboard();
+		SetClipboardData(CF_UNICODETEXT, hData);
+		CloseClipboard();
+	}
 }
 
 bool IsPluginEnabled(TCHAR* filename)
