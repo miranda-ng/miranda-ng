@@ -174,7 +174,7 @@ private:
 	// utils
 	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
-
+	void CSkypeProto::SetServerStatus(int iNewStatus);
 	static bool IsFileExists(std::tstring path);
 	std::string urlDecode(std::string SRC);
 
