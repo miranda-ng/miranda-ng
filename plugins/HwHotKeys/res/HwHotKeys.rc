@@ -1,0 +1,110 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\HwHotKeys_resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Русский (Россия) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\HwHotKeys_resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+	"#include <winres.h>\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+dlg_options DIALOGEX 0, 0, 315, 247
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+	CONTROL "Hardware HotKeys plugin\r\nAllows to assign expanded multimedia-keys (only for PS/2-keyboards)", -1, "Static", WS_CHILDWINDOW | WS_VISIBLE | SS_CENTER, 3, 3, 303, 21
+	CONTROL "Close Miranda", -1, "Static", WS_CHILDWINDOW | WS_VISIBLE | SS_CENTERIMAGE | SS_LEFTNOWORDWRAP, 0, 30, 114, 12
+	CONTROL "", dlg_close_edit, "Edit", WS_CHILDWINDOW | WS_VISIBLE | WS_TABSTOP | ES_READONLY | ES_AUTOHSCROLL, 114, 30, 114, 12, WS_EX_CLIENTEDGE
+	CONTROL "Assign", dlg_close_set, "Button", WS_CHILDWINDOW | WS_VISIBLE | WS_TABSTOP, 228, 30, 42, 12
+	CONTROL "Clear", dlg_close_clear, "Button", WS_CHILDWINDOW | WS_VISIBLE | WS_TABSTOP, 270, 30, 42, 12
+	CONTROL "Show/Hide contact list", -1, "Static", WS_CHILDWINDOW | WS_VISIBLE | SS_CENTERIMAGE | SS_LEFTNOWORDWRAP, 0, 45, 114, 12
+	CONTROL "", dlg_hide_edit, "Edit", WS_CHILDWINDOW | WS_VISIBLE | WS_TABSTOP | ES_READONLY | ES_AUTOHSCROLL, 114, 45, 114, 12, WS_EX_CLIENTEDGE
+	CONTROL "Assign", dlg_hide_set, "Button", WS_CHILDWINDOW | WS_VISIBLE | WS_TABSTOP, 228, 45, 42, 12
+	CONTROL "Clear", dlg_hide_clear, "Button", WS_CHILDWINDOW | WS_VISIBLE | WS_TABSTOP, 270, 45, 42, 12
+	CONTROL "Read message", -1, "Static", WS_CHILDWINDOW | WS_VISIBLE | SS_CENTERIMAGE | SS_LEFTNOWORDWRAP, 0, 60, 114, 12
+	CONTROL "", dlg_read_edit, "Edit", WS_CHILDWINDOW | WS_VISIBLE | WS_TABSTOP | ES_READONLY | ES_AUTOHSCROLL, 114, 60, 114, 12, WS_EX_CLIENTEDGE
+	CONTROL "Assign", dlg_read_set, "Button", WS_CHILDWINDOW | WS_VISIBLE | WS_TABSTOP, 228, 60, 42, 12
+	CONTROL "Clear", dlg_read_clear, "Button", WS_CHILDWINDOW | WS_VISIBLE | WS_TABSTOP, 270, 60, 42, 12
+	CONTROL "Last pressed key", -1, "Button", WS_CHILDWINDOW | WS_VISIBLE | BS_CENTER | BS_GROUPBOX, 0, 174, 312, 63
+	CONTROL "Extended flag (1xx), Hardware scan code (x23), KeyName", -1, "Static", WS_CHILDWINDOW | WS_VISIBLE | SS_CENTERIMAGE | SS_LEFTNOWORDWRAP, 6, 186, 198, 12
+	CONTROL "", dlg_scancode_edit, "Edit", WS_CHILDWINDOW | WS_VISIBLE | WS_TABSTOP | ES_READONLY | ES_AUTOHSCROLL, 204, 186, 99, 12, WS_EX_CLIENTEDGE
+	CONTROL "Combine left/right keys Shift, Ctrl, Win, Alt", dlg_combine, "Button", WS_CHILDWINDOW | WS_VISIBLE | WS_TABSTOP | BS_AUTOCHECKBOX, 6, 204, 291, 9
+	CONTROL "Combination of keys for assignment", -1, "Static", WS_CHILDWINDOW | WS_VISIBLE | SS_CENTERIMAGE | SS_LEFTNOWORDWRAP, 6, 219, 144, 12
+	CONTROL "", dlg_keyname_edit, "Edit", WS_CHILDWINDOW | WS_VISIBLE | WS_TABSTOP | ES_READONLY | ES_AUTOHSCROLL, 150, 219, 153, 12, WS_EX_CLIENTEDGE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_DIALOG1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 169
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Русский (Россия) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
