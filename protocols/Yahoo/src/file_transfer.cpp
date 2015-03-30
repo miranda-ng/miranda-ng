@@ -22,10 +22,6 @@ YList *file_transfers=NULL;
 static y_filetransfer* new_ft(CYahooProto* ppro, int id, MCONTACT hContact, const char *who, const char *msg,  
 					const char *url, const char *ft_token, int y7, YList *fs, int sending)
 {
-	yahoo_file_info * fi;
-	int i=0;
-	YList *l=fs;
-
 	LOG(("[new_ft] id: %d, who: %s, msg: %s, ft_token: %s, y7: %d, sending: %d", id, who, msg, ft_token, y7, sending));
 
 	y_filetransfer* ft = (y_filetransfer*) calloc(1, sizeof(y_filetransfer));
@@ -58,19 +54,18 @@ static y_filetransfer* new_ft(CYahooProto* ppro, int id, MCONTACT hContact, cons
 
 	ft->pfts.ptszFiles = (TCHAR**) mir_calloc(ft->pfts.totalFiles * sizeof(TCHAR *));
 	ft->pfts.totalBytes = 0;
-
-	while(l) {
-		fi = ( yahoo_file_info* )l->data;
+	
+	int i=0;
+	for(YList *l=fs; l; l=l->next) {
+		yahoo_file_info *fi = ( yahoo_file_info* )l->data;
 
 		ft->pfts.ptszFiles[i++] = mir_utf8decodeT(fi->filename);
 		ft->pfts.totalBytes += fi->filesize;
-
-		l=l->next;
 	}
 
 	ft->pfts.currentFileNumber = 0;
 
-	fi = ( yahoo_file_info* )fs->data; 
+	yahoo_file_info *fi = ( yahoo_file_info* )fs->data; 
 	ft->pfts.tszCurrentFile = _tcsdup(ft->pfts.ptszFiles[ft->pfts.currentFileNumber]);
 	ft->pfts.currentFileSize = fi->filesize; 
 
@@ -83,12 +78,10 @@ static y_filetransfer* new_ft(CYahooProto* ppro, int id, MCONTACT hContact, cons
 
 y_filetransfer* find_ft(const char *ft_token, const char *who) 
 {
-	YList *l;
-	y_filetransfer* f;
 	LOG(("[find_ft] Searching for: %s", ft_token));
 	
-	for(l = file_transfers; l; l = y_list_next(l)) {
-		f = (y_filetransfer* )l->data;
+	for(YList *l = file_transfers; l; l = y_list_next(l)) {
+		y_filetransfer *f = (y_filetransfer* )l->data;
 		if (mir_strcmp(f->ftoken, ft_token) == 0 && mir_strcmp(f->who, who) == 0) {
 			LOG(("[find_ft] Got it!"));
 			return f;
@@ -99,14 +92,11 @@ y_filetransfer* find_ft(const char *ft_token, const char *who)
 	return NULL;
 }
 
-static void free_ft(y_filetransfer* ft)
+static void free_ft(y_filetransfer *ft)
 {
-	YList *l;
-	int i;
-	
 	LOG(("[free_ft] token: %s", ft->ftoken));
 	
-	for(l = file_transfers; l; l = y_list_next(l)) {
+	for(YList *l = file_transfers; l; l = y_list_next(l)) {
 		if (l->data == ft) {
 			LOG(("[free_ft] Ft found and removed from the list"));
 			file_transfers = y_list_remove_link(file_transfers, l);
@@ -137,7 +127,7 @@ static void free_ft(y_filetransfer* ft)
 	
 	LOG(("[free_ft] About to free PFTS."));
 	
-	for (i=0; i< ft->pfts.totalFiles; i++)
+	for (int i=0; i< ft->pfts.totalFiles; i++)
 		mir_free(ft->pfts.ptszFiles[i]);
 	
 	mir_free(ft->pfts.ptszFiles);
@@ -251,13 +241,10 @@ static void upload_file(int id, INT_PTR fd, int error, void *data)
 		if (sf->pfts.currentFileNumber >= sf->pfts.totalFiles) {
 			ProtoBroadcastAck(sf->ppro->m_szModuleName, sf->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, sf, 0);
 		} else {
-			YList *l;
-			struct yahoo_file_info * fi;
-			
 			// Do Next file
 			FREE(sf->pfts.tszCurrentFile);
 			
-			l = sf->files;
+			YList *l = sf->files;
 			
 			fi = ( yahoo_file_info* )l->data;
 			FREE(fi->filename);
@@ -267,7 +254,7 @@ static void upload_file(int id, INT_PTR fd, int error, void *data)
 			y_list_free_1(l);
 			
 			// need to move to the next file on the list and fill the file information
-			fi = ( yahoo_file_info* )sf->files->data; 
+			struct yahoo_file_info *fi = ( yahoo_file_info* )sf->files->data; 
 			sf->pfts.tszCurrentFile = _tcsdup(sf->pfts.ptszFiles[sf->pfts.currentFileNumber]);
 			sf->pfts.currentFileSize = fi->filesize; 
 			sf->pfts.currentFileProgress = 0;
@@ -422,14 +409,11 @@ static void dl_file(int id, INT_PTR fd, int error,	const char *filename, unsigne
 		if (sf->pfts.currentFileNumber >= sf->pfts.totalFiles) {
 			ProtoBroadcastAck(sf->ppro->m_szModuleName, sf->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, sf, 0);
 		} else {
-			YList *l;
-			struct yahoo_file_info * fi;
-			
 			// Do Next file
 			yahoo_ft7dc_nextfile(id, sf->who, sf->ftoken);
 			FREE(sf->pfts.tszCurrentFile);
 			
-			l = sf->files;
+			YList *l = sf->files;
 			
 			fi = ( yahoo_file_info* )l->data;
 			FREE(fi->filename);
@@ -439,7 +423,7 @@ static void dl_file(int id, INT_PTR fd, int error,	const char *filename, unsigne
 			y_list_free_1(l);
 			
 			// need to move to the next file on the list and fill the file information
-			fi = ( yahoo_file_info* )sf->files->data; 
+			struct yahoo_file_info *fi = ( yahoo_file_info* )sf->files->data; 
 			sf->pfts.tszCurrentFile = _tcsdup(sf->pfts.ptszFiles[sf->pfts.currentFileNumber]);
 			sf->pfts.currentFileSize = fi->filesize; 
 			sf->pfts.currentFileProgress = 0;
@@ -507,11 +491,11 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 	fi->filename = strdup(fn);
 	fi->filesize = fesize;
 
-	YList *files = NULL;
-	y_list_append(files, fi);
+	YList *files = y_list_append(NULL, fi);
 
 	y_filetransfer *ft = new_ft(this, m_id, hContact, who, msg,	url, ft_token, y7, files, 0 /* downloading */);
 	if (ft == NULL) {
+		y_list_free(files);
 		debugLogA("SF IS NULL!!!");
 		return;
 	}
@@ -533,26 +517,23 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 
 void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_token, int y7, YList* files)
 {
-	MCONTACT hContact;
-	y_filetransfer *ft;
-	YList *f;
 	char fn[4096];
 	int fc = 0;
 
 	LOG(("[ext_yahoo_got_files] ident:%s, who: %s, ftoken: %s ", me, who, ft_token == NULL ? "NULL" : ft_token));
 
-	hContact = getbuddyH(who);
+	MCONTACT hContact = getbuddyH(who);
 	if (hContact == NULL) 
 		hContact = add_buddy(who, who, 0 /* NO FT for other IMs */, PALF_TEMPORARY);
 
-	ft = new_ft(this, m_id, hContact, who, NULL, NULL, ft_token, y7, files, 0 /* downloading */);
+	y_filetransfer *ft = new_ft(this, m_id, hContact, who, NULL, NULL, ft_token, y7, files, 0 /* downloading */);
 	if (ft == NULL) {
 		debugLogA("SF IS NULL!!!");
 		return;
 	}
 
 	fn[0] = '\0';
-	for (f=files; f; f = y_list_next(f)) {
+	for (YList *f=files; f; f = y_list_next(f)) {
 		char z[1024];
 		struct yahoo_file_info *fi = (struct yahoo_file_info *) f->data;
 
@@ -582,11 +563,9 @@ void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_
 
 void CYahooProto::ext_got_file7info(const char *me, const char *who, const char *url, const char *fname, const char *ft_token)
 {
-	y_filetransfer *ft;
-
 	LOG(("[ext_yahoo_got_file7info] ident:%s, who: %s, url: %s, fname: %s, ft_token: %s", me, who, url, fname, ft_token));
 	
-	ft = find_ft(ft_token, who);
+	y_filetransfer *ft = find_ft(ft_token, who);
 	
 	if (ft == NULL) {
 		LOG(("ERROR: Can't find the token: %s in my file transfers list...", ft_token));
@@ -604,22 +583,18 @@ void CYahooProto::ext_got_file7info(const char *me, const char *who, const char 
 
 void ext_yahoo_send_file7info(int id, const char *me, const char *who, const char *ft_token)
 {
-	y_filetransfer *ft;
-	yahoo_file_info *fi;
-	
-	char *c;
 	LOG(("[ext_yahoo_send_file7info] id: %i, ident:%s, who: %s, ft_token: %s", id, me, who, ft_token));
 	
-	ft = find_ft(ft_token, who);
+	y_filetransfer *ft = find_ft(ft_token, who);
 	
 	if (ft == NULL) {
 		LOG(("ERROR: Can't find the token: %s in my file transfers list...", ft_token));
 		return;
 	}
 	
-	fi = (yahoo_file_info *) ft->files->data;
+	yahoo_file_info *fi = (yahoo_file_info *) ft->files->data;
 	
-	c = strrchr(fi->filename, '\\');
+	char *c = strrchr(fi->filename, '\\');
 	if (c != NULL) {
 		c++;
 	} else {
@@ -648,19 +623,16 @@ struct _sfs{
 
 void CYahooProto::ext_ft7_send_file(const char *me, const char *who, const char *filename, const char *token, const char *ft_token)
 {
-	y_filetransfer *sf;
-	struct _sfs *s;
-	
 	LOG(("[ext_yahoo_send_file7info] ident:%s, who: %s, ft_token: %s", me, who, ft_token));
 	
-	sf = find_ft(ft_token, who);
+	y_filetransfer *sf = find_ft(ft_token, who);
 	
 	if (sf == NULL) {
 		LOG(("ERROR: Can't find the token: %s in my file transfers list...", ft_token));
 		return;
 	}
 
-	s = (struct _sfs *) malloc( sizeof( struct _sfs ));
+	struct _sfs *s = (struct _sfs *) malloc( sizeof( struct _sfs ));
 	
 	s->me = strdup(me);
 	s->token = strdup(token);
@@ -692,7 +664,6 @@ void __cdecl CYahooProto::send_filethread(void *psf)
 	} else {
 		debugLogA("[yahoo_send_filethread] More files coming?");
 	}
-
 }
 
 
@@ -701,42 +672,37 @@ void __cdecl CYahooProto::send_filethread(void *psf)
 
 HANDLE __cdecl CYahooProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles )
 {
-	DBVARIANT dbv;
-	y_filetransfer *sf;
-	
 	LOG(("[YahooSendFile]"));
 	
 	if ( !m_bLoggedIn )
 		return 0;
 
+	DBVARIANT dbv;
 	if (!getString(hContact, YAHOO_LOGINID, &dbv)) {
 		long tFileSize = 0;
 		struct _stat statbuf;
-		struct yahoo_file_info *fi;
 		YList *fs=NULL;
+		
 		int i=0;
-		char *s;
-	
-		while (ppszFiles[i] != NULL) {
+		for (;ppszFiles[i] != NULL;i++) {
 			if ( _tstat( ppszFiles[i], &statbuf ) == 0)
 				tFileSize = statbuf.st_size;
 	
-			fi = y_new(struct yahoo_file_info,1);
+			struct yahoo_file_info *fi = y_new(struct yahoo_file_info,1);
 			
 			/**
 			 * Need to use regular memory allocator/deallocator, since this is how things are build w/ libyahoo2
 			 */
-			s = mir_utf8encodeT(ppszFiles[i]);
+			char *s = mir_utf8encodeT(ppszFiles[i]);
 			fi->filename = strdup(s);
 			mir_free(s);
 			
 			fi->filesize = tFileSize;
 		
 			fs = y_list_append(fs, fi);
-			i++;
 		}
 	
-		sf = new_ft(this, m_id, hContact, dbv.pszVal, ( char* )szDescription,
+		y_filetransfer *sf = new_ft(this, m_id, hContact, dbv.pszVal, ( char* )szDescription,
 					NULL, NULL, 0, fs, 1 /* sending */);
 					
 		db_free(&dbv);
@@ -766,14 +732,13 @@ HANDLE __cdecl CYahooProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescr
 HANDLE __cdecl CYahooProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
 {
 	y_filetransfer *ft = (y_filetransfer *)hTransfer;
-	size_t len;
 
 	debugLogA("[YahooFileAllow]");
 
 	//LOG(LOG_INFO, "[%s] Requesting file from %s", ft->cookie, ft->user);
 	ft->pfts.tszWorkingDir = _tcsdup( szPath );
 
-	len = _tcslen(ft->pfts.tszWorkingDir) - 1;
+	size_t len = _tcslen(ft->pfts.tszWorkingDir) - 1;
 	if (ft->pfts.tszWorkingDir[len] == '\\')
 		ft->pfts.tszWorkingDir[len] = 0;
 		

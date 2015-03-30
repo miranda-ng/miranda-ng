@@ -133,7 +133,7 @@ void CYahooProto::SendAvatar(const TCHAR *szFile)
 	sf->filesize = statbuf.st_size;
 
 	wchar_t tszFilename[MAX_PATH];
-	wcsncpy(tszFilename, szFile, SIZEOF(szFile)-1);
+	wcsncpy(tszFilename, szFile, SIZEOF(tszFilename)-1);
 	GetShortPathNameW(szFile, tszFilename, SIZEOF(tszFilename));
 	char szFilename[MAX_PATH];
 	WideCharToMultiByte(CP_ACP, 0, tszFilename, -1, szFilename, MAX_PATH, 0, 0);
