@@ -32,7 +32,7 @@ static void ReplaceSign(char* pszSrc, int MaxLength, const char pszReplace,
 	char* pszSign = strchr(pszSrc, pszReplace);
 
 	if (pszSign) {
-		strcpy(szBuffer, pszSrc);
+		strncpy(szBuffer, pszSrc, SIZEOF(szBuffer)-1);
 
 		do {
 			strcpy(szBuffer + (pszSign - pszSrc), pszNew);
@@ -64,8 +64,8 @@ static void ReplaceSign(char* pszSrc, int MaxLength, const char pszReplace,
 bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, 
 										 const char * pszSrvPath, DWORD dwRemoteIP) {
 	char szMask[MAX_PATH+1];
-	strcpy(szMask, pszRealPath);
-	strcat(szMask, "*");
+	strncpy(szMask, pszRealPath, MAX_PATH);
+	strncat(szMask, "*", MAX_PATH);
 
 	WIN32_FIND_DATAA fdFindFileData;
 	HANDLE hFind = FindFirstFile(szMask, &fdFindFileData);
@@ -89,31 +89,31 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 	DWORD dwBytesWritten = 0;
 
 	// Generate Dirname
-	strcpy(szBuffer, pszSrvPath);
+	strncpy(szBuffer, pszSrvPath, BUFFER_SIZE);
 	char* pszTemp = strrchr(szBuffer, '/');
 	if (pszTemp)
 		*pszTemp = '\0';
 
 	pszTemp = strrchr(szBuffer, '/');
 	if (pszTemp)
-		strcpy(szFileName, pszTemp + 1);
+		strncpy(szFileName, pszTemp + 1, MAX_PATH);
 
 	// Write Header
 	WriteFile(hFile, szXmlHeader1, sizeof(szXmlHeader1) - 1, &dwBytesWritten, NULL);
 
 	// check if a index.xsl exists in the same directory otherwise use the global
-	strcpy(szMask, pszRealPath);
-	strcat(szMask, "index.xsl");
+	strncpy(szMask, pszRealPath, MAX_PATH);
+	strncat(szMask, "index.xsl", MAX_PATH);
 
 	HANDLE hFileExists = CreateFile(szMask, GENERIC_READ, 
 		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 
 		FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (hFileExists == INVALID_HANDLE_VALUE) {
-		strcpy(szBuffer, "/index.xsl");
+		strncpy(szBuffer, "/index.xsl", BUFFER_SIZE);
 	} else {
 		CloseHandle(hFileExists);
-		strcpy(szBuffer, "index.xsl");
+		strncpy(szBuffer, "index.xsl", BUFFER_SIZE);
 	}
 
 	WriteFile(hFile, szBuffer, (DWORD)strlen(szBuffer), &dwBytesWritten, NULL);
