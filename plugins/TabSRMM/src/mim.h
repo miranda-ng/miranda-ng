@@ -167,10 +167,10 @@ public:
 	// os dependent stuff (aero, visual styles etc.)
 
 	// returns status of Windows Aero
-	const bool isAero() const { return m_isAero; }
+	__forceinline bool isAero() const { return m_isAero; }
 
-	const bool isDwmActive() const { return m_DwmActive; }
-	const DWORD getWinVer() const { return m_winVer; }
+	__forceinline bool isDwmActive() const { return m_DwmActive; }
+	__forceinline DWORD getWinVer() const { return m_winVer; }
 
 	// refresh Aero status.
 	bool getAeroState();
