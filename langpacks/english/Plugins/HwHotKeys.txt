@@ -1,0 +1,15 @@
+﻿#muuid {315b3800-8258-44c4-b60e-58c50b9303b6}
+;langpack template for HwHotKeys
+;file \plugins\HwHotKeys\res\HwHotKeys.rc
+[Hardware HotKeys plugin\r\nAllows to assign expanded multimedia-keys (only for PS/2-keyboards)]
+[Close Miranda]
+[Assign]
+[Clear]
+[Show/Hide contact list]
+[Read message]
+[Last pressed key]
+[Extended flag (1xx), Hardware scan code (x23), KeyName]
+[Combine left/right keys Shift, Ctrl, Win, Alt]
+[Combination of keys for assignment]
+;file \plugins\HwHotKeys\src\HwHotKeys_DllMain.cpp
+[Customize]

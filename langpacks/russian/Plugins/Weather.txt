@@ -329,6 +329,16 @@ INI файл погоды для этой станции не найден (20)
 %c, %t\\nСегодня:  макс. %h, мин. %l
 [Temperature: %[Temperature]]
 Температура: %[Temperature]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tпрогноз на сегодня\n%d\tтекущая дата\n%e\tроса\n%f\tощущение\n%h\tмаксимум\n%i\tнаправление ветра\n%l\tминимум\n%m\tвлажность\n%n\tгород\n%p\tдавление\n%r\tвосход\n%s\tID города\n%t\tтемпература\n%u\tобновление\n%v\tвидимость\n%w\tскорость ветра\n%y\tзакат
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
+%c   прогноз на сегодня\n%d   текущая дата\n%e   роса\n%f   ощущение\n%h   максимум\n%i   направление ветра\n%l   минимум\n%m   влажность\n%n   город\n%p   давление\n%r   восход\n%s   ID города\n%t   температура\n%u   обновление\n%v   видимость\n%w   скорость ветра\n%y   закат\n----------\n\\n   новая строка
+[No information available.\r\nPlease update weather condition first.]
+Информация недоступна.\r\nПредварительно обновите данные о погоде.
+[%[..]\tcustom variables]
+%[..]\tсвои переменные
+[Here is a list of custom variables that are currently available]
+Список дополнительных переменных, доступных на данный момент
 [Current weather information for %s.]
 Текущая информация о погоде для %s.
 [%s is now the default weather station]
@@ -343,10 +353,6 @@ INI файл погоды для этой станции не найден (20)
 <Введите ID города>
 [Weather condition was not logged.]
 Журнал погоды не ведется.
-[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
-Не указан URL для полного прогноза погоды. Укажите его в настройках.
-[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
-Не указан URL для карты погоды. Вы можете указать его в меню Настройки.
 [Get city name from ID]
 Получить название города по ID
 [Weather INI information]
@@ -437,8 +443,6 @@ HTTP подключение Weather
 байт
 [Description:]
 Описание:
-[Here is a list of custom variables that are currently available]
-Список дополнительных переменных, доступных на данный момент
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Не найдено ни одного файла INI. Пожалуйста, проверьте папку Plugins\\Weather.
 [Invalid ini format for: %s]
@@ -459,14 +463,8 @@ HTTP подключение Weather
 Показывать
 [Popups]
 Всплывающие окна
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
-%c   прогноз на сегодня\n%d   текущая дата\n%e   роса\n%f   ощущение\n%h   максимум\n%i   направление ветра\n%l   минимум\n%m   влажность\n%n   город\n%p   давление\n%r   восход\n%s   ID города\n%t   температура\n%u   обновление\n%v   видимость\n%w   скорость ветра\n%y   закат\n----------\n\\n   новая строка
 [Weather Protocol Text Preview]
 Просмотр протокола погоды
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\tпрогноз на сегодня\n%d\tтекущая дата\n%e\tроса\n%f\tощущение\n%h\tмаксимум\n%i\tнаправление ветра\n%l\tминимум\n%m\tвлажность\n%n\tгород\n%p\tдавление\n%r\tвосход\n%s\tID города\n%t\tтемпература\n%u\tобновление\n%v\tвидимость\n%w\tскорость ветра\n%y\tзакат
-[%[..]\tcustom variables]
-%[..]\tсвои переменные
 [Station ID]
 ID города
 [Disable &weather notification]
@@ -507,5 +505,3 @@ ID города
 Получаю новые данные. Подождите, пожалуйста...
 [More Info]
 Подробнее
-[No information available.\r\nPlease update weather condition first.]
-Информация недоступна.\r\nПредварительно обновите данные о погоде.
