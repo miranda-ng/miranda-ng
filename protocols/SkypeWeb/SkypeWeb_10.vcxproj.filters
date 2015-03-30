@@ -54,6 +54,15 @@
     <ClInclude Include="src\requests\profile.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
+    <ClInclude Include="src\requests\endpoint.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\reg_info.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\status.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cpp">
@@ -96,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\skype_profile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_status.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

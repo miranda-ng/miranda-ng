@@ -104,33 +104,25 @@ void CSkypeProto::OnGetRegInfo(const NETLIBHTTPREQUEST *response)
 	std::regex regex;
 	std::smatch match;
 	std::string content = response->pData;
-	for (int i = 0; i < response->headersCount; i++)
-	{
-		if (mir_strcmpi(response->headers[i].szName, "Set-RegistrationToken") == 0)
-		{
-			regex = "^(.+?)=(.+?);";
-			content = response->headers[i].szValue;
-			if (std::regex_search(content, match, regex))
-				RegInfo[match[1]] = match[2];
-		}
-		else if (mir_strcmpi(response->headers[i].szName, "Location") == 0)
-		{
-			content = response->headers[i].szValue;
-			RegInfo["Location"] = content;
-		}
-		else
+	for (int i = 0; i < response->headersCount; i++) {
+		if (_stricmp(response->headers[i].szName, "Set-RegistrationToken"))
 			continue;
-	}
-	setString("RegistrationToken", RegInfo["registrationToken"].c_str());
-	setString("Endpoint", urlDecode(RegInfo["Location"].c_str()).c_str());
 
-	debugLogA(getStringA("RegistrationToken"));
-	debugLogA(getStringA("Endpoint"));
-	CMStringA endpointURL = getStringA("Endpoint");
-	endpointURL += "/presenceDocs/messagingService";
-	PushRequest(new GetEndpointRequest(ptrA(getStringA("RegistrationToken")), endpointURL));
-	PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), ID_STATUS_ONLINE), &CSkypeProto::OnSetStatus);
-	//SetStatus(ID_STATUS_ONLINE);
+		CMStringA szValue = response->headers[i].szValue, szCookieName, szCookieVal;
+		int iStart = 0;
+		while (true) {
+			bool bFirstToken = (iStart == 0);
+			CMStringA szToken = szValue.Tokenize(";", iStart).Trim();
+			if (iStart == -1)
+				break;
+			int iStart2 = 0;
+			szCookieName = szToken.Tokenize("=", iStart2);
+			szCookieVal = szToken.Mid(iStart2);
+			setString(szCookieName, szCookieVal);
+		}
+	}
+	PushRequest(new GetEndpointRequest(getStringA("registrationToken"), getStringA("endpointId")));
+	PushRequest(new SetStatusRequest(getStringA("registrationToken"), ID_STATUS_ONLINE), &CSkypeProto::OnSetStatus);
 }
 
 void CSkypeProto::OnSetStatus(const NETLIBHTTPREQUEST *response)
@@ -139,24 +131,30 @@ void CSkypeProto::OnSetStatus(const NETLIBHTTPREQUEST *response)
 		return;
 
 	JSONROOT root(response->pData);
+
 	if (root == NULL)
 		return;
-	JSONNODE *status_json = json_get(root, "status");
-	debugLog(json_as_string(status_json));
-	
-	const char* status = (const char *)json_as_string(status_json);
-	debugLogA(status);
 
+	JSONNODE *status_json = json_get(root, "status");
+	TCHAR *status = json_as_string(status_json);
 	int old_status = m_iStatus;
 	int iNewStatus;
-	if (mir_strcmp(status, "O")==0)
+	if (!mir_tstrcmpi(status, _T("Online")))
 		iNewStatus = ID_STATUS_ONLINE;	 
-	else if (mir_strcmp(status, "H") == 0)
+	else if (!mir_tstrcmpi(status, _T("Hidden")))
 		iNewStatus = ID_STATUS_INVISIBLE;
-	else if (mir_strcmp(status, "A") == 0)
+	else if (!mir_tstrcmpi(status, _T("Away")))
 		iNewStatus = ID_STATUS_AWAY;
+	else if (!mir_tstrcmpi(status, _T("Idle")))
+		iNewStatus = ID_STATUS_IDLE;
+	else if (!mir_tstrcmpi(status, _T("Busy")))
+		iNewStatus = ID_STATUS_DND;
 	else 
-		iNewStatus = ID_STATUS_ONLINE;
+		iNewStatus = ID_STATUS_OFFLINE;
 	m_iStatus = iNewStatus;
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+
+	if (iNewStatus == ID_STATUS_OFFLINE)
+		SetStatus(ID_STATUS_OFFLINE);
+	else 
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 }

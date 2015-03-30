@@ -288,7 +288,7 @@ public:
 	{
 		va_list args;
 		va_start(args, urlFormat);
-		this->HttpsRequest::HttpsRequest(REQUEST_POST, urlFormat, args);
+		this->HttpRequest::HttpRequest(REQUEST_POST, urlFormat, args);
 		va_end(args);
 
 		//Headers << CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");

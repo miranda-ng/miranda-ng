@@ -14,19 +14,42 @@ public:
 			<< CHAR_VALUE("Expires", "0")
 			<< CHAR_VALUE("RegistrationToken", auth)
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8")
+			<< CHAR_VALUE("BehaviorOverride", "redirectAs404")
 			<< CHAR_VALUE("Referer", "https://web.skype.com/main")
 			<< CHAR_VALUE("Origin", "https://web.skype.com")
 			<< CHAR_VALUE("Connection", "keep-alive");
 
 			const char *data;
-			if (status == ID_STATUS_ONLINE)
-				data = "{\"status\":\"Online\"}";
-			else if (status == ID_STATUS_INVISIBLE)
-				data = "{\"status\":\"Hidden\"}";
-			else if (status == ID_STATUS_AWAY)
-				data = "{\"status\":\"Away\"}";
-			else 
-				data = "{\"status\":\"Online\"}";
+			switch (status)
+			{
+				case ID_STATUS_ONLINE:
+				{
+					data = "{\"status\":\"Online\"}";
+					break;
+				}
+				case ID_STATUS_AWAY:
+				{
+					data = "{\"status\":\"Away\"}";
+					break;
+				}
+				case ID_STATUS_DND:
+				{
+					data = "{\"status\":\"Busy\"}";
+					break;
+				}
+				case ID_STATUS_IDLE:
+				{
+					data = "{\"status\":\"Idle\"}";
+					break;
+				}
+				case ID_STATUS_INVISIBLE:
+				{
+					data = "{\"status\":\"Hidden\"}";
+					break;
+				}
+				default:
+					data = "{\"status\":\"Online\"}";
+			}
 			Body << VALUE(data);
 	}
 };

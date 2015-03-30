@@ -33,9 +33,9 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_1:
 		return PF1_AUTHREQ;
 	case PFLAGNUM_2:
-		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY;
+		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_HEAVYDND;
 	case PFLAGNUM_3:
-		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY;
+		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_HEAVYDND;
 	case PFLAGNUM_4:
 		return PF4_FORCEADDED | PF4_NOAUTHDENYREASON;
 	case PFLAG_UNIQUEIDTEXT:
@@ -122,73 +122,7 @@ int CSkypeProto::SendUrl(MCONTACT, int, const char*) { return 0; }
 
 int CSkypeProto::SetApparentMode(MCONTACT, int) { return 0; }
 
-int CSkypeProto::SetStatus(int iNewStatus)
-{
-	if (iNewStatus == m_iDesiredStatus)
-	{
-		return 0;
-	}
 
-	debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, iNewStatus);
-
-	int old_status = m_iStatus;
-	m_iDesiredStatus = iNewStatus;
-	CMStringA endpointURL = getStringA("Endpoint");
-	endpointURL += "/presenceDocs/messagingService";
-
-	if (iNewStatus == ID_STATUS_OFFLINE)
-	{
-		// logout
-		PushRequest(new LogoutRequest());
-		requestQueue->Stop();
-
-		if (!Miranda_Terminated())
-		{
-			SetAllContactsStatus(ID_STATUS_OFFLINE);
-		}
-
-		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-	}
-	else if (iNewStatus == ID_STATUS_INVISIBLE)
-	{
-		PushRequest(new GetEndpointRequest(ptrA(getStringA("RegistrationToken")), endpointURL));
-		PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), ID_STATUS_INVISIBLE), &CSkypeProto::OnSetStatus);
-	}
-	else if (iNewStatus == ID_STATUS_AWAY)
-	{
-		PushRequest(new GetEndpointRequest(ptrA(getStringA("RegistrationToken")), endpointURL));
-		PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), ID_STATUS_AWAY), &CSkypeProto::OnSetStatus);
-	}
-	else
-	{
-		if (old_status == ID_STATUS_CONNECTING)
-		{
-			return 0;
-		}
-
-		if (m_iStatus == ID_STATUS_INVISIBLE || m_iStatus == ID_STATUS_AWAY)
-		{
-			PushRequest(new GetEndpointRequest(ptrA(getStringA("RegistrationToken")), endpointURL));
-			PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), ID_STATUS_ONLINE), &CSkypeProto::OnSetStatus);
-		}
-		else if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
-		{
-			// login
-			m_iStatus = ID_STATUS_CONNECTING;
-
-			requestQueue->Start();
-			PushRequest(new LoginRequest(), &CSkypeProto::OnLoginFirst);
-		}
-		else
-		{
-			// set status
-			m_iStatus = iNewStatus;
-		}
-	}
-
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-	return 0;
-}
 
 
 HANDLE CSkypeProto::GetAwayMsg(MCONTACT) { return 0; }
