@@ -34,52 +34,56 @@ struct FORMAT_VALUE : public VALUE
 	}
 };
 
-class HttpRequest : protected NETLIBHTTPREQUEST, public MZeroedObject
+class HttpRequest : private NETLIBHTTPREQUEST, public MZeroedObject
 {
+private:
+	va_list formatArgs;
+	CMStringA url;
+
 protected:
+	enum HttpRequestUrlFormat { FORMAT };
+
 	class HttpRequestUrl
 	{
 		friend HttpRequest;
 
 	private:
-		CMStringA content;
+		HttpRequest &request;
 
-		void AppendSeparator()
+		HttpRequestUrl(HttpRequest &request, const char *url) : request(request)
 		{
-			if (!content.IsEmpty())
-			{
-				if (content.Find("?") == -1)
-					content.AppendChar('?');
-				else
-					content.AppendChar('&');
-			}
+			request.url = url;
+			request.szUrl = request.url.GetBuffer();
+		}
+
+		HttpRequestUrl(HttpRequest &request, const char *urlFormat, va_list args) : request(request)
+		{
+			request.url.AppendFormatV(urlFormat, args);
+			request.szUrl = request.url.GetBuffer();
 		}
 
 	public:
-		HttpRequestUrl & operator<<(const VALUE &param)
+		HttpRequestUrl &operator<<(const VALUE &param)
 		{
-			AppendSeparator();
-			content.Append(param.szName);
+			request.AddUrlParameter(param.szName);
 			return *this;
 		}
 
-		HttpRequestUrl & operator<<(const INT_VALUE &param)
+		HttpRequestUrl &operator<<(const INT_VALUE &param)
 		{
-			AppendSeparator();
-			content.AppendFormat("%s=%i", param.szName, param.iValue);
+			request.AddUrlParameter("%s=%i", param.szName, param.iValue);
 			return *this;
 		}
 
-		HttpRequestUrl & operator<<(const CHAR_VALUE &param)
+		HttpRequestUrl &operator<<(const CHAR_VALUE &param)
 		{
-			AppendSeparator();
-			content.AppendFormat("%s=%s", param.szName, param.szValue);
+			request.AddUrlParameter("%s=%s", param.szName, param.szValue);
 			return *this;
 		}
 
-		char * ToString()
+		char *ToString()
 		{
-			return content.GetBuffer();
+			return request.url.GetBuffer();
 		}
 	};
 
@@ -112,6 +116,12 @@ protected:
 		}
 
 		HttpRequestHeaders & operator<<(const CHAR_VALUE &param)
+		{
+			Add(param.szName, param.szValue);
+			return *this;
+		}
+
+		HttpRequestHeaders & operator<<(const FORMAT_VALUE &param)
 		{
 			Add(param.szName, param.szValue);
 			return *this;
@@ -168,17 +178,18 @@ protected:
 		}
 	};
 
-	HttpRequest() : Headers(*this)
+	void AddUrlParameter(const char *fmt, ...)
 	{
-		cbSize = sizeof(NETLIBHTTPREQUEST);
-		flags = NLHRF_HTTP11 | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
-	}
+		va_list args;
+		va_start(args, fmt);
+		if (url.Find('?') == -1)
+			url += '?';
+		else
+			url += '&';
+		url.AppendFormatV(fmt, args);
+		va_end(args);
 
-	HttpRequest(int httpMethod, LPCSTR urlFormat, va_list args)
-		: Headers(*this)
-	{
-		requestType = httpMethod;
-		Url.content.AppendFormatV(urlFormat, args);
+		szUrl = url.GetBuffer();
 	}
 
 public:
@@ -186,13 +197,21 @@ public:
 	HttpRequestHeaders Headers;
 	HttpRequestBody Body;
 
-	HttpRequest(int type, LPCSTR urlFormat, ...)
-		: Headers(*this)
+	HttpRequest(int type, LPCSTR url)
+		: Url(*this, url), Headers(*this)
 	{
-		va_list args;
-		va_start(args, urlFormat);
-		this->HttpRequest::HttpRequest(type, urlFormat, args);
-		va_end(args);
+		cbSize = sizeof(NETLIBHTTPREQUEST);
+		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
+		requestType = type;
+	}
+
+	HttpRequest(int type, HttpRequestUrlFormat format, LPCSTR urlFormat, ...)
+		: Url(*this, urlFormat, (va_start(formatArgs, urlFormat), formatArgs)), Headers(*this)
+	{
+		cbSize = sizeof(NETLIBHTTPREQUEST);
+		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
+		requestType = type;
+		va_end(formatArgs);
 	}
 
 	~HttpRequest()
@@ -203,14 +222,13 @@ public:
 			mir_free(headers[i].szValue);
 		}
 		mir_free(headers);
-		//mir_free(pData);
 	}
 
 	NETLIBHTTPREQUEST * Send(HANDLE hConnection)
 	{
-		if (Url.content.Find("://") == -1)
-			Url.content.Insert(0, flags & NLHRF_SSL ? "https://" : "http://");
-		szUrl = Url.ToString();
+		if (url.Find("://") == -1)
+			url.Insert(0, flags & NLHRF_SSL ? "https://" : "http://");
+		szUrl = url.GetBuffer();
 
 		pData = Body.ToString();
 		dataLength = mir_strlen(pData);
@@ -220,78 +238,6 @@ public:
 		CallService(MS_NETLIB_LOG, (WPARAM)hConnection, (LPARAM)&message);
 
 		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hConnection, (LPARAM)this);
-	}
-};
-
-class HttpGetRequest : public HttpRequest
-{
-public:
-	HttpGetRequest(LPCSTR urlFormat, ...)
-	{
-		va_list args;
-		va_start(args, urlFormat);
-		this->HttpRequest::HttpRequest(REQUEST_GET, urlFormat, args);
-		va_end(args);
-	}
-};
-
-class HttpPostRequest : public HttpRequest
-{
-public:
-	HttpPostRequest(LPCSTR urlFormat, ...)
-	{
-		va_list args;
-		va_start(args, urlFormat);
-		this->HttpRequest::HttpRequest(REQUEST_POST, urlFormat, args);
-		va_end(args);
-
-		//Headers << CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-	}
-};
-
-class HttpsRequest : public HttpRequest
-{
-protected:
-	HttpsRequest() : HttpRequest()
-	{
-		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
-	}
-
-public:
-	HttpsRequest(int type, LPCSTR urlFormat, ...)
-	{
-		va_list args;
-		va_start(args, urlFormat);
-		this->HttpRequest::HttpRequest(type, urlFormat, args);
-		va_end(args);
-
-		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
-	}
-};
-
-class HttpsGetRequest : public HttpsRequest
-{
-public:
-	HttpsGetRequest(LPCSTR urlFormat, ...)
-	{
-		va_list args;
-		va_start(args, urlFormat);
-		this->HttpRequest::HttpRequest(REQUEST_GET, urlFormat, args);
-		va_end(args);
-	}
-};
-
-class HttpsPostRequest : public HttpsRequest
-{
-public:
-	HttpsPostRequest(LPCSTR urlFormat, ...)
-	{
-		va_list args;
-		va_start(args, urlFormat);
-		this->HttpRequest::HttpRequest(REQUEST_POST, urlFormat, args);
-		va_end(args);
-
-		//Headers << CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	}
 };
 

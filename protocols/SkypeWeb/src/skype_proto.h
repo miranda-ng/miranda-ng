@@ -172,10 +172,11 @@ private:
 	int OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre);
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
 	//polling
-	void __cdecl CSkypeProto::ParsePollData(JSONNODE *data);
-	void __cdecl CSkypeProto::PollingThread(void*);
+	void __cdecl ParsePollData(JSONNODE *data);
+	void __cdecl PollingThread(void*);
 	void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node);
 	// utils
+	char *MirandaToSkypeStatus(int status);
 	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	void SetServerStatus(int iNewStatus);

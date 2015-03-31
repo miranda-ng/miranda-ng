@@ -1,7 +1,7 @@
 #include "common.h"
 
 CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
-	PROTO<CSkypeProto>(protoName, userName), password(NULL)
+PROTO<CSkypeProto>(protoName, userName), password(NULL)
 {
 	m_hProtoIcon = Icons[0].Handle;
 	SetAllContactsStatus(ID_STATUS_OFFLINE);
@@ -122,8 +122,60 @@ int CSkypeProto::SendUrl(MCONTACT, int, const char*) { return 0; }
 
 int CSkypeProto::SetApparentMode(MCONTACT, int) { return 0; }
 
+int CSkypeProto::SetStatus(int iNewStatus)
+{
+	if (iNewStatus == m_iDesiredStatus)
+	{
+		return 0;
+	}
 
+	debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, iNewStatus);
 
+	int old_status = m_iStatus;
+	m_iDesiredStatus = iNewStatus;
+
+	if (iNewStatus == ID_STATUS_OFFLINE)
+	{
+		// logout
+		PushRequest(new LogoutRequest());
+		requestQueue->Stop();
+
+		if (!Miranda_Terminated())
+		{
+			SetAllContactsStatus(ID_STATUS_OFFLINE);
+		}
+
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+	}
+	else
+	{
+		if (old_status == ID_STATUS_CONNECTING)
+		{
+			return 0;
+		}
+		else if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
+		{
+			// login
+			m_iStatus = ID_STATUS_CONNECTING;
+
+			requestQueue->Start();
+			PushRequest(new LoginRequest(), &CSkypeProto::OnLoginFirst);
+		}
+		else
+		{
+			// set status
+			m_iStatus = iNewStatus;
+			// it should be rewritten
+			//GetEndpointRequest *request = new GetEndpointRequest(getStringA("registrationToken"), getStringA("endpointId"));
+			//request->Send(m_hNetlibUser);
+			//delete request;
+			PushRequest(new SetStatusRequest(ptrA(getStringA("registrationToken")), MirandaToSkypeStatus(m_iStatus)), &CSkypeProto::OnSetStatus);
+		}
+	}
+
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+	return 0;
+}
 
 HANDLE CSkypeProto::GetAwayMsg(MCONTACT) { return 0; }
 

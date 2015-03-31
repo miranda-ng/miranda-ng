@@ -92,8 +92,6 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 	PushRequest(new GetRegInfoRequest(token.c_str()), &CSkypeProto::OnGetRegInfo);
 	PushRequest(new GetProfileRequest(token.c_str()), &CSkypeProto::LoadProfile);
 	PushRequest(new GetContactListRequest(token.c_str()), &CSkypeProto::LoadContactList);
-
-	//ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
 }
 
 void CSkypeProto::OnGetRegInfo(const NETLIBHTTPREQUEST *response)
@@ -128,7 +126,10 @@ void CSkypeProto::OnGetRegInfo(const NETLIBHTTPREQUEST *response)
 		delete request;
 
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
-	PushRequest(new SetStatusRequest(getStringA("registrationToken"), ID_STATUS_ONLINE), &CSkypeProto::OnSetStatus);
+
+	m_iStatus = m_iDesiredStatus;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
+	PushRequest(new SetStatusRequest(ptrA(getStringA("registrationToken")), MirandaToSkypeStatus(m_iStatus)), &CSkypeProto::OnSetStatus);
 }
 
 void CSkypeProto::OnSetStatus(const NETLIBHTTPREQUEST *response)
