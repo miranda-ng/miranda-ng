@@ -786,6 +786,9 @@ Obsługiwane funkcje
 Informacje o błędach
 [Items request error]
 Błąd żądania elementów
+;file \protocols\JabberG\src\jabber_filterlist.cpp
+[Set filter...]
+Wybierz filtr...
 ;file \protocols\JabberG\src\jabber_form2.cpp
 [One or more addresses for communication related to abusive traffic]
 Jeden lub więcej adresów przeznaczonych do komunikacji w sprawach dotyczących nadużywania transmisji danych
@@ -2527,6 +2530,3 @@ Obecnie Słucham
 Nastrój
 [Activities]
 Aktywność
-;file \protocols\JabberG\src\ui_utils.cpp
-[Set filter...]
-Wybierz filtr...

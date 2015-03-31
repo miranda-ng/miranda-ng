@@ -1,0 +1,6 @@
+﻿[Hardware HotKeys plugin\r\nAllows to assign expanded multimedia-keys (only for PS/2-keyboards)]
+[Assign]
+[Last pressed key]
+[Extended flag (1xx), Hardware scan code (x23), KeyName]
+[Combine left/right keys Shift, Ctrl, Win, Alt]
+[Combination of keys for assignment]

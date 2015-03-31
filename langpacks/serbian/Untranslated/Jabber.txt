@@ -342,6 +342,7 @@
 [Supported features]
 [Info request error]
 [Items request error]
+[Set filter...]
 [One or more addresses for communication related to abusive traffic]
 [One or more addresses for customer feedback]
 [One or more addresses for communication related to sales and marketing]
@@ -1166,4 +1167,3 @@
 [Listening To]
 [Moods]
 [Activities]
-[Set filter...]

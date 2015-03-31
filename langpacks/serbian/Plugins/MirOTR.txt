@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.11.0.5
+;  Version: 0.14.1.15
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [&Cancel]
@@ -15,8 +15,6 @@
 Da
 [No]
 Ne
-[Unknown]
-Nepoznati
 [General]
 Uopšteno
 [Contacts]

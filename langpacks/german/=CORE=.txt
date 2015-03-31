@@ -1957,6 +1957,9 @@ Mein Profil än&dern...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s ist online
+;file \src\mir_core\src\ui_utils.cpp
+[Account]
+Konto
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Kontakt hinzufügen
@@ -2569,6 +2572,42 @@ Um dieses Konto zu loschen, mussen Sie das dazugehorige Plugin deaktivieren
 [&Accounts...]
 &Konten...
 ;file \src\modules\skin\hotkey_opts.cpp
+[Browser: Back]
+
+[Browser: Forward]
+
+[Browser: Refresh]
+
+[Browser: Stop]
+
+[Browser: Search]
+
+[Browser: Fav]
+
+[Browser: Home]
+
+[Mute]
+
+[Vol-]
+
+[Vol+]
+
+[Media: Next Track]
+
+[Media: Prev. Track]
+
+[Media: Stop]
+
+[Media: Play/Pause]
+
+[Mail]
+
+[Media: Select]
+
+[App 1]
+
+[App 2]
+
 [Ctrl + ]
 Strg +\s
 [Alt + ]

@@ -1,0 +1,31 @@
+﻿#muuid {315b3800-8258-44c4-b60e-58c50b9303b6}
+;============================================================
+;  File: HwHotKeys.dll
+;  Plugin: Hardware HotKeys
+;  Version: 1.0.0.6
+;  Authors: Eugene f2065
+;============================================================
+;file \plugins\HwHotKeys\res\HwHotKeys.rc
+[Hardware HotKeys plugin\r\nAllows to assign expanded multimedia-keys (only for PS/2-keyboards)]
+
+[Close Miranda]
+Miranda schließen
+[Assign]
+zuweisen
+[Clear]
+Löschen
+[Show/Hide contact list]
+Kontaktliste ein/ausblenden
+[Read message]
+Nachricht lesen
+[Last pressed key]
+Zuletzt benutzte Tasten
+[Extended flag (1xx), Hardware scan code (x23), KeyName]
+
+[Combine left/right keys Shift, Ctrl, Win, Alt]
+Kombiniere Links/Rechts Tasten, Shift, Ctrl, Win und Alt
+[Combination of keys for assignment]
+Kombinierte Tasten für Zuordnung
+;file \plugins\HwHotKeys\src\HwHotKeys_DllMain.cpp
+[Customize]
+Customize

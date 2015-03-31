@@ -327,6 +327,20 @@ HTTP грешка: Gateway timeout (504)
 %c, %t\\nДнес:	Максимална %h, Минимална %l
 [Temperature: %[Temperature]]
 Температура: %[Temperature]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tусловия в момента\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tскорост на вятъра\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tскорост на вятъра\n%y\tзалез
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
+%c\tтекущи условия\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tвятър (посока)\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tвятър (скорост)\n%y\tзалез
+[No information available.\r\nPlease update weather condition first.]
+Няма налична информация.\r\nМоля, първо обновете атмосферните условия.
+[%[..]\tcustom variables]
+%[..]\tпроизволна променлива
+[Here is a list of custom variables that are currently available]
+Списък на наличните променливи
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+Не е зададен адрес за пълната прогноза. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+Не е зададен URL адрес за метеокартата. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
 [Current weather information for %s.]
 Текуща атмосферна информация за %s.
 [%s is now the default weather station]
@@ -339,10 +353,6 @@ Weather Protocol
 <Въведете име на станцията>
 [<Enter station ID here>]
 <Въведете ID на станцията тук>
-[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
-Не е зададен адрес за пълната прогноза. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
-[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
-Не е зададен URL адрес за метеокартата. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
 [Get city name from ID]
 Извличане името на града от ID
 [Weather INI information]
@@ -427,8 +437,6 @@ INI версия
 байта
 [Description:]
 Описание:
-[Here is a list of custom variables that are currently available]
-Списък на наличните променливи
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Не е открит файл с данни. Моля, проверете директорията Plugins\\Weather
 [Invalid ini format for: %s]
@@ -449,14 +457,8 @@ INI версия
 Изобразяване
 [Popups]
 Рopups
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
-%c\tтекущи условия\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tвятър (посока)\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tвятър (скорост)\n%y\tзалез
 [Weather Protocol Text Preview]
 Преглед на текст от протокола Weather
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\tусловия в момента\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tскорост на вятъра\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tскорост на вятъра\n%y\tзалез
-[%[..]\tcustom variables]
-%[..]\tпроизволна променлива
 [Station ID]
 ID на станцията
 [Disable &weather notification]
@@ -497,5 +499,3 @@ Weather
 Извличане на нови данни, моля изчакайте...
 [More Info]
 Още
-[No information available.\r\nPlease update weather condition first.]
-Няма налична информация.\r\nМоля, първо обновете атмосферните условия.

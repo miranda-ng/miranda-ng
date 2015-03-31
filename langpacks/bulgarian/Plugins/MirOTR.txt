@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.11.0.5
+;  Version: 0.14.1.15
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR Generating Private Key]
@@ -115,12 +115,6 @@ OTR шифрованата сесия бе прекратена от "%s". Ви�
 Криптирането по време на изпращане не е възможно
 [OTR Information]
 OTR информация
-[Authentication from %s]
-Удостоверяване от %s
-[Authenticate %s]
-Удостоверяване на %s
-[Unknown]
-Неизвестно
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 Сега се използва ПОТВЪРДЕН отпечатък за OTR шифрованата сесия с "%s"
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]

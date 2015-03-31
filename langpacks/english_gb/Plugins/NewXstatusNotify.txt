@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: xStatus notify
-;  Version: 1.4.0.10
+;  Version: 1.4.0.11
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox, and then reopen this dialog.]
