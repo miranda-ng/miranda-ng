@@ -47,14 +47,11 @@ extern int IsTrayProto(const TCHAR *swzProto, BOOL bExtendedTip)
 
 void CreateDefaultItems()
 {
-	DSListNode *ds_node;
-	DIListNode *di_node;
-
 	for (int i = 0; defaultItemList[i].szName; i++)
 	{
 		if (defaultItemList[i].szName[0] == '-')
 		{
-			di_node = (DIListNode *)mir_alloc(sizeof(DIListNode));
+			DIListNode *di_node = (DIListNode *)mir_alloc(sizeof(DIListNode));
 			_tcsncpy(di_node->di.swzLabel, _T(""), LABEL_LEN);
 			_tcsncpy(di_node->di.swzValue, _T(""), VALUE_LEN);
 			di_node->di.bLineAbove = true;
@@ -74,7 +71,7 @@ void CreateDefaultItems()
 				PRESETSUBST *subst = GetPresetSubstByName(item->szNeededSubst[j]);
 				if (subst == NULL) continue;
 
-				ds_node = (DSListNode *)mir_alloc(sizeof(DSListNode));
+				DSListNode *ds_node = (DSListNode *)mir_alloc(sizeof(DSListNode));
 				_tcsncpy(ds_node->ds.swzName, subst->swzName, LABEL_LEN);
 				ds_node->ds.type = subst->type;
 				strncpy(ds_node->ds.szSettingName, subst->szSettingName, SETTING_NAME_LEN);
@@ -84,7 +81,7 @@ void CreateDefaultItems()
 				opt.iDsCount++;
 			}
 
-			di_node = (DIListNode *)mir_alloc(sizeof(DIListNode));
+			DIListNode *di_node = (DIListNode *)mir_alloc(sizeof(DIListNode));
 			_tcsncpy(di_node->di.swzLabel, TranslateTS(item->swzLabel), LABEL_LEN);
 			_tcsncpy(di_node->di.swzValue, item->swzValue, VALUE_LEN);
 			di_node->di.bLineAbove = false;
@@ -105,14 +102,12 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 
 	mir_snprintf(setting, SIZEOF(setting), "Name%d", index);
 	ds->swzName[0] = 0;
-	if (!db_get_ts(0, MODULE_ITEMS, setting, &dbv))
-	{
-		_tcsncpy(ds->swzName, dbv.ptszVal, SIZEOF(ds->swzName));
-		ds->swzName[SIZEOF(ds->swzName) - 1] = 0;
-		db_free(&dbv);
-	}
-	else
+	if (db_get_ts(0, MODULE_ITEMS, setting, &dbv))
 		return false;
+
+	_tcsncpy(ds->swzName, dbv.ptszVal, SIZEOF(ds->swzName));
+	ds->swzName[SIZEOF(ds->swzName) - 1] = 0;
+	db_free(&dbv);
 
 	mir_snprintf(setting, SIZEOF(setting), "Type%d", index);
 	ds->type = (DisplaySubstType)db_get_b(0, MODULE_ITEMS, setting, DVT_PROTODB);
@@ -171,13 +166,12 @@ bool LoadDI(DISPLAYITEM *di, int index)
 
 	mir_snprintf(setting, SIZEOF(setting), "DILabel%d", index);
 	di->swzLabel[0] = 0;
-	if (!db_get_ts(0, MODULE_ITEMS, setting, &dbv))
-	{
-		_tcsncpy( di->swzLabel, dbv.ptszVal, SIZEOF(di->swzLabel));
-		di->swzLabel[SIZEOF(di->swzLabel) - 1] = 0;
-		db_free(&dbv);
-	} else
+	if (db_get_ts(0, MODULE_ITEMS, setting, &dbv))
 		return false;
+
+	_tcsncpy( di->swzLabel, dbv.ptszVal, SIZEOF(di->swzLabel));
+	di->swzLabel[SIZEOF(di->swzLabel) - 1] = 0;
+	db_free(&dbv);
 
 	mir_snprintf(setting, SIZEOF(setting), "DIValue%d", index);
 	di->swzValue[0] = 0;
@@ -986,13 +980,13 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 										memset(ds_value, 0, sizeof(DSListNode));
 										ds_value->next = NULL;
 										ds_value->ds.type = subst->type;
-										_tcscpy(ds_value->ds.swzName, subst->swzName);
+										_tcsncpy(ds_value->ds.swzName, subst->swzName, LABEL_LEN-1);
 
 										if (ds_value->ds.type == DVT_DB && subst->szModuleName)
-											strncpy(ds_value->ds.szModuleName, subst->szModuleName, SIZEOF(ds_value->ds.szModuleName) - 1);
+											strncpy(ds_value->ds.szModuleName, subst->szModuleName, MODULE_NAME_LEN-1);
 
 										if (subst->szSettingName)
-											strncpy(ds_value->ds.szSettingName, subst->szSettingName, SIZEOF(ds_value->ds.szSettingName) - 1);
+											strncpy(ds_value->ds.szSettingName, subst->szSettingName, SETTING_NAME_LEN-1);
 
 										ds_value->ds.iTranslateFuncId = subst->iTranslateFuncId;
 
@@ -1304,27 +1298,24 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		}
 		case WM_DESTROY:
 		{
-			DIListNode *di_value;
 			TVITEM tvi = {0};
 			tvi.mask = TVIF_PARAM;
-			HTREEITEM hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS));
-
-			while (hItem != NULL)
+			
+			for (HTREEITEM hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS));hItem != NULL;
+				hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), hItem))
 			{
 				tvi.hItem = hItem;
 				if (TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &tvi))
 				{
-					di_value = (DIListNode *)tvi.lParam;
+					DIListNode *di_value = (DIListNode *)tvi.lParam;
 					mir_free(di_value);
 				}
-				hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), hItem);
 			}
 
-			DSListNode *ds_value;
 			int count = SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_GETCOUNT, 0, 0);
 			for (int i = 0; i < count; i++)
 			{
-				ds_value = (DSListNode *)SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_GETITEMDATA, i, 0);
+				DSListNode *ds_value = (DSListNode *)SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_GETITEMDATA, i, 0);
 				mir_free(ds_value);
 			}
 
@@ -1453,12 +1444,7 @@ INT_PTR CALLBACK DlgProcOptsAppearance(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case WM_COMMAND:
 		{
 			if (LOWORD(wParam) == IDC_CHK_ORIGINALAVSIZE)
-			{
-				if (IsDlgButtonChecked(hwndDlg, IDC_CHK_ORIGINALAVSIZE))
-					SetDlgItemText(hwndDlg, IDC_STATIC_AVATARSIZE, TranslateT("Max avatar size:"));
-				else
-					SetDlgItemText(hwndDlg, IDC_STATIC_AVATARSIZE, TranslateT("Avatar size:"));
-			}
+				SetDlgItemText(hwndDlg, IDC_STATIC_AVATARSIZE, IsDlgButtonChecked(hwndDlg, IDC_CHK_ORIGINALAVSIZE) ? TranslateT("Max avatar size:") : TranslateT("Avatar size:"));
 
 			if (HIWORD(wParam) == CBN_SELCHANGE)
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);

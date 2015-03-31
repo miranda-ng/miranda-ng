@@ -31,7 +31,7 @@ bool bStatusMsgReady = false;
 
 __inline bool IsContactTooltip(CLCINFOTIPEX *clc)
 {
-	return (clc->szProto || clc->swzText) == false;
+	return !(clc->szProto || clc->swzText);
 }
 
 void CALLBACK TimerProcWaitForContent(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
@@ -46,17 +46,16 @@ void CALLBACK TimerProcWaitForContent(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DW
 bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 {
 	bool bNeedWait = false;
-
 	if (opt.bWaitForContent && IsContactTooltip(clcitex))
 	{
-		char *szProto = GetContactProto((MCONTACT)clcitex->hItem);
+		MCONTACT hContact = (MCONTACT) clcitex->hItem;
+		char *szProto = GetContactProto(hContact);
 		if (!szProto) return false;
 
 		if (opt.bWaitForStatusMsg && !bStatusMsgReady)
 		{
-			db_unset((MCONTACT)clcitex->hItem, MODULE, "TempStatusMsg");
-			if (CanRetrieveStatusMsg((MCONTACT)clcitex->hItem, szProto) &&
-				CallContactService((MCONTACT)clcitex->hItem, PSS_GETAWAYMSG, 0, 0))
+			db_unset(hContact, MODULE, "TempStatusMsg");
+			if (CanRetrieveStatusMsg(hContact, szProto) && CallContactService(hContact, PSS_GETAWAYMSG, 0, 0))
 			{
 				if (WaitForContentTimerID)
 					KillTimer(0, WaitForContentTimerID);
@@ -70,11 +69,11 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 			CallProtoService(szProto, PS_GETAVATARCAPS, AF_ENABLED, 0))
 		{
 			DBVARIANT dbv;
-			if (!db_get_s((MCONTACT)clcitex->hItem, "ContactPhoto", "File", &dbv))
+			if (!db_get_s(hContact, "ContactPhoto", "File", &dbv))
 			{
 				if (!strstr(dbv.pszVal, ".xml"))
 				{
-					AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)clcitex->hItem, 0);
+					AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
 					if (!ace)
 					{
 						if (WaitForContentTimerID)
@@ -151,7 +150,7 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 				MCONTACT hContact = (MCONTACT)hwndMsg.wParam;
 				TCHAR *swzMsg = (TCHAR *)hwndMsg.lParam;
 
-				if (opt.bWaitForContent && bStatusMsgReady == false && clcitex && clcitex->hItem == (HANDLE)hContact) {
+				if (opt.bWaitForContent && !bStatusMsgReady && clcitex && clcitex->hItem == (HANDLE)hContact) {
 					if (WaitForContentTimerID) {
 						KillTimer(0, WaitForContentTimerID);
 						WaitForContentTimerID = 0;
@@ -178,7 +177,7 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 		case MUM_GOTAVATAR:
 			{
 				MCONTACT hContact = (MCONTACT)hwndMsg.wParam;
-				if (opt.bWaitForContent && bAvatarReady == false && clcitex && clcitex->hItem == (HANDLE)hContact) {
+				if (opt.bWaitForContent && !bAvatarReady && clcitex && clcitex->hItem == (HANDLE)hContact) {
 					if (WaitForContentTimerID) {
 						KillTimer(0, WaitForContentTimerID);
 						WaitForContentTimerID = 0;
@@ -237,7 +236,7 @@ INT_PTR ShowTip(WPARAM wParam, LPARAM lParam)
 	HWND clist = (HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0);
 	
 	if (clcit->isGroup) return 0; // no group tips (since they're pretty useless)
-	if (clcit->isTreeFocused == 0 && opt.bShowNoFocus == false && clist == WindowFromPoint(clcit->ptCursor)) return 0;
+	if (clcit->isTreeFocused == 0 && !opt.bShowNoFocus && clist == WindowFromPoint(clcit->ptCursor)) return 0;
 	if (clcit->ptCursor.x == pt.x && clcit->ptCursor.y == pt.y) return 0;
 	pt.x = pt.y = 0;
 
@@ -269,7 +268,7 @@ INT_PTR ShowTipW(WPARAM wParam, LPARAM lParam)
 	HWND clist = (HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0);
 
 	if (clcit->isGroup) return 0; // no group tips (since they're pretty useless)
-	if (clcit->isTreeFocused == 0 && opt.bShowNoFocus == false && clist == WindowFromPoint(clcit->ptCursor)) return 0;
+	if (clcit->isTreeFocused == 0 && !opt.bShowNoFocus && clist == WindowFromPoint(clcit->ptCursor)) return 0;
 	if (clcit->ptCursor.x == pt.x && clcit->ptCursor.y == pt.y) return 0;
 	pt.x = pt.y = -1;
 
@@ -289,9 +288,8 @@ INT_PTR ShowTipW(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-INT_PTR HideTip(WPARAM wParam, LPARAM lParam)
+INT_PTR HideTip(WPARAM, LPARAM)
 {
-	//CLCINFOTIP *clcit = (CLCINFOTIP *)lParam;
 	if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
 		return 0;
 
@@ -309,7 +307,7 @@ int HideTipHook(WPARAM wParam, LPARAM lParam)
 int ProtoAck(WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
-	if (ack->result != ACKRESULT_SUCCESS)
+	if ((ack==NULL) || (ack->result != ACKRESULT_SUCCESS))
 		return 0;
 
 	if (ack->type == ACKTYPE_AWAYMSG) {
@@ -347,7 +345,7 @@ int FramesShowSBTip(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int FramesHideSBTip(WPARAM wParam, LPARAM lParam)
+int FramesHideSBTip(WPARAM, LPARAM)
 {
 	if (opt.bStatusBarTips)
 	{

@@ -338,9 +338,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						if (iXstatus) {
 							char szIconProto[64];
 							if (strcmp(szProto, META_PROTO) != 0)
-								strcpy(szIconProto, szProto);
+								strncpy(szIconProto, szProto, sizeof(szIconProto) - 1);
 							else if (!db_get_s(pwd->hContact, szProto, "XStatusProto", &dbv)) {
-								strcpy(szIconProto, dbv.pszVal);
+								strncpy(szIconProto, dbv.pszVal, sizeof(szIconProto) - 1);
 								db_free(&dbv);
 							}
 
