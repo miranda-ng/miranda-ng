@@ -23,39 +23,39 @@ Manuell
 [Never]
 Niemals
 [End sessions on window close]
-Sitzung beend., wenn Fenster geschlossen wird
+Sitzung beenden, wenn Fenster geschlossen wird
 [End sessions when contacts go offline]
-Sitzung beenden, wenn Kontakt offline
+Sitzung beenden, wenn Kontakt offline geht
 [Prefix encrypted IMs:]
 Präfix verschlüsselter IM:
 [don't rely on the prefix, always check the OTR status icon]
-
+Verlassen Sie sich nicht auf das Präfix, prüfen Sie immer das OTR-Icon
 [Don't add encrypted messages to the history]
-Füge keine verschlüsselten Nachrichten in den Verlauf ein
+Verschlüsselte Nachrichten nicht in den Verlauf einfügen
 [Also remove OTR system messages]
-Entferne auch OTR-System-Meldungen
+OTR-System-Nachrichten auch entfernen
 [Show OTR system messages inline]
-Zeige OTR-System-Nachricht im Fenster
+OTR-System-Nachricht im Fenster anzeigen
 [Show OTR system messages as popup]
-Zeige OTR-System-Nachricht als Popup
+OTR-System-Nachricht als Popup anzeigen
 [Show verification dialog when receiving unverified fingerprint]
-Zeige Bestätigungs-Dialog beim Empfang ungeprüfter Fingerabdrücke
+Bestätigungs-Dialog beim Empfang ungeprüfter Fingerabdrücke anzeigen
 [Set OTR policy per protocol]
-Setze OTR-Regel pro Protokoll
+OTR-Verhalten pro Protokoll setzen
 [Current policy:]
 Aktuelles Verhalten:
 [Generate new private key]
-Neuen Schlüssel generieren
+Neuen privaten Schlüssel generieren
 [Forget private key]
-Vergesse Schlüssel
+Privaten Schlüssel verwerfen
 [Set OTR policy per contact]
-Setze OTR-Regel pro Kontakt
+OTR-Verhalten pro Kontakt setzen
 [View & Modify status of known fingerprints]
-Zeige & modifiziere Status unbekannter Fingerabdrücke
+Status unbekannter Fingerabdrücke anzeigen & ändern
 [Set verified]
-Setze geprüft
+Geprüft setzen
 [Set unknown]
-Setze ungeprüft
+Unbekannt setzen
 [Forget]
 Verwerfen
 [Socialist Millionaires Protocol]
@@ -94,7 +94,7 @@ OTR-Status (Hier klicken für mehr Optionen)
 [OTR Encryption: Disabled]
 OTR-Verschlüsselung: Deaktiviert
 [OTR Encryption: UNVERIFIED]
-OTR-Verschlüsselung: Ungeprüft
+OTR-Verschlüsselung: UNGEPRÜFT
 [OTR Encryption: Private]
 OTR-Verschlüsselung: Privat
 [OTR Encryption: Finished]
@@ -108,17 +108,17 @@ Anfordern einer OTR-verschlüsselten Sitzung mit '%s'
 [Beginning OTR encrypted session with '%s']
 OTR-verschlüsselte Sitzung mit '%s' gestartet
 [Beginning OTR encrypted session with '%s' (NOT VERIFIED)]
-OTR-verschlüsselte Sitzung mit '%s' (NICHT VERIFIZIERT) gestartet
+OTR-verschlüsselte Sitzung mit '%s' gestartet (UNGEPRÜFT)
 [Trying to refresh OTR encrypted session with '%s']
 Versuche, die OTR-verschlüsselte Sitzung mit '%s' zu erneuern ...
 [OTR encrypted session was refreshed by '%s']
-OTR-verschlüsselte Sitzung wurde von '%s' aktualisiert.
+OTR-verschlüsselte Sitzung wurde von '%s' erneuert
 [OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
-OTR-verschlüsselte Sitzung wurde von '%s' aktualisiert (ungeprüft)
+OTR-verschlüsselte Sitzung wurde von '%s' erneuert (UNGEPRÜFT)
 [OTR encrypted session with '%s' successfully refreshed]
-OTR-verschlüsselte Sitzung mit '%s' wurde erfolgreich aktualisiert.
+OTR-verschlüsselte Sitzung mit '%s' wurde erfolgreich erneuert
 [OTR encrypted session with '%s' successfully refreshed (NOT VERIFIED)]
-OTR-verschlüsselte Sitzung mit '%s' wurde erfolgreich aktualisiert (ungeprüft)
+OTR-verschlüsselte Sitzung mit '%s' wurde erfolgreich erneuert (UNGEPRÜFT)
 [OTR encrypted session has been terminated by '%s'. You should do that, too!]
 OTR-verschlüsselte Sitzung wurde beendet von '%s'. Sie sollten das jetzt auch machen!
 [OTR encrypted session with '%s' could not be started]
@@ -130,9 +130,9 @@ OTR-Informationen
 [[OTR INFO] ]
 \[OTR-INFO]\s
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
-OTR-verschlüsselte Sitzung mit '%s' ist nun mit einem Fingerabdruck verifiziert worden.
+OTR-verschlüsselte Sitzung mit '%s' verwendet nun einen ÜBERPRÜFTEN Fingerabdruck
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
-OTR-verschlüsselte Sitzung mit '%s' ist mit keinem Fingerabdruck verifiziert worden.
+OTR-verschlüsselte Sitzung mit '%s' verwendet nun einen NICHT ÜBERPRÜFTEN Fingerabdruck
 [OTR unverified]
 OTR ungeprüft
 [OTR finished]
@@ -146,7 +146,7 @@ OTR
 [Refresh]
 Aktualisieren
 [Generating new private key for protocol '%s'.\nPlease Wait...]
-Generiere neuen Schlüssel für das Protokoll '%s'.\nBitte warten Sie...
+Generiere neuen privaten Schlüssel für das Protokoll '%s'.\nBitte warten Sie...
 [General]
 Allgemein
 [Protocols]
@@ -168,17 +168,17 @@ Aktiv
 [Fingerprint]
 Fingerprint
 [Conv. HTML]
-Konv. HTML
+HTML konv.
 [Default]
 Standard
 [Generating new key for '%s'. Continue?]
-Generiere neuen Schlüssel für '% s'. Weiter?
+Neuen Schlüssel für '%s' erzeugen. Weiter?
 [Removing key for '%s'. Continue?]
-Entferne Schlüssel für '%s'. Weiter?
+Schlüssel für '%s' entfernen. Weiter?
 [OTR Fingerprint Verification]
 OTR-Fingerabdruck-Überprüfung
 [OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is NOT VERIFIED.\nDo you trust it?]
-OTR-verschlüsselte Sitzung mit '%s'.\nDer OTR-Fingerabdruck Ihres Kontakts wird nicht überprüft.\nMöchten Sie ihm vertrauen?
+OTR-verschlüsselte Sitzung mit '%s'.\nDer OTR-Fingerabdruck Ihres Kontakts ist NICHT ÜBERPRÜFT.\nMöchten Sie ihm vertrauen?
 [OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is already verified.\nDo you still trust it?]
 OTR-verschlüsselte Sitzung mit '%s'.\nDer OTR-Fingerabdruck, der von Ihrem Kontakt verwendet wird, ist bereits überprüft worden.\nMöchten Sie ihm immer noch vertrauen?
 [Your Fingerprint to tell your contact (use a trusted channel!)]
@@ -194,7 +194,7 @@ Bekanntes Passwort
 [Manual fingerprint comparison]
 Manueller Fingerabdruckvergleich
 [Secret Answer]
-Geheimantwort:
+Geheimantwort
 [Question]
 Frage
 [Password]
@@ -206,7 +206,7 @@ Ihr Kontakt authentifizierte Sie erfolgreich. Sie können nun Ihre eigene Nachfr
 [Error during authentication.]
 Fehler während der Authentifizierung!
 [Authentication failed]
-Die Authentifizierung schlug fehl (vertippt?)
+Die Authentifizierung schlug fehl
 [Authentication for '%s' is already in progress.]
 Die Authentifizierung für '%s' ist bereits im Gange.
 [OTR Authenticating: %s (%s)]
@@ -214,13 +214,13 @@ OTR-Authentifizierung mit: %s (%s)
 [Authenticating contact:\n%s (%s)]
 Authentifiziere Kontakt:\n%s (%s)
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a question only your partner can answer.]
-OTR verschlusselte Nachricht mit '%s' (Ungepruft).\nBenutzen Sie eine Frage, die nur Ihr Partner beantworten kann.
+OTR verschlusselte Nachricht mit '%s' (UNGEPRÜFT).\nBenutzen Sie eine Frage, die nur Ihr Partner beantworten kann.
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a question only your partner can answer.]
-OTR verschlüsselte Nachricht mit '%s' (verifiziert).\nVerifizieren Sie die Sitzung erneut mit einer Frage, die nur Ihr Partner beantworten kann.
+OTR verschlüsselte Nachricht mit '%s' (GEPRÜFT).\nVerifizieren Sie die Sitzung erneut mit einer Frage, die nur Ihr Partner beantworten kann.
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a known password.]
-OTR verschlüsselte Nachricht mit '%s' (Ungeprüft).\nBenutzen Sie ein bekanntes Passwort.
+OTR verschlüsselte Nachricht mit '%s' (UNGEPRÜFT).\nBenutzen Sie ein bekanntes Passwort.
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a known password.]
-OTR verschlüsselte Nachricht mit '%s' (verifiziert).\nVerifizieren Sie die Sitzung erneut und benutzen Sie ein bekanntes Passwort.
+OTR verschlüsselte Nachricht mit '%s' (GEPRÜFT).\nVerifizieren Sie die Sitzung erneut mit einem bekannten Passwort.
 [Your contact '%s' wants to verify your identity with a question only you can answer.]
 Ihr Kontakt '%s' möchte Ihre Identität mit einer Frage, die nur Sie beantworten können, überprüfen.
 [Your contact '%s' wants to verify your identity with a secret password you should know.]
@@ -247,33 +247,33 @@ Private Daten
 Dienste
 ;file \plugins\MirOTR\src\otr.cpp
 [\nusing older protocol version %i]
-
+\nverwendet ältere Protokollversion %i
 [Attempting to start a private conversation...]
-
+Versuche eine private Unterhaltung zu starten...
 [An error occurred when encrypting your message.\nThe message was not sent]
-
+Ein Fehler ist beim Verschlüsseln Ihrer Nachricht aufgetreten.\nDie Nachricht wurde nicht gesendet.
 ['%s' has already closed his/her private connection to you; you should do the same]
-
+'%s' hat bereits seine/ihre private Verbindung zu Ihnen geschlossen; Sie sollten das selbe machen.
 [Error setting up private conversation: %s]
-Fehler beim Erstellen der privaten Konversation: %s
+Fehler beim Erstellen der privaten Unterhaltung: %s
 [Malformed message received]
-
+Missgeformte Nachricht empfangen
 [We are receiving our own OTR messages.\nYou are either trying to talk to yourself, or someone is reflecting your messages back at you]
-
+Wir empfangen unsere eigenen OTR-Nachrichten.\nEntweder reden Sie mit sich selbst oder jemand leitet Ihre Nachrichten zu Ihnen zurück.
 [The last message to '%s' was resent]
-
+Die letzte Nachricht zu '%s' wurde erneut gesendet.
 [The encrypted message received from '%s' is unreadable, as you are not currently communicating privately]
-
+Die von '%s' empfangene verschlüsselte Nachricht ist unlesbar, da Sie gerade nicht privat kommunizieren.
 [We received an unreadable encrypted message from '%s']
-
+Wir haben eine unlesbare, verschlüsselte Nachricht von '%s' empfangen
 [We received a malformed data message from '%s']
-
+Wir haben eine missgeformte Datennachricht von '%s' empfangen
 [The following message received from '%s' was NOT encrypted: [%s]]
-
+Die folgende Nachricht von'%s' war NICHT verschlüsselt: [%s]
 ['%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message.]
-
+'%s' hat Ihnen eine Nachricht für eine andere Sitzung gesendet. Wenn Sie mehrfach angemeldet sind, dann könnte eine andere Sitzung diese Nachricht empfangen haben.
 [unknown OTR message received, please report that to Miranda NG]
-
+Unbekannte OTR-Nachricht empfangen, bitte melden Sie das Miranda NG
 ;file \plugins\MirOTR\src\otr.h
 [ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee http://wikipedia.org/wiki/Off-the-Record_Messaging for more information.]
-
+ hat eine private Off-the-Record-Unterhaltung mit Ihnen angefragt, aber leider haben Sie keinen Client der dies unterstützt.\nWeitere Informationen unter http://de.wikipedia.org/wiki/Off-the-Record_Messaging

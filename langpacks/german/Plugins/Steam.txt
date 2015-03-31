@@ -41,7 +41,7 @@ Auf der Suche nach einem Spiel
 [Looking to trade]
 Auf der Suche nach einem Handel
 [ (Non-Steam)]
-
+ (Nicht-Stream)
 [ on server %s]
  auf Server %s
 [Playing]

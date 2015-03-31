@@ -45,9 +45,9 @@ Tox-Profil ist verschlüsselt. Geben Sie das Passwort ein um fortzusetzen.
 [Add]
 Hinzufügen
 [IPv4 address/ Host]
-
+IPv4-Adresse/-Host
 [IPv6 address (optional)]
-
+IPv6-Adresse (optional)
 [Port]
 Port
 [Public key]
@@ -73,7 +73,7 @@ Abbre&chen
 Gruppenchat
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
-
+Profilverzeichnis
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Protokollicon
@@ -85,7 +85,7 @@ Autorisierung anfragen
 [Grant authorization]
 Autorisierung gewähren
 [Copy Tox ID]
-Tox ID kopieren
+Tox-ID kopieren
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s-Verbindung
