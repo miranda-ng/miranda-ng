@@ -1,10 +1,10 @@
 #ifndef _SKYPE_REQUEST_LOGOUT_H_
 #define _SKYPE_REQUEST_LOGOUT_H_
 
-class LogoutRequest : public HttpsPostRequest
+class LogoutRequest : public HttpsGetRequest
 {
 public:
-	LogoutRequest() : HttpsPostRequest("login.skype.com/logout")
+	LogoutRequest() : HttpsGetRequest("login.skype.com/logout")
 	{
 		//flags = NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
 		Url

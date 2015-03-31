@@ -1,5 +1,5 @@
-#ifndef _TOX_PROTO_H_
-#define _TOX_PROTO_H_
+#ifndef _SKYPE_PROTO_H_
+#define _SKYPE_PROTO_H_
 
 typedef void(CSkypeProto::*SkypeResponseCallback)(const NETLIBHTTPREQUEST *response);
 
@@ -82,9 +82,10 @@ public:
 private:
 	char *password;
 	RequestQueue *requestQueue;
+	bool isTerminated;
 	std::map<std::string, std::string> cookies;
 	std::map<std::string, std::string> RegInfo;
-
+	HANDLE m_pollingConnection, m_hPollingThread;
 	static std::map<std::tstring, std::tstring> languages;
 
 	static INT_PTR CALLBACK PasswordEditorProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -170,13 +171,16 @@ private:
 	// messages
 	int OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre);
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
-
+	//polling
+	void __cdecl CSkypeProto::ParsePollData(JSONNODE *data);
+	void __cdecl CSkypeProto::PollingThread(void*);
+	void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node);
 	// utils
 	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
-	void CSkypeProto::SetServerStatus(int iNewStatus);
+	void SetServerStatus(int iNewStatus);
 	static bool IsFileExists(std::tstring path);
-	std::string urlDecode(std::string SRC);
+	char *ContactUrlToName(const char *url);
 
 	template<INT_PTR(__cdecl CSkypeProto::*Service)(WPARAM, LPARAM)>
 	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)
@@ -186,4 +190,4 @@ private:
 	}
 };
 
-#endif //_TOX_PROTO_H_
+#endif //_SKYPE_PROTO_H_

@@ -122,6 +122,12 @@ void CSkypeProto::OnGetRegInfo(const NETLIBHTTPREQUEST *response)
 		}
 	}
 	PushRequest(new GetEndpointRequest(getStringA("registrationToken"), getStringA("endpointId")));
+
+	SubscriptionsRequest *request = new SubscriptionsRequest(getStringA("registrationToken"));
+		request->Send(m_hNetlibUser);
+		delete request;
+
+	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
 	PushRequest(new SetStatusRequest(getStringA("registrationToken"), ID_STATUS_ONLINE), &CSkypeProto::OnSetStatus);
 }
 
