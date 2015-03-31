@@ -469,31 +469,26 @@ bool GetRawSubstText(MCONTACT hContact, char *szRawSpec, TCHAR *buff, int buffle
 	return false;
 }
 
-bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsFirst, TCHAR *swzDest, int iDestLen)
+bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsFirst, TCHAR *swzDest, size_t iDestLen)
 {
 	// hack - allow empty strings before passing to variables (note - zero length strings return false after this)
-	if (swzDest && swzSource && _tcslen(swzSource) == 0) {
+	if (swzDest && swzSource && (*swzSource == 0)) {
 		swzDest[0] = 0;
 		return true;
 	}
 
 	// pass to variables plugin if available
-	TCHAR *swzVarSrc;
-	if (parseTipperVarsFirst)
-		swzVarSrc = mir_tstrdup(swzSource);
-	else
-		swzVarSrc = variables_parsedup((TCHAR *)swzSource, 0, hContact);
+	TCHAR *swzVarSrc = (parseTipperVarsFirst ? mir_tstrdup(swzSource) : variables_parsedup((TCHAR *)swzSource, 0, hContact));
 
 	size_t iSourceLen = _tcslen(swzVarSrc);
 	size_t si = 0, di = 0, v = 0;
 
-	TCHAR swzVName[LABEL_LEN];
-	TCHAR swzRep[VALUE_LEN], swzAlt[VALUE_LEN];
-	while (si < iSourceLen && di < (size_t)iDestLen - 1) {
+	TCHAR swzVName[LABEL_LEN], swzRep[VALUE_LEN], swzAlt[VALUE_LEN];
+	while (si < iSourceLen && di < iDestLen - 1) {
 		if (swzVarSrc[si] == _T('%')) {
 			si++;
 			v = 0;
-			while (si < iSourceLen && v < LABEL_LEN) {
+			while (si < iSourceLen && v < LABEL_LEN - 1) {
 				if (swzVarSrc[si] == _T('%'))
 					break;
 
@@ -507,8 +502,7 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 			{
 				swzVName[v] = 0;
 
-				bool bAltSubst = false;
-				bool bSubst = false;
+				bool bAltSubst = false, bSubst = false;
 
 				// apply only to specific protocols
 				TCHAR *p = _tcsrchr(swzVName, _T('^')); // use last '^', so if you want a ^ in swzAlt text, you can just put a '^' on the end
@@ -648,8 +642,8 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 	swzDest[di] = 0;
 
 	if (parseTipperVarsFirst) {
-		swzVarSrc = variables_parsedup((TCHAR *)swzDest, 0, hContact);
-		_tcscpy(swzDest, swzVarSrc);
+		swzVarSrc = variables_parsedup(swzDest, 0, hContact);
+		_tcsncpy(swzDest, swzVarSrc, iDestLen);
 		mir_free(swzVarSrc);
 	}
 
@@ -673,12 +667,12 @@ error:
 	return true;
 }
 
-bool GetLabelText(MCONTACT hContact, const DISPLAYITEM &di, TCHAR *buff, int bufflen)
+bool GetLabelText(MCONTACT hContact, const DISPLAYITEM &di, TCHAR *buff, size_t bufflen)
 {
 	return ApplySubst(hContact, di.swzLabel, false, buff, bufflen);
 }
 
-bool GetValueText(MCONTACT hContact, const DISPLAYITEM &di, TCHAR *buff, int bufflen)
+bool GetValueText(MCONTACT hContact, const DISPLAYITEM &di, TCHAR *buff, size_t bufflen)
 {
 	return ApplySubst(hContact, di.swzValue, di.bParseTipperVarsFirst, buff, bufflen);
 }
