@@ -204,9 +204,12 @@
     <ClInclude Include="src\requests\endpoint.h" />
     <ClInclude Include="src\requests\login.h" />
     <ClInclude Include="src\requests\logout.h" />
+    <ClInclude Include="src\requests\messages.h" />
+    <ClInclude Include="src\requests\poll.h" />
     <ClInclude Include="src\requests\profile.h" />
     <ClInclude Include="src\requests\reg_info.h" />
     <ClInclude Include="src\requests\status.h" />
+    <ClInclude Include="src\requests\subscriptions.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\skype_icons.h" />
     <ClInclude Include="src\skype_menus.h" />
@@ -217,6 +220,7 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\request_queue.cpp" />
+    <ClCompile Include="src\skype_poll_processing.cpp" />
     <ClCompile Include="src\skype_profile.cpp" />
     <ClCompile Include="src\skype_request.cpp" />
     <ClCompile Include="src\skype_status.cpp" />
@@ -232,6 +236,7 @@
     <ClCompile Include="src\skype_proto.cpp" />
     <ClCompile Include="src\skype_contacts.cpp" />
     <ClCompile Include="src\skype_utils.cpp" />
+    <ClCompile Include="src\skype_polling.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />

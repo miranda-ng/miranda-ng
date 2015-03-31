@@ -1,4 +1,5 @@
 #include "common.h"
+
 int CSkypeProto::SetStatus(int iNewStatus)
 {
 	if (iNewStatus == m_iDesiredStatus)
@@ -13,6 +14,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	switch (iNewStatus)
 	{
 	case ID_STATUS_OFFLINE:
+		isTerminated = true;
 		PushRequest(new LogoutRequest());
 		requestQueue->Stop();
 		if (!Miranda_Terminated())
@@ -27,21 +29,28 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	case ID_STATUS_AWAY:
 	case ID_STATUS_DND:
 	case ID_STATUS_IDLE:
-		PushRequest(new GetEndpointRequest(ptrA(getStringA("registrationToken")), getStringA("endpointId")));
+	{
+		GetEndpointRequest *request = new GetEndpointRequest(getStringA("registrationToken"), getStringA("endpointId"));
+			request->Send(m_hNetlibUser);
+			delete request;
 		PushRequest(new SetStatusRequest(ptrA(getStringA("registrationToken")), iNewStatus), &CSkypeProto::OnSetStatus);
 		break;
+	}
 	default:
 		if (old_status == ID_STATUS_CONNECTING)
 			return 0;
 
 		if (m_iStatus == ID_STATUS_INVISIBLE || m_iStatus == ID_STATUS_AWAY || m_iStatus == ID_STATUS_DND || m_iStatus == ID_STATUS_IDLE)
 		{
-				   PushRequest(new GetEndpointRequest(ptrA(getStringA("registrationToken")), getStringA("endpointId")));
+				   GetEndpointRequest *request = new GetEndpointRequest(getStringA("registrationToken"), getStringA("endpointId"));
+						request->Send(m_hNetlibUser);
+						delete request;
 				   PushRequest(new SetStatusRequest(ptrA(getStringA("registrationToken")), ID_STATUS_ONLINE), &CSkypeProto::OnSetStatus);
 		}
 		else if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
 		{
 			// login
+			isTerminated = false;
 			m_iStatus = ID_STATUS_CONNECTING;
 
 			requestQueue->Start();

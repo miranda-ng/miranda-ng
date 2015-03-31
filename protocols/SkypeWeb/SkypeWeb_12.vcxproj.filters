@@ -63,6 +63,15 @@
     <ClInclude Include="src\requests\status.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
+   <ClInclude Include="src\requests\subscriptions.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\poll.h">
+      <Filter>Header Files\requests</Filter>
+	</ClInclude>
+    <ClInclude Include="src\requests\messages.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cpp">
@@ -109,6 +118,12 @@
     </ClCompile>
     <ClCompile Include="src\skype_status.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+	<ClCompile Include="src\skype_polling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+		<ClCompile Include="src\skype_poll_processing.cpp">
+	  <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

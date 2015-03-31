@@ -21,7 +21,7 @@ public:
 			<< CHAR_VALUE("Connection", "keep-alive");
 
 		Body <<
-			VALUE("{\"id\":\"messagingService\",\"type\":\"EndpointPresenceDoc\",\"selfLink\":\"uri\",\"privateInfo\":{\"epname\":\"skype\"},\"publicInfo\":{\"capabilities\":\"video | audio\",\"type\":1,\"skypeNameVersion\":\"908 / 1.0.30 / swx - skype.com\",\"nodeInfo\":\"xx\",\"version\":\"908 / 1.0.30\"}}");
+			VALUE("{\"id\":\"messagingService\",\"type\":\"EndpointPresenceDoc\",\"selfLink\":\"uri\",\"privateInfo\":{\"epname\":\"Miranda\"},\"publicInfo\":{\"capabilities\":\"\",\"type\":1,\"skypeNameVersion\":\"0/0.95.4//\",\"nodeInfo\":\"xx\",\"version\":\"0/0.95.4\"}}");
 	}
 };
 #endif //_SKYPE_REQUEST_ENDPOINT_H_

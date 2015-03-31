@@ -39,22 +39,23 @@ bool CSkypeProto::IsFileExists(std::tstring path)
 	return false;
 }
 
-std::string CSkypeProto::urlDecode(std::string SRC)
+char *CSkypeProto::ContactUrlToName(const char *url)
 {
-	std::string ret;
-	char ch;
-	int i, ii;
-	for (i = 0; i < SRC.length(); i++)
+	char *tempname = NULL;
+	const char *start, *end;
+	start = strstr(url, "/8:");
+
+	if (!start)
+		return NULL;
+	start = start + 3;
+	if ((end = strchr(start, '/'))) 
 	{
-		if (int(SRC[i]) == 37)
-		{
-			sscanf(SRC.substr(i + 1, 2).c_str(), "%x", &ii);
-			ch = static_cast<char>(ii);
-			ret += ch;
-			i = i + 2;
-		}
-		else
-			ret += SRC[i];
+		mir_free(tempname);
+		tempname = mir_strndup(start, end - start);
+		return tempname;
 	}
-	return (ret);
+	mir_free(tempname);
+	tempname = mir_strdup(start);
+
+	return tempname;
 }
