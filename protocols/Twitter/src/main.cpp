@@ -1,4 +1,5 @@
 /*
+Copyright © 2012-15 Miranda NG team
 Copyright © 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
@@ -26,7 +27,7 @@ CLIST_INTERFACE* pcli;
 HINSTANCE g_hInstance;
 int hLangpack = 0;
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -50,7 +51,7 @@ static int compare_protos(const TwitterProto *p1, const TwitterProto *p2)
 
 OBJLIST<TwitterProto> g_Instances(1, compare_protos);
 
-DWORD WINAPI DllMain(HINSTANCE hInstance,DWORD,LPVOID)
+DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 {
 	g_hInstance = hInstance;
 	return TRUE;
@@ -64,14 +65,14 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 /////////////////////////////////////////////////////////////////////////////////////////
 // Interface information
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
-static PROTO_INTERFACE* protoInit(const char *proto_name,const TCHAR *username )
+static PROTO_INTERFACE* protoInit(const char *proto_name, const TCHAR *username)
 {
-	TwitterProto *proto = new TwitterProto(proto_name,username);
+	TwitterProto *proto = new TwitterProto(proto_name, username);
 	g_Instances.insert(proto);
 	return proto;
 }
@@ -89,12 +90,12 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
 
-	PROTOCOLDESCRIPTOR pd = {sizeof(pd)};
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "Twitter";
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = protoInit;
 	pd.fnUninit = protoUninit;
-	CallService(MS_PROTO_REGISTERMODULE,0,reinterpret_cast<LPARAM>(&pd));
+	CallService(MS_PROTO_REGISTERMODULE, 0, reinterpret_cast<LPARAM>(&pd));
 
 	InitIcons();
 	InitContactMenus();
@@ -108,7 +109,7 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	UninitContactMenus();
-	for(size_t i=1; i<SIZEOF(g_hEvents); i++)
+	for (size_t i = 1; i < SIZEOF(g_hEvents); i++)
 		UnhookEvent(g_hEvents[i]);
 
 	return 0;

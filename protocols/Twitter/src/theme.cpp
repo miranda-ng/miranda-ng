@@ -1,4 +1,5 @@
 /*
+Copyright © 2012-15 Miranda NG team
 Copyright © 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
@@ -36,13 +37,13 @@ static HANDLE hIconLibItem[SIZEOF(icons)];
 void InitIcons(void)
 {
 	Icon_Register(g_hInstance, "Protocols/Twitter", icons, SIZEOF(icons), "Twitter");
-	icons[ SIZEOF(icons)-1 ].hIcolib = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
+	icons[SIZEOF(icons) - 1].hIcolib = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
 }
 
 HANDLE GetIconHandle(const char* name)
 {
-	for(size_t i=0; i<SIZEOF(icons); i++)
-		if(strcmp(icons[i].szName, name) == 0)
+	for (size_t i = 0; i < SIZEOF(icons); i++)
+		if (strcmp(icons[i].szName, name) == 0)
 			return hIconLibItem[i];
 
 	return 0;
@@ -56,46 +57,46 @@ static HANDLE g_hMenuEvts[3];
 static TwitterProto * GetInstanceByHContact(MCONTACT hContact)
 {
 	char *proto = GetContactProto(hContact);
-	if(!proto)
+	if (!proto)
 		return 0;
 
-	for(int i=0; i<g_Instances.getCount(); i++)
-		if(!strcmp(proto,g_Instances[i].m_szModuleName))
+	for (int i = 0; i < g_Instances.getCount(); i++)
+		if (!strcmp(proto, g_Instances[i].m_szModuleName))
 			return &g_Instances[i];
 
 	return 0;
 }
 
-template<INT_PTR (__cdecl TwitterProto::*Fcn)(WPARAM,LPARAM)>
-INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
+template<INT_PTR(__cdecl TwitterProto::*Fcn)(WPARAM, LPARAM)>
+INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
 {
 	TwitterProto *proto = GetInstanceByHContact(MCONTACT(wParam));
-	return proto ? (proto->*Fcn)(wParam,lParam) : 0;
+	return proto ? (proto->*Fcn)(wParam, lParam) : 0;
 }
 
-static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
+static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	ShowContactMenus(false);
 
 	TwitterProto *proto = GetInstanceByHContact(MCONTACT(wParam));
-	return proto ? proto->OnPrebuildContactMenu(wParam,lParam) : 0;
+	return proto ? proto->OnPrebuildContactMenu(wParam, lParam) : 0;
 }
 
 void InitContactMenus()
 {
-	g_hMenuEvts[0] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU,PrebuildContactMenu);
+	g_hMenuEvts[0] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
-	CLISTMENUITEM mi = {sizeof(mi)};
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR;
 
-	mi.position=-2000006000;
+	mi.position = -2000006000;
 	mi.icolibItem = GetIconHandle("reply");
 	mi.ptszName = LPGENT("Reply...");
 	mi.pszService = "Twitter/ReplyToTweet";
 	g_hMenuEvts[1] = CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::ReplyToTweet>);
 	g_hMenuItems[0] = Menu_AddContactMenuItem(&mi);
 
-	mi.position=-2000006000;
+	mi.position = -2000006000;
 	mi.icolibItem = GetIconHandle("homepage");
 	mi.ptszName = LPGENT("Visit Homepage");
 	mi.pszService = "Twitter/VisitHomepage";
@@ -105,16 +106,16 @@ void InitContactMenus()
 
 void UninitContactMenus()
 {
-	for(size_t i=0; i<SIZEOF(g_hMenuItems); i++)
+	for (size_t i = 0; i < SIZEOF(g_hMenuItems); i++)
 		CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuItems[i], 0);
 
 	UnhookEvent(g_hMenuEvts[0]);
-	for(size_t i=1; i<SIZEOF(g_hMenuEvts); i++)
+	for (size_t i = 1; i < SIZEOF(g_hMenuEvts); i++)
 		DestroyServiceFunction(g_hMenuEvts[i]);
 }
 
 void ShowContactMenus(bool show)
 {
-	for(size_t i=0; i<SIZEOF(g_hMenuItems); i++)
+	for (size_t i = 0; i < SIZEOF(g_hMenuItems); i++)
 		Menu_ShowItem(g_hMenuItems[i], show);
 }

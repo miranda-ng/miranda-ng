@@ -1,4 +1,5 @@
 /*
+Copyright © 2012-15 Miranda NG team
 Copyright © 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
@@ -303,17 +304,17 @@ namespace popup_options
 		TCHAR *name;
 		TCHAR *text;
 	} const quotes[] = {
-	{
-		_T("Dorothy Parker"), _T("If, with the literate, I am\n")
+		{
+			_T("Dorothy Parker"), _T("If, with the literate, I am\n")
 			_T("Impelled to try an epigram,\n")
 			_T("I never seek to take the credit;\n")
 			_T("We all assume that Oscar said it.") },
-		{ _T("Steve Ballmer"), _T("I have never, honestly, thrown a chair in my life.") },
-		{ _T("James Joyce"), _T("I think I would know Nora's fart anywhere. I think ")
+			{ _T("Steve Ballmer"), _T("I have never, honestly, thrown a chair in my life.") },
+			{ _T("James Joyce"), _T("I think I would know Nora's fart anywhere. I think ")
 			_T("I could pick hers out in a roomful of farting women.") },
-		{ _T("Brooke Shields"), _T("Smoking kills. If you're killed, you've lost a very ")
+			{ _T("Brooke Shields"), _T("Smoking kills. If you're killed, you've lost a very ")
 			_T("important part of your life.") },
-		{ _T("Yogi Berra"), _T("Always go to other peoples' funerals, otherwise ")
+			{ _T("Yogi Berra"), _T("Always go to other peoples' funerals, otherwise ")
 			_T("they won't go to yours.") },
 	};
 

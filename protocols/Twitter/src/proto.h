@@ -1,4 +1,5 @@
 /*
+Copyright © 2012-15 Miranda NG team
 Copyright © 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
@@ -33,45 +34,19 @@ public:
 	//PROTO_INTERFACE
 
 	virtual	MCONTACT  __cdecl AddToList(int,PROTOSEARCHRESULT *);
-	virtual	MCONTACT  __cdecl AddToListByEvent(int,int,MEVENT);
-
-	virtual	int       __cdecl Authorize(MEVENT);
-	virtual	int       __cdecl AuthDeny(MEVENT,const TCHAR *);
-	virtual	int       __cdecl AuthRecv(MCONTACT, PROTORECVEVENT *);
-	virtual	int       __cdecl AuthRequest(MCONTACT, const TCHAR *);
-
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT, HANDLE, const TCHAR *);
-	virtual	int       __cdecl FileCancel(MCONTACT, HANDLE);
-	virtual	int       __cdecl FileDeny(MCONTACT, HANDLE, const TCHAR *);
-	virtual	int       __cdecl FileResume(HANDLE, int *, const TCHAR **);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int, MCONTACT = 0);
 	virtual	int       __cdecl GetInfo(MCONTACT, int);
 
 	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *);
 	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR *);
-	virtual	HANDLE    __cdecl SearchByName(const TCHAR *,const TCHAR *,const TCHAR *);
-	virtual	HWND      __cdecl SearchAdvanced(HWND);
-	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND);
 
-	virtual	int       __cdecl RecvContacts(MCONTACT, PROTORECVEVENT *);
-	virtual	int       __cdecl RecvFile(MCONTACT, PROTORECVFILET *);
 	virtual	int       __cdecl RecvMsg(MCONTACT, PROTORECVEVENT *);
-	virtual	int       __cdecl RecvUrl(MCONTACT, PROTORECVEVENT *);
-
-	virtual	int       __cdecl SendContacts(MCONTACT, int, int, MCONTACT*);
-	virtual	HANDLE    __cdecl SendFile(MCONTACT, const TCHAR *, TCHAR **);
 	virtual	int       __cdecl SendMsg(MCONTACT, int, const char *);
-	virtual	int       __cdecl SendUrl(MCONTACT, int, const char *);
 
-	virtual	int       __cdecl SetApparentMode(MCONTACT, int);
 	virtual	int       __cdecl SetStatus(int);
 
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT);
-	virtual	int       __cdecl RecvAwayMsg(MCONTACT, int, PROTORECVEVENT *);
-	virtual	int       __cdecl SetAwayMsg(int,const TCHAR *);
-
-	virtual	int       __cdecl UserIsTyping(MCONTACT, int);
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE,WPARAM,LPARAM);
 
@@ -140,9 +115,9 @@ private:
 
 	std::tstring GetAvatarFolder();
 
-	HANDLE signon_lock_;
-	HANDLE avatar_lock_;
-	HANDLE twitter_lock_;
+	mir_cs signon_lock_;
+	mir_cs avatar_lock_;
+	mir_cs twitter_lock_;
 
 	HANDLE hAvatarNetlib_;
 	HANDLE hMsgLoop_;

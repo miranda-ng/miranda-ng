@@ -1,4 +1,5 @@
 /*
+Copyright © 2012-15 Miranda NG team
 Copyright © 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
@@ -20,5 +21,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 std::string http::url_encode(const std::string &s)
 {
-	return (char*)ptrA( mir_urlEncode( s.c_str()));
+	return (char*)ptrA(mir_urlEncode(s.c_str()));
 }

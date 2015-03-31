@@ -1,21 +1,35 @@
-/* aww whatup?  this is all the oauth functions, at the moment
- * they're all part of the twitter class.. i think this is the
- * best way?  
- */
+/*
+Copyright © 2012-15 Miranda NG team
+Copyright © 2009 Jim Porter
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include "stdafx.h"
 #include "twitter.h"
 #include "utility.h"
 
-OAuthParameters mir_twitter::BuildSignedOAuthParameters( const OAuthParameters& requestParameters, 
-								   const std::wstring& url, 
-								   const std::wstring& httpMethod, 
-								   const OAuthParameters *postData,
-								   const std::wstring& consumerKey, 
-								   const std::wstring& consumerSecret,
-								   const std::wstring& requestToken = L"", 
-								   const std::wstring& requestTokenSecret = L"", 
-								   const std::wstring& pin = L"" )
+OAuthParameters mir_twitter::BuildSignedOAuthParameters(
+	const OAuthParameters& requestParameters,
+	const std::wstring& url,
+	const std::wstring& httpMethod,
+	const OAuthParameters *postData,
+	const std::wstring& consumerKey,
+	const std::wstring& consumerSecret,
+	const std::wstring& requestToken = L"",
+	const std::wstring& requestTokenSecret = L"",
+	const std::wstring& pin = L"")
 {
 	wstring timestamp = OAuthCreateTimestamp();
 	wstring nonce = OAuthCreateNonce();
@@ -30,14 +44,12 @@ OAuthParameters mir_twitter::BuildSignedOAuthParameters( const OAuthParameters& 
 	oauthParameters[L"oauth_consumer_key"] = consumerKey;
 
 	// add the request token if found
-	if (!requestToken.empty())
-	{
+	if (!requestToken.empty()) {
 		oauthParameters[L"oauth_token"] = requestToken; /*debugLogW("requestToken not empty: %s", requestToken);*/
 	}
 
 	// add the authorization pin if found
-	if (!pin.empty())
-	{
+	if (!pin.empty()) {
 		oauthParameters[L"oauth_verifier"] = pin;
 	}
 
@@ -45,7 +57,7 @@ OAuthParameters mir_twitter::BuildSignedOAuthParameters( const OAuthParameters& 
 	// this will be used to create the parameter signature
 	OAuthParameters allParameters = requestParameters;
 
-	if(Compare(httpMethod, L"POST", false) && postData) {
+	if (Compare(httpMethod, L"POST", false) && postData) {
 		//debugLogA("in post section of buildOAuthParams");
 		allParameters.insert(postData->begin(), postData->end());
 	}
@@ -69,7 +81,7 @@ OAuthParameters mir_twitter::BuildSignedOAuthParameters( const OAuthParameters& 
 	return oauthParameters;
 }
 
-wstring mir_twitter::UrlGetQuery( const wstring& url ) 
+wstring mir_twitter::UrlGetQuery(const wstring& url)
 {
 	wstring query;
 	/*
@@ -85,21 +97,19 @@ wstring mir_twitter::UrlGetQuery( const wstring& url )
 	if(crackUrlOk)
 	{*/
 
-		map<wstring, wstring> brokenURL = CrackURL(url);
+	map<wstring, wstring> brokenURL = CrackURL(url);
 
-		query = brokenURL[L"extraInfo"];
-		//debugLogW("inside crack, url is %s", url);
-		wstring::size_type q = query.find_first_of(L'?');
-		if(q != wstring::npos)
-		{
-			query = query.substr(q + 1);
-		}
+	query = brokenURL[L"extraInfo"];
+	//debugLogW("inside crack, url is %s", url);
+	wstring::size_type q = query.find_first_of(L'?');
+	if (q != wstring::npos) {
+		query = query.substr(q + 1);
+	}
 
-		wstring::size_type h = query.find_first_of(L'#');
-		if(h != wstring::npos)
-		{
-			query = query.substr(0, h);
-		}
+	wstring::size_type h = query.find_first_of(L'#');
+	if (h != wstring::npos) {
+		query = query.substr(0, h);
+	}
 	//}
 	return query;
 }
@@ -109,52 +119,50 @@ wstring mir_twitter::UrlGetQuery( const wstring& url )
 // consumerKey and consumerSecret - must be provided for every call, they identify the application
 // oauthToken and oauthTokenSecret - need to be provided for every call, except for the first token request before authorizing
 // pin - only used during authorization, when the user enters the PIN they received from the twitter website
-wstring mir_twitter::OAuthWebRequestSubmit( 
-    const wstring& url, 
-    const wstring& httpMethod, 
+wstring mir_twitter::OAuthWebRequestSubmit(
+	const wstring& url,
+	const wstring& httpMethod,
 	const OAuthParameters *postData,
-    const wstring& consumerKey, 
-    const wstring& consumerSecret, 
-	const wstring& oauthToken, 
-    const wstring& oauthTokenSecret, 
-    const wstring& pin
-    )
+	const wstring& consumerKey,
+	const wstring& consumerSecret,
+	const wstring& oauthToken,
+	const wstring& oauthTokenSecret,
+	const wstring& pin
+	)
 {
 	//debugLogW("URL is %s", url);
-    wstring query = UrlGetQuery(url);
+	wstring query = UrlGetQuery(url);
 	//debugLogW("query is %s", query);
-    OAuthParameters originalParameters = ParseQueryString(query);
+	OAuthParameters originalParameters = ParseQueryString(query);
 
-    OAuthParameters oauthSignedParameters = BuildSignedOAuthParameters(
-        originalParameters, 
-        url, 
-        httpMethod, postData,
-        consumerKey, consumerSecret, 
-        oauthToken, oauthTokenSecret, 
-        pin );
-    return OAuthWebRequestSubmit(oauthSignedParameters, url);
+	OAuthParameters oauthSignedParameters = BuildSignedOAuthParameters(
+		originalParameters,
+		url,
+		httpMethod, postData,
+		consumerKey, consumerSecret,
+		oauthToken, oauthTokenSecret,
+		pin);
+	return OAuthWebRequestSubmit(oauthSignedParameters, url);
 }
 
-wstring mir_twitter::OAuthWebRequestSubmit( 
-	const OAuthParameters& parameters, 
-	const wstring& url 
-	) 
+wstring mir_twitter::OAuthWebRequestSubmit(
+	const OAuthParameters& parameters,
+	const wstring& url
+	)
 {
 	//debugLogW("OAuthWebRequestSubmit(%s)", url);
 
 	//wstring oauthHeader = L"Authorization: OAuth ";
 	wstring oauthHeader = L"OAuth ";
 
-	for(OAuthParameters::const_iterator it = parameters.begin(); 
-		it != parameters.end(); 
-		++it)
-	{
+	for (OAuthParameters::const_iterator it = parameters.begin();
+		it != parameters.end();
+		++it) {
 		//debugLogW("%s = ", it->first);
 		//debugLogW("%s", it->second);
 		//debugLogA("---------");
 
-		if(it != parameters.begin())
-		{
+		if (it != parameters.begin()) {
 			oauthHeader += L",";
 		}
 
@@ -169,31 +177,29 @@ wstring mir_twitter::OAuthWebRequestSubmit(
 }
 
 // parameters must already be URL encoded before calling BuildQueryString
-std::wstring mir_twitter::BuildQueryString( const OAuthParameters &parameters ) 
+std::wstring mir_twitter::BuildQueryString(const OAuthParameters &parameters)
 {
 	wstring query;
 	//debugLogA("do we ever get here?");
-	for(OAuthParameters::const_iterator it = parameters.begin(); 
-		it != parameters.end(); 
-		++it)
-	{
+	for (OAuthParameters::const_iterator it = parameters.begin();
+		it != parameters.end();
+		++it) {
 		//debugLogA("aww como ONNNNNN");
 		//debugLogA("%s = %s", it->first.c_str(), it->second.c_str());
 		//debugLogW("in buildqueryString bit, first is %s", it->first);
 
-		if(it != parameters.begin())
-		{
+		if (it != parameters.begin()) {
 			query += L"&";
 		}
 
 		wstring pair;
 		pair += it->first + L"=" + it->second + L"";
 		query += pair;
-	}	
+	}
 	return query;
 }
 
-wstring mir_twitter::OAuthConcatenateRequestElements( const wstring& httpMethod, wstring url, const wstring& parameters ) 
+wstring mir_twitter::OAuthConcatenateRequestElements(const wstring& httpMethod, wstring url, const wstring& parameters)
 {
 	wstring escapedUrl = UrlEncode(url);
 	//debugLogW("before OAUTHConcat, params are %s", parameters);
@@ -213,7 +219,8 @@ wstring mir_twitter::OAuthConcatenateRequestElements( const wstring& httpMethod,
  * "https://twitter.com:989/blah.htm?boom" will give:
  * https, twitter.com, 989, blah.htm?boom, ?boom, 1
  */
-map<wstring, wstring> mir_twitter::CrackURL(wstring url) {
+map<wstring, wstring> mir_twitter::CrackURL(wstring url)
+{
 
 	wstring scheme1, domain1, port1, path1, extraInfo, explicitPort;
 	vector<wstring> urlToks, urlToks2, extraInfoToks;
@@ -256,7 +263,7 @@ map<wstring, wstring> mir_twitter::CrackURL(wstring url) {
 		path1 += urlToks2[i];
 	}
 	//debugLogW("**CRACK - path is %s", path1);
-	
+
 	wstring::size_type foundHash = path1.find(L"#");
 	wstring::size_type foundQ = path1.find(L"?");
 
@@ -293,113 +300,81 @@ map<wstring, wstring> mir_twitter::CrackURL(wstring url) {
 	return result;
 }
 
-wstring mir_twitter::OAuthNormalizeUrl( const wstring& url ) 
+wstring mir_twitter::OAuthNormalizeUrl(const wstring& url)
 {
-	/*wchar_t scheme[1024*4] = {};
-	wchar_t host[1024*4] = {};
-	wchar_t path[1024*4] = {};
-
-	URL_COMPONENTS components = { sizeof(URL_COMPONENTS) };
-
-	components.lpszScheme = scheme;
-	components.dwSchemeLength = SIZEOF(scheme);
-
-	components.lpszHostName = host;
-	components.dwHostNameLength = SIZEOF(host);
-
-	components.lpszUrlPath = path;
-	components.dwUrlPathLength = SIZEOF(path);
-
-	BOOL crackUrlOk = InternetCrackUrl(url.c_str(), url.size(), 0, &components);*/
-
 	wstring normalUrl = url;
 	map<wstring, wstring> brokenURL = CrackURL(url);
 
-	/*_ASSERTE(crackUrlOk);
-	if(crackUrlOk)
-	{*/
-		wchar_t port[10] = {};
+	wchar_t port[10] = {};
 
-		// The port number must only be included if it is non-standard
-		if(Compare(brokenURL[L"scheme"], L"http", false) && !(Compare(brokenURL[L"port"], L"80", false)) || 
-			(Compare(brokenURL[L"scheme"], L"https", false) && !(Compare(brokenURL[L"port"], L"443", false))))
-		{
-			mir_snwprintf(port, SIZEOF(port), L":%s", brokenURL[L"port"]);
-		}
+	// The port number must only be included if it is non-standard
+	if (Compare(brokenURL[L"scheme"], L"http", false) && !(Compare(brokenURL[L"port"], L"80", false)) ||
+		(Compare(brokenURL[L"scheme"], L"https", false) && !(Compare(brokenURL[L"port"], L"443", false))))
+	{
+		mir_snwprintf(port, SIZEOF(port), L":%s", brokenURL[L"port"]);
+	}
 
-		// InternetCrackUrl includes ? and # elements in the path, 
-		// which we need to strip off
-		wstring pathOnly = brokenURL[L"path"];
-		wstring::size_type q = pathOnly.find_first_of(L"#?");
-		if(q != wstring::npos)
-		{
-			pathOnly = pathOnly.substr(0, q);
-		}
+	// InternetCrackUrl includes ? and # elements in the path, 
+	// which we need to strip off
+	wstring pathOnly = brokenURL[L"path"];
+	wstring::size_type q = pathOnly.find_first_of(L"#?");
+	if (q != wstring::npos)
+		pathOnly = pathOnly.substr(0, q);
 
-		normalUrl = brokenURL[L"scheme"] + L"://" + brokenURL[L"domain"] + port + L"/" + pathOnly;
-		//debugLogW("**OAuthNOrmailseURL - normalUrl is %s", normalUrl);
-	//}
-	return normalUrl;
+	return brokenURL[L"scheme"] + L"://" + brokenURL[L"domain"] + port + L"/" + pathOnly;
 }
 
-wstring mir_twitter::OAuthNormalizeRequestParameters( const OAuthParameters& requestParameters ) 
+wstring mir_twitter::OAuthNormalizeRequestParameters(const OAuthParameters& requestParameters)
 {
 	list<wstring> sorted;
-	for(OAuthParameters::const_iterator it = requestParameters.begin(); 
-		it != requestParameters.end(); 
-		++it)
-	{
+	for (OAuthParameters::const_iterator it = requestParameters.begin();
+		it != requestParameters.end();
+		++it) {
 		wstring param = it->first + L"=" + it->second;
 		sorted.push_back(param);
 	}
 	sorted.sort();
 
 	wstring params;
-	for(list<wstring>::iterator it = sorted.begin(); it != sorted.end(); ++it)
-	{
-		if(params.size() > 0)
-		{
+	for (list<wstring>::iterator it = sorted.begin(); it != sorted.end(); ++it) {
+		if (params.size() > 0)
 			params += L"&";
-		}
+
 		params += *it;
 	}
 
 	return params;
 }
 
-OAuthParameters mir_twitter::ParseQueryString( const wstring& url ) 
+OAuthParameters mir_twitter::ParseQueryString(const wstring& url)
 {
 	OAuthParameters ret;
 
 	vector<wstring> queryParams;
 	Split(url, queryParams, L'&', false);
 
-	for(size_t i = 0; i < queryParams.size(); ++i)
-	{
+	for (size_t i = 0; i < queryParams.size(); ++i) {
 		vector<wstring> paramElements;
 		Split(queryParams[i], paramElements, L'=', true);
 		_ASSERTE(paramElements.size() == 2);
-		if(paramElements.size() == 2)
-		{
+		if (paramElements.size() == 2)
 			ret[paramElements[0]] = paramElements[1];
-		}
 	}
 	return ret;
 }
 
-wstring mir_twitter::OAuthCreateNonce() 
+wstring mir_twitter::OAuthCreateNonce()
 {
 	wchar_t ALPHANUMERIC[] = L"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	wstring nonce;
 
-	for(int i = 0; i <= 16; ++i)
-	{
+	for (int i = 0; i <= 16; ++i)
 		nonce += ALPHANUMERIC[rand() % (SIZEOF(ALPHANUMERIC) - 1)]; // don't count null terminator in array
-	}
+
 	return nonce;
 }
 
-wstring mir_twitter::OAuthCreateTimestamp() 
+wstring mir_twitter::OAuthCreateTimestamp()
 {
 	__time64_t utcNow;
 	__time64_t ret = _time64(&utcNow);
@@ -411,7 +386,7 @@ wstring mir_twitter::OAuthCreateTimestamp()
 	return buf;
 }
 
-wstring mir_twitter::OAuthCreateSignature( const wstring& signatureBase, const wstring& consumerSecret, const wstring& requestTokenSecret ) 
+wstring mir_twitter::OAuthCreateSignature(const wstring& signatureBase, const wstring& consumerSecret, const wstring& requestTokenSecret)
 {
 	// URL encode key elements
 	wstring escapedConsumerSecret = UrlEncode(consumerSecret);
@@ -423,6 +398,6 @@ wstring mir_twitter::OAuthCreateSignature( const wstring& signatureBase, const w
 	BYTE digest[MIR_SHA1_HASH_SIZE];
 	string data = WideToUTF8(signatureBase);
 	mir_hmac_sha1(digest, (PBYTE)keyBytes.c_str(), keyBytes.size(), (PBYTE)data.c_str(), data.size());
-	ptrA encoded( mir_base64_encode(digest, sizeof(digest)));
+	ptrA encoded(mir_base64_encode(digest, sizeof(digest)));
 	return UrlEncode((TCHAR*)_A2T(encoded));
 }

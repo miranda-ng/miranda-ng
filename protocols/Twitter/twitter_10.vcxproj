@@ -180,7 +180,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\StringUtil.cpp" />
-    <ClCompile Include="src\stubs.cpp" />
     <ClCompile Include="src\theme.cpp" />
     <ClCompile Include="src\twitter.cpp" />
     <ClCompile Include="src\ui.cpp" />
