@@ -110,7 +110,6 @@ void replaceAllStrings(MCONTACT hContact);
 void WriteSetting(MCONTACT hContact, char* module1, char* setting1 , char* module12, char* setting2);
 
 //timer.c
-extern UINT_PTR timerId;
 void CALLBACK timerProc();
 int startTimer(int interval);
 int killTimer();
@@ -122,7 +121,7 @@ extern char *szInfo;
 extern char *szData;
 extern HANDLE hNetlibUser;
 
-int db_get_static(MCONTACT hContact, const char *moduleName, const char *fn, char *buf);
+int db_get_static(MCONTACT hContact, const char *moduleName, const char *fn, char *buf, size_t cbSize);
 
 #endif
 

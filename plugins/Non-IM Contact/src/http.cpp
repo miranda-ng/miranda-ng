@@ -31,42 +31,41 @@ HANDLE hNetlibUser;
 // szUrl = URL of the webpage to be retrieved
 // return value = 0 for success, 1 or HTTP error code for failure
 // global var used: szData, szInfo = containing the retrieved data
-int InternetDownloadFile (char *szUrl) 
+
+int InternetDownloadFile(char *szUrl)
 {
-	NETLIBHTTPREQUEST nlhr={0};
+	NETLIBHTTPREQUEST nlhr = { 0 };
 
 	// initialize the netlib request
-	nlhr.cbSize=sizeof(nlhr);
-	nlhr.requestType=REQUEST_GET;
-	nlhr.flags=NLHRF_DUMPASTEXT;
-	nlhr.szUrl= szUrl;
+	nlhr.cbSize = sizeof(nlhr);
+	nlhr.requestType = REQUEST_GET;
+	nlhr.flags = NLHRF_DUMPASTEXT;
+	nlhr.szUrl = szUrl;
 	// change the header so the plugin is pretended to be IE 6 + WinXP
 	nlhr.headersCount++;
-	nlhr.headers=(NETLIBHTTPHEADER*)malloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
-	memcpy(nlhr.headers,nlhr.headers,sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
-	nlhr.headers[nlhr.headersCount-1].szName="User-Agent";
-	nlhr.headers[nlhr.headersCount-1].szValue=NETLIB_USER_AGENT;
+	nlhr.headers = (NETLIBHTTPHEADER*)malloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
+	memcpy(nlhr.headers, nlhr.headers, sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
+	nlhr.headers[nlhr.headersCount - 1].szName = "User-Agent";
+	nlhr.headers[nlhr.headersCount - 1].szValue = NETLIB_USER_AGENT;
 
 	// download the page
-	NETLIBHTTPREQUEST *nlhrReply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlibUser,(LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
 	if (nlhrReply) {
 		// return error code if the recieved code is neither 200 OK or 302 Moved
 		if (nlhrReply->resultCode != 200 && nlhrReply->resultCode != 302)
 			return nlhrReply->resultCode;
 		// if the recieved code is 200 OK
-		else if (nlhrReply->resultCode == 200) 
-		{
+		else if (nlhrReply->resultCode == 200) {
 			// allocate memory and save the retrieved data
-			szData = (char *)malloc(mir_strlen(nlhrReply->pData)+2);
+			szData = (char *)malloc(mir_strlen(nlhrReply->pData) + 2);
 			mir_strncpy(szData, nlhrReply->pData, mir_strlen(nlhrReply->pData));
 		}
 		// if the recieved code is 302 Moved, Found, etc
-		else if (nlhrReply->resultCode == 302) 
-		{	// page moved
+		else if (nlhrReply->resultCode == 302) {	// page moved
 			int i;
 			// get the url for the new location and save it to szInfo
 			// look for the reply header "Location"
-			for (i=0; i<nlhrReply->headersCount; i++) {
+			for (i = 0; i < nlhrReply->headersCount; i++) {
 				if (!mir_strcmp(nlhrReply->headers[i].szName, "Location")) {
 					szData = (char *)malloc(512);
 					// add "Moved/Location:" in front of the new URL for identification
@@ -75,7 +74,7 @@ int InternetDownloadFile (char *szUrl)
 				}
 			}
 			// log the new url into netlib log
-			CallService(MS_NETLIB_LOG,(WPARAM)hNetlibUser,(LPARAM)szData);
+			CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)szData);
 		}
 	}
 	// if the data does not downloaded successfully (ie. disconnected), then return 1 as error code
@@ -83,7 +82,7 @@ int InternetDownloadFile (char *szUrl)
 
 	// make a copy of the retrieved data, then free the memory of the http reply
 	szInfo = szData;
-	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)nlhrReply);
+	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 
 	// the recieved data is empty, data was not recieved, so return an error code of 1
 	if (!mir_strcmp(szInfo, ""))  return 1;
@@ -92,11 +91,12 @@ int InternetDownloadFile (char *szUrl)
 
 //============  NETLIB INITIALIZATION  ============
 
-void NetlibInit() {
-	NETLIBUSER nlu={0};
-	nlu.cbSize=sizeof(nlu);
-	nlu.flags=NUF_OUTGOING|NUF_HTTPCONNS|NUF_NOHTTPSOPTION|NUF_TCHAR;
-	nlu.szSettingsModule= MODNAME;
-	nlu.ptszDescriptiveName= TranslateT("Non-IM Contacts");
-	hNetlibUser=(HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
+void NetlibInit()
+{
+	NETLIBUSER nlu = { 0 };
+	nlu.cbSize = sizeof(nlu);
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_TCHAR;
+	nlu.szSettingsModule = MODNAME;
+	nlu.ptszDescriptiveName = TranslateT("Non-IM Contacts");
+	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 }

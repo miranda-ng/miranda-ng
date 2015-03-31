@@ -17,51 +17,44 @@ filename(0)    <- will display the filename of the 0th file\r\nfile(0)wholeline(
 
 INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			TCHAR tmp[5];
-			TranslateDialogDefault(hwnd);
-			CheckDlgButton(hwnd, IDC_AWAYISNOTONLINE, db_get_b(NULL, MODNAME, "AwayAsStatus", 0) ? BST_CHECKED : BST_UNCHECKED);
-			if (db_get_w(NULL, MODNAME, "Timer", 1))
-			{
-				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_INT),1);
-				SetDlgItemText(hwnd, IDC_TIMER_INT, _itot(db_get_w(NULL, MODNAME, "Timer", 1),tmp,10));
-				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_TEXT),1);
-			}
-			else 
-			{
-				CheckDlgButton(hwnd, IDC_DISABLETIMER, BST_CHECKED);
-				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_INT),0);
-				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_TEXT),0);
-			}
-
+		TCHAR tmp[5];
+		TranslateDialogDefault(hwnd);
+		CheckDlgButton(hwnd, IDC_AWAYISNOTONLINE, db_get_b(NULL, MODNAME, "AwayAsStatus", 0) ? BST_CHECKED : BST_UNCHECKED);
+		if (db_get_w(NULL, MODNAME, "Timer", 1)) {
+			EnableWindow(GetDlgItem(hwnd, IDC_TIMER_INT), 1);
+			SetDlgItemText(hwnd, IDC_TIMER_INT, _itot(db_get_w(NULL, MODNAME, "Timer", 1), tmp, 10));
+			EnableWindow(GetDlgItem(hwnd, IDC_TIMER_TEXT), 1);
+		}
+		else {
+			CheckDlgButton(hwnd, IDC_DISABLETIMER, BST_CHECKED);
+			EnableWindow(GetDlgItem(hwnd, IDC_TIMER_INT), 0);
+			EnableWindow(GetDlgItem(hwnd, IDC_TIMER_TEXT), 0);
 		}
 		return TRUE;
+	
 	case WM_COMMAND:
 		SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDC_DISABLETIMER:
-			if (IsDlgButtonChecked(hwnd, IDC_DISABLETIMER))
-			{
-				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_INT),0);
-				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_TEXT),0);
+			if (IsDlgButtonChecked(hwnd, IDC_DISABLETIMER)) {
+				EnableWindow(GetDlgItem(hwnd, IDC_TIMER_INT), 0);
+				EnableWindow(GetDlgItem(hwnd, IDC_TIMER_TEXT), 0);
 			}
-			else 
-			{
-				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_TEXT),1);
-				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_INT),1);
+			else {
+				EnableWindow(GetDlgItem(hwnd, IDC_TIMER_TEXT), 1);
+				EnableWindow(GetDlgItem(hwnd, IDC_TIMER_INT), 1);
 				if (!GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER_INT)))
-					SetDlgItemText(hwnd, IDC_TIMER_INT,_T("1"));
+					SetDlgItemText(hwnd, IDC_TIMER_INT, _T("1"));
 			}
 			break;
-
-
 			return TRUE;
 		}
 		break;
+
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
@@ -69,9 +62,9 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				db_set_b(NULL, MODNAME, "AwayAsStatus", (BYTE)IsDlgButtonChecked(hwnd, IDC_AWAYISNOTONLINE));
 				if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_DISABLETIMER) && GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER_INT))) {
 					GetDlgItemText(hwnd, IDC_TIMER_INT, tmp, SIZEOF(tmp));
-					db_set_w(NULL, MODNAME, "Timer",(WORD)_ttoi(tmp));
+					db_set_w(NULL, MODNAME, "Timer", (WORD)_ttoi(tmp));
 				}
-				else db_set_w(NULL, MODNAME, "Timer",0);
+				else db_set_w(NULL, MODNAME, "Timer", 0);
 				return TRUE;
 			}
 		}
@@ -80,37 +73,38 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	return FALSE;
 }
 
-
 //  string replace test window thingamijig....
 
 // struct to keep track of ()'s in the test sring window
 #define MAX_BRACES 32
 #define VARS 7
-struct braces {
+struct braces
+{
 	char var[64];
 	int idCtrl;
-} braceList[VARS] = 
+}
+braceList[VARS] =
 {
-	{"file(", IDC_FILE},
-	{"start(", IDC_START},
-	{"end(", IDC_END},
-	{"csv(", IDC_CSV},
-	{"wholeline(", IDC_WHOLELINE},
-	{"filename(", IDC_FILENAME},
-	{"line(", IDC_LINE}
+	{ "file(", IDC_FILE },
+	{ "start(", IDC_START },
+	{ "end(", IDC_END },
+	{ "csv(", IDC_CSV },
+	{ "wholeline(", IDC_WHOLELINE },
+	{ "filename(", IDC_FILENAME },
+	{ "line(", IDC_LINE }
 };
-int braceOrder[MAX_BRACES] = {0};
+int braceOrder[MAX_BRACES] = { 0 };
 
 INT_PTR CALLBACK HelpWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		SetDlgItemText(hwnd, IDC_HELPTEXT, NIM_HELP_TEXT);
 		TranslateDialogDefault(hwnd);
 		return TRUE;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDOK:
 			DestroyWindow(hwnd);
 			break;
@@ -122,15 +116,15 @@ INT_PTR CALLBACK HelpWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 		return TRUE;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDC_HELPMSG:
-			CreateDialog(hInst,MAKEINTRESOURCE(IDD_HELP), 0, HelpWindowDlgProc);
+			CreateDialog(hInst, MAKEINTRESOURCE(IDD_HELP), 0, HelpWindowDlgProc);
 			break;
 
 		case IDCANCEL:
@@ -140,18 +134,18 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		case IDC_STRING:
 			if (HIWORD(wParam) == EN_CHANGE) {
 				char tmp[MAX_STRING_LENGTH];
-				int i=0,j;
+				int i = 0, j;
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING))) {
 					GetDlgItemTextA(hwnd, IDC_STRING, tmp, SIZEOF(tmp));
-					if (tmp[strlen(tmp)-1] == '(') {
-						for (i=0; i<VARS; i++) 						{
-							if (!strcmp(braceList[i].var,&tmp[strlen(tmp)-strlen(braceList[i].var)])) {
-								for (j=0;j<MAX_BRACES;j++) {
+					if (tmp[strlen(tmp) - 1] == '(') {
+						for (i = 0; i < VARS; i++) {
+							if (!strcmp(braceList[i].var, &tmp[strlen(tmp) - strlen(braceList[i].var)])) {
+								for (j = 0; j < MAX_BRACES; j++) {
 									if (!braceOrder[j]) {
-										braceOrder[j]=i;
-										EnableWindow(GetDlgItem(hwnd, braceList[i].idCtrl),1);
+										braceOrder[j] = i;
+										EnableWindow(GetDlgItem(hwnd, braceList[i].idCtrl), 1);
 										if (j)
-											EnableWindow(GetDlgItem(hwnd, braceList[braceOrder[j-1]].idCtrl),0);
+											EnableWindow(GetDlgItem(hwnd, braceList[braceOrder[j - 1]].idCtrl), 0);
 										break;
 									}
 								}
@@ -159,22 +153,22 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 							}
 						}
 					}
-					else if (tmp[strlen(tmp)-1] == ')') {
-						for (j=0; j<MAX_BRACES; j++) {
+					else if (tmp[strlen(tmp) - 1] == ')') {
+						for (j = 0; j < MAX_BRACES; j++) {
 							if (!braceOrder[j]) {
-								EnableWindow(GetDlgItem(hwnd, braceList[braceOrder[j-1]].idCtrl),0);
+								EnableWindow(GetDlgItem(hwnd, braceList[braceOrder[j - 1]].idCtrl), 0);
 								if (j > 1)
-									EnableWindow(GetDlgItem(hwnd, braceList[braceOrder[j-2]].idCtrl),1);
-								braceOrder[j-1] = 0;
+									EnableWindow(GetDlgItem(hwnd, braceList[braceOrder[j - 2]].idCtrl), 1);
+								braceOrder[j - 1] = 0;
 								break;
 							}
 						}
 					}
 				}
 				else {
-					for (j=0; j<MAX_BRACES; j++) {
+					for (j = 0; j < MAX_BRACES; j++) {
 						if (!braceOrder[j]) break;
-						EnableWindow(GetDlgItem(hwnd, braceList[braceOrder[j]].idCtrl),0);
+						EnableWindow(GetDlgItem(hwnd, braceList[braceOrder[j]].idCtrl), 0);
 					}
 				}
 			}
@@ -187,7 +181,7 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				GetDlgItemTextA(hwnd, IDC_STRING, str2replace, SIZEOF(str2replace));
 				switch (stringReplacer(str2replace, replacedString, NULL)) {
 				case ERROR_NO_LINE_AFTER_VAR_F:
-					mir_snprintf(replacedString, SIZEOF(replacedString), "ERROR: no %s","%line or %wholeline or %lastline after %fn");
+					mir_snprintf(replacedString, SIZEOF(replacedString), "ERROR: no %s", "%line or %wholeline or %lastline after %fn");
 					error = 1;
 					break;
 				case ERROR_LINE_NOT_READ:
@@ -204,7 +198,7 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				SetDlgItemTextA(hwnd, IDC_ANSWER, replacedString);
 			}
 		}
-		break;		
+		break;
 	}
 	return FALSE;
 }
@@ -217,7 +211,7 @@ INT_PTR testStringReplacer(WPARAM, LPARAM)
 
 INT_PTR LoadFilesDlg(WPARAM, LPARAM)
 {
-	CreateDialog(hInst,MAKEINTRESOURCE(IDD_ADD_FILE),0,DlgProcFiles);
+	CreateDialog(hInst, MAKEINTRESOURCE(IDD_ADD_FILE), 0, DlgProcFiles);
 	return 0;
 }
 
@@ -230,7 +224,7 @@ static int CALLBACK PropSheetProc(HWND hwnd, UINT uMsg, LPARAM lParam)
 		// dialog box template
 		if (((DLGTEMPLATEEX*)lParam)->signature == 0xFFFF)
 			((DLGTEMPLATEEX*)lParam)->style &= ~DS_CONTEXTHELP;
-		else 
+		else
 			((LPDLGTEMPLATE)lParam)->style &= ~DS_CONTEXTHELP;
 
 		return TRUE;
@@ -249,7 +243,7 @@ void DoPropertySheet(MCONTACT hContact, HINSTANCE hInst)
 	psp[0].dwFlags = PSP_USEICONID | PSP_USETITLE;
 	psp[0].hInstance = hInst;
 	psp[0].pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_INFO);
-	psp[0].pszIcon = NULL; 
+	psp[0].pszIcon = NULL;
 	psp[0].pfnDlgProc = DlgProcContactInfo;
 	psp[0].pszTitle = Translate("Contacts Display Info");
 	psp[0].lParam = hContact;
@@ -260,7 +254,7 @@ void DoPropertySheet(MCONTACT hContact, HINSTANCE hInst)
 	psp[1].dwFlags = PSP_USEICONID | PSP_USETITLE;
 	psp[1].hInstance = hInst;
 	psp[1].pszTemplate = MAKEINTRESOURCEA(IDD_OTHER_STUFF);
-	psp[1].pszIcon = NULL; 
+	psp[1].pszIcon = NULL;
 	psp[1].pfnDlgProc = DlgProcOtherStuff;
 	psp[1].pszTitle = Translate("Link and Contact list Settings");
 	psp[1].lParam = hContact;
@@ -271,7 +265,7 @@ void DoPropertySheet(MCONTACT hContact, HINSTANCE hInst)
 	psp[2].dwFlags = PSP_USEICONID | PSP_USETITLE;
 	psp[2].hInstance = hInst;
 	psp[2].pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_COPYEXPORT);
-	psp[2].pszIcon = NULL; 
+	psp[2].pszIcon = NULL;
 	psp[2].pfnDlgProc = DlgProcCopy;
 	psp[2].pszTitle = Translate("Copy Contact");
 	psp[2].lParam = hContact;
@@ -282,7 +276,7 @@ void DoPropertySheet(MCONTACT hContact, HINSTANCE hInst)
 	psp[3].dwFlags = PSP_USEICONID | PSP_USETITLE;
 	psp[3].hInstance = hInst;
 	psp[3].pszTemplate = MAKEINTRESOURCEA(IDD_ADD_FILE);
-	psp[3].pszIcon = NULL; 
+	psp[3].pszIcon = NULL;
 	psp[3].pfnDlgProc = DlgProcFiles;
 	psp[3].pszTitle = Translate("Files");
 	psp[3].lParam = 0;
@@ -293,7 +287,7 @@ void DoPropertySheet(MCONTACT hContact, HINSTANCE hInst)
 	psh.dwFlags = PSH_USEICONID | PSH_PROPSHEETPAGE | PSH_USECALLBACK;
 	psh.hInstance = hInst;
 	psh.pszIcon = MAKEINTRESOURCEA(IDI_MAIN);
-	db_get_static(hContact, MODNAME, "Nick", nick);
+	db_get_static(hContact, MODNAME, "Nick", nick, SIZEOF(nick));
 	mir_snprintf(title, SIZEOF(title), Translate("Edit Non-IM Contact \"%s\""), nick);
 	psh.pszCaption = title;
 	psh.nPages = SIZEOF(psp);
@@ -304,33 +298,33 @@ void DoPropertySheet(MCONTACT hContact, HINSTANCE hInst)
 	PropertySheetA(&psh);
 }
 
-INT_PTR addContact(WPARAM wParam,LPARAM lParam) 
+INT_PTR addContact(WPARAM wParam, LPARAM lParam)
 {
 	char tmp[256];
-	MCONTACT hContact = (MCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
-	CallService(MS_PROTO_ADDTOCONTACT,hContact,(LPARAM)MODNAME);
+	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)MODNAME);
 	CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 	db_set_ts(hContact, MODNAME, "Nick", TranslateT("New Non-IM Contact"));
 	DoPropertySheet(hContact, hInst);
-	if (!db_get_static(hContact, MODNAME, "Name", tmp))
-		CallService(MS_DB_CONTACT_DELETE,hContact,0);
+	if (!db_get_static(hContact, MODNAME, "Name", tmp, SIZEOF(tmp)))
+		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 	replaceAllStrings(hContact);
 	return 0;
 }
 
-INT_PTR editContact(WPARAM wParam,LPARAM lParam) 
+INT_PTR editContact(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = wParam;
 	char tmp[256];
 	if (!hContact) {
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT,hContact,(LPARAM)MODNAME);
+		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)MODNAME);
 		CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 		db_set_s(hContact, MODNAME, "Nick", Translate("New Non-IM Contact"));
 	}
 	DoPropertySheet(hContact, hInst);
-	if (!db_get_static(hContact, MODNAME, "Name", tmp))
-		CallService(MS_DB_CONTACT_DELETE,hContact,0);
+	if (!db_get_static(hContact, MODNAME, "Name", tmp, SIZEOF(tmp)))
+		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 	replaceAllStrings(hContact);
 	return 0;
 }
