@@ -1129,10 +1129,10 @@ bool isGPGValid()
 		mir_free(tmp);
 		tmp = NULL;
 		TCHAR *path = (TCHAR*)mir_alloc(sizeof(TCHAR)*MAX_PATH);
-		char *mir_path = (char*)mir_alloc(MAX_PATH);
-		PathToAbsolute("\\", mir_path);
-		SetCurrentDirectoryA(mir_path);
-		tmp = mir_a2t(mir_path);
+		TCHAR *mir_path = (TCHAR*)mir_alloc(MAX_PATH * sizeof(TCHAR));
+		PathToAbsoluteW(_T("\\"), mir_path);
+		SetCurrentDirectoryW(mir_path);
+		tmp = mir_tstrdup(mir_path);
 		mir_free(mir_path);
 		//mir_realloc(path, (_tcslen(path)+64)*sizeof(TCHAR));
 		TCHAR *gpg_path = (TCHAR*)mir_alloc(sizeof(TCHAR)*MAX_PATH);
