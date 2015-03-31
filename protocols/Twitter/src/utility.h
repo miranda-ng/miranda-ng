@@ -1,4 +1,5 @@
 /*
+Copyright © 2012-15 Miranda NG team
 Copyright © 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
@@ -86,40 +87,14 @@ protected:
 	PROTO_INTERFACE *ppro_;
 };
 
-inline void mbcs_to_tcs(UINT code_page,const char *mbstr,TCHAR *tstr,int tlen)
+inline void mbcs_to_tcs(UINT code_page, const char *mbstr, TCHAR *tstr, int tlen)
 {
-
-	MultiByteToWideChar(code_page,0,mbstr,-1,tstr,tlen);
-
+	MultiByteToWideChar(code_page, 0, mbstr, -1, tstr, tlen);
 }
 
-inline void wcs_to_tcs(UINT code_page,const wchar_t *wstr,TCHAR *tstr,int tlen)
+inline void wcs_to_tcs(UINT code_page, const wchar_t *wstr, TCHAR *tstr, int tlen)
 {
-
-	wcsncpy(tstr,wstr,tlen);
-
+	wcsncpy(tstr, wstr, tlen);
 }
-
-class ScopedLock
-{
-public:
-	ScopedLock(HANDLE h) : handle_(h)
-	{
-		WaitForSingleObject(handle_,INFINITE);
-	}
-	~ScopedLock()
-	{
-		if(handle_)
-			ReleaseMutex(handle_);
-	}
-
-	void Unlock()
-	{
-		ReleaseMutex(handle_);
-		handle_ = 0;
-	}
-private:
-	HANDLE handle_;
-};
 
 bool save_url(HANDLE hNetlib,const std::string &url,const std::tstring &filename);

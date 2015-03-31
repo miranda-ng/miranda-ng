@@ -29,27 +29,18 @@ void Split(const tstring& str, std::vector<tstring>& out, TCHAR sep, bool includ
 	unsigned start = 0;
 	unsigned end = 0;
 
-	while(true)
-	{
-		if(end == str.size() || str[end] == sep)
-		{
-			if(end > start || includeEmpty)
-			{
+	while (true) {
+		if (end == str.size() || str[end] == sep) {
+			if (end > start || includeEmpty)
 				out.push_back(str.substr(start, end - start));
-			}
 
-			if(end == str.size())
-			{
+			if (end == str.size())
 				break;
-			}
 
 			++end;
 			start = end;
 		}
-		else
-		{
-			++end;
-		}
+		else ++end;
 	}
 }
 
@@ -60,38 +51,25 @@ tstring GetWord(const tstring& str, unsigned index, bool getRest)
 
 	unsigned count = 0;
 
-	while(true)
-	{
-		if(end == str.size() || str[end] == _T(' '))
-		{
-			if(end > start)
-			{
-				if(count == index)
-				{
-					if(getRest)
-					{
+	while (true) {
+		if (end == str.size() || str[end] == _T(' ')) {
+			if (end > start) {
+				if (count == index) {
+					if (getRest)
 						return str.substr(start);
-					}
-					else
-					{
-						return str.substr(start, end - start);
-					}
+
+					return str.substr(start, end - start);
 				}
 				++count;
 			}
 
-			if(end == str.size())
-			{
+			if (end == str.size())
 				break;
-			}
 
 			++end;
 			start = end;
 		}
-		else
-		{
-			++end;
-		}
+		else ++end;
 	}
 	return _T("");
 }
@@ -100,12 +78,11 @@ tstring GetWord(const tstring& str, unsigned index, bool getRest)
 // within the string with "to". returns the pointer to the string which is kinda silly IMO
 std::string& replaceAll(std::string& context, const std::string& from, const std::string& to)
 {
-    size_t lookHere = 0;
-    size_t foundHere;
-    while((foundHere = context.find(from, lookHere)) != std::string::npos)
-    {
-          context.replace(foundHere, from.size(), to);
-          lookHere = foundHere + to.size();
-    }
-    return context;
+	size_t lookHere = 0;
+	size_t foundHere;
+	while ((foundHere = context.find(from, lookHere)) != std::string::npos) {
+		context.replace(foundHere, from.size(), to);
+		lookHere = foundHere + to.size();
+	}
+	return context;
 }

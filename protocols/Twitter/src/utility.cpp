@@ -1,4 +1,5 @@
 /*
+Copyright © 2012-15 Miranda NG team
 Copyright © 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
@@ -22,72 +23,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 std::string b64encode(const std::string &s)
 {
-	return std::string( ptrA( mir_base64_encode((BYTE*)s.c_str(), (unsigned)s.length())));
+	return std::string(ptrA(mir_base64_encode((BYTE*)s.c_str(), (unsigned)s.length())));
 }
 
 http::response mir_twitter::slurp(const std::string &url, http::method meth, OAuthParameters postParams)
 {
-	NETLIBHTTPREQUEST req = {sizeof(req)};
-	req.requestType = (meth == http::get) ? REQUEST_GET:REQUEST_POST;
+	NETLIBHTTPREQUEST req = { sizeof(req) };
+	req.requestType = (meth == http::get) ? REQUEST_GET : REQUEST_POST;
 	req.szUrl = const_cast<char*>(url.c_str());
 
-	//std::wstring url_WSTR(url.length(),L' ');
-	//std::copy(url.begin(), url.end(), url_WSTR.begin());
 	std::wstring url_WSTR = UTF8ToWide(url);
 	std::string pdata_STR;
 	std::wstring pdata_WSTR;
-
 	std::wstring auth;
+
 	if (meth == http::get) {
-		if (url_WSTR.size()>0) { ppro_->debugLogW(L"**SLURP::GET - we have a URL: %s", url_WSTR); }
-		if (consumerKey_.size()>0) { ppro_->debugLogA("**SLURP::GET - we have a consumerKey"); }
-		if (consumerSecret_.size()>0) { ppro_->debugLogA("**SLURP::GET - we have a consumerSecret"); }
-		if (oauthAccessToken_.size()>0) { ppro_->debugLogA("**SLURP::GET - we have a oauthAccessToken"); }
-		if (oauthAccessTokenSecret_.size()>0) { ppro_->debugLogA("**SLURP::GET - we have a oauthAccessTokenSecret"); }
-		if (pin_.size()>0) { ppro_->debugLogA("**SLURP::GET - we have a pin"); }
-		//debugLogW("consumerSEcret is %s", consumerSecret_);
-		//debugLogW("oauthAccessTok is %s", oauthAccessToken_);
-		//debugLogW("oautAccessTokSEc is %s", oauthAccessTokenSecret_);
-		//debugLogW("pin is %s", pin_);
-		
-		auth = OAuthWebRequestSubmit(url_WSTR, L"GET", NULL, consumerKey_, consumerSecret_, 
+		if (url_WSTR.size() > 0) { ppro_->debugLogW(L"**SLURP::GET - we have a URL: %s", url_WSTR); }
+		if (consumerKey_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a consumerKey"); }
+		if (consumerSecret_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a consumerSecret"); }
+		if (oauthAccessToken_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a oauthAccessToken"); }
+		if (oauthAccessTokenSecret_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a oauthAccessTokenSecret"); }
+		if (pin_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a pin"); }
+
+		auth = OAuthWebRequestSubmit(url_WSTR, L"GET", NULL, consumerKey_, consumerSecret_,
 			oauthAccessToken_, oauthAccessTokenSecret_, pin_);
 	}
 	else if (meth == http::post) {
-
-		//OAuthParameters postParams;
-		if (url_WSTR.size()>0) { ppro_->debugLogW(L"**SLURP::POST - we have a URL: %s", url_WSTR); }
-		if (consumerKey_.size()>0) { ppro_->debugLogA("**SLURP::POST - we have a consumerKey"); }
-		if (consumerSecret_.size()>0) { ppro_->debugLogA("**SLURP::POST - we have a consumerSecret"); }
-		if (oauthAccessToken_.size()>0) { ppro_->debugLogA("**SLURP::POST - we have a oauthAccessToken"); }
-		if (oauthAccessTokenSecret_.size()>0) { ppro_->debugLogA("**SLURP::POST - we have a oauthAccessTokenSecret"); }
-		if (pin_.size()>0) { ppro_->debugLogA("**SLURP::POST - we have a pin"); }
-
-		//debugLogW("consumerKey is %s", consumerKey_);
-		//debugLogW("consumerSEcret is %s", consumerSecret_);
-		//debugLogW("oauthAccessTok is %s", oauthAccessToken_);
-		//debugLogW("oautAccessTokSEc is %s", oauthAccessTokenSecret_);
-
-		//std::wstring pdata_WSTR(post_data.length(),L' ');
-		//std::copy(post_data.begin(), post_data.end(), pdata_WSTR.begin());
-
-		//postParams[L"status"] = UrlEncode(pdata_WSTR);
-		//postParams[L"source"] = L"mirandang";
+		// OAuthParameters postParams;
+		if (url_WSTR.size() > 0) { ppro_->debugLogW(L"**SLURP::POST - we have a URL: %s", url_WSTR); }
+		if (consumerKey_.size() > 0) { ppro_->debugLogA("**SLURP::POST - we have a consumerKey"); }
+		if (consumerSecret_.size() > 0) { ppro_->debugLogA("**SLURP::POST - we have a consumerSecret"); }
+		if (oauthAccessToken_.size() > 0) { ppro_->debugLogA("**SLURP::POST - we have a oauthAccessToken"); }
+		if (oauthAccessTokenSecret_.size() > 0) { ppro_->debugLogA("**SLURP::POST - we have a oauthAccessTokenSecret"); }
+		if (pin_.size() > 0) { ppro_->debugLogA("**SLURP::POST - we have a pin"); }
 
 		pdata_WSTR = BuildQueryString(postParams);
 
-		ppro_->debugLogW(L"**SLURP::POST - post data is: %s", pdata_WSTR); 
+		ppro_->debugLogW(L"**SLURP::POST - post data is: %s", pdata_WSTR);
 
-		auth = OAuthWebRequestSubmit(url_WSTR, L"POST", &postParams, consumerKey_, consumerSecret_, 
-			oauthAccessToken_, oauthAccessTokenSecret_);
-		//debugLogW("**SLURP::POST auth is %s", auth);
+		auth = OAuthWebRequestSubmit(url_WSTR, L"POST", &postParams, consumerKey_, consumerSecret_, oauthAccessToken_, oauthAccessTokenSecret_);
 	}
-	else {
-		ppro_->debugLogA("**SLURP - There is something really wrong.. the http method was neither get or post.. WHY??");
-	}
-
-	//std::string auth_STR(auth.length(), ' ');
-	//std::copy(auth.begin(), auth.end(), auth_STR.begin());
+	else ppro_->debugLogA("**SLURP - There is something really wrong.. the http method was neither get or post.. WHY??");
 
 	std::string auth_STR = WideToUTF8(auth);
 
@@ -98,15 +74,11 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, OAu
 	req.headers = hdr;
 	req.headersCount = 1;
 
-	if(meth == http::post)
-	{
+	if (meth == http::post) {
 		hdr[1].szName = "Content-Type";
 		hdr[1].szValue = "application/x-www-form-urlencoded";
-		hdr[2].szName  = "Cache-Control";
+		hdr[2].szName = "Cache-Control";
 		hdr[2].szValue = "no-cache";
-
-		//char *pdata_STR = new char[pdata_WSTR.length() + 1];
-		//sprintf(pdata_STR,"%ls",pdata_WSTR.c_str());
 
 		pdata_STR = WideToUTF8(pdata_WSTR);
 
@@ -123,26 +95,25 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, OAu
 	NETLIBHTTPREQUEST *resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService(MS_NETLIB_HTTPTRANSACTION,
 		reinterpret_cast<WPARAM>(handle_), reinterpret_cast<LPARAM>(&req)));
 	ppro_->debugLogA("**SLURP - HTTPTRANSACTION complete.");
-	if(resp)
-	{
+	if (resp) {
 		ppro_->debugLogA("**SLURP - the server has responded!");
 		httpPOST_ = resp->nlc;
 		resp_data.code = resp->resultCode;
-		resp_data.data = resp->pData ? resp->pData:"";
+		resp_data.data = resp->pData ? resp->pData : "";
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)resp);
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 	}
-	else { 
-		httpPOST_ = NULL; 
-		ppro_->debugLogA("SLURP - there was no response!"); 
+	else {
+		httpPOST_ = NULL;
+		ppro_->debugLogA("SLURP - there was no response!");
 	}
 
 	return resp_data;
 }
 
-bool save_url(HANDLE hNetlib,const std::string &url,const std::tstring &filename)
+bool save_url(HANDLE hNetlib, const std::string &url, const std::tstring &filename)
 {
-	NETLIBHTTPREQUEST req = {sizeof(req)};
+	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.flags = NLHRF_HTTP11 | NLHRF_REDIRECT;
 	req.szUrl = const_cast<char*>(url.c_str());
@@ -150,25 +121,23 @@ bool save_url(HANDLE hNetlib,const std::string &url,const std::tstring &filename
 	NETLIBHTTPREQUEST *resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService(MS_NETLIB_HTTPTRANSACTION,
 		reinterpret_cast<WPARAM>(hNetlib), reinterpret_cast<LPARAM>(&req)));
 
-	if (resp)
-	{
+	if (resp) {
 		bool success = (resp->resultCode == 200);
-		if (success)
-		{
+		if (success) {
 			// Create folder if necessary
-			std::tstring dir = filename.substr(0,filename.rfind('\\'));
-			if( _taccess(dir.c_str(),0))
+			std::tstring dir = filename.substr(0, filename.rfind('\\'));
+			if (_taccess(dir.c_str(), 0))
 				CreateDirectoryTreeT(dir.c_str());
 
 			// Write to file
 			FILE *f = _tfopen(filename.c_str(), _T("wb"));
-			fwrite(resp->pData,1,resp->dataLength,f);
+			fwrite(resp->pData, 1, resp->dataLength, f);
 			fclose(f);
 		}
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)resp);
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 		return success;
 	}
-	else
-		return false;
+
+	return false;
 }
