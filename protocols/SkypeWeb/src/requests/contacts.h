@@ -1,11 +1,11 @@
 #ifndef _SKYPE_REQUEST_CONTACTS_H_
 #define _SKYPE_REQUEST_CONTACTS_H_
 
-class GetContactListRequest : public HttpsGetRequest
+class GetContactListRequest : public HttpRequest
 {
 public:
 	GetContactListRequest(const char *token, const char *skypename = "self") :
-		HttpsGetRequest("api.skype.com/users/%s/contacts", skypename)
+		HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/users/%s/contacts", skypename)
 	{
 		Url << CHAR_VALUE("hideDetails", "true");
 
@@ -15,11 +15,11 @@ public:
 	}
 };
 
-class GetContactsInfoRequest : public HttpsPostRequest
+class GetContactsInfoRequest : public HttpRequest
 {
 public:
 	GetContactsInfoRequest(const char *token, const LIST<char> &skypenames, const char *skypename = "self") :
-		HttpsPostRequest("api.skype.com/users/%s/contacts/profiles", skypename)
+		HttpRequest(REQUEST_POST, FORMAT, "api.skype.com/users/%s/contacts/profiles", skypename)
 	{
 		Headers
 			<< CHAR_VALUE("X-Skypetoken", token)
@@ -32,11 +32,11 @@ public:
 	}
 };
 
-class GetContactsAuthRequest : public HttpsGetRequest
+class GetContactsAuthRequest : public HttpRequest
 {
 public:
 	GetContactsAuthRequest(const char *token, const char *skypename = "self") :
-		HttpsGetRequest("api.skype.com/users/%s/contacts/auth-request", skypename)
+		HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/users/%s/contacts/auth-request", skypename)
 	{
 		Headers
 			<< CHAR_VALUE("X-Skypetoken", token)
@@ -44,11 +44,11 @@ public:
 	}
 };
 
-class AuthAcceptRequest : public HttpsGetRequest
+class AuthAcceptRequest : public HttpRequest
 {
 public:
 	AuthAcceptRequest(const char *token, const char *who, const char *skypename = "self") :
-		HttpsGetRequest("api.skype.com/users/%s/contacts/auth-request/%s/accept", skypename, who)
+		HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/users/%s/contacts/auth-request/%s/accept", skypename, who)
 	{
 		Headers
 			<< CHAR_VALUE("X-Skypetoken", token)
@@ -56,11 +56,11 @@ public:
 	}
 };
 
-class AuthDeclineRequest : public HttpsGetRequest
+class AuthDeclineRequest : public HttpRequest
 {
 public:
 	AuthDeclineRequest(const char *token, const char *who, const char *skypename = "self") :
-		HttpsGetRequest("api.skype.com/users/%s/contacts/auth-request/%s/decline", skypename)
+		HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/users/%s/contacts/auth-request/%s/decline", skypename)
 	{
 		Headers
 			<< CHAR_VALUE("X-Skypetoken", token)

@@ -1,5 +1,25 @@
 #include "common.h"
 
+char *CSkypeProto::MirandaToSkypeStatus(int status)
+{
+	char *result = "Online";
+	switch (status)
+	{
+	case ID_STATUS_AWAY:
+		return "Away";
+
+	case ID_STATUS_DND:
+		return "Busy";
+
+	case ID_STATUS_IDLE:
+		return "Idle";
+
+	case ID_STATUS_INVISIBLE:
+		return "Hidden";
+	}
+	return "Online";
+}
+
 void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, int flags, MCONTACT hContact)
 {
 	if (Miranda_Terminated())

@@ -1,18 +1,16 @@
 #ifndef _SKYPE_REQUEST_MESSAGES_H_
 #define _SKYPE_REQUEST_MESSAGES_H_
 
-class SendMsgRequest : public HttpsPostRequest
+class SendMsgRequest : public HttpRequest
 {
 public:
 	SendMsgRequest(const char *regToken, const char *username, const char *message) :
-		HttpsPostRequest("client-s.gateway.messenger.live.com/v1/users/ME/conversations/8:%s/messages", username)
+		HttpRequest(REQUEST_POST, FORMAT, "client-s.gateway.messenger.live.com/v1/users/ME/conversations/8:%s/messages", username)
 	{
-		CMStringA auth = "registrationToken=";
-		auth += regToken;
 		Headers
 			<< CHAR_VALUE("Accept", "application / json, text / javascript")
 			<< CHAR_VALUE("Expires", "0")
-			<< CHAR_VALUE("RegistrationToken", auth)
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8")
 			<< CHAR_VALUE("BehaviorOverride", "redirectAs404")
 			<< CHAR_VALUE("Referer", "https://web.skype.com/main")
