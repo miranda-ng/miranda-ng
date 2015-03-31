@@ -1,6 +1,6 @@
 #include "commonheaders.h"
 
-UINT_PTR timerId;
+static UINT_PTR timerId = 0;
 
 //=====================================================
 // Name : timerProc
@@ -9,11 +9,11 @@ UINT_PTR timerId;
 // Description : called when the timer interval occurs
 //=====================================================
 
-void timerFunc(void *di) 
+void timerFunc(void *di)
 {
 	char text[512], fn[16], szFileName[MAX_PATH], temp[MAX_PATH];
 
-	int timerCount = db_get_w(NULL, MODNAME, "timerCount",1)+1;
+	int timerCount = db_get_w(NULL, MODNAME, "timerCount", 1) + 1;
 
 	if (LCStatus == ID_STATUS_OFFLINE) {
 		killTimer();
@@ -22,9 +22,9 @@ void timerFunc(void *di)
 	db_set_w(NULL, MODNAME, "timerCount", (WORD)timerCount);
 
 	/* update the web pages*/
-	for (int i=0; ;i++) {
+	for (int i = 0;; i++) {
 		mir_snprintf(fn, SIZEOF(fn), "fn%d", i);
-		if (!db_get_static(NULL, MODNAME, fn, text))
+		if (!db_get_static(NULL, MODNAME, fn, text, SIZEOF(text)))
 			break;
 
 		if (!strncmp("http://", text, strlen("http://")) || !strncmp("https://", text, strlen("https://"))) {
@@ -43,7 +43,7 @@ void timerFunc(void *di)
 	for (MCONTACT hContact = db_find_first(MODNAME); hContact; hContact = db_find_next(hContact, MODNAME)) {
 		int timer = db_get_w(hContact, MODNAME, "Timer", 15);
 		if (timer && !(timerCount % timer))
-			if (db_get_static(hContact, MODNAME, "Name", text))
+			if (db_get_static(hContact, MODNAME, "Name", text, SIZEOF(text)))
 				replaceAllStrings(hContact);
 	}
 }
@@ -51,7 +51,7 @@ void timerFunc(void *di)
 void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	// new thread for the timer...
-	forkthread(timerFunc, 0, 0); 
+	forkthread(timerFunc, 0, 0);
 }
 
 //=====================================================
@@ -76,7 +76,10 @@ int startTimer(int interval)
 
 int killTimer()
 {
-	db_set_w(NULL, MODNAME, "timerCount",0);
-	KillTimer(NULL,timerId);
+	if (timerId != 0) {
+		db_set_w(NULL, MODNAME, "timerCount", 0);
+		KillTimer(NULL, timerId);
+		timerId = 0;
+	}
 	return 0;
 }

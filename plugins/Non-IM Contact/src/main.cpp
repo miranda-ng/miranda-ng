@@ -24,23 +24,22 @@ PLUGININFOEX pluginInfoEx = {
 	{ 0x2e0d2ae3, 0xe123, 0x4607, {0x85, 0x39, 0xd4, 0x44, 0x8d, 0x67, 0x5d, 0xdb} }
 };
 
-INT_PTR doubleClick(WPARAM wParam,LPARAM lParam)
+INT_PTR doubleClick(WPARAM wParam, LPARAM lParam)
 {
 	char program[MAX_PATH], params[MAX_PATH];
 	int shellEXEerror = 0;
 	char* proto = GetContactProto(wParam);
 	if (proto && !strcmp(proto, MODNAME)) {
-		if (GetKeyState(VK_CONTROL)&0x8000) // ctrl is pressed
+		if (GetKeyState(VK_CONTROL) & 0x8000) // ctrl is pressed
 			editContact(wParam, 0);		// for later when i add a second double click setting
-		else if (db_get_static(wParam, MODNAME, "Program", program) && strcmp(program, ""))
-		{
-			if (!db_get_static(wParam, MODNAME, "ProgramParams", params) )
+		else if (db_get_static(wParam, MODNAME, "Program", program, SIZEOF(program)) && strcmp(program, "")) {
+			if (!db_get_static(wParam, MODNAME, "ProgramParams", params, SIZEOF(params)))
 				strcpy(params, "");
 			if (strstr(program, "http://") || strstr(program, "https://"))
-				CallService(MS_UTILS_OPENURL,OUF_NEWWINDOW,(LPARAM)program);
+				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)program);
 			else shellEXEerror = (int)ShellExecuteA(NULL, NULL, program, params, NULL, SW_SHOW);  //ignore the warning, its M$'s backwards compatabilty screwup :)
 			if (shellEXEerror == ERROR_FILE_NOT_FOUND || shellEXEerror == ERROR_PATH_NOT_FOUND)
-				CallService(MS_UTILS_OPENURL,OUF_NEWWINDOW,(LPARAM)program);
+				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)program);
 		}
 		else editContact(wParam, 0);
 		return 1;
@@ -60,7 +59,7 @@ int LCStatus = ID_STATUS_OFFLINE;
 // Returns : int
 // Description : Called at very beginning of plugin
 //=====================================================
-int NimcOptInit(WPARAM wParam,LPARAM)
+int NimcOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
@@ -90,13 +89,13 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 // Description :
 //=====================================================
 
-BOOL WINAPI DllMain(HINSTANCE hinst,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinst;
+	hInst = hinst;
 	return TRUE;
 }
 
-int ModulesLoaded(WPARAM wParam,LPARAM lParam)
+int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	NetlibInit();
 	return 0;
@@ -122,7 +121,7 @@ extern "C" __declspec(dllexport) int Load()
 	Icon_Register(hInst, LPGEN("Non-IM Contact"), icoList, SIZEOF(icoList));
 
 	HookEvent(ME_CLIST_DOUBLECLICKED, (MIRANDAHOOK)doubleClick);
-	HookEvent(ME_OPT_INITIALISE,NimcOptInit);
+	HookEvent(ME_OPT_INITIALISE, NimcOptInit);
 	HookEvent(ME_CLIST_STATUSMODECHANGE, SetLCStatus);
 
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE, MODNAME, PROTOTYPE_VIRTUAL };
@@ -156,7 +155,7 @@ extern "C" __declspec(dllexport) int Load()
 	mi.pszService = "LoadFilesDlg";
 	Menu_AddMainMenuItem(&mi);
 
-	if (db_get_b(NULL, MODNAME, "Beta",0)) {
+	if (db_get_b(NULL, MODNAME, "Beta", 0)) {
 		mi.position = 600090002;
 		mi.pszName = LPGEN("&Export all Non-IM Contacts");
 		mi.pszService = "ExportLCcontacts";
@@ -194,5 +193,6 @@ extern "C" __declspec(dllexport) int Load()
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
+	killTimer();
 	return 0;
 }
