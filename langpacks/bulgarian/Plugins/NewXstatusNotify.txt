@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: xStatus notify
-;  Version: 1.4.0.10
+;  Version: 1.4.0.11
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notify when contact changes to one of these statuses]

@@ -1957,6 +1957,9 @@ Voir/Changer mes &détails...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s est en ligne
+;file \src\mir_core\src\ui_utils.cpp
+[Account]
+Compte
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Ajouter le contact
@@ -2569,6 +2572,42 @@ Vous devez désactiver le plugin pour supprimer ce compte
 [&Accounts...]
 &Comptes...
 ;file \src\modules\skin\hotkey_opts.cpp
+[Browser: Back]
+
+[Browser: Forward]
+
+[Browser: Refresh]
+
+[Browser: Stop]
+
+[Browser: Search]
+
+[Browser: Fav]
+
+[Browser: Home]
+
+[Mute]
+
+[Vol-]
+
+[Vol+]
+
+[Media: Next Track]
+
+[Media: Prev. Track]
+
+[Media: Stop]
+
+[Media: Play/Pause]
+
+[Mail]
+
+[Media: Select]
+
+[App 1]
+
+[App 2]
+
 [Ctrl + ]
 
 [Alt + ]

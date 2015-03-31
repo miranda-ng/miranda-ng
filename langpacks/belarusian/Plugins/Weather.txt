@@ -332,6 +332,20 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 %c, %t\\n Сёння:  макс. %h, мін. %l
 [Temperature: %[Temperature]]
 Тэмпература: %[Temperature]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\t прагноз на сёння\n%d\t бягучая дата\n%e\t раса\n%f\t адчуванне\n%h\t максімум\n%i\t кірунак ветра\n%l\t мінімум\n%m\t вільготнасць\n%n\t горад\n%p\t ціск\n%r\t узыход\n%s\tID гарады\n%t\t тэмпература\n%u\t абнаўленне\n%v\t бачнасць\n%w\t хуткасць ветра\n%y\t заход
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
+%c   прагноз на сёння\n%d   бягучая дата\n%e   раса\n%f   адчуванне\n%h   максімум\n%i   кірунак ветра\n%l   мінімум\n%m   вільготнасць\n%n   горад\n%p   ціск\n%r   узыход\n%s   ID гарады\n%t   тэмпература\n%u   абнаўленне\n%v   бачнасць\n%w   хуткасць ветра\n%y   заход\n----------\n\\n   новы радок
+[No information available.\r\nPlease update weather condition first.]
+Інфармацыя недаступная \nПапярэдне абновіце дадзеныя пра надвор'е
+[%[..]\tcustom variables]
+%[..]\t свае зменныя
+[Here is a list of custom variables that are currently available]
+Спіс дадатковых зменных, даступных на дадзены момант
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+URL поўнага прагнозу надвор'я не ўсталяваны. Вы можаце ўсталяваць яго ў наладах.
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+Не паказаны URL для карты надвор'я. Вы можаце паказаць яго ў меню Налады.
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Бягучая інфармацыя пра надвор'е для %s
@@ -348,10 +362,6 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 ;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Лог надвор'я не вядзецца.
-[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
-URL поўнага прагнозу надвор'я не ўсталяваны. Вы можаце ўсталяваць яго ў наладах.
-[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
-Не паказаны URL для карты надвор'я. Вы можаце паказаць яго ў меню Налады.
 [Get city name from ID]
 Атрымаць назву горада па ID
 [Weather INI information]
@@ -447,8 +457,6 @@ HTTP падлучэнне Weather
 байт
 [Description:]
 Апісанне:
-[Here is a list of custom variables that are currently available]
-Спіс дадатковых зменных, даступных на дадзены момант
 ;file \plugins\Weather\src\weather_ini.cpp
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Не знойдзены файл абнаўлення. Калі ласка, праверце тэчку Plugins\\Weather.
@@ -472,15 +480,9 @@ HTTP падлучэнне Weather
 Паказваць
 [Popups]
 Усплывальныя вокны
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
-%c   прагноз на сёння\n%d   бягучая дата\n%e   раса\n%f   адчуванне\n%h   максімум\n%i   кірунак ветра\n%l   мінімум\n%m   вільготнасць\n%n   горад\n%p   ціск\n%r   узыход\n%s   ID гарады\n%t   тэмпература\n%u   абнаўленне\n%v   бачнасць\n%w   хуткасць ветра\n%y   заход\n----------\n\\n   новы радок
 [Weather Protocol Text Preview]
 Прагляд конту надвор'я
 ;file \plugins\Weather\src\weather_popup.cpp
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\t прагноз на сёння\n%d\t бягучая дата\n%e\t раса\n%f\t адчуванне\n%h\t максімум\n%i\t кірунак ветра\n%l\t мінімум\n%m\t вільготнасць\n%n\t горад\n%p\t ціск\n%r\t узыход\n%s\tID гарады\n%t\t тэмпература\n%u\t абнаўленне\n%v\t бачнасць\n%w\t хуткасць ветра\n%y\t заход
-[%[..]\tcustom variables]
-%[..]\t свае зменныя
 ;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 ID гарады
@@ -524,5 +526,3 @@ ID гарады
 Атрымліваю новыя дадзеныя. Пачакайце калі ласка...
 [More Info]
 Падрабязней
-[No information available.\r\nPlease update weather condition first.]
-Інфармацыя недаступная \nПапярэдне абновіце дадзеныя пра надвор'е

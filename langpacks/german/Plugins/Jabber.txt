@@ -786,6 +786,9 @@ Unterstützte Funktionen
 Infoanfragefehler
 [Items request error]
 Elementanfragefehler
+;file \protocols\JabberG\src\jabber_filterlist.cpp
+[Set filter...]
+Filter setzen...
 ;file \protocols\JabberG\src\jabber_form2.cpp
 [One or more addresses for communication related to abusive traffic]
 
@@ -2527,6 +2530,3 @@ Hört gerade
 Stimmungen
 [Activities]
 Aktivitäten
-;file \protocols\JabberG\src\ui_utils.cpp
-[Set filter...]
-Filter setzen...

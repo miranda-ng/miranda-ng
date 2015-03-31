@@ -329,6 +329,20 @@ INI-файл погоди для цієї станції не знайдений
 %c, %t\\nСьогодні: макс. %h, мін. %l
 [Temperature: %[Temperature]]
 Температура: %[Temperature]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tпрогноз на сьогодні\n%d\tпоточна дата\n%e\tроса\n%f\tвідчуття\n%h\tмаксимум\n%i\tнапрямок вітру\n%l\tмінімум\n%m\tвологість\n%n\tмісто\n%p\tтиск\n%r\tсхід\n%s\tID міста\n%t\tтемпература\n%u\tоновлення\n%v\tвидимість\n%w\tшвидкість вітру\n%y\tзахід
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
+%c прогноз на сьогодні\n%d поточна дата\n%e роса\n%f відчуття\n%h максимум\n%i напрямок вітру\n%l мінімум\n%m вологість\n%n місто\n%p тиск\n%r схід\n%s ID міста\n%t температура\n%u оновлення\n%v видимість\n%w швидкість вітру\n%y захід\n----------\n\\n\tновий рядок
+[No information available.\r\nPlease update weather condition first.]
+Інформація недоступна.\r\nСпочатку оновіть дані про погоду.
+[%[..]\tcustom variables]
+%[..]\tсвої змінні
+[Here is a list of custom variables that are currently available]
+Список додаткових змінних, доступних на даний момент
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+Не вказано URL повного прогнозу погоди. Вкажіть його в налаштуваннях.
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+Не вказано URL карти погоди. Вкажіть його в налаштуваннях.
 [Current weather information for %s.]
 Поточна інформація про погоду для %s.
 [%s is now the default weather station]
@@ -343,10 +357,6 @@ INI-файл погоди для цієї станції не знайдений
 <Введіть ID міста>
 [Weather condition was not logged.]
 Журнал погоди не ведеться.
-[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
-Не вказано URL повного прогнозу погоди. Вкажіть його в налаштуваннях.
-[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
-Не вказано URL карти погоди. Вкажіть його в налаштуваннях.
 [Get city name from ID]
 Отримати назву міста по ID
 [Weather INI information]
@@ -437,8 +447,6 @@ HTTP-з'єднання Weather
 байт
 [Description:]
 Опис:
-[Here is a list of custom variables that are currently available]
-Список додаткових змінних, доступних на даний момент
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Не знайдено жодного файлу INI. Будь ласка, перевірте папку Plugins\\Weather.
 [Invalid ini format for: %s]
@@ -459,14 +467,8 @@ HTTP-з'єднання Weather
 Показувати
 [Popups]
 Спливаючі вікна
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
-%c прогноз на сьогодні\n%d поточна дата\n%e роса\n%f відчуття\n%h максимум\n%i напрямок вітру\n%l мінімум\n%m вологість\n%n місто\n%p тиск\n%r схід\n%s ID міста\n%t температура\n%u оновлення\n%v видимість\n%w швидкість вітру\n%y захід\n----------\n\\n\tновий рядок
 [Weather Protocol Text Preview]
 Перегляд протоколу погоди
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\tпрогноз на сьогодні\n%d\tпоточна дата\n%e\tроса\n%f\tвідчуття\n%h\tмаксимум\n%i\tнапрямок вітру\n%l\tмінімум\n%m\tвологість\n%n\tмісто\n%p\tтиск\n%r\tсхід\n%s\tID міста\n%t\tтемпература\n%u\tоновлення\n%v\tвидимість\n%w\tшвидкість вітру\n%y\tзахід
-[%[..]\tcustom variables]
-%[..]\tсвої змінні
 [Station ID]
 ID міста
 [Disable &weather notification]
@@ -507,5 +509,3 @@ ID міста
 Отримую нові дані. Зачекайте...
 [More Info]
 Детальніше
-[No information available.\r\nPlease update weather condition first.]
-Інформація недоступна.\r\nСпочатку оновіть дані про погоду.

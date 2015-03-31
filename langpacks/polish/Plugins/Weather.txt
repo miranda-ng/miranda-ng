@@ -336,6 +336,20 @@ Warunki pogodowe dla %n na %u
 %c, %t\\nDzisiaj:  Wyż %h, Niż %l
 [Temperature: %[Temperature]]
 Temperatura:  %[Temperature]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tstan obecny\n%d\taktualna data\n%e\tpunkt rosy\n%f\todczuwalna temp.\n%h\tdzisiejszy wyż\n%i\tkierunek wiatru\n%l\tdzisiejszy niż\n%m\twilgotność\n%n\tnazwa stacji\n%p\tciśnienie\n%r\twschód słońca\n%s\tID stacji\n%t\ttemperatura\n%u\tczas aktualizacji\n%v\twidoczność\n%w\tprędkość wiatru\n%y\tzachód słońca
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
+%c\tstan obecny\n%d\taktualna data\n%e\tpunkt rosy\n%f\todczuwalna temp.\n%h\tdzisiejszy wyż\n%i\tkierunek wiatru\n%l\tdzisiejszy niż\n%m\twilgotność\n%n\tnazwa stacji\n%p\tciśnienie\n%r\twschód słońca\n%s\tID stacji\n%t\ttemperatura\n%u\tczas aktualizacji\n%v\twidoczność\n%w\tprędkość wiatru\n%y\tzachód słońca\n----------\n\\n\tnowa linia
+[No information available.\r\nPlease update weather condition first.]
+Brak dostępnych informacji.\r\nProszę zaktualizować dane pogodowe.
+[%[..]\tcustom variables]
+%[..]\twłasne zmienne
+[Here is a list of custom variables that are currently available]
+Poniżej znajduje się lista niestandardowych zmiennych, które są obecnie dostępne
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+Nie ustawiono adresu strony z kompletną prognozą. Możesz go ustawić w okienku edycji ustawień.
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+Nie ustawiono adresu mapy pogodowej. Możesz go ustawić w okienku edycji ustawień.
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Aktualne informacje o pogodzie dla miejscowości %s.
@@ -352,10 +366,6 @@ Proszę spróbować ponownie po aktualizacji pogody.
 ;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Nie zarejestrowano sytuacji pogodowej.
-[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
-Nie ustawiono adresu strony z kompletną prognozą. Możesz go ustawić w okienku edycji ustawień.
-[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
-Nie ustawiono adresu mapy pogodowej. Możesz go ustawić w okienku edycji ustawień.
 [Get city name from ID]
 Pobierz nazwę miasta z ID
 [Weather INI information]
@@ -451,8 +461,6 @@ Pamięć używana:
 bajty
 [Description:]
 Opis:
-[Here is a list of custom variables that are currently available]
-Poniżej znajduje się lista niestandardowych zmiennych, które są obecnie dostępne
 ;file \plugins\Weather\src\weather_ini.cpp
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Nie znaleziono plików aktualizacji. Proszę sprawdzić folder Plugins\\Weather.
@@ -476,15 +484,9 @@ Ogólne
 Wyświetlanie
 [Popups]
 Popupy
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
-%c\tstan obecny\n%d\taktualna data\n%e\tpunkt rosy\n%f\todczuwalna temp.\n%h\tdzisiejszy wyż\n%i\tkierunek wiatru\n%l\tdzisiejszy niż\n%m\twilgotność\n%n\tnazwa stacji\n%p\tciśnienie\n%r\twschód słońca\n%s\tID stacji\n%t\ttemperatura\n%u\tczas aktualizacji\n%v\twidoczność\n%w\tprędkość wiatru\n%y\tzachód słońca\n----------\n\\n\tnowa linia
 [Weather Protocol Text Preview]
 Podgląd tekstu protokołu pogody
 ;file \plugins\Weather\src\weather_popup.cpp
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\tstan obecny\n%d\taktualna data\n%e\tpunkt rosy\n%f\todczuwalna temp.\n%h\tdzisiejszy wyż\n%i\tkierunek wiatru\n%l\tdzisiejszy niż\n%m\twilgotność\n%n\tnazwa stacji\n%p\tciśnienie\n%r\twschód słońca\n%s\tID stacji\n%t\ttemperatura\n%u\tczas aktualizacji\n%v\twidoczność\n%w\tprędkość wiatru\n%y\tzachód słońca
-[%[..]\tcustom variables]
-%[..]\twłasne zmienne
 ;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 ID stacji
@@ -528,5 +530,3 @@ Informacje
 Pobieranie nowych danych, proszę czekać...
 [More Info]
 Więcej
-[No information available.\r\nPlease update weather condition first.]
-Brak dostępnych informacji.\r\nProszę zaktualizować dane pogodowe.

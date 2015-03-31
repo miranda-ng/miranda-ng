@@ -786,6 +786,9 @@ Catégorie
 
 [Items request error]
 
+;file \protocols\JabberG\src\jabber_filterlist.cpp
+[Set filter...]
+
 ;file \protocols\JabberG\src\jabber_form2.cpp
 [One or more addresses for communication related to abusive traffic]
 
@@ -2526,7 +2529,4 @@ Definir
 [Moods]
 
 [Activities]
-
-;file \protocols\JabberG\src\ui_utils.cpp
-[Set filter...]
 

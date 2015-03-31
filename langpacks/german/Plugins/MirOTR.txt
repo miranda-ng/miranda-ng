@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.11.0.5
+;  Version: 0.14.1.15
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
@@ -28,6 +28,8 @@ Sitzung beend., wenn Fenster geschlossen wird
 Sitzung beenden, wenn Kontakt offline
 [Prefix encrypted IMs:]
 Präfix verschlüsselter IM:
+[don't rely on the prefix, always check the OTR status icon]
+
 [Don't add encrypted messages to the history]
 Füge keine verschlüsselten Nachrichten in den Verlauf ein
 [Also remove OTR system messages]
@@ -127,16 +129,6 @@ OTR konnte nicht verschlüsseln, als eine Nachricht gesendet wurde
 OTR-Informationen
 [[OTR INFO] ]
 \[OTR-INFO]\s
-[Authentication from %s]
-Authentifizierung von %s
-[Authenticate %s]
-Authentifiziere %s
-[Unknown]
-Unbekannt
-[OTR: %s (%s)]
-OTR: %s (%s)
-[OTR %s (%s)]
-OTR %s (%s)
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 OTR-verschlüsselte Sitzung mit '%s' ist nun mit einem Fingerabdruck verifiziert worden.
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
@@ -253,3 +245,35 @@ OTR-Status
 Private Daten
 [Services]
 Dienste
+;file \plugins\MirOTR\src\otr.cpp
+[\nusing older protocol version %i]
+
+[Attempting to start a private conversation...]
+
+[An error occurred when encrypting your message.\nThe message was not sent]
+
+['%s' has already closed his/her private connection to you; you should do the same]
+
+[Error setting up private conversation: %s]
+Fehler beim Erstellen der privaten Konversation: %s
+[Malformed message received]
+
+[We are receiving our own OTR messages.\nYou are either trying to talk to yourself, or someone is reflecting your messages back at you]
+
+[The last message to '%s' was resent]
+
+[The encrypted message received from '%s' is unreadable, as you are not currently communicating privately]
+
+[We received an unreadable encrypted message from '%s']
+
+[We received a malformed data message from '%s']
+
+[The following message received from '%s' was NOT encrypted: [%s]]
+
+['%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message.]
+
+[unknown OTR message received, please report that to Miranda NG]
+
+;file \plugins\MirOTR\src\otr.h
+[ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee http://wikipedia.org/wiki/Off-the-Record_Messaging for more information.]
+

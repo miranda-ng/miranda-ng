@@ -336,6 +336,20 @@ Conditions Météo de %n à %u
 %c, %t\\nAujourd'hui :  maxi %h, mini %l
 [Temperature: %[Temperature]]
 Température : %[Temperature]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tconditions courantes\n%d\tdate en cours\n%e\tpoint de condensation\n%f\ttempérature ressentie\n%h\tmaximales\n%i\tdirection du vent\n%l\tminimales\n%m\thumidité\n%n\tnom de la station\n%p\tpression\n%r\tlever du soleil\n%s\tidentifiant de la station\n%t\ttempérature\n%u\theure mise à jour\n%v\tvisibilité\n%w\tvitesse du vent\n%y\tcoucher du soleil
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
+
+[No information available.\r\nPlease update weather condition first.]
+
+[%[..]\tcustom variables]
+%[..]\tvariables personnalisées
+[Here is a list of custom variables that are currently available]
+Voici la liste des variables actuellement disponibles :
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+L'adresse pour le forcast complet n'a pas été réglé. Vous pouvez le régler dans 'Modifier les réglages'.
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+L'adresse pour la carte météo n'a pas été renseignées. Vous pouvez y remédier dans le menu d'édition des paramètres.
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Information météo en cours pour %s.
@@ -352,10 +366,6 @@ Veuillez recommencer après la MAJ terminée.
 ;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Les conditions météo n'ont pas été enregistrées.
-[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
-L'adresse pour le forcast complet n'a pas été réglé. Vous pouvez le régler dans 'Modifier les réglages'.
-[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
-L'adresse pour la carte météo n'a pas été renseignées. Vous pouvez y remédier dans le menu d'édition des paramètres.
 [Get city name from ID]
 Prendre le nom de la ville d'après l'identifiant
 [Weather INI information]
@@ -451,8 +461,6 @@ Mémoire utilisée :
 octets
 [Description:]
 Description :
-[Here is a list of custom variables that are currently available]
-Voici la liste des variables actuellement disponibles :
 ;file \plugins\Weather\src\weather_ini.cpp
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Aucun fichier de mise à jour trouvé. Vérifiez le dossier Plugins\\Weather.
@@ -476,15 +484,9 @@ Général
 
 [Popups]
 Popups
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
-
 [Weather Protocol Text Preview]
 Prévisualisation de Weather Protocole
 ;file \plugins\Weather\src\weather_popup.cpp
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\tconditions courantes\n%d\tdate en cours\n%e\tpoint de condensation\n%f\ttempérature ressentie\n%h\tmaximales\n%i\tdirection du vent\n%l\tminimales\n%m\thumidité\n%n\tnom de la station\n%p\tpression\n%r\tlever du soleil\n%s\tidentifiant de la station\n%t\ttempérature\n%u\theure mise à jour\n%v\tvisibilité\n%w\tvitesse du vent\n%y\tcoucher du soleil
-[%[..]\tcustom variables]
-%[..]\tvariables personnalisées
 ;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 Identifiant de la station
@@ -528,5 +530,3 @@ Informations
 Réception des données, veuillez patienter...
 [More Info]
 Plus d'info
-[No information available.\r\nPlease update weather condition first.]
-

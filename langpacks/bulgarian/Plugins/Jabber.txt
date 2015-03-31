@@ -731,6 +731,8 @@ Jabber грешка
 Тип
 [Supported features]
 Поддържани функции
+[Set filter...]
+Задаване на филтър...
 [The text of a welcome message]
 Текст на приветственото съобщение
 [First Name]
@@ -2031,5 +2033,3 @@ Jabber vCard: Редактиране на телефонен номер
 Настроения
 [Activities]
 Дейности
-[Set filter...]
-Задаване на филтър...

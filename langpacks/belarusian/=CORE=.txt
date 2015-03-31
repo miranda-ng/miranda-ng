@@ -1945,6 +1945,7 @@ URL ад %s
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s далучаны
+;file \src\mir_core\src\ui_utils.cpp
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Дадаць кантакт

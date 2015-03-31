@@ -772,6 +772,9 @@ Jabber памылка
 Памылка запыту інфармацыі
 [Items request error]
 Памылка запыту
+;file \protocols\JabberG\src\jabber_filterlist.cpp
+[Set filter...]
+Фільтр...
 ;file \protocols\JabberG\src\jabber_form2.cpp
 [First Name]
 Імя
@@ -2237,6 +2240,3 @@ Jabber vCard: рэдагаванне тэлефона
 Настроі
 [Activities]
 Заняткі
-;file \protocols\JabberG\src\ui_utils.cpp
-[Set filter...]
-Фільтр...
