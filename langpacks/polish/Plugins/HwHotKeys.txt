@@ -7,11 +7,11 @@
 ;============================================================
 ;file \plugins\HwHotKeys\res\HwHotKeys.rc
 [Hardware HotKeys plugin\r\nAllows to assign expanded multimedia-keys (only for PS/2-keyboards)]
-
+Wtyczka Hardware Hotkeys]r\nPozwala na przypisanie rozszerzonych klawiszy multimedialnych (jedynie dla klawiatur PS/2)
 [Close Miranda]
 Wyłącz Mirandę NG
 [Assign]
-
+Przypisz
 [Clear]
 Wyczyść
 [Show/Hide contact list]
@@ -19,13 +19,13 @@ Pokaż/Ukryj listę kontaktów
 [Read message]
 Przeczytaj wiadomość
 [Last pressed key]
-
+Ostatnio naciśnięty klawisz
 [Extended flag (1xx), Hardware scan code (x23), KeyName]
-
+Rozszerzona flaga (1xx), Kod skanowania sprzętowego (x23), KeyName
 [Combine left/right keys Shift, Ctrl, Win, Alt]
-
+Połącz klawisze lewe i prawe Shift, Ctrl, Win, Alt
 [Combination of keys for assignment]
-
+Kombinacja klawiszy do przypisania
 ;file \plugins\HwHotKeys\src\HwHotKeys_DllMain.cpp
 [Customize]
 Personalizacja
