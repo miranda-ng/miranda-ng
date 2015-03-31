@@ -45,7 +45,7 @@ Abbrechen
 [< &Back]
 < Zurück
 [Import all settings, contacts and all messages]
-
+Alle Einstellungen, Kontakte und Nachrichten importieren
 [Import all contacts and all messages]
 Alle Kontakte und alle Nachrichten importieren
 [Only import contacts]
@@ -53,13 +53,13 @@ Nur Kontakte importieren
 [Custom import]
 Eigene Auswahl
 [Makes precise copy of the original profile, including all settings, contacts and history.]
-
+Macht eine exakte Kopie Ihres Profils, inklusive aller Einstellungen, Kontakte und Verlauf.
 [Imports only contacts and history, and a few settings. Ideal for synchronizing.]
-
+Importiert nur Kontakte, Verlauf und ein paar Einstellungen. Ideal zum Synchronisieren.
 [Imports contacts only, doesn't import any message history.]
-
+Importiert nur Kontakte, importiert keinen Nachrichtenverlauf.
 [Custom schema: you can choose what to import.]
-
+Eigenes Schema: Sie wählen aus was importiert wird.
 [New contacts && groups]
 Neue Kontakte && Gruppen
 [System history]

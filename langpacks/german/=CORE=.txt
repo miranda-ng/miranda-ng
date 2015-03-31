@@ -2573,41 +2573,41 @@ Um dieses Konto zu loschen, mussen Sie das dazugehorige Plugin deaktivieren
 &Konten...
 ;file \src\modules\skin\hotkey_opts.cpp
 [Browser: Back]
-
+Browser: Zurück
 [Browser: Forward]
-
+Browser: Vorwärts
 [Browser: Refresh]
-
+Browser: Aktualisieren
 [Browser: Stop]
-
+Browser: Abbrechen
 [Browser: Search]
-
+Browser: Suchen
 [Browser: Fav]
-
+Browser: Lesezeichen
 [Browser: Home]
-
+Browser: Startseite
 [Mute]
-
+Stumm
 [Vol-]
-
+Lautstärke -
 [Vol+]
-
+Lautstärke +
 [Media: Next Track]
-
+Media:Nächstes Stück
 [Media: Prev. Track]
-
+Media: Vorh. Stück
 [Media: Stop]
-
+Media: Stop
 [Media: Play/Pause]
-
+Media: Play/Pause
 [Mail]
-
+E-Mail
 [Media: Select]
-
+Media: Auswählen
 [App 1]
-
+App 1
 [App 2]
-
+App 2
 [Ctrl + ]
 Strg +\s
 [Alt + ]

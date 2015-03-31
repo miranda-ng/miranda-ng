@@ -1,3 +1,0 @@
-﻿[IPv4 address/ Host]
-[IPv6 address (optional)]
-[Profiles folder]

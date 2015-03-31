@@ -45,7 +45,7 @@ Ereignisbenachrichtigungen aktivieren
 [Interval for notification updates (min):]
 Intervall für Benachrichtigungsaktualisierungen (Min.):
 [Mark notification as viewed on receive]
-
+Benachrichtigung beim Empfang als gesehen markieren
 [Special contact always enabled]
 Spezieller Kontakt ist immer aktiviert
 [Autoclear news and notification history]

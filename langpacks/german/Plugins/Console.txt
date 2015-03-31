@@ -56,7 +56,7 @@ Tab schließen (Strg+W)
 [*** Console paused ***]
 *** Konsole pausiert ***
 [*** Console resumed ***]
-*** Konsole wiederaufgenommen ***
+*** Konsole fortgesetzt ***
 [*** Console cleared ***]
 *** Konsole gelöscht ***
 [Miranda Console]

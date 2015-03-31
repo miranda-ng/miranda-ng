@@ -260,13 +260,13 @@ Alle Frames anzeigen
 [Show All Titlebars]
 Alle Titelleisten anzeigen
 [will never return the user's custom name]
-
+Gibt niemals den benutzerdefinierten Namen zurück
 [will return Unicode instead of AnsiChar]
-
+Gibt Unicode statt AnstChar zurück
 [will not use the cache]
-
+Verwendet nicht den Cache
 [Gets the string that the contact list will use to represent a contact]
-
+Gibt den Namen zurück, der in der Kontaktliste angezeigt wird
 [Closes Miranda]
 Schließt Miranda
 [Show or hide netlog console window]
