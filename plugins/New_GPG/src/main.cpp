@@ -2013,7 +2013,11 @@ void FirstRun()
 void InitCheck()
 {
 	{//parse gpg output
+		TCHAR *current_home = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+		db_set_ts(NULL, szGPGModuleName, "szHomePath", _T("")); //we do not need home for gpg binary validation
 		gpg_valid = isGPGValid();
+		db_set_ts(NULL, szGPGModuleName, "szHomePath", current_home); //return current home dir back
+		mir_free(current_home);
 		bool home_dir_access = false, temp_access = false;
 		TCHAR *home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 		std::wstring test_path = home_dir;

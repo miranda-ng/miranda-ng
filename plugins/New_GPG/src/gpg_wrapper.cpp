@@ -62,7 +62,7 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 	if(bDebugLog)
 	{
 		std::wstring args;
-		for(int i = 0; i < argv.size(); ++i)
+		for(unsigned int i = 0; i < argv.size(); ++i)
 		{
 			args += argv[i];
 			args += L" ";
@@ -79,10 +79,10 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 		file_descriptor_sink sout(pout.sink, close_handle);
 		file_descriptor_sink serr(perr.sink, close_handle);
 
-		char *mir_path = new char [MAX_PATH];
-		PathToAbsolute("\\", mir_path);
+		TCHAR *mir_path = new TCHAR [MAX_PATH];
+		PathToAbsoluteW(_T("\\"), mir_path);
 
-		c = new child(execute(set_args(argv), bind_stdout(sout), bind_stderr(serr), close_stdin(),/*bind_stdin(sin),*/ show_window(SW_HIDE), hide_console(), inherit_env(), set_env(env), start_in_dir(toUTF16(mir_path))));
+		c = new child(execute(set_args(argv), bind_stdout(sout), bind_stderr(serr), close_stdin(),/*bind_stdin(sin),*/ show_window(SW_HIDE), hide_console(), inherit_env(), set_env(env), start_in_dir(mir_path)));
 		_child = c;
 
 		delete [] mir_path;
