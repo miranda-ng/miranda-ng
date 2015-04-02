@@ -1,0 +1,160 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <winres.h>
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_LOGIN DIALOGEX 0, 0, 190, 86
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST | WS_EX_TOOLWINDOW
+CAPTION "Login to Miranda NG"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,190,26
+    CTEXT           "",IDC_LANG,158,34,13,13,SS_CENTERIMAGE | NOT WS_GROUP
+    EDITTEXT        IDC_USERPASS,21,34,128,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_GROUP
+    DEFPUSHBUTTON   "OK",IDOK,36,64,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,102,64,50,14
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,0,55,190,1
+END
+
+IDD_NEWPASS DIALOGEX 0, 0, 190, 102
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST | WS_EX_TOOLWINDOW
+CAPTION "New password"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Please enter your new password",IDC_HEADERBAR,
+                    "MHeaderbarCtrl",0x0,0,0,190,26
+    CTEXT           "",IDC_LANG,158,34,13,13,SS_CENTERIMAGE | NOT WS_GROUP
+    EDITTEXT        IDC_USERPASS1,21,34,128,14,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_USERPASS2,21,54,128,14,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,36,84,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,100,84,50,14
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,0,77,190,1
+END
+
+IDD_CHANGEPASS DIALOGEX 0, 0, 190, 148
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Enter password"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Change password",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,190,26
+    CTEXT           "",IDC_LANG,158,42,13,13,SS_CENTERIMAGE | NOT WS_GROUP
+    EDITTEXT        IDC_OLDPASS,21,42,128,14,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_USERPASS1,21,77,128,14,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_USERPASS2,21,98,128,14,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Change",IDOK,11,127,50,14
+    PUSHBUTTON      "Remove",IDREMOVE,69,127,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,126,127,50,14
+    LTEXT           "New password",IDC_STATIC,11,66,163,10,0,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,0,119,190,1
+    LTEXT           "Old password",IDC_STATIC,11,31,140,10,0,WS_EX_TRANSPARENT
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 318, 176
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Database encryption mode",IDC_STATIC,6,22,305,125
+    CONTROL         "Standard",IDC_STANDARD,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,12,38,292,12
+    CONTROL         "Total",IDC_TOTAL,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,95,292,12
+    LTEXT           "Only critical data are encrypted (passwords, security tokens, etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases",IDC_STATIC,22,54,284,37
+    LTEXT           "All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoid users",IDC_STATIC,22,110,284,33
+    PUSHBUTTON      "Set password",IDC_USERPASS,200,153,111,17
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_LOGO                ICON                    "logo.ico"
+IDI_ICONPASS            ICON                    "pass.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_LOGIN, DIALOG
+    BEGIN
+    END
+
+    IDD_CHANGEPASS, DIALOG
+    BEGIN
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include <winres.h>\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
