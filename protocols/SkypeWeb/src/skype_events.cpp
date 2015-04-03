@@ -96,12 +96,11 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnGetRegInfo(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL)
+	if (response == NULL)
 		return;
 
 	std::regex regex;
 	std::smatch match;
-	std::string content = response->pData;
 	for (int i = 0; i < response->headersCount; i++) {
 		if (!mir_strcmpi(response->headers[i].szName, "Set-RegistrationToken"))
 		{
