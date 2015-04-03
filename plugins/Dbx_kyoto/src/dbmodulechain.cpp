@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-void CDbxKV::AddToList(char *name, DWORD ofs)
+void CDbxKyoto::AddToList(char *name, DWORD ofs)
 {
 	ModuleName *mn = (ModuleName*)HeapAlloc(m_hModHeap, 0, sizeof(ModuleName));
 	mn->name = name;
@@ -38,7 +38,7 @@ void CDbxKV::AddToList(char *name, DWORD ofs)
 	m_lOfs.insert(mn);
 }
 
-int CDbxKV::InitModuleNames(void)
+int CDbxKyoto::InitModuleNames(void)
 {
 	m_maxModuleID = 0;
 
@@ -65,7 +65,7 @@ int CDbxKV::InitModuleNames(void)
 	return 0;
 }
 
-DWORD CDbxKV::FindExistingModuleNameOfs(const char *szName)
+DWORD CDbxKyoto::FindExistingModuleNameOfs(const char *szName)
 {
 	ModuleName mn = { (char*)szName, 0 };
 
@@ -77,7 +77,7 @@ DWORD CDbxKV::FindExistingModuleNameOfs(const char *szName)
 }
 
 // will create the offset if it needs to
-DWORD CDbxKV::GetModuleNameOfs(const char *szName)
+DWORD CDbxKyoto::GetModuleNameOfs(const char *szName)
 {
 	DWORD ofsExisting = FindExistingModuleNameOfs(szName);
 	if (ofsExisting)
@@ -105,7 +105,7 @@ DWORD CDbxKV::GetModuleNameOfs(const char *szName)
 	return -1;
 }
 
-char* CDbxKV::GetModuleNameByOfs(DWORD ofs)
+char* CDbxKyoto::GetModuleNameByOfs(DWORD ofs)
 {
 	ModuleName mn = { NULL, ofs };
 	int index = m_lOfs.getIndex(&mn);
@@ -115,7 +115,7 @@ char* CDbxKV::GetModuleNameByOfs(DWORD ofs)
 	return NULL;
 }
 
-STDMETHODIMP_(BOOL) CDbxKV::EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam)
+STDMETHODIMP_(BOOL) CDbxKyoto::EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam)
 {
 	for (int i = 0; i < m_lMods.getCount(); i++) {
 		ModuleName *pmn = m_lMods[i];

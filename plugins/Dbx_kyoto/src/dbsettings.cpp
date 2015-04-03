@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define VLT(n) ((n == DBVT_UTF8 || n == DBVT_ENCRYPTED)?DBVT_ASCIIZ:n)
 
-BOOL CDbxKV::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
+BOOL CDbxKyoto::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
 {
 	if (!_strnicmp(szSetting, "password", 8))      return true;
 	if (!strcmp(szSetting, "NLProxyAuthPassword")) return true;
@@ -53,7 +53,7 @@ static bool ValidLookupName(LPCSTR szModule, LPCSTR szSetting)
 	return true;
 }
 
-int CDbxKV::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic)
+int CDbxKyoto::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic)
 {
 	if (szSetting == NULL || szModule == NULL)
 		return 1;
@@ -222,7 +222,7 @@ LBL_Seek:
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxKV::GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
+STDMETHODIMP_(BOOL) CDbxKyoto::GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
 	dbv->type = 0;
 	if (GetContactSettingWorker(contactID, szModule, szSetting, dbv, 0))
@@ -257,7 +257,7 @@ STDMETHODIMP_(BOOL) CDbxKV::GetContactSetting(MCONTACT contactID, LPCSTR szModul
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxKV::GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
+STDMETHODIMP_(BOOL) CDbxKyoto::GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
 	int iSaveType = dbv->type;
 
@@ -304,7 +304,7 @@ STDMETHODIMP_(BOOL) CDbxKV::GetContactSettingStr(MCONTACT contactID, LPCSTR szMo
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxKV::GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
+STDMETHODIMP_(BOOL) CDbxKyoto::GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
 	if (GetContactSettingWorker(contactID, szModule, szSetting, dbv, 1))
 		return 1;
@@ -317,7 +317,7 @@ STDMETHODIMP_(BOOL) CDbxKV::GetContactSettingStatic(MCONTACT contactID, LPCSTR s
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxKV::FreeVariant(DBVARIANT *dbv)
+STDMETHODIMP_(BOOL) CDbxKyoto::FreeVariant(DBVARIANT *dbv)
 {
 	if (dbv == 0) return 1;
 
@@ -337,7 +337,7 @@ STDMETHODIMP_(BOOL) CDbxKV::FreeVariant(DBVARIANT *dbv)
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxKV::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
+STDMETHODIMP_(BOOL) CDbxKyoto::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
 {
 	char *szSetting = m_cache->GetCachedSetting(NULL, pszSettingName, 0, (int)strlen(pszSettingName));
 	szSetting[-1] = (char)bIsResident;
@@ -354,7 +354,7 @@ STDMETHODIMP_(BOOL) CDbxKV::SetSettingResident(BOOL bIsResident, const char *psz
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxKV::WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws)
+STDMETHODIMP_(BOOL) CDbxKyoto::WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws)
 {
 	if (dbcws == NULL || dbcws->szSetting == NULL || dbcws->szModule == NULL || m_bReadOnly)
 		return 1;
@@ -511,7 +511,7 @@ STDMETHODIMP_(BOOL) CDbxKV::WriteContactSetting(MCONTACT contactID, DBCONTACTWRI
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxKV::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting)
+STDMETHODIMP_(BOOL) CDbxKyoto::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting)
 {
 	if (!szModule || !szSetting)
 		return 1;
@@ -557,7 +557,7 @@ STDMETHODIMP_(BOOL) CDbxKV::DeleteContactSetting(MCONTACT contactID, LPCSTR szMo
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxKV::EnumContactSettings(MCONTACT contactID, DBCONTACTENUMSETTINGS* dbces)
+STDMETHODIMP_(BOOL) CDbxKyoto::EnumContactSettings(MCONTACT contactID, DBCONTACTENUMSETTINGS* dbces)
 {
 	if (!dbces->szModule)
 		return -1;
@@ -588,7 +588,7 @@ STDMETHODIMP_(BOOL) CDbxKV::EnumContactSettings(MCONTACT contactID, DBCONTACTENU
 	return result;
 }
 
-STDMETHODIMP_(BOOL) CDbxKV::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
+STDMETHODIMP_(BOOL) CDbxKyoto::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
 {
 	for (int i = 0; i < m_lResidentSettings.getCount(); i++) {
 		int ret = pFunc(m_lResidentSettings[i], 0, (LPARAM)pParam);

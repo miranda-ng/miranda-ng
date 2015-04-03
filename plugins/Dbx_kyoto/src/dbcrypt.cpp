@@ -63,7 +63,7 @@ struct VarDescr
 
 struct SettingUgraderParam
 {
-	CDbxKV *db;
+	CDbxKyoto *db;
 	LPCSTR    szModule;
 	MCONTACT  contactID;
 	OBJLIST<VarDescr>* pList;
@@ -85,7 +85,7 @@ int sttSettingUgrader(const char *szSetting, LPARAM lParam)
 	return 0;
 }
 
-void sttContactEnum(MCONTACT contactID, const char *szModule, CDbxKV *db)
+void sttContactEnum(MCONTACT contactID, const char *szModule, CDbxKyoto *db)
 {
 	OBJLIST<VarDescr> arSettings(1);
 	SettingUgraderParam param = { db, szModule, contactID, &arSettings };
@@ -115,7 +115,7 @@ void sttContactEnum(MCONTACT contactID, const char *szModule, CDbxKV *db)
 
 int sttModuleEnum(const char *szModule, DWORD, LPARAM lParam)
 {
-	CDbxKV *db = (CDbxKV*)lParam;
+	CDbxKyoto *db = (CDbxKyoto*)lParam;
 	sttContactEnum(NULL, szModule, db);
 
 	for (MCONTACT contactID = db->FindFirstContact(); contactID; contactID = db->FindNextContact(contactID))
@@ -126,7 +126,7 @@ int sttModuleEnum(const char *szModule, DWORD, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CDbxKV::InitCrypt()
+int CDbxKyoto::InitCrypt()
 {
 	CRYPTO_PROVIDER *pProvider;
 	bool bMissingKey = false;
@@ -195,7 +195,7 @@ int CDbxKV::InitCrypt()
 	return 0;
 }
 
-void CDbxKV::StoreKey()
+void CDbxKyoto::StoreKey()
 {
 	size_t iKeyLength = m_crypto->getKeyLength();
 	BYTE *pKey = (BYTE*)_alloca(iKeyLength);
@@ -210,7 +210,7 @@ void CDbxKV::StoreKey()
 	SecureZeroMemory(pKey, iKeyLength);
 }
 
-void CDbxKV::SetPassword(LPCTSTR ptszPassword)
+void CDbxKyoto::SetPassword(LPCTSTR ptszPassword)
 {
 	if (ptszPassword == NULL || *ptszPassword == 0) {
 		m_bUsesPassword = false;
@@ -225,7 +225,7 @@ void CDbxKV::SetPassword(LPCTSTR ptszPassword)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDbxKV::ToggleEncryption()
+void CDbxKyoto::ToggleEncryption()
 {
 	HANDLE hSave1 = hSettingChangeEvent;    hSettingChangeEvent = NULL;
 	HANDLE hSave2 = hEventAddedEvent;       hEventAddedEvent = NULL;
@@ -254,10 +254,10 @@ void CDbxKV::ToggleEncryption()
 	hEventFilterAddedEvent = hSave4;
 }
 
-void CDbxKV::ToggleSettingsEncryption(MCONTACT contactID)
+void CDbxKyoto::ToggleSettingsEncryption(MCONTACT contactID)
 {
 }
 
-void CDbxKV::ToggleEventsEncryption(MCONTACT contactID)
+void CDbxKyoto::ToggleEventsEncryption(MCONTACT contactID)
 {
 }

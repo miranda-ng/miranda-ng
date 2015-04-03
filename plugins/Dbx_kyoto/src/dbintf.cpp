@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
+#define DBHEADER_SIGNATURE _T("KyotoCabinet")
+
 struct SettingsComparator : public Comparator
 {
 	SettingsComparator() {}
@@ -85,7 +87,7 @@ static int stringCompare2(const char *p1, const char *p2)
 	return strcmp(p1, p2);
 }
 
-CDbxKV::CDbxKV(const TCHAR *tszFileName, int iMode) :
+CDbxKyoto::CDbxKyoto(const TCHAR *tszFileName, int iMode) :
 	m_safetyMode(true),
 	m_bReadOnly((iMode & DBMODE_READONLY) != 0),
 	m_bShared((iMode & DBMODE_SHARED) != 0),
@@ -101,8 +103,14 @@ CDbxKV::CDbxKV(const TCHAR *tszFileName, int iMode) :
 	m_hModHeap = HeapCreate(0, 0, 0);
 }
 
-CDbxKV::~CDbxKV()
+CDbxKyoto::~CDbxKyoto()
 {
+	m_dbContacts.close();
+	m_dbModules.close();
+	m_dbEvents.close();
+	m_dbEventsSort.close();
+	m_dbSettings.close();
+
 	// destroy modules
 	HeapDestroy(m_hModHeap);
 
@@ -126,7 +134,7 @@ CDbxKV::~CDbxKV()
 	mir_free(m_tszProfileName);
 }
 
-int CDbxKV::Load(bool bSkipInit)
+int CDbxKyoto::Load(bool bSkipInit)
 {
 	if (!bSkipInit) {
 		int iFlags = TreeDB::OREADER | TreeDB::ONOREPAIR;
@@ -134,10 +142,6 @@ int CDbxKV::Load(bool bSkipInit)
 			iFlags |= TreeDB::OWRITER;
 
 		std::string szFilename((char*)_T2A(m_tszProfileName));
-		m_dbGlobal.tune_map(16384);
-		if (!m_dbGlobal.open(szFilename, iFlags))
-			return EGROKPRF_DAMAGED;
-
 		m_dbContacts.tune_map(256 * 1024);
 		if (!m_dbContacts.open(szFilename + ".cnt", iFlags))
 			return EGROKPRF_DAMAGED;
@@ -158,17 +162,20 @@ int CDbxKV::Load(bool bSkipInit)
 		if (!m_dbSettings.open(szFilename + ".set", iFlags))
 			return EGROKPRF_DAMAGED;
 
-		DWORD keyVal = 1;
-		if (-1 != m_dbGlobal.get((LPCSTR)&keyVal, sizeof(keyVal), (LPSTR)&m_header, sizeof(m_header))) {
-			if (m_header.dwSignature != DBHEADER_SIGNATURE)
-				DatabaseCorruption(NULL);
+		if (_taccess(m_tszProfileName, 0) == 0) {
+			TCHAR buf[100];
+			if (0 == GetPrivateProfileString(_T("Database"), _T("Signature"), _T(""), buf, SIZEOF(buf), m_tszProfileName))
+				return EGROKPRF_CANTREAD;
+			if (_tcscmp(buf, DBHEADER_SIGNATURE))
+				return EGROKPRF_DAMAGED;
+
+			m_dwVersion = GetPrivateProfileInt(_T("Database"), _T("Version"), 1, m_tszProfileName);
 		}
 		else {
-			m_header.dwSignature = DBHEADER_SIGNATURE;
-			m_header.dwVersion = 1;
-			m_dbGlobal.set((LPCSTR)&keyVal, sizeof(keyVal), (LPCSTR)&m_header, sizeof(m_header));
+			WritePrivateProfileString(_T("Database"), _T("Version"), _T("1"), m_tszProfileName);
+			WritePrivateProfileString(_T("Database"), _T("Signature"), DBHEADER_SIGNATURE, m_tszProfileName);
 
-			keyVal = 0;
+			DWORD keyVal = 0;
 			DBContact dbc = { DBCONTACT_SIGNATURE, 0, 0, 0 };
 			m_dbContacts.set((LPCSTR)&keyVal, sizeof(keyVal), (LPCSTR)&dbc, sizeof(dbc));
 		}
@@ -197,14 +204,16 @@ int CDbxKV::Load(bool bSkipInit)
 	return ERROR_SUCCESS;
 }
 
-int CDbxKV::Create(void)
+int CDbxKyoto::Create(void)
 {
 	int iFlags = TreeDB::OREADER | TreeDB::OCREATE;
 	if (!m_bReadOnly)
 		iFlags |= TreeDB::OWRITER;
 
+	WritePrivateProfileString(_T("Database"), _T("Version"), _T("1"), m_tszProfileName);
+	WritePrivateProfileString(_T("Database"), _T("Signature"), DBHEADER_SIGNATURE, m_tszProfileName);
+
 	std::string szFilename((char*)_T2A(m_tszProfileName));
-	if (!m_dbGlobal.open(szFilename, iFlags)) return EGROKPRF_DAMAGED;
 	if (!m_dbContacts.open(szFilename + ".cnt", iFlags)) return EGROKPRF_DAMAGED;
 	if (!m_dbModules.open(szFilename + ".mod", iFlags)) return EGROKPRF_DAMAGED;
 	if (!m_dbEvents.open(szFilename + ".evt", iFlags)) return EGROKPRF_DAMAGED;
@@ -213,30 +222,27 @@ int CDbxKV::Create(void)
 	return 0;
 }
 
-int CDbxKV::Check(void)
+int CDbxKyoto::Check(void)
 {
-	HANDLE hFile = CreateFile(m_tszProfileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-	if (hFile == INVALID_HANDLE_VALUE)
+	if (_taccess(m_tszProfileName, 0) != 0)
 		return EGROKPRF_CANTREAD;
 
-	DWORD dummy = 0;
-	char buf[32];
-	if (!ReadFile(hFile, buf, sizeof(buf), &dummy, NULL)) {
-		CloseHandle(hFile);
-		return EGROKPRF_CANTREAD;
-	}
+	TCHAR buf[100];
+	if (0 == GetPrivateProfileString(_T("Database"), _T("Signature"), _T(""), buf, SIZEOF(buf), m_tszProfileName))
+		return EGROKPRF_UNKHEADER;
+	if (_tcscmp(buf, DBHEADER_SIGNATURE))
+		return EGROKPRF_UNKHEADER;
 
-	CloseHandle(hFile);
-	return (memcmp(buf, "\x4B\x43\x0A\x00", 4)) ? EGROKPRF_UNKHEADER : 0;
+	return 0;
 }
 
-int CDbxKV::PrepareCheck(int*)
+int CDbxKyoto::PrepareCheck(int*)
 {
 	InitModuleNames();
 	return InitCrypt();
 }
 
-STDMETHODIMP_(void) CDbxKV::SetCacheSafetyMode(BOOL bIsSet)
+STDMETHODIMP_(void) CDbxKyoto::SetCacheSafetyMode(BOOL bIsSet)
 {
 	mir_cslock lck(m_csDbAccess);
 	m_safetyMode = bIsSet != 0;
@@ -264,7 +270,7 @@ void __cdecl dbpanic(void *)
 	TerminateProcess(GetCurrentProcess(), 255);
 }
 
-void CDbxKV::DatabaseCorruption(const TCHAR *text)
+void CDbxKyoto::DatabaseCorruption(const TCHAR *text)
 {
 	int kill = 0;
 
@@ -292,22 +298,22 @@ void CDbxKV::DatabaseCorruption(const TCHAR *text)
 ///////////////////////////////////////////////////////////////////////////////
 // MIDatabaseChecker
 
-typedef int (CDbxKV::*CheckWorker)(int);
+typedef int (CDbxKyoto::*CheckWorker)(int);
 
-int CDbxKV::Start(DBCHeckCallback *callback)
+int CDbxKyoto::Start(DBCHeckCallback *callback)
 {
 	cb = callback;
 	return ERROR_SUCCESS;
 }
 
-int CDbxKV::CheckDb(int, int)
+int CDbxKyoto::CheckDb(int, int)
 {
 	return ERROR_OUT_OF_PAPER;
 
 	// return (this->*Workers[phase])(firstTime);
 }
 
-void CDbxKV::Destroy()
+void CDbxKyoto::Destroy()
 {
 	delete this;
 }

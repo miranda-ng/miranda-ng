@@ -52,7 +52,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 
 extern HINSTANCE g_hInst;
-extern LIST<CDbxKV> g_Dbs;
+extern LIST<CDbxKyoto> g_Dbs;
 
 class cursor_ptr
 {

@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct DlgChangePassParam
 {
-	CDbxKV *db;
+	CDbxKyoto *db;
 	TCHAR newPass[100];
 	int wrongPass;
 };
@@ -117,7 +117,7 @@ static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 	return FALSE;
 }
 
-bool CDbxKV::EnterPassword(const BYTE *pKey, const size_t keyLen)
+bool CDbxKyoto::EnterPassword(const BYTE *pKey, const size_t keyLen)
 {
 	DlgChangePassParam param = { this };
 	while (true) {
@@ -138,7 +138,7 @@ bool CDbxKV::EnterPassword(const BYTE *pKey, const size_t keyLen)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static bool CheckOldPassword(HWND hwndDlg, CDbxKV *db)
+static bool CheckOldPassword(HWND hwndDlg, CDbxKyoto *db)
 {
 	if (db->usesPassword()) {
 		TCHAR buf[100];
@@ -238,7 +238,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 
 static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
 {
-	CDbxKV *db = (CDbxKV*)obj;
+	CDbxKyoto *db = (CDbxKyoto*)obj;
 	DlgChangePassParam param = { db };
 	DialogBoxParam(g_hInst, MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), 0, sttChangePassword, (LPARAM)&param);
 	return 0;
@@ -248,14 +248,14 @@ static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
 
 INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CDbxKV *db = (CDbxKV *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CDbxKyoto *db = (CDbxKyoto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-		db = (CDbxKV*)lParam;
+		db = (CDbxKyoto*)lParam;
 		CheckRadioButton(hwndDlg, IDC_STANDARD, IDC_TOTAL, IDC_STANDARD + db->isEncrypted());
 		return TRUE;
 
@@ -298,7 +298,7 @@ static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDbxKV::UpdateMenuItem()
+void CDbxKyoto::UpdateMenuItem()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME;
@@ -309,7 +309,7 @@ void CDbxKV::UpdateMenuItem()
 
 static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 {
-	CDbxKV *db = (CDbxKV*)obj;
+	CDbxKyoto *db = (CDbxKyoto*)obj;
 
 	Icon_Register(g_hInst, LPGEN("Database"), iconList, SIZEOF(iconList), "mmap");
 
@@ -333,7 +333,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDbxKV::InitDialogs()
+void CDbxKyoto::InitDialogs()
 {
 	hService = CreateServiceFunctionObj(MS_DB_CHANGEPASSWORD, ChangePassword, this);
 	hHook = HookEventObj(ME_SYSTEM_MODULESLOADED, OnModulesLoaded, this);
