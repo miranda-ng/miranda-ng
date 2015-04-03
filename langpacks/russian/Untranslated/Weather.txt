@@ -1,4 +1,2 @@
 ﻿[ID]
 [%n   (%u)]
-[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
-[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
