@@ -8,7 +8,16 @@ time_t __stdcall CSkypeProto::IsoToUnixTime(const TCHAR *stamp)
 	if (stamp == NULL)
 		return 0;
 
-	const TCHAR *p = stamp;
+	TCHAR *p = NEWTSTR_ALLOCA(stamp);
+
+	// skip '-' chars
+	int si = 0, sj = 0;
+	while (true) {
+		if (p[si] == _T('-'))
+			si++;
+		else if (!(p[sj++] = p[si++]))
+			break;
+	}
 
 	// Get the date part
 	for (i = 0; *p != '\0' && i < 8 && isdigit(*p); p++, i++)
