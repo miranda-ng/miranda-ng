@@ -125,7 +125,7 @@ private:
 	void OnLoginSecond(const NETLIBHTTPREQUEST *response);
 	void OnGetRegInfo(const NETLIBHTTPREQUEST *response);
 	void OnSetStatus(const NETLIBHTTPREQUEST *response);
-
+	void OnGetEndpoint(const NETLIBHTTPREQUEST *response);
 	// profile
 	void UpdateProfileFirstName(JSONNODE *root, MCONTACT hContact = NULL);
 	void UpdateProfileLastName(JSONNODE *root, MCONTACT hContact = NULL);
@@ -174,15 +174,22 @@ private:
 	//polling
 	void __cdecl ParsePollData(JSONNODE *data);
 	void __cdecl PollingThread(void*);
+	void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node);
 	void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node);
+	void CSkypeProto::ProcessNewMessageRes(JSONNODE *node);
 	// utils
+	time_t __stdcall IsoToUnixTime(const TCHAR *stamp);
+	char *GetStringChunk(const char *haystack, size_t len, const char *start, const char *end);
+	bool IsMe(const char *skypeName);
+	int SkypeToMirandaStatus(const char *status);
 	char *MirandaToSkypeStatus(int status);
 	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	void SetServerStatus(int iNewStatus);
 	static bool IsFileExists(std::tstring path);
 	char *ContactUrlToName(const char *url);
-
+	char *SelfUrlToName(const char *url);
+	char *GetServerFromUrl(const char *url);
 	template<INT_PTR(__cdecl CSkypeProto::*Service)(WPARAM, LPARAM)>
 	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)
 	{

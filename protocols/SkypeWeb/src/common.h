@@ -35,6 +35,7 @@
 #include <m_string.h>
 #include <m_json.h>
 #include <m_timezones.h>
+#include <m_version.h>
 
 struct CSkypeProto;
 

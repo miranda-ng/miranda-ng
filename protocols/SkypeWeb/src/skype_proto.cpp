@@ -31,13 +31,13 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	switch (type)
 	{
 	case PFLAGNUM_1:
-		return PF1_AUTHREQ;
+		return PF1_IM | PF1_AUTHREQ;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_HEAVYDND;
 	case PFLAGNUM_3:
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_HEAVYDND;
 	case PFLAGNUM_4:
-		return PF4_FORCEADDED | PF4_NOAUTHDENYREASON;
+		return PF4_FORCEADDED | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)"Skypename";
 	case PFLAG_UNIQUEIDSETTING:
@@ -137,6 +137,9 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	if (iNewStatus == ID_STATUS_OFFLINE)
 	{
 		// logout
+		isTerminated = true;
+		//if (m_pollingConnection)
+		//	CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
 		PushRequest(new LogoutRequest());
 		requestQueue->Stop();
 
@@ -156,6 +159,8 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		else if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
 		{
 			// login
+			if (getStringA("Server") == NULL)
+				setString("Server", "client-s.gateway.messenger.live.com");
 			m_iStatus = ID_STATUS_CONNECTING;
 
 			requestQueue->Start();
@@ -165,11 +170,8 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		{
 			// set status
 			m_iStatus = iNewStatus;
-			// it should be rewritten
-			//GetEndpointRequest *request = new GetEndpointRequest(getStringA("registrationToken"), getStringA("endpointId"));
-			//request->Send(m_hNetlibUser);
-			//delete request;
-			PushRequest(new SetStatusRequest(ptrA(getStringA("registrationToken")), MirandaToSkypeStatus(m_iStatus)), &CSkypeProto::OnSetStatus);
+			PushRequest(new SetStatusRequest(ptrA(getStringA("registrationToken")), MirandaToSkypeStatus(m_iStatus), getStringA("Server")), &CSkypeProto::OnSetStatus);
+			PushRequest(new GetEndpointRequest(getStringA("registrationToken"), getStringA("endpointId"), getStringA("Server")));
 		}
 	}
 
@@ -183,7 +185,18 @@ int CSkypeProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*) { return 0; }
 
 int CSkypeProto::SetAwayMsg(int, const PROTOCHAR *msg) { return 0; }
 
-int CSkypeProto::UserIsTyping(MCONTACT hContact, int type) { return 0; }
+int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
+{
+	switch (type) {
+	case PROTOTYPE_SELFTYPING_OFF:
+		PushRequest(new SendTypingRequest(getStringA("registrationToken"), db_get_sa(hContact, m_szModuleName, "Skypename"), false, getStringA("Server")));
+		break;
+	case PROTOTYPE_SELFTYPING_ON:
+		PushRequest(new SendTypingRequest(getStringA("registrationToken"), db_get_sa(hContact, m_szModuleName, "Skypename"), true, getStringA("Server")));
+		break;
+	}
+	return 0; 
+}
 
 int CSkypeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 {
