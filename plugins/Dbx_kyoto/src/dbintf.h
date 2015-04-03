@@ -123,6 +123,16 @@ struct DBCachedContact : public DBCachedContactBase
 	DBContact dbc;
 };
 
+struct CTable : public TreeDB
+{
+	CTable()
+	{
+		tune_options(TLINEAR | TCOMPRESS);
+		tune_alignment(3);
+		tune_map(1024 * 1024);
+	}
+};
+
 struct CDbxKV : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
 	CDbxKV(const TCHAR *tszFileName, int mode);
@@ -217,7 +227,7 @@ public:
 	MICryptoEngine *m_crypto;
 
 protected:
-	TreeDB   m_dbGlobal;
+	CTable   m_dbGlobal;
 	DBHeader m_header;
 
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
@@ -229,14 +239,14 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// settings
 
-	TreeDB    m_dbSettings;
+	CTable    m_dbSettings;
 	int       m_codePage;
 	HANDLE    hService, hHook;
 
 	////////////////////////////////////////////////////////////////////////////
 	// contacts
 
-	TreeDB    m_dbContacts;
+	CTable    m_dbContacts;
 	int       m_contactCount, m_dwMaxContactId;
 
 	int       WipeContactHistory(DBContact *dbc);
@@ -244,7 +254,7 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// events
 
-	TreeDB    m_dbEvents, m_dbEventsSort;
+	CTable    m_dbEvents, m_dbEventsSort;
 	DWORD     m_dwMaxEventId, m_tsLast;
 	MEVENT    m_evLast;
 
@@ -253,7 +263,7 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// modules
 
-	TreeDB    m_dbModules;
+	CTable    m_dbModules;
 	HANDLE    m_hModHeap;
 	LIST<ModuleName> m_lMods, m_lOfs;
 	LIST<char> m_lResidentSettings;
