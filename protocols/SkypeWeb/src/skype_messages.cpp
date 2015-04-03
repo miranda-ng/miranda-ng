@@ -14,7 +14,7 @@ int CSkypeProto::OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre)
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = pre->lParam;
-	dbei.cbBlob = (DWORD)strlen(pre->szMessage) + 1;
+	dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;
 	dbei.pBlob = (PBYTE)pre->szMessage;
 
 	return (INT_PTR)db_event_add(hContact, &dbei);
