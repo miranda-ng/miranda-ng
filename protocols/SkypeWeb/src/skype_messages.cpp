@@ -25,7 +25,37 @@ int CSkypeProto::OnReceiveMessage(const char *from, const char *convLink, time_t
 // outcoming message flow
 int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessage)
 {
-	return 0;
+	UINT hMessage = InterlockedIncrement(&hMessageProcess);
+
+	SendMessageParam *param = (SendMessageParam*)mir_calloc(sizeof(SendMessageParam));
+	param->hContact = hContact;
+	param->hMessage = (HANDLE)hMessage;
+	param->msg = szMessage;
+	param->flags = flags;
+
+	ForkThread(&CSkypeProto::SendMsgThread, (void*)param);
+
+	return hMessage;
+}
+
+void CSkypeProto::SendMsgThread(void *arg)
+{
+	SendMessageParam *param = (SendMessageParam*)arg;
+
+	if (!IsOnline())
+	{
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hMessage, (LPARAM)Translate("You cannot send messages when you are offline."));
+		mir_free(param);
+		return;
+	}
+
+	CMStringA message = (param->flags & PREF_UNICODE) ? ptrA(mir_utf8encode(param->msg)) : param->msg; // TODO: mir_utf8encode check taken from FacebookRM, is it needed? Usually we get PREF_UTF8 flag instead.
+
+	ptrA token(getStringA("registrationToken"));
+	ptrA username(getStringA(param->hContact, "Skypename"));
+	PushRequest(
+		new SendMsgRequest(token, username, message, getStringA("Server"))/*,
+																		  &CSkypeProto::OnMessageSent*/);
 }
 
 void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)

@@ -20,9 +20,7 @@ void RequestQueue::Start()
 
 	isTerminated = false;
 	if (hRequestQueueThread == NULL)
-	{
 		hRequestQueueThread = mir_forkthread((pThreadFunc)&RequestQueue::WorkerThread, this);
-	}
 }
 
 void RequestQueue::Stop()
@@ -52,9 +50,7 @@ void RequestQueue::Execute(RequestQueueItem *item)
 {
 	NETLIBHTTPREQUEST *response = item->request->Send(hConnection);
 	if (item->responseCallback != NULL)
-	{
 		item->responseCallback(response, item->arg);
-	}
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 	requests.remove(item);
 	delete item;

@@ -19,9 +19,7 @@ void CSkypeProto::SetContactStatus(MCONTACT hContact, WORD status)
 void CSkypeProto::SetAllContactsStatus(WORD status)
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
-	{
 		SetContactStatus(hContact, status);
-	}
 }
 
 MCONTACT CSkypeProto::GetContactFromAuthEvent(MEVENT hEvent)
@@ -50,9 +48,7 @@ MCONTACT CSkypeProto::GetContact(const char *skypename)
 	{
 		ptrA cSkypename(getStringA(hContact, SKYPE_SETTINGS_ID));
 		if (mir_strcmpi(skypename, cSkypename) == 0)
-		{
 			break;
-		}
 	}
 	return hContact;
 }
@@ -78,9 +74,7 @@ MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
 		setByte(hContact, "Grant", 1);
 
 		if (isTemporary)
-		{
 			db_set_b(hContact, "CList", "NotOnList", 1);
-		}
 	}
 	return hContact;
 }
@@ -207,10 +201,8 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 				delSetting(hContact, "Grant");
 			}
 			else
-			{
 				setByte(hContact, "Grant", 1);
-			}
-			
+
 			node = json_get(item, "blocked");
 			setByte(hContact, "IsBlocked", json_as_bool(node));
 
@@ -225,9 +217,7 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 		PushRequest(new GetContactsInfoRequest(token, skypenames), &CSkypeProto::LoadContactsInfo);
 
 		for (size_t i = 0; i < skypenames.getCount(); i++)
-		{
 			mir_free(skypenames[i]);
-		}
 		skypenames.destroy();
 	}
 	PushRequest(new GetContactsAuthRequest(token), &CSkypeProto::LoadContactsAuth);
