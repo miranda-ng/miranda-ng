@@ -339,6 +339,10 @@ INI файл погоды для этой станции не найден (20)
 %[..]\tсвои переменные
 [Here is a list of custom variables that are currently available]
 Список дополнительных переменных, доступных на данный момент
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+Не указан URL для полного прогноза погоды. Укажите его в настройках.
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+Не указан URL для карты погоды. Вы можете указать его в меню Настройки.
 [Current weather information for %s.]
 Текущая информация о погоде для %s.
 [%s is now the default weather station]

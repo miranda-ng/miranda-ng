@@ -5,11 +5,23 @@
 ;  Version: 1.0.0.6
 ;  Authors: Eugene f2065
 ;============================================================
+[Hardware HotKeys plugin\r\nAllows to assign expanded multimedia-keys (only for PS/2-keyboards)]
+Плагін Hardware HotKeys\r\nДозволяє призначати в якості гарячих клавіш мультимедіа-клавіші PS/2-клавіатур
+[Close Miranda]
+Закрити програму
+[Assign]
+Призначити
 [Clear]
 Очистити
 [Show/Hide contact list]
-Показати/сховати список контактів
+Показати/сховати список
 [Read message]
 Читати повідомлення
+[Last pressed key]
+Остання натиснута клавіша
+[Combine left/right keys Shift, Ctrl, Win, Alt]
+Не розрізняти лівий/правий Shift, Ctrl, Win, Alt
+[Combination of keys for assignment]
+Комбінація клавіш для призначення
 [Customize]
 Тонке налаштування

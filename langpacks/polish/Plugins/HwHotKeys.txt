@@ -7,7 +7,7 @@
 ;============================================================
 ;file \plugins\HwHotKeys\res\HwHotKeys.rc
 [Hardware HotKeys plugin\r\nAllows to assign expanded multimedia-keys (only for PS/2-keyboards)]
-Wtyczka Hardware Hotkeys]r\nPozwala na przypisanie rozszerzonych klawiszy multimedialnych (jedynie dla klawiatur PS/2)
+Wtyczka Hardware Hotkeys\r\nPozwala na przypisanie rozszerzonych klawiszy multimedialnych (jedynie dla klawiatur PS/2)
 [Close Miranda]
 Wyłącz Mirandę NG
 [Assign]
