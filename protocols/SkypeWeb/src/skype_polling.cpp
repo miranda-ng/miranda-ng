@@ -38,7 +38,6 @@ void CSkypeProto::ParsePollData(JSONNODE *data)
 			{
 				continue;
 			}
-
 		}
 	}
 }

@@ -187,15 +187,7 @@ int CSkypeProto::SetAwayMsg(int, const PROTOCHAR *msg) { return 0; }
 
 int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	switch (type) {
-	case PROTOTYPE_SELFTYPING_OFF:
-		PushRequest(new SendTypingRequest(getStringA("registrationToken"), db_get_sa(hContact, m_szModuleName, "Skypename"), false, getStringA("Server")));
-		break;
-	case PROTOTYPE_SELFTYPING_ON:
-		PushRequest(new SendTypingRequest(getStringA("registrationToken"), db_get_sa(hContact, m_szModuleName, "Skypename"), true, getStringA("Server")));
-		break;
-	}
-	return 0; 
+	return 0;
 }
 
 int CSkypeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
