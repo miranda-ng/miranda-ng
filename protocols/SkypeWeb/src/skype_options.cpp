@@ -1,77 +1,30 @@
 #include "common.h"
 
-INT_PTR CSkypeProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog, HWND hwndParent)
+	: CSuper(proto, idDialog, hwndParent, false),
+	m_skypename(this, IDC_SKYPENAME), m_password(this, IDC_PASSWORD),
+	m_group(this, IDC_GROUP)
 {
-	CSkypeProto *proto = (CSkypeProto*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	CreateLink(m_skypename, SKYPE_SETTINGS_ID, _T(""));
+	CreateLink(m_password, "Password", _T(""));
+	CreateLink(m_group, SKYPE_SETTINGS_GROUP, _T("Skype"));
+}
 
-	switch (uMsg)
-	{
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwnd);
-		{
-			proto = (CSkypeProto*)lParam;
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
+void CSkypeOptionsMain::OnInitDialog()
+{
+	CSuper::OnInitDialog();
 
-			ptrA login(proto->getStringA(SKYPE_SETTINGS_ID));
-			SetDlgItemTextA(hwnd, IDC_SKYPENAME, login);
-			SendDlgItemMessage(hwnd, IDC_SKYPENAME, EM_LIMITTEXT, 32, 0);
+	SendMessage(m_skypename.GetHwnd(), EM_LIMITTEXT, 32, 0);
+	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 20, 0);
+	SendMessage(m_group.GetHwnd(), EM_LIMITTEXT, 64, 0);
+}
 
-			ptrA password(proto->getStringA("Password"));
-			SetDlgItemTextA(hwnd, IDC_PASSWORD, password);
-			SendDlgItemMessage(hwnd, IDC_PASSWORD, EM_LIMITTEXT, 20, 0);
 
-			ptrT group(proto->getTStringA(SKYPE_SETTINGS_GROUP));
-			SetDlgItemText(hwnd, IDC_GROUP, group ? group : _T("Skype"));
-			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, 64, 0);
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-	{
-		switch (LOWORD(wParam))
-		{
-		case IDC_SKYPENAME:
-		case IDC_GROUP:
-		case IDC_PASSWORD:
-			if ((HWND)lParam == GetFocus())
-			{
-				if (HIWORD(wParam) != EN_CHANGE) return 0;
-				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			}
-			break;
-		}
-	}
-	break;
-
-	case WM_NOTIFY:
-		if (((NMHDR*)lParam)->code == PSN_APPLY)
-		{
-			char skypename[32];
-			GetDlgItemTextA(hwnd, IDC_SKYPENAME, skypename, SIZEOF(skypename));
-			proto->setString(SKYPE_SETTINGS_ID, skypename);
-
-			char password[20];
-			GetDlgItemTextA(hwnd, IDC_PASSWORD, password, SIZEOF(password));
-			proto->setString(SKYPE_SETTINGS_PASSWORD, password);
-
-			TCHAR group[64];
-			GetDlgItemText(hwnd, IDC_GROUP, group, SIZEOF(group));
-			if (_tcslen(group) > 0)
-			{
-				proto->setTString(SKYPE_SETTINGS_GROUP, group);
-				Clist_CreateGroup(0, group);
-			}
-			else
-			{
-				proto->delSetting(NULL, SKYPE_SETTINGS_GROUP);
-			}
-
-			return TRUE;
-		}
-		break;
-	}
-
-	return FALSE;
+void CSkypeOptionsMain::OnApply()
+{
+	TCHAR *group = m_group.GetText();
+	if (mir_tstrlen(group) > 0 && Clist_GroupExists(group))
+		Clist_CreateGroup(0, group);
 }
 
 int CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM)
@@ -81,13 +34,16 @@ int CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInstance;
 	odp.pszTitle = title;
-	odp.dwInitParam = (LPARAM)this;
+	//odp.dwInitParam = (LPARAM)this;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszGroup = LPGEN("Network");
 
 	odp.pszTab = LPGEN("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_MAIN);
-	odp.pfnDlgProc = MainOptionsProc;
+	odp.pfnDlgProc = CSkypeOptionsMain::DynamicDlgProc;
+	odp.dwInitParam = (LPARAM)&SkypeMainOptionsParam;
+	SkypeMainOptionsParam.create = CSkypeOptionsMain::CreateOptionsPage;
+	SkypeMainOptionsParam.param = this;
 	Options_AddPage(wParam, &odp);
 
 	mir_free(title);
