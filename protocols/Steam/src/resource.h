@@ -9,6 +9,8 @@
 #define IDD_IGNORE_LIST                 21
 #define IDI_STEAM                       100
 #define IDI_GAMING                      101
+#define IDD_PASSWORD_EDITOR             107
+#define IDC_SAVEPERMANENTLY             108
 #define IDD_CAPTCHA                     118
 #define IDD_GUARD                       119
 #define IDC_SN                          1001

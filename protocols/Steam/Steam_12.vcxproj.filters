@@ -57,7 +57,7 @@
     <ClCompile Include="src\steam_pooling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	<ClCompile Include="src\steam_xstatus.cpp">
+    <ClCompile Include="src\steam_xstatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,6 +110,9 @@
     <ClInclude Include="src\Steam\captcha.h">
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
+    <ClInclude Include="src\steam_dialogs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
@@ -123,7 +126,7 @@
     <None Include="res\steam.ico">
       <Filter>Resource Files\Icon</Filter>
     </None>
-	<None Include="res\gaming.ico">
+    <None Include="res\gaming.ico">
       <Filter>Resource Files\Icon</Filter>
     </None>
   </ItemGroup>

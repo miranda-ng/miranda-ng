@@ -3,6 +3,7 @@
 
 #include <windows.h>
 #include <commctrl.h>
+#include <malloc.h>
 #include <time.h>
 
 #include <newpluginapi.h>
@@ -28,7 +29,7 @@
 #include <m_idle.h>
 #include <m_xstatus.h>
 #include <m_extraicons.h>
-#include <win2k.h>
+#include <m_gui.h>
 
 #include <map>
 #include <vector>
@@ -51,6 +52,7 @@ extern HANDLE hExtraXStatus;
 
 #include "Steam\steam.h"
 
+#include "steam_dialogs.h"
 #include "steam_proto.h"
 
 #endif //_COMMON_H_

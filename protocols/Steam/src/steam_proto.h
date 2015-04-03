@@ -11,20 +11,6 @@ struct PasswordParam
 	char timestamp[16];
 };
 
-
-struct GuardParam
-{
-	char code[10];
-	char domain[32];
-};
-
-struct CaptchaParam
-{
-	BYTE *data;
-	size_t size;
-	char text[10];
-};
-
 struct SendAuthParam
 {
 	MCONTACT hContact;
@@ -118,6 +104,9 @@ struct QueueItem
 
 class CSteamProto : public PROTO<CSteamProto>
 {
+	friend CSteamPasswordEditor;
+	friend CSteamOptionsMain;
+
 public:
 	// PROTO_INTERFACE
 	CSteamProto(const char *protoName, const wchar_t *userName);
@@ -154,6 +143,7 @@ public:
 	static void UninitMenus();
 
 protected:
+	TCHAR *password;
 	bool isTerminated;
 	time_t m_idleTS;
 	HANDLE m_evRequestsQueue, m_hQueueThread;
@@ -256,6 +246,10 @@ protected:
 
 	void OnInitStatusMenu();
 
+	// options
+	CSteamDlgBase::CreateParam SteamMainOptionsParam;
+	CSteamDlgBase::CreateParam SteamBlockListOptionsParam;
+
 	// avatars
 	TCHAR* GetAvatarFilePath(MCONTACT hContact);
 	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &pai);
@@ -289,13 +283,6 @@ protected:
 
 	static void CSteamProto::ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 	static void CSteamProto::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
-
-	// dialog procs
-	static INT_PTR CALLBACK GuardProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK CaptchaProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-	static LRESULT CALLBACK BlockListOptionsSubProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK BlockListOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// helpers
 	inline int IdleSeconds() {

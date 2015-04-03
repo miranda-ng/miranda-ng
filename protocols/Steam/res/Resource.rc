@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -17,7 +17,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
 LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
-#pragma code_page(1250)
+#pragma code_page(1251)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -32,7 +32,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""winres.h""\r\n"
     "\0"
 END
 
@@ -141,6 +141,19 @@ BEGIN
     PUSHBUTTON      "Block",IDC_BLOCK,230,206,68,13,WS_DISABLED
 END
 
+IDD_PASSWORD_EDITOR DIALOGEX 0, 0, 209, 75
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW | WS_EX_APPWINDOW
+CAPTION "Enter password"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        102,7,24,197,12,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "Save password",IDC_SAVEPERMANENTLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,40,197,12
+    DEFPUSHBUTTON   "OK",IDOK,101,56,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,154,56,50,14
+    LTEXT           "Enter the password to continue.",IDC_STATIC,7,5,197,18
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -194,6 +207,10 @@ BEGIN
         VERTGUIDE, 298
         TOPMARGIN, 7
         BOTTOMMARGIN, 223
+    END
+
+    IDD_PASSWORD_EDITOR, DIALOG
+    BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED

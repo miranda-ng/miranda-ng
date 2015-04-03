@@ -205,6 +205,7 @@
     <ClInclude Include="src\Steam\rsa_key.h" />
     <ClInclude Include="src\Steam\session.h" />
     <ClInclude Include="src\Steam\steam.h" />
+    <ClInclude Include="src\steam_dialogs.h" />
     <ClInclude Include="src\steam_proto.h" />
     <ClInclude Include="src\version.h" />
     <ClInclude Include="src\resource.h" />
