@@ -104,18 +104,18 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 			node = json_get(root, "emaildomain");
 			ptrA emailDomain(mir_utf8encodeW(ptrT(json_as_string(node))));
 
-			GuardParam guard;
-			mir_strncpy(guard.domain, emailDomain, SIZEOF(guard.domain));
-
-			if (DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_GUARD), NULL, CSteamProto::GuardProc, (LPARAM)&guard) != IDOK)
+			CSteamGuardDialog guardDialog(this, emailDomain);
+			if (!guardDialog.DoModal())
+			{
 				return;
+			}
 
 			ptrA username(mir_utf8encodeW(getWStringA("Username")));
 			ptrA password(getStringA("EncryptedPassword"));
 			ptrA timestamp(getStringA("RsaTimestamp"));
 
 			PushRequest(
-				new SteamWebApi::AuthorizationRequest(username, password, timestamp, guard.code),
+				new SteamWebApi::AuthorizationRequest(username, password, timestamp, ptrA(guardDialog.GetGuardCode())),
 				&CSteamProto::OnAuthorization);
 			return;
 		}
@@ -130,34 +130,22 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 			NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 			delete request;
 
-			CaptchaParam captcha = { 0 };
-			captcha.size = response->dataLength;
-			captcha.data = (BYTE*)mir_alloc(captcha.size);
-			memcpy(captcha.data, response->pData, captcha.size);
-
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
-
-			int res = DialogBoxParam(
-				g_hInstance,
-				MAKEINTRESOURCE(IDD_CAPTCHA),
-				NULL,
-				CSteamProto::CaptchaProc,
-				(LPARAM)&captcha);
-
-			mir_free(captcha.data);
-
-			if (res != 1)
+			CSteamCaptchaDialog captchaDialog(this, (BYTE*)response->pData, response->dataLength);
+			if (!captchaDialog.DoModal())
 			{
+				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 				SetStatus(ID_STATUS_OFFLINE);
 				return;
 			}
+
+			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 
 			ptrA username(mir_utf8encodeW(getWStringA("Username")));
 			ptrA password(getStringA("EncryptedPassword"));
 			ptrA timestamp(getStringA("RsaTimestamp"));
 
 			PushRequest(
-				new SteamWebApi::AuthorizationRequest(username, password, timestamp, captchaId, captcha.text),
+				new SteamWebApi::AuthorizationRequest(username, password, timestamp, captchaId, ptrA(captchaDialog.GetCaptchaText())),
 				&CSteamProto::OnAuthorization);
 			return;
 		}

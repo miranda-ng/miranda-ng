@@ -44,7 +44,7 @@ namespace SteamWebApi
 
 			char data[1024];
 			mir_snprintf(data, SIZEOF(data),
-				"username=%s&password=%s&captchagid=%s&captcha_text=%s&oauth_client_id=3638BFB1&oauth_scope=read_profile write_profile read_client write_client&rsatimestamp=%s",
+				"username=%s&password=%s&emailauth=&captchagid=%s&captcha_text=%s&oauth_client_id=3638BFB1&oauth_scope=read_profile write_profile read_client write_client&rsatimestamp=%s",
 				ptrA(mir_urlEncode(username)),
 				ptrA(mir_urlEncode(password)),
 				captchaId,
