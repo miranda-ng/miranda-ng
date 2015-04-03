@@ -115,9 +115,7 @@ int CSkypeProto::SkypeToMirandaStatus(const char *status)
 void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, int flags, MCONTACT hContact)
 {
 	if (Miranda_Terminated())
-	{
 		return;
-	}
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
 	{

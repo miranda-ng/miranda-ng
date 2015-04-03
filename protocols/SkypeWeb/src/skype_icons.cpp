@@ -33,12 +33,8 @@ void CSkypeProto::InitIcons()
 HANDLE CSkypeProto::GetIconHandle(const char *name)
 {
 	for (size_t i = 0; i < SIZEOF(Icons); i++)
-	{
 		if (mir_strcmpi(Icons[i].Name, name) == 0)
-		{
 			return Icons[i].Handle;
-		}
-	}
 	return 0;
 }
 
@@ -48,16 +44,12 @@ HANDLE CSkypeProto::GetSkinIconHandle(const char *name)
 	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, name);
 	HANDLE hIcon = Skin_GetIconHandle(iconName);
 	if (hIcon == NULL)
-	{
 		hIcon = GetIconHandle(name);
-	}
 	return hIcon;
 }
 
 void CSkypeProto::UninitIcons()
 {
 	for (size_t i = 0; i < SIZEOF(Icons); i++)
-	{
 		Skin_RemoveIcon(Icons[i].Name);
-	}
 }

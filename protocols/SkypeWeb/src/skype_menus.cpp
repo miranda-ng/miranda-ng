@@ -26,9 +26,7 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 int CSkypeProto::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	for (int i = 0; i < SIZEOF(ContactMenuItems); i++)
-	{
 		Menu_ShowItem(ContactMenuItems[i], false);
-	}
 	CSkypeProto *proto = CSkypeProto::GetContactAccount(hContact);
 	return proto ? proto->OnPrebuildContactMenu(hContact, lParam) : 0;
 }

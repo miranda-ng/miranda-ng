@@ -172,6 +172,6 @@ void CSkypeProto::OnSetStatus(const NETLIBHTTPREQUEST *response)
 
 	if (iNewStatus == ID_STATUS_OFFLINE)
 		SetStatus(ID_STATUS_OFFLINE);
-	else 
+	else
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 }
