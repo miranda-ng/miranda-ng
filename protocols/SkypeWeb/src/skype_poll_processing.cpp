@@ -80,13 +80,15 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
 	time_t timeStamp = IsoToUnixTime(composeTime);//time(NULL); // it should be rewritten
 
-	PROTORECVEVENT recv = { 0 };
-	recv.flags = PREF_UTF;
-	recv.timestamp = timeStamp;
-	recv.szMessage = content;
-	debugLogA("Incoming message from %s", ContactUrlToName(from));
-	if(IsMe(ContactUrlToName(from)))
-		return; //it should be rewritten
-	MCONTACT hContact = GetContact(ContactUrlToName(from));
-	OnReceiveMessage(hContact, &recv);
+	if (!mir_strcmpi(messagetype, "Text")) {
+		PROTORECVEVENT recv = { 0 };
+		recv.flags = PREF_UTF;
+		recv.timestamp = timeStamp;
+		recv.szMessage = content;
+		debugLogA("Incoming message from %s", ContactUrlToName(from));
+		if (IsMe(ContactUrlToName(from)))
+			return; //it should be rewritten
+		MCONTACT hContact = GetContact(ContactUrlToName(from));
+		OnReceiveMessage(hContact, &recv);
+	}
 }
