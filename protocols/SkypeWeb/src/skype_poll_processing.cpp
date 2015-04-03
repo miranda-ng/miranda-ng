@@ -80,20 +80,38 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 	ptrA messagetype(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 	ptrA from(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
 	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
-	//ptrA composeTime(mir_t2a(ptrT(json_as_string(json_get(node, "composetime")))));
 	TCHAR *composeTime = json_as_string (json_get(node, "composetime"));
 	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
-	time_t timeStamp = IsoToUnixTime(composeTime);//time(NULL); // it should be rewritten
-
-	if (!mir_strcmpi(messagetype, "Text") || !mir_strcmpi(messagetype, "RichText")) {
-		PROTORECVEVENT recv = { 0 };
-		recv.flags = PREF_UTF;
-		recv.timestamp = timeStamp;
-		recv.szMessage = content;
-		debugLogA("Incoming message from %s", ContactUrlToName(from));
-		if (IsMe(ContactUrlToName(from)))
-			return; //it should be rewritten
-		MCONTACT hContact = GetContact(ContactUrlToName(from));
-		OnReceiveMessage(hContact, &recv);
+	time_t timeStamp = IsoToUnixTime(composeTime);
+	char *convname;
+	if (strstr(conversationLink, "/19:"))
+		{
+			const char *chatname, *topic;
+			chatname = ContactUrlToName(conversationLink);
+			convname = mir_strdup(chatname);
+			return; //chats not supported
+		}
+	else if (strstr(conversationLink, "/8:"))
+	{
+		if (!mir_strcmpi(messagetype, "Control/Typing"))
+			{
+				MCONTACT hContact = GetContact(ContactUrlToName(from));
+				CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
+			}
+		else if (!mir_strcmpi(messagetype, "Control/ClearTyping"))
+		{
+			return;
+		}
+		else if (!mir_strcmpi(messagetype, "Text") || !mir_strcmpi(messagetype, "RichText")) {
+			PROTORECVEVENT recv = { 0 };
+			recv.flags = PREF_UTF;
+			recv.timestamp = timeStamp;
+			recv.szMessage = content;
+			debugLogA("Incoming message from %s", ContactUrlToName(from));
+			if (IsMe(ContactUrlToName(from)))
+				return; //it should be rewritten
+			MCONTACT hContact = GetContact(ContactUrlToName(from));
+			OnReceiveMessage(hContact, &recv);
+		}
 	}
 }
