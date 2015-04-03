@@ -36,6 +36,7 @@
 #include <m_json.h>
 #include <m_timezones.h>
 #include <m_version.h>
+#include <m_gui.h>
 
 struct CSkypeProto;
 
@@ -43,6 +44,8 @@ struct CSkypeProto;
 #include "resource.h"
 #include "skype_icons.h"
 #include "skype_menus.h"
+#include "skype_dialogs.h"
+#include "skype_options.h"
 #include "http_request.h"
 #include "requests\login.h"
 #include "requests\logout.h"

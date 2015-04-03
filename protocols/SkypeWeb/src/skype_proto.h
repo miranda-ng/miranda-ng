@@ -3,8 +3,10 @@
 
 typedef void(CSkypeProto::*SkypeResponseCallback)(const NETLIBHTTPREQUEST *response);
 
-struct CSkypeProto : public PROTO < CSkypeProto >
+struct CSkypeProto : public PROTO<CSkypeProto>
 {
+	friend CSkypePasswordEditor;
+
 public:
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +118,7 @@ private:
 	int OnInitStatusMenu();
 
 	// options
-	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	CSkypeDlgBase::CreateParam SkypeMainOptionsParam;
 
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 

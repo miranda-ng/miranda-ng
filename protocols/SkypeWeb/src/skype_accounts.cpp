@@ -24,12 +24,8 @@ int CSkypeProto::UninitAccount(CSkypeProto *proto)
 CSkypeProto* CSkypeProto::GetContactAccount(MCONTACT hContact)
 {
 	for (int i = 0; i < Accounts.getCount(); i++)
-	{
 		if (mir_strcmpi(GetContactProto(hContact), Accounts[i]->m_szModuleName) == 0)
-		{
 			return Accounts[i];
-		}
-	}
 	return NULL;
 }
 
@@ -42,10 +38,5 @@ int CSkypeProto::OnAccountLoaded(WPARAM, LPARAM)
 
 INT_PTR CSkypeProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam(
-		g_hInstance,
-		MAKEINTRESOURCE(IDD_ACCOUNT_MANAGER),
-		(HWND)lParam,
-		CSkypeProto::MainOptionsProc,
-		(LPARAM)this);
+	return (INT_PTR)(CSkypeOptionsMain::CreateAccountManagerPage(this, (HWND)lParam))->GetHwnd();
 }

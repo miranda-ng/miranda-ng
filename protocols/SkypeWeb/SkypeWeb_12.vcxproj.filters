@@ -63,14 +63,20 @@
     <ClInclude Include="src\requests\status.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
-   <ClInclude Include="src\requests\subscriptions.h">
+    <ClInclude Include="src\requests\subscriptions.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
     <ClInclude Include="src\requests\poll.h">
       <Filter>Header Files\requests</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="src\requests\messages.h">
       <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skype_dialogs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skype_options.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -119,11 +125,11 @@
     <ClCompile Include="src\skype_status.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	<ClCompile Include="src\skype_polling.cpp">
+    <ClCompile Include="src\skype_polling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-		<ClCompile Include="src\skype_poll_processing.cpp">
-	  <Filter>Source Files</Filter>
+    <ClCompile Include="src\skype_poll_processing.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
