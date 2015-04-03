@@ -94,24 +94,21 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 	else if (strstr(conversationLink, "/8:"))
 	{
 		if (!mir_strcmpi(messagetype, "Control/Typing"))
-			{
-				MCONTACT hContact = GetContact(ContactUrlToName(from));
-				CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
-			}
+		{
+			MCONTACT hContact = GetContact(ContactUrlToName(from));
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
+		}
 		else if (!mir_strcmpi(messagetype, "Control/ClearTyping"))
 		{
 			return;
 		}
-		else if (!mir_strcmpi(messagetype, "Text") || !mir_strcmpi(messagetype, "RichText")) {
-			PROTORECVEVENT recv = { 0 };
-			recv.flags = PREF_UTF;
-			recv.timestamp = timeStamp;
-			recv.szMessage = content;
-			debugLogA("Incoming message from %s", ContactUrlToName(from));
-			if (IsMe(ContactUrlToName(from)))
-				return; //it should be rewritten
-			MCONTACT hContact = GetContact(ContactUrlToName(from));
-			OnReceiveMessage(hContact, &recv);
+		else if (!mir_strcmpi(messagetype, "Text") || !mir_strcmpi(messagetype, "RichText")) 
+		{
+			OnReceiveMessage(from, conversationLink, timeStamp, content);
+		}
+		else if (!mir_strcmpi(messagetype, "Event/SkypeVideoMessage"))
+		{
+			return; //not supported
 		}
 	}
 }

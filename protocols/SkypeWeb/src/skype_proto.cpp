@@ -108,15 +108,46 @@ int CSkypeProto::RecvContacts(MCONTACT, PROTORECVEVENT*) { return 0; }
 
 int CSkypeProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT *pre) { return 0; }
 
-int CSkypeProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre) { return 0; }
-
 int CSkypeProto::RecvUrl(MCONTACT, PROTORECVEVENT*) { return 0; }
 
 int CSkypeProto::SendContacts(MCONTACT, int, int, MCONTACT*) { return 0; }
 
 HANDLE CSkypeProto::SendFile(MCONTACT hContact, const PROTOCHAR *szDescription, PROTOCHAR **ppszFiles) { return 0; }
 
-int CSkypeProto::SendMsg(MCONTACT hContact, int flags, const char *msg) { return 0; }
+int CSkypeProto::SendMsg(MCONTACT hContact, int flags, const char *msg) 
+{ 
+	UINT hMessage = InterlockedIncrement(&hMessageProcess);
+
+	SendMessageParam *param = (SendMessageParam*)mir_calloc(sizeof(SendMessageParam));
+	param->hContact = hContact;
+	param->hMessage = (HANDLE)hMessage;
+	param->msg = msg;
+	param->flags = flags;
+
+	ForkThread(&CSkypeProto::SendMsgThread, (void*)param);
+
+	return hMessage;
+}
+
+void CSkypeProto::SendMsgThread(void *arg)
+{
+	SendMessageParam *param = (SendMessageParam*)arg;
+
+	if (!IsOnline())
+	{
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hMessage, (LPARAM)Translate("You cannot send messages when you are offline."));
+		mir_free(param);
+		return;
+	}
+
+	CMStringA message = (param->flags & PREF_UNICODE) ? ptrA(mir_utf8encode(param->msg)) : param->msg; // TODO: mir_utf8encode check taken from FacebookRM, is it needed? Usually we get PREF_UTF8 flag instead.
+
+	ptrA token(getStringA("registrationToken"));
+	ptrA username(getStringA(param->hContact, "Skypename"));
+	PushRequest(
+		new SendMsgRequest(token, username, message, getStringA("Server"))/*,
+		&CSkypeProto::OnMessageSent*/);
+}
 
 int CSkypeProto::SendUrl(MCONTACT, int, const char*) { return 0; }
 

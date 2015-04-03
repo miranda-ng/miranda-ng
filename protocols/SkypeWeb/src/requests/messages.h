@@ -17,7 +17,10 @@ public:
 			<< CHAR_VALUE("Origin", "https://web.skype.com")
 			<< CHAR_VALUE("Connection", "keep-alive");
 
-		Body << FORMAT_VALUE("{\"clientmessageid\":\"\",\"content\":\"%s\",\"messagetype\":\"RichText\",\"contenttype\":\"text\"}", message);
+		CMStringA data;
+		data.AppendFormat("{\"clientmessageid\":\"\",\"content\":\"%s\",\"messagetype\":\"RichText\",\"contenttype\":\"text\"}", message);
+
+		Body << VALUE(data);
 	}
 };
 
