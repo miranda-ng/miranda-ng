@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-int CDbxKV::CheckProto(DBCachedContact *cc, const char *proto)
+int CDbxKyoto::CheckProto(DBCachedContact *cc, const char *proto)
 {
 	if (cc->szProto == NULL) {
 		char protobuf[MAX_PATH] = { 0 };
@@ -40,18 +40,18 @@ int CDbxKV::CheckProto(DBCachedContact *cc, const char *proto)
 	return !strcmp(cc->szProto, proto);
 }
 
-STDMETHODIMP_(LONG) CDbxKV::GetContactCount(void)
+STDMETHODIMP_(LONG) CDbxKyoto::GetContactCount(void)
 {
 	mir_cslock lck(m_csDbAccess);
 	return m_contactCount;
 }
 
-STDMETHODIMP_(LONG) CDbxKV::GetContactSize(void)
+STDMETHODIMP_(LONG) CDbxKyoto::GetContactSize(void)
 {
 	return sizeof(DBCachedContact);
 }
 
-STDMETHODIMP_(MCONTACT) CDbxKV::FindFirstContact(const char *szProto)
+STDMETHODIMP_(MCONTACT) CDbxKyoto::FindFirstContact(const char *szProto)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBCachedContact *cc = m_cache->GetFirstContact();
@@ -68,7 +68,7 @@ STDMETHODIMP_(MCONTACT) CDbxKV::FindFirstContact(const char *szProto)
 	return FindNextContact(cc->contactID, szProto);
 }
 
-STDMETHODIMP_(MCONTACT) CDbxKV::FindNextContact(MCONTACT contactID, const char *szProto)
+STDMETHODIMP_(MCONTACT) CDbxKyoto::FindNextContact(MCONTACT contactID, const char *szProto)
 {
 	mir_cslock lck(m_csDbAccess);
 	while (contactID) {
@@ -85,7 +85,7 @@ STDMETHODIMP_(MCONTACT) CDbxKV::FindNextContact(MCONTACT contactID, const char *
 	return NULL;
 }
 
-STDMETHODIMP_(LONG) CDbxKV::DeleteContact(MCONTACT contactID)
+STDMETHODIMP_(LONG) CDbxKyoto::DeleteContact(MCONTACT contactID)
 {
 	if (contactID == 0) // global contact cannot be removed
 		return 1;
@@ -99,7 +99,7 @@ STDMETHODIMP_(LONG) CDbxKV::DeleteContact(MCONTACT contactID)
 	return 0;
 }
 
-STDMETHODIMP_(MCONTACT) CDbxKV::AddContact()
+STDMETHODIMP_(MCONTACT) CDbxKyoto::AddContact()
 {
 	DWORD dwContactId;
 	{
@@ -115,7 +115,7 @@ STDMETHODIMP_(MCONTACT) CDbxKV::AddContact()
 	return dwContactId;
 }
 
-STDMETHODIMP_(BOOL) CDbxKV::IsDbContact(MCONTACT contactID)
+STDMETHODIMP_(BOOL) CDbxKyoto::IsDbContact(MCONTACT contactID)
 {
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
 	return (cc != NULL);
@@ -124,20 +124,20 @@ STDMETHODIMP_(BOOL) CDbxKV::IsDbContact(MCONTACT contactID)
 /////////////////////////////////////////////////////////////////////////////////////////
 // metacontacts support
 
-BOOL CDbxKV::MetaDetouchSub(DBCachedContact *cc, int nSub)
+BOOL CDbxKyoto::MetaDetouchSub(DBCachedContact *cc, int nSub)
 {
 	CallService(MS_DB_MODULE_DELETE, cc->pSubs[nSub], (LPARAM)META_PROTO);
 	return 0;
 }
 
-BOOL CDbxKV::MetaSetDefault(DBCachedContact *cc)
+BOOL CDbxKyoto::MetaSetDefault(DBCachedContact *cc)
 {
 	return db_set_dw(cc->contactID, META_PROTO, "Default", cc->nDefault);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL CDbxKV::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
+BOOL CDbxKyoto::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
 	DBEventSortingKey keyVal = { ccSub->contactID, 0, 0 }, insVal = { ccMeta->contactID, 0, 0 };
 	cursor_ptr cursor(m_dbEventsSort);
@@ -166,7 +166,7 @@ BOOL CDbxKV::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL CDbxKV::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
+BOOL CDbxKyoto::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
 	DBEventSortingKey keyVal = { ccSub->contactID, 0, 0 }, delVal = { ccMeta->contactID, 0, 0 };
 
@@ -212,7 +212,7 @@ void DBCachedContact::Advance(DWORD id, DBEvent &dbe)
 /////////////////////////////////////////////////////////////////////////////////////////
 // initial cycle to fill the contacts' cache
 
-void CDbxKV::FillContacts()
+void CDbxKyoto::FillContacts()
 {
 	m_contactCount = 0;
 

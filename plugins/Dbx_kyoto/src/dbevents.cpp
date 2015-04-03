@@ -23,13 +23,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-STDMETHODIMP_(LONG) CDbxKV::GetEventCount(MCONTACT contactID)
+STDMETHODIMP_(LONG) CDbxKyoto::GetEventCount(MCONTACT contactID)
 {
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
 	return (cc == NULL) ? 0 : cc->dbc.dwEventCount;
 }
 
-STDMETHODIMP_(MEVENT) CDbxKV::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
+STDMETHODIMP_(MEVENT) CDbxKyoto::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 {
 	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 0;
 	if (dbei->timestamp == 0) return 0;
@@ -107,7 +107,7 @@ STDMETHODIMP_(MEVENT) CDbxKV::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	return dwEventId;
 }
 
-STDMETHODIMP_(BOOL) CDbxKV::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
+STDMETHODIMP_(BOOL) CDbxKyoto::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	if (hDbEvent == 0) return INVALID_CONTACT_ID;
 
@@ -142,7 +142,7 @@ STDMETHODIMP_(BOOL) CDbxKV::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 	return 0;
 }
 
-STDMETHODIMP_(LONG) CDbxKV::GetBlobSize(MEVENT hDbEvent)
+STDMETHODIMP_(LONG) CDbxKyoto::GetBlobSize(MEVENT hDbEvent)
 {
 	DBEvent dbe;
 	if (-1 == m_dbEvents.get((LPCSTR)&hDbEvent, sizeof(MEVENT), (LPSTR)&dbe, sizeof(dbe)))
@@ -151,7 +151,7 @@ STDMETHODIMP_(LONG) CDbxKV::GetBlobSize(MEVENT hDbEvent)
 	return (dbe.dwSignature == DBEVENT_SIGNATURE) ? dbe.cbBlob : 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxKV::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
+STDMETHODIMP_(BOOL) CDbxKyoto::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 {
 	if (hDbEvent == 0 || dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 1;
 	if (dbei->cbBlob > 0 && dbei->pBlob == NULL) {
@@ -192,7 +192,7 @@ STDMETHODIMP_(BOOL) CDbxKV::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	return 0;
 }
 
-void CDbxKV::FindNextUnread(DBCachedContact *cc, DBEventSortingKey &key2)
+void CDbxKyoto::FindNextUnread(DBCachedContact *cc, DBEventSortingKey &key2)
 {
 	key2.dwEventId++;
 
@@ -213,7 +213,7 @@ void CDbxKV::FindNextUnread(DBCachedContact *cc, DBEventSortingKey &key2)
 	cc->dbc.dwFirstUnread = cc->dbc.tsFirstUnread = 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxKV::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
+STDMETHODIMP_(BOOL) CDbxKyoto::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 {
 	if (hDbEvent == 0) return -1;
 
@@ -245,7 +245,7 @@ STDMETHODIMP_(BOOL) CDbxKV::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 	return dbe->flags;
 }
 
-STDMETHODIMP_(MCONTACT) CDbxKV::GetEventContact(MEVENT hDbEvent)
+STDMETHODIMP_(MCONTACT) CDbxKyoto::GetEventContact(MEVENT hDbEvent)
 {
 	if (hDbEvent == 0) return INVALID_CONTACT_ID;
 
@@ -257,7 +257,7 @@ STDMETHODIMP_(MCONTACT) CDbxKV::GetEventContact(MEVENT hDbEvent)
 	return (dbe->dwSignature == DBEVENT_SIGNATURE) ? dbe->contactID : INVALID_CONTACT_ID;
 }
 
-STDMETHODIMP_(MEVENT) CDbxKV::FindFirstEvent(MCONTACT contactID)
+STDMETHODIMP_(MEVENT) CDbxKyoto::FindFirstEvent(MCONTACT contactID)
 {
 	DBEventSortingKey keyVal = { contactID, 0, 0 };
 	cursor_ptr cursor(m_dbEventsSort);
@@ -274,13 +274,13 @@ STDMETHODIMP_(MEVENT) CDbxKV::FindFirstEvent(MCONTACT contactID)
 	return m_evLast;
 }
 
-STDMETHODIMP_(MEVENT) CDbxKV::FindFirstUnreadEvent(MCONTACT contactID)
+STDMETHODIMP_(MEVENT) CDbxKyoto::FindFirstUnreadEvent(MCONTACT contactID)
 {
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
 	return (cc == NULL) ? 0 : cc->dbc.dwFirstUnread;
 }
 
-STDMETHODIMP_(MEVENT) CDbxKV::FindLastEvent(MCONTACT contactID)
+STDMETHODIMP_(MEVENT) CDbxKyoto::FindLastEvent(MCONTACT contactID)
 {
 	DBEventSortingKey keyVal = { contactID, 0xFFFFFFFF, 0xFFFFFFFF };
 	cursor_ptr cursor(m_dbEventsSort);
@@ -297,7 +297,7 @@ STDMETHODIMP_(MEVENT) CDbxKV::FindLastEvent(MCONTACT contactID)
 	return m_evLast;
 }
 
-STDMETHODIMP_(MEVENT) CDbxKV::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
+STDMETHODIMP_(MEVENT) CDbxKyoto::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	if (hDbEvent == 0) return m_evLast = 0;
 
@@ -327,7 +327,7 @@ STDMETHODIMP_(MEVENT) CDbxKV::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 	return m_evLast;
 }
 
-STDMETHODIMP_(MEVENT) CDbxKV::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
+STDMETHODIMP_(MEVENT) CDbxKyoto::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	if (hDbEvent == 0) return m_evLast = 0;
 
@@ -360,7 +360,7 @@ STDMETHODIMP_(MEVENT) CDbxKV::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 /////////////////////////////////////////////////////////////////////////////////////////
 // low-level history cleaner
 
-int CDbxKV::WipeContactHistory(DBContact*)
+int CDbxKyoto::WipeContactHistory(DBContact*)
 {
 	// drop subContact's history if any
 	return 0;

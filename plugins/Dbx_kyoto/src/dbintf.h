@@ -61,13 +61,6 @@ struct ModuleName
 
 #include <pshpack1.h>
 
-#define DBHEADER_SIGNATURE  0x40DECADEu
-struct DBHeader
-{
-	DWORD dwSignature;
-	DWORD dwVersion;			// database format version
-};
-
 #define DBCONTACT_SIGNATURE 0x43DECADEu
 struct DBContact
 {
@@ -133,10 +126,10 @@ struct CTable : public TreeDB
 	}
 };
 
-struct CDbxKV : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
+struct CDbxKyoto : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
-	CDbxKV(const TCHAR *tszFileName, int mode);
-	~CDbxKV();
+	CDbxKyoto(const TCHAR *tszFileName, int mode);
+	~CDbxKyoto();
 
 	int Load(bool bSkipInit);
 	int Create(void);
@@ -227,11 +220,8 @@ public:
 	MICryptoEngine *m_crypto;
 
 protected:
-	CTable   m_dbGlobal;
-	DBHeader m_header;
-
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
-
+	DWORD    m_dwVersion;
 	mir_cs   m_csDbAccess;
 
 	int      CheckProto(DBCachedContact *cc, const char *proto);

@@ -42,21 +42,21 @@ static PLUGININFOEX pluginInfo =
 
 HINSTANCE g_hInst = NULL;
 
-LIST<CDbxKV> g_Dbs(1, HandleKeySortT);
+LIST<CDbxKyoto> g_Dbs(1, HandleKeySortT);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 // returns 0 if the profile is created, EMKPRF*
 static int makeDatabase(const TCHAR *profile)
 {
-	std::auto_ptr<CDbxKV> db(new CDbxKV(profile, 0));
+	std::auto_ptr<CDbxKyoto> db(new CDbxKyoto(profile, 0));
 	return db->Create();
 }
 
 // returns 0 if the given profile has a valid header
 static int grokHeader(const TCHAR *profile)
 {
-	std::auto_ptr<CDbxKV> db(new CDbxKV(profile, DBMODE_SHARED | DBMODE_READONLY));
+	std::auto_ptr<CDbxKyoto> db(new CDbxKyoto(profile, DBMODE_SHARED | DBMODE_READONLY));
 	return db->Check();
 }
 
@@ -66,7 +66,7 @@ static MIDatabase* LoadDatabase(const TCHAR *profile, BOOL bReadOnly)
 	// set the memory, lists & UTF8 manager
 	mir_getLP(&pluginInfo);
 
-	std::auto_ptr<CDbxKV> db(new CDbxKV(profile, (bReadOnly) ? DBMODE_READONLY : 0));
+	std::auto_ptr<CDbxKyoto> db(new CDbxKyoto(profile, (bReadOnly) ? DBMODE_READONLY : 0));
 	if (db->Load(false) != ERROR_SUCCESS)
 		return NULL;
 
@@ -76,14 +76,14 @@ static MIDatabase* LoadDatabase(const TCHAR *profile, BOOL bReadOnly)
 
 static int UnloadDatabase(MIDatabase *db)
 {
-	g_Dbs.remove((CDbxKV*)db);
-	delete (CDbxKV*)db;
+	g_Dbs.remove((CDbxKyoto*)db);
+	delete (CDbxKyoto*)db;
 	return 0;
 }
 
 MIDatabaseChecker* CheckDb(const TCHAR *profile, int *error)
 {
-	std::auto_ptr<CDbxKV> db(new CDbxKV(profile, DBMODE_READONLY));
+	std::auto_ptr<CDbxKyoto> db(new CDbxKyoto(profile, DBMODE_READONLY));
 	if (db->Load(true) != ERROR_SUCCESS) {
 		*error = ERROR_ACCESS_DENIED;
 		return NULL;
