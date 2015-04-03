@@ -23,6 +23,53 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
+struct SettingsComparator : public Comparator
+{
+	SettingsComparator() {}
+	virtual int32_t compare(const char *akbuf, size_t, const char *bkbuf, size_t)
+	{
+		DBSettingSortingKey *k1 = (DBSettingSortingKey*)akbuf, *k2 = (DBSettingSortingKey*)bkbuf;
+		if (k1->dwContactID < k2->dwContactID) return -1;
+		if (k1->dwContactID > k2->dwContactID) return 1;
+
+		if (k1->dwOfsModule < k2->dwOfsModule) return -1;
+		if (k1->dwOfsModule > k2->dwOfsModule) return 1;
+
+		return strcmp(k1->szSettingName, k2->szSettingName);
+	}
+}
+static _settingsComparator;
+
+struct EventsComparator : public Comparator
+{
+	EventsComparator() {}
+	virtual int32_t compare(const char *akbuf, size_t, const char *bkbuf, size_t)
+	{
+		DBEventSortingKey *k1 = (DBEventSortingKey*)akbuf, *k2 = (DBEventSortingKey*)bkbuf;
+		if (k1->dwContactId < k2->dwContactId) return -1;
+		if (k1->dwContactId > k2->dwContactId) return 1;
+
+		if (k1->ts < k2->ts) return -1;
+		if (k1->ts > k2->ts) return 1;
+
+		if (k1->dwEventId < k2->dwEventId) return -1;
+		if (k1->dwEventId > k2->dwEventId) return 1;
+
+		return 0;
+	}
+}
+static _eventsComparator;
+
+struct LongComparator : public Comparator
+{
+	LongComparator() {}
+	virtual int32_t compare(const char *akbuf, size_t, const char *bkbuf, size_t)
+	{
+		return *(LONG*)akbuf - *(LONG*)bkbuf;
+	}
+}
+static _longComparator;
+
 static int ModCompare(const ModuleName *mn1, const ModuleName *mn2)
 {
 	return strcmp(mn1->name, mn2->name);
@@ -87,12 +134,29 @@ int CDbxKV::Load(bool bSkipInit)
 			iFlags |= TreeDB::OWRITER;
 
 		std::string szFilename((char*)_T2A(m_tszProfileName));
-		if (!m_dbGlobal.open(szFilename, iFlags)) return EGROKPRF_DAMAGED;
-		if (!m_dbContacts.open(szFilename + ".cnt", iFlags)) return EGROKPRF_DAMAGED;
-		if (!m_dbModules.open(szFilename + ".mod", iFlags)) return EGROKPRF_DAMAGED;
-		if (!m_dbEvents.open(szFilename + ".evt", iFlags)) return EGROKPRF_DAMAGED;
-		if (!m_dbEventsSort.open(szFilename + ".evs", iFlags)) return EGROKPRF_DAMAGED;
-		if (!m_dbSettings.open(szFilename + ".set", iFlags)) return EGROKPRF_DAMAGED;
+		m_dbGlobal.tune_map(16384);
+		if (!m_dbGlobal.open(szFilename, iFlags))
+			return EGROKPRF_DAMAGED;
+
+		m_dbContacts.tune_map(256 * 1024);
+		if (!m_dbContacts.open(szFilename + ".cnt", iFlags))
+			return EGROKPRF_DAMAGED;
+
+		m_dbModules.tune_comparator(&_longComparator);
+		if (!m_dbModules.open(szFilename + ".mod", iFlags))
+			return EGROKPRF_DAMAGED;
+
+		m_dbEvents.tune_comparator(&_longComparator);
+		if (!m_dbEvents.open(szFilename + ".evt", iFlags))
+			return EGROKPRF_DAMAGED;
+
+		m_dbEventsSort.tune_comparator(&_eventsComparator);
+		if (!m_dbEventsSort.open(szFilename + ".evs", iFlags))
+			return EGROKPRF_DAMAGED;
+		
+		m_dbSettings.tune_comparator(&_settingsComparator);
+		if (!m_dbSettings.open(szFilename + ".set", iFlags))
+			return EGROKPRF_DAMAGED;
 
 		DWORD keyVal = 1;
 		if (-1 != m_dbGlobal.get((LPCSTR)&keyVal, sizeof(keyVal), (LPSTR)&m_header, sizeof(m_header))) {

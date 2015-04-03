@@ -314,6 +314,7 @@ STDMETHODIMP_(MEVENT) CDbxKV::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 	DBEventSortingKey keyVal = { contactID, ts, hDbEvent+1 };
 	cursor_ptr cursor(m_dbEventsSort);
 	cursor->jump((LPCSTR)&keyVal, sizeof(keyVal));
+	cursor->step();
 
 	size_t size;
 	DBEventSortingKey *pKey = (DBEventSortingKey*)cursor->get_key(&size);
@@ -343,6 +344,7 @@ STDMETHODIMP_(MEVENT) CDbxKV::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 	DBEventSortingKey keyVal = { contactID, ts, hDbEvent-1 };
 	cursor_ptr cursor(m_dbEventsSort);
 	cursor->jump_back((LPCSTR)&keyVal, sizeof(keyVal));
+	cursor->step_back();
 
 	size_t size;
 	DBEventSortingKey *pKey = (DBEventSortingKey*)cursor->get_key(&size);
