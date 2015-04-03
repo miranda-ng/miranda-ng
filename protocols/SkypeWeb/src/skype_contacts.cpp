@@ -11,6 +11,8 @@ void CSkypeProto::SetContactStatus(MCONTACT hContact, WORD status)
 	if (oldStatus != status)
 	{
 		setWord(hContact, "Status", status);
+		if (status == ID_STATUS_OFFLINE)
+			db_unset(hContact, m_szModuleName, "MirVer");
 	}
 }
 

@@ -4,8 +4,8 @@
 class SubscriptionsRequest : public HttpRequest
 {
 public:
-	SubscriptionsRequest(const char *regToken) :
-		HttpRequest(REQUEST_POST, "client-s.gateway.messenger.live.com/v1/users/ME/endpoints/SELF/subscriptions")
+	SubscriptionsRequest(const char *regToken, const char *server = "client-s.gateway.messenger.live.com") :
+		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints/SELF/subscriptions", server)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")

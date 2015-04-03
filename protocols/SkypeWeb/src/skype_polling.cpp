@@ -20,7 +20,7 @@ void CSkypeProto::ParsePollData(JSONNODE *data)
 
 			if (!mir_tstrcmpi(resourceType, L"NewMessage"))
 			{
-				continue;
+				ProcessNewMessageRes(resource);
 			}
 			else if (!mir_tstrcmpi(resourceType, L"UserPresence"))
 			{
@@ -28,7 +28,7 @@ void CSkypeProto::ParsePollData(JSONNODE *data)
 			}
 			else if (!mir_tstrcmpi(resourceType, L"EndpointPresence"))
 			{
-				continue;
+				ProcessEndpointPresenceRes(resource);
 			}
 			else if (!mir_tstrcmpi(resourceType, L"ConversationUpdate"))
 			{
@@ -41,7 +41,6 @@ void CSkypeProto::ParsePollData(JSONNODE *data)
 
 		}
 	}
-	
 }
 
 void CSkypeProto::PollingThread(void*)
@@ -49,18 +48,29 @@ void CSkypeProto::PollingThread(void*)
 	debugLog(_T("CSkypeProto::PollingThread: entering"));
 
 	ptrA regToken(getStringA("registrationToken"));
+	const char *server = getStringA("Server");
+
+	SubscriptionsRequest *request = new SubscriptionsRequest(regToken, server);
+		request->Send(m_hNetlibUser);
+		delete request;
 
 	int errors = 0;
 	bool breaked = false;
 	while (!isTerminated && !breaked && errors < POLLING_ERRORS_LIMIT)
 	{
-		PollRequest *request = new PollRequest(regToken);
+		PollRequest *request = new PollRequest(regToken, server);
 			NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 			delete request;
 
 		if (response != NULL)
 		{
+			m_pollingConnection = response->nlc;
 			JSONROOT root(response->pData);
+			if (json_get(root, "errorCode") != NULL)
+			{
+				errors++;
+				continue;
+			}
 			ParsePollData (root);
 		}
 		/*if (response->resultCode != 200)
@@ -72,6 +82,7 @@ void CSkypeProto::PollingThread(void*)
 			errors = 0;*/
 	}
 	m_hPollingThread = NULL;
+	m_pollingConnection = NULL;
 	debugLog(_T("CSkypeProto::PollingThread: leaving"));
 
 	if (!isTerminated)

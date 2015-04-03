@@ -89,7 +89,7 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 			cookies[match[1]] = match[2];
 	}
 
-	PushRequest(new GetRegInfoRequest(token.c_str()), &CSkypeProto::OnGetRegInfo);
+	PushRequest(new GetRegInfoRequest(token.c_str(), getStringA("Server")), &CSkypeProto::OnGetRegInfo);
 	PushRequest(new GetProfileRequest(token.c_str()), &CSkypeProto::LoadProfile);
 	PushRequest(new GetContactListRequest(token.c_str()), &CSkypeProto::LoadContactList);
 }
@@ -103,33 +103,56 @@ void CSkypeProto::OnGetRegInfo(const NETLIBHTTPREQUEST *response)
 	std::smatch match;
 	std::string content = response->pData;
 	for (int i = 0; i < response->headersCount; i++) {
-		if (_stricmp(response->headers[i].szName, "Set-RegistrationToken"))
-			continue;
-
-		CMStringA szValue = response->headers[i].szValue, szCookieName, szCookieVal;
-		int iStart = 0;
-		while (true) {
-			bool bFirstToken = (iStart == 0);
-			CMStringA szToken = szValue.Tokenize(";", iStart).Trim();
-			if (iStart == -1)
-				break;
-			int iStart2 = 0;
-			szCookieName = szToken.Tokenize("=", iStart2);
-			szCookieVal = szToken.Mid(iStart2);
-			setString(szCookieName, szCookieVal);
+		if (!mir_strcmpi(response->headers[i].szName, "Set-RegistrationToken"))
+		{
+			CMStringA szValue = response->headers[i].szValue, szCookieName, szCookieVal;
+			int iStart = 0;
+			while (true) {
+				bool bFirstToken = (iStart == 0);
+				CMStringA szToken = szValue.Tokenize(";", iStart).Trim();
+				if (iStart == -1)
+					break;
+				int iStart2 = 0;
+				szCookieName = szToken.Tokenize("=", iStart2);
+				szCookieVal = szToken.Mid(iStart2);
+				setString(szCookieName, szCookieVal);
+			}
 		}
+		else if (!mir_strcmpi(response->headers[i].szName, "Location"))
+		{
+			CMStringA szValue = response->headers[i].szValue, szCookieName, szCookieVal;
+			setString("Server", GetServerFromUrl(szValue));
+		}
+
 	}
-	PushRequest(new GetEndpointRequest(getStringA("registrationToken"), getStringA("endpointId")));
+	if (response->resultCode != 201)
+	{
+		PushRequest(new GetRegInfoRequest(getStringA("Token"), getStringA("Server")), &CSkypeProto::OnGetRegInfo);
+		return;
+	}
 
-	SubscriptionsRequest *request = new SubscriptionsRequest(getStringA("registrationToken"));
-		request->Send(m_hNetlibUser);
-		delete request;
-
+	PushRequest(new GetEndpointRequest(getStringA("registrationToken"), getStringA("endpointId"), getStringA("Server")), &CSkypeProto::OnGetEndpoint);
+	isTerminated = false;
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
 
 	m_iStatus = m_iDesiredStatus;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
-	PushRequest(new SetStatusRequest(ptrA(getStringA("registrationToken")), MirandaToSkypeStatus(m_iStatus)), &CSkypeProto::OnSetStatus);
+	PushRequest(new SetStatusRequest(ptrA(getStringA("registrationToken")), MirandaToSkypeStatus(m_iStatus), getStringA("Server")), &CSkypeProto::OnSetStatus);
+}
+
+void CSkypeProto::OnGetEndpoint(const NETLIBHTTPREQUEST *response)
+{
+	if (response == NULL)
+		return;
+
+	JSONROOT root(response->pData);
+
+	if (root == NULL)
+		return;
+
+	ptrA selfLink(mir_t2a(ptrT(json_as_string(json_get(root, "selfLink")))));
+
+	setString("SelfEndpointName", SelfUrlToName(selfLink));
 }
 
 void CSkypeProto::OnSetStatus(const NETLIBHTTPREQUEST *response)
@@ -143,21 +166,9 @@ void CSkypeProto::OnSetStatus(const NETLIBHTTPREQUEST *response)
 		return;
 
 	JSONNODE *status_json = json_get(root, "status");
-	TCHAR *status = json_as_string(status_json);
+	ptrA status(mir_t2a(ptrT(json_as_string(status_json))));
 	int old_status = m_iStatus;
-	int iNewStatus;
-	if (!mir_tstrcmpi(status, _T("Online")))
-		iNewStatus = ID_STATUS_ONLINE;	 
-	else if (!mir_tstrcmpi(status, _T("Hidden")))
-		iNewStatus = ID_STATUS_INVISIBLE;
-	else if (!mir_tstrcmpi(status, _T("Away")))
-		iNewStatus = ID_STATUS_AWAY;
-	else if (!mir_tstrcmpi(status, _T("Idle")))
-		iNewStatus = ID_STATUS_IDLE;
-	else if (!mir_tstrcmpi(status, _T("Busy")))
-		iNewStatus = ID_STATUS_DND;
-	else 
-		iNewStatus = ID_STATUS_OFFLINE;
+	int iNewStatus = SkypeToMirandaStatus(status);
 	m_iStatus = iNewStatus;
 
 	if (iNewStatus == ID_STATUS_OFFLINE)

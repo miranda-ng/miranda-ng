@@ -4,10 +4,12 @@
 class SetStatusRequest : public HttpRequest
 {
 public:
-	SetStatusRequest(const char *regToken, const char *status) :
-		HttpRequest(REQUEST_PUT, "client-s.gateway.messenger.live.com/v1/users/ME/presenceDocs/messagingService")
+	SetStatusRequest(const char *regToken, const char *status, const char *server = "client-s.gateway.messenger.live.com") :
+		HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/presenceDocs/messagingService", server)
 	{
 		CMStringA auth = "registrationToken=";
+		CMStringA statuss;
+		statuss.AppendFormat("{\"status\":\"%s\"}", status);
 		auth += regToken;
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
@@ -19,7 +21,7 @@ public:
 			<< CHAR_VALUE("Origin", "https://web.skype.com")
 			<< CHAR_VALUE("Connection", "keep-alive");
 
-		Body << FORMAT_VALUE("{\"status\":\"%s\"}", status);
+		Body << VALUE(statuss);
 	}
 };
 

@@ -4,8 +4,8 @@
 class PollRequest : public HttpRequest
 {
 public:
-	PollRequest(const char *regToken) :
-		HttpRequest(REQUEST_POST, "client-s.gateway.messenger.live.com/v1/users/ME/endpoints/SELF/subscriptions/0/poll")
+	PollRequest(const char *regToken, const char *server = "client-s.gateway.messenger.live.com") :
+		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints/SELF/subscriptions/0/poll", server)
 	{
 		//timeout = 30 * 1000;
 		//flags |= NLHRF_PERSISTENT;
