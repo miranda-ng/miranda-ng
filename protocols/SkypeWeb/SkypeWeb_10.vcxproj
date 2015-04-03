@@ -211,8 +211,10 @@
     <ClInclude Include="src\requests\status.h" />
     <ClInclude Include="src\requests\subscriptions.h" />
     <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\skype_dialogs.h" />
     <ClInclude Include="src\skype_icons.h" />
     <ClInclude Include="src\skype_menus.h" />
+    <ClInclude Include="src\skype_options.h" />
     <ClInclude Include="src\skype_proto.h" />
     <ClInclude Include="src\request_queue.h" />
     <ClInclude Include="src\version.h" />
