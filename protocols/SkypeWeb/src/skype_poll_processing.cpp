@@ -85,7 +85,7 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
 	time_t timeStamp = IsoToUnixTime(composeTime);//time(NULL); // it should be rewritten
 
-	if (!mir_strcmpi(messagetype, "Text")) {
+	if (!mir_strcmpi(messagetype, "Text") || !mir_strcmpi(messagetype, "RichText")) {
 		PROTORECVEVENT recv = { 0 };
 		recv.flags = PREF_UTF;
 		recv.timestamp = timeStamp;
