@@ -13,7 +13,8 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 	JSONNODE *publicInfo = json_get(node, "publicInfo");
 	if (publicInfo != NULL) 
 	{
-		ptrA version(mir_t2a(ptrT(json_as_string(json_get(publicInfo, "skypeNameVersion")))));
+		ptrA skypeNameVersion(mir_t2a(ptrT(json_as_string(json_get(publicInfo, "skypeNameVersion")))));
+		ptrA version(mir_t2a(ptrT(json_as_string(json_get(publicInfo, "version")))));
 		ptrA typ(mir_t2a(ptrT(json_as_string(json_get(publicInfo, "typ")))));
 		if (typ != NULL)
 		{
@@ -36,7 +37,11 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 			else if (!mir_strcmpi(typ, "1")) //SkypeWeb
 				db_set_s(hContact, m_szModuleName, "MirVer", "Skype (Web)");
 			else if (!mir_strcmpi(typ, "125")) //Miranda
-				db_set_s(hContact, m_szModuleName, "MirVer", "Miranda NG");
+			{
+				char ver[MAX_PATH];
+				mir_snprintf(ver, SIZEOF(ver), "%s %s", skypeNameVersion, version);
+				db_set_s(hContact, m_szModuleName, "MirVer", ver);
+			}
 
 		}
 
