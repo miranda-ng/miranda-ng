@@ -1,5 +1,10 @@
 #include "common.h"
 
+bool CSkypeProto::IsOnline()
+{
+	return m_iStatus > ID_STATUS_OFFLINE && m_hPollingThread;
+}
+
 time_t __stdcall CSkypeProto::IsoToUnixTime(const TCHAR *stamp)
 {
 	TCHAR date[9];
@@ -136,14 +141,7 @@ void CSkypeProto::ShowNotification(const TCHAR *message, int flags, MCONTACT hCo
 
 bool CSkypeProto::IsFileExists(std::tstring path)
 {
-	WIN32_FIND_DATA wfd;
-	HANDLE hFind = FindFirstFile(path.c_str(), &wfd);
-	if (INVALID_HANDLE_VALUE != hFind)
-	{
-		FindClose(hFind);
-		return true;
-	}
-	return false;
+	return _taccess(path.c_str(), 0) == 0;
 }
 
 char *CSkypeProto::ContactUrlToName(const char *url)

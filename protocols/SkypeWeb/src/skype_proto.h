@@ -1,9 +1,23 @@
 #ifndef _SKYPE_PROTO_H_
 #define _SKYPE_PROTO_H_
 
+struct SendMessageParam
+{
+	MCONTACT hContact;
+	HANDLE hMessage;
+	const char *msg;
+	int flags;
+};
+
+enum ARG_FREE_TYPE
+{
+	ARG_NO_FREE,
+	ARG_MIR_FREE
+};
+
 typedef void(CSkypeProto::*SkypeResponseCallback)(const NETLIBHTTPREQUEST *response);
 
-struct CSkypeProto : public PROTO<CSkypeProto>
+struct CSkypeProto : public PROTO < CSkypeProto >
 {
 	friend CSkypePasswordEditor;
 
@@ -44,7 +58,6 @@ public:
 
 	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTOFILEEVENT*);
-	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
 
 	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
@@ -89,7 +102,7 @@ private:
 	std::map<std::string, std::string> RegInfo;
 	HANDLE m_pollingConnection, m_hPollingThread;
 	static std::map<std::tstring, std::tstring> languages;
-
+	ULONG  hMessageProcess;
 	static INT_PTR CALLBACK PasswordEditorProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	// accounts
@@ -171,8 +184,10 @@ private:
 	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
 
 	// messages
-	int OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre);
+	int OnReceiveMessage(const char *from, const char *convLink, time_t timeStamp, char *content);
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
+	void __cdecl CSkypeProto::SendMsgThread(void *arg);
+	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
 	//polling
 	void __cdecl ParsePollData(JSONNODE *data);
 	void __cdecl PollingThread(void*);
@@ -180,6 +195,7 @@ private:
 	void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node);
 	void CSkypeProto::ProcessNewMessageRes(JSONNODE *node);
 	// utils
+	bool IsOnline();
 	time_t __stdcall IsoToUnixTime(const TCHAR *stamp);
 	char *GetStringChunk(const char *haystack, size_t len, const char *start, const char *end);
 	bool IsMe(const char *skypeName);
