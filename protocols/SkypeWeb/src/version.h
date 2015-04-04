@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME              "Skype protocol (Web)"
 #define __FILENAME                 "SkypeWeb.dll"
-#define __DESCRIPTION              "Skype protocol support for Miranda NG. Based on new Skype for Web API."
+#define __DESCRIPTION              "Skype protocol support for Miranda NG. Based on new Skype for Web."
 #define __AUTHOR                   "Miranda NG Team"
 #define __AUTHOREMAIL              ""
 #define __AUTHORWEB                "http://miranda-ng.org/p/SkypeWeb/"

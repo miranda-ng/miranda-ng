@@ -43,6 +43,7 @@ public:
 	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
+	virtual int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre);
 	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTOFILEEVENT*);
 	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
@@ -173,17 +174,22 @@ private:
 	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
 
 	// messages
-	int OnReceiveMessage(const char *from, const char *convLink, time_t timestamp, char *content);
+	int OnReceiveMessage(const char *messageId, const char *from, const char *to, time_t timestamp, char *content, int emoteOffset = 0);
+	int SaveMessageToDb(MCONTACT hContact, PROTORECVEVENT *pre);
+
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
-	void __cdecl CSkypeProto::SendMsgThread(void *arg);
 	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
+	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
+
 	void OnGetServerHistory(const NETLIBHTTPREQUEST *response);
+
 	//polling
 	void __cdecl ParsePollData(JSONNODE *data);
 	void __cdecl PollingThread(void*);
 	void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node);
 	void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node);
 	void CSkypeProto::ProcessNewMessageRes(JSONNODE *node);
+
 	// utils
 	bool IsOnline();
 	time_t __stdcall IsoToUnixTime(const TCHAR *stamp);
