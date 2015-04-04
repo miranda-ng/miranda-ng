@@ -8,7 +8,7 @@ public:
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, username)
 	{
 		Headers
-			<< CHAR_VALUE("Accept", "application / json, text / javascript")
+			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< CHAR_VALUE("Expires", "0")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8")
@@ -31,7 +31,7 @@ public:
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, mir_urlEncode(username))
 	{
 		Headers
-			<< CHAR_VALUE("Accept", "application / json, text / javascript")
+			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< CHAR_VALUE("Expires", "0")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8")
@@ -46,6 +46,24 @@ public:
 		data.AppendFormat("{\"clienmessageid\":%d, \"content\":\"\", \"messagetype\":\"%s\", \"contenttype\":\"text\"}", time(NULL), state);
 
 		Body << VALUE(data);
+	}
+};
+
+class GetHistoryRequest : public HttpRequest
+{
+public:
+	GetHistoryRequest(const char *regToken, int time, const char *server = "client-s.gateway.messenger.live.com") :
+		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations?startTime=%d&pageSize=100&view=msnp24Equivalent&targetType=Passport|Skype|Lync|Thread", server, time)
+	{
+		Headers
+			<< CHAR_VALUE("Accept", "application/json, text/javascript")
+			<< CHAR_VALUE("Expires", "0")
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8")
+			<< CHAR_VALUE("BehaviorOverride", "redirectAs404")
+			<< CHAR_VALUE("Referer", "https://web.skype.com/main")
+			<< CHAR_VALUE("Origin", "https://web.skype.com")
+			<< CHAR_VALUE("Connection", "keep-alive");
 	}
 };
 

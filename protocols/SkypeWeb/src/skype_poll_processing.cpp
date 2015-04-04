@@ -86,7 +86,7 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 	char *convname;
 	if (strstr(conversationLink, "/19:"))
 		{
-			const char *chatname, *topic;
+			const char *chatname;
 			chatname = ContactUrlToName(conversationLink);
 			convname = mir_strdup(chatname);
 			return; //chats not supported
@@ -100,7 +100,8 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 		}
 		else if (!mir_strcmpi(messagetype, "Control/ClearTyping"))
 		{
-			return;
+			MCONTACT hContact = GetContact(ContactUrlToName(from));
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, 0);
 		}
 		else if (!mir_strcmpi(messagetype, "Text") || !mir_strcmpi(messagetype, "RichText")) 
 		{

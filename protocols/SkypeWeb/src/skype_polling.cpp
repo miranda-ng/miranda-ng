@@ -5,13 +5,12 @@
 void CSkypeProto::ParsePollData(JSONNODE *data)
 {
 	debugLogA("CSkypeProto::ParsePollData");
-	JSONNODE *node, *item = NULL;
+	JSONNODE *node;
 	node = json_get(data, "eventMessages");
 	if (node != NULL)
 	{
-		int index, length;
 		JSONNODE *messages = json_as_array(node);
-		for (int i = 0; i < json_size(messages); i++)
+		for (size_t i = 0; i < json_size(messages); i++)
 		{
 			JSONNODE *message = json_at(messages, i);
 			JSONNODE *resType = json_get(message, "resourceType");

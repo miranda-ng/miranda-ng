@@ -427,7 +427,7 @@ void CSkypeProto::UpdateProfileXStatusMessage(JSONNODE *root, MCONTACT hContact)
 
 void CSkypeProto::UpdateProfileAvatar(JSONNODE *root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "avatarUrl");
+	//JSONNODE *node = json_get(root, "avatarUrl");
 	// add avatar support
 }
 

@@ -25,10 +25,8 @@ public:
 			<< CHAR_VALUE("X-Skypetoken", token)
 			<< CHAR_VALUE("Accept", "application/json");
 
-		for (size_t i = 0; i < skypenames.getCount(); i++)
-		{
+		for (int i = 0; i < skypenames.getCount(); i++)
 			Body << CHAR_VALUE("contacts[]", skypenames[i]);
-		}
 	}
 };
 
