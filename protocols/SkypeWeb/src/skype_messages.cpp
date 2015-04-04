@@ -3,7 +3,7 @@
 /* MESSAGE RECEIVING */
 
 // incoming message flow
-int CSkypeProto::OnReceiveMessage(const char *messageId, const char *from, const char *to, time_t timestamp, char *content, int emoteOffset)
+int CSkypeProto::OnReceiveMessage(const char *messageId, const char *from, const char *to, time_t timestamp, char *content, int emoteOffset, bool isRead)
 {
 	setDword("LastMsgTime", timestamp);
 	PROTORECVEVENT recv = { 0 };
@@ -15,14 +15,15 @@ int CSkypeProto::OnReceiveMessage(const char *messageId, const char *from, const
 		: SKYPE_DB_EVENT_TYPE_ACTION;
 	recv.pCustomData = (void*)messageId;
 	recv.cbCustomDataSize = mir_strlen(messageId);
-
+	if (isRead)
+		recv.flags |= PREF_CREATEREAD;
 	ptrA skypename(ContactUrlToName(from));
 	debugLogA("Incoming message from %s", skypename);
 	if (IsMe(skypename))
 	{
 		recv.flags |= PREF_SENT;
 		MCONTACT hContact = GetContact(ptrA(ContactUrlToName(to)));
-		return ProtoChainRecvMsg(hContact, &recv);
+		return SaveMessageToDb(hContact, &recv);
 	}
 	MCONTACT hContact = GetContact(skypename);
 	return ProtoChainRecvMsg(hContact, &recv);
@@ -39,6 +40,10 @@ int CSkypeProto::SaveMessageToDb(MCONTACT hContact, PROTORECVEVENT *pre)
 	dbei.szModule = GetContactProto(hContact);
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = DBEF_UTF;
+	if ((pre->flags & PREF_CREATEREAD) == PREF_CREATEREAD)
+		dbei.flags |= DBEF_READ;
+	if ((pre->flags & PREF_SENT) == PREF_SENT)
+		dbei.flags |= DBEF_SENT;
 	dbei.eventType = pre->lParam;
 	dbei.cbBlob = (DWORD)strlen(pre->szMessage) + 1;
 	dbei.pBlob = (PBYTE)pre->szMessage;
@@ -52,13 +57,12 @@ struct SendMessageParam
 {
 	MCONTACT hContact;
 	HANDLE hMessage;
-	char *clientMsgId;
 };
 
 // outcoming message flow
 int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessage)
 {
-	ULONG hMessage = InterlockedIncrement(&hMessageProcess);
+	time_t timestamp = time(NULL); //InterlockedIncrement(&hMessageProcess);
 
 	if (!IsOnline())
 	{
@@ -66,11 +70,9 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessa
 		return 0;
 	}
 
-	CMStringA clientMsgId(FORMAT, "%d000", time(NULL));
 	SendMessageParam *param = new SendMessageParam();
 	param->hContact = hContact;
-	param->hMessage = (HANDLE)hMessage;
-	param->clientMsgId = mir_strdup(clientMsgId);
+	param->hMessage = (HANDLE)timestamp;
 
 	ptrA message;
 	if (flags & PREF_UNICODE)
@@ -87,9 +89,9 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessa
 	{
 		// TODO: make /me action send when it will work in skype web
 	}
-	PushRequest(new SendMsgRequest(token, username, clientMsgId, message, server), &CSkypeProto::OnMessageSent, param);
+	PushRequest(new SendMsgRequest(token, username, timestamp, message, server), &CSkypeProto::OnMessageSent, param);
 
-	return hMessage;
+	return timestamp;
 }
 
 void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
@@ -97,7 +99,6 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	SendMessageParam *param = (SendMessageParam*)arg;
 	MCONTACT hContact = param->hContact;
 	HANDLE hMessage = param->hMessage;
-	ptrA clientMsgId(param->clientMsgId);
 	delete param;
 
 	if (response->resultCode != 200 && response->resultCode != 201)
@@ -129,12 +130,15 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 	if (strncmp(message, "/me ", 4) == 0)
 	{
 		evt->dbei->cbBlob = evt->dbei->cbBlob - 4;
-		PBYTE action = (PBYTE)mir_alloc(evt->dbei->cbBlob);
-		memcpy(action, &evt->dbei->pBlob[4], evt->dbei->cbBlob);
-		mir_free(evt->dbei->pBlob);
-		evt->dbei->pBlob = action;
+		memcpy(&evt->dbei->pBlob, &evt->dbei->pBlob[4], evt->dbei->cbBlob);
 		evt->dbei->eventType = SKYPE_DB_EVENT_TYPE_ACTION;
 	}
+	char messageId[20];
+	itoa(evt->seq, messageId, 10);
+	int messageIdLength = mir_strlen(messageId);
+	evt->dbei->pBlob = (PBYTE)mir_realloc(evt->dbei->pBlob, evt->dbei->cbBlob + messageIdLength);
+	memcpy((char *)&evt->dbei->pBlob[evt->dbei->cbBlob], messageId, messageIdLength);
+	evt->dbei->cbBlob += messageIdLength;
 
 	return 1;
 }
@@ -166,7 +170,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
 		{
 			int emoteOffset = json_as_int(json_get(message, "skypeemoteoffset"));
-			OnReceiveMessage(clientMsgId, from, conversationLink, timestamp, content, emoteOffset);
+			OnReceiveMessage(clientMsgId, from, conversationLink, timestamp, content, emoteOffset, true);
 		}
 	}
 }

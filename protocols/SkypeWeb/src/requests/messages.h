@@ -4,7 +4,7 @@
 class SendMsgRequest : public HttpRequest
 {
 public:
-	SendMsgRequest(const char *regToken, const char *username, const char *clientMsgId, const char *message, const char *server = "client-s.gateway.messenger.live.com") :
+	SendMsgRequest(const char *regToken, const char *username, time_t timestamp, const char *message, const char *server = "client-s.gateway.messenger.live.com") :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, username)
 	{
 		Headers
@@ -18,7 +18,7 @@ public:
 			<< CHAR_VALUE("Connection", "keep-alive");
 
 		CMStringA data;
-		data.AppendFormat("{\"clientmessageid\":\"%s\",\"content\":\"%s\",\"messagetype\":\"RichText\",\"contenttype\":\"text\"}", clientMsgId, message);
+		data.AppendFormat("{\"clientmessageid\":\"%lld\",\"content\":\"%s\",\"messagetype\":\"RichText\",\"contenttype\":\"text\"}", timestamp, message);
 
 		Body << VALUE(data);
 	}
@@ -43,7 +43,7 @@ public:
 		if (bstate) state = "Control/Typing";
 		else state = "Control/ClearTyping";
 		CMStringA data;
-		data.AppendFormat("{\"clienmessageid\":%d, \"content\":\"\", \"messagetype\":\"%s\", \"contenttype\":\"text\"}", time(NULL), state);
+		data.AppendFormat("{\"clienmessageid\":%lld, \"content\":\"\", \"messagetype\":\"%s\", \"contenttype\":\"text\"}", time(NULL), state);
 
 		Body << VALUE(data);
 	}
