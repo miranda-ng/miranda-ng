@@ -78,7 +78,6 @@ bool CSkypeProto::IsMe(const char *skypeName)
 
 char *CSkypeProto::MirandaToSkypeStatus(int status)
 {
-	char *result = "Online";
 	switch (status)
 	{
 	case ID_STATUS_AWAY:

@@ -1,21 +1,8 @@
 #ifndef _SKYPE_PROTO_H_
 #define _SKYPE_PROTO_H_
 
-struct SendMessageParam
-{
-	MCONTACT hContact;
-	HANDLE hMessage;
-	const char *msg;
-	int flags;
-};
-
-enum ARG_FREE_TYPE
-{
-	ARG_NO_FREE,
-	ARG_MIR_FREE
-};
-
 typedef void(CSkypeProto::*SkypeResponseCallback)(const NETLIBHTTPREQUEST *response);
+typedef void(CSkypeProto::*SkypeResponseWithArgCallback)(const NETLIBHTTPREQUEST *response, void *arg);
 
 struct CSkypeProto : public PROTO < CSkypeProto >
 {
@@ -116,7 +103,9 @@ private:
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
 
 	// requests
-	void PushRequest(HttpRequest *request, SkypeResponseCallback response = NULL);
+	void PushRequest(HttpRequest *request);
+	void PushRequest(HttpRequest *request, SkypeResponseCallback response);
+	void PushRequest(HttpRequest *request, SkypeResponseWithArgCallback response, void *arg);
 
 	// icons
 	static IconInfo Icons[];
@@ -184,10 +173,11 @@ private:
 	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
 
 	// messages
-	int OnReceiveMessage(const char *from, const char *convLink, time_t timeStamp, char *content);
+	int OnReceiveMessage(const char *from, const char *convLink, time_t timestamp, char *content);
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
 	void __cdecl CSkypeProto::SendMsgThread(void *arg);
 	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnGetServerHistory(const NETLIBHTTPREQUEST *response);
 	//polling
 	void __cdecl ParsePollData(JSONNODE *data);
 	void __cdecl PollingThread(void*);

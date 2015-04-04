@@ -216,7 +216,7 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 	{
 		PushRequest(new GetContactsInfoRequest(token, skypenames), &CSkypeProto::LoadContactsInfo);
 
-		for (size_t i = 0; i < skypenames.getCount(); i++)
+		for (int i = 0; i < skypenames.getCount(); i++)
 			mir_free(skypenames[i]);
 		skypenames.destroy();
 	}

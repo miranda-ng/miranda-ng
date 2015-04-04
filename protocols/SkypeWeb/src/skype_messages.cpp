@@ -3,89 +3,113 @@
 /* MESSAGE RECEIVING */
 
 // writing message/even into db
-int CSkypeProto::OnReceiveMessage(const char *from, const char *convLink, time_t timeStamp, char *content)
+int CSkypeProto::OnReceiveMessage(const char *from, const char *convLink, time_t timestamp, char *content)
 {
+	setDword("LastMsgTime", timestamp);
 	PROTORECVEVENT recv = { 0 };
 	recv.flags = PREF_UTF;
-	recv.timestamp = timeStamp;
+	recv.timestamp = timestamp;
 	recv.szMessage = content;
-	debugLogA("Incoming message from %s", ContactUrlToName(from));
-	if (IsMe(ContactUrlToName(from)))
+
+	ptrA skypename(ContactUrlToName(from));
+	debugLogA("Incoming message from %s", skypename);
+	if (IsMe(skypename))
 	{
 		recv.flags |= PREF_SENT;
 		MCONTACT hContact = GetContact(ContactUrlToName(convLink));
 		return ProtoChainRecvMsg(hContact, &recv);
 	}
-	MCONTACT hContact = GetContact(ContactUrlToName(from));
+	MCONTACT hContact = GetContact(skypename);
 	return ProtoChainRecvMsg(hContact, &recv);
 }
 
 /* MESSAGE SENDING */
 
+struct SendMessageParam
+{
+	MCONTACT hContact;
+	HANDLE hMessage;
+};
+
 // outcoming message flow
 int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessage)
 {
-	UINT hMessage = InterlockedIncrement(&hMessageProcess);
-
-	SendMessageParam *param = (SendMessageParam*)mir_calloc(sizeof(SendMessageParam));
-	param->hContact = hContact;
-	param->hMessage = (HANDLE)hMessage;
-	param->msg = szMessage;
-	param->flags = flags;
-
-	ForkThread(&CSkypeProto::SendMsgThread, (void*)param);
-
-	return hMessage;
-}
-
-void CSkypeProto::SendMsgThread(void *arg)
-{
-	SendMessageParam *param = (SendMessageParam*)arg;
+	ULONG hMessage = InterlockedIncrement(&hMessageProcess);
 
 	if (!IsOnline())
 	{
-		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hMessage, (LPARAM)Translate("You cannot send messages when you are offline."));
-		mir_free(param);
-		return;
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.");
+		return 0;
 	}
 
-	CMStringA message = (param->flags & PREF_UNICODE) ? ptrA(mir_utf8encode(param->msg)) : param->msg; // TODO: mir_utf8encode check taken from FacebookRM, is it needed? Usually we get PREF_UTF8 flag instead.
+	SendMessageParam *param = new SendMessageParam();
+	param->hContact = hContact;
+	param->hMessage = (HANDLE)hMessage;
 
+	ptrA message;
+	if (flags & PREF_UNICODE)
+		message = mir_utf8encodeW((wchar_t*)&szMessage[mir_strlen(szMessage) + 1]);
+	else if (flags & PREF_UTF)
+		message = mir_strdup(szMessage);
+	else
+		message = mir_utf8encode(szMessage);
+
+	ptrA server(getStringA("Server"));
 	ptrA token(getStringA("registrationToken"));
-	ptrA username(getStringA(param->hContact, "Skypename"));
-	PushRequest(
-		new SendMsgRequest(token, username, message, getStringA("Server"))/*,
-																		  &CSkypeProto::OnMessageSent*/);
+	ptrA username(getStringA(hContact, "Skypename"));
+	PushRequest(new SendMsgRequest(token, username, message, server), &CSkypeProto::OnMessageSent, param);
+
+	return hMessage;
 }
 
 void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	SendMessageParam *param = (SendMessageParam*)arg;
+	MCONTACT hContact = param->hContact;
+	HANDLE hMessage = param->hMessage;
+	delete param;
 
-	ptrT error(mir_tstrdup(TranslateT("Unknown error")));
-	ptrT username(getTStringA(param->hContact, "Skypename"));
-
-	if (response != NULL && (response->resultCode == 201 || response->resultCode == 200))
+	if (response->resultCode != 200 || response->resultCode != 201)
 	{
-		JSONROOT root(response->pData);
-		JSONNODE *node = json_get(root, "errorCode");
-		if (node)
-			error = json_as_string(node);
+		CMStringA error = "Unknown error";
+		if (response)
+		{
+			JSONROOT root(response->pData);
+			JSONNODE *node = json_get(root, "errorCode");
+			error = _T2A(json_as_string(node));
+		}
+		ptrT username(getTStringA(hContact, "Skypename"));
+		debugLogA(__FUNCTION__": failed to send message for %s (%s)", username, error);
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)error.GetBuffer());
+		return;
 	}
 
-	int status = ACKRESULT_FAILED;
+	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, 0);
+}
 
-	if (error == NULL)
+void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
+{
+	if (response == NULL)
+		return;
+
+	JSONROOT root(response->pData);
+	if (root == NULL)
+		return;
+
+	JSONNODE *conversations = json_as_array(json_get(root, "conversations"));
+	for (size_t i = 0; i < json_size(conversations); i++)
 	{
-		status = ACKRESULT_SUCCESS;
-	}
-	else
-		debugLog(_T("CSkypeProto::OnMessageSent: failed to send message for %s (%s)"), username, error);
+		JSONNODE *message = json_get(json_at(conversations, i), "lastMessage");
 
-	ProtoBroadcastAck(
-		param->hContact,
-		ACKTYPE_MESSAGE,
-		status,
-		param->hMessage,
-		error);
+		ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(message, "clientmessageid")))));
+		ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(message, "skypeeditedid")))));
+		ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(message, "messagetype")))));
+		ptrA from(mir_t2a(ptrT(json_as_string(json_get(message, "from")))));
+		ptrA content(mir_t2a(ptrT(json_as_string(json_get(message, "content")))));
+		ptrT composeTime(json_as_string(json_get(message, "composetime")));
+		ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(message, "conversationLink")))));
+		time_t timestamp = IsoToUnixTime(composeTime);
+		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
+			OnReceiveMessage(from, conversationLink, timestamp, content);
+	}
 }

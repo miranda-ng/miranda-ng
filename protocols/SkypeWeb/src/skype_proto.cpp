@@ -141,7 +141,15 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		isTerminated = true;
 		//if (m_pollingConnection)
 		//	CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
-		PushRequest(new LogoutRequest());
+		LogoutRequest *logoutRequest = new LogoutRequest();
+		if (!cookies.empty())
+		{
+			CMStringA allCookies;
+			for (std::map<std::string, std::string>::iterator cookie = cookies.begin(); cookie != cookies.end(); ++cookie)
+				allCookies.AppendFormat("%s=%s; ", cookie->first.c_str(), cookie->second.c_str());
+			logoutRequest->Headers << CHAR_VALUE("Set-Cookie", allCookies);
+		}
+		PushRequest(logoutRequest);
 		requestQueue->Stop();
 
 		if (!Miranda_Terminated())
