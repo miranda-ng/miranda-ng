@@ -196,7 +196,7 @@ int CVkProto::PollServer()
 	if (reply->resultCode == 200) {
 		JSONROOT pRoot(reply->pData);
 		JSONNODE *pFailed = json_get(pRoot, "failed");
-		if (pFailed != NULL && json_as_int(pFailed) == 2) {
+		if (pFailed != NULL && json_as_int(pFailed) > 1) {
 			RetrievePollingInfo();
 			retVal = -1;
 			debugLogA("Polling key expired, restarting polling thread");
