@@ -174,7 +174,7 @@ private:
 	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
 
 	// messages
-	int OnReceiveMessage(const char *messageId, const char *from, const char *to, time_t timestamp, char *content, int emoteOffset = 0);
+	int OnReceiveMessage(const char *messageId, const char *from, const char *to, time_t timestamp, char *content, int emoteOffset = 0, bool isRead = false);
 	int SaveMessageToDb(MCONTACT hContact, PROTORECVEVENT *pre);
 
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
