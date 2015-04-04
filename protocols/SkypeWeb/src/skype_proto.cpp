@@ -104,6 +104,11 @@ HWND CSkypeProto::SearchAdvanced(HWND owner) { return 0; }
 
 HWND CSkypeProto::CreateExtendedSearchUI(HWND owner) { return 0; }
 
+int CSkypeProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
+{
+	return SaveMessageToDb(hContact, pre);
+}
+
 int CSkypeProto::RecvContacts(MCONTACT, PROTORECVEVENT*) { return 0; }
 
 int CSkypeProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT *pre) { return 0; }

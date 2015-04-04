@@ -76,13 +76,13 @@ void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node)
 void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 {
 	ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(node, "clientmessageid")))));
-	ptrA skypeeditedid(mir_t2a(ptrT(json_as_string(json_get(node, "skypeeditedid")))));
-	ptrA messagetype(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
+	ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(node, "skypeeditedid")))));
+	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 	ptrA from(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
 	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
-	TCHAR *composeTime = json_as_string (json_get(node, "composetime"));
+	ptrT composeTime(json_as_string (json_get(node, "composetime")));
 	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
-	time_t timeStamp = IsoToUnixTime(composeTime);
+	time_t timestamp = IsoToUnixTime(composeTime);
 	char *convname;
 	if (strstr(conversationLink, "/19:"))
 		{
@@ -93,21 +93,22 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 		}
 	else if (strstr(conversationLink, "/8:"))
 	{
-		if (!mir_strcmpi(messagetype, "Control/Typing"))
+		if (!mir_strcmpi(messageType, "Control/Typing"))
 		{
 			MCONTACT hContact = GetContact(ContactUrlToName(from));
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
 		}
-		else if (!mir_strcmpi(messagetype, "Control/ClearTyping"))
+		else if (!mir_strcmpi(messageType, "Control/ClearTyping"))
 		{
 			MCONTACT hContact = GetContact(ContactUrlToName(from));
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, 0);
 		}
-		else if (!mir_strcmpi(messagetype, "Text") || !mir_strcmpi(messagetype, "RichText")) 
+		else if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 		{
-			OnReceiveMessage(from, conversationLink, timeStamp, content);
+			int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
+			OnReceiveMessage(clientMsgId, from, conversationLink, timestamp, content, emoteOffset);
 		}
-		else if (!mir_strcmpi(messagetype, "Event/SkypeVideoMessage"))
+		else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage"))
 		{
 			return; //not supported
 		}

@@ -2,25 +2,48 @@
 
 /* MESSAGE RECEIVING */
 
-// writing message/even into db
-int CSkypeProto::OnReceiveMessage(const char *from, const char *convLink, time_t timestamp, char *content)
+// incoming message flow
+int CSkypeProto::OnReceiveMessage(const char *messageId, const char *from, const char *to, time_t timestamp, char *content, int emoteOffset)
 {
 	setDword("LastMsgTime", timestamp);
 	PROTORECVEVENT recv = { 0 };
 	recv.flags = PREF_UTF;
 	recv.timestamp = timestamp;
-	recv.szMessage = content;
+	recv.szMessage = &content[emoteOffset];
+	recv.lParam = emoteOffset == 0
+		? EVENTTYPE_MESSAGE
+		: SKYPE_DB_EVENT_TYPE_ACTION;
+	recv.pCustomData = (void*)messageId;
+	recv.cbCustomDataSize = mir_strlen(messageId);
 
 	ptrA skypename(ContactUrlToName(from));
 	debugLogA("Incoming message from %s", skypename);
 	if (IsMe(skypename))
 	{
 		recv.flags |= PREF_SENT;
-		MCONTACT hContact = GetContact(ContactUrlToName(convLink));
+		MCONTACT hContact = GetContact(ptrA(ContactUrlToName(to)));
 		return ProtoChainRecvMsg(hContact, &recv);
 	}
 	MCONTACT hContact = GetContact(skypename);
 	return ProtoChainRecvMsg(hContact, &recv);
+}
+
+// writing message/even into db
+int CSkypeProto::SaveMessageToDb(MCONTACT hContact, PROTORECVEVENT *pre)
+{
+	//return Proto_RecvMessage(hContact, pre);
+	if (pre->szMessage == NULL)
+		return NULL;
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.szModule = GetContactProto(hContact);
+	dbei.timestamp = pre->timestamp;
+	dbei.flags = DBEF_UTF;
+	dbei.eventType = pre->lParam;
+	dbei.cbBlob = (DWORD)strlen(pre->szMessage) + 1;
+	dbei.pBlob = (PBYTE)pre->szMessage;
+
+	return (INT_PTR)db_event_add(hContact, &dbei);
 }
 
 /* MESSAGE SENDING */
@@ -29,6 +52,7 @@ struct SendMessageParam
 {
 	MCONTACT hContact;
 	HANDLE hMessage;
+	char *clientMsgId;
 };
 
 // outcoming message flow
@@ -42,9 +66,11 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessa
 		return 0;
 	}
 
+	CMStringA clientMsgId(FORMAT, "%d000", time(NULL));
 	SendMessageParam *param = new SendMessageParam();
 	param->hContact = hContact;
 	param->hMessage = (HANDLE)hMessage;
+	param->clientMsgId = mir_strdup(clientMsgId);
 
 	ptrA message;
 	if (flags & PREF_UNICODE)
@@ -57,7 +83,11 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessa
 	ptrA server(getStringA("Server"));
 	ptrA token(getStringA("registrationToken"));
 	ptrA username(getStringA(hContact, "Skypename"));
-	PushRequest(new SendMsgRequest(token, username, message, server), &CSkypeProto::OnMessageSent, param);
+	if (strncmp(message, "/me ", 4) == 0)
+	{
+		// TODO: make /me action send when it will work in skype web
+	}
+	PushRequest(new SendMsgRequest(token, username, clientMsgId, message, server), &CSkypeProto::OnMessageSent, param);
 
 	return hMessage;
 }
@@ -67,9 +97,10 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	SendMessageParam *param = (SendMessageParam*)arg;
 	MCONTACT hContact = param->hContact;
 	HANDLE hMessage = param->hMessage;
+	ptrA clientMsgId(param->clientMsgId);
 	delete param;
 
-	if (response->resultCode != 200 || response->resultCode != 201)
+	if (response->resultCode != 200 && response->resultCode != 201)
 	{
 		CMStringA error = "Unknown error";
 		if (response)
@@ -86,6 +117,29 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 
 	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, 0);
 }
+
+// preparing message/action to writing into db
+int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
+{
+	MessageWindowEvent *evt = (MessageWindowEvent*)lParam;
+	if (mir_strcmp(GetContactProto(evt->hContact), m_szModuleName))
+		return 0;
+
+	char *message = (char*)evt->dbei->pBlob;
+	if (strncmp(message, "/me ", 4) == 0)
+	{
+		evt->dbei->cbBlob = evt->dbei->cbBlob - 4;
+		PBYTE action = (PBYTE)mir_alloc(evt->dbei->cbBlob);
+		memcpy(action, &evt->dbei->pBlob[4], evt->dbei->cbBlob);
+		mir_free(evt->dbei->pBlob);
+		evt->dbei->pBlob = action;
+		evt->dbei->eventType = SKYPE_DB_EVENT_TYPE_ACTION;
+	}
+
+	return 1;
+}
+
+/* HISTORY SYNC */
 
 void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 {
@@ -110,6 +164,9 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(message, "conversationLink")))));
 		time_t timestamp = IsoToUnixTime(composeTime);
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
-			OnReceiveMessage(from, conversationLink, timestamp, content);
+		{
+			int emoteOffset = json_as_int(json_get(message, "skypeemoteoffset"));
+			OnReceiveMessage(clientMsgId, from, conversationLink, timestamp, content, emoteOffset);
+		}
 	}
 }

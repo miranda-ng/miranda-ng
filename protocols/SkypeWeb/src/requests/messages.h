@@ -4,7 +4,7 @@
 class SendMsgRequest : public HttpRequest
 {
 public:
-	SendMsgRequest(const char *regToken, const char *username, const char *message, const char *server = "client-s.gateway.messenger.live.com") :
+	SendMsgRequest(const char *regToken, const char *username, const char *clientMsgId, const char *message, const char *server = "client-s.gateway.messenger.live.com") :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, username)
 	{
 		Headers
@@ -18,7 +18,7 @@ public:
 			<< CHAR_VALUE("Connection", "keep-alive");
 
 		CMStringA data;
-		data.AppendFormat("{\"clientmessageid\":\"\",\"content\":\"%s\",\"messagetype\":\"RichText\",\"contenttype\":\"text\"}", message);
+		data.AppendFormat("{\"clientmessageid\":\"%s\",\"content\":\"%s\",\"messagetype\":\"RichText\",\"contenttype\":\"text\"}", clientMsgId, message);
 
 		Body << VALUE(data);
 	}
@@ -27,7 +27,7 @@ public:
 class SendTypingRequest : public HttpRequest
 {
 public:
-	SendTypingRequest(const char *regToken, const char *username,bool bstate, const char *server = "client-s.gateway.messenger.live.com") :
+	SendTypingRequest(const char *regToken, const char *username, bool bstate, const char *server = "client-s.gateway.messenger.live.com") :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, mir_urlEncode(username))
 	{
 		Headers

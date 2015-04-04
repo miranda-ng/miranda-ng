@@ -68,4 +68,6 @@ extern HINSTANCE g_hInstance;
 #define SKYPE_SETTINGS_PASSWORD "Password"
 #define SKYPE_SETTINGS_GROUP "DefaultGroup"
 
+#define SKYPE_DB_EVENT_TYPE_ACTION 10001
+
 #endif //_COMMON_H_
