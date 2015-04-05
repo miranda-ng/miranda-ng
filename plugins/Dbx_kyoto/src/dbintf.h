@@ -246,6 +246,8 @@ protected:
 	CTable    m_dbEvents, m_dbEventsSort;
 	DWORD     m_dwMaxEventId, m_tsLast;
 	MEVENT    m_evLast;
+	
+	TreeDB::Cursor *m_evCursor;
 
 	void      FindNextUnread(DBCachedContact *cc, DBEventSortingKey &key2);
 
