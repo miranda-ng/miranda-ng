@@ -10,10 +10,6 @@ public:
 		Headers
 			<< CHAR_VALUE("X-Skypetoken", token)
 			<< CHAR_VALUE("Accept", "application/json");
-
-
-		//AddHeader("Origin", "https://web.skype.com");
-		//AddHeader("Referer", "https://web.skype.com/main");
 	}
 };
 

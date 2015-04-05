@@ -58,11 +58,12 @@ void CSkypeProto::PollingThread(void*)
 	{
 		PollRequest *request = new PollRequest(regToken, server);
 			NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
+			m_pollingConnection = request->nlc;
 			delete request;
+			
 
 		if (response != NULL)
 		{
-			m_pollingConnection = response->nlc;
 			JSONROOT root(response->pData);
 			if (json_get(root, "errorCode") != NULL)
 			{
