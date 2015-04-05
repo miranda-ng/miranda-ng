@@ -99,14 +99,13 @@ struct DBEvent
 
 struct DBEventSortingKey
 {
-	DWORD dwContactId, ts, dwEventId;
+	uint32_t dwContactId, ts, dwEventId;
 };
 
 struct DBSettingSortingKey
 {
-	DWORD dwContactID;
-	DWORD dwOfsModule;
-	char  szSettingName[100];
+	uint32_t dwContactID, dwOfsModule;
+	char     szSettingName[100];
 };
 
 struct DBCachedContact : public DBCachedContactBase

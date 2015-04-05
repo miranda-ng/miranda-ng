@@ -120,7 +120,7 @@ LBL_Seek:
 	strncpy_s(keySearch.szSettingName, szSetting, _TRUNCATE);
 
 	char *rec = (char*)_alloca(65536);
-	if (-1 == m_dbSettings.get((LPCSTR)&keySearch, 2 * sizeof(DWORD) + settingNameLen, rec, 65536)) {
+	if (-1 == m_dbSettings.get((LPCSTR)&keySearch, 2 * sizeof(DWORD) + settingNameLen+1, rec, 65536)) {
 		// try to get the missing mc setting from the active sub
 		if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
 			if (contactID = db_mc_getDefault(contactID)) {
@@ -503,7 +503,7 @@ STDMETHODIMP_(BOOL) CDbxKyoto::WriteContactSetting(MCONTACT contactID, DBCONTACT
 		*(WORD*)pBlob = dbcwWork.value.cpbVal;
 		memcpy(pBlob+2, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
 	}
-	m_dbSettings.set((LPCSTR)&keySearch, 2 * sizeof(DWORD) + settingNameLen, recData, recSize);
+	m_dbSettings.set((LPCSTR)&keySearch, 2 * sizeof(DWORD) + settingNameLen+1, recData, recSize);
 	lck.unlock();
 
 	// notify
@@ -541,7 +541,7 @@ STDMETHODIMP_(BOOL) CDbxKyoto::DeleteContactSetting(MCONTACT contactID, LPCSTR s
 			keySearch.dwContactID = contactID;
 			keySearch.dwOfsModule = GetModuleNameOfs(szModule);
 			strncpy_s(keySearch.szSettingName, szSetting, _TRUNCATE);
-			if (!m_dbSettings.remove((LPCSTR)&keySearch, 2 * sizeof(DWORD) + settingNameLen))
+			if (!m_dbSettings.remove((LPCSTR)&keySearch, 2 * sizeof(DWORD) + settingNameLen+1))
 				return 1;
 		}
 
@@ -576,13 +576,17 @@ STDMETHODIMP_(BOOL) CDbxKyoto::EnumContactSettings(MCONTACT contactID, DBCONTACT
 	while (cursor->step()) {
 		size_t size, keySize;
 		const char *pRec, *key = cursor->get(&keySize, &pRec, &size);
-		DBSettingSortingKey *pKey = (DBSettingSortingKey*)key;
-		if (pKey->dwContactID != contactID || pKey->dwOfsModule != keySearch.dwOfsModule)
+		if (key == NULL)
 			break;
 
-		char szSetting[256];
-		strncpy_s(szSetting, pKey->szSettingName, keySize - sizeof(DWORD) * 2);
-		result = (dbces->pfnEnumProc)(szSetting, dbces->lParam);
+		DBSettingSortingKey *pKey = (DBSettingSortingKey*)key;
+		if (pKey->dwContactID != contactID || pKey->dwOfsModule != keySearch.dwOfsModule) {
+			delete[] pKey;
+			break;
+		}
+
+		result = (dbces->pfnEnumProc)(pKey->szSettingName, dbces->lParam);
+		delete[] pKey;
 	}
 
 	return result;
