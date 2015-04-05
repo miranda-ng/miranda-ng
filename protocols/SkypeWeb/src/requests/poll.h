@@ -7,7 +7,7 @@ public:
 	PollRequest(const char *regToken, const char *server = "client-s.gateway.messenger.live.com") :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints/SELF/subscriptions/0/poll", server)
 	{
-		//timeout = 30 * 1000;
+		timeout = INFINITE;
 		flags |= NLHRF_PERSISTENT;
 		Headers 
 			<< CHAR_VALUE("Connection", "keep-alive")
