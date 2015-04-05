@@ -71,6 +71,7 @@
 #define IDI_TLEN_OVERLAY                88
 #define IDI_YAHOO_OVERLAY               89
 #define IDI_VK_OVERLAY                  90
+#define IDI_SKYPE_OVERLAY               91
 #define IDI_SECUREIM_OVERLAY            95
 #define IDI_NEWGPG_OVERLAY              96
 #define IDI_MIROTR_OVERLAY              97

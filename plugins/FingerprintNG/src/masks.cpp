@@ -703,9 +703,10 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_Tlen_overlay", _T("|^tlen*|*tlen*"), LPGENT("Tlen.pl overlay"), IDI_TLEN_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_Yahoo_overlay", _T("|^Yahoo*|*yahoo*"), LPGENT("Yahoo overlay"), IDI_YAHOO_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_MRA_overlay", _T("|^MRA*|^Mail.ru*")
-	_T("|*MRA*|*Mail.ru*IM*|Mrim*")
-	_T("|*DRQZ00fz5WPn1gH+*|*nxthUwJANorB6+*"), LPGENT("Mail.Ru Agent overlay"), IDI_MAILRU_OVERLAY, OVERLAYS_PROTO_CASE },
+							_T("|*MRA*|*Mail.ru*IM*|Mrim*")
+							_T("|*DRQZ00fz5WPn1gH+*|*nxthUwJANorB6+*"), LPGENT("Mail.Ru Agent overlay"), IDI_MAILRU_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_VK_overlay", _T("|Miranda*VKontakte*"), LPGENT("VK overlay"), IDI_VK_OVERLAY, OVERLAYS_PROTO_CASE },
+	{ "client_Skype_overlay", _T("|Miranda*Skype*"), LPGENT("Skype overlay"), IDI_SKYPE_OVERLAY, OVERLAYS_PROTO_CASE },
 
 	//#########################################################################################################################################################################
 	//#################################   CLIENT VERSION OVERLAYS   ###########################################################################################################
