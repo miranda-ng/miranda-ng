@@ -604,7 +604,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	//#########################################################################################################################################################################
 	//#################################   OTHER CLIENTS   #####################################################################################################################
 	//#########################################################################################################################################################################
-	{ "client_Android", _T("*Android*"), _T("Android"), IDI_ANDROID, MULTI_CASE, TRUE },
+	{ "client_Android", _T("Android*"), _T("Android"), IDI_ANDROID, MULTI_CASE, TRUE },
 
 	{ "client_Pidgin", _T("|*Pidgin*|*libpurple*|Purple*"), _T("Pidgin (libpurple)"), IDI_PIDGIN, MULTI_CASE },
 
@@ -620,7 +620,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 
 	{ "client_Twitter", _T("*Twitter*"), _T("Twitter"), IDI_TWITTER, OTHER_PROTOS_CASE, TRUE },
 
-	{ "client_Skype", _T("*Skype**"), _T("Skype"), IDI_SKYPE, OTHER_PROTOS_CASE, TRUE },
+	{ "client_Skype", _T("*Skype**"), _T("Skype"), IDI_SKYPE, OTHER_PROTOS_CASE },
 
 	{ "client_Xfire", _T("*Xfire*"), _T("Xfire"), IDI_XFIRE, OTHER_PROTOS_CASE, TRUE },
 	
@@ -749,7 +749,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	//#################################   PLATFORM OVERLAYS   #################################################################################################################
 	//#########################################################################################################################################################################
 	{ "client_on_Win32", _T("|*Win*|* WM *|wmagent*|*Vista*"), LPGENT("Windows overlay"), IDI_PLATFORM_WIN, OVERLAYS_PLATFORM_CASE },
-	{ "client_on_iOS", _T("|*ipad*|*iphone*"), LPGENT("iOS overlay (iPhone/iPad)"), IDI_PLATFORM_IOS, OVERLAYS_PLATFORM_CASE },
+	{ "client_on_iOS", _T("|*ipad*|*iphone*|*iOS*"), LPGENT("iOS overlay (iPhone/iPad)"), IDI_PLATFORM_IOS, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_Mac", _T("|^*smack*|* Mac *|*mac*"), LPGENT("MacOS overlay"), IDI_PLATFORM_MAC, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_Linux", _T("*Linux*"), LPGENT("Linux overlay"), IDI_PLATFORM_LINUX, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_Flash", _T("|*Flash*|*Web*ICQ*"), LPGENT("Flash overlay"), IDI_PLATFORM_FLASH, OVERLAYS_PLATFORM_CASE },
@@ -757,8 +757,8 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_on_Symbian", _T("|*Symbian*|sagent*"), LPGENT("Symbian overlay"), IDI_PLATFORM_SYMBIAN, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_Amiga", _T("*Amiga*"), LPGENT("Amiga overlay"), IDI_PLATFORM_AMIGA, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_Android", _T("|*Android*|*(android)*"), LPGENT("Android overlay"), IDI_PLATFORM_ANDROID, OVERLAYS_PLATFORM_CASE },
-	{ "client_on_Website", _T("*(website)*"), LPGENT("Website overlay"), IDI_PLATFORM_WEBSITE, OVERLAYS_PLATFORM_CASE },
-	{ "client_on_WinPhone", _T("*(wphone)*"), LPGENT("Windows Phone overlay"), IDI_PLATFORM_WINPHONE, OVERLAYS_PLATFORM_CASE },
+	{ "client_on_Website", _T("|*(website)*|*(Web)*"), LPGENT("Website overlay"), IDI_PLATFORM_WEBSITE, OVERLAYS_PLATFORM_CASE },
+	{ "client_on_WinPhone", _T("|*(wphone)*|*(WP)*"), LPGENT("Windows Phone overlay"), IDI_PLATFORM_WINPHONE, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_mobile", _T("*(mobile)*"), LPGENT("Mobile overlay"), IDI_PLATFORM_MOBILE, OVERLAYS_PLATFORM_CASE },
 };
 
