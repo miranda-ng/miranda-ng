@@ -34,7 +34,6 @@ static void SkypeHttpResponse(const NETLIBHTTPREQUEST *response, void *arg)
 void CSkypeProto::PushRequest(HttpRequest *request)
 {
 	requestQueue->Push(request);
-	return;
 }
 
 void CSkypeProto::PushRequest(HttpRequest *request, SkypeResponseCallback response)

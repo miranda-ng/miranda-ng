@@ -128,7 +128,7 @@ int CSkypeProto::SendContacts(MCONTACT, int, int, MCONTACT*) { return 0; }
 HANDLE CSkypeProto::SendFile(MCONTACT hContact, const PROTOCHAR *szDescription, PROTOCHAR **ppszFiles) { return 0; }
 
 int CSkypeProto::SendMsg(MCONTACT hContact, int flags, const char *msg) 
-{ 
+{
 	return OnSendMessage(hContact, flags, msg);
 }
 

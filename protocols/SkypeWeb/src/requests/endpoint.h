@@ -17,11 +17,12 @@ public:
 			<< CHAR_VALUE("Origin", "https://web.skype.com")
 			<< CHAR_VALUE("Connection", "keep-alive");
 		CMStringA data;
+
+		int bitness = 32;
 #ifdef _WIN64
-		data.AppendFormat ("{\"id\":\"messagingService\",\"type\":\"EndpointPresenceDoc\",\"selfLink\":\"uri\",\"privateInfo\":{\"epname\":\"Miranda\"},\"publicInfo\":{\"capabilities\":\"\",\"typ\":125,\"skypeNameVersion\":\"Miranda NG Skype\",\"nodeInfo\":\"xx\",\"version\":\"%s x64\"}}", MIRANDA_VERSION_STRING);
-#else
-		data.AppendFormat("{\"id\":\"messagingService\",\"type\":\"EndpointPresenceDoc\",\"selfLink\":\"uri\",\"privateInfo\":{\"epname\":\"Miranda\"},\"publicInfo\":{\"capabilities\":\"\",\"typ\":125,\"skypeNameVersion\":\"Miranda NG Skype\",\"nodeInfo\":\"xx\",\"version\":\"%s x86\"}}", MIRANDA_VERSION_STRING);
+		bitness = 64;
 #endif
+		data.AppendFormat("{\"id\":\"messagingService\",\"type\":\"EndpointPresenceDoc\",\"selfLink\":\"uri\",\"privateInfo\":{\"epname\":\"Miranda\"},\"publicInfo\":{\"capabilities\":\"\",\"typ\":125,\"skypeNameVersion\":\"Miranda NG Skype\",\"nodeInfo\":\"xx\",\"version\":\"%s x%d\"}}", MIRANDA_VERSION_STRING, bitness);
 		Body <<
 			VALUE(data);
 	}
