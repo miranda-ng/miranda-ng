@@ -351,7 +351,7 @@ STDMETHODIMP_(MEVENT) CDbxKyoto::FindPrevEvent(MCONTACT contactID, MEVENT hDbEve
 	DBEventSortingKey keyVal = { contactID, ts, hDbEvent - 1 }, *pKey;
 	{
 		mir_cslock lck(m_csDbAccess);
-		cursor->jump_back((LPCSTR)&keyVal, sizeof(keyVal));
+		m_evCursor->jump_back((LPCSTR)&keyVal, sizeof(keyVal));
 		pKey = (DBEventSortingKey*)m_evCursor->get_key(&size);
 	}
 
