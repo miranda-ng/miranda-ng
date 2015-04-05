@@ -178,10 +178,10 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	if (root == NULL)
 		return;
 
-	JSONNODE *conversations = json_as_array(json_get(root, "conversations"));
+	JSONNODE *conversations = json_as_array(json_get(root, "messages"));
 	for (size_t i = 0; i < json_size(conversations); i++)
 	{
-		JSONNODE *message = json_get(json_at(conversations, i), "lastMessage");
+		JSONNODE *message = json_at(conversations, i);
 
 		ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(message, "clientmessageid")))));
 		ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(message, "skypeeditedid")))));
@@ -210,4 +210,10 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 			AddMessageToDb(hContact, timestamp, flags, clientMsgId, content, emoteOffset);
 		}
 	}
+}
+
+INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM lParam)
+{
+	PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), ptrA(db_get_sa(hContact, m_szModuleName, "Skypename")), ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
+	return 0;
 }

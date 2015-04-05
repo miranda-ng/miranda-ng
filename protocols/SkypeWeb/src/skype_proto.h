@@ -170,6 +170,7 @@ private:
 
 	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl OnGrantAuth(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl GetContactHistory(WPARAM hContact, LPARAM lParam);
 
 	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
 

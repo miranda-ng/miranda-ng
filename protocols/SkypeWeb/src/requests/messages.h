@@ -42,8 +42,8 @@ public:
 class GetHistoryRequest : public HttpRequest
 {
 public:
-	GetHistoryRequest(const char *regToken, int time, const char *server = "client-s.gateway.messenger.live.com") :
-		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations?startTime=%d&pageSize=100&view=msnp24Equivalent&targetType=Passport|Skype|Lync|Thread", server, time)
+	GetHistoryRequest(const char *regToken, const char *username/* int time*/, const char *server = "client-s.gateway.messenger.live.com") :
+		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages?startTime=0&pageSize=100&view=msnp24Equivalent&targetType=Passport|Skype|Lync|Thread", server, mir_urlEncode(username)/*, time*/)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")

@@ -137,8 +137,6 @@ void CSkypeProto::OnGetRegInfo(const NETLIBHTTPREQUEST *response)
 	m_iStatus = m_iDesiredStatus;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
 	PushRequest(new SetStatusRequest(ptrA(getStringA("registrationToken")), MirandaToSkypeStatus(m_iStatus), getStringA("Server")), &CSkypeProto::OnSetStatus);
-	PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), getDword("LastMsgTime", time(NULL)), ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
-
 }
 
 void CSkypeProto::OnGetEndpoint(const NETLIBHTTPREQUEST *response)
