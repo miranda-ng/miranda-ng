@@ -25,18 +25,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define DBHEADER_SIGNATURE _T("KyotoCabinet")
 
+#define CMP_UINT32(A,B) if(A!=B) return (A<B)?-1:1;
+
 struct SettingsComparator : public Comparator
 {
 	SettingsComparator() {}
 	virtual int32_t compare(const char *akbuf, size_t, const char *bkbuf, size_t)
 	{
 		DBSettingSortingKey *k1 = (DBSettingSortingKey*)akbuf, *k2 = (DBSettingSortingKey*)bkbuf;
-		if (k1->dwContactID < k2->dwContactID) return -1;
-		if (k1->dwContactID > k2->dwContactID) return 1;
-
-		if (k1->dwOfsModule < k2->dwOfsModule) return -1;
-		if (k1->dwOfsModule > k2->dwOfsModule) return 1;
-
+		CMP_UINT32(k1->dwContactID, k2->dwContactID);
+		CMP_UINT32(k1->dwOfsModule, k2->dwOfsModule);
 		return strcmp(k1->szSettingName, k2->szSettingName);
 	}
 }
@@ -48,15 +46,9 @@ struct EventsComparator : public Comparator
 	virtual int32_t compare(const char *akbuf, size_t, const char *bkbuf, size_t)
 	{
 		DBEventSortingKey *k1 = (DBEventSortingKey*)akbuf, *k2 = (DBEventSortingKey*)bkbuf;
-		if (k1->dwContactId < k2->dwContactId) return -1;
-		if (k1->dwContactId > k2->dwContactId) return 1;
-
-		if (k1->ts < k2->ts) return -1;
-		if (k1->ts > k2->ts) return 1;
-
-		if (k1->dwEventId < k2->dwEventId) return -1;
-		if (k1->dwEventId > k2->dwEventId) return 1;
-
+		CMP_UINT32(k1->dwContactId, k2->dwContactId);
+		CMP_UINT32(k1->ts, k2->ts);
+		CMP_UINT32(k1->dwEventId, k2->dwEventId);
 		return 0;
 	}
 }
@@ -137,7 +129,7 @@ CDbxKyoto::~CDbxKyoto()
 int CDbxKyoto::Load(bool bSkipInit)
 {
 	if (!bSkipInit) {
-		int iFlags = TreeDB::OREADER | TreeDB::ONOREPAIR;
+		int iFlags = TreeDB::OREADER | TreeDB::ONOREPAIR | TreeDB::OCREATE;
 		if (!m_bReadOnly)
 			iFlags |= TreeDB::OWRITER;
 
@@ -206,19 +198,8 @@ int CDbxKyoto::Load(bool bSkipInit)
 
 int CDbxKyoto::Create(void)
 {
-	int iFlags = TreeDB::OREADER | TreeDB::OCREATE;
-	if (!m_bReadOnly)
-		iFlags |= TreeDB::OWRITER;
-
 	WritePrivateProfileString(_T("Database"), _T("Version"), _T("1"), m_tszProfileName);
 	WritePrivateProfileString(_T("Database"), _T("Signature"), DBHEADER_SIGNATURE, m_tszProfileName);
-
-	std::string szFilename((char*)_T2A(m_tszProfileName));
-	if (!m_dbContacts.open(szFilename + ".cnt", iFlags)) return EGROKPRF_DAMAGED;
-	if (!m_dbModules.open(szFilename + ".mod", iFlags)) return EGROKPRF_DAMAGED;
-	if (!m_dbEvents.open(szFilename + ".evt", iFlags)) return EGROKPRF_DAMAGED;
-	if (!m_dbEventsSort.open(szFilename + ".evs", iFlags)) return EGROKPRF_DAMAGED;
-	if (!m_dbSettings.open(szFilename + ".set", iFlags)) return EGROKPRF_DAMAGED;
 	return 0;
 }
 
