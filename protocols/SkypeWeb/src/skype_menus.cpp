@@ -19,6 +19,7 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 	Menu_ShowItem(ContactMenuItems[CMI_AUTH_REQUEST], isCtrlPressed || isAuthNeed);
 	Menu_ShowItem(ContactMenuItems[CMI_AUTH_GRANT], isCtrlPressed || isGrantNeed);
+	Menu_ShowItem(ContactMenuItems[CMI_GETSERVERHISTORY], true);
 
 	return 0;
 }
@@ -55,6 +56,13 @@ void CSkypeProto::InitMenus()
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_GRANT);
 	ContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::OnGrantAuth>);
+
+	mi.pszService = MODULE"/GetHistory";
+	mi.ptszName = LPGENT("Get server history");
+	mi.position = CMI_POSITION + CMI_GETSERVERHISTORY;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_GRANT);
+	ContactMenuItems[CMI_GETSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::GetContactHistory>);
 }
 
 void CSkypeProto::UninitMenus()
