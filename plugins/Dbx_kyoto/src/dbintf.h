@@ -261,6 +261,7 @@ protected:
 	HANDLE    hEventAddedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
 	MCONTACT  m_hLastCachedContact;
 	int       m_maxModuleID;
+	ModuleName *m_lastmn;
 
 	void      AddToList(char *name, DWORD ofs);
 	DWORD     FindExistingModuleNameOfs(const char *szName);

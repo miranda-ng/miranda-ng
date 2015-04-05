@@ -77,7 +77,7 @@ class StashDB : public BasicDB {
      */
     explicit Cursor(StashDB* db) : db_(db), bidx_(-1), rbuf_(NULL) {
       _assert_(db);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       db_->curs_.push_back(this);
     }
     /**
@@ -86,7 +86,7 @@ class StashDB : public BasicDB {
     virtual ~Cursor() {
       _assert_(true);
       if (!db_) return;
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       db_->curs_.remove(this);
     }
     /**
@@ -101,7 +101,7 @@ class StashDB : public BasicDB {
      */
     bool accept(Visitor* visitor, bool writable = true, bool step = false) {
       _assert_(visitor);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -135,7 +135,7 @@ class StashDB : public BasicDB {
      */
     bool jump() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -161,7 +161,7 @@ class StashDB : public BasicDB {
      */
     bool jump(const char* kbuf, size_t ksiz) {
       _assert_(kbuf && ksiz <= MEMMAXSIZ);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -196,7 +196,7 @@ class StashDB : public BasicDB {
      */
     bool jump_back() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -210,7 +210,7 @@ class StashDB : public BasicDB {
      */
     bool jump_back(const char* kbuf, size_t ksiz) {
       _assert_(kbuf && ksiz <= MEMMAXSIZ);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -224,7 +224,7 @@ class StashDB : public BasicDB {
      */
     bool jump_back(const std::string& key) {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -238,7 +238,7 @@ class StashDB : public BasicDB {
      */
     bool step() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -257,7 +257,7 @@ class StashDB : public BasicDB {
      */
     bool step_back() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -310,7 +310,7 @@ class StashDB : public BasicDB {
    * Default constructor.
    */
   explicit StashDB() :
-      mlock_(), rlock_(RLOCKSLOT), flock_(), error_(),
+      flock_(), error_(),
       logger_(NULL), logkinds_(0), mtrigger_(NULL),
       omode_(0), curs_(), path_(""), bnum_(DEFBNUM), opaque_(),
       count_(0), size_(0), buckets_(NULL),
@@ -347,7 +347,7 @@ class StashDB : public BasicDB {
    */
   bool accept(const char* kbuf, size_t ksiz, Visitor* visitor, bool writable = true) {
     _assert_(kbuf && ksiz <= MEMMAXSIZ && visitor);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -357,14 +357,7 @@ class StashDB : public BasicDB {
       return false;
     }
     size_t bidx = hash_record(kbuf, ksiz) % bnum_;
-    size_t lidx = bidx % RLOCKSLOT;
-    if (writable) {
-      rlock_.lock_writer(lidx);
-    } else {
-      rlock_.lock_reader(lidx);
-    }
     accept_impl(kbuf, ksiz, visitor, bidx);
-    rlock_.unlock(lidx);
     return true;
   }
   /**
@@ -380,7 +373,7 @@ class StashDB : public BasicDB {
   bool accept_bulk(const std::vector<std::string>& keys, Visitor* visitor,
                    bool writable = true) {
     _assert_(visitor);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -410,11 +403,6 @@ class StashDB : public BasicDB {
     std::set<size_t>::iterator lit = lidxs.begin();
     std::set<size_t>::iterator litend = lidxs.end();
     while (lit != litend) {
-      if (writable) {
-        rlock_.lock_writer(*lit);
-      } else {
-        rlock_.lock_reader(*lit);
-      }
       ++lit;
     }
     for (size_t i = 0; i < knum; i++) {
@@ -424,7 +412,6 @@ class StashDB : public BasicDB {
     lit = lidxs.begin();
     litend = lidxs.end();
     while (lit != litend) {
-      rlock_.unlock(*lit);
       ++lit;
     }
     delete[] rkeys;
@@ -441,7 +428,7 @@ class StashDB : public BasicDB {
    */
   bool iterate(Visitor *visitor, bool writable = true, ProgressChecker* checker = NULL) {
     _assert_(visitor);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -498,7 +485,7 @@ class StashDB : public BasicDB {
    */
   bool scan_parallel(Visitor *visitor, size_t thnum, ProgressChecker* checker = NULL) {
     _assert_(visitor && thnum <= MEMMAXSIZ);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -561,7 +548,6 @@ class StashDB : public BasicDB {
       Error error_;
     };
     bool err = false;
-    rlock_.lock_reader_all();
     ThreadImpl* threads = new ThreadImpl[thnum];
     double range = (double)bnum_ / thnum;
     for (size_t i = 0; i < thnum; i++) {
@@ -582,7 +568,6 @@ class StashDB : public BasicDB {
       }
     }
     delete[] threads;
-    rlock_.unlock_all();
     if (err) return false;
     if (checker && !checker->check("scan_parallel", "ending", -1, allcnt)) {
       set_error(_KCCODELINE_, Error::LOGIC, "checker failed");
@@ -639,7 +624,7 @@ class StashDB : public BasicDB {
    */
   bool open(const std::string& path, uint32_t mode = OWRITER | OCREATE) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -665,7 +650,7 @@ class StashDB : public BasicDB {
    */
   bool close() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -706,7 +691,7 @@ class StashDB : public BasicDB {
   bool synchronize(bool hard = false, FileProcessor* proc = NULL,
                    ProgressChecker* checker = NULL) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -741,7 +726,7 @@ class StashDB : public BasicDB {
    */
   bool occupy(bool writable = true, FileProcessor* proc = NULL) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, writable);
+    // ScopedRWLock lock(&mlock_, writable);
     bool err = false;
     if (proc && !proc->process(path_, count_, size_impl())) {
       set_error(_KCCODELINE_, Error::LOGIC, "processing failed");
@@ -760,19 +745,19 @@ class StashDB : public BasicDB {
     _assert_(true);
     uint32_t wcnt = 0;
     while (true) {
-      mlock_.lock_writer();
+      // mlock_.lock_writer();
       if (omode_ == 0) {
         set_error(_KCCODELINE_, Error::INVALID, "not opened");
-        mlock_.unlock();
+        // mlock_.unlock();
         return false;
       }
       if (!(omode_ & OWRITER)) {
         set_error(_KCCODELINE_, Error::NOPERM, "permission denied");
-        mlock_.unlock();
+        // mlock_.unlock();
         return false;
       }
       if (!tran_) break;
-      mlock_.unlock();
+      // mlock_.unlock();
       if (wcnt >= LOCKBUSYLOOP) {
         Thread::chill();
       } else {
@@ -784,7 +769,7 @@ class StashDB : public BasicDB {
     trcount_ = count_;
     trsize_ = size_;
     trigger_meta(MetaTrigger::BEGINTRAN, "begin_transaction");
-    mlock_.unlock();
+    // mlock_.unlock();
     return true;
   }
   /**
@@ -795,27 +780,27 @@ class StashDB : public BasicDB {
    */
   bool begin_transaction_try(bool hard = false) {
     _assert_(true);
-    mlock_.lock_writer();
+    // mlock_.lock_writer();
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
-      mlock_.unlock();
+      // mlock_.unlock();
       return false;
     }
     if (!(omode_ & OWRITER)) {
       set_error(_KCCODELINE_, Error::NOPERM, "permission denied");
-      mlock_.unlock();
+      // mlock_.unlock();
       return false;
     }
     if (tran_) {
       set_error(_KCCODELINE_, Error::LOGIC, "competition avoided");
-      mlock_.unlock();
+      // mlock_.unlock();
       return false;
     }
     tran_ = true;
     trcount_ = count_;
     trsize_ = size_;
     trigger_meta(MetaTrigger::BEGINTRAN, "begin_transaction_try");
-    mlock_.unlock();
+    // mlock_.unlock();
     return true;
   }
   /**
@@ -825,7 +810,7 @@ class StashDB : public BasicDB {
    */
   bool end_transaction(bool commit = true) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -851,7 +836,7 @@ class StashDB : public BasicDB {
    */
   bool clear() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -881,7 +866,7 @@ class StashDB : public BasicDB {
    */
   int64_t count() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return -1;
@@ -894,7 +879,7 @@ class StashDB : public BasicDB {
    */
   int64_t size() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return -1;
@@ -907,7 +892,7 @@ class StashDB : public BasicDB {
    */
   std::string path() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return "";
@@ -921,7 +906,7 @@ class StashDB : public BasicDB {
    */
   bool status(std::map<std::string, std::string>* strmap) {
     _assert_(strmap);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -964,7 +949,7 @@ class StashDB : public BasicDB {
   void log(const char* file, int32_t line, const char* func, Logger::Kind kind,
            const char* message) {
     _assert_(file && line > 0 && func && message);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (!logger_) return;
     logger_->log(file, line, func, kind, message);
   }
@@ -978,7 +963,7 @@ class StashDB : public BasicDB {
    */
   bool tune_logger(Logger* logger, uint32_t kinds = Logger::WARN | Logger::ERROR) {
     _assert_(logger);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -994,7 +979,7 @@ class StashDB : public BasicDB {
    */
   bool tune_meta_trigger(MetaTrigger* trigger) {
     _assert_(trigger);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1009,7 +994,7 @@ class StashDB : public BasicDB {
    */
   bool tune_buckets(int64_t bnum) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1024,7 +1009,7 @@ class StashDB : public BasicDB {
    */
   char* opaque() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return NULL;
@@ -1037,7 +1022,7 @@ class StashDB : public BasicDB {
    */
   bool synchronize_opaque() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -1434,10 +1419,6 @@ class StashDB : public BasicDB {
   StashDB(const StashDB&);
   /** Dummy Operator to forbid the use. */
   StashDB& operator =(const StashDB&);
-  /** The method lock. */
-  RWLock mlock_;
-  /** The record locks. */
-  SlottedRWLock rlock_;
   /** The file lock. */
   Mutex flock_;
   /** The last happened error. */

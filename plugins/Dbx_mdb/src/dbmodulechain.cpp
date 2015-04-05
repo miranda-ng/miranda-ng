@@ -71,10 +71,15 @@ int CDbxMdb::InitModuleNames(void)
 DWORD CDbxMdb::FindExistingModuleNameOfs(const char *szName)
 {
 	ModuleName mn = { (char*)szName, 0 };
+	if (m_lastmn && !strcmp(mn.name, m_lastmn->name))
+		return m_lastmn->ofs;
 
 	int index = m_lMods.getIndex(&mn);
-	if (index != -1)		
-		return m_lMods[index]->ofs;
+	if (index != -1) {
+		ModuleName *pmn = m_lMods[index];
+		m_lastmn = pmn;
+		return pmn->ofs;
+	}
 
 	return 0;
 }

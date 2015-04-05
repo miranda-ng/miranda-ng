@@ -70,10 +70,15 @@ int CDbxKV::InitModuleNames(void)
 DWORD CDbxKV::FindExistingModuleNameOfs(const char *szName)
 {
 	ModuleName mn = { (char*)szName, 0 };
+	if (m_lastmn && !strcmp(mn.name, m_lastmn->name))
+		return m_lastmn->ofs;
 
 	int index = m_lMods.getIndex(&mn);
-	if (index != -1)		
-		return m_lMods[index]->ofs;
+	if (index != -1) {
+		ModuleName *pmn = m_lMods[index];
+		m_lastmn = pmn;
+		return pmn->ofs;
+	}
 
 	return 0;
 }
@@ -112,10 +117,16 @@ DWORD CDbxKV::GetModuleNameOfs(const char *szName)
 
 char* CDbxKV::GetModuleNameByOfs(DWORD ofs)
 {
+	if (m_lastmn && m_lastmn->ofs == ofs)
+		return m_lastmn->name;
+
 	ModuleName mn = { NULL, ofs };
 	int index = m_lOfs.getIndex(&mn);
-	if (index != -1)
-		return m_lOfs[index]->name;
+	if (index != -1) {
+		ModuleName *pmn = m_lOfs[index];
+		m_lastmn = pmn;
+		return pmn->name;
+	}
 
 	return NULL;
 }

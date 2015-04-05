@@ -85,7 +85,7 @@ class DirDB : public BasicDB {
      */
     explicit Cursor(DirDB* db) : db_(db), dir_(), alive_(false), name_("") {
       _assert_(db);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       db_->curs_.push_back(this);
     }
     /**
@@ -94,7 +94,7 @@ class DirDB : public BasicDB {
     virtual ~Cursor() {
       _assert_(true);
       if (!db_) return;
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       db_->curs_.remove(this);
     }
     /**
@@ -109,7 +109,7 @@ class DirDB : public BasicDB {
      */
     bool accept(Visitor* visitor, bool writable = true, bool step = false) {
       _assert_(visitor);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -175,7 +175,7 @@ class DirDB : public BasicDB {
      */
     bool jump() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (alive_ && !disable()) return false;
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
@@ -203,7 +203,7 @@ class DirDB : public BasicDB {
      */
     bool jump(const char* kbuf, size_t ksiz) {
       _assert_(kbuf && ksiz <= MEMMAXSIZ);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (alive_ && !disable()) return false;
       if (!dir_.open(db_->path_)) {
         db_->set_error(_KCCODELINE_, Error::SYSTEM, "opening a directory failed");
@@ -247,7 +247,7 @@ class DirDB : public BasicDB {
      */
     bool jump_back() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -261,7 +261,7 @@ class DirDB : public BasicDB {
      */
     bool jump_back(const char* kbuf, size_t ksiz) {
       _assert_(kbuf && ksiz <= MEMMAXSIZ);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -275,7 +275,7 @@ class DirDB : public BasicDB {
      */
     bool jump_back(const std::string& key) {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -289,7 +289,7 @@ class DirDB : public BasicDB {
      */
     bool step() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -313,7 +313,7 @@ class DirDB : public BasicDB {
      */
     bool step_back() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -375,7 +375,7 @@ class DirDB : public BasicDB {
    * Default constructor.
    */
   explicit DirDB() :
-      mlock_(), rlock_(RLOCKSLOT), error_(),
+      error_(),
       logger_(NULL), logkinds_(0), mtrigger_(NULL),
       omode_(0), writer_(false), autotran_(false), autosync_(false),
       recov_(false), reorg_(false),
@@ -415,7 +415,7 @@ class DirDB : public BasicDB {
    */
   bool accept(const char* kbuf, size_t ksiz, Visitor* visitor, bool writable = true) {
     _assert_(kbuf && ksiz <= MEMMAXSIZ && visitor);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -427,13 +427,7 @@ class DirDB : public BasicDB {
     bool err = false;
     char name[NUMBUFSIZ];
     size_t lidx = hashpath(kbuf, ksiz, name) % RLOCKSLOT;
-    if (writable) {
-      rlock_.lock_writer(lidx);
-    } else {
-      rlock_.lock_reader(lidx);
-    }
     if (!accept_impl(kbuf, ksiz, visitor, name)) err = true;
-    rlock_.unlock(lidx);
     return !err;
   }
   /**
@@ -449,7 +443,7 @@ class DirDB : public BasicDB {
   bool accept_bulk(const std::vector<std::string>& keys, Visitor* visitor,
                    bool writable = true) {
     _assert_(visitor);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -479,11 +473,6 @@ class DirDB : public BasicDB {
     std::set<size_t>::iterator lit = lidxs.begin();
     std::set<size_t>::iterator litend = lidxs.end();
     while (lit != litend) {
-      if (writable) {
-        rlock_.lock_writer(*lit);
-      } else {
-        rlock_.lock_reader(*lit);
-      }
       ++lit;
     }
     for (size_t i = 0; i < knum; i++) {
@@ -496,7 +485,6 @@ class DirDB : public BasicDB {
     lit = lidxs.begin();
     litend = lidxs.end();
     while (lit != litend) {
-      rlock_.unlock(*lit);
       ++lit;
     }
     delete[] rkeys;
@@ -513,7 +501,7 @@ class DirDB : public BasicDB {
    */
   bool iterate(Visitor *visitor, bool writable = true, ProgressChecker* checker = NULL) {
     _assert_(visitor);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -540,7 +528,7 @@ class DirDB : public BasicDB {
    */
   bool scan_parallel(Visitor *visitor, size_t thnum, ProgressChecker* checker = NULL) {
     _assert_(visitor && thnum <= MEMMAXSIZ);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -548,10 +536,8 @@ class DirDB : public BasicDB {
     if (thnum < 1) thnum = 0;
     if (thnum > (size_t)INT8MAX) thnum = INT8MAX;
     ScopedVisitor svis(visitor);
-    rlock_.lock_reader_all();
     bool err = false;
     if (!scan_parallel_impl(visitor, thnum, checker)) err = true;
-    rlock_.unlock_all();
     trigger_meta(MetaTrigger::ITERATE, "scan_parallel");
     return !err;
   }
@@ -604,7 +590,7 @@ class DirDB : public BasicDB {
    */
   bool open(const std::string& path, uint32_t mode = OWRITER | OCREATE) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -807,7 +793,7 @@ class DirDB : public BasicDB {
    */
   bool close() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -842,16 +828,14 @@ class DirDB : public BasicDB {
   bool synchronize(bool hard = false, FileProcessor* proc = NULL,
                    ProgressChecker* checker = NULL) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
     }
-    rlock_.lock_reader_all();
     bool err = false;
     if (!synchronize_impl(hard, proc, checker)) err = true;
     trigger_meta(MetaTrigger::SYNCHRONIZE, "synchronize");
-    rlock_.unlock_all();
     return !err;
   }
   /**
@@ -865,7 +849,7 @@ class DirDB : public BasicDB {
    */
   bool occupy(bool writable = true, FileProcessor* proc = NULL) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, writable);
+    // ScopedRWLock lock(&mlock_, writable);
     bool err = false;
     if (proc && !proc->process(path_, count_, size_impl())) {
       set_error(_KCCODELINE_, Error::LOGIC, "processing failed");
@@ -884,19 +868,19 @@ class DirDB : public BasicDB {
     _assert_(true);
     uint32_t wcnt = 0;
     while (true) {
-      mlock_.lock_writer();
+      // mlock_.lock_writer();
       if (omode_ == 0) {
         set_error(_KCCODELINE_, Error::INVALID, "not opened");
-        mlock_.unlock();
+        // mlock_.unlock();
         return false;
       }
       if (!writer_) {
         set_error(_KCCODELINE_, Error::NOPERM, "permission denied");
-        mlock_.unlock();
+        // mlock_.unlock();
         return false;
       }
       if (!tran_) break;
-      mlock_.unlock();
+      // mlock_.unlock();
       if (wcnt >= LOCKBUSYLOOP) {
         Thread::chill();
       } else {
@@ -906,12 +890,12 @@ class DirDB : public BasicDB {
     }
     trhard_ = hard;
     if (!begin_transaction_impl()) {
-      mlock_.unlock();
+      // mlock_.unlock();
       return false;
     }
     tran_ = true;
     trigger_meta(MetaTrigger::BEGINTRAN, "begin_transaction");
-    mlock_.unlock();
+    // mlock_.unlock();
     return true;
   }
   /**
@@ -922,30 +906,30 @@ class DirDB : public BasicDB {
    */
   bool begin_transaction_try(bool hard = false) {
     _assert_(true);
-    mlock_.lock_writer();
+    // mlock_.lock_writer();
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
-      mlock_.unlock();
+      // mlock_.unlock();
       return false;
     }
     if (!writer_) {
       set_error(_KCCODELINE_, Error::NOPERM, "permission denied");
-      mlock_.unlock();
+      // mlock_.unlock();
       return false;
     }
     if (tran_) {
       set_error(_KCCODELINE_, Error::LOGIC, "competition avoided");
-      mlock_.unlock();
+      // mlock_.unlock();
       return false;
     }
     trhard_ = hard;
     if (!begin_transaction_impl()) {
-      mlock_.unlock();
+      // mlock_.unlock();
       return false;
     }
     tran_ = true;
     trigger_meta(MetaTrigger::BEGINTRAN, "begin_transaction_try");
-    mlock_.unlock();
+    // mlock_.unlock();
     return true;
   }
   /**
@@ -955,7 +939,7 @@ class DirDB : public BasicDB {
    */
   bool end_transaction(bool commit = true) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -980,7 +964,7 @@ class DirDB : public BasicDB {
    */
   bool clear() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -1035,7 +1019,7 @@ class DirDB : public BasicDB {
    */
   int64_t count() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return -1;
@@ -1048,7 +1032,7 @@ class DirDB : public BasicDB {
    */
   int64_t size() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return -1;
@@ -1061,7 +1045,7 @@ class DirDB : public BasicDB {
    */
   std::string path() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return "";
@@ -1075,7 +1059,7 @@ class DirDB : public BasicDB {
    */
   bool status(std::map<std::string, std::string>* strmap) {
     _assert_(strmap);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -1119,7 +1103,7 @@ class DirDB : public BasicDB {
   void log(const char* file, int32_t line, const char* func, Logger::Kind kind,
            const char* message) {
     _assert_(file && line > 0 && func && message);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (!logger_) return;
     logger_->log(file, line, func, kind, message);
   }
@@ -1133,7 +1117,7 @@ class DirDB : public BasicDB {
    */
   bool tune_logger(Logger* logger, uint32_t kinds = Logger::WARN | Logger::ERROR) {
     _assert_(logger);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1149,7 +1133,7 @@ class DirDB : public BasicDB {
    */
   bool tune_meta_trigger(MetaTrigger* trigger) {
     _assert_(trigger);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1164,7 +1148,7 @@ class DirDB : public BasicDB {
    */
   bool tune_options(int8_t opts) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1179,7 +1163,7 @@ class DirDB : public BasicDB {
    */
   bool tune_compressor(Compressor* comp) {
     _assert_(comp);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1193,7 +1177,7 @@ class DirDB : public BasicDB {
    */
   char* opaque() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return NULL;
@@ -1206,7 +1190,7 @@ class DirDB : public BasicDB {
    */
   bool synchronize_opaque() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -1225,7 +1209,7 @@ class DirDB : public BasicDB {
    */
   uint8_t flags() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1313,7 +1297,7 @@ class DirDB : public BasicDB {
    */
   bool tune_type(int8_t type) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1327,7 +1311,7 @@ class DirDB : public BasicDB {
    */
   uint8_t libver() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1340,7 +1324,7 @@ class DirDB : public BasicDB {
    */
   uint8_t librev() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1353,7 +1337,7 @@ class DirDB : public BasicDB {
    */
   uint8_t fmtver() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1366,7 +1350,7 @@ class DirDB : public BasicDB {
    */
   uint8_t chksum() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1379,7 +1363,7 @@ class DirDB : public BasicDB {
    */
   uint8_t type() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1392,7 +1376,7 @@ class DirDB : public BasicDB {
    */
   uint8_t opts() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1405,7 +1389,7 @@ class DirDB : public BasicDB {
    */
   Compressor* comp() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return NULL;
@@ -1418,7 +1402,7 @@ class DirDB : public BasicDB {
    */
   bool recovered() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -1431,7 +1415,7 @@ class DirDB : public BasicDB {
    */
   bool reorganized() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -2357,10 +2341,6 @@ class DirDB : public BasicDB {
   DirDB(const DirDB&);
   /** Dummy Operator to forbid the use. */
   DirDB& operator =(const DirDB&);
-  /** The method lock. */
-  RWLock mlock_;
-  /** The record locks. */
-  SlottedRWLock rlock_;
   /** The last happened error. */
   TSD<Error> error_;
   /** The internal logger. */

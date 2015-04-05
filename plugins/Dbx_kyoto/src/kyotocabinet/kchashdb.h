@@ -137,7 +137,6 @@ class HashDB : public BasicDB {
      */
     explicit Cursor(HashDB* db) : db_(db), off_(0), end_(0) {
       _assert_(db);
-      ScopedRWLock lock(&db_->mlock_, true);
       db_->curs_.push_back(this);
     }
     /**
@@ -146,7 +145,6 @@ class HashDB : public BasicDB {
     virtual ~Cursor() {
       _assert_(true);
       if (!db_) return;
-      ScopedRWLock lock(&db_->mlock_, true);
       db_->curs_.remove(this);
     }
     /**
@@ -161,7 +159,6 @@ class HashDB : public BasicDB {
      */
     bool accept(Visitor* visitor, bool writable = true, bool step = false) {
       _assert_(visitor);
-      ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -280,7 +277,6 @@ class HashDB : public BasicDB {
      */
     bool jump() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -302,7 +298,6 @@ class HashDB : public BasicDB {
      */
     bool jump(const char* kbuf, size_t ksiz) {
       _assert_(kbuf && ksiz <= MEMMAXSIZ);
-      ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -366,7 +361,6 @@ class HashDB : public BasicDB {
      */
     bool jump_back() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -380,7 +374,6 @@ class HashDB : public BasicDB {
      */
     bool jump_back(const char* kbuf, size_t ksiz) {
       _assert_(kbuf && ksiz <= MEMMAXSIZ);
-      ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -394,7 +387,6 @@ class HashDB : public BasicDB {
      */
     bool jump_back(const std::string& key) {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -408,7 +400,6 @@ class HashDB : public BasicDB {
      */
     bool step() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -433,7 +424,6 @@ class HashDB : public BasicDB {
      */
     bool step_back() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -511,7 +501,7 @@ class HashDB : public BasicDB {
    * Default constructor.
    */
   explicit HashDB() :
-      mlock_(), rlock_(RLOCKSLOT), flock_(), atlock_(), error_(),
+      flock_(), atlock_(), error_(),
       logger_(NULL), logkinds_(0), mtrigger_(NULL),
       omode_(0), writer_(false), autotran_(false), autosync_(false),
       reorg_(false), trim_(false),
@@ -555,20 +545,16 @@ class HashDB : public BasicDB {
    */
   bool accept(const char* kbuf, size_t ksiz, Visitor* visitor, bool writable = true) {
     _assert_(kbuf && ksiz <= MEMMAXSIZ && visitor);
-    mlock_.lock_reader();
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
-      mlock_.unlock();
       return false;
     }
     if (writable) {
       if (!writer_) {
         set_error(_KCCODELINE_, Error::NOPERM, "permission denied");
-        mlock_.unlock();
         return false;
       }
       if (!(flags_ & FOPEN) && !autotran_ && !tran_ && !set_flag(FOPEN, true)) {
-        mlock_.unlock();
         return false;
       }
     }
@@ -576,23 +562,16 @@ class HashDB : public BasicDB {
     uint64_t hash = hash_record(kbuf, ksiz);
     uint32_t pivot = fold_hash(hash);
     int64_t bidx = hash % bnum_;
-    size_t lidx = bidx % RLOCKSLOT;
-    if (writable) {
-      rlock_.lock_writer(lidx);
-    } else {
-      rlock_.lock_reader(lidx);
-    }
-    if (!accept_impl(kbuf, ksiz, visitor, bidx, pivot, false)) err = true;
-    rlock_.unlock(lidx);
-    mlock_.unlock();
-    if (!err && dfunit_ > 0 && frgcnt_ >= dfunit_ && mlock_.lock_writer_try()) {
+
+	 if (!accept_impl(kbuf, ksiz, visitor, bidx, pivot, false)) err = true;
+
+	 if (!err && dfunit_ > 0 && frgcnt_ >= dfunit_) {
       int64_t unit = frgcnt_;
       if (unit >= dfunit_) {
         if (unit > DFRGMAX) unit = DFRGMAX;
         if (!defrag_impl(unit * DFRGCEF)) err = true;
         frgcnt_ -= unit;
       }
-      mlock_.unlock();
     }
     return !err;
   }
@@ -609,20 +588,16 @@ class HashDB : public BasicDB {
   bool accept_bulk(const std::vector<std::string>& keys, Visitor* visitor,
                    bool writable = true) {
     _assert_(visitor);
-    mlock_.lock_reader();
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
-      mlock_.unlock();
       return false;
     }
     if (writable) {
       if (!writer_) {
         set_error(_KCCODELINE_, Error::NOPERM, "permission denied");
-        mlock_.unlock();
         return false;
       }
       if (!(flags_ & FOPEN) && !autotran_ && !tran_ && !set_flag(FOPEN, true)) {
-        mlock_.unlock();
         return false;
       }
     }
@@ -630,7 +605,6 @@ class HashDB : public BasicDB {
     size_t knum = keys.size();
     if (knum < 1) {
       visitor->visit_after();
-      mlock_.unlock();
       return true;
     }
     bool err = false;
@@ -655,11 +629,6 @@ class HashDB : public BasicDB {
     std::set<size_t>::iterator lit = lidxs.begin();
     std::set<size_t>::iterator litend = lidxs.end();
     while (lit != litend) {
-      if (writable) {
-        rlock_.lock_writer(*lit);
-      } else {
-        rlock_.lock_reader(*lit);
-      }
       ++lit;
     }
     for (size_t i = 0; i < knum; i++) {
@@ -672,20 +641,17 @@ class HashDB : public BasicDB {
     lit = lidxs.begin();
     litend = lidxs.end();
     while (lit != litend) {
-      rlock_.unlock(*lit);
       ++lit;
     }
     delete[] rkeys;
     visitor->visit_after();
-    mlock_.unlock();
-    if (!err && dfunit_ > 0 && frgcnt_ >= dfunit_ && mlock_.lock_writer_try()) {
+    if (!err && dfunit_ > 0 && frgcnt_ >= dfunit_) {
       int64_t unit = frgcnt_;
       if (unit >= dfunit_) {
         if (unit > DFRGMAX) unit = DFRGMAX;
         if (!defrag_impl(unit * DFRGCEF)) err = true;
         frgcnt_ -= unit;
       }
-      mlock_.unlock();
     }
     return !err;
   }
@@ -700,7 +666,6 @@ class HashDB : public BasicDB {
    */
   bool iterate(Visitor *visitor, bool writable = true, ProgressChecker* checker = NULL) {
     _assert_(visitor);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -711,7 +676,6 @@ class HashDB : public BasicDB {
         return false;
       }
       if (!(flags_ & FOPEN) && !autotran_ && !tran_ && !set_flag(FOPEN, true)) {
-        mlock_.unlock();
         return false;
       }
     }
@@ -733,7 +697,6 @@ class HashDB : public BasicDB {
    */
   bool scan_parallel(Visitor *visitor, size_t thnum, ProgressChecker* checker = NULL) {
     _assert_(visitor && thnum <= MEMMAXSIZ);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -742,10 +705,8 @@ class HashDB : public BasicDB {
     if (thnum > (size_t)INT8MAX) thnum = INT8MAX;
     if ((int64_t)thnum > bnum_) thnum = bnum_;
     ScopedVisitor svis(visitor);
-    rlock_.lock_reader_all();
     bool err = false;
     if (!scan_parallel_impl(visitor, thnum, checker)) err = true;
-    rlock_.unlock_all();
     trigger_meta(MetaTrigger::ITERATE, "scan_parallel");
     return !err;
   }
@@ -798,7 +759,6 @@ class HashDB : public BasicDB {
    */
   bool open(const std::string& path, uint32_t mode = OWRITER | OCREATE) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -932,7 +892,6 @@ class HashDB : public BasicDB {
    */
   bool close() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -969,16 +928,13 @@ class HashDB : public BasicDB {
   bool synchronize(bool hard = false, FileProcessor* proc = NULL,
                    ProgressChecker* checker = NULL) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
     }
-    rlock_.lock_reader_all();
     bool err = false;
     if (!synchronize_impl(hard, proc, checker)) err = true;
     trigger_meta(MetaTrigger::SYNCHRONIZE, "synchronize");
-    rlock_.unlock_all();
     return !err;
   }
   /**
@@ -992,7 +948,6 @@ class HashDB : public BasicDB {
    */
   bool occupy(bool writable = true, FileProcessor* proc = NULL) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, writable);
     bool err = false;
     if (proc && !proc->process(path_, count_, lsiz_)) {
       set_error(_KCCODELINE_, Error::LOGIC, "processing failed");
@@ -1011,19 +966,15 @@ class HashDB : public BasicDB {
     _assert_(true);
     uint32_t wcnt = 0;
     while (true) {
-      mlock_.lock_writer();
       if (omode_ == 0) {
         set_error(_KCCODELINE_, Error::INVALID, "not opened");
-        mlock_.unlock();
         return false;
       }
       if (!writer_) {
         set_error(_KCCODELINE_, Error::NOPERM, "permission denied");
-        mlock_.unlock();
         return false;
       }
       if (!tran_) break;
-      mlock_.unlock();
       if (wcnt >= LOCKBUSYLOOP) {
         Thread::chill();
       } else {
@@ -1033,12 +984,10 @@ class HashDB : public BasicDB {
     }
     trhard_ = hard;
     if (!begin_transaction_impl()) {
-      mlock_.unlock();
       return false;
     }
     tran_ = true;
     trigger_meta(MetaTrigger::BEGINTRAN, "begin_transaction");
-    mlock_.unlock();
     return true;
   }
   /**
@@ -1049,30 +998,24 @@ class HashDB : public BasicDB {
    */
   bool begin_transaction_try(bool hard = false) {
     _assert_(true);
-    mlock_.lock_writer();
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
-      mlock_.unlock();
       return false;
     }
     if (!writer_) {
       set_error(_KCCODELINE_, Error::NOPERM, "permission denied");
-      mlock_.unlock();
       return false;
     }
     if (tran_) {
       set_error(_KCCODELINE_, Error::LOGIC, "competition avoided");
-      mlock_.unlock();
       return false;
     }
     trhard_ = hard;
     if (!begin_transaction_impl()) {
-      mlock_.unlock();
       return false;
     }
     tran_ = true;
     trigger_meta(MetaTrigger::BEGINTRAN, "begin_transaction_try");
-    mlock_.unlock();
     return true;
   }
   /**
@@ -1082,7 +1025,6 @@ class HashDB : public BasicDB {
    */
   bool end_transaction(bool commit = true) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -1107,7 +1049,6 @@ class HashDB : public BasicDB {
    */
   bool clear() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -1147,7 +1088,6 @@ class HashDB : public BasicDB {
    */
   int64_t count() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return -1;
@@ -1160,7 +1100,6 @@ class HashDB : public BasicDB {
    */
   int64_t size() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return -1;
@@ -1173,7 +1112,6 @@ class HashDB : public BasicDB {
    */
   std::string path() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return "";
@@ -1187,7 +1125,6 @@ class HashDB : public BasicDB {
    */
   bool status(std::map<std::string, std::string>* strmap) {
     _assert_(strmap);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -1255,7 +1192,6 @@ class HashDB : public BasicDB {
   void log(const char* file, int32_t line, const char* func, Logger::Kind kind,
            const char* message) {
     _assert_(file && line > 0 && func && message);
-    ScopedRWLock lock(&mlock_, false);
     if (!logger_) return;
     logger_->log(file, line, func, kind, message);
   }
@@ -1269,7 +1205,6 @@ class HashDB : public BasicDB {
    */
   bool tune_logger(Logger* logger, uint32_t kinds = Logger::WARN | Logger::ERROR) {
     _assert_(logger);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1285,7 +1220,6 @@ class HashDB : public BasicDB {
    */
   bool tune_meta_trigger(MetaTrigger* trigger) {
     _assert_(trigger);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1300,7 +1234,6 @@ class HashDB : public BasicDB {
    */
   bool tune_alignment(int8_t apow) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1316,7 +1249,6 @@ class HashDB : public BasicDB {
    */
   bool tune_fbp(int8_t fpow) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1333,7 +1265,6 @@ class HashDB : public BasicDB {
    */
   bool tune_options(int8_t opts) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1348,7 +1279,6 @@ class HashDB : public BasicDB {
    */
   bool tune_buckets(int64_t bnum) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1364,7 +1294,6 @@ class HashDB : public BasicDB {
    */
   bool tune_map(int64_t msiz) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1379,7 +1308,6 @@ class HashDB : public BasicDB {
    */
   bool tune_defrag(int64_t dfunit) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1394,7 +1322,6 @@ class HashDB : public BasicDB {
    */
   bool tune_compressor(Compressor* comp) {
     _assert_(comp);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1408,7 +1335,6 @@ class HashDB : public BasicDB {
    */
   char* opaque() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return NULL;
@@ -1421,7 +1347,6 @@ class HashDB : public BasicDB {
    */
   bool synchronize_opaque() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -1441,7 +1366,6 @@ class HashDB : public BasicDB {
    */
   bool defrag(int64_t step = 0) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -1466,7 +1390,6 @@ class HashDB : public BasicDB {
    */
   uint8_t flags() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1554,7 +1477,6 @@ class HashDB : public BasicDB {
    */
   bool tune_type(int8_t type) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1568,7 +1490,6 @@ class HashDB : public BasicDB {
    */
   uint8_t libver() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1581,7 +1502,6 @@ class HashDB : public BasicDB {
    */
   uint8_t librev() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1594,7 +1514,6 @@ class HashDB : public BasicDB {
    */
   uint8_t fmtver() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1607,7 +1526,6 @@ class HashDB : public BasicDB {
    */
   uint8_t chksum() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1620,7 +1538,6 @@ class HashDB : public BasicDB {
    */
   uint8_t type() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1633,7 +1550,6 @@ class HashDB : public BasicDB {
    */
   uint8_t apow() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1646,7 +1562,6 @@ class HashDB : public BasicDB {
    */
   uint8_t fpow() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1659,7 +1574,6 @@ class HashDB : public BasicDB {
    */
   uint8_t opts() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1672,7 +1586,6 @@ class HashDB : public BasicDB {
    */
   int64_t bnum() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1685,7 +1598,6 @@ class HashDB : public BasicDB {
    */
   int64_t msiz() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1698,7 +1610,6 @@ class HashDB : public BasicDB {
    */
   int64_t dfunit() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1711,7 +1622,6 @@ class HashDB : public BasicDB {
    */
   Compressor* comp() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return NULL;
@@ -1724,7 +1634,6 @@ class HashDB : public BasicDB {
    */
   bool recovered() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -1737,7 +1646,6 @@ class HashDB : public BasicDB {
    */
   bool reorganized() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -3749,10 +3657,6 @@ class HashDB : public BasicDB {
   HashDB(const HashDB&);
   /** Dummy Operator to forbid the use. */
   HashDB& operator =(const HashDB&);
-  /** The method lock. */
-  RWLock mlock_;
-  /** The record locks. */
-  SlottedRWLock rlock_;
   /** The file lock. */
   Mutex flock_;
   /** The auto transaction lock. */

@@ -54,6 +54,34 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HINSTANCE g_hInst;
 extern LIST<CDbxKyoto> g_Dbs;
 
+struct VisitorCopy : public TreeDB::Visitor
+{
+	__forceinline explicit VisitorCopy() : kbuf_(NULL), ksiz_(0) {}
+
+	const char* visit_full(const char* kbuf, size_t ksiz, const char* vbuf, size_t vsiz, size_t* sp)
+	{
+		kbuf_ = kbuf;
+		ksiz_ = ksiz;
+		return NOP;
+	}
+	const char* kbuf_;
+	size_t ksiz_;
+};
+
+struct VisitorCopyRec : public TreeDB::Visitor
+{
+	__forceinline explicit VisitorCopyRec() : vbuf_(NULL), vsiz_(0) {}
+
+	const char* visit_full(const char* kbuf, size_t ksiz, const char* vbuf, size_t vsiz, size_t* sp)
+	{
+		vbuf_ = vbuf;
+		vsiz_ = vsiz;
+		return NOP;
+	}
+	const char* vbuf_;
+	size_t vsiz_;
+};
+
 class cursor_ptr
 {
 	TreeDB::Cursor *m_cursor;
