@@ -1,6 +1,6 @@
                    Miranda New Generation Release Notes
                    ---------------------------------------
-                   
+
                              www.miranda-ng.org
 
 
@@ -56,7 +56,7 @@ d) Submit a bugreport.
 
 4. Compatibility issues
 -----------------------
-Miranda NG doesn't support any of Windows 9x. Miranda NG only 
+Miranda NG doesn't support any of Windows 9x. Miranda NG only
 supports Windows 2000 and later. Beta versions are not supported.
 
 b) Plugins
