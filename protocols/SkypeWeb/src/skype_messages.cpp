@@ -89,13 +89,13 @@ struct SendMessageParam
 // outcoming message flow
 int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessage)
 {
-	time_t timestamp = time(NULL); //InterlockedIncrement(&hMessageProcess);
-
 	if (!IsOnline())
 	{
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.");
 		return 0;
 	}
+
+	time_t timestamp = time(NULL); //InterlockedIncrement(&hMessageProcess);
 
 	SendMessageParam *param = new SendMessageParam();
 	param->hContact = hContact;
@@ -201,7 +201,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 			
 			bool isMe = IsMe(skypename);
 			if (isMe)
-				flags |= DBEF_READ;
+				flags |= DBEF_SENT;
 
 			MCONTACT hContact = IsMe(skypename)
 				? GetContact(ptrA(ContactUrlToName(conversationLink)))

@@ -4,14 +4,14 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 {
 	debugLogA("CSkypeProto::ProcessEndpointPresenceRes");
 	ptrA selfLink(mir_t2a(ptrT(json_as_string(json_get(node, "selfLink")))));
-	char *skypename = ContactUrlToName(selfLink);
+	ptrA skypename(ContactUrlToName(selfLink));
 	if (skypename == NULL)
 		return;
 	MCONTACT hContact = GetContact(skypename);
 
 	//"publicInfo":{"capabilities":"","typ":"11","skypeNameVersion":"0/7.1.0.105//","nodeInfo":"","version":"24"}
 	JSONNODE *publicInfo = json_get(node, "publicInfo");
-	if (publicInfo != NULL) 
+	if (publicInfo != NULL)
 	{
 		ptrA skypeNameVersion(mir_t2a(ptrT(json_as_string(json_get(publicInfo, "skypeNameVersion")))));
 		ptrA version(mir_t2a(ptrT(json_as_string(json_get(publicInfo, "version")))));
@@ -42,9 +42,7 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 				mir_snprintf(ver, SIZEOF(ver), "%s %s", skypeNameVersion, version);
 				db_set_s(hContact, m_szModuleName, "MirVer", ver);
 			}
-
 		}
-
 	}
 }
 
@@ -54,18 +52,18 @@ void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node)
 
 	ptrA selfLink(mir_t2a(ptrT(json_as_string(json_get(node, "selfLink")))));
 	ptrA status(mir_t2a(ptrT(json_as_string(json_get(node, "status")))));
-	char *skypename = ContactUrlToName(selfLink);
+	ptrA skypename(ContactUrlToName(selfLink));
 	if (skypename == NULL)
 	{
-		if (IsMe(SelfUrlToName(selfLink)))
+		if (IsMe(ptrA(SelfUrlToName(selfLink))))
 		{
-				int iNewStatus = SkypeToMirandaStatus(status);
-				int old_status = m_iStatus;
-				m_iDesiredStatus = iNewStatus;
-				m_iStatus = iNewStatus;
-				if (old_status != iNewStatus)
-					ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, iNewStatus);
-				return;
+			int iNewStatus = SkypeToMirandaStatus(status);
+			int old_status = m_iStatus;
+			m_iDesiredStatus = iNewStatus;
+			m_iStatus = iNewStatus;
+			if (old_status != iNewStatus)
+				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, iNewStatus);
+			return;
 		}
 		return;
 	}
@@ -80,17 +78,15 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 	ptrA from(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
 	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
-	ptrT composeTime(json_as_string (json_get(node, "composetime")));
+	ptrT composeTime(json_as_string(json_get(node, "composetime")));
 	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
 	time_t timestamp = IsoToUnixTime(composeTime);
-	char *convname;
 	if (strstr(conversationLink, "/19:"))
-		{
-			const char *chatname;
-			chatname = ContactUrlToName(conversationLink);
-			convname = mir_strdup(chatname);
-			return; //chats not supported
-		}
+	{
+		const char *chatname;
+		chatname = ContactUrlToName(conversationLink);
+		return; //chats not supported
+	}
 	else if (strstr(conversationLink, "/8:"))
 	{
 		if (!mir_strcmpi(messageType, "Control/Typing"))

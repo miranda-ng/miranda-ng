@@ -43,14 +43,14 @@ void CSkypeProto::ParsePollData(JSONNODE *data)
 
 void CSkypeProto::PollingThread(void*)
 {
-	debugLog(_T("CSkypeProto::PollingThread: entering"));
+	debugLogA(__FUNCTION__": entering");
 
 	ptrA regToken(getStringA("registrationToken"));
-	const char *server = getStringA("Server");
+	ptrA server(getStringA("Server"));
 
 	SubscriptionsRequest *request = new SubscriptionsRequest(regToken, server);
-		request->Send(m_hNetlibUser);
-		delete request;
+	request->Send(m_hNetlibUser);
+	delete request;
 
 	int errors = 0;
 	bool breaked = false;
@@ -81,11 +81,11 @@ void CSkypeProto::PollingThread(void*)
 	}
 	m_hPollingThread = NULL;
 	m_pollingConnection = NULL;
-	debugLog(_T("CSkypeProto::PollingThread: leaving"));
+	debugLogA(__FUNCTION__": leaving");
 
 	if (!isTerminated)
 	{
-		debugLog(_T("CSkypeProto::PollingThread: unexpected termination; switching protocol to offline"));
+		debugLogA(__FUNCTION__": unexpected termination; switching protocol to offline");
 		SetStatus(ID_STATUS_OFFLINE);
 	}
 }
