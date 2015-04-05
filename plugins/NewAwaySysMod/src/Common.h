@@ -29,6 +29,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <malloc.h>
 #include <CommCtrl.h>
 #include <commdlg.h>
 #include <Uxtheme.h>

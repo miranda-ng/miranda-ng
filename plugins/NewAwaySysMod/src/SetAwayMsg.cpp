@@ -78,11 +78,11 @@ static LRESULT CALLBACK MsgEditSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, 
 				SendMessage(hWnd, WM_KEYDOWN, VK_LEFT, 0);
 				SendMessage(hWnd, EM_GETSEL, (WPARAM)&start, NULL);
 				int nLen = GetWindowTextLength(hWnd);
-				TCHAR *text = (TCHAR*)malloc((nLen + 1) * sizeof(TCHAR));
+				TCHAR *text = (TCHAR*)_alloca((nLen + 1) * sizeof(TCHAR));
 				GetWindowText(hWnd, text, nLen + 1);
 				memmove(text + start, text + end, sizeof(TCHAR)* (_tcslen(text) + 1 - end));
 				SetWindowText(hWnd, text);
-				free(text);
+
 				SendMessage(hWnd, EM_SETSEL, start, start);
 				SendMessage(GetParent(hWnd), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hWnd), EN_CHANGE), (LPARAM)hWnd);
 				return 0;
