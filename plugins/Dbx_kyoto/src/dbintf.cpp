@@ -97,6 +97,8 @@ CDbxKyoto::CDbxKyoto(const TCHAR *tszFileName, int iMode) :
 
 CDbxKyoto::~CDbxKyoto()
 {
+	delete m_evCursor;
+
 	m_dbContacts.close();
 	m_dbModules.close();
 	m_dbEvents.close();
@@ -171,6 +173,8 @@ int CDbxKyoto::Load(bool bSkipInit)
 			DBContact dbc = { DBCONTACT_SIGNATURE, 0, 0, 0 };
 			m_dbContacts.set((LPCSTR)&keyVal, sizeof(keyVal), (LPCSTR)&dbc, sizeof(dbc));
 		}
+
+		m_evCursor = m_dbEventsSort.cursor();
 
 		if (InitModuleNames()) return EGROKPRF_CANTREAD;
 		if (InitCrypt())       return EGROKPRF_CANTREAD;
