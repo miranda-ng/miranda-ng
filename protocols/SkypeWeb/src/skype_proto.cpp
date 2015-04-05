@@ -17,6 +17,14 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	requestQueue = new RequestQueue(m_hNetlibUser);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
+
+	// custom event
+	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
+	dbEventType.module = m_szModuleName;
+	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_ACTION;
+	dbEventType.descr = Translate("Action");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 }
 
 CSkypeProto::~CSkypeProto()

@@ -1,30 +1,63 @@
 #include "common.h"
 
+MEVENT CSkypeProto::GetMessageFromDB(MCONTACT hContact, DWORD timestamp, const char *messageId)
+{
+	mir_cslock lock(messageSyncLock);
+
+	size_t messageIdLength = mir_strlen(messageId);
+	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent))
+	{
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
+		if (dbei.cbBlob < messageIdLength)
+			continue;
+
+		mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
+		dbei.pBlob = blob;
+		db_event_get(hDbEvent, &dbei);
+
+		if (dbei.timestamp < timestamp)
+			break;
+
+		if ((dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == SKYPE_DB_EVENT_TYPE_ACTION))
+			if (memcmp(&dbei.pBlob[dbei.cbBlob - messageIdLength], messageId, messageIdLength) == 0)
+				return hDbEvent;
+	}
+
+	return NULL;
+}
+
+MEVENT CSkypeProto::AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content, int emoteOffset)
+{
+	if (MEVENT hDbEvent = GetMessageFromDB(hContact, timestamp, messageId))
+		return hDbEvent;
+
+	size_t messageLength = mir_strlen(&content[emoteOffset]) + 1;
+	size_t messageIdLength = mir_strlen(messageId);
+	size_t cbBlob = messageLength + messageIdLength;
+	PBYTE pBlob = (PBYTE)mir_alloc(cbBlob);
+	memcpy(pBlob, &content[emoteOffset], messageLength);
+	memcpy(pBlob + messageLength, messageId, messageIdLength);
+
+	return AddEventToDb(hContact, emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, timestamp, flags, cbBlob, pBlob);
+}
+
 /* MESSAGE RECEIVING */
 
 // incoming message flow
-int CSkypeProto::OnReceiveMessage(const char *messageId, const char *from, const char *to, time_t timestamp, char *content, int emoteOffset, bool isRead)
+int CSkypeProto::OnReceiveMessage(const char *messageId, const char *skypename, time_t timestamp, char *content, int emoteOffset, bool isRead)
 {
 	setDword("LastMsgTime", timestamp);
 	PROTORECVEVENT recv = { 0 };
 	recv.flags = PREF_UTF;
 	recv.timestamp = timestamp;
-	recv.szMessage = &content[emoteOffset];
-	recv.lParam = emoteOffset == 0
-		? EVENTTYPE_MESSAGE
-		: SKYPE_DB_EVENT_TYPE_ACTION;
+	recv.szMessage = content;
+	recv.lParam = emoteOffset;
 	recv.pCustomData = (void*)messageId;
 	recv.cbCustomDataSize = mir_strlen(messageId);
 	if (isRead)
 		recv.flags |= PREF_CREATEREAD;
-	ptrA skypename(ContactUrlToName(from));
 	debugLogA("Incoming message from %s", skypename);
-	if (IsMe(skypename))
-	{
-		recv.flags |= PREF_SENT;
-		MCONTACT hContact = GetContact(ptrA(ContactUrlToName(to)));
-		return SaveMessageToDb(hContact, &recv);
-	}
 	MCONTACT hContact = GetContact(skypename);
 	return ProtoChainRecvMsg(hContact, &recv);
 }
@@ -36,19 +69,13 @@ int CSkypeProto::SaveMessageToDb(MCONTACT hContact, PROTORECVEVENT *pre)
 	if (pre->szMessage == NULL)
 		return NULL;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = GetContactProto(hContact);
-	dbei.timestamp = pre->timestamp;
-	dbei.flags = DBEF_UTF;
+	int flags = DBEF_UTF;
 	if ((pre->flags & PREF_CREATEREAD) == PREF_CREATEREAD)
-		dbei.flags |= DBEF_READ;
+		flags |= DBEF_READ;
 	if ((pre->flags & PREF_SENT) == PREF_SENT)
-		dbei.flags |= DBEF_SENT;
-	dbei.eventType = pre->lParam;
-	dbei.cbBlob = (DWORD)strlen(pre->szMessage) + 1;
-	dbei.pBlob = (PBYTE)pre->szMessage;
+		flags |= DBEF_SENT;
 
-	return (INT_PTR)db_event_add(hContact, &dbei);
+	return AddMessageToDb(hContact, pre->timestamp, flags, (char*)pre->pCustomData, pre->szMessage, pre->lParam);
 }
 
 /* MESSAGE SENDING */
@@ -87,10 +114,9 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessa
 	ptrA username(getStringA(hContact, "Skypename"));
 	if (strncmp(message, "/me ", 4) == 0)
 	{
-		// TODO: make /me action send when it will work in skype web
+		// TODO: make /me action send support
 	}
-	PushRequest(new SendMsgRequest(token, username, timestamp, message, server), &CSkypeProto::OnMessageSent, param);
-
+	PushRequest(new SendMessageRequest(token, username, timestamp, message, server), &CSkypeProto::OnMessageSent, param);
 	return timestamp;
 }
 
@@ -115,8 +141,6 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)error.GetBuffer());
 		return;
 	}
-
-	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, 0);
 }
 
 // preparing message/action to writing into db
@@ -130,14 +154,14 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 	if (strncmp(message, "/me ", 4) == 0)
 	{
 		evt->dbei->cbBlob = evt->dbei->cbBlob - 4;
-		memcpy(&evt->dbei->pBlob, &evt->dbei->pBlob[4], evt->dbei->cbBlob);
+		memmove(evt->dbei->pBlob, &evt->dbei->pBlob[4], evt->dbei->cbBlob);
 		evt->dbei->eventType = SKYPE_DB_EVENT_TYPE_ACTION;
 	}
 	char messageId[20];
 	itoa(evt->seq, messageId, 10);
 	int messageIdLength = mir_strlen(messageId);
 	evt->dbei->pBlob = (PBYTE)mir_realloc(evt->dbei->pBlob, evt->dbei->cbBlob + messageIdLength);
-	memcpy((char *)&evt->dbei->pBlob[evt->dbei->cbBlob], messageId, messageIdLength);
+	memcpy(&evt->dbei->pBlob[evt->dbei->cbBlob], messageId, messageIdLength);
 	evt->dbei->cbBlob += messageIdLength;
 
 	return 1;
@@ -170,7 +194,20 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
 		{
 			int emoteOffset = json_as_int(json_get(message, "skypeemoteoffset"));
-			OnReceiveMessage(clientMsgId, from, conversationLink, timestamp, content, emoteOffset, true);
+
+			int flags = DBEF_UTF | DBEF_READ;
+
+			ptrA skypename(ContactUrlToName(from));
+			
+			bool isMe = IsMe(skypename);
+			if (isMe)
+				flags |= DBEF_READ;
+
+			MCONTACT hContact = IsMe(skypename)
+				? GetContact(ptrA(ContactUrlToName(conversationLink)))
+				: GetContact(skypename);
+
+			AddMessageToDb(hContact, timestamp, flags, clientMsgId, content, emoteOffset);
 		}
 	}
 }

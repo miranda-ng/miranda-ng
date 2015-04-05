@@ -106,7 +106,16 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 		else if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 		{
 			int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
-			OnReceiveMessage(clientMsgId, from, conversationLink, timestamp, content, emoteOffset);
+			ptrA skypename(ContactUrlToName(from));
+			if (IsMe(skypename))
+			{
+				MCONTACT hContact = GetContact(ptrA(ContactUrlToName(conversationLink)));
+				int hMessage = atoi(clientMsgId);
+				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
+				AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, &content[emoteOffset], emoteOffset);
+				return;
+			}
+			OnReceiveMessage(clientMsgId, from, timestamp, content, emoteOffset);
 		}
 		else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage"))
 		{

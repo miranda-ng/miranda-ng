@@ -174,7 +174,12 @@ private:
 	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
 
 	// messages
-	int OnReceiveMessage(const char *messageId, const char *from, const char *to, time_t timestamp, char *content, int emoteOffset = 0, bool isRead = false);
+	mir_cs messageSyncLock;
+
+	MEVENT GetMessageFromDB(MCONTACT hContact, DWORD timestamp, const char *messageId);
+	MEVENT AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content, int emoteOffset = 0);
+
+	int OnReceiveMessage(const char *messageId, const char *skypename, time_t timestamp, char *content, int emoteOffset = 0, bool isRead = false);
 	int SaveMessageToDb(MCONTACT hContact, PROTORECVEVENT *pre);
 
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
@@ -192,6 +197,7 @@ private:
 
 	// utils
 	bool IsOnline();
+	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 	time_t __stdcall IsoToUnixTime(const TCHAR *stamp);
 	char *GetStringChunk(const char *haystack, size_t len, const char *start, const char *end);
 	bool IsMe(const char *skypeName);

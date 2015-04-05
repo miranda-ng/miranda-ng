@@ -34,7 +34,7 @@ struct FORMAT_VALUE : public VALUE
 	}
 };
 
-class HttpRequest : private NETLIBHTTPREQUEST, public MZeroedObject
+class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 {
 private:
 	va_list formatArgs;
