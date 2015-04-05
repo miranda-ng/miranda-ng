@@ -59,7 +59,7 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 	}
 
 	int ReplyLen = (ad->Reply.GetLen() + 1) * (sizeof(char)+sizeof(WCHAR));
-	PBYTE pBuf = (PBYTE)malloc(ReplyLen);
+	PBYTE pBuf = (PBYTE)_alloca(ReplyLen);
 	memcpy(pBuf, _T2A(ad->Reply), ad->Reply.GetLen() + 1);
 	memcpy(pBuf + ad->Reply.GetLen() + 1, ad->Reply, (ad->Reply.GetLen() + 1) * sizeof(WCHAR));
 	CallContactService(ad->hContact, ServiceExists(CString(szProto) + PSS_MESSAGE "W") ? (PSS_MESSAGE "W") : PSS_MESSAGE, PREF_UNICODE, (LPARAM)pBuf);
@@ -79,7 +79,6 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 		db_event_add(ad->hContact, &dbeo);
 	}
 
-	free(pBuf);
 	delete ad;
 }
 

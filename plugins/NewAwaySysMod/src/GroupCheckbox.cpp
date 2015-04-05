@@ -88,17 +88,15 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 			HFONT hOldFont = (HFONT)SelectObject(hdc, dat->hFont);
 			RECT rcText = { 0 };
 			if (hTheme) {
-				WCHAR *szText = (WCHAR*)malloc(Len * sizeof(WCHAR));
+				WCHAR *szText = (WCHAR*)_alloca(Len * sizeof(WCHAR));
 				GetWindowTextW(hWnd, szText, Len);
 				GetThemeTextExtent(hTheme, hdc, BP_GROUPBOX, IsWindowEnabled(hWnd) ? GBS_NORMAL : GBS_DISABLED, szText, -1, DT_CALCRECT | DT_LEFT | DT_VCENTER | DT_SINGLELINE, 0, &rcText);
-				free(szText);
 			}
 			else {
 				SIZE size;
-				TCHAR *szText = (TCHAR*)malloc(Len * sizeof(TCHAR));
+				TCHAR *szText = (TCHAR*)_alloca(Len * sizeof(TCHAR));
 				GetWindowText(hWnd, szText, Len);
 				GetTextExtentPoint32(hdc, szText, (int)mir_tstrlen(szText), &size);
-				free(szText);
 				rcText.right = size.cx;
 				rcText.bottom = size.cy;
 			}
@@ -276,7 +274,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 			rc.left += CG_CHECKBOX_INDENT + CG_CHECKBOX_WIDTH + CG_TEXT_INDENT;
 
 			int Len = GetWindowTextLength(hWnd) + 1;
-			TCHAR *szTextT = (TCHAR*)malloc(Len * sizeof(TCHAR));
+			TCHAR *szTextT = (TCHAR*)_alloca(Len * sizeof(TCHAR));
 			GetWindowText(hWnd, szTextT, Len);
 
 			HFONT hOldFont = (HFONT)SelectObject(hdcMem, dat->hFont);
@@ -301,11 +299,10 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 				InflateRect(&rcText, 1, -1);
 				DrawFocusRect(hdcMem, &rcText);
 			}
-			free(szTextT);
 			SelectObject(hdcMem, hOldFont);
-			if (hTheme) {
+			if (hTheme)
 				CloseThemeData(hTheme);
-			}
+
 			BitBlt(hdc, 0, 0, rc.right, rc.bottom, hdcMem, 0, 0, SRCCOPY);
 			SelectObject(hdcMem, hbmOld);
 			DeleteObject(hbmMem);

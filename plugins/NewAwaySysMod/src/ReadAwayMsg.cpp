@@ -70,10 +70,10 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			char *szProto = GetContactProto(awayData->hContact);
 			TCHAR *status = pcli->pfnGetStatusModeDescription(db_get_w(awayData->hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 			GetWindowText(hwndDlg, format, SIZEOF(format));
-			_sntprintf(str, SIZEOF(str), format, status, contactName);
+			mir_sntprintf(str, SIZEOF(str), format, status, contactName);
 			SetWindowText(hwndDlg, str);
 			GetDlgItemText(hwndDlg, IDC_READAWAYMSG_RETRIEVE, format, SIZEOF(format));
-			_sntprintf(str, SIZEOF(str), format, status);
+			mir_sntprintf(str, SIZEOF(str), format, status);
 			SetDlgItemText(hwndDlg, IDC_READAWAYMSG_RETRIEVE, str);
 		}
 		return true;
