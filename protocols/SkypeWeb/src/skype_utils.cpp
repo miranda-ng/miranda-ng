@@ -5,6 +5,18 @@ bool CSkypeProto::IsOnline()
 	return m_iStatus > ID_STATUS_OFFLINE && m_hPollingThread;
 }
 
+MEVENT CSkypeProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
+{
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.szModule = this->m_szModuleName;
+	dbei.timestamp = timestamp;
+	dbei.eventType = type;
+	dbei.cbBlob = cbBlob;
+	dbei.pBlob = pBlob;
+	dbei.flags = flags;
+	return db_event_add(hContact, &dbei);
+}
+
 time_t __stdcall CSkypeProto::IsoToUnixTime(const TCHAR *stamp)
 {
 	TCHAR date[9];

@@ -1,10 +1,10 @@
 #ifndef _SKYPE_REQUEST_MESSAGES_H_
 #define _SKYPE_REQUEST_MESSAGES_H_
 
-class SendMsgRequest : public HttpRequest
+class SendMessageRequest : public HttpRequest
 {
 public:
-	SendMsgRequest(const char *regToken, const char *username, time_t timestamp, const char *message, const char *server = "client-s.gateway.messenger.live.com") :
+	SendMessageRequest(const char *regToken, const char *username, time_t timestamp, const char *message, const char *server = "client-s.gateway.messenger.live.com") :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, username)
 	{
 		Headers
