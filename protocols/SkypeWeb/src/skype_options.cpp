@@ -23,7 +23,7 @@ void CSkypeOptionsMain::OnInitDialog()
 void CSkypeOptionsMain::OnApply()
 {
 	TCHAR *group = m_group.GetText();
-	if (mir_tstrlen(group) > 0 && Clist_GroupExists(group))
+	if (mir_tstrlen(group) > 0 && !Clist_GroupExists(group))
 		Clist_CreateGroup(0, group);
 }
 
@@ -35,7 +35,7 @@ int CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.hInstance = g_hInstance;
 	odp.pszTitle = title;
 	//odp.dwInitParam = (LPARAM)this;
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_DONTTRANSLATE;
 	odp.pszGroup = LPGEN("Network");
 
 	odp.pszTab = LPGEN("Account");
