@@ -22,9 +22,9 @@ Opadająca strzałka
 [Status message changes]
 Zmiany opisów
 [&Pseudo-edit]
-Edytuj &nazwę
+&Pseudo-edycja
 [Pseudo-edit mode...]
-Tryb zmiany nazwy...
+Tryb pseudo-edycji...
 [Group log messages]
 Grupowanie wiadomości
 [Need more options?]
