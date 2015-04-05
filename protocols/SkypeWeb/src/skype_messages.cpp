@@ -58,7 +58,7 @@ int CSkypeProto::OnReceiveMessage(const char *messageId, const char *skypename, 
 	if (isRead)
 		recv.flags |= PREF_CREATEREAD;
 	debugLogA("Incoming message from %s", skypename);
-	MCONTACT hContact = GetContact(skypename);
+	MCONTACT hContact = GetContact(ptrA(ContactUrlToName(skypename)));
 	return ProtoChainRecvMsg(hContact, &recv);
 }
 
