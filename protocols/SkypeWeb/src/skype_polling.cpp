@@ -57,10 +57,8 @@ void CSkypeProto::PollingThread(void*)
 	while (!isTerminated && !breaked && errors < POLLING_ERRORS_LIMIT)
 	{
 		PollRequest *request = new PollRequest(regToken, server);
-			NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
-			m_pollingConnection = request->nlc;
-			delete request;
-			
+		request->nlc = m_pollingConnection;
+		NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 
 		if (response != NULL)
 		{
@@ -71,14 +69,12 @@ void CSkypeProto::PollingThread(void*)
 				continue;
 			}
 			ParsePollData (root);
+
+			m_pollingConnection = response->nlc;
+			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 		}
-		/*if (response->resultCode != 200)
-		{
-			errors++;
-			continue;
-		}
-		else 
-			errors = 0;*/
+
+		delete request;
 	}
 	m_hPollingThread = NULL;
 	m_pollingConnection = NULL;
