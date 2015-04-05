@@ -12,10 +12,6 @@ public:
 		Url
 			<< INT_VALUE("client_id", 578134)
 			<< CHAR_VALUE("redirect_uri", "https%3A%2F%2Fweb.skype.com");
-
-		Headers
-			<< CHAR_VALUE("Host", "login.skype.com")
-			<< CHAR_VALUE("Connection", "keep-alive");
 	}
 
 	LoginRequest(const char *skypename, const char *password, const char *pie, const char *etm) :
@@ -28,9 +24,7 @@ public:
 			<< CHAR_VALUE("redirect_uri", "https%3A%2F%2Fweb.skype.com");
 
 		Headers
-			<< CHAR_VALUE("Host", "login.skype.com")
-			<< CHAR_VALUE("Referer", "https://login.skype.com/login?method=skype&client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com")
-			<< CHAR_VALUE("Connection", "keep-alive");
+			<< CHAR_VALUE("Referer", "https://login.skype.com/login?method=skype&client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com");
 
 		LPTIME_ZONE_INFORMATION tzi = tmi.getTziByContact(NULL);
 		char sign = tzi->Bias > 0 ? '-' : '+';

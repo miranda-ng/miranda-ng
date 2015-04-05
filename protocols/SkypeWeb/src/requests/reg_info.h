@@ -9,12 +9,8 @@ public:
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< CHAR_VALUE("Expires", "0")
 			<< FORMAT_VALUE("Authentication", "skypetoken=%s", token)
-			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8")
-			<< CHAR_VALUE("Referer", "https://web.skype.com/main")
-			<< CHAR_VALUE("Origin", "https://web.skype.com")
-			<< CHAR_VALUE("Connection", "keep-alive");
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 		
 		Body << VALUE("{}");
 	}
