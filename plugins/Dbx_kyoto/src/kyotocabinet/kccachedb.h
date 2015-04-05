@@ -83,7 +83,7 @@ class CacheDB : public BasicDB {
      */
     explicit Cursor(CacheDB* db) : db_(db), sidx_(-1), rec_(NULL) {
       _assert_(db);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       db_->curs_.push_back(this);
     }
     /**
@@ -92,7 +92,7 @@ class CacheDB : public BasicDB {
     virtual ~Cursor() {
       _assert_(true);
       if (!db_) return;
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       db_->curs_.remove(this);
     }
     /**
@@ -107,7 +107,7 @@ class CacheDB : public BasicDB {
      */
     bool accept(Visitor* visitor, bool writable = true, bool step = false) {
       _assert_(visitor);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -158,7 +158,7 @@ class CacheDB : public BasicDB {
      */
     bool jump() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -184,7 +184,7 @@ class CacheDB : public BasicDB {
      */
     bool jump(const char* kbuf, size_t ksiz) {
       _assert_(kbuf && ksiz <= MEMMAXSIZ);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -242,7 +242,7 @@ class CacheDB : public BasicDB {
      */
     bool jump_back() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -256,7 +256,7 @@ class CacheDB : public BasicDB {
      */
     bool jump_back(const char* kbuf, size_t ksiz) {
       _assert_(kbuf && ksiz <= MEMMAXSIZ);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -270,7 +270,7 @@ class CacheDB : public BasicDB {
      */
     bool jump_back(const std::string& key) {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -284,7 +284,7 @@ class CacheDB : public BasicDB {
      */
     bool step() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -303,7 +303,7 @@ class CacheDB : public BasicDB {
      */
     bool step_back() {
       _assert_(true);
-      ScopedRWLock lock(&db_->mlock_, true);
+      // ScopedRWLock lock(&db_->mlock_, true);
       if (db_->omode_ == 0) {
         db_->set_error(_KCCODELINE_, Error::INVALID, "not opened");
         return false;
@@ -373,7 +373,7 @@ class CacheDB : public BasicDB {
    * Default constructor.
    */
   explicit CacheDB() :
-      mlock_(), flock_(), error_(), logger_(NULL), logkinds_(0), mtrigger_(NULL),
+      flock_(), error_(), logger_(NULL), logkinds_(0), mtrigger_(NULL),
       omode_(0), curs_(), path_(""), type_(TYPECACHE),
       opts_(0), bnum_(DEFBNUM), capcnt_(-1), capsiz_(-1),
       opaque_(), embcomp_(ZLIBRAWCOMP), comp_(NULL), slots_(), rttmode_(true), tran_(false) {
@@ -409,7 +409,7 @@ class CacheDB : public BasicDB {
    */
   bool accept(const char* kbuf, size_t ksiz, Visitor* visitor, bool writable = true) {
     _assert_(kbuf && ksiz <= MEMMAXSIZ && visitor);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -441,7 +441,7 @@ class CacheDB : public BasicDB {
   bool accept_bulk(const std::vector<std::string>& keys, Visitor* visitor,
                    bool writable = true) {
     _assert_(visitor);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -505,7 +505,7 @@ class CacheDB : public BasicDB {
    */
   bool iterate(Visitor *visitor, bool writable = true, ProgressChecker* checker = NULL) {
     _assert_(visitor);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -578,7 +578,7 @@ class CacheDB : public BasicDB {
    */
   bool scan_parallel(Visitor *visitor, size_t thnum, ProgressChecker* checker = NULL) {
     _assert_(visitor && thnum <= MEMMAXSIZ);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -734,7 +734,7 @@ class CacheDB : public BasicDB {
    */
   bool open(const std::string& path, uint32_t mode = OWRITER | OCREATE) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -761,7 +761,7 @@ class CacheDB : public BasicDB {
    */
   bool close() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -790,7 +790,7 @@ class CacheDB : public BasicDB {
   bool synchronize(bool hard = false, FileProcessor* proc = NULL,
                    ProgressChecker* checker = NULL) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -825,7 +825,7 @@ class CacheDB : public BasicDB {
    */
   bool occupy(bool writable = true, FileProcessor* proc = NULL) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, writable);
+    // ScopedRWLock lock(&mlock_, writable);
     bool err = false;
     if (proc && !proc->process(path_, count_impl(), size_impl())) {
       set_error(_KCCODELINE_, Error::LOGIC, "processing failed");
@@ -844,19 +844,19 @@ class CacheDB : public BasicDB {
     _assert_(true);
     uint32_t wcnt = 0;
     while (true) {
-      mlock_.lock_writer();
+      // mlock_.lock_writer();
       if (omode_ == 0) {
         set_error(_KCCODELINE_, Error::INVALID, "not opened");
-        mlock_.unlock();
+        // mlock_.unlock();
         return false;
       }
       if (!(omode_ & OWRITER)) {
         set_error(_KCCODELINE_, Error::NOPERM, "permission denied");
-        mlock_.unlock();
+        // mlock_.unlock();
         return false;
       }
       if (!tran_) break;
-      mlock_.unlock();
+      // mlock_.unlock();
       if (wcnt >= LOCKBUSYLOOP) {
         Thread::chill();
       } else {
@@ -866,7 +866,7 @@ class CacheDB : public BasicDB {
     }
     tran_ = true;
     trigger_meta(MetaTrigger::BEGINTRAN, "begin_transaction");
-    mlock_.unlock();
+    // mlock_.unlock();
     return true;
   }
   /**
@@ -877,25 +877,25 @@ class CacheDB : public BasicDB {
    */
   bool begin_transaction_try(bool hard = false) {
     _assert_(true);
-    mlock_.lock_writer();
+    // mlock_.lock_writer();
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
-      mlock_.unlock();
+      // mlock_.unlock();
       return false;
     }
     if (!(omode_ & OWRITER)) {
       set_error(_KCCODELINE_, Error::NOPERM, "permission denied");
-      mlock_.unlock();
+      // mlock_.unlock();
       return false;
     }
     if (tran_) {
       set_error(_KCCODELINE_, Error::LOGIC, "competition avoided");
-      mlock_.unlock();
+      // mlock_.unlock();
       return false;
     }
     tran_ = true;
     trigger_meta(MetaTrigger::BEGINTRAN, "begin_transaction_try");
-    mlock_.unlock();
+    // mlock_.unlock();
     return true;
   }
   /**
@@ -905,7 +905,7 @@ class CacheDB : public BasicDB {
    */
   bool end_transaction(bool commit = true) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -930,7 +930,7 @@ class CacheDB : public BasicDB {
    */
   bool clear() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -950,7 +950,7 @@ class CacheDB : public BasicDB {
    */
   int64_t count() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return -1;
@@ -963,7 +963,7 @@ class CacheDB : public BasicDB {
    */
   int64_t size() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return -1;
@@ -976,7 +976,7 @@ class CacheDB : public BasicDB {
    */
   std::string path() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return "";
@@ -990,7 +990,7 @@ class CacheDB : public BasicDB {
    */
   bool status(std::map<std::string, std::string>* strmap) {
     _assert_(strmap);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -1048,7 +1048,7 @@ class CacheDB : public BasicDB {
   void log(const char* file, int32_t line, const char* func, Logger::Kind kind,
            const char* message) {
     _assert_(file && line > 0 && func && message);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (!logger_) return;
     logger_->log(file, line, func, kind, message);
   }
@@ -1062,7 +1062,7 @@ class CacheDB : public BasicDB {
    */
   bool tune_logger(Logger* logger, uint32_t kinds = Logger::WARN | Logger::ERROR) {
     _assert_(logger);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1078,7 +1078,7 @@ class CacheDB : public BasicDB {
    */
   bool tune_meta_trigger(MetaTrigger* trigger) {
     _assert_(trigger);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1093,7 +1093,7 @@ class CacheDB : public BasicDB {
    */
   bool tune_options(int8_t opts) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1108,7 +1108,7 @@ class CacheDB : public BasicDB {
    */
   bool tune_buckets(int64_t bnum) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1123,7 +1123,7 @@ class CacheDB : public BasicDB {
    */
   bool tune_compressor(Compressor* comp) {
     _assert_(comp);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1138,7 +1138,7 @@ class CacheDB : public BasicDB {
    */
   bool cap_count(int64_t count) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1153,7 +1153,7 @@ class CacheDB : public BasicDB {
    */
   bool cap_size(int64_t size) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1169,7 +1169,7 @@ class CacheDB : public BasicDB {
    */
   bool switch_rotation(bool rttmode) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     rttmode_ = rttmode;
     return true;
   }
@@ -1179,7 +1179,7 @@ class CacheDB : public BasicDB {
    */
   char* opaque() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return NULL;
@@ -1192,7 +1192,7 @@ class CacheDB : public BasicDB {
    */
   bool synchronize_opaque() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -1284,7 +1284,7 @@ class CacheDB : public BasicDB {
    */
   bool tune_type(int8_t type) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, Error::INVALID, "already opened");
       return false;
@@ -1298,7 +1298,7 @@ class CacheDB : public BasicDB {
    */
   uint8_t libver() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1311,7 +1311,7 @@ class CacheDB : public BasicDB {
    */
   uint8_t librev() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1324,7 +1324,7 @@ class CacheDB : public BasicDB {
    */
   uint8_t fmtver() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1337,7 +1337,7 @@ class CacheDB : public BasicDB {
    */
   uint8_t chksum() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1350,7 +1350,7 @@ class CacheDB : public BasicDB {
    */
   uint8_t type() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1363,7 +1363,7 @@ class CacheDB : public BasicDB {
    */
   uint8_t opts() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return 0;
@@ -1376,7 +1376,7 @@ class CacheDB : public BasicDB {
    */
   Compressor* comp() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return NULL;
@@ -1389,7 +1389,7 @@ class CacheDB : public BasicDB {
    */
   bool recovered() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -1402,7 +1402,7 @@ class CacheDB : public BasicDB {
    */
   bool reorganized() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, Error::INVALID, "not opened");
       return false;
@@ -2013,8 +2013,6 @@ class CacheDB : public BasicDB {
   CacheDB(const CacheDB&);
   /** Dummy Operator to forbid the use. */
   CacheDB& operator =(const CacheDB&);
-  /** The method lock. */
-  RWLock mlock_;
   /** The file lock. */
   Mutex flock_;
   /** The last happened error. */

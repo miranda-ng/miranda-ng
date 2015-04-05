@@ -76,28 +76,31 @@ STDMETHODIMP_(MEVENT) CDbxKyoto::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 			dbe.flags |= DBEF_ENCRYPTED;
 		}
 	}
+	DWORD dwEventId;
+	{
+		mir_cslock lck(m_csDbAccess);
+		dwEventId = ++m_dwMaxEventId;
 
-	DWORD dwEventId = ++m_dwMaxEventId;
+		BYTE *pDest = (BYTE*)_alloca(sizeof(DBEvent) + dbe.cbBlob);
+		memcpy(pDest, &dbe, sizeof(DBEvent));
+		memcpy(pDest + sizeof(DBEvent), pBlob, dbe.cbBlob);
+		m_dbEvents.set((LPCSTR)&dwEventId, sizeof(int), (LPCSTR)pDest, sizeof(DBEvent) + dbe.cbBlob);
 
-	BYTE *pDest = (BYTE*)_alloca(sizeof(DBEvent) + dbe.cbBlob);
-	memcpy(pDest, &dbe, sizeof(DBEvent));
-	memcpy(pDest + sizeof(DBEvent), pBlob, dbe.cbBlob);
-	m_dbEvents.set((LPCSTR)&dwEventId, sizeof(int), (LPCSTR)pDest, sizeof(DBEvent) + dbe.cbBlob);
-
-	// add a sorting key
-	DBEventSortingKey key2 = { contactID, dbe.timestamp, dwEventId };
-	m_dbEventsSort.set((LPCSTR)&key2, sizeof(key2), "", 1);
-
-	cc->Advance(dwEventId, dbe);
-	m_dbContacts.set((LPCSTR)&contactID, sizeof(int), (LPCSTR)&cc->dbc, sizeof(DBContact));
-
-	// insert an event into a sub's history too
-	if (ccSub != NULL) {
-		key2.dwContactId = ccSub->contactID;
+		// add a sorting key
+		DBEventSortingKey key2 = { contactID, dbe.timestamp, dwEventId };
 		m_dbEventsSort.set((LPCSTR)&key2, sizeof(key2), "", 1);
 
-		ccSub->Advance(dwEventId, dbe);
-		m_dbContacts.set((LPCSTR)&ccSub->contactID, sizeof(int), (LPCSTR)&ccSub->dbc, sizeof(DBContact));
+		cc->Advance(dwEventId, dbe);
+		m_dbContacts.set((LPCSTR)&contactID, sizeof(int), (LPCSTR)&cc->dbc, sizeof(DBContact));
+
+		// insert an event into a sub's history too
+		if (ccSub != NULL) {
+			key2.dwContactId = ccSub->contactID;
+			m_dbEventsSort.set((LPCSTR)&key2, sizeof(key2), "", 1);
+
+			ccSub->Advance(dwEventId, dbe);
+			m_dbContacts.set((LPCSTR)&ccSub->contactID, sizeof(int), (LPCSTR)&ccSub->dbc, sizeof(DBContact));
+		}
 	}
 
 	// Notify only in safe mode or on really new events
@@ -115,27 +118,32 @@ STDMETHODIMP_(BOOL) CDbxKyoto::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 	if (cc == NULL || cc->dbc.dwEventCount == 0)
 		return 1;
 
-	DBEvent dbe;
-	if (-1 == m_dbEvents.get((LPCSTR)&hDbEvent, sizeof(MEVENT), (LPSTR)&dbe, sizeof(dbe)))
-		return 1;
+	DBEvent *dbe;
+	{
+		mir_cslock lck(m_csDbAccess);
+		VisitorCopyRec visitor;
+		if (!m_dbEvents.accept((LPCSTR)&hDbEvent, sizeof(MEVENT), &visitor, false))
+			return 1;
 
-	DWORD dwSavedContact = dbe.contactID;
-	DBEventSortingKey key2 = { contactID, dbe.timestamp, hDbEvent };
-	m_dbEvents.remove((LPCSTR)&hDbEvent, sizeof(MEVENT));
+		dbe = (DBEvent*)visitor.vbuf_;
+		DWORD dwSavedContact = dbe->contactID;
+		DBEventSortingKey key2 = { contactID, dbe->timestamp, hDbEvent };
+		m_dbEvents.remove((LPCSTR)&hDbEvent, sizeof(MEVENT));
 
-	// remove a sorting key
-	m_dbEventsSort.remove((LPCSTR)&key2, sizeof(key2));
-
-	// remove a sub's history entry too
-	if (contactID != dwSavedContact) {
-		key2.dwContactId = dwSavedContact;
+		// remove a sorting key
 		m_dbEventsSort.remove((LPCSTR)&key2, sizeof(key2));
-	}
 
-	// update a contact
-	cc->dbc.dwEventCount--;
-	if (cc->dbc.dwFirstUnread == hDbEvent)
-		FindNextUnread(cc, key2);
+		// remove a sub's history entry too
+		if (contactID != dwSavedContact) {
+			key2.dwContactId = dwSavedContact;
+			m_dbEventsSort.remove((LPCSTR)&key2, sizeof(key2));
+		}
+
+		// update a contact
+		cc->dbc.dwEventCount--;
+		if (cc->dbc.dwFirstUnread == hDbEvent)
+			FindNextUnread(cc, key2);
+	}
 
 	// call notifier while outside mutex
 	NotifyEventHooks(hEventDeletedEvent, contactID, hDbEvent);
@@ -145,6 +153,7 @@ STDMETHODIMP_(BOOL) CDbxKyoto::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 STDMETHODIMP_(LONG) CDbxKyoto::GetBlobSize(MEVENT hDbEvent)
 {
 	DBEvent dbe;
+	mir_cslock lck(m_csDbAccess);
 	if (-1 == m_dbEvents.get((LPCSTR)&hDbEvent, sizeof(MEVENT), (LPSTR)&dbe, sizeof(dbe)))
 		return -1;
 
@@ -159,11 +168,12 @@ STDMETHODIMP_(BOOL) CDbxKyoto::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 		return 1;
 	}
 
-	char rec[65536];
-	if (-1 == m_dbEvents.get((LPCSTR)&hDbEvent, sizeof(MEVENT), rec, sizeof(rec)))
+	mir_cslock lck(m_csDbAccess);
+	VisitorCopyRec visitor;
+	if (!m_dbEvents.accept((LPCSTR)&hDbEvent, sizeof(MEVENT), &visitor, false))
 		return 1;
 
-	DBEvent *dbe = (DBEvent*)rec;
+	DBEvent *dbe = (DBEvent*)visitor.vbuf_;
 	if (dbe->dwSignature != DBEVENT_SIGNATURE)
 		return 1;
 
@@ -174,7 +184,7 @@ STDMETHODIMP_(BOOL) CDbxKyoto::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	int bytesToCopy = (dbei->cbBlob < dbe->cbBlob) ? dbei->cbBlob : dbe->cbBlob;
 	dbei->cbBlob = dbe->cbBlob;
 	if (bytesToCopy && dbei->pBlob) {
-		BYTE *pSrc = (BYTE*)rec + sizeof(DBEvent);
+		BYTE *pSrc = (BYTE*)visitor.vbuf_ + sizeof(DBEvent);
 		if (dbe->flags & DBEF_ENCRYPTED) {
 			dbei->flags &= ~DBEF_ENCRYPTED;
 			size_t len;
@@ -223,12 +233,12 @@ STDMETHODIMP_(BOOL) CDbxKyoto::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent
 	if (cc == NULL)
 		return -1;
 
-	char rec[65536];
-	int32_t recLen = m_dbEvents.get((LPCSTR)&hDbEvent, sizeof(MEVENT), rec, sizeof(rec));
-	if (recLen == -1)
+	mir_cslock lck(m_csDbAccess);
+	VisitorCopyRec visitor;
+	if (!m_dbEvents.accept((LPCSTR)&hDbEvent, sizeof(MEVENT), &visitor, false))
 		return -1;
 
-	DBEvent *dbe = (DBEvent*)rec;
+	DBEvent *dbe = (DBEvent*)visitor.vbuf_;
 	if (dbe->dwSignature != DBEVENT_SIGNATURE)
 		return -1;
 
@@ -238,7 +248,7 @@ STDMETHODIMP_(BOOL) CDbxKyoto::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent
 	DBEventSortingKey key2 = { contactID, dbe->timestamp, hDbEvent };
 
 	dbe->flags |= DBEF_READ;
-	m_dbEvents.set((LPCSTR)&hDbEvent, sizeof(MEVENT), rec, recLen);
+	m_dbEvents.set((LPCSTR)&hDbEvent, sizeof(MEVENT), visitor.vbuf_, visitor.vsiz_);
 
 	FindNextUnread(cc, key2);
 	m_dbContacts.set((LPCSTR)&contactID, sizeof(int), (LPCSTR)&cc->dbc, sizeof(cc->dbc));
@@ -251,29 +261,29 @@ STDMETHODIMP_(MCONTACT) CDbxKyoto::GetEventContact(MEVENT hDbEvent)
 {
 	if (hDbEvent == 0) return INVALID_CONTACT_ID;
 
-	char rec[65536];
-	if (-1 == m_dbEvents.get((LPCSTR)&hDbEvent, sizeof(MEVENT), rec, sizeof(rec)))
+	mir_cslock lck(m_csDbAccess);
+	VisitorCopyRec visitor;
+	if (!m_dbEvents.accept((LPCSTR)&hDbEvent, sizeof(MEVENT), &visitor, false))
 		return 1;
 
-	DBEvent *dbe = (DBEvent*)rec;
+	DBEvent *dbe = (DBEvent*)visitor.vbuf_;
 	return (dbe->dwSignature == DBEVENT_SIGNATURE) ? dbe->contactID : INVALID_CONTACT_ID;
 }
 
 STDMETHODIMP_(MEVENT) CDbxKyoto::FindFirstEvent(MCONTACT contactID)
 {
-	size_t size;
-	DBEventSortingKey keyVal = { contactID, 0, 0 }, *pKey;
+	DBEventSortingKey keyVal = { contactID, 0, 0 };
 	{
 		mir_cslock lck(m_csDbAccess);
 		m_evCursor->jump((LPCSTR)&keyVal, sizeof(keyVal));
-		pKey = (DBEventSortingKey*)m_evCursor->get_key(&size);
-	}
-	if (pKey == NULL)
-		return m_evLast = 0;
+		if (!m_evCursor->kbuf_)
+			return m_evLast = 0;
 
-	m_tsLast = pKey->ts;
-	m_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
-	delete[] pKey;
+		keyVal = *(DBEventSortingKey*)m_evCursor->kbuf_;
+	}
+
+	m_tsLast = keyVal.ts;
+	m_evLast = (keyVal.dwContactId == contactID) ? keyVal.dwEventId : 0;
 	return m_evLast;
 }
 
@@ -285,20 +295,18 @@ STDMETHODIMP_(MEVENT) CDbxKyoto::FindFirstUnreadEvent(MCONTACT contactID)
 
 STDMETHODIMP_(MEVENT) CDbxKyoto::FindLastEvent(MCONTACT contactID)
 {
-	size_t size;
-	DBEventSortingKey keyVal = { contactID, 0xFFFFFFFF, 0xFFFFFFFF }, *pKey;
+	DBEventSortingKey keyVal = { contactID, 0xFFFFFFFF, 0xFFFFFFFF };
 	{
 		mir_cslock lck(m_csDbAccess);
 		m_evCursor->jump_back((LPCSTR)&keyVal, sizeof(keyVal));
-		pKey = (DBEventSortingKey*)m_evCursor->get_key(&size);
+		if (!m_evCursor->kbuf_)
+			return m_evLast = 0;
+
+		keyVal = *(DBEventSortingKey*)m_evCursor->kbuf_;
 	}
 
-	if (pKey == NULL)
-		return m_evLast = 0;
-
-	m_tsLast = pKey->ts;
-	m_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
-	delete[] pKey;
+	m_tsLast = keyVal.ts;
+	m_evLast = (keyVal.dwContactId == contactID) ? keyVal.dwEventId : 0;
 	return m_evLast;
 }
 
@@ -306,30 +314,26 @@ STDMETHODIMP_(MEVENT) CDbxKyoto::FindNextEvent(MCONTACT contactID, MEVENT hDbEve
 {
 	if (hDbEvent == 0) return m_evLast = 0;
 
-	DWORD ts;
-
-	if (m_evLast != hDbEvent) {
-		DBEvent dbe;
-		if (-1 == m_dbEvents.get((LPCSTR)&hDbEvent, sizeof(MEVENT), (LPSTR)&dbe, sizeof(dbe)))
-			return 0;
-		m_tsLast = ts = dbe.timestamp;
-	}
-	else ts = m_tsLast;
-
-	size_t size;
-	DBEventSortingKey keyVal = { contactID, ts, hDbEvent + 1 }, *pKey;
+	DBEventSortingKey keyVal = { contactID, 0, hDbEvent + 1 };
 	{
 		mir_cslock lck(m_csDbAccess);
+		if (m_evLast != hDbEvent) {
+			DBEvent dbe;
+			if (-1 == m_dbEvents.get((LPCSTR)&hDbEvent, sizeof(MEVENT), (LPSTR)&dbe, sizeof(dbe)))
+				return 0;
+			m_tsLast = keyVal.ts = dbe.timestamp;
+		}
+		else keyVal.ts = m_tsLast;
+
 		m_evCursor->jump((LPCSTR)&keyVal, sizeof(keyVal));
-		pKey = (DBEventSortingKey*)m_evCursor->get_key(&size);
+		if (!m_evCursor->kbuf_)
+			return m_evLast = 0;
+
+		keyVal = *(DBEventSortingKey*)m_evCursor->kbuf_;
 	}
 
-	if (pKey == NULL)
-		return m_evLast = 0;
-
-	m_tsLast = pKey->ts;
-	m_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
-	delete[] pKey;
+	m_tsLast = keyVal.ts;
+	m_evLast = (keyVal.dwContactId == contactID) ? keyVal.dwEventId : 0;
 	return m_evLast;
 }
 
@@ -337,30 +341,26 @@ STDMETHODIMP_(MEVENT) CDbxKyoto::FindPrevEvent(MCONTACT contactID, MEVENT hDbEve
 {
 	if (hDbEvent == 0) return m_evLast = 0;
 
-	DWORD ts;
-
-	if (m_evLast != hDbEvent) {
-		DBEvent dbe;
-		if (-1 == m_dbEvents.get((LPCSTR)&hDbEvent, sizeof(MEVENT), (LPSTR)&dbe, sizeof(dbe)))
-			return 0;
-		m_tsLast = ts = dbe.timestamp;
-	}
-	else ts = m_tsLast;
-
-	size_t size;
-	DBEventSortingKey keyVal = { contactID, ts, hDbEvent - 1 }, *pKey;
+	DBEventSortingKey keyVal = { contactID, 0, hDbEvent - 1 };
 	{
 		mir_cslock lck(m_csDbAccess);
+		if (m_evLast != hDbEvent) {
+			DBEvent dbe;
+			if (-1 == m_dbEvents.get((LPCSTR)&hDbEvent, sizeof(MEVENT), (LPSTR)&dbe, sizeof(dbe)))
+				return 0;
+			m_tsLast = keyVal.ts = dbe.timestamp;
+		}
+		else keyVal.ts = m_tsLast;
+
 		m_evCursor->jump_back((LPCSTR)&keyVal, sizeof(keyVal));
-		pKey = (DBEventSortingKey*)m_evCursor->get_key(&size);
+		if (!m_evCursor->kbuf_)
+			return m_evLast = 0;
+
+		keyVal = *(DBEventSortingKey*)m_evCursor->kbuf_;
 	}
 
-	if (pKey == NULL)
-		return m_evLast = 0;
-
-	m_tsLast = pKey->ts;
-	m_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
-	delete[] pKey;
+	m_tsLast = keyVal.ts;
+	m_evLast = (keyVal.dwContactId == contactID) ? keyVal.dwEventId : 0;
 	return m_evLast;
 }
 

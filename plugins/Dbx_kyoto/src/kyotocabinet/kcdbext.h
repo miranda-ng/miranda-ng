@@ -854,7 +854,7 @@ class IndexDB {
    * Default constructor.
    */
   explicit IndexDB() :
-      mlock_(), db_(), omode_(0),
+      db_(), omode_(0),
       rcomp_(NULL), tmppath_(""), tmpdbs_(NULL), dbnum_(DEFDBNUM), dbclock_(0),
       cache_(NULL), csiz_(0), clim_(0) {
     _assert_(true);
@@ -913,7 +913,7 @@ class IndexDB {
   bool open(const std::string& path = ":",
             uint32_t mode = BasicDB::OWRITER | BasicDB::OCREATE) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ != 0) {
       set_error(_KCCODELINE_, BasicDB::Error::INVALID, "already opened");
       return false;
@@ -1045,7 +1045,7 @@ class IndexDB {
    */
   bool close() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, BasicDB::Error::INVALID, "not opened");
       return false;
@@ -1090,7 +1090,7 @@ class IndexDB {
    */
   bool set(const char* kbuf, size_t ksiz, const char* vbuf, size_t vsiz) {
     _assert_(kbuf && ksiz <= MEMMAXSIZ && vbuf && vsiz <= MEMMAXSIZ);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, BasicDB::Error::INVALID, "not opened");
       return false;
@@ -1126,7 +1126,7 @@ class IndexDB {
    */
   bool add(const char* kbuf, size_t ksiz, const char* vbuf, size_t vsiz) {
     _assert_(kbuf && ksiz <= MEMMAXSIZ && vbuf && vsiz <= MEMMAXSIZ);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, BasicDB::Error::INVALID, "not opened");
       return false;
@@ -1165,7 +1165,7 @@ class IndexDB {
    */
   bool replace(const char* kbuf, size_t ksiz, const char* vbuf, size_t vsiz) {
     _assert_(kbuf && ksiz <= MEMMAXSIZ && vbuf && vsiz <= MEMMAXSIZ);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, BasicDB::Error::INVALID, "not opened");
       return false;
@@ -1205,7 +1205,7 @@ class IndexDB {
    */
   bool append(const char* kbuf, size_t ksiz, const char* vbuf, size_t vsiz) {
     _assert_(kbuf && ksiz <= MEMMAXSIZ && vbuf && vsiz <= MEMMAXSIZ);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, BasicDB::Error::INVALID, "not opened");
       return false;
@@ -1237,7 +1237,7 @@ class IndexDB {
    */
   bool remove(const char* kbuf, size_t ksiz) {
     _assert_(kbuf && ksiz <= MEMMAXSIZ);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, BasicDB::Error::INVALID, "not opened");
       return false;
@@ -1274,7 +1274,7 @@ class IndexDB {
    */
   char* get(const char* kbuf, size_t ksiz, size_t* sp) {
     _assert_(kbuf && ksiz <= MEMMAXSIZ && sp);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, BasicDB::Error::INVALID, "not opened");
       *sp = 0;
@@ -1382,7 +1382,7 @@ class IndexDB {
    */
   bool synchronize(bool hard = false, BasicDB::FileProcessor* proc = NULL) {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, BasicDB::Error::INVALID, "not opened");
       return false;
@@ -1403,7 +1403,7 @@ class IndexDB {
    */
   bool clear() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, true);
+    // ScopedRWLock lock(&mlock_, true);
     if (omode_ == 0) {
       set_error(_KCCODELINE_, BasicDB::Error::INVALID, "not opened");
       return false;
@@ -1422,7 +1422,7 @@ class IndexDB {
    */
   int64_t count() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     return count_impl();
   }
   /**
@@ -1431,7 +1431,7 @@ class IndexDB {
    */
   int64_t size() {
     _assert_(true);
-    ScopedRWLock lock(&mlock_, false);
+    // ScopedRWLock lock(&mlock_, false);
     return size_impl();
   }
   /**
@@ -1658,8 +1658,6 @@ class IndexDB {
   IndexDB(const IndexDB&);
   /** Dummy Operator to forbid the use. */
   IndexDB& operator =(const IndexDB&);
-  /** The method lock. */
-  RWLock mlock_;
   /** The internal database. */
   PolyDB db_;
   /** The open mode. */
