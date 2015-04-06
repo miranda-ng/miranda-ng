@@ -876,14 +876,29 @@ static int CopySystemSettings(const char *szModuleName, DWORD, LPARAM param)
 static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoCount)
 {
 	MCONTACT hDst;
+	bool bIsMeta = false;
+	bool bIsRelational = srcDb->IsRelational() != 0;
 
 	// Is it contact's history import?
 	if (hContact) {
 		// we ignore history import for metacontacts
 		// the metahistory will be generated automatically by gathering subs' histories
 		DBCachedContact *cc = srcDb->m_cache->GetCachedContact(hContact);
-		if (cc == NULL || cc->IsMeta())
+		if (cc == NULL)
 			return;
+
+		// for k/v databases we read history for subs only
+		if (bIsRelational) {
+			if (cc->IsMeta())
+				return;
+		}
+		// for mmap we read history for metas only
+		else {
+			if (cc->IsSub())
+				return;
+			
+			bIsMeta = cc->IsMeta();
+		}
 
 		if ((hDst = MapContact(hContact)) == INVALID_CONTACT_ID) {
 			nSkippedContacts++;
@@ -967,10 +982,14 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 						dbei.flags |= DBEF_READ;
 
 					// add dbevent
-					if (dstDb->AddEvent(hDst, &dbei) != NULL)
-						nMessagesCount++;
-					else
-						AddMessage(LPGENT("Failed to add message"));
+					MCONTACT hOwner = (bIsMeta) ? MapContact(srcDb->GetEventContact(hEvent)) : hDst;
+					if (hOwner != INVALID_CONTACT_ID) {
+						// add dbevent 
+						if (dstDb->AddEvent(hOwner, &dbei) != NULL)
+							nMessagesCount++;
+						else
+							AddMessage(LPGENT("Failed to add message"));
+					}
 				}
 				else nDupes++;
 			}

@@ -148,6 +148,7 @@ struct CDbxKV : public MIDatabase, public MIDatabaseChecker, public MZeroedObjec
 	__forceinline bool usesPassword() const { return m_bUsesPassword; }
 
 public:
+	STDMETHODIMP_(BOOL)     IsRelational(void) { return TRUE; }
 	STDMETHODIMP_(void)     SetCacheSafetyMode(BOOL);
 
 	STDMETHODIMP_(LONG)     GetContactCount(void);
