@@ -115,7 +115,8 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessa
 	ptrA username(getStringA(hContact, "Skypename"));
 	if (strncmp(message, "/me ", 4) == 0)
 	{
-		// TODO: make /me action send support
+		PushRequest(new SendActionRequest(token, username, timestamp, &message[4], server), &CSkypeProto::OnMessageSent, param);
+		return timestamp;
 	}
 	PushRequest(new SendMessageRequest(token, username, timestamp, message, server), &CSkypeProto::OnMessageSent, param);
 	return timestamp;
