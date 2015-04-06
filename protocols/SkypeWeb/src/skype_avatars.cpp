@@ -35,6 +35,8 @@ void CSkypeProto::ReloadAvatarInfo(MCONTACT hContact)
 
 void CSkypeProto::OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 {
+	if (response == NULL)
+		return;
 	MCONTACT hContact = (MCONTACT)arg;
 	if (response->resultCode != 200)
 		return;
