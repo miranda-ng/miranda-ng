@@ -403,7 +403,7 @@ INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 	int proto_num = -1;
 	Protocol *proto = NULL;
 
-	if (status < ID_STATUS_OFFLINE || status > ID_STATUS_OUTTOLUNCH)
+	if (status != 0 && (status < ID_STATUS_OFFLINE || status > ID_STATUS_OUTTOLUNCH)) 
 		return -10;
 
 	if (proto_name != NULL) {
@@ -423,7 +423,12 @@ INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 			return -2;
 	}
 	else if (ServiceExists(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG)) {
-		CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, status, (LPARAM)proto_name);
+		if (status != 0)
+			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, status, (LPARAM)proto_name);
+		else if (proto != 0) 
+			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, proto->status, (LPARAM)proto_name); 
+		else
+			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, protocols->GetGlobalStatus(), NULL);    
 		return 0;
 	}
 
