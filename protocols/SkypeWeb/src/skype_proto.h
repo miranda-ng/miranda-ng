@@ -102,6 +102,7 @@ private:
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
 
 	// requests
 	void PushRequest(HttpRequest *request);
@@ -157,6 +158,11 @@ private:
 	WORD GetContactStatus(MCONTACT hContact);
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
+
+	void SetAvatarUrl(MCONTACT hContact, CMString &tszUrl);
+	void ReloadAvatarInfo(MCONTACT hContact);
+	void GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen);
+	void OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg);
 
 	MCONTACT GetContact(const char *skypename);
 

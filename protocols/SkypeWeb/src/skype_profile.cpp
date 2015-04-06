@@ -427,8 +427,13 @@ void CSkypeProto::UpdateProfileXStatusMessage(JSONNODE *root, MCONTACT hContact)
 
 void CSkypeProto::UpdateProfileAvatar(JSONNODE *root, MCONTACT hContact)
 {
-	//JSONNODE *node = json_get(root, "avatarUrl");
-	// add avatar support
+	JSONNODE *node = json_get(root, "avatarUrl");
+	CMString province = mir_t2a(ptrT(json_as_string(node)));
+	if (!province.IsEmpty() && province != "null")
+	{
+		SetAvatarUrl(hContact, province);
+		ReloadAvatarInfo(hContact);
+	}
 }
 
 //{"firstname":"Echo \/ Sound Test Service", "lastname" : null, "birthday" : null, "gender" : null, "country" : null, "city" : null, "language" : null, "homepage" : null, "about" : null, "province" : null, "jobtitle" : null, "emails" : [], "phoneMobile" : null, "phoneHome" : null, "phoneOffice" : null, "mood" : null, "richMood" : null, "avatarUrl" : null, "username" : "echo123"}

@@ -203,6 +203,7 @@
   <ItemGroup>
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\http_request.h" />
+    <ClInclude Include="src\requests\avatars.h" />
     <ClInclude Include="src\requests\contacts.h" />
     <ClInclude Include="src\requests\endpoint.h" />
     <ClInclude Include="src\requests\login.h" />
@@ -225,6 +226,7 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\request_queue.cpp" />
+    <ClCompile Include="src\skype_avatars.cpp" />
     <ClCompile Include="src\skype_profile.cpp" />
     <ClCompile Include="src\skype_request.cpp" />
     <ClCompile Include="src\skype_status.cpp" />
