@@ -69,7 +69,7 @@ void CSkypeProto::PollingThread(void*)
 				continue;
 			}
 			ParsePollData (root);
-
+			errors = 0;
 			m_pollingConnection = response->nlc;
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 		}
