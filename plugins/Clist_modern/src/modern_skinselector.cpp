@@ -35,8 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// IMPLEMENTATIONS
 char* ModernMaskToString(MODERNMASK *mm, char * buf, UINT bufsize)
 {
-	int i = 0;
-	for (i = 0; i < (int)mm->dwParamCnt; i++) {
+	for (int i = 0; i < (int)mm->dwParamCnt; i++) {
 		if (mm->pl_Params[i].bMaskParamFlag) {
 			if (i>0)
 				mir_snprintf(buf, bufsize, "%s%%", buf);
@@ -51,9 +50,8 @@ char* ModernMaskToString(MODERNMASK *mm, char * buf, UINT bufsize)
 }
 int SkinSelector_DeleteMask(MODERNMASK *mm)
 {
-	int i;
 	if (!mm->pl_Params) return 0;
-	for (i = 0; i < (int)mm->dwParamCnt; i++) {
+	for (int i = 0; i < (int)mm->dwParamCnt; i++) {
 		free(mm->pl_Params[i].szName);
 		free(mm->pl_Params[i].szValue);
 	}
@@ -135,10 +133,9 @@ int AddModernMaskToList(MODERNMASK *mm, LISTMODERNMASK * mmTemplateList)
 
 int ClearMaskList(LISTMODERNMASK * mmTemplateList)
 {
-	int i;
 	if (!mmTemplateList) return -1;
 	if (!mmTemplateList->pl_Masks) return -1;
-	for (i = 0; i < (int)mmTemplateList->dwMaskCnt; i++)
+	for (int i = 0; i < (int)mmTemplateList->dwMaskCnt; i++)
 		SkinSelector_DeleteMask(&(mmTemplateList->pl_Masks[i]));
 	mir_free_and_nil(mmTemplateList->pl_Masks);
 	mmTemplateList->dwMaskCnt = 0;
@@ -156,12 +153,10 @@ int DeleteMaskByItID(DWORD mID, LISTMODERNMASK *mmTemplateList)
 		mmTemplateList->dwMaskCnt--;
 	}
 	else {
-		MODERNMASK *newAlocation;
-		DWORD i;
 		SkinSelector_DeleteMask(&(mmTemplateList->pl_Masks[mID]));
-		newAlocation = (MODERNMASK *)mir_alloc(sizeof(MODERNMASK)*mmTemplateList->dwMaskCnt - 1);
+		MODERNMASK *newAlocation = (MODERNMASK *)mir_alloc(sizeof(MODERNMASK)*mmTemplateList->dwMaskCnt - 1);
 		memcpy(newAlocation, mmTemplateList->pl_Masks, sizeof(MODERNMASK)*(mID + 1));
-		for (i = mID; i < mmTemplateList->dwMaskCnt - 1; i++) {
+		for (DWORD i = mID; i < mmTemplateList->dwMaskCnt - 1; i++) {
 			newAlocation[i] = mmTemplateList->pl_Masks[i + 1];
 			newAlocation[i].dwMaskId = i;
 		}
@@ -391,12 +386,11 @@ BOOL CompareModernMask(MODERNMASK *mmValue, MODERNMASK *mmTemplate)
 	return res;
 };
 
-BOOL CompareStrWithModernMask(char * szValue, MODERNMASK *mmTemplate)
+BOOL CompareStrWithModernMask(char *szValue, MODERNMASK *mmTemplate)
 {
 	MODERNMASK mmValue = { 0 };
-	int res;
 	if (!ParseToModernMask(&mmValue, szValue)) {
-		res = CompareModernMask(&mmValue, mmTemplate);
+		BOOL res = CompareModernMask(&mmValue, mmTemplate);
 		SkinSelector_DeleteMask(&mmValue);
 		return res;
 	}
@@ -404,7 +398,7 @@ BOOL CompareStrWithModernMask(char * szValue, MODERNMASK *mmTemplate)
 };
 
 // AddingMask
-int AddStrModernMaskToList(DWORD maskID, char * szStr, char * objectName, LISTMODERNMASK * mmTemplateList)
+int AddStrModernMaskToList(DWORD maskID, char *szStr, char *objectName, LISTMODERNMASK *mmTemplateList)
 {
 	if (!szStr || !mmTemplateList) return -1;
 
@@ -418,24 +412,18 @@ int AddStrModernMaskToList(DWORD maskID, char * szStr, char * objectName, LISTMO
 	return AddModernMaskToList(&mm, mmTemplateList);
 }
 
-SKINOBJECTDESCRIPTOR *  skin_FindObjectByMask(MODERNMASK *mm, LISTMODERNMASK * mmTemplateList)
+SKINOBJECTDESCRIPTOR *skin_FindObjectByMask(MODERNMASK *mm, LISTMODERNMASK *mmTemplateList)
 {
-	SKINOBJECTDESCRIPTOR * res = NULL;
-	DWORD i = 0;
-	while (i < mmTemplateList->dwMaskCnt) {
-		if (CompareModernMask(mm, &(mmTemplateList->pl_Masks[i]))) {
-			res = (SKINOBJECTDESCRIPTOR*)mmTemplateList->pl_Masks[i].pObject;
-			return res;
-		}
-		i++;
-	}
-	return res;
+	for (DWORD i = 0;i < mmTemplateList->dwMaskCnt;i++)
+		if (CompareModernMask(mm, &(mmTemplateList->pl_Masks[i])))
+			return (SKINOBJECTDESCRIPTOR*)mmTemplateList->pl_Masks[i].pObject;
+
+	return NULL;
 }
 
-SKINOBJECTDESCRIPTOR *  skin_FindObjectByRequest(char * szValue, LISTMODERNMASK * mmTemplateList)
+SKINOBJECTDESCRIPTOR *skin_FindObjectByRequest(char * szValue, LISTMODERNMASK *mmTemplateList)
 {
 	MODERNMASK mm = { 0 };
-	SKINOBJECTDESCRIPTOR * res = NULL;
 	if (!mmTemplateList)
 		if (g_SkinObjectList.pMaskList)
 			mmTemplateList = g_SkinObjectList.pMaskList;
@@ -444,12 +432,12 @@ SKINOBJECTDESCRIPTOR *  skin_FindObjectByRequest(char * szValue, LISTMODERNMASK 
 
 	if (!mmTemplateList) return NULL;
 	ParseToModernMask(&mm, szValue);
-	res = skin_FindObjectByMask(&mm, mmTemplateList);
+	SKINOBJECTDESCRIPTOR *res = skin_FindObjectByMask(&mm, mmTemplateList);
 	SkinSelector_DeleteMask(&mm);
 	return res;
 }
 
-TCHAR* GetParamNT(char * string, TCHAR * buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces)
+TCHAR* GetParamNT(char *string, TCHAR *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces)
 {
 	char *ansibuf = (char*)mir_alloc(buflen / sizeof(TCHAR));
 	GetParamN(string, ansibuf, buflen / sizeof(TCHAR), paramN, Delim, SkipSpaces);
@@ -570,7 +558,6 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 {
 	if (!ObjectName || !Params) return 0;
 	{
-		int res = 0;
 		SKINOBJECTDESCRIPTOR obj = { 0 };
 		char buf[250];
 		obj.szObjectID = mir_strdup(ObjectName);
@@ -587,11 +574,10 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 			GetParamN(Params, buf, SIZEOF(buf), 1, ',', 0);
 			if (mir_bool_strcmpi(buf, "Solid")) {
 				//Solid
-				int r, g, b;
 				gl.Style = ST_BRUSH;
-				r = atoi(GetParamN(Params, buf, SIZEOF(buf), 2, ',', 0));
-				g = atoi(GetParamN(Params, buf, SIZEOF(buf), 3, ',', 0));
-				b = atoi(GetParamN(Params, buf, SIZEOF(buf), 4, ',', 0));
+				int r = atoi(GetParamN(Params, buf, SIZEOF(buf), 2, ',', 0));
+				int g = atoi(GetParamN(Params, buf, SIZEOF(buf), 3, ',', 0));
+				int b = atoi(GetParamN(Params, buf, SIZEOF(buf), 4, ',', 0));
 				gl.dwAlpha = atoi(GetParamN(Params, buf, SIZEOF(buf), 5, ',', 0));
 				gl.dwColor = RGB(r, g, b);
 			}
@@ -636,7 +622,7 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 				gl.Style = ST_SKIP;
 			}
 			obj.Data = &gl;
-			res = ske_AddDescriptorToSkinObjectList(&obj, NULL);
+			int res = ske_AddDescriptorToSkinObjectList(&obj, NULL);
 			mir_free_and_nil(obj.szObjectID);
 			mir_free_and_nil(gl.szFileName);
 			return res;
@@ -656,7 +642,7 @@ int SkinDrawGlyphMask(HDC hdc, RECT *rcSize, RECT *rcClip, MODERNMASK *ModernMas
 	rq.hDC = hdc;
 	rq.rcDestRect = *rcSize;
 	rq.rcClipRect = *rcClip;
-	strncpy(rq.szObjectID, "Masked draw", SIZEOF("Masked draw"));
+	strncpy(rq.szObjectID, "Masked draw", SIZEOF(rq.szObjectID)-1);
 	return ske_Service_DrawGlyph((WPARAM)&rq, (LPARAM)ModernMask);
 }
 
@@ -678,7 +664,7 @@ int __inline SkinDrawWindowBack(HWND hwndIn, HDC hdc, RECT *rcClip, char * objec
 	rq.hDC = hdc;
 	rq.rcDestRect = rc;
 	rq.rcClipRect = *rcClip;
-	strncpy(rq.szObjectID, objectID, SIZEOF(rq.szObjectID));
+	strncpy(rq.szObjectID, objectID, SIZEOF(rq.szObjectID)-1);
 	///ske_Service_DrawGlyph((WPARAM)&rq,0);    //$$$
 	return CallService(MS_SKIN_DRAWGLYPH, (WPARAM)&rq, 0);
 }

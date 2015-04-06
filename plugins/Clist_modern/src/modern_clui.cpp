@@ -761,15 +761,13 @@ void CLUI_ChangeWindowMode()
 	CLUIFrames_UpdateBorders();
 
 	if (!g_CluiData.fLayered) {
-		HRGN hRgn1;
 		RECT r;
-		int v, h;
 		int w = 10;
 		GetWindowRect(pcli->hwndContactList, &r);
-		h = (r.right - r.left) > (w * 2) ? w : (r.right - r.left);
-		v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
+		int h = (r.right - r.left) > (w * 2) ? w : (r.right - r.left);
+		int v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
 		h = (h < v) ? h : v;
-		hRgn1 = CreateRoundRectRgn(0, 0, (r.right - r.left + 1), (r.bottom - r.top + 1), h, h);
+		HRGN hRgn1 = CreateRoundRectRgn(0, 0, (r.right - r.left + 1), (r.bottom - r.top + 1), h, h);
 		if ((db_get_b(NULL, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT)) && (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)))
 			SetWindowRgn(pcli->hwndContactList, hRgn1, 1);
 		else {
@@ -824,14 +822,13 @@ int CLUI_HideBehindEdge()
 	if (method) {
 		RECT rcScreen;
 		RECT rcWindow;
-		int bordersize = 0;
 		//Need to be moved out of screen
 		bShowEventStarted = 0;
 		//1. get work area rectangle
 		Docking_GetMonitorRectFromWindow(pcli->hwndContactList, &rcScreen);
 		//SystemParametersInfo(SPI_GETWORKAREA, 0, &rcScreen,FALSE);
 		//2. move out
-		bordersize = wBehindEdgeBorderSize;
+		int bordersize = wBehindEdgeBorderSize;
 		GetWindowRect(pcli->hwndContactList, &rcWindow);
 		switch (method) {
 		case 1: //left
@@ -867,7 +864,6 @@ int CLUI_ShowFromBehindEdge()
 	if (method) {
 		RECT rcScreen;
 		RECT rcWindow;
-		int bordersize = 0;
 		//Need to be moved out of screen
 
 		//1. get work area rectangle
@@ -875,7 +871,7 @@ int CLUI_ShowFromBehindEdge()
 		Docking_GetMonitorRectFromWindow(pcli->hwndContactList, &rcScreen);
 
 		//2. move out
-		bordersize = wBehindEdgeBorderSize;
+		int bordersize = wBehindEdgeBorderSize;
 		GetWindowRect(pcli->hwndContactList, &rcWindow);
 		switch (method) {
 		case 1: //left
@@ -1171,8 +1167,8 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 			HDC hdcBmp = CreateCompatibleDC(hdc);
 			HBITMAP oldbm = (HBITMAP)SelectObject(hdcBmp, dat->hMenuBackground);
 			int y = clRect.top, x = clRect.left, destw, desth;
-			int maxx = (dat->MenuBmpUse & CLBF_TILEH) ? maxx = r1.right : x + 1;
-			int maxy = (dat->MenuBmpUse & CLBF_TILEV) ? maxy = r1.bottom : y + 1;
+			int maxx = (dat->MenuBmpUse & CLBF_TILEH) ? r1.right : x + 1;
+			int maxy = (dat->MenuBmpUse & CLBF_TILEV) ? r1.bottom : y + 1;
 
 			switch (dat->MenuBmpUse & CLBM_TYPE) {
 			case CLB_STRETCH:
@@ -1307,11 +1303,10 @@ int CLUI_TestCursorOnBorders()
 	RECT r;
 	POINT pt;
 	int k = 0, fx, fy;
-	HWND hAux;
 	BOOL mouse_in_window = 0;
 	HWND gf = GetForegroundWindow();
 	GetCursorPos(&pt);
-	hAux = WindowFromPoint(pt);
+	HWND hAux = WindowFromPoint(pt);
 	if (CLUI_CheckOwnedByClui(hAux)) {
 		if (g_bTransparentFlag) {
 			if (!bTransparentFocus && gf != hwnd) {
@@ -1726,8 +1721,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	else if (msg == WM_WINDOWPOSCHANGING) {
 		// Snaping if it is not in LayeredMode
-		WINDOWPOS * wp;
-		wp = (WINDOWPOS *)lParam;
+		WINDOWPOS *wp = (WINDOWPOS *)lParam;
 		CLUI::SnappingToEdge(wp);
 		return DefWindowProc(m_hWnd, msg, wParam, lParam);
 	}
@@ -1804,11 +1798,10 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (!g_CluiData.fLayered) {
 				HRGN hRgn1;
 				RECT r;
-				int v, h;
 				int w = 10;
 				GetWindowRect(m_hWnd, &r);
-				h = (r.right - r.left) > (w * 2) ? w : (r.right - r.left);
-				v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
+				int h = (r.right - r.left) > (w * 2) ? w : (r.right - r.left);
+				int v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
 				h = (h < v) ? h : v;
 				hRgn1 = CreateRoundRectRgn(0, 0, (r.right - r.left + 1), (r.bottom - r.top + 1), h, h);
 				if ((db_get_b(NULL, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT)) && (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)))
@@ -1829,14 +1822,6 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 		}
 		return TRUE;
-
-	case WM_WINDOWPOSCHANGING:
-		WINDOWPOS *wp = (WINDOWPOS *)lParam;
-		if (wp->flags&SWP_HIDEWINDOW && mutex_bAnimationInProgress)
-			return 0;
-		if (g_CluiData.fOnDesktop)
-			wp->flags |= SWP_NOACTIVATE | SWP_NOZORDER;
-		return DefWindowProc(m_hWnd, msg, wParam, lParam);
 	}
 	return 0;
 }
@@ -2419,10 +2404,7 @@ LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL * pnmc)
 	}
 	else bNeedFixSizingRect = 0;
 
-	if (!mutex_bDuringSizing)
-		SetWindowPos(m_hWnd, 0, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE);
-	else
-		SetWindowPos(m_hWnd, 0, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE);
+	SetWindowPos(m_hWnd, 0, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE);
 
 	nRequiredHeight = 0;
 

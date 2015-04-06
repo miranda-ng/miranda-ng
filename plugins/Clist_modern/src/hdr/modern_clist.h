@@ -85,7 +85,7 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 	int      NotOnList;
 	int      IdleTS;
 	void*    ClcContact;
-	BYTE     IsExpanded;
+	int      IsExpanded;
 
 	TCHAR*   szSecondLineText;
 	CSmileyString ssSecondLine;

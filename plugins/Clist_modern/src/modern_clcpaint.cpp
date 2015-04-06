@@ -558,6 +558,9 @@ void  CLCPaint::_AddParamShort(MODERNMASK *mpModernMask, DWORD dwParamIndex, DWO
 
 MODERNMASK *CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContact *Drawing, int indent, int index, BOOL selected, BOOL hottrack, ClcData *dat)
 {
+	if (Drawing == NULL)
+		return 0;
+
 	char buf[BUF2SIZE] = { 0 };
 	MODERNMASK *mpModernMask = (MODERNMASK*)mir_calloc(sizeof(MODERNMASK));
 
@@ -566,7 +569,7 @@ MODERNMASK *CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 	switch (Drawing->type) {
 	case CLCIT_GROUP:
 		_AddParamShort(mpModernMask, hi_Type, hi_Group);
-		_AddParamShort(mpModernMask, hi_Open, (Drawing && Drawing->group && Drawing->group->expanded) ? hi_True : hi_False);
+		_AddParamShort(mpModernMask, hi_Open, (Drawing->group && Drawing->group->expanded) ? hi_True : hi_False);
 		_AddParamShort(mpModernMask, hi_IsEmpty, (Drawing->group->cl.count == 0) ? hi_True : hi_False);
 		break;
 	
@@ -1995,12 +1998,13 @@ void CLCPaint::_PaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT *_rcPaint)
 	// Draw background
 	_DrawBackground(hwnd, dat, paintMode, rcPaint, clRect, pc);
 	// Draw lines
-	if (dat->row_heights)
+	if (dat->row_heights) {
 		_DrawLines(hwnd, dat, paintMode, rcPaint, clRect, pc);
 
-	//insertion mark
-	if (dat->iInsertionMark != -1)
-		_DrawInsertionMark(dat, clRect, pc);
+		//insertion mark
+		if (dat->iInsertionMark != -1)
+			_DrawInsertionMark(dat, clRect, pc);
+	}
 
 	// BitBlt from memory to destination
 	_CopyPaintToDest(hdc, paintMode, rcPaint, pc);

@@ -95,7 +95,6 @@ int ModernSkinButtonUnloadModule(WPARAM, LPARAM)
 static int ModernSkinButtonPaintWorker(HWND hwnd, HDC whdc)
 {
 	HDC hdc;
-	HBITMAP bmp, oldbmp;
 	RECT rc;
 	ModernSkinButtonCtrl* bct = (ModernSkinButtonCtrl *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (!bct) return 0;
@@ -109,8 +108,8 @@ static int ModernSkinButtonPaintWorker(HWND hwnd, HDC whdc)
 		hdc = CreateCompatibleDC(NULL);
 	}
 	GetClientRect(hwnd, &rc);
-	bmp = ske_CreateDIB32(rc.right, rc.bottom);
-	oldbmp = (HBITMAP)SelectObject(hdc, bmp);
+	HBITMAP bmp = ske_CreateDIB32(rc.right, rc.bottom);
+	HBITMAP oldbmp = (HBITMAP)SelectObject(hdc, bmp);
 	if (!g_CluiData.fLayered)
 		ske_BltBackImage(bct->hwnd, hdc, NULL);
 	{
@@ -282,20 +281,17 @@ static char *_skipblank(char * str) //str will be modified;
 
 static int _CallServiceStrParams(IN char * toParce, OUT int *Return)
 {
-	char * pszService;
-	char * param1 = NULL;
-	char * param2 = NULL;
 	int paramCount = 0;
 	int result = 0;
 
-	pszService = mir_strdup(toParce);
+	char *pszService = mir_strdup(toParce);
 	if (!pszService)
 		return 0;
 	if (strlen(pszService) == 0) {
 		mir_free(pszService);
 		return 0;
 	}
-	param2 = strrchr(pszService, '%');
+	char *param2 = strrchr(pszService, '%');
 	if (param2)
 	{
 		paramCount++;
@@ -304,7 +300,7 @@ static int _CallServiceStrParams(IN char * toParce, OUT int *Return)
 		if (strlen(param2) == 0)
 			param2 = NULL;
 	}
-	param1 = strrchr(pszService, '%');
+	char *param1 = strrchr(pszService, '%');
 	if (param1)
 	{
 		paramCount++;
@@ -341,9 +337,8 @@ static int _CallServiceStrParams(IN char * toParce, OUT int *Return)
 	}
 	else
 	{
-		int ret = 0;
 		result = 1;
-		ret = CallService(pszService, (WPARAM)param1, (WPARAM)param2);
+		int ret = CallService(pszService, (WPARAM)param1, (WPARAM)param2);
 		if (Return) *Return = ret;
 	}
 	mir_free(pszService);
@@ -354,11 +349,10 @@ static int _CallServiceStrParams(IN char * toParce, OUT int *Return)
 static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ModernSkinButtonCtrl* bct = (msg != WM_NCCREATE) ? (ModernSkinButtonCtrl *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA) : 0;
-	if (bct && bct->HandleService && IsBadStringPtrA(bct->HandleService, 255))
-		bct->HandleService = NULL;
-
-	if (bct)
-		if (bct->HandleService && ServiceExists(bct->HandleService)) {
+	if (bct) {
+		if (bct->HandleService && IsBadStringPtrA(bct->HandleService, 255))
+			bct->HandleService = NULL;
+		else if (bct->HandleService && ServiceExists(bct->HandleService)) {
 			HandleServiceParams MSG = { 0 };
 			MSG.hwnd = hwndDlg;
 			MSG.msg = msg;
@@ -367,6 +361,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 			int t = CallService(bct->HandleService, (WPARAM)&MSG, 0);
 			if (MSG.handled) return t;
 		}
+	}
 
 	switch (msg) {
 	case WM_NCCREATE:
@@ -429,44 +424,50 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 		return DefWindowProc(hwndDlg, msg, wParam, lParam);
 
 	case WM_CAPTURECHANGED:
-		bct->hover = 0;
-		bct->down = 0;
-		ModernSkinButtonPaintWorker(bct->hwnd, 0);
+		if (bct) {
+			bct->hover = 0;
+			bct->down = 0;
+			ModernSkinButtonPaintWorker(bct->hwnd, 0);
+		}
 		break;
 
 	case WM_MOUSEMOVE:
-		if (!bct->hover) {
-			SetCapture(bct->hwnd);
-			bct->hover = 1;
-			ModernSkinButtonPaintWorker(bct->hwnd, 0);
-		}
-		else {
-			POINT t = UNPACK_POINT(lParam);
-			ClientToScreen(bct->hwnd, &t);
-			if (WindowFromPoint(t) != bct->hwnd)
-				ReleaseCapture();
+		if (bct) {
+			if (!bct->hover) {
+				SetCapture(bct->hwnd);
+				bct->hover = 1;
+				ModernSkinButtonPaintWorker(bct->hwnd, 0);
+			}
+			else {
+				POINT t = UNPACK_POINT(lParam);
+				ClientToScreen(bct->hwnd, &t);
+				if (WindowFromPoint(t) != bct->hwnd)
+					ReleaseCapture();
+			}
 		}
 		return 0;
 
 	case WM_LBUTTONDOWN:
-		bct->down = 1;
-		SetForegroundWindow(GetParent(bct->hwnd));
-		ModernSkinButtonPaintWorker(bct->hwnd, 0);
-		if (bct->CommandService && IsBadStringPtrA(bct->CommandService, 255))
-			bct->CommandService = NULL;
-		if (bct->fCallOnPress) {
-			if (bct->CommandService) {
-				if (!_CallServiceStrParams(bct->CommandService, NULL) && (bct->ValueDBSection && bct->ValueTypeDef))
-					ModernSkinButtonToggleDBValue(bct->ValueDBSection, bct->ValueTypeDef);
-			}
-			bct->down = 0;
-
+		if (bct) {
+			bct->down = 1;
+			SetForegroundWindow(GetParent(bct->hwnd));
 			ModernSkinButtonPaintWorker(bct->hwnd, 0);
+			if (bct->CommandService && IsBadStringPtrA(bct->CommandService, 255))
+				bct->CommandService = NULL;
+			if (bct->fCallOnPress) {
+				if (bct->CommandService) {
+					if (!_CallServiceStrParams(bct->CommandService, NULL) && (bct->ValueDBSection && bct->ValueTypeDef))
+						ModernSkinButtonToggleDBValue(bct->ValueDBSection, bct->ValueTypeDef);
+				}
+				bct->down = 0;
+
+				ModernSkinButtonPaintWorker(bct->hwnd, 0);
+			}
 		}
 		return 0;
 
 	case WM_LBUTTONUP:
-		if (bct->down) {
+		if (bct && bct->down) {
 			ReleaseCapture();
 			bct->hover = 0;
 			bct->down = 0;
@@ -642,8 +643,7 @@ static HWND ModernSkinButtonCreateWindow(ModernSkinButtonCtrl * bct, HWND parent
 
 	if (bct == NULL) return FALSE;
 	{
-		TCHAR *UnicodeID;
-		UnicodeID = mir_a2u(bct->ID);
+		TCHAR *UnicodeID = mir_a2u(bct->ID);
 		hwnd = CreateWindow(_T(MODERNSKINBUTTONCLASS), UnicodeID, WS_VISIBLE | WS_CHILD, bct->Left, bct->Top, bct->Right - bct->Left, bct->Bottom - bct->Top, parent, NULL, g_hInst, NULL);
 		mir_free(UnicodeID);
 	}
