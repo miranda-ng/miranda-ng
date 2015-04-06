@@ -18,6 +18,8 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
 	CreateProtoService(PS_GETAVATARINFOT, &CSkypeProto::SvcGetAvatarInfo);
+	CreateProtoService(PS_GETAVATARCAPS, &CSkypeProto::SvcGetAvatarCaps);
+	CreateProtoService(PS_GETMYAVATART, &CSkypeProto::SvcGetMyAvatar);
 
 	// custom event
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
