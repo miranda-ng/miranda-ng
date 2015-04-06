@@ -41,7 +41,7 @@ Alle temporären Kontakte nach einem Neustart entfernen
 [Log Spammers to system history]
 Spammer in den Systemverlauf eintragen
 ;file \plugins\StopSpamPlus\src\events.cpp
-[Message Sessions]
+[Message sessions]
 Nachrichtensitzungen
 [General]
 Allgemein

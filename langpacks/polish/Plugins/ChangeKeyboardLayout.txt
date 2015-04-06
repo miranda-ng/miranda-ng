@@ -80,7 +80,7 @@ Układ klawiatury
 Zmienianie układu
 [Changing Case]
 Zmienianie wielkości liter
-[Message Sessions]
+[Message sessions]
 Okno rozmowy
 [Popups]
 Popupy

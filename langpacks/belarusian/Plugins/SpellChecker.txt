@@ -69,7 +69,7 @@
 Няслушнае выпраўленне
 ;file \plugins\SpellChecker\src\dictionary.cpp
 ;file \plugins\SpellChecker\src\options.cpp
-[Message Sessions]
+[Message sessions]
 Гутаркі
 [Auto-replacements]
 Аўтазамена

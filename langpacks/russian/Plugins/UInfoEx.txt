@@ -292,7 +292,7 @@
 [Use &unknown flag if country cannot be determined]
 Показать &неизвестный флаг, если страна не определена
 [Show country flag as &status icon on message window]
-Показывать флаг, как значок &статуса в окне беседы
+Показывать флаг, как значок &статуса в окне сообщений
 [Birthday]
 День рождения
 [Age:]

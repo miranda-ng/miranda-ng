@@ -46,5 +46,5 @@ Drogi %user%, właściciel pozostawił następującą wiadomość:
 ;file \plugins\SimpleAR\src\Options.cpp
 [Simple Auto Replier]
 Autoodpowiedź
-[Message Sessions]
+[Message sessions]
 Okno rozmowy

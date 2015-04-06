@@ -41,7 +41,7 @@ Ajouter le contact
 [Log Spammers to system history]
 
 ;file \plugins\StopSpamPlus\src\events.cpp
-[Message Sessions]
+[Message sessions]
 Sessions de message
 [General]
 Général

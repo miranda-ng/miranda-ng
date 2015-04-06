@@ -23,5 +23,5 @@ Ne uznemiravaj
 Spreman za razgovor
 [Invisible]
 Nevidljiv
-[Message Sessions]
+[Message sessions]
 Celi razgovori

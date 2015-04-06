@@ -115,7 +115,7 @@
 Загрузить последнюю сессию
 [View]
 Вид
-[Message Sessions]
+[Message sessions]
 Беседы
 [Session Before Last Crash]
 Сессия до последнего сбоя

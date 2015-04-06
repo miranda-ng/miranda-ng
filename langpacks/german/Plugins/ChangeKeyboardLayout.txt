@@ -80,7 +80,7 @@ ChangeKeyboardLayout
 Layout ändern
 [Changing Case]
 Groß-/Kleinschreibung ändern
-[Message Sessions]
+[Message sessions]
 Nachrichtensitzungen
 [Popups]
 Popups

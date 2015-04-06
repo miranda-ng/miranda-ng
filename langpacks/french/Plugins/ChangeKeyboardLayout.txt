@@ -80,7 +80,7 @@ Aperçu
 
 [Changing Case]
 
-[Message Sessions]
+[Message sessions]
 Sessions de message
 [Popups]
 Popups

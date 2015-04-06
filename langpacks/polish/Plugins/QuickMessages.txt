@@ -66,7 +66,7 @@ Wygrałeś!
 Nowy przycisk
 [New Menu Entry]
 Nowe menu
-[Message Sessions]
+[Message sessions]
 Okno rozmowy
 ;file \plugins\QuickMessages\src\Utils.cpp
 [Quick Messages Button %u]

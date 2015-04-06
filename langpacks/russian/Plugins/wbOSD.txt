@@ -50,7 +50,7 @@
 [Format:]
 Формат:
 [Show message window after click]
-Нажатие открывает окно сообщения
+Нажатие открывает окно сообщений
 [Show when my status is:]
 Показывать OSD, когда мой статус:
 [%s is %s]

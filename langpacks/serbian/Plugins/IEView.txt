@@ -33,7 +33,7 @@ Sobe za razgovor
 Istorija
 [Default]
 Standardno
-[Message Sessions]
+[Message sessions]
 Celi razgovori
 [All Files]
 Sve datoteke

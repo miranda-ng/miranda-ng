@@ -138,5 +138,5 @@ Erreur d'envoi du message à %s
 ;file \plugins\BuddyPounce\src\main.cpp
 [&Buddy Pounce]
 
-[Message Sessions]
+[Message sessions]
 Sessions de message

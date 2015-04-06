@@ -33,7 +33,7 @@ Grupo de chats
 Historial
 [Default]
 Por defecto
-[Message Sessions]
+[Message sessions]
 Sesiones de mensaje
 [Skins]
 Pieles

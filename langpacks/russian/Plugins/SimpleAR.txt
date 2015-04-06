@@ -43,5 +43,5 @@
 Приветствую %user%, %username% оставил вам сообщение:
 [Simple Auto Replier]
 Автоответчик
-[Message Sessions]
+[Message sessions]
 Беседы

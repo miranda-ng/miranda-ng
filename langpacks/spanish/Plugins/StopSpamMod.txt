@@ -7,7 +7,7 @@
 ;============================================================
 [Info]
 Info
-[Message Sessions]
+[Message sessions]
 Sesiones de mensaje
 [General]
 General

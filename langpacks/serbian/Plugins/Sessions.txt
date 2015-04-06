@@ -13,5 +13,5 @@ Briši
 &Otkazivanje
 [Cancel]
 Otkazivanje
-[Message Sessions]
+[Message sessions]
 Celi razgovori

@@ -41,7 +41,7 @@ Usuń wszystkie tymczasowe kontakty po restarcie
 [Log Spammers to system history]
 Dziennik spamu w historii systemowej
 ;file \plugins\StopSpamPlus\src\events.cpp
-[Message Sessions]
+[Message sessions]
 Okno rozmowy
 [General]
 Ogólne

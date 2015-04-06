@@ -103,7 +103,7 @@ URL атрыманы
 Гісторыя
 [Default]
 Змаўчанні
-[Message Sessions]
+[Message sessions]
 Гутаркі
 [IEView]
 Журнал IEView

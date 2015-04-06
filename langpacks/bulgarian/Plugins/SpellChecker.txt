@@ -75,7 +75,7 @@ Spell Checker
 тагалог/тагалски (Филипини)
 [German (Germany)]
 немски (Германия)
-[Message Sessions]
+[Message sessions]
 Разговори
 [Auto-replacements]
 Автоматичното заместване

@@ -29,5 +29,5 @@ Nevidljiv
 Telefoniram
 [Out To Lunch]
 Na ručku
-[Message Sessions]
+[Message sessions]
 Celi razgovori

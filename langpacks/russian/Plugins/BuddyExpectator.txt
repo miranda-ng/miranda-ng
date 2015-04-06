@@ -20,7 +20,7 @@
 [Open User Details]
 Открыть детали пользователя
 [Open message window]
-Открыть окно беседы
+Открыть окно сообщений
 [Return notification]
 Уведомление возвращения
 [Long time no see]

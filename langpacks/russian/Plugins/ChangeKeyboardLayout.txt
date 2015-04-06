@@ -77,7 +77,7 @@
 Смена раскладки
 [Changing Case]
 Инвертировать регистр
-[Message Sessions]
+[Message sessions]
 Беседы
 [Popups]
 Всплывающие окна

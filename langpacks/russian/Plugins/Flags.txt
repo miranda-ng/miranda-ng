@@ -10,7 +10,7 @@
 [Country Flags]
 Флаги стран
 [Show country flag as &status icon on message window]
-Показывать флаг, как значок &статуса в окне беседы
+Показывать флаг, как значок &статуса в окне сообщений
 [Show country flag as &extra image on contact list]
 Показывать флаг, как &доп. значок в списке контактов
 [Use &IP-to-country database for country detection]

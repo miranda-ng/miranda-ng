@@ -75,7 +75,7 @@
 Тагальська (Філіппіни)
 [German (Germany)]
 Німецька (Німеччина)
-[Message Sessions]
+[Message sessions]
 Бесіди
 [Auto-replacements]
 Автозаміна

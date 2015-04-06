@@ -6,7 +6,7 @@
 ;  Authors: ValeraVi, Kildor
 ;============================================================
 [Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
-Добавляет пункт в главное меню, который открывает диалог с последними контактами.
+Добавляет пункт в главное меню, который открывает список последних контактов.
 [Recent Contacts]
 Последние контакты
 [Plugin settings]

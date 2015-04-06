@@ -92,7 +92,7 @@ Gratulacje! Przeszedłeś test. Teraz możesz napisać do mnie wiadomość.
 Jeśli wyrażenie matematyczne jest włączone można użyć następującego wyrażenia w tekście wiadomości:\nXX+XX-X/X*X\ngdzie każdy X zostanie zastąpiony przez jedną losową liczbę i odpowiedź będzie wynikiem wyrażenia.\nWiadomość musi zawierać tylko jeden wyraz bez spacji.
 [Info]
 Info
-[Message Sessions]
+[Message sessions]
 Okno rozmowy
 [General]
 Ogólne

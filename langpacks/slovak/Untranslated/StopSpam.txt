@@ -14,7 +14,7 @@
 [Answer is not case sensitive]
 [Remove all temporary contacts after restart]
 [Log Spammers to system history]
-[Message Sessions]
+[Message sessions]
 [General]
 [Messages]
 [Accounts]

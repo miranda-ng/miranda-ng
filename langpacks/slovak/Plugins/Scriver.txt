@@ -17,7 +17,7 @@ sekúnd
 Zobraziť nadpis
 [Show status bar]
 Zobraziť stavový riadok
-[Message Window Event Log]
+[Message window event log]
 Záznam o prijatých/odoslaných dátach
 [Show icons]
 Zobraziť ikony
@@ -29,7 +29,7 @@ Udalosti
 Skús znovu
 [Cancel]
 Storno
-[Message Session]
+[Message session]
 Rozhovor
 [User &details]
 Informácie o užívatelovi
@@ -53,13 +53,13 @@ Pozadie
 Log
 [&Copy]
 Kopírovať
-[Co&py All]
+[Co&py all]
 Kopírovať všetko
-[Select &All]
+[Select &all]
 Vybrať všetko
 [Yahoo]
 YAHOO
-[C&lear Log]
+[C&lear log]
 Odstrániť záznamy v Logu
 [&Copy link]
 Kopírovať odkaz
@@ -69,8 +69,6 @@ Späť
 Zoznam
 [&Message]
 &Správa
-[Co&py all]
-Kopírovať všetko
 [Send message]
 Odoslať správu
 [Text color]
@@ -81,19 +79,17 @@ Farba pozadia
 Tučné
 [Messaging]
 Rozhovor
-[User Menu]
+[User menu]
 Menu užívatela
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Pridať kontakt do zoznamu
-[View User's Details]
+[View user's details]
 Zobraziť informácie o užívatelovi
-[View User's History]
+[View user's history]
 Zobraziť históriu
-[Send Message]
-Odoslať správu
 [File received]
 Prijať súbor
-[Event Log]
+[Event log]
 Zaznamenať udalosti
 [Incoming URL]
 Prichádzajúca URL
@@ -121,9 +117,9 @@ Telefonuje
 ** Neznáme kontakty **
 [Message from %s]
 Správa od %s
-[Always On Top]
+[Always on top]
 Vždy navrchu
-[Select Folder]
+[Select folder]
 Vyber zložku
 [Italic]
 Kurzíva

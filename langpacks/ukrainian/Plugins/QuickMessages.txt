@@ -63,7 +63,7 @@
 Нова кнопка
 [New Menu Entry]
 Новий пункт меню
-[Message Sessions]
+[Message sessions]
 Бесіди
 [Quick Messages Button %u]
 Кнопка швидких повідомлень %u

@@ -28,5 +28,5 @@ Schaltfläche
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 Schnelle Antworten\r\nLinksklick öffnet das Menü\r\nRechtsklick öffnet die Einstellungsseite
 ;file \plugins\QuickReplies\src\options.cpp
-[Message Sessions]
+[Message sessions]
 Nachrichtensitzungen

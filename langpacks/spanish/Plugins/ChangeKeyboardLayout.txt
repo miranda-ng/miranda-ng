@@ -33,7 +33,7 @@ Copiar al portapapeles
 En clic derecho
 [Preview]
 Previsualizar
-[Message Sessions]
+[Message sessions]
 Sesiones de mensaje
 [Popups]
 Ventanas emergentes

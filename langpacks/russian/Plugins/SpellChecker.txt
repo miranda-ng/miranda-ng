@@ -75,7 +75,7 @@
 Тагалог (Филиппины)
 [German (Germany)]
 Немецкий (Германия)
-[Message Sessions]
+[Message sessions]
 Беседы
 [Auto-replacements]
 Автозамена

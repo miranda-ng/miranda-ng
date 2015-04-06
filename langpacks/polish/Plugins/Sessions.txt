@@ -118,7 +118,7 @@ Wczytaj ostatnią sesję
 ;file \plugins\Sessions\Src\Options.cpp
 [View]
 Pokaż
-[Message Sessions]
+[Message sessions]
 Okno rozmowy
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]

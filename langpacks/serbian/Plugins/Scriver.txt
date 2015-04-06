@@ -25,7 +25,7 @@ Prikaži statusnu traku
 Prikaži avatare
 [Use the contact's status icon as the window icon]
 Ikonica kontakta je ikonica prozora
-[Message Window Event Log]
+[Message window event log]
 Log događaja tokom razgovora
 [Show icons]
 Prikaži ikonice
@@ -45,7 +45,7 @@ Prikaži obaveštenja o kucanju poruka i kada nema otvorenih razgovora
 Žmiganje u tray-u i u spisku kontakata
 [Show balloon popup]
 Prikaži balone 
-[Send Error]
+[Send error]
 Prijavi grešku
 [An error has occurred. The protocol reported the following error:]
 Greška, protokol prijavljuje sledeće:
@@ -55,7 +55,7 @@ usled slanja ove poruke:
 Pokušaj ponovo
 [Cancel]
 Otkazivanje
-[Message Session]
+[Message session]
 Razgovor
 [&User menu]
 &Korisnički meni
@@ -83,7 +83,7 @@ B&oja
 Boja &pozadine
 [&Filter]
 &Filter
-[&Room Settings]
+[&Room settings]
 Parametri so&be
 [&Show/hide nick list]
 Prikazati/sakriti spis&ak
@@ -119,7 +119,7 @@ Ostalo
 Dodaj nove sobe u grupu:
 [pixels]
 pikseli
-[Log Options]
+[Log options]
 Log opcije
 [Your name]
 Vaše ime
@@ -153,13 +153,13 @@ Timeout (s)
 Log
 [&Copy]
 &Kopiranje
-[Co&py All]
+[Co&py all]
 Ko&piranje svega
-[Select &All]
+[Select &all]
 &Izaberi sve
 [Word lookup]
 Pronađi reč
-[C&lear Log]
+[C&lear log]
 Izbriši &log
 [&Open link]
 &Otvori link
@@ -187,8 +187,6 @@ Spisak
 &Poruka
 [Clear lo&g]
 &Obrisati log
-[Co&py all]
-Ko&piranje svega
 [Add contact]
 Dodaj kontakt
 [Smiley button]
@@ -263,9 +261,7 @@ Informacija (10х10)
 Sobe za razgovor
 [Messaging]
 Poruke
-[Add Contact]
-Dodaj kontakt
-[User Menu]
+[User menu]
 Korisnički meni
 [User details]
 O korisniku
@@ -275,11 +271,11 @@ Istorija
 Pronađi '%s':
 [No word to look up]
 Nije navedena reč za pretragu
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Zapamtiti kontakt na spisku
-[View User's Details]
+[View user's details]
 Pregled detalja o korisniku
-[View User's History]
+[View user's history]
 Vidi istoriju korisnika
 [%s is typing a message...]
 %s kuca poruku...
@@ -341,23 +337,23 @@ Telefoniram
 ** Nepoznati kontakti **
 [Show balloon popup (unsupported system)]
 Prikaži balončiće (sistem nepodržan)
-[Message Sessions]
+[Message sessions]
 Celi razgovori
-[Typing Notify]
+[Typing notify]
 Obaveštenja o kucanju
 [Message from %s]
 Poruka od: %s
 [%s is typing a message]
 %s kuca poruku
-[Typing Notification]
+[Typing notification]
 Obaveštenje o kucanju
 [Instant messages]
 IM komunikacija
-[Incoming (Focused Window)]
+[Incoming (focused window)]
 Dolazne (trenutni prozor)
-[Incoming (Unfocused Window)]
+[Incoming (unfocused window)]
 Dolazne (prethodni prozor)
-[Incoming (New Session)]
+[Incoming (new session)]
 Dolazne (nov razgovor)
 [Outgoing]
 Odlazni
@@ -367,7 +363,7 @@ Kontakt kuca poruku
 Kontakt prestaje sa kucanjem
 [An unknown error has occurred.]
 Desila se nepoznata greška.
-[Always On Top]
+[Always on top]
 Uvek na vrhu
 [The message send timed out.]
 Rok poruke istekao.
@@ -455,7 +451,7 @@ Prikaži balončić kod promena statusa
 Odabir ikonica u tray-u
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 Standardni događaji u novim sobama za razgovor kada je filter uključen
-[Select Folder]
+[Select folder]
 Izbor foldera
 [Popups]
 Balončići
@@ -487,11 +483,11 @@ Nadimak
 Jedinstveni broj (ID)
 [Status]
 Status
-[%s: Chat Room (%u user)]
+[%s: chat room (%u user)]
 %s: soba za razgovor (%u korisnik)
-[%s: Chat Room (%u users)]
+[%s: chat room (%u users)]
 %s: soba za razgovor (%u korisnik(a))
-[%s: Message Session]
+[%s: message session]
 %s: razgovor
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 %s: razgovor (%u korisnik(a))

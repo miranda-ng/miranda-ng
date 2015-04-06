@@ -68,7 +68,7 @@
 [Mark all events read]
 Пометить как прочитанные
 [Marks all the history events as read. This will rectify any problems with old messages always appearing in the message window log box.]
-Пометить все события как прочитанные. Это исправит проблемы со старыми сообщениями, всегда отображаемыми в окне сообщения
+Пометить все события как прочитанные. Это исправит проблемы со старыми сообщениями, всегда отображаемыми в окне сообщений
 [Convert old Unicode messages to UTF8]
 Конвертировать старые Unicode сообщения в UTF8
 [Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]

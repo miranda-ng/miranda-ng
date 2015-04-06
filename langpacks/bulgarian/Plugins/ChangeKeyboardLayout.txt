@@ -69,7 +69,7 @@ Popup цветове
 Смяна на клавиатурната подредба
 [Changing Case]
 Смяна на буквите (главни/малки)
-[Message Sessions]
+[Message sessions]
 Разговори
 [Popups]
 Рopups

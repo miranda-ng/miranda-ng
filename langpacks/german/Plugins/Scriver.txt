@@ -82,7 +82,7 @@ inaktiv
 Min. Größe Eingabefeld
 [lines]
 Linien
-[Message Window Event Log]
+[Message window event log]
 Nachrichtenfenster-Ereignisverlauf
 [Enable IEView]
 IEView aktivieren
@@ -124,7 +124,7 @@ Ereignisse in den letzten
 Ereignisse
 [minutes]
 Minuten
-[Typing Notification Options]
+[Typing notification options]
 Tippbenachrichtigungseinstellungen
 [Send typing notifications to the following users when you are typing a message to them:]
 An folgende Kontakte eine Benachrichtigung senden, wenn Sie gerade eine Nachricht tippen:
@@ -140,7 +140,7 @@ Benachrichtigungen anzeigen, wenn kein Nachrichtenfenster offen ist
 Im Systemtray und der Kontaktliste blinken
 [Show balloon popup]
 Ballonpopup anzeigen
-[Send Error]
+[Send error]
 Fehler beim Senden
 [An error has occurred. The protocol reported the following error:]
 Es ist ein Fehler aufgetreten. Das Protokoll meldete folgenden Fehler:
@@ -150,7 +150,7 @@ Während des Sendens folgender Nachricht:
 Erneut versuchen
 [Cancel]
 Abbrechen
-[Message Session]
+[Message session]
 Nachrichtensitzung
 [&User menu]
 Ben&utzermenü
@@ -164,7 +164,7 @@ Smil&eys
 &Verlauf
 [&Quote]
 &Zitieren
-[Send To All Tabs]
+[Send to all tabs]
 An alle Tabs senden
 [You are about to send a message to all open tabs.\nAre you sure?]
 Sie sind dabei, eine Nachricht an alle offenen Tabs zu senden.\nSind Sie sich sicher?
@@ -186,7 +186,7 @@ Nein
 &Hintergrundfarbe
 [&Filter]
 &Filter
-[&Room Settings]
+[&Room settings]
 &Raumeinstellungen
 [&Show/hide nick list]
 Nickliste &anzeigen/verbergen
@@ -224,7 +224,7 @@ Gruppe für neue Räume:
 Höhe einer Benutzerzeile
 [pixels]
 Pixel
-[Log Options]
+[Log options]
 Verlaufseinstellungen
 [Your name]
 Ihr Nick
@@ -248,7 +248,7 @@ Ort
 bis max.
 [KB]
 KB
-[Group Chat]
+[Group chat]
 Gruppenchat
 [Use same style as in the message log]
 Selben Stil wie im Verlaufsfenster verwenden
@@ -268,9 +268,9 @@ Zeitüberschreitung (s)
 Verlauf
 [&Copy]
 Kopieren
-[Co&py All]
+[Co&py all]
 Alles ko&pieren
-[Select &All]
+[Select &all]
 &Alles auswählen
 [Word lookup]
 Wort nachschlagen
@@ -288,7 +288,7 @@ Google Translate
 Yahoo
 [Foodnetwork]
 Foodnetwork
-[C&lear Log]
+[C&lear log]
 Verlauf &leeren
 [&Open link]
 Link &öffnen
@@ -306,15 +306,15 @@ Ausschneiden
 Kopieren
 [Paste]
 Einfügen
-[Paste && Send]
+[Paste && send]
 Einfügen && Senden
 [Delete]
 Löschen
 [Clear]
 Löschen
-[Close Other Tabs]
+[Close other tabs]
 andere Tabs schließen
-[Close Tab]
+[Close tab]
 Tab schließen
 [List]
 Liste
@@ -322,8 +322,6 @@ Liste
 Nachricht
 [Clear lo&g]
 Verlauf löschen
-[Co&py all]
-Alles ko&pieren
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Kontakt hinzufügen
@@ -456,11 +454,11 @@ Koreanisch, Johab
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Nachrichten
-[Navigate: Previous Tab]
+[Navigate: previous tab]
 Wechseln: Voriger Tab
-[Navigate: Next Tab]
+[Navigate: next tab]
 Wechseln: Nächster Tab
-[Navigate: Tab %d]
+[Navigate: tab %d]
 Wechseln: Tab %d
 [Window: Toggle status bar]
 Fenster: Statusleiste umschalten
@@ -487,9 +485,7 @@ Aktion: Einfügen und senden
 Zitat
 [Smiley]
 Smiley
-[Add Contact]
-Kontakt hinzufügen
-[User Menu]
+[User menu]
 Kontaktmenü
 [User details]
 Kontaktprofil
@@ -501,19 +497,17 @@ Senden
 Suche nach '%s'
 [No word to look up]
 Kein Wort zum Nachschlagen
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Kontakt dauerhaft zur Liste hinzufügen
-[View User's Details]
+[View user's details]
 Benutzerdetails anzeigen
-[View User's History]
+[View user's history]
 Verlauf anzeigen
-[Quote Text]
+[Quote text]
 Text zitieren
-[Insert Emoticon]
+[Insert emoticon]
 Emoticon einfügen
-[Send Message]
-Nachricht senden
-[User Menu - %s]
+[User menu - %s]
 Benutzermenü - %s
 [Sending in progress: %d message(s) left...]
 %d Nachricht(en) werden momentan gesendet.
@@ -522,7 +516,7 @@ Benutzermenü - %s
 [Last message received on %s at %s.]
 Letzte Nachricht am %s um %s erhalten.
 ;file \plugins\Scriver\src\msglog.cpp
-[Unknown Contact]
+[Unknown contact]
 Unbekannter Kontakt
 [Me]
 Ich
@@ -530,7 +524,7 @@ Ich
 O Herr, segne diese deine Handgranate, mit ihr darfst du deine Feinde schlagen
 [to tiny bits, in Thy mercy]
 in winzige Stücke, in deiner Barmherzigkeit
-[My Contact]
+[My contact]
 Mein Kontakt
 [Lorem ipsum dolor sit amet,]
 Hallo Welt! Liebe ist,
@@ -551,9 +545,9 @@ URL empfangen
 ;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Allgemein
-[Event Log]
+[Event log]
 Ereignisverlauf
-[Group Chat Log]
+[Group chat log]
 Gruppenchatverlauf
 [Outgoing messages]
 Ausgehende Nachrichten
@@ -617,26 +611,26 @@ Am Telefon
 ** Unbekannte Kontakte **
 [Show balloon popup (unsupported system)]
 Ballonpopup anzeigen (nicht unterstützte Fkt.)
-[Message Sessions]
+[Message sessions]
 Nachrichtensitzungen
-[Typing Notify]
+[Typing notify]
 Tippbenachrichtigungen
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Nachricht von %s
 [%s is typing a message]
 %s tippt eine Nachricht
-[Typing Notification]
+[Typing notification]
 Tippbenachrichtigungen
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda konnte das eingebaute Nachrichtenmodul nicht laden, Msftedit.dll fehlt. Falls Sie Wine benutzen, stellen Sie sicher, dass sie die Msftedit.dll installiert haben. Klicken Sie auf 'Ja', um das Laden von Miranda fortzusetzen.
 [Instant messages]
 Sofortnachrichten
-[Incoming (Focused Window)]
+[Incoming (focused window)]
 Eingehend (Fenster im Vordergrund)
-[Incoming (Unfocused Window)]
+[Incoming (unfocused window)]
 Eingehend (Fenster im Hintergrund)
-[Incoming (New Session)]
+[Incoming (new session)]
 Eingehend (Neue Sitzung)
 [Outgoing]
 Ausgehend
@@ -648,7 +642,7 @@ Kontakt tippt nicht mehr
 [An unknown error has occurred.]
 Ein unbekannter Fehler ist aufgetreten.
 ;file \plugins\Scriver\src\msgwindow.cpp
-[Always On Top]
+[Always on top]
 Immer im Vordergrund
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
@@ -823,7 +817,7 @@ Variablen
 Erscheinungsbild
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 Standard-Ereignisse in neuen Chaträumen, wenn Ereignisfilter aktiviert ist
-[Select Folder]
+[Select folder]
 Ordner wählen
 [Popups]
 Popups
@@ -867,11 +861,11 @@ Nickname
 Unique ID
 [Status]
 Status
-[%s: Chat Room (%u user)]
+[%s: chat room (%u user)]
 %s: Chatraum (%u Benutzer)
-[%s: Chat Room (%u users)]
+[%s: chat room (%u users)]
 %s: Chatraum (%u Benutzer)
-[%s: Message Session]
+[%s: message session]
 %s: Nachrichtensitzung
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 %s: Nachrichtensitzung (%u Benutzer)

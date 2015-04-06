@@ -13,7 +13,7 @@ Eliminar
 Cancelar
 [Advanced]
 Avanzado
-[Message Sessions]
+[Message sessions]
 Sesiones de mensaje
 [Disabled]
 Desabilitado

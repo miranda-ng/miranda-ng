@@ -77,7 +77,7 @@
 Зміна розкладки
 [Changing Case]
 Інвертувати регістр
-[Message Sessions]
+[Message sessions]
 Бесіди
 [Popups]
 Спливаючі вікна

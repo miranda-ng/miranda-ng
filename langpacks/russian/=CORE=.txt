@@ -458,7 +458,7 @@ UIN, E-mail и т.д.
 [When I click on a sub in the popup menu...]
 При щелчке по контакту в меню субконтактов...
 [Set default and open message window]
-Открыть окно сообщения
+Открыть окно сообщений
 [Show subcontact context menu]
 Показывать контекстное меню
 [Show user information]
@@ -1090,9 +1090,9 @@ UIN, E-mail и т.д.
 [Support CTRL+Up/Down in message area to show previously sent messages]
 Показывать старые сообщения при нажатии Ctrl+Вверх/Вниз
 [Delete temporary contacts when closing message window]
-Удалять временные контакты при закрытии окна сообщения
+Удалять временные контакты при закрытии окна сообщений
 [Enable avatar support in the message window]
-Поддержка аватаров в окне сообщения
+Поддержка аватаров в окне сообщений
 [Limit avatar height to]
 Ограничить высоту аватара
 [Maximum number of flashes]
@@ -1110,7 +1110,7 @@ UIN, E-mail и т.д.
 [&Details]
 &Детали
 [Message window event log]
-Журнал в окне диалога
+Журнал в окне сообщений
 [Show names]
 Показывать имена
 [Show timestamp]
@@ -1596,9 +1596,9 @@ UIN, E-mail и т.д.
 [%s: chat room (%u users)]
 %s: комната чата (%u пользователей)
 [%s: message session]
-%s: диалог
+%s: беседа
 [%s: message session (%u users)]
-%s: диалог (%u пользователей)
+%s: беседа (%u пользователей)
 [Standard contacts]
 Стандартные контакты
 [Online contacts to whom you have a different visibility]

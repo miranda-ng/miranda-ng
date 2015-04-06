@@ -61,7 +61,7 @@ Hinweis: Nachrichten von diesem Kontakt werden nicht weitergeleitet
 !JEDER!
 [!DON'T FORWARD!]
 !NICHT WEITERLEITEN!
-[Message Sessions]
+[Message sessions]
 Nachrichtensitzungen
 [Messages forwarding]
 Nachrichtenweiterleitung

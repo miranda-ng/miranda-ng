@@ -6,7 +6,7 @@
 ;  Authors: Awkward
 ;============================================================
 [Paste played music info into message window or status text]
-Вставляет информацию о проигрываемой музыке в окно сообщения или в статусное сообщение.
+Вставляет информацию о проигрываемой музыке в окно сообщений или в сообщение статуса.
 [Clear xStatus before set new one]
 Очищать xСтатус перед установкой нового
 [Emulate Multimedia keys]
@@ -288,7 +288,7 @@ VBR или пусто
 [lowercase %type%]
 строчный %type%
 [If this option is "ON", you can paste music info to your message window pressing hotkey.]
-Если опция включена, вы можете вставлять информацию о музыке в окно сообщений, нажав на горячие клавиши.
+Если опция включена, вы можете вставлять информацию о музыке в окно сообщений, нажав горячую клавишу.
 [If this option is "ON", status text will be replaced by music info.]
 Если опция включена, текст статусов будет замещен на информацию о музыке
 [If this option is "ON", all plugin settings saved in ini-file. They deleted from Miranda DB. Else ini-file will be deleted.]

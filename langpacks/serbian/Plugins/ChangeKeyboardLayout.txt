@@ -15,7 +15,7 @@ Standardno
 Tekst
 [Custom]
 Izmenjeno
-[Message Sessions]
+[Message sessions]
 Celi razgovori
 [Popups]
 Balončići

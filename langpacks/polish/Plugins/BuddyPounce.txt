@@ -138,5 +138,5 @@ Nie udało się wysłać wiadomości do %s
 ;file \plugins\BuddyPounce\src\main.cpp
 [&Buddy Pounce]
 &Buddy Pounce
-[Message Sessions]
+[Message sessions]
 Okno rozmowy

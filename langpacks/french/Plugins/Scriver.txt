@@ -82,7 +82,7 @@ inactive
 Taille min de la zone d'entrée
 [lines]
 lignes
-[Message Window Event Log]
+[Message window event log]
 Zone de texte de la Fenêtre
 [Enable IEView]
 Activer IEView
@@ -124,7 +124,7 @@ Derniers
 Évènements
 [minutes]
 minutes
-[Typing Notification Options]
+[Typing notification options]
 Options de notification de frappe
 [Send typing notifications to the following users when you are typing a message to them:]
 Envoyer des notifications aux usagers suivants, quand vous tapez un message qui leur est destiné :
@@ -140,7 +140,7 @@ Afficher une notification quand aucune fenêtre n'est ouverte
 Signaler dans le systray et dans la liste de contacts
 [Show balloon popup]
 Afficher un popup
-[Send Error]
+[Send error]
 Erreur d'envoi
 [An error has occurred. The protocol reported the following error:]
 Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
@@ -150,7 +150,7 @@ tout en envoyant le message suivant :
 Réessayer
 [Cancel]
 Annuler
-[Message Session]
+[Message session]
 Session message
 [&User menu]
 &Menu utilisateur
@@ -164,7 +164,7 @@ Session message
 &Historique
 [&Quote]
 &Citer
-[Send To All Tabs]
+[Send to all tabs]
 Envoyer à tous les onglets
 [You are about to send a message to all open tabs.\nAre you sure?]
 Vous êtes sur le point d'envoyer un mesage à tous les onglets ouverts.\nVoulez-vous vraiment faire cela?
@@ -186,7 +186,7 @@ Non
 &Couleur de fond
 [&Filter]
 
-[&Room Settings]
+[&Room settings]
 
 [&Show/hide nick list]
 
@@ -224,7 +224,7 @@ Ajouter salons au groupe :
 Hauteur de ligne de la liste de contact
 [pixels]
 pixels
-[Log Options]
+[Log options]
 Options du journal
 [Your name]
 Votre nom
@@ -248,7 +248,7 @@ Lieu
 
 [KB]
 KB
-[Group Chat]
+[Group chat]
 Discussion de groupe
 [Use same style as in the message log]
 Utiliser même style que la fenêtre
@@ -268,9 +268,9 @@ Délai (*)
 Journal
 [&Copy]
 &Copier
-[Co&py All]
+[Co&py all]
 &Tout copier
-[Select &All]
+[Select &all]
 Tout &sélectionner
 [Word lookup]
 Consultation de mot
@@ -288,7 +288,7 @@ Google Translate
 Yahoo
 [Foodnetwork]
 Foodnetwork
-[C&lear Log]
+[C&lear log]
 Effacer le journal
 [&Open link]
 &Ouvrir le lien
@@ -306,15 +306,15 @@ Couper
 Copier
 [Paste]
 Coller
-[Paste && Send]
+[Paste && send]
 
 [Delete]
 Effacer
 [Clear]
 Effacer
-[Close Other Tabs]
+[Close other tabs]
 
-[Close Tab]
+[Close tab]
 
 [List]
 Liste
@@ -322,8 +322,6 @@ Liste
 &Message
 [Clear lo&g]
 Effacer le journal
-[Co&py all]
-&Tout copier
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Ajouter le contact
@@ -456,11 +454,11 @@ Coréen (Johab)
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Envoi de message
-[Navigate: Previous Tab]
+[Navigate: previous tab]
 
-[Navigate: Next Tab]
+[Navigate: next tab]
 
-[Navigate: Tab %d]
+[Navigate: tab %d]
 
 [Window: Toggle status bar]
 
@@ -487,10 +485,8 @@ Envoi de message
 
 [Smiley]
 
-[Add Contact]
-Ajouter le contact
-[User Menu]
-Menu Contact
+[User menu]
+Menu contact
 [User details]
 Détails du contact
 [History]
@@ -501,20 +497,18 @@ Historique
 
 [No word to look up]
 Aucun mot à chercher
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Ajouter le contact à la liste
-[View User's Details]
+[View user's details]
 Voir les détails du contact
-[View User's History]
+[View user's history]
 Voir l'historique
-[Quote Text]
+[Quote text]
 Citer
-[Insert Emoticon]
+[Insert emoticon]
 
-[Send Message]
-
-[User Menu - %s]
-Menu Contact - %s
+[User menu - %s]
+Menu contact - %s
 [Sending in progress: %d message(s) left...]
 Envoi en cours : il reste %d message(s)...
 [%s is typing a message...]
@@ -522,7 +516,7 @@ Envoi en cours : il reste %d message(s)...
 [Last message received on %s at %s.]
 Dernier message reçu le %s à %s
 ;file \plugins\Scriver\src\msglog.cpp
-[Unknown Contact]
+[Unknown contact]
 
 [Me]
 
@@ -530,7 +524,7 @@ Dernier message reçu le %s à %s
 
 [to tiny bits, in Thy mercy]
 
-[My Contact]
+[My contact]
 
 [Lorem ipsum dolor sit amet,]
 
@@ -551,9 +545,9 @@ Fichier reçu
 ;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Général
-[Event Log]
+[Event log]
 
-[Group Chat Log]
+[Group chat log]
 
 [Outgoing messages]
 Messages envoyés
@@ -617,26 +611,26 @@ Au téléphone
 ** Contacts inconnus **
 [Show balloon popup (unsupported system)]
 Afficher les popups (système non supporté)
-[Message Sessions]
+[Message sessions]
 Sessions de message
-[Typing Notify]
+[Typing notify]
 Notification de frappe
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Message de %s
 [%s is typing a message]
 %s écrit un message
-[Typing Notification]
+[Typing notification]
 Notification de frappe
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda n'a pas pu charger le module de messagerie préinstallé, Msftedit.dll est manquant. Si vous utilisez WINE, veuillez vous assurer que vous avez installé Msftedit.dll. Cliquez sur "Oui" pour continuer le chargement de Miranda.
 [Instant messages]
 Messages instantanés
-[Incoming (Focused Window)]
+[Incoming (focused window)]
 Entrant (fenêtre active)
-[Incoming (Unfocused Window)]
+[Incoming (unfocused window)]
 Entrant (fenêtre inactive)
-[Incoming (New Session)]
+[Incoming (new session)]
 Entrant (nouvelle session)
 [Outgoing]
 Sortant
@@ -648,7 +642,7 @@ Sortant
 [An unknown error has occurred.]
 Une erreur inconnue s'est produite.
 ;file \plugins\Scriver\src\msgwindow.cpp
-[Always On Top]
+[Always on top]
 Toujours visible
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
@@ -823,7 +817,7 @@ Icônes à afficher dans la zone de notification système (tray)
 Apparence
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 
-[Select Folder]
+[Select folder]
 Sélectionnez un répertoire
 [Popups]
 Popups
@@ -867,11 +861,11 @@ Pseudo
 ID unique
 [Status]
 État
-[%s: Chat Room (%u user)]
-%s : Salon de chat (%u usager)
-[%s: Chat Room (%u users)]
-%s : Salon de chat (%u usagers)
-[%s: Message Session]
-%s : Session de message
-[%s: Message Session (%u users)]
-%s : Session de message (%u usagers)
+[%s: chat room (%u user)]
+%s : salon de chat (%u usager)
+[%s: chat room (%u users)]
+%s : salon de chat (%u usagers)
+[%s: message session]
+%s : session de message
+[%s: message session (%u users)]
+%s : session de message (%u usagers)

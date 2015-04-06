@@ -61,7 +61,7 @@ Uwaga: wiadomości od tego kontaktu nie będą przekierowywane
 Wszyscy
 [!DON'T FORWARD!]
 Nie przekazuj
-[Message Sessions]
+[Message sessions]
 Sesje rozmowy
 [Messages forwarding]
 Przekazywanie wiadomości

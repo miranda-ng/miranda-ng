@@ -82,7 +82,7 @@
 Мін. памер поля ўводу
 [lines]
 ліній
-[Message Window Event Log]
+[Message window event log]
 Журнал гутаркі
 [Enable IEView]
 Уключыць IEView
@@ -124,7 +124,7 @@
 падзеі(й)
 [minutes]
 хвілін(ы)
-[Typing Notification Options]
+[Typing notification options]
 Налады абвестак набору
 [Send typing notifications to the following users when you are typing a message to them:]
 Абвесціць адзначаных пра тое, што вы набіраеце паведамленне:
@@ -140,7 +140,7 @@
 Міргаць у трэі і ў спісе кантактаў
 [Show balloon popup]
 Паказваць усплываючую падказку
-[Send Error]
+[Send error]
 Памылка адпраўкі
 [An error has occurred. The protocol reported the following error:]
 Пратакол вярнуў наступную памылку:
@@ -150,7 +150,7 @@
 Яшчэ раз
 [Cancel]
 Скасаваць
-[Message Session]
+[Message session]
 Гутарка
 [&User menu]
 Меню кантакта
@@ -164,7 +164,7 @@
 Гісторыя
 [&Quote]
 Цытыраваць
-[Send To All Tabs]
+[Send to all tabs]
 Адправіць усім укладкам
 [You are about to send a message to all open tabs.\nAre you sure?]
 Вы збіраецеся адправіць паведамленне ўсім адкрытым укладкам. Вы ўпэўнены?
@@ -186,7 +186,7 @@
 колер фона
 [&Filter]
 фільтр
-[&Room Settings]
+[&Room settings]
 Налады
 [&Show/hide nick list]
 Паказаць/Схаваць спіс мянушак
@@ -224,7 +224,7 @@
 Вышыня спісу кантактаў
 [pixels]
 пікс.
-[Log Options]
+[Log options]
 Налады лога
 [Your name]
 Ваша імя
@@ -248,7 +248,7 @@
 Ліміт
 [KB]
 KB
-[Group Chat]
+[Group chat]
 Чат
 [Use same style as in the message log]
 Той жа стыль, што і ў логе
@@ -268,13 +268,13 @@ KB
 Лог
 [&Copy]
 &Капіяваць
-[Co&py All]
+[Co&py all]
 Ка&піяваць усе
-[Select &All]
+[Select &all]
 Вылучыць &усё
 [Word lookup]
 Знайсці слова
-[C&lear Log]
+[C&lear log]
 Сцерці лог
 [&Open link]
 &адчыніць спасылку
@@ -292,15 +292,15 @@ KB
 Капіяваць
 [Paste]
 Уставіць
-[Paste && Send]
+[Paste && send]
 Уставіць і адправіць
 [Delete]
 Выдаліць
 [Clear]
 Сцерці
-[Close Other Tabs]
+[Close other tabs]
 Зачыніць іншыя ўкладкі
-[Close Tab]
+[Close tab]
 Зачыніць укладку
 [List]
 Спіс
@@ -308,8 +308,6 @@ KB
 &Паведамленне
 [Clear lo&g]
 Сцерці чат
-[Co&py all]
-Капіяваць усё
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Дадаць кантакт
@@ -442,11 +440,11 @@ KB
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Паведамленні
-[Navigate: Previous Tab]
+[Navigate: previous tab]
 Навігацыя: Папярэдняя ўкладка
-[Navigate: Next Tab]
+[Navigate: next tab]
 Навігацыя: Наступная ўкладка
-[Navigate: Tab %d]
+[Navigate: tab %d]
 Навігацыя: Укладка %d
 [Window: Toggle status bar]
 Вакно: укл/выкл панэль статусу
@@ -473,9 +471,7 @@ KB
 Цытата
 [Smiley]
 Смайлік
-[Add Contact]
-Дадаць кантакт
-[User Menu]
+[User menu]
 Меню кантакта
 [User details]
 Пра кантакт
@@ -487,19 +483,17 @@ KB
 Шукаць '%s':
 [No word to look up]
 Няма слоў для пошуку
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Дадаць у спіс
-[View User's Details]
+[View user's details]
 Пра кантакт
-[View User's History]
+[View user's history]
 Гісторыя паведамленняў
-[Quote Text]
+[Quote text]
 Цытата
-[Insert Emoticon]
+[Insert emoticon]
 Смайлы
-[Send Message]
-Адправіць
-[User Menu - %s]
+[User menu - %s]
 Меню кантакта - %s
 [Sending in progress: %d message(s) left...]
 Адпраўка паведамлення: %d засталося...
@@ -508,11 +502,11 @@ KB
 [Last message received on %s at %s.]
 Апошняе паведамленне вы атрымалі %s у %s.
 ;file \plugins\Scriver\src\msglog.cpp
-[Unknown Contact]
+[Unknown contact]
 Невядомы кантакт
 [Me]
 Я
-[My Contact]
+[My contact]
 Мае кантакты
 [Today]
 Сёння
@@ -529,9 +523,9 @@ URL атрыманы
 ;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Агульнае
-[Event Log]
+[Event log]
 Лог падзей
-[Group Chat Log]
+[Group chat log]
 Лог чата
 [Outgoing messages]
 Выходныя паведамленні
@@ -593,26 +587,26 @@ URL атрыманы
 ** Невядомыя кантакты **
 [Show balloon popup (unsupported system)]
 Паказваць падказкі (непадтрымоўваная сістэма)
-[Message Sessions]
+[Message sessions]
 Гутаркі
-[Typing Notify]
+[Typing notify]
 Набірае тэкст
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Паведамленне ад %s
 [%s is typing a message]
 %s набірае тэкст
-[Typing Notification]
+[Typing notification]
 Абвестка пра набор тэксту
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda не змагла загрузіць убудаваную сістэму сообпаведамленняў, бо адсутнічае Msftedit.dll. Калі ў вас WINE, праверце наяўнасць файла Msftedit.dll. Нажміце "Да", каб працягнуць загрузку.
 [Instant messages]
 Паведамленні IM
-[Incoming (Focused Window)]
+[Incoming (focused window)]
 Уваходныя (актыўнае вакно)
-[Incoming (Unfocused Window)]
+[Incoming (unfocused window)]
 Уваходныя (неактыўнае вакно)
-[Incoming (New Session)]
+[Incoming (new session)]
 Уваходныя (новыя сеанс)
 [Outgoing]
 Выходныя
@@ -624,8 +618,8 @@ Miranda не змагла загрузіць убудаваную сістэму
 [An unknown error has occurred.]
 Невядомая памылка.
 ;file \plugins\Scriver\src\msgwindow.cpp
-[Always On Top]
-Па-над усіх вокнамі
+[Always on top]
+Па-над усімі вокнамі
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Затрымка адпраўкі паведамлення
@@ -793,7 +787,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Знешні выгляд
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 Паказаць у новым вакне, калі 'Фільтр падзей' уключаны
-[Select Folder]
+[Select folder]
 Абраць тэчку
 [Popups]
 Усплывальныя вокны
@@ -837,11 +831,11 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Асабісты конт
 [Status]
 Статус
-[%s: Chat Room (%u user)]
-%s: Чат (%u кантакт)
-[%s: Chat Room (%u users)]
-%s: Чат (%u кантактаў)
-[%s: Message Session]
+[%s: chat room (%u user)]
+%s: Чат (%u удзельнік)
+[%s: chat room (%u users)]
+%s: Чат (%u удзельнікаў)
+[%s: message session]
 %s: гутарка
-[%s: Message Session (%u users)]
-%s: гутарка (%u кантактаў)
+[%s: message session (%u users)]
+%s: гутарка (%u удзельнікаў)

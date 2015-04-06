@@ -25,7 +25,7 @@ Mostrar barra de título
 Mostrar barra de estado
 [Use the contact's status icon as the window icon]
 Usar el icono de estado del contacto como el icono de la ventana
-[Message Window Event Log]
+[Message window event log]
 Ventana de mensajes de registro de eventos
 [Show icons]
 Mostrar iconos
@@ -45,8 +45,8 @@ Mostrar notificación de escritura cuando no hay diálogo de mensaje abierto
 Destellos en la bandeja del sistema y en la lista de contactos
 [Show balloon popup]
 Mostrar globo emergente
-[Send Error]
-Enviar Error
+[Send error]
+Enviar error
 [An error has occurred. The protocol reported the following error:]
 Se ha producido un error. El protocolo reportó el siguiente error:
 [while sending the following message:]
@@ -55,7 +55,7 @@ al enviar el siguiente mensaje:
 Intentar de nuevo
 [Cancel]
 Cancelar
-[Message Session]
+[Message session]
 Sesión de mensaje
 [&User menu]
 Menú de usuario
@@ -83,7 +83,7 @@ S&ubrayar
 Color &de fondo
 [&Filter]
 &Filtro
-[&Room Settings]
+[&Room settings]
 Configu&ración de espacio
 [&Show/hide nick list]
 &Mostrar/ocultar lista de nicks
@@ -119,7 +119,7 @@ Otro
 Añadir nuevas salas de grupo:
 [pixels]
 píxeles
-[Log Options]
+[Log options]
 Opciones de registro
 [Your name]
 Su nombre
@@ -153,14 +153,14 @@ Tiempo de espera (s)
 Registro
 [&Copy]
 &Copiar
-[Co&py All]
+[Co&py all]
 Co&piar todo
-[Select &All]
+[Select &all]
 Seleccionar todo
 [Word lookup]
 Palabra de búsqueda
-[C&lear Log]
-Limpiar registro
+[C&lear log]
+&Limpiar registro
 [&Open link]
 &Abrir enlace
 [&Copy link]
@@ -177,8 +177,8 @@ Cortar
 Copiar
 [Paste]
 Pegar
-[Paste && Send]
-Pegar && Enviar
+[Paste && send]
+Pegar && enviar
 [Delete]
 Eliminar
 [Clear]
@@ -189,8 +189,6 @@ Lista
 &Mensaje
 [Clear lo&g]
 Limpiar re&gistro
-[Co&py all]
-Co&piar todo
 [Add contact]
 Añadir contacto
 [Send message]
@@ -271,9 +269,7 @@ Información (10x10)
 Grupo de chats
 [Messaging]
 Mensajería
-[Add Contact]
-Añadir contacto
-[User Menu]
+[User menu]
 Menú del usuario
 [User details]
 Información del usuario
@@ -285,14 +281,12 @@ Enviar
 Buscar '%s':
 [No word to look up]
 Ni una palabra para buscar
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Añadir contacto permanentemente a la lista
-[View User's Details]
+[View user's details]
 Ver detalles del usuario
-[View User's History]
+[View user's history]
 Ver historial del usuario
-[Send Message]
-Enviar mensaje
 [%s is typing a message...]
 %s está escribiendo un mensaje...
 [Last message received on %s at %s.]
@@ -351,24 +345,24 @@ En el teléfono
 ** Contactos desconocidos **
 [Show balloon popup (unsupported system)]
 Mostrar globo emergente (sistema sin soporte)
-[Message Sessions]
+[Message sessions]
 Sesiones de mensaje
-[Typing Notify]
+[Typing notify]
 Notificación de escritura
 [Message from %s]
 Mensaje de
 [%s is typing a message]
 %s está escribiendo un mensaje
-[Typing Notification]
+[Typing notification]
 Escribiendo notificación
 [Instant messages]
 Mensajes instantáneos
-[Incoming (Focused Window)]
-Entrante (Ventana enfocada)
-[Incoming (Unfocused Window)]
-Entrante (Ventana desenfocada)
-[Incoming (New Session)]
-Entrante (Nueva sesión)
+[Incoming (focused window)]
+Entrante (ventana enfocada)
+[Incoming (unfocused window)]
+Entrante (ventana desenfocada)
+[Incoming (new session)]
+Entrante (nueva sesión)
 [Outgoing]
 Saliendo
 [Contact started typing]
@@ -377,7 +371,7 @@ El contacto ha comenzado a escribir
 El contacto dejó de escribir
 [An unknown error has occurred.]
 Se ha producido un error desconocido.
-[Always On Top]
+[Always on top]
 Siempre en primer plano
 [The message send timed out.]
 El mensaje envia el tiempo de espera.
@@ -469,7 +463,7 @@ Variables
 Apariencia
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 Eventos predeterminados a mostrar en nuevas salas de chat, si está activado el "filtro de eventos'
-[Select Folder]
+[Select folder]
 Seleccionar carpeta
 [Popups]
 Ventanas emergentes
@@ -501,11 +495,11 @@ Apodo
 ID único
 [Status]
 Estado
-[%s: Chat Room (%u user)]
-%s: Sala de chat (%u usuario)
-[%s: Chat Room (%u users)]
-%s: Sala de chat (%u usuarios)
-[%s: Message Session]
-%s: Sesión de mensaje
-[%s: Message Session (%u users)]
-%s: Sesión de mensaje (%u usuarios)
+[%s: chat room (%u user)]
+%s: sala de chat (%u usuario)
+[%s: chat room (%u users)]
+%s: sala de chat (%u usuarios)
+[%s: message session]
+%s: sesión de mensaje
+[%s: message session (%u users)]
+%s: sesión de mensaje (%u usuarios)

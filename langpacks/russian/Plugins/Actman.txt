@@ -442,7 +442,7 @@ UTF8+сигнатура
 [UTF16+sign]
 UTF16+сигнатура
 [Message window]
-Окно сообщения
+Окно сообщений
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - выделяемая (и заменяемая) часть\r\n^e - заменяется пустой строкой\r\n^v - вставка текста из буфера обмена\r\n^t - заменяется на табуляцию\r\n^l - заменяется последним результатом в Юникоде\r\n^h - заменяется последним результатом в hex\r\n^a - в конце: автоотправка\r\n^f(name\[,str\])\r\n     вставка строки из текстового файла.\r\n     содержимое скобок должно быть без пробелов
 [Text to insert]

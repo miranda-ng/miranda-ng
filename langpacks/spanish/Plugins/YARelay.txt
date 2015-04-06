@@ -23,5 +23,5 @@ No molestar
 Libre para el chat	
 [Invisible]
 Invisible
-[Message Sessions]
+[Message sessions]
 Sesiones de mensaje

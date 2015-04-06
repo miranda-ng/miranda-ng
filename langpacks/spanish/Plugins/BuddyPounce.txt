@@ -37,5 +37,5 @@ En el teléfono
 Salí a comer
 [Days]
 Días
-[Message Sessions]
+[Message sessions]
 Sesiones de mensaje

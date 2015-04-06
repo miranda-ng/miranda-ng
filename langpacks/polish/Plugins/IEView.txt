@@ -113,7 +113,7 @@ Rozmowy grupowe
 Historia
 [Default]
 Domyślny
-[Message Sessions]
+[Message sessions]
 Okno rozmowy
 [IEView]
 IEView

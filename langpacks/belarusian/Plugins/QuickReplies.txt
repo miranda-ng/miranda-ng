@@ -28,5 +28,5 @@
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 Хуткія паведамленні\r\nЛевай кнопкай - меню\r\nПравай кнопкай - налады
 ;file \plugins\QuickReplies\src\options.cpp
-[Message Sessions]
+[Message sessions]
 Гутаркі

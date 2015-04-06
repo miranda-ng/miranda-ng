@@ -29,7 +29,7 @@
 [The correction can't be equal to the wrong word!]
 [Tagalog (Philippines)]
 [German (Germany)]
-[Message Sessions]
+[Message sessions]
 [Auto-replacements]
 [Line]
 [Dotted]
