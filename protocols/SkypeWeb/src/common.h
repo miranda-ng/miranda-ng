@@ -57,6 +57,7 @@ struct CSkypeProto;
 #include "requests\subscriptions.h"
 #include "requests\messages.h"
 #include "requests\poll.h"
+#include "requests\avatars.h"
 #include "request_queue.h"
 #include "skype_proto.h"
 
