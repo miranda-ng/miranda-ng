@@ -57,7 +57,7 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
-	odp.pszGroup = LPGEN("Message Sessions");
+	odp.pszGroup = LPGEN("Message sessions");
 	odp.pszTitle = LPGEN("Spell Checker");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
@@ -67,7 +67,7 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 	memset(&odp, 0, sizeof(odp));
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
-	odp.pszGroup = LPGEN("Message Sessions");
+	odp.pszGroup = LPGEN("Message sessions");
 	odp.pszTitle = LPGEN("Auto-replacements");
 	odp.pfnDlgProc = AutoreplaceDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_REPLACEMENTS);

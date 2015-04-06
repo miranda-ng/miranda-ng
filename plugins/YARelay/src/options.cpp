@@ -194,7 +194,7 @@ int OptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.position = -1;
-	odp.pszGroup = LPGEN("Message Sessions");
+	odp.pszGroup = LPGEN("Message sessions");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETTINGS);
 	odp.pszTitle = LPGEN("Messages forwarding");
 	odp.pfnDlgProc = OptionsFrameProc;

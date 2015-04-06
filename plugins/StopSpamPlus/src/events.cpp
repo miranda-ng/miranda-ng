@@ -164,7 +164,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.pszGroup = LPGEN("Message Sessions");
+	odp.pszGroup = LPGEN("Message sessions");
 	odp.pszTitle = pluginName;
 	odp.position = -1;
 	odp.hInstance = hInst;

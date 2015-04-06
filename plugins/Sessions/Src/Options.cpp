@@ -496,7 +496,7 @@ int OptionsInit(WPARAM wparam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszTitle = MODNAME;
 	odp.pfnDlgProc = OptionsProc;
-	odp.pszGroup = LPGEN("Message Sessions");
+	odp.pszGroup = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wparam, &odp);
 	return 0;
