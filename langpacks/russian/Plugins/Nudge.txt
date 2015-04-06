@@ -16,7 +16,7 @@
 [Enable contact list shaking]
 Трясти список контактов
 [Open message window]
-Открыть окно беседы
+Открыть окно сообщений
 [Enable message window shaking]
 Трясти окно сообщений
 [Show as status change]

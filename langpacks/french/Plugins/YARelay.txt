@@ -61,7 +61,7 @@ NOTE : Les messages de ce contact ne pourront être envoyés
 UN SEUL CONTACT
 [!DON'T FORWARD!]
 NE PAS EXPEDIER Á
-[Message Sessions]
+[Message sessions]
 Sessions de message
 [Messages forwarding]
 

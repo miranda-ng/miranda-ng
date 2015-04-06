@@ -5,5 +5,5 @@
 ;  Version: 2.0.2.6
 ;  Authors: Stark Wong, Mataes, Mikel-Ard-Ri
 ;============================================================
-[Message Sessions]
+[Message sessions]
 Celi razgovori

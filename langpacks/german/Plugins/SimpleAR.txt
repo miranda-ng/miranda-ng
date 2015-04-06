@@ -46,5 +46,5 @@ Hallo, %user%, der Besitzer hat dir folgende Nachricht hinterlassen:
 ;file \plugins\SimpleAR\src\Options.cpp
 [Simple Auto Replier]
 Simple Auto Replier
-[Message Sessions]
+[Message sessions]
 Nachrichtensitzungen

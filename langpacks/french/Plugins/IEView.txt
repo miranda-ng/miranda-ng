@@ -113,7 +113,7 @@ Groupe Chats
 Historique
 [Default]
 Défaut
-[Message Sessions]
+[Message sessions]
 Sessions de message
 [IEView]
 

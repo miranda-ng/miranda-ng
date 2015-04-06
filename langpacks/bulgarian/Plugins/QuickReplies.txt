@@ -25,5 +25,5 @@ Quick Replies
 Бутон
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 Quick Replies\r\nЛяв бутон отваря менюто\r\nДесен бутон отваря настройките
-[Message Sessions]
+[Message sessions]
 Разговори

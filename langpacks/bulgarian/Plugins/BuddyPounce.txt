@@ -45,5 +45,5 @@
 Дни
 [Retry]
 Нов опит
-[Message Sessions]
+[Message sessions]
 Разговори

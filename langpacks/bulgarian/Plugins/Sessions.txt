@@ -29,5 +29,5 @@ ms
 Затваряне на разговора
 [View]
 Преглед
-[Message Sessions]
+[Message sessions]
 Разговори

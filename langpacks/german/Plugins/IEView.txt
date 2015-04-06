@@ -113,7 +113,7 @@ Gruppenchats
 Verlauf
 [Default]
 Standard
-[Message Sessions]
+[Message sessions]
 Nachrichtensitzungen
 [IEView]
 IEView

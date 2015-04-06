@@ -59,7 +59,7 @@
 !УСІМ!
 [!DON'T FORWARD!]
 !НЕ ПЕРЕСИЛАТИ!
-[Message Sessions]
+[Message sessions]
 Бесіди
 [Messages forwarding]
 Переадресація

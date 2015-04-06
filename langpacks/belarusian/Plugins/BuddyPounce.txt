@@ -138,5 +138,5 @@ Pounce адпраўлены %s за %d секунд
 ;file \plugins\BuddyPounce\src\main.cpp
 [&Buddy Pounce]
 Адправіць потым
-[Message Sessions]
+[Message sessions]
 Гутаркі

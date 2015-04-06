@@ -11,7 +11,7 @@ Ukloni
 Otkazivanje
 [Advanced]
 Napredno
-[Message Sessions]
+[Message sessions]
 Celi razgovori
 [Unknown]
 Nepoznati

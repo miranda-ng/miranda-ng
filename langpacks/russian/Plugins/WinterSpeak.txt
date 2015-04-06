@@ -109,10 +109,6 @@
 Движок/Голос
 [Announce]
 Уведомление
-[Message Session]
-Сообщение сессии
-[Message Received]
-Сообщение получено
 [%u is now offline]
 %u сейчас не в сети.
 [%u is now online]

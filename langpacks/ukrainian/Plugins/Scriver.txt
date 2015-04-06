@@ -81,8 +81,8 @@
 Мінімальна висота поля вводу
 [lines]
 рядків
-[Message Window Event Log]
-Журнал повідомлень
+[Message window event log]
+Журнал у вікні повідомлень
 [Enable IEView]
 Увімкнути IEView
 [Show icons]
@@ -123,7 +123,7 @@
 подій
 [minutes]
 хвилин
-[Typing Notification Options]
+[Typing notification options]
 Налаштування сповіщень про друк
 [Send typing notifications to the following users when you are typing a message to them:]
 Сповіщати цих користувачів, коли ви друкуєте повідомлення для них:
@@ -139,7 +139,7 @@
 Блиманням у треї та списку контактів
 [Show balloon popup]
 Підказкою в треї
-[Send Error]
+[Send error]
 Помилка надсилання
 [An error has occurred. The protocol reported the following error:]
 Протокол повідомляє про наступну помилку:
@@ -149,7 +149,7 @@
 Повторити
 [Cancel]
 Скасувати
-[Message Session]
+[Message session]
 Бесіда
 [&User menu]
 &Меню користувача
@@ -163,7 +163,7 @@
 &Історія
 [&Quote]
 &Цитувати
-[Send To All Tabs]
+[Send to all tabs]
 Надіслати всім вкладкам
 [You are about to send a message to all open tabs.\nAre you sure?]
 Ви збираєтеся надіслати повідомлення для всіх відкритих вкладок. Ви впевнені?
@@ -185,7 +185,7 @@
 Колір фону
 [&Filter]
 Фільтр
-[&Room Settings]
+[&Room settings]
 &Налаштування кімнати
 [&Show/hide nick list]
 &Показати/сховати список
@@ -223,7 +223,7 @@
 Висота рядка в списку користувачів
 [pixels]
 пікселів
-[Log Options]
+[Log options]
 Налаштування журналу
 [Your name]
 Ваше ім'я
@@ -247,7 +247,7 @@
 Ліміт
 [KB]
 КБ
-[Group Chat]
+[Group chat]
 Чати
 [Use same style as in the message log]
 Той же стиль, що й у журналі
@@ -267,9 +267,9 @@
 Журнал
 [&Copy]
 &Копіювати
-[Co&py All]
+[Co&py all]
 Ко&піювати все
-[Select &All]
+[Select &all]
 Виділити &все
 [Word lookup]
 Пошук слова
@@ -279,7 +279,7 @@
 Мапи Google
 [Google Translate]
 Перекладач Google
-[C&lear Log]
+[C&lear log]
 &Очистити журнал
 [&Open link]
 &Відкрити в браузері
@@ -297,15 +297,15 @@
 Копіювати
 [Paste]
 Вставити
-[Paste && Send]
+[Paste && send]
 Вставити й надіслати
 [Delete]
 Видалити
 [Clear]
 Очистити
-[Close Other Tabs]
+[Close other tabs]
 Закрити всі, крім цієї
-[Close Tab]
+[Close tab]
 Закрити вкладку
 [List]
 Список
@@ -313,8 +313,6 @@
 &Повідомлення
 [Clear lo&g]
 &Очистити журнал
-[Co&py all]
-Коп&іювати все
 [Add contact]
 Додати контакт
 [User's details]
@@ -445,11 +443,11 @@ Unicode вимкнено
 Корейська (Johab)
 [Messaging]
 Бесіди
-[Navigate: Previous Tab]
-Навігація: Попередня вкладка
-[Navigate: Next Tab]
-Навігація: Наступна вкладка
-[Navigate: Tab %d]
+[Navigate: previous tab]
+Навігація: попередня вкладка
+[Navigate: next tab]
+Навігація: наступна вкладка
+[Navigate: tab %d]
 Навігація: Вкладка %d
 [Window: Toggle status bar]
 Вікно: Увімк./вимк. панель статусу
@@ -475,9 +473,7 @@ Unicode вимкнено
 Цитата
 [Smiley]
 Смайл
-[Add Contact]
-Додати контакт
-[User Menu]
+[User menu]
 Меню користувача
 [User details]
 Про користувача
@@ -489,19 +485,17 @@ Unicode вимкнено
 Шукати "%s" у
 [No word to look up]
 Нічого шукати
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Додати до списку
-[View User's Details]
+[View user's details]
 Про користувача
-[View User's History]
+[View user's history]
 Історія
-[Quote Text]
+[Quote text]
 Цитувати
-[Insert Emoticon]
+[Insert emoticon]
 Смайли
-[Send Message]
-Надіслати
-[User Menu - %s]
+[User menu - %s]
 Меню користувача - %s
 [Sending in progress: %d message(s) left...]
 Відправлення: залишилося %d повідомлень...
@@ -509,11 +503,11 @@ Unicode вимкнено
 %s друкує вам повідомлення...
 [Last message received on %s at %s.]
 Останнє повідомлення отримано %s о %s
-[Unknown Contact]
+[Unknown contact]
 Невідомій контакт
 [Me]
 Я
-[My Contact]
+[My contact]
 Співрозмовник
 [Today]
 Сьогодні
@@ -529,9 +523,9 @@ Unicode вимкнено
 Отримано посилання
 [General]
 Загальне
-[Event Log]
+[Event log]
 Журнал подій
-[Group Chat Log]
+[Group chat log]
 Журнал чату
 [Outgoing messages]
 Вихідні повідомлення
@@ -595,25 +589,25 @@ Unicode вимкнено
 ** Невідомі контакти **
 [Show balloon popup (unsupported system)]
 Показувати підказки (система не підтримується)
-[Message Sessions]
+[Message sessions]
 Бесіди
-[Typing Notify]
+[Typing notify]
 Сповіщення про друк
 [Message from %s]
 Повідомлення від %s
 [%s is typing a message]
 %s друкує вам повідомлення
-[Typing Notification]
-Сповіщення про друк
+[Typing notification]
+Увага!
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Неможливо завантажити вбудований модуль повідомлень, оскільки Msftedit.dll відсутній. Якщо ви використовуєте WINE, будь ласка, переконайтеся, що Msftedit.dll встановлено. Натисніть "Так", щоб продовжити запуск Miranda NG.
 [Instant messages]
 Повідомлення
-[Incoming (Focused Window)]
+[Incoming (focused window)]
 Вхідні (активне вікно)
-[Incoming (Unfocused Window)]
+[Incoming (unfocused window)]
 Вхідні (неактивне вікно)
-[Incoming (New Session)]
+[Incoming (new session)]
 Вхідні (нова бесіда)
 [Outgoing]
 Вихідні
@@ -623,7 +617,7 @@ Unicode вимкнено
 Співрозмовник закінчив друкувати
 [An unknown error has occurred.]
 Невідома помилка.
-[Always On Top]
+[Always on top]
 Поверх усіх вікон
 [The message send timed out.]
 Час надсилання повідомлення вичерпано.
@@ -795,7 +789,7 @@ ID поточного контакту (якщо визначено). Напри
 Зовнішній вигляд
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 Показувати в новому вікні, якщо "Фільтр подій" увімкнений
-[Select Folder]
+[Select folder]
 Вибрати папку
 [Popups]
 Спливаючі вікна
@@ -837,11 +831,11 @@ ID поточного контакту (якщо визначено). Напри
 Унікальний ID
 [Status]
 Статус
-[%s: Chat Room (%u user)]
-%s - Чат (%u користувач)
-[%s: Chat Room (%u users)]
-%s - Чат (%u користувачів)
-[%s: Message Session]
-%s - Бесіда
-[%s: Message Session (%u users)]
-%s - Бесіда (%u користувачів)
+[%s: chat room (%u user)]
+%s - чат (%u)
+[%s: chat room (%u users)]
+%s - чат (%u)
+[%s: message session]
+%s - бесіда
+[%s: message session (%u users)]
+%s - бесіда (%u)

@@ -42,7 +42,7 @@
 [Message Log]
 [Group chats]
 [History]
-[Message Sessions]
+[Message sessions]
 [IEView]
 [Skins]
 [Template]

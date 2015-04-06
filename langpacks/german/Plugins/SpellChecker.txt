@@ -79,7 +79,7 @@ Tagalog (Philippinen)
 [German (Germany)]
 Deutsch (Deutschland)
 ;file \plugins\SpellChecker\src\options.cpp
-[Message Sessions]
+[Message sessions]
 Nachrichtensitzungen
 [Auto-replacements]
 Automatische Ersetzungen

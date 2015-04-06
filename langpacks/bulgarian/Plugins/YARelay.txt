@@ -27,5 +27,5 @@
 Невидим
 [Template]
 Шаблон
-[Message Sessions]
+[Message sessions]
 Разговори

@@ -39,7 +39,7 @@
 Удалять все временные контакты после перезапуска
 [Log Spammers to system history]
 Записывать спамеров в системную историю
-[Message Sessions]
+[Message sessions]
 Беседы
 [General]
 Общее

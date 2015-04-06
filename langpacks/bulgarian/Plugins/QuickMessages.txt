@@ -63,7 +63,7 @@ Quick Messages
 Нов бутон
 [New Menu Entry]
 Ново меню
-[Message Sessions]
+[Message sessions]
 Разговори
 [Quick Messages Button %u]
 Клавиш за Quick Messages %u

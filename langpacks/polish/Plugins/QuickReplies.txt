@@ -28,5 +28,5 @@ Przycisk
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 Szybkie odpowiedzi \r\nLPM - otwiera menu \r\nPPM - otwiera opcje
 ;file \plugins\QuickReplies\src\options.cpp
-[Message Sessions]
+[Message sessions]
 Okno rozmowy

@@ -61,5 +61,5 @@
 !УСІМ!
 [!DON'T FORWARD!]
 !НЕ ПЕРАСЫЛАЦЬ!
-[Message Sessions]
+[Message sessions]
 Гутаркі

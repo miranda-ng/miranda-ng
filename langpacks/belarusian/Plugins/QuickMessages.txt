@@ -64,7 +64,7 @@
 Новая кнопка
 [New Menu Entry]
 Новы пункт меню
-[Message Sessions]
+[Message sessions]
 Гутаркі
 ;file \plugins\QuickMessages\src\Utils.cpp
 [Quick Messages Button %u]

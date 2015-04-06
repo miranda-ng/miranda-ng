@@ -32,7 +32,7 @@ MirFox/Ошибка
 [send message and open message window]
 отправить и открыть окно сообщений
 [show message window with pasted message]
-показать окно сообщения с вставленным сообщением
+показать окно сообщений с вставленным сообщением
 [** All contacts **]
 ** Все контакты **
 [Protocol]

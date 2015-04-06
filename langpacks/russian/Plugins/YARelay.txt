@@ -59,7 +59,7 @@
 !ВСЕМ!
 [!DON'T FORWARD!]
 !НЕ ПЕРЕСЫЛАТЬ!
-[Message Sessions]
+[Message sessions]
 Беседы
 [Messages forwarding]
 Пересылка сообщений

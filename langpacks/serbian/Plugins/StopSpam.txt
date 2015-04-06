@@ -5,7 +5,7 @@
 ;  Version: 0.0.1.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
-[Message Sessions]
+[Message sessions]
 Celi razgovori
 [General]
 Uopšteno

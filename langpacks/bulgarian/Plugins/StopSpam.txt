@@ -39,7 +39,7 @@
 Премахване на временните контакти след рестартиране
 [Log Spammers to system history]
 Вписване на спамърите в системната история
-[Message Sessions]
+[Message sessions]
 Разговори
 [General]
 Основни

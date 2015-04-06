@@ -99,7 +99,7 @@
 История
 [Default]
 По умолчанию
-[Message Sessions]
+[Message sessions]
 Беседы
 [IEView]
 Журнал IEView

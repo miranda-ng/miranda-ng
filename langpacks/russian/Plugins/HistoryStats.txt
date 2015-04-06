@@ -226,7 +226,7 @@ URL (все)
 [In/out graph]
 График "Входящие/Исходящие"
 [Column holding in/out bar graphs for characters, messages or chats.]
-Колонка содержит график "Входящие/Исходящие" для символов, сообщений или диалогов.
+Колонка содержит график "Входящие/Исходящие" для символов, сообщений или бесед.
 [First/last message time (tooltip)]
 Время первого/последнего сообщения (подсказка)
 [Show contact count for omitted/totals (tooltip)]

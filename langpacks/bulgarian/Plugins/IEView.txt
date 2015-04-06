@@ -91,7 +91,7 @@
 История
 [Default]
 Стандарт
-[Message Sessions]
+[Message sessions]
 Разговори
 [IEView]
 IEView

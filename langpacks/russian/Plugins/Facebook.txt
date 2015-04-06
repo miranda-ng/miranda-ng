@@ -98,7 +98,7 @@
 [History synchronization]
 Синхронизация истории
 [Load last messages (24 hours old) on login (EXPERIMENTAL)]
-Загрузка сообщений за последние 24 часа при логине (Экспериментально)
+Загрузка сообщений за последние 24 часа при входе (Экспериментально)
 [Load last messages on opening message window (EXPERIMENTAL)]
 Подгружать последние сообщения при открытии окна (Экспериментально)
 [Number of messages to load:]

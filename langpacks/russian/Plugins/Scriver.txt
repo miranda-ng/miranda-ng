@@ -81,8 +81,8 @@
 Минимальный размер поля ввода
 [lines]
 строк
-[Message Window Event Log]
-Журнал в окне диалога
+[Message window event log]
+Журнал окна сообщений
 [Enable IEView]
 Включить IEView
 [Show icons]
@@ -123,7 +123,7 @@
 событий
 [minutes]
 минут
-[Typing Notification Options]
+[Typing notification options]
 Настройки уведомлений набора
 [Send typing notifications to the following users when you are typing a message to them:]
 Уведомлять отмеченных пользователей о том, что вы набираете сообщение:
@@ -139,7 +139,7 @@
 Мигать в трее и в списке контактов
 [Show balloon popup]
 Показывать всплывающую подсказку
-[Send Error]
+[Send error]
 Ошибка отправки
 [An error has occurred. The protocol reported the following error:]
 Протокол вернул следующую ошибку:
@@ -149,7 +149,7 @@
 Ещё раз
 [Cancel]
 Отмена
-[Message Session]
+[Message session]
 Беседа
 [&User menu]
 Меню &пользователя
@@ -163,7 +163,7 @@
 &История
 [&Quote]
 &Цитировать
-[Send To All Tabs]
+[Send to all tabs]
 Отправить всем вкладкам
 [You are about to send a message to all open tabs.\nAre you sure?]
 Вы собираетесь отправить сообщение всем открытым вкладкам. Вы уверены?
@@ -185,7 +185,7 @@
 Цвет &фона
 [&Filter]
 &Фильтр
-[&Room Settings]
+[&Room settings]
 &Настройки
 [&Show/hide nick list]
 &Показать/Скрыть список ников
@@ -223,7 +223,7 @@
 Высота строки в списке пользователей
 [pixels]
 пикселей
-[Log Options]
+[Log options]
 Настройки журнала
 [Your name]
 Ваше имя
@@ -247,7 +247,7 @@
 Лимит
 [KB]
 КБ
-[Group Chat]
+[Group chat]
 Комната чата
 [Use same style as in the message log]
 Тот же стиль, что и в журнале
@@ -267,9 +267,9 @@
 Журнал
 [&Copy]
 &Копировать
-[Co&py All]
+[Co&py all]
 Ко&пировать всё
-[Select &All]
+[Select &all]
 Выделить &всё
 [Word lookup]
 Найти слово
@@ -277,7 +277,7 @@
 Google Карты
 [Google Translate]
 Переводчик Google
-[C&lear Log]
+[C&lear log]
 Оч&истить журнал
 [&Open link]
 &Открыть ссылку
@@ -295,15 +295,15 @@ Google Карты
 Копировать
 [Paste]
 Вставить
-[Paste && Send]
+[Paste && send]
 Вставить и отправить
 [Delete]
 Удалить
 [Clear]
 Очистить
-[Close Other Tabs]
+[Close other tabs]
 Закрыть остальные вкладки
-[Close Tab]
+[Close tab]
 Закрыть вкладку
 [List]
 Список
@@ -311,8 +311,6 @@ Google Карты
 &Сообщение
 [Clear lo&g]
 Очистить ча&т
-[Co&py all]
-Ко&пировать всё
 [Add contact]
 Добавить контакт
 [User's details]
@@ -443,12 +441,12 @@ Google Карты
 Корейский (Johab)
 [Messaging]
 Сообщения
-[Navigate: Previous Tab]
-Навигация: Предыдущая вкладка
-[Navigate: Next Tab]
-Навигация: Следующая вкладка
-[Navigate: Tab %d]
-Навигация: Вкладка %d
+[Navigate: previous tab]
+Навигация: предыдущая вкладка
+[Navigate: next tab]
+Навигация: следующая вкладка
+[Navigate: tab %d]
+Навигация: вкладка %d
 [Window: Toggle status bar]
 Окно: Вкл./выкл. строку состояния
 [Window: Toggle title bar]
@@ -473,9 +471,7 @@ Google Карты
 Цитата
 [Smiley]
 Смайл
-[Add Contact]
-Добавить контакт
-[User Menu]
+[User menu]
 Меню пользователя
 [User details]
 О пользователе
@@ -487,19 +483,17 @@ Google Карты
 Искать '%s':
 [No word to look up]
 Нет слов для просмотра
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Добавить в список контактов
-[View User's Details]
+[View user's details]
 Информация о пользователе
-[View User's History]
+[View user's history]
 История сообщений
-[Quote Text]
+[Quote text]
 Цитата
-[Insert Emoticon]
+[Insert emoticon]
 Смайлы
-[Send Message]
-Отправить
-[User Menu - %s]
+[User menu - %s]
 Меню пользователя - %s
 [Sending in progress: %d message(s) left...]
 Отправка сообщения: %d осталось...
@@ -507,7 +501,7 @@ Google Карты
 %s набирает текст...
 [Last message received on %s at %s.]
 Последнее сообщение вы получили %s в %s.
-[Unknown Contact]
+[Unknown contact]
 Неизвестный контакт
 [Me]
 Я
@@ -515,7 +509,7 @@ Google Карты
 Благослови, Господи, свою ручную гранату, каковою можешь Ты в своей милости
 [to tiny bits, in Thy mercy]
 разносить врагов Твоих на маленькие кусочки
-[My Contact]
+[My contact]
 Мой контакт
 [Today]
 Сегодня
@@ -531,9 +525,9 @@ Google Карты
 Получен URL
 [General]
 Общее
-[Event Log]
+[Event log]
 Журнал событий
-[Group Chat Log]
+[Group chat log]
 Журнал чатов
 [Outgoing messages]
 Исходящие сообщения
@@ -597,25 +591,25 @@ Google Карты
 ** Неизвестные контакты **
 [Show balloon popup (unsupported system)]
 Показывать подсказки (неподдерживаемая система)
-[Message Sessions]
+[Message sessions]
 Беседы
-[Typing Notify]
+[Typing notify]
 Набирает текст
 [Message from %s]
 Сообщение от %s
 [%s is typing a message]
 %s набирает текст
-[Typing Notification]
+[Typing notification]
 Уведомление о наборе текста
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda не смогла загрузить встроенную систему сообщений из-за отсутствия Msftedit.dll. Если вы используете WINE, то убедитесь, что установлена  библиотека Msftedit.dll. Нажмите "Да" для продолжения загрузки программы.
 [Instant messages]
 Сообщения IM
-[Incoming (Focused Window)]
+[Incoming (focused window)]
 Входящие (активное окно)
-[Incoming (Unfocused Window)]
+[Incoming (unfocused window)]
 Входящие (неактивное окно)
-[Incoming (New Session)]
+[Incoming (new session)]
 Входящие (новый сеанс)
 [Outgoing]
 Исходящие
@@ -625,7 +619,7 @@ Miranda не смогла загрузить встроенную систему
 Контакт закончил набор сообщения
 [An unknown error has occurred.]
 Неизвестная ошибка.
-[Always On Top]
+[Always on top]
 Поверх всех окон
 [The message send timed out.]
 Таймаут отправки сообщения
@@ -797,7 +791,7 @@ ID текущего контакта (если определен). Наприм
 Внешний вид
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 Показать в новом окне, если 'Фильтр событий' включён
-[Select Folder]
+[Select folder]
 Выбрать папку
 [Popups]
 Всплывающие окна
@@ -839,11 +833,11 @@ ID текущего контакта (если определен). Наприм
 Уник. ID
 [Status]
 Статус
-[%s: Chat Room (%u user)]
-%s: Комната чата (%u пользователь)
-[%s: Chat Room (%u users)]
-%s: Комната чата (%u пользователей)
-[%s: Message Session]
-%s: Беседа
-[%s: Message Session (%u users)]
-%s: Беседа (%u пользователей)
+[%s: chat room (%u user)]
+%s: комната чата (%u пользователь)
+[%s: chat room (%u users)]
+%s: комната чата (%u пользователей)
+[%s: message session]
+%s: беседа
+[%s: message session (%u users)]
+%s: беседа (%u пользователей)

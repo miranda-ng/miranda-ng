@@ -135,5 +135,5 @@
 Ошибка отправки сообщения для %s
 [&Buddy Pounce]
 &Отложенное сообщение
-[Message Sessions]
+[Message sessions]
 Беседы

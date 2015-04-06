@@ -118,7 +118,7 @@
 ;file \plugins\Sessions\Src\Options.cpp
 [View]
 Выгляд
-[Message Sessions]
+[Message sessions]
 Гутаркі
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]

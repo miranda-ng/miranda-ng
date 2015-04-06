@@ -41,7 +41,7 @@
 [Log Spammers to system history]
 Запісваць у сістэмную гісторыю
 ;file \plugins\StopSpamPlus\src\events.cpp
-[Message Sessions]
+[Message sessions]
 Гутаркі
 [General]
 Агульнае

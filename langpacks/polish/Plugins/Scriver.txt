@@ -82,7 +82,7 @@ nieaktywny
 Wysokość okna wpisywania tekstu
 [lines]
 linie
-[Message Window Event Log]
+[Message window event log]
 Dziennik okna rozmowy
 [Enable IEView]
 Włącz IEView
@@ -124,7 +124,7 @@ Zdarzenia z ostatnich
 zdarzeń
 [minutes]
 minut
-[Typing Notification Options]
+[Typing notification options]
 Opcje powiadomień o pisaniu
 [Send typing notifications to the following users when you are typing a message to them:]
 Wyślij powiadomienie o pisaniu do następujących użytkowników, kiedy piszesz do nich wiadomość:
@@ -140,7 +140,7 @@ Pokaż powiadomienie, jeśli nie ma otwartych okien rozmowy
 Migaj ikoną w zasobniku systemowym i na liście kontaktów
 [Show balloon popup]
 Pokaż informację w chmurce
-[Send Error]
+[Send error]
 Błąd wysyłania
 [An error has occurred. The protocol reported the following error:]
 Wystąpił błąd. Protokół zwrócił następujący błąd:
@@ -150,7 +150,7 @@ podczas wysyłania wiadomości:
 Spróbuj ponownie
 [Cancel]
 Anuluj
-[Message Session]
+[Message session]
 Sesja rozmowy
 [&User menu]
 Menu &użytkownika
@@ -164,7 +164,7 @@ Menu &użytkownika
 &Historia
 [&Quote]
 &Cytuj
-[Send To All Tabs]
+[Send to all tabs]
 Wyślij do wszystkich zakładek
 [You are about to send a message to all open tabs.\nAre you sure?]
 Zamierzasz wysłać wiadomość do wszystkich otwartych zakładek.\nCzy jesteś pewien?
@@ -186,7 +186,7 @@ Ko&lor
 Kolor &tła
 [&Filter]
 &Filtr
-[&Room Settings]
+[&Room settings]
 Ustawienia &pokoju
 [&Show/hide nick list]
 &Pokaż/Ukryj listę nicków
@@ -224,7 +224,7 @@ Dodaj nowe pokoje do grupy:
 Wysokość linii listy użytkowników
 [pixels]
 px
-[Log Options]
+[Log options]
 Opcje dziennika
 [Your name]
 Twoja nazwa
@@ -248,7 +248,7 @@ Miejsce
 Ogranicz do
 [KB]
 KB
-[Group Chat]
+[Group chat]
 Rozmowy grupowe
 [Use same style as in the message log]
 Użyj takiego samego stylu, jak w dzienniku
@@ -268,9 +268,9 @@ Opóźnienie (s)
 Dziennik
 [&Copy]
 &Kopiuj
-[Co&py All]
+[Co&py all]
 Ko&piuj wszystko
-[Select &All]
+[Select &all]
 Zaznacz &wszystko
 [Word lookup]
 Wyszukaj słowo
@@ -288,7 +288,7 @@ Google Translate
 Yahoo
 [Foodnetwork]
 Foodnetwork
-[C&lear Log]
+[C&lear log]
 W&yczyść dziennik
 [&Open link]
 &Otwórz link
@@ -306,15 +306,15 @@ Wytnij
 Kopiuj
 [Paste]
 Wklej
-[Paste && Send]
+[Paste && send]
 Wklej i wyślij
 [Delete]
 Usuń
 [Clear]
 Wyczyść
-[Close Other Tabs]
+[Close other tabs]
 Zamknij inne karty
-[Close Tab]
+[Close tab]
 Zamknij kartę
 [List]
 Lista
@@ -322,8 +322,6 @@ Lista
 &Wiadomość
 [Clear lo&g]
 Wyczyść dzienn&ik
-[Co&py all]
-Ko&piuj wszystko
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Dodaj kontakt
@@ -456,11 +454,11 @@ Koreański (Johab)
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Wiadomości
-[Navigate: Previous Tab]
+[Navigate: previous tab]
 Przejdź: Poprzednia karta
-[Navigate: Next Tab]
+[Navigate: next tab]
 Przejdź: Następna karta
-[Navigate: Tab %d]
+[Navigate: tab %d]
 Przejdź: Karta %d
 [Window: Toggle status bar]
 Okno: Przełącz pasek statusu
@@ -487,9 +485,7 @@ Akcja: Wklej i wyślij
 Cytat
 [Smiley]
 Emotikony
-[Add Contact]
-Dodaj kontakt
-[User Menu]
+[User menu]
 Menu użytkownika
 [User details]
 Dane kontaktu
@@ -501,19 +497,17 @@ Wyślij
 Zobacz "%s":
 [No word to look up]
 Nie podano słowa do wyszukania
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Dodaj kontakt na stałe do listy
-[View User's Details]
+[View user's details]
 Zobacz dane kontaktu
-[View User's History]
+[View user's history]
 Zobacz historię użytkownika
-[Quote Text]
+[Quote text]
 Cytuj
-[Insert Emoticon]
+[Insert emoticon]
 Wstaw emotikonę
-[Send Message]
-Wyślij wiadomość
-[User Menu - %s]
+[User menu - %s]
 Menu kontaktu - %s
 [Sending in progress: %d message(s) left...]
 Wysyłanie w toku: pozostało %d wiadomości
@@ -522,7 +516,7 @@ Wysyłanie w toku: pozostało %d wiadomości
 [Last message received on %s at %s.]
 Ostatnia wiadomość %s o %s.
 ;file \plugins\Scriver\src\msglog.cpp
-[Unknown Contact]
+[Unknown contact]
 Nieznane kontakty
 [Me]
 Ja
@@ -530,7 +524,7 @@ Ja
 O Panie mój. Niech błogosławiony będzie ręczny granat Twój, którym twój majestat rozerwie wrogów Twych
 [to tiny bits, in Thy mercy]
 na drobne kawałki, w litości Twej
-[My Contact]
+[My contact]
 Mój kontakt
 [Lorem ipsum dolor sit amet,]
 Lorem ipsum dolor sit amet,
@@ -551,9 +545,9 @@ Otrzymany link
 ;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Ogólne
-[Event Log]
+[Event log]
 Dziennik zdarzeń
-[Group Chat Log]
+[Group chat log]
 Dziennik rozmów grupowych
 [Outgoing messages]
 Wychodzące wiadomości
@@ -617,27 +611,27 @@ Pod telefonem
 ** Nieznane kontakty **
 [Show balloon popup (unsupported system)]
 Pokaż podpowiedzi w chmurce (nieobsługiwany system)
-[Message Sessions]
+[Message sessions]
 Okno rozmowy
-[Typing Notify]
+[Typing notify]
 Powiadomienie o pisaniu
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Wiadomość od %s
 [%s is typing a message]
 %s pisze wiadomość
-[Typing Notification]
+[Typing notification]
 Kontakt
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda nie mogła załadować wbudowanego modułu obsługi wiadomości, brakujący plik Msftedit.dll. Jeśli używasz WINE, upewnij się, że posiadasz zainstalowany Msftedit.dll. Naciśnij "Tak", aby kontynuować ładowanie Mirandy.
 [Instant messages]
 Wiadomości
-[Incoming (Focused Window)]
-Przychodzące (Aktywne okno)
-[Incoming (Unfocused Window)]
-Przychodzące (Nieaktywne okno)
-[Incoming (New Session)]
-Przychodzące (Nowa sesja)
+[Incoming (focused window)]
+Przychodzące (aktywne okno)
+[Incoming (unfocused window)]
+Przychodzące (nieaktywne okno)
+[Incoming (new session)]
+Przychodzące (nowa sesja)
 [Outgoing]
 Wychodzące
 [Contact started typing]
@@ -648,7 +642,7 @@ Kontakt przestał pisać
 [An unknown error has occurred.]
 Nieznany błąd.
 ;file \plugins\Scriver\src\msgwindow.cpp
-[Always On Top]
+[Always on top]
 Zawsze na wierzchu
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
@@ -823,7 +817,7 @@ Zmienne
 Personalizacja
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 Domyślne zdarzenia pokazywane w nowych pokojach, gdy "filtr zdarzeń" jest aktywny
-[Select Folder]
+[Select folder]
 Wybierz folder
 [Popups]
 Popupy
@@ -867,11 +861,11 @@ Nazwa
 Unikalne ID
 [Status]
 Status
-[%s: Chat Room (%u user)]
+[%s: chat room (%u user)]
 %s: Konferencja (%u użytkownik)
-[%s: Chat Room (%u users)]
+[%s: chat room (%u users)]
 %s: Konferencja (%u użytkowników)
-[%s: Message Session]
+[%s: message session]
 %s: Rozmowa
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 %s: Rozmowa (%u użytkowników)

@@ -37,7 +37,7 @@
 Видаляти всі тимчасові контакти після перезапуску
 [Log Spammers to system history]
 Записувати спамерів в системну історію
-[Message Sessions]
+[Message sessions]
 Бесіди
 [General]
 Загальне

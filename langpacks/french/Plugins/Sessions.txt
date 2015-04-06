@@ -118,7 +118,7 @@ Annuler
 ;file \plugins\Sessions\Src\Options.cpp
 [View]
 
-[Message Sessions]
+[Message sessions]
 Sessions de message
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]

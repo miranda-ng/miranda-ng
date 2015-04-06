@@ -92,7 +92,7 @@ Glückwunsch! Sie haben gerade den Mensch-/Robotertest bestanden. Nun können Si
 Wenn mathematischer Ausdruck aktiviert ist dann können Sie folgenden Ausdruck im Nachrichtentext verwenden:\nXX+XX-X/X*X\nJedes X wird durch eine Zufallszahl ersetzt und die Antwort wird das Ergebnis des Ausdruckes sein.\nNachricht darf nur einen Ausdruck ohne Leerzeichen enthalten.
 [Info]
 Info
-[Message Sessions]
+[Message sessions]
 Nachrichtensitzungen
 [General]
 Allgemein

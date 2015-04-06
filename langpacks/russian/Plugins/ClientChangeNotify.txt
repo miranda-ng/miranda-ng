@@ -74,7 +74,7 @@
 [(you can use regular expressions here)]
 (вы можете использовать здесь регулярные выражения)
 [Open message window]
-Открыть окно беседы
+Открыть окно сообщений
 [Close popup]
 Закрыть окно
 [Open contact details window]

@@ -380,7 +380,7 @@ xСтатус
 [(was %s)]
 (был(а) %s)
 [Open message window]
-Открыть окно беседы
+Открыть окно сообщений
 [Close popup]
 Закрыть окно
 [Open contact details window]

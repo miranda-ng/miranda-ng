@@ -115,7 +115,7 @@
 Завантажити останню сесію
 [View]
 Вигляд
-[Message Sessions]
+[Message sessions]
 Бесіди
 [Session Before Last Crash]
 Сесія до останнього збою

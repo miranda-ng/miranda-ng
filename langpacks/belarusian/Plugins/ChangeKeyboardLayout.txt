@@ -80,7 +80,7 @@
 Змена раскладкі
 [Changing Case]
 Інвертаваць рэгістр
-[Message Sessions]
+[Message sessions]
 Гутаркі
 [Popups]
 Усплывальныя вокны

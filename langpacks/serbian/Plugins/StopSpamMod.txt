@@ -5,7 +5,7 @@
 ;  Version: 0.0.2.0
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
-[Message Sessions]
+[Message sessions]
 Celi razgovori
 [General]
 Uopšteno

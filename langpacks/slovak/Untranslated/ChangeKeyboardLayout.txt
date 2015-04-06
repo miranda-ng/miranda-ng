@@ -24,6 +24,6 @@
 [ChangeKeyboardLayout]
 [Changing Layout]
 [Changing Case]
-[Message Sessions]
+[Message sessions]
 [Popups]
 [Popup]

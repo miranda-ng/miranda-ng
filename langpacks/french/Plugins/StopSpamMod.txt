@@ -92,7 +92,7 @@ Ajouter le contact
 
 [Info]
 Info
-[Message Sessions]
+[Message sessions]
 Sessions de message
 [General]
 Général

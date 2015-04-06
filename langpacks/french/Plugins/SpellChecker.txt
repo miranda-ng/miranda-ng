@@ -79,7 +79,7 @@ Avancé
 [German (Germany)]
 
 ;file \plugins\SpellChecker\src\options.cpp
-[Message Sessions]
+[Message sessions]
 Sessions de message
 [Auto-replacements]
 

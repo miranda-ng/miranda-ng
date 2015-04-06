@@ -98,7 +98,7 @@
 [Dismiss]
 Убрать
 [Message window]
-Окно сообщения
+Окно сообщений
 [All contacts]
 Все контакты
 [All contacts except hidden ones]

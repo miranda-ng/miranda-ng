@@ -25,5 +25,5 @@
 Кнопка
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 Быстрые ответы\r\nЛевая кнопка - меню\r\nПравая кнопка - настройки
-[Message Sessions]
+[Message sessions]
 Беседы

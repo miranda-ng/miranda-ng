@@ -5,5 +5,5 @@
 ;  Version: 0.0.4.2
 ;  Authors: MaD_CLuSTeR
 ;============================================================
-[Message Sessions]
+[Message sessions]
 Celi razgovori

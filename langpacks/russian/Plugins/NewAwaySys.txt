@@ -70,7 +70,7 @@
 [Reply only when Idle]
 Отвечать только в простое
 [Reply only when contact's message window is closed]
-Отвечать, только если окно беседы закрыто
+Отвечать, только если окно сообщений закрыто
 [Send maximum]
 Отправлять макс.
 [times (-1=infinite)]

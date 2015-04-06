@@ -118,7 +118,7 @@ Letzte Sitzung laden
 ;file \plugins\Sessions\Src\Options.cpp
 [View]
 Anzeigen
-[Message Sessions]
+[Message sessions]
 Nachrichtensitzungen
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
