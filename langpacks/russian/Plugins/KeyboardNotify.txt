@@ -28,7 +28,7 @@
 [Only if last is]
 Если посл.
 [sec. old]
-сек. назад
+с. назад
 [Flash until]
 Мигать до:
 [seconds]

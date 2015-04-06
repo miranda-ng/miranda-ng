@@ -52,9 +52,9 @@ BEGIN
     CONTROL         "Incoming URLs",IDC_ONURL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,42,127,10
     CONTROL         "Everything else",IDC_ONOTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,55,128,10
     GROUPBOX        "Message-Event only",IDC_STATIC,3,77,147,57
-    CONTROL         "Blink if message window is open",IDC_IFOPEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,89,126,10
-    CONTROL         "and not in foreground",IDC_IFNOTTOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,31,102,115,10
-    CONTROL         "Only if last is",IDC_IFOLDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,115,54,10
+    CONTROL         "Blink if message window is open",IDC_IFOPEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,89,140,10
+    CONTROL         "and not in foreground",IDC_IFNOTTOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,102,127,10
+    CONTROL         "only if last is",IDC_IFOLDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,115,54,10
     EDITTEXT        IDC_SOLDER,76,114,36,13,ES_NUMBER
     CONTROL         "Spin1",IDC_OLDERSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS,102,114,9,13
     LTEXT           "sec. old",IDC_STATIC,114,116,29,10
