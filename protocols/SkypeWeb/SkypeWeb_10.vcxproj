@@ -227,7 +227,6 @@
     <ClCompile Include="src\skype_poll_processing.cpp" />
     <ClCompile Include="src\skype_profile.cpp" />
     <ClCompile Include="src\skype_request.cpp" />
-    <ClCompile Include="src\skype_status.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
