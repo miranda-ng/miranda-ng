@@ -144,30 +144,18 @@ void SpeakAnnounce::status(const std::wstring &sentence, MCONTACT user)
 //------------------------------------------------------------------------------
 bool SpeakAnnounce::readMessage(MCONTACT contact)
 {
-	std::wstring title = m_user_info.nameString(contact) + L" (" + m_user_info.statusModeString(contact) + L"): ";
-
-	HWND window = FindWindow(L"#32770", (title + TranslateW(L"Message Session")).c_str());
-	if (window) {
-		// check if we dont want to read message if dialog is open
-		if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen))
-			return false;
-
-		// check if we dont want to read message if dialog if focused
-		if ((window == GetForegroundWindow()) && m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogFocused))
-			return false;
+	// Check if message window exists
+	if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen)) {
+		// Do not notify if window is already  open
+		MessageWindowInputData mwid;
+		mwid.cbSize = sizeof(MessageWindowInputData);
+		mwid.hContact = contact;
+		mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
+		MessageWindowData mwd;
+		mwd.cbSize = sizeof(MessageWindowData);
+		mwd.hContact = contact;
+		return ((CallService(MS_MSG_GETWINDOWDATA, (WPARAM) &mwid, (LPARAM) &mwd)) || ((mwd.hwndWindow != NULL) && (mwd.uState & MSG_WINDOW_STATE_EXISTS)));
 	}
-
-	window = FindWindow(L"#32770", (title + TranslateW(L"Message Received")).c_str());
-	if (window) {
-		// check if we dont want to read message if dialog is open
-		if (m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen))
-			return false;
-
-		// check if we dont want to read message if dialog if focused
-		if ((window == GetForegroundWindow()) && m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogFocused))
-			return false;
-	}
-
 	return true;
 }
 
