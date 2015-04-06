@@ -84,6 +84,7 @@ interface MIDatabase
 {
 	MIDatabaseCache* m_cache;
 
+	STDMETHOD_(BOOL, IsRelational)(void) PURE;
 	STDMETHOD_(void, SetCacheSafetyMode)(BOOL) PURE;
 
 	STDMETHOD_(LONG, GetContactCount)(void) PURE;

@@ -208,7 +208,8 @@ struct CDb3Mmap : public MIDatabase, public MIDatabaseChecker, public MZeroedObj
 	__forceinline bool usesPassword() const { return m_bUsesPassword; }
 
 public:
-	STDMETHODIMP_(void)   SetCacheSafetyMode(BOOL);
+	STDMETHODIMP_(BOOL)     IsRelational(void) { return FALSE; }
+	STDMETHODIMP_(void)     SetCacheSafetyMode(BOOL);
 
 	STDMETHODIMP_(LONG)     GetContactCount(void);
 	STDMETHODIMP_(MCONTACT) FindFirstContact(const char *szProto = NULL);
