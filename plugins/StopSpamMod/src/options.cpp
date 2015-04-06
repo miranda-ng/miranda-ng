@@ -351,7 +351,7 @@ HINSTANCE hInst;
 MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.ptszGroup = LPGENT("Message Sessions");
+	odp.ptszGroup = LPGENT("Message sessions");
 	odp.ptszTitle = LPGENT("StopSpam");
 	odp.position = -1;
 	odp.hInstance = hInst;

@@ -440,7 +440,7 @@ int IEViewOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInstance;
-	odp.ptszGroup = LPGENT("Message Sessions");
+	odp.ptszGroup = LPGENT("Message sessions");
 	odp.ptszTitle = LPGENT("IEView");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(tabPages[0].dlgId);

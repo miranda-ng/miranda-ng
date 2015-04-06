@@ -144,7 +144,7 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN_OPTION_FORM);
 	odp.pszTitle = ModuleName;
-	odp.pszGroup = LPGEN("Message Sessions");
+	odp.pszGroup = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgMainProcOptions;
 	Options_AddPage(wParam, &odp);

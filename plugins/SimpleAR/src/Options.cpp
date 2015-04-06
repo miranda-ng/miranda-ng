@@ -155,7 +155,7 @@ INT OptInit(WPARAM wParam,LPARAM lParam)
 	odp.hInstance = hinstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTION);
 	odp.pszTitle = LPGEN("Simple Auto Replier");
-	odp.pszGroup = LPGEN("Message Sessions");
+	odp.pszGroup = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOpts;
 	Options_AddPage(wParam, &odp);
