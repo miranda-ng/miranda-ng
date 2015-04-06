@@ -19,6 +19,24 @@ public:
 	}
 };
 
+class SendActionRequest : public HttpRequest
+{
+public:
+	SendActionRequest(const char *regToken, const char *username, time_t timestamp, const char *message, const char *server = "client-s.gateway.messenger.live.com") :
+		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, username)
+	{
+		Headers
+			<< CHAR_VALUE("Accept", "application/json, text/javascript")
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
+
+		CMStringA data;
+		data.AppendFormat("{\"clientmessageid\":\"%lld\",\"content\":\"%s %s\",\"messagetype\":\"RichText\",\"contenttype\":\"text\",\"skypeemoteoffset\":\"%d\"}", timestamp, username, message, (int)(mir_strlen(username) + 1));
+
+		Body << VALUE(data);
+	}
+};
+
 class SendTypingRequest : public HttpRequest
 {
 public:

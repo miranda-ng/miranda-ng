@@ -249,6 +249,8 @@ void CSkypeProto::UpdateProfileLastName(JSONNODE *root, MCONTACT hContact)
 void CSkypeProto::UpdateProfileDisplayName(JSONNODE *root, MCONTACT hContact)
 {
 	JSONNODE *node = json_get(root, "displayname");
+	if (node == NULL)
+		node = json_get(root, "username");
 	CMString displayname = ptrT(json_as_string(node));
 	if (!displayname.IsEmpty() && displayname != "null")
 		setTString(hContact, "Nick", displayname);
