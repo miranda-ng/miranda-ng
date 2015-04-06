@@ -1,5 +1,27 @@
 #include "common.h"
 
+INT_PTR CSkypeProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
+{
+	switch (wParam) {
+	case AF_MAXSIZE:
+		((POINT*)lParam)->x = 96;
+		((POINT*)lParam)->y = 96;
+		return 0;
+
+	case AF_PROPORTION:
+		return PIP_SQUARE;
+
+	case AF_FORMATSUPPORTED:
+	case AF_ENABLED:
+	case AF_DONTNEEDDELAYS:
+	case AF_FETCHIFPROTONOTVISIBLE:
+	case AF_FETCHIFCONTACTOFFLINE:
+		return 1;
+	}
+
+	return 0;
+}
+
 void CSkypeProto::ReloadAvatarInfo(MCONTACT hContact)
 {
 	if (!hContact) {
@@ -58,6 +80,23 @@ INT_PTR CSkypeProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 
 	debugLogA("No avatar");
 	return GAIR_NOAVATAR;
+}
+
+INT_PTR CSkypeProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
+{
+	debugLogA("CSkypeProto::SvcGetMyAvatar");
+	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
+	AI.hContact = NULL;
+	if (SvcGetAvatarInfo(0, (LPARAM)&AI) != GAIR_SUCCESS)
+		return 1;
+
+	TCHAR* buf = (TCHAR*)wParam;
+	int size = (int)lParam;
+
+	_tcsncpy(buf, AI.filename, size);
+	buf[size - 1] = 0;
+
+	return 0;
 }
 
 void CSkypeProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen)
