@@ -188,11 +188,7 @@ INT_PTR PluginCommand_GetMyNickname(WPARAM wParam, LPARAM lParam)
 
 	char *proto = (char *)wParam;
 	if (proto == NULL) {
-		if (protocols->default_nick != NULL)
-			mir_tstrncpy(ret, protocols->default_nick, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);
-		else
-			ret[0] = '\0';
-
+		mir_tstrncpy(ret, protocols->default_nick, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);
 		return 0;
 	}
 	else {
@@ -267,11 +263,7 @@ INT_PTR PluginCommand_GetMyAvatar(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	if (proto == NULL) {
-		if (protocols->default_avatar_file != NULL)
-			mir_tstrncpy(ret, protocols->default_avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
-		else
-			ret[0] = '\0';
-
+		mir_tstrncpy(ret, protocols->default_avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
 		return 0;
 	}
 
@@ -411,7 +403,7 @@ INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 	int proto_num = -1;
 	Protocol *proto = NULL;
 
-	if (status != 0 && (status < ID_STATUS_OFFLINE || status > ID_STATUS_OUTTOLUNCH))
+	if (status < ID_STATUS_OFFLINE || status > ID_STATUS_OUTTOLUNCH)
 		return -10;
 
 	if (proto_name != NULL) {
@@ -431,13 +423,7 @@ INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 			return -2;
 	}
 	else if (ServiceExists(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG)) {
-		if (proto == NULL && status == 0)
-			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, protocols->GetGlobalStatus(), NULL);
-		else if (status == 0)
-			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, proto->status, (LPARAM)proto_name);
-		else
-			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, status, (LPARAM)proto_name);
-
+		CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, status, (LPARAM)proto_name);
 		return 0;
 	}
 

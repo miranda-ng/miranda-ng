@@ -672,8 +672,6 @@ void CalcRectangles(HWND hwnd)
 				LONG height;
 
 				if (opts.draw_avatar_custom_size) {
-					rc.right = opts.draw_avatar_custom_size_pixels;
-
 					width = opts.draw_avatar_custom_size_pixels;
 					height = opts.draw_avatar_custom_size_pixels;
 				}
@@ -2131,9 +2129,10 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_DESTROY:
 		KillTimer(hwnd, ID_FRAME_TIMER);
 
-		DeleteTooltipWindows(data);
-		if (data != NULL)
+		if (data != NULL) {
+			DeleteTooltipWindows(data);
 			delete data;
+		}
 		break;
 
 		// Custom Messages //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

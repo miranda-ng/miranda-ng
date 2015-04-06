@@ -27,7 +27,7 @@ void InitProtocolData()
 {
 	PROTOACCOUNT **protos;
 	int count;
-	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&protos);
+	ProtoEnumAccounts(&count, &protos);
 
 	protocols = new ProtocolArray(count);
 
