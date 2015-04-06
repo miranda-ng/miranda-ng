@@ -73,6 +73,7 @@ void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node)
 
 void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 {
+	debugLogA("CSkypeProto::ProcessNewMessageRes");
 	ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(node, "clientmessageid")))));
 	ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(node, "skypeeditedid")))));
 	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
