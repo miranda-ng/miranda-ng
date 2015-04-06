@@ -42,7 +42,7 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 	TCHAR* tokens[4] = { 0 };
 	size_t tokenLen[4] = { 0 };
 	TCHAR *p, *tmplt;
-	TCHAR *pszNewTitleEnd = mir_tstrdup(TranslateT("Message Session"));
+	TCHAR *pszNewTitleEnd = mir_tstrdup(TranslateT("Message session"));
 	int isTemplate = 0;
 	if (hContact && szProto) {
 		tokens[0] = GetNickname(hContact, szProto);
@@ -793,10 +793,10 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			hMenu = GetSystemMenu(hwndDlg, FALSE);
 			InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
 			if (dat->bTopmost) {
-				InsertMenu(hMenu, 0, MF_BYPOSITION | MF_ENABLED | MF_CHECKED | MF_STRING, IDM_TOPMOST, TranslateT("Always On Top"));
+				InsertMenu(hMenu, 0, MF_BYPOSITION | MF_ENABLED | MF_CHECKED | MF_STRING, IDM_TOPMOST, TranslateT("Always on top"));
 				SetWindowPos(hwndDlg, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 			}
-			else InsertMenu(hMenu, 0, MF_BYPOSITION | MF_ENABLED | MF_UNCHECKED | MF_STRING, IDM_TOPMOST, TranslateT("Always On Top"));
+			else InsertMenu(hMenu, 0, MF_BYPOSITION | MF_ENABLED | MF_UNCHECKED | MF_STRING, IDM_TOPMOST, TranslateT("Always on top"));
 		}
 		return TRUE;
 
@@ -940,7 +940,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						TranslateMenu(hSubMenu);
 						HMENU hUserMenu = (HMENU)SendMessage(mwtd->hwnd, DM_GETCONTEXTMENU, 0, 0);
 						if (hUserMenu != NULL) {
-							InsertMenu(hSubMenu, 0, MF_POPUP | MF_BYPOSITION, (UINT_PTR)hUserMenu, TranslateT("User Menu"));
+							InsertMenu(hSubMenu, 0, MF_POPUP | MF_BYPOSITION, (UINT_PTR)hUserMenu, TranslateT("User menu"));
 							InsertMenu(hSubMenu, 1, MF_SEPARATOR | MF_BYPOSITION, 0, 0);
 						}
 						BOOL menuResult = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, x, y, 0, hwndDlg, NULL);

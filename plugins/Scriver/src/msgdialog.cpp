@@ -36,8 +36,8 @@ static void UpdateReadChars(HWND hwndDlg, SrmmWindowData * dat);
 static ToolbarButton toolbarButtons[] = {
 	{LPGENT("Quote"), IDC_QUOTE, 0, 4, 24},
 	{LPGENT("Smiley"), IDC_SMILEYS, 0, 10, 24},
-	{LPGENT("Add Contact"), IDC_ADD, 0, 10, 24},
-	{LPGENT("User Menu"), IDC_USERMENU, 1, 0, 24},
+	{LPGENT("Add contact"), IDC_ADD, 0, 10, 24},
+	{LPGENT("User menu"), IDC_USERMENU, 1, 0, 24},
 	{LPGENT("User details"), IDC_DETAILS, 1, 0, 24},
 	{LPGENT("History"), IDC_HISTORY, 1, 0, 24},
 	{LPGENT("Send"), IDOK, 1, 0, 38}
@@ -798,14 +798,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			for (int i = 0; i < SIZEOF(toolbarButtons); i++)
 				SendDlgItemMessage(hwndDlg, toolbarButtons[i].controlId, BUTTONSETASFLATBTN, TRUE, 0);
 
-			SendDlgItemMessage(hwndDlg, IDC_ADD, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Add Contact Permanently to List"), 0);
-			SendDlgItemMessage(hwndDlg, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)LPGEN("User Menu"), 0);
-			SendDlgItemMessage(hwndDlg, IDC_DETAILS, BUTTONADDTOOLTIP, (WPARAM)LPGEN("View User's Details"), 0);
-			SendDlgItemMessage(hwndDlg, IDC_HISTORY, BUTTONADDTOOLTIP, (WPARAM)LPGEN("View User's History"), 0);
+			SendDlgItemMessage(hwndDlg, IDC_ADD, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Add contact permanently to list"), 0);
+			SendDlgItemMessage(hwndDlg, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)LPGEN("User menu"), 0);
+			SendDlgItemMessage(hwndDlg, IDC_DETAILS, BUTTONADDTOOLTIP, (WPARAM)LPGEN("View user's details"), 0);
+			SendDlgItemMessage(hwndDlg, IDC_HISTORY, BUTTONADDTOOLTIP, (WPARAM)LPGEN("View user's history"), 0);
 
-			SendDlgItemMessage(hwndDlg, IDC_QUOTE, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Quote Text"), 0);
-			SendDlgItemMessage(hwndDlg, IDC_SMILEYS, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Insert Emoticon"), 0);
-			SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Send Message"), 0);
+			SendDlgItemMessage(hwndDlg, IDC_QUOTE, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Quote text"), 0);
+			SendDlgItemMessage(hwndDlg, IDC_SMILEYS, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Insert emoticon"), 0);
+			SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Send message"), 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_KEYEVENTS);
@@ -1059,7 +1059,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 				char idbuf[128], buf[128];
 				GetContactUniqueId(dat, idbuf, sizeof(idbuf));
-				mir_snprintf(buf, SIZEOF(buf), Translate("User Menu - %s"), idbuf);
+				mir_snprintf(buf, SIZEOF(buf), Translate("User menu - %s"), idbuf);
 				SendDlgItemMessage(hwndDlg, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)buf, 0);
 
 				if (!cws || (!strcmp(cws->szModule, dat->szProto) && !strcmp(cws->szSetting, "Status")))

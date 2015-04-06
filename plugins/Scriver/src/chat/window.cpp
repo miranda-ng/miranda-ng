@@ -111,7 +111,7 @@ static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_SHOWNICKLIST, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show/hide the nick list (CTRL+N)"), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_CHANMGR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Control this room (CTRL+O)"), 0);
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_FILTER, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Enable/disable the event filter (CTRL+F)"), 0);
-	SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Send Message"), 0);
+	SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Send message"), 0);
 
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_BOLD, BUTTONSETASPUSHBTN, TRUE, 0);
 	SendDlgItemMessage(hwndDlg, IDC_CHAT_ITALICS, BUTTONSETASPUSHBTN, TRUE, 0);
@@ -1183,12 +1183,12 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		switch (si->iType) {
 		case GCW_CHATROOM:
 			mir_sntprintf(szTemp, SIZEOF(szTemp),
-				(si->nUsersInNicklist == 1) ? TranslateT("%s: Chat Room (%u user)") : TranslateT("%s: Chat Room (%u users)"),
+				(si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"),
 				si->ptszName, si->nUsersInNicklist);
 			break;
 		case GCW_PRIVMESS:
 			mir_sntprintf(szTemp, SIZEOF(szTemp),
-				(si->nUsersInNicklist == 1) ? TranslateT("%s: Message Session") : TranslateT("%s: Message Session (%u users)"),
+				(si->nUsersInNicklist == 1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"),
 				si->ptszName, si->nUsersInNicklist);
 			break;
 		case GCW_SERVER:
