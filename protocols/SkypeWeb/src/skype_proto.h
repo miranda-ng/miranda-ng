@@ -188,7 +188,7 @@ private:
 	MEVENT GetMessageFromDB(MCONTACT hContact, DWORD timestamp, const char *messageId);
 	MEVENT AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content, int emoteOffset = 0);
 
-	int OnReceiveMessage(const char *messageId, const char *skypename, time_t timestamp, char *content, int emoteOffset = 0, bool isRead = false);
+	int OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset = 0, bool isRead = false);
 	int SaveMessageToDb(MCONTACT hContact, PROTORECVEVENT *pre);
 
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
