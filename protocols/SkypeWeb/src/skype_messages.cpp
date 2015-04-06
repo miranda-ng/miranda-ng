@@ -45,8 +45,9 @@ MEVENT CSkypeProto::AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD fla
 /* MESSAGE RECEIVING */
 
 // incoming message flow
-int CSkypeProto::OnReceiveMessage(const char *messageId, const char *skypename, time_t timestamp, char *content, int emoteOffset, bool isRead)
+int CSkypeProto::OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset, bool isRead)
 {
+	ptrA skypename(ContactUrlToName(url));
 	setDword("LastMsgTime", timestamp);
 	PROTORECVEVENT recv = { 0 };
 	recv.flags = PREF_UTF;
@@ -58,7 +59,7 @@ int CSkypeProto::OnReceiveMessage(const char *messageId, const char *skypename, 
 	if (isRead)
 		recv.flags |= PREF_CREATEREAD;
 	debugLogA("Incoming message from %s", skypename);
-	MCONTACT hContact = GetContact(ptrA(ContactUrlToName(skypename)));
+	MCONTACT hContact = GetContact(skypename);
 	return ProtoChainRecvMsg(hContact, &recv);
 }
 
