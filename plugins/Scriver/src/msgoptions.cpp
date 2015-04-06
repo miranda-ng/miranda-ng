@@ -41,9 +41,9 @@ static const TabDef tabPages[] = {
 	{ DlgProcOptions, IDD_OPT_MSGDLG, LPGEN("General") },
 	{ DlgProcTabsOptions, IDD_OPT_MSGTABS, LPGEN("Tabs") },
 	{ DlgProcLayoutOptions, IDD_OPT_LAYOUT, LPGEN("Layout") },
-	{ DlgProcLogOptions, IDD_OPT_MSGLOG, LPGEN("Event Log") },
-	{ DlgProcOptions1, IDD_OPTIONS1, LPGEN("Group Chat") },
-	{ DlgProcOptions2, IDD_OPTIONS2, LPGEN("Group Chat Log") }
+	{ DlgProcLogOptions, IDD_OPT_MSGLOG, LPGEN("Event log") },
+	{ DlgProcOptions1, IDD_OPTIONS1, LPGEN("Group chat") },
+	{ DlgProcOptions2, IDD_OPTIONS2, LPGEN("Group chat log") }
 };
 
 #define FONTF_BOLD		1
@@ -955,7 +955,7 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
-	odp.pszTitle = LPGEN("Message Sessions");
+	odp.pszTitle = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 	for (int i = 0; i < SIZEOF(tabPages); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
@@ -965,8 +965,8 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	}
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
-	odp.pszGroup = LPGEN("Message Sessions");
-	odp.pszTitle = LPGEN("Typing Notify");
+	odp.pszGroup = LPGEN("Message sessions");
+	odp.pszTitle = LPGEN("Typing notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
 	odp.pszTab = NULL;
 	Options_AddPage(wParam, &odp);

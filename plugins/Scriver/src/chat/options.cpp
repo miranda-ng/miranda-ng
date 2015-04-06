@@ -457,7 +457,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 				BROWSEINFO bi = { 0 };
 				bi.hwndOwner = hwndDlg;
 				bi.pszDisplayName = tszDirectory;
-				bi.lpszTitle = TranslateT("Select Folder");
+				bi.lpszTitle = TranslateT("Select folder");
 				bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_EDITBOX | BIF_RETURNONLYFSDIRS;
 				bi.lpfn = BrowseCallbackProc;
 				bi.lParam = (LPARAM)tszDirectory;

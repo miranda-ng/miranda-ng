@@ -50,9 +50,9 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					SendDlgItemMessage(hwndDlg, IDC_MSGTEXT, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)ewd->szText);
 				}
 				if (ewd->szName)
-					mir_sntprintf(szText, SIZEOF(szText), _T("%s - %s"), TranslateT("Send Error"), ewd->szName);
+					mir_sntprintf(szText, SIZEOF(szText), _T("%s - %s"), TranslateT("Send error"), ewd->szName);
 				else
-					_tcsncpy_s(szText, TranslateT("Send Error"), _TRUNCATE);
+					_tcsncpy_s(szText, TranslateT("Send error"), _TRUNCATE);
 
 				SetWindowText(hwndDlg, szText);
 				GetWindowRect(hwndDlg, &rc);

@@ -213,7 +213,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 			MIRANDASYSTRAYNOTIFY tn;
 			tn.szProto = NULL;
 			tn.cbSize = sizeof(tn);
-			tn.tszInfoTitle = TranslateT("Typing Notification");
+			tn.tszInfoTitle = TranslateT("Typing notification");
 			tn.tszInfo = szTip;
 			tn.dwInfoFlags = NIIF_INFO | NIIF_INTERN_UNICODE;
 			tn.uTimeout = 1000 * 4;
@@ -563,9 +563,9 @@ int OnLoadModule(void)
 	hHookWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
 	hHookWinWrite = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
 
-	SkinAddNewSoundEx("RecvMsgActive", LPGEN("Instant messages"), LPGEN("Incoming (Focused Window)"));
-	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (Unfocused Window)"));
-	SkinAddNewSoundEx("AlertMsg", LPGEN("Instant messages"), LPGEN("Incoming (New Session)"));
+	SkinAddNewSoundEx("RecvMsgActive", LPGEN("Instant messages"), LPGEN("Incoming (focused window)"));
+	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (unfocused window)"));
+	SkinAddNewSoundEx("AlertMsg", LPGEN("Instant messages"), LPGEN("Incoming (new session)"));
 	SkinAddNewSoundEx("SendMsg", LPGEN("Instant messages"), LPGEN("Outgoing"));
 	SkinAddNewSoundEx("TNStart", LPGEN("Instant messages"), LPGEN("Contact started typing"));
 	SkinAddNewSoundEx("TNStop",  LPGEN("Instant messages"), LPGEN("Contact stopped typing"));

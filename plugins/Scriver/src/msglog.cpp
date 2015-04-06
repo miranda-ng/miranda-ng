@@ -119,7 +119,7 @@ TCHAR* GetNickname(MCONTACT hContact, const char *szProto)
 	if (tszBaseNick != NULL)
 		return mir_tstrdup(tszBaseNick);
 
-	return mir_tstrdup(TranslateT("Unknown Contact"));
+	return mir_tstrdup(TranslateT("Unknown contact"));
 }
 
 int DbEventIsCustomForMsgWindow(DBEVENTINFO *dbei)
@@ -230,13 +230,13 @@ static EventData* GetTestEvents()
 	prevEvent = evt;
 
 	evt = GetTestEvent(0);
-	evt->pszNickT = mir_tstrdup(TranslateT("My Contact"));
+	evt->pszNickT = mir_tstrdup(TranslateT("My contact"));
 	evt->pszTextT = mir_tstrdup(TranslateT("Lorem ipsum dolor sit amet,"));
 	prevEvent->next = evt;
 	prevEvent = evt;
 
 	evt = GetTestEvent(0);
-	evt->pszNickT = mir_tstrdup(TranslateT("My Contact"));
+	evt->pszNickT = mir_tstrdup(TranslateT("My contact"));
 	evt->pszTextT = mir_tstrdup(TranslateT("consectetur adipisicing elit"));
 	prevEvent->next = evt;
 	prevEvent = evt;
