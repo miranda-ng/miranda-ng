@@ -691,7 +691,7 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, Clc
 		return -1; //subcontact
 	if (pdnce && pdnce->isUnknown && dat != NULL && !dat->force_in_dialog)
 		return 1; //'Unknown Contact'
-	if (dat != NULL && dat->filterSearch && dat->szQuickSearch && pdnce && pdnce->tszName) {
+	if (dat != NULL && dat->filterSearch && pdnce && pdnce->tszName) {
 		// search filtering
 		TCHAR *lowered_name = CharLowerW(NEWTSTR_ALLOCA(pdnce->tszName));
 		TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));

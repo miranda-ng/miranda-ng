@@ -2315,63 +2315,58 @@ int SizeFramesByWindowRect(RECT *r, HDWP * PosBatch, int mode)
 	nRect.top += g_CluiData.TopClientMargin;
 	nRect.bottom -= g_CluiData.BottomClientMargin;
 	CLUIFramesResizeFrames(nRect);
-	{
-		int i;
-		for (i = 0; i < g_nFramesCount; i++) {
-			int dx;
-			int dy;
-			dx = 0;//rcNewWindowRect.left-rcOldWindowRect.left;
-			dy = 0;//_window_rect.top-rcOldWindowRect.top;
-			if (!g_pfwFrames[i].floating) {
-				if (g_pfwFrames[i].visible && !g_pfwFrames[i].needhide && !IsWindowVisible(g_pfwFrames[i].hWnd)) {
-					ShowWindow(g_pfwFrames[i].hWnd, SW_SHOW);
-					if (g_pfwFrames[i].TitleBar.ShowTitleBar) ShowWindow(g_pfwFrames[i].TitleBar.hwnd, SW_SHOW);
-				}
-				if (g_pfwFrames[i].OwnerWindow && (INT_PTR)(g_pfwFrames[i].OwnerWindow) != -2) {
-					if (!(mode & 2)) {
-						HWND hwnd = GetParent(g_pfwFrames[i].OwnerWindow);
-						if (NULL != g_pfwFrames[i].OwnerWindow) { /* Wine fix. */
-							*PosBatch = DeferWindowPos(*PosBatch, g_pfwFrames[i].OwnerWindow, NULL, g_pfwFrames[i].wndSize.left + r->left, g_pfwFrames[i].wndSize.top + r->top,
-								g_pfwFrames[i].wndSize.right - g_pfwFrames[i].wndSize.left, g_pfwFrames[i].wndSize.bottom - g_pfwFrames[i].wndSize.top, SWP_NOZORDER | SWP_NOACTIVATE);
-							SetWindowPos(g_pfwFrames[i].hWnd, NULL, 0, 0,
-								g_pfwFrames[i].wndSize.right - g_pfwFrames[i].wndSize.left, g_pfwFrames[i].wndSize.bottom - g_pfwFrames[i].wndSize.top, SWP_NOZORDER | SWP_NOACTIVATE/*|SWP_NOSENDCHANGING*/);
-						}
+	for (int i = 0; i < g_nFramesCount; i++) {
+		int dx = 0;//rcNewWindowRect.left-rcOldWindowRect.left;
+		int dy = 0;//_window_rect.top-rcOldWindowRect.top;
+		if (!g_pfwFrames[i].floating) {
+			if (g_pfwFrames[i].visible && !g_pfwFrames[i].needhide && !IsWindowVisible(g_pfwFrames[i].hWnd)) {
+				ShowWindow(g_pfwFrames[i].hWnd, SW_SHOW);
+				if (g_pfwFrames[i].TitleBar.ShowTitleBar) ShowWindow(g_pfwFrames[i].TitleBar.hwnd, SW_SHOW);
+			}
+			if (g_pfwFrames[i].OwnerWindow && (INT_PTR)(g_pfwFrames[i].OwnerWindow) != -2) {
+				if (!(mode & 2)) {
+					HWND hwnd = GetParent(g_pfwFrames[i].OwnerWindow);
+					if (NULL != g_pfwFrames[i].OwnerWindow) { /* Wine fix. */
+						*PosBatch = DeferWindowPos(*PosBatch, g_pfwFrames[i].OwnerWindow, NULL, g_pfwFrames[i].wndSize.left + r->left, g_pfwFrames[i].wndSize.top + r->top,
+							g_pfwFrames[i].wndSize.right - g_pfwFrames[i].wndSize.left, g_pfwFrames[i].wndSize.bottom - g_pfwFrames[i].wndSize.top, SWP_NOZORDER | SWP_NOACTIVATE);
+						SetWindowPos(g_pfwFrames[i].hWnd, NULL, 0, 0,
+							g_pfwFrames[i].wndSize.right - g_pfwFrames[i].wndSize.left, g_pfwFrames[i].wndSize.bottom - g_pfwFrames[i].wndSize.top, SWP_NOZORDER | SWP_NOACTIVATE/*|SWP_NOSENDCHANGING*/);
 					}
-					//Frame
+				}
+				//Frame
+				if (g_pfwFrames[i].TitleBar.ShowTitleBar) {
+					SetWindowPos(g_pfwFrames[i].TitleBar.hwnd, NULL, g_pfwFrames[i].wndSize.left + dx, g_pfwFrames[i].wndSize.top - g_nTitleBarHeight - g_CluiData.nGapBetweenTitlebar + dy,
+						g_pfwFrames[i].wndSize.right - g_pfwFrames[i].wndSize.left, g_nTitleBarHeight, SWP_NOZORDER | SWP_NOACTIVATE);
+					SetRect(&g_pfwFrames[i].TitleBar.wndSize, g_pfwFrames[i].wndSize.left, g_pfwFrames[i].wndSize.top - g_nTitleBarHeight - g_CluiData.nGapBetweenTitlebar, g_pfwFrames[i].wndSize.right, g_pfwFrames[i].wndSize.top - g_CluiData.nGapBetweenTitlebar);
+					UpdateWindow(g_pfwFrames[i].TitleBar.hwnd);
+				}
+			}
+			else {
+				if (1) {
+					int res = 0;
+					// set frame position
+					res = SetWindowPos(g_pfwFrames[i].hWnd, NULL, g_pfwFrames[i].wndSize.left + dx, g_pfwFrames[i].wndSize.top + dy,
+						g_pfwFrames[i].wndSize.right - g_pfwFrames[i].wndSize.left,
+						g_pfwFrames[i].wndSize.bottom - g_pfwFrames[i].wndSize.top, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
+				}
+				if (1) {
+					// set titlebar position
 					if (g_pfwFrames[i].TitleBar.ShowTitleBar) {
 						SetWindowPos(g_pfwFrames[i].TitleBar.hwnd, NULL, g_pfwFrames[i].wndSize.left + dx, g_pfwFrames[i].wndSize.top - g_nTitleBarHeight - g_CluiData.nGapBetweenTitlebar + dy,
-							g_pfwFrames[i].wndSize.right - g_pfwFrames[i].wndSize.left, g_nTitleBarHeight, SWP_NOZORDER | SWP_NOACTIVATE);
+							g_pfwFrames[i].wndSize.right - g_pfwFrames[i].wndSize.left, g_nTitleBarHeight, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
 						SetRect(&g_pfwFrames[i].TitleBar.wndSize, g_pfwFrames[i].wndSize.left, g_pfwFrames[i].wndSize.top - g_nTitleBarHeight - g_CluiData.nGapBetweenTitlebar, g_pfwFrames[i].wndSize.right, g_pfwFrames[i].wndSize.top - g_CluiData.nGapBetweenTitlebar);
-						UpdateWindow(g_pfwFrames[i].TitleBar.hwnd);
+
 					}
 				}
-				else {
-					if (1) {
-						int res = 0;
-						// set frame position
-						res = SetWindowPos(g_pfwFrames[i].hWnd, NULL, g_pfwFrames[i].wndSize.left + dx, g_pfwFrames[i].wndSize.top + dy,
-							g_pfwFrames[i].wndSize.right - g_pfwFrames[i].wndSize.left,
-							g_pfwFrames[i].wndSize.bottom - g_pfwFrames[i].wndSize.top, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
-					}
-					if (1) {
-						// set titlebar position
-						if (g_pfwFrames[i].TitleBar.ShowTitleBar) {
-							SetWindowPos(g_pfwFrames[i].TitleBar.hwnd, NULL, g_pfwFrames[i].wndSize.left + dx, g_pfwFrames[i].wndSize.top - g_nTitleBarHeight - g_CluiData.nGapBetweenTitlebar + dy,
-								g_pfwFrames[i].wndSize.right - g_pfwFrames[i].wndSize.left, g_nTitleBarHeight, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
-							SetRect(&g_pfwFrames[i].TitleBar.wndSize, g_pfwFrames[i].wndSize.left, g_pfwFrames[i].wndSize.top - g_nTitleBarHeight - g_CluiData.nGapBetweenTitlebar, g_pfwFrames[i].wndSize.right, g_pfwFrames[i].wndSize.top - g_CluiData.nGapBetweenTitlebar);
-
-						}
-					}
-					UpdateWindow(g_pfwFrames[i].hWnd);
-					if (g_pfwFrames[i].TitleBar.ShowTitleBar) UpdateWindow(g_pfwFrames[i].TitleBar.hwnd);
-				};
-			}
-
+				UpdateWindow(g_pfwFrames[i].hWnd);
+				if (g_pfwFrames[i].TitleBar.ShowTitleBar) UpdateWindow(g_pfwFrames[i].TitleBar.hwnd);
+			};
 		}
-		if (GetTickCount() - _dwLastStoreTick > 1000) {
-			CLUIFramesStoreAllFrames();
-			_dwLastStoreTick = GetTickCount();
-		};
+
+	}
+	if (GetTickCount() - _dwLastStoreTick > 1000) {
+		CLUIFramesStoreAllFrames();
+		_dwLastStoreTick = GetTickCount();
 	}
 	return 0;
 }
@@ -2385,10 +2380,8 @@ int CheckFramesPos(RECT *wr)
 	GapBetweenFrames = db_get_dw(NULL, "CLUIFrames", "GapBetweenFrames", SETTING_GAPFRAMES_DEFAULT);
 
 	for (int i = 0; i < g_nFramesCount; i++) {
-		int dx;
-		int dy;
-		dx = 0;//rcNewWindowRect.left-rcOldWindowRect.left;
-		dy = 0;//_window_rect.top-rcOldWindowRect.top;
+		int dx = 0;//rcNewWindowRect.left-rcOldWindowRect.left;
+		int dy = 0;//_window_rect.top-rcOldWindowRect.top;
 		if (!g_pfwFrames[i].floating && g_pfwFrames[i].visible) {
 			if (!(g_pfwFrames[i].OwnerWindow && (INT_PTR)(g_pfwFrames[i].OwnerWindow) != -2)) {
 				RECT r;
@@ -2592,22 +2585,22 @@ void DrawBackGround(HWND hwnd, HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColo
 				}
 				else {
 					destw = clRect.right;
-					desth = destw*bmp.bmHeight / bmp.bmWidth;
+					//desth = destw*bmp.bmHeight / bmp.bmWidth;
 				}
 			}
 			else {
 				destw = clRect.right;
-				desth = clRect.bottom;
+				//desth = clRect.bottom;
 			}
 			break;
 		case CLB_STRETCHH:
 			if (backgroundBmpUse & CLBF_PROPORTIONAL) {
 				destw = clRect.right;
-				desth = destw*bmp.bmHeight / bmp.bmWidth;
+				//desth = destw*bmp.bmHeight / bmp.bmWidth;
 			}
 			else {
 				destw = clRect.right;
-				desth = bmp.bmHeight;
+				//desth = bmp.bmHeight;
 			}
 			break;
 		case CLB_STRETCHV:
@@ -2617,12 +2610,12 @@ void DrawBackGround(HWND hwnd, HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColo
 			}
 			else {
 				destw = bmp.bmWidth;
-				desth = clRect.bottom;
+				//desth = clRect.bottom;
 			}
 			break;
 		default:    //clb_topleft
 			destw = bmp.bmWidth;
-			desth = bmp.bmHeight;
+			//desth = bmp.bmHeight;
 			break;
 		}
 		desth = clRect.bottom - clRect.top;
