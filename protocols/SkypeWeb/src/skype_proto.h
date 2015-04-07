@@ -205,6 +205,7 @@ private:
 	void OnGetServerHistory(const NETLIBHTTPREQUEST *response);
 
 	//chats
+	MCONTACT GetChat(const char *skypename);
 	MCONTACT AddChatRoom(const char *chatname);
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 	//polling
