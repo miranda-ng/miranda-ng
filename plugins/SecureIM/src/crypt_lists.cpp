@@ -30,7 +30,7 @@ void loadSupportedProtocols()
 		SupPro *p = (SupPro*)mir_calloc(sizeof(SupPro));
 		p->name = mir_strdup(protos[i]->szModuleName);
 		if (szNames && p->name) {
-			char tmp[128]; strcpy(tmp, p->name); strcat(tmp, ":");
+			char tmp[128]; strncpy(tmp, p->name, sizeof(tmp)-1); strncat(tmp, ":", sizeof(tmp)-1);
 			LPSTR szName = strstr(szNames, tmp);
 			if (szName) {
 				szName = strchr(szName, ':');
@@ -40,8 +40,10 @@ void loadSupportedProtocols()
 					if (szName) {
 						p->split_on = atoi(++szName); p->tsplit_on = p->split_on;
 						szName = strchr(szName, ':');
-						if (szName)
-							p->split_off = atoi(++szName); p->tsplit_off = p->split_off;
+						if (szName) {
+							p->split_off = atoi(++szName);
+							p->tsplit_off = p->split_off;
+						}
 					}
 				}
 			}

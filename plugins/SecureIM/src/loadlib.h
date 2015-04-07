@@ -2,6 +2,7 @@
 #define __LOADLIB_H__
 
 BOOL loadlib(void);
+void freelib();
 
 typedef HANDLE (__cdecl * _cpp_create_context) (int);
 typedef void   (__cdecl * _cpp_delete_context) (HANDLE);

@@ -87,10 +87,11 @@ void CopyToClipboard(HWND hwnd, LPSTR msg)
 	mir_strcpy(lpstrCopy, msg);
 	GlobalUnlock(hglbCopy);
 
-	OpenClipboard(NULL);
-	EmptyClipboard();
-	SetClipboardData(CF_TEXT, hglbCopy);
-	CloseClipboard();
+	if(OpenClipboard(NULL)) {
+		EmptyClipboard();
+		SetClipboardData(CF_TEXT, hglbCopy);
+		CloseClipboard();
+	}
 }
 
 HANDLE hNetlibUser;

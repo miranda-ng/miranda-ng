@@ -187,13 +187,15 @@ BOOL LoadKeyPGP(pUinKey ptr)
 	int mode = db_get_b(ptr->hContact, MODULENAME, "pgp_mode", 255);
 	if (mode == 0) {
 		DBVARIANT dbv;
-		db_get(ptr->hContact, MODULENAME, "pgp", &dbv);
-		BOOL r = (dbv.type == DBVT_BLOB);
-		if (r) pgp_set_keyid(ptr->cntx, (PVOID)dbv.pbVal);
-		db_free(&dbv);
-		return r;
+		if(!db_get(ptr->hContact, MODULENAME, "pgp", &dbv)) {
+			BOOL r = (dbv.type == DBVT_BLOB);
+			if (r)
+				pgp_set_keyid(ptr->cntx, (PVOID)dbv.pbVal);
+			db_free(&dbv);
+			return r;
+		}
 	}
-	if (mode == 1) {
+	else if (mode == 1) {
 		LPSTR key = db_get_sa(ptr->hContact, MODULENAME, "pgp");
 		if (key) {
 			pgp_set_key(ptr->cntx, key);

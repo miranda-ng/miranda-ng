@@ -1400,14 +1400,14 @@ void setListViewIcon(HWND hLV, UINT iItem, pUinKey ptr)
 void setListViewMode(HWND hLV, UINT iItem, UINT iMode)
 {
 	char tmp[256];
-	strncpy(tmp, Translate(sim231[iMode]), sizeof(tmp));
+	strncpy(tmp, Translate(sim231[iMode]), sizeof(tmp)-1);
 	LV_SetItemTextA(hLV, iItem, 2, tmp);
 }
 
 void setListViewStatus(HWND hLV, UINT iItem, UINT iStatus)
 {
 	char tmp[128];
-	strncpy(tmp, Translate(sim232[iStatus]), sizeof(tmp));
+	strncpy(tmp, Translate(sim232[iStatus]), sizeof(tmp)-1);
 	LV_SetItemTextA(hLV, iItem, 3, tmp);
 }
 
@@ -1421,7 +1421,7 @@ UINT getListViewPSK(HWND hLV, UINT iItem)
 void setListViewPSK(HWND hLV, UINT iItem, UINT iStatus)
 {
 	char str[128];
-	strncpy(str, (iStatus) ? Translate(sim206) : "-", sizeof(str));
+	strncpy(str, (iStatus) ? Translate(sim206) : "-", sizeof(str)-1);
 	LV_SetItemTextA(hLV, iItem, 4, str);
 }
 
@@ -1435,7 +1435,7 @@ UINT getListViewPUB(HWND hLV, UINT iItem)
 void setListViewPUB(HWND hLV, UINT iItem, UINT iStatus)
 {
 	char str[128];
-	strncpy(str, (iStatus) ? Translate(sim233) : "-", sizeof(str));
+	strncpy(str, (iStatus) ? Translate(sim233) : "-", sizeof(str)-1);
 	LV_SetItemTextA(hLV, iItem, 4, str);
 
 	LPSTR sha = NULL;
@@ -1461,7 +1461,7 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	pUinKey p1 = pUinKey(lParam1), p2 = pUinKey(lParam2);
 	char t1[NAMSIZE], t2[NAMSIZE];
-	int s, d, m = 1;
+	int s=0, d=0, m = 1;
 	DBVARIANT dbv1 = { 0 }, dbv2 = { 0 };
 
 	if (lParamSort & 0x100) {
@@ -1490,30 +1490,38 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 		return (s - d)*m;
 
 	case 0x13:
-		db_get_s(p1->hContact, MODULENAME, "pgp_abbr", &dbv1);
-		db_get_s(p2->hContact, MODULENAME, "pgp_abbr", &dbv2);
-		s = (dbv1.type == DBVT_ASCIIZ);
-		d = (dbv2.type == DBVT_ASCIIZ);
-		if (s && d) {
-			s = strcmp(dbv1.pszVal, dbv2.pszVal);
-			d = 0;
+		if(!db_get_s(p1->hContact, MODULENAME, "pgp_abbr", &dbv1)){
+			if(!db_get_s(p2->hContact, MODULENAME, "pgp_abbr", &dbv2)) {
+				s = (dbv1.type == DBVT_ASCIIZ);
+				d = (dbv2.type == DBVT_ASCIIZ);
+				if (s && d) {
+					s = strcmp(dbv1.pszVal, dbv2.pszVal);
+					d = 0;
+				}
+				db_free(&dbv1);
+			}
+			db_free(&dbv2);
+			return (s - d)*m;
 		}
-		db_free(&dbv1);
-		db_free(&dbv2);
-		return (s - d)*m;
+		else
+			return 0;
 
 	case 0x23:
-		db_get_s(p1->hContact, MODULENAME, "gpg", &dbv1);
-		db_get_s(p2->hContact, MODULENAME, "gpg", &dbv2);
-		s = (dbv1.type == DBVT_ASCIIZ);
-		d = (dbv2.type == DBVT_ASCIIZ);
-		if (s && d) {
-			s = strcmp(dbv1.pszVal, dbv2.pszVal);
-			d = 0;
+		if(!db_get_s(p1->hContact, MODULENAME, "gpg", &dbv1)) {
+			s = (dbv1.type == DBVT_ASCIIZ);
+			if(!db_get_s(p2->hContact, MODULENAME, "gpg", &dbv2)) {
+				d = (dbv2.type == DBVT_ASCIIZ);
+				if (s && d) {
+					s = strcmp(dbv1.pszVal, dbv2.pszVal);
+					d = 0;
+				}
+				db_free(&dbv1);
+			}
+			db_free(&dbv2);
+			return (s - d)*m;
 		}
-		db_free(&dbv1);
-		db_free(&dbv2);
-		return (s - d)*m;
+		else
+			return 0;
 
 	case 0x04:
 		s = p1->tstatus;
@@ -1521,13 +1529,17 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 		return (s - d)*m;
 
 	case 0x05:
-		db_get_s(p1->hContact, MODULENAME, "PSK", &dbv1);
-		s = (dbv1.type == DBVT_ASCIIZ);
-		db_free(&dbv1);
-		db_get_s(p2->hContact, MODULENAME, "PSK", &dbv2);
-		d = (dbv2.type == DBVT_ASCIIZ);
-		db_free(&dbv2);
-		return (s - d)*m;
+		if(!db_get_s(p1->hContact, MODULENAME, "PSK", &dbv1)) {
+			s = (dbv1.type == DBVT_ASCIIZ);
+			if (!db_get_s(p2->hContact, MODULENAME, "PSK", &dbv2)) {
+				d = (dbv2.type == DBVT_ASCIIZ);
+				db_free(&dbv2);
+			}
+			db_free(&dbv1);
+			return (s - d)*m;
+		}
+		else
+			return 0;
 	}
 	return 0;
 }
