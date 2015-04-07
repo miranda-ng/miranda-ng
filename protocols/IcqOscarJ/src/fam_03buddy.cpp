@@ -367,6 +367,14 @@ void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info*)
 		}
 
 		if (capLen) {
+			#ifdef _DEBUG
+				for (WORD i = 0; i < capLen; i += BINARY_CAP_SIZE) {
+					char tmp[100];
+					bin2hex(capBuf + i, BINARY_CAP_SIZE, tmp);
+					debugLogA("Capability: %s", tmp);
+				}
+			#endif
+			
 			// Update the contact's capabilies if present in packet
 			SetCapabilitiesFromBuffer(hContact, capBuf, capLen, wOldStatus == ID_STATUS_OFFLINE);
 
