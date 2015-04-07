@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NimContact.dll
 ;  Plugin: Non-IM Contact
-;  Version: 0.6.0.1
+;  Version: 0.6.0.2
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Non-IM Contact allows you to add 'contacts' that can act as shortcuts to other programs, or links to web pages.\r\nThe contacts name can be read from a text file (includes any ASCII file).\r\nThis plugin is a combination of Favorites and Text Reader plugins both made by me)]

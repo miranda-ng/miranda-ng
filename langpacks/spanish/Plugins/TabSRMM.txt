@@ -125,8 +125,8 @@ Número de eventos anteriores a cargar
 Cargar eventos previos de menos de
 [minutes old]
 minutos de pasado
-[Typing notification]
-Escribiendo notificación
+[Typing notify]
+Notificación de escritura
 [Send typing notifications to the following users when you are typing a message to them:]
 Enviar notificaciones de escritura a los siguientes usuarios cuando se está escribiendo un mensaje para ellos
 [Show typing notification when no message dialog is open]
@@ -233,6 +233,8 @@ Contacto
 Pieles
 [Avatars]
 Avatares
+[Typing notification]
+Escribiendo notificación
 ['(Unknown contact)']
 '(Contacto desconocido)'
 [** New contacts **]
@@ -247,8 +249,6 @@ Sesiones de mensaje
 General
 [Message log]
 Registro de mensaje
-[Typing notify]
-Notificación de escritura
 [Event notifications]
 Notificaciones de eventos
 [Settings]

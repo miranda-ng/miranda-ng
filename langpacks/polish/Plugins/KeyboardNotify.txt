@@ -26,8 +26,8 @@ Powiadomienia o wiadomościach
 Migaj, jeśli okno rozmowy jest otwarte
 [and not in foreground]
 i nie na pierwszym planie
-[Only if last is]
-Tylko, jeśli ostatnie to
+[only if last is]
+tylko, jeśli ostatnie to
 [sec. old]
 s
 [Flash until]

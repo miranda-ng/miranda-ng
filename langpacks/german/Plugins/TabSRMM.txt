@@ -402,7 +402,7 @@ Lade Ereignisse, die nicht älter als
 Minuten alt
 [Global message log display]
 Globale Nachrichtenverlauf-Darstellung
-[Typing notification]
+[Typing notify]
 Tippbenachrichtigungen
 [Send typing notifications to the following users when you are typing a message to them:]
 An folgende Kontakte eine Benachrichtigung senden, wenn Sie gerade eine Nachricht tippen:
@@ -1204,6 +1204,8 @@ Avatare
 Gespeicherte TabSRMM Avatare
 [Group chat logs root]
 Gruppenchats Hauptverzeichnis
+[Typing notification]
+Tippbenachrichtigungen
 ;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 Füge [img]-Tag ein / Umschließe markierten Text mit [img][/img]
@@ -1383,8 +1385,6 @@ Tabs und Layout
 Container
 [Message log]
 Nachrichtenverlauf
-[Typing notify]
-Tippbenachrichtigungen
 [Event notifications]
 Ereignisbenachrichtigungen
 [Message window]

@@ -402,8 +402,8 @@ RTL шаблоны
 хвілін назад
 [Global message log display]
 Асноўны лог паведамленняў
-[Typing notification]
-Абвестка пра набор тэксту
+[Typing notify]
+Набірае тэкст
 [Send typing notifications to the following users when you are typing a message to them:]
 Пасылаць абвесткі пра набор паказаным кантактам у той час, калі вы набіраеце ім паведамленне:
 [        Show typing notifications in the message window]
@@ -1204,6 +1204,8 @@ TabSRMM: Набірае
 Захаваныя аватары
 [Group chat logs root]
 Тэчка логаў
+[Typing notification]
+Абвестка пра набор тэксту
 ;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 Уставіць тэг [img] / пазначыць вылучаны тэкст [img][/img]
@@ -1383,8 +1385,6 @@ TabSRMM: Набірае
 Кантэйнеры
 [Message log]
 Лог
-[Typing notify]
-Набірае тэкст
 [Event notifications]
 Абвесткі
 [Message window]

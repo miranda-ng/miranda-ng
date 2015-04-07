@@ -114,11 +114,6 @@ Parle
 
 [Announce]
 
-;file \plugins\WinterSpeak\src\SpeakAnnounce.cpp
-[Message Session]
-Session message
-[Message Received]
-
 ;file \plugins\WinterSpeak\src\UserInformation.cpp
 [%u is now offline]
 

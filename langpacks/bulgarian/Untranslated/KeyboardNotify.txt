@@ -4,7 +4,7 @@
 [Message-Event only]
 [Blink if message window is open]
 [and not in foreground]
-[Only if last is]
+[only if last is]
 [sec. old]
 [Flash until]
 [is re-attended]

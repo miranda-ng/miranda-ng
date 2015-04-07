@@ -397,7 +397,7 @@ ID користувача в панелі статусу
 хвилин тому
 [Global message log display]
 Основний журнал повідомлень
-[Typing notification]
+[Typing notify]
 Сповіщення про друк
 [Send typing notifications to the following users when you are typing a message to them:]
 Сповіщати цих користувачів, коли ви друкуєте повідомлення для них:
@@ -1189,6 +1189,8 @@ TabSRMM: Набирає
 Збережені аватари
 [Group chat logs root]
 Папка журналу чатів
+[Typing notification]
+Сповіщення про друк
 [Insert [img] tag / surround selected text with [img][/img]]
 Вставити тег [img] / позначити виділений текст [img][/img]
 [Add this contact permanently to your contact list]
@@ -1363,8 +1365,6 @@ TabSRMM: Набирає
 Контейнери
 [Message log]
 Журнал
-[Typing notify]
-Сповіщення про друк
 [Event notifications]
 Сповіщення
 [Message window]

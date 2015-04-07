@@ -23,7 +23,6 @@
 [%u says]
 [Engine/Voice]
 [Announce]
-[Message Received]
 [%u is now offline]
 [%u is now online]
 [%u is away]

@@ -385,8 +385,8 @@ ID на потребителя в лентата за състояние
 минути
 [Global message log display]
 Общо изобразяване на дневника чрез
-[Typing notification]
-Уведомявания при писане
+[Typing notify]
+Уведомяване при писане
 [Send typing notifications to the following users when you are typing a message to them:]
 Изпращане на уведомяване при писане до следните потребители, когато им пишете съобщение:
 [        Show typing notifications in the message window]
@@ -1147,6 +1147,8 @@ TabSRMM
 Облици
 [Avatars]
 Аватари
+[Typing notification]
+Уведомявания при писане
 [Insert [img] tag / surround selected text with [img][/img]]
 Вмъкване на таг [img] / заградете текста с [img] [/img]
 [Add this contact permanently to your contact list]
@@ -1315,8 +1317,6 @@ Latin I
 Контейнери
 [Message log]
 Дневник за съобщения
-[Typing notify]
-Уведомяване при писане
 [Event notifications]
 Уведомявания за събития
 [Message window]

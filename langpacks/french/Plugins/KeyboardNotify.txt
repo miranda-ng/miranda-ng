@@ -26,7 +26,7 @@ Tous les autres
 Si fenêtre de message ouverte
 [and not in foreground]
 et pas au premier plan
-[Only if last is]
+[only if last is]
 si le dernier à
 [sec. old]
 secondes
