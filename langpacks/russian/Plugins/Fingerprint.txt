@@ -143,6 +143,8 @@ XMPP клиент
 Оверлей Mail.Ru Agent
 [VK overlay]
 Оверлей VK
+[Skype overlay]
+Оверлей Skype
 [ICQ 2003 overlay]
 ICQ 2003 оверлей
 [ICQ Lite 4 overlay]

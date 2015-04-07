@@ -37,6 +37,6 @@
 [You win!]
 [New Button]
 [New Menu Entry]
-[Message Sessions]
+[Message sessions]
 ;file \plugins\QuickMessages\src\Utils.cpp
 [Quick Messages Button %u]

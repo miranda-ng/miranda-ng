@@ -25,7 +25,7 @@
 Мигать, если окно беседы открыто
 [and not in foreground]
 и не помещено на передний план
-[Only if last is]
+[only if last is]
 Если посл.
 [sec. old]
 с. назад

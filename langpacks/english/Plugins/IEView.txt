@@ -62,7 +62,7 @@
 [Group chats]
 [History]
 [Default]
-[Message Sessions]
+[Message sessions]
 [IEView]
 [Skins]
 [Template]

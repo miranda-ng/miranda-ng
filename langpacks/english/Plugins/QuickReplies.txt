@@ -18,4 +18,4 @@
 [Button]
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 ;file \plugins\QuickReplies\src\options.cpp
-[Message Sessions]
+[Message sessions]

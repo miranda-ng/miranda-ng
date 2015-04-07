@@ -78,6 +78,7 @@
 [Yahoo overlay]
 [Mail.Ru Agent overlay]
 [VK overlay]
+[Skype overlay]
 [ICQ 2003 overlay]
 [ICQ Lite 4 overlay]
 [ICQ v5.x overlay]

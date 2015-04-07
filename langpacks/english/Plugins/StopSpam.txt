@@ -24,7 +24,7 @@
 [Remove all temporary contacts after restart]
 [Log Spammers to system history]
 ;file \plugins\StopSpamPlus\src\events.cpp
-[Message Sessions]
+[Message sessions]
 [General]
 [Messages]
 [Accounts]

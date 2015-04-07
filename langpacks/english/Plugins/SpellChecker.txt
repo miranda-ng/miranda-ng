@@ -44,7 +44,7 @@
 [Tagalog (Philippines)]
 [German (Germany)]
 ;file \plugins\SpellChecker\src\options.cpp
-[Message Sessions]
+[Message sessions]
 [Auto-replacements]
 [Line]
 [Dotted]
