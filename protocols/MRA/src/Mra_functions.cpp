@@ -506,13 +506,14 @@ MCONTACT CMraProto::MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNe
 
 	//check not already on list
 	CMStringA szEMailLocal;
-	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
-	if (mraGetStringA(hContact, "e-mail", szEMailLocal))
-	if (szEMailLocal == szEmail) {
-		if (bTemporary == FALSE)
-			db_unset(hContact, "CList", "NotOnList");
-		bFound = true;
-		break;
+	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		if (mraGetStringA(hContact, "e-mail", szEMailLocal))
+		if (szEMailLocal == szEmail) {
+			if (bTemporary == FALSE)
+				db_unset(hContact, "CList", "NotOnList");
+			bFound = true;
+			break;
+		}
 	}
 
 	if (!bFound && bAddIfNeeded) {

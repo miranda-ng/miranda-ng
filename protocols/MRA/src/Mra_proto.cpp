@@ -679,13 +679,13 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 			delSetting(hContact, DBSETTING_XSTATUSMSG);
 		}
 
-
 		if (dwTemp != ID_STATUS_OFFLINE) { // пишем клиента только если юзер не отключён, иначе не затираем старое
 			if (!szUserAgentFormatted.IsEmpty()) {
 				if (getByte("MirVerRaw", MRA_DEFAULT_MIRVER_RAW) == FALSE)
 					szUserAgentFormatted = MraGetVersionStringFromFormatted(szUserAgentFormatted);
 			}
-			else szUserAgentFormatted = MIRVER_UNKNOWN;
+			else szUserAgentFormatted = (szEmail.Find("@uin.icq") == -1) ? MIRVER_UNKNOWN : "ICQ client";
+
 			mraSetStringA(hContact, "MirVer", szUserAgentFormatted);
 		}
 
