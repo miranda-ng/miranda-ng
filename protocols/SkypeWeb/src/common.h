@@ -37,6 +37,7 @@
 #include <m_timezones.h>
 #include <m_version.h>
 #include <m_gui.h>
+#include <m_imgsrvc.h>
 
 struct CSkypeProto;
 

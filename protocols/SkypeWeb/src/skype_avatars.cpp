@@ -57,6 +57,16 @@ void CSkypeProto::OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
 }
 
+void CSkypeProto::OnSentAvatar(const NETLIBHTTPREQUEST *response)
+{
+	if (response == NULL)
+		return;
+
+	JSONROOT root(response->pData);
+	if (root == NULL)
+		return;
+}
+
 INT_PTR CSkypeProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
@@ -136,4 +146,58 @@ void CSkypeProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 		AI.format = ProtoGetAvatarFormat(AI.filename);
 		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&AI, 0);
 	}
+}
+
+INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM wParam, LPARAM lParam)
+{
+	TCHAR *path = (TCHAR*)lParam;
+	TCHAR avatarPath[MAX_PATH];
+	GetAvatarFileName(NULL, avatarPath, SIZEOF(avatarPath));
+	if (path != NULL)
+	{
+		if (!CopyFile(path, avatarPath, FALSE))
+		{
+			debugLogA("CSkypeProto::SetMyAvatar: failed to copy new avatar to avatar cache");
+			return -1;
+		}
+
+		size_t length;
+		char *data;
+		FILE *hFile = _tfopen(path, L"rb");
+		if (!hFile)
+		{
+			debugLogA("CSkypeProto::SetMyAvatar: failed to open avatar file");
+			return -1;
+		}
+
+		fseek(hFile, 0, SEEK_END);
+		length = ftell(hFile);
+		rewind(hFile);
+
+		data = (char*)mir_alloc(length);
+		size_t read = fread(data, sizeof(char), length, hFile);
+		if (read != length)
+		{
+			fclose(hFile);
+			debugLogA("CToxProto::SetToxAvatar: failed to read avatar file");
+			return -1;
+		}
+		fclose(hFile);
+
+
+		ptrA token(getStringA("TokenSecret"));
+		ptrA skypename(getStringA("Skypename"));
+		PushRequest(new SetAvatarRequest(token, skypename, data), &CSkypeProto::OnSentAvatar);
+	}
+	else
+	{
+		if (IsFileExists(avatarPath))
+		{
+			DeleteFile(avatarPath);
+		}
+
+		//db_unset(NULL, m_szModuleName, TOX_SETTINGS_AVATAR_HASH);
+	}
+
+	return 0;
 }

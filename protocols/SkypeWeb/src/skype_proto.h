@@ -102,9 +102,15 @@ private:
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
+	
+	std::tstring m_tszAvatarFolder;
+
 	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcSetMyAvatar(WPARAM, LPARAM);
+
+	int InternalSetAvatar(MCONTACT hContact, const char *szJid, const TCHAR *ptszFileName);
 
 	// requests
 	void PushRequest(HttpRequest *request);
@@ -165,6 +171,7 @@ private:
 	void ReloadAvatarInfo(MCONTACT hContact);
 	void GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen);
 	void OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnSentAvatar(const NETLIBHTTPREQUEST *response);
 
 	MCONTACT GetContact(const char *skypename);
 
