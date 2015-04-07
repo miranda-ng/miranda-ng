@@ -42,9 +42,9 @@ void showPopup(LPCSTR lpzText, MCONTACT hContact, HICON hIcon, UINT type)
 	ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
 	ppd.lchIcon = hIcon;
 	LPWSTR lpwzContactName = (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GSMDF_UNICODE);
-	wcscpy(ppd.lpwzContactName, lpwzContactName);
+	wcsncpy(ppd.lpwzContactName, lpwzContactName, MAX_CONTACTNAME-1);
 	LPWSTR lpwzText = mir_a2u(lpzText);
-	wcscpy(ppd.lpwzText, TranslateW(lpwzText));
+	wcsncpy(ppd.lpwzText, TranslateW(lpwzText),MAX_SECONDLINE-1);
 	mir_free(lpwzText);
 	ppd.colorBack = colorBack;
 	ppd.colorText = colorText;

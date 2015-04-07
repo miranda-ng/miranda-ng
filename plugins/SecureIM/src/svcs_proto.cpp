@@ -487,11 +487,10 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 
 	// pass unhandled messages
 	if (!ptr || ssig == SiG_GAME || ssig == SiG_PGPM || ssig == SiG_SECU || ssig == SiG_SECP ||
-		 isChatRoom(pccsd->hContact) || stat == -1 ||
-		 (ssig == SiG_NONE && ptr->sendQueue) || (ssig == SiG_NONE && ptr->status == STATUS_DISABLED)) {
-		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
-
-		Sent_NetLog("onSendMsg: pass unhandled");
+		isChatRoom(pccsd->hContact) || stat == -1 ||
+		(ssig == SiG_NONE && ptr->sendQueue) || (ssig == SiG_NONE && ptr->status == STATUS_DISABLED)) {
+			Sent_NetLog("onSendMsg: pass unhandled");
+			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 	}
 
 	//
@@ -840,9 +839,11 @@ int __cdecl onProtoAck(WPARAM wParam, LPARAM lParam)
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack->type != ACKTYPE_FILE) return 0; //quit if not file transfer event
 	PROTOFILETRANSFERSTATUS *f = (PROTOFILETRANSFERSTATUS*)ack->lParam;
+	if (!f)
+		return 0;
 
 	pUinKey ptr = getUinKey(ack->hContact);
-	if (!ptr || (f && (f->flags & PFTS_SENDING) && !bSFT)) return 0;
+	if (!ptr || ((f->flags & PFTS_SENDING) && !bSFT)) return 0;
 
 	if (isContactSecured(ack->hContact)&SECURED) {
 		switch (ack->result) {
@@ -893,7 +894,7 @@ int __cdecl onProtoAck(WPARAM wParam, LPARAM lParam)
 						LPSTR p = strrchr(file_out, '.');
 						LPSTR x = strrchr(file_out, '\\');
 						if (p > x) {
-							strcpy(buf, p);
+							strncpy(buf, p, sizeof(buf)-1);
 							pos = p;
 						}
 						for (int i = 1; i < 10000; i++) {

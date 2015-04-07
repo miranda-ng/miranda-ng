@@ -2,11 +2,12 @@
 
 CRYPTOPP_INFO cpp;
 
+HMODULE h;
 BOOL loadlib(void)
 {
-	HMODULE h = LoadLibraryA("plugins/cryptopp.dll");
+	h = LoadLibrary(_T("plugins/cryptopp.dll"));
 	if (h == NULL) {
-		h = LoadLibraryA("cryptopp.dll");
+		h = LoadLibrary(_T("cryptopp.dll"));
 		if (h == NULL) return 0;
 	}
 
@@ -71,4 +72,8 @@ BOOL loadlib(void)
 	cpp.rsa_d = (_rsa_done)GetProcAddress(h, "rsa_done");
 
 	return (cpp_get_version() >= 0x01000403);
+}
+
+void freelib() {
+	FreeLibrary(h);
 }
