@@ -89,19 +89,22 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 			cookies[match[1]] = match[2];
 	}
 
-	PushRequest(new GetRegInfoRequest(token.c_str(), getStringA("Server")), &CSkypeProto::OnGetRegInfo);
+	ptrA server(getStringA("Server"));
+	PushRequest(new CreateEndpointRequest(token.c_str()), &CSkypeProto::OnEndpointCreated);
+
 	PushRequest(new GetProfileRequest(token.c_str()), &CSkypeProto::LoadProfile);
 	PushRequest(new GetContactListRequest(token.c_str()), &CSkypeProto::LoadContactList);
 }
 
-void CSkypeProto::OnGetRegInfo(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
 		return;
 
 	std::regex regex;
 	std::smatch match;
-	for (int i = 0; i < response->headersCount; i++) {
+	for (int i = 0; i < response->headersCount; i++)
+	{
 		if (!mir_strcmpi(response->headers[i].szName, "Set-RegistrationToken"))
 		{
 			CMStringA szValue = response->headers[i].szValue, szCookieName, szCookieVal;
@@ -120,41 +123,50 @@ void CSkypeProto::OnGetRegInfo(const NETLIBHTTPREQUEST *response)
 		else if (!mir_strcmpi(response->headers[i].szName, "Location"))
 		{
 			CMStringA szValue = response->headers[i].szValue, szCookieName, szCookieVal;
-			setString("Server", GetServerFromUrl(szValue));
+			setString("Server", ptrA(GetServerFromUrl(szValue)));
 		}
 
 	}
+
+	ptrA server(getStringA("Server"));
+
 	if (response->resultCode != 201)
 	{
-		PushRequest(new GetRegInfoRequest(getStringA("Token"), getStringA("Server")), &CSkypeProto::OnGetRegInfo);
+		ptrA token(getStringA("Token"));
+		PushRequest(new CreateEndpointRequest(token), &CSkypeProto::OnEndpointCreated);
 		return;
 	}
 
-	PushRequest(new GetEndpointRequest(getStringA("registrationToken"), getStringA("endpointId"), getStringA("Server")), &CSkypeProto::OnGetEndpoint);
-	isTerminated = false;
-	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
+	ptrA regToken(getStringA("registrationToken"));
+	
 
-	m_iStatus = m_iDesiredStatus;
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
-	PushRequest(new SetStatusRequest(ptrA(getStringA("registrationToken")), MirandaToSkypeStatus(m_iStatus), getStringA("Server")), &CSkypeProto::OnSetStatus);
+	PushRequest(new CreateSubscriptionsRequest(regToken), &CSkypeProto::OnSubscriptionsCreated);
 }
 
-void CSkypeProto::OnGetEndpoint(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
 		return;
 
-	JSONROOT root(response->pData);
+	ptrA regToken(getStringA("registrationToken"));
+	ptrA skypename(getStringA(SKYPE_SETTINGS_ID));
+	//ptrA endpoint(getStringA("endpointId"));
+	//PushRequest(new SendCapabilitiesRequest(regToken, endpoint));
+	//PushRequest(new SetStatusRequest(regToken, MirandaToSkypeStatus(m_iDesiredStatus)), &CSkypeProto::OnStatusChanged);
+	PushRequest(new GetContactStatusRequest(regToken, skypename), &CSkypeProto::OnStatusChanged);
 
-	if (root == NULL)
-		return;
+	LIST<char> skypenames(1);
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+		skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
+	PushRequest(new CreateContactsRequest(regToken, skypenames));
+	for (int i = 0; i < skypenames.getCount(); i++)
+		mir_free(skypenames[i]);
+	skypenames.destroy();
 
-	ptrA selfLink(mir_t2a(ptrT(json_as_string(json_get(root, "selfLink")))));
-
-	setString("SelfEndpointName", SelfUrlToName(selfLink));
+	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
 }
 
-void CSkypeProto::OnSetStatus(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
 		return;
@@ -165,13 +177,12 @@ void CSkypeProto::OnSetStatus(const NETLIBHTTPREQUEST *response)
 		return;
 
 	JSONNODE *status_json = json_get(root, "status");
-	ptrA status(mir_t2a(ptrT(json_as_string(status_json))));
-	int old_status = m_iStatus;
-	int iNewStatus = SkypeToMirandaStatus(status);
-	m_iStatus = iNewStatus;
+	ptrT status(json_as_string(status_json));
+	int iNewStatus = SkypeToMirandaStatus(_T2A(status));
 
 	if (iNewStatus == ID_STATUS_OFFLINE)
 		SetStatus(ID_STATUS_OFFLINE);
-	else
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+
+	m_iStatus = m_iDesiredStatus = iNewStatus;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
 }

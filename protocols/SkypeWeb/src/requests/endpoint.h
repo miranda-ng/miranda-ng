@@ -1,25 +1,20 @@
-#ifndef _SKYPE_REQUEST_ENDPOINT_H_
-#define _SKYPE_REQUEST_ENDPOINT_H_
+#ifndef _SKYPE_REQUEST_REGINFO_H_
+#define _SKYPE_REQUEST_REGINFO_H_
 
-class GetEndpointRequest : public HttpRequest
+class CreateEndpointRequest : public HttpRequest
 {
 public:
-	GetEndpointRequest(const char *regToken, const char *endpointID, const char *server = "client-s.gateway.messenger.live.com") :
-		HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/endpoints/%s/presenceDocs/messagingService", server, ptrA(mir_urlEncode(endpointID)))
+	CreateEndpointRequest(const char *token, const char *server = "client-s.gateway.messenger.live.com") :
+		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints", server)
 	{
+
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
-		CMStringA data;
-
-		int bitness = 32;
-#ifdef _WIN64
-		bitness = 64;
-#endif
-		data.AppendFormat("{\"id\":\"messagingService\",\"type\":\"EndpointPresenceDoc\",\"selfLink\":\"uri\",\"privateInfo\":{\"epname\":\"Miranda\"},\"publicInfo\":{\"capabilities\":\"\",\"typ\":125,\"skypeNameVersion\":\"Miranda NG Skype\",\"nodeInfo\":\"xx\",\"version\":\"%s x%d\"}}", MIRANDA_VERSION_STRING, bitness);
-		Body <<
-			VALUE(data);
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
+			<< FORMAT_VALUE("Authentication", "skypetoken=%s", token);
+		
+		Body << VALUE("{}");
 	}
 };
-#endif //_SKYPE_REQUEST_ENDPOINT_H_
+
+#endif //_SKYPE_REQUEST_STATUS_H_

@@ -17,7 +17,7 @@ MEVENT CSkypeProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, 
 	return db_event_add(hContact, &dbei);
 }
 
-time_t __stdcall CSkypeProto::IsoToUnixTime(const TCHAR *stamp)
+time_t CSkypeProto::IsoToUnixTime(const TCHAR *stamp)
 {
 	TCHAR date[9];
 	int i, y;

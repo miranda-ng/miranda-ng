@@ -134,12 +134,13 @@ private:
 
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
-	// events
+	// login
 	void OnLoginFirst(const NETLIBHTTPREQUEST *response);
 	void OnLoginSecond(const NETLIBHTTPREQUEST *response);
-	void OnGetRegInfo(const NETLIBHTTPREQUEST *response);
-	void OnSetStatus(const NETLIBHTTPREQUEST *response);
-	void OnGetEndpoint(const NETLIBHTTPREQUEST *response);
+	void OnEndpointCreated(const NETLIBHTTPREQUEST *response);
+	void OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response);
+	void OnStatusChanged(const NETLIBHTTPREQUEST *response);
+
 	// profile
 	void UpdateProfileFirstName(JSONNODE *root, MCONTACT hContact = NULL);
 	void UpdateProfileLastName(JSONNODE *root, MCONTACT hContact = NULL);
@@ -200,7 +201,7 @@ private:
 
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
 	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
-	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
+	int OnPreCreateMessage(WPARAM, LPARAM lParam);
 
 	void OnGetServerHistory(const NETLIBHTTPREQUEST *response);
 
@@ -208,18 +209,20 @@ private:
 	MCONTACT GetChat(const char *skypename);
 	MCONTACT AddChatRoom(const char *chatname);
 	void SetChatStatus(MCONTACT hContact, int iStatus);
+
 	//polling
-	void __cdecl ParsePollData(JSONNODE *data);
-	void __cdecl PollingThread(void*);
+	void ParsePollData(JSONNODE *data);
+	void PollingThread(void*);
 	void ProcessEndpointPresenceRes(JSONNODE *node);
 	void ProcessUserPresenceRes(JSONNODE *node);
 	void ProcessNewMessageRes(JSONNODE *node);
 	void ProcessConversationUpdateRes(JSONNODE *node);
 	void ProcessThreadUpdateRes(JSONNODE *node);
+
 	// utils
 	bool IsOnline();
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
-	time_t __stdcall IsoToUnixTime(const TCHAR *stamp);
+	time_t IsoToUnixTime(const TCHAR *stamp);
 	char *GetStringChunk(const char *haystack, size_t len, const char *start, const char *end);
 	bool IsMe(const char *skypeName);
 	int SkypeToMirandaStatus(const char *status);
@@ -232,6 +235,7 @@ private:
 	char *ContactUrlToName(const char *url);
 	char *SelfUrlToName(const char *url);
 	char *GetServerFromUrl(const char *url);
+
 	template<INT_PTR(__cdecl CSkypeProto::*Service)(WPARAM, LPARAM)>
 	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)
 	{

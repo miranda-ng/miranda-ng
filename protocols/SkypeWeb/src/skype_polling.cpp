@@ -47,28 +47,27 @@ void CSkypeProto::PollingThread(void*)
 	ptrA regToken(getStringA("registrationToken"));
 	ptrA server(getStringA("Server"));
 
-	SubscriptionsRequest *request = new SubscriptionsRequest(regToken, server);
-	request->Send(m_hNetlibUser);
-	delete request;
-
 	int errors = 0;
 	bool breaked = false;
+	isTerminated = false;
 	while (!isTerminated && !breaked && errors < POLLING_ERRORS_LIMIT)
 	{
-		PollRequest *request = new PollRequest(regToken, server);
+		PollRequest *request = new PollRequest(regToken);
 		request->nlc = m_pollingConnection;
 		NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 
-		if (response != NULL)
+		if (response)
 		{
-			JSONROOT root(response->pData);
-			if (json_get(root, "errorCode") != NULL)
+			if (response->pData)
 			{
-				errors++;
-				continue;
+				JSONROOT root(response->pData);
+				if (json_get(root, "errorCode") != NULL)
+				{
+					errors++;
+					continue;
+				}
+				ParsePollData(root);
 			}
-			ParsePollData (root);
-			errors = 0;
 			m_pollingConnection = response->nlc;
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 		}
