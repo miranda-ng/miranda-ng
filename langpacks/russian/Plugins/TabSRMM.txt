@@ -399,8 +399,8 @@ RTL шаблоны...
 минут назад
 [Global message log display]
 Основной журнал сообщений
-[Typing notification]
-Уведомление о наборе текста
+[Typing notify]
+Набирает текст
 [Send typing notifications to the following users when you are typing a message to them:]
 Отправлять уведомления набора указанным контактам в то время, когда вы набираете им сообщение:
 [        Show typing notifications in the message window]
@@ -1191,6 +1191,8 @@ TabSRMM: набирает
 Сохранённые аватары
 [Group chat logs root]
 Папка журнала чатов
+[Typing notification]
+Уведомление о наборе текста
 [Insert [img] tag / surround selected text with [img][/img]]
 Вставить тэг [img] / обозначить выделенный текст [img][/img]
 [Add this contact permanently to your contact list]
@@ -1365,8 +1367,6 @@ TabSRMM: набирает
 Контейнеры
 [Message log]
 Журнал
-[Typing notify]
-Набирает текст
 [Event notifications]
 Уведомления
 [Message window]

@@ -34,5 +34,5 @@
 ;file \plugins\YARelay\src\options.cpp
 [!EVERYONE!]
 [!DON'T FORWARD!]
-[Message Sessions]
+[Message sessions]
 [Messages forwarding]

@@ -27,4 +27,4 @@
 [Dear %user%, the owner left the following message:]
 ;file \plugins\SimpleAR\src\Options.cpp
 [Simple Auto Replier]
-[Message Sessions]
+[Message sessions]

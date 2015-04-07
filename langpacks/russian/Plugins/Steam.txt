@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.3.1
+;  Version: 0.11.3.2
 ;  Authors: unsane, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -29,6 +29,12 @@
 Перейти в почтовый ящик
 [Block]
 Заблокировать
+[Enter password]
+Введите пароль
+[Save password]
+Сохранить пароль
+[Enter the password to continue.]
+Введите пароль, чтобы продолжить.
 [Steam game]
 Игра Steam
 [ on server %s]

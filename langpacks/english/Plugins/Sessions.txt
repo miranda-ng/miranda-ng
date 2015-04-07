@@ -63,6 +63,6 @@
 [Load last session]
 ;file \plugins\Sessions\Src\Options.cpp
 [View]
-[Message Sessions]
+[Message sessions]
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
