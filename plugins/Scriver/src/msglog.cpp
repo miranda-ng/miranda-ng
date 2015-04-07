@@ -567,18 +567,8 @@ static char* CreateRTFFromEvent(SrmmWindowData *dat, EventData *evt, GlobalMessa
 	if (!streamData->isFirst && isGroupBreak && (gdat->flags & SMF_DRAWLINES))
 		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\sl-1\\slmult0\\highlight%d\\cf%d\\fs1  \\par\\sl0", fontOptionsListSize + 4, fontOptionsListSize + 4);
 
-	if (streamData->isFirst) {
-		if (evt->dwFlags & IEEDF_RTL)
-			AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\rtlpar");
-		else
-			AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\ltrpar");
-	}
-	else {
-		if (evt->dwFlags & IEEDF_RTL)
-			AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\rtlpar");
-		else
-			AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\ltrpar");
-	}
+	AppendToBuffer(buffer, bufferEnd, bufferAlloced, (evt->dwFlags & IEEDF_RTL) ? "\\rtlpar" : "\\ltrpar");
+
 	if (evt->eventType == EVENTTYPE_MESSAGE)
 		highlight = fontOptionsListSize + 2 + ((evt->dwFlags & IEEDF_SENT) ? 1 : 0);
 	else

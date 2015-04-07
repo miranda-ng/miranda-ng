@@ -188,7 +188,7 @@ void rtrimText(TCHAR *text)
 {
 	static TCHAR szTrimString[] = _T(":;,.!?\'\"><()[]- \r\n");
 	size_t iLen = mir_tstrlen(text) - 1;
-	while (iLen >= 0 && _tcschr(szTrimString, text[iLen])) {
+	while (_tcschr(szTrimString, text[iLen])) {
 		text[iLen] = _T('\0');
 		iLen--;
 	}
