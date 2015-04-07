@@ -230,8 +230,10 @@ public:
 			url.Insert(0, flags & NLHRF_SSL ? "https://" : "http://");
 		szUrl = url.GetBuffer();
 
-		pData = Body.ToString();
-		dataLength = mir_strlen(pData);
+		if (!pData) {
+			pData = Body.ToString();
+			dataLength = mir_strlen(pData);
+		}
 
 		char message[1024];
 		mir_snprintf(message, SIZEOF(message), "Send request to %s", szUrl);

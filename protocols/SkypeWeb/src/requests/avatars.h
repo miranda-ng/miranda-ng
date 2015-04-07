@@ -13,14 +13,19 @@ public:
 class SetAvatarRequest : public HttpRequest
 {
 public:
-	SetAvatarRequest(const char *token, const char *skypename, const char *data) :
+	SetAvatarRequest(const char *token, const char *skypename, const char *data, size_t dataSize) :
 		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/profile/avatar", skypename)
 	{
+		pData = (char*)mir_alloc(dataSize);
+		memcpy(pData, data, dataSize);
+		dataLength = dataSize;
 		Headers
 			<< CHAR_VALUE("X-Skypetoken", token)
-			<< CHAR_VALUE("Content-Type", "image/jpg");
-
-		Body << VALUE(data);
+			<< CHAR_VALUE("Content-Type", "image/jpeg");
+	}
+	~SetAvatarRequest()
+	{
+		mir_free(pData);
 	}
 };
 
