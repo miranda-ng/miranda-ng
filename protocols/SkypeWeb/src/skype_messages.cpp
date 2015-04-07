@@ -128,7 +128,11 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	MCONTACT hContact = param->hContact;
 	HANDLE hMessage = param->hMessage;
 	delete param;
-
+	if (response == NULL)
+	{
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)"Response = NULL");
+		return;
+	}
 	if (response->resultCode != 200 && response->resultCode != 201)
 	{
 		CMStringA error = "Unknown error";
