@@ -49,7 +49,7 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	switch (type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_AUTHREQ;
+		return PF1_IM | PF1_AUTHREQ | PF1_CHAT;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_HEAVYDND;
 	case PFLAGNUM_3:
@@ -162,8 +162,10 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	{
 		// logout
 		isTerminated = true;
+
 		//if (m_pollingConnection)
 		//	CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
+
 		LogoutRequest *logoutRequest = new LogoutRequest();
 		if (!cookies.empty())
 		{

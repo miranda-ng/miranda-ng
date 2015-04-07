@@ -86,9 +86,8 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 	{
 		ptrA chatname(ChatUrlToName(conversationLink));
 		ptrA topic(mir_t2a(ptrT(json_as_string(json_get(node, "threadtopic")))));
-		if (GetContact(chatname) == NULL)
-			AddChatRoom(chatname);
-
+		MCONTACT chatContact = AddChatRoom(chatname);
+		SetChatStatus(chatContact, ID_STATUS_ONLINE);
 		if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 		{
 
