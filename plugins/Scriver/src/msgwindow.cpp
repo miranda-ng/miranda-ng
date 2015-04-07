@@ -47,7 +47,7 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 	if (hContact && szProto) {
 		tokens[0] = GetNickname(hContact, szProto);
 		tokenLen[0] = mir_tstrlen(tokens[0]);
-		tokens[1] = mir_tstrdup(pcli->pfnGetStatusModeDescription(szProto ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : ID_STATUS_OFFLINE, 0));
+		tokens[1] = mir_tstrdup(pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0));
 		tokenLen[1] = mir_tstrlen(tokens[1]);
 		tokens[2] = db_get_tsa(hContact, "CList", "StatusMsg");
 		if (tokens[2] != NULL) {

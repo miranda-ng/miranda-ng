@@ -1062,7 +1062,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				mir_snprintf(buf, SIZEOF(buf), Translate("User menu - %s"), idbuf);
 				SendDlgItemMessage(hwndDlg, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)buf, 0);
 
-				if (!cws || (!strcmp(cws->szModule, dat->szProto) && !strcmp(cws->szSetting, "Status")))
+				if (cws && !strcmp(cws->szModule, dat->szProto) && !strcmp(cws->szSetting, "Status"))
 					dat->wStatus = cws->value.wVal;
 
 				SetStatusIcon(dat);
