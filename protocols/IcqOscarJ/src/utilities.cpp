@@ -360,7 +360,6 @@ void CIcqProto::InitContactsCache()
 	while (hContact) {
 		DWORD dwUin;
 		uid_str szUid;
-
 		if (!getContactUid(hContact, &dwUin, &szUid))
 			AddToContactsCache(hContact, dwUin, szUid);
 

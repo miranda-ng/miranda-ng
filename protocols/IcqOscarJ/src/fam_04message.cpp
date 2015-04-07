@@ -2250,7 +2250,6 @@ void CIcqProto::handleRecvServMsgError(BYTE *buf, size_t wLen, DWORD dwSequence)
 		// all packet cookies from msg family has command 0 in the queue
 		DWORD dwUin;
 		uid_str szUid;
-
 		if (getContactUid(hContact, &dwUin, &szUid)) {
 			// Invalid contact
 			FreeCookie((WORD)dwSequence);

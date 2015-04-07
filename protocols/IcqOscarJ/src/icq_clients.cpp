@@ -46,10 +46,10 @@ static const char* makeClientVersion(char *szBuf, const char *szClient, unsigned
 static void verToStr(char *szStr, int v)
 {
 	char szVer[64];
-
-	makeClientVersion(szVer, "", (v>>24)&0x7F, (v>>16)&0xFF, (v>>8)&0xFF, v&0xFF);
+	makeClientVersion(szVer, "", (v >> 24) & 0x7F, (v >> 16) & 0xFF, (v >> 8) & 0xFF, v & 0xFF);
 	strcat(szStr, szVer);
-	if (v&0x80000000) strcat(szStr, " alpha");
+	if (v & 0x80000000)
+		strcat(szStr, " alpha");
 }
 
 static char* MirandaVersionToStringEx(char* szStr, int bUnicode, const char* szPlug, int v, int m)
@@ -61,7 +61,7 @@ static char* MirandaVersionToStringEx(char* szStr, int bUnicode, const char* szP
 
 	if (!m && v == 1)
 		verToStr(szStr, 0x80010200);
-	else if (!m && (v&0x7FFFFFFF) <= 0x030301)
+	else if (!m && (v & 0x7FFFFFFF) <= 0x030301)
 		verToStr(szStr, v);
 	else {
 		if (m) {
@@ -82,17 +82,16 @@ static char* MirandaVersionToStringEx(char* szStr, int bUnicode, const char* szP
 }
 
 char* MirandaModToString(char* szStr, capstr* capId, int bUnicode, const char* szModName)
-{ // decode icqj mod version
-	char* szClient;
+{
+	// decode icqj mod version
 	DWORD mver = (*capId)[0x4] << 0x18 | (*capId)[0x5] << 0x10 | (*capId)[0x6] << 8 | (*capId)[0x7];
 	DWORD iver = (*capId)[0x8] << 0x18 | (*capId)[0x9] << 0x10 | (*capId)[0xA] << 8 | (*capId)[0xB];
 	DWORD scode = (*capId)[0xC] << 0x18 | (*capId)[0xD] << 0x10 | (*capId)[0xE] << 8 | (*capId)[0xF];
 
-	szClient = MirandaVersionToStringEx(szStr, bUnicode, szModName, iver, mver);
+	char *szClient = MirandaVersionToStringEx(szStr, bUnicode, szModName, iver, mver);
 	if (scode == 0x5AFEC0DE)
-	{
 		strcat(szClient, " + SecureIM");
-	}
+
 	return szClient;
 }
 
@@ -199,20 +198,13 @@ const char* CIcqProto::detectUserClient(
 	*bClientId = CLID_ALTERNATIVE; // Most clients does not tick as MsgIDs
 
 	// Is this a Miranda IM client?
-	if (dwFT1 == 0xffffffff)
-	{
-		if (dwFT2 == 0xffffffff)
-		{ // This is Gaim not Miranda
+	if (dwFT1 == 0xffffffff) {
+		if (dwFT2 == 0xffffffff) // This is Gaim not Miranda
 			szClient = "Gaim";
-		}
-		else if (!dwFT2 && wVersion == 7)
-		{ // This is WebICQ not Miranda
+		else if (!dwFT2 && wVersion == 7) // This is WebICQ not Miranda
 			szClient = "WebICQ";
-		}
-		else if (!dwFT2 && dwFT3 == 0x3B7248ED)
-		{ // And this is most probably Spam Bot
+		else if (!dwFT2 && dwFT3 == 0x3B7248ED) // And this is most probably Spam Bot
 			szClient = cliSpamBot;
-		}
 		else {
 			// Yes this is most probably Miranda, get the version info
 			szClient = MirandaVersionToStringEx(szClientBuf, 0, "ICQ", dwFT2, 0);
@@ -239,10 +231,9 @@ const char* CIcqProto::detectUserClient(
 	else if (dwFT1 == 0xffffff42)
 		szClient = "mICQ";
 	else if (dwFT1 == 0xffffffbe) {
-		unsigned ver1 = (dwFT2>>24)&0xFF;
-		unsigned ver2 = (dwFT2>>16)&0xFF;
-		unsigned ver3 = (dwFT2>>8)&0xFF;
-
+		unsigned ver1 = (dwFT2 >> 24) & 0xFF;
+		unsigned ver2 = (dwFT2 >> 16) & 0xFF;
+		unsigned ver3 = (dwFT2 >> 8) & 0xFF;
 		szClient = makeClientVersion(szClientBuf, "Alicq ", ver1, ver2, ver3, 0);
 	}
 	else if (dwFT1 == 0xFFFFFF7F)
@@ -293,7 +284,7 @@ const char* CIcqProto::detectUserClient(
 		szClient = szClientBuf;
 	}
 	else if (dwFT1 == dwFT2 && dwFT2 == dwFT3 && wVersion == 8) {
-		if ((dwFT1 < dwOnlineSince + 3600) && (dwFT1 > (dwOnlineSince - 3600)))
+		if ((dwFT1 < dwOnlineSince + 3600) && (dwFT1 >(dwOnlineSince - 3600)))
 			szClient = cliSpamBot;
 	}
 	else if (!dwFT1 && !dwFT2 && !dwFT3 && !wVersion && !wLen && dwWebPort == 0x75BB)
@@ -401,9 +392,9 @@ const char* CIcqProto::detectUserClient(
 
 			szClient = makeClientVersion(szClientBuf, "SIM ", ver1, ver2, ver3, ver4 & 0x0F);
 			if (ver4 & 0x80)
-				strcat(szClientBuf,"/Win32");
+				strcat(szClientBuf, "/Win32");
 			else if (ver4 & 0x40)
-				strcat(szClientBuf,"/MacOS X");
+				strcat(szClientBuf, "/MacOS X");
 		}
 		else if (capId = MatchCapability(caps, wLen, &capLicq, 0xC)) {
 			unsigned ver1 = (*capId)[0xC];
@@ -412,7 +403,7 @@ const char* CIcqProto::detectUserClient(
 
 			szClient = makeClientVersion(szClientBuf, cliLicqVer, ver1, ver2, ver3, 0);
 			if ((*capId)[0xF])
-				strcat(szClientBuf,"/SSL");
+				strcat(szClientBuf, "/SSL");
 		}
 		else if (capId = MatchCapability(caps, wLen, &capKopete, 0xC)) {
 			unsigned ver1 = (*capId)[0xC];
@@ -477,7 +468,6 @@ const char* CIcqProto::detectUserClient(
 		else if (MatchCapability(caps, wLen, &capQipMobile))
 			szClient = "QIP Mobile (Java)";
 		else if (MatchCapability(caps, wLen, &capQipInfium)) {
-
 			strcpy(szClientBuf, "QIP Infium");
 			if (dwFT1) {
 				mir_snprintf(ver, SIZEOF(ver), " (%d)", dwFT1);
@@ -561,19 +551,17 @@ const char* CIcqProto::detectUserClient(
 			unsigned ver2 = (*capId)[0xD];
 			unsigned ver3 = (*capId)[0xE];
 			unsigned ver4 = (*capId)[0xF];
-
 			szClient = makeClientVersion(szClientBuf, "JICQ ", ver1, ver2, ver3, ver4);
 		}
 		// http://www.inlusoft.com
 		else if (MatchCapability(caps, wLen, &capInluxMsgr))
 			szClient = "Inlux Messenger";
 		// http://mip.rufon.net
-		else if (capId = MatchCapability(caps, wLen, &capMipClient, 0xC)) {	
+		else if (capId = MatchCapability(caps, wLen, &capMipClient, 0xC)) {
 			unsigned ver1 = (*capId)[0xC];
 			unsigned ver2 = (*capId)[0xD];
 			unsigned ver3 = (*capId)[0xE];
 			unsigned ver4 = (*capId)[0xF];
-
 			if (ver1 < 30)
 				makeClientVersion(szClientBuf, "MIP ", ver1, ver2, ver3, ver4);
 			else {
@@ -600,7 +588,7 @@ const char* CIcqProto::detectUserClient(
 			szClient = szClientBuf;
 		}
 		// http://yapp.ru
-		else if (capId = MatchCapability(caps, wLen, &capYapp, 0x04)) {	
+		else if (capId = MatchCapability(caps, wLen, &capYapp, 0x04)) {
 			strcpy(szClientBuf, "Yapp! v");
 			strncat(szClientBuf, (char*)(*capId) + 8, 5);
 			szClient = szClientBuf;
@@ -618,11 +606,10 @@ const char* CIcqProto::detectUserClient(
 		else if (MatchCapability(caps, wLen, &capPigeon, 0x07))
 			szClient = "PIGEON!";
 		// http://www.qutim.org
-		else if (capId = MatchCapability(caps, wLen, &capQutIm, 0x05)) {	
+		else if (capId = MatchCapability(caps, wLen, &capQutIm, 0x05)) {
 			if ((*capId)[0x6] == 0x2E) { // old qutim id
 				unsigned ver1 = (*capId)[0x5] - 0x30;
 				unsigned ver2 = (*capId)[0x7] - 0x30;
-
 				makeClientVersion(szClientBuf, "qutIM ", ver1, ver2, 0, 0);
 			}
 			else { // new qutim id
@@ -661,7 +648,6 @@ const char* CIcqProto::detectUserClient(
 			unsigned ver2 = (*capId)[0x8];
 			unsigned ver3 = (*capId)[0x9];
 			unsigned ver4 = (*capId)[0xA];
-
 			szClient = makeClientVersion(szClientBuf, "IcqKid2 v", ver1, ver2, ver3, ver4);
 		}
 		// http://intrigue.ru/workshop/webicqpro/webicqpro.html
@@ -671,7 +657,7 @@ const char* CIcqProto::detectUserClient(
 		else if (capId = MatchCapability(caps, wLen, &capCitron))
 			szClient = "Citron IM";
 		// try to determine which client is behind libicq2000
-		else if (szClient == cliLibicq2k) {	
+		else if (szClient == cliLibicq2k) {
 			if (CheckContactCapabilities(hContact, CAPF_RTF))
 				szClient = cliCentericq; // centericq added rtf capability to libicq2000
 			else if (CheckContactCapabilities(hContact, CAPF_UTF))
@@ -715,10 +701,9 @@ const char* CIcqProto::detectUserClient(
 					}
 				}
 				// libpurple (e.g. Pidgin 2.7.x)
-				else if (CheckContactCapabilities(hContact, CAPF_SRV_RELAY | CAPF_UTF | CAPF_TYPING | CAPF_XTRAZ) && 
+				else if (CheckContactCapabilities(hContact, CAPF_SRV_RELAY | CAPF_UTF | CAPF_TYPING | CAPF_XTRAZ) &&
 					MatchCapability(caps, wLen, &capOscarChat) && MatchShortCapability(caps, wLen, &capAimIcon) &&
-					MatchCapability(caps, wLen, &capFakeHtml))
-				{	
+					MatchCapability(caps, wLen, &capFakeHtml)) {
 					if (MatchShortCapability(caps, wLen, &capAimDirect))
 						szClient = "libpurple";
 					else
@@ -740,9 +725,8 @@ const char* CIcqProto::detectUserClient(
 					if (CheckContactCapabilities(hContact, CAPF_OSCAR_FILE)) {
 						if (MatchCapability(caps, wLen, &captZers)) {
 							// capable of tZers ?
-							if ( MatchCapability(caps, wLen, &capIcqLiteNew) && MatchShortCapability(caps, wLen, &capStatusTextAware) &&
-								MatchShortCapability(caps, wLen, &capAimLiveVideo) && MatchShortCapability(caps, wLen, &capAimLiveAudio))
-							{
+							if (MatchCapability(caps, wLen, &capIcqLiteNew) && MatchShortCapability(caps, wLen, &capStatusTextAware) &&
+								MatchShortCapability(caps, wLen, &capAimLiveVideo) && MatchShortCapability(caps, wLen, &capAimLiveAudio)) {
 								strcpy(szClientBuf, "ICQ 7");
 							}
 							else if (MatchCapability(caps, wLen, &capFakeHtml)) {
@@ -816,7 +800,7 @@ const char* CIcqProto::detectUserClient(
 				}
 			}
 			else if (wVersion == 0xA) {
-				if ( !CheckContactCapabilities(hContact, CAPF_RTF) && !CheckContactCapabilities(hContact, CAPF_UTF)) {
+				if (!CheckContactCapabilities(hContact, CAPF_RTF) && !CheckContactCapabilities(hContact, CAPF_UTF)) {
 					// this is bad, but we must do it - try to detect QNext
 					ClearContactCapabilities(hContact, CAPF_SRV_RELAY);
 					debugLogA("Forcing simple messages (QNext client).");
@@ -840,8 +824,7 @@ const char* CIcqProto::detectUserClient(
 						MatchCapability(caps, wLen, &capIs2002) && MatchCapability(caps, wLen, &capComm20012))
 						szClient = cliSpamBot;
 					else if (MatchShortCapability(caps, wLen, &capAimIcon) && MatchShortCapability(caps, wLen, &capAimDirect) &&
-						CheckContactCapabilities(hContact, CAPF_OSCAR_FILE | CAPF_UTF))
-					{	// detect libgaim/libpurple versions
+						CheckContactCapabilities(hContact, CAPF_OSCAR_FILE | CAPF_UTF)) {	// detect libgaim/libpurple versions
 						if (CheckContactCapabilities(hContact, CAPF_SRV_RELAY))
 							szClient = "Adium X"; // yeah, AFAIK only Adium has this fixed
 						else if (CheckContactCapabilities(hContact, CAPF_TYPING))
@@ -888,7 +871,6 @@ const char* CIcqProto::detectUserClient(
 				// AimOscar Signature
 				DWORD aver = (*capId)[0xC] << 0x18 | (*capId)[0xD] << 0x10 | (*capId)[0xE] << 8 | (*capId)[0xF];
 				DWORD mver = (*capId)[0x8] << 0x18 | (*capId)[0x9] << 0x10 | (*capId)[0xA] << 8 | (*capId)[0xB];
-
 				szClient = MirandaVersionToStringEx(szClientBuf, 0, "AimOscar", aver, mver);
 				bMirandaIM = TRUE;
 			}
@@ -897,19 +879,18 @@ const char* CIcqProto::detectUserClient(
 				unsigned ver1 = (*capId)[0xC];
 				unsigned ver2 = (*capId)[0xD];
 				unsigned ver3 = (*capId)[0xE];
-
 				szClient = makeClientVersion(szClientBuf, "SIM ", ver1, ver2, ver3, 0);
+
 				if ((*capId)[0xF] & 0x80)
-					strcat(szClientBuf,"/Win32");
+					strcat(szClientBuf, "/Win32");
 				else if ((*capId)[0xF] & 0x40)
-					strcat(szClientBuf,"/MacOS X");
+					strcat(szClientBuf, "/MacOS X");
 			}
 			else if (capId = MatchCapability(caps, wLen, &capKopete, 0xC)) {
 				unsigned ver1 = (*capId)[0xC];
 				unsigned ver2 = (*capId)[0xD];
 				unsigned ver3 = (*capId)[0xE];
 				unsigned ver4 = (*capId)[0xF];
-
 				szClient = makeClientVersion(szClientBuf, "Kopete ", ver1, ver2, ver3, ver4);
 			}
 			else if (MatchCapability(caps, wLen, &capIm2))
@@ -920,34 +901,44 @@ const char* CIcqProto::detectUserClient(
 			// http://www.dibsby.com
 			else if (MatchCapability(caps, wLen, &capDigsby, 0x06) || MatchCapability(caps, wLen, &capDigsbyBeta))
 				szClient = "Digsby";
-			else if (MatchShortCapability(caps, wLen, &capAimIcon) && MatchCapability(caps, wLen, &capOscarChat) && 
+			else if (MatchShortCapability(caps, wLen, &capAimIcon) && MatchCapability(caps, wLen, &capOscarChat) &&
 				CheckContactCapabilities(hContact, CAPF_UTF | CAPF_TYPING) && wLen == 0x40)
 				szClient = "Meebo";
 			// libpurple (e.g. Pidgin 2.7.x)
-			else if (wLen == 0x90 && CheckContactCapabilities(hContact, CAPF_SRV_RELAY | CAPF_UTF | CAPF_TYPING | CAPF_XTRAZ) && 
-				      MatchCapability(caps, wLen, &capOscarChat) && MatchShortCapability(caps, wLen, &capAimIcon) && 
-				      MatchShortCapability(caps, wLen, &capAimDirect) && MatchCapability(caps, wLen, &capFakeHtml))
+			else if (wLen == 0x90 && CheckContactCapabilities(hContact, CAPF_SRV_RELAY | CAPF_UTF | CAPF_TYPING | CAPF_XTRAZ) &&
+				MatchCapability(caps, wLen, &capOscarChat) && MatchShortCapability(caps, wLen, &capAimIcon) &&
+				MatchShortCapability(caps, wLen, &capAimDirect) && MatchCapability(caps, wLen, &capFakeHtml))
 				szClient = "libpurple";
 			// libpurple - Meebo (without DirectIM and OFT)
-			else if (wLen == 0x70 && CheckContactCapabilities(hContact, CAPF_SRV_RELAY | CAPF_UTF | CAPF_TYPING | CAPF_XTRAZ) && 
-				      MatchCapability(caps, wLen, &capOscarChat) && MatchShortCapability(caps, wLen, &capAimIcon) && 
-				      MatchCapability(caps, wLen, &capFakeHtml))
+			else if (wLen == 0x70 && CheckContactCapabilities(hContact, CAPF_SRV_RELAY | CAPF_UTF | CAPF_TYPING | CAPF_XTRAZ) &&
+				MatchCapability(caps, wLen, &capOscarChat) && MatchShortCapability(caps, wLen, &capAimIcon) &&
+				MatchCapability(caps, wLen, &capFakeHtml))
 				szClient = "Meebo";
 			else
 				szClient = "AIM";
 		}
-		else if(wUserClass & CLASS_WIRELESS)
+		else if (wUserClass & CLASS_WIRELESS)
 			szClient = "AIM (Mobile)";
-		else
-			szClient = "AIM";
+		else {
+			DWORD dwUin;
+			uid_str szUid;
+			getContactUid(hContact, &dwUin, &szUid);
+			if (szUid[0]) {
+				if (strstr(szUid, "@bk.ru") || strstr(szUid, "@list.ru") || strstr(szUid, "@mail.ru") || strstr(szUid, "@inbox.ru"))
+					szClient = "MRA client";
+			}
+
+			if (szClient == NULL)
+				szClient = "AIM";
+		}
 	}
 
 	// custom miranda packs
 	if (caps && bMirandaIM) {
-		capstr* capId;
-		if (capId = MatchCapability(caps, wLen, &capMimPack, 4)) {
+		capstr *capId = MatchCapability(caps, wLen, &capMimPack, 4);
+		if (capId) {
 			char szPack[16];
-			mir_snprintf(szPack, SIZEOF(szPack), " [%.12s]", (*capId)+4);
+			mir_snprintf(szPack, SIZEOF(szPack), " [%.12s]", (*capId) + 4);
 
 			// make sure client string is not constant
 			if (szClient != szClientBuf) {

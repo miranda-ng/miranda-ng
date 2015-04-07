@@ -324,11 +324,10 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 			}
 			else { // If the server refused to add the contact without authorization,
 				// we try again _with_ authorization TLV
-				DWORD dwUIN;
-				uid_str szUID;
-
 				ppro->setByte(hCurrentContact, "Auth", 1);
 
+				DWORD dwUIN;
+				uid_str szUID;
 				if (!ppro->getContactUid(hCurrentContact, &dwUIN, &szUID)) {
 					currentAction = ACTION_ADDBUDDYAUTH;
 					currentSequence = sendUploadBuddy(ppro, hCurrentContact, ICQ_LISTS_ADDTOLIST, dwUIN, szUID, wNewContactId, wNewGroupId, SSI_ITEM_BUDDY);
@@ -488,8 +487,6 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 		{
 			MCONTACT hContact;
 			HANDLE hItem;
-			DWORD dwUin;
-			uid_str szUid;
 			char *pszNick;
 			char *pszGroup;
 			int isChecked;
@@ -528,6 +525,8 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 						isChecked = SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0) != 0;
 						isOnServer = ppro->getWord(hContact, DBSETTING_SERVLIST_ID, 0) != 0;
 
+						DWORD dwUin;
+						uid_str szUid;
 						bUidOk = !ppro->getContactUid(hContact, &dwUin, &szUid);
 
 						// Is this one out of sync?
@@ -670,6 +669,9 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 					WORD wIgnoreId = ppro->getWord(hContact, DBSETTING_SERVLIST_IGNORE, 0);
 
 					hCurrentContact = hContact;
+
+					DWORD dwUin;
+					uid_str szUid;
 					ppro->getContactUid(hContact, &dwUin, &szUid);
 
 					if (wApparentMode == ID_STATUS_ONLINE) { // contact is on the visible list

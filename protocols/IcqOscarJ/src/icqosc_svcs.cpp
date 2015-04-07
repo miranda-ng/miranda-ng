@@ -465,13 +465,11 @@ INT_PTR CIcqProto::SendYouWereAdded(WPARAM, LPARAM lParam)
 	if (lParam && icqOnline()) {
 		CCSDATA* ccs = (CCSDATA*)lParam;
 		if (ccs->hContact) {
-			DWORD dwUin, dwMyUin;
-
+			DWORD dwUin;
 			if (getContactUid(ccs->hContact, &dwUin, NULL))
 				return 1; // Invalid contact
 
-			dwMyUin = getContactUin(NULL);
-
+			DWORD dwMyUin = getContactUin(NULL);
 			if (dwUin) {
 				icq_sendYouWereAddedServ(dwUin, dwMyUin);
 				return 0; // Success
@@ -595,13 +593,10 @@ void CIcqProto::ICQAddRecvEvent(MCONTACT hContact, WORD wType, PROTORECVEVENT* p
 		flags |= DBEF_UTF;
 
 	if (hContact && db_get_b(hContact, "CList", "Hidden", 0)) {
-		DWORD dwUin;
-		uid_str szUid;
-
-		//setContactHidden(hContact, 0);
-
 		// if the contact was hidden, add to client-list if not in server-list authed
 		if (!getWord(hContact, DBSETTING_SERVLIST_ID, 0) || getByte(hContact, "Auth", 0)) {
+			DWORD dwUin;
+			uid_str szUid;
 			getContactUid(hContact, &dwUin, &szUid);
 			icq_sendNewContact(dwUin, szUid); /// FIXME
 		}
