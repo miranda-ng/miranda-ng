@@ -55,5 +55,3 @@ Eliminar
 ** Todos los contactos **
 [** Unknown contacts **]
 ** Contactos desconocidos **
-[Message Session]
-Sesión de mensaje

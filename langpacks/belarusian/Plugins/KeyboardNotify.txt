@@ -26,8 +26,8 @@
 Мігаць, калі вакно гутаркі ачынена
 [and not in foreground]
 і не змешчана на пярэдні план
-[Only if last is]
-Калі апошн.
+[only if last is]
+калі апошн.
 [sec. old]
 сек. назад
 [Flash until]

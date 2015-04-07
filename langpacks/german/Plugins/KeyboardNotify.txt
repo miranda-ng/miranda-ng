@@ -26,7 +26,7 @@ Nur Textnachrichten
 Blinken, wenn Fenster geöffnet
 [and not in foreground]
 und nicht im Vordergrund ist
-[Only if last is]
+[only if last is]
 Nur wenn letzte
 [sec. old]
 s alt ist

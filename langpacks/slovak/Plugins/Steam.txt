@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.3.1
+;  Version: 0.11.3.2
 ;  Authors: unsane, Robert Pösel
 ;============================================================
 [Username:]
@@ -13,6 +13,8 @@ Heslo:
 Kontakty
 [Cancel]
 Storno
+[Save password]
+Uložiť heslo
 [Name]
 Meno
 [Network]

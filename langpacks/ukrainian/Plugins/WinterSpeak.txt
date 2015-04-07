@@ -109,10 +109,6 @@
 Знаряддя/Голос
 [Announce]
 Сповіщення
-[Message Session]
-Бесіда
-[Message Received]
-Отримане повідомлення
 [%u is now offline]
 %u не в мережі
 [%u is now online]

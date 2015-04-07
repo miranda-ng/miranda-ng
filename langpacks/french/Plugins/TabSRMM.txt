@@ -402,7 +402,7 @@ Voir les évènements ayant moins de
 minutes
 [Global message log display]
 Plugin pour l'historique
-[Typing notification]
+[Typing notify]
 Notification de frappe
 [Send typing notifications to the following users when you are typing a message to them:]
 Envoyez la notification de frappe aux contacts suivants quand vous leur écrivez un message :
@@ -1204,6 +1204,8 @@ Avatars
 
 [Group chat logs root]
 
+[Typing notification]
+Notification de frappe
 ;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 
@@ -1383,8 +1385,6 @@ Onglets
 Conteneurs
 [Message log]
 Historique récent
-[Typing notify]
-Notification de frappe
 [Event notifications]
 
 [Message window]

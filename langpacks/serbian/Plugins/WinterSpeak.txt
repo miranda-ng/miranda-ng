@@ -51,5 +51,3 @@ Ukloni
 ** Svi kontakti **
 [** Unknown contacts **]
 ** Nepoznati kontakti **
-[Message Session]
-Razgovor

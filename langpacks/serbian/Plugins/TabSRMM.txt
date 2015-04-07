@@ -119,8 +119,8 @@ Učitaj određen broj ranijih događaja
 Učitaj broj ranijih događaja, na osnovu
 [minutes old]
 minuta starosti
-[Typing notification]
-Obaveštenje o kucanju
+[Typing notify]
+Obaveštenja o kucanju
 [Send typing notifications to the following users when you are typing a message to them:]
 Slanje obaveštenja o kucanju poruke odabranim korisnicima
 [Show typing notification when no message dialog is open]
@@ -211,6 +211,8 @@ Ubaci i pošalji
 Kontakt
 [Avatars]
 Avatari
+[Typing notification]
+Obaveštenje o kucanju
 ['(Unknown contact)']
 '(Nepoznat kontakt)'
 [** New contacts **]
@@ -225,8 +227,6 @@ Celi razgovori
 Uopšteno
 [Message log]
 Log poruke
-[Typing notify]
-Obaveštenja o kucanju
 [Smiley button]
 Smeško-dugme
 [Background color]

@@ -114,11 +114,6 @@ Sprechen
 Stimmparameter
 [Announce]
 Ansagen
-;file \plugins\WinterSpeak\src\SpeakAnnounce.cpp
-[Message Session]
-Nachrichtensitzung
-[Message Received]
-Nachricht empfangen
 ;file \plugins\WinterSpeak\src\UserInformation.cpp
 [%u is now offline]
 %u ist nun offline

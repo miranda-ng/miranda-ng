@@ -37,5 +37,3 @@ Nasledujúce udalosti budú ignorované:
 ** Všetky kontakty **
 [** Unknown contacts **]
 ** Neznáme kontakty **
-[Message Session]
-Rozhovor

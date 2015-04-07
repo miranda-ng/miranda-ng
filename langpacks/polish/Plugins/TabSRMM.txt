@@ -402,8 +402,8 @@ Wczytaj zdarzenia nowsze niż
 minut(y)
 [Global message log display]
 Globalny dziennik wiadomości
-[Typing notification]
-Powiadomienie o pisaniu
+[Typing notify]
+Pisanie
 [Send typing notifications to the following users when you are typing a message to them:]
 Wysyłaj powiadomienia o pisaniu do następujących osób, gdy piszesz do nich wiadomość:
 [        Show typing notifications in the message window]
@@ -1204,6 +1204,8 @@ Awatary
 Zapisane awatary TabSRMM
 [Group chat logs root]
 Folder dziennika czatu
+[Typing notification]
+Powiadomienie o pisaniu
 ;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 Wklej tag [img] lub otocz zaznaczony tekst tagami [img][/img]
@@ -1383,8 +1385,6 @@ Karty i układ
 Kontenery
 [Message log]
 Dziennik wiadomości
-[Typing notify]
-Pisanie
 [Event notifications]
 Zdarzenia
 [Message window]

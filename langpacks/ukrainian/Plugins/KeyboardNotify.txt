@@ -25,8 +25,8 @@
 Блимати, якщо вікно відкрите
 [and not in foreground]
 і не поміщене на передній план
-[Only if last is]
-Якщо остан.
+[only if last is]
+якщо остан.
 [sec. old]
 с. тому
 [Flash until]

@@ -1,4 +1,7 @@
 ﻿[Steam Guard]
+[Enter password]
+[Save password]
+[Enter the password to continue.]
 [Looking to play]
 [Looking to trade]
 [ (Non-Steam)]

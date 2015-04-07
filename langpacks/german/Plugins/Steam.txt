@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.3.1
+;  Version: 0.11.3.2
 ;  Authors: unsane, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -32,6 +32,12 @@ Als zusätzliche Sicherheitsmaßnahme müssen Sie Zugriff gewähren, indem Sie d
 Gehe zur E-Mail-Domain
 [Block]
 Blockieren
+[Enter password]
+Passwort eingeben
+[Save password]
+Passwort speichern
+[Enter the password to continue.]
+
 ;file \protocols\Steam\src\stdafx.cpp
 [Steam game]
 Steam-Spiel
