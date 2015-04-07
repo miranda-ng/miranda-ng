@@ -30,11 +30,11 @@ void CSkypeProto::ParsePollData(JSONNODE *data)
 			}
 			else if (!mir_tstrcmpi(resourceType, L"ConversationUpdate"))
 			{
-				continue;
+				ProcessConversationUpdateRes(resource);
 			} 
 			else if (!mir_tstrcmpi(resourceType, L"ThreadUpdate"))
 			{
-				continue;
+				ProcessThreadUpdateRes(resource);
 			}
 		}
 	}

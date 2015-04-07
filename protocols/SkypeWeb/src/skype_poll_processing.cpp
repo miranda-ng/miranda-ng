@@ -84,8 +84,31 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 	time_t timestamp = IsoToUnixTime(composeTime);
 	if (strstr(conversationLink, "/19:"))
 	{
-		const char *chatname;
-		chatname = ContactUrlToName(conversationLink);
+		ptrA chatname(ChatUrlToName(conversationLink));
+		ptrA topic(mir_t2a(ptrT(json_as_string(json_get(node, "threadtopic")))));
+		if (GetContact(chatname) == NULL)
+			AddChatRoom(chatname);
+
+		if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
+		{
+
+		}
+		else if (!mir_strcmpi(messageType, "ThreadActivity/AddMember"))
+		{
+			
+		}
+		else if (!mir_strcmpi(messageType, "ThreadActivity/DeleteMember"))
+		{
+
+		}
+		else if (!mir_strcmpi(messageType, "ThreadActivity/TopicUpdate"))
+		{
+
+		}
+		else if (!mir_strcmpi(messageType, "ThreadActivity/RoleUpdate"))
+		{
+
+		}
 		return; //chats not supported
 	}
 	else if (strstr(conversationLink, "/8:"))
@@ -119,4 +142,14 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 			return; //not supported
 		}
 	}
+}
+
+void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)
+{
+	return;
+}
+
+void CSkypeProto::ProcessThreadUpdateRes(JSONNODE *node)
+{
+	return;
 }

@@ -204,13 +204,17 @@ private:
 
 	void OnGetServerHistory(const NETLIBHTTPREQUEST *response);
 
+	//chats
+	MCONTACT AddChatRoom(const char *chatname);
+
 	//polling
 	void __cdecl ParsePollData(JSONNODE *data);
 	void __cdecl PollingThread(void*);
-	void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node);
-	void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node);
-	void CSkypeProto::ProcessNewMessageRes(JSONNODE *node);
-
+	void ProcessEndpointPresenceRes(JSONNODE *node);
+	void ProcessUserPresenceRes(JSONNODE *node);
+	void ProcessNewMessageRes(JSONNODE *node);
+	void ProcessConversationUpdateRes(JSONNODE *node);
+	void ProcessThreadUpdateRes(JSONNODE *node);
 	// utils
 	bool IsOnline();
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
@@ -223,6 +227,7 @@ private:
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	void SetServerStatus(int iNewStatus);
 	static bool IsFileExists(std::tstring path);
+	char *ChatUrlToName(const char *url);
 	char *ContactUrlToName(const char *url);
 	char *SelfUrlToName(const char *url);
 	char *GetServerFromUrl(const char *url);
