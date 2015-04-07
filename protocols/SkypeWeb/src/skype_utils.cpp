@@ -195,6 +195,27 @@ char *CSkypeProto::SelfUrlToName(const char *url)
 	return tempname;
 }
 
+char *CSkypeProto::ChatUrlToName(const char *url)
+{
+	char *tempname = NULL;
+	const char *start, *end;
+	start = strstr(url, "/19:");
+
+	if (!start)
+		return NULL;
+	start = start + 4;
+	if ((end = strchr(start, '/'))) 
+	{
+		mir_free(tempname);
+		tempname = mir_strndup(start, end - start);
+		return tempname;
+	}
+	mir_free(tempname);
+	tempname = mir_strdup(start);
+
+	return tempname;
+}
+
 char *CSkypeProto::GetServerFromUrl(const char *url)
 {
 	char *tempname = NULL;
