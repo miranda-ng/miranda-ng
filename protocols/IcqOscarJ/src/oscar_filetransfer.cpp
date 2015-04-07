@@ -859,9 +859,9 @@ HANDLE CIcqProto::oftInitTransfer(MCONTACT hContact, DWORD dwUin, char* szUid, c
 HANDLE CIcqProto::oftFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath)
 {
 	oscar_filetransfer *ft = (oscar_filetransfer*)hTransfer;
+
 	DWORD dwUin;
 	uid_str szUid;
-
 	if (getContactUid(hContact, &dwUin, &szUid))
 		return 0; // Invalid contact
 
@@ -889,9 +889,9 @@ HANDLE CIcqProto::oftFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR 
 DWORD CIcqProto::oftFileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR*)
 {
 	oscar_filetransfer *ft = (oscar_filetransfer*)hTransfer;
+
 	DWORD dwUin;
 	uid_str szUid;
-
 	if (getContactUid(hContact, &dwUin, &szUid))
 		return 1; // Invalid contact
 
@@ -913,9 +913,9 @@ DWORD CIcqProto::oftFileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR*)
 DWORD CIcqProto::oftFileCancel(MCONTACT hContact, HANDLE hTransfer)
 {
 	oscar_filetransfer* ft = (oscar_filetransfer*)hTransfer;
+
 	DWORD dwUin;
 	uid_str szUid;
-
 	if (getContactUid(hContact, &dwUin, &szUid))
 		return 1; // Invalid contact
 

@@ -468,7 +468,6 @@ HANDLE __cdecl CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const T
 {
 	DWORD dwUin;
 	uid_str szUid;
-
 	if (getContactUid(hContact, &dwUin, &szUid))
 		return 0; // Invalid contact
 
@@ -538,10 +537,10 @@ int __cdecl CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 int __cdecl CIcqProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason)
 {
 	int nReturnValue = 1;
-	DWORD dwUin;
-	uid_str szUid;
 	basic_filetransfer *ft = (basic_filetransfer*)hTransfer;
 
+	DWORD dwUin;
+	uid_str szUid;
 	if (getContactUid(hContact, &dwUin, &szUid))
 		return 1; // Invalid contact
 
@@ -694,7 +693,6 @@ int __cdecl CIcqProto::GetInfo(MCONTACT hContact, int infoType)
 	if (icqOnline()) {
 		DWORD dwUin;
 		uid_str szUid;
-
 		if (getContactUid(hContact, &dwUin, &szUid))
 			return 1; // Invalid contact
 
@@ -945,27 +943,20 @@ int __cdecl CIcqProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hContactsList)
 {
 	if (hContact && hContactsList) {
-		int i;
 		DWORD dwUin;
 		uid_str szUid;
-		WORD wRecipientStatus;
-		DWORD dwCookie;
-
-		if (getContactUid(hContact, &dwUin, &szUid)) { // Invalid contact
+		if (getContactUid(hContact, &dwUin, &szUid)) // Invalid contact
 			return ReportGenericSendError(hContact, ACKTYPE_CONTACTS, "The receiver has an invalid user ID.");
-		}
 
-		wRecipientStatus = getContactStatus(hContact);
+		WORD wRecipientStatus = getContactStatus(hContact);
 
 		// Failures
-		if (!icqOnline()) {
+		DWORD dwCookie;
+		if (!icqOnline())
 			dwCookie = ReportGenericSendError(hContact, ACKTYPE_CONTACTS, "You cannot send messages when you are offline.");
-		}
-		else if (!hContactsList || (nContacts < 1) || (nContacts > MAX_CONTACTSSEND)) {
+		else if (!hContactsList || (nContacts < 1) || (nContacts > MAX_CONTACTSSEND))
 			dwCookie = ReportGenericSendError(hContact, ACKTYPE_CONTACTS, "Bad data (internal error #1)");
-		}
-		// OK
-		else {
+		else { // OK
 			if (CheckContactCapabilities(hContact, CAPF_CONTACTS) && wRecipientStatus != ID_STATUS_OFFLINE) { // Use the new format if possible
 				struct icq_contactsend_s* contacts = NULL;
 
@@ -976,6 +967,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 				memset(contacts, 0, (sizeof(struct icq_contactsend_s) * nContacts));
 
 				size_t nDataLen = 0, nNamesLen = 0;
+				int i;
 				for (i = 0; i < nContacts; i++) {
 					uid_str szContactUid;
 
@@ -1082,7 +1074,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 				char szCount[17];
 				struct icq_contactsend_s* contacts = NULL;
 				uid_str szContactUid;
-
+				int i;
 
 				// Format the body
 				// This is kinda messy, but there is no simple way to do it. First
@@ -1195,7 +1187,6 @@ HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const TCHAR* szDescription
 	if (hContact && szDescription && ppszFiles) {
 		DWORD dwUin;
 		uid_str szUid;
-
 		if (getContactUid(hContact, &dwUin, &szUid))
 			return 0; // Invalid contact
 
@@ -1490,7 +1481,6 @@ int __cdecl CIcqProto::SetApparentMode(MCONTACT hContact, int mode)
 {
 	DWORD uin;
 	uid_str uid;
-
 	if (getContactUid(hContact, &uin, &uid))
 		return 1; // Invalid contact
 

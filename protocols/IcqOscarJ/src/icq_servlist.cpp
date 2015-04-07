@@ -1013,27 +1013,22 @@ DWORD CIcqProto::icq_sendServerItem(DWORD dwCookie, WORD wAction, WORD wGroupId,
 
 DWORD CIcqProto::icq_sendServerContact(MCONTACT hContact, DWORD dwCookie, WORD wAction, WORD wGroupId, WORD wContactId, DWORD dwOperation, DWORD dwTimeout, void **doubleObject)
 {
-	DWORD dwUin;
-	uid_str szUid;
-	icq_packet pBuffer;
-	char *szNick = NULL, *szNote = NULL;
 	BYTE *pData = NULL, *pMetaToken = NULL, *pMetaTime = NULL;
 	int nDataLen = 0, nMetaTokenLen = 0, nMetaTimeLen = 0;
-	BYTE bAuth;
-	int bDataTooLong = FALSE;
 
 	// Prepare UID
+	DWORD dwUin;
+	uid_str szUid;
 	if (getContactUid(hContact, &dwUin, &szUid)) {
 		debugLogA("Buddy upload failed (UID missing).");
 		return 0;
 	}
 
-	bAuth = getByte(hContact, "Auth", 0);
-	szNick = getSettingStringUtf(hContact, "CList", "MyHandle", NULL);
-	szNote = getSettingStringUtf(hContact, "UserInfo", "MyNotes", NULL);
+	BYTE bAuth = getByte(hContact, "Auth", 0);
+	char *szNick = getSettingStringUtf(hContact, "CList", "MyHandle", NULL);
+	char *szNote = getSettingStringUtf(hContact, "UserInfo", "MyNotes", NULL);
 
 	DBVARIANT dbv;
-
 	if (!getSetting(hContact, DBSETTING_METAINFO_TOKEN, &dbv)) {
 		nMetaTokenLen = dbv.cpbVal;
 		pMetaToken = (BYTE*)_alloca(dbv.cpbVal);
@@ -1062,6 +1057,7 @@ DWORD CIcqProto::icq_sendServerContact(MCONTACT hContact, DWORD dwCookie, WORD w
 	size_t nNoteLen = mir_strlen(szNote);
 
 	// Limit the strings
+	int bDataTooLong = FALSE;
 	if (nNickLen > MAX_SSI_TLV_NAME_SIZE) {
 		bDataTooLong = TRUE;
 		nNickLen = null_strcut(szNick, MAX_SSI_TLV_NAME_SIZE);
@@ -1080,6 +1076,7 @@ DWORD CIcqProto::icq_sendServerContact(MCONTACT hContact, DWORD dwCookie, WORD w
 	size_t wTLVlen = (nNickLen ? 4 + nNickLen : 0) + (nNoteLen ? 4 + nNoteLen : 0) + (bAuth ? 4 : 0) + nDataLen + (nMetaTokenLen ? 4 + nMetaTokenLen : 0) + (nMetaTimeLen ? 4 + nMetaTimeLen : 0);
 
 	// Initialize our handy data buffer
+	icq_packet pBuffer;
 	pBuffer.wPlace = 0;
 	pBuffer.pData = (BYTE *)_alloca(wTLVlen);
 	pBuffer.wLen = (WORD)wTLVlen;
@@ -1797,16 +1794,15 @@ int CIcqProto::servlistAddContact_Ready(MCONTACT hContact, WORD, WORD, LPARAM lP
 // Called when contact should be added to server list, if group does not exist, create one
 void CIcqProto::servlistAddContact(MCONTACT hContact, const char *pszGroup)
 {
+	// Get UID
 	DWORD dwUin;
 	uid_str szUid;
-	cookie_servlist_action* ack;
-
-	// Get UID
 	if (getContactUid(hContact, &dwUin, &szUid)) { // Could not do anything without uid
 		debugLogA("Failed to add contact to server side list (%s)", "no UID");
 		return;
 	}
 
+	cookie_servlist_action* ack;
 	if (!(ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action)))) { // Could not do anything without cookie
 		debugLogA("Failed to add contact to server side list (%s)", "malloc failed");
 		return;
@@ -1863,17 +1859,16 @@ int CIcqProto::servlistRemoveContact_Ready(MCONTACT hContact, WORD contactID, WO
 // Called when contact should be removed from server list, remove group if it remain empty
 void CIcqProto::servlistRemoveContact(MCONTACT hContact)
 {
+	// Get UID
 	DWORD dwUin;
 	uid_str szUid;
-	cookie_servlist_action* ack;
-
-	// Get UID
 	if (getContactUid(hContact, &dwUin, &szUid)) {
 		// Could not do anything without uid
 		debugLogA("Failed to remove contact from server side list (%s)", "no UID");
 		return;
 	}
 
+	cookie_servlist_action* ack;
 	if (!(ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action)))) { // Could not do anything without cookie
 		debugLogA("Failed to remove contact from server side list (%s)", "malloc failed");
 		return;
@@ -1968,12 +1963,11 @@ int CIcqProto::servlistMoveContact_Ready(MCONTACT, WORD contactID, WORD groupID,
 // Called when contact should be moved from one group to another, create new, remove empty
 void CIcqProto::servlistMoveContact(MCONTACT hContact, const char *pszNewGroup)
 {
-	DWORD dwUin;
-	uid_str szUid;
-
 	if (!hContact) return; // we do not move us, caused our uin was wrongly added to list
 
 	// Get UID
+	DWORD dwUin;
+	uid_str szUid;
 	if (getContactUid(hContact, &dwUin, &szUid)) { // Could not do anything without uin
 		debugLogA("Failed to move contact to group on server side list (%s)", "no UID");
 		return;

@@ -468,8 +468,6 @@ char* CIcqProto::buildUinList(int subtype, size_t wMaxLen, MCONTACT *hContactRes
 {
 	MCONTACT hContact;
 	WORD wCurrentLen = 0;
-	DWORD dwUIN;
-	uid_str szUID;
 	int add;
 
 	char *szList = (char*)SAFE_MALLOC(CallService(MS_DB_CONTACT_GETCOUNT, 0, 0) * UINMAXLEN);
@@ -483,6 +481,8 @@ char* CIcqProto::buildUinList(int subtype, size_t wMaxLen, MCONTACT *hContactRes
 		hContact = db_find_first(m_szModuleName);
 
 	while (hContact != NULL) {
+		DWORD dwUIN;
+		uid_str szUID;
 		if (!getContactUid(hContact, &dwUIN, &szUID)) {
 			szLen[0] = (char)mir_strlen(strUID(dwUIN, szUID));
 
