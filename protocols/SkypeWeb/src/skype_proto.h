@@ -206,7 +206,7 @@ private:
 
 	//chats
 	MCONTACT AddChatRoom(const char *chatname);
-
+	void SetChatStatus(MCONTACT hContact, int iStatus);
 	//polling
 	void __cdecl ParsePollData(JSONNODE *data);
 	void __cdecl PollingThread(void*);

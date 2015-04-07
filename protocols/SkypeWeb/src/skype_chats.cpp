@@ -25,3 +25,14 @@ MCONTACT CSkypeProto::AddChatRoom(const char *chatname)
 	}
 	return hContact;
 }
+
+void CSkypeProto::SetChatStatus(MCONTACT hContact, int iStatus)
+{
+	ptrT tszChatID(getTStringA(hContact, "ChatID"));
+	if (tszChatID == NULL)
+		return;
+
+	GCDEST gcd = { m_szModuleName, tszChatID, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	CallServiceSync(MS_GC_EVENT, (iStatus == ID_STATUS_OFFLINE) ? SESSION_OFFLINE : SESSION_ONLINE, (LPARAM)&gce);
+}
