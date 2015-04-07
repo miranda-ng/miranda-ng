@@ -17,9 +17,16 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	requestQueue = new RequestQueue(m_hNetlibUser);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
+	
 	CreateProtoService(PS_GETAVATARINFOT, &CSkypeProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CSkypeProto::SvcGetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATART, &CSkypeProto::SvcGetMyAvatar);
+	CreateProtoService(PS_SETMYAVATART, &CSkypeProto::SvcSetMyAvatar);
+
+	m_tszAvatarFolder = std::tstring(VARST(_T("%miranda_avatarcache%"))) + _T("\\") + m_tszUserName;
+	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());
+	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());
 
 	// custom event
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
