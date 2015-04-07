@@ -227,6 +227,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\request_queue.cpp" />
     <ClCompile Include="src\skype_avatars.cpp" />
+    <ClCompile Include="src\skype_chats.cpp" />
     <ClCompile Include="src\skype_profile.cpp" />
     <ClCompile Include="src\skype_request.cpp" />
     <ClCompile Include="src\stdafx.cpp">
