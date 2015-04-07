@@ -149,9 +149,7 @@ int CSkypeProto::SetApparentMode(MCONTACT, int) { return 0; }
 int CSkypeProto::SetStatus(int iNewStatus)
 {
 	if (iNewStatus == m_iDesiredStatus)
-	{
 		return 0;
-	}
 
 	debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, iNewStatus);
 
@@ -189,19 +187,17 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		else if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
 		{
 			// login
-			if (getStringA("Server") == NULL)
-				setString("Server", "client-s.gateway.messenger.live.com");
 			m_iStatus = ID_STATUS_CONNECTING;
-
 			requestQueue->Start();
 			PushRequest(new LoginRequest(), &CSkypeProto::OnLoginFirst);
 		}
 		else
 		{
 			// set status
-			m_iStatus = iNewStatus;
-			PushRequest(new SetStatusRequest(ptrA(getStringA("registrationToken")), MirandaToSkypeStatus(m_iStatus), getStringA("Server")), &CSkypeProto::OnSetStatus);
-			PushRequest(new GetEndpointRequest(getStringA("registrationToken"), getStringA("endpointId"), getStringA("Server")));
+			ptrA regToken(getStringA("registrationToken"));
+			ptrA endpoint(getStringA("endpointId"));
+			PushRequest(new SendCapabilitiesRequest(regToken, endpoint));
+			PushRequest(new SetStatusRequest(regToken, MirandaToSkypeStatus(m_iDesiredStatus)), &CSkypeProto::OnStatusChanged);
 		}
 	}
 

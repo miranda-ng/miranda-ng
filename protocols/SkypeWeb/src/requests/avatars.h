@@ -16,13 +16,15 @@ public:
 	SetAvatarRequest(const char *token, const char *skypename, const char *data, size_t dataSize) :
 		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/profile/avatar", skypename)
 	{
-		pData = (char*)mir_alloc(dataSize);
-		memcpy(pData, data, dataSize);
-		dataLength = dataSize;
 		Headers
 			<< CHAR_VALUE("X-Skypetoken", token)
 			<< CHAR_VALUE("Content-Type", "image/jpeg");
+
+		pData = (char*)mir_alloc(dataSize);
+		memcpy(pData, data, dataSize);
+		dataLength = dataSize;
 	}
+
 	~SetAvatarRequest()
 	{
 		mir_free(pData);

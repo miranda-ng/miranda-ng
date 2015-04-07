@@ -30,6 +30,39 @@ public:
 	}
 };
 
+class GetContactStatusRequest : public HttpRequest
+{
+public:
+	GetContactStatusRequest(const char *regToken, const char *skypename, const char *server = "client-s.gateway.messenger.live.com") :
+		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/contacts/8:%s/presenceDocs/messagingService", server, skypename)
+	{
+		Headers
+			<< CHAR_VALUE("Accept", "application/json, text/javascript")
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
+	}
+};
+
+class CreateContactsRequest : public HttpRequest
+{
+public:
+	CreateContactsRequest(const char *regToken, const LIST<char> &skypenames, const char *server = "client-s.gateway.messenger.live.com") :
+		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/contacts", server)
+	{
+		Headers
+			<< CHAR_VALUE("Accept", "application/json, text/javascript")
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
+
+		CMStringA data = "{\"contacts\":[";
+		for (int i = 0; i < skypenames.getCount(); i++)
+			data.AppendFormat("{\"id\":\"8:%s\"},", skypenames[i]);
+		data.Truncate(data.GetLength() - 1);
+		data.Append("]}");
+
+		Body << VALUE(data);
+	}
+};
+
 class GetContactsAuthRequest : public HttpRequest
 {
 public:

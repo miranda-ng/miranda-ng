@@ -53,8 +53,8 @@ struct CSkypeProto;
 #include "requests\profile.h"
 #include "requests\contacts.h"
 #include "requests\status.h"
-#include "requests\reg_info.h"
 #include "requests\endpoint.h"
+#include "requests\capabilities.h"
 #include "requests\subscriptions.h"
 #include "requests\messages.h"
 #include "requests\poll.h"
@@ -71,5 +71,7 @@ extern HINSTANCE g_hInstance;
 #define SKYPE_SETTINGS_GROUP "DefaultGroup"
 
 #define SKYPE_DB_EVENT_TYPE_ACTION 10001
+
+#define SKYPE_ENDPOINTS_HOST "client-s.gateway.messenger.live.com"
 
 #endif //_COMMON_H_

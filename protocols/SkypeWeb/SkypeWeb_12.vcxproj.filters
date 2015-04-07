@@ -54,12 +54,6 @@
     <ClInclude Include="src\requests\profile.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
-    <ClInclude Include="src\requests\endpoint.h">
-      <Filter>Header Files\requests</Filter>
-    </ClInclude>
-    <ClInclude Include="src\requests\reg_info.h">
-      <Filter>Header Files\requests</Filter>
-    </ClInclude>
     <ClInclude Include="src\requests\status.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
@@ -79,6 +73,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\requests\avatars.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\capabilities.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\endpoint.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
   </ItemGroup>
