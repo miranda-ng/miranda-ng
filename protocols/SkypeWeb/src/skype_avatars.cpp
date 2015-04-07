@@ -187,7 +187,7 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 		ptrA token(getStringA("TokenSecret"));
 		ptrA skypename(getStringA("Skypename"));
-		PushRequest(new SetAvatarRequest(token, skypename, data), &CSkypeProto::OnSentAvatar);
+		PushRequest(new SetAvatarRequest(token, skypename, data, length), &CSkypeProto::OnSentAvatar);
 	}
 	else
 	{
