@@ -90,7 +90,7 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 	}
 
 	ptrA server(getStringA("Server"));
-	PushRequest(new CreateEndpointRequest(token.c_str()), &CSkypeProto::OnEndpointCreated);
+	PushRequest(new CreateEndpointRequest(token.c_str(), server), &CSkypeProto::OnEndpointCreated);
 
 	PushRequest(new GetProfileRequest(token.c_str()), &CSkypeProto::LoadProfile);
 	PushRequest(new GetContactListRequest(token.c_str()), &CSkypeProto::LoadContactList);
@@ -133,14 +133,14 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 	if (response->resultCode != 201)
 	{
 		ptrA token(getStringA("Token"));
-		PushRequest(new CreateEndpointRequest(token), &CSkypeProto::OnEndpointCreated);
+		PushRequest(new CreateEndpointRequest(token, server), &CSkypeProto::OnEndpointCreated);
 		return;
 	}
 
 	ptrA regToken(getStringA("registrationToken"));
 	
 
-	PushRequest(new CreateSubscriptionsRequest(regToken), &CSkypeProto::OnSubscriptionsCreated);
+	PushRequest(new CreateSubscriptionsRequest(regToken, server), &CSkypeProto::OnSubscriptionsCreated);
 }
 
 void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
@@ -150,15 +150,16 @@ void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 
 	ptrA regToken(getStringA("registrationToken"));
 	ptrA skypename(getStringA(SKYPE_SETTINGS_ID));
-	//ptrA endpoint(getStringA("endpointId"));
-	//PushRequest(new SendCapabilitiesRequest(regToken, endpoint));
-	//PushRequest(new SetStatusRequest(regToken, MirandaToSkypeStatus(m_iDesiredStatus)), &CSkypeProto::OnStatusChanged);
-	PushRequest(new GetContactStatusRequest(regToken, skypename), &CSkypeProto::OnStatusChanged);
+	ptrA endpoint(getStringA("endpointId"));
+	ptrA server(getStringA("Server"));
+	PushRequest(new SendCapabilitiesRequest(regToken, endpoint, server));
+	PushRequest(new SetStatusRequest(regToken, MirandaToSkypeStatus(m_iDesiredStatus), server), &CSkypeProto::OnStatusChanged);
+	//PushRequest(new GetContactStatusRequest(regToken, skypename), &CSkypeProto::OnStatusChanged);
 
 	LIST<char> skypenames(1);
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 		skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new CreateContactsRequest(regToken, skypenames));
+	PushRequest(new CreateContactsRequest(regToken, skypenames, server));
 	for (int i = 0; i < skypenames.getCount(); i++)
 		mir_free(skypenames[i]);
 	skypenames.destroy();

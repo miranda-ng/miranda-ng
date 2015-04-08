@@ -52,7 +52,7 @@ void CSkypeProto::PollingThread(void*)
 	isTerminated = false;
 	while (!isTerminated && !breaked && errors < POLLING_ERRORS_LIMIT)
 	{
-		PollRequest *request = new PollRequest(regToken);
+		PollRequest *request = new PollRequest(regToken, server);
 		request->nlc = m_pollingConnection;
 		NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 
