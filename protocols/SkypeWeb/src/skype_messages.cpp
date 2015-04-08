@@ -1,6 +1,6 @@
 #include "common.h"
 
-MEVENT CSkypeProto::GetMessageFromDB(MCONTACT hContact, DWORD timestamp, const char *messageId)
+MEVENT CSkypeProto::GetMessageFromDB(MCONTACT hContact, const char *messageId, LONGLONG timestamp)
 {
 	mir_cslock lock(messageSyncLock);
 
@@ -9,6 +9,7 @@ MEVENT CSkypeProto::GetMessageFromDB(MCONTACT hContact, DWORD timestamp, const c
 	{
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
+
 		if (dbei.cbBlob < messageIdLength)
 			continue;
 
@@ -19,9 +20,11 @@ MEVENT CSkypeProto::GetMessageFromDB(MCONTACT hContact, DWORD timestamp, const c
 		if (dbei.timestamp < timestamp)
 			break;
 
-		if ((dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == SKYPE_DB_EVENT_TYPE_ACTION))
-			if (memcmp(&dbei.pBlob[dbei.cbBlob - messageIdLength], messageId, messageIdLength) == 0)
-				return hDbEvent;
+		if (dbei.eventType != EVENTTYPE_MESSAGE && dbei.eventType != SKYPE_DB_EVENT_TYPE_ACTION)
+			continue;
+
+		if (memcmp(&dbei.pBlob[dbei.cbBlob - messageIdLength], messageId, messageIdLength) == 0)
+			return hDbEvent;
 	}
 
 	return NULL;
@@ -29,7 +32,7 @@ MEVENT CSkypeProto::GetMessageFromDB(MCONTACT hContact, DWORD timestamp, const c
 
 MEVENT CSkypeProto::AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content, int emoteOffset)
 {
-	if (MEVENT hDbEvent = GetMessageFromDB(hContact, timestamp, messageId))
+	if (MEVENT hDbEvent = GetMessageFromDB(hContact, messageId, timestamp))
 		return hDbEvent;
 
 	size_t messageLength = mir_strlen(&content[emoteOffset]) + 1;
@@ -84,7 +87,7 @@ int CSkypeProto::SaveMessageToDb(MCONTACT hContact, PROTORECVEVENT *pre)
 struct SendMessageParam
 {
 	MCONTACT hContact;
-	HANDLE hMessage;
+	LONGLONG hMessage;
 };
 
 // outcoming message flow
@@ -96,11 +99,9 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessa
 		return 0;
 	}
 
-	time_t timestamp = time(NULL); //InterlockedIncrement(&hMessageProcess);
-
 	SendMessageParam *param = new SendMessageParam();
 	param->hContact = hContact;
-	param->hMessage = (HANDLE)timestamp;
+	param->hMessage = time(NULL);
 
 	ptrA message;
 	if (flags & PREF_UNICODE)
@@ -114,25 +115,20 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessa
 	ptrA token(getStringA("registrationToken"));
 	ptrA username(getStringA(hContact, "Skypename"));
 	if (strncmp(message, "/me ", 4) == 0)
-	{
-		PushRequest(new SendActionRequest(token, username, timestamp, &message[4], server), &CSkypeProto::OnMessageSent, param);
-		return timestamp;
-	}
-	PushRequest(new SendMessageRequest(token, username, timestamp, message, server), &CSkypeProto::OnMessageSent, param);
-	return timestamp;
+		PushRequest(new SendActionRequest(token, username, param->hMessage, &message[4], server), &CSkypeProto::OnMessageSent, param);
+	else
+		PushRequest(new SendMessageRequest(token, username, param->hMessage, message, server), &CSkypeProto::OnMessageSent, param);
+
+	return param->hMessage;
 }
 
 void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	SendMessageParam *param = (SendMessageParam*)arg;
 	MCONTACT hContact = param->hContact;
-	HANDLE hMessage = param->hMessage;
+	HANDLE hMessage = (HANDLE)param->hMessage;
 	delete param;
-	if (response == NULL)
-	{
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)"Response = NULL");
-		return;
-	}
+
 	if (response->resultCode != 200 && response->resultCode != 201)
 	{
 		CMStringA error = "Unknown error";
@@ -163,14 +159,13 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 		memmove(evt->dbei->pBlob, &evt->dbei->pBlob[4], evt->dbei->cbBlob);
 		evt->dbei->eventType = SKYPE_DB_EVENT_TYPE_ACTION;
 	}
-	char messageId[20];
-	itoa(evt->seq, messageId, 10);
-	int messageIdLength = mir_strlen(messageId);
-	evt->dbei->pBlob = (PBYTE)mir_realloc(evt->dbei->pBlob, evt->dbei->cbBlob + messageIdLength);
-	memcpy(&evt->dbei->pBlob[evt->dbei->cbBlob], messageId, messageIdLength);
-	evt->dbei->cbBlob += messageIdLength;
 
-	return 1;
+	CMStringA messageId(FORMAT, "%d", evt->seq);
+	evt->dbei->pBlob = (PBYTE)mir_realloc(evt->dbei->pBlob, evt->dbei->cbBlob + messageId.GetLength());
+	memcpy(&evt->dbei->pBlob[evt->dbei->cbBlob], messageId, messageId.GetLength());
+	evt->dbei->cbBlob += messageId.GetLength();
+
+	return 0;
 }
 
 /* HISTORY SYNC */

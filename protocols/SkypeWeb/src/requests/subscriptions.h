@@ -4,7 +4,7 @@
 class CreateSubscriptionsRequest : public HttpRequest
 {
 public:
-	CreateSubscriptionsRequest(const char *regToken, const char *server = "client-s.gateway.messenger.live.com") :
+	CreateSubscriptionsRequest(const char *regToken, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints/SELF/subscriptions", server)
 	{
 		Headers

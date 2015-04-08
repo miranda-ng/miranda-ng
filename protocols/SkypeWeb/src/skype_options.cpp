@@ -1,18 +1,19 @@
 #include "common.h"
 
 CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog, HWND hwndParent)
-	: CSuper(proto, idDialog, hwndParent, false),
-	m_skypename(this, IDC_SKYPENAME), m_password(this, IDC_PASSWORD),
+	: CSkypeDlgBase(proto, idDialog, hwndParent, false),
+	m_skypename(this, IDC_SKYPENAME),
+	m_password(this, IDC_PASSWORD),
 	m_group(this, IDC_GROUP)
 {
-	CreateLink(m_skypename, SKYPE_SETTINGS_ID, _T(""));
-	CreateLink(m_password, "Password", _T(""));
+	//CreateLink(m_skypename, SKYPE_SETTINGS_ID, _T(""));
+	//CreateLink(m_password, "Password", _T(""));
 	CreateLink(m_group, SKYPE_SETTINGS_GROUP, _T("Skype"));
 }
 
 void CSkypeOptionsMain::OnInitDialog()
 {
-	CSuper::OnInitDialog();
+	CSkypeDlgBase::OnInitDialog();
 
 	SendMessage(m_skypename.GetHwnd(), EM_LIMITTEXT, 32, 0);
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 20, 0);
@@ -22,6 +23,9 @@ void CSkypeOptionsMain::OnInitDialog()
 
 void CSkypeOptionsMain::OnApply()
 {
+	m_proto->setString(SKYPE_SETTINGS_ID, m_skypename.GetTextA());
+	m_proto->setString("Password", m_password.GetTextA());
+
 	TCHAR *group = m_group.GetText();
 	if (mir_tstrlen(group) > 0 && !Clist_GroupExists(group))
 		Clist_CreateGroup(0, group);
@@ -34,7 +38,6 @@ int CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInstance;
 	odp.pszTitle = title;
-	//odp.dwInitParam = (LPARAM)this;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_DONTTRANSLATE;
 	odp.pszGroup = LPGEN("Network");
 

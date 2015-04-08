@@ -4,7 +4,7 @@
 class SetStatusRequest : public HttpRequest
 {
 public:
-	SetStatusRequest(const char *regToken, const char *status, const char *server = "client-s.gateway.messenger.live.com") :
+	SetStatusRequest(const char *regToken, const char *status, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/presenceDocs/messagingService", server)
 	{
 		Headers

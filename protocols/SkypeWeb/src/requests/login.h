@@ -7,8 +7,6 @@ public:
 	LoginRequest() :
 		HttpRequest(REQUEST_POST, "login.skype.com/login")
 	{
-		//flags = NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
-
 		Url
 			<< INT_VALUE("client_id", 578134)
 			<< CHAR_VALUE("redirect_uri", "https%3A%2F%2Fweb.skype.com");
@@ -17,8 +15,6 @@ public:
 	LoginRequest(const char *skypename, const char *password, const char *pie, const char *etm) :
 		HttpRequest(REQUEST_POST, "login.skype.com/login")
 	{
-		//flags = NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
-
 		Url
 			<< INT_VALUE("client_id", 578134)
 			<< CHAR_VALUE("redirect_uri", "https%3A%2F%2Fweb.skype.com");

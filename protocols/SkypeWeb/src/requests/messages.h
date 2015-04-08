@@ -4,7 +4,7 @@
 class SendMessageRequest : public HttpRequest
 {
 public:
-	SendMessageRequest(const char *regToken, const char *username, time_t timestamp, const char *message, const char *server = "client-s.gateway.messenger.live.com") :
+	SendMessageRequest(const char *regToken, const char *username, time_t timestamp, const char *message, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, username)
 	{
 		Headers
@@ -22,7 +22,7 @@ public:
 class SendActionRequest : public HttpRequest
 {
 public:
-	SendActionRequest(const char *regToken, const char *username, time_t timestamp, const char *message, const char *server = "client-s.gateway.messenger.live.com") :
+	SendActionRequest(const char *regToken, const char *username, time_t timestamp, const char *message, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, username)
 	{
 		Headers
@@ -40,7 +40,7 @@ public:
 class SendTypingRequest : public HttpRequest
 {
 public:
-	SendTypingRequest(const char *regToken, const char *username, bool bstate, const char *server = "client-s.gateway.messenger.live.com") :
+	SendTypingRequest(const char *regToken, const char *username, bool bstate, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, mir_urlEncode(username))
 	{
 		Headers
@@ -60,7 +60,7 @@ public:
 class GetHistoryRequest : public HttpRequest
 {
 public:
-	GetHistoryRequest(const char *regToken, const char *username/* int time*/, const char *server = "client-s.gateway.messenger.live.com") :
+	GetHistoryRequest(const char *regToken, const char *username/* int time*/, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages?startTime=0&pageSize=100&view=msnp24Equivalent&targetType=Passport|Skype|Lync|Thread", server, mir_urlEncode(username)/*, time*/)
 	{
 		Headers

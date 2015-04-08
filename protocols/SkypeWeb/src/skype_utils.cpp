@@ -153,86 +153,36 @@ bool CSkypeProto::IsFileExists(std::tstring path)
 	return _taccess(path.c_str(), 0) == 0;
 }
 
+// url parsing
+
+char *ParseUrl(const char *url, const char *token)
+{
+	const char *start = strstr(url, token);
+	if (start == NULL)
+		return NULL;
+	start = start + mir_strlen(token);
+	const char *end = strchr(start, '/');
+	if (start == NULL)
+		return mir_strdup(start);
+	return mir_strndup(start, end - start);
+}
+
 char *CSkypeProto::ContactUrlToName(const char *url)
 {
-	char *tempname = NULL;
-	const char *start, *end;
-	start = strstr(url, "/8:");
-
-	if (!start)
-		return NULL;
-	start = start + 3;
-	if ((end = strchr(start, '/'))) 
-	{
-		mir_free(tempname);
-		tempname = mir_strndup(start, end - start);
-		return tempname;
-	}
-	mir_free(tempname);
-	tempname = mir_strdup(start);
-
-	return tempname;
+	return ParseUrl(url, "/8:");
 }
 
 char *CSkypeProto::SelfUrlToName(const char *url)
 {
-	char *tempname = NULL;
-	const char *start, *end;
-	start = strstr(url, "/1:");
-
-	if (!start)
-		return NULL;
-	start = start + 3;
-	if ((end = strchr(start, '/'))) 
-	{
-		mir_free(tempname);
-		tempname = mir_strndup(start, end - start);
-		return tempname;
-	}
-	mir_free(tempname);
-	tempname = mir_strdup(start);
-
-	return tempname;
+	return ParseUrl(url, "/1:");
 }
 
 char *CSkypeProto::ChatUrlToName(const char *url)
 {
-	char *tempname = NULL;
-	const char *start, *end;
-	start = strstr(url, "/19:");
-
-	if (!start)
-		return NULL;
-	start = start + 4;
-	if ((end = strchr(start, '/'))) 
-	{
-		mir_free(tempname);
-		tempname = mir_strndup(start, end - start);
-		return tempname;
-	}
-	mir_free(tempname);
-	tempname = mir_strdup(start);
-
-	return tempname;
+	return ParseUrl(url, "/19:");
 }
 
 char *CSkypeProto::GetServerFromUrl(const char *url)
 {
-	char *tempname = NULL;
-	const char *start, *end;
-	start = strstr(url, "://");
-
-	if (!start)
-		return NULL;
-	start = start + 3;
-	if ((end = strchr(start, '/'))) 
-	{
-		mir_free(tempname);
-		tempname = mir_strndup(start, end - start);
-		return tempname;
-	}
-	mir_free(tempname);
-	tempname = mir_strdup(start);
-
-	return tempname;
+	return ParseUrl(url, "://");
 }

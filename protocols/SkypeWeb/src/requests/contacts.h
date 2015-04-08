@@ -33,7 +33,7 @@ public:
 class GetContactStatusRequest : public HttpRequest
 {
 public:
-	GetContactStatusRequest(const char *regToken, const char *skypename, const char *server = "client-s.gateway.messenger.live.com") :
+	GetContactStatusRequest(const char *regToken, const char *skypename, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/contacts/8:%s/presenceDocs/messagingService", server, skypename)
 	{
 		Headers
@@ -45,7 +45,7 @@ public:
 class CreateContactsRequest : public HttpRequest
 {
 public:
-	CreateContactsRequest(const char *regToken, const LIST<char> &skypenames, const char *server = "client-s.gateway.messenger.live.com") :
+	CreateContactsRequest(const char *regToken, const LIST<char> &skypenames, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/contacts", server)
 	{
 		Headers

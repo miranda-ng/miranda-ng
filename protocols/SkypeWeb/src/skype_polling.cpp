@@ -48,9 +48,8 @@ void CSkypeProto::PollingThread(void*)
 	ptrA server(getStringA("Server"));
 
 	int errors = 0;
-	bool breaked = false;
 	isTerminated = false;
-	while (!isTerminated && !breaked && errors < POLLING_ERRORS_LIMIT)
+	while (!isTerminated && errors < POLLING_ERRORS_LIMIT)
 	{
 		PollRequest *request = new PollRequest(regToken, server);
 		request->nlc = m_pollingConnection;
@@ -74,13 +73,14 @@ void CSkypeProto::PollingThread(void*)
 
 		delete request;
 	}
-	m_hPollingThread = NULL;
-	m_pollingConnection = NULL;
-	debugLogA(__FUNCTION__": leaving");
-
+	
 	if (!isTerminated)
 	{
 		debugLogA(__FUNCTION__": unexpected termination; switching protocol to offline");
 		SetStatus(ID_STATUS_OFFLINE);
 	}
+
+	m_hPollingThread = NULL;
+	m_pollingConnection = NULL;
+	debugLogA(__FUNCTION__": leaving");
 }
