@@ -479,7 +479,7 @@ int isPluginOnWhiteList(const TCHAR* pluginname)
 
 bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 {
-	TCHAR exe[MAX_PATH];
+	TCHAR exe[MAX_PATH], tszFullPath[MAX_PATH];
 	GetModuleFileName(NULL, exe, SIZEOF(exe));
 	TCHAR* slice = _tcsrchr(exe, '\\');
 	if (slice)
@@ -491,8 +491,8 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 
 		if (!(p->pclass & PCLASS_BASICAPI)) {
 			BASIC_PLUGIN_INFO bpi;
-			mir_sntprintf(slice, &exe[SIZEOF(exe)] - slice, _T("\\%s\\%s"), (p->pclass & PCLASS_CORE) ? _T("Core") : _T("Plugins"), p->pluginname);
-			if (!checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_NONE)) {
+			mir_sntprintf(tszFullPath, SIZEOF(tszFullPath), _T("%s\\%s\\%s"), exe, (p->pclass & PCLASS_CORE) ? _T("Core") : _T("Plugins"), p->pluginname);
+			if (!checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 				p->pclass |= PCLASS_FAILED;
 				return false;
 			}
@@ -599,22 +599,24 @@ static bool loadClistModule(TCHAR* exe, pluginEntry *p)
 	return false;
 }
 
-static pluginEntry* getCListModule(TCHAR *exe, TCHAR *slice)
+static pluginEntry* getCListModule(TCHAR *exe)
 {
+	TCHAR tszFullPath[MAX_PATH];
+
 	for (int i = 0; i < clistPlugins.getCount(); i++) {
 		pluginEntry *p = clistPlugins[i];
-		mir_sntprintf(slice, &exe[MAX_PATH] - slice, _T("\\Plugins\\%s"), p->pluginname);
 		if (!isPluginOnWhiteList(p->pluginname))
 			continue;
 
-		if (loadClistModule(exe, p))
+		mir_sntprintf(tszFullPath, SIZEOF(tszFullPath), _T("%s\\Plugins\\%s"), exe, p->pluginname);
+		if (loadClistModule(tszFullPath, p))
 			return p;
 	}
 
 	MuuidReplacement& stdClist = pluginDefault[11];
 	if (LoadCorePlugin(stdClist)) {
-		mir_sntprintf(slice, &exe[MAX_PATH] - slice, _T("\\Core\\%s.dll"), stdClist.stdplugname);
-		if (loadClistModule(exe, stdClist.pImpl))
+		mir_sntprintf(tszFullPath, SIZEOF(tszFullPath), _T("%s\\Core\\%s.dll"), exe, stdClist.stdplugname);
+		if (loadClistModule(tszFullPath, stdClist.pImpl))
 			return stdClist.pImpl;
 	}
 
@@ -752,10 +754,11 @@ int LoadNewPluginsModule(void)
 	int i;
 
 	// make full path to the plugin
-	TCHAR exe[MAX_PATH];
+	TCHAR exe[MAX_PATH], fullPath[MAX_PATH];
 	GetModuleFileName(NULL, exe, SIZEOF(exe));
 	TCHAR *slice = _tcsrchr(exe, '\\');
-	if (slice) *slice = 0;
+	if (slice)
+		*slice = 0;
 
 	// remember some useful options
 	askAboutIgnoredPlugins = (UINT)GetPrivateProfileInt(_T("PluginLoader"), _T("AskAboutIgnoredPlugins"), 0, mirandabootini);
@@ -768,8 +771,8 @@ int LoadNewPluginsModule(void)
 	// if freeimage is present, load it to provide the basic core functions
 	if (plugin_freeimg != NULL) {
 		BASIC_PLUGIN_INFO bpi;
-		mir_sntprintf(slice, &exe[SIZEOF(exe)] - slice, _T("\\Plugins\\%s"), plugin_freeimg->pluginname);
-		if (checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_NONE)) {
+		mir_sntprintf(fullPath, SIZEOF(fullPath), _T("%s\\Plugins\\%s"), exe, plugin_freeimg->pluginname);
+		if (checkAPI(fullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 			plugin_freeimg->bpi = bpi;
 			plugin_freeimg->pclass |= PCLASS_OK | PCLASS_BASICAPI;
 			if (bpi.Load() == 0)
@@ -780,7 +783,7 @@ int LoadNewPluginsModule(void)
 	}
 
 	// first load the clist cos alot of plugins need that to be present at Load(void)
-	pluginEntry* clist = getCListModule(exe, slice);
+	pluginEntry* clist = getCListModule(exe);
 
 	/* the loop above will try and get one clist DLL to work, if all fail then just bail now */
 	if (clist == NULL) {
