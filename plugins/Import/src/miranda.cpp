@@ -81,6 +81,10 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 		}
 		SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, 0, 0);
 		SendMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_LIST, LBN_SELCHANGE), 0);
+		TCHAR filename[MAX_PATH];
+		GetDlgItemText(hwndDlg, IDC_FILENAME, filename, SIZEOF(filename));
+		if (_taccess(filename, 4))
+			SendMessage(GetParent(hwndDlg), WIZM_DISABLEBUTTON, 1, 0);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -107,8 +111,10 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 		case IDC_LIST:
 			if (HIWORD(wParam) == LBN_SELCHANGE) {
 				int sel = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETCURSEL, 0, 0);
-				if (sel != LB_ERR)
+				if (sel != LB_ERR) {
 					SetDlgItemText(hwndDlg, IDC_FILENAME, (TCHAR*)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, sel, 0));
+					SendMessage(GetParent(hwndDlg), WIZM_ENABLEBUTTON, 1, 0);
+				}
 			}
 			break;
 
@@ -131,6 +137,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 			if (GetOpenFileName(&ofn)) {
 				SetDlgItemText(hwndDlg, IDC_FILENAME, str);
 				SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, -1, 0);
+				SendMessage(GetParent(hwndDlg), WIZM_ENABLEBUTTON, 1, 0);
 			}
 		}
 		break;
