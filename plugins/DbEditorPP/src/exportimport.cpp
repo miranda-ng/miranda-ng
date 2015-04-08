@@ -53,8 +53,7 @@ char* StrReplace(char* Search, char* Replace, char* Resource)
 
 	char* Pointer = _tcsstr(Resource, Search);
 
-	while (Pointer != NULL)
-	{
+	while (Pointer != NULL) {
 		int PointerLen = (int)_tcslen(Pointer);
 		int ResourceLen = (int)_tcslen(Resource);
 
@@ -138,7 +137,7 @@ void exportModule(MCONTACT hContact, char *module, FILE *file)
 	FreeModuleSettingLL(&settinglist);
 }
 
-char *NickFromHContact(MCONTACT hContact)
+char* NickFromHContact(MCONTACT hContact)
 {
 	static char nick[512] = "";
 
@@ -158,8 +157,7 @@ char *NickFromHContact(MCONTACT hContact)
 				else
 					mir_snprintf(nick, SIZEOF(nick), "(UNKNOWN) (%s)", szProto);
 			}
-			else
-				mir_snprintf(nick, SIZEOF(nick), "(UNKNOWN)");
+			else mir_snprintf(nick, SIZEOF(nick), "(UNKNOWN)");
 		}
 		else {
 			char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
@@ -174,6 +172,7 @@ char *NickFromHContact(MCONTACT hContact)
 
 	return nick;
 }
+
 // hContact == -1 export entire db. module == NULL export entire contact.
 // hContact == -1, module == "" - all contacts
 void exportDB(MCONTACT hContact, char *module)
@@ -327,16 +326,17 @@ void importSettings(MCONTACT hContact, char *importstring)
 			importstring = strtok(NULL, "\n");
 			continue;
 		}
-		else if (!strncmp(&importstring[i], "SETTINGS:", strlen("SETTINGS:"))) {
+
+		if (!strncmp(&importstring[i], "SETTINGS:", strlen("SETTINGS:"))) {
 			importstring = strtok(NULL, "\n");
 			continue;
 		}
-		else if (!strncmp(&importstring[i], "CONTACT:", strlen("CONTACT:"))) {
-			int len;
+
+		if (!strncmp(&importstring[i], "CONTACT:", strlen("CONTACT:"))) {
 			hContact = INVALID_CONTACT_ID;
 
 			i = i + (int)strlen("CONTACT:");
-			len = (int)strlen(&importstring[i]);
+			int len = (int)strlen(&importstring[i]);
 
 			if (len > 10) {
 				char uid[256] = "", szUID[256] = "", szProto[512] = "";
@@ -358,10 +358,9 @@ void importSettings(MCONTACT hContact, char *importstring)
 						p2 = strrchr(&importstring[i], ')*<');
 
 						if (p1 && p2 && p1 + 3 < p2 && p2 - p1 < SIZEOF(szProto)) {
-							char *protouid;
 							strncpy(szProto, p1 + 1, p2 - p1 - 3);
 
-							protouid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+							char *protouid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 							if ((INT_PTR)protouid != CALLSERVICE_NOTFOUND) {
 								if (!mir_strcmp(protouid, uid))
 									hContact = CheckNewContact(szProto, uid, szUID);
@@ -378,24 +377,20 @@ void importSettings(MCONTACT hContact, char *importstring)
 					hContact = temp;
 			}
 		}
-		else if (importstring[i] == '[' && !strchr(&importstring[i + 1], '='))// get the module
-		{
+		else if (importstring[i] == '[' && !strchr(&importstring[i + 1], '=')) { // get the module
 			if (end = strpbrk(&importstring[i + 1], "]")) {
 				*end = '\0';
 				strcpy(module, &importstring[i + 1]);
 			}
 		}
-		else if (importstring[i] == '-' && importstring[i + 1] == '[' &&
-			!strchr(&importstring[i + 2], '='))// get the module
-		{
+		else if (importstring[i] == '-' && importstring[i + 1] == '[' && !strchr(&importstring[i + 2], '=')) { // get the module
 			if (end = strpbrk(&importstring[i + 2], "]")) {
 				*end = '\0';
 				strcpy(module, &importstring[i + 2]);
 				deleteModule(module, hContact, 1);
 			}
 		}
-		else if (strstr(&importstring[i], "=") && module[0]) // get the setting
-		{
+		else if (strstr(&importstring[i], "=") && module[0]) { // get the setting
 			if (end = strpbrk(&importstring[i + 1], "=")) {
 				*end = '\0';
 				strcpy(setting, &importstring[i]);
@@ -403,20 +398,20 @@ void importSettings(MCONTACT hContact, char *importstring)
 				// get the type
 				type = *(end + 1);
 				if (mir_tstrcmp(module, "CList") == 0 && mir_tstrcmp(setting, "Group") == 0) {
-					WCHAR* GroupName = mir_a2u(end + 2);
+					ptrW GroupName(mir_utf8decodeW(end + 2));
 					if (!GroupName)
 						continue;
+
 					HANDLE GroupHandle = (HANDLE)CallService(MS_CLIST_GROUPEXISTS, 0, LPARAM(GroupName));
 					if (GroupHandle == 0) {
 						GroupHandle = (HANDLE)CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)GroupName);
-
 						if (GroupHandle) {
 							CallService(MS_CLUI_GROUPADDED, (WPARAM)GroupHandle, 0);
 							CallService(MS_CLIST_GROUPSETEXPANDED, (WPARAM)GroupHandle, 1);
 						}
 					}
-					mir_free(GroupName);
 				}
+
 				switch (type) {
 				case 'b':
 				case 'B':
@@ -439,20 +434,17 @@ void importSettings(MCONTACT hContact, char *importstring)
 					break;
 				case 'g':
 				case 'G':
-				{
-					char *pstr;
-					for (pstr = end + 2; *pstr; pstr++) {
+					for (char *pstr = end + 2; *pstr; pstr++) {
 						if (*pstr == '\\') {
 							switch (pstr[1]) {
-							case 'n': *pstr = '\n'; break;
-							case 't': *pstr = '\t'; break;
-							case 'r': *pstr = '\r'; break;
-							default:  *pstr = pstr[1]; break;
+								case 'n': *pstr = '\n'; break;
+								case 't': *pstr = '\t'; break;
+								case 'r': *pstr = '\r'; break;
+								default:  *pstr = pstr[1]; break;
 							}
 							memmove(pstr + 1, pstr + 2, mir_strlen(pstr + 2) + 1);
 						}
 					}
-				}
 				case 'u':
 				case 'U':
 					db_set_utf(hContact, module, setting, (end + 2));
@@ -487,40 +479,40 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_CRLF:
-		{
-			int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_TEXT));
-			char *string = (char*)_alloca(length + 3);
-			int Pos = 2;
+			{
+				int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_TEXT));
+				char *string = (char*)_alloca(length + 3);
+				int Pos = 2;
 
-			if (length) {
-				int	Range = SendDlgItemMessage(hwnd, IDC_TEXT, EM_GETSEL, 0, 0);
-				int Min = LOWORD(Range);
-				int Max = HIWORD(Range);
+				if (length) {
+					int Range = SendDlgItemMessage(hwnd, IDC_TEXT, EM_GETSEL, 0, 0);
+					int Min = LOWORD(Range);
+					int Max = HIWORD(Range);
 
-				GetDlgItemText(hwnd, IDC_TEXT, string, length + 1);
+					GetDlgItemText(hwnd, IDC_TEXT, string, length + 1);
 
-				if (Min == -1)
-					memcpy(string, crlf_string, sizeof(crlf_string));
-				else if (Max == -1 || Max >= length)
-					memcpy(&string[Min], crlf_string, sizeof(crlf_string));
-				else if (Max - Min > 2) {
-					memcpy(&string[Min], crlf_string, sizeof(crlf_string));
-					memmove(&string[Min + 2], &string[Max], length - Max + 1);
+					if (Min == -1)
+						memcpy(string, crlf_string, sizeof(crlf_string));
+					else if (Max == -1 || Max >= length)
+						memcpy(&string[Min], crlf_string, sizeof(crlf_string));
+					else if (Max - Min > 2) {
+						memcpy(&string[Min], crlf_string, sizeof(crlf_string));
+						memmove(&string[Min + 2], &string[Max], length - Max + 1);
+					}
+					else {
+						memmove(&string[Min + 2], &string[Max], length - Max + 1);
+						memcpy(&string[Min], crlf_string, sizeof(crlf_string));
+					}
+
+					if (Min) Pos += Min;
 				}
-				else {
-					memmove(&string[Min + 2], &string[Max], length - Max + 1);
-					memcpy(&string[Min], crlf_string, sizeof(crlf_string));
-				}
+				else memcpy(string, crlf_string, sizeof(crlf_string));
 
-				if (Min) Pos += Min;
+				SetDlgItemText(hwnd, IDC_TEXT, string);
+				SendDlgItemMessage(hwnd, IDC_TEXT, EM_SETSEL, Pos, Pos);
+				SetFocus(GetDlgItem(hwnd, IDC_TEXT));
 			}
-			else memcpy(string, crlf_string, sizeof(crlf_string));
-
-			SetDlgItemText(hwnd, IDC_TEXT, string);
-			SendDlgItemMessage(hwnd, IDC_TEXT, EM_SETSEL, Pos, Pos);
-			SetFocus(GetDlgItem(hwnd, IDC_TEXT));
-		}
-		break;
+			break;
 
 		case IDCANCEL:
 			DestroyWindow(hwnd);
@@ -556,19 +548,17 @@ void ImportSettingsMenuItem(MCONTACT hContact)
 
 int Openfile2Import(char *outputFiles)
 {
-	OPENFILENAME ofn = { 0 };
 	char filter[MAX_PATH];
 	mir_snprintf(filter, SIZEOF(filter), "%s%c*.ini%c%s%c*.*%c", Translate("INI Files"), 0, 0, Translate("All Files"), 0, 0);
-	char *title = Translate("Import from files");
 
+	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.lpstrFilter = filter;
-	ofn.hwndOwner = 0;
 	ofn.lpstrFile = outputFiles;
 	ofn.nMaxFile = MAX_PATH * 10;
 	ofn.nMaxFileTitle = MAX_PATH;
 	ofn.Flags = OFN_HIDEREADONLY | OFN_SHAREAWARE | OFN_PATHMUSTEXIST | OFN_ALLOWMULTISELECT | OFN_EXPLORER;
-	ofn.lpstrTitle = title;
+	ofn.lpstrTitle = Translate("Import from files");
 	if (!GetOpenFileName(&ofn))
 		return 0;
 
@@ -585,9 +575,7 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, char* FilePath)
 	char szFileNames[MAX_PATH * 10] = { 0 };
 	char szPath[MAX_PATH] = "";
 	char szFile[MAX_PATH];
-	int index = 0;
-	HANDLE hFile, hMap;
-	PBYTE pFile = NULL;
+
 	DWORD offset = 0;
 	if (mir_tstrcmp(FilePath, "") == 0)
 		offset = Openfile2Import(szFileNames);
@@ -598,6 +586,7 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, char* FilePath)
 			mir_tstrcpy(szFileNames, "");
 	}
 
+	int index = 0;
 	if (!mir_tstrcmp(szFileNames, "") == 0) {
 		if ((DWORD)mir_strlen(szFileNames) < offset) {
 			index += offset;
@@ -610,27 +599,22 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, char* FilePath)
 			strcat(szFile, &szFileNames[index]);
 			index += (int)strlen(&szFileNames[index]) + 1;
 
-			hFile = CreateFile(szFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+			HANDLE hFile = CreateFile(szFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
 			if (hFile != INVALID_HANDLE_VALUE) {
 				if (GetFileSize(hFile, NULL) > 0) {
-					hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL);
-
+					HANDLE hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL);
 					if (hMap) {
-						pFile = (PBYTE)MapViewOfFile(hMap, FILE_MAP_COPY, 0, 0, 0);
-
+						PBYTE pFile = (PBYTE)MapViewOfFile(hMap, FILE_MAP_COPY, 0, 0, 0);
 						if (pFile) {
 							importSettings(hContact, (char*)pFile);
 							UnmapViewOfFile(pFile);
 						}
 						CloseHandle(hMap);
 					}
-
 				}
 				CloseHandle(hFile);
 			}
-			else
-				break;
-
+			else break;
 		}
 		if (mir_tstrcmp(FilePath, "") == 0)
 			refreshTree(1);
