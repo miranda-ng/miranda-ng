@@ -201,7 +201,7 @@ private:
 
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
 	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
-	int OnPreCreateMessage(WPARAM, LPARAM lParam);
+	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
 	void OnGetServerHistory(const NETLIBHTTPREQUEST *response);
 
@@ -212,7 +212,7 @@ private:
 
 	//polling
 	void ParsePollData(JSONNODE *data);
-	void PollingThread(void*);
+	void __cdecl PollingThread(void*);
 	void ProcessEndpointPresenceRes(JSONNODE *node);
 	void ProcessUserPresenceRes(JSONNODE *node);
 	void ProcessNewMessageRes(JSONNODE *node);
