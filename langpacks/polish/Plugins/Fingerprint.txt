@@ -148,7 +148,7 @@ Nakładka MRA
 [VK overlay]
 Nakładka VK
 [Skype overlay]
-
+Nakładka Skype
 [ICQ 2003 overlay]
 Nakładka ICQ 2003
 [ICQ Lite 4 overlay]
