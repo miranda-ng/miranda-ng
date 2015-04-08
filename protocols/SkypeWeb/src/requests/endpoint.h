@@ -7,7 +7,6 @@ public:
 	CreateEndpointRequest(const char *token, const char *server = "client-s.gateway.messenger.live.com") :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints", server)
 	{
-
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
