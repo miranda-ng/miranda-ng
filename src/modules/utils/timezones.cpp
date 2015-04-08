@@ -254,16 +254,11 @@ static int timeapiPrintTimeStamp(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTS
 	if (tz == NULL && (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)))
 		return 1;
 
+	if (tz == NULL)
+		tz = &myInfo.myTZ;
+	
 	FILETIME ft;
-
-	if (tz == NULL) tz = &myInfo.myTZ;
-	if (tz == NULL) {
-		FILETIME lft;
-
-		UnixTimeToFileTime(ts, &lft);
-		FileTimeToLocalFileTime(&lft, &ft);
-	}
-	else if (tz == UTC_TIME_HANDLE)
+	if (tz == UTC_TIME_HANDLE)
 		UnixTimeToFileTime(ts, &ft);
 	else {
 		if (tz->offset == INT_MIN)
@@ -276,7 +271,6 @@ static int timeapiPrintTimeStamp(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTS
 	FileTimeToSystemTime(&ft, &st);
 
 	FormatTime(&st, szFormat, szDest, cbDest);
-
 	return 0;
 }
 
@@ -289,16 +283,10 @@ static LPTIME_ZONE_INFORMATION timeapiGetTzi(HANDLE hTZ)
 static mir_time timeapiTimeStampToTimeZoneTimeStamp(HANDLE hTZ, mir_time ts)
 {
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
+	if (tz == NULL)
+		tz = &myInfo.myTZ;
 
-	if (tz == NULL) tz = &myInfo.myTZ;
-	if (tz == NULL) {
-		FILETIME ft, lft;
-
-		UnixTimeToFileTime(ts, &ft);
-		FileTimeToLocalFileTime(&ft, &lft);
-		return FileTimeToUnixTime(&lft);
-	}
-	else if (tz == UTC_TIME_HANDLE)
+	if (tz == UTC_TIME_HANDLE)
 		return ts;
 
 	if (tz->offset == INT_MIN)
@@ -481,18 +469,19 @@ extern "C" __declspec(dllexport) void RecalculateTime(void)
 
 	if (pfnGetDynamicTimeZoneInformation && pfnGetDynamicTimeZoneInformation(&dtzi) != TIME_ZONE_ID_INVALID) {
 		TCHAR *myTzKey = mir_u2t(dtzi.TimeZoneKeyName);
-		_tcscpy(myInfo.myTZ.tszName, myTzKey);
+		_tcsncpy_s(myInfo.myTZ.tszName, myTzKey, _TRUNCATE);
 		mir_free(myTzKey);
 		found = true;
 	}
 
 	for (int i = 0; i < g_timezones.getCount(); i++) {
 		MIM_TIMEZONE &tz = g_timezones[i];
-		if (tz.offset != INT_MIN) tz.offset = INT_MIN;
+		if (tz.offset != INT_MIN)
+			tz.offset = INT_MIN;
 
 		if (!found) {
 			if (!wcscmp(tz.tzi.StandardName, myInfo.myTZ.tzi.StandardName) || !wcscmp(tz.tzi.DaylightName, myInfo.myTZ.tzi.DaylightName)) {
-				_tcscpy(myInfo.myTZ.tszName, tz.tszName);
+				_tcsncpy_s(myInfo.myTZ.tszName, tz.tszName, _TRUNCATE);
 				found = true;
 			}
 		}

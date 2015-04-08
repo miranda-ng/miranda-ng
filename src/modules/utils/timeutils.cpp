@@ -27,7 +27,7 @@ simple UTC offsets.
 
 #include "..\..\core\commonheaders.h"
 
-//KB167296
+// KB167296
 void UnixTimeToFileTime(mir_time ts, LPFILETIME pft)
 {
 	unsigned __int64 ll = UInt32x32To64(ts, 10000000) + 116444736000000000i64;
@@ -46,15 +46,12 @@ void FormatTime(const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, int 
 {
 	if (szDest == NULL || cbDest == 0) return;
 
-	TCHAR *pDest = szDest;
-	int destCharsLeft = cbDest - 1;
+	CMString tszTemp;
 
-	for (const TCHAR* pFormat = szFormat; *pFormat; ++pFormat)
-	{
+	for (const TCHAR* pFormat = szFormat; *pFormat; ++pFormat) {
 		DWORD fmt;
 		bool date, iso = false;
-		switch (*pFormat)
-		{
+		switch (*pFormat) {
 		case 't':
 			fmt = TIME_NOSECONDS;
 			date = false;
@@ -85,33 +82,22 @@ void FormatTime(const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, int 
 			break;
 
 		default:
-			if (destCharsLeft--)
-				*pDest++=*pFormat;
+			tszTemp.AppendChar(*pFormat);
 			continue;
 		}
 
 		TCHAR dateTimeStr[64];
-		int dateTimeStrLen;
-
 		if (iso)
-		{
-			dateTimeStrLen = mir_sntprintf(dateTimeStr, SIZEOF(dateTimeStr),
-				_T("%d-%02d-%02dT%02d:%02d:%02dZ"),
-				st->wYear, st->wMonth, st->wDay,
-				st->wHour, st->wMinute, st->wSecond) + 1;
+			tszTemp.AppendFormat(_T("%d-%02d-%02dT%02d:%02d:%02dZ"), st->wYear, st->wMonth, st->wDay, st->wHour, st->wMinute, st->wSecond);
+		else if (date) {
+			GetDateFormat(LOCALE_USER_DEFAULT, fmt, st, NULL, dateTimeStr, SIZEOF(dateTimeStr));
+			tszTemp.Append(dateTimeStr);
 		}
-		else if (date)
-			dateTimeStrLen = GetDateFormat(LOCALE_USER_DEFAULT, fmt, st, NULL,
-				dateTimeStr, SIZEOF(dateTimeStr));
-		else
-			dateTimeStrLen = GetTimeFormat(LOCALE_USER_DEFAULT, fmt, st, NULL,
-				dateTimeStr, SIZEOF(dateTimeStr));
-
-		if (dateTimeStrLen) --dateTimeStrLen;
-		if (destCharsLeft < dateTimeStrLen) dateTimeStrLen = destCharsLeft;
-		memcpy(pDest, dateTimeStr, dateTimeStrLen * sizeof(dateTimeStr[0]));
-		destCharsLeft -= dateTimeStrLen;
-		pDest += dateTimeStrLen;
+		else {
+			GetTimeFormat(LOCALE_USER_DEFAULT, fmt, st, NULL, dateTimeStr, SIZEOF(dateTimeStr));
+			tszTemp.Append(dateTimeStr);
+		}
 	}
-	*pDest = 0;
+
+	_tcsncpy_s(szDest, cbDest, tszTemp, _TRUNCATE);
 }

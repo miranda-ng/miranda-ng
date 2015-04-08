@@ -617,9 +617,8 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			if (lpdis->CtlID == IDC_CANVAS) {
 				sttOptionsDrawTextChunk(lpdis->hDC, TranslateT("Actions:"), &rc);
-				rc.left += 10;
 
-				rc.left = prefix + width * 0;
+				rc.left = prefix;
 				ImageList_Draw(hIml, 5, lpdis->hDC, rc.left, (rc.top+rc.bottom-16)/2, ILD_TRANSPARENT);
 				rc.left += 20;
 				sttOptionsDrawTextChunk(lpdis->hDC, TranslateT("Undo"), &rc);
