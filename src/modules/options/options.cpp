@@ -91,7 +91,7 @@ struct OptionsPageData
 	}
 };
 
-struct OptionsDlgData
+struct OptionsDlgData : public MZeroedObject
 {
 	OptionsDlgData() :
 		arOpd(10)
@@ -316,7 +316,7 @@ static LRESULT CALLBACK OptionsFilterSubclassProc(HWND hWnd, UINT message, WPARA
 static bool CheckPageShow(HWND hdlg, OptionsDlgData *dat, int i)
 {
 	OptionsPageData *opd = dat->arOpd[i];
-	if (dat->szFilterString && dat->szFilterString[0] && !MatchesFilter(opd, dat->szFilterString))
+	if (dat->szFilterString[0] && !MatchesFilter(opd, dat->szFilterString))
 		return false;
 	return true;
 }
@@ -497,20 +497,18 @@ static void FillFilterCombo(HWND hDlg, OptionsDlgData* dat)
 
 static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 {
-	BOOL bRemoveFocusFromFilter = FALSE;
-	HINSTANCE FilterInst = NULL;
-
 	LPARAM oldSel = SendDlgItemMessage(hdlg, IDC_KEYWORD_FILTER, CB_GETEDITSEL, 0, 0);
 	GetDlgItemText(hdlg, IDC_KEYWORD_FILTER, dat->szFilterString, SIZEOF(dat->szFilterString));
 
-	//if filter string is set to all modules then make the filter string empty (this will return all modules)
+	// if filter string is set to all modules then make the filter string empty (this will return all modules)
+	BOOL bRemoveFocusFromFilter = FALSE;
 	if (_tcscmp(dat->szFilterString, TranslateT(ALL_MODULES_FILTER)) == 0) {
 		dat->szFilterString[0] = 0;
 		bRemoveFocusFromFilter = TRUE;
 	}
-	//if filter string is set to core modules replace it with the name of the executable (this will return all core modules)
+	// if filter string is set to core modules replace it with the name of the executable (this will return all core modules)
 	else if (_tcscmp(dat->szFilterString, TranslateT(CORE_MODULES_FILTER)) == 0) {
-		//replace string with process name - that will show core settings
+		// replace string with process name - that will show core settings
 		TCHAR szFileName[300];
 		GetModuleFileName(NULL, szFileName, SIZEOF(szFileName));
 		TCHAR *pos = _tcsrchr(szFileName, _T('\\'));
@@ -541,6 +539,7 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 
 	HWND oldWnd = NULL;
 	HWND oldTab = NULL;
+	CMString fullTitle;
 
 	OptionsPageData *opd = dat->getCurrent();
 	if (opd != NULL) {
@@ -560,28 +559,18 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 	tvis.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_PARAM;
 	tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
 	for (int i = 0; i < dat->arOpd.getCount(); i++) {
-		static TCHAR *fullTitle = NULL;
-		mir_free(fullTitle); fullTitle = NULL;
 		if (!CheckPageShow(hdlg, dat, i))
 			continue;
 
 		opd = dat->arOpd[i];
 		TCHAR *ptszGroup = TranslateTH(opd->hLangpack, opd->ptszGroup);
-		TCHAR *ptszTitle = opd->getString(opd->ptszTitle);
+		TCHAR *ptszTitle = opd->getString(opd->ptszTitle), *useTitle;
 		TCHAR *ptszTab = TranslateTH(opd->hLangpack, opd->ptszTab);
 
 		tvis.hParent = NULL;
-		if (FilterInst != NULL) {
-			size_t sz = ptszGroup ? _tcslen(ptszGroup) + 1 : 0;
-			if (sz) sz += 3;
-			sz += ptszTitle ? _tcslen(ptszTitle) + 1 : 0;
-			fullTitle = (TCHAR*)mir_alloc(sz*sizeof(TCHAR));
-			mir_sntprintf(fullTitle, sz, (ptszGroup && ptszTitle) ? _T("%s - %s") : _T("%s%s"),
-				ptszGroup ? ptszGroup : _T(""),
-				ptszTitle ? ptszTitle : _T(""));
-		}
-		TCHAR *useTitle = fullTitle ? fullTitle : ptszTitle;
-		if (ptszGroup != NULL && FilterInst == NULL) {
+		useTitle = ptszTitle;
+
+		if (ptszGroup != NULL) {
 			tvis.hParent = FindNamedTreeItemAtRoot(hwndTree, ptszGroup);
 			if (tvis.hParent == NULL) {
 				tvis.item.lParam = -1;
@@ -628,9 +617,6 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 		opd->hTreeItem = TreeView_InsertItem(hwndTree, &tvis);
 		if (i == dat->currentPage)
 			dat->hCurrentPage = opd->hTreeItem;
-
-		if (fullTitle) mir_free(fullTitle);
-		fullTitle = NULL;
 	}
 
 	char str[128];

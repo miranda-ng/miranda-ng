@@ -38,30 +38,31 @@ extern HINSTANCE hInst;
 static LRESULT CALLBACK MDescButtonWndProc(HWND hwnd, UINT  msg, WPARAM wParam, LPARAM lParam);
 
 // structure is used for storing list of tab info
-typedef struct {
-	HWND		hwnd;
-	BOOL		bSharedIcon;
-	HICON		hIcon;
-	TCHAR		*lpzTitle;
-	TCHAR		*lpzDescription;
+struct MDescButtonCtrl
+{
+	HWND     hwnd;
+	BOOL     bSharedIcon;
+	HICON    hIcon;
+	TCHAR   *lpzTitle;
+	TCHAR   *lpzDescription;
 
 	// UI info
-	BOOL		bMouseInside;
-	RECT		rc;
-	int			width, height;
-	HFONT		hfntTitle;
+	BOOL     bMouseInside;
+	RECT     rc;
+	int      width, height;
+	HFONT    hfntTitle;
 
 	// control colors
-	RGBQUAD		rgbBkgTop, rgbBkgBottom;
-	RGBQUAD		rgbSelTop, rgbSelBottom;
-	RGBQUAD		rgbHotTop, rgbHotBottom;
-	COLORREF	clText, clBackground;
-	COLORREF	clSelText, clSelBorder;
-	COLORREF	clHotText, clHotBorder;
+	RGBQUAD  rgbBkgTop, rgbBkgBottom;
+	RGBQUAD  rgbSelTop, rgbSelBottom;
+	RGBQUAD  rgbHotTop, rgbHotBottom;
+	COLORREF clText,    clBackground;
+	COLORREF clSelText, clSelBorder;
+	COLORREF clHotText, clHotBorder;
 
 	// fonts
 	HFONT		hFont;
-} MDescButtonCtrl;
+};
 
 int LoadDescButtonModule()
 {
@@ -74,48 +75,46 @@ int LoadDescButtonModule()
 	wc.hCursor = LoadCursor(NULL, IDC_HAND);
 	wc.cbWndExtra = sizeof(MDescButtonCtrl *);
 	wc.hbrBackground = 0; //GetStockObject(WHITE_BRUSH);
-	wc.style = CS_GLOBALCLASS|CS_SAVEBITS;
+	wc.style = CS_GLOBALCLASS | CS_SAVEBITS;
 	RegisterClassEx(&wc);
 	return 0;
 }
 
 static void MDescButton_SetupColors(MDescButtonCtrl *dat)
 {
-	COLORREF cl;
-
-	cl = GetSysColor(COLOR_WINDOW);
-	dat->rgbBkgBottom.rgbRed	 = (dat->rgbBkgTop.rgbRed	 = GetRValue(cl)) * .95;
-	dat->rgbBkgBottom.rgbGreen	 = (dat->rgbBkgTop.rgbGreen	 = GetGValue(cl)) * .95;
-	dat->rgbBkgBottom.rgbBlue	 = (dat->rgbBkgTop.rgbBlue	 = GetBValue(cl)) * .95;
+	COLORREF cl = GetSysColor(COLOR_WINDOW);
+	dat->rgbBkgBottom.rgbRed = (dat->rgbBkgTop.rgbRed = GetRValue(cl)) * .95;
+	dat->rgbBkgBottom.rgbGreen = (dat->rgbBkgTop.rgbGreen = GetGValue(cl)) * .95;
+	dat->rgbBkgBottom.rgbBlue = (dat->rgbBkgTop.rgbBlue = GetBValue(cl)) * .95;
 
 	cl = GetSysColor(COLOR_HIGHLIGHT);
-	dat->rgbSelTop.rgbRed	 = (dat->rgbSelBottom.rgbRed		 = GetRValue(cl)) * .75;
-	dat->rgbSelTop.rgbGreen	 = (dat->rgbSelBottom.rgbGreen	 = GetGValue(cl)) * .75;
-	dat->rgbSelTop.rgbBlue	 = (dat->rgbSelBottom.rgbBlue	 = GetBValue(cl)) * .75;
+	dat->rgbSelTop.rgbRed = (dat->rgbSelBottom.rgbRed = GetRValue(cl)) * .75;
+	dat->rgbSelTop.rgbGreen = (dat->rgbSelBottom.rgbGreen = GetGValue(cl)) * .75;
+	dat->rgbSelTop.rgbBlue = (dat->rgbSelBottom.rgbBlue = GetBValue(cl)) * .75;
 
-	dat->rgbHotTop.rgbRed	 = (dat->rgbSelTop.rgbRed	+ 255) / 2;
-	dat->rgbHotTop.rgbGreen	 = (dat->rgbSelTop.rgbGreen	+ 255) / 2;
-	dat->rgbHotTop.rgbBlue	 = (dat->rgbSelTop.rgbBlue	+ 255) / 2;
+	dat->rgbHotTop.rgbRed = (dat->rgbSelTop.rgbRed + 255) / 2;
+	dat->rgbHotTop.rgbGreen = (dat->rgbSelTop.rgbGreen + 255) / 2;
+	dat->rgbHotTop.rgbBlue = (dat->rgbSelTop.rgbBlue + 255) / 2;
 
-	dat->rgbHotBottom.rgbRed	 = (dat->rgbSelBottom.rgbRed		+ 255) / 2;
-	dat->rgbHotBottom.rgbGreen	 = (dat->rgbSelBottom.rgbGreen	+ 255) / 2;
-	dat->rgbHotBottom.rgbBlue	 = (dat->rgbSelBottom.rgbBlue	+ 255) / 2;
+	dat->rgbHotBottom.rgbRed = (dat->rgbSelBottom.rgbRed + 255) / 2;
+	dat->rgbHotBottom.rgbGreen = (dat->rgbSelBottom.rgbGreen + 255) / 2;
+	dat->rgbHotBottom.rgbBlue = (dat->rgbSelBottom.rgbBlue + 255) / 2;
 
-	dat->clBackground	 = GetSysColor(COLOR_3DFACE);
-	dat->clText			 = GetSysColor(COLOR_WINDOWTEXT);
-	dat->clSelText		 = GetSysColor(COLOR_HIGHLIGHTTEXT);
-	dat->clSelBorder	 = RGB(dat->rgbSelTop.rgbRed, dat->rgbSelTop.rgbGreen, dat->rgbSelTop.rgbBlue);
-	dat->clHotBorder	 = RGB(dat->rgbHotTop.rgbRed, dat->rgbHotTop.rgbGreen, dat->rgbHotTop.rgbBlue);
+	dat->clBackground = GetSysColor(COLOR_3DFACE);
+	dat->clText = GetSysColor(COLOR_WINDOWTEXT);
+	dat->clSelText = GetSysColor(COLOR_HIGHLIGHTTEXT);
+	dat->clSelBorder = RGB(dat->rgbSelTop.rgbRed, dat->rgbSelTop.rgbGreen, dat->rgbSelTop.rgbBlue);
+	dat->clHotBorder = RGB(dat->rgbHotTop.rgbRed, dat->rgbHotTop.rgbGreen, dat->rgbHotTop.rgbBlue);
 
 	if (!dat->hFont) dat->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 }
 
 static void MDescButton_FillRect(HDC hdc, int x, int y, int width, int height, COLORREF cl)
 {
-	int oldMode			 = SetBkMode(hdc, OPAQUE);
-	COLORREF oldColor	 = SetBkColor(hdc, cl);
+	int oldMode = SetBkMode(hdc, OPAQUE);
+	COLORREF oldColor = SetBkColor(hdc, cl);
 
-	RECT rc; SetRect(&rc, x, y, x+width, y+height);
+	RECT rc; SetRect(&rc, x, y, x + width, y + height);
 	ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, 0);
 
 	SetBkMode(hdc, oldMode);
@@ -124,15 +123,15 @@ static void MDescButton_FillRect(HDC hdc, int x, int y, int width, int height, C
 
 static void MDescButton_DrawGradient(HDC hdc, int x, int y, int width, int height, RGBQUAD *rgb0, RGBQUAD *rgb1)
 {
-	int oldMode			 = SetBkMode(hdc, OPAQUE);
-	COLORREF oldColor	 = SetBkColor(hdc, 0);
+	int oldMode = SetBkMode(hdc, OPAQUE);
+	COLORREF oldColor = SetBkColor(hdc, 0);
 
-	RECT rc; SetRect(&rc, x, 0, x+width, 0);
-	for (int i = y+height; --i >= y;) {
+	RECT rc; SetRect(&rc, x, 0, x + width, 0);
+	for (int i = y + height; --i >= y;) {
 		COLORREF color = RGB(
-			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height,
-			((height-i-1)*rgb0->rgbGreen + i*rgb1->rgbGreen) / height,
-			((height-i-1)*rgb0->rgbBlue  + i*rgb1->rgbBlue)  / height);
+			((height - i - 1)*rgb0->rgbRed + i*rgb1->rgbRed) / height,
+			((height - i - 1)*rgb0->rgbGreen + i*rgb1->rgbGreen) / height,
+			((height - i - 1)*rgb0->rgbBlue + i*rgb1->rgbBlue) / height);
 		rc.top = rc.bottom = i;
 		++rc.bottom;
 		SetBkColor(hdc, color);
@@ -146,26 +145,23 @@ static void MDescButton_DrawGradient(HDC hdc, int x, int y, int width, int heigh
 static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat, UINT  msg, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT ps;
-	HBITMAP hBmp, hOldBmp;
-	RECT temprc;
-	HFONT hfntSave;
-
 	HDC hdc = BeginPaint(hwndDlg, &ps);
 	HDC tempDC = CreateCompatibleDC(hdc);
 
-	SIZE titleSize = {0};
+	SIZE titleSize = { 0 };
 
-	hBmp = CreateCompatibleBitmap(hdc, dat->width, dat->height);
-	hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
+	HBITMAP hBmp = CreateCompatibleBitmap(hdc, dat->width, dat->height);
+	HBITMAP hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
 
+	RECT temprc;
 	temprc.left = 0;
 	temprc.right = dat->width;
 	temprc.top = 0;
 
-	//Draw background
+	// Draw background
 	if (dat->bMouseInside || (GetFocus() == hwndDlg)) {
 		MDescButton_FillRect(tempDC, 0, 0, dat->width, dat->height, dat->clSelBorder);
-		MDescButton_DrawGradient(tempDC, 1, 1, dat->width-2, dat->height-2, &dat->rgbSelTop, &dat->rgbSelBottom);
+		MDescButton_DrawGradient(tempDC, 1, 1, dat->width - 2, dat->height - 2, &dat->rgbSelTop, &dat->rgbSelBottom);
 		SetTextColor(tempDC, dat->clSelText);
 	}
 	else {
@@ -176,24 +172,22 @@ static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat, UINT  msg
 	if (dat->hIcon)
 		DrawIcon(tempDC, DBC_BORDER_SIZE, DBC_BORDER_SIZE, dat->hIcon);
 
-	hfntSave = (HFONT)SelectObject(tempDC, dat->hFont);
+	HFONT hfntSave = (HFONT)SelectObject(tempDC, dat->hFont);
 	SetBkMode(tempDC, TRANSPARENT);
 
 	if (dat->lpzTitle) {
 		LOGFONT lf;
-		RECT textRect;
-		HFONT hfntSave;
-
 		GetObject(dat->hFont, sizeof(lf), &lf);
 		lf.lfWeight = FW_BOLD;
 		lf.lfHeight *= 1.5;
-		hfntSave = (HFONT)SelectObject(tempDC, CreateFontIndirect(&lf));
+		HFONT hfntSave = (HFONT)SelectObject(tempDC, CreateFontIndirect(&lf));
 
-		textRect.left = DBC_BORDER_SIZE + dat->hIcon ? 32 + DBC_VSPACING : 0;
+		RECT textRect;
+		textRect.left = DBC_BORDER_SIZE + (dat->hIcon ? 32 + DBC_VSPACING : 0);
 		textRect.right = dat->width - DBC_BORDER_SIZE;
 		textRect.top = DBC_BORDER_SIZE;
 		textRect.bottom = dat->height - DBC_BORDER_SIZE;
-		DrawText(tempDC, dat->lpzTitle, -1, &textRect, DT_TOP|DT_LEFT|DT_END_ELLIPSIS);
+		DrawText(tempDC, dat->lpzTitle, -1, &textRect, DT_TOP | DT_LEFT | DT_END_ELLIPSIS);
 		GetTextExtentPoint32(tempDC, dat->lpzTitle, (int)mir_tstrlen(dat->lpzTitle), &titleSize);
 
 		DeleteObject(SelectObject(tempDC, hfntSave));
@@ -201,11 +195,11 @@ static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat, UINT  msg
 
 	if (dat->lpzDescription) {
 		RECT textRect;
-		textRect.left = DBC_BORDER_SIZE + dat->hIcon ? 32 + DBC_VSPACING : 0;
+		textRect.left = DBC_BORDER_SIZE + (dat->hIcon ? 32 + DBC_VSPACING : 0);
 		textRect.right = dat->width - DBC_BORDER_SIZE;
 		textRect.top = DBC_BORDER_SIZE + titleSize.cy ? titleSize.cy + DBC_HSPACING : 0;
 		textRect.bottom = dat->height - DBC_BORDER_SIZE;
-		DrawText(tempDC, dat->lpzDescription, -1, &textRect, DT_TOP|DT_LEFT|DT_WORDBREAK|DT_END_ELLIPSIS);
+		DrawText(tempDC, dat->lpzDescription, -1, &textRect, DT_TOP | DT_LEFT | DT_WORDBREAK | DT_END_ELLIPSIS);
 		GetTextExtentPoint32(tempDC, dat->lpzTitle, (int)mir_tstrlen(dat->lpzTitle), &titleSize);
 	}
 
@@ -224,7 +218,7 @@ static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat, UINT  msg
 static LRESULT CALLBACK MDescButtonWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, LPARAM lParam)
 {
 	MDescButtonCtrl *dat = (MDescButtonCtrl *)GetWindowLongPtr(hwndDlg, 0);
-	switch(msg) {
+	switch (msg) {
 	case WM_NCCREATE:
 		dat = (MDescButtonCtrl*)mir_alloc(sizeof(MDescButtonCtrl));
 		if (dat == NULL)
@@ -241,8 +235,8 @@ static LRESULT CALLBACK MDescButtonWndProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 
 	case WM_SIZE:
 		GetClientRect(hwndDlg, &dat->rc);
-		dat->width = dat->rc.right-dat->rc.left;
-		dat->height = dat->rc.bottom-dat->rc.top;
+		dat->width = dat->rc.right - dat->rc.left;
+		dat->height = dat->rc.bottom - dat->rc.top;
 		return TRUE;
 
 	case WM_THEMECHANGED:
@@ -252,7 +246,7 @@ static LRESULT CALLBACK MDescButtonWndProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 
 	case WM_MOUSEMOVE:
 		if (!dat->bMouseInside) {
-			TRACKMOUSEEVENT tme = {0};
+			TRACKMOUSEEVENT tme = { 0 };
 			tme.cbSize = sizeof(tme);
 			tme.dwFlags = TME_LEAVE;
 			tme.hwndTrack = hwndDlg;
