@@ -91,7 +91,7 @@ class AuthDeclineRequest : public HttpRequest
 {
 public:
 	AuthDeclineRequest(const char *token, const char *who, const char *skypename = "self") :
-		HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/users/%s/contacts/auth-request/%s/decline", skypename)
+		HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/users/%s/contacts/auth-request/%s/decline", skypename, who)
 	{
 		Headers
 			<< CHAR_VALUE("X-Skypetoken", token)
