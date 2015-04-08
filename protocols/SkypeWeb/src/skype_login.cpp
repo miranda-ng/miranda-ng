@@ -89,8 +89,7 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 			cookies[match[1]] = match[2];
 	}
 
-	ptrA server(getStringA("Server"));
-	PushRequest(new CreateEndpointRequest(token.c_str(), server), &CSkypeProto::OnEndpointCreated);
+	PushRequest(new CreateEndpointRequest(token.c_str()), &CSkypeProto::OnEndpointCreated);
 
 	PushRequest(new GetProfileRequest(token.c_str()), &CSkypeProto::LoadProfile);
 	PushRequest(new GetContactListRequest(token.c_str()), &CSkypeProto::LoadContactList);
@@ -132,7 +131,7 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 
 	if (response->resultCode != 201)
 	{
-		ptrA token(getStringA("Token"));
+		ptrA token(getStringA("TokenSecret"));
 		PushRequest(new CreateEndpointRequest(token, server), &CSkypeProto::OnEndpointCreated);
 		return;
 	}
