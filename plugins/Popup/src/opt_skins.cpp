@@ -435,7 +435,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					}// end IDC_BTN_RELOAD:
 					break;
 				case IDC_GETSKINS:
-					CallService(MS_UTILS_OPENURL,0,(LPARAM)"http:// miranda-ng.org/addons/category/13");
+					CallService(MS_UTILS_OPENURL,0,(LPARAM)"http://miranda-ng.org/addons/category/13");
 					break;
 				}// end switch(idCtrl)
 				updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
