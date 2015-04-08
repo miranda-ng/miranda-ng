@@ -1,0 +1,1 @@
+﻿[Allows you to handle your status messages in a convenient way.]

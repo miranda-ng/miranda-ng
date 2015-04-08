@@ -52,7 +52,7 @@
 [Custom import]
 Імпорт вручну
 [Makes precise copy of the original profile, including all settings, contacts and history.]
-Створює точну копію оригінального профілю з усіма налаштуваннями, контактами та історією повідомлень.
+Створює точну копію оригінального профілю з усіма налаштуваннями, контактами та історією.
 [Imports only contacts and history, and a few settings. Ideal for synchronizing.]
 Імпортує контакти, історію повідомлень і деякі налаштування (рекомендується).
 [Imports contacts only, doesn't import any message history.]

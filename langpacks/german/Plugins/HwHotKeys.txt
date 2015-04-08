@@ -6,7 +6,7 @@
 ;  Authors: Eugene f2065
 ;============================================================
 ;file \plugins\HwHotKeys\res\HwHotKeys.rc
-[Hardware HotKeys plugin\r\nAllows to assign expanded multimedia-keys (only for PS/2-keyboards)]
+[Hardware HotKeys plugin\r\nAllows you to assign expanded multimedia keys (only for PS/2 keyboards)]
 Hardware HotKeys Plugin\r\nErlaubt es, erweiterte Multimediatasten zuzuordnen (nur für PS/2 Tastaturen)
 [Close Miranda]
 Miranda schließen

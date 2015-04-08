@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 3.2.0.1
+;  Version: 3.2.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [&Search]

@@ -399,8 +399,8 @@ RTL шаблоны...
 минут назад
 [Global message log display]
 Основной журнал сообщений
-[Typing notify]
-Набирает текст
+[Typing notification options]
+Настройки уведомлений набора
 [Send typing notifications to the following users when you are typing a message to them:]
 Отправлять уведомления набора указанным контактам в то время, когда вы набираете им сообщение:
 [        Show typing notifications in the message window]
@@ -1367,6 +1367,8 @@ TabSRMM: набирает
 Контейнеры
 [Message log]
 Журнал
+[Typing notify]
+Набирает текст
 [Event notifications]
 Уведомления
 [Message window]

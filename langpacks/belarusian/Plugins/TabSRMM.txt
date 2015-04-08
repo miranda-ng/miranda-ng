@@ -402,8 +402,8 @@ RTL шаблоны
 хвілін назад
 [Global message log display]
 Асноўны лог паведамленняў
-[Typing notify]
-Набірае тэкст
+[Typing notification options]
+Налады абвестак набору
 [Send typing notifications to the following users when you are typing a message to them:]
 Пасылаць абвесткі пра набор паказаным кантактам у той час, калі вы набіраеце ім паведамленне:
 [        Show typing notifications in the message window]
@@ -1385,6 +1385,8 @@ TabSRMM: Набірае
 Кантэйнеры
 [Message log]
 Лог
+[Typing notify]
+Набірае тэкст
 [Event notifications]
 Абвесткі
 [Message window]

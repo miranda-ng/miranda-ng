@@ -1,4 +1,4 @@
-﻿[Hardware HotKeys plugin\r\nAllows to assign expanded multimedia-keys (only for PS/2-keyboards)]
+﻿[Hardware HotKeys plugin\r\nAllows you to assign expanded multimedia keys (only for PS/2 keyboards)]
 [Close Miranda]
 [Assign]
 [Clear]

@@ -5,8 +5,8 @@
 ;  Version: 0.4.0.3
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
-[New Away System Mod plugin for Miranda NG.]
-Mod wtyczki New Away System dla Mirandy NG.
+[Allows you to handle your status messages in a convenient way.]
+
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
 [Popup notification]
 Powiadomienie popup

@@ -5,7 +5,7 @@
 ;  Version: 0.1.0.1
 ;  Authors: Mataes, tico-tico, Tim
 ;============================================================
-[Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
+[Allows you to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
 Позволяет сменить раскладку или транлитерировать или изменить регистр введённого текста в окне сообщений с поддержкой SmileyAdd.
 [TranslitSwitcher]
 Транслитерация и смена раскладки

@@ -62,8 +62,8 @@ Dźwięki i popupy są włączone
 Tryb filtrowania włączony
 [Sounds and popups are disabled temporarily]
 Dźwięki i popupy są tymczasowo wyłączone
-[Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc.]
-Dźwięki i popupy są tymczasowo wyłączone\nZezwól na popupy mRadio, pogody itd.
+[Sounds and popups are disabled temporarily.\nmRadio or Weather popups, etc. are allowed.]
+Dźwięki i popupy są tymczasowo wyłączone.\nPopupy mRadio, pogody itp. są dozwolone.
 [Silent Startup mode changed to ON]
 Tryb cichego startu zmieniony na włączony
 [Silent Startup mode changed to OFF]
