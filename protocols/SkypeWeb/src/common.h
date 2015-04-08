@@ -41,6 +41,8 @@
 
 struct CSkypeProto;
 
+#define SKYPE_ENDPOINTS_HOST "client-s.gateway.messenger.live.com"
+
 #include "version.h"
 #include "resource.h"
 #include "skype_icons.h"
@@ -66,12 +68,17 @@ extern HINSTANCE g_hInstance;
 
 #define MODULE "SKYPE"
 
+#define SKYPE_MAX_CONNECT_RETRIES 10
+
+enum SKYPE_LOGIN_ERROR
+{
+	LOGIN_ERROR_UNKNOWN = 1001
+};
+
 #define SKYPE_SETTINGS_ID "Skypename"
 #define SKYPE_SETTINGS_PASSWORD "Password"
 #define SKYPE_SETTINGS_GROUP "DefaultGroup"
 
 #define SKYPE_DB_EVENT_TYPE_ACTION 10001
-
-#define SKYPE_ENDPOINTS_HOST "client-s.gateway.messenger.live.com"
 
 #endif //_COMMON_H_

@@ -90,7 +90,7 @@ private:
 	std::map<std::string, std::string> RegInfo;
 	HANDLE m_pollingConnection, m_hPollingThread;
 	static std::map<std::tstring, std::tstring> languages;
-	ULONG  hMessageProcess;
+
 	static INT_PTR CALLBACK PasswordEditorProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	// accounts
@@ -193,7 +193,7 @@ private:
 	// messages
 	mir_cs messageSyncLock;
 
-	MEVENT GetMessageFromDB(MCONTACT hContact, DWORD timestamp, const char *messageId);
+	MEVENT GetMessageFromDB(MCONTACT hContact, const char *messageId, LONGLONG timestamp = 0);
 	MEVENT AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content, int emoteOffset = 0);
 
 	int OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset = 0, bool isRead = false);

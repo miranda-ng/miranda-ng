@@ -1,15 +1,7 @@
 #ifndef _SKYPE_DIALOGS_H_
 #define _SKYPE_DIALOGS_H_
 
-class CSkypeDlgBase : public CProtoDlgBase<CSkypeProto>
-{
-private:
-	typedef CProtoDlgBase<CSkypeProto> CSuper;
-
-protected:
-	__inline CSkypeDlgBase(CSkypeProto *proto, int idDialog, HWND parent, bool show_label = true) :
-		CSuper(proto, idDialog, parent, show_label) { }
-};
+typedef CProtoDlgBase<CSkypeProto> CSkypeDlgBase;
 
 class CSkypePasswordEditor : public CSkypeDlgBase
 {
@@ -40,7 +32,7 @@ protected:
 
 public:
 	CSkypePasswordEditor(CSkypeProto *proto) :
-		CSuper(proto, IDD_PASSWORD_EDITOR, NULL, false), m_ok(this, IDOK),
+		CSkypeDlgBase(proto, IDD_PASSWORD_EDITOR, NULL, false), m_ok(this, IDOK),
 		m_password(this, IDC_PASSWORD), m_savePermanently(this, IDC_SAVEPERMANENTLY)
 	{
 		m_ok.OnClick = Callback(this, &CSkypePasswordEditor::OnOk);

@@ -2,7 +2,8 @@
 
 INT_PTR CSkypeProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 {
-	switch (wParam) {
+	switch (wParam)
+	{
 	case AF_MAXSIZE:
 		((POINT*)lParam)->x = 96;
 		((POINT*)lParam)->y = 96;
@@ -24,7 +25,8 @@ INT_PTR CSkypeProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 void CSkypeProto::ReloadAvatarInfo(MCONTACT hContact)
 {
-	if (!hContact) {
+	if (hContact == NULL)
+	{
 		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 		return;
 	}

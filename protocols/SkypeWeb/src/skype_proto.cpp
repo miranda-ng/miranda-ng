@@ -160,19 +160,21 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	{
 		// logout
 		isTerminated = true;
+		if (m_pollingConnection)
+			CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
 
-		//if (m_pollingConnection)
-		//	CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
-
-		LogoutRequest *logoutRequest = new LogoutRequest();
-		if (!cookies.empty())
+		if (m_iStatus > ID_STATUS_CONNECTING + 1)
 		{
-			CMStringA allCookies;
-			for (std::map<std::string, std::string>::iterator cookie = cookies.begin(); cookie != cookies.end(); ++cookie)
-				allCookies.AppendFormat("%s=%s; ", cookie->first.c_str(), cookie->second.c_str());
-			logoutRequest->Headers << CHAR_VALUE("Set-Cookie", allCookies);
+			LogoutRequest *logoutRequest = new LogoutRequest();
+			if (!cookies.empty())
+			{
+				CMStringA allCookies;
+				for (std::map<std::string, std::string>::iterator cookie = cookies.begin(); cookie != cookies.end(); ++cookie)
+					allCookies.AppendFormat("%s=%s; ", cookie->first.c_str(), cookie->second.c_str());
+				logoutRequest->Headers << CHAR_VALUE("Set-Cookie", allCookies);
+			}
+			PushRequest(logoutRequest);
 		}
-		PushRequest(logoutRequest);
 		requestQueue->Stop();
 
 		if (!Miranda_Terminated())
@@ -184,7 +186,8 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	{
 		if (old_status == ID_STATUS_CONNECTING)
 			return 0;
-		else if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
+
+		if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
 		{
 			// login
 			m_iStatus = ID_STATUS_CONNECTING;

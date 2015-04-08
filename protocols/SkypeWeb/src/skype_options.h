@@ -4,8 +4,6 @@
 class CSkypeOptionsMain : public CSkypeDlgBase
 {
 private:
-	typedef CSkypeDlgBase CSuper;
-
 	CCtrlEdit m_skypename;
 	CCtrlEdit m_password;
 	CCtrlEdit m_group;
