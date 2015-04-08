@@ -143,6 +143,8 @@ TM 2008 і вище
 Оверлей Mail.Ru Agent
 [VK overlay]
 Оверлей ВКонтакті
+[Skype overlay]
+Оверлей Skype
 [ICQ 2003 overlay]
 Оверлей ICQ 2003
 [ICQ Lite 4 overlay]

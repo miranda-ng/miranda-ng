@@ -59,8 +59,8 @@
 Режим фильтрации включен
 [Sounds and popups are disabled temporarily]
 Звуки и всплывающие окна временно выключены
-[Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc.]
-Звуки и всплывающие окна временно выключены\nРазрешены всплывающие окна от mRadio или Weather и т.д.
+[Sounds and popups are disabled temporarily.\nmRadio or Weather popups, etc. are allowed.]
+Звуки и всплывающие окна временно выключены.\nРазрешены всплывающие окна от mRadio или Weather и т.д.
 [Silent Startup mode changed to ON]
 Тихий запуск включен
 [Silent Startup mode changed to OFF]

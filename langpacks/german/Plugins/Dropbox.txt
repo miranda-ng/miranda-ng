@@ -5,7 +5,7 @@
 ;  Version: 0.11.0.3
 ;  Authors: unsane
 ;============================================================
-[Allows to transfer files via Dropbox.]
+[Allows you to transfer files via Dropbox.]
 Stellt eine Möglichkeit bereit, Dateien in Ihre Dropbox hochzuladen.
 ;file \plugins\Dropbox\res\resource.rc
 [Authorization]

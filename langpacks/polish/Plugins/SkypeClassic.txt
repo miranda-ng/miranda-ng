@@ -117,7 +117,7 @@ Status kontaktów SkypeOut
 [Cleanup nicknames]
 Czyszczenie nicków
 [Do not wait for message SENT acknowledgment (for some buggy Skype versions >6)]
-Nie czekaj na przyjęcie faktu wysłania wiadomości dla pewnych wersji Skype z błędami >6.
+Nie czekaj na potwierdzenie wysłania wiadomości (dla wadliwych wersji Skype'a >6)
 [Skype popups]
 Popupy Skype
 [Incoming calls]

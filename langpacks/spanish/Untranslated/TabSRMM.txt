@@ -135,6 +135,7 @@
 [Standard templates...]
 [RTL templates...]
 [Global message log display]
+[Typing notification options]
 [        Show typing notifications in the message window]
 [Flash window once on typing events (only if flashing enabled)]
 [        Show typing notifications in the contact list and tray]

@@ -385,8 +385,8 @@ ID на потребителя в лентата за състояние
 минути
 [Global message log display]
 Общо изобразяване на дневника чрез
-[Typing notify]
-Уведомяване при писане
+[Typing notification options]
+Настройки за уведомяване при писане
 [Send typing notifications to the following users when you are typing a message to them:]
 Изпращане на уведомяване при писане до следните потребители, когато им пишете съобщение:
 [        Show typing notifications in the message window]
@@ -1317,6 +1317,8 @@ Latin I
 Контейнери
 [Message log]
 Дневник за съобщения
+[Typing notify]
+Уведомяване при писане
 [Event notifications]
 Уведомявания за събития
 [Message window]

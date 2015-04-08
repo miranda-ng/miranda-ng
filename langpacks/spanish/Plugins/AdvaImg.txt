@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AdvaImg.dll
 ;  Plugin: Miranda image services
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Nightwish, The FreeImage project (http://freeimage.sourceforge.net/)
 ;============================================================
 [Generic image services for Miranda NG.]

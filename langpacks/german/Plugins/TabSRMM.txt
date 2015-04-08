@@ -402,8 +402,8 @@ Lade Ereignisse, die nicht älter als
 Minuten alt
 [Global message log display]
 Globale Nachrichtenverlauf-Darstellung
-[Typing notify]
-Tippbenachrichtigungen
+[Typing notification options]
+Tippbenachrichtigungseinstellungen
 [Send typing notifications to the following users when you are typing a message to them:]
 An folgende Kontakte eine Benachrichtigung senden, wenn Sie gerade eine Nachricht tippen:
 [        Show typing notifications in the message window]
@@ -1385,6 +1385,8 @@ Tabs und Layout
 Container
 [Message log]
 Nachrichtenverlauf
+[Typing notify]
+Tippbenachrichtigungen
 [Event notifications]
 Ereignisbenachrichtigungen
 [Message window]

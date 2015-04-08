@@ -29,6 +29,12 @@
 Перейти до поштової скринки
 [Block]
 Заблокувати
+[Enter password]
+Введіть пароль
+[Save password]
+Зберегти пароль
+[Enter the password to continue.]
+Введіть пароль для продовження.
 [Steam game]
 Гра Steam
 [ on server %s]

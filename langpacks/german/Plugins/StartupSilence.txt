@@ -62,8 +62,8 @@ Klänge und Popups sind aktiviert
 Filter-Modus ein
 [Sounds and popups are disabled temporarily]
 Klänge und Popups sind vorrübergehend deaktiviert
-[Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc.]
-Klänge und Popups sind vorrübergehend deaktiviert\nnRadio- oder Wetter-Popups usw. erlauben
+[Sounds and popups are disabled temporarily.\nmRadio or Weather popups, etc. are allowed.]
+Klänge und Popups sind vorrübergehend deaktiviert.\nmRadio- oder Wetter-Popups usw. sind erlaubt.
 [Silent Startup mode changed to ON]
 Start-Ruhe-Modus eingeschaltet
 [Silent Startup mode changed to OFF]

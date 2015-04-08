@@ -5,7 +5,7 @@
 ;  Version: 0.1.0.4
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
-[Remove personal settings to allow to send a profile to other user(s) without sending personal data.]
+[Remove personal settings to allow you to send a profile to other user(s) without sending personal data.]
 Удаление личных настроек для возможности отправки профиля другим пользователям без личных данных.
 [All your personal settings will be erased!\nMake sure you are running this from a copy of your profile (and not over the original one).\nRunning this will erase files/folders under Miranda main folder.\n\nAre you sure you want to remove all your personal settings?\n\n(You cannot say that I don't told you about the risks :P)]
 Все ваши персональные настройки будут стерты!\nЭта операция необратима, удостоверьтесь, что вы собираетесь это сделать на копии профиля (но не на основном).\nБудут стерты папки и файлы с вашими личным данными\n\nВы уверены, что хотите стереть все личные настройки и данные?\n\n(Не говорите потом, что вас не предупреждали!)

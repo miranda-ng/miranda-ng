@@ -26,7 +26,7 @@
 [and not in foreground]
 и не помещено на передний план
 [only if last is]
-Если посл.
+если посл.
 [sec. old]
 с. назад
 [Flash until]

@@ -1,4 +1,4 @@
-﻿[Allows to transfer files via Dropbox.]
+﻿[Allows you to transfer files via Dropbox.]
 [Authorization]
 [To allow Miranda NG access in your Dropbox account:]
 [Go to this link]

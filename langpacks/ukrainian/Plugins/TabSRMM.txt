@@ -397,8 +397,8 @@ ID користувача в панелі статусу
 хвилин тому
 [Global message log display]
 Основний журнал повідомлень
-[Typing notify]
-Сповіщення про друк
+[Typing notification options]
+Налаштування сповіщень про друк
 [Send typing notifications to the following users when you are typing a message to them:]
 Сповіщати цих користувачів, коли ви друкуєте повідомлення для них:
 [        Show typing notifications in the message window]
@@ -1365,6 +1365,8 @@ TabSRMM: Набирає
 Контейнери
 [Message log]
 Журнал
+[Typing notify]
+Сповіщення про друк
 [Event notifications]
 Сповіщення
 [Message window]

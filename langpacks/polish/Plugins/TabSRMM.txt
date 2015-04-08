@@ -402,8 +402,8 @@ Wczytaj zdarzenia nowsze niż
 minut(y)
 [Global message log display]
 Globalny dziennik wiadomości
-[Typing notify]
-Pisanie
+[Typing notification options]
+Opcje powiadomień o pisaniu
 [Send typing notifications to the following users when you are typing a message to them:]
 Wysyłaj powiadomienia o pisaniu do następujących osób, gdy piszesz do nich wiadomość:
 [        Show typing notifications in the message window]
@@ -1385,6 +1385,8 @@ Karty i układ
 Kontenery
 [Message log]
 Dziennik wiadomości
+[Typing notify]
+Pisanie
 [Event notifications]
 Zdarzenia
 [Message window]

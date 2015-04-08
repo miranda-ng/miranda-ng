@@ -23,7 +23,7 @@
 [Sounds and popups are enabled]
 [Filtered mode ON]
 [Sounds and popups are disabled temporarily]
-[Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc.]
+[Sounds and popups are disabled temporarily.\nmRadio or Weather popups, etc. are allowed.]
 [Silent Startup mode changed to ON]
 [Silent Startup mode changed to OFF]
 [Silence At Startup is ON]

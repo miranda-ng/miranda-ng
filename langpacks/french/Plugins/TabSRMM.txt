@@ -402,8 +402,8 @@ Voir les évènements ayant moins de
 minutes
 [Global message log display]
 Plugin pour l'historique
-[Typing notify]
-Notification de frappe
+[Typing notification options]
+Options de notification de frappe
 [Send typing notifications to the following users when you are typing a message to them:]
 Envoyez la notification de frappe aux contacts suivants quand vous leur écrivez un message :
 [        Show typing notifications in the message window]
@@ -1385,6 +1385,8 @@ Onglets
 Conteneurs
 [Message log]
 Historique récent
+[Typing notify]
+Notification de frappe
 [Event notifications]
 
 [Message window]
