@@ -179,7 +179,7 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM wParam, LPARAM lParam)
 		if (read != length)
 		{
 			fclose(hFile);
-			debugLogA("CToxProto::SetToxAvatar: failed to read avatar file");
+			debugLogA("CSkypeProto::SvcSetMyAvatar: failed to read avatar file");
 			return -1;
 		}
 		fclose(hFile);
@@ -195,8 +195,6 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM wParam, LPARAM lParam)
 		{
 			DeleteFile(avatarPath);
 		}
-
-		//db_unset(NULL, m_szModuleName, TOX_SETTINGS_AVATAR_HASH);
 	}
 
 	return 0;
