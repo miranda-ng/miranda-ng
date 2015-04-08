@@ -112,23 +112,26 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 	}
 	else if (strstr(conversationLink, "/8:"))
 	{
+		ptrA skypename(ContactUrlToName(from));
+		MCONTACT hContact = GetContact(skypename);
+
+		if (hContact == NULL && !IsMe(skypename))
+			AddContact(skypename, true);
+
 		if (!mir_strcmpi(messageType, "Control/Typing"))
 		{
-			MCONTACT hContact = GetContact(ContactUrlToName(from));
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
 		}
 		else if (!mir_strcmpi(messageType, "Control/ClearTyping"))
-		{
-			MCONTACT hContact = GetContact(ContactUrlToName(from));
+		{		
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, 0);
 		}
 		else if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 		{
 			int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
-			ptrA skypename(ContactUrlToName(from));
 			if (IsMe(skypename))
 			{
-				MCONTACT hContact = GetContact(ptrA(ContactUrlToName(conversationLink)));
+				hContact = GetContact(ptrA(ContactUrlToName(conversationLink)));
 				int hMessage = atoi(clientMsgId);
 				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
 				AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, &content[emoteOffset], emoteOffset);
