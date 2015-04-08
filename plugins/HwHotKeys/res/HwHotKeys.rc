@@ -53,7 +53,7 @@ STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-	CONTROL "Hardware HotKeys plugin\r\nAllows to assign expanded multimedia-keys (only for PS/2-keyboards)", -1, "Static", WS_CHILDWINDOW | WS_VISIBLE | SS_CENTER, 3, 3, 303, 21
+	CONTROL "Hardware HotKeys plugin\r\nAllows you to assign expanded multimedia keys (only for PS/2 keyboards)", -1, "Static", WS_CHILDWINDOW | WS_VISIBLE | SS_CENTER, 3, 3, 303, 21
 	CONTROL "Close Miranda", -1, "Static", WS_CHILDWINDOW | WS_VISIBLE | SS_CENTERIMAGE | SS_LEFTNOWORDWRAP, 0, 30, 114, 12
 	CONTROL "", dlg_close_edit, "Edit", WS_CHILDWINDOW | WS_VISIBLE | WS_TABSTOP | ES_READONLY | ES_AUTOHSCROLL, 114, 30, 114, 12, WS_EX_CLIENTEDGE
 	CONTROL "Assign", dlg_close_set, "Button", WS_CHILDWINDOW | WS_VISIBLE | WS_TABSTOP, 228, 30, 42, 12

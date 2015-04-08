@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME             "New Away System Mod"
 #define __FILENAME                "NewAwaySys.dll"
-#define __DESCRIPTION             "New Away System Mod plugin for Miranda NG."
+#define __DESCRIPTION             "Allows you to handle your status messages in a convenient way."
 #define __AUTHOR                  "NightFox, Deathdemon, XF007, Goblineye Entertainment"
 #define __AUTHOREMAIL             "NightFox@myied.org"
 #define __AUTHORWEB               "http://miranda-ng.org/p/NewAwaySys/"

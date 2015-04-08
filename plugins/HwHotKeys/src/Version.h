@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 
 #define __PLUGIN_NAME      "Hardware HotKeys" // dll-fileinfo "FileVersion" и "ProductName", меню в настройках миранды, название плагина в миранде. Нелокализуемое!
 #define __FILENAME         "HwHotKeys.dll" // dll-fileinfo "OriginalFilename"
-#define __DESCRIPTION_MIR  "Hardware HotKeys plugin for Miranda NG\r\nAllows to assign expanded multimedia keys (only for PS/2-keyboards)." // описание плагина в миранде (локализуемое)
+#define __DESCRIPTION_MIR  "Hardware HotKeys plugin for Miranda NG\r\nAllows you to assign expanded multimedia keys (only for PS/2 keyboards)." // описание плагина в миранде (локализуемое)
 #define __DESCRIPTION_DLL  "Hardware HotKeys plugin for Miranda NG." // описание плагина в dll-fileinfo "FileDescription" (там многострочные строки - не работают). Нелокализуемое!
 #define __AUTHOR           "Eugene f2065" // описание плагина в миранде
 #define __AUTHOREMAIL      "f2065@mail.ru" // описание плагина в миранде
