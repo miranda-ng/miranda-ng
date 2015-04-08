@@ -54,7 +54,7 @@ INT_PTR SilenceConnection(WPARAM wParam, LPARAM lParam);
 #define ALL_ENABLED			TranslateT("Sounds and popups are enabled")
 #define ALL_ENABLED_FLT		LPGEN("Filtered mode ON")
 #define ALL_DISABLED		TranslateT("Sounds and popups are disabled temporarily")
-#define ALL_DISABLED_FLT	TranslateT("Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc.")
+#define ALL_DISABLED_FLT	TranslateT("Sounds and popups are disabled temporarily.\nmRadio or Weather popups, etc. are allowed.")
 #define S_MODE_CHANGEDON	TranslateT("Silent Startup mode changed to ON")
 #define S_MODE_CHANGEDOFF	TranslateT("Silent Startup mode changed to OFF")
 #define SS_IS_ON Translate("Silence At Startup is ON")
