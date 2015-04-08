@@ -37,7 +37,7 @@ Wprowadź hasło
 [Save password]
 Zapisz hasło
 [Enter the password to continue.]
-
+Wprowadź hasło, by kontynuować.
 ;file \protocols\Steam\src\stdafx.cpp
 [Steam game]
 Gra Steam
