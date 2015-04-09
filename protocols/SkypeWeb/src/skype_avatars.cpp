@@ -46,6 +46,7 @@ void CSkypeProto::OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
 	GetAvatarFileName(hContact, AI.filename, SIZEOF(AI.filename));
 	AI.format = ProtoGetBufferFormat(response->pData);
+	setByte(AI.hContact, "AvatarType", AI.format);
 
 	FILE *out = _tfopen(AI.filename, _T("wb"));
 	if (out == NULL) {
@@ -82,11 +83,12 @@ INT_PTR CSkypeProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 	_tcsncpy(AI->filename, tszFileName, SIZEOF(AI->filename));
 
 	AI->format = ProtoGetAvatarFormat(AI->filename);
+	setByte(AI->hContact, "AvatarType", AI->format);
 
 	if (::_taccess(AI->filename, 0) == 0 && !getBool(AI->hContact, "NeedNewAvatar", 0))
 		return GAIR_SUCCESS;
 
-	if (IsOnline()) {
+	if (m_hPollingThread) {
 		PushRequest(new GetAvatarRequest(szUrl), &CSkypeProto::OnReceiveAvatar, (void*)AI->hContact);
 		debugLogA("Requested to read an avatar from '%s'", szUrl);
 		return GAIR_WAITFOR;
@@ -98,24 +100,15 @@ INT_PTR CSkypeProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 
 INT_PTR CSkypeProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	debugLogA("CSkypeProto::SvcGetMyAvatar");
-	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
-	AI.hContact = NULL;
-	if (SvcGetAvatarInfo(0, (LPARAM)&AI) != GAIR_SUCCESS)
-		return 1;
-
-	TCHAR* buf = (TCHAR*)wParam;
-	int size = (int)lParam;
-
-	_tcsncpy(buf, AI.filename, size);
-	buf[size - 1] = 0;
-
+	TCHAR path[MAX_PATH];
+	GetAvatarFileName(NULL, path, SIZEOF(path));
+	_tcsncpy((TCHAR*)wParam, path, (int)lParam);
 	return 0;
 }
 
 void CSkypeProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen)
 {
-	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
+	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%s"), VARST(_T("%miranda_avatarcache%")), m_tszUserName);
 
 	DWORD dwAttributes = GetFileAttributes(pszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -123,7 +116,7 @@ void CSkypeProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cb
 
 	pszDest[tPathLen++] = '\\';
 
-	const TCHAR* szFileType = _T(".jpg");
+	const TCHAR* szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_JPEG));
 	ptrA username(getStringA(hContact, "Skypename"));
 	mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%s%s"), _A2T(username), szFileType);
 }
