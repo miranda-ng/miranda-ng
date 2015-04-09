@@ -11,6 +11,8 @@
 [Password:]
 [Default group:]
 [Account]
+[Others]
+[Automatic messages synchronization]
 [Enter password]
 [Save password]
 [Cancel]

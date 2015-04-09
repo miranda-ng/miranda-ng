@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Nudge.dll
 ;  Plugin: Nudge
-;  Version: 0.1.0.1
+;  Version: 0.2.0.1
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
 [Plugin to shake the contact list and chat window.]
@@ -87,12 +87,12 @@
 Встряхнуть (по умолчанию)
 [Send Nudge]
 Встряхнуть
+[Send &Nudge]
+&Встряхнуть
 [Show Nudge]
 Тряска
 [Nudge for %s]
 Встряска для %s
-[Send &Nudge]
-&Встряхнуть
 [You received a nudge]
 Вас встряхнули
 [You sent a nudge]
