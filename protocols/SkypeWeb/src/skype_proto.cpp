@@ -216,6 +216,10 @@ int CSkypeProto::SetAwayMsg(int, const PROTOCHAR *msg) { return 0; }
 
 int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 {
+	ptrA regToken(getStringA("registrationToken"));
+	ptrA username(getStringA(hContact, "Skypename"));
+	ptrA server(getStringA("Server"));
+	PushRequest(new SendTypingRequest(regToken, username, type, server));
 	return 0;
 }
 
