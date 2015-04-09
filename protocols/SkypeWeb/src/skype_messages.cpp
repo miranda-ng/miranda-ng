@@ -1,6 +1,6 @@
 #include "common.h"
 
-MEVENT CSkypeProto::GetMessageFromDB(MCONTACT hContact, const char *messageId, LONGLONG timestamp)
+MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp)
 {
 	mir_cslock lock(messageSyncLock);
 
@@ -32,7 +32,7 @@ MEVENT CSkypeProto::GetMessageFromDB(MCONTACT hContact, const char *messageId, L
 
 MEVENT CSkypeProto::AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content, int emoteOffset)
 {
-	if (MEVENT hDbEvent = GetMessageFromDB(hContact, messageId, timestamp))
+	if (MEVENT hDbEvent = GetMessageFromDb(hContact, messageId, timestamp))
 		return hDbEvent;
 	size_t messageLength = mir_strlen(&content[emoteOffset]) + 1;
 	size_t messageIdLength = mir_strlen(messageId);
@@ -240,17 +240,17 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		if (lastMessage == NULL)
 			continue;
 
-		ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(lastMessage, "clientmessageid")))));
-		ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(lastMessage, "conversationLink")))));
-		LONGLONG composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "conversationLink")))));
+		char *clientMsgId = _T2A(json_as_string(json_get(lastMessage, "clientmessageid")));
+		char *conversationLink = _T2A(json_as_string(json_get(lastMessage, "conversationLink")));
+		time_t composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "conversationLink")))));
 
 		ptrA skypename(ContactUrlToName(conversationLink));
-		if (skypename == NULL) 
+		if (skypename == NULL)
 			return;
 		MCONTACT hContact = GetContact(skypename);
 		if (hContact == NULL && !IsMe(skypename))
 			hContact = AddContact(skypename, true);
-		if (GetMessageFromDB(hContact, clientMsgId, composeTime) == NULL)
+		if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
 			PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), skypename, ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
 	}
 }

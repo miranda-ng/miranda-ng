@@ -43,23 +43,30 @@ MCONTACT CSkypeProto::GetContactFromAuthEvent(MEVENT hEvent)
 
 MCONTACT CSkypeProto::GetContact(const char *skypename)
 {
-	MCONTACT hContact = NULL;
-	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+	std::map<std::string, MCONTACT>::iterator it = contactMap.find(skypename);
+	if (it != contactMap.end())
+		return it->second;
+
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		ptrA cSkypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-		if (mir_strcmpi(skypename, cSkypename) == 0)
-			break;
+		std::string cSkypename = ptrA(getStringA(hContact, SKYPE_SETTINGS_ID));
+		if (!contactMap.count(cSkypename))
+			contactMap[cSkypename] = hContact;
+		if (mir_strcmpi(skypename, cSkypename.c_str()) == 0)
+			return hContact;
 	}
-	return hContact;
+	return NULL;
 }
 
 MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
 {
 	MCONTACT hContact = GetContact(skypename);
-	if (!hContact)
+	if (hContact == NULL)
 	{
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
+
+		contactMap[skypename] = hContact;
 
 		setString(hContact, SKYPE_SETTINGS_ID, skypename);
 
@@ -247,5 +254,9 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 
 int CSkypeProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 {
+	/*ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
+	std::map<std::string, MCONTACT>::iterator it = contactMap.find((char*)skypename);
+	if (it != contactMap.end())
+		contactMap.erase(it);*/
 	return 0;
 }

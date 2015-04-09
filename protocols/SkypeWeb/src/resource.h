@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Others\SVN\MirandaNG\trunk\protocols\SkypeWeb\res\resource.rc
+// Used by e:\Projects\C++\MirandaNG\protocols\SkypeWeb\res\resource.rc
 //
 #define IDI_SKYPE                       100
 #define IDC_SKYPENAME                   101
@@ -12,6 +12,7 @@
 #define IDC_SAVEPERMANENTLY             108
 #define IDC_RADIO1                      1027
 #define IDC_CHECK2                      1028
+#define IDC_AUTOSYNC                    1028
 
 // Next default values for new objects
 // 
