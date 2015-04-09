@@ -92,6 +92,8 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 	PushRequest(new CreateEndpointRequest(token.c_str()), &CSkypeProto::OnEndpointCreated);
 
 	PushRequest(new GetProfileRequest(token.c_str()), &CSkypeProto::LoadProfile);
+	ptrA szUrl(getStringA("AvatarUrl"));
+	PushRequest(new GetAvatarRequest(szUrl), &CSkypeProto::OnReceiveAvatar, NULL);
 	PushRequest(new GetContactListRequest(token.c_str()), &CSkypeProto::LoadContactList);
 }
 
