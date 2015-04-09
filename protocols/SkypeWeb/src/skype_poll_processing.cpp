@@ -134,9 +134,11 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 				hContact = GetContact(ptrA(ContactUrlToName(conversationLink)));
 				int hMessage = atoi(clientMsgId);
 				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
+				debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
 				AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, &content[emoteOffset], emoteOffset);
 				return;
 			}
+			debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
 			OnReceiveMessage(clientMsgId, from, timestamp, content, emoteOffset);
 		}
 		else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage"))
