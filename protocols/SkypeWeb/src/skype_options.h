@@ -7,6 +7,7 @@ private:
 	CCtrlEdit m_skypename;
 	CCtrlEdit m_password;
 	CCtrlEdit m_group;
+	CCtrlCheck m_autosync;
 
 protected:
 	CSkypeOptionsMain(CSkypeProto *proto, int idDialog, HWND hwndParent = NULL);
