@@ -849,7 +849,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				return true;
 			}
 			TCHAR BtnTitle[64];
-			_sntprintf(BtnTitle, sizeof(BtnTitle), TranslateT("Closing in %d"), Countdown);
+			mir_sntprintf(BtnTitle, SIZEOF(BtnTitle), TranslateT("Closing in %d"), Countdown);
 			SetDlgItemText(hwndDlg, IDC_OK, BtnTitle);
 			Countdown--;
 		}
