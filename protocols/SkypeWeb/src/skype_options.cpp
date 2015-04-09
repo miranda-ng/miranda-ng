@@ -4,7 +4,8 @@ CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog, HWND hwnd
 	: CSkypeDlgBase(proto, idDialog, hwndParent, false),
 	m_skypename(this, IDC_SKYPENAME),
 	m_password(this, IDC_PASSWORD),
-	m_group(this, IDC_GROUP)
+	m_group(this, IDC_GROUP),
+	m_autosync(this, IDC_CHECK2)
 {
 	//CreateLink(m_skypename, SKYPE_SETTINGS_ID, _T(""));
 	//CreateLink(m_password, "Password", _T(""));
@@ -17,6 +18,8 @@ void CSkypeOptionsMain::OnInitDialog()
 
 	m_skypename.SetTextA(ptrA(m_proto->getStringA(SKYPE_SETTINGS_ID)));
 	m_password.SetTextA(ptrA(m_proto->getStringA("Password")));
+	m_autosync.SetState(m_proto->getByte("AutoSync", 0));
+
 	SendMessage(m_skypename.GetHwnd(), EM_LIMITTEXT, 32, 0);
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 20, 0);
 	SendMessage(m_group.GetHwnd(), EM_LIMITTEXT, 64, 0);
@@ -27,7 +30,7 @@ void CSkypeOptionsMain::OnApply()
 {
 	m_proto->setString(SKYPE_SETTINGS_ID, m_skypename.GetTextA());
 	m_proto->setString("Password", m_password.GetTextA());
-
+	m_proto->setByte("AutoSync", m_autosync.GetState());
 	TCHAR *group = m_group.GetText();
 	if (mir_tstrlen(group) > 0 && !Clist_GroupExists(group))
 		Clist_CreateGroup(0, group);
