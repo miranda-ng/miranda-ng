@@ -60,8 +60,8 @@ public:
 class GetHistoryRequest : public HttpRequest
 {
 public:
-	GetHistoryRequest(const char *regToken, const char *username/* int time*/, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages?startTime=0&pageSize=100&view=msnp24Equivalent&targetType=Passport|Skype|Lync|Thread", server, mir_urlEncode(username)/*, time*/)
+	GetHistoryRequest(const char *regToken, const char *username, LONGLONG timestamp = 0, const char *server = SKYPE_ENDPOINTS_HOST) :
+		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages?startTime=%d&pageSize=100&view=msnp24Equivalent&targetType=Passport|Skype|Lync|Thread", server, mir_urlEncode(username), timestamp)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
@@ -69,5 +69,24 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
 	}
 };
+
+class SyncHistoryFirstRequest : public HttpRequest
+{
+public:
+	SyncHistoryFirstRequest(const char *regToken, const char *server = SKYPE_ENDPOINTS_HOST) :
+		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations?startTime=0&pageSize=100&view=msnp24Equivalent&targetType=Passport|Skype|Lync|Thread", server)
+	{
+		Headers
+			<< CHAR_VALUE("Accept", "application/json, text/javascript")
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
+	}
+};
+
+
+
+
+
+
 
 #endif //_SKYPE_REQUEST_MESSAGES_H_
