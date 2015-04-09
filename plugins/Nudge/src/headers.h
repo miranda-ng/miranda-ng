@@ -51,7 +51,6 @@
 #include "shake.h"
 #include "Version.h"
 #include "nudge.h"
-#include "options.h"
 
 /*
 *
@@ -93,4 +92,13 @@ void LoadPopupClass();
 ****************************/
 void AutoResendNudge(void *wParam) ;
 
+///////////////////////////////////////////////////////////////////////////////
+// external variables
+
+extern HINSTANCE hInst;
+extern int nProtocol;
 extern CShake shake;
+extern CNudge GlobalNudge;
+
+extern CNudgeElement DefaultNudge;
+extern OBJLIST<CNudgeElement> arNudges;

@@ -21,9 +21,11 @@ static void UpdateControls(HWND hwnd)
 	if (GlobalNudge.useByProtocol) {
 		proto = GetSelProto(hwnd, NULL);
 		ActualNudge = NULL;
-		for (NudgeElementList *n = NudgeList; n != NULL; n = n->next)
-			if (n->item.iProtoNumber == proto)
-				ActualNudge = &n->item;
+		for (int i = 0; i < arNudges.getCount(); i++) {
+			CNudgeElement &p = arNudges[i];
+			if (p.iProtoNumber == proto)
+				ActualNudge = &p;
+		}
 	}
 	else ActualNudge = &DefaultNudge;
 
@@ -69,9 +71,11 @@ static void CheckChange(HWND hwnd, HTREEITEM hItem)
 	if (GlobalNudge.useByProtocol) {
 		proto = GetSelProto(hwnd, hItem);
 		ActualNudge = NULL;
-		for (NudgeElementList *n = NudgeList; n != NULL; n = n->next)
-		if (n->item.iProtoNumber == proto)
-			ActualNudge = &n->item;
+		for (int i = 0; i < arNudges.getCount(); i++) {
+			CNudgeElement &p = arNudges[i];
+			if (p.iProtoNumber == proto)
+				ActualNudge = &p;
+		}
 	}
 	else ActualNudge = &DefaultNudge;
 
@@ -178,16 +182,15 @@ static void PopulateProtocolList(HWND hWnd)
 	tvi.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_STATE | TVIF_SELECTEDIMAGE;
 	tvi.item.stateMask = TVIS_STATEIMAGEMASK;
 
-	int i = 0;
 	if (GlobalNudge.useByProtocol) {
-		for (NudgeElementList *n = NudgeList; n != NULL; n = n->next) {
-			tvi.item.pszText = n->item.AccountName;
+		for (int i = 0; i < arNudges.getCount(); i++) {
+			CNudgeElement &p = arNudges[i];
+			tvi.item.pszText = p.AccountName;
 			tvi.item.iImage = i;
-			n->item.iProtoNumber = i;
+			p.iProtoNumber = i;
 			tvi.item.iSelectedImage = i;
-			tvi.item.state = INDEXTOSTATEIMAGEMASK(n->item.enabled ? 2 : 1);
+			tvi.item.state = INDEXTOSTATEIMAGEMASK(p.enabled ? 2 : 1);
 			TreeView_InsertItem(hLstView, &tvi);
-			i++;
 		}
 	}
 	else {
@@ -207,10 +210,11 @@ static void CreateImageList(HWND hWnd)
 	// Create and populate image list
 	HIMAGELIST hImList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_MASK | ILC_COLOR32, nProtocol, 0);
 
-	for (NudgeElementList *n = NudgeList; n != NULL; n = n->next) {
-		INT_PTR res = CallProtoService(n->item.ProtocolName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL | PLIF_ICOLIB, 0);
+	for (int i = 0; i < arNudges.getCount(); i++) {
+		CNudgeElement &p = arNudges[i];
+		INT_PTR res = CallProtoService(p.ProtocolName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL | PLIF_ICOLIB, 0);
 		if (res == CALLSERVICE_NOTFOUND)
-			res = (INT_PTR)Skin_GetIconByHandle(n->item.hIcoLibItem);
+			res = (INT_PTR)Skin_GetIcon("Nudge_Default");
 
 		HICON hIcon = (HICON)res;
 		ImageList_AddIcon(hImList, hIcon);
@@ -259,8 +263,7 @@ static INT_PTR CALLBACK DlgProcNudgeOpt(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_AUTORESEND:
-			if (ActualNudge)// fix NULL pointer then no nudge support protocols
-			{
+			if (ActualNudge) { // fix NULL pointer then no nudge support protocols
 				ActualNudge->autoResend = (IsDlgButtonChecked(hwnd, IDC_AUTORESEND) == BST_CHECKED);
 				EnableWindow(GetDlgItem(hwnd, IDC_RESENDDELAY), ActualNudge->autoResend);
 			}
@@ -304,38 +307,35 @@ static INT_PTR CALLBACK DlgProcNudgeOpt(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				{
-					BOOL Translated;
-					GlobalNudge.sendTimeSec = GetDlgItemInt(hwnd, IDC_SENDTIME, &Translated, FALSE);
-					GlobalNudge.recvTimeSec = GetDlgItemInt(hwnd, IDC_RECVTIME, &Translated, FALSE);
-					GlobalNudge.resendDelaySec = GetDlgItemInt(hwnd, IDC_RESENDDELAY, &Translated, FALSE);
-					if (GlobalNudge.resendDelaySec > 10) GlobalNudge.resendDelaySec = 10;
-					if (GlobalNudge.resendDelaySec < 1) GlobalNudge.resendDelaySec = 1;
-					if (ActualNudge)// fix NULL pointer then no nudge support protocols
-					{
-						ActualNudge->shakeClist = (IsDlgButtonChecked(hwnd, IDC_CHECKCLIST) == BST_CHECKED);
-						ActualNudge->shakeChat = (IsDlgButtonChecked(hwnd, IDC_CHECKCHAT) == BST_CHECKED);
-						ActualNudge->openMessageWindow = (IsDlgButtonChecked(hwnd, IDC_OPENMESSAGE) == BST_CHECKED);
-						ActualNudge->openContactList = (IsDlgButtonChecked(hwnd, IDC_OPENCONTACTLIST) == BST_CHECKED);
-						ActualNudge->useIgnoreSettings = (IsDlgButtonChecked(hwnd, IDC_IGNORE) == BST_CHECKED);
-						ActualNudge->showStatus = (IsDlgButtonChecked(hwnd, IDC_CHECKSTATUS) == BST_CHECKED);
-						ActualNudge->showPopup = (IsDlgButtonChecked(hwnd, IDC_CHECKPOP) == BST_CHECKED);
-						ActualNudge->statusFlags =
-							((IsDlgButtonChecked(hwnd, IDC_CHECKST0) == BST_CHECKED) ? NUDGE_ACC_ST0 : 0) |
-							((IsDlgButtonChecked(hwnd, IDC_CHECKST1) == BST_CHECKED) ? NUDGE_ACC_ST1 : 0) |
-							((IsDlgButtonChecked(hwnd, IDC_CHECKST2) == BST_CHECKED) ? NUDGE_ACC_ST2 : 0) |
-							((IsDlgButtonChecked(hwnd, IDC_CHECKST3) == BST_CHECKED) ? NUDGE_ACC_ST3 : 0) |
-							((IsDlgButtonChecked(hwnd, IDC_CHECKST4) == BST_CHECKED) ? NUDGE_ACC_ST4 : 0) |
-							((IsDlgButtonChecked(hwnd, IDC_CHECKST5) == BST_CHECKED) ? NUDGE_ACC_ST5 : 0) |
-							((IsDlgButtonChecked(hwnd, IDC_CHECKST6) == BST_CHECKED) ? NUDGE_ACC_ST6 : 0) |
-							((IsDlgButtonChecked(hwnd, IDC_CHECKST7) == BST_CHECKED) ? NUDGE_ACC_ST7 : 0) |
-							((IsDlgButtonChecked(hwnd, IDC_CHECKST8) == BST_CHECKED) ? NUDGE_ACC_ST8 : 0) |
-							((IsDlgButtonChecked(hwnd, IDC_CHECKST9) == BST_CHECKED) ? NUDGE_ACC_ST9 : 0);
+				BOOL Translated;
+				GlobalNudge.sendTimeSec = GetDlgItemInt(hwnd, IDC_SENDTIME, &Translated, FALSE);
+				GlobalNudge.recvTimeSec = GetDlgItemInt(hwnd, IDC_RECVTIME, &Translated, FALSE);
+				GlobalNudge.resendDelaySec = GetDlgItemInt(hwnd, IDC_RESENDDELAY, &Translated, FALSE);
+				if (GlobalNudge.resendDelaySec > 10) GlobalNudge.resendDelaySec = 10;
+				if (GlobalNudge.resendDelaySec < 1) GlobalNudge.resendDelaySec = 1;
+				if (ActualNudge) { // fix NULL pointer then no nudge support protocols
+					ActualNudge->shakeClist = (IsDlgButtonChecked(hwnd, IDC_CHECKCLIST) == BST_CHECKED);
+					ActualNudge->shakeChat = (IsDlgButtonChecked(hwnd, IDC_CHECKCHAT) == BST_CHECKED);
+					ActualNudge->openMessageWindow = (IsDlgButtonChecked(hwnd, IDC_OPENMESSAGE) == BST_CHECKED);
+					ActualNudge->openContactList = (IsDlgButtonChecked(hwnd, IDC_OPENCONTACTLIST) == BST_CHECKED);
+					ActualNudge->useIgnoreSettings = (IsDlgButtonChecked(hwnd, IDC_IGNORE) == BST_CHECKED);
+					ActualNudge->showStatus = (IsDlgButtonChecked(hwnd, IDC_CHECKSTATUS) == BST_CHECKED);
+					ActualNudge->showPopup = (IsDlgButtonChecked(hwnd, IDC_CHECKPOP) == BST_CHECKED);
+					ActualNudge->statusFlags =
+						((IsDlgButtonChecked(hwnd, IDC_CHECKST0) == BST_CHECKED) ? NUDGE_ACC_ST0 : 0) |
+						((IsDlgButtonChecked(hwnd, IDC_CHECKST1) == BST_CHECKED) ? NUDGE_ACC_ST1 : 0) |
+						((IsDlgButtonChecked(hwnd, IDC_CHECKST2) == BST_CHECKED) ? NUDGE_ACC_ST2 : 0) |
+						((IsDlgButtonChecked(hwnd, IDC_CHECKST3) == BST_CHECKED) ? NUDGE_ACC_ST3 : 0) |
+						((IsDlgButtonChecked(hwnd, IDC_CHECKST4) == BST_CHECKED) ? NUDGE_ACC_ST4 : 0) |
+						((IsDlgButtonChecked(hwnd, IDC_CHECKST5) == BST_CHECKED) ? NUDGE_ACC_ST5 : 0) |
+						((IsDlgButtonChecked(hwnd, IDC_CHECKST6) == BST_CHECKED) ? NUDGE_ACC_ST6 : 0) |
+						((IsDlgButtonChecked(hwnd, IDC_CHECKST7) == BST_CHECKED) ? NUDGE_ACC_ST7 : 0) |
+						((IsDlgButtonChecked(hwnd, IDC_CHECKST8) == BST_CHECKED) ? NUDGE_ACC_ST8 : 0) |
+						((IsDlgButtonChecked(hwnd, IDC_CHECKST9) == BST_CHECKED) ? NUDGE_ACC_ST9 : 0);
 
-						GetDlgItemText(hwnd, IDC_SENDTEXT, ActualNudge->senText, TEXT_LEN);
-						GetDlgItemText(hwnd, IDC_RECVTEXT, ActualNudge->recText, TEXT_LEN);
-						ActualNudge->Save();
-					}
+					GetDlgItemText(hwnd, IDC_SENDTEXT, ActualNudge->senText, TEXT_LEN);
+					GetDlgItemText(hwnd, IDC_RECVTEXT, ActualNudge->recText, TEXT_LEN);
+					ActualNudge->Save();
 					GlobalNudge.Save();
 				}
 			}
