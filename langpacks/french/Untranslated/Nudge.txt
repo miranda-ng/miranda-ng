@@ -15,6 +15,6 @@
 [Default Nudge]
 [Nudge as Default]
 [Send Nudge]
+[Send &Nudge]
 [Show Nudge]
 [Nudge for %s]
-[Send &Nudge]

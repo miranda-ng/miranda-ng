@@ -1,0 +1,23 @@
+﻿#muuid {57e90ac6-1067-423b-8ca3-70a39d200d4f}
+;============================================================
+;  File: SkypeWeb.dll
+;  Plugin: Skype protocol (Web)
+;  Version: 0.11.0.1
+;  Authors: Miranda NG Team
+;============================================================
+;file \protocols\SkypeWeb\res\resource.rc
+[Password:]
+Пароль:
+[Cancel]
+Скасаваць
+;file \protocols\SkypeWeb\src\skype_chats.cpp
+;file \protocols\SkypeWeb\src\skype_icons.cpp
+;file \protocols\SkypeWeb\src\skype_menus.cpp
+[Request authorization]
+Запытаць аўтарызацыю
+[Grant authorization]
+Аўтарызаваць
+;file \protocols\SkypeWeb\src\skype_options.cpp
+[Network]
+Сеціва
+;file \protocols\SkypeWeb\src\skype_proto.cpp

@@ -1,0 +1,53 @@
+﻿#muuid {57e90ac6-1067-423b-8ca3-70a39d200d4f}
+;============================================================
+;  File: SkypeWeb.dll
+;  Plugin: Skype protocol (Web)
+;  Version: 0.11.0.1
+;  Authors: Miranda NG Team
+;============================================================
+[Skype protocol support for Miranda NG. Based on new Skype for Web.]
+
+;file \protocols\SkypeWeb\res\resource.rc
+[Skypename:]
+
+[Password:]
+Hasło:
+[Default group:]
+Domyślna grupa:
+[Account]
+Konto
+[Others]
+Inne
+[Automatic messages synchronization]
+
+[Enter password]
+Wprowadź hasło
+[Save password]
+Zapisz hasło
+[Cancel]
+Anuluj
+[Enter the password to continue.]
+Wprowadź hasło, by kontynuować.
+;file \protocols\SkypeWeb\src\skype_chats.cpp
+[Groupchat]
+Czat grupowy
+;file \protocols\SkypeWeb\src\skype_icons.cpp
+[Protocol icon]
+Ikona protokołu
+[Protocols]
+Protokoły
+;file \protocols\SkypeWeb\src\skype_menus.cpp
+[Request authorization]
+Poproś o autoryzację
+[Grant authorization]
+Udziel autoryzacji
+[Get server history]
+
+;file \protocols\SkypeWeb\src\skype_options.cpp
+[Network]
+Protokoły
+;file \protocols\SkypeWeb\src\skype_proto.cpp
+[%s connection]
+Połączenie %s
+[Action]
+Akcja
