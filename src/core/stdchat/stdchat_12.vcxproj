@@ -211,9 +211,6 @@
     <ClCompile Include="src\manager.cpp" />
     <ClCompile Include="src\message.cpp" />
     <ClCompile Include="src\options.cpp" />
-    <ClCompile Include="src\richutil.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\services.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\tools.cpp" />
@@ -221,7 +218,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chat.h" />
-    <ClInclude Include="src\richutil.h" />
     <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
