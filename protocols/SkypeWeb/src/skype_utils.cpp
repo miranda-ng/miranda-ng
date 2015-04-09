@@ -162,7 +162,7 @@ char *ParseUrl(const char *url, const char *token)
 		return NULL;
 	start = start + mir_strlen(token);
 	const char *end = strchr(start, '/');
-	if (start == NULL)
+	if (end == NULL)
 		return mir_strdup(start);
 	return mir_strndup(start, end - start);
 }
