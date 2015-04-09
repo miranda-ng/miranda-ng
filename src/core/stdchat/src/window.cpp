@@ -365,50 +365,49 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 			if (wParam == VK_TAB && !isCtrl && !isShift) {    //tab-autocomplete
 				TCHAR* pszText = NULL;
-				int iLen;
-				GETTEXTLENGTHEX gtl = {0};
-				GETTEXTEX gt = {0};
 				LRESULT lResult = (LRESULT)SendMessage(hwnd, EM_GETSEL, 0, 0);
 
 				SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
-				start = LOWORD(lResult);
+				int start = LOWORD(lResult);
 				end = HIWORD(lResult);
 				SendMessage(hwnd, EM_SETSEL, end, end);
+
+				GETTEXTLENGTHEX gtl = { 0 };
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
-				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
-				if (iLen >0) {
-					TCHAR *pszName = NULL;
-					TCHAR *pszSelName = NULL;
-					pszText = (TCHAR *)mir_alloc(sizeof(TCHAR)*(iLen+100));
+				int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
+				if (iLen > 0) {
+					pszText = (TCHAR *)mir_alloc(sizeof(TCHAR)*(iLen + 100));
 
-					gt.cb = iLen+99;
+					GETTEXTEX gt = { 0 };
+					gt.cb = iLen + 99;
 					gt.flags = GT_DEFAULT;
 					gt.codepage = 1200;
 
 					SendMessage(hwnd, EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)pszText);
-					while ( start >0 && pszText[start-1] != ' ' && pszText[start-1] != 13 && pszText[start-1] != VK_TAB)
+					while (start > 0 && pszText[start - 1] != ' ' && pszText[start - 1] != 13 && pszText[start - 1] != VK_TAB)
 						start--;
-					while (end < iLen && pszText[end] != ' ' && pszText[end] != 13 && pszText[end-1] != VK_TAB)
-						end ++;
+					while (end < iLen && pszText[end] != ' ' && pszText[end] != 13 && pszText[end - 1] != VK_TAB)
+						end++;
 
-					if ( dat->szTabSave[0] =='\0')
-						mir_tstrncpy( dat->szTabSave, pszText+start, end-start+1 );
+					if (dat->szTabSave[0] == '\0')
+						mir_tstrncpy(dat->szTabSave, pszText + start, end - start + 1);
 
-					pszSelName = (TCHAR *)mir_alloc( sizeof(TCHAR)*( end-start+1 ));
-					mir_tstrncpy( pszSelName, pszText+start, end-start+1);
-					pszName = pci->UM_FindUserAutoComplete(Parentsi->pUsers, dat->szTabSave, pszSelName);
+					TCHAR *pszSelName = (TCHAR *)mir_alloc(sizeof(TCHAR)*(end - start + 1));
+					mir_tstrncpy(pszSelName, pszText + start, end - start + 1);
+					
+					TCHAR *pszName = pci->UM_FindUserAutoComplete(Parentsi->pUsers, dat->szTabSave, pszSelName);
 					if (pszName == NULL) {
 						pszName = dat->szTabSave;
 						SendMessage(hwnd, EM_SETSEL, start, end);
 						if (end != start)
-							SendMessage(hwnd, EM_REPLACESEL, FALSE, (LPARAM) pszName);
+							SendMessage(hwnd, EM_REPLACESEL, FALSE, (LPARAM)pszName);
 						dat->szTabSave[0] = '\0';
 					}
 					else {
 						SendMessage(hwnd, EM_SETSEL, start, end);
-						if (end !=start)
-							SendMessage(hwnd, EM_REPLACESEL, FALSE, (LPARAM) pszName);
+						if (end != start)
+							SendMessage(hwnd, EM_REPLACESEL, FALSE, (LPARAM)pszName);
 					}
 					mir_free(pszText);
 					mir_free(pszSelName);
@@ -419,9 +418,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				return 0;
 			}
 
-			if (dat->szTabSave[0] != '\0' && wParam != VK_RIGHT && wParam != VK_LEFT &&
-				 wParam != VK_SPACE && wParam != VK_RETURN && wParam != VK_BACK && wParam != VK_DELETE)
-			{
+			if (dat->szTabSave[0] != '\0' && wParam != VK_RIGHT && wParam != VK_LEFT && wParam != VK_SPACE && wParam != VK_RETURN && wParam != VK_BACK && wParam != VK_DELETE) {
 				if (g_Settings.bAddColonToAutoComplete && start == 0)
 					SendMessageA(hwnd, EM_REPLACESEL, FALSE, (LPARAM) ": ");
 
@@ -565,9 +562,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				dat->lastEnterTime = 0;
 				return TRUE;
 			}
-
-			if (wParam == VK_RETURN)
-				break;
 		}
 		//fall through
 
