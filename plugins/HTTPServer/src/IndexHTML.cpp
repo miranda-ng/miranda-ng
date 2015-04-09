@@ -319,14 +319,14 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 	bool  bEvenOdd = 0;
 	bool  bKnownFileType = false;
 
-	strcpy(szBuffer, pszSrvPath);
+	strncpy(szBuffer, pszSrvPath, SIZEOF(szBuffer)-1);
 	char* pszTemp = strrchr(szBuffer, '/');
 	if (pszTemp)
 		*pszTemp = '\0';
 
 	pszTemp = strrchr(szBuffer, '/');
 	if (pszTemp)
-		strcpy(szName, pszTemp + 1);
+		strncpy(szName, pszTemp + 1, SIZEOF(szName)-1);
 
 	if (szName[0] == '\0')
 		strcpy(szName, "my Miranda Webserver");
