@@ -1,0 +1,5 @@
+﻿[Skype protocol support for Miranda NG. Based on new Skype for Web.]
+[Skypename:]
+[Automatic messages synchronization]
+[Enter the password to continue.]
+[Get server history]

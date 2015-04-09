@@ -1,0 +1,13 @@
+﻿#muuid {57e90ac6-1067-423b-8ca3-70a39d200d4f}
+;============================================================
+;  File: SkypeWeb.dll
+;  Plugin: Skype protocol (Web)
+;  Version: 0.11.0.1
+;  Authors: Miranda NG Team
+;============================================================
+[Automatic messages synchronization]
+Automatic messages synchronisation
+[Request authorization]
+Request authorisation
+[Grant authorization]
+Grant authorisation

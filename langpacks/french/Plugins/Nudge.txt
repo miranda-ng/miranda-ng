@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Nudge.dll
 ;  Plugin: Nudge
-;  Version: 0.1.0.1
+;  Version: 0.2.0.1
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
 [Plugin to shake the contact list and chat window.]
@@ -89,11 +89,11 @@ Vous ne pouvez pas envoyer tant de wizz (uniquement 1 toutes les %d sec, %d sec 
 
 [Send Nudge]
 
+[Send &Nudge]
+
 [Show Nudge]
 
 [Nudge for %s]
-
-[Send &Nudge]
 
 ;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]
