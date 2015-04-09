@@ -90,10 +90,10 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		}
 
 
-		if (LOWORD(wParam) == IDC1_BUTTON_INVALIDATE && HIWORD(wParam) == BN_CLICKED){
+		//if (LOWORD(wParam) == IDC1_BUTTON_INVALIDATE && HIWORD(wParam) == BN_CLICKED){
 			//TODO  invalidate button clicked - refresh MSM's (now this button has visable=false at .rc file)
-			break;
-		}
+			//break;
+		//}
 
 		break;
 	}
@@ -131,7 +131,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			wchar_t * opt2Buffer = new WCHAR[opt2Len+1];
 			UINT opt2NumCharCopy = GetDlgItemText(hwndDlg, IDC1_EDIT1, opt2Buffer, opt2Len+1);
 			mirfoxMiranda.getMirfoxData().getClientsProfilesFilterStringPtr()->assign(opt2Buffer);
-			delete opt2Buffer;
+			delete[] opt2Buffer;
 			mirfoxMiranda.getMirfoxData().normalizeClientsProfilesFilterString(SMUCONST_CSM_RECORD_VISABLETO_SIZEC_DEF);
 			SetDlgItemText(hwndDlg, IDC1_EDIT1, mirfoxMiranda.getMirfoxData().getClientsProfilesFilterStringPtr()->c_str());
 
@@ -294,7 +294,6 @@ static void setAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int 
 		}
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
-
 }
 
 
@@ -673,7 +672,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
  *
  * called from: options.cpp.InitOptions()
  */
-int OptInit(WPARAM wParam, LPARAM lParam) {
+int OptInit(WPARAM wParam, LPARAM) {
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = -790000000;
