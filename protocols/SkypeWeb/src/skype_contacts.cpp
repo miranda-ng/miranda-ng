@@ -47,15 +47,22 @@ MCONTACT CSkypeProto::GetContact(const char *skypename)
 	if (it != contactMap.end())
 		return it->second;
 
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+	MCONTACT hContact = NULL;
+	if (contactMap.empty())
+		MCONTACT hContact = db_find_first(m_szModuleName);
+	else
+	{
+		hContact = db_find_next(lastMapContact, m_szModuleName);
+	}
+	for (; hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
 		std::string cSkypename = ptrA(getStringA(hContact, SKYPE_SETTINGS_ID));
 		if (!contactMap.count(cSkypename))
-			contactMap[cSkypename] = hContact;
+			contactMap[cSkypename] = lastMapContact = hContact;
 		if (mir_strcmpi(skypename, cSkypename.c_str()) == 0)
-			return hContact;
+			break;
 	}
-	return NULL;
+	return hContact;
 }
 
 MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
@@ -66,7 +73,7 @@ MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
 
-		contactMap[skypename] = hContact;
+		contactMap[skypename] = lastMapContact = hContact;
 
 		setString(hContact, SKYPE_SETTINGS_ID, skypename);
 
