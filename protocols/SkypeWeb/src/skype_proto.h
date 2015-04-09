@@ -202,8 +202,10 @@ private:
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
 	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
-
+	//History sync
 	void OnGetServerHistory(const NETLIBHTTPREQUEST *response);
+	void SyncHistory();
+	void OnSyncHistory(const NETLIBHTTPREQUEST *response);
 
 	//chats
 	MCONTACT GetChat(const char *skypename);

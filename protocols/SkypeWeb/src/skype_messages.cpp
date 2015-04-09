@@ -34,7 +34,7 @@ MEVENT CSkypeProto::AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD fla
 {
 	if (MEVENT hDbEvent = GetMessageFromDB(hContact, messageId, timestamp))
 		return hDbEvent;
-
+	setDword(hContact, "LastMsgId", atoi(messageId));
 	size_t messageLength = mir_strlen(&content[emoteOffset]) + 1;
 	size_t messageIdLength = mir_strlen(messageId);
 	size_t cbBlob = messageLength + messageIdLength;
@@ -51,7 +51,8 @@ MEVENT CSkypeProto::AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD fla
 int CSkypeProto::OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset, bool isRead)
 {
 	ptrA skypename(ContactUrlToName(url));
-	setDword("LastMsgTime", timestamp);
+	MCONTACT hContact = GetContact(skypename);
+	setDword(hContact, "LastMsgId", atoi(messageId));
 	PROTORECVEVENT recv = { 0 };
 	recv.flags = PREF_UTF;
 	recv.timestamp = timestamp;
@@ -62,7 +63,6 @@ int CSkypeProto::OnReceiveMessage(const char *messageId, const char *url, time_t
 	if (isRead)
 		recv.flags |= PREF_CREATEREAD;
 	debugLogA("Incoming message from %s", skypename);
-	MCONTACT hContact = GetContact(skypename);
 	return ProtoChainRecvMsg(hContact, &recv);
 }
 
@@ -126,6 +126,7 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	SendMessageParam *param = (SendMessageParam*)arg;
 	MCONTACT hContact = param->hContact;
+	setDword(hContact, "LastMsgId", param->hMessage);
 	HANDLE hMessage = (HANDLE)param->hMessage;
 	delete param;
 
@@ -217,4 +218,37 @@ INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM lParam)
 {
 	PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), ptrA(db_get_sa(hContact, m_szModuleName, "Skypename")), ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
 	return 0;
+}
+
+void CSkypeProto::SyncHistory()
+{
+	PushRequest(new SyncHistoryFirstRequest(ptrA(getStringA("registrationToken")), ptrA(getStringA("Server"))), &CSkypeProto::OnSyncHistory);
+}
+
+void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
+{
+	if (response == NULL)
+		return;
+	JSONROOT root(response->pData);
+	if (root == NULL)
+		return;
+	JSONNODE *conversations = json_as_array(json_get(root, "conversations"));
+	for (size_t i = 0; i < json_size(conversations); i++)
+	{
+		JSONNODE *conversation = json_at(conversations, i);
+		JSONNODE *lastMessage = json_get(conversation, "lastMessage");
+		if (lastMessage == NULL)
+			continue;
+
+		int clientMsgId(atoi(mir_t2a(ptrT(json_as_string(json_get(lastMessage, "clientmessageid"))))));
+		ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(lastMessage, "conversationLink")))));
+
+		ptrA skypename(ContactUrlToName(conversationLink));
+		MCONTACT hContact = GetContact(skypename);
+		if (hContact == NULL && !IsMe(skypename))
+			hContact = AddContact(skypename, true);
+		int lastmsgid = db_get_dw(hContact, m_szModuleName, "LastMsgId", NULL);
+		if (lastmsgid != clientMsgId)
+			PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), skypename, ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
+	}
 }
