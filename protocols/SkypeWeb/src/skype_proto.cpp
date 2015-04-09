@@ -37,11 +37,12 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
 	// make contact map
+	lastMapContact = NULL;
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
 		std::string cSkypename = ptrA(getStringA(hContact, SKYPE_SETTINGS_ID));
 		if (!contactMap.count(cSkypename))
-			contactMap[cSkypename] = hContact;
+			contactMap[cSkypename] = lastMapContact = hContact;
 	}
 }
 
