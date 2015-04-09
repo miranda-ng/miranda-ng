@@ -225,11 +225,23 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 
 INT_PTR CSkypeProto::OnRequestAuth(WPARAM hContact, LPARAM lParam)
 {
+	if (hContact == INVALID_CONTACT_ID)
+		return 1;
+
+	ptrA token(getStringA("TokenSecret"));
+	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
+	PushRequest(new AddContactRequest(token, skypename));
 	return 0;
 }
 
 INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 {
+	if (hContact == INVALID_CONTACT_ID)
+		return 1;
+
+	ptrA token(getStringA("TokenSecret"));
+	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
+	PushRequest(new AuthAcceptRequest(token, skypename));
 	return 0;
 }
 
