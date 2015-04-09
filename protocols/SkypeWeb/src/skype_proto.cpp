@@ -35,6 +35,14 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_ACTION;
 	dbEventType.descr = Translate("Action");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	// make contact map
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+	{
+		std::string cSkypename = ptrA(getStringA(hContact, SKYPE_SETTINGS_ID));
+		if (!contactMap.count(cSkypename))
+			contactMap[cSkypename] = hContact;
+	}
 }
 
 CSkypeProto::~CSkypeProto()

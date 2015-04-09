@@ -164,6 +164,8 @@ private:
 	void LoadProfile(const NETLIBHTTPREQUEST *response);
 
 	// contacts
+	std::map<std::string, MCONTACT> contactMap;
+
 	WORD GetContactStatus(MCONTACT hContact);
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
@@ -193,7 +195,7 @@ private:
 	// messages
 	mir_cs messageSyncLock;
 
-	MEVENT GetMessageFromDB(MCONTACT hContact, const char *messageId, LONGLONG timestamp = 0);
+	MEVENT GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp = 0);
 	MEVENT AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content, int emoteOffset = 0);
 
 	int OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset = 0, bool isRead = false);
