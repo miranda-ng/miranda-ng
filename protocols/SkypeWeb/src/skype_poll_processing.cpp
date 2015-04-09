@@ -116,7 +116,7 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 		MCONTACT hContact = GetContact(skypename);
 
 		if (hContact == NULL && !IsMe(skypename))
-			AddContact(skypename, true);
+			hContact = AddContact(skypename, true);
 
 		if (!mir_strcmpi(messageType, "Control/Typing"))
 		{
@@ -169,7 +169,7 @@ void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)
 			MCONTACT hContact = GetContact(skypename);
 
 			if (hContact == NULL && !IsMe(skypename))
-				AddContact(skypename, true);
+				hContact = AddContact(skypename, true);
 
 			if (!mir_strcmpi(messageType, "Control/Typing"))
 			{
