@@ -4,11 +4,11 @@
 #define MODULENAME "Nudge"
 
 //	NUDGE account status flags
-#define	NUDGE_ACC_ST0	0x00000001		//Check (countdown) when Offline
-#define	NUDGE_ACC_ST1	0x00000002		//Check (countdown) when Online
-#define	NUDGE_ACC_ST2	0x00000004		//Check (countdown) when Away
-#define	NUDGE_ACC_ST3	0x00000008		//Check (countdown) when N/A
-#define	NUDGE_ACC_ST4	0x00000010		//Check (countdown) when Occupied
+#define NUDGE_ACC_ST0	0x00000001		//Check (countdown) when Offline
+#define NUDGE_ACC_ST1	0x00000002		//Check (countdown) when Online
+#define NUDGE_ACC_ST2	0x00000004		//Check (countdown) when Away
+#define NUDGE_ACC_ST3	0x00000008		//Check (countdown) when N/A
+#define NUDGE_ACC_ST4	0x00000010		//Check (countdown) when Occupied
 #define NUDGE_ACC_ST5	0x00000020		//Check (countdown) when DND
 #define NUDGE_ACC_ST6	0x00000040		//Check (countdown) when Free for chat
 #define NUDGE_ACC_ST7   0x00000080		//Check (countdown) when Invisible
@@ -17,9 +17,8 @@
 
 #define TEXT_LEN 1024
 
-class CNudge
+struct CNudge
 {
-public:
 	bool useByProtocol;
 	int sendTimeSec;
 	int recvTimeSec;
@@ -29,9 +28,8 @@ public:
 	void Save(void);
 };
 
-class CNudgeElement
+struct CNudgeElement : public MZeroedObject
 {
-public:
 	char ProtocolName[64];
 	TCHAR AccountName[128];
 	char NudgeSoundname[100];
@@ -48,18 +46,10 @@ public:
 	bool autoResend;
 	DWORD statusFlags;
 	int iProtoNumber;
-	HANDLE hIcoLibItem;
 	HANDLE hEvent;
-	HGENMENU hContactMenu;
 
 	void Load(void);
 	void Save(void);
 };
 
-typedef struct NudgeElementList
-{
-	CNudgeElement item;
-	NudgeElementList *next;
-} NUDGEELEMENTLIST;
-
-#endif
+#endif // NUDGE_H

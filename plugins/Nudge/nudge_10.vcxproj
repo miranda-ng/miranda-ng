@@ -194,7 +194,6 @@
   <ItemGroup>
     <ClInclude Include="src\headers.h" />
     <ClInclude Include="src\nudge.h" />
-    <ClInclude Include="src\options.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\shake.h" />
     <ClInclude Include="src\Version.h" />
