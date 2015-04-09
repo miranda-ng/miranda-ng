@@ -1860,6 +1860,7 @@ END_REMOVETAB:
 				return TRUE;
 			}
 		}
+		break;
 
 	case GC_UPDATENICKLIST:
 		{
