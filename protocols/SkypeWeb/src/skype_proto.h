@@ -164,9 +164,6 @@ private:
 	void LoadProfile(const NETLIBHTTPREQUEST *response);
 
 	// contacts
-	MCONTACT lastMapContact;
-	std::map<std::string, MCONTACT> contactMap;
-
 	WORD GetContactStatus(MCONTACT hContact);
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
