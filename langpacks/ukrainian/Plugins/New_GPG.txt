@@ -6,7 +6,7 @@
 ;  Authors: sss
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
-Плагін шифрування GPG, заснований на вихідних кодах старого GPG плагіна і SecureIM.
+Плагін шифрування GPG, створений на основі вихідного коду старого плагіна GPG і SecureIM.
 [Load from file]
 Імпорт з файлу
 [Select existing]
