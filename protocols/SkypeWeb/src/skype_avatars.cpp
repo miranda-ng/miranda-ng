@@ -44,9 +44,9 @@ void CSkypeProto::OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 		return;
 
 	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
-	GetAvatarFileName(hContact, AI.filename, SIZEOF(AI.filename));
 	AI.format = ProtoGetBufferFormat(response->pData);
-	setByte(AI.hContact, "AvatarType", AI.format);
+	setByte(hContact, "AvatarType", AI.format);
+	GetAvatarFileName(hContact, AI.filename, SIZEOF(AI.filename));
 
 	FILE *out = _tfopen(AI.filename, _T("wb"));
 	if (out == NULL) {
@@ -78,12 +78,11 @@ INT_PTR CSkypeProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 	if (szUrl == NULL)
 		return GAIR_NOAVATAR;
 
+	AI->format = getByte(AI->hContact, "AvatarType", PA_FORMAT_JPEG);
+
 	TCHAR tszFileName[MAX_PATH];
 	GetAvatarFileName(AI->hContact, tszFileName, SIZEOF(tszFileName));
 	_tcsncpy(AI->filename, tszFileName, SIZEOF(AI->filename));
-
-	AI->format = ProtoGetAvatarFormat(AI->filename);
-	setByte(AI->hContact, "AvatarType", AI->format);
 
 	if (::_taccess(AI->filename, 0) == 0 && !getBool(AI->hContact, "NeedNewAvatar", 0))
 		return GAIR_SUCCESS;
