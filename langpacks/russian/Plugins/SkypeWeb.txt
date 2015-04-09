@@ -34,7 +34,7 @@
 [Grant authorization]
 Авторизовать
 [Get server history]
-Закачать историю с сервера
+Синхронизовать историю
 [Network]
 Сеть
 [%s connection]
