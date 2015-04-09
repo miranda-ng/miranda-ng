@@ -15,6 +15,10 @@
 Группа:
 [Account]
 Учётная запись
+[Others]
+Другое
+[Automatic messages synchronization]
+Автоматическая синхронизация сообщений
 [Enter password]
 Введите пароль
 [Save password]
