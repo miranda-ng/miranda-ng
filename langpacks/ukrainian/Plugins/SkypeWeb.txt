@@ -1,0 +1,47 @@
+﻿#muuid {57e90ac6-1067-423b-8ca3-70a39d200d4f}
+;============================================================
+;  File: SkypeWeb.dll
+;  Plugin: Skype protocol (Web)
+;  Version: 0.11.0.1
+;  Authors: Miranda NG Team
+;============================================================
+[Skype protocol support for Miranda NG. Based on new Skype for Web.]
+Підтримка протоколу Skype в Miranda NG. На основі Skype для Web.
+[Skypename:]
+Логін Skype:
+[Password:]
+Пароль:
+[Default group:]
+Група:
+[Account]
+Обліковий запис
+[Others]
+Інше
+[Automatic messages synchronization]
+Автоматична синхронізація повідомлень
+[Enter password]
+Введіть пароль
+[Save password]
+Зберегти пароль
+[Cancel]
+Скасувати
+[Enter the password to continue.]
+Введіть пароль для продовження.
+[Groupchat]
+Чат
+[Protocol icon]
+Значок протоколу
+[Protocols]
+Протоколи
+[Request authorization]
+Запитати авторизацію
+[Grant authorization]
+Авторизувати
+[Get server history]
+Синхронізувати історію
+[Network]
+Мережа
+[%s connection]
+З'єднання %s
+[Action]
+Дія
