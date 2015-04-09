@@ -18,7 +18,7 @@ void CSkypeOptionsMain::OnInitDialog()
 
 	m_skypename.SetTextA(ptrA(m_proto->getStringA(SKYPE_SETTINGS_ID)));
 	m_password.SetTextA(ptrA(m_proto->getStringA("Password")));
-	m_autosync.SetState(m_proto->getByte("AutoSync", 0));
+	m_autosync.SetState(m_proto->getByte("AutoSync", 1));
 
 	SendMessage(m_skypename.GetHwnd(), EM_LIMITTEXT, 32, 0);
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 20, 0);
