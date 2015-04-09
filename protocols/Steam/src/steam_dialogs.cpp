@@ -155,6 +155,7 @@ INT_PTR CSteamCaptchaDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return FALSE;
 	}
 	CSuper::DlgProc(msg, wParam, lParam);
+	return FALSE;
 }
 
 char * CSteamCaptchaDialog::GetCaptchaText()
@@ -206,6 +207,7 @@ void CSteamOptionsMain::OnApply()
 		m_proto->delSetting("Cookie");
 		m_proto->delSetting("TokenSecret");
 	}
+	mir_free(group);
 }
 
 /////////////////////////////////////////////////////////////////////////////////
