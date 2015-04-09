@@ -34,7 +34,6 @@ MEVENT CSkypeProto::AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD fla
 {
 	if (MEVENT hDbEvent = GetMessageFromDB(hContact, messageId, timestamp))
 		return hDbEvent;
-	setDword(hContact, "LastMsgId", atoi(messageId));
 	size_t messageLength = mir_strlen(&content[emoteOffset]) + 1;
 	size_t messageIdLength = mir_strlen(messageId);
 	size_t cbBlob = messageLength + messageIdLength;
@@ -52,7 +51,6 @@ int CSkypeProto::OnReceiveMessage(const char *messageId, const char *url, time_t
 {
 	ptrA skypename(ContactUrlToName(url));
 	MCONTACT hContact = GetContact(skypename);
-	setDword(hContact, "LastMsgId", atoi(messageId));
 	PROTORECVEVENT recv = { 0 };
 	recv.flags = PREF_UTF;
 	recv.timestamp = timestamp;
@@ -126,7 +124,6 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	SendMessageParam *param = (SendMessageParam*)arg;
 	MCONTACT hContact = param->hContact;
-	setDword(hContact, "LastMsgId", param->hMessage);
 	HANDLE hMessage = (HANDLE)param->hMessage;
 	delete param;
 
@@ -240,15 +237,17 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		if (lastMessage == NULL)
 			continue;
 
-		int clientMsgId(atoi(mir_t2a(ptrT(json_as_string(json_get(lastMessage, "clientmessageid"))))));
+		ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(lastMessage, "clientmessageid")))));
 		ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(lastMessage, "conversationLink")))));
+		LONGLONG composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "conversationLink")))));
 
 		ptrA skypename(ContactUrlToName(conversationLink));
+		if (skypename == NULL) 
+			return;
 		MCONTACT hContact = GetContact(skypename);
 		if (hContact == NULL && !IsMe(skypename))
 			hContact = AddContact(skypename, true);
-		int lastmsgid = db_get_dw(hContact, m_szModuleName, "LastMsgId", NULL);
-		if (lastmsgid != clientMsgId)
+		if (GetMessageFromDB(hContact, clientMsgId, composeTime) == NULL)
 			PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), skypename, ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
 	}
 }
