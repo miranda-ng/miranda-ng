@@ -75,6 +75,21 @@ public:
 	}
 };
 
+class AddContactRequest : public HttpRequest
+{
+public:
+	AddContactRequest(const char *token, const char *who, const char *greeting = "", const char *skypename = "self") :
+		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/contacts/auth-request/%s", skypename, who)
+	{
+		Headers
+			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("Accept", "application/json");
+		CMStringA data;
+		data.AppendFormat("greeting=%s", mir_urlEncode(greeting));
+		Body << VALUE(data);
+	}
+};
+
 class AuthAcceptRequest : public HttpRequest
 {
 public:
