@@ -112,6 +112,9 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessa
 	ptrA server(getStringA("Server"));
 	ptrA token(getStringA("registrationToken"));
 	ptrA username(getStringA(hContact, "Skypename"));
+
+	debugLogA(__FUNCTION__ " clientmsgid = %d", param->hMessage);
+
 	if (strncmp(message, "/me ", 4) == 0)
 		PushRequest(new SendActionRequest(token, username, param->hMessage, &message[4], server), &CSkypeProto::OnMessageSent, param);
 	else
