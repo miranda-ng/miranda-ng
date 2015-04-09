@@ -155,36 +155,31 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_SCANCMDLINE:
-			if (HIWORD(wParam) == CBN_SELCHANGE) PostMessage(hwndDlg, M_SCANCMDLINESELCHANGE, 0, 0);
-			else if (HIWORD(wParam) != CBN_EDITCHANGE) return 0;
+			if (HIWORD(wParam) == CBN_SELCHANGE)
+				PostMessage(hwndDlg, M_SCANCMDLINESELCHANGE, 0, 0);
+			else if (HIWORD(wParam) != CBN_EDITCHANGE)
+				return 0;
 			break;
 
 		case IDC_SCANCMDLINEBROWSE:
 			TCHAR str[MAX_PATH + 2];
-			OPENFILENAME ofn = { 0 };
-			TCHAR filter[512], *pfilter;
-
 			GetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str, SIZEOF(str));
+
+			CMString tszFilter;
+			tszFilter.AppendFormat(_T("%s (*.exe)%c*.exe%c"), TranslateT("Executable files"), 0, 0);
+			tszFilter.AppendFormat(_T("%s (*)%c*%c"), TranslateT("All files"), 0, 0);
+
+			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner = hwndDlg;
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
-			_tcscpy(filter, TranslateT("Executable files"));
-			_tcscat(filter, _T(" (*.exe)"));
-			pfilter = filter + _tcslen(filter) + 1;
-			_tcscpy(pfilter, _T("*.exe"));
-			pfilter = pfilter + _tcslen(pfilter) + 1;
-			_tcscpy(pfilter, TranslateT("All files"));
-			_tcscat(pfilter, _T(" (*)"));
-			pfilter = pfilter + _tcslen(pfilter) + 1;
-			_tcscpy(pfilter, _T("*"));
-			pfilter = pfilter + _tcslen(pfilter) + 1;
-			*pfilter = 0;
-			ofn.lpstrFilter = filter;
+			ofn.lpstrFilter = tszFilter;
 			ofn.lpstrFile = str;
 			ofn.nMaxFile = SIZEOF(str) - 2;
 			if (str[0] == '"') {
 				TCHAR *pszQuote = _tcschr(str + 1, '"');
-				if (pszQuote) *pszQuote = 0;
+				if (pszQuote)
+					*pszQuote = 0;
 				memmove(str, str + 1, (_tcslen(str) * sizeof(TCHAR)));
 			}
 			else {
