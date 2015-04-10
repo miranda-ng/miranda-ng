@@ -170,6 +170,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char* szModule, const char*
 
 void HotkeyToName(TCHAR *buf, int size, BYTE shift, BYTE key);
 WORD GetHotkeyValue(INT_PTR idHotkey);
+int  AssertInsideScreen(RECT &rc);
 
 HBITMAP ConvertIconToBitmap(HICON hIcon, HIMAGELIST hIml, int iconId);
 

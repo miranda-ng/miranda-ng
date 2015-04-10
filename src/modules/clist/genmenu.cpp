@@ -109,8 +109,9 @@ PMO_IntMenuItem MO_RecursiveWalkMenu(PMO_IntMenuItem parent, pfnWalkFunc func, v
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-//wparam = 0
-//lparam = LPMEASUREITEMSTRUCT
+// wparam = 0
+// lparam = LPMEASUREITEMSTRUCT
+
 int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis)
 {
 	if (!bIsGenMenuInited)
@@ -136,8 +137,9 @@ int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-//wparam = 0
-//lparam = LPDRAWITEMSTRUCT
+// wparam = 0
+// lparam = LPDRAWITEMSTRUCT
+
 int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis)
 {
 	if (!bIsGenMenuInited)
@@ -190,7 +192,9 @@ int MO_RemoveAllObjects()
 	return 0;
 }
 
-//wparam = MenuObjectHandle
+/////////////////////////////////////////////////////////////////////////////////////////
+// wparam = MenuObjectHandle
+
 INT_PTR MO_RemoveMenuObject(WPARAM wParam, LPARAM)
 {
 	if (!bIsGenMenuInited)
@@ -206,8 +210,10 @@ INT_PTR MO_RemoveMenuObject(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-//wparam = MenuObjectHandle
-//lparam = vKey
+/////////////////////////////////////////////////////////////////////////////////////////
+// wparam = MenuObjectHandle
+// lparam = vKey
+
 INT_PTR MO_ProcessHotKeys(HANDLE menuHandle, INT_PTR vKey)
 {
 	if (!bIsGenMenuInited)
@@ -255,8 +261,9 @@ INT_PTR MO_GetProtoRootMenu(WPARAM wParam, LPARAM lParam)
 	return NULL;
 }
 
-//wparam = MenuItemHandle
-//lparam = PMO_MenuItem
+/////////////////////////////////////////////////////////////////////////////////////////
+// wparam = MenuItemHandle
+// lparam = PMO_MenuItem
 INT_PTR MO_GetMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	PMO_MenuItem mi = (PMO_MenuItem)lParam;
@@ -290,8 +297,10 @@ INT_PTR MO_GetDefaultMenuItem(WPARAM wParam, LPARAM)
 	return (pimi) ? (INT_PTR)MO_RecursiveWalkMenu(pimi, FindDefaultItem, NULL) : NULL;
 }
 
-//wparam MenuItemHandle
-//lparam PMO_MenuItem
+/////////////////////////////////////////////////////////////////////////////////////////
+// wparam MenuItemHandle
+// lparam PMO_MenuItem
+
 int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, PMO_MenuItem pmi)
 {
 	int oldflags;
@@ -349,9 +358,11 @@ int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, PMO_MenuItem pmi)
 	return 0;
 }
 
-//wparam MenuItemHandle
-//return ownerdata useful to free ownerdata before delete menu item,
-//NULL on error.
+/////////////////////////////////////////////////////////////////////////////////////////
+// wparam MenuItemHandle
+// return ownerdata useful to free ownerdata before delete menu item,
+// NULL on error.
+
 INT_PTR MO_MenuItemGetOwnerData(WPARAM wParam, LPARAM)
 {
 	if (!bIsGenMenuInited)
@@ -381,7 +392,8 @@ PMO_IntMenuItem MO_GetIntMenuItem(HGENMENU wParam)
 	return result;
 }
 
-//LOWORD(wparam) menuident
+/////////////////////////////////////////////////////////////////////////////////////////
+// LOWORD(wparam) menuident
 
 static int FindMenuByCommand(PMO_IntMenuItem pimi, void* pCommand)
 {
@@ -495,9 +507,11 @@ int MO_SetOptionsMenuObject(HANDLE handle, int setting, INT_PTR value)
 	return res;
 }
 
-//wparam = LPCSTR szDisplayName;
-//lparam = PMenuParam;
-//result = MenuObjectHandle
+/////////////////////////////////////////////////////////////////////////////////////////
+// wparam = LPCSTR szDisplayName;
+// lparam = PMenuParam;
+// result = MenuObjectHandle
+
 INT_PTR MO_CreateNewMenuObject(WPARAM wParam, LPARAM lParam)
 {
 	TMenuParam *pmp = (TMenuParam *)lParam;
@@ -517,8 +531,9 @@ INT_PTR MO_CreateNewMenuObject(WPARAM wParam, LPARAM lParam)
 	return p->id;
 }
 
-//wparam = MenuItemHandle
-//lparam = 0
+/////////////////////////////////////////////////////////////////////////////////////////
+// wparam = MenuItemHandle
+// lparam = 0
 
 static int FreeMenuItem(TMO_IntMenuItem* pimi, void*)
 {
@@ -612,15 +627,17 @@ static int GetNextObjectMenuItemId()
 	return NextObjectMenuItemId++;
 }
 
-//wparam = MenuObjectHandle
-//lparam = PMO_MenuItem
-//return MenuItemHandle
+/////////////////////////////////////////////////////////////////////////////////////////
+// wparam = MenuObjectHandle
+// lparam = PMO_MenuItem
+// return MenuItemHandle
+
 PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 {
 	if (!bIsGenMenuInited || pmi == NULL || pmi->cbSize != sizeof(TMO_MenuItem))
 		return NULL;
 
-	//old mode
+	// old mode
 	if (!(pmi->flags & CMIF_ROOTHANDLE))
 		return MO_AddOldNewMenuItem(menuobjecthandle, pmi);
 
@@ -674,8 +691,9 @@ PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 	return p;
 }
 
-//wparam = MenuObjectHandle
-//lparam = PMO_MenuItem
+/////////////////////////////////////////////////////////////////////////////////////////
+// wparam = MenuObjectHandle
+// lparam = PMO_MenuItem
 
 int FindRoot(PMO_IntMenuItem pimi, void* param)
 {
@@ -703,7 +721,7 @@ PMO_IntMenuItem MO_AddOldNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 
 	//is item with popup or not
 	if (pmi->root == 0) {
-		//yes, this without popup
+		// yes, this without popup
 		pmi->root = NULL; //first level
 	}
 	else { // no, search for needed root and create it if need
@@ -717,22 +735,22 @@ PMO_IntMenuItem MO_AddOldNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 		mir_free(tszRoot);
 
 		if (oldroot == NULL) {
-			//not found, creating root
+			// not found, creating root
 			TMO_MenuItem tmi = *pmi;
 			tmi.flags |= CMIF_ROOTHANDLE;
 			tmi.ownerdata = 0;
 			tmi.root = NULL;
-			//copy pszPopupName
+			// copy pszPopupName
 			tmi.ptszName = (TCHAR*)pmi->root;
 			if ((oldroot = MO_AddNewMenuItem(menuobjecthandle, &tmi)) != NULL)
 				MO_SetOptionsMenuItem(oldroot, OPT_MENUITEMSETUNIQNAME, (INT_PTR)pmi->root);
 		}
 		pmi->root = oldroot;
 
-		//popup will be created in next commands
+		// popup will be created in next commands
 	}
 	pmi->flags |= CMIF_ROOTHANDLE;
-	//add popup(root allready exists)
+	// add popup(root allready exists)
 	return MO_AddNewMenuItem(menuobjecthandle, pmi);
 }
 
@@ -786,12 +804,12 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 	if (pimi == NULL)
 		return;
 
-	//check for separator before
+	// check for separator before
 	if (uItem) {
 		UINT fType = GetMenuItemTypeData(hMenu, uItem-1, p);
 		if (p != NULL && fType != MFT_SEPARATOR) {
 			if ((p->mi.position / SEPARATORPOSITIONINTERVAL) != (pimi->mi.position / SEPARATORPOSITIONINTERVAL)) {
-				//but might be supposed to be after the next one instead
+				// but might be supposed to be after the next one instead
 				if (!(uItem < GetMenuItemCount(hMenu) && GetMenuItemType(hMenu, uItem) == MFT_SEPARATOR))
 					InsertSeparator(hMenu, uItem);
 				uItem++;
@@ -799,7 +817,7 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 		}
 	}
 
-	//check for separator after
+	// check for separator after
 	if (uItem < GetMenuItemCount(hMenu)) {
 		UINT fType = GetMenuItemTypeData(hMenu, uItem, p);
 		if (p != NULL && fType != MFT_SEPARATOR)
@@ -1030,7 +1048,6 @@ int OnIconLibChanges(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//
 
 static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 {
@@ -1084,7 +1101,7 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 
 int RegisterAllIconsInIconLib()
 {
-	//register all icons
+	// register all icons
 	for (int mo=0; mo < g_menus.getCount(); mo++) {
 		if ((int)hStatusMenuObject == g_menus[mo]->id) //skip status menu
 			continue;

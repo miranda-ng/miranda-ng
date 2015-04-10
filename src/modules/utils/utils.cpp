@@ -346,33 +346,36 @@ static INT_PTR SaveWindowPosition(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-
-static INT_PTR AssertInsideScreen(WPARAM wParam, LPARAM lParam)
+static INT_PTR svcAssertInsideScreen(WPARAM wParam, LPARAM lParam)
 {
-	LPRECT rc = (LPRECT) wParam;
+	LPRECT rc = (LPRECT)wParam;
 	if (rc == NULL)
 		return -1;
 
+	return AssertInsideScreen(*rc);
+}
+
+int AssertInsideScreen(RECT &rc)
+{
 	RECT rcScreen;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcScreen, FALSE);
-
-	if (MonitorFromRect(rc, MONITOR_DEFAULTTONULL))
+	if (MonitorFromRect(&rc, MONITOR_DEFAULTTONULL))
 		return 0;
 
 	MONITORINFO mi = {0};
-	HMONITOR hMonitor = MonitorFromRect(rc, MONITOR_DEFAULTTONEAREST);
+	HMONITOR hMonitor = MonitorFromRect(&rc, MONITOR_DEFAULTTONEAREST);
 	mi.cbSize = sizeof(mi);
 	if (GetMonitorInfo(hMonitor, &mi))
 		rcScreen = mi.rcWork;
 
-	if (rc->top >= rcScreen.bottom)
-		OffsetRect(rc, 0, rcScreen.bottom - rc->bottom);
-	else if (rc->bottom <= rcScreen.top)
-		OffsetRect(rc, 0, rcScreen.top - rc->top);
-	if (rc->left >= rcScreen.right)
-		OffsetRect(rc, rcScreen.right - rc->right, 0);
-	else if (rc->right <= rcScreen.left)
-		OffsetRect(rc, rcScreen.left - rc->left, 0);
+	if (rc.top >= rcScreen.bottom)
+		OffsetRect(&rc, 0, rcScreen.bottom - rc.bottom);
+	else if (rc.bottom <= rcScreen.top)
+		OffsetRect(&rc, 0, rcScreen.top - rc.top);
+	if (rc.left >= rcScreen.right)
+		OffsetRect(&rc, rcScreen.right - rc.right, 0);
+	else if (rc.right <= rcScreen.left)
+		OffsetRect(&rc, rcScreen.left - rc.left, 0);
 
 	return 1;
 }
@@ -409,13 +412,14 @@ static INT_PTR RestoreWindowPosition(WPARAM wParam, LPARAM lParam)
 		wp.showCmd = SW_SHOWNOACTIVATE;
 
 	if (!(wParam & RWPF_NOMOVE))
-		AssertInsideScreen((WPARAM) &wp.rcNormalPosition, 0);
+		AssertInsideScreen(wp.rcNormalPosition);
 
 	SetWindowPlacement(swp->hwnd, &wp);
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
 static INT_PTR RestartMiranda(WPARAM wParam, LPARAM)
 {
 	TCHAR mirandaPath[MAX_PATH], cmdLine[MAX_PATH];
@@ -465,7 +469,7 @@ int LoadUtilsModule(void)
 	CreateServiceFunction(MS_UTILS_RESIZEDIALOG, ResizeDialog);
 	CreateServiceFunction(MS_UTILS_SAVEWINDOWPOSITION, SaveWindowPosition);
 	CreateServiceFunction(MS_UTILS_RESTOREWINDOWPOSITION, RestoreWindowPosition);
-	CreateServiceFunction(MS_UTILS_ASSERTINSIDESCREEN, AssertInsideScreen);
+	CreateServiceFunction(MS_UTILS_ASSERTINSIDESCREEN, svcAssertInsideScreen);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYNUMBER, GetCountryByNumber);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYISOCODE, GetCountryByISOCode);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYLIST, GetCountryList);

@@ -291,7 +291,7 @@ int LoadCLUIModule(void)
 	pos.right = pos.left + (int)db_get_dw(NULL, "CList", "Width", 108);
 	pos.bottom = pos.top + (int)db_get_dw(NULL, "CList", "Height", 310);
 
-	Utils_AssertInsideScreen(&pos);
+	AssertInsideScreen(pos);
 
 	cli.hwndContactList = CreateWindowEx(
 		(db_get_b(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ? WS_EX_TOOLWINDOW : WS_EX_APPWINDOW),
@@ -750,7 +750,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		{
 			RECT rc;
 			GetWindowRect(hwnd, &rc);
-			if (Utils_AssertInsideScreen(&rc) == 1)
+			if (AssertInsideScreen(rc) == 1)
 				MoveWindow(hwnd, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, TRUE);
 		}
 		return DefWindowProc(hwnd, msg, wParam, lParam);
