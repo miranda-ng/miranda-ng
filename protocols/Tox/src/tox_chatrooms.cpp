@@ -115,11 +115,6 @@ INT_PTR CToxProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 
 INT_PTR CToxProto::OnCreateChatRoom(WPARAM, LPARAM)
 {
-	if (!IsToxCoreInited())
-	{
-		return 1;
-	}
-
 	ChatRoomInviteParam param = { this };
 
 	if (DialogBoxParam(

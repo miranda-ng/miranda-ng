@@ -2,31 +2,27 @@
 
 /* CONNECTION FUNCTIONS */
 
-int tox_bootstrap_from_address(Tox *tox, const char *address, uint16_t port, const uint8_t *public_key)
+bool tox_bootstrap(Tox *tox, const char *host, uint16_t port, const uint8_t *public_key, TOX_ERR_BOOTSTRAP *error)
 {
-	if (public_key == NULL)
-		return 0;
-	return CreateFunction<int(*)(Tox*, const char*, uint16_t, const uint8_t*)>(__FUNCTION__)(tox, address, port, public_key);
+	return CreateFunction<bool(*)(Tox*, const char*, uint16_t, const uint8_t*, TOX_ERR_BOOTSTRAP*)>(__FUNCTION__)(tox, host, port, public_key, error);
 }
 
-int tox_add_tcp_relay(Tox *tox, const char *address, uint16_t port, const uint8_t *public_key)
+bool tox_add_tcp_relay(Tox *tox, const char *host, uint16_t port, const uint8_t *public_key, TOX_ERR_BOOTSTRAP *error)
 {
-	if (public_key == NULL)
-		return 0;
-	return CreateFunction<int(*)(Tox*, const char*, uint16_t, const uint8_t*)>(__FUNCTION__)(tox, address, port, public_key);
+	return CreateFunction<bool(*)(Tox*, const char*, uint16_t, const uint8_t*, TOX_ERR_BOOTSTRAP*)>(__FUNCTION__)(tox, host, port, public_key, error);
 }
 
-int tox_isconnected(const Tox *tox)
+TOX_CONNECTION tox_self_get_connection_status(const Tox *tox)
 {
-	return CreateFunction<int(*)(const Tox*)>(__FUNCTION__)(tox);
+	return CreateFunction<TOX_CONNECTION(*)(const Tox*)>(__FUNCTION__)(tox);
 }
 
-uint32_t tox_do_interval(Tox *tox)
+uint32_t tox_iteration_interval(const Tox *tox)
 {
-	return CreateFunction<int(*)(const Tox*)>(__FUNCTION__)(tox);
+	return CreateFunction<uint32_t(*)(const Tox*)>(__FUNCTION__)(tox);
 }
 
-void tox_do(Tox *tox)
+void tox_iterate(Tox *tox)
 {
 	CreateFunction<int(*)(const Tox*)>(__FUNCTION__)(tox);
 }

@@ -97,7 +97,7 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <AdditionalDependencies>dnsapi.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dnsapi.lib;comctl32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -208,6 +208,7 @@ copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\tox_address.h" />
     <ClInclude Include="src\tox_chatrooms.h" />
+    <ClInclude Include="src\tox_dialogs.h" />
     <ClInclude Include="src\tox_icons.h" />
     <ClInclude Include="src\tox_menus.h" />
     <ClInclude Include="src\tox_options.h" />
