@@ -528,75 +528,76 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 {
 	StatusMenuExecParam *smep = (StatusMenuExecParam*)wParam;
-	if (smep != NULL) {
-		if (smep->custom) {
-			if (smep->svc && *smep->svc)
-				CallService(smep->svc, 0, (LPARAM)smep->hMenuItem);
-		}
-		else {
-			if (smep->status == 0 && smep->protoindex != 0 && smep->proto != NULL) {
-				char *prot = smep->proto;
-				char szHumanName[64] = { 0 };
-				PROTOACCOUNT *acc = Proto_GetAccount(smep->proto);
-				bool bIsLocked = !Proto_IsAccountLocked(acc);
-				db_set_b(NULL, prot, "LockMainStatus", bIsLocked);
+	if (smep == NULL)
+		return 0;
 
-				CallProtoServiceInt(NULL, smep->proto, PS_GETNAME, (WPARAM)SIZEOF(szHumanName), (LPARAM)szHumanName);
-				PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)smep->protoindex);
-				PMO_IntMenuItem root = (PMO_IntMenuItem)pimi->mi.root;
-				mir_free(pimi->mi.pszName);
-				mir_free(root->mi.pszName);
-				if (bIsLocked) {
-					TCHAR buf[256];
-					pimi->mi.flags |= CMIF_CHECKED;
-					if (cli.bDisplayLocked) {
-						mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s (locked)"), acc->tszAccountName);
-						pimi->mi.ptszName = mir_tstrdup(buf);
-						root->mi.ptszName = mir_tstrdup(buf);
-					}
-					else {
-						pimi->mi.ptszName = mir_tstrdup(acc->tszAccountName);
-						root->mi.ptszName = mir_tstrdup(acc->tszAccountName);
-					}
-				}
-				else {
-					pimi->mi.ptszName = mir_tstrdup(acc->tszAccountName);
-					root->mi.ptszName = mir_tstrdup(acc->tszAccountName);
-					pimi->mi.flags &= ~CMIF_CHECKED;
-				}
-				if (cli.hwndStatus)
-					InvalidateRect(cli.hwndStatus, NULL, TRUE);
-			}
-			else if (smep->proto != NULL) {
-				Proto_SetStatus(smep->proto, smep->status);
-				NotifyEventHooks(hStatusModeChangeEvent, smep->status, (LPARAM)smep->proto);
-			}
-			else {
-				int MenusProtoCount = 0;
-
-				for (int i = 0; i < accounts.getCount(); i++)
-					if (cli.pfnGetProtocolVisibility(accounts[i]->szModuleName))
-						MenusProtoCount++;
-
-				cli.currentDesiredStatusMode = smep->status;
-
-				for (int j = 0; j < accounts.getCount(); j++) {
-					PROTOACCOUNT *pa = accounts[j];
-					if (!Proto_IsAccountEnabled(pa))
-						continue;
-					if (MenusProtoCount > 1 && Proto_IsAccountLocked(pa))
-						continue;
-
-					Proto_SetStatus(pa->szModuleName, cli.currentDesiredStatusMode);
-				}
-				NotifyEventHooks(hStatusModeChangeEvent, cli.currentDesiredStatusMode, 0);
-				db_set_w(NULL, "CList", "Status", (WORD)cli.currentDesiredStatusMode);
-				return 1;
-			}
-		}
+	if (smep->custom) {
+		if (smep->svc && *smep->svc)
+			CallService(smep->svc, 0, (LPARAM)smep->hMenuItem);
+		return 0;
 	}
 
-	return 0;
+	if (smep->status == 0 && smep->protoindex != 0 && smep->proto != NULL) {
+		char *prot = smep->proto;
+		char szHumanName[64] = { 0 };
+		PROTOACCOUNT *acc = Proto_GetAccount(smep->proto);
+		bool bIsLocked = !Proto_IsAccountLocked(acc);
+		db_set_b(NULL, prot, "LockMainStatus", bIsLocked);
+
+		CallProtoServiceInt(NULL, smep->proto, PS_GETNAME, (WPARAM)SIZEOF(szHumanName), (LPARAM)szHumanName);
+
+		PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)smep->protoindex);
+		if (pimi == NULL)
+			return 0;
+
+		PMO_IntMenuItem root = (PMO_IntMenuItem)pimi->mi.root;
+		TCHAR buf[256], *ptszName;
+		if (bIsLocked) {
+			pimi->mi.flags |= CMIF_CHECKED;
+			if (cli.bDisplayLocked) {
+				mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s (locked)"), acc->tszAccountName);
+				ptszName = buf;
+			}
+			else ptszName = acc->tszAccountName;
+		}
+		else {
+			ptszName = acc->tszAccountName;
+			pimi->mi.flags &= ~CMIF_CHECKED;
+		}
+		replaceStrT(pimi->mi.ptszName, ptszName);
+		replaceStrT(root->mi.ptszName, ptszName);
+
+		if (cli.hwndStatus)
+			InvalidateRect(cli.hwndStatus, NULL, TRUE);
+		return 0;
+	}
+	
+	if (smep->proto != NULL) {
+		Proto_SetStatus(smep->proto, smep->status);
+		NotifyEventHooks(hStatusModeChangeEvent, smep->status, (LPARAM)smep->proto);
+		return 0;
+	}
+
+	int MenusProtoCount = 0;
+
+	for (int i = 0; i < accounts.getCount(); i++)
+		if (cli.pfnGetProtocolVisibility(accounts[i]->szModuleName))
+			MenusProtoCount++;
+
+	cli.currentDesiredStatusMode = smep->status;
+
+	for (int j = 0; j < accounts.getCount(); j++) {
+		PROTOACCOUNT *pa = accounts[j];
+		if (!Proto_IsAccountEnabled(pa))
+			continue;
+		if (MenusProtoCount > 1 && Proto_IsAccountLocked(pa))
+			continue;
+
+		Proto_SetStatus(pa->szModuleName, cli.currentDesiredStatusMode);
+	}
+	NotifyEventHooks(hStatusModeChangeEvent, cli.currentDesiredStatusMode, 0);
+	db_set_w(NULL, "CList", "Status", (WORD)cli.currentDesiredStatusMode);
+	return 1;
 }
 
 INT_PTR FreeOwnerDataStatusMenu(WPARAM, LPARAM lParam)
