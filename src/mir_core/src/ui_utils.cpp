@@ -1767,7 +1767,9 @@ CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl) :
 	if (wnd) {
 		m_next = wnd->m_first;
 		wnd->m_first = this;
-}	}
+	}
+	else m_next = NULL;
+}
 
 void CCtrlBase::OnInit()
 {
