@@ -39,9 +39,9 @@ static HGENMENU hContactMenu = 0;
 
 static void GetMessageDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
 {
-	TCHAR* msg = DbGetEventTextT(dbei, CP_ACP);
-    _tcsncpy(buf, msg ? msg : TranslateT("Invalid message"), cbBuf);
-    buf[ cbBuf-1 ] = 0;
+	TCHAR *msg = DbGetEventTextT(dbei, CP_ACP);
+	_tcsncpy(buf, msg ? msg : TranslateT("Invalid message"), cbBuf);
+	buf[ cbBuf-1 ] = 0;
 	mir_free(msg);
 }
 
@@ -100,18 +100,18 @@ static void GetObjectSummary(DBEVENTINFO *dbei, TCHAR* str, int cbStr)
 
 	switch(dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
-		if (dbei->flags & DBEF_SENT)   pszSrc = TranslateT("Outgoing message");
-		else                             pszSrc = TranslateT("Incoming message");
+		if (dbei->flags & DBEF_SENT) pszSrc = TranslateT("Outgoing message");
+		else                         pszSrc = TranslateT("Incoming message");
 		break;
 
 	case EVENTTYPE_URL:
-		if (dbei->flags & DBEF_SENT)   pszSrc = TranslateT("Outgoing URL");
-      else                             pszSrc = TranslateT("Incoming URL");
+		if (dbei->flags & DBEF_SENT) pszSrc = TranslateT("Outgoing URL");
+		else                         pszSrc = TranslateT("Incoming URL");
 		break;
 
 	case EVENTTYPE_FILE:
-		if (dbei->flags & DBEF_SENT)   pszSrc = TranslateT("Outgoing file");
-		else                             pszSrc = TranslateT("Incoming file");
+		if (dbei->flags & DBEF_SENT) pszSrc = TranslateT("Outgoing file");
+		else                         pszSrc = TranslateT("Incoming file");
 		break;
 
 	default:
@@ -234,6 +234,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_GETMINMAXINFO:
 		((MINMAXINFO*)lParam)->ptMinTrackSize.x = 300;
 		((MINMAXINFO*)lParam)->ptMinTrackSize.y = 230;
+		break;
 
 	case WM_SIZE:
 		{
@@ -247,6 +248,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
 		}
 		return TRUE;
+
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
