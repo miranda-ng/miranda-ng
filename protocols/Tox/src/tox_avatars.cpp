@@ -97,7 +97,7 @@ void CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 		transfer->pfts.hContact = hContact;
 		transfer->pfts.flags |= PFTS_SENDING;
 		//transfer->pfts.tszWorkingDir = fileDir;
-		transfer->hFile = hFile;
+		transfer->hFile = _tfopen(path.c_str(), L"rb");
 		transfers.Add(transfer);
 	}
 
