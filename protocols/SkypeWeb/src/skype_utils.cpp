@@ -97,7 +97,7 @@ time_t CSkypeProto::IsoToUnixTime(const TCHAR *stamp)
 
 bool CSkypeProto::IsMe(const char *skypeName)
 {
-	ptrA mySkypeName(getStringA("Skypename"));
+	ptrA mySkypeName(getStringA(SKYPE_SETTINGS_ID));
 	ptrA SelfEndpointName(getStringA("SelfEndpointName"));
 	if (!mir_strcmp(skypeName, mySkypeName) || !mir_strcmp(skypeName, SelfEndpointName))
 		return true;
