@@ -21,7 +21,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class GetSearchRequest : public HttpRequest
 {
 public:
-	GetSearchRequest(const char *token, const char *string) : HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/search/users/any?keyWord=%s&contactTypes[]=skype", string)
+	GetSearchRequest(const char *token, const char *string) : 
+	  HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/search/users/any?keyWord=%s&contactTypes[]=skype", mir_urlEncode(string))
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json")
