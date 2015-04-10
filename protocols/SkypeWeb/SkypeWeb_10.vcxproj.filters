@@ -60,6 +60,9 @@
     <ClInclude Include="src\requests\reg_info.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
+    <ClInclude Include="src\requests\search.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
     <ClInclude Include="src\requests\status.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
@@ -138,6 +141,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\skype_login.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_search.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

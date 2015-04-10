@@ -210,6 +210,7 @@
     <ClInclude Include="src\requests\poll.h" />
     <ClInclude Include="src\requests\profile.h" />
     <ClInclude Include="src\requests\reg_info.h" />
+    <ClInclude Include="src\requests\search.h" />
     <ClInclude Include="src\requests\status.h" />
     <ClInclude Include="src\requests\subscriptions.h" />
     <ClInclude Include="src\resource.h" />
@@ -242,6 +243,7 @@
     <ClCompile Include="src\skype_contacts.cpp" />
     <ClCompile Include="src\skype_utils.cpp" />
     <ClCompile Include="src\skype_polling.cpp" />
+    <ClCompile Include="src\skype_search.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
