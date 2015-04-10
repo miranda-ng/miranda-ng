@@ -114,7 +114,8 @@ BEGIN
     LTEXT           "Default group:",IDC_STATIC,12,51,69,12
     EDITTEXT        IDC_GROUP,81,49,217,12,ES_AUTOHSCROLL
     GROUPBOX        "Others",IDC_STATIC,5,79,298,71
-    CONTROL         "Automatic messages synchronization",IDC_AUTOSYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,94,160,10
+    CONTROL         "Automatic messages synchronization",IDC_AUTOSYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,94,160,10
+    CONTROL         "Use local time for received messages",IDC_LOCALTIME,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,12,108,133,10
 END
 
 IDD_PASSWORD_EDITOR DIALOGEX 0, 0, 209, 75
@@ -145,6 +146,7 @@ BEGIN
 
     IDD_OPTIONS_MAIN, DIALOG
     BEGIN
+        VERTGUIDE, 12
     END
 
     IDD_PASSWORD_EDITOR, DIALOG

@@ -58,10 +58,22 @@ MCONTACT CSkypeProto::AddChatRoom(const char *chatname)
 void CSkypeProto::SetChatStatus(MCONTACT hContact, int iStatus)
 {
 	ptrT tszChatID(getTStringA(hContact, "ChatID"));
+	ptrT tszNick(getTStringA(hContact, "Nick"));
 	if (tszChatID == NULL)
 		return;
 
+	// start chat session
+	GCSESSION gcw = {0};
+	gcw.cbSize = sizeof(gcw);
+	gcw.iType = GCW_CHATROOM;
+	gcw.pszModule = m_szModuleName;
+	gcw.ptszName = tszNick;
+	gcw.ptszID = tszChatID; 
+	gcw.dwItemData = (DWORD)tszChatID;
+	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+
 	GCDEST gcd = { m_szModuleName, tszChatID, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	CallServiceSync(MS_GC_EVENT, (iStatus == ID_STATUS_OFFLINE) ? SESSION_OFFLINE : SESSION_ONLINE, (LPARAM)&gce);
+	CallServiceSync(MS_GC_EVENT, true ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce); 
+	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 }

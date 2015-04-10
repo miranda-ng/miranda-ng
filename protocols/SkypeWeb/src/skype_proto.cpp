@@ -137,7 +137,11 @@ int CSkypeProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* 
 
 int CSkypeProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** tszFilename) { return 0; }
 
-int CSkypeProto::GetInfo(MCONTACT, int) { return 0; }
+int CSkypeProto::GetInfo(MCONTACT hContact, int) 
+{
+	PushRequest(new GetProfileRequest(ptrA(getStringA("TokenSecret")), ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))), &CSkypeProto::LoadProfile);
+	return 0;
+}
 
 HANDLE CSkypeProto::SearchByEmail(const PROTOCHAR*) { return 0; }
 

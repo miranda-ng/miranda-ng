@@ -10,9 +10,8 @@
 #define IDC_GROUP                       106
 #define IDD_PASSWORD_EDITOR             107
 #define IDC_SAVEPERMANENTLY             108
-#define IDC_RADIO1                      1027
-#define IDC_CHECK2                      1028
 #define IDC_AUTOSYNC                    1028
+#define IDC_LOCALTIME                   1029
 
 // Next default values for new objects
 // 
@@ -20,7 +19,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        109
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1029
+#define _APS_NEXT_CONTROL_VALUE         1030
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
