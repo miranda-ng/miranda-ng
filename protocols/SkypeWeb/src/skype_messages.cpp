@@ -227,5 +227,9 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 			debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
 			OnReceiveMessage(clientMsgId, from, timestamp, content, emoteOffset);
 		}
+		else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage"))
+		{
+			return; //not supported
+		}
 	}
 }

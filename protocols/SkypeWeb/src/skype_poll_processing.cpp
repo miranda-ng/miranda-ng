@@ -106,10 +106,7 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 	else if (strstr(conversationLink, "/19:"))
 		OnChatEvent(node);
 
-	/*else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage"))
-	{
-	return; //not supported
-	}*/
+
 }
 
 void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)
