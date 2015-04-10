@@ -137,13 +137,16 @@
     <ClCompile Include="src\skype_avatars.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skype_chats.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\skype_login.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\skype_search.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_history_sync.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_chatrooms.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
