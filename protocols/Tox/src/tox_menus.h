@@ -3,13 +3,20 @@
 
 #define CMI_POSITION -201001000
 
-#define CMI_AUTH_REQUEST 0
-#define CMI_AUTH_GRANT 1
-#define CMI_MAX 2 // this item shall be the last one
+enum CMI_MENU_ITEMS
+{
+	CMI_AUTH_REQUEST,
+	CMI_AUTH_GRANT,
+	CMI_MAX // this item shall be the last one
+};
 
 #define SMI_POSITION 200000
 
-#define SMI_TOXID_COPY 0
-#define SMI_GROUPCHAT_CREATE 1
+enum SMI_MENU_ITEMS
+{
+	SMI_TOXID_COPY,
+	SMI_GROUPCHAT_CREATE,
+	SMI_MAX // this item shall be the last one
+};
 
 #endif //_TOX_MENUS_H_
