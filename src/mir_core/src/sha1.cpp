@@ -173,8 +173,10 @@ MIR_CORE_DLL(void) mir_hmac_sha1(BYTE hashout[MIR_SHA1_HASH_SIZE], const BYTE *k
 
 	memcpy(k_ipad, key, keylen);
 	memcpy(k_opad, key, keylen);
-	memset(k_ipad+keylen, 0x36, SHA_BLOCKSIZE - keylen);
-	memset(k_opad+keylen, 0x5c, SHA_BLOCKSIZE - keylen);
+	if (keylen < SHA_BLOCKSIZE) {
+		memset(k_ipad + keylen, 0x36, SHA_BLOCKSIZE - keylen);
+		memset(k_opad + keylen, 0x5c, SHA_BLOCKSIZE - keylen);
+	}
 
 	for (unsigned i = 0; i < keylen; i++) {
 		k_ipad[i] ^= 0x36;
