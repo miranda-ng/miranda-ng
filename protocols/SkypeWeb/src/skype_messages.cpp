@@ -263,7 +263,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 
 		ptrA skypename(ContactUrlToName(conversationLink));
 		if (skypename == NULL)
-			return;
+			continue;
 		MCONTACT hContact = GetContact(skypename);
 		if (hContact == NULL && !IsMe(skypename))
 			hContact = AddContact(skypename, true);
