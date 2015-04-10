@@ -200,7 +200,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 				CMStringA allCookies;
 				for (std::map<std::string, std::string>::iterator cookie = cookies.begin(); cookie != cookies.end(); ++cookie)
 					allCookies.AppendFormat("%s=%s; ", cookie->first.c_str(), cookie->second.c_str());
-				logoutRequest->Headers << CHAR_VALUE("Set-Cookie", allCookies);
+				logoutRequest->Headers << CHAR_VALUE("Cookie", allCookies);
 			}
 			PushRequest(logoutRequest);
 		}
