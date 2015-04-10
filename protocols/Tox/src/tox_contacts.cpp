@@ -359,8 +359,6 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 
 				FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, _T("avatar"), length);
 				transfer->pfts.hContact = hContact;
-				transfer->pfts.flags |= PFTS_SENDING;
-				//transfer->pfts.tszWorkingDir = fileDir;
 				transfer->hFile = hFile;
 				proto->transfers.Add(transfer);
 			}

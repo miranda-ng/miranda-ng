@@ -37,9 +37,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	g_hToxLibrary = LoadLibrary(_T("libtox.dll"));
 	if (g_hToxLibrary == NULL)
-	{
 		return 0;
-	}
 
 	mir_getLP(&pluginInfo);
 

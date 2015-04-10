@@ -22,7 +22,6 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 
 			FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, name, fileSize);
 			transfer->pfts.hContact = hContact;
-			transfer->pfts.flags |= PFTS_RECEIVING;
 			proto->transfers.Add(transfer);
 
 			if (kind == TOX_FILE_KIND_AVATAR)
@@ -216,7 +215,6 @@ HANDLE CToxProto::OnSendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR **pp
 
 	FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, fileName, fileSize);
 	transfer->pfts.hContact = hContact;
-	transfer->pfts.flags |= PFTS_SENDING;
 	transfer->pfts.tszWorkingDir = fileDir;
 	transfer->hFile = hFile;
 	transfers.Add(transfer);
