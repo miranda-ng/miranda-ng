@@ -84,7 +84,7 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 
 MCONTACT CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT *psr) 
 { 
-	debugLogA("CVkProto::AddToList");
+	debugLogA("CSkypeProto::AddToList");
 
 	ptrA skypeName(mir_t2a(ptrT(psr->id)));
 	if (skypeName == NULL)
