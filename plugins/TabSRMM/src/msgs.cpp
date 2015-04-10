@@ -1004,19 +1004,19 @@ STDMETHODIMP CREOleCallback::QueryInterface(REFIID riid, LPVOID * ppvObj)
 
 STDMETHODIMP_(ULONG) CREOleCallback::AddRef()
 {
-	if (refCount == 0) {
-		if (S_OK != StgCreateDocfile(NULL, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &pictStg))
-			pictStg = NULL;
-		nextStgId = 0;
-	}
+	if (refCount == 0)
+		StgCreateDocfile(NULL, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &pictStg);
+
 	return ++refCount;
 }
 
 STDMETHODIMP_(ULONG) CREOleCallback::Release()
 {
 	if (--refCount == 0) {
-		if (pictStg)
+		if (pictStg) {
 			pictStg->Release();
+			pictStg = NULL;
+		}
 	}
 	return refCount;
 }

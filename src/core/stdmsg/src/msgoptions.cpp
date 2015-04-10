@@ -100,11 +100,11 @@ void RegisterSRMMFonts(void)
 	FontIDT fontid = { sizeof(fontid) };
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
 	for (int i = 0; i < SIZEOF(fontOptionsList); i++) {
-		strcpy(fontid.dbSettingsGroup, SRMMMOD);
-		_tcscpy(fontid.group, LPGENT("Message log"));
-		_tcscpy(fontid.name, fontOptionsList[i].szDescr);
+		strncpy_s(fontid.dbSettingsGroup, SRMMMOD, _TRUNCATE);
+		_tcsncpy_s(fontid.group, LPGENT("Message log"), _TRUNCATE);
+		_tcsncpy_s(fontid.name, fontOptionsList[i].szDescr, _TRUNCATE);
 		mir_snprintf(idstr, SIZEOF(idstr), "SRMFont%d", i);
-		strcpy(fontid.prefix, idstr);
+		strncpy_s(fontid.prefix, idstr, _TRUNCATE);
 		fontid.order = i;
 
 		fontid.flags &= ~FIDF_CLASSMASK;
@@ -113,19 +113,19 @@ void RegisterSRMMFonts(void)
 		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
 		fontid.deffontsettings.size = fontOptionsList[i].defSize;
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
-		_tcscpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace);
+		_tcsncpy_s(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _TRUNCATE);
 		fontid.deffontsettings.charset = MsgDlgGetFontDefaultCharset(fontOptionsList[i].szDefFace);
-		_tcsncpy(fontid.backgroundGroup, LPGENT("Message log"),SIZEOF(fontid.backgroundGroup));
-		_tcsncpy(fontid.backgroundName, LPGENT("Background"),SIZEOF(fontid.backgroundName));
+		_tcsncpy_s(fontid.backgroundGroup, LPGENT("Message log"), _TRUNCATE);
+		_tcsncpy_s(fontid.backgroundName, LPGENT("Background"), _TRUNCATE);
 		FontRegisterT(&fontid);
 	}
 
 	ColourIDT colourid = { sizeof(colourid) };
-	strcpy(colourid.dbSettingsGroup, SRMMMOD);
-	strcpy(colourid.setting, SRMSGSET_BKGCOLOUR);
+	strncpy_s(colourid.dbSettingsGroup, SRMMMOD, _TRUNCATE);
+	strncpy_s(colourid.setting, SRMSGSET_BKGCOLOUR, _TRUNCATE);
 	colourid.defcolour = SRMSGDEFSET_BKGCOLOUR;
-	_tcscpy(colourid.name, LPGENT("Background"));
-	_tcscpy(colourid.group, LPGENT("Message log"));
+	_tcsncpy_s(colourid.name, LPGENT("Background"), _TRUNCATE);
+	_tcsncpy_s(colourid.group, LPGENT("Message log"), _TRUNCATE);
 	ColourRegisterT(&colourid);
 }
 
@@ -135,7 +135,8 @@ struct CheckBoxValues_t
 {
 	DWORD  style;
 	TCHAR* szDescr;
-} statusValues[] =
+}
+statusValues[] =
 {
 	{ MODEF_OFFLINE, LPGENT("Offline") },
 	{ PF2_ONLINE, LPGENT("Online") },
