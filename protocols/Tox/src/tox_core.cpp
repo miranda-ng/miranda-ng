@@ -6,7 +6,7 @@ bool CToxProto::InitToxCore()
 
 	TOX_ERR_OPTIONS_NEW error;
 	Tox_Options *options = tox_options_new(&error);
-	if (error != TOX_ERR_OPTIONS_NEW::TOX_ERR_OPTIONS_NEW_OK)
+	if (error != TOX_ERR_OPTIONS_NEW_OK)
 	{
 		debugLogA(__FUNCTION__": failed to initialize tox options (%d)", error);
 		return false;
