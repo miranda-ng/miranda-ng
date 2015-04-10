@@ -147,7 +147,7 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	HANDLE hMessage = (HANDLE)param->hMessage;
 	delete param;
 
-	if (response->resultCode != 200 && response->resultCode != 201)
+	if (response == NULL || (response->resultCode != 200 && response->resultCode != 201))
 	{
 		CMStringA error = "Unknown error";
 		if (response)

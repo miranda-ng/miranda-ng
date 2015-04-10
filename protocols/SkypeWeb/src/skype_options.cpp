@@ -46,7 +46,7 @@ void CSkypeOptionsMain::OnApply()
 {
 	m_proto->setString(SKYPE_SETTINGS_ID, m_skypename.GetTextA());
 	m_proto->setString("Password", m_password.GetTextA());
-	TCHAR *group = m_group.GetText();
+	ptrT group(m_group.GetText());
 	if (mir_tstrlen(group) > 0 && !Clist_GroupExists(group))
 		Clist_CreateGroup(0, group);
 }

@@ -231,7 +231,7 @@ public:
 		va_end(formatArgs);
 	}
 
-	~HttpRequest()
+	virtual ~HttpRequest()
 	{
 		for (int i = 0; i < headersCount; i++)
 		{

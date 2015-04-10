@@ -36,7 +36,8 @@ void CSkypeProto::SearchBasicThread(void* id)
 
 void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL) {
+	if (response == NULL)
+	{
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;
 	}
@@ -48,7 +49,8 @@ void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 	}
 
 	JSONROOT root(response->pData);
-	if (root == NULL) {
+	if (root == NULL)
+	{
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;
 	}
@@ -69,6 +71,7 @@ void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 		psr.nick = mir_wstrdup(sDisplayName);
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 	}
+	json_free(items);
 	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 
 	/*JSONROOT pRoot;
