@@ -1,3 +1,20 @@
+/*
+Copyright (c) 2015 Miranda NG project (http://miranda-ng.org)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation version 2
+of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "common.h"
 
 CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
@@ -49,7 +66,7 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	switch (type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_AUTHREQ | PF1_CHAT;
+		return PF1_IM | PF1_AUTHREQ | PF1_CHAT | PF1_BASICSEARCH;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_HEAVYDND;
 	case PFLAGNUM_3:
@@ -111,8 +128,6 @@ int CSkypeProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* 
 int CSkypeProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** tszFilename) { return 0; }
 
 int CSkypeProto::GetInfo(MCONTACT, int) { return 0; }
-
-HANDLE CSkypeProto::SearchBasic(const PROTOCHAR*) { return 0; }
 
 HANDLE CSkypeProto::SearchByEmail(const PROTOCHAR*) { return 0; }
 

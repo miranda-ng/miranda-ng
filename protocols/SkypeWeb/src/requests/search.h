@@ -15,22 +15,20 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _SKYPE_REQUEST_REGINFO_H_
-#define _SKYPE_REQUEST_REGINFO_H_
+#ifndef _SKYPE_REQUEST_SEARCH_H_
+#define _SKYPE_REQUEST_SEARCH_H_
 
-class GetRegInfoRequest : public HttpRequest
+class GetSearchRequest : public HttpRequest
 {
 public:
-	GetRegInfoRequest(const char *token, const char *server = "client-s.gateway.messenger.live.com") :
-		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints", server)
+	GetSearchRequest(const char *token, const char *string) : HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/search/users/any?keyWord=%s&contactTypes[]=skype", string)
 	{
 		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("Authentication", "skypetoken=%s", token)
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
-		
-		Body << VALUE("{}");
+			<< CHAR_VALUE("Accept", "application/json")
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
+			<< CHAR_VALUE("Connection", "keep-alive")
+			<< CHAR_VALUE("X-Skypetoken", token);
 	}
 };
 
-#endif //_SKYPE_REQUEST_STATUS_H_
+#endif //_SKYPE_REQUEST_SEARCH_H_
