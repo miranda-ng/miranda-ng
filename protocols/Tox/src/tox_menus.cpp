@@ -29,9 +29,7 @@ int CToxProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 int CToxProto::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	for (int i = 0; i < SIZEOF(ContactMenuItems); i++)
-	{
-		Menu_ShowItem(ContactMenuItems[i], false);
-	}
+		Menu_ShowItem(ContactMenuItems[i], FALSE);
 	CToxProto *proto = CToxProto::GetContactAccount(hContact);
 	return proto ? proto->OnPrebuildContactMenu(hContact, lParam) : 0;
 }
@@ -103,13 +101,14 @@ int CToxProto::OnInitStatusMenu()
 	mi.position = SMI_POSITION + SMI_TOXID_COPY;
 	Menu_AddProtoMenuItem(&mi);
 
+	
 	// Create group chat command
 	/*mir_strcpy(tDest, "/CreateChatRoom");
 	CreateProtoService(tDest, &CToxProto::OnCreateChatRoom);
 	mi.ptszName = LPGENT("Create group chat");
 	mi.position = SMI_POSITION + SMI_GROUPCHAT_CREATE;
 	mi.icolibItem = GetSkinIconHandle("conference");
-	Menu_AddProtoMenuItem(&mi);*/
+	HGENMENU hCreateChatRoom = Menu_AddProtoMenuItem(&mi);*/
 
 	return 0;
 }

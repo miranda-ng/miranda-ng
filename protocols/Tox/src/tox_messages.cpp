@@ -3,42 +3,23 @@
 /* MESSAGE RECEIVING */
 
 // incoming message flow
-void CToxProto::OnFriendMessage(Tox*, const int friendNumber, const uint8_t *message, const uint16_t messageSize, void *arg)
+void CToxProto::OnFriendMessage(Tox*, uint32_t friendNumber, TOX_MESSAGE_TYPE type, const uint8_t *message, size_t length, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
 	MCONTACT hContact = proto->GetContact(friendNumber);
 	if (hContact)
 	{
-		ptrA szMessage((char*)mir_alloc(messageSize + 1));
-		mir_strncpy(szMessage, (const char*)message, messageSize + 1);
+		std::string test((char*)message);
+		ptrA szMessage((char*)mir_alloc(length + 1));
+		mir_strncpy(szMessage, (const char*)message, length);
 
 		PROTORECVEVENT recv = { 0 };
 		recv.flags = PREF_UTF;
 		recv.timestamp = time(NULL);
 		recv.szMessage = szMessage;
-		recv.lParam = EVENTTYPE_MESSAGE;
-
-		ProtoChainRecvMsg(hContact, &recv);
-	}
-}
-
-// incoming action flow
-void CToxProto::OnFriendAction(Tox*, const int friendNumber, const uint8_t *action, const uint16_t actionSize, void *arg)
-{
-	CToxProto *proto = (CToxProto*)arg;
-
-	MCONTACT hContact = proto->GetContact(friendNumber);
-	if (hContact)
-	{
-		ptrA szMessage((char*)mir_alloc(actionSize + 1));
-		mir_strncpy(szMessage, (const char*)action, actionSize + 1);
-
-		PROTORECVEVENT recv = { 0 };
-		recv.flags = PREF_UTF;
-		recv.timestamp = time(NULL);
-		recv.szMessage = szMessage;
-		recv.lParam = TOX_DB_EVENT_TYPE_ACTION;
+		recv.lParam = type == TOX_MESSAGE_TYPE_NORMAL
+			? EVENTTYPE_MESSAGE : TOX_DB_EVENT_TYPE_ACTION;
 
 		ProtoChainRecvMsg(hContact, &recv);
 	}
@@ -68,62 +49,51 @@ int CToxProto::OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre)
 int CToxProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessage)
 {
 	int32_t friendNumber = GetToxFriendNumber(hContact);
-	if (friendNumber == TOX_ERROR)
-	{
+	if (friendNumber == UINT32_MAX)
 		return 0;
-	}
 
 	ptrA message;
 	if (flags & PREF_UNICODE)
-	{
 		message = mir_utf8encodeW((wchar_t*)&szMessage[mir_strlen(szMessage) + 1]);
-	}
 	else if (flags & PREF_UTF)
-	{
 		message = mir_strdup(szMessage);
-	}
 	else
-	{
 		message = mir_utf8encode(szMessage);
-	}
 
-	int receipt = 0;
-	if (strncmp(message, "/me ", 4) != 0)
+	size_t msgLen = mir_strlen(message);
+	uint8_t *msg = (uint8_t*)(char*)message;
+	TOX_MESSAGE_TYPE type = TOX_MESSAGE_TYPE_NORMAL;
+	if (strncmp(message, "/me ", 4) == 0)
 	{
-		receipt = tox_send_message(tox, friendNumber, (uint8_t*)(char*)message, mir_strlen(message));
+		msg += 4; msgLen -= 4;
+		type = TOX_MESSAGE_TYPE_ACTION;
 	}
-	else
+	TOX_ERR_FRIEND_SEND_MESSAGE error;
+	int messageId = tox_friend_send_message(tox, friendNumber, type, msg, msgLen, &error);
+	if (error != TOX_ERR_FRIEND_SEND_MESSAGE_OK)
 	{
-		receipt = tox_send_action(tox, friendNumber, (uint8_t*)&message[4], mir_strlen(message) - 4);
+		debugLogA(__FUNCTION__": failed to send message (%d)", error);
 	}
-	if (receipt == TOX_ERROR)
-	{
-		debugLogA("CToxProto::OnSendMessage: failed to send message");
-	}
-	return receipt;
+	return messageId;
 }
 
 // message is received by the other side
-void CToxProto::OnReadReceipt(Tox*, int32_t friendNumber, uint32_t receipt, void *arg)
+void CToxProto::OnReadReceipt(Tox*, uint32_t friendNumber, uint32_t messageId, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
 	MCONTACT hContact = proto->GetContact(friendNumber);
 	if (hContact)
-	{
 		proto->ProtoBroadcastAck(
-			hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)receipt, 0);
-	}
+			hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)messageId, 0);
 }
 
 // preparing message/action to writing into db
 int CToxProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 {
 	MessageWindowEvent *evt = (MessageWindowEvent*)lParam;
-	if (strcmp(GetContactProto(evt->hContact), m_szModuleName))
-	{
+	if (mir_strcmp(GetContactProto(evt->hContact), m_szModuleName))
 		return 0;
-	}
 
 	char *message = (char*)evt->dbei->pBlob;
 	if (strncmp(message, "/me ", 4) == 0)
@@ -141,28 +111,26 @@ int CToxProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 
 /* TYPING */
 
-void CToxProto::OnTypingChanged(Tox*, const int number, uint8_t isTyping, void *arg)
+int CToxProto::OnUserIsTyping(MCONTACT hContact, int type)
+{
+	int32_t friendNumber = GetToxFriendNumber(hContact);
+	if (friendNumber == UINT32_MAX)
+		return 0;
+	
+	TOX_ERR_SET_TYPING error;
+	if (!tox_self_set_typing(tox, friendNumber, type == PROTOTYPE_SELFTYPING_ON, &error))
+		debugLogA(__FUNCTION__": failed to send typing (%d)", error);
+
+	return 0;
+}
+
+void CToxProto::OnTypingChanged(Tox*, uint32_t friendNumber, bool isTyping, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	MCONTACT hContact = proto->GetContact(number);
-	if (hContact)
+	if (MCONTACT hContact = proto->GetContact(friendNumber))
 	{
-		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)isTyping);
+		int typingStatus = (isTyping ? PROTOTYPE_CONTACTTYPING_INFINITE : PROTOTYPE_CONTACTTYPING_OFF);
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)typingStatus);
 	}
-}
-
-int CToxProto::UserIsTyping(MCONTACT hContact, int type)
-{
-	if (hContact && IsOnline())
-	{
-		int32_t friendNumber = GetToxFriendNumber(hContact);
-		if (friendNumber >= 0)
-		{
-			tox_set_user_is_typing(tox, friendNumber, type);
-			return 0;
-		}
-	}
-
-	return 1;
 }

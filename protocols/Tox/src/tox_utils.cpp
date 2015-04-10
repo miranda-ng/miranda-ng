@@ -1,32 +1,32 @@
 #include "common.h"
 
-TOX_USERSTATUS CToxProto::MirandaToToxStatus(int status)
+TOX_USER_STATUS CToxProto::MirandaToToxStatus(int status)
 {
-	TOX_USERSTATUS userstatus = TOX_USERSTATUS_NONE;
+	TOX_USER_STATUS userstatus = TOX_USER_STATUS_NONE;
 	switch (status)
 	{
 	case ID_STATUS_AWAY:
-		userstatus = TOX_USERSTATUS_AWAY;
+		userstatus = TOX_USER_STATUS_AWAY;
 		break;
 	case ID_STATUS_OCCUPIED:
-		userstatus = TOX_USERSTATUS_BUSY;
+		userstatus = TOX_USER_STATUS_BUSY;
 		break;
 	}
 	return userstatus;
 }
 
-int CToxProto::ToxToMirandaStatus(TOX_USERSTATUS userstatus)
+int CToxProto::ToxToMirandaStatus(TOX_USER_STATUS userstatus)
 {
 	int status = ID_STATUS_OFFLINE;
 	switch (userstatus)
 	{
-	case TOX_USERSTATUS_NONE:
+	case TOX_USER_STATUS_NONE:
 		status = ID_STATUS_ONLINE;
 		break;
-	case TOX_USERSTATUS_AWAY:
+	case TOX_USER_STATUS_AWAY:
 		status = ID_STATUS_AWAY;
 		break;
-	case TOX_USERSTATUS_BUSY:
+	case TOX_USER_STATUS_BUSY:
 		status = ID_STATUS_OCCUPIED;
 		break;
 	}
@@ -62,13 +62,5 @@ void CToxProto::ShowNotification(const TCHAR *message, int flags, MCONTACT hCont
 
 bool CToxProto::IsFileExists(std::tstring path)
 {
-	//return ::GetFileAttributes(fileName) != DWORD(-1)
-	WIN32_FIND_DATA wfd;
-	HANDLE hFind = FindFirstFile(path.c_str(), &wfd);
-	if (INVALID_HANDLE_VALUE != hFind)
-	{
-		FindClose(hFind);
-		return true;
-	}
-	return false;
+	return _taccess(path.c_str(), 0) == 0;
 }

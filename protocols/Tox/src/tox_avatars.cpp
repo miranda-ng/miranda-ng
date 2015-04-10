@@ -30,36 +30,28 @@ std::tstring CToxProto::GetAvatarFilePath(MCONTACT hContact)
 
 void CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 {
-	/*if (!IsOnline())
-	{
-		return;
-	}*/
-
-	size_t length;
-	uint8_t *data;
 	FILE *hFile = _tfopen(path.c_str(), L"rb");
 	if (!hFile)
 	{
-		debugLogA("CToxProto::SetToxAvatar: failed to open avatar file");
+		debugLogA(__FUNCTION__": failed to open avatar file");
 		return;
 	}
 
 	fseek(hFile, 0, SEEK_END);
-	length = ftell(hFile);
+	size_t length = ftell(hFile);
 	rewind(hFile);
-	if (length > TOX_AVATAR_MAX_DATA_LENGTH)
+	if (length > 1024 * 1024)
 	{
 		fclose(hFile);
-		debugLogA("CToxProto::SetToxAvatar: new avatar size is excessive");
+		debugLogA(__FUNCTION__": new avatar size is excessive");
 		return;
 	}
 
-	data = (uint8_t*)mir_alloc(length);
-	size_t read = fread(data, sizeof(uint8_t), length, hFile);
-	if (read != length)
+	uint8_t *data = (uint8_t*)mir_alloc(length);
+	if (fread(data, sizeof(uint8_t), length, hFile) != length)
 	{
 		fclose(hFile);
-		debugLogA("CToxProto::SetToxAvatar: failed to read avatar file");
+		debugLogA(__FUNCTION__": failed to read avatar file");
 		return;
 	}
 	fclose(hFile);
@@ -73,18 +65,42 @@ void CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 		{
 			db_free(&dbv);
 			mir_free(data);
-			debugLogA("CToxProto::SetToxAvatar: new avatar is same with old");
+			debugLogA(__FUNCTION__": new avatar is same with old");
 			return;
 		}
 		db_free(&dbv);
 	}
 
-	if (tox_set_avatar(tox, TOX_AVATAR_FORMAT_PNG, data, length) == TOX_ERROR)
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		mir_free(data);
-		debugLogA("CToxProto::SetToxAvatar: failed to set new avatar");
-		return;
+		if (GetContactStatus(hContact) == ID_STATUS_OFFLINE)
+			continue;
+
+		int32_t friendNumber = GetToxFriendNumber(hContact);
+		if (friendNumber == UINT32_MAX)
+		{
+			mir_free(data);
+			debugLogA(__FUNCTION__": failed to set new avatar");
+			return;
+		}
+
+		TOX_ERR_FILE_SEND error;
+		uint32_t fileNumber = tox_file_send(tox, friendNumber, TOX_FILE_KIND_AVATAR, length, NULL, hash, TOX_HASH_LENGTH, &error);
+		if (error != TOX_ERR_FILE_SEND_OK)
+		{
+			mir_free(data);
+			debugLogA(__FUNCTION__": failed to set new avatar");
+			return;
+		}
+
+		FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, _T("avatar"), length);
+		transfer->pfts.hContact = hContact;
+		transfer->pfts.flags |= PFTS_SENDING;
+		//transfer->pfts.tszWorkingDir = fileDir;
+		transfer->hFile = hFile;
+		transfers.Add(transfer);
 	}
+
 	mir_free(data);
 
 	if (checkHash)
@@ -106,7 +122,7 @@ INT_PTR CToxProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 			size->y = 300;
 		}
 	}
-		break;
+	break;
 
 	case AF_ENABLED:
 		return 1;
@@ -115,7 +131,7 @@ INT_PTR CToxProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		return lParam == PA_FORMAT_PNG;
 
 	case AF_MAXFILESIZE:
-		return TOX_AVATAR_MAX_DATA_LENGTH;
+		return 1024 * 1024;
 	}
 
 	return 0;
@@ -171,14 +187,32 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 			return -1;
 		}
 
-		SetToxAvatar(avatarPath, true);
+		if (IsOnline())
+			SetToxAvatar(avatarPath, true);
 	}
 	else
 	{
-		if (tox_unset_avatar(tox) == TOX_ERROR)
+		if (IsOnline())
 		{
-			debugLogA("CToxProto::SetMyAvatar: failed to unset avatar");
-			return -1;
+			for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+			{
+				if (GetContactStatus(hContact) == ID_STATUS_OFFLINE)
+					continue;
+
+				int32_t friendNumber = GetToxFriendNumber(hContact);
+				if (friendNumber == UINT32_MAX)
+				{
+					debugLogA(__FUNCTION__": failed to unset avatar");
+					return -1;
+				}
+
+				TOX_ERR_FILE_SEND error;
+				if (!tox_file_send(tox, NULL, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, &error))
+				{
+					debugLogA(__FUNCTION__": failed to unset avatar");
+					return -1;
+				}
+			}
 		}
 
 		if (IsFileExists(avatarPath))
@@ -192,65 +226,60 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-void CToxProto::OnGotFriendAvatarInfo(Tox *, int32_t number, uint8_t format, uint8_t *hash, void *arg)
+void CToxProto::OnGotFriendAvatarInfo(FileTransferParam *transfer, const uint8_t *hash)
 {
-	CToxProto *proto = (CToxProto*)arg;
-
-	MCONTACT hContact = proto->GetContact(number);
-	if (hContact)
+	MCONTACT hContact = transfer->pfts.hContact;
+	std::tstring path = GetAvatarFilePath();
+	if (transfer->pfts.totalBytes == 0)
 	{
-		std::tstring path = proto->GetAvatarFilePath(hContact);
-		if (format == TOX_AVATAR_FORMAT_NONE)
+		delSetting(hContact, TOX_SETTINGS_AVATAR_HASH);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, 0, 0);
+		if (IsFileExists(path))
 		{
-			proto->delSetting(hContact, TOX_SETTINGS_AVATAR_HASH);
-			proto->ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, 0, 0);
-			if (IsFileExists(path))
-			{
-				DeleteFile(path.c_str());
-			}
+			DeleteFile(path.c_str());
 		}
-		else
+		OnFileCancel(hContact, transfer);
+	}
+	else
+	{
+		DBVARIANT dbv;
+		if (!db_get(transfer->pfts.hContact, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, &dbv))
 		{
-			DBVARIANT dbv;
-			if (!db_get(hContact, proto->m_szModuleName, TOX_SETTINGS_AVATAR_HASH, &dbv))
+			if (memcmp(hash, dbv.pbVal, TOX_HASH_LENGTH) == 0)
 			{
-				if (memcmp(hash, dbv.pbVal, TOX_HASH_LENGTH) != 0)
-				{
-					tox_request_avatar_data(proto->tox, number);
-				}
 				db_free(&dbv);
+				OnFileCancel(hContact, transfer);
+				return;
 			}
-			else
-			{
-				tox_request_avatar_data(proto->tox, number);
-			}
+			db_free(&dbv);
 		}
+		OnFileAllow(hContact, transfer, path.c_str());
 	}
 }
 
-void CToxProto::OnGotFriendAvatarData(Tox *, int32_t number, uint8_t, uint8_t *hash, uint8_t *data, uint32_t length, void *arg)
+/*void CToxProto::OnGotFriendAvatarData(Tox *, int32_t number, uint8_t, uint8_t *hash, uint8_t *data, uint32_t length, void *arg)
 {
-	CToxProto *proto = (CToxProto*)arg;
+CToxProto *proto = (CToxProto*)arg;
 
-	MCONTACT hContact = proto->GetContact(number);
-	if (hContact)
-	{
-		db_set_blob(hContact, proto->m_szModuleName, TOX_SETTINGS_AVATAR_HASH, hash, TOX_HASH_LENGTH);
+MCONTACT hContact = proto->GetContact(number);
+if (hContact)
+{
+db_set_blob(hContact, proto->m_szModuleName, TOX_SETTINGS_AVATAR_HASH, hash, TOX_HASH_LENGTH);
 
-		std::tstring path = proto->GetAvatarFilePath(hContact);
-		FILE *hFile = _tfopen(path.c_str(), L"wb");
-		if (hFile)
-		{
-			if (fwrite(data, sizeof(uint8_t), length, hFile) == length)
-			{
-				PROTO_AVATAR_INFORMATIONW pai = { sizeof(pai) };
-				pai.format = PA_FORMAT_PNG;
-				pai.hContact = hContact;
-				_tcscpy(pai.filename, path.c_str());
+std::tstring path = proto->GetAvatarFilePath(hContact);
+FILE *hFile = _tfopen(path.c_str(), L"wb");
+if (hFile)
+{
+if (fwrite(data, sizeof(uint8_t), length, hFile) == length)
+{
+PROTO_AVATAR_INFORMATIONW pai = { sizeof(pai) };
+pai.format = PA_FORMAT_PNG;
+pai.hContact = hContact;
+_tcscpy(pai.filename, path.c_str());
 
-				proto->ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
-			}
-			fclose(hFile);
-		}
-	}
+proto->ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
 }
+fclose(hFile);
+}
+}
+}*/

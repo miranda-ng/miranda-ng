@@ -35,7 +35,7 @@ CToxProto::~CToxProto()
 	UninitNetlib();
 }
 
-DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT)
+DWORD_PTR CToxProto::GetCaps(int type, MCONTACT)
 {
 	switch (type)
 	{
@@ -59,26 +59,26 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT)
 	return 0;
 }
 
-MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
+MCONTACT CToxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
-	std::string address(ptrA(mir_t2a(psr->id)));
+	ptrA address(mir_t2a(psr->id));
 	ptrA myAddress(getStringA(NULL, TOX_SETTINGS_ID));
-	if (strnicmp(address.c_str(), myAddress, TOX_PUBLIC_KEY_SIZE) == 0)
+	if (strnicmp(address, myAddress, TOX_PUBLIC_KEY_SIZE) == 0)
 	{
 		ShowNotification(TranslateT("You cannot add yourself to your contact list"), 0);
 		return NULL;
 	}
-	MCONTACT hContact = GetContact(address.c_str());
+	MCONTACT hContact = GetContact((char*)address);
 	if (hContact)
 	{
 		ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
 		return NULL;
 	}
 	// set tox address as contact public key
-	return AddContact(address.c_str(), _T(""), flags & PALF_TEMPORARY);
+	return AddContact(address, _T(""), flags & PALF_TEMPORARY);
 }
 
-int __cdecl CToxProto::Authorize(MEVENT hDbEvent)
+int CToxProto::Authorize(MEVENT hDbEvent)
 {
 	MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
 	if (hContact == INVALID_CONTACT_ID)
@@ -87,28 +87,48 @@ int __cdecl CToxProto::Authorize(MEVENT hDbEvent)
 	return OnGrantAuth(hContact, 0);
 }
 
-int __cdecl CToxProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
+int CToxProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 {
 	return Proto_AuthRecv(m_szModuleName, pre);
 }
 
-int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage)
+int CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage)
 {
 	ptrA reason(mir_utf8encodeW(szMessage));
 	return OnRequestAuth(hContact, (LPARAM)reason);
 }
 
-HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
+HANDLE CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR *tszPath)
+{
+	return OnFileAllow(hContact, hTransfer, tszPath);
+}
+
+int CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
+{
+	return OnFileCancel(hContact, hTransfer);
+}
+
+int CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR*)
+{
+	return FileCancel(hContact, hTransfer);
+}
+
+int CToxProto::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR **szFilename)
+{
+	return OnFileResume(hTransfer, action, szFilename);
+}
+
+HWND CToxProto::SearchAdvanced(HWND owner)
 {
 	return OnSearchAdvanced(owner);
 }
 
-HWND __cdecl CToxProto::CreateExtendedSearchUI(HWND owner)
+HWND CToxProto::CreateExtendedSearchUI(HWND owner)
 {
 	return OnCreateExtendedSearchUI(owner);
 }
 
-int __cdecl CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
+int CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
 	return OnReceiveMessage(hContact, pre);
 }
@@ -118,7 +138,12 @@ int CToxProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	return OnSendMessage(hContact, flags, msg);
 }
 
-int __cdecl CToxProto::SetStatus(int iNewStatus)
+HANDLE CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR *msg, PROTOCHAR **ppszFiles)
+{
+	return OnSendFile(hContact, msg, ppszFiles);
+}
+
+int CToxProto::SetStatus(int iNewStatus)
 {
 	if (iNewStatus == m_iDesiredStatus)
 		return 0;
@@ -178,10 +203,7 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 		{
 			// set tox status
 			m_iStatus = iNewStatus;
-			if (tox_set_user_status(tox, MirandaToToxStatus(iNewStatus)) == TOX_ERROR)
-			{
-				debugLogA("CToxProto::SetStatus: failed to change status from %i", m_iStatus, iNewStatus);
-			}
+			tox_self_set_status(tox, MirandaToToxStatus(iNewStatus));
 		}
 	}
 
@@ -189,23 +211,29 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 	return 0;
 }
 
-HANDLE __cdecl CToxProto::GetAwayMsg(MCONTACT) { return 0; }
+HANDLE CToxProto::GetAwayMsg(MCONTACT) { return 0; }
 
-int __cdecl CToxProto::SetAwayMsg(int, const PROTOCHAR *msg)
+int CToxProto::SetAwayMsg(int, const PROTOCHAR *msg)
 {
 	if (IsOnline())
 	{
 		ptrA statusMessage(msg == NULL ? mir_strdup("") : mir_utf8encodeT(msg));
-		if (tox_set_status_message(tox, (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUSMESSAGE_LENGTH, mir_strlen(statusMessage))) == TOX_ERROR)
+		TOX_ERR_SET_INFO error;
+		if (tox_self_set_status_message(tox, (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUS_MESSAGE_LENGTH, mir_strlen(statusMessage)), &error))
 		{
-			debugLogA("CToxProto::SetAwayMsg: failed to set status status message %s", msg);
+			debugLogA("CToxProto::SetAwayMsg: failed to set status status message %s (%d)", msg, error);
 		}
 	}
 
 	return 0;
 }
 
-int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
+int CToxProto::UserIsTyping(MCONTACT hContact, int type)
+{
+	return OnUserIsTyping(hContact, type);
+}
+
+int CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 {
 	switch (iEventType)
 	{

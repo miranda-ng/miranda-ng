@@ -60,6 +60,9 @@
     <ClInclude Include="src\tox_menus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\tox_dialogs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\tox_proto.cpp">

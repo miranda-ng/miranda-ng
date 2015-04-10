@@ -3,6 +3,10 @@
 
 struct CToxProto : public PROTO<CToxProto>
 {
+	friend CToxPasswordEditor;
+	friend CToxOptionsMain;
+	friend CToxOptionsNodeList;
+
 public:
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -74,17 +78,12 @@ private:
 	std::tstring GetToxProfilePath();
 	static std::tstring CToxProto::GetToxProfilePath(const TCHAR *accountName);
 
-	bool LoadToxProfile();
+	bool LoadToxProfile(Tox_Options *options);
 	void SaveToxProfile();
 
 	INT_PTR __cdecl OnCopyToxID(WPARAM, LPARAM);
 
-	static INT_PTR CALLBACK ToxProfileImportProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK ToxProfilePasswordProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
 	// tox core
-	bool IsToxCoreInited();
-
 	bool InitToxCore();
 	void UninitToxCore();
 
@@ -132,8 +131,8 @@ private:
 	INT_PTR __cdecl CToxProto::SetMyNickname(WPARAM wParam, LPARAM lParam);
 
 	// options
-	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK NodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	CToxDlgBase::CreateParam ToxMainOptions;
+	CToxDlgBase::CreateParam ToxNodeListOptions;
 
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
@@ -156,18 +155,18 @@ private:
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
-	int32_t GetToxFriendNumber(MCONTACT hContact);
+	uint32_t GetToxFriendNumber(MCONTACT hContact);
 
 	void __cdecl LoadFriendList(void*);
 
 	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl OnGrantAuth(WPARAM hContact, LPARAM);
 
-	static void OnFriendRequest(Tox *tox, const uint8_t *pubKey, const uint8_t *message, const uint16_t messageSize, void *arg);
-	static void OnFriendNameChange(Tox *tox, const int friendNumber, const uint8_t *name, const uint16_t nameSize, void *arg);
-	static void OnStatusMessageChanged(Tox *tox, const int friendNumber, const uint8_t* message, const uint16_t messageSize, void *arg);
-	static void OnUserStatusChanged(Tox *tox, int32_t friendNumber, uint8_t usertatus, void *arg);
-	static void OnConnectionStatusChanged(Tox *tox, const int friendNumber, const uint8_t status, void *arg);
+	static void OnFriendRequest(Tox *tox, const uint8_t *pubKey, const uint8_t *message, size_t length, void *arg);
+	static void OnFriendNameChange(Tox *tox, uint32_t friendNumber, const uint8_t *name, size_t length, void *arg);
+	static void OnStatusMessageChanged(Tox *tox, uint32_t friendNumber, const uint8_t *message, size_t length, void *arg);
+	static void OnUserStatusChanged(Tox *tox, uint32_t friendNumber, TOX_USER_STATUS status, void *arg);
+	static void OnConnectionStatusChanged(Tox *tox, uint32_t friendNumber, TOX_CONNECTION status, void *arg);
 
 	// contacts search
 	void __cdecl SearchByNameAsync(void* arg);
@@ -208,20 +207,25 @@ private:
 	int OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre);
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
 
-	static void OnFriendMessage(Tox *tox, const int friendNumber, const uint8_t *message, const uint16_t messageSize, void *arg);
-	static void OnFriendAction(Tox *tox, const int friendNumber, const uint8_t *action, const uint16_t actionSize, void *arg);
-	static void OnTypingChanged(Tox *tox, const int friendNumber, uint8_t isTyping, void *arg);
-	static void OnReadReceipt(Tox *tox, int32_t friendNumber, uint32_t receipt, void *arg);
+	static void OnFriendMessage(Tox *tox, uint32_t friendNumber, TOX_MESSAGE_TYPE type, const uint8_t *message, size_t length, void *arg);
+	static void OnReadReceipt(Tox *tox, uint32_t friendNumber, uint32_t messageId, void *arg);
+
+	int OnUserIsTyping(MCONTACT hContact, int type);
+	static void OnTypingChanged(Tox *tox, uint32_t friendNumber, bool isTyping, void *arg);
 
 	int __cdecl OnPreCreateMessage(WPARAM wParam, LPARAM lParam);
 
 	// transfer
-	void __cdecl SendFileAsync(void* arg);
+	HANDLE OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR *tszPath);
+	int OnFileResume(HANDLE hTransfer, int *action, const PROTOCHAR **szFilename);
+	int OnFileCancel(MCONTACT hContact, HANDLE hTransfer);
+	HANDLE OnSendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR **ppszFiles);
 
-	//static void OnFileControlCallback(Tox *tox, int32_t number, uint8_t hFile, uint64_t fileSize, uint8_t *name, uint16_t nameSize, void *arg);
-	static void OnFileRequest(Tox *tox, int32_t friendNumber, uint8_t receive_send, uint8_t fileNumber, uint8_t type, const uint8_t *data, uint16_t length, void *arg);
-	static void OnFriendFile(Tox *tox, int32_t friendNumber, uint8_t fileNumber, uint64_t fileSize, const uint8_t *fileName, uint16_t length, void *arg);
-	static void OnFileData(Tox *tox, int32_t friendNumber, uint8_t fileNumber, const uint8_t *data, uint16_t length, void *arg);
+	static void OnFileRequest(Tox *tox, uint32_t friendNumber, uint32_t fileNumber, TOX_FILE_CONTROL control, void *arg);
+	static void OnFriendFile(Tox *tox, uint32_t friendNumber, uint32_t fileNumber, uint32_t kind, uint64_t fileSize, const uint8_t *fileName, size_t filenameLength, void *arg);
+	static void OnFileReceiveData(Tox *tox, uint32_t friendNumber, uint32_t fileNumber, uint64_t position, const uint8_t *data, size_t length, void *arg);
+
+	static void OnFileSendData(Tox *tox, uint32_t friendNumber, uint32_t fileNumber, uint64_t position, size_t length, void *arg);
 
 	// avatars
 	std::tstring GetAvatarFilePath(MCONTACT hContact = NULL);
@@ -232,14 +236,13 @@ private:
 	INT_PTR __cdecl GetMyAvatar(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl SetMyAvatar(WPARAM wParam, LPARAM lParam);
 
-	static void OnGotFriendAvatarInfo(Tox *tox, int32_t number, uint8_t format, uint8_t *hash, void *arg);
-	static void OnGotFriendAvatarData(Tox *tox, int32_t number, uint8_t format, uint8_t *hash, uint8_t *data, uint32_t length, void *arg);
+	void OnGotFriendAvatarInfo(FileTransferParam *transfer, const uint8_t *hash);
 
 	// folders
 
 	// utils
-	TOX_USERSTATUS MirandaToToxStatus(int status);
-	int ToxToMirandaStatus(TOX_USERSTATUS userstatus);
+	TOX_USER_STATUS MirandaToToxStatus(int status);
+	int ToxToMirandaStatus(TOX_USER_STATUS userstatus);
 
 	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);

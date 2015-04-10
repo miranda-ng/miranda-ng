@@ -29,10 +29,10 @@ ToxHexAddress ResolveToxAddressFromDnsRecordV3(void *dns, uint32_t requestId, co
 	if (std::regex_search(dnsRecord, match, regex))
 	{
 		std::string id = match[1];
-		uint8_t data[TOX_FRIEND_ADDRESS_SIZE];
+		uint8_t data[TOX_ADDRESS_SIZE];
 		if (tox_decrypt_dns3_TXT(dns, data, (uint8_t*)id.c_str(), id.length(), requestId) != TOX_ERROR)
 		{
-			return ToxHexAddress(data, TOX_FRIEND_ADDRESS_SIZE);
+			return ToxHexAddress(data, TOX_ADDRESS_SIZE);
 		}
 	}
 	return ToxHexAddress::Empty();

@@ -7,9 +7,10 @@ bool CToxProto::IsOnline()
 
 void CToxProto::BootstrapNode(const char *address, int port, const uint8_t *pubKey)
 {
-	if (!tox_bootstrap_from_address(tox, address, port, pubKey))
+	TOX_ERR_BOOTSTRAP error;
+	if (!tox_bootstrap(tox, address, port, pubKey, &error))
 	{
-		debugLogA("CToxProto::BootstrapNode: failed to bootstrap node %s:%d (%s)", address, port, (const char*)ToxHexAddress(pubKey));
+		debugLogA("CToxProto::BootstrapNode: failed to bootstrap node %s:%d \"%s\" (%d)", address, port, (const char*)ToxHexAddress(pubKey), error);
 	}
 }
 
@@ -74,31 +75,31 @@ void CToxProto::BootstrapNodesFromIni(bool isIPv6)
 
 void CToxProto::BootstrapNodes()
 {
-	debugLogA("CToxProto::BootstrapDht: bootstraping DHT");
-	bool isIPv6 = !getBool("DisableIPv6", 0);
+	debugLogA(__FUNCTION__": bootstraping DHT");
+	bool isIPv6 = getBool("EnableIPv6", 0);
 	BootstrapNodesFromDb(isIPv6);
 	BootstrapNodesFromIni(isIPv6);
 }
 
 void CToxProto::TryConnect()
 {
-	if (tox_isconnected(tox))
+	if (tox_self_get_connection_status(tox) != TOX_CONNECTION_NONE)
 	{
 		isConnected = true;
-		debugLogA("CToxProto::PollingThread: successfuly connected to DHT");
+		debugLogA(__FUNCTION__": successfuly connected to DHT");
 
 		ForkThread(&CToxProto::LoadFriendList, NULL);
 
 		m_iStatus = m_iDesiredStatus;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
-		tox_set_user_status(tox, MirandaToToxStatus(m_iStatus));
-		debugLogA("CToxProto::PollingThread: changing status from %i to %i", ID_STATUS_CONNECTING, m_iDesiredStatus);
+		tox_self_set_status(tox, MirandaToToxStatus(m_iStatus));
+		debugLogA(__FUNCTION__": changing status from %i to %i", ID_STATUS_CONNECTING, m_iDesiredStatus);
 	}
 	else if (m_iStatus++ > TOX_MAX_CONNECT_RETRIES)
 	{
 		SetStatus(ID_STATUS_OFFLINE);
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, (HANDLE)NULL, LOGINERR_NONETWORK);
-		debugLogA("CToxProto::PollingThread: failed to connect to DHT");
+		debugLogA(__FUNCTION__": failed to connect to DHT");
 	}
 }
 
@@ -108,11 +109,11 @@ void CToxProto::CheckConnection(int &retriesCount)
 	{
 		TryConnect();
 	}
-	else if (tox_isconnected(tox))
+	else if (tox_self_get_connection_status(tox) != TOX_CONNECTION_NONE)
 	{
 		if (retriesCount < TOX_MAX_DISCONNECT_RETRIES)
 		{
-			debugLogA("CToxProto::CheckConnection: restored connection with DHT");
+			debugLogA(__FUNCTION__": restored connection with DHT");
 			retriesCount = TOX_MAX_DISCONNECT_RETRIES;
 		}
 	}
@@ -121,7 +122,7 @@ void CToxProto::CheckConnection(int &retriesCount)
 		if (retriesCount == TOX_MAX_DISCONNECT_RETRIES)
 		{
 			retriesCount--;
-			debugLogA("CToxProto::CheckConnection: lost connection with DHT");
+			debugLogA(__FUNCTION__": lost connection with DHT");
 		}
 		else if (retriesCount % 50 == 0)
 		{
@@ -131,7 +132,7 @@ void CToxProto::CheckConnection(int &retriesCount)
 		else if (!(--retriesCount))
 		{
 			isConnected = false;
-			debugLogA("CToxProto::CheckConnection: disconnected from DHT");
+			debugLogA(__FUNCTION__": disconnected from DHT");
 			SetStatus(ID_STATUS_OFFLINE);
 		}
 	}
@@ -141,21 +142,21 @@ void CToxProto::DoTox()
 {
 	{
 		mir_cslock lock(toxLock);
-		tox_do(tox);
+		tox_iterate(tox);
 	}
-	uint32_t interval = tox_do_interval(tox);
+	uint32_t interval = tox_iteration_interval(tox);
 	Sleep(interval);
 }
 
 void CToxProto::PollingThread(void*)
 {
-	debugLogA("CToxProto::PollingThread: entering");
+	debugLogA(__FUNCTION__": entering");
 
 	if (!InitToxCore())
 	{
 		SetStatus(ID_STATUS_OFFLINE);
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, (HANDLE)NULL, LOGINERR_WRONGPASSWORD);
-		debugLogA("CToxProto::PollingThread: leaving");
+		debugLogA(__FUNCTION__": leaving");
 		return;
 	}
 
@@ -172,5 +173,5 @@ void CToxProto::PollingThread(void*)
 	UninitToxCore();
 	isConnected = false;
 
-	debugLogA("CToxProto::PollingThread: leaving");
+	debugLogA(__FUNCTION__": leaving");
 }

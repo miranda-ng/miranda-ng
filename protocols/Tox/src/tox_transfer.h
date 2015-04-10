@@ -18,11 +18,11 @@ struct FileTransferParam
 	PROTOFILETRANSFERSTATUS pfts;
 	FILE_TRANSFER_STATUS status;
 	FILE *hFile;
-	int32_t friendNumber;
-	uint8_t fileNumber;
-	int64_t transferNumber;
+	uint32_t friendNumber;
+	uint32_t fileNumber;
+	uint64_t transferNumber;
 
-	FileTransferParam(int32_t friendNumber, uint8_t fileNumber, const TCHAR *fileName, uint64_t fileSize)
+	FileTransferParam(uint32_t friendNumber, uint32_t fileNumber, const TCHAR *fileName, uint64_t fileSize)
 	{
 		status = NONE;
 		hFile = NULL;
@@ -94,7 +94,7 @@ public:
 		}
 	}
 
-	FileTransferParam* Get(int32_t friendNumber, uint8_t fileNumber)
+	FileTransferParam* Get(uint32_t friendNumber, uint32_t fileNumber)
 	{
 		int64_t transferNumber = (((int64_t)friendNumber) << 32) | ((int64_t)fileNumber);
 		if (transfers.find(transferNumber) != transfers.end())
@@ -115,7 +115,7 @@ public:
 		return NULL;
 	}
 
-	void Remove(int32_t friendNumber, uint8_t fileNumber)
+	void Remove(uint32_t friendNumber, uint32_t fileNumber)
 	{
 		int64_t transferNumber = (((int64_t)friendNumber) << 32) | ((int64_t)fileNumber);
 		if (transfers.find(transferNumber) != transfers.end())
