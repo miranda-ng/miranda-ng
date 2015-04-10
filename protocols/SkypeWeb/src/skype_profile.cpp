@@ -427,6 +427,8 @@ void CSkypeProto::UpdateProfilePhoneOffice(JSONNODE *root, MCONTACT hContact)
 void CSkypeProto::UpdateProfileStatusMessage(JSONNODE *root, MCONTACT hContact)
 {
 	JSONNODE *node = json_get(root, "mood");
+	if(hContact == NULL)
+		return;
 	CMString province = mir_t2a(ptrT(json_as_string(node)));
 	if (!province.IsEmpty() && province != "null")
 		db_set_ts(hContact, "CList", "StatusMsg", province);
