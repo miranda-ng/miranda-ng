@@ -194,10 +194,9 @@ private:
 	void OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg);
 	void OnSentAvatar(const NETLIBHTTPREQUEST *response);
 
-	void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response);
+	void OnSearch(const NETLIBHTTPREQUEST *response);
 
-	MCONTACT GetContact(const char *skypename);
-
+	MCONTACT FindContact(const char *skypename);
 	MCONTACT AddContact(const char *skypename, bool isTemporary = false);
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
@@ -224,13 +223,16 @@ private:
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
 	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
-	//History sync
+
+	void OnPrivateMessageEvent(JSONNODE *node);
+
+	// sync
 	void OnGetServerHistory(const NETLIBHTTPREQUEST *response);
 	void SyncHistory();
 	void OnSyncHistory(const NETLIBHTTPREQUEST *response);
 
 	//chats
-	MCONTACT GetChat(const char *skypename);
+	MCONTACT FindChatRoom(const char *skypename);
 	MCONTACT AddChatRoom(const char *chatname);
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 
