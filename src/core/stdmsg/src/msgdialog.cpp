@@ -741,9 +741,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				int nMax = CallProtoService(dat->szProto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, (LPARAM)dat->hContact);
 				if (nMax)
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_LIMITTEXT, (WPARAM)nMax, 0);
-				
+
 				// get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF
-				SendDlgItemMessage(hwndDlg, IDC_LOG, EM_LIMITTEXT, (WPARAM) sizeof(TCHAR)* 0x7FFFFFFF, 0);
+				SendDlgItemMessage(hwndDlg, IDC_LOG, EM_LIMITTEXT, (WPARAM) sizeof(TCHAR) * 0x7FFFFFFF, 0);
 			}
 
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), MessageEditSubclassProc);
@@ -852,11 +852,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SetForegroundWindow(hwndDlg);
 				SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 			}
-
-			SendMessage(hwndDlg, DM_GETAVATAR, 0, 0);
-
-			NotifyLocalWinEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPEN);
 		}
+
+		SendMessage(hwndDlg, DM_GETAVATAR, 0, 0);
+
+		NotifyLocalWinEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPEN);
 		return FALSE;
 
 	case WM_CONTEXTMENU:
@@ -1173,8 +1173,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			break;
 
 		SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
-		//fall through
-
+		// fall through
 	case WM_MOUSEACTIVATE:
 		if (KillTimer(hwndDlg, TIMERID_FLASHWND))
 			FlashWindow(hwndDlg, FALSE);
@@ -1547,24 +1546,19 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			switch (((LPNMHDR)lParam)->code) {
 			case EN_MSGFILTER:
 				switch (((MSGFILTER *)lParam)->msg) {
+				HCURSOR hCur;
 				case WM_LBUTTONDOWN:
-					{
-						HCURSOR hCur = GetCursor();
-						if (hCur == LoadCursor(NULL, IDC_SIZENS) || hCur == LoadCursor(NULL, IDC_SIZEWE)
-							 || hCur == LoadCursor(NULL, IDC_SIZENESW) || hCur == LoadCursor(NULL, IDC_SIZENWSE)) {
-							SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
-							return TRUE;
-						}
+					hCur = GetCursor();
+					if (hCur == LoadCursor(NULL, IDC_SIZENS) || hCur == LoadCursor(NULL, IDC_SIZEWE) || hCur == LoadCursor(NULL, IDC_SIZENESW) || hCur == LoadCursor(NULL, IDC_SIZENWSE)) {
+						SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
+						return TRUE;
 					}
 					break;
 
 				case WM_MOUSEMOVE:
-					{
-						HCURSOR hCur = GetCursor();
-						if (hCur == LoadCursor(NULL, IDC_SIZENS) || hCur == LoadCursor(NULL, IDC_SIZEWE)
-							 || hCur == LoadCursor(NULL, IDC_SIZENESW) || hCur == LoadCursor(NULL, IDC_SIZENWSE))
-							 SetCursor(LoadCursor(NULL, IDC_ARROW));
-					}
+					hCur = GetCursor();
+					if (hCur == LoadCursor(NULL, IDC_SIZENS) || hCur == LoadCursor(NULL, IDC_SIZEWE) || hCur == LoadCursor(NULL, IDC_SIZENESW) || hCur == LoadCursor(NULL, IDC_SIZENWSE))
+						SetCursor(LoadCursor(NULL, IDC_ARROW));
 					break;
 
 				case WM_RBUTTONUP:
@@ -1695,9 +1689,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			// save string from the editor
 			if (dat->hContact) {
-				TCHAR* msg;
 				int len = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE)) + 1;
-				msg = (TCHAR*)alloca(sizeof(TCHAR)* len);
+				TCHAR *msg = (TCHAR*)alloca(sizeof(TCHAR)* len);
 				GetDlgItemText(hwndDlg, IDC_MESSAGE, msg, len);
 				if (msg[0])
 					db_set_ts(dat->hContact, SRMSGMOD, DBSAVEDMSG, msg);

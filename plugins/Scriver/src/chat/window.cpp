@@ -1431,6 +1431,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				return TRUE;
 			}
 		}
+		break;
 
 	case GC_UPDATENICKLIST:
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, WM_SETREDRAW, FALSE, 0);
