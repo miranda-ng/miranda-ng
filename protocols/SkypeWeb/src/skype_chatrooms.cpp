@@ -77,3 +77,50 @@ void CSkypeProto::SetChatStatus(MCONTACT hContact, int iStatus)
 	CallServiceSync(MS_GC_EVENT, true ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce); 
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 }
+
+/* CHAT EVENT */
+
+void CSkypeProto::OnChatEvent(JSONNODE *node)
+{
+	ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(node, "clientmessageid")))));
+	ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(node, "skypeeditedid")))));
+	
+	ptrA from(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
+
+	ptrT composeTime(json_as_string(json_get(node, "composetime")));
+	time_t timestamp = IsoToUnixTime(composeTime);
+
+	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
+	int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
+
+	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
+	ptrA chatname(ChatUrlToName(conversationLink));
+
+	ptrA topic(mir_t2a(ptrT(json_as_string(json_get(node, "threadtopic")))));
+	
+	MCONTACT chatContact = AddChatRoom(chatname);
+	//SetChatStatus(chatContact, ID_STATUS_ONLINE);
+	
+	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
+	if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
+	{
+
+	}
+	else if (!mir_strcmpi(messageType, "ThreadActivity/AddMember"))
+	{
+
+	}
+	else if (!mir_strcmpi(messageType, "ThreadActivity/DeleteMember"))
+	{
+
+	}
+	else if (!mir_strcmpi(messageType, "ThreadActivity/TopicUpdate"))
+	{
+
+	}
+	else if (!mir_strcmpi(messageType, "ThreadActivity/RoleUpdate"))
+	{
+
+	}
+	return; //chats not supported
+}

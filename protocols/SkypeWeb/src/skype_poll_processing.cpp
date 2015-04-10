@@ -100,70 +100,16 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
 	time_t timestamp = IsoToUnixTime(composeTime);
 	int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
-	if (strstr(conversationLink, "/19:"))
-	{
-		ptrA chatname(ChatUrlToName(conversationLink));
-		ptrA topic(mir_t2a(ptrT(json_as_string(json_get(node, "threadtopic")))));
-		MCONTACT chatContact = AddChatRoom(chatname);
-		SetChatStatus(chatContact, ID_STATUS_ONLINE);
-		if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
-		{
 
-		}
-		else if (!mir_strcmpi(messageType, "ThreadActivity/AddMember"))
-		{
-			
-		}
-		else if (!mir_strcmpi(messageType, "ThreadActivity/DeleteMember"))
-		{
-
-		}
-		else if (!mir_strcmpi(messageType, "ThreadActivity/TopicUpdate"))
-		{
-
-		}
-		else if (!mir_strcmpi(messageType, "ThreadActivity/RoleUpdate"))
-		{
-
-		}
-		return; //chats not supported
-	}
-	else if (strstr(conversationLink, "/8:"))
-	{
+	if (strstr(conversationLink, "/8:"))
 		OnPrivateMessageEvent(node);
-		ptrA skypename(ContactUrlToName(from));
-		
-		if (IsMe(skypename))
-		{
-			MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
-			int hMessage = atoi(clientMsgId);
-			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
-			debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-			AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, &content[emoteOffset], emoteOffset);
-		}
-		else
-		{
-			MCONTACT hContact = AddContact(skypename, true);
-			if (!mir_strcmpi(messageType, "Control/Typing"))
-				CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
-			else if (!mir_strcmpi(messageType, "Control/ClearTyping"))
-				CallService(MS_PROTO_CONTACTISTYPING, hContact, 0);
-			else if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
-			{
-				
-				if (IsMe(skypename))
-				{
-					
-				}
-				debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-				OnReceiveMessage(clientMsgId, from, timestamp, content, emoteOffset);
-			}
-		}
-		/*else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage"))
-		{
-			return; //not supported
-		}*/
-	}
+	else if (strstr(conversationLink, "/19:"))
+		OnChatEvent(node);
+
+	/*else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage"))
+	{
+	return; //not supported
+	}*/
 }
 
 void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)

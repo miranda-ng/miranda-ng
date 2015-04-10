@@ -236,6 +236,8 @@ private:
 	MCONTACT AddChatRoom(const char *chatname);
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 
+	void OnChatEvent(JSONNODE *node);
+
 	//polling
 	void ParsePollData(JSONNODE *data);
 	void __cdecl PollingThread(void*);
