@@ -113,7 +113,7 @@ extern BOOL SmileyAddInstalled, PopupInstalled;
 
 struct CREOleCallback : public IRichEditOleCallback
 {
-	CREOleCallback() : refCount(0) {}
+	CREOleCallback() : refCount(0), nextStgId(0), pictStg(NULL) {}
 	unsigned refCount;
 	IStorage *pictStg;
 	int nextStgId;
