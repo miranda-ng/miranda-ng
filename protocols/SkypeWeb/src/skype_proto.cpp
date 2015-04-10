@@ -82,7 +82,17 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	return 0;
 }
 
-MCONTACT CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT *psr) { return 0; }
+MCONTACT CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT *psr) 
+{ 
+	debugLogA("CVkProto::AddToList");
+
+	ptrA skypeName(mir_t2a(ptrT(psr->id)));
+	if (skypeName == NULL)
+		return NULL;
+
+	MCONTACT hContact = AddContact(skypeName);
+	return hContact;
+}
 
 MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT) { return 0; }
 
