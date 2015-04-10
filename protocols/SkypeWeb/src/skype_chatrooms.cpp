@@ -21,15 +21,15 @@ void CSkypeProto::InitGroupChatModule()
 {
 	GCREGISTER gcr = { sizeof(gcr) };
 	gcr.iMaxText = 0;
-	gcr.ptszDispName = this->m_tszUserName;
-	gcr.pszModule = this->m_szModuleName;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
 	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
 
-	//HookProtoEvent(ME_GC_EVENT, &CSkypeProto::OnGroupChatEventHook);
-	//HookProtoEvent(ME_GC_BUILDMENU, &CSkypeProto::OnGroupChatMenuHook);
+	HookProtoEvent(ME_GC_EVENT, &CSkypeProto::OnGroupChatEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &CSkypeProto::OnGroupChatMenuHook);
 
-	//CreateProtoService(PS_JOINCHAT, &CSkypeProto::OnJoinChatRoom);
-	//CreateProtoService(PS_LEAVECHAT, &CSkypeProto::OnLeaveChatRoom);
+	CreateProtoService(PS_JOINCHAT, &CSkypeProto::OnJoinChatRoom);
+	CreateProtoService(PS_LEAVECHAT, &CSkypeProto::OnLeaveChatRoom);
 }
 
 void CSkypeProto::CloseAllChatChatSessions()
@@ -93,27 +93,68 @@ MCONTACT CSkypeProto::AddChatRoom(const char *chatname)
 	return hContact;
 }
 
-void CSkypeProto::SetChatStatus(MCONTACT hContact, int iStatus)
+int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 {
-	ptrT tszChatID(getTStringA(hContact, "ChatID"));
-	ptrT tszNick(getTStringA(hContact, "Nick"));
+	GCHOOK *gch = (GCHOOK*)lParam;
+	if (!gch)
+	{
+		return 1;
+	}
+	else if (strcmp(gch->pDest->pszModule, m_szModuleName) != 0)
+	{
+		return 0;
+	}
+	return 0;
+}
+
+void CSkypeProto::StartChatRoom(MCONTACT hChatRoom, bool showWindow)
+{
+	ptrT tszChatID(getTStringA(hChatRoom, "ChatID"));
+	ptrT tszNick(getTStringA(hChatRoom, "Nick"));
 	if (tszChatID == NULL)
 		return;
 
 	// start chat session
-	GCSESSION gcw = {0};
+	GCSESSION gcw = { 0 };
 	gcw.cbSize = sizeof(gcw);
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = tszNick;
-	gcw.ptszID = tszChatID; 
+	gcw.ptszID = tszChatID;
 	gcw.dwItemData = (DWORD)tszChatID;
 	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
 	GCDEST gcd = { m_szModuleName, tszChatID, GC_EVENT_CONTROL };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	CallServiceSync(MS_GC_EVENT, true ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce); 
+	CallServiceSync(MS_GC_EVENT, showWindow ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce);
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
+
+}
+
+int CSkypeProto::OnGroupChatMenuHook(MCONTACT, LPARAM lParam)
+{
+	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
+	if (stricmp(gcmi->pszModule, m_szModuleName) != 0)
+	{
+		return 0;
+	}
+	return 0;
+}
+
+INT_PTR CSkypeProto::OnJoinChatRoom(MCONTACT hContact, LPARAM)
+{
+	if (hContact)
+	{
+	}
+	return 0;
+}
+
+INT_PTR CSkypeProto::OnLeaveChatRoom(MCONTACT hContact, LPARAM)
+{
+	if (hContact)
+	{
+	}
+	return 0;
 }
 
 /* CHAT EVENT */
@@ -129,15 +170,15 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	time_t timestamp = IsoToUnixTime(composeTime);
 
 	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
-	int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
+	//int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
 
 	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
 	ptrA chatname(ChatUrlToName(conversationLink));
 
 	ptrA topic(mir_t2a(ptrT(json_as_string(json_get(node, "threadtopic")))));
 	
-	MCONTACT chatContact = AddChatRoom(chatname);
-	//SetChatStatus(chatContact, ID_STATUS_ONLINE);
+	MCONTACT hChatRoom = AddChatRoom(chatname);
+	StartChatRoom(hChatRoom);
 	
 	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 	if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
