@@ -196,7 +196,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			SelectObject(hdcBmp, dat->hBmpBackground);
 			y = dat->backgroundBmpUse & CLBF_SCROLL ? -dat->yScroll : 0;
 			int maxx = dat->backgroundBmpUse & CLBF_TILEH ? clRect.right : 1;
-			int maxy = dat->backgroundBmpUse & CLBF_TILEV ? maxy = rcPaint->bottom : y + 1;
+			int maxy = dat->backgroundBmpUse & CLBF_TILEV ? rcPaint->bottom : y + 1;
 			switch (dat->backgroundBmpUse & CLBM_TYPE) {
 			case CLB_STRETCH:
 				if (dat->backgroundBmpUse & CLBF_PROPORTIONAL) {
