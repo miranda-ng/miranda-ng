@@ -237,7 +237,14 @@ private:
 
 	MCONTACT FindChatRoom(const char *chatname);
 	MCONTACT AddChatRoom(const char *chatname);
-	void SetChatStatus(MCONTACT hContact, int iStatus);
+	
+	int __cdecl OnGroupChatEventHook(WPARAM, LPARAM lParam);
+	int __cdecl OnGroupChatMenuHook(WPARAM, LPARAM lParam);
+
+	void StartChatRoom(MCONTACT hChatRoom, bool showWindow = false);
+
+	INT_PTR __cdecl OnJoinChatRoom(MCONTACT hContact, LPARAM);
+	INT_PTR __cdecl OnLeaveChatRoom(MCONTACT hContact, LPARAM);
 
 	void OnChatEvent(JSONNODE *node);
 
