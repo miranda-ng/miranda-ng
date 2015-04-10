@@ -71,17 +71,16 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool showPopup = fal
 		return;
 
 	case SEC_E_INVALID_TOKEN:
-		_tcscpy(szMsgBuf, TranslateT("Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package"));
+		_tcsncpy_s(szMsgBuf, TranslateT("Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package"), _TRUNCATE);
 		break;
 
 	case CERT_E_CN_NO_MATCH:
 	case SEC_E_WRONG_PRINCIPAL:
-		_tcscpy(szMsgBuf, TranslateT("Host we are connecting to is not the one certificate was issued for"));
+		_tcsncpy_s(szMsgBuf, TranslateT("Host we are connecting to is not the one certificate was issued for"), _TRUNCATE);
 		break;
 
 	default:
-		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-			NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, SIZEOF(szMsgBuf), NULL);
+		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, SIZEOF(szMsgBuf), NULL);
 	}
 
 	TCHAR szMsgBuf2[512];
