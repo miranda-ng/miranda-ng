@@ -390,7 +390,7 @@ public:
 
 	{
 		CreateLink(m_txtUsername, "LoginName", _T(""));
-		CreateLink(m_txtPriority, "Priority", DBVT_WORD, 0, true);
+		CreateLink(m_txtPriority, "Priority", DBVT_WORD, 0);
 		CreateLink(m_chkSavePassword, proto->m_options.SavePassword);
 		CreateLink(m_cbResource, "Resource", _T("Miranda"));
 		CreateLink(m_chkUseHostnameAsResource, proto->m_options.HostNameAsResource);

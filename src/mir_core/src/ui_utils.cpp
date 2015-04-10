@@ -499,9 +499,9 @@ void CCtrlData::NotifyChange()
 	OnChange(this);
 }
 
-void CCtrlData::CreateDbLink(const char* szModuleName, const char* szSetting, BYTE type, DWORD iValue, bool bSigned)
+void CCtrlData::CreateDbLink(const char* szModuleName, const char* szSetting, BYTE type, DWORD iValue)
 {
-	m_dbLink = new CDbLink(szModuleName, szSetting, type, iValue, bSigned);
+	m_dbLink = new CDbLink(szModuleName, szSetting, type, iValue);
 }
 
 void CCtrlData::CreateDbLink(const char* szModuleName, const char* szSetting, TCHAR* szValue)
@@ -1873,7 +1873,8 @@ void CCtrlBase::Unsubclass()
 /////////////////////////////////////////////////////////////////////////////////////////
 // CDbLink class
 
-CDbLink::CDbLink(const char *szModule, const char *szSetting, BYTE type, DWORD iValue, bool bSigned): CDataLink(type, bSigned)
+CDbLink::CDbLink(const char *szModule, const char *szSetting, BYTE type, DWORD iValue)
+	: CDataLink(type)
 {
 	m_szModule = mir_strdup(szModule);
 	m_szSetting = mir_strdup(szSetting);
@@ -1882,7 +1883,8 @@ CDbLink::CDbLink(const char *szModule, const char *szSetting, BYTE type, DWORD i
 	dbv.type = DBVT_DELETED;
 }
 
-CDbLink::CDbLink(const char *szModule, const char *szSetting, BYTE type, TCHAR *szValue): CDataLink(type, false)
+CDbLink::CDbLink(const char *szModule, const char *szSetting, BYTE type, TCHAR *szValue)
+	: CDataLink(type)
 {
 	m_szModule = mir_strdup(szModule);
 	m_szSetting = mir_strdup(szSetting);
@@ -1899,22 +1901,12 @@ CDbLink::~CDbLink()
 		db_free(&dbv);
 }
 
-DWORD CDbLink::LoadUnsigned()
+DWORD CDbLink::LoadInt()
 {
 	switch (m_type) {
 		case DBVT_BYTE:  return db_get_b(NULL, m_szModule, m_szSetting, m_iDefault);
 		case DBVT_WORD:  return db_get_w(NULL, m_szModule, m_szSetting, m_iDefault);
 		case DBVT_DWORD: return db_get_dw(NULL, m_szModule, m_szSetting, m_iDefault);
-		default:         return m_iDefault;
-	}
-}
-
-int CDbLink::LoadSigned()
-{
-	switch (m_type) {
-		case DBVT_BYTE:  return (signed char)db_get_b(NULL, m_szModule, m_szSetting, m_iDefault);
-		case DBVT_WORD:  return (signed short)db_get_w(NULL, m_szModule, m_szSetting, m_iDefault);
-		case DBVT_DWORD: return (signed int)db_get_dw(NULL, m_szModule, m_szSetting, m_iDefault);
 		default:         return m_iDefault;
 	}
 }
@@ -1956,9 +1948,9 @@ CProtoIntDlgBase::CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, HWND pa
 	m_hwndStatus(NULL)
 {}
 
-void CProtoIntDlgBase::CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue, bool bSigned)
+void CProtoIntDlgBase::CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue)
 {
-	ctrl.CreateDbLink(m_proto_interface->m_szModuleName, szSetting, type, iValue, bSigned);
+	ctrl.CreateDbLink(m_proto_interface->m_szModuleName, szSetting, type, iValue);
 }
 
 void CProtoIntDlgBase::CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue)

@@ -37,11 +37,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // helpers for the option's visualization
 
-template<typename Int> struct CMIntTraits { static __forceinline bool IsSigned() { return false; } };
-template<> struct CMIntTraits<signed char> { static __forceinline bool IsSigned() { return true; } };
-template<> struct CMIntTraits<signed short> { static __forceinline bool IsSigned() { return true; } };
-template<> struct CMIntTraits<signed long> { static __forceinline bool IsSigned() { return true; } };
-
 template<int Size>
 struct CMDBTraits
 {
@@ -200,21 +195,18 @@ class MIR_CORE_EXPORT CDataLink
 {
 protected:
 	BYTE m_type;
-	bool m_bSigned;
 
 public:
-	__inline CDataLink(BYTE type, bool bSigned) : m_type(type), m_bSigned(bSigned) {}
+	__inline CDataLink(BYTE type) : m_type(type) {}
 	virtual ~CDataLink() {}
 
 	__inline BYTE GetDataType() { return m_type; }
-	__inline BYTE GetDataSigned() { return m_bSigned; }
 
-	virtual DWORD LoadUnsigned() = 0;
-	virtual int LoadSigned() = 0;
-	virtual void SaveInt(DWORD value) = 0;
+	virtual DWORD LoadInt() = 0;
+	virtual void  SaveInt(DWORD value) = 0;
 
-	virtual TCHAR *LoadText() = 0;
-	virtual void SaveText(TCHAR *value) = 0;
+	virtual TCHAR* LoadText() = 0;
+	virtual void   SaveText(TCHAR *value) = 0;
 };
 
 class MIR_CORE_EXPORT CDbLink : public CDataLink
@@ -229,16 +221,15 @@ class MIR_CORE_EXPORT CDbLink : public CDataLink
 	DBVARIANT dbv;
 
 public:
-	CDbLink(const char *szModule, const char *szSetting, BYTE type, DWORD iValue, bool bSigned = false);
+	CDbLink(const char *szModule, const char *szSetting, BYTE type, DWORD iValue);
 	CDbLink(const char *szModule, const char *szSetting, BYTE type, TCHAR *szValue);
 	~CDbLink();
 
-	DWORD LoadUnsigned();
-	int LoadSigned();
-	void SaveInt(DWORD value);
+	DWORD LoadInt();
+	void  SaveInt(DWORD value);
 
-	TCHAR *LoadText();
-	void SaveText(TCHAR *value);
+	TCHAR* LoadText();
+	void   SaveText(TCHAR *value);
 };
 
 template<class T>
@@ -249,15 +240,14 @@ private:
 
 public:
 	__forceinline CMOptionLink(CMOption<T> &option) :
-		CDataLink(CMDBTraits<sizeof(T)>::DBTypeId, CMIntTraits<T>::IsSigned()), m_option(&option)
+		CDataLink(CMDBTraits<sizeof(T)>::DBTypeId), m_option(&option)
 	{}
 
-	__forceinline DWORD LoadUnsigned() { return (DWORD)(T)*m_option; }
-	__forceinline int LoadSigned() { return (int)(T)*m_option; }
-	__forceinline void SaveInt(DWORD value) { *m_option = (T)value; }
+	__forceinline DWORD LoadInt() { return (DWORD)(T)*m_option; }
+	__forceinline void  SaveInt(DWORD value) { *m_option = (T)value; }
 
-	__forceinline TCHAR *LoadText() { return NULL; }
-	__forceinline void SaveText(TCHAR*) {}
+	__forceinline TCHAR* LoadText() { return NULL; }
+	__forceinline void   SaveText(TCHAR*) {}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -567,7 +557,7 @@ public:
 
 	__inline bool IsChanged() const { return m_changed; }
 
-	void CreateDbLink(const char* szModuleName, const char* szSetting, BYTE type, DWORD iValue, bool bSigned = false);
+	void CreateDbLink(const char* szModuleName, const char* szSetting, BYTE type, DWORD iValue);
 	void CreateDbLink(const char* szModuleName, const char* szSetting, TCHAR* szValue);
 	void CreateDbLink(CDataLink *link) { m_dbLink = link; }
 
@@ -583,9 +573,7 @@ protected:
 	void NotifyChange();
 
 	__inline BYTE GetDataType() { return m_dbLink ? m_dbLink->GetDataType() : DBVT_DELETED; }
-	__inline bool GetDataSigned() { return m_dbLink ? m_dbLink->GetDataSigned() ? true : false : false; }
-	__inline DWORD LoadUnsigned() { return m_dbLink ? m_dbLink->LoadUnsigned() : 0; }
-	__inline int LoadSigned() { return m_dbLink ? m_dbLink->LoadSigned() : 0; }
+	__inline DWORD LoadInt() { return m_dbLink ? m_dbLink->LoadInt() : 0; }
 	__inline void SaveInt(DWORD value) { if (m_dbLink) m_dbLink->SaveInt(value); }
 	__inline const TCHAR *LoadText() { return m_dbLink ? m_dbLink->LoadText() : _T(""); }
 	__inline void SaveText(TCHAR *value) { if (m_dbLink) m_dbLink->SaveText(value); }
@@ -612,7 +600,7 @@ public:
 	}
 	virtual void OnReset()
 	{
-		SetState(LoadUnsigned());
+		SetState(LoadInt());
 	}
 
 	int GetState();
@@ -658,7 +646,7 @@ public:
 		if (GetDataType() == DBVT_TCHAR)
 			SetText(LoadText());
 		else if (GetDataType() != DBVT_DELETED)
-			SetInt(GetDataSigned() ? LoadSigned() : LoadUnsigned());
+			SetInt(LoadInt());
 	}
 };
 
@@ -751,7 +739,7 @@ public:
 		if (GetDataType() == DBVT_TCHAR)
 			SetText(LoadText());
 		else if (GetDataType() != DBVT_DELETED)
-			SetInt(LoadUnsigned());
+			SetInt(LoadInt());
 	}
 
 	// Control interface
@@ -1219,7 +1207,7 @@ class MIR_CORE_EXPORT CProtoIntDlgBase : public CDlgBase
 public:
 	CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, HWND parent, bool show_label = true);
 
-	void CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue, bool bSigned = false);
+	void CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue);
 	void CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue);
 
 	template<class T>
