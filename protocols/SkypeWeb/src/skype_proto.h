@@ -232,7 +232,10 @@ private:
 	void OnSyncHistory(const NETLIBHTTPREQUEST *response);
 
 	//chats
-	MCONTACT FindChatRoom(const char *skypename);
+	void InitGroupChatModule();
+	void CloseAllChatChatSessions();
+
+	MCONTACT FindChatRoom(const char *chatname);
 	MCONTACT AddChatRoom(const char *chatname);
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 

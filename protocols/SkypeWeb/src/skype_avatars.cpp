@@ -172,8 +172,6 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM wParam, LPARAM lParam)
 			return -1;
 		}
 
-		size_t length;
-		char *data;
 		FILE *hFile = _tfopen(path, L"rb");
 		if (!hFile)
 		{
@@ -182,23 +180,30 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM wParam, LPARAM lParam)
 		}
 
 		fseek(hFile, 0, SEEK_END);
-		length = ftell(hFile);
+		size_t length = ftell(hFile);
+		if (length == -1)
+		{
+			debugLogA("CSkypeProto::SvcSetMyAvatar: failed to get avatar file size");
+			fclose(hFile);
+			return -1;
+		}
 		rewind(hFile);
 
-		data = (char*)mir_alloc(length);
-		size_t read = fread(data, sizeof(char), length, hFile);
-		if (read != length)
+		char *data = (char*)mir_alloc(length);
+		if (fread(data, sizeof(char), length, hFile) != length)
 		{
-			fclose(hFile);
 			debugLogA("CSkypeProto::SvcSetMyAvatar: failed to read avatar file");
+			mir_free(data);
+			fclose(hFile);
 			return -1;
 		}
 		fclose(hFile);
 
-
 		ptrA token(getStringA("TokenSecret"));
 		ptrA skypename(getStringA(SKYPE_SETTINGS_ID));
 		PushRequest(new SetAvatarRequest(token, skypename, data, length), &CSkypeProto::OnSentAvatar);
+
+		mir_free(data);
 	}
 	else
 	{

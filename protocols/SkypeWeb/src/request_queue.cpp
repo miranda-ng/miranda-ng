@@ -20,6 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 RequestQueue::RequestQueue(HANDLE hConnection) : 
 	hConnection(hConnection), requests(1)
 {
+	isTerminated = false;
 	hRequestQueueThread = NULL;
 	hRequestQueueEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 }
@@ -35,7 +36,6 @@ void RequestQueue::Start()
 	if (!isTerminated)
 		return;
 
-	isTerminated = false;
 	if (hRequestQueueThread == NULL)
 		hRequestQueueThread = mir_forkthread((pThreadFunc)&RequestQueue::WorkerThread, this);
 }

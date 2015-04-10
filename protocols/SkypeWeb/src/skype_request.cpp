@@ -29,10 +29,10 @@ private:
 
 public:
 	SkypeResponseDelegate(CSkypeProto *proto, SkypeResponseCallback responseCallback)
-		: proto(proto), responseCallback(responseCallback), arg(NULL), hasArg(false) {}
+		: proto(proto), responseCallback(responseCallback), responseWithArgCallback(NULL), arg(NULL), hasArg(false) {}
 
 	SkypeResponseDelegate(CSkypeProto *proto, SkypeResponseWithArgCallback responseCallback, void *arg)
-		: proto(proto), responseWithArgCallback(responseCallback), arg(arg), hasArg(true) { }
+		: proto(proto), responseCallback(NULL), responseWithArgCallback(responseCallback), arg(arg), hasArg(true) { }
 
 	void Invoke(const NETLIBHTTPREQUEST *response)
 	{

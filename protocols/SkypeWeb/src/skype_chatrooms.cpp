@@ -17,13 +17,51 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-MCONTACT CSkypeProto::FindChatRoom(const char *skypename)
+void CSkypeProto::InitGroupChatModule()
+{
+	GCREGISTER gcr = { sizeof(gcr) };
+	gcr.iMaxText = 0;
+	gcr.ptszDispName = this->m_tszUserName;
+	gcr.pszModule = this->m_szModuleName;
+	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
+
+	//HookProtoEvent(ME_GC_EVENT, &CSkypeProto::OnGroupChatEventHook);
+	//HookProtoEvent(ME_GC_BUILDMENU, &CSkypeProto::OnGroupChatMenuHook);
+
+	//CreateProtoService(PS_JOINCHAT, &CSkypeProto::OnJoinChatRoom);
+	//CreateProtoService(PS_LEAVECHAT, &CSkypeProto::OnLeaveChatRoom);
+}
+
+void CSkypeProto::CloseAllChatChatSessions()
+{
+	GC_INFO gci = { 0 };
+	gci.Flags = GCF_BYINDEX | GCF_ID | GCF_DATA;
+	gci.pszModule = m_szModuleName;
+
+	int count = CallServiceSync(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)m_szModuleName);
+	for (int i = 0; i < count; i++)
+	{
+		gci.iItem = i;
+		if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci))
+		{
+			GCDEST gcd = { m_szModuleName, gci.pszID, GC_EVENT_CONTROL };
+			GCEVENT gce = { sizeof(gce), &gcd };
+			CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
+			CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
+		}
+	}
+}
+
+MCONTACT CSkypeProto::FindChatRoom(const char *chatname)
 {
 	MCONTACT hContact = NULL;
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		ptrA cSkypename(getStringA(hContact, "ChatID"));
-		if (mir_strcmpi(skypename, cSkypename) == 0)
+		if (!isChatRoom(hContact))
+			continue;
+
+		ptrA cChatname(getStringA(hContact, "ChatID"));
+		if (mir_strcmpi(chatname, cChatname) == 0)
 			break;
 	}
 	return hContact;

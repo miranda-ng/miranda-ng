@@ -58,7 +58,7 @@ class SendTypingRequest : public HttpRequest
 {
 public:
 	SendTypingRequest(const char *regToken, const char *username, bool bstate, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, mir_urlEncode(username))
+		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, ptrA(mir_urlEncode(username)))
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
@@ -78,7 +78,7 @@ class GetHistoryRequest : public HttpRequest
 {
 public:
 	GetHistoryRequest(const char *regToken, const char *username, LONGLONG timestamp = 0, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages?startTime=%d&pageSize=100&view=msnp24Equivalent&targetType=Passport|Skype|Lync|Thread", server, mir_urlEncode(username), timestamp)
+		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages?startTime=%d&pageSize=100&view=msnp24Equivalent&targetType=Passport|Skype|Lync|Thread", server, ptrA(mir_urlEncode(username)), timestamp)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
@@ -99,11 +99,5 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
 	}
 };
-
-
-
-
-
-
 
 #endif //_SKYPE_REQUEST_MESSAGES_H_
