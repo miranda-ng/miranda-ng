@@ -477,14 +477,14 @@ CCtrlEdit::CCtrlEdit(CDlgBase* dlg, int ctrlId) :
 
 CCtrlData::CCtrlData(CDlgBase *wnd, int idCtrl) :
 	CCtrlBase(wnd, idCtrl),
-	m_dbLink(NULL)
+	m_dbLink(NULL),
+	m_changed(false)
 {
 }
 
 void CCtrlData::OnInit()
 {
 	CCtrlBase::OnInit();
-	m_changed = false;
 }
 
 void CCtrlData::NotifyChange()
