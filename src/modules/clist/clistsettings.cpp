@@ -153,7 +153,7 @@ INT_PTR GetContactDisplayName(WPARAM hContact, LPARAM lParam)
 	else if (lParam != GCDNF_NOMYHANDLE) {
 		cacheEntry = cli.pfnGetCacheEntry(hContact);
 		if (cacheEntry->tszName) {
-			strncpy(retVal, _T2A(cacheEntry->tszName), SIZEOF(retVal));
+			strncpy_s(retVal, _T2A(cacheEntry->tszName), _TRUNCATE);
 			return (INT_PTR)retVal;
 		}
 	}
@@ -166,7 +166,7 @@ INT_PTR GetContactDisplayName(WPARAM hContact, LPARAM lParam)
 	ci.dwFlag = ((lParam == GCDNF_NOMYHANDLE) ? CNF_DISPLAYNC : CNF_DISPLAY) | CNF_TCHAR;
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
-			strncpy(retVal, _T2A(ci.pszVal), SIZEOF(retVal));
+			strncpy_s(retVal, _T2A(ci.pszVal), _TRUNCATE);
 			if (cacheEntry == NULL) {
 				mir_free(ci.pszVal);
 				return (INT_PTR)mir_strdup(retVal);
@@ -212,20 +212,21 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-	DBVARIANT dbv;
 
 	// Early exit
 	if (hContact == NULL)
 		return 0;
 
+	DBVARIANT dbv;
 	dbv.pszVal = NULL;
 	if (!db_get(hContact, "Protocol", "p", &dbv)) {
 		if (!strcmp(cws->szModule, dbv.pszVal)) {
 			cli.pfnInvalidateDisplayNameCacheEntry(hContact);
 			if (!strcmp(cws->szSetting, "UIN") || !strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName")
-				 ||  !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "e-mail")) {
-					CallService(MS_CLUI_CONTACTRENAMED, hContact, 0);
-				}
+				 || !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "e-mail"))
+			{
+				CallService(MS_CLUI_CONTACTRENAMED, hContact, 0);
+			}
 			else if (!strcmp(cws->szSetting, "Status")) {
 				if (!db_get_b(hContact, "CList", "Hidden", 0)) {
 					if (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)) {

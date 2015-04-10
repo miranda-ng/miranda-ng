@@ -38,7 +38,9 @@ MDatabaseCache::MDatabaseCache(size_t _size) :
 	m_contactSize(_size),
 	m_lSettings(100, stringCompare),
 	m_lContacts(50, NumericKeySortT),
-	m_lGlobalSettings(50, compareGlobals)
+	m_lGlobalSettings(50, compareGlobals),
+	m_lastSetting(NULL),
+	m_lastVL(NULL)
 {
 	m_hCacheHeap = HeapCreate(0, 0, 0);
 }

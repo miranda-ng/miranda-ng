@@ -116,7 +116,7 @@ bool shouldAutoCreate(TCHAR *szProfile)
 	return _tcsicmp(ac, _T("yes")) == 0;
 }
 
-static void getDefaultProfile(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
+static void getDefaultProfile(TCHAR *szProfile, size_t cch)
 {
 	TCHAR defaultProfile[MAX_PATH];
 	GetPrivateProfileString(_T("Database"), _T("DefaultProfile"), _T(""), defaultProfile, SIZEOF(defaultProfile), mirandabootini);
@@ -126,13 +126,13 @@ static void getDefaultProfile(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
 
 	VARST res(defaultProfile);
 	if (res)
-		mir_sntprintf(szProfile, cch, _T("%s\\%s\\%s%s"), profiledir, (TCHAR*)res, (TCHAR*)res, isValidProfileName(res) ? _T("") : _T(".dat"));
+		mir_sntprintf(szProfile, cch, _T("%s\\%s\\%s%s"), g_profileDir, (TCHAR*)res, (TCHAR*)res, isValidProfileName(res) ? _T("") : _T(".dat"));
 	else
 		szProfile[0] = 0;
 }
 
 // returns 1 if something that looks like a profile is there
-static void loadProfileByShortName(const TCHAR* src, TCHAR *szProfile, size_t cch, TCHAR *profiledir)
+static void loadProfileByShortName(const TCHAR* src, TCHAR *szProfile, size_t cch)
 {
 	TCHAR buf[MAX_PATH];
 	_tcsncpy(buf, src, SIZEOF(buf));
@@ -149,14 +149,14 @@ static void loadProfileByShortName(const TCHAR* src, TCHAR *szProfile, size_t cc
 	_tcscpy(profileName, p);
 	p = _tcsrchr(profileName, '.'); if (p) *p = 0;
 
-	mir_sntprintf(newProfileDir, cch, _T("%s\\%s\\"), profiledir, profileName);
+	mir_sntprintf(newProfileDir, cch, _T("%s\\%s\\"), g_profileDir, profileName);
 	PathToAbsoluteT(buf, szProfile, newProfileDir);
 
 	if ( _tcschr(buf, '\\')) {
-		_tcscpy(profiledir, szProfile);
+		_tcsncpy_s(g_profileDir, szProfile, _TRUNCATE);
 		if (profileName[0]) {
-			p = _tcsrchr(profiledir, '\\'); *p = 0;
-			p = _tcsrchr(profiledir, '\\');
+			p = _tcsrchr(g_profileDir, '\\'); *p = 0;
+			p = _tcsrchr(g_profileDir, '\\');
 			if (p && _tcsicmp(p + 1, profileName) == 0)
 				*p = 0;
 		}
@@ -164,17 +164,17 @@ static void loadProfileByShortName(const TCHAR* src, TCHAR *szProfile, size_t cc
 	}
 }
 
-void getProfileCmdLine(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
+void getProfileCmdLine(TCHAR *szProfile, size_t cch)
 {
 	LPCTSTR ptszProfileName = CmdLine_GetOption( _T("profile"));
 	if (ptszProfileName != NULL)
-		loadProfileByShortName(ptszProfileName, szProfile, cch, profiledir);
+		loadProfileByShortName(ptszProfileName, szProfile, cch);
 }
 
-void getProfileDefault(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
+void getProfileDefault(TCHAR *szProfile, size_t cch)
 {
 	if (g_defaultProfile != NULL) {
-		loadProfileByShortName(g_defaultProfile, szProfile, cch, profiledir);
+		loadProfileByShortName(g_defaultProfile, szProfile, cch);
 		mir_free(g_defaultProfile);
 	}
 }
@@ -302,9 +302,9 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 		if (WritePrivateProfileString(_T("Database"), _T("ProfileDir"), _T(""), mirandabootini))
 			getProfilePath(g_profileDir, SIZEOF(g_profileDir));
 
-	getDefaultProfile(szProfile, cch, g_profileDir);
-	getProfileCmdLine(szProfile, cch, g_profileDir);
-	getProfileDefault(szProfile, cch, g_profileDir);
+	getDefaultProfile(szProfile, cch);
+	getProfileCmdLine(szProfile, cch);
+	getProfileDefault(szProfile, cch);
 
 	if (IsInsideRootDir(g_profileDir, true)) {
 		MessageBox(NULL,

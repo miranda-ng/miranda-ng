@@ -130,6 +130,7 @@ static INT_PTR CALLBACK WarnIniChangeDlgProc(HWND hwndDlg, UINT message, WPARAM 
 		switch (LOWORD(wParam)) {
 		case IDCANCEL:
 			warnInfo->cancel = 1;
+			// fall through	
 		case IDYES:
 		case IDNO:
 			warnInfo->warnNoMore = IsDlgButtonChecked(hwndDlg, IDC_WARNNOMORE);

@@ -392,7 +392,7 @@ int fnShowHide(WPARAM, LPARAM)
 
 		//this forces the window onto the visible screen
 		GetWindowRect(cli.hwndContactList, &rcWindow);
-		if (Utils_AssertInsideScreen(&rcWindow) == 1) {
+		if (AssertInsideScreen(rcWindow) == 1) {
 			MoveWindow(cli.hwndContactList, rcWindow.left, rcWindow.top,
 				rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 		}

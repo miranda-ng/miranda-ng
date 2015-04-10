@@ -772,7 +772,7 @@ void NetlibUPnPCleanup(void*)
 			num = atol(buf);
 
 		WORD ports[30];
-		for (int i = 0; i < num && !Miranda_Terminated(); i++) {
+		for (unsigned i = 0; i < num && !Miranda_Terminated(); i++) {
 			mir_snprintf(szData, 4096, get_port_mapping, i);
 
 			ReleaseMutex(portListMutex);
@@ -804,7 +804,7 @@ void NetlibUPnPCleanup(void*)
 
 		ReleaseMutex(portListMutex);
 
-		for (int i = 0; i < j && !Miranda_Terminated(); i++)
+		for (unsigned i = 0; i < j && !Miranda_Terminated(); i++)
 			NetlibUPnPDeletePortMapping(ports[i], "TCP");
 	}
 }
