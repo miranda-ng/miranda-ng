@@ -133,7 +133,7 @@ void CSkypeProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cb
 	pszDest[tPathLen++] = '\\';
 
 	const TCHAR* szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_JPEG));
-	ptrA username(getStringA(hContact, "Skypename"));
+	ptrA username(getStringA(hContact, SKYPE_SETTINGS_ID));
 	mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%s%s"), _A2T(username), szFileType);
 }
 
@@ -197,7 +197,7 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 
 		ptrA token(getStringA("TokenSecret"));
-		ptrA skypename(getStringA("Skypename"));
+		ptrA skypename(getStringA(SKYPE_SETTINGS_ID));
 		PushRequest(new SetAvatarRequest(token, skypename, data, length), &CSkypeProto::OnSentAvatar);
 	}
 	else

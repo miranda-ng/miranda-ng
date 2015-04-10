@@ -128,7 +128,7 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessa
 
 	ptrA server(getStringA("Server"));
 	ptrA token(getStringA("registrationToken"));
-	ptrA username(getStringA(hContact, "Skypename"));
+	ptrA username(getStringA(hContact, SKYPE_SETTINGS_ID));
 
 	debugLogA(__FUNCTION__ " clientmsgid = %d", param->hMessage);
 
@@ -156,7 +156,7 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 			JSONNODE *node = json_get(root, "errorCode");
 			error = _T2A(json_as_string(node));
 		}
-		ptrT username(getTStringA(hContact, "Skypename"));
+		ptrT username(getTStringA(hContact, SKYPE_SETTINGS_ID));
 		debugLogA(__FUNCTION__": failed to send message for %s (%s)", username, error);
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)error.GetBuffer());
 		return;
@@ -233,7 +233,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM lParam)
 {
-	PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), ptrA(db_get_sa(hContact, m_szModuleName, "Skypename")), ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
+	PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)), ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
 	return 0;
 }
 
