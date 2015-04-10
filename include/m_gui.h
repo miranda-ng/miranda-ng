@@ -454,7 +454,6 @@ public:
 	virtual void OnInit();
 
 protected:
-	char m_flags;
 	HICON m_hIcon;
 	const char* m_toolTip;
 };
