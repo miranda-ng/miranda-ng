@@ -30,7 +30,6 @@ extern "C" {
 
 #include <stdint.h>
 #include <stddef.h>
-#include <stdbool.h>
 
 #ifndef TOX_DEFINED
 #define TOX_DEFINED
