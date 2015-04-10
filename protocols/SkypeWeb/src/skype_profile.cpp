@@ -429,9 +429,9 @@ void CSkypeProto::UpdateProfileStatusMessage(JSONNODE *root, MCONTACT hContact)
 	JSONNODE *node = json_get(root, "mood");
 	CMString province = mir_t2a(ptrT(json_as_string(node)));
 	if (!province.IsEmpty() && province != "null")
-		setTString(hContact, "StatusMsg", province);
+		db_set_ts(hContact, "CList", "StatusMsg", province);
 	else
-		delSetting(hContact, "StatusMsg");
+		db_unset(hContact, "CList", "StatusMsg");
 }
 
 void CSkypeProto::UpdateProfileXStatusMessage(JSONNODE *root, MCONTACT hContact)
