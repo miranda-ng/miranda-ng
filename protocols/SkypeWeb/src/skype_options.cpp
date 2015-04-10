@@ -22,7 +22,8 @@ CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog, HWND hwnd
 	m_skypename(this, IDC_SKYPENAME),
 	m_password(this, IDC_PASSWORD),
 	m_group(this, IDC_GROUP),
-	m_autosync(this, IDC_AUTOSYNC)
+	m_autosync(this, IDC_AUTOSYNC),
+	m_localtime(this, IDC_LOCALTIME)
 {
 	CreateLink(m_group, SKYPE_SETTINGS_GROUP, _T("Skype"));
 	CreateLink(m_autosync, "AutoSync", DBVT_BYTE, 1);

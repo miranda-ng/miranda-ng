@@ -464,24 +464,28 @@ void CSkypeProto::LoadProfile(const NETLIBHTTPREQUEST *response)
 	JSONROOT root(response->pData);
 	if (root == NULL)
 		return;
+	ptrA username(mir_t2a(ptrT(json_as_string(json_get(root, "username")))));
+	MCONTACT hContact = NULL;
+	if (!IsMe(username))
+		hContact = GetContact(username); 
 
-	UpdateProfileFirstName(root);
-	UpdateProfileLastName(root);
-	UpdateProfileDisplayName(root);
-	UpdateProfileGender(root);
-	UpdateProfileBirthday(root);
-	UpdateProfileCountry(root);
-	UpdateProfileState(root);
-	UpdateProfileCity(root);
-	UpdateProfileLanguage(root);
-	UpdateProfileHomepage(root);
-	UpdateProfileAbout(root);
+	UpdateProfileFirstName(root, hContact);
+	UpdateProfileLastName(root, hContact);
+	UpdateProfileDisplayName(root, hContact);
+	UpdateProfileGender(root, hContact);
+	UpdateProfileBirthday(root, hContact);
+	UpdateProfileCountry(root, hContact);
+	UpdateProfileState(root, hContact);
+	UpdateProfileCity(root, hContact);
+	UpdateProfileLanguage(root, hContact);
+	UpdateProfileHomepage(root, hContact);
+	UpdateProfileAbout(root, hContact);
 	//jobtitle
-	UpdateProfileEmails(root);
-	UpdateProfilePhoneMobile(root);
-	UpdateProfilePhoneHome(root);
-	UpdateProfilePhoneOffice(root);
-	UpdateProfileStatusMessage(root);
+	UpdateProfileEmails(root, hContact);
+	UpdateProfilePhoneMobile(root, hContact);
+	UpdateProfilePhoneHome(root, hContact);
+	UpdateProfilePhoneOffice(root, hContact);
+	UpdateProfileStatusMessage(root, hContact);
 	//richMood
-	UpdateProfileAvatar(root);
+	UpdateProfileAvatar(root, hContact);
 }

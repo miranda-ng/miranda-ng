@@ -25,6 +25,7 @@ private:
 	CCtrlEdit m_password;
 	CCtrlEdit m_group;
 	CCtrlCheck m_autosync;
+	CCtrlCheck m_localtime;
 
 protected:
 	CSkypeOptionsMain(CSkypeProto *proto, int idDialog, HWND hwndParent = NULL);
