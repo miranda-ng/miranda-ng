@@ -58,7 +58,7 @@ MCONTACT CSkypeProto::GetContactFromAuthEvent(MEVENT hEvent)
 	return DbGetAuthEventContact(&dbei);
 }
 
-MCONTACT CSkypeProto::GetContact(const char *skypename)
+MCONTACT CSkypeProto::FindContact(const char *skypename)
 {
 	MCONTACT hContact = NULL;
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
@@ -72,7 +72,7 @@ MCONTACT CSkypeProto::GetContact(const char *skypename)
 
 MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
 {
-	MCONTACT hContact = GetContact(skypename);
+	MCONTACT hContact = FindContact(skypename);
 	if (!hContact)
 	{
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);

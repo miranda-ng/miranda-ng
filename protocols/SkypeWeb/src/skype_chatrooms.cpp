@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-MCONTACT CSkypeProto::GetChat(const char *skypename)
+MCONTACT CSkypeProto::FindChatRoom(const char *skypename)
 {
 	MCONTACT hContact = NULL;
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
@@ -31,7 +31,7 @@ MCONTACT CSkypeProto::GetChat(const char *skypename)
 
 MCONTACT CSkypeProto::AddChatRoom(const char *chatname)
 {
-	MCONTACT hContact = GetChat(chatname);
+	MCONTACT hContact = FindChatRoom(chatname);
 	if (!hContact)
 	{
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);

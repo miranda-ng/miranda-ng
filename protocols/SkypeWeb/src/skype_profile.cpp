@@ -469,7 +469,7 @@ void CSkypeProto::LoadProfile(const NETLIBHTTPREQUEST *response)
 	ptrA username(mir_t2a(ptrT(json_as_string(json_get(root, "username")))));
 	MCONTACT hContact = NULL;
 	if (!IsMe(username))
-		hContact = GetContact(username); 
+		hContact = FindContact(username);
 
 	UpdateProfileFirstName(root, hContact);
 	UpdateProfileLastName(root, hContact);

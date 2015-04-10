@@ -24,7 +24,7 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 	ptrA skypename(ContactUrlToName(selfLink));
 	if (skypename == NULL)
 		return;
-	MCONTACT hContact = GetContact(skypename);
+	MCONTACT hContact = FindContact(skypename);
 
 	//"publicInfo":{"capabilities":"","typ":"11","skypeNameVersion":"0/7.1.0.105//","nodeInfo":"","version":"24"}
 	JSONNODE *publicInfo = json_get(node, "publicInfo");
@@ -84,7 +84,7 @@ void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node)
 		}
 		return;
 	}
-	MCONTACT hContact = GetContact(skypename);
+	MCONTACT hContact = FindContact(skypename);
 	SetContactStatus(hContact, SkypeToMirandaStatus(status));
 }
 
@@ -99,6 +99,7 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 	ptrT composeTime(json_as_string(json_get(node, "composetime")));
 	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
 	time_t timestamp = IsoToUnixTime(composeTime);
+	int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
 	if (strstr(conversationLink, "/19:"))
 	{
 		ptrA chatname(ChatUrlToName(conversationLink));
@@ -129,39 +130,39 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 	}
 	else if (strstr(conversationLink, "/8:"))
 	{
+		OnPrivateMessageEvent(node);
 		ptrA skypename(ContactUrlToName(from));
-		MCONTACT hContact = GetContact(skypename);
-
-		if (hContact == NULL && !IsMe(skypename))
-			hContact = AddContact(skypename, true);
-
-		if (!mir_strcmpi(messageType, "Control/Typing"))
+		
+		if (IsMe(skypename))
 		{
-			CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
-		}
-		else if (!mir_strcmpi(messageType, "Control/ClearTyping"))
-		{		
-			CallService(MS_PROTO_CONTACTISTYPING, hContact, 0);
-		}
-		else if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
-		{
-			int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
-			if (IsMe(skypename))
-			{
-				hContact = GetContact(ptrA(ContactUrlToName(conversationLink)));
-				int hMessage = atoi(clientMsgId);
-				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
-				debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-				AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, &content[emoteOffset], emoteOffset);
-				return;
-			}
+			MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
+			int hMessage = atoi(clientMsgId);
+			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
 			debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-			OnReceiveMessage(clientMsgId, from, timestamp, content, emoteOffset);
+			AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, &content[emoteOffset], emoteOffset);
 		}
-		else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage"))
+		else
+		{
+			MCONTACT hContact = AddContact(skypename, true);
+			if (!mir_strcmpi(messageType, "Control/Typing"))
+				CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
+			else if (!mir_strcmpi(messageType, "Control/ClearTyping"))
+				CallService(MS_PROTO_CONTACTISTYPING, hContact, 0);
+			else if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
+			{
+				
+				if (IsMe(skypename))
+				{
+					
+				}
+				debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
+				OnReceiveMessage(clientMsgId, from, timestamp, content, emoteOffset);
+			}
+		}
+		/*else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage"))
 		{
 			return; //not supported
-		}
+		}*/
 	}
 }
 
@@ -185,7 +186,7 @@ void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)
 		if (!mir_strcmpi(type, "Message"))
 		{
 			ptrA skypename(ContactUrlToName(from));
-			MCONTACT hContact = GetContact(skypename);
+			MCONTACT hContact = FindContact(skypename);
 
 			if (hContact == NULL && !IsMe(skypename))
 				hContact = AddContact(skypename, true);
@@ -203,7 +204,7 @@ void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)
 				int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
 				if (IsMe(skypename))
 				{
-					hContact = GetContact(ptrA(ContactUrlToName(conversationLink)));
+					hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
 					int hMessage = atoi(clientMsgId);
 					ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
 					AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, &content[emoteOffset], emoteOffset);

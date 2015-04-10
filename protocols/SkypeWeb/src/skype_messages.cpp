@@ -67,7 +67,7 @@ MEVENT CSkypeProto::AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD fla
 int CSkypeProto::OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset, bool isRead)
 {
 	ptrA skypename(ContactUrlToName(url));
-	MCONTACT hContact = GetContact(skypename);
+	MCONTACT hContact = AddContact(skypename, true);
 	PROTORECVEVENT recv = { 0 };
 	recv.flags = PREF_UTF;
 	recv.timestamp = timestamp;
@@ -128,7 +128,7 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessa
 
 	ptrA server(getStringA("Server"));
 	ptrA token(getStringA("registrationToken"));
-	ptrA username(getStringA(hContact, SKYPE_SETTINGS_ID));
+	ptrA username(getStringA(hContact, "Skypename"));
 
 	debugLogA(__FUNCTION__ " clientmsgid = %d", param->hMessage);
 
@@ -156,7 +156,7 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 			JSONNODE *node = json_get(root, "errorCode");
 			error = _T2A(json_as_string(node));
 		}
-		ptrT username(getTStringA(hContact, SKYPE_SETTINGS_ID));
+		ptrT username(getTStringA(hContact, "Skypename"));
 		debugLogA(__FUNCTION__": failed to send message for %s (%s)", username, error);
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)error.GetBuffer());
 		return;
@@ -186,88 +186,46 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-/* HISTORY SYNC */
+/* MESSAGE EVENT */
 
-void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 {
-	if (response == NULL)
-		return;
+	ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(node, "clientmessageid")))));
+	//ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(node, "skypeeditedid")))));	
 
-	JSONROOT root(response->pData);
-	if (root == NULL)
-		return;
+	ptrT composeTime(json_as_string(json_get(node, "composetime")));
+	time_t timestamp = IsoToUnixTime(composeTime);
 
-	JSONNODE *conversations = json_as_array(json_get(root, "messages"));
-	for (size_t i = 0; i < json_size(conversations); i++)
+	ptrA from(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
+	ptrA skypename(ContactUrlToName(from));
+
+	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
+	int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
+
+	if (IsMe(skypename))
 	{
-		JSONNODE *message = json_at(conversations, i);
+		ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
+		ptrA cSkypename(ContactUrlToName(conversationLink));
 
-		ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(message, "clientmessageid")))));
-		ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(message, "skypeeditedid")))));
-		ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(message, "messagetype")))));
-		ptrA from(mir_t2a(ptrT(json_as_string(json_get(message, "from")))));
-		ptrA content(mir_t2a(ptrT(json_as_string(json_get(message, "content")))));
-		ptrT composeTime(json_as_string(json_get(message, "composetime")));
-		ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(message, "conversationLink")))));
-		time_t timestamp = IsoToUnixTime(composeTime);
-		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
-		{
-			int emoteOffset = json_as_int(json_get(message, "skypeemoteoffset"));
-
-			int flags = DBEF_UTF | DBEF_READ;
-
-			ptrA skypename(ContactUrlToName(from));
-			
-			bool isMe = IsMe(skypename);
-			if (isMe)
-				flags |= DBEF_SENT;
-
-			MCONTACT hContact = IsMe(skypename)
-				? GetContact(ptrA(ContactUrlToName(conversationLink)))
-				: GetContact(skypename);
-
-			AddMessageToDb(hContact, timestamp, flags, clientMsgId, content, emoteOffset);
-		}
+		MCONTACT hContact = AddContact(cSkypename, true);
+		int hMessage = atoi(clientMsgId);
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
+		debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
+		AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, &content[emoteOffset], emoteOffset);
 	}
-}
-
-INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM lParam)
-{
-	PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)), ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
-	return 0;
-}
-
-void CSkypeProto::SyncHistory()
-{
-	PushRequest(new SyncHistoryFirstRequest(ptrA(getStringA("registrationToken")), ptrA(getStringA("Server"))), &CSkypeProto::OnSyncHistory);
-}
-
-void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
-{
-	if (response == NULL)
-		return;
-	JSONROOT root(response->pData);
-	if (root == NULL)
-		return;
-	JSONNODE *conversations = json_as_array(json_get(root, "conversations"));
-	for (size_t i = 0; i < json_size(conversations); i++)
+	else
 	{
-		JSONNODE *conversation = json_at(conversations, i);
-		JSONNODE *lastMessage = json_get(conversation, "lastMessage");
-		if (lastMessage == NULL)
-			continue;
+		ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 
-		char *clientMsgId = _T2A(json_as_string(json_get(lastMessage, "clientmessageid")));
-		char *conversationLink = _T2A(json_as_string(json_get(lastMessage, "conversationLink")));
-		time_t composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "conversationLink")))));
-
-		ptrA skypename(ContactUrlToName(conversationLink));
-		if (skypename == NULL)
-			continue;
-		MCONTACT hContact = GetContact(skypename);
-		if (hContact == NULL && !IsMe(skypename))
-			hContact = AddContact(skypename, true);
-		if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
-			PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), skypename, ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
+		MCONTACT hContact = AddContact(skypename, true);
+		if (!mir_strcmpi(messageType, "Control/Typing"))
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
+		else if (!mir_strcmpi(messageType, "Control/ClearTyping"))
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
+		else if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
+		{
+			debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
+			OnReceiveMessage(clientMsgId, from, timestamp, content, emoteOffset);
+		}
 	}
 }
