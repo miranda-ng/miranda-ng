@@ -10,7 +10,7 @@
 Пароль:
 [Cancel]
 Скасаваць
-;file \protocols\SkypeWeb\src\skype_chats.cpp
+;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]

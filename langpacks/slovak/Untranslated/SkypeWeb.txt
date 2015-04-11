@@ -4,6 +4,7 @@
 [Account]
 [Others]
 [Automatic messages synchronization]
+[Use local time for received messages]
 [Enter password]
 [Enter the password to continue.]
 [Groupchat]

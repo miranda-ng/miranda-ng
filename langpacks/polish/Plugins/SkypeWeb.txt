@@ -20,6 +20,8 @@ Konto
 Inne
 [Automatic messages synchronization]
 
+[Use local time for received messages]
+Używaj czasu lokalnego dla odebranych wiadomości
 [Enter password]
 Wprowadź hasło
 [Save password]
@@ -28,7 +30,7 @@ Zapisz hasło
 Anuluj
 [Enter the password to continue.]
 Wprowadź hasło, by kontynuować.
-;file \protocols\SkypeWeb\src\skype_chats.cpp
+;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [Groupchat]
 Czat grupowy
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
