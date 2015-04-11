@@ -195,7 +195,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 		AI.cbSize = sizeof(AI);
 		AI.hContact = hMeta;
 		AI.format = PA_FORMAT_UNKNOWN;
-		_tcscpy(AI.filename, _T("X"));
+		_tcsncpy_s(AI.filename, _T("X"), _TRUNCATE);
 
 		if (CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
 			db_set_ts(hMeta, "ContactPhoto", "File", AI.filename);

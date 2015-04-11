@@ -135,18 +135,18 @@ static void getDefaultProfile(TCHAR *szProfile, size_t cch)
 static void loadProfileByShortName(const TCHAR* src, TCHAR *szProfile, size_t cch)
 {
 	TCHAR buf[MAX_PATH];
-	_tcsncpy(buf, src, SIZEOF(buf));
+	_tcsncpy_s(buf, src, _TRUNCATE);
 
 	TCHAR *p = _tcsrchr(buf, '\\'); if (p) ++p; else p = buf;
 	if (!isValidProfileName(buf) && *p)
 		_tcscat(buf, _T(".dat"));
 
 	TCHAR profileName[MAX_PATH], newProfileDir[MAX_PATH];
-	_tcscpy(profileName, p);
+	_tcsncpy_s(profileName, p, _TRUNCATE);
 	if (!isValidProfileName(profileName) && *p)
 		_tcscat(profileName, _T(".dat"));
 
-	_tcscpy(profileName, p);
+	_tcsncpy_s(profileName, p, _TRUNCATE);
 	p = _tcsrchr(profileName, '.'); if (p) *p = 0;
 
 	mir_sntprintf(newProfileDir, cch, _T("%s\\%s\\"), g_profileDir, profileName);
@@ -184,7 +184,7 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 {
 	TCHAR pfd[MAX_PATH];
 	if (isRootDir)
-		_tcsncpy(pfd, VARST(_T("%miranda_path%\\*.dat")), SIZEOF(pfd));
+		_tcsncpy_s(pfd, VARST(_T("%miranda_path%\\*.dat")), _TRUNCATE);
 	else
 		mir_sntprintf(pfd, SIZEOF(pfd), _T("%s\\*.dat"), profiledir);
 

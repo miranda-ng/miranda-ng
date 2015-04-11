@@ -159,7 +159,9 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		case IDC_RUNATSTARTBROWSE:
 			GetWindowText(GetWindow((HWND)lParam, GW_HWNDPREV), str, SIZEOF(str));
 			{
-				TCHAR filter[512];
+				TCHAR filter[200];
+				mir_sntprintf(filter, SIZEOF(filter), _T("%s (*)%c*%c"), TranslateT("All files"), 0, 0);
+
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 				ofn.hwndOwner = hwndDlg;
@@ -170,12 +172,6 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 					ofn.Flags |= OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 					ofn.lpstrTitle = TranslateT("Select program to be run");
 				}
-				_tcsncpy(filter, TranslateT("All files"), SIZEOF(filter) - 1);
-				_tcscat(filter, _T(" (*)"));
-				TCHAR *pfilter = filter + mir_tstrlen(filter) + 1;
-				_tcscpy(pfilter, _T("*"));
-				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-				*pfilter = '\0';
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = str;
 				ofn.nMaxFile = SIZEOF(str) - 2;

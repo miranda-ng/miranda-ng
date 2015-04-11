@@ -200,7 +200,7 @@ int CreateFromFontSettings(FontSettingsT *fs, LOGFONT *lf)
 {
 	GetDefaultFontSetting(lf, 0);
 
-	_tcscpy(lf->lfFaceName, fs->szFace);
+	_tcsncpy_s(lf->lfFaceName, fs->szFace, _TRUNCATE);
 
 	lf->lfWidth = lf->lfEscapement = lf->lfOrientation = 0;
 	lf->lfWeight = fs->style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;

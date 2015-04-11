@@ -463,7 +463,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	BOOL bFileJustCreated = !PathFileExists(si->pszLogFileName);
 
 	TCHAR tszFolder[MAX_PATH];
-	_tcscpy(tszFolder, si->pszLogFileName);
+	_tcsncpy_s(tszFolder, si->pszLogFileName, _TRUNCATE);
 	PathRemoveFileSpec(tszFolder);
 	if (!PathIsDirectory(tszFolder))
 		CreateDirectoryTreeT(tszFolder);

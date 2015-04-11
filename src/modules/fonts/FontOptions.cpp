@@ -965,7 +965,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 						F1.value.size = (char)lf.lfHeight;
 						F1.value.style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0) | (lf.lfUnderline ? DBFONTF_UNDERLINE : 0) | (lf.lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
 						F1.value.charset = lf.lfCharSet;
-						_tcscpy(F1.value.szFace, lf.lfFaceName);
+						_tcsncpy_s(F1.value.szFace, lf.lfFaceName, _TRUNCATE);
 
 						MEASUREITEMSTRUCT mis = { 0 };
 						mis.CtlID = IDC_FONTLIST;
@@ -1310,7 +1310,7 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 					pf->value.size = (char)lf.lfHeight;
 					pf->value.style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0) | (lf.lfUnderline ? DBFONTF_UNDERLINE : 0) | (lf.lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
 					pf->value.charset = lf.lfCharSet;
-					_tcscpy(pf->value.szFace, lf.lfFaceName);
+					_tcsncpy_s(pf->value.szFace, lf.lfFaceName, _TRUNCATE);
 
 					InvalidateRect( GetDlgItem(hwndDlg, IDC_PREVIEWHEADER), NULL, TRUE);
 					InvalidateRect( GetDlgItem(hwndDlg, IDC_PREVIEWGENERAL), NULL, TRUE);

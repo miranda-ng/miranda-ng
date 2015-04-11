@@ -970,7 +970,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				if (lvi.lParam < iconList.getCount()) {
 					item = iconList[lvi.lParam];
 					if (item->temp_file)
-						_tcsncpy(pInfoTip->pszText, item->temp_file, pInfoTip->cchTextMax);
+						_tcsncpy_s(pInfoTip->pszText, pInfoTip->cchTextMax, item->temp_file, _TRUNCATE);
 					else if (item->default_file)
 						mir_sntprintf(pInfoTip->pszText, pInfoTip->cchTextMax, _T("%s, %d"), item->default_file, item->default_indx);
 				}

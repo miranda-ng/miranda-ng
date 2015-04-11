@@ -209,7 +209,7 @@ static TCHAR* GetPluginName(HINSTANCE hInstance, TCHAR *buffer, int size)
 	else
 		dllName++;
 
-	_tcsncpy(buffer, dllName, size);
+	_tcsncpy_s(buffer, size, dllName, _TRUNCATE);
 	return buffer;
 }
 
@@ -517,7 +517,7 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 		else
 			pos = szFileName;
 
-		_tcsncpy(dat->szFilterString, pos, SIZEOF(dat->szFilterString));
+		_tcsncpy_s(dat->szFilterString, pos, _TRUNCATE);
 	}
 	else {
 		int sel = SendDlgItemMessage(hdlg, IDC_KEYWORD_FILTER, (UINT)CB_GETCURSEL, 0, 0);
@@ -528,7 +528,7 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 			TCHAR *pos = _tcsrchr(szFileName, _T('\\'));
 			if (pos) pos++;
 			else pos = szFileName;
-			_tcsncpy(dat->szFilterString, pos, SIZEOF(dat->szFilterString));
+			_tcsncpy_s(dat->szFilterString, pos, _TRUNCATE);
 		}
 	}
 
