@@ -71,10 +71,10 @@ static void FillContactList(HWND hList)
 			if (!db_get(g_data.hContact[i], szProto, szField, &dbv)) {
 				switch (dbv.type) {
 				case DBVT_ASCIIZ:
-					_tcsncpy(buff, _A2T(dbv.pszVal), SIZEOF(buff));
+					_tcsncpy_s(buff, _A2T(dbv.pszVal), _TRUNCATE);
 					break;
 				case DBVT_WCHAR:
-					_tcsncpy(buff, dbv.ptszVal, SIZEOF(buff));
+					_tcsncpy_s(buff, dbv.ptszVal, _TRUNCATE);
 					break;
 				case DBVT_BYTE:
 					_itot(dbv.bVal, buff, 10);
@@ -166,7 +166,7 @@ static void ApplyChanges()
 		PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
 		AI.hContact = g_data.hMeta;
 		AI.format = PA_FORMAT_UNKNOWN;
-		_tcscpy(AI.filename, _T("X"));
+		_tcsncpy_s(AI.filename, _T("X"), _TRUNCATE);
 		if (CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
 			db_set_ts(g_data.hMeta, "ContactPhoto", "File", AI.filename);
 	}

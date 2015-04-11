@@ -85,7 +85,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM l
 	}
 
 	CharLower(fd->cFileName);
-	_tcsncpy(dat->fileName, fd->cFileName, SIZEOF(dat->fileName));
+	_tcsncpy_s(dat->fileName, fd->cFileName, _TRUNCATE);
 
 	HWND hwndList = (HWND)lParam;
 

@@ -91,19 +91,19 @@ int LoadFontserviceModule(void)
 	// create generic fonts
 	FontIDT fontid = { sizeof(fontid) };
 	strncpy(fontid.dbSettingsGroup, "Fonts", sizeof(fontid.dbSettingsGroup));
-	_tcsncpy(fontid.group, LPGENT("General"), SIZEOF(fontid.group));
+	_tcsncpy_s(fontid.group, LPGENT("General"), _TRUNCATE);
 
-	_tcsncpy(fontid.name, LPGENT("Headers"), SIZEOF(fontid.name));
+	_tcsncpy_s(fontid.name, LPGENT("Headers"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSHEADER;
 	strncpy(fontid.prefix, "Header", SIZEOF(fontid.prefix));
 	FontRegisterT(&fontid);
 
-	_tcsncpy(fontid.name, LPGENT("Generic text"), SIZEOF(fontid.name));
+	_tcsncpy_s(fontid.name, LPGENT("Generic text"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSGENERAL;
 	strncpy(fontid.prefix, "Generic", SIZEOF(fontid.prefix));
 	FontRegisterT(&fontid);
 
-	_tcsncpy(fontid.name, LPGENT("Small text"), SIZEOF(fontid.name));
+	_tcsncpy_s(fontid.name, LPGENT("Small text"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSSMALL;
 	strncpy(fontid.prefix, "Small", SIZEOF(fontid.prefix));
 	FontRegisterT(&fontid);

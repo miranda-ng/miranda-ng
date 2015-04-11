@@ -462,7 +462,7 @@ static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 	}
 
 	nameb = cli.pfnGetContactDisplayName(a, 0);
-	_tcsncpy(namea, nameb, SIZEOF(namea));
+	_tcsncpy_s(namea, nameb, _TRUNCATE);
 	namea[ SIZEOF(namea)-1 ] = 0;
 	nameb = cli.pfnGetContactDisplayName(b, 0);
 

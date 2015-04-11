@@ -171,7 +171,7 @@ void RegisterFonts(void)
 			_tcsncpy_s(fontid.backgroundName, LPGENT("Group chat log background"), _TRUNCATE);
 			break;
 		}
-		_tcsncpy(fontid.deffontsettings.szFace, FO.szDefFace, SIZEOF(fontid.deffontsettings.szFace));
+		_tcsncpy_s(fontid.deffontsettings.szFace, FO.szDefFace, _TRUNCATE);
 		fontid.deffontsettings.charset = FO.defCharset;
 		fontid.deffontsettings.colour = FO.defColour;
 		fontid.deffontsettings.size = FO.defSize;

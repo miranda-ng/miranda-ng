@@ -167,16 +167,11 @@ int DoRtfToTags(CMString &pszText, int iNumColors, COLORREF *pColors)
 			}
 			else if (p[1] == '\'') { // special character
 				if (p[2] != ' ' && p[2] != '\\') {
-					TCHAR tmp[10];
-
-					if (p[3] != ' ' && p[3] != '\\') {
-						_tcsncpy(tmp, p + 2, 3);
-						tmp[3] = 0;
-					}
-					else {
-						_tcsncpy(tmp, p + 2, 2);
-						tmp[2] = 0;
-					}
+					TCHAR tmp[10], *t = tmp;
+					*t++ = p[2];
+					if (p[3] != ' ' && p[3] != '\\')
+						*t++ = p[3];
+					*t = 0;
 
 					// convert string containing char in hex format to int.
 					TCHAR *stoppedHere;

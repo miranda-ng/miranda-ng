@@ -448,7 +448,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 			PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
 			AI.hContact = ccMeta->contactID;
 			AI.format = PA_FORMAT_UNKNOWN;
-			_tcscpy(AI.filename, _T("X"));
+			_tcsncpy_s(AI.filename, _T("X"), _TRUNCATE);
 			if (CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
 				db_set_ts(ccMeta->contactID, "ContactPhoto", "File", AI.filename);
 		}
@@ -798,7 +798,7 @@ INT_PTR Meta_GetInfo(WPARAM wParam, LPARAM lParam)
 	AI.cbSize = sizeof(AI);
 	AI.hContact = ccs->hContact;
 	AI.format = PA_FORMAT_UNKNOWN;
-	_tcscpy(AI.filename, _T("X"));
+	_tcsncpy_s(AI.filename, _T("X"), _TRUNCATE);
 	if (CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
 		db_set_ts(ccs->hContact, "ContactPhoto", "File", AI.filename);
 

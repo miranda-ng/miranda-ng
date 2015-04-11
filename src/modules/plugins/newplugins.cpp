@@ -392,7 +392,7 @@ void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam)
 pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 {
 	pluginEntry *p = (pluginEntry*)HeapAlloc(hPluginListHeap, HEAP_NO_SERIALIZE | HEAP_ZERO_MEMORY, sizeof(pluginEntry));
-	_tcsncpy(p->pluginname, tszFileName, SIZEOF(p->pluginname));
+	_tcsncpy_s(p->pluginname, tszFileName, _TRUNCATE);
 
 	// add it to the list anyway
 	pluginList.insert(p);

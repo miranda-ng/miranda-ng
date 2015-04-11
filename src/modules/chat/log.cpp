@@ -316,7 +316,7 @@ TCHAR* MakeTimeStamp(TCHAR *pszStamp, time_t time)
 {
 	static TCHAR szTime[30];
 	if (!_tcsftime(szTime, SIZEOF(szTime)-1, pszStamp, localtime(&time)))
-		_tcsncpy(szTime, TranslateT("<invalid>"), SIZEOF(szTime));
+		_tcsncpy_s(szTime, TranslateT("<invalid>"), _TRUNCATE);
 	return szTime;
 }
 

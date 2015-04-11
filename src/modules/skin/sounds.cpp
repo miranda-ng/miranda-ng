@@ -289,7 +289,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			TCHAR str[MAX_PATH], strFull[MAX_PATH], strdir[MAX_PATH], filter[MAX_PATH];
 			if (snd.ptszTempFile)
-				_tcsncpy(strFull, snd.ptszTempFile, SIZEOF(strFull));
+				_tcsncpy_s(strFull, snd.ptszTempFile, _TRUNCATE);
 			else {
 				if (db_get_b(NULL, "SkinSoundsOff", snd.name, 0) == 0) {
 					DBVARIANT dbv;
