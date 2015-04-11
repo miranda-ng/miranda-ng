@@ -88,8 +88,8 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		if (lastMessage == NULL)
 			continue;
 
-		char *clientMsgId = _T2A(json_as_string(json_get(lastMessage, "clientmessageid")));
-		char *conversationLink = _T2A(json_as_string(json_get(lastMessage, "conversationLink")));
+		char *clientMsgId = mir_t2a(json_as_string(json_get(lastMessage, "clientmessageid")));
+		char *conversationLink = mir_t2a(json_as_string(json_get(lastMessage, "conversationLink")));
 		time_t composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "conversationLink")))));
 
 		ptrA skypename(ContactUrlToName(conversationLink));
