@@ -13,11 +13,12 @@
 [Account]
 [Others]
 [Automatic messages synchronization]
+[Use local time for received messages]
 [Enter password]
 [Save password]
 [Cancel]
 [Enter the password to continue.]
-;file \protocols\SkypeWeb\src\skype_chats.cpp
+;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [Groupchat]
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
