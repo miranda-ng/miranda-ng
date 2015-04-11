@@ -78,7 +78,8 @@ void CJabberProto::ConvertPasswords()
 			break;
 
 		mir_snprintf(varName, SIZEOF(varName), "rcMuc_%d", i);
-		if ((passw = JSetStringCrypt(m_szModuleName, NULL, varName)) != NULL) {
+		ptrT passw(JSetStringCrypt(m_szModuleName, NULL, varName));
+		if (passw != NULL) {
 			delSetting(varName);
 
 			mir_snprintf(varName, SIZEOF(varName), "password_rcMuc_%d", i);

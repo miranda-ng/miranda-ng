@@ -28,12 +28,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class TJabberAuth
 {
-
-protected:  bool        bIsValid;
+protected:  bool bIsValid;
             const char* szName;
-			unsigned	complete;
-				ThreadData *info;
-
+            unsigned complete;
+            ThreadData *info;
 public:
             TJabberAuth(ThreadData*);
 	virtual ~TJabberAuth();

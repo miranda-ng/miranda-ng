@@ -386,8 +386,8 @@ public:
 		m_btnRegister(this, IDC_BUTTON_REGISTER),
 		m_btnUnregister(this, IDC_UNREGISTER),
 		m_btnChangePassword(this, IDC_BUTTON_CHANGE_PASSWORD),
+		m_gotservers(false),
 		m_lnkServers(this, IDC_LINK_PUBLIC_SERVER, "http://xmpp.org/services/")
-
 	{
 		CreateLink(m_txtUsername, "LoginName", _T(""));
 		CreateLink(m_txtPriority, "Priority", DBVT_WORD, 0);
@@ -426,10 +426,6 @@ protected:
 	{
 		CSuper::OnInitDialog();
 
-		int i;
-
-		m_gotservers = false;
-
 		SendDlgItemMessage(m_hwnd, IDC_PRIORITY_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(127, -128));
 
 		TCHAR *passw = m_proto->getTStringA(NULL, "Password");
@@ -442,7 +438,7 @@ protected:
 
 		// fill predefined resources
 		TCHAR *szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("Miranda") };
-		for (i=0; i < SIZEOF(szResources); i++)
+		for (int i=0; i < SIZEOF(szResources); i++)
 			m_cbResource.AddString(szResources[i]);
 
 		// append computer name to the resource list
@@ -459,7 +455,7 @@ protected:
 		}
 		else m_cbResource.SetText(_T("Miranda"));
 
-		for (i=0; g_LanguageCodes[i].szCode; i++) {
+		for (int i=0; g_LanguageCodes[i].szCode; i++) {
 			int iItem = m_cbLocale.AddString(TranslateTS(g_LanguageCodes[i].szDescription), (LPARAM)g_LanguageCodes[i].szCode);
 			if (!_tcscmp(m_proto->m_tszSelectedLang, g_LanguageCodes[i].szCode))
 				m_cbLocale.SetCurSel(iItem);
@@ -1758,8 +1754,6 @@ protected:
 			break;
 
 		case ACC_FBOOK:
-			m_proto->m_options.IgnoreRosterGroups = TRUE;
-			
 		case ACC_OK:
 			m_proto->m_options.IgnoreRosterGroups = TRUE;
 			m_proto->m_options.UseSSL = FALSE;

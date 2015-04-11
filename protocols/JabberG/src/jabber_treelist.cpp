@@ -71,6 +71,7 @@ struct TTreeList_Data
 		filter = NULL;
 		mode = TLM_TREE;
 		root = NULL;
+		hItemSelected = NULL;
 	}
 	~TTreeList_Data()
 	{

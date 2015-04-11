@@ -1278,8 +1278,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		if (item->nick)
 			szBuffer = item->nick;
 		if (ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
-			JABBER_LIST_ITEM *item = ppro->ListGetItemPtr(LIST_CHATROOM, gch->pDest->ptszID);
-			if (item != NULL) {
+			if (ppro->ListGetItemPtr(LIST_CHATROOM, gch->pDest->ptszID) != NULL) {
 				TCHAR text[1024];
 				mir_sntprintf(text, SIZEOF(text), _T("%s/%s"), gch->pDest->ptszID, szBuffer);
 				ppro->SendPresenceTo(ppro->m_iStatus == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : ppro->m_iStatus, text, NULL);
@@ -1298,8 +1297,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		break;
 
 	case IDM_BOOKMARKS:
-	{
-		JABBER_LIST_ITEM *item = ppro->ListGetItemPtr(LIST_BOOKMARK, gch->pDest->ptszID);
+		item = ppro->ListGetItemPtr(LIST_BOOKMARK, gch->pDest->ptszID);
 		if (item == NULL) {
 			item = ppro->ListGetItemPtr(LIST_CHATROOM, gch->pDest->ptszID);
 			if (item != NULL) {
@@ -1310,7 +1308,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 			}
 		}
 		break;
-	}
+
 	case IDM_DESTROY:
 		szTitle.Format(TranslateT("Reason to destroy %s"), gch->pDest->ptszID);
 		if (ppro->EnterString(szBuffer, szTitle, ESF_MULTILINE, "gcReason_"))
@@ -1318,6 +1316,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 				XmlNodeIq(_T("set"), ppro->SerialNext(), gch->pDest->ptszID) << XQUERY(JABBER_FEAT_MUC_OWNER)
 					<< XCHILD(_T("destroy")) << XCHILD(_T("reason"), szBuffer));
 
+		// fall through
 	case IDM_LEAVE:
 		ppro->GcQuit(item, 200, NULL);
 		break;

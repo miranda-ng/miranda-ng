@@ -34,7 +34,7 @@ class CAgentRegProgressDlg : public CJabberDlgBase
 	CCtrlButton m_ok;
 
 public:
-	CAgentRegProgressDlg(CJabberProto* _ppro, HWND _owner) :
+	CAgentRegProgressDlg(CJabberProto *_ppro, HWND _owner) :
 		CJabberDlgBase(_ppro, IDD_OPT_REGISTER, _owner, false),
 		m_ok(this, IDOK)
 	{
@@ -44,7 +44,7 @@ public:
 	virtual void OnInitDialog()
 	{
 		m_proto->m_hwndRegProgress = m_hwnd;
-		SetWindowTextA(m_hwnd, "Jabber Agent Registration");
+		SetWindowText(m_hwnd, TranslateT("Jabber Agent Registration"));
 		TranslateDialogDefault(m_hwnd);
 	}
 
@@ -55,8 +55,9 @@ public:
 				SetDlgItemText(m_hwnd, IDC_REG_STATUS, TranslateT("No message"));
 			else
 				SetDlgItemText(m_hwnd, IDC_REG_STATUS, (TCHAR*)lParam);
-			if (wParam >= 0)
-				SendDlgItemMessage(m_hwnd, IDC_PROGRESS_REG, PBM_SETPOS, wParam, 0);
+
+			SendDlgItemMessage(m_hwnd, IDC_PROGRESS_REG, PBM_SETPOS, wParam, 0);
+
 			if (wParam >= 100)
 				m_ok.SetText(TranslateT("OK"));
 		}
@@ -85,7 +86,7 @@ class CAgentRegDlg : public CJabberDlgBase
 	CCtrlButton m_submit;
 
 public:
-	CAgentRegDlg(CJabberProto* _ppro, TCHAR* _jid) :
+	CAgentRegDlg(CJabberProto *_ppro, TCHAR *_jid) :
 		CJabberDlgBase(_ppro, IDD_FORM, NULL, false),
 		m_submit(this, IDC_SUBMIT),
 		m_jid(_jid),

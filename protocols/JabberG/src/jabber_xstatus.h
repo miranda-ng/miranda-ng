@@ -50,11 +50,10 @@ public:
 
 protected:
 	CJabberProto *m_proto;
+	bool m_wasPublished;
 	char *m_name;
 	TCHAR *m_node;
 	HGENMENU m_hMenuItem;
-
-	int m_wasPublished;
 
 	virtual void CreateData(HXML) = 0;
 	void ForceRepublishOnLogin();

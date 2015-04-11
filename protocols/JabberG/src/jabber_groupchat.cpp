@@ -385,6 +385,7 @@ class CJabberDlgGcJoin: public CJabberDlgBase
 
 public:
 	CJabberDlgGcJoin(CJabberProto *proto, TCHAR *jid);
+	~CJabberDlgGcJoin();
 
 protected:
 	TCHAR *m_jid;
@@ -400,6 +401,11 @@ CJabberDlgGcJoin::CJabberDlgGcJoin(CJabberProto *proto, TCHAR *jid) :
 	m_jid(mir_tstrdup(jid))
 {
 	m_autoClose = 0;
+}
+
+CJabberDlgGcJoin::~CJabberDlgGcJoin()
+{
+	mir_free(m_jid);
 }
 
 void CJabberDlgGcJoin::OnInitDialog()

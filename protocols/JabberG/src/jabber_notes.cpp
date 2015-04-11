@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_privacy.h"
 #include "jabber_notes.h"
 
-static TCHAR *StrTrimCopy(TCHAR *str)
+static TCHAR* StrTrimCopy(TCHAR *str)
 {
 	if (!str) return 0;
 	while (*str && _istspace(*str)) ++str;
@@ -284,7 +284,13 @@ class CCtrlNotebookList: public CCtrlListBox
 	HFONT m_hfntNormal, m_hfntSmall, m_hfntBold;
 
 public:
-	CCtrlNotebookList(CDlgBase* dlg, int ctrlId): CCtrlListBox(dlg, ctrlId) {}
+	CCtrlNotebookList(CDlgBase* dlg, int ctrlId)
+		: CCtrlListBox(dlg, ctrlId),
+		m_adding(false)
+	{
+		m_hfntNormal = m_hfntSmall = m_hfntBold = NULL;
+	}
+	
 	void SetFonts(HFONT hfntNormal, HFONT hfntSmall, HFONT hfntBold)
 	{
 		m_hfntNormal = hfntNormal;
@@ -628,7 +634,6 @@ CJabberDlgNotes::CJabberDlgNotes(CJabberProto *proto) :
 void CJabberDlgNotes::UpdateData()
 {
 	RebuildTree();
-	//ListItems(NULL);
 	EnableControls();
 }
 

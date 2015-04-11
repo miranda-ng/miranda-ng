@@ -65,7 +65,10 @@ private:
 	bool m_bIsModified;
 
 public:
-	CNoteList(): OBJLIST<CNoteItem>(10, CNoteItem::cmp) {}
+	CNoteList() :
+		OBJLIST<CNoteItem>(10, CNoteItem::cmp),
+		m_bIsModified(false)
+	{}
 
 	void remove(CNoteItem *p)
 	{

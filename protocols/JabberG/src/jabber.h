@@ -36,8 +36,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /*******************************************************************
  * Global header files
  *******************************************************************/
-#define _WIN32_WINNT 0x501
-#define _WIN32_IE 0x501
+#define _WIN32_WINNT 0x601
+#define _WIN32_IE 0x601
 
 #include <windows.h>
 #include <commctrl.h>
@@ -120,7 +120,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CJabberProto;
 
-class CJabberDlgBase: public CProtoDlgBase<CJabberProto>
+class CJabberDlgBase : public CProtoDlgBase<CJabberProto>
 {
 	typedef CProtoDlgBase<CJabberProto> CSuper;
 protected:
@@ -531,7 +531,7 @@ struct CJabberInfoFrame_Event
 	LPARAM m_pUserData;
 };
 
-class CJabberInfoFrame
+class CJabberInfoFrame : public MZeroedObject
 {
 public:
 	CJabberInfoFrame(CJabberProto *proto);

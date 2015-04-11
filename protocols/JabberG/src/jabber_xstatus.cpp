@@ -56,7 +56,8 @@ private:
 CJabberDlgPepBase::CJabberDlgPepBase(CJabberProto *proto, int id):
 	CJabberDlgBase(proto, id, NULL),
 	m_btnOk(this, IDOK),
-	m_btnCancel(this, IDCANCEL)
+	m_btnCancel(this, IDCANCEL),
+	m_time(5)
 {
 }
 
@@ -64,7 +65,6 @@ void CJabberDlgPepBase::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
-	m_time = 5;
 	SetTimer(m_hwnd, 1, 1000, NULL);
 
 	TCHAR buf[128];
@@ -114,6 +114,7 @@ void CJabberDlgPepBase::StopTimer()
 
 ///////////////////////////////////////////////////////////////////////////////
 // Simple PEP status
+
 class CJabberDlgPepSimple: public CJabberDlgPepBase
 {
 	typedef CJabberDlgPepBase CSuper;
@@ -374,7 +375,8 @@ CPepService::CPepService(CJabberProto *proto, char *name, TCHAR *node):
 	m_proto(proto),
 	m_name(name),
 	m_node(node),
-	m_hMenuItem(NULL)
+	m_hMenuItem(NULL),
+	m_wasPublished(false)
 {
 }
 
@@ -391,7 +393,7 @@ void CPepService::Publish()
 				<< XCHILD(_T("item")) << XATTR(_T("id"), _T("current")));
 	m_proto->m_ThreadInfo->send(iq);
 
-	m_wasPublished = TRUE;
+	m_wasPublished = true;
 }
 
 void CPepService::Retract()
@@ -411,7 +413,7 @@ void CPepService::Retract()
 
 void CPepService::ResetPublish()
 {
-	m_wasPublished = FALSE;
+	m_wasPublished = false;
 }
 
 void CPepService::ForceRepublishOnLogin()

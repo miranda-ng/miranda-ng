@@ -43,7 +43,8 @@ static int ComparePermanent(const CJabberIqPermanentInfo *p1, const CJabberIqPer
 
 CJabberIqManager::CJabberIqManager(CJabberProto *proto) :
 	m_arIqs(10, CompareIqs),
-	m_arHandlers(10, ComparePermanent)
+	m_arHandlers(10, ComparePermanent),
+	m_bExpirerThreadShutdownRequest(false)
 {
 	m_dwLastUsedHandle = 0;
 	m_hExpirerThread = NULL;
