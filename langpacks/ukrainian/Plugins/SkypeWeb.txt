@@ -19,6 +19,8 @@
 Інше
 [Automatic messages synchronization]
 Автоматична синхронізація повідомлень
+[Use local time for received messages]
+Локальний час для прийнятих повідомлень
 [Enter password]
 Введіть пароль
 [Save password]
