@@ -45,8 +45,8 @@ bool ConvertFontID(FontID *fid, FontIDW *fidw)
 
 	memset(fidw, 0, sizeof(FontIDW));
 	fidw->cbSize = sizeof(FontIDW);
-	strcpy(fidw->dbSettingsGroup, fid->dbSettingsGroup);
-	strcpy(fidw->prefix, fid->prefix);
+	strncpy_s(fidw->dbSettingsGroup, fid->dbSettingsGroup, _TRUNCATE);
+	strncpy_s(fidw->prefix, fid->prefix, _TRUNCATE);
 	fidw->flags = fid->flags;
 	fidw->order = fid->order;
 	ConvertFontSettings(&fid->deffontsettings, &fidw->deffontsettings);
@@ -68,8 +68,8 @@ bool ConvertColourID(ColourID *cid, ColourIDW *cidw)
 
 	cidw->cbSize = sizeof(ColourIDW);
 
-	strcpy(cidw->dbSettingsGroup, cid->dbSettingsGroup);
-	strcpy(cidw->setting, cid->setting);
+	strncpy_s(cidw->dbSettingsGroup, cid->dbSettingsGroup, _TRUNCATE);
+	strncpy_s(cidw->setting, cid->setting, _TRUNCATE);
 	cidw->flags = cid->flags;
 	cidw->defcolour = cid->defcolour;
 	cidw->order = cid->order;
@@ -86,8 +86,8 @@ bool ConvertEffectID(EffectID *eid, EffectIDW *eidw)
 
 	eidw->cbSize = sizeof(EffectIDW);
 
-	strcpy(eidw->dbSettingsGroup, eid->dbSettingsGroup);
-	strcpy(eidw->setting, eid->setting);
+	strncpy_s(eidw->dbSettingsGroup, eid->dbSettingsGroup, _TRUNCATE);
+	strncpy_s(eidw->setting, eid->setting, _TRUNCATE);
 	eidw->flags = eid->flags;
 	eidw->defeffect.effectIndex = eid->defeffect.effectIndex;
 	eidw->defeffect.baseColour = eid->defeffect.baseColour;
