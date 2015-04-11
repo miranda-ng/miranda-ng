@@ -91,15 +91,8 @@ void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node)
 void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 {
 	debugLogA("CSkypeProto::ProcessNewMessageRes");
-	ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(node, "clientmessageid")))));
-	ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(node, "skypeeditedid")))));
-	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
-	ptrA from(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
-	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
-	ptrT composeTime(json_as_string(json_get(node, "composetime")));
+
 	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
-	time_t timestamp = IsoToUnixTime(composeTime);
-	int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
 
 	if (strstr(conversationLink, "/8:"))
 		OnPrivateMessageEvent(node);
