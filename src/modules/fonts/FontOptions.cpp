@@ -125,44 +125,37 @@ void UpdateFontSettings(FontIDW *font_id, FontSettingsT *fontsettings);
 void UpdateColourSettings(ColourIDW *colour_id, COLORREF *colour);
 void UpdateEffectSettings(EffectIDW *effect_id, FONTEFFECT* effectsettings);
 
-void WriteLine(HANDLE fhand, char *line)
+static void WriteLine(FILE *out, const char pszText[])
 {
-	DWORD wrote;
-	strcat(line, "\r\n");
-	WriteFile(fhand, line, (DWORD)strlen(line), &wrote, 0);
+	fputs(pszText, out);
+	fputc('\n', out);
 }
 
-BOOL ExportSettings(HWND hwndDlg, TCHAR *filename, OBJLIST<FontInternal>& flist, OBJLIST<ColourInternal>& clist, OBJLIST<EffectInternal>& elist)
+static BOOL ExportSettings(HWND hwndDlg, const TCHAR *filename, OBJLIST<FontInternal>& flist, OBJLIST<ColourInternal>& clist, OBJLIST<EffectInternal>& elist)
 {
-	HANDLE fhand = CreateFile(filename, GENERIC_WRITE, 0, 0, CREATE_ALWAYS, 0, 0);
-	if (fhand == INVALID_HANDLE_VALUE) {
+	FILE *out = _tfopen(filename, _T("w"));
+	if (out == NULL) {
 		MessageBox(hwndDlg, filename, TranslateT("Failed to create file"), MB_ICONWARNING | MB_OK);
 		return FALSE;
 	}
 
-	char header[512], buff[1024], abuff[1024];
+	char header[512], buff[1024];
 	header[0] = 0;
 
-	strncpy(buff, "SETTINGS:\r\n", SIZEOF(buff));
-	WriteLine(fhand, buff);
+	fputs("SETTINGS:\n\n", out);
 
 	for (int i=0; i < flist.getCount(); i++) {
 		FontInternal& F = flist[i];
 
-		mir_snprintf(buff, SIZEOF(buff), "\r\n[%s]", F.dbSettingsGroup);
+		mir_snprintf(buff, SIZEOF(buff), "\n[%s]", F.dbSettingsGroup);
 		if (strcmp(buff, header) != 0) {
 			strncpy(header, buff, SIZEOF(header));
-			WriteLine(fhand, buff);
+			WriteLine(out, buff);
 		}
 
-		mir_snprintf(buff, SIZEOF(buff),(F.flags & FIDF_APPENDNAME) ? "%sName=s" : "%s=s", F.prefix);
+		fprintf(out, (F.flags & FIDF_APPENDNAME) ? "%sName=s%S\n" : "%s=s%S\n", F.prefix, F.value.szFace);
 
-		WideCharToMultiByte(code_page, 0, F.value.szFace, -1, abuff, 1024, 0, 0);
-		abuff[1023] = 0;
-		strncat(buff, abuff, SIZEOF(buff));
-		WriteLine(fhand, buff);
-
-		mir_snprintf(buff, SIZEOF(buff), "%sSize=b", F.prefix);
+		int iFontSize;
 		if (F.flags & FIDF_SAVEACTUALHEIGHT) {
 			SIZE size;
 			LOGFONT lf;
@@ -176,62 +169,53 @@ BOOL ExportSettings(HWND hwndDlg, TCHAR *filename, OBJLIST<FontInternal>& flist,
 			SelectObject(hdc, hOldFont);
 			DeleteObject(hFont);
 
-			strncat(buff, _itoa((BYTE)size.cy, abuff, 10), sizeof(buff));
+			iFontSize = size.cy;
 		}
 		else if (F.flags & FIDF_SAVEPOINTSIZE) {
 			HDC hdc = GetDC(hwndDlg);
-			strncat(buff, _itoa((BYTE)-MulDiv(F.value.size, 72, GetDeviceCaps(hdc, LOGPIXELSY)), abuff, 10), sizeof(buff));
+			iFontSize = (BYTE)-MulDiv(F.value.size, 72, GetDeviceCaps(hdc, LOGPIXELSY));
 			ReleaseDC(hwndDlg, hdc);
 		}
-		else strncat(buff, _itoa((BYTE)F.value.size, abuff, 10), sizeof(buff));
+		else iFontSize = F.value.size;
+		fprintf(out, "%sSize=b%d\n", F.prefix, iFontSize);
 
-		WriteLine(fhand, buff);
+		fprintf(out, "%sSty=b%d\n", F.prefix, F.value.style);
+		fprintf(out, "%sSet=b%d\n", F.prefix, F.value.charset);
+		fprintf(out, "%sCol=d%d\n", F.prefix, F.value.colour);
 
-		mir_snprintf(buff, SIZEOF(buff), "%sSty=b%d", F.prefix, (BYTE)F.value.style);
-		WriteLine(fhand, buff);
-		mir_snprintf(buff, SIZEOF(buff), "%sSet=b%d", F.prefix, (BYTE)F.value.charset);
-		WriteLine(fhand, buff);
-		mir_snprintf(buff, SIZEOF(buff), "%sCol=d%d", F.prefix, (DWORD)F.value.colour);
-		WriteLine(fhand, buff);
-		if (F.flags & FIDF_NOAS) {
-			mir_snprintf(buff, SIZEOF(buff), "%sAs=w%d", F.prefix, (WORD)0x00FF);
-			WriteLine(fhand, buff);
-		}
-		mir_snprintf(buff, SIZEOF(buff), "%sFlags=w%d", F.prefix, (WORD)F.flags);
-		WriteLine(fhand, buff);
+		if (F.flags & FIDF_NOAS)
+			fprintf(out, "%sAs=w%d\n", F.prefix, 0x00FF);
+
+		fprintf(out, "%sFlags=w%d\n", F.prefix, F.flags);
 	}
 
 	header[0] = 0;
 	for (int i=0; i < clist.getCount(); i++) {
 		ColourInternal& C = clist[i];
 
-		mir_snprintf(buff, SIZEOF(buff), "\r\n[%s]", C.dbSettingsGroup);
+		mir_snprintf(buff, SIZEOF(buff), "\n[%s]", C.dbSettingsGroup);
 		if (strcmp(buff, header) != 0) {
-			strncpy(header, buff, SIZEOF(header));
-			WriteLine(fhand, buff);
+			strncpy_s(header, buff, _TRUNCATE);
+			WriteLine(out, buff);
 		}
-		mir_snprintf(buff, SIZEOF(buff), "%s=d%d", C.setting, (DWORD)C.value);
-		WriteLine(fhand, buff);
+		fprintf(out, "%s=d%d\n", C.setting, (DWORD)C.value);
 	}
 
 	header[0] = 0;
 	for (int i=0; i < elist.getCount(); i++) {
 		EffectInternal& E = elist[i];
 
-		mir_snprintf(buff, SIZEOF(buff), "\r\n[%s]", E.dbSettingsGroup);
+		mir_snprintf(buff, SIZEOF(buff), "\n[%s]", E.dbSettingsGroup);
 		if (strcmp(buff, header) != 0) {
-			strncpy(header, buff, SIZEOF(header));
-			WriteLine(fhand, buff);
+			strncpy_s(header, buff, _TRUNCATE);
+			WriteLine(out, buff);
 		}
-		mir_snprintf(buff, SIZEOF(buff), "%sEffect=b%d", E.setting, E.value.effectIndex);
-		WriteLine(fhand, buff);
-		mir_snprintf(buff, SIZEOF(buff), "%sEffectCol1=d%d", E.setting, E.value.baseColour);
-		WriteLine(fhand, buff);
-		mir_snprintf(buff, SIZEOF(buff), "%sEffectCol2=d%d", E.setting, E.value.secondaryColour);
-		WriteLine(fhand, buff);
+		fprintf(out, "%sEffect=b%d\n", E.setting, E.value.effectIndex);
+		fprintf(out, "%sEffectCol1=d%d\n", E.setting, E.value.baseColour);
+		fprintf(out, "%sEffectCol2=d%d\n", E.setting, E.value.secondaryColour);
 	}
 
-	CloseHandle(fhand);
+	fclose(out);
 	return TRUE;
 }
 
@@ -849,7 +833,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				}
 				rc = dis->rcItem;
 				rc.left += FSUI_FONTLEFT;
-				DrawTextWithEffect(dis->hDC, itemName, (int)_tcslen(itemName), &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS, pEffect);
+				DrawTextWithEffect(dis->hDC, itemName, (int)mir_tstrlen(itemName), &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS, pEffect);
 			}
 			else {
 				RECT rc;
@@ -874,7 +858,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				rc = dis->rcItem;
 				rc.left += FSUI_FONTLEFT;
 
-				DrawTextWithEffect(dis->hDC, itemName, (int)_tcslen(itemName), &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS, pEffect);
+				DrawTextWithEffect(dis->hDC, itemName, (int)mir_tstrlen(itemName), &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS, pEffect);
 			}
 			if (hoFont) SelectObject(dis->hDC, hoFont);
 			if (hFont) DeleteObject(hFont);
