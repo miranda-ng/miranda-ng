@@ -19,6 +19,8 @@
 Другое
 [Automatic messages synchronization]
 Автоматическая синхронизация сообщений
+[Use local time for received messages]
+Локальное время для принятых сообщений
 [Enter password]
 Введите пароль
 [Save password]
