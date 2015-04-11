@@ -229,7 +229,8 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 			sin.sin_port = htons(nlb->wPort);
 			sin6.sin6_port = htons(nlb->wPort);
 		}
-		
+
+		if (nlbp->s != INVALID_SOCKET)
 		if (bind(nlbp->s, (PSOCKADDR)&sin, sizeof(sin)) == 0) {
 			SOCKADDR_IN sin = { 0 };
 			int len = sizeof(sin);
@@ -238,8 +239,9 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 			foundPort = 1;
 		}
 
-		if (bind(nlbp->s6, (PSOCKADDR)&sin6, sizeof(sin6)) == 0)
-			foundPort = 1;
+		if (nlbp->s6 != INVALID_SOCKET)
+			if (bind(nlbp->s6, (PSOCKADDR)&sin6, sizeof(sin6)) == 0)
+				foundPort = 1;
 	}
 	if (!foundPort) {
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "bind", WSAGetLastError());
