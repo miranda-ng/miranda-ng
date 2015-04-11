@@ -228,8 +228,8 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			// set status
 			ptrA regToken(getStringA("registrationToken"));
 			ptrA endpoint(getStringA("endpointId"));
-			PushRequest(new SendCapabilitiesRequest(regToken, endpoint));
 			PushRequest(new SetStatusRequest(regToken, MirandaToSkypeStatus(m_iDesiredStatus)), &CSkypeProto::OnStatusChanged);
+			PushRequest(new SendCapabilitiesRequest(regToken, endpoint));	
 		}
 	}
 

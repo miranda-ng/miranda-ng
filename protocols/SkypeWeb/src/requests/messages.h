@@ -57,7 +57,7 @@ public:
 class SendTypingRequest : public HttpRequest
 {
 public:
-	SendTypingRequest(const char *regToken, const char *username, bool bstate, const char *server = SKYPE_ENDPOINTS_HOST) :
+	SendTypingRequest(const char *regToken, const char *username, int iState, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, ptrA(mir_urlEncode(username)))
 	{
 		Headers
@@ -65,8 +65,7 @@ public:
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
 		CMStringA state;
-		if (bstate) state = "Control/Typing";
-		else state = "Control/ClearTyping";
+		state = (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping";
 		CMStringA data;
 		data.AppendFormat("{\"clienmessageid\":%lld, \"content\":\"\", \"messagetype\":\"%s\", \"contenttype\":\"text\"}", time(NULL), state);
 
