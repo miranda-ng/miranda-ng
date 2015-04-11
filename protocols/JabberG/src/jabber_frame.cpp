@@ -29,25 +29,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // CJabberInfoFrame
 
-class CJabberInfoFrameItem
+class CJabberInfoFrameItem : public MZeroedObject
 {
 public:
-	char *m_pszName;
+	char  *m_pszName;
 	HANDLE m_hIcolibIcon;
 	TCHAR *m_pszText;
 	LPARAM m_pUserData;
-	bool m_bCompact;
-	bool m_bShow;
-	void (CJabberProto::*m_onEvent)(CJabberInfoFrame_Event *);
-	RECT m_rcItem;
-	int m_tooltipId;
+	bool   m_bCompact;
+	bool   m_bShow;
+	RECT   m_rcItem;
+	int    m_tooltipId;
+
+	void (CJabberProto::*m_onEvent)(CJabberInfoFrame_Event*);
 
 public:
-	CJabberInfoFrameItem(char *pszName, bool bCompact=false, LPARAM pUserData=0):
-		m_pszName(NULL), m_hIcolibIcon(NULL), m_pszText(NULL), m_bShow(true), m_bCompact(bCompact), m_pUserData(pUserData), m_onEvent(NULL)
+	CJabberInfoFrameItem(char *pszName, bool bCompact = false, LPARAM pUserData = 0) :
+		m_bShow(true), m_bCompact(bCompact), m_pUserData(pUserData)
 	{
 		m_pszName = mir_strdup(pszName);
 	}
+
 	~CJabberInfoFrameItem()
 	{
 		mir_free(m_pszName);
@@ -71,12 +73,7 @@ CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
 	m_pItems(3, CJabberInfoFrameItem::cmp), m_compact(false)
 {
 	m_proto = proto;
-	m_hwnd = m_hwndToolTip = NULL;
 	m_clickedItem = -1;
-	m_hiddenItemCount = 0;
-	m_bLocked = false;
-	m_nextTooltipId = 0;
-	m_hhkFontsChanged = 0;
 
 	if (!proto->m_options.DisableFrame && ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		InitClass();
@@ -244,20 +241,21 @@ void CJabberInfoFrame::ReloadFonts()
 
 	FontIDT fontid = {0};
 	fontid.cbSize = sizeof(fontid);
-	mir_tstrncpy(fontid.group, _T("Jabber"), SIZEOF(fontid.group));
-	mir_tstrncpy(fontid.name, _T("Frame title"), SIZEOF(fontid.name));
+	_tcsncpy_s(fontid.group, _T("Jabber"), _TRUNCATE);
+	_tcsncpy_s(fontid.name, _T("Frame title"), _TRUNCATE);
 	m_clTitle = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lfFont);
 	DeleteObject(m_hfntTitle);
 	m_hfntTitle = CreateFontIndirect(&lfFont);
-	mir_tstrncpy(fontid.name, _T("Frame text"), SIZEOF(fontid.name));
+
+	_tcsncpy_s(fontid.name, _T("Frame text"), _TRUNCATE);
 	m_clText = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lfFont);
 	DeleteObject(m_hfntText);
 	m_hfntText = CreateFontIndirect(&lfFont);
 
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
-	mir_tstrncpy(colourid.group, _T("Jabber"), SIZEOF(colourid.group));
-	mir_tstrncpy(colourid.name, _T("Background"), SIZEOF(colourid.name));
+	_tcsncpy_s(colourid.group, _T("Jabber"), _TRUNCATE);
+	_tcsncpy_s(colourid.name, _T("Background"), _TRUNCATE);
 	m_clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, 0);
 
 	UpdateSize();

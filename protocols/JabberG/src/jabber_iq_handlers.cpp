@@ -124,7 +124,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 {
 	OSVERSIONINFOEX osvi = { 0 };
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
-	BOOL bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *) &osvi);
+	BOOL bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *)&osvi);
 	if (!bOsVersionInfoEx) {
 		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 		if (!GetVersionEx((OSVERSIONINFO*)&osvi))
@@ -172,11 +172,11 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 			DWORD dwType = 0;
 			HMODULE hKernel = GetModuleHandle(TEXT("kernel32.dll"));
-			PGPI pGPI = (PGPI) GetProcAddress(hKernel, "GetProductInfo");
+			PGPI pGPI = (PGPI)GetProcAddress(hKernel, "GetProductInfo");
 			if (pGPI != NULL)
 				pGPI(osvi.dwMajorVersion, osvi.dwMinorVersion, 0, 0, &dwType);
 
-			switch(dwType) {
+			switch (dwType) {
 			case PRODUCT_ULTIMATE:
 				StringCchCat(pszOS, BUFSIZE, TEXT("Ultimate Edition"));
 				break;
@@ -244,9 +244,9 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 		if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) {
 			if (GetSystemMetrics(SM_SERVERR2))
 				StringCchCat(pszOS, BUFSIZE, TEXT("Windows Server 2003 R2, "));
-			else if (osvi.wSuiteMask==VER_SUITE_STORAGE_SERVER)
+			else if (osvi.wSuiteMask == VER_SUITE_STORAGE_SERVER)
 				StringCchCat(pszOS, BUFSIZE, TEXT("Windows Storage Server 2003"));
-			else if (osvi.wSuiteMask==VER_SUITE_WH_SERVER)
+			else if (osvi.wSuiteMask == VER_SUITE_WH_SERVER)
 				StringCchCat(pszOS, BUFSIZE, TEXT("Windows Home Server"));
 			else if (osvi.wProductType == VER_NT_WORKSTATION && si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
 				StringCchCat(pszOS, BUFSIZE, TEXT("Windows XP Professional x64 Edition"));
@@ -305,7 +305,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 		// Include service pack (if any) and build number.
 
-		if ( _tcslen(osvi.szCSDVersion) > 0) {
+		if (_tcslen(osvi.szCSDVersion) > 0) {
 			StringCchCat(pszOS, BUFSIZE, TEXT(" "));
 			StringCchCat(pszOS, BUFSIZE, osvi.szCSDVersion);
 		}
@@ -334,7 +334,7 @@ BOOL CJabberProto::OnIqRequestVersion(HXML, CJabberIqInfo *pInfo)
 	query << XCHILD(_T("version"), szCoreVersion);
 
 	if (m_options.ShowOSVersion) {
-		TCHAR os[256] = {0};
+		TCHAR os[256] = { 0 };
 		if (!GetOSDisplayString(os, SIZEOF(os)))
 			mir_tstrncpy(os, _T("Microsoft Windows"), SIZEOF(os));
 		query << XCHILD(_T("os"), os);
@@ -349,14 +349,14 @@ BOOL CJabberProto::OnIqRequestLastActivity(HXML, CJabberIqInfo *pInfo)
 {
 	m_ThreadInfo->send(
 		XmlNodeIq(_T("result"), pInfo) << XQUERY(JABBER_FEAT_LAST_ACTIVITY)
-			<< XATTRI(_T("seconds"), m_tmJabberIdleStartTime ? time(0) - m_tmJabberIdleStartTime : 0));
+		<< XATTRI(_T("seconds"), m_tmJabberIdleStartTime ? time(0) - m_tmJabberIdleStartTime : 0));
 	return TRUE;
 }
 
 // XEP-0199: XMPP Ping support
 BOOL CJabberProto::OnIqRequestPing(HXML, CJabberIqInfo *pInfo)
 {
-	m_ThreadInfo->send( XmlNodeIq(_T("result"), pInfo) << XATTR(_T("from"), m_ThreadInfo->fullJID));
+	m_ThreadInfo->send(XmlNodeIq(_T("result"), pInfo) << XATTR(_T("from"), m_ThreadInfo->fullJID));
 	return TRUE;
 }
 
@@ -366,9 +366,9 @@ int GetGMTOffset(void)
 	TIME_ZONE_INFORMATION tzinfo;
 	int nOffset = 0;
 
-	DWORD dwResult= GetTimeZoneInformation(&tzinfo);
+	DWORD dwResult = GetTimeZoneInformation(&tzinfo);
 
-	switch(dwResult) {
+	switch (dwResult) {
 	case TIME_ZONE_ID_STANDARD:
 		nOffset = tzinfo.Bias + tzinfo.StandardBias;
 		break;
@@ -412,7 +412,7 @@ BOOL CJabberProto::OnIqProcessIqOldTime(HXML, CJabberIqInfo *pInfo)
 {
 	struct tm *gmt;
 	time_t ltime;
-	TCHAR stime[ 100 ], *dtime;
+	TCHAR stime[100], *dtime;
 
 	_tzset();
 	time(&ltime);
@@ -421,7 +421,7 @@ BOOL CJabberProto::OnIqProcessIqOldTime(HXML, CJabberIqInfo *pInfo)
 		gmt->tm_year + 1900, gmt->tm_mon + 1,
 		gmt->tm_mday, gmt->tm_hour, gmt->tm_min, gmt->tm_sec);
 	dtime = _tctime(&ltime);
-	dtime[ 24 ] = 0;
+	dtime[24] = 0;
 
 	XmlNodeIq iq(_T("result"), pInfo);
 	HXML queryNode = iq << XQUERY(JABBER_FEAT_ENTITY_TIME_OLD);
@@ -444,15 +444,15 @@ BOOL CJabberProto::OnIqRequestAvatar(HXML, CJabberIqInfo *pInfo)
 		return TRUE;
 
 	TCHAR *szMimeType;
-	switch(pictureType) {
-		case PA_FORMAT_JPEG:	 szMimeType = _T("image/jpeg");   break;
-		case PA_FORMAT_GIF:	 szMimeType = _T("image/gif");    break;
-		case PA_FORMAT_PNG:	 szMimeType = _T("image/png");    break;
-		case PA_FORMAT_BMP:	 szMimeType = _T("image/bmp");    break;
-		default:	return TRUE;
+	switch (pictureType) {
+	case PA_FORMAT_JPEG:	 szMimeType = _T("image/jpeg");   break;
+	case PA_FORMAT_GIF:	 szMimeType = _T("image/gif");    break;
+	case PA_FORMAT_PNG:	 szMimeType = _T("image/png");    break;
+	case PA_FORMAT_BMP:	 szMimeType = _T("image/bmp");    break;
+	default:	return TRUE;
 	}
 
-	TCHAR szFileName[ MAX_PATH ];
+	TCHAR szFileName[MAX_PATH];
 	GetAvatarFileName(NULL, szFileName, SIZEOF(szFileName));
 
 	FILE* in = _tfopen(szFileName, _T("rb"));
@@ -460,7 +460,7 @@ BOOL CJabberProto::OnIqRequestAvatar(HXML, CJabberIqInfo *pInfo)
 		return TRUE;
 
 	long bytes = _filelength(_fileno(in));
-	ptrA buffer((char*)mir_alloc(bytes*4/3 + bytes + 1000));
+	ptrA buffer((char*)mir_alloc(bytes * 4 / 3 + bytes + 1000));
 	if (buffer == NULL) {
 		fclose(in);
 		return TRUE;
@@ -469,8 +469,8 @@ BOOL CJabberProto::OnIqRequestAvatar(HXML, CJabberIqInfo *pInfo)
 	fread(buffer, bytes, 1, in);
 	fclose(in);
 
-	ptrA str( mir_base64_encode((PBYTE)(char*)buffer, bytes));
-	m_ThreadInfo->send( XmlNodeIq(_T("result"), pInfo) << XQUERY(JABBER_FEAT_AVATAR) << XCHILD(_T("query"), _A2T(str)) << XATTR(_T("mimetype"), szMimeType));
+	ptrA str(mir_base64_encode((PBYTE)(char*)buffer, bytes));
+	m_ThreadInfo->send(XmlNodeIq(_T("result"), pInfo) << XQUERY(JABBER_FEAT_AVATAR) << XCHILD(_T("query"), _A2T(str)) << XATTR(_T("mimetype"), szMimeType));
 	return TRUE;
 }
 
@@ -529,8 +529,8 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 	const TCHAR *jid, *str;
 
 	debugLogA("<iq/> Got roster push, query has %d children", xmlGetChildCount(queryNode));
-	for (int i=0; ; i++) {
-		HXML itemNode = xmlGetChild(queryNode ,i);
+	for (int i = 0;; i++) {
+		HXML itemNode = xmlGetChild(queryNode, i);
 		if (!itemNode)
 			break;
 
@@ -641,11 +641,11 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 		TCHAR *p = str + 7, *q;
 		if ((q = _tcschr(p, '/')) != NULL) {
 			TCHAR text[1024];
-			if (q-p < SIZEOF(text)) {
-				_tcsncpy_s(text, p, q-p);
-				text[q-p] = '\0';
+			if (q - p < SIZEOF(text)) {
+				_tcsncpy_s(text, p, q - p);
+				text[q - p] = '\0';
 				if ((p = _tcschr(text, ':')) != NULL) {
-					ft->httpPort = (WORD)_ttoi(p+1);
+					ft->httpPort = (WORD)_ttoi(p + 1);
 					*p = '\0';
 				}
 				ft->httpHostName = mir_t2a(text);
@@ -709,8 +709,8 @@ BOOL CJabberProto::OnHandleDiscoInfoRequest(HXML iqNode, CJabberIqInfo *pInfo)
 	// another request, send empty result
 	m_ThreadInfo->send(
 		XmlNodeIq(_T("error"), pInfo)
-			<< XCHILD(_T("error")) << XATTRI(_T("code"), 404) << XATTR(_T("type"), _T("cancel"))
-				<< XCHILDNS(_T("item-not-found"), _T("urn:ietf:params:xml:ns:xmpp-stanzas")));
+		<< XCHILD(_T("error")) << XATTRI(_T("code"), 404) << XATTR(_T("type"), _T("cancel"))
+		<< XCHILDNS(_T("item-not-found"), _T("urn:ietf:params:xml:ns:xmpp-stanzas")));
 	return TRUE;
 }
 
@@ -732,7 +732,7 @@ BOOL CJabberProto::OnHandleDiscoItemsRequest(HXML iqNode, CJabberIqInfo *pInfo)
 
 	if (!szNode && m_options.EnableRemoteControl)
 		resultQuery << XCHILD(_T("item")) << XATTR(_T("jid"), m_ThreadInfo->fullJID)
-			<< XATTR(_T("node"), JABBER_FEAT_COMMANDS) << XATTR(_T("name"), _T("Ad-hoc commands"));
+		<< XATTR(_T("node"), JABBER_FEAT_COMMANDS) << XATTR(_T("name"), _T("Ad-hoc commands"));
 
 	m_ThreadInfo->send(iq);
 	return TRUE;
@@ -740,11 +740,12 @@ BOOL CJabberProto::OnHandleDiscoItemsRequest(HXML iqNode, CJabberIqInfo *pInfo)
 
 BOOL CJabberProto::AddClistHttpAuthEvent(CJabberHttpAuthParams *pParams)
 {
-	CLISTEVENT cle = {0};
 	char szService[256];
 	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, JS_HTTP_AUTH);
+
+	CLISTEVENT cle = { 0 };
 	cle.cbSize = sizeof(CLISTEVENT);
-	cle.hIcon = (HICON) LoadIconEx("openid");
+	cle.hIcon = (HICON)LoadIconEx("openid");
 	cle.flags = CLEF_PROTOCOLGLOBAL | CLEF_TCHAR;
 	cle.hDbEvent = -99;
 	cle.lParam = (LPARAM)pParams;
@@ -762,7 +763,7 @@ BOOL CJabberProto::OnIqHttpAuth(HXML node, CJabberIqInfo *pInfo)
 	if (!node || !pInfo->GetChildNode() || !pInfo->GetFrom() || !pInfo->GetIdStr())
 		return TRUE;
 
-	HXML pConfirm = xmlGetChild(node , "confirm");
+	HXML pConfirm = xmlGetChild(node, "confirm");
 	if (!pConfirm)
 		return TRUE;
 

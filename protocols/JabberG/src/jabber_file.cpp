@@ -83,7 +83,6 @@ void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 {
 	char* p, *q, *s, *eob;
-	char* str;
 	int num, code;
 
 	eob = buffer + datalen;
@@ -92,57 +91,52 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 	while (true) {
 		if (ft->state == FT_CONNECTING || ft->state == FT_INITIALIZING) {
 			for (q = p; q + 1 < eob && (*q != '\r' || *(q + 1) != '\n'); q++);
-			if (q + 1 < eob) {
-				if ((str = (char*)mir_alloc(q - p + 1)) != NULL) {
-					strncpy_s(str, q - p, p, _TRUNCATE);
-					str[q - p] = '\0';
-					debugLogA("FT Got: %s", str);
-					if (ft->state == FT_CONNECTING) {
-						// looking for "HTTP/1.1 200 OK"
-						if (sscanf(str, "HTTP/%*d.%*d %d %*s", &code) == 1 && code == 200) {
-							ft->state = FT_INITIALIZING;
-							ft->std.currentFileSize = -1;
-							debugLogA("Change to FT_INITIALIZING");
-							ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
-						}
-					}
-					else {	// FT_INITIALIZING
-						if (str[0] == '\0') {
-							TCHAR *s;
-							if ((s = _tcsrchr(ft->httpPath, '/')) != NULL)
-								s++;
-							else
-								s = ft->httpPath;
-							ft->std.tszCurrentFile = mir_tstrdup(s);
-							JabberHttpUrlDecode(ft->std.tszCurrentFile);
-							if (ft->create() == -1) {
-								ft->state = FT_ERROR;
-								break;
-							}
-							ft->state = FT_RECEIVING;
-							ft->std.currentFileProgress = 0;
-							debugLogA("Change to FT_RECEIVING");
-						}
-						else if ((s = strchr(str, ':')) != NULL) {
-							*s = '\0';
-							if (!strcmp(str, "Content-Length"))
-								ft->std.totalBytes = ft->std.currentFileSize = _atoi64(s + 1);
-						}
-					}
+			if (q + 1 >= eob)
+				break;
 
-					mir_free(str);
-					q += 2;
-					num += (q - p);
-					p = q;
-				}
-				else {
-					ft->state = FT_ERROR;
-					break;
-				}
-			}
-			else {
+			ptrA str(mir_strndup(p, size_t(q - p)));
+			if (str == NULL) {
+				ft->state = FT_ERROR;
 				break;
 			}
+
+			debugLogA("FT Got: %s", str);
+			if (ft->state == FT_CONNECTING) {
+				// looking for "HTTP/1.1 200 OK"
+				if (sscanf(str, "HTTP/%*d.%*d %d %*s", &code) == 1 && code == 200) {
+					ft->state = FT_INITIALIZING;
+					ft->std.currentFileSize = -1;
+					debugLogA("Change to FT_INITIALIZING");
+					ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
+				}
+			}
+			else {	// FT_INITIALIZING
+				if (str[0] == '\0') {
+					TCHAR *s;
+					if ((s = _tcsrchr(ft->httpPath, '/')) != NULL)
+						s++;
+					else
+						s = ft->httpPath;
+					ft->std.tszCurrentFile = mir_tstrdup(s);
+					JabberHttpUrlDecode(ft->std.tszCurrentFile);
+					if (ft->create() == -1) {
+						ft->state = FT_ERROR;
+						break;
+					}
+					ft->state = FT_RECEIVING;
+					ft->std.currentFileProgress = 0;
+					debugLogA("Change to FT_RECEIVING");
+				}
+				else if ((s = strchr(str, ':')) != NULL) {
+					*s = '\0';
+					if (!strcmp(str, "Content-Length"))
+						ft->std.totalBytes = ft->std.currentFileSize = _atoi64(s + 1);
+				}
+			}
+
+			q += 2;
+			num += (q - p);
+			p = q;
 		}
 		else if (ft->state == FT_RECEIVING) {
 			int bufferSize, writeSize;

@@ -42,17 +42,16 @@ TNtlmAuth::TNtlmAuth(ThreadData *info, const char* mechanism, const TCHAR *hostn
 	else if (!strcmp(mechanism, "NTLM"))
 		szProvider = _T("NTLM");
 	else {
+LBL_Invalid:
 		bIsValid = false;
+		hProvider = NULL;
 		return;
 	}
 
 	TCHAR szSpn[1024] = _T("");
-	if (strcmp(mechanism, "NTLM")) {
-		if (!getSpn(szSpn, SIZEOF(szSpn)) && !strcmp(mechanism, "GSSAPI")) {
-			bIsValid = false;
-			return;
-		}
-	}
+	if (strcmp(mechanism, "NTLM"))
+		if (!getSpn(szSpn, SIZEOF(szSpn)) && !strcmp(mechanism, "GSSAPI"))
+			goto LBL_Invalid;
 
 	if ((hProvider = Netlib_InitSecurityProvider2(szProvider, szSpn)) == NULL)
 		bIsValid = false;
@@ -357,6 +356,7 @@ char* TPlainAuth::getInitialRequest()
 
 TJabberAuth::TJabberAuth(ThreadData* pInfo) :
 	bIsValid(true),
+	complete(0),
 	szName(NULL),
 	info(pInfo)
 {
