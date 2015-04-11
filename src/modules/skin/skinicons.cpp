@@ -462,7 +462,7 @@ int LoadSkinIcons(void)
 		db_free(&dbv);
 	}
 	moduleName[0] = 0;
-	strcpy(iconName, "core_status_" GLOBAL_PROTO_NAME);
+	strncpy_s(iconName, "core_status_" GLOBAL_PROTO_NAME, _TRUNCATE);
 	convertOneProtocol(moduleName, iconName);
 
 	CreateServiceFunction(MS_SKIN_LOADICON, sttLoadSkinIcon);

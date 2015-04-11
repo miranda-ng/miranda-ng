@@ -343,7 +343,8 @@ retrycon:
 						break;
 					}
 				}
-				strcpy(szConnHost, szHost); sConnPort = sPort;
+				strncpy_s(szConnHost, szHost, _TRUNCATE);
+				sConnPort = sPort;
 			}
 
 			if (send(sock, szData, sz, 0) != SOCKET_ERROR) {

@@ -275,11 +275,11 @@ static NETLIBIPLIST* GetMyIpv6(unsigned flags)
 		SOCKADDR_INET_M *iaddr = (SOCKADDR_INET_M*)ai->ai_addr;
 		if (ai->ai_family == AF_INET ||
 			(ai->ai_family == AF_INET6 &&
-			(!(flags & 1) || IsAddrGlobal(&iaddr->Ipv6.sin6_addr)))) {
-
-			char* szIp = NetlibAddressToString(iaddr);
+			(!(flags & 1) || IsAddrGlobal(&iaddr->Ipv6.sin6_addr))))
+		{
+			char *szIp = NetlibAddressToString(iaddr);
 			if (szIp)
-				strcpy(addr->szIp[i++], szIp);
+				strncpy_s(addr->szIp[i++], szIp, _TRUNCATE);
 			mir_free(szIp);
 		}
 	}
@@ -295,13 +295,14 @@ static NETLIBIPLIST* GetMyIpv4(void)
 	PHOSTENT he = gethostbyname(hostname);
 
 	unsigned n;
-	for (n = 0; he->h_addr_list[n]; ++n);
+	for (n = 0; he->h_addr_list[n]; ++n)
+		;
 
 	NETLIBIPLIST *addr = (NETLIBIPLIST*)mir_calloc(n * 64 + 4);
 	addr->cbNum = n;
 
 	for (unsigned i = 0; i < n; i++)
-		strcpy(addr->szIp[i], inet_ntoa(*(PIN_ADDR)he->h_addr_list[i]));
+		strncpy_s(addr->szIp[i], inet_ntoa(*(PIN_ADDR)he->h_addr_list[i]), _TRUNCATE);
 
 	return addr;
 }
