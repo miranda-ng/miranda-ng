@@ -194,7 +194,7 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 	//ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(node, "skypeeditedid")))));	
 
 	ptrT composeTime(json_as_string(json_get(node, "composetime")));
-	time_t timestamp = IsoToUnixTime(composeTime);
+	time_t timestamp = getByte("UseLocalTime", 0) ? time(NULL) : IsoToUnixTime(composeTime);
 
 	ptrA from(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
 	ptrA skypename(ContactUrlToName(from));
