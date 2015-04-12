@@ -6,10 +6,10 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
-
+Wsparcie protokołu Skype dla Mirandy NG. Oparte na nowym Skype w przeglądarce.
 ;file \protocols\SkypeWeb\res\resource.rc
 [Skypename:]
-
+Nazwa użytkownika Skype:
 [Password:]
 Hasło:
 [Default group:]
@@ -19,7 +19,7 @@ Konto
 [Others]
 Inne
 [Automatic messages synchronization]
-
+Automatyczna synchronizacja wiadomości
 [Use local time for received messages]
 Używaj czasu lokalnego dla odebranych wiadomości
 [Enter password]
@@ -44,7 +44,7 @@ Poproś o autoryzację
 [Grant authorization]
 Udziel autoryzacji
 [Get server history]
-
+Pobieraj historię z serwera
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Protokoły
