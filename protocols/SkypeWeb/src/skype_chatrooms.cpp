@@ -131,7 +131,7 @@ void CSkypeProto::StartChatRoom(MCONTACT hChatRoom, bool showWindow)
 
 }
 
-int CSkypeProto::OnGroupChatMenuHook(MCONTACT, LPARAM lParam)
+int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
 	if (stricmp(gcmi->pszModule, m_szModuleName) != 0)
@@ -141,7 +141,7 @@ int CSkypeProto::OnGroupChatMenuHook(MCONTACT, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CSkypeProto::OnJoinChatRoom(MCONTACT hContact, LPARAM)
+INT_PTR CSkypeProto::OnJoinChatRoom(WPARAM hContact, LPARAM)
 {
 	if (hContact)
 	{
@@ -149,7 +149,7 @@ INT_PTR CSkypeProto::OnJoinChatRoom(MCONTACT hContact, LPARAM)
 	return 0;
 }
 
-INT_PTR CSkypeProto::OnLeaveChatRoom(MCONTACT hContact, LPARAM)
+INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 {
 	if (hContact)
 	{
@@ -167,7 +167,7 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	ptrA from(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
 
 	ptrT composeTime(json_as_string(json_get(node, "composetime")));
-	time_t timestamp = IsoToUnixTime(composeTime);
+	//time_t timestamp = IsoToUnixTime(composeTime);
 
 	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
 	//int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
