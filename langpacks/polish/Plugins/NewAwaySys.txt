@@ -6,7 +6,7 @@
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [Allows you to handle your status messages in a convenient way.]
-
+Pozwala Ci zarządzać swoimi opisami w wygodny sposób.
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
 [Popup notification]
 Powiadomienie popup
