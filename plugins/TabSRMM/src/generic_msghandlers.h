@@ -42,7 +42,6 @@ void    TSAPI DM_Typing(TWindowData *dat, bool fForceOff = false);
 void    TSAPI DM_FreeTheme(TWindowData *dat);
 void    TSAPI DM_NotifyTyping(TWindowData *dat, int mode);
 int     TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam);
-void    TSAPI BB_InitDlgButtons(TWindowData *dat);
 
 void    TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam);
 void    TSAPI DM_InitRichEdit(TWindowData *dat);

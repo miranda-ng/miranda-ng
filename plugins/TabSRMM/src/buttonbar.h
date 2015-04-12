@@ -12,6 +12,7 @@ void CB_InitCustomButtons();
 void CB_InitDefaultButtons();
 void CB_ReInitCustomButtons();
 
+void BB_InitDlgButtons(TWindowData *dat);
 void BB_UpdateIcons(HWND hdlg);
 void BB_RefreshTheme(const TWindowData *dat);
 BOOL BB_SetButtonsPos(TWindowData *dat);
