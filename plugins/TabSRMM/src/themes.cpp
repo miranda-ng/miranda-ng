@@ -2504,3 +2504,10 @@ void CSkin::FillBack(const HDC hdc, RECT* rc)
 	else
 		::FillRect(hdc, rc, GetSysColorBrush(COLOR_3DFACE));
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool CSkin::IsThemed()
+{
+	return !(m_skinEnabled && !SkinItems[ID_EXTBKBUTTONSNPRESSED].IGNORED && !SkinItems[ID_EXTBKBUTTONSPRESSED].IGNORED && !SkinItems[ID_EXTBKBUTTONSMOUSEOVER].IGNORED);
+}

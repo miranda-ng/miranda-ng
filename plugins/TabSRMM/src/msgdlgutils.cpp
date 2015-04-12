@@ -254,7 +254,8 @@ int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 	bool bInfoPanel = dat->Panel->isActive();
 
 	if (menuID == MENU_TABCONTEXT) {
-		EnableMenuItem(submenu, ID_TABMENU_ATTACHTOCONTAINER, M.GetByte("useclistgroups", 0) || M.GetByte("singlewinmode", 0) ? MF_GRAYED : MF_ENABLED);
+		EnableMenuItem(submenu, ID_TABMENU_LEAVECHATROOM, (dat->bType == SESSIONTYPE_CHAT && ProtoServiceExists(dat->szProto, PS_LEAVECHAT)) ? MF_ENABLED : MF_DISABLED);
+		EnableMenuItem(submenu, ID_TABMENU_ATTACHTOCONTAINER, (M.GetByte("useclistgroups", 0) || M.GetByte("singlewinmode", 0)) ? MF_GRAYED : MF_ENABLED);
 		EnableMenuItem(submenu, ID_TABMENU_CLEARSAVEDTABPOSITION, (M.GetDword(dat->hContact, "tabindex", -1) != -1) ? MF_ENABLED : MF_GRAYED);
 	}
 	else if (menuID == MENU_PICMENU) {
@@ -332,7 +333,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 		case ID_TABMENU_LEAVECHATROOM:
 			if (dat && dat->bType == SESSIONTYPE_CHAT) {
 				SESSION_INFO *si = dat->si;
-				if ((si != NULL) && (dat->hContact != NULL)) {
+				if (si != NULL && dat->hContact != NULL) {
 					char *szProto = GetContactProto(dat->hContact);
 					if (szProto)
 						CallProtoService(szProto, PS_LEAVECHAT, dat->hContact, 0);

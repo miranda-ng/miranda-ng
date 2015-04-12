@@ -302,6 +302,7 @@ public:
 	static bool __fastcall	DrawItem(const HDC hdc, const RECT *rc, const CSkinItem *item);
 	static void	TSAPI		UpdateToolbarBG(TWindowData *dat);
 	static void TSAPI		FillBack(const HDC hdc, RECT* rc);
+	static bool TSAPI		IsThemed(void);
 
 public:
 	static bool		m_DisableScrollbars, m_bClipBorder;

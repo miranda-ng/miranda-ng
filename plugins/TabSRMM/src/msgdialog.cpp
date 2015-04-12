@@ -1307,16 +1307,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			BB_InitDlgButtons(dat);
 			SendMessage(hwndDlg, DM_LOADBUTTONBARICONS, 0, 0);
 
-			BOOL isThemed = TRUE;
-			if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKBUTTONSNPRESSED].IGNORED &&
-				!SkinItems[ID_EXTBKBUTTONSPRESSED].IGNORED && !SkinItems[ID_EXTBKBUTTONSMOUSEOVER].IGNORED)
-				isThemed = FALSE;
-
 			SendDlgItemMessage(hwndDlg, IDC_ADD, BUTTONSETASFLATBTN, TRUE, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CANCELADD, BUTTONSETASFLATBTN, TRUE, 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETASFLATBTN, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETASTHEMEDBTN, isThemed, 0);
+			SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETASTHEMEDBTN, CSkin::IsThemed(), 0);
 			SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETCONTAINER, (LPARAM)m_pContainer, 0);
 			SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
 
@@ -1570,12 +1565,10 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_PAINT:
 		// in skinned mode only, draw the background elements for the 2 richedit controls
 		// this allows border-less textboxes to appear "skinned" and blended with the background
-	{
 		PAINTSTRUCT ps;
 		BeginPaint(hwndDlg, &ps);
 		EndPaint(hwndDlg, &ps);
-	}
-	return 0;
+		return 0;
 
 	case WM_SIZE:
 		if (!IsIconic(hwndDlg)) {
@@ -1754,32 +1747,32 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
 						return _dlgReturn(hwndDlg, 1);
 					case TABSRMM_HK_TOGGLERTL:
-					{
-						DWORD	dwGlobal = M.GetDword("mwflags", MWF_LOG_DEFAULT);
-						DWORD	dwMask = M.GetDword(dat->hContact, "mwmask", 0);
-						DWORD	dwFlags = M.GetDword(dat->hContact, "mwflags", 0);
-
 						dat->dwFlags ^= MWF_LOG_RTL;
-						if ((dwGlobal & MWF_LOG_RTL) != (dat->dwFlags & MWF_LOG_RTL)) {
-							dwMask |= MWF_LOG_RTL;
-							dwFlags |= (dat->dwFlags & MWF_LOG_RTL);
+						{
+							DWORD	dwGlobal = M.GetDword("mwflags", MWF_LOG_DEFAULT);
+							DWORD	dwMask = M.GetDword(dat->hContact, "mwmask", 0);
+							DWORD	dwFlags = M.GetDword(dat->hContact, "mwflags", 0);
+
+							if ((dwGlobal & MWF_LOG_RTL) != (dat->dwFlags & MWF_LOG_RTL)) {
+								dwMask |= MWF_LOG_RTL;
+								dwFlags |= (dat->dwFlags & MWF_LOG_RTL);
+							}
+							else {
+								dwMask &= ~MWF_LOG_RTL;
+								dwFlags &= ~MWF_LOG_RTL;
+							}
+							if (dwMask) {
+								db_set_dw(dat->hContact, SRMSGMOD_T, "mwmask", dwMask);
+								db_set_dw(dat->hContact, SRMSGMOD_T, "mwflags", dwFlags);
+							}
+							else {
+								db_unset(dat->hContact, SRMSGMOD_T, "mwmask");
+								db_unset(dat->hContact, SRMSGMOD_T, "mwflags");
+							}
+							SendMessage(hwndDlg, DM_OPTIONSAPPLIED, 0, 0);
+							SendMessage(hwndDlg, DM_DEFERREDREMAKELOG, (WPARAM)hwndDlg, 0);
 						}
-						else {
-							dwMask &= ~MWF_LOG_RTL;
-							dwFlags &= ~MWF_LOG_RTL;
-						}
-						if (dwMask) {
-							db_set_dw(dat->hContact, SRMSGMOD_T, "mwmask", dwMask);
-							db_set_dw(dat->hContact, SRMSGMOD_T, "mwflags", dwFlags);
-						}
-						else {
-							db_unset(dat->hContact, SRMSGMOD_T, "mwmask");
-							db_unset(dat->hContact, SRMSGMOD_T, "mwflags");
-						}
-						SendMessage(hwndDlg, DM_OPTIONSAPPLIED, 0, 0);
-						SendMessage(hwndDlg, DM_DEFERREDREMAKELOG, (WPARAM)hwndDlg, 0);
-					}
-					return _dlgReturn(hwndDlg, 1);
+						return _dlgReturn(hwndDlg, 1);
 
 					case TABSRMM_HK_TOGGLEMULTISEND:
 						dat->sendMode ^= SMODE_MULTIPLE;
@@ -1990,16 +1983,16 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				}
 				switch (msg) {
 				case WM_LBUTTONDOWN:
-				{
-					HCURSOR hCur = GetCursor();
-					m_pContainer->MenuBar->Cancel();
-					if (hCur == LoadCursor(NULL, IDC_SIZENS) || hCur == LoadCursor(NULL, IDC_SIZEWE)
-						|| hCur == LoadCursor(NULL, IDC_SIZENESW) || hCur == LoadCursor(NULL, IDC_SIZENWSE)) {
-						SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
-						return TRUE;
+					{
+						HCURSOR hCur = GetCursor();
+						m_pContainer->MenuBar->Cancel();
+						if (hCur == LoadCursor(NULL, IDC_SIZENS) || hCur == LoadCursor(NULL, IDC_SIZEWE)
+							|| hCur == LoadCursor(NULL, IDC_SIZENESW) || hCur == LoadCursor(NULL, IDC_SIZENWSE)) {
+							SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
+							return TRUE;
+						}
 					}
 					break;
-				}
 
 				// auto-select-and-copy handling...
 				// if enabled, releasing the lmb with an active selection automatically copies the selection
@@ -2343,19 +2336,19 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		return 0;
 
 	case DM_SCROLLIEVIEW:
-	{
-		IEVIEWWINDOW iew = { sizeof(iew) };
-		iew.iType = IEW_SCROLLBOTTOM;
-		if (dat->hwndIEView) {
-			iew.hwnd = dat->hwndIEView;
-			CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&iew);
+		{
+			IEVIEWWINDOW iew = { sizeof(iew) };
+			iew.iType = IEW_SCROLLBOTTOM;
+			if (dat->hwndIEView) {
+				iew.hwnd = dat->hwndIEView;
+				CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&iew);
+			}
+			else if (dat->hwndHPP) {
+				iew.hwnd = dat->hwndHPP;
+				CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&iew);
+			}
 		}
-		else if (dat->hwndHPP) {
-			iew.hwnd = dat->hwndHPP;
-			CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&iew);
-		}
-	}
-	return 0;
+		return 0;
 
 	case HM_DBEVENTADDED:
 		// this is called whenever a new event has been added to the database.
@@ -2477,32 +2470,32 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 		return 0;
 
-		// return timestamp (in ticks) of last recent message which has not been read yet.
-		// 0 if there is none
-		// lParam = pointer to a dword receiving the value.
+	// return timestamp (in ticks) of last recent message which has not been read yet.
+	// 0 if there is none
+	// lParam = pointer to a dword receiving the value.
 	case DM_QUERYLASTUNREAD:
-	{
-		DWORD *pdw = (DWORD *)lParam;
-		if (pdw)
-			*pdw = dat->dwTickLastEvent;
-	}
-	return 0;
+		{
+			DWORD *pdw = (DWORD *)lParam;
+			if (pdw)
+				*pdw = dat->dwTickLastEvent;
+		}
+		return 0;
 
 	case DM_QUERYCONTAINER:
-	{
-		TContainerData **pc = (TContainerData **)lParam;
-		if (pc)
-			*pc = m_pContainer;
-	}
-	return 0;
+		{
+			TContainerData **pc = (TContainerData **)lParam;
+			if (pc)
+				*pc = m_pContainer;
+		}
+		return 0;
 
 	case DM_QUERYHCONTACT:
-	{
-		MCONTACT *phContact = (MCONTACT*)lParam;
-		if (phContact)
-			*phContact = dat->hContact;
-	}
-	return 0;
+		{
+			MCONTACT *phContact = (MCONTACT*)lParam;
+			if (phContact)
+				*phContact = dat->hContact;
+		}
+		return 0;
 
 	case DM_UPDATELASTMESSAGE:
 		DM_UpdateLastMessage(dat);
@@ -2572,48 +2565,48 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_RBUTTONUP:
-	{
-		RECT rcPicture, rcPanelNick = { 0 };
-		int menuID = 0;
+		{
+			RECT rcPicture, rcPanelNick = { 0 };
+			int menuID = 0;
 
-		GetWindowRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), &rcPicture);
-		rcPanelNick.left = rcPanelNick.right - 30;
-		GetCursorPos(&pt);
-
-		if (dat->Panel->invokeConfigDialog(pt))
-			break;
-
-		if (PtInRect(&rcPicture, pt))
-			menuID = MENU_PICMENU;
-
-		if ((menuID == MENU_PICMENU && ((dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown) || dat->hOwnPic) && dat->bShowAvatar != 0)) {
-			HMENU submenu = GetSubMenu(m_pContainer->hMenuContext, 1);
+			GetWindowRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), &rcPicture);
+			rcPanelNick.left = rcPanelNick.right - 30;
 			GetCursorPos(&pt);
-			MsgWindowUpdateMenu(dat, submenu, menuID);
-			int iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
-			MsgWindowMenuHandler(dat, iSelection, menuID);
-			break;
-		}
 
-		HMENU subMenu = GetSubMenu(m_pContainer->hMenuContext, 0);
-		MsgWindowUpdateMenu(dat, subMenu, MENU_TABCONTEXT);
+			if (dat->Panel->invokeConfigDialog(pt))
+				break;
 
-		int iSelection = TrackPopupMenu(subMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
-		if (iSelection >= IDM_CONTAINERMENU) {
-			char szIndex[10];
-			char *szKey = "TAB_ContainersW";
+			if (PtInRect(&rcPicture, pt))
+				menuID = MENU_PICMENU;
 
-			mir_snprintf(szIndex, SIZEOF(szIndex), "%d", iSelection - IDM_CONTAINERMENU);
-			if (iSelection - IDM_CONTAINERMENU >= 0) {
-				ptrT val(db_get_tsa(NULL, szKey, szIndex));
-				if (val)
-					SendMessage(hwndDlg, DM_CONTAINERSELECTED, 0, (LPARAM)val);
+			if ((menuID == MENU_PICMENU && ((dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown) || dat->hOwnPic) && dat->bShowAvatar != 0)) {
+				HMENU submenu = GetSubMenu(m_pContainer->hMenuContext, 1);
+				GetCursorPos(&pt);
+				MsgWindowUpdateMenu(dat, submenu, menuID);
+				int iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+				MsgWindowMenuHandler(dat, iSelection, menuID);
+				break;
 			}
-			break;
+
+			HMENU subMenu = GetSubMenu(m_pContainer->hMenuContext, 0);
+			MsgWindowUpdateMenu(dat, subMenu, MENU_TABCONTEXT);
+
+			int iSelection = TrackPopupMenu(subMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+			if (iSelection >= IDM_CONTAINERMENU) {
+				char szIndex[10];
+				char *szKey = "TAB_ContainersW";
+
+				mir_snprintf(szIndex, SIZEOF(szIndex), "%d", iSelection - IDM_CONTAINERMENU);
+				if (iSelection - IDM_CONTAINERMENU >= 0) {
+					ptrT val(db_get_tsa(NULL, szKey, szIndex));
+					if (val)
+						SendMessage(hwndDlg, DM_CONTAINERSELECTED, 0, (LPARAM)val);
+				}
+				break;
+			}
+			MsgWindowMenuHandler(dat, iSelection, MENU_TABCONTEXT);
 		}
-		MsgWindowMenuHandler(dat, iSelection, MENU_TABCONTEXT);
-	}
-	break;
+		break;
 
 	case WM_MOUSEMOVE:
 		GetCursorPos(&pt);
@@ -2622,15 +2615,15 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_MEASUREITEM:
-	{
-		LPMEASUREITEMSTRUCT lpmi = (LPMEASUREITEMSTRUCT)lParam;
-		if (dat->Panel->isHovered()) {
-			lpmi->itemHeight = 0;
-			lpmi->itemWidth = 6;
-			return TRUE;
+		{
+			LPMEASUREITEMSTRUCT lpmi = (LPMEASUREITEMSTRUCT)lParam;
+			if (dat->Panel->isHovered()) {
+				lpmi->itemHeight = 0;
+				lpmi->itemWidth = 6;
+				return TRUE;
+			}
 		}
-	}
-	return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
 
 	case WM_NCHITTEST:
 		SendMessage(hwndContainer, WM_NCHITTEST, wParam, lParam);
@@ -2640,14 +2633,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		return MsgWindowDrawHandler(wParam, lParam, dat);
 
 	case WM_APPCOMMAND:
-	{
-		DWORD cmd = GET_APPCOMMAND_LPARAM(lParam);
-		if (cmd == APPCOMMAND_BROWSER_BACKWARD || cmd == APPCOMMAND_BROWSER_FORWARD) {
-			SendMessage(hwndContainer, DM_SELECTTAB, cmd == APPCOMMAND_BROWSER_BACKWARD ? DM_SELECT_PREV : DM_SELECT_NEXT, 0);
-			return 1;
+		{
+			DWORD cmd = GET_APPCOMMAND_LPARAM(lParam);
+			if (cmd == APPCOMMAND_BROWSER_BACKWARD || cmd == APPCOMMAND_BROWSER_FORWARD) {
+				SendMessage(hwndContainer, DM_SELECTTAB, cmd == APPCOMMAND_BROWSER_BACKWARD ? DM_SELECT_PREV : DM_SELECT_NEXT, 0);
+				return 1;
+			}
 		}
-	}
-	break;
+		break;
 
 	case WM_COMMAND:
 		if (!dat)
