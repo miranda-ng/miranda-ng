@@ -225,8 +225,8 @@
 [Jabber Ad-Hoc commands at %s]
 [Sending Ad-Hoc command to %s]
 ;file \protocols\JabberG\src\jabber_agent.cpp
-[No message]
 [Jabber Agent Registration]
+[No message]
 [Register]
 [Please wait...]
 ;file \protocols\JabberG\src\jabber_bookmarks.cpp
