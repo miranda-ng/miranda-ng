@@ -125,55 +125,21 @@ int CSkypeProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 	return Proto_AuthRecv(m_szModuleName, pre);
 }
 
-int CSkypeProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage) { return 0; }
-
-HANDLE CSkypeProto::ChangeInfo(int, void*) { return 0; }
-
-HANDLE CSkypeProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* tszPath) { return 0; }
-
-int CSkypeProto::FileCancel(MCONTACT hContact, HANDLE hTransfer) { return 0; }
-
-int CSkypeProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* tszReason) { return 0; }
-
-int CSkypeProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** tszFilename) { return 0; }
-
 int CSkypeProto::GetInfo(MCONTACT hContact, int) 
 {
 	PushRequest(new GetProfileRequest(ptrA(getStringA("TokenSecret")), ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))), &CSkypeProto::LoadProfile);
 	return 0;
 }
 
-HANDLE CSkypeProto::SearchByEmail(const PROTOCHAR*) { return 0; }
-
-HANDLE CSkypeProto::SearchByName(const PROTOCHAR*, const PROTOCHAR*, const PROTOCHAR*) { return 0; }
-
-HWND CSkypeProto::SearchAdvanced(HWND owner) { return 0; }
-
-HWND CSkypeProto::CreateExtendedSearchUI(HWND owner) { return 0; }
-
 int CSkypeProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
 	return SaveMessageToDb(hContact, pre);
 }
 
-int CSkypeProto::RecvContacts(MCONTACT, PROTORECVEVENT*) { return 0; }
-
-int CSkypeProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT *pre) { return 0; }
-
-int CSkypeProto::RecvUrl(MCONTACT, PROTORECVEVENT*) { return 0; }
-
-int CSkypeProto::SendContacts(MCONTACT, int, int, MCONTACT*) { return 0; }
-
-HANDLE CSkypeProto::SendFile(MCONTACT hContact, const PROTOCHAR *szDescription, PROTOCHAR **ppszFiles) { return 0; }
-
 int CSkypeProto::SendMsg(MCONTACT hContact, int flags, const char *msg) 
 {
 	return OnSendMessage(hContact, flags, msg);
 }
-
-int CSkypeProto::SendUrl(MCONTACT, int, const char*) { return 0; }
-
-int CSkypeProto::SetApparentMode(MCONTACT, int) { return 0; }
 
 int CSkypeProto::SetStatus(int iNewStatus)
 {
@@ -236,12 +202,6 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	return 0;
 }
-
-HANDLE CSkypeProto::GetAwayMsg(MCONTACT) { return 0; }
-
-int CSkypeProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*) { return 0; }
-
-int CSkypeProto::SetAwayMsg(int, const PROTOCHAR *msg) { return 0; }
 
 int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 {

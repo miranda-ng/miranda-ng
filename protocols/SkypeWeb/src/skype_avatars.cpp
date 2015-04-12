@@ -159,7 +159,7 @@ void CSkypeProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 	}
 }
 
-INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM wParam, LPARAM lParam)
+INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)
 {
 	TCHAR *path = (TCHAR*)lParam;
 	TCHAR avatarPath[MAX_PATH];
