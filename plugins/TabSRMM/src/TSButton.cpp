@@ -519,5 +519,4 @@ void CustomizeButton(HWND hwndButton)
 	TSButtonCtrl *bct = (TSButtonCtrl*)GetWindowLongPtr(hwndButton, 0);
 	if (bct)
 		bct->hThemeToolbar = (M.isAero() || IsWinVerVistaPlus()) ? OpenThemeData(bct->hwnd, L"MENU") : OpenThemeData(bct->hwnd, L"TOOLBAR");
-
 }
