@@ -47,7 +47,7 @@
 Настройки &комнаты чата
 [View/change &topic]
 Просмотр/смена &темы
-[&Leave chat session]
+[&Quit chat session]
 &Покинуть чат
 [Set &avatar]
 Настройки &аватара
