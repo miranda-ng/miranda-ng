@@ -443,8 +443,7 @@ void CJabberInfoFrame::PaintNormal(HDC hdc)
 
 void CJabberInfoFrame::CreateInfoItem(char *pszName, bool bCompact, LPARAM pUserData)
 {
-	CJabberInfoFrameItem item(pszName);
-	if (CJabberInfoFrameItem *pItem = m_pItems.find(&item))
+	if (m_pItems.find((CJabberInfoFrameItem*)&pszName))
 		return;
 
 	CJabberInfoFrameItem *newItem = new CJabberInfoFrameItem(pszName, bCompact, pUserData);
@@ -455,15 +454,13 @@ void CJabberInfoFrame::CreateInfoItem(char *pszName, bool bCompact, LPARAM pUser
 
 void CJabberInfoFrame::SetInfoItemCallback(char *pszName, void (CJabberProto::*onEvent)(CJabberInfoFrame_Event *))
 {
-	CJabberInfoFrameItem item(pszName);
-	if (CJabberInfoFrameItem *pItem = m_pItems.find(&item))
+	if (CJabberInfoFrameItem *pItem = m_pItems.find((CJabberInfoFrameItem*)&pszName))
 		pItem->m_onEvent = onEvent;
 }
 
 void CJabberInfoFrame::UpdateInfoItem(char *pszName, HANDLE hIcolibIcon, TCHAR *pszText)
 {
-	CJabberInfoFrameItem item(pszName);
-	if (CJabberInfoFrameItem *pItem = m_pItems.find(&item))
+	if (CJabberInfoFrameItem *pItem = m_pItems.find((CJabberInfoFrameItem*)&pszName))
 		pItem->SetInfo(hIcolibIcon, pszText);
 	if (m_hwnd)
 		RedrawWindow(m_hwnd, NULL, NULL, RDW_INVALIDATE);
