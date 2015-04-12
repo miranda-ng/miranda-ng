@@ -104,7 +104,7 @@ static gc_item sttLogListItems[] =
 	{ NULL, 0, MENU_SEPARATOR },
 	{ LPGENT("&Room options"),       0,             MENU_NEWPOPUP },
 	{ LPGENT("View/change &topic"),  IDM_TOPIC,     MENU_POPUPITEM },
-	{ LPGENT("&Leave chat session"), IDM_LEAVE,     MENU_POPUPITEM },
+	{ LPGENT("&Quit chat session"),  IDM_LEAVE,     MENU_POPUPITEM },
 #ifdef _DEBUG
 	{ LPGENT("Set &avatar"),         IDM_AVATAR,    MENU_POPUPITEM }, // doesn't work, therefore commented out
 #endif
