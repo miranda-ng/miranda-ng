@@ -2770,13 +2770,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		case IDC_QUOTE:
 		{
-			int iCharsPerLine = M.GetDword("quoteLineLength", 64);
 			CHARRANGE sel;
 			SETTEXTEX stx = { ST_SELECTION, 1200 };
 
 			MEVENT hDBEvent = 0;
 			if (dat->hwndIEView || dat->hwndHPP) {                // IEView quoting support..
-				TCHAR *selected = 0, *szQuoted = 0;
+				TCHAR *selected = 0;
 
 				IEVIEWEVENT event = { sizeof(event) };
 				event.hContact = dat->hContact;
@@ -2793,10 +2792,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				}
 
 				if (selected != NULL) {
-					szQuoted = QuoteText(selected, iCharsPerLine, 0);
+					ptrT szQuoted(QuoteText(selected));
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
-					if (szQuoted)
-						mir_free(szQuoted);
 					break;
 				}
 				else {
@@ -2844,7 +2841,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					MultiByteToWideChar(CP_ACP, 0, (char *)szText, -1, szConverted, 1 + (int)mir_strlen((char *)szText));
 					iAlloced = true;
 				}
-				ptrT szQuoted(QuoteText(szConverted, iCharsPerLine, 0));
+				ptrT szQuoted(QuoteText(szConverted));
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
 				mir_free(szText);
 				if (iAlloced)
@@ -2854,7 +2851,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				ptrA szFromStream(Message_GetFromStream(GetDlgItem(hwndDlg, IDC_LOG), SF_TEXT | SFF_SELECTION));
 				ptrW converted(mir_utf8decodeW(szFromStream));
 				Utils::FilterEventMarkers(converted);
-				ptrT szQuoted(QuoteText(converted, iCharsPerLine, 0));
+				ptrT szQuoted(QuoteText(converted));
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
 			}
 			SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
