@@ -80,7 +80,10 @@ typedef struct {
 		TCHAR* ptszTab;		 //v0.6.0.0+
 	};
 
-	LPARAM dwInitParam;	 //v0.8.0.0+  a value to pass to lParam of WM_INITDIALOG message
+	union {
+		LPARAM dwInitParam;	 //v0.8.0.0+  a value to pass to lParam of WM_INITDIALOG message
+		class CDlgBase *pDialog;
+	};
 	int hLangpack;
 }
 	OPTIONSDIALOGPAGE;

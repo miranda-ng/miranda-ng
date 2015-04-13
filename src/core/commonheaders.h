@@ -95,6 +95,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_extraicons.h>
 #include <m_xstatus.h>
 #include <m_metacontacts.h>
+#include <m_gui.h>
 
 #include "miranda.h"
 #include "stdplug.h"

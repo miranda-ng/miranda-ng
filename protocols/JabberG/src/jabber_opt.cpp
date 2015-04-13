@@ -229,11 +229,12 @@ class CJabberDlgRegister: public CJabberDlgBase
 	typedef CJabberDlgBase CSuper;
 public:
 	CJabberDlgRegister(CJabberProto *proto, HWND hwndParent, JABBER_CONN_DATA *regInfo):
-		CJabberDlgBase(proto, IDD_OPT_REGISTER, hwndParent, false),
+		CJabberDlgBase(proto, IDD_OPT_REGISTER, false),
 		m_bProcessStarted(false),
 		m_regInfo(regInfo),
 		m_btnOk(this, IDOK)
 	{
+		SetParent(hwndParent);
 		m_autoClose = CLOSE_ON_CANCEL;
 		m_btnOk.OnClick = Callback(this, &CJabberDlgRegister::btnOk_OnClick);
 	}
@@ -364,7 +365,7 @@ class CDlgOptAccount: public CJabberDlgBase
 
 public:
 	CDlgOptAccount(CJabberProto *proto):
-		CJabberDlgBase(proto, IDD_OPT_JABBER, NULL, false),
+		CJabberDlgBase(proto, IDD_OPT_JABBER, false),
 		m_txtUsername(this, IDC_EDIT_USERNAME),
 		m_txtPassword(this, IDC_EDIT_PASSWORD),
 		m_txtPriority(this, IDC_PRIORITY),
@@ -418,8 +419,6 @@ public:
 		m_btnUnregister.OnClick = Callback(this, &CDlgOptAccount::btnUnregister_OnClick);
 		m_btnChangePassword.OnClick = Callback(this, &CDlgOptAccount::btnChangePassword_OnClick);
 	}
-
-	static CDlgBase *Create(void *param) { return new CDlgOptAccount((CJabberProto *)param); }
 
 protected:
 	void OnInitDialog()
@@ -774,7 +773,7 @@ class CDlgOptAdvanced: public CJabberDlgBase
 
 public:
 	CDlgOptAdvanced(CJabberProto *proto):
-		CJabberDlgBase(proto, IDD_OPT_JABBER2, NULL, false),
+		CJabberDlgBase(proto, IDD_OPT_JABBER2, false),
 		m_chkDirect(this, IDC_DIRECT),
 		m_chkDirectManual(this, IDC_DIRECT_MANUAL),
 		m_chkProxy(this, IDC_PROXY_MANUAL),
@@ -875,8 +874,6 @@ public:
 		else
 			m_txtProxy.Disable();
 	}
-
-	static CDlgBase *Create(void *param) { return new CDlgOptAdvanced((CJabberProto *)param); }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -893,7 +890,7 @@ class CDlgOptGc: public CJabberDlgBase
 
 public:
 	CDlgOptGc(CJabberProto *proto):
-		CJabberDlgBase(proto, IDD_OPT_JABBER4, NULL, false),
+		CJabberDlgBase(proto, IDD_OPT_JABBER4, false),
 		m_txtAltNick(this, IDC_TXT_ALTNICK),
 		m_txtSlap(this, IDC_TXT_SLAP),
 		m_txtQuit(this, IDC_TXT_QUIT),
@@ -915,8 +912,6 @@ public:
 		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Status changes"),                       m_proto->m_options.GcLogStatuses);
 		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Don't notify history messages"),        m_proto->m_options.GcLogChatHistory);
 	}
-
-	static CDlgBase *Create(void *param) { return new CDlgOptGc((CJabberProto *)param); }
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -1511,34 +1506,22 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleRosterControl(WPARAM, LPARAM)
 
 int CJabberProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.hInstance = hInst;
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
 	odp.ptszGroup = LPGENT("Network");
 	odp.ptszTitle = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 
 	odp.ptszTab = LPGENT("Account");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_JABBER);
-	odp.pfnDlgProc = CDlgBase::DynamicDlgProc;
-	odp.dwInitParam = (LPARAM)&OptCreateAccount;
-	OptCreateAccount.create = CDlgOptAccount::Create;
-	OptCreateAccount.param = this;
+	odp.pDialog = new CDlgOptAccount(this);
 	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Conferences");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_JABBER4);
-	odp.pfnDlgProc = CDlgBase::DynamicDlgProc;
-	odp.dwInitParam = (LPARAM)&OptCreateGc;
-	OptCreateGc.create = CDlgOptGc::Create;
-	OptCreateGc.param = this;
+	odp.pDialog = new CDlgOptGc(this);
 	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Advanced");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_JABBER2);
-	odp.pfnDlgProc = CDlgBase::DynamicDlgProc;
-	odp.dwInitParam = (LPARAM)&OptCreateAdvanced;
-	OptCreateAdvanced.create = CDlgOptAdvanced::Create;
-	OptCreateAdvanced.param = this;
+	odp.pDialog = new CDlgOptAdvanced(this);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
@@ -1564,7 +1547,7 @@ class CJabberDlgAccMgrUI: public CJabberDlgBase
 
 public:
 	CJabberDlgAccMgrUI(CJabberProto *proto, HWND hwndParent):
-		CJabberDlgBase(proto, IDD_ACCMGRUI, hwndParent, false),
+		CJabberDlgBase(proto, IDD_ACCMGRUI, false),
 		m_cbType(this, IDC_CB_TYPE),
 		m_txtUsername(this, IDC_EDIT_USERNAME),
 		m_txtPassword(this, IDC_EDIT_PASSWORD),
@@ -1577,6 +1560,8 @@ public:
 		m_txtManualHost(this, IDC_HOST),
 		m_btnRegister(this, IDC_BUTTON_REGISTER)
 	{
+		SetParent(hwndParent);
+
 		CreateLink(m_txtUsername, "LoginName", _T(""));
 		CreateLink(m_chkSavePassword, proto->m_options.SavePassword);
 		CreateLink(m_cbResource, "Resource", _T("Miranda"));

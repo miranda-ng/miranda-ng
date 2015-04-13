@@ -259,7 +259,7 @@ class MIR_CORE_EXPORT CDlgBase
 	friend class CCtrlData;
 
 public:
-	CDlgBase(HINSTANCE hInst, int idDialog, HWND hwndParent);
+	CDlgBase(HINSTANCE hInst, int idDialog);
 	virtual ~CDlgBase();
 
 	// general utilities
@@ -267,29 +267,11 @@ public:
 	void Show(int nCmdShow = SW_SHOW);
 	int DoModal();
 
-	__inline HWND GetHwnd() const { return m_hwnd; }
-	__inline bool IsInitialized() const { return m_initialized; }
-	__inline void Close() { SendMessage(m_hwnd, WM_CLOSE, 0, 0); }
-	__inline const MSG *ActiveMessage() const { return &m_msg; }
-
-	// dynamic creation support (mainly to avoid leaks in options)
-	struct CreateParam
-	{
-		CDlgBase *(*create)(void *param);
-		void *param;
-	};
-	static INT_PTR CALLBACK DynamicDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		if (msg == WM_INITDIALOG)
-		{
-			CreateParam *param = (CreateParam *)lParam;
-			CDlgBase *wnd = param->create(param->param);
-			SetWindowLongPtr(hwnd, DWLP_DLGPROC, (LONG_PTR)GlobalDlgProc);
-			return GlobalDlgProc(hwnd, msg, wParam, (LPARAM)wnd);
-		}
-
-		return FALSE;
-	}
+	__forceinline HWND GetHwnd() const { return m_hwnd; }
+	__forceinline bool IsInitialized() const { return m_initialized; }
+	__forceinline void SetParent(HWND hwnd) { m_hwndParent = hwnd; }
+	__forceinline void Close() { SendMessage(m_hwnd, WM_CLOSE, 0, 0); }
+	__forceinline const MSG *ActiveMessage() const { return &m_msg; }
 
 	LRESULT m_lresult;
 
@@ -1205,7 +1187,7 @@ class MIR_CORE_EXPORT CProtoIntDlgBase : public CDlgBase
 	typedef CDlgBase CSuper;
 
 public:
-	CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, HWND parent, bool show_label = true);
+	CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, bool show_label = true);
 
 	void CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue);
 	void CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue);
@@ -1242,8 +1224,8 @@ class CProtoDlgBase : public CProtoIntDlgBase
 	typedef CProtoIntDlgBase CSuper;
 
 public:
-	__inline CProtoDlgBase<TProto>(TProto *proto, int idDialog, HWND parent, bool show_label=true) :
-		CProtoIntDlgBase(proto, idDialog, parent, show_label),
+	__inline CProtoDlgBase<TProto>(TProto *proto, int idDialog, bool show_label=true) :
+		CProtoIntDlgBase(proto, idDialog, show_label),
 		m_proto(proto)
 	{
 	}

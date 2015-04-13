@@ -363,8 +363,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	CMStringA   sChannelModes, sUserModes;
 	CMString sChannelPrefixes, sUserModePrefixes, WhoisAwayReply;
 
-	CDlgBase::CreateParam OptCreateAccount, OptCreateConn, OptCreateIgnore, OptCreateOther;
-
 	//clist.cpp
 	MCONTACT CList_AddContact(CONTACT *user, bool InList, bool SetOnline);
 	bool     CList_SetAllOffline(BYTE ChatsToo);

@@ -301,11 +301,13 @@ public:
 	TCHAR szLine[512];
 
 	CJabberDlgPrivacyAddList(CJabberProto *proto, HWND hwndParent):
-		CJabberDlgBase(proto, IDD_PRIVACY_ADD_LIST, hwndParent, false),
+		CJabberDlgBase(proto, IDD_PRIVACY_ADD_LIST, false),
 		m_txtName(this, IDC_EDIT_NAME),
 		m_btnOk(this, IDOK),
 		m_btnCancel(this, IDCANCEL)
 	{
+		SetParent(hwndParent);
+
 		m_btnOk.OnClick = Callback(this, &CJabberDlgPrivacyAddList::btnOk_OnClick);
 		m_btnCancel.OnClick = Callback(this, &CJabberDlgPrivacyAddList::btnCancel_OnClick);
 	}
@@ -341,11 +343,13 @@ public:
 	CPrivacyListRule *m_pRule;
 
 	CJabberDlgPrivacyRule(CJabberProto *proto, HWND hwndParent, CPrivacyListRule *pRule):
-		CJabberDlgBase(proto, IDD_PRIVACY_RULE, hwndParent, false),
+		CJabberDlgBase(proto, IDD_PRIVACY_RULE, false),
 		m_btnOk(this, IDOK),
 		m_btnCancel(this, IDCANCEL),
 		m_cbType(this, IDC_COMBO_TYPE)
 	{
+		SetParent(hwndParent);
+
 		m_pRule = pRule;
 		m_cbType.OnChange = Callback(this, &CJabberDlgPrivacyRule::cbType_OnChange);
 		m_btnOk.OnClick = Callback(this, &CJabberDlgPrivacyRule::btnOk_OnClick);

@@ -29,12 +29,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma comment(lib, "uxtheme")
 
-CDlgBase::CDlgBase(HINSTANCE hInst, int idDialog, HWND hwndParent) :
+CDlgBase::CDlgBase(HINSTANCE hInst, int idDialog) :
 	m_controls(1, CCtrlBase::cmp)
 {
 	m_hInst = hInst;
 	m_idDialog = idDialog;
-	m_hwndParent = hwndParent;
+	m_hwndParent = NULL;
 	m_hwnd = NULL;
 	m_first = NULL;
 	m_isModal = false;
@@ -1943,8 +1943,8 @@ void CDbLink::SaveText(TCHAR *value)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Base protocol dialog
 
-CProtoIntDlgBase::CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, HWND parent, bool show_label) :
-	CDlgBase(::ProtoGetInstance(proto->m_szModuleName), idDialog, parent),
+CProtoIntDlgBase::CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, bool show_label) :
+	CDlgBase(::ProtoGetInstance(proto->m_szModuleName), idDialog),
 	m_proto_interface(proto),
 	m_show_label(show_label),
 	m_hwndStatus(NULL)

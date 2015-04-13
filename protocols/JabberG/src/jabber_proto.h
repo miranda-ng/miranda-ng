@@ -600,12 +600,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle);
 
 	//---- jabber_opt.cpp ----------------------------------------------------------------
-
-	CJabberDlgBase::CreateParam		OptCreateAccount;
-	CJabberDlgBase::CreateParam		OptCreateGc;
-	CJabberDlgBase::CreateParam		OptCreateAdvanced;
-
-	INT_PTR    __cdecl OnMenuHandleRosterControl(WPARAM wParam, LPARAM lParam);
+	INT_PTR  __cdecl OnMenuHandleRosterControl(WPARAM wParam, LPARAM lParam);
 
 	void   _RosterExportToFile(HWND hwndDlg);
 	void   _RosterImportFromFile(HWND hwndDlg);
