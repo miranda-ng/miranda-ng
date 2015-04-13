@@ -769,7 +769,7 @@ public:
 	{
 		if (!m_room) return;
 
-		TCHAR *text = m_txtReason.GetText();
+		ptrT text(m_txtReason.GetText());
 		HWND hwndList = GetDlgItem(m_hwnd, IDC_CLIST);
 
 		// invite users from roster
@@ -788,10 +788,9 @@ public:
 
 		// invite others
 		for (int i = 0; i < m_newJids.getCount(); i++)
-		if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)m_newJids[i]->hItem, 0))
-			InviteUser(m_newJids[i]->jid, text);
+			if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)m_newJids[i]->hItem, 0))
+				InviteUser(m_newJids[i]->jid, text);
 
-		mir_free(text);
 		Close();
 	}
 };
