@@ -61,8 +61,8 @@ extern HINSTANCE g_hInstance;
 
 #define TOX_ERROR -1
 
-#define TOX_MAX_CONNECT_RETRIES 200
-#define TOX_MAX_DISCONNECT_RETRIES 200
+#define TOX_MAX_CONNECT_RETRIES 300
+#define TOX_MAX_DISCONNECT_RETRIES 300
 
 #define TOX_INI_PATH "%miranda_path%\\Plugins\\tox.ini"
 
@@ -81,7 +81,7 @@ extern HINSTANCE g_hInstance;
 
 #define TOX_DB_EVENT_TYPE_ACTION 10001
 
-#define TOX_FILE_BLOCK_SIZE 1024 * 1024
+#define TOX_MAX_AVATAR_SIZE 1024 * 1024
 
 extern HMODULE g_hToxLibrary;
 

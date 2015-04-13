@@ -8,21 +8,23 @@ void CToxProto::OnFriendMessage(Tox*, uint32_t friendNumber, TOX_MESSAGE_TYPE ty
 	CToxProto *proto = (CToxProto*)arg;
 
 	MCONTACT hContact = proto->GetContact(friendNumber);
-	if (hContact)
-	{
-		std::string test((char*)message);
-		ptrA szMessage((char*)mir_alloc(length + 1));
-		mir_strncpy(szMessage, (const char*)message, length);
+	if (hContact == NULL)
+		return;
 
-		PROTORECVEVENT recv = { 0 };
-		recv.flags = PREF_UTF;
-		recv.timestamp = time(NULL);
-		recv.szMessage = szMessage;
-		recv.lParam = type == TOX_MESSAGE_TYPE_NORMAL
-			? EVENTTYPE_MESSAGE : TOX_DB_EVENT_TYPE_ACTION;
+	char *rawMessage = (char*)mir_alloc(length + 1);
+	mir_strncpy(rawMessage, (const char*)message, length);
+	rawMessage[length] = 0;
 
-		ProtoChainRecvMsg(hContact, &recv);
-	}
+	PROTORECVEVENT recv = { 0 };
+	recv.flags = PREF_UTF;
+	recv.timestamp = time(NULL);
+	recv.szMessage = rawMessage;
+	recv.lParam = type == TOX_MESSAGE_TYPE_NORMAL
+		? EVENTTYPE_MESSAGE : TOX_DB_EVENT_TYPE_ACTION;
+
+	ProtoChainRecvMsg(hContact, &recv);
+
+	CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 }
 
 // writing message/even into db
@@ -37,7 +39,7 @@ int CToxProto::OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre)
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = pre->lParam;
-	dbei.cbBlob = (DWORD)strlen(pre->szMessage) + 1;
+	dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;
 	dbei.pBlob = (PBYTE)pre->szMessage;
 
 	return (INT_PTR)db_event_add(hContact, &dbei);
@@ -55,10 +57,10 @@ int CToxProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessage
 	ptrA message;
 	if (flags & PREF_UNICODE)
 		message = mir_utf8encodeW((wchar_t*)&szMessage[mir_strlen(szMessage) + 1]);
-	else if (flags & PREF_UTF)
+	else //if (flags & PREF_UTF)
 		message = mir_strdup(szMessage);
-	else
-		message = mir_utf8encode(szMessage);
+	//else
+		//message = mir_utf8encode(szMessage);
 
 	size_t msgLen = mir_strlen(message);
 	uint8_t *msg = (uint8_t*)(char*)message;
@@ -73,7 +75,9 @@ int CToxProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessage
 	if (error != TOX_ERR_FRIEND_SEND_MESSAGE_OK)
 	{
 		debugLogA(__FUNCTION__": failed to send message (%d)", error);
+		return 0;
 	}
+
 	return messageId;
 }
 
@@ -83,9 +87,11 @@ void CToxProto::OnReadReceipt(Tox*, uint32_t friendNumber, uint32_t messageId, v
 	CToxProto *proto = (CToxProto*)arg;
 
 	MCONTACT hContact = proto->GetContact(friendNumber);
-	if (hContact)
-		proto->ProtoBroadcastAck(
-			hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)messageId, 0);
+	if (hContact == NULL)
+		return;
+
+	proto->ProtoBroadcastAck(
+		hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)messageId, 0);
 }
 
 // preparing message/action to writing into db
@@ -96,17 +102,17 @@ int CToxProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 		return 0;
 
 	char *message = (char*)evt->dbei->pBlob;
-	if (strncmp(message, "/me ", 4) == 0)
-	{
-		evt->dbei->cbBlob = evt->dbei->cbBlob - 4;
-		PBYTE action = (PBYTE)mir_alloc(evt->dbei->cbBlob);
-		memcpy(action, &evt->dbei->pBlob[4], evt->dbei->cbBlob);
-		mir_free(evt->dbei->pBlob);
-		evt->dbei->pBlob = action;
-		evt->dbei->eventType = TOX_DB_EVENT_TYPE_ACTION;
-	}
+	if (strncmp(message, "/me ", 4) != 0)
+		return 0;
 
-	return 1;
+	evt->dbei->cbBlob = evt->dbei->cbBlob - 4;
+	PBYTE action = (PBYTE)mir_alloc(evt->dbei->cbBlob);
+	memcpy(action, &evt->dbei->pBlob[4], evt->dbei->cbBlob);
+	mir_free(evt->dbei->pBlob);
+	evt->dbei->pBlob = action;
+	evt->dbei->eventType = TOX_DB_EVENT_TYPE_ACTION;
+
+	return 0;
 }
 
 /* TYPING */
@@ -116,7 +122,7 @@ int CToxProto::OnUserIsTyping(MCONTACT hContact, int type)
 	int32_t friendNumber = GetToxFriendNumber(hContact);
 	if (friendNumber == UINT32_MAX)
 		return 0;
-	
+
 	TOX_ERR_SET_TYPING error;
 	if (!tox_self_set_typing(tox, friendNumber, type == PROTOTYPE_SELFTYPING_ON, &error))
 		debugLogA(__FUNCTION__": failed to send typing (%d)", error);

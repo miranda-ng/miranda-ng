@@ -7,23 +7,15 @@ std::tstring CToxProto::GetAvatarFilePath(MCONTACT hContact)
 
 	DWORD dwAttributes = GetFileAttributes(path);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-	{
 		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
-	}
 
 	ptrT id(getTStringA(hContact, TOX_SETTINGS_ID));
 	if (hContact != NULL)
-	{
 		mir_sntprintf(path, MAX_PATH, _T("%s\\%s.png"), path, id);
-	}
 	else if (id != NULL)
-	{
 		mir_sntprintf(path, MAX_PATH, _T("%s\\%s avatar.png"), path, id);
-	}
 	else
-	{
 		return _T("");
-	}
 
 	return path;
 }
@@ -40,7 +32,7 @@ void CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 	fseek(hFile, 0, SEEK_END);
 	size_t length = ftell(hFile);
 	rewind(hFile);
-	if (length > 1024 * 1024)
+	if (length > TOX_MAX_AVATAR_SIZE)
 	{
 		fclose(hFile);
 		debugLogA(__FUNCTION__": new avatar size is excessive");
@@ -102,9 +94,7 @@ void CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 	mir_free(data);
 
 	if (checkHash)
-	{
 		db_set_blob(NULL, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, (void*)hash, TOX_HASH_LENGTH);
-	}
 }
 
 INT_PTR CToxProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
@@ -129,7 +119,7 @@ INT_PTR CToxProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		return lParam == PA_FORMAT_PNG;
 
 	case AF_MAXFILESIZE:
-		return 1024 * 1024;
+		return TOX_MAX_AVATAR_SIZE;
 	}
 
 	return 0;
