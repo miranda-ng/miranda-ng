@@ -93,7 +93,8 @@ public:
 INT_PTR WhatsAppProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 {
 	COptionsDlg *pDlg = new COptionsDlg(this, IDD_ACCMGRUI);
-	pDlg->Create();
+	pDlg->SetParent((HWND)lParam);
+	pDlg->Show();
 	return (INT_PTR)pDlg->GetHwnd();
 }
 
