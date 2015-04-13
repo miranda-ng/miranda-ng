@@ -30,14 +30,41 @@ protected:
 	void OnApply();
 
 public:
-	CToxOptionsMain(CToxProto *proto, int idDialog, HWND hwndParent = NULL);
+	CToxOptionsMain(CToxProto *proto, int idDialog);
 
 	static CDlgBase *CreateAccountManagerPage(void *param, HWND owner)
 	{
-		CToxOptionsMain *page = new CToxOptionsMain((CToxProto*)param, IDD_ACCOUNT_MANAGER, owner);
+		CToxOptionsMain *page = new CToxOptionsMain((CToxProto*)param, IDD_ACCOUNT_MANAGER);
+		page->SetParent(owner);
 		page->Show();
 		return page;
 	}
+
+	static CDlgBase *CreateOptionsPage(void *param) { return new CToxOptionsMain((CToxProto*)param, IDD_OPTIONS_MAIN); }
+};
+
+/////////////////////////////////////////////////////////////////////////////////
+
+class CToxOptionsMultimedia : public CToxDlgBase
+{
+private:
+	typedef CToxDlgBase CSuper;
+
+	CCtrlCombo m_audioInput;
+	CCtrlCombo m_audioOutput;
+
+protected:
+	void OnInitDialog();
+
+	void AudioInput_OnClick(CCtrlData*);
+	void AudioOutput_OnClick(CCtrlData*);
+
+	void OnApply();
+
+public:
+	CToxOptionsMultimedia(CToxProto *proto);
+
+	static CDlgBase *CreateOptionsPage(void *param) { return new CToxOptionsMultimedia((CToxProto*)param); }
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -92,9 +119,6 @@ private:
 	CCtrlNodeList m_nodes;
 	CCtrlButton m_addNode;
 
-public:
-	CToxOptionsNodeList(CToxProto *proto);
-
 protected:
 	void OnInitDialog();
 	void OnApply();
@@ -103,6 +127,11 @@ protected:
 	void OnNodeListDoubleClick(CCtrlBase*);
 	void OnNodeListClick(CCtrlListView::TEventInfo *evt);
 	void OnNodeListKeyDown(CCtrlListView::TEventInfo *evt);
+
+public:
+	CToxOptionsNodeList(CToxProto *proto);
+
+	static CDlgBase *CreateOptionsPage(void *param) { return new CToxOptionsNodeList((CToxProto*)param); }
 };
 
 #endif //_TOX_OPTIONS_H_
