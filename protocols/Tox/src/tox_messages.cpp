@@ -12,7 +12,14 @@ void CToxProto::OnFriendMessage(Tox*, uint32_t friendNumber, TOX_MESSAGE_TYPE ty
 		return;
 
 	char *rawMessage = (char*)mir_alloc(length + 1);
-	mir_strncpy(rawMessage, (const char*)message, length);
+	// old api support
+	if (message[0] == 0 && length > 0)
+	{
+		length -= 3;
+		mir_strncpy(rawMessage, (const char*)&message[4], length);
+	}
+	else
+		mir_strncpy(rawMessage, (const char*)message, length);
 	rawMessage[length] = 0;
 
 	PROTORECVEVENT recv = { 0 };
