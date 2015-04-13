@@ -212,7 +212,7 @@ private:
 };
 
 CJabberDlgNoteItem::CJabberDlgNoteItem(CJabberDlgBase *parent, CNoteItem *pNote):
-	CSuper(parent->GetProto(), IDD_NOTE_EDIT, parent->GetHwnd()),
+	CSuper(parent->GetProto(), IDD_NOTE_EDIT),
 	m_pNote(pNote),
 	m_fnProcess(NULL),
 	m_txtTitle(this, IDC_TXT_TITLE),
@@ -220,11 +220,12 @@ CJabberDlgNoteItem::CJabberDlgNoteItem(CJabberDlgBase *parent, CNoteItem *pNote)
 	m_txtTags(this, IDC_TXT_TAGS),
 	m_btnOk(this, IDOK)
 {
+	SetParent(parent->GetHwnd());
 	m_btnOk.OnClick = Callback(this, &CJabberDlgNoteItem::btnOk_OnClick);
 }
 
 CJabberDlgNoteItem::CJabberDlgNoteItem(CJabberProto *proto, CNoteItem *pNote, TFnProcessNote fnProcess):
-	CSuper(proto, IDD_NOTE_EDIT, NULL),
+	CSuper(proto, IDD_NOTE_EDIT),
 	m_pNote(pNote),
 	m_fnProcess(fnProcess),
 	m_txtTitle(this, IDC_TXT_TITLE),
