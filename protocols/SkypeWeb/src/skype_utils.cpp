@@ -94,6 +94,75 @@ time_t CSkypeProto::IsoToUnixTime(const TCHAR *stamp)
 	return (t >= 0) ? t : 0;
 }
 
+struct HtmlEntity
+{
+	const char *entity;
+	char symbol;
+};
+
+const HtmlEntity htmlEntities[] =
+{
+	{ "nbsp", ' ' },
+	{ "amp", '&' },
+	{ "quot", '"' },
+	{ "lt", '<' },
+	{ "gt", '>' },
+	{ "apos", '\'' },
+	{ "copy", '©' },
+	// TODO: add more
+};
+
+char *CSkypeProto::RemoveHtml(const char *text)
+{
+	std::string new_string = "";
+	std::string data = text;
+
+	if (data.find("\x1b\xe3\xac\x8d\x1d") != -1)
+		data = "CONVERSATION MEMBERS:" + data.substr(5, data.length() - 5);
+
+	for (std::string::size_type i = 0; i < data.length(); i++)
+	{
+		if (data.at(i) == '<' && data.at(i + 1) != ' ')
+		{
+			i = data.find(">", i);
+			if (i == std::string::npos)
+				break;
+
+			continue;
+		}
+
+		if (data.at(i) == '&') {
+			std::string::size_type begin = i;
+			i = data.find(";", i);
+			if (i == std::string::npos) {
+				i = begin;
+			}
+			else {
+				std::string entity = data.substr(begin + 1, i - begin - 1);
+
+				bool found = false;
+				for (int j = 0; j < SIZEOF(htmlEntities); j++)
+				{
+					if (!stricmp(entity.c_str(), htmlEntities[j].entity))
+					{
+						new_string += htmlEntities[j].symbol;
+						found = true;
+						break;
+					}
+				}
+
+				if (found)
+					continue;
+				else
+					i = begin;
+			}
+		}
+
+		new_string += data.at(i);
+	}
+
+	return mir_strdup(new_string.c_str());
+}
 
 bool CSkypeProto::IsMe(const char *skypeName)
 {

@@ -57,7 +57,9 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				? FindContact(ptrA(ContactUrlToName(conversationLink)))
 				: FindContact(skypename);
 
-			AddMessageToDb(hContact, timestamp, flags, clientMsgId, content, emoteOffset);
+			ptrA message(RemoveHtml(content));
+
+			AddMessageToDb(hContact, timestamp, flags, clientMsgId, message, emoteOffset);
 		}
 	}
 }
