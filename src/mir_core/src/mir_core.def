@@ -1074,3 +1074,4 @@ ProtoWindowAdd @1071 NONAME
 ProtoWindowRemove @1072 NONAME
 Proto_IsProtocolLoaded @1073 NONAME
 Proto_RegisterModule @1074 NONAME
+?GetInst@CDlgBase@@QBEPAUHINSTANCE__@@XZ @1075 NONAME

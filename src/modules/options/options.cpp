@@ -422,7 +422,7 @@ static LRESULT CALLBACK AeroPaintSubclassProc(HWND hwnd, UINT msg, WPARAM wParam
 
 static void CALLBACK FilterSearchTimerFunc(HWND hwnd, UINT, UINT_PTR, DWORD)
 {
-	OptionsDlgData* dat = (OptionsDlgData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	OptionsDlgData *dat = (OptionsDlgData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (!dat)
 		return;
 
@@ -464,9 +464,10 @@ static void FillFilterCombo(HWND hDlg, OptionsDlgData* dat)
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT)CB_SETITEMDATA, (WPARAM)index, (LPARAM)hInst);
 	
 	for (int i = 0; i < dat->arOpd.getCount(); i++) {
-		FindFilterStrings(FALSE, FALSE, hDlg, dat->arOpd[i]); // only modules name (fast enougth)
+		OptionsPageData *opd = dat->arOpd[i];
+		FindFilterStrings(FALSE, FALSE, hDlg, opd); // only modules name (fast enougth)
 
-		HINSTANCE inst = dat->arOpd[i]->hInst;
+		HINSTANCE inst = opd->hInst;
 		if (inst == hInst)
 			continue;
 
@@ -710,7 +711,10 @@ static bool LoadOptionsPage(OPTIONSDIALOGPAGE *src, OptionsPageData *dst)
 		dst->dlgProc = src->pfnDlgProc;
 		dst->dwInitParam = src->dwInitParam;
 	}
-	else dst->pDialog = src->pDialog;
+	else {
+		dst->hInst = src->pDialog->GetInst();
+		dst->pDialog = src->pDialog;
+	}
 
 	dst->hwnd = NULL;
 	dst->changed = 0;
@@ -1289,7 +1293,7 @@ static INT_PTR AddOptionsPage(WPARAM wParam, LPARAM lParam)
 	OptionsPageInit *opi = (OptionsPageInit*)wParam;
 
 	if (odp == NULL || opi == NULL) return 1;
-	if (odp->cbSize != sizeof(OPTIONSDIALOGPAGE) && odp->cbSize != OPTIONPAGE_OLD_SIZE)
+	if (odp->cbSize != sizeof(OPTIONSDIALOGPAGE))
 		return 1;
 
 	opi->odp = (OPTIONSDIALOGPAGE*)mir_realloc(opi->odp, sizeof(OPTIONSDIALOGPAGE)*(opi->pageCount + 1));
