@@ -2,34 +2,44 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.8
+;  Version: 0.11.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Wsparcie protokołu Tox dla Mirandy NG.
 ;file \protocols\Tox\res\resource.rc
+[Tox ID:]
+Tox ID:
+[Create]
+Stwórz
+[Import]
+Importuj
+[Copy ID]
+Kopiuj ID
+[Export]
+Eksportuj
 [Name:]
 Nazwa:
 [Password:]
 Hasło:
 [Default group:]
 Domyślna grupa:
-[C]
-C
-[Tox ID:]
-Tox ID:
-[Import tox profile]
-Importuj profil Tox
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
-Profil tox zawiera twoje ID oraz listę znajomych.\r\nMożesz zaimportować istniejący profil z innego klienta tox.
-[Connection settings]
-Ustawienia połączenia
-[Disable UDP (force Tox to use TCP)]
-Wyłącz UDP (zmuś Tox do używania TCP)
-[Disable IPv6]
-Wyłącz IPV6
 [Tox]
 Tox
+[Create tox profile]
+Stwórz profil tox
+[Import tox profile]
+Importuj profil Tox
+[Copy Tox ID]
+Kopiuj ID Tox
+[Export tox profile]
+Eksportuj profil tox
+[Connection settings]
+Ustawienia połączenia
+[Enable UDP (otherwise force Tox to use TCP)]
+Włącz UDP (w przeciwnym razie wymuszaj używanie TCP przez tox)
+[Enable IPv6]
+Włącz IPV6
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Jeżeli to pole zawiera adres tox (76 znaków hex), zostaniesz poproszony o dodanie go do swojej listy kontaktów, w przeciwnym razie Miranda dokona wyszukiwania tego zapytania za pomocą odkrywania DNS tox.
 [Dns name:]
@@ -84,8 +94,6 @@ Protokoły
 Poproś o autoryzację
 [Grant authorization]
 Udziel autoryzacji
-[Copy Tox ID]
-Kopiuj ID Tox
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 Połączenie %s
@@ -96,10 +104,6 @@ Profil Tox
 Wszystkie pliki
 [Select tox profile]
 Wybierz profil tox
-[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
-Posiadasz już profil. Czy chcesz go usunąć wraz ze wszystkimi kontaktami oraz całą historią tox i kontynuować importowanie?
-[Tox profile import]
-Importowanie profilu tox
 [Add node]
 Dodaj gniazdo
 [Change node]
@@ -112,8 +116,8 @@ Błąd
 Wprowadź klucz publiczny
 [Common nodes]
 Powszechne gniazda
-[nodes]
-gniazda
+[User nodes]
+Gniazda użytkownika
 [Are you sure?]
 Czy jesteś pewien?
 [Node deleting]
