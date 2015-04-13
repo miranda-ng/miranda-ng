@@ -1,6 +1,6 @@
 #include "common.h"
 
-CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog, HWND hwndParent)
+CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
 	: CToxDlgBase(proto, idDialog, false),
 	m_toxAddress(this, IDC_TOXID), m_toxAddressCopy(this, IDC_CLIPBOARD),
 	m_profileCreate(this, IDC_PROFILE_NEW), m_profileImport(this, IDC_PROFILE_IMPORT),
@@ -8,7 +8,6 @@ CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog, HWND hwndParent
 	m_password(this, IDC_PASSWORD), m_group(this, IDC_GROUP),
 	m_enableUdp(this, IDC_ENABLE_UDP), m_enableIPv6(this, IDC_ENABLE_IPV6)
 {
-	SetParent(hwndParent);
 
 	CreateLink(m_toxAddress, TOX_SETTINGS_ID, _T(""));
 	CreateLink(m_nickname, "Nick", _T(""));
@@ -144,6 +143,33 @@ void CToxOptionsMain::OnApply()
 
 		m_proto->SaveToxProfile();
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
+CToxOptionsMultimedia::CToxOptionsMultimedia(CToxProto *proto)
+	: CToxDlgBase(proto, IDD_OPTIONS_AV, false),
+	m_audioInput(this, IDC_AUDIOINPUT), m_audioOutput(this, IDC_AUDIOOUTPUT)
+{
+	m_audioInput.OnChange = Callback(this, &CToxOptionsMultimedia::AudioInput_OnClick);
+	m_audioOutput.OnChange = Callback(this, &CToxOptionsMultimedia::AudioOutput_OnClick);
+}
+
+void CToxOptionsMultimedia::OnInitDialog()
+{
+	CToxDlgBase::OnInitDialog();
+}
+
+void CToxOptionsMultimedia::AudioInput_OnClick(CCtrlData*)
+{
+}
+
+void CToxOptionsMultimedia::AudioOutput_OnClick(CCtrlData*)
+{
+}
+
+void CToxOptionsMultimedia::OnApply()
+{
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -482,11 +508,16 @@ int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.ptszGroup = LPGENT("Network");
 
 	odp.ptszTab = LPGENT("Account");
-	odp.pDialog = new CToxOptionsMain(this, IDD_OPTIONS_MAIN);
+	odp.pDialog = CToxOptionsMain::CreateOptionsPage(this);
+	Options_AddPage(wParam, &odp);
+
+	odp.ptszTab = LPGENT("Multimedia");
+	odp.pDialog = CToxOptionsMultimedia::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Nodes");
-	odp.pDialog = new CToxOptionsNodeList(this);
+	odp.pDialog = CToxOptionsNodeList::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
+
 	return 0;
 }

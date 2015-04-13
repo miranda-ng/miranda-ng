@@ -17,8 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog, HWND hwndParent)
-	: CSkypeDlgBase(proto, idDialog, hwndParent, false),
+CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog)
+	: CSkypeDlgBase(proto, idDialog, false),
 	m_skypename(this, IDC_SKYPENAME),
 	m_password(this, IDC_PASSWORD),
 	m_group(this, IDC_GROUP),
@@ -59,15 +59,11 @@ int CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInstance;
 	odp.pszTitle = title;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pszGroup = LPGEN("Network");
 
 	odp.pszTab = LPGEN("Account");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_MAIN);
-	odp.pfnDlgProc = CSkypeOptionsMain::DynamicDlgProc;
-	odp.dwInitParam = (LPARAM)&SkypeMainOptionsParam;
-	SkypeMainOptionsParam.create = CSkypeOptionsMain::CreateOptionsPage;
-	SkypeMainOptionsParam.param = this;
+	odp.pDialog = CSkypeOptionsMain::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 
 	mir_free(title);

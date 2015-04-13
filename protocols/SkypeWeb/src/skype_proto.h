@@ -126,8 +126,6 @@ private:
 	int OnInitStatusMenu();
 
 	// options
-	CSkypeDlgBase::CreateParam SkypeMainOptionsParam;
-
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
 	// login

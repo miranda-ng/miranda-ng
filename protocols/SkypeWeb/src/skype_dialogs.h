@@ -49,7 +49,7 @@ protected:
 
 public:
 	CSkypePasswordEditor(CSkypeProto *proto) :
-		CSkypeDlgBase(proto, IDD_PASSWORD_EDITOR, NULL, false), m_ok(this, IDOK),
+		CSkypeDlgBase(proto, IDD_PASSWORD_EDITOR, false), m_ok(this, IDOK),
 		m_password(this, IDC_PASSWORD), m_savePermanently(this, IDC_SAVEPERMANENTLY)
 	{
 		m_ok.OnClick = Callback(this, &CSkypePasswordEditor::OnOk);

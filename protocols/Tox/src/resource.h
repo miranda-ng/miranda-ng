@@ -36,7 +36,9 @@
 #define IDC_PORT                        1019
 #define IDC_PKEY                        1020
 #define IDC_COMBO_AUDIOINPUT            1021
+#define IDC_AUDIOINPUT                  1021
 #define IDC_COMBO_AUDIOOUTPUT           1022
+#define IDC_AUDIOOUTPUT                 1022
 #define IDC_AUDIOFILTER                 1023
 #define IDC_COMBO_VIDEOINPUT            1024
 

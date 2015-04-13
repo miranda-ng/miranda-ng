@@ -28,7 +28,7 @@ private:
 	CCtrlCheck m_localtime;
 
 protected:
-	CSkypeOptionsMain(CSkypeProto *proto, int idDialog, HWND hwndParent = NULL);
+	CSkypeOptionsMain(CSkypeProto *proto, int idDialog);
 
 	void OnInitDialog();
 	void OnApply();
@@ -36,7 +36,8 @@ protected:
 public:
 	static CDlgBase *CreateAccountManagerPage(void *param, HWND owner)
 	{
-		CSkypeOptionsMain *page = new CSkypeOptionsMain((CSkypeProto*)param, IDD_ACCOUNT_MANAGER, owner);
+		CSkypeOptionsMain *page = new CSkypeOptionsMain((CSkypeProto*)param, IDD_ACCOUNT_MANAGER);
+		page->SetParent(owner);
 		page->Show();
 		return page;
 	}
