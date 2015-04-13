@@ -12,8 +12,8 @@ Copyright © 2013-14 Uli Hecht
 #pragma warning(disable:4996)
 #pragma warning(disable:4290)
 
-#define _WIN32_WINNT   0x0500
-#define _WIN32_WINDOWS 0x0500
+#define _WIN32_WINNT   0x0601
+#define _WIN32_WINDOWS 0x0601
 
 #include <algorithm>
 #include <iostream>
@@ -69,16 +69,17 @@ Copyright © 2013-14 Uli Hecht
 #include <m_hotkeys.h>
 #include <m_folders.h>
 #include <m_json.h>
+#include <m_gui.h>
 
 #include "constants.h"
 #include "utils.h"
 #include "db.h"
 #include "resource.h"
-#include "dialogs.h"
 #include "theme.h"
 #include "definitions.h"
 #include "WASocketConnection.h"
 #include "proto.h"
+#include "dialogs.h"
 #include "entities.h"
 
 #if defined _DEBUG
