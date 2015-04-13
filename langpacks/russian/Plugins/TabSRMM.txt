@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.9
+;  Version: 3.4.0.10
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -905,6 +905,8 @@ Esc закрывает сессию (иначе - сворачивает)
 Справка
 [About TabSRMM...]
 О плагине TabSRMM...
+[<Separator>]
+<Разделитель>
 [Protocol button]
 Меню контакта
 [Info button]
@@ -941,8 +943,6 @@ Esc закрывает сессию (иначе - сворачивает)
 Фильтр событий - щелчок правой кнопкой для настройки, левой - вкл/выкл
 [Channel manager]
 Управление каналом
-[<Separator>]
-<Разделитель>
 [Message session...]
 Беседа...
 [Default container]

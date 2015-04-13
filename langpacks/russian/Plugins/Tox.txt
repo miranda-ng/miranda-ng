@@ -2,27 +2,39 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.8
+;  Version: 0.11.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Поддержка протокола Tox в Miranda NG.
+[Create]
+Создать
+[Import]
+Импорт
+[Copy ID]
+Копировать ID
+[Export]
+Экспорт
 [Name:]
 Имя:
 [Password:]
 Пароль:
 [Default group:]
 Группа:
+[Create tox profile]
+Создать профиль Tox
 [Import tox profile]
 Импорт профиля Tox
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
-Профиль Tox содержит ваш ID и список друзей.\r\nВы можете импортировать существующий профиль из другого клиента Tox.
+[Copy Tox ID]
+Копировать Tox ID
+[Export tox profile]
+Экспорт профиля Tox
 [Connection settings]
 Настройки подключения
-[Disable UDP (force Tox to use TCP)]
-Отключить UDP (принудительно использовать TCP)
-[Disable IPv6]
-Отключить IPv6
+[Enable UDP (otherwise force Tox to use TCP)]
+Включить UDP (иначе принудительно использовать TCP)
+[Enable IPv6]
+Включить IPv6
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 При введении в поле поиска адреса tox (76 hex символов), будет выдан запрос на добавление в список друзей. Иначе поиск будет произведён при помощи dns сервиса обнаружения Tox.
 [Dns name:]
@@ -73,8 +85,6 @@ IPv6 адрес (необязательно)
 Запросить авторизацию
 [Grant authorization]
 Авторизовать
-[Copy Tox ID]
-Копировать Tox ID
 [%s connection]
 %s подключение
 [Tox profile]
@@ -83,10 +93,6 @@ IPv6 адрес (необязательно)
 Все файлы
 [Select tox profile]
 Выберите профиль Tox
-[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
-Найден уже существующий профиль. Вы уверены, что хотите удалить его вместе с историей и контактами Tox и продолжить импорт?
-[Tox profile import]
-Импорт профиля Tox
 [Add node]
 Добавление ноды
 [Change node]
@@ -99,8 +105,8 @@ IPv6 адрес (необязательно)
 Введите открытый ключ
 [Common nodes]
 Общие ноды
-[nodes]
-ноды
+[User nodes]
+Ноды пользователя
 [Are you sure?]
 Вы уверены?
 [Node deleting]

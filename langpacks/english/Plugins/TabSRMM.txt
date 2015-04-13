@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.9
+;  Version: 3.4.0.10
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -459,6 +459,7 @@
 [Help]
 [About TabSRMM...]
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
+[<Separator>]
 [Protocol button]
 [Info button]
 [Insert emoticon]
@@ -477,7 +478,6 @@
 [Toggle nick list]
 [Event filter - right click to setup, left click to activate/deactivate]
 [Channel manager]
-[<Separator>]
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 [Default container]
