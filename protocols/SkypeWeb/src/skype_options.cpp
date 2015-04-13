@@ -52,21 +52,19 @@ void CSkypeOptionsMain::OnApply()
 		Clist_CreateGroup(0, group);
 }
 
+/////////////////////////////////////////////////////////////////////////////////
+
 int CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	char *title = mir_t2a(m_tszUserName);
-
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInstance;
-	odp.pszTitle = title;
+	odp.ptszTitle = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.pszGroup = LPGEN("Network");
+	odp.ptszGroup = LPGENT("Network");
 
-	odp.pszTab = LPGEN("Account");
+	odp.ptszTab = LPGENT("Account");
 	odp.pDialog = CSkypeOptionsMain::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
-
-	mir_free(title);
 
 	return 0;
 }
