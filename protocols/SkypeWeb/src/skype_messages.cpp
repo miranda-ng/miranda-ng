@@ -67,7 +67,12 @@ MEVENT CSkypeProto::AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD fla
 int CSkypeProto::OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset, bool isRead)
 {
 	ptrA skypename(ContactUrlToName(url));
+	debugLogA("Incoming message from %s", skypename);
+
 	MCONTACT hContact = AddContact(skypename, true);
+	if (hContact == NULL)
+		return 0;
+
 	PROTORECVEVENT recv = { 0 };
 	recv.flags = PREF_UTF;
 	recv.timestamp = timestamp;
@@ -75,9 +80,10 @@ int CSkypeProto::OnReceiveMessage(const char *messageId, const char *url, time_t
 	recv.lParam = emoteOffset;
 	recv.pCustomData = (void*)messageId;
 	recv.cbCustomDataSize = mir_strlen(messageId);
+
 	if (isRead)
 		recv.flags |= PREF_CREATEREAD;
-	debugLogA("Incoming message from %s", skypename);
+
 	return ProtoChainRecvMsg(hContact, &recv);
 }
 
@@ -202,6 +208,8 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
 	int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
 
+	ptrA message(RemoveHtml(content));
+
 	if (IsMe(skypename))
 	{
 		ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
@@ -211,7 +219,7 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 		int hMessage = atoi(clientMsgId);
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
 		debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-		AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, &content[emoteOffset], emoteOffset);
+		AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, message, emoteOffset);
 	}
 	else
 	{
@@ -225,11 +233,9 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 		else if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 		{
 			debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-			OnReceiveMessage(clientMsgId, from, timestamp, content, emoteOffset);
+			OnReceiveMessage(clientMsgId, from, timestamp, message, emoteOffset);
 		}
 		else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage"))
-		{
 			return; //not supported
-		}
 	}
 }

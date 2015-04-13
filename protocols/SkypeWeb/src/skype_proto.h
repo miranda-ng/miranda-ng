@@ -235,6 +235,7 @@ private:
 	bool IsOnline();
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 	time_t IsoToUnixTime(const TCHAR *stamp);
+	char *RemoveHtml(const char *text);
 	char *GetStringChunk(const char *haystack, size_t len, const char *start, const char *end);
 	bool IsMe(const char *skypeName);
 	int SkypeToMirandaStatus(const char *status);
