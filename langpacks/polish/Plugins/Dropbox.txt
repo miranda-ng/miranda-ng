@@ -39,8 +39,13 @@ Kopiuj link do pobrania do schowka
 w toku...
 [you have been authorized]
 zostałeś zautoryzowany
+<<<<<<< .mine
+[server does not respond]
+Serwer nie odpowiada
+=======
 [server does not respond]
 serwer nie odpowiada
+>>>>>>> .r8577
 ;file \plugins\Dropbox\src\dropbox_commands.cpp
 [Dropbox supports the following commands:]
 Dropbox obsługuje następujące polecenia:
