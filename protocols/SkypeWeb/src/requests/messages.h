@@ -27,12 +27,18 @@ public:
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
-			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
-		CMStringA data;
-		data.AppendFormat("{\"clientmessageid\":\"%lld\",\"content\":\"%s\",\"messagetype\":\"RichText\",\"contenttype\":\"text\"}", timestamp, message);
+		JSONNODE *node = json_new(5);
+		json_push_back(node, json_new_i("clientmessageid", timestamp));
+		json_push_back(node, json_new_a("messagetype", "RichText"));
+		json_push_back(node, json_new_a("contenttype", "text"));
+		json_push_back(node, json_new_a("content", message));
 
+		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
 		Body << VALUE(data);
+
+		json_delete(node);
 	}
 };
 
@@ -45,12 +51,22 @@ public:
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
-			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
-		CMStringA data;
-		data.AppendFormat("{\"clientmessageid\":\"%lld\",\"content\":\"%s %s\",\"messagetype\":\"RichText\",\"contenttype\":\"text\",\"skypeemoteoffset\":\"%d\"}", timestamp, username, message, (int)(mir_strlen(username) + 1));
+		CMStringA content;
+		content.AppendFormat("%s %s", username, message);
 
+		JSONNODE *node = json_new(5);
+		json_push_back(node, json_new_i("clientmessageid", timestamp));
+		json_push_back(node, json_new_a("messagetype", "RichText"));
+		json_push_back(node, json_new_a("contenttype", "text"));
+		json_push_back(node, json_new_a("content", content));
+		json_push_back(node, json_new_i("skypeemoteoffset", (int)(mir_strlen(username) + 1)));
+
+		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
 		Body << VALUE(data);
+
+		json_delete(node);
 	}
 };
 
@@ -63,13 +79,20 @@ public:
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
-			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
-		CMStringA state;
-		state = (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping";
-		CMStringA data;
-		data.AppendFormat("{\"clienmessageid\":%lld, \"content\":\"\", \"messagetype\":\"%s\", \"contenttype\":\"text\"}", time(NULL), state);
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
+		char *state = (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping";
+
+		JSONNODE *node = json_new(5);
+		json_push_back(node, json_new_i("clientmessageid", time(NULL)));
+		json_push_back(node, json_new_a("messagetype", state));
+		json_push_back(node, json_new_a("contenttype", "text"));
+		json_push_back(node, json_new_a("content", ""));
+
+		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
 		Body << VALUE(data);
+
+		json_delete(node);
 	}
 };
 
@@ -82,7 +105,7 @@ public:
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
-			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 	}
 };
 
@@ -95,7 +118,7 @@ public:
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
-			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 	}
 };
 
