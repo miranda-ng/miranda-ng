@@ -1,7 +1,7 @@
 ﻿#include "common.h"
 
 CSteamPasswordEditor::CSteamPasswordEditor(CSteamProto *proto) :
-	CSuper(proto, IDD_PASSWORD_EDITOR, NULL, false), m_ok(this, IDOK),
+	CSuper(proto, IDD_PASSWORD_EDITOR, false), m_ok(this, IDOK),
 	m_password(this, IDC_PASSWORD), m_savePermanently(this, IDC_SAVEPERMANENTLY)
 {
 	m_ok.OnClick = Callback(this, &CSteamPasswordEditor::OnOk);
@@ -38,7 +38,7 @@ void CSteamPasswordEditor::OnClose()
 /////////////////////////////////////////////////////////////////////////////////
 
 CSteamGuardDialog::CSteamGuardDialog(CSteamProto *proto, char *domain) :
-	CSuper(proto, IDD_GUARD, NULL, false), m_ok(this, IDOK),
+	CSuper(proto, IDD_GUARD, false), m_ok(this, IDOK),
 	m_text(this, IDC_TEXT), m_link(this, IDC_GETDOMAIN, domain)
 {
 	mir_strcpy(m_domain, domain);
@@ -75,7 +75,7 @@ char * CSteamGuardDialog::GetGuardCode()
 /////////////////////////////////////////////////////////////////////////////////
 
 CSteamCaptchaDialog::CSteamCaptchaDialog(CSteamProto *proto, BYTE *captchaImage, int captchaImageSize) :
-	CSuper(proto, IDD_GUARD, NULL, false),
+	CSuper(proto, IDD_GUARD, false),
 	m_ok(this, IDOK), m_text(this, IDC_TEXT)
 {
 	m_captchaImageSize = captchaImageSize;
@@ -166,10 +166,12 @@ char * CSteamCaptchaDialog::GetCaptchaText()
 /////////////////////////////////////////////////////////////////////////////////
 
 CSteamOptionsMain::CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwndParent)
-	: CSuper(proto, idDialog, hwndParent, false),
+	: CSuper(proto, idDialog, false),
 	m_username(this, IDC_USERNAME), m_password(this, IDC_PASSWORD),
 	m_group(this, IDC_GROUP), m_biggerAvatars(this, IDC_BIGGER_AVATARS)
 {
+	SetParent(hwndParent);
+
 	CreateLink(m_username, "Username", _T(""));
 	CreateLink(m_password, "Password", _T(""));
 	CreateLink(m_group, "DefaultGroup", _T("Steam"));
@@ -213,8 +215,10 @@ void CSteamOptionsMain::OnApply()
 /////////////////////////////////////////////////////////////////////////////////
 
 CSteamOptionsBlockList::CSteamOptionsBlockList(CSteamProto *proto)
-	: CSuper(proto, IDD_OPT_BLOCK_LIST, NULL, false), m_list(this, IDC_LIST),
-	m_contacts(this, IDC_CONTACTS), m_add(this, IDC_BLOCK)
+	: CSuper(proto, IDD_OPT_BLOCK_LIST, false),
+	m_list(this, IDC_LIST),
+	m_contacts(this, IDC_CONTACTS),
+	m_add(this, IDC_BLOCK)
 {
 	m_add.OnClick = Callback(this, &CSteamOptionsBlockList::OnBlock);
 }

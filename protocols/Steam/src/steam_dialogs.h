@@ -1,15 +1,7 @@
 #ifndef _STEAM_DIALOGS_H_
 #define _STEAM_DIALOGS_H_
 
-class CSteamDlgBase : public CProtoDlgBase<CSteamProto>
-{
-private:
-	typedef CProtoDlgBase<CSteamProto> CSuper;
-
-protected:
-	__inline CSteamDlgBase(CSteamProto *proto, int idDialog, HWND parent, bool show_label = true) :
-		CSuper(proto, idDialog, parent, show_label) { }
-};
+typedef CProtoDlgBase<CSteamProto> CSteamDlgBase;
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -97,20 +89,18 @@ private:
 	CCtrlCheck m_biggerAvatars;
 
 protected:
-	CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwndParent = NULL);
-
 	void OnInitDialog();
 	void OnApply();
 
 public:
+	CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwndParent = NULL);
+
 	static CDlgBase *CreateAccountManagerPage(void *param, HWND owner)
 	{
 		CSteamOptionsMain *page = new CSteamOptionsMain((CSteamProto*)param, IDD_ACCMGR, owner);
 		page->Show();
 		return page;
 	}
-
-	static CDlgBase *CreateOptionsPage(void *param) { return new CSteamOptionsMain((CSteamProto*)param, IDD_OPT_MAIN); }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -124,14 +114,12 @@ private:
 	CCtrlCombo m_contacts;
 	CCtrlButton m_add;
 
-protected:
+public:
 	CSteamOptionsBlockList(CSteamProto *proto);
 
+protected:
 	void OnInitDialog();
 	void OnBlock(CCtrlButton*);
-
-public:
-	static CDlgBase *CreateOptionsPage(void *param) { return new CSteamOptionsBlockList((CSteamProto*)param); }
 };
 
 #endif //_STEAM_DIALOGS_H_
