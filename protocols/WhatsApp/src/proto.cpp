@@ -316,29 +316,6 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 //////////////////////////////////////////////////////////////////////////////
 // EVENTS
 
-INT_PTR WhatsAppProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_ACCMGRUI),
-		(HWND)lParam, WhatsAppAccountProc, (LPARAM)this);
-}
-
-int WhatsAppProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
-{
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.hInstance = g_hInstance;
-	odp.ptszTitle = m_tszUserName;
-	odp.dwInitParam = LPARAM(this);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-
-	odp.position = 1;
-	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTab = LPGENT("Account");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pfnDlgProc = WhatsAppAccountProc;
-	Options_AddPage(wParam, &odp);
-	return 0;
-}
-
 int WhatsAppProto::OnUserInfo(WPARAM, LPARAM hContact)
 {
 	ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));

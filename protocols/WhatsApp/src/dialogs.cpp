@@ -3,225 +3,200 @@
 #define szAskSendSms  LPGEN("An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?")
 #define szPasswordSet LPGEN("Your password has been set automatically. You can proceed with login now")
 
-INT_PTR CALLBACK WhatsAppAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+class COptionsDlg : public CProtoDlgBase<WhatsAppProto>
 {
-	WhatsAppProto *proto = (WhatsAppProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CCtrlEdit m_pw1, m_pw2, m_cc, m_login, m_nick, m_group;
+	CCtrlCheck m_ssl, m_autorun;
+	CCtrlButton m_request, m_register;
 
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
+public:
+	COptionsDlg(WhatsAppProto *pThis, int dlgId) :
+		CProtoDlgBase<WhatsAppProto>(pThis, dlgId, false),
+		m_cc(this, IDC_CC),
+		m_pw1(this, IDC_PW),
+		m_pw2(this, IDC_PW2),
+		m_ssl(this, IDC_SSL),
+		m_nick(this, IDC_NICK),
+		m_group(this, IDC_DEFGROUP),
+		m_login(this, IDC_LOGIN),
+		m_autorun(this, IDC_AUTORUN),
+		m_request(this, IDC_BUTTON_REQUEST_CODE),
+		m_register(this, IDC_BUTTON_REGISTER)
+	{
+		CreateLink(m_ssl, WHATSAPP_KEY_SSL, DBVT_BYTE, false);
+		CreateLink(m_autorun, WHATSAPP_KEY_AUTORUNCHATS, DBVT_BYTE, true);
 
-		proto = (WhatsAppProto*)lParam;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		SendDlgItemMessage(hwndDlg, IDC_PW, EM_LIMITTEXT, 3, 0);
-		SendDlgItemMessage(hwndDlg, IDC_PW2, EM_LIMITTEXT, 3, 0);
-		
-		CheckDlgButton(hwndDlg, IDC_SSL, db_get_b(NULL, proto->m_szModuleName, WHATSAPP_KEY_SSL, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AUTORUN, proto->getBool(WHATSAPP_KEY_AUTORUNCHATS, true) ? BST_CHECKED : BST_UNCHECKED);
-		{
-			ptrA szStr(proto->getStringA(WHATSAPP_KEY_CC));
-			if (szStr != NULL)
-				SetDlgItemTextA(hwndDlg, IDC_CC, szStr);
+		CreateLink(m_cc, WHATSAPP_KEY_CC, _T(""));
+		CreateLink(m_nick, WHATSAPP_KEY_NICK, _T(""));
+		CreateLink(m_login, WHATSAPP_KEY_LOGIN, _T(""));
+		CreateLink(m_group, WHATSAPP_KEY_DEF_GROUP, _T(""));
 
-			if ((szStr = proto->getStringA(WHATSAPP_KEY_LOGIN)) != NULL)
-				SetDlgItemTextA(hwndDlg, IDC_LOGIN, szStr);
-
-			if ((szStr = proto->getStringA(WHATSAPP_KEY_NICK)) != NULL)
-				SetDlgItemTextA(hwndDlg, IDC_NICK, szStr);
-		}
-		SetDlgItemText(hwndDlg, IDC_DEFGROUP, proto->m_tszDefaultGroup);
-
-		EnableWindow(GetDlgItem(hwndDlg, IDC_PW), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_PW2), FALSE);
-		return TRUE;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_BUTTON_REQUEST_CODE || LOWORD(wParam) == IDC_BUTTON_REGISTER) {
-			string password;
-			char cc[5];
-			char number[128];
-			GetDlgItemTextA(hwndDlg, IDC_CC, cc, SIZEOF(cc));
-			GetDlgItemTextA(hwndDlg, IDC_LOGIN, number, SIZEOF(number));
-
-			if (LOWORD(wParam) == IDC_BUTTON_REQUEST_CODE) {
-				if (IDYES == MessageBox(NULL, TranslateT(szAskSendSms), PRODUCT_NAME, MB_YESNO)) {
-					if (proto->Register(REG_STATE_REQ_CODE, string(cc), string(number), string(), password)) {
-						if (!password.empty()) {
-							MessageBox(NULL, TranslateT(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
-							proto->setString(WHATSAPP_KEY_PASS, password.c_str());
-						}
-						else {
-							EnableWindow(GetDlgItem(hwndDlg, IDC_PW), TRUE); // unblock sms code entry field
-							EnableWindow(GetDlgItem(hwndDlg, IDC_PW2), TRUE);
-						}
-					}
-				}
-			}
-			else if (LOWORD(wParam) == IDC_BUTTON_REGISTER) {
-				HWND hwnd1 = GetDlgItem(hwndDlg, IDC_PW), hwnd2 = GetDlgItem(hwndDlg, IDC_PW2);
-				if (GetWindowTextLength(hwnd1) != 3 || GetWindowTextLength(hwnd2) != 3) {
-					MessageBox(NULL, TranslateT("Please correctly specify your registration code received by SMS"), PRODUCT_NAME, MB_ICONEXCLAMATION);
-					return TRUE;
-				}
-
-				char code[10];
-				GetWindowTextA(hwnd1, code, 4);
-				GetWindowTextA(hwnd2, code + 3, 4);
-
-				if (proto->Register(REG_STATE_REG_CODE, string(cc), string(number), string(code), password)) {
-					proto->setString(WHATSAPP_KEY_PASS, password.c_str());
-					MessageBox(NULL, TranslateT(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
-				}
-			}
-		}
-
-		if (HWND(lParam) == GetFocus()) {
-			if (HIWORD(wParam) == EN_CHANGE) {
-				switch (LOWORD(wParam)) {
-				case IDC_CC:
-				case IDC_LOGIN:
-				case IDC_NICK:
-				case IDC_DEFGROUP:
-				case IDC_PW:
-				case IDC_PW2:
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-			}
-			else if (HIWORD(wParam) == BN_CLICKED) {
-				switch (LOWORD(wParam)) {
-				case IDC_AUTORUN:
-				case IDC_SSL:
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-			}
-		}
-		break;
-
-	case WM_NOTIFY:
-		if (reinterpret_cast<NMHDR *>(lParam)->code == PSN_APPLY) {
-			char str[128];
-			GetDlgItemTextA(hwndDlg, IDC_CC, str, SIZEOF(str));
-			proto->setString(WHATSAPP_KEY_CC, str);
-
-			GetDlgItemTextA(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
-			proto->setString(WHATSAPP_KEY_LOGIN, str);
-
-			GetDlgItemTextA(hwndDlg, IDC_NICK, str, SIZEOF(str));
-			proto->setString(WHATSAPP_KEY_NICK, str);
-
-			TCHAR tstr[100];
-			GetDlgItemText(hwndDlg, IDC_DEFGROUP, tstr, SIZEOF(tstr));
-			if (mir_tstrcmp(proto->m_tszDefaultGroup, tstr)) {
-				proto->m_tszDefaultGroup = mir_tstrdup(tstr);
-				proto->setTString(WHATSAPP_KEY_DEF_GROUP, tstr);
-			}
-
-			proto->setByte(WHATSAPP_KEY_SSL, IsDlgButtonChecked(hwndDlg, IDC_SSL));
-			proto->setByte(WHATSAPP_KEY_AUTORUNCHATS, IsDlgButtonChecked(hwndDlg, IDC_AUTORUN));
-
-			if (proto->isOnline())
-				MessageBox(NULL, TranslateT("Changes will be applied after protocol restart"), proto->m_tszUserName, MB_OK);
-
-			return TRUE;
-		}
-		break;
+		m_request.OnClick = Callback(this, &COptionsDlg::OnRequestClick);
+		m_register.OnClick = Callback(this, &COptionsDlg::OnRegisterClick);
 	}
 
-	return FALSE;
+	virtual void OnInitDialog()
+	{
+		m_pw1.SendMsg(EM_LIMITTEXT, 3, 0); m_pw1.Enable(false);
+		m_pw2.SendMsg(EM_LIMITTEXT, 3, 0); m_pw2.Enable(false);
+	}
+
+	void OnRequestClick(CCtrlButton*)
+	{
+		if (IDYES != MessageBox(NULL, TranslateT(szAskSendSms), PRODUCT_NAME, MB_YESNO))
+			return;
+
+		ptrA cc(m_cc.GetTextA()), number(m_login.GetTextA());
+		string password;
+		if (m_proto->Register(REG_STATE_REQ_CODE, string(cc), string(number), string(), password)) {
+			if (!password.empty()) {
+				MessageBox(NULL, TranslateT(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
+				m_proto->setString(WHATSAPP_KEY_PASS, password.c_str());
+			}
+			else {
+				m_pw1.Enable(); // unblock sms code entry field
+				m_pw2.Enable();
+			}
+		}
+	}
+
+	void OnRegisterClick(CCtrlButton*)
+	{
+		if (GetWindowTextLength(m_pw1.GetHwnd()) != 3 || GetWindowTextLength(m_pw2.GetHwnd()) != 3) {
+			MessageBox(NULL, TranslateT("Please correctly specify your registration code received by SMS"), PRODUCT_NAME, MB_ICONEXCLAMATION);
+			return;
+		}
+
+		char code[10];
+		GetWindowTextA(m_pw1.GetHwnd(), code, 4);
+		GetWindowTextA(m_pw2.GetHwnd(), code + 3, 4);
+
+		string password;
+		ptrA cc(m_cc.GetTextA()), number(m_login.GetTextA());
+		if (m_proto->Register(REG_STATE_REG_CODE, string(cc), string(number), string(code), password)) {
+			m_proto->setString(WHATSAPP_KEY_PASS, password.c_str());
+			MessageBox(NULL, TranslateT(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
+		}
+	}
+
+	virtual void OnApply()
+	{
+		ptrT tszGroup(m_group.GetText());
+		if (mir_tstrcmp(m_proto->m_tszDefaultGroup, tszGroup))
+			m_proto->m_tszDefaultGroup = tszGroup.detouch();
+
+		if (m_proto->isOnline())
+			MessageBox(NULL, TranslateT("Changes will be applied after protocol restart"), m_proto->m_tszUserName, MB_OK);
+	}
+};
+
+INT_PTR WhatsAppProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
+{
+	COptionsDlg *pDlg = new COptionsDlg(this, IDD_ACCMGRUI);
+	pDlg->Create();
+	return (INT_PTR)pDlg->GetHwnd();
+}
+
+int WhatsAppProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
+{
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.ptszTitle = m_tszUserName;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.ptszGroup = LPGENT("Network");
+
+	odp.ptszTab = LPGENT("Account");
+	odp.pDialog = new COptionsDlg(this, IDD_OPTIONS);
+	Options_AddPage(wParam, &odp);
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Invite dialog
 
-static void FilterList(HWND hwndClist, WhatsAppProto *ppro)
+class CInviteDialog : public CProtoDlgBase<WhatsAppProto>
 {
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *proto = GetContactProto(hContact);
-		if (mir_strcmp(proto, ppro->m_szModuleName) || ppro->isChatRoom(hContact))
-			if (MCONTACT hItem = SendMessage(hwndClist, CLM_FINDCONTACT, hContact, 0))
-				SendMessage(hwndClist, CLM_DELETEITEM, hItem, 0);
-	}
-}
+	CCtrlClc m_clc;
+	CCtrlEdit m_entry;
+	CCtrlButton m_btnOk;
 
-static void InitList(HWND hwndClist, WhatsAppProto *ppro)
-{
-	SetWindowLongPtr(hwndClist, GWL_STYLE,
-		GetWindowLongPtr(hwndClist, GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE);
-	SendMessage(hwndClist, CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
-	SendMessage(hwndClist, CLM_SETBKBITMAP, 0, 0);
-	SendMessage(hwndClist, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-	SendMessage(hwndClist, CLM_SETGREYOUTFLAGS, 0, 0);
-	SendMessage(hwndClist, CLM_SETLEFTMARGIN, 4, 0);
-	SendMessage(hwndClist, CLM_SETINDENT, 10, 0);
-	SendMessage(hwndClist, CLM_SETBKBITMAP, 0, 0);
-	SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, TRUE, 0);
-	SendMessage(hwndClist, CLM_SETHIDEOFFLINEROOT, TRUE, 0);
-
-	for (int i = 0; i <= FONTID_MAX; i++)
-		SendMessage(hwndClist, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
-	
-	FilterList(hwndClist, ppro);
-}
-
-INT_PTR CALLBACK InviteDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	WhatsAppProto *proto = (WhatsAppProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-
-		proto = (WhatsAppProto*)lParam;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-
-		InitList(GetDlgItem(hwndDlg, IDC_CLIST), proto);
-		return 1;
-
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->idFrom == IDC_CLIST) {
-			switch (((LPNMHDR)lParam)->code) {
-			case CLN_LISTREBUILT:
-			case CLN_NEWCONTACT:
-				FilterList(((LPNMHDR)lParam)->hwndFrom, proto);
-			}
+	void FilterList(CCtrlClc *)
+	{
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			char *proto = GetContactProto(hContact);
+			if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact))
+				if (HANDLE hItem = m_clc.FindContact(hContact))
+					m_clc.DeleteItem(hItem);
 		}
-		break;
+	}
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			EndDialog(hwndDlg, 0);
-			break;
+	void ResetListOptions(CCtrlClc *)
+	{
+		m_clc.SetBkBitmap(0, NULL);
+		m_clc.SetBkColor(GetSysColor(COLOR_WINDOW));
+		m_clc.SetGreyoutFlags(0);
+		m_clc.SetLeftMargin(4);
+		m_clc.SetIndent(10);
+		m_clc.SetHideEmptyGroups(true);
+		m_clc.SetHideOfflineRoot(true);
+		for (int i = 0; i <= FONTID_MAX; i++)
+			m_clc.SetTextColor(i, GetSysColor(COLOR_WINDOWTEXT));
+	}
 
-		case IDOK:
-			proto->m_szInviteJids.clear();
+public:
+	CInviteDialog(WhatsAppProto *pThis) :
+		CProtoDlgBase<WhatsAppProto>(pThis, IDD_GROUPCHAT_INVITE, false),
+		m_clc(this, IDC_CLIST),
+		m_entry(this, IDC_NEWJID),
+		m_btnOk(this, IDOK)
+	{
+		m_btnOk.OnClick = Callback(this, &CInviteDialog::btnOk_OnClick);
+		m_clc.OnNewContact =
+			m_clc.OnListRebuilt = Callback(this, &CInviteDialog::FilterList);
+		m_clc.OnOptionsChanged = Callback(this, &CInviteDialog::ResetListOptions);
+	}
 
-			// invite users from clist
-			for (MCONTACT hContact = db_find_first(proto->m_szModuleName); hContact; hContact = db_find_next(hContact, proto->m_szModuleName)) {
-				if (proto->isChatRoom(hContact))
-					continue;
+	void OnInitDialog()
+	{
+		SetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE,
+			GetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE);
+		m_clc.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 
-				HWND hwndList = GetDlgItem(hwndDlg, IDC_CLIST);
-				if (int hItem = SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0)) {
-					if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
-						ptrA jid(proto->getStringA(hContact, "ID"));
-						if (jid != NULL)
-							proto->m_szInviteJids.push_back((char*)jid);
-					}
+		ResetListOptions(&m_clc);
+		FilterList(&m_clc);
+	}
+
+	void btnOk_OnClick(CCtrlButton*)
+	{
+		m_proto->m_szInviteJids.clear();
+
+		// invite users from clist
+		for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
+			if (m_proto->isChatRoom(hContact))
+				continue;
+
+			if (HANDLE hItem = m_clc.FindContact(hContact)) {
+				if (m_clc.GetCheck(hItem)) {
+					ptrA jid(m_proto->getStringA(hContact, "ID"));
+					if (jid != NULL)
+						m_proto->m_szInviteJids.push_back((char*)jid);
 				}
 			}
-
-			HWND hwndEntry = GetDlgItem(hwndDlg, IDC_NEWJID);
-			int len = GetWindowTextLength(hwndEntry);
-			if (len > 0) {
-				std::string szOther; szOther.resize(len + 1);
-				GetWindowTextA(hwndEntry, (char*)szOther.data(), len);
-				proto->m_szInviteJids.push_back(szOther);
-			}
-
-			EndDialog(hwndDlg, 1);
 		}
-	}
 
-	return 0;
+		ptrA tszText(m_entry.GetTextA());
+		if (tszText != NULL)
+			m_proto->m_szInviteJids.push_back(string(tszText));
+	}
+};
+
+void WhatsAppProto::InviteChatUser(WAChatInfo *pInfo)
+{
+	CInviteDialog dlg(this);
+	if (!dlg.DoModal())
+		return;
+
+	if (isOnline()) {
+		m_pConnection->sendAddParticipants((char*)_T2A(pInfo->tszJid), m_szInviteJids);
+		m_szInviteJids.clear();
+	}
 }
