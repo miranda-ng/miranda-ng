@@ -2,22 +2,27 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.8
+;  Version: 0.11.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 ;file \protocols\Tox\res\resource.rc
+[Tox ID:]
+[Create]
+[Import]
+[Copy ID]
+[Export]
 [Name:]
 [Password:]
 [Default group:]
-[C]
-[Tox ID:]
-[Import tox profile]
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
-[Connection settings]
-[Disable UDP (force Tox to use TCP)]
-[Disable IPv6]
 [Tox]
+[Create tox profile]
+[Import tox profile]
+[Copy Tox ID]
+[Export tox profile]
+[Connection settings]
+[Enable UDP (otherwise force Tox to use TCP)]
+[Enable IPv6]
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 [Dns name:]
 [Enter password]
@@ -47,22 +52,19 @@
 ;file \protocols\Tox\src\tox_menus.cpp
 [Request authorization]
 [Grant authorization]
-[Copy Tox ID]
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 ;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 [All files]
 [Select tox profile]
-[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
-[Tox profile import]
 [Add node]
 [Change node]
 [Enter IPv4]
 [Error]
 [Enter public key]
 [Common nodes]
-[nodes]
+[User nodes]
 [Are you sure?]
 [Node deleting]
 [Network]
