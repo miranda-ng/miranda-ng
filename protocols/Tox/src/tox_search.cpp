@@ -30,7 +30,7 @@ ToxHexAddress ResolveToxAddressFromDnsRecordV3(void *dns, uint32_t requestId, co
 	{
 		std::string id = match[1];
 		uint8_t data[TOX_ADDRESS_SIZE];
-		if (tox_decrypt_dns3_TXT(dns, data, (uint8_t*)id.c_str(), id.length(), requestId) != TOX_ERROR)
+		if (tox_decrypt_dns3_TXT(dns, data, (uint8_t*)id.c_str(), (uint32_t)id.length(), requestId) != TOX_ERROR)
 		{
 			return ToxHexAddress(data, TOX_ADDRESS_SIZE);
 		}
@@ -69,7 +69,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 
 					uint32_t requestId = 0;
 					uint8_t dnsString[MAX_PATH];
-					int length = tox_generate_dns3_string(dns, dnsString, sizeof(dnsString), &requestId, (uint8_t*)name, mir_strlen(name));
+					size_t length = tox_generate_dns3_string(dns, dnsString, sizeof(dnsString), &requestId, (uint8_t*)name, (uint8_t)mir_strlen(name));
 					if (length != TOX_ERROR)
 					{
 						dnsString[length] = 0;

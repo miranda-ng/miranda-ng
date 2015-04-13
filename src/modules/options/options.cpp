@@ -80,6 +80,7 @@ struct OptionsPageData
 	int hLangpack;
 	BOOL insideTab;
 	LPARAM dwInitParam;
+	CDlgBase *pDialog;
 
 	int offsetX;
 	int offsetY;
@@ -187,18 +188,6 @@ static void ThemeDialogBackground(HWND hwnd, BOOL tabbed)
 	EnableThemeDialogTexture(hwnd, (tabbed ? ETDT_ENABLE : ETDT_DISABLE) | ETDT_USETABTEXTURE);
 }
 
-static int lstrcmpnull(TCHAR *str1, TCHAR *str2)
-{
-	if (str1 == NULL && str2 == NULL)
-		return 0;
-	if (str1 != NULL && str2 == NULL)
-		return 1;
-	if (str1 == NULL && str2 != NULL)
-		return -1;
-
-	return mir_tstrcmp(str1, str2);
-}
-
 static TCHAR* GetPluginName(HINSTANCE hInstance, TCHAR *buffer, int size)
 {
 	TCHAR tszModuleName[MAX_PATH];
@@ -218,6 +207,18 @@ PageHash GetPluginPageHash(const OptionsPageData *page)
 	return mir_hashstrT(page->ptszGroup) + mir_hashstrT(page->ptszTitle) + mir_hashstrT(page->ptszTab);
 }
 
+static HWND CreateOptionWindow(const OptionsPageData *opd, HWND hWndParent)
+{
+	if (opd->pDialog != NULL) {
+		opd->pDialog->SetParent(hWndParent);
+		opd->pDialog->Create();
+		return opd->pDialog->GetHwnd();
+	}
+
+	// create the options dialog page so we can parse it;
+	return CreateDialogIndirectParamA(opd->hInst, opd->pTemplate, hWndParent, opd->dlgProc, opd->dwInitParam);
+}
+
 static void FindFilterStrings(int enableKeywordFiltering, int current, HWND hWndParent, const OptionsPageData *page)
 {
 	HWND hWnd = 0;
@@ -225,7 +226,7 @@ static void FindFilterStrings(int enableKeywordFiltering, int current, HWND hWnd
 		if (current)
 			hWnd = page->hwnd;
 		else {
-			hWnd = CreateDialogIndirectParamA(page->hInst, page->pTemplate, hWndParent, page->dlgProc, page->dwInitParam); //create the options dialog page so we can parse it
+			hWnd = CreateOptionWindow(page, hWndParent);
 			ShowWindow(hWnd, SW_HIDE); // make sure it's hidden
 		}
 	}
@@ -670,7 +671,7 @@ static BOOL IsInsideTab(HWND hdlg, OptionsDlgData *dat, int i)
 		for (int j = 0; j < dat->arOpd.getCount() && pages < 2; j++) {
 			OptionsPageData* opd2 = dat->arOpd[j];
 			if (!CheckPageShow(hdlg, dat, j)) continue;
-			if (mir_tstrcmp(opd2->ptszTitle, opd->ptszTitle) || lstrcmpnull(opd2->ptszGroup, opd->ptszGroup))
+			if (mir_tstrcmp(opd2->ptszTitle, opd->ptszTitle) || mir_tstrcmp(opd2->ptszGroup, opd->ptszGroup))
 				continue;
 			pages++;
 		}
@@ -680,38 +681,43 @@ static BOOL IsInsideTab(HWND hdlg, OptionsDlgData *dat, int i)
 
 static bool LoadOptionsPage(OPTIONSDIALOGPAGE *src, OptionsPageData *dst)
 {
-	HRSRC hrsrc = FindResourceA(src->hInstance, src->pszTemplate, MAKEINTRESOURCEA(5));
-	if (hrsrc == NULL)
-		return false;
+	// old fashioned Windows dialog loading
+	if (src->hInstance != NULL && src->pszTemplate != NULL) {
+		HRSRC hrsrc = FindResourceA(src->hInstance, src->pszTemplate, MAKEINTRESOURCEA(5));
+		if (hrsrc == NULL)
+			return false;
 
-	HGLOBAL hglb = LoadResource(src->hInstance, hrsrc);
-	if (hglb == NULL)
-		return false;
+		HGLOBAL hglb = LoadResource(src->hInstance, hrsrc);
+		if (hglb == NULL)
+			return false;
 
-	DWORD resSize = SizeofResource(src->hInstance, hrsrc);
-	dst->pTemplate = (DLGTEMPLATE*)mir_alloc(resSize);
-	memcpy(dst->pTemplate, LockResource(hglb), resSize);
-	DlgTemplateExBegin *dte = (struct DlgTemplateExBegin*)dst->pTemplate;
-	if (dte->signature == 0xFFFF) {
-		//this feels like an access violation, and is according to boundschecker
-		//...but it works - for now
-		//may well have to remove and sort out the original dialogs
-		dte->style &= ~(WS_VISIBLE | WS_CHILD | WS_POPUP | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | DS_MODALFRAME | DS_CENTER);
-		dte->style |= WS_CHILD;
+		DWORD resSize = SizeofResource(src->hInstance, hrsrc);
+		dst->pTemplate = (DLGTEMPLATE*)mir_alloc(resSize);
+		memcpy(dst->pTemplate, LockResource(hglb), resSize);
+		DlgTemplateExBegin *dte = (struct DlgTemplateExBegin*)dst->pTemplate;
+		if (dte->signature == 0xFFFF) {
+			//this feels like an access violation, and is according to boundschecker
+			//...but it works - for now
+			//may well have to remove and sort out the original dialogs
+			dte->style &= ~(WS_VISIBLE | WS_CHILD | WS_POPUP | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | DS_MODALFRAME | DS_CENTER);
+			dte->style |= WS_CHILD;
+		}
+		else {
+			dst->pTemplate->style &= ~(WS_VISIBLE | WS_CHILD | WS_POPUP | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | DS_MODALFRAME | DS_CENTER);
+			dst->pTemplate->style |= WS_CHILD;
+		}
+		dst->hInst = src->hInstance;
+		dst->dlgProc = src->pfnDlgProc;
+		dst->dwInitParam = src->dwInitParam;
 	}
-	else {
-		dst->pTemplate->style &= ~(WS_VISIBLE | WS_CHILD | WS_POPUP | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | DS_MODALFRAME | DS_CENTER);
-		dst->pTemplate->style |= WS_CHILD;
-	}
-	dst->dlgProc = src->pfnDlgProc;
-	dst->hInst = src->hInstance;
+	else dst->pDialog = src->pDialog;
+
 	dst->hwnd = NULL;
 	dst->changed = 0;
 	dst->height = 0;
 	dst->width = 0;
 	dst->flags = src->flags;
 	dst->hLangpack = src->hLangpack;
-	dst->dwInitParam = src->dwInitParam;
 	if (src->pszTitle == NULL)
 		dst->ptszTitle = NULL;
 	else if (src->flags & ODPF_UNICODE)
@@ -856,8 +862,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				}
 				dat->arOpd.insert(opd);
 
-				if (!mir_tstrcmp(lastPage, odp->ptszTitle) && !lstrcmpnull(lastGroup, odp->ptszGroup))
-					if ((ood->pszTab == NULL && dat->currentPage == -1) || !lstrcmpnull(lastTab, odp->ptszTab))
+				if (!mir_tstrcmp(lastPage, odp->ptszTitle) && !mir_tstrcmp(lastGroup, odp->ptszGroup))
+					if ((ood->pszTab == NULL && dat->currentPage == -1) || !mir_tstrcmp(lastTab, odp->ptszTab))
 						dat->currentPage = (int)i;
 			}
 
@@ -970,7 +976,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					break;
 				}
 				if (opd->hwnd == NULL) {
-					opd->hwnd = CreateDialogIndirectParamA(opd->hInst, opd->pTemplate, hdlg, opd->dlgProc, opd->dwInitParam);
+					opd->hwnd = CreateOptionWindow(opd, hdlg);
 					if (opd->flags & ODPF_BOLDGROUPS)
 						EnumChildWindows(opd->hwnd, BoldGroupTitlesEnumChildren, (LPARAM)dat->hBoldFont);
 
@@ -1012,7 +1018,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 								continue;
 
 							OptionsPageData *p = dat->arOpd[i];
-							if (mir_tstrcmp(opd->ptszTitle, p->ptszTitle) || lstrcmpnull(opd->ptszGroup, p->ptszGroup))
+							if (mir_tstrcmp(opd->ptszTitle, p->ptszTitle) || mir_tstrcmp(opd->ptszGroup, p->ptszGroup))
 								continue;
 
 							tie.pszText = TranslateTH(p->hLangpack, p->ptszTab);

@@ -306,7 +306,7 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 	CCtrlCombo m_groupCombo;
 
 	CServerDlg(CIrcProto* _pro, CConnectPrefsDlg* _owner, int _action)
-		: CProtoDlgBase<CIrcProto>(_pro, IDD_ADDSERVER, _owner->GetHwnd(), false),
+		: CProtoDlgBase<CIrcProto>(_pro, IDD_ADDSERVER, false),
 		m_owner(_owner),
 		m_action(_action),
 		m_OK(this, IDOK),
@@ -316,6 +316,7 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 		m_port(this, IDC_ADD_PORT),
 		m_port2(this, IDC_ADD_PORT2)
 	{
+		m_hwndParent = _owner->GetHwnd();
 		m_OK.OnClick = Callback(this, &CServerDlg::OnOk);
 		m_autoClose = CLOSE_ON_CANCEL;
 	}
@@ -450,7 +451,7 @@ static TDbSetting ConnectSettings[] =
 };
 
 CConnectPrefsDlg::CConnectPrefsDlg(CIrcProto* _pro)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_CONNECT, NULL, false),
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_CONNECT, false),
 	m_serverCombo(this, IDC_SERVERCOMBO),
 	m_server(this, IDC_SERVER),
 	m_port(this, IDC_PORT),
@@ -812,7 +813,7 @@ static TDbSetting CtcpSettings[] =
 };
 
 CCtcpPrefsDlg::CCtcpPrefsDlg(CIrcProto* _pro)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_CTCP, NULL, false),
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_CTCP, false),
 	m_enableIP(this, IDC_ENABLEIP),
 	m_fromServer(this, IDC_FROMSERVER),
 	m_combo(this, IDC_COMBO),
@@ -991,7 +992,7 @@ static LRESULT CALLBACK EditSubclassProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 }
 
 COtherPrefsDlg::COtherPrefsDlg(CIrcProto* _pro)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_OTHER, NULL, false),
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_OTHER, false),
 	m_url(this, IDC_CUSTOM),
 	m_performCombo(this, IDC_PERFORMCOMBO),
 	m_codepage(this, IDC_CODEPAGE),
@@ -1208,10 +1209,12 @@ void COtherPrefsDlg::addPerformComboValue(int idx, const char* szValueName)
 // 'add ignore' preferences dialog
 
 CAddIgnoreDlg::CAddIgnoreDlg(CIrcProto* _pro, const TCHAR* mask, CIgnorePrefsDlg* _owner)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_ADDIGNORE, _owner->GetHwnd(), false),
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_ADDIGNORE, false),
 	m_Ok(this, IDOK),
 	m_owner(_owner)
 {
+	m_hwndParent = _owner->GetHwnd();
+
 	if (mask == NULL)
 		szOldMask[0] = 0;
 	else
@@ -1407,7 +1410,7 @@ void CIrcProto::RewriteIgnoreSettings(void)
 }
 
 CIgnorePrefsDlg::CIgnorePrefsDlg(CIrcProto* _pro)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_IGNORE, NULL, false),
+	: CProtoDlgBase<CIrcProto>(_pro, IDD_PREFS_IGNORE, false),
 	m_list(this, IDC_LIST),
 	m_add(this, IDC_ADD, LoadIconEx(IDI_ADD), LPGEN("Add new ignore")),
 	m_edit(this, IDC_EDIT, LoadIconEx(IDI_EDIT), LPGEN("Edit this ignore")),
@@ -1654,38 +1657,26 @@ void CIgnorePrefsDlg::UpdateList()
 
 int CIrcProto::OnInitOptionsPages(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PREFS_CONNECT);
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
 	odp.ptszTitle = m_tszUserName;
 	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTab = LPGENT("Account");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-	odp.pfnDlgProc = CDlgBase::DynamicDlgProc;
-	odp.dwInitParam = (LPARAM)&OptCreateAccount;
-	OptCreateAccount.create = CConnectPrefsDlg::Create;
-	OptCreateAccount.param = this;
+
+	odp.ptszTab = LPGENT("Account");
+	odp.pDialog = new CConnectPrefsDlg(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PREFS_CTCP);
 	odp.ptszTab = LPGENT("DCC and CTCP");
-	odp.dwInitParam = (LPARAM)&OptCreateConn;
-	OptCreateConn.create = CCtcpPrefsDlg::Create;
-	OptCreateConn.param = this;
+	odp.pDialog = new CCtcpPrefsDlg(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PREFS_OTHER);
 	odp.ptszTab = LPGENT("Advanced");
-	odp.dwInitParam = (LPARAM)&OptCreateOther;
-	OptCreateOther.create = COtherPrefsDlg::Create;
-	OptCreateOther.param = this;
+	odp.pDialog = new COtherPrefsDlg(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PREFS_IGNORE);
 	odp.ptszTab = LPGENT("Ignore");
-	odp.dwInitParam = (LPARAM)&OptCreateIgnore;
-	OptCreateIgnore.create = CIgnorePrefsDlg::Create;
-	OptCreateIgnore.param = this;
+	odp.pDialog = new CIgnorePrefsDlg(this);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
@@ -1765,7 +1756,7 @@ struct CDlgAccMgrUI : public CProtoDlgBase<CIrcProto>
 	CCtrlEdit  m_server, m_port, m_port2, m_pass, m_nick, m_nick2, m_name, m_userID, m_ssl;
 
 	CDlgAccMgrUI(CIrcProto* _pro, HWND _owner)
-		: CProtoDlgBase<CIrcProto>(_pro, IDD_ACCMGRUI, _owner, false),
+		: CProtoDlgBase<CIrcProto>(_pro, IDD_ACCMGRUI, false),
 		m_serverCombo(this, IDC_SERVERCOMBO),
 		m_server(this, IDC_SERVER),
 		m_port(this, IDC_PORT),
@@ -1777,6 +1768,7 @@ struct CDlgAccMgrUI : public CProtoDlgBase<CIrcProto>
 		m_ssl(this, IDC_SSL),
 		m_userID(this, IDC_USERID)
 	{
+		m_hwndParent = _owner;
 		m_serverCombo.OnChange = Callback(this, &CDlgAccMgrUI::OnChangeCombo);
 	}
 

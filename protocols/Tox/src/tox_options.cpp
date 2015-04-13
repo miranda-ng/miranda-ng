@@ -1,13 +1,15 @@
 #include "common.h"
 
 CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog, HWND hwndParent)
-	: CToxDlgBase(proto, idDialog, hwndParent, false),
+	: CToxDlgBase(proto, idDialog, false),
 	m_toxAddress(this, IDC_TOXID), m_toxAddressCopy(this, IDC_CLIPBOARD),
 	m_profileCreate(this, IDC_PROFILE_NEW), m_profileImport(this, IDC_PROFILE_IMPORT),
 	m_profileExport(this, IDC_PROFILE_EXPORT), m_nickname(this, IDC_NAME),
 	m_password(this, IDC_PASSWORD), m_group(this, IDC_GROUP),
 	m_enableUdp(this, IDC_ENABLE_UDP), m_enableIPv6(this, IDC_ENABLE_IPV6)
 {
+	SetParent(hwndParent);
+
 	CreateLink(m_toxAddress, TOX_SETTINGS_ID, _T(""));
 	CreateLink(m_nickname, "Nick", _T(""));
 	CreateLink(m_password, "Password", _T(""));
@@ -52,7 +54,7 @@ void CToxOptionsMain::OnInitDialog()
 void CToxOptionsMain::ToxAddressCopy_OnClick(CCtrlButton*)
 {
 	char *toxAddress = m_toxAddress.GetTextA();
-	int toxAddressLength = mir_strlen(toxAddress) + 1;
+	size_t toxAddressLength = mir_strlen(toxAddress) + 1;
 	if (OpenClipboard(m_toxAddress.GetHwnd()))
 	{
 		EmptyClipboard();
@@ -147,7 +149,7 @@ void CToxOptionsMain::OnApply()
 /////////////////////////////////////////////////////////////////////////////////
 
 CToxNodeEditor::CToxNodeEditor(int iItem, CCtrlListView *m_nodes)
-	: CSuper(g_hInstance, IDD_NODE_EDITOR, NULL),
+	: CSuper(g_hInstance, IDD_NODE_EDITOR),
 	m_ipv4(this, IDC_IPV4), m_ipv6(this, IDC_IPV6),
 	m_port(this, IDC_PORT), m_pkey(this, IDC_PKEY),
 	m_ok(this, IDOK), m_iItem(iItem)
@@ -247,7 +249,7 @@ BOOL CCtrlNodeList::OnNotify(int idCtrl, NMHDR *pnmh)
 /****************************************/
 
 CToxOptionsNodeList::CToxOptionsNodeList(CToxProto *proto)
-	: CSuper(proto, IDD_OPTIONS_NODES, NULL, false),
+	: CSuper(proto, IDD_OPTIONS_NODES, false),
 	m_nodes(this, IDC_NODESLIST), m_addNode(this, IDC_ADDNODE)
 {
 	m_addNode.OnClick = Callback(this, &CToxOptionsNodeList::OnAddNode);
@@ -473,31 +475,18 @@ void CToxOptionsNodeList::OnApply()
 
 int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	char *title = mir_t2a(m_tszUserName);
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.ptszTitle = m_tszUserName;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.ptszGroup = LPGENT("Network");
 
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.hInstance = g_hInstance;
-	odp.pszTitle = title;
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszGroup = LPGEN("Network");
-
-	odp.pszTab = LPGEN("Account");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_MAIN);
-	odp.pfnDlgProc = CDlgBase::DynamicDlgProc;
-	odp.dwInitParam = (LPARAM)&ToxMainOptions;
-	ToxMainOptions.create = CToxOptionsMain::CreateOptionsPage;
-	ToxMainOptions.param = this;
+	odp.ptszTab = LPGENT("Account");
+	odp.pDialog = new CToxOptionsMain(this, IDD_OPTIONS_MAIN);
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Nodes");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_NODES);
-	odp.pfnDlgProc = CDlgBase::DynamicDlgProc;
-	odp.dwInitParam = (LPARAM)&ToxNodeListOptions;
-	ToxNodeListOptions.create = CToxOptionsNodeList::CreateOptionsPage;
-	ToxNodeListOptions.param = this;
+	odp.ptszTab = LPGENT("Nodes");
+	odp.pDialog = new CToxOptionsNodeList(this);
 	Options_AddPage(wParam, &odp);
-
-	mir_free(title);
-
 	return 0;
 }

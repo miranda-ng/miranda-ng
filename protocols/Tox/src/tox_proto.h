@@ -131,9 +131,6 @@ private:
 	INT_PTR __cdecl CToxProto::SetMyNickname(WPARAM wParam, LPARAM lParam);
 
 	// options
-	CToxDlgBase::CreateParam ToxMainOptions;
-	CToxDlgBase::CreateParam ToxNodeListOptions;
-
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
 	// events

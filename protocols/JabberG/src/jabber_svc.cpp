@@ -587,12 +587,14 @@ class CJabberDlgHttpAuth: public CJabberDlgBase
 
 public:
 	CJabberDlgHttpAuth(CJabberProto *proto, HWND hwndParent, CJabberHttpAuthParams *pParams):
-		CSuper(proto, IDD_HTTP_AUTH, hwndParent, true),
+		CSuper(proto, IDD_HTTP_AUTH, true),
 		m_txtInfo(this, IDC_EDIT_HTTP_AUTH_INFO),
 		m_btnAuth(this, IDOK),
 		m_btnDeny(this, IDCANCEL),
 		m_pParams(pParams)
 	{
+		SetParent(hwndParent);
+
 		m_btnAuth.OnClick = Callback(this, &CJabberDlgHttpAuth::btnAuth_OnClick);
 		m_btnDeny.OnClick = Callback(this, &CJabberDlgHttpAuth::btnDeny_OnClick);
 	}

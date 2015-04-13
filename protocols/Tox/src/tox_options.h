@@ -38,8 +38,6 @@ public:
 		page->Show();
 		return page;
 	}
-
-	static CDlgBase *CreateOptionsPage(void *param) { return new CToxOptionsMain((CToxProto*)param, IDD_OPTIONS_MAIN); }
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -94,9 +92,10 @@ private:
 	CCtrlNodeList m_nodes;
 	CCtrlButton m_addNode;
 
-protected:
+public:
 	CToxOptionsNodeList(CToxProto *proto);
 
+protected:
 	void OnInitDialog();
 	void OnApply();
 
@@ -104,9 +103,6 @@ protected:
 	void OnNodeListDoubleClick(CCtrlBase*);
 	void OnNodeListClick(CCtrlListView::TEventInfo *evt);
 	void OnNodeListKeyDown(CCtrlListView::TEventInfo *evt);
-
-public:
-	static CDlgBase *CreateOptionsPage(void *param) { return new CToxOptionsNodeList((CToxProto*)param); }
 };
 
 #endif //_TOX_OPTIONS_H_

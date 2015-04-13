@@ -34,7 +34,7 @@ struct CMessageBoxDlg : public CProtoDlgBase < CIrcProto >
 
 struct CCoolIrcDlg : public CProtoDlgBase < CIrcProto >
 {
-	CCoolIrcDlg(CIrcProto* _pro, int dlgId, HWND parent = NULL);
+	CCoolIrcDlg(CIrcProto* _pro, int dlgId);
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -208,8 +208,6 @@ struct CConnectPrefsDlg : public CProtoDlgBase < CIrcProto >
 
 	CConnectPrefsDlg(CIrcProto* _pro);
 
-	static CDlgBase* Create(void* param) { return new CConnectPrefsDlg((CIrcProto*)param); }
-
 	virtual void OnInitDialog();
 	virtual void OnApply();
 
@@ -236,8 +234,6 @@ struct CCtcpPrefsDlg : public CProtoDlgBase < CIrcProto >
 
 	CCtcpPrefsDlg(CIrcProto* _pro);
 
-	static CDlgBase* Create(void* param) { return new CCtcpPrefsDlg((CIrcProto*)param); }
-
 	virtual void OnInitDialog();
 	virtual void OnApply();
 
@@ -257,8 +253,6 @@ struct COtherPrefsDlg : public CProtoDlgBase < CIrcProto >
 	CCtrlCheck   m_perform, m_scripting, m_autodetect;
 
 	COtherPrefsDlg(CIrcProto* _pro);
-
-	static CDlgBase* Create(void* param) { return new COtherPrefsDlg((CIrcProto*)param); }
 
 	virtual void OnInitDialog();
 	virtual void OnApply();
@@ -284,8 +278,6 @@ struct CIgnorePrefsDlg : public CProtoDlgBase < CIrcProto >
 	CCtrlListView m_list;
 
 	CIgnorePrefsDlg(CIrcProto* _pro);
-
-	static CDlgBase* Create(void* param) { return new CIgnorePrefsDlg((CIrcProto*)param); }
 
 	virtual void OnInitDialog();
 	virtual void OnDestroy();
