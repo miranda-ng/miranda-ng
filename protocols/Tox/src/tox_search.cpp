@@ -69,7 +69,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 
 					uint32_t requestId = 0;
 					uint8_t dnsString[MAX_PATH];
-					size_t length = tox_generate_dns3_string(dns, dnsString, sizeof(dnsString), &requestId, (uint8_t*)name, (uint8_t)mir_strlen(name));
+					size_t length = tox_generate_dns3_string(dns, dnsString, sizeof(dnsString), &requestId, (uint8_t*)CharLowerA(name), (uint8_t)mir_strlen(name));
 					if (length != TOX_ERROR)
 					{
 						dnsString[length] = 0;
