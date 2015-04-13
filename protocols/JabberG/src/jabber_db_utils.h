@@ -84,7 +84,7 @@ struct CJabberOptions
 	CMOption<BYTE> ProcessXMPPLinks;
 	CMOption<BYTE> IgnoreRosterGroups;
 
-	CJabberOptions(PROTO_INTERFACE *proto):
+	CJabberOptions(PROTO_INTERFACE *proto) :
 		BsDirect(proto, "BsDirect", TRUE),
 		AllowVersionRequests(proto, "AllowVersionRequests", TRUE),
 		AcceptHttpAuth(proto, "AcceptHttpAuth", TRUE),
@@ -139,7 +139,7 @@ struct CJabberOptions
 		ConnectionKeepAliveTimeout(proto, "ConnectionKeepAliveTimeout", 50000),
 		ProcessXMPPLinks(proto, "ProcessXMPPLinks", FALSE),
 		IgnoreRosterGroups(proto, "IgnoreRosterGroups", FALSE)
-		{}
+	{}
 };
 
 #endif // __jabber_db_utils_h__

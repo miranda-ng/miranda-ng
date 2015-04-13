@@ -628,7 +628,6 @@ void CJabberDlgDiscovery::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
-//	TranslateDialogDefault(m_hwnd);
 	WindowSetIcon(m_hwnd, m_proto, "servicediscovery");
 
 	if (m_jid) {
