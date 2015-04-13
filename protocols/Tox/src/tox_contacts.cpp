@@ -303,8 +303,6 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 	{
 		if (status != TOX_CONNECTION_NONE)
 		{
-			proto->SetContactStatus(hContact, ID_STATUS_OFFLINE);
-
 			proto->delSetting(hContact, "Auth");
 			proto->delSetting(hContact, "Grant");
 
@@ -367,6 +365,7 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 		}
 		else
 		{
+			proto->SetContactStatus(hContact, ID_STATUS_OFFLINE);
 			proto->setDword(hContact, "LastEventDateTS", time(NULL));
 
 			for (size_t i = 0; i < proto->transfers.Count(); i++)
