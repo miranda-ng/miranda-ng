@@ -38,7 +38,7 @@ bool   TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat);
 void   TSAPI ProcessAvatarChange(HWND hwnd, LPARAM lParam);
 void   TSAPI UpdateStatusBar(const TWindowData *dat);
 int    TSAPI CheckValidSmileyPack(const char *szProto, MCONTACT hContact);
-TCHAR* TSAPI QuoteText(const TCHAR *text, int charsPerLine, int removeExistingQuotes);
+TCHAR* TSAPI QuoteText(const TCHAR *text);
 void   TSAPI UpdateReadChars(const TWindowData *dat);
 void   TSAPI ShowPicture(TWindowData *dat, BOOL showNewPic);
 void   TSAPI AdjustBottomAvatarDisplay(TWindowData *dat);

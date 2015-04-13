@@ -644,9 +644,10 @@ int TSAPI CheckValidSmileyPack(const char *szProto, MCONTACT hContact)
 /////////////////////////////////////////////////////////////////////////////////////////
 // return value MUST be mir_free()'d by caller.
 
-TCHAR* TSAPI QuoteText(const TCHAR *text, int charsPerLine, int removeExistingQuotes)
+TCHAR* TSAPI QuoteText(const TCHAR *text)
 {
 	int outChar, lineChar;
+	int iCharsPerLine = M.GetDword("quoteLineLength", 64);
 
 	size_t bufSize = mir_wstrlen(text) + 23;
 	TCHAR *strout = (TCHAR*)mir_alloc(bufSize * sizeof(TCHAR));
@@ -658,17 +659,11 @@ TCHAR* TSAPI QuoteText(const TCHAR *text, int charsPerLine, int removeExistingQu
 			strout = (TCHAR*)mir_realloc(strout, bufSize * sizeof(TCHAR));
 		}
 		if (justDoneLineBreak && text[inChar] != '\r' && text[inChar] != '\n') {
-			if (removeExistingQuotes)
-				if (text[inChar] == '>') {
-					while (text[++inChar] != '\n');
-					inChar++;
-					continue;
-				}
 			strout[outChar++] = '>';
 			strout[outChar++] = ' ';
 			lineChar = 2;
 		}
-		if (lineChar == charsPerLine && text[inChar] != '\r' && text[inChar] != '\n') {
+		if (lineChar == iCharsPerLine && text[inChar] != '\r' && text[inChar] != '\n') {
 			int decreasedBy;
 			for (decreasedBy = 0; lineChar > 10; lineChar--, inChar--, outChar--, decreasedBy++)
 				if (strout[outChar] == ' ' || strout[outChar] == '\t' || strout[outChar] == '-') break;
