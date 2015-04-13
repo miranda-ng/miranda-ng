@@ -35,7 +35,7 @@ int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CToxProto::OnUserInfoInit);
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);
 
-	//InitGroupChatModule();
+	//InitGroupChatModule
 
 	return 0;
 }
