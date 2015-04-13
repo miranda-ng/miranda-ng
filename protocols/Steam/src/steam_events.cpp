@@ -2,7 +2,7 @@
 
 int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, this);
+	HookProtoEvent(ME_OPT_INITIALISE, &CSteamProto::OnOptionsInit);
 	HookProtoEvent(ME_IDLE_CHANGED, &CSteamProto::OnIdleChanged);
 
 	TCHAR name[128];
@@ -34,36 +34,21 @@ INT_PTR CSteamProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)(CSteamOptionsMain::CreateAccountManagerPage(this, (HWND)lParam))->GetHwnd();
 }
 
-int CSteamProto::OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam)
+int CSteamProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
-	CSteamProto *instance = (CSteamProto*)obj;
-
-	char *title = mir_t2a(instance->m_tszUserName);
-
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInstance;
-	odp.pszTitle = title;
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszGroup = LPGEN("Network");
+	odp.ptszTitle = m_tszUserName;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.ptszGroup = LPGENT("Network");
 
-	odp.pszTab = LPGEN("Account");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
-	odp.pfnDlgProc = CSteamOptionsMain::DynamicDlgProc;
-	odp.dwInitParam = (LPARAM)&instance->SteamMainOptionsParam;
-	instance->SteamMainOptionsParam.create = CSteamOptionsMain::CreateOptionsPage;
-	instance->SteamMainOptionsParam.param = instance;
+	odp.ptszTab = LPGENT("Account");
+	odp.pDialog = new CSteamOptionsMain(this, IDD_OPT_MAIN);
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Blocked contacts");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_BLOCK_LIST);
-	odp.pfnDlgProc = CSteamOptionsMain::DynamicDlgProc;
-	odp.dwInitParam = (LPARAM)&instance->SteamBlockListOptionsParam;
-	instance->SteamBlockListOptionsParam.create = CSteamOptionsBlockList::CreateOptionsPage;
-	instance->SteamBlockListOptionsParam.param = instance;
+	odp.ptszTab = LPGENT("Blocked contacts");
+	odp.pDialog = new CSteamOptionsBlockList(this);
 	Options_AddPage(wParam, &odp);
-
-	mir_free(title);
-
 	return 0;
 }
 

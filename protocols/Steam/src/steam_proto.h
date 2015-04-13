@@ -246,10 +246,6 @@ protected:
 
 	void OnInitStatusMenu();
 
-	// options
-	CSteamDlgBase::CreateParam SteamMainOptionsParam;
-	CSteamDlgBase::CreateParam SteamBlockListOptionsParam;
-
 	// avatars
 	TCHAR* GetAvatarFilePath(MCONTACT hContact);
 	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &pai);
@@ -270,8 +266,8 @@ protected:
 	int OnModulesLoaded(WPARAM, LPARAM);
 	int OnPreShutdown(WPARAM, LPARAM);
 	int __cdecl OnIdleChanged(WPARAM, LPARAM);
+	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
-	static int __cdecl OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam);
 
 	// utils
 	static WORD SteamToMirandaStatus(int state);
