@@ -22,7 +22,7 @@ class GetSearchRequest : public HttpRequest
 {
 public:
 	GetSearchRequest(const char *token, const char *string) : 
-	  HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/search/users/any?keyWord=%s&contactTypes[]=skype", ptrA(mir_urlEncode(string)))
+	  HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/search/users/any?keyWord=%s&contactTypes[]=skype", string)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json")

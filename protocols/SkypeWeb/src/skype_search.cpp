@@ -29,9 +29,8 @@ void CSkypeProto::SearchBasicThread(void* id)
 	if (!IsOnline())
 		return;
 	ptrA token(getStringA("TokenSecret"));
-	//need to convert search string
-	char *string = mir_t2a((TCHAR*)id);
-	PushRequest(new GetSearchRequest(token, (char*)string), &CSkypeProto::OnSearch);
+	ptrA string(mir_urlEncode(ptrA(mir_utf8encodeT((TCHAR*)id))));
+	PushRequest(new GetSearchRequest(token, string), &CSkypeProto::OnSearch);
 }
 
 void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
