@@ -6,7 +6,7 @@
 
 DEFINE_GUIDXXX(IID_ITextDocument,0x8CC497C0,0xA1DF,0x11CE,0x80,0x98,0x00,0xAA,0x00,0x47,0xBE,0x5D);
 
-RichEdit::RichEdit(HWND hwnd) 
+RichEdit::RichEdit(HWND hwnd)
 	: hwnd(NULL), ole(NULL), textDocument(NULL), stopped(0), undoEnabled(TRUE)
 {
 	SetHWND(hwnd);
@@ -105,7 +105,7 @@ void RichEdit::Start()
 		stopped = 0;
 		return;
 	}
-	else if (stopped > 0)
+	if (stopped > 0)
 		return;
 
 	if (inverse) {
@@ -189,7 +189,7 @@ int RichEdit::GetTextLength() const
 	return GetWindowTextLength(hwnd);
 }
 
-TCHAR *RichEdit::GetText(int start, int end) const
+TCHAR* RichEdit::GetText(int start, int end) const
 {
 	if (end <= start)
 		end = GetTextLength();
@@ -200,18 +200,17 @@ TCHAR *RichEdit::GetText(int start, int end) const
 			return mir_tstrdup(_T(""));
 
 		BSTR text = NULL;
-		if (range->GetText(&text) != S_OK || text == NULL) {
+		if (FAILED(range->GetText(&text))) {
+			if (text)
+				::SysFreeString(text);
 			range->Release();
 			return mir_tstrdup(_T(""));
 		}
 
-		TCHAR *ret = mir_u2t(text);
-
-		SysFreeString(text);
-
+		TCHAR *res = mir_u2t(text);
 		range->Release();
-
-		return ret;
+		::SysFreeString(text);
+		return res;
 	}
 
 	int len = (GetTextLength() + 1);
