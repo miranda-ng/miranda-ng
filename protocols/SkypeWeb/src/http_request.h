@@ -53,7 +53,8 @@ struct FORMAT_VALUE : public VALUE
 
 class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 {
-private:
+	HttpRequest& operator=(const HttpRequest&); // to prevent copying;
+
 	va_list formatArgs;
 	CMStringA url;
 
@@ -78,6 +79,8 @@ protected:
 			request.url.AppendFormatV(urlFormat, args);
 			request.szUrl = request.url.GetBuffer();
 		}
+
+		HttpRequestUrl& operator=(const HttpRequestUrl&); // to prevent copying;
 
 	public:
 		HttpRequestUrl &operator<<(const VALUE &param)
@@ -106,7 +109,8 @@ protected:
 
 	class HttpRequestHeaders
 	{
-	private:
+		HttpRequestHeaders& operator=(const HttpRequestHeaders&); // to prevent copying;
+	
 		HttpRequest &request;
 
 		void Add(LPCSTR szName)
@@ -126,19 +130,19 @@ protected:
 	public:
 		HttpRequestHeaders(HttpRequest &request) : request(request) { }
 
-		HttpRequestHeaders & operator<<(const VALUE &param)
+		HttpRequestHeaders& operator<<(const VALUE &param)
 		{
 			Add(param.szName);
 			return *this;
 		}
 
-		HttpRequestHeaders & operator<<(const CHAR_VALUE &param)
+		HttpRequestHeaders& operator<<(const CHAR_VALUE &param)
 		{
 			Add(param.szName, param.szValue);
 			return *this;
 		}
 
-		HttpRequestHeaders & operator<<(const FORMAT_VALUE &param)
+		HttpRequestHeaders& operator<<(const FORMAT_VALUE &param)
 		{
 			Add(param.szName, param.szValue);
 			return *this;
