@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <commctrl.h>
 #include <time.h>
+#include <malloc.h>
 
 #include <newpluginapi.h>
 #include <m_clist.h>

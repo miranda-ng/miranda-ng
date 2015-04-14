@@ -145,10 +145,9 @@ int CheckDate(MCONTACT hContact)
 
 void SendPounce(TCHAR *text, MCONTACT hContact)
 {
-	char* pszUtf = mir_utf8encodeT(text);
+	ptrA pszUtf(mir_utf8encodeT(text));
 	if (HANDLE hSendId = (HANDLE)CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)pszUtf)) 
 		WindowList_Add(hWindowList, (HWND)hSendId, hContact);
-
 }
 
 int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)

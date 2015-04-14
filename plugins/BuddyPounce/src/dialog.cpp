@@ -227,12 +227,9 @@ INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			{
 				int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)) + 1;
 				if (length>1) {
-					TCHAR *text = (TCHAR*)mir_alloc(length*sizeof(TCHAR));
-					if (!text) {
-						msg(TranslateT("Couldn't allocate enough memory"), _T(""));
-						break;
-					}
+					TCHAR *text = (TCHAR*)_alloca(length*sizeof(TCHAR));
 					GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
+					db_set_ts(hContact, modname, "PounceMsg", text);
 				}
 				else db_unset(hContact, modname, "PounceMsg");
 			}
