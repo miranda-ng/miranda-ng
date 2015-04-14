@@ -243,8 +243,19 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 	}
 }
 
-int CSkypeProto::OnDbEventRead(WPARAM wParam, LPARAM lParam)
+int CSkypeProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 {
 	debugLogA(__FUNCTION__);
+	if (IsOnline())
+		MarkMessagesRead(hDbEvent);
 	return 0;
+}
+
+void CSkypeProto::MarkMessagesRead(MEVENT hDbEvent)
+{
+	debugLogA(__FUNCTION__);
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	db_event_get(hDbEvent, &dbei);
+	time_t timestamp = dbei.timestamp;
+	PushRequest(new MarkMessageReadRequest(ptrA(getStringA("registrationToken")), timestamp, ptrA(getStringA("Server"))));
 }

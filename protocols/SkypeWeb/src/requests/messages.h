@@ -98,8 +98,8 @@ public:
 class MarkMessageReadRequest : public HttpRequest
 {
 public:
-	MarkMessageReadRequest(const char *regToken, const char *username, LONGLONG msgId = 0, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages/%lld", server, ptrA(mir_urlEncode(username)), msgId)
+	MarkMessageReadRequest(const char *regToken, LONGLONG msgId = 0, const char *server = SKYPE_ENDPOINTS_HOST) :
+		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/ALL/messages/%lld/ack", server, msgId)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
