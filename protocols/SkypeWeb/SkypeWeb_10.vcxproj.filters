@@ -57,9 +57,6 @@
     <ClInclude Include="src\requests\endpoint.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
-    <ClInclude Include="src\requests\reg_info.h">
-      <Filter>Header Files\requests</Filter>
-    </ClInclude>
     <ClInclude Include="src\requests\search.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
@@ -85,6 +82,9 @@
       <Filter>Header Files\requests</Filter>
     </ClInclude>
     <ClInclude Include="src\requests\capabilities.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\requests\history.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
   </ItemGroup>

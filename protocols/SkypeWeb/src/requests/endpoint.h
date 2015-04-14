@@ -15,8 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _SKYPE_REQUEST_REGINFO_H_
-#define _SKYPE_REQUEST_REGINFO_H_
+#ifndef _SKYPE_REQUEST_ENDPOINT_H_
+#define _SKYPE_REQUEST_ENDPOINT_H_
 
 class CreateEndpointRequest : public HttpRequest
 {
@@ -33,4 +33,4 @@ public:
 	}
 };
 
-#endif //_SKYPE_REQUEST_STATUS_H_
+#endif //_SKYPE_REQUEST_ENDPOINT_H_

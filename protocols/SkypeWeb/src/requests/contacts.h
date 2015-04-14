@@ -100,9 +100,10 @@ public:
 	{
 		Headers
 			<< CHAR_VALUE("X-Skypetoken", token)
-			<< CHAR_VALUE("Accept", "application/json");
+			<< CHAR_VALUE("Accept", "application/json")
+			<< CHAR_VALUE("Content-type", "application/x-www-form-urlencoded");
 		CMStringA data;
-		data.AppendFormat("greeting=%s", mir_urlEncode(greeting));
+		data.AppendFormat("greeting=%s", ptrA(mir_urlEncode(greeting)));
 		Body << VALUE(data);
 	}
 };

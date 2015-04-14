@@ -76,6 +76,7 @@ struct CSkypeProto;
 #include "requests\capabilities.h"
 #include "requests\subscriptions.h"
 #include "requests\messages.h"
+#include "requests\history.h"
 #include "requests\poll.h"
 #include "requests\avatars.h"
 #include "requests\search.h"

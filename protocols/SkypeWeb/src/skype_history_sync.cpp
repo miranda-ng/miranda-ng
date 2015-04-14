@@ -53,9 +53,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 			if (isMe)
 				flags |= DBEF_SENT;
 
-			MCONTACT hContact = IsMe(skypename)
-				? FindContact(ptrA(ContactUrlToName(conversationLink)))
-				: FindContact(skypename);
+			MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
 
 			ptrA message(RemoveHtml(content));
 

@@ -38,7 +38,7 @@ public:
 
 	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
 	virtual	MCONTACT __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
-
+	virtual int      __cdecl AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage); 
 	virtual	int      __cdecl Authorize(MEVENT hDbEvent);
 	virtual	int      __cdecl AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason);
 	virtual	int      __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
@@ -74,7 +74,7 @@ public:
 
 	// events
 	static int OnModulesLoaded(WPARAM, LPARAM);
-
+	int __cdecl OnDbEventRead(WPARAM, LPARAM);
 	//search
 	void __cdecl SearchBasicThread(void* id);
 
@@ -223,8 +223,8 @@ private:
 	void OnChatEvent(JSONNODE *node);
 
 	//polling
-	void ParsePollData(JSONNODE *data);
 	void __cdecl PollingThread(void*);
+	void ParsePollData(JSONNODE *data);
 	void ProcessEndpointPresenceRes(JSONNODE *node);
 	void ProcessUserPresenceRes(JSONNODE *node);
 	void ProcessNewMessageRes(JSONNODE *node);
@@ -233,17 +233,20 @@ private:
 
 	// utils
 	bool IsOnline();
+	bool IsMe(const char *skypeName);
+
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 	time_t IsoToUnixTime(const TCHAR *stamp);
 	char *RemoveHtml(const char *text);
 	char *GetStringChunk(const char *haystack, size_t len, const char *start, const char *end);
-	bool IsMe(const char *skypeName);
+
 	int SkypeToMirandaStatus(const char *status);
 	char *MirandaToSkypeStatus(int status);
+
 	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
-	void SetServerStatus(int iNewStatus);
 	static bool IsFileExists(std::tstring path);
+
 	char *ChatUrlToName(const char *url);
 	char *ContactUrlToName(const char *url);
 	char *SelfUrlToName(const char *url);

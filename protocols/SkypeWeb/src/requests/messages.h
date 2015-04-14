@@ -28,7 +28,6 @@ public:
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
-
 		JSONNODE *node = json_new(5);
 		json_push_back(node, json_new_i("clientmessageid", timestamp));
 		json_push_back(node, json_new_a("messagetype", "RichText"));
@@ -79,7 +78,7 @@ public:
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8"); 
 
 		char *state = (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping";
 
@@ -96,11 +95,11 @@ public:
 	}
 };
 
-class GetHistoryRequest : public HttpRequest
+class MarkMessageReadRequest : public HttpRequest
 {
 public:
-	GetHistoryRequest(const char *regToken, const char *username, LONGLONG timestamp = 0, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages?startTime=%d&pageSize=100&view=msnp24Equivalent&targetType=Passport|Skype|Lync|Thread", server, ptrA(mir_urlEncode(username)), timestamp)
+	MarkMessageReadRequest(const char *regToken, const char *username, LONGLONG msgId = 0, const char *server = SKYPE_ENDPOINTS_HOST) :
+		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages/%lld", server, ptrA(mir_urlEncode(username)), msgId)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
@@ -108,18 +107,4 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 	}
 };
-
-class SyncHistoryFirstRequest : public HttpRequest
-{
-public:
-	SyncHistoryFirstRequest(const char *regToken, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations?startTime=0&pageSize=100&view=msnp24Equivalent&targetType=Passport|Skype|Lync|Thread", server)
-	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
-	}
-};
-
 #endif //_SKYPE_REQUEST_MESSAGES_H_
