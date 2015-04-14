@@ -202,7 +202,6 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			m_iStatus = ID_STATUS_CONNECTING;
 			requestQueue->Start();
 			int tokenExpires(getDword("TokenExpiresIn", 0));
-			debugLogA("%lli %lli", tokenExpires, time(NULL));
 			if ((tokenExpires - 1800) > time(NULL))
 				OnLoginSuccess();
 			else 
