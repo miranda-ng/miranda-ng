@@ -444,8 +444,8 @@ static INT_PTR TimestampToStringA(WPARAM wParam, LPARAM lParam)
 {
 	DBTIMETOSTRING *tts = (DBTIMETOSTRING*)lParam;
 	if (tts != NULL) {
-		TCHAR *szDest = (TCHAR*)alloca(tts->cbDest);
-		timeapiPrintTimeStamp(NULL, (mir_time)wParam, StrConvT(tts->szFormat), szDest, tts->cbDest, 0);
+		TCHAR *szDest = (TCHAR*)alloca(tts->cbDest*sizeof(TCHAR));
+		timeapiPrintTimeStamp(NULL, (mir_time)wParam, _A2T(tts->szFormat), szDest, tts->cbDest, 0);
 		WideCharToMultiByte(CP_ACP, 0, szDest, -1, tts->szDest, tts->cbDest, NULL, NULL);
 	}
 	return 0;
