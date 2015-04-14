@@ -84,13 +84,13 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 	std::string token = match[1];
 	setString("TokenSecret", token.c_str());
 
-	/*regex = "<input type=\"hidden\" name=\"expires_in\" value=\"(.+?)\"/>";
+	regex = "<input type=\"hidden\" name=\"expires_in\" value=\"(.+?)\"/>";
 	if (std::regex_search(content, match, regex))
 	{
 		std::string expiresIn = match[1];
 		int seconds = atoi(expiresIn.c_str());
 		setDword("TokenExpiresIn", time(NULL) + seconds);
-	}*/
+	}
 
 	for (int i = 0; i < response->headersCount; i++)
 	{
@@ -102,13 +102,15 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 		if (std::regex_search(content, match, regex))
 			cookies[match[1]] = match[2];
 	}
+	OnLoginSuccess();
+}
 
-	PushRequest(new CreateEndpointRequest(token.c_str()), &CSkypeProto::OnEndpointCreated);
-
-	PushRequest(new GetProfileRequest(token.c_str()), &CSkypeProto::LoadProfile);
-	ptrA szUrl(getStringA("AvatarUrl"));
-	PushRequest(new GetAvatarRequest(szUrl), &CSkypeProto::OnReceiveAvatar, NULL);
-	PushRequest(new GetContactListRequest(token.c_str()), &CSkypeProto::LoadContactList);
+void CSkypeProto::OnLoginSuccess()
+{
+	PushRequest(new CreateEndpointRequest(ptrA(getStringA("TokenSecret"))), &CSkypeProto::OnEndpointCreated);
+	PushRequest(new GetProfileRequest(ptrA(getStringA("TokenSecret"))), &CSkypeProto::LoadProfile);
+	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
+	PushRequest(new GetContactListRequest(ptrA(getStringA("TokenSecret"))), &CSkypeProto::LoadContactList);
 }
 
 void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)

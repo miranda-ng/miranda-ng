@@ -131,6 +131,7 @@ private:
 	// login
 	void OnLoginFirst(const NETLIBHTTPREQUEST *response);
 	void OnLoginSecond(const NETLIBHTTPREQUEST *response);
+	void OnLoginSuccess();
 	void OnEndpointCreated(const NETLIBHTTPREQUEST *response);
 	void OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response);
 	void OnStatusChanged(const NETLIBHTTPREQUEST *response);

@@ -74,6 +74,7 @@ void CSkypeProto::PollingThread(void*)
 		if (response == NULL)
 		{
 			errors++;
+			delete request;
 			continue;
 		}
 
