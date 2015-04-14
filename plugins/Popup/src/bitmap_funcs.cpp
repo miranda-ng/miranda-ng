@@ -633,7 +633,7 @@ HRGN MyBitmap::buildOpaqueRgn(int level, bool opaque)
 						rectsCount += addRectsCount;
 						LPRGNDATA pRgnDataNew = (LPRGNDATA)(new BYTE[sizeof(RGNDATAHEADER) + (rectsCount)*sizeof(RECT)]);
 						memcpy(pRgnDataNew, pRgnData, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount * sizeof(RECT));
-						delete pRgnData;
+						delete[] pRgnData;
 						pRgnData = pRgnDataNew;
 						pRects = (LPRECT)(&pRgnData->Buffer);
 					}
