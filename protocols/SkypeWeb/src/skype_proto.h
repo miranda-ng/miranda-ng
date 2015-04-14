@@ -198,7 +198,10 @@ private:
 	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
+	void MarkMessagesRead(MEVENT hDbEvent);
+
 	void OnPrivateMessageEvent(JSONNODE *node);
+
 
 	// sync
 	void OnGetServerHistory(const NETLIBHTTPREQUEST *response);
