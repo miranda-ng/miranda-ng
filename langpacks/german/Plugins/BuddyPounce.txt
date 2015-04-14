@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.1
+;  Version: 0.3.2.2
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -109,10 +109,10 @@ Zu Am Telefon
 Zu Zum Essen
 [The Message    (%d Characters)]
 Die Nachricht   (%d Zeichen)
-[Couldn't allocate enough memory]
-Konnte nicht genig Speicher allokieren.
 [error......]
 fehler...
+[Couldn't allocate enough memory]
+Konnte nicht genig Speicher allokieren.
 [The Message    (0 Characters)]
 Die Nachricht   (0 Zeichen)
 [Reuse this message? (0 to use it once)]

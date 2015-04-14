@@ -22,6 +22,16 @@ Sonstiges
 
 [Use local time for received messages]
 Lokale Zeit für empfangene Nachrichten verwenden
+[Mark message as read...]
+
+[on read]
+
+[on receive]
+
+[on reply]
+
+[on typing]
+
 [Enter password]
 Passwort eingeben
 [Save password]

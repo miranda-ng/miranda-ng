@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.12
+;  Version: 0.1.2.13
 ;  Authors: Uli Hecht
 ;============================================================
 [Nickname]
@@ -11,9 +11,9 @@ Apodo
 Cancelar
 [Please enter a password.]
 Por favor, introduzca una contraseña.
-[%s server connection]
-%s conexión al servidor
 [Network]
 Red
 [Account]
 Cuenta
+[%s server connection]
+%s conexión al servidor

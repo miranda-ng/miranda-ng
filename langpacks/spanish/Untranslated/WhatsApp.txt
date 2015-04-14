@@ -17,7 +17,7 @@
 [&Invite a user]
 [&Room options]
 [View/change &topic]
-[&Leave chat session]
+[&Quit chat session]
 [Set &avatar]
 [Copy room &JID]
 [Copy room topic]

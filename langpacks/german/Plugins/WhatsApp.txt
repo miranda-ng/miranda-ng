@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.12
+;  Version: 0.1.2.13
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -92,6 +92,10 @@ Ihr Passwort wurde automatisch gesetzt. Sie können sich nun anmelden.
 Bitte geben Sie den korrekten Registrierungscode aus der SMS an.
 [Changes will be applied after protocol restart]
 Änderungen werden erst nach einem Neustart des Protokolls aktiv.
+[Network]
+Netzwerk
+[Account]
+Konto
 ;file \protocols\WhatsApp\src\messages.cpp
 [server]
 Server
@@ -114,10 +118,6 @@ Registrierung fehlgeschlagen.
 Bitte versuchen Sie es in %i Sekunden erneut
 [Registration code has been sent to your phone.]
 Registrierungscode wurde an Ihr Telefon geschickt.
-[Network]
-Netzwerk
-[Account]
-Konto
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
 WhatsApp Icon

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.12
+;  Version: 0.1.2.13
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -92,6 +92,10 @@ S'il vous plaît entrer un mot de passe.
 
 [Changes will be applied after protocol restart]
 
+[Network]
+Réseau
+[Account]
+Compte
 ;file \protocols\WhatsApp\src\messages.cpp
 [server]
 
@@ -114,10 +118,6 @@ S'il vous plaît entrer un mot de passe.
 
 [Registration code has been sent to your phone.]
 
-[Network]
-Réseau
-[Account]
-Compte
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
 
