@@ -744,16 +744,14 @@ STDMETHODIMP IEView::ProcessUrlAction(LPCWSTR pwszUrl, DWORD dwAction, BYTE *pPo
 			//dwPolicy = URLPOLICY_DISALLOW;
 			//dwPolicy = URLPOLICY_ALLOW;
 		}
-		else {
-			return INET_E_DEFAULT_ACTION;
-		}
+		else return INET_E_DEFAULT_ACTION;
+
 		if (cbPolicy >= sizeof(DWORD)) {
 			*(DWORD*)pPolicy = dwPolicy;
 			return S_OK;
 		}
-		else {
-			return S_FALSE;
-		}
+
+		return S_FALSE;
 	}
 	return INET_E_DEFAULT_ACTION;
 }
@@ -841,28 +839,7 @@ void IEView::scrollToBottomSoft()
 }
 
 void IEView::scrollToBottom()
-{/*
-	IHTMLDocument2 *document = getDocument();
-	if (document != NULL) {
-	wchar_t *p = NULL;
-	if (SUCCEEDED(document->get_readyState(&p))) {
-	int licznik = 0;
-	do {
-	if (FAILED(document->get_readyState(&p))) {
-	break;
-	}
-	licznik++;
-	if (licznik == 1) break;
-	Sleep(10);
-	} while (!wcscmp(p, L"loading"));
-	}
-	IHTMLWindow2* pWindow = NULL;
-	if (SUCCEEDED(document->get_parentWindow( &pWindow )) && pWindow != NULL) {
-	pWindow->scrollBy( 0, 0x01FFFFFF );
-	}
-	document->Release();
-	}*/
-
+{
 	IHTMLDocument2 *document = getDocument();
 	if (document != NULL) {
 		IHTMLElementCollection *collection;
@@ -900,17 +877,16 @@ void IEView::write(const wchar_t *text)
 {
 	IHTMLDocument2 *document = getDocument();
 	if (document != NULL) {
-		SAFEARRAY *safe_array = SafeArrayCreateVector(VT_VARIANT, 0, 1);
+		SAFEARRAY *safe_array = ::SafeArrayCreateVector(VT_VARIANT, 0, 1);
 		if (safe_array != NULL) {
-			VARIANT	*variant;
-			BSTR bstr;
-			SafeArrayAccessData(safe_array, (LPVOID *)&variant);
+			VARIANT *variant;
+			::SafeArrayAccessData(safe_array, (LPVOID *)&variant);
 			variant->vt = VT_BSTR;
-			variant->bstrVal = bstr = SysAllocString(text);
-			SafeArrayUnaccessData(safe_array);
+			BSTR bstr = variant->bstrVal = ::SysAllocString(text);
+			::SafeArrayUnaccessData(safe_array);
 			document->write(safe_array);
-			//SysFreeString(bstr); -> SafeArrayDestroy should be enough 
-			SafeArrayDestroy(safe_array);
+			::SysFreeString(bstr);
+			::SafeArrayDestroy(safe_array);
 		}
 		document->Release();
 	}
@@ -1036,8 +1012,7 @@ void IEView::clear(IEVIEWEVENT *event)
 
 void* IEView::getSelection(IEVIEWEVENT *event)
 {
-	mir_free(selectedText);
-	selectedText = getSelection();
+	replaceStrT(selectedText, getSelection());
 	if (selectedText == NULL || wcslen(selectedText) == 0)
 		return NULL;
 
@@ -1080,9 +1055,9 @@ void IEView::translateAccelerator(UINT uMsg, WPARAM wParam, LPARAM lParam)
 /**
  * Returns the selected text within the active document
  **/
-BSTR IEView::getSelection()
+WCHAR* IEView::getSelection()
 {
-	BSTR text = NULL;
+	TCHAR *res = NULL;
 	IHTMLDocument2 *document = getDocument();
 	if (document != NULL) {
 		IHTMLSelectionObject *pSelection = NULL;
@@ -1091,8 +1066,11 @@ BSTR IEView::getSelection()
 			if (SUCCEEDED(pSelection->createRange(&pDisp)) && pDisp != NULL) {
 				IHTMLTxtRange *pRange = NULL;
 				if (SUCCEEDED(pDisp->QueryInterface(IID_IHTMLTxtRange, (void**)&pRange))) {
-					if (SUCCEEDED(pRange->get_text(&text)))
-						text = mir_tstrdup(text);
+					BSTR text = NULL;
+					if (SUCCEEDED(pRange->get_text(&text))) {
+						res = mir_wstrdup(text);
+						::SysFreeString(text);
+					}
 
 					pRange->Release();
 				}
@@ -1102,14 +1080,14 @@ BSTR IEView::getSelection()
 		}
 		document->Release();
 	}
-	return text;
+	return res;
 }
 
 
 /**
  * Returns the destination url (href) of the given anchor element (or parent anchor element)
  **/
-BSTR IEView::getHrefFromAnchor(IHTMLElement *element)
+WCHAR* IEView::getHrefFromAnchor(IHTMLElement *element)
 {
 	if (element != NULL) {
 		IHTMLAnchorElement * pAnchor;
@@ -1117,25 +1095,19 @@ BSTR IEView::getHrefFromAnchor(IHTMLElement *element)
 			VARIANT	variant;
 			BSTR url = NULL;
 			if (SUCCEEDED(element->getAttribute(L"href", 2, &variant)) && (variant.vt == VT_BSTR)) {
-				url = mir_tstrdup(variant.bstrVal);
+				url = mir_wstrdup(variant.bstrVal);
 				SysFreeString(variant.bstrVal);
 			}
-			//pAnchor->get_href( &url );
-			//			if (url!=NULL) {
-			//			url2 = Utils::dupString(url);
-			//			SysFreeString(url);
-			//			url = url2;
-			//		}
+
 			pAnchor->Release();
 			return url;
 		}
-		else {
-			IHTMLElement * parent;
-			if (SUCCEEDED(element->get_parentElement(&parent)) && (parent != NULL)) {
-				BSTR url = getHrefFromAnchor(parent);
-				parent->Release();
-				return url;
-			}
+
+		IHTMLElement *parent;
+		if (SUCCEEDED(element->get_parentElement(&parent)) && (parent != NULL)) {
+			BSTR url = getHrefFromAnchor(parent);
+			parent->Release();
+			return url;
 		}
 	}
 	return NULL;
@@ -1152,25 +1124,18 @@ bool IEView::mouseActivate()
 bool IEView::mouseClick(POINT pt)
 {
 	bool result = false;
-	if (GetFocus() != hwnd) {
+	if (GetFocus() != hwnd)
 		getFocus = true;
-	}
+
 	IHTMLDocument2 *document = getDocument();
 	if (document != NULL) {
 		IHTMLElement *element;
 		if (SUCCEEDED(document->elementFromPoint(pt.x, pt.y, &element)) && element != NULL) {
-			//		IHTMLAnchorElement * pAnchor;
-			//			if (SUCCEEDED(element->QueryInterface(IID_IHTMLAnchorElement, (void**)&pAnchor)) && (pAnchor!=NULL)) {
-			//				element->click();
-			//				result = true;
-			//				pAnchor->Release();
-			//			}
-			BSTR url = getHrefFromAnchor(element);
+			WCHAR *url = getHrefFromAnchor(element);
 			if (url != NULL) {
-				if ((GetKeyState(VK_SHIFT) & 0x8000) && !(GetKeyState(VK_CONTROL) & 0x8000)
-					&& !(GetKeyState(VK_MENU) & 0x8000)) {
+				if ((GetKeyState(VK_SHIFT) & 0x8000) && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_MENU) & 0x8000))
 					SendMessage(GetParent(hwnd), WM_COMMAND, IDCANCEL, 0);
-				}
+
 				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)url);
 				mir_free(url);
 				result = true;

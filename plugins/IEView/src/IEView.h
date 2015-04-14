@@ -509,50 +509,50 @@ private:
 	STDMETHOD(GetZoneMappings)(DWORD dwZone, IEnumString **ppenumString, DWORD dwFlags);
 
 	IHTMLDocument2 *getDocument();
-	BSTR			getHrefFromAnchor(IHTMLElement *element);
-	BSTR			getSelection();
-	void			setBorder();
+	WCHAR*  getHrefFromAnchor(IHTMLElement *element);
+	WCHAR*  getSelection();
+	void    setBorder();
 protected:
-	void			navigate(const char *);
-	void			navigate(const wchar_t *);
+	void    navigate(const char *);
+	void    navigate(const wchar_t *);
 public:
 	IEView(HWND parent, HTMLBuilder* builder, int x, int y, int cx, int cy);
 	//	IEView::IEView(HWND parent, SmileyWindow* smileyWindow, int x, int y, int cx, int cy);
 	virtual ~IEView();
 
-	void			waitWhileBusy();
-	HWND			getHWND();
-	void 			translateAccelerator(UINT uMsg, WPARAM wParam, LPARAM lParam);
-	bool			mouseClick(POINT pt);
-	bool			mouseActivate();
-	bool			setFocus(HWND prevFocus);
-	void			setWindowPos(int x, int y, int cx, int cy);
-	HTMLBuilder*    getBuilder();
+	void    waitWhileBusy();
+	HWND    getHWND();
+	void    translateAccelerator(UINT uMsg, WPARAM wParam, LPARAM lParam);
+	bool    mouseClick(POINT pt);
+	bool    mouseActivate();
+	bool    setFocus(HWND prevFocus);
+	void    setWindowPos(int x, int y, int cx, int cy);
+	HTMLBuilder* getBuilder();
 
-	void			write(const wchar_t *text);
-	void			write(const char *text);
-	void			writef(const char *fmt, ...);
-	void			documentClose();
-	void			rebuildLog();
-	void			scrollToBottom();
-	void			scrollToBottomSoft();
-	void			scrollToTop();
+	void    write(const wchar_t *text);
+	void    write(const char *text);
+	void    writef(const char *fmt, ...);
+	void    documentClose();
+	void    rebuildLog();
+	void    scrollToBottom();
+	void    scrollToBottomSoft();
+	void    scrollToTop();
 
-	void            setMainWndProc(WNDPROC);
-	WNDPROC         getMainWndProc();
-	void            setDocWndProc(WNDPROC);
-	WNDPROC         getDocWndProc();
-	void            setServerWndProc(WNDPROC);
-	WNDPROC         getServerWndProc();
+	void    setMainWndProc(WNDPROC);
+	WNDPROC getMainWndProc();
+	void    setDocWndProc(WNDPROC);
+	WNDPROC getDocWndProc();
+	void    setServerWndProc(WNDPROC);
+	WNDPROC getServerWndProc();
 
-	void            appendEventOld(IEVIEWEVENT * event);
-	void            appendEvent(IEVIEWEVENT * event);
-	void            clear(IEVIEWEVENT * event);
-	void*           getSelection(IEVIEWEVENT * event);
-	void            navigate(IEVIEWNAVIGATE * nav);
-	void            saveDocument();
+	void    appendEventOld(IEVIEWEVENT * event);
+	void    appendEvent(IEVIEWEVENT * event);
+	void    clear(IEVIEWEVENT * event);
+	void*   getSelection(IEVIEWEVENT * event);
+	void    navigate(IEVIEWNAVIGATE * nav);
+	void    saveDocument();
 
-	void			setContact(MCONTACT hContact);
+	void    setContact(MCONTACT hContact);
 
 	static IEView*	get(HWND);
 	static void		init();
