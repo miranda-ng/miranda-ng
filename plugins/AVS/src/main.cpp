@@ -47,7 +47,7 @@ static int ComparePicture(const protoPicCacheEntry* p1, const protoPicCacheEntry
 {
 	if ((mir_strcmp(p1->szProtoname, "Global avatar") == 0) || strstr(p1->szProtoname, "Global avatar"))
 		return -1;
-	if ((mir_strcmp(p2->szProtoname, "Global avatar") == 0) || strstr(p1->szProtoname, "Global avatar"))
+	if ((mir_strcmp(p2->szProtoname, "Global avatar") == 0) || strstr(p2->szProtoname, "Global avatar"))
 		return 1;
 	return mir_strcmp(p1->szProtoname, p2->szProtoname);
 }
@@ -56,7 +56,7 @@ OBJLIST<protoPicCacheEntry>
 g_ProtoPictures(10, ComparePicture),
 g_MyAvatars(10, ComparePicture);
 
-char* g_szMetaName = NULL;
+char *g_szMetaName = NULL;
 
 // Stores the id of the dialog
 
@@ -182,7 +182,6 @@ static int OnAccChanged(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case PRAC_REMOVED:
-	{
 		int idx;
 		protoPicCacheEntry tmp;
 		tmp.szProtoname = mir_strdup(pa->szModuleName);
@@ -190,8 +189,7 @@ static int OnAccChanged(WPARAM wParam, LPARAM lParam)
 			g_ProtoPictures.remove(idx);
 		if ((idx = g_MyAvatars.getIndex(&tmp)) != -1)
 			g_MyAvatars.remove(idx);
-	}
-	break;
+		break;
 	}
 
 	return 0;
@@ -227,20 +225,16 @@ static int ShutdownProc(WPARAM, LPARAM)
 
 void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bmHeight, DWORD dwFlags)
 {
-	float dScale = 0;
-	int newHeight, newWidth;
-	HDC hdcAvatar;
-	HBITMAP hbmMem;
-	DWORD topoffset = 0, leftoffset = 0;
-	HRGN rgn = 0, oldRgn = 0;
 	int targetWidth = r->rcDraw.right - r->rcDraw.left;
 	int targetHeight = r->rcDraw.bottom - r->rcDraw.top;
-	BLENDFUNCTION bf = { 0 };
 
-	hdcAvatar = CreateCompatibleDC(r->hTargetDC);
-	hbmMem = (HBITMAP)SelectObject(hdcAvatar, hbm);
+	HDC hdcAvatar = CreateCompatibleDC(r->hTargetDC);
+	HBITMAP hbmMem = (HBITMAP)SelectObject(hdcAvatar, hbm);
 
+	float dScale;
+	int newHeight, newWidth;
 	if ((r->dwFlags & AVDRQ_DONTRESIZEIFSMALLER) && bmHeight <= targetHeight && bmWidth <= targetWidth) {
+		dScale = 0;
 		newHeight = bmHeight;
 		newWidth = bmWidth;
 	}
@@ -255,18 +249,18 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 		newHeight = (int)(bmHeight * dScale);
 	}
 
-	topoffset = targetHeight > newHeight ? (targetHeight - newHeight) / 2 : 0;
-	leftoffset = targetWidth > newWidth ? (targetWidth - newWidth) / 2 : 0;
+	DWORD topoffset = targetHeight > newHeight ? (targetHeight - newHeight) / 2 : 0;
+	DWORD leftoffset = targetWidth > newWidth ? (targetWidth - newWidth) / 2 : 0;
 
 	// create the region for the avatar border - use the same region for clipping, if needed.
-
-	oldRgn = CreateRectRgn(0, 0, 1, 1);
+	HRGN oldRgn = CreateRectRgn(0, 0, 1, 1);
 
 	if (GetClipRgn(r->hTargetDC, oldRgn) != 1) {
 		DeleteObject(oldRgn);
 		oldRgn = NULL;
 	}
 
+	HRGN rgn;
 	if (r->dwFlags & AVDRQ_ROUNDEDCORNER)
 		rgn = CreateRoundRectRgn(r->rcDraw.left + leftoffset, r->rcDraw.top + topoffset, r->rcDraw.left + leftoffset + newWidth + 1, r->rcDraw.top + topoffset + newHeight + 1, 2 * r->radius, 2 * r->radius);
 	else
@@ -274,6 +268,7 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 
 	ExtSelectClipRgn(r->hTargetDC, rgn, RGN_AND);
 
+	BLENDFUNCTION bf = { 0 };
 	bf.SourceConstantAlpha = r->alpha > 0 ? r->alpha : 255;
 	bf.AlphaFormat = dwFlags & AVS_PREMULTIPLIED ? AC_SRC_ALPHA : 0;
 
@@ -282,19 +277,13 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 	//else
 	//	FillRect(r->hTargetDC, &r->rcDraw, (HBRUSH)GetStockObject(BLACK_BRUSH));
 
-	if (r->dwFlags & AVDRQ_FORCEFASTALPHA && !(r->dwFlags & AVDRQ_AERO)) {
-		GdiAlphaBlend(
-			r->hTargetDC, r->rcDraw.left + leftoffset, r->rcDraw.top + topoffset, newWidth, newHeight,
-			hdcAvatar, 0, 0, bmWidth, bmHeight, bf);
-	}
+	if (r->dwFlags & AVDRQ_FORCEFASTALPHA && !(r->dwFlags & AVDRQ_AERO))
+		GdiAlphaBlend(r->hTargetDC, r->rcDraw.left + leftoffset, r->rcDraw.top + topoffset, newWidth, newHeight, hdcAvatar, 0, 0, bmWidth, bmHeight, bf);
 	else {
-		if (bf.SourceConstantAlpha == 255 && bf.AlphaFormat == 0 && !(r->dwFlags & AVDRQ_FORCEALPHA) && !(r->dwFlags & AVDRQ_AERO)) {
+		if (bf.SourceConstantAlpha == 255 && bf.AlphaFormat == 0 && !(r->dwFlags & AVDRQ_FORCEALPHA) && !(r->dwFlags & AVDRQ_AERO))
 			StretchBlt(r->hTargetDC, r->rcDraw.left + leftoffset, r->rcDraw.top + topoffset, newWidth, newHeight, hdcAvatar, 0, 0, bmWidth, bmHeight, SRCCOPY);
-		}
 		else {
-			/*
-			* get around SUCKY AlphaBlend() rescaling quality...
-			*/
+			// get around SUCKY AlphaBlend() rescaling quality...
 			FIBITMAP *fb = fei->FI_CreateDIBFromHBITMAP(hbm);
 			FIBITMAP *fbResized = fei->FI_Rescale(fb, newWidth, newHeight, FILTER_BICUBIC);
 			HBITMAP hbmResized = fei->FI_CreateHBITMAPFromDIB(fbResized);
@@ -333,11 +322,10 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	int i;
 	TCHAR szEventName[100];
-
 	mir_sntprintf(szEventName, SIZEOF(szEventName), _T("avs_loaderthread_%d"), GetCurrentThreadId());
 	hLoaderEvent = CreateEvent(NULL, TRUE, FALSE, szEventName);
+
 	SetThreadPriority(mir_forkthread(PicLoader, 0), THREAD_PRIORITY_IDLE);
 
 	// Folders plugin support
@@ -346,18 +334,19 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	g_AvatarHistoryAvail = ServiceExists(MS_AVATARHISTORY_ENABLED);
 
-	PROTOACCOUNT **accs = NULL;
 	int accCount;
+	PROTOACCOUNT **accs = NULL;
 	ProtoEnumAccounts(&accCount, &accs);
 
 	if (fei != NULL) {
 		LoadDefaultInfo();
-		PROTOCOLDESCRIPTOR** proto;
+
 		int protoCount;
+		PROTOCOLDESCRIPTOR **proto;
 		CallService(MS_PROTO_ENUMPROTOS, (WPARAM)&protoCount, (LPARAM)&proto);
-		for (i = 0; i < protoCount; i++)
+		for (int i = 0; i < protoCount; i++)
 			LoadProtoInfo(proto[i]);
-		for (i = 0; i < accCount; i++)
+		for (int i = 0; i < accCount; i++)
 			LoadAccountInfo(accs[i]);
 	}
 

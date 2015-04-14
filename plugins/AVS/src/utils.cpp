@@ -257,7 +257,8 @@ int GetFileHash(TCHAR* filename)
 					remainder = (remainder << 1);
 			}
 		}
-	} while (dwRead == 1024);
+	}
+		while (dwRead == 1024);
 
 	CloseHandle(hFile);
 
