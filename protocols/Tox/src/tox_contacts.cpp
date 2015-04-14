@@ -216,6 +216,36 @@ INT_PTR CToxProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM)
+{
+	if (!IsOnline())
+	{
+		return -1;
+	}
+
+	if (!isChatRoom(hContact))
+	{
+		int32_t friendNumber = GetToxFriendNumber(hContact);
+		TOX_ERR_FRIEND_DELETE error;
+		if (!tox_friend_delete(tox, friendNumber, &error))
+		{
+			debugLogA(__FUNCTION__": failed to delete friend (%d)", error);
+			return error;
+		}
+	}
+	/*else
+	{
+	OnLeaveChatRoom(hContact, 0);
+	int groupNumber = 0; // ???
+	if (groupNumber == TOX_ERROR || tox_del_groupchat(tox, groupNumber) == TOX_ERROR)
+	{
+	return 1;
+	}
+	}*/
+
+	return 0;
+}
+
 void CToxProto::OnFriendRequest(Tox*, const uint8_t *pubKey, const uint8_t *message, size_t length, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;

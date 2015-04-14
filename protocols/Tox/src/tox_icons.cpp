@@ -2,7 +2,8 @@
 
 IconInfo CToxProto::Icons[] =
 {
-	{ LPGENT("Protocol icon"),			"main",				IDI_TOX },
+	{ LPGENT("Protocol icon"),			"main",				IDI_TOX			},
+	{ LPGENT("Audio call"),				"audio_call",		IDI_AUDIO_CALL	},
 };
 
 void CToxProto::InitIcons()
@@ -27,18 +28,15 @@ void CToxProto::InitIcons()
 		sid.ptszDescription = Icons[i].Description;
 		sid.iDefaultIndex = -Icons[i].IconId;
 		Icons[i].Handle = Skin_AddIcon(&sid);
-	}	
+	}
 }
 
 HANDLE CToxProto::GetIconHandle(const char *name)
 {
 	for (size_t i = 0; i < SIZEOF(Icons); i++)
-	{
 		if (mir_strcmpi(Icons[i].Name, name) == 0)
-		{
 			return Icons[i].Handle;
-		}
-	}
+
 	return 0;
 }
 
@@ -48,16 +46,13 @@ HANDLE CToxProto::GetSkinIconHandle(const char *name)
 	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, name);
 	HANDLE hIcon = Skin_GetIconHandle(iconName);
 	if (hIcon == NULL)
-	{
 		hIcon = GetIconHandle(name);
-	}
+
 	return hIcon;
 }
 
 void CToxProto::UninitIcons()
 {
 	for (size_t i = 0; i < SIZEOF(Icons); i++)
-	{
 		Skin_RemoveIcon(Icons[i].Name);
-	}
 }

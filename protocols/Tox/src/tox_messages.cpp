@@ -27,7 +27,7 @@ void CToxProto::OnFriendMessage(Tox*, uint32_t friendNumber, TOX_MESSAGE_TYPE ty
 	recv.timestamp = time(NULL);
 	recv.szMessage = rawMessage;
 	recv.lParam = type == TOX_MESSAGE_TYPE_NORMAL
-		? EVENTTYPE_MESSAGE : TOX_DB_EVENT_TYPE_ACTION;
+		? EVENTTYPE_MESSAGE : DB_EVENT_ACTION;
 
 	ProtoChainRecvMsg(hContact, &recv);
 
@@ -117,7 +117,7 @@ int CToxProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 	memcpy(action, &evt->dbei->pBlob[4], evt->dbei->cbBlob);
 	mir_free(evt->dbei->pBlob);
 	evt->dbei->pBlob = action;
-	evt->dbei->eventType = TOX_DB_EVENT_TYPE_ACTION;
+	evt->dbei->eventType = DB_EVENT_ACTION;
 
 	return 0;
 }

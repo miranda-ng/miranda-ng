@@ -19,7 +19,6 @@
 
 #include <m_database.h>
 #include <m_langpack.h>
-#include <m_clist.h>
 #include <m_options.h>
 #include <m_netlib.h>
 #include <m_popup.h>
@@ -32,6 +31,7 @@
 #include <m_chat.h>
 #include <m_genmenu.h>
 #include <m_clc.h>
+#include <m_clist.h>
 #include <m_clistint.h>
 #include <m_gui.h>
 
@@ -57,7 +57,7 @@ struct CToxProto;
 
 extern HINSTANCE g_hInstance;
 
-#define MODULE "TOX"
+#define MODULE "Tox"
 
 #define TOX_ERROR -1
 
@@ -81,7 +81,13 @@ extern HINSTANCE g_hInstance;
 #define TOX_SETTINGS_NODE_PKEY TOX_SETTINGS_NODE_PREFIX"%d_PubKey"
 #define TOX_SETTINGS_NODE_COUNT TOX_SETTINGS_NODE_PREFIX"Count"
 
-#define TOX_DB_EVENT_TYPE_ACTION 10001
+enum TOX_DB_EVENT
+{
+	DB_EVENT_ACTION = 10001,
+	DB_EVENT_AUDIO_CALL = 20001
+};
+
+#define PSR_AUDIO "/RecvAudio"
 
 #define TOX_MAX_AVATAR_SIZE 1024 * 1024
 

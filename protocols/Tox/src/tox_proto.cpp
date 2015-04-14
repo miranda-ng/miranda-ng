@@ -12,13 +12,8 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 
 	SetAllContactsStatus(ID_STATUS_OFFLINE);
 
-	// custom event
-	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
-	dbEventType.module = m_szModuleName;
-	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
-	dbEventType.eventType = TOX_DB_EVENT_TYPE_ACTION;
-	dbEventType.descr = Translate("Action");
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+	// services
+	CreateProtoService(PSR_AUDIO, &CToxProto::OnRecvAudioCall);
 
 	// avatars
 	CreateProtoService(PS_GETAVATARCAPS, &CToxProto::GetAvatarCaps);

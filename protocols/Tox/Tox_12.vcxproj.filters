@@ -168,5 +168,8 @@
     <Image Include="res\icons\tox.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
+    <Image Include="res\icons\audio_call.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
   </ItemGroup>
 </Project>
