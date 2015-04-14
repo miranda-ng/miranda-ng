@@ -440,10 +440,10 @@ Demande de la liste de commande. Veuillez patienter...
 [Sending Ad-Hoc command to %s]
 
 ;file \protocols\JabberG\src\jabber_agent.cpp
-[No message]
-Pas de message
 [Jabber Agent Registration]
 Enregistrement des Services Jabber
+[No message]
+Pas de message
 [Register]
 Enregistrer
 [Please wait...]

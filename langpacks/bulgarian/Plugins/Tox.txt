@@ -2,29 +2,23 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.8
+;  Version: 0.11.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Tox в Miranda NG.
+[Tox ID:]
+Tox ID:
 [Name:]
 Име:
 [Password:]
 Парола:
 [Default group:]
 Станд. група:
-[C]
-Ко
-[Tox ID:]
-Tox ID:
-[Connection settings]
-Настройки за свързване
-[Disable UDP (force Tox to use TCP)]
-Изключване на UDP (налага ползването на TCP от Tox)
-[Disable IPv6]
-Изключване на IPv6
 [Tox]
 Tox
+[Connection settings]
+Настройки за свързване
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Ако полето съдържа Tox адрес (76 шестнадесетични символа), ще бъдете запитани дали да бъде добавен към списъка с приятели. В противен случай Miranda ще търси чрез DNS запитване.
 [Dns name:]

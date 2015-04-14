@@ -49,8 +49,8 @@ Einen Benutzer e&inladen
 &Raumeinstellungen
 [View/change &topic]
 &Thema ansehen/ändern
-[&Leave chat session]
-Chatsitzung ver&lassen
+[&Quit chat session]
+
 [Set &avatar]
 &Avatar setzen
 [Copy room &JID]

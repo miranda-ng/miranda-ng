@@ -2,34 +2,44 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.8
+;  Version: 0.11.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Tox-Protokollunterstützung für Miranda NG.
 ;file \protocols\Tox\res\resource.rc
+[Tox ID:]
+Tox-ID:
+[Create]
+Erstellen
+[Import]
+Importieren
+[Copy ID]
+ID kopieren
+[Export]
+Exportieren
 [Name:]
 Name:
 [Password:]
 Passwort:
 [Default group:]
 Standardgruppe:
-[C]
-K
-[Tox ID:]
-Tox-ID:
-[Import tox profile]
-Tox-Profil importieren
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
-Ihr Tox-Profil enthält Ihre ID und Freundesliste.\r\nSie können ein existierendes Profil aus einem anderen Tox-Client importieren.
-[Connection settings]
-Verbindungseinstellungen
-[Disable UDP (force Tox to use TCP)]
-UDP deaktivieren (zwingt Tox, TCP zu verwenden)
-[Disable IPv6]
-IPv6 deaktivieren
 [Tox]
 Tox
+[Create tox profile]
+
+[Import tox profile]
+Tox-Profil importieren
+[Copy Tox ID]
+Tox-ID kopieren
+[Export tox profile]
+
+[Connection settings]
+Verbindungseinstellungen
+[Enable UDP (otherwise force Tox to use TCP)]
+
+[Enable IPv6]
+
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Wenn dieses Feld eine Tox-Adresse enthält (76 Hex-Zeichen), dann werden Sie gefragt ob Sie diese zu Ihrer Freundesliste hinzufügen wollen. Anderenfalls sucht Miranda über Tox-DNS-Erkennung
 [Dns name:]
@@ -84,8 +94,6 @@ Protokolle
 Autorisierung anfragen
 [Grant authorization]
 Autorisierung gewähren
-[Copy Tox ID]
-Tox-ID kopieren
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s-Verbindung
@@ -96,10 +104,6 @@ Tox-Profil
 Alle Dateien
 [Select tox profile]
 Tox-Profil auswählen
-[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
-Sie haben bereits ein existierendes Profil. Möchten Sie es mit allen Kontakten und deren Verläufen entfernen und den Import fortsetzen?
-[Tox profile import]
-Tox-Profil importieren
 [Add node]
 Knoten hinzufügen
 [Change node]
@@ -112,8 +116,8 @@ Fehler
 Öffentlichen Schlüssel eingeben
 [Common nodes]
 Gemeinsame Knoten
-[nodes]
-Knoten
+[User nodes]
+
 [Are you sure?]
 Sind Sie sich sicher?
 [Node deleting]
