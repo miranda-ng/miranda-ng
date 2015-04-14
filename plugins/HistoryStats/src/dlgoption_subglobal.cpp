@@ -104,7 +104,7 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 					}
 				}
 
-				delete szTitle;
+				delete[] szTitle;
 			}
 			return TRUE;
 		}

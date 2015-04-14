@@ -441,7 +441,7 @@ HICON BandCtrlImpl::convertToGray(HICON hIcon)
 			hIconDisabled = CreateIconIndirect(&ii);
 		}
 
-		delete pBits;
+		delete[] pBits;
 	}
 
 	DeleteObject(ii.hbmColor);
