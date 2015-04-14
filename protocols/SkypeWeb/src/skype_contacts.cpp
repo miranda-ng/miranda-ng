@@ -54,7 +54,6 @@ MCONTACT CSkypeProto::GetContactFromAuthEvent(MEVENT hEvent)
 
 	if (strcmp(dbei.szModule, m_szModuleName) != 0)
 		return INVALID_CONTACT_ID;
-
 	return DbGetAuthEventContact(&dbei);
 }
 

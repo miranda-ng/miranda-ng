@@ -226,10 +226,13 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 		ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 
 		MCONTACT hContact = AddContact(skypename, true);
+
 		if (!mir_strcmpi(messageType, "Control/Typing"))
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
+
 		else if (!mir_strcmpi(messageType, "Control/ClearTyping"))
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
+
 		else if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 		{
 			debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
@@ -238,4 +241,10 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 		else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage"))
 			return; //not supported
 	}
+}
+
+int CSkypeProto::OnDbEventRead(WPARAM wParam, LPARAM lParam)
+{
+	debugLogA(__FUNCTION__);
+	return 0;
 }

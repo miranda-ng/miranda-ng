@@ -98,8 +98,6 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 		OnPrivateMessageEvent(node);
 	else if (strstr(conversationLink, "/19:"))
 		OnChatEvent(node);
-
-
 }
 
 void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)

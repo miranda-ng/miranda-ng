@@ -201,5 +201,4 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	{
 
 	}
-	return; //chats not supported
 }

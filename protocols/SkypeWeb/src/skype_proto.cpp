@@ -86,6 +86,7 @@ MCONTACT CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 { 
 	debugLogA("CSkypeProto::AddToList");
 
+
 	ptrA skypeName(mir_t2a(ptrT(psr->id)));
 	if (skypeName == NULL)
 		return NULL;
@@ -101,7 +102,7 @@ int CSkypeProto::Authorize(MEVENT hDbEvent)
 	MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
-
+	
 	ptrA token(getStringA("TokenSecret"));
 	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
 	PushRequest(new AuthAcceptRequest(token, skypename));
@@ -125,9 +126,22 @@ int CSkypeProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 	return Proto_AuthRecv(m_szModuleName, pre);
 }
 
+int CSkypeProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage)
+{
+	if (hContact == INVALID_CONTACT_ID)
+		return 1;
+
+	ptrA token(getStringA("TokenSecret"));
+	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
+	PushRequest(new AddContactRequest(token, skypename, ptrA(mir_t2a(szMessage))));
+	return 0; 
+}
+
 int CSkypeProto::GetInfo(MCONTACT hContact, int) 
 {
-	PushRequest(new GetProfileRequest(ptrA(getStringA("TokenSecret")), ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))), &CSkypeProto::LoadProfile);
+	PushRequest(
+		new GetProfileRequest(ptrA(getStringA("TokenSecret")), ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))),
+		&CSkypeProto::LoadProfile);
 	return 0;
 }
 
@@ -205,10 +219,16 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	ptrA regToken(getStringA("registrationToken"));
-	ptrA username(getStringA(hContact, SKYPE_SETTINGS_ID));
-	ptrA server(getStringA("Server"));
-	PushRequest(new SendTypingRequest(regToken, username, type, server));
+	PushRequest
+		(
+			new SendTypingRequest
+			(
+				ptrA(getStringA("registrationToken")), 
+				ptrA(getStringA(hContact, SKYPE_SETTINGS_ID)), 
+				type, 
+				ptrA(getStringA("Server"))
+			)
+		);
 	return 0;
 }
 

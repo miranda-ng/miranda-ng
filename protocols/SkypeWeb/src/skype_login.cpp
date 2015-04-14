@@ -17,10 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
-{
-	return 0;
-}
+int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM) { return 0; }
 
 void CSkypeProto::OnLoginFirst(const NETLIBHTTPREQUEST *response)
 {

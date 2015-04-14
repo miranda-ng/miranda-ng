@@ -204,12 +204,12 @@
     <ClInclude Include="src\requests\capabilities.h" />
     <ClInclude Include="src\requests\contacts.h" />
     <ClInclude Include="src\requests\endpoint.h" />
+    <ClInclude Include="src\requests\history.h" />
     <ClInclude Include="src\requests\login.h" />
     <ClInclude Include="src\requests\logout.h" />
     <ClInclude Include="src\requests\messages.h" />
     <ClInclude Include="src\requests\poll.h" />
     <ClInclude Include="src\requests\profile.h" />
-    <ClInclude Include="src\requests\reg_info.h" />
     <ClInclude Include="src\requests\search.h" />
     <ClInclude Include="src\requests\status.h" />
     <ClInclude Include="src\requests\subscriptions.h" />

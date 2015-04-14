@@ -170,7 +170,6 @@ bool CSkypeProto::IsMe(const char *skypeName)
 	ptrA SelfEndpointName(getStringA("SelfEndpointName"));
 	if (!mir_strcmp(skypeName, mySkypeName) || !mir_strcmp(skypeName, SelfEndpointName))
 		return true;
-
 	return false;
 }
 
