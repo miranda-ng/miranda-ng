@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.1
+;  Version: 0.3.2.2
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -109,9 +109,9 @@ Au téléphone
 Parti manger
 [The Message    (%d Characters)]
 Message :    (%d caractères)
-[Couldn't allocate enough memory]
-
 [error......]
+
+[Couldn't allocate enough memory]
 
 [The Message    (0 Characters)]
 Message :    (0 caractère)

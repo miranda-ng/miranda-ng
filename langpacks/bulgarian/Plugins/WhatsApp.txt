@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.12
+;  Version: 0.1.2.13
 ;  Authors: Uli Hecht
 ;============================================================
 [Phone number]
@@ -13,9 +13,9 @@
 Отказ
 [Please enter a password.]
 Моля, въведете парола.
-[%s server connection]
-%s връзка със сървъра
 [Network]
 Мрежа
 [Account]
 Акаунт
+[%s server connection]
+%s връзка със сървъра
