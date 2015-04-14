@@ -199,6 +199,7 @@ copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\tox.h" />
+    <ClInclude Include="include\toxav.h" />
     <ClInclude Include="include\toxdns.h" />
     <ClInclude Include="include\toxencryptsave.h" />
     <ClInclude Include="src\common.h" />
@@ -214,6 +215,7 @@ copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\api_av.cpp" />
     <ClCompile Include="src\api_avatars.cpp" />
     <ClCompile Include="src\api_connection.cpp" />
     <ClCompile Include="src\api_dns.cpp" />
@@ -233,6 +235,7 @@ copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
     <ClCompile Include="src\tox_icons.cpp" />
     <ClCompile Include="src\tox_menus.cpp" />
     <ClCompile Include="src\tox_messages.cpp" />
+    <ClCompile Include="src\tox_multimedia.cpp" />
     <ClCompile Include="src\tox_netlib.cpp" />
     <ClCompile Include="src\tox_network.cpp" />
     <ClCompile Include="src\tox_options.cpp" />
@@ -250,6 +253,9 @@ copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\icons\tox.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Icons\audio_call.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
