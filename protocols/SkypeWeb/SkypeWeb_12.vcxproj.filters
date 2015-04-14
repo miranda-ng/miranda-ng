@@ -84,6 +84,9 @@
     <ClInclude Include="src\requests\search.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
+    <ClInclude Include="src\requests\history.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cpp">
