@@ -50,7 +50,7 @@ MyBitmap::MyBitmap(int w, int h)
 	bits = 0;
 	width = height = 0;
 	bitsSave = 0;
-	allocate(w,h);
+	allocate(w, h);
 }
 
 MyBitmap::MyBitmap(const char *fn, const char *fnAlpha)
@@ -65,7 +65,7 @@ MyBitmap::MyBitmap(const char *fn, const char *fnAlpha)
 
 MyBitmap::~MyBitmap()
 {
-	delete [] bitsSave;
+	delete[] bitsSave;
 	free();
 }
 
@@ -74,15 +74,11 @@ void MyBitmap::setAlpha(BYTE level)
 	if (!bits) return;
 
 	GdiFlush();
-	for (int i = 0; i < width*height; i++)
-	{
+	for (int i = 0; i < width*height; i++) {
 		if (bits[i] & 0xff000000)
-		{
-			bits[i] = rgba(getr(bits[i])*level/255, getg(bits[i])*level/255, getb(bits[i])*level/255, geta(bits[i])*level/255);
-		} else
-		{
-			bits[i] = rgba(getr(bits[i])*level/255, getg(bits[i])*level/255, getb(bits[i])*level/255, level);
-		}
+			bits[i] = rgba(getr(bits[i])*level / 255, getg(bits[i])*level / 255, getb(bits[i])*level / 255, geta(bits[i])*level / 255);
+		else
+			bits[i] = rgba(getr(bits[i])*level / 255, getg(bits[i])*level / 255, getb(bits[i])*level / 255, level);
 	}
 }
 
@@ -95,9 +91,9 @@ void MyBitmap::setAlphaRect(int x1, int y1, int x2, int y2, BYTE level)
 		for (int j = x1; j < x2; j++) {
 			int idx = i * width + j;
 			if (bits[idx] & 0xff000000)
-				bits[idx] = rgba(getr(bits[idx])*level/255, getg(bits[idx])*level/255, getb(bits[idx])*level/255, geta(bits[idx])*level/255);
+				bits[idx] = rgba(getr(bits[idx])*level / 255, getg(bits[idx])*level / 255, getb(bits[idx])*level / 255, geta(bits[idx])*level / 255);
 			else
-				bits[idx] = rgba(getr(bits[idx])*level/255, getg(bits[idx])*level/255, getb(bits[idx])*level/255, level);
+				bits[idx] = rgba(getr(bits[idx])*level / 255, getg(bits[idx])*level / 255, getb(bits[idx])*level / 255, level);
 		}
 }
 
@@ -124,7 +120,7 @@ void MyBitmap::makeOpaqueRect(int x1, int y1, int x2, int y2)
 
 void MyBitmap::saveAlpha(int x, int y, int w, int h)
 {
-	delete [] bitsSave;
+	delete[] bitsSave;
 
 	GdiFlush();
 
@@ -134,17 +130,15 @@ void MyBitmap::saveAlpha(int x, int y, int w, int h)
 	bitsSave = new COLOR32[w*h];
 	COLOR32 *p1 = bitsSave;
 
-	for (int i = 0; i < h; i++)
-	{
-		if (i+y < 0) continue;
-		if (i+y >= height) break;
-		COLOR32 *p2 = bits + (y+i)*width + x;
+	for (int i = 0; i < h; i++) {
+		if (i + y < 0) continue;
+		if (i + y >= height) break;
+		COLOR32 *p2 = bits + (y + i)*width + x;
 		p1 = bitsSave + i*w;
-		for (int j = 0; j < w; j++)
-		{
-			if (j+x < 0) continue;
-			if (j+x >= width) break;
-			*p1++=*p2++;
+		for (int j = 0; j < w; j++) {
+			if (j + x < 0) continue;
+			if (j + x >= width) break;
+			*p1++ = *p2++;
 		}
 	}
 }
@@ -161,29 +155,25 @@ void MyBitmap::restoreAlpha(int x, int y, int w, int h)
 
 	COLOR32 *p1 = bitsSave;
 
-	for (int i = 0; i < h; i++)
-	{
-		if (i+y < 0) continue;
-		if (i+y >= height) break;
-		COLOR32 *p2 = bits + (y+i)*width + x;
+	for (int i = 0; i < h; i++) {
+		if (i + y < 0) continue;
+		if (i + y >= height) break;
+		COLOR32 *p2 = bits + (y + i)*width + x;
 		p1 = bitsSave + i*w;
-		for (int j = 0; j < w; j++)
-		{
-			if (j+x < 0) continue;
-			if (j+x >= width) break;
-			if ((*p1&0x00ffffff) != (*p2&0x00ffffff))
-			{
+		for (int j = 0; j < w; j++) {
+			if (j + x < 0) continue;
+			if (j + x >= width) break;
+			if ((*p1 & 0x00ffffff) != (*p2 & 0x00ffffff))
 				*p2 |= 0xff000000;
-			} else
-			{
-				*p2 = (*p2&0x00ffffff) | (*p1&0xff000000);
-			}
+			else
+				*p2 = (*p2 & 0x00ffffff) | (*p1 & 0xff000000);
+
 			++p1;
 			++p2;
 		}
 	}
 
-	delete [] bitsSave;
+	delete[] bitsSave;
 	bitsSave = 0;
 }
 
@@ -196,20 +186,18 @@ void MyBitmap::DrawBits(COLOR32 *inbits, int inw, int inh, int x, int y, int w, 
 	float kx = (float)inw / w;
 	float ky = (float)inh / h;
 
-	if (x+w >= this->getWidth())
+	if (x + w >= this->getWidth())
 		w = this->getWidth() - x;
-	if (y+h >= this->getHeight())
+	if (y + h >= this->getHeight())
 		h = this->getHeight() - y;
 
-	for (int i = 0; i < h; i++)
-	{
-		if (i+y < 0) continue;
-		if (i+y >= height) break;
-		for (int j = 0; j < w; j++)
-		{
-			if (j+x < 0) continue;
-			if (j+x >= width) break;
-			bits[(i+y)*width + (j+x)] = inbits[int(i*ky)*inw + int(j*kx)];
+	for (int i = 0; i < h; i++) {
+		if (i + y < 0) continue;
+		if (i + y >= height) break;
+		for (int j = 0; j < w; j++) {
+			if (j + x < 0) continue;
+			if (j + x >= width) break;
+			bits[(i + y)*width + (j + x)] = inbits[int(i*ky)*inw + int(j*kx)];
 		}
 	}
 }
@@ -223,28 +211,25 @@ void MyBitmap::BlendBits(COLOR32 *inbits, int inw, int inh, int x, int y, int w,
 	float kx = (float)inw / w;
 	float ky = (float)inh / h;
 
-	if (x+w >= this->getWidth())
+	if (x + w >= this->getWidth())
 		w = this->getWidth() - x;
-	if (y+h >= this->getHeight())
+	if (y + h >= this->getHeight())
 		h = this->getHeight() - y;
 
-	for (int i = 0; i < h; i++)
-	{
-		if (i+y < 0) continue;
-		if (i+y >= height) break;
-		for (int j = 0; j < w; j++)
-		{
-			if (j+x < 0) continue;
-			if (j+x >= width) break;
+	for (int i = 0; i < h; i++) {
+		if (i + y < 0) continue;
+		if (i + y >= height) break;
+		for (int j = 0; j < w; j++) {
+			if (j + x < 0) continue;
+			if (j + x >= width) break;
 			COLOR32 src = inbits[int(i*ky)*inw + int(j*kx)];
-			COLOR32 dst = bits[(i+y)*width + (j+x)];
+			COLOR32 dst = bits[(i + y)*width + (j + x)];
 			long alpha = geta(src);
-			bits[(i+y)*width + (j+x)] = rgba(
-					getr(src)+PU_DIV255((255-alpha)*getr(dst)),
-					getg(src)+PU_DIV255((255-alpha)*getg(dst)),
-					getb(src)+PU_DIV255((255-alpha)*getb(dst)),
-					geta(src)+PU_DIV255((255-alpha)*geta(dst))
-				);
+			bits[(i + y)*width + (j + x)] = rgba(
+				getr(src) + PU_DIV255((255 - alpha)*getr(dst)),
+				getg(src) + PU_DIV255((255 - alpha)*getg(dst)),
+				getb(src) + PU_DIV255((255 - alpha)*getb(dst)),
+				geta(src) + PU_DIV255((255 - alpha)*geta(dst)));
 		}
 	}
 }
@@ -260,28 +245,25 @@ void MyBitmap::Blend(MyBitmap *bmp, int x, int y, int w, int h)
 	float kx = (float)bmp->width / w;
 	float ky = (float)bmp->height / h;
 
-	if (x+w >= this->getWidth())
+	if (x + w >= this->getWidth())
 		w = this->getWidth() - x;
-	if (y+h >= this->getHeight())
+	if (y + h >= this->getHeight())
 		h = this->getHeight() - y;
 
-	for (int i = 0; i < h; i++)
-	{
-		if (i+y < 0) continue;
-		if (i+y >= height) break;
-		for (int j = 0; j < w; j++)
-		{
-			if (j+x < 0) continue;
-			if (j+x >= width) break;
+	for (int i = 0; i < h; i++) {
+		if (i + y < 0) continue;
+		if (i + y >= height) break;
+		for (int j = 0; j < w; j++) {
+			if (j + x < 0) continue;
+			if (j + x >= width) break;
 			COLOR32 src = bmp->bits[int(i*ky)*bmp->width + int(j*kx)];
-			COLOR32 dst = bits[(i+y)*width + (j+x)];
+			COLOR32 dst = bits[(i + y)*width + (j + x)];
 			long alpha = geta(src);
-			bits[(i+y)*width + (j+x)] = rgba(
-					getr(src)+PU_DIV255((255-alpha)*getr(dst)),
-					getg(src)+PU_DIV255((255-alpha)*getg(dst)),
-					getb(src)+PU_DIV255((255-alpha)*getb(dst)),
-					geta(src)+PU_DIV255((255-alpha)*geta(dst))
-				);
+			bits[(i + y)*width + (j + x)] = rgba(
+				getr(src) + PU_DIV255((255 - alpha)*getr(dst)),
+				getg(src) + PU_DIV255((255 - alpha)*getg(dst)),
+				getb(src) + PU_DIV255((255 - alpha)*getb(dst)),
+				geta(src) + PU_DIV255((255 - alpha)*geta(dst)));
 		}
 	}
 }
@@ -295,8 +277,7 @@ void MyBitmap::Draw(MyBitmap *bmp, int x, int y, int w, int h)
 	if (!w) w = bmp->width;
 	if (!h) h = bmp->height;
 
-	if (!x && !y && (w == width) && (h == height) && (w == bmp->width) && (h == bmp->height))
-	{
+	if (!x && !y && (w == width) && (h == height) && (w == bmp->width) && (h == bmp->height)) {
 		// fast bitmap copy is possible good for animated avatars
 		memcpy(bits, bmp->bits, width*height*sizeof(COLOR32));
 		return;
@@ -305,20 +286,18 @@ void MyBitmap::Draw(MyBitmap *bmp, int x, int y, int w, int h)
 	float kx = (float)bmp->width / w;
 	float ky = (float)bmp->height / h;
 
-	if (x+w >= this->getWidth())
+	if (x + w >= this->getWidth())
 		w = this->getWidth() - x;
-	if (y+h >= this->getHeight())
+	if (y + h >= this->getHeight())
 		h = this->getHeight() - y;
 
-	for (int i = 0; i < h; i++)
-	{
-		if (i+y < 0) continue;
-		if (i+y >= height) break;
-		for (int j = 0; j < w; j++)
-		{
-			if (j+x < 0) continue;
-			if (j+x >= width) break;
-			bits[(i+y)*width + (j+x)] = bmp->bits[int(i*ky)*bmp->width + int(j*kx)];
+	for (int i = 0; i < h; i++) {
+		if (i + y < 0) continue;
+		if (i + y >= height) break;
+		for (int j = 0; j < w; j++) {
+			if (j + x < 0) continue;
+			if (j + x >= width) break;
+			bits[(i + y)*width + (j + x)] = bmp->bits[int(i*ky)*bmp->width + int(j*kx)];
 		}
 	}
 }
@@ -339,58 +318,43 @@ void MyBitmap::BlendColorized(MyBitmap *bmp, int x, int y, int w, int h, COLOR32
 	float koef1g = (255 - getg(color)) / 128.0f;
 	float koef1b = (255 - getr(color)) / 128.0f;
 
-	int br = - 255 + 2 * getb(color);
-	int bg = - 255 + 2 * getg(color);
-	int bb = - 255 + 2 * getr(color);
+	int br = -255 + 2 * getb(color);
+	int bg = -255 + 2 * getg(color);
+	int bb = -255 + 2 * getr(color);
 
 	float koef2r = (getb(color)) / 128.0f;
 	float koef2g = (getg(color)) / 128.0f;
 	float koef2b = (getr(color)) / 128.0f;
 
-	for (int i = 0; i < h; i++)
-	{
-		if (i+y < 0) continue;
-		if (i+y >= height) break;
-		for (int j = 0; j < w; j++)
-		{
-			if (j+x < 0) continue;
-			if (j+x >= width) break;
-
-//			COLOR32 cl = getr(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]);
-//			bits[(i+y)*width + (j+x)] = (cl > 128) ?
-//				rgba(koef1r * cl + br, koef1g * cl + bg, koef1b * cl + bb, geta(bmp->bits[int(i*ky)*bmp->width + int(j*kx)])):
-//				rgba(koef2r * cl, koef2g * cl, koef2b * cl, geta(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]));
+	for (int i = 0; i < h; i++) {
+		if (i + y < 0) continue;
+		if (i + y >= height) break;
+		for (int j = 0; j < w; j++) {
+			if (j + x < 0) continue;
+			if (j + x >= width) break;
 
 			long alpha = geta(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]);
-//			COLOR32 cl = getr(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]);
-			COLOR32 cl = alpha ? getr(bmp->bits[int(i*ky)*bmp->width + int(j*kx)])*255/alpha : 0;
+			COLOR32 cl = alpha ? getr(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]) * 255 / alpha : 0;
 #pragma warning(push)
 #pragma warning(disable: 4244)
 			COLOR32 src = (cl > 128) ?
 				rgba(
-					PU_DIV255((koef1r * cl + br)*alpha),
-					PU_DIV255((koef1g * cl + bg)*alpha),
-					PU_DIV255((koef1b * cl + bb)*alpha),
-					alpha):
+				PU_DIV255((koef1r * cl + br)*alpha),
+				PU_DIV255((koef1g * cl + bg)*alpha),
+				PU_DIV255((koef1b * cl + bb)*alpha),
+				alpha) :
 				rgba(
-					PU_DIV255(koef2r * cl * alpha),
-					PU_DIV255(koef2g * cl * alpha),
-					PU_DIV255(koef2b * cl * alpha),
-					alpha);
+				PU_DIV255(koef2r * cl * alpha),
+				PU_DIV255(koef2g * cl * alpha),
+				PU_DIV255(koef2b * cl * alpha),
+				alpha);
 #pragma warning(pop)
-//			COLOR32 cl = getr(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]);
-//			COLOR32 src = (cl > 128) ?
-//				rgba(koef1r * cl + br, koef1g * cl + bg, koef1b * cl + bb, alpha):
-//				rgba(koef2r * cl, koef2g * cl, koef2b * cl, alpha);
-			COLOR32 dst = bits[(i+y)*width + (j+x)];
-//			long alpha = geta(src);
-			bits[(i+y)*width + (j+x)] = rgba(
-					getr(src)+PU_DIV255((255-alpha)*getr(dst)),
-					getg(src)+PU_DIV255((255-alpha)*getg(dst)),
-					getb(src)+PU_DIV255((255-alpha)*getb(dst)),
-					geta(src)+PU_DIV255((255-alpha)*geta(dst))
-				);
-
+			COLOR32 dst = bits[(i + y)*width + (j + x)];
+			bits[(i + y)*width + (j + x)] = rgba(
+				getr(src) + PU_DIV255((255 - alpha)*getr(dst)),
+				getg(src) + PU_DIV255((255 - alpha)*getg(dst)),
+				getb(src) + PU_DIV255((255 - alpha)*getb(dst)),
+				geta(src) + PU_DIV255((255 - alpha)*geta(dst)));
 		}
 	}
 }
@@ -411,43 +375,35 @@ void MyBitmap::DrawColorized(MyBitmap *bmp, int x, int y, int w, int h, COLOR32 
 	float koef1g = (255 - getg(color)) / 128.0f;
 	float koef1b = (255 - getr(color)) / 128.0f;
 
-	int br = - 255 + 2 * getb(color);
-	int bg = - 255 + 2 * getg(color);
-	int bb = - 255 + 2 * getr(color);
+	int br = -255 + 2 * getb(color);
+	int bg = -255 + 2 * getg(color);
+	int bb = -255 + 2 * getr(color);
 
 	float koef2r = (getb(color)) / 128.0f;
 	float koef2g = (getg(color)) / 128.0f;
 	float koef2b = (getr(color)) / 128.0f;
 
-	for (int i = 0; i < h; i++)
-	{
-		if (i+y < 0) continue;
-		if (i+y >= height) break;
-		for (int j = 0; j < w; j++)
-		{
-			if (j+x < 0) continue;
-			if (j+x >= width) break;
+	for (int i = 0; i < h; i++) {
+		if (i + y < 0) continue;
+		if (i + y >= height) break;
+		for (int j = 0; j < w; j++) {
+			if (j + x < 0) continue;
+			if (j + x >= width) break;
 
 			long alpha = geta(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]);
-//			COLOR32 cl = getr(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]);
-			COLOR32 cl = alpha ? getr(bmp->bits[int(i*ky)*bmp->width + int(j*kx)])*255/alpha : 0;
+			COLOR32 cl = alpha ? getr(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]) * 255 / alpha : 0;
 #pragma warning(push)
 #pragma warning(disable: 4244)
-			bits[(i+y)*width + (j+x)] = (cl > 128) ?
+			bits[(i + y)*width + (j + x)] = (cl > 128) ?
 				rgba(
 					PU_DIV255((koef1r * cl + br)*alpha),
 					PU_DIV255((koef1g * cl + bg)*alpha),
-					PU_DIV255((koef1b * cl + bb)*alpha),
-					alpha):
+					PU_DIV255((koef1b * cl + bb)*alpha), alpha) :
 				rgba(
 					PU_DIV255(koef2r * cl * alpha),
 					PU_DIV255(koef2g * cl * alpha),
-					PU_DIV255(koef2b * cl * alpha),
-					alpha);
+					PU_DIV255(koef2b * cl * alpha), alpha);
 #pragma warning(pop)
-//			bits[(i+y)*width + (j+x)] = (cl > 128) ?
-//				rgba(koef1r * cl + br, koef1g * cl + bg, koef1b * cl + bb, geta(bmp->bits[int(i*ky)*bmp->width + int(j*kx)])):
-//				rgba(koef2r * cl, koef2g * cl, koef2b * cl, geta(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]));
 		}
 	}
 }
@@ -464,29 +420,25 @@ void MyBitmap::BlendPart(MyBitmap *bmp, int xin, int yin, int win, int hin, int 
 	float kx = (float)win / w;
 	float ky = (float)hin / h;
 
-	if (x+w >= this->getWidth())
+	if (x + w >= this->getWidth())
 		w = this->getWidth() - x;
-	if (y+h >= this->getHeight())
+	if (y + h >= this->getHeight())
 		h = this->getHeight() - y;
 
-	for (int i = 0; i < h; i++)
-	{
-		if (i+y < 0) continue;
-		if (i+y >= height) break;
-		for (int j = 0; j < w; j++)
-		{
-			if (j+x < 0) continue;
-			if (j+x >= width) break;
-			COLOR32 src = bmp->bits[int(yin+i*ky)*bmp->width + int(xin+j*kx)];
-			COLOR32 dst = bits[(i+y)*width + (j+x)];
+	for (int i = 0; i < h; i++) {
+		if (i + y < 0) continue;
+		if (i + y >= height) break;
+		for (int j = 0; j < w; j++) {
+			if (j + x < 0) continue;
+			if (j + x >= width) break;
+			COLOR32 src = bmp->bits[int(yin + i*ky)*bmp->width + int(xin + j*kx)];
+			COLOR32 dst = bits[(i + y)*width + (j + x)];
 			long alpha = geta(src);
-			bits[(i+y)*width + (j+x)] = rgba(
-					getr(src)+PU_DIV255((255-alpha)*getr(dst)),
-					getg(src)+PU_DIV255((255-alpha)*getg(dst)),
-					getb(src)+PU_DIV255((255-alpha)*getb(dst)),
-					geta(src)+PU_DIV255((255-alpha)*geta(dst))
-				);
-//			bits[(i+y)*width + (j+x)] = bmp->bits[int(yin+i*ky)*bmp->width + int(xin+j*kx)];
+			bits[(i + y)*width + (j + x)] = rgba(
+				getr(src) + PU_DIV255((255 - alpha)*getr(dst)),
+				getg(src) + PU_DIV255((255 - alpha)*getg(dst)),
+				getb(src) + PU_DIV255((255 - alpha)*getb(dst)),
+				geta(src) + PU_DIV255((255 - alpha)*geta(dst)));
 		}
 	}
 }
@@ -503,9 +455,9 @@ void MyBitmap::BlendPartColorized(MyBitmap *bmp, int xin, int yin, int win, int 
 	float kx = (float)win / w;
 	float ky = (float)hin / h;
 
-	if (x+w >= this->getWidth())
+	if (x + w >= this->getWidth())
 		w = this->getWidth() - x;
-	if (y+h >= this->getHeight())
+	if (y + h >= this->getHeight())
 		h = this->getHeight() - y;
 
 	// we should swap B and R channels when working with win32 COLORREF
@@ -513,63 +465,41 @@ void MyBitmap::BlendPartColorized(MyBitmap *bmp, int xin, int yin, int win, int 
 	float koef1g = (255 - getg(color)) / 128.0f;
 	float koef1b = (255 - getr(color)) / 128.0f;
 
-	int br = - 255 + 2 * getb(color);
-	int bg = - 255 + 2 * getg(color);
-	int bb = - 255 + 2 * getr(color);
+	int br = -255 + 2 * getb(color);
+	int bg = -255 + 2 * getg(color);
+	int bb = -255 + 2 * getr(color);
 
 	float koef2r = (getb(color)) / 128.0f;
 	float koef2g = (getg(color)) / 128.0f;
 	float koef2b = (getr(color)) / 128.0f;
 
-	for (int i = 0; i < h; i++)
-	{
-		if (i+y < 0) continue;
-		if (i+y >= height) break;
-		for (int j = 0; j < w; j++)
-		{
-			if (j+x < 0) continue;
-			if (j+x >= width) break;
+	for (int i = 0; i < h; i++) {
+		if (i + y < 0) continue;
+		if (i + y >= height) break;
+		for (int j = 0; j < w; j++) {
+			if (j + x < 0) continue;
+			if (j + x >= width) break;
 
-			long alpha = geta(bmp->bits[int(yin+i*ky)*bmp->width + int(xin+j*kx)]);
-//			COLOR32 cl = getr(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]);
-			COLOR32 cl = alpha ? getr(bmp->bits[int(yin+i*ky)*bmp->width + int(xin+j*kx)])*255/alpha : 0;
+			long alpha = geta(bmp->bits[int(yin + i*ky)*bmp->width + int(xin + j*kx)]);
+			COLOR32 cl = alpha ? getr(bmp->bits[int(yin + i*ky)*bmp->width + int(xin + j*kx)]) * 255 / alpha : 0;
 #pragma warning(push)
 #pragma warning(disable: 4244)
 			COLOR32 src = (cl > 128) ?
 				rgba(
 					PU_DIV255((koef1r * cl + br)*alpha),
 					PU_DIV255((koef1g * cl + bg)*alpha),
-					PU_DIV255((koef1b * cl + bb)*alpha),
-					alpha):
+					PU_DIV255((koef1b * cl + bb)*alpha), alpha) :
 				rgba(
 					PU_DIV255(koef2r * cl * alpha),
 					PU_DIV255(koef2g * cl * alpha),
-					PU_DIV255(koef2b * cl * alpha),
-					alpha);
+					PU_DIV255(koef2b * cl * alpha), alpha);
 #pragma warning(pop)
-//			COLOR32 cl = getr(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]);
-//			COLOR32 src = (cl > 128) ?
-//				rgba(koef1r * cl + br, koef1g * cl + bg, koef1b * cl + bb, alpha):
-//				rgba(koef2r * cl, koef2g * cl, koef2b * cl, alpha);
-			COLOR32 dst = bits[(i+y)*width + (j+x)];
-//			long alpha = geta(src);
-			bits[(i+y)*width + (j+x)] = rgba(
-					getr(src)+PU_DIV255((255-alpha)*getr(dst)),
-					getg(src)+PU_DIV255((255-alpha)*getg(dst)),
-					getb(src)+PU_DIV255((255-alpha)*getb(dst)),
-					geta(src)+PU_DIV255((255-alpha)*geta(dst))
-				);
-
-/*			COLOR32 src = bmp->bits[int(yin+i*ky)*bmp->width + int(xin+j*kx)];
-			COLOR32 dst = bits[(i+y)*width + (j+x)];
-			long alpha = geta(src);
-			bits[(i+y)*width + (j+x)] = rgba(
-					getr(src)+(255-alpha)*getr(dst)/255,
-					getg(src)+(255-alpha)*getg(dst)/255,
-					getb(src)+(255-alpha)*getb(dst)/255,
-					geta(src)+(255-alpha)*geta(dst)/255
-				);*/
-//			bits[(i+y)*width + (j+x)] = bmp->bits[int(yin+i*ky)*bmp->width + int(xin+j*kx)];
+			COLOR32 dst = bits[(i + y)*width + (j + x)];
+			bits[(i + y)*width + (j + x)] = rgba(
+				getr(src) + PU_DIV255((255 - alpha)*getr(dst)),
+				getg(src) + PU_DIV255((255 - alpha)*getg(dst)),
+				getb(src) + PU_DIV255((255 - alpha)*getb(dst)),
+				geta(src) + PU_DIV255((255 - alpha)*geta(dst)));
 		}
 	}
 }
@@ -586,20 +516,18 @@ void MyBitmap::DrawPart(MyBitmap *bmp, int xin, int yin, int win, int hin, int x
 	float kx = (float)win / w;
 	float ky = (float)hin / h;
 
-	if (x+w >= this->getWidth())
+	if (x + w >= this->getWidth())
 		w = this->getWidth() - x;
-	if (y+h >= this->getHeight())
+	if (y + h >= this->getHeight())
 		h = this->getHeight() - y;
 
-	for (int i = 0; i < h; i++)
-	{
-		if (i+y < 0) continue;
-		if (i+y >= height) break;
-		for (int j = 0; j < w; j++)
-		{
-			if (j+x < 0) continue;
-			if (j+x >= width) break;
-			bits[(i+y)*width + (j+x)] = bmp->bits[int(yin+i*ky)*bmp->width + int(xin+j*kx)];
+	for (int i = 0; i < h; i++) {
+		if (i + y < 0) continue;
+		if (i + y >= height) break;
+		for (int j = 0; j < w; j++) {
+			if (j + x < 0) continue;
+			if (j + x >= width) break;
+			bits[(i + y)*width + (j + x)] = bmp->bits[int(yin + i*ky)*bmp->width + int(xin + j*kx)];
 		}
 	}
 }
@@ -610,34 +538,32 @@ void MyBitmap::DrawNoAlpha(MyBitmap *bmp, int x, int y, int w, int h)
 
 	GdiFlush();
 
-	for (int i = 0; i < bmp->height; i++)
-	{
-		if (i+y < 0) continue;
-		if (i+y >= height) break;
-		for (int j = 0; j < bmp->width; j++)
-		{
-			if (j+x < 0) continue;
-			if (j+x >= width) break;
-			bits[(i+y)*width + (j+x)] = bmp->bits[i*bmp->width + j];
+	for (int i = 0; i < bmp->height; i++) {
+		if (i + y < 0) continue;
+		if (i + y >= height) break;
+		for (int j = 0; j < bmp->width; j++) {
+			if (j + x < 0) continue;
+			if (j + x >= width) break;
+			bits[(i + y)*width + (j + x)] = bmp->bits[i*bmp->width + j];
 		}
 	}
 }
 
 static __forceinline int ReadP(long *p, int w, int h, int x, int y, int k)
 {
-	if (x<0) x = 0; else if (x>=w) x = w-1;
-	if (y<0) y = 0; else if (y>=h) y = h-1;
-	return p[(x+y*w)*4+k];
+	if (x < 0) x = 0; else if (x >= w) x = w - 1;
+	if (y < 0) y = 0; else if (y >= h) y = h - 1;
+	return p[(x + y*w) * 4 + k];
 }
 
 void MyBitmap::Blur(int w, int h)
 {
 	if ((w <= 0) || (h <= 0)) return;
 
-	BYTE *buf_src = new BYTE[width*height*4];
-	long *buf_tmp = new long[width*height*4];
+	BYTE *buf_src = new BYTE[width*height * 4];
+	long *buf_tmp = new long[width*height * 4];
 	BYTE *buf_dst = (BYTE *)bits;
-	memcpy(buf_src, buf_dst, width*height*4);
+	memcpy(buf_src, buf_dst, width*height * 4);
 
 	BYTE *src, *dst;
 	long *tmp;
@@ -648,16 +574,13 @@ void MyBitmap::Blur(int w, int h)
 
 	int y;
 
-	for (y = 0; y < height; ++y)
-	{
-		for (int x = 0; x < width; ++x)
-		{
-			for (int k = 0; k < 4; ++k)
-			{
+	for (y = 0; y < height; ++y) {
+		for (int x = 0; x < width; ++x) {
+			for (int k = 0; k < 4; ++k) {
 				int tot = src[0];
 				if (x > 0) tot += tmp[-4];
-				if (y > 0) tot += tmp[-width*4];
-				if (x > 0 && y > 0) tot -= tmp[-(width+1)*4];
+				if (y > 0) tot += tmp[-width * 4];
+				if (x > 0 && y > 0) tot -= tmp[-(width + 1) * 4];
 				*tmp = tot;
 
 				++src;
@@ -669,17 +592,14 @@ void MyBitmap::Blur(int w, int h)
 	src = buf_src;
 	tmp = buf_tmp;
 
-	float mul = 1.f/((w*2+1)*(h*2+1));
-	for (y = 0;y<height;y++)
-	{
-		for (int x = 0;x<width;x++)
-		{
-			for (int k = 0; k < 4; ++k)
-			{
-				int tot = ReadP(tmp,width,height,x+w,y+h,k) +
-				          ReadP(tmp,width,height,x-w,y-h,k) -
-				          ReadP(tmp,width,height,x-w,y+h,k) -
-				          ReadP(tmp,width,height,x+w,y-h,k);
+	float mul = 1.f / ((w * 2 + 1)*(h * 2 + 1));
+	for (y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
+			for (int k = 0; k < 4; ++k) {
+				int tot = ReadP(tmp, width, height, x + w, y + h, k) +
+					ReadP(tmp, width, height, x - w, y - h, k) -
+					ReadP(tmp, width, height, x - w, y + h, k) -
+					ReadP(tmp, width, height, x + w, y - h, k);
 
 				*dst = BYTE(tot*mul);
 
@@ -689,28 +609,24 @@ void MyBitmap::Blur(int w, int h)
 		}
 	}
 
-	delete [] buf_src;
-	delete [] buf_tmp;
+	delete[] buf_src;
+	delete[] buf_tmp;
 }
 
 void MyBitmap::IncreaseAlpha(float q)
 {
 	BYTE *p = (BYTE *)bits;
 
-	for (int i = 0; i < height; ++i)
-	{
-		for (int j = 0; j < width; ++j)
-		{
-			if (!p[3])
-			{
+	for (int i = 0; i < height; ++i) {
+		for (int j = 0; j < width; ++j) {
+			if (!p[3]) {
 				p += 4;
 				continue;
 			}
 
-			float q1 = min(q, 255.f/p[3]);
+			float q1 = min(q, 255.f / p[3]);
 
-			for (int k = 0; k < 4; ++k)
-			{
+			for (int k = 0; k < 4; ++k) {
 				*p = (BYTE)min(255, *p * q1);
 				++p;
 			}
@@ -732,13 +648,11 @@ void MyBitmap::DrawIcon(HICON hic, int x, int y, int w, int h)
 	if (!w) w = abs(bmpMask.bmWidth);
 	if (!h) h = abs(bmpMask.bmHeight);
 
-	if (bmpColor.bmBitsPixel == 32)
-	{
-		if ((w != abs(bmpMask.bmWidth)) || (h != abs(bmpMask.bmHeight)))
-		{
+	if (bmpColor.bmBitsPixel == 32) {
+		if ((w != abs(bmpMask.bmWidth)) || (h != abs(bmpMask.bmHeight))) {
 			DeleteObject(info.hbmColor);
 			DeleteObject(info.hbmMask);
-			HICON hicTmp = (HICON)CopyImage(hic,IMAGE_ICON,w,h,LR_COPYFROMRESOURCE);
+			HICON hicTmp = (HICON)CopyImage(hic, IMAGE_ICON, w, h, LR_COPYFROMRESOURCE);
 			GetIconInfo(hicTmp, &info);
 			GetObject(info.hbmMask, sizeof(bmpMask), &bmpMask);
 			GetObject(info.hbmColor, sizeof(bmpColor), &bmpColor);
@@ -750,18 +664,14 @@ void MyBitmap::DrawIcon(HICON hic, int x, int y, int w, int h)
 		GetBitmapBits(info.hbmColor, bmpColor.bmWidthBytes*bmpColor.bmHeight, cbit);
 		GetBitmapBits(info.hbmMask, bmpMask.bmWidthBytes*bmpMask.bmHeight, mbit);
 
-		for (int i = 0; i < bmpColor.bmHeight; i++)
-		{
-			for (int j = 0; j < bmpColor.bmWidth; j++)
-			{
-				BYTE *pixel = cbit + i*bmpColor.bmWidthBytes + j*4;
-				if (!pixel[3])
-				{
-					pixel[3] = (*(mbit + i*bmpMask.bmWidthBytes + j*bmpMask.bmBitsPixel/8) & (1<<(7-j%8))) ? 0 : 255;
+		for (int i = 0; i < bmpColor.bmHeight; i++) {
+			for (int j = 0; j < bmpColor.bmWidth; j++) {
+				BYTE *pixel = cbit + i*bmpColor.bmWidthBytes + j * 4;
+				if (!pixel[3]) {
+					pixel[3] = (*(mbit + i*bmpMask.bmWidthBytes + j*bmpMask.bmBitsPixel / 8) & (1 << (7 - j % 8))) ? 0 : 255;
 				}
 
-				if (pixel[3] != 255)
-				{
+				if (pixel[3] != 255) {
 					pixel[0] = PU_DIV255(pixel[0] * pixel[3]);
 					pixel[1] = PU_DIV255(pixel[1] * pixel[3]);
 					pixel[2] = PU_DIV255(pixel[2] * pixel[3]);
@@ -771,43 +681,41 @@ void MyBitmap::DrawIcon(HICON hic, int x, int y, int w, int h)
 
 		this->BlendBits((COLOR32 *)cbit, bmpColor.bmWidth, bmpColor.bmHeight, x, y, w, h);
 
-		delete [] mbit;
-		delete [] cbit;
-	} else
-	{
-		this->saveAlpha(x,y,w,h);
+		delete[] mbit;
+		delete[] cbit;
+	}
+	else {
+		this->saveAlpha(x, y, w, h);
 		DrawIconEx(this->getDC(), x, y, hic, w, h, 0, NULL, DI_NORMAL);
-		this->restoreAlpha(x,y,w,h);
+		this->restoreAlpha(x, y, w, h);
 	}
 
 	DeleteObject(info.hbmColor);
 	DeleteObject(info.hbmMask);
 }
 
-//Base on code by Artem Shpynov
-//from clist_modern plugin
-//slightly modified and integrated to MyBitmap class
+// Base on code by Artem Shpynov
+// from clist_modern plugin
+// slightly modified and integrated to MyBitmap class
 void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 {
 	SIZE sz; GetTextExtentPoint32(this->getDC(), str, (int)mir_tstrlen(str), &sz);
-	sz.cx += (blur+2)*2; sz.cy += (blur+2)*2;
-	x -= blur+2; y -= blur+2;
+	sz.cx += (blur + 2) * 2; sz.cy += (blur + 2) * 2;
+	x -= blur + 2; y -= blur + 2;
 
-	static BYTE             pbGammaWeight[256] = {0};
+	static BYTE             pbGammaWeight[256] = { 0 };
 	static BOOL             bGammaWeightFilled = FALSE;
 
-	if (!bGammaWeightFilled)
-	{
+	if (!bGammaWeightFilled) {
 		int i;
-		for(i = 0;i<256;i++)
-		{
+		for (i = 0; i < 256; i++) {
 			double f;
-			double gamma = (double)700/1000;
+			double gamma = (double)700 / 1000;
 
-			f = (double)i/255;
-			f = pow(f,(1/gamma));
+			f = (double)i / 255;
+			f = pow(f, (1 / gamma));
 
-			pbGammaWeight[i] = (BYTE)(255*f);
+			pbGammaWeight[i] = (BYTE)(255 * f);
 		}
 		bGammaWeightFilled = 1;
 	}
@@ -816,22 +724,19 @@ void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 	HFONT hfnTmp = (HFONT)SelectObject(tmp.getDC(), GetCurrentObject(this->getDC(), OBJ_FONT));
 
 	RECT rc; SetRect(&rc, 0, 0, sz.cx, sz.cy);
-	SetTextColor(tmp.getDC(), RGB(255,255,255));
-	SetBkColor(tmp.getDC(), RGB(0,0,0));
+	SetTextColor(tmp.getDC(), RGB(255, 255, 255));
+	SetBkColor(tmp.getDC(), RGB(0, 0, 0));
 	ExtTextOutA(tmp.getDC(), 0, 0, ETO_OPAQUE, &rc, "", 0, NULL);
-	::DrawText(tmp.getDC(), str, -1, &rc, DT_CENTER|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER);
+	::DrawText(tmp.getDC(), str, -1, &rc, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
 	SelectObject(tmp.getDC(), hfnTmp);
 
 	GdiFlush();
 
-	if (blur)
-	{
-		for (int i = 0; i < sz.cy; i++)
-		{
+	if (blur) {
+		for (int i = 0; i < sz.cy; i++) {
 			COLOR32 *row_src = tmp.bits + i * tmp.width;
 
-			for (int j = 0; j < sz.cx; j++)
-			{
+			for (int j = 0; j < sz.cx; j++) {
 				COLOR32 cl = row_src[j];
 				if (!cl) continue;
 
@@ -849,62 +754,58 @@ void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 	COLOR32 g = GetGValue(textColor);
 	COLOR32 b = GetBValue(textColor);
 
-	int minx = max(0,-x);
-	int miny = max(0,-y);
-	int maxx = min(sz.cx, width-x);
-	int maxy = min(sz.cy, height-y);
+	int minx = max(0, -x);
+	int miny = max(0, -y);
+	int maxx = min(sz.cx, width - x);
+	int maxy = min(sz.cy, height - y);
 
-	for (int i = miny; i < maxy; i++)
-	{
-		COLOR32 *row_dst = bits + (i+y) * width + x;
+	for (int i = miny; i < maxy; i++) {
+		COLOR32 *row_dst = bits + (i + y) * width + x;
 		COLOR32 *row_src = tmp.bits + i * tmp.width;
 
-		for (int j = minx; j < maxx; j++)
-		{
-			COLOR32 bx,rx,gx,mx;
+		for (int j = minx; j < maxx; j++) {
+			COLOR32 bx, rx, gx, mx;
 			{
 				bx = pbGammaWeight[getb(row_src[j])];
 				gx = pbGammaWeight[getg(row_src[j])];
 				rx = pbGammaWeight[getr(row_src[j])];
 			}
 
-			bx = (pbGammaWeight[bx]*(255-b)+bx*(b))/255;
-			gx = (pbGammaWeight[gx]*(255-g)+gx*(g))/255;
-			rx = (pbGammaWeight[rx]*(255-r)+rx*(r))/255;
+			bx = (pbGammaWeight[bx] * (255 - b) + bx*(b)) / 255;
+			gx = (pbGammaWeight[gx] * (255 - g) + gx*(g)) / 255;
+			rx = (pbGammaWeight[rx] * (255 - r) + rx*(r)) / 255;
 
-			mx = (BYTE)(max(max(bx,rx),gx));
+			mx = (BYTE)(max(max(bx, rx), gx));
 
-			if (1)
-			{
-				bx = (bx<mx)?(BYTE)(((WORD)bx*7+(WORD)mx)>>3):bx;
-				rx = (rx<mx)?(BYTE)(((WORD)rx*7+(WORD)mx)>>3):rx;
-				gx = (gx<mx)?(BYTE)(((WORD)gx*7+(WORD)mx)>>3):gx;
+			if (1) {
+				bx = (bx < mx) ? (BYTE)(((WORD)bx * 7 + (WORD)mx) >> 3) : bx;
+				rx = (rx < mx) ? (BYTE)(((WORD)rx * 7 + (WORD)mx) >> 3) : rx;
+				gx = (gx < mx) ? (BYTE)(((WORD)gx * 7 + (WORD)mx) >> 3) : gx;
 				// reduce boldeness at white fonts
 			}
 			COLOR32 cl = row_dst[j];
-			if (mx)
-			{
-				COLOR32 rrx,grx,brx;
-				COLOR32 rlx,glx,blx;
+			if (mx) {
+				COLOR32 rrx, grx, brx;
+				COLOR32 rlx, glx, blx;
 				COLOR32 axx = geta(cl);
-				COLOR32 mmx = (bx+gx+rx)/3;
-				COLOR32 nx = mmx; //pbGammaWeight[mx];//
+				COLOR32 mmx = (bx + gx + rx) / 3;
+				COLOR32 nx = mmx;
 				{
 					//Normalize components	to alpha level
-					bx = (nx*(255-axx)+bx*axx)/255;
-					gx = (nx*(255-axx)+gx*axx)/255;
-					rx = (nx*(255-axx)+rx*axx)/255;
-					mx = (nx*(255-axx)+mmx*axx)/255;
+					bx = (nx*(255 - axx) + bx*axx) / 255;
+					gx = (nx*(255 - axx) + gx*axx) / 255;
+					rx = (nx*(255 - axx) + rx*axx) / 255;
+					mx = (nx*(255 - axx) + mmx*axx) / 255;
 				}
 				{
 					blx = getb(cl);
 					glx = getg(cl);
 					rlx = getr(cl);
 
-					brx = (b-blx)*bx/255;
-					grx = (g-glx)*gx/255;
-					rrx = (r-rlx)*rx/255;
-					row_dst[j] = rgba(rlx+rrx, glx+grx, blx+brx, mx+(255-mx)*axx/255);
+					brx = (b - blx)*bx / 255;
+					grx = (g - glx)*gx / 255;
+					rrx = (r - rlx)*rx / 255;
+					row_dst[j] = rgba(rlx + rrx, glx + grx, blx + brx, mx + (255 - mx)*axx / 255);
 				}
 			}
 		}
@@ -930,45 +831,39 @@ HRGN MyBitmap::buildOpaqueRgn(int level, bool opaque)
 	int first = 0;
 	bool wasfirst = false;
 	bool ismask = false;
-	for (int i = 0; i < height; i++)
-	{
+	for (int i = 0; i < height; i++) {
 		int j; // we will need j after the loop!
-		for (j = 0; j < width; j++)
-		{
+		for (j = 0; j < width; j++) {
 			ismask = opaque ? (int)geta(this->getRow(i)[j]) > level : (int)geta(this->getRow(i)[j]) < level;
-			if (wasfirst)
-			{
-				if (!ismask)
-				{
-					SetRect(&pRects[pRgnData->rdh.nCount++], first, i, j, i+1);
-					if ((int)(pRgnData->rdh.nCount) >= rectsCount)
-					{
+			if (wasfirst) {
+				if (!ismask) {
+					SetRect(&pRects[pRgnData->rdh.nCount++], first, i, j, i + 1);
+					if ((int)(pRgnData->rdh.nCount) >= rectsCount) {
 						rectsCount += addRectsCount;
 						LPRGNDATA pRgnDataNew = (LPRGNDATA)(new BYTE[sizeof(RGNDATAHEADER) + (rectsCount)*sizeof(RECT)]);
 						memcpy(pRgnDataNew, pRgnData, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount * sizeof(RECT));
-						delete pRgnData;
+						delete[] pRgnData;
 						pRgnData = pRgnDataNew;
 						pRects = (LPRECT)(&pRgnData->Buffer);
 					}
 					wasfirst = false;
 				}
-			} else
-			if (ismask) // set wasfirst when mask is found
-			{
-				first = j;
-				wasfirst = true;
 			}
+			else
+				if (ismask) // set wasfirst when mask is found
+				{
+					first = j;
+					wasfirst = true;
+				}
 		}
 
-		if (wasfirst && ismask)
-		{
-			SetRect(&pRects[pRgnData->rdh.nCount++], first, i, j, i+1);
-			if ((int)(pRgnData->rdh.nCount) >= rectsCount)
-			{
+		if (wasfirst && ismask) {
+			SetRect(&pRects[pRgnData->rdh.nCount++], first, i, j, i + 1);
+			if ((int)(pRgnData->rdh.nCount) >= rectsCount) {
 				rectsCount += addRectsCount;
 				LPRGNDATA pRgnDataNew = (LPRGNDATA)(new BYTE[sizeof(RGNDATAHEADER) + (rectsCount)*sizeof(RECT)]);
 				memcpy(pRgnDataNew, pRgnData, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount * sizeof(RECT));
-				delete pRgnData;
+				delete[] pRgnData;
 				pRgnData = pRgnDataNew;
 				pRects = (LPRECT)(&pRgnData->Buffer);
 			}
@@ -995,13 +890,13 @@ static int hex2dec(char hex)
 
 bool MyBitmap::loadFromFile_pixel(const char *fn, const char *fnAlpha)
 {
-	allocate(1,1);
+	allocate(1, 1);
 	int r, g, b, a = 255;
 	const char *p = fn + mir_strlen("pixel:");
 	r = (hex2dec(p[0]) << 4) + hex2dec(p[1]);
 	g = (hex2dec(p[2]) << 4) + hex2dec(p[3]);
 	b = (hex2dec(p[4]) << 4) + hex2dec(p[5]);
-	*bits = rgba(r,g,b,a);
+	*bits = rgba(r, g, b, a);
 	return true;
 }
 
@@ -1009,8 +904,8 @@ bool MyBitmap::loadFromFile_gradient(const char *fn, const char *fnAlpha)
 {
 	const char *p = fn + mir_strlen("gradient:");
 
-	if (*p == 'h') allocate(256,1);
-	else allocate(1,256);
+	if (*p == 'h') allocate(256, 1);
+	else allocate(1, 256);
 
 	int r, g, b, a = 255;
 
@@ -1018,22 +913,20 @@ bool MyBitmap::loadFromFile_gradient(const char *fn, const char *fnAlpha)
 	r = (hex2dec(p[0]) << 4) + hex2dec(p[1]);
 	g = (hex2dec(p[2]) << 4) + hex2dec(p[3]);
 	b = (hex2dec(p[4]) << 4) + hex2dec(p[5]);
-	COLOR32 from = rgba(r,g,b,a);
+	COLOR32 from = rgba(r, g, b, a);
 
 	p += 7;
 	r = (hex2dec(p[0]) << 4) + hex2dec(p[1]);
 	g = (hex2dec(p[2]) << 4) + hex2dec(p[3]);
 	b = (hex2dec(p[4]) << 4) + hex2dec(p[5]);
-	COLOR32 to = rgba(r,g,b,a);
+	COLOR32 to = rgba(r, g, b, a);
 
-	for (int i = 0; i < 256; ++i)
-	{
+	for (int i = 0; i < 256; ++i) {
 		bits[i] = rgba(
-				((255-i) * getr(from) + i * getr(to)) / 255,
-				((255-i) * getg(from) + i * getg(to)) / 255,
-				((255-i) * getb(from) + i * getb(to)) / 255,
-				255
-			);
+			((255 - i) * getr(from) + i * getr(to)) / 255,
+			((255 - i) * getg(from) + i * getg(to)) / 255,
+			((255 - i) * getb(from) + i * getb(to)) / 255,
+			255);
 	}
 
 	return true;
@@ -1041,8 +934,7 @@ bool MyBitmap::loadFromFile_gradient(const char *fn, const char *fnAlpha)
 
 bool MyBitmap::loadFromFile_png(const char *fn, const char *fnAlpha)
 {
-	if (ServiceExists(MS_PNG2DIB))
-	{
+	if (ServiceExists(MS_PNG2DIB)) {
 		HANDLE hFile, hMap = 0;
 		BYTE *ppMap = 0;
 		long cbFileSize = 0;
@@ -1050,16 +942,16 @@ bool MyBitmap::loadFromFile_png(const char *fn, const char *fnAlpha)
 		BYTE *pDibBits;
 		if ((hFile = CreateFileA(fn, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
 			if ((hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL)) != NULL)
-					if ((ppMap = (BYTE*)MapViewOfFile( hMap, FILE_MAP_READ, 0, 0, 0)) != NULL)
-						cbFileSize = GetFileSize(hFile, NULL);
-		if (cbFileSize)
-		{
+				if ((ppMap = (BYTE*)MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0)) != NULL)
+					cbFileSize = GetFileSize(hFile, NULL);
+
+		if (cbFileSize) {
 			PNG2DIB param;
 			param.pSource = ppMap;
 			param.cbSourceSize = cbFileSize;
 			param.pResult = &pDib;
 			if (CallService(MS_PNG2DIB, 0, (LPARAM)&param))
-				pDibBits = (BYTE*)(pDib+1);
+				pDibBits = (BYTE*)(pDib + 1);
 			else
 				cbFileSize = 0;
 		}
@@ -1072,10 +964,9 @@ bool MyBitmap::loadFromFile_png(const char *fn, const char *fnAlpha)
 
 		BITMAPINFO *bi = (BITMAPINFO*)pDib;
 		BYTE *pt = (BYTE*)bi;
-		pt+=bi->bmiHeader.biSize;
+		pt += bi->bmiHeader.biSize;
 
-		if (bi->bmiHeader.biBitCount != 32)
-		{
+		if (bi->bmiHeader.biBitCount != 32) {
 			allocate(abs(bi->bmiHeader.biWidth), abs(bi->bmiHeader.biHeight));
 			HDC hdcTmp = CreateCompatibleDC(getDC());
 			HBITMAP hBitmap = CreateDIBitmap(getDC(), pDib, CBM_INIT, pDibBits, bi, DIB_PAL_COLORS);
@@ -1084,15 +975,13 @@ bool MyBitmap::loadFromFile_png(const char *fn, const char *fnAlpha)
 			this->makeOpaque();
 			DeleteDC(hdcTmp);
 			DeleteObject(hBitmap);
-		} else
-		{
+		}
+		else {
 			allocate(abs(bi->bmiHeader.biWidth), abs(bi->bmiHeader.biHeight));
 			BYTE *p2 = (BYTE *)pt;
-			for (int y = 0; y<bi->bmiHeader.biHeight; ++y)
-			{
-				BYTE *p1 = (BYTE *)bits + (bi->bmiHeader.biHeight-y-1)*bi->bmiHeader.biWidth*4;
-				for (int x = 0; x<bi->bmiHeader.biWidth; ++x)
-				{
+			for (int y = 0; y < bi->bmiHeader.biHeight; ++y) {
+				BYTE *p1 = (BYTE *)bits + (bi->bmiHeader.biHeight - y - 1)*bi->bmiHeader.biWidth * 4;
+				for (int x = 0; x < bi->bmiHeader.biWidth; ++x) {
 					p1[0] = p2[0];
 					p1[1] = p2[1];
 					p1[2] = p2[2];
@@ -1101,17 +990,14 @@ bool MyBitmap::loadFromFile_png(const char *fn, const char *fnAlpha)
 					p2 += 4;
 				}
 			}
-//				memcpy(bits, pt, bi->bmiHeader.biSizeImage);
 			premultipleChannels();
 		}
 
 		GlobalFree(pDib);
 		return true;
-	} else
-	{
-//			MessageBox(NULL, Translate("You need the png2dib plugin v. 0.1.3.x or later to process PNG images"), Translate("Error"), MB_OK);
-		return false;
 	}
+
+	return false;
 }
 
 bool MyBitmap::loadFromFile_default(const char *fn, const char *fnAlpha)
@@ -1135,17 +1021,13 @@ bool MyBitmap::loadFromFile_default(const char *fn, const char *fnAlpha)
 	DeleteDC(dcTmp);
 
 	MyBitmap alpha;
-	if (fnAlpha && alpha.loadFromFile(fnAlpha) &&
-		(alpha.getWidth() == width) &&
-		(alpha.getHeight() == height))
-	{
+	if (fnAlpha && alpha.loadFromFile(fnAlpha) && (alpha.getWidth() == width) && (alpha.getHeight() == height)) {
 		for (int i = 0; i < width*height; i++)
-			bits[i] = (bits[i] & 0x00ffffff) | ((alpha.bits[i] & 0x000000ff) << 24 );
+			bits[i] = (bits[i] & 0x00ffffff) | ((alpha.bits[i] & 0x000000ff) << 24);
 		premultipleChannels();
-	} else
-	{
-		makeOpaque();
 	}
+	else makeOpaque();
+
 	return true;
 }
 
@@ -1154,26 +1036,17 @@ bool MyBitmap::loadFromFile(const char *fn, const char *fnAlpha)
 	if (bits) free();
 
 	if (!strncmp(fn, "pixel:", mir_strlen("pixel:")))
-	{
 		return loadFromFile_pixel(fn, fnAlpha);
-	} else
+
 	if (!strncmp(fn, "gradient:", mir_strlen("gradient:")))
-	{
 		return loadFromFile_gradient(fn, fnAlpha);
-	} else
-	{
-		char ext[5];
-		memcpy(ext,fn+(strlen(fn)-4),5);
-		if (!mir_strcmpi(ext,".png"))
-		{
-			return loadFromFile_png(fn, fnAlpha);
-		} else
-		{
-			return loadFromFile_default(fn, fnAlpha);
-		}
-	}
-	// unreachable place
-	return false;
+
+	char ext[5];
+	memcpy(ext, fn + (strlen(fn) - 4), 5);
+	if (!mir_strcmpi(ext, ".png"))
+		return loadFromFile_png(fn, fnAlpha);
+
+	return loadFromFile_default(fn, fnAlpha);
 }
 
 void MyBitmap::allocate(int w, int h)
@@ -1185,22 +1058,21 @@ void MyBitmap::allocate(int w, int h)
 
 	BITMAPINFO bi;
 
-    bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
-    bi.bmiHeader.biWidth = w;
-    bi.bmiHeader.biHeight = -h;
-    bi.bmiHeader.biPlanes = 1;
-    bi.bmiHeader.biBitCount = 32;
-    bi.bmiHeader.biCompression = BI_RGB;
+	bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
+	bi.bmiHeader.biWidth = w;
+	bi.bmiHeader.biHeight = -h;
+	bi.bmiHeader.biPlanes = 1;
+	bi.bmiHeader.biBitCount = 32;
+	bi.bmiHeader.biCompression = BI_RGB;
 
-	if (dcBmp)
-	{
+	if (dcBmp) {
 		DeleteObject(SelectObject(dcBmp, hBmpSave));
 		DeleteDC(dcBmp);
 	}
 
-    hBmp = (HBITMAP)CreateDIBSection(0, &bi, DIB_RGB_COLORS, (void **)&bits, 0, 0);
-    dcBmp = CreateCompatibleDC(0);
-    hBmpSave = (HBITMAP)SelectObject(dcBmp, hBmp);
+	hBmp = (HBITMAP)CreateDIBSection(0, &bi, DIB_RGB_COLORS, (void **)&bits, 0, 0);
+	dcBmp = CreateCompatibleDC(0);
+	hBmpSave = (HBITMAP)SelectObject(dcBmp, hBmp);
 
 	GdiFlush();
 }
@@ -1223,5 +1095,5 @@ void MyBitmap::premultipleChannels()
 	GdiFlush();
 
 	for (int i = 0; i < width*height; i++)
-		bits[i] = rgba(getr(bits[i])*geta(bits[i])/255, getg(bits[i])*geta(bits[i])/255, getb(bits[i])*geta(bits[i])/255, geta(bits[i]));
+		bits[i] = rgba(getr(bits[i])*geta(bits[i]) / 255, getg(bits[i])*geta(bits[i]) / 255, getb(bits[i])*geta(bits[i]) / 255, geta(bits[i]));
 }

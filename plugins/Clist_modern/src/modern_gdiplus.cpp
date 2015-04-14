@@ -168,16 +168,14 @@ BOOL GDIPlus_IsAnimatedGif(TCHAR * szName)
 	return (BOOL)(nFrameCount > 1);
 }
 
-void GDIPlus_ExtractAnimatedGIF(TCHAR * szName, int width, int height, HBITMAP * pBitmap, int ** pframesDelay, int * pframesCount, SIZE * pSizeAvatar)
+void GDIPlus_ExtractAnimatedGIF(TCHAR *szName, int width, int height, HBITMAP &pBitmap, int* &pframesDelay, int &pframesCount, SIZE &pSizeAvatar)
 {
 	int nFrameCount = 0;
 	Bitmap image(szName);
 	PropertyItem * pPropertyItem;
 
-	UINT count = 0;
-
-	count = image.GetFrameDimensionsCount();
-	GUID* pDimensionIDs = new GUID[count];
+	UINT count = image.GetFrameDimensionsCount();
+	GUID *pDimensionIDs = new GUID[count];
 
 	// Get the list of frame dimensions from the Image object.
 	image.GetFrameDimensionsList(pDimensionIDs, count);
@@ -212,18 +210,15 @@ void GDIPlus_ExtractAnimatedGIF(TCHAR * szName, int width, int height, HBITMAP *
 
 	graphics.SetInterpolationMode(InterpolationModeHighQualityBicubic);
 	graphics.SetPixelOffsetMode(PixelOffsetModeHalf);
-	int * delays = (int*)malloc(nFrameCount*sizeof(int));
+	int *delays = (int*)malloc(nFrameCount*sizeof(int));
 	memset(delays, 0, nFrameCount*sizeof(int));
 
-	GUID   pageGuid = FrameDimensionTime;
-	/*
-	The GDIPlus strange behavior: without next 2 lines it will draw first frame anti aliased, but next - not
-	*/
+	// The GDIPlus strange behavior: without next 2 lines it will draw first frame anti aliased, but next - not
+	GUID pageGuid = FrameDimensionTime;
 	if (nFrameCount > 1)
 		image.SelectActiveFrame(&pageGuid, 1);
 
-	for (int i = 0; i < nFrameCount; i++)
-	{
+	for (int i = 0; i < nFrameCount; i++) {
 		image.SelectActiveFrame(&pageGuid, i);
 		graphics.DrawImage(&image, Rect(i*clipWidth, 0, clipWidth, clipHeight), 0, 0, imWidth, imHeight, UnitPixel, &attr);
 		long lPause = ((long*)pPropertyItem->value)[i] * 10;
@@ -233,13 +228,12 @@ void GDIPlus_ExtractAnimatedGIF(TCHAR * szName, int width, int height, HBITMAP *
 	DeleteDC(hdc);
 	free(pPropertyItem);
 	delete[] pDimensionIDs;
-	if (pBitmap && pframesDelay && pframesCount && pSizeAvatar)
-	{
-		*pBitmap = hBitmap;
-		*pframesDelay = delays;
-		*pframesCount = nFrameCount;
-		pSizeAvatar->cx = clipWidth;
-		pSizeAvatar->cy = clipHeight;
-	}
+
+	pBitmap = hBitmap;
+	pframesDelay = delays;
+	pframesCount = nFrameCount;
+	pSizeAvatar.cx = clipWidth;
+	pSizeAvatar.cy = clipHeight;
+
 	GdiFlush();
 }

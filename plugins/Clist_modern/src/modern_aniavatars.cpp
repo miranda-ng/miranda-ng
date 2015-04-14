@@ -28,8 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define IMMEDIATE_DRAW (!s_bSeparateWindow)
 
-void GDIPlus_ExtractAnimatedGIF(TCHAR * szName, int width, int height, HBITMAP  * pBmp, int ** pframesDelay, int * pframesCount, SIZE * sizeAvatar);
-BOOL GDIPlus_IsAnimatedGif(TCHAR * szName);
+void GDIPlus_ExtractAnimatedGIF(TCHAR *szName, int width, int height, HBITMAP &pBmp, int* &pframesDelay, int &pframesCount, SIZE &sizeAvatar);
+BOOL GDIPlus_IsAnimatedGif(TCHAR *szName);
 
 /* Next is module */
 #define ANIAVAWINDOWCLASS _T("MirandaModernAniAvatar")
@@ -356,7 +356,7 @@ static int	_AniAva_LoadAvatarFromImage(TCHAR * szFileName, int width, int height
 
 		// get image strip
 		HBITMAP hBitmap = NULL;
-		GDIPlus_ExtractAnimatedGIF(szFileName, width, height, &hBitmap, &(paai->pFrameDelays), &(paai->nFrameCount), &(paai->FrameSize));
+		GDIPlus_ExtractAnimatedGIF(szFileName, width, height, hBitmap, paai->pFrameDelays, paai->nFrameCount, paai->FrameSize);
 
 		// copy image to temp DC
 		HDC     hTempDC = CreateCompatibleDC(NULL);
