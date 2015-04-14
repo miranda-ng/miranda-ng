@@ -41,7 +41,7 @@ struct CHAR_VALUE : public VALUE
 struct FORMAT_VALUE : public VALUE
 {
 	CMStringA szValue;
-	__forceinline FORMAT_VALUE(LPCSTR _name, LPCSTR _valueFormat, ...)
+	FORMAT_VALUE(LPCSTR _name, LPCSTR _valueFormat, ...)
 		: VALUE(_name)
 	{
 		va_list args;
