@@ -69,7 +69,7 @@ void GifAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *op
 			frameDelays = NULL;
 		}
 		if (hBitmap) DeleteObject(hBitmap);
-		GDIPlus_ExtractAnimatedGIF(av->szFilename, w, h, &hBitmap, &frameDelays, &frameCount, &frameSize);
+		GDIPlus_ExtractAnimatedGIF(av->szFilename, w, h, hBitmap, frameDelays, frameCount, frameSize);
 	}
 
 	if (!frameCount) return;

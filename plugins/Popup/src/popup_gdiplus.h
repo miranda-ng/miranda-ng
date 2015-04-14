@@ -28,6 +28,6 @@ void UnloadGDIPlus();
 
 BOOL GDIPlus_IsAnimatedGIF(TCHAR * szName);
 void GDIPlus_GetGIFSize(TCHAR * szName, int * width, int * height);
-void GDIPlus_ExtractAnimatedGIF(TCHAR * szName, int width, int height, HBITMAP * pBitmap, int ** pframesDelay, int * pframesCount, SIZE * pSizeAvatar);
+void GDIPlus_ExtractAnimatedGIF(TCHAR *szName, int width, int height, HBITMAP &pBitmap, int* &pframesDelay, int &pframesCount, SIZE &pSizeAvatar);
 
 #endif // __popup_gdiplus_h__

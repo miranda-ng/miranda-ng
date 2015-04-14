@@ -64,7 +64,7 @@ void UnloadGDIPlus()
 
 using namespace Gdiplus;
 
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+/////////////////////////////////////////////////////////////////////////////////
 //  GDIPlus_IsAnimatedGIF and GDIPlus_ExtractAnimatedGIF
 //  based on routine from http:// www.codeproject.com/vcpp/gdiplus/imageexgdi.asp
 // 
@@ -118,7 +118,7 @@ BOOL GDIPlus_IsAnimatedGIF(TCHAR * szName)
 	return (BOOL)(nFrameCount > 1) && image.GetWidth() && image.GetHeight();
 }
 
-void GDIPlus_GetGIFSize(TCHAR * szName, int * width, int * height)
+void GDIPlus_GetGIFSize(TCHAR *szName, int *width, int *height)
 {
 	Image image(szName);
 
@@ -126,7 +126,7 @@ void GDIPlus_GetGIFSize(TCHAR * szName, int * width, int * height)
 	*height = image.GetHeight();
 }
 
-void GDIPlus_ExtractAnimatedGIF(TCHAR * szName, int width, int height, HBITMAP * pBitmap, int ** pframesDelay, int * pframesCount, SIZE * pSizeAvatar)
+void GDIPlus_ExtractAnimatedGIF(TCHAR *szName, int width, int height, HBITMAP &pBitmap, int* &pframesDelay, int &pframesCount, SIZE &pSizeAvatar)
 {
 	int nFrameCount = 0;
 	Bitmap image(szName);
@@ -186,13 +186,12 @@ void GDIPlus_ExtractAnimatedGIF(TCHAR * szName, int width, int height, HBITMAP *
 	mir_free(pPropertyItem);
 	pPropertyItem = NULL;
 	delete[]pDimensionIDs;
-	if (pBitmap && pframesDelay && pframesCount && pSizeAvatar)
-	{
-		*pBitmap = hBitmap;
-		*pframesDelay = delays;
-		*pframesCount = nFrameCount;
-		pSizeAvatar->cx = clipWidth;
-		pSizeAvatar->cy = clipHeight;
-	}
+
+	pBitmap = hBitmap;
+	pframesDelay = delays;
+	pframesCount = nFrameCount;
+	pSizeAvatar.cx = clipWidth;
+	pSizeAvatar.cy = clipHeight;
+
 	GdiFlush();
 }
