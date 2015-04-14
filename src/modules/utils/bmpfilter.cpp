@@ -94,7 +94,7 @@ static INT_PTR sttBitmapLoader(const TCHAR* ptszFileName)
 			return (INT_PTR)cbFileSize;
 	}	}
 
-	if (S_OK != OleLoadPicturePath(LPOLESTR((const wchar_t*)StrConvU(szFilename)), NULL, 0, 0, IID_IPicture, (PVOID*)&pic))
+	if (S_OK != OleLoadPicturePath(LPOLESTR(szFilename), NULL, 0, 0, IID_IPicture, (PVOID*)&pic))
 		return 0;
 
 	pic->get_Type(&picType);
@@ -128,7 +128,7 @@ static INT_PTR sttBitmapLoader(const TCHAR* ptszFileName)
 
 static INT_PTR BmpFilterLoadBitmap(WPARAM, LPARAM lParam)
 {
-	return sttBitmapLoader(StrConvT((const char*)lParam));
+	return sttBitmapLoader(_A2T((const char*)lParam));
 }
 
 static INT_PTR BmpFilterLoadBitmapW(WPARAM, LPARAM lParam)

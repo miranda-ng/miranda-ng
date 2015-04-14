@@ -172,38 +172,20 @@ int  AssertInsideScreen(RECT &rc);
 
 HBITMAP ConvertIconToBitmap(HICON hIcon, HIMAGELIST hIml, int iconId);
 
-class StrConvUT
-{
-private:
-	wchar_t* m_body;
-
-public:
-	StrConvUT(const char* pSrc) :
-		m_body(mir_a2u(pSrc)) {}
-
-	~StrConvUT() {  mir_free(m_body); }
-	operator const wchar_t* () const { return m_body; }
-};
-
-class StrConvAT
+class StrConvA
 {
 private:
 	char* m_body;
 
 public:
-	StrConvAT(const wchar_t* pSrc) :
+	StrConvA(const wchar_t* pSrc) :
 		m_body(mir_u2a(pSrc)) {}
 
-	~StrConvAT() {  mir_free(m_body); }
+	~StrConvA() {  mir_free(m_body); }
 	operator const char*  () const { return m_body; }
 	operator const wchar_t* () const { return (wchar_t*)m_body; }  // type cast to fake the interface definition
 	operator const LPARAM () const { return (LPARAM)m_body; }
 };
-
-#define StrConvT(x) StrConvUT(x)
-#define StrConvTu(x) x
-#define StrConvA(x) StrConvAT(x)
-#define StrConvU(x) x
 
 ///////////////////////////////////////////////////////////////////////////////
 

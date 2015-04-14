@@ -150,7 +150,7 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 
 HANDLE NetlibInitSecurityProvider(const char* szProvider, const char* szPrincipal)
 {
-	return NetlibInitSecurityProvider(StrConvT(szProvider), StrConvT(szPrincipal));
+	return NetlibInitSecurityProvider(_A2T(szProvider), _A2T(szPrincipal));
 }
 
 void NetlibDestroySecurityProvider(HANDLE hSecurity)
@@ -440,7 +440,7 @@ static INT_PTR NtlmCreateResponseService(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	unsigned complete = 0;
-	char *response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge, StrConvT(req->userName), StrConvT(req->password), false, complete);
+	char *response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge, _A2T(req->userName), _A2T(req->password), false, complete);
 	return (INT_PTR)response;
 }
 
