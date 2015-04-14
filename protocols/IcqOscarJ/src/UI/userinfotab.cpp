@@ -106,19 +106,18 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 					unspecified = 1;
 			}
 			else if (special == SVS_STATUSID) {
-				char *pXName;
 				char *pszStatus = MirandaStatusToStringUtf(dbv.wVal);
 				BYTE bXStatus = ppro->getContactXStatus(hContact);
 
 				if (bXStatus) {
-					pXName = ppro->getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, NULL);
-					if (!mir_strlen(pXName)) { // give default name
+					char *pXName = ppro->getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, NULL);
+					if (pXName == NULL) // give default name
 						pXName = ICQTranslateUtf(nameXStatus[bXStatus - 1]);
-					}
+
 					mir_snprintf(str, SIZEOF(str), "%s (%s)", pszStatus, pXName);
 					SAFE_FREE((void**)&pXName);
-				} else
-					strncpy_s(str, pszStatus, _TRUNCATE);
+				}
+				else strncpy_s(str, pszStatus, _TRUNCATE);
 
 				bUtf = 1;
 				SAFE_FREE(&pszStatus);

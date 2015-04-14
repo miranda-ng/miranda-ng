@@ -386,8 +386,8 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 								null_strcpy(szEnc, (char*)charset->pData, charset->wLen);
 								str = ApplyEncoding((char*)pszDescription, szEnc);
 							}
-							else
-								str = null_strdup(str);
+							else str = null_strdup(str);
+							
 							// eliminate HTML tags
 							pszDescription = EliminateHtml(str, mir_strlen(str));
 
