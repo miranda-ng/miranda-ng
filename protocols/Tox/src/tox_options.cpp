@@ -149,27 +149,36 @@ void CToxOptionsMain::OnApply()
 
 CToxOptionsMultimedia::CToxOptionsMultimedia(CToxProto *proto)
 	: CToxDlgBase(proto, IDD_OPTIONS_AV, false),
-	m_audioInput(this, IDC_AUDIOINPUT), m_audioOutput(this, IDC_AUDIOOUTPUT)
+	m_audioInput(this, IDC_AUDIOINPUT),
+	m_audioOutput(this, IDC_AUDIOOUTPUT)
 {
-	m_audioInput.OnChange = Callback(this, &CToxOptionsMultimedia::AudioInput_OnClick);
-	m_audioOutput.OnChange = Callback(this, &CToxOptionsMultimedia::AudioOutput_OnClick);
 }
 
 void CToxOptionsMultimedia::OnInitDialog()
 {
 	CToxDlgBase::OnInitDialog();
-}
+	
+	DWORD count = 0;
 
-void CToxOptionsMultimedia::AudioInput_OnClick(CCtrlData*)
-{
-}
+	WAVEINCAPS wic;
+	count = waveInGetNumDevs();
+	for (DWORD i = 0; i < count; i++)
+		if (!waveInGetDevCaps(i, &wic, sizeof(WAVEINCAPS)))
+			m_audioInput.InsertString(wic.szPname, i);
+	m_audioInput.SetCurSel(m_proto->getDword("AudioInputDeviceID", 0));
 
-void CToxOptionsMultimedia::AudioOutput_OnClick(CCtrlData*)
-{
+	WAVEOUTCAPS woc;
+	count = waveOutGetNumDevs();
+	for (DWORD i = 0; i < count; i++)
+		if (!waveOutGetDevCaps(i, &woc, sizeof(WAVEOUTCAPS)))
+			m_audioOutput.InsertString(woc.szPname, i);
+	m_audioOutput.SetCurSel(m_proto->getDword("AudioOutputDeviceID", 0));
 }
 
 void CToxOptionsMultimedia::OnApply()
 {
+	m_proto->setDword("AudioInputDeviceID", m_audioInput.GetCurSel());
+	m_proto->setDword("AudioOutputDeviceID", m_audioOutput.GetCurSel());
 }
 
 /////////////////////////////////////////////////////////////////////////////////

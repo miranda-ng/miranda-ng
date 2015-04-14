@@ -39,7 +39,7 @@ bool CToxProto::InitToxCore()
 		}
 	}
 
-	debugLogA("CToxProto::InitToxCore: loading tox profile");
+	debugLogA(__FUNCTION__": loading tox profile");
 
 	if (LoadToxProfile(options))
 	{
@@ -47,17 +47,31 @@ bool CToxProto::InitToxCore()
 		tox_callback_friend_message(tox, OnFriendMessage, this);
 		tox_callback_friend_read_receipt(tox, OnReadReceipt, this);
 		tox_callback_friend_typing(tox, OnTypingChanged, this);
+		//
 		tox_callback_friend_name(tox, OnFriendNameChange, this);
 		tox_callback_friend_status_message(tox, OnStatusMessageChanged, this);
 		tox_callback_friend_status(tox, OnUserStatusChanged, this);
 		tox_callback_friend_connection_status(tox, OnConnectionStatusChanged, this);
-		// file transfers
+		// transfers
 		tox_callback_file_recv_control(tox, OnFileRequest, this);
 		tox_callback_file_recv(tox, OnFriendFile, this);
 		tox_callback_file_recv_chunk(tox, OnFileReceiveData, this);
 		tox_callback_file_chunk_request(tox, OnFileSendData, this);
 		// group chats
 		//tox_callback_group_invite(tox, OnGroupChatInvite, this);
+		// a/v
+		toxAv = toxav_new(tox, TOX_MAX_CALLS);
+		toxav_register_audio_callback(toxAv, OnFriendAudio, this);
+		toxav_register_callstate_callback(toxAv, OnAvInvite, av_OnInvite, this);
+		toxav_register_callstate_callback(toxAv, OnAvStart, av_OnStart, this);
+		toxav_register_callstate_callback(toxAv, OnAvCancel, av_OnCancel, this);
+		toxav_register_callstate_callback(toxAv, OnAvReject, av_OnReject, this);
+		toxav_register_callstate_callback(toxAv, OnAvEnd, av_OnEnd, this);
+		toxav_register_callstate_callback(toxAv, OnAvRinging, av_OnRinging, this);
+		toxav_register_callstate_callback(toxAv, OnAvCsChange, av_OnPeerCSChange, this);
+		toxav_register_callstate_callback(toxAv, OnAvCsChange, av_OnSelfCSChange, this);
+		toxav_register_callstate_callback(toxAv, OnAvRequestTimeout, av_OnRequestTimeout, this);
+		toxav_register_callstate_callback(toxAv, OnAvPeerTimeout, av_OnPeerTimeout, this);
 
 		uint8_t data[TOX_ADDRESS_SIZE];
 		tox_self_get_address(tox, data);
@@ -82,7 +96,8 @@ bool CToxProto::InitToxCore()
 
 void CToxProto::UninitToxCore()
 {
-	if (tox) {
+	if (tox)
+	{
 		for (size_t i = 0; i < transfers.Count(); i++)
 		{
 			FileTransferParam *transfer = transfers.GetAt(i);
@@ -101,6 +116,9 @@ void CToxProto::UninitToxCore()
 		//	ptrA statusmes(mir_utf8encodeW(ptrT(getTStringA("StatusMsg"))));
 		//	tox_set_status_message(tox, (uint8_t*)(char*)statusmes, mir_strlen(statusmes));
 		//}
+
+		if (toxAv)
+			toxav_kill(toxAv);
 
 		SaveToxProfile();
 		if (password != NULL)
