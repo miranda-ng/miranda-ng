@@ -22,6 +22,16 @@ Inne
 Automatyczna synchronizacja wiadomości
 [Use local time for received messages]
 Używaj czasu lokalnego dla odebranych wiadomości
+[Mark message as read...]
+Oznaczaj wiadomość jako przeczytaną...
+[on read]
+po przeczytaniu
+[on receive]
+po otrzymaniu
+[on reply]
+po odpowiedzeniu
+[on typing]
+podczas pisania
 [Enter password]
 Wprowadź hasło
 [Save password]
