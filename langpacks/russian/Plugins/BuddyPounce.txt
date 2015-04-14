@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.1
+;  Version: 0.3.2.2
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -107,10 +107,10 @@
 -> Обедаю
 [The Message    (%d Characters)]
 Сообщение      (%d символов)
-[Couldn't allocate enough memory]
-Не удалось выделить достаточное количество памяти
 [error......]
 ошибка......
+[Couldn't allocate enough memory]
+Не удалось выделить достаточное количество памяти
 [The Message    (0 Characters)]
 Сообщение    (0 символов)
 [Reuse this message? (0 to use it once)]
