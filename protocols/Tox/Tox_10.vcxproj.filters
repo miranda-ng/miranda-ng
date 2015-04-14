@@ -63,6 +63,9 @@
     <ClInclude Include="src\tox_dialogs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\toxav.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\tox_proto.cpp">
@@ -146,6 +149,12 @@
     <ClCompile Include="src\tox_icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\api_av.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tox_multimedia.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
@@ -159,5 +168,10 @@
     <Image Include="res\icons\tox.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Icons\audio_call.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
   </ItemGroup>
 </Project>
