@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.12
+;  Version: 0.1.2.13
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -51,6 +51,8 @@
 [Your password has been set automatically. You can proceed with login now]
 [Please correctly specify your registration code received by SMS]
 [Changes will be applied after protocol restart]
+[Network]
+[Account]
 ;file \protocols\WhatsApp\src\messages.cpp
 [server]
 [Message received: %s by %s]
@@ -63,8 +65,6 @@
 [Registration failed.]
 [Please try again in %i seconds]
 [Registration code has been sent to your phone.]
-[Network]
-[Account]
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
 [Create chat group]

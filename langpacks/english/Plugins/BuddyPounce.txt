@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.1
+;  Version: 0.3.2.2
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -58,8 +58,8 @@
 [To On The Phone]
 [To Out To Lunch]
 [The Message    (%d Characters)]
-[Couldn't allocate enough memory]
 [error......]
+[Couldn't allocate enough memory]
 [The Message    (0 Characters)]
 [Reuse this message? (0 to use it once)]
 [Times]
