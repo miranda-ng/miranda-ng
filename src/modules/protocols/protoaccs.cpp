@@ -308,7 +308,7 @@ static INT_PTR stub3(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM)
 
 static INT_PTR stub4(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {
-	return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, StrConvT((const char*)lParam));
+	return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, _A2T((const char*)lParam));
 }
 
 static INT_PTR stub11(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
@@ -329,19 +329,19 @@ static INT_PTR stub13(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM)
 
 static INT_PTR stub15(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
 {
-	return (INT_PTR)ppi->SearchBasic(StrConvT((char*)lParam));
+	return (INT_PTR)ppi->SearchBasic(_A2T((char*)lParam));
 }
 
 static INT_PTR stub16(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
 {
-	return (INT_PTR)ppi->SearchByEmail(StrConvT((char*)lParam));
+	return (INT_PTR)ppi->SearchByEmail(_A2T((char*)lParam));
 }
 
 static INT_PTR stub17(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
 {
 	PROTOSEARCHBYNAME* psbn = (PROTOSEARCHBYNAME*)lParam;
-	return (INT_PTR)ppi->SearchByName(StrConvT((char*)psbn->pszNick),
-		StrConvT((char*)psbn->pszFirstName), StrConvT((char*)psbn->pszLastName));
+	return (INT_PTR)ppi->SearchByName(_A2T((char*)psbn->pszNick),
+		_A2T((char*)psbn->pszFirstName), _A2T((char*)psbn->pszLastName));
 }
 
 static INT_PTR stub18(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
@@ -368,7 +368,7 @@ static INT_PTR stub29(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM)
 
 static INT_PTR stub33(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {
-	return (INT_PTR)ppi->SetAwayMsg(wParam, StrConvT((const char*)lParam));
+	return (INT_PTR)ppi->SetAwayMsg(wParam, _A2T((const char*)lParam));
 }
 
 static INT_PTR stub41(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
@@ -418,7 +418,7 @@ static INT_PTR stub44(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 
 static INT_PTR stub45(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {
-	return CallProtoServiceInt(NULL, ppi->m_szModuleName, PS_SETMYAVATARW, wParam, (LPARAM)(LPCTSTR)StrConvT((char*)lParam));
+	return CallProtoServiceInt(NULL, ppi->m_szModuleName, PS_SETMYAVATARW, wParam, (LPARAM)(LPCTSTR)_A2T((char*)lParam));
 }
 
 static HANDLE CreateProtoServiceEx(const char* szModule, const char* szService, MIRANDASERVICEOBJ pFunc, void* param)

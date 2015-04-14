@@ -143,7 +143,7 @@ static bool OnCreateAccount(HWND hwndDlg)
 	if (param->action == PRAC_UPGRADED) {
 		BOOL oldProto = pa->bOldProto;
 		TCHAR szPlugin[MAX_PATH];
-		mir_sntprintf(szPlugin, SIZEOF(szPlugin), _T("%s.dll"), StrConvT(pa->szProtoName));
+		mir_sntprintf(szPlugin, SIZEOF(szPlugin), _T("%s.dll"), _A2T(pa->szProtoName));
 		int idx = accounts.getIndex(pa);
 		UnloadAccount(pa, false, false);
 		accounts.remove(idx);

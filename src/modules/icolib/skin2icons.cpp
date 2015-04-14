@@ -540,7 +540,7 @@ HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC* sid)
 		if (utf_path)
 			PathToAbsoluteT(sid->pwszDefaultFile, fileFull);
 		else
-			PathToAbsoluteT( StrConvT(sid->pszDefaultFile), fileFull);
+			PathToAbsoluteT(_A2T(sid->pszDefaultFile), fileFull);
 		item->default_file = mir_wstrdup(fileFull);
 	}
 	item->default_indx = sid->iDefaultIndex;
