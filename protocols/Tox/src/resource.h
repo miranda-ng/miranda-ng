@@ -11,6 +11,8 @@
 #define IDD_OPTIONS_NODES               107
 #define IDD_ADDNODE                     108
 #define IDD_NODE_EDITOR                 109
+#define IDI_ICON1                       109
+#define IDI_AUDIO_CALL                  109
 #define IDD_OPTIONS_AV                  110
 #define IDD_CHATROOM_INVITE             172
 #define IDC_CCLIST                      173
@@ -46,7 +48,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        108
+#define _APS_NEXT_RESOURCE_VALUE        110
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1025
 #define _APS_NEXT_SYMED_VALUE           101

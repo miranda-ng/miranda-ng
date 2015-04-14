@@ -255,6 +255,7 @@ copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\icons\audio_call.ico" />
     <Image Include="res\icons\tox.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

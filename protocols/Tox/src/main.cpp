@@ -1,6 +1,7 @@
 #include "common.h"
 
 int hLangpack;
+CLIST_INTERFACE* pcli;
 HINSTANCE g_hInstance;
 HMODULE g_hToxLibrary = NULL;
 
@@ -31,7 +32,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 extern "C" int __declspec(dllexport) Load(void)
 {
@@ -39,17 +40,15 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (g_hToxLibrary == NULL)
 		return 0;
 
+	mir_getCLI();
 	mir_getLP(&pluginInfo);
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
-	pd.szName = MODULE;
+	pd.szName = "TOX";
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = (pfnInitProto)CToxProto::InitAccount;
 	pd.fnUninit = (pfnUninitProto)CToxProto::UninitAccount;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
-
-	CToxProto::InitIcons();
-	CToxProto::InitMenus();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, &CToxProto::OnModulesLoaded);
 

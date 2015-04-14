@@ -65,13 +65,16 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 				return false;
 			}
 		}
+		uint8_t *encryptedData = (uint8_t*)mir_calloc(size - TOX_PASS_ENCRYPTION_EXTRA_LENGTH);
 		TOX_ERR_DECRYPTION coreDecryptError;
-		if (!tox_pass_decrypt(data, size, (uint8_t*)password, mir_strlen(password), data, &coreDecryptError))
+		if (!tox_pass_decrypt(data, size, (uint8_t*)password, mir_strlen(password), encryptedData, &coreDecryptError))
 		{
 			debugLogA(__FUNCTION__": failed to load tox profile (%d)", coreDecryptError);
 			mir_free(data);
 			return false;
 		}
+		mir_free(data);
+		data = encryptedData;
 		size -= TOX_PASS_ENCRYPTION_EXTRA_LENGTH;
 	}
 
@@ -94,10 +97,11 @@ void CToxProto::SaveToxProfile()
 	uint8_t *data = (uint8_t*)mir_calloc(size + TOX_PASS_ENCRYPTION_EXTRA_LENGTH);
 	tox_get_savedata(tox, data);
 
-	if (password && strlen(password))
+	size_t passwordLen = mir_strlen(password);
+	if (password && passwordLen)
 	{
 		TOX_ERR_ENCRYPTION coreEncryptError;
-		if (!tox_pass_encrypt(data, size, (uint8_t*)password, strlen(password), data, &coreEncryptError))
+		if (!tox_pass_encrypt(data, size, (uint8_t*)password, passwordLen, data, &coreEncryptError))
 		{
 			debugLogA(__FUNCTION__": failed to encrypt tox profile");
 			mir_free(data);

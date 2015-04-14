@@ -61,6 +61,8 @@ public:
 	static void UninitMenus();
 
 	// events
+	static void InitCustomDbEvents();
+
 	static int OnModulesLoaded(WPARAM, LPARAM);
 
 private:
@@ -135,7 +137,7 @@ private:
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
 	// events
-	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
+	static int __cdecl OnDbEventAdded(WPARAM hContact, LPARAM hEvent);
 
 	// userinfo
 	static INT_PTR CALLBACK UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -159,6 +161,8 @@ private:
 
 	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl OnGrantAuth(WPARAM hContact, LPARAM);
+
+	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
 
 	static void OnFriendRequest(Tox *tox, const uint8_t *pubKey, const uint8_t *message, size_t length, void *arg);
 	static void OnFriendNameChange(Tox *tox, uint32_t friendNumber, const uint8_t *name, size_t length, void *arg);
@@ -249,6 +253,8 @@ private:
 	static void OnAvCsChange(void*, int32_t callId, void *arg);
 	static void OnAvRequestTimeout(void*, int32_t callId, void *arg);
 	static void OnAvPeerTimeout(void*, int32_t callId, void *arg);
+
+	INT_PTR __cdecl OnRecvAudioCall(WPARAM wParam, LPARAM lParam);
 
 	// utils
 	TOX_USER_STATUS MirandaToToxStatus(int status);

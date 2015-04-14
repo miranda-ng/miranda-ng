@@ -2,37 +2,69 @@
 
 int CToxProto::OnModulesLoaded(WPARAM, LPARAM)
 {
+	CToxProto::InitIcons();
+	CToxProto::InitMenus();
+	CToxProto::InitCustomDbEvents();
+
 	hProfileFolderPath = FoldersRegisterCustomPathT("Tox", Translate("Profiles folder"), MIRANDA_USERDATAT);
 
 	return 0;
 }
 
-int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM)
+void CToxProto::InitCustomDbEvents()
 {
-	if (!IsOnline())
-	{
-		return -1;
-	}
+	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
+	dbEventType.module = MODULE;
+	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
 
-	if (!isChatRoom(hContact))
+	dbEventType.eventType = DB_EVENT_ACTION;
+	dbEventType.descr = Translate("Action");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	dbEventType.eventType = DB_EVENT_AUDIO_CALL;
+	dbEventType.descr = Translate("Audio call");
+	dbEventType.eventIcon = GetIconHandle("audio_call");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+}
+
+int CToxProto::OnDbEventAdded(WPARAM hContact, LPARAM hEvent)
+{
+	DWORD dwSignature;
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.cbBlob = sizeof(DWORD);
+	dbei.pBlob = (PBYTE)&dwSignature;
+	db_event_get(hEvent, &dbei);
+	if (dbei.flags & (DBEF_SENT | DBEF_READ) || dbei.eventType <= DB_EVENT_ACTION || dwSignature == 0)
+		return 0;
+
+	DBEVENTTYPEDESCR *dbEventType = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)MODULE, dbei.eventType);
+	if (dbEventType == NULL)
+		return 0;
+
+	CLISTEVENT cle = { sizeof(cle) };
+	cle.flags |= CLEF_TCHAR;
+	cle.hContact = hContact;
+	cle.hDbEvent = hEvent;
+	cle.hIcon = Skin_GetIconByHandle(dbEventType->eventIcon);
+
+	TCHAR szTooltip[256];
+	mir_sntprintf(szTooltip, SIZEOF(szTooltip), _T("%s %s %s"), _A2T(dbEventType->descr), TranslateT("from"), pcli->pfnGetContactDisplayName(hContact, 0));
+	cle.ptszTooltip = szTooltip;
+
+	char szService[256];
+	switch (dbei.eventType)
 	{
-		int32_t friendNumber = GetToxFriendNumber(hContact);
-		TOX_ERR_FRIEND_DELETE error;
-		if (!tox_friend_delete(tox, friendNumber, &error))
-		{
-			debugLogA(__FUNCTION__": failed to delete friend (%d)", error);
-			return error;
-		}
+	case DB_EVENT_AUDIO_CALL:
+		mir_snprintf(szService, SIZEOF(szService), "%s/AudioCall", GetContactProto(hContact));
+		break;
+
+	default:
+		return 0;
 	}
-	/*else
-	{
-		OnLeaveChatRoom(hContact, 0);
-		int groupNumber = 0; // ???
-		if (groupNumber == TOX_ERROR || tox_del_groupchat(tox, groupNumber) == TOX_ERROR)
-		{
-			return 1;
-		}
-	}*/
+	cle.pszService = szService;
+
+	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 
 	return 0;
 }
