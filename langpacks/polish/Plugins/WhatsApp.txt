@@ -49,8 +49,8 @@ Właściciele
 Opcje &pokoju
 [View/change &topic]
 Zobacz/zmień &temat
-[&Leave chat session]
-&Opuść sesję czatu
+[&Quit chat session]
+
 [Set &avatar]
 Ustaw &awatara
 [Copy room &JID]

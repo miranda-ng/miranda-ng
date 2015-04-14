@@ -432,10 +432,10 @@ Jabber Ad-Hoc каманды на %s
 [Sending Ad-Hoc command to %s]
 Адправіць Ad-Hoc каманду %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
-[No message]
-Няма паведамлення
 [Jabber Agent Registration]
 Рэгістрацыя агента Jabber
+[No message]
+Няма паведамлення
 [Register]
 Рэгістрацыя
 [Please wait...]

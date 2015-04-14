@@ -425,10 +425,10 @@ XML-консоль
 Команди Ad-Hoc на %s
 [Sending Ad-Hoc command to %s]
 Надіслати команду Ad-Hoc %s
-[No message]
-Немає повідомлень
 [Jabber Agent Registration]
 Реєстрація агента Jabber
+[No message]
+Немає повідомлень
 [Register]
 Реєстрація
 [Please wait...]

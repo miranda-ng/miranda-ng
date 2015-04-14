@@ -423,10 +423,10 @@ Jabber настроение
 Изпълнение
 [Requesting command list. Please wait...]
 Изтегляне на списъка с команди. Моля, изчакайте...
-[No message]
-Няма съобщение
 [Jabber Agent Registration]
 Регистрация на Jabber агент
+[No message]
+Няма съобщение
 [Register]
 Регистриране
 [Please wait...]

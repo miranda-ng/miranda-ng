@@ -47,7 +47,7 @@ SMS-код
 &Налаштування чат-кімнати
 [View/change &topic]
 Перегляд/зміна &теми
-[&Leave chat session]
+[&Quit chat session]
 &Вийти з чату
 [Set &avatar]
 Встановити &аватар

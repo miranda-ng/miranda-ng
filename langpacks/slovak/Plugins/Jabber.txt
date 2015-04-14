@@ -99,10 +99,10 @@ Prihlasovací server
 Požiadavka na autorizáciu
 [Done]
 Žiadna
-[No message]
-Žiadna správa
 [Jabber Agent Registration]
 Registrácia jabber agenta
+[No message]
+Žiadna správa
 [Register]
 Registrovať
 [Please wait...]

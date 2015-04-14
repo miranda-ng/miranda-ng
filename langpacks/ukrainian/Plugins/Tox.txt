@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.8
+;  Version: 0.11.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -15,14 +15,10 @@
 Група:
 [Import tox profile]
 Імпортувати профіль Tox
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
-Профіль Tox містить ваш ID та список друзів.\r\nМожна імпортувати існуючий профіль з іншого клієнта Tox.
+[Copy Tox ID]
+Копіювати Tox ID
 [Connection settings]
 Налаштування підключення
-[Disable UDP (force Tox to use TCP)]
-Вимкнути UDP (примусово використ. TCP)
-[Disable IPv6]
-Вимкнути IPv6
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Якщо ввести в полі пошуку адресу Tox (76 hex-символів), буде видано запит на додавання до списку друзів. Інакше відбудеться пошук за допомогою сервісу DNS Discovery.
 [Dns name:]
@@ -73,8 +69,6 @@ IPv6 адреса (необов'язково)
 Запитати авторизацію
 [Grant authorization]
 Авторизувати
-[Copy Tox ID]
-Копіювати Tox ID
 [%s connection]
 З'єднання %s
 [Tox profile]
@@ -83,10 +77,6 @@ IPv6 адреса (необов'язково)
 Усі файли
 [Select tox profile]
 Виберіть профіль Tox
-[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
-Знайдено існуючий профіль. Ви впевнені, що хочете видалити його разом з історією та контактами Tox і продовжити імпорт?
-[Tox profile import]
-Імпорт профілю Tox
 [Add node]
 Додати нод
 [Change node]
@@ -99,8 +89,6 @@ IPv6 адреса (необов'язково)
 Введіть відкритий ключ
 [Common nodes]
 Загальні ноди
-[nodes]
-ноди
 [Are you sure?]
 Ви впевнені?
 [Node deleting]

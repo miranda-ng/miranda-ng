@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.9
+;  Version: 3.4.0.10
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -871,6 +871,8 @@ Mаксимална ширина за лента с бутони
 Помощ
 [About TabSRMM...]
 Относно TabSRMM...
+[<Separator>]
+<Разделител>
 [Protocol button]
 Бутон на протокола
 [Info button]
@@ -907,8 +909,6 @@ Mаксимална ширина за лента с бутони
 Филтър на събития - десен бутон за настройки, ляв бутон за вкл./изкл.
 [Channel manager]
 Настройки на канала
-[<Separator>]
-<Разделител>
 [Message session...]
 Разговор...
 [Default container]

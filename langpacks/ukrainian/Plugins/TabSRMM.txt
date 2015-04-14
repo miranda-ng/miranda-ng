@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.9
+;  Version: 3.4.0.10
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -903,6 +903,8 @@ BB-коди ([b][i][u])
 Довідка
 [About TabSRMM...]
 Про плагін TabSRMM...
+[<Separator>]
+<Роздільник>
 [Protocol button]
 Меню контакту
 [Info button]
@@ -939,8 +941,6 @@ BB-коди ([b][i][u])
 Фільтр подій - клацання правою кнопкою для налаштування, лівою - увімк./вимк.
 [Channel manager]
 Налаштування кімнати
-[<Separator>]
-<Роздільник>
 [Message session...]
 Бесіда...
 [Default container]

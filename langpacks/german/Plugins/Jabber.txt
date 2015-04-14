@@ -440,10 +440,10 @@ Jabber-Ad-Hoc-Befehl an %s
 [Sending Ad-Hoc command to %s]
 Jabber-Ad-Hoc-Befehl an %s senden
 ;file \protocols\JabberG\src\jabber_agent.cpp
-[No message]
-Keine Nachricht
 [Jabber Agent Registration]
 Registrierung an Jabberagenten
+[No message]
+Keine Nachricht
 [Register]
 Registrieren
 [Please wait...]

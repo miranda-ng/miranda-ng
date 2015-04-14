@@ -49,7 +49,7 @@ Annuler
 
 [View/change &topic]
 
-[&Leave chat session]
+[&Quit chat session]
 
 [Set &avatar]
 
