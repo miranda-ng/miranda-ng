@@ -55,10 +55,6 @@ private:
 
 protected:
 	void OnInitDialog();
-
-	void AudioInput_OnClick(CCtrlData*);
-	void AudioOutput_OnClick(CCtrlData*);
-
 	void OnApply();
 
 public:

@@ -1,7 +1,8 @@
 #include "common.h"
 
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
-	PROTO<CToxProto>(protoName, userName), password(NULL)
+	PROTO<CToxProto>(protoName, userName),
+	tox(NULL), toxAv(NULL), password(NULL)
 {
 	InitNetlib();
 

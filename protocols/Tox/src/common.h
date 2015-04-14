@@ -38,9 +38,9 @@
 #include <m_folders.h>
 
 #include <tox.h>
+#include <toxav.h>
 #include <toxdns.h>
 #include <toxencryptsave.h>
-#include <toxav.h>
 
 struct CToxProto;
 
@@ -63,6 +63,8 @@ extern HINSTANCE g_hInstance;
 
 #define TOX_MAX_CONNECT_RETRIES 300
 #define TOX_MAX_DISCONNECT_RETRIES 300
+
+#define TOX_MAX_CALLS 1
 
 #define TOX_INI_PATH "%miranda_path%\\Plugins\\tox.ini"
 

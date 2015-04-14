@@ -65,6 +65,7 @@ public:
 
 private:
 	Tox *tox;
+	ToxAv *toxAv;
 	char *password;
 	mir_cs toxLock;
 	TCHAR *accountName;
@@ -235,7 +236,19 @@ private:
 
 	void OnGotFriendAvatarInfo(FileTransferParam *transfer, const uint8_t *hash);
 
-	// folders
+	// multimedia
+	std::map<int, int> calls;
+	static void OnFriendAudio(void *agent, int32_t callId, const int16_t *PCM, uint16_t size, void *arg);
+
+	static void OnAvInvite(void*, int32_t callId, void *arg);
+	static void OnAvRinging(void*, int32_t callId, void *arg);
+	static void OnAvStart(void*, int32_t callId, void *arg);
+	static void OnAvEnd(void*, int32_t callId, void *arg);
+	static void OnAvReject(void*, int32_t callId, void *arg);
+	static void OnAvCancel(void*, int32_t callId, void *arg);
+	static void OnAvCsChange(void*, int32_t callId, void *arg);
+	static void OnAvRequestTimeout(void*, int32_t callId, void *arg);
+	static void OnAvPeerTimeout(void*, int32_t callId, void *arg);
 
 	// utils
 	TOX_USER_STATUS MirandaToToxStatus(int status);
