@@ -172,7 +172,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		if (m_pollingConnection)
 			CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
 
-		if (m_iStatus > ID_STATUS_CONNECTING + 1)
+		/*if (m_iStatus > ID_STATUS_CONNECTING + 1)
 		{
 			LogoutRequest *logoutRequest = new LogoutRequest();
 			if (!cookies.empty())
@@ -183,7 +183,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 				logoutRequest->Headers << CHAR_VALUE("Cookie", allCookies);
 			}
 			PushRequest(logoutRequest);
-		}
+		}*/
 		requestQueue->Stop();
 
 		if (!Miranda_Terminated())
@@ -201,7 +201,12 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			// login
 			m_iStatus = ID_STATUS_CONNECTING;
 			requestQueue->Start();
-			PushRequest(new LoginRequest(), &CSkypeProto::OnLoginFirst);
+			int tokenExpires(getDword("TokenExpiresIn", 0));
+			debugLogA("%lli %lli", tokenExpires, time(NULL));
+			if ((tokenExpires - 1800) > time(NULL))
+				OnLoginSuccess();
+			else 
+				PushRequest(new LoginRequest(), &CSkypeProto::OnLoginFirst);
 		}
 		else
 		{
