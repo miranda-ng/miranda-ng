@@ -1531,9 +1531,10 @@ char* CIcqProto::PrepareStatusNote(int nStatus)
 
 	// use custom status message as status note
 	if (bXStatus)
-		szStatusNote = getSettingStringUtf(NULL, DBSETTING_XSTATUS_MSG, "");
+		szStatusNote = getSettingStringUtf(NULL, DBSETTING_XSTATUS_MSG, NULL);
 
-	if (!szStatusNote || !szStatusNote[0]) { // get standard status message (no custom status defined)
+	// get standard status message (no custom status defined)
+	if (szStatusNote == NULL) {
 		mir_cslock l(m_modeMsgsMutex);
 
 		char **pszStatusNote = MirandaStatusToAwayMsg(nStatus);
@@ -1541,8 +1542,7 @@ char* CIcqProto::PrepareStatusNote(int nStatus)
 			szStatusNote = null_strdup(*pszStatusNote);
 	}
 
-	if (!szStatusNote)
-		// nothing available set empty status note
+	if (szStatusNote == NULL) // nothing available. set empty status note
 		szStatusNote = null_strdup("");
 
 	return szStatusNote;
