@@ -861,14 +861,18 @@ done_with_glyph:
 				if (!(tmpItem.dwFlags & IMAGE_GLYPH))
 					IMG_CreateItem(&tmpItem, szFinalName, hdc);
 				if (tmpItem.hbm || tmpItem.dwFlags & IMAGE_GLYPH) {
-					COLORREF clr;
-
 					newItem = reinterpret_cast<ImageItem *>(malloc(sizeof(ImageItem)));
 					memset(newItem, 0, sizeof(ImageItem));
 					*newItem = tmpItem;
+
+					if (g_CLUIImageItem) {
+						IMG_DeleteItem(g_CLUIImageItem);
+						free(g_CLUIImageItem);
+					}
 					g_CLUIImageItem = newItem;
+
 					GetPrivateProfileStringA(itemname, "Colorkey", "e5e5e5", buffer, 500, szFileName);
-					clr = HexStringToLong(buffer);
+					COLORREF clr = HexStringToLong(buffer);
 					cfg::dat.colorkey = clr;
 					cfg::writeDword("CLUI", "ColorKey", clr);
 					if (g_CLUISkinnedBkColor)
@@ -1220,7 +1224,9 @@ void IMG_LoadItems()
 void LoadPerContactSkins(TCHAR *tszFileName)
 {
 	char szItem[100];
-	char *szSections = reinterpret_cast<char *>(malloc(3002));
+	ptrA szSections(LPSTR(calloc(3002, 1)));
+	char *p = szSections;
+
 	StatusItems_t *items = NULL, *this_item;
 	int i = 1;
 
@@ -1229,11 +1235,9 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 	file[MAX_PATH - 1] = 0;
 
 	ReadItem(&default_item, "%Default", file);
-	memset(szSections, 0, 3000);
-	char *p = szSections;
 	GetPrivateProfileSectionNamesA(szSections, 3000, file);
 	szSections[3001] = szSections[3000] = 0;
-	p = szSections;
+	
 	while (mir_strlen(p) > 1) {
 		if (p[0] == '%') {
 			p += (mir_strlen(p) + 1);
@@ -1265,7 +1269,7 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid != NULL) {
 				DBVARIANT dbv = {0};
 				if (db_get(hContact, szProto, uid, &dbv))
-					return;
+					break;
 
 				char UIN[40];
 				switch (dbv.type) {
@@ -1306,15 +1310,13 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 						break;
 					}
 				}
-				if (j == i - 1) { // disable the db copy if it has been disabled in the skin .ini file
+				if (j == i - 1) // disable the db copy if it has been disabled in the skin .ini file
 					if (cfg::getByte(hContact, "EXTBK", "VALID", 0))
 						cfg::writeByte(hContact, "EXTBK", "VALID", 0);
-				}
 			}
 		}
+		free(items);
 	}
-	free(szSections);
-	free(items);
 }
 
 void extbk_import(char *file, HWND hwndDlg)
