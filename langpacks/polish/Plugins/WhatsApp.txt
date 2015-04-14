@@ -50,7 +50,7 @@ Opcje &pokoju
 [View/change &topic]
 Zobacz/zmień &temat
 [&Quit chat session]
-
+&Opuść sesję czatu
 [Set &avatar]
 Ustaw &awatara
 [Copy room &JID]
