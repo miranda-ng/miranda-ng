@@ -209,6 +209,7 @@ copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
     <ClInclude Include="src\tox_dialogs.h" />
     <ClInclude Include="src\tox_icons.h" />
     <ClInclude Include="src\tox_menus.h" />
+    <ClInclude Include="src\tox_multimedia.h" />
     <ClInclude Include="src\tox_options.h" />
     <ClInclude Include="src\tox_proto.h" />
     <ClInclude Include="src\tox_transfer.h" />
@@ -256,6 +257,9 @@ copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Icons\audio_call.ico" />
+    <None Include="res\Icons\audio_end.ico" />
+    <None Include="res\Icons\audio_ring.ico" />
+    <None Include="res\Icons\audio_start.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
