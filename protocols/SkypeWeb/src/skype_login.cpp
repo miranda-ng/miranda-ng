@@ -198,6 +198,7 @@ void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 	skypenames.destroy();
 
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
+
 	if (getByte("AutoSync", 1))
 		SyncHistory();
 }

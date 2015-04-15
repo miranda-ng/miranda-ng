@@ -41,6 +41,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		ptrT composeTime(json_as_string(json_get(message, "composetime")));
 		ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(message, "conversationLink")))));
 		time_t timestamp = IsoToUnixTime(composeTime);
+		bool isEdited = (json_get(message, "skypeeditedid") != NULL);
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
 		{
 			int emoteOffset = json_as_int(json_get(message, "skypeemoteoffset"));
@@ -56,8 +57,21 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 			MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
 
 			ptrA message(RemoveHtml(content));
+			MEVENT dbevent =  GetMessageFromDb(hContact, skypeEditedId);
 
-			AddMessageToDb(hContact, timestamp, flags, clientMsgId, message, emoteOffset);
+			if (isEdited && dbevent != NULL)
+			{
+				DBEVENTINFO dbei = { sizeof(dbei) };
+				db_event_get(dbevent, &dbei);
+				time_t dbEventTimestamp = dbei.timestamp;
+				if (!getByte("SaveEditedMessage", 0))
+				{
+					db_event_delete(hContact, dbevent);
+				}
+				AddMessageToDb(hContact, dbEventTimestamp + 1, flags, clientMsgId, message, emoteOffset);
+			}
+			else
+				AddMessageToDb(hContact, timestamp, flags, clientMsgId, message, emoteOffset);
 		}
 	}
 }
@@ -89,6 +103,8 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 			continue;
 
 		char *clientMsgId = mir_t2a(json_as_string(json_get(lastMessage, "clientmessageid")));
+		char *skypeEditedId = mir_t2a(json_as_string(json_get(lastMessage, "skypeeditedid")));
+		bool isEdited = (skypeEditedId != NULL);
 		char *conversationLink = mir_t2a(json_as_string(json_get(lastMessage, "conversationLink")));
 		time_t composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "conversationLink")))));
 
@@ -98,7 +114,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		MCONTACT hContact = FindContact(skypename);
 		if (hContact == NULL && !IsMe(skypename))
 			hContact = AddContact(skypename, true);
-		if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
+		if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL && !isEdited)
 			PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), skypename, ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
 	}
 }
