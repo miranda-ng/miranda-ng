@@ -243,13 +243,13 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 			if (isEdited && dbevent != NULL)
 			{
 				DBEVENTINFO dbei = { sizeof(dbei) };
+				CMStringA msg;
 				db_event_get(dbevent, &dbei);
 				time_t dbEventTimestamp = dbei.timestamp;
-				if (!getByte("SaveEditedMessage", 0))
-				{
-					db_event_delete(hContact, dbevent);
-				}
-				OnReceiveMessage(clientMsgId, from, dbEventTimestamp + 1, message, emoteOffset);
+				ptrA dbMsgText((char *)mir_alloc(dbei.cbBlob));
+				msg.AppendFormat("%s\n%s [%s]:\n%s", dbMsgText, Translate("Edited at"), ptrA(mir_t2a(composeTime)), message);
+				db_event_delete(hContact, dbevent);
+				OnReceiveMessage(clientMsgId, from, dbEventTimestamp, msg.GetBuffer(), emoteOffset);
 			}
 			else
 				OnReceiveMessage(clientMsgId, from, timestamp, message, emoteOffset);

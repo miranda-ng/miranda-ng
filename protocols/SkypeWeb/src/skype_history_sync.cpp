@@ -62,13 +62,13 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 			if (isEdited && dbevent != NULL)
 			{
 				DBEVENTINFO dbei = { sizeof(dbei) };
+				CMStringA msg;
 				db_event_get(dbevent, &dbei);
 				time_t dbEventTimestamp = dbei.timestamp;
-				if (!getByte("SaveEditedMessage", 0))
-				{
-					db_event_delete(hContact, dbevent);
-				}
-				AddMessageToDb(hContact, dbEventTimestamp + 1, flags, clientMsgId, message, emoteOffset);
+				ptrA dbMsgText((char *)mir_alloc(dbei.cbBlob));
+				msg.AppendFormat("%s\n%s [%s]:\n%s", dbMsgText, Translate("Edited at"), ptrA(mir_t2a(composeTime)), message);
+				db_event_delete(hContact, dbevent);
+				AddMessageToDb(hContact, dbEventTimestamp, flags, clientMsgId, msg.GetBuffer(), emoteOffset);
 			}
 			else
 				AddMessageToDb(hContact, timestamp, flags, clientMsgId, message, emoteOffset);
@@ -76,7 +76,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	}
 }
 
-INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM lParam)
+INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM)
 {
 	PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)), 0, ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
 	return 0;
@@ -114,7 +114,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		MCONTACT hContact = FindContact(skypename);
 		if (hContact == NULL && !IsMe(skypename))
 			hContact = AddContact(skypename, true);
-		if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL && !isEdited)
+		if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
 			PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), skypename, ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
 	}
 }
