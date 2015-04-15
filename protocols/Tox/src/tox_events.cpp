@@ -25,6 +25,21 @@ void CToxProto::InitCustomDbEvents()
 	dbEventType.descr = Translate("Audio call");
 	dbEventType.eventIcon = GetIconHandle("audio_call");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	dbEventType.eventType = DB_EVENT_AUDIO_RING;
+	dbEventType.descr = Translate("Audio ring");
+	dbEventType.eventIcon = GetIconHandle("audio_ring");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	dbEventType.eventType = DB_EVENT_AUDIO_START;
+	dbEventType.descr = Translate("Audio start");
+	dbEventType.eventIcon = GetIconHandle("audio_start");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	dbEventType.eventType = DB_EVENT_AUDIO_END;
+	dbEventType.descr = Translate("Audio end");
+	dbEventType.eventIcon = GetIconHandle("audio_end");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 }
 
 int CToxProto::OnDbEventAdded(WPARAM hContact, LPARAM hEvent)
@@ -56,7 +71,19 @@ int CToxProto::OnDbEventAdded(WPARAM hContact, LPARAM hEvent)
 	switch (dbei.eventType)
 	{
 	case DB_EVENT_AUDIO_CALL:
-		mir_snprintf(szService, SIZEOF(szService), "%s/AudioCall", GetContactProto(hContact));
+		mir_snprintf(szService, SIZEOF(szService), "%s/Audio/Call", GetContactProto(hContact));
+		break;
+
+	case DB_EVENT_AUDIO_RING:
+		mir_snprintf(szService, SIZEOF(szService), "%s/Audio/Ring", GetContactProto(hContact));
+		break;
+
+	case DB_EVENT_AUDIO_START:
+		mir_snprintf(szService, SIZEOF(szService), "%s/Audio/Start", GetContactProto(hContact));
+		break;
+
+	case DB_EVENT_AUDIO_END:
+		mir_snprintf(szService, SIZEOF(szService), "%s/Audio/End", GetContactProto(hContact));
 		break;
 
 	default:

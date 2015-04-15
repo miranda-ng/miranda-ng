@@ -66,6 +66,9 @@
     <ClInclude Include="include\toxav.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
+    <ClInclude Include="src\tox_multimedia.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\tox_proto.cpp">
@@ -169,6 +172,15 @@
       <Filter>Resource Files\Icons</Filter>
     </Image>
     <Image Include="res\icons\audio_call.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\Icons\audio_start.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\Icons\audio_end.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\Icons\audio_ring.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
   </ItemGroup>

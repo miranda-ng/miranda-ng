@@ -14,6 +14,7 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 
 	// services
 	CreateProtoService(PSR_AUDIO, &CToxProto::OnRecvAudioCall);
+	CreateProtoService("/Audio/Ring", &CToxProto::OnAudioRing);
 
 	// avatars
 	CreateProtoService(PS_GETAVATARCAPS, &CToxProto::GetAvatarCaps);
@@ -23,10 +24,14 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 
 	// nick
 	CreateProtoService(PS_SETMYNICKNAME, &CToxProto::SetMyNickname);
+
+	hAudioDialogs = WindowList_Create();
 }
 
 CToxProto::~CToxProto()
 {
+	WindowList_Destroy(hAudioDialogs);
+
 	mir_free(accountName);
 	UninitNetlib();
 }
@@ -213,12 +218,10 @@ int CToxProto::SetAwayMsg(int, const PROTOCHAR *msg)
 {
 	if (IsOnline())
 	{
-		ptrA statusMessage(msg == NULL ? mir_strdup("") : mir_utf8encodeT(msg));
+		ptrA statusMessage(mir_utf8encodeT(msg));
 		TOX_ERR_SET_INFO error;
 		if (tox_self_set_status_message(tox, (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUS_MESSAGE_LENGTH, mir_strlen(statusMessage)), &error))
-		{
 			debugLogA("CToxProto::SetAwayMsg: failed to set status status message %s (%d)", msg, error);
-		}
 	}
 
 	return 0;

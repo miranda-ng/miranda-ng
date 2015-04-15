@@ -6,9 +6,9 @@ struct CToxProto : public PROTO<CToxProto>
 	friend CToxPasswordEditor;
 	friend CToxOptionsMain;
 	friend CToxOptionsNodeList;
+	friend CToxAudioCall;
 
 public:
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	//Ctors
 
@@ -241,8 +241,12 @@ private:
 	void OnGotFriendAvatarInfo(FileTransferParam *transfer, const uint8_t *hash);
 
 	// multimedia
-	std::map<int, int> calls;
+	HANDLE hAudioDialogs;
+	std::map<MCONTACT, int> calls;
+	
 	static void OnFriendAudio(void *agent, int32_t callId, const int16_t *PCM, uint16_t size, void *arg);
+	INT_PTR __cdecl OnRecvAudioCall(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl OnAudioRing(WPARAM hContact, LPARAM lParam);
 
 	static void OnAvInvite(void*, int32_t callId, void *arg);
 	static void OnAvRinging(void*, int32_t callId, void *arg);
@@ -253,8 +257,6 @@ private:
 	static void OnAvCsChange(void*, int32_t callId, void *arg);
 	static void OnAvRequestTimeout(void*, int32_t callId, void *arg);
 	static void OnAvPeerTimeout(void*, int32_t callId, void *arg);
-
-	INT_PTR __cdecl OnRecvAudioCall(WPARAM wParam, LPARAM lParam);
 
 	// utils
 	TOX_USER_STATUS MirandaToToxStatus(int status);
