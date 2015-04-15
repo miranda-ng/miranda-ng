@@ -53,7 +53,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	IEView::init();
 	Options::init();
 	return 0;
 }

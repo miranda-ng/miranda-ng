@@ -423,8 +423,7 @@ public:
 class IEView :public IDispatch, public IOleClientSite, public IOleInPlaceSite, public IDocHostUIHandler, public IInternetSecurityManager, public IServiceProvider {
 private:
 	static IEView *list;
-	static CRITICAL_SECTION mutex;
-	static bool isInited;
+	static mir_cs mutex;
 	HWND parent;
 	HWND hwnd;
 	IEView *prev, *next;
@@ -555,7 +554,6 @@ public:
 	void    setContact(MCONTACT hContact);
 
 	static IEView*	get(HWND);
-	static void		init();
 	static void		release();
 	static void		setOptions();
 

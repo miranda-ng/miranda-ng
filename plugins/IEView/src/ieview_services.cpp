@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 INT_PTR HandleIEWindow(WPARAM, LPARAM lParam)
 {
 	IEVIEWWINDOW *window = (IEVIEWWINDOW *)lParam;
-	IEView::init();
 	Options::init();
 	if (window->iType == IEW_CREATE) {
 		HTMLBuilder *builder = NULL;
@@ -75,7 +74,6 @@ INT_PTR HandleIEWindow(WPARAM, LPARAM lParam)
 INT_PTR HandleIEEvent(WPARAM, LPARAM lParam)
 {
 	IEVIEWEVENT *event = (IEVIEWEVENT *)lParam;
-	IEView::init();
 	Options::init();
 	IEView *view = IEView::get(event->hwnd);
 	if (view != NULL) {
@@ -96,7 +94,6 @@ INT_PTR HandleIEEvent(WPARAM, LPARAM lParam)
 INT_PTR HandleIENavigate(WPARAM, LPARAM lParam)
 {
 	IEVIEWNAVIGATE *navigate = (IEVIEWNAVIGATE *)lParam;
-	IEView::init();
 	Options::init();
 	IEView *view = IEView::get(navigate->hwnd);
 	if (view != NULL) {
