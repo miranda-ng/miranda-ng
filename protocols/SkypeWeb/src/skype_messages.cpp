@@ -244,9 +244,17 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 			{
 				DBEVENTINFO dbei = { sizeof(dbei) };
 				CMStringA msg;
+
+				dbei.cbBlob = db_event_getBlobSize(dbevent);
+				mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
+				dbei.pBlob = blob;
+
 				db_event_get(dbevent, &dbei);
+
 				time_t dbEventTimestamp = dbei.timestamp;
 				ptrA dbMsgText((char *)mir_alloc(dbei.cbBlob));
+				mir_strcpy(dbMsgText, (char*)dbei.pBlob);
+
 				msg.AppendFormat("%s\n%s [%s]:\n%s", dbMsgText, Translate("Edited at"), ptrA(mir_t2a(composeTime)), message);
 				db_event_delete(hContact, dbevent);
 				OnReceiveMessage(clientMsgId, from, dbEventTimestamp, msg.GetBuffer(), emoteOffset);
