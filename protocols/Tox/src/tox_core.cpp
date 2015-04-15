@@ -53,10 +53,10 @@ bool CToxProto::InitToxCore()
 		tox_callback_friend_status(tox, OnUserStatusChanged, this);
 		tox_callback_friend_connection_status(tox, OnConnectionStatusChanged, this);
 		// transfers
-		tox_callback_file_recv_control(tox, OnFileRequest, this);
-		tox_callback_file_recv(tox, OnFriendFile, this);
-		tox_callback_file_recv_chunk(tox, OnFileReceiveData, this);
-		tox_callback_file_chunk_request(tox, OnFileSendData, this);
+		// tox_callback_file_recv_control(tox, OnFileRequest, this);
+		// tox_callback_file_recv(tox, OnFriendFile, this);
+		// tox_callback_file_recv_chunk(tox, OnFileReceiveData, this);
+		// tox_callback_file_chunk_request(tox, OnFileSendData, this);
 		// group chats
 		//tox_callback_group_invite(tox, OnGroupChatInvite, this);
 		// a/v

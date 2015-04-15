@@ -27,11 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DISPID_NAVIGATECOMPLETE2    252   // UIActivate new document
 #define DISPID_DOCUMENTCOMPLETE     259   // new document goes ReadyState_Complete
 
-IEView * IEView::list = NULL;
-CRITICAL_SECTION IEView::mutex;
-bool IEView::isInited = false;
-
-
+IEView* IEView::list = NULL;
+mir_cs  IEView::mutex;
 
 static LRESULT CALLBACK IEViewServerWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -290,12 +287,10 @@ IEView::IEView(HWND parent, HTMLBuilder* builder, int x, int y, int cx, int cy)
 		setBorder();
 		IConnectionPointContainer* pCPContainer;
 		// Step 1: Get a pointer to the connection point container.
-		if (SUCCEEDED(pWebBrowser->QueryInterface(IID_IConnectionPointContainer,
-			(void**)&pCPContainer))) {
+		if (SUCCEEDED(pWebBrowser->QueryInterface(IID_IConnectionPointContainer, (void**)&pCPContainer))) {
 			// m_pConnectionPoint is defined like this:
 			// Step 2: Find the connection point.
-			if (SUCCEEDED(pCPContainer->FindConnectionPoint(DIID_DWebBrowserEvents2,
-				&m_pConnectionPoint))) {
+			if (SUCCEEDED(pCPContainer->FindConnectionPoint(DIID_DWebBrowserEvents2, &m_pConnectionPoint))) {
 				// Step 3: Advise the connection point that you
 				// want to sink its events.
 				sink = new IEViewSink(this);
@@ -358,25 +353,12 @@ IEView::~IEView()
 	DestroyWindow(hwnd);
 }
 
-void IEView::init()
-{
-	if (isInited) return;
-
-	isInited = true;
-	InitializeCriticalSection(&mutex);
-}
-
 void IEView::release()
 {
-	if (!isInited)
-		return;
-
-	EnterCriticalSection(&mutex);
+	mir_cslock lck(mutex);
 	while (list != NULL)
 		delete list;
-
-	LeaveCriticalSection(&mutex);
-	DeleteCriticalSection(&mutex);
+	list = NULL;
 }
 
 IEView* IEView::get(HWND hwnd)
@@ -635,12 +617,11 @@ STDMETHODIMP IEView::ShowContextMenu(DWORD dwID, POINT *ppt, IUnknown *pcmdTarge
 				hwnd,
 				(RECT*)NULL);
 			DestroyMenu(hMenu);
-			if (iSelection == ID_MENU_CLEARLOG) {
+			if (iSelection == ID_MENU_CLEARLOG)
 				clear(NULL);
-			}
-			else {
+			else
 				SendMessage(hSPWnd, WM_COMMAND, iSelection, (LPARAM)NULL);
-			}
+
 			pOleWindow->Release();
 		}
 		pOleCommandTarget->Release();
@@ -882,10 +863,10 @@ void IEView::write(const wchar_t *text)
 			VARIANT *variant;
 			::SafeArrayAccessData(safe_array, (LPVOID *)&variant);
 			variant->vt = VT_BSTR;
-			BSTR bstr = variant->bstrVal = ::SysAllocString(text);
+			variant->bstrVal = ::SysAllocString(text);
 			::SafeArrayUnaccessData(safe_array);
 			document->write(safe_array);
-			::SysFreeString(bstr);
+			// ::SysFreeString(bstr); // don't free it !!!!!!!
 			::SafeArrayDestroy(safe_array);
 		}
 		document->Release();
