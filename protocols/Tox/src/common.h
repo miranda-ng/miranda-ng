@@ -52,6 +52,7 @@ struct CToxProto;
 #include "tox_dialogs.h"
 #include "tox_options.h"
 #include "tox_transfer.h"
+#include "tox_multimedia.h"
 #include "tox_chatrooms.h"
 #include "tox_proto.h"
 
@@ -84,7 +85,10 @@ extern HINSTANCE g_hInstance;
 enum TOX_DB_EVENT
 {
 	DB_EVENT_ACTION = 10001,
-	DB_EVENT_AUDIO_CALL = 20001
+	DB_EVENT_AUDIO_CALL = 20001,
+	DB_EVENT_AUDIO_RING = 20002,
+	DB_EVENT_AUDIO_START = 20003,
+	DB_EVENT_AUDIO_END = 20004
 };
 
 #define PSR_AUDIO "/RecvAudio"

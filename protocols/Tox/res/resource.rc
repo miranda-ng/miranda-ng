@@ -64,6 +64,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 // remains consistent on all systems.
 IDI_TOX                 ICON                    "icons\\tox.ico"
 IDI_AUDIO_CALL          ICON                    "icons\\audio_call.ico"
+IDI_AUDIO_END           ICON                    "icons\\audio_end.ico"
+IDI_AUDIO_RING          ICON                    "icons\\audio_ring.ico"
+IDI_AUDIO_START         ICON                    "icons\\audio_start.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -196,6 +199,16 @@ BEGIN
     CONTROL         "",IDC_CCLIST,"CListControl",WS_TABSTOP | 0x16f,7,7,176,145,WS_EX_CLIENTEDGE
 END
 
+IDD_AUDIO DIALOGEX 0, 0, 119, 28
+STYLE DS_SYSMODAL | DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST
+CAPTION "Audio call"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,62,7,50,14
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -280,6 +293,14 @@ BEGIN
         BOTTOMMARGIN, 172
         HORZGUIDE, 152
         HORZGUIDE, 158
+    END
+
+    IDD_AUDIO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 112
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 21
     END
 END
 #endif    // APSTUDIO_INVOKED
