@@ -27,8 +27,7 @@ void CConfig::Initialize()
 
 void CConfig::Shutdown()
 {
-	if(m_hSampleFont)
-		DeleteObject(m_hSampleFont);
+	DeleteObject(m_hSampleFont);
 	UnhookEvent(m_hOptionsInitHook);
 }
 

@@ -922,7 +922,7 @@ SG15LightStatus CLCDConnectionLogitech::GetLightStatus()
 	// MRKey
 	status.bMRKey = !(data[3] & G15_MR_LIGHT);
 
-	free(data);
+	delete[] data;
 
 	return status;
 }
@@ -950,7 +950,7 @@ void CLCDConnectionLogitech::SetMKeyLight(bool bM1,bool bM2,bool bM3,bool bMR)
 	data[3] = 0x00; 
 
 	HidD_SetFeature(m_hHIDDeviceHandle, data, m_HIDCapabilities.FeatureReportByteLength); 
-	free(data);
+	delete[] data;
 }
 
 void CLCDConnectionLogitech::SetLCDBacklight(ELCDBrightness eBrightness)
@@ -968,7 +968,7 @@ void CLCDConnectionLogitech::SetLCDBacklight(ELCDBrightness eBrightness)
 
 	HidD_SetFeature(m_hHIDDeviceHandle, data, m_HIDCapabilities.FeatureReportByteLength); 
 
-	free(data);
+	delete[] data;
 }
 
 void CLCDConnectionLogitech::SetKBDBacklight(EKBDBrightness eBrightness)

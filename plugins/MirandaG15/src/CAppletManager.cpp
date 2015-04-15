@@ -1205,9 +1205,10 @@ int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
 	GCEVENT *gce = (GCEVENT*)lParam;
 	GCDEST *gcd;
 	
-	if (gce == NULL || gce->pDest == NULL)
+	if (gce == NULL || (gcd = gce->pDest) == NULL) {
 		TRACE(_T("<< [%s] skipping invalid event\n"));
-	gcd = (GCDEST*)gce->pDest;
+		return 0;
+	}
 
 	TRACE(_T("<< [%s:%s] event %04X\n"),toTstring(gcd->pszModule).c_str(), gcd->ptszID, gcd->iType);
 	
@@ -1484,7 +1485,7 @@ int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
 	if(pHistory)
 	{
 		tstring strChannel = pHistory->strChannel;
-		if(CConfig::GetBoolSetting(NOTIFY_CHANNELCUTOFF) && strNick.length() > CConfig::GetIntSetting(NOTIFY_CHANNELCUTOFF_OFFSET)) {
+		if(CConfig::GetBoolSetting(NOTIFY_CHANNELCUTOFF) && strChannel.length() > CConfig::GetIntSetting(NOTIFY_CHANNELCUTOFF_OFFSET)) {
 			strChannel = strChannel.erase(CConfig::GetIntSetting(NOTIFY_CHANNELCUTOFF_OFFSET)) + _T("...");
 		}
 		Event.strDescription = strChannel + _T(" - ")+Event.strValue;

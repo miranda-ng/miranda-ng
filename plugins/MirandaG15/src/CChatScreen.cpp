@@ -714,10 +714,15 @@ void CChatScreen::OnLCDButtonDown(int iButton)
 			DeactivateMessageMode();
 		} else if(iButton == LGLCDBUTTON_BUTTON3 || iButton == LGLCDBUTTON_OK) {
 			ActivateMessageMode();
-		} else if(iButton == LGLCDBUTTON_CANCEL) {
+		}
+/*
+		// Dead code
+		 else if(iButton == LGLCDBUTTON_CANCEL) {
 			DeactivateMessageMode();
 			CAppletManager::GetInstance()->ActivatePreviousScreen();
-		} else if(iButton == LGLCDBUTTON_MENU) {
+		}
+*/
+		else if(iButton == LGLCDBUTTON_MENU) {
 			DeactivateMessageMode();
 			CAppletManager::GetInstance()->ActivateEventScreen();
 		}
