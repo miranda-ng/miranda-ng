@@ -183,7 +183,7 @@ void CLCDLabel::UpdateCutOffIndex()
 			m_vLines.push_back(m_strText.substr(i,iMaxChars));
 			i += iMaxChars;
 		}
-		free(piExtents);
+		delete[] piExtents;
 	}
 	else
 		m_vLines.push_back(m_strText);
@@ -206,7 +206,7 @@ void CLCDLabel::UpdateCutOffIndex()
 		}
 		(*--m_vLines.end()) = (*--m_vLines.end()).substr(0,iMaxChars) + _T("...");
 	}
-	free(piWidths);
+	delete[] piWidths;
 
 	DeleteObject(hDC);
 

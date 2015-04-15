@@ -534,7 +534,7 @@ void CLCDInput::MoveMarker(int iDir,int iMove,bool bShift)
 				}
 			}
 			
-			free(piWidths);
+			delete[] piWidths;
 
 			if(m_Marker[0].iPosition == -1)
 			{
@@ -598,6 +598,10 @@ void CLCDInput::UpdateOffsets(int iModified)
 {
 	if(m_vLineOffsets.size() == 0 && m_strText.empty())
 		return;
+
+	HDC hDC = CreateCompatibleDC(NULL);
+	if(NULL == hDC)
+		return;
 	
 	// Reset the marker
 	m_Marker[0].iXLine = 0;
@@ -613,9 +617,6 @@ void CLCDInput::UpdateOffsets(int iModified)
 	SIZE sizeWord = {0, 0};
 	SIZE sizeChar = {0, 0};
 	SIZE sizeLine =  {0, 0};
-	HDC hDC = CreateCompatibleDC(NULL);
-	if(NULL == hDC)
-		return;
 	SelectObject(hDC, m_hFont);   
 
 	int iLine = -1;
@@ -778,7 +779,7 @@ void CLCDInput::UpdateOffsets(int iModified)
 	}
 
 finished:
-	free(piWidths);
+	delete[] piWidths;
 	DeleteObject(hDC);
 	
 	if(m_pScrollbar)

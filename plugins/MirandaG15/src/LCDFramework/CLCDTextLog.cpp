@@ -338,7 +338,7 @@ void CLCDTextLog::WrapMessage(CLogEntry *pEntry)
 			i += iMaxChars;
 		}
 	}
-	free(piExtents);
+	delete[] piExtents;
 	/*
 	while(i<=iLen)
 	{

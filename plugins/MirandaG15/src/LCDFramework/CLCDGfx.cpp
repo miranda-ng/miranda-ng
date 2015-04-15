@@ -333,7 +333,7 @@ void CLCDGfx::DrawText(int nX,int nY,int nWidth,tstring strText)
 		DrawText(nX,nY,(strText.substr(0,iMaxChars) + _T("...")).c_str());
 	}
 	else DrawText(nX,nY,strText.c_str());
-	free(piWidths);
+	delete[] piWidths;
 }
 
 //************************************************************************

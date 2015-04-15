@@ -79,7 +79,7 @@ toNarrowString( const wchar_t* pStr , int len )
     // nb: slightly naughty to write directly into the string like this
     string buf ;
     buf.resize( nChars  ) ;
-	char *test = (char*)malloc((nChars+1)*sizeof(char));
+	//char *test = (char*)malloc((nChars+1)*sizeof(char));
 	WideCharToMultiByte( CP_ACP , 0 , pStr , len , 
           const_cast<char*>(buf.c_str()), nChars , NULL , NULL ) ; 
 
