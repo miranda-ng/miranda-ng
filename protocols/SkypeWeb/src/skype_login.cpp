@@ -205,8 +205,6 @@ void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)
 {
-	m_iStatus++;
-
 	if (response == NULL)
 	{
 		debugLogA(__FUNCTION__ ": failed to change status");
@@ -234,7 +232,8 @@ void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
+	int oldStatus = m_iStatus;
 	m_iStatus = m_iDesiredStatus = iNewStatus;
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_SUCCESS, NULL, 0);
 }
