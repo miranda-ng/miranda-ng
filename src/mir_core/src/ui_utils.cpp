@@ -51,18 +51,18 @@ CDlgBase::~CDlgBase()
 
 void CDlgBase::Create()
 {
-	ShowWindow(CreateDialogParam(m_hInst, MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)(CDlgBase *)this), SW_HIDE);
+	ShowWindow(CreateDialogParam(m_hInst, MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this), SW_HIDE);
 }
 
 void CDlgBase::Show(int nCmdShow)
 {
-	ShowWindow(CreateDialogParam(m_hInst, MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)(CDlgBase *)this), nCmdShow);
+	ShowWindow(CreateDialogParam(m_hInst, MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this), nCmdShow);
 }
 
 int CDlgBase::DoModal()
 {
 	m_isModal = true;
-	return DialogBoxParam(m_hInst, MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)(CDlgBase *)this);
+	return DialogBoxParam(m_hInst, MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this);
 }
 
 int CDlgBase::Resizer(UTILRESIZECONTROL*)
