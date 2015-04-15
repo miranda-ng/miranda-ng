@@ -64,7 +64,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM lParam)
 {
-	PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)), ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
+	PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)), 0, ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
 	return 0;
 }
 
