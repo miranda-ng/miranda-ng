@@ -527,7 +527,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	_T("|*agent.mail.ru*"), LPGENT("Mail.Ru Agent (official)"), IDI_MAIL_RU_OFFICIAL, MRA_CASE, TRUE },
 	{ "client_MRA_Mobile", _T("|MobileAgent*|Mail.ru Agent*Symbian*"), _T("Mail.Ru Mobile Agent"), IDI_MAIL_RU_MOBILE, MRA_CASE, TRUE },
 	{ "client_MRA_web", _T("|webagent*|*Web Agent*"), _T("Mail.Ru Web Agent"), IDI_MAIL_RU_WEBAGENT, MRA_CASE, TRUE },
-	{ "client_MRA_unknown", _T("Mail.ru Agent*"), LPGENT("Mail.Ru (unknown client)"), IDI_MAIL_RU_UNKNOWN, MRA_CASE, TRUE },
+	{ "client_MRA_unknown", _T("|Mail.ru Agent*|MRA client"), LPGENT("Mail.Ru (unknown client)"), IDI_MAIL_RU_UNKNOWN, MRA_CASE },
 
 	//#########################################################################################################################################################################
 	//#################################   YAHOO   #############################################################################################################################
@@ -693,7 +693,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	//#########################################################################################################################################################################
 	{ "client_AIM_overlay", _T("|^AIM*|*AIM*"), LPGENT("AIM overlay"), IDI_AIM_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_ICQJ_Plus_over", _T("|^ICQ|^ICQ*|*ICQ*Plus*"), LPGENT("ICQJ Plus Mod overlay"), IDI_ICQJ_PLUS_OVERLAY, OVERLAYS_PROTO_CASE },
-	{ "client_ICQJ_overlay", _T("|^ICQ|^ICQ*|*ICQ*"), LPGENT("ICQJ overlay"), IDI_ICQJ_OVERLAY, OVERLAYS_PROTO_CASE },
+	{ "client_ICQJ_overlay", _T("|^ICQ|^ICQ*|*ICQ*|MRA client"), LPGENT("ICQJ overlay"), IDI_ICQJ_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_IRC_overlay", _T("|^IRC*|Miranda*IRC*"), LPGENT("IRC overlay"), IDI_IRC_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_JGmail_overlay", _T("*JGmail*"), LPGENT("JGmail overlay"), IDI_GMAIL_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_JGTalk_overlay", _T("*JGTalk*"), LPGENT("JGTalk overlay"), IDI_JGTALK_OVERLAY, OVERLAYS_PROTO_CASE },
@@ -704,7 +704,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_Yahoo_overlay", _T("|^Yahoo*|*yahoo*"), LPGENT("Yahoo overlay"), IDI_YAHOO_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_MRA_overlay", _T("|^MRA*|^Mail.ru*")
 							_T("|*MRA*|*Mail.ru*IM*|Mrim*")
-							_T("|*DRQZ00fz5WPn1gH+*|*nxthUwJANorB6+*"), LPGENT("Mail.Ru Agent overlay"), IDI_MAILRU_OVERLAY, OVERLAYS_PROTO_CASE },
+							_T("|*DRQZ00fz5WPn1gH+*|*nxthUwJANorB6+*|ICQ client"), LPGENT("Mail.Ru Agent overlay"), IDI_MAILRU_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_VK_overlay", _T("|Miranda*VKontakte*"), LPGENT("VK overlay"), IDI_VK_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_Skype_overlay", _T("|Miranda*Skype*"), LPGENT("Skype overlay"), IDI_SKYPE_OVERLAY, OVERLAYS_PROTO_CASE },
 
