@@ -620,7 +620,6 @@ var
   odp:TOPTIONSDIALOGPAGE;
 begin
   FillChar(odp,SizeOf(odp),0);
-  odp.cbSize     :=SizeOf(odp);
   odp.flags      :=ODPF_BOLDGROUPS;
   odp.Position   :=900003000;
   odp.hInstance  :=hInstance;

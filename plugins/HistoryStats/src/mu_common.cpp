@@ -194,7 +194,7 @@ namespace mu
 	{
 		void addPage(WPARAM addInfo, const TCHAR* pszGroup, const TCHAR* pszTitle, const TCHAR* pszTab, DLGPROC pfnDlgProc, const char* pszTemplate, HINSTANCE hInstance, DWORD flags /* = ODPF_BOLDGROUPS */)
 		{
-			OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+			OPTIONSDIALOGPAGE odp = { 0 };
 			odp.ptszTitle = const_cast<TCHAR*>(pszTitle);
 			odp.pfnDlgProc = pfnDlgProc;
 			odp.pszTemplate = const_cast<char*>(pszTemplate);

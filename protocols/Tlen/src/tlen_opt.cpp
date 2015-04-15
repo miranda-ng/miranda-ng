@@ -84,7 +84,7 @@ static void MarkChanges(int i, HWND hWnd) {
 
 int TlenProtocol::OptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.ptszGroup = LPGENT("Network");
 	odp.ptszTitle = m_tszUserName;

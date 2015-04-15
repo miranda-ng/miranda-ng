@@ -103,7 +103,7 @@ void LoadOptions() {
 
 extern "C" int OpenOptions(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position    = 100;
 	odp.hInstance   = hInst;
 	odp.ptszGroup   = LPGENT("Services");

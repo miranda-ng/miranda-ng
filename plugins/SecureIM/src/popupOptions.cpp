@@ -162,7 +162,7 @@ void RefreshPopupOptionsDlg(HWND hec, HWND hdc, HWND hss, HWND hsr, HWND hks, HW
 int onRegisterPopOptions(WPARAM wParam, LPARAM)
 {
 	if (bPopupExists) {
-		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.hInstance = g_hInst;
 		odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUP);
 		odp.pszTitle = (char*)MODULENAME;

@@ -135,14 +135,12 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)lParam;
 	struct DetailsPageInit *opi = (struct DetailsPageInit*)wParam;
 
-	if (odp == NULL || opi == NULL) return 1;
-	if (odp->cbSize != sizeof(OPTIONSDIALOGPAGE))
+	if (odp == NULL || opi == NULL)
 		return 1;
 
 	opi->odp = (OPTIONSDIALOGPAGE*)mir_realloc(opi->odp, sizeof(OPTIONSDIALOGPAGE)*(opi->pageCount + 1));
 	OPTIONSDIALOGPAGE *dst = opi->odp + opi->pageCount;
 	memset(dst, 0, sizeof(OPTIONSDIALOGPAGE));
-	dst->cbSize = sizeof(OPTIONSDIALOGPAGE);
 	dst->hInstance = odp->hInstance;
 	dst->pfnDlgProc = odp->pfnDlgProc;
 	dst->position = odp->position;

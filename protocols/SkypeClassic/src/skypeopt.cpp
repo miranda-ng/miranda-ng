@@ -47,11 +47,9 @@ static HBITMAP hAvatar = NULL;
 extern BOOL PopupServiceExists;
 extern BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD);
 
-int RegisterOptions(WPARAM wParam, LPARAM) {
-   OPTIONSDIALOGPAGE odp;
-
-   memset(&odp, 0, sizeof(odp));
-   odp.cbSize = sizeof(odp);
+int RegisterOptions(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = { 0 };
    odp.hInstance = hInst;
    odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
    odp.pszGroup = "Network";
@@ -732,10 +730,9 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 int OnDetailsInit( WPARAM wParam, LPARAM lParam )
 {
-	OPTIONSDIALOGPAGE odp = {0};
 	MCONTACT hContact = (MCONTACT)lParam;
 
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hIcon = NULL;
 	odp.hInstance = hInst;
 

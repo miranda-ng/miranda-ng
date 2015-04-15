@@ -183,7 +183,7 @@ int HookedInit(WPARAM wParam, LPARAM lParam)
 int HookedOptions(WPARAM wParam, LPARAM lParam)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 		odp.ptszTitle = LPGENT("MessagePopup");

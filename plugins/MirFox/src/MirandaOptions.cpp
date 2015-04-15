@@ -674,7 +674,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
  */
 int OptInit(WPARAM wParam, LPARAM) {
 
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -790000000;
 	odp.hInstance = hInst;
 	odp.ptszTitle = LPGENT(PLUGIN_OPTIONS_NAME);

@@ -127,7 +127,7 @@ int QuotesEventFunc_OnUserInfoInit(WPARAM wp, LPARAM lp)
 
 	g_hContact = hContact;
 
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInstance;
 	odp.hIcon = Quotes_LoadIconEx(ICON_STR_MAIN);
 	odp.pfnDlgProc = QuoteInfoDlgProc;

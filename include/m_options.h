@@ -57,7 +57,6 @@ DLUs.
 // are translated by the core, which may lead to double translation.
 // Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
 typedef struct {
-	int cbSize;
 	int position;        //a position number, lower numbers are topmost
 	union {
 		char* pszTitle; // [TRANSLATED-BY-CORE]

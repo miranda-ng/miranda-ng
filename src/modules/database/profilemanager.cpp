@@ -832,13 +832,9 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 static int AddProfileManagerPage(struct DetailsPageInit *opi, OPTIONSDIALOGPAGE *odp)
 {
-	if (odp->cbSize != sizeof(OPTIONSDIALOGPAGE))
-		return 1;
-
 	opi->odp = (OPTIONSDIALOGPAGE*)mir_realloc(opi->odp, sizeof(OPTIONSDIALOGPAGE)*(opi->pageCount + 1));
 
 	OPTIONSDIALOGPAGE *p = opi->odp + opi->pageCount++;
-	p->cbSize = sizeof(OPTIONSDIALOGPAGE);
 	p->hInstance = odp->hInstance;
 	p->pfnDlgProc = odp->pfnDlgProc;
 	p->position = odp->position;
@@ -861,8 +857,6 @@ int getProfileManager(PROFILEMANAGERDATA *pd)
 	DetailsPageInit opi = { 0 };
 
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
-
 	odp.pszTitle = LPGEN("My profiles");
 	odp.pfnDlgProc = DlgProfileSelect;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROFILE_SELECTION);

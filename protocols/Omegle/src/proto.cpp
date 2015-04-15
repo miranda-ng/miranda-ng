@@ -183,7 +183,7 @@ int OmegleProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 int OmegleProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance   = g_hInstance;
 	odp.ptszTitle   = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);

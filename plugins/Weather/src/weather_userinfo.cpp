@@ -33,7 +33,7 @@ information
 // lParam = current contact
 int UserInfoInit(WPARAM wParam, LPARAM lParam) 
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.position = 100000000;
 	odp.ptszTitle = _T(WEATHERPROTONAME);

@@ -303,7 +303,7 @@ void CALLBACK Countdownfunc(HWND, UINT, UINT_PTR, DWORD)
 
 static int OptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
 	odp.ptszGroup = LPGENT("Network");

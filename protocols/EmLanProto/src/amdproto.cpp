@@ -281,7 +281,7 @@ INT_PTR CALLBACK EMPDlgProcMainOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 int __cdecl EMPCreateOptionsDlg(WPARAM wParam,LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
 	odp.hInstance = g_hInstance;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_EMP_FORM_OPT);

@@ -69,7 +69,7 @@ int CDropbox::OnContactDeleted(void *obj, WPARAM hContact, LPARAM)
 
 int CDropbox::OnOptionsInitialized(void *obj, WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
 	odp.hInstance = g_hInstance;
 	odp.flags = ODPF_BOLDGROUPS;

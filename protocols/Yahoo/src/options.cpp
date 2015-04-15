@@ -362,7 +362,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
 
 int __cdecl CYahooProto::OnOptionsInit(WPARAM wParam,LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };	
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position    = -790000000;
 	odp.hInstance   = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_YAHOO);

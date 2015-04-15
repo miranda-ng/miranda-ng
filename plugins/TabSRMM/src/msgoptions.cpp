@@ -1271,7 +1271,7 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	if (PluginConfig.g_bPopupAvail)
 		TN_OptionsInitialize(wParam, lParam);
 
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
 	odp.pszTitle = LPGEN("Message sessions");

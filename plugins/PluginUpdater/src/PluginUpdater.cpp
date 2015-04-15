@@ -146,9 +146,9 @@ extern "C" __declspec(dllexport) int Load(void)
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	UnloadCheck();
-#if MIRANDA_VER >= 0x0A00
-	UnloadListNew();
-#endif
+	#if MIRANDA_VER >= 0x0A00
+		UnloadListNew();
+	#endif
 	UnloadNetlib();
 	return 0;
 }

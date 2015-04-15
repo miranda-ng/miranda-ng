@@ -49,7 +49,7 @@ int SkinOptInit(WPARAM wParam, LPARAM)
 {
 	if (!g_CluiData.fDisableSkinEngine) {
 		//Tabbed settings
-		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.position = -200000000;
 		odp.hInstance = g_hInst;
 		odp.pfnDlgProc = DlgSkinOpts;

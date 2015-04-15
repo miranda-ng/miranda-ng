@@ -1291,15 +1291,12 @@ static INT_PTR AddOptionsPage(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)lParam, *dst;
 	OptionsPageInit *opi = (OptionsPageInit*)wParam;
-
-	if (odp == NULL || opi == NULL) return 1;
-	if (odp->cbSize != sizeof(OPTIONSDIALOGPAGE))
+	if (odp == NULL || opi == NULL)
 		return 1;
 
 	opi->odp = (OPTIONSDIALOGPAGE*)mir_realloc(opi->odp, sizeof(OPTIONSDIALOGPAGE)*(opi->pageCount + 1));
 	dst = opi->odp + opi->pageCount;
-	memset(dst, 0, sizeof(OPTIONSDIALOGPAGE));
-	memcpy(dst, odp, odp->cbSize);
+	memcpy(dst, odp, sizeof(OPTIONSDIALOGPAGE));
 
 	if (odp->ptszTitle != NULL) {
 		if (odp->flags & ODPF_UNICODE)

@@ -889,7 +889,7 @@ INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lP
 
 int OptionsInit(WPARAM wparam,LPARAM lparam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszGroup = LPGEN("Status");
 	odp.pszTitle = LPGEN("StartupStatus");

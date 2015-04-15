@@ -744,7 +744,7 @@ int InitOptionsCallback(WPARAM wParam, LPARAM lParam)
 	if (GetNumberOfSlots() < 1)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszGroup = LPGEN("Contact list");
 	odp.pszTitle = LPGEN("Extra icons");

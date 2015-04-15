@@ -143,7 +143,7 @@ INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 
 int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.ptszTitle = _T(SERVICE_TITLE);

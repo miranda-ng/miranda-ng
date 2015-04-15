@@ -342,7 +342,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 int TrafficCounterOptInitialise(WPARAM wParam,LPARAM lParam)
 {
 	// Main options page
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 900000000;
 	odp.groupPosition = 1;
 	odp.hInstance = hInst;

@@ -249,44 +249,35 @@ void CConfig::OnConnectionChanged() {
 
 int CConfig::InitOptionsDialog(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-	memset(&odp, 0, sizeof(odp));
-	odp.cbSize      = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position    = 847000000;
 	odp.hInstance   = hInstance;
 	odp.pszGroup    = LPGEN("MirandaG15");
-	odp.flags		= ODPF_BOLDGROUPS;
+	odp.flags       = ODPF_BOLDGROUPS;
 
 	// ---------------------
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_FONTS);
 	odp.pszTitle    = LPGEN("Appearance");
 	odp.pszGroup    = LPGEN("MirandaG15");
 	odp.pfnDlgProc  = CConfig::AppearanceDlgProc;
-	
 	Options_AddPage(wParam, &odp);
 	
 	// ---------------------
-
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_NOTIFICATIONS);
 	odp.pszTitle    = LPGEN("Notifications");
 	odp.pfnDlgProc  = CConfig::NotificationsDlgProc;
-
 	Options_AddPage(wParam, &odp);
 
 	// ---------------------
-
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CHAT);
 	odp.pszTitle    = LPGEN("Chat sessions");
 	odp.pfnDlgProc  = CConfig::ChatDlgProc;
-
 	Options_AddPage(wParam, &odp);
 
 	// ---------------------
-
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CLIST);
 	odp.pszTitle    = LPGEN("Contact list");
 	odp.pfnDlgProc  = CConfig::ContactlistDlgProc;
-
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

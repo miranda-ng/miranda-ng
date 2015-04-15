@@ -1402,7 +1402,7 @@ int OptionsInitialize(WPARAM wParam,LPARAM /*lParam*/)
 {
 	bUnaplyedChanges = FALSE;
 
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT);

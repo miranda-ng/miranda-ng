@@ -491,7 +491,7 @@ int FacebookProto::OnPreShutdown(WPARAM, LPARAM)
 
 int FacebookProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInstance;
 	odp.ptszTitle = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);

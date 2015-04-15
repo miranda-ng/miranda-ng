@@ -37,16 +37,13 @@ int UnhookEvents()
 
 int OnOptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
-//	odp.ptszTitle = _T("IEHistory");
 	odp.ptszTitle = LPGENT("History");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HISTORY);
 	odp.hInstance = hInstance;
-//	odp.ptszGroup = LPGENT("Message sessions");
-//	odp.groupPosition = 910000000;
-	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	Options_AddPage(wParam,&odp);
 	return 0;
 }
