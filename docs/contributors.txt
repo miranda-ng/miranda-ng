@@ -1,6 +1,7 @@
 ﻿Miranda NG is designed, written & supported by:
 
 Bartosz Białek aka Dezeath
+Sergey Bolkhovskoy aka Elzor
 Vadim Dashevsky aka watcher
 Alexander Gluzsky aka sss
 Vladislav Grishenko aka theMIROn
