@@ -565,7 +565,7 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 int OptionsInit(WPARAM wparam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.ptszGroup = LPGENT("Status");
 	odp.ptszTitle = LPGENT("KeepStatus");
@@ -576,7 +576,6 @@ int OptionsInit(WPARAM wparam, LPARAM)
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		memset(&odp, 0, sizeof(odp));
-		odp.cbSize = sizeof(odp);
 		odp.position = 150000000;
 		odp.ptszGroup = LPGENT("Popups");
 		odp.groupPosition = 910000000;

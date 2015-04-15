@@ -113,7 +113,7 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 
 int __cdecl CYahooProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInstance;
 	odp.dwInitParam = (LPARAM)this;
 	odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;

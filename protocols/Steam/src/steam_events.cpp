@@ -36,7 +36,7 @@ INT_PTR CSteamProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
 
 int CSteamProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInstance;
 	odp.ptszTitle = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;

@@ -199,7 +199,7 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 int LangpackOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pfnDlgProc = DlgLangpackOpt;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LANGUAGES);

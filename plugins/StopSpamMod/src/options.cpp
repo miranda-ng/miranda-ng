@@ -350,7 +350,7 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 HINSTANCE hInst;
 MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.ptszGroup = LPGENT("Message sessions");
 	odp.ptszTitle = LPGENT("StopSpam");
 	odp.position = -1;

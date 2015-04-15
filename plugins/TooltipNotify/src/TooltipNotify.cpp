@@ -269,7 +269,7 @@ int CTooltipNotify::ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 int CTooltipNotify::InitializeOptions(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
 	odp.hInstance = g_hInstDLL;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);

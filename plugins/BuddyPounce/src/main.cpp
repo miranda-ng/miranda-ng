@@ -95,7 +95,7 @@ int MsgAck(WPARAM wParam, LPARAM lParam)
 
 int BuddyPounceOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);

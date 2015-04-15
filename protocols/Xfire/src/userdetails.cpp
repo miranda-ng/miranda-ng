@@ -422,7 +422,7 @@ int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 	if (!IsXFireContact(lParam))
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hinstance;
 	odp.pfnDlgProc = DlgProcUserDetails;
 	odp.position = -1900000000;

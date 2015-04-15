@@ -305,7 +305,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hdlg,UINT msg,WPARAM wp,LPARAM lp)
 
 int SSC_OptInitialise(WPARAM wp, LPARAM lp)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;
 	odp.hInstance = g_hModule;
 	odp.pszTitle = LPGEN("Change Skype status");

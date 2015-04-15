@@ -171,7 +171,7 @@ void load_settings()
 
 int OptionsInitialize(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.pszTemplate = MAKEINTRESOURCEA(NA_OPTIONS);
 	odp.pfnDlgProc = DlgProcOpts;
 	odp.pszTitle = LPGEN("Notify Anything");

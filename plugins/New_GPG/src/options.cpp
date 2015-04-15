@@ -39,7 +39,7 @@ BOOL CheckStateStoreDB(HWND hwndDlg, int idCtrl, const char* szSetting)
 
 int GpgOptInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GPG);
 	odp.ptszTitle = _T(szGPGModuleName);

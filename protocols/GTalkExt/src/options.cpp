@@ -229,7 +229,7 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 int OptionsInitialization(WPARAM wParam, LPARAM)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.ptszTitle = MAIL_NOTIFICATIONS;
 		odp.pfnDlgProc = PopupsOptionsDlgProc;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPSETTINGS);
@@ -243,7 +243,7 @@ int OptionsInitialization(WPARAM wParam, LPARAM)
 		LPCSTR szProto = g_accs[i]->m_pa->szModuleName;
 		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
 		if (pa != NULL) {
-			OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+			OPTIONSDIALOGPAGE odp = { 0 };
 			odp.ptszTitle = pa->tszAccountName;
 			odp.pfnDlgProc = AccOptionsDlgProc;
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAILSETTINGS);

@@ -74,7 +74,7 @@ static OptPageControl playersControls[] = {
 
 int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS;
 

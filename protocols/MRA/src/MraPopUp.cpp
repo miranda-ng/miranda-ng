@@ -128,7 +128,7 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 int CMraProto::OnPopupOptInit(WPARAM wParam, LPARAM)
 {
 	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.dwInitParam = (LPARAM)this;
 		odp.position = 100000000;
 		odp.hInstance = g_hInstance;

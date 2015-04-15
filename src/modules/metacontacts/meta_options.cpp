@@ -173,7 +173,7 @@ int Meta_ReadOptions(MetaOptions *opt)
 
 int Meta_OptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -790000000;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS;

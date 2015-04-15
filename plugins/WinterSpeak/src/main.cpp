@@ -69,8 +69,7 @@ int protocolAck(WPARAM, LPARAM lParam)
 
 int dialogOptionsInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInst;
 	odp.ptszGroup = LPGENT("Speak");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;

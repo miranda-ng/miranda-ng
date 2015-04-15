@@ -746,7 +746,7 @@ int CAimProto::OnUserInfoInit(WPARAM wParam,LPARAM lParam)
 {
 	if (!lParam)//hContact
 	{
-		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.position = -1900000000;
 		odp.flags = ODPF_USERINFOTAB | ODPF_TCHAR;
 		odp.hInstance = hInstance;
@@ -1130,7 +1130,7 @@ static INT_PTR CALLBACK privacy_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 int CAimProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 1003000;
 	odp.hInstance = hInstance;
 	odp.ptszGroup = LPGENT("Network");

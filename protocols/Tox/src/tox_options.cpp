@@ -511,7 +511,6 @@ void CToxOptionsNodeList::OnApply()
 int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
 	odp.ptszTitle = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.ptszGroup = LPGENT("Network");

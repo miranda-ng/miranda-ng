@@ -518,7 +518,7 @@ int NetlibOptInitialise(WPARAM wParam, LPARAM)
 	if (optionsCount == 0)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 900000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NETLIB);

@@ -555,7 +555,7 @@ extern INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wPara
 
 int OnOptInitialize(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.ptszGroup = LPGENT("Message sessions");
 	odp.ptszTitle = _T(PLUGIN_NAME);

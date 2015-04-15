@@ -1039,12 +1039,11 @@ static int OnInitOptions(WPARAM wParam, LPARAM lParam)
 {
 	DlgContactInfoInitTreeIcons();
 
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 95400;
 	odp.hInstance = ghInst;
 	odp.pszTitle = LPGEN(MODULELONGNAME);
 	odp.pszGroup = LPGEN("Contacts");
-	odp.cbSize = sizeof(odp);
 
 	// Common page
 	odp.pszTab = LPGEN("Common");

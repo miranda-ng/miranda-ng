@@ -140,7 +140,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN_OPTION_FORM);
 	odp.pszTitle = ModuleName;

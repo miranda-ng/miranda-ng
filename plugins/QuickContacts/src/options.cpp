@@ -49,7 +49,7 @@ void LoadOptions()
 
 int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance=hInst;
 	odp.ptszGroup = LPGENT("Contacts");
 	odp.ptszTitle = LPGENT("Quick Contacts");

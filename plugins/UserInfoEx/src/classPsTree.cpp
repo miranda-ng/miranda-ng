@@ -127,7 +127,7 @@ int CPsTree::AddDummyItem(LPCSTR pszGroup)
 		psh._pPages	 = _pItems;
 		psh._numPages = _numItems;
 
-		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.hInstance = ghInst;
 		odp.flags = ODPF_TCHAR;
 		odp.ptszTitle = mir_utf8decodeT(pszGroup);

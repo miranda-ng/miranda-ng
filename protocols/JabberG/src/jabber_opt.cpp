@@ -1507,7 +1507,6 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleRosterControl(WPARAM, LPARAM)
 int CJabberProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
 	odp.ptszGroup = LPGENT("Network");
 	odp.ptszTitle = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;

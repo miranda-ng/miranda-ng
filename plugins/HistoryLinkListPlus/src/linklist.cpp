@@ -100,7 +100,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 int InitOptionsDlg(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszGroup = LPGEN("History");
 	odp.pszTitle = LPGEN("History Linklist");

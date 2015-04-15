@@ -352,11 +352,6 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 	if (pPsh == NULL || odp == NULL || pPsh->_dwSize != sizeof(CPsHdr))
 		return 1;
 
-	if (odp->cbSize != sizeof(OPTIONSDIALOGPAGE) && odp->cbSize != OPTIONPAGE_OLD_SIZE) {
-		MsgErr(NULL, LPGENT("The page to add has invalid size %d bytes!"), odp->cbSize);
-		return 1;
-	}
-
 	// try to check whether the flag member is initialized or not
 	odp->flags = odp->flags > (ODPF_UNICODE | ODPF_BOLDGROUPS | ODPF_ICON | PSPF_PROTOPREPENDED) ? 0 : odp->flags;
 
@@ -511,7 +506,7 @@ static int InitDetails(WPARAM wParam, LPARAM lParam)
 	if (!(pPsh->_dwFlags & PSF_PROTOPAGESONLY)) {
 		BYTE bChangeDetailsEnabled = myGlobals.CanChangeDetails && db_get_b(NULL, MODNAME, SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
 		if (lParam || bChangeDetailsEnabled) {
-			OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+			OPTIONSDIALOGPAGE odp = { 0 };
 			odp.hInstance = ghInst;
 			odp.flags = ODPF_ICON | ODPF_TCHAR;
 			odp.ptszGroup = IcoLib_GetDefaultIconFileName();

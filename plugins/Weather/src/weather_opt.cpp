@@ -256,7 +256,7 @@ void SaveOptions(void)
 // register the weather option pages
 int OptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 
 	// plugin options

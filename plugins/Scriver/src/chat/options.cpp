@@ -731,7 +731,7 @@ static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg,UINT uMsg,WPARAM wParam
 static int OptionsInitialize(WPARAM wParam, LPARAM)
 {
 	if (g_dat.popupInstalled) {
-		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.position = 910000002;
 		odp.hInstance = g_hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);

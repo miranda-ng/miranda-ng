@@ -1222,7 +1222,7 @@ INT_PTR CALLBACK DlgProcLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 int OptionsInitialize(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -100000000;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS;

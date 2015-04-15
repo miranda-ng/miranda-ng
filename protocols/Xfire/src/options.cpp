@@ -1092,7 +1092,7 @@ int OptInit(WPARAM wParam, LPARAM)
 {
 	ghwndDlg2 = NULL;
 
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hinstance;
 	odp.ptszTitle = LPGENT("XFire");
 	odp.ptszGroup = LPGENT("Network");

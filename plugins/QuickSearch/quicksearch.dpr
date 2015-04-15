@@ -141,7 +141,6 @@ var
   odp:TOPTIONSDIALOGPAGE;
 begin
   ZeroMemory(@odp,sizeof(odp));
-  odp.cbSize     :=SizeOf(odp);  //for 0.6+ compatibility
   odp.Position   :=900003000;
   odp.hInstance  :=hInstance;
   odp.pszTemplate:=PAnsiChar(IDD_DIALOG1);

@@ -218,7 +218,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 int OptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
    odp.flags       = ODPF_BOLDGROUPS|ODPF_TCHAR;
    odp.position    = -790000000;
    odp.hInstance   = hInst;

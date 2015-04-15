@@ -579,7 +579,7 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 	if (GetContactProto(lParam) == 0)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 
 	odp.pfnDlgProc = SummaryDlgProc;

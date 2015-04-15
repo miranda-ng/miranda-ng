@@ -431,7 +431,7 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
  */
 static int OptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.ptszGroup = LPGENT("Contacts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPANEL);

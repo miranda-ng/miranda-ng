@@ -52,7 +52,6 @@ const
 type
   POPTIONSDIALOGPAGE = ^TOPTIONSDIALOGPAGE;
   TOPTIONSDIALOGPAGE = record
-    cbSize                :int;
     position              :int;     // a position number, lower numbers are topmost
     szTitle               :TChar;   // [TRANSLATED-BY-CORE]
     pfnDlgProc            :pointer;

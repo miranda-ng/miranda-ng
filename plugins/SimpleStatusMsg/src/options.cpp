@@ -1667,7 +1667,7 @@ int InitOptions(WPARAM wParam, LPARAM lParam)
 	if (accounts->statusCount == 0)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInst;
 	odp.flags = ODPF_BOLDGROUPS;
 

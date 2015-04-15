@@ -92,7 +92,7 @@ INT_PTR CALLBACK DlgProcPopups(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 int NotifyOptionsInitialize(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOTIFY);
 	odp.pszTitle = LPGEN("YAPP Popups");

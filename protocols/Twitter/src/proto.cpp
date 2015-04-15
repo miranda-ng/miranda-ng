@@ -290,7 +290,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 
 int TwitterProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 271828;
 	odp.hInstance = g_hInstance;
 	odp.ptszGroup = LPGENT("Network");

@@ -20,7 +20,6 @@ begin
   SendMessage(hwndTooltip,TTM_SETMAXTIPWIDTH,0,300);
 
   FillChar(odp,SizeOf(odp),0);
-  odp.cbSize     :=SizeOf(odp);
   odp.Position   :=900003000;
   odp.hInstance  :=hInstance;
   odp.szTitle.a  :=PluginName;

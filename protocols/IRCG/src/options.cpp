@@ -1658,7 +1658,6 @@ void CIgnorePrefsDlg::UpdateList()
 int CIrcProto::OnInitOptionsPages(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
 	odp.ptszTitle = m_tszUserName;
 	odp.ptszGroup = LPGENT("Network");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;

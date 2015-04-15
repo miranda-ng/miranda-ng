@@ -88,7 +88,7 @@ INT_PTR CALLBACK DlgProcEditorOptions(HWND hWndDlg, UINT msg, WPARAM wParam, LPA
 
 int OptInitialise(WPARAM wParam,LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;
 	odp.hInstance = ssSMSSettings.hInstance;
 	odp.pszGroup = LPGEN("Events");

@@ -60,7 +60,7 @@ HANDLE   hTTButton;
 
 static int OptionsInitialize(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
 	odp.groupPosition = 910000000;
 	odp.hInstance = hInst;

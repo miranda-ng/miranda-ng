@@ -208,7 +208,7 @@ int __cdecl CIrcProto::OnInitUserInfo(WPARAM wParam, LPARAM lParam)
 		db_free(&dbv);
 	}
 
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.flags = ODPF_DONTTRANSLATE;
 	odp.pszTitle = m_szModuleName;
 	odp.hIcon = NULL;

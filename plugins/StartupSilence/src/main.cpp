@@ -351,8 +351,7 @@ HANDLE GetIconHandle(char *szIcon)
 
 int InitializeOptions(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {sizeof(odp)};
-	odp.position = 0;
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SSOPT);
 	odp.pszGroup = LPGEN("Events");//FIXME: move to...Group?

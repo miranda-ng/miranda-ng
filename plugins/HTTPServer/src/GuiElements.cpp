@@ -1338,7 +1338,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 {
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 900000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_HTTP_SERVER);
