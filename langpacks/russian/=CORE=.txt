@@ -2107,7 +2107,7 @@ xСтатус
 <Корневая группа>
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Миранда пытается обновить структуру вашего профиля.\nНе удалось переместить профиль %s в новое расположение %s\nПрофиль с таким именем уже существует. Пожалуйста, решите этот вопрос вручную.
-[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
 Миранда пытается обновить структуру вашего профиля.\nНе удалось автоматически переместить профиль %s в новое расположение %s\nВероятная причина - нехватка прав доступа. Пожалуйста, переместите профиль вручную.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Файл профиля не должен находится в корневой папке Miranda.

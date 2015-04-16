@@ -39,8 +39,14 @@
 Отмена
 [Enter the password to continue.]
 Введите пароль, чтобы продолжить.
+[User]
+Пользователь
+[Admin]
+Админ
 [Groupchat]
 Чат
+[Edited at]
+Отредактировано в
 [Protocol icon]
 Значок протокола
 [Protocols]
