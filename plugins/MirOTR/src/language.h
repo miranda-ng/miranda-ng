@@ -47,13 +47,13 @@
 
 #define LANG_GENERATE_KEY					LPGEN("Generating new private key for protocol '%s'.\nPlease Wait...")
 
-#define LANG_OPT_GENERAL					LPGEN("General")
-#define LANG_OPT_PROTO						LPGEN("Protocols")
-#define LANG_OPT_CONTACTS					LPGEN("Contacts")
-#define LANG_OPT_FINGER						LPGEN("Fingerprints")
+#define LANG_OPT_GENERAL					LPGENT("General")
+#define LANG_OPT_PROTO						LPGENT("Protocols")
+#define LANG_OPT_CONTACTS					LPGENT("Contacts")
+#define LANG_OPT_FINGER						LPGENT("Fingerprints")
 
 #define LANG_CONTACT						LPGEN("Contact")
-#define LANG_PROTO							LPGEN("Protocol")
+#define LANG_PROTO							LPGEN("Account")
 #define LANG_POLICY							LPGEN("Policy")
 #define LANG_VERIFIED						LPGEN("Verified")
 #define LANG_ACTIVE							LPGEN("Active")
