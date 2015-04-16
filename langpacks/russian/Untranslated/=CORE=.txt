@@ -1,5 +1,4 @@
-﻿[View personal user details and more]
-[&E-mail]
+﻿[&E-mail]
 [ID]
 [Browser: Back]
 [Browser: Forward]
