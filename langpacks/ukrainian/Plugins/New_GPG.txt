@@ -231,6 +231,8 @@ ID ключа:
 Інфо
 [Do you want to remove key from entire metacontact (all subcontacts)?]
 Ви хочете видалити ключ для метаконтакту (всіх субконтактів)?
+[Export public key]
+Експорт відкритого ключа
 [LOG files]
 Файли журналу
 [New passwords do not match]

@@ -21,6 +21,16 @@
 Автоматична синхронізація повідомлень
 [Use local time for received messages]
 Локальний час для прийнятих повідомлень
+[Mark message as read...]
+Позначати повідомлення прочитаними...
+[on read]
+при читанні
+[on receive]
+при отриманні
+[on reply]
+при відповіді
+[on typing]
+при наборі тексту
 [Enter password]
 Введіть пароль
 [Save password]

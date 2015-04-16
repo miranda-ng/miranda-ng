@@ -455,8 +455,6 @@
 Сторінки не додані. Створення діалогу скасовано.
 [Details dialog failed to be created. Returning error is %d.]
 Помилка створення діалогу деталей. Помилка %d.
-[The page to add has invalid size %d bytes!]
-Неправильний розмір сторінки для додавання: %d байтів
 [General]
 Загальне
 [Contact (private)]

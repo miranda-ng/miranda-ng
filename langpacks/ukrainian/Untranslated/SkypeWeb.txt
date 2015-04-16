@@ -1,5 +1,0 @@
-﻿[Mark message as read...]
-[on read]
-[on receive]
-[on reply]
-[on typing]

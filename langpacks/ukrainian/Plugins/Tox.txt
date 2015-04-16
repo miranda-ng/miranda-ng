@@ -7,18 +7,34 @@
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Підтримка протоколу Tox у Miranda NG.
+[Create]
+Створити
+[Import]
+Імпорт
+[Copy ID]
+Копіювати ID
+[Export]
+Експорт
 [Name:]
 Ім'я:
 [Password:]
 Пароль:
 [Default group:]
 Група:
+[Create tox profile]
+Створити профіль Tox
 [Import tox profile]
 Імпортувати профіль Tox
 [Copy Tox ID]
 Копіювати Tox ID
+[Export tox profile]
+Експорт профілю Tox
 [Connection settings]
 Налаштування підключення
+[Enable UDP (otherwise force Tox to use TCP)]
+Увімкнути UDP (інакше примусово використовувати TCP)
+[Enable IPv6]
+Увімкнути IPv6
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Якщо ввести в полі пошуку адресу Tox (76 hex-символів), буде видано запит на додавання до списку друзів. Інакше відбудеться пошук за допомогою сервісу DNS Discovery.
 [Dns name:]
@@ -89,6 +105,8 @@ IPv6 адреса (необов'язково)
 Введіть відкритий ключ
 [Common nodes]
 Загальні ноди
+[User nodes]
+Ноди користувача
 [Are you sure?]
 Ви впевнені?
 [Node deleting]
