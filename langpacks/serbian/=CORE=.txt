@@ -1177,8 +1177,8 @@ Telefon prima SMS poruke
 Dodaj e-mail adresu
 [%s: user details]
 Detalji o: %s
-[%s\nView personal user details and more]
-%s\nPregled ličnih podataka korisnika (još)
+[View personal user details and more]
+Pregled ličnih podataka korisnika (još)
 [Update now]
 Postavi odmah
 [Updating]
@@ -2103,7 +2103,7 @@ Otvori prozor za pretragu korisnika
 <Glavna grupa (root)>
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda ne uspeva da poboljša organizaciju profila.\nProfil %s ne može da bude sačuvan u: %s\nVeć postoji istoimeni profil. Ovaj problem morate da rešite ručno.
-[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
 Miranda ne uspeva da poboljša organizaciju profila.\nProfil %s ne može da bude sačuvan u: %s po automatizaciji\nNajverovatnije usled ograničenih prava pristupa podacima na računaru. Profil morate prebaciti ručno.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil ne može biti sačuvan u 'root' folderu.\nProfil premestite na drugo mesto.

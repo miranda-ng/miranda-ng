@@ -65,7 +65,7 @@
 [Open Options page]
 [Open logging options]
 [Open 'Find user' dialog]
-[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 [Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
 [This change is not known to be safe.]

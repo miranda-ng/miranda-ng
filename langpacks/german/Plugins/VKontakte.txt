@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.52
+;  Version: 0.1.0.53
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -80,6 +80,8 @@ Benachrichtigungsarten
 Kommentare
 [Likes]
 Gefällt mir
+[Invites]
+
 [Reposts]
 Reposts
 [Mentions in comments]
@@ -219,6 +221,12 @@ Zugriff auf Pinnwand verweigert
 Bestätigungscode eingeben
 [Message read: %s]
 Nachricht gelesen: %s
+[has invited you to a group]
+
+[has invited you to subscribe to a page]
+
+[invites you to event]
+
 [commented on your post]
 kommentierte Ihren Beitrag
 [commented on your photo]

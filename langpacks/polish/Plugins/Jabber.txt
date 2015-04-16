@@ -523,7 +523,7 @@ Wsparcie dla wtyczki SecureIM w Mirandzie NG
 Wsparcie dla wtyczki MirOtr w Mirandzie NG
 [Supports New_GPG plugin for Miranda NG]
 Wsparcie dla wtyczki New_GPG w Mirandzie NG
-[Blocks packets from another users/groupchats using Privacy lists]
+[Blocks packets from other users/groupchats using Privacy lists]
 Możliwość blokowania komunikacji z innymi użytkownikami za pomocą list prywatności
 [Supports Message Receipts]
 Wsparcie dla potwierdzenia dostarczenia wiadomości

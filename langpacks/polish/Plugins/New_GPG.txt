@@ -210,15 +210,15 @@ Nie udało się przydzielić pamięci
 Nie udało się zablokować pamięci z błędem %d
 [Failed write to clipboard with error %d]
 Nie udało się zapisać w schowku z błędem %d
-[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
+[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
 Znaleziono plik binarny GPG w folderze Mirandy, ale angielskie ustawienia regionalne nie istnieją.\nWysoce zaleca się umieszczenie \\gnupg.nls\\en@quot.mo w folderze GnuPG w głównym folderze Mirandy.\nBez tego pliku możesz doświadczyć wielu problemów z wyjściem GPG w systemach innych niż angielski,\na wtyczka może w ogóle nie działać.\nZostałeś ostrzeżony.
 [Warning]
 Ostrzeżenie
 [Wrong GPG binary location found in system.\nPlease choose another location]
 Znaleziono niepoprawną lokalizację pliku binarnego GPG w systemie.\nProszę wybrać inną lokalizację
-[This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
+[This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
 To nie jest plik binarny GnuPG !\nZalecana wersja to v1.x.x.
-[Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
+[Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
 Znaleziono niewspieraną wersję GnuPG. Używasz na własną odpowiedzialność!\nZaleca się używania gnupg v1.x.x w połączeniu z tą wtyczką.
 ["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
 Znaleziono katalog "GPG" w folderze Mirandy.\nZakładam, że jest to katalog domowy "GPG".\nUstawiono katalog domowy GPG.

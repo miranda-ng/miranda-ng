@@ -1137,8 +1137,8 @@ Wikipedia
 Добавяне на имейл
 [%s: user details]
 %s: Подробности за потребителя
-[%s\nView personal user details and more]
-%s\nПреглед на потребителските данни
+[View personal user details and more]
+Преглед на потребителските данни
 [Update now]
 Обновяване
 [Updating]
@@ -2041,7 +2041,7 @@ URL
 <Главна група>
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Грешка при надстройването структурата на профила.\nПреместването на профила "%s" в %s е невъзможно.\nВероятно вече съществува профил със същото име. Моля, разрешете проблема ръчно!
-[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
 Грешка при надстройването структурата на профила.\nПреместването на профила "%s" в %s е невъзможно.\nВероятно Miranda NG не разполага с необходимите права. Моля, преместете файла ръчно.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Не може да съхранявате профили в основната директория на Miranda NG.\nМоля, преместете профила в друга папка.

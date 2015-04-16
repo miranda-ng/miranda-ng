@@ -303,7 +303,7 @@ SecureIM-Status (deaktiviert)
 SecureIM-Status (aktiviert)
 [SecureIM status (always try)]
 SecureIM-Status (immer versuchen)
-[SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+[SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
 SecureIM: Kann nachricht nicht entschlüsseln weil Sie kein PGP/GPG installiert haben. Besuchen Sie www.pgp.com oder www.gnupg.org für weitere Informationen.
 [SecureIM received unencrypted message:\n]
 SecureIM hat unverschlüsselte Nachricht empfangen:\n

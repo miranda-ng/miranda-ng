@@ -19,7 +19,6 @@
 [Abort]
 [Creating the image list failed!]
 [No pages have been added. Canceling dialog creation!]
-[The page to add has invalid size %d bytes!]
 [Fatal error, image services not found. Flags module will be disabled.]
 [IM naming]
 [Goto]

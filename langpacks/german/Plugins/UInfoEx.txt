@@ -465,8 +465,6 @@ Das Kontaktprotokoll konnte nicht gefunden werden. Vielleicht ist es nicht aktiv
 Es wurden keine Seiten hinzugefügt.\nDer Dialog wird nicht angezeigt!
 [Details dialog failed to be created. Returning error is %d.]
 Der Kontaktinformationsdialog konnte nicht erstellt werden.\nFehler %d.
-[The page to add has invalid size %d bytes!]
-Die hinzuzufügende Seite hat die ungültige Größe von %d Byte!
 [General]
 Allgemein
 [Contact (private)]

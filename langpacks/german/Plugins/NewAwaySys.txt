@@ -201,7 +201,7 @@ Neue Nachricht erstellen
 Neue Kategorie erstellen
 [Open Variables help dialog]
 Variablen-Hilfe öffnen
-[Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages.]
+[Your most recent status messages are placed in this category. It's not recommended that you put your messages manually here, as they'll be replaced by your recent messages.]
 Ihre letzten Statusnachrichten werden in diese Kategorie gelegt. Es wird nicht empfohlen, Ihre Nachrichten manuell hier zu setzen, da sie durch Ihre neuen Nachrichten ersetzt werden.
 [You can put your frequently used and favorite messages in this category.]
 Sie können Ihre häufig verwendeten und bevorzugten Nachrichten hier ablegen.

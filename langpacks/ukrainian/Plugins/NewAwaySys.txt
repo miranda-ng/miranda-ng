@@ -197,7 +197,7 @@
 Додати категорію
 [Open Variables help dialog]
 Допомога по змінним
-[Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages.]
+[Your most recent status messages are placed in this category. It's not recommended that you put your messages manually here, as they'll be replaced by your recent messages.]
 До цієї категорії потрапляють ваші останні статусні повідомлення. Не рекомендується оновлювати їх вручну, тому що вони автоматично заміюються новішими.
 [You can put your frequently used and favorite messages in this category.]
 Улюблені повідомлення та повідомлення, що часто використовуються, додавайте до цієї категорії.

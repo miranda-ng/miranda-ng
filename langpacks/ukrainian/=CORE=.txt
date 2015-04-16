@@ -1173,8 +1173,8 @@ UIN, E-mail тощо
 Додати адресу E-mail
 [%s: user details]
 Інформація про %s
-[%s\nView personal user details and more]
-%s\nПерегляд особистих даних користувача
+[View personal user details and more]
+Перегляд особистих даних користувача
 [Update now]
 Оновити
 [Updating]
@@ -2105,7 +2105,7 @@ xСтатус
 <Коренева група>
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda намагається оновити вашу структуру зберігання профілів.\nНе вдається перемістити профіль %s на нове місце %s, бо профіль з таким ім'ям уже існує. Вирішіть проблему вручну.
-[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
 Miranda намагається оновити вашу структуру зберігання профілів.\nНе вдається автоматично перемістити профіль %s на нове місце %s. Імовірно, у програми недостатньо прав. Перемістіть профіль вручну.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Файл профілю не повинен знаходится в корневій папці Miranda. Перемістіть свій профіль на інше місце.

@@ -182,7 +182,6 @@
 [Could not find contact's protocol. Maybe it is not active!]
 [No pages have been added. Canceling dialog creation!]
 [Details dialog failed to be created. Returning error is %d.]
-[The page to add has invalid size %d bytes!]
 [General]
 [Contact (private)]
 [Anniversaries]

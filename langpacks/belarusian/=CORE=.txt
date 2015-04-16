@@ -1182,8 +1182,8 @@ UIN, E-mail і г.д.
 Дадаць адрас
 [%s: user details]
 Пра кантакт %s
-[%s\nView personal user details and more]
-%s\nПрагляд асабістых дадзеных кантакта
+[View personal user details and more]
+Прагляд асабістых дадзеных кантакта
 [Update now]
 Абнавіць
 [Updating]
@@ -2164,8 +2164,8 @@ xСтатус
 ;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Міранда спрабуе абнавіць профіль структуры.\nНемагчыма перамясціць профіль %s на новае месца %s,\nбо профіль з такой назвай ужо існуе. Калі ласка, вырашыце праблему ўручную.
-[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
-Міранда спрабуе абнавіць профіль структуры.\nНемагчыма перамясціць профіль %s на новае месца %s,\nхутчэй за ўсё, з-за недахопу правоў доступу. Калі ласка, наладзьце профіль уручную
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
+Міранда спрабуе абнавіць профіль структуры.\nНемагчыма перамясціць профіль %s на новае месца %s,\nхутчэй за ўсё, з-за недахопу правоў доступу. Калі ласка, наладзьце профіль уручную.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Профіль не можа быць змешчаны ў каранёвую тэчку Міранды.\nКалі ласка, абярыце профілю іншае месца.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]

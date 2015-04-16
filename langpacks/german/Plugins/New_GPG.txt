@@ -210,15 +210,15 @@ Konnte Speicher nicht zuweisen
 Sperren des Speichers mit Fehler %d fehlgeschlagen.
 [Failed write to clipboard with error %d]
 Schreiben in Zwischenablage mit Fehler %d fehlgeschlagen.
-[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
+[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
 Das GPG-Verzeichnis wurde im Miranda-Verzeichnis gefunden, allerdings existiert das englische Locale nicht.\nEs ist sehr wichtig die \\gnupg.nls\\en@quot.mo im GnuPG-Verzeichnis im Miranda-NG-Verzeichnis zu legen.\nOhne diese Datei haben Sie viele Probleme mit der GPG-Ausgabe auf nicht-englischen Systemen.\nPlugin kann evtl. nicht richtig funktionieren.\nSeien Sie gewarnt!
 [Warning]
 Warnung
 [Wrong GPG binary location found in system.\nPlease choose another location]
 Ein falsches GPG-Verzeichnis wurde im System gefunden.\nBitte wählen Sie ein anderes Verzeichnis aus.
-[This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
+[This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
 Dies ist keine GnuPG-Binärdatei!\nEs wird empfohlen GnuPG v1.x.x mit diesem Plugin zu verwenden.
-[Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
+[Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
 Eine nicht unterstützte GnuPG-Version wurde gefunden, benutzen Sie diese auf eigenes Risiko!\nEs wird empfohlen, GnuPG v1.x.x mit diesem Plugin zu benutzen.
 ["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
 "GPG"-Verzeichnis im Miranda-Hauptverzeichnis gefunden.\nNehme an, dass dies das GPG-Heimverzeichnis ist.\nGPG-Heimverzeichnis gesetzt.
