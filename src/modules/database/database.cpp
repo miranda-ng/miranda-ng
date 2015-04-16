@@ -210,7 +210,7 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 			else if (MoveFile(path, path2) == 0) {
 				TCHAR buf[512];
 				mir_sntprintf(buf, SIZEOF(buf),
-					TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually."),
+					TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually."),
 					path, path2);
 				MessageBox(NULL, buf, _T("Miranda NG"), MB_ICONERROR | MB_OK);
 				mir_free(profile);

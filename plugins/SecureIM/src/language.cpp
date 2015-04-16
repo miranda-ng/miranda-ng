@@ -83,7 +83,7 @@ LPCSTR sim312[] = { LPGEN("SecureIM status (disabled)"),
 		    LPGEN("SecureIM status (always try)") };
 
 //System messages
-LPCSTR sim401 = LPGEN("SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.");
+LPCSTR sim401 = LPGEN("SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.");
 LPCSTR sim402 = LPGEN("SecureIM received unencrypted message:\n");
 LPCSTR sim403 = LPGEN("SecureIM received encrypted message:\n");
 

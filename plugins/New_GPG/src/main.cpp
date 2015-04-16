@@ -876,7 +876,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if(boost::filesystem::exists(gpg_lang_path))
 				lang_exists = true;
 			if(gpg_exists && !lang_exists)
-				MessageBox(0, TranslateT("GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned."), TranslateT("Warning"), MB_OK);
+				MessageBox(0, TranslateT("GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned."), TranslateT("Warning"), MB_OK);
 			mir_free(gpg_path);
 			mir_free(gpg_lang_path);
 		}
@@ -920,10 +920,10 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			else
 			{
 				bad_version = false;
-				MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Error"), MB_OK);
+				MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Error"), MB_OK);
 			}
 			if(bad_version)
-				MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+				MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 		}
 		mir_free(tmp);
 		{
@@ -1045,10 +1045,10 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			  else
 			  {
 				  bad_version = false;
-				  MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+				  MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 			  }
 			  if(bad_version)
-				  MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+				  MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 		  }
 		  db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 		  GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, SIZEOF(tmp));
@@ -1123,10 +1123,10 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				else
 				{
 					bad_version = false;
-					MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+					MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 				}
 				if(bad_version)
-					MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+					MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 			}
 			db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 			GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, SIZEOF(tmp));
