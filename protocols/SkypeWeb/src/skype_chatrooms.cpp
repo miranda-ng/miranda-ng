@@ -17,6 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
+static LPCTSTR sttStatuses[] = { LPGENT("User"), LPGENT("Admin") };
+
 void CSkypeProto::InitGroupChatModule()
 {
 	GCREGISTER gcr = { sizeof(gcr) };
@@ -129,6 +131,13 @@ void CSkypeProto::StartChatRoom(MCONTACT hChatRoom, bool showWindow)
 	CallServiceSync(MS_GC_EVENT, showWindow ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce);
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 
+	GCDEST gcdg = { m_szModuleName, tszChatID, GC_EVENT_ADDGROUP };
+	GCEVENT gceg = { sizeof(gce), &gcdg };
+	for (int i = SIZEOF(sttStatuses)-1; i >= 0; i--) {
+		gceg.ptszStatus = TranslateTS(sttStatuses[i]);
+		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gceg);
+	}
+
 }
 
 int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
@@ -165,7 +174,8 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(node, "skypeeditedid")))));
 	
 	ptrA from(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
-
+	JSONNODE *imdisplynameJSON(json_get(node, "imdisplayname"));
+	ptrT imdisplayname(json_as_string(imdisplynameJSON));
 	ptrT composeTime(json_as_string(json_get(node, "composetime")));
 	time_t timestamp = IsoToUnixTime(composeTime);
 
@@ -183,7 +193,14 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 	if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 	{
-
+		GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_MESSAGE };
+		GCEVENT gce = { sizeof(GCEVENT), &gcd };
+		gce.bIsMe = IsMe(ContactUrlToName(from));
+		gce.ptszUID = ptrT(mir_a2t(ContactUrlToName(from)));
+		gce.time = timestamp;
+		gce.ptszNick = imdisplynameJSON != NULL ? imdisplayname : ptrT(mir_a2t(ContactUrlToName(from)));
+		gce.ptszText = ptrT(mir_a2t(content));
+		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/AddMember"))
 	{
@@ -195,6 +212,7 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		regex = "<initiator>8:(.+?)</initiator>";
 		if (!std::regex_search(strContent, match, regex))
 			return;
+
 		std::string initiator = match[1];
 
 		regex = "<target>8:(.+?)</target>";
@@ -208,11 +226,8 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		gce.bIsMe = IsMe(target.c_str());
 		gce.ptszUID = ptrT(mir_a2t(target.c_str()));
 		gce.ptszNick = ptrT(mir_a2t(target.c_str()));
-		gce.ptszStatus = L"User";
-		gce.dwItemData = (INT_PTR)0;
-		gce.dwFlags = GCEF_ADDTOLOG;
+		gce.ptszStatus = TranslateT("User");
 		gce.time = timestamp;
-		gce.ptszText = ptrT(mir_a2t(initiator.c_str()));
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/DeleteMember"))
@@ -222,26 +237,37 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		std::string strContent(content);
 		regex = "<initiator>8:(.+?)</initiator>";
 		if (!std::regex_search(strContent, match, regex))
-			return;
+			std::string initiator = "";
 		std::string initiator = match[1];
-
 		regex = "<target>8:(.+?)</target>";
 
 		if (!std::regex_search(strContent, match, regex))
 			return;
 		std::string target = match[1];
 
-		GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_PART };
-		GCEVENT gce = { sizeof(GCEVENT), &gcd };
-		gce.bIsMe = IsMe(target.c_str());
-		gce.ptszUID = ptrT(mir_a2t(target.c_str()));
-		gce.ptszNick = ptrT(mir_a2t(target.c_str()));
-		gce.ptszStatus = L"User";
-		gce.dwItemData = (INT_PTR)0;
-		gce.dwFlags = GCEF_ADDTOLOG;
-		gce.time = timestamp;
-		gce.ptszText = ptrT(mir_a2t(initiator.c_str()));
-		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+		bool isKick = false;
+		if (initiator == "")
+			bool isKick = true;
+
+		if (isKick)
+		{
+			GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_KICK };
+			GCEVENT gce = { sizeof(GCEVENT), &gcd };
+			gce.ptszUID = ptrT(mir_a2t(target.c_str()));
+			gce.ptszNick = ptrT(mir_a2t(target.c_str()));
+			gce.ptszStatus = ptrT(mir_a2t(initiator.c_str()));
+			gce.time = timestamp;
+			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+		}
+		else
+		{
+			GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_PART };
+			GCEVENT gce = { sizeof(GCEVENT), &gcd };
+			gce.ptszUID = ptrT(mir_a2t(target.c_str()));
+			gce.ptszNick = ptrT(mir_a2t(target.c_str()));
+			gce.time = timestamp;
+			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+		}
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/TopicUpdate"))
 	{
