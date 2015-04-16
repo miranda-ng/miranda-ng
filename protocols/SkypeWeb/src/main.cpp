@@ -18,6 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "common.h"
 
 int hLangpack;
+XML_API  xi;
 TIME_API tmi = { 0 };
 HINSTANCE g_hInstance;
 
@@ -67,6 +68,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	CSkypeProto::InitLanguages();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, &CSkypeProto::OnModulesLoaded);
+
+	mir_getXI(&xi);
 
 	return 0;
 }

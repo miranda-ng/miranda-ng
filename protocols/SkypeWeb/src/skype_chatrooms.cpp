@@ -167,7 +167,7 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	ptrA from(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
 
 	ptrT composeTime(json_as_string(json_get(node, "composetime")));
-	//time_t timestamp = IsoToUnixTime(composeTime);
+	time_t timestamp = IsoToUnixTime(composeTime);
 
 	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
 	//int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
@@ -187,18 +187,61 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/AddMember"))
 	{
-			/*GCDEST gcd = { m_szModuleName, , GC_EVENT_JOIN };
-			GCEVENT gce = { sizeof(GCEVENT), &gcd };
-			gce.bIsMe = uid == m_myUserId;
-			gce.ptszUID = tszId;
-			gce.ptszNick = tszNick;
-			gce.ptszStatus = TranslateTS(sttStatuses[uid == cc->m_admin_id]);
-			gce.dwItemData = (INT_PTR)cu;
-			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);*/
+		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
+
+		std::regex regex;
+		std::smatch match;
+		std::string strContent(content);
+		regex = "<initiator>8:(.+?)</initiator>";
+		if (!std::regex_search(strContent, match, regex))
+			return;
+		std::string initiator = match[1];
+
+		regex = "<target>8:(.+?)</target>";
+
+		if (!std::regex_search(strContent, match, regex))
+			return;
+		std::string target = match[1];
+
+		GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_JOIN };
+		GCEVENT gce = { sizeof(GCEVENT), &gcd };
+		gce.bIsMe = IsMe(target.c_str());
+		gce.ptszUID = ptrT(mir_a2t(target.c_str()));
+		gce.ptszNick = ptrT(mir_a2t(target.c_str()));
+		gce.ptszStatus = L"User";
+		gce.dwItemData = (INT_PTR)0;
+		gce.dwFlags = GCEF_ADDTOLOG;
+		gce.time = timestamp;
+		gce.ptszText = ptrT(mir_a2t(initiator.c_str()));
+		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/DeleteMember"))
 	{
+		std::regex regex;
+		std::smatch match;
+		std::string strContent(content);
+		regex = "<initiator>8:(.+?)</initiator>";
+		if (!std::regex_search(strContent, match, regex))
+			return;
+		std::string initiator = match[1];
 
+		regex = "<target>8:(.+?)</target>";
+
+		if (!std::regex_search(strContent, match, regex))
+			return;
+		std::string target = match[1];
+
+		GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_PART };
+		GCEVENT gce = { sizeof(GCEVENT), &gcd };
+		gce.bIsMe = IsMe(target.c_str());
+		gce.ptszUID = ptrT(mir_a2t(target.c_str()));
+		gce.ptszNick = ptrT(mir_a2t(target.c_str()));
+		gce.ptszStatus = L"User";
+		gce.dwItemData = (INT_PTR)0;
+		gce.dwFlags = GCEF_ADDTOLOG;
+		gce.time = timestamp;
+		gce.ptszText = ptrT(mir_a2t(initiator.c_str()));
+		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/TopicUpdate"))
 	{
