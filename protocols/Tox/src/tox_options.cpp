@@ -63,6 +63,7 @@ void CToxOptionsMain::ToxAddressCopy_OnClick(CCtrlButton*)
 		SetClipboardData(CF_TEXT, hMemory);
 		CloseClipboard();
 	}
+	mir_free(toxAddress);
 }
 
 void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
@@ -129,13 +130,13 @@ void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 
 void CToxOptionsMain::OnApply()
 {
-	TCHAR *group = m_group.GetText();
+	ptrT group(m_group.GetText());
 	if (mir_tstrlen(group) > 0 && Clist_GroupExists(group))
 		Clist_CreateGroup(0, group);
 
 	if (m_proto->IsOnline())
 	{
-		CallProtoService(m_proto->m_szModuleName, PS_SETMYNICKNAME, SMNN_TCHAR, (LPARAM)m_nickname.GetText());
+		CallProtoService(m_proto->m_szModuleName, PS_SETMYNICKNAME, SMNN_TCHAR, (LPARAM)ptrT(m_nickname.GetText()));
 
 		if (m_proto->password != NULL)
 			mir_free(m_proto->password);

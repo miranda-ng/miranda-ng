@@ -154,11 +154,12 @@ CToxPasswordEditor::CToxPasswordEditor(CToxProto *proto) :
 
 void CToxPasswordEditor::OnOk(CCtrlButton*)
 {
+	ptrT tszPassword(password.GetText());
 	if (savePermanently.Enabled())
-		m_proto->setTString("Password", password.GetText());
+		m_proto->setTString("Password", tszPassword);
 	if (m_proto->password != NULL)
 		mir_free(m_proto->password);
-	m_proto->password = mir_utf8encodeW(password.GetText());
+	m_proto->password = mir_utf8encodeW(tszPassword);
 
 	EndDialog(m_hwnd, 1);
 }
