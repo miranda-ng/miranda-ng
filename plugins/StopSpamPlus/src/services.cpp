@@ -34,7 +34,7 @@ INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 				DWORD caps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 				if (caps & PF1_SERVERCLIST) {
 					int status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-					if (status == ID_STATUS_OFFLINE || (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES))
+					if (status == ID_STATUS_OFFLINE || IsStatusConnecting(status))
 						// Set a flag so we remember to delete the contact when the protocol goes online the next time
 						db_set_b( hContact, "CList", "Delete", 1 );
 					else

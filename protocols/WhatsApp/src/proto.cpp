@@ -137,7 +137,7 @@ int WhatsAppProto::SetStatus(int new_status)
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
-	else if (m_pSocket == NULL && !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
+	else if (m_pSocket == NULL && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 

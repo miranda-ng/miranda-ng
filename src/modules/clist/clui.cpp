@@ -182,7 +182,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 			DWORD caps = CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 			if (caps & PF1_SERVERCLIST) {
 				int status = CallProtoServiceInt(NULL, szProto, PS_GETSTATUS, 0, 0);
-				if (status == ID_STATUS_OFFLINE || (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
+				if (status == ID_STATUS_OFFLINE || IsStatusConnecting(status)) {
 					// Set a flag so we remember to delete the contact when the protocol goes online the next time
 					db_set_b(wParam, "CList", "Delete", 1);
 					MessageBox(NULL,

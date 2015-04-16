@@ -101,9 +101,9 @@ TCHAR* fnGetStatusModeDescription(int mode, int flags)
 		descr = LPGENT("Idle");
 		break;
 	default:
-		if (mode > ID_STATUS_CONNECTING && mode < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
+		if (IsStatusConnecting(mode)) {
 			const TCHAR* connFmt = LPGENT("Connecting (attempt %d)");
-			mir_sntprintf(szMode, SIZEOF(szMode), (flags&GSMDF_UNTRANSLATED)?connFmt:TranslateTS(connFmt), mode - ID_STATUS_CONNECTING + 1);
+			mir_sntprintf(szMode, SIZEOF(szMode), (flags & GSMDF_UNTRANSLATED) ? connFmt : TranslateTS(connFmt), mode - ID_STATUS_CONNECTING + 1);
 			return szMode;
 		}
 		return NULL;
@@ -114,7 +114,7 @@ TCHAR* fnGetStatusModeDescription(int mode, int flags)
 
 static INT_PTR GetStatusModeDescription(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR* buf1 = cli.pfnGetStatusModeDescription(wParam, lParam);
+	TCHAR *buf1 = cli.pfnGetStatusModeDescription(wParam, lParam);
 
 	if (!(lParam & GSMDF_TCHAR)) {
 		static char szMode[64];

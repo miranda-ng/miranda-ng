@@ -34,6 +34,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //and/or should do.
 #define MAX_CONNECT_RETRIES       10000
 
+#if defined __cplusplus
+__forceinline bool IsStatusConnecting(int iStatus)
+{
+	return iStatus >= ID_STATUS_CONNECTING && iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES;
+}
+#else
+	#define IsStatusConnecting(X) (X >= ID_STATUS_CONNECTING && X < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
+#endif
+
 #define ID_STATUS_OFFLINE         40071
 #define ID_STATUS_ONLINE          40072
 #define ID_STATUS_AWAY            40073

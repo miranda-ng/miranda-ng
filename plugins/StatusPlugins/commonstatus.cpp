@@ -233,7 +233,8 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 		int oldstatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 		// set last status
 		protoSettings[i]->lastStatus = oldstatus;
-		if (oldstatus <= MAX_CONNECT_RETRIES) {// ignore if connecting, but it didn't came this far if it did
+		if (IsStatusConnecting(oldstatus)) {
+			// ignore if connecting, but it didn't came this far if it did
 			log_debugA("CommonStatus: %s is already connecting", szProto);
 			continue;
 		}
