@@ -601,7 +601,7 @@
 [Phone can receive SMS text messages]
 [Add e-mail address]
 [%s: user details]
-[%s\nView personal user details and more]
+[View personal user details and more]
 [Update now]
 [Updating]
 [Nickname:]

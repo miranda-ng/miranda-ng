@@ -1177,8 +1177,6 @@ UIN, E-mail и т.д.
 Добавить адрес e-mail
 [%s: user details]
 О пользователе %s
-[%s\nView personal user details and more]
-%s\nПросмотр личных данных пользователя
 [Update now]
 Обновить
 [Updating]
