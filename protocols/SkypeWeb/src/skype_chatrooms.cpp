@@ -235,7 +235,7 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		ptrA initiator, target;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("addmember"));
+		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("deletemember"));
 		if (xml != NULL) {
 			HXML node = xi.getChildByPath(xml, _T("initiator"), 0);
 			initiator = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
