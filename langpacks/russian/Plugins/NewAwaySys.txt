@@ -197,7 +197,7 @@
 Новая категория
 [Open Variables help dialog]
 Открыть диалог Variables
-[Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages.]
+[Your most recent status messages are placed in this category. It's not recommended that you put your messages manually here, as they'll be replaced by your recent messages.]
 Ваши последние статусные сообщения находятся в этой категории. Не рекомендуется обновлять их здесь, т.к. они будут заменены более новыми сообщениями.
 [You can put your frequently used and favorite messages in this category.]
 Вы можете разместить часто используемые и любимые сообщения в этой категории.

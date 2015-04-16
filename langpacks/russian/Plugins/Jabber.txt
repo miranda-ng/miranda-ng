@@ -503,7 +503,7 @@ xHTML формат чат сообщений
 Поддержка OTR (Off-the-Record Messaging)
 [Supports New_GPG plugin for Miranda NG]
 Поддержка плагина New_GPG для Miranda NG
-[Blocks packets from another users/groupchats using Privacy lists]
+[Blocks packets from other users/groupchats using Privacy lists]
 Блокировка пользователей с использованием списков приватности
 [Supports Message Receipts]
 Приём сообщений
