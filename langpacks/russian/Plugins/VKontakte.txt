@@ -218,9 +218,9 @@ Cоздать комнату чата
 [Message read: %s]
 Сообщение прочтено в: %s
 [has invited you to a group]
-пригласил вас в группу
+приглашает вас в группу
 [has invited you to subscribe to a page]
-пригласил вас подписаться на страницу
+приглашает вас подписаться на страницу
 [invites you to event]
 приглашает вас на событие
 [commented on your post]
