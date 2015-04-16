@@ -203,7 +203,6 @@ private:
 
 	void OnPrivateMessageEvent(JSONNODE *node);
 
-
 	// sync
 	void OnGetServerHistory(const NETLIBHTTPREQUEST *response);
 	void SyncHistory();
@@ -220,6 +219,8 @@ private:
 	int __cdecl OnGroupChatMenuHook(WPARAM, LPARAM lParam);
 
 	void StartChatRoom(MCONTACT hChatRoom, bool showWindow = false);
+
+	void OnGetChatInfo(const NETLIBHTTPREQUEST *response);
 
 	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
