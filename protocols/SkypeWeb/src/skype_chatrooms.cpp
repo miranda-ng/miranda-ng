@@ -138,6 +138,8 @@ void CSkypeProto::StartChatRoom(MCONTACT hChatRoom, bool showWindow)
 		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gceg);
 	}
 
+	PushRequest(new GetChatInfoRequest(ptrA(getStringA("registrationToken")), ptrA(mir_t2a(tszChatID)), ptrA(getStringA("Server"))), &CSkypeProto::OnGetChatInfo); 
+
 }
 
 int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
@@ -277,4 +279,11 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	{
 
 	}
+}
+
+void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response)
+{
+	if (response == NULL || response->pData == NULL)
+		return;
+	JSONROOT root(response->pData);
 }
