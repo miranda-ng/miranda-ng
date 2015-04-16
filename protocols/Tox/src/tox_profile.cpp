@@ -86,7 +86,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 		mir_free(data);
 		return false;
 	}
-
+	mir_free(data);
 	debugLogA(__FUNCTION__": tox profile load successfully");
 	return true;
 }
@@ -122,7 +122,6 @@ void CToxProto::SaveToxProfile()
 	size_t written = fwrite(data, sizeof(char), size, profile);
 	if (size != written)
 	{
-		fclose(profile);
 		debugLogA(__FUNCTION__": failed to write tox profile");
 	}
 
