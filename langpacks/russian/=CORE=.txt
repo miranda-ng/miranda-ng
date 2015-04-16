@@ -1905,6 +1905,8 @@ URL от %s
 Личные &данные...
 [%s is online]
 %s в сети
+[Account]
+Учётная запись
 [Add contact]
 Добавить контакт
 [Please authorize my request and add me to your contact list.]
@@ -2467,6 +2469,10 @@ ID учётной записи
 Для удаления учётной записи необходимо отключить протокол
 [&Accounts...]
 &Учётные записи...
+[Mute]
+Вкл/выкл звук
+[Mail]
+Почта
 [Remove shortcut]
 Удалить сочетание
 [Add another shortcut]

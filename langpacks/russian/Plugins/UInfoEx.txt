@@ -453,8 +453,6 @@
 Страницы не были добавлены. Отмена создания диалога!
 [Details dialog failed to be created. Returning error is %d.]
 Ошибка создания диалога деталей. Ошибка %d.
-[The page to add has invalid size %d bytes!]
-Неправильный размер страницы для добавления: %d байт
 [General]
 Общее
 [Contact (private)]

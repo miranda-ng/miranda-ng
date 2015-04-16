@@ -1,5 +1,4 @@
 ﻿[Load Public GPG key]
-[Email:]
 [Received encrypted file]
 [Decrypt]
 [Remember choice]
@@ -49,7 +48,6 @@
 [Key info]
 [we have secret key for this public key, do not removing from GPG keyring]
 [Key removed from GPG keyring]
-[Export public key]
 [.asc pubkey file]
 [Failed to open clipboard with error %d]
 [Set log file]
