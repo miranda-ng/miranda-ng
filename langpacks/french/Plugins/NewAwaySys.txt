@@ -201,7 +201,7 @@ Récupération du message %s...
 
 [Open Variables help dialog]
 
-[Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages.]
+[Your most recent status messages are placed in this category. It's not recommended that you put your messages manually here, as they'll be replaced by your recent messages.]
 
 [You can put your frequently used and favorite messages in this category.]
 

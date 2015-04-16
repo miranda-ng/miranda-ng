@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.12
+;  Version: 0.1.2.13
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -40,6 +40,10 @@
 Код рэгістрацыі прыйдзе на ваш тэлефон СМС-паведамленнем.\nМайце на ўвазе, што адначасовае выкарыстанне гэтага плагіна і сапраўднага WhatsApp немагчыма!\nПрацягнуць?
 [Please correctly specify your registration code received by SMS]
 Калі ласка, дакладна увядзіце свой код рэгістрацыі, атрыманы смс.
+[Network]
+Сеціва
+[Account]
+Конт
 ;file \protocols\WhatsApp\src\messages.cpp
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
@@ -48,10 +52,6 @@
 Немагчыма стварыць далучэнне Netlib для WhatsApp
 [Network connection error.]
 Памылка далучэння
-[Network]
-Сеціва
-[Account]
-Конт
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
 Абразок WhatsApp

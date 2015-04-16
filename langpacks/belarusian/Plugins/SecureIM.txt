@@ -273,7 +273,7 @@ SecureIM (выключаны)
 SecureIM (уключаны)
 [SecureIM status (always try)]
 SecureIM (заўсёды спрабаваць)
-[SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+[SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
 SecureIM: Выбачыце, немагчыма расшыфраваць паведамленне, таму што PGP/GPG не ўсталяваны. Наведаеце www.pgp.com ці www.gnupg.org для атрымання падрабязных звестак.
 [SecureIM received unencrypted message:\n]
 SecureIM: атрымана нешыфраванае паведамленне:\n

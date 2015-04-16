@@ -465,8 +465,6 @@ Nie udało się znaleźć protokołu kontaktu. Być może nie jest aktywny!
 Żadne strony nie zostały dodane. Anulowanie tworzenia okna!
 [Details dialog failed to be created. Returning error is %d.]
 Nie udało się utworzyć okna szczegółów. Zwrócony błąd to %d.
-[The page to add has invalid size %d bytes!]
-Strona do załadowania ma niepoprawny rozmiar %d bajtów!
 [General]
 Ogólne
 [Contact (private)]

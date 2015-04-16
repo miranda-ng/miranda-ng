@@ -32,7 +32,7 @@ Tryb szyfrowania bazy
 Standardowy
 [Total]
 Całkowity
-[Only critical data are encrypted (passwords, security tokens, etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
 Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane. Szybki i efektywny sposób. Powinien wystarczyć w większości przypadków.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoid users]
 Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła. Zalecane tylko obsesyjnym użytkownikom.

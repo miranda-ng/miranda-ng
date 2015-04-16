@@ -11,12 +11,14 @@
 [Cancel]
 Скасаваць
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
+;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]
 Аўтарызаваць
+;file \protocols\SkypeWeb\src\skype_messages.cpp
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Сеціва

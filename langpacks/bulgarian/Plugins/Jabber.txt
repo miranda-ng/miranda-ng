@@ -495,7 +495,7 @@ Jabber настроение
 Поддържа OTR (Off-the-Record Messaging)
 [Supports New_GPG plugin for Miranda NG]
 Поддържа приставката New_GPG за Miranda NG
-[Blocks packets from another users/groupchats using Privacy lists]
+[Blocks packets from other users/groupchats using Privacy lists]
 Блокира пакети от потребители/групови чатове посредством списък за поверителност
 [Can report information about the music to which a user is listening]
 Може да докладва каква музика слуша потребителя

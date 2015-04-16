@@ -523,7 +523,7 @@ Unterstützt SecureIM-Plugin für Miranda NG
 Unterstützt OTR (Off-the-Record Messaging)
 [Supports New_GPG plugin for Miranda NG]
 Unterstützt New_GPG-Plugin für Miranda NG
-[Blocks packets from another users/groupchats using Privacy lists]
+[Blocks packets from other users/groupchats using Privacy lists]
 Blockiert Pakete von anderen Benutzern/Gruppenchats anhand der Privatsphärelisten
 [Supports Message Receipts]
 Unterstützt Lesebestätigungen

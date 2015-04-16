@@ -32,7 +32,7 @@ Datenbank-Verschlüsselungsmodus
 Standard
 [Total]
 Komplett
-[Only critical data are encrypted (passwords, security tokens, etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
 Nur kritische Daten werden verschlüsselt (Passwörter, Sicherheitstoken etc.). Alle anderen Einstellungen sowie der Verlauf bleiben unverschlüsselt. Schnell und effektiv, für die meisten Anwendungsfälle geeignet.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoid users]
 Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht Miranda aber sehr viel langsamer, und Sie riskieren es, alle Ihre Daten zu verlieren wenn Sie Ihr Passwort vergessen. Nur für paranoide Nutzer empfohlen.

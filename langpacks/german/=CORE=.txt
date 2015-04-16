@@ -1188,8 +1188,8 @@ Telefon kann SMS-Nachrichten empfangen
 E-Mail-Adresse hinzufügen
 [%s: user details]
 %s: Benutzerdetails
-[%s\nView personal user details and more]
-%s\nPersönliche Benutzerdetails und mehr ansehen
+[View personal user details and more]
+Persönliche Benutzerdetails und mehr ansehen
 [Update now]
 Aktualisieren
 [Updating]
@@ -2180,7 +2180,7 @@ Verschiebe in &Gruppe
 ;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht an den neuen Ort %s verschieben\nweil ein anderen Profil mit diesem Namen schon existiert. Bitte lösen Sie den Konflikt manuell.
-[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
 Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht automatisch an den neuen Ort %s verschieben\nvermutlich wegen unzureichender Berechtigungen. Bitte verschieben Sie das Profil manuell.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil kann nicht im Miranda-Hauptverzeichnis abgelegt werden.\nBitte verschieben Sie Ihr Miranda-Profil an einen anderen Ort.

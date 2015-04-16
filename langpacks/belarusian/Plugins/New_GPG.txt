@@ -152,9 +152,9 @@ ID ключа:
 Памылка
 [Warning]
 Заўвага
-[This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
+[This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
 Абраны вамі exe не GnuPG!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагiнам.
-[Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin.]
+[Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
 Ваша версія GnuPG не падтрымліваецца і можа працаваць не правільна!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагiнам.
 [Info]
 Інфа

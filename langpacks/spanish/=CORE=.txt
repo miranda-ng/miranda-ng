@@ -1135,8 +1135,8 @@ El teléfono puede recibir mensajes de texto SMS
 Añadir dirección de correo
 [%s: user details]
 %s: Información del usuario
-[%s\nView personal user details and more]
-%s\nVer detalles personales del usuario y más
+[View personal user details and more]
+Ver detalles personales del usuario y más
 [Update now]
 Actualizar ahora
 [Updating]
@@ -2047,7 +2047,7 @@ Abrir diálogo 'Buscar usuario'
 <Grupo raíz>
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda está tratando de actualizar su estructura de perfil.\nNo se puede mover el perfil %s a la nueva ubicación %s\nPorque ya existe un perfil con este nombre. Por favor, resolver el problema de forma manual.
-[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
 Miranda está tratando de actualizar su estructura de perfil.\nNo puede mover el perfil %s a la nueva ubicación %s automáticamente\nLo más probable es por falta de privilegios. Por favor, mueva el perfil manualmente.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 El perfil no se puede colocar en la carpeta raíz de Miranda.\nPor favor, mueva el perfil Miranda a otro lugar.

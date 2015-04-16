@@ -41,8 +41,15 @@ Abbrechen
 [Enter the password to continue.]
 
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
+[User]
+Benutzer
+[Admin]
+Administrator
 [Groupchat]
 Gruppenchat
+;file \protocols\SkypeWeb\src\skype_history_sync.cpp
+[Edited at]
+
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Protokollicon
@@ -55,6 +62,7 @@ Autorisierung anfragen
 Autorisierung gewähren
 [Get server history]
 
+;file \protocols\SkypeWeb\src\skype_messages.cpp
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Netzwerk

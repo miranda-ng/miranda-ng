@@ -303,7 +303,7 @@ Désactivé
 
 [SecureIM status (always try)]
 
-[SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+[SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
 
 [SecureIM received unencrypted message:\n]
 

@@ -515,7 +515,7 @@ xHTML фармат чат-паведамленняў
 Падтрымка OTR (Off-the-Record Messaging)
 [Supports New_GPG plugin for Miranda NG]
 Падтрымка New_GPG плагіна
-[Blocks packets from another users/groupchats using Privacy lists]
+[Blocks packets from other users/groupchats using Privacy lists]
 Блакаванне кантактаў з выкарыстаннем лістоў прыватнасці
 [Supports Message Receipts]
 Прыём паведамленняў

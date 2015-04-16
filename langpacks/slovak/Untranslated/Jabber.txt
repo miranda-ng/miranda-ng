@@ -201,7 +201,7 @@
 [Supports SecureIM plugin for Miranda NG]
 [Supports OTR (Off-the-Record Messaging)]
 [Supports New_GPG plugin for Miranda NG]
-[Blocks packets from another users/groupchats using Privacy lists]
+[Blocks packets from other users/groupchats using Privacy lists]
 [Supports Message Receipts]
 [Can report information about the music to which a user is listening]
 [Receives information about the music to which a user is listening]
