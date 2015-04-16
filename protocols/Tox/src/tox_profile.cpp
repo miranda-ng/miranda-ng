@@ -115,6 +115,7 @@ void CToxProto::SaveToxProfile()
 	if (profile == NULL)
 	{
 		debugLogA(__FUNCTION__": failed to open tox profile");
+		mir_free(data);
 		return;
 	}
 
