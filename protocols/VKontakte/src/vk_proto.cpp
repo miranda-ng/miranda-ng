@@ -114,12 +114,15 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bNotificationFilterLikes = getBool("NotificationFilterLikes", true);
 	m_bNotificationFilterReposts = getBool("NotificationFilterReposts", true);
 	m_bNotificationFilterMentions = getBool("NotificationFilterMentions", true);
+	m_bNotificationFilterInvites = getBool("NotificationFilterInvites", true);
 
 	m_bUseNonStandardUrlEncode = getBool("UseNonStandardUrlEncode", true);
 	m_iInvisibleInterval = getDword("InvisibleInterval", 10);
 
 	m_bSetBroadcast = false;
 	m_bNeedSendOnline = false;
+	delSetting("InviteGroupIds");
+
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
 	vk_Instances.insert(this);

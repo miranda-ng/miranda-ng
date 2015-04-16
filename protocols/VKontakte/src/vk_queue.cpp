@@ -95,6 +95,17 @@ void CVkProto::WorkerThread(void*)
 	debugLogA("CVkProto::WorkerThread: entering");
 	m_bTerminated = m_prevError = false;
 	m_szAccessToken = getStringA("AccessToken");
+
+	char Score[] = "friends,photos,audio,docs,video,wall,messages,offline,status,notifications,groups";
+
+	CMStringA szAccessScore = ptrA(getStringA("AccessScore"));
+	if (szAccessScore != Score) {
+		setString("AccessScore", Score);
+		delSetting("AccessToken");
+		m_szAccessToken = NULL;
+	}
+
+
 	if (m_szAccessToken != NULL)
 		// try to receive a response from server
 		RetrieveMyInfo();
@@ -103,7 +114,7 @@ void CVkProto::WorkerThread(void*)
 		extern char szBlankUrl[];
 		AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "https://oauth.vk.com/authorize", false, &CVkProto::OnOAuthAuthorize)
 			<< INT_PARAM("client_id", VK_APP_ID)
-			<< CHAR_PARAM("scope", "friends,photos,audio,docs,video,wall,messages,offline,status,notifications")
+			<< CHAR_PARAM("scope", Score)
 			<< CHAR_PARAM("redirect_uri", szBlankUrl)
 			<< CHAR_PARAM("display", "mobile")
 			<< CHAR_PARAM("response_type", "token")
