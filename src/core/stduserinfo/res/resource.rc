@@ -66,7 +66,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "%s: user details"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "%s\nView personal user details and more",IDC_HEADERBAR,
+    CONTROL         "View personal user details and more",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,318,25
     CONTROL         "",IDC_PAGETREE,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_NOTOOLTIPS | TVS_TRACKSELECT | TVS_FULLROWSELECT | TVS_NONEVENHEIGHT | WS_HSCROLL | WS_TABSTOP,3,30,76,176,WS_EX_STATICEDGE
     CONTROL         "Tab1",IDC_TABS,"SysTabControl32",TCS_HOTTRACK | TCS_MULTILINE | WS_TABSTOP,85,29,228,158
