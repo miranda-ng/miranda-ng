@@ -110,22 +110,22 @@ extern "C" int OpenOptions(WPARAM wParam, LPARAM lParam)
 	odp.ptszTitle   = _T("OTR");
 	odp.flags       = ODPF_BOLDGROUPS|ODPF_TCHAR;
 
-	odp.ptszTab     = _T(LANG_OPT_GENERAL);
+	odp.ptszTab     = LANG_OPT_GENERAL;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENERAL);
 	odp.pfnDlgProc  = DlgProcMirOTROpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab     = _T(LANG_OPT_PROTO);
+	odp.ptszTab     = LANG_OPT_PROTO;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PROTO);
 	odp.pfnDlgProc  = DlgProcMirOTROptsProto;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab     = _T(LANG_OPT_CONTACTS);
+	odp.ptszTab     = LANG_OPT_CONTACTS;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTACTS);
 	odp.pfnDlgProc  = DlgProcMirOTROptsContacts;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab     = _T(LANG_OPT_FINGER);
+	odp.ptszTab     = LANG_OPT_FINGER;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FINGER);
 	odp.pfnDlgProc  = DlgProcMirOTROptsFinger;
 	Options_AddPage(wParam, &odp);
@@ -376,12 +376,10 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 				if((strcmp(pppDesc[i]->szModuleName, META_PROTO) != 0)
 					&& (CallProtoService(pppDesc[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) == PF1_IM)
 				{
-					//if (unicode) {
 						item.mask = LVIF_TEXT;
-						temp = mir_a2t(pppDesc[i]->szModuleName);
+						temp = pppDesc[i]->tszAccountName;
 						item.pszText = temp;
 						ilvItem = ListView_InsertItem(lv, &item);
-						mir_free(temp);
 
 
 						ListView_SetItemText(lv, ilvItem, 1, (TCHAR*)policy_to_string(db_get_dw(0,MODULENAME"_ProtoPol", pppDesc[i]->szModuleName, CONTACT_DEFAULT_POLICY)) );
@@ -557,10 +555,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 			// items.
 			lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_NORECOMPUTE;// | LVIF_IMAGE;
 
-			const char *proto;
-			TCHAR *proto_t;
 			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-				proto = GetContactProto(hContact);
+				const char *proto = GetContactProto(hContact);
 				if(proto && db_get_b(hContact, proto, "ChatRoom", 0) == 0 && CallService(MS_PROTO_ISPROTOONCONTACT, hContact, (LPARAM)MODULENAME) // ignore chatrooms
 					&& strcmp(proto, META_PROTO) != 0) // and MetaContacts
 				{
@@ -570,9 +566,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 					lvI.pszText = (TCHAR*)contact_get_nameT(hContact);
 					lvI.iItem = ListView_InsertItem(lv , &lvI);
 
-					proto_t = mir_a2t(proto);
-					ListView_SetItemText(lv, lvI.iItem, 1, proto_t);
-					mir_free(proto_t);
+					PROTOACCOUNT *pa = ProtoGetAccount(proto);
+					ListView_SetItemText(lv, lvI.iItem, 1, pa->tszAccountName);
 
 					ListView_SetItemText(lv, lvI.iItem, 2, (TCHAR*)policy_to_string((OtrlPolicy)db_get_dw(hContact, MODULENAME, "Policy", CONTACT_DEFAULT_POLICY)) );
 					ListView_SetItemText(lv, lvI.iItem, 3, (db_get_b(hContact, MODULENAME, "HTMLConv", 0))?TranslateT(LANG_YES):TranslateT(LANG_NO) );
@@ -741,12 +736,12 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 			// items.
 			lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_NORECOMPUTE;// | LVIF_IMAGE;
 			
-			TCHAR *proto, *user, hash[45] = {0};
+			TCHAR *user, hash[45] = {0};
 			for (ConnContext *context = otr_user_state->context_root;context;context = context->next) {
 				if (context->app_data) {
 					user = (TCHAR*)contact_get_nameT((MCONTACT)context->app_data);
 					if (user) {
-						proto = mir_a2t(context->protocol);
+						PROTOACCOUNT *pa = ProtoGetAccount(context->protocol);
 						
 						for(Fingerprint *fp = context->fingerprint_root.next;fp;fp = fp->next) {
 							otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
@@ -755,12 +750,11 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 							lvI.pszText = user;
 							int d = ListView_InsertItem(lv, &lvI);
 
-							ListView_SetItemText(lv,d, 1, proto);
+							ListView_SetItemText(lv,d, 1, pa->tszAccountName);
 							ListView_SetItemText(lv,d, 2, (context->active_fingerprint == fp)? TranslateT(LANG_YES) : TranslateT(LANG_NO));
 							ListView_SetItemText(lv,d, 3, (fp->trust && fp->trust[0] != '\0')? TranslateT(LANG_YES) : TranslateT(LANG_NO));
 							ListView_SetItemText(lv,d, 4, hash );
 						}
-						mir_free(proto);
 					}
 				}
 			}
@@ -814,9 +808,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 									MCONTACT hContact = (MCONTACT)fp->context->app_data;
 									TCHAR buff[1024], hash[45];
 									otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
-									TCHAR *proto = mir_a2t(GetContactProto(hContact));
-									mir_sntprintf(buff, SIZEOF(buff)-1, TranslateT(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT(hContact), proto);
-									mir_free(proto);
+									PROTOACCOUNT *pa = ProtoGetAccount(GetContactProto(hContact));
+									mir_sntprintf(buff, SIZEOF(buff)-1, TranslateT(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT(hContact), pa->tszAccountName);
 									buff[SIZEOF(buff)-1] = '\0';
 									ShowError(buff);
 								} else {
@@ -847,9 +840,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 							MCONTACT hContact = (MCONTACT)it->first->context->app_data;
 							TCHAR buff[1024], hash[45];
 							otrl_privkey_hash_to_humanT(hash, it->first->fingerprint);
-							TCHAR *proto = mir_a2t(GetContactProto(hContact));
-							mir_sntprintf(buff, SIZEOF(buff)-1, TranslateT(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT(hContact), proto);
-							mir_free(proto);
+							PROTOACCOUNT *pa = ProtoGetAccount(GetContactProto(hContact));
+							mir_sntprintf(buff, SIZEOF(buff)-1, TranslateT(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT(hContact), pa->tszAccountName);
 							buff[SIZEOF(buff)-1] = '\0';
 							ShowError(buff);
 						} else {

@@ -284,7 +284,7 @@ void ShowError(TCHAR *msg) {
 				message = new TCHAR[size]; // newline and null terminator
 				mir_sntprintf(message, size, _T("%s\r\n%s"), buffer, msg);
 				PUShowMessageT(message, SM_WARNING);
-				delete message;
+				delete[] message;
 			}
 			break;
 		case ED_MB:
