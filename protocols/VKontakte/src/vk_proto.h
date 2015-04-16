@@ -197,7 +197,7 @@ struct CVkUserInfo : public MZeroedObject {
 	bool m_bIsGroup;
 };
 
-enum VKObjType { vkNull, vkPost, vkPhoto, vkVideo, vkComment, vkTopic, vkUsers, vkCopy };
+enum VKObjType { vkNull, vkPost, vkPhoto, vkVideo, vkComment, vkTopic, vkUsers, vkCopy, vkInvite };
 
 struct CVKNotification {
 	TCHAR *ptszType;
@@ -356,6 +356,7 @@ struct CVkProto : public PROTO<CVkProto>
 		
 	CVKNewsItem* GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost = false);
 
+	CVKNewsItem* GetVkGroupInvates(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers);
 	CVKNewsItem* GetVkNotificationsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers);
 	CMString GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
 	CVKNewsItem* GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TCHAR *ptszReplyText = NULL, TCHAR *ptszReplyLink = NULL);
@@ -582,6 +583,7 @@ private:
 		m_bNotificationFilterLikes,
 		m_bNotificationFilterReposts,
 		m_bNotificationFilterMentions,
+		m_bNotificationFilterInvites,
 		m_bUseBBCOnAttacmentsAsNews,
 		m_bUseNonStandardUrlEncode,
 		m_bSetBroadcast;

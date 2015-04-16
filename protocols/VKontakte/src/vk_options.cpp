@@ -384,6 +384,7 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		CheckDlgButton(hwndDlg, IDC_N_LIKES, ppro->m_bNotificationFilterLikes ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_N_REPOSTS, ppro->m_bNotificationFilterReposts ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_N_MENTIONS, ppro->m_bNotificationFilterMentions ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_N_INVITES, ppro->m_bNotificationFilterInvites ? BST_CHECKED : BST_UNCHECKED);	
 
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_NEWS, UDM_SETRANGE, 0, MAKELONG(60*24, 1));
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_NEWS, UDM_SETPOS, 0, ppro->m_iNewsInterval);
@@ -420,6 +421,7 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		case IDC_N_LIKES:
 		case IDC_N_REPOSTS:
 		case IDC_N_MENTIONS:
+		case IDC_N_INVITES:
 			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -485,8 +487,11 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 			ppro->m_bNotificationFilterReposts = IsDlgButtonChecked(hwndDlg, IDC_N_REPOSTS) == BST_CHECKED;
 			ppro->setByte("NotificationFilterReposts", ppro->m_bNotificationFilterReposts);
 
-			ppro->m_bNotificationFilterMentions = IsDlgButtonChecked(hwndDlg, IDC_N_REPOSTS) == BST_CHECKED;
+			ppro->m_bNotificationFilterMentions = IsDlgButtonChecked(hwndDlg, IDC_N_MENTIONS) == BST_CHECKED;
 			ppro->setByte("NotificationFilterMentions", ppro->m_bNotificationFilterMentions);
+
+			ppro->m_bNotificationFilterInvites = IsDlgButtonChecked(hwndDlg, IDC_N_INVITES) == BST_CHECKED;
+			ppro->setByte("NotificationFilterInvites", ppro->m_bNotificationFilterInvites);
 
 			TCHAR buffer[5] = { 0 };
 			GetDlgItemText(hwndDlg, IDC_ED_INT_NEWS, buffer, SIZEOF(buffer));

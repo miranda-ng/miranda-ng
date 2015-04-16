@@ -799,6 +799,10 @@ CMString CVkProto::SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedba
 {
 	CVKNotification vkNotification[] = {
 		// type, parent, feedback, string for translate
+		{ _T("group"), vkInvite, vkNull, _T("has invited you to a group") },
+		{ _T("page"), vkInvite, vkNull, _T("has invited you to subscribe to a page") },
+		{ _T("event"), vkInvite, vkNull, _T("invites you to event") },
+
 		{ _T("follow"), vkNull, vkUsers, _T("") },
 		{ _T("friend_accepted"), vkNull, vkUsers, _T("") },
 		{ _T("mention"), vkNull, vkPost, _T("") },

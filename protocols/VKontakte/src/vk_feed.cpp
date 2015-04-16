@@ -110,7 +110,10 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, JSONNODE *pRe
 			tszNick.AppendChar(' ');
 			tszNick += json_as_CMString(json_get(pProfile, "last_name"));
 			CMString tszLink = _T("https://vk.com/");
-			tszLink += json_as_CMString(json_get(pProfile, "screen_name"));
+			CMString tszScreenName = json_as_CMString(json_get(pProfile, "screen_name"));
+			if (tszScreenName.IsEmpty())
+				tszScreenName.AppendFormat(_T("id%d"), UserId);
+			tszLink += tszScreenName;
 			CVkUserInfo * vkUser = new CVkUserInfo(UserId, false, tszNick, tszLink, FindUser(UserId));
 			vkUsers.insert(vkUser);
 		}
@@ -433,6 +436,51 @@ CVKNewsItem* CVkProto::GetVkNotificationsItem(JSONNODE *pItem, OBJLIST<CVkUserIn
 	return NULL;
 }
 
+CVKNewsItem* CVkProto::GetVkGroupInvates(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers)
+{
+	debugLogA("CVkProto::GetVkGroupInvates");
+	if (pItem == NULL)
+		return NULL;
+
+	CMString tszType = json_as_CMString(json_get(pItem, "type"));
+	VKObjType vkFeedbackType = vkNull, vkParentType = vkNull;
+	CMString tszNotificationTranslate = SpanVKNotificationType(tszType, vkFeedbackType, vkParentType);
+	LONG iGroupId = json_as_int(json_get(pItem, "id"));
+
+	if (iGroupId == 0)
+		return NULL;
+
+	CMString tszId;
+	tszId.AppendFormat(_T("%d,"), iGroupId);
+	CMString tszIds = ptrT(db_get_tsa(NULL, m_szModuleName, "InviteGroupIds"));
+
+	if (tszIds.Find(tszId, 0) != -1)
+		return NULL;
+		
+	LONG iUserId = json_as_int(json_get(pItem, "invited_by"));
+	CVKNewsItem *vkNotification = new CVKNewsItem();
+	vkNotification->tDate = time(NULL);
+	vkNotification->vkUser = GetVkUserInfo(iUserId, vkUsers);
+	vkNotification->tszType = tszType;
+	vkNotification->tszId = tszId;
+	vkNotification->vkFeedbackType = vkFeedbackType;
+	vkNotification->vkParentType = vkParentType;
+
+	CMString tszGroupName, tszGName, tszGLink;
+	tszGName = json_as_CMString(json_get(pItem, "name"));
+	tszGLink.AppendFormat(_T("https://vk.com/%s"), json_as_CMString(json_get(pItem, "screen_name")).GetBuffer());
+	tszGroupName = SetBBCString(tszGName.GetBuffer(), m_iBBCForNews, vkbbcUrl, tszGLink.GetBuffer());
+
+	CMString tszUsers = SetBBCString(vkNotification->vkUser->m_tszUserNick.GetBuffer(), m_iBBCForNews, vkbbcUrl, vkNotification->vkUser->m_tszLink.GetBuffer());
+
+	vkNotification->tszText.AppendFormat(_T("%s %s %s"), tszUsers.GetBuffer(), tszNotificationTranslate.GetBuffer(), tszGroupName.GetBuffer());
+	
+	tszIds += tszId;
+	setTString("InviteGroupIds", tszIds);	
+
+	return vkNotification;	
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
@@ -536,11 +584,15 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 	debugLogA("CVkProto::RetrieveUnreadNotifications");
 	if (!IsOnline())
 		return;
-	
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/notifications.get.json", true, &CVkProto::OnReceiveUnreadNotifications)
-		<< INT_PARAM("count", 100)
-		<< INT_PARAM("start_time", tLastNotificationsTime + 1)
-		<< VER_API);
+
+	CMString code;
+	code.AppendFormat(_T("return{\"notifications\":API.notifications.get({\"count\": 100, \"start_time\":%d})%s"),
+		(LONG)(tLastNotificationsTime + 1),
+		m_bNotificationFilterInvites ? _T(",\"groupinvates\":API.groups.getInvites({\"extended\":1})};") : _T("};"));
+
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveUnreadNotifications)
+		<< TCHAR_PARAM("code", code.GetBuffer())		
+		<< VER_API);	
 }
 
 bool CVkProto::FilterNotification(CVKNewsItem* vkNotificationItem, bool& isCommented)
@@ -559,6 +611,7 @@ bool CVkProto::FilterNotification(CVKNewsItem* vkNotificationItem, bool& isComme
 	bool result = (vkNotificationItem->vkFeedbackType == vkUsers && m_bNotificationFilterLikes);
 	result = (vkNotificationItem->vkFeedbackType == vkCopy && m_bNotificationFilterReposts) || result;
 	result = (vkNotificationItem->vkFeedbackType == vkComment && m_bNotificationFilterComments) || result;
+	result = (vkNotificationItem->vkParentType == vkInvite && m_bNotificationFilterInvites) || result;
 
 	isCommented = (vkNotificationItem->vkFeedbackType == vkComment);
 	
@@ -586,35 +639,61 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 	if (pResponse == NULL)
 		return;
 
+	JSONNODE *pNotifications = json_get(pResponse, "notifications");
+	JSONNODE *pGroupInvates = json_get(pResponse, "groupinvates");
+
 	OBJLIST<CVkUserInfo> vkUsers(5, NumericKeySortT);
-	CreateVkUserInfoList(vkUsers, pResponse);
-
-	JSONNODE *pItems = json_get(pResponse, "items");
-	JSONNODE *pItem;
-
 	OBJLIST<CVKNewsItem> vkNotification(5, sttCompareVKNewsItems);
-	if (pItems != NULL)
-		for (int i = 0; (pItem = json_at(pItems, i)) != NULL; i++) {	
-			CVKNewsItem *vkNotificationItem = GetVkNotificationsItem(pItem, vkUsers);
-			if (!vkNotificationItem)
-				continue;
-			if (vkNotification.find(vkNotificationItem) == NULL)
-				vkNotification.insert(vkNotificationItem);
-			else
-				delete vkNotificationItem;
-		}
+	
+	CreateVkUserInfoList(vkUsers, pNotifications);
+	CreateVkUserInfoList(vkUsers, pGroupInvates);
+
+	JSONNODE *pItems, *pItem;
+
+	if (pNotifications != NULL) {
+		
+		pItems = json_get(pNotifications, "items");		
+
+		if (pItems != NULL)
+			for (int i = 0; (pItem = json_at(pItems, i)) != NULL; i++) {
+				CVKNewsItem *vkNotificationItem = GetVkNotificationsItem(pItem, vkUsers);
+				if (!vkNotificationItem)
+					continue;
+				if (vkNotification.find(vkNotificationItem) == NULL)
+					vkNotification.insert(vkNotificationItem);
+				else
+					delete vkNotificationItem;
+			}
+
+	}
+
+	if (pGroupInvates != NULL) {
+		pItems = json_get(pGroupInvates, "items");
+
+		if (pItems != NULL)
+			for (int i = 0; (pItem = json_at(pItems, i)) != NULL; i++) {
+				CVKNewsItem *vkNotificationItem = GetVkGroupInvates(pItem, vkUsers);				
+				if (!vkNotificationItem)
+					continue;		
+				if (vkNotification.find(vkNotificationItem) == NULL)			
+					vkNotification.insert(vkNotificationItem);				
+				else
+					delete vkNotificationItem;
+			}
+	}	
 
 	bool bNotificationCommentAdded = false;
 	bool bNotificationComment = false;
 	for (int i = 0; i < vkNotification.getCount(); i++)
-		if (FilterNotification(&vkNotification[i], bNotificationComment)) {
+		if (FilterNotification(&vkNotification[i], bNotificationComment)) {			
 			AddFeedEvent(vkNotification[i].tszText, vkNotification[i].tDate);
 			bNotificationCommentAdded = bNotificationComment || bNotificationCommentAdded;
 		}
-	
+
 	setDword("LastNotificationsTime", time(NULL));
 	if (m_bNotificationsMarkAsViewed && bNotificationCommentAdded)
 		NotificationMarkAsViewed();
+
 	vkNotification.destroy();
 	vkUsers.destroy();
 }
