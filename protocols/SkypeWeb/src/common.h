@@ -80,6 +80,7 @@ struct CSkypeProto;
 #include "requests\poll.h"
 #include "requests\avatars.h"
 #include "requests\search.h"
+#include "requests\chatrooms.h"
 #include "request_queue.h"
 #include "skype_proto.h"
 

@@ -87,6 +87,9 @@
     <ClInclude Include="src\requests\history.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
+    <ClInclude Include="src\requests\chatrooms.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cpp">
