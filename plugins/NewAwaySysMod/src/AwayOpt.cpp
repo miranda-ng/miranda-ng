@@ -206,7 +206,7 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else {
 						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, _T(""));
 						if (pnm->ItemNew->ID == g_Messages_RecentRootID)
-							SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, TranslateT("Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages."));
+							SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, TranslateT("Your most recent status messages are placed in this category. It's not recommended that you put your messages manually here, as they'll be replaced by your recent messages."));
 						else {
 							_ASSERT(pnm->ItemNew->ID == g_Messages_PredefinedRootID);
 							SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, TranslateT("You can put your frequently used and favorite messages in this category."));
@@ -761,7 +761,7 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					else {
 						SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, _T(""));
 						if (pnm->ItemNew->ID == g_Messages_RecentRootID)
-							SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, TranslateT("Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages."));
+							SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, TranslateT("Your most recent status messages are placed in this category. It's not recommended that you put your messages manually here, as they'll be replaced by your recent messages."));
 						else {
 							_ASSERT(pnm->ItemNew->ID == g_Messages_PredefinedRootID);
 							SetDlgItemText(hwndDlg, IDC_MESSAGEDLG_MSGDATA, TranslateT("You can put your frequently used and favorite messages in this category."));

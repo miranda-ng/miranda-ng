@@ -80,7 +80,7 @@ BEGIN
     GROUPBOX        "Database encryption mode",IDC_STATIC,6,22,305,125
     CONTROL         "Standard",IDC_STANDARD,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,12,38,292,12
     CONTROL         "Total",IDC_TOTAL,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,95,292,12
-    LTEXT           "Only critical data are encrypted (passwords, security tokens, etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases",IDC_STATIC,22,54,284,37
+    LTEXT           "Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases",IDC_STATIC,22,54,284,37
     LTEXT           "All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoid users",IDC_STATIC,22,110,284,33
     PUSHBUTTON      "Set password",IDC_USERPASS,200,153,111,17
 END

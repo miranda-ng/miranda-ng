@@ -512,10 +512,10 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					  else
 					  {
 						  bad_version = false;
-						  MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+						  MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 					  }
 /*					  if(bad_version) //looks like working fine with gpg2
-						  MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin."), _T("Warning"), MB_OK); */
+						  MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), _T("Warning"), MB_OK); */
 				  }
 			  }
 			  char mir_path[MAX_PATH];

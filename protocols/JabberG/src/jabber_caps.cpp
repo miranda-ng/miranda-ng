@@ -61,7 +61,7 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] = {
 	{ JABBER_FEAT_SECUREIM,             JABBER_CAPS_SECUREIM,             LPGENT("Supports SecureIM plugin for Miranda NG") },
 	{ JABBER_FEAT_MIROTR,               JABBER_CAPS_MIROTR,               LPGENT("Supports OTR (Off-the-Record Messaging)") },
 	{ JABBER_FEAT_NEWGPG,               JABBER_CAPS_NEWGPG,               LPGENT("Supports New_GPG plugin for Miranda NG") },
-	{ JABBER_FEAT_PRIVACY_LISTS,        JABBER_CAPS_PRIVACY_LISTS,        LPGENT("Blocks packets from another users/groupchats using Privacy lists") },
+	{ JABBER_FEAT_PRIVACY_LISTS,        JABBER_CAPS_PRIVACY_LISTS,        LPGENT("Blocks packets from other users/groupchats using Privacy lists") },
 	{ JABBER_FEAT_MESSAGE_RECEIPTS,     JABBER_CAPS_MESSAGE_RECEIPTS,     LPGENT("Supports Message Receipts") },
 	{ JABBER_FEAT_USER_TUNE,            JABBER_CAPS_USER_TUNE,            LPGENT("Can report information about the music to which a user is listening") },
 	{ JABBER_FEAT_USER_TUNE_NOTIFY,     JABBER_CAPS_USER_TUNE_NOTIFY,     LPGENT("Receives information about the music to which a user is listening") },
