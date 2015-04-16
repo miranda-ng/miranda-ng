@@ -457,7 +457,7 @@ INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			case PSN_INFOCHANGED:
 			{
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-				char *szProto = (hContact == NULL) ? szProto = proto->m_szModuleName : (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
+				char *szProto = (hContact == NULL) ? proto->m_szModuleName : GetContactProto(hContact);
 				if (szProto == NULL)
 				{
 					break;
@@ -473,7 +473,7 @@ INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			case PSN_APPLY:
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-				char *szProto = (hContact == NULL) ? szProto = proto->m_szModuleName : (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
+				char *szProto = (hContact == NULL) ? proto->m_szModuleName : GetContactProto(hContact);
 				if (szProto == NULL)
 				{
 					break;

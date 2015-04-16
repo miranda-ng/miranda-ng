@@ -138,11 +138,11 @@ void CToxProto::OnFileReceiveData(Tox*, uint32_t friendNumber, uint32_t fileNumb
 	FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
 	if (transfer == NULL)
 	{
-		tox_file_control(proto->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
+//		tox_file_control(proto->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 		return;
 	}
 
-	if (length == 0 || (length == 0 && position == UINT64_MAX))
+	if (length == 0 || (position == UINT64_MAX))
 	{
 		//receiving is finished
 		proto->debugLogA(__FUNCTION__": finised the transfer of file (%d)", fileNumber);
@@ -186,12 +186,6 @@ HANDLE CToxProto::OnSendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR **pp
 	if (friendNumber == UINT32_MAX)
 		return NULL;
 
-	TCHAR *fileName = _tcsrchr(ppszFiles[0], '\\') + 1;
-
-	size_t fileDirLength = fileName - ppszFiles[0];
-	TCHAR *fileDir = (TCHAR*)mir_alloc(sizeof(TCHAR)*(fileDirLength + 1));
-	_tcsncpy(fileDir, ppszFiles[0], fileDirLength);
-	fileDir[fileDirLength] = '\0';
 
 	FILE *hFile = _tfopen(ppszFiles[0], _T("rb"));
 	if (hFile == NULL)
@@ -199,6 +193,12 @@ HANDLE CToxProto::OnSendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR **pp
 		debugLogA(__FUNCTION__": cannot open file");
 		return NULL;
 	}
+
+	TCHAR *fileName = _tcsrchr(ppszFiles[0], '\\') + 1;
+	size_t fileDirLength = fileName - ppszFiles[0];
+	TCHAR *fileDir = (TCHAR*)mir_alloc(sizeof(TCHAR)*(fileDirLength + 1));
+	_tcsncpy(fileDir, ppszFiles[0], fileDirLength);
+	fileDir[fileDirLength] = '\0';
 
 	_fseeki64(hFile, 0, SEEK_END);
 	uint64_t fileSize = _ftelli64(hFile);
@@ -210,6 +210,8 @@ HANDLE CToxProto::OnSendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR **pp
 	if (sendError != TOX_ERR_FILE_SEND_OK)
 	{
 		debugLogA(__FUNCTION__": failed to send file (%d)", sendError);
+		mir_free(fileDir);
+		mir_free(name);
 		return NULL;
 	}
 
@@ -218,7 +220,8 @@ HANDLE CToxProto::OnSendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR **pp
 	transfer->pfts.tszWorkingDir = fileDir;
 	transfer->hFile = hFile;
 	transfers.Add(transfer);
-
+	
+	mir_free(name);
 	return (HANDLE)transfer;
 }
 
@@ -229,7 +232,7 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 	FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
 	if (transfer == NULL)
 	{
-		tox_file_control(proto->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
+//		tox_file_control(proto->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 		return;
 	}
 
@@ -259,6 +262,7 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
 		transfer->status = FAILED;
 		tox_file_control(proto->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
+		mir_free(data);
 		return;
 	}
 

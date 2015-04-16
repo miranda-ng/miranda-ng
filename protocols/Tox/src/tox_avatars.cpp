@@ -44,6 +44,7 @@ void CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 	{
 		fclose(hFile);
 		debugLogA(__FUNCTION__": failed to read avatar file");
+		mir_free(data);
 		return;
 	}
 	fclose(hFile);
