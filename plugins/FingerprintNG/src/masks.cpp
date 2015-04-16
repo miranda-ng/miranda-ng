@@ -692,7 +692,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	//#################################   PROTO OVERLAYS   ####################################################################################################################
 	//#########################################################################################################################################################################
 	{ "client_AIM_overlay", _T("|^AIM*|*AIM*"), LPGENT("AIM overlay"), IDI_AIM_OVERLAY, OVERLAYS_PROTO_CASE },
-	{ "client_ICQJ_Plus_over", _T("|^ICQ|^ICQ*|*ICQ*Plus*"), LPGENT("ICQJ Plus Mod overlay"), IDI_ICQJ_PLUS_OVERLAY, OVERLAYS_PROTO_CASE },
+	{ "client_ICQJ_Plus_over", _T("*ICQ*Plus*"), LPGENT("ICQJ Plus Mod overlay"), IDI_ICQJ_PLUS_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_ICQJ_overlay", _T("|^ICQ|^ICQ*|*ICQ*|MRA client"), LPGENT("ICQJ overlay"), IDI_ICQJ_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_IRC_overlay", _T("|^IRC*|Miranda*IRC*"), LPGENT("IRC overlay"), IDI_IRC_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_JGmail_overlay", _T("*JGmail*"), LPGENT("JGmail overlay"), IDI_GMAIL_OVERLAY, OVERLAYS_PROTO_CASE },
