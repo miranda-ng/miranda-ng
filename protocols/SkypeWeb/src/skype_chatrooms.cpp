@@ -206,58 +206,57 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/AddMember"))
 	{
+		ptrA initiator, target;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		std::regex regex;
-		std::smatch match;
-		std::string strContent(content);
-		regex = "<initiator>8:(.+?)</initiator>";
-		if (!std::regex_search(strContent, match, regex))
-			return;
+		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("addmember"));
+		if (xml != NULL) {
+			HXML node = xi.getChildByPath(xml, _T("initiator"), 0);
+			initiator = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 
-		std::string initiator = match[1];
+			node = xi.getChildByPath(xml, _T("target"), 0);
+			target = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 
-		regex = "<target>8:(.+?)</target>";
+			xi.destroyNode(xml);
+		}
 
-		if (!std::regex_search(strContent, match, regex))
-			return;
-		std::string target = match[1];
 
 		GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_JOIN };
 		GCEVENT gce = { sizeof(GCEVENT), &gcd };
-		gce.bIsMe = IsMe(target.c_str());
-		gce.ptszUID = ptrT(mir_a2t(target.c_str()));
-		gce.ptszNick = ptrT(mir_a2t(target.c_str()));
+		gce.bIsMe = IsMe(target);
+		gce.ptszUID = ptrT(mir_a2t(target));
+		gce.ptszNick = ptrT(mir_a2t(target));
 		gce.ptszStatus = TranslateT("User");
 		gce.time = timestamp;
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/DeleteMember"))
 	{
-		std::regex regex;
-		std::smatch match;
-		std::string strContent(content);
-		regex = "<initiator>8:(.+?)</initiator>";
-		if (!std::regex_search(strContent, match, regex))
-			std::string initiator = "";
-		std::string initiator = match[1];
-		regex = "<target>8:(.+?)</target>";
+		ptrA initiator, target;
+		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		if (!std::regex_search(strContent, match, regex))
-			return;
-		std::string target = match[1];
+		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("addmember"));
+		if (xml != NULL) {
+			HXML node = xi.getChildByPath(xml, _T("initiator"), 0);
+			initiator = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+
+			node = xi.getChildByPath(xml, _T("target"), 0);
+			target = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+
+			xi.destroyNode(xml);
+		}
 
 		bool isKick = false;
-		if (initiator == "")
+		if (initiator != NULL)
 			bool isKick = true;
 
 		if (isKick)
 		{
 			GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_KICK };
 			GCEVENT gce = { sizeof(GCEVENT), &gcd };
-			gce.ptszUID = ptrT(mir_a2t(target.c_str()));
-			gce.ptszNick = ptrT(mir_a2t(target.c_str()));
-			gce.ptszStatus = ptrT(mir_a2t(initiator.c_str()));
+			gce.ptszUID = ptrT(mir_a2t(target));
+			gce.ptszNick = ptrT(mir_a2t(target));
+			gce.ptszStatus = ptrT(mir_a2t(initiator));
 			gce.time = timestamp;
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 		}
@@ -265,8 +264,8 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		{
 			GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_PART };
 			GCEVENT gce = { sizeof(GCEVENT), &gcd };
-			gce.ptszUID = ptrT(mir_a2t(target.c_str()));
-			gce.ptszNick = ptrT(mir_a2t(target.c_str()));
+			gce.ptszUID = ptrT(mir_a2t(target));
+			gce.ptszNick = ptrT(mir_a2t(target));
 			gce.time = timestamp;
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 		}
