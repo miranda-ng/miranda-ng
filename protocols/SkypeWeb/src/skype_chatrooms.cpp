@@ -187,7 +187,14 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/AddMember"))
 	{
-
+			/*GCDEST gcd = { m_szModuleName, , GC_EVENT_JOIN };
+			GCEVENT gce = { sizeof(GCEVENT), &gcd };
+			gce.bIsMe = uid == m_myUserId;
+			gce.ptszUID = tszId;
+			gce.ptszNick = tszNick;
+			gce.ptszStatus = TranslateTS(sttStatuses[uid == cc->m_admin_id]);
+			gce.dwItemData = (INT_PTR)cu;
+			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);*/
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/DeleteMember"))
 	{

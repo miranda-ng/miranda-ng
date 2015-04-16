@@ -202,6 +202,7 @@
     <ClInclude Include="src\http_request.h" />
     <ClInclude Include="src\requests\avatars.h" />
     <ClInclude Include="src\requests\capabilities.h" />
+    <ClInclude Include="src\requests\chatrooms.h" />
     <ClInclude Include="src\requests\contacts.h" />
     <ClInclude Include="src\requests\endpoint.h" />
     <ClInclude Include="src\requests\history.h" />
