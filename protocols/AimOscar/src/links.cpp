@@ -77,7 +77,7 @@ static INT_PTR ServiceParseAimLink(WPARAM,LPARAM lParam)
 	CAimProto *proto = &g_Instances[0];
 	for (int i = 0; i < g_Instances.getCount(); ++i)
 	{
-		if (g_Instances[i].m_iStatus != ID_STATUS_OFFLINE && g_Instances[i].m_iStatus != ID_STATUS_CONNECTING)
+		if (g_Instances[i].m_iStatus != ID_STATUS_OFFLINE && !IsStatusConnecting(g_Instances[i].m_iStatus))
 		{
 			proto = &g_Instances[i];
 			break;

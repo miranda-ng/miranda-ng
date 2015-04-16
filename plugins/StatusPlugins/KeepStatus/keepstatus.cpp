@@ -605,7 +605,7 @@ static VOID CALLBACK CheckConnectingTimer(HWND, UINT, UINT_PTR, DWORD)
 		TConnectionSettings& cs = connectionSettings[i];
 
 		int curStatus = GetStatus(cs);
-		if (curStatus < MAX_CONNECT_RETRIES) { // connecting
+		if (IsStatusConnecting(curStatus)) { // connecting
 			maxConnectingTime = db_get_dw(NULL, MODULENAME, SETTING_MAXCONNECTINGTIME, 0);
 			if (maxConnectingTime > 0) {
 				if ((unsigned int)maxConnectingTime <= ((GetTickCount() - cs.lastStatusAckTime) / 1000)) {
@@ -633,7 +633,7 @@ static VOID CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
 		if (curStatus == ID_STATUS_CURRENT || curStatus == ID_STATUS_DISABLED || curStatus == newStatus || newStatus > MAX_STATUS)
 			continue;
 
-		if (newStatus < MAX_CONNECT_RETRIES) { // connecting
+		if (IsStatusConnecting(newStatus)) { // connecting
 			maxConnectingTime = db_get_dw(NULL, MODULENAME, SETTING_MAXCONNECTINGTIME, 0);
 			if (maxConnectingTime > 0)
 				StartTimer(IDT_CHECKCONNECTING, (maxConnectingTime * 1000 - (GetTickCount() - cs.lastStatusAckTime)), FALSE);
@@ -850,7 +850,7 @@ static void CheckContinueslyFunction(void *)
 			if (!IsSuitableProto(protos[i]))
 				continue;
 
-			if (CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0) < MAX_CONNECT_RETRIES) {
+			if (IsStatusConnecting(CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0))) {
 				log_debugA("CheckContinueslyFunction: %s is connecting", protos[i]->szModuleName);
 				continue; // connecting, leave alone
 			}

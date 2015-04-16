@@ -2012,7 +2012,7 @@ LRESULT CLUI::OnStatusBarUpdateTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 		else
 			status = CallProtoService(pt->szProto, PS_GETSTATUS, 0, 0);
 
-		if (!(status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
+		if (!IsStatusConnecting(status)) {
 			pt->nCycleStartTick = 0;
 			ImageList_Destroy(pt->himlIconList);
 			pt->himlIconList = NULL;

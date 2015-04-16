@@ -98,7 +98,7 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM, LPARAM)
 		if (!pcli->pfnGetProtocolVisibility(p.szProto))
 			continue;
 
-		if (p.dwStatus >= ID_STATUS_CONNECTING  && p.dwStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
+		if (IsStatusConnecting(p.dwStatus)) {
 			connectingCount++;
 			if (connectingCount == 1)
 				g_szConnectingProto = p.szProto;
@@ -472,8 +472,7 @@ int GetGoodAccNum(bool *bDiffers, bool *bConn)
 				d = 2;
 
 			if (bConn)
-				if (   acc[i]->ppro->m_iStatus >= ID_STATUS_CONNECTING
-					&& acc[i]->ppro->m_iStatus <= (ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES))
+				if (IsStatusConnecting(acc[i]->ppro->m_iStatus))
 					*bConn = TRUE;
 		}
 	}
@@ -606,7 +605,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 			break;
 
 		iStatus = ProtoCallService(szProto, PS_GETSTATUS, 0, 0);
-		if (g_StatusBarData.bConnectingIcon && (iStatus >= ID_STATUS_CONNECTING) && (iStatus <= (ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)))
+		if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szProto, 0);
 		else
 			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szProto, ProtoCallService(szProto, PS_GETSTATUS, 0, 0));
@@ -616,7 +615,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 	
 	case TRAY_ICON_MODE_CYCLE:
 		iStatus = ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0);
-		if (g_StatusBarData.bConnectingIcon && (iStatus >= ID_STATUS_CONNECTING) && (iStatus <= (ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)))
+		if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 		else if (!bConn)
 			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szChangedProto, ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0));
@@ -630,7 +629,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 				break;
 
 		iStatus = ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0);
-		if (g_StatusBarData.bConnectingIcon && (iStatus >= ID_STATUS_CONNECTING) && (iStatus <= (ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)))
+		if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 		else
 			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szChangedProto, ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0));

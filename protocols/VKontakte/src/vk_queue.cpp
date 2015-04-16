@@ -56,7 +56,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);		
 		}
 		else if (pReq->bIsMainConn) {
-			if (m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
+			if (IsStatusConnecting(m_iStatus))
 				ConnectionFailed(LOGINERR_NONETWORK);
 			else if (pReq->m_iRetry && !m_bTerminated) {
 				pReq->bNeedsRestart = true;

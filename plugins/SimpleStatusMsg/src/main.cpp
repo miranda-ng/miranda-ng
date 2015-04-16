@@ -1192,7 +1192,7 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 	if (ack->type != ACKTYPE_STATUS || ack->result != ACKRESULT_SUCCESS || ack->hContact != NULL)
 		return 0;
 
-	if (ack->lParam >= ID_STATUS_CONNECTING && ack->lParam < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
+	if (IsStatusConnecting(ack->lParam))
 		ack->lParam = ID_STATUS_OFFLINE;
 
 	SaveStatusAsCurrent(ack->szModule, (int)ack->lParam);
