@@ -342,9 +342,8 @@ void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 		GetDisplay(&winfo, opt.bText, str);
 	SetDlgItemText(hwndDlg, IDC_MTEXT, str);
 
-	GetDisplay(&winfo, opt.bTitle, str);
-	SetWindowText(hwndDlg, winfo.city);
 	GetDisplay(&winfo, _T("%c, %t"), str);
+	SetWindowText(hwndDlg, winfo.city);
 	SetDlgItemText(hwndDlg, IDC_HEADERBAR, str);
 }
 
