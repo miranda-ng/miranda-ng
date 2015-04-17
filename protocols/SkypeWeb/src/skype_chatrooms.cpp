@@ -206,20 +206,21 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/AddMember"))
 	{
-		ptrA initiator, target;
+		ptrA xinitiator, xtarget, initiator, target;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
 		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("addmember"));
 		if (xml != NULL) {
 			HXML node = xi.getChildByPath(xml, _T("initiator"), 0);
-			initiator = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+			xinitiator = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 
 			node = xi.getChildByPath(xml, _T("target"), 0);
-			target = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+			xtarget = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 
 			xi.destroyNode(xml);
 		}
 
+		target = ParseUrl(xtarget, "8:");
 
 		GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_JOIN };
 		GCEVENT gce = { sizeof(GCEVENT), &gcd };
@@ -232,23 +233,30 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/DeleteMember"))
 	{
-		ptrA initiator, target;
+		ptrA xinitiator, xtarget, initiator, target;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
 		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("deletemember"));
 		if (xml != NULL) {
 			HXML node = xi.getChildByPath(xml, _T("initiator"), 0);
-			initiator = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+			xinitiator = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 
 			node = xi.getChildByPath(xml, _T("target"), 0);
-			target = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+			xtarget = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 
 			xi.destroyNode(xml);
 		}
+		if(xtarget == NULL)
+			return;
+
+		target = ParseUrl(xtarget, "8:");
 
 		bool isKick = false;
-		if (initiator != NULL)
-			bool isKick = true;
+		if (xinitiator != NULL)
+		{
+			initiator = ParseUrl(xinitiator, "8:");
+			isKick = true;
+		}
 
 		if (isKick)
 		{

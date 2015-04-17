@@ -252,6 +252,8 @@ private:
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	static bool IsFileExists(std::tstring path);
 
+	char *ParseUrl(const char *url, const char *token);
+
 	char *ChatUrlToName(const char *url);
 	char *ContactUrlToName(const char *url);
 	char *SelfUrlToName(const char *url);
