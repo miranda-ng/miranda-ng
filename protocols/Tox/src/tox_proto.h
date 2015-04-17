@@ -137,7 +137,6 @@ private:
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
 	// events
-	static int __cdecl OnDbEventAdded(WPARAM hContact, LPARAM hEvent);
 
 	// userinfo
 	static INT_PTR CALLBACK UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

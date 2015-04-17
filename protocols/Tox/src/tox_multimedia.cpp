@@ -3,8 +3,8 @@
 /* AUDIO RECEIVING */
 
 CToxAudioCall::CToxAudioCall(CToxProto *proto, int callId) :
-	CToxDlgBase(proto, IDD_AUDIO, false), callId(callId),
-	ok(this, IDOK), cancel(this, IDCANCEL)
+CToxDlgBase(proto, IDD_AUDIO, false), callId(callId),
+ok(this, IDOK), cancel(this, IDCANCEL)
 {
 	m_autoClose = CLOSE_ON_CANCEL;
 	ok.OnClick = Callback(this, &CToxAudioCall::OnOk);
@@ -14,7 +14,7 @@ CToxAudioCall::CToxAudioCall(CToxProto *proto, int callId) :
 void CToxAudioCall::OnInitDialog()
 {
 	char iconName[100];
-	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, "audio_call");
+	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, "audio_start");
 	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(iconName, 16));
 	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(iconName, 32));
 
@@ -36,10 +36,7 @@ void CToxAudioCall::OnCancel(CCtrlBase*)
 	if (ok.Enabled())
 		toxav_reject(m_proto->toxAv, callId, NULL);
 	else
-	{
-		int friendNumber = toxav_get_peer_id(m_proto->toxAv, callId, 0);
-		toxav_cancel(m_proto->toxAv, callId, friendNumber, NULL);
-	}
+		toxav_stop_call(m_proto->toxAv, callId);
 }
 
 void CToxAudioCall::OnClose()
@@ -52,7 +49,7 @@ INT_PTR CToxAudioCall::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_AUDIO_END)
 		Close();
-	
+
 	return CToxDlgBase::DlgProc(msg, wParam, lParam);
 }
 
@@ -95,8 +92,8 @@ void CToxProto::OnAvInvite(void*, int32_t callId, void *arg)
 	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = time(NULL);
 	recv.lParam = callId;
-	//recv.flags = PREF_UTF;
-	//recv.szMessage = mir_utf8encodeT(TranslateT("Incoming audio call"));
+	recv.flags = PREF_UTF;
+	recv.szMessage = mir_utf8encodeT(TranslateT("Incoming audio call"));
 	ProtoChainRecv(hContact, PSR_AUDIO, hContact, (LPARAM)&recv);
 }
 
@@ -110,13 +107,29 @@ INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = pre->timestamp;
-	//dbei.flags = DBEF_UTF;
+	dbei.flags = DBEF_UTF;
 	dbei.eventType = DB_EVENT_AUDIO_RING;
+	dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;
+	dbei.pBlob = (PBYTE)pre->szMessage;
+	MEVENT hEvent = db_event_add(hContact, &dbei);
 
-	//dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;
-	//dbei.pBlob = (PBYTE)pre->szMessage;
+	CLISTEVENT cle = { sizeof(cle) };
+	cle.flags |= CLEF_TCHAR;
+	cle.hContact = hContact;
+	cle.hDbEvent = hEvent;
+	cle.hIcon = Skin_GetIconByHandle(GetIconHandle("audio_ring"));
 
-	return (INT_PTR)db_event_add(hContact, &dbei);
+	TCHAR szTooltip[256];
+	mir_sntprintf(szTooltip, SIZEOF(szTooltip), _T("%s %s %s"), TranslateT("Incoming audio call"), TranslateT("from"), pcli->pfnGetContactDisplayName(hContact, 0));
+	cle.ptszTooltip = szTooltip;
+
+	char szService[256];
+	mir_snprintf(szService, SIZEOF(szService), "%s/Audio/Ring", GetContactProto(hContact));
+	cle.pszService = szService;
+
+	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+
+	return hEvent;
 }
 
 // 
@@ -128,21 +141,137 @@ INT_PTR CToxProto::OnAudioRing(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-void CToxProto::OnAvRinging(void*, int32_t callId, void *arg) { }
-void CToxProto::OnAvStart(void*, int32_t callId, void *arg) { }
+void CToxProto::OnAvRinging(void*, int32_t callId, void *arg)
+{
+}
+
+void CToxProto::OnAvStart(void*, int32_t callId, void *arg)
+{
+	CToxProto *proto = (CToxProto*)arg;
+
+	int friendNumber = toxav_get_peer_id(proto->toxAv, callId, 0);
+	if (friendNumber == TOX_ERROR)
+	{
+		proto->debugLogA(__FUNCTION__": failed to get friend number");
+		toxav_stop_call(proto->toxAv, callId);
+		return;
+	}
+
+	MCONTACT hContact = proto->GetContact(friendNumber);
+	if (hContact == NULL)
+	{
+		proto->debugLogA(__FUNCTION__": failed to get contact");
+		toxav_stop_call(proto->toxAv, callId);
+		return;
+	}
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.szModule = proto->m_szModuleName;
+	dbei.timestamp = time(NULL);
+	dbei.flags = DBEF_UTF;
+	dbei.eventType = DB_EVENT_AUDIO_START;
+	dbei.pBlob = (PBYTE)mir_utf8encodeT(TranslateT("Audio call start"));;
+	dbei.cbBlob = (DWORD)mir_strlen((char*)dbei.pBlob) + 1;
+	db_event_add(hContact, &dbei);
+
+	if (toxav_prepare_transmission(proto->toxAv, callId, false) == TOX_ERROR)
+	{
+		proto->debugLogA(__FUNCTION__": failed to prepare transmition");
+		toxav_stop_call(proto->toxAv, callId);
+		return;
+	}
+}
 
 void CToxProto::OnAvEnd(void*, int32_t callId, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
+	int friendNumber = toxav_get_peer_id(proto->toxAv, callId, 0);
+	if (friendNumber == TOX_ERROR)
+	{
+		proto->debugLogA(__FUNCTION__": failed to get friend number");
+		toxav_stop_call(proto->toxAv, callId);
+		return;
+	}
+
+	MCONTACT hContact = proto->GetContact(friendNumber);
+	if (hContact == NULL)
+	{
+		proto->debugLogA(__FUNCTION__": failed to get contact");
+		toxav_stop_call(proto->toxAv, callId);
+		return;
+	}
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.szModule = proto->m_szModuleName;
+	dbei.timestamp = time(NULL);
+	dbei.flags = DBEF_UTF;
+	dbei.eventType = DB_EVENT_AUDIO_END;
+	dbei.pBlob = (PBYTE)mir_utf8encodeT(TranslateT("Audio call end"));;
+	dbei.cbBlob = (DWORD)mir_strlen((char*)dbei.pBlob) + 1;
+	db_event_add(hContact, &dbei);
+
 	WindowList_Broadcast(proto->hAudioDialogs, WM_AUDIO_END, 0, 0);
 }
 
-void CToxProto::OnAvReject(void*, int32_t callId, void *arg) { }
+void CToxProto::OnAvReject(void*, int32_t callId, void *arg)
+{
+	CToxProto *proto = (CToxProto*)arg;
+
+	int friendNumber = toxav_get_peer_id(proto->toxAv, callId, 0);
+	if (friendNumber == TOX_ERROR)
+	{
+		proto->debugLogA(__FUNCTION__": failed to get friend number");
+		toxav_stop_call(proto->toxAv, callId);
+		return;
+	}
+
+	MCONTACT hContact = proto->GetContact(friendNumber);
+	if (hContact == NULL)
+	{
+		proto->debugLogA(__FUNCTION__": failed to get contact");
+		toxav_stop_call(proto->toxAv, callId);
+		return;
+	}
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.szModule = proto->m_szModuleName;
+	dbei.timestamp = time(NULL);
+	dbei.flags = DBEF_UTF;
+	dbei.eventType = DB_EVENT_AUDIO_END;
+	dbei.pBlob = (PBYTE)mir_utf8encodeT(TranslateT("Audio call end"));;
+	dbei.cbBlob = (DWORD)mir_strlen((char*)dbei.pBlob) + 1;
+	db_event_add(hContact, &dbei);
+}
 
 void CToxProto::OnAvCancel(void*, int32_t callId, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
+
+	int friendNumber = toxav_get_peer_id(proto->toxAv, callId, 0);
+	if (friendNumber == TOX_ERROR)
+	{
+		proto->debugLogA(__FUNCTION__": failed to get friend number");
+		toxav_stop_call(proto->toxAv, callId);
+		return;
+	}
+
+	MCONTACT hContact = proto->GetContact(friendNumber);
+	if (hContact == NULL)
+	{
+		proto->debugLogA(__FUNCTION__": failed to get contact");
+		toxav_stop_call(proto->toxAv, callId);
+		return;
+	}
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.szModule = proto->m_szModuleName;
+	dbei.timestamp = time(NULL);
+	dbei.flags = DBEF_UTF;
+	dbei.eventType = DB_EVENT_AUDIO_END;
+	dbei.pBlob = (PBYTE)mir_utf8encodeT(TranslateT("Audio call end"));;
+	dbei.cbBlob = (DWORD)mir_strlen((char*)dbei.pBlob) + 1;
+	db_event_add(hContact, &dbei);
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_AUDIO_END, 0, 0);
 }
@@ -156,7 +285,8 @@ void CToxProto::OnFriendAudio(void*, int32_t callId, const int16_t *PCM, uint16_
 	CToxProto *proto = (CToxProto*)arg;
 
 	ToxAvCSettings dest;
-	if (toxav_get_peer_csettings(proto->toxAv, callId, 0, &dest) != av_ErrorNone)
+	int err = toxav_get_peer_csettings(proto->toxAv, callId, 0, &dest);
+	if (err != av_ErrorNone)
 	{
 		proto->debugLogA(__FUNCTION__": failed to get codec settings");
 		toxav_stop_call(proto->toxAv, callId);
@@ -173,13 +303,13 @@ void CToxProto::OnFriendAudio(void*, int32_t callId, const int16_t *PCM, uint16_
 	WAVEFORMATEX wfx = { 0 };
 	wfx.wFormatTag = WAVE_FORMAT_PCM;
 	wfx.nChannels = dest.audio_channels;
-	wfx.wBitsPerSample = dest.audio_bitrate;
+	wfx.wBitsPerSample = dest.audio_bitrate / 1000;
 	wfx.nSamplesPerSec = dest.audio_sample_rate;
 	wfx.nBlockAlign = (wfx.nChannels * wfx.wBitsPerSample) / 8;
 	wfx.nAvgBytesPerSec = wfx.nSamplesPerSec * wfx.nBlockAlign;
 
-	DWORD deviceId = proto->getDword("AudioOutputDeviceID", -1);
-	if (deviceId != av_ErrorNone)
+	DWORD deviceId = proto->getDword("AudioOutputDeviceID", TOX_ERROR);
+	if (deviceId == TOX_ERROR)
 	{
 		proto->debugLogA(__FUNCTION__": failed to get device id");
 		toxav_stop_call(proto->toxAv, callId);
@@ -187,7 +317,7 @@ void CToxProto::OnFriendAudio(void*, int32_t callId, const int16_t *PCM, uint16_
 	}
 
 	HWAVEOUT hDevice;
-	MMRESULT result = waveOutOpen(&hDevice, deviceId, &wfx, 0, 0, CALLBACK_NULL | WAVE_FORMAT_DIRECT);
+	MMRESULT result = waveOutOpen(&hDevice, deviceId, &wfx, 0, 0, CALLBACK_NULL);
 	if (result != MMSYSERR_NOERROR)
 	{
 		proto->debugLogA(__FUNCTION__": failed to open audio device");
@@ -195,8 +325,7 @@ void CToxProto::OnFriendAudio(void*, int32_t callId, const int16_t *PCM, uint16_
 		return;
 	}
 
-	WAVEHDR header;// = { 0 };
-	ZeroMemory(&header, sizeof(WAVEHDR));
+	WAVEHDR header = { 0 };
 	header.lpData = (LPSTR)PCM;
 	header.dwBufferLength = size;
 
@@ -216,18 +345,8 @@ void CToxProto::OnFriendAudio(void*, int32_t callId, const int16_t *PCM, uint16_
 		return;
 	}
 
-	do
-	{
-		Sleep(100);
-		result = waveOutUnprepareHeader(hDevice, &header, sizeof(WAVEHDR));
-	} while (result == WAVERR_STILLPLAYING);
-
-	if (result != MMSYSERR_NOERROR)
-	{
-		proto->debugLogA(__FUNCTION__": failed to unprepare audio device header");
-		toxav_stop_call(proto->toxAv, callId);
-		return;
-	}
+	while (waveOutUnprepareHeader(hDevice, &header, sizeof(WAVEHDR)) == WAVERR_STILLPLAYING)
+		Sleep(10);
 
 	waveOutClose(hDevice);
 }
