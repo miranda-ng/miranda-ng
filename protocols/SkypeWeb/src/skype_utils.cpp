@@ -240,7 +240,7 @@ bool CSkypeProto::IsFileExists(std::tstring path)
 
 // url parsing
 
-char *ParseUrl(const char *url, const char *token)
+char *CSkypeProto::ParseUrl(const char *url, const char *token)
 {
 	const char *start = strstr(url, token);
 	if (start == NULL)
