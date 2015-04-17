@@ -64,6 +64,12 @@ void RequestQueue::Push(HttpRequest *request, HttpResponseCallback response, voi
 	SetEvent(hRequestQueueEvent);
 }
 
+void RequestQueue::Send(HttpRequest *request, HttpResponseCallback response, void *arg)
+{
+	RequestQueueItem *item = new RequestQueueItem(request, response, arg);
+	mir_forkthreadowner((pThreadFuncOwner)&RequestQueue::AsyncSendThread, this, item, 0);
+}
+
 void RequestQueue::Execute(RequestQueueItem *item)
 {
 	NETLIBHTTPREQUEST *response = item->request->Send(hConnection);
@@ -74,27 +80,37 @@ void RequestQueue::Execute(RequestQueueItem *item)
 	delete item;
 }
 
-unsigned int RequestQueue::WorkerThread(void* owner, void*)
+unsigned int RequestQueue::AsyncSendThread(void *owner, void *arg)
 {
 	RequestQueue *that = (RequestQueue*)owner;
+	RequestQueueItem *item = (RequestQueueItem*)arg;
 
-	while (!that->isTerminated)
+	that->Execute(item);
+
+	return 0;
+}
+
+unsigned int RequestQueue::WorkerThread(void *arg)
+{
+	RequestQueue *queue = (RequestQueue*)arg;
+
+	while (!queue->isTerminated)
 	{
-		WaitForSingleObject(that->hRequestQueueEvent, INFINITE);
+		WaitForSingleObject(queue->hRequestQueueEvent, INFINITE);
 		while (true)
 		{
 			RequestQueueItem *item = NULL;
 			{
-				mir_cslock lock(that->requestQueueLock);
+				mir_cslock lock(queue->requestQueueLock);
 
-				if (that->requests.getCount() == 0)
+				if (queue->requests.getCount() == 0)
 					break;
 
-				item = that->requests[0];
-				that->requests.remove(0);
+				item = queue->requests[0];
+				queue->requests.remove(0);
 			}
 			if (item != NULL)
-				that->Execute(item);
+				queue->Execute(item);
 		}
 	}
 

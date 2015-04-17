@@ -226,7 +226,7 @@ public:
 		requestType = type;
 	}
 
-	HttpRequest(int type, HttpRequestUrlFormat format, LPCSTR urlFormat, ...)
+	HttpRequest(int type, HttpRequestUrlFormat, LPCSTR urlFormat, ...)
 		: Url(*this, urlFormat, (va_start(formatArgs, urlFormat), formatArgs)), Headers(*this)
 	{
 		cbSize = sizeof(NETLIBHTTPREQUEST);

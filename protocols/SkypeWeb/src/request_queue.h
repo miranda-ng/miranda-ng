@@ -51,7 +51,8 @@ private:
 
 	void Execute(RequestQueueItem *item);
 
-	static unsigned int __cdecl WorkerThread(void*, void*);
+	static unsigned int __cdecl AsyncSendThread(void*, void*);
+	static unsigned int __cdecl WorkerThread(void*);
 
 public:
 	RequestQueue(HANDLE hConnection);
@@ -61,6 +62,7 @@ public:
 	void Stop();
 
 	void Push(HttpRequest *request, HttpResponseCallback response = NULL, void *arg = NULL);
+	void Send(HttpRequest *request, HttpResponseCallback response = NULL, void *arg = NULL);
 
 };
 

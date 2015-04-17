@@ -64,3 +64,20 @@ void CSkypeProto::PushRequest(HttpRequest *request, SkypeResponseWithArgCallback
 	SkypeResponseDelegate *delegate = new SkypeResponseDelegate(this, response, arg);
 	requestQueue->Push(request, SkypeHttpResponse, delegate);
 }
+
+void CSkypeProto::SendRequest(HttpRequest *request)
+{
+	requestQueue->Send(request, NULL, NULL);
+}
+
+void CSkypeProto::SendRequest(HttpRequest *request, SkypeResponseCallback response)
+{
+	SkypeResponseDelegate *delegate = new SkypeResponseDelegate(this, response);
+	requestQueue->Send(request, SkypeHttpResponse, delegate);
+}
+
+void CSkypeProto::SendRequest(HttpRequest *request, SkypeResponseWithArgCallback response, void *arg)
+{
+	SkypeResponseDelegate *delegate = new SkypeResponseDelegate(this, response, arg);
+	requestQueue->Send(request, SkypeHttpResponse, delegate);
+}

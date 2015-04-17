@@ -113,6 +113,10 @@ private:
 	void PushRequest(HttpRequest *request, SkypeResponseCallback response);
 	void PushRequest(HttpRequest *request, SkypeResponseWithArgCallback response, void *arg);
 
+	void SendRequest(HttpRequest *request);
+	void SendRequest(HttpRequest *request, SkypeResponseCallback response);
+	void SendRequest(HttpRequest *request, SkypeResponseWithArgCallback response, void *arg);
+
 	// icons
 	static IconInfo Icons[];
 	static HANDLE GetIconHandle(const char *name);
