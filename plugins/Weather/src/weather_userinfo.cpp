@@ -330,7 +330,7 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact) 
 {
 	WEATHERINFO winfo;
-	TCHAR str[4096], str2[4096];
+	TCHAR str[4096];
 
 	// load weather information from the contact into the WEATHERINFO struct
 	winfo = LoadWeatherInfo(hContact);
@@ -343,10 +343,9 @@ void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 	SetDlgItemText(hwndDlg, IDC_MTEXT, str);
 
 	GetDisplay(&winfo, opt.bTitle, str);
-	SetWindowText(hwndDlg, str);
+	SetWindowText(hwndDlg, winfo.city);
 	GetDisplay(&winfo, _T("%c, %t"), str);
-	mir_sntprintf(str2, SIZEOF(str2), _T("%s\n%s"), winfo.city, str);
-	SetDlgItemText(hwndDlg, IDC_HEADERBAR, str2);
+	SetDlgItemText(hwndDlg, IDC_HEADERBAR, str);
 }
 
 // show brief information dialog
