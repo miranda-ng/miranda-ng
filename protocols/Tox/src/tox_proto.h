@@ -7,6 +7,8 @@ struct CToxProto : public PROTO<CToxProto>
 	friend CToxOptionsMain;
 	friend CToxOptionsNodeList;
 	friend CToxAudioCall;
+	friend CToxIncomingAudioCall;
+	friend CToxOutcomingAudioCall;
 
 public:
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -241,21 +243,22 @@ private:
 
 	// multimedia
 	HANDLE hAudioDialogs;
-	std::map<MCONTACT, int> calls;
+	std::map<MCONTACT, int32_t> calls;
+
+	ToxAvCSettings* GetAudioCSettings();
 	
 	static void OnFriendAudio(void *agent, int32_t callId, const int16_t *PCM, uint16_t size, void *arg);
 	INT_PTR __cdecl OnRecvAudioCall(WPARAM wParam, LPARAM lParam);
-	INT_PTR __cdecl OnAudioRing(WPARAM hContact, LPARAM lParam);
+	INT_PTR __cdecl OnAudioRing(WPARAM wParam, LPARAM lParam);
+
+	INT_PTR __cdecl OnSendAudioCall(WPARAM wParam, LPARAM);
 
 	static void OnAvInvite(void*, int32_t callId, void *arg);
-	static void OnAvRinging(void*, int32_t callId, void *arg);
 	static void OnAvStart(void*, int32_t callId, void *arg);
 	static void OnAvEnd(void*, int32_t callId, void *arg);
 	static void OnAvReject(void*, int32_t callId, void *arg);
 	static void OnAvCancel(void*, int32_t callId, void *arg);
-	static void OnAvCsChange(void*, int32_t callId, void *arg);
-	static void OnAvRequestTimeout(void*, int32_t callId, void *arg);
-	static void OnAvPeerTimeout(void*, int32_t callId, void *arg);
+	static void OnAvTimeout(void*, int32_t callId, void *arg);
 
 	// utils
 	TOX_USER_STATUS MirandaToToxStatus(int status);
