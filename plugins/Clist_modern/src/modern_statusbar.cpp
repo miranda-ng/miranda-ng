@@ -153,8 +153,8 @@ int ModernDrawStatusBar(HWND hwnd, HDC hDC)
 
 int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 {
-	int iconHeight = GetSystemMetrics(SM_CYSMICON) + 2;
-	int i;
+	int iconWidth = GetSystemMetrics(SM_CXSMICON);
+	int iconHeight = GetSystemMetrics(SM_CYSMICON);
 
 	// Count visible protos
 	RECT rc;
@@ -165,7 +165,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		else
 			DrawBackGround(hWnd, hDC, g_StatusBarData.hBmpBackground, g_StatusBarData.bkColour, g_StatusBarData.backgroundBmpUse);
 	}
-	else SkinDrawGlyph(hDC, &rc, &rc, "Main,ID=StatusBar"); //TBD
+	else SkinDrawGlyph(hDC, &rc, &rc, "Main,ID=StatusBar");
 
 	g_StatusBarData.nProtosPerLine = db_get_b(NULL, "CLUI", "StatusBarProtosPerLine", SETTING_PROTOSPERLINE_DEFAULT);
 	HFONT hOldFont = g_clcPainter.ChangeToFont(hDC, NULL, FONTID_STATUSBAR_PROTONAME, NULL);
@@ -173,8 +173,6 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 	SIZE textSize = { 0 };
 	GetTextExtentPoint32A(hDC, " ", 1, &textSize);
 	int spaceWidth = textSize.cx;
-	int textY = rc.top + ((rc.bottom - rc.top - textSize.cy) >> 1);
-	int iconY = rc.top + ((rc.bottom - rc.top - GetSystemMetrics(SM_CXSMICON)) >> 1);
 
 	ProtosData.destroy();
 
@@ -276,7 +274,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 	if (ProtosData.getCount() == 0)
 		return 0;
 
-	//START MULTILINE HERE 
+	// START MULTILINE HERE 
 	int orig_protoCount = protoCount;
 	int orig_visProtoCount = ProtosData.getCount();
 	int protosperline = 0;
@@ -295,9 +293,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 	}
 	protosperline = min(protosperline, orig_visProtoCount);
 
-	int linecount = protosperline ? (orig_visProtoCount + (protosperline - 1)) / protosperline : 1; //divide with rounding to up
+	int linecount = protosperline ? (orig_visProtoCount + (protosperline - 1)) / protosperline : 1; // divide with rounding to up
 	for (int line = 0; line < linecount; line++) {
-		int rowheight = max(textSize.cy + 2, iconHeight);
+		int rowheight = 2 + max(textSize.cy, iconHeight);
 		protoCount = min(protosperline, (orig_protoCount - line*protosperline));
 		int visProtoCount = min(protosperline, (orig_visProtoCount - line*protosperline));
 		GetClientRect(hWnd, &rc);
@@ -318,23 +316,23 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		if (rowheight*(line + 1) + rowsdy > rc.bottom + rowheight)
 			break;
 
-		if (g_StatusBarData.VAlign == 0) { //top
+		if (g_StatusBarData.VAlign == 0) { // top
 			rc.bottom = rc.top + rowheight*(line + 1);
 			rc.top = rc.top + rowheight*line + 1;
 		}
-		else if (g_StatusBarData.VAlign == 1) { //center
+		else if (g_StatusBarData.VAlign == 1) { // center
 			rc.bottom = rc.top + rowsdy + rowheight*(line + 1);
 			rc.top = rc.top + rowsdy + rowheight*line + 1;
 		}
-		else if (g_StatusBarData.VAlign == 2) { //bottom
+		else if (g_StatusBarData.VAlign == 2) { // bottom
 			rc.top = rc.bottom - (rowheight*(linecount - line));
 			rc.bottom = rc.bottom - (rowheight*(linecount - line - 1) + 1);
 		}
 
-		textY = rc.top + (((rc.bottom - rc.top) - textSize.cy) / 2);
-		iconY = rc.top + (((rc.bottom - rc.top) - iconHeight) / 2);
+		int textY = rc.top + (((rc.bottom - rc.top) - textSize.cy) / 2);
+		int iconY = rc.top + (((rc.bottom - rc.top) - iconHeight) / 2) - 1;
 
-		//Code for each line
+		// Code for each line
 		DWORD sw;
 		int rectwidth = rc.right - rc.left - g_StatusBarData.rectBorders.left - g_StatusBarData.rectBorders.right;
 		if (visProtoCount > 1)
@@ -342,15 +340,15 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		else
 			sw = rectwidth;
 
-		int *ProtoWidth = (int*)mir_alloc(sizeof(int)*visProtoCount);
-		for (i = 0; i < visProtoCount; i++) {
+		int *ProtoWidth = (int*)_alloca(sizeof(int)*visProtoCount);
+		for (int i = 0; i < visProtoCount; i++) {
 			ProtoItemData &p = ProtosData[line*protosperline + i];
 
 			DWORD w = p.PaddingLeft;
 			w += p.PaddingRight;
 
 			if (p.bShowProtoIcon) {
-				w += GetSystemMetrics(SM_CXSMICON) + 1;
+				w += iconWidth + 1;
 
 				p.extraIcon = NULL;
 				if ((p.xStatusMode & 8) && p.iProtoStatus > ID_STATUS_OFFLINE) {
@@ -367,7 +365,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 						if (ProtoServiceExists(p.szAccountName, PS_GETCUSTOMSTATUSICON))
 							p.extraIcon = (HICON)ProtoCallService(p.szAccountName, PS_GETCUSTOMSTATUSICON, 0, 0);
 						if (p.extraIcon && (p.xStatusMode & 3) == 3)
-							w += GetSystemMetrics(SM_CXSMICON) + 1;
+							w += iconWidth + 1;
 					}
 				}
 			}
@@ -408,25 +406,25 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		}
 
 		// Reposition rects
-		for (i = 0; i < visProtoCount; i++)
+		for (int i = 0; i < visProtoCount; i++)
 			if (ProtoWidth[i] > maxwidth)
 				maxwidth = ProtoWidth[i];
 
 		if (g_StatusBarData.sameWidth) {
-			for (i = 0; i < visProtoCount; i++)
+			for (int i = 0; i < visProtoCount; i++)
 				ProtoWidth[i] = maxwidth;
 			SumWidth = maxwidth * visProtoCount;
 		}
-		SumWidth += (visProtoCount - 1) * (g_StatusBarData.extraspace + 1);
+		SumWidth += (visProtoCount - 1) * g_StatusBarData.extraspace;
 
 		if (SumWidth > rectwidth) {
 			float f = (float)rectwidth / SumWidth;
 			SumWidth = 0;
-			for (i = 0; i < visProtoCount; i++) {
+			for (int i = 0; i < visProtoCount; i++) {
 				ProtoWidth[i] = (int)((float)ProtoWidth[i] * f);
 				SumWidth += ProtoWidth[i];
 			}
-			SumWidth += (visProtoCount - 1)*(g_StatusBarData.extraspace + 1);
+			SumWidth += (visProtoCount - 1) * g_StatusBarData.extraspace;
 		}
 
 		if (g_StatusBarData.Align == 1) //center
@@ -437,12 +435,11 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		// Draw in rects
 		RECT r = rc;
 		r.left += g_StatusBarData.rectBorders.left + aligndx;
-		for (i = 0; i < visProtoCount; i++) {
-			ProtoItemData& p = ProtosData[line*protosperline + i];
-			HRGN rgn = NULL;
+		for (int i = 0; i < visProtoCount; i++) {
+			ProtoItemData &p = ProtosData[line*protosperline + i];
 			HICON hIcon = NULL;
 			HICON hxIcon = NULL;
-			BOOL NeedDestroy = FALSE;
+			BOOL bNeedDestroy = false;
 			int x = r.left;
 			x += p.PaddingLeft;
 			r.right = r.left + ProtoWidth[i];
@@ -454,11 +451,11 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 						if (hxIcon) {
 							if ((p.xStatusMode & 3) == 2) {
 								hIcon = GetMainStatusOverlay(p.iProtoStatus);
-								NeedDestroy = TRUE;
+								bNeedDestroy = true;
 							}
 							else if ((p.xStatusMode & 3) == 1) {
 								hIcon = hxIcon;
-								NeedDestroy = TRUE;
+								bNeedDestroy = true;
 								hxIcon = NULL;
 							}
 						}
@@ -466,17 +463,17 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				}
 
 				if (hIcon == NULL && (hxIcon == NULL || ((p.xStatusMode & 3) == 3))) {
-					if ((p.bConnectingIcon == 1) && p.iProtoStatus >= ID_STATUS_CONNECTING && p.iProtoStatus <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
+					if ((p.bConnectingIcon == 1) && IsStatusConnecting(p.iProtoStatus)) {
 						hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)p.szAccountName, 0);
 						if (hIcon)
-							NeedDestroy = TRUE;
+							bNeedDestroy = true;
 						else
 							hIcon = LoadSkinnedProtoIcon(p.szAccountName, p.iProtoStatus);
 					}
 					else hIcon = LoadSkinnedProtoIcon(p.szAccountName, p.iProtoStatus);
 				}
 
-				rgn = CreateRectRgn(r.left, r.top, r.right, r.bottom);
+				HRGN rgn = CreateRectRgn(r.left, r.top, r.right, r.bottom);
 
 				if (g_StatusBarData.sameWidth) {
 					int fw = p.fullWidth;
@@ -496,68 +493,74 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 				if ((p.xStatusMode & 3) == 3) {
 					if (hIcon)
-						mod_DrawIconEx_helper(hDC, x, iconY, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL | dim);
+						mod_DrawIconEx_helper(hDC, x, iconY, hIcon, iconWidth, iconHeight, 0, NULL, DI_NORMAL | dim);
 					if (hxIcon) {
-						mod_DrawIconEx_helper(hDC, x + GetSystemMetrics(SM_CXSMICON) + 1, iconY, hxIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL | dim);
-						x += GetSystemMetrics(SM_CXSMICON) + 1;
+						mod_DrawIconEx_helper(hDC, x + iconWidth + 1, iconY, hxIcon, iconWidth, iconHeight, 0, NULL, DI_NORMAL | dim);
+						x += iconWidth + 1;
 					}
 					p.bDoubleIcons = hIcon && hxIcon;
 				}
 				else {
 					if (hxIcon)
-						mod_DrawIconEx_helper(hDC, x, iconY, hxIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL | dim);
+						mod_DrawIconEx_helper(hDC, x, iconY, hxIcon, iconWidth, iconHeight, 0, NULL, DI_NORMAL | dim);
 					if (hIcon)
-						mod_DrawIconEx_helper(hDC, x, iconY, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL | ((hxIcon && (p.xStatusMode & 4)) ? (192 << 24) : 0) | dim);
+						mod_DrawIconEx_helper(hDC, x, iconY, hIcon, iconWidth, iconHeight, 0, NULL, DI_NORMAL | ((hxIcon && (p.xStatusMode & 4)) ? (192 << 24) : 0) | dim);
 				}
 
-				if (hxIcon || hIcon) { /* TODO g_StatusBarData.bDrawLockOverlay  options to draw locked proto*/
+				if (hxIcon || hIcon) { // TODO g_StatusBarData.bDrawLockOverlay  options to draw locked proto
 					if (db_get_b(NULL, p.szAccountName, "LockMainStatus", 0)) {
 						HICON hLockOverlay = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
 						if (hLockOverlay != NULL) {
-							mod_DrawIconEx_helper(hDC, x, iconY, hLockOverlay, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL | dim);
+							mod_DrawIconEx_helper(hDC, x, iconY, hLockOverlay, iconWidth, iconHeight, 0, NULL, DI_NORMAL | dim);
 							Skin_ReleaseIcon(hLockOverlay);
 						}
 					}
 				}
 				if (hxIcon) DestroyIcon_protect(hxIcon);
-				if (NeedDestroy) DestroyIcon_protect(hIcon);
-				else Skin_ReleaseIcon(hIcon);
-				x += GetSystemMetrics(SM_CXSMICON) + 1;
+				if (bNeedDestroy)
+					DestroyIcon_protect(hIcon);
+				else
+					Skin_ReleaseIcon(hIcon);
+				x += iconWidth + 1;
+				DeleteObject(rgn);
 			}
 
 			if (p.bShowProtoName) {
-				SIZE textSize;
+				int cbLen = (int)mir_tstrlen(p.tszProtoHumanName);
 				RECT rt = r;
 				rt.left = x + (spaceWidth >> 1);
 				rt.top = textY;
-				ske_DrawText(hDC, p.tszProtoHumanName, (int)mir_tstrlen(p.tszProtoHumanName), &rt, 0);
+				ske_DrawText(hDC, p.tszProtoHumanName, cbLen, &rt, 0);
 
 				if ((p.bShowProtoEmails && p.szProtoEMailCount != NULL) || p.bShowStatusName || ((p.xStatusMode & 8) && p.tszProtoXStatus)) {
-					GetTextExtentPoint32(hDC, p.tszProtoHumanName, (int)mir_tstrlen(p.tszProtoHumanName), &textSize);
+					SIZE textSize;
+					GetTextExtentPoint32(hDC, p.tszProtoHumanName, cbLen, &textSize);
 					x += textSize.cx + 3;
 				}
 			}
 
 			if (p.bShowProtoEmails && p.szProtoEMailCount != NULL) {
-				SIZE textSize;
+				int cbLen = (int)mir_strlen(p.szProtoEMailCount);
 				RECT rt = r;
 				rt.left = x + (spaceWidth >> 1);
 				rt.top = textY;
-				ske_DrawTextA(hDC, p.szProtoEMailCount, (int)mir_strlen(p.szProtoEMailCount), &rt, 0);
+				ske_DrawTextA(hDC, p.szProtoEMailCount, cbLen, &rt, 0);
 				if (p.bShowStatusName || ((p.xStatusMode & 8) && p.tszProtoXStatus)) {
-					GetTextExtentPoint32A(hDC, p.szProtoEMailCount, (int)mir_strlen(p.szProtoEMailCount), &textSize);
+					SIZE textSize;
+					GetTextExtentPoint32A(hDC, p.szProtoEMailCount, cbLen, &textSize);
 					x += textSize.cx + 3;
 				}
 			}
 
 			if (p.bShowStatusName) {
-				SIZE textSize;
+				int cbLen = (int)mir_tstrlen(p.tszProtoStatusText);
 				RECT rt = r;
 				rt.left = x + (spaceWidth >> 1);
 				rt.top = textY;
-				ske_DrawText(hDC, p.tszProtoStatusText, (int)mir_tstrlen(p.tszProtoStatusText), &rt, 0);
+				ske_DrawText(hDC, p.tszProtoStatusText, cbLen, &rt, 0);
 				if (((p.xStatusMode & 8) && p.tszProtoXStatus)) {
-					GetTextExtentPoint32(hDC, p.tszProtoStatusText, (int)mir_tstrlen(p.tszProtoStatusText), &textSize);
+					SIZE textSize;
+					GetTextExtentPoint32(hDC, p.tszProtoStatusText, cbLen, &textSize);
 					x += textSize.cx + 3;
 				}
 			}
@@ -566,15 +569,13 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				RECT rt = r;
 				rt.left = x + (spaceWidth >> 1);
 				rt.top = textY;
-				ske_DrawText(hDC, p.tszProtoXStatus, (int)mir_tstrlen(p.tszProtoXStatus), &rt, 0);
+				ske_DrawText(hDC, p.tszProtoXStatus, (int)_tcslen(p.tszProtoXStatus), &rt, 0);
 			}
 
 			p.protoRect = r;
 
 			r.left = r.right + g_StatusBarData.extraspace;
-			DeleteObject(rgn);
 		}
-		mir_free(ProtoWidth);
 	}
 
 	SelectObject(hDC, hOldFont);
