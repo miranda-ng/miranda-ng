@@ -419,7 +419,8 @@ begin
         end;
 
         QSTO_EVENTCOUNT: begin
-          res.text:=int2strw(db_event_count(hContact));
+          res.data:=db_event_count(hContact);
+          res.text:=int2strw(res.data);
         end;
       end;
 
