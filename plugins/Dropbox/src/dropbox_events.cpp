@@ -86,11 +86,10 @@ int CDropbox::OnOptionsInitialized(void *obj, WPARAM wParam, LPARAM)
 
 int CDropbox::OnSrmmWindowOpened(void *obj, WPARAM, LPARAM lParam)
 {
-	CDropbox *instance = (CDropbox*)obj;
-
 	MessageWindowEventData *ev = (MessageWindowEventData*)lParam;
 	if (ev->uType == MSG_WINDOW_EVT_OPENING && ev->hContact)
 	{
+		CDropbox *instance = (CDropbox*)obj;
 		char *proto = GetContactProto(ev->hContact);
 		bool isProtoOnline = CallProtoService(proto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE;
 		WORD status = db_get_w(ev->hContact, proto, "Status", ID_STATUS_OFFLINE);

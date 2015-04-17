@@ -31,3 +31,10 @@ void CDropbox::InitializeIcons()
 	sid.iDefaultIndex = -IDI_DROPBOX;
 	/*HANDLE hIcon = */Skin_AddIcon(&sid);
 }
+
+HICON CDropbox::LoadIconEx(const char *name, bool big)
+{
+	char szSettingName[100];
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODULE, name);
+	return Skin_GetIcon(szSettingName, big);
+}

@@ -1,5 +1,7 @@
 #include "common.h"
 
+int g_nStatus = ID_STATUS_OFFLINE;
+
 HANDLE CDropbox::CreateProtoServiceFunctionObj(const char *szService, MIRANDASERVICEOBJ serviceProc, void *obj)
 {
 	char str[MAXMODULELABELLENGTH];
@@ -18,6 +20,45 @@ INT_PTR CDropbox::ProtoGetCaps(WPARAM wParam, LPARAM)
 		return PF2_ONLINE;
 	case PFLAGNUM_4:
 		return PF4_OFFLINEFILES;
+	}
+
+	return 0;
+}
+
+INT_PTR CDropbox::ProtoGetName(WPARAM wParam, LPARAM lParam)
+{
+	if (lParam) {
+		mir_strncpy((char *)lParam, MODULE, wParam);
+		return 0;
+	}
+
+	return 1;
+}
+
+INT_PTR CDropbox::ProtoLoadIcon(WPARAM wParam, LPARAM)
+{
+	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(LoadIconEx("main", FALSE)) : 0;
+}
+
+INT_PTR CDropbox::ProtoGetStatus(WPARAM, LPARAM)
+{
+	return g_nStatus;
+}
+
+INT_PTR CDropbox::ProtoSetStatus(void *obj, WPARAM wp, LPARAM)
+{
+	CDropbox *instance = (CDropbox*)obj;
+	int nStatus = wp;
+	if ((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus)) {
+		int nOldStatus = g_nStatus;
+		if (nStatus != g_nStatus) {
+			g_nStatus = nStatus;
+
+			MCONTACT hContact = instance->GetDefaultContact();
+			db_set_w(hContact, MODULE, "Status", nStatus);
+
+			ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)nOldStatus, g_nStatus);
+		}
 	}
 
 	return 0;

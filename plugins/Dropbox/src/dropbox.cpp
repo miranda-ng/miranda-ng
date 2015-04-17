@@ -16,6 +16,10 @@ CDropbox::CDropbox()
 	CreateServiceFunctionObj(MS_DROPBOX_SEND_FILE, SendFileToDropbox, this);
 
 	CreateProtoServiceFunction(MODULE, PS_GETCAPS, ProtoGetCaps);
+	CreateProtoServiceFunction(MODULE, PS_GETNAME, ProtoGetName);
+	CreateProtoServiceFunction(MODULE, PS_LOADICON, ProtoLoadIcon);
+	CreateProtoServiceFunction(MODULE, PS_GETSTATUS, ProtoGetStatus);
+	CreateProtoServiceFunctionObj(PS_SETSTATUS, ProtoSetStatus, this);
 	CreateProtoServiceFunctionObj(PSS_FILEW, ProtoSendFile, this);
 	CreateProtoServiceFunctionObj(PSS_MESSAGE, ProtoSendMessage, this);
 	CreateProtoServiceFunctionObj(PSR_MESSAGE, ProtoReceiveMessage, this);
