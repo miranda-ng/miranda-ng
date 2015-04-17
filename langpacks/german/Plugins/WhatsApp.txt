@@ -50,7 +50,7 @@ Einen Benutzer e&inladen
 [View/change &topic]
 &Thema ansehen/ändern
 [&Quit chat session]
-
+Chatsitzung &beenden
 [Set &avatar]
 &Avatar setzen
 [Copy room &JID]

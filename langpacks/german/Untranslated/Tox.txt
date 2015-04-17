@@ -1,5 +1,0 @@
-﻿[Create tox profile]
-[Export tox profile]
-[Enable UDP (otherwise force Tox to use TCP)]
-[Enable IPv6]
-[User nodes]
