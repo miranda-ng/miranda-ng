@@ -7,6 +7,7 @@ enum CMI_MENU_ITEMS
 {
 	CMI_AUTH_REQUEST,
 	CMI_AUTH_GRANT,
+	CMI_AUDIO_CALL,
 	CMI_MAX // this item shall be the last one
 };
 
