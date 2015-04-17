@@ -138,11 +138,11 @@ void CToxProto::OnFileReceiveData(Tox*, uint32_t friendNumber, uint32_t fileNumb
 	FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
 	if (transfer == NULL)
 	{
-//		tox_file_control(proto->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
+		proto->debugLogA(__FUNCTION__": failed to fing transfer (%d)", fileNumber);
 		return;
 	}
 
-	if (length == 0 || (position == UINT64_MAX))
+	if (length == 0 || position == UINT64_MAX)
 	{
 		//receiving is finished
 		proto->debugLogA(__FUNCTION__": finised the transfer of file (%d)", fileNumber);
@@ -232,7 +232,7 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 	FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
 	if (transfer == NULL)
 	{
-//		tox_file_control(proto->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
+		proto->debugLogA(__FUNCTION__": failed to fing transfer (%d)", fileNumber);
 		return;
 	}
 
@@ -305,7 +305,7 @@ void CToxProto::OnFileRequest(Tox*, uint32_t friendNumber, uint32_t fileNumber, 
 		FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
 		if (transfer == NULL)
 		{
-			tox_file_control(proto->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
+			proto->debugLogA(__FUNCTION__": failed to fing transfer (%d)", fileNumber);
 			return;
 		}
 
