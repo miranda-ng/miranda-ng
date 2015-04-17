@@ -513,7 +513,7 @@ int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.ptszTitle = m_tszUserName;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.ptszGroup = LPGENT("Network");
 
 	odp.ptszTab = LPGENT("Account");
