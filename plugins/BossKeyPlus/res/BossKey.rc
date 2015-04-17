@@ -55,7 +55,7 @@ STYLE DS_ABSALIGN | DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS
 EXSTYLE WS_EX_TOPMOST
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,188,25
+    CONTROL         "Miranda NG is locked.\nEnter password to unlock it.",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,188,25
     LTEXT           "Password:",-1,6,35,34,8
     EDITTEXT        IDC_EDIT1,48,33,113,13,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "",-1,"Static",SS_ETCHEDHORZ,0,52,190,1

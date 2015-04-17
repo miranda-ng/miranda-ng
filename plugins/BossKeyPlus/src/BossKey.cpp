@@ -77,6 +77,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 {
 	static DWORD dwOldIcon = 0;
 	HICON hIcon = 0;
+	UINT uid;
 
 	switch (uMsg){
 	case WM_INITDIALOG:
@@ -94,7 +95,6 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 			SetWindowPos(hDlg, 0, 0, 0, rect.right, rect.bottom + GetSystemMetrics(SM_CYCAPTION), SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER);
 		}
 		SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)hIcon);
-		SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("Miranda NG is locked.\nEnter password to unlock it."));
 
 		TranslateDialogDefault(hDlg);
 		oldLangID = 0;
@@ -115,20 +115,16 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 		return (INT_PTR)GetSysColorBrush(COLOR_HIGHLIGHT);
 
 	case WM_COMMAND:
-	{
-		UINT uid = LOWORD(wParam);
+		uid = LOWORD(wParam);
 		if (uid == IDOK){
 			char password[MAXPASSLEN + 1] = { 0 };
 			int passlen = GetDlgItemTextA(hDlg, IDC_EDIT1, password, SIZEOF(password));
-
-			if (passlen == 0)
-			{
+			if (passlen == 0) {
 				SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("Miranda NG is locked.\nEnter password to unlock it."));
 				SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
 				break;
 			}
-			else if (mir_strcmp(password, g_password))
-			{
+			else if (mir_strcmp(password, g_password)) {
 				SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("Password is not correct!\nPlease, enter correct password."));
 				SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
 				SetDlgItemText(hDlg, IDC_EDIT1, _T(""));
@@ -138,7 +134,6 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 		}
 		else if (uid == IDCANCEL)
 			EndDialog(hDlg, IDCANCEL);
-	}
 
 	case WM_TIMER:
 		LanguageChanged(hDlg);
