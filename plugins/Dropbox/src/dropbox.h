@@ -70,6 +70,10 @@ private:
 	static HANDLE CreateProtoServiceFunctionObj(const char *szService, MIRANDASERVICEOBJ serviceProc, void *obj);
 
 	static INT_PTR ProtoGetCaps(WPARAM wParam, LPARAM lParam);
+	static INT_PTR ProtoGetName(WPARAM wParam, LPARAM lParam);
+	static INT_PTR ProtoLoadIcon(WPARAM wParam, LPARAM lParam);
+	static INT_PTR ProtoGetStatus(WPARAM wParam, LPARAM lParam);
+	static INT_PTR ProtoSetStatus(void *obj, WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoSendFile(void *obj, WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoSendMessage(void *obj, WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoReceiveMessage(void *obj, WPARAM wParam, LPARAM lParam);
@@ -112,6 +116,7 @@ private:
 
 	// icons
 	void InitializeIcons();
+	static HICON LoadIconEx(const char *name, bool big);
 
 	// menus
 	void InitializeMenus();
