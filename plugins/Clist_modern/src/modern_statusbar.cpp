@@ -330,7 +330,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		}
 
 		int textY = rc.top + (((rc.bottom - rc.top) - textSize.cy) / 2);
-		int iconY = rc.top + (((rc.bottom - rc.top) - iconHeight) / 2) - 1;
+		int iconY = rc.top + (((rc.bottom - rc.top) - iconHeight) / 2);
 
 		// Code for each line
 		DWORD sw;
