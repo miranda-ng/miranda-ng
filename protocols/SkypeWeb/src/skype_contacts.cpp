@@ -239,7 +239,7 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 	PushRequest(new GetContactsAuthRequest(token), &CSkypeProto::LoadContactsAuth);
 }
 
-INT_PTR CSkypeProto::OnRequestAuth(WPARAM hContact, LPARAM lParam)
+INT_PTR CSkypeProto::OnRequestAuth(WPARAM hContact, LPARAM)
 {
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
