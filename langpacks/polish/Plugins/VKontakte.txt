@@ -81,7 +81,7 @@ Komentarze
 [Likes]
 Polubienia
 [Invites]
-
+Zaprasza
 [Reposts]
 Udostępnienia
 [Mentions in comments]
@@ -222,11 +222,11 @@ Wprowadź kod weryfikacyjny
 [Message read: %s]
 Wiadomość odczytana: %s
 [has invited you to a group]
-
+zaprosił/a Cię do grupy
 [has invited you to subscribe to a page]
-
+Zaprosił/a Cię do subskrypcji strony
 [invites you to event]
-
+zaprasza Cię na wydarzenie
 [commented on your post]
 skomentował/a twój post
 [commented on your photo]
