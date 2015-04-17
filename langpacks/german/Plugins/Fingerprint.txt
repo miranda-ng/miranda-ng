@@ -148,7 +148,7 @@ Mail.Ru Agent overlay
 [VK overlay]
 VK overlay
 [Skype overlay]
-
+Skype-Overlay
 [ICQ 2003 overlay]
 ICQ 2003 overlay
 [ICQ Lite 4 overlay]

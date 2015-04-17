@@ -27,19 +27,19 @@ Standardgruppe:
 [Tox]
 Tox
 [Create tox profile]
-
+Tox-Profil erstellen
 [Import tox profile]
 Tox-Profil importieren
 [Copy Tox ID]
 Tox-ID kopieren
 [Export tox profile]
-
+Tox-Profil exportieren
 [Connection settings]
 Verbindungseinstellungen
 [Enable UDP (otherwise force Tox to use TCP)]
-
+UDP aktivieren (sonst ist Tox gezwungen TCP zu verwenden)
 [Enable IPv6]
-
+IPv6 aktivieren
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Wenn dieses Feld eine Tox-Adresse enthält (76 Hex-Zeichen), dann werden Sie gefragt ob Sie diese zu Ihrer Freundesliste hinzufügen wollen. Anderenfalls sucht Miranda über Tox-DNS-Erkennung
 [Dns name:]
@@ -117,7 +117,7 @@ Fehler
 [Common nodes]
 Gemeinsame Knoten
 [User nodes]
-
+Benutzerknoten
 [Are you sure?]
 Sind Sie sich sicher?
 [Node deleting]

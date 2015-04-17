@@ -81,7 +81,7 @@ Kommentare
 [Likes]
 Gefällt mir
 [Invites]
-
+Einladungen
 [Reposts]
 Reposts
 [Mentions in comments]
@@ -222,11 +222,11 @@ Bestätigungscode eingeben
 [Message read: %s]
 Nachricht gelesen: %s
 [has invited you to a group]
-
+hat Sie in eine Gruppe eingeladen
 [has invited you to subscribe to a page]
-
+hat Sie eingeladen eine Gruppe zu abonnieren
 [invites you to event]
-
+hat Sie zu einem Ereignis eingeladen
 [commented on your post]
 kommentierte Ihren Beitrag
 [commented on your photo]

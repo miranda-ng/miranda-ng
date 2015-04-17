@@ -37,7 +37,7 @@ Passwort eingeben
 [Save password]
 Passwort speichern
 [Enter the password to continue.]
-
+Passwort eingeben um fortzufahren.
 ;file \protocols\Steam\src\stdafx.cpp
 [Steam game]
 Steam-Spiel
