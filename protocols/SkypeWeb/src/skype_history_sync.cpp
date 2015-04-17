@@ -123,6 +123,6 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		if (hContact == NULL && !IsMe(skypename))
 			hContact = AddContact(skypename, true);
 		if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
-			PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), skypename, ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
+			PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), skypename, 0, ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
 	}
 }
