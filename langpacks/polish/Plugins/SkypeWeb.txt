@@ -49,7 +49,7 @@ Admin
 Czat grupowy
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
-
+edytowana
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Ikona protokołu
