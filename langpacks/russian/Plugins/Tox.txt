@@ -73,12 +73,20 @@ IPv6 адрес (необязательно)
 &Пригласить
 [&Cancel]
 О&тмена
+[Audio call]
+Аудиовызов
 [Groupchat]
 Чат
 [Profiles folder]
 Папка профилей
 [Action]
 Действие
+[Audio ring]
+Звонок
+[Audio start]
+Ответить
+[Audio end]
+Завершить
 [Protocol icon]
 Значок протокола
 [Protocols]
@@ -87,6 +95,16 @@ IPv6 адрес (необязательно)
 Запросить авторизацию
 [Grant authorization]
 Авторизовать
+[Video call is unsupported]
+Видеовызовы не поддерживаются
+[Incoming audio call]
+Входящий аудиовызов
+[from]
+от
+[Audio call end]
+Аудиовызов завершен
+[Audio call start]
+Аудиовызов начат
 [%s connection]
 %s подключение
 [Tox profile]

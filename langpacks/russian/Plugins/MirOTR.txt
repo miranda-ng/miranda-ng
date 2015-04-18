@@ -27,6 +27,8 @@ OTR Создание личного ключа
 Остановить сессию, когда контакт уходит из сети
 [Prefix encrypted IMs:]
 Префикс шифрованных IM:
+[don't rely on the prefix, always check the OTR status icon]
+не полагайтесь на префикс, всегда проверяйте значок состояния OTR
 [Don't add encrypted messages to the history]
 Не записывать шифрованные сообщения в историю
 [Also remove OTR system messages]
@@ -237,3 +239,13 @@ OTR: установлен SecureIM
 Личные данные
 [Services]
 Службы
+[\nusing older protocol version %i]
+\nиспользуя старый протокол версии %i
+[Attempting to start a private conversation...]
+Попытка начать приватную беседу...
+[An error occurred when encrypting your message.\nThe message was not sent]
+Произошла ошибка при шифровании сообщения.\nCообщение не отправлено
+['%s' has already closed his/her private connection to you; you should do the same]
+'%s' уже закрыл приватную связь с вами; вы должны поступать так же
+[Error setting up private conversation: %s]
+Ошибка создания приватной беседы: %s
