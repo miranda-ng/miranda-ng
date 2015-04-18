@@ -323,7 +323,7 @@ void CToxOutgoingAudioCall::OnCancel(CCtrlBase*)
 	if (!isCallStarted)
 		toxav_cancel(m_proto->toxAv, m_proto->calls[hContact], 0, NULL);
 	else
-		toxav_stop_call(m_proto->toxAv, m_proto->calls[hContact]);
+		toxav_hangup(m_proto->toxAv, m_proto->calls[hContact]);
 }
 
 INT_PTR CToxProto::OnSendAudioCall(WPARAM hContact, LPARAM)
@@ -403,7 +403,7 @@ void CToxProto::OnAvStart(void*, int32_t callId, void *arg)
 	if (friendNumber == TOX_ERROR)
 	{
 		proto->debugLogA(__FUNCTION__": failed to get friend number");
-		toxav_stop_call(proto->toxAv, callId);
+		toxav_hangup(proto->toxAv, callId);
 		return;
 	}
 
@@ -411,7 +411,7 @@ void CToxProto::OnAvStart(void*, int32_t callId, void *arg)
 	if (hContact == NULL)
 	{
 		proto->debugLogA(__FUNCTION__": failed to find contact");
-		toxav_stop_call(proto->toxAv, callId);
+		toxav_hangup(proto->toxAv, callId);
 		return;
 	}
 
@@ -428,7 +428,7 @@ void CToxProto::OnAvStart(void*, int32_t callId, void *arg)
 	if (toxav_prepare_transmission(proto->toxAv, callId, false) == TOX_ERROR)
 	{
 		proto->debugLogA(__FUNCTION__": failed to prepare audio transmition");
-		toxav_stop_call(proto->toxAv, callId);
+		toxav_hangup(proto->toxAv, callId);
 		return;
 	}
 }
@@ -437,11 +437,12 @@ void CToxProto::OnAvEnd(void*, int32_t callId, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
+	toxav_kill_transmission(proto->toxAv, callId);
+
 	int friendNumber = toxav_get_peer_id(proto->toxAv, callId, 0);
 	if (friendNumber == TOX_ERROR)
 	{
 		proto->debugLogA(__FUNCTION__": failed to get friend number");
-		toxav_stop_call(proto->toxAv, callId);
 		return;
 	}
 
@@ -449,7 +450,6 @@ void CToxProto::OnAvEnd(void*, int32_t callId, void *arg)
 	if (hContact == NULL)
 	{
 		proto->debugLogA(__FUNCTION__": failed to find contact");
-		toxav_stop_call(proto->toxAv, callId);
 		return;
 	}
 
@@ -460,8 +460,6 @@ void CToxProto::OnAvEnd(void*, int32_t callId, void *arg)
 	db_event_add(hContact, &dbei);
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_AUDIO_END, hContact, 0);
-
-	toxav_kill_transmission(proto->toxAv, callId);
 }
 
 void CToxProto::OnAvPeerTimeout(void*, int32_t callId, void *arg)
