@@ -497,7 +497,6 @@
 [Contact avatars]
 [Sound notifications]
 [Container options]
-[Configure container options for\n%s]
 [Tabs at the top]
 [Switch bar on the left side]
 [Switch bar on the right side]
