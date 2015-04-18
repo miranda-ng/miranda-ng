@@ -37,6 +37,12 @@
 Введите пароль, чтобы продолжить.
 [Steam game]
 Игра Steam
+[Looking to play]
+Хотите играть
+[Looking to trade]
+Хотите торговать
+[ (Non-Steam)]
+ (Не Steam)
 [ on server %s]
  на сервере %s
 [Playing]
@@ -71,5 +77,7 @@
 Протоколы
 [Protocol icon]
 Значок протокола
+[Gaming icon]
+Игровой значок
 [You cannot send messages when you are offline.]
 Вы не можете посылать сообщения, когда вы оффлайн.
