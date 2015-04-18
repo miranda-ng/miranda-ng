@@ -69,7 +69,6 @@ struct CSkypeProto;
 #include "skype_options.h"
 #include "http_request.h"
 #include "requests\login.h"
-#include "requests\logout.h"
 #include "requests\profile.h"
 #include "requests\contacts.h"
 #include "requests\status.h"
