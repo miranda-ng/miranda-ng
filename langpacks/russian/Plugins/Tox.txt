@@ -77,6 +77,8 @@ IPv6 адрес (необязательно)
 Чат
 [Profiles folder]
 Папка профилей
+[Action]
+Действие
 [Protocol icon]
 Значок протокола
 [Protocols]
@@ -117,8 +119,6 @@ IPv6 адрес (необязательно)
 Учётная запись
 [Nodes]
 Ноды
-[Action]
-Действие
 [You cannot add yourself to your contact list]
 Невозможно добавить себя в список контактов
 [Contact already in your contact list]
