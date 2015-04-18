@@ -191,8 +191,7 @@ void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 	LIST<char> skypenames(1);
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 0)
-			skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
+		skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
 	}
 	SendRequest(new CreateContactsRequest(RegToken, skypenames, Server));
 	for (int i = 0; i < skypenames.getCount(); i++)
