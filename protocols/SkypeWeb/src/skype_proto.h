@@ -206,7 +206,7 @@ private:
 	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
-	void MarkMessagesRead(MEVENT hDbEvent);
+	void MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent);
 
 	void OnPrivateMessageEvent(JSONNODE *node);
 

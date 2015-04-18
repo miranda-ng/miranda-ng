@@ -260,24 +260,33 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 			else
 				OnReceiveMessage(clientMsgId, from, timestamp, message, emoteOffset);
 		}
-		else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage"))
-			return; //not supported
+		else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage")){}
 	}
+
 }
 
-int CSkypeProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
+int CSkypeProto::OnDbEventRead(WPARAM hContact, LPARAM hDbEvent)
 {
 	debugLogA(__FUNCTION__);
 	if (IsOnline())
-		MarkMessagesRead(hDbEvent);
+		MarkMessagesRead(hContact, hDbEvent);
 	return 0;
 }
 
-void CSkypeProto::MarkMessagesRead(MEVENT hDbEvent)
+void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 {
 	debugLogA(__FUNCTION__);
+	ptrA username(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID));
+
 	DBEVENTINFO dbei = { sizeof(dbei) };
+
+	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
+	mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
+	dbei.pBlob = blob;
+
 	db_event_get(hDbEvent, &dbei);
+
 	time_t timestamp = dbei.timestamp;
-	PushRequest(new MarkMessageReadRequest(RegToken, timestamp, Server));
+
+	PushRequest(new MarkMessageReadRequest(username, RegToken, time(NULL)/*it should be rewritten*/, timestamp, false, Server));
 }

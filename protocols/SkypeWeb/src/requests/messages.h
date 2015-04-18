@@ -98,13 +98,18 @@ public:
 class MarkMessageReadRequest : public HttpRequest
 {
 public:
-	MarkMessageReadRequest(const char *regToken, LONGLONG msgId = 0, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/ALL/messages/%lld/ack", server, msgId)
+	MarkMessageReadRequest(const char *username, const char *regToken, LONGLONG msgId = 0, LONGLONG msgTimestamp = 0, bool isChat = false, const char *server = SKYPE_ENDPOINTS_HOST) :
+		HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/conversations/%s:%s/properties?name=consumptionhorizon", server, !isChat?"8":"19", username)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
+
+		CMStringA data;
+		data.AppendFormat("{\"consumptionhorizon\":\"%lld;%lld000;%lld\"}", msgTimestamp, time(NULL), msgId);
+		Body << VALUE(data);
 	}
 };
+
 #endif //_SKYPE_REQUEST_MESSAGES_H_
