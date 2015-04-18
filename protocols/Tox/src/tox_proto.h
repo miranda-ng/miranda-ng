@@ -258,7 +258,8 @@ private:
 	static void OnAvEnd(void*, int32_t callId, void *arg);
 	static void OnAvReject(void*, int32_t callId, void *arg);
 	static void OnAvCancel(void*, int32_t callId, void *arg);
-	static void OnAvTimeout(void*, int32_t callId, void *arg);
+	static void OnAvCallTimeout(void*, int32_t callId, void *arg);
+	static void OnAvPeerTimeout(void*, int32_t callId, void *arg);
 
 	// utils
 	TOX_USER_STATUS MirandaToToxStatus(int status);

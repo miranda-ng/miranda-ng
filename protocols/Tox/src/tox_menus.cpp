@@ -61,18 +61,10 @@ void CToxProto::InitMenus()
 	ContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnGrantAuth>);
 
-	// Grant authorization
-	mi.pszService = MODULE"/GrantAuth";
-	mi.ptszName = LPGENT("Grant authorization");
-	mi.position = CMI_POSITION + CMI_AUTH_GRANT;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_GRANT);
-	ContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnGrantAuth>);
-
 	// Start audio call
 	mi.pszService = MODULE"/Audio/Call";
 	mi.ptszName = LPGENT("Audio call");
-	mi.position = CMI_POSITION + CMI_AUDIO_CALL;
+	mi.position = CMI_POSITION + CMI_AUDIO_CALL + 100000;
 	mi.icolibItem = GetIconHandle("audio_start");
 	ContactMenuItems[CMI_AUDIO_CALL] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnSendAudioCall>);
