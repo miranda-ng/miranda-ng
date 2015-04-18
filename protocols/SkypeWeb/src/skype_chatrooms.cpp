@@ -176,12 +176,11 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(node, "skypeeditedid")))));
 	
 	ptrA from(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
-	JSONNODE *imdisplynameJSON(json_get(node, "imdisplayname"));
-	ptrT imdisplayname(json_as_string(imdisplynameJSON));
-	ptrT composeTime(json_as_string(json_get(node, "composetime")));
-	time_t timestamp = IsoToUnixTime(composeTime);
+
+	time_t timestamp = IsoToUnixTime(ptrT(json_as_string(json_get(node, "composetime"))));
 
 	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
+	ptrT tcontent(json_as_string(json_get(node, "content")));
 	//int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
 
 	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
@@ -200,8 +199,8 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		gce.bIsMe = IsMe(ContactUrlToName(from));
 		gce.ptszUID = ptrT(mir_a2t(ContactUrlToName(from)));
 		gce.time = timestamp;
-		gce.ptszNick = imdisplynameJSON != NULL ? imdisplayname : ptrT(mir_a2t(ContactUrlToName(from)));
-		gce.ptszText = ptrT(mir_a2t(content));
+		gce.ptszNick = ptrT(mir_a2t(ContactUrlToName(from)));
+		gce.ptszText = tcontent;
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/AddMember"))
@@ -292,5 +291,24 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL || response->pData == NULL)
 		return;
+
 	JSONROOT root(response->pData);
+	JSONNODE *members = json_get(root, "members");
+	ptrA chatId(ChatUrlToName(ptrA(mir_t2a(ptrT(json_as_string(json_get(root, "messages")))))));
+
+	for (size_t i = 0; i < json_size(members); i++)
+	{
+		JSONNODE *member = json_at(members, i);
+
+		ptrA username(ContactUrlToName(ptrA(mir_t2a(ptrT(json_as_string(json_get(member, "userLink")))))));
+		ptrT role(json_as_string(json_get(member, "role")));
+
+		GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatId)), GC_EVENT_JOIN };
+		GCEVENT gce = { sizeof(GCEVENT), &gcd };
+		gce.bIsMe = false;
+		gce.ptszUID = ptrT(mir_a2t(username));
+		gce.ptszNick = ptrT(mir_a2t(username));
+		gce.ptszStatus = TranslateTS(role);
+		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	}
 }
