@@ -210,11 +210,9 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 
 		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("addmember"));
 		if (xml != NULL) {
-			HXML node = xi.getChildByPath(xml, _T("initiator"), 0);
-			xinitiator = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 
-			node = xi.getChildByPath(xml, _T("target"), 0);
-			xtarget = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+			HXML xmlNode = xi.getChildByPath(xml, _T("target"), 0);
+			xtarget = node != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
 
 			xi.destroyNode(xml);
 		}
@@ -237,11 +235,11 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 
 		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("deletemember"));
 		if (xml != NULL) {
-			HXML node = xi.getChildByPath(xml, _T("initiator"), 0);
-			xinitiator = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+			HXML xmlNode = xi.getChildByPath(xml, _T("initiator"), 0);
+			xinitiator = node != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
 
-			node = xi.getChildByPath(xml, _T("target"), 0);
-			xtarget = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+			xmlNode = xi.getChildByPath(xml, _T("target"), 0);
+			xtarget = node != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
 
 			xi.destroyNode(xml);
 		}
@@ -251,11 +249,8 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		target = ParseUrl(xtarget, "8:");
 
 		bool isKick = false;
-		if (xinitiator != NULL)
-		{
-			initiator = ParseUrl(xinitiator, "8:");
-			isKick = true;
-		}
+		initiator = ParseUrl(xinitiator, "8:");
+		isKick = true;
 
 		if (isKick)
 		{
