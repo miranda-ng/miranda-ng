@@ -73,10 +73,20 @@ IPv6 адреса (необов'язково)
 &Запросити
 [&Cancel]
 &Скасувати
+[Audio call]
+Аудіовиклик
 [Groupchat]
 Чат
 [Profiles folder]
 Папка профілів
+[Action]
+Дія
+[Audio ring]
+Дзвінок
+[Audio start]
+Відповісти
+[Audio end]
+Завершити
 [Protocol icon]
 Значок протоколу
 [Protocols]
@@ -85,6 +95,16 @@ IPv6 адреса (необов'язково)
 Запитати авторизацію
 [Grant authorization]
 Авторизувати
+[Video call is unsupported]
+Відеовиклики не підтримуються
+[Incoming audio call]
+Вхідний аудіовиклик
+[from]
+від
+[Audio call end]
+Аудіовиклик завершено
+[Audio call start]
+Аудіовиклик почато
 [%s connection]
 З'єднання %s
 [Tox profile]
@@ -117,8 +137,6 @@ IPv6 адреса (необов'язково)
 Обліковий запис
 [Nodes]
 Ноди
-[Action]
-Дія
 [You cannot add yourself to your contact list]
 Ви не можете додати себе до списку контактів
 [Contact already in your contact list]

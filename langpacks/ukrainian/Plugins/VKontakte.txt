@@ -219,6 +219,12 @@
 Введіть код підтвердження
 [Message read: %s]
 Повідомлення прочитане о %s
+[has invited you to a group]
+запрошує вас в групу
+[has invited you to subscribe to a page]
+запрошує вас підписатися на сторінку
+[invites you to event]
+запрошує вас на подію
 [commented on your post]
 прокоментував ваш запис
 [commented on your photo]
