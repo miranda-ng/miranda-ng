@@ -184,9 +184,12 @@ void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	ptrA skypename(getStringA(SKYPE_SETTINGS_ID));
-	PushRequest(new SendCapabilitiesRequest(RegToken, EndpointId, Server));
-	PushRequest(new SetStatusRequest(RegToken, MirandaToSkypeStatus(m_iDesiredStatus), Server), &CSkypeProto::OnStatusChanged);
+	PushRequest(new SendCapabilitiesRequest(RegToken, EndpointId, Server), &CSkypeProto::OnCapabilitiesSended);
+}
+
+void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
+{
+	SendRequest(new SetStatusRequest(RegToken, MirandaToSkypeStatus(m_iDesiredStatus), Server), &CSkypeProto::OnStatusChanged);
 
 	LIST<char> skypenames(1);
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
@@ -202,6 +205,15 @@ void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 
 	if (getByte("AutoSync", 1))
 		SyncHistory();
+
+	if (response == NULL || response->pData == NULL)
+		return;
+	JSONROOT root(response->pData);
+	if (root == NULL)
+		return;
+
+	ptrA SelfEndpointName(SelfUrlToName(mir_t2a(ptrT(json_as_string(json_get(root, "SelfLink"))))));
+	setString("SelfEndpointName", SelfEndpointName);
 }
 
 void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)
