@@ -134,16 +134,14 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessa
 	else
 		message = mir_utf8encode(szMessage);
 
-	ptrA server(getStringA("Server"));
-	ptrA token(getStringA("registrationToken"));
 	ptrA username(getStringA(hContact, "Skypename"));
 
 	debugLogA(__FUNCTION__ " clientmsgid = %d", param->hMessage);
 
 	if (strncmp(message, "/me ", 4) == 0)
-		PushRequest(new SendActionRequest(token, username, param->hMessage, &message[4], server), &CSkypeProto::OnMessageSent, param);
+		SendRequest(new SendActionRequest(RegToken, username, param->hMessage, &message[4], Server), &CSkypeProto::OnMessageSent, param);
 	else
-		PushRequest(new SendMessageRequest(token, username, param->hMessage, message, server), &CSkypeProto::OnMessageSent, param);
+		SendRequest(new SendMessageRequest(RegToken, username, param->hMessage, message, Server), &CSkypeProto::OnMessageSent, param);
 
 	return param->hMessage;
 }
@@ -281,5 +279,5 @@ void CSkypeProto::MarkMessagesRead(MEVENT hDbEvent)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get(hDbEvent, &dbei);
 	time_t timestamp = dbei.timestamp;
-	PushRequest(new MarkMessageReadRequest(ptrA(getStringA("registrationToken")), timestamp, ptrA(getStringA("Server"))));
+	PushRequest(new MarkMessageReadRequest(RegToken, timestamp, Server));
 }

@@ -107,10 +107,11 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnLoginSuccess()
 {
-	PushRequest(new CreateEndpointRequest(ptrA(getStringA("TokenSecret"))), &CSkypeProto::OnEndpointCreated);
-	PushRequest(new GetProfileRequest(ptrA(getStringA("TokenSecret"))), &CSkypeProto::LoadProfile);
-	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
-	PushRequest(new GetContactListRequest(ptrA(getStringA("TokenSecret"))), &CSkypeProto::LoadContactList);
+	TokenSecret = getStringA("TokenSecret");
+	SendRequest(new CreateEndpointRequest(TokenSecret), &CSkypeProto::OnEndpointCreated);
+	PushRequest(new GetProfileRequest(TokenSecret), &CSkypeProto::LoadProfile);
+	PushRequest(new GetAvatarRequest(TokenSecret), &CSkypeProto::OnReceiveAvatar, NULL);
+	PushRequest(new GetContactListRequest(TokenSecret), &CSkypeProto::LoadContactList);
 }
 
 void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
@@ -145,7 +146,8 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		else if (!mir_strcmpi(response->headers[i].szName, "Location"))
 		{
 			CMStringA szValue = response->headers[i].szValue, szCookieName, szCookieVal;
-			setString("Server", ptrA(GetServerFromUrl(szValue)));
+			Server = GetServerFromUrl(szValue);
+			setString("Server", Server);
 		}
 
 	}
@@ -158,16 +160,15 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	ptrA server(getStringA("Server"));
 	if (response->resultCode != 201)
 	{
-		ptrA token(getStringA("TokenSecret"));
-		PushRequest(new CreateEndpointRequest(token, server), &CSkypeProto::OnEndpointCreated);
+		PushRequest(new CreateEndpointRequest(TokenSecret, Server), &CSkypeProto::OnEndpointCreated);
 		return;
 	}
 
-	ptrA regToken(getStringA("registrationToken"));
-	PushRequest(new CreateSubscriptionsRequest(regToken, server), &CSkypeProto::OnSubscriptionsCreated);
+	RegToken = getStringA("registrationToken");
+	EndpointId = getStringA("endpointId");
+	SendRequest(new CreateSubscriptionsRequest(RegToken, Server), &CSkypeProto::OnSubscriptionsCreated);
 }
 
 void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
@@ -182,17 +183,14 @@ void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	ptrA regToken(getStringA("registrationToken"));
 	ptrA skypename(getStringA(SKYPE_SETTINGS_ID));
-	ptrA endpoint(getStringA("endpointId"));
-	ptrA server(getStringA("Server"));
-	PushRequest(new SendCapabilitiesRequest(regToken, endpoint, server));
-	PushRequest(new SetStatusRequest(regToken, MirandaToSkypeStatus(m_iDesiredStatus), server), &CSkypeProto::OnStatusChanged);
+	PushRequest(new SendCapabilitiesRequest(RegToken, EndpointId, Server));
+	SendRequest(new SetStatusRequest(RegToken, MirandaToSkypeStatus(m_iDesiredStatus), Server), &CSkypeProto::OnStatusChanged);
 
 	LIST<char> skypenames(1);
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 		skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new CreateContactsRequest(regToken, skypenames, server));
+	PushRequest(new CreateContactsRequest(RegToken, skypenames, Server));
 	for (int i = 0; i < skypenames.getCount(); i++)
 		mir_free(skypenames[i]);
 	skypenames.destroy();

@@ -83,7 +83,6 @@ private:
 	RequestQueue *requestQueue;
 	bool isTerminated;
 	std::map<std::string, std::string> cookies;
-	std::map<std::string, std::string> RegInfo;
 	HANDLE m_pollingConnection, m_hPollingThread;
 	static std::map<std::tstring, std::tstring> languages;
 
@@ -91,6 +90,9 @@ private:
 
 	// accounts
 	static LIST<CSkypeProto> Accounts;
+
+	char *Server, *RegToken, *TokenSecret, *EndpointId;
+
 	static int CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2);
 
 	static CSkypeProto* GetContactAccount(MCONTACT hContact);

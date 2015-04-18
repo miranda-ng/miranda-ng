@@ -86,13 +86,13 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM)
 {
-	PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)), 0, ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
+	PushRequest(new GetHistoryRequest(RegToken, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)), 0, Server), &CSkypeProto::OnGetServerHistory);
 	return 0;
 }
 
 void CSkypeProto::SyncHistory()
 {
-	PushRequest(new SyncHistoryFirstRequest(ptrA(getStringA("registrationToken")), ptrA(getStringA("Server"))), &CSkypeProto::OnSyncHistory);
+	PushRequest(new SyncHistoryFirstRequest(RegToken, Server), &CSkypeProto::OnSyncHistory);
 }
 
 void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
@@ -123,6 +123,6 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		if (hContact == NULL && !IsMe(skypename))
 			hContact = AddContact(skypename, true);
 		if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
-			PushRequest(new GetHistoryRequest(ptrA(getStringA("registrationToken")), skypename, 0, ptrA(getStringA("Server"))), &CSkypeProto::OnGetServerHistory);
+			PushRequest(new GetHistoryRequest(RegToken, skypename, 0, Server), &CSkypeProto::OnGetServerHistory);
 	}
 }
