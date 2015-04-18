@@ -138,7 +138,7 @@ void CSkypeProto::StartChatRoom(MCONTACT hChatRoom, bool showWindow)
 		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gceg);
 	}
 
-	PushRequest(new GetChatInfoRequest(RegToken, ptrA(mir_t2a(tszChatID)), Server), &CSkypeProto::OnGetChatInfo); 
+	SendRequest(new GetChatInfoRequest(RegToken, ptrA(mir_t2a(tszChatID)), Server), &CSkypeProto::OnGetChatInfo); 
 
 }
 

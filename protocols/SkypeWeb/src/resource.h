@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by e:\Projects\C++\MirandaNG\protocols\SkypeWeb\res\resource.rc
+// Used by D:\Others\SVN\MirandaNG\trunk\protocols\SkypeWeb\res\resource.rc
 //
 #define IDI_SKYPE                       100
 #define IDC_SKYPENAME                   101
@@ -10,6 +10,8 @@
 #define IDC_GROUP                       106
 #define IDD_PASSWORD_EDITOR             107
 #define IDC_SAVEPERMANENTLY             108
+#define IDD_GC_CREATE                   111
+#define IDD_GC_INVITE                   112
 #define IDC_AUTOSYNC                    1028
 #define IDC_LOCALTIME                   1029
 #define IDC_RADIO1                      1030
@@ -17,14 +19,18 @@
 #define IDC_RADIO3                      1032
 #define IDC_RADIO4                      1033
 #define IDC_STATIC_MARC_AS_READ         1034
+#define IDC_CLIST                       1035
+#define IDC_EDIT1                       1036
+#define IDC_COMBO1                      1037
+#define IDC_CONTACT                     1037
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        109
+#define _APS_NEXT_RESOURCE_VALUE        113
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1035
+#define _APS_NEXT_CONTROL_VALUE         1038
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

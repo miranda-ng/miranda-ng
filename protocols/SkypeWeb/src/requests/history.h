@@ -39,8 +39,8 @@ public:
 class GetHistoryRequest : public HttpRequest
 {
 public:
-	GetHistoryRequest(const char *regToken, const char *username, LONGLONG timestamp = 0, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, ptrA(mir_urlEncode(username)))
+	GetHistoryRequest(const char *regToken, const char *username, LONGLONG timestamp = 0, const char *server = SKYPE_ENDPOINTS_HOST, bool isChat = false) :
+		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/%s:%s/messages", server, isChat ? "19" : "8", ptrA(mir_urlEncode(username)))
 	{
 		Url 
 			<< INT_VALUE("startTime", timestamp)

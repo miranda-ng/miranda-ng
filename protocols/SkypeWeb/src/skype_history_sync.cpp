@@ -81,6 +81,19 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 			else
 				AddMessageToDb(hContact, timestamp, flags, clientMsgId, message, emoteOffset);
 		}
+		else if (conversationLink != NULL && strstr(conversationLink, "/19:"))
+		{
+			ptrA chatname(ContactUrlToName(conversationLink));
+			GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_MESSAGE };
+			GCEVENT gce = { sizeof(GCEVENT), &gcd };
+			gce.bIsMe = IsMe(ContactUrlToName(from));
+			gce.ptszUID = ptrT(mir_a2t(ContactUrlToName(from)));
+			gce.time = timestamp;
+			gce.ptszNick = ptrT(mir_a2t(ContactUrlToName(from)));
+			gce.ptszText = ptrT(mir_a2t(ptrA(RemoveHtml(content))));
+			gce.dwFlags = GCEF_NOTNOTIFY;
+			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+		}
 	}
 }
 
@@ -115,14 +128,19 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		bool isEdited = (skypeEditedId != NULL);
 		char *conversationLink = mir_t2a(json_as_string(json_get(lastMessage, "conversationLink")));
 		time_t composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "conversationLink")))));
-
+		bool isChat = false;
 		ptrA skypename(ContactUrlToName(conversationLink));
 		if (skypename == NULL)
-			continue;
-		MCONTACT hContact = FindContact(skypename);
-		if (hContact == NULL && !IsMe(skypename))
-			hContact = AddContact(skypename, true);
+		{
+			skypename = ChatUrlToName(conversationLink);
+			if (skypename == NULL)
+				continue;
+			else 
+				isChat = true;
+		}
+		MCONTACT hContact = !isChat ? AddContact(skypename) : AddChatRoom(skypename);
+		if (isChat) StartChatRoom(hContact);
 		if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
-			PushRequest(new GetHistoryRequest(RegToken, skypename, 0, Server), &CSkypeProto::OnGetServerHistory);
+			SendRequest(new GetHistoryRequest(RegToken, skypename, 0, Server, isChat), &CSkypeProto::OnGetServerHistory);
 	}
 }
