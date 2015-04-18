@@ -32,6 +32,7 @@ private:
 	typedef CSteamDlgBase CSuper;
 
 	char m_domain[32];
+	char m_guardCode[5];
 
 	CCtrlEdit m_text;
 	CCtrlButton m_ok;
@@ -45,7 +46,7 @@ protected:
 public:
 	CSteamGuardDialog(CSteamProto *proto, char *domain);
 
-	char *GetGuardCode();
+	const char *GetGuardCode();
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -54,6 +55,8 @@ class CSteamCaptchaDialog : public CSteamDlgBase
 {
 private:
 	typedef CSteamDlgBase CSuper;
+
+	char m_captchaText[6];
 
 	BYTE *m_captchaImage;
 	int m_captchaImageSize;
@@ -72,7 +75,7 @@ public:
 	CSteamCaptchaDialog(CSteamProto *proto, BYTE *captchaImage, int captchaImageSize);
 	~CSteamCaptchaDialog();
 
-	char *GetCaptchaText();
+	const char *GetCaptchaText();
 };
 
 /////////////////////////////////////////////////////////////////////////////////

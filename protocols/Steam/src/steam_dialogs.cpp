@@ -59,6 +59,7 @@ void CSteamGuardDialog::OnInitDialog()
 
 void CSteamGuardDialog::OnOk(CCtrlButton*)
 {
+	mir_strncpy(m_guardCode, ptrA(m_text.GetTextA()), SIZEOF(m_guardCode) + 1);
 	EndDialog(m_hwnd, 1);
 }
 
@@ -67,16 +68,17 @@ void CSteamGuardDialog::OnClose()
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "GuardWindow");
 }
 
-char * CSteamGuardDialog::GetGuardCode()
+const char* CSteamGuardDialog::GetGuardCode()
 {
-	return m_text.GetTextA();
+	return m_guardCode;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
 
 CSteamCaptchaDialog::CSteamCaptchaDialog(CSteamProto *proto, BYTE *captchaImage, int captchaImageSize) :
-	CSuper(proto, IDD_GUARD, false),
-	m_ok(this, IDOK), m_text(this, IDC_TEXT)
+	CSuper(proto, IDD_CAPTCHA, false),
+	m_ok(this, IDOK), m_text(this, IDC_TEXT),
+	m_captchaImage(NULL)
 {
 	m_captchaImageSize = captchaImageSize;
 	m_captchaImage = (BYTE*)mir_alloc(captchaImageSize);
@@ -86,7 +88,8 @@ CSteamCaptchaDialog::CSteamCaptchaDialog(CSteamProto *proto, BYTE *captchaImage,
 
 CSteamCaptchaDialog::~CSteamCaptchaDialog()
 {
-	mir_free(m_captchaImage);
+	if(m_captchaImage)
+		mir_free(m_captchaImage);
 }
 
 void CSteamCaptchaDialog::OnInitDialog()
@@ -96,13 +99,14 @@ void CSteamCaptchaDialog::OnInitDialog()
 	SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(iconName, 16));
 	SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(iconName, 32));
 
-	SendMessage(m_text.GetHwnd(), EM_LIMITTEXT, 5, 0);
+	SendMessage(m_text.GetHwnd(), EM_LIMITTEXT, 6, 0);
 
 	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "CaptchaWindow");
 }
 
 void CSteamCaptchaDialog::OnOk(CCtrlButton*)
 {
+	mir_strncpy(m_captchaText, ptrA(m_text.GetTextA()), SIZEOF(m_captchaText) + 1);
 	EndDialog(m_hwnd, 1);
 }
 
@@ -158,9 +162,9 @@ INT_PTR CSteamCaptchaDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-char * CSteamCaptchaDialog::GetCaptchaText()
+const char* CSteamCaptchaDialog::GetCaptchaText()
 {
-	return m_text.GetTextA();
+	return m_captchaText;
 }
 
 /////////////////////////////////////////////////////////////////////////////////

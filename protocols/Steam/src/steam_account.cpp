@@ -115,7 +115,7 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 			ptrA timestamp(getStringA("RsaTimestamp"));
 
 			PushRequest(
-				new SteamWebApi::AuthorizationRequest(username, password, timestamp, ptrA(guardDialog.GetGuardCode())),
+				new SteamWebApi::AuthorizationRequest(username, password, timestamp, guardDialog.GetGuardCode()),
 				&CSteamProto::OnAuthorization);
 			return;
 		}
@@ -138,14 +138,12 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 				return;
 			}
 
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
-
 			ptrA username(mir_utf8encodeW(getWStringA("Username")));
 			ptrA password(getStringA("EncryptedPassword"));
 			ptrA timestamp(getStringA("RsaTimestamp"));
 
 			PushRequest(
-				new SteamWebApi::AuthorizationRequest(username, password, timestamp, captchaId, ptrA(captchaDialog.GetCaptchaText())),
+				new SteamWebApi::AuthorizationRequest(username, password, timestamp, captchaId, captchaDialog.GetCaptchaText()),
 				&CSteamProto::OnAuthorization);
 			return;
 		}
