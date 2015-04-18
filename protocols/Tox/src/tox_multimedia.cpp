@@ -52,6 +52,7 @@ void CToxAudioCall::OnStartCall()
 ToxAvCSettings* CToxProto::GetAudioCSettings()
 {
 	ToxAvCSettings *cSettings = (ToxAvCSettings*)mir_calloc(sizeof(ToxAvCSettings));
+	cSettings->audio_frame_duration = 20;
 
 	DWORD deviceId = getDword("AudioInputDeviceID", WAVE_MAPPER);
 
@@ -75,42 +76,42 @@ ToxAvCSettings* CToxProto::GetAudioCSettings()
 	if ((wic.dwFormats & WAVE_FORMAT_96S16) || (wic.dwFormats & WAVE_FORMAT_96M16))
 	{
 		cSettings->audio_bitrate = 16 * 1000;
-		cSettings->audio_sample_rate = 96000;
+		cSettings->audio_sample_rate = 48000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_96S08) || (wic.dwFormats & WAVE_FORMAT_96M08))
 	{
 		cSettings->audio_bitrate = 8 * 1000;
-		cSettings->audio_sample_rate = 96000;
+		cSettings->audio_sample_rate = 48000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_4S16) || (wic.dwFormats & WAVE_FORMAT_4M16))
 	{
 		cSettings->audio_bitrate = 16 * 1000;
-		cSettings->audio_sample_rate = 44100;
+		cSettings->audio_sample_rate = 24000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_4S08) || (wic.dwFormats & WAVE_FORMAT_4S08))
 	{
 		cSettings->audio_bitrate = 8 * 1000;
-		cSettings->audio_sample_rate = 44100;
+		cSettings->audio_sample_rate = 24000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_2M16) || (wic.dwFormats & WAVE_FORMAT_2S16))
 	{
 		cSettings->audio_bitrate = 16 * 1000;
-		cSettings->audio_sample_rate = 22050;
+		cSettings->audio_sample_rate = 16000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_2M08) || (wic.dwFormats & WAVE_FORMAT_2S08))
 	{
 		cSettings->audio_bitrate = 8 * 1000;
-		cSettings->audio_sample_rate = 22050;
+		cSettings->audio_sample_rate = 16000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_1M16) || (wic.dwFormats & WAVE_FORMAT_1S16))
 	{
 		cSettings->audio_bitrate = 16 * 1000;
-		cSettings->audio_sample_rate = 11025;
+		cSettings->audio_sample_rate = 8000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_1M08) || (wic.dwFormats & WAVE_FORMAT_1S08))
 	{
 		cSettings->audio_bitrate = 8 * 1000;
-		cSettings->audio_sample_rate = 11025;
+		cSettings->audio_sample_rate = 8000;
 	}
 	else
 	{
@@ -179,15 +180,15 @@ void CToxProto::OnAvInvite(void*, int32_t callId, void *arg)
 		return;
 	}
 
-	ToxAvCSettings dest;
-	if (toxav_get_peer_csettings(proto->toxAv, callId, 0, &dest) != av_ErrorNone)
+	ToxAvCSettings cSettings;
+	if (toxav_get_peer_csettings(proto->toxAv, callId, 0, &cSettings) != av_ErrorNone)
 	{
 		proto->debugLogA(__FUNCTION__": failed to get codec settings");
 		toxav_reject(proto->toxAv, callId, NULL);
 		return;
 	}
 
-	if (dest.call_type != av_TypeAudio)
+	if (cSettings.call_type != av_TypeAudio)
 	{
 		proto->debugLogA(__FUNCTION__": video call is unsupported");
 		toxav_reject(proto->toxAv, callId, Translate("Video call is unsupported"));
@@ -209,10 +210,15 @@ INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
 
 	calls[hContact] = pre->lParam;
 
+	char *message = mir_utf8encodeT(TranslateT("Incoming call"));
+
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = pre->timestamp;
 	dbei.eventType = DB_EVENT_AUDIO_RING;
+	dbei.flags = DBEF_UTF;
+	dbei.pBlob = (PBYTE)message;
+	dbei.cbSize = mir_strlen(message);
 	MEVENT hEvent = db_event_add(hContact, &dbei);
 
 	CLISTEVENT cle = { sizeof(cle) };
@@ -269,10 +275,15 @@ void CToxProto::OnAvCancel(void*, int32_t callId, void *arg)
 	if (cle)
 		CallService(MS_CLIST_REMOVEEVENT, hContact, cle->hDbEvent);
 
+	char *message = mir_utf8encodeT(TranslateT("Call ended"));
+
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = proto->m_szModuleName;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = DB_EVENT_AUDIO_END;
+	dbei.flags = DBEF_UTF;
+	dbei.pBlob = (PBYTE)message;
+	dbei.cbSize = mir_strlen(message);
 	db_event_add(hContact, &dbei);
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_AUDIO_END, hContact, 0);
@@ -316,6 +327,17 @@ void CToxOutgoingAudioCall::OnOk(CCtrlBase*)
 	}
 	m_proto->calls[hContact] = callId;
 	SetIcon("audio_call");
+
+	char *message = mir_utf8encodeT(TranslateT("Outgoing call"));
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.szModule = m_proto->m_szModuleName;
+	dbei.timestamp = time(NULL);
+	dbei.eventType = DB_EVENT_AUDIO_CALL;
+	dbei.flags = DBEF_UTF;
+	dbei.pBlob = (PBYTE)message;
+	dbei.cbSize = mir_strlen(message);
+	db_event_add(hContact, &dbei);
 }
 
 void CToxOutgoingAudioCall::OnCancel(CCtrlBase*)
@@ -355,10 +377,15 @@ void CToxProto::OnAvReject(void*, int32_t callId, void *arg)
 		return;
 	}
 
+	char *message = mir_utf8encodeT(TranslateT("Call ended"));
+
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = proto->m_szModuleName;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = DB_EVENT_AUDIO_END;
+	dbei.flags = DBEF_UTF;
+	dbei.pBlob = (PBYTE)message;
+	dbei.cbSize = mir_strlen(message);
 	db_event_add(hContact, &dbei);
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_AUDIO_END, hContact, 0);
@@ -384,10 +411,15 @@ void CToxProto::OnAvCallTimeout(void*, int32_t callId, void *arg)
 		return;
 	}
 
+	char *message = mir_utf8encodeT(TranslateT("Call ended"));
+
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = proto->m_szModuleName;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = DB_EVENT_AUDIO_END;
+	dbei.flags = DBEF_UTF;
+	dbei.pBlob = (PBYTE)message;
+	dbei.cbSize = mir_strlen(message);
 	db_event_add(hContact, &dbei);
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_AUDIO_END, hContact, 0);
@@ -419,10 +451,15 @@ void CToxProto::OnAvStart(void*, int32_t callId, void *arg)
 	CToxAudioCall *audioCall = (CToxAudioCall*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	audioCall->OnStartCall();
 
+	char *message = mir_utf8encodeT(TranslateT("Call started"));
+
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = proto->m_szModuleName;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = DB_EVENT_AUDIO_START;
+	dbei.flags = DBEF_UTF;
+	dbei.pBlob = (PBYTE)message;
+	dbei.cbSize = mir_strlen(message);
 	db_event_add(hContact, &dbei);
 
 	if (toxav_prepare_transmission(proto->toxAv, callId, false) == TOX_ERROR)
@@ -452,11 +489,16 @@ void CToxProto::OnAvEnd(void*, int32_t callId, void *arg)
 		proto->debugLogA(__FUNCTION__": failed to find contact");
 		return;
 	}
+	
+	char *message = mir_utf8encodeT(TranslateT("Call ended"));
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = proto->m_szModuleName;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = DB_EVENT_AUDIO_END;
+	dbei.flags = DBEF_UTF;
+	dbei.pBlob = (PBYTE)message;
+	dbei.cbSize = mir_strlen(message);
 	db_event_add(hContact, &dbei);
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_AUDIO_END, hContact, 0);
@@ -486,10 +528,15 @@ void CToxProto::OnAvPeerTimeout(void*, int32_t callId, void *arg)
 	if (cle)
 		CallService(MS_CLIST_REMOVEEVENT, hContact, cle->hDbEvent);
 
+	char *message = mir_utf8encodeT(TranslateT("Call ended"));
+
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = proto->m_szModuleName;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = DB_EVENT_AUDIO_END;
+	dbei.flags = DBEF_UTF;
+	dbei.pBlob = (PBYTE)message;
+	dbei.cbSize = mir_strlen(message);
 	db_event_add(hContact, &dbei);
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_AUDIO_END, hContact, 0);
@@ -544,21 +591,21 @@ void CToxProto::OnFriendAudio(void*, int32_t callId, const int16_t *PCM, uint16_
 
 	WAVEHDR header = { 0 };
 	header.lpData = (LPSTR)PCM;
-	header.dwBufferLength = size * 2;
+	header.dwBufferLength = size * wfx.nChannels * sizeof(int16_t);
 
 	waveOutSetVolume(hDevice, 0xFFFF);
 
 	error = waveOutPrepareHeader(hDevice, &header, sizeof(WAVEHDR));
 	if (error != MMSYSERR_NOERROR)
 	{
-		proto->debugLogA(__FUNCTION__": failed to prepare audio device header (%d)", error);
+		proto->debugLogA(__FUNCTION__": failed to prepare audio buffer (%d)", error);
 		return;
 	}
 
 	error = waveOutWrite(hDevice, &header, sizeof(WAVEHDR));
 	if (error != MMSYSERR_NOERROR)
 	{
-		proto->debugLogA(__FUNCTION__": failed to write to audio device (%d)", error);
+		proto->debugLogA(__FUNCTION__": failed to play audio samples (%d)", error);
 		return;
 	}
 
