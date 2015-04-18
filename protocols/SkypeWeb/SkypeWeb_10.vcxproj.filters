@@ -45,9 +45,6 @@
     <ClInclude Include="src\requests\login.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
-    <ClInclude Include="src\requests\logout.h">
-      <Filter>Header Files\requests</Filter>
-    </ClInclude>
     <ClInclude Include="src\requests\contacts.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>

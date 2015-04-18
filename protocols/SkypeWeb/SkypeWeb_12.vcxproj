@@ -209,7 +209,6 @@
     <ClInclude Include="src\requests\contacts.h" />
     <ClInclude Include="src\requests\history.h" />
     <ClInclude Include="src\requests\login.h" />
-    <ClInclude Include="src\requests\logout.h" />
     <ClInclude Include="src\requests\messages.h" />
     <ClInclude Include="src\requests\profile.h" />
     <ClInclude Include="src\requests\endpoint.h" />
