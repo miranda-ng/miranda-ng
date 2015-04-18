@@ -140,6 +140,7 @@ private:
 	void OnLoginSuccess();
 	void OnEndpointCreated(const NETLIBHTTPREQUEST *response);
 	void OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response);
+	void OnCapabilitiesSended(const NETLIBHTTPREQUEST *response);
 	void OnStatusChanged(const NETLIBHTTPREQUEST *response);
 
 	// profile
