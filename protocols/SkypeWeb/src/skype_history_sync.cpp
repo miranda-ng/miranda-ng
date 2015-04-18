@@ -93,7 +93,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		{
 			if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 			{
-				ptrA chatname(ContactUrlToName(conversationLink));
+				ptrA chatname(ChatUrlToName(conversationLink));
 				GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_MESSAGE };
 				GCEVENT gce = { sizeof(GCEVENT), &gcd };
 				gce.bIsMe = IsMe(ContactUrlToName(from));
@@ -140,7 +140,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 	{
 		JSONNODE *conversation = json_at(conversations, i);
 		JSONNODE *lastMessage = json_get(conversation, "lastMessage");
-		if (lastMessage == NULL)
+		if (json_empty(lastMessage))
 			continue;
 
 		char *clientMsgId = mir_t2a(json_as_string(json_get(lastMessage, "clientmessageid")));

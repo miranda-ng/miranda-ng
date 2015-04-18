@@ -108,6 +108,7 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 void CSkypeProto::OnLoginSuccess()
 {
 	TokenSecret = getStringA("TokenSecret");
+	Server = getStringA("registrationToken");
 	SendRequest(new CreateEndpointRequest(TokenSecret), &CSkypeProto::OnEndpointCreated);
 	PushRequest(new GetProfileRequest(TokenSecret), &CSkypeProto::LoadProfile);
 	PushRequest(new GetAvatarRequest(TokenSecret), &CSkypeProto::OnReceiveAvatar, NULL);
@@ -162,7 +163,7 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 
 	if (response->resultCode != 201)
 	{
-		PushRequest(new CreateEndpointRequest(TokenSecret, Server), &CSkypeProto::OnEndpointCreated);
+		SendRequest(new CreateEndpointRequest(TokenSecret, Server), &CSkypeProto::OnEndpointCreated);
 		return;
 	}
 
@@ -184,13 +185,16 @@ void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 	}
 
 	ptrA skypename(getStringA(SKYPE_SETTINGS_ID));
-	PushRequest(new SendCapabilitiesRequest(RegToken, EndpointId, Server));
+	SendRequest(new SendCapabilitiesRequest(RegToken, EndpointId, Server));
 	SendRequest(new SetStatusRequest(RegToken, MirandaToSkypeStatus(m_iDesiredStatus), Server), &CSkypeProto::OnStatusChanged);
 
 	LIST<char> skypenames(1);
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
-		skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new CreateContactsRequest(RegToken, skypenames, Server));
+	{
+		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 0)
+			skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
+	}
+	SendRequest(new CreateContactsRequest(RegToken, skypenames, Server));
 	for (int i = 0; i < skypenames.getCount(); i++)
 		mir_free(skypenames[i]);
 	skypenames.destroy();
