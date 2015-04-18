@@ -60,14 +60,11 @@ void CSkypeProto::PollingThread(void*)
 {
 	debugLogA(__FUNCTION__": entering");
 
-	ptrA regToken(getStringA("registrationToken"));
-	ptrA server(getStringA("Server"));
-
 	int errors = 0;
 	isTerminated = false;
 	while (!isTerminated && errors < POLLING_ERRORS_LIMIT)
 	{
-		PollRequest *request = new PollRequest(regToken, server);
+		PollRequest *request = new PollRequest(RegToken, Server);
 		request->nlc = m_pollingConnection;
 		NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 

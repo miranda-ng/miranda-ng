@@ -210,10 +210,8 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		else
 		{
 			// set status
-			ptrA regToken(getStringA("registrationToken"));
-			ptrA endpoint(getStringA("endpointId"));
-			PushRequest(new SetStatusRequest(regToken, MirandaToSkypeStatus(m_iDesiredStatus)), &CSkypeProto::OnStatusChanged);
-			PushRequest(new SendCapabilitiesRequest(regToken, endpoint));	
+			SendRequest(new SetStatusRequest(RegToken, MirandaToSkypeStatus(m_iDesiredStatus)), &CSkypeProto::OnStatusChanged);
+			PushRequest(new SendCapabilitiesRequest(RegToken, EndpointId));	
 		}
 	}
 
@@ -223,16 +221,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	PushRequest
-		(
-			new SendTypingRequest
-			(
-				ptrA(getStringA("registrationToken")), 
-				ptrA(getStringA(hContact, SKYPE_SETTINGS_ID)), 
-				type, 
-				ptrA(getStringA("Server"))
-			)
-		);
+	SendRequest(new SendTypingRequest(RegToken, ptrA(getStringA(hContact, SKYPE_SETTINGS_ID)), type, Server));
 	return 0;
 }
 
