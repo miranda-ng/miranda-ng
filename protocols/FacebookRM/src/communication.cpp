@@ -1477,7 +1477,7 @@ bool facebook_client::save_url(const std::string &url, const std::tstring &filen
 	req.nlc = nlc;
 
 	resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService(MS_NETLIB_HTTPTRANSACTION,
-		reinterpret_cast<WPARAM>(this->parent->m_hNetlibUser), reinterpret_cast<LPARAM>(&req)));
+		reinterpret_cast<WPARAM>(handle_), reinterpret_cast<LPARAM>(&req)));
 
 	bool ret = false;
 

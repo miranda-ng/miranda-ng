@@ -113,7 +113,7 @@ bool FacebookProto::RunCaptchaForm(std::string captchaUrl, std::string &result)
 	req.szUrl = (char*)captchaUrl.c_str();
 	req.flags = NLHRF_NODUMPHEADERS;
 
-	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)facy.handle_, (LPARAM)&req);
 	if (reply == NULL)
 		return false;
 
