@@ -33,4 +33,18 @@ public:
 	}
 };
 
+class DeleteEndpointRequest : public HttpRequest
+{
+public:
+	DeleteEndpointRequest(const char *regToken, const char *EndpointId, const char *server = SKYPE_ENDPOINTS_HOST) :
+		HttpRequest(REQUEST_DELETE, FORMAT, "%s/v1/users/ME/endpoints/%s", server, ptrA(mir_urlEncode(EndpointId)))
+	{
+		Headers
+			<< CHAR_VALUE("Accept", "application/json, text/javascript")
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
+
+	}
+};
+
+
 #endif //_SKYPE_REQUEST_ENDPOINT_H_
