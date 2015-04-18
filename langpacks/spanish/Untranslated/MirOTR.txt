@@ -64,6 +64,7 @@
 [Refresh]
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 [Fingerprints]
+[Account]
 [Policy]
 [Verified]
 [Active]

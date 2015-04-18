@@ -1,0 +1,8 @@
+﻿[Audio call]
+[Audio ring]
+[Audio start]
+[Audio end]
+[Video call is unsupported]
+[Incoming audio call]
+[Audio call end]
+[Audio call start]

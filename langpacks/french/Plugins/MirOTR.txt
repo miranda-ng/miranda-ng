@@ -157,8 +157,8 @@ Contacts
 
 [Contact]
 Contact
-[Protocol]
-Protocole
+[Account]
+Compte
 [Policy]
 Politique
 [Verified]

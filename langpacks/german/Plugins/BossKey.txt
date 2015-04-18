@@ -32,6 +32,8 @@ Passwort abfragen:
 Status zurücksetzen
 [Hotkey]
 Hotkey
+[Miranda NG is locked.\nEnter password to unlock it.]
+Miranda NG ist gesperrt.\Geben Sie das Passwort ein, um es zu entsperren
 [Password:]
 Passwort:
 [Cancel]
@@ -57,8 +59,6 @@ Einen Hauptmenüeintrag erzeugen
 [Restore hiding on startup after failure]
 Miranda bei Neustart nach einem Fehler verstecken
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
-[Miranda NG is locked.\nEnter password to unlock it.]
-Miranda NG ist gesperrt.\Geben Sie das Passwort ein, um es zu entsperren
 [Password is not correct!\nPlease, enter correct password.]
 Passwort ist nicht korrekt.\nBitte geben Sie das korrekte Passwort an.
 [Hide Miranda NG]

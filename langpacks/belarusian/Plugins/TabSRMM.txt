@@ -983,8 +983,6 @@ Esc зачыняе сесію (інакш - згортвае)
 Гукавыя абвесткі
 [Container options]
 Налады кантэйнера
-[Configure container options for\n%s]
-Налады для кантэйнера\n%s
 [Tabs at the top]
 Укладкі зверху
 [Switch bar on the left side]

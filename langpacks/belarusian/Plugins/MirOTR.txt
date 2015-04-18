@@ -153,8 +153,6 @@ OTR
 Адбіткі
 [Contact]
 Кантакт
-[Protocol]
-Пратакол
 [Policy]
 Палітыка
 [Verified]

@@ -983,8 +983,6 @@ Kontaktavatare
 Klang-Benachrichtigungen
 [Container options]
 Containereinstellungen
-[Configure container options for\n%s]
-Konfiguriere Containeroptionen für\n%s
 [Tabs at the top]
 Tabs oben anzeigen
 [Switch bar on the left side]

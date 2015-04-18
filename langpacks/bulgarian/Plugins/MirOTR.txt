@@ -141,8 +141,6 @@ OTR ненадеждно
 Отпечатъци
 [Contact]
 Контакт
-[Protocol]
-Протокол
 [Policy]
 Политика
 [Verified]

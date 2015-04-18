@@ -110,7 +110,7 @@ Udziel autoryzacji
 [Incoming audio call]
 
 [from]
-Od
+
 [Audio call end]
 
 [Audio call start]

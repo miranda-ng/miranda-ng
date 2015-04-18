@@ -5,6 +5,7 @@
 [Socialist Millionaires Protocol\r\nVerification]
 [[OTR INFO] ]
 [OTR]
+[Account]
 [MirOTR menu]
 [Private Data]
 [\nusing older protocol version %i]

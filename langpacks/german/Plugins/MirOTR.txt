@@ -157,8 +157,8 @@ Kontakte
 Fingerprints
 [Contact]
 Kontakt
-[Protocol]
-Protokoll
+[Account]
+Konto
 [Policy]
 Methode
 [Verified]
