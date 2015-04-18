@@ -80,7 +80,7 @@ MCONTACT CSkypeProto::AddChatRoom(const char *chatname)
 		setString(hContact, "ChatID", chatname);
 
 		TCHAR title[MAX_PATH];
-		mir_sntprintf(title, SIZEOF(title), _T("%s #%s"), TranslateT("Groupchat"), chatname);
+		mir_sntprintf(title, SIZEOF(title), _T("%s #%s"), TranslateT("Groupchat"), ptrT(mir_a2t(chatname)));
 		setTString(hContact, "Nick", title);
 
 		DBVARIANT dbv;
