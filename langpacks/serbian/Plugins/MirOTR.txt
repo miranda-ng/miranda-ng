@@ -21,7 +21,5 @@ Uopšteno
 Kontakti
 [Contact]
 Kontakt
-[Protocol]
-Protokol
 [Default]
 Standardno

@@ -24,6 +24,7 @@
 Запытаць аўтарызацыю
 [Grant authorization]
 Аўтарызаваць
+;file \protocols\Tox\src\tox_multimedia.cpp
 ;file \protocols\Tox\src\tox_netlib.cpp
 ;file \protocols\Tox\src\tox_options.cpp
 [All files]

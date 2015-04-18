@@ -32,6 +32,8 @@
 Вярнуць папярэдні статус
 [Hotkey]
 Гарачая клавіша
+[Miranda NG is locked.\nEnter password to unlock it.]
+Miranda заблакавана.\n Увядзіце ваш пароль для разблакоўкі.
 [Password:]
 Пароль:
 [Cancel]
@@ -57,8 +59,6 @@ Windows не актыўны
 [Restore hiding on startup after failure]
 Аднаўляць утойванне пры запуску пасля "падзення"
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
-[Miranda NG is locked.\nEnter password to unlock it.]
-Miranda заблакавана.\n Увядзіце ваш пароль для разблакоўкі.
 [Password is not correct!\nPlease, enter correct password.]
 Няслушны пароль!\n Увядзіце правільны пароль.
 [Hide Miranda NG]

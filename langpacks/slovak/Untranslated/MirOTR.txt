@@ -65,7 +65,7 @@
 [General]
 [Protocols]
 [Fingerprints]
-[Protocol]
+[Account]
 [Policy]
 [Verified]
 [Active]

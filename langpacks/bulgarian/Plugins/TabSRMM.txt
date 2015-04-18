@@ -943,8 +943,6 @@ Mаксимална ширина за лента с бутони
 Звуково уведомяване
 [Container options]
 Настройки на контейнера
-[Configure container options for\n%s]
-Настройване за контейнер\n%s
 [Tabs at the top]
 Табове на върха
 [Switch bar on the left side]

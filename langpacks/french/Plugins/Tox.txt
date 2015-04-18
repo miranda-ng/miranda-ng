@@ -78,11 +78,21 @@ Port
 &Inviter
 [&Cancel]
 &Annuler
+[Audio call]
+
 ;file \protocols\Tox\src\tox_chatrooms.cpp
 [Groupchat]
 
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
+
+[Action]
+
+[Audio ring]
+
+[Audio start]
+
+[Audio end]
 
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
@@ -94,6 +104,17 @@ Protocoles
 Demander l'autorisation
 [Grant authorization]
 Accorder l'autorisation
+;file \protocols\Tox\src\tox_multimedia.cpp
+[Video call is unsupported]
+
+[Incoming audio call]
+
+[from]
+de
+[Audio call end]
+
+[Audio call start]
+
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 
@@ -129,8 +150,6 @@ Compte
 [Nodes]
 
 ;file \protocols\Tox\src\tox_proto.cpp
-[Action]
-
 [You cannot add yourself to your contact list]
 
 [Contact already in your contact list]

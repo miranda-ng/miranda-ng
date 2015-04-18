@@ -983,8 +983,6 @@ Taille et thème des fenêtres
 
 [Container options]
 Options du conteneur
-[Configure container options for\n%s]
-
 [Tabs at the top]
 
 [Switch bar on the left side]

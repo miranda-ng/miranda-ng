@@ -23,8 +23,6 @@ Protocolos
 Contactos
 [Contact]
 Contacto
-[Protocol]
-Protocolo
 [Default]
 Por defecto
 [Password]
