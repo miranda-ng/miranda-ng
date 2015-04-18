@@ -983,8 +983,6 @@ Awatary kontaktu
 Dźwięki
 [Container options]
 Opcje kontenera
-[Configure container options for\n%s]
-Konfiguruj opcje kontenera dla \n%s
 [Tabs at the top]
 Karty na górze
 [Switch bar on the left side]
