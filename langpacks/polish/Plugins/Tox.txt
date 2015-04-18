@@ -79,7 +79,7 @@ Zaproś kontakty na czat
 [&Cancel]
 &Anuluj
 [Audio call]
-
+Rozmowa audio
 ;file \protocols\Tox\src\tox_chatrooms.cpp
 [Groupchat]
 Czat grupowy
@@ -89,11 +89,11 @@ Folder profili
 [Action]
 Działanie
 [Audio ring]
-
+Dzwonek Audio
 [Audio start]
-
+Rozpoczęcie rozmowy audio
 [Audio end]
-
+Zakończenie rozmowy audio
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Ikona protokołu
@@ -106,15 +106,15 @@ Poproś o autoryzację
 Udziel autoryzacji
 ;file \protocols\Tox\src\tox_multimedia.cpp
 [Video call is unsupported]
-
+Rozmowa video nie jest wspierana
 [Incoming audio call]
-
+Przychodząca rozmowa audio
 [from]
-
+od
 [Audio call end]
-
+Zakończenie rozmowy audio
 [Audio call start]
-
+Rozpoczęcie rozmowy audio
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 Połączenie %s
