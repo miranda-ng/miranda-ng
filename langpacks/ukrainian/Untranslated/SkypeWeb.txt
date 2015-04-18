@@ -1,3 +1,0 @@
-﻿[User]
-[Admin]
-[Edited at]

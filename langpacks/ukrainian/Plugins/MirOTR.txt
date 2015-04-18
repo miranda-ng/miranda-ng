@@ -27,10 +27,12 @@ OTR: Створення приватного ключа
 Зупиняти сесію, коли контакт переходить в офлайн
 [Prefix encrypted IMs:]
 Префікс шифрованих IM:
+[don't rely on the prefix, always check the OTR status icon]
+Не покладайтеся на префікс, завжди перевіряйте значок статусу OTR
 [Don't add encrypted messages to the history]
 Не записувати шифровані повідомлення в історію
 [Also remove OTR system messages]
-Видалити системні повідомлення OTR
+Видаляти системні повідомлення OTR
 [Show OTR system messages inline]
 Показувати системні повідомлення у вікні бесід
 [Show OTR system messages as popup]
@@ -38,7 +40,7 @@ OTR: Створення приватного ключа
 [Show verification dialog when receiving unverified fingerprint]
 Діалог підтвердження при отриманні неперевіреного відбитка
 [Set OTR policy per protocol]
-Встановити політику OTR попротокольно
+Встановити політику OTR окремо для кожного протоколу
 [Current policy:]
 Поточна політика:
 [Generate new private key]
@@ -46,7 +48,7 @@ OTR: Створення приватного ключа
 [Forget private key]
 Забути приватний ключ
 [Set OTR policy per contact]
-Встановити політику OTR поконтактно
+Встановити політику OTR окремо для кожного контакту
 [View & Modify status of known fingerprints]
 Перегляд і редагування статусів відомих відбитків
 [Set verified]
@@ -149,8 +151,8 @@ OTR не є безпечним
 Відбитки
 [Contact]
 Контакт
-[Protocol]
-Протокол
+[Account]
+Обліковий запис
 [Policy]
 Політика
 [Verified]
@@ -235,3 +237,13 @@ OTR: встановлений SecureIM
 Особисті дані
 [Services]
 Служби
+[\nusing older protocol version %i]
+\nвикористовуючи старий протокол версії %i
+[Attempting to start a private conversation...]
+Спроба почати приватну бесіду...
+[An error occurred when encrypting your message.\nThe message was not sent]
+Під час шифрування повідомлення сталася помилка.\nПовідомлення не надіслано
+['%s' has already closed his/her private connection to you; you should do the same]
+'%s' вже закрив приватне з'єднання з вами; ви повинні вчинити так само
+[Error setting up private conversation: %s]
+Помилка створення приватної бесіди: %s

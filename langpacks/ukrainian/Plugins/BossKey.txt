@@ -31,6 +31,8 @@
 Повернути попередній статус
 [Hotkey]
 Гаряча клавіша
+[Miranda NG is locked.\nEnter password to unlock it.]
+Miranda NG заблокована.\nВведіть пароль для розблокування.
 [Password:]
 Пароль:
 [Cancel]
@@ -55,8 +57,6 @@ Windows не активна
 Пункт у головному меню
 [Restore hiding on startup after failure]
 Відновлювати приховування при запуску після "падіння"
-[Miranda NG is locked.\nEnter password to unlock it.]
-Miranda NG заблокована.\nВведіть пароль для розблокування.
 [Password is not correct!\nPlease, enter correct password.]
 Неправильний пароль!\nВведіть правильний пароль.
 [Hide Miranda NG]
