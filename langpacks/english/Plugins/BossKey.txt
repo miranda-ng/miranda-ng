@@ -19,6 +19,7 @@
 [Request password:]
 [Change status back]
 [Hotkey]
+[Miranda NG is locked.\nEnter password to unlock it.]
 [Password:]
 [Cancel]
 [Workstation is locked]
@@ -32,7 +33,6 @@
 [Create a main menu item]
 [Restore hiding on startup after failure]
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
-[Miranda NG is locked.\nEnter password to unlock it.]
 [Password is not correct!\nPlease, enter correct password.]
 [Hide Miranda NG]
 [Hide]

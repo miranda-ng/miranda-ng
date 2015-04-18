@@ -82,7 +82,7 @@
 [Contacts]
 [Fingerprints]
 [Contact]
-[Protocol]
+[Account]
 [Policy]
 [Verified]
 [Active]
