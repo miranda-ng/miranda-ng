@@ -157,8 +157,8 @@ Kontakty
 Odciski palca
 [Contact]
 Kontakt
-[Protocol]
-Protokół
+[Account]
+Konto
 [Policy]
 Polityka
 [Verified]

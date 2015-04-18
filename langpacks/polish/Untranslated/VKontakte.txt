@@ -1,4 +1,0 @@
-﻿[Invites]
-[has invited you to a group]
-[has invited you to subscribe to a page]
-[invites you to event]

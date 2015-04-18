@@ -32,6 +32,8 @@ Zażądaj hasła:
 Przywróć poprzedni status
 [Hotkey]
 Skrót
+[Miranda NG is locked.\nEnter password to unlock it.]
+Miranda jest zablokowana.\n Proszę wprowadzić hasło.
 [Password:]
 Hasło:
 [Cancel]
@@ -57,8 +59,6 @@ Utwórz wpis w menu głównym
 [Restore hiding on startup after failure]
 Przywróć ukrywanie na starcie po awarii
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
-[Miranda NG is locked.\nEnter password to unlock it.]
-Miranda jest zablokowana.\n Proszę wprowadzić hasło.
 [Password is not correct!\nPlease, enter correct password.]
 Błędne hasło!\nProszę wpisać poprawne hasło.
 [Hide Miranda NG]

@@ -78,12 +78,22 @@ Zaproś kontakty na czat
 &Zaproś
 [&Cancel]
 &Anuluj
+[Audio call]
+
 ;file \protocols\Tox\src\tox_chatrooms.cpp
 [Groupchat]
 Czat grupowy
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 Folder profili
+[Action]
+Działanie
+[Audio ring]
+
+[Audio start]
+
+[Audio end]
+
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Ikona protokołu
@@ -94,6 +104,17 @@ Protokoły
 Poproś o autoryzację
 [Grant authorization]
 Udziel autoryzacji
+;file \protocols\Tox\src\tox_multimedia.cpp
+[Video call is unsupported]
+
+[Incoming audio call]
+
+[from]
+Od
+[Audio call end]
+
+[Audio call start]
+
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 Połączenie %s
@@ -129,8 +150,6 @@ Konto
 [Nodes]
 Gniazda
 ;file \protocols\Tox\src\tox_proto.cpp
-[Action]
-Działanie
 [You cannot add yourself to your contact list]
 Nie możesz dodać siebie samego do swojej listy kontaktów
 [Contact already in your contact list]
