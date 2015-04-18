@@ -38,7 +38,7 @@ public:
 	CToxIncomingAudioCall(CToxProto *proto, MCONTACT hContact);
 };
 
-class CToxOutcomingAudioCall : public CToxAudioCall
+class CToxOutgoingAudioCall : public CToxAudioCall
 {
 protected:
 	void OnInitDialog();
@@ -47,7 +47,7 @@ protected:
 	void OnCancel(CCtrlBase*);
 
 public:
-	CToxOutcomingAudioCall(CToxProto *proto, MCONTACT hContact);
+	CToxOutgoingAudioCall(CToxProto *proto, MCONTACT hContact);
 };
 
 #endif //_TOX_MULTIMEDIA_H_
