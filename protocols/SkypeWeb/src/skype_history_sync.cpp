@@ -28,6 +28,14 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	if (root == NULL)
 		return;
 
+	JSONNODE *metadata = json_get(root, "_metadata");
+
+	int totalCount = json_as_int(json_get(metadata, "totalCount"));
+	ptrA syncState(mir_t2a(ptrT(json_as_string(json_get(metadata, "syncState")))));
+
+	if (totalCount >= 99)
+		PushRequest(new GetHistoryOnUrlRequest(syncState, RegToken), &CSkypeProto::OnGetServerHistory);
+
 	JSONNODE *conversations = json_as_array(json_get(root, "messages"));
 	for (size_t i = 0; i < json_size(conversations); i++)
 	{
@@ -83,29 +91,32 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		}
 		else if (conversationLink != NULL && strstr(conversationLink, "/19:"))
 		{
-			ptrA chatname(ContactUrlToName(conversationLink));
-			GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_MESSAGE };
-			GCEVENT gce = { sizeof(GCEVENT), &gcd };
-			gce.bIsMe = IsMe(ContactUrlToName(from));
-			gce.ptszUID = ptrT(mir_a2t(ContactUrlToName(from)));
-			gce.time = timestamp;
-			gce.ptszNick = ptrT(mir_a2t(ContactUrlToName(from)));
-			gce.ptszText = ptrT(mir_a2t(ptrA(RemoveHtml(content))));
-			gce.dwFlags = GCEF_NOTNOTIFY;
-			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+			if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
+			{
+				ptrA chatname(ContactUrlToName(conversationLink));
+				GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_MESSAGE };
+				GCEVENT gce = { sizeof(GCEVENT), &gcd };
+				gce.bIsMe = IsMe(ContactUrlToName(from));
+				gce.ptszUID = ptrT(mir_a2t(ContactUrlToName(from)));
+				gce.time = timestamp;
+				gce.ptszNick = ptrT(mir_a2t(ContactUrlToName(from)));
+				gce.ptszText = ptrT(mir_a2t(ptrA(RemoveHtml(content))));
+				gce.dwFlags = GCEF_NOTNOTIFY;
+				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+			}
 		}
 	}
 }
 
 INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM)
 {
-	PushRequest(new GetHistoryRequest(RegToken, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)), 0, Server), &CSkypeProto::OnGetServerHistory);
+	PushRequest(new GetHistoryRequest(RegToken, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)), 100, false, 0, Server), &CSkypeProto::OnGetServerHistory);
 	return 0;
 }
 
 void CSkypeProto::SyncHistory()
 {
-	PushRequest(new SyncHistoryFirstRequest(RegToken, Server), &CSkypeProto::OnSyncHistory);
+	PushRequest(new SyncHistoryFirstRequest(RegToken, 100, Server), &CSkypeProto::OnSyncHistory);
 }
 
 void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
@@ -115,6 +126,15 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 	JSONROOT root(response->pData);
 	if (root == NULL)
 		return;
+
+	JSONNODE *metadata = json_get(root, "_metadata");
+
+	int totalCount = json_as_int(json_get(metadata, "totalCount"));
+	ptrA syncState(mir_t2a(ptrT(json_as_string(json_get(metadata, "syncState")))));
+
+	if (totalCount >= 99)
+		PushRequest(new SyncHistoryFirstRequest(syncState, RegToken), &CSkypeProto::OnSyncHistory);
+
 	JSONNODE *conversations = json_as_array(json_get(root, "conversations"));
 	for (size_t i = 0; i < json_size(conversations); i++)
 	{
@@ -128,19 +148,26 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		bool isEdited = (skypeEditedId != NULL);
 		char *conversationLink = mir_t2a(json_as_string(json_get(lastMessage, "conversationLink")));
 		time_t composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "conversationLink")))));
+
 		bool isChat = false;
-		ptrA skypename(ContactUrlToName(conversationLink));
-		if (skypename == NULL)
+		ptrA skypename;
+
+		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
+		{
+			skypename = ContactUrlToName(conversationLink);
+		}
+		else if (conversationLink != NULL && strstr(conversationLink, "/19:"))
 		{
 			skypename = ChatUrlToName(conversationLink);
-			if (skypename == NULL)
-				continue;
-			else 
-				isChat = true;
+			isChat = true;
 		}
+		else 
+			continue;
+
 		MCONTACT hContact = !isChat ? AddContact(skypename) : AddChatRoom(skypename);
 		if (isChat) StartChatRoom(hContact);
+
 		if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
-			SendRequest(new GetHistoryRequest(RegToken, skypename, 0, Server, isChat), &CSkypeProto::OnGetServerHistory);
+			PushRequest(new GetHistoryRequest(RegToken, skypename, !isChat ? 100 : 15, isChat, 0,Server), &CSkypeProto::OnGetServerHistory);
 	}
 }
