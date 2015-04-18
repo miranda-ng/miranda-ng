@@ -8,7 +8,7 @@ struct CToxProto : public PROTO<CToxProto>
 	friend CToxOptionsNodeList;
 	friend CToxAudioCall;
 	friend CToxIncomingAudioCall;
-	friend CToxOutcomingAudioCall;
+	friend CToxOutgoingAudioCall;
 
 public:
 	//////////////////////////////////////////////////////////////////////////////////////

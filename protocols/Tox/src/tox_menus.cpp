@@ -63,8 +63,8 @@ void CToxProto::InitMenus()
 
 	// Start audio call
 	mi.pszService = MODULE"/Audio/Call";
-	mi.ptszName = LPGENT("Audio call");
-	mi.position = CMI_POSITION + CMI_AUDIO_CALL + 100000;
+	mi.ptszName = LPGENT("Call");
+	mi.position = -2000020000 + CMI_AUDIO_CALL;
 	mi.icolibItem = GetIconHandle("audio_start");
 	ContactMenuItems[CMI_AUDIO_CALL] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnSendAudioCall>);
