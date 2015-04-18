@@ -185,8 +185,8 @@ void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 	}
 
 	ptrA skypename(getStringA(SKYPE_SETTINGS_ID));
-	SendRequest(new SendCapabilitiesRequest(RegToken, EndpointId, Server));
-	SendRequest(new SetStatusRequest(RegToken, MirandaToSkypeStatus(m_iDesiredStatus), Server), &CSkypeProto::OnStatusChanged);
+	PushRequest(new SendCapabilitiesRequest(RegToken, EndpointId, Server));
+	PushRequest(new SetStatusRequest(RegToken, MirandaToSkypeStatus(m_iDesiredStatus), Server), &CSkypeProto::OnStatusChanged);
 
 	LIST<char> skypenames(1);
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
