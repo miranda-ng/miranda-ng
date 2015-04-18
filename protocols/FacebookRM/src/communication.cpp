@@ -744,6 +744,8 @@ bool facebook_client::login(const char *username, const char *password)
 	if (!cookies["datr"].empty())
 		parent->setString(FACEBOOK_KEY_DEVICE_ID, cookies["datr"].c_str());
 
+	bool scanComputerRequest = false;
+
 	if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end())
 	{
 		std::string location = resp.headers["Location"];
@@ -817,23 +819,37 @@ bool facebook_client::login(const char *username, const char *password)
 
 			}
 			else if (resp.data.find("name=\"submit[OK]\"") != std::string::npos) {
-
+				// TODO: not sure this branch could happen anymore
 				inner_data = "submit[OK]=OK";
 				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 				inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+			}
+			else if (resp.data.find("name=\"submit[Get%20Started]\"") != std::string::npos) {
+				// Facebook things that computer was infected by malware and needs cleaning
+				parent->debugLogA("!!! Facebook requires computer scan.");
+				scanComputerRequest = true;
 
-				if (resp.data.find("security-essentials") != std::string::npos) {
-					// Computer was probably infected by malware and needs cleaning (actually this may happen because Miranda doesn't support FB's captcha)
-					inner_data = "submit[Continue]=Continue";
-					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-					inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+				// Step 1: Get started
+				inner_data = "submit[Get%20Started]=Get%20Started";
+				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
+				inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 
-					// Mark that used cleaned his computer already, because he must confirm it anyway to be able to continue
-					inner_data += "&confirm=1";
+				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 
-					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
-				}
+				// Step 2: Download F-Secure Online Scanner (we're not really downloading anything)
+				inner_data = "submit[Download]=Download";
+				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
+				inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+
+				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+
+				// Step 3: Skip scanning and try to do Complete login
+				inner_data = "submit[Complete%20Login]=Complete%20Login";
+				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
+				inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+
+				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 			}
 		}
 	}
@@ -856,6 +872,11 @@ bool facebook_client::login(const char *username, const char *password)
 			client_notify(TranslateT("Login error: Captcha code is required. You need to confirm this device from web browser."));
 			parent->debugLogA("!!! Login error: Captcha code is required.");
 			return handle_error("login", FORCE_QUIT);
+		}
+
+		if (scanComputerRequest) {
+			// FIXME: remove this message when someone confirm that it works...
+			client_notify(TranslateT("Facebook required computer cleaning and plugin correctly skipped it. Please report this to the plugin developer!"));
 		}
 
 		// Get and notify error message
