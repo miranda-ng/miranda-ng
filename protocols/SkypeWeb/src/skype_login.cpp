@@ -212,7 +212,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	if (root == NULL)
 		return;
 
-	ptrA SelfEndpointName(SelfUrlToName(mir_t2a(ptrT(json_as_string(json_get(root, "SelfLink"))))));
+	ptrA SelfEndpointName(SelfUrlToName(mir_t2a(ptrT(json_as_string(json_get(root, "selfLink"))))));
 	setString("SelfEndpointName", SelfEndpointName);
 }
 
