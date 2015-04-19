@@ -404,14 +404,7 @@ void CSkypeProto::AddChatContact(const TCHAR *tchat_id, const char *id, const ch
 	gce.ptszUID = tid;
 	gce.time = time(NULL);
 	gce.bIsMe = IsMe(id);
-
-	if (gce.bIsMe) {
-		gce.ptszStatus = TranslateT("Myself");
-	}
-	else 
-	{
-		gce.ptszStatus = TranslateTS(role);
-	}
+	gce.ptszStatus = TranslateTS(role);
 
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
