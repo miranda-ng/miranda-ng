@@ -195,7 +195,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | 
 CAPTION "Create Gadu-Gadu account"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Create Gadu-Gadu account\nThis will create new Gadu-Gadu account",IDC_HEADERBAR,
+    CONTROL         "This will create new Gadu-Gadu account",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,238,25
     RTEXT           "New password:",IDC_STATIC,7,33,81,8
     EDITTEXT        IDC_PASSWORD,95,32,79,12,ES_PASSWORD | ES_AUTOHSCROLL
@@ -212,7 +212,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | 
 CAPTION "Remove Gadu-Gadu account"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account",IDC_HEADERBAR,
+    CONTROL         "This will remove your Gadu-Gadu account",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,238,25
     RTEXT           "Password:",IDC_STATIC,7,32,81,8
     EDITTEXT        IDC_PASSWORD,95,31,79,12,ES_PASSWORD | ES_AUTOHSCROLL
@@ -228,7 +228,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | 
 CAPTION "Change Gadu-Gadu password"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Change Gadu-Gadu password\nChanges current Gadu-Gadu user password",IDC_HEADERBAR,
+    CONTROL         "Changes current Gadu-Gadu user password",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,238,25
     RTEXT           "New password:",IDC_STATIC,7,42,81,8
     EDITTEXT        IDC_PASSWORD,95,41,79,12,ES_PASSWORD | ES_AUTOHSCROLL
@@ -243,7 +243,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | 
 CAPTION "Change Gadu-Gadu e-mail"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail",IDC_HEADERBAR,
+    CONTROL         "Changes current Gadu-Gadu user e-mail",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,238,25
     RTEXT           "New e-mail:",IDC_STATIC,7,47,81,8
     EDITTEXT        IDC_EMAIL,95,46,79,12,ES_AUTOHSCROLL
@@ -310,7 +310,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | 
 CAPTION "Open new conference"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Open new conference\nSelect conference participants",IDC_HEADERBAR,
+    CONTROL         "Select conference participants",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,162,25
     CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x2c8,7,32,148,140,WS_EX_CLIENTEDGE
     PUSHBUTTON      "Open",IDOK,50,177,50,14,WS_DISABLED
@@ -334,10 +334,10 @@ END
 IDD_SESSIONS DIALOGEX 0, 0, 414, 136
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Concurrent Sessions"
+CAPTION "Concurrent %s Login Sessions"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Concurrent %s Login Sessions\nView information on active concurrent sessions",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,414,25
+    CONTROL         "View information on active concurrent sessions",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,414,25
     CONTROL         "",IDC_SESSIONS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,5,30,403,81
     PUSHBUTTON      "Sign out all sessions",IDC_SIGNOUTALL,317,116,91,15,WS_DISABLED
 END
