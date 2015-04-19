@@ -31,19 +31,14 @@ PLUGININFOEX pluginInfo = {
 
 INT_PTR NudgeShowMenu(WPARAM wParam, LPARAM lParam)
 {
-	bool bEnabled;
-	if (GlobalNudge.useByProtocol) {
-		bEnabled = false;
-		for (int i = 0; i < arNudges.getCount(); i++) {
-			CNudgeElement &p = arNudges[i];
-			if (!strcmp((char*)wParam, p.ProtocolName)) {
-				bEnabled = p.enabled;
-				break;
-			}
+	bool bEnabled = false;
+	for (int i = 0; i < arNudges.getCount(); i++) {
+		CNudgeElement &p = arNudges[i];
+		if (!strcmp((char*)wParam, p.ProtocolName)) {
+			bEnabled = (GlobalNudge.useByProtocol) ? p.enabled : DefaultNudge.enabled;
+			break;
 		}
 	}
-	else
-		bEnabled = DefaultNudge.enabled;
 
 	Menu_ShowItem(g_hContactMenu, bEnabled && lParam != 0);
 	return 0;
