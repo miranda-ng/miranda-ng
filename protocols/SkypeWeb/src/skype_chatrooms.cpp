@@ -328,7 +328,7 @@ void CSkypeProto::AddChatContact(const TCHAR *tchat_id, const char *id, const ch
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
 	gce.time = ::time(NULL);
-	gce.bIsMe = false;//!strcmp(id, facy.self_.user_id.c_str());
+	gce.bIsMe = IsMe(id);
 
 	if (gce.bIsMe) {
 		gce.ptszStatus = TranslateT("Myself");
