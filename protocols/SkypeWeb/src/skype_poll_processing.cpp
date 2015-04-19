@@ -102,56 +102,7 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 
 void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)
 {
-	debugLogA("CSkypeProto::ProcessNewMessageRes");
-	JSONNODE *lastmsg = json_get(node, "lastMessage");
-
-	ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(lastmsg, "clientmessageid")))));
-	ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(lastmsg, "skypeeditedid")))));
-	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(lastmsg, "messagetype")))));
-	ptrA from(mir_t2a(ptrT(json_as_string(json_get(lastmsg, "from")))));
-	ptrA content(mir_t2a(ptrT(json_as_string(json_get(lastmsg, "content")))));
-	ptrT composeTime(json_as_string(json_get(lastmsg, "composetime")));
-	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(lastmsg, "conversationLink")))));
-	ptrA type(mir_t2a(ptrT(json_as_string(json_get(node, "type")))));
-	time_t timestamp = IsoToUnixTime(composeTime);
-
-	if (strstr(conversationLink, "/8:"))
-	{
-		if (!mir_strcmpi(type, "Message"))
-		{
-			ptrA skypename(ContactUrlToName(from));
-			MCONTACT hContact = FindContact(skypename);
-
-			if (hContact == NULL && !IsMe(skypename))
-				hContact = AddContact(skypename, true);
-
-			if (!mir_strcmpi(messageType, "Control/Typing"))
-			{
-				CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
-			}
-			else if (!mir_strcmpi(messageType, "Control/ClearTyping"))
-			{		
-				CallService(MS_PROTO_CONTACTISTYPING, hContact, 0);
-			}
-			else if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
-			{
-				int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
-				if (IsMe(skypename))
-				{
-					hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
-					int hMessage = atoi(clientMsgId);
-					ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
-					AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, &content[emoteOffset], emoteOffset);
-					return;
-				}
-				OnReceiveMessage(clientMsgId, from, timestamp, content, emoteOffset);
-			}
-			else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage"))
-			{
-				return; //not supported
-			}
-		}
-	}
+	return; //it should be rewritten
 }
 
 void CSkypeProto::ProcessThreadUpdateRes(JSONNODE *node)
