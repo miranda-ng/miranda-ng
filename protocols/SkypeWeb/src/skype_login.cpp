@@ -194,7 +194,8 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	LIST<char> skypenames(1);
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
+		if(!isChatRoom(hContact))
+			skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
 	}
 	SendRequest(new CreateContactsRequest(RegToken, skypenames, Server));
 	for (int i = 0; i < skypenames.getCount(); i++)
