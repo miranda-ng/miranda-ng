@@ -500,13 +500,13 @@ wchar_t *TextToken::htmlEncode(const wchar_t *str)
 	return output;
 }
 
-void TextToken::toString(wchar_t **str, int *sizeAlloced)
+void TextToken::toString(CMStringW &str)
 {
 	wchar_t *eText = NULL, *eLink = NULL;
 	switch (type) {
 	case TEXT:
 		eText = htmlEncode(wtext);
-		Utils::appendText(str, sizeAlloced, L"%s", eText);
+		str.Append(eText);
 		break;
 	case WWWLINK:
 	case LINK:
@@ -547,7 +547,7 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 
 						};
 
-						Utils::appendText(str, sizeAlloced, L"<div><object width=\"%d\" height=\"%d\">\
+						str.AppendFormat(L"<div><object width=\"%d\" height=\"%d\">\
 							<param name=\"movie\" value=\"http://www.youtube.com/v/%s&feature=player_embedded&version=3\"/>\
 							<param name=\"allowFullScreen\" value=\"true\"/>\
 							<param name=\"allowScriptAccess\" value=\"true\"/>\
@@ -558,126 +558,111 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 					}
 				}
 			}
-			Utils::appendText(str, sizeAlloced, L"<a class=\"link\" target=\"_self\" href=\"%s%s\">%s</a>", linkPrefix, eLink, eText);
+			str.AppendFormat(L"<a class=\"link\" target=\"_self\" href=\"%s%s\">%s</a>", linkPrefix, eLink, eText);
 		}
 		break;
 	case SMILEY:
 		eText = htmlEncode(wtext);
 		if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && (wcsstr(wlink, L".swf") != NULL)) {
-			Utils::appendText(str, sizeAlloced,
-				L"<span title=\"%s\" class=\"img\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
+			str.AppendFormat(L"<span title=\"%s\" class=\"img\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
 				 	codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" >\
 					<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></span>",
 					eText, wlink);
 		}
-		else {
-			Utils::appendText(str, sizeAlloced, L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", wlink, eText, eText);
-		}
+		else str.AppendFormat(L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", wlink, eText, eText);
 		break;
 	case MATH:
 		eText = htmlEncode(wtext);
-		Utils::appendText(str, sizeAlloced, L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", wlink, eText, eText);
+		str.AppendFormat(L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", wlink, eText, eText);
 		break;
 	case BBCODE:
 		if (!end) {
 			switch (tag) {
 			case BB_B:
-				//Utils::appendText(str, sizeAlloced, L"<span style=\"font-weight: bold;\">");
-				Utils::appendText(str, sizeAlloced, L"<b>");
+				str.Append(L"<b>");
 				break;
 			case BB_I:
-				//Utils::appendText(str, sizeAlloced, L"<span style=\"font-style: italic;\">");
-				Utils::appendText(str, sizeAlloced, L"<i>");
+				str.Append(L"<i>");
 				break;
 			case BB_U:
-				//Utils::appendText(str, sizeAlloced, L"<span style=\"text-decoration: underline;\">");
-				Utils::appendText(str, sizeAlloced, L"<u>");
+				str.Append(L"<u>");
 				break;
 			case BB_S:
-				//Utils::appendText(str, sizeAlloced, L"<span style=\"font-style: italic;\">");
-				Utils::appendText(str, sizeAlloced, L"<s>");
+				str.Append(L"<s>");
 				break;
 			case BB_CODE:
-				//Utils::appendText(str, sizeAlloced, L"<span style=\"font-style: italic;\">");
-				Utils::appendText(str, sizeAlloced, L"<pre class=\"code\">");
+				str.Append(L"<pre class=\"code\">");
 				break;
 			case BB_IMG:
 				eText = htmlEncode(wtext);
 				if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && eText != NULL && (wcsstr(eText, L".swf") != NULL)) {
-					Utils::appendText(str, sizeAlloced,
-						L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
+					str.AppendFormat(L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
 							codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
 							<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
 							eText);
 				}
 				else {
-					if (eText != NULL && wcsncmp(eText, L"http://", 7) && wcsncmp(eText, L"https://", 8)) {
-						Utils::appendText(str, sizeAlloced, L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"file://%s\" /></div>", eText);
-					}
-					else {
-						Utils::appendText(str, sizeAlloced, L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"%s\" /></div>", eText);
-					}
+					if (eText != NULL && wcsncmp(eText, L"http://", 7) && wcsncmp(eText, L"https://", 8))
+						str.AppendFormat(L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"file://%s\" /></div>", eText);
+					else
+						str.AppendFormat(L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"%s\" /></div>", eText);
 				}
 				break;
 			case BB_BIMG:
 				eText = htmlEncode(mir_ptr<wchar_t>(Utils::toAbsolute(wtext)));
 
 				if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && (wcsstr(eText, L".swf") != NULL)) {
-					Utils::appendText(str, sizeAlloced,
-						L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
+					str.AppendFormat(L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
 						 	codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
 							<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
 							eText);
 				}
-				else {
-					Utils::appendText(str, sizeAlloced, L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"file://%s\" /></div>", eText);
-				}
+				else str.AppendFormat(L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"file://%s\" /></div>", eText);
 				break;
 			case BB_URL:
 				eText = htmlEncode(wtext);
 				eLink = htmlEncode(wlink);
-				Utils::appendText(str, sizeAlloced, L"<a href =\"%s\">%s</a>", eLink, eText);
+				str.AppendFormat(L"<a href =\"%s\">%s</a>", eLink, eText);
 				break;
 			case BB_COLOR:
 				eText = htmlEncode(wtext);
-				//Utils::appendText(str, sizeAlloced, L"<span style=\"color: %s;\">", eText);
-				Utils::appendText(str, sizeAlloced, L"<font color =\"%s\">", eText);
+				str.AppendFormat(L"<font color =\"%s\">", eText);
 				break;
 			case BB_BACKGROUND:
 				eText = htmlEncode(wtext);
-				Utils::appendText(str, sizeAlloced, L"<span style=\"background: %s;\">", eText);
+				str.AppendFormat(L"<span style=\"background: %s;\">", eText);
 				break;
 			case BB_SIZE:
 				eText = htmlEncode(wtext);
-				Utils::appendText(str, sizeAlloced, L"<span style=\"font-size: %s;\">", eText);
+				str.AppendFormat(L"<span style=\"font-size: %s;\">", eText);
 				break;
 			}
 		}
 		else {
 			switch (tag) {
 			case BB_B:
-				Utils::appendText(str, sizeAlloced, L"</b>");
+				str.Append(L"</b>");
 				break;
 			case BB_I:
-				Utils::appendText(str, sizeAlloced, L"</i>");
+				str.Append(L"</i>");
 				break;
 			case BB_U:
-				Utils::appendText(str, sizeAlloced, L"</u>");
+				str.Append(L"</u>");
 				break;
 			case BB_S:
-				Utils::appendText(str, sizeAlloced, L"</s>");
+				str.Append(L"</s>");
 				break;
 			case BB_CODE:
-				Utils::appendText(str, sizeAlloced, L"</pre>");
+				str.Append(L"</pre>");
 				break;
 			case BB_COLOR:
-				Utils::appendText(str, sizeAlloced, L"</font>");
+				str.Append(L"</font>");
 				break;
 			case BB_SIZE:
-				Utils::appendText(str, sizeAlloced, L"</span>");
+				str.Append(L"</span>");
 				break;
 			case BB_BACKGROUND:
-				Utils::appendText(str, sizeAlloced, L"</span>");
+				str.Append(L"</span>");
 				break;
 			}
 		}

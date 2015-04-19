@@ -123,57 +123,53 @@ void MUCCHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 {
 	LOGFONTA lf;
 	COLORREF color;
-	char *output = NULL;
-	int outputSize;
 	ProtocolSettings *protoSettings = getChatProtocolSettings(event->pszProto);
-	if (protoSettings == NULL) {
+	if (protoSettings == NULL)
 		return;
-	}
-	if (protoSettings->getChatMode() == Options::MODE_TEMPLATE) {
-		//		buildHeadTemplate(view, event);
+
+	if (protoSettings->getChatMode() == Options::MODE_TEMPLATE)
 		return;
-	}
+
+	CMStringA str;
 	if (protoSettings->getChatMode() == Options::MODE_CSS) {
 		const char *externalCSS = protoSettings->getChatCssFilename();
-		Utils::appendText(&output, &outputSize, "<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
+		str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
 	}
 	else {
 		HDC hdc = GetDC(NULL);
 		int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		ReleaseDC(NULL, hdc);
-		Utils::appendText(&output, &outputSize, "<html><head>");
-		Utils::appendText(&output, &outputSize, "<style type=\"text/css\">\n");
+		str.Append("<html><head>");
+		str.Append("<style type=\"text/css\">\n");
 		COLORREF bkgColor = db_get_dw(NULL, MUCCMOD, "BackgroundLog", 0xFFFFFF);
 		COLORREF inColor, outColor;
 		bkgColor = (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
 		inColor = outColor = bkgColor;
-		if (protoSettings->getChatFlags() & Options::LOG_IMAGE_ENABLED) {
-			Utils::appendText(&output, &outputSize, ".body {padding: 2px; text-align: left; background-attachment: %s; background-color: #%06X;  background-image: url('%s'); overflow: auto;}\n",
+		if (protoSettings->getChatFlags() & Options::LOG_IMAGE_ENABLED)
+			str.AppendFormat(".body {padding: 2px; text-align: left; background-attachment: %s; background-color: #%06X;  background-image: url('%s'); overflow: auto;}\n",
 				protoSettings->getChatFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int)bkgColor, protoSettings->getChatBackgroundFilename());
-		}
-		else {
-			Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-color: #%06X; overflow: auto;}\n",
-				(int)bkgColor);
-		}
-		Utils::appendText(&output, &outputSize, ".link {color: #0000FF; text-decoration: underline;}\n");
-		Utils::appendText(&output, &outputSize, ".img {vertical-align: middle;}\n");
+		else
+			str.AppendFormat(".body {margin: 0px; text-align: left; background-color: #%06X; overflow: auto;}\n", bkgColor);
+
+		str.Append(".link {color: #0000FF; text-decoration: underline;}\n");
+		str.Append(".img {vertical-align: middle;}\n");
 		if (protoSettings->getChatFlags() & Options::LOG_IMAGE_ENABLED) {
-			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
-			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
-			Utils::appendText(&output, &outputSize, ".divUserJoined {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
-			Utils::appendText(&output, &outputSize, ".divUserLeft {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
-			Utils::appendText(&output, &outputSize, ".divTopicChange {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
+			str.Append(".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
+			str.Append(".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
+			str.Append(".divUserJoined {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
+			str.Append(".divUserLeft {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
+			str.Append(".divTopicChange {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
 		}
 		else {
-			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
-			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)outColor);
-			Utils::appendText(&output, &outputSize, ".divUserJoined {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
-			Utils::appendText(&output, &outputSize, ".divUserLeft {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
-			Utils::appendText(&output, &outputSize, ".divTopicChange {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
+			str.AppendFormat(".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", inColor);
+			str.AppendFormat(".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", outColor);
+			str.AppendFormat(".divUserJoined {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", inColor);
+			str.AppendFormat(".divUserLeft {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", inColor);
+			str.AppendFormat(".divTopicChange {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", inColor);
 		}
 		for (int i = 0; i < FONT_NUM; i++) {
 			loadMsgDlgFont(i, &lf, &color);
-			Utils::appendText(&output, &outputSize, "%s {font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s }\n",
+			str.AppendFormat("%s {font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s }\n",
 				classNames[i],
 				lf.lfFaceName,
 				abs((signed char)lf.lfHeight) * 74 / logPixelSY,
@@ -181,12 +177,12 @@ void MUCCHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 				(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
 				lf.lfItalic ? "font-style: italic;" : "");
 		}
-		Utils::appendText(&output, &outputSize, "</style></head><body class=\"body\">\n");
+		str.Append("</style></head><body class=\"body\">\n");
 	}
-	if (output != NULL) {
-		view->write(output);
-		free(output);
-	}
+
+	if (!str.IsEmpty())
+		view->write(str);
+
 	setLastEventType(-1);
 }
 
@@ -195,11 +191,8 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		DWORD dwData = eventData->dwData;
-		char *style = NULL;
-		int  styleSize;
 		bool isSent = eventData->bIsMe != 0;
-		int  outputSize;
-		char *output = NULL;
+		CMStringA str, style;
 		ptrA szName, szText;
 		if (eventData->iType == IEED_MUCC_EVENT_MESSAGE) {
 			if (eventData->dwFlags & IEEDF_UNICODE_TEXT)
@@ -212,37 +205,33 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 			else
 				szName = encodeUTF8(NULL, event->pszProto, eventData->pszNick, ENF_NAMESMILEYS, true);
 
-			Utils::appendText(&output, &outputSize, "<div class=\"%s\">", isSent ? "divOut" : "divIn");
+			str.AppendFormat("<div class=\"%s\">", isSent ? "divOut" : "divIn");
 			if (dwData & IEEDD_MUCC_SHOW_TIME || dwData & IEEDD_MUCC_SHOW_DATE)
-				Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s </span>",
-				isSent ? "timestamp" : "timestamp", timestampToString(dwData, eventData->time));
+				str.AppendFormat("<span class=\"%s\">%s </span>", isSent ? "timestamp" : "timestamp", timestampToString(dwData, eventData->time));
 
 			if (dwData & IEEDD_MUCC_SHOW_NICK)
-				Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s: </span>",
-				isSent ? "nameOut" : "nameIn", szName);
+				str.AppendFormat("<span class=\"%s\">%s: </span>", isSent ? "nameOut" : "nameIn", szName);
 
 			if (dwData & IEEDD_MUCC_MSG_ON_NEW_LINE)
-				Utils::appendText(&output, &outputSize, "<br>");
+				str.Append("<br>");
 
 			const char *className = isSent ? "messageOut" : "messageIn";
 			if (eventData->dwFlags & IEEDF_FORMAT_SIZE && eventData->fontSize > 0)
-				Utils::appendText(&style, &styleSize, "font-size:%dpt;", eventData->fontSize);
+				style.AppendFormat("font-size:%dpt;", eventData->fontSize);
 
 			if (eventData->dwFlags & IEEDF_FORMAT_COLOR && eventData->color != 0xFFFFFFFF)
-				Utils::appendText(&style, &styleSize, "color:#%06X;", ((eventData->color & 0xFF) << 16) | (eventData->color & 0xFF00) | ((eventData->color & 0xFF0000) >> 16));
+				style.AppendFormat("color:#%06X;", ((eventData->color & 0xFF) << 16) | (eventData->color & 0xFF00) | ((eventData->color & 0xFF0000) >> 16));
 
 			if (eventData->dwFlags & IEEDF_FORMAT_FONT)
-				Utils::appendText(&style, &styleSize, "font-family:%s;", eventData->fontName);
+				style.AppendFormat("font-family:%s;", eventData->fontName);
 
 			if (eventData->dwFlags & IEEDF_FORMAT_STYLE) {
-				Utils::appendText(&style, &styleSize, "font-weight: %s;", eventData->fontStyle & IE_FONT_BOLD ? "bold" : "normal");
-				Utils::appendText(&style, &styleSize, "font-style: %s;", eventData->fontStyle & IE_FONT_ITALIC ? "italic" : "normal");
-				Utils::appendText(&style, &styleSize, "text-decoration: %s;", eventData->fontStyle & IE_FONT_UNDERLINE ? "underline" : "none");
+				style.AppendFormat("font-weight: %s;", eventData->fontStyle & IE_FONT_BOLD ? "bold" : "normal");
+				style.AppendFormat("font-style: %s;", eventData->fontStyle & IE_FONT_ITALIC ? "italic" : "normal");
+				style.AppendFormat("text-decoration: %s;", eventData->fontStyle & IE_FONT_UNDERLINE ? "underline" : "none");
 			}
-			Utils::appendText(&output, &outputSize, "<span class=\"%s\"><span style=\"%s\">%s</span></span>", className, style != NULL ? style : "", szText);
-			Utils::appendText(&output, &outputSize, "</div>\n");
-			if (style != NULL)
-				free(style);
+			str.AppendFormat("<span class=\"%s\"><span style=\"%s\">%s</span></span>", className, style.c_str(), szText);
+			str.Append("</div>\n");
 		}
 		else if (eventData->iType == IEED_MUCC_EVENT_JOINED || eventData->iType == IEED_MUCC_EVENT_LEFT || eventData->iType == IEED_MUCC_EVENT_TOPIC) {
 			const char *className, *divName, *eventText;
@@ -264,28 +253,25 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 				eventText = LPGEN("The topic is %s.");
 				szText = encodeUTF8(NULL, event->pszProto, eventData->pszText, ENF_ALL, isSent);
 			}
-			Utils::appendText(&output, &outputSize, "<div class=\"%s\">", divName);
+			str.AppendFormat("<div class=\"%s\">", divName);
 			if (dwData & IEEDD_MUCC_SHOW_TIME || dwData & IEEDD_MUCC_SHOW_DATE)
-				Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s </span>",
-				isSent ? "timestamp" : "timestamp", timestampToString(dwData, eventData->time));
+				str.AppendFormat("<span class=\"%s\">%s </span>", isSent ? "timestamp" : "timestamp", timestampToString(dwData, eventData->time));
 
-			Utils::appendText(&output, &outputSize, "<span class=\"%s\">", className);
-			Utils::appendText(&output, &outputSize, Translate(eventText), szText);
-			Utils::appendText(&output, &outputSize, "</span>");
-			Utils::appendText(&output, &outputSize, "</div>\n");
+			str.AppendFormat("<span class=\"%s\">", className);
+			str.AppendFormat(Translate(eventText), szText);
+			str.Append("</span>");
+			str.Append("</div>\n");
 		}
 		else if (eventData->iType == IEED_MUCC_EVENT_ERROR) {
 			const char *className = "error";
 			szText = encodeUTF8(NULL, event->pszProto, eventData->pszText, ENF_NONE, isSent);
-			Utils::appendText(&output, &outputSize, "<div class=\"%s\">", "divError");
-			Utils::appendText(&output, &outputSize, "<span class=\"%s\"> %s: %s</span>", className, Translate("Error"), szText);
-			Utils::appendText(&output, &outputSize, "</div>\n");
+			str.AppendFormat("<div class=\"%s\">", "divError");
+			str.AppendFormat("<span class=\"%s\"> %s: %s</span>", className, Translate("Error"), szText);
+			str.Append("</div>\n");
 		}
 
-		if (output != NULL) {
-			view->write(output);
-			free(output);
-		}
+		if (!str.IsEmpty())
+			view->write(str);
 	}
 }
 

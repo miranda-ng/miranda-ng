@@ -244,8 +244,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 			tmplt = tmpm->getTemplate("HTMLStart");
 	}
 
-	char *output = NULL;
-	int outputSize;
+	CMStringA str;
 
 	if (tmplt != NULL) {
 		for (Token *token = tmplt->getTokens(); token != NULL; token = token->getNext()) {
@@ -291,16 +290,16 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 			}
 			if (tokenVal != NULL) {
 				if (token->getEscape())
-					Utils::appendText(&output, &outputSize, "%s", ptrA(Utils::escapeString(tokenVal)));
+					str.Append(ptrA(Utils::escapeString(tokenVal)));
 				else
-					Utils::appendText(&output, &outputSize, "%s", tokenVal);
+					str.Append(tokenVal);
 			}
 		}
 	}
-	if (output != NULL) {
-		view->write(output);
-		free(output);
-	}
+
+	if (!str.IsEmpty())
+		view->write(str);
+
 	mir_free(szBase);
 	mir_free(szRealProto);
 	mir_free(szProto);
@@ -419,9 +418,8 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
-		int outputSize;
-		char *output = NULL;
 		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE || eventData->iType == IEED_EVENT_FILE || eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_SYSTEM) {
+			CMStringA str;
 			bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
 			bool isRTL = (eventData->dwFlags & IEEDF_RTL) && tmpm->isRTL();
 			bool isHistory = (eventData->time < (DWORD)getStartedTime() && (eventData->dwFlags & IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
@@ -596,9 +594,9 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 					}
 					if (tokenVal != NULL) {
 						if (token->getEscape())
-							Utils::appendText(&output, &outputSize, "%s", ptrA(Utils::escapeString(tokenVal)));
+							str.Append(ptrA(Utils::escapeString(tokenVal)));
 						else
-							Utils::appendText(&output, &outputSize, "%s", tokenVal);
+							str.Append(tokenVal);
 					}
 				}
 			}
@@ -608,10 +606,8 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 			mir_free(szName);
 			mir_free(szText);
 			mir_free(szFileDesc);
-		}
-		if (output != NULL) {
-			view->write(output);
-			free(output);
+
+			view->write(str);
 		}
 	}
 	mir_free(szBase);

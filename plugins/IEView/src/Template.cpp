@@ -354,8 +354,7 @@ TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename,
 
 	char store[4096];
 	bool wasTemplate = false;
-	char *templateText = NULL;
-	int templateTextSize = 0;
+	CMStringA templateText;
 	while (fgets(store, sizeof(store), fh) != NULL) {
 		if (sscanf(store, "%s", tmp2) == EOF) continue;
 		//template start
@@ -370,19 +369,16 @@ TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename,
 			if (wasTemplate)
 				tmap->addTemplate(lastTemplate, templateText);
 
-			if (templateText)
-				free(templateText), templateText = NULL;
-			templateTextSize = 0;
+			templateText.Empty();
 			wasTemplate = true;
 			sscanf(store, "<!--%[^-]", lastTemplate);
 		}
 		else if (wasTemplate)
-			Utils::appendText(&templateText, &templateTextSize, "%s", store);
+			templateText.Append(store);
 	}
 	if (wasTemplate)
 		tmap->addTemplate(lastTemplate, templateText);
-	if (templateText)
-		free(templateText), templateText = NULL;
+	templateText.Empty();
 
 	fclose(fh);
 	static const char *groupTemplates[] = { "MessageInGroupStart", "MessageInGroupInner",

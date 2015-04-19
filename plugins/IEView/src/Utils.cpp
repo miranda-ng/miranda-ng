@@ -49,76 +49,6 @@ static int countNoWhitespace(const wchar_t *str)
 	return c;
 }
 
-void Utils::appendText(char **str, int *sizeAlloced, const char *fmt, ...)
-{
-	va_list vararg;
-	char *p;
-	int size, len;
-
-	if (str == NULL) return;
-
-	if (*str == NULL || *sizeAlloced <= 0) {
-		*sizeAlloced = size = 2048;
-		*str = (char *)malloc(size);
-		len = 0;
-	}
-	else {
-		len = (int)strlen(*str);
-		size = *sizeAlloced - len;
-	}
-
-	if (size < 128) {
-		size += 2048;
-		(*sizeAlloced) += 2048;
-		*str = (char *)realloc(*str, *sizeAlloced);
-	}
-	p = *str + len;
-	va_start(vararg, fmt);
-	while (mir_vsnprintf(p, size - 1, fmt, vararg) == -1) {
-		size += 2048;
-		(*sizeAlloced) += 2048;
-		*str = (char *)realloc(*str, *sizeAlloced);
-		p = *str + len;
-	}
-	p[size - 1] = '\0';
-	va_end(vararg);
-}
-
-void Utils::appendText(wchar_t **str, int *sizeAlloced, const wchar_t *fmt, ...)
-{
-	va_list vararg;
-	wchar_t *p;
-	int size, len;
-
-	if (str == NULL) return;
-
-	if (*str == NULL || *sizeAlloced <= 0) {
-		*sizeAlloced = size = 2048;
-		*str = (wchar_t *)malloc(size);
-		len = 0;
-	}
-	else {
-		len = (int)wcslen(*str);
-		size = *sizeAlloced - sizeof(wchar_t) * len;
-	}
-
-	if (size < 128) {
-		size += 2048;
-		(*sizeAlloced) += 2048;
-		*str = (wchar_t *)realloc(*str, *sizeAlloced);
-	}
-	p = *str + len;
-	va_start(vararg, fmt);
-	while (mir_vsnwprintf(p, size / sizeof(wchar_t) - 1, fmt, vararg) == -1) {
-		size += 2048;
-		(*sizeAlloced) += 2048;
-		*str = (wchar_t *)realloc(*str, *sizeAlloced);
-		p = *str + len;
-	}
-	p[size / sizeof(wchar_t) - 1] = '\0';
-	va_end(vararg);
-}
-
 void Utils::convertPath(char *path)
 {
 	if (path != NULL) {
@@ -181,9 +111,9 @@ char *Utils::escapeString(const char *a)
 	return out;
 }
 
-void Utils::appendIcon(char **str, int *sizeAlloced, const char *iconFile)
+void Utils::appendIcon(CMStringA &str, const char *iconFile)
 {
-	Utils::appendText(str, sizeAlloced, "<img class=\"img\" src=\"file://%s/plugins/ieview/%s\"/> ", workingDirUtf8, iconFile);
+	str.AppendFormat("<img class=\"img\" src=\"file://%s/plugins/ieview/%s\"/> ", workingDirUtf8, iconFile);
 }
 
 bool Utils::DbEventIsForMsgWindow(DBEVENTINFO *dbei)

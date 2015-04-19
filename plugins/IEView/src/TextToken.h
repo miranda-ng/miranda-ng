@@ -81,7 +81,7 @@ public:
 	void setLink(const char *link);
 	void setLink(const wchar_t *wlink);
 
-	void toString(wchar_t **str, int *sizeAlloced);
+	void toString(CMStringW &str);
 	static wchar_t* htmlEncode(const wchar_t *str);
 
 	static TextToken* tokenizeLinks(const wchar_t *wtext);

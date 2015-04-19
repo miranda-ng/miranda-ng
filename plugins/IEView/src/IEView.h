@@ -420,7 +420,8 @@ public:
 	STDMETHODIMP_(void)FileDownload(VARIANT_BOOL*);
 };
 
-class IEView :public IDispatch, public IOleClientSite, public IOleInPlaceSite, public IDocHostUIHandler, public IInternetSecurityManager, public IServiceProvider {
+class IEView :public IDispatch, public IOleClientSite, public IOleInPlaceSite, public IDocHostUIHandler, public IInternetSecurityManager, public IServiceProvider, public MZeroedObject
+{
 private:
 	static IEView *list;
 	static mir_cs mutex;
@@ -431,9 +432,9 @@ private:
 	RECT rcClient;
 	BOOL m_bInPlaceActive;
 	DWORD m_dwCookie;
-	IConnectionPoint *m_pConnectionPoint;
+	CComPtr<IConnectionPoint> m_pConnectionPoint;
+	CComPtr<IWebBrowser2> pWebBrowser;
 	IEViewSink *sink;
-	IWebBrowser2 *pWebBrowser;
 	HTMLBuilder *builder;
 
 	WNDPROC mainWndProc, docWndProc, serverWndProc;
@@ -508,7 +509,7 @@ private:
 	STDMETHOD(GetZoneMappings)(DWORD dwZone, IEnumString **ppenumString, DWORD dwFlags);
 
 	IHTMLDocument2 *getDocument();
-	WCHAR*  getHrefFromAnchor(IHTMLElement *element);
+	WCHAR*  getHrefFromAnchor(CComPtr<IHTMLElement> element);
 	WCHAR*  getSelection();
 	void    setBorder();
 protected:
