@@ -239,6 +239,7 @@ private:
 	void AddChatContact(const TCHAR *tchat_id, const char *id, const char *name, const TCHAR *role);
 
 	void RemoveChatContact(const TCHAR *tchat_id, const char *id, const char *name);
+	void RenameChat(const char *chat_id, const char *name);
 
 	//polling
 	void __cdecl PollingThread(void*);
