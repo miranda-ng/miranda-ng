@@ -225,7 +225,7 @@ private:
 	int __cdecl OnGroupChatEventHook(WPARAM, LPARAM lParam);
 	int __cdecl OnGroupChatMenuHook(WPARAM, LPARAM lParam);
 
-	void StartChatRoom(MCONTACT hChatRoom, bool showWindow = false);
+	void StartChatRoom(const TCHAR *tid, const TCHAR *tname);
 
 	void OnGetChatInfo(const NETLIBHTTPREQUEST *response);
 
@@ -233,6 +233,12 @@ private:
 	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
 
 	void OnChatEvent(JSONNODE *node);
+
+	char *GetChatUsers(const TCHAR *chat_id);
+	bool IsChatContact(const TCHAR *chat_id, const char *id);
+	void AddChatContact(const TCHAR *tchat_id, const char *id, const char *name, const TCHAR *role);
+
+	void RemoveChatContact(const TCHAR *tchat_id, const char *id, const char *name);
 
 	//polling
 	void __cdecl PollingThread(void*);

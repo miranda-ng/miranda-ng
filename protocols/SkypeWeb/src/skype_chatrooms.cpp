@@ -63,7 +63,7 @@ MCONTACT CSkypeProto::FindChatRoom(const char *chatname)
 			continue;
 
 		ptrA cChatname(getStringA(hContact, "ChatID"));
-		if (mir_strcmpi(chatname, cChatname) == 0)
+		if (!mir_strcmpi(chatname, cChatname))
 			break;
 	}
 	return hContact;
@@ -72,7 +72,7 @@ MCONTACT CSkypeProto::FindChatRoom(const char *chatname)
 MCONTACT CSkypeProto::AddChatRoom(const char *chatname)
 {
 	MCONTACT hContact = FindChatRoom(chatname);
-	if (!hContact)
+	if (hContact == NULL)
 	{
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
@@ -109,7 +109,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-void CSkypeProto::StartChatRoom(MCONTACT hChatRoom, bool showWindow)
+/*void CSkypeProto::StartChatRoom(MCONTACT hChatRoom, bool showWindow)
 {
 	ptrT tszChatID(getTStringA(hChatRoom, "ChatID"));
 	ptrT tszNick(getTStringA(hChatRoom, "Nick"));
@@ -140,6 +140,43 @@ void CSkypeProto::StartChatRoom(MCONTACT hChatRoom, bool showWindow)
 
 	SendRequest(new GetChatInfoRequest(RegToken, ptrA(mir_t2a(tszChatID)), Server), &CSkypeProto::OnGetChatInfo); 
 
+}*/
+
+void CSkypeProto::StartChatRoom(const TCHAR *tid, const TCHAR *tname)
+{
+	// Create the group chat session
+	GCSESSION gcw = { sizeof(gcw) };
+	gcw.iType = GCW_PRIVMESS;
+	gcw.ptszID = tid;
+	gcw.pszModule = m_szModuleName;
+	gcw.ptszName = tname;
+	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+
+	// Send setting events
+	GCDEST gcd = { m_szModuleName, tid, GC_EVENT_ADDGROUP };
+	GCEVENT gce = { sizeof(gce), &gcd };
+
+	// Create a user statuses
+	gce.ptszStatus = TranslateT("Myself");
+	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	gce.ptszStatus = TranslateT("Friend");
+	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	gce.ptszStatus = TranslateT("User");
+	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+
+	// Finish initialization
+	gcd.iType = GC_EVENT_CONTROL;
+	gce.time = time(NULL);
+	gce.pDest = &gcd;
+
+	bool hideChats = getBool("HideChats", 1);
+
+	// Add self contact
+	//AddChatContact(tid, facy.self_.user_id.c_str(), facy.self_.real_name.c_str());
+	CallServiceSync(MS_GC_EVENT, (hideChats ? WINDOW_HIDDEN : SESSION_INITDONE), reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
+
+	SendRequest(new GetChatInfoRequest(RegToken, ptrA(mir_t2a(tid)), Server), &CSkypeProto::OnGetChatInfo); 
 }
 
 int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
@@ -186,10 +223,9 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
 	ptrA chatname(ChatUrlToName(conversationLink));
 
-	ptrA topic(mir_t2a(ptrT(json_as_string(json_get(node, "threadtopic")))));
+	ptrT topic(json_as_string(json_get(node, "threadtopic")));
 	
-	MCONTACT hChatRoom = AddChatRoom(chatname);
-	StartChatRoom(hChatRoom);
+	StartChatRoom(_A2T(chatname), topic);
 	
 	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 	if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
@@ -201,6 +237,7 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		gce.time = timestamp;
 		gce.ptszNick = ptrT(mir_a2t(ContactUrlToName(from)));
 		gce.ptszText = tcontent;
+		gce.dwFlags = GCEF_ADDTOLOG;
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/AddMember"))
@@ -219,14 +256,7 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 
 		target = ParseUrl(xtarget, "8:");
 
-		GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_JOIN };
-		GCEVENT gce = { sizeof(GCEVENT), &gcd };
-		gce.bIsMe = IsMe(target);
-		gce.ptszUID = ptrT(mir_a2t(target));
-		gce.ptszNick = ptrT(mir_a2t(target));
-		gce.ptszStatus = TranslateT("User");
-		gce.time = timestamp;
-		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+		AddChatContact(_A2T(chatname), target, target, L"User");
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/DeleteMember"))
 	{
@@ -264,12 +294,7 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		}
 		else
 		{
-			GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_PART };
-			GCEVENT gce = { sizeof(GCEVENT), &gcd };
-			gce.ptszUID = ptrT(mir_a2t(target));
-			gce.ptszNick = ptrT(mir_a2t(target));
-			gce.time = timestamp;
-			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+			RemoveChatContact(_A2T(chatname), target, target);
 		}
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/TopicUpdate"))
@@ -298,12 +323,72 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response)
 		ptrA username(ContactUrlToName(ptrA(mir_t2a(ptrT(json_as_string(json_get(member, "userLink")))))));
 		ptrT role(json_as_string(json_get(member, "role")));
 
-		GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatId)), GC_EVENT_JOIN };
-		GCEVENT gce = { sizeof(GCEVENT), &gcd };
-		gce.bIsMe = false;
-		gce.ptszUID = ptrT(mir_a2t(username));
-		gce.ptszNick = ptrT(mir_a2t(username));
-		gce.ptszStatus = TranslateTS(role);
-		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+		AddChatContact(_A2T(chatId), username, username, role);
 	}
+}
+
+
+bool CSkypeProto::IsChatContact(const TCHAR *chat_id, const char *id)
+{
+	ptrA users(GetChatUsers(chat_id));
+	return (users != NULL && strstr(users, id) != NULL);
+}
+
+char *CSkypeProto::GetChatUsers(const TCHAR *chat_id)
+{
+	GC_INFO gci = { 0 };
+	gci.Flags = GCF_USERS;
+	gci.pszModule = m_szModuleName;
+	gci.pszID = chat_id;
+	CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
+
+	// mir_free(gci.pszUsers);
+	return gci.pszUsers;
+}
+
+void CSkypeProto::AddChatContact(const TCHAR *tchat_id, const char *id, const char *name, const TCHAR *role)
+{
+	if (IsChatContact(tchat_id, id))
+		return;
+
+	ptrT tnick(mir_a2t_cp(name, CP_UTF8));
+	ptrT tid(mir_a2t(id));
+
+	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_JOIN };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.pDest = &gcd;
+	gce.dwFlags = GCEF_ADDTOLOG;
+	gce.ptszNick = tnick;
+	gce.ptszUID = tid;
+	gce.time = ::time(NULL);
+	gce.bIsMe = false;//!strcmp(id, facy.self_.user_id.c_str());
+
+	if (gce.bIsMe) {
+		gce.ptszStatus = TranslateT("Myself");
+	}
+	else 
+	{
+		gce.ptszStatus = TranslateTS(role);
+	}
+
+	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+}
+
+void CSkypeProto::RemoveChatContact(const TCHAR *tchat_id, const char *id, const char *name)
+{
+	if(IsMe(id))
+		return;
+	
+	ptrT tnick(mir_a2t_cp(name, CP_UTF8));
+	ptrT tid(mir_a2t(id));
+
+	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_PART };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.dwFlags = GCEF_ADDTOLOG;
+	gce.ptszNick = tnick;
+	gce.ptszUID = tid;
+	gce.time = time(NULL);
+	gce.bIsMe = false;
+
+	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }

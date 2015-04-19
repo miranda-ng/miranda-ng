@@ -91,16 +91,17 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		}
 		else if (conversationLink != NULL && strstr(conversationLink, "/19:"))
 		{
+			ptrA chatname(ChatUrlToName(conversationLink));
+			StartChatRoom(_A2T(chatname), _A2T(chatname));
 			if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 			{
-				ptrA chatname(ChatUrlToName(conversationLink));
-				GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_MESSAGE };
+				GCDEST gcd = { m_szModuleName, _A2T(chatname), GC_EVENT_MESSAGE };
 				GCEVENT gce = { sizeof(GCEVENT), &gcd };
 				gce.bIsMe = IsMe(ContactUrlToName(from));
-				gce.ptszUID = ptrT(mir_a2t(ContactUrlToName(from)));
+				gce.ptszUID = _A2T(ContactUrlToName(from));
 				gce.time = timestamp;
-				gce.ptszNick = ptrT(mir_a2t(ContactUrlToName(from)));
-				gce.ptszText = ptrT(mir_a2t(ptrA(RemoveHtml(content))));
+				gce.ptszNick = _A2T(ContactUrlToName(from));
+				gce.ptszText = _A2T(content);
 				gce.dwFlags = GCEF_NOTNOTIFY;
 				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 			}
@@ -164,10 +165,9 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		else 
 			continue;
 
-		MCONTACT hContact = !isChat ? AddContact(skypename) : AddChatRoom(skypename);
-		if (isChat) StartChatRoom(hContact);
+		MCONTACT hContact = isChat ? NULL : AddContact(skypename);
 
-		if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
+		if (hContact == NULL || GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
 			PushRequest(new GetHistoryRequest(RegToken, skypename, !isChat ? 100 : 15, isChat, 0,Server), &CSkypeProto::OnGetServerHistory);
 	}
 }
