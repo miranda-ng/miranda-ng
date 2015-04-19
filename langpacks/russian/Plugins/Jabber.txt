@@ -37,8 +37,8 @@
 Служба поиска
 [Roster Editor]
 Редактор ростера
-[Roster editor\nView and modify your server-side contact list.]
-Редактор ростера\nПросмотр и правка списка контактов на сервере.
+[View and modify your server-side contact list.]
+Просмотр и правка списка контактов на сервере.
 [Download]
 Скачать
 [Upload]
@@ -199,10 +199,10 @@ Jabber vCard: добавление телефона
 Новый пароль:
 [Confirm New Password:]
 Подтверждение:
-[Create or Join group chat]
-Создание или вход в комнату чата
-[Jabber Multi-User Conference\nCreate or join existing conference room.]
-Комната чата Jabber\nСоздание или вход в комнату чата.
+[Jabber Multi-User Conference]
+Комната чата Jabber
+[Create or join existing conference room.]
+Создание или вход в комнату чата.
 [Conference server:]
 Сервер:
 [Room:]
@@ -217,10 +217,10 @@ Jabber vCard: добавление телефона
 Применить фильтр
 [Reset Filter]
 Сбросить фильтр
-[Invite Users]
-Приглашение пользователей
-[<room jid>\nSend group chat invitation.]
-<room jid>\nПригласить в комнату чата.
+[Invite Users to <room jid>]
+Пригласить пользователей в <room jid>
+[Send group chat invitation.]
+Пригласить в конференцию.
 [Other JID:]
 Другой JID:
 [Add]
@@ -229,20 +229,20 @@ Jabber vCard: добавление телефона
 Причина приглашения:
 [&Invite]
 &Пригласить
-[Group chat invitation]
-Приглашение в конференцию
-[<room jid>\nIncoming group chat invitation.]
-<room jid>\nПриглашение в комнату чата.
+[Group chat invitation to <room jid>]
+Приглашение в конференцию <room jid>
+[Incoming group chat invitation.]
+Приглашение в конференцию.
 [You are invited to conference room by]
 Вас пригласил:
 [with following reason:]
 причина:
 [&Accept]
 &Принять
-[Jabber Bookmarks]
-Закладки
-[Server side bookmarks\nStore conference rooms and web links on server.]
-Закладки на сервере\nХранить комнаты чата и ссылки на сервере.
+[Server side bookmarks]
+Закладки на сервере
+[Store conference rooms and web links on server.]
+Хранить комнаты чата и ссылки на сервере.
 [Remove]
 Удалить
 [Edit]
@@ -267,8 +267,8 @@ JID / URL:
 Имя закладки:
 [Privacy Lists]
 Списки приватности
-[Privacy Lists\nFlexible way to configure visibility and more.]
-Списки приватности\nУдобный способ настроить видимость и не только.
+[Flexible way to configure visibility and more.]
+Удобный способ настроить видимость и не только.
 [Lists:]
 Списки:
 [Rules:]
@@ -337,8 +337,6 @@ JID / URL:
 Информация об уч. записи Jabber:
 [Member Information]
 Права доступа
-[Member Information\n<user ID>]
-Информация о пользователе\n<user ID>
 [Role:]
 Роль:
 [Set role]
@@ -361,8 +359,8 @@ JID / URL:
 Шлепок:
 [Authorization request]
 Запрос авторизации
-[HTTP Authorization\nAccept or reject incoming request]
-HTTP авторизация\nПринять или отклонить входящий запрос
+[Accept or reject incoming request]
+Принять или отклонить входящий запрос
 [Someone (maybe you) has requested the following file:]
 Кто-то (возможно, вы) запросил следующий файл:
 [Request was sent from JID:]
@@ -381,8 +379,8 @@ HTTP авторизация\nПринять или отклонить входя
 Диалог
 [Jabber Notebook]
 Записная книжка
-[Jabber notebook\nStore notes on server and access them from anywhere.]
-Записная книжка\nХранение заметок на сервере и доступ к ним отовсюду.
+[Store notes on server and access them from anywhere.]
+Хранение заметок на сервере и доступ к ним отовсюду.
 [Bots Challenge Test]
 Защита от ботов
 [XML Console]
@@ -667,14 +665,14 @@ xHTML формат чат сообщений
 Копировать JID с комнаты чата
 [Real &JID: %s]
 Реальный &JID: %s
-[%s\nSend group chat invitation.]
-%s\nПригласить в конференцию.
+[Invite Users to %s]
+Пригласить пользователей в %s
 [%s (not on roster)]
 %s (не в ростере)
 [Member Info: %s]
 Инфо пользователя: %s
-[Member Information\n%s from %s]
-Информация о пользователе\n%s из %s
+[from %s]
+из %s
 [Real JID not available]
 Реальный JID недоступен
 [Reason to kick %s]
@@ -783,8 +781,8 @@ Jabber ошибка
 Изменить ник в <%s>
 [has set the subject to:]
 установил(а) тему:
-[%s\nIncoming group chat invitation.]
-%s\nПриглашение в конференцию.
+[Group chat invitation to %s]
+Приглашение в конференцию %s
 [Status icons]
 Значки статуса
 [transport]

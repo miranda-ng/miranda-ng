@@ -103,8 +103,8 @@
 Отмена
 [Create Gadu-Gadu account]
 Создать учётную запись Gadu-Gadu
-[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
-Учётная запись Gadu-Gadu\nСоздание новой учётной записи Gadu-Gadu
+[This will create new Gadu-Gadu account]
+Создание новой учётной записи Gadu-Gadu
 [New password:]
 Новый пароль:
 [Confirm password:]
@@ -115,20 +115,20 @@
 &Создать
 [Remove Gadu-Gadu account]
 Удалить учётную запись Gadu-Gadu
-[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
-Учётная запись Gadu-Gadu\nУдаление учётной записи Gadu-Gadu
+[This will remove your Gadu-Gadu account]
+Удаление учётной записи Gadu-Gadu
 [Yes, I want to remove my account]
 Да, удалите мою учётную запись
 [Remove]
 Удалить
 [Change Gadu-Gadu password]
 Изменить пароль Gadu-Gadu
-[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
-Изменить пароль Gadu-Gadu\nСмена текущего пароля Gadu-Gadu
+[Changes current Gadu-Gadu user password]
+Смена текущего пароля Gadu-Gadu
 [Change Gadu-Gadu e-mail]
 Изменить e-mail Gadu-Gadu
-[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
-Изменить E-mail Gadu-Gadu\nСмена текущего E-mail Gadu-Gadu
+[Changes current Gadu-Gadu user e-mail]
+Смена текущего E-mail Gadu-Gadu
 [Age from:]
 Возраст:
 [to:]
@@ -141,14 +141,14 @@
 &Отправить
 [Open new conference]
 Начать конференцию
-[Open new conference\nSelect conference participants]
-Открыть новую конференцию\nВыберите участников конференции
+[Select conference participants]
+Выберите участников конференции
 [Open]
 Открыть
-[Concurrent Sessions]
-Одновременные сессии
-[Concurrent %s Login Sessions\nView information on active concurrent sessions]
-Одновременные сессии %s\nИнформация об активных одновременных сессиях
+[Concurrent %s Login Sessions]
+Одновременные сессии %s
+[View information on active concurrent sessions]
+Информация об активных одновременных сессиях
 [Sign out all sessions]
 Выйти из всех сессий
 [Cannot create avatars cache directory. ERROR: %d: %s\n%s]

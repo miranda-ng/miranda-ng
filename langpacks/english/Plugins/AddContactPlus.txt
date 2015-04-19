@@ -8,7 +8,7 @@
 [Provides the ability to quickly add new contacts.]
 ;file \plugins\AddContactPlus\res\resource.rc
 [Add contact]
-[Add contact\nAdd a contact to your contact list]
+[Add a contact to your contact list]
 [Account:]
 [Contact ID:]
 [Custom name:]
