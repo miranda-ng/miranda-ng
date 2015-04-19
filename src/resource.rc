@@ -130,7 +130,7 @@ BEGIN
     PUSHBUTTON      "Add to list",IDC_ADD,354,225,68,14,WS_DISABLED
     CONTROL         "",IDC_STATUSBAR,"msctls_statusbar32",WS_TABSTOP | 0x100,0,244,427,10
     CONTROL         "Custom",IDC_BYCUSTOM,"Button",BS_AUTORADIOBUTTON,11,190,89,10
-    CONTROL         "Find/add contacts\nHere you can add contacts to your contact list",IDC_HEADERBAR,
+    CONTROL         "Here you can add contacts to your contact list",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,427,25
 END
 
@@ -141,7 +141,7 @@ CAPTION "Options"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     COMBOBOX        IDC_KEYWORD_FILTER,336,6,88,79,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Options\nConfigure your Miranda NG options",IDC_HEADERBAR,
+    CONTROL         "Configure your Miranda NG options",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,428,25
     DEFPUSHBUTTON   "OK",IDOK,265,283,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,319,283,50,14
@@ -159,7 +159,7 @@ CAPTION "Options"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     COMBOBOX        IDC_KEYWORD_FILTER,336,37,88,79,CBS_DROPDOWN | CBS_SORT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Options\nConfigure your Miranda NG options",IDC_HEADERBAR,
+    CONTROL         "Configure your Miranda NG options",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,325,25
     DEFPUSHBUTTON   "OK",IDOK,158,283,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,212,283,50,14
@@ -550,7 +550,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTI
 CAPTION "Accounts"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Accounts\nConfigure your IM accounts",IDC_HEADERBAR,
+    CONTROL         "Configure your IM accounts",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,350,25
     LISTBOX         IDC_ACCLIST,7,32,130,187,LBS_SORT | LBS_OWNERDRAWVARIABLE | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Account information:",IDC_TXT_ACCOUNT,142,32,201,8
