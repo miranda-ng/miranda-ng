@@ -9,8 +9,8 @@
 Ofrece la posibilidad de añadir rápidamente nuevos contactos.
 [Add contact]
 Añadir contacto
-[Add contact\nAdd a contact to your contact list]
-Añadir contacto\nAgregar un contacto a la lista de contactos
+[Add a contact to your contact list]
+Agregar un contacto a la lista de contactos
 [Account:]
 Cuenta:
 [Contact ID:]

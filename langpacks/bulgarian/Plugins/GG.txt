@@ -91,8 +91,8 @@ Gadu-Gadu номер:
 Отказ
 [Create Gadu-Gadu account]
 Създаване на Gadu-Gadu акаунт
-[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
-Създай Gadu-Gadu акаунт\nСъздаване на нов акаунт за Gadu-Gadu
+[This will create new Gadu-Gadu account]
+Създаване на нов акаунт за Gadu-Gadu
 [New password:]
 Нова парола:
 [Confirm password:]
@@ -103,20 +103,20 @@ Gadu-Gadu номер:
 Създаване
 [Remove Gadu-Gadu account]
 Премахване на Gadu-Gadu акаунт
-[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
-Премахни Gadu-Gaduакаунт\nИзтриване на акаунт от Gadu-Gadu
+[This will remove your Gadu-Gadu account]
+Изтриване на акаунт от Gadu-Gadu
 [Yes, I want to remove my account]
 Да желая акаунта да бъде премахнат.
 [Remove]
 Премахване
 [Change Gadu-Gadu password]
 Промяна на Gadu-Gadu парола
-[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
-Промени Gadu-Gadu парола\nПроменяне на текущата ви парола за Gadu-Gadu
+[Changes current Gadu-Gadu user password]
+Променяне на текущата ви парола за Gadu-Gadu
 [Change Gadu-Gadu e-mail]
 Промяна на Gadu-Gadu имейла
-[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
-Промени Gadu-Gadu имейл\nПроменяне на текущата ел. поща, която ползвате в Gadu-Gadu
+[Changes current Gadu-Gadu user e-mail]
+Променяне на текущата ел. поща, която ползвате в Gadu-Gadu
 [Age from:]
 Възраст от:
 [to:]
@@ -129,12 +129,12 @@ Gadu-Gadu номер:
 Изпращане
 [Open new conference]
 Отваряне на нова конференция
-[Open new conference\nSelect conference participants]
-Отваряне на нова конференция\nИзберете участници
-[Concurrent Sessions]
-Едновременни сесии
-[Concurrent %s Login Sessions\nView information on active concurrent sessions]
-Едновременни %s сесии\nПреглед на информацията за едновременните сесии
+[Select conference participants]
+Изберете участници
+[Concurrent %s Login Sessions]
+Едновременни %s сесии
+[View information on active concurrent sessions]
+Преглед на информацията за едновременните сесии
 [Sign out all sessions]
 Отписване от всички сесии
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]

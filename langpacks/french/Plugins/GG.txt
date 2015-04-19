@@ -104,8 +104,8 @@ Entrer quelquechose pour continuer
 Annuler
 [Create Gadu-Gadu account]
 Créer un compte Gadu-Gadu
-[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
-Créer un compte Gadu-Gadu\nCeci va créer un nouveau compte Gadu-Gadu
+[This will create new Gadu-Gadu account]
+Ceci va créer un nouveau compte Gadu-Gadu
 [New password:]
 Nouveau mot de passe :
 [Confirm password:]
@@ -116,19 +116,19 @@ Nouvel e-mail :
 &Créer
 [Remove Gadu-Gadu account]
 Effacer le compte Gadu-Gadu
-[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
-Effacer le compte Gadu-Gadu\nCeci effacera votre compte Gadu-Gadu
+[This will remove your Gadu-Gadu account]
+Ceci effacera votre compte Gadu-Gadu
 [Yes, I want to remove my account]
 Oui, je veux effacer mon compte
 [Remove]
 Retirer
 [Change Gadu-Gadu password]
 Changer le mot de passe Gadu-Gadu
-[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
-Changer le mot de passe Gadu-Gadu\nChange le mot de passe du compte Gadu-Gadu courrant
+[Changes current Gadu-Gadu user password]
+Change le mot de passe du compte Gadu-Gadu courrant
 [Change Gadu-Gadu e-mail]
 Changer l'e-mail Gadu-Gadu
-[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
+[Changes current Gadu-Gadu user e-mail]
 
 [Age from:]
 Agé de :
@@ -142,13 +142,13 @@ Chercher les utilisateurs en ligne seulement
 &Envoyer
 [Open new conference]
 Ouvrir un chat
-[Open new conference\nSelect conference participants]
-Ouvrir un chat\nChoisir les participants du chat
+[Select conference participants]
+Choisir les participants du chat
 [Open]
 Ouvrir
-[Concurrent Sessions]
+[Concurrent %s Login Sessions]
 
-[Concurrent %s Login Sessions\nView information on active concurrent sessions]
+[View information on active concurrent sessions]
 
 [Sign out all sessions]
 

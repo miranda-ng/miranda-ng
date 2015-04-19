@@ -17,8 +17,8 @@
 Скасувати
 [Send screenshot]
 Відправити знімок екрану
-[Send screenshot to\n<unknown>]
-Відправити знімок екрану для\n<Невідомий контакт>
+[<unknown>]
+<невідомий контакт>
 [Ti&med capture]
 &Затримка захоплення
 [Time (secs):]
@@ -185,8 +185,6 @@ HTTP-з'єднання SendSS
 Автори
 [Drag&Drop the target on the desired window.]
 Перетягніть приціл на потрібне вікно.
-[Send screenshot to\n]
-Відправити знімок екрану\n
 [Window]
 Вікно
 [Desktop]

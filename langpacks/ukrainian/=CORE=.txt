@@ -83,10 +83,10 @@
 Додати до списку
 [Custom]
 Вказане
-[Find/add contacts\nHere you can add contacts to your contact list]
-Знайти/додати контакт\nТут можна додати контакти до свого списку контактів
-[Options\nConfigure your Miranda NG options]
-Налаштування\nНалаштуйте Miranda NG згідно своїх вподобань
+[Here you can add contacts to your contact list]
+Тут можна додати контакти до свого списку контактів
+[Configure your Miranda NG options]
+Налаштуйте Miranda NG згідно своїх вподобань
 [Apply]
 Застосувати
 [Switch to simple options]
@@ -361,8 +361,8 @@
 Гарячі клавіші
 [Accounts]
 Облікові записи
-[Accounts\nConfigure your IM accounts]
-Облікові записи\nНалаштуйте свої облікові записи
+[Configure your IM accounts]
+Налаштуйте свої облікові записи
 [Account information:]
 Обліковий запис:
 [Additional:]

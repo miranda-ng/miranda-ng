@@ -37,8 +37,8 @@ Ir
 Servicio de búsqueda
 [Roster Editor]
 Editor del Registro
-[Roster editor\nView and modify your server-side contact list.]
-Editor del Registro\nVer y modificar la lista de contactos en el servidor.
+[View and modify your server-side contact list.]
+Ver y modificar la lista de contactos en el servidor.
 [Download]
 Descargar
 [Upload]

@@ -9,8 +9,8 @@
 Плагін розширеної інформації про користувача. Дозволяє редагувати всю інформацію про контакт.
 [Edit contact information]
 Редагувати дані контакту
-[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-Редагувати дані контакту\nСписок включає всі свята ваших контактів.
+[This list gives you some overview about all your contact's anniversaries.]
+Список включає всі свята ваших контактів.
 [Origin]
 Походження
 [&Update]
@@ -163,8 +163,8 @@
 Видалити
 [Anniversary editor]
 Редактор свят
-[Anniversary Editor\nAdd/Edit your anniversary here.]
-Редактор свят\nДодавайте/редагуйте свята тут
+[Add/Edit your anniversary here.]
+Додавайте/редагуйте свята тут.
 [Enter a name for the anniversary here please:]
 Введіть назву свята:
 [Anniversary list]

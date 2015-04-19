@@ -10,8 +10,8 @@ Möglichkeit, neue Kontakte schnell hinzuzufügen.
 ;file \plugins\AddContactPlus\res\resource.rc
 [Add contact]
 Kontakt hinzufügen
-[Add contact\nAdd a contact to your contact list]
-Kontakt hinzufügen\nFügt einen Kontakt Ihrer Liste hinzu
+[Add a contact to your contact list]
+Fügt einen Kontakt Ihrer Liste hinzu
 [Account:]
 Konto:
 [Contact ID:]

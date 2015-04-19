@@ -10,8 +10,8 @@
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit contact information]
 Рэдагаваць дадзеныя кантакту
-[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-Рэдагаваць інфармацыю кантакта\nГэты ліст дае вам ўяўленне пра ўсе юбілеі вашых кантактаў.
+[This list gives you some overview about all your contact's anniversaries.]
+Гэты ліст дае вам ўяўленне пра ўсе юбілеі вашых кантактаў.
 [Origin]
 Паходжанне
 [&Update]
@@ -164,8 +164,8 @@
 Выдаліць
 [Anniversary editor]
 Рэдактар свята
-[Anniversary Editor\nAdd/Edit your anniversary here.]
-Рэдактар свята\nДадайце/Рэдагуйце свята тут.
+[Add/Edit your anniversary here.]
+Дадайце/Рэдагуйце свята тут.
 [Enter a name for the anniversary here please:]
 Увядзіце найменне свята:
 [Anniversary list]

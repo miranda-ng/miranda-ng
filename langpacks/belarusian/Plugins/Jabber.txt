@@ -36,8 +36,8 @@
 Служба пошуку
 [Roster Editor]
 Рэдактар росцера
-[Roster editor\nView and modify your server-side contact list.]
-Рэдактар росцера\nПрагляд і праўка спісу кантактаў на серверы.
+[View and modify your server-side contact list.]
+Прагляд і праўка спісу кантактаў на серверы.
 [Download]
 Запампаваць
 [Upload]
@@ -206,10 +206,10 @@ PCS
 Новы пароль:
 [Confirm New Password:]
 Пацверджанне:
-[Create or Join group chat]
-Стварыць ці далучыцца да чата
-[Jabber Multi-User Conference\nCreate or join existing conference room.]
-Чат Jabber\nСтварэнне ці ўваход у чат.
+[Jabber Multi-User Conference]
+Чат Jabber
+[Create or join existing conference room.]
+Стварэнне ці ўваход у чат.
 [Conference server:]
 Сервер:
 [Room:]
@@ -224,10 +224,10 @@ PCS
 Ужыць фільтр
 [Reset Filter]
 Скінуць фільтр
-[Invite Users]
-Запрашэнне кантактаў
-[<room jid>\nSend group chat invitation.]
-<room jid>\nЗапрасіць у чат.
+[Invite Users to <room jid>]
+Запрашэнне кантактаў у <room jid>
+[Send group chat invitation.]
+Запрасіць у чат.
 [Other JID:]
 Іншы JID:
 [Add]
@@ -236,20 +236,20 @@ PCS
 Чыннік запрашэння:
 [&Invite]
 Запрасіць
-[Group chat invitation]
-Запрашэнне ў канферэнцыю
-[<room jid>\nIncoming group chat invitation.]
-<room jid>\nЗапрашэнне ў чат.
+[Group chat invitation to <room jid>]
+Запрашэнне ў канферэнцыю <room jid>
+[Incoming group chat invitation.]
+Запрашэнне ў чат.
 [You are invited to conference room by]
 Вас запрасіў:
 [with following reason:]
 чыннік:
 [&Accept]
 Прыняць
-[Jabber Bookmarks]
-Закладкі
-[Server side bookmarks\nStore conference rooms and web links on server.]
-Закладкі на серверы\nЗахоўваць чаты і спасылкі на серверы.
+[Server side bookmarks]
+Закладкі на серверы
+[Store conference rooms and web links on server.]
+Захоўваць чаты і спасылкі на серверы.
 [Remove]
 Выдаліць
 [Edit]
@@ -274,8 +274,8 @@ JID / URL:
 Імя закладкі:
 [Privacy Lists]
 Спісы прыватнасці
-[Privacy Lists\nFlexible way to configure visibility and more.]
-Спісы прыватнасці\nЗручны спосаб наладзіць бачнасць і не толькі.
+[Flexible way to configure visibility and more.]
+Зручны спосаб наладзіць бачнасць і не толькі.
 [Lists:]
 Спісы:
 [Rules:]
@@ -346,8 +346,6 @@ JID:
 Інфармацыя Jabber конта:
 [Member Information]
 Правы ўдзельніка
-[Member Information\n<user ID>]
-Пра ўдзельніка\n<user ID>
 [Role:]
 Роля:
 [Set role]
@@ -370,8 +368,8 @@ JID:
 Шлёпнуць:
 [Authorization request]
 Запыт на аўтарызацыю
-[HTTP Authorization\nAccept or reject incoming request]
-HTTP аўтарызацыя\nПрыняць ці адхіліць ўваходны запрос
+[Accept or reject incoming request]
+Прыняць ці адхіліць ўваходны запрос
 [Someone (maybe you) has requested the following file:]
 Нехта (магчыма, вы) запытаў наступны файл:
 [Request was sent from JID:]
@@ -390,8 +388,8 @@ HTTP аўтарызацыя\nПрыняць ці адхіліць ўваходн
 Гутарка
 [Jabber Notebook]
 Запісная кніжка
-[Jabber notebook\nStore notes on server and access them from anywhere.]
-Запісная кніжка\nЗахоўванне нататак на серверы і доступ да іх адусюль.
+[Store notes on server and access them from anywhere.]
+Захоўванне нататак на серверы і доступ да іх адусюль.
 [Bots Challenge Test]
 Засцярога ад ботаў
 [XML Console]
@@ -677,14 +675,12 @@ xHTML фармат чат-паведамленняў
 Капіяваць JID з чата
 [Real &JID: %s]
 Рэальны JID: %s
-[%s\nSend group chat invitation.]
-%s\nЗапрасіць у канферэнцыю.
 [%s (not on roster)]
 %s (не ў росцеры)
 [Member Info: %s]
 Пра удзельніка:% s
-[Member Information\n%s from %s]
-Пра удзельніка\n%s з%s
+[from %s]
+з %s
 [Real JID not available]
 Сапраўдны JID недасяжны
 [Reason to kick %s]
@@ -799,8 +795,8 @@ Jabber памылка
 Змяніць мянушку ў <%s>
 [has set the subject to:]
 усталяваў(ла) тэму:
-[%s\nIncoming group chat invitation.]
-%s\nЗапрашэнне ў канферэнцыю.
+[Group chat invitation to %s]
+Запрашэнне ў канферэнцыю %s
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]
 Статус

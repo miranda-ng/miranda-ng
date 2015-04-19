@@ -104,8 +104,8 @@ Geben Sie das Token ein, um fortzufahren
 Abbrechen
 [Create Gadu-Gadu account]
 Gadu-Gadu-Konto erstellen
-[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
-Gadu-Gadu-Konto erstellen\nDies wird ein neues Gadu-Gadu-Konto erstellen.
+[This will create new Gadu-Gadu account]
+Dies wird ein neues Gadu-Gadu-Konto erstellen.
 [New password:]
 Neues Passwort:
 [Confirm password:]
@@ -116,20 +116,20 @@ Neue E-Mail:
 Erstellen
 [Remove Gadu-Gadu account]
 Gadu-Gadu-Konto löschen
-[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
-Gadu-Gadu-Konto entfernen\nDies wird Ihr Gadu-Gadu-Konto entfernen
+[This will remove your Gadu-Gadu account]
+Dies wird Ihr Gadu-Gadu-Konto entfernen
 [Yes, I want to remove my account]
 Ja, ich möchte mein Konto entfernen
 [Remove]
 Entfernen
 [Change Gadu-Gadu password]
 Gadu-Gadu-Passwort ändern
-[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
-Gadu-Gadu-Passwort ändern\nÄndert das Passwort des aktuellen Gadu-Gadu-Nutzers
+[Changes current Gadu-Gadu user password]
+Ändert das Passwort des aktuellen Gadu-Gadu-Nutzers
 [Change Gadu-Gadu e-mail]
 Gadu-Gadu-E-Mail ändern
-[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
-Gadu-Gadu-E-Mail ändern\nÄndern Sie hier Ihre Gadu-Gadu-E-Mail-Adresse
+[Changes current Gadu-Gadu user e-mail]
+Ändern Sie hier Ihre Gadu-Gadu-E-Mail-Adresse
 [Age from:]
 Alter von:
 [to:]
@@ -142,14 +142,14 @@ S&chließen
 &Senden
 [Open new conference]
 Öffne neue Konferenz
-[Open new conference\nSelect conference participants]
-Neue Konferenz öffnen\nTeilnehmer der Konferenz auswählen
+[Select conference participants]
+Teilnehmer der Konferenz auswählen
 [Open]
 Öffnen
-[Concurrent Sessions]
-Gleichzeitige Sitzungen
-[Concurrent %s Login Sessions\nView information on active concurrent sessions]
-Gleichzeitige %s Loginsitzungen\nInformationen zu aktiven gleichzeitigen Sitzungen anzeigen
+[Concurrent %s Login Sessions]
+Gleichzeitige %s Loginsitzungen
+[View information on active concurrent sessions]
+Informationen zu aktiven gleichzeitigen Sitzungen anzeigen
 [Sign out all sessions]
 Alle Sitzungen abmelden
 ;file \protocols\Gadu-Gadu\src\avatar.cpp

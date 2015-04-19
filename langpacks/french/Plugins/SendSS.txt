@@ -18,8 +18,8 @@ Aucun
 Annuler
 [Send screenshot]
 Envoyer la capture
-[Send screenshot to\n<unknown>]
-
+[<unknown>]
+<inconnu>
 [Ti&med capture]
 Retardateur
 [Time (secs):]
@@ -227,8 +227,6 @@ Envoyer une capture
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Glisser/déposer la cible sur la fenêtre désirée
-[Send screenshot to\n]
-
 [Window]
 Fenêtre
 [Desktop]

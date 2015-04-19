@@ -81,10 +81,10 @@ Miranda NG - диспечер на профили
 Добавяне в списъка
 [Custom]
 Избор
-[Find/add contacts\nHere you can add contacts to your contact list]
-Търсене/Добавяне на контакти\nОт тук можете да добавите нови контакти в списъка
-[Options\nConfigure your Miranda NG options]
-Настройки\nКонфигурирайте настройките на Miranda NG
+[Here you can add contacts to your contact list]
+От тук можете да добавите нови контакти в списъка
+[Configure your Miranda NG options]
+Конфигурирайте настройките на Miranda NG
 [Apply]
 Прилагане
 [Switch to simple options]
@@ -343,8 +343,8 @@ Copyright:
 Клавишни комбинации
 [Accounts]
 Акаунти
-[Accounts\nConfigure your IM accounts]
-Акаунти\nНастройте вашите акаунти
+[Configure your IM accounts]
+Настройте вашите акаунти
 [Account information:]
 Информация за акаунта:
 [Additional:]

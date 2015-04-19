@@ -35,8 +35,8 @@
 Търсене на услуга
 [Roster Editor]
 Редактор на списъка с хора
-[Roster editor\nView and modify your server-side contact list.]
-Редактор на списъка с хора\nПрегледайте и променете списъка с хора на сървъра.
+[View and modify your server-side contact list.]
+Прегледайте и променете списъка с хора на сървъра.
 [Download]
 Сваляне
 [Upload]
@@ -203,10 +203,10 @@ PCS
 Нова парола:
 [Confirm New Password:]
 Потвърдете новата парола:
-[Create or Join group chat]
-Създаване или влизане в групов чат
-[Jabber Multi-User Conference\nCreate or join existing conference room.]
-Jabber конференция\nСъздайте/присъединете се към съществуваща стая.
+[Jabber Multi-User Conference]
+Jabber конференция
+[Create or join existing conference room.]
+Създайте/присъединете се към съществуваща стая.
 [Conference server:]
 Сървър:
 [Room:]
@@ -221,10 +221,8 @@ JID списък
 Прилагане на филтъра
 [Reset Filter]
 Анулиране на филтъра
-[Invite Users]
-Покани потребите
-[<room jid>\nSend group chat invitation.]
-<room jid>\nИзпращане на покана за групов чат.
+[Send group chat invitation.]
+Изпращане на покана за групов чат.
 [Other JID:]
 Друг JID:
 [Add]
@@ -233,20 +231,18 @@ JID списък
 Причина за поканата:
 [&Invite]
 Покана
-[Group chat invitation]
-Покана за групов чат
-[<room jid>\nIncoming group chat invitation.]
-<room jid>\nВходяща покана за групов чат.
+[Incoming group chat invitation.]
+Входяща покана за групов чат.
 [You are invited to conference room by]
 Поканени сте в конферентна стая от
 [with following reason:]
 със следната причина:
 [&Accept]
 Приемане
-[Jabber Bookmarks]
-Jabber отметки
-[Server side bookmarks\nStore conference rooms and web links on server.]
-Отметки на сървъра\nСъхранете конферентните стаи и хипервръзките си на сървъра.
+[Server side bookmarks]
+Отметки на сървъра
+[Store conference rooms and web links on server.]
+Съхранете конферентните стаи и хипервръзките си на сървъра.
 [Remove]
 Премахване
 [Edit]
@@ -271,8 +267,8 @@ JID на стаята/URL:
 Име на отметката:
 [Privacy Lists]
 Списъци за поверителност
-[Privacy Lists\nFlexible way to configure visibility and more.]
-Списъци за поверителност\nЛесен начин за настройване на видимостта и други.
+[Flexible way to configure visibility and more.]
+Лесен начин за настройване на видимостта и други.
 [Lists:]
 Списъци:
 [Rules:]
@@ -343,8 +339,8 @@ JID:
 Информация за Jabber акаунт:
 [Member Information]
 Информация за потребителя
-[Member Information\n<user ID>]
-Информация за потребителя\n<user ID>
+[<user ID>]
+<user ID>
 [Role:]
 Роля:
 [Set role]
@@ -367,8 +363,8 @@ JID:
 Шамар:
 [Authorization request]
 Молба за упълномощаване
-[HTTP Authorization\nAccept or reject incoming request]
-HTTP упълномощаване\nПриемете или отхвърлете запитването
+[Accept or reject incoming request]
+Приемете или отхвърлете запитването
 [Someone (maybe you) has requested the following file:]
 Някой (можеби Вие) заяви следния файл:
 [Request was sent from JID:]
@@ -385,8 +381,8 @@ HTTP упълномощаване\nПриемете или отхвърлете 
 Прозорец
 [Jabber Notebook]
 Jabber бележник
-[Jabber notebook\nStore notes on server and access them from anywhere.]
-Jabber бележник\nСъхранете бележките си на сървъра и ще имате достъп до тях отвсякъде.
+[Store notes on server and access them from anywhere.]
+Съхранете бележките си на сървъра и ще имате достъп до тях отвсякъде.
 [Bots Challenge Test]
 Тест за ботове
 [XML Console]
@@ -647,14 +643,12 @@ Jabber настроение
 Копиране JID за стаята
 [Real &JID: %s]
 Истински JID: %s
-[%s\nSend group chat invitation.]
-%s\nИзпращане на покана за групов чат.
 [%s (not on roster)]
 %s (не е в списъка с хора)
 [Member Info: %s]
 Членска информация: %s
-[Member Information\n%s from %s]
-Членска информация\n%s от %s
+[from %s]
+от %s
 [Real JID not available]
 Истинският JID не е наличен
 [Reason to kick %s]
@@ -761,8 +755,6 @@ Jabber грешка
 Промяна на прякор в <%s>
 [has set the subject to:]
 зададе темата:
-[%s\nIncoming group chat invitation.]
-%s\nВходяща покана за групов чат.
 [Status icons]
 Икони на състоянията
 [transport]

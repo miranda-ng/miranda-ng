@@ -55,6 +55,7 @@
 [Login error: Some Facebook things are required.]
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
+[Facebook required computer cleaning and plugin correctly skipped it. Please report this to the plugin developer!]
 [Login error, probably bad login credentials.]
 [Could not load communication token. You should report this and wait for plugin update.]
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]

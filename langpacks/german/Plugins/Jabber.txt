@@ -38,8 +38,8 @@ Los
 Suchdienst
 [Roster Editor]
 Serverseitige Kontaktliste
-[Roster editor\nView and modify your server-side contact list.]
-Serverseitige Kontaktliste\nAnzeigen und Änderung der serverseitigen Kontaktliste.
+[View and modify your server-side contact list.]
+Anzeigen und Änderung der serverseitigen Kontaktliste.
 [Download]
 Herunterladen
 [Upload]
@@ -208,10 +208,10 @@ Aktuelles Passwort:
 Neues Passwort:
 [Confirm New Password:]
 Bestätigung:
-[Create or Join group chat]
-Konferenzräume betreten/erstellen
-[Jabber Multi-User Conference\nCreate or join existing conference room.]
-Jabber-Mehrbenutzerkonferenz\nKonferenzräume betreten oder erstellen.
+[Jabber Multi-User Conference]
+Jabber-Mehrbenutzerkonferenz
+[Create or join existing conference room.]
+Konferenzräume betreten oder erstellen.
 [Conference server:]
 Konferenzserver:
 [Room:]
@@ -226,10 +226,10 @@ JID-Liste
 Filter anwenden
 [Reset Filter]
 Filter zurücksetzen
-[Invite Users]
-Benutzer einladen
-[<room jid>\nSend group chat invitation.]
-<Raum-JID>\nGruppenchateinladung senden.
+[Invite Users to <room jid>]
+
+[Send group chat invitation.]
+Gruppenchateinladung senden.
 [Other JID:]
 Andere JID:
 [Add]
@@ -238,20 +238,20 @@ Hinzufügen
 Einladungsgrund:
 [&Invite]
 E&inladen
-[Group chat invitation]
-Gruppenchateinladung
-[<room jid>\nIncoming group chat invitation.]
-<Raum-JID>\nEingehende Gruppenchateinladung.
+[Group chat invitation to <room jid>]
+
+[Incoming group chat invitation.]
+Eingehende Gruppenchateinladung.
 [You are invited to conference room by]
 Sie wurden in den Konferenzraum von
 [with following reason:]
 aus folgendem Grund eingeladen:
 [&Accept]
 &Akzeptieren
-[Jabber Bookmarks]
-Lesezeichen-Konferenzräume
-[Server side bookmarks\nStore conference rooms and web links on server.]
-Auf Server gespeicherte Lesezeichen\nSpeicherung von Konferenzräumen und Weblinks auf dem Server.
+[Server side bookmarks]
+Auf Server gespeicherte Lesezeichen
+[Store conference rooms and web links on server.]
+Speicherung von Konferenzräumen und Weblinks auf dem Server.
 [Remove]
 Entfernen
 [Edit]
@@ -276,8 +276,8 @@ Raum-JID/URL:
 Lesezeichenname:
 [Privacy Lists]
 Privatsphärelisten
-[Privacy Lists\nFlexible way to configure visibility and more.]
-Privatsphärelisten\nBerechtigungen einstellen für Status senden/empfangen, Nachrichten und Querys.
+[Flexible way to configure visibility and more.]
+Berechtigungen einstellen für Status senden/empfangen, Nachrichten und Querys.
 [Lists:]
 Liste
 [Rules:]
@@ -348,8 +348,8 @@ Konto jetzt registrieren
 Jabber-Kontoinformationen:
 [Member Information]
 Information über Mitglied
-[Member Information\n<user ID>]
-Information über Mitglied\n<user id>
+[<user ID>]
+
 [Role:]
 Rolle:
 [Set role]
@@ -372,8 +372,8 @@ Verlassen:
 Schlagen:
 [Authorization request]
 Autorisierungsanfrage
-[HTTP Authorization\nAccept or reject incoming request]
-HTTP-Authentifizierung\nEingehende Anfragen akzeptieren oder ablehnen.
+[Accept or reject incoming request]
+Eingehende Anfragen akzeptieren oder ablehnen.
 [Someone (maybe you) has requested the following file:]
 Jemand, evtl. Sie selbst, erfragte die folgende Daten:
 [Request was sent from JID:]
@@ -392,8 +392,8 @@ Ablehnen
 Dialog
 [Jabber Notebook]
 Jabber-Notizbuch
-[Jabber notebook\nStore notes on server and access them from anywhere.]
-Jabber-Notizbuch\nAuf diese Notizen haben Sie von überall aus Zugriff.
+[Store notes on server and access them from anywhere.]
+Auf diese Notizen haben Sie von überall aus Zugriff.
 [Bots Challenge Test]
 Bottest
 [XML Console]
@@ -689,14 +689,14 @@ Echte &JID kopieren
 JID für diesen Raum kopieren
 [Real &JID: %s]
 Echte &JID: %s
-[%s\nSend group chat invitation.]
-%s\nEinladung zum Gruppenchat versenden.
+[Invite Users to %s]
+
 [%s (not on roster)]
 %s (nicht in der Kontaktliste)
 [Member Info: %s]
 Mitglieder-Info: %s
-[Member Information\n%s from %s]
-Mitglieder-Information\n%s aus %s
+[from %s]
+aus %s
 [Real JID not available]
 Echte JID nicht verfügbar
 [Reason to kick %s]
@@ -1087,8 +1087,8 @@ Lesezeichen...
 Nicknamen in <%s> ändern
 [has set the subject to:]
 hat den Betreff geändert auf:
-[%s\nIncoming group chat invitation.]
-%s\nEinladung zu einem Gruppenchat.
+[Group chat invitation to %s]
+
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]
 Statusicons
