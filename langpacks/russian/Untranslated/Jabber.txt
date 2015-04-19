@@ -3,6 +3,7 @@
 [ISDN]
 [PCS]
 [JID:]
+[<user ID>]
 [Bytestream Proxy not available]
 [Outgoing XML parsing error]
 [One or more addresses for communication related to abusive traffic]

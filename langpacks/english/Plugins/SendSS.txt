@@ -12,7 +12,7 @@
 [None]
 [Cancel]
 [Send screenshot]
-[Send screenshot to\n<unknown>]
+[<unknown>]
 [Ti&med capture]
 [Time (secs):]
 [&Format:]
@@ -124,7 +124,6 @@
 [Credits]
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
-[Send screenshot to\n]
 [Window]
 [Desktop]
 [<Entire Desktop>]

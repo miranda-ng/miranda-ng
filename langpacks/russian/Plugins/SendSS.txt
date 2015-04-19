@@ -17,8 +17,8 @@
 Отмена
 [Send screenshot]
 Отправить скриншот
-[Send screenshot to\n<unknown>]
-Отправить снимок экрана для\n<Неизвестный контакт>
+[<unknown>]
+<неизвестно>
 [Ti&med capture]
 За&держка захвата
 [Time (secs):]
@@ -167,8 +167,6 @@ HTTP подключение SendSS
 Кредиты
 [Drag&Drop the target on the desired window.]
 Перетащите прицел на нужное окно.
-[Send screenshot to\n]
-Отправить снимок экрана для
 [Window]
 Окно
 [Desktop]

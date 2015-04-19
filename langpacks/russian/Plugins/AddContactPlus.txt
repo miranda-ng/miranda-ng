@@ -9,8 +9,8 @@
 Предоставляет возможность быстро добавить контакт.
 [Add contact]
 Добавить контакт
-[Add contact\nAdd a contact to your contact list]
-Добавить контакт\nДобавить контакт в список контактов
+[Add a contact to your contact list]
+Добавить контакт в список контактов
 [Account:]
 Учётная запись:
 [Contact ID:]
