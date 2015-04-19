@@ -288,5 +288,5 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 
 	time_t timestamp = dbei.timestamp;
 
-	PushRequest(new MarkMessageReadRequest(username, RegToken, time(NULL)/*it should be rewritten*/, timestamp, false, Server));
+	PushRequest(new MarkMessageReadRequest(username, RegToken, time(NULL)+60/*it should be rewritten*/, timestamp, false, Server));
 }
