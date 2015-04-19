@@ -38,7 +38,7 @@ Utilisez un hôte et un port de connexion personnalisés :
 Recherche
 [Roster Editor]
 
-[Roster editor\nView and modify your server-side contact list.]
+[View and modify your server-side contact list.]
 
 [Download]
 Téléchargement
@@ -208,10 +208,10 @@ Passe actuel :
 Nouveau passe :
 [Confirm New Password:]
 Vérifier le passe :
-[Create or Join group chat]
-Créer ou rejoindre une salle de conférence
-[Jabber Multi-User Conference\nCreate or join existing conference room.]
-Conférence Jabber multi-utilisateur\nCréer ou rejoindre une salle de conférence existante.
+[Jabber Multi-User Conference]
+Conférence Jabber multi-utilisateur
+[Create or join existing conference room.]
+Créer ou rejoindre une salle de conférence existante.
 [Conference server:]
 Serveur du chat :
 [Room:]
@@ -226,10 +226,10 @@ Liste des JID
 Appliquer le filtre
 [Reset Filter]
 Réinitialiser le filtre
-[Invite Users]
-Inviter des utilisateurs
-[<room jid>\nSend group chat invitation.]
-<room jid>\nEnvoyer des invitations de groupe de chat.
+[Invite Users to <room jid>]
+
+[Send group chat invitation.]
+Envoyer des invitations de groupe de chat.
 [Other JID:]
 Autre ID :
 [Add]
@@ -238,20 +238,20 @@ Ajouter
 Raison d'invitation :
 [&Invite]
 &Inviter
-[Group chat invitation]
-Invitation à une discussion de groupe
-[<room jid>\nIncoming group chat invitation.]
-<room jid>\nInvitation à un groupe de discussion.
+[Group chat invitation to <room jid>]
+
+[Incoming group chat invitation.]
+Invitation à un groupe de discussion.
 [You are invited to conference room by]
 Vous êtes invités à la salle de conférence par
 [with following reason:]
 avec la raison suivante :
 [&Accept]
 &Accepter
-[Jabber Bookmarks]
-Favoris Jabber
-[Server side bookmarks\nStore conference rooms and web links on server.]
-Favoris côté serveur\nConserver les salles de conférence et les liens Web sur le serveur.
+[Server side bookmarks]
+Favoris côté serveur
+[Store conference rooms and web links on server.]
+Conserver les salles de conférence et les liens Web sur le serveur.
 [Remove]
 Retirer
 [Edit]
@@ -276,8 +276,8 @@ Salon/URL :
 Nom du favori :
 [Privacy Lists]
 Listes confidentielle
-[Privacy Lists\nFlexible way to configure visibility and more.]
-Listes confidentielle\nManière flexible de configurer la visibilité et plus.
+[Flexible way to configure visibility and more.]
+Manière flexible de configurer la visibilité et plus.
 [Lists:]
 Listes :
 [Rules:]
@@ -348,8 +348,8 @@ Enregistrer le compte
 Informations sur le compte Jabber :
 [Member Information]
 
-[Member Information\n<user ID>]
-
+[<user ID>]
+<user ID>
 [Role:]
 
 [Set role]
@@ -372,7 +372,7 @@ Quitter :
 
 [Authorization request]
 Demande d'autorisation
-[HTTP Authorization\nAccept or reject incoming request]
+[Accept or reject incoming request]
 
 [Someone (maybe you) has requested the following file:]
 
@@ -392,7 +392,7 @@ Refuser
 Dialogue
 [Jabber Notebook]
 
-[Jabber notebook\nStore notes on server and access them from anywhere.]
+[Store notes on server and access them from anywhere.]
 
 [Bots Challenge Test]
 
@@ -689,14 +689,14 @@ Copier
 
 [Real &JID: %s]
 
-[%s\nSend group chat invitation.]
+[Invite Users to %s]
 
 [%s (not on roster)]
 
 [Member Info: %s]
 
-[Member Information\n%s from %s]
-
+[from %s]
+de %s
 [Real JID not available]
 
 [Reason to kick %s]
@@ -1087,7 +1087,7 @@ Favoris...
 
 [has set the subject to:]
 
-[%s\nIncoming group chat invitation.]
+[Group chat invitation to %s]
 
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]

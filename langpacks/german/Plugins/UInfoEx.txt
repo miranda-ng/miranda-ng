@@ -10,8 +10,8 @@ Erweitertes UserInfo-Modul für Miranda NG. Bietet ein Interface, um alle Inform
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit contact information]
 Kontakt-Informationen bearbeiten
-[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-Kontakt-Informationen bearbeiten\nDiese Liste gibt Ihnen einen Überblick über alle Jahrestage Ihrer Kontakte.
+[This list gives you some overview about all your contact's anniversaries.]
+Diese Liste gibt Ihnen einen Überblick über alle Jahrestage Ihrer Kontakte.
 [Origin]
 Herkunft
 [&Update]
@@ -164,8 +164,8 @@ Interesse hzfg.
 Löschen
 [Anniversary editor]
 Jahrestag-Editor
-[Anniversary Editor\nAdd/Edit your anniversary here.]
-Jahrestag-Editor\nHinzufügen/Bearbeiten der Jahrestage
+[Add/Edit your anniversary here.]
+Hinzufügen/Bearbeiten der Jahrestage
 [Enter a name for the anniversary here please:]
 Geben Sie hier den Namen des Jahrestages ein:
 [Anniversary list]

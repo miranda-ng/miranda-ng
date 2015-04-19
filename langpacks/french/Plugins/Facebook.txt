@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.5
+;  Version: 0.2.10.6
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -138,6 +138,8 @@ Erreur inconnue
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
+
+[Facebook required computer cleaning and plugin correctly skipped it. Please report this to the plugin developer!]
 
 [Login error, probably bad login credentials.]
 

@@ -9,8 +9,6 @@
 Favourites
 [Authorization request]
 Authorisation request
-[HTTP Authorization\nAccept or reject incoming request]
-HTTP Authorisation\nAccept or reject incoming request
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
 If you wish to confirm this request, please click authorise. Otherwise, press deny to reject it.
 [Authorize]

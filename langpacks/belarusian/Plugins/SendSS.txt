@@ -18,8 +18,8 @@
 Скасаваць
 [Send screenshot]
 Адаслаць скрыншот
-[Send screenshot to\n<unknown>]
-Адправіць здыма экрату\n<невядома>
+[<unknown>]
+<невядома>
 [Ti&med capture]
 Затрымка захопу
 [Time (secs):]
@@ -149,8 +149,6 @@ HTTP далучэнне SendSS
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Перацягнеце прыцэл на патрэбнае вакно.
-[Send screenshot to\n]
-Адправіць здымак экрану
 [Window]
 Акно
 [Desktop]

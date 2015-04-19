@@ -9,8 +9,8 @@
 Приставката Extended UserInfo за Miranda NG осигурява интерфейс за редактиране на цялата информация за контактите.
 [Edit contact information]
 Редактиране на информацията за контакта
-[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-Редактиране на информацията за контакта\nСписъкът ще ви даде представа за годишнините на контактите ви.
+[This list gives you some overview about all your contact's anniversaries.]
+Списъкът ще ви даде представа за годишнините на контактите ви.
 [Origin]
 Родом от
 [&Update]
@@ -157,8 +157,8 @@ popup за годишнина
 Изтриване
 [Anniversary editor]
 Редактиране на годишнина
-[Anniversary Editor\nAdd/Edit your anniversary here.]
-Редактор на годишнини\nДобавяне/Промяна на годишнина.
+[Add/Edit your anniversary here.]
+Добавяне/Промяна на годишнина.
 [Enter a name for the anniversary here please:]
 Въведете име на годишнината:
 [Anniversary list]

@@ -1,3 +1,4 @@
-﻿[mBirthday]
+﻿[Add/Edit your anniversary here.]
+[mBirthday]
 [TmplPast Work Place]
 [TmplPast Organization]

@@ -1,5 +1,5 @@
 ﻿[Add contact]
-[Add contact\nAdd a contact to your contact list]
+[Add a contact to your contact list]
 [Account:]
 [Contact ID:]
 [Custom name:]

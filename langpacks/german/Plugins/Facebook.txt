@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.5
+;  Version: 0.2.10.6
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -139,6 +139,8 @@ Anmeldefehler: Einige Facebook-Dinge werden benötigt.
 Anmeldefehler: Ihr Konto ist vorrübergehend gesperrt. Sie müssen dieses Gerät in Ihrem Webbrowser bestätigen.
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
 Anmeldefehler: Captcha-Code wird benötigt. Sie müssen dieses Gerät in Ihrem Webbrowser bestätigen.
+[Facebook required computer cleaning and plugin correctly skipped it. Please report this to the plugin developer!]
+
 [Login error, probably bad login credentials.]
 Loginfehler, wahrscheinlich falsche Anmeldeinformationen.
 [Could not load communication token. You should report this and wait for plugin update.]

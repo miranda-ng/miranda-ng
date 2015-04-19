@@ -10,8 +10,8 @@
 ;file \plugins\AddContactPlus\res\resource.rc
 [Add contact]
 Дадаць кантакт
-[Add contact\nAdd a contact to your contact list]
-Дадаць кантакт\nДадаць кантакт у спіс кантактаў
+[Add a contact to your contact list]
+Дадаць кантакт у спіс кантактаў
 [Account:]
 Конт:
 [Contact ID:]

@@ -13,6 +13,8 @@ Todo
 Ninguno
 [Cancel]
 Cancelar
+[<unknown>]
+<desconocido>
 [About]
 Acerca de...
 [&Close]

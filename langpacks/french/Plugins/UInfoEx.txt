@@ -10,7 +10,7 @@
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit contact information]
 Éditer les détails d'un contact
-[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
+[This list gives you some overview about all your contact's anniversaries.]
 
 [Origin]
 Origine
@@ -164,7 +164,7 @@ Ajouter un intérêt
 Effacer
 [Anniversary editor]
 
-[Anniversary Editor\nAdd/Edit your anniversary here.]
+[Add/Edit your anniversary here.]
 
 [Enter a name for the anniversary here please:]
 veuillez indiquer un nom d'anniversaire :

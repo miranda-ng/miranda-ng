@@ -104,8 +104,8 @@
 Скасаваць
 [Create Gadu-Gadu account]
 Стварыць нумар Gadu-Gadu
-[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
-Конт Gadu-Gadu\nСтварыць новы конт Gadu-Gadu
+[This will create new Gadu-Gadu account]
+Стварыць новы конт Gadu-Gadu
 [New password:]
 Новы пароль:
 [Confirm password:]
@@ -116,20 +116,20 @@
 Стварыць
 [Remove Gadu-Gadu account]
 Выдаліць нумар Gadu-Gadu
-[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
-Выдаліць конт Gadu-Gadu\nГэта прывядзе да выдалення вашага конта Gadu-Gadu
+[This will remove your Gadu-Gadu account]
+Гэта прывядзе да выдалення вашага конта Gadu-Gadu
 [Yes, I want to remove my account]
 Так, выдаліце мой конт
 [Remove]
 Выдаліць
 [Change Gadu-Gadu password]
 Змяніць пароль Gadu-Gadu
-[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
-Змена пароля Gadu-Gadu\nВаш цяперашні пароль будзе зменены
+[Changes current Gadu-Gadu user password]
+Ваш цяперашні пароль будзе зменены
 [Change Gadu-Gadu e-mail]
 Змяніць e-mail Gadu-Gadu
-[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
-Змена e-mail Gadu-Gadu\nВаш цяперашні e-mail будзе зменены
+[Changes current Gadu-Gadu user e-mail]
+Ваш цяперашні e-mail будзе зменены
 [Age from:]
 Узрост:
 [to:]
@@ -142,14 +142,14 @@
 &Адправіць
 [Open new conference]
 Пачаць канферэнцыю
-[Open new conference\nSelect conference participants]
-Новая канферэнцыя\nАбярыце удзельнікаў канферэнцыі
+[Select conference participants]
+Абярыце удзельнікаў канферэнцыі
 [Open]
 Адкрыць
-[Concurrent Sessions]
-Адначасовыя сесіі
-[Concurrent %s Login Sessions\nView information on active concurrent sessions]
-Адначасовыя сесіі %s\nІнфармацыя пра актыўныя адначасовыя сесіі
+[Concurrent %s Login Sessions]
+Адначасовыя сесіі %s
+[View information on active concurrent sessions]
+Інфармацыя пра актыўныя адначасовыя сесіі
 [Sign out all sessions]
 Выйсці з усіх сесій
 ;file \protocols\Gadu-Gadu\src\avatar.cpp

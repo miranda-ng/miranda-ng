@@ -83,10 +83,10 @@ Dodatne opcije
 Dodaj u listu
 [Custom]
 Izmenjeno
-[Find/add contacts\nHere you can add contacts to your contact list]
-Pronađi/Dodaj kontakt\nOvde dodaješ kontakte u listu
-[Options\nConfigure your Miranda NG options]
-Podešavanja\nKonfiguracija programa Miranda NG
+[Here you can add contacts to your contact list]
+Ovde dodaješ kontakte u listu
+[Configure your Miranda NG options]
+Konfiguracija programa Miranda NG
 [Apply]
 Primeni
 [Switch to simple options]
@@ -363,8 +363,8 @@ Vrati na standardno
 Dostupne skraćenice
 [Accounts]
 Nalozi
-[Accounts\nConfigure your IM accounts]
-Nalozi\nPodešavanja IM naloga
+[Configure your IM accounts]
+Podešavanja IM naloga
 [Account information:]
 Podaci o nalogu:
 [Additional:]

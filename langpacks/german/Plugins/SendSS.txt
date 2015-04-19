@@ -18,8 +18,8 @@ Keine
 Abbrechen
 [Send screenshot]
 Screenshot senden
-[Send screenshot to\n<unknown>]
-Sende Screenshot an\n<unbekannt>
+[<unknown>]
+<unbekannt>
 [Ti&med capture]
 Verzögerte Aufnah&me
 [Time (secs):]
@@ -227,8 +227,6 @@ Danksagung
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Quellfenster mit Drag&Drop auswählen
-[Send screenshot to\n]
-Screenshot senden an\n
 [Window]
 Fenster
 [Desktop]

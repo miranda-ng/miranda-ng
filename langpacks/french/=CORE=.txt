@@ -84,10 +84,10 @@ Plus d'options
 Ajouter à ma liste
 [Custom]
 Défini
-[Find/add contacts\nHere you can add contacts to your contact list]
-Chercher/Ajouter des contacts\nIci, vous pouvez ajouter des contacts à votre liste de contacts
-[Options\nConfigure your Miranda NG options]
-Paramètres\nConfigurer les paramètres de votre Miranda NG
+[Here you can add contacts to your contact list]
+Ici, vous pouvez ajouter des contacts à votre liste de contacts
+[Configure your Miranda NG options]
+Configurer les paramètres de votre Miranda NG
 [Apply]
 Appliquer
 [Switch to simple options]
@@ -364,8 +364,8 @@ Paramètres par défaut
 Raccourcis clavier
 [Accounts]
 Comptes
-[Accounts\nConfigure your IM accounts]
-Comptes\nConfigurer vos comptes de messagerie instantanée
+[Configure your IM accounts]
+Configurer vos comptes de messagerie instantanée
 [Account information:]
 Informations sur le compte :
 [Additional:]

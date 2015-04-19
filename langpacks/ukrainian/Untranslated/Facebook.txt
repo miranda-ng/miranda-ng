@@ -1,2 +1,3 @@
 ﻿[Ticker feeds]
+[Facebook required computer cleaning and plugin correctly skipped it. Please report this to the plugin developer!]
 [Sample ticker]

@@ -84,10 +84,10 @@
 Дадаць у спіс
 [Custom]
 Наладзіць
-[Find/add contacts\nHere you can add contacts to your contact list]
-Пошук кантактаў\nТут Вы можаце знайсці і дадаць кантакты ў спіс кантактаў
-[Options\nConfigure your Miranda NG options]
-Налады\nГалоўны дыялог налад Miranda NG
+[Here you can add contacts to your contact list]
+Тут Вы можаце знайсці і дадаць кантакты ў спіс кантактаў
+[Configure your Miranda NG options]
+Галоўны дыялог налад Miranda NG
 [Apply]
 Ужыць
 [Switch to simple options]
@@ -364,8 +364,8 @@ Cлужба:
 Гарачыя клавішы
 [Accounts]
 Конты
-[Accounts\nConfigure your IM accounts]
-Конты\nНалада вашых контаў
+[Configure your IM accounts]
+Налада вашых контаў
 [Account information:]
 Конт:
 [Additional:]

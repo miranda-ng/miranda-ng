@@ -9,6 +9,8 @@
 Nema
 [Cancel]
 Otkazivanje
+[<unknown>]
+<nepoznato>
 [&Close]
 &Zatvori
 [Edit]
