@@ -92,7 +92,6 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		else if (conversationLink != NULL && strstr(conversationLink, "/19:"))
 		{
 			ptrA chatname(ChatUrlToName(conversationLink));
-			StartChatRoom(_A2T(chatname), _A2T(chatname));
 			if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 			{
 				GCDEST gcd = { m_szModuleName, _A2T(chatname), GC_EVENT_MESSAGE };
@@ -141,6 +140,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 	{
 		JSONNODE *conversation = json_at(conversations, i);
 		JSONNODE *lastMessage = json_get(conversation, "lastMessage");
+		JSONNODE *threadProperties = json_get(conversation, "threadProperties");
 		if (json_empty(lastMessage))
 			continue;
 
@@ -152,6 +152,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 
 		bool isChat = false;
 		ptrA skypename;
+		ptrT topic;
 
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
 		{
@@ -161,6 +162,9 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		{
 			skypename = ChatUrlToName(conversationLink);
 			isChat = true;
+			JSONNODE *threadProperties = json_get(conversation, "threadProperties");
+			topic =  json_as_string(json_get(threadProperties, "topic"));
+			StartChatRoom(_A2T(skypename), topic);
 		}
 		else 
 			continue;

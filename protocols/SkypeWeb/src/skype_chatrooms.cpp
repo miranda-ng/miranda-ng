@@ -69,32 +69,6 @@ MCONTACT CSkypeProto::FindChatRoom(const char *chatname)
 	return hContact;
 }
 
-MCONTACT CSkypeProto::AddChatRoom(const char *chatname)
-{
-	MCONTACT hContact = FindChatRoom(chatname);
-	if (hContact == NULL)
-	{
-		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
-
-		setString(hContact, "ChatID", chatname);
-
-		TCHAR title[MAX_PATH];
-		mir_sntprintf(title, SIZEOF(title), _T("%s #%s"), TranslateT("Groupchat"), ptrT(mir_a2t(chatname)));
-		setTString(hContact, "Nick", title);
-
-		DBVARIANT dbv;
-		if (!db_get_s(NULL, "Chat", "AddToGroup", &dbv, DBVT_TCHAR))
-		{
-			db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
-			db_free(&dbv);
-		}
-
-		setByte(hContact, "ChatRoom", 1);
-	}
-	return hContact;
-}
-
 int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK*)lParam;
@@ -109,89 +83,87 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 
 	switch (gch->pDest->iType)
 	{
-	case GC_USER_MESSAGE:
-	{
-		ptrA msg(mir_t2a(gch->ptszText));
-		ptrA chat_id(mir_t2a(gch->pDest->ptszID));
+		case GC_USER_MESSAGE:
+		{
+			ptrA msg(mir_t2a(gch->ptszText));
+			ptrA chat_id(mir_t2a(gch->pDest->ptszID));
 
-		if (IsOnline()) {
-			debugLogA("  > Chat - Outgoing message");
-			SendRequest(new SendChatMessageRequest(RegToken, chat_id, time(NULL), msg, Server));
+			if (IsOnline()) {
+				debugLogA("  > Chat - Outgoing message");
+				SendRequest(new SendChatMessageRequest(RegToken, chat_id, time(NULL), msg, Server));
+			}
+
+			break;
 		}
 
-		break;
-	}
-
-	case GC_USER_PRIVMESS:
-	{
-		/*facebook_user fbu;
-		fbu.user_id = _T2A(hook->ptszUID, CP_UTF8);
-
-		// Find this contact in list or add new temporary contact
-		MCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE, false, true);
-
-		if (!hContact)
-			break;
-
-		CallService(MS_MSG_SENDMESSAGET, hContact, 0);*/
-		break;
-	}
-
-	/*
-	case GC_USER_LOGMENU:
-	{
-	switch(hook->dwData)
-	{
-	case 10:
-	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, invite_to_chat_dialog,
-	LPARAM(new invite_chat_param(item->id, this)));
-	break;
-
-	case 20:
-	//chat_leave(id);
-	break;
-	}
-	break;
-	}
-	*/
-
-	case GC_USER_NICKLISTMENU:
-	{
-		MCONTACT hContact = NULL;
-		if (gch->dwData == 10 || gch->dwData == 20) {
-		/*
-			facebook_user fbu;
-			fbu.user_id = _T2A(gch->ptszUID, CP_UTF8);
+		case GC_USER_PRIVMESS:
+		{
+			/*facebook_user fbu;
+			fbu.user_id = _T2A(hook->ptszUID, CP_UTF8);
 
 			// Find this contact in list or add new temporary contact
-			hContact = AddToContactList(&fbu, CONTACT_NONE, false, true);
+			MCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE, false, true);
 
 			if (!hContact)
 				break;
-		*/
+
+			CallService(MS_MSG_SENDMESSAGET, hContact, 0);*/
+			break;
 		}
 
-		switch (gch->dwData)
+		/*
+		case GC_USER_LOGMENU:
 		{
-		case 10:
-			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
-			break;
+			switch(hook->dwData)
+			{
+			case 10:
+				DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, invite_to_chat_dialog,
+				LPARAM(new invite_chat_param(item->id, this)));
+				break;
 
-		case 20:
-			//CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
-			break;
-
-		case 110:
-			//chat_leave(id);
+			case 20:
+				//chat_leave(id);
+				break;
+			}
 			break;
 		}
+		*/
 
-		break;
+		case GC_USER_NICKLISTMENU:
+		{
+			MCONTACT hContact = NULL;
+			if (gch->dwData == 10 || gch->dwData == 20) {
+		
+				ptrA user_id(mir_t2a(gch->ptszUID, CP_UTF8));
 
+				// Find this contact in list or add new temporary contact
+				hContact = AddContact(user_id, true);
+
+				if (!hContact)
+					break;
+		
+			}
+
+			switch (gch->dwData)
+			{
+			case 10:
+				CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
+				break;
+
+			case 20:
+				//CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
+				break;
+
+			case 110:
+				//chat_leave(id);
+				break;
+			}
+
+			break;
+
+		}
+	}
 	return 0;
-
-	}
-	}
 }
 void CSkypeProto::StartChatRoom(const TCHAR *tid, const TCHAR *tname)
 {
@@ -208,9 +180,7 @@ void CSkypeProto::StartChatRoom(const TCHAR *tid, const TCHAR *tname)
 	GCEVENT gce = { sizeof(gce), &gcd };
 
 	// Create a user statuses
-	gce.ptszStatus = TranslateT("Myself");
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
-	gce.ptszStatus = TranslateT("Friend");
+	gce.ptszStatus = TranslateT("Admin");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 	gce.ptszStatus = TranslateT("User");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
@@ -278,7 +248,6 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	time_t timestamp = IsoToUnixTime(ptrT(json_as_string(json_get(node, "composetime"))));
 
 	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
-	ptrT tcontent(json_as_string(json_get(node, "content")));
 	//int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
 
 	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
@@ -286,7 +255,7 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 
 	ptrT topic(json_as_string(json_get(node, "threadtopic")));
 	
-	StartChatRoom(_A2T(chatname), topic);
+	//StartChatRoom(_A2T(chatname), topic);
 	
 	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 	if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
@@ -294,10 +263,10 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_MESSAGE };
 		GCEVENT gce = { sizeof(GCEVENT), &gcd };
 		gce.bIsMe = IsMe(ContactUrlToName(from));
-		gce.ptszUID = ptrT(mir_a2t(ContactUrlToName(from)));
+		gce.ptszUID = mir_a2t(ContactUrlToName(from));
 		gce.time = timestamp;
-		gce.ptszNick = ptrT(mir_a2t(ContactUrlToName(from)));
-		gce.ptszText = tcontent;
+		gce.ptszNick = mir_a2t(ContactUrlToName(from));
+		gce.ptszText = mir_a2t(content);
 		gce.dwFlags = GCEF_ADDTOLOG;
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	}
@@ -375,19 +344,31 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response)
 
 	JSONROOT root(response->pData);
 	JSONNODE *members = json_get(root, "members");
+	JSONNODE *properties = json_get(root, "properties");
+	ptrA topic(mir_t2a(json_as_string(json_get(properties, "topic"))));
 	ptrA chatId(ChatUrlToName(ptrA(mir_t2a(ptrT(json_as_string(json_get(root, "messages")))))));
-
+	//RenameChat(chatId, topic);
 	for (size_t i = 0; i < json_size(members); i++)
 	{
 		JSONNODE *member = json_at(members, i);
 
 		ptrA username(ContactUrlToName(ptrA(mir_t2a(ptrT(json_as_string(json_get(member, "userLink")))))));
 		ptrT role(json_as_string(json_get(member, "role")));
-
-		AddChatContact(_A2T(chatId), username, username, role);
+		if (!IsChatContact(_A2T(chatId), username))
+			AddChatContact(_A2T(chatId), username, username, role);
 	}
 }
 
+void CSkypeProto::RenameChat(const char *chat_id, const char *name)
+{
+	ptrT tchat_id(mir_a2t(chat_id));
+	ptrT tname(mir_a2t_cp(name, CP_UTF8));
+
+	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_CHANGESESSIONAME };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.ptszText = tname;
+	CallService(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+}
 
 bool CSkypeProto::IsChatContact(const TCHAR *chat_id, const char *id)
 {
