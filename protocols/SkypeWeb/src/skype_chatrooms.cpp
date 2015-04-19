@@ -109,39 +109,6 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-/*void CSkypeProto::StartChatRoom(MCONTACT hChatRoom, bool showWindow)
-{
-	ptrT tszChatID(getTStringA(hChatRoom, "ChatID"));
-	ptrT tszNick(getTStringA(hChatRoom, "Nick"));
-	if (tszChatID == NULL)
-		return;
-
-	// start chat session
-	GCSESSION gcw = { 0 };
-	gcw.cbSize = sizeof(gcw);
-	gcw.iType = GCW_CHATROOM;
-	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = tszNick;
-	gcw.ptszID = tszChatID;
-	gcw.dwItemData = (DWORD)tszChatID;
-	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
-
-	GCDEST gcd = { m_szModuleName, tszChatID, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	CallServiceSync(MS_GC_EVENT, showWindow ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce);
-	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
-
-	GCDEST gcdg = { m_szModuleName, tszChatID, GC_EVENT_ADDGROUP };
-	GCEVENT gceg = { sizeof(gce), &gcdg };
-	for (int i = SIZEOF(sttStatuses)-1; i >= 0; i--) {
-		gceg.ptszStatus = TranslateTS(sttStatuses[i]);
-		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gceg);
-	}
-
-	SendRequest(new GetChatInfoRequest(RegToken, ptrA(mir_t2a(tszChatID)), Server), &CSkypeProto::OnGetChatInfo); 
-
-}*/
-
 void CSkypeProto::StartChatRoom(const TCHAR *tid, const TCHAR *tname)
 {
 	// Create the group chat session
