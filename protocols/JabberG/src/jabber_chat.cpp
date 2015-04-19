@@ -721,7 +721,7 @@ public:
 	{
 		CSuper::OnInitDialog();
 
-		SetDlgItemText(m_hwnd, IDC_HEADERBAR, CMString(FORMAT, TranslateT("%s\nSend group chat invitation."), m_room));
+		SetWindowText(m_hwnd, CMString(FORMAT, TranslateT("Invite Users to %s"), m_room));
 		WindowSetIcon(m_hwnd, m_proto, "group");
 
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE,
@@ -856,7 +856,7 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Member Info: %s"), dat->him->m_tszResourceName);
 		SetWindowText(hwndDlg, buf);
 
-		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Member Information\n%s from %s"), dat->him->m_tszResourceName, dat->item->jid);
+		mir_sntprintf(buf, SIZEOF(buf), TranslateT("from %s"), dat->item->jid);
 		SetDlgItemText(hwndDlg, IDC_HEADERBAR, buf);
 
 		SetDlgItemText(hwndDlg, IDC_TXT_NICK, dat->him->m_tszResourceName);

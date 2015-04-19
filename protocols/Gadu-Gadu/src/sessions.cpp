@@ -167,9 +167,9 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 			TCHAR oldTitle[256], newTitle[256];
 			HANDLE hProtoAckEvent;
 
-			GetDlgItemText(hwndDlg, IDC_HEADERBAR, oldTitle, SIZEOF(oldTitle));
+			GetWindowText(hwndDlg, oldTitle, SIZEOF(oldTitle));
 			mir_sntprintf(newTitle, SIZEOF(newTitle), oldTitle, gg->m_tszUserName);
-			SetDlgItemText(hwndDlg, IDC_HEADERBAR, newTitle);
+			SetWindowText(hwndDlg, newTitle);
 			WindowSetIcon(hwndDlg, "sessions");
 
 			if (hHandCursor == NULL)

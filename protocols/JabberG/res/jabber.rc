@@ -82,7 +82,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Roster Editor"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Roster editor\nView and modify your server-side contact list.",IDC_HEADERBAR,
+    CONTROL         "View and modify your server-side contact list.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,428,25
     CONTROL         "",IDC_ROSTER,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,5,38,413,225
     PUSHBUTTON      "Download",IDC_DOWNLOAD,5,268,60,15,WS_DISABLED
@@ -365,10 +365,10 @@ END
 IDD_GROUPCHAT_JOIN DIALOGEX 0, 0, 258, 211
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Create or Join group chat"
+CAPTION "Jabber Multi-User Conference"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Jabber Multi-User Conference\nCreate or join existing conference room.",IDC_HEADERBAR,
+    CONTROL         "Create or join existing conference room.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,428,25
     LTEXT           "Conference server:",IDC_STATIC,7,38,63,12,SS_CENTERIMAGE,WS_EX_RIGHT
     COMBOBOX        IDC_SERVER,75,38,176,100,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
@@ -403,10 +403,10 @@ END
 
 IDD_GROUPCHAT_INVITE DIALOGEX 0, 0, 215, 275
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Invite Users"
+CAPTION "Invite Users to <room jid>"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "<room jid>\nSend group chat invitation.",IDC_HEADERBAR,
+    CONTROL         "Send group chat invitation.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,215,25
     CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x1,7,40,201,116,WS_EX_CLIENTEDGE
     LTEXT           "Other JID:",IDC_STATIC,7,162,46,8
@@ -421,10 +421,10 @@ END
 
 IDD_GROUPCHAT_INVITE_ACCEPT DIALOGEX 0, 0, 216, 174
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Group chat invitation"
+CAPTION "Group chat invitation to <room jid>"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "<room jid>\nIncoming group chat invitation.",IDC_HEADERBAR,
+    CONTROL         "Incoming group chat invitation.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,216,25
     LTEXT           "You are invited to conference room by",IDC_STATIC,7,40,202,8
     EDITTEXT        IDC_FROM,17,51,192,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
@@ -440,10 +440,10 @@ END
 IDD_BOOKMARKS DIALOGEX 0, 0, 295, 261
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Jabber Bookmarks"
+CAPTION "Server side bookmarks"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Server side bookmarks\nStore conference rooms and web links on server.",IDC_HEADERBAR,
+    CONTROL         "Store conference rooms and web links on server.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,428,25
     CONTROL         "List1",IDC_BM_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,5,38,285,187
     CONTROL         "Remove",IDC_REMOVE,"MButtonClass",WS_TABSTOP,37,229,16,14
@@ -482,7 +482,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Privacy Lists"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Privacy Lists\nFlexible way to configure visibility and more.",IDC_HEADERBAR,
+    CONTROL         "Flexible way to configure visibility and more.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,428,25
     LTEXT           "Lists:",IDC_TXT_LISTS,5,38,121,14,SS_CENTERIMAGE
     LISTBOX         IDC_LB_LISTS,5,55,122,196,LBS_SORT | LBS_OWNERDRAWVARIABLE | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
@@ -594,7 +594,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Member Information"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Member Information\n<user ID>",IDC_HEADERBAR,
+    CONTROL         "<user ID>",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,183,25
     ICON            IDI_JABBER,IDC_ICO_STATUS,5,38,16,17,SS_CENTERIMAGE | SS_REALSIZEIMAGE
     EDITTEXT        IDC_TXT_NICK,26,38,152,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
@@ -630,7 +630,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTI
 CAPTION "Authorization request"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "HTTP Authorization\nAccept or reject incoming request",IDC_HEADERBAR,
+    CONTROL         "Accept or reject incoming request",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,428,25
     LTEXT           "Someone (maybe you) has requested the following file:",IDC_STATIC,7,38,203,8
     EDITTEXT        IDC_TXT_URL,27,49,183,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
@@ -663,7 +663,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Jabber Notebook"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Jabber notebook\nStore notes on server and access them from anywhere.",IDC_HEADERBAR,
+    CONTROL         "Store notes on server and access them from anywhere.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,428,25
     CONTROL         "Remove",IDC_REMOVE,"MButtonClass",WS_TABSTOP,37,229,16,14
     CONTROL         "Edit",IDC_EDIT,"MButtonClass",WS_TABSTOP,21,229,16,14
