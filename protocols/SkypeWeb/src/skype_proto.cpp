@@ -175,6 +175,10 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		if (m_iStatus > ID_STATUS_CONNECTING + 1)
 		{
 			SendRequest(new DeleteEndpointRequest(RegToken, EndpointId, Server));
+			delSetting("registrationRoken");
+			delSetting("endpointId");
+			delSetting("expires");
+
 		}
 		requestQueue->Stop();
 

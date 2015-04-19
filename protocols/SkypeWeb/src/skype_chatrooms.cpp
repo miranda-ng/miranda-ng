@@ -62,7 +62,7 @@ MCONTACT CSkypeProto::FindChatRoom(const char *chatname)
 		if (!isChatRoom(hContact))
 			continue;
 
-		ptrA cChatname(getStringA(hContact, "ChatID"));
+		ptrA cChatname(getStringA(hContact, "ChatRoomID"));
 		if (!mir_strcmpi(chatname, cChatname))
 			break;
 	}
@@ -106,9 +106,93 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 	{
 		return 0;
 	}
-	return 0;
-}
 
+	switch (gch->pDest->iType)
+	{
+	case GC_USER_MESSAGE:
+	{
+		ptrA msg(mir_t2a(gch->ptszText));
+		ptrA chat_id(mir_t2a(gch->pDest->ptszID));
+
+		if (IsOnline()) {
+			debugLogA("  > Chat - Outgoing message");
+			SendRequest(new SendChatMessageRequest(RegToken, chat_id, time(NULL), msg, Server));
+		}
+
+		break;
+	}
+
+	case GC_USER_PRIVMESS:
+	{
+		/*facebook_user fbu;
+		fbu.user_id = _T2A(hook->ptszUID, CP_UTF8);
+
+		// Find this contact in list or add new temporary contact
+		MCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE, false, true);
+
+		if (!hContact)
+			break;
+
+		CallService(MS_MSG_SENDMESSAGET, hContact, 0);*/
+		break;
+	}
+
+	/*
+	case GC_USER_LOGMENU:
+	{
+	switch(hook->dwData)
+	{
+	case 10:
+	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, invite_to_chat_dialog,
+	LPARAM(new invite_chat_param(item->id, this)));
+	break;
+
+	case 20:
+	//chat_leave(id);
+	break;
+	}
+	break;
+	}
+	*/
+
+	case GC_USER_NICKLISTMENU:
+	{
+		MCONTACT hContact = NULL;
+		if (gch->dwData == 10 || gch->dwData == 20) {
+		/*
+			facebook_user fbu;
+			fbu.user_id = _T2A(gch->ptszUID, CP_UTF8);
+
+			// Find this contact in list or add new temporary contact
+			hContact = AddToContactList(&fbu, CONTACT_NONE, false, true);
+
+			if (!hContact)
+				break;
+		*/
+		}
+
+		switch (gch->dwData)
+		{
+		case 10:
+			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
+			break;
+
+		case 20:
+			//CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
+			break;
+
+		case 110:
+			//chat_leave(id);
+			break;
+		}
+
+		break;
+
+	return 0;
+
+	}
+	}
+}
 void CSkypeProto::StartChatRoom(const TCHAR *tid, const TCHAR *tname)
 {
 	// Create the group chat session
@@ -168,6 +252,16 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 {
 	if (hContact)
 	{
+		ptrT idT(hContact ? getTStringA(hContact, "ChatRoomID") : NULL);
+
+		GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
+		gcd.ptszID = idT;
+
+		GCEVENT gce = { sizeof(gce), &gcd };
+		gce.time = ::time(NULL);
+
+		CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, reinterpret_cast<LPARAM>(&gce));
+		CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, reinterpret_cast<LPARAM>(&gce));
 	}
 	return 0;
 }
@@ -327,7 +421,7 @@ void CSkypeProto::AddChatContact(const TCHAR *tchat_id, const char *id, const ch
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
-	gce.time = ::time(NULL);
+	gce.time = time(NULL);
 	gce.bIsMe = IsMe(id);
 
 	if (gce.bIsMe) {
