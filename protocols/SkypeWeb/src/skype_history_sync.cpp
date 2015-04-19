@@ -98,10 +98,10 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				GCDEST gcd = { m_szModuleName, _A2T(chatname), GC_EVENT_MESSAGE };
 				GCEVENT gce = { sizeof(GCEVENT), &gcd };
 				gce.bIsMe = IsMe(ContactUrlToName(from));
-				gce.ptszUID = _A2T(ContactUrlToName(from));
+				gce.ptszUID = mir_a2t(ContactUrlToName(from));
 				gce.time = timestamp;
-				gce.ptszNick = _A2T(ContactUrlToName(from));
-				gce.ptszText = _A2T(content);
+				gce.ptszNick = mir_a2t(ContactUrlToName(from));
+				gce.ptszText = mir_a2t(content);
 				gce.dwFlags = GCEF_NOTNOTIFY;
 				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 			}
