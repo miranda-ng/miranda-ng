@@ -493,6 +493,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenSSL", "..\plugins\OpenS
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HwHotKeys", "..\plugins\HwHotKeys\HwHotKeys_12.vcxproj", "{639E2B3A-64F2-4152-B5BB-12468E5D60B6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeWeb", "..\protocols\SkypeWeb\SkypeWeb_12.vcxproj", "{66A9BDEB-150F-45DC-B20F-9892C0B43834}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Skype", "..\protocols\SkypeWeb\proto_skype\Proto_Skype_12.vcxproj", "{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -2259,6 +2263,22 @@ Global
 		{639E2B3A-64F2-4152-B5BB-12468E5D60B6}.Release|Win32.Build.0 = Release|Win32
 		{639E2B3A-64F2-4152-B5BB-12468E5D60B6}.Release|x64.ActiveCfg = Release|x64
 		{639E2B3A-64F2-4152-B5BB-12468E5D60B6}.Release|x64.Build.0 = Release|x64
+		{66A9BDEB-150F-45DC-B20F-9892C0B43834}.Debug|Win32.ActiveCfg = Debug|Win32
+		{66A9BDEB-150F-45DC-B20F-9892C0B43834}.Debug|Win32.Build.0 = Debug|Win32
+		{66A9BDEB-150F-45DC-B20F-9892C0B43834}.Debug|x64.ActiveCfg = Debug|x64
+		{66A9BDEB-150F-45DC-B20F-9892C0B43834}.Debug|x64.Build.0 = Debug|x64
+		{66A9BDEB-150F-45DC-B20F-9892C0B43834}.Release|Win32.ActiveCfg = Release|Win32
+		{66A9BDEB-150F-45DC-B20F-9892C0B43834}.Release|Win32.Build.0 = Release|Win32
+		{66A9BDEB-150F-45DC-B20F-9892C0B43834}.Release|x64.ActiveCfg = Release|x64
+		{66A9BDEB-150F-45DC-B20F-9892C0B43834}.Release|x64.Build.0 = Release|x64
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|Win32.Build.0 = Debug|Win32
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|x64.ActiveCfg = Debug|x64
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|x64.Build.0 = Debug|x64
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|Win32.ActiveCfg = Release|Win32
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|Win32.Build.0 = Release|Win32
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|x64.ActiveCfg = Release|x64
+		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
