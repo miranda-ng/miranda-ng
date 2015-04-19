@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.5
+;  Version: 0.2.10.6
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -139,6 +139,8 @@ Błąd logowania: Nieznana przyczyna.
 Błąd logowania: twoje konto jest tymczasowo zablokowane. Musisz potwierdzić to urządzenie w przeglądarce.
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
 Błąd logowania: wymagany jest kod CAPTCHA. Musisz potwierdzić to urządzenie w przeglądarce.
+[Facebook required computer cleaning and plugin correctly skipped it. Please report this to the plugin developer!]
+Facebook wymagał wyczyszczenia komputera i wtyczka świadomie to ominęła. Proszę powiadom o tym komunikacie autora wtyczki!
 [Login error, probably bad login credentials.]
 Błąd logowania, sprawdź login i hasło.
 [Could not load communication token. You should report this and wait for plugin update.]

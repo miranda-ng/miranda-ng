@@ -10,8 +10,8 @@ Rozszerzony moduł danych kontaktów dla Mirandy NG. Dostarcza interfejs do edyc
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit contact information]
 Edytuj informacje o kontakcie
-[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-Edytuj informacje o kontakcie\nTa lista daje ci pewien obraz wszystkich rocznic kontaktu.
+[This list gives you some overview about all your contact's anniversaries.]
+Ta lista daje ci pewien obraz wszystkich rocznic kontaktu.
 [Origin]
 Pochodzenie
 [&Update]
@@ -164,8 +164,8 @@ Dodaj zainteresowania
 Usuń
 [Anniversary editor]
 Edytor rocznic
-[Anniversary Editor\nAdd/Edit your anniversary here.]
-Edytor Rocznic\nDodaj/Edytuj rocznice tutaj.
+[Add/Edit your anniversary here.]
+Dodaj/Edytuj rocznice tutaj.
 [Enter a name for the anniversary here please:]
 Podaj nazwę rocznicy:
 [Anniversary list]
