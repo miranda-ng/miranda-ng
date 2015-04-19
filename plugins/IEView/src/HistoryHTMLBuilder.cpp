@@ -152,40 +152,39 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 	LOGFONTA lf;
 	int i;
 	COLORREF color, bkgColor;
-	char *output = NULL;
-	int outputSize;
+
 	ProtocolSettings *protoSettings = getHistoryProtocolSettings(event->hContact);
-	if (protoSettings == NULL) {
+	if (protoSettings == NULL)
 		return;
-	}
+
 	if (protoSettings->getHistoryMode() == Options::MODE_TEMPLATE) {
 		buildHeadTemplate(view, event, protoSettings);
 		return;
 	}
+
+	CMStringA str;
 	if (protoSettings->getHistoryMode() == Options::MODE_CSS) {
 		const char *externalCSS = protoSettings->getHistoryCssFilename();
-		Utils::appendText(&output, &outputSize, "<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
+		str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
 	}
 	else {
-		Utils::appendText(&output, &outputSize, "<html><head>");
-		Utils::appendText(&output, &outputSize, "<style type=\"text/css\">\n");
+		str.Append("<html><head>");
+		str.Append("<style type=\"text/css\">\n");
 		COLORREF lineColor = db_get_dw(NULL, HPPMOD, "LineColour", 0xFFFFFF);
-		lineColor = 0;//(((lineColor & 0xFF) << 16) | (lineColor & 0xFF00) | ((lineColor & 0xFF0000) >> 16));
+		lineColor = 0;
 		bkgColor = 0xFFFFFF;
-		if (protoSettings->getHistoryFlags() & Options::LOG_IMAGE_ENABLED) {
-			Utils::appendText(&output, &outputSize, ".body {padding: 2px; text-align: left; background-attachment: %s; background-color: #%06X;  background-image: url('%s'); overflow: auto;}\n",
-				protoSettings->getHistoryFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int)bkgColor, protoSettings->getHistoryBackgroundFilename());
-		}
-		else {
-			Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-color: #%06X; overflow: auto;}\n",
-				(int)bkgColor);
-		}
-		Utils::appendText(&output, &outputSize, ".link {color: #0000FF; text-decoration: underline;}\n");
-		Utils::appendText(&output, &outputSize, ".img {float: left; vertical-align: middle;}\n");
+		if (protoSettings->getHistoryFlags() & Options::LOG_IMAGE_ENABLED)
+			str.AppendFormat(".body {padding: 2px; text-align: left; background-attachment: %s; background-color: #%06X;  background-image: url('%s'); overflow: auto;}\n",
+				protoSettings->getHistoryFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", bkgColor, protoSettings->getHistoryBackgroundFilename());
+		else
+			str.AppendFormat(".body {margin: 0px; text-align: left; background-color: #%06X; overflow: auto;}\n", bkgColor);
+
+		str.Append(".link {color: #0000FF; text-decoration: underline;}\n");
+		str.Append(".img {float: left; vertical-align: middle;}\n");
 		for (i = 0; i < DIV_FONT_NUM; i++) {
 			loadMsgDlgFont(dbDivSettingNames[i], &lf, &color, &bkgColor);
-			if (protoSettings->getHistoryFlags() & Options::LOG_IMAGE_ENABLED) {
-				Utils::appendText(&output, &outputSize, "%s {float: left; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s}\n",
+			if (protoSettings->getHistoryFlags() & Options::LOG_IMAGE_ENABLED)
+				str.AppendFormat("%s {float: left; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s}\n",
 					divClassNames[i],
 					(int)lineColor,
 					lf.lfFaceName,
@@ -193,9 +192,8 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 					lf.lfWeight >= FW_BOLD ? "bold" : "normal",
 					(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
 					lf.lfItalic ? "font-style: italic;" : "");
-			}
-			else {
-				Utils::appendText(&output, &outputSize, "%s {float: left; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; background-color: #%06X; font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s}\n",
+			else
+				str.AppendFormat("%s {float: left; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; background-color: #%06X; font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s}\n",
 					divClassNames[i],
 					(int)lineColor,
 					(int)(((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16)),
@@ -204,11 +202,10 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 					lf.lfWeight >= FW_BOLD ? "bold" : "normal",
 					(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
 					lf.lfItalic ? "font-style: italic;" : "");
-			}
 		}
 		for (i = 0; i < SPAN_FONT_NUM; i++) {
 			loadMsgDlgFont(dbSpanSettingNames[i], &lf, &color, NULL);
-			Utils::appendText(&output, &outputSize, "%s {float: %s; font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s }\n",
+			str.AppendFormat("%s {float: %s; font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s }\n",
 				spanClassNames[i],
 				i < 2 ? "left" : "right; clear: right;",
 				lf.lfFaceName,
@@ -217,12 +214,12 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 				(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
 				lf.lfItalic ? "font-style: italic;" : "");
 		}
-		Utils::appendText(&output, &outputSize, "</style></head><body class=\"body\">\n");
+		str.Append("</style></head><body class=\"body\">\n");
 	}
-	if (output != NULL) {
-		view->write(output);
-		free(output);
-	}
+
+	if (!str.IsEmpty())
+		view->write(str);
+
 	setLastEventType(-1);
 }
 
@@ -232,8 +229,7 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 	ptrA szRealProto(getRealProto(event->hContact));
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
-		int outputSize;
-		char *output = NULL;
+		CMStringA str;
 		bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
 		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE ||
 			eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_FILE)
@@ -253,42 +249,41 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			const char *iconFile = NULL;
 			switch (eventData->iType) {
 			case IEED_EVENT_SYSTEM:
-				Utils::appendText(&output, &outputSize, "<div class=\"%s\">", "divSystem");
+				str.AppendFormat("<div class=\"%s\">", "divSystem");
 				break;
 			case IEED_EVENT_FILE:
 				iconFile = "file.gif";
-				Utils::appendText(&output, &outputSize, "<div class=\"%s\">", isSent ? "divFileOut" : "divFileIn");
+				str.AppendFormat("<div class=\"%s\">", isSent ? "divFileOut" : "divFileIn");
 				break;
 			case IEED_EVENT_URL:
 				iconFile = "url.gif";
-				Utils::appendText(&output, &outputSize, "<div class=\"%s\">", isSent ? "divUrlOut" : "divUrlIn");
+				str.AppendFormat("<div class=\"%s\">", isSent ? "divUrlOut" : "divUrlIn");
 				break;
 			default:
 				iconFile = "message.gif";
-				Utils::appendText(&output, &outputSize, "<div class=\"%s\">", isSent ? "divMessageOut" : "divMessageIn");
+				str.AppendFormat("<div class=\"%s\">", isSent ? "divMessageOut" : "divMessageIn");
 			}
 			if (dwFlags & SMF_LOG_SHOWICONS && iconFile != NULL)
-				Utils::appendIcon(&output, &outputSize, iconFile);
+				Utils::appendIcon(str, iconFile);
 			else
-				Utils::appendText(&output, &outputSize, " ");
+				str.Append(" ");
 
-			Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s:</span>", isSent ? "nameOut" : "nameIn", szName);
-			Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s</span><br>", isSent ? "timeOut" : "timeIn", timestampToString(eventData->time));
+			str.AppendFormat("<span class=\"%s\">%s:</span>", isSent ? "nameOut" : "nameIn", szName);
+			str.AppendFormat("<span class=\"%s\">%s</span><br>", isSent ? "timeOut" : "timeIn", timestampToString(eventData->time));
 			if (eventData->iType == IEED_EVENT_FILE)
-				Utils::appendText(&output, &outputSize, "%s:<br> %s", isSent ? Translate("Outgoing File Transfer") : Translate("Incoming File Transfer"), szText);
+				str.AppendFormat("%s:<br> %s", isSent ? Translate("Outgoing File Transfer") : Translate("Incoming File Transfer"), szText);
 			else if (eventData->iType == IEED_EVENT_URL)
-				Utils::appendText(&output, &outputSize, "%s:<br> %s", isSent ? Translate("URL sent") : Translate("URL received"), szText);
+				str.AppendFormat("%s:<br> %s", isSent ? Translate("URL sent") : Translate("URL received"), szText);
 			else
-				Utils::appendText(&output, &outputSize, "%s", szText);
+				str.AppendFormat("%s", szText);
 
-			Utils::appendText(&output, &outputSize, "</div>\n");
+			str.Append("</div>\n");
 			setLastEventType(MAKELONG(eventData->dwFlags, eventData->iType));
 			setLastEventTime(eventData->time);
 		}
-		if (output != NULL) {
-			view->write(output);
-			free(output);
-		}
+
+		if (!str.IsEmpty())
+			view->write(str);
 	}
 	view->documentClose();
 }
@@ -296,13 +291,11 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 void HistoryHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
 {
 	ProtocolSettings *protoSettings = getHistoryProtocolSettings(event->hContact);
-	if (protoSettings == NULL) {
+	if (protoSettings == NULL)
 		return;
-	}
-	if (protoSettings->getHistoryMode() & Options::MODE_TEMPLATE) {
+
+	if (protoSettings->getHistoryMode() & Options::MODE_TEMPLATE)
 		appendEventTemplate(view, event, protoSettings);
-	}
-	else{
+	else
 		appendEventNonTemplate(view, event);
-	}
 }

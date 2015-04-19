@@ -82,12 +82,11 @@ void ChatHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	}
 }
 
-char *ChatHTMLBuilder::timestampToString(time_t time)
+char* ChatHTMLBuilder::timestampToString(time_t time)
 {
 	static char szResult[512];
 	static char str[80];
 	char *pszStamp = "[%H:%M]";
-	//InitSetting( &g_Settings.pszTimeStamp, "HeaderTime", _T("[%H:%M]"));
 	strftime(str, 79, pszStamp, localtime(&time));
 	mir_strncpy(szResult, ptrA(mir_utf8encode(str)), 500);
 	return szResult;
@@ -97,51 +96,47 @@ void ChatHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 {
 	LOGFONTA lf;
 	COLORREF color;
-	char *output = NULL;
-	int outputSize;
+
 	ProtocolSettings *protoSettings = getChatProtocolSettings(event->pszProto);
-	if (protoSettings == NULL) {
+	if (protoSettings == NULL)
 		return;
-	}
-	if (protoSettings->getChatMode() == Options::MODE_TEMPLATE) {
-		//		buildHeadTemplate(view, event);
+
+	if (protoSettings->getChatMode() == Options::MODE_TEMPLATE)
 		return;
-	}
+
+	CMStringA str;
 	if (protoSettings->getChatMode() == Options::MODE_CSS) {
 		const char *externalCSS = protoSettings->getChatCssFilename();
-		Utils::appendText(&output, &outputSize, "<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
+		str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
 	}
 	else {
 		HDC hdc = GetDC(NULL);
 		int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		ReleaseDC(NULL, hdc);
-		Utils::appendText(&output, &outputSize, "<html><head>");
-		Utils::appendText(&output, &outputSize, "<style type=\"text/css\">\n");
+		str.Append("<html><head>");
+		str.Append("<style type=\"text/css\">\n");
 		COLORREF bkgColor = db_get_dw(NULL, CHATMOD, "BackgroundLog", 0xFFFFFF);
-		COLORREF inColor, outColor;
 		bkgColor = (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
-		inColor = outColor = bkgColor;
+		COLORREF inColor = bkgColor, outColor = bkgColor;
 		if (protoSettings->getChatFlags() & Options::LOG_IMAGE_ENABLED) {
-			Utils::appendText(&output, &outputSize, ".body {padding: 2px; text-align: left; background-attachment: %s; background-color: #%06X;  background-image: url('%s'); overflow: auto;}\n",
-				protoSettings->getChatFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int)bkgColor, protoSettings->getChatBackgroundFilename());
+			str.AppendFormat(".body {padding: 2px; text-align: left; background-attachment: %s; background-color: #%06X;  background-image: url('%s'); overflow: auto;}\n",
+				protoSettings->getChatFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", bkgColor, protoSettings->getChatBackgroundFilename());
+		}
+		else str.AppendFormat(".body {margin: 0px; text-align: left; background-color: #%06X; overflow: auto;}\n", bkgColor);
+
+		str.Append(".link {color: #0000FF; text-decoration: underline;}\n");
+		str.Append(".img {vertical-align: middle;}\n");
+		if (protoSettings->getChatFlags() & Options::LOG_IMAGE_ENABLED) {
+			str.Append(".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
+			str.Append(".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
 		}
 		else {
-			Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-color: #%06X; overflow: auto;}\n",
-				(int)bkgColor);
-		}
-		Utils::appendText(&output, &outputSize, ".link {color: #0000FF; text-decoration: underline;}\n");
-		Utils::appendText(&output, &outputSize, ".img {vertical-align: middle;}\n");
-		if (protoSettings->getChatFlags() & Options::LOG_IMAGE_ENABLED) {
-			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
-			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
-		}
-		else {
-			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
-			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)outColor);
+			str.AppendFormat(".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", inColor);
+			str.AppendFormat(".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", outColor);
 		}
 		for (int i = 0; i < FONT_NUM; i++) {
 			loadMsgDlgFont(i, &lf, &color);
-			Utils::appendText(&output, &outputSize, "%s {font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s }\n",
+			str.AppendFormat("%s {font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s }\n",
 				classNames[i],
 				lf.lfFaceName,
 				abs((signed char)lf.lfHeight) * 74 / logPixelSY,
@@ -149,12 +144,12 @@ void ChatHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 				(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
 				lf.lfItalic ? "font-style: italic;" : "");
 		}
-		Utils::appendText(&output, &outputSize, "</style></head><body class=\"body\">\n");
+		str.Append("</style></head><body class=\"body\">\n");
 	}
-	if (output != NULL) {
-		view->write(output);
-		free(output);
-	}
+
+	if (!str.IsEmpty())
+		view->write(str);
+
 	setLastEventType(-1);
 }
 
@@ -167,12 +162,9 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 	DWORD iconFlags = db_get_dw(NULL, CHATMOD, CHAT_ICON_FLAGS, 0);
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
-		//DWORD dwFlags = eventData->dwFlags;
 		const char *iconFile = "";
 		DWORD dwData = eventData->dwData;
 		bool isSent = eventData->bIsMe != 0;
-		int outputSize = 0;
-		char *output = NULL;
 		const char *className = "";
 		bool showIcon = false;
 
@@ -238,44 +230,37 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 				className = "information";
 			}
 		}
-		Utils::appendText(&output, &outputSize, "<div class=\"%s\">", isSent ? "divOut" : "divIn");
-		if (dwData & IEEDD_GC_SHOW_ICON) {
-			Utils::appendIcon(&output, &outputSize, iconFile);
-		}
-		if (dwData & IEEDD_GC_SHOW_TIME) {
-			Utils::appendText(&output, &outputSize, "<span class=\"timestamp\">%s </span>", timestampToString(eventData->time));
-		}
-		if ((dwData & IEEDD_GC_SHOW_NICK) && eventData->iType == IEED_GC_EVENT_MESSAGE) {
-			Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s: </span>",
-				isSent ? "nameOut" : "nameIn", szName);
-		}
-		if (dwData & IEEDD_GC_MSG_ON_NEW_LINE) {
-			Utils::appendText(&output, &outputSize, "<br>");
-		}
-		Utils::appendText(&output, &outputSize, "<span class=\"%s\">", className);
-		Utils::appendText(&output, &outputSize, "%s", szText);
-		Utils::appendText(&output, &outputSize, "</span></div>\n");
-		if (output != NULL) {
-			view->write(output);
-			free(output);
-		}
+		
+		CMStringA str(FORMAT, "<div class=\"%s\">", isSent ? "divOut" : "divIn");
+		if (dwData & IEEDD_GC_SHOW_ICON)
+			Utils::appendIcon(str, iconFile);
+
+		if (dwData & IEEDD_GC_SHOW_TIME)
+			str.AppendFormat("<span class=\"timestamp\">%s </span>", timestampToString(eventData->time));
+
+		if ((dwData & IEEDD_GC_SHOW_NICK) && eventData->iType == IEED_GC_EVENT_MESSAGE)
+			str.AppendFormat("<span class=\"%s\">%s: </span>", isSent ? "nameOut" : "nameIn", szName);
+
+		if (dwData & IEEDD_GC_MSG_ON_NEW_LINE)
+			str.Append("<br>");
+
+		str.AppendFormat("<span class=\"%s\">", className);
+		str.Append(szText);
+		str.Append("</span></div>\n");
+
+		if (!str.IsEmpty())
+			view->write(str);
 	}
 }
 
 void ChatHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
 {
 	ProtocolSettings *protoSettings = getChatProtocolSettings(event->pszProto);
-	if (protoSettings == NULL) {
-		return;
-	}
-	// 	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE) {
-	//	appendEventTemplate(view, event);
-	//	} else {
-	appendEventNonTemplate(view, event);
-	//	}
+	if (protoSettings != NULL)
+		appendEventNonTemplate(view, event);
 }
 
-bool ChatHTMLBuilder::isDbEventShown(DBEVENTINFO *)
+bool ChatHTMLBuilder::isDbEventShown(DBEVENTINFO*)
 {
 	return true;
 }
