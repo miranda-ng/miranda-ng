@@ -2816,18 +2816,18 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				db_event_get(hDBEvent, &dbei);
 				int iSize = int(strlen((char*)dbei.pBlob)) + 1;
 
-				bool iAlloced = false;
+				bool bNeedsFree = false;
 				TCHAR *szConverted;
 				if (dbei.flags & DBEF_UTF) {
 					szConverted = mir_utf8decodeW((char*)szText);
-					iAlloced = true;
+					bNeedsFree = true;
 				}
 				else {
 					if (iSize != (int)dbei.cbBlob)
 						szConverted = (TCHAR*)&dbei.pBlob[iSize];
 					else {
 						szConverted = (TCHAR*)mir_alloc(sizeof(TCHAR) * iSize);
-						iAlloced = true;
+						bNeedsFree = true;
 						MultiByteToWideChar(CP_ACP, 0, (char*)dbei.pBlob, -1, szConverted, iSize);
 					}
 				}
@@ -2839,12 +2839,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					szText[iDescr + 1] = '\n';
 					szConverted = (TCHAR*)mir_alloc(sizeof(TCHAR)* (1 + mir_strlen((char *)szText)));
 					MultiByteToWideChar(CP_ACP, 0, (char *)szText, -1, szConverted, 1 + (int)mir_strlen((char *)szText));
-					iAlloced = true;
+					bNeedsFree = true;
 				}
-				ptrT szQuoted(QuoteText(szConverted));
-				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
+				if (szConverted != NULL) {
+					ptrT szQuoted(QuoteText(szConverted));
+					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
+				}
 				mir_free(szText);
-				if (iAlloced)
+				if (bNeedsFree)
 					mir_free(szConverted);
 			}
 			else {
