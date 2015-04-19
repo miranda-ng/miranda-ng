@@ -107,7 +107,7 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		CMStringA data;
-		data.AppendFormat("{\"consumptionhorizon\":\"%lld;%lld000;%lld\"}", msgTimestamp, time(NULL), msgId);
+		data.AppendFormat("{\"consumptionhorizon\":\"%lld000;%lld000;%lld000\"}", msgTimestamp, time(NULL), msgId);
 		Body << VALUE(data);
 	}
 };
