@@ -55,7 +55,7 @@ EXSTYLE WS_EX_TOOLWINDOW | WS_EX_CONTROLPARENT | WS_EX_APPWINDOW
 CAPTION "Send screenshot"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Send screenshot to\n<unknown>",IDC_HEADERBAR,
+    CONTROL         "<unknown>",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,231,25
     CONTROL         "",IDC_CAPTURETAB,"SysTabControl32",TCS_RAGGEDRIGHT | WS_TABSTOP,8,36,218,68
     CONTROL         "Ti&med capture",ID_chkTimed,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,106,85,10

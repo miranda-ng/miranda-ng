@@ -29,7 +29,7 @@ EXSTYLE WS_EX_NOPARENTNOTIFY | WS_EX_CONTROLPARENT
 CAPTION "Edit contact information"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.",IDC_HEADERBAR,
+    CONTROL         "This list gives you some overview about all your contact's anniversaries.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",WS_TABSTOP,0,0,405,25
     CONTROL         "",IDC_PAGETITLEBG,"Static",SS_WHITERECT | NOT WS_VISIBLE,101,25,300,21
     CONTROL         "Origin",IDC_PAGETITLE,"Static",SS_SIMPLE | WS_GROUP,108,28,284,15
@@ -285,7 +285,7 @@ CAPTION "Anniversary editor"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_WHITERECT,0,25,185,39
-    CONTROL         "Anniversary Editor\nAdd/Edit your anniversary here.",IDC_HEADERBAR,
+    CONTROL         "Add/Edit your anniversary here.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,185,25
     CONTROL         "Enter a name for the anniversary here please:",IDC_STATIC,
                     "Static",SS_SIMPLE | WS_GROUP,3,31,178,8
