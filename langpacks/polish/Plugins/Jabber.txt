@@ -38,8 +38,8 @@ Idź
 Szukaj w:
 [Roster Editor]
 Zarządzanie listą kontaktów
-[Roster editor\nView and modify your server-side contact list.]
-Zarządzanie listą kontaktów\nPrzeglądaj i edytuj listę kontaktów na serwerze.
+[View and modify your server-side contact list.]
+Przeglądaj i edytuj listę kontaktów na serwerze.
 [Download]
 Pobierz
 [Upload]
@@ -208,10 +208,10 @@ Obecne hasło:
 Nowe hasło:
 [Confirm New Password:]
 Potwierdź nowe hasło:
-[Create or Join group chat]
-Utwórz lub przyłącz się do czatu.
-[Jabber Multi-User Conference\nCreate or join existing conference room.]
-Czaty Jabber\nUtwórz lub przyłącz się do czatu.
+[Jabber Multi-User Conference]
+Konferencja Jabbera
+[Create or join existing conference room.]
+Utwórz lub przyłącz się do istniejącego czatu.
 [Conference server:]
 Serwer konferencji:
 [Room:]
@@ -226,10 +226,10 @@ Lista JID
 Zastosuj filtr
 [Reset Filter]
 Resetuj filtr
-[Invite Users]
-Zaproś użytkownika
-[<room jid>\nSend group chat invitation.]
-<room jid>\nWysłano zaproszenie czatu.
+[Invite Users to <room jid>]
+Zaproś użytkownika do <jid pokoju>
+[Send group chat invitation.]
+Wysłano zaproszenie czatu.
 [Other JID:]
 Inny JID:
 [Add]
@@ -238,20 +238,20 @@ Dodaj
 Powód zaproszenia:
 [&Invite]
 &Zaproś
-[Group chat invitation]
-Zaproszenie czatowe
-[<room jid>\nIncoming group chat invitation.]
-<room jid>\nNadchodzące zaproszenie czatu.
+[Group chat invitation to <room jid>]
+Zaproszenie czatowe do <jid pokoju>
+[Incoming group chat invitation.]
+Nadchodzące zaproszenie czatu.
 [You are invited to conference room by]
 Jesteś zaproszony do pokoju konferencyjnego przez
 [with following reason:]
 Powód:
 [&Accept]
 &Akceptuj
-[Jabber Bookmarks]
-Zakładki Jabbera
-[Server side bookmarks\nStore conference rooms and web links on server.]
-Zakładki\nPokoje czatowe i linki web na serwerze.
+[Server side bookmarks]
+Zakładki po stronie serwera
+[Store conference rooms and web links on server.]
+Przechowuj pokoje czatowe i linki web na serwerze.
 [Remove]
 Usuń
 [Edit]
@@ -276,8 +276,8 @@ Adres/JID pokoju:
 Nazwa zakładki:
 [Privacy Lists]
 Lista prywatności
-[Privacy Lists\nFlexible way to configure visibility and more.]
-Lista prywatności\nZarządzanie listami pozwala na ukrywanie się, blokowanie wiadomości i wiele więcej.
+[Flexible way to configure visibility and more.]
+Wygodny sposób do zarządzanie widocznością i innymi.
 [Lists:]
 Listy:
 [Rules:]
@@ -348,8 +348,8 @@ Zarejestruj konto
 Informacje o koncie Jabber:
 [Member Information]
 Informacje o użytkowniku
-[Member Information\n<user ID>]
-Informacje o członkach\n<user ID>
+[<user ID>]
+<ID użytkownika>
 [Role:]
 Rola:
 [Set role]
@@ -372,8 +372,8 @@ Opuść:
 Klaps:
 [Authorization request]
 Prośba o autoryzację
-[HTTP Authorization\nAccept or reject incoming request]
-Autoryzacja HTTP\nZaakceptuj lub odrzuć przychodzące zapytanie
+[Accept or reject incoming request]
+Zaakceptuj lub odrzuć przychodzące zapytanie
 [Someone (maybe you) has requested the following file:]
 Ktoś (może Ty) wysłał prośbę o następujący plik:
 [Request was sent from JID:]
@@ -392,8 +392,8 @@ Odrzuć
 Okno
 [Jabber Notebook]
 Zeszyt Jabbera
-[Jabber notebook\nStore notes on server and access them from anywhere.]
-Notatki Jabber\nPrzechowuj notatki na serwerze.
+[Store notes on server and access them from anywhere.]
+Przechowuj notatki na serwerze i miej do nich dostęp zewsząd.
 [Bots Challenge Test]
 Test Sprawdzający Obecność Botów
 [XML Console]
@@ -689,14 +689,14 @@ Kopiuj prawdziwy &JID
 Kopiuj JID z pokoju
 [Real &JID: %s]
 Prawdziwy &JID: %s
-[%s\nSend group chat invitation.]
-%s\nWyślij zaproszenie do czatu.
+[Invite Users to %s]
+Zaproś użytkowników do %s
 [%s (not on roster)]
 %s (nie na liście)
 [Member Info: %s]
 Info użytkownika: %s
-[Member Information\n%s from %s]
-Info użytkownika\n%s z %s
+[from %s]
+z %s
 [Real JID not available]
 Prawdziwy JID niedostępny
 [Reason to kick %s]
@@ -1087,8 +1087,8 @@ Zakładki...
 Zmień nick w <%s>
 [has set the subject to:]
 ustawił temat na:
-[%s\nIncoming group chat invitation.]
-%s\nNadchodzi zaproszenie do czatu.
+[Group chat invitation to %s]
+Zarposzenie do czatu do %s
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]
 Ikony statusu

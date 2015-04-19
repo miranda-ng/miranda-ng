@@ -84,10 +84,10 @@ Więcej opcji
 Dodaj do listy
 [Custom]
 Niestandardowe
-[Find/add contacts\nHere you can add contacts to your contact list]
-Szukaj/Dodaj kontakty\nTu możesz dodać kontakty do listy kontaktów
-[Options\nConfigure your Miranda NG options]
-Opcje:\nSkonfiguruj swoją Mirandę NG
+[Here you can add contacts to your contact list]
+Tu możesz dodać kontakty do listy kontaktów
+[Configure your Miranda NG options]
+Skonfiguruj swoją Mirandę NG
 [Apply]
 Zastosuj
 [Switch to simple options]
@@ -364,8 +364,8 @@ Przywróć domyślne
 Skróty
 [Accounts]
 Konta
-[Accounts\nConfigure your IM accounts]
-Konta:\nSkonfiguruj swoje konta w Miranda NG
+[Configure your IM accounts]
+Skonfiguruj swoje konta w Miranda NG
 [Account information:]
 Dodatkowe informacje:
 [Additional:]

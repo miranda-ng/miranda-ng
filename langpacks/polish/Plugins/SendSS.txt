@@ -18,8 +18,8 @@ Brak
 Anuluj
 [Send screenshot]
 Wyślij zrzut ekranu
-[Send screenshot to\n<unknown>]
-Wyślij zrzut ekranu do\n<nieznany>
+[<unknown>]
+<nieznany>
 [Ti&med capture]
 Cza&s uchwycenia
 [Time (secs):]
@@ -227,8 +227,6 @@ Autorzy
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Umieść celownik na odpowiednie okno.
-[Send screenshot to\n]
-Wyślij zrzut do\n
 [Window]
 Okno
 [Desktop]
