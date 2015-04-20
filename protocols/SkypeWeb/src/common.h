@@ -56,6 +56,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_gui.h>
 #include <m_imgsrvc.h>
 #include <m_xml.h>
+#include <m_assocmgr.h>
 
 struct CSkypeProto;
 
@@ -98,6 +99,8 @@ enum SKYPE_LOGIN_ERROR
 #define SKYPE_SETTINGS_ID "Skypename"
 #define SKYPE_SETTINGS_PASSWORD "Password"
 #define SKYPE_SETTINGS_GROUP "DefaultGroup"
+
+#define SKYPE_PARSEURI  "SKYPE/ParseUri"
 
 #define SKYPE_DB_EVENT_TYPE_ACTION 10001
 

@@ -516,3 +516,44 @@ char *CSkypeProto::GetServerFromUrl(const char *url)
 {
 	return ParseUrl(url, "://");
 }
+
+INT_PTR __cdecl CSkypeProto::ParseSkypeURI(WPARAM w, LPARAM lParam)
+{
+	TCHAR *arg = (TCHAR *)lParam;
+	if (arg == NULL)
+		return 1;
+
+	// skip leading prefix
+	TCHAR szUri[ 1024 ];
+	_tcsncpy_s(szUri, arg, _TRUNCATE);
+	TCHAR *szJid = _tcschr(szUri, _T(':'));
+	if (szJid == NULL)
+		return 1;
+
+	// skip //
+	for (++szJid; *szJid == _T('/'); ++szJid);
+
+	// empty jid?
+	if (!*szJid)
+		return 1;
+
+	// command code
+	TCHAR *szCommand = szJid;
+	szCommand = _tcschr(szCommand, _T('?'));
+	if (szCommand)
+		*(szCommand++) = 0;
+
+	// parameters
+	TCHAR *szSecondParam = szCommand ? _tcschr(szCommand, _T(';')) : NULL;
+	if (szSecondParam)
+		*(szSecondParam++) = 0;
+
+	// no command or message command
+	if (!szCommand || (szCommand && !_tcsicmp(szCommand, _T("chat")))) 
+	{
+		//CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, NULL);
+		return 0;
+	}
+
+	return 1; /* parse failed */
+}
