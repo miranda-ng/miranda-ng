@@ -1,7 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32_10.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
