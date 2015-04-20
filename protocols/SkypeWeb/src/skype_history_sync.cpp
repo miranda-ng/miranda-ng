@@ -29,14 +29,15 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		return;
 
 	JSONNODE *metadata = json_get(root, "_metadata");
+	JSONNODE *conversations = json_as_array(json_get(root, "messages"));
 
 	int totalCount = json_as_int(json_get(metadata, "totalCount"));
 	ptrA syncState(mir_t2a(ptrT(json_as_string(json_get(metadata, "syncState")))));
 
-	if (totalCount >= 99)
+
+	if (totalCount >= 99 || json_size(conversations) >= 99)
 		PushRequest(new GetHistoryOnUrlRequest(syncState, RegToken), &CSkypeProto::OnGetServerHistory);
 
-	JSONNODE *conversations = json_as_array(json_get(root, "messages"));
 	for (size_t i = 0; i < json_size(conversations); i++)
 	{
 		JSONNODE *message = json_at(conversations, i);
@@ -128,14 +129,15 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		return;
 
 	JSONNODE *metadata = json_get(root, "_metadata");
+	JSONNODE *conversations = json_as_array(json_get(root, "conversations"));
 
 	int totalCount = json_as_int(json_get(metadata, "totalCount"));
 	ptrA syncState(mir_t2a(ptrT(json_as_string(json_get(metadata, "syncState")))));
 
-	if (totalCount >= 99)
+	if (totalCount >= 99 || json_size(conversations) >= 99)
 		PushRequest(new SyncHistoryFirstRequest(syncState, RegToken), &CSkypeProto::OnSyncHistory);
 
-	JSONNODE *conversations = json_as_array(json_get(root, "conversations"));
+	
 	for (size_t i = 0; i < json_size(conversations); i++)
 	{
 		JSONNODE *conversation = json_at(conversations, i);
