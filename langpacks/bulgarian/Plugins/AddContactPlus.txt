@@ -6,14 +6,14 @@
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 [Provides the ability to quickly add new contacts.]
-
+Осигурява бързо добавяне на контакти. 
 ;file \plugins\AddContactPlus\res\resource.rc
 [Add contact]
 Добавяне на контакт
 [Add contact\nAdd a contact to your contact list]
 
 [Account:]
-
+Акаунт:
 [Contact ID:]
 
 [Custom name:]
@@ -23,7 +23,7 @@
 [Options]
 Настройки
 [Add temporarily]
-
+Добави временно 
 [Send "You were added"]
 Изпращане на съобщение "Вие бяхте добавен(а)"
 [Send authorization request]
@@ -45,10 +45,10 @@
 
 ;file \plugins\AddContactPlus\src\main.cpp
 [&Add contact...]
-
+Добавяне на контакт...
 [Open add contact dialog]
 
 [Main]
-
+Основна
 [AddContact+]
-
+AddContact+

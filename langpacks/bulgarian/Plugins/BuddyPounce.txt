@@ -11,7 +11,7 @@
 [Confirm Pounce send]
 
 [Send]
-
+Изпращане
 [Cancel]
 Отказ
 [Pounce being sent to]
@@ -25,11 +25,11 @@
 [Load default Settings]
 
 [Setting Value]
-
+Стойност на настройката
 [Setting text...........]
 
 [Settings]
-
+Настройки
 [Contact To Send Pounce To]
 
 [<< Simple]
@@ -39,7 +39,7 @@
 [The Message]
 
 [Dialog]
-
+Прозорец
 [Status]
 Състояние
 [Use Advanced Dialog]
@@ -88,7 +88,7 @@
 [Send If Their Status changes]
 
 [From Offline]
-
+От "Извън линия"
 [To Online]
 
 [To Away]
@@ -118,11 +118,11 @@
 [Reuse this message? (0 to use it once)]
 
 [Times]
-
+пъти
 [Give up after... (0 to not give up)]
 
 [Days]
-
+Дни
 [Show confirmation window? (0 to not Show)]
 
 [Seconds to wait before sending]
@@ -130,7 +130,7 @@
 [Pounce being sent to %s in %d seconds]
 
 [Retry]
-
+Нов опит
 [Message successfully sent to %s]
 
 [Message failed to send to %s]

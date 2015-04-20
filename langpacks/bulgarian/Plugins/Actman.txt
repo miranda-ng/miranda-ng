@@ -6,33 +6,33 @@
 ;  Authors: Awkward
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
-
+Приставка за управление на клавишните комбинации за отваряне на прозореца за съобщения, вмъкване на текст, стартиране на програми и извикване на услуги
 [Actions]
 Действия
 [No description]
-
+Няма описание
 [New]
-
+Нов
 [Up]
-
+Нагоре
 [Down]
-
+Надолу
 [Reload]
-
+Обновяване
 [Delete]
 Изтриване
 [Test]
-
+Тест
 [Export]
-
+Износ
 [Append data to file?]
 
 [Import]
-
+Внос
 [Help]
 Помощ
 [Action]
-
+Действие
 [Open contact window]
 
 [Contact]
@@ -40,11 +40,11 @@
 [Call service]
 
 [Service]
-
+Услуга
 [Execute program]
 
 [Program]
-
+Програма
 [Insert text]
 
 [Text]
@@ -60,17 +60,13 @@
 [Message]
 Съобщение
 [Choose contact]
-
-[Keep handle only]
-
+Изберете контакт
 [Active accounts only]
-
+Изброяване само на активни акаунти
 [Dropdown list format]
-
-[Apply format]
-
+Падащ списък
 [You can use %name%, %uid%, %account% and %group% macros]
-
+Можете да използвате %name%, %uid%, %account% и %group%
 [Contacts]
 Контакти
 [Select contact to open its window]
@@ -78,49 +74,43 @@
 [Result action]
 
 [Show in popup]
-
+Показване в popup
 [Show in messagebox]
-
+Показване в текстова кутия
 [Insert into message]
-
+Вмъкване в съобщение
 [Service result]
 
 [Integer]
 
 [Hexadecimal]
-
+Шестнадесетичнa
 [String]
-
+String
 [Structure]
-
+Структура
 [Free memory]
-
-[Signed value]
-
-[wParam type]
-
-[lParam type]
-
+Свободна памет
 [number value]
-
+числова стойност
 [ANSI string]
-
+ANSI низ
 [Unicode string]
-
+Unicode низ
 [current contact]
-
+текущ контакт
 [last result]
-
+последен резултат
 [parameter]
-
+параметър
 [structure]
-
+структура
 [Service name]
-
+Име на услугата
 [Use Variables]
-
+Ползване на променливи
 [Don't use Variables]
-
+Без променливи
 [Miranda service help]
 
 [Name]
@@ -130,15 +120,15 @@
 [Plugin]
 Приставка
 [Return]
-
+Връща
 [Effect]
-
+Ефект
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
-
+'<proto>' в името на услугата ще бъде заменено с името на протокола за съответния контакт
 [Undefined]
-
+Неуточнено
 [Manage Jabber Bookmarks]
-
+Управление на Jabber отметки
 [Offline]
 Извън линия
 [Online]
@@ -166,99 +156,79 @@
 [Set status message]
 
 [Set protocol status]
-
+Задаване на текст за състояние
 [None]
 Няма
 [Angry]
-
+Ядосан
 [Taking a bath]
-
+Къпе се
 [Tired]
-
+Уморен
 [Birthday]
-
+Рожден ден
 [Drinking beer]
-
+Пие бира
 [Thinking]
-
+Мисли
 [Eating]
-
+Яде
 [Watching TV]
-
+Гледа телевизия
 [Meeting]
-
+Среща
 [Coffee]
-
+Кафе
 [Listening to music]
-
+Слуша музика
 [Business]
-
+Бизнес
 [Shooting]
-
+Снима
 [Having fun]
-
+Забавлява се
 [On the phone]
 На телефона
 [Gaming]
-
+Играе
 [Studying]
-
+Учи
 [Shopping]
-
+Пазарува
 [Feeling sick]
-
+Болен
 [Sleeping]
-
+Спи
 [Surfing]
-
+Сърфира
 [Browsing]
 
 [Working]
-
+Работи
 [Typing]
 Пише
 [Picnic]
-
+Пикник
 [Cooking]
-
+Готви
 [Smoking]
-
+Пуши
 [I'm high]
 
 [On WC]
-
+В тоалетната
 [To be or not to be]
-
+Да бъда или да не бъда
 [Watching pro7 on TV]
-
+Гледа pro7
 [Love]
-
-[Sets owner current custom status]
-
-[Display xStatus detail]
-
-[int hMenu handle]
-
-[Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
-
-[Show All Users]
-
-[Show only Online Users]
-
-[Toggle status]
-
-[Change 'hide offline contacts' option value]
-
-[Set global status]
-
-[Switch contact list status]
-
+Любов
 [Hide All Titlebars]
-
+Скриване на всички заглавни ленти
 [Show All Frames]
-
+Показване на всички рамки
 [Show All Titlebars]
-
+Показване на всички заглавни ленти
 [will never return the user's custom name]
 
 [will return Unicode instead of AnsiChar]
@@ -268,7 +238,7 @@
 [Gets the string that the contact list will use to represent a contact]
 
 [Closes Miranda]
-
+Затваря Miranda
 [Show or hide netlog console window]
 
 [int Value]
@@ -276,33 +246,33 @@
 [Returns contact amount, excluding user account]
 
 [Ansi Text]
-
+Ansi текст
 [Removes all settings for the specified module]
-
+Премахва всички настройки от избрания модул
 [Show window for new/changed profile password]
 
 [int 0]
 
 [Import settings/contacts from file]
-
+Импортиране на настройки/контакти от файл
 [Opens or activate database editor]
-
+Отваряне или активиране на редактора за бази данни
 [Opens or activate user search dialog]
-
+Отваря или активира прозореца за търсене на потребители
 [displays File Transfer window]
-
+показва прозореца за обмен на файлове
 [on Desktop]
-
+на десктопа
 [parent window handle]
 
 [Show "About..." window]
-
+Показва прозореца "Относно..."
 [Open bug report page]
 
 [Open support (originaly - Miranda wiki) page]
 
 [Go to Miranda Homepage]
-
+Отваряне страницата на Miranda
 [System]
 Система
 [Shows contact history or (wParam=0) system history]
@@ -312,13 +282,13 @@
 [Show Global history search window. If already opened, bring it to front.]
 
 [Ignore all]
-
+Игнорирай всичко
 [Ignore messages]
-
+Игнорирай съобщения
 [Ignore URLs]
-
+Игнорирай URL адреси
 [Ignore files]
-
+Игнорирай файлове
 [Ignore User Online]
 
 [Ignore requests]
@@ -330,13 +300,13 @@
 [Unignore Contact]
 
 [restart in default profile or profile manager]
-
+рестарт със стандартния профил или диспечера на профили
 [restart with current profile]
-
+рестарт с текущия профил
 [Restarts Miranda]
-
+Рестартира Miranda
 [Station name]
-
+Име на станцията
 [wParam is Handle]
 
 [wParam is Ansi station name]
@@ -344,7 +314,7 @@
 [wParam is Unicode station name]
 
 [Starting or stopping radio station]
-
+Пускане или спиране на радио станция
 [Stop cycle]
 
 [Start cycle]
@@ -352,49 +322,49 @@
 [Start/stops the cycling throught protocols]
 
 [All protocols]
-
+Всички протоколи
 [Protocol]
 Протокол
 [signed -2 if proto can't set this, -1 on protocol not found, else 0]
 
 [Shows a dialog to set the avatar for all possible protocols]
-
+Показване на прозорец за избор на аватар за всички протоколи
 [Shows the next protocol in the frame]
-
+Показване на следващия протокол в рамката
 [Shows the previous protocol in the frame]
-
+Показване на предишния протокол в рамката
 [Opens the options dialog, optionally at the specified page]
 
 [Open Options dialog]
-
+Отваряне на прозореца за настройки
 [Check for updates]
-
+Проверка за актуализации
 [with confirmation]
-
+с потвърждение
 [without confirmation]
-
+без потвърждение
 [Empty updater download folder]
-
+Изпразване папката за сваляния на Updater
 [Popup Plus (popup.dll) latest YAPP (yapp.dll)]
-
+Popup Plus (popup.dll) посл. YAPP (yapp.dll)
 [Enables or disables Popup windows]
-
+Включва или изключва Popup прозорците
 [YAPP or Popup]
-
+YAPP или Popup
 [Warning]
 Предупреждение
 [Notify]
-
+Уведомяване
 [Error]
 Грешка
 [Popup window]
-
+Рopup прозорец
 [YAPP only]
-
+само YAPP
 [Unicode Text]
-
+Unicode текст
 [Enables or disables Popup windows (maybe deprecated)]
-
+Включва или изключва Popup прозорците (стар метод)
 [result of protocol service call]
 
 [Send a general request through the protocol chain for a contact]
@@ -404,9 +374,9 @@
 [Return account name associated to contact (no need to free it)]
 
 [displays the Account Manager]
-
+показва диспечера на акаунти
 [Show the dialog to select the contact]
-
+Показва прозорец за избор на контакт
 [filter text]
 
 [wParam is unicode]
@@ -418,7 +388,7 @@
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 
 [Send Email to contact]
-
+Изпращане на имейл до контакт
 [struct]
 
 [Returns the received files folder for a contact]
@@ -426,7 +396,7 @@
 [Open contact received file directory]
 
 [Send file to contact.]
-
+Изпращане на файл до контакт
 [hContact;parameter]
 
 [Opens message window for contact with handle in wparam]
@@ -436,9 +406,9 @@
 [Call avatar option dialog for contact]
 
 [Avatar service (AVS.dll)]
-
+Услуга за аватари (AVS.dll)
 [Filename]
-
+Име на файл
 [Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
 
 [Shows contact property window.]
@@ -470,15 +440,15 @@
 [display birthdays window]
 
 [Structure editor]
-
+Редактор на структурата
 [alias]
 
 [type]
-
+тип
 [length]
 
 [data]
-
+Данни
 [Data align]
 
 [Native]
@@ -486,19 +456,19 @@
 [Packed]
 
 [2 bytes]
-
+2 байта
 [4 bytes]
-
+4 байта
 [8 bytes]
-
+8 байта
 [Byte]
-
+BYTE
 [Word]
-
+WORD
 [DWord]
-
+DWORD
 [QWord]
-
+QWORD
 [NativeInt]
 
 [Byte Array]
@@ -510,21 +480,13 @@
 [Pointer to words]
 
 [Last result]
-
-[Parameter]
-
+Последен резултат
 [Data length]
-
-[Structure help]
-
-[Descr]
-
-[&Change]
-
+Дължина на данните
 [C&ancel]
-
+Отказ
 [Process options]
-
+Настройки на процеса
 [Parallel]
 
 [Continued]
@@ -532,63 +494,63 @@
 [Process time, ms]
 
 [Current path]
-
+Текущ път
 [Window option]
-
+Настройки на прозореца
 [Start normal]
-
+Нормално стартиране
 [Start hidden]
-
+Скриване при стартиране
 [Start minimized]
-
+Минимизиране при стартиране
 [Start maximized]
-
+Максимизиране при стартиране
 [Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
-
+Текст <last> се заменя\r\nот последния резултат.\r\n\r\nТекст <param> се заменя\r\nот параметър.
 [Program path]
 
 [Program args]
 
 [Clipboard]
-
+Клипборд
 [Copy to]
-
+Копиране в
 [Paste from]
-
+Поставяне от
 [File]
 Файл
 [Read]
-
+Прочитане
 [Write]
-
+Записване
 [Append]
-
+Добавяне
 [UTF8+sign]
 
 [UTF16+sign]
 
 [Message window]
-
+Прозорец за съобщения
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 
 [Text to insert]
-
+Текст за внасяне
 [Condition]
-
+Условия
 [NOT]
 
 [Value]
-
+Стойност
 [Math]
 
 [Variables]
-
+Променливи
 [Result as integer]
 
 [Operation]
-
+Операция
 [Other Action groups]
-
+Друга група действия
 [not defined]
 
 [You can select another group from combobox, then it will be executed, after that current action group will be continued.]
@@ -596,47 +558,47 @@
 [Macros]
 
 [Own settings]
-
+Собствени настройки
 [Manual]
-
+Ръчно
 [Module]
-
+Модул
 [Setting]
-
+Настройка
 [Unicode]
-
+UNICODE
 [Message title]
-
+Заглавие на съобщението
 [Message text]
-
+Текст на съобщението
 [Keep last result]
-
+Запазване на последния резултат
 [Icons]
 Икони
 [Question]
-
+Въпрос
 [Info]
-
+Информация
 [Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
 
 [Buttons]
-
+Бутони
 [OK, Cancel]
-
+ОК, Отказ
 [Abort, Retry, Ignore]
-
+Прекратяване, Повтаряне, Игнориране
 [Yes, No, Cancel]
-
+Да, Не, Отказ
 [Yes, No]
-
+Да, Не
 [Retry, Cancel]
-
+Повтаряне, Отказ
 [Scheduler]
 
 [Task sample]
 
 [Start]
-
+Начало
 [Starting after]
 
 [Starting from]
@@ -644,97 +606,97 @@
 [Start immediately]
 
 [Days]
-
+Дни
 [Time]
-
+Час
 [Date]
-
+Дата
 [Repeat]
-
+Повтаряне
 [Repeat, times]
-
+Повторение (пъти)
 [Interval]
-
+Интервал
 [Break on non-zero result]
-
+Прекъсни при резултат различен от 0
 [Send event on start time]
-
+Изпрати събитието при стартиране
 [Send event just once]
-
+Изпрати събитието само веднъж
 [Hooks]
 
 [Description]
-
+Описание
 [hook sample]
 
 [Apply]
 Прилагане
 [Event]
-
+Събитие
 [Action group list was changed: some was added or deleted]
 
 [Double click on the contact list]
-
+Двойно кликване върху списъка с контакти
 [The context menu for a contact is about to be built]
 
 [New contact added to database]
-
+Добавяне на нов контакт към базата данни
 [Contact deleting]
-
+Изтриване на контакт
 [Use Actions]
 
 [Action list]
-
+Списък с действия
 [Where to use]
-
+Къде да се ползва
 [TopToolbar]
-
+TopToolBar
 [TabSRMM toolbar]
 
 [Core Hotkey]
-
+Клавишна комбинация
 [Main menu]
 Главно меню
 [Contact menu]
 Меню на контактите
 [Tray menu]
-
+Трей меню
 [Protocol menus]
 Менюта на протоколите
 [Status menu]
 Меню на състоянието
 [Common]
-
+Общи
 [2 state button/item]
-
+Елемент/бутон с 2 състояния
 [Save button/item state]
-
+Запис на състоянието на елемента/бутона
 [Contact related]
-
+Свързани с контакт
 [Normal button tooltip]
-
+Подсказка
 [Pressed button tooltip]
-
+Подсказка при натиснат бутон
 [Separated]
-
+Разделен(а)
 [Root popup:]
-
+Основен popup:
 [Menu item name:]
-
+Име на елемента в гл. меню:
 [Show only if variables return 1]
-
+Покажи само ако променливата върне "1"
 [Choose action]
-
+Изберете действие
 [&Yes]
 Да
 [&No]
 Не
 [A&ppend]
-
+Добавяне
 [Yes to &All]
-
+Да за всички
 [N&o to All]
-
+Не за всички
 [Action "$" exists, do you want to rewrite it?]
 
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
@@ -742,40 +704,40 @@
 [Packed structure]
 
 [Registered actions]
-
+Регистрирани действия
 ; Actman30
 [Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
-
+Настройките на Actman са от стара версия. За надграждането натиснете ОК. В противен случай ОТКАЗ и се върнете ръчно към стара версия  на Actman (или направете копие на настройките). За да запазите стари макроси (които сте експортирали) моля импортирайте ги преди да продължите с надграждането.
 [Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
 
 [Actman settings converted to new version]
-
+Настройките на Actman са надградени
 [INI]
-
+INI
 [INI file name]
-
+име на INI файла
 [Section]
-
+Секция
 [Use LastResult]
-
+Ползване на последния резултат
 [UTF8 encoding]
-
+Кодиране UTF8
 [Function call]
 
 [Function name]
-
+Име на функция
 [DLL name]
-
+Име на DLL
 [Call type]
 
 [Arguments]
-
+Аргументи
 [Number of arguments]
-
+Брой аргументи
 [Argument]
-
+Аргумент
 [Result]
-
+Резултат
 [DLL Handle Cache]
 
 [Keep to end]
@@ -785,7 +747,7 @@
 [Close for macro]
 
 [Refresh]
-
+Обновяване
 [Get from active window]
 
 [Chain]
@@ -797,17 +759,17 @@
 [Do not wait until the end of execution]
 
 [In/Out]
-
+Входящи/Изходящи
 [Autosend]
 
 [Jump]
 
 [> greater]
-
+> по-голямо
 [< lesser]
-
+< по-малко
 [= equ]
-
+= равно
 [& and]
 
 [Case sensitive]
@@ -815,25 +777,25 @@
 [Opposite order]
 
 [empty]
-
+празно
 [contains]
-
+съдържа
 [starts with]
-
+започва с
 [ends with]
-
+завършва на
 [Process script after]
 
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 
 [RTL]
-
+Л<Д
 [Right justified text]
-
+Дясно подравнен текст
 [Database]
-
+База от данни
 [Contact type]
-
+Тип контакт
 [Save value]
 
 [Storage]
@@ -863,23 +825,23 @@
 [Slot 9]
 
 [Settings]
-
+Настройки
 [Contact list]
 Списък с контакти
 [Contact list format]
-
+Формат на списъка с контакти
 [You can use %name%, %uid%, %account% and %group% substitutes]
-
+Можете да използвате %name%, %uid%, %account% и %group%
 [Service list format]
 
 [value]
-
+Стойност
 [name]
-Име
+име
 [value (name)]
-
+стойност (име)
 [name 'value']
-
+име 'стойност'
 [Current Macro]
 
 [Select for FirstRun]
@@ -891,22 +853,22 @@
 [Miranda event help]
 
 [contact list]
-Списък с контакти
+списък с контакти
 [database driver]
-
+драйвър за базата данни
 [Main settings]
-
+Главни настройки
 [Custom settings]
-
+Персонални настройки
 [Do not translate]
-
+Без превеждане
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Param type]
 
 [Text Editor]
-
+Текстови редактор
 [Script]
-
+Скрипт
 [Wrap Text]
 
 [Structure size]

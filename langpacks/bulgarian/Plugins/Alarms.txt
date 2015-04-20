@@ -6,167 +6,167 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Sets once-off, daily, weekly and weekday alarms.]
-
+Задавайте еднократни, ежедневни, ежеседмични  аларми или само за събота и неделя.
 ;file \plugins\Alarms\res\resource.rc
 [New]
-
+Нов
 [Delete]
 Изтриване
 [Edit]
 Редактиране
 [Alarms]
-
+Аларми
 [Use popup plugin]
-
+Ползване на Popup приставка
 [Default snooze:]
-
+Станд. отлагане:
 [minutes]
-
+минути
 [Row height:]
 Ред (височина):
 [Indent:]
-
+Отстъп:
 [Reminder frame]
-
+Рамка за напомняния
 [Auto hide/show]
-
+Автоматично скриване/показване
 [Loop sound]
-
+Повтаряне
 [Period (hours):]
-
+Период (часове):
 [Hide/show with clist]
-
+Показване/скриване със списъка с контакти
 [Auto size vertically]
-
+Автооразмеряване вертикално
 [Transparency (%):]
-
+Прозрачност (%):
 [Alert window]
-
+Прозорец за тревоги
 [Round corners]
-
+Закръглени ъгли
 [Don't steal focus unless idle]
-
+Отнемане на фокуса само при бездействие
 [Preview]
-
+Образец
 [Alarm]
-
+Аларма
 [Cancel]
 Отказ
 [Title:]
-
+Заглавие:
 [Description:]
 Описание:
 [Actions]
 Действия
 [Popup window]
-
+Рopup прозорец
 [Sound:]
-
+Звук:
 [Run command:]
-
+Изпълнение на команда:
 [Parameters:]
-
+Параметри:
 [Alert 1]
-
+Тревога 1
 [Alert 2]
-
+Тревога 2
 [Alert 3]
-
+Тревога 3
 [Speak]
 
 [Occurrence]
-
+Повторение
 [Once]
-
+Веднъж
 [Weekly]
-
+Седмично
 [Daily]
-
+Всеки ден
 [Weekdays]
-
+Работни дни
 [Monthly]
-
+Месечно
 [Yearly]
-
+Годишно
 [i'm hiding]
-
+крия се
 [Date and time]
-
+Дата и час
 [Disable next occurrence]
-
+Без повторение
 [Don't trigger on startup]
-
+Без известие при стартиране на Miranda
 [No reminder]
-
+Без напомняне
 [Dismiss]
-
+Затваряне
 [Snooze]
-
+Отлагане
 [Static]
-
+Статичен
 [&Suspend]
 
 [&Edit...]
-
+Редактиране
 [&Delete]
 Изтриване
 [&Options...]
 Настройки...
 [&New alarm...]
-
+Нова аларма
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 [Unknown command issued: "%s"]
-
+Изпълнена е неизвестна команда: "%s"
 [Set alarm]
-
+Задаване на аларма
 ;file \plugins\Alarms\src\alarm_win.cpp
 [Example alarm]
-
+Примерна аларма
 [Some example text. Example, example, example.]
-
+Примерен текст. Пример, пример и пример.
 [5 mins]
-
+5 мин
 [15 mins]
-
+15 мин
 [30 mins]
-
+30 мин
 [1 hour]
-
+1 час
 [1 day]
-
+1 ден
 [1 week]
-
+1 седмица
 [Title]
-
+Заглавие
 [Background]
 Фон
 [Window]
 Прозорец
 ;file \plugins\Alarms\src\frame.cpp
 [%dh %dm]
-
+%dчас %dмин
 [%dm]
-
+%dмин
 [Hide reminders]
-
+Скриване на напомнянията
 [Show reminders]
-
+Показване на напомнянията
 [Frames]
 Рамки
 [Alarm reminders]
-
+Напомняния за аларми
 ;file \plugins\Alarms\src\icons.cpp
 [Menu: Set alarm]
-
+Меню: Задаване на аларма
 [Reminder: Soon]
-
+Напомняне: Скоро
 [Reminder: Very soon]
-
+Напомняне: Много скоро
 [Alarm: System tray]
-
+Аларма: Системен трей
 [Menu: Show/Hide reminders]
-
+Меню: Показване/Скриване на напмняния
 ;file \plugins\Alarms\src\options.cpp
 [Sunday]
 неделя
@@ -183,10 +183,10 @@
 [Saturday]
 събота
 [Please enter a title for this alarm.]
-
+Моля, въведете заглавие на алармата.
 [Error]
 Грешка
 [The alarm time you have selected is in the past.]
-
+Въведената дата за алармата е в миналото.
 [Events]
 Събития
