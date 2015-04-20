@@ -257,7 +257,36 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 			OnReceiveMessage(clientMsgId, conversationLink, timestamp, message, emoteOffset);
 		}
 		else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage")){}
-	
+		else if (!mir_strcmpi(messageType, "Event/Call"))
+		{
+			//content=<partlist type="ended" alt=""><part identity="username"><name>user name</name><duration>6</duration></part>
+			//<part identity="echo123"><name>Echo / Sound Test Service</name><duration>6</duration></part></partlist>
+
+			//content=<partlist type="started" alt=""><part identity="username"><name>user name</name></part></partlist>
+			ptrA name;
+			int iType, iDuration;
+			HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("partlist"));
+			if (xml != NULL) 
+			{
+
+				ptrA type(mir_t2a(xi.getAttrValue(xml, _T("type"))));
+
+				if (!mir_strcmpi(type, "ended")) iType = 0;
+				else if (!mir_strcmpi(type, "started")) iType = 1;
+
+				HXML xmlNode = xi.getChildByPath(xml, _T("part"), 0);
+				HXML duration = xmlNode == NULL ? NULL : xi.getChildByPath(xmlNode, _T("duration"), 0);
+				iDuration = xmlNode != NULL ? atoi(mir_t2a(xi.getText(xmlNode))) : NULL;
+
+				xi.destroyNode(xml);
+			}
+			CMStringA text = "";
+			if (iType == 1)
+				text.Append(Translate("Call started"));
+			else if (iType == 0)
+				text.AppendFormat("%s\n%s: %d", Translate("Call ended"), Translate("Duration"), iDuration != NULL ? iDuration : 0);
+			OnReceiveMessage(clientMsgId, conversationLink, timestamp, text.GetBuffer());
+		}
 
 }
 
