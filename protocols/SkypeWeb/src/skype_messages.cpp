@@ -276,7 +276,7 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 
 				HXML xmlNode = xi.getChildByPath(xml, _T("part"), 0);
 				HXML duration = xmlNode == NULL ? NULL : xi.getChildByPath(xmlNode, _T("duration"), 0);
-				iDuration = xmlNode != NULL ? atoi(mir_t2a(xi.getText(xmlNode))) : NULL;
+				iDuration = duration != NULL ? atoi(mir_t2a(xi.getText(duration))) : NULL;
 
 				xi.destroyNode(xml);
 			}

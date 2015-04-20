@@ -100,7 +100,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				//content=<partlist type="started" alt=""><part identity="username"><name>user name</name></part></partlist>
 				MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
 				ptrA name;
-				int iType, iDuration;
+				int iType = 3, iDuration = 0;
 				ptrA skypename(ContactUrlToName(from));
 				bool isMe = IsMe(skypename);
 				int flags = DBEF_UTF | DBEF_READ;
@@ -117,7 +117,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 					HXML xmlNode = xi.getChildByPath(xml, _T("part"), 0);
 					HXML duration = xmlNode == NULL ? NULL : xi.getChildByPath(xmlNode, _T("duration"), 0);
-					iDuration = xmlNode != NULL ? atoi(mir_t2a(xi.getText(xmlNode))) : NULL;
+					iDuration = duration != NULL ? atoi(mir_t2a(xi.getText(duration))) : NULL;
 
 					xi.destroyNode(xml);
 				}
