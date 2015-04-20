@@ -21,8 +21,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class SendMessageRequest : public HttpRequest
 {
 public:
-	SendMessageRequest(const char *regToken, const char *username, time_t timestamp, const char *message, const char *server = SKYPE_ENDPOINTS_HOST, bool isChat = false) :
-		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/%s:%s/messages", server, isChat?"19":"8", username)
+	SendMessageRequest(const char *regToken, const char *username, time_t timestamp, const char *message, const char *server = SKYPE_ENDPOINTS_HOST) :
+		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/8:%s/messages", server, username)
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")

@@ -18,6 +18,30 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_CHATS_H_
 #define _SKYPE_REQUEST_CHATS_H_
 
+class SendChatMessageRequest : public HttpRequest
+{
+public:
+	SendChatMessageRequest(const char *regToken, const char *username, time_t timestamp, const char *message, const char *server = SKYPE_ENDPOINTS_HOST) :
+		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/19:%s/messages", server, username)
+	{
+		Headers
+			<< CHAR_VALUE("Accept", "application/json, text/javascript")
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
+
+		JSONNODE *node = json_new(5);
+		json_push_back(node, json_new_i("clientmessageid", timestamp));
+		json_push_back(node, json_new_a("messagetype", "RichText"));
+		json_push_back(node, json_new_a("contenttype", "text"));
+		json_push_back(node, json_new_a("content", ptrA(mir_utf8encode(message))));
+
+		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
+		Body << VALUE(data);
+
+		json_delete(node);
+	}
+};
+
 class CreateChatroomRequest : public HttpRequest
 {
 public:
