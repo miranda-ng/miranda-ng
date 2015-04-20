@@ -104,6 +104,15 @@ int CSkypeProto::OnInitStatusMenu()
 		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = GetSkinIconHandle("main");
 		hStatusMunuRoot = /*m_hMenuRoot = */Menu_AddProtoMenuItem(&mi);
+
+		/*
+		mi.pszService = MODULE"/CreateNewChat";
+		mi.ptszName = LPGENT("Create new chat");
+		mi.position = 10009 + PMI_CREATECHAT;
+		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_JOIN);
+		ProtoMenuItems[PMI_CREATECHAT] = Menu_AddProtoMenuItem(&mi);
+		CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::SvcCreateChat>);
+		*/
 	}
 	/*else
 	{

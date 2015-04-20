@@ -28,6 +28,15 @@ enum
 	CMI_MAX // this item shall be the last one
 };
 
+enum ProtoMenuIndexes {
+		PMI_CREATECHAT,
+		PMI_SETSTATUSMSG,
+		PMI_WALLPOST,
+		PMI_LOADVKNEWS,
+		PMI_VISITPROFILE,
+		PMI_COUNT
+};
+
 #define SMI_POSITION 200000
 
 #endif //_SKYPE_MENUS_H_

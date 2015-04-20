@@ -20,8 +20,7 @@
 #define IDC_RADIO4                      1033
 #define IDC_STATIC_MARC_AS_READ         1034
 #define IDC_CLIST                       1035
-#define IDC_EDIT1                       1036
-#define IDC_COMBO1                      1037
+#define IDC_TITLE                       1036
 #define IDC_CONTACT                     1037
 
 // Next default values for new objects

@@ -244,6 +244,9 @@ private:
 	void ChangeChatTopic(const char * chat_id, const char *topic, const char *initiator);
 
 	static INT_PTR __stdcall InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR __stdcall GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
+	void CreateNewChat(LIST<char> &uids, LPCTSTR ptszTitle);
 
 	//polling
 	void __cdecl PollingThread(void*);

@@ -77,7 +77,7 @@ BEGIN
     DEFPUSHBUTTON   "ОК",IDOK,96,233,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,148,233,50,14
     CONTROL         "Настраиваемый1",IDC_CLIST,"",WS_TABSTOP,7,20,191,122
-    EDITTEXT        IDC_EDIT1,7,161,191,61,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TITLE,7,161,191,61,ES_AUTOHSCROLL | ES_WANTRETURN
     CTEXT           "New chat's title:",IDC_STATIC,7,148,191,11
     CTEXT           "Mark users you want to invite to a new chat",IDC_STATIC,7,7,191,8
 END
