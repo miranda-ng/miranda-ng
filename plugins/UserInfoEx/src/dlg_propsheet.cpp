@@ -1107,7 +1107,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		HWND hName = GetDlgItem(hDlg, TXT_NAME);
 		SetWindowText(hName, pszName);
 		SetWindowText(hDlg, CMString(FORMAT, _T("%s - %s"), pszName, TranslateT("edit contact information")));
-		SetDlgItemText(hDlg, IDC_HEADERBAR, CMString(FORMAT, _T("%s"), pszName));
+		SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("View personal user details and more"));
 
 		// redraw the name control
 		POINT pt = { 0, 0 };
