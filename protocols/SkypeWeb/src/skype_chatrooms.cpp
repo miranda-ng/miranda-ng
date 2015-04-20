@@ -99,16 +99,16 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 
 		case GC_USER_PRIVMESS:
 		{
-			/*facebook_user fbu;
-			fbu.user_id = _T2A(hook->ptszUID, CP_UTF8);
-
-			// Find this contact in list or add new temporary contact
-			MCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE, false, true);
-
-			if (!hContact)
-				break;
-
-			CallService(MS_MSG_SENDMESSAGET, hContact, 0);*/
+			MCONTACT hContact = FindContact(_T2A(gch->ptszUID));
+			if (hContact == NULL)
+			{
+				hContact = AddContact(_T2A(gch->ptszUID), true);
+				setWord(hContact, "Status", ID_STATUS_ONLINE);
+				db_set_b(hContact, "CList", "Hidden", 1);
+				setTString(hContact, "Nick", gch->ptszUID);
+				db_set_dw(hContact, "Ignore", "Mask1", 0);
+			}
+			CallService(MS_MSG_SENDMESSAGET, hContact, 0);
 			break;
 		}
 
@@ -116,16 +116,15 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		{
 			switch(gch->dwData)
 			{
-			case 10:
-				MCONTACT hContact;
-				hContact = (MCONTACT)DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_GC_INVITE), NULL, InviteDlgProc, (LPARAM)this);
+			case 10: {
+				MCONTACT hContact = (MCONTACT)DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_GC_INVITE), NULL, InviteDlgProc, (LPARAM)this);
 				if (hContact != NULL) 
 				{
 					ptrA username(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID));
 					SendRequest(new InviteUserToChatRequest(RegToken, chat_id, username, "User", Server));
 				}
 				break;
-
+			}
 			case 20:
 				//chat_leave(id);
 				break;
@@ -138,7 +137,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		case GC_USER_NICKLISTMENU:
 		{
 			ptrA user_id;
-			if (gch->dwData == 10 || gch->dwData == 20) 
+			if (gch->dwData == 10 || gch->dwData == 30 || gch->dwData == 40) 
 			{
 				user_id = mir_t2a_cp(gch->ptszUID, CP_UTF8);
 			}
@@ -147,6 +146,12 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			{
 			case 10:
 				SendRequest(new KickUserRequest(RegToken, chat_id, user_id, Server));
+				break;
+			case 30:
+				SendRequest(new InviteUserToChatRequest(RegToken, chat_id, user_id, "Admin", Server));
+				break;
+			case 40:
+				SendRequest(new InviteUserToChatRequest(RegToken, chat_id, user_id, "User", Server));
 				break;
 			}
 
@@ -218,7 +223,11 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 		{
 			static const struct gc_item Items[] =
 			{
-				{ LPGENT("Kick &user"), 10, MENU_ITEM, FALSE }
+				{ LPGENT("Kick &user"), 10, MENU_ITEM		},
+				{ NULL,					 0, MENU_ITEM		},
+				{ LPGENT("Set &role"),	20, MENU_NEWPOPUP	},
+				{ LPGENT("&Admin"),		30, MENU_POPUPITEM	},
+				{ LPGENT("&User"),		40, MENU_POPUPITEM	}
 			};
 			gcmi->nItems = SIZEOF(Items);
 			gcmi->Item = (gc_item*)Items;
@@ -231,9 +240,6 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 
 INT_PTR CSkypeProto::OnJoinChatRoom(WPARAM hContact, LPARAM)
 {
-	if (hContact)
-	{
-	}
 	return 0;
 }
 
@@ -241,7 +247,7 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 {
 	if (hContact)
 	{
-		ptrT idT(hContact ? getTStringA(hContact, "ChatRoomID") : NULL);
+		ptrT idT(getTStringA(hContact, "ChatRoomID"));
 
 		GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
 		gcd.ptszID = idT;
@@ -281,11 +287,15 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	{
 		GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_MESSAGE };
 		GCEVENT gce = { sizeof(GCEVENT), &gcd };
-		gce.bIsMe = IsMe(ContactUrlToName(from));
-		gce.ptszUID = mir_a2t(ContactUrlToName(from));
+		ptrA contactName(ContactUrlToName(from));
+		ptrT tszName(mir_a2t(contactName));
+		ptrA szHtml(RemoveHtml(content));
+		ptrT tszHtml(mir_a2t(szHtml));
+		gce.bIsMe = IsMe(contactName);
+		gce.ptszUID = tszName;
 		gce.time = timestamp;
-		gce.ptszNick = mir_a2t(ContactUrlToName(from));
-		gce.ptszText = mir_a2t(RemoveHtml(content));
+		gce.ptszNick = tszName;
+		gce.ptszText = tszHtml;
 		gce.dwFlags = GCEF_ADDTOLOG;
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	}
