@@ -15,7 +15,7 @@
 Нет
 [Cancel]
 Отмена
-[Send screenshot]
+[Send screenshot to]
 Отправить скриншот
 [<unknown>]
 <неизвестный контакт>
@@ -159,6 +159,8 @@ HTTP подключение SendSS
 Кнопки
 [Take a screenshot]
 Сделать скриншот
+[Send screenshot]
+Отправить скриншот
 [Send desktop screenshot]
 Отправить скриншот экрана
 [Open SendSS+]

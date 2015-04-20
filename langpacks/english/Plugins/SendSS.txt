@@ -11,7 +11,7 @@
 [All]
 [None]
 [Cancel]
-[Send screenshot]
+[Send screenshot to]
 [<unknown>]
 [Ti&med capture]
 [Time (secs):]
@@ -118,6 +118,7 @@
 [Buttons]
 [Could not register Miranda service.]
 [Take a screenshot]
+[Send screenshot]
 [Send desktop screenshot]
 [Open SendSS+]
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
