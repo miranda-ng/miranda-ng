@@ -9,7 +9,7 @@
 
 ;file \plugins\Console\res\resource.rc
 [Console]
-
+Конзола
 [Single window mode*]
 
 [Show icons in log*]
@@ -28,11 +28,11 @@
 
 ;file \plugins\Console\src\Console.cpp
 [Show/Hide Console]
-
+Показване/Скриване на конзолата
 [Hide Console]
-
+Скриване на конзолата
 [Show Console]
-
+Показване на конзолата
 [Scrolling (Ctrl+Q)]
 
 [Pause logging (Ctrl+P)]
@@ -62,13 +62,13 @@
 [Miranda Console]
 
 [Services]
-
+Услуги
 [Text]
 Текст
 [Background]
 Фон
 [Text Files (*.txt)]
-
+Текстови файлове (*.txt)
 [All Files]
 Всички файлове
 [Save selection to file]

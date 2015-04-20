@@ -11,79 +11,79 @@
 [Hotkeys]
 Клавишни комбинации
 [Changing layout:]
-
+Смяна на клавиатурната подредба:
 ["Current word" mode]
 
 [Changing layout (alternative):]
-
+Смяна на клавиатурната подредба (алтернативна комбинация):
 [Inverting lettercase:]
-
+Смяна на буквите (главни/малки):
 [Options]
 Настройки
 [Two-way changing layout (experimental)]
-
+Двупосочна смяна (експериментално)
 [Log operations]
 
 [Copy result to clipboard]
-
+Копиране на резултата в клипборда
 [Show result in Popup]
-
+Показване на резултата в Popup
 [Strings for keyboard layouts]
-
+Низове за клавиатурните подредби
 [Default]
 Стандарт
 [Invert current state]
-
+Смяна на текущото състояние
 [Switch off]
-
+Изключване
 [Leave as it is]
-
+Без промяна
 [Set Caps Lock state when inverting lettercase:]
-
+Задаване на състояние за Caps Lock при смяна на буквите:
 [Change active keyboard layout in system]
-
+Сменяване на клавиатурната подредба на ОС
 [Colors]
-
+Цветове
 [Popup colors]
-
+Popup цветове
 [Windows colors]
-
+Цветове от Windows
 [Custom colors]
-
+Избор на цветове
 [Back]
-
+Назад
 [Text]
 Текст
 [Timeout]
-
+Времетраене
 [From Popup plugin]
-
+От приставката Popup
 [Permanent]
-
+Постоянно
 [Custom]
 Избор
 [On left click]
-
+Ляв бутон
 [Copy to clipboard]
-
+Запис в клипборда
 [Dismiss]
-
+Затваряне
 [On right click]
-
+Десен бутон
 [Preview]
-
+Образец
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 [ChangeKeyboardLayout]
 
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Changing Layout]
-
+Смяна на клавиатурната подредба
 [Changing Case]
-
+Смяна на буквите (главни/малки)
 [Message sessions]
 Разговори
 [Popups]
 Рopups
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
 [Popup]
-
+Рopup

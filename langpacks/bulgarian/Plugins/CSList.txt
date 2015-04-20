@@ -44,15 +44,15 @@
 [This field doesn't accept string longer than %d characters. The string will be truncated.]
 
 [Favorites]
-
+Любими
 [Regular statuses]
 
 [Title]
-
+Заглавие
 [Message]
 Съобщение
 [Do you really want to delete selected item?]
-
+Наистина ли желаете маркираният елемент да бъде изтрит?
 [Do you want old database entries to be deleted after Import?]
 
 ;file \plugins\CSList\src\cslist.h
@@ -69,21 +69,21 @@
 [Set/unset current item as favorite]
 
 [Favorite]
-
+Любим
 [Undo changes]
 Отменяна на промените
 [Import statuses from database]
 
 [Import]
-
+Внос
 [Filter list]
 
 [Filter]
-
+Филтър
 [Close without changing custom status]
 
 [No change]
-
+Без промяна
 [Clear custom status (reset to None) and close]
 
 [Clear]

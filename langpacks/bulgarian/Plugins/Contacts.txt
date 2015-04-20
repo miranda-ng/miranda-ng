@@ -27,9 +27,9 @@
 [&Select All]
 
 [Received contacts]
-
+Получени контакти
 [Add to &group:]
-
+Добавяне в група:
 [&Details]
 Подробности
 [Close]
@@ -41,29 +41,29 @@
 [Try again]
 Опитай отново
 [Popup]
-
+Рopup
 [Add to List]
 Добавяне в списъка
 [User details]
 Подробности за потребителя
 [Send Message]
-
+Изпращане на съобщение
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]
 
 [Contacts]
 Контакти
 [Incoming Contacts]
-
+Входящи контакти
 [Outgoing Contacts]
-
+Изходящи контакти
 ;file \plugins\ContactsPlus\src\receive.cpp
 [Nick]
 Прякор
 [First Name]
-
+Име
 [Last Name]
-
+Фамилия
 [Add Contact Permanently to List]
 Добавяне на контакта за постоянно в списъка
 [View User's Details]
@@ -73,7 +73,7 @@
 [User Menu]
 Потребителско меню
 [Contacts from]
-
+Контаки от
 ;file \plugins\ContactsPlus\src\send.cpp
 [Send Contacts to]
 
