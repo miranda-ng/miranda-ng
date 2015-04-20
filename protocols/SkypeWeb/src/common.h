@@ -87,7 +87,7 @@ struct CSkypeProto;
 
 extern HINSTANCE g_hInstance;
 
-#define MODULE "SKYPE"
+#define MODULE "Skype"
 
 #define SKYPE_MAX_CONNECT_RETRIES 10
 
@@ -99,8 +99,6 @@ enum SKYPE_LOGIN_ERROR
 #define SKYPE_SETTINGS_ID "Skypename"
 #define SKYPE_SETTINGS_PASSWORD "Password"
 #define SKYPE_SETTINGS_GROUP "DefaultGroup"
-
-#define SKYPE_PARSEURI  "SKYPE/ParseUri"
 
 #define SKYPE_DB_EVENT_TYPE_ACTION 10001
 

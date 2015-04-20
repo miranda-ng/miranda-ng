@@ -517,7 +517,7 @@ char *CSkypeProto::GetServerFromUrl(const char *url)
 	return ParseUrl(url, "://");
 }
 
-INT_PTR __cdecl CSkypeProto::ParseSkypeURIService(WPARAM wParam, LPARAM lParam)
+INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 {
 	TCHAR *arg = (TCHAR *)lParam;
 	if (arg == NULL)
@@ -557,4 +557,13 @@ INT_PTR __cdecl CSkypeProto::ParseSkypeURIService(WPARAM wParam, LPARAM lParam)
 	}
 
 	return 1; /* parse failed */
+}
+
+INT_PTR CSkypeProto::GlobalParseSkypeUriService(WPARAM wParam, LPARAM lParam)
+{
+	for (int i = 0; i < Accounts.getCount(); i++)
+		if (Accounts[i]->IsOnline())
+			return Accounts[i]->ParseSkypeUriService(wParam, lParam);
+
+	return 1;
 }
