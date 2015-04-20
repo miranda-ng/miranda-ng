@@ -302,7 +302,7 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 int CSkypeProto::OnDbEventRead(WPARAM hContact, LPARAM hDbEvent)
 {
 	debugLogA(__FUNCTION__);
-	if (IsOnline() && !isChatRoom(hContact))
+	if (IsOnline() && !isChatRoom(hContact) && !mir_strcmp(GetContactProto(hContact), m_szModuleName))
 		MarkMessagesRead(hContact, hDbEvent);
 	return 0;
 }
