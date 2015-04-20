@@ -100,7 +100,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				gce.ptszUID = mir_a2t(ContactUrlToName(from));
 				gce.time = timestamp;
 				gce.ptszNick = mir_a2t(ContactUrlToName(from));
-				gce.ptszText = mir_a2t(content);
+				gce.ptszText = mir_a2t(RemoveHtml(content));
 				gce.dwFlags = GCEF_NOTNOTIFY;
 				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 			}
