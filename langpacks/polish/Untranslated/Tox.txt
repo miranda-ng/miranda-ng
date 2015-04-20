@@ -1,7 +1,0 @@
-﻿[Outgoing call]
-[Incoming call]
-[Call started]
-[Call ended]
-[Call]
-[Unable to find input audio device]
-[Unable to find output audio device]

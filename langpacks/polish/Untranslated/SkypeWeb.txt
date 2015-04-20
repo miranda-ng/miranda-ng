@@ -1,4 +1,0 @@
-﻿[Kick &user]
-[Call started]
-[Call ended]
-[Duration]
