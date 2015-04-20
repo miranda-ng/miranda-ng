@@ -25,7 +25,7 @@ public:
 	{
 		Url 
 			<< INT_VALUE("startTime", 0)
-			<< INT_VALUE("pageSize", 100)
+			<< INT_VALUE("pageSize", pageSize)
 			<< CHAR_VALUE("view", "msnp24Equivalent")
 			<< CHAR_VALUE("targetType", "Passport|Skype|Lync|Thread");
 
