@@ -517,7 +517,7 @@ char *CSkypeProto::GetServerFromUrl(const char *url)
 	return ParseUrl(url, "://");
 }
 
-INT_PTR __cdecl CSkypeProto::ParseSkypeURI(WPARAM w, LPARAM lParam)
+INT_PTR __cdecl CSkypeProto::ParseSkypeURIService(WPARAM, LPARAM lParam)
 {
 	TCHAR *arg = (TCHAR *)lParam;
 	if (arg == NULL)
@@ -551,7 +551,8 @@ INT_PTR __cdecl CSkypeProto::ParseSkypeURI(WPARAM w, LPARAM lParam)
 	// no command or message command
 	if (!szCommand || (szCommand && !_tcsicmp(szCommand, _T("chat")))) 
 	{
-		//CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, NULL);
+		MCONTACT hContact = AddContact(_T2A(szJid), true);
+		CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, NULL);
 		return 0;
 	}
 
