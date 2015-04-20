@@ -13,8 +13,6 @@
 Нет описания
 [New]
 Создать
-[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
-Воспроизводит звук, добавленный с помощью Skin/Sounds/AddNew. Если звук не найден, будет воспроизведён стандартный звук Windows
 [Up]
 Выше
 [Down]

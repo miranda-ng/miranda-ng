@@ -13,8 +13,6 @@ Akcje
 Brak opisu
 [New]
 Nowy
-[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
-Odtwarza dźwięk dodany przez Skin/Sounds/Addnew. W przypadku nie znalezienia dźwięku, odtwarzany jest domyślny dźwięk Windows.
 [Up]
 Do góry
 [Down]
