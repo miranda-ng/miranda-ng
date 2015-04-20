@@ -6,68 +6,68 @@
 ;  Authors: Nightwish, Pixel
 ;============================================================
 [Allows inline skin item editing for clist nicer.]
-
+Редактор на облици за Clist_nicer.
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
-
+Елементи на облика
 [General]
 Основни
 [Gradient]
-
+Градиент
 [Left to right]
-
+Отляво надясно
 [Right to left]
-
+Отдясно наляво
 [Top to bottom]
-
+Отгоре надолу
 [Bottom to top]
-
+Отдолу нагоре
 [Round corners]
-
+Закръглени ъгли
 [Top-Left]
-
+Горе вляво
 [Top-Right]
-
+Горе вдясно
 [Bottom-Right]
-
+Долу вдясно
 [Bottom-Left]
-
+Долу вляво
 [Item colors]
-
+Цветове на елемента
 [First color]
-
+Първи цвят
 [Text color]
 Цвят на текста
 [Second color]
-
+Втори цвят
 [Transparent]
-
+Прозрачно
 [Alpha (percent)]
-
+Коефициент на прозрачност (%)
 [Item margins]
-
+Ръбове на елемента
 [Item borders]
-
+Рамка на елемента
 [Border style]
-
+Стил на рамката
 [3D border (bright / dark)]
-
+3D рамка (светло/тъмно)
 [Item ignored]
-
+Игнорирани елементи
 [Dialog]
-
+Прозорец
 [Not yet supported]
-
+Не се поддържа
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
-
+Копирай от
 [<None>]
-<няма>
+<Няма>
 [Raised]
-
+Повдигнато
 [Sunken]
-
+Вградено
 [Bumped]
-
+Двойно изпъкнало
 [Etched]
 

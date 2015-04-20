@@ -19,4 +19,4 @@
 [GnuPG Plugin - Select public key]
 
 [Refresh]
-
+Обновяване
