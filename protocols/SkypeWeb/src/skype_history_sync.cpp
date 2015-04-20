@@ -53,42 +53,45 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		bool isEdited = (json_get(message, "skypeeditedid") != NULL);
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
 		{
-			int emoteOffset = json_as_int(json_get(message, "skypeemoteoffset"));
-
-			int flags = DBEF_UTF | DBEF_READ;
-
-			ptrA skypename(ContactUrlToName(from));
-
-			bool isMe = IsMe(skypename);
-			if (isMe)
-				flags |= DBEF_SENT;
-
-			MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
-
-			ptrA message(RemoveHtml(content));
-			MEVENT dbevent =  GetMessageFromDb(hContact, skypeEditedId);
-
-			if (isEdited && dbevent != NULL)
+			if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 			{
-				DBEVENTINFO dbei = { sizeof(dbei) };
-				CMStringA msg;
+				int emoteOffset = json_as_int(json_get(message, "skypeemoteoffset"));
 
-				dbei.cbBlob = db_event_getBlobSize(dbevent);
-				mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
-				dbei.pBlob = blob;
+				int flags = DBEF_UTF | DBEF_READ;
 
-				db_event_get(dbevent, &dbei);
-				time_t dbEventTimestamp = dbei.timestamp;
-				ptrA dbMsgText((char *)mir_alloc(dbei.cbBlob));
+				ptrA skypename(ContactUrlToName(from));
 
-				mir_strcpy(dbMsgText, (char*)dbei.pBlob);
+				bool isMe = IsMe(skypename);
+				if (isMe)
+					flags |= DBEF_SENT;
 
-				msg.AppendFormat("%s\n%s [%s]:\n%s", dbMsgText, Translate("Edited at"), ptrA(mir_t2a(composeTime)), message);
-				db_event_delete(hContact, dbevent);
-				AddMessageToDb(hContact, dbEventTimestamp, flags, clientMsgId, msg.GetBuffer(), emoteOffset);
+				MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
+
+				ptrA message(RemoveHtml(content));
+				MEVENT dbevent =  GetMessageFromDb(hContact, skypeEditedId);
+
+				if (isEdited && dbevent != NULL)
+				{
+					DBEVENTINFO dbei = { sizeof(dbei) };
+					CMStringA msg;
+
+					dbei.cbBlob = db_event_getBlobSize(dbevent);
+					mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
+					dbei.pBlob = blob;
+
+					db_event_get(dbevent, &dbei);
+					time_t dbEventTimestamp = dbei.timestamp;
+					ptrA dbMsgText((char *)mir_alloc(dbei.cbBlob));
+
+					mir_strcpy(dbMsgText, (char*)dbei.pBlob);
+
+					msg.AppendFormat("%s\n%s [%s]:\n%s", dbMsgText, Translate("Edited at"), ptrA(mir_t2a(composeTime)), message);
+					db_event_delete(hContact, dbevent);
+					AddMessageToDb(hContact, dbEventTimestamp, flags, clientMsgId, msg.GetBuffer(), emoteOffset);
+				}
+				else
+					AddMessageToDb(hContact, timestamp, flags, clientMsgId, message, emoteOffset);
 			}
-			else
-				AddMessageToDb(hContact, timestamp, flags, clientMsgId, message, emoteOffset);
 		}
 		else if (conversationLink != NULL && strstr(conversationLink, "/19:"))
 		{

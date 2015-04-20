@@ -204,64 +204,60 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 	ptrT composeTime(json_as_string(json_get(node, "composetime")));
 	time_t timestamp = getByte("UseLocalTime", 0) ? time(NULL) : IsoToUnixTime(composeTime);
 
-	ptrA from(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
-	ptrA skypename(ContactUrlToName(from));
+	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
+	ptrA fromLink(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
+
+	ptrA skypename(ContactUrlToName(conversationLink));
+	ptrA from(ContactUrlToName(fromLink));
 
 	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
 	int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
 
 	ptrA message(RemoveHtml(content));
 
-	if (IsMe(skypename))
+	
+	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
+	MCONTACT hContact = AddContact(skypename, true);
+
+	if (!mir_strcmpi(messageType, "Control/Typing"))
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
+	else if (!mir_strcmpi(messageType, "Control/ClearTyping"))
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
+
+	else if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 	{
-		ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
-		ptrA cSkypename(ContactUrlToName(conversationLink));
-		MCONTACT hContact = AddContact(cSkypename, true);
-		int hMessage = atoi(clientMsgId);
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
-		debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-		AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, message, emoteOffset);
-	}
-	else
-	{
-		ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
-
-		MCONTACT hContact = AddContact(skypename, true);
-
-		if (!mir_strcmpi(messageType, "Control/Typing"))
-			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
-
-		else if (!mir_strcmpi(messageType, "Control/ClearTyping"))
-			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
-
-		else if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
+		if (IsMe(from))
 		{
+			int hMessage = atoi(clientMsgId);
+			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
 			debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-			MEVENT dbevent =  GetMessageFromDb(hContact, skypeEditedId);
-			if (isEdited && dbevent != NULL)
-			{
-				DBEVENTINFO dbei = { sizeof(dbei) };
-				CMStringA msg;
+			AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, message, emoteOffset);
+		}
+		debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
+		MEVENT dbevent =  GetMessageFromDb(hContact, skypeEditedId);
+		if (isEdited && dbevent != NULL)
+		{
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			CMStringA msg;
+			dbei.cbBlob = db_event_getBlobSize(dbevent);
+			mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
+			dbei.pBlob = blob;
 
-				dbei.cbBlob = db_event_getBlobSize(dbevent);
-				mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
-				dbei.pBlob = blob;
+			db_event_get(dbevent, &dbei);
 
-				db_event_get(dbevent, &dbei);
+			time_t dbEventTimestamp = dbei.timestamp;
+			ptrA dbMsgText((char *)mir_alloc(dbei.cbBlob));
+			mir_strcpy(dbMsgText, (char*)dbei.pBlob);
 
-				time_t dbEventTimestamp = dbei.timestamp;
-				ptrA dbMsgText((char *)mir_alloc(dbei.cbBlob));
-				mir_strcpy(dbMsgText, (char*)dbei.pBlob);
-
-				msg.AppendFormat("%s\n%s [%s]:\n%s", dbMsgText, Translate("Edited at"), ptrA(mir_t2a(composeTime)), message);
-				db_event_delete(hContact, dbevent);
-				OnReceiveMessage(clientMsgId, from, dbEventTimestamp, msg.GetBuffer(), emoteOffset);
-			}
-			else
-				OnReceiveMessage(clientMsgId, from, timestamp, message, emoteOffset);
+			msg.AppendFormat("%s\n%s [%s]:\n%s", dbMsgText, Translate("Edited at"), ptrA(mir_t2a(composeTime)), message);
+			db_event_delete(hContact, dbevent);
+			OnReceiveMessage(clientMsgId, conversationLink, dbEventTimestamp, msg.GetBuffer(), emoteOffset);
+		}
+		else
+			OnReceiveMessage(clientMsgId, conversationLink, timestamp, message, emoteOffset);
 		}
 		else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage")){}
-	}
+	
 
 }
 
