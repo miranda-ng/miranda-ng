@@ -41,7 +41,6 @@
 [wParam is unicode]
 [wParam is Ansi]
 [Reserved]
-[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 [Send Email to contact]
 [struct]
 [Returns the received files folder for a contact]

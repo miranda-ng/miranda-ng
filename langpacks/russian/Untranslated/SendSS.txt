@@ -24,4 +24,3 @@
 [for Client area ]
 [of "]
 [" Window]
-[Send screenshot?]
