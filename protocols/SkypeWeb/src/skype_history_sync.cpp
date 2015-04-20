@@ -125,7 +125,13 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				if (iType == 1)
 					text.Append(Translate("Call started"));
 				else if (iType == 0)
-					text.AppendFormat("%s\n%s: %d", Translate("Call ended"), Translate("Duration"), iDuration != NULL ? iDuration : 0);
+				{
+					int hours=0, mins=0, sec=0;
+					hours = iDuration != NULL ? iDuration / 3600 : 0;
+					mins = iDuration != NULL ? iDuration / 60 : 0;
+					sec = iDuration != NULL ? iDuration % 60 : 0;
+					text.AppendFormat("%s\n%s: %d:%d:%d", Translate("Call ended"), Translate("Duration"), hours, mins, sec);
+				}
 				AddMessageToDb(hContact, timestamp, flags, clientMsgId, text.GetBuffer());
 			}
 		}
