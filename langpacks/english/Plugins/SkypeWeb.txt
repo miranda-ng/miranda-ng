@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -33,6 +33,7 @@
 [Admin]
 [&Invite user...]
 [&Leave chat session]
+[&Change topic]
 [Kick &user]
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
