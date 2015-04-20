@@ -339,7 +339,22 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/TopicUpdate"))
 	{
+		//content=<topicupdate><eventtime>1429532702130</eventtime><initiator>8:user</initiator><value>test topic</value></topicupdate>
+		ptrA xinitiator, value, initiator;
+		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("topicupdate"));
+		if (xml != NULL) {
+			HXML xmlNode = xi.getChildByPath(xml, _T("initiator"), 0);
+			xinitiator = node != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
 
+			xmlNode = xi.getChildByPath(xml, _T("value"), 0);
+			value = node != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
+
+			xi.destroyNode(xml);
+		}
+		initiator = ParseUrl(xinitiator, "8:");
+		
+		RenameChat(chatname, value);
+		ChangeChatTopic(chatname, value, initiator);
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/RoleUpdate"))
 	{
@@ -377,6 +392,20 @@ void CSkypeProto::RenameChat(const char *chat_id, const char *name)
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_CHANGESESSIONAME };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszText = tname;
+	CallService(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+}
+
+void CSkypeProto::ChangeChatTopic(const char *chat_id, const char *topic, const char *initiator)
+{
+	ptrT tchat_id(mir_a2t(chat_id));
+	ptrT tname(mir_a2t(initiator));
+	ptrT ttopic(mir_a2t(topic));
+
+	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_TOPIC };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.ptszUID = tname;
+	gce.ptszNick = tname;
+	gce.ptszText = ttopic;
 	CallService(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
 
