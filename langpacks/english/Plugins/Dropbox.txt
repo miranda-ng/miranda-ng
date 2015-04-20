@@ -20,8 +20,6 @@
 [Autosend download link to contact]
 [Paste download link into message input area]
 [Copy download link to clipboard]
-;file \plugins\Dropbox\proto_dropbox\src\resource.h
-[Decoded string..]
 ;file \plugins\Dropbox\src\dropbox.cpp
 [in process...]
 [you have been authorized]
