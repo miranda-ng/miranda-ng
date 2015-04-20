@@ -277,7 +277,7 @@ private:
 	char *SelfUrlToName(const char *url);
 	char *GetServerFromUrl(const char *url);
 
-	static INT_PTR __cdecl CSkypeProto::ParseSkypeURI(WPARAM, LPARAM lParam);
+	INT_PTR __cdecl CSkypeProto::ParseSkypeURIService(WPARAM, LPARAM lParam);
 
 	template<INT_PTR(__cdecl CSkypeProto::*Service)(WPARAM, LPARAM)>
 	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)
