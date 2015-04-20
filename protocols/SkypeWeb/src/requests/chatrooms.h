@@ -45,7 +45,7 @@ public:
 class CreateChatroomRequest : public HttpRequest
 {
 public:
-	CreateChatroomRequest(const char *regToken, const LIST<char> &skypenames, const LIST<char> &roles, const char *server = SKYPE_ENDPOINTS_HOST) :
+	CreateChatroomRequest(const char *regToken, const LIST<char> &skypenames,const char *selfname, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/threads", server)
 	{
 		//{"members":[{"id":"8:user3","role":"User"},{"id":"8:user2","role":"User"},{"id":"8:user1","role":"Admin"}]}
@@ -57,7 +57,7 @@ public:
 
 		CMStringA data = "{\"members\":[";
 		for (int i = 0; i < skypenames.getCount(); i++)
-			data.AppendFormat("{\"id\":\"8:%s\",\"role\":\"%s\"},", skypenames[i], roles[i]);
+			data.AppendFormat("{\"id\":\"8:%s\",\"role\":\"%s\"},", skypenames[i], !mir_strcmpi(skypenames[i], selfname) ? "Admin" : "User");
 		data.Truncate(data.GetLength() - 1);
 		data.Append("]}");
 
