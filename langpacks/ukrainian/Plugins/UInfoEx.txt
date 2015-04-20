@@ -479,6 +479,8 @@
 Власник
 [edit contact information]
 редагувати дані контакту
+[View personal user details and more]
+Перегляд особистих даних користувача
 [Upload ICQ details]
 Завантжити деталі ICQ
 [Upload failed]

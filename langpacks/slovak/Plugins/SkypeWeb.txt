@@ -5,11 +5,11 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
+[Cancel]
+Storno
 [Password:]
 Heslo:
 [Save password]
 Uložiť heslo
-[Cancel]
-Storno
 [Network]
 Sieť

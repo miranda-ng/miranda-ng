@@ -15,8 +15,8 @@
 Немає
 [Cancel]
 Скасувати
-[Send screenshot]
-Відправити знімок екрану
+[Send screenshot to]
+Відправити знімок екрану для
 [<unknown>]
 <невідомий контакт>
 [Ti&med capture]
@@ -177,6 +177,8 @@ HTTP-з'єднання SendSS
 Неможливо зареєструвати службу.
 [Take a screenshot]
 Зробити скріншот
+[Send screenshot]
+Відправити знімок екрану
 [Send desktop screenshot]
 Відправити скріншот екрану
 [Open SendSS+]

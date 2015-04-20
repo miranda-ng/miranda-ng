@@ -5,10 +5,10 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
-[Password:]
-Contraseña:
 [Cancel]
 Cancelar
+[Password:]
+Contraseña:
 [Request authorization]
 Solicitar autorización
 [Grant authorization]

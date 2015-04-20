@@ -11,8 +11,6 @@ Heslo:
 Uložiť heslo
 [Cancel]
 Storno
-[from]
-od
 [All files]
 Všetky súbory
 [Error]

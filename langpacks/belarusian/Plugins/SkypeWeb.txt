@@ -6,10 +6,10 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \protocols\SkypeWeb\res\resource.rc
-[Password:]
-Пароль:
 [Cancel]
 Скасаваць
+[Password:]
+Пароль:
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 ;file \protocols\SkypeWeb\src\skype_icons.cpp

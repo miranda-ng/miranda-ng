@@ -141,6 +141,8 @@ Importar a archivo
 Importar desde archivo
 [Owner]
 Propietario
+[View personal user details and more]
+Ver detalles personales del usuario y más
 [updating]
 actualizando
 [Password]

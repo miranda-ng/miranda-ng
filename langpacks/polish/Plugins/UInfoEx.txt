@@ -489,6 +489,8 @@ Importuj z pliku
 Właściciel
 [edit contact information]
 edytuj informacje o kontakcie
+[View personal user details and more]
+Zobacz osobiste dane użytkownika %s.
 [Upload ICQ details]
 Załaduj informacje ICQ
 [Upload failed]

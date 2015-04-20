@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.4.0.4
+;  Version: 1.5.0.1
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
