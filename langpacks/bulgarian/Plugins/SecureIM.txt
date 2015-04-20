@@ -5,44 +5,234 @@
 ;  Version: 1.0.12.4
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
+[SecureIM plugin for Miranda NG.]
+
+;file \plugins\SecureIM\res\resource.rc
+[User List]
+
+[Enable Secure Offline messages]
+
+[Enable Secure File Transfer]
+
+[Always show status icons in contact list]
+
+[Context Menu only for "Miranda" clients]
+
+[Status in Context Menu]
+
+[Disable encryption for game plugins]
+
+[Always secured if possible]
+
+[Not secured for NotOnList]
+
+[Auto accept RSA key (NOT SECURED)]
+
+[Mode in Context Menu]
+
+[Key Exchange Timeout:]
+
 [sec]
 сек
+[Offline Key Timeout:]
+
 [days]
-дни
+
+[PGP]
+
+[GPG]
+
+[Reset All]
+
 [Protocols]
-Протоколи
+
+[Split Messages]
+
+[Online:]
+
+[Offline:]
+
+[RSA Key]
+
+[SHA1:]
+
+[Public]
+
+[&Copy SHA1]
+
+[E&xport]
+
 [Private]
-Частно
+
 [&Export]
-Износ
+
 [&Import]
-Внос
+
+[Set &keyrings...]
+
+[Disable keyrings use]
+
+[Load &Private key]
+
 [Basic]
-Основни
+
+[Executable:]
+
+[Home Directory:]
+
+[Temp Dir:]
+
+[Key Assignment]
+
+[Debug]
+
 [Log to File]
-Запис във файл
+
+[Save Pass]
+
 [Back]
-Назад
+
 [Text]
 Текст
+[Key agreement colors]
+
+[Secure connection colors]
+
+[Send/Receive encrypted colors]
+
+[SecureIM Popup Colors]
+
 [Preview]
-Образец
+
 [Events]
 Събития
 [Popup Timeout]
-Popup времетраене
+
+[Time in Seconds]
+
+[0 = Default Popup Timeout Value]
+
+[Show a popup on established connection]
+
+[Show a popup on disabled connection]
+
+[Show a popup on key send]
+
+[Show a popup on key received]
+
+[Show a popup on each secure send]
+
+[Show a popup on each secure receive]
+
 [Please type in your password]
-Моля, въведете паролата
+
 [Username:]
 Потребител:
 [Password:]
 Парола:
 [Cancel]
 Отказ
+[SecureIM plugin Passphrase of private key]
+
+[Enter passphrase for the secret key:]
+
 [Mode]
-Режим
+
+[Native SecureIM]
+
+[PGP SecureIM]
+
+[GPG SecureIM]
+
+[RSA/AES SecureIM]
+
 [Status]
 Състояние
+[Always Try to Establish Secure IM]
+
+[Secure IM Enabled]
+
+[Secure IM Disabled]
+
+[Pre-shared key]
+
+[Set key]
+
+[Delete key]
+
+[Set pre-shared key]
+
+[Delete pre-shared key]
+
+[Public key]
+
+[Export key]
+
+[Import key]
+
+[Export public key]
+
+[Import public key]
+
+[Delete public key]
+
+;file \plugins\SecureIM\src\language.cpp
+[SecureIM established...]
+
+[Key exchange failed...]
+
+[Key from disabled...]
+
+[Sent back message received...]
+
+[Sending back secure message...]
+
+[SecureIM disabled...]
+
+[Sending key...]
+
+[Key received...]
+
+[Sending message...]
+
+[Message received...]
+
+[Encrypting file:]
+
+[Decrypting file:]
+
+[Bad key received...]
+
+[SecureIM: Error while decrypting the message.]
+
+[SecureIM: Error while decrypting the message, bad message length.]
+
+[SecureIM: Error while decrypting the message, bad message CRC.]
+
+[User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
+
+[SecureIM not enabled! You must enable SecureIM with this user...]
+
+[Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
+
+[SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
+
+[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
+
+[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
+
+[Can't send encrypted message!\nDo you want to send your message?\nIt will be unencrypted!]
+
+[Can't change mode! Secure connection established!]
+
+[Can't export RSA private key!]
+
+[Can't import RSA private key!]
+
+[Can't export RSA public key!]
+
+[Can't import RSA public key!]
+
 [General]
 Основни
 [Nickname]
@@ -50,32 +240,183 @@ Popup времетраене
 [Name]
 Име
 [Password is too short!]
-Паролата е твърде кратка!
+
 [ON]
 Включено
 [Off]
 Изкл.
+[Keyrings loaded.]
+
+[Keyrings not loaded!]
+
+[PGP SDK v%i.%i.%i found.]
+
+[PGP SDK not found!]
+
+[This version not supported!]
+
 [(none)]
-(никакво)
+
+[Private key loaded.]
+
+[Private key not loaded!]
+
+[The new settings will become valid when you restart Miranda NG!]
+
+[Keyrings disabled!]
+
+[Native]
+
 [Disabled]
-Изключено
+
 [Enabled]
-Включено
+
+[Always try]
+
+[Create SecureIM connection]
+
+[Disable SecureIM connection]
+
+[Load PGP Key]
+
+[Unload PGP Key]
+
+[Load GPG Key]
+
+[Unload GPG Key]
+
+[Delete RSA Key]
+
+[SecureIM mode (Native)]
+
+[SecureIM mode (PGP)]
+
+[SecureIM mode (GPG)]
+
+[SecureIM mode (RSA/AES)]
+
+[SecureIM mode (RSA)]
+
+[SecureIM status (disabled)]
+
+[SecureIM status (enabled)]
+
+[SecureIM status (always try)]
+
+[SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+
+[SecureIM received unencrypted message:\n]
+
+[SecureIM received encrypted message:\n]
+
+[Session closed by receiving incorrect message type]
+
+[Session closed by other side on error]
+
+[Error while decoding AES message]
+
+[Error while decoding RSA message]
+
+[Session closed on timeout]
+
+[Session closed by other side when status "disabled"]
+
+[Session closed on error: %02x]
+
+[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key?]
+
+[SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
+
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key?]
+
+[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
+
+;file \plugins\SecureIM\src\loadicons.cpp
 [Contact List]
 Списък с контакти
+[Connection Disabled]
+
+[Connection Established]
+
 [Contact Menu]
-Меню на контакта
+Меню на контактите
+[Disable Secure Connection]
+
+[Establish Secure Connection]
+
 [Message Window]
-Прозорец за съобщения
+
 [Popups]
 Рopups
+[Secure Connection Disabled]
+
+[Secure Connection Established]
+
+[Secure Connection In Process]
+
+[Recv Secured Message]
+
+[Sent Secured Message]
+
+[Menu State]
+
+[Always Try]
+
 [Overlays]
-Насложени икони за
+
+[Native mode]
+
+[PGP mode]
+
+[GPG mode]
+
+[RSA/AES mode]
+
+;file \plugins\SecureIM\src\main.cpp
+[SecureIM]
+
 [Icons]
 Икони
+[Incoming Secure Message]
+
+[Outgoing Secure Message]
+
+[SecureIM status]
+
+;file \plugins\SecureIM\src\options.cpp
 [Executable Files]
 Изпълними файлове
+[Select GnuPG Executable]
+
+[ASC files]
+
 [All files]
 Всички файлове
+[Open Key File]
+
+[Save Private Key File]
+
+[Save Public Key File]
+
+[Load Private Key File]
+
+[Load Public Key File]
+
 [Services]
-Услуги
+
+;file \plugins\SecureIM\src\popupOptions.cpp
+[Key Popup]
+
+[Secure Popup]
+
+[Message Popup]
+
+;file \plugins\SecureIM\src\svcs_srmm.cpp
+[SecureIM [Native]]
+
+[SecureIM [PGP]]
+
+[SecureIM [GPG]]
+
+[SecureIM [RSA/AES]]
+

@@ -6,68 +6,106 @@
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
-Осигурява комуникация чрез протокола Twitter в Miranda NG.
+
+;file \protocols\Twitter\res\twitter.rc
 [Server:]
-Сървър:
+
 [Create a new Twitter account]
-Създайте нов акаунт за Twitter
+
 [Default group:]
-Стандартна група:
+
 [Username:]
 Потребител:
+[<Sign in to link your Twitter account>]
+
+[Send Tweet]
+
 [Send]
-Изпращане
+
 [Cancel]
 Отказ
 [Miscellaneous options]
-Разни настройки
+
+[Use group chat for Twitter feed]
+
+[Base URL:]
+
+[Polling rate:]
+
+[Once every]
+
 [sec]
 сек
+[Please cycle your connection for these changes to take effect]
+
+[Treat tweets as messages]
+
+[Enable popup notifications for tweets]
+
 [Colors]
-Цветове
+
 [Use Windows colors]
 Цветове от Windows
 [Use Popup colors]
-Цветове от Popup приставката
+
 [Use custom colors]
-Избор на цветове
+Зададени цветове
 [Back]
-Назад
+
 [Text]
 Текст
 [Timeouts]
-Времетраене
+
 [Use default]
-Стандартно
+
 [Custom]
 Избор
 [Permanent]
-Постоянно
+
 [Preview]
-Образец
+
+[But not during sign-on]
+
 [Enter Twitter PIN]
-Въведете Twitter PIN
+
 [Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
-Въведете PIN кода предоставен от Twitter, за да завършите вписването. Това е еднократен процес необходим за създаването на акаунт за Twitter в Miranda.
+
+;file \protocols\Twitter\src\connection.cpp
+[OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
+
+[Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
+
+[You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your Twitter account in the Miranda account options]
+
+;file \protocols\Twitter\src\proto.cpp
+[Send Tweet...]
+
 [Network]
 Мрежа
 [Basic]
-Основни
+
 [Popups]
 Рopups
 [%s server connection]
-%s връзка със сървъра
+
+[Unable to get Netlib connection for Twitter]
+
 [Twitter]
-Twitter
+
 [%s avatar connection]
-%s връзки за аватари
+
+[Unable to get avatar Netlib connection for Twitter]
+
 [%s Protocol]
-%s протокол
+
+;file \protocols\Twitter\src\theme.cpp
 [Twitter Icon]
-Twitter икона
+
 [Tweet]
-Tweet
+
+[Reply to Tweet]
+
 [Visit Homepage]
-Отваряне на страницата
+
 [Reply...]
-Отговор...
+

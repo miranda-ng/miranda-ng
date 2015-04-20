@@ -5,25 +5,81 @@
 ;  Version: 0.2.0.1
 ;  Authors: Cristian Libotean, Miranda NG Team
 ;============================================================
+[Allows plugins to save their data to user selected folders; supports variables.]
+
+;file \plugins\Folders\res\folders.rc
 [Dialog]
-Прозорец
+
 [Custom folders]
-Персонални папки
+
 [Preview]
-Образец
+
 [Edit]
 Редактиране
 [Refresh preview]
-Обновяване
+
 [Variables help]
-За променливите
+
+[Custom folders variables help]
+
 [Close]
 Затваряне
+;file \plugins\Folders\src\dlg_handlers.cpp
 [Some changes weren't saved. Apply the changes now?]
-Някои промени не бяха запаметени. Желаете ли да бъдат приложени въпреки това?
+
 [Changes not saved]
-Промените не бяха запаметени
+
+[Don't forget to click on Apply to save the changes. If you don't then the changes won't]
+
+[be saved to the database, they will only be valid for this session.]
+
+[Variable string]
+
+[What it expands to:]
+
+[Expands to your Miranda path (e.g., c:\\program files\\miranda ng).]
+
+[Expands to your profile path - the value found in mirandaboot.ini,]
+
+[ProfileDir section (usually inside Miranda's folder).]
+
+[Expands to your current profile name without the extenstion.]
+
+[(e.g., default if your your profile is default.dat).]
+
+[Environment variables]
+
+[The plugin can also expand environment variables; the variables are specified like in any other]
+
+[program that can use environment variables, i.e., %<env variable>%.]
+
+[Note: Environment variables are expanded before any Miranda variables. So if you have, for]
+
+[example, %profile_path% defined as a system variable then it will be expanded to that value]
+
+[instead of expanding to Miranda's profile path.]
+
+[Examples:]
+
+[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\\', current]
+
+[profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\\' then:]
+
+[will expand to 'c:\\program files\\miranda ng']
+
+[will expand to 'c:\\program files\\miranda ng\\profiles']
+
+[will expand to 'default']
+
+[will expand to the temp folder of the current user.]
+
+[will expand to 'c:\\program files\\miranda ng\\profiles\\default']
+
+[will expand to 'c:\\program files\\miranda ng\\plugins\\config']
+
+[Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
+
 [Folders]
-Папки
+
 [Customize]
 Персонализиране

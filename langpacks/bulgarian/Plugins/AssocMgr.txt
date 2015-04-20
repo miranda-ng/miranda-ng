@@ -6,40 +6,73 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
-Осигурява възможност за асоцииране на някои типове файлове и на URL-адреси водещи към aim, ymsgr, xmpp, wpmsg, gg, tlen.
+
+;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
-Регистрирани асоциации с Miranda NG:
+
 [Miscellaneous]
-Разни
+
 [&Start Miranda NG automatically when the computer starts (using current profile)]
-Автостартиране на Miranda NG при включване на компютъра (за текущия профил)
+
 [Only associate with Miranda NG while it is &running]
-Асоцииране с Miranda NG само докато е работи
+
+;file \plugins\AssocMgr\src\assoclist.cpp
+[%hs files]
+
 [Type]
-Тип
+
 [Description]
-Описание
+
+[URLs on websites]
+
 [File types]
-Тип файлове
+
 [File association error]
-Грешка при асоцииране на файлов тип
+
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
-Възникна грешка при писане в регистъра за промяна на асоциация за файл/url адрес.\nПричина: %s
+
 [Unknown]
 Неизвестно
+[Autostart error]
+
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
-Възникна грешка при писане в регистъра за промяна на списъка за автостартиране.\n\nПричина: %s
+
 [Services]
-Услуги
+
 [Associations]
-Асоциации
+
 [Miranda NG database]
-База от данни на Miranda NG
+
+;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
-Отварянето на файла е невъзможно
+
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
+
+[Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
+
 [Miranda NG could not open URL]
-Отварянето на URL адреса е невъзможно
+
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
+
+[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
+
+;file \plugins\AssocMgr\src\reg.cpp
+[Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
+
+[Registry warning]
+
+;file \plugins\AssocMgr\src\test.cpp
+[AIM link protocol]
+
+[ICQ link shortcut]
+
+[&Add to contact list...]
+
+[Yahoo link protocol]
+
 [MSN link protocol]
-MSN Link Protocol
+
+[Gadu-Gadu link protocol]
+
 [Jabber link protocol]
-Jabber Link Protocol
+

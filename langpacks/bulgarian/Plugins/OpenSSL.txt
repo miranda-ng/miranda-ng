@@ -5,5 +5,10 @@
 ;  Version: 0.1.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
+[Core driver to provide OpenSSL-based SSL services.]
+
+;file \plugins\OpenSSL\src\ssl_openssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+
 [Host we are connecting to is not the one certificate was issued for]
 Хоста към който се свързвате не е този, за който е издаден сертификата

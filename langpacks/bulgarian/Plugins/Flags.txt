@@ -6,18 +6,21 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Service offering misc country utilities as flag icons and an IP-to-Country database.]
-Услугата предоставя функционалности свързани с държавните флагове, като икони и IP адрес към име на държава.
+
+;file \plugins\CountryFlags\res\resource.rc
 [Country Flags]
-Държавни знамена
+
 [Show country flag as &status icon on message window]
-Знамето като икона за състояние в прозореца за съобщения
+
 [Show country flag as &extra image on contact list]
-Показване на знамена в списъка с контакти
+
 [Use &IP-to-country database for country detection]
-Определяне на държава по IP
+
 [Use &unknown flag if the country cannot be determined]
-"Непознато знаме", ако не може да се определи държавата
+
+;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]
-Държавно знаме
+
+;file \plugins\CountryFlags\src\options.cpp
 [Icons]
 Икони

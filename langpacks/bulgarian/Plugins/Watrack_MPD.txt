@@ -5,9 +5,22 @@
 ;  Version: 0.0.0.4
 ;  Authors: sss
 ;============================================================
+[Music Player Daemon support for Watrack.]
+
+;file \plugins\Watrack_MPD\res\watrack_mpd.rc
+[MPD Host]
+
 [Port]
-Порт
+
 [Password]
-Парола
+
+;file \plugins\Watrack_MPD\src\init.cpp
+[Watrack MPD connection]
+
+;file \plugins\Watrack_MPD\src\options.cpp
+[Winamp Track]
+
 [Plugins]
 Приставки
+[Watrack MPD]
+

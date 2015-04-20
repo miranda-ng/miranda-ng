@@ -5,119 +5,143 @@
 ;  Version: 0.95.3.1
 ;  Authors: George Hazan
 ;============================================================
+[Miranda NG Database Checker.]
+
+;file \plugins\DbChecker\res\resource.rc
 [Welcome to the Miranda Database Wizard]
-Добре дошли в помощника за бази от данни на Miranda
+
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
-Помощникът може да отстрани празното място, възникващо при работата на програмата и да поправени голям брой проблеми, които могат да засегнат базата от данни (БД) на профила.
+
 [To continue, click Next.]
-Натиснете "Напред >", за да продължите.
+
 [This program is licensed under the terms of the GNU General Public License.]
-Тази програма е лицензирана според условията на GNU General Public License.
+
 [Miranda Database Tool]
-Инструмент за базата от данни на Miranda
+
 [< &Back]
-< Назад
+
 [&Next >]
-Напред >
+
 [Cancel]
 Отказ
 [Select Miranda Profile]
-Изберете профил за Miranda
+
 [You can choose the Miranda profile database to compact or repair.]
-Можете да изберете база от данни, която да бъде кондензирана или поправена.
+
 [Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
-Изберете база от данни от списъка. Ако желаете да използвате база от данни, която не е в списъка натиснете "Друго".
+
 [&File:]
-Файл:
+
 [&Other...]
-Друго
+
 [Error Opening Database]
-Грешка при отваряне на база от данни
+
 [There was an error opening the profile database given.]
-Възникна грешка при отварянето на зададената база от данни.
+
 [Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
-Натиснете "Напред >" за нов опит за отваряне на файла или "< Назад", за да изберете друга база от данни.
+
 [The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
-Вероятно файлът се използва от Miranda. Излезте от стартираната Miranda и натиснете "Напред >" за нов опит.
+
 [File Access Options]
-Настройки за достъп до файла
+
 [You can select low level options to determine how the database is processed.]
-Изберете какво действие да бъде извършено с базата от данни.
+
 [Create backup]
-Създаване на резервно копие
+
 [Creates a backup copy of the database before any of the requested changes are made.]
-Създава резервно копие на базата от данни, преди да бъдат осъществени заявените промени.
+
 [Aggressively find corruption]
-Агресивно търсене за грешки
+
 [Scans the database for data that is not linked to any other data. This requires more disk space and more time, so is only required if you suspect corruption.]
-Търси данни, които не са свързани с каквито и да е други данни - необходимо е само при вероятна повреда на базата от данни. Изисква повече дисково пространство и време.
+
 [Check consistency only]
-Проверка на плътността
+
 [Just checks that the database is valid, without writing anything to the disk.]
-Проверява валидността на данните в базата от данни, без записване на промени.
+
 [Cleaning Options]
-Настройки за почистване
+
 [You can choose to remove information from the database while it is being processed.]
-Можете да изберете информация за премахване от базата от данни при обработването и.
+
 [Erase all histories]
-Изтриване на цялата история
+
 [Removes all the saved history for all contacts in the database.]
-Премахва цялата запаметена история за контактите в БД.
+
 [Mark all events read]
-Маркиране на всички събития като прочетени
+
 [Marks all the history events as read. This will rectify any problems with old messages always appearing in the message window log box.]
-Маркира всички събития от историята като прочетени. Отстранява проблеми със стари съобщения, които са постоянно видими в прозреца за съобщения.
+
 [Convert old Unicode messages to UTF8]
-Превръщане на стари Unicode съобщения в UTF8
+
 [Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
-Конвертира историята от формата използван преди версия 0.7 (ANSI+UCS2) в новия UTF8 формат поддържан от версия 0.7. В повечето случаи ще спести място (препоръчително).
+
 [Working...]
-Изпълнение...
+
 [Please wait while the requested operations are being performed.]
-Моля, изчакайте докато заявените действия бъдат изпълнени.
+
 [Finished!]
-Готово!
+
 [All tasks have been completed.]
-Всички задачи са изпълнени.
+
 [Launch Miranda with this profile]
-Стартиране на Miranda с този профил
+
 [Launches Miranda with the profile that was just worked on.]
-Miranda ще зареди профила, който бе обработен.
+
 [Backup:]
-Копие:
+
 [The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
-Обработката на базата от данни завърши. Натиснете "Напред >" за връщане в началото (където можете да изберете друга база от данни) или натиснете "Готово" за затваряне на помощника.
+
+;file \plugins\DbChecker\src\finished.cpp
 [&Finish]
-Готово
+
+;file \plugins\DbChecker\src\progress.cpp
 [Click Next to continue]
-Натиснете "Напред >", за да продължите
+
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+
+[Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
+
+;file \plugins\DbChecker\src\selectdb.cpp
+[Database Checker cannot find a suitable database plugin to open '%s'.]
+
 [Error]
 Грешка
+[Database driver '%s' doesn't support checking.]
+
 [Database]
-База от данни
+
 [Total size]
-Общ размер
+
 [Miranda Databases (*.dat)]
-Бази от данни на Miranda(*.dat)
+
 [All Files]
 Всички файлове
+;file \plugins\DbChecker\src\wizard.cpp
+;file \plugins\DbChecker\src\worker.cpp
+[Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
+
+[%s\\Backup of %s]
+
 [%s\\Backup (%d) of %s]
-%s\\Резервно копие (%d) на %s
+
 [Unable to rename original file]
-Преименуването на оригиналния файл е невъзможно
+
 [Unable to delete original file]
-Изтриването на първоначалния файл е невъзможно
+
 [Unable to rename output file]
-Преименуването на изходния файл е невъзможно
+
+[Database worker thread activated]
+
 [<check only>]
-<само проверка>
+
+[ (Output).dat]
+
 [Can't create output file (%u)]
-Изходният файл не може да бъде създаден (%u)
+
 [Processing aborted by user]
-Обработването бе прекратено от потребител
+
 [Elapsed time: %d sec]
-Изминало време: %d сек
+
 [All tasks completed but with errors (%d)]
-Всички задачи са завършени, но с грешки (%d)
+
 [All tasks completed successfully]
-Всички задачи бяха завършени успешно.
+

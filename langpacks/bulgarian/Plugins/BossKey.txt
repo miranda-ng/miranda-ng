@@ -6,66 +6,73 @@
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
-Приставката позволява с едно натискане на клавиш (или комбинация) да скриете визуално Miranda NG от "любопитни" очи - например шефа!
+
+;file \plugins\BossKeyPlus\res\BossKey.rc
 [BossKey]
-BossKey
+
 [Go to Customize -> Hotkeys to change the hotkey]
-За промени отидете в Персонализиране>Клавишни комбинации
+
 [When I press the hotkey:]
-При натискане на клавишната комбинация:
+
 [Change status to]
-Задаване на състояние
+
 [Change only if current status is Online]
-Само, когато текущото състояние е "На линия"
+
 [Use default status message]
-Ползване на стандартния текст за състояние
+
 [Disable Sounds]
-Изключване на звука
+
 [Show the Tray Icon]
-Показване на трей иконата
+
 [When I return:]
-Когато се върна:
+
 [Request password:]
-Питане за парола:
+
 [Change status back]
-Задаване на старото състояние
+
 [Hotkey]
-Клавишна комбинация
-[Miranda NG is locked.\nEnter password to unlock it.]
-Miranda NG е заключена.\nВъведете паролата за отключване.
+
 [Password:]
 Парола:
 [Cancel]
 Отказ
+[Workstation is locked]
+
 [Screen Saver is running]
-Стартира Screen Saver
+
 [Windows is inactive]
-Няма активност в Windows от
+
 [Hide Miranda when:]
-Скриване на Miranda, когато:
+
 [Miranda is inactive]
-Няма активност в Miranda от
+
 [min]
 мин.
 [Miranda is started]
-Miranda бъде включена
+
 [Others]
-Други
+
 [Create a main menu item]
-Елемент в главното меню
+
+[Restore hiding on startup after failure]
+
+;file \plugins\BossKeyPlus\src\BossKey.cpp
+[Miranda NG is locked.\nEnter password to unlock it.]
+
 [Password is not correct!\nPlease, enter correct password.]
-Грешна парола!\nВъведете правилната парола.
+
 [Hide Miranda NG]
-Скриване на Miranda NG
+
 [Hide]
-Скриване
+
 [Hide/Show Miranda]
-Скриване/Показване на Miranda
+
 [get the BossKey name]
-Намира името на клавишната комбинация използвана от BossKey
+
+;file \plugins\BossKeyPlus\src\Options.cpp
 [Events]
 Събития
 [Main]
-Основна
+
 [Advanced]
 Разширени

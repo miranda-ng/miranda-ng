@@ -6,61 +6,72 @@
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
-Внася контакти и съобщения от профили на Miranda или от други програми.
+
+;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
-Източник, от който желаете да бъде внесена информация:
+
 [From a Miranda NG database.]
-база от данни на Miranda NG
+
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
-Помощникът ще Ви помогне да внесете контакти и съобщения от Mirabilis ICQ, а също така и от други профили на Miranda.
+
 [Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
-Натиснете "Напред >", за да изберете информация-\nта, която желаете да бъде внесена или "Отказ", за да излезете от помощника.
+
 [It is recommended that you create a backup of your current Miranda profile before importing.]
-Препоръчително е да създадете резервно копие на текущия профил преди всяко внасяне.
+
 [If you wish to import more information, click "Next" to return to the start of the wizard, otherwise click "Finish" to start using Miranda.]
-Натиснете "Напред >" за внасяне на още информация или "Готово", за да започнете да използвате Miranda.
+
 [You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
-Вероятно няма да имате повече нужда от помощника, пора- ди това можете да спестите памет като спрете зареждането му с Miranda. Елемента от менюто за внос няма да е налично.
+
 [Do not load the import plugin at startup again]
-Без зареждане на приставката за внос при стартиране
+
 [Import completed]
-Внасянето завърши.
+
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
-Ако пожелаете да активирате помощника в бъдеще можете да го направите от Главното меню>Настройки... раздел Приставки.
+
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
-Открити са следните профили. Изберете от кой да бъде внесена информация или натиснете "Друг профил...", ако търсеният профил не е в списъка или списъка е празен.
+
 [&Other Profile...]
-Друг профил...
+
 [&Filename:]
-Име на файла:
+
 [Now importing...]
-Внасяне...
+
 [Import Information Wizard]
-Помощник за внасяне
+
 [&Next >]
-Напред >
+
 [Cancel]
 Отказ
 [< &Back]
-< Назад
+
+[Import all settings, contacts and all messages]
+
 [Import all contacts and all messages]
-Внос на всички контакти и съобщения
+
 [Only import contacts]
-Внос само на контакти
+
 [Custom import]
-Настройка на вноса
+
+[Makes precise copy of the original profile, including all settings, contacts and history.]
+
+[Imports only contacts and history, and a few settings. Ideal for synchronizing.]
+
+[Imports contacts only, doesn't import any message history.]
+
+[Custom schema: you can choose what to import.]
+
 [New contacts && groups]
-Нови контакти и групи
+
 [System history]
-Системна история
+
 [Select items to import:]
-Изберете елементи за внасяне:
+
 [Incoming]
 Входящи
 [Outgoing]
 Изходящи
 [Only since:]
-Само от:
+
 [Messages]
 Съобщения
 [URLs]
@@ -69,57 +80,104 @@ URL адреси
 Обмен на файлове
 [Other]
 Друго
+[Choose appropriate accounts for import]
+
+;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
-Пропуснато събитие от/към мен
+
 [Added contact %u (found in history)]
-Добавен контакт %u (открит в историята)
+
 [<New account>]
-<Нов акаунт>
+
+[Old account]
+
 [New account]
 Нов акаунт
+[Protocol %S is not loaded, skipping account %s creation]
+
+[Unable to create an account %s of protocol %S]
+
+[Failed to add %S contact %s]
+
+[Added %S contact %s, '%s']
+
+[Added %S contact %s]
+
+[Metacontact cannot be imported due to its ambiguity.]
+
+[Added metacontact '%s']
+
+[Added metacontact]
+
 [Skipping contact with no protocol]
-Пропуснат контакт без протокол
+
+[Skipping contact, account %S cannot be mapped.]
+
+[Skipping contact, %S not installed.]
+
+[Skipping non-IM contact (%S)]
+
+[Skipping %S contact, ID not found]
+
+[Skipping duplicate %S contact %s]
+
+[Unknown error while adding %S contact %s]
+
+[Failed to add message]
+
+[Error retrieving current profile, exiting.]
+
+[There's no database driver to open the input file, exiting.]
+
+[Error loading source file, exiting.]
+
 [Number of contacts in database: %d]
-Брой контакти в базата от данни: %d
+
+[Error mapping accounts, exiting.]
+
 [Importing groups.]
-Внасяне на групи.
+
 [Group import failed.]
-Неуспешно внасяне на група.
+
 [Importing contacts.]
-Внасяне на контакти.
+
 [Skipping new contacts import.]
-Пропускане на внасянето на нови контакти.
+
 [Importing system history.]
-Внасяне на системна история.
+
 [Skipping system history import.]
-Пропускане на внасянето на системната история.
+
 [Importing history.]
-Внасяне на история.
+
 [Skipping history import.]
-Пропускане на внасянето на историята.
+
 [Import completed in %d seconds.]
-Внасянето завърши за %d секунди.
+
 [Added %d contacts and %d groups.]
-Бяха добавени %d контакта и %d групи.
+
 [Added %d contacts, %d groups and %d events.]
-Бяха добавени %d контакта, %d групи и %d събития.
+
 [Skipped %d contacts.]
-Пропуснати контакти - %d.
+
 [Skipped %d duplicates and %d filtered events.]
-Пропуснати контакти - %d и %d филтрирани събития.
+
+;file \plugins\Import\src\main.cpp
 [&Import...]
-Внос...
+
+;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
-Файлът не съществува. Моля, проверете правилно ли е въведено името.
+
 [Miranda Import]
-Miranda внос
+
 [Miranda NG database]
-База от данни на Miranda NG
+
 [All Files]
 Всички файлове
+;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
-Пропускане на дублираща се група %s.
+
 [Import...]
-Внос...
+
+;file \plugins\Import\src\wizard.cpp
 [Finish]
-Готово
+

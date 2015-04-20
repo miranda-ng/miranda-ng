@@ -5,55 +5,152 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
+[Generates a list of extracted URIs from the history.]
+
+;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 Търсене
 [Close]
 Затваряне
+[Search for:]
+
 [Message direction]
-Посока на текста
+
+[Message types]
+
+[All directions]
+
+[Incoming only]
+
+[Outgoing only]
+
+[All types]
+
+[Mail addresses only]
+
+[Web addresses only]
+
+[Deep search]
+
 [Static]
-Статичен
+
+[Color select]
+
 [Incoming messages]
 Входящите съобщения
+[Plugin default]
+
 [Preview]
-Образец
+
 [Outgoing messages]
 Изходящи съобщения
 [Background color]
 Цвят на фона
+[Use Miranda settings]
+
 [Text color]
 Цвят на текста
+[General settings]
+
+[Open links always in a new window]
+
+[Update list on new events]
+
+[Show whole message on 'mouse over' event]
+
+[Save window position individually for each contact]
+
+[Show...]
+
 [Date]
-Дата
+
+[Parting line]
+
 [Timestamp]
 Времева марка
+[Direction]
+
 [Type]
-Тип
+
 [&File]
 Файл
 [&Save]
-Запис
+
 [&Close]
 Затваряне
 [&Options]
 Настройки
+[Message &direction]
+
+[&Outgoing messages only]
+
+[&Incoming messages only]
+
+[Message &type]
+
+[&Web addresses only]
+
+[&Mail addresses only]
+
+[&Clear search results]
+
 [&Search]
 Търсене
 [link]
-връзка
+Връзка
+[Open]
+
+[Open in new window]
+
 [Copy to clipboard]
-Запис в клипборда
+
+[Show message]
+
+;file \plugins\HistoryLinkListPlus\src\language.h
+[History Linklist]
+
+[History is empty!]
+
+[There are no links in history!]
+
 [Error]
 Грешка
 [incoming]
-входящи
+Входящи
 [outgoing]
-изходящи
+Изходящи
 [Filter]
-Филтър
+
+[no filter]
+
+[Search filter]
+
+[no settings]
+
+;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[&Create Linklist]
+
 [History]
 История
+[Processing history...]
+
+[Could not create window!]
+
+[Could not allocate memory!]
+
+;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
+[Linklist plugin]
+
+;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[Matches for searchtext]
+
+[Processing list...]
+
+[No messages found!\nPlease change current filter options.]
+
 [RTF file]
-RTF файл
+
 [All files]
 Всички файлове
+[Save RTF File]
+

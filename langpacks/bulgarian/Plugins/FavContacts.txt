@@ -5,43 +5,71 @@
 ;  Version: 0.1.0.3
 ;  Authors: Victor Pavlychko
 ;============================================================
+[Favorite contacts menu.]
+
+;file \plugins\FavContacts\res\resource.rc
 [Customize]
 Персонализиране
 [Show second line]
-Показване на втори ред
+
 [Show avatars]
-Показване на аватари
+
 [Draw avatar border]
-Рамка на аватарите
+
 [Round corners by]
-Закръгляне на ъглите с
+
 [px.]
-пиксела
+
 [Hide for transparent avatars]
-Скриване при прозрачен аватар
+
 [Use system colors and fonts]
-Ползване на системните цветове и шрифтове
+
+[Hotkey shows menu centered on screen]
+
 [Menu item preview:]
-Образец на меню елемента:
+
 [Favorite Contacts]
-Любими контакти
+
+[Enable groups]
+
 [Multicolumn menu]
-Многоколонно меню
+
 [Configure fonts and colors...]
-Настройване на цвят и шрифт...
+
+[Align to the right]
+
+[Dim idle contact icons]
+
 [Show]
 Показване
+[recent contacts]
+
+;file \plugins\FavContacts\src\favlist.h
+[<no group>]
+
+;file \plugins\FavContacts\src\main.cpp
 [Favorite Contact]
-Любим контакт
+
+[Regular Contact]
+
 [Favorites]
-Любими
+
+;file \plugins\FavContacts\src\menu.cpp
+;file \plugins\FavContacts\src\options.cpp
 [Contacts]
 Контакти
+;file \plugins\FavContacts\src\services.cpp
 [Contact name]
-Име на контакта
+
 [Second line]
-Втори ред
+
+[Selected contact name (color)]
+
+[Selected second line (color)]
+
 [Background]
 Фон
 [Selected background]
-Фон на маркираното
+
+[Show favorite contacts]
+

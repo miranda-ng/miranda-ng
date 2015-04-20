@@ -5,11 +5,35 @@
 ;  Version: 0.0.2.1
 ;  Authors: ValeraVi, Kildor
 ;============================================================
+[Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
+
+;file \plugins\RecentContacts\res\resource.rc
+[Recent Contacts]
+
 [Plugin settings]
-Настройване на приставката
+
+[Number of shown contacts:\n (0 to show all)]
+
+[Format of date and time\n(Look to readme for placeholders help)]
+
 [Hide offline contacts]
-Скриване на контактите "Извън линия"
+
+[Resize window according to contact list]
+
+;file \plugins\RecentContacts\src\options.cpp
 [Contacts]
 Контакти
+;file \plugins\RecentContacts\src\RecentContacts.cpp
+[Main icon]
+
 [Contact]
 Контакт
+[Toggle Ignore]
+
+[Ignore Contact]
+
+[Show Contact]
+
+[Show Recent Contacts]
+
+;file \plugins\RecentContacts\src\RecentContacts.h

@@ -6,6 +6,8 @@
 Ясно с малко облаци
 [Mostly Sunny]
 Предимно слънчево
+[Light Thunderstorm Rain]
+Лек дъжд с гръмотевична буря
 [Thunderstorm Rain]
 Дъжд с гръмотевична буря
 [N/a]
@@ -102,6 +104,10 @@
 Вечер
 [Feel]
 Усеща се като
+[Forcast Update]
+
+[Forcast Update VAR]
+
 [Forecast Day 0]
 Ден 10: _Прогноза
 [Forecast Day 1]
@@ -122,6 +128,10 @@
 Ден 8: _Прогноза
 [Forecast Day 9]
 Ден 9: _Прогноза
+[N/A%]
+
+[Heat Index]
+
 [Latitude]
 Геогр. ширина
 [Longitude]
@@ -134,12 +144,22 @@
 Обсерватория
 [Pressure Tendency]
 Налягането (тенденция)
+[Update VAR]
+
+[UV]
+
+[UV Index]
+
+[UVI]
+
 [Wind Direction]
 Вятър (посока)
 [Wind Direction DEG]
 Вятър (посока в градуси)
 [Wind Speed]
 Вятър (скорост)
+[WindDir]
+
 [Cloudy]
 Облачно
 [Scattered Snow Showers]
@@ -224,6 +244,8 @@
 Сняг към дъжд
 [Light Snow Shower]
 Слабо снежно преваляване
+[Fair And Windy]
+
 [Pm T-Storms]
 Гръмотевична буря следобед
 [Scattered T-Storms]
@@ -232,10 +254,14 @@
 Слаб дъжд нощем
 [Am Light Rain]
 Слаб дъжд сутрин
+[Jun]
+
 [T-Storms]
 Гръмотевична буря
 [Rain / Thunder]
 Дъжд / Гръмотевици
+[Thunder In The Vicinity]
+
 [Light Rain With Thunder]
 Слаб дъжд и гръмотевици
 [Light Rain Early]
@@ -246,6 +272,8 @@
 Слаб ръмеж
 [Haze]
 Мараня
+[Smoke]
+
 [Rain To Snow]
 Дъжд към сняг
 [Rain And Snow]
@@ -254,12 +282,18 @@
 Дъжд / Снежни превалявания сутрин
 [Heavy Snow Shower]
 Обилни снежни превалявания
+[Showers / Wind]
+
 [Snow Shower And Windy]
 Снежни превалявания и вятър
 [Light Snow Shower And Windy]
 Слабо снежно преваляване и вятър
 [Light Rain And Windy]
 Слаб дъжд и вятър
+[Sleet]
+
+[Sleet And Windy]
+
 [Cloudy And Windy]
 Облачно и ветровито
 [Light Drizzle And Windy]
@@ -276,3 +310,5 @@
 Снеговалеж денем
 [Light Snow Late]
 Слаб снеговалеж нощем
+[Snow And Sleet]
+

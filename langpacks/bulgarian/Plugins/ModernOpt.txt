@@ -6,54 +6,56 @@
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
 [Support for new options design.]
-Поддръжка на новия дизайн на настройките.
+
+;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
-Посетете официалната страница на Miranda NG
+
 [Sample page]
-Примерна страница
+
 [Miranda NG Options]
 Miranda NG настройки
 [Use arrow keys to choose category]
-Използвайте стрелките, за да изберете категория
+
 [Cancel]
 Отказ
 [Apply]
 Прилагане
 [Switch to classic options]
-Класически вид на настройките
+
 [Advanced]
 Разширени
+;file \plugins\ModernOpt\src\modernopt.cpp
 [Home]
-Дом
+
 [Miranda NG configuration center]
-Център за настройване на Miranda NG
+
 [Accounts]
 Акаунти
 [Setup your account information to start messaging.]
-Настройте акаунтите, за да започнете да пращате съобщения.
+
 [Style]
-Стил
+
 [Change the look of Miranda NG according to your taste.]
-Променете външният вид на Miranda NG според вашия вкус.
+
 [Contacts]
 Контакти
 [Configure behavior of your contact list.]
-Настройте списъка с контакти.
+
 [Chats]
-Разговори
+
 [Customize look&&feel of your chat windows here.]
-Персонализирайте чат прозорците от тук.
+
 [Ignore]
 Игнориране
 [Ban those users and events, you are annoyed with.]
-Забранете потребители и събития, които ви досаждат.
+
 [Status]
 Състояние
 [Set your status messages and idle reporting.]
-Задайте текст за състоянията и информация при бездействие.
+
 [Addons]
-Приставки
+
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
-Управление на приставките.
+
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
-Направените промени не бяха запаметени.\nЖелаете ли да бъдат приложени преди да продължите?
+

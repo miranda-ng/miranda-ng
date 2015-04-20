@@ -2,62 +2,135 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.1
+;  Version: 0.11.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
-Осигурява комуникация чрез протокола Tox в Miranda NG.
-[Tox ID:]
-Tox ID:
+
+;file \protocols\Tox\res\resource.rc
 [Name:]
 Име:
 [Password:]
 Парола:
 [Default group:]
-Станд. група:
-[Tox]
-Tox
+
+[C]
+
+[Tox ID:]
+
+[Import tox profile]
+
+[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
+
 [Connection settings]
-Настройки за свързване
+
+[Disable UDP (force Tox to use TCP)]
+
+[Disable IPv6]
+
+[Tox]
+
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
-Ако полето съдържа Tox адрес (76 шестнадесетични символа), ще бъдете запитани дали да бъде добавен към списъка с приятели. В противен случай Miranda ще търси чрез DNS запитване.
+
 [Dns name:]
-DNS име:
+
 [Enter password]
-Въведете парола
+
 [Save password]
-Запис на паролата
+
 [Cancel]
 Отказ
 [Tox profile is encrypted. Enter the password to continue.]
-Tox профилът е шифрован. Въведете паролата за да продължите.
+
 [Add]
 Добавяне
+[IPv4 address/ Host]
+
+[IPv6 address (optional)]
+
+[Port]
+
+[Public key]
+
+[Multimedia]
+
+[Audio input device]
+
+[Audio output device]
+
+[Filter audio]
+
+[Video input device]
+
+[Invite contacts to chat room]
+
+[&Invite]
+
 [&Cancel]
 Отказ
+;file \protocols\Tox\src\tox_chatrooms.cpp
+[Groupchat]
+
+;file \protocols\Tox\src\tox_events.cpp
+[Profiles folder]
+
+;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
-Икона на протокола
+
 [Protocols]
-Протоколи
+
+;file \protocols\Tox\src\tox_menus.cpp
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]
 Даване на пълномощно
+[Copy Tox ID]
+
+;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
-%s връзка
+
+;file \protocols\Tox\src\tox_options.cpp
+[Tox profile]
+
 [All files]
 Всички файлове
 [Select tox profile]
-Изберете Tox профил
+
+[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
+
+[Tox profile import]
+
+[Add node]
+
+[Change node]
+
+[Enter IPv4]
+
 [Error]
 Грешка
+[Enter public key]
+
+[Common nodes]
+
+[nodes]
+
 [Are you sure?]
 Сигурни ли сте?
+[Node deleting]
+
 [Network]
 Мрежа
 [Account]
 Акаунт
+[Nodes]
+
+;file \protocols\Tox\src\tox_proto.cpp
+[Action]
+
+[You cannot add yourself to your contact list]
+
 [Contact already in your contact list]
-Контактът вече присъства в списъка ви с контакти
+
+;file \protocols\Tox\src\tox_search.cpp
 [Query]
-Търсене
+

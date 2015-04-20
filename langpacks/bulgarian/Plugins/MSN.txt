@@ -6,260 +6,289 @@
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
-Осигурява комуникация чрез протокола Microsoft Network (MSN) в Miranda NG.
+
+;file \protocols\MSN\res\msn.rc
 [MSN]
-MSN
+
 [Live ID:]
-Live ID:
+
 [Password:]
 Парола:
 [Nickname:]
 Прякор:
 [Create a new Windows Live account]
-Създаване на Windows Live акаунт
+
 [Expert]
-Експерт
+
 [Send message font color/size info inside messages]
-Изпращане на информация за шрифта и размера на съобщението
+
 [Disable all contacts not included into my contact list]
-Изключване на контактите, които не са в списъка с контакти
+
 [Manage server groups]
-Управление групите на сървъра
+
 [Allow people on my contact list send messages to mobile device]
-Изпращане на съобщ. до мобилното ми устройство от хора в списъка с контакти
+
 [Run the following application when new Hotmail arrives]
-Изпълнение на следната програма при пристигане на ново писмо в Hotmail
+
 [Connection settings]
-Настройки за свързване
+
 [Direct:]
-Директно:
+
 [Gateway:]
-Шлюз:
+
 [Reset]
 Анулиране
 [Notify me when a message delivery has failed]
-Уведомяване при неуспешно доставяне на съобщение
+
 [Incoming file transfers]
-Входящо прехвърляне на файл
+
 [Your host (or router):]
-Ваш хост (или рутер):
+
 [Server List Manager]
-Диспечер на сървърния списък
+
 [Contact is on your local list]
-Контакт в местния списък с контакти
+
 [Contact is included into your server list]
-Контактът не е в списъка на сървъра
+
+[Allowed (active) contact]
+
 [Blocked contact]
-Блокиран контакт
+
 [Somebody included you in his/her server list]
-Потребител добавил ви в списъка си с контакти
+
 [Refresh]
-Обновяване
+
 [Hotmail]
-Hotmail
+
 [Disable Popup notifications]
-Без уведомяване с Popup
+
 [Disable Tray notifications]
-Без уведомяване в трея
+
 [Ignore new messages not in Inbox folder]
-Игнориране на писмата в папки различни от Inbox
+
 [Other]
 Друго
 [Display errors using popups]
-Изобразяване на грешки чрез popups
+
 [Enable 'Chat Session Established' popup]
-popup при установяване на разговор
+
 [Enable 'Contact left channel' popup]
-popup при излизане на контакт от канал
+
 [Disable Contact List notifications]
-Без уведомяване в списъка с контакти
+
 [Set Nickname]
-Задаване на прякор
+
 [Cancel]
 Отказ
 [Mobile Device (used for SMS)]
-Мобилно устройство (използва се за SMS-и)
+
 [Spouse/Partner]
-Съпруг(а)/Партньор
+
 [Middle Name]
-Презиме
+
 [First Name]
-Име
+
 [Last Name]
-Фамилия
+
 [Anniversary]
-Годишнина
+
 [Birthday]
-Рожден ден
+
 [Nickname]
 Прякор
 [Place:]
-Място:
+
 [MSN Delete Contact]
-MSN изтриване на контакт
+
 [Remove from Hotmail Address book]
-Премахване от книгата с адреси в Hotmail
+
 [Block Contact]
-Блокиране на контакта
+
 [Invite Contact To Chat]
-Поканете контакт
+
 [Live ID]
-Live ID
+
 [&Invite]
-Покана
+
 [&Cancel]
 Отказ
 [Add]
 Добавяне
+;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
-Чат №
+
 [Me]
 Аз
 [Others]
-Други
+
 [&Invite user...]
-Покани потребител...
+
 [&Leave chat session]
-Напускане от разговора
+
 [User &details]
 Подробности за потребителя
 [User &history]
-История на потребителя
+
+;file \protocols\MSN\src\msn_commands.cpp
 [Contact tried to open an audio conference (not currently supported)]
-Контактът опита да стартира гласов разговор (не се поддържа)
+
 [%I64u bytes]
-%I64u bytes
+
 [Accept NetMeeting request from %s?]
-Приемате ли молбата NetMeeting от %s?
+
 [MSN Protocol]
-MSN протокол
+
 [MSN Alert]
-MSN уведовяване
+
 [Chat session established by my request]
-Установен е разговор по моя заявка
+
 [Chat session established by contact request]
-Установен е разговор по заявка на контакта
+
 [Contact left channel]
-Контакт излезе от канала
+
 [This conversation has been inactive, participants will be removed.]
-Разговора е неактивен. Участниците ще бъдат премахнати.
+
 [To resume the conversation, please quit this session and start a new chat session.]
-За да възстановяване на разговора е необходимо да излезете от сесията и да започнете нова чат сесия.
+
 [There is only 1 person left in the chat, do you want to switch back to standard message window?]
-В чата е останал само един участник, желаете ли да бъде използван стандартният прозорец за съобщения?
+
 [MSN Chat]
-MSN чат
+
 [Message delivery failed]
-Неуспешно доставяне на съобщение
+
+;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
-Потребителя не е на линия
+
+;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
-MSN Link Protocol
+
+;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
-Контактът %s е премахнат от сървъра.\nЖелаете ли да бъде запазен като "Локален контакт" за да се съхрани историята на разговорите?
+
 [%s protocol]
-Протокол "%s"
+
+;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
-Тема: %s
+
 [Hotmail from %s (%S)]
-Hotmail от %s (%S)
+
 [Hotmail from %s]
-Hotmail от %s
+
 [Unread mail is available: %d in Inbox and %d in other folders.]
-Непрочетени е-писма: %d в Inbox и %d в други папки
+
+;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]
-Деблокиране
+
 [&Block]
-Блокиране
+
+[Open &Hotmail Inbox]
+
+[Send &Hotmail E-mail]
+
 [You must be talking to start Netmeeting]
-Необходимо е да водите разговор преди да стартирате Netmeeting
+
 [Set &Nickname]
-Задаване на прякор
+
 [Create &Chat]
-Създаване на чат
+
 [Display &Hotmail Inbox]
-Показване на пощата в Hotmail
+
 [View &Profile]
-Преглед на профила
+
+[Setup Live &Alerts]
+
 [&Start Netmeeting]
-Иницииране на Netmeeting
+
+;file \protocols\MSN\src\msn_misc.cpp
+[Custom Smileys]
+
 [Notify]
-Уведомяване
+
 [Error]
 Грешка
+;file \protocols\MSN\src\msn_msgqueue.cpp
+;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
-Икона на протокола
+
+[Hotmail Inbox]
+
 [Profile]
 Профил
 [MSN Services]
-MSN услуги
+
 [Block user]
-Блокиране
+
 [Invite to chat]
-Покана за чат
+
 [Start Netmeeting]
-Иницииране на Netmeeting
+
 [Contact list]
 Списък с контакти
 [Allowed list]
-Списък "Разрешени"
+
 [Blocked list]
-Списък "Блокирани"
+
+[Relative list]
+
 [Local list]
-Местен списък
+
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
-Внасянето на групите от сървъра може да измени положението на някои контакти при следващо вписване в MSN. Желаете ли вашите групи да бъдат качени на сървъра?
+
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
-Направените промени изискват да се свържете наново с мрежата MSN, за да бъдат осъществени.
+
 [MSN Options]
-MSN настройки
+
 [Automatically obtain host/port]
-Автоматично получаване на хост/порт
+
 [Manually specify host/port]
-Ръчно определяне на хост/порт
+
 [Disable]
-Изключване
+
 [IP info available only after login]
-IP информацията е налична само след вписване
+
 [MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
-Протоколът MSN изисква закъснението за съобщения да е не по-малко от 60 секунди. Поправете стойността.
+
 [Network]
 Мрежа
 [Account]
 Акаунт
 [Connection]
-Връзка
+
 [Server list]
-Списък на сървъра
+
 [Notifications]
-Уведомявания
+
+;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (not currently supported)]
-Контакт се опита да изпрати данни от web камера (не се поддържа)
+
 [Contact tried to view your webcam data (not currently supported)]
-Контакт се опита да види данните от вашата web камера (не се поддържа)
+
+;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
-Live поща
+
 [Live Alert]
-Live уведомяване
+
 [%s plugin HTTPS connections]
-HTTPS връзки на приставката %s
+
 [%s plugin connections]
-Връзки на приставката "%s"
+
 [Contact already in your contact list]
-Контактът вече присъства в списъка ви с контакти
+
 [Protocol is offline]
-Протоколът е извън линия
+
 [You cannot send message to yourself]
-Не е възможно изпращането на съобщения до себе си
+
 [Message is too long: SMS page limited to 133 UTF8 chars]
-Съобщението е твърде дълго: SMS страниците са ограничени до 133 UTF8 знака
+
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
-Съобщението е твърде дълго: MSN съобщенията са ограничени до 1202 UTF8 знака
+
 [Offline messaging is not allowed for LCS contacts]
-Изпращането на съобщения извън линия не е позволено за LCS контакти
+
+;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-Протоколът MSN изисква закъснението за съобщения да е не по-малко от 60 секунди. Поправете стойността.
+
 [Convert to Chat]
-Конвертиране в чат
+
+;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
-Разговорът бе прекратен поради липса на активност
+

@@ -6,333 +6,426 @@
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
-Осигурява комуникация чрез протокола Internet Relay Chat (IRC) в Miranda NG.
+
+;file \protocols\IRCG\res\IRC.rc
 [Default network]
-Стандартна мрежа
+
 [Enable]
-Включване
+
 [Server name]
-Име на сървъра
+
 [Internet address]
-Интернет адрес
+
 [SSL]
-SSL
+
 [Port range]
-Портов обхват
+
 [Password]
-Парола
+
 [&Add]
 Добавяне
 [&Edit]
 Редактиране
 [&Del]
-Изтриване
+
 [User info - Required]
-Необходима информация
+
 [Nick]
 Прякор
 [Alternative nick]
-Заместващ прякор
+
 [Full name (e-mail)]
-Име (имейл)
+
+[User ID (Ident)]
+
+[Ident]
+
 [System]
 Система
 [Port]
-Порт
+
 [only while connecting]
-само при свързване
+
 [Other]
 Друго
 [Force visible (-i)]
-Винаги видим (-i)
+
 [Rejoin channel if kicked]
-Автовлизане в канал след изгонване
+
 [Rejoin channels on reconnect]
-Автовлизане при ново свързване
+
 [Disable tray balloon on error]
-Без балонни известия за грешки
+
 [Show addresses]
-Показване на адреси
+
 [Use server window]
-Ползване прозорец на сървъра
+
 [Show server window on startup]
-Показване на прозореца при стартиране
+
 [Keep connection alive]
-Поддържане на връзката
+
 [Automatically join on invite]
-Автоматично влизане в канал при покана
+
+['Old style' mode changes]
+
 [Update online statuses for users]
-Обновяване на потреб. състояние
+
 [Check every (s):]
-Проверяване през (сек):
+
 [Update statuses in channel nick list]
-Обновяване в списъка с прякори
+
 [Don't check if more than (users):]
-Без проверка ако потр. са > от:
+
 [User information]
-Подробности за потребителя
+
+[Ping]
+
 [Version]
 Версия
 [Time]
-Час
+
+[Userinfo]
+
 [&Refresh]
-Обновяване
+
 [&Query]
-Съобщение
+
 [&Close]
 Затваряне
 [Name]
 Име
 [Address]
-Адрес
+
 [Channels]
-Канали
+
 [Auth]
-Упълномощаване
+
 [Server]
-Сървър
+
 [User]
-Потребител
+
+[Away Info]
+
 [The server returned the following information. Please note that this information might be misleading and/or falsified]
-Следната информация е предоставена от сървъра. ! Внимание - може да е подвеждаща и/или фалшифицирана.
+
 [CTCP information]
-CTCP информация
+
 [Question]
-Въпрос
+
 [&Cancel]
 Отказ
 [Perform]
-Изпълнение на
+
 [&Set]
-Задаване
+
+[Alias]
+
 [Perform on event:]
-Изпълнение при събитие:
+
 [Scripting support]
-Поддръжка на скриптове
+
 [Quit message:]
-Съобщение при изход:
+
 [Server code page:]
-Кодова таблица за сървъра:
+
 [Enable UTF8 autodetection]
-Автоматично засичане на UTF8
+
 [Add server]
-Добавяне на сървър
+
 [Auto]
-Авто
+
 [On]
 Включено
 [Off]
 Изкл.
 [Host address]
-Адрес на хоста
+
 [Server description]
-Описание на сървъра
+
 [Network]
 Мрежа
 [Channels on server]
-Канали на сървъра
+
 [&Join]
 Влизане
 [Filter by]
-Филтриране по
+
 [C&onnect]
-Свързване
+
 [&Save]
-Запис
+
+[Hostmask]
+
 [&Clear all]
-Изчисти всичко
+
+[Online detection mode]
+
 [Basic]
-Основни
+
+[Wildcard enabled network search]
+
 [Channel manager]
-Настройки на канала
+
 [Bans]
-Банове
+
 [Invites]
-Покани
+
 [Excepts]
-Изключения
+
 [Only Ops set topic]
-Смяна на темата само от оператор
+
 [No external messages]
-Без външни съобщения
+
 [Invite only]
-Само с покана
+
 [Moderated]
-Модерирана
+
 [Key:]
-Ключ:
+
+[User limit:]
+
 [Private]
-Частно
+
 [Secret]
-Таен
+
 [Topic]
-Тема
+
 [User modes]
-Режими на потребителите
+
 [Channel modes]
-Режими на канала
+
 [Hidden]
-Скрито
+
 [Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
-Ползвайте настройките, за да зададете режими за канала. Изисква да сте поне оператор (обикновено).
+
 [Strip colors]
-Премахване на цветовете
+
 [Normal]
-Нормално
+
+[Send-ahead]
+
 [Attempt reverse DCC (good if firewalled)]
-Опитай обратна директна възка клиен-склиент (DCC), полезно ако ползвате защитна стена
+
 [none]
-няма
+Няма
 [everyone on the contact list]
-всеки в списъка с контакти
+
 [everyone]
-всеки
+
 [Disconnect DCC chats when disconnecting from server]
-Прекрати DCC чатовете при изключване от сървъра
+
 [Manually set external IP:]
-Ръчно задаване на външно IP:
+
 [Client-to-Client File Transfers]
-Обмен на файлове клиент-с-клиент
+
 [Client-to-Client Protocol]
-Протокол клиент-с-клиент
+
 [Client-to-Client Chats]
-Чатове клиент-с-клиент
+
 [Send mode:]
-Режим на изпращане:
+
 [Packet size (bytes):]
-Размер на пакета (байта):
+
 [Get IP address from server]
-Назначаване на IP от сървъра
+
 [Auto-accept from:]
-Автоприемане от:
+
 [Send notice]
-Изпращане на известие
+
 [CTCP Chat Request]
-CTCP чат заявка
+
 [&Accept]
-Приемане
+
 [&Deny]
 Отхвърляне
 [Enable (*)]
-Включване*
+
 [Ignore channel messages by default]
-Игнорирай съобщенията за канала
+
 [Ignore file transfer requests]
-Игнориране на заявки за прехвърляне на файлове
+
 [Ignore DCC Chat requests]
-Игнориране на чат заявките от DCC (директна възка клиен-склиент)
+
 [Ignore DCC Chat requests from unknown contacts]
-Игнориране на DCC чат заявки от непознати контакти
+
 [Ignore users]
-Игнориране на потребители
+
 [(*) Queries from users on your contact list are never ignored]
-(*) Запитванията от контакти в списъка ви няма да бъдат игнорирани
+
 [Queries]
-Запитвания
+
 [Messages]
 Съобщения
 [Notices]
 Известия
 [CTCP]
-CTCP
+
 [DCC]
-DCC
+
+[Ignore mask (nick!user@host)]
+
 [Network (*)]
-Мрежа*
+
 [Ignore events]
-Игнорирани събития
+
+[(*) blank to set this mask for all networks]
+
 [Server:]
-Сървър:
+
 [Password:]
 Парола:
+;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
-CTCP заявка от %s
+
+;file \protocols\IRCG\src\commandmonitor.cpp
 [%s sets mode %s]
-%s зададе режим %s
+
 [%s sets mode %s%s]
-%s зададе режим %s%s
+
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered]
+
+[CTCP FINGER requested by %s]
+
+[CTCP VERSION requested by %s]
+
+[CTCP SOURCE requested by %s]
+
+[CTCP USERINFO requested by %s]
+
+[CTCP PING requested by %s]
+
+[CTCP TIME requested by %s]
+
 [DCC: Chat request from %s denied]
-DCC: Заявката за чат от %s е отхвърлена
+
 [DCC: File transfer request from %s denied]
-DCC: Заявката за прехвърляне на файл от %s е отхвърлена
+
+[DCC: Reverse file transfer request from %s denied [No local IP]]
+
+[DCC ERROR: Malformed CTCP request from %s [%s]]
+
 [DCC: File transfer resume request from %s denied]
-DCC: Заявката за продължаване на прехвърлянето от %s е отхвърлена
+
+[CTCP %s requested by %s]
+
 [CTCP PING reply from %s: %u sec(s)]
-CTCP PING отговор от %s: %u сек
+
 [CTCP %s reply from %s: %s]
-CTCP %s отговор от %s: %s
+
 [Downloading list (%u%%) - %u channels]
-Сваляне на списъка с канали (%u%%) - %u канала
+
 [Downloading list - %u channels]
-Сваляне на списъка с канали - %u канала
+
 [Done: %u channels]
-Направено: %u канала
+
 [(probably truncated by server)]
-(вероятно е скъсен от сървъра)
+
 [%ud, %uh, %um, %us]
-%uдни, %uчаса, %uмин, %uсек
+
 [%uh, %um, %us]
-%uчаса, %uмин, %uсек
+
 [%um, %us]
-%uмин, %uсек
+
 [%us]
-%uсек
+
 [online since %s, idle %s]
-на линия от %s, бездейства %s
+
 [Change nickname]
-Промяна на прякора
+
 [IRC error]
-IRC грешка
+
 [Unknown]
 Неизвестно
+[Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
+
 [Ignore]
 Игнориране
 [Please enter the reason]
-Моля, въведете причина
+
 [Ban'n Kick]
-Бан и изгонване
+
+[Jerk]
+
+[*Disconnected*]
+
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
-Употребата на /AWAY в буфера за изпълнение  е ограничена,\n защото IRC изпраща командата автоматично.
+
 [IRC Error]
-IRC грешка
+
+;file \protocols\IRCG\src\input.cpp
+[The buddy check function is enabled]
+
+[The buddy check function is disabled]
+
+[Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
+
 [Ignore system is enabled]
-Системата за игнориране е включена
+
 [Ignore system is disabled]
-Системата за игнориране е изключена
+
 [%s on %s is now ignored (+%s)]
-%s от %s ще бъде игнориран (+%s)
+
 [%s is not ignored now]
-%s няма да бъде игнориран
+
+[%s was not ignored]
+
 [Outgoing commands are shown]
-Изходящите команди се показват
+
 [Outgoing commands are not shown]
-Изходящите команди не се показват
+
+[The time interval for the buddy check function is now at default setting]
+
+[The time interval for the buddy check function is now %u seconds]
+
 [This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
-Ползването на командата в мрежа с подобен размер не е препоръчително!\r\nВероятно ще предизвика голямо натоварване на процесора и/или интензивен трафик за %u до %u минути.\r\n\r\nНаистина ли желаете това?
+
 [IRC warning]
-IRC предупреждение
+
 [Aborted]
-Прекратен
+
+[CTCP %s request sent to %s]
+
+[DCC ERROR: Unable to automatically resolve external IP]
+
 [DCC CHAT request sent to %s]
-Изпратена е DCC заявка за чат до %s
+
+[DCC ERROR: Unable to bind port]
+
+[Input command]
+
 [Please enter the reply]
-Моля, въведете отговор
+
+;file \protocols\IRCG\src\irclib.cpp
+[Failed to connect to]
+
+[DCC ERROR: Unable to bind local port for passive file transfer]
+
+;file \protocols\IRCG\src\ircproto.cpp
 [%s server connection]
-%s връзка със сървъра
+
 [%s client-to-client connections]
-%s връзки client-to-client
+
 [Nickname]
 Прякор
+[DCC ERROR: No valid files specified]
+
+[DCC reversed file transfer request sent to %s [%s]]
+
 [DCC file transfer request sent to %s [%s]]
-Изпратена е DCC заявка за прехвърляне на файл до %s [%s]
+
+[DCC ERROR: Unable to bind local port]
+
 [The protocol is not online]
-Протоколът не е на линия
+
+[The dcc chat connection is not active]
+
 [Please choose an IRC-network to go online. This network will be the default.]
-Изберете, към коя IRC мрежа да се включите. Тя ще бъде стандартна.
+
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-Връзката не може да бъде осъществена. Не са попълнени всички необходими полета (Прякор, User ID и m_name).
+
+;file \protocols\IRCG\src\options.cpp
 [Main]
-Основна
+
 [Add]
 Добавяне
 [Apply]
@@ -344,314 +437,369 @@ IRC предупреждение
 [Cancel]
 Отказ
 [Channel list]
-Списък с канали
+
 [Quick connect]
-Бързо свързване
+
 [Server window]
-Прозорец на сървъра
+
 [Show channel]
-Показване на канал
+
 [WhoIs]
-Кой е
+
 [Incoming DCC Chat]
-Входящ DCC чат
+
 [Logo (48x48)]
-Лого (48х48)
+
 [Thai]
-тайски (тайландски)
+
 [Japanese]
-японски
+
 [Simplified Chinese]
-опростен китайски
+
 [Korean]
-корейски
+
 [Traditional Chinese]
-традиционен китайски
+
 [Central European]
-Централна Европа
+
 [Cyrillic (Windows)]
-Кирилица (Windows)
+
 [Cyrillic (KOI8R)]
-Кирилица (KOI8R)
+
 [Latin I]
-Latin I
+
 [Greek]
-гръцки
+
 [Turkish]
-турски
+
 [Hebrew]
-иврит
+
 [Arabic]
-арабски
+
 [Baltic]
-балтийски
+
 [Vietnamese]
-виетнамски
+
 [Korean (Johab)]
-корейски (Johab)
+
 [Please complete all fields]
-Моля, попълнете всички полета
+
 [Add a new network]
-Добавяне на нова мрежа
+
 [Edit this network]
-Редактиране на мрежата
+
 [Delete this network]
-Изтриване на мрежата
+
 [Do you want to delete\r\n%s]
-Желаете ли да изтриете\r\n%s
+
 [Delete server]
-Изтриване на сървъра
+
 [Edit server]
-Редактиране на сървъра
+
+[<Resolved IP: ]
+
 [<Automatic>]
-<Автоматично>
+
 [<Local IP: ]
-<Локално IP:\s
+
+[Event: Available]
+
+[Event: Away]
+
+[Event: N/A]
+
+[Event: Occupied]
+
+[Event: DND]
+
+[Event: Free for chat]
+
+[Event: On the phone]
+
+[Event: Out for lunch]
+
+[Event: Disconnect]
+
 [ALL NETWORKS]
 Всички мрежи
 [Click to set commands that will be performed for this event]
-Натиснете тук, за да зададете команди за изпълнение за събитието
+
 [Click to delete the commands for this event]
-Натиснете тук, за да изтриете командите за събитието
+
 [Default ANSI codepage]
-Стандартна ANSI кодова таблица
+
 [Add new ignore]
-Добавяне на ново игнориране
+
 [Edit this ignore]
-Редактиране на игнорирането
+
 [Delete this ignore]
-Изтриване на игнорирането
+
+[Ignore mask]
+
 [Flags]
-Държавни знамена
+
 [Add ignore]
-Добавяне на игнориране
+
 [Edit ignore]
-Редактиране на игнориране
+
 [Account]
 Акаунт
 [DCC and CTCP]
-DCC и CTCP
+
 [Advanced]
 Разширени
+;file \protocols\IRCG\src\output.cpp
+[WallOps from %s: ]
+
 [%s invites you to %s]
-%s ви кани в %s
+
 [%s is away]
-%s отсъства
+
 [These are online: ]
-Потребители на линия:\s
+
+[CTCP %s reply sent to %s]
+
+[CTCP %s reply sent to %s: %s]
+
 [Notice to %s: ]
-Известие до %s:\s
+
+;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
-Бързо свързване
+
 [&Join channel]
-Влизане в канал
+
 [&Change your nickname]
-Промяна на прякора
+
 [Show the &list of available channels]
-Показване на списъка с налични канали
+
 [&Show the server window]
-Показване прозореца на сървъра
+
 [Channel &settings]
-Настройки на канала
+
 [&WhoIs info]
-Информация
+
 [Di&sconnect]
-Излизане от мрежата
+
 [&Add to ignore list]
-Игнориране
+
+[%s (%s) is requesting a client-to-client chat connection.]
+
+[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
+
 [Join channel]
-Влизане в канала
+
 [Please enter a channel to join]
-Въведете име на канал, в който да влезете
+
 [Please select IRC network and enter the password if needed]
-Моля, изберете IRC мрежа и въведете парола, ако е необходимо.
+
 [Please enter a unique nickname]
-Моля, въведете уникален прякор
+
 [Please enter your authentication code]
-Моля, въведете вашия код за удостоверяване
+
 [Authenticate nick]
-Удостоверяване на прякор
+
 [Are you sure you want to unregister your current nick?]
-Наистина ли желаете да бъде премахната регистрацията на прякора ви?
+
 [Delete nick]
-Изтриване на прякора
+
 [Identify nick]
-Удостоверяване на прякора
+
 [Please enter your password]
-Моля, въведете вашата парола
+
 [Please enter your new password]
-Моля, въведете новата парола
+
 [Set new password]
-Задаване на нова парола
+
 [Please enter desired language ID (numeric value, depends on server)]
-Моля, въведете желаният language ID (числова стойност зависеща от сървъра)
+
 [Change language of NickServ messages]
-Промяна на езика на съобщенията от NickServ
+
 [Please enter URL that will be linked to your nick]
-Моля, въведете URL адрес, които да бъде свързан с вашия прякор
+
 [Set URL, linked to nick]
-Задаване на URL адрес, свързан прякора
+
 [Please enter your e-mail, that will be linked to your nick]
-Моля, въведете имейл, който да бъде свързана с вашия прякор
+
 [Set e-mail, linked to nick]
-Задаване на имейл, свързан с прякора
+
 [Please enter some information about your nick]
-Моля, въведете малко информация относно вашия прякор
+
 [Set information for nick]
-Задаване на информация за прякора
+
 [Please enter nick you want to link to your current nick]
-Моля, въведете прякора, който желаете да бъде свързан с вашия текущ прякор
+
 [Link another nick to current nick]
-Свързване на друг прякор с текущия
+
 [Please enter nick you want to unlink from your current nick]
-Моля, въведете прякора, чиято връзка с текущия желаете да премахнете
+
 [Unlink another nick from current nick]
-Премахване на друг прякор с връзка с текущия
+
 [Please enter nick you want to set as your main nick]
-Моля, въведете прякора, който желаете да бъде главен
+
 [Set main nick]
-Задаване на главен прякор
+
 [Kick]
-Изгонване
+
 [Please enter the notice text]
-Моля, въведете текста на известието
+
 [Please enter the channel name to invite to]
-Въведете име на канала, в който да бъде поканен
+
 [Invite to channel]
-Поканете в канал
+
 [NickServ]
-NickServ
+
 [Register nick]
-Регистриране на прякора
+
 [Auth nick]
-Удостоверяване на прякора
+
 [Remind password]
-Напомняне на паролата
+
 [Set language]
-Задаване на език
+
 [Set homepage]
-Задаване на домашна страница
+
 [Set e-mail]
-Задаване на имейл
+
 [Set info]
-Задаване на информация
+
 [Hide e-mail from info]
-Скриване на имейла от информацията
+
 [Show e-mail in info]
-Показване на имейла в информацията
+
 [Set security for nick]
-Задаване на сигурност за прякора
+
 [Remove security for nick]
-Премахване на сигурността за прякора
+
 [Link nick to current]
-Свързване на прякор с текущия
+
 [Unlink nick from current]
-Премахване на връзка с текущия прякор
+
 [List all your nicks]
-Изброяване на всички ваши прякори
+
 [List your channels]
-Изброяване на вашите канали
+
+[Kill unauthorized: off]
+
+[Kill unauthorized: on]
+
+[Kill unauthorized: quick]
+
 [Hide nick from list]
-Скриване на прякора от списъка
+
 [Show nick to list]
-Показване на списъка с прякори
+
 [Show the server &window]
-Показване прозореца на сървъра
+
 [&Leave the channel]
-Излизане от канала
+
 [&Invite to channel]
-Покани в друг канал
+
 [Send &notice]
-Изпращане на известие
+
 [&Slap]
-Шамар
+
+[Nickserv info]
+
+[Nickserv kill ghost]
+
 [&Control]
-Контрол
+
 [Give Owner]
-Owner (статут на собственик)
+
 [Take Owner]
-Отнемане на "Owner" статута
+
 [Give Admin]
-Admin (статут на администратор)
+
 [Take Admin]
-Отнемане на "Admin" статута
+
 [Give &Op]
-Op (статут на оператор)
+
 [Take O&p]
-Отнемане на "Op" статута
+
 [Give &Halfop]
-Halfop (статут на полуоператор)
+
 [Take H&alfop]
-Отнемане на "Halfop" статута
+
 [Give &Voice]
-Voice (имащ право да говори)
+
 [Take V&oice]
-Отнемане на "Voice" статута
+
 [&Kick]
-Изгонване
+
 [Ki&ck (reason)]
-Изгонване (причина)
+
 [&Ban]
-Бан
+
 [Ban'&n kick]
-Бан и изгонване
+
 [Ban'n kick (&reason)]
-Бан и изгонване (причина)
+
 [&Direct Connection]
-Директни връзки
+
 [Request &Chat]
-Заявка за чат
+
 [Send &File]
-Изпращане на файл
+
 [Add to &ignore list]
-Добавяне в списъка за игнориране
+
 [&Add User]
-Добавяне в списъка
+
 [Connecting to]
-Свързване към
+
+;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Извън линия
+;file \protocols\IRCG\src\userinfo.cpp
+[Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
+
+[Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
+
+[Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
+
+[Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
+
+;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
-Моля, изчакайте...
+
 [Channel]
-Канал
+
 [Mode]
-Режим
+
 [%s - Filtered - %d items]
-%s - Филтриране - %d елемента
+
 [---- Not listed server ----]
----- Няма въведен сървър ----
+
 [Type new server address here]
-Впишете адреса на новия сървър тук
+
 [Add ban/invite/exception]
-Добавяне на бан/покана/изключение
+
 [Edit selected ban/invite/exception]
-Редактиране на избрания бан/покана/изключение
+
 [Delete selected ban/invite/exception]
-Изтриване на избрания бан/покана/изключение
+
 [Set these modes for the channel]
-Прилагане на режимите
+
 [Set this topic for the channel]
-Задаване като нова тема
+
 [You have not applied all changes!\n\nApply before exiting?]
-Промените не са приложени!\n\nЖелаете ли да бъдат приложени?
+
 [Add ban]
-Добавяне на бан
+
 [Add invite]
-Добавяне на покана
+
 [Add exception]
-Добавяне на изключение
+
 [Please enter the hostmask (nick!user@host)]
-Моля, въведете hostmask (прякор!потребител@хост)
+
 [Edit ban]
-Редактиране на банове
+
 [Edit invite?]
-Редактиране на поканата?
+
 [Edit exception?]
-Редактиране на изключението?
+
 [Remove ban?]
-Премахване на бана?
+
 [Remove invite?]
-Премахване на поканата?
+
 [Remove exception?]
-Премахване на изключението?
+

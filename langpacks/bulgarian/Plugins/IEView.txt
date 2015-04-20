@@ -5,82 +5,104 @@
 ;  Version: 1.5.0.1
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
+[IE Based Chat Log.]
+
+;file \plugins\IEView\res\ieview.rc
 [Copy]
 Копиране
 [Copy Link]
-Копиране на връзката
+
 [Select All]
 Избор - всичко
 [Save Image As...]
-Запис на изображението като...
+
 [Print]
-Отпечатване
+
 [Clear Log]
-Изчистване на дневника
+
 [Show source]
-Показване на кода
+
 [Options]
 Настройки
 [Enable BBCodes]
-Включване на BBCodes
+
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
-Поддържат се следните BBCodes: [b][i][u][s][img][size][color][url]
+
 [Enable support for Flash files in smileys and BBCodes]
-Включване поддръжката на Flash файлове, за усмивките и BBCodes
+
 [Replace smileys in user names]
-Замяна на усмивките в потребителските имена
+
 [Hide window border]
-Без рамка на прозореца
+
+[Embed YouTube videos]
+
 [Size:]
 Размер:
 [Mode]
-Режим
+
 [Compatibility Mode]
-Режим на съвместимост
+
 [Use External CSS]
-Външен CSS файл
+
 [Use Templates]
-Ползване на шаблон
+
 [Background image]
-Фоново изображение
+
 [Scroll with text]
 Придвижване с текста
 [Template Options]
-Настройки на шаблоните
+
 [Use message grouping]
-Групиране на съобщенията
+
 [Show nicknames]
-Показване на прякори
+
 [Show time]
-Показване на час
+
 [Show seconds]
 Показване на секунди
 [Show date]
-Показване на дата
+
 [Use long date format]
-Дълг формат за датата
+
 [Use relative timestamp]
-Кратка времева марка
+
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
-Изходящо прехвърляне на файл
+
 [Incoming File Transfer]
 Входящ файл
 [URL sent]
-изпратени URL адреси
+
 [URL received]
-получени URL адреси
+
+;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Непознат контакт)
 [ requested authorization]
- заявено упълномощаване
+
 [ was added.]
- беше добавен.
+
+;file \plugins\IEView\src\IEView.cpp
+[IID_IOleObject failed.]
+
 [RESULT]
-РЕЗУЛТАТ
+
+[IID_IOleInPlaceObject failed.]
+
+[Failed to Advise]
+
+[C++ Event Sink]
+
+;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[%s has joined.]
+
+[%s has left.]
+
 [The topic is %s.]
-Темата е %s.
+
 [Error]
 Грешка
+;file \plugins\IEView\src\Options.cpp
 [General]
 Основни
 [Message Log]
@@ -94,20 +116,25 @@
 [Message sessions]
 Разговори
 [IEView]
-IEView
+
 [Skins]
-Облици
+
 [Template]
-Шаблон
+
 [All Files]
 Всички файлове
 [All Images]
-Всички изображения
+
+[Style Sheet]
+
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
-Днес
+
 [Yesterday]
-Вчера
+
 [File sent]
 Файлът е изпратен
 [File received]
 Файлът е получен
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

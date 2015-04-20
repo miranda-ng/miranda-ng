@@ -5,7 +5,23 @@
 ;  Version: 0.0.1.2
 ;  Authors: kva
 ;============================================================
+[E-mage LAN protocol support for Miranda NG.]
+
+;file \protocols\EmLanProto\res\amdproto.rc
+[Select your IP address]
+
+[LAN Settings]
+
+[Use computer name]
+
 [Your name]
 Вашето име
+[Select your name]
+
+;file \protocols\EmLanProto\src\amdproto.cpp
+[User name or '*']
+
+[E-mage LAN protocol]
+
 [Network]
 Мрежа

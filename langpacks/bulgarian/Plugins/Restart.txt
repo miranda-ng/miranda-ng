@@ -6,8 +6,9 @@
 ;  Authors: eugene.nv
 ;============================================================
 [Adds Restart menu item.]
-Добавя бутон за рестартиране в менюто.
+
+;file \plugins\Restart\src\restart.cpp
 [Restart]
-Рестартиране
+
 [Restart Plugin]
-Приставка Restart
+

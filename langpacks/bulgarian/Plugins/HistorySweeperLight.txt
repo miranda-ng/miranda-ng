@@ -6,58 +6,63 @@
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
 ;============================================================
 [This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
-Изчистване на системната история, историята за всички контакти или само избрани; история пазена определен период от време. Възможност за автоизчистване при стартиране/изключване на Miranda NG.
+
+;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 [History Sweeper Light]
-History Sweeper Light
+
 [Sweep history for these contacts:]
-Изчистване на историята за следните контакти:
+
 [Action 1]
-Действие 1
+
 [Action 2]
-Действие 2
+
 [Sweep on closing message window]
-Изчистване при затваряне на прозореца за съобщения
+
+[Clicking on the icon in the status bar will change settings]
+
 [Use UNSAFE mode (sweep as fast as possible, but dangerous for database)]
-Ползване на НЕСИГУРЕН режим (опасен е за БД, но изчиства по-бързо)
+
+;file \plugins\HistorySweeperLight\src\main.cpp
 [Keep all events]
-Задържай всички събития
+
 [Delete all events]
-Изтриване на всички събития
+
+;file \plugins\HistorySweeperLight\src\options.cpp
 [Delete older than 1 day]
-Изтриване на по-старите от 1 ден
+
 [Delete older than 3 days]
-Изтриване на по-старите от 3 дни
+
 [Delete older than 7 days]
-Изтриване на по-старите от 7 дни
+
 [Delete older than 2 weeks (14 days)]
-Изтриване на по-старите от 2 седмици (14 дни)
+
 [Delete older than 1 month (30 days)]
-Изтриване на по-старите от 1 месец (30 дни)
+
 [Delete older than 3 months (90 days)]
-Изтриване на по-старите от 3 месеца (90 дни)
+
 [Delete older than 6 months (180 days)]
-Изтриване на по-старите от 6 месеца (180 дни)
+
 [Delete older than 1 year (365 days)]
-Изтриване на по-старите от 1 година (365 дни)
+
 [Keep 1 last event]
-Съхраняване на последното събитие
+
 [Keep 2 last events]
-Съхраняване на последните 2 събития
+
 [Keep 5 last events]
-Съхраняване на последните 5 събития
+
 [Keep 10 last events]
-Съхраняване на последните 10 събития
+
 [Keep 20 last events]
-Съхраняване на последните 20 събития
+
 [Keep 50 last events]
-Съхраняване на последните 50 събития
+
 [Default Action]
-Стандартно действие
+
 [Delete All]
-Изтриване на всичко
+
 [*** Default Action ***]
-*** Стандартно действие ***
+
 [*** System History ***]
-*** История на системата ***
+
 [History]
 История

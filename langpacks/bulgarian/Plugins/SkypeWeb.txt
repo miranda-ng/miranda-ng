@@ -5,13 +5,51 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
-[Cancel]
-Отказ
+[Skype protocol support for Miranda NG. Based on new Skype for Web.]
+
+;file \protocols\SkypeWeb\res\resource.rc
+[Skypename:]
+
 [Password:]
 Парола:
+[Default group:]
+
+[Account]
+Акаунт
+[Others]
+
+[Automatic messages synchronization]
+
+[Use local time for received messages] 
+
+[Enter password]
+
+[Save password]
+
+[Cancel]
+Отказ
+[Enter the password to continue.]
+
+;file \protocols\SkypeWeb\src\skype_chats.cpp
+[Groupchat]
+
+;file \protocols\SkypeWeb\src\skype_icons.cpp
+[Protocol icon]
+
+[Protocols]
+
+;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]
 Даване на пълномощно
+[Get server history]
+
+;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Мрежа
+;file \protocols\SkypeWeb\src\skype_proto.cpp
+[%s connection]
+
+[Action]
+
