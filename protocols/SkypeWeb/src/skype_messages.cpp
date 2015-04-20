@@ -264,7 +264,7 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 
 			//content=<partlist type="started" alt=""><part identity="username"><name>user name</name></part></partlist>
 			ptrA name;
-			int iType, iDuration;
+			int iType = 3, iDuration = 0;
 			HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("partlist"));
 			if (xml != NULL) 
 			{
@@ -285,7 +285,11 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 				text.Append(Translate("Call started"));
 			else if (iType == 0)
 				text.AppendFormat("%s\n%s: %d", Translate("Call ended"), Translate("Duration"), iDuration != NULL ? iDuration : 0);
-			OnReceiveMessage(clientMsgId, conversationLink, timestamp, text.GetBuffer());
+
+			if (IsMe(from))
+				AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, text.GetBuffer());
+			else
+				OnReceiveMessage(clientMsgId, conversationLink, timestamp, text.GetBuffer());
 		}
 
 }
