@@ -176,8 +176,13 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	/// Headerbar
 	pt = mir_tstrdup((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)m_hContact, (LPARAM)GCDNF_TCHAR));
-	if (pt && (m_hContact != 0))
-		SetDlgItemText(m_hWnd, IDC_HEADERBAR, pt);
+	if (pt && (m_hContact != 0)) {
+		TCHAR* lptString = NULL;
+		mir_tstradd(lptString , TranslateT("Send screenshot to\n"));
+		mir_tstradd(lptString , pt);
+		SetDlgItemText(m_hWnd, IDC_HEADERBAR, lptString);
+		mir_free(lptString);
+	}
 	mir_free(pt);
 
 	SendDlgItemMessage(m_hWnd, IDC_HEADERBAR, WM_SETICON, ICON_BIG, (LPARAM)GetIcon(ICO_MAIN));
