@@ -89,13 +89,13 @@ Folder profili
 [Action]
 Działanie
 [Outgoing call]
-
+Połączenie wychodzące
 [Incoming call]
-
+Połączenie przychodzące
 [Call started]
-
+Rozmowa rozpoczęta
 [Call ended]
-
+Rozmowa zakończona
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Ikona protokołu
@@ -113,16 +113,16 @@ Poproś o autoryzację
 [Grant authorization]
 Udziel autoryzacji
 [Call]
-
+Zadzwoń
 ;file \protocols\Tox\src\tox_multimedia.cpp
 [Unable to find input audio device]
-
+Nie udało się znaleźć urządzenia wejścia audio
 [Video call is unsupported]
 Rozmowa video nie jest wspierana
 [Incoming call from %s]
 Przychodząca rozmowa od %s
 [Unable to find output audio device]
-
+Nie udało się znaleźć urządzenia wyjścia audio
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 Połączenie %s
