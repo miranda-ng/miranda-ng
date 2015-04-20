@@ -330,13 +330,7 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 
 		if (isKick)
 		{
-			GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_KICK };
-			GCEVENT gce = { sizeof(GCEVENT), &gcd };
-			gce.ptszUID = ptrT(mir_a2t(target));
-			gce.ptszNick = ptrT(mir_a2t(target));
-			gce.ptszStatus = ptrT(mir_a2t(initiator));
-			gce.time = timestamp;
-			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+			RemoveChatContact(_A2T(chatname), target, target, true, initiator);
 		}
 		else
 		{
@@ -425,21 +419,32 @@ void CSkypeProto::AddChatContact(const TCHAR *tchat_id, const char *id, const ch
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
 
-void CSkypeProto::RemoveChatContact(const TCHAR *tchat_id, const char *id, const char *name)
+void CSkypeProto::RemoveChatContact(const TCHAR *tchat_id, const char *id, const char *name, bool isKick, const char *initiator)
 {
 	if(IsMe(id))
 		return;
 	
 	ptrT tnick(mir_a2t_cp(name, CP_UTF8));
 	ptrT tid(mir_a2t(id));
+	ptrT tinitiator(mir_a2t(initiator));
 
-	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_PART };
+	GCDEST gcd = { m_szModuleName, tchat_id, isKick ? GC_EVENT_KICK : GC_EVENT_PART };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszNick = tnick;
-	gce.ptszUID = tid;
-	gce.time = time(NULL);
-	gce.bIsMe = false;
+	if (isKick)
+	{
+		gce.ptszUID = tid;
+		gce.ptszNick = tnick;
+		gce.ptszStatus = tinitiator;
+		gce.time = time(NULL);
+	}
+	else
+	{
+		gce.dwFlags = GCEF_ADDTOLOG;
+		gce.ptszNick = tnick;
+		gce.ptszUID = tid;
+		gce.time = time(NULL);
+		gce.bIsMe = IsMe(id);
+	}
 
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
@@ -453,6 +458,7 @@ INT_PTR CSkypeProto::InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			CSkypeProto *ppro = (CSkypeProto*)lParam;
 			HWND hwndCombo = GetDlgItem(hwndDlg, IDC_CONTACT);
 			for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
+				if (ppro->isChatRoom(hContact)) continue; 
 				TCHAR *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 				int idx = SendMessage(hwndCombo, CB_ADDSTRING, 0, LPARAM(ptszNick));
 				SendMessage(hwndCombo, CB_SETITEMDATA, idx, hContact);

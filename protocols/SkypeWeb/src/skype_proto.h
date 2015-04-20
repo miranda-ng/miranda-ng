@@ -236,9 +236,10 @@ private:
 
 	char *GetChatUsers(const TCHAR *chat_id);
 	bool IsChatContact(const TCHAR *chat_id, const char *id);
-	void AddChatContact(const TCHAR *tchat_id, const char *id, const char *name, const TCHAR *role);
 
-	void RemoveChatContact(const TCHAR *tchat_id, const char *id, const char *name);
+	void AddChatContact(const TCHAR *tchat_id, const char *id, const char *name, const TCHAR *role);
+	void RemoveChatContact(const TCHAR *tchat_id, const char *id, const char *name, bool isKick = false, const char *initiator = "");
+
 	void RenameChat(const char *chat_id, const char *name);
 
 	static INT_PTR __stdcall InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
