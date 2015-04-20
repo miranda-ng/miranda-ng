@@ -60,7 +60,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getCLI();
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
-	pd.szName = MODULE;
+	pd.szName = "SKYPE";
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = (pfnInitProto)CSkypeProto::InitAccount;
 	pd.fnUninit = (pfnUninitProto)CSkypeProto::UninitAccount;
@@ -71,7 +71,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	CSkypeProto::InitLanguages();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, &CSkypeProto::OnModulesLoaded);
-
 
 	return 0;
 }
@@ -89,8 +88,8 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 { 
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
 	{
-		CreateServiceFunction(SKYPE_PARSEURI, GlobalService<&CSkypeProto::ParseSkypeURIService>);
-		AssocMgr_AddNewUrlTypeT("skype:", TranslateT("Skype Link Protocol"), g_hInstance, IDI_SKYPE, SKYPE_PARSEURI, 0);
+		CreateServiceFunction(MODULE "/ParseUri", CSkypeProto::GlobalParseSkypeUriService);
+		AssocMgr_AddNewUrlTypeT("skype:", TranslateT("Skype Link Protocol"), g_hInstance, IDI_SKYPE, MODULE "/ParseUri", 0);
 	}
 	return 0; 
 }
