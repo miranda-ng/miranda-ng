@@ -161,6 +161,8 @@ HTTP подключение SendSS
 Сделать скриншот
 [Send screenshot]
 Отправить скриншот
+[Send screenshot?]
+Отправить скриншот?
 [Send desktop screenshot]
 Отправить скриншот экрана
 [Open SendSS+]
