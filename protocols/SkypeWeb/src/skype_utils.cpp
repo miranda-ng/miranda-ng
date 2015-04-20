@@ -517,7 +517,7 @@ char *CSkypeProto::GetServerFromUrl(const char *url)
 	return ParseUrl(url, "://");
 }
 
-INT_PTR __cdecl CSkypeProto::ParseSkypeURIService(WPARAM, LPARAM lParam)
+INT_PTR __cdecl CSkypeProto::ParseSkypeURIService(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *arg = (TCHAR *)lParam;
 	if (arg == NULL)
