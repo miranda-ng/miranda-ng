@@ -28,6 +28,8 @@
 [Enter password]
 [Save password]
 [Enter the password to continue.]
+;file \protocols\SkypeWeb\src\main.cpp
+[Skype Link Protocol]
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [User]
 [Admin]
@@ -35,6 +37,9 @@
 [&Leave chat session]
 [&Change topic]
 [Kick &user]
+[Set &role]
+[&Admin]
+[&User]
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 [Call started]

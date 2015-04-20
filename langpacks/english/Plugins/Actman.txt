@@ -9,6 +9,7 @@
 [Actions]
 [No description]
 [New]
+[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 [Up]
 [Down]
 [Reload]

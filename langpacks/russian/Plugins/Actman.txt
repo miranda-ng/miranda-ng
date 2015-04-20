@@ -12,9 +12,9 @@
 [No description]
 Нет описания
 [New]
+Создать
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 Воспроизводит звук, добавленный с помощью Skin/Sounds/AddNew. Если звук не найден, будет воспроизведён стандартный звук Windows
-Создать
 [Up]
 Выше
 [Down]
@@ -331,6 +331,8 @@ YAPP или Popup
 Текст Unicode
 [displays the Account Manager]
 открывает менеджер учётных записей
+[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
+Воспроизводит звук, добавленный с помощью Skin/Sounds/AddNew. Если звук не найден, будет воспроизведён стандартный звук Windows
 [Avatar service (AVS.dll)]
 Служба аватаров (AVS.dll)
 [Filename]

@@ -49,6 +49,8 @@
 Сохранить пароль
 [Enter the password to continue.]
 Введите пароль, чтобы продолжить.
+[Skype Link Protocol]
+Протокол Skype
 [User]
 Пользователь
 [Admin]
@@ -61,6 +63,12 @@
 &Изменить тему
 [Kick &user]
 Выгнать &пользователя
+[Set &role]
+Установить &роль
+[&Admin]
+&Админ
+[&User]
+&Пользователь
 [Edited at]
 Отредактировано в
 [Call started]
