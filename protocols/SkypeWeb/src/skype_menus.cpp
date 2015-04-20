@@ -91,6 +91,7 @@ int CSkypeProto::OnInitStatusMenu()
 {
 	char text[MAX_PATH];
 	mir_strcpy(text, m_szModuleName);
+	char *tDest = text + strlen(text);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = text;
@@ -114,11 +115,14 @@ int CSkypeProto::OnInitStatusMenu()
 	}*/
 	mi.hParentMenu = hStatusMunuRoot;
 	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR;
+
+
+	mir_strcpy(tDest, "/CreateNewChat");
+	CreateProtoService(tDest, &CSkypeProto::SvcCreateChat);
 	mi.ptszName = LPGENT("Create new chat");
-	mi.pszService = MODULE"/CreateNewChat";
 	mi.position = SMI_POSITION + PMI_CREATECHAT;
+	mi.icolibItem = GetSkinIconHandle("conference");
 	Menu_AddProtoMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::SvcCreateChat>);
 
 	return 0;
 }
