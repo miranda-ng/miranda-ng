@@ -91,7 +91,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 
 			if (IsOnline()) {
 				debugLogA("  > Chat - Outgoing message");
-				SendRequest(new SendChatMessageRequest(RegToken, chat_id, time(NULL), msg, Server));
+				SendRequest(new SendMessageRequest(RegToken, chat_id, time(NULL), msg, Server, true));
 			}
 
 			break;
