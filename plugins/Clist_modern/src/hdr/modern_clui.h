@@ -43,8 +43,6 @@ public:
 	~CLUI();
 
 	static HRESULT InitClui()         { m_pCLUI = new CLUI(); return S_OK; };
-	static HWND&   ClcWnd()           { return pcli->hwndContactTree; }
-	static HWND&   CluiWnd()          { return pcli->hwndContactList; }
 	static CLUI *  GetClui()          { return m_pCLUI; }
 	static BOOL    IsMainMenuInited() { return CLUI::m_fMainMenuInited; }
 

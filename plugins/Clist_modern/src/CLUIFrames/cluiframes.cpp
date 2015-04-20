@@ -2325,7 +2325,6 @@ int SizeFramesByWindowRect(RECT *r, HDWP * PosBatch, int mode)
 			}
 			if (g_pfwFrames[i].OwnerWindow && (INT_PTR)(g_pfwFrames[i].OwnerWindow) != -2) {
 				if (!(mode & 2)) {
-					HWND hwnd = GetParent(g_pfwFrames[i].OwnerWindow);
 					if (NULL != g_pfwFrames[i].OwnerWindow) { /* Wine fix. */
 						*PosBatch = DeferWindowPos(*PosBatch, g_pfwFrames[i].OwnerWindow, NULL, g_pfwFrames[i].wndSize.left + r->left, g_pfwFrames[i].wndSize.top + r->top,
 							g_pfwFrames[i].wndSize.right - g_pfwFrames[i].wndSize.left, g_pfwFrames[i].wndSize.bottom - g_pfwFrames[i].wndSize.top, SWP_NOZORDER | SWP_NOACTIVATE);

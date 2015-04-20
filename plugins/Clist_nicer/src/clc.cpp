@@ -238,14 +238,13 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	if (wndFrameCLC)
 		frameHasTitlebar = wndFrameCLC->TitleBar.ShowTitleBar;
 
-	ClcData *dat = (struct ClcData *) GetWindowLongPtr(hwnd, 0);
+	ClcData *dat = (struct ClcData *)GetWindowLongPtr(hwnd, 0);
 	if (msg >= CLM_FIRST && msg < CLM_LAST)
 		return ProcessExternalMessages(hwnd, dat, msg, wParam, lParam);
 
 	switch (msg) {
 	case WM_CREATE:
-		dat = (struct ClcData *)mir_alloc(sizeof(struct ClcData));
-		memset(dat, 0, sizeof(struct ClcData));
+		dat = (struct ClcData *)mir_calloc(sizeof(struct ClcData));
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
 
 		RowHeight::Init(dat);

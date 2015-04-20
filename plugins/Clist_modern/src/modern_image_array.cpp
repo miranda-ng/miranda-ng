@@ -34,23 +34,19 @@ static HBITMAP ImageArray_CreateBitmapPoint(int cx, int cy, void ** pt)
 	return ske_CreateDIB32Point(cx, cy, pt);
 }
 
-
 // Initialize data
-static BOOL ImageArray_Alloc(LP_IMAGE_ARRAY_DATA iad, int size)
+static BOOL ImageArray_Alloc(IMAGE_ARRAY_DATA *iad, int size)
 {
 	int size_grow = size;
 
-	if (size_grow > iad->nodes_allocated_size)
-	{
+	if (size_grow > iad->nodes_allocated_size) {
 		size_grow += iad->grow_step - (size_grow % iad->grow_step);
 
-		if (iad->nodes != NULL)
-		{
+		if (iad->nodes != NULL) {
 			IMAGE_ARRAY_DATA_NODE *tmp = (IMAGE_ARRAY_DATA_NODE *)realloc((void *)iad->nodes,
 				sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow);
 
-			if (tmp == NULL)
-			{
+			if (tmp == NULL) {
 				TRACE("Out of memory: realloc returned NULL (ImageArray_Alloc)");
 				ImageArray_Free(iad, FALSE);
 				return FALSE;
@@ -59,12 +55,10 @@ static BOOL ImageArray_Alloc(LP_IMAGE_ARRAY_DATA iad, int size)
 			iad->nodes = tmp;
 			memset(&iad->nodes[iad->nodes_allocated_size], 0, (size_grow - iad->nodes_allocated_size) * sizeof(IMAGE_ARRAY_DATA_NODE));
 		}
-		else
-		{
+		else {
 			iad->nodes = (IMAGE_ARRAY_DATA_NODE *)malloc(sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow);
 
-			if (iad->nodes == NULL)
-			{
+			if (iad->nodes == NULL) {
 				TRACE("Out of memory: alloc returned NULL (ImageArray_Alloc)");
 
 				ImageArray_Free(iad, FALSE);
@@ -77,19 +71,16 @@ static BOOL ImageArray_Alloc(LP_IMAGE_ARRAY_DATA iad, int size)
 
 		iad->nodes_allocated_size = size_grow;
 	}
-	else if (size < iad->nodes_allocated_size)
-	{
+	else if (size < iad->nodes_allocated_size) {
 		// Give some more space to try to avoid a free
-		if ((iad->nodes_allocated_size - size) / iad->grow_step >= 2)
-		{
+		if ((iad->nodes_allocated_size - size) / iad->grow_step >= 2) {
 			IMAGE_ARRAY_DATA_NODE *tmp;
 
 			size_grow += iad->grow_step - (size_grow % iad->grow_step);
 
 			tmp = (IMAGE_ARRAY_DATA_NODE *)realloc((void *)iad->nodes, sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow);
 
-			if (tmp == NULL)
-			{
+			if (tmp == NULL) {
 				TRACE("Out of memory: realloc returned NULL when reducing size! (ImageArray_Alloc)");
 
 				ImageArray_Free(iad, FALSE);
@@ -108,12 +99,11 @@ static BOOL ImageArray_Alloc(LP_IMAGE_ARRAY_DATA iad, int size)
 
 
 // Initialize data
-void ImageArray_Initialize(LP_IMAGE_ARRAY_DATA iad, BOOL width_based, int grow_step)
+void ImageArray_Initialize(IMAGE_ARRAY_DATA *iad, BOOL width_based, int grow_step)
 {
 	iad->width_based = width_based;
 	iad->grow_step = grow_step;
-	if (iad->grow_step <= 0)
-	{
+	if (iad->grow_step <= 0) {
 		iad->grow_step = 1;
 	}
 	iad->hdc = CreateCompatibleDC(NULL);
@@ -132,20 +122,18 @@ void ImageArray_Initialize(LP_IMAGE_ARRAY_DATA iad, BOOL width_based, int grow_s
 
 // Free data
 // If keep_bitmap is TRUE, doesn't delete de bitmap and return its handle. Else, return NULL
-HBITMAP ImageArray_Free(LP_IMAGE_ARRAY_DATA iad, BOOL keep_bitmap)
+HBITMAP ImageArray_Free(IMAGE_ARRAY_DATA *iad, BOOL keep_bitmap)
 {
 	DeleteDC(iad->hdc);
 
-	if (iad->img != NULL && !keep_bitmap)
-	{
+	if (iad->img != NULL && !keep_bitmap) {
 		DeleteObject(iad->img);
 		iad->img = NULL;
 		iad->width = 0;
 		iad->height = 0;
 	}
 
-	if (iad->nodes != NULL)
-	{
+	if (iad->nodes != NULL) {
 		free(iad->nodes);
 		iad->nodes = NULL;
 		iad->nodes_allocated_size = 0;
@@ -158,22 +146,20 @@ HBITMAP ImageArray_Free(LP_IMAGE_ARRAY_DATA iad, BOOL keep_bitmap)
 }
 
 // Free data but keep config
-void ImageArray_Clear(LP_IMAGE_ARRAY_DATA iad)
+void ImageArray_Clear(IMAGE_ARRAY_DATA *iad)
 {
 	HDC tmpdc = CreateCompatibleDC(iad->hdc);
 	if (iad->hdc) DeleteDC(iad->hdc);
 	iad->hdc = tmpdc;
 
-	if (iad->img != NULL)
-	{
+	if (iad->img != NULL) {
 		DeleteObject(iad->img);
 		iad->img = NULL;
 		iad->width = 0;
 		iad->height = 0;
 	}
 
-	if (iad->nodes != NULL)
-	{
+	if (iad->nodes != NULL) {
 		free(iad->nodes);
 		iad->nodes = NULL;
 		iad->nodes_allocated_size = 0;
@@ -184,7 +170,7 @@ void ImageArray_Clear(LP_IMAGE_ARRAY_DATA iad)
 
 // Add image to the list (return the index of the image or -1 on error)
 // If pos == -1, add to the end of the list
-int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
+int ImageArray_AddImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 {
 	BITMAP bm;
 	int new_width, new_height;
@@ -203,45 +189,38 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 		pos = iad->nodes_size;
 
 	// Add to end?
-	if (pos >= iad->nodes_size)
-	{
+	if (pos >= iad->nodes_size) {
 		pos = iad->nodes_size;
 		last_one = TRUE;
 	}
-	else
-	{
+	else {
 		last_one = FALSE;
 	}
 
 	// Get bounds
-	if (!GetObject(hBmp, sizeof(BITMAP), &bm))
-	{
+	if (!GetObject(hBmp, sizeof(BITMAP), &bm)) {
 		LeaveCriticalSection(&iad->cs);
 		return -1;
 	}
 
-	if (iad->width_based)
-	{
+	if (iad->width_based) {
 		new_width = max(bm.bmWidth, iad->width);
 		new_height = iad->height + bm.bmHeight;
 	}
-	else
-	{
+	else {
 		new_width = bm.bmWidth + iad->width;
 		new_height = max(iad->height, bm.bmHeight);
 	}
 
 	// Alloc image
 	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height, &(iad->lpBits));
-	if (hNewBmp == NULL)
-	{
+	if (hNewBmp == NULL) {
 		LeaveCriticalSection(&iad->cs);
 		return -1;
 	}
 
 	// Alloc array
-	if (!ImageArray_Alloc(iad, iad->nodes_size + 1))
-	{
+	if (!ImageArray_Alloc(iad, iad->nodes_size + 1)) {
 		DeleteObject(hNewBmp);
 		LeaveCriticalSection(&iad->cs);
 		return -1;
@@ -266,25 +245,20 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 		int x = 0, y = 0, w = 0, h = 0;
 
 		// 1- old data
-		if (pos > 0)
-		{
+		if (pos > 0) {
 			SelectObject(hdc_old, iad->img);
 
-			if (iad->width_based)
-			{
+			if (iad->width_based) {
 				w = iad->width;
 				h = 0;
-				for (i = 0; i < pos; i++)
-				{
+				for (i = 0; i < pos; i++) {
 					h += iad->nodes[i].height;
 				}
 			}
-			else
-			{
+			else {
 				h = iad->height;
 				w = 0;
-				for (i = 0; i < pos; i++)
-				{
+				for (i = 0; i < pos; i++) {
 					w += iad->nodes[i].width;
 				}
 			}
@@ -292,13 +266,11 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 		}
 
 		// 2- new image
-		if (iad->width_based)
-		{
+		if (iad->width_based) {
 			x = 0;
 			y = h;
 		}
-		else
-		{
+		else {
 			x = w;
 			y = 0;
 		}
@@ -306,14 +278,12 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 		BitBlt(iad->hdc, x, y, bm.bmWidth, bm.bmHeight, hdc_old, 0, 0, SRCCOPY);
 
 		// 3- old data
-		if (!last_one)
-		{
+		if (!last_one) {
 			int ox, oy;
 
 			SelectObject(hdc_old, iad->img);
 
-			if (iad->width_based)
-			{
+			if (iad->width_based) {
 				ox = 0;
 				oy = y;
 
@@ -323,8 +293,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 				w = iad->width;
 				h = iad->height - h;
 			}
-			else
-			{
+			else {
 				ox = x;
 				oy = 0;
 
@@ -345,8 +314,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 	iad->img = hNewBmp;
 
 	// Move array
-	if (!last_one && iad->nodes_size > 1)
-	{
+	if (!last_one && iad->nodes_size > 1) {
 		memmove(&iad->nodes[pos + 1], &iad->nodes[pos], (iad->nodes_size - pos) * sizeof(IMAGE_ARRAY_DATA_NODE));
 	}
 	iad->nodes[pos].width = bm.bmWidth;
@@ -364,7 +332,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 
 
 // Change an image in the list (return TRUE on success)
-BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
+BOOL ImageArray_ChangeImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 {
 	BITMAP bm;
 	int new_width, new_height;
@@ -384,27 +352,23 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 	EnterCriticalSection(&iad->cs);
 
 	// Get bounds
-	if (!GetObject(hBmp, sizeof(BITMAP), &bm))
-	{
+	if (!GetObject(hBmp, sizeof(BITMAP), &bm)) {
 		LeaveCriticalSection(&iad->cs);
 		return FALSE;
 	}
 
-	if (iad->width_based)
-	{
+	if (iad->width_based) {
 		new_width = max(bm.bmWidth, iad->width);
 		new_height = iad->height + bm.bmHeight - iad->nodes[pos].height;
 	}
-	else
-	{
+	else {
 		new_width = bm.bmWidth + iad->width - iad->nodes[pos].width;
 		new_height = max(iad->height, bm.bmHeight);
 	}
 
 	// Alloc image
 	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height, &(iad->lpBits));
-	if (hNewBmp == NULL)
-	{
+	if (hNewBmp == NULL) {
 		LeaveCriticalSection(&iad->cs);
 		return FALSE;
 	}
@@ -427,25 +391,20 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 		int x = 0, y = 0, w = 0, h = 0;
 
 		// 1- old data
-		if (pos > 0)
-		{
+		if (pos > 0) {
 			SelectObject(hdc_old, iad->img);
 
-			if (iad->width_based)
-			{
+			if (iad->width_based) {
 				w = iad->width;
 				h = 0;
-				for (i = 0; i < pos; i++)
-				{
+				for (i = 0; i < pos; i++) {
 					h += iad->nodes[i].height;
 				}
 			}
-			else
-			{
+			else {
 				h = iad->height;
 				w = 0;
-				for (i = 0; i < pos; i++)
-				{
+				for (i = 0; i < pos; i++) {
 					w += iad->nodes[i].width;
 				}
 			}
@@ -453,13 +412,11 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 		}
 
 		// 2- new image
-		if (iad->width_based)
-		{
+		if (iad->width_based) {
 			x = 0;
 			y = h;
 		}
-		else
-		{
+		else {
 			x = w;
 			y = 0;
 		}
@@ -467,14 +424,12 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 		BitBlt(iad->hdc, x, y, bm.bmWidth, bm.bmHeight, hdc_old, 0, 0, SRCCOPY);
 
 		// 3- old data
-		if (pos < iad->nodes_size - 1)
-		{
+		if (pos < iad->nodes_size - 1) {
 			int ox, oy;
 
 			SelectObject(hdc_old, iad->img);
 
-			if (iad->width_based)
-			{
+			if (iad->width_based) {
 				ox = 0;
 				oy = y + iad->nodes[pos].height;
 
@@ -484,8 +439,7 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 				w = iad->width;
 				h = iad->height - h - iad->nodes[pos].height;
 			}
-			else
-			{
+			else {
 				ox = x + iad->nodes[pos].width;
 				oy = 0;
 
@@ -519,7 +473,7 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 
 
 // Remove an image
-BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos)
+BOOL ImageArray_RemoveImage(IMAGE_ARRAY_DATA *iad, int pos)
 {
 	int new_width, new_height;
 	HBITMAP hNewBmp;
@@ -535,21 +489,18 @@ BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos)
 	EnterCriticalSection(&iad->cs);
 
 	// Get bounds
-	if (iad->width_based)
-	{
+	if (iad->width_based) {
 		new_width = iad->width;
 		new_height = iad->height - iad->nodes[pos].height;
 	}
-	else
-	{
+	else {
 		new_width = iad->width - iad->nodes[pos].width;
 		new_height = iad->height;
 	}
 
 	// Alloc image
 	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height, &(iad->lpBits));
-	if (hNewBmp == NULL)
-	{
+	if (hNewBmp == NULL) {
 		LeaveCriticalSection(&iad->cs);
 		return FALSE;
 	}
@@ -571,39 +522,31 @@ BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos)
 	{
 		int x = 0, y = 0, w = 0, h = 0;
 
-		if (pos > 0)
-		{
+		if (pos > 0) {
 			SelectObject(hdc_old, iad->img);
 
-			if (iad->width_based)
-			{
+			if (iad->width_based) {
 				w = iad->width;
 				h = 0;
-				for (i = 0; i < pos; i++)
-				{
+				for (i = 0; i < pos; i++) {
 					h += iad->nodes[i].height;
 				}
 			}
-			else
-			{
+			else {
 				h = iad->height;
 				w = 0;
 				for (i = 0; i < pos; i++)
-				{
 					w += iad->nodes[i].width;
-				}
 			}
 			BitBlt(iad->hdc, 0, 0, w, h, hdc_old, 0, 0, SRCCOPY);
 		}
 
-		if (pos < iad->nodes_size - 1)
-		{
+		if (pos < iad->nodes_size - 1) {
 			int ox, oy;
 
 			SelectObject(hdc_old, iad->img);
 
-			if (iad->width_based)
-			{
+			if (iad->width_based) {
 				ox = 0;
 				oy = h + iad->nodes[pos].height;
 
@@ -613,8 +556,7 @@ BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos)
 				w = iad->width;
 				h = iad->height - h - iad->nodes[pos].height;
 			}
-			else
-			{
+			else {
 				ox = w + iad->nodes[pos].width;
 				oy = 0;
 
@@ -634,8 +576,7 @@ BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos)
 	iad->img = hNewBmp;
 
 	// Move array
-	if (pos < iad->nodes_size - 1)
-	{
+	if (pos < iad->nodes_size - 1) {
 		memmove(&iad->nodes[pos], &iad->nodes[pos + 1], (iad->nodes_size - pos - 1) * sizeof(IMAGE_ARRAY_DATA_NODE));
 	}
 
@@ -655,7 +596,7 @@ BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos)
 
 
 
-BOOL ImageArray_DrawImage(LP_IMAGE_ARRAY_DATA iad, int pos, HDC hdcDest, int nXDest, int nYDest, BYTE Alpha)
+BOOL ImageArray_DrawImage(IMAGE_ARRAY_DATA *iad, int pos, HDC hdcDest, int nXDest, int nYDest, BYTE Alpha)
 {
 	if (hdcDest == NULL || pos < 0 || pos >= iad->nodes_size)
 		return FALSE;
@@ -664,40 +605,33 @@ BOOL ImageArray_DrawImage(LP_IMAGE_ARRAY_DATA iad, int pos, HDC hdcDest, int nXD
 	{
 		int w, h, i;
 
-		if (iad->width_based)
-		{
+		if (iad->width_based) {
 			w = 0;
 			h = 0;
-			for (i = 0; i < pos; i++)
-			{
+			for (i = 0; i < pos; i++) {
 				h += iad->nodes[i].height;
 			}
 		}
-		else
-		{
+		else {
 			h = 0;
 			w = 0;
-			for (i = 0; i < pos; i++)
-			{
+			for (i = 0; i < pos; i++) {
 				w += iad->nodes[i].width;
 			}
 		}
-		{
-			BLENDFUNCTION bf = { AC_SRC_OVER, 0, Alpha, AC_SRC_ALPHA };
-			/*ske_*/AlphaBlend(hdcDest, nXDest, nYDest, iad->nodes[pos].width, iad->nodes[pos].height, iad->hdc, w, h, iad->nodes[pos].width, iad->nodes[pos].height, bf);
-		}
-	}
 
+		BLENDFUNCTION bf = { AC_SRC_OVER, 0, Alpha, AC_SRC_ALPHA };
+		AlphaBlend(hdcDest, nXDest, nYDest, iad->nodes[pos].width, iad->nodes[pos].height, iad->hdc, w, h, iad->nodes[pos].width, iad->nodes[pos].height, bf);
+	}
 
 	LeaveCriticalSection(&iad->cs);
 	return FALSE;
 }
 
-BOOL ImageArray_GetImageSize(LP_IMAGE_ARRAY_DATA iad, int pos, SIZE * lpSize)
+BOOL ImageArray_GetImageSize(IMAGE_ARRAY_DATA *iad, int pos, SIZE * lpSize)
 {
 	EnterCriticalSection(&iad->cs);
-	if (lpSize)
-	{
+	if (lpSize) {
 		lpSize->cx = iad->nodes[pos].width;
 		lpSize->cy = iad->nodes[pos].height;
 	}
