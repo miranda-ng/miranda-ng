@@ -252,6 +252,7 @@
 [Import from file]
 [Owner]
 [edit contact information]
+[View personal user details and more]
 [Upload ICQ details]
 [Upload failed]
 [Your details were not uploaded successfully.\nThey were written to database only.]

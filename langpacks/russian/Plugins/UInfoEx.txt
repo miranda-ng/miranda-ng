@@ -477,6 +477,8 @@
 Владелец
 [edit contact information]
 Редактировать данные контакта
+[View personal user details and more]
+Просмотр личных данных пользователя
 [Upload ICQ details]
 Загрузить детали ICQ
 [Upload failed]
