@@ -1,5 +1,6 @@
 ﻿[Take a screenshot and send it to a contact.]
 [All]
+[Send screenshot to]
 [&Format:]
 [Open editor before sending]
 [About]

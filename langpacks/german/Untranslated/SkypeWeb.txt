@@ -1,0 +1,5 @@
+﻿[&Invite user...]
+[&Leave chat session]
+[Kick &user]
+[Call started]
+[Call ended]

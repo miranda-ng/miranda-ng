@@ -107,6 +107,8 @@ Profil
 Beleške
 [Owner]
 Vlasnik
+[View personal user details and more]
+Pregled ličnih podataka korisnika (još)
 [updating]
 Osvežava se
 [Default]

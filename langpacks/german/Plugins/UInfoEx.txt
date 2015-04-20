@@ -489,6 +489,8 @@ Importieren
 Inhaber
 [edit contact information]
 Kontakt-Informationen bearbeiten
+[View personal user details and more]
+Persönliche Benutzerdetails und mehr ansehen
 [Upload ICQ details]
 ICQ-Profil hochladen
 [Upload failed]

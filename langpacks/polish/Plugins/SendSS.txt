@@ -16,8 +16,8 @@ Wszystko
 Brak
 [Cancel]
 Anuluj
-[Send screenshot]
-Wyślij zrzut ekranu
+[Send screenshot to]
+Wyślij zrzut ekranu do
 [<unknown>]
 <nieznany>
 [Ti&med capture]
@@ -217,6 +217,8 @@ Przyciski
 Nie można zarejestrować usługi Mirandy.
 [Take a screenshot]
 Zrób zrzut ekranu
+[Send screenshot]
+Wyślij zrzut ekranu
 [Send desktop screenshot]
 Wyślij zrzut pulpitu
 [Open SendSS+]

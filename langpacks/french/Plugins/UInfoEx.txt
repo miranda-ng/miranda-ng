@@ -489,6 +489,8 @@ Importer d'un fichier
 Propriétaire
 [edit contact information]
 éditer les détails d'un contact
+[View personal user details and more]
+Voir les informations personnelles de l'utilisateur et plus
 [Upload ICQ details]
 Mise à jour des détails ICQ
 [Upload failed]

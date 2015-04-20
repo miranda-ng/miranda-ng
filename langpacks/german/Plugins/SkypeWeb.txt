@@ -8,6 +8,18 @@
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
 Unterstützung für das Skype-Protokoll in Miranda NG, basierend auf dem neuen Skype for Web.
 ;file \protocols\SkypeWeb\res\resource.rc
+[Create group chat]
+Gruppenchat erstellen
+[Cancel]
+Abbrechen
+[New chat's title:]
+Titel des neuen Chats:
+[Mark users you want to invite to a new chat]
+Markieren Sie die Benutzer, die Sie in einen neuen Chat einladen wollen
+[Invite user to chat]
+Benutzer zum Chat einladen
+[Choose one of your contacts to be invited:]
+Wählen Sie einen Kontakt aus, den Sie einladen wollen:
 [Skypename:]
 Skypename:
 [Password:]
@@ -36,8 +48,6 @@ Beim Tippen
 Passwort eingeben
 [Save password]
 Passwort speichern
-[Cancel]
-Abbrechen
 [Enter the password to continue.]
 Passwort eingeben um fortzufahren.
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
@@ -45,11 +55,21 @@ Passwort eingeben um fortzufahren.
 Benutzer
 [Admin]
 Administrator
-[Groupchat]
-Gruppenchat
+[&Invite user...]
+
+[&Leave chat session]
+
+[Kick &user]
+
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 Bearbeitet um
+[Call started]
+
+[Call ended]
+
+[Duration]
+Dauer
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Protokollicon

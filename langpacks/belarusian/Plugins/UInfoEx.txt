@@ -487,6 +487,8 @@ E-Mail
 Уладальнік
 [edit contact information]
 рэдагаваць дадзеныя кантакту
+[View personal user details and more]
+Прагляд асабістых дадзеных кантакта
 [Upload ICQ details]
 Загрузіць дэталі ICQ
 [Upload failed]

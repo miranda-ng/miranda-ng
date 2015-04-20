@@ -7,6 +7,8 @@
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
 Підтримка протоколу Skype в Miranda NG. На основі Skype для Web.
+[Cancel]
+Скасувати
 [Skypename:]
 Логін Skype:
 [Password:]
@@ -35,16 +37,12 @@
 Введіть пароль
 [Save password]
 Зберегти пароль
-[Cancel]
-Скасувати
 [Enter the password to continue.]
 Введіть пароль для продовження.
 [User]
 Користувач
 [Admin]
 Адмін
-[Groupchat]
-Чат
 [Edited at]
 Відредаговане о
 [Protocol icon]

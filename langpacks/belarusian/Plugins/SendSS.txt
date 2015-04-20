@@ -16,8 +16,8 @@
 Няма
 [Cancel]
 Скасаваць
-[Send screenshot]
-Адаслаць скрыншот
+[Send screenshot to]
+Адправіць здыма экрату
 [<unknown>]
 <невядома>
 [Ti&med capture]
@@ -139,6 +139,8 @@ HTTP далучэнне SendSS
 Кнопкі
 [Take a screenshot]
 Зрабіць скрыншот
+[Send screenshot]
+Адаслаць скрыншот
 [Send desktop screenshot]
 Адправіць скрыншот экрана
 [Open SendSS+]

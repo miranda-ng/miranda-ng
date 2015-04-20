@@ -5,10 +5,10 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
-[Password:]
-Šifra
 [Cancel]
 Otkazivanje
+[Password:]
+Šifra
 [Request authorization]
 Zatraži autorizaciju
 [Grant authorization]

@@ -81,14 +81,14 @@ IPv6 адреса (необов'язково)
 Папка профілів
 [Action]
 Дія
+[Protocol icon]
+Значок протоколу
 [Audio ring]
 Дзвінок
 [Audio start]
 Відповісти
 [Audio end]
 Завершити
-[Protocol icon]
-Значок протоколу
 [Protocols]
 Протоколи
 [Request authorization]
@@ -97,14 +97,6 @@ IPv6 адреса (необов'язково)
 Авторизувати
 [Video call is unsupported]
 Відеовиклики не підтримуються
-[Incoming audio call]
-Вхідний аудіовиклик
-[from]
-від
-[Audio call end]
-Аудіовиклик завершено
-[Audio call start]
-Аудіовиклик почато
 [%s connection]
 З'єднання %s
 [Tox profile]
