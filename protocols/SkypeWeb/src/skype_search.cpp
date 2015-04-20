@@ -54,7 +54,7 @@ void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	JSONNODE *items = json_as_array(root), *item, *node;
+	JSONNODE *items = json_as_array(root);
 	for (size_t i = 0; i < json_size(items); i++)
 	{
 		JSONNODE *item = json_at(items, i);
