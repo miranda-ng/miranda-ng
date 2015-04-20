@@ -7,6 +7,18 @@
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
 Поддержка протокола Skype в Miranda NG. Основано на Skype для Web.
+[Create group chat]
+Создать комнату чата
+[Cancel]
+Отмена
+[New chat's title:]
+Заголовок новой комнаты
+[Mark users you want to invite to a new chat]
+Отметить пользователей для приглашения в комнату чата
+[Invite user to chat]
+Пригласить пользователя в чат
+[Choose one of your contacts to be invited:]
+Выбор пользователя для приглашения в чат:
 [Skypename:]
 Логин Skype:
 [Password:]
@@ -35,18 +47,26 @@
 Введите пароль
 [Save password]
 Сохранить пароль
-[Cancel]
-Отмена
 [Enter the password to continue.]
 Введите пароль, чтобы продолжить.
 [User]
 Пользователь
 [Admin]
 Админ
-[Groupchat]
-Чат
+[&Invite user...]
+&Пригласить пользователя...
+[&Leave chat session]
+&Покинуть чат
+[Kick &user]
+Выгнать &пользователя
 [Edited at]
 Отредактировано в
+[Call started]
+Начало беседы
+[Call ended]
+Окончание беседы
+[Duration]
+Продолжительность
 [Protocol icon]
 Значок протокола
 [Protocols]
