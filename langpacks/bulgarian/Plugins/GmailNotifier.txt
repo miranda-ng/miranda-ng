@@ -5,6 +5,11 @@
 ;  Version: 0.3.1.1
 ;  Authors: Mixwind
 ;============================================================
+[Check your Gmail inboxes locally.]
+
+;file \plugins\GmailNotifier\res\options.rc
+[Gmail account]
+
 [Name:]
 Име:
 [Password:]
@@ -12,16 +17,67 @@
 [Add]
 Добавяне
 [Save]
-Запис
+
 [Delete]
 Изтриване
 [Configuration]
-Настройване
+
+[Check Gmail inbox every]
+
 [minutes]
-минути
+
+[Notify using:]
+
+[Duration:]
+
 [seconds]
 секунди
+[Text|Background:]
+
+[On double click:]
+
+[System tray]
+
+[Popup plugin]
+
+[Login using default browser]
+
+[Login using Internet Explorer]
+
+[Run custom program]
+
+[Use online contacts when no new mail]
+
+[Enable icon selection and icon in status bar (restart)]
+
+[This is a shared computer so disable auto login]
+
+[Log unread threads into database (enable history)]
+
+;file \plugins\GmailNotifier\src\check.cpp
+[Checking...]
+
+[Can't open Internet!]
+
+[Can't reach server!]
+
+[Can't send account data!]
+
+[Can't get RSS feed!]
+
+[Wrong name or password!]
+
+;file \plugins\GmailNotifier\src\main.cpp
 [Other]
 Друго
+[Gmail: New thread(s)]
+
+[&Check all Gmail inboxes]
+
+[&Check Gmail inbox]
+
+;file \plugins\GmailNotifier\src\options.cpp
+[GmailNotifier]
+
 [Network]
 Мрежа

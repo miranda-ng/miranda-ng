@@ -5,27 +5,63 @@
 ;  Version: 0.1.3.4
 ;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
 ;============================================================
+[Notifies you if you have unread email on an exchange server.]
+
+;file \plugins\Exchange\res\exchange.rc
 [Unread emails]
-Непрочетени имейли
+
 [Close]
 Затваряне
+[Mark as read]
+
 [Dialog]
-Прозорец
+
 [Connection]
-Връзка
+
 [Username:]
 Потребител:
 [Password:]
 Парола:
 [Server:]
-Сървър:
+
 [Preferences]
-Настройки
+
 [Check every]
-Проверка на всеки
+
 [seconds]
 секунди
+[Force reconnect every]
+
 [minutes]
-минути
+
+[Check server before trying to connect]
+
+[Try to connect]
+
+[times before giving up]
+
+[Show email notifications using popup module]
+
+;file \plugins\Exchange\src\dlg_handlers.cpp
+[Entry ID]
+
+[Subject]
+
+[Sender]
+Изпращач
+;file \plugins\Exchange\src\emails.cpp
+[You have %d unread emails...]
+
+[You have one unread email...]
+
+[Exchange email]
+
+[Do you want to see the email headers?]
+
+;file \plugins\Exchange\src\hooked_events.cpp
+[Check exchange mailbox]
+
+[Exchange notify]
+
 [Plugins]
 Приставки

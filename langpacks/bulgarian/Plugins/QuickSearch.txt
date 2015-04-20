@@ -6,181 +6,273 @@
 ;  Authors: Awkward
 ;============================================================
 [This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
-Дава възможност за бързо търсене на прякори, малки имена, фамилии, имейл, UIN в списъка с контакти. Може да бъде добавена, която и да е стойност от списъка, напр. версия на Miranda, група или град.
+
+[Quick Search]
+
+[Quick search]
+
 [Title]
-Заглавие
+
+[Module/InfoType]
+
 [Setting]
-Настройка
+
 [Reload]
-Обновяване
+
 [New]
-Нов
+
 [Up]
-Нагоре
+
 [Down]
-Надолу
+
 [Delete]
 Изтриване
 [Default]
 Стандарт
 [Additional Options]
-Допълнителни настройки
+
+[Tool Window Style]
+
+[Draw Grid]
+
+[Save search pattern]
+
 [Auto Close mode]
-Режим автозатваряне
+
 [Sort by Status]
-Сортиране по състояние
+
 [Show Client Icons]
-Показване икона на клиента
+
 [Settings]
-Настройки
+
 [Title:]
-Заглавие:
+
 [Account]
 Акаунт
 [Gender]
-Пол
+
+[UserID]
+
 [Nickname]
 Прякор
 [First name]
-Име
+
 [Last name]
-Фамилия
+
 [Group]
 Група
+[Container]
+
 [E-mail]
 Имейл
+[Client ID]
+
+[Ext IP]
+
+[LastSeen]
+
 [Last Event]
-Последно събитие
+
+[Online since]
+
 [Metacontact]
-Метаконтакт
+
+[Event count]
+
+[Contact add time]
+
 [Type:]
 Тип:
+[DB setting]
+
 [Script]
-Скрипт
+
+[Service]
+
+[Contact info]
+
 [Other]
 Друго
+[Data type:]
+
 [Byte]
-BYTE
+
 [Word]
-WORD
+
 [DWord]
-DWORD
+
+[Signed]
+
+[As hex]
+
 [String]
-STRING
+
+[IP]
+
 [TimeStamp]
 Времева марка
 [Module:]
-Модул:
+
 [Setting:]
-Настройка:
+
 [Service:]
 Услуга:
+[Param]
+
 [number value]
-числова стойност
+
 [ANSI string]
-ANSI низ
+
 [Unicode string]
-Unicode низ
+
 [current contact]
-текущ контакт
+
 [last result]
-последен резултат
+
+[parameter]
+
 [Result]
-РЕЗУЛТАТ
+
+[Result type]
+
 [Free memory]
-Свободна памет
+
 [Save]
-Запис
+
 [All]
-Всички
+
 [Close]
 Затваряне
 [Refresh]
-Обновяване
+
+[QuickSearch]
+
 [Show Offline contacts]
-Показвай контактите "Извън линия"
+
 [New column]
-Нова колона
+
 [Save Item]
-Запис на елемента
+
+[InfoType:]
+
 [New Column]
-Нова колона
+
 [Column Up]
-Нагоре
+
 [Column Down]
-Надолу
+
 [Delete Column]
-Изтриване на колона
+
 [Male]
 Мъж
 [Female]
 Жена
 [Contacts]
 Контакти
+[ContactInfo]
+
+[LastEvent]
+
+[EventCount]
+
 [Script Editor]
-Редактор на скриптове
+
 [Normal background]
-Фон на табовете
+
 [Normal foreground]
-Стандартен фон
+
 [Odd background]
-Фон на странните редове
+
 [Odd foreground]
-Цвят на текста в странен ред
+
 [Disabled account background]
-Фон на редовете с изключен акаунт
+
 [Disabled account foreground]
-Цвят на текста за изключен акаунт
+
 [Deleted account background]
-Фон на редовете с изтрит акаунт
+
 [Deleted account foreground]
-Цвят на текста за изтрит акаунт
+
 [Hidden contact background]
-Фон на редовете със скрит контакт
+
 [Hidden contact foreground]
-Цвят на текста за скрит контакт
+
 [Metacontact background]
-Фон на редовете с метаконтакт
+
 [Metacontact foreground]
-Цвят на текста за метаконтакт
+
 [Subcontact background]
-Фон на редовете с подконтакт
+
 [Subcontact foreground]
-Цвят на текста за подконтакт
+
 [&Delete]
 Изтриване
 [&Copy]
 Копиране
 [C&onvert to Meta]
-Превръщане в Мета
+
+[Attach to &Tab container]
+
 [&Move to Group]
 Преместване в друга група
 [Some of selected contacts in different metacontacts already]
-Някои от избраните контакти са част от различни метаконтакти.
+
 [Do you really want to delete selected contacts?]
-Желаете ли избраните контакти да бъдат изтрити?
+
 [Warning]
 Предупреждение
+[One or more contacts in same Meta already. Try to convert anyway?]
+
+[Editing of column ]
+
+[%i users found (%i) Online: %i]
+
 [ users found (]
- открити потребители (
+
 [) Online: ]
-) На линия:\s
+
 [Online]
 На линия
 [deleted]
-Изтрито
+
 [off]
-изкл.
+Изкл.
 [active]
-активно
+
 [Colorize]
-Оцветяване
+
+[QuickSearch window hotkey]
+
+[Column content is simple database setting.]
+
+[Column content is script result.\r\nMore help from "Help" button in script dialog.]
+
+[Column content is contact property (see list). Can be empty.]
+
+[Content is last online time.]
+
+[Content is time of last contact event.]
+
+[Content is metacontact info.]
+
+[Content is count of ALL contact events (not messages only)]
+
+[Other info]
+
+[Change setting through QS]
+
 [default]
-стандарт
+Стандарт
+[Selected]
+
 [contacts]
-контакти
+Контакти
 [Unknown]
 Неизвестно
 [Stay on Top]
-Винаги отгоре
+
 ; these lines are not present in the sources, but they are present in compiled plugin
+[Text Editor]
+
+[Wrap Text]
+

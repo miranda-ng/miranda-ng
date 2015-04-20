@@ -5,219 +5,273 @@
 ;  Version: 0.14.1.15
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
+[OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
+
+;file \plugins\MirOTR\res\resource.rc
 [OTR Generating Private Key]
-OTR създаване на нов частен ключ
+
 [Generating new private key - please wait.]
-Създаване на нов частен ключ, моля изчакайте.
+
 [Default Policy]
-Стандартна политика
+
 [Always]
-Винаги
+
 [Opportunistic]
-Опортюнистично
+
 [Manual]
-Ръчно
+
 [Never]
-Никога
+
 [End sessions on window close]
-Приключване на сесията при затваряне на прозореца за съобщения
+
 [End sessions when contacts go offline]
-Приключване на сесията при състояние на контакта "Извън линия"
+
 [Prefix encrypted IMs:]
-Представка за шифровани съобщения:
+
+[don't rely on the prefix, always check the OTR status icon]
+
 [Don't add encrypted messages to the history]
-Без добавяне на шифрованите съобщения към историята
+
 [Also remove OTR system messages]
-Премахване и на OTR системните съобщения
+
 [Show OTR system messages inline]
-Показване на OTR системните съобщения в прозореца за съобщения
+
 [Show OTR system messages as popup]
-Показване на OTR системните съобщения като Popup
+
 [Show verification dialog when receiving unverified fingerprint]
-Изискване на потвърждаване при получаване на непотвърден отпечатък
+
 [Set OTR policy per protocol]
-Задаване на политика за протоколите
+
 [Current policy:]
-Текуща политика:
+
 [Generate new private key]
-Създаване на нов частен ключ
+
 [Forget private key]
-Забравяне на ключа
+
 [Set OTR policy per contact]
-Задаване на политика за контактите
+
 [View & Modify status of known fingerprints]
-Преглед и промяна състоянието на отпечатъците
+
 [Set verified]
-Потвърждаване
+
 [Set unknown]
-Задай непознат
+
 [Forget]
-Забравяне
+
+[Socialist Millionaires Protocol]
+
+[Socialist Millionaires Protocol\r\nVerification progress]
+
 [&Cancel]
 Отказ
+[Socialist Millionaires Protocol\r\nVerification]
+
 [&No]
 Не
 [&Yes]
 Да
 [OTR status]
-OTR състояние
+
 [&Start OTR session]
-Започване на OTR сесия
+
 [&Refresh OTR session]
-Обновяване на OTR сесията
+
 [Sto&p OTR session]
-Прекратяване на OTR сесията
+
 [&Verify Fingerprint]
-Проверяване на отпечатъка
+
+;file \plugins\MirOTR\src\language.h
 [Start OTR]
-Включване на OTR шифроването
+
 [Stop OTR]
-Изключване на OTR шифроването
+
 [Yes]
 Да
 [No]
 Не
 [OTR status (Click for more options)]
-OTR състояние (натиснете за повече информация)
+
 [OTR Encryption: Disabled]
-OTR шифроване: изключено
+
 [OTR Encryption: UNVERIFIED]
-OTR шифроване: НЕПОТВЪРДЕНО
+
 [OTR Encryption: Private]
-OTR шифроване: Частно
+
 [OTR Encryption: Finished]
-OTR шифроване: Приключено
+
 [&Convert HTML (for Pidgin)]
-Конвертиране на HTML код (за Pidgin)
+
 [OTR encrypted session with '%s' has been terminated]
-Шифрована OTR сесия с "%s" бе прекратена
+
 [Requesting OTR encrypted session with '%s']
-Заявяване на OTR шифрована сесия с "%s"
+
 [Beginning OTR encrypted session with '%s']
-Започване на OTR шифрована сесия с "%s"
+
 [Beginning OTR encrypted session with '%s' (NOT VERIFIED)]
-Започване на OTR шифрована сесия с "%s" (НЕ Е ПОТВЪРДЕНА)
+
 [Trying to refresh OTR encrypted session with '%s']
-Опит за обновяване на OTR шифрованата сесия с "%s"
+
 [OTR encrypted session was refreshed by '%s']
-OTR шифрованата сесия бе обновена от "%s"
+
 [OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
-OTR шифрованата сесия бе обновена от "%s" (НЕ Е ПОТВЪРДЕНА)
+
 [OTR encrypted session with '%s' successfully refreshed]
-OTR шифрованата сесия с "%s" бе обновена успешно
+
 [OTR encrypted session with '%s' successfully refreshed (NOT VERIFIED)]
-OTR шифрованата сесия с "%s" бе обновена успешно (НЕ Е ПОТВЪРДЕНА)
+
 [OTR encrypted session has been terminated by '%s'. You should do that, too!]
-OTR шифрованата сесия бе прекратена от "%s". Вие трябва да направите същото!
+
 [OTR encrypted session with '%s' could not be started]
-Не е възможно започването на OTR шифрована  сесия "%s"
+
 [OTR could not encrypt when sending message]
-Криптирането по време на изпращане не е възможно
+
 [OTR Information]
-OTR информация
+
+[[OTR INFO] ]
+
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
-Сега се използва ПОТВЪРДЕН отпечатък за OTR шифрованата сесия с "%s"
+
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
-Сега се използва НЕПОТВЪРДЕН отпечатък за OTR шифрованата сесия с "%s"
+
 [OTR unverified]
-OTR НЕПОТВЪРДЕНО
+
 [OTR finished]
-ОТР приключено
+
 [OTR private]
-OTR частно
+
 [OTR not secure]
-OTR ненадеждно
+
+[OTR]
+
 [Refresh]
-Обновяване
+
 [Generating new private key for protocol '%s'.\nPlease Wait...]
-Създаване на нов частен ключ за протокол "%s".\nМоля, изчакайте...
+
 [General]
 Основни
 [Protocols]
-Протоколи
+
 [Contacts]
 Контакти
 [Fingerprints]
-Отпечатъци
+
 [Contact]
 Контакт
 [Policy]
-Политика
+
 [Verified]
-Потвърдено
+
 [Active]
-Активно
+
 [Fingerprint]
-Fingerprint
+
 [Conv. HTML]
-Конверт. на HTML
+
 [Default]
 Стандарт
 [Generating new key for '%s'. Continue?]
-Наистина ли желаете да бъде създаден нов ключ за "%s"?
+
 [Removing key for '%s'. Continue?]
-Наистина ли желаете да бъде изтрит ключът за "%s"?
+
 [OTR Fingerprint Verification]
-OTR потвърждаване на отпечатък
+
 [OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is NOT VERIFIED.\nDo you trust it?]
-OTR шифрована сесия с "%s".\nOTR отпечатъка на контакта НЕ Е ПОТВЪРДЕН.\nВярвате ли му?
+
 [OTR encrypted session with '%s'.\nThe OTR fingerprint used by your contact is already verified.\nDo you still trust it?]
-OTR шифрована сесия с "%s".\nOTR отпечатъка на контакта е потвърден.\nВсе още ли му вярвате?
+
 [Your Fingerprint to tell your contact (use a trusted channel!)]
-Отпечатък за изпращане до контакта (през сигурен канал)
+
 [VERIFY: Fingerprint from contact]
-Потвърждаване: Отпечатък на контакта
+
 [OTR Authenticate: %s (%s)]
-OTR удостоверяване на %s (%s)
+
 [Challenge Question]
-Въпрос
+
 [Known Password]
-Известна парола
+
 [Manual fingerprint comparison]
-Ръчно сравняване на отпечатъка
+
 [Secret Answer]
-Таен отговор
+
 [Question]
-Въпрос
+
 [Password]
-Парола
+
 [Authentication successful.]
-Успешно удостоверяване.
+
 [Your contact authenticated you successfully. You can send your own request to authenticate him.]
-Бяхте удостоверен от контакта ви. Можете да изпратите вашата молба, за да го удостоверите.
+
 [Error during authentication.]
-Грешка по време на удостоверяването.
+
 [Authentication failed]
-Неуспешно удостоверяване
+
 [Authentication for '%s' is already in progress.]
-Удостоверяването на "%s" вече се извършва.
+
 [OTR Authenticating: %s (%s)]
-OTR удостоверяване на %s (%s)
+
 [Authenticating contact:\n%s (%s)]
-Удостоверяване на контакта %s (%s)
+
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a question only your partner can answer.]
-OTR шифрована сесия с "%s" (НЕПОТВЪРДЕНА).\nИзползвайте въпрос, на който може да отговори само партньорът ви.
+
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a question only your partner can answer.]
-OTR шифрована сесия с "%s" (ПОТВЪРДЕНА).\nПотвърдете сесията отново използвайки въпрос, на който може да отговори само партньорът ви.
+
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a known password.]
-OTR шифрована сесия с "%s" (НЕПОТВЪРДЕНА).\nИзползвайте известна парола.
+
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a known password.]
-OTR шифрована сесия с "%s" (ПОТВЪРДЕНА).\nПотвърдете сесията отново използвайки известна парола.
+
 [Your contact '%s' wants to verify your identity with a question only you can answer.]
-Контактът "%s" желае да потвърди идентичността ви с въпрос, на който само вие можете да отговорите.
+
 [Your contact '%s' wants to verify your identity with a secret password you should know.]
-Контактът "%s" желае да потвърди идентичността ви с тайна парола, която трябва да ви е известна.
+
 [Fingerprint '%s' still in use in conversation with '%s' (%s). You cannot delete it!]
-Отпечатъкът на "%s" е все още се използва за разговора с "%s" (%s). Не може да бъде изтрит!.
+
 [Fingerprint '%s' in use in conversation with '%s' (%s). It could not be deleted!]
-Отпечатъкът на "%s" е все още се използва за разговора с "%s" (%s). Не може да бъде изтрит!.
+
 [Cannot start OTR for '%s'. SecureIM is already running]
-OTR не може да бъде включен за "%s". Приставката SecureIM е вече стартирана
+
 [OTR: SecureIM installed]
-OTR: Инсталирана е приставката SecureIM
+
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
-В момента се използва приставката SecureIM.\nMirOTR ще може да бъде използван само с контакти, за които SecureIM е изключена.
+
+;file \plugins\MirOTR\src\mirotrmenu.cpp
+[MirOTR menu]
+
 [OTR Status]
-OTR състояние
+
+;file \plugins\MirOTR\src\options.cpp
+[Private Data]
+
 [Services]
-Услуги
+
+;file \plugins\MirOTR\src\otr.cpp
+[\nusing older protocol version %i]
+
+[Attempting to start a private conversation...]
+
+[An error occurred when encrypting your message.\nThe message was not sent]
+
+['%s' has already closed his/her private connection to you; you should do the same]
+
+[Error setting up private conversation: %s]
+
+[Malformed message received]
+
+[We are receiving our own OTR messages.\nYou are either trying to talk to yourself, or someone is reflecting your messages back at you]
+
+[The last message to '%s' was resent]
+
+[The encrypted message received from '%s' is unreadable, as you are not currently communicating privately]
+
+[We received an unreadable encrypted message from '%s']
+
+[We received a malformed data message from '%s']
+
+[The following message received from '%s' was NOT encrypted: [%s]]
+
+['%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message.]
+
+[unknown OTR message received, please report that to Miranda NG]
+
+;file \plugins\MirOTR\src\otr.h
+[ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee http://wikipedia.org/wiki/Off-the-Record_Messaging for more information.]
+

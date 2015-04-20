@@ -5,37 +5,73 @@
 ;  Version: 0.1.1.0
 ;  Authors: bems
 ;============================================================
+[GTalk extensions for Jabber protocol]
+
+;file \protocols\GTalkExt\res\settings.rc
 [Popup notifications (needs popup plugin)]
-Уведомяване с popup (изисква popup приставка)
+
 [Notify in fullscreen mode too]
-Уведомяване и при активно приложение в режим на цял екран
+
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
-Ползвайте опцията ако popup приставката не е в състояние да засича коректно режим на цял екран. Ще отнеме фокуса на клавиатурата
+
+[Notify in contact list]
+
+[Clear pseudocontact history before adding new events]
+
+[Mark history event read when popup closed]
+
 [Add message snip to notification]
-Вмъкване на отрязък от съобщението в уведомяването
+
 [Try to login before open mailbox]
-Вписване, при възможност, преди отварянето на пощенската кутия
+
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
-Работи, само при условие че паролата е запазена в базата от данни. Не влияе на дневника за съобщения на псевдо контактите
+
 [Choose GMail view you use in web interface]
-Кой изглед да бъде ползван при отваряне на пощата ви в GMail
+
 [I don't know]
-Не знам
+
 [Standard view]
-Стандартен
+
 [Basic HTML]
-Обикновен
+
 [Background color]
 Цвят на фона
 [Text color]
 Цвят на текста
 [Timeout]
-Времетраене
+
 [If both colors set to the same value, default colors will be used]
-Ще бъдат ползвани стандартните цветове ако зададете еднаква стойност и за двата цвята
+
+[0 means default timeout,\n-1 means no timeout]
+
 [Test]
-Тест
+
+;file \protocols\GTalkExt\src\menu.cpp
+[Open mailbox]
+
+;file \protocols\GTalkExt\src\notifications.cpp
+[You've received an e-mail\n%s unread threads]
+
+;file \protocols\GTalkExt\src\options.cpp
 [Popups]
 Рopups
 [Network]
 Мрежа
+[Why C sucks]
+
+[brickstrace@gmail.com [1]]
+
+[    bems\n]
+
+[* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
+
+;file \protocols\GTalkExt\src\options.h
+[GMail notifications]
+
+[subject\n    %s\nfrom\n%s\n%s\n]
+
+[subject\n    %s\nfrom\n%s]
+
+;file \protocols\GTalkExt\src\tipper_items.cpp
+[Unread threads:]
+

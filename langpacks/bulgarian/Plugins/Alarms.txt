@@ -6,87 +6,168 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Sets once-off, daily, weekly and weekday alarms.]
-Задавайте еднократни, ежедневни, ежеседмични  аларми или само за събота и неделя.
+
+;file \plugins\Alarms\res\resource.rc
 [New]
-Нов
+
 [Delete]
 Изтриване
 [Edit]
 Редактиране
 [Alarms]
-Аларми
+
+[Use popup plugin]
+
+[Default snooze:]
+
 [minutes]
-минути
+
 [Row height:]
 Ред (височина):
 [Indent:]
-Отстъп:
+
+[Reminder frame]
+
+[Auto hide/show]
+
 [Loop sound]
-Повтаряне
+
+[Period (hours):]
+
+[Hide/show with clist]
+
+[Auto size vertically]
+
+[Transparency (%):]
+
+[Alert window]
+
 [Round corners]
-Закръглени ъгли
+
+[Don't steal focus unless idle]
+
 [Preview]
-Образец
+
 [Alarm]
-Аларма
+
 [Cancel]
 Отказ
 [Title:]
-Заглавие:
+
 [Description:]
 Описание:
 [Actions]
 Действия
 [Popup window]
-Рopup прозорец
+
 [Sound:]
-Звук:
+
+[Run command:]
+
+[Parameters:]
+
+[Alert 1]
+
+[Alert 2]
+
+[Alert 3]
+
+[Speak]
+
+[Occurrence]
+
 [Once]
-Веднъж
+
 [Weekly]
-Седмично
+
 [Daily]
-Дневно
+
+[Weekdays]
+
 [Monthly]
-Месечно
+
 [Yearly]
-Годишно
+
+[i'm hiding]
+
 [Date and time]
-Дата и час
+
+[Disable next occurrence]
+
+[Don't trigger on startup]
+
+[No reminder]
+
 [Dismiss]
-Затваряне
+
+[Snooze]
+
 [Static]
-Статичен
+
+[&Suspend]
+
 [&Edit...]
-Редактиране
+
 [&Delete]
 Изтриване
 [&Options...]
 Настройки...
+[&New alarm...]
+
+;file \plugins\Alarms\src\alarmlist.cpp
+;file \plugins\Alarms\src\alarms.cpp
+[Unknown command issued: "%s"]
+
+[Set alarm]
+
+;file \plugins\Alarms\src\alarm_win.cpp
+[Example alarm]
+
+[Some example text. Example, example, example.]
+
 [5 mins]
-5 мин
+
 [15 mins]
-15 мин
+
 [30 mins]
-30 мин
+
 [1 hour]
-1 час
+
 [1 day]
-1 ден
+
 [1 week]
-1 седмица
+
 [Title]
-Заглавие
+
 [Background]
 Фон
 [Window]
 Прозорец
+;file \plugins\Alarms\src\frame.cpp
 [%dh %dm]
-%dчас %dмин
+
 [%dm]
-%dмин
+
+[Hide reminders]
+
+[Show reminders]
+
 [Frames]
 Рамки
+[Alarm reminders]
+
+;file \plugins\Alarms\src\icons.cpp
+[Menu: Set alarm]
+
+[Reminder: Soon]
+
+[Reminder: Very soon]
+
+[Alarm: System tray]
+
+[Menu: Show/Hide reminders]
+
+;file \plugins\Alarms\src\options.cpp
 [Sunday]
 неделя
 [Monday]
@@ -102,10 +183,10 @@
 [Saturday]
 събота
 [Please enter a title for this alarm.]
-Моля, въведете заглавие на алармата.
+
 [Error]
 Грешка
 [The alarm time you have selected is in the past.]
-Въведената дата за алармата е в миналото.
+
 [Events]
 Събития

@@ -6,262 +6,279 @@
 ;  Authors: faith_healer, ghazan, mataes
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
-Fingerprint NG (версия на клиенти) иконен модул за Miranda NG. Представя с икона кой клиент и коя версия ползват контактите Ви.
+
+;file \plugins\FingerprintNG\res\resource.rc
 [Fingerprint overlays icons]
-Fingerprint, икони за наслагване
+
 [Miranda clients]
-Miranda клиенти
+
 [Miranda packs overlays]
-за пакет на Miranda
+
 [Show Miranda version at Overlay#2]
-Версията на Miranda като икона№2
+
 [Resource overlays]
-за източник
+
 [Platform overlays]
-за платформа
+
 [Protocols overlays]
-за протокол
+
 [Unicode overlay]
-за Unicode
+
 [Secure overlays]
-за сигурност
+
 [Select protocols]
-Изберете протоколи
+
 [AIM clients]
-AIM клиенти
+
 [Gadu-Gadu clients]
-Gadu-Gadu клиенти
+
 [ICQ clients]
-ICQ клиенти
+
 [IRC clients]
-IRC клиенти
+
 [Jabber clients]
-Jabber клиенти
+
 [MRA clients]
-MRA клиенти
+
 [MSN clients]
-MSN клиенти
+
 [QQ clients]
-QQ клиенти
+
 [RSS clients]
-RSS клиенти
+
 [Tlen clients]
-Tlen клиенти
+
 [Weather clients]
-Weather клиенти
+
 [Yahoo clients]
-Yahoo клиенти
+
+[Facebook clients]
+
+[VKontakte clients]
+
 [Multi-protocol clients]
-Мултипротоколни клиенти
+
 [Other (rare) protocols]
-Други (редки) протоколи
+
 [Other icons]
-Други икони
+
 [Show client icon in message window status bar]
-Икона на клиента в лентата за състояние на прозореца за съобщения
+
+;file \plugins\FingerprintNG\src\fingerprint.cpp
 [Fingerprint]
-Fingerprint
+
+;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons]
-Икони за клиенти
+
 [Pack overlays]
-Насложени икони за пакети
+
 [Multi-proto clients]
-Мултипротоколни клиенти
+
 [Other protocols]
-Други протоколи
+
 [Overlays]
-Насложени икони за
+
 [Resource]
-Източник
+
 [Platform]
-Платформа
+
 [Security]
-Сигурност
+
 [Protocol]
 Протокол
+;file \plugins\FingerprintNG\src\masks.cpp
 [Miranda NG stable]
-Miranda NG (стабилна версия)
+
 [Miranda IM (old versions)]
-Miranda IM (стари версии)
+
 [Miranda (unknown)]
-Miranda (непозната версия)
+
 [spam client]
-спам клиент
+
 [PHP Jabber Client]
-PHP Jabber клиент
+
 [MP3 Script for mIRC]
-MP3 скрипт за mIRC
+
 [Mail.Ru Agent (official)]
-Mail.Ru Agent (официален)
+
 [Mail.Ru (unknown client)]
-Mail.Ru (непознат клиент)
+
 [TM 2008 and >]
-TM 2008 и по-нов
+
 [Gadu-Gadu client]
-Gadu-Gadu клиент
+
 [Tlen.pl client]
-Tlen.pl клиент
+
 [Python-based clients]
-Python базиран клиент
+
 [Jabber client]
-Jabber клиент
+
 [XMPP client]
-XMPP клиент
+
 [Client not found]
-Клиентът не е намерен
+
 [Unknown client]
-Непознат клиент
+
 [Undetected client]
-Незасечен клиент
+
 [AIM overlay]
-AIM
+
 [ICQJ Plus Mod overlay]
-ICQJ Plus Mod
+
 [ICQJ overlay]
-ICQJ
+
 [IRC overlay]
-IRC
+
 [JGmail overlay]
-JGmail
+
 [JGTalk overlay]
-JGTalk
+
 [Jabber overlay]
-Jabber
+
 [MSN overlay]
-MSN
+
 [QQ overlay]
-QQ
+
 [Tlen.pl overlay]
-Tlen.pl
+
 [Yahoo overlay]
-Yahoo
+
 [Mail.Ru Agent overlay]
-Mail.Ru Agent
+
+[VK overlay]
+
+[Skype overlay]
+
 [ICQ 2003 overlay]
-ICQ 2003
+
 [ICQ Lite 4 overlay]
-ICQ Lite 4
+
 [ICQ v5.x overlay]
-ICQ v5.x
+
 [ICQ v6.x overlay]
-ICQ v6.x
+
 [ICQ v7.x overlay]
-ICQ v7.x
+
 [ICQ v8.x overlay]
-ICQ v8.x
+
 [Yahoo v11.x overlay]
-Yahoo v11.x
+
 [Yahoo v10.x overlay]
-Yahoo v10.x
+
 [Yahoo v9.x overlay]
-Yahoo v9.x
+
 [Gadu-Gadu v11 client]
-Gadu-Gadu v11 клиент
+
 [Gadu-Gadu v10 client]
-Gadu-Gadu v10 клиент
+
 [Gadu-Gadu v9 client]
-Gadu-Gadu v9 клиент
+
 [Gadu-Gadu v8 client]
-Gadu-Gadu v8 клиент
+
 [Tlen 7.x overlay]
-Tlen 7.x
+
 [Tlen 6.x overlay]
-Tlen 6.x
+
 [Tlen 5.x overlay]
-Tlen 5.x
+
 [TM/QQ 2012 overlay]
-TM/QQ 2012
+
 [TM/QQ 2011 overlay]
-TM/QQ 2011
+
 [TM/QQ 2010 overlay]
-TM/QQ 2010
+
 [TM/QQ 2009 overlay]
-TM/QQ 2009
+
 [TM/QQ 2008 overlay]
-TM/QQ 2008
+
 [TM/QQ 2007 overlay]
-TM/QQ 2007
+
 [TM/QQ 2006 overlay]
-TM/QQ 2006
+
 [TM/QQ 2005 overlay]
-TM/QQ 2005
+
 [QQ 2004 overlay]
-QQ 2004
+
 [TM 3.x / QQ 2003 overlay]
-TM 3.x / QQ 2003
+
 [TM 2.x overlay]
-TM 2.x
+
 [TM 1.x overlay]
-TM 1.x
+
 [QQ 2000 overlay]
-QQ 2000
+
 [Windows overlay]
-Windows
+
 [iOS overlay (iPhone/iPad)]
-iOS (iPhone/iPad)
+
 [MacOS overlay]
-MacOS
+
 [Linux overlay]
-Linux
+
 [Flash overlay]
-Flash
+
 [Java overlay]
-Java
+
 [Symbian overlay]
-Symbian
+
 [Amiga overlay]
-Amiga
+
 [Android overlay]
-Android
+
+[Website overlay]
+
+[Windows Phone overlay]
+
 [Mobile overlay]
-Mobile
+
 [debug overlay]
-debug
+
 [office overlay]
-office
+
 [mobile overlay]
-mobile
+
 [home overlay]
-home
+
 [work overlay]
-work
+
 [notebook overlay]
-notebook
+
 [Miranda NG v0.6 #2 overlay]
-Miranda NG v0.6 #2
+
 [Miranda NG v0.5 #2 overlay]
-Miranda NG v0.5 #2
+
 [Miranda NG v0.4 #2 overlay]
-Miranda NG v0.4 #2
+
 [Miranda NG v0.3 #2 overlay]
-Miranda NG v0.3 #2
+
 [Miranda NG v0.2 #2 overlay]
-Miranda NG v0.2 #2
+
 [Miranda NG v0.1 #2 overlay]
-Miranda NG v0.1 #2
+
 [Miranda IM v0.10 #2 overlay]
-Miranda IM v0.10 #2
+
 [Miranda IM v0.9 #2 overlay]
-Miranda IM v0.9 #2
+
 [Miranda IM v0.8 #2 overlay]
-Miranda IM v0.8 #2
+
 [Miranda IM v0.7 #2 overlay]
-Miranda IM v0.7 #2
+
 [Miranda IM v0.6 #2 overlay]
-Miranda IM v0.6 #2
+
 [Miranda IM v0.5 #2 overlay]
-Miranda IM v0.5 #2
+
 [Miranda IM v0.4 #2 overlay]
-Miranda IM v0.4 #2
+
 [x64 overlay]
-x64
+
 [x32 overlay]
-x32
+
 [NewGPG overlay]
-NewGPG
+
 [MirOTR overlay]
-MirOTR
+
 [SecureIM overlay]
-SecureIM
+
+;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 Икони

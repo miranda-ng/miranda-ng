@@ -5,7 +5,22 @@
 ;  Version: 0.0.0.5
 ;  Authors: Roman Gemini
 ;============================================================
+[Adds a menu item to change or load a different profile of Miranda NG, restart or run DbChecker.]
+
+;file \plugins\ProfileManager\src\pmanagerEx.cpp
+[Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
+
+[Check Database]
+Проверка на базата данни
+[Load profile]
+
+[Change profile]
+
+[Check database]
+Проверка на базата данни
 [Restart]
-Рестартиране
+
 [Database]
-База от данни
+
+[Profile manager]
+

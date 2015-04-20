@@ -6,60 +6,86 @@
 ;  Authors: Bethoven
 ;============================================================
 [ToptoolBar adds buttons in top frame for fast access.]
-ToptoolBar - добавя бутони в лента за бърз достъп до различни функции.
+
+;file \plugins\TopToolBar\res\main.rc
 [Buttons order and visibility]
-Подреждане на бутоните и видимост
+
 [Button height]
-Височина на бутоните
+
 [Button width]
-Ширина на бутон
+
 [Interval between buttons]
-Интервал м/у бутоните
+
 [Use flat mode]
-Ползване на плосък режим
+
 [Auto resize]
-Автоматично оразмеряване
+
 [Single line]
-Само на един ред
+
 [Buttons order:]
-Подреждане на бутоните:
+
 [Add separator]
-Добавяне на разделител
+
 [Add launch]
-Добавяне на стартиращ бутон
+
 [Delete separator/launch button]
-Изтиване на бутона
+
 [Name:]
 Име:
 [Path:]
-Път:
+
 [Set]
 Задай
+;file \plugins\TopToolBar\src\InternalButtons.cpp
+[Show main menu]
+
+[Show options page]
+
+[Show accounts manager]
+
 [Find/add contacts]
 Търсене/Добавяне на контакти
+[Show status menu]
+
 [Show/hide offline contacts]
-Показване/Скриване на контактите "Извън линия"
+
 [Hide offline contacts]
-Скриване на контактите "Извън линия"
+
 [Show offline contacts]
-Показване на контактите "Извън линия"
+
+[Enable/disable metacontacts]
+
+[Disable metacontacts]
+
+[Enable metacontacts]
+
+[Enable/disable groups]
+
+[Enable groups]
+
 [Disable groups]
 Без групи
 [Enable/disable sounds]
-Включване/Изключване на звука
+
 [Disable sounds]
-Изключване на звука
+
 [Enable sounds]
-Включване на звука
+
 [Minimize contact list]
-Минимизиране на списъка с контакти
+
 [Exit]
 Изход
+;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Стандарт
+[TopToolBar background]
+
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Nicer+\nYou can get them at http://wiki.miranda-ng.org/Download]
+
 [TopToolBar]
-TopToolBar
+
+;file \plugins\TopToolBar\src\ttbopt.cpp
 [Contact list]
 Списък с контакти
 [Toolbar]
-Лента с инструменти
+

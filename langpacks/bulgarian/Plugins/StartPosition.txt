@@ -6,26 +6,30 @@
 ;  Authors: Felipe Brahm - souFrag
 ;============================================================
 [Plugin supports starting position of Contact List relative to the taskbar and screen side.]
-Приставката определя позицията на списъка (спрямо лентат със задачи и размера на екрана) при стартиране на Miranda NG.
+
+;file \plugins\StartPosition\res\resource.rc
 [Contact List Window Start Position]
-Стартова позиция за списъка с контакти
+
 [Left]
-Ляво
+
 [Right]
-Дясно
+
 [Pixels from Top]
-Пик-ла под върха
+
 [Pixels from Bottom]
-Пик-ла от дъното
+
 [Pixels from Side]
-Пиксела от ръба
+
 [Width]
-Ширина
+
 [Always start...]
-Винаги стартирай...
+
 [Minimized to System Tray]
-Минимизиран в трея
+
 [Opened]
-Отворен
+
+;file \plugins\StartPosition\src\main.cpp
 [Contact list]
 Списък с контакти
+[Start position]
+

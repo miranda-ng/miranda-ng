@@ -6,89 +6,92 @@
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
-Приставка за борба с нежеланите съобщения (SPAM).
+
+;file \plugins\StopSpamMod\res\stopspam.rc
 [Question (Ctrl+Enter for carriage return):]
-Въпрос (Ctrl+Enter = нов ред):
+
 [Restore defaults]
-Стандарт
+
 [Answer:]
-Отговор:
+
 [Congratulation:]
-Поздрав:
+
 [Auth. request reply:]
-Отговор на молбата за упълномощаване:
+
 [Vars]
-Променливи
+
 [Available accounts:]
-Налични акаунти:
+
 [Filtered accounts:]
-Акаунти за филтриране:
+
 [Do not send more than]
-Не изпращай повече от
+
 [questions to one contact (0 - for no limit)]
-въпроса до 1 контакт (0=неограничено)
+
 [Enable StopSpam-StopSpam infinite talk protection]
-Без безкрайни StopSpam към StopSpam разговори
+
 [Add contact permanently]
-Добавяне на контакта за постоянно
+
 [Enable auth. requests blocking]
-Блокиране на молбите за упълномощаване
+
 [Hide unanswered contacts and spammers from contact list]
-Скриване на неотговорилите контакти (спамъри) от списъка с контакти
+
 [Ignore spammers (do not write messages to history)]
-Игнориране на спамърите (без запазване на съобщенията в историята)
+
 [Log spam to file]
-Водене на дневник за спама
+
 [Case insensitive answer checking]
-Проверяване на отговора за главни/малки букви
+
 [Disable question in invisible mode]
-Без задаване на въпрос при състояние "Невидим"
+
 [Enable integration with DOS plugin]
-Интегриране с приставката DOS
+
 [Exclude contacts which we sending something from spam check]
-Без тестване (пропускане) на контактите, от които са получени съобщения
+
 [Remove Excluded contacts after restart]
-Изтриване на Пропуснатите контакти след рестартиране
+
 [Add contacts to specified group:]
-Добавяне на контактите към следната група:
+
 [Ignore URL in messages and auth requests]
-Игнориране на URL адресите в съобщенията и в молбите за упълномощаване
+
 [Add contact to server list]
-Добавяне на контакта в списъка на сървъра
+
 [After congratulation (ICQ only)]
-След изпращане на поздрава (само за ICQ)
+
 [Automatically grant authorization]
-Автоматично упълномощаване
+
 [Request authorization from contacts which pass StopSpam test]
-Изискване на упълномощаване от контактите, които преминат теста
+
 [Remove all temporary contacts after restart]
-Премахване на временните контакти след рестартиране
+
 [Use regex for answers checking]
-Проверяване на отговорите с регулярен израз
+
 [Log Spammers to system history]
-Вписване на спамърите в системната история
+
 [Use math expression in question]
-Математически израз във въпроса
+
 [Details...]
-Подробности
+
+;file \plugins\StopSpamMod\src\init.cpp
 [StopSpam]
-StopSpam
+
 [StopSpam Logs]
-StopSpam дневници
+
 [Remove Temporary Contacts]
-Премахване на временните контакти
+
+;file \plugins\StopSpamMod\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
-Без повече спам! Добре дошли са само изпратените от хора съобщения!\r\n\r\nКомуникацията ви с потребители от списъка с контакти няма да бъде възпрепятствана от приставката, но първите съобщенията от непознати потребители няма да ви бъдат предоставяни, но няма и да бъдат игнорирани. Вие ще получите даденото съобщение при условие, че потребителят даде (еднократно) правилен отговор на въпрос, предварително определен от вас.
+
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
-Заради спамъри съм инсталирал приставка за борба с нежелани съобщения.\r\nАко желаете да се свържете с мен, моля отговерете със следния текст: nospam. / If you would like to contact me first you have to reply with: nospam.
+
 [StopSpam: send a message and reply to an anti-spam bot question.]
-StopSpam: изпратете съобщение и отговорете на въпроса. / Send a message and reply to an anti-spam bot question.
+
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
-Поздравления! Преминахте теста. Вече можете да изпратите съобщението си. / You just passed human/robot test. Now you can write me a message.
+
 [If math expression is turned on, you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result.\nMessage must contain only one expression without spaces.]
-Ако ползвате математически израз в съобщението можете да въведете:\nXX+XX-X/X*X\nкъдето всеки Х ще бъде заменен с произволна цифра, а резултата ще бъде самият отговор.\nСъобщението трябва да съдържа само един израз без интервали.
+
 [Info]
-Информация
+
 [Message sessions]
 Разговори
 [General]

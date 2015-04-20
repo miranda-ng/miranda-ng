@@ -5,36 +5,43 @@
 ;  Version: 5.0.5.2
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
+[Logs when a user was last seen online and which users were online while you were away.]
+
+;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
-Настройки
+
 [Last seen menu item]
-Елемент в менюто
+
 [Show icon]
-Показване на икона
+
 [User info tab]
-Таб в Userinfo
+
 [Log to file]
-Запис във файл
+
 [Log to history]
-Запис в историята
+
 [Maximum size]
-Макс. размер
+
 [Variable list]
-Променливи
+
 [Enable Idle support]
-Поддръжка на "Бездействие"
+
 [Ignore contacts going offline]
-Игнориране на контактите излизащи от линия
+
+[Enable 'Missed Ones' feature]
+
+[Count times]
+
 [Accounts to watch:]
-Акаунти за наблюдаване:
+
 [Use popups]
-Ползване на popups
+
 [Title]
-Заглавие
+
 [Text]
 Текст
 [Popup Colors]
-Popup цветове
+
 [Online]
 На линия
 [Away]
@@ -56,97 +63,128 @@ Popup цветове
 [Offline]
 Извън линия
 [Reset colors]
-Анулиране
+
+[Last seen plugin]
+
 [You missed following contacts:]
-Изпуснахте следните контакти:
+
 [Alert when user status changes]
-Уведомяване, ако контакта смени състоянието си
+
 [User Menu]
 Потребителско меню
 [View User's Details]
 Подробности за потребителя
+[Send Instant Message]
+
+;file \plugins\SeenPlugin\src\history.cpp
+[last seen history]
+
+[Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
+
+;file \plugins\SeenPlugin\src\main.cpp
+[LastSeen]
+
 [User status change]
-Потребител промени състоянието си
+
 [Changed to Online]
-Сега е на линия
+
 [User Logged Off]
-Отписване на потребител
+
 [User Logged In]
-Вписване на потребител
+
+;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <неизвестно>
 [<none>]
 <няма>
+;file \plugins\SeenPlugin\src\options.cpp
 [-- Date --]
--- Дата --
+
 [year (4 digits)]
-година(4 знака)
+
 [year (2 digits)]
-година (2 знака)
+
 [month]
-месец
+
 [name of month]
-име на месеца
+
 [short name of month]
-кратко име на месеца
+
 [day]
-ден
+
 [weekday (full)]
-ден от седмицата
+
 [weekday (abbreviated)]
-ден от седмицата (кратко име)
+
 [-- Time --]
--- Час --
+
 [hours (24)]
-часове (24)
+
 [hours (12)]
-часове (12)
+
 [AM/PM]
-AM/PM
+
 [minutes]
-минути
+
 [seconds]
 секунди
 [-- User --]
--- Потребител --
+
 [username]
-потребителско име
+Потребител
 [nick]
-прякор
+Прякор
+[UIN/handle]
+
 [Group]
 Група
 [Status]
 Състояние
 [Status message]
-Текст за състояние
+
 [Old status]
-Старо състояние
+
 [external IP]
-външно IP
+
 [internal IP]
-вътрешно IP
+
 [Client info]
-Информация за клиента
+
 [Protocol]
 Протокол
 [Account]
 Акаунт
 [-- Format --]
--- Формат --
+
+[tabulator]
+
+[line break]
+
 [Note:]
-Бележка:
+
 [Use]
-Използване на
+
 [for empty string]
-за празен низ
+
 [instead of]
-вместо
+
+[Last Seen Variables]
+
 [Contacts]
 Контакти
 [Last seen]
-Последно видян
+
 [Popups]
 Рopups
+;file \plugins\SeenPlugin\src\seen.h
+[%n is %s (%u)]
+
+[%i(%r)%bWas %o]
+
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
+
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp
 [Sunday]
 неделя
 [Monday]
@@ -161,33 +199,71 @@ AM/PM
 петък
 [Saturday]
 събота
+[Sun.]
+
+[Mon.]
+
+[Tue.]
+
+[Wed.]
+
+[Thu.]
+
+[Fri.]
+
+[Sat.]
+
 [January]
-януари
+
 [February]
-февруари
+
 [March]
-март
+
 [April]
-април
+
 [May]
-май
+
 [June]
-юни
+
 [July]
-юли
+
 [August]
-август
+
 [September]
-септември
+
 [October]
-октомври
+
 [November]
-ноември
+
 [December]
-декември
+
+[Jan.]
+
+[Feb.]
+
+[Mar.]
+
+[Apr.]
+
 [Jun.]
-младши
+
+[Jul.]
+
+[Aug.]
+
+[Sep.]
+
+[Oct.]
+
+[Nov.]
+
+[Dec.]
+
+[<never seen>]
+
 [Idle]
 Бездействие
 [Unknown]
 Неизвестно
+[Not Idle]
+

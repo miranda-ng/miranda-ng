@@ -6,637 +6,678 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Tool Tip notification windows.]
-Осигурява малки подсказващи прозорци - подсказки които се появяват за кратко, за да известят потребителя за дадено събитие.
+
+;file \plugins\TipperYM\res\resource.rc
 [Layout]
-Изглед
+
 [Text indent:]
-Отстъп на текста:
+
 [Title indent:]
-Отстъп на заглавието:
+
 [Value indent:]
-Отстъп на стойността:
+
 [General padding:]
-Основен отстъп:
+
 [Text padding:]
-Отстъп между редовете:
+
 [Outer avatar padding:]
-Външен отстъп (аватар):
+
 [Inner avatar padding:]
-Вътрешен отстъп (аватар):
+
 [Alignment]
-Подреждане
+
 [Labels:]
-Етикети:
+
 [Values:]
-Стойности:
+
 [Window]
 Прозорец
 [Max width:]
-Макс. ширина:
+
 [Min width:]
-Мин. ширина:
+
 [Max height:]
-Макс. височина:
+
 [Min height:]
-Мин. височина:
+
 [Avatar size:]
-Аватар (размер):
+
 [Sidebar width:]
-Странична лента:
+
+[Hover time:]
+
 [Show if list not focused]
-Показване при дефокусиран списък
+
 [Options]
 Настройки
 [Show title]
-Показване на заглавие
+
+[Status bar tips]
+
 [Avatar border]
-Рамка на аватара
+
 [Round corners (avatar)]
-Закръглени ъгли (на аватара)
+
 [Keep original avatar size]
-Запазване на началния размер
+
 [Substitution]
-Заместване
+
 [Label:]
-Етикет:
+
 [Module:]
-Модул:
+
+[Contact protocol module]
+
 [Setting or prefix:]
-Настройка (представка):
+
 [Translation:]
-Превод:
+
 [Cancel]
 Отказ
 [Item]
-Елемент
+
 [Value:]
-Стойност:
+
 [Variables]
-Променливи
+
 [Draw a line above]
-Добавяне на линия отгоре
+
 [Value on a new line]
-Стойността на нов ред
+
+[Parse Tipper variables first]
+
+[Preset items:]
+
 [Items]
 Елементи
 [Substitutions]
-Замествания
+
 [Add]
 Добавяне
 [Remove]
 Премахване
 [Up]
-Нагоре
+
 [Down]
-Надолу
+
 [Edit]
 Редактиране
 [Separator]
-Разделител
+
 [Extra icons]
 Допълнителни икони
 [Smileys support]
-Поддръжка на Smileys
+
 [Enable SmileyAdd support]
-Поддръжка на приставката SmileyAdd
+
+[Use protocol smileys]
+
 [Resize smileys]
-Оразмеряване на усмивките
+
 [Replace only isolated smileys]
-Замяна само на изолирани усмивки
+
 [Advanced options]
-Разширени настройки
+
 [Show tooltip after all content is ready (avatar && status message)]
-Показване след зареждане на цялото съдържание (аватар и текст за състояние)
+
+[Retrieve new status message]
+
+[Disable in invisible status]
+
 [Retrieve xStatus details if auto-retrieve is disabled]
-Извличане на подробности за xСъстояние при изключено автоизвличане
+
 [Status bar and tray tooltip]
-Подсказки в лентата за състояние и трея
+
 [Limit status messages in status bar and tray tooltips to:]
-Ограничаване на текста за състояние в подсказките до:
+
 [characters]
-знака
+
 [Skins]
-Облици
+
 [Reload skin list]
-Презареждане на списъка с облици
+
 [Apply skin]
-Прилагане на облика
+
 [Get more skins]
-Сваляне на още облици
+
 [Preview]
-Образец
+
 [No preview]
-Няма образец
+
 [Effects]
 Ефекти
 [Animation speed:]
-Скорост на анимирането:
+
 [Shadow]
-Сянка
+
 [Border]
-Рамка
+
 [Round corners (window)]
-Закръглени ъгли (на прозореца)
+
 [Skin option]
-Настройки на облика
+
 [Enable skin coloring]
-Оцветяване на облика
+
+[Load tooltip proportions]
+
 [Load fonts and colors]
-Зареждане на шрифтове и цветове
+
 [Transparency]
-Прозрачност
+
 [Opacity (%):]
-Плътност (%):
+
 [Aero Glass (Vista+)]
-Aero Glass (Vista+)
+
 [Enable tray tooltips]
-Подсказки в трея
+
+[Handle tray tooltips by Tipper]
+
 [Hide offline protocols]
-Без протоколите "Извън линия"
+
 [Expand to second level after:]
-Подсказка второ ниво след:
+
 [ms]
-ms
+
 [First level tooltip]
-Подсказка първо ниво
+
 [Second level tooltip]
-Подсказка второ ниво
+
 [Favorite contacts]
-Любими контакти
+
+[Hide offline]
+
 [Append protocol name]
-Добавяне името на протокола
+
+;file \plugins\TipperYM\src\mir_smileys.cpp
 [Tipper smileys]
-Tipper усмивки
+
+;file \plugins\TipperYM\src\options.cpp
 [You must enter a label]
-Трябва да въведете етикет
+
 [Invalid Substitution]
-Невалидно заместване
+
 [<No Label>]
-<Няма етикет>
+
 [Add item]
-Добавяне на елемент
+
 [Add separator]
-Добавяне на разделител
+
 [Move up]
-Местене нагоре
+
 [Move down]
-Местене надолу
+
 [No icon]
-Без икона
+
 [Icon on left]
-Икона вляво
+
 [Icon on right]
-Икона вдясно
+
 [Bottom right]
-Долу вдясно
+
 [Bottom left]
-Долу вляво
+
 [Top right]
-Горе вдясно
+
 [Top left]
-Горе вляво
+
 [Top]
-Горе
+
 [Center]
-Централно
+
 [Bottom]
-Долу
+
 [Left]
-Ляво
+
 [Right]
-Дясно
+
 [No avatar]
-Няма аватар
+
 [Left avatar]
-Аватар отляво
+
 [Right avatar]
-Аватар отдясно
+
 [Max avatar size:]
-Аватар (макс. р-р):
+
 [None]
 Няма
 [Animation]
-Анимиране
+
 [Fade]
-Избледняване
+
 [Appearance]
-Външен вид
+
 [Tooltips]
-Подсказки
+
 [Customize]
 Персонализиране
 [Content]
-Съдържание
+
 [Tray tooltip]
-Подсказка в трея
+
 [Extra]
-Допълнителни
+
+;file \plugins\TipperYM\src\options.h
 [Show for all contact types]
-За всеки тип контакти
+
 [Show only for contacts]
-Само за контакти
+
 [Show only for chatrooms]
-Само за чат стаи
+
 [Number of contacts]
-Брой контакти
+
+[Protocol lock status]
+
 [Logon time]
-Време на вписване
+
 [Unread emails]
-Непрочетени имейли
+
 [Status]
 Състояние
 [Status message]
-Текст за състояние
+
 [Extra status]
-Допълнително състояние
+
 [Listening to]
-Слуша..
+
 [Miranda uptime]
-Miranda работи от
+
+[Contact list event]
+
 [Jabber activity]
-Jabber дейност
+
 [Gender]
-Пол
+
 [Country flag]
-Държавно знаме
+
 [Client]
-Клиент
+
+;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (заключен)
 [%s ago]
-преди %s
+
+[Log on:]
+
 [Unread emails:]
-Непрочетени имейли:
+
 [Status:]
-Състояние:
+
 [Status message:]
-Текст за състоянието:
+
 [Mood:]
-Настроение:
+
 [xStatus:]
-xСъстояние:
+
 [Activity:]
-Дейност:
+
 [Listening to:]
-Слуша:
+
 [Copy all items with labels]
-Копиране на всички елементи с етикет
+
 [Copy all items]
-Копиране на всички елементи
+
 [Copy avatar]
-Копиране на аватара
+
 [<No Label>: ]
-<Няма етикет>:\s
+
 [<No Value>]
-<Няма стойност>
+
 [Fav. contacts]
-Любими контакти
+
 [Other]
 Друго
 [Miranda uptime:]
-Miranda работи от:
+
+;file \plugins\TipperYM\src\preset_items.cpp
 [Account]
 Акаунт
 [Account:]
-Акаунт:
+
 [Birthday]
-Рожден ден
+
 [Birthday:]
-Рожден ден:
+
 [Client:]
-Клиент:
+
 [Email]
-Имейл
+
 [Email:]
-Имейл:
+
 [Gender:]
 Пол:
 [Homepage]
-Домашна страница
+
 [Homepage:]
 Страница:
 [Identifier]
-Идентификатор
+
 [Idle]
 Бездействие
 [Idle:]
-Бездействие:
+
 [IP internal]
-Вътрешно IP
+
 [IP internal:]
-Вътрешно IP:
+
 [Last message]
-Последно съобщение
+
 [Last message: (%sys:last_msg_reltime% ago)]
-Последно съобщение: (преди %sys:last_msg_reltime%)
+
 [Name]
 Име
 [Name:]
 Име:
 [Number of received messages]
-Брой получени съобщения
+
 [Number of msg [IN]:]
-Брой съобщения (входящи):
+
 [Number of sent messages]
-Брой изпратени съобщения
+
 [Number of msg [OUT]:]
-Брой съобщения (изходящи):
+
 [Contact time]
-Часът при контакта
+
 [Time:]
 Време:
 [xStatus title]
-xСъстояние
+
 [xStatus title:]
-xСъстояние:
+
 [xStatus text]
-xСъстояние текст
+
 [xStatus text:]
-xСъстояние текст:
+
 [[jabber.dll] Activity title]
-\[jabber.dll] Етикет на дейността
+
 [Activity title:]
-Дейност:
+
 [[jabber.dll] Activity text]
-\[jabber.dll] Текст на дейността
+
 [Activity text:]
-Съобщение:
+
 [[seenplugin.dll] Last seen time]
-\[seenplugin.dll] Последно видян на
+
 [Last seen time:]
-Последно видян на:
+
 [[seenplugin.dll] Last seen status]
-\[seenplugin.dll] Последно състояние
+
 [Last seen status:]
-Последно състояние:
+
 [[weather.dll] Condition]
-\[weather.dll] Условия
+
 [Condition:]
-Условия:
+
 [[weather.dll] Humidity]
-\[weather.dll] Влажност
+
 [Humidity:]
-Влажност:
+
 [[weather.dll] Max/Min temperature]
-\[weather.dll] Макс./Мин. темпрература
+
 [Max/Min:]
-Макс./Мин.:
+
 [[weather.dll] Moon]
-\[weather.dll] Луна
+
 [Moon:]
-Луна:
+
 [[weather.dll] Pressure]
-\[weather.dll] Налягане
+
 [Pressure:]
-Атм. налягане:
+
 [[weather.dll] Sunrise]
-\[weather.dll] Изгрев
+
 [Sunrise:]
-Изгрев:
+
 [[weather.dll] Sunset]
-\[weather.dll] Залез
+
 [Sunset:]
-Залез:
+
 [[weather.dll] Temperature]
-\[weather.dll] Температура
+
 [Temperature:]
-Температура:
+
 [[weather.dll] Update time]
-\[weather.dll] Обновено на
+
 [Update time:]
-Обновено в:
+
 [[weather.dll] UV Index]
-\[weather.dll] УВ индекс
+
 [UV Index:]
-УВ индекс:
+
 [[weather.dll] Visibility]
-\[weather.dll] Видимост
+
 [Visibility:]
-Видимост:
+
 [[weather.dll] Wind]
-\[weather.dll] Вятър
+
 [Wind:]
-Вятър:
+
+;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
-\# запълване с плътен цвят
+
+;file \plugins\TipperYM\src\subst.cpp
 [%dd %dh %dm]
-%dден %dчас %dмин
+
 [%dh %dm]
-%dчас %dмин
+
 [%dm]
-%dмин
+
+;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Фон
 [Dividers]
 Разделители
 [Sidebar]
-Странична лента
+
 [Title]
-Заглавие
+
 [Labels]
-Етикети
+
 [Values]
-Стойности
+
 [Tray title]
-Имена на протоколите в трея
+
 [Tipper]
-Tipper
+
+;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Жена
 [Male]
 Мъж
 [%dy %dd %dh %dm]
-%dгод %dден %dчас %dмин
+
 [%dd]
-%dден
+
+[[No translation]]
+
 [WORD to status description]
-WORD към описание на състояние
+
 [DWORD timestamp to time]
-DWORD времева марка към час
+
 [DWORD timestamp to time difference]
-DWORD времева марка към часова разлика
+
 [BYTE to Yes/No]
-BYTE към Да/Не
+
 [BYTE to Male/Female (ICQ)]
-BYTE към Мъж/Жена (ICQ)
+
 [WORD to country name]
-WORD към име на държава
+
 [DWORD to IP address]
-DWORD към IP адрес
+
 [<prefix>Day|Month|Year to date]
-<представка>Ден|Месец|Година към дата
+
 [<prefix>Day|Month|Year to age]
-<представка>Ден|Месец|Година към възраст
+
 [<prefix>Hours|Minutes|Seconds to time]
-<представка>Часове|Минути|Секунди към час
+
 [<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
-<представка>Ден|Месец|Година|Часове|Минути|Секунди към часова разлика
+
 [<prefix>Day|Month to days to next birthday]
-<представка>Ден|Месец към дни оставащи до рожден ден
+
 [DWORD timestamp to time (no seconds)]
-DWORD времева марка към час (без секунди)
+
 [<prefix>Hours|Minutes to time]
-<представка>Часове|Минути към час
+
 [DWORD timestamp to date (short)]
-DWORD времева марка към дата (къса)
+
 [DWORD timestamp to date (long)]
-DWORD времева марка към (дълга)
+
 [xStatus: empty xStatus name to default name]
-хСъстояние: празно име на хСъстояние към стандартното
+
 [DWORD seconds to time difference]
-DWORD секунди към часова разлика
+
 [BYTE timezone to time]
-BYTE към часови пояс
+
 [WORD to name of a day (0..6, 0 is Sunday)]
-WORD към име на ден (0 до 6, 0 е неделя)
+
 [WORD to name of a month (1..12, 1 is January)]
-WORD към име на месец (1 до 12, 1 е януари)
+
 [BYTE to language (ICQ)]
-BYTE към език (ICQ)
+
+;file \plugins\TipperYM\src\translations.h
 [Afrikaans]
-африкаанс (бурски)
+
 [Albanian]
-албански
+
 [Arabic]
-арабски
+
 [Armenian]
-арменски
+
 [Azerbaijani]
-азербайджански
+
 [Belorussian]
-белоруски
+
 [Bhojpuri]
-божпури
+
 [Bosnian]
-босненски
+
 [Bulgarian]
-български
+
 [Burmese]
-бирмански
+
 [Cantonese]
-кантонски
+
 [Catalan]
-каталонски
+
 [Chamorro]
-чаморо
+
 [Chinese]
-китайски
+
 [Croatian]
-хърватски
+
 [Czech]
-чешки
+
 [Danish]
-датски
+
 [Dutch]
-нидерландски (холандски)
+
 [English]
-английски
+
 [Esperanto]
-есперанто
+
 [Estonian]
-естонски
+
 [Farsi]
-персийски (фарси)
+
 [Finnish]
-фински (финландски)
+
 [French]
-френски
+
 [Gaelic]
-келтски
+
 [German]
-немски
+
 [Greek]
-гръцки
+
 [Gujarati]
-гуджарати (гуджаратски)
+
 [Hebrew]
-иврит
+
 [Hindi]
-хинди
+
 [Hungarian]
-унгарски
+
 [Icelandic]
-исландски
+
 [Indonesian]
-индонезийски
+
 [Italian]
-италиански
+
 [Japanese]
-японски
+
 [Khmer]
-кхмерски
+
 [Korean]
-корейски
+
 [Kurdish]
-кюрдски
+
 [Lao]
-лао (лаоски)
+
 [Latvian]
-латвийски
+
 [Lithuanian]
-литовски
+
 [Macedonian]
-македонски
+
 [Malay]
-малайски
+
 [Mandarin]
-мандарин
+
 [Mongolian]
-монголски
+
 [Norwegian]
-норвежки
+
 [Persian]
-персийски
+
 [Polish]
-полски
+
 [Portuguese]
-португалски
+
 [Punjabi]
-пенджаби (пенджабски)
+
 [Romanian]
-румънски
+
 [Russian]
-руски
+
 [Serbo-Croatian]
-сърбохърватски
+
 [Sindhi]
-синдхи
+
 [Slovak]
-словашки
+
 [Slovenian]
-словенски
+
 [Somali]
-сомали
+
 [Spanish]
-испански
+
 [Swahili]
-суахили
+
 [Swedish]
-шведски
+
 [Tagalog]
-тагалог (тагалски)
+
 [Taiwanese]
-тайвански
+
 [Tamil]
-тамилски
+
 [Tatar]
-татарски
+
 [Thai]
-тайски (тайландски)
+
 [Turkish]
-турски
+
 [Ukrainian]
-украински
+
 [Urdu]
-урду
+
 [Vietnamese]
-виетнамски
+
 [Welsh]
-уелски
+
 [Yiddish]
-идиш
+
 [Yoruba]
-йоруба
+
 [Sunday]
 неделя
 [Monday]
@@ -652,26 +693,26 @@ BYTE към език (ICQ)
 [Saturday]
 събота
 [January]
-януари
+
 [February]
-февруари
+
 [March]
-март
+
 [April]
-април
+
 [May]
-май
+
 [June]
-юни
+
 [July]
-юли
+
 [August]
-август
+
 [September]
-септември
+
 [October]
-октомври
+
 [November]
-ноември
+
 [December]
-декември
+

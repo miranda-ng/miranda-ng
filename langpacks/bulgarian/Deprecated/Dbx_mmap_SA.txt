@@ -92,7 +92,7 @@ EN
 [Password warning]
 
 [Database is Secured MMAP database]
-Сигурна MMAP база от данни на Miranda
+Сигурна MMAP база данни на Miranda
 [You are not authorized for access to Database]
 Нямате пълномощия за достъп до базата от данни
 [Secured MMAP: authorization successful]
@@ -103,7 +103,7 @@ Secured MMAP: успешно упълномощаване
 [Database Features]
 Функции на базата от данни
 [Database]
-База от данни
+База данни
 [Change Password]
 Промяна на паролата
 [Set password]
@@ -138,6 +138,6 @@ Secured MMAP: успешно упълномощаване
 [DB is already secured!]
 Базата от данни е защитена!
 [current database]
-текуща база от данни
+текуща база данни
 [Set Password]
 Задаване на парола

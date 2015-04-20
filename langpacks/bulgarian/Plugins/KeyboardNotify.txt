@@ -6,19 +6,54 @@
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
-Приставката ще накара лампичките на клавиатурата да мигат при получаване на съобщение.
+
+;file \plugins\KeyboardNotify\res\resources.rc
+[Accounts to check]
+
+[Events to react on]
+
 [Incoming messages]
 Входящите съобщения
 [Incoming files]
-Входящи файлове
+
 [Incoming URLs]
-Входящи URL адреси
+
+[Everything else]
+
+[Message-Event only]
+
+[Blink if message window is open]
+
+[and not in foreground]
+
+[only if last is]
+
+[sec. old]
+
+[Flash until]
+
 [seconds]
 секунди
+[is re-attended]
+
+[Events are opened]
+
+[End of 'notify when' conditions]
+
+[Notify when]
+
+[Full Screen mode]
+
 [Screen Saver is running]
-Стартира Screen Saver
+
+[Workstation is locked]
+
+[Defined programs are running]
+
+[All other situations]
+
 [Only notify if status is]
-Само при състояние
+
 [Online]
 На линия
 [Away]
@@ -37,57 +72,145 @@
 На телефона
 [Out to lunch]
 На обяд
+[Pending Events]
+
+[Remind me every]
+
 [minutes]
-минути
+
 [Offline]
 Извън линия
+[xStatuses]
+
+[Keys to flash]
+
+[Num Lock]
+
+[Caps Lock]
+
+[Scroll Lock]
+
+[Flashing effects]
+
+[All at the same time]
+
+[In turn]
+
+[In sequence]
+
+[Custom theme]
+
+[Accordingly to events' count]
+
+[Wait before starting flashing]
+
+[Flash speed]
+
+[Fast]
+
+[Slow]
+
 [&Preview]
 Образец
+[Emulate key presses (Use this option if you are using a USB keyboard)]
+
+[Create/Edit Themes]
+
+[Theme]
+
 [Test]
-Тест
+
 [Add]
 Добавяне
 [Update]
-Обнови
+
 [Delete]
 Изтриване
+[Import/Export]
+
 [Export...]
 Износ...
 [Import...]
-Внос...
+
+[Override existing]
+
+[Set program list]
+
+[Program]
+
 [Cancel]
 Отказ
+[Set LEDs for events]
+
+[Num]
+
+[Caps]
+
+[Scroll]
+
 [Message events]
-Текстови събития
+
 [File events]
-Файлови събития
+
 [URL events]
-URL събития
+
 [Other events]
 Други събития
+[Consider event opened after]
+
+[Use custom theme]
+
 [The following events are being ignored:]
 Следните събития ще бъдат игнорирани:
+[Ignore messages]
+
+[Ignore URLs]
+
+[Ignore files]
+
+[Ignore others]
+
 [Ignore all]
-Игнорирай всичко
+
 [Ignore none]
-Без игнориране
+
 [Ignore]
 Игнориране
+[Set xStatus list]
+
+;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Всички контакти **
 [** Unknown contacts **]
 ** Непознати контакти **
+;file \plugins\KeyboardNotify\src\options.cpp
+[left->right]
+
+[right->left]
+
+[left<->right]
+
+[Keyboard Flash]
+
 [Events]
 Събития
 [Accounts]
 Акаунти
 [Rules]
-Правила
+
 [Flashing]
-Мигане
+
+[Themes]
+
 [Protocol]
 Протокол
+[Keyboard Notify Theme]
+
 [All Files]
 Всички файлове
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+
 [None]
 Няма

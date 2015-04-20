@@ -6,76 +6,104 @@
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
-Осигурява поддръжка на емотикони в Miranda NG.
+
+;file \plugins\SmileyAdd\res\resource.rc
 [Smiley categories]
-Категории усмивки
+
 [Specify smiley pack for each category]
-Различен пакет усмивки за всяка категория
+
 [Name:]
 Име:
 [Author:]
-Автор:
+
 [Version:]
-Версия:
+
 [Preview]
-Образец
+
 [Display]
-Изобразяване
+
 [Replace only smileys surrounded by spaces]
-Замяна само на усмивки оградени от интервал
+
 [Scale smiley to text height]
-Мащабиране до големината на текста
+
 [Disable custom smileys]
-Без персонални усмивки
+
 [High quality smiley scaling]
-Висококачествено мащабиране
+
 [Animate]
-Анимиране
+
+[Maximum 'Custom smiley' height]
+
 [Minimum smiley height]
-Мин. височина на усмивките
+
 [Smiley selector]
-Избор на усмивка
+
 [Surround inserted smiley with spaces]
-Ограждане на вмъкнатите усмивки с интервал
+
 [Use first smiley for selection size]
-Задаване на размер от първата усмивка
+
+[IEView style window]
+
 [Input area]
-Поле за въвеждане
+
 [Enable smileys]
-Включване на усмивките
+
 [Don't replace at cursor]
-Без замяна при посочване
+
 [Built-in message dialog support]
-Прозорец за съобщения
+
 [Disable]
-Изключване
+
 [Smiley button]
 Бутон "Усмивки"
+;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
-Показване на прозореца за избор на усмивка
+
+;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
-SmileyAdd
+
+[Smiley cache]
+
 [SmileyAdd HTTP connections]
-HTTP връзки на SmileyAdd
+
+;file \plugins\SmileyAdd\src\main.cpp
 [Button smiley]
-Бутон "Усмивки"
+
 [Assign smiley category]
-Задаване на категория усмивки
+
+[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
+
+;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
-Усмивки
+
 [Customize]
 Персонализиране
 [Off]
 Изкл.
 [Top]
-Горе
+
 [Bottom]
-Долу
+
 [Smiley packs]
-Пакети усмивки
+
 [All files]
 Всички файлове
+;file \plugins\SmileyAdd\src\services.cpp
+[Protocol specific]
+
+;file \plugins\SmileyAdd\src\smileys.cpp
+[Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
+
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
-Проблем при зареждането на пакет усмивки (би трябвало да е отстранен).\nПрегледайте мрежовия дневник за подробности.
+
+[Smiley #%u in file %s for smiley pack %s not found.]
+
 [Standard]
-Стандарт
+
+[Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
+
+[Regular expression "%s" in smiley pack "%s" malformed.]
+
+;file \plugins\SmileyAdd\src\smltool.cpp
+[d'Oh!]
+

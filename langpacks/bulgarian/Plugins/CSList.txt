@@ -5,39 +5,90 @@
 ;  Version: 0.1.1.0
 ;  Authors: Mataes, jarvis
 ;============================================================
+[This plugin offers simple management functions to keep your extra statuses on one place.]
+
+;file \plugins\CSList\res\cslist.rc
+[Custom Status List]
+
+[No items available in the database.\nClick the Add button to define some.]
+
+[Add/Modify Custom Status]
+
+[Add/Modify]
+
 [Cancel]
 Отказ
+[List settings]
+
+[Confirm deletion of items]
+
+[Delete entries in Custom status menu after Import]
+
+[Remember last window position]
+
+[Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
+
+;file \plugins\CSList\src\cslist.cpp
 [Status]
 Състояние
+[Add new item]
+
 [Add]
 Добавяне
+[Modify item]
+
 [Modify]
 Промяна
 [Warning]
 Предупреждение
+[This field doesn't accept string longer than %d characters. The string will be truncated.]
+
 [Favorites]
-Любими
+
+[Regular statuses]
+
 [Title]
-Заглавие
+
 [Message]
 Съобщение
 [Do you really want to delete selected item?]
-Наистина ли желаете маркираният елемент да бъде изтрит?
+
+[Do you want old database entries to be deleted after Import?]
+
+;file \plugins\CSList\src\cslist.h
 [Main Menu]
 Главно меню
+[Main Icon]
+
+[Modify selected item]
+
+[Delete selected item]
+
 [Remove]
 Премахване
+[Set/unset current item as favorite]
+
 [Favorite]
-Любим
+
 [Undo changes]
 Отменяна на промените
+[Import statuses from database]
+
 [Import]
-Внос
+
+[Filter list]
+
 [Filter]
-Филтър
+
+[Close without changing custom status]
+
 [No change]
-Без промяна
+
+[Clear custom status (reset to None) and close]
+
 [Clear]
 Изчистване
+[Set custom status to selected one and close]
+
 [Set]
 Задай
