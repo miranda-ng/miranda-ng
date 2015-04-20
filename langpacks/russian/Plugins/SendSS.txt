@@ -161,8 +161,6 @@ HTTP подключение SendSS
 Сделать скриншот
 [Send screenshot]
 Отправить скриншот
-[Send screenshot?]
-Отправить скриншот?
 [Send desktop screenshot]
 Отправить скриншот экрана
 [Open SendSS+]
@@ -211,3 +209,5 @@ Upload Pie (1 нед)
 Выберите окно для отправки.
 [Screenshot ]
 Снимок экрана\s
+[Send screenshot?]
+Отправить скриншот?
