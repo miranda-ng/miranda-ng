@@ -241,6 +241,7 @@ private:
 	void RemoveChatContact(const TCHAR *tchat_id, const char *id, const char *name, bool isKick = false, const char *initiator = "");
 
 	void RenameChat(const char *chat_id, const char *name);
+	void ChangeChatTopic(const char * chat_id, const char *topic, const char *initiator);
 
 	static INT_PTR __stdcall InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
