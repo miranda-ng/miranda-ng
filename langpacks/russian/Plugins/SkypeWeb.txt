@@ -87,6 +87,8 @@
 Авторизовать
 [Get server history]
 Синхронизировать историю
+[Create new chat]
+Создать новый чат
 [Network]
 Сеть
 [%s connection]

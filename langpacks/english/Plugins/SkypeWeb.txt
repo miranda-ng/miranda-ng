@@ -52,6 +52,7 @@
 [Request authorization]
 [Grant authorization]
 [Get server history]
+[Create new chat]
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
