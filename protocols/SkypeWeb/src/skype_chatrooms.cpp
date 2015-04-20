@@ -81,12 +81,13 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		return 0;
 	}
 
+	ptrA chat_id(mir_t2a(gch->pDest->ptszID));
+
 	switch (gch->pDest->iType)
 	{
 		case GC_USER_MESSAGE:
 		{
 			ptrA msg(mir_t2a(gch->ptszText));
-			ptrA chat_id(mir_t2a(gch->pDest->ptszID));
 
 			if (IsOnline()) {
 				debugLogA("  > Chat - Outgoing message");
@@ -111,14 +112,18 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			break;
 		}
 
-		/*
 		case GC_USER_LOGMENU:
 		{
-			switch(hook->dwData)
+			switch(gch->dwData)
 			{
 			case 10:
-				DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, invite_to_chat_dialog,
-				LPARAM(new invite_chat_param(item->id, this)));
+				MCONTACT hContact;
+				hContact = (MCONTACT)DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_GC_INVITE), NULL, InviteDlgProc, (LPARAM)this);
+				if (hContact != NULL) 
+				{
+					ptrA username(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID));
+					SendRequest(new InviteUserToChatRequest(RegToken, chat_id, username, "User", Server));
+				}
 				break;
 
 			case 20:
@@ -127,35 +132,19 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			}
 			break;
 		}
-		*/
 
 		case GC_USER_NICKLISTMENU:
 		{
-			MCONTACT hContact = NULL;
-			if (gch->dwData == 10 || gch->dwData == 20) {
-		
-				ptrA user_id(mir_t2a_cp(gch->ptszUID, CP_UTF8));
-
-				// Find this contact in list or add new temporary contact
-				hContact = AddContact(user_id, true);
-
-				if (!hContact)
-					break;
-		
+			ptrA user_id;
+			if (gch->dwData == 10 || gch->dwData == 20) 
+			{
+				user_id = mir_t2a_cp(gch->ptszUID, CP_UTF8);
 			}
 
 			switch (gch->dwData)
 			{
 			case 10:
-				CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
-				break;
-
-			case 20:
-				//CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
-				break;
-
-			case 110:
-				//chat_leave(id);
+				SendRequest(new KickUserRequest(RegToken, chat_id, user_id, Server));
 				break;
 			}
 
@@ -203,10 +192,37 @@ void CSkypeProto::StartChatRoom(const TCHAR *tid, const TCHAR *tname)
 int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
-	if (stricmp(gcmi->pszModule, m_szModuleName) != 0)
+	if (stricmp(gcmi->pszModule, m_szModuleName)) return 0;
+
+	if (gcmi->Type == MENU_ON_LOG)
 	{
-		return 0;
+		static const struct gc_item Items[] =
+		{
+			{ LPGENT("&Invite user..."), 10, MENU_ITEM, FALSE },
+			{ LPGENT("&Leave chat session"), 20, MENU_ITEM, FALSE }
+		};
+		gcmi->nItems = SIZEOF(Items);
+		gcmi->Item = (gc_item*)Items;
 	}
+	else if (gcmi->Type == MENU_ON_NICKLIST)
+	{
+		if (IsMe(_T2A(gcmi->pszUID)))
+		{
+			gcmi->nItems = 0;
+			gcmi->Item = NULL;
+		}
+		else
+		{
+			static const struct gc_item Items[] =
+			{
+				{ LPGENT("Kick &user"), 10, MENU_ITEM, FALSE }
+			};
+			gcmi->nItems = SIZEOF(Items);
+			gcmi->Item = (gc_item*)Items;
+		}
+	}
+
+
 	return 0;
 }
 
@@ -426,4 +442,40 @@ void CSkypeProto::RemoveChatContact(const TCHAR *tchat_id, const char *id, const
 	gce.bIsMe = false;
 
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+}
+
+INT_PTR CSkypeProto::InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		{
+			CSkypeProto *ppro = (CSkypeProto*)lParam;
+			HWND hwndCombo = GetDlgItem(hwndDlg, IDC_CONTACT);
+			for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
+				TCHAR *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
+				int idx = SendMessage(hwndCombo, CB_ADDSTRING, 0, LPARAM(ptszNick));
+				SendMessage(hwndCombo, CB_SETITEMDATA, idx, hContact);
+			}
+			SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
+		}
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDCANCEL:
+			EndDialog(hwndDlg, 0);
+			return TRUE;
+
+		case IDOK:
+			int idx = SendDlgItemMessage(hwndDlg, IDC_CONTACT, CB_GETCURSEL, 0, 0);
+			if (idx != -1)
+				EndDialog(hwndDlg, SendDlgItemMessage(hwndDlg, IDC_CONTACT, CB_GETITEMDATA, idx, 0));
+			else
+				EndDialog(hwndDlg, 0);
+			return TRUE;
+		}		
+	}
+
+	return 0;
 }

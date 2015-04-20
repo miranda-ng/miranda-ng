@@ -21,6 +21,7 @@ int hLangpack;
 XML_API  xi;
 TIME_API tmi = { 0 };
 HINSTANCE g_hInstance;
+CLIST_INTERFACE *pcli;
 
 PLUGININFOEX pluginInfo =
 {
@@ -70,6 +71,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, &CSkypeProto::OnModulesLoaded);
 
 	mir_getXI(&xi);
+	mir_getCLI();
 
 	return 0;
 }

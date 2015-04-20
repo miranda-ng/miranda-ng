@@ -241,6 +241,8 @@ private:
 	void RemoveChatContact(const TCHAR *tchat_id, const char *id, const char *name);
 	void RenameChat(const char *chat_id, const char *name);
 
+	static INT_PTR __stdcall InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+
 	//polling
 	void __cdecl PollingThread(void*);
 	void ParsePollData(JSONNODE *data);
