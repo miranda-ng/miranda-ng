@@ -33,7 +33,7 @@
 [Enable "Miss you" feature]
 
 [Colors]
-
+Цветове
 [Background]
 Фон
 [Text]
@@ -43,17 +43,17 @@
 [Use Windows colors]
 Цветове от Windows
 [Delay]
-
+Закъснение
 [Default]
 Стандарт
 [Custom]
 Избор
 [Permanent]
-
+Постоянно
 [sec]
 сек
 [Preview]
-
+Образец
 [Last seen online:]
 
 [Last input message:]
@@ -61,28 +61,28 @@
 [Custom absence period:]
 
 [days]
-
+дни
 [Never hide this contact]
 
 [Enable Miss You]
 
 [Notify always]
-
+Уведомяване всякога
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 [Tray/popup icon]
 
 [Enabled]
-
+Включено
 [Disabled]
-
+Изключено
 [Hide]
-
+Скриване
 [Never hide]
 
 [Hiding %s (%S)]
 
 [%d days since last message]
-
+%d от последното съобщение
 [Disable Miss You]
 
 [You awaited this contact!]
@@ -113,17 +113,17 @@
 
 ;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
-
+Седмици
 [months]
 
 [years]
 
 [Do nothing]
-
+Нищо
 [Delete the contact]
 
 [Contact name]
-
+Име на контакта
 [has returned after being absent since %d days]
 
 [Contacts]
@@ -133,6 +133,6 @@
 [not detected]
 
 [not found]
-
+НЕ Е ОТКРИТО
 [This contact has been absent for an extended period of time.]
 

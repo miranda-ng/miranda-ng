@@ -6,10 +6,10 @@
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
-
+Осигурява комуникация чрез протокола AOL Instant Messenger (AIM) в Miranda NG.
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
-
+AIM подробности за потребителя
 [Screen Name:]
 
 [Display Name:]
@@ -17,73 +17,71 @@
 [Password:]
 Парола:
 [Login Server:]
-
+Сървър:
 [AIM Options]
-
+AIM настройки
 [Message Delivery Confirmation]
-
+Потвърждение за доставката на съобщения
 [Do Not Autoreply When Away]
-
+Без автоматичен отговор при състояние "Отсъстващ"
 [Convert Incoming Messages to BBCode]
-
+Входящите съобщения в BBCode
 [Convert Outgoing Messages to HTML]
-
+Изходящите съобщения в HTML
 [Disable Avatars]
-
+Изключване на аватарите
 [Disable Account Type Icons]
-
+Без икони за типа акаунт
 [Disable Extended Status Icons]
-
+Без икони за разширено състояние
 [Notify about new mail]
-
+Уведомяване за нови писма
 [Advanced Options]
-
+Разширени настройки
 [Instant Idle on Login]
-
+Бездействащ веднага след вписване
 [Force Proxy File Transfers]
-
+Задължително прехвърляне на файлове през прокси сървър
 [Masquerade as a Sidekick/Hiptop User]
 
 [*Aim must be reconnected for some option to take effect]
-
+*Необходимо е Aim да се свърже наново, за да бъдат осъществени
 [Connection]
-
+Връзка
 [Port:]
 Порт:
 [Reset]
 Анулиране
 [Disable SSL]
-
+Изключване на SSL
 [Manage Server Groups]
-
-[Force Single Client]
-
+Управление на сървърните групи
 [Save Profile]
-
+Запис на профила
 [Create a new AIM account]
-
+Създаване на AIM акаунт
 [AIM Instant Idler]
 
 [Number of Hours:]
-
+Часове:
 [Number of Minutes:]
-
+Минути:
 [Set Idle]
-
+Задаване на бездействие
 [Unset Idle]
-
+Отмяна на бездействие
 [Users who can contact me:]
-
+Потребители, които могат да се свържат с мен:
 [Allow all users]
-
+Всеки потребител
 [Allow only users on contact list]
-
+Само потребители от списъка с контакти
 [Allow only users below]
-
+Само следните потребители:
 [Block all users]
-
+Блокиране на всички потребители
 [Block only users below]
-
+Блокирай само следните потребители
 [Add]
 Добавяне
 [Remove]
@@ -91,11 +89,11 @@
 [Idle]
 Бездействие
 [Allow contacts to be notified of:]
-
+Известяване на контактите за:
 [Join Chat Room]
-
+Влизане в чат стая
 [Chat Room]
-
+Чат стая
 [&Join]
 Влизане
 [&Cancel]
@@ -103,61 +101,61 @@
 [This allows access to user defined chat rooms. To access predefined chat rooms use web links]
 
 [Change Password]
-
+Промяна на паролата
 [Original]
-
+Стара
 [New]
-
+Нова
 [Repeat]
-
+Повтаряне
 [*Passwords don't match.]
-
+*Паролите не съвпадат.
 [Screen Name]
 
 [E-mail]
 Имейл
 [Confirm Account]
-
+Потвърдете акаунта
 [*Applied upon reconnect]
-
+*Приложимо при следващо свързване
 [Save Changes]
-
+Запис на промените
 [Invite Buddy To Chat Room]
-
+Поканете приятел в чат стаята
 [&Invite]
-
+Покана
 [Invitation reason]
-
+Причина за поканата
 [Chat Room Invitation Request]
-
+Покана за присъединяване към чат стая
 [&Deny]
 Отхвърляне
 [Message]
 Съобщение
 [Room]
-
+Стая
 ;file \protocols\AimOscar\src\chat.cpp
 [Me]
 Аз
 [Others]
-
+Други
 [&Invite user...]
-
+Покани потребител...
 [&Leave chat session]
-
+Напускане от разговора
 [User &details]
 Подробности за потребителя
 [User &history]
-
+История на потребителя
 ;file \protocols\AimOscar\src\error.cpp
 [Invalid Screen Name or password.]
 
 [Mismatched Screen Name or password.]
 
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
-
+Свързвате се твърде често. Изчакайте 10 минути и опитайте да се свържете отново.
 [Unknown error occurred when attempting to connect.]
-
+Възникна неизвестна грешка при опита за свързване.
 [Invalid SNAC header.]
 
 [Server rate limit exceeded.]
@@ -173,21 +171,19 @@
 [You sent obsolete SNAC.]
 
 [Not supported by server.]
-
+Не се поддържа от сървъра.
 [Not supported by the client.]
-
+Не се поддържа от клиента.
 [Refused by client.]
-
+Отказ от клиента.
 [Reply too big.]
-
+Отговора е твърде голям.
 [Response lost.]
 
 [Request denied.]
-
-[Incorrect SNAC format.]
-
+Молбата е отхвърлена.
 [Insufficient rights.]
-
+Недостатъчни права.
 [Recipient blocked.]
 
 [Sender too evil.]
@@ -195,11 +191,11 @@
 [Receiver too evil.]
 
 [User temporarily unavailable.]
-
+Временно потребителя не е наличен.
 [No Match.]
-
+Няма съвпадение.
 [List overflow.]
-
+Списъка е препълнен.
 [Request ambiguous.]
 
 [Server queue full.]
@@ -209,57 +205,55 @@
 [Check your Screen Name.]
 
 [Check your Password.]
-
+Проверете паролата си.
 [Check your Email Address.]
-
+Проверете адреса на имейла.
 [Service temporarily unavailable.]
-
+Услугата е временно недостъпна.
 [Field change temporarily unavailable.]
 
 [Invalid Screen Name.]
 
 [Invalid Password.]
-
+Невалидна парола.
 [Invalid Email.]
-
+Невалиден имейл.
 [Invalid Registration Preference.]
 
 [Invalid Old Password.]
-
-[Invalid Screen Name Length.]
-
+Невалидна стара парола.
 [Invalid Password Length.]
-
+Невалидна дължина на паролата.
 [Invalid Email Length.]
-
+Невалидна дължина на имейла.
 [Invalid Old Password Length.]
-
+Невалидна дължина на старата парола.
 [Need Old Password.]
-
+Необходима е старата парола.
 [Read Only Field.]
-
+Поле само за четене.
 [Write Only Field.]
-
+поле само за писане.
 [Unsupported Type.]
-
+Неподдържан тип.
 [An Error has occurred.]
-
+Възникна грешка.
 [Invalid Account.]
-
+Невалиден акаунт.
 [Delete Account.]
-
+Изтриване на акаунта.
 [Expired Account.]
-
+Изтекъл акаунт.
 [No Database access.]
-
+Няма достъп до базата от данни.
 [Invalid Database fields.]
-
+Невалидни полета в базата от данни.
 [Bad Database status.]
 
 [Migration Cancel.]
 
 [Internal Error.]
-
+Вътрешна грешка.
 [There is already a Pending Request for this Screen Name.]
 
 [Not DT status.]
@@ -267,38 +261,38 @@
 [Outstanding Confirmation.]
 
 [No Email Address.]
-
+Няма имейл.
 [Over Limit.]
-
+Над ограничението.
 [Email Host Fail.]
 
 [DNS Fail.]
 
 ;file \protocols\AimOscar\src\file.cpp
 [Failed to open file: %s : %s]
-
+Неуспешен опит за отваряне на файл: %s : %s
 ;file \protocols\AimOscar\src\links.cpp
 [AIM Link Protocol]
 
 ;file \protocols\AimOscar\src\popup.cpp
 [%s Protocol]
-
+%s протокол
 [Open mail account?]
-
+Отваряне на пощенския акаунт?
 ;file \protocols\AimOscar\src\proto.cpp
 [%s server connection]
-
+%s връзка със сървъра
 [%s Client-to-client connection]
-
+%s връзки клиент-с-клиент
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
-
+(Автоотговор):
 [Contact tried to open an audio/video conference (not currently supported)]
 
 [No information has been provided by the server.]
-
+Няма предоставена информация от сървъра.
 [Item you want to delete not found in list.]
-
+Елементът, който желаете да изтриете не е в списъка.
 [Failed to add buddy to list: Item already exist.]
 
 [Error adding buddy (invalid ID or already in list?)]
@@ -312,11 +306,11 @@
 [Unknown error when adding buddy to list. Error code %#x]
 
 [Item you want to modify not found in list.]
-
+Елементът, който се опитвате да промените не е в списъка.
 [Unknown error when attempting to modify a group. Error code %#x]
 
 [You've got mail! Checked at]
-
+Имате поща! Проверете я на
 [Error uploading avatar. (Too small)]
 
 [Error uploading avatar. (Too big)]
@@ -328,38 +322,38 @@
 [Error uploading avatar. (Unknown error)]
 
 [A confirmation message has been sent to the new email address. Please follow its instructions.]
-
+Изпратен е имейл за потвърждаване до новия адрес. Моля, следвайте инструкциите в него.
 [A confirmation message has been sent to your email address. Please follow its instructions.]
-
+Изпратен е имейл за потвърждаване. Моля, следвайте инструкциите в него.
 [Unable to confirm at this time. Please try again later.]
 
 [Your account has already been confirmed.]
-
+Вашият акаунт е вече потвърден.
 [Can't start the confirmation procedure.]
-
+Процедурата по потвърждаване не може да бъде стартирана.
 ;file \protocols\AimOscar\src\theme.cpp
 [Block]
-
+Блокиране
 [Profile]
 Профил
 [AOL Mail]
-
+AOL поща
 [AIM Icon]
-
+AIM икона
 [Hiptop]
 
 [AOL Bot]
-
+Бот AOL
 [Admin]
-
+Администратор
 [Confirmed]
-
+Потвърдено
 [Not Confirmed]
-
+Непотвърдено
 [Blocked list]
-
+Списък "Блокирани"
 [AOL]
-
+AOL
 [Foreground Color]
 
 [Background Color]
@@ -367,60 +361,60 @@
 [Bold]
 Удебеляване
 [Not Bold]
-
+Неудебелен
 [Italic]
-
+Наклонен
 [Not Italic]
-
+Ненаклонен
 [Underline]
-
+Подчертан
 [Not Underline]
-
+Неподчертан
 [Subscript]
-
+Долен индекс
 [Not Subscript]
-
+Без долен индекс
 [Superscript]
-
+Горен индекс
 [Not Superscript]
-
+Без горен индекс
 [Normal Script]
-
+Нормален текст
 [Not Normal Script]
 
 [Profile Editor]
-
+Редактор на профили
 [AIM Account Type]
-
+Тип на AIM акаунт
 [AIM Extended Status]
-
+Разширено състояние AIM
 [&Block]
-
+Блокиране
 [&Unblock]
-
+Деблокиране
 [Manage Account]
-
+Управление на акаунта
 [Instant Idle]
 
 [Read &HTML Away Message]
-
+Преглед на HTML текста за отсъствие
 [Read Profile]
-
+Преглед на профила
 [Add To Server List]
-
+Добавяне в списъка на сървъра
 ;file \protocols\AimOscar\src\ui.cpp
 [Network]
 Мрежа
 [Basic]
-
+Основни
 [Privacy]
-
+Поверителност
 [Join me in this buddy chat!]
 
 ;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]
-
+Моля, въведете потребителско име в прозореца на настройките.
 [Please, enter a password in the options dialog.]
-
+Моля, въведете парола в прозореца на настройките.
 [Failed to open file: %s %s]
 

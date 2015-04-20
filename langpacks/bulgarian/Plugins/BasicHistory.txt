@@ -6,58 +6,58 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 [History viewer for Miranda NG.]
-
+Прегледайте историята на разговорите в Miranda NG.
 ;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message History]
 История на съобщенията
 [Settings]
-
+Настройки
 [Always show contact list]
-
+Постоянно показване на списъка с контакти
 [Show groups in contact list]
-
+Показване на групи в списъка с контакти
 [Do not show Find control border]
 
 [Default Event Filter]
 
 [Custom filters]
-
+Персонални филтри
 [Add filter]
-
+Добавяне на филтър
 [Delete filter]
-
+Изтриване на филтър
 [Add event]
-
+Добавяне на събитие
 [Delete event]
-
+Изтриване на събитие
 [WinSCP path]
-
+Път до WinSCP
 [WinSCP log path]
-
+Път до дневника на WinSCP
 [New messages on top]
-
+Новите съобщения отгоре
 [Show event icons]
-
+Показване на икони за събитията
 [Show timestamps]
-
+Показване на времеви марки
 [Show names]
 Показване на имена
 [Show messages]
 Съобщение
 [Truncate message length to:]
-
+Орязване на съобщенията до:
 [Delta time to group messages:]
 
 [hours]
-
+часа
 [Limit messages to:]
 
 [Show date in timestamps]
-
+Дата във времевата марка
 [Show seconds in timestamps]
-
+Показване на секунди във времевата марка
 [Enable Smileys]
-
+Включване на усмивките
 [Search forward in list group]
 
 [Search forward in message window]
@@ -67,69 +67,69 @@
 [Match Whole Word]
 
 [Only Incoming Messages]
-
+Само входящи съобщения
 [Only Outgoing Messages]
-
+Само изходящи съобщения
 [Only Selected Group]
-
+Само ибраните групи
 [All Contacts]
-
+Всички контакти
 [Export To Txt]
-
+Износ в текстови файл
 [File encoding*]
-
+Кодиране на файла*
 [Export To Plain Html]
-
+Износ в Plain Html
 [Export To Rich Html]
-
+Износ в Rich Html
 [External CSS file]
-
+Външен CSS файл
 [* Choose encoding from combo box or enter code page number and name separated by semicolon, name is used in Content-Type header.]
-
+* 
 [Add task]
-
+Добавяне на задача
 [Edit task]
-
+Редактиране на задача
 [Delete task]
-
+Изтриване на задача
 [Display errors using popups]
-
+Изобразяване на грешки чрез popups
 [Save errors to system history]
-
+Запис на грешки в системната история
 [Task]
-
+Задача
 [Name]
 Име
 [Active]
-
+Активно
 [Action type]
-
+Тип действие
 [Filter]
-
+Филтър
 [Events older than*]
-
+Събития от преди*
 [Triger type]
 
 [Time]
-
+Час
 [Delta time]
 
 [Day of week]
-
+Ден от седмицата
 [Day]
-
+Ден
 [Export to]
-
+Износ в
 [Compress output files]
-
+Компресиране на файла
 [Password]
-
+Парола
 [Upload to FTP (WinSCP requred)]
-
+Качване на FTP сървър (изисква WinSCP)
 [Session name]
-
+Име на сесията
 [Path to file**]
-
+Път до файла**
 [Export imported messages]
 
 [* Use negative values to filter younger events]
@@ -140,11 +140,11 @@
 Отказ
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
-
+Отваря историята
 [View &History]
 Преглед на историята
 [Delete All User History]
-
+Изтриване на историята на всички потребители
 [Execute history task]
 
 [Incoming message]
@@ -152,11 +152,11 @@
 [Outgoing message]
 Изходящо съобщение
 [Status change]
-
+Промяна на състояние
 [Show Contacts]
-
+Показване на контакти
 [Hide Contacts]
-
+Скриване на контакти
 [Find Next]
 
 [Find Previous]
@@ -171,7 +171,7 @@
 [All events]
 Всички събития
 [Default history events]
-
+Стандартни събития
 [History for %s]
 История за %s
 [System]
@@ -182,15 +182,15 @@
 Невалидно съобщение
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
-
+%s файла (*.%s)
 [Import]
-
+Внос
 [Export]
-
+Износ
 [File does not contain selected contact]
 
 [File is corrupted]
-
+Файлът е повреден
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 
@@ -209,15 +209,15 @@
 [Delete]
 Изтриване
 [Send Message]
-
+Изпращане на съобщение
 [Reply &Quoted]
-
+Цитиране
 [Delete Group]
 Изтриване на групата
 [Options]
 Настройки
 [Filters]
-
+Филтри
 [Fonts and colors]
 Шрифтове и цветове
 [Icons]
@@ -225,19 +225,19 @@
 [Hotkeys]
 Клавишни комбинации
 [Rich Html]
-
+Rich Html
 [Plain Html]
-
+Plain Html
 [Txt]
-
+Текст
 [Binary]
-
+Binary
 [Dat (mContacts)]
-
+Dat (mContacts)
 [Save window position as default]
-
+Запис на позицията на прозореца като стандартна
 [Save window position for all contacts]
-
+Запис на позицията на прозореца за всеки контакт
 [Do you want to save imported messages to local profile?]
 
 [File contains history for different contact. Do you want to change contact and import?]
@@ -245,12 +245,12 @@
 [Error]
 Грешка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
-
+Брой събития за изтриване:%d.\nСигурни ли сте?
 ;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Съобщение
 [File transfer]
-
+Прехвърляне на файл
 [Link]
 Връзка
 [Authorization request]
@@ -260,7 +260,7 @@
 [Contacts received]
 
 [SMS message]
-
+SMS съобщение
 [Group list]
 
 [Messages]
@@ -272,21 +272,21 @@
 [Advanced]
 Разширени
 [>> Outgoing timestamp]
-
+>> Изходяща времева марка
 [Outgoing background]
-
+Фон на изходящите
 [<< Incoming timestamp]
-
+<< Входяща времева марка
 [Incoming background]
-
+Фон на входящите
 [>> Outgoing name]
-
+>> Изходящо име
 [<< Incoming name]
-
+<< Входящо име
 [>> Outgoing messages]
-
+>> Изходящи съобщения
 [<< Incoming messages]
-
+<< Входящи съобщения
 [Group list background]
 
 [Find window]
@@ -306,7 +306,7 @@
 [Switch Match Whole Word]
 
 [Show/Hide Contacts]
-
+Показване/Скриване на контактите
 [Switch Only Incoming Messages]
 
 [Switch Only Outgoing Messages]
@@ -316,59 +316,59 @@
 [Switch All Contacts]
 
 [Export To Binary]
-
+Износ в Binary
 [Import From Binary]
-
+Внос от Binary
 [Export To Dat (mContacts)]
-
+Износ в Dat (mContacts)
 [Import From Dat (mContacts)]
-
+Внос от Dat (mContacts)
 [Invalid event number]
-
+Невалиден брой събития
 [Incoming events]
-
+Входящи събития
 [Outgoing events]
-
+Изходящи събития
 [File does not exist. Enter correct file path.]
-
+Файлът не съществува. Въведете правилен път до файла.
 [Invalid file]
-
+Невалиден файл
 [All Files (*.*)]
-
+Всички файлове (*.*)
 [Enter filter name]
 
 [Filter name exists]
 
 [Event already exists]
-
+Събитието вече съществува
 [Browse WinSCP file]
 
 [Save WinSCP log file]
 
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
-
+Въвели сте невалидна кодова страница. Изберете от падащото меню или въведете правилно число.
 [Invalid codepage]
-
+Невалидна кодова страница
 [Browse CSS file]
 
 [Export and Delete]
-
+Износ и изтриване
 [Import and Marge]
-
+Внос и обединяване
 [Minute]
-
+минута
 [Hour]
-
+час
 [At Start]
-
+При стартиране
 [At Finish]
-
+При приключване
 [Daily]
-
+Дневно
 [Weekly]
-
+Седмично
 [Monthly]
-
+Месечно
 [Delta time (minutes)]
 
 [Delta time (hours)]
@@ -388,9 +388,9 @@
 [Sunday]
 неделя
 [Invalid '%s' value.]
-
+Невалидна "%s" стойност.
 [Events older than]
-
+Събития от преди
 [Some value is invalid]
 
 [Invalid '%s' value.\n%s]
@@ -400,28 +400,28 @@
 [Input files are compressed]
 
 [Download from FTP (WinSCP requred)]
-
+Сваляне от FTP сървър (WinSCP requred)
 [Import from]
-
+Внос от
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
 
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 [History Log]
-
+Дневник на историята
 [Filter:]
-
+Филтър:
 [Conversation started at %s]
-
+Начало на разговора в %s
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 [_files]
-
+_файлове
 [Menu]
-
+Меню
 [Open all]
-
+Отваряне на всички
 [Close all]
-
+Затваряне на всички
 ;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
 
@@ -430,19 +430,19 @@
 [At least one contact should be selected.]
 
 [Upload to FTP]
-
+Качване на FTP
 [Path to output file]
-
+Път до изходния файл
 [To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
 
 [Path to file]
-
+Път до файла
 [FTP path must contain '/' instead '\\' and start with '/'.]
 
 [FTP path cannot contain <date> in import task.]
 
 [Unknown error]
-
+Непозната грешка
 [Cannot get FTP file(s).]
 
 [Cannot unzip file(s).]
@@ -467,11 +467,11 @@
 
 ;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
-
+"%s" не е открито
 [Search]
 Търсене
 [You have reached the end of the group.]
 
 [You have reached the end of the history.]
-
+Достигнахте края на историята.
 ;file \plugins\BasicHistory\src\TxtExport.cpp

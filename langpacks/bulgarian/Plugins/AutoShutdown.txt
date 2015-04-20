@@ -6,30 +6,30 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Adds the possibility to shutdown the computer when a specified event occurs.]
-
+Добавя функционалност за изключване на компютъра при определено събитие.
 ;file \plugins\AutoShutdown\res\resource.rc
 [Shutdown]
-
+Изключване
 [&Show confirmation dialog before shutdown]
-
+Показване на прозорец за потвърждаване преди изключването
 [&Countdown starts at:]
-
+Отброяване от:
 [seconds]
 секунди
 [Shutdown Events]
-
+Събития
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
-
+Активиране на автоматично изключване със същите настройки отново ако Miranda NG е затворено с включено автоматично изключване
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
-
+Игнориране на скрити или временни контакти когато се чака всички контакти да са "Извън линия"[Critical Shutdown Events]
 [Critical Shutdown Events]
-
+Критични събития
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
-
+Автоматично изключване на компютъра когато:
 [&Thunderstorm warning is issued (Weather)]
-
+Прогнозата показва буреносна буря (Weather)
 [Automatic Shutdown]
-
+Автоматично изключване
 [Select the automatic shutdown event]
 
 [Shutdown at &specific time]
@@ -39,46 +39,46 @@
 [Shutdown i&n:]
 
 [Shutdown when a &message is received containing the following text:]
-
+Изключване когато се получи съобщение съдържащо следния текст:
 [Shutdown when Miranda NG becomes &idle]
-
+Изключване когато Miranda NG започне да бездейства
 [Configure]
 Настройване
 [Shutdown when &processor usage drops below:]
-
+Изключване когато натоварването на процесора падне под:
 [(current: 0%)]
-
+(в момента: 0%)
 [Shutdown when all contacts are &offline]
-
+Изключване когато всички контакти са "Извън линия"
 [Shutdown when all &file transfers are finished]
-
+Изключване когато обмена на файлове приключи
 [&Action:]
-
+Действие:
 [Cancel]
 Отказ
 [Unsaved data in open applications except Miranda NG might get lost.]
-
+Незаписана информация от други програми, с изключение на Miranda NG, може да бъде загубена.
 [Please click "Cancel" if you would like to abort the process.]
-
+Моля, кликнете върху "Отказ" ако желаете да прекратите процеса.
 [&Now!]
-
+Сега!
 ;file \plugins\AutoShutdown\src\frame.cpp
 [Shutdown at:]
-
+Изключване в:
 [Time left:]
-
+Оставащо време:
 [Paused]
-
+На пауза
 [&Unpause Countdown]
-
+Продължаване на отброяването
 [&Pause Countdown]
-
+Пауза на отброяването
 [&Cancel Countdown]
-
+Отказ от изключване
 [AutoShutdown]
 
 [Countdown on Frame]
-
+Отброяване в рамка
 [Background]
 Фон
 [Progress Bar]
@@ -87,106 +87,106 @@
 [Header]
 
 [Active]
-
+Активно
 [Inactive]
-
+Неактивно
 ;file \plugins\AutoShutdown\src\options.cpp
 [Events]
 Събития
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp
 [Second(s)]
-
+секунда (и)
 [Minute(s)]
 минута (и)
 [Hour(s)]
-
+час (ове)
 [Day(s)]
-
+ден (дни)
 [Week(s)]
-
+седмица (и)
 [Month(s)]
-
+месец (и)
 [(current: %u%%)]
 
 [Start/Stop automatic shutdown]
-
+Старт/Стоп на изклюване
 [Start automatic shutdown]
-
+Старт на изключване
 [Stop automatic shutdown]
-
+Спиране на изключване
 [Stop automatic &shutdown]
-
+Спиране на изключване
 [Automatic &shutdown...]
-
+Автоматично изключване...
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
 [Miranda NG is going to be automatically closed in %u second(s).]
-
+Miranda NG ще бъде затворена след %u секунда(и).
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
-
+Състояние "Извън линия" ще зададено за всеки протокол след %u секунда(и). 
 [You will be logged off automatically in %u second(s).]
-
+Ще излезете от Windows автоматично след след %u секунда(и).
 [The computer will automatically be restarted in %u second(s).]
-
+Компютърът ще бъде рестартиран след %u секунда(и).
 [The computer will automatically be set to standby mode in %u second(s).]
 
 [The computer will automatically be set to hibernate mode in %u second(s).]
-
+Компютърът ще се хибернира след %u секунда(и).
 [The workstation will automatically get locked in %u second(s).]
-
+Компютърът ще бъде заключен след %u секунда(и).
 [All dialup connections will be closed in %u second(s).]
 
 [The computer will automatically be shut down in %u second(s).]
-
+Компютърът ще се изключи автоматично след %u секунда(и).
 [Automatic Shutdown Error]
-
+Грешка при автоматичното изключване
 [The shutdown process failed!\nReason: %s]
-
+Процеса за изключване се провали!\nПричина: %s
 [Unknown]
 Неизвестно
 [Inititiating the shutdown process failed!\nReason: %s]
-
+Инициализирането на процеса за изключване се провали!\nПричина: %s
 [Close Miranda NG]
-
+Затваряне на Miranda NG
 [Set Miranda NG offline]
 
 [Log off user]
-
+Излизане на потребител
 [Restart computer]
-
+Рестартиране на компютъра
 [Shutdown computer]
-
+Изключване на компютъра
 [Standby mode]
-
+Режим на заспиване
 [Hibernate mode]
-
+Режим на хибернация
 [Lock workstation]
-
+Заключване на работната станция
 [Hang up dialup connections]
 
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
-
+Задава състояние "Извън линия" за всеки протокол. и затваря Miranda NG.
 [Sets all Miranda NG protocols to offline.]
-
+Задава състояние "Извън линия" за всеки протокол.
 [Logs the current Windows user off so that another user can log in.]
-
+Текущия Windows потребител излиза за да може друг потребител да влезе.
 [Shuts down Windows and then restarts Windows.]
-
+Изключва Windows и след това рестартира Windows.
 [Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]
-
+Затваря всички работещи програми и изключва Windows до състояние в което е беопасно да спрете захранването.
 [Saves the current Windows session in memory and sets the system to suspend mode.]
-
+Записва текущата сесия на Windows в паметта и заспиване на системата.
 [Saves the current Windows session on hard drive, so that the power can be turned off.]
-
+Записва текущата сесия на Windows на твърдия диск, за да може да се спре захранването.
 [Locks the computer. To unlock the computer, you must log in.]
-
+Заключване на компютъра. За отключване е необходимо да влезете.
 [Sets all protocols to offline and closes all RAS connections.]
-
+Задаване на "Извън линия" за всеки протокол и затваряне на RAS връзките.
 [Alerts]
 Уведомявания
 [Automatic Shutdown Countdown]
-
+Брояч за автоматично изключване
 ;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle Automatic Shutdown]
-
+Вкл/Изкл на автоматично изклюване
 [Main]
-
+Основна

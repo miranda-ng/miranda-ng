@@ -9,15 +9,15 @@
 
 ;file \Plugins\StatusPlugins\resource.rc
 [Check connection]
-
+Проверяване на връзката
 [Max. retries]
-
+Макс. брой опити
 [Account connection]
 
 [Delay between retries (secs)]
-
+Пауза между 2 опита (сек)
 [Show popups]
-
+Показване на popups
 [General]
 Основни
 [Accounts to check]
@@ -25,13 +25,13 @@
 [Dial-Up]
 
 [Don't reconnect if no internet connection seems available]
-
+Без автовписване, когато връзката с интернет се възстанови
 [Continuously check for internet connection]
-
+Периодична проверка за наличие на връзка с интернет
 [Do so by pinging host]
-
+Проверяване чрез пингване до хоста
 [Confirm status]
-
+Потвърдете състоянията
 [Close]
 Затваряне
 [Cancel]
@@ -47,79 +47,79 @@
 [when full-screen mode is active]
 
 [when screen saver engages]
-
+при включване на screen saver
 [when workstation is locked]
-
+при заключване на работната станция
 [after]
-
+след
 [minutes of inactivity]
-
+минути бездействие
 [minutes of level 1 mode]
 
 [only set when inactive]
-
+задаване само при липса на активност
 [Monitor Miranda's activity only]
-
+Следене само активността на Miranda
 [Reset status on return]
-
+Анулиране на състоянието при завръщане
 [Confirm resetting status]
-
+Изискване на потвърждение за анулирането
 [Only set if current status is]
-
+Само при състояние:
 [Command line]
-
+Команден ред
 [Copy to clipboard]
-
+Запис в клипборда
 [Command line:]
 Команден ред:
 [Create shortcut]
-
+Създай препратка
 [Add new profile]
-
+Добавяне на нов профил
 [Profile name]
-
+Име на профила
 [Set window state]
-
+Състояние на прозореца
 [Show dialog]
-
+Показване на прозореца
 [Set status to offline before exit]
-
+Задай състояние "Извън линия" преди излизане
 [Show CMDL]
-
+Команден ред
 [Activate status profile]
-
+Ползване на профил
 [Set docked]
-
+Загнездване
 [Other]
 Друго
 [Status on startup]
-
+Състояние при стартиране
 [ms]
-
+ms
 [Set after]
-
+Задай след
 [Timeout]
-
+Времетраене
 [s]
-Ю
+сек
 [Set window location]
-
+Местоположение на прозореца
 [Set window size]
-
+Размер на прозореца
 [x]
 
 [Allow override]
 
 [Note: status profiles can be created in the 'Status profiles' options screen]
-
+Можете да създадете нов профил от таб "Профили на състоянията"
 [Window on startup]
-
+Прозорец при стартиране
 [Automatically dial on startup]
-
+Автоматично набиране при стартиране
 [Automatically hang up on exit]
-
+Автоматично затваряне при излизане
 [Dial-up (experimental)]
-
+Dial-up (експериментално)
 [Background color]
 Цвят на фона
 [Text color]
@@ -129,107 +129,107 @@
 [Use default colors]
 Стандартни цветове
 [Delay]
-
+Закъснение
 [On left click]
-
+Ляв бутон
 [On right click]
-
+Десен бутон
 [Do nothing]
-
+Нищо
 [Close popup]
-
+Затваря popup
 [Cancel reconnecting]
-
+Отказ от повторно свързване
 [Colors]
-
+Цветове
 [Preview]
-
+Образец
 [Events]
 Събития
 [Show when connection is lost]
-
+Показване при загуба на връзката
 [Show when a connection attempt is made]
-
+Показване при опит за свързване
 [Show when reconnection has finished]
-
+Показване след приключване на повторно свързване
 [Show other messages]
-
+Показване на други съобщения
 [From Popup plugin]
-
+От приставката Popup
 [Custom]
 Избор
 [Permanent]
-
+Постоянно
 [Show additional information in popups]
-
+Показване на допълнителна информация в popups
 [Use Miranda's message setting]
-
+Ползване на текста за състояние от Miranda
 [Use this message:]
-
+Ползване на следния текст:
 [Use %time% for the current time, %date% for the current date]
 Използвайте %time% и %date% за текущ час и дата.
 [Variables...]
-
+Променливи...
 [Specify settings for each account]
 
 [Use same settings for all accounts]
 
 [Ignore Caps Lock, Num Lock and Scroll Lock keys]
-
+Игнориране на Caps Lock, Num Lock и Scroll Lock клавишите
 [Check interval (secs)]
-
+Интервал за проверяване (сек)
 [Confirm dialog timeout (secs)]
-
+Времетраене на прозореца за потвърждаване (сек)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
 
 [Monitor keyboard activity]
-
+Следене активността на клавиатурата
 [Monitor mouse activity]
-
+Следене активността на мишката
 [Ignore CTRL, ALT, SHIFT, TAB, ESC and Windows keys]
-
+Игнориране на CTRL, ALT, SHIFT, TAB, ESC и Windows клавишите
 [Ignore any key combination with above keys]
-
+Игнориране на всяка комбинация с гореизброените клавиши
 [Accounts]
 Акаунти
 [Enable checking]
-
+Проверяване
 [Disable checking]
-
+Без проверяване
 [Set status message]
-
+Задаване на текст за състояние
 [Status]
 Състояние
 [Add...]
-
+Добавяне
 [Delete]
 Изтриване
 [Create a TopToolBar button]
-
+Бутон в лентата с инструменти
 [Show confirm dialog when loading]
-
+Диалог за потвърждение при стартиране
 [Create a main menu item]
-
+Елемент в главното меню
 [Status profiles]
-
+Профили на състоянията
 [Hotkey]
-
+Клавишна комбинация
 [In submenu]
-
+В подменю
 [Max. delay (secs)]
-
+Макс. пауза (сек)
 [Increase delay exponential]
-
+Експоненциално увеличаване на паузата между опитите
 [Cancel all if an account connects from another location]
 
 [Reconnect on APM resume]
 
 [Stop trying to reconnect]
-
+Без повече опити за повторно свързване
 [Set delay to]
-
+Пауза:
 [React on login errors]
-
+Ако възникне грешка при вписване
 [seconds]
 секунди
 [Set account offline before a connection attempt]
@@ -239,15 +239,15 @@
 [Timers]
 
 [Reconnecting]
-
+Повторно свързване
 [Ignore locked status of accounts]
 
 [Consider connection lost after]
-
+Считай връзката за загубена след
 [failed pings]
-
+неуспешни пингове
 [Continuously check interval (secs)]
-
+Интервал за периодично проверяване (сек)
 [Entering first auto-away status]
 
 [Entering second auto-away status]
@@ -266,13 +266,13 @@
 
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [minutes of %s mode]
-
+минути "%s"
 [Rules]
-
+Правила
 [Status messages]
 Текст за състояние
 [Auto Away]
-
+Авто "Отсъстващ"
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Отсъствам от %time%.
@@ -298,11 +298,11 @@
 бездействаммм
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]
-
+Задаване на текст "%s" за акаунт %s.
 [<last>]
-
+<последно>
 [<current>]
-
+<текущо>
 [<n/a>]
 
 [Protocol]

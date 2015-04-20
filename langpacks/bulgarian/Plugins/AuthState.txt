@@ -6,27 +6,27 @@
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
-
+Ако даден контакт не Ви е упълномощил, да го добавите в списъка си с контакти ,приставката ще добави специфична икона, пред името му.
 ;file \plugins\AuthState\res\authstate.rc
 [Show Auth icon]
-
+Показване на икона за упълномощаване
 [Show Grant icon]
-
+Показване на икона "Разрешено"
 [Plugin settings]
-
+Настройване на приставката
 [Enable menu item (restart required)]
-
+Елемент в менюто (изисква рестарт)
 [Show icons only for recently added contacts]
-
+Показване на икони само за скоро добавените контакти
 ;file \plugins\AuthState\src\main.cpp
 [Disable AuthState icons]
-
+Без икони за упълномощаване
 [Enable AuthState icons]
-
+Включване на иконите за упълномощаване
 [Auth]
-
+Упълномощаване
 [Grant]
-
+Разрешаване
 [Auth & Grant]
 
 [Auth State]

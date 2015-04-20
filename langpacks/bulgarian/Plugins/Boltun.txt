@@ -39,7 +39,7 @@
 [Base of remarks]
 
 [Reload]
-
+Обновяване
 [Stay silent if have no good aswers]
 
 [Start answers with a lowercase letter]

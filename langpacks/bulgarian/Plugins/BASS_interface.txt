@@ -6,26 +6,26 @@
 ;  Authors: tico-tico
 ;============================================================
 [un4seen's BASS interface Miranda NG plugin.]
-
+Приставката е интерфейс за библиотеката BASS на un4seen
 ;file \plugins\BASS_interface\res\Bass.rc
 [un4seen's bass interface]
-
+Интерфейс за библиотеката BASS на un4seen
 [bass.dll loading error]
-
+Грешка при зареждането на bass.dll
 [Current bass.dll path:]
-
+Път до bass.dll:
 [Maximum number of bass internal channels:]
-
+Максимален брой вътрешни канали
 [Output device:]
-
+Изходни устройства:
 [Volume:]
-
+Сила на звука:
 [Quiet time:]
-
+Тишина:
 [download bass library]
-
+сваляне на библиотеката BASS
 [Play only if]
-
+При състояние
 [Offline]
 Извън линия
 [Online]
@@ -47,26 +47,26 @@
 [Out to lunch]
 На обяд
 [Preview]
-
+Образец
 ;file \plugins\BASS_interface\src\Bass_interface.h
 [Bass Interface]
-
+BASS интерфейс
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
-
+Версия на библиотеката BASS: %d.%d.%d.%d
 [--default device--]
-
+--стандартно устройство--
 [Sounds]
 Звук
 [Disable sounds]
-
+Изключване на звука
 [Enable sounds]
-
+Включване на звука
 [Frame background]
-
+Фон на рамката
 [Bass library]
-
+Библиотеката Bass
 [Sounds enabled]
-
+Звукът е включен
 [Sounds disabled]
-
+Звукът е изключен

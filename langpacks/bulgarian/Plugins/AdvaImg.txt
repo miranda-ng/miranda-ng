@@ -6,4 +6,4 @@
 ;  Authors: Nightwish, The FreeImage project (http://freeimage.sourceforge.net/)
 ;============================================================
 [Generic image services for Miranda NG.]
-
+Обща услуга за изображенията в Miranda NG.
