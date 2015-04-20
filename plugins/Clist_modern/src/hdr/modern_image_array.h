@@ -32,14 +32,13 @@ Created by Pescuma
 #include <windows.h>
 
 
-typedef struct _IMAGE_ARRAY_DATA_NODE
+struct IMAGE_ARRAY_DATA_NODE
 {
 	int width;
 	int height;
-}
-IMAGE_ARRAY_DATA_NODE;
+};
 
-typedef struct _IMAGE_ARRAY_DATA
+struct IMAGE_ARRAY_DATA
 {
 	// Configuration
 	BOOL width_based;
@@ -59,46 +58,30 @@ typedef struct _IMAGE_ARRAY_DATA
 	IMAGE_ARRAY_DATA_NODE *nodes;
 	int nodes_size;
 	int nodes_allocated_size;
-}
-IMAGE_ARRAY_DATA, *LP_IMAGE_ARRAY_DATA;
+};
 
 
 // Initialize data
-void ImageArray_Initialize(LP_IMAGE_ARRAY_DATA iad, BOOL width_based, int grow_step);
+void ImageArray_Initialize(IMAGE_ARRAY_DATA *iad, BOOL width_based, int grow_step);
 
 // Free data but keep config
-void ImageArray_Clear(LP_IMAGE_ARRAY_DATA iad);
+void ImageArray_Clear(IMAGE_ARRAY_DATA *iad);
 
 // Free data
 // If keep_bitmap is TRUE, doesn't delete de bitmap and return its handle. Else, return NULL
-HBITMAP ImageArray_Free(LP_IMAGE_ARRAY_DATA iad, BOOL keep_bitmap);
+HBITMAP ImageArray_Free(IMAGE_ARRAY_DATA *iad, BOOL keep_bitmap);
 
 // Add image to the list (return the index of the image or -1 on error)
 // If pos == -1, add to the end of the list
-int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos);
+int ImageArray_AddImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos);
 
 // Change an image in the list (return TRUE on success)
-BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos);
+BOOL ImageArray_ChangeImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos);
 
 // Remove an image
-BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos);
+BOOL ImageArray_RemoveImage(IMAGE_ARRAY_DATA *iad, int pos);
 
 // Draw an image
-BOOL ImageArray_DrawImage(LP_IMAGE_ARRAY_DATA iad, int pos, HDC hdcDest, int nXDest, int nYDest, BYTE Alpha);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+BOOL ImageArray_DrawImage(IMAGE_ARRAY_DATA *iad, int pos, HDC hdcDest, int nXDest, int nYDest, BYTE Alpha);
 
 #endif // __IMAGE_ARRAY_H__

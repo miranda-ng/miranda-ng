@@ -13,10 +13,7 @@ POINT lastpnt;
 
 HWND hModernStatusBar = NULL;
 HANDLE hFramehModernStatusBar = NULL;
-extern void ApplyViewMode(const char *Name, bool onlySelector = false);
-extern void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szProtoFilter, DWORD statusMask, DWORD stickyStatusMask, unsigned int options, unsigned int stickies, unsigned int operators, unsigned int lmdat);
 
-//int FindFrameID(HWND FrameHwnd);
 COLORREF sttGetColor(char * module, char * color, COLORREF defColor);
 
 #define DBFONTF_BOLD       1
@@ -872,10 +869,11 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
+TCHAR pluginname[] = _T("ModernStatusBar");
+
 HWND StatusBar_Create(HWND parent)
 {
 	WNDCLASS wndclass = { 0 };
-	TCHAR pluginname[] = _T("ModernStatusBar");
 	int h = GetSystemMetrics(SM_CYSMICON) + 2;
 	if (GetClassInfo(g_hInst, pluginname, &wndclass) == 0) {
 		wndclass.lpfnWndProc = ModernStatusProc;

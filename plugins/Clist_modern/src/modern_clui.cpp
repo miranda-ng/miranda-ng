@@ -273,7 +273,7 @@ HRESULT CLUI::CreateCluiFrames()
 	mii.hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
 	SetMenuItemInfo(g_hMenuMain, 1, TRUE, &mii);
 
-	CreateCLCWindow(CluiWnd());
+	CreateCLCWindow(pcli->hwndContactList);
 
 	CLUI_ChangeWindowMode();
 
@@ -290,7 +290,7 @@ HRESULT CLUI::CreateCluiFrames()
 }
 
 CLUI::CLUI() :
-m_hDwmapiDll(NULL)
+	m_hDwmapiDll(NULL)
 {
 	m_pCLUI = this;
 	g_CluiData.bSTATE = STATE_CLUI_LOADING;
@@ -373,7 +373,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 
 HRESULT CLUI::CreateCLCWindow(const HWND hwndClui)
 {
-	ClcWnd() = CreateWindow(_T(CLISTCONTROL_CLASS), _T(""),
+	pcli->hwndContactTree = CreateWindow(_T(CLISTCONTROL_CLASS), _T(""),
 		WS_CHILD | WS_CLIPCHILDREN | CLS_CONTACTLIST
 		| (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
 		| (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
@@ -433,7 +433,7 @@ HRESULT CLUI::FillAlphaChannel(HDC hDC, RECT *prcParent)
 HRESULT CLUI::CreateCLC()
 {
 	CLISTFrame Frame = { sizeof(Frame) };
-	Frame.hWnd = ClcWnd();
+	Frame.hWnd = pcli->hwndContactTree;
 	Frame.align = alClient;
 	Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
 	Frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NO_SUBCONTAINER | F_TCHAR;

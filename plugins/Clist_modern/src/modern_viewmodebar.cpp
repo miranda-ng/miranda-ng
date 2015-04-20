@@ -55,7 +55,6 @@ IDC_LASTMESSAGEOP, IDC_LASTMESSAGEUNIT, IDC_LASTMSG, IDC_LASTMSGVALUE, IDC_USEGR
 
 static UINT _page2Controls[] = { IDC_CLIST, IDC_STATIC9, IDC_STATIC8, IDC_CLEARALL, IDC_CURVIEWMODE2, 0 };
 
-void ApplyViewMode(const char *Name, bool onlySelector = false);
 static UINT _buttons[] = { IDC_RESETMODES, IDC_SELECTMODE, IDC_CONFIGUREMODES, 0 };
 
 static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT *rect);
@@ -71,15 +70,14 @@ static int DrawViewModeBar(HWND hWnd, HDC hDC)
 
 static int ViewModePaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, DWORD, void *)
 {
-	int i;
 	RECT MyRect = { 0 };
 	GetWindowRect(hWnd, &MyRect);
 	DrawViewModeBar(hWnd, hDC);
-	for (i = 0; _buttons[i] != 0; i++)
-	{
+	for (int i = 0; _buttons[i] != 0; i++) {
 		RECT childRect;
-		POINT Offset;
 		GetWindowRect(GetDlgItem(hWnd, _buttons[i]), &childRect);
+
+		POINT Offset;
 		Offset.x = childRect.left - MyRect.left;
 		Offset.y = childRect.top - MyRect.top;
 		SendDlgItemMessage(hWnd, _buttons[i], BUTTONDRAWINPARENT, (WPARAM)hDC, (LPARAM)&Offset);
@@ -118,13 +116,9 @@ int FillModes(char *szsetting)
 	if (szsetting[0] == 13)
 		return 1;
 
-	TCHAR * temp;
-	mir_utf8decode(szsetting, &temp);
-	if (temp) {
+	ptrT temp(mir_utf8decodeT(szsetting));
+	if (temp != NULL)
 		SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)temp);
-		mir_free(temp);
-	}
-
 	return 1;
 }
 
@@ -185,24 +179,22 @@ static DWORD GetMaskForItem(HANDLE hItem)
 
 static void UpdateStickies()
 {
-	DWORD localMask;
-	int i;
-
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		MCONTACT hItem = (MCONTACT)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 		if (hItem)
 			SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, (BYTE)db_get_dw(hContact, CLVM_MODULE, g_szModename, 0) ? 1 : 0);
-		localMask = HIWORD(db_get_dw(hContact, CLVM_MODULE, g_szModename, 0));
+		
+		DWORD localMask = HIWORD(db_get_dw(hContact, CLVM_MODULE, g_szModename, 0));
 		UpdateClistItem(hItem, (localMask == 0 || localMask == stickyStatusMask) ? stickyStatusMask : localMask);
 	}
 
-	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+	for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 		SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hInfoItem, MAKELONG(i - ID_STATUS_OFFLINE, (1 << (i - ID_STATUS_OFFLINE)) & stickyStatusMask ? i - ID_STATUS_OFFLINE : ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1));
 
 	HANDLE hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 	hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	while (hItem) {
-		for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
 			SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELONG(i - ID_STATUS_OFFLINE, nullImage));
 		hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	}
@@ -228,8 +220,7 @@ static int FillDialog(HWND hwnd)
 
 	item.mask = LVIF_TEXT;
 	item.iItem = 1000;
-	for (i = 0; i < protoCount; i++)
-	{
+	for (i = 0; i < protoCount; i++) {
 		item.pszText = accs[i]->szModuleName;
 		newItem = SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
 	}
@@ -266,8 +257,7 @@ static int FillDialog(HWND hwnd)
 	lvc.mask = LVCF_FMT;
 	lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
 	ListView_InsertColumn(hwndList, 0, &lvc);
-	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-	{
+	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 		LVITEM item = { 0 };
 		item.mask = LVIF_TEXT;
 		item.pszText = pcli->pfnGetStatusModeDescription(i, 0);
@@ -296,35 +286,31 @@ static int FillDialog(HWND hwnd)
 
 static void SetAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int iImage)
 {
-	int typeOfFirst, iOldIcon;
-	HANDLE hItem, hChildItem;
-
-	typeOfFirst = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hFirstItem, 0);
-	//check groups
-	if (typeOfFirst == CLCIT_GROUP) hItem = hFirstItem;
-	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hFirstItem);
-	while (hItem)
-	{
-		hChildItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+	int typeOfFirst = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hFirstItem, 0);
+	
+	// check groups
+	HANDLE hItem = (typeOfFirst == CLCIT_GROUP) ? hFirstItem : (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hFirstItem);
+	while (hItem) {
+		HANDLE hChildItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 		if (hChildItem)
 			SetAllChildIcons(hwndList, hChildItem, iColumn, iImage);
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	}
-	//check contacts
+	
+	// check contacts
 	if (typeOfFirst == CLCIT_CONTACT) hItem = hFirstItem;
 	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
 	while (hItem) {
-		iOldIcon = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
-		if (iOldIcon != EMPTY_EXTRA_ICON && iOldIcon != iImage) SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, iImage));
+		int iOldIcon = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
+		if (iOldIcon != EMPTY_EXTRA_ICON && iOldIcon != iImage)
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, iImage));
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
 }
 
 static void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int iColumn, int iImage)
 {
-	int itemType;
-
-	itemType = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hItem, 0);
+	int itemType = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hItem, 0);
 	if (itemType == CLCIT_CONTACT) {
 		int oldiImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
 		if (oldiImage != EMPTY_EXTRA_ICON && oldiImage != iImage)
@@ -531,8 +517,7 @@ static void UpdateFilters()
 	if (db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv_gf))
 		goto cleanup;
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_OPT", 246, szBuf);
-	if ((opt = db_get_dw(NULL, CLVM_MODULE, szSetting, -1)) != -1)
-	{
+	if ((opt = db_get_dw(NULL, CLVM_MODULE, szSetting, -1)) != -1) {
 		SendDlgItemMessage(clvmHwnd, IDC_AUTOCLEARSPIN, UDM_SETPOS, 0, MAKELONG(LOWORD(opt), 0));
 	}
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SM", 246, szBuf);
@@ -551,8 +536,7 @@ static void UpdateFilters()
 		item.pszText = szTemp;
 		item.cchTextMax = SIZEOF(szTemp);
 
-		for (i = 0; i < ListView_GetItemCount(hwndList); i++)
-		{
+		for (i = 0; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
 			SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
 			mir_snprintf(szMask, SIZEOF(szMask), "%s|", szTemp);
@@ -575,8 +559,7 @@ static void UpdateFilters()
 
 		ListView_SetCheckState(hwndList, 0, dwFlags & CLVM_INCLUDED_UNGROUPED ? TRUE : FALSE);
 
-		for (i = 1; i < ListView_GetItemCount(hwndList); i++)
-		{
+		for (i = 1; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
 			mir_sntprintf(szMask, SIZEOF(szMask), _T("%s|"), szTemp);
@@ -1141,13 +1124,13 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		case IDC_RESETMODES:
 		clvm_reset_command :
 			ApplyViewMode("");
-						   break;
+								 break;
 
 		case IDC_CONFIGUREMODES:
 		clvm_config_command :
 			if (!g_ViewModeOptDlg)
 				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_OPT_VIEWMODES), 0, DlgProcViewModesSetup, 0);
-							break;
+								  break;
 		}
 
 	default:
@@ -1384,15 +1367,13 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		if (HIWORD(g_CluiData.filterFlags) > 0)
 			g_CluiData.bFilterEffective |= CLVM_STICKY_CONTACTS;
 
-		if (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS)
-		{
+		if (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) {
 			if (g_CluiData.boldHideOffline == (BYTE)-1)
 				g_CluiData.boldHideOffline = db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 
 			CallService(MS_CLIST_SETHIDEOFFLINE, 0, 0);
 		}
-		else if (g_CluiData.boldHideOffline != (BYTE)-1)
-		{
+		else if (g_CluiData.boldHideOffline != (BYTE)-1) {
 			CallService(MS_CLIST_SETHIDEOFFLINE, g_CluiData.boldHideOffline, 0);
 			g_CluiData.boldHideOffline = -1;
 		}

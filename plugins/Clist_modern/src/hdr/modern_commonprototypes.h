@@ -237,6 +237,9 @@ void    UnloadAvatarOverlayIcon();                                             /
 void    UnLoadContactListModule();                                             //clistmod.c
 void    UpdateAllAvatars(ClcData *dat);                                    //cache_func.c
 
+void ApplyViewMode(const char *Name, bool onlySelector = false);
+void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szProtoFilter, DWORD statusMask, DWORD stickyStatusMask, unsigned int options, unsigned int stickies, unsigned int operators, unsigned int lmdat);
+
 //cluiframes.c
 void    gtaRenewText(MCONTACT hContact);
 int     ExtraImage_ExtraIDToColumnNum(int extra);
