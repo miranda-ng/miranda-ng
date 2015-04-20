@@ -134,7 +134,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			MCONTACT hContact = NULL;
 			if (gch->dwData == 10 || gch->dwData == 20) {
 		
-				ptrA user_id(mir_t2a(gch->ptszUID, CP_UTF8));
+				ptrA user_id(mir_t2a_cp(gch->ptszUID, CP_UTF8));
 
 				// Find this contact in list or add new temporary contact
 				hContact = AddContact(user_id, true);
