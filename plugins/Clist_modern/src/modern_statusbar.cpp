@@ -583,43 +583,6 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 	return 0;
 }
 
-static BOOL _ModernStatus_OnExtraIconClick(ProtoItemData *p)
-{
-	if (!mir_strcmpi(p->szProtoName, "ICQ")) {
-		if (p->iProtoStatus < ID_STATUS_ONLINE)
-			return FALSE;
-
-		HMENU hMainStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
-		if (!hMainStatusMenu)
-			return FALSE;
-
-		HMENU hProtoStatusMenu = GetSubMenu(hMainStatusMenu, p->iProtoPos);
-		if (!hProtoStatusMenu)
-			return FALSE;
-
-		HMENU hExtraStatusMenu = GetSubMenu(hProtoStatusMenu, 1);
-		if (!hExtraStatusMenu)
-			return FALSE;
-
-		POINT pt; GetCursorPos(&pt);
-		HWND hWnd = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
-		TrackPopupMenu(hExtraStatusMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, hWnd, NULL);
-		return TRUE;
-	}
-	else if (!mir_strcmpi(p->szProtoName, "JABBER")) {
-		if (p->iProtoStatus < ID_STATUS_ONLINE)
-			return FALSE;
-
-		// Show Moods
-#define PS_JABBER_MOOD "/AdvStatusSet/Mood"
-		if (ProtoServiceExists(p->szAccountName, PS_JABBER_MOOD)) {
-			ProtoCallService(p->szAccountName, PS_JABBER_MOOD, 0, 0);
-			return TRUE;
-		}
-	}
-	return FALSE;
-}
-
 #define TOOLTIP_TOLERANCE 5
 
 LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -691,7 +654,6 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_GETMINMAXINFO:
-	{
 		RECT rct;
 		GetWindowRect(hwnd, &rct);
 		memset((LPMINMAXINFO)lParam, 0, sizeof(MINMAXINFO));
@@ -699,8 +661,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 		((LPMINMAXINFO)lParam)->ptMinTrackSize.y = 16;
 		((LPMINMAXINFO)lParam)->ptMaxTrackSize.x = 1600;
 		((LPMINMAXINFO)lParam)->ptMaxTrackSize.y = 1600;
-	}
-	return 0;
+		return 0;
 
 	case WM_SHOWWINDOW:
 		if (tooltipshoing) {
@@ -809,13 +770,8 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				isOnExtra = true;
 
 			if (PtInRect(&rc, pt)) {
-				HMENU hMenu = NULL;
-
 				BOOL bShift = (GetKeyState(VK_SHIFT) & 0x8000);
 				BOOL bCtrl = (GetKeyState(VK_CONTROL) & 0x8000);
-
-				if ((msg == WM_MBUTTONDOWN || (msg == WM_RBUTTONDOWN && bCtrl) || isOnExtra) && _ModernStatus_OnExtraIconClick(&p))
-					return TRUE;
 
 				if (msg == WM_LBUTTONDOWN && bCtrl) {
 					if (g_CluiData.bFilterEffective != CLVM_FILTER_PROTOS || !bShift) {
@@ -880,20 +836,19 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 					return 0;
 				}
 
-				if (!hMenu) {
-					if (msg == WM_RBUTTONDOWN) {
-						BOOL a = ((g_StatusBarData.perProtoConfig && p.SBarRightClk) || g_StatusBarData.SBarRightClk);
-						if (a ^ bShift)
-							hMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
-						else
-							hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
-					}
-					else {
+				HMENU hMenu = NULL;
+				if (msg == WM_RBUTTONDOWN) {
+					BOOL a = ((g_StatusBarData.perProtoConfig && p.SBarRightClk) || g_StatusBarData.SBarRightClk);
+					if (a ^ bShift)
+						hMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+					else
 						hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
-						HMENU hSubMenu = GetSubMenu(hMenu, p.iProtoPos);
-						if (hSubMenu)
-							hMenu = hSubMenu;
-					}
+				}
+				else {
+					hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+					HMENU hSubMenu = GetSubMenu(hMenu, p.iProtoPos);
+					if (hSubMenu)
+						hMenu = hSubMenu;
 				}
 
 				ClientToScreen(hwnd, &pt);
