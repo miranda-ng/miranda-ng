@@ -129,6 +129,8 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			case 20:
 				//chat_leave(id);
 				break;
+			case 30:
+				break;
 			}
 			break;
 		}
@@ -199,7 +201,8 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 		static const struct gc_item Items[] =
 		{
 			{ LPGENT("&Invite user..."), 10, MENU_ITEM, FALSE },
-			{ LPGENT("&Leave chat session"), 20, MENU_ITEM, FALSE }
+			{ LPGENT("&Leave chat session"), 20, MENU_ITEM, FALSE },
+			{ LPGENT("&Change topic"), 30, MENU_ITEM, FALSE }
 		};
 		gcmi->nItems = SIZEOF(Items);
 		gcmi->Item = (gc_item*)Items;
