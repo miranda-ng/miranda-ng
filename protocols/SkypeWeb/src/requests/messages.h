@@ -32,7 +32,7 @@ public:
 		json_push_back(node, json_new_i("clientmessageid", timestamp));
 		json_push_back(node, json_new_a("messagetype", "RichText"));
 		json_push_back(node, json_new_a("contenttype", "text"));
-		json_push_back(node, json_new_a("content", message));
+		json_push_back(node, json_new_a("content", ptrA(mir_utf8encode(message))));
 
 		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
 		Body << VALUE(data);
