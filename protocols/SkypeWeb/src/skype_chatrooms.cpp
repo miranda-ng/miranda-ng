@@ -308,7 +308,7 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		if (xml != NULL) {
 
 			HXML xmlNode = xi.getChildByPath(xml, _T("target"), 0);
-			xtarget = node != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
+			xtarget = xmlNode != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
 
 			xi.destroyNode(xml);
 		}
@@ -328,7 +328,7 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 			xinitiator = node != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
 
 			xmlNode = xi.getChildByPath(xml, _T("target"), 0);
-			xtarget = node != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
+			xtarget = xmlNode != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
 
 			xi.destroyNode(xml);
 		}
@@ -357,10 +357,10 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("topicupdate"));
 		if (xml != NULL) {
 			HXML xmlNode = xi.getChildByPath(xml, _T("initiator"), 0);
-			xinitiator = node != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
+			xinitiator = xmlNode != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
 
 			xmlNode = xi.getChildByPath(xml, _T("value"), 0);
-			value = node != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
+			value = xmlNode != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
 
 			xi.destroyNode(xml);
 		}
@@ -371,7 +371,42 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/RoleUpdate"))
 	{
+		//content=<roleupdate><eventtime>1429551258363</eventtime><initiator>8:user</initiator><target><id>8:user1</id><role>admin</role></target></roleupdate>
+		ptrA xinitiator, xId, initiator, id, xRole;
+		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("roleupdate"));
+		if (xml != NULL) {
+			HXML xmlNode = xi.getChildByPath(xml, _T("initiator"), 0);
+			xinitiator = xmlNode != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
 
+			xmlNode = xi.getChildByPath(xml, _T("target"), 0);
+			if (xmlNode != NULL)
+			{
+				HXML xmlId = xi.getChildByPath(xmlNode, _T("id"), 0);
+				HXML xmlRole = xi.getChildByPath(xmlNode, _T("role"), 0);
+				xId = xmlNode != NULL ? mir_t2a(xi.getText(xmlId)) : NULL;
+				xRole = xmlNode != NULL ? mir_t2a(xi.getText(xmlRole)) : NULL;
+			}
+			xi.destroyNode(xml);
+
+			initiator = ParseUrl(xinitiator, "8:");
+			id = ParseUrl(xId, "8:");
+			
+			GCDEST gcd = { m_szModuleName, _A2T(chatname), !mir_strcmpi(xRole, "Admin") ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS};
+			GCEVENT gce = { sizeof(gce), &gcd };
+			ptrT tszId(mir_a2t(id));
+			ptrT tszRole(mir_a2t(xRole));
+			ptrT tszInitiator(mir_a2t(initiator));
+			gce.pDest = &gcd;
+			gce.dwFlags = GCEF_ADDTOLOG;
+			gce.ptszNick = tszId;
+			gce.ptszUID = tszId;
+			gce.ptszText = tszInitiator;
+			gce.time = time(NULL);
+			gce.bIsMe = IsMe(id);
+			gce.ptszStatus = TranslateT("Admin");
+			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+
+		}
 	}
 }
 
@@ -393,7 +428,7 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response)
 		ptrA username(ContactUrlToName(ptrA(mir_t2a(ptrT(json_as_string(json_get(member, "userLink")))))));
 		ptrT role(json_as_string(json_get(member, "role")));
 		if (!IsChatContact(_A2T(chatId), username))
-			AddChatContact(_A2T(chatId), username, username, role);
+			AddChatContact(_A2T(chatId), username, username, role, true);
 	}
 }
 
@@ -440,7 +475,7 @@ char *CSkypeProto::GetChatUsers(const TCHAR *chat_id)
 	return gci.pszUsers;
 }
 
-void CSkypeProto::AddChatContact(const TCHAR *tchat_id, const char *id, const char *name, const TCHAR *role)
+void CSkypeProto::AddChatContact(const TCHAR *tchat_id, const char *id, const char *name, const TCHAR *role, bool isChange)
 {
 	if (IsChatContact(tchat_id, id))
 		return;
@@ -454,7 +489,7 @@ void CSkypeProto::AddChatContact(const TCHAR *tchat_id, const char *id, const ch
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
-	gce.time = time(NULL);
+	gce.time = !isChange ? time(NULL): NULL;
 	gce.bIsMe = IsMe(id);
 	gce.ptszStatus = TranslateTS(role);
 
