@@ -1,6 +1,4 @@
-﻿[Send screenshot to <unknown>]
-[Take a screenshot and send it to a contact]
-[Resulting URL from\n]
+﻿[Resulting URL from\n]
 [Copy BBCode]
 [Copy BBCode w/ link]
 [%s requires a valid contact!]

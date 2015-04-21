@@ -15,6 +15,10 @@
 Нет
 [Cancel]
 Отмена
+[Send screenshot to <unknown>]
+Отправить снимок экрана для <неизвестный контакт>
+[Take a screenshot and send it to a contact]
+Сделать снимок экрана и отправить его контакту
 [Ti&med capture]
 За&держка захвата
 [Time (secs):]
