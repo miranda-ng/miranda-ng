@@ -402,10 +402,12 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == LVN_ITEMCHANGED && ((LPNMHDR)lParam)->hwndFrom == GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS)
-			&& (((LPNMLISTVIEW)lParam)->uNewState & LVIS_SELECTED)) {
-			int sel = ListView_GetSelectionMark(((LPNMHDR)lParam)->hwndFrom);
-			if (sel == -1) {
+		if (((LPNMHDR)lParam)->code == LVN_ITEMCHANGED && ((LPNMHDR)lParam)->hwndFrom == lv) {
+			LPNMLISTVIEW notif = (LPNMLISTVIEW)lParam;
+			if ((notif->uNewState & LVIS_SELECTED) == 0)
+				break;
+
+			if (notif->iItem == -1) {
 				SendDlgItemMessage(hwndDlg, IDC_CMB_PROTO_POLICY, CB_SETCURSEL, (LPARAM)-1, 0);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CMB_PROTO_POLICY), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PROTO_NEWKEY), FALSE);
@@ -416,7 +418,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PROTO_NEWKEY), TRUE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PROTO_FORGET), TRUE);
 				TCHAR buff[50];
-				ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, sel, 1, buff, SIZEOF(buff));
+				ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, notif->iItem, 1, buff, SIZEOF(buff));
 				SendDlgItemMessage(hwndDlg, IDC_CMB_PROTO_POLICY, CB_SELECTSTRING, (LPARAM)-1, (WPARAM)buff);
 			}
 		}
@@ -558,8 +560,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			// handle apply
-
 			ContactPolicyMap *cpm = (ContactPolicyMap*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
 			// Iterate over the map and print out all key/value pairs.
 			// Using a const_iterator since we are not going to change the values.
 			for (ContactPolicyMap::const_iterator it = cpm->begin(); it != cpm->end(); ++it) {
@@ -569,25 +571,25 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 			}
 			return TRUE;
 		}
-		else if (((LPNMHDR)lParam)->hwndFrom == GetDlgItem(hwndDlg, IDC_LV_CONT_CONTACTS)) {
-			if (((LPNMHDR)lParam)->code == LVN_ITEMCHANGED && (((LPNMLISTVIEW)lParam)->uNewState & LVIS_SELECTED)) {
-				int sel = ListView_GetSelectionMark(((LPNMHDR)lParam)->hwndFrom);
-				if (sel == -1) {
+		if (((LPNMHDR)lParam)->hwndFrom == lv) {
+			LPNMLISTVIEW notif = (LPNMLISTVIEW)lParam;
+			if (((LPNMHDR)lParam)->code == LVN_ITEMCHANGED && (notif->uNewState & LVIS_SELECTED)) {
+				if (notif->iItem == -1) {
 					SendDlgItemMessage(hwndDlg, IDC_CMB_CONT_POLICY, CB_SETCURSEL, (LPARAM)-1, 0);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CMB_CONT_POLICY), FALSE);
 				}
 				else {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CMB_CONT_POLICY), TRUE);
 					TCHAR buff[50];
-					ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, sel, 2, buff, SIZEOF(buff));
+					ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, notif->iItem, 2, buff, SIZEOF(buff));
 					SendDlgItemMessage(hwndDlg, IDC_CMB_CONT_POLICY, CB_SELECTSTRING, (LPARAM)-1, (WPARAM)buff);
 				}
 			}
 			else if (((LPNMHDR)lParam)->code == NM_CLICK) {
-				if (((LPNMLISTVIEW)lParam)->iSubItem == 3) {
+				if (notif->iSubItem == 3) {
 					LVITEM lvi;
 					lvi.mask = LVIF_PARAM;
-					lvi.iItem = ((LPNMLISTVIEW)lParam)->iItem;
+					lvi.iItem = notif->iItem;
 					if (lvi.iItem < 0) return FALSE;
 					lvi.iSubItem = 0;
 					SendDlgItemMessage(hwndDlg, IDC_LV_CONT_CONTACTS, LVM_GETITEM, 0, (LPARAM)&lvi);
