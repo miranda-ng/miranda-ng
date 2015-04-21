@@ -185,7 +185,7 @@ private:
 
 	void LoadContactsAuth(const NETLIBHTTPREQUEST *response);
 	void LoadContactsInfo(const NETLIBHTTPREQUEST *response);
-	void LoadContactList(const NETLIBHTTPREQUEST *response);
+	void LoadContactList (const NETLIBHTTPREQUEST *response);
 
 	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl OnGrantAuth(WPARAM hContact, LPARAM);
@@ -219,18 +219,18 @@ private:
 	void InitGroupChatModule();
 	void CloseAllChatChatSessions();
 
-	MCONTACT FindChatRoom(const char *chatname);
-	MCONTACT AddChatRoom(const char *chatname);
+	MCONTACT FindChatRoom	(const char *chatname);
+	MCONTACT AddChatRoom	(const char *chatname);
 	
 	int __cdecl OnGroupChatEventHook(WPARAM, LPARAM lParam);
-	int __cdecl OnGroupChatMenuHook(WPARAM, LPARAM lParam);
+	int __cdecl OnGroupChatMenuHook	(WPARAM, LPARAM lParam);
 
 	void StartChatRoom(const TCHAR *tid, const TCHAR *tname);
 
 	void OnGetChatInfo(const NETLIBHTTPREQUEST *response);
 
-	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl OnJoinChatRoom	(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl OnLeaveChatRoom	(WPARAM hContact, LPARAM);
 
 	void OnChatEvent(JSONNODE *node);
 
@@ -243,8 +243,11 @@ private:
 	void RenameChat(const char *chat_id, const char *name);
 	void ChangeChatTopic(const char * chat_id, const char *topic, const char *initiator);
 
-	static INT_PTR __stdcall InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR __stdcall GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK InviteDlgProc	(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK GcCreateDlgProc	(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	static void ResetOptions(HWND hwndDlg);
+	static void FilterContacts(HWND hwndDlg, CSkypeProto *ppro);
 
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
 
