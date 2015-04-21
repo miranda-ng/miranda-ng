@@ -1,5 +1,4 @@
-﻿[Send screenshot to <unknown>]
-[Take a screenshot and send it to a contact]
+﻿[Take a screenshot and send it to a contact]
 [Indirect capture]
 [Resulting URL from\n]
 [Copy BBCode]
