@@ -108,7 +108,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 	//UnhookEvent(hEventDbEventAdded);
 	DEBUGOUT_T("UNLOAD MIROTR");
 	DeinitSRMM();
-	DeinitOptions();
 	DeinitDBFilter();
 
 	lib_cs_lock();
