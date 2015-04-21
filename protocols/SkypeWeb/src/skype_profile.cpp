@@ -271,8 +271,21 @@ void CSkypeProto::UpdateProfileDisplayName(JSONNODE *root, MCONTACT hContact)
 	CMString displayname = ptrT(json_as_string(node));
 	if (!displayname.IsEmpty() && displayname != "null")
 		setTString(hContact, "Nick", displayname);
-	else
-		delSetting(hContact, "Nick");
+	else{
+		ptrT firstname(getTStringA(hContact, "FirstName"));
+		ptrT lastname(getTStringA(hContact, "LastName"));
+		if (firstname) {
+			CMString nick = firstname;
+			if (lastname)
+				nick.AppendFormat(_T(" %s"), lastname);
+			setTString(hContact, "Nick", nick);
+		}
+		else if (lastname)
+			setTString(hContact, "Nick", lastname);
+		else
+			delSetting(hContact, "Nick");
+	}
+		
 }
 
 void CSkypeProto::UpdateProfileGender(JSONNODE *root, MCONTACT hContact)
