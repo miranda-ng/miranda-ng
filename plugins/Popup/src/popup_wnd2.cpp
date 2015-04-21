@@ -270,7 +270,6 @@ void PopupWnd2::update()
 	//  render popup
 	m_bmpBase->allocate(m_sz.cx, m_sz.cy);
 	HDC hdc = m_bmpBase->getDC();
-	if (!skin) return;
 	SetBkMode(hdc, TRANSPARENT);
 	skin->display(m_bmpBase, this, m_options,
 		PopupSkin::DF_STATIC);
@@ -1034,14 +1033,15 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 					(m_lptzTitle) ? m_lptzTitle : _T(""), 
 					(m_lptzText) ? m_lptzText : _T(""));
 
-				OpenClipboard(m_hwnd);
-				EmptyClipboard();
-				HGLOBAL clipbuffer = GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (tszText.GetLength() + 1) * sizeof(TCHAR));
-				TCHAR *buffer = (TCHAR *)GlobalLock(clipbuffer);
-				mir_tstrcpy(buffer, tszText);
-				GlobalUnlock(clipbuffer);
-				SetClipboardData(CF_UNICODETEXT, clipbuffer);
-				CloseClipboard();
+				if (OpenClipboard(m_hwnd)) {
+					EmptyClipboard();
+					HGLOBAL clipbuffer = GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (tszText.GetLength() + 1) * sizeof(TCHAR));
+					TCHAR *buffer = (TCHAR *)GlobalLock(clipbuffer);
+					mir_tstrcpy(buffer, tszText);
+					GlobalUnlock(clipbuffer);
+					SetClipboardData(CF_UNICODETEXT, clipbuffer);
+					CloseClipboard();
+				}
 			}
 			PUDeletePopup(m_hwnd);
 			break;

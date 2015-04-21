@@ -381,12 +381,12 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	FontIDT fid = { 0 };
 	fid.cbSize = sizeof(FontIDT);
 	mir_sntprintf(fid.group, SIZEOF(fid.group), _T(PU_FNT_AND_COLOR)_T("/%S"), ptd->pupClass.pszName);
-	strncpy(fid.dbSettingsGroup, PU_MODULCLASS, SIZEOF(fid.dbSettingsGroup));
+	strncpy(fid.dbSettingsGroup, PU_MODULCLASS, SIZEOF(fid.dbSettingsGroup)-1);
 	fid.flags = FIDF_DEFAULTVALID;
 	fid.deffontsettings.charset = DEFAULT_CHARSET;
 	fid.deffontsettings.size = -11;
-	_tcsncpy(fid.deffontsettings.szFace, _T("Verdana"), SIZEOF(fid.deffontsettings.szFace));
-	_tcsncpy(fid.name, _T(PU_FNT_NAME_TEXT), SIZEOF(fid.name));
+	_tcsncpy(fid.deffontsettings.szFace, _T("Verdana"), SIZEOF(fid.deffontsettings.szFace)-1);
+	_tcsncpy(fid.name, _T(PU_FNT_NAME_TEXT), SIZEOF(fid.name)-1);
 	strncpy(fid.prefix, setting, SIZEOF(fid.prefix));
 	mir_snprintf(fid.prefix, SIZEOF(fid.prefix), "%s/Text", ptd->pupClass.pszName);  // result is "%s/TextCol"
 	fid.deffontsettings.style = 0;
@@ -428,12 +428,10 @@ INT_PTR Popup_UnregisterPopupClass(WPARAM, LPARAM lParam)
 
 //===== Popup/AddPopupClass		(for core class api support)
 INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
-	INT_PTR ret = 1;
 	POPUPDATACLASS *pdc = (POPUPDATACLASS *)lParam;
-	if (pdc->cbSize != sizeof(POPUPDATACLASS)) return ret;
+	if (!pdc || (pdc->cbSize != sizeof(POPUPDATACLASS))) return 1;
 
-	POPUPCLASS *pc = NULL;
-
+	POPUPCLASS *pc;
 	if (wParam)
 		pc = (POPUPCLASS*)wParam;
 	else {
@@ -441,6 +439,9 @@ INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
 		POPUPTREEDATA *ptd = (POPUPTREEDATA *)FindTreeData(group, NULL, 2);
 		if (ptd)
 			pc = &ptd->pupClass;
+		else
+			pc = NULL;
+		mir_free(group);
 	}
 	if (pc) {
 		POPUPDATA2 ppd2 = { sizeof(ppd2) };
@@ -464,5 +465,5 @@ INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
 
 		return Popup_AddPopup2((WPARAM)&ppd2, pc->lParam);
 	}
-	return ret != 0 ? 1 : 0;
+	return 1;
 }
