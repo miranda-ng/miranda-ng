@@ -53,17 +53,8 @@ inline int Percentile2Byte(int vPerc) { return (vPerc * 255) / 100; }
 //===== Strings & MirandaDB ==================
 inline char *db_get_s(MCONTACT hContact, const char *ModuleName, const char *SettingName, const char *Default)
 {
-	DBVARIANT dbv;
-	db_get(hContact, ModuleName, SettingName, &dbv);
-
-	char *result = 0;
-	if (dbv.type == DBVT_ASCIIZ)
-		result = mir_strdup(dbv.pszVal);
-	else if (Default)
-		result = mir_strdup(Default);
-
-	db_free(&dbv);
-	return result;
+	char *result = db_get_sa(hContact, ModuleName, SettingName);
+	return result ? result : mir_strdup(Default);
 }
 
 inline INT_PTR DBGetContactSettingStringX(MCONTACT hContact, const char *ModuleName, const char *SettingName, const char *Default, const int retType)
