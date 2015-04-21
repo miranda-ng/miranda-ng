@@ -146,7 +146,6 @@ int icqUserInfoInitialise(WPARAM wParam, LPARAM lParam)
     proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, lParam, 0);
     if ((proto == NULL || strcmp(proto, protoName)) && lParam) return 0;
 
-    odp.cbSize = sizeof(odp);
     odp.position = -1900000000;
     odp.pszTitle = Translate(protoName);
     odp.pfnDlgProc = (DLGPROC)icqUserInfoDlgProc;

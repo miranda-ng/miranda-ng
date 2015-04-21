@@ -73,7 +73,6 @@ int icqOptionsInitialise(WPARAM wParam, LPARAM lParam)
 {
     OPTIONSDIALOGPAGE odp = { 0 };
 
-    odp.cbSize = sizeof(odp);
     odp.position = -800000000;
     odp.pszTitle = Translate(protoName);
     odp.pfnDlgProc = (DLGPROC)icqOptionsDlgProc;
