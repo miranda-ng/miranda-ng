@@ -233,9 +233,6 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 	// Folders plugin support
 	m_hFolderScreenshot = FoldersRegisterCustomPathT(LPGEN("SendSS"), LPGEN("Screenshots"),
 		_T(PROFILE_PATH)_T("\\")_T(CURRENT_PROFILE)_T("\\Screenshots"));
-	#ifdef _DEBUG
-	service_OpenCaptureDialog(0,0xFFFF);
-	#endif // _DEBUG
 	return 0;
 }
 int hook_SystemPreShutdown(WPARAM wParam, LPARAM lParam)
