@@ -59,15 +59,8 @@ int OptInit(WPARAM wParam, LPARAM lParam);
 
 void LoadOptions();
 void SaveOptions();
-extern "C" int OpenOptions(WPARAM wParam, LPARAM lParam);
 void InitOptions();
-void DeinitOptions();
 
 void ReadPrivkeyFiles();
-
-static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #endif
