@@ -538,7 +538,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 			if(uin) {
 				if( ProtoServiceExists(proto, PS_ICQ_CHECKCAPABILITY)) {
 					ICQ_CUSTOMCAP cap = {0};
-					strcpy(cap.caps, "GPG AutoExchange");
+					strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps)-1);
 					if(ProtoCallService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)ccs->hContact, (LPARAM)&cap)) {
 						CallContactService(ccs->hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)"-----PGP KEY REQUEST-----");
 						return 0;
@@ -846,7 +846,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 					if(bDebugLog)
 						debuglog<<std::string(time_str()+": info(autoexchange, icq): checking for autoexchange icq capability, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 					ICQ_CUSTOMCAP cap = {0};
-					strcpy(cap.caps, "GPG AutoExchange");
+					strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps)-1);
 					if( ProtoCallService(proto, PS_ICQ_CHECKCAPABILITY, hContact, (LPARAM)&cap)) {
 						if(bDebugLog)
 							debuglog<<std::string(time_str()+": info(autoexchange, icq): sending key requiest, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
@@ -905,7 +905,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 	}
 	if(isContactSecured(hContact) && (dbei->flags & DBEF_SENT)) //aggressive outgoing events filtering
 	{
-		DWORD flags;
+		DWORD flags = 0;
 		if((dbei->flags & DBEF_UTF) == DBEF_UTF)
 			flags |= PREF_UTF;
 		SendMsgSvc_func(hContact, (char*)dbei->pBlob, flags);
@@ -1004,6 +1004,7 @@ static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam
 					extern TCHAR *password;
 					if(IsDlgButtonChecked(hwndDlg, IDC_SAVE_PASSWORD))
 					{
+						inkeyid = UniGetContactSettingUtf(new_key_hcnt, szGPGModuleName, "InKeyID", "");
 						if(inkeyid && inkeyid[0] && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DEFAULT_PASSWORD))
 						{
 							string dbsetting = "szKey_";

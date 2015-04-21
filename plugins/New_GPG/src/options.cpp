@@ -360,19 +360,21 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					  MessageBox(0, msg, TranslateT("Error"), MB_OK);
 					  GlobalFree(hMem);
 				  }
-				  memcpy(szKey, str.c_str(), str.size());
-				  szKey[str.size()] = '\0';
-				  str.clear();
-				  EmptyClipboard();
-				  GlobalUnlock(hMem);
-				  if(!SetClipboardData(CF_OEMTEXT, hMem))
-				  {
-					  GlobalFree(hMem);
-					  TCHAR msg[64];
-					  mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed write to clipboard with error %d"), GetLastError());
-					  MessageBox(0, msg, TranslateT("Error"), MB_OK);
+				  else {
+					  memcpy(szKey, str.c_str(), str.size());
+					  szKey[str.size()] = '\0';
+					  str.clear();
+					  EmptyClipboard();
+					  GlobalUnlock(hMem);
+					  if(!SetClipboardData(CF_OEMTEXT, hMem))
+					  {
+						  GlobalFree(hMem);
+						  TCHAR msg[64];
+						  mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed write to clipboard with error %d"), GetLastError());
+						  MessageBox(0, msg, TranslateT("Error"), MB_OK);
+					  }
+					  CloseClipboard();
 				  }
-				  CloseClipboard();
 			  }
 			  else
 			  {
@@ -901,10 +903,10 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 						{
 							MCONTACT hcnt = db_mc_tryMeta(hContact);
 							ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-							_tcscpy(tmp2, ptmp);
+							_tcsncpy(tmp2, ptmp, MAX_PATH-1);
 							mir_free(ptmp);
-							_tcscat(tmp2, _T("\\"));
-							_tcscat(tmp2, _T("temporary_exported.asc"));
+							_tcsncat(tmp2, _T("\\"), MAX_PATH-1);
+							_tcsncat(tmp2, _T("temporary_exported.asc"), MAX_PATH-1);
 							boost::filesystem::remove(tmp2);
 							wfstream f(tmp2, std::ios::out);
 							ptmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", _T(""));
