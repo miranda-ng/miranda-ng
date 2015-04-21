@@ -182,7 +182,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 								p2 = out.find_first_not_of(" ", p+5);
 								p = out.find("<", p2);
 								p++;
-								p2 = out.find(">", p);
+								//p2 = out.find(">", p);
 								//
 								continue; //does not add to key list
 							}
@@ -1296,7 +1296,7 @@ static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 			SetDlgItemText(hwndDlg, ID_IMPORT, tmp[0]?TranslateT("Replace"):TranslateT("Accept"));
 			mir_free(tmp);
 			tmp = new TCHAR [256];
-			mir_sntprintf(tmp, SIZEOF(tmp),TranslateT("Received key from %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, (LPARAM)GCDNF_TCHAR));
+			mir_sntprintf(tmp, 255,TranslateT("Received key from %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
 			SetDlgItemText(hwndDlg, IDC_KEY_FROM, tmp);
 			delete [] tmp;
 		}
@@ -2245,8 +2245,8 @@ void InitCheck()
 		ICQ_CUSTOMCAP cap;
 		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
 		cap.hIcon = 0;
-		strcpy(cap.name, "GPG Key AutoExchange");
-		strcpy(cap.caps, "GPG AutoExchange");
+		strncpy(cap.name, "GPG Key AutoExchange", MAX_CAPNAME-1);
+		strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps)-1);
 
 		for(int i = 0; i < count; i++)
 			if( ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))
@@ -2260,8 +2260,8 @@ void InitCheck()
 		ICQ_CUSTOMCAP cap;
 		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
 		cap.hIcon = 0;
-		strcpy(cap.name, "GPG Encrypted FileTransfers");
-		strcpy(cap.caps, "GPG FileTransfer");
+		strncpy(cap.name, "GPG Encrypted FileTransfers", MAX_CAPNAME-1);
+		strncpy(cap.caps, "GPGFileTransfer", sizeof(cap.caps)-1);
 
 		for(int i = 0; i < count; i++)
 			if( ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))
@@ -2301,10 +2301,10 @@ void ImportKey()
 		DWORD exitcode;
 		{
 			ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-			_tcscpy(tmp2, ptmp);
+			_tcsncpy(tmp2, ptmp, MAX_PATH-1);
 			mir_free(ptmp);
-			_tcscat(tmp2, _T("\\"));
-			_tcscat(tmp2, _T("temporary_exported.asc"));
+			_tcsncat(tmp2, _T("\\"), MAX_PATH-1);
+			_tcsncat(tmp2, _T("temporary_exported.asc"), MAX_PATH-1);
 			boost::filesystem::remove(tmp2);
 			wfstream f(tmp2, std::ios::out);
 			if(db_mc_isMeta(hContact))

@@ -61,14 +61,14 @@ void GetFilePath(TCHAR *WindowTittle, char *szSetting, TCHAR *szExt, TCHAR *szEx
 	ofn.lStructSize=CDSIZEOF_STRUCT(OPENFILENAME,lpTemplateName);
 	ofn.Flags=OFN_EXPLORER;
 	ofn.lpstrTitle=TranslateW(WindowTittle);
-	_tcscpy(filter,TranslateW(szExtDesc));
+	_tcsncpy(filter,TranslateW(szExtDesc), SIZEOF(filter)-1);
 	pfilter=filter+_tcslen(filter)+1;
 	_tcscpy(pfilter, szExt);
 	pfilter[_tcslen(pfilter)+1] = '\0';
 	pfilter[_tcslen(pfilter)+2] = '\0';
 	ofn.lpstrFilter=filter;
 	tmp = UniGetContactSettingUtf(0, szGPGModuleName, szSetting, _T(""));
-	_tcscpy(str, tmp);
+	_tcsncpy(str, tmp, SIZEOF(str)-1);
 	mir_free(tmp);
 	if(_tcslen(str)< 2)
 		str[0] = '\0';
@@ -439,6 +439,7 @@ int onProtoAck(WPARAM w, LPARAM l)
 							boost::filesystem::remove(filename);
 						mir_free(filename);
 				}
+				mir_free(filename);
 			}
 		}
 		break;
@@ -544,7 +545,7 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 			if( ProtoServiceExists(proto, PS_ICQ_CHECKCAPABILITY)) {
 				supported_proto = true;
 				ICQ_CUSTOMCAP cap = {0};
-				strcpy(cap.caps, "GPG FileTransfer");
+				strncpy(cap.caps, "GPGFileTransfer",sizeof(cap.caps)-1);
 				if( ProtoCallService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)ccs->hContact, (LPARAM)&cap))
 					cap_found = true;
 			}
@@ -778,8 +779,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 						{
 							char *proto = ji->GetModuleName();
 							char setting[64];
-							strcpy(setting, proto);
-							strcat(setting, "_KeyID");
+							mir_snprintf(setting, sizeof(setting)-1,"%s_KeyID",proto);
 							inkeyid = UniGetContactSettingUtf(NULL, szGPGModuleName, setting, "");
 							if(!inkeyid[0])
 							{
@@ -1860,10 +1860,10 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 			DWORD exitcode;
 			{
 				ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-				_tcscpy(tmp2, ptmp);
+				_tcsncpy(tmp2, ptmp, MAX_PATH-1);
 				mir_free(ptmp);
-				_tcscat(tmp2, _T("\\"));
-				_tcscat(tmp2, _T("temporary_exported.asc"));
+				_tcsncat(tmp2, _T("\\"), MAX_PATH-1);
+				_tcsncat(tmp2, _T("temporary_exported.asc"), MAX_PATH-1);
 				boost::filesystem::remove(tmp2);
 				wfstream f(tmp2, std::ios::out);
 				f<<toUTF16(key).c_str();
