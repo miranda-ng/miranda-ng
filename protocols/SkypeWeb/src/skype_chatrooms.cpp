@@ -315,6 +315,8 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 
 		target = ParseUrl(xtarget, "8:");
 
+		if (FindChatRoom(chatname) == NULL) StartChatRoom(_A2T(chatname), topic);
+
 		AddChatContact(_A2T(chatname), target, target, L"User");
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/DeleteMember"))
@@ -632,15 +634,15 @@ INT_PTR CSkypeProto::GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 				if (int hItem = SendMessage(hwndClist, CLM_FINDCONTACT, hContact, 0)) {
 					if (SendMessage(hwndClist, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
-						ptrA uid(db_get_sa(hContact, ppro->m_szModuleName, SKYPE_SETTINGS_ID));
-						uids.insert(uid);
+						uids.insert(db_get_sa(hContact, ppro->m_szModuleName, SKYPE_SETTINGS_ID));
 					}
 				}
 			}
+			uids.insert(ppro->getStringA(SKYPE_SETTINGS_ID));
 
 			TCHAR tszTitle[1024];
 			GetDlgItemText(hwndDlg, IDC_TITLE, tszTitle, SIZEOF(tszTitle));
-			ppro->CreateNewChat(uids, tszTitle);
+			ppro->SendRequest(new CreateChatroomRequest(ppro->RegToken, uids, ppro->getStringA(SKYPE_SETTINGS_ID), ppro->Server));
 			for (int i = 0; i < uids.getCount(); i++)
 				mir_free(uids[i]);
 			uids.destroy();
@@ -649,11 +651,4 @@ INT_PTR CSkypeProto::GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 	}
 	return FALSE;
-}
-
-void CSkypeProto::CreateNewChat(LIST<char> &uids, LPCTSTR ptszTitle)
-{
-	if (!IsOnline())
-		return;
-	SendRequest(new CreateChatroomRequest(RegToken, uids, m_szModuleName, Server));
 }
