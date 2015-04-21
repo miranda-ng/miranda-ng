@@ -240,7 +240,7 @@ xСтатус "%s"
 [My World]
 Мій світ
 [Web search]
-Пошук в інтернеті
+Пошук в Інтернеті
 [Update all users info]
 Оновити інформацію всіх користувачів
 [Check users avatars updates]

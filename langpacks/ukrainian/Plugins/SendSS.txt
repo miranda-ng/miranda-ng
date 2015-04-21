@@ -15,10 +15,6 @@
 Немає
 [Cancel]
 Скасувати
-[Send screenshot to]
-Відправити знімок екрану для
-[<unknown>]
-<невідомий контакт>
 [Ti&med capture]
 &Затримка захоплення
 [Time (secs):]
@@ -233,3 +229,5 @@ Upload Pie (1 тижд)
 з "
 [" Window]
 " вікно
+[Send screenshot?]
+Відправити знімок екрану?

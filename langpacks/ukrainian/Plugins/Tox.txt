@@ -81,6 +81,14 @@ IPv6 адреса (необов'язково)
 Папка профілів
 [Action]
 Дія
+[Outgoing call]
+Вихідний дзвінок
+[Incoming call]
+Вхідний дзвінок
+[Call started]
+Початок бесіди
+[Call ended]
+Завершення бесіди
 [Protocol icon]
 Значок протоколу
 [Audio ring]
@@ -95,8 +103,16 @@ IPv6 адреса (необов'язково)
 Запитати авторизацію
 [Grant authorization]
 Авторизувати
+[Call]
+Дзвінок
+[Unable to find input audio device]
+Пристрій аудіовходу не знайдено
 [Video call is unsupported]
 Відеовиклики не підтримуються
+[Incoming call from %s]
+Вхідний дзвінок від %s
+[Unable to find output audio device]
+Пристрій аудіовиходу не знайдено
 [%s connection]
 З'єднання %s
 [Tox profile]

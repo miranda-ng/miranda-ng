@@ -1,0 +1,53 @@
+﻿;#muuid for ICQCorp not found, please specify manually!
+;============================================================
+;  File: ICQCorp.dll
+;  Plugin: ICQ corporate protocol
+;  Version: 0.0.1.0
+;  Authors: Miranda NG Team, Eugene Tarasenko
+;============================================================
+[ICQ corporate protocol support for Miranda NG.]
+Підтримка протоколу ICQ Corporate в Miranda NG.
+[UIN:]
+Номер:
+[External IP:]
+Зовнішній IP:
+[Internal IP:]
+Внутрішній IP:
+[Port:]
+Порт:
+[ICQ Version:]
+Версія ICQ:
+[Miranda Version:]
+Версія Miranda:
+[Ping:]
+Пінг:
+[Login Server:]
+Сервер:
+[Password:]
+Пароль:
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+Зміни вступлять у силу при наступному вході в мережу ICQ.
+[Network]
+Мережа
+[ICQ Corporate plugin used only WinSock v2.2 or later.]
+Плагін ICQ Corporate використовує лише WinSock v2.2 або вище.
+[You need specify ICQ Corporate login server.]
+Необхідно вказати сервер ICQ Corporate.
+[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to M->Options->ICQCorp and try again.]
+Логін або пароль не прийняті сервером. Будь ласка, перевірте правильність налаштувань (Налаштування -> Мережа -> ICQCorp) і спробуйте ще раз.
+[ICQ number:]
+Номер ICQ:
+[%d file]
+%d файл
+[%d files]
+%d файлів
+[%d directory]
+%d папка
+[%d directories]
+%d папок
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Передачу файлів скасовано, тому що один з вибраних файлів не читається з диска. Можливо, його було переміщено або видалено.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Передачу файлів скасовано, неможливо відкрити локальний файл на запис. Імовірно, ви намагаєтесь зберегти файл у папку, де немає права на запис.
+[<not specified>]
+<не вказано>
