@@ -20,8 +20,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 IconInfo CSkypeProto::Icons[] =
 {
 	{ LPGENT("Protocol icon"),			"main",				IDI_SKYPE },
+	{ LPGENT("Create new chat icon"),	"conference",  IDI_CONFERENCE }
 };
-
 void CSkypeProto::InitIcons()
 {
 	TCHAR szFile[MAX_PATH];
@@ -45,6 +45,7 @@ void CSkypeProto::InitIcons()
 		sid.iDefaultIndex = -Icons[i].IconId;
 		Icons[i].Handle = Skin_AddIcon(&sid);
 	}
+
 }
 
 HANDLE CSkypeProto::GetIconHandle(const char *name)

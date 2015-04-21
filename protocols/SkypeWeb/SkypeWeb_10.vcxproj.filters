@@ -163,4 +163,9 @@
       <Filter>Resource Files\Icons</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Icons\conference.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
