@@ -231,7 +231,8 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 			int hMessage = atoi(clientMsgId);
 			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
 			debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-			AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, message, emoteOffset);
+			if (GetMessageFromDb(hContact, clientMsgId) == NULL)
+				AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, message, emoteOffset);
 		}
 		debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
 		MEVENT dbevent =  GetMessageFromDb(hContact, skypeEditedId);
