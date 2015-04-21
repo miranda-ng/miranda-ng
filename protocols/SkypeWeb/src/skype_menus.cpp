@@ -121,7 +121,7 @@ int CSkypeProto::OnInitStatusMenu()
 	CreateProtoService(tDest, &CSkypeProto::SvcCreateChat);
 	mi.ptszName = LPGENT("Create new chat");
 	mi.position = SMI_POSITION + PMI_CREATECHAT;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_JOIN);
+	mi.icolibItem = GetIconHandle("conference");
 	Menu_AddProtoMenuItem(&mi);
 
 	return 0;
