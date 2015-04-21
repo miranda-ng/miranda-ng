@@ -21,9 +21,11 @@ MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, L
 {
 	if(messageId == NULL)
 		return NULL;
-	mir_cslock lock(messageSyncLock);
 
+	timestamp -= 600; // we check events written 10 minutes ago
 	size_t messageIdLength = mir_strlen(messageId);
+
+	mir_cslock lock(messageSyncLock);
 	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent))
 	{
 		DBEVENTINFO dbei = { sizeof(dbei) };
@@ -36,14 +38,15 @@ MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, L
 		dbei.pBlob = blob;
 		db_event_get(hDbEvent, &dbei);
 
-		if (dbei.timestamp < timestamp)
-			break;
-
 		if (dbei.eventType != EVENTTYPE_MESSAGE && dbei.eventType != SKYPE_DB_EVENT_TYPE_ACTION)
 			continue;
 
-		if (memcmp(&dbei.pBlob[dbei.cbBlob - messageIdLength], messageId, messageIdLength) == 0)
+		size_t cbLen = strlen((char*)dbei.pBlob);
+		if (memcmp(&dbei.pBlob[cbLen+1], messageId, messageIdLength) == 0)
 			return hDbEvent;
+
+		if (dbei.timestamp < timestamp)
+			break;
 	}
 
 	return NULL;
@@ -60,7 +63,7 @@ MEVENT CSkypeProto::AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD fla
 	memcpy(pBlob, &content[emoteOffset], messageLength);
 	memcpy(pBlob + messageLength, messageId, messageIdLength);
 
-	return AddEventToDb(hContact, emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, timestamp, flags, cbBlob, pBlob);
+	return AddEventToDb(hContact, emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, timestamp, flags, (DWORD)cbBlob, pBlob);
 }
 
 /* MESSAGE RECEIVING */
@@ -81,7 +84,7 @@ int CSkypeProto::OnReceiveMessage(const char *messageId, const char *url, time_t
 	recv.szMessage = content;
 	recv.lParam = emoteOffset;
 	recv.pCustomData = (void*)messageId;
-	recv.cbCustomDataSize = mir_strlen(messageId);
+	recv.cbCustomDataSize = (DWORD)mir_strlen(messageId);
 
 	if (isRead)
 		recv.flags |= PREF_CREATEREAD;
