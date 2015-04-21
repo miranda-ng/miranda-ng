@@ -571,7 +571,7 @@ INT_PTR CSkypeProto::SvcCreateChat(WPARAM, LPARAM)
 	return 0;
 }
 
-static void FilterContacts(HWND hwndDlg, CSkypeProto *ppro)
+void CSkypeProto::FilterContacts(HWND hwndDlg, CSkypeProto *ppro)
 {
 	HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
@@ -582,7 +582,7 @@ static void FilterContacts(HWND hwndDlg, CSkypeProto *ppro)
 	}
 }
 
-static void ResetOptions(HWND hwndDlg)
+void CSkypeProto::ResetOptions(HWND hwndDlg)
 {
 	HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
 	SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, 1, 0);
@@ -594,7 +594,8 @@ INT_PTR CSkypeProto::GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	CSkypeProto *ppro = (CSkypeProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	NMCLISTCONTROL* nmc;
 
-	switch (msg) {
+	switch (msg) 
+	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 

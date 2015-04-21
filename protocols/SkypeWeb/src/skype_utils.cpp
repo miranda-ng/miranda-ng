@@ -555,6 +555,7 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, NULL);
 		return 0;
 	}
+	else if (szCommand && !_tcsicmp(szCommand, _T("userinfo"))){ return 0;}
 
 	return 1; /* parse failed */
 }
