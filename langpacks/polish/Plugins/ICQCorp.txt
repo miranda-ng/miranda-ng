@@ -1,0 +1,63 @@
+﻿;#muuid for ICQCorp not found, please specify manually!
+;============================================================
+;  File: ICQCorp.dll
+;  Plugin: ICQ corporate protocol
+;  Version: 0.0.1.0
+;  Authors: Miranda NG Team, Eugene Tarasenko
+;============================================================
+[ICQ corporate protocol support for Miranda NG.]
+
+;file \protocols\ICQCorp\res\resource.rc
+[UIN:]
+UIN:
+[External IP:]
+Zewnętrzne IP:
+[Internal IP:]
+IP wewnętrzne:
+[Port:]
+Port:
+[ICQ Version:]
+
+[Miranda Version:]
+
+[Ping:]
+
+[ICQ Corp]
+
+[Login Server:]
+Serwer:
+[ICQ#:]
+
+[Password:]
+Hasło:
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+Musisz ponownie połączyć się z siecią ICQ żeby zmiany na tej stronie przyniosły rezultat.
+;file \protocols\ICQCorp\src\options.cpp
+[Network]
+Protokoły
+;file \protocols\ICQCorp\src\protocol.cpp
+[ICQ Corporate plugin used only WinSock v2.2 or later.]
+
+[You need specify ICQ Corporate login server.]
+
+[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to M->Options->ICQCorp and try again.]
+
+;file \protocols\ICQCorp\src\services.cpp
+[ICQ number:]
+Numer ICQ:
+[%d file]
+
+[%d files]
+%d pliki
+[%d directory]
+
+[%d directories]
+%d lokalizacje
+;file \protocols\ICQCorp\src\transfer.cpp
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Transfer pliku został przerwany, ponieważ jeden z wybranych przez ciebie plików nie mógł zostać odczytany z dysku. Być może go usunąłeś lub przeniosłeś.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Odbieranie pliku zostało przerwane, ponieważ Miranda nie mogła otworzyć pliku docelowego w celu dokonania zapisu. Być może próbujesz zapisać plik w folderze tylko do odczytu.
+;file \protocols\ICQCorp\src\user.cpp
+[<not specified>]
+<nieokreślone>

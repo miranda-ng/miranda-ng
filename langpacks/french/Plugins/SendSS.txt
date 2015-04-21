@@ -16,10 +16,10 @@ Dialogue
 Aucun
 [Cancel]
 Annuler
-[Send screenshot to]
+[Send screenshot to <unknown>]
 
-[<unknown>]
-<inconnu>
+[Take a screenshot and send it to a contact]
+
 [Ti&med capture]
 Retardateur
 [Time (secs):]

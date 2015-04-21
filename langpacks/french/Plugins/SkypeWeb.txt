@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -50,6 +50,9 @@ Entrez le passe
 Enregistrer le passe
 [Enter the password to continue.]
 
+;file \protocols\SkypeWeb\src\main.cpp
+[Skype Link Protocol]
+
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [User]
 Utilisateur
@@ -59,7 +62,15 @@ Utilisateur
 &Inviter l'utilisateur...
 [&Leave chat session]
 
+[&Change topic]
+
 [Kick &user]
+
+[Set &role]
+
+[&Admin]
+
+[&User]
 
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
@@ -73,6 +84,8 @@ Durée
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 
+[Create new chat icon]
+
 [Protocols]
 Protocoles
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
@@ -81,6 +94,8 @@ Demander l'autorisation
 [Grant authorization]
 Accorder l'autorisation
 [Get server history]
+
+[Create new chat]
 
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 ;file \protocols\SkypeWeb\src\skype_options.cpp

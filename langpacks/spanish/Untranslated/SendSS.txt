@@ -1,5 +1,6 @@
 ﻿[Take a screenshot and send it to a contact.]
-[Send screenshot to]
+[Send screenshot to <unknown>]
+[Take a screenshot and send it to a contact]
 [Ti&med capture]
 [Time (secs):]
 [&Format:]

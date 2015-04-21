@@ -1,0 +1,63 @@
+﻿;#muuid for ICQCorp not found, please specify manually!
+;============================================================
+;  File: ICQCorp.dll
+;  Plugin: ICQ corporate protocol
+;  Version: 0.0.1.0
+;  Authors: Miranda NG Team, Eugene Tarasenko
+;============================================================
+[ICQ corporate protocol support for Miranda NG.]
+
+;file \protocols\ICQCorp\res\resource.rc
+[UIN:]
+UIN :
+[External IP:]
+IP externe :
+[Internal IP:]
+IP interne :
+[Port:]
+Port :
+[ICQ Version:]
+
+[Miranda Version:]
+
+[Ping:]
+
+[ICQ Corp]
+
+[Login Server:]
+
+[ICQ#:]
+
+[Password:]
+Passe :
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+Vous devez vous reconnecter au réseau ICQ pour que les changements effectués sur cette page soient effectifs.
+;file \protocols\ICQCorp\src\options.cpp
+[Network]
+Réseau
+;file \protocols\ICQCorp\src\protocol.cpp
+[ICQ Corporate plugin used only WinSock v2.2 or later.]
+
+[You need specify ICQ Corporate login server.]
+
+[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to M->Options->ICQCorp and try again.]
+
+;file \protocols\ICQCorp\src\services.cpp
+[ICQ number:]
+Identifiant :
+[%d file]
+
+[%d files]
+Fichiers %d
+[%d directory]
+
+[%d directories]
+Répertoire %d
+;file \protocols\ICQCorp\src\transfer.cpp
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Le transfert de fichier a été avorté parce que l'un des fichiers que vous avez sélectionné pour envoyer n'est plus lisible à partir du disque. Il a peut-être été déplacé ou supprimé.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+La réception de fichier a été avortée parce que Miranda ne pouvait ouvrir le fichier de destination afin de l'écrire. Il se peut que vous tentiez de sauvegarder dans un dossier en lecture seule.
+;file \protocols\ICQCorp\src\user.cpp
+[<not specified>]
+<non spécifié>

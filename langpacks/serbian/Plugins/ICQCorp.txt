@@ -1,0 +1,19 @@
+﻿;#muuid for ICQCorp not found, please specify manually!
+;============================================================
+;  File: ICQCorp.dll
+;  Plugin: ICQ corporate protocol
+;  Version: 0.0.1.0
+;  Authors: Miranda NG Team, Eugene Tarasenko
+;============================================================
+[Port:]
+Port:
+[Password:]
+Šifra
+[Network]
+Mreža
+[%d files]
+%d datoteka
+[%d directories]
+%d direktorijuma
+[<not specified>]
+<neodređeno>

@@ -168,7 +168,7 @@ Cоздать комнату чата
 [Mark users you want to invite to a new chat]
 Отметить пользователей для приглашения в комнату чата
 [New chat's title:]
-Звголовок новой комнаты
+Название новой комнаты
 [Share]
 Поделиться
 [Only for friends]

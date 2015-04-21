@@ -1,0 +1,33 @@
+﻿;#muuid for ICQCorp not found, please specify manually!
+;============================================================
+;  File: ICQCorp.dll
+;  Plugin: ICQ corporate protocol
+;  Version: 0.0.1.0
+;  Authors: Miranda NG Team, Eugene Tarasenko
+;============================================================
+[UIN:]
+UIN:
+[External IP:]
+Externá IP:
+[Internal IP:]
+Interná IP:
+[Port:]
+Port:
+[Login Server:]
+Pripájací server:
+[Password:]
+Heslo:
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+K dokončeniu zmien ktoré ste urobili sa bude treba odpojiť a znovu pripojiť do siete ICQ.
+[Network]
+Sieť
+[%d files]
+%d súbory
+[%d directories]
+%d adresáre
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Prenos súboru byl zrušený, pretože jeden z vybraných súborov nieje možné uložiť na disk.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Prijatie súboru je zrušené Mirandou, lebo nemožno zapísať súbor do cieľoveho adresára.
+[<not specified>]
+<nešpecifikované>
