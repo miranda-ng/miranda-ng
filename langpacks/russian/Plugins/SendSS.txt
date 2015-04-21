@@ -15,10 +15,6 @@
 Нет
 [Cancel]
 Отмена
-[Send screenshot to]
-Отправить скриншот
-[<unknown>]
-<неизвестный контакт>
 [Ti&med capture]
 За&держка захвата
 [Time (secs):]

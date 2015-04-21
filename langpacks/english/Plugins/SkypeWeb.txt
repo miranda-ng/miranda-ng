@@ -47,6 +47,7 @@
 [Duration]
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
+[Create new chat icon]
 [Protocols]
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
