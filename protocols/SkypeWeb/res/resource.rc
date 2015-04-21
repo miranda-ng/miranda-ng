@@ -86,10 +86,8 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "Œ ",IDOK,96,233,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,148,233,50,14
-    EDITTEXT        IDC_TITLE,7,161,191,61,ES_AUTOHSCROLL | ES_WANTRETURN
-    CTEXT           "New chat's title:",IDC_STATIC,7,148,191,11
     CTEXT           "Mark users you want to invite to a new chat",IDC_STATIC,7,7,191,8
-    CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x1,7,22,192,122,WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x1,7,22,192,203,WS_EX_CLIENTEDGE
 END
 
 IDD_GC_INVITE DIALOGEX 0, 0, 220, 78
