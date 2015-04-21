@@ -437,7 +437,6 @@ int onProtoAck(WPARAM w, LPARAM l)
 						}
 						if(result == pxSuccess)
 							boost::filesystem::remove(filename);
-						mir_free(filename);
 				}
 				mir_free(filename);
 			}
