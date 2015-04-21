@@ -70,6 +70,7 @@ using namespace std;
 #include <m_skin.h>
 #include <m_popup.h>
 #include <m_icolib.h>
+#include <m_string.h>
 
 #include <m_folders.h>
 #include <m_HTTPServer.h>
