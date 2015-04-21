@@ -321,6 +321,8 @@ YAPP або Popup
 Текст Unicode
 [displays the Account Manager]
 відкриває менеджер облікових записів
+[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
+Програє звук, доданий за допомогою Skin/Sounds/AddNew. Якщо звук не знайдено, буде програватися стандартний звук Windows.
 [Avatar service (AVS.dll)]
 Служба аватарів (AVS.dll)
 [Filename]

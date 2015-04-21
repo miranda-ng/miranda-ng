@@ -1,4 +1,6 @@
-﻿[Indirect capture]
+﻿[Send screenshot to <unknown>]
+[Take a screenshot and send it to a contact]
+[Indirect capture]
 [Resulting URL from\n]
 [Copy BBCode]
 [Copy BBCode w/ link]
@@ -12,4 +14,3 @@
 [BBC]
 [BBC link]
 [for Client area ]
-[Send screenshot?]

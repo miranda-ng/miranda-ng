@@ -133,6 +133,8 @@
 Помилка входу: ваш обліковий запис заблоковано. Необхідно виконати підтвердження в браузері.
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
 Помилка входу: потрібно ввести капчу. Необхідно виконати підтвердження в браузері.
+[Facebook required computer cleaning and plugin correctly skipped it. Please report this to the plugin developer!]
+Плагін коректно пропустив вимогу Facebook очистити комп'ютер. Будь ласка, повідомте про це автору плагіна!
 [Login error, probably bad login credentials.]
 Помилка входу: імовірно, неправильні дані облікового запису.
 [Could not load communication token. You should report this and wait for plugin update.]

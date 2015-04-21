@@ -217,6 +217,8 @@ Jabber vCard: додавання телефону
 Застосувати фільтр
 [Reset Filter]
 Скинути фільтр
+[Invite Users to <room jid>]
+Запросити користувачів у <room jid>
 [Send group chat invitation.]
 Запросити до чат-кімнати.
 [Other JID:]
@@ -227,6 +229,8 @@ Jabber vCard: додавання телефону
 Причина запрошення:
 [&Invite]
 &Запросити
+[Group chat invitation to <room jid>]
+Запрошення в конференцію <room jid>
 [Incoming group chat invitation.]
 Запрошення до чат-кімнати.
 [You are invited to conference room by]
@@ -661,6 +665,8 @@ xHTML-формат повідомлень чату
 Копіювати JID з чат-кімнати
 [Real &JID: %s]
 Реальний &JID: %s
+[Invite Users to %s]
+Запросити користувачів у %s
 [%s (not on roster)]
 %s (не в ростері)
 [Member Info: %s]
