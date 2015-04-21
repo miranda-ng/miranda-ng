@@ -19,7 +19,7 @@ Anuluj
 [Send screenshot to <unknown>]
 Wyślij zrzut ekranu do <nieznany>
 [Take a screenshot and send it to a contact]
-
+Wykonaj zrzut ekranu i wyślij go do kontaktu
 [Ti&med capture]
 Cza&s uchwycenia
 [Time (secs):]
