@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \protocols\SkypeWeb\res\resource.rc
@@ -10,6 +10,7 @@
 Скасаваць
 [Password:]
 Пароль:
+;file \protocols\SkypeWeb\src\main.cpp
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 ;file \protocols\SkypeWeb\src\skype_icons.cpp

@@ -84,6 +84,8 @@ Czas trwania
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Ikona protokołu
+[Create new chat icon]
+
 [Protocols]
 Protokoły
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
@@ -93,6 +95,8 @@ Poproś o autoryzację
 Udziel autoryzacji
 [Get server history]
 Pobieraj historię z serwera
+[Create new chat]
+Utwórz nowy czat
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]

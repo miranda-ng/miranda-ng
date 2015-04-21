@@ -84,6 +84,8 @@ Dauer
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Protokollicon
+[Create new chat icon]
+
 [Protocols]
 Protokolle
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
@@ -93,6 +95,8 @@ Autorisierung anfragen
 Autorisierung gewähren
 [Get server history]
 Serververlauf abrufen
+[Create new chat]
+
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]

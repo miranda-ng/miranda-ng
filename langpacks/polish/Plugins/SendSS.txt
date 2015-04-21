@@ -16,10 +16,10 @@ Wszystko
 Brak
 [Cancel]
 Anuluj
-[Send screenshot to]
-Wyślij zrzut ekranu do
-[<unknown>]
-<nieznany>
+[Send screenshot to <unknown>]
+Wyślij zrzut ekranu do <nieznany>
+[Take a screenshot and send it to a contact]
+
 [Ti&med capture]
 Cza&s uchwycenia
 [Time (secs):]

@@ -1,0 +1,25 @@
+﻿;#muuid for ICQCorp not found, please specify manually!
+;============================================================
+;  File: ICQCorp.dll
+;  Plugin: ICQ corporate protocol
+;  Version: 0.0.1.0
+;  Authors: Miranda NG Team, Eugene Tarasenko
+;============================================================
+;file \protocols\ICQCorp\res\resource.rc
+[Port:]
+Порт:
+[Password:]
+Пароль:
+;file \protocols\ICQCorp\src\options.cpp
+[Network]
+Сеціва
+;file \protocols\ICQCorp\src\protocol.cpp
+;file \protocols\ICQCorp\src\services.cpp
+[%d files]
+%d файла(аў)
+[%d directories]
+%d каталога(аў)
+;file \protocols\ICQCorp\src\transfer.cpp
+;file \protocols\ICQCorp\src\user.cpp
+[<not specified>]
+<не паказана>

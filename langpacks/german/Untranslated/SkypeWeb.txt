@@ -8,3 +8,5 @@
 [&User]
 [Call started]
 [Call ended]
+[Create new chat icon]
+[Create new chat]

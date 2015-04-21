@@ -16,10 +16,8 @@
 Няма
 [Cancel]
 Скасаваць
-[Send screenshot to]
-Адправіць здыма экрату
-[<unknown>]
-<невядома>
+[Send screenshot to <unknown>]
+Адправіць здыма экрату <невядома>
 [Ti&med capture]
 Затрымка захопу
 [Time (secs):]

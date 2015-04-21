@@ -1,6 +1,7 @@
 ﻿[Take a screenshot and send it to a contact.]
 [All]
-[Send screenshot to]
+[Send screenshot to <unknown>]
+[Take a screenshot and send it to a contact]
 [&Format:]
 [Open editor before sending]
 [About]
