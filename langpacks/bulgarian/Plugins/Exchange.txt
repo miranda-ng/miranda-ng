@@ -6,34 +6,34 @@
 ;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
 ;============================================================
 [Notifies you if you have unread email on an exchange server.]
-
+Уведомява ви за непрочетени имейли на Exchange сървър.
 ;file \plugins\Exchange\res\exchange.rc
 [Unread emails]
-
+Непрочетени имейли
 [Close]
 Затваряне
 [Mark as read]
 
 [Dialog]
-
+Прозорец
 [Connection]
-
+Връзка
 [Username:]
 Потребител:
 [Password:]
 Парола:
 [Server:]
-
+Сървър:
 [Preferences]
-
+Настройки
 [Check every]
-
+Проверка на всеки
 [seconds]
 секунди
 [Force reconnect every]
 
 [minutes]
-
+минути
 [Check server before trying to connect]
 
 [Try to connect]
@@ -46,14 +46,14 @@
 [Entry ID]
 
 [Subject]
-
+Тема
 [Sender]
 Изпращач
 ;file \plugins\Exchange\src\emails.cpp
 [You have %d unread emails...]
-
+%d непрочетени имейла...
 [You have one unread email...]
-
+Един непрочетен имейл...
 [Exchange email]
 
 [Do you want to see the email headers?]

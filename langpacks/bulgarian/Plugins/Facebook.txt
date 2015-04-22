@@ -6,32 +6,32 @@
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
-
+Осигурява комуникация чрез социалната мрежа Facebook в Miranda NG.
 ;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 Имейл:
 [Password:]
 Парола:
 [Create a new Facebook account]
-
+Създаване на Facebook акаунт
 [What's on your mind?]
-
+Какво мислите?
 [Wall:]
-
+Стена:
 [Visibility:]
-
+Видимост:
 [Text:]
-
+Текст:
 [URL:]
-
+URL:
 [Place:]
-
+Място:
 [Contacts >>]
-
+Контакти >>
 [Attach contacts:]
 
 [Share]
-
+Сподели
 [Cancel]
 Отказ
 [User details]
@@ -39,25 +39,25 @@
 [Contacts]
 Контакти
 [Default group:]
-
+Стандартна група
 [Automatically set 'Ignore status change' flag]
-
+Автозадаване на флаг "Игнориране промените на състояния"
 [Use bigger avatars]
-
+Ползване на по-големи аватари
 [Event notifications]
-
+Уведомявания за събития
 [Notifications]
-
+Уведомявания
 [News feeds (WARNING: Causes excessive network traffic!)]
 
 [News feed types to notify:]
-
+Уведомяване за следните новини:
 [Don't show advertising posts]
 
 [Other events]
 Други събития
 [Client notifications]
-
+Уведомявания
 [Friendship notifications]
 
 [Ticker feeds]
@@ -65,15 +65,15 @@
 [Use this server for opening links:]
 
 [Use balloon notifications in system tray instead of popups]
-
+Ползване на балонни известия в трея вместо popup
 [Use logging notifications into special chatroom]
 
 [Preview]
-
+Образец
 [Statuses]
 
 [Post Miranda statuses to Wall]
-
+Публикуване на състоянията от Miranda на стената
 [Turn off chat on Facebook when going to offline in Miranda]
 
 [Map unsupported statuses to Invisible (instead of Online)]
@@ -81,11 +81,11 @@
 [Allow posting statuses to my pages (may slow down login)]
 
 [Bots challenge test]
-
+Тест за ботове
 [Instruction:]
-
+Инструкции:
 [Submit]
-
+Пращане
 [Messages]
 Съобщения
 [Receive messages from "inbox" folder only]
@@ -110,43 +110,43 @@
 
 ;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
-
+Въведете текста, който виждате
 ;file \protocols\FacebookRM\src\chat.cpp
 [Myself]
-
+Аз
 [User]
-
+Потребител
 [Friend]
-
+Приятел
 [&Invite user...]
-
+Покани потребител...
 [&Leave chat session]
-
+Напускане от разговора
 [User &details]
 Подробности за потребителя
 [User &history]
-
+История на потребителя
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 
 [Unknown error]
-
+Непозната грешка
 [Login error: Invalid request.]
 
 [Login error: Some Facebook things are required.]
-
+Грешка при вписване: Необходими са някой неща за Facebook.
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
 
 [Login error, probably bad login credentials.]
-
+Грешка при вписване вероятно поради сгрешени данни за вписване.
 [Could not load communication token. You should report this and wait for plugin update.]
 
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
 
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
-
+За изпращането на съобщения до дуги клиенти е необходимо потвърждение.\nОтворете уеб страницата на Facebook и опитайте да изпратите съобщението до контакта отново!
 [User cancel captcha challenge.]
 
 [Timeout when sending message.]
@@ -155,9 +155,9 @@
 
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
-
+Моля, въведете потребителско име.
 [Please enter a password.]
-
+Моля, въведете парола.
 ;file \protocols\FacebookRM\src\constants.h
 [Top News]
 
@@ -208,34 +208,34 @@
 [Default]
 Стандарт
 [<< Contacts]
-
+<< Контакти
 [What's on your mind, %s?]
 
 [Sample event]
-
+Примерно събитие
 [Sample request]
-
+Пример за молба
 [Sample newsfeed]
-
+Пример за новина
 [Sample notification]
-
+Пример за уведомяване
 [Sample friendship]
-
+Пример за приятелсттво
 [Sample ticker]
-
+Пример за стикер
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
-
+стикер
 [files]
-Файлове
+файлове
 [a file]
-
+файл
 [photos]
-
+снимки
 [a photo]
-
+снимка
 [User sent %s:]
-
+Потребител изпрати%s:
 [User sent an unsupported attachment. Open your browser to see it.]
 
 [This message is no longer available, because it was marked as abusive or spam.]
@@ -244,15 +244,15 @@
 %s пише съобщение...
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
-
+Не можете да изпращате съобщения, когато сте "Извън линия"
 ;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
-
+Контактът е отново в списъка на сървъра.
 [Contact is no longer on server-list.]
-
+Контактът вече не е в списъка на сървъра.
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
-
+%s връзка със сървъра
 [Unable to get Netlib connection for Facebook]
 
 [Video call]
@@ -280,7 +280,7 @@
 [Do you want to cancel your friendship with '%s'?]
 
 [News feeds]
-
+Новини
 [Friendship events]
 
 [Visit profile]
@@ -290,11 +290,11 @@
 [Show 'Share status' window]
 
 [Notification]
-
+Уведомяване
 [News Feed]
-
+Новина
 [Other Event]
-
+Друго събитие
 [Friendship Event]
 
 [Message read: %s by %s]
@@ -305,7 +305,7 @@
 [Facebook icon]
 
 [Mind]
-
+Мисли си
 [Poke]
 
 [Newsfeed]
@@ -327,17 +327,17 @@
 [Cancel friendship request]
 
 [Request friendship]
-
+Молба за приятелство
 [Approve friendship]
 
 [Deny friendship request]
 
 [Services...]
-
+Услуги...
 [Refresh Buddy List]
 
 [Services]
-
+Услуги
 [Check Friends Requests]
 
 [Check Newsfeeds]

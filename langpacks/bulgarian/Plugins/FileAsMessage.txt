@@ -17,7 +17,7 @@
 [Chunk size]
 
 [ms]
-
+ms
 [Delays between sends]
 
 [bytes]
@@ -25,7 +25,7 @@
 [Transfer settings]
 
 [Appearance]
-
+Външен вид
 [Unsent]
 
 [Sent]
@@ -74,9 +74,9 @@
 [Synchronizing...]
 
 [Select a file]
-
+Изберете файл
 [Save as]
-
+Запс като...
 [Can't get a file size]
 
 [Canceled by user]
@@ -85,19 +85,19 @@
 
 ;file \plugins\FileAsMessage\src\main.cpp
 [Play]
-
+Възпроизведи
 [Pause]
-
+Пауза
 [Revive]
 
 [Stop]
-
+Стоп
 [Main]
-
+Основна
 [Events]
 Събития
 [File As Message...]
-
+Файл като съобщение...
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]
 
