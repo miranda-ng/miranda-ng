@@ -619,9 +619,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 			EnableWindow(prof->hwndOK, FALSE);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
-			TCHAR buf[512];
-			mir_sntprintf(buf, SIZEOF(buf), _T("%s\n%s"), TranslateT("Miranda NG profile manager"), TranslateT("Manage your Miranda NG profile"));
-			SetDlgItemText(hwndDlg, IDC_NAME, buf);
+			SetDlgItemText(hwndDlg, IDC_NAME, TranslateT("Manage your Miranda NG profile"));
 
 			dat->currentPage = 0;
 			dat->pageCount = psh->nPages;
