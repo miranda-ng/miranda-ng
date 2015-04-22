@@ -632,7 +632,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 'h': // 24 hour
 				if (showTime) {
 					if (!skipFont) {
-						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME)));
 						str.AppendChar(' ');
 					}
 					str.AppendFormat(cc == 'h' ? "%02d" : "%2d", cc == 'h' ? event_time.tm_hour : (event_time.tm_hour > 12 ? event_time.tm_hour - 12 : event_time.tm_hour));
@@ -642,7 +642,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 'm': // minute
 				if (showTime) {
 					if (!skipFont) {
-						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME)));
 						str.AppendChar(' ');
 					}
 					str.AppendFormat("%02d", event_time.tm_min);
@@ -652,7 +652,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 's': //second
 				if (showTime && (dwEffectiveFlags & MWF_LOG_SHOWSECONDS)) {
 					if (!skipFont) {
-						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME)));
 						str.AppendChar(' ');
 					}
 					str.AppendFormat("%02d", event_time.tm_sec);
@@ -662,7 +662,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 'p': // am/pm symbol
 				if (showTime) {
 					if (!skipFont) {
-						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME)));
 						str.AppendChar(' ');
 					}
 					str.Append(event_time.tm_hour > 11 ? "PM" : "AM");
@@ -672,7 +672,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 'o':            // month
 				if (showTime && showDate) {
 					if (!skipFont) {
-						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME)));
 						str.AppendChar(' ');
 					}
 					str.AppendFormat("%02d", event_time.tm_mon + 1);
@@ -682,7 +682,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 'O': // month (name)
 				if (showTime && showDate) {
 					if (!skipFont) {
-						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME)));
 						str.AppendChar(' ');
 					}
 					AppendUnicodeToBuffer(str, TranslateTS(months[event_time.tm_mon]), MAKELONG(isSent, dat->bIsHistory));
@@ -692,7 +692,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 'd': // day of month
 				if (showTime && showDate) {
 					if (!skipFont) {
-						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME)));
 						str.AppendChar(' ');
 					}
 					str.AppendFormat("%02d", event_time.tm_mday);
@@ -702,7 +702,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 'w': // day of week
 				if (showTime && showDate) {
 					if (!skipFont) {
-						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME)));
 						str.AppendChar(' ');
 					}
 					AppendUnicodeToBuffer(str, TranslateTS(weekDays[event_time.tm_wday]), MAKELONG(isSent, dat->bIsHistory));
@@ -712,7 +712,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 'y': // year
 				if (showTime && showDate) {
 					if (!skipFont) {
-						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME)));
 						str.AppendChar(' ');
 					}
 					str.AppendFormat("%04d", event_time.tm_year + 1900);
@@ -759,10 +759,10 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 							c = 0x4e;
 					}
 					if (!skipFont) {
-						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_SYMBOLS_OUT : MSGFONTID_SYMBOLS_IN));
+						str.Append(GetRTFFont(isSent ? MSGFONTID_SYMBOLS_OUT : MSGFONTID_SYMBOLS_IN));
 						str.AppendChar(' ');
 					}
-					str.AppendFormat("%c%s ", c, GetRTFFont(isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset));
+					str.AppendFormat("%c%s ", c, GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG)));
 				}
 				else skipToNext = TRUE;
 				break;
@@ -774,26 +774,21 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 				break;
 			case 'N': // nickname
 				if (!skipFont) {
-					str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
+					str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME)));
 					str.AppendChar(' ');
 				}
-				if (isSent)
-					AppendUnicodeToBuffer(str, szMyName, MAKELONG(isSent, dat->bIsHistory));
-				else
-					AppendUnicodeToBuffer(str, szYourName, MAKELONG(isSent, dat->bIsHistory));
+				AppendUnicodeToBuffer(str, (isSent) ? szMyName : szYourName, MAKELONG(isSent, dat->bIsHistory));
 				break;
 			case 'U': // UIN
 				if (!skipFont) {
-					str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
+					str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME)));
 					str.AppendChar(' ');
 				}
-				if (!isSent)
-					AppendUnicodeToBuffer(str, dat->cache->getUIN(), MAKELONG(isSent, dat->bIsHistory));
-				else
-					AppendUnicodeToBuffer(str, dat->myUin, MAKELONG(isSent, dat->bIsHistory));
+				AppendUnicodeToBuffer(str, (isSent) ? dat->myUin : dat->cache->getUIN(), MAKELONG(isSent, dat->bIsHistory));
 				break;
 			case 'e': // error message
-				str.AppendFormat("%s ", GetRTFFont(MSGFONTID_ERROR));
+				str.Append(GetRTFFont(MSGFONTID_ERROR));
+				str.AppendChar(' ');
 				AppendUnicodeToBuffer(str, LPCTSTR(dbei.szModule), MAKELONG(isSent, dat->bIsHistory));
 				break;
 			case 'M': // message
@@ -809,19 +804,25 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 							else
 								str.Append("\\line ");
 						}
-						else if (!skipFont)
-							str.AppendFormat("%s ", GetRTFFont(bIsStatusChangeEvent ? H_MSGFONTID_STATUSCHANGES : MSGFONTID_MYMSG));
+						else if (!skipFont) {
+							str.Append(GetRTFFont(bIsStatusChangeEvent ? H_MSGFONTID_STATUSCHANGES : MSGFONTID_MYMSG));
+							str.AppendChar(' ');
+						}
 					}
-					else if (!skipFont)
-						str.AppendFormat("%s ", GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG));
+					else if (!skipFont) {
+						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG)));
+						str.AppendChar(' ');
+					}
 
 					AppendUnicodeToBuffer(str, formatted, MAKELONG(isSent, dat->bIsHistory));
-					str.AppendFormat("%s", "\\b0\\ul0\\i0 ");
+					str.Append("\\b0\\ul0\\i0 ");
 					break;
 
 				case EVENTTYPE_FILE:
-					if (!skipFont)
-						str.AppendFormat("%s ", GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYMISC : MSGFONTID_YOURMISC));
+					if (!skipFont) {
+						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYMISC : MSGFONTID_YOURMISC)));
+						str.AppendChar(' ');
+					}
 					{
 						char *szFileName = (char *)dbei.pBlob + sizeof(DWORD);
 						ptrT tszFileName(DbGetEventStringT(&dbei, szFileName));
@@ -839,8 +840,10 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 					break;
 
 				default:
-					if (!skipFont)
-						str.AppendFormat("%s ", GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG));
+					if (!skipFont) {
+						str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG)));
+						str.AppendChar(' ');
+					}
 
 					ptrT tszText(DbGetEventTextT(&dbei, CP_ACP));
 					AppendUnicodeToBuffer(str, tszText, 0);
@@ -867,7 +870,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 				else str.AppendFormat("\\par\\sl-1\\slmult0\\highlight%d\\cf%d\\-\\par\\sl0", MSGDLGFONTCOUNT + 4, MSGDLGFONTCOUNT + 4);
 				break;
 			case '~':       // font break (switch to default font...)
-				str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG));
+				str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG)));
 				break;
 			case 'H':        // highlight
 				color = szTemplate[i + 2];
@@ -889,16 +892,16 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 					int fontindex = -1;
 					switch (code) {
 					case 'd':
-						fontindex = isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset;
+						fontindex = iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME);
 						break;
 					case 'n':
-						fontindex = isSent ? MSGFONTID_MYNAME + iFontIDOffset : MSGFONTID_YOURNAME + iFontIDOffset;
+						fontindex = iFontIDOffset + (isSent ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME);
 						break;
 					case 'm':
-						fontindex = isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset;
+						fontindex = iFontIDOffset + (isSent ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG);
 						break;
 					case 'M':
-						fontindex = isSent ? MSGFONTID_MYMISC + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset;
+						fontindex = iFontIDOffset + (isSent ? MSGFONTID_MYMISC : MSGFONTID_YOURMSG);
 						break;
 					case 's':
 						fontindex = isSent ? MSGFONTID_SYMBOLS_OUT : MSGFONTID_SYMBOLS_IN;
@@ -906,7 +909,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 					}
 					if (fontindex != -1) {
 						i++;
-						str.AppendFormat("%s ", GetRTFFont(fontindex));
+						str.Append(GetRTFFont(fontindex));
 					}
 					else skipToNext = TRUE;
 				}
@@ -919,15 +922,15 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 					i++;
 				}
 				else if (color == (TCHAR)'d') {
-					str.AppendFormat("\\cf%d ", isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset);
+					str.AppendFormat("\\cf%d ", iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
 					i++;
 				}
 				else if (color == (TCHAR)'m') {
-					str.AppendFormat("\\cf%d ", isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset);
+					str.AppendFormat("\\cf%d ", iFontIDOffset + (isSent ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG));
 					i++;
 				}
 				else if (color == (TCHAR)'n') {
-					str.AppendFormat("\\cf%d ", isSent ? MSGFONTID_MYNAME + iFontIDOffset : MSGFONTID_YOURNAME + iFontIDOffset);
+					str.AppendFormat("\\cf%d ", iFontIDOffset + (isSent ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
 					i++;
 				}
 				else if (color == (TCHAR)'s') {
