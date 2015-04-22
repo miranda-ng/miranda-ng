@@ -220,8 +220,10 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 				setByte(hContact, "Grant", 1);
 
 			node = json_get(item, "blocked");
-			setByte(hContact, "IsBlocked", json_as_bool(node));
-			db_set_dw(hContact, "Ignore", "Mask1", 127);
+			bool isBlocked = json_as_bool(node);
+			setByte(hContact, "IsBlocked", isBlocked);
+			if (isBlocked)
+				db_set_dw(hContact, "Ignore", "Mask1", 127);
 
 			skypenames.insert(mir_strdup(skypename));
 		}
