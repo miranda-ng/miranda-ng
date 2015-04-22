@@ -6,66 +6,66 @@
 ;  Authors: yaho
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
-
+Качва файл на FTP сървър и изпраща връзка към файла до Ваш контакт. Поддържа автоматично архивиране преди качване и криптиране (SFTP и FTPS).
 ;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP accounts]
-
+FTP акаунт
 [Host name]
-
+Име на хоста
 [User]
-
+Потребител
 [Password]
-
+Парола
 [URL]
 URL
 [Directory on server]
-
+Директория на сървъра
 [Port]
-
+Порт
 [Command after upload]
-
+Команда след качване
 [Use passive mode]
-
+Ползване на пасивен режим
 [Account name]
-
+Име на акаунта
 [Protocol]
 Протокол
 [Default FTP server]
-
+Стандартен FTP сървър
 [File download link]
-
+Връзка за сваляне на файл
 [Close dialog after upload is completed]
-
+Затваряне на прозореца след качване на файл
 [Copy download link to message log]
-
+Копиране на връзката за сваляне в дневника
 [Autosend download link to contact]
-
+Автоизпращане на връзка за сваляне на контакта
 [Menu items]
 Елементи
 [Use submenu (restart required)]
-
+Ползване на подменю (изисква рестарт)
 [Hide inactive accounts]
-
+Скриване на изключените акаунти от менюто
 [Other]
 Друго
 [Automatically delete file from FTP server after (experimental):]
-
+Автоматично изтриване на файловете от FTP сървъра след (експериментално):
 [ZIP support]
-
+Поддръжка на ZIP
 [Enter archive name manually]
-
+Ръчно въвеждане името на архива
 [Compression level:]
-
+Степен на компресия:
 [Upload File Manager]
-
+Диспечер на качените файлове
 [File:]
-
+Файл:
 [Completed:]
-
+Качени:
 [Speed:]
-
+Скорост:
 [Remaining:]
-
+Остават:
 [Summary]
 Обобщение
 [To:]
@@ -75,188 +75,188 @@ URL
 [Close]
 Затваряне
 [Clipboard]
-
+Клипборд
 [Options]
 Настройки
 [Pause]
-
+Пауза
 [File Manager]
-
+Диспечер на файлове
 [Server:]
-
+Сървър:
 [User info]
-
+Подробности за потребителя
 [UPLOADING...]
-
+КАЧВАНЕ...
 [Open in Browser]
-
+Отваряне в браузер
 [FTP File Manager]
-
+FTP File диспечер
 [Select All]
 Избор - всичко
 [Deselect All]
-
+Размаркирай всички
 [Delete from list]
-
+Изтрий от списъка
 [Delete from FTP]
-
+Изтриване от FTP
 [Enter file name]
-
+Въведете име на файла
 [Cancel]
 Отказ
 [File exists]
-
+Файлът съществува
 [Rename]
 Преименуване
 [Overwrite]
 Презаписване
 [File with the same name already exists on the server.]
-
+На сървъра съществува файл със същото име.
 [How to proceed?]
-
+Какво да бъде направено?
 [Copy URL]
-
+Копиране на URL
 [Close dialog after upload finishes]
-
+Затваряне на прозореца след качването на файл
 [Automatically delete file after...]
-
+Автоматично изтриване на файла след...
 [Disabled]
-
+Изключено
 [Delete from List]
-
+Изтриване от списъка
 [Copy Link]
-
+Копиране на връзката
 ;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
-
+Подробности за потребителя
 [Copy Link to Clipboard]
-
+Копиране на връзката в клипборда
 [%d minutes]
-
+%d минути
 [%d hours]
-
+%d часа
 [%d days]
-
+%d дни
 [Do you really want to cancel all running jobs?]
-
+Наистина ли желаете всички текущи задачи да бъдат отменени?
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
 [FTP Server 1]
-
+FTP сървър 1
 [FTP Server 2]
-
+FTP сървър 2
 [FTP Server 3]
-
+FTP сървър 3
 [FTP Server 4]
-
+FTP сървър 4
 [FTP Server 5]
-
+FTP сървър 5
 [Send file]
-
+Изпращане на файл
 [Resume]
 Продължаване
 [FTP File]
-
+FTP File
 [FTP Server %d]
-
+FTP сървър %d
 [Upload file(s)]
-
+Качване на файл(ове)
 [Zip and upload file(s)]
-
+Архивиране и качване на файл(ове)
 [Zip and upload folder]
-
+Архивиране и качване на папка
 [FTP File manager]
-
+FTP file диспечер
 [Show FTPFile manager]
-
+Показване на FTPFile диспечера
 [Upload file]
-
+Качване на файл(ове)
 [Zip and upload file]
-
+Архивиране и качване на файл(ове)
 [You have to fill FTP server setting before upload a file.]
-
+За да качите файл първо трябва да въведете настройките за FTP сървъра.
 [Error has occurred while trying to create a dialog!]
-
+Възникна грешка при създаването на прозорец!
 [File upload complete]
-
+Завършено качване на файл
 [Upload canceled]
-
+Отменено качване
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 [All Files (*.*)]
-
+Всички файлове (*.*)
 [FTP File - Select files]
-
+FTP File: Изберете файлове
 [FTP File - Select a folder]
-
+FTP File: Изберете папка
 [Folder not found!]
-
+Папката не е открита!
 [The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
-
+Избраната папка не съдържа файлове.\nИзпращат се файлове само от избраната папка, но не и от подпапките.
 [CANCELED]
-Отказано
+ОТКАЗАНО
 [COMPLETED]
-
+ГОТОВО
 [CONNECTING...]
-Свързване...
+СВЪРЗВАНЕ...
 [CREATED]
-Създаден
+СЪЗДАДЕНО
 [PACKING...]
-
+ПАКЕТИРАНЕ...
 [PAUSED]
-
+НА ПАУЗА
 [WAITING...]
-
+ИЗЧАКВАНЕ...
 [UNKNOWN]
-Неизвестно
+НЕИЗВЕСТНО
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 [Error occurred when zipping the file(s).]
-
+Възникна грешка при архивирането на файла(овете).
 [%0.1f kB/s]
-
+%0.1f кБ/сек
 [%0.1f%% (%d kB/%d kB)]
-
+%0.1f%% (%d кБ/%d кБ)
 [%s (%d kB/%d kB)]
-
+%s (%d кБ/%d кБ)
 [Do you really want to cancel this upload?]
-
+Наистина ли желаете качването да бъде отменено?
 [Status: %s\r\nFile: %s\r\nServer: %s]
-
+Състояние: %s\r\nФайл: %s\r\nСървър: %s
 ;file \plugins\FTPFileYM\src\job_upload.cpp
 [File exists - %s]
-
+Файлът съществува - %s
 [Error occurred when opening local file.\nAborting file upload...]
-
+Възникна грешка при отварянето на местния файл.\nПрекратяване на качването...
 [Error occurred when initializing libcurl.\nAborting file upload...]
-
+Възникна грешка при
 [FTP error occurred.\n%s]
-
+Възникна FTP грешка.\n%s
 [Download link:]
-
+Връзка за сваляне:
 [Do you really want to cancel running upload?]
-
+Наистина ли желаете качването да бъде отменено?
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
-
+%s\r\nСкорост: %s\r\nКачени: %s\r\nОстават: %s
 ;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
-
+Трябва да въведете и включите поне един сървър в настройките.
 [Clear All]
-
+Изчисти всичко
 ;file \plugins\FTPFileYM\src\options.cpp
 [FTP (Standard)]
-
+FTP (Стандартно)
 [FTP+SSL (Explicit)]
-
+FTP+SSL (Explicit)
 [FTP+SSL (Implicit)]
-
+FTP+SSL (Implicit)
 [SFTP (Secure FTP over SSH)]
-
+SFTP (Secure FTP over SSH)
 [minutes]
-
+минути
 [hours]
-
+часа
 [days]
-
+дни
 [Services]
-
+Услуги
 [Accounts]
 Акаунти
 [Advanced]

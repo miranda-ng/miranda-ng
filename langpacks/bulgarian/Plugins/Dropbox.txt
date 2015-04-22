@@ -21,7 +21,7 @@
 [Initiate authorization]
 
 [Authorize]
-
+Упълномощаване
 [Download link]
 
 [Use shortened download links]
@@ -29,7 +29,7 @@
 [Check status of authorization]
 
 [Autosend download link to contact]
-
+Автоизпращане на връзка за сваляне на контакта
 [Paste download link into message input area]
 
 [Copy download link to clipboard]
@@ -72,9 +72,9 @@
 Мрежа
 ;file \plugins\Dropbox\src\dropbox_icons.cpp
 [Protocols]
-
+Протоколи
 [Protocol icon]
-
+Икона на протокола
 ;file \plugins\Dropbox\src\dropbox_menus.cpp
 ;file \plugins\Dropbox\src\dropbox_services.cpp
 [Unknown command "%s".\nUse "/help" for more info.]

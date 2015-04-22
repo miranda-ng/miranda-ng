@@ -6,10 +6,10 @@
 ;  Authors: Mixwind
 ;============================================================
 [Check your Gmail inboxes locally.]
-
+Проверявайте вашата входящата кутия в Gmail.
 ;file \plugins\GmailNotifier\res\options.rc
 [Gmail account]
-
+Gmail акаунт
 [Name:]
 Име:
 [Password:]
@@ -17,29 +17,29 @@
 [Add]
 Добавяне
 [Save]
-
+Запис
 [Delete]
 Изтриване
 [Configuration]
-
+Настройване
 [Check Gmail inbox every]
-
+Проверка всеки
 [minutes]
-
+минути
 [Notify using:]
-
+Уведомяване с:
 [Duration:]
-
+Продължителност:
 [seconds]
 секунди
 [Text|Background:]
-
+Текст|Фон:
 [On double click:]
 
 [System tray]
-
+Системен трей
 [Popup plugin]
-
+Popup приставка
 [Login using default browser]
 
 [Login using Internet Explorer]
@@ -56,26 +56,26 @@
 
 ;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
-
+Проверяване...
 [Can't open Internet!]
 
 [Can't reach server!]
-
+Сървърът не е достъпен!
 [Can't send account data!]
 
 [Can't get RSS feed!]
 
 [Wrong name or password!]
-
+Грешно име или парола!
 ;file \plugins\GmailNotifier\src\main.cpp
 [Other]
 Друго
 [Gmail: New thread(s)]
-
+Gmail: Нови писма
 [&Check all Gmail inboxes]
-
+Проверка на всички кутии
 [&Check Gmail inbox]
-
+Проверка на Gmail кутията
 ;file \plugins\GmailNotifier\src\options.cpp
 [GmailNotifier]
 
