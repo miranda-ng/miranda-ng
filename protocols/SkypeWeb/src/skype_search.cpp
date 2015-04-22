@@ -30,7 +30,7 @@ void CSkypeProto::SearchBasicThread(void* id)
 		return;
 	ptrA token(getStringA("TokenSecret"));
 	ptrA string(mir_urlEncode(ptrA(mir_utf8encodeT((TCHAR*)id))));
-	PushRequest(new GetSearchRequest(token, string), &CSkypeProto::OnSearch);
+	SendRequest(new GetSearchRequest(token, string), &CSkypeProto::OnSearch);
 }
 
 void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)

@@ -219,7 +219,6 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		{
 			skypename = ChatUrlToName(conversationLink);
 			isChat = true;
-			JSONNODE *threadProperties = json_get(conversation, "threadProperties");
 			topic =  json_as_string(json_get(threadProperties, "topic"));
 			StartChatRoom(_A2T(skypename), topic);
 		}
