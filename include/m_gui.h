@@ -272,19 +272,16 @@ public:
 	__forceinline bool IsInitialized() const { return m_initialized; }
 	__forceinline void SetParent(HWND hwnd) { m_hwndParent = hwnd; }
 	__forceinline void Close() { SendMessage(m_hwnd, WM_CLOSE, 0, 0); }
-	__forceinline const MSG *ActiveMessage() const { return &m_msg; }
-
-	LRESULT m_lresult;
 
 protected:
+	HWND      m_hwnd;  // must be the first data item
 	HINSTANCE m_hInst;
-	HWND      m_hwnd;
 	HWND      m_hwndParent;
 	int       m_idDialog;
-	MSG       m_msg;
 	bool      m_isModal;
 	bool      m_initialized;
 	bool      m_forceResizable;
+	LRESULT   m_lresult;
 
 	enum { CLOSE_ON_OK = 0x1, CLOSE_ON_CANCEL = 0x2 };
 	BYTE    m_autoClose;    // automatically close dialog on IDOK/CANCEL commands. default: CLOSE_ON_OK|CLOSE_ON_CANCEL
@@ -331,7 +328,7 @@ class MIR_CORE_EXPORT CCtrlBase
 
 public:
 	CCtrlBase(CDlgBase *wnd, int idCtrl);
-	virtual ~CCtrlBase() { Unsubclass(); }
+	virtual ~CCtrlBase() { }
 
 	__forceinline HWND GetHwnd() const { return m_hwnd; }
 	__forceinline int GetCtrlId() const { return m_idCtrl; }
@@ -376,7 +373,7 @@ public:
 	}
 
 protected:
-	HWND m_hwnd;
+	HWND m_hwnd;  // must be the first data item
 	int m_idCtrl;
 	CCtrlBase* m_next;
 	CDlgBase* m_parentWnd;
@@ -386,15 +383,7 @@ protected:
 	void Unsubclass();
 
 private:
-	WNDPROC m_wndproc;
-	static LRESULT CALLBACK GlobalSubclassWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		if (CCtrlBase *ctrl = (CCtrlBase*)GetWindowLongPtr(hwnd, GWLP_USERDATA))
-			if (ctrl)
-				return ctrl->CustomWndProc(msg, wParam, lParam);
-
-		return DefWindowProc(hwnd, msg, wParam, lParam);
-	}
+	static LRESULT CALLBACK GlobalSubclassWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -405,7 +394,7 @@ class MIR_CORE_EXPORT CCtrlButton : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlButton(CDlgBase* dlg, int ctrlId);
+	CCtrlButton(CDlgBase *dlg, int ctrlId);
 
 	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode);
 
@@ -417,8 +406,8 @@ class MIR_CORE_EXPORT CCtrlMButton : public CCtrlButton
 	typedef CCtrlButton CSuper;
 
 public:
-	CCtrlMButton(CDlgBase* dlg, int ctrlId, HICON hIcon, const char* tooltip);
-	CCtrlMButton(CDlgBase* dlg, int ctrlId, int iCoreIcon, const char* tooltip);
+	CCtrlMButton(CDlgBase *dlg, int ctrlId, HICON hIcon, const char* tooltip);
+	CCtrlMButton(CDlgBase *dlg, int ctrlId, int iCoreIcon, const char* tooltip);
 	~CCtrlMButton();
 
 	void MakeFlat();
@@ -436,7 +425,7 @@ class MIR_CORE_EXPORT CCtrlHyperlink : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlHyperlink(CDlgBase* dlg, int ctrlId, const char* url);
+	CCtrlHyperlink(CDlgBase *dlg, int ctrlId, const char* url);
 
 	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode);
 
@@ -451,7 +440,7 @@ class MIR_CORE_EXPORT CCtrlClc : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlClc(CDlgBase* dlg, int ctrlId);
+	CCtrlClc(CDlgBase *dlg, int ctrlId);
 
 	void AddContact(MCONTACT hContact);
 	void AddGroup(HANDLE hGroup);
@@ -531,7 +520,7 @@ class MIR_CORE_EXPORT CCtrlData : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlData(CDlgBase* dlg, int ctrlId);
+	CCtrlData(CDlgBase *dlg, int ctrlId);
 
 	virtual ~CCtrlData()
 	{
@@ -570,7 +559,7 @@ class MIR_CORE_EXPORT CCtrlCheck : public CCtrlData
 	typedef CCtrlData CSuper;
 
 public:
-	CCtrlCheck(CDlgBase* dlg, int ctrlId);
+	CCtrlCheck(CDlgBase *dlg, int ctrlId);
 	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) { NotifyChange(); return TRUE; }
 	virtual void OnInit()
 	{
@@ -598,7 +587,7 @@ class MIR_CORE_EXPORT CCtrlEdit : public CCtrlData
 	typedef CCtrlData CSuper;
 
 public:
-	CCtrlEdit(CDlgBase* dlg, int ctrlId);
+	CCtrlEdit(CDlgBase *dlg, int ctrlId);
 	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode)
 	{
 		if (idCode == EN_CHANGE)
@@ -641,7 +630,7 @@ class MIR_CORE_EXPORT CCtrlListBox : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlListBox(CDlgBase* dlg, int ctrlId);
+	CCtrlListBox(CDlgBase *dlg, int ctrlId);
 
 	int    AddString(TCHAR *text, LPARAM data=0);
 	void   DeleteString(int index);
@@ -679,7 +668,7 @@ class MIR_CORE_EXPORT CCtrlCombo : public CCtrlData
 	typedef CCtrlData CSuper;
 
 public:
-	CCtrlCombo(CDlgBase* dlg, int ctrlId);
+	CCtrlCombo(CDlgBase *dlg, int ctrlId);
 
 	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode)
 	{
@@ -757,7 +746,7 @@ class MIR_CORE_EXPORT CCtrlListView : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlListView(CDlgBase* dlg, int ctrlId);
+	CCtrlListView(CDlgBase *dlg, int ctrlId);
 
 	// Classic LV interface
 	DWORD ApproximateViewRect(int cx, int cy, int iCount);
@@ -958,7 +947,7 @@ class MIR_CORE_EXPORT CCtrlTreeView : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlTreeView(CDlgBase* dlg, int ctrlId);
+	CCtrlTreeView(CDlgBase *dlg, int ctrlId);
 
 	// Classic TV interface
 	HIMAGELIST CreateDragImage(HTREEITEM hItem);
@@ -1066,7 +1055,7 @@ class MIR_CORE_EXPORT CCtrlPages : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlPages(CDlgBase* dlg, int ctrlId);
+	CCtrlPages(CDlgBase *dlg, int ctrlId);
 
 	void AddPage(TCHAR *ptszName, HICON hIcon, CCallback<void> onCreate = CCallback<void>(), void *param = NULL);
 	void AttachDialog(int iPage, CDlgBase *pDlg);
