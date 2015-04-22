@@ -696,7 +696,6 @@ mir_wstrcmpi                  @280
 ??_7CDlgBase@@6B@ @694 NONAME
 ??_7CProtoIntDlgBase@@6B@ @695 NONAME
 ?ActivatePage@CCtrlPages@@QAEXH@Z @696 NONAME
-?ActiveMessage@CDlgBase@@QBEPBUtagMSG@@XZ @697 NONAME
 ?AddColumn@CCtrlListView@@QAEXHPA_WH@Z @698 NONAME
 ?AddContact@CCtrlClc@@QAEXI@Z @699 NONAME
 ?AddControl@CDlgBase@@IAEXPAVCCtrlBase@@@Z @700 NONAME

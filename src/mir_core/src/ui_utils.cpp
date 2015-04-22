@@ -27,6 +27,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_icolib.h>
 #include <m_skin.h>
 
+static mir_cs csDialogs, csCtrl;
+
+static int CompareDialogs(const CDlgBase *p1, const CDlgBase *p2)
+{	return (INT_PTR)p1->GetHwnd() - (INT_PTR)p2->GetHwnd();
+}
+static LIST<CDlgBase> arDialogs(10, CompareDialogs);
+
+static int CompareDialogs(const CCtrlBase *p1, const CCtrlBase *p2)
+{	return (INT_PTR)p1->GetHwnd() - (INT_PTR)p2->GetHwnd();
+}
+static LIST<CCtrlBase> arControls(10, PtrKeySortT);
+
 #pragma comment(lib, "uxtheme")
 
 CDlgBase::CDlgBase(HINSTANCE hInst, int idDialog) :
@@ -180,8 +192,12 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		OnDestroy();
 		NotifyControls(&CCtrlBase::OnDestroy);
-
-		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
+		{
+			mir_cslock lck(csDialogs);
+			int idx = arDialogs.getIndex(this);
+			if (idx != -1)
+				arDialogs.remove(idx);
+		}
 		m_hwnd = NULL;
 		if (m_isModal)
 			m_isModal = false;
@@ -198,19 +214,21 @@ INT_PTR CALLBACK CDlgBase::GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 {
 	CDlgBase *wnd = NULL;
 	if (msg == WM_INITDIALOG) {
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
-		wnd = (CDlgBase *)lParam;
+		wnd = (CDlgBase*)lParam;
 		wnd->m_hwnd = hwnd;
+		
+		mir_cslock lck(csDialogs);
+		arDialogs.insert(wnd);
 	}
-	else wnd = (CDlgBase *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	else {
+		PVOID bullshit[2]; // vfptr + hwnd
+		bullshit[1] = hwnd;
+		wnd = arDialogs.find((CDlgBase*)&bullshit);
+	}
 
-	if (!wnd)
+	if (wnd == NULL)
 		return FALSE;
 
-	wnd->m_msg.hwnd = hwnd;
-	wnd->m_msg.message = msg;
-	wnd->m_msg.wParam = wParam;
-	wnd->m_msg.lParam = lParam;
 	return wnd->DlgProc(msg, wParam, lParam);
 }
 
@@ -1512,16 +1530,6 @@ HTREEITEM CCtrlTreeView::InsertItem(TVINSERTSTRUCT *tvis)
 {	return TreeView_InsertItem(m_hwnd, tvis);
 }
 
-/*
-HTREEITEM CCtrlTreeView::MapAccIDToHTREEITEM(UINT id)
-{	return TreeView_MapAccIDToHTREEITEM(m_hwnd, id);
-}
-
-UINT CCtrlTreeView::MapHTREEITEMtoAccID(HTREEITEM hItem)
-{	return TreeView_MapHTREEITEMtoAccID(m_hwnd, hItem);
-}
-
-*/
 void CCtrlTreeView::Select(HTREEITEM hItem, DWORD flag)
 {	TreeView_Select(m_hwnd, hItem, flag);
 }
@@ -1761,8 +1769,7 @@ void CCtrlPages::OnDestroy()
 CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl) :
 	m_parentWnd(wnd),
 	m_idCtrl(idCtrl),
-	m_hwnd(NULL),
-	m_wndproc(NULL)
+	m_hwnd(NULL)
 {
 	if (wnd) {
 		m_next = wnd->m_first;
@@ -1778,7 +1785,6 @@ void CCtrlBase::OnInit()
 
 void CCtrlBase::OnDestroy()
 {
-	Unsubclass();
 	m_hwnd = NULL;
 }
 
@@ -1854,23 +1860,40 @@ int CCtrlBase::GetInt()
 
 LRESULT CCtrlBase::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_DESTROY) Unsubclass();
-	return CallWindowProc(m_wndproc, m_hwnd, msg, wParam, lParam);
+	return FALSE;
+}
+
+LRESULT CALLBACK CCtrlBase::GlobalSubclassWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	PVOID bullshit[2];  // vfptr + hwnd
+	bullshit[1] = hwnd;
+	CCtrlBase *pCtrl = arControls.find((CCtrlBase*)&bullshit);
+	if (pCtrl) {
+		LRESULT res = pCtrl->CustomWndProc(msg, wParam, lParam);
+		if (msg == WM_DESTROY) {
+			pCtrl->Unsubclass();
+			arControls.remove(pCtrl);
+		}
+
+		if (res != 0)
+			return res;
+	}
+
+	return mir_callNextSubclass(hwnd, GlobalSubclassWndProc, msg, wParam, lParam);
 }
 
 void CCtrlBase::Subclass()
 {
-	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
-	m_wndproc = (WNDPROC)SetWindowLongPtr(m_hwnd, GWLP_WNDPROC, (LONG_PTR)GlobalSubclassWndProc);
+	mir_subclassWindow(m_hwnd, GlobalSubclassWndProc);
+	
+	mir_cslock lck(csCtrl);
+	arControls.insert(this);
 }
 
 void CCtrlBase::Unsubclass()
 {
-	if (m_wndproc) {
-		SetWindowLongPtr(m_hwnd, GWLP_WNDPROC, (LONG_PTR)m_wndproc);
-		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
-		m_wndproc = 0;
-}	}
+	mir_unsubclassWindow(m_hwnd, GlobalSubclassWndProc);
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CDbLink class
