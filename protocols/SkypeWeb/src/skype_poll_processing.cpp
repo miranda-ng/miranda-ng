@@ -35,30 +35,42 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 		ptrA typ(mir_t2a(ptrT(json_as_string(json_get(publicInfo, "typ")))));
 		if (typ != NULL)
 		{
-			if (!mir_strcmpi(typ, "17")) //Android
-				db_set_s(hContact, m_szModuleName, "MirVer", "Skype (Android)");
-			else if (!mir_strcmpi(typ, "16")) //iOS
-				db_set_s(hContact, m_szModuleName, "MirVer", "Skype (iOS)");
-			else if (!mir_strcmpi(typ, "12")) //WinRT/Metro
-				db_set_s(hContact, m_szModuleName, "MirVer", "Skype (WinRT)");
-			else if (!mir_strcmpi(typ, "15")) //Winphone
-				db_set_s(hContact, m_szModuleName, "MirVer", "Skype (WP)");
-			else if (!mir_strcmpi(typ, "13")) //OSX
-				db_set_s(hContact, m_szModuleName, "MirVer", "Skype (OSX)");
-			else if (!mir_strcmpi(typ, "11")) //Windows
-				db_set_s(hContact, m_szModuleName, "MirVer", "Skype (Windows)");
-			else if (!mir_strcmpi(typ, "14")) //Linux
-				db_set_s(hContact, m_szModuleName, "MirVer", "Skype (Linux)");
-			else if (!mir_strcmpi(typ, "10"))//XBox ? skypeNameVersion 11/1.8.0.1006
-				db_set_s(hContact, m_szModuleName, "MirVer", "Skype (XBOX)");
-			else if (!mir_strcmpi(typ, "1")) //SkypeWeb
-				db_set_s(hContact, m_szModuleName, "MirVer", "Skype (Web)");
-			else if (!mir_strcmpi(typ, "125")) //Miranda
+			int iTyp = atoi(typ);
+			CMStringA MirVer = "";
+			switch (iTyp)
 			{
-				char ver[MAX_PATH];
-				mir_snprintf(ver, SIZEOF(ver), "%s %s", skypeNameVersion, version);
-				db_set_s(hContact, m_szModuleName, "MirVer", ver);
+				case 17:
+					MirVer.Append("Skype (Android)");
+					break;
+				case 16:
+					MirVer.Append("Skype (iOS)");
+					break;
+				case 12:
+					MirVer.Append("Skype (WinRT)");
+					break;
+				case 15:
+					MirVer.Append("Skype (WP)");
+					break;
+				case 13:
+					MirVer.Append("Skype (OSX)");
+					break;
+				case 11:
+					MirVer.Append("Skype (Windows)");
+					break;
+				case 14:
+					MirVer.Append("Skype (Linux)");
+					break;
+				case 10:
+					MirVer.Append("Skype (XBOX)");
+					break;
+				case 1:
+					MirVer.Append("Skype (Web)");
+					break;
+				case 125:
+					MirVer.AppendFormat("%s %s", skypeNameVersion, version);
+					break;
 			}
+			db_set_s(hContact, m_szModuleName, "MirVer", MirVer);
 		}
 	}
 }
