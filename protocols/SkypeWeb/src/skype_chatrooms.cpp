@@ -280,7 +280,7 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 
 	ptrT topic(json_as_string(json_get(node, "threadtopic")));
 	
-	//StartChatRoom(_A2T(chatname), topic);
+	if (FindChatRoom(chatname) == NULL) StartChatRoom(_A2T(chatname), topic);
 	
 	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 	if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
@@ -314,8 +314,6 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		}
 
 		target = ParseUrl(xtarget, "8:");
-
-		if (FindChatRoom(chatname) == NULL) StartChatRoom(_A2T(chatname), topic);
 
 		AddChatContact(_A2T(chatname), target, target, L"User");
 	}
