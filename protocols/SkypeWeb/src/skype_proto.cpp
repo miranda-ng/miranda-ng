@@ -82,7 +82,7 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	return 0;
 }
 
-MCONTACT CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT *psr) 
+MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr) 
 { 
 	debugLogA("CSkypeProto::AddToList");
 
