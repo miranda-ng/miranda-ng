@@ -199,34 +199,9 @@ static int TSAPI GetColorIndex(char *rtffont)
 	return 0;
 }
 
-static void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const char *fmt, ...)
+static int AppendUnicodeToBuffer(CMStringA &str, const TCHAR *line, int mode)
 {
-	va_list va;
-	int charsDone;
-
-	va_start(va, fmt);
-	for (;;) {
-		charsDone = mir_vsnprintf(buffer + cbBufferEnd, cbBufferAlloced - cbBufferEnd, fmt, va);
-		if (charsDone >= 0)
-			break;
-		cbBufferAlloced += 1024;
-		buffer = (char*)mir_realloc(buffer, cbBufferAlloced);
-	}
-	va_end(va);
-	cbBufferEnd += charsDone;
-}
-
-static int AppendUnicodeToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const TCHAR *line, int mode)
-{
-	int lineLen = (int)(wcslen(line)) * 9 + 8;
-	if (cbBufferEnd + lineLen > cbBufferAlloced) {
-		cbBufferAlloced += (lineLen + 1024UL - lineLen % 1024UL);
-		buffer = (char*)mir_realloc(buffer, cbBufferAlloced);
-	}
-
-	char *d = buffer + cbBufferEnd;
-	strcpy(d, "{\\uc1 ");
-	d += 6;
+	str.Append("{\\uc1 ");
 
 	int textCharsCount = 0;
 	for (; *line; line++, textCharsCount++) {
@@ -236,156 +211,140 @@ static int AppendUnicodeToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 				int begin = (code == '1');
 				switch (line[1]) {
 				case 'b':
-					memcpy(d, begin ? "\\b " : "\\b0 ", begin ? 3 : 4);
-					d += (begin ? 3 : 4);
+					str.Append(begin ? "\\b " : "\\b0 ");
 					line += 3;
 					continue;
 				case 'i':
-					memcpy(d, begin ? "\\i " : "\\i0 ", begin ? 3 : 4);
-					d += (begin ? 3 : 4);
+					str.Append(begin ? "\\i " : "\\i0 ");
 					line += 3;
 					continue;
 				case 'u':
-					memcpy(d, begin ? "\\ul " : "\\ul0 ", begin ? 4 : 5);
-					d += (begin ? 4 : 5);
+					str.Append(begin ? "\\ul " : "\\ul0 ");
 					line += 3;
 					continue;
 				case 's':
-					memcpy(d, begin ? "\\strike " : "\\strike0 ", begin ? 8 : 9);
-					d += (begin ? 8 : 9);
+					str.Append(begin ? "\\strike " : "\\strike0 ");
 					line += 3;
 					continue;
 				case 'c':
 					begin = (code == 'x');
-					memcpy(d, "\\cf", 3);
+					str.Append("\\cf");
 					if (begin) {
-						d[3] = (char)line[3];
-						d[4] = (char)line[4];
-						d[5] = ' ';
+						str.AppendChar((char)line[3]);
+						str.AppendChar((char)line[4]);
 					}
 					else {
 						char szTemp[10];
 						int colindex = GetColorIndex(GetRTFFont(LOWORD(mode) ? (MSGFONTID_MYMSG + (HIWORD(mode) ? 8 : 0)) : (MSGFONTID_YOURMSG + (HIWORD(mode) ? 8 : 0))));
 						mir_snprintf(szTemp, SIZEOF(szTemp), "%02d", colindex);
-						d[3] = szTemp[0];
-						d[4] = szTemp[1];
-						d[5] = ' ';
+						str.Append(szTemp);
 					}
-					d += 6;
+					str.AppendChar(' ');
+
 					line += (begin ? 6 : 3);
 					continue;
 				}
 			}
 		}
 		if (*line == '\r' && line[1] == '\n') {
-			memcpy(d, "\\line ", 6);
+			str.Append("\\line ");
 			line++;
-			d += 6;
 		}
 		else if (*line == '\n') {
-			memcpy(d, "\\line ", 6);
-			d += 6;
+			str.Append("\\line ");
 		}
 		else if (*line == '\t') {
-			memcpy(d, "\\tab ", 5);
-			d += 5;
+			str.Append("\\tab ");
 		}
 		else if (*line == '\\' || *line == '{' || *line == '}') {
-			*d++ = '\\';
-			*d++ = (char)* line;
+			str.AppendChar('\\');
+			str.AppendChar((char)*line);
 		}
 		else if (*line < 128) {
-			*d++ = (char)* line;
+			str.AppendChar((char)*line);
 		}
-		else d += sprintf(d, "\\u%d ?", *line); //!!!!!!!!!!!!!
+		else str.AppendFormat("\\u%d ?", *line);
 	}
 
-	strcpy(d, "}");
-	d++;
-
-	cbBufferEnd = (int)(d - buffer);
+	str.AppendChar('}');
 	return textCharsCount;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void Build_RTF_Header(char *&buffer, size_t &bufferEnd, size_t &bufferAlloced, TWindowData *dat)
+static void Build_RTF_Header(CMStringA &str, TWindowData *dat)
 {
 	int i;
 	LOGFONTA *logFonts = dat->pContainer->theme.logFonts;
 	COLORREF *fontColors = dat->pContainer->theme.fontColors;
 	TLogTheme *theme = &dat->pContainer->theme;
 
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
+	str.Append("{\\rtf1\\ansi\\deff0{\\fonttbl");
 
 	for (i = 0; i < MSGDLGFONTCOUNT; i++)
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "{\\f%u\\fnil\\fcharset%u %s;}", i, logFonts[i].lfCharSet, logFonts[i].lfFaceName);
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "{\\f%u\\fnil\\fcharset%u %s;}", MSGDLGFONTCOUNT, logFonts[i].lfCharSet, "Arial");
+		str.AppendFormat("{\\f%u\\fnil\\fcharset%u %s;}", i, logFonts[i].lfCharSet, logFonts[i].lfFaceName);
+	str.AppendFormat("{\\f%u\\fnil\\fcharset%u %s;}", MSGDLGFONTCOUNT, logFonts[i].lfCharSet, "Arial");
 
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "}{\\colortbl ");
+	str.Append("}{\\colortbl ");
 	for (i = 0; i < MSGDLGFONTCOUNT; i++)
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(fontColors[i]), GetGValue(fontColors[i]), GetBValue(fontColors[i]));
+		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(fontColors[i]), GetGValue(fontColors[i]), GetBValue(fontColors[i]));
 
 	COLORREF colour = (GetSysColorBrush(COLOR_HOTLIGHT) == NULL) ? RGB(0, 0, 255) : GetSysColor(COLOR_HOTLIGHT);
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 
 	// OnO: Create incoming and outcoming colours
 	colour = theme->inbg;
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	colour = theme->outbg;
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	colour = theme->bg;
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	colour = theme->hgrid;
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	colour = theme->oldinbg;
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	colour = theme->oldoutbg;
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	colour = theme->statbg;
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 
 	// custom template colors...
 	for (i = 1; i <= 5; i++) {
 		colour = theme->custom_colors[i - 1];
 		if (colour == 0)
 			colour = RGB(1, 1, 1);
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	}
 
 	// bbcode colors...
 	for (i = 0; i < Utils::rtf_ctable_size; i++)
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(Utils::rtf_ctable[i].clr), GetGValue(Utils::rtf_ctable[i].clr), GetBValue(Utils::rtf_ctable[i].clr));
+		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(Utils::rtf_ctable[i].clr), GetGValue(Utils::rtf_ctable[i].clr), GetBValue(Utils::rtf_ctable[i].clr));
 
 	// paragraph header
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "}");
+	str.AppendFormat("}");
 
 	// indent:
 	// real indent is set in msgdialog.c (DM_OPTIONSAPPLIED)
 	if (!(dat->dwFlags & MWF_LOG_INDENT))
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\li%u\\ri%u\\fi%u\\tx%u", 2 * 15, 2 * 15, 0, 70 * 15);
+		str.AppendFormat("\\li%u\\ri%u\\fi%u\\tx%u", 2 * 15, 2 * 15, 0, 70 * 15);
 }
-
 
 // mir_free() the return value
 static char* CreateRTFHeader(TWindowData *dat)
 {
-	size_t  bufferEnd = 0, bufferAlloced = 1024;
-	char *buffer = (char*)mir_alloc(bufferAlloced);
-	buffer[0] = '\0';
-
-	Build_RTF_Header(buffer, bufferEnd, bufferAlloced, dat);
-	return buffer;
+	CMStringA str;
+	Build_RTF_Header(str, dat);
+	return str.Detouch();
 }
 
-static void AppendTimeStamp(TCHAR *szFinalTimestamp, int isSent, char *&buffer, size_t &bufferEnd, size_t &bufferAlloced, int skipFont,
-	TWindowData *dat, int iFontIDOffset)
+static void AppendTimeStamp(TCHAR *szFinalTimestamp, int isSent, CMStringA &str, int skipFont, TWindowData *dat, int iFontIDOffset)
 {
 	if (skipFont)
-		AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, szFinalTimestamp, MAKELONG(isSent, dat->bIsHistory));
+		AppendUnicodeToBuffer(str, szFinalTimestamp, MAKELONG(isSent, dat->bIsHistory));
 	else {
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset));
-		AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, szFinalTimestamp, MAKELONG(isSent, dat->bIsHistory));
+		str.Append(GetRTFFont(isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset));
+		str.AppendChar(' ');
+		AppendUnicodeToBuffer(str, szFinalTimestamp, MAKELONG(isSent, dat->bIsHistory));
 	}
 }
 
@@ -416,11 +375,7 @@ static TCHAR* Template_MakeRelativeDate(HANDLE hTimeZone, time_t check, TCHAR co
 // mir_free() the return value
 static char *CreateRTFTail()
 {
-	size_t bufferEnd = 0, bufferAlloced = 1024;
-	char *buffer = (char*)mir_alloc(bufferAlloced);
-	buffer[0] = '\0';
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "}");
-	return buffer;
+	return mir_strdup("}");
 }
 
 int TSAPI DbEventIsShown(DBEVENTINFO *dbei)
@@ -445,24 +400,19 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	BOOL isBold = FALSE, isItalic = FALSE, isUnderline = FALSE;
 	DWORD dwFormattingParams = MAKELONG(1, 0);
 
-	size_t bufferEnd = 0, bufferAlloced = 1024;
-	char *buffer = (char *)mir_alloc(bufferAlloced); buffer[0] = '\0';
-
 	DBEVENTINFO dbei = { 0 };
 	if (streamData->dbei != 0)
 		dbei = *(streamData->dbei);
 	else {
 		dbei.cbSize = sizeof(dbei);
 		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-		if (dbei.cbBlob == -1) {
-			mir_free(buffer);
+		if (dbei.cbBlob == -1)
 			return NULL;
-		}
+
 		dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 		db_event_get(hDbEvent, &dbei);
 		if (!DbEventIsShown(&dbei)) {
 			mir_free(dbei.pBlob);
-			mir_free(buffer);
 			return NULL;
 		}
 	}
@@ -474,17 +424,17 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	TCHAR *msg = DbGetEventTextT(&dbei, dat->codePage);
 	if (!msg) {
 		mir_free(dbei.pBlob);
-		mir_free(buffer);
 		return NULL;
 	}
 	TrimMessage(msg);
 	formatted = const_cast<TCHAR *>(Utils::FormatRaw(dat, msg, dwFormattingParams, FALSE));
 	mir_free(msg);
 
+	CMStringA str;
 	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 
 	if (dat->isAutoRTL & 2) {                                     // means: last \\par was deleted to avoid new line at end of log
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\par");
+		str.Append("\\par");
 		dat->isAutoRTL &= ~2;
 	}
 
@@ -512,7 +462,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 		if (szStyle_div[0] == 0)
 			mir_snprintf(szStyle_div, SIZEOF(szStyle_div), "\\f%u\\cf%u\\ul0\\b%d\\i%d\\fs%u", H_MSGFONTID_DIVIDERS, H_MSGFONTID_DIVIDERS, 0, 0, 5);
 
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\sl-1\\slmult0\\highlight%d\\cf%d\\-\\par\\sl0", H_MSGFONTID_DIVIDERS, H_MSGFONTID_DIVIDERS);
+		str.AppendFormat("\\sl-1\\slmult0\\highlight%d\\cf%d\\-\\par\\sl0", H_MSGFONTID_DIVIDERS, H_MSGFONTID_DIVIDERS);
 		dat->dwFlags &= ~MWF_DIVIDERWANTED;
 	}
 	if (dwEffectiveFlags & MWF_LOG_GROUPMODE && ((dbei.flags & (DBEF_SENT | DBEF_READ | DBEF_RTL)) == LOWORD(dat->iLastEventType)) && dbei.eventType == EVENTTYPE_MESSAGE && HIWORD(dat->iLastEventType) == EVENTTYPE_MESSAGE && (dbei.timestamp - dat->lastEventTime) < 86400) {
@@ -521,26 +471,26 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			g_groupBreak = TRUE;
 	}
 	if (!streamData->isEmpty && g_groupBreak && (dwEffectiveFlags & MWF_LOG_GRID))
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\sl-1\\slmult0\\highlight%d\\cf%d\\-\\par\\sl0", MSGDLGFONTCOUNT + 4, MSGDLGFONTCOUNT + 4);
+		str.AppendFormat("\\sl-1\\slmult0\\highlight%d\\cf%d\\-\\par\\sl0", MSGDLGFONTCOUNT + 4, MSGDLGFONTCOUNT + 4);
 
 	if (dbei.flags & DBEF_RTL)
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\rtlpar");
+		str.Append("\\rtlpar");
 	else
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\ltrpar");
+		str.Append("\\ltrpar");
 
 	/* OnO: highlight start */
 	if (bIsStatusChangeEvent)
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\highlight%d\\cf%d", MSGDLGFONTCOUNT + 7, MSGDLGFONTCOUNT + 7);
+		str.AppendFormat("\\highlight%d\\cf%d", MSGDLGFONTCOUNT + 7, MSGDLGFONTCOUNT + 7);
 	else
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\highlight%d\\cf%d", MSGDLGFONTCOUNT + (dat->bIsHistory ? 5 : 1) + ((isSent) ? 1 : 0), MSGDLGFONTCOUNT + (dat->bIsHistory ? 5 : 1) + ((isSent) ? 1 : 0));
+		str.AppendFormat("\\highlight%d\\cf%d", MSGDLGFONTCOUNT + (dat->bIsHistory ? 5 : 1) + ((isSent) ? 1 : 0), MSGDLGFONTCOUNT + (dat->bIsHistory ? 5 : 1) + ((isSent) ? 1 : 0));
 
 	streamData->isEmpty = FALSE;
 
 	if (dat->isAutoRTL & 1) {
 		if (dbei.flags & DBEF_RTL)
-			AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\ltrch\\rtlch");
+			str.Append("\\ltrch\\rtlch");
 		else
-			AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\rtlch\\ltrch");
+			str.Append("\\rtlch\\ltrch");
 	}
 
 	// templated code starts here
@@ -577,7 +527,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 		dat->hHistoryEvents[dat->curHistory++] = hDbEvent;
 	}
 
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\ul0\\b0\\i0\\v0 ");
+	str.Append("\\ul0\\b0\\i0\\v0 ");
 
 	for (size_t i = 0; i < iTemplateLen;) {
 		TCHAR ci = szTemplate[i];
@@ -638,7 +588,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			TCHAR color, code;
 			switch (cc) {
 			case 'V':
-				//AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\fs0\\\expnd-40 ~-%d-~", hDbEvent);
+				//str.Append("\\fs0\\\expnd-40 ~-%d-~", hDbEvent);
 				break;
 			case 'I':
 				if (dwEffectiveFlags & MWF_LOG_SHOWICONS) {
@@ -660,107 +610,112 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 						if (bIsStatusChangeEvent)
 							icon = LOGICON_STATUS;
 					}
-					AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s\\fs1  #~#%01d%c%s ", GetRTFFont(MSGFONTID_SYMBOLS_IN), icon, isSent ? '>' : '<', GetRTFFont(isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset));
+					str.AppendFormat("%s\\fs1  #~#%01d%c%s ", GetRTFFont(MSGFONTID_SYMBOLS_IN), icon, isSent ? '>' : '<', GetRTFFont(isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset));
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'D': // long date
 				if (showTime && showDate) {
 					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, 'D');
-					AppendTimeStamp(szFinalTimestamp, isSent, buffer, bufferEnd, bufferAlloced, skipFont, dat, iFontIDOffset);
+					AppendTimeStamp(szFinalTimestamp, isSent, str, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'E': // short date...
 				if (showTime && showDate) {
 					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, 'E');
-					AppendTimeStamp(szFinalTimestamp, isSent, buffer, bufferEnd, bufferAlloced, skipFont, dat, iFontIDOffset);
+					AppendTimeStamp(szFinalTimestamp, isSent, str, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'a': // 12 hour
 			case 'h': // 24 hour
 				if (showTime) {
-					if (skipFont)
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, cc == 'h' ? "%02d" : "%2d", cc == 'h' ? event_time.tm_hour : (event_time.tm_hour > 12 ? event_time.tm_hour - 12 : event_time.tm_hour));
-					else
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, cc == 'h' ? "%s %02d" : "%s %2d", GetRTFFont(isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset), cc == 'h' ? event_time.tm_hour : (event_time.tm_hour > 12 ? event_time.tm_hour - 12 : event_time.tm_hour));
+					if (!skipFont) {
+						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.AppendChar(' ');
+					}
+					str.AppendFormat(cc == 'h' ? "%02d" : "%2d", cc == 'h' ? event_time.tm_hour : (event_time.tm_hour > 12 ? event_time.tm_hour - 12 : event_time.tm_hour));
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'm': // minute
 				if (showTime) {
-					if (skipFont)
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%02d", event_time.tm_min);
-					else
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s %02d", GetRTFFont(isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset), event_time.tm_min);
+					if (!skipFont) {
+						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.AppendChar(' ');
+					}
+					str.AppendFormat("%02d", event_time.tm_min);
 				}
 				else skipToNext = TRUE;
 				break;
 			case 's': //second
 				if (showTime && (dwEffectiveFlags & MWF_LOG_SHOWSECONDS)) {
-					if (skipFont)
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%02d", event_time.tm_sec);
-					else
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s %02d", GetRTFFont(isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset), event_time.tm_sec);
+					if (!skipFont) {
+						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.AppendChar(' ');
+					}
+					str.AppendFormat("%02d", event_time.tm_sec);
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'p': // am/pm symbol
 				if (showTime) {
-					if (skipFont)
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s", event_time.tm_hour > 11 ? "PM" : "AM");
-					else
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s %s", GetRTFFont(isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset), event_time.tm_hour > 11 ? "PM" : "AM");
+					if (!skipFont) {
+						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.AppendChar(' ');
+					}
+					str.Append(event_time.tm_hour > 11 ? "PM" : "AM");
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'o':            // month
 				if (showTime && showDate) {
-					if (skipFont)
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%02d", event_time.tm_mon + 1);
-					else
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s %02d", GetRTFFont(isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset), event_time.tm_mon + 1);
+					if (!skipFont) {
+						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.AppendChar(' ');
+					}
+					str.AppendFormat("%02d", event_time.tm_mon + 1);
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'O': // month (name)
 				if (showTime && showDate) {
-					if (skipFont)
-						AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, TranslateTS(months[event_time.tm_mon]), MAKELONG(isSent, dat->bIsHistory));
-					else {
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset));
-						AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, TranslateTS(months[event_time.tm_mon]), MAKELONG(isSent, dat->bIsHistory));
+					if (!skipFont) {
+						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.AppendChar(' ');
 					}
+					AppendUnicodeToBuffer(str, TranslateTS(months[event_time.tm_mon]), MAKELONG(isSent, dat->bIsHistory));
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'd': // day of month
 				if (showTime && showDate) {
-					if (skipFont)
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%02d", event_time.tm_mday);
-					else
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s %02d", GetRTFFont(isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset), event_time.tm_mday);
+					if (!skipFont) {
+						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.AppendChar(' ');
+					}
+					str.AppendFormat("%02d", event_time.tm_mday);
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'w': // day of week
 				if (showTime && showDate) {
-					if (skipFont)
-						AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, TranslateTS(weekDays[event_time.tm_wday]), MAKELONG(isSent, dat->bIsHistory));
-					else {
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset));
-						AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, TranslateTS(weekDays[event_time.tm_wday]), MAKELONG(isSent, dat->bIsHistory));
+					if (!skipFont) {
+						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.AppendChar(' ');
 					}
+					AppendUnicodeToBuffer(str, TranslateTS(weekDays[event_time.tm_wday]), MAKELONG(isSent, dat->bIsHistory));
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'y': // year
 				if (showTime && showDate) {
-					if (skipFont)
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%04d", event_time.tm_year + 1900);
-					else
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s %04d", GetRTFFont(isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset), event_time.tm_year + 1900);
+					if (!skipFont) {
+						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+						str.AppendChar(' ');
+					}
+					str.AppendFormat("%04d", event_time.tm_year + 1900);
 				}
 				else skipToNext = TRUE;
 				break;
@@ -768,7 +723,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 'r': // long date
 				if (showTime && showDate) {
 					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, cc);
-					AppendTimeStamp(szFinalTimestamp, isSent, buffer, bufferEnd, bufferAlloced, skipFont, dat, iFontIDOffset);
+					AppendTimeStamp(szFinalTimestamp, isSent, str, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
 				break;
@@ -776,7 +731,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 'T':
 				if (showTime) {
 					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, (TCHAR)((dwEffectiveFlags & MWF_LOG_SHOWSECONDS) ? cc : (TCHAR)'t'));
-					AppendTimeStamp(szFinalTimestamp, isSent, buffer, bufferEnd, bufferAlloced, skipFont, dat, iFontIDOffset);
+					AppendTimeStamp(szFinalTimestamp, isSent, str, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
 				break;
@@ -803,38 +758,43 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 						if (bIsStatusChangeEvent)
 							c = 0x4e;
 					}
-					if (skipFont)
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%c%s ", c, GetRTFFont(isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset));
-					else
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s %c%s ", isSent ? GetRTFFont(MSGFONTID_SYMBOLS_OUT) : GetRTFFont(MSGFONTID_SYMBOLS_IN), c, GetRTFFont(isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset));
+					if (!skipFont) {
+						str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_SYMBOLS_OUT : MSGFONTID_SYMBOLS_IN));
+						str.AppendChar(' ');
+					}
+					str.AppendFormat("%c%s ", c, GetRTFFont(isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset));
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'n': // hard line break
-				AppendToBuffer(buffer, bufferEnd, bufferAlloced, dbei.flags & DBEF_RTL ? "\\rtlpar\\par\\rtlpar" : "\\par\\ltrpar");
+				str.Append(dbei.flags & DBEF_RTL ? "\\rtlpar\\par\\rtlpar" : "\\par\\ltrpar");
 				break;
 			case 'l': // soft line break
-				AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\line");
+				str.Append("\\line");
 				break;
 			case 'N': // nickname
-				if (!skipFont)
-					AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYNAME + iFontIDOffset : MSGFONTID_YOURNAME + iFontIDOffset));
+				if (!skipFont) {
+					str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
+					str.AppendChar(' ');
+				}
 				if (isSent)
-					AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, szMyName, MAKELONG(isSent, dat->bIsHistory));
+					AppendUnicodeToBuffer(str, szMyName, MAKELONG(isSent, dat->bIsHistory));
 				else
-					AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, szYourName, MAKELONG(isSent, dat->bIsHistory));
+					AppendUnicodeToBuffer(str, szYourName, MAKELONG(isSent, dat->bIsHistory));
 				break;
 			case 'U': // UIN
-				if (!skipFont)
-					AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYNAME + iFontIDOffset : MSGFONTID_YOURNAME + iFontIDOffset));
+				if (!skipFont) {
+					str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
+					str.AppendChar(' ');
+				}
 				if (!isSent)
-					AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, dat->cache->getUIN(), MAKELONG(isSent, dat->bIsHistory));
+					AppendUnicodeToBuffer(str, dat->cache->getUIN(), MAKELONG(isSent, dat->bIsHistory));
 				else
-					AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, dat->myUin, MAKELONG(isSent, dat->bIsHistory));
+					AppendUnicodeToBuffer(str, dat->myUin, MAKELONG(isSent, dat->bIsHistory));
 				break;
 			case 'e': // error message
-				AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s ", GetRTFFont(MSGFONTID_ERROR));
-				AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, LPCTSTR(dbei.szModule), MAKELONG(isSent, dat->bIsHistory));
+				str.AppendFormat("%s ", GetRTFFont(MSGFONTID_ERROR));
+				AppendUnicodeToBuffer(str, LPCTSTR(dbei.szModule), MAKELONG(isSent, dat->bIsHistory));
 				break;
 			case 'M': // message
 				switch (dbei.eventType) {
@@ -845,23 +805,23 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 							break;
 						if (dbei.eventType == EVENTTYPE_ERRMSG) {
 							if (!skipFont)
-								AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\line%s ", GetRTFFont(bIsStatusChangeEvent ? H_MSGFONTID_STATUSCHANGES : MSGFONTID_MYMSG));
+								str.AppendFormat("\\line%s ", GetRTFFont(bIsStatusChangeEvent ? H_MSGFONTID_STATUSCHANGES : MSGFONTID_MYMSG));
 							else
-								AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\line ");
+								str.Append("\\line ");
 						}
 						else if (!skipFont)
-							AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s ", GetRTFFont(bIsStatusChangeEvent ? H_MSGFONTID_STATUSCHANGES : MSGFONTID_MYMSG));
+							str.AppendFormat("%s ", GetRTFFont(bIsStatusChangeEvent ? H_MSGFONTID_STATUSCHANGES : MSGFONTID_MYMSG));
 					}
 					else if (!skipFont)
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset));
+						str.AppendFormat("%s ", GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG));
 
-					AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, formatted, MAKELONG(isSent, dat->bIsHistory));
-					AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s", "\\b0\\ul0\\i0 ");
+					AppendUnicodeToBuffer(str, formatted, MAKELONG(isSent, dat->bIsHistory));
+					str.AppendFormat("%s", "\\b0\\ul0\\i0 ");
 					break;
 
 				case EVENTTYPE_FILE:
 					if (!skipFont)
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYMISC + iFontIDOffset : MSGFONTID_YOURMISC + iFontIDOffset));
+						str.AppendFormat("%s ", GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYMISC : MSGFONTID_YOURMISC));
 					{
 						char *szFileName = (char *)dbei.pBlob + sizeof(DWORD);
 						ptrT tszFileName(DbGetEventStringT(&dbei, szFileName));
@@ -872,56 +832,56 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 
 							TCHAR buf[1000];
 							mir_sntprintf(buf, SIZEOF(buf), _T("%s (%s)"), tszFileName, tszDescr);
-							AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, buf, 0);
+							AppendUnicodeToBuffer(str, buf, 0);
 						}
-						else AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, tszFileName, 0);
+						else AppendUnicodeToBuffer(str, tszFileName, 0);
 					}
 					break;
 
 				default:
 					if (!skipFont)
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset));
+						str.AppendFormat("%s ", GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG));
 
 					ptrT tszText(DbGetEventTextT(&dbei, CP_ACP));
-					AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, tszText, 0);
+					AppendUnicodeToBuffer(str, tszText, 0);
 				}
 				break;
 			case '*':       // bold
-				AppendToBuffer(buffer, bufferEnd, bufferAlloced, isBold ? "\\b0 " : "\\b ");
+				str.Append(isBold ? "\\b0 " : "\\b ");
 				isBold = !isBold;
 				break;
 			case '/': // italic
-				AppendToBuffer(buffer, bufferEnd, bufferAlloced, isItalic ? "\\i0 " : "\\i ");
+				str.Append(isItalic ? "\\i0 " : "\\i ");
 				isItalic = !isItalic;
 				break;
 			case '_': // italic
-				AppendToBuffer(buffer, bufferEnd, bufferAlloced, isUnderline ? "\\ul0 " : "\\ul ");
+				str.Append(isUnderline ? "\\ul0 " : "\\ul ");
 				isUnderline = !isUnderline;
 				break;
 			case '-': // grid line
 				color = szTemplate[i + 2];
 				if (color >= '0' && color <= '4') {
-					AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\par\\sl-1\\slmult0\\highlight%d\\cf%d\\-\\par\\sl0", MSGDLGFONTCOUNT + 8 + (color - '0'), MSGDLGFONTCOUNT + 7 + (color - '0'));
+					str.AppendFormat("\\par\\sl-1\\slmult0\\highlight%d\\cf%d\\-\\par\\sl0", MSGDLGFONTCOUNT + 8 + (color - '0'), MSGDLGFONTCOUNT + 7 + (color - '0'));
 					i++;
 				}
-				else AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\par\\sl-1\\slmult0\\highlight%d\\cf%d\\-\\par\\sl0", MSGDLGFONTCOUNT + 4, MSGDLGFONTCOUNT + 4);
+				else str.AppendFormat("\\par\\sl-1\\slmult0\\highlight%d\\cf%d\\-\\par\\sl0", MSGDLGFONTCOUNT + 4, MSGDLGFONTCOUNT + 4);
 				break;
 			case '~':       // font break (switch to default font...)
-				AppendToBuffer(buffer, bufferEnd, bufferAlloced, GetRTFFont(isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset));
+				str.Append(GetRTFFont(iFontIDOffset + (isSent) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG));
 				break;
 			case 'H':        // highlight
 				color = szTemplate[i + 2];
 				if (color >= '0' && color <= '4') {
-					AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\highlight%d", MSGDLGFONTCOUNT + 8 + (color - '0'));
+					str.AppendFormat("\\highlight%d", MSGDLGFONTCOUNT + 8 + (color - '0'));
 					i++;
 				}
-				else AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\highlight%d", (MSGDLGFONTCOUNT + (dat->bIsHistory ? 5 : 1) + ((isSent) ? 1 : 0)));
+				else str.AppendFormat("\\highlight%d", (MSGDLGFONTCOUNT + (dat->bIsHistory ? 5 : 1) + ((isSent) ? 1 : 0)));
 				break;
 			case '|':       // tab
 				if (dwEffectiveFlags & MWF_LOG_INDENT)
-					AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\tab");
+					str.Append("\\tab");
 				else
-					AppendToBuffer(buffer, bufferEnd, bufferAlloced, " ");
+					str.Append(" ");
 				break;
 			case 'f':      // font tag...
 				code = szTemplate[i + 2];
@@ -946,7 +906,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 					}
 					if (fontindex != -1) {
 						i++;
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s ", GetRTFFont(fontindex));
+						str.AppendFormat("%s ", GetRTFFont(fontindex));
 					}
 					else skipToNext = TRUE;
 				}
@@ -955,33 +915,33 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 'c':      // font color (using one of the predefined 5 colors) or one of the standard font colors (m = message, d = date/time, n = nick)
 				color = szTemplate[i + 2];
 				if (color >= '0' && color <= '4') {
-					AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\cf%d ", MSGDLGFONTCOUNT + 8 + (color - '0'));
+					str.AppendFormat("\\cf%d ", MSGDLGFONTCOUNT + 8 + (color - '0'));
 					i++;
 				}
 				else if (color == (TCHAR)'d') {
-					AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\cf%d ", isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset);
+					str.AppendFormat("\\cf%d ", isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset);
 					i++;
 				}
 				else if (color == (TCHAR)'m') {
-					AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\cf%d ", isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset);
+					str.AppendFormat("\\cf%d ", isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset);
 					i++;
 				}
 				else if (color == (TCHAR)'n') {
-					AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\cf%d ", isSent ? MSGFONTID_MYNAME + iFontIDOffset : MSGFONTID_YOURNAME + iFontIDOffset);
+					str.AppendFormat("\\cf%d ", isSent ? MSGFONTID_MYNAME + iFontIDOffset : MSGFONTID_YOURNAME + iFontIDOffset);
 					i++;
 				}
 				else if (color == (TCHAR)'s') {
-					AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\cf%d ", isSent ? MSGFONTID_SYMBOLS_OUT : MSGFONTID_SYMBOLS_IN);
+					str.AppendFormat("\\cf%d ", isSent ? MSGFONTID_SYMBOLS_OUT : MSGFONTID_SYMBOLS_IN);
 					i++;
 				}
 				else skipToNext = TRUE;
 				break;
 
 			case '<':		// bidi tag
-				AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\rtlmark\\rtlch ");
+				str.Append("\\rtlmark\\rtlch ");
 				break;
 			case '>':		// bidi tag
-				AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\ltrmark\\ltrch ");
+				str.Append("\\ltrmark\\ltrch ");
 				break;
 			}
 		skip:
@@ -992,24 +952,22 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			else i += 2;
 		}
 		else {
-			char temp[24];
-			mir_snprintf(temp, SIZEOF(temp), "{\\uc1\\u%d?}", (int)ci);
-			AppendToBuffer(buffer, bufferEnd, bufferAlloced, temp);
+			str.AppendFormat("{\\uc1\\u%d?}", (int)ci);
 			i++;
 		}
 	}
 
 	if (dat->hHistoryEvents)
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, dat->szMicroLf, MSGDLGFONTCOUNT + 1 + ((isSent) ? 1 : 0), hDbEvent);
+		str.AppendFormat(dat->szMicroLf, MSGDLGFONTCOUNT + 1 + ((isSent) ? 1 : 0), hDbEvent);
 
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\par");
+	str.Append("\\par");
 
 	if (streamData->dbei == 0)
 		mir_free(dbei.pBlob);
 
 	dat->iLastEventType = MAKELONG((dbei.flags & (DBEF_SENT | DBEF_READ | DBEF_RTL)), dbei.eventType);
 	dat->lastEventTime = dbei.timestamp;
-	return buffer;
+	return str.Detouch();
 }
 
 static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
