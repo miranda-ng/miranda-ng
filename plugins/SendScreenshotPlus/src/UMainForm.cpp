@@ -173,7 +173,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	TCHAR *pt = mir_tstrdup((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)m_hContact, (LPARAM)GCDNF_TCHAR));
 	if (pt && (m_hContact != 0)) {
 		CMString string;
-		string.AppendFormat(_T("Send screenshot to %s"), pt);
+		string.AppendFormat(TranslateT("Send screenshot to %s"), pt);
 		SetWindowText(m_hWnd, string);
 	}
 	mir_free(pt);
