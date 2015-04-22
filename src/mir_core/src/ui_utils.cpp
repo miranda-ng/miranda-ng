@@ -226,15 +226,14 @@ INT_PTR CALLBACK CDlgBase::GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		wnd = arDialogs.find((CDlgBase*)&bullshit);
 	}
 
-	if (wnd == NULL)
-		return FALSE;
-
-	return wnd->DlgProc(msg, wParam, lParam);
+	return (wnd == NULL) ? FALSE : wnd->DlgProc(msg, wParam, lParam);
 }
 
 int CDlgBase::GlobalDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
 {
-	CDlgBase *wnd = (CDlgBase *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	PVOID bullshit[2]; // vfptr + hwnd
+	bullshit[1] = hwnd;
+	CDlgBase *wnd = arDialogs.find((CDlgBase*)&bullshit);
 	return (wnd == NULL) ? 0 : wnd->Resizer(urc);
 }
 
