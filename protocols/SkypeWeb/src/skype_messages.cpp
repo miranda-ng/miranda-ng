@@ -330,7 +330,6 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 {
 	debugLogA(__FUNCTION__);
 	ptrA username(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID));
-
 	DBEVENTINFO dbei = { sizeof(dbei) };
 
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
