@@ -120,7 +120,7 @@ int CSkypeProto::OnInitStatusMenu()
 	mir_strcpy(tDest, "/CreateNewChat");
 	CreateProtoService(tDest, &CSkypeProto::SvcCreateChat);
 	mi.ptszName = LPGENT("Create new chat");
-	mi.position = SMI_POSITION + PMI_CREATECHAT;
+	mi.position = SMI_POSITION + SMI_CREATECHAT;
 	mi.icolibItem = GetIconHandle("conference");
 	Menu_AddProtoMenuItem(&mi);
 
