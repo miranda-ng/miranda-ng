@@ -751,7 +751,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			else if (g_Settings.dwIconFlags) {
 				int iIndex = lin->bIsHighlighted ? ICON_HIGHLIGHT : EventToIcon(lin);
 				Log_Append(str, "\\f0\\fs14");
-				str.Append(pci->pLogIconBmpBits[iIndex], (int)pci->logIconBmpSize[iIndex]);
+				str.AppendFormat(pci->pLogIconBmpBits[iIndex], (int)pci->logIconBmpSize[iIndex]);
 			}
 
 			if (g_Settings.bTimeStampEventColour) {
