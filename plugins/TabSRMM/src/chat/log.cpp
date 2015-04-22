@@ -422,14 +422,6 @@ static int EventToIcon(LOGINFO * lin)
 	return 0;
 }
 
-static void Log_Append(CMStringA &str, const char *fmt, ...)
-{
-	va_list va;
-	va_start(va, fmt);
-	str.AppendFormatV(fmt, va);
-	va_end(va);
-}
-
 static void Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, CMStringA &str, const TCHAR *fmt, ...)
 {
 	int textCharsCount = 0;
@@ -641,7 +633,6 @@ static void AddEventToBuffer(CMStringA &str, LOGSTREAMDATA *streamData)
 
 char* Log_CreateRtfHeader(MODULEINFO *mi)
 {
-	CMStringA str;
 	int i = 0;
 
 	// get the number of pixels per logical inch
@@ -655,24 +646,24 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 	// ### RTF HEADER
 
 	// font table
-	Log_Append(str, "{\\rtf1\\ansi\\deff0{\\fonttbl");
+	CMStringA str("{\\rtf1\\ansi\\deff0{\\fonttbl");
 	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
-		Log_Append(str, "{\\f%u\\fnil\\fcharset%u%S;}", i, pci->aFonts[i].lf.lfCharSet, pci->aFonts[i].lf.lfFaceName);
+		str.AppendFormat("{\\f%u\\fnil\\fcharset%u%S;}", i, pci->aFonts[i].lf.lfCharSet, pci->aFonts[i].lf.lfFaceName);
 
 	// colour table
-	Log_Append(str, "}{\\colortbl ;");
+	str.Append("}{\\colortbl ;");
 
 	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
-		Log_Append(str, "\\red%u\\green%u\\blue%u;", GetRValue(pci->aFonts[i].color), GetGValue(pci->aFonts[i].color), GetBValue(pci->aFonts[i].color));
+		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(pci->aFonts[i].color), GetGValue(pci->aFonts[i].color), GetBValue(pci->aFonts[i].color));
 
 	for (i = 0; i < mi->nColorCount; i++)
-		Log_Append(str, "\\red%u\\green%u\\blue%u;", GetRValue(mi->crColors[i]), GetGValue(mi->crColors[i]), GetBValue(mi->crColors[i]));
+		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(mi->crColors[i]), GetGValue(mi->crColors[i]), GetBValue(mi->crColors[i]));
 
 	for (i = 0; i < STATUSICONCOUNT; i++)
-		Log_Append(str, "\\red%u\\green%u\\blue%u;", GetRValue(g_Settings.nickColors[i]), GetGValue(g_Settings.nickColors[i]), GetBValue(g_Settings.nickColors[i]));
+		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(g_Settings.nickColors[i]), GetGValue(g_Settings.nickColors[i]), GetBValue(g_Settings.nickColors[i]));
 
 	// new paragraph
-	Log_Append(str, "}\\pard\\sl%d", 1000);
+	str.AppendFormat("}\\pard\\sl%d", 1000);
 
 	// set tabs and indents
 	int iIndent = 0;
@@ -688,30 +679,27 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 		int iText = GetTextPixelSize(szString, hFont, true) + 3;
 		DeleteObject(hFont);
 		iIndent += (iText * 1440) / pci->logPixelSX;
-		Log_Append(str, "\\tx%u", iIndent);
+		str.AppendFormat("\\tx%u", iIndent);
 	}
 	else if (g_Settings.dwIconFlags) {
 		iIndent += ((g_Settings.bScaleIcons ? 14 : 20) * 1440) / pci->logPixelSX;
-		Log_Append(str, "\\tx%u", iIndent);
+		str.AppendFormat("\\tx%u", iIndent);
 	}
 	if (g_Settings.bShowTime) {
 		int iSize = (g_Settings.LogTextIndent * 1440) / pci->logPixelSX;
-		Log_Append(str, "\\tx%u", iIndent + iSize);
+		str.AppendFormat("\\tx%u", iIndent + iSize);
 		if (g_Settings.bLogIndentEnabled)
 			iIndent += iSize;
 	}
-	Log_Append(str, "\\fi-%u\\li%u", iIndent, iIndent);
+	str.AppendFormat("\\fi-%u\\li%u", iIndent, iIndent);
 
-	return mir_strdup(str);
+	return str.Detouch();
 }
 
 static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 {
 	LOGINFO *lin = streamData->lin;
 	MODULEINFO *mi = pci->MM_FindModule(streamData->si->pszModule);
-
-	// guesstimate amount of memory for the RTF
-	CMStringA str;
 
 	// ### RTF HEADER
 
@@ -721,15 +709,16 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	char *header = mi->pszHeader;
 	streamData->crCount = mi->nColorCount;
 
+	CMStringA str;
 	if (header)
-		Log_Append(str, header);
+		str.Append(header);
 
 	// ### RTF BODY (one iteration per event that should be streamed in)
 	while (lin) {
 		// filter
 		if ((streamData->si->iType != GCW_CHATROOM && streamData->si->iType != GCW_PRIVMESS) || !streamData->si->bFilterEnabled || (streamData->si->iLogFilterFlags & lin->iType) != 0) {
 			if (lin->next != NULL)
-				Log_Append(str, "\\par ");
+				str.Append("\\par ");
 
 			if (streamData->dat->dwFlags & MWF_DIVIDERWANTED || lin->dwFlags & MWF_DIVIDERWANTED) {
 				static char szStyle_div[128] = "\0";
@@ -738,19 +727,19 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 				lin->dwFlags |= MWF_DIVIDERWANTED;
 				if (lin->prev || !streamData->bRedraw)
-					Log_Append(str, "\\qc\\sl-1\\highlight%d %s ---------------------------------------------------------------------------------------\\par ", 18, szStyle_div);
+					str.AppendFormat("\\qc\\sl-1\\highlight%d %s ---------------------------------------------------------------------------------------\\par ", 18, szStyle_div);
 				streamData->dat->dwFlags &= ~MWF_DIVIDERWANTED;
 			}
 			// create new line, and set font and color
-			Log_Append(str, "\\ql\\sl0%s ", pci->Log_SetStyle(0));
-			Log_Append(str, "\\v~-+%d+-~\\v0 ", lin);
+			str.AppendFormat("\\ql\\sl0%s ", pci->Log_SetStyle(0));
+			str.AppendFormat("\\v~-+%d+-~\\v0 ", lin);
 
 			// Insert icon
 			if (g_Settings.bLogSymbols)                // use symbols
-				Log_Append(str, "%s %c", pci->Log_SetStyle(17), EventToSymbol(lin));
+				str.AppendFormat("%s %c", pci->Log_SetStyle(17), EventToSymbol(lin));
 			else if (g_Settings.dwIconFlags) {
 				int iIndex = lin->bIsHighlighted ? ICON_HIGHLIGHT : EventToIcon(lin);
-				Log_Append(str, "\\f0\\fs14");
+				str.Append("\\f0\\fs14");
 				str.AppendFormat(pci->pLogIconBmpBits[iIndex], (int)pci->logIconBmpSize[iIndex]);
 			}
 
@@ -763,20 +752,21 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 					iii = lin->bIsHighlighted ? 16 : (lin->bIsMe ? 2 : 1);
 					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u",
 						iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic, F.lfUnderline, 2 * abs(F.lfHeight) * 74 / pci->logPixelSY);
-					Log_Append(str, "%s ", szStyle);
+					str.Append(szStyle);
 				}
 				else {
 					iii = lin->bIsHighlighted ? 16 : EventToIndex(lin);
 					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\ul%d\\fs%u",
 						iii + 1, F.lfWeight >= FW_BOLD ? 1 : 0, F.lfItalic, F.lfUnderline, 2 * abs(F.lfHeight) * 74 / pci->logPixelSY);
-					Log_Append(str, "%s ", szStyle);
+					str.Append(szStyle);
 				}
 			}
-			else Log_Append(str, "%s ", pci->Log_SetStyle(0));
+			else str.Append(pci->Log_SetStyle(0));
+			str.AppendChar(' ');
 
 			// insert a TAB if necessary to put the timestamp in the right position
 			if (g_Settings.dwIconFlags)
-				Log_Append(str, "\\tab ");
+				str.Append("\\tab ");
 
 			//insert timestamp
 			if (g_Settings.bShowTime) {
@@ -788,7 +778,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 					streamData->si->LastTime = lin->time;
 					Log_AppendRTF(streamData, TRUE, str, _T("%s"), szTimeStamp);
 				}
-				Log_Append(str, "\\tab ");
+				str.Append("\\tab ");
 			}
 
 			// Insert the nick
@@ -799,10 +789,11 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				if (g_Settings.bLogClassicIndicators || g_Settings.bColorizeNicksInLog)
 					pszIndicator[0] = GetIndicator(streamData->si, lin->ptszNick, &crNickIndex);
 
-				Log_Append(str, "%s ", pci->Log_SetStyle(lin->bIsMe ? 2 : 1));
+				str.Append(pci->Log_SetStyle(lin->bIsMe ? 2 : 1));
+				str.AppendChar(' ');
 
 				if (g_Settings.bLogClassicIndicators)
-					Log_Append(str, "%s", pszIndicator);
+					str.Append(pszIndicator);
 
 				CMString pszTemp(lin->bIsMe ? g_Settings.pszOutgoingNick : g_Settings.pszIncomingNick);
 				pszTemp.Replace(_T("%n"), _T("%s"));
@@ -811,15 +802,17 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 						pszTemp.Replace(_T("%s"), _T("~~++#%s#++~~"));
 
 					if (g_Settings.bColorizeNicksInLog && pszIndicator[0])
-						Log_Append(str, "\\cf%u ", OPTIONS_FONTCOUNT + streamData->crCount + crNickIndex);
+						str.AppendFormat("\\cf%u ", OPTIONS_FONTCOUNT + streamData->crCount + crNickIndex);
 				}
 
 				Log_AppendRTF(streamData, TRUE, str, pszTemp, lin->ptszNick);
-				Log_Append(str, " ");
+				str.AppendChar(' ');
 			}
 
 			// Insert the message
-			Log_Append(str, "%s ", pci->Log_SetStyle(lin->bIsHighlighted ? 16 : EventToIndex(lin)));
+			str.Append(pci->Log_SetStyle(lin->bIsHighlighted ? 16 : EventToIndex(lin)));
+			str.AppendChar(' ');
+
 			streamData->lin = lin;
 			AddEventToBuffer(str, streamData);
 		}
@@ -828,10 +821,10 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 	// ### RTF END
 	if (streamData->bRedraw)
-		Log_Append(str, "\\par}");
+		str.Append("\\par}");
 	else
-		Log_Append(str, "}");
-	return mir_strdup(str);
+		str.Append("}");
+	return str.Detouch();
 }
 
 static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
