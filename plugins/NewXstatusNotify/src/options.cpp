@@ -666,7 +666,7 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 bool IsSuitableProto(PROTOACCOUNT *pa)
 {
-	return (pa != NULL && !pa->bDynDisabled && pa->bIsEnabled && CallProtoService(pa->szProtoName, PS_GETCAPS, PFLAGNUM_2, 0) != 0);
+	return (pa != NULL && !pa->bDynDisabled && pa->bIsEnabled && CallProtoService(pa->szProtoName, PS_GETCAPS, PFLAGNUM_2, 0) != 0 && CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV);
 }
 
 INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
