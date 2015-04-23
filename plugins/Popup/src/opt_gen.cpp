@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -55,16 +55,16 @@ int AddStatusMode(OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flag)
 	mir_tstrcat(options[pos].pszOptionName, _T("/"));
 	switch (flag)
 	{
-		case PF2_IDLE: mir_tstrcat(options[pos].pszOptionName, LPGENT("Offline")); break;
-		case PF2_ONLINE: mir_tstrcat(options[pos].pszOptionName, LPGENT("Online")); break;
-		case PF2_INVISIBLE: mir_tstrcat(options[pos].pszOptionName, LPGENT("Invisible")); break;
-		case PF2_SHORTAWAY: mir_tstrcat(options[pos].pszOptionName, LPGENT("Away")); break;
-		case PF2_LONGAWAY: mir_tstrcat(options[pos].pszOptionName, LPGENT("NA")); break;
-		case PF2_LIGHTDND: mir_tstrcat(options[pos].pszOptionName, LPGENT("Occupied")); break;
-		case PF2_HEAVYDND: mir_tstrcat(options[pos].pszOptionName, LPGENT("DND")); break;
-		case PF2_FREECHAT: mir_tstrcat(options[pos].pszOptionName, LPGENT("Free for chat")); break;
-		case PF2_OUTTOLUNCH: mir_tstrcat(options[pos].pszOptionName, LPGENT("Out to lunch")); break;
-		case PF2_ONTHEPHONE: mir_tstrcat(options[pos].pszOptionName, LPGENT("On the phone")); break;
+	case PF2_IDLE: mir_tstrcat(options[pos].pszOptionName, LPGENT("Offline")); break;
+	case PF2_ONLINE: mir_tstrcat(options[pos].pszOptionName, LPGENT("Online")); break;
+	case PF2_INVISIBLE: mir_tstrcat(options[pos].pszOptionName, LPGENT("Invisible")); break;
+	case PF2_SHORTAWAY: mir_tstrcat(options[pos].pszOptionName, LPGENT("Away")); break;
+	case PF2_LONGAWAY: mir_tstrcat(options[pos].pszOptionName, LPGENT("NA")); break;
+	case PF2_LIGHTDND: mir_tstrcat(options[pos].pszOptionName, LPGENT("Occupied")); break;
+	case PF2_HEAVYDND: mir_tstrcat(options[pos].pszOptionName, LPGENT("DND")); break;
+	case PF2_FREECHAT: mir_tstrcat(options[pos].pszOptionName, LPGENT("Free for chat")); break;
+	case PF2_OUTTOLUNCH: mir_tstrcat(options[pos].pszOptionName, LPGENT("Out to lunch")); break;
+	case PF2_ONTHEPHONE: mir_tstrcat(options[pos].pszOptionName, LPGENT("On the phone")); break;
 	}
 	return pos + 1;
 }
@@ -207,9 +207,11 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			ProtoEnumAccounts(&protocolCount, &protocols);
 			DWORD globalFlags = 0;
 			for (int i = 0; i < protocolCount; ++i) {
-				DWORD protoFlags = CallProtoService(protocols[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
-				globalFlags |= protoFlags;
-				statusOptionsCount += CountStatusModes(protoFlags);
+				if (!protocols[i]->bIsVirtual) {
+					DWORD protoFlags = CallProtoService(protocols[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
+					globalFlags |= protoFlags;
+					statusOptionsCount += CountStatusModes(protoFlags);
+				}
 			}
 			statusOptionsCount += CountStatusModes(globalFlags);
 
@@ -217,29 +219,33 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			int pos = AddStatusModes(statusOptions, 0, LPGENT("Global Status"), globalFlags);
 			for (int i = 0; i < protocolCount; ++i) {
-				DWORD protoFlags = CallProtoService(protocols[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
-				if (!CountStatusModes(protoFlags))
-					continue;
-				
-				TCHAR prefix[128];
-				mir_sntprintf(prefix, SIZEOF(prefix), LPGENT("Protocol Status")_T("/%s"), protocols[i]->tszAccountName);
-				pos = AddStatusModes(statusOptions, pos, prefix, protoFlags);
+				if (!protocols[i]->bIsVirtual) {
+					DWORD protoFlags = CallProtoService(protocols[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
+					if (!CountStatusModes(protoFlags))
+						continue;
+
+					TCHAR prefix[128];
+					mir_sntprintf(prefix, SIZEOF(prefix), LPGENT("Protocol Status")_T("/%s"), protocols[i]->tszAccountName);
+					pos = AddStatusModes(statusOptions, pos, prefix, protoFlags);
+				}
 			}
 
 			int index;
 			OptTree_ProcessMessage(hwnd, msg, wParam, lParam, &index, IDC_STATUSES, statusOptions, statusOptionsCount);
 
 			for (int i = 0; i < protocolCount; ++i) {
-				DWORD protoFlags = CallProtoService(protocols[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
-				if (!CountStatusModes(protoFlags))
-					continue;
+				if (!protocols[i]->bIsVirtual) {
+					DWORD protoFlags = CallProtoService(protocols[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
+					if (!CountStatusModes(protoFlags))
+						continue;
 
-				char prefix[128];
-				mir_snprintf(prefix, SIZEOF(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
+					char prefix[128];
+					mir_snprintf(prefix, SIZEOF(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
 
-				TCHAR pszSettingName[256];
-				mir_sntprintf(pszSettingName, SIZEOF(pszSettingName), LPGENT("Protocol Status")_T("/%s"), protocols[i]->tszAccountName);
-				OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, db_get_dw(NULL, MODULNAME, prefix, 0), pszSettingName);
+					TCHAR pszSettingName[256];
+					mir_sntprintf(pszSettingName, SIZEOF(pszSettingName), LPGENT("Protocol Status")_T("/%s"), protocols[i]->tszAccountName);
+					OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, db_get_dw(NULL, MODULNAME, prefix, 0), pszSettingName);
+				}
 			}
 			OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, db_get_dw(NULL, MODULNAME, "Global Status", 0), LPGENT("Global Status"));
 		}
@@ -301,50 +307,50 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			case IDC_CUSTOMPOS:
-				{
-					RECT rcButton, rcBox;
-					HWND hwndBox = CreateDialog(hInst, MAKEINTRESOURCE(IDD_POSITION), NULL, PositionBoxDlgProc);
-					GetWindowRect((HWND)lParam, &rcButton);
-					GetWindowRect(hwndBox, &rcBox);
-					MoveWindow(hwndBox,
-						rcButton.right - (rcBox.right - rcBox.left) + 15,
-						rcButton.bottom + 3,
-						rcBox.right - rcBox.left,
-						rcBox.bottom - rcBox.top,
-						FALSE);
+			{
+				RECT rcButton, rcBox;
+				HWND hwndBox = CreateDialog(hInst, MAKEINTRESOURCE(IDD_POSITION), NULL, PositionBoxDlgProc);
+				GetWindowRect((HWND)lParam, &rcButton);
+				GetWindowRect(hwndBox, &rcBox);
+				MoveWindow(hwndBox,
+					rcButton.right - (rcBox.right - rcBox.left) + 15,
+					rcButton.bottom + 3,
+					rcBox.right - rcBox.left,
+					rcBox.bottom - rcBox.top,
+					FALSE);
 
-					SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) | WS_EX_LAYERED);
-					SetLayeredWindowAttributes(hwndBox, NULL, 0, LWA_ALPHA);
-					ShowWindow(hwndBox, SW_SHOW);
-					for (int i = 0; i <= 255; i += 15) {
-						SetLayeredWindowAttributes(hwndBox, NULL, i, LWA_ALPHA);
-						UpdateWindow(hwndBox);
-						Sleep(1);
-					}
-					SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) & ~WS_EX_LAYERED);
-
-					ShowWindow(hwndBox, SW_SHOW);
-					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+				SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) | WS_EX_LAYERED);
+				SetLayeredWindowAttributes(hwndBox, NULL, 0, LWA_ALPHA);
+				ShowWindow(hwndBox, SW_SHOW);
+				for (int i = 0; i <= 255; i += 15) {
+					SetLayeredWindowAttributes(hwndBox, NULL, i, LWA_ALPHA);
+					UpdateWindow(hwndBox);
+					Sleep(1);
 				}
-				break;
+				SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) & ~WS_EX_LAYERED);
+
+				ShowWindow(hwndBox, SW_SHOW);
+				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+			}
+			break;
 
 			case IDC_REORDERPOPUPS:
-				{
-					PopupOptions.ReorderPopups = !PopupOptions.ReorderPopups;
-					PopupOptions.ReorderPopupsWarning = PopupOptions.ReorderPopups ? db_get_b(NULL, MODULNAME, "ReorderPopupsWarning", TRUE) : TRUE;
-					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-				}
-				break;
+			{
+				PopupOptions.ReorderPopups = !PopupOptions.ReorderPopups;
+				PopupOptions.ReorderPopupsWarning = PopupOptions.ReorderPopups ? db_get_b(NULL, MODULNAME, "ReorderPopupsWarning", TRUE) : TRUE;
+				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+			}
+			break;
 
 			case IDC_POPUPENABLED:
-				{
-					int chk = IsDlgButtonChecked(hwnd, IDC_POPUPENABLED);
-					if (PopupOptions.ModuleIsEnabled&&chk || !PopupOptions.ModuleIsEnabled && !chk)
-						svcEnableDisableMenuCommand(0, 0);
-					EnableWindow(GetDlgItem(hwnd, IDC_STATUSES), PopupOptions.ModuleIsEnabled);
-					EnableWindow(GetDlgItem(hwnd, IDC_DISABLEINFS), PopupOptions.ModuleIsEnabled);
-				}
-				break;
+			{
+				int chk = IsDlgButtonChecked(hwnd, IDC_POPUPENABLED);
+				if (PopupOptions.ModuleIsEnabled&&chk || !PopupOptions.ModuleIsEnabled && !chk)
+					svcEnableDisableMenuCommand(0, 0);
+				EnableWindow(GetDlgItem(hwnd, IDC_STATUSES), PopupOptions.ModuleIsEnabled);
+				EnableWindow(GetDlgItem(hwnd, IDC_DISABLEINFS), PopupOptions.ModuleIsEnabled);
+			}
+			break;
 
 			case IDC_DISABLEINFS:
 				PopupOptions.DisableWhenFullscreen = !PopupOptions.DisableWhenFullscreen;
@@ -359,7 +365,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		case CBN_SELCHANGE:		// ComboBox controls
 			switch (LOWORD(wParam)) {
-			// lParam = Handle to the control
+				// lParam = Handle to the control
 			case IDC_WHERE:
 				PopupOptions.Position = ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -374,98 +380,98 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		case EN_CHANGE:			// Edit controls change
 			if (!bDlgInit) break;
 			switch (LOWORD(wParam)) {
-			// lParam = Handle to the control
+				// lParam = Handle to the control
 			case IDC_SECONDS:
-				{
-					int seconds = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
-					if (seconds >= SETTING_LIFETIME_MIN &&
-						seconds <= SETTING_LIFETIME_MAX &&
-						seconds != PopupOptions.Seconds) {
-							PopupOptions.Seconds = seconds;
-							SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-					}
+			{
+				int seconds = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
+				if (seconds >= SETTING_LIFETIME_MIN &&
+					seconds <= SETTING_LIFETIME_MAX &&
+					seconds != PopupOptions.Seconds) {
+					PopupOptions.Seconds = seconds;
+					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
-				break;
+			}
+			break;
 			case IDC_MINIMUMWIDTH:
-				{
-					int temp = GetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, NULL, FALSE);
-					if (temp >= SETTING_MINIMUMWIDTH_MIN &&
-						temp <= SETTING_MAXIMUMWIDTH_MAX &&
-						temp != PopupOptions.MinimumWidth) {
-							PopupOptions.MinimumWidth = temp;
-							SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-					}
+			{
+				int temp = GetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, NULL, FALSE);
+				if (temp >= SETTING_MINIMUMWIDTH_MIN &&
+					temp <= SETTING_MAXIMUMWIDTH_MAX &&
+					temp != PopupOptions.MinimumWidth) {
+					PopupOptions.MinimumWidth = temp;
+					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
-				break;
+			}
+			break;
 			case IDC_MAXIMUMWIDTH:
-				{
-					int temp = GetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, NULL, FALSE);
-					if (temp >= SETTING_MINIMUMWIDTH_MIN &&
-						temp <= SETTING_MAXIMUMWIDTH_MAX &&
-						temp != PopupOptions.MaximumWidth) {
-							PopupOptions.MaximumWidth = temp;
-							SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-					}
+			{
+				int temp = GetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, NULL, FALSE);
+				if (temp >= SETTING_MINIMUMWIDTH_MIN &&
+					temp <= SETTING_MAXIMUMWIDTH_MAX &&
+					temp != PopupOptions.MaximumWidth) {
+					PopupOptions.MaximumWidth = temp;
+					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
-				break;
+			}
+			break;
 			}// end switch(idCtrl)
 			break;
 
 		case EN_KILLFOCUS:		// Edit controls lost fokus
 			switch (LOWORD(wParam)) {
-			// lParam = Handle to the control
+				// lParam = Handle to the control
 			case IDC_SECONDS:
-				{
-					int seconds = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
-					if (seconds > SETTING_LIFETIME_MAX)
-						PopupOptions.Seconds = SETTING_LIFETIME_MAX;
-					else if (seconds < SETTING_LIFETIME_MIN)
-						PopupOptions.Seconds = SETTING_LIFETIME_MIN;
-					if (seconds != PopupOptions.Seconds) {
-						SetDlgItemInt(hwnd, LOWORD(wParam), PopupOptions.Seconds, FALSE);
-						ErrorMSG(SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
-						SetFocus((HWND)lParam);
-					}
+			{
+				int seconds = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
+				if (seconds > SETTING_LIFETIME_MAX)
+					PopupOptions.Seconds = SETTING_LIFETIME_MAX;
+				else if (seconds < SETTING_LIFETIME_MIN)
+					PopupOptions.Seconds = SETTING_LIFETIME_MIN;
+				if (seconds != PopupOptions.Seconds) {
+					SetDlgItemInt(hwnd, LOWORD(wParam), PopupOptions.Seconds, FALSE);
+					ErrorMSG(SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
+					SetFocus((HWND)lParam);
 				}
-				break;
+			}
+			break;
 			case IDC_MINIMUMWIDTH:
-				{
-					int temp = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
-					if (temp < SETTING_MINIMUMWIDTH_MIN)
-						PopupOptions.MinimumWidth = SETTING_MINIMUMWIDTH_MIN;
-					else if (temp > SETTING_MAXIMUMWIDTH_MAX)
-						PopupOptions.MinimumWidth = SETTING_MAXIMUMWIDTH_MAX;
-					if (temp != PopupOptions.MinimumWidth) {
-						SetDlgItemInt(hwnd, LOWORD(wParam), PopupOptions.MinimumWidth, FALSE);
-						ErrorMSG(SETTING_MINIMUMWIDTH_MIN, SETTING_MAXIMUMWIDTH_MAX);
-						SetFocus((HWND)lParam);
-						break;
-					}
-					if (temp > PopupOptions.MaximumWidth) {
-						PopupOptions.MaximumWidth = min(temp, SETTING_MAXIMUMWIDTH_MAX);
-						SetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, PopupOptions.MaximumWidth, FALSE);
-					}
+			{
+				int temp = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
+				if (temp < SETTING_MINIMUMWIDTH_MIN)
+					PopupOptions.MinimumWidth = SETTING_MINIMUMWIDTH_MIN;
+				else if (temp > SETTING_MAXIMUMWIDTH_MAX)
+					PopupOptions.MinimumWidth = SETTING_MAXIMUMWIDTH_MAX;
+				if (temp != PopupOptions.MinimumWidth) {
+					SetDlgItemInt(hwnd, LOWORD(wParam), PopupOptions.MinimumWidth, FALSE);
+					ErrorMSG(SETTING_MINIMUMWIDTH_MIN, SETTING_MAXIMUMWIDTH_MAX);
+					SetFocus((HWND)lParam);
+					break;
 				}
-				break;
+				if (temp > PopupOptions.MaximumWidth) {
+					PopupOptions.MaximumWidth = min(temp, SETTING_MAXIMUMWIDTH_MAX);
+					SetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, PopupOptions.MaximumWidth, FALSE);
+				}
+			}
+			break;
 			case IDC_MAXIMUMWIDTH:
-				{
-					int temp = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
-					if (temp >= SETTING_MAXIMUMWIDTH_MAX)
-						PopupOptions.MaximumWidth = SETTING_MAXIMUMWIDTH_MAX;
-					else if (temp < SETTING_MINIMUMWIDTH_MIN)
-						PopupOptions.MaximumWidth = SETTING_MINIMUMWIDTH_MIN;
-					if (temp != PopupOptions.MaximumWidth) {
-						SetDlgItemInt(hwnd, LOWORD(wParam), PopupOptions.MaximumWidth, FALSE);
-						ErrorMSG(SETTING_MINIMUMWIDTH_MIN, SETTING_MAXIMUMWIDTH_MAX);
-						SetFocus((HWND)lParam);
-						break;
-					}
-					if (temp < PopupOptions.MinimumWidth) {
-						PopupOptions.MinimumWidth = max(temp, SETTING_MINIMUMWIDTH_MIN);
-						SetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, PopupOptions.MinimumWidth, FALSE);
-					}
+			{
+				int temp = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
+				if (temp >= SETTING_MAXIMUMWIDTH_MAX)
+					PopupOptions.MaximumWidth = SETTING_MAXIMUMWIDTH_MAX;
+				else if (temp < SETTING_MINIMUMWIDTH_MIN)
+					PopupOptions.MaximumWidth = SETTING_MINIMUMWIDTH_MIN;
+				if (temp != PopupOptions.MaximumWidth) {
+					SetDlgItemInt(hwnd, LOWORD(wParam), PopupOptions.MaximumWidth, FALSE);
+					ErrorMSG(SETTING_MINIMUMWIDTH_MIN, SETTING_MAXIMUMWIDTH_MAX);
+					SetFocus((HWND)lParam);
+					break;
 				}
-				break;
+				if (temp < PopupOptions.MinimumWidth) {
+					PopupOptions.MinimumWidth = max(temp, SETTING_MINIMUMWIDTH_MIN);
+					SetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, PopupOptions.MinimumWidth, FALSE);
+				}
+			}
+			break;
 			}
 			break;
 		}
@@ -518,12 +524,14 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					ProtoEnumAccounts(&protocolCount, &protocols);
 
 					for (int i = 0; i < protocolCount; ++i) {
-						char prefix[128];
-						mir_snprintf(prefix, SIZEOF(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
+						if (!protocols[i]->bIsVirtual) {
+							char prefix[128];
+							mir_snprintf(prefix, SIZEOF(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
 
-						TCHAR pszSettingName[256];
-						mir_sntprintf(pszSettingName, SIZEOF(pszSettingName), _T("Protocol Status/%s"), protocols[i]->tszAccountName);
-						db_set_dw(NULL, MODULNAME, prefix, OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, pszSettingName));
+							TCHAR pszSettingName[256];
+							mir_sntprintf(pszSettingName, SIZEOF(pszSettingName), _T("Protocol Status/%s"), protocols[i]->tszAccountName);
+							db_set_dw(NULL, MODULNAME, prefix, OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, pszSettingName));
+						}
 					}
 					db_set_dw(NULL, MODULNAME, "Global Status", OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, _T("Global Status")));
 				}
@@ -532,25 +540,25 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 
 		case IDC_MINIMUMWIDTH_SPIN:
-			{
-				LPNMUPDOWN lpnmud = (LPNMUPDOWN)lParam;
-				int temp = lpnmud->iPos + lpnmud->iDelta;
-				if (temp > PopupOptions.MaximumWidth) {
-					PopupOptions.MaximumWidth = min(temp, SETTING_MAXIMUMWIDTH_MAX);
-					SetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, PopupOptions.MaximumWidth, FALSE);
-				}
+		{
+			LPNMUPDOWN lpnmud = (LPNMUPDOWN)lParam;
+			int temp = lpnmud->iPos + lpnmud->iDelta;
+			if (temp > PopupOptions.MaximumWidth) {
+				PopupOptions.MaximumWidth = min(temp, SETTING_MAXIMUMWIDTH_MAX);
+				SetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, PopupOptions.MaximumWidth, FALSE);
 			}
-			break;
+		}
+		break;
 
 		case IDC_MAXIMUMWIDTH_SPIN:
-			{
-				LPNMUPDOWN lpnmud = (LPNMUPDOWN)lParam;
-				int temp = lpnmud->iPos + lpnmud->iDelta;
-				if (temp < PopupOptions.MinimumWidth) {
-					PopupOptions.MinimumWidth = max(temp, SETTING_MINIMUMWIDTH_MIN);
-					SetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, PopupOptions.MinimumWidth, FALSE);
-				}
+		{
+			LPNMUPDOWN lpnmud = (LPNMUPDOWN)lParam;
+			int temp = lpnmud->iPos + lpnmud->iDelta;
+			if (temp < PopupOptions.MinimumWidth) {
+				PopupOptions.MinimumWidth = max(temp, SETTING_MINIMUMWIDTH_MIN);
+				SetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, PopupOptions.MinimumWidth, FALSE);
 			}
+		}
 		}
 		break;
 
@@ -560,7 +568,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				mir_free(statusOptions[i].pszOptionName);
 				mir_free(statusOptions[i].pszSettingName);
 			}
-			delete [] statusOptions;
+			delete[] statusOptions;
 			statusOptions = NULL;
 			statusOptionsCount = 0;
 			bDlgInit = false;
