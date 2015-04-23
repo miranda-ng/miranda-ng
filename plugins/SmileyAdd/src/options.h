@@ -29,6 +29,7 @@ public:
 	bool EnforceSpaces;
 	bool ScaleToTextheight;
 	bool UseOneForAll;
+	bool UsePhysProto;
 	bool SurroundSmileyWithSpaces;
 	bool ScaleAllSmileys;
 	bool IEViewStyle;
