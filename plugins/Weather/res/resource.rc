@@ -235,7 +235,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Weather Protocol INI Setup"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Weather Protocol INI Setup\nInstall and load your weather ini file here",IDC_HEADERBAR,
+    CONTROL         "Install and load your weather ini file here",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,259,28
     CTEXT           "Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:",IDC_STATIC,11,32,222,26
     CONTROL         "Click here to download a weather ini file from Miranda file listing",IDC_STEP1,
