@@ -289,7 +289,7 @@ TCHAR * _tcsistr(const TCHAR *str, const TCHAR *substr)
 	if (!str || !substr || (substr[0] == _T('\0')))
 		return (TCHAR *)str;
 
-	size_t nLen = _tcslen(substr);
+	size_t nLen = mir_tstrlen(substr);
 	while (*str)
 	{
 		if (_tcsnicmp(str, substr, nLen) == 0)
@@ -308,15 +308,15 @@ int StrReplace(TCHAR *lpszOld, const TCHAR *lpszNew, TCHAR *&lpszStr)
 	if (!lpszStr || !lpszOld || !lpszNew)
 		return 0;
 
-	size_t nStrLen = _tcslen(lpszStr);
+	size_t nStrLen = mir_tstrlen(lpszStr);
 	if (nStrLen == 0)
 		return 0;
 
-	size_t nOldLen = _tcslen(lpszOld);
+	size_t nOldLen = mir_tstrlen(lpszOld);
 	if (nOldLen == 0)
 		return 0;
 
-	size_t nNewLen = _tcslen(lpszNew);
+	size_t nNewLen = mir_tstrlen(lpszNew);
 
 	// loop once to figure out the size of the result string
 	size_t nCount = 0;
@@ -330,7 +330,7 @@ int StrReplace(TCHAR *lpszOld, const TCHAR *lpszNew, TCHAR *&lpszStr)
 			nCount++;
 			pszStart = pszTarget + nOldLen;
 		}
-		pszStart += _tcslen(pszStart);
+		pszStart += mir_tstrlen(pszStart);
 	}
 
 	// if any changes, make them now
@@ -348,18 +348,18 @@ int StrReplace(TCHAR *lpszOld, const TCHAR *lpszNew, TCHAR *&lpszStr)
 		while (pszStart < pszEnd) {
 			while ((pszTarget = _tcsistr(pszStart, lpszOld)) != NULL) {
 				size_t nCopyLen = (size_t)(pszTarget - pszStart);
-				_tcsncpy(cp, &lpszStr[pszStart - lpszStr], nCopyLen);
+				mir_tstrncpy(cp, &lpszStr[pszStart - lpszStr], nCopyLen);
 
 				cp += nCopyLen;
 
 				pszStart = pszTarget + nOldLen;
 
-				_tcscpy(cp, lpszNew);
+				mir_tstrcpy(cp, lpszNew);
 
 				cp += nNewLen;
 			}
-			_tcscpy(cp, pszStart);
-			pszStart += _tcslen(pszStart);
+			mir_tstrcpy(cp, pszStart);
+			pszStart += mir_tstrlen(pszStart);
 		}
 
 		if (pszResultStr)
@@ -368,7 +368,7 @@ int StrReplace(TCHAR *lpszOld, const TCHAR *lpszNew, TCHAR *&lpszStr)
 
 	int nSize = 0;
 	if (pszResultStr) {
-		nSize = (int)_tcslen(pszResultStr);
+		nSize = (int)mir_tstrlen(pszResultStr);
 		delete[] pszResultStr;
 	}
 
