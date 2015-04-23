@@ -854,6 +854,32 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 	}
 }
 
+void SmileyCategoryListType::AddProtoAsCategory(char *acc, const CMString& defaultFile)
+{
+	if (acc == NULL)
+		return;
+	
+	const char* packnam = acc;
+	if (strcmp(packnam, "JABBER") == 0)
+		packnam = "JGMail";
+	else if (strstr(packnam, "SIP") != NULL)
+		packnam = "MSN";
+
+	char path[MAX_PATH];
+	mir_snprintf(path, SIZEOF(path), "Smileys\\nova\\%s.msl", packnam);
+
+	CMString paths = A2T_SM(path), patha;
+	pathToAbsolute(paths, patha);
+
+	if (_taccess(patha.c_str(), 0) != 0)
+		paths = defaultFile;
+	CMString displayName(acc);
+	displayName += TranslateT(" global smiley pack");
+	CMString tname("AllProto");
+	tname += A2T_SM(acc);
+	AddCategory(tname, displayName, smcProto, paths);
+}
+
 void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
 {
 	CMString tname(A2T_SM(acc->szModuleName));
@@ -939,9 +965,17 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 	unsigned lpcp = (unsigned)CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
 	if (lpcp == CALLSERVICE_NOTFOUND) lpcp = CP_ACP;
 
+	PROTOCOLDESCRIPTOR **proto;
+	int protoCount = 0;
+	CallService(MS_PROTO_ENUMPROTOS, (WPARAM)&protoCount, (LPARAM)&proto);
 
-	PROTOACCOUNT **accList;
-	int protoCount;
+	for (int i = 0; i < protoCount; i++){
+		PROTOCOLDESCRIPTOR* pd = proto[i];
+		if (pd->type == PROTOTYPE_PROTOCOL && pd->cbSize == sizeof(*pd))
+			AddProtoAsCategory(pd->szName, defaultFile);	
+	}
+
+	PROTOACCOUNT **accList;	
 	ProtoEnumAccounts(&protoCount, &accList);
 	for (int i = 0; i < protoCount; i++) 
 		AddAccountAsCategory(accList[i], defaultFile);

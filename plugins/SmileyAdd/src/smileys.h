@@ -291,6 +291,7 @@ public:
 	void AddAndLoad(const CMString& name, const CMString& displayName);
 	void AddAllProtocolsAsCategory(void); 
 	void AddAccountAsCategory(PROTOACCOUNT *acc, const CMString& defaultFile);
+	void AddProtoAsCategory(char *acc, const CMString& defaultFile);
 	void AddContactTransportAsCategory(MCONTACT hContact, const CMString& defaultFile);
 
 	void ClearAndLoadAll(void);

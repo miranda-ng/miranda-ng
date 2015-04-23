@@ -19,6 +19,7 @@
 #define IDC_IEVIEWSTYLE                 1047
 #define IDC_ANIMATESEL                  1048
 #define IDC_USESTDPACK                  1049
+#define IDC_USEPHYSPROTO                1050
 #define IDC_ANIMATEDLG                  1051
 #define IDC_DISABLECUSTOM               1052
 #define IDC_DISABLECUSTOM2              1053

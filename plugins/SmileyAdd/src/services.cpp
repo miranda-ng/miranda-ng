@@ -49,7 +49,13 @@ SmileyPackType* GetSmileyPack(const char* proto, MCONTACT hContact, SmileyPackCT
 					categoryName = dbv.ptszVal;
 					db_free(&dbv);
 				}
-				else categoryName = A2T_SM(protonam);
+				else if (opt.UsePhysProto && db_get_ts(NULL, protonam, "AM_BaseProto", &dbv) == 0){
+					categoryName = _T("AllProto");
+					categoryName += dbv.ptszVal;
+					db_free(&dbv);					
+				}
+				else 
+					categoryName = A2T_SM(protonam);
 			}
 		}
 	}

@@ -159,6 +159,7 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case IDC_SPACES:
+		case IDC_USEPHYSPROTO:
 		case IDC_SCALETOTEXTHEIGHT:
 		case IDC_APPENDSPACES:
 		case IDC_SMLBUT:
@@ -357,6 +358,7 @@ void OptionsDialogType::InitDialog(void)
 	CheckDlgButton(m_hwndDialog, IDC_SPACES, opt.EnforceSpaces ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_SCALETOTEXTHEIGHT, opt.ScaleToTextheight ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_USESTDPACK, opt.UseOneForAll ? BST_UNCHECKED : BST_CHECKED);
+	CheckDlgButton(m_hwndDialog, IDC_USEPHYSPROTO, opt.UsePhysProto ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_APPENDSPACES, opt.SurroundSmileyWithSpaces ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_SCALEALLSMILEYS, opt.ScaleAllSmileys ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(m_hwndDialog, IDC_IEVIEWSTYLE, opt.IEViewStyle ? BST_CHECKED : BST_UNCHECKED);
@@ -431,6 +433,7 @@ void OptionsDialogType::ApplyChanges(void)
 	opt.EnforceSpaces = IsDlgButtonChecked(m_hwndDialog, IDC_SPACES) == BST_CHECKED;
 	opt.ScaleToTextheight = IsDlgButtonChecked(m_hwndDialog, IDC_SCALETOTEXTHEIGHT) == BST_CHECKED;
 	opt.UseOneForAll = IsDlgButtonChecked(m_hwndDialog, IDC_USESTDPACK) == BST_UNCHECKED;
+	opt.UsePhysProto = IsDlgButtonChecked(m_hwndDialog, IDC_USEPHYSPROTO) == BST_CHECKED;
 	opt.SurroundSmileyWithSpaces = IsDlgButtonChecked(m_hwndDialog, IDC_APPENDSPACES) == BST_CHECKED;
 	opt.ScaleAllSmileys = IsDlgButtonChecked(m_hwndDialog, IDC_SCALEALLSMILEYS) == BST_CHECKED;
 	opt.IEViewStyle = IsDlgButtonChecked(m_hwndDialog, IDC_IEVIEWSTYLE) == BST_CHECKED;
@@ -555,6 +558,7 @@ void OptionsType::Save(void)
 	db_set_b(NULL, "SmileyAdd", "EnforceSpaces", EnforceSpaces);
 	db_set_b(NULL, "SmileyAdd", "ScaleToTextheight", ScaleToTextheight);
 	db_set_b(NULL, "SmileyAdd", "UseOneForAll", UseOneForAll);
+	db_set_b(NULL, "SmileyAdd", "UsePhysProto", UsePhysProto);
 	db_set_b(NULL, "SmileyAdd", "SurroundSmileyWithSpaces", SurroundSmileyWithSpaces);
 	db_set_b(NULL, "SmileyAdd", "ScaleAllSmileys", ScaleAllSmileys);
 	db_set_b(NULL, "SmileyAdd", "IEViewStyle", IEViewStyle);
@@ -576,6 +580,7 @@ void OptionsType::Load(void)
 	EnforceSpaces = db_get_b(NULL, "SmileyAdd", "EnforceSpaces", FALSE) != 0;
 	ScaleToTextheight = db_get_b(NULL, "SmileyAdd", "ScaleToTextheight", FALSE) != 0;
 	UseOneForAll = db_get_b(NULL, "SmileyAdd", "UseOneForAll", TRUE) != 0;
+	UsePhysProto = db_get_b(NULL, "SmileyAdd", "UsePhysProto", FALSE) != 0;
 	SurroundSmileyWithSpaces = 
 		db_get_b(NULL, "SmileyAdd", "SurroundSmileyWithSpaces", FALSE) != 0;
 	ScaleAllSmileys = db_get_b(NULL, "SmileyAdd", "ScaleAllSmileys", FALSE) != 0;
