@@ -222,6 +222,7 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 			node = json_get(item, "blocked");
 			bool isBlocked = json_as_bool(node);
 			setByte(hContact, "IsBlocked", isBlocked);
+			setByte(hContact, "CList", "Hidden", isBlocked);
 			if (isBlocked)
 				db_set_dw(hContact, "Ignore", "Mask1", 127);
 
