@@ -93,15 +93,14 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 
 	// make sure this contact thinks it's part of this metacontact
 	DBCachedContact *ccSub = currDb->m_cache->GetCachedContact(Meta_GetContactHandle(ccMeta, number));
-	if (ccSub == NULL)
-		return;
+	if (ccSub != NULL) {
+		if (ccSub->parentID == ccMeta->contactID) {
+			db_unset(ccSub->contactID, "CList", "Hidden");
 
-	if (ccSub->parentID == ccMeta->contactID) {
-		db_unset(ccSub->contactID, "CList", "Hidden");
-
-		// stop ignoring, if we were
-		if (options.bSuppressStatus)
-			CallService(MS_IGNORE_UNIGNORE, ccSub->contactID, IGNOREEVENT_USERONLINE);
+			// stop ignoring, if we were
+			if (options.bSuppressStatus)
+				CallService(MS_IGNORE_UNIGNORE, ccSub->contactID, IGNOREEVENT_USERONLINE);
+		}
 	}
 
 	// each contact from 'number' upwards will be moved down one
@@ -133,10 +132,12 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 	mir_snprintf(buffer, SIZEOF(buffer), "CListName%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
-	ccSub->parentID = 0;
-	currDb->MetaDetouchSub(ccMeta, ccMeta->nSubs - 1);
+	if (ccSub != NULL) {
+		ccSub->parentID = 0;
+		currDb->MetaDetouchSub(ccMeta, ccMeta->nSubs - 1);
 
-	currDb->MetaSplitHistory(ccMeta, ccSub);
+		currDb->MetaSplitHistory(ccMeta, ccSub);
+	}
 
 	// if the default contact was equal to or greater than 'number', decrement it (and deal with ends)
 	if (ccMeta->nDefault >= number) {
@@ -183,7 +184,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 {
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
 	if (cc == NULL)
-		return 0;
+		return 1;
 
 	// The wParam is a metacontact
 	if (cc->IsMeta()) {
@@ -202,7 +203,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 	}
 	else if (cc->IsSub()) {
 		if ((cc = currDb->m_cache->GetCachedContact(cc->parentID)) == NULL)
-			return 0;
+			return 2;
 
 		if (cc->nSubs == 1) {
 			if (IDYES == MessageBox(0, TranslateT(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1))

@@ -130,7 +130,8 @@ static void ApplyChanges()
 {
 	// remove removed contacts
 	for (int i = 0; i < g_data.num_deleted; i++) {
-		Meta_Delete(g_data.hDeletedContacts[i], 0);
+		if (Meta_Delete(g_data.hDeletedContacts[i], 0) != 0) // error, delete anyway
+			Meta_RemoveContactNumber(g_data.cc, Meta_GetContactNumber(g_data.cc, g_data.hDeletedContacts[i]), true);
 		if (g_data.hDeletedContacts[i] == g_data.hDefaultContact)
 			g_data.hDefaultContact = 0;
 		if (g_data.hDeletedContacts[i] == g_data.hOfflineContact)
