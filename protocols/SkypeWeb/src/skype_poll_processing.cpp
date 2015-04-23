@@ -69,6 +69,9 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 				case 125:
 					MirVer.AppendFormat("%s %s", skypeNameVersion, version);
 					break;
+				default:
+					MirVer.Append("Skype (Unknown)");
+					break;
 			}
 			db_set_s(hContact, m_szModuleName, "MirVer", MirVer);
 		}
