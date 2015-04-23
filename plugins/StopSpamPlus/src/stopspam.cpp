@@ -18,18 +18,18 @@ PLUGININFOEX pluginInfoEx = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {553811EE-DEB6-48B8-8902-A8A00C1FD679}
-	{0x553811ee, 0xdeb6, 0x48b8, {0x89, 0x2, 0xa8, 0xa0, 0xc, 0x1f, 0xd6, 0x79}}
+	{ 0x553811ee, 0xdeb6, 0x48b8, { 0x89, 0x2, 0xa8, 0xa0, 0xc, 0x1f, 0xd6, 0x79 } }
 };
 
 
 HINSTANCE hInst;
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -39,7 +39,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	plSets=new Settings;
+	plSets = new Settings;
 
 	hFunc = CreateServiceFunction(MS_STOPSPAM_CONTACTPASSED, IsContactPassed);
 
@@ -51,7 +51,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+	mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 	mi.ptszName = LPGENT("Remove Temporary Contacts");
 	mi.pszService = pluginName"/RemoveTempContacts";
 	Menu_AddMainMenuItem(&mi);
@@ -63,7 +63,7 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	miranda::EventHooker::UnhookAll();
-	
+
 	if (hFunc)
 	{
 		DestroyServiceFunction(hFunc);
@@ -75,6 +75,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 		hFunc = 0;
 	}
 	delete plSets;
-	
+
 	return 0;
 }

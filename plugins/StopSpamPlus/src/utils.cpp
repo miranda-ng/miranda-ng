@@ -8,14 +8,14 @@ tstring &GetDlgItemString(HWND hwnd, int id)
 	GetWindowText(h, buf, len + 1);
 	static tstring s;
 	s = buf;
-	delete []buf;
+	delete[]buf;
 	return s;
 }
 
 bool IsExistMyMessage(MCONTACT hContact)
 {
 	MEVENT hDbEvent = db_event_first(hContact);
-	while(hDbEvent){
+	while (hDbEvent) {
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		if (db_event_get(hDbEvent, &dbei))
 			break;
@@ -64,11 +64,11 @@ tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact){
 
 tstring trim(const tstring &tstr, const tstring& trimChars)
 {
-    size_t s = tstr.find_first_not_of(trimChars);
-    size_t e = tstr.find_last_not_of (trimChars);
+	size_t s = tstr.find_first_not_of(trimChars);
+	size_t e = tstr.find_last_not_of(trimChars);
 
-    if ((tstring::npos == s) || ( tstring::npos == e))
-        return _T("");
-    else
-        return tstr.substr(s, e - s + 1);
+	if ((tstring::npos == s) || (tstring::npos == e))
+		return _T("");
+	else
+		return tstr.substr(s, e - s + 1);
 }

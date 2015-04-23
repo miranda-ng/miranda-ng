@@ -4,7 +4,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 {
 	MEVENT hDbEvent = (MEVENT)lParam;
 
-	DBEVENTINFO dbei = {0};
+	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 	if (-1 == dbei.cbBlob)
@@ -59,7 +59,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		return 0;
 
 	// if event is not a message, or if the message has been read or sent...
-	if (dbei->flags & DBEF_SENT || dbei->flags & DBEF_READ || dbei->eventType != EVENTTYPE_MESSAGE )
+	if (dbei->flags & DBEF_SENT || dbei->flags & DBEF_READ || dbei->eventType != EVENTTYPE_MESSAGE)
 		// ...let the event go its way
 		return 0;
 
@@ -85,7 +85,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	tstring message;
 
 	if (dbei->flags & DBEF_UTF){
-		WCHAR* msg_u=mir_utf8decodeW((char*)dbei->pBlob);
+		WCHAR* msg_u = mir_utf8decodeW((char*)dbei->pBlob);
 		message = msg_u;
 		mir_free(msg_u);
 	}
@@ -100,7 +100,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	answers.append(plSets->AnswSplitString.Get());
 	tstring::size_type pos = 0;
 	tstring::size_type prev_pos = 0;
-	while((pos = answers.find(plSets->AnswSplitString.Get(), pos)) != tstring::npos) {
+	while ((pos = answers.find(plSets->AnswSplitString.Get(), pos)) != tstring::npos) {
 		// get one of answers and trim witespace chars
 		tstring answer = trim(answers.substr(prev_pos, pos - prev_pos));
 		// if answer not empty
@@ -119,7 +119,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 
 				// send congratulation
 
-				char * buf=mir_utf8encodeW(variables_parse(plSets->Congratulation.Get(), hContact).c_str());
+				char * buf = mir_utf8encodeW(variables_parse(plSets->Congratulation.Get(), hContact).c_str());
 				CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)buf);
 				mir_free(buf);
 
@@ -139,7 +139,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		tstring q = infTalkProtPrefix + variables_parse((tstring)(plSets->Question), hContact);
 
 
-		char * buf=mir_utf8encodeW(q.c_str());
+		char * buf = mir_utf8encodeW(q.c_str());
 		CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)buf);
 		mir_free(buf);
 

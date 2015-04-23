@@ -25,7 +25,7 @@ std::string db_usage::DBGetPluginSetting(std::string const &name, std::string co
 
 bool db_usage::DBGetPluginSetting(std::string const &name, bool const &defValue)
 {
-	return(0 != db_get_b(NULL, pluginName, name.c_str(), defValue?1:0));
+	return(0 != db_get_b(NULL, pluginName, name.c_str(), defValue ? 1 : 0));
 }
 
 DWORD db_usage::DBGetPluginSetting(std::string const &name, DWORD const &defValue)
@@ -48,12 +48,12 @@ void db_usage::DBSetPluginSetting(std::string const &name, std::string const &va
 
 void db_usage::DBSetPluginSetting(std::string const &name, bool const &value)
 {
-	db_set_b(NULL, pluginName, name.c_str(), value?1:0);
+	db_set_b(NULL, pluginName, name.c_str(), value ? 1 : 0);
 }
 
 void db_usage::DBSetPluginSetting(std::string const &name, DWORD const &value)
 {
-	db_set_dw(NULL, pluginName, name.c_str(),value);
+	db_set_dw(NULL, pluginName, name.c_str(), value);
 }
 
 Settings *plSets;

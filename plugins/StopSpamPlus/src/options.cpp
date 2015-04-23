@@ -8,57 +8,57 @@ char const * questCountSetting = "QuestionCount";
 INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 
-	switch(msg)
+	switch (msg)
 	{
 	case WM_INITDIALOG:
-		{
-			SetDlgItemText(hwnd, ID_DESCRIPTION, pluginDescription);
-			TranslateDialogDefault(hwnd);
-			SetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, plSets->MaxQuestCount.Get(), FALSE);
-			CheckDlgButton(hwnd, ID_INFTALKPROT, plSets->InfTalkProtection.Get() ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwnd, ID_ADDPERMANENT, plSets->AddPermanent.Get() ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwnd, ID_HANDLEAUTHREQ, plSets->HandleAuthReq.Get() ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwnd, ID_NOTCASESENS, plSets->AnswNotCaseSens.Get() ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwnd, ID_REMOVE_TMP_ALL, plSets->RemTmpAll.Get() ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwnd, ID_HISTORY_LOG, plSets->HistLog.Get() ? BST_CHECKED : BST_UNCHECKED);
-		}
-		return TRUE;
+	{
+		SetDlgItemText(hwnd, ID_DESCRIPTION, pluginDescription);
+		TranslateDialogDefault(hwnd);
+		SetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, plSets->MaxQuestCount.Get(), FALSE);
+		CheckDlgButton(hwnd, ID_INFTALKPROT, plSets->InfTalkProtection.Get() ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, ID_ADDPERMANENT, plSets->AddPermanent.Get() ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, ID_HANDLEAUTHREQ, plSets->HandleAuthReq.Get() ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, ID_NOTCASESENS, plSets->AnswNotCaseSens.Get() ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, ID_REMOVE_TMP_ALL, plSets->RemTmpAll.Get() ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, ID_HISTORY_LOG, plSets->HistLog.Get() ? BST_CHECKED : BST_UNCHECKED);
+	}
+	return TRUE;
 	case WM_COMMAND:{
 		switch (LOWORD(wParam))
 		{
 		case ID_MAXQUESTCOUNT:
-			{
-				if (EN_CHANGE != HIWORD(wParam) || (HWND)lParam != GetFocus())
-					return FALSE;
-				break;
-			}
-		case ID_DESCRIPTION: 
-			{
+		{
+			if (EN_CHANGE != HIWORD(wParam) || (HWND)lParam != GetFocus())
 				return FALSE;
-			}
+			break;
+		}
+		case ID_DESCRIPTION:
+		{
+			return FALSE;
+		}
 		}
 		SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-					}
-		break;
+	}
+					break;
 	case WM_NOTIFY:
+	{
+		NMHDR* nmhdr = (NMHDR*)lParam;
+		switch (nmhdr->code)
 		{
-			NMHDR* nmhdr = (NMHDR*)lParam;
-			switch (nmhdr->code)
-			{
-			case PSN_APPLY:
-				{
-					plSets->MaxQuestCount=GetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, NULL, FALSE);
-					plSets->InfTalkProtection=(BST_CHECKED == IsDlgButtonChecked(hwnd, ID_INFTALKPROT));
-					plSets->AddPermanent=(BST_CHECKED == IsDlgButtonChecked(hwnd, ID_ADDPERMANENT));
-					plSets->HandleAuthReq=(BST_CHECKED == IsDlgButtonChecked(hwnd, ID_HANDLEAUTHREQ));
-					plSets->AnswNotCaseSens=(BST_CHECKED == IsDlgButtonChecked(hwnd, ID_NOTCASESENS));
-					plSets->RemTmpAll=(BST_CHECKED == IsDlgButtonChecked(hwnd, ID_REMOVE_TMP_ALL));
-					plSets->HistLog=(BST_CHECKED == IsDlgButtonChecked(hwnd, ID_HISTORY_LOG));
-				}
-				return TRUE;
-			}
+		case PSN_APPLY:
+		{
+			plSets->MaxQuestCount = GetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, NULL, FALSE);
+			plSets->InfTalkProtection = (BST_CHECKED == IsDlgButtonChecked(hwnd, ID_INFTALKPROT));
+			plSets->AddPermanent = (BST_CHECKED == IsDlgButtonChecked(hwnd, ID_ADDPERMANENT));
+			plSets->HandleAuthReq = (BST_CHECKED == IsDlgButtonChecked(hwnd, ID_HANDLEAUTHREQ));
+			plSets->AnswNotCaseSens = (BST_CHECKED == IsDlgButtonChecked(hwnd, ID_NOTCASESENS));
+			plSets->RemTmpAll = (BST_CHECKED == IsDlgButtonChecked(hwnd, ID_REMOVE_TMP_ALL));
+			plSets->HistLog = (BST_CHECKED == IsDlgButtonChecked(hwnd, ID_HISTORY_LOG));
 		}
-		break;			
+		return TRUE;
+		}
+	}
+	break;
 	}
 	return FALSE;
 }
@@ -66,66 +66,66 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 
-	switch(msg)
+	switch (msg)
 	{
 	case WM_INITDIALOG:
+	{
+		TranslateDialogDefault(hwnd);
+		SetDlgItemString(hwnd, ID_QUESTION, plSets->Question.Get());
+		SetDlgItemString(hwnd, ID_ANSWER, plSets->Answer.Get());
+		SetDlgItemString(hwnd, ID_CONGRATULATION, plSets->Congratulation.Get());
+		SetDlgItemString(hwnd, ID_AUTHREPL, plSets->AuthRepl.Get());
+		SetDlgItemString(hwnd, ID_DIVIDER, plSets->AnswSplitString.Get());
+		variables_skin_helpbutton(hwnd, IDC_VARS);
+		ServiceExists(MS_VARS_FORMATSTRING) ? EnableWindow(GetDlgItem(hwnd, IDC_VARS), 1) : EnableWindow(GetDlgItem(hwnd, IDC_VARS), 0);
+	}
+	return TRUE;
+	case WM_COMMAND:
+	{
+		switch (LOWORD(wParam))
 		{
-			TranslateDialogDefault(hwnd);
-			SetDlgItemString(hwnd, ID_QUESTION, plSets->Question.Get());
-			SetDlgItemString(hwnd, ID_ANSWER, plSets->Answer.Get());
-			SetDlgItemString(hwnd, ID_CONGRATULATION, plSets->Congratulation.Get());
-			SetDlgItemString(hwnd, ID_AUTHREPL, plSets->AuthRepl.Get());
-			SetDlgItemString(hwnd, ID_DIVIDER, plSets->AnswSplitString.Get());
-			variables_skin_helpbutton(hwnd, IDC_VARS);
-			ServiceExists(MS_VARS_FORMATSTRING)?EnableWindow(GetDlgItem(hwnd, IDC_VARS),1):EnableWindow(GetDlgItem(hwnd, IDC_VARS),0);
+		case ID_QUESTION:
+		case ID_ANSWER:
+		case ID_AUTHREPL:
+		case ID_CONGRATULATION:
+		case ID_DIVIDER:
+		{
+			if (EN_CHANGE != HIWORD(wParam) || (HWND)lParam != GetFocus())
+				return FALSE;
+			break;
+		}
+		case ID_RESTOREDEFAULTS:
+			SetDlgItemString(hwnd, ID_QUESTION, plSets->Question.GetDefault());
+			SetDlgItemString(hwnd, ID_ANSWER, plSets->Answer.GetDefault());
+			SetDlgItemString(hwnd, ID_CONGRATULATION, plSets->Congratulation.GetDefault());
+			SetDlgItemString(hwnd, ID_AUTHREPL, plSets->AuthRepl.GetDefault());
+			SetDlgItemString(hwnd, ID_DIVIDER, plSets->AnswSplitString.GetDefault());
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+			return TRUE;
+		case IDC_VARS:
+			variables_showhelp(hwnd, msg, VHF_FULLDLG | VHF_SETLASTSUBJECT, NULL, NULL);
+			return TRUE;
+		}
+		SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+	}
+	break;
+	case WM_NOTIFY:
+	{
+		NMHDR* nmhdr = (NMHDR*)lParam;
+		switch (nmhdr->code)
+		{
+		case PSN_APPLY:
+		{
+			plSets->Question = GetDlgItemString(hwnd, ID_QUESTION);
+			plSets->Answer = GetDlgItemString(hwnd, ID_ANSWER);
+			plSets->AuthRepl = GetDlgItemString(hwnd, ID_AUTHREPL);
+			plSets->Congratulation = GetDlgItemString(hwnd, ID_CONGRATULATION);
+			plSets->AnswSplitString = GetDlgItemString(hwnd, ID_DIVIDER);
 		}
 		return TRUE;
-	case WM_COMMAND:
-		{
-			switch(LOWORD(wParam))
-			{
-			case ID_QUESTION:
-			case ID_ANSWER:
-			case ID_AUTHREPL:
-			case ID_CONGRATULATION:
-			case ID_DIVIDER:
-				{
-					if (EN_CHANGE != HIWORD(wParam) || (HWND)lParam != GetFocus())
-						return FALSE;
-					break;
-				}
-			case ID_RESTOREDEFAULTS:
-				SetDlgItemString(hwnd, ID_QUESTION, plSets->Question.GetDefault());
-				SetDlgItemString(hwnd, ID_ANSWER, plSets->Answer.GetDefault());
-				SetDlgItemString(hwnd, ID_CONGRATULATION, plSets->Congratulation.GetDefault());
-				SetDlgItemString(hwnd, ID_AUTHREPL, plSets->AuthRepl.GetDefault());
-				SetDlgItemString(hwnd, ID_DIVIDER, plSets->AnswSplitString.GetDefault());
-				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-				return TRUE;
-			case IDC_VARS:
-				variables_showhelp(hwnd, msg, VHF_FULLDLG|VHF_SETLASTSUBJECT, NULL, NULL);
-				return TRUE; 
-			}
-			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 		}
-		break;
-	case WM_NOTIFY:
-		{
-			NMHDR* nmhdr = (NMHDR*)lParam;
-			switch (nmhdr->code)
-			{
-			case PSN_APPLY:
-				{
-					plSets->Question=GetDlgItemString(hwnd, ID_QUESTION);
-					plSets->Answer=GetDlgItemString(hwnd, ID_ANSWER);
-					plSets->AuthRepl=GetDlgItemString(hwnd, ID_AUTHREPL);
-					plSets->Congratulation=GetDlgItemString(hwnd, ID_CONGRATULATION);
-					plSets->AnswSplitString=GetDlgItemString(hwnd, ID_DIVIDER);
-				}
-				return TRUE;
-			}
-		}
-		break;			
+	}
+	break;
 	}
 	return FALSE;
 }
