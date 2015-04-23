@@ -182,38 +182,40 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SendMessage(hwndComboBox, CB_SETITEMDATA, 0, 0);
 
 			for (int i = 0; i < count; i++) {
-				szName = accs[i]->szModuleName;
-				dat[i].szName = szName;
+				if (!accs[i]->bIsVirtual) {
+					szName = accs[i]->szModuleName;
+					dat[i].szName = szName;
 
-				DWORD dwNewId = SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)accs[i]->tszAccountName);
-				SendMessage(hwndComboBox, CB_SETITEMDATA, dwNewId, (LPARAM)i + 1);
+					DWORD dwNewId = SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)accs[i]->tszAccountName);
+					SendMessage(hwndComboBox, CB_SETITEMDATA, dwNewId, (LPARAM)i + 1);
 
-				mir_snprintf(buf, SIZEOF(buf), "SBarAccountIsCustom_%s", szName);
-				dat[i].AccountIsCustomized = db_get_b(NULL, "CLUI", buf, SETTING_SBARACCOUNTISCUSTOM_DEFAULT);
+					mir_snprintf(buf, SIZEOF(buf), "SBarAccountIsCustom_%s", szName);
+					dat[i].AccountIsCustomized = db_get_b(NULL, "CLUI", buf, SETTING_SBARACCOUNTISCUSTOM_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "HideAccount_%s", szName);
-				dat[i].HideAccount = db_get_b(NULL, "CLUI", buf, SETTING_SBARHIDEACCOUNT_DEFAULT);
+					mir_snprintf(buf, SIZEOF(buf), "HideAccount_%s", szName);
+					dat[i].HideAccount = db_get_b(NULL, "CLUI", buf, SETTING_SBARHIDEACCOUNT_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "SBarShow_%s", szName);
-				dat[i].SBarShow = db_get_b(NULL, "CLUI", buf, SETTING_SBARSHOW_DEFAULT);
+					mir_snprintf(buf, SIZEOF(buf), "SBarShow_%s", szName);
+					dat[i].SBarShow = db_get_b(NULL, "CLUI", buf, SETTING_SBARSHOW_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "SBarRightClk_%s", szName);
-				dat[i].SBarRightClk = db_get_b(NULL, "CLUI", buf, SETTING_SBARRIGHTCLK_DEFAULT);
+					mir_snprintf(buf, SIZEOF(buf), "SBarRightClk_%s", szName);
+					dat[i].SBarRightClk = db_get_b(NULL, "CLUI", buf, SETTING_SBARRIGHTCLK_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "ShowUnreadEmails_%s", szName);
-				dat[i].ShowUnreadEmails = db_get_b(NULL, "CLUI", buf, SETTING_SHOWUNREADEMAILS_DEFAULT);
+					mir_snprintf(buf, SIZEOF(buf), "ShowUnreadEmails_%s", szName);
+					dat[i].ShowUnreadEmails = db_get_b(NULL, "CLUI", buf, SETTING_SHOWUNREADEMAILS_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "ShowXStatus_%s", szName);
-				dat[i].ShowXStatus = db_get_b(NULL, "CLUI", buf, SETTING_SHOWXSTATUS_DEFAULT);
+					mir_snprintf(buf, SIZEOF(buf), "ShowXStatus_%s", szName);
+					dat[i].ShowXStatus = db_get_b(NULL, "CLUI", buf, SETTING_SHOWXSTATUS_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "UseConnectingIcon_%s", szName);
-				dat[i].UseConnectingIcon = db_get_b(NULL, "CLUI", buf, SETTING_USECONNECTINGICON_DEFAULT);
+					mir_snprintf(buf, SIZEOF(buf), "UseConnectingIcon_%s", szName);
+					dat[i].UseConnectingIcon = db_get_b(NULL, "CLUI", buf, SETTING_USECONNECTINGICON_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "PaddingLeft_%s", szName);
-				dat[i].PaddingLeft = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGLEFT_DEFAULT);
+					mir_snprintf(buf, SIZEOF(buf), "PaddingLeft_%s", szName);
+					dat[i].PaddingLeft = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGLEFT_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "PaddingRight_%s", szName);
-				dat[i].PaddingRight = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGRIGHT_DEFAULT);
+					mir_snprintf(buf, SIZEOF(buf), "PaddingRight_%s", szName);
+					dat[i].PaddingRight = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGRIGHT_DEFAULT);
+				}
 			}
 
 			if (count)
