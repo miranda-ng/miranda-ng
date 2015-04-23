@@ -114,7 +114,6 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 					if (!mir_strcmpi(type, "ended")) iType = 0;
 					else if (!mir_strcmpi(type, "started")) iType = 1;
-
 					HXML xmlNode = xi.getChildByPath(xml, _T("part"), 0);
 					HXML duration = xmlNode == NULL ? NULL : xi.getChildByPath(xmlNode, _T("duration"), 0);
 					iDuration = duration != NULL ? atoi(mir_t2a(xi.getText(duration))) : NULL;
@@ -135,11 +134,11 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 						sec = iDuration % 60;
 					}
 					else 
-						hours=mins=sec=0;
+						hours = mins = sec = 0;
 
-					if (hours < 10) chours.AppendFormat("0%d", hours); else chours.AppendFormat("%d", hours);
-					if (mins < 10) cmins.AppendFormat("0%d", mins); else cmins.AppendFormat("%d", mins);
-					if (sec < 10) csec.AppendFormat("0%d", sec); else csec.AppendFormat("%d", sec);
+					chours.AppendFormat(hours < 10 ? "0%d" : "%d", hours);
+					cmins.AppendFormat(mins < 10 ? "0%d" : "%d", mins);
+					csec.AppendFormat(sec < 10 ? "0%d" : "%d", sec);
 					text.AppendFormat("%s\n%s: %s:%s:%s", Translate("Call ended"), Translate("Duration"), chours, cmins, csec);
 				}
 				AddMessageToDb(hContact, timestamp, flags, clientMsgId, text.GetBuffer());
