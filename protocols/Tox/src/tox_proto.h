@@ -6,9 +6,10 @@ struct CToxProto : public PROTO<CToxProto>
 	friend CToxPasswordEditor;
 	friend CToxOptionsMain;
 	friend CToxOptionsNodeList;
-	friend CToxAudioCall;
-	friend CToxIncomingAudioCall;
-	friend CToxOutgoingAudioCall;
+	friend CToxCallDlgBase;
+	friend CToxIncomingCall;
+	friend CToxOutgoingCall;
+	friend CToxCallDialog;
 
 public:
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -153,7 +154,7 @@ private:
 	MCONTACT GetContact(const int friendNumber);
 	MCONTACT GetContact(const char *pubKey);
 
-	MCONTACT AddContact(const char *address, const std::tstring &dnsId, bool isTemporary = false);
+	MCONTACT AddContact(const char *address, const TCHAR *dnsId = NULL, bool isTemporary = false);
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
@@ -173,8 +174,8 @@ private:
 	static void OnConnectionStatusChanged(Tox *tox, uint32_t friendNumber, TOX_CONNECTION status, void *arg);
 
 	// contacts search
-	void __cdecl SearchByNameAsync(void* arg);
-	void __cdecl SearchFailedAsync(void* arg);
+	void __cdecl SearchByNameAsync(void *arg);
+	void __cdecl SearchFailedAsync(void *arg);
 
 	static INT_PTR CALLBACK SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

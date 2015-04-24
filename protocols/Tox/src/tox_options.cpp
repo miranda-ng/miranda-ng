@@ -196,7 +196,7 @@ void CToxOptionsMain::OnApply()
 /////////////////////////////////////////////////////////////////////////////////
 
 CToxOptionsMultimedia::CToxOptionsMultimedia(CToxProto *proto)
-	: CToxDlgBase(proto, IDD_OPTIONS_AV, false),
+	: CToxDlgBase(proto, IDD_OPTIONS_MULTIMEDIA, false),
 	m_audioInput(this, IDC_AUDIOINPUT),
 	m_audioOutput(this, IDC_AUDIOOUTPUT)
 {

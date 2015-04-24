@@ -1,21 +1,33 @@
 #ifndef _TOX_DIALOGS_H_
 #define _TOX_DIALOGS_H_
 
-typedef CProtoDlgBase<CToxProto> CToxDlgBase;
-
-class CToxPasswordEditor : public CToxDlgBase
+class CCtrlLabel : public CCtrlData
 {
-private:
-	CCtrlEdit password;
-	CCtrlCheck savePermanently;
-
-	CCtrlButton ok;
-
-protected:
-	void OnOk(CCtrlButton*);
+	typedef CCtrlData CSuper;
 
 public:
-	CToxPasswordEditor(CToxProto *proto);
+	CCtrlLabel(CDlgBase *dlg, int ctrlId) :
+		CSuper(dlg, ctrlId)
+	{
+	}
+
+	virtual void OnInit()
+	{
+		CSuper::OnInit();
+		OnReset();
+	}
+
+	virtual void OnReset()
+	{
+		if (GetDataType() == DBVT_TCHAR)
+			SetText(LoadText());
+		else if (GetDataType() != DBVT_DELETED)
+			SetInt(LoadInt());
+	}
 };
+
+///////////////////////////////////////////////
+
+typedef CProtoDlgBase<CToxProto> CToxDlgBase;
 
 #endif //_TOX_DIALOGS_H_
