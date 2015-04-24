@@ -162,5 +162,11 @@
     <Image Include="res\icons\skype.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
+    <Image Include="res\Icons\conference.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\Icons\sync_history.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
   </ItemGroup>
 </Project>
