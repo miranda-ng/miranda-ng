@@ -20,7 +20,7 @@
 [Preview]
 Тест
 [Use per protocol global smiley packs]
-Глобальный набор смайлов для протоколов
+Глобальный набор для протоколов
 [Display]
 Показывать
 [Replace only smileys surrounded by spaces]
@@ -93,8 +93,8 @@ HTTP-подключение SmileyAdd
 Проблемы с загрузкой набора смайлов (необходимо исправить).\nДля подробностей смотрите сетевой лог.
 [Smiley #%u in file %s for smiley pack %s not found.]
 Смайл #%u в файле %s для набора смайлов %s не найден.
-[ global smiley pack]
- глобальный набор смайлов
+[%s global smiley pack]
+%s глобальный набор смайлов
 [Standard]
 Стандартные
 [Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
