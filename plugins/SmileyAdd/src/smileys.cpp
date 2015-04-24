@@ -1,5 +1,6 @@
 /*
-Miranda SmileyAdd Plugin
+Miranda NG SmileyAdd Plugin
+Copyright (C) 2012 - 2015 Miranda NG project (http://miranda-ng.org)
 Copyright (C) 2005 - 2011 Boris Krasnovskiy All Rights Reserved
 Copyright (C) 2003 - 2004 Rein-Peter de Boer
 
@@ -730,7 +731,7 @@ SmileyCategoryType::SmileyCategoryType(SmileyPackListType* pSPS, const CMString&
 
 void SmileyCategoryType::Load(void)
 {
-	if (!opt.UseOneForAll || type != smcProto)
+	if (!opt.UseOneForAll || !IsProto())
 		m_pSmileyPackStore->AddSmileyPack(m_Filename);
 }
 
@@ -877,7 +878,7 @@ void SmileyCategoryListType::AddProtoAsCategory(char *acc, const CMString& defau
 	displayName += TranslateT(" global smiley pack");
 	CMString tname("AllProto");
 	tname += A2T_SM(acc);
-	AddCategory(tname, displayName, smcProto, paths);
+	AddCategory(tname, displayName, smcPhysProto, paths);
 }
 
 void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
@@ -945,9 +946,9 @@ void SmileyCategoryListType::AddContactTransportAsCategory(MCONTACT hContact, co
 			if (_taccess(patha.c_str(), 0) != 0) 
 				paths = defaultFile;
 
-			AddCategory(displayName, displayName, smcProto, paths); 
+			AddCategory(displayName, displayName, smcTransportProto, paths); 
 		}
-		else AddCategory(displayName, displayName, smcProto, defaultFile); 
+		else AddCategory(displayName, displayName, smcTransportProto, defaultFile);
 
 		db_free(&dbv);
 	}
@@ -977,7 +978,7 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 
 	PROTOACCOUNT **accList;	
 	ProtoEnumAccounts(&protoCount, &accList);
-	for (int i = 0; i < protoCount; i++) 
+	for (int i = 0; i < protoCount; i++)
 		AddAccountAsCategory(accList[i], defaultFile);
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))

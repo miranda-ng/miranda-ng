@@ -1,5 +1,6 @@
 /*
-Miranda SmileyAdd Plugin
+Miranda NG SmileyAdd Plugin
+Copyright (C) 2012 - 2015 Miranda NG project (http://miranda-ng.org)
 Copyright (C) 2005 - 2011 Boris Krasnovskiy
 Copyright (C) 2003 - 2004 Rein-Peter de Boer
 

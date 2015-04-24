@@ -1,5 +1,6 @@
 /*
-Miranda SmileyAdd Plugin
+Miranda NG SmileyAdd Plugin
+Copyright (C) 2012 - 2015 Miranda NG project (http://miranda-ng.org)
 Copyright (C) 2005 - 2011 Boris Krasnovskiy All Rights Reserved
 Copyright (C) 2003 - 2004 Rein-Peter de Boer
 
@@ -132,6 +133,11 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_USESTDPACK:
 			if (HIWORD(wParam) == BN_CLICKED) {
+				BOOL en = IsDlgButtonChecked(m_hwndDialog, IDC_USESTDPACK) == BST_CHECKED;
+				EnableWindow(GetDlgItem(m_hwndDialog, IDC_USEPHYSPROTO), en);
+			} // no break!
+		case IDC_USEPHYSPROTO:
+			if (HIWORD(wParam) == BN_CLICKED) {
 				PopulateSmPackList(); 
 				SetChanged();
 			}
@@ -159,7 +165,6 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case IDC_SPACES:
-		case IDC_USEPHYSPROTO:
 		case IDC_SCALETOTEXTHEIGHT:
 		case IDC_APPENDSPACES:
 		case IDC_SMLBUT:
@@ -316,6 +321,7 @@ long OptionsDialogType::GetSelProto(HTREEITEM hItem)
 void OptionsDialogType::PopulateSmPackList(void)
 {
 	bool useOne = IsDlgButtonChecked(m_hwndDialog, IDC_USESTDPACK) == BST_UNCHECKED;
+	bool usePhysProto = IsDlgButtonChecked(m_hwndDialog, IDC_USEPHYSPROTO) == BST_CHECKED;
 
 	HWND hLstView = GetDlgItem(m_hwndDialog, IDC_CATEGORYLIST);
 
@@ -329,8 +335,10 @@ void OptionsDialogType::PopulateSmPackList(void)
 	tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_SELECTED;
 
 	SmileyCategoryListType::SmileyCategoryVectorType& smc = *tmpsmcat.GetSmileyCategoryList();
-	for (int i=0; i < smc.getCount(); i++) {
-		if (!useOne || !smc[i].IsProto()) {
+	for (int i=0; i < smc.getCount(); i++) {			
+		bool visiblecat = usePhysProto ? !smc[i].IsAcc() : !smc[i].IsPhysProto();
+		bool visible = useOne ? !smc[i].IsProto() : visiblecat;
+		if (visible) {
 			tvi.item.pszText = (TCHAR*)smc[i].GetDisplayName().c_str();
 			if (!smc[i].IsProto()) {
 				tvi.item.iImage = 0;
@@ -377,6 +385,7 @@ void OptionsDialogType::InitDialog(void)
 
 	SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_SETCURSEL, opt.ButtonStatus, 0);  
 	EnableWindow(GetDlgItem(m_hwndDialog, IDC_SMLBUT), opt.PluginSupportEnabled);
+	EnableWindow(GetDlgItem(m_hwndDialog, IDC_USEPHYSPROTO), !opt.UseOneForAll);
 
 	SendDlgItemMessage(m_hwndDialog, IDC_MAXCUSTSPIN, UDM_SETRANGE32, 0, 99);
 	SendDlgItemMessage(m_hwndDialog, IDC_MAXCUSTSPIN, UDM_SETPOS, 0, opt.MaxCustomSmileySize);
