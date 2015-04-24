@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+#include "stdafx.h"
 #include "image_utils.h"
 
 #define GET_PIXEL(__P__, __X__, __Y__) ( __P__ + width * 4 * (__Y__) + 4 * (__X__))
