@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.2.3.17
+;  Version: 0.2.3.18
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -13,6 +13,7 @@
 [Author:]
 [Version:]
 [Preview]
+[Use per protocol global smiley packs]
 [Display]
 [Replace only smileys surrounded by spaces]
 [Scale smiley to text height]
@@ -55,6 +56,7 @@
 [Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 [Smiley #%u in file %s for smiley pack %s not found.]
+[ global smiley pack]
 [Standard]
 [Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
 [Regular expression "%s" in smiley pack "%s" malformed.]

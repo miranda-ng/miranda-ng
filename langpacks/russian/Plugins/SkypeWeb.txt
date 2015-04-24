@@ -11,8 +11,6 @@
 Создать комнату чата
 [Cancel]
 Отмена
-[New chat's title:]
-Название новой комнаты
 [Mark users you want to invite to a new chat]
 Отметить пользователей для приглашения в комнату чата
 [Invite user to chat]
