@@ -19,7 +19,7 @@ along with this program (Shutdown-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 /* Show Frame */
 extern HINSTANCE hInst;
@@ -56,15 +56,6 @@ static LOGFONT* GetDefaultFont(LOGFONT *lf)
 		return lf;
 	}
 	return (LOGFONT*)NULL;
-}
-
-static HICON SetFrameTitleIcon(WORD hFrame,HICON hNewIcon)
-{
-	HICON hPrevIcon;
-	hPrevIcon=(HICON)CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS,MAKEWPARAM(FO_ICON,hFrame),0);
-	CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_ICON,hFrame),(LPARAM)hNewIcon);
-	if ((int)hPrevIcon==-1) return (HICON)NULL;
-	return hPrevIcon;
 }
 
 static LRESULT CALLBACK ProgressBarSubclassProc(HWND hwndProgress,UINT msg,WPARAM wParam,LPARAM lParam)
@@ -232,7 +223,6 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			UnhookEvent(dat->hHookIconsChanged);
 			/* other childs are destroyed automatically */
 			if (dat->hwndToolTip != NULL) DestroyWindow(dat->hwndToolTip);
-			HICON hIcon=(HICON)SendMessage(dat->hwndIcon,STM_SETIMAGE,IMAGE_ICON,0);
 			break;
 		}
 		case WM_NCDESTROY:
@@ -585,7 +575,7 @@ void CloseCountdownFrame(void)
 
 /************************* Misc ***************************************/
 
-static int FrameModulesLoaded(WPARAM wParam,LPARAM lParam)
+static int FrameModulesLoaded(WPARAM, LPARAM)
 {
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		LOGFONT lf;

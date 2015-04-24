@@ -19,7 +19,7 @@ along with this program (Shutdown-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 /* Shutdown Dialog */
 static HWND hwndShutdownDlg;
@@ -343,7 +343,6 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			/* reallow foreground window changes (WinMe/2000+) */
 			LockSetForegroundWindow(LSFW_UNLOCK);
 			Utils_SaveWindowPosition(hwndDlg,NULL,"AutoShutdown","ConfirmDlg_");
-			HICON hIcon=(HICON)SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,0);
 			HFONT hFont=(HFONT)SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_GETFONT,0,0);
 			SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_SETFONT,0,FALSE); /* no return value */
 			if (hFont != NULL) DeleteObject(hFont);

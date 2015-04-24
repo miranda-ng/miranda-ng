@@ -19,7 +19,7 @@ along with this program (Shutdown-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 /* Option Page */
 static HANDLE hHookOptInit;
@@ -103,7 +103,7 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 	return FALSE;
 }
 
-static int ShutdownOptInit(WPARAM wParam, LPARAM lParam)
+static int ShutdownOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
