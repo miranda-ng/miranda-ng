@@ -18,7 +18,7 @@ PLUGININFOEX pluginInfoEx = {
 	{0xeb0465e2, 0xceee, 0x11db, {0x83, 0xef, 0xc1, 0xbf, 0x55, 0xd8, 0x95, 0x93}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -73,7 +73,7 @@ static BOOL CmpCurrentAndRegistry()
 	return mir_tstrcmpi(result, dbpath) == 0;
 }
 
-static INT_PTR CALLBACK DlgProcAutorunOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcAutorunOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -114,7 +114,7 @@ static int AutorunOptInitialise(WPARAM wParam,LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
