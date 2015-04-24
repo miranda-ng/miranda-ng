@@ -7,13 +7,15 @@ CToxCallDlgBase::CToxCallDlgBase(CToxProto *proto, int idDialog, MCONTACT hConta
 
 void CToxCallDlgBase::OnInitDialog()
 {
-	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, typeid(this).name());
+	const char *className = typeid(this).name();
+	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, className);
 }
 
 void CToxCallDlgBase::OnClose()
 {
 	//WindowList_Remove(m_proto->hAudioDialogs, m_hwnd);
-	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, typeid(this).name());
+	const char *className = typeid(this).name();
+	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, className);
 }
 
 INT_PTR CToxCallDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -68,16 +70,10 @@ void CToxIncomingCall::OnAnswer(CCtrlBase*)
 {
 	ToxAvCSettings *cSettings = m_proto->GetAudioCSettings();
 	if (cSettings == NULL)
-	{
-		Close();
 		return;
-	}
 
 	if (toxav_answer(m_proto->toxAv, m_proto->calls[hContact], cSettings) == TOX_ERROR)
-	{
 		m_proto->debugLogA(__FUNCTION__": failed to start call");
-		Close();
-	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,16 +122,13 @@ void CToxOutgoingCall::OnCall(CCtrlBase*)
 	}
 	m_proto->calls[hContact] = callId;
 
-	char *message = mir_utf8encodeT(TranslateT("Outgoing call"));
-
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = m_proto->m_szModuleName;
-	dbei.timestamp = time(NULL);
-	dbei.eventType = DB_EVENT_AUDIO_CALL;
-	dbei.flags = DBEF_UTF;
-	dbei.pBlob = (PBYTE)message;
-	dbei.cbSize = mir_strlen(message);
-	db_event_add(hContact, &dbei);
+	char *message = NULL;
+	TCHAR title[MAX_PATH];
+	if(GetWindowText(m_hwnd, title, SIZEOF(title)))
+		message = mir_utf8encodeT(title);
+	else
+		message = mir_utf8encode("Outgoing call");
+	m_proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	call.Enable(FALSE);
 	SetIcon("audio_call");
@@ -278,11 +271,14 @@ void CToxProto::OnAvInvite(void*, int32_t callId, void *arg)
 		return;
 	}
 
+	TCHAR message[MAX_PATH];
+	mir_sntprintf(message, SIZEOF(message), TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+
 	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = time(NULL);
 	recv.lParam = callId;
 	recv.flags = PREF_UTF;
-	recv.szMessage = mir_utf8encodeT(TranslateT("Incoming call"));
+	recv.szMessage = mir_utf8encodeT(message);
 	ProtoChainRecv(hContact, PSR_AUDIO, hContact, (LPARAM)&recv);
 }
 
@@ -293,28 +289,20 @@ INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
 
 	calls[hContact] = pre->lParam;
 
-	char *message = mir_utf8encodeT(TranslateT("Incoming call"));
-
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = m_szModuleName;
-	dbei.timestamp = pre->timestamp;
-	dbei.eventType = DB_EVENT_AUDIO_RING;
-	dbei.flags = DBEF_UTF;
-	dbei.pBlob = (PBYTE)message;
-	dbei.cbSize = mir_strlen(message);
-	MEVENT hEvent = db_event_add(hContact, &dbei);
+	MEVENT hEvent = AddEventToDb(hContact, DB_EVENT_CALL, pre->timestamp, DBEF_UTF, (PBYTE)pre->szMessage, mir_strlen(pre->szMessage));
 
 	CLISTEVENT cle = { sizeof(cle) };
 	cle.flags |= CLEF_TCHAR;
 	cle.hContact = hContact;
 	cle.hDbEvent = hEvent;
+	cle.lParam = DB_EVENT_CALL;
 	cle.hIcon = Skin_GetIconByHandle(GetIconHandle("audio_ring"));
 
-	TCHAR szTooltip[256];
+	TCHAR szTooltip[MAX_PATH];
 	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 	cle.ptszTooltip = szTooltip;
 
-	char szService[256];
+	char szService[MAX_PATH];
 	mir_snprintf(szService, SIZEOF(szService), "%s/Audio/Ring", GetContactProto(hContact));
 	cle.pszService = szService;
 
@@ -323,7 +311,7 @@ INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
 	return hEvent;
 }
 
-// 
+// react on clist event click
 INT_PTR CToxProto::OnAudioRing(WPARAM wParam, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
@@ -354,20 +342,19 @@ void CToxProto::OnAvCancel(void*, int32_t callId, void *arg)
 		return;
 	}
 
-	CLISTEVENT *cle = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, hContact, 0);
-	if (cle)
-		CallService(MS_CLIST_REMOVEEVENT, hContact, cle->hDbEvent);
+	int iEvent = 0;
+	CLISTEVENT *cle = NULL;
+	while ((cle = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, hContact, 0)))
+	{
+		if (cle->lParam == DB_EVENT_CALL)
+		{
+			CallService(MS_CLIST_REMOVEEVENT, hContact, cle->hDbEvent);
+			break;
+		}
+	}
 
-	char *message = mir_utf8encodeT(TranslateT("Call ended"));
-
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = proto->m_szModuleName;
-	dbei.timestamp = time(NULL);
-	dbei.eventType = DB_EVENT_AUDIO_END;
-	dbei.flags = DBEF_UTF;
-	dbei.pBlob = (PBYTE)message;
-	dbei.cbSize = mir_strlen(message);
-	db_event_add(hContact, &dbei);
+	char *message = mir_utf8encodeT(TranslateT("Call cancelled"));
+	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
 }
@@ -404,16 +391,8 @@ void CToxProto::OnAvReject(void*, int32_t callId, void *arg)
 		return;
 	}
 
-	char *message = mir_utf8encodeT(TranslateT("Call ended"));
-
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = proto->m_szModuleName;
-	dbei.timestamp = time(NULL);
-	dbei.eventType = DB_EVENT_AUDIO_END;
-	dbei.flags = DBEF_UTF;
-	dbei.pBlob = (PBYTE)message;
-	dbei.cbSize = mir_strlen(message);
-	db_event_add(hContact, &dbei);
+	char *message = mir_utf8encodeT(TranslateT("Call cancelled"));
+	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
 }
@@ -438,21 +417,35 @@ void CToxProto::OnAvCallTimeout(void*, int32_t callId, void *arg)
 		return;
 	}
 
-	char *message = mir_utf8encodeT(TranslateT("Call ended"));
-
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = proto->m_szModuleName;
-	dbei.timestamp = time(NULL);
-	dbei.eventType = DB_EVENT_AUDIO_END;
-	dbei.flags = DBEF_UTF;
-	dbei.pBlob = (PBYTE)message;
-	dbei.cbSize = mir_strlen(message);
-	db_event_add(hContact, &dbei);
+	char *message = mir_utf8encodeT(TranslateT("Call cancelled"));
+	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
 }
 
 /* --- */
+
+static void CALLBACK WaveOutCallback(HWAVEOUT hOutDevice, UINT uMsg, DWORD/* dwInstance*/, DWORD dwParam1, DWORD/* dwParam2*/)
+{
+	switch (uMsg)
+	{
+	case WOM_DONE:
+	{
+		WAVEHDR *header = (WAVEHDR*)dwParam1;
+		if (header->dwFlags & WHDR_PREPARED)
+			waveOutUnprepareHeader(hOutDevice, header, sizeof(WAVEHDR));
+		mir_free(header->lpData);
+		mir_free(header);
+	}
+	break;
+	}
+}
+
+static void CALLBACK ToxShowDialogApcProc(void *arg)
+{
+	CDlgBase *callDlg = (CDlgBase*)arg;
+	callDlg->Show();
+}
 
 void CToxProto::OnAvStart(void*, int32_t callId, void *arg)
 {
@@ -483,7 +476,7 @@ void CToxProto::OnAvStart(void*, int32_t callId, void *arg)
 	wfx.nAvgBytesPerSec = wfx.nSamplesPerSec * wfx.nBlockAlign;
 
 	DWORD deviceId = proto->getDword("AudioOutputDeviceID", WAVE_MAPPER);
-	MMRESULT error = waveOutOpen(&proto->hOutDevice, deviceId, &wfx, (DWORD_PTR)&CToxProto::WaveOutCallback, (DWORD_PTR)proto, CALLBACK_FUNCTION);
+	MMRESULT error = waveOutOpen(&proto->hOutDevice, deviceId, &wfx, (DWORD_PTR)WaveOutCallback, (DWORD_PTR)proto, CALLBACK_FUNCTION);
 	if (error != MMSYSERR_NOERROR)
 	{
 		proto->debugLogA(__FUNCTION__": failed to open audio device (%d)", error);
@@ -522,19 +515,12 @@ void CToxProto::OnAvStart(void*, int32_t callId, void *arg)
 	}
 
 	char *message = mir_utf8encodeT(TranslateT("Call started"));
+	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = proto->m_szModuleName;
-	dbei.timestamp = time(NULL);
-	dbei.eventType = DB_EVENT_AUDIO_START;
-	dbei.flags = DBEF_UTF;
-	dbei.pBlob = (PBYTE)message;
-	dbei.cbSize = mir_strlen(message);
-	db_event_add(hContact, &dbei);
 
+	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
 	CDlgBase *callDlg = new CToxCallDialog(proto, hContact);
-	callDlg->Show();
-	WindowList_Add(proto->hAudioDialogs, callDlg->GetHwnd(), hContact);
+	CallFunctionAsync(ToxShowDialogApcProc, callDlg);
 }
 
 void CToxProto::OnAvEnd(void*, int32_t callId, void *arg)
@@ -559,15 +545,7 @@ void CToxProto::OnAvEnd(void*, int32_t callId, void *arg)
 	}
 
 	char *message = mir_utf8encodeT(TranslateT("Call ended"));
-
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = proto->m_szModuleName;
-	dbei.timestamp = time(NULL);
-	dbei.eventType = DB_EVENT_AUDIO_END;
-	dbei.flags = DBEF_UTF;
-	dbei.pBlob = (PBYTE)message;
-	dbei.cbSize = mir_strlen(message);
-	db_event_add(hContact, &dbei);
+	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
 }
@@ -596,16 +574,8 @@ void CToxProto::OnAvPeerTimeout(void*, int32_t callId, void *arg)
 	if (cle)
 		CallService(MS_CLIST_REMOVEEVENT, hContact, cle->hDbEvent);
 
-	char *message = mir_utf8encodeT(TranslateT("Call ended"));
-
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.szModule = proto->m_szModuleName;
-	dbei.timestamp = time(NULL);
-	dbei.eventType = DB_EVENT_AUDIO_END;
-	dbei.flags = DBEF_UTF;
-	dbei.pBlob = (PBYTE)message;
-	dbei.cbSize = mir_strlen(message);
-	db_event_add(hContact, &dbei);
+	char *message = mir_utf8encodeT(TranslateT("Call cancelled"));
+	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
 
@@ -613,23 +583,6 @@ void CToxProto::OnAvPeerTimeout(void*, int32_t callId, void *arg)
 }
 
 //////
-
-void CToxProto::WaveOutCallback(HWAVEOUT m_hWO, UINT uMsg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2)
-{
-	CToxProto *proto = (CToxProto*)dwInstance;
-	switch (uMsg)
-	{
-	case WOM_DONE:
-	{
-		WAVEHDR *header = (WAVEHDR*)dwParam1;
-		if (header->dwFlags & WHDR_PREPARED)
-			waveOutUnprepareHeader(proto->hOutDevice, header, sizeof(WAVEHDR));
-		mir_free(header->lpData);
-		mir_free(header);
-	}
-	break;
-	}
-}
 
 void CToxProto::OnFriendAudio(void*, int32_t callId, const int16_t *PCM, uint16_t size, void *arg)
 {

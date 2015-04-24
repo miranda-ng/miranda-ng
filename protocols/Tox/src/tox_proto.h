@@ -248,8 +248,6 @@ private:
 	HWAVEOUT hOutDevice;
 	std::map<MCONTACT, int32_t> calls;
 
-	static void CALLBACK WaveOutCallback(HWAVEOUT m_hWO, UINT uMsg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2);
-
 	ToxAvCSettings* GetAudioCSettings();
 	
 	static void OnFriendAudio(void *agent, int32_t callId, const int16_t *PCM, uint16_t size, void *arg);
@@ -274,6 +272,8 @@ private:
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 
 	static bool IsFileExists(std::tstring path);
+
+	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, PBYTE pBlob, DWORD cbBlob);
 
 	template<INT_PTR(__cdecl CToxProto::*Service)(WPARAM, LPARAM)>
 	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)

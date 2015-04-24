@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Projects\MirandaNG\protocols\Tox\res\resource.rc
+// Used by e:\Projects\C++\MirandaNG\protocols\Tox\res\resource.rc
 //
 #define IDI_TOX                         100
 #define IDD_USER_INFO                   101

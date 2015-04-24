@@ -63,6 +63,12 @@ public:
 
 ///////////////////////////////////////////////
 
+struct ToxCallDialogParam
+{
+	CToxProto *proto;
+	MCONTACT hContact;
+};
+
 class CToxCallDialog : public CToxCallDlgBase
 {
 protected:
