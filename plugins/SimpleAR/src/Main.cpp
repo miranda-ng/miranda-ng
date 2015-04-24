@@ -147,40 +147,6 @@ INT CheckDefaults(WPARAM, LPARAM)
 	return 0;
 }
 
-TCHAR* StrReplace (TCHAR* Search, TCHAR* Replace, TCHAR* Resource)
-{
-	int i = 0;
-	int SearchLen = (int)_tcslen(Search);
-	TCHAR* Work = mir_tstrdup(Replace);
-	int ReplaceLen = (int)_tcslen(Work);
-
-	TCHAR* Pointer = _tcsstr(Resource, Search);
-
-	while (Pointer != NULL)
-	{
-		int PointerLen = (int)_tcslen(Pointer);
-		int ResourceLen = (int)_tcslen(Resource);
-
-		TCHAR* NewText = (TCHAR*)mir_calloc((ResourceLen - SearchLen + ReplaceLen + 1)*sizeof(TCHAR));
-
-		_tcsncpy(NewText, Resource, ResourceLen - PointerLen);
-		_tcscat(NewText, Work);
-		_tcscat(NewText, Pointer + SearchLen);
-
-		Resource = (TCHAR*)mir_realloc(Resource, (ResourceLen - SearchLen + ReplaceLen + 1)*sizeof(TCHAR));
-
-		for (i = 0; i < (ResourceLen - SearchLen + ReplaceLen); i++)
-			Resource[i] = NewText[i];
-		Resource[i] = 0;
-		mir_free(NewText);
-
-		Pointer = _tcsstr(Resource + (ResourceLen - PointerLen + ReplaceLen), Search);
-	}
-	mir_free(Work);
-
-	return Resource;
-}
-
 INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 {
 	BOOL fEnabled = db_get_b(NULL, protocolname, KEY_ENABLED, 1);
@@ -233,7 +199,8 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 					if (*dbv.ptszVal)
 					{
 						DBVARIANT dbvHead={0}, dbvNick={0};
-						TCHAR *ptszTemp, *ptszTemp2;
+						CMString ptszTemp;
+						TCHAR *ptszTemp2;
 
 						db_get_ts(hContact,pszProto,"Nick",&dbvNick);
 						if (mir_tstrcmp(dbvNick.ptszVal, NULL) == 0)
@@ -245,13 +212,12 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						msgLen += (int)_tcslen(dbv.ptszVal);
 						if (!db_get_ts(NULL,protocolname,KEY_HEADING,&dbvHead))
 						{
-							ptszTemp = (TCHAR*)mir_alloc(sizeof(TCHAR) * (_tcslen(dbvHead.ptszVal)+1));
-							_tcscpy(ptszTemp, dbvHead.ptszVal);
-							ptszTemp = StrReplace(_T("%user%"), dbvNick.ptszVal, ptszTemp);
+							ptszTemp = dbvHead.ptszVal;
+							ptszTemp.Replace(_T("%user%"), dbvNick.ptszVal);
 							msgLen += (int)(_tcslen(ptszTemp));
 						}
 						ptszTemp2 = (TCHAR*)mir_alloc(sizeof(TCHAR) * (msgLen+5));
-						mir_sntprintf(ptszTemp2, msgLen+5, _T("%s\r\n\r\n%s"), ptszTemp, dbv.ptszVal);
+						mir_sntprintf(ptszTemp2, msgLen+5, _T("%s\r\n\r\n%s"), ptszTemp.c_str(), dbv.ptszVal);
 						if (ServiceExists(MS_VARS_FORMATSTRING))
 						{
 							FORMATINFO fi;
@@ -275,7 +241,6 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						dbei.pBlob = (PBYTE)pszUtf;
 						db_event_add(hContact, &dbei);
 
-						mir_free(ptszTemp);
 						mir_free(ptszTemp2);
 						mir_free(pszUtf);
 						if (dbvNick.ptszVal)
