@@ -19,8 +19,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "headers.h"
 
-BOOL (WINAPI *_mempng2dib) (BYTE*, DWORD, BITMAPINFOHEADER**);
-
 MyBitmap::MyBitmap()
 {
 	dcBmp = 0;
@@ -120,39 +118,6 @@ void MyBitmap::restoreAlpha(int x, int y, int w, int h)
 	bitsSave = 0;
 }
 
-void MyBitmap::Blend(MyBitmap *bmp, int x, int y, int w, int h)
-{
-	if (!(bits && bmp && bmp->bits)) return;
-
-	if (!w) w = bmp->width;
-	if (!h) h = bmp->height;
-	float kx = (float)bmp->width / w;
-	float ky = (float)bmp->height / h;
-
-	if (x + w >= this->getWidth())
-		w = this->getWidth() - x;
-	if (y + h >= this->getHeight())
-		h = this->getHeight() - y;
-
-	for (int i = 0; i < h; i++) {
-		if (i + y < 0) continue;
-		if (i + y >= height) break;
-		for (int j = 0; j < w; j++) {
-			if (j + x < 0) continue;
-			if (j + x >= width) break;
-			COLOR32 src = bmp->bits[int(i*ky)*bmp->width + int(j*kx)];
-			COLOR32 dst = bits[(i + y)*width + (j + x)];
-			long alpha = geta(src);
-			bits[(i + y)*width + (j + x)] = rgba(
-				getr(src) + (255 - alpha)*getr(dst) / 255,
-				getg(src) + (255 - alpha)*getg(dst) / 255,
-				getb(src) + (255 - alpha)*getb(dst) / 255,
-				geta(src) + (255 - alpha)*geta(dst) / 255
-				);
-		}
-	}
-}
-
 void MyBitmap::DrawText(TCHAR *str, int x, int y)
 {
 	SIZE sz; GetTextExtentPoint32(this->getDC(), str, (int)mir_tstrlen(str), &sz);
@@ -161,36 +126,6 @@ void MyBitmap::DrawText(TCHAR *str, int x, int y)
 	::DrawText(this->getDC(), str, -1, &rc, DT_LEFT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX);
 	this->restoreAlpha(x - 2, y - 2, sz.cx + 2, sz.cy + 2);
 	//(x,y,sz.cx,sz.cy);
-}
-
-HRGN MyBitmap::buildOpaqueRgn()
-{
-	return CreateRectRgn(0, 0, width, height);
-
-	//
-	int i, rectCount = 0;
-	for (i = 0; i < width*height; i++)
-		if (((bits[i] >> 24) & 0xff) >= 128)
-			rectCount++;
-
-	RGNDATA *rgnData = (RGNDATA *)malloc(sizeof(RGNDATAHEADER) + rectCount * sizeof(RECT));
-	rgnData->rdh.dwSize = sizeof(RGNDATAHEADER);
-	rgnData->rdh.iType = RDH_RECTANGLES;
-	rgnData->rdh.nCount = rectCount;
-	rgnData->rdh.nRgnSize = rectCount * sizeof(RECT);
-	SetRect(&(rgnData->rdh.rcBound), 0, 0, width, height);
-
-	char *p = (char *)&(rgnData->Buffer);
-	for (i = 0; i < width*height; i++)
-		if (((bits[i] >> 24) & 0xff) >= 128) {
-			SetRect((LPRECT)p, i%width, i / width, i%width + 1, i / width + 1);
-			p += sizeof(RECT);
-		}
-
-	HRGN rgn = ExtCreateRegion(NULL, sizeof(RGNDATAHEADER) + rectCount * sizeof(RECT), rgnData);
-	::free(rgnData);
-
-	return rgn;
 }
 
 bool MyBitmap::loadFromFile(TCHAR *fn, TCHAR *fnAlpha)
@@ -204,10 +139,10 @@ bool MyBitmap::loadFromFile(TCHAR *fn, TCHAR *fnAlpha)
 
 	if (!mir_tstrcmpi(ext, _T(".png"))) {
 		HANDLE hFile, hMap = NULL;
-		BYTE* ppMap = NULL;
+		BYTE *ppMap = NULL;
 		long  cbFileSize = 0;
-		BITMAPINFOHEADER* pDib;
-		BYTE* pDibBits = 0;
+		BITMAPINFOHEADER *pDib = { 0 };
+		BYTE *pDibBits = 0;
 
 		if (!png2dibConvertor) {
 			return false;
@@ -262,9 +197,9 @@ bool MyBitmap::loadFromFile(TCHAR *fn, TCHAR *fnAlpha)
 			allocate(abs(bi->bmiHeader.biWidth), abs(bi->bmiHeader.biHeight));
 			//memcpy(bits, pt, bi->bmiHeader.biSizeImage);
 
-			BYTE *p2 = (BYTE *)pt;
+			BYTE *p2 = (BYTE*)pt;
 			for (int y = 0; y < bi->bmiHeader.biHeight; ++y) {
-				BYTE *p1 = (BYTE *)bits + (bi->bmiHeader.biHeight - y - 1)*bi->bmiHeader.biWidth * 4;
+				BYTE *p1 = (BYTE*)bits + (bi->bmiHeader.biHeight - y - 1)*bi->bmiHeader.biWidth * 4;
 				for (int x = 0; x < bi->bmiHeader.biWidth; ++x) {
 					p1[0] = p2[0];
 					p1[1] = p2[1];
@@ -317,8 +252,6 @@ bool MyBitmap::loadFromFile(TCHAR *fn, TCHAR *fnAlpha)
 		}
 		return true;
 	}
-	// unreachable place
-	return false;
 }
 
 void MyBitmap::allocate(int w, int h)
@@ -340,7 +273,7 @@ void MyBitmap::allocate(int w, int h)
 		DeleteDC(dcBmp);
 	}
 
-	hBmp = (HBITMAP)CreateDIBSection(0, &bi, DIB_RGB_COLORS, (void **)&bits, 0, 0);
+	hBmp = (HBITMAP)CreateDIBSection(0, &bi, DIB_RGB_COLORS, (void**)&bits, 0, 0);
 	dcBmp = CreateCompatibleDC(0);
 	hBmpSave = (HBITMAP)SelectObject(dcBmp, hBmp);
 }

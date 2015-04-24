@@ -26,117 +26,115 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 {
 	switch (message)
 	{
-		case WM_LOADED:
+	case WM_LOADED:
+	{
+#ifdef _DEBUG
+		logMessage(_T("WM_LOADED"), _T("called"));
+#endif
+
+		if (!options.showtime) SetTimer(hwnd, 7, 2000, 0);
+
+		break;
+	}
+
+	case WM_LBUTTONDOWN:
+		PostMessage(hwnd, WM_CLOSE, 0, 0);
+		break;
+
+	case WM_TIMER:
+
+#ifdef _DEBUG
+		TCHAR b[40];
+		mir_sntprintf(b, SIZEOF(b), _T("%d"), wParam);
+		logMessage(_T("Timer ID"), b);
+		mir_sntprintf(b, SIZEOF(b), _T("%d"), options.showtime);
+		logMessage(_T("ShowTime value"), b);
+#endif
+
+		if (options.showtime > 0) //TimeToShow enabled
 		{
-			#ifdef _DEBUG
-				logMessage(_T("WM_LOADED"), _T("called"));
-			#endif
-
-			if (!options.showtime) SetTimer(hwnd, 7, 2000, 0);
-
-			break;
+			if (wParam == 6)
+			{
+				PostMessage(hwnd, WM_CLOSE, 0, 0);
+#ifdef _DEBUG
+				logMessage(_T("Showtime timer"), _T("triggered"));
+#endif
+			}
 		}
-
-		case WM_LBUTTONDOWN:
+		else
+		{
 			PostMessage(hwnd, WM_CLOSE, 0, 0);
-			break;
-
-		case WM_TIMER:
-
-			#ifdef _DEBUG
-				TCHAR b [40];
-				mir_sntprintf(b, SIZEOF(b), _T("%d"), wParam);
-				logMessage(_T("Timer ID"), b);
-				mir_sntprintf(b, SIZEOF(b), _T("%d"), options.showtime);
-				logMessage(_T("ShowTime value"), b);
-			#endif
-
-			if (options.showtime > 0) //TimeToShow enabled
+			if (wParam == 7)
 			{
-				if (wParam == 6)
-				{
-					PostMessage(hwnd, WM_CLOSE, 0, 0);
-					#ifdef _DEBUG
-						logMessage(_T("Showtime timer"), _T("triggered"));
-					#endif
-				}
+#ifdef _DEBUG
+				logMessage(_T("On Modules Loaded timer"), _T("triggered"));
+#endif
 			}
-			else
+			if (wParam == 8)
 			{
-				PostMessage(hwnd, WM_CLOSE, 0, 0);
-				if (wParam == 7)
-				{
-					#ifdef _DEBUG
-						logMessage(_T("On Modules Loaded timer"), _T("triggered"));
-					#endif
-				}
-				if (wParam == 8)
-				{
-					#ifdef _DEBUG
-						logMessage(_T("On Modules Loaded workaround"), _T("triggered"));
-					#endif
-				}
+#ifdef _DEBUG
+				logMessage(_T("On Modules Loaded workaround"), _T("triggered"));
+#endif
 			}
-
-			break;
-
-		case WM_RBUTTONDOWN:
-		{
-			ShowWindow(hwndSplash, SW_HIDE);
-			DestroyWindow(hwndSplash);
-			bpreviewruns = false; // preview is stopped.
-			break;
 		}
 
-		case WM_CLOSE:
-		{
-			RECT rc; GetWindowRect(hwndSplash, &rc);
-			POINT ptDst = { rc.left, rc.top };
-			POINT ptSrc = { 0, 0 };
-			SIZE sz = { rc.right - rc.left, rc.bottom - rc.top };
+		break;
 
-			BLENDFUNCTION blend;
-			blend.BlendOp =             AC_SRC_OVER;
-			blend.BlendFlags =          0;
-			blend.SourceConstantAlpha = 255;
-			blend.AlphaFormat =         AC_SRC_ALPHA;
-
-			// Fade Out
-			if (options.fadeout)
-			{
-				int i;
-				for (i = 255; i>=0; i -= options.fosteps)
-				{
-					blend.SourceConstantAlpha = i;
-					UpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
-					Sleep(1);
-				}
-			}
-			if (bserviceinvoked) bserviceinvoked = false;
-			if (bpreviewruns) bpreviewruns = false;
-
-			DestroyWindow(hwndSplash);
-		}
-
-		case WM_MOUSEMOVE:
-		{
-			if (bserviceinvoked)
-				PostMessage(hwnd, WM_CLOSE, 0, 0);
-			break;
-		}
-
-		case WM_DESTROY:
-		{
-			PostQuitMessage(0);
-			#ifdef _DEBUG
-				logMessage(_T("WM_DESTROY"), _T("called"));
-			#endif
-			break;
-		}
-
+	case WM_RBUTTONDOWN:
+	{
 		ShowWindow(hwndSplash, SW_HIDE);
 		DestroyWindow(hwndSplash);
+		bpreviewruns = false; // preview is stopped.
 		break;
+	}
+
+	case WM_CLOSE:
+	{
+		RECT rc; GetWindowRect(hwndSplash, &rc);
+		POINT ptDst = { rc.left, rc.top };
+		POINT ptSrc = { 0, 0 };
+		SIZE sz = { rc.right - rc.left, rc.bottom - rc.top };
+
+		BLENDFUNCTION blend;
+		blend.BlendOp = AC_SRC_OVER;
+		blend.BlendFlags = 0;
+		blend.SourceConstantAlpha = 255;
+		blend.AlphaFormat = AC_SRC_ALPHA;
+
+		// Fade Out
+		if (options.fadeout)
+		{
+			int i;
+			for (i = 255; i >= 0; i -= options.fosteps)
+			{
+				blend.SourceConstantAlpha = i;
+				UpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
+				Sleep(1);
+			}
+		}
+		if (bserviceinvoked) bserviceinvoked = false;
+		if (bpreviewruns) bpreviewruns = false;
+
+		DestroyWindow(hwndSplash);
+	}
+
+	case WM_MOUSEMOVE:
+	{
+		if (bserviceinvoked)
+			PostMessage(hwnd, WM_CLOSE, 0, 0);
+		break;
+	}
+
+	case WM_DESTROY:
+	{
+#ifdef _DEBUG
+		logMessage(_T("WM_DESTROY"), _T("called"));
+#endif
+		ShowWindow(hwndSplash, SW_HIDE);
+		DestroyWindow(hwndSplash);
+		PostQuitMessage(0);
+		break;
+	}
 	}
 
 	return DefWindowProc(hwnd, message, wParam, lParam);
@@ -144,8 +142,8 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
 int SplashThread(void *arg)
 {
-    IGraphBuilder *pGraph = NULL;
-    IMediaControl *pControl = NULL;
+	IGraphBuilder *pGraph = NULL;
+	IMediaControl *pControl = NULL;
 
 	if (options.playsnd)
 	{
@@ -190,7 +188,7 @@ int SplashThread(void *arg)
 
 	RECT WindowRect;
 	WindowRect.left = (DesktopRect.left + DesktopRect.right - SplashBmp->getWidth()) / 2;
-	WindowRect.top  = (DesktopRect.top + DesktopRect.bottom - SplashBmp->getHeight()) / 2;
+	WindowRect.top = (DesktopRect.top + DesktopRect.bottom - SplashBmp->getHeight()) / 2;
 	WindowRect.right = WindowRect.left + SplashBmp->getWidth();
 	WindowRect.bottom = WindowRect.top + SplashBmp->getHeight();
 
@@ -209,16 +207,16 @@ int SplashThread(void *arg)
 		NULL);
 
 	RECT rc; GetWindowRect(hwndSplash, &rc);
-	POINT ptDst = {rc.left, rc.top};
-	POINT ptSrc = {0, 0};
-	SIZE sz = {rc.right - rc.left, rc.bottom - rc.top};
+	POINT ptDst = { rc.left, rc.top };
+	POINT ptSrc = { 0, 0 };
+	SIZE sz = { rc.right - rc.left, rc.bottom - rc.top };
 	bool splashWithMarkers = false;
 
 	BLENDFUNCTION blend;
-	blend.BlendOp =             AC_SRC_OVER;
-	blend.BlendFlags =          0;
+	blend.BlendOp = AC_SRC_OVER;
+	blend.BlendFlags = 0;
 	blend.SourceConstantAlpha = 0;
-	blend.AlphaFormat =         AC_SRC_ALPHA;
+	blend.AlphaFormat = AC_SRC_ALPHA;
 
 	if (options.showversion)
 	{
@@ -228,27 +226,29 @@ int SplashThread(void *arg)
 		int splashWidth = SplashBmp->getWidth();
 		for (i = 0; i < splashWidth; ++i)
 			if (SplashBmp->getRow(0)[i] & 0xFF000000)
-		{
-			if (x < 0)
 			{
-				x = i-1; // 1 pixel for marker line
-				splashWithMarkers = true;
-			} else
-			{
-				x = -1;
-				splashWithMarkers = false;
-				break;
+				if (x < 0)
+				{
+					x = i - 1; // 1 pixel for marker line
+					splashWithMarkers = true;
+				}
+				else
+				{
+					x = -1;
+					splashWithMarkers = false;
+					break;
+				}
 			}
-		}
 		int splashHeight = SplashBmp->getHeight();
 		for (i = 0; splashWithMarkers && (i < splashHeight); ++i)
-			if(SplashBmp->getRow(i)[0] & 0xFF000000)
+			if (SplashBmp->getRow(i)[0] & 0xFF000000)
 			{
 				if (y < 0)
 				{
-					y = i-1; // 1 pixel for marker line
+					y = i - 1; // 1 pixel for marker line
 					splashWithMarkers = true;
-				} else
+				}
+				else
 				{
 					y = -1;
 					splashWithMarkers = false;
@@ -256,25 +256,25 @@ int SplashThread(void *arg)
 				}
 			}
 
-			TCHAR verString[256] = {0};
-			TCHAR* mirandaVerString = mir_a2t(szVersion);
-			mir_sntprintf(verString, SIZEOF(verString), _T("%s%s"), szPrefix, mirandaVerString);
-			mir_free(mirandaVerString);
-			LOGFONT lf = {0};
-			lf.lfHeight = 14;
-			_tcscpy_s(lf.lfFaceName, _T("Verdana"));
-			SelectObject(SplashBmp->getDC(), CreateFontIndirect(&lf));
-			if (!splashWithMarkers)
-			{
-				SIZE v_sz = {0,0};
-				GetTextExtentPoint32(SplashBmp->getDC(), verString, (int)_tcslen(verString), &v_sz);
-				x = SplashBmp->getWidth()/2-(v_sz.cx/2);
-				y = SplashBmp->getHeight()-(SplashBmp->getHeight()*(100-90)/100);
-			}
+		TCHAR verString[256] = { 0 };
+		TCHAR *mirandaVerString = mir_a2t(szVersion);
+		mir_sntprintf(verString, SIZEOF(verString), _T("%s%s"), szPrefix, mirandaVerString);
+		mir_free(mirandaVerString);
+		LOGFONT lf = { 0 };
+		lf.lfHeight = 14;
+		mir_tstrcpy(lf.lfFaceName, _T("Verdana"));
+		SelectObject(SplashBmp->getDC(), CreateFontIndirect(&lf));
+		if (!splashWithMarkers)
+		{
+			SIZE v_sz = { 0, 0 };
+			GetTextExtentPoint32(SplashBmp->getDC(), verString, (int)mir_tstrlen(verString), &v_sz);
+			x = SplashBmp->getWidth() / 2 - (v_sz.cx / 2);
+			y = SplashBmp->getHeight() - (SplashBmp->getHeight()*(100 - 90) / 100);
+		}
 
-			SetTextColor(SplashBmp->getDC(), (0xFFFFFFFFUL-SplashBmp->getRow(y)[x])&0x00FFFFFFUL);
-			SetBkMode(SplashBmp->getDC(), TRANSPARENT);
-			SplashBmp->DrawText(verString, x, y);
+		SetTextColor(SplashBmp->getDC(), (0xFFFFFFFFUL - SplashBmp->getRow(y)[x]) & 0x00FFFFFFUL);
+		SetBkMode(SplashBmp->getDC(), TRANSPARENT);
+		SplashBmp->DrawText(verString, x, y);
 	}
 
 	SetWindowLongPtr(hwndSplash, GWL_EXSTYLE, GetWindowLongPtr(hwndSplash, GWL_EXSTYLE) | WS_EX_LAYERED);
@@ -285,8 +285,7 @@ int SplashThread(void *arg)
 	if (options.fadein)
 	{
 		// Fade in
-		int i;
-		for (i = 0; i < 255; i += options.fisteps)
+		for (int i = 0; i < 255; i += options.fisteps)
 		{
 			blend.SourceConstantAlpha = i;
 			UpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
@@ -300,9 +299,9 @@ int SplashThread(void *arg)
 	{
 		if (SetTimer(hwndSplash, 6, DWORD(arg), 0))
 		{
-			#ifdef _DEBUG
-				logMessage(_T("Timer TimeToShow"), _T("set"));
-			#endif
+#ifdef _DEBUG
+			logMessage(_T("Timer TimeToShow"), _T("set"));
+#endif
 		}
 	}
 	else
@@ -310,9 +309,9 @@ int SplashThread(void *arg)
 		{
 			if (SetTimer(hwndSplash, 8, 2000, 0))
 			{
-				#ifdef _DEBUG
-					logMessage(_T("Timer Modules loaded"), _T("set"));
-				#endif
+#ifdef _DEBUG
+				logMessage(_T("Timer Modules loaded"), _T("set"));
+#endif
 			}
 		}
 
@@ -332,7 +331,6 @@ int SplashThread(void *arg)
 	}
 
 	ExitThread(0);
-	return 1;
 }
 
 BOOL ShowSplash(BOOL bpreview)
@@ -344,17 +342,18 @@ BOOL ShowSplash(BOOL bpreview)
 
 	SplashBmp = new MyBitmap;
 
-	#ifdef _DEBUG
-		logMessage(_T("Loading splash file"), szSplashFile);
-	#endif
+#ifdef _DEBUG
+	logMessage(_T("Loading splash file"), szSplashFile);
+#endif
 
-	SplashBmp->loadFromFile(szSplashFile, NULL);
+	if (!SplashBmp->loadFromFile(szSplashFile, NULL))
+		return 0;
 
 	DWORD threadID;
 
-	#ifdef _DEBUG
-		logMessage(_T("Thread"), _T("start"));
-	#endif
+#ifdef _DEBUG
+	logMessage(_T("Thread"), _T("start"));
+#endif
 
 	if (bpreview)
 	{
@@ -362,25 +361,25 @@ BOOL ShowSplash(BOOL bpreview)
 		DestroyWindow(hwndSplash);
 
 		timeout = 2000;
-		#ifdef _DEBUG
-			logMessage(_T("Preview"), _T("yes"));
-		#endif
+#ifdef _DEBUG
+		logMessage(_T("Preview"), _T("yes"));
+#endif
 	}
 	else
 	{
 		timeout = options.showtime;
-		#ifdef _DEBUG
-			TCHAR b [40];
-			mir_sntprintf(b, SIZEOF(b), _T("%d"), options.showtime);
-			logMessage(_T("Timeout"), b);
-		#endif
+#ifdef _DEBUG
+		TCHAR b[40];
+		mir_sntprintf(b, SIZEOF(b), _T("%d"), options.showtime);
+		logMessage(_T("Timeout"), b);
+#endif
 	}
 
 	hSplashThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)SplashThread, (LPVOID)timeout, 0, &threadID);
 
-	#ifdef _DEBUG
-		logMessage(_T("Thread"), _T("end"));
-	#endif
+#ifdef _DEBUG
+	logMessage(_T("Thread"), _T("end"));
+#endif
 
 	CloseHandle(hSplashThread);
 	hSplashThread = NULL;

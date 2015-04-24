@@ -15,29 +15,29 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+   */
 
 #include "headers.h"
 
-INT_PTR ShowSplashService(WPARAM wparam,LPARAM lparam)
+INT_PTR ShowSplashService(WPARAM wparam, LPARAM lparam)
 {
 	bserviceinvoked = true;
-	TCHAR szOldfn [256];
-	TCHAR* filename = (TCHAR*) wparam;
-	int timetoshow = (int) lparam;
+	TCHAR szOldfn[256];
+	TCHAR *filename = (TCHAR*)wparam;
+	int timetoshow = (int)lparam;
 
-	_tcscpy_s(szOldfn, szSplashFile);
+	mir_tstrcpy(szOldfn, szSplashFile);
 	options.showtime = timetoshow;
 
 	TCHAR *pos = _tcsrchr(filename, _T(':'));
 	if (pos == NULL)
 		mir_sntprintf(szSplashFile, SIZEOF(szSplashFile), _T("%s\\%s"), szMirDir, filename);
 	else
-		_tcscpy_s(szSplashFile, filename);
+		mir_tstrcpy(szSplashFile, filename);
 
 	ShowSplash(false);
 
-	_tcscpy_s(szSplashFile, szOldfn);
+	mir_tstrcpy(szSplashFile, szOldfn);
 
 	return 0;
 }
