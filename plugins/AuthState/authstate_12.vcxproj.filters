@@ -21,18 +21,18 @@
     <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
+    <ClCompile Include="src\stdafx.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\commonheaders.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
