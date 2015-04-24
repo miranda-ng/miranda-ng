@@ -12,7 +12,7 @@ static IconItem iconList[] =
 	{ LPGEN("Menu: Show/Hide reminders"), "alarms_menu_showhide", IDI_MAINMENU }
 };
 
-int ReloadIcons(WPARAM wParam, LPARAM lParam)
+int ReloadIcons(WPARAM, LPARAM)
 {
 	hIconMenuSet = Skin_GetIcon("alarms_menu_set");
 	hIconList1 = Skin_GetIcon("alarms_list1");

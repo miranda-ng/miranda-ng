@@ -38,13 +38,13 @@ PLUGININFOEX pluginInfo = {
 	{0x4dd7762b, 0xd612, 0x4f84, {0xaa, 0x86, 0x6, 0x8f, 0x17, 0x85, 0x9b, 0x6d}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -85,43 +85,6 @@ void ShowPopup(MCONTACT hContact, const TCHAR *msg)
 	}
 }
 
-static int PluginSendMessage(WPARAM wParam,LPARAM lParam)
-{
-	CallContactService(wParam,PSS_MESSAGE,0,lParam);
-	return 0;
-}
-
-static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
-{
-	CCSDATA *pccsd = (CCSDATA *)lParam;
-	PROTORECVEVENT *ppre = ( PROTORECVEVENT * )pccsd->lParam;
-	TCHAR response[256];
-
-	TCHAR msg[1024], buff[1024];
-
-	if (_tcsncmp(ppre->tszMessage, szGamePrefix, _tcslen(szGamePrefix)))
-		return CallService(MS_PROTO_CHAINRECV, wParam, lParam );
-
-	_tcsncpy(msg, ppre->tszMessage + _tcslen(szGamePrefix),SIZEOF(msg));
-
-	TCHAR *savedMsg = ppre->tszMessage;
-
-	if (!_tcscmp(msg, _T(" ffw"))) {
-		_tcsncpy_s(buff, _T("Fast forward!"), _TRUNCATE);
-
-		HWND hWnd = FindWindow(0, _T("Windows Media Player"));
-		PostMessage(hWnd, WM_COMMAND, WMP_NEXT, 0);
-	} else
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Unknown command issued: \"%s\""), msg);
-
-	ShowPopup(pccsd->hContact, buff);
-
-	_tcsncpy(response, buff, SIZEOF(response));
-	PluginSendMessage((WPARAM)pccsd->hContact, (LPARAM)response);
-
-	return 0;
-}
-
 HBITMAP LoadBmpFromIcon(int IdRes)
 {
 	HICON hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IdRes));
@@ -136,7 +99,6 @@ HBITMAP LoadBmpFromIcon(int IdRes)
 	bih.biCompression = BI_RGB;
 	bih.biHeight = 16;
 	bih.biWidth = 20;
-	int widthBytes = ((bih.biWidth*bih.biBitCount + 31) >> 5) * 4;
 	rc.top = rc.left = 0;
 	rc.right = bih.biWidth;
 	rc.bottom = bih.biHeight;
@@ -158,7 +120,7 @@ HBITMAP LoadBmpFromIcon(int IdRes)
 	return hBmp;
 }
 
-static int InitTopToolbarButton(WPARAM wParam, LPARAM lParam)
+static int InitTopToolbarButton(WPARAM, LPARAM)
 {
 	TTBButton ttb = { sizeof(ttb) };
 	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBUP));
@@ -170,7 +132,7 @@ static int InitTopToolbarButton(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int MainInit(WPARAM wparam,LPARAM lparam)
+static int MainInit(WPARAM, LPARAM)
 {
 	// TopToolbar support
 	HookEvent(ME_TTB_MODULELOADED, InitTopToolbarButton);
@@ -179,7 +141,7 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
-static int MainDeInit(WPARAM wParam, LPARAM lParam)
+static int MainDeInit(WPARAM, LPARAM)
 {
 	DeinitFrames();
 	DeinitList();

@@ -710,7 +710,7 @@ void AddMenuItem()
 ///////////////////////
 // create menu item
 
-int OptionsModulesLoaded(WPARAM wParam, LPARAM lParam)
+int OptionsModulesLoaded(WPARAM, LPARAM)
 {
 	CreateServiceFunction(MODULE "/NewAlarm", NewAlarmMenuFunc);
 
@@ -1133,7 +1133,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 }
 
 
-int OptInit(WPARAM wParam,LPARAM lParam)
+int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = -790000000;
@@ -1181,7 +1181,7 @@ void SaveOptions()
 	db_set_dw(0, MODULE, "ReminderPeriod", options.reminder_period);
 }
 
-INT_PTR NewAlarmMenuFunc(WPARAM wParam, LPARAM lParam)
+INT_PTR NewAlarmMenuFunc(WPARAM, LPARAM)
 {
 	ALARM *new_alarm = new ALARM;
 	memset(new_alarm, 0, sizeof(ALARM));

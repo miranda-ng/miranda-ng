@@ -342,7 +342,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	return FALSE;
 }
 
-int ReloadFonts(WPARAM wParam, LPARAM lParam)
+int ReloadFonts(WPARAM, LPARAM)
 {
 	LOGFONT log_font;
 	title_font_colour = CallService(MS_FONT_GETT, (WPARAM)&title_font_id, (LPARAM)&log_font);
@@ -361,7 +361,7 @@ int ReloadFonts(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int AlarmWinModulesLoaded(WPARAM wParam, LPARAM lParam)
+int AlarmWinModulesLoaded(WPARAM, LPARAM)
 {
 	title_font_id.cbSize = sizeof(FontIDT);
 	_tcscpy(title_font_id.group, LPGENT("Alarms"));

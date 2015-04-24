@@ -240,7 +240,6 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					SetWindowPos(GetParent(hwnd), 0, 0, 0, rp_window.right - rp_window.left, height, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 				}
 				else if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME) && frame_id != -1) {
-					int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
 					CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, frame_id), (LPARAM)(count * itemheight));
 					CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)frame_id, (LPARAM)(FU_TBREDRAW | FU_FMREDRAW | FU_FMPOS));
 				}
@@ -435,7 +434,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-int ReloadFont(WPARAM wParam, LPARAM lParam)
+int ReloadFont(WPARAM, LPARAM)
 {
 	DeleteObject(hFont);
 
@@ -483,7 +482,7 @@ void SetReminderFrameVisible(bool visible)
 		ShowWindow(hwnd_frame, visible ? SW_SHOW : SW_HIDE);
 }
 
-INT_PTR ShowHideMenuFunc(WPARAM wParam, LPARAM lParam)
+INT_PTR ShowHideMenuFunc(WPARAM, LPARAM)
 {
 	if (ReminderFrameVisible())
 		SendMessage(hwnd_frame, WM_CLOSE, 0, 0);

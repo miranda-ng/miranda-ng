@@ -634,12 +634,12 @@ void CheckAlarms() {
 
 }
 
-VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) {
+VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD) {
 	CheckAlarms();
 }
 
 
-INT_PTR AddAlarmService(WPARAM wParam, LPARAM lParam)
+INT_PTR AddAlarmService(WPARAM, LPARAM lParam)
 {
 	ALARMINFO *alarm_info = (ALARMINFO *)lParam;
 	ALARM alarm = {0};
@@ -659,7 +659,7 @@ INT_PTR AddAlarmService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int IdleChanged(WPARAM wParam, LPARAM lParam)
+int IdleChanged(WPARAM, LPARAM lParam)
 {
 	is_idle = (lParam & IDF_ISIDLE);
 	return 0;
