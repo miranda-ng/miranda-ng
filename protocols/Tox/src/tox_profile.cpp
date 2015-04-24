@@ -22,36 +22,37 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 
 	size_t size = 0;
 	uint8_t *data = NULL;
+	
 	std::tstring profilePath = GetToxProfilePath();
-	if (IsFileExists(profilePath))
+	if (!IsFileExists(profilePath))
+		return false;
+
+	FILE *profile = _tfopen(profilePath.c_str(), _T("rb"));
+	if (profile == NULL)
 	{
-		FILE *profile = _tfopen(profilePath.c_str(), _T("rb"));
-		if (profile == NULL)
-		{
-			debugLogA(__FUNCTION__": failed to open tox profile");
-			return false;
-		}
-
-		fseek(profile, 0, SEEK_END);
-		size = ftell(profile);
-		rewind(profile);
-		if (size == 0)
-		{
-			fclose(profile);
-			debugLogA(__FUNCTION__": tox profile is empty");
-			return true;
-		}
-
-		data = (uint8_t*)mir_calloc(size);
-		if (fread((char*)data, sizeof(char), size, profile) != size)
-		{
-			fclose(profile);
-			debugLogA(__FUNCTION__": failed to read tox profile");
-			mir_free(data);
-			return false;
-		}
-		fclose(profile);
+		debugLogA(__FUNCTION__": failed to open tox profile");
+		return false;
 	}
+
+	fseek(profile, 0, SEEK_END);
+	size = ftell(profile);
+	rewind(profile);
+	if (size == 0)
+	{
+		fclose(profile);
+		debugLogA(__FUNCTION__": tox profile is empty");
+		return true;
+	}
+
+	data = (uint8_t*)mir_calloc(size);
+	if (fread((char*)data, sizeof(char), size, profile) != size)
+	{
+		fclose(profile);
+		debugLogA(__FUNCTION__": failed to read tox profile");
+		mir_free(data);
+		return false;
+	}
+	fclose(profile);
 
 	if (data != NULL && tox_is_data_encrypted(data))
 	{
@@ -146,8 +147,8 @@ INT_PTR CToxProto::OnCopyToxID(WPARAM, LPARAM)
 }
 
 CToxPasswordEditor::CToxPasswordEditor(CToxProto *proto) :
-	CToxDlgBase(proto, IDD_PASSWORD, false), ok(this, IDOK),
-	password(this, IDC_PASSWORD), savePermanently(this, IDC_SAVEPERMANENTLY)
+CToxDlgBase(proto, IDD_PASSWORD, false), ok(this, IDOK),
+password(this, IDC_PASSWORD), savePermanently(this, IDC_SAVEPERMANENTLY)
 {
 	ok.OnClick = Callback(this, &CToxPasswordEditor::OnOk);
 }
