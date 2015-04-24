@@ -80,44 +80,44 @@ TCHAR* CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 
 static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMString &descr, CMString &author, CMString &comments, CMString &guid, CMString &category, time_t stamp)
 {
-	TCHAR *message = db_get_tsa(hContact, MODULE, "MsgFormat");
+	CMString message = db_get_tsa(hContact, MODULE, "MsgFormat");
 	if (!message)
 		message = mir_tstrdup(TAGSDEFAULT);
 
 	if (title.IsEmpty())
-		StrReplace(_T("#<title>#"), TranslateT("empty"), message);
+		message.Replace(_T("#<title>#"), TranslateT("empty"));
 	else
-		StrReplace(_T("#<title>#"), title, message);
+		message.Replace(_T("#<title>#"), title);
 
 	if (link.IsEmpty())
-		StrReplace(_T("#<link>#"), TranslateT("empty"), message);
+		message.Replace(_T("#<link>#"), TranslateT("empty"));
 	else
-		StrReplace(_T("#<link>#"), link, message);
+		message.Replace(_T("#<link>#"), link);
 
 	if (descr.IsEmpty())
-		StrReplace(_T("#<description>#"), TranslateT("empty"), message);
+		message.Replace(_T("#<description>#"), TranslateT("empty"));
 	else
-		StrReplace(_T("#<description>#"), descr, message);
+		message.Replace(_T("#<description>#"), descr);
 
 	if (author.IsEmpty())
-		StrReplace(_T("#<author>#"), TranslateT("empty"), message);
+		message.Replace(_T("#<author>#"), TranslateT("empty"));
 	else
-		StrReplace(_T("#<author>#"), author, message);
+		message.Replace(_T("#<author>#"), author);
 
 	if (comments.IsEmpty())
-		StrReplace(_T("#<comments>#"), TranslateT("empty"), message);
+		message.Replace(_T("#<comments>#"), TranslateT("empty"));
 	else
-		StrReplace(_T("#<comments>#"), comments, message);
+		message.Replace(_T("#<comments>#"), comments);
 
 	if (guid.IsEmpty())
-		StrReplace(_T("#<guid>#"), TranslateT("empty"), message);
+		message.Replace(_T("#<guid>#"), TranslateT("empty"));
 	else
-		StrReplace(_T("#<guid>#"), guid, message);
+		message.Replace(_T("#<guid>#"), guid);
 
 	if (category.IsEmpty())
-		StrReplace(_T("#<category>#"), TranslateT("empty"), message);
+		message.Replace(_T("#<category>#"), TranslateT("empty"));
 	else
-		StrReplace(_T("#<category>#"), category, message);
+		message.Replace(_T("#<category>#"), category);
 
 	DBEVENTINFO olddbei = { 0 };
 	olddbei.cbSize = sizeof(olddbei);
@@ -151,10 +151,9 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 		PROTORECVEVENT recv = { 0 };
 		recv.flags = PREF_TCHAR;
 		recv.timestamp = (DWORD)stamp;
-		recv.tszMessage = message;
+		recv.tszMessage = (TCHAR*)message.c_str();
 		ProtoChainRecvMsg(hContact, &recv);
 	}
-	mir_free(message);
 }
 
 void CheckCurrentFeed(MCONTACT hContact)
@@ -266,9 +265,9 @@ void CheckCurrentFeed(MCONTACT hContact)
 										TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
 										pai.format = ProtoGetAvatarFormat(url);
 
-										TCHAR *filename = szNick;
-										StrReplace(_T("/"), _T("_"), filename);
-										mir_sntprintf(pai.filename, SIZEOF(pai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
+										CMString filename = szNick;
+										filename.Replace(_T("/"), _T("_"));
+										mir_sntprintf(pai.filename, SIZEOF(pai.filename), _T("%s\\%s.%s"), tszRoot, filename.c_str(), ext);
 										CreateDirectoryTreeT(tszRoot);
 										if (DownloadFile(url, pai.filename)) {
 											db_set_ts(hContact, MODULE, "ImagePath", pai.filename);

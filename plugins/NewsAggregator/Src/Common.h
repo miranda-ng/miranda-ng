@@ -135,7 +135,6 @@ void UpdateMenu(bool State);
 int ImportFeedsDialog();
 LPCTSTR ClearText(CMString &value, const TCHAR *message);
 bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
-int StrReplace(TCHAR *lpszOld, const TCHAR *lpszNew, TCHAR *&lpszStr);
 void CreateAuthString(char *auth, MCONTACT hContact, HWND hwndDlg);
 INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
