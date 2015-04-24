@@ -32,7 +32,7 @@ protected:
 	virtual void impl_configWrite(SettingsTree& settings) const;
 	virtual void impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup);
 	virtual void impl_configFromUI(OptionsCtrl& Opt);
-	virtual int impl_configGetRestrictions(ext::string* pDetails) const { return crHTMLFull; }
+	virtual int impl_configGetRestrictions(ext::string*) const { return crHTMLFull; }
 	virtual void impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const;
 	virtual void impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display);
 };

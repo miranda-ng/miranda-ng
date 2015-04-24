@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "column_timeline.h"
 
 /*
@@ -141,7 +141,7 @@ void ColTimeline::impl_contactDataAcquireMessage(Contact& contact, Message& msg)
 	}
 }
 
-void ColTimeline::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD duration)
+void ColTimeline::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD)
 {
 	if (m_nSource == 2)
 	{
@@ -242,7 +242,7 @@ void ColTimeline::impl_outputRenderRow(ext::ostream& tos, const Contact& contact
 	}
 }
 
-void ColTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& contact, DisplayType)
 {
 	const TimelineMap* pData = reinterpret_cast<const TimelineMap*>(contact.getSlot(contactDataSlotGet()));
 
@@ -298,9 +298,7 @@ void ColTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& contact
 			int from_left = 3 * ((curDay - m_nFirstDay) / m_nDays);
 
 			if (bar_len != 0)
-			{
 				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &utils::rect(from_left, 24 - bar_len, from_left + 3, 25 + bar_len), NULL, 0, NULL);
-			}
 		}
 
 		SetBkColor(hDC, con::ColorBarLine);
@@ -383,7 +381,7 @@ void ColTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& contact
 	}
 }
 
-void ColTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& contact, DisplayType)
 {
 	const TimelineMap* pData = reinterpret_cast<const TimelineMap*>(contact.getSlot(contactDataSlotGet()));
 

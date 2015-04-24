@@ -1,7 +1,7 @@
 #if !defined(HISTORYSTATS_GUARD_MESSAGE_H)
 #define HISTORYSTATS_GUARD_MESSAGE_H
 
-#include "_globals.h"
+#include "stdafx.h"
 #include "_consts.h"
 
 #include "utils.h"

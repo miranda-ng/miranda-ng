@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "bandctrlimpl.h"
 
 #include "main.h"
@@ -764,7 +764,7 @@ void BandCtrlImpl::onWMKeyDown(int nVirtKey)
 			m_bCurPressedDD = true;
 			InvalidateRect(m_hWnd, &m_Items[m_nCurPressed].rItem, TRUE);
 
-			fireEvent(BCN_DROPDOWN, m_nCurPressed);
+			fireEvent(BCN_DROP_DOWN, m_nCurPressed);
 
 			InvalidateRect(m_hWnd, &m_Items[m_nCurPressed].rItem, TRUE);
 			m_nCurPressed = -1;
@@ -845,7 +845,7 @@ void BandCtrlImpl::onWMLButtonDown(POINTS pts)
 					ReleaseCapture();
 					m_bCurPressedDD = true;
 
-					fireEvent(BCN_DROPDOWN, m_nCurPressed);
+					fireEvent(BCN_DROP_DOWN, m_nCurPressed);
 
 					InvalidateRect(m_hWnd, &m_Items[m_nCurPressed].rItem, TRUE);
 					m_nCurPressed = -1;

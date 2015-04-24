@@ -1,7 +1,7 @@
 #if !defined(HISTORYSTATS_GUARD_UTILS_H)
 #define HISTORYSTATS_GUARD_UTILS_H
 
-#include "_globals.h"
+#include "stdafx.h"
 #include "_consts.h"
 
 namespace utils

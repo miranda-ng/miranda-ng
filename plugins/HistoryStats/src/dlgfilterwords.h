@@ -1,7 +1,7 @@
 #if !defined(HISTORYSTATS_GUARD_DLGFILTERWORDS_H)
 #define HISTORYSTATS_GUARD_DLGFILTERWORDS_H
 
-#include "_globals.h"
+#include "stdafx.h"
 
 #include "bandctrl.h"
 #include "optionsctrl.h"

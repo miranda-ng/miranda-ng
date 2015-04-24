@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "column_splittimeline.h"
 
 /*
@@ -229,7 +229,7 @@ void ColSplitTimeline::impl_contactDataAcquireMessage(Contact& contact, Message&
 	}
 }
 
-void ColSplitTimeline::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD duration)
+void ColSplitTimeline::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD)
 {
 	if (m_nSource == 2)
 	{
@@ -420,7 +420,7 @@ ColSplitTimeline::SplitParams ColSplitTimeline::getParams() const
 	return params;
 }
 
-void ColSplitTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColSplitTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& contact, DisplayType)
 {
 	SplitParams params = getParams();
 	const TimelineMap* pData = reinterpret_cast<const TimelineMap*>(contact.getSlot(contactDataSlotGet()));
@@ -554,7 +554,7 @@ void ColSplitTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& co
 	tos << _T("</td>") << ext::endl;
 }
 
-void ColSplitTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColSplitTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& contact, DisplayType)
 {
 	SplitParams params = getParams();
 	const TimelineMap* pData = reinterpret_cast<const TimelineMap*>(contact.getSlot(contactDataSlotGet()));

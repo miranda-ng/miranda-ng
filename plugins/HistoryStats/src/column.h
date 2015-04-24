@@ -1,7 +1,7 @@
 #if !defined(HISTORYSTATS_GUARD_COLUMN_H)
 #define HISTORYSTATS_GUARD_COLUMN_H
 
-#include "_globals.h"
+#include "stdafx.h"
 #include "_consts.h"
 
 #include "contact.h"
@@ -224,7 +224,7 @@ protected:
 	 * Creates a exact copy of the column.
 	 * [virtual/default: copy nothing]
 	 */
-	virtual void impl_copyConfig(const Column* pSource) { }
+	virtual void impl_copyConfig(const Column*) { }
 
 	/*
 	 * Queries for column's features.
@@ -237,22 +237,22 @@ protected:
 	/*
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_configRead(const SettingsTree& settings) { }
+	virtual void impl_configRead(const SettingsTree&) { }
 
 	/*
 	 * [vurtual/default: do nothing]
 	 */
-	virtual void impl_configWrite(SettingsTree& settings) const { }
+	virtual void impl_configWrite(SettingsTree&) const { }
 
 	/*
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup) { }
+	virtual void impl_configToUI(OptionsCtrl&, OptionsCtrl::Item) { }
 
 	/*
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_configFromUI(OptionsCtrl& Opt) { }
+	virtual void impl_configFromUI(OptionsCtrl&) { }
 
 	/*
 	 * Check if current column options imply output restrictions.
@@ -287,28 +287,28 @@ protected:
 	 * data for given contact. Works on previously defined slot.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataPrepare(Contact& contact) const { }
+	virtual void impl_contactDataPrepare(Contact&) const { }
 
 	/*
 	 * Frees all data structures associated with this column for the
 	 * given contact. Works on previously defined slot.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataFree(Contact& contact) const { }
+	virtual void impl_contactDataFree(Contact&) const { }
 
 	/*
 	 * Acquires data for this column and for the given contact. Works
 	 * on previously defined slot.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataAcquireMessage(Contact& contact, Message& msg) { }
+	virtual void impl_contactDataAcquireMessage(Contact&, Message&) { }
 
 	/*
 	 * Acquires data for this column and for the given contact. Works
 	 * on previously defined slot.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD duration) { }
+	virtual void impl_contactDataAcquireChat(Contact&, bool, DWORD, DWORD) { }
 
 	/*** VIRTUAL/ABSTRACT *** DATA POSTPROCESSING ***/
 
@@ -317,20 +317,20 @@ protected:
 	 * column doesn't acquire any data.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataMerge(Contact& contact, const Contact& include) const { }
+	virtual void impl_contactDataMerge(Contact&, const Contact&) const { }
 
 	/*
 	 * Perform any post processing for additional per-contact data. Will
 	 * be called after merge but before sort.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataTransform(Contact& contact) const { }
+	virtual void impl_contactDataTransform(Contact&) const { }
 
 	/*
 	 * Perform cleanup after post processing.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataTransformCleanup(Contact& contact) const { }
+	virtual void impl_contactDataTransformCleanup(Contact&) const { }
 
 	/*** VIRTUAL/ABSTRACT *** COLUMN SPECIFIC GLOBAL DATA ***/
 
@@ -351,7 +351,7 @@ protected:
 	 * column as a list of CSS selectors (first) and CSS styles (second).
 	 * [virtual/default: empty list]
 	 */
-	virtual StyleList impl_outputGetAdditionalStyles(IDProvider& idp) { return StyleList(); }
+	virtual StyleList impl_outputGetAdditionalStyles(IDProvider&) { return StyleList(); }
 
 	/*
 	 * Returns number of columns and table rows (for header only) used by

@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "column_words.h"
 
 #include <algorithm>
@@ -201,7 +201,7 @@ void ColWords::impl_contactDataTransformCleanup(Contact& contact) const
 	}
 }
 
-Column::StyleList ColWords::impl_outputGetAdditionalStyles(IDProvider& idp)
+Column::StyleList ColWords::impl_outputGetAdditionalStyles(IDProvider&)
 {
 	StyleList l;
 
@@ -238,7 +238,7 @@ void ColWords::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) 
 	}
 }
 
-void ColWords::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColWords::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType)
 {
 	const WordList* pWords = reinterpret_cast<const WordList*>(contact.getSlot(contactDataTransformSlotGet()));
 

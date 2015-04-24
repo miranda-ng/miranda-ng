@@ -1,7 +1,7 @@
 #if !defined(HISTORYSTATS_GUARD_CANVAS_H)
 #define HISTORYSTATS_GUARD_CANVAS_H
 
-#include "_globals.h"
+#include "stdafx.h"
 
 class Canvas
 	: private pattern::NotCopyable<Canvas>

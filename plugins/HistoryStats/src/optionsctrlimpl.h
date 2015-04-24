@@ -1,7 +1,7 @@
 #if !defined(HISTORYSTATS_GUARD_OPTIONSCTRLIMPL_H)
 #define HISTORYSTATS_GUARD_OPTIONSCTRLIMPL_H
 
-#include "_globals.h"
+#include "stdafx.h"
 #include "optionsctrldefs.h"
 
 #include <vector>

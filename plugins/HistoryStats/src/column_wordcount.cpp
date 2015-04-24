@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "column_wordcount.h"
 
 #include <algorithm>
@@ -132,7 +132,7 @@ void ColWordCount::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSp
 	}
 }
 
-void ColWordCount::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColWordCount::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType)
 {
 	const size_t* pWordCount = reinterpret_cast<const size_t*>(contact.getSlot(contactDataTransformSlotGet()));
 

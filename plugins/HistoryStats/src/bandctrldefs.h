@@ -1,7 +1,7 @@
 #if !defined(HISTORYSTATS_GUARD_BANDCTRLDEFS_H)
 #define HISTORYSTATS_GUARD_BANDCTRLDEFS_H
 
-#include "_globals.h"
+#include "stdafx.h"
 
 /*
  * BandCtrlDefs
@@ -26,7 +26,7 @@ public:
 
 	enum Notification {
 		BCN_CLICKED  = NM_LAST - 1, // -> NMBANDCTRL
-		BCN_DROPDOWN = NM_LAST - 2, // -> NMBANDCTRL
+		BCN_DROP_DOWN = NM_LAST - 2  // -> NMBANDCTRL
 	};
 
 	enum ButtonFlags {

@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "dlgfilterwords.h"
 
 #include "main.h"
@@ -136,7 +136,7 @@ void DlgFilterWords::onWMDestroy()
 	m_Sets.deleteAllItems();
 }
 
-void DlgFilterWords::onBandClicked(HANDLE hButton, INT_PTR dwData)
+void DlgFilterWords::onBandClicked(HANDLE, INT_PTR dwData)
 {
 	switch (dwData) {
 	case saAdd:

@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "column_rank.h"
 
 /*
@@ -16,7 +16,7 @@ void ColRank::impl_outputBegin()
 	m_nNextRank = 1;
 }
 
-void ColRank::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColRank::impl_outputRenderRow(ext::ostream& tos, const Contact&, DisplayType display)
 {
 	if (display == asContact)
 		tos << _T("<td class=\"num\">")

@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "mu_common.h"
 
 #include <map>

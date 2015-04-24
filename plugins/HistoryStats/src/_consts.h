@@ -1,7 +1,7 @@
 #if !defined(HISTORYSTATS_GUARD__CONSTS_H)
 #define HISTORYSTATS_GUARD__CONSTS_H
 
-#include "_globals.h"
+#include "stdafx.h"
 
 #if defined(HISTORYSTATS_CONST_DEFINE)
 #define CONST_T(nam, txt) extern const TCHAR* nam = _T(txt);

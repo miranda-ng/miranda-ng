@@ -1,7 +1,7 @@
 #if !defined(HISTORYSTATS_GUARD_MIRANDAHISTORY_H)
 #define HISTORYSTATS_GUARD_MIRANDAHISTORY_H
 
-#include "_globals.h"
+#include "stdafx.h"
 
 #include <vector>
 

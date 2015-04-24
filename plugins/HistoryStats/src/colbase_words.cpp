@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "colbase_words.h"
 
 /*

@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "column_inout.h"
 
 /*
@@ -120,7 +120,7 @@ void ColInOut::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) 
 	}
 }
 
-void ColInOut::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColInOut::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType)
 {
 	if (m_bAbsolute)
 	{

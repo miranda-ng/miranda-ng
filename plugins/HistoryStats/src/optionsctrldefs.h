@@ -1,7 +1,7 @@
 #if !defined(HISTORYSTATS_GUARD_OPTIONSCTRLDEFS_H)
 #define HISTORYSTATS_GUARD_OPTIONSCTRLDEFS_H
 
-#include "_globals.h"
+#include "stdafx.h"
 
 /*
  * OptionsCtrlDefs

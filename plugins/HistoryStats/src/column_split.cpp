@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "column_split.h"
 
 /*
@@ -217,7 +217,7 @@ void ColSplit::impl_contactDataAcquireMessage(Contact& contact, Message& msg)
 	}
 }
 
-void ColSplit::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD duration)
+void ColSplit::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD)
 {
 	if (m_nSource == 2 && (!bOutgoing && m_nSourceType == 0 || bOutgoing && m_nSourceType == 1 || m_nSourceType == 2))
 	{
@@ -340,7 +340,7 @@ ColSplit::SplitParams ColSplit::getParams() const
 	return params;
 }
 
-void ColSplit::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColSplit::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType)
 {
 	SplitParams params = getParams();
 

@@ -1,7 +1,7 @@
 #if !defined(HISTORYSTATS_GUARD_MIRANDASETTINGS_H)
 #define HISTORYSTATS_GUARD_MIRANDASETTINGS_H
 
-#include "_globals.h"
+#include "stdafx.h"
 #include "_consts.h"
 
 #include "utils.h"

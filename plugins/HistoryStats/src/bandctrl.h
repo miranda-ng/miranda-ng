@@ -1,7 +1,7 @@
 #if !defined(HISTORYSTATS_GUARD_BANDCTRL_H)
 #define HISTORYSTATS_GUARD_BANDCTRL_H
 
-#include "_globals.h"
+#include "stdafx.h"
 #include "bandctrldefs.h"
 
 /*
