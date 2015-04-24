@@ -122,6 +122,7 @@ private:
 
 	// icons
 	static IconInfo Icons[];
+	static HICON GetIcon(const char *name, int size = 0);
 	static HANDLE GetIconHandle(const char *name);
 	static HANDLE GetSkinIconHandle(const char *name);
 
@@ -243,7 +244,10 @@ private:
 
 	// multimedia
 	HANDLE hAudioDialogs;
+	HWAVEOUT hOutDevice;
 	std::map<MCONTACT, int32_t> calls;
+
+	static void CALLBACK WaveOutCallback(HWAVEOUT m_hWO, UINT uMsg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2);
 
 	ToxAvCSettings* GetAudioCSettings();
 	

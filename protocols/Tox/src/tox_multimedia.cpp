@@ -3,9 +3,9 @@
 /* AUDIO RECEIVING */
 
 CToxAudioCall::CToxAudioCall(CToxProto *proto, MCONTACT hContact) :
-	CToxDlgBase(proto, IDD_AUDIO, false),
-	hContact(hContact), isCallStarted(false),
-	ok(this, IDOK), cancel(this, IDCANCEL)
+CToxDlgBase(proto, IDD_AUDIO, false),
+hContact(hContact), isCallStarted(false),
+ok(this, IDOK), cancel(this, IDCANCEL)
 {
 	m_autoClose = CLOSE_ON_CANCEL;
 	ok.OnClick = Callback(this, &CToxAudioCall::OnOk);
@@ -73,46 +73,46 @@ ToxAvCSettings* CToxProto::GetAudioCSettings()
 	}
 
 	cSettings->audio_channels = wic.wChannels;
-	if ((wic.dwFormats & WAVE_FORMAT_96S16) || (wic.dwFormats & WAVE_FORMAT_96M16))
+	if ((wic.dwFormats & WAVE_FORMAT_48S16) || (wic.dwFormats & WAVE_FORMAT_48M16))
 	{
 		cSettings->audio_bitrate = 16 * 1000;
 		cSettings->audio_sample_rate = 48000;
 	}
-	else if ((wic.dwFormats & WAVE_FORMAT_96S08) || (wic.dwFormats & WAVE_FORMAT_96M08))
+	else if ((wic.dwFormats & WAVE_FORMAT_48S08) || (wic.dwFormats & WAVE_FORMAT_48M08))
 	{
 		cSettings->audio_bitrate = 8 * 1000;
 		cSettings->audio_sample_rate = 48000;
 	}
-	else if ((wic.dwFormats & WAVE_FORMAT_4S16) || (wic.dwFormats & WAVE_FORMAT_4M16))
+	/*else if ((wic.dwFormats & WAVE_FORMAT_4S16) || (wic.dwFormats & WAVE_FORMAT_4M16))
 	{
-		cSettings->audio_bitrate = 16 * 1000;
-		cSettings->audio_sample_rate = 24000;
+	cSettings->audio_bitrate = 16 * 1000;
+	cSettings->audio_sample_rate = 24000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_4S08) || (wic.dwFormats & WAVE_FORMAT_4S08))
 	{
-		cSettings->audio_bitrate = 8 * 1000;
-		cSettings->audio_sample_rate = 24000;
+	cSettings->audio_bitrate = 8 * 1000;
+	cSettings->audio_sample_rate = 24000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_2M16) || (wic.dwFormats & WAVE_FORMAT_2S16))
 	{
-		cSettings->audio_bitrate = 16 * 1000;
-		cSettings->audio_sample_rate = 16000;
+	cSettings->audio_bitrate = 16 * 1000;
+	cSettings->audio_sample_rate = 16000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_2M08) || (wic.dwFormats & WAVE_FORMAT_2S08))
 	{
-		cSettings->audio_bitrate = 8 * 1000;
-		cSettings->audio_sample_rate = 16000;
+	cSettings->audio_bitrate = 8 * 1000;
+	cSettings->audio_sample_rate = 16000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_1M16) || (wic.dwFormats & WAVE_FORMAT_1S16))
 	{
-		cSettings->audio_bitrate = 16 * 1000;
-		cSettings->audio_sample_rate = 8000;
+	cSettings->audio_bitrate = 16 * 1000;
+	cSettings->audio_sample_rate = 8000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_1M08) || (wic.dwFormats & WAVE_FORMAT_1S08))
 	{
-		cSettings->audio_bitrate = 8 * 1000;
-		cSettings->audio_sample_rate = 8000;
-	}
+	cSettings->audio_bitrate = 8 * 1000;
+	cSettings->audio_sample_rate = 8000;
+	}*/
 	else
 	{
 		debugLogA(__FUNCTION__": failed to parse input device caps");
@@ -126,7 +126,7 @@ ToxAvCSettings* CToxProto::GetAudioCSettings()
 // incoming call flow
 
 CToxIncomingAudioCall::CToxIncomingAudioCall(CToxProto *proto, MCONTACT hContact) :
-	CToxAudioCall(proto, hContact)
+CToxAudioCall(proto, hContact)
 {
 }
 
@@ -293,7 +293,7 @@ void CToxProto::OnAvCancel(void*, int32_t callId, void *arg)
 
 // outcoming audio flow
 CToxOutgoingAudioCall::CToxOutgoingAudioCall(CToxProto *proto, MCONTACT hContact) :
-	CToxAudioCall(proto, hContact)
+CToxAudioCall(proto, hContact)
 {
 }
 
@@ -431,6 +431,46 @@ void CToxProto::OnAvStart(void*, int32_t callId, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
+	ToxAvCSettings cSettings;
+	int cSettingsError = toxav_get_peer_csettings(proto->toxAv, callId, 0, &cSettings);
+	if (cSettingsError != av_ErrorNone)
+	{
+		proto->debugLogA(__FUNCTION__": failed to get codec settings (%d)", cSettingsError);
+		toxav_hangup(proto->toxAv, callId);
+		return;
+	}
+
+	if (cSettings.call_type != av_TypeAudio)
+	{
+		proto->debugLogA(__FUNCTION__": video call is unsupported");
+		toxav_hangup(proto->toxAv, callId);
+		return;
+	}
+
+	WAVEFORMATEX wfx = { 0 };
+	wfx.wFormatTag = WAVE_FORMAT_PCM;
+	wfx.nChannels = cSettings.audio_channels;
+	wfx.wBitsPerSample = cSettings.audio_bitrate / 1000;
+	wfx.nSamplesPerSec = cSettings.audio_sample_rate;
+	wfx.nBlockAlign = wfx.nChannels * wfx.wBitsPerSample / 8;
+	wfx.nAvgBytesPerSec = wfx.nSamplesPerSec * wfx.nBlockAlign;
+
+	DWORD deviceId = proto->getDword("AudioOutputDeviceID", WAVE_MAPPER);
+	MMRESULT error = waveOutOpen(&proto->hOutDevice, deviceId, &wfx, (DWORD_PTR)&CToxProto::WaveOutCallback, (DWORD_PTR)proto, CALLBACK_FUNCTION);
+	if (error != MMSYSERR_NOERROR)
+	{
+		proto->debugLogA(__FUNCTION__": failed to open audio device (%d)", error);
+		toxav_hangup(proto->toxAv, callId);
+
+		TCHAR errorMessage[MAX_PATH];
+		waveInGetErrorText(error, errorMessage, SIZEOF(errorMessage));
+		CToxProto::ShowNotification(
+			TranslateT("Unable to find output audio device"),
+			errorMessage);
+
+		return;
+	}
+
 	int friendNumber = toxav_get_peer_id(proto->toxAv, callId, 0);
 	if (friendNumber == TOX_ERROR)
 	{
@@ -447,9 +487,9 @@ void CToxProto::OnAvStart(void*, int32_t callId, void *arg)
 		return;
 	}
 
-	HWND hwnd = WindowList_Find(proto->hAudioDialogs, hContact);
-	CToxAudioCall *audioCall = (CToxAudioCall*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	audioCall->OnStartCall();
+	//HWND hwnd = WindowList_Find(proto->hAudioDialogs, hContact);
+	//CToxAudioCall *audioCall = (CToxAudioCall*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	//audioCall->OnStartCall();
 
 	char *message = mir_utf8encodeT(TranslateT("Call started"));
 
@@ -474,6 +514,7 @@ void CToxProto::OnAvEnd(void*, int32_t callId, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
+	waveOutClose(proto->hOutDevice);
 	toxav_kill_transmission(proto->toxAv, callId);
 
 	int friendNumber = toxav_get_peer_id(proto->toxAv, callId, 0);
@@ -489,7 +530,7 @@ void CToxProto::OnAvEnd(void*, int32_t callId, void *arg)
 		proto->debugLogA(__FUNCTION__": failed to find contact");
 		return;
 	}
-	
+
 	char *message = mir_utf8encodeT(TranslateT("Call ended"));
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
@@ -546,71 +587,43 @@ void CToxProto::OnAvPeerTimeout(void*, int32_t callId, void *arg)
 
 //////
 
+void CToxProto::WaveOutCallback(HWAVEOUT m_hWO, UINT uMsg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2)
+{
+	CToxProto *proto = (CToxProto*)dwInstance;
+	switch (uMsg)
+	{
+	case WOM_DONE:
+	{
+		WAVEHDR *header = (WAVEHDR*)dwParam1;
+		if (header->dwFlags & WHDR_PREPARED)
+			waveOutUnprepareHeader(proto->hOutDevice, header, sizeof(WAVEHDR));
+		mir_free(header->lpData);
+		mir_free(header);
+	}
+	break;
+	}
+}
+
 void CToxProto::OnFriendAudio(void*, int32_t callId, const int16_t *PCM, uint16_t size, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	ToxAvCSettings cSettings;
-	int cSettingsError = toxav_get_peer_csettings(proto->toxAv, callId, 0, &cSettings);
-	if (cSettingsError != av_ErrorNone)
-	{
-		proto->debugLogA(__FUNCTION__": failed to get codec settings (%d)", cSettingsError);
-		return;
-	}
+	WAVEHDR *header = (WAVEHDR*)mir_calloc(sizeof(WAVEHDR));
+	header->dwBufferLength = size * sizeof(int16_t);
+	header->lpData = (LPSTR)mir_alloc(header->dwBufferLength);
+	memcpy(header->lpData, (PBYTE)PCM, header->dwBufferLength);
 
-	if (cSettings.call_type != av_TypeAudio)
-	{
-		proto->debugLogA(__FUNCTION__": video call is unsupported");
-		return;
-	}
-
-	WAVEFORMATEX wfx = { 0 };
-	wfx.wFormatTag = WAVE_FORMAT_PCM;
-	wfx.nChannels = cSettings.audio_channels;
-	wfx.wBitsPerSample = cSettings.audio_bitrate / 1000;
-	wfx.nSamplesPerSec = cSettings.audio_sample_rate;
-	wfx.nBlockAlign = (wfx.nChannels * wfx.wBitsPerSample) / 8;
-	wfx.nAvgBytesPerSec = wfx.nSamplesPerSec * wfx.nBlockAlign;
-
-	DWORD deviceId = proto->getDword("AudioOutputDeviceID", WAVE_MAPPER);
-
-	HWAVEOUT hDevice;
-	MMRESULT error = waveOutOpen(&hDevice, deviceId, &wfx, 0, 0, CALLBACK_NULL);
-	if (error != MMSYSERR_NOERROR)
-	{
-		proto->debugLogA(__FUNCTION__": failed to open audio device (%d)", error);
-
-		TCHAR errorMessage[MAX_PATH];
-		waveInGetErrorText(error, errorMessage, SIZEOF(errorMessage));
-		CToxProto::ShowNotification(
-			TranslateT("Unable to find output audio device"),
-			errorMessage);
-
-		return;
-	}
-
-	WAVEHDR header = { 0 };
-	header.lpData = (LPSTR)PCM;
-	header.dwBufferLength = size * wfx.nChannels * sizeof(int16_t);
-
-	waveOutSetVolume(hDevice, 0xFFFF);
-
-	error = waveOutPrepareHeader(hDevice, &header, sizeof(WAVEHDR));
+	MMRESULT error = waveOutPrepareHeader(proto->hOutDevice, header, sizeof(WAVEHDR));
 	if (error != MMSYSERR_NOERROR)
 	{
 		proto->debugLogA(__FUNCTION__": failed to prepare audio buffer (%d)", error);
 		return;
 	}
 
-	error = waveOutWrite(hDevice, &header, sizeof(WAVEHDR));
+	error = waveOutWrite(proto->hOutDevice, header, sizeof(WAVEHDR));
 	if (error != MMSYSERR_NOERROR)
 	{
 		proto->debugLogA(__FUNCTION__": failed to play audio samples (%d)", error);
 		return;
 	}
-
-	while (waveOutUnprepareHeader(hDevice, &header, sizeof(WAVEHDR)) == WAVERR_STILLPLAYING)
-		Sleep(10);
-
-	waveOutClose(hDevice);
 }
