@@ -9,4 +9,5 @@
 [Call started]
 [Call ended]
 [Create new chat icon]
+[Sync history icon]
 [Create new chat]

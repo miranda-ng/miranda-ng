@@ -116,8 +116,6 @@ Statique
 &Nouvelle alarme...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
-[Unknown command issued: "%s"]
-
 [Set alarm]
 Ajouter une alarme
 ;file \plugins\Alarms\src\alarm_win.cpp

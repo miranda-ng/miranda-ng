@@ -62,6 +62,7 @@
 [Could not register Miranda service.]
 [Open SendSS+]
 [Credits]
+[Send screenshot to %s]
 [Desktop]
 [<Entire Desktop>]
 [Monitor]

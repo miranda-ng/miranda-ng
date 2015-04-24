@@ -15,6 +15,18 @@ Otkazivanje
 Dodaj
 [&Cancel]
 &Otkazivanje
+[From:]
+Od koga:
+[Date:]
+Datum:
+[&User menu]
+Korisnički &meni
+[User &details]
+&Detalji korisnika
+[&History]
+&Istorija
+[To:]
+Kome:
 [Request authorization]
 Zatraži autorizaciju
 [Grant authorization]

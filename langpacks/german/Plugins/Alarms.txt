@@ -116,8 +116,6 @@ Einstellungen...
 &Neuer Alarm...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
-[Unknown command issued: "%s"]
-Unbekannter Befehl: "%s"
 [Set alarm]
 Alarm stellen
 ;file \plugins\Alarms\src\alarm_win.cpp

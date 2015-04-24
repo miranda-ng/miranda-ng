@@ -16,6 +16,16 @@
 Дадаць
 [&Cancel]
 Скасаваць
+[From:]
+Ад:
+[Date:]
+Дата:
+[&User menu]
+Меню &кантакта
+[&History]
+&Гісторыя
+[To:]
+Для:
 ;file \protocols\Tox\src\tox_chatrooms.cpp
 ;file \protocols\Tox\src\tox_events.cpp
 ;file \protocols\Tox\src\tox_icons.cpp

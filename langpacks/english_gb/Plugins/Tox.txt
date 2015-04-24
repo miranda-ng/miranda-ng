@@ -5,23 +5,5 @@
 ;  Version: 0.11.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
-[Password:]
-Heslo:
-[Save password]
-Uložiť heslo
-[Cancel]
-Storno
-[From:]
-Od:
-[Date:]
-Dátum:
-[User &details]
-Informácie o užívatelovi
-[To:]
-Pre:
-[All files]
-Všetky súbory
-[Error]
-Chyba
-[Network]
-Sieť
+[Call canceled]
+Call cancelled

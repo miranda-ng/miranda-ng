@@ -87,6 +87,7 @@
 [Open SendSS+]
 [Credits]
 [Drag&Drop the target on the desired window.]
+[Send screenshot to %s]
 [Desktop]
 [<Entire Desktop>]
 [Monitor]

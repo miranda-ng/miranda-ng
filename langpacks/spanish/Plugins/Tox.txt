@@ -15,6 +15,18 @@ Cancelar
 Añadir
 [&Cancel]
 &Cancelar
+[From:]
+De:
+[Date:]
+Fecha:
+[&User menu]
+&Menú de usuario
+[User &details]
+&Detalles del usuario
+[&History]
+&Historial
+[To:]
+A:
 [Request authorization]
 Solicitar autorización
 [Grant authorization]

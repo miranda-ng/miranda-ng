@@ -214,7 +214,7 @@ Humidité
 
 [Weather Protocol INI Setup]
 Fichier INI de configuration pour Weather
-[Weather Protocol INI Setup\nInstall and load your weather ini file here]
+[Install and load your weather ini file here]
 
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 Weather n'as pas trouvé son fichier INI de configuration. Afin de configurer Weather et ajouter des Stations Météo, choisissez parmi les choix suivants :

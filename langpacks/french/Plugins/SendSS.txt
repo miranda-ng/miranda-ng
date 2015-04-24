@@ -229,6 +229,8 @@ Envoyer une capture
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Glisser/déposer la cible sur la fenêtre désirée
+[Send screenshot to %s]
+
 [Window]
 Fenêtre
 [Desktop]
