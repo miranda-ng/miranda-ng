@@ -353,7 +353,7 @@ void CToxProto::OnAvCancel(void*, int32_t callId, void *arg)
 		}
 	}
 
-	char *message = mir_utf8encodeT(TranslateT("Call cancelled"));
+	char *message = mir_utf8encodeT(TranslateT("Call canceled"));
 	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
@@ -391,7 +391,7 @@ void CToxProto::OnAvReject(void*, int32_t callId, void *arg)
 		return;
 	}
 
-	char *message = mir_utf8encodeT(TranslateT("Call cancelled"));
+	char *message = mir_utf8encodeT(TranslateT("Call canceled"));
 	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
@@ -417,7 +417,7 @@ void CToxProto::OnAvCallTimeout(void*, int32_t callId, void *arg)
 		return;
 	}
 
-	char *message = mir_utf8encodeT(TranslateT("Call cancelled"));
+	char *message = mir_utf8encodeT(TranslateT("Call canceled"));
 	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
@@ -574,7 +574,7 @@ void CToxProto::OnAvPeerTimeout(void*, int32_t callId, void *arg)
 	if (cle)
 		CallService(MS_CLIST_REMOVEEVENT, hContact, cle->hDbEvent);
 
-	char *message = mir_utf8encodeT(TranslateT("Call cancelled"));
+	char *message = mir_utf8encodeT(TranslateT("Call canceled"));
 	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
