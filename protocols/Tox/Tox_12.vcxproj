@@ -214,6 +214,7 @@ copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
     <ClInclude Include="src\tox_menus.h" />
     <ClInclude Include="src\tox_multimedia.h" />
     <ClInclude Include="src\tox_options.h" />
+    <ClInclude Include="src\tox_profile.h" />
     <ClInclude Include="src\tox_proto.h" />
     <ClInclude Include="src\tox_transfer.h" />
     <ClInclude Include="src\version.h" />

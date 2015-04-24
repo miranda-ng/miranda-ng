@@ -69,7 +69,7 @@ MCONTACT CToxProto::GetContact(const char *pubKey)
 	return hContact;
 }
 
-MCONTACT CToxProto::AddContact(const char *address, const std::tstring &dnsId, bool isTemporary)
+MCONTACT CToxProto::AddContact(const char *address, const TCHAR *dnsId, bool isTemporary)
 {
 	MCONTACT hContact = GetContact(address);
 	if (!hContact)
@@ -79,9 +79,9 @@ MCONTACT CToxProto::AddContact(const char *address, const std::tstring &dnsId, b
 
 		setString(hContact, TOX_SETTINGS_ID, address);
 
-		if (!dnsId.empty())
+		if (dnsId && mir_tstrlen(dnsId))
 		{
-			setTString(hContact, TOX_SETTINGS_DNS, dnsId.c_str());
+			setTString(hContact, TOX_SETTINGS_DNS, dnsId);
 		}
 
 		DBVARIANT dbv;
@@ -196,10 +196,11 @@ INT_PTR CToxProto::OnGrantAuth(WPARAM hContact, LPARAM)
 {
 	if (!IsOnline())
 	{
-		return -1;
+		// TODO: warn
+		return 0;
 	}
 
-	ToxBinAddress pubKey(ptrA(getStringA(hContact, TOX_SETTINGS_ID)), TOX_PUBLIC_KEY_SIZE * 2);
+	ToxBinAddress pubKey(ptrA(getStringA(hContact, TOX_SETTINGS_ID)));
 	TOX_ERR_FRIEND_ADD error;
 	tox_friend_add_norequest(tox, pubKey, &error);
 	if (error != TOX_ERR_FRIEND_ADD_OK)
@@ -209,9 +210,11 @@ INT_PTR CToxProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	}
 
 	// trim address to public key
-	setString(hContact, TOX_SETTINGS_ID, pubKey.ToHex());
+	// setString(hContact, TOX_SETTINGS_ID, pubKey.ToHex());
 	db_unset(hContact, "CList", "NotOnList");
 	delSetting(hContact, "Grant");
+
+	SaveToxProfile();
 
 	return 0;
 }
@@ -220,7 +223,8 @@ int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 {
 	if (!IsOnline())
 	{
-		return -1;
+		// TODO: warn
+		return 0;
 	}
 
 	if (!isChatRoom(hContact))

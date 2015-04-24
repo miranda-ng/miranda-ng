@@ -1,53 +1,78 @@
 #ifndef _TOX_MULTIMEDIA_H_
 #define _TOX_MULTIMEDIA_H_
 
-class CToxAudioCall : public CToxDlgBase
+#define WM_CALL_END (WM_PROTO_LAST + 100)
+
+class CToxCallDlgBase : public CToxDlgBase
 {
 protected:
 	MCONTACT hContact;
-	bool isCallStarted;
-
-	CCtrlButton ok;
-	CCtrlButton cancel;
-
-	void SetIcon(const char *name);
 
 	virtual void OnInitDialog();
-	void OnClose();
+	virtual void OnClose();
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
-	virtual void OnOk(CCtrlBase*) = 0;
-	virtual void OnCancel(CCtrlBase*) = 0;
+	void SetIcon(const char *name);
+	void SetTitle(const TCHAR *title);
 
 public:
-	CToxAudioCall(CToxProto *proto, MCONTACT hContact);
+	CToxCallDlgBase(CToxProto *proto, int idDialog, MCONTACT hContact);
+};
+
+///////////////////////////////////////////////
+
+class CToxIncomingCall : public CToxCallDlgBase
+{
+private:
+	CCtrlLabel from;
+	CCtrlLabel date;
 	
-	void OnStartCall();
-};
+	CCtrlButton answer;
+	CCtrlButton reject;
 
-class CToxIncomingAudioCall : public CToxAudioCall
-{
 protected:
 	void OnInitDialog();
+	void OnClose();
 
-	void OnOk(CCtrlBase*);
+	void OnAnswer(CCtrlBase*);
+
+public:
+	CToxIncomingCall(CToxProto *proto, MCONTACT hContact);
+};
+
+///////////////////////////////////////////////
+
+class CToxOutgoingCall : public CToxCallDlgBase
+{
+private:
+	CCtrlLabel to;
+	CCtrlButton call;
+	CCtrlButton cancel;
+
+protected:
+	void OnInitDialog();
+	//void OnClose();
+
+	void OnCall(CCtrlBase*);
 	void OnCancel(CCtrlBase*);
 
 public:
-	CToxIncomingAudioCall(CToxProto *proto, MCONTACT hContact);
+	CToxOutgoingCall(CToxProto *proto, MCONTACT hContact);
 };
 
-class CToxOutgoingAudioCall : public CToxAudioCall
+///////////////////////////////////////////////
+
+class CToxCallDialog : public CToxCallDlgBase
 {
 protected:
-	void OnInitDialog();
+	CCtrlButton end;
 
-	void OnOk(CCtrlBase*);
-	void OnCancel(CCtrlBase*);
+	void OnInitDialog();
+	void OnClose();
 
 public:
-	CToxOutgoingAudioCall(CToxProto *proto, MCONTACT hContact);
+	CToxCallDialog(CToxProto *proto, MCONTACT hContact);
 };
 
 #endif //_TOX_MULTIMEDIA_H_
