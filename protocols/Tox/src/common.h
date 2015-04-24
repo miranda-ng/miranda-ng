@@ -6,9 +6,12 @@
 #include <time.h>
 #include <commctrl.h>
 
+#include <mmreg.h>
+
 #include <string>
 #include <vector>
 #include <regex>
+#include <queue>
 #include <map>
 
 #include <newpluginapi.h>

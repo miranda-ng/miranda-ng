@@ -34,13 +34,22 @@ void CToxProto::InitIcons()
 	}
 }
 
+HICON CToxProto::GetIcon(const char *name, int size)
+{
+	for (size_t i = 0; i < SIZEOF(Icons); i++)
+		if (mir_strcmpi(Icons[i].Name, name) == 0)
+			return Skin_GetIconByHandle(Icons[i].Handle, size);
+
+	return NULL;
+}
+
 HANDLE CToxProto::GetIconHandle(const char *name)
 {
 	for (size_t i = 0; i < SIZEOF(Icons); i++)
 		if (mir_strcmpi(Icons[i].Name, name) == 0)
 			return Icons[i].Handle;
 
-	return 0;
+	return NULL;
 }
 
 HANDLE CToxProto::GetSkinIconHandle(const char *name)

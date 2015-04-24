@@ -23,7 +23,8 @@ int CToxProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(ContactMenuItems[CMI_AUTH_REQUEST], isCtrlPressed || isAuthNeed);
 	Menu_ShowItem(ContactMenuItems[CMI_AUTH_GRANT], isCtrlPressed || isGrantNeed);
 
-	Menu_ShowItem(ContactMenuItems[CMI_AUDIO_CALL], TRUE);
+	bool isContactOnline = GetContactStatus(hContact) > ID_STATUS_OFFLINE;
+	Menu_ShowItem(ContactMenuItems[CMI_AUDIO_CALL], isContactOnline);
 
 	return 0;
 }
