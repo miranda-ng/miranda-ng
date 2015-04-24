@@ -27,14 +27,6 @@
 #define TIMERID_TOTOP_T				3
 #define TIMERID_LEAVE_T				4
 
-
-#if WINVER < 0x0500
-	#define SM_XVIRTUALSCREEN       76
-	#define SM_YVIRTUALSCREEN       77
-	#define SM_CXVIRTUALSCREEN      78
-	#define SM_CYVIRTUALSCREEN      79
-#endif
-
 /////////////////////////////////////////////////////////////////////////////
 //
 

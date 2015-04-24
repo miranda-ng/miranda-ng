@@ -49,8 +49,6 @@ http://miranda-ng.org/distr/
 // disable security warnings about "*_s" functions
 #define _CRT_SECURE_NO_DEPRECATE
 
-#define _WIN32_WINNT 0x0501
-#define WINVER 0x0500
 #define OEMRESOURCE
 
 #include <windows.h>

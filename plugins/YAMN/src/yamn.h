@@ -2,14 +2,6 @@
 #ifndef __YAMN_H
 #define __YAMN_H
 
-#ifndef _WIN32_IE
-	#define _WIN32_IE 0x0400
-#endif
-
-#ifndef _WIN32_WINNT
-	#define _WIN32_WINNT 0x0501
-#endif
-
 #define _CRT_SECURE_NO_WARNINGS
 #define VC_EXTRALEAN
 

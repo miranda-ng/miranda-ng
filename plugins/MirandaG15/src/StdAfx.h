@@ -6,7 +6,6 @@
 /* Common header files */
 #include <assert.h>
 
-#define _WIN32_WINNT 0x0500			// Needed for waitable timers
 #include <Windows.h>
 #include <CommCtrl.h>
 #include <tchar.h>

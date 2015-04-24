@@ -22,7 +22,6 @@
 #pragma once
 
 #define _CRT_SECURE_NO_WARNINGS
-#define _WIN32_WINNT 0x0500
 
 #define MIRANDA_VER 0x0A00
 

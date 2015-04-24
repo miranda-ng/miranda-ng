@@ -33,10 +33,6 @@
 #ifndef __CSLIST_H
 #define __CSLIST_H 1
 
-#define WINVER          0x501
-#define _WIN32_WINNT    0x501
-#define _WIN32_IE	    0x600
-
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <windows.h>

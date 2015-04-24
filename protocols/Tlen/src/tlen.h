@@ -24,11 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _TLEN_H_
 #define _TLEN_H_
 
-#undef _WIN32_WINNT
-#undef _WIN32_IE
-#define _WIN32_WINNT 0x0501
-#define _WIN32_IE 0x0501
-
 #define __try
 #define __except(x) if (0)
 #define __finally

@@ -22,10 +22,6 @@
 #define WIN32_LEAN_AND_MEAN
 #define _CRT_SECURE_NO_DEPRECATE
 
-#define WINVER 0x0700
-#define _WIN32_WINNT 0x0700
-#define _WIN32_IE 0x0601
-
 #define BOSSKEY_LISTEN_INFO _T("MY6BossKey_Param")
 
 #include <windows.h>

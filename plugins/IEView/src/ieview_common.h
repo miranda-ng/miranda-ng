@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NONSTDC_NO_DEPRECATE
 
-#define _WIN32_WINNT  0x0601
-
 #include <windows.h>
 #include <commctrl.h>
 #include <time.h>

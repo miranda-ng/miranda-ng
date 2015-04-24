@@ -26,11 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #pragma once
-#define _WIN32_WINNT 0x0501
-
-#ifndef _WIN32_IE
-#define _WIN32_IE 0x0501
-#endif
 
 #ifndef DB_USEHELPERFUNCTIONS		// to supress static inline db helpers
 #define DB_NOHELPERFUNCTIONS

@@ -480,7 +480,7 @@ int CheckText(HWND hdlg, TCHAR *sztext, BOOL only_enable = FALSE)
 	if(sztext == NULL || sztext[0] == _T('\0'))
 		return 0;
 
-	int len = mir_tstrlen(sztext);
+	size_t len = mir_tstrlen(sztext);
 
 	if (only_enable)
 	{

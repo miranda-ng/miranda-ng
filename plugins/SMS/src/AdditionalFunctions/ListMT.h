@@ -43,12 +43,7 @@ __inline DWORD ListMTInitialize(PCLIST_MT pclmtListMT,DWORD dwSpinCount)
 {
 	DWORD dwRetErrorCode;
 
-#if (_WIN32_WINNT >= 0x0403)
 	if (InitializeCriticalSectionAndSpinCount(&pclmtListMT->cs,((dwSpinCount)? (dwSpinCount | 0x80000000):0L)))
-#else
-	InitializeCriticalSection(&pclmtListMT->cs);
-	if (TRUE)
-#endif
 	{
 		InterlockedExchangePointer((volatile PVOID*)&pclmtListMT->nCount,NULL);
 		pclmtListMT->plmtiFirst=NULL;
@@ -72,11 +67,7 @@ __inline void ListMTDestroy(PCLIST_MT pclmtListMT)
 
 __inline BOOL ListMTTryLock(PCLIST_MT pclmtListMT)
 {
-#if (_WIN32_WINNT >= 0x0400)
 	return(TryEnterCriticalSection(&pclmtListMT->cs));
-#else
-	return(FALSE);
-#endif
 }
 
 

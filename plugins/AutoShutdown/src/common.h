@@ -36,8 +36,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 /* RAS */
-#undef WINVER
-#define WINVER  0x400  /* prevent INVALID_BUFFER error */ 
 #include <ras.h>       /* for RasEnumConnections(), RasHangUp() */
 #include <raserror.h>  /* error codes for RAS */
 

@@ -7,8 +7,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NONSTDC_NO_DEPRECATE
 
-#define _WIN32_WINNT 0x0501
-
 #include <tchar.h>
 
 #include <Windows.h>
