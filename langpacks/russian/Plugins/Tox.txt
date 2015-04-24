@@ -63,8 +63,6 @@ IPv6 адрес (необязательно)
 Устройство аудиовхода
 [Audio output device]
 Устройство аудиовыхода
-[Filter audio]
-Фильтр аудио
 [Video input device]
 Устройство видеовхода
 [Invite contacts to chat room]
@@ -73,24 +71,44 @@ IPv6 адрес (необязательно)
 &Пригласить
 [&Cancel]
 О&тмена
-[Audio call]
-Аудиовызов
+[Call]
+Позвонить
+[End]
+Завершить
+[Incoming call]
+Входящий звонок
+[Answer]
+Ответить
+[Reject]
+Отклонить
+[From:]
+От:
+[Date:]
+Дата:
+[&User menu]
+Меню &пользователя
+[User &details]
+&Информация
+[&History]
+&История
+[Outgoing call]
+Исходящий звонок
+[To:]
+Для:
 [Groupchat]
 Чат
 [Profiles folder]
 Папка профилей
 [Action]
 Действие
-[Outgoing call]
-Исходящий звонок
-[Incoming call]
-Входящий звонок
 [Call started]
 Начало беседы
 [Call ended]
 Окончание беседы
 [Protocol icon]
 Значок протокола
+[Audio call]
+Аудиовызов
 [Audio ring]
 Звонок
 [Audio start]
@@ -103,14 +121,14 @@ IPv6 адрес (необязательно)
 Запросить авторизацию
 [Grant authorization]
 Авторизовать
-[Call]
-Позвонить
+[Incoming call from %s]
+Входящий звонок от %s
+[Outgoing call to %s]
+Исходящий вызов %s
 [Unable to find input audio device]
 Устройство аудиовхода не найдено
 [Video call is unsupported]
 Видеовызовы не поддерживаются
-[Incoming call from %s]
-Входящий звонок от %s
 [Unable to find output audio device]
 Выходное аудиоустройство не найдено
 [%s connection]
