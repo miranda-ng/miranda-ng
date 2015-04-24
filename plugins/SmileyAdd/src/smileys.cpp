@@ -874,8 +874,8 @@ void SmileyCategoryListType::AddProtoAsCategory(char *acc, const CMString& defau
 
 	if (_taccess(patha.c_str(), 0) != 0)
 		paths = defaultFile;
-	CMString displayName(acc);
-	displayName += TranslateT(" global smiley pack");
+	CMString dName(acc), displayName;
+	displayName.AppendFormat(TranslateT("%s global smiley pack"), dName.GetBuffer());
 	CMString tname("AllProto");
 	tname += A2T_SM(acc);
 	AddCategory(tname, displayName, smcPhysProto, paths);
