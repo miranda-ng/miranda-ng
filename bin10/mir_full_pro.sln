@@ -41,7 +41,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_nicer", "..\plugins\C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cln_skinedit", "..\plugins\Clist_nicer\skineditor\skinedit_10.vcxproj", "{987F026D-EB1F-4013-ADA8-2406ACCDA526}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AuthState", "..\plugins\AuthState\authstate_10.vcxproj", "{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AuthState", "..\plugins\AuthState\authstate.vcxproj", "{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Boltun", "..\plugins\Boltun\Boltun_10.vcxproj", "{98DF7761-41D7-4C5C-9FFE-E5CCB3997783}"
 EndProject
@@ -353,11 +353,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ping", "..\plugins\Ping\pin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fingerprint", "..\plugins\FingerprintNG\fingerprint_ng_10.vcxproj", "{AF7D71D4-19B7-42B8-91DD-701F155AC4AE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssocMgr", "..\plugins\AssocMgr\assocmgr_10.vcxproj", "{B57D997C-73E1-D5F7-ECCA-C204345C04A3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssocMgr", "..\plugins\AssocMgr\assocmgr.vcxproj", "{B57D997C-73E1-D5F7-ECCA-C204345C04A3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoRun", "..\plugins\AutoRun\autorun_10.vcxproj", "{00037ACC-F32D-4B5F-93A8-3CF0E277E377}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoRun", "..\plugins\AutoRun\autorun.vcxproj", "{00037ACC-F32D-4B5F-93A8-3CF0E277E377}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoShutdown", "..\plugins\AutoShutdown\shutdown_10.vcxproj", "{3F8EF54D-0593-4048-B0E5-C938F99B29F3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoShutdown", "..\plugins\AutoShutdown\shutdown.vcxproj", "{3F8EF54D-0593-4048-B0E5-C938F99B29F3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BASS_interface", "..\plugins\BASS_interface\Bass_interface_10.vcxproj", "{3933E789-D185-41DC-8169-9FF4365B6015}"
 EndProject
