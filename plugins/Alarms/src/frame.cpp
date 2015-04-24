@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 #include "frame.h"
 
 HWND hwnd_plugin = 0;

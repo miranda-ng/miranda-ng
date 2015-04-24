@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 #include "icons.h"
 
 HICON hIconMenuSet, hIconList1, hIconList2, hIconMenuShowHide, hIconSystray;

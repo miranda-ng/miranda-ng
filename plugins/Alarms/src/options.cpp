@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 #include "options.h"
 
 Options options;

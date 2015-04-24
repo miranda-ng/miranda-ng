@@ -7,7 +7,7 @@ modify it as they wish with no restriction.
 There is no warranty.
 */
 
-#include "common.h"
+#include "stdafx.h"
 #include "alarms.h"
 
 
