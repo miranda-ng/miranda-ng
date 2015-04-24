@@ -224,7 +224,7 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 			static const struct gc_item Items[] =
 			{
 				{ LPGENT("Kick &user"), 10, MENU_ITEM		},
-				{ NULL,					 0, MENU_ITEM		},
+				{ NULL,					 0, MENU_SEPARATOR	},
 				{ LPGENT("Set &role"),	20, MENU_NEWPOPUP	},
 				{ LPGENT("&Admin"),		30, MENU_POPUPITEM	},
 				{ LPGENT("&User"),		40, MENU_POPUPITEM	}
