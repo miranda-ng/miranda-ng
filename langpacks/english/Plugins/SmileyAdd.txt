@@ -56,7 +56,7 @@
 [Smiley pack %s not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 [Smiley #%u in file %s for smiley pack %s not found.]
-[ global smiley pack]
+[%s global smiley pack]
 [Standard]
 [Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
 [Regular expression "%s" in smiley pack "%s" malformed.]
