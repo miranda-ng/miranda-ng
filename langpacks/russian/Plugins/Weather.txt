@@ -211,8 +211,8 @@ URL доп. информации
 Ещё...
 [Weather Protocol INI Setup]
 Настройка INI файла плагина "Погода"
-[Weather Protocol INI Setup\nInstall and load your weather ini file here]
-Установка INI погоды\nУстановка и загрузка вашего INI погоды здесь
+[Install and load your weather ini file here]
+Установка и загрузка вашего INI погоды здесь
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 Протокол погоды не может найти ни одного INI файла погоды на вашем компьютере. Для установки INI погоды и добавления города следуйте этим указаниям:
 [Click here to download a weather ini file from Miranda file listing]

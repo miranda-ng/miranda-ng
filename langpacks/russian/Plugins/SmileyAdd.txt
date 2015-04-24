@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.2.3.17
+;  Version: 0.2.3.18
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -19,6 +19,8 @@
 Версия:
 [Preview]
 Тест
+[Use per protocol global smiley packs]
+Глобальный набор смайлов для протоколов
 [Display]
 Показывать
 [Replace only smileys surrounded by spaces]
@@ -91,6 +93,8 @@ HTTP-подключение SmileyAdd
 Проблемы с загрузкой набора смайлов (необходимо исправить).\nДля подробностей смотрите сетевой лог.
 [Smiley #%u in file %s for smiley pack %s not found.]
 Смайл #%u в файле %s для набора смайлов %s не найден.
+[ global smiley pack]
+ глобальный набор смайлов
 [Standard]
 Стандартные
 [Regular expression "%s" in smiley pack "%s" could produce "empty matches".]

@@ -125,6 +125,7 @@
 [Credits]
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
+[Send screenshot to %s]
 [Window]
 [Desktop]
 [<Entire Desktop>]

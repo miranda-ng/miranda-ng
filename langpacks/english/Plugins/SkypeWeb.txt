@@ -9,7 +9,6 @@
 ;file \protocols\SkypeWeb\res\resource.rc
 [Create group chat]
 [Cancel]
-[New chat's title:]
 [Mark users you want to invite to a new chat]
 [Invite user to chat]
 [Choose one of your contacts to be invited:]

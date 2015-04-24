@@ -110,7 +110,7 @@
 [Humidity]
 [More...]
 [Weather Protocol INI Setup]
-[Weather Protocol INI Setup\nInstall and load your weather ini file here]
+[Install and load your weather ini file here]
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 [Click here to download a weather ini file from Miranda file listing]
 [Extract the weather ini file from archive to this directory]
