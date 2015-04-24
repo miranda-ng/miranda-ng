@@ -19,8 +19,6 @@ along with this program (AssocMgr-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define _CRT_SECURE_NO_WARNINGS
-#define _WIN32_WINNT 0x0600
 #include <shlobj.h>            /* for SHChangeNotify() */
 #include <Vssym32.h>
 #include <malloc.h>
