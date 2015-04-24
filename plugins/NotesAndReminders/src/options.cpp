@@ -463,11 +463,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 				TCHAR s[MAX_PATH];
 
 				OPENFILENAME ofn = {0};
-#if defined(WINVER) && _WIN32_WINNT >= 0x0500
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-#else
-				ofn.lStructSize = sizeof(ofn);
-#endif
 				ofn.hwndOwner = hdlg;
 				ofn.lpstrFilter = TranslateT("Executable Files\0*.exe\0All Files\0*.*\0\0");
 				ofn.lpstrFile = s;

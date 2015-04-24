@@ -22,8 +22,6 @@ Boston, MA 02111-1307, USA.
 #ifndef __COMMONS_H__
 # define __COMMONS_H__
 
-#define WINVER 0x0500
-
 #include <windows.h>
 #include <commctrl.h>
 

@@ -23,11 +23,6 @@
 #define COMMHEADERS_H
 
 #define _CRT_SECURE_NO_WARNINGS
-#define _WIN32_WINNT 0x0501
-
-#ifndef _WIN32_IE
-#define _WIN32_IE 0x0501
-#endif
 
 #include <windows.h>
 #include <commctrl.h>

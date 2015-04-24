@@ -22,10 +22,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define WINVER 0x0700
-#define _WIN32_WINNT 0x0700
-#define _WIN32_IE 0x0601
-
 #define INCL_WINSOCK_API_TYPEDEFS 1
 
 #include <winsock2.h>

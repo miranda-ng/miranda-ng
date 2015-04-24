@@ -37,7 +37,6 @@ static TCHAR *parseComputerName(ARGUMENTSINFO *ai)
 	return res;
 }
 
-#if _WIN32_WINNT>=0x0500
 #include <pdh.h>
 #include <pdhmsg.h>
 
@@ -113,7 +112,6 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai)
 
 	return mir_tstrdup(szVal);
 }
-#endif
 
 static TCHAR *parseCurrentDate(ARGUMENTSINFO *ai)
 {
@@ -789,7 +787,6 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 	return NULL;
 }
 
-#if _WIN32_WINNT>=0x0500
 static TCHAR *parseUpTime(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
@@ -827,7 +824,6 @@ static TCHAR *parseUpTime(ARGUMENTSINFO *ai)
 	PdhCloseQuery(hQuery);
 	return mir_tstrdup(szVal);
 }
-#endif
 
 static TCHAR *parseUserName(ARGUMENTSINFO *ai)
 {
@@ -879,9 +875,7 @@ static TCHAR *parseClipboard(ARGUMENTSINFO *ai)
 void registerSystemTokens()
 {
 	registerIntToken(COMPUTERNAME, parseComputerName, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("computer name"));
-#if _WIN32_WINNT>=0x0500
 	registerIntToken(CPULOAD, parseCpuLoad, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("CPU load of process x (without extension) (x is optional)"));
-#endif
 	registerIntToken(CDATE, parseCurrentDate, TRF_FUNCTION, LPGEN("System Functions")"\t(y)\t"LPGEN("current date in format y (y is optional)"));
 	registerIntToken(CTIME, parseCurrentTime, TRF_FUNCTION, LPGEN("System Functions")"\t(y)\t"LPGEN("current time in format y (y is optional)"));
 	registerIntToken(DIRECTORY, parseDirectory, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("the directory y directories above x"));
@@ -898,9 +892,8 @@ void registerSystemTokens()
 	registerIntToken(TIMESTAMP2DATE, parseTimestamp2Date, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("formats timestamp x (seconds since 1/1/1970) in date format y"));
 	registerIntToken(TIMESTAMP2TIME, parseTimestamp2Time, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("formats timestamp x (seconds since 1/1/1970) in time format y"));
 	registerIntToken(TXTFILE, parseTextFile, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line"));
-#if _WIN32_WINNT>=0x0500
 	registerIntToken(UPTIME, parseUpTime, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("uptime in seconds"));
-#endif
+
 	if (!ServiceExists(MS_UTILS_REPLACEVARS))
 		registerIntToken(ENVIRONMENTVARIABLE, parseEnvironmentVariable, TRF_FUNCTION, LPGEN("Miranda Core OS")"\t(%xxxxxxx%)\t"LPGEN("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)"));
 	else {

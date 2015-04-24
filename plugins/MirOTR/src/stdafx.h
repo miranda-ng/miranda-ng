@@ -9,18 +9,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define WIN32_LEAN_AND_MEAN             // Selten verwendete Teile der Windows-Header nicht einbinden.
 
-#ifndef WINVER                  // Gibt an, dass Windows 2000 die mindestens erforderliche Plattform ist.
-#define WINVER 0x0500           // Ändern Sie den entsprechenden Wert, um auf andere Versionen von Windows abzuzielen.
-#endif
-
-#ifndef _WIN32_WINNT            // Gibt an, dass Windows 2000 die mindestens erforderliche Plattform ist.
-#define _WIN32_WINNT 0x0500     // Ändern Sie den entsprechenden Wert, um auf andere Versionen von Windows abzuzielen.
-#endif
-
-#ifndef _WIN32_IE               // Gibt an, dass Internet Explorer 7.0 die mindestens erforderliche Plattform ist.
-#define _WIN32_IE 0x0700        // Ändern Sie den entsprechenden Wert, um auf andere Versionen von IE abzuzielen.
-#endif
-
 #include <windows.h>
 #include <commctrl.h>
 #include <process.h>

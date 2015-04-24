@@ -25,10 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  * some compiler definitions
  ***********************************************************************************************************/
 
-#define _WIN32_WINNT	0x0501
-#define _WIN32_IE			0x0500
-#define WIN32_LEAN_AND_MEAN
-
 #define _CRT_SECURE_NO_DEPRECATE 1
 #define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES 0
 #define _CRT_SECURE_NO_WARNINGS

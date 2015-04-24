@@ -12,9 +12,6 @@ Copyright © 2013-14 Uli Hecht
 #pragma warning(disable:4996)
 #pragma warning(disable:4290)
 
-#define _WIN32_WINNT   0x0601
-#define _WIN32_WINDOWS 0x0601
-
 #include <algorithm>
 #include <iostream>
 #include <string>

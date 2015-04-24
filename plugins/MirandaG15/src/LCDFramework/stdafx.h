@@ -5,7 +5,6 @@
 
 #define ASSERT assert
 
-#define _WIN32_WINNT 0x0500			// Needed for waitable timers
 #include <Windows.h>
 #include <tchar.h>
 #include <string>

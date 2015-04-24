@@ -27,9 +27,6 @@
 #define STRICT
 #define _CRT_SECURE_NO_WARNINGS
 
-#define _WIN32_WINNT 0x0500
-#define WINVER 0x0600
-
 #include <windows.h>
 #include <mmsystem.h>
 #include <commctrl.h>

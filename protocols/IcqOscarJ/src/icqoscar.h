@@ -27,9 +27,6 @@
 // Includes all header files that should be precompiled to speed up compilation.
 // -----------------------------------------------------------------------------
 
-#define _WIN32_WINNT 0x0501
-#define _WIN32_IE 0x0501
-
 // Windows includes
 #include <windows.h>
 #include <commctrl.h>

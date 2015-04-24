@@ -535,7 +535,6 @@ void CSAMWindow::checkFieldLimit(WORD action, WORD item)
 
 		if (_tcslen(ptszInputText) > limit)
 		{
-#if ( WINVER >= 0x501 )
 			TCHAR tszPopupTip[MAX_PATH];
 			EDITBALLOONTIP ebt = { 0 };
 			ebt.cbStruct = sizeof(ebt);
@@ -544,7 +543,7 @@ void CSAMWindow::checkFieldLimit(WORD action, WORD item)
 			ebt.pszText = tszPopupTip;
 			ebt.ttiIcon = TTI_WARNING;
 			SendDlgItemMessage(m_handle, item, EM_SHOWBALLOONTIP, 0, (LPARAM)&ebt);
-#endif
+
 			TCHAR* ptszOutputText = (TCHAR*)mir_alloc((limit + 1) * sizeof(TCHAR));
 			GetDlgItemText(m_handle, item, ptszOutputText, limit + 1);
 			SetDlgItemText(m_handle, item, ptszOutputText);
@@ -591,7 +590,6 @@ CSListView::CSListView(HWND hwnd, CSWindow* parent)
 	m_handle = hwnd;
 	m_parent = parent;
 
-#if (_WIN32_WINNT >= 0x501)
 	LVGROUP lg = { 0 };
 	lg.cbSize = sizeof(LVGROUP);
 	lg.mask = LVGF_HEADER | LVGF_GROUPID;
@@ -604,7 +602,6 @@ CSListView::CSListView(HWND hwnd, CSWindow* parent)
 	lg.iGroupId = 1;
 	ListView_InsertGroup(m_handle, -1, &lg);
 	ListView_EnableGroupView(m_handle, TRUE);
-#endif
 
 	LVCOLUMN lvc = { 0 };
 	lvc.mask = LVCF_TEXT | LVCF_FMT | LVCF_WIDTH | LVCF_SUBITEM;
@@ -620,9 +617,7 @@ CSListView::CSListView(HWND hwnd, CSWindow* parent)
 	lvc.cx = 0xa8;
 	SendMessage(m_handle, LVM_INSERTCOLUMN, 2, (LPARAM)&lvc);
 
-#if (_WIN32_IE >= 0x0400)
 	ListView_SetExtendedListViewStyleEx(m_handle, 0, LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_HEADERDRAGDROP | LVS_EX_INFOTIP);
-#endif
 	ListView_SetImageList(m_handle, m_parent->m_icons, LVSIL_SMALL);
 }
 

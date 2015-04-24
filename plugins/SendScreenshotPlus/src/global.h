@@ -28,10 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
 
-#define WINVER			0x0700
-#define _WIN32_WINNT	0x0700
-#define _WIN32_IE		0x0601
-
 #define _CRT_SECURE_NO_WARNINGS
 #define OEMRESOURCE
 
