@@ -1075,3 +1075,4 @@ Proto_IsProtocolLoaded @1073 NONAME
 Proto_RegisterModule @1074 NONAME
 
 ?GetInst@CDlgBase@@QEBAPEAUHINSTANCE__@@XZ @1075 NONAME
+?Find@CDlgBase@@SAPEAV1@PEAUHWND__@@@Z @1076 NONAME

@@ -220,20 +220,14 @@ INT_PTR CALLBACK CDlgBase::GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		mir_cslock lck(csDialogs);
 		arDialogs.insert(wnd);
 	}
-	else {
-		PVOID bullshit[2]; // vfptr + hwnd
-		bullshit[1] = hwnd;
-		wnd = arDialogs.find((CDlgBase*)&bullshit);
-	}
+	else wnd = CDlgBase::Find(hwnd);
 
 	return (wnd == NULL) ? FALSE : wnd->DlgProc(msg, wParam, lParam);
 }
 
 int CDlgBase::GlobalDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
 {
-	PVOID bullshit[2]; // vfptr + hwnd
-	bullshit[1] = hwnd;
-	CDlgBase *wnd = arDialogs.find((CDlgBase*)&bullshit);
+	CDlgBase *wnd = wnd = CDlgBase::Find(hwnd);
 	return (wnd == NULL) ? 0 : wnd->Resizer(urc);
 }
 
@@ -257,6 +251,13 @@ CCtrlBase* CDlgBase::FindControl(int idCtrl)
 {
 	CCtrlBase search(NULL, idCtrl);
 	return m_controls.find(&search);
+}
+
+CDlgBase* CDlgBase::Find(HWND hwnd)
+{
+	PVOID bullshit[2]; // vfptr + hwnd
+	bullshit[1] = hwnd;
+	return arDialogs.find((CDlgBase*)&bullshit);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
