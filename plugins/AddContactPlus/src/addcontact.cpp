@@ -152,7 +152,7 @@ bool AddContactDlgAccounts(HWND hdlg, AddDialogParam *acs)
 #define DM_ADDCONTACT_CHANGEICONS WM_USER + 11
 #define DM_ADDCONTACT_CHANGEACCLIST WM_USER + 12
 
-INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
+INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 {
 	AddDialogParam *acs = (AddDialogParam*)GetWindowLongPtr(hdlg, GWLP_USERDATA);
 
