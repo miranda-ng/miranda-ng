@@ -101,10 +101,6 @@ IPv6 адрес (необязательно)
 Папка профилей
 [Action]
 Действие
-[Call started]
-Начало беседы
-[Call ended]
-Окончание беседы
 [Protocol icon]
 Значок протокола
 [Audio call]
@@ -129,8 +125,14 @@ IPv6 адрес (необязательно)
 Устройство аудиовхода не найдено
 [Video call is unsupported]
 Видеовызовы не поддерживаются
+[Call cancelled]
+Звонок отменён
 [Unable to find output audio device]
 Выходное аудиоустройство не найдено
+[Call started]
+Начало беседы
+[Call ended]
+Окончание беседы
 [%s connection]
 %s подключение
 [Tox profile]
