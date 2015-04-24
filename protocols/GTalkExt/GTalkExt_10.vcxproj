@@ -196,7 +196,6 @@
     <ClInclude Include="src\options.h" />
     <ClInclude Include="src\resources.h" />
     <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="src\targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\settings.rc" />
