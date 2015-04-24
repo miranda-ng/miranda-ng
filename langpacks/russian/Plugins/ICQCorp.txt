@@ -5,15 +5,41 @@
 ;  Version: 0.0.1.0
 ;  Authors: Miranda NG Team, Eugene Tarasenko
 ;============================================================
+[ICQ corporate protocol support for Miranda NG.]
+Поддержка протокола ICQ corporate в Miranda NG.
+[External IP:]
+Внешний IP:
+[Internal IP:]
+Внутренний IP:
 [Port:]
 Порт:
+[ICQ Version:]
+Версия ICQ:
+[Miranda Version:]
+Версия Miranda:
+[Login Server:]
+Сервер:
 [Password:]
 Пароль:
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+Чтобы изменения, сделанные на этой странице, вступили в силу, необходимо переподключиться к сети ICQ.
 [Network]
 Сеть
+[ICQ Corporate plugin used only WinSock v2.2 or later.]
+Протоколу ICQ Corporate требуется WinSock версии 2.2 или выше.
+[You need specify ICQ Corporate login server.]
+Необходимо указать сервер для подключения.
+[Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to M->Options->ICQCorp and try again.]
+Сервер не принял номер и пароль ICQ Corp. Исправьте их через Настройки -> ICQCorp и попробуйте подключиться снова.
+[ICQ number:]
+Номер ICQ:
 [%d files]
 %d файла(ов)
 [%d directories]
 %d каталога(ов)
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Передача файлов прервана, поскольку один из файлов, выбранных для отправки, более недоступен. Возможно, вы удалили или переместили его.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Приём файлов прерван, поскольку Miranda не смогла записать принятый файл. Возможно, вы пытаетесь сохранить файл в папку, к которой у вас доступ лишь на чтение.
 [<not specified>]
 <не указано>

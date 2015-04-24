@@ -77,6 +77,8 @@
 Продолжительность
 [Protocol icon]
 Значок протокола
+[Create new chat icon]
+Значок создания нового чата
 [Protocols]
 Протоколы
 [Request authorization]

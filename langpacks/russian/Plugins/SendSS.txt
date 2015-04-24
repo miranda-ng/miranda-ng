@@ -169,6 +169,8 @@ HTTP подключение SendSS
 Кредиты
 [Drag&Drop the target on the desired window.]
 Перетащите прицел на нужное окно.
+[Send screenshot to %s]
+Отправить снимок экрана для %s
 [Window]
 Окно
 [Desktop]
