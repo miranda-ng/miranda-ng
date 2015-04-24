@@ -1,3 +1,2 @@
 ﻿[Use per protocol global smiley packs]
 [%s global smiley pack]
-[d'Oh!]

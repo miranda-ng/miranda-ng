@@ -229,6 +229,8 @@ Danksagung
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Quellfenster mit Drag&Drop auswählen
+[Send screenshot to %s]
+
 [Window]
 Fenster
 [Desktop]

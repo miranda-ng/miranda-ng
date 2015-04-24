@@ -214,8 +214,8 @@ Luftfeuchtigkeit
 Mehr...
 [Weather Protocol INI Setup]
 Wetter-Protokoll-INI-Einrichtung
-[Weather Protocol INI Setup\nInstall and load your weather ini file here]
-Wetter-Protokoll-INI-Einrichtung\nInstallieren und laden Sie hier die Wetter-INI-Dateien
+[Install and load your weather ini file here]
+Installieren und laden Sie hier die Wetter-INI-Dateien
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 Das Wetter-Protokoll kann keine INI-Datei auf dem Rechner finden. Um eine INI-Datei und eine Wetterstation einzustellen, befolgen Sie diese Schritte:
 [Click here to download a weather ini file from Miranda file listing]
