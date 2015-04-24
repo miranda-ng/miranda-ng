@@ -35,7 +35,7 @@ void CToxOptionsMain::OnInitDialog()
 		ShowWindow(m_profileImport.GetHwnd(), FALSE);
 
 		ShowWindow(m_toxAddressCopy.GetHwnd(), TRUE);
-		//ShowWindow(m_profileExport.GetHwnd(), TRUE);
+		ShowWindow(m_profileExport.GetHwnd(), TRUE);
 	}
 
 	if (m_proto->IsOnline())
@@ -68,6 +68,26 @@ void CToxOptionsMain::ToxAddressCopy_OnClick(CCtrlButton*)
 
 void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 {
+	std::tstring profilePath = m_proto->GetToxProfilePath();
+	if (!m_proto->IsFileExists(profilePath))
+	{
+		HANDLE hProfile = CreateFile(profilePath.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+		if (hProfile == NULL)
+		{
+			// TODO: warh error
+			return;
+		}
+		CloseHandle(hProfile);
+
+		TOX_ERR_NEW initError;
+		m_proto->tox = tox_new(NULL, NULL, 0, &initError);
+		if (initError != TOX_ERR_NEW_OK)
+		{
+			// TODO: warh error
+			return;
+		}
+	}
+	
 	if (m_proto->InitToxCore())
 	{
 		TCHAR *group = m_group.GetText();
@@ -88,7 +108,7 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 		ShowWindow(m_profileImport.GetHwnd(), FALSE);
 
 		ShowWindow(m_toxAddressCopy.GetHwnd(), TRUE);
-		//ShowWindow(m_profileExport.GetHwnd(), TRUE);
+		ShowWindow(m_profileExport.GetHwnd(), TRUE);
 	}
 }
 
@@ -116,7 +136,7 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 	}
 
 	std::tstring defaultProfilePath = m_proto->GetToxProfilePath();
-	if (_tcsicmp(profilePath, defaultProfilePath.c_str()) != 0)
+	if (mir_tstrcmpi(profilePath, defaultProfilePath.c_str()) != 0)
 	{
 		CopyFile(profilePath, defaultProfilePath.c_str(), FALSE);
 	}
@@ -126,6 +146,33 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 
 void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 {
+	TCHAR filter[MAX_PATH];
+	mir_sntprintf(filter, SIZEOF(filter), _T("%s(*.tox)%c*.tox%c%c"),
+		TranslateT("Tox profile"), 0, 0, 0);
+
+	TCHAR profilePath[MAX_PATH];
+	mir_tstrncpy(profilePath, _T("tox_save.tox"), SIZEOF(profilePath));
+
+	OPENFILENAME ofn = { sizeof(ofn) };
+	ofn.hwndOwner = m_hwnd;
+	ofn.lpstrFilter = filter;
+	ofn.nFilterIndex = 0;
+	ofn.lpstrFile = profilePath;
+	ofn.lpstrTitle = TranslateT("Save tox profile");\
+	ofn.nMaxFile = MAX_PATH;
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_EXPLORER;
+	ofn.lpstrInitialDir = _T("%HOMEPATH%");
+
+	if (!GetSaveFileName(&ofn))
+	{
+		return;
+	}
+
+	std::tstring defaultProfilePath = m_proto->GetToxProfilePath();
+	if (mir_tstrcmpi(profilePath, defaultProfilePath.c_str()) != 0)
+	{
+		CopyFile(defaultProfilePath.c_str(), profilePath, FALSE);
+	}
 }
 
 void CToxOptionsMain::OnApply()
