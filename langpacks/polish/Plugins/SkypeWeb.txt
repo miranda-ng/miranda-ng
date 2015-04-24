@@ -12,8 +12,6 @@ Wsparcie protokołu Skype dla Mirandy NG. Oparte na nowym Skype w przeglądarce.
 Utwórz czat grupowy
 [Cancel]
 Anuluj
-[New chat's title:]
-Nazwa nowego czatu:
 [Mark users you want to invite to a new chat]
 Zaznacz użytkowników, których chcesz zaprosić do nowego czatu
 [Invite user to chat]

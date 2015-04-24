@@ -214,8 +214,8 @@ Wilgotność
 Więcej...
 [Weather Protocol INI Setup]
 Konfiguracja INI protokołu Weather
-[Weather Protocol INI Setup\nInstall and load your weather ini file here]
-Konfiguracja INI protokołu Weather\nZainstaluj i wczytaj plik ini pogody tutaj
+[Install and load your weather ini file here]
+Zainstaluj i załaduj swój plik ini pogody tutaj
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 Protokół Weather nie może znaleźć pliku INI na komputerze. Aby ustawić plik INI i dodać stacje pogodowe, wykonaj następujące kroki:
 [Click here to download a weather ini file from Miranda file listing]

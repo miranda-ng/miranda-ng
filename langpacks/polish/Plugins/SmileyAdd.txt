@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.2.3.17
+;  Version: 0.2.3.18
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -20,6 +20,8 @@ Autor:
 Wersja:
 [Preview]
 Podgląd
+[Use per protocol global smiley packs]
+Używaj globalnych paczek emotikon dla poszczególnych protokołów
 [Display]
 Wyświetlanie
 [Replace only smileys surrounded by spaces]
@@ -98,6 +100,8 @@ Paczka emotikon %s nie odnaleziona.\nZaznacz prawidłową paczkę emotikon Opcje
 Wystąpiły problemy z wczytaniem paczki emotikon (powinny już działać).\nPo szczegóły zajrzyj do dziennika.
 [Smiley #%u in file %s for smiley pack %s not found.]
 Nie znaleziono uśmieszku #%u w pliku %s dla paczki uśmieszków %s.
+[%s global smiley pack]
+Globalna paczka emotikon %s
 [Standard]
 Standardowe
 [Regular expression "%s" in smiley pack "%s" could produce "empty matches".]

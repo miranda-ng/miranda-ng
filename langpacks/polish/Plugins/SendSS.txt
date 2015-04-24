@@ -229,6 +229,8 @@ Autorzy
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Umieść celownik na odpowiednie okno.
+[Send screenshot to %s]
+Wyślij zrzut ekranu do %s
 [Window]
 Okno
 [Desktop]
