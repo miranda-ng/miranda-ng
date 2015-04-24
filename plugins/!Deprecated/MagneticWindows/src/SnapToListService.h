@@ -1,2 +1,0 @@
-
-INT_PTR SnapToList(WPARAM, LPARAM);
