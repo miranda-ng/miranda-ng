@@ -68,8 +68,6 @@ Multimedia
 Wejście audio
 [Audio output device]
 Wyjście audio
-[Filter audio]
-Filtr audio
 [Video input device]
 Wejście video
 [Invite contacts to chat room]
@@ -78,8 +76,30 @@ Zaproś kontakty na czat
 &Zaproś
 [&Cancel]
 &Anuluj
-[Audio call]
-Rozmowa audio
+[Call]
+Zadzwoń
+[End]
+Zamknij
+[Incoming call]
+Połączenie przychodzące
+[Answer]
+Odbierz
+[Reject]
+Odrzuć
+[From:]
+Od:
+[Date:]
+Data:
+[&User menu]
+Menu &użytkownika
+[User &details]
+Dane &kontaktu
+[&History]
+&Historia
+[Outgoing call]
+Połączenie wychodzące
+[To:]
+Do:
 ;file \protocols\Tox\src\tox_chatrooms.cpp
 [Groupchat]
 Czat grupowy
@@ -88,10 +108,6 @@ Czat grupowy
 Folder profili
 [Action]
 Działanie
-[Outgoing call]
-Połączenie wychodzące
-[Incoming call]
-Połączenie przychodzące
 [Call started]
 Rozmowa rozpoczęta
 [Call ended]
@@ -99,6 +115,8 @@ Rozmowa zakończona
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Ikona protokołu
+[Audio call]
+Rozmowa audio
 [Audio ring]
 Dzwonek Audio
 [Audio start]
@@ -112,15 +130,15 @@ Protokoły
 Poproś o autoryzację
 [Grant authorization]
 Udziel autoryzacji
-[Call]
-Zadzwoń
 ;file \protocols\Tox\src\tox_multimedia.cpp
+[Incoming call from %s]
+Przychodząca rozmowa od %s
+[Outgoing call to %s]
+Rozmowa wychodząca z %s
 [Unable to find input audio device]
 Nie udało się znaleźć urządzenia wejścia audio
 [Video call is unsupported]
 Rozmowa video nie jest wspierana
-[Incoming call from %s]
-Przychodząca rozmowa od %s
 [Unable to find output audio device]
 Nie udało się znaleźć urządzenia wyjścia audio
 ;file \protocols\Tox\src\tox_netlib.cpp
@@ -133,6 +151,8 @@ Profil Tox
 Wszystkie pliki
 [Select tox profile]
 Wybierz profil tox
+[Save tox profile]
+Zapisz profil tox
 [Add node]
 Dodaj gniazdo
 [Change node]
