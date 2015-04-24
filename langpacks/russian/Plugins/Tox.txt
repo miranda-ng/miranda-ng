@@ -124,7 +124,7 @@ IPv6 адрес (необязательно)
 [Incoming call from %s]
 Входящий звонок от %s
 [Outgoing call to %s]
-Исходящий вызов %s
+Исходящий звонок к %s
 [Unable to find input audio device]
 Устройство аудиовхода не найдено
 [Video call is unsupported]
