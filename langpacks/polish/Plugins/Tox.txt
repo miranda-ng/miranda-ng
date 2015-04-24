@@ -108,10 +108,6 @@ Czat grupowy
 Folder profili
 [Action]
 Działanie
-[Call started]
-Rozmowa rozpoczęta
-[Call ended]
-Rozmowa zakończona
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Ikona protokołu
@@ -139,8 +135,14 @@ Rozmowa wychodząca z %s
 Nie udało się znaleźć urządzenia wejścia audio
 [Video call is unsupported]
 Rozmowa video nie jest wspierana
+[Call cancelled]
+
 [Unable to find output audio device]
 Nie udało się znaleźć urządzenia wyjścia audio
+[Call started]
+Rozmowa rozpoczęta
+[Call ended]
+Rozmowa zakończona
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 Połączenie %s

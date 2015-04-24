@@ -1,2 +1,8 @@
 ﻿[Tox ID:]
 [Tox]
+[End]
+[Answer]
+[Reject]
+[Outgoing call to %s]
+[Call cancelled]
+[Save tox profile]

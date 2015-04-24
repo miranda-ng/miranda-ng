@@ -10,7 +10,6 @@
 [Monthly]
 [Yearly]
 [Dismiss]
-[Unknown command issued: "%s"]
 [5 mins]
 [15 mins]
 [30 mins]

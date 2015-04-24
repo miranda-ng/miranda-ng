@@ -41,7 +41,6 @@
 [&Suspend]
 [&Edit...]
 [&New alarm...]
-[Unknown command issued: "%s"]
 [Set alarm]
 [Example alarm]
 [Some example text. Example, example, example.]

@@ -68,8 +68,6 @@ Multimedia
 Audioeingabegeräte
 [Audio output device]
 Audioausgabegeräte
-[Filter audio]
-Audio filtern
 [Video input device]
 Videoeingabegeräte
 [Invite contacts to chat room]
@@ -78,7 +76,29 @@ Kontakte in Chatraum einladen
 E&inladen
 [&Cancel]
 Abbre&chen
-[Audio call]
+[Call]
+
+[End]
+
+[Incoming call]
+
+[Answer]
+
+[Reject]
+
+[From:]
+
+[Date:]
+
+[&User menu]
+
+[User &details]
+
+[&History]
+
+[Outgoing call]
+
+[To:]
 
 ;file \protocols\Tox\src\tox_chatrooms.cpp
 [Groupchat]
@@ -88,17 +108,11 @@ Gruppenchat
 Profilverzeichnis
 [Action]
 Aktion
-[Outgoing call]
-
-[Incoming call]
-
-[Call started]
-
-[Call ended]
-
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Protokollicon
+[Audio call]
+
 [Audio ring]
 
 [Audio start]
@@ -112,16 +126,22 @@ Protokolle
 Autorisierung anfragen
 [Grant authorization]
 Autorisierung gewähren
-[Call]
-
 ;file \protocols\Tox\src\tox_multimedia.cpp
+[Incoming call from %s]
+Eingehender Anruf von %s
+[Outgoing call to %s]
+
 [Unable to find input audio device]
 
 [Video call is unsupported]
 
-[Incoming call from %s]
-Eingehender Anruf von %s
+[Call cancelled]
+
 [Unable to find output audio device]
+
+[Call started]
+
+[Call ended]
 
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
@@ -133,6 +153,8 @@ Tox-Profil
 Alle Dateien
 [Select tox profile]
 Tox-Profil auswählen
+[Save tox profile]
+
 [Add node]
 Knoten hinzufügen
 [Change node]

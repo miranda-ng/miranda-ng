@@ -84,6 +84,8 @@ Czas trwania
 Ikona protokołu
 [Create new chat icon]
 Ikona tworzenia nowego czatu
+[Sync history icon]
+
 [Protocols]
 Protokoły
 ;file \protocols\SkypeWeb\src\skype_menus.cpp

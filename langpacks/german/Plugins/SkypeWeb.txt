@@ -84,6 +84,8 @@ Dauer
 Protokollicon
 [Create new chat icon]
 
+[Sync history icon]
+
 [Protocols]
 Protokolle
 ;file \protocols\SkypeWeb\src\skype_menus.cpp

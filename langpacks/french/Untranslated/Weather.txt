@@ -31,7 +31,7 @@
 [History Log]
 [Status Message]
 [More...]
-[Weather Protocol INI Setup\nInstall and load your weather ini file here]
+[Install and load your weather ini file here]
 [Dismiss Popup]
 [Open log file]
 [Show user menu]

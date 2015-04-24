@@ -116,8 +116,6 @@
 &Новы напамінак...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
-[Unknown command issued: "%s"]
-Выдадзена невядомая каманда: "%s"
 [Set alarm]
 Даць напамінак
 ;file \plugins\Alarms\src\alarm_win.cpp

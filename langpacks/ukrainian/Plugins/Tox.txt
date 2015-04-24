@@ -63,8 +63,6 @@ IPv6 адреса (необов'язково)
 Пристрій аудіовходу
 [Audio output device]
 Пристрій аудіовиходу
-[Filter audio]
-Фільтр аудіо
 [Video input device]
 Пристрій відеовходу
 [Invite contacts to chat room]
@@ -73,24 +71,34 @@ IPv6 адреса (необов'язково)
 &Запросити
 [&Cancel]
 &Скасувати
-[Audio call]
-Аудіовиклик
+[Call]
+Дзвінок
+[Incoming call]
+Вхідний дзвінок
+[From:]
+Від:
+[Date:]
+Дата:
+[&User menu]
+&Меню користувача
+[User &details]
+&Про користувача
+[&History]
+&Історія
+[Outgoing call]
+Вихідний дзвінок
+[To:]
+Для:
 [Groupchat]
 Чат
 [Profiles folder]
 Папка профілів
 [Action]
 Дія
-[Outgoing call]
-Вихідний дзвінок
-[Incoming call]
-Вхідний дзвінок
-[Call started]
-Початок бесіди
-[Call ended]
-Завершення бесіди
 [Protocol icon]
 Значок протоколу
+[Audio call]
+Аудіовиклик
 [Audio ring]
 Дзвінок
 [Audio start]
@@ -103,16 +111,18 @@ IPv6 адреса (необов'язково)
 Запитати авторизацію
 [Grant authorization]
 Авторизувати
-[Call]
-Дзвінок
+[Incoming call from %s]
+Вхідний дзвінок від %s
 [Unable to find input audio device]
 Пристрій аудіовходу не знайдено
 [Video call is unsupported]
 Відеовиклики не підтримуються
-[Incoming call from %s]
-Вхідний дзвінок від %s
 [Unable to find output audio device]
 Пристрій аудіовиходу не знайдено
+[Call started]
+Початок бесіди
+[Call ended]
+Завершення бесіди
 [%s connection]
 З'єднання %s
 [Tox profile]
