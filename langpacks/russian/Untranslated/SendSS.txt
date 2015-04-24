@@ -20,7 +20,6 @@
 [BBC]
 [BBC link]
 [Could not register Miranda service.]
-[Send screenshot to %s]
 [Fill description textbox.]
 [for Client area ]
 [of "]
