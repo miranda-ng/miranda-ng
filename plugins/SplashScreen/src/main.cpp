@@ -196,7 +196,7 @@ void SplashMain()
 						//files = new char[strlen(ffd.cFileName)];
 						//files[filescount] = new char[strlen(ffd.cFileName)];
 						TCHAR ext[5];
-						tmemcpy(ext, ffd.cFileName + (mir_tstrlen(ffd.cFileName) - 4), 5);
+						wmemcpy(ext, ffd.cFileName + (mir_tstrlen(ffd.cFileName) - 4), 5);
 
 #ifdef _DEBUG
 						logMessage(_T("Extention"), ext);
