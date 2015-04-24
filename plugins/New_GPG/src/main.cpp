@@ -2226,7 +2226,7 @@ void InitCheck()
 		}
 		//TODO: check for expired key
 		mir_free(keyid);
-		//mir_free(key);
+		mir_free(key);
 	}
 	{
 		TCHAR *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
