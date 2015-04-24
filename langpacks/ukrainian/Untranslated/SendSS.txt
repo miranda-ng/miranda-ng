@@ -12,4 +12,5 @@
 [Edit on]
 [BBC]
 [BBC link]
+[Send screenshot to %s]
 [for Client area ]

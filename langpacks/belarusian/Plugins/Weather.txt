@@ -212,8 +212,8 @@
 Яшчэ...
 [Weather Protocol INI Setup]
 Налады INI файла плагiна "Надвор'е"
-[Weather Protocol INI Setup\nInstall and load your weather ini file here]
-Устаноўка INI надвор'я\n Устаноўка і загрузка вашага INI надвор'я тут
+[Install and load your weather ini file here]
+Устаноўка і загрузка вашага INI надвор'я тут
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 Конт надвор'я не можа знайсці ніводнага INI файла надвор'я на вашым кампутары. Для ўстаноўкі INI надвор'і і даданні горада вынікайце гэтым указанням:
 [Click here to download a weather ini file from Miranda file listing]

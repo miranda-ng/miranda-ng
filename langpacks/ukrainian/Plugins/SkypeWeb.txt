@@ -11,8 +11,6 @@
 Створити чат-кімнату
 [Cancel]
 Скасувати
-[New chat's title:]
-Назва нової кімнати
 [Mark users you want to invite to a new chat]
 Позначте користувачів, яких ви хочете запросити до чату
 [Invite user to chat]

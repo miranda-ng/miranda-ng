@@ -12,8 +12,6 @@ Unterstützung für das Skype-Protokoll in Miranda NG, basierend auf dem neuen S
 Gruppenchat erstellen
 [Cancel]
 Abbrechen
-[New chat's title:]
-Titel des neuen Chats:
 [Mark users you want to invite to a new chat]
 Markieren Sie die Benutzer, die Sie in einen neuen Chat einladen wollen
 [Invite user to chat]
