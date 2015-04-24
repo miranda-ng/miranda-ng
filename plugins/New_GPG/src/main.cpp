@@ -1296,7 +1296,7 @@ static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 			SetDlgItemText(hwndDlg, ID_IMPORT, tmp[0]?TranslateT("Replace"):TranslateT("Accept"));
 			mir_free(tmp);
 			tmp = new TCHAR [256];
-			mir_sntprintf(tmp, 255,TranslateT("Received key from %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
+			mir_sntprintf(tmp, 255*sizeof(TCHAR),TranslateT("Received key from %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
 			SetDlgItemText(hwndDlg, IDC_KEY_FROM, tmp);
 			delete [] tmp;
 		}
@@ -2086,7 +2086,8 @@ void InitCheck()
 		PROTOACCOUNT **accounts;
 		ProtoEnumAccounts(&count, &accounts);
 		string question;
-		char *keyid = nullptr, *key = nullptr;
+		//char *keyid = nullptr, *key = nullptr;
+		char *keyid = nullptr;
 		for(int i = 0; i < count; i++)
 		{
 			if(StriStr(accounts[i]->szModuleName, "metacontacts"))
@@ -2104,7 +2105,7 @@ void InitCheck()
 				question = Translate("Your secret key with ID: ");
 				mir_free(keyid);
 				keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
-				key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
+				//key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
 				if((p = out.find(keyid)) == string::npos)
 				{
 					question += keyid;
@@ -2167,7 +2168,7 @@ void InitCheck()
 		}
 		question = Translate("Your secret key with ID: ");
 		keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
-		key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
+		char *key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
 		if(!db_get_b(NULL, szGPGModuleName, "FirstRun", 1) && (!keyid[0] || !key[0]))
 		{
 			question = Translate("You didn't set a private key.\nWould you like to set it now?");
@@ -2225,7 +2226,7 @@ void InitCheck()
 		}
 		//TODO: check for expired key
 		mir_free(keyid);
-		mir_free(key);
+		//mir_free(key);
 	}
 	{
 		TCHAR *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
@@ -2245,8 +2246,8 @@ void InitCheck()
 		ICQ_CUSTOMCAP cap;
 		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
 		cap.hIcon = 0;
-		strncpy(cap.name, "GPG Key AutoExchange", MAX_CAPNAME-1);
-		strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps)-1);
+		strncpy(cap.name, "GPG Key AutoExchange", MAX_CAPNAME);
+		strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps));
 
 		for(int i = 0; i < count; i++)
 			if( ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))
@@ -2260,8 +2261,8 @@ void InitCheck()
 		ICQ_CUSTOMCAP cap;
 		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
 		cap.hIcon = 0;
-		strncpy(cap.name, "GPG Encrypted FileTransfers", MAX_CAPNAME-1);
-		strncpy(cap.caps, "GPGFileTransfer", sizeof(cap.caps)-1);
+		strncpy(cap.name, "GPG Encrypted FileTransfers", MAX_CAPNAME);
+		strncpy(cap.caps, "GPGFileTransfer", sizeof(cap.caps));
 
 		for(int i = 0; i < count; i++)
 			if( ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))
