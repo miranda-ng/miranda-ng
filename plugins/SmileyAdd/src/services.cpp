@@ -1,5 +1,6 @@
 /*
-Miranda SmileyAdd Plugin
+Miranda NG SmileyAdd Plugin
+Copyright (C) 2012 - 2015 Miranda NG project (http://miranda-ng.org)
 Copyright (C) 2005 - 2011 Boris Krasnovskiy All Rights Reserved
 Copyright (C) 2003 - 2004 Rein-Peter de Boer
 
@@ -67,7 +68,8 @@ SmileyPackType* GetSmileyPack(const char* proto, MCONTACT hContact, SmileyPackCT
 			categoryName = A2T_SM(proto);
 			if (opt.UseOneForAll) {
 				SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(categoryName);
-				if (smc == NULL || smc->IsProto()) categoryName = _T("Standard");
+				if (smc == NULL || smc->IsProto()) 
+					categoryName = _T("Standard");
 			}
 		}
 	}
