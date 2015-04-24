@@ -73,6 +73,7 @@
 [Tox profile]
 [All files]
 [Select tox profile]
+[Save tox profile]
 [Add node]
 [Change node]
 [Enter IPv4]
