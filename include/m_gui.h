@@ -273,6 +273,8 @@ public:
 	__forceinline void SetParent(HWND hwnd) { m_hwndParent = hwnd; }
 	__forceinline void Close() { SendMessage(m_hwnd, WM_CLOSE, 0, 0); }
 
+	static CDlgBase* Find(HWND hwnd);
+
 protected:
 	HWND      m_hwnd;  // must be the first data item
 	HINSTANCE m_hInst;
