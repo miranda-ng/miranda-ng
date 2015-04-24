@@ -18,7 +18,7 @@ Avatar History Plugin
 
 */
 
-#include "AvatarHistory.h"
+#include "stdafx.h"
 
 Options opts;
 
@@ -144,7 +144,7 @@ static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 // Functions //////////////////////////////////////////////////////////////////////////////////////
 
-int OptInit(WPARAM wParam, LPARAM lParam)
+int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;

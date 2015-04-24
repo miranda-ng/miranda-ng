@@ -1,4 +1,4 @@
-#include "AvatarHistory.h"
+#include "stdafx.h"
 
 enum IconIndex
 {
@@ -31,7 +31,7 @@ static void IcoLibUpdateMenus()
 	DestroyIcon(mi.hIcon);
 }
 
-int IcoLibIconsChanged(WPARAM wParam, LPARAM lParam)
+int IcoLibIconsChanged(WPARAM, LPARAM)
 {
 	IcoLibUpdateMenus();
 	return 0;
@@ -60,7 +60,7 @@ static HICON getOverlayedIcon(HICON icon, HICON overlay, BOOL big)
 }
 
 
-HICON createDefaultOverlayedIcon(BOOL big)
+HICON createDefaultOverlayedIcon(BOOL)
 {
 	HICON icon0 = LoadIconEx(I_HISTORY);
 	HICON icon1 = LoadIconEx(I_OVERLAY);
