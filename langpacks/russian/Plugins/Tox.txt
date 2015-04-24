@@ -121,6 +121,8 @@ IPv6 адрес (необязательно)
 Все файлы
 [Select tox profile]
 Выберите профиль Tox
+[Save tox profile]
+Сохранить профиль Tox
 [Add node]
 Добавление ноды
 [Change node]
