@@ -19,7 +19,7 @@ along with this program (Shutdown-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 /* Msg Shutdown */
 static HANDLE hHookEventAdded;
@@ -89,7 +89,7 @@ static TCHAR* GetMessageText(BYTE **ppBlob,DWORD *pcbBlob)
 	return (WCHAR*)buf;
 }
 
-static int MsgEventAdded(WPARAM wParam,LPARAM hDbEvent)
+static int MsgEventAdded(WPARAM, LPARAM hDbEvent)
 {
 	if (currentWatcherType & SDWTF_MESSAGE) {
 		DBEVENTINFO dbe = { sizeof(dbe) };
@@ -118,7 +118,7 @@ static int MsgEventAdded(WPARAM wParam,LPARAM hDbEvent)
 static HANDLE *transfers;
 static int nTransfersCount;
 
-static int ProtoAck(WPARAM wParam,LPARAM lParam)
+static int ProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack=(ACKDATA*)lParam;
 	if (ack->type != ACKTYPE_FILE)
@@ -244,7 +244,7 @@ static int WeatherUpdated(WPARAM wParam,LPARAM lParam)
 
 /************************* Services ***********************************/
 
-INT_PTR ServiceStartWatcher(WPARAM wParam,LPARAM lParam)
+INT_PTR ServiceStartWatcher(WPARAM, LPARAM lParam)
 {
 	/* passing watcherType as lParam is only to be used internally, undocumented */
 	if (lParam==0)

@@ -19,7 +19,7 @@ along with this program (Shutdown-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 /* Menu Item */
 static HANDLE hServiceMenuCommand;
@@ -180,7 +180,6 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 	case WM_DESTROY:
 		{
 			Utils_SaveWindowPosition(hwndDlg,NULL,"AutoShutdown","SettingsDlg_");
-			HICON hIcon=(HICON)SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,0);
 			HFONT hFont=(HFONT)SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_GETFONT,0,0);
 			SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_SETFONT,0,FALSE); /* no return value */
 			if (hFont != NULL) DeleteObject(hFont);
@@ -396,7 +395,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 
 /************************* Services ***********************************/
 
-static INT_PTR ServiceShowSettingsDialog(WPARAM wParam,LPARAM lParam)
+static INT_PTR ServiceShowSettingsDialog(WPARAM, LPARAM)
 {
 	if (hwndSettingsDlg != NULL) { /* already opened, bring to front */
 		SetForegroundWindow(hwndSettingsDlg);

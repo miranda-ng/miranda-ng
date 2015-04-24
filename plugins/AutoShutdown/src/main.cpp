@@ -18,7 +18,7 @@ along with this program (Shutdown-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 HINSTANCE hInst;
 int hLangpack;
@@ -44,7 +44,7 @@ IconItem iconList[] =
 	{ LPGEN("Inactive"), "AutoShutdown_Inactive", IDI_INACTIVE },
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, VOID *pReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, VOID*)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -60,7 +60,7 @@ static int ShutdownModulesLoaded(WPARAM,LPARAM)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
