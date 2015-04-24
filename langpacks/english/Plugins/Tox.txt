@@ -58,8 +58,6 @@
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 [Action]
-[Call started]
-[Call ended]
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 [Audio call]
@@ -75,7 +73,10 @@
 [Outgoing call to %s]
 [Unable to find input audio device]
 [Video call is unsupported]
+[Call cancelled]
 [Unable to find output audio device]
+[Call started]
+[Call ended]
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 ;file \protocols\Tox\src\tox_options.cpp

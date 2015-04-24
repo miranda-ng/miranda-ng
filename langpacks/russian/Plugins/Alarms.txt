@@ -113,8 +113,6 @@
 &Настройки...
 [&New alarm...]
 Новое напоминание...
-[Unknown command issued: "%s"]
-Неизвестная команда: "%s"
 [Set alarm]
 Дать напоминание
 [Example alarm]
