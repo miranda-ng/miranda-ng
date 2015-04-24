@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 #include "alarmlist.h"
 
 AlarmList alarms;
