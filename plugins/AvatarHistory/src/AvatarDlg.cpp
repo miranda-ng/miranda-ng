@@ -18,7 +18,7 @@ Avatar History Plugin
 
 */
 
-#include "AvatarHistory.h"
+#include "stdafx.h"
 
 HGENMENU hMenu = NULL; 
 DWORD WINAPI AvatarDialogThread(LPVOID param);
@@ -512,7 +512,7 @@ int CleanupAvatarPic(HWND hwnd)
 	return 0;
 }
 
-int PreBuildContactMenu(WPARAM wParam,LPARAM lParam) 
+int PreBuildContactMenu(WPARAM wParam, LPARAM) 
 {
 	char *proto = GetContactProto(wParam);
 	Menu_ShowItem(hMenu, ProtocolEnabled(proto));

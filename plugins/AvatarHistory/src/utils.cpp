@@ -22,7 +22,7 @@ Avatar History Plugin
 
 */
 
-#include "AvatarHistory.h"
+#include "stdafx.h"
 
 BOOL ProtocolEnabled(const char *proto)
 {

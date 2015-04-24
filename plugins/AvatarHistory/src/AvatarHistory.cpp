@@ -21,7 +21,7 @@ Avatar History Plugin
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 */
-#include "AvatarHistory.h"
+#include "stdafx.h"
 
 HINSTANCE hInst;
 
@@ -56,14 +56,14 @@ PLUGININFOEX pluginInfo = {
 	{0xdbe8c990, 0x7aa0, 0x458d, {0xba, 0xb7, 0x33, 0xeb, 0x7, 0x23, 0x8e, 0x71}}
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -81,7 +81,7 @@ static INT_PTR GetCachedAvatar(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)GetCachedAvatar((char*)wParam, hash);
 }
 
-static INT_PTR IsEnabled(WPARAM wParam, LPARAM lParam)
+static INT_PTR IsEnabled(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT) wParam;
 	return ContactEnabled(hContact, "LogToDisk", AVH_DEF_LOGTODISK) 
@@ -227,13 +227,13 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int PreShutdown(WPARAM wParam, LPARAM lParam)
+static int PreShutdown(WPARAM, LPARAM)
 {
 	WindowList_Broadcast(hAvatarWindowsList,WM_CLOSE,0,0);
 	return 0;
 }
 
-static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	mir_sntprintf(basedir, SIZEOF(basedir), _T("%s\\Avatars History"), profilePath);
 
@@ -248,7 +248,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CALLBACK FirstRunDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK FirstRunDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM)
 {
 	switch(uMsg) {
 	case WM_INITDIALOG:
