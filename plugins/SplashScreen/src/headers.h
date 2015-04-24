@@ -22,7 +22,6 @@
 
 #define _WIN32_WINNT 0x0500
 #define WINVER 0x0400
-#define AC_SRC_ALPHA  0x01
 #define _CRT_SECURE_NO_DEPRECATE
 
 #include <windows.h>
