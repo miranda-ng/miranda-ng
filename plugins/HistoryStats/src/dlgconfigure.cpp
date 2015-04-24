@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "dlgconfigure.h"
 
 #include "main.h"
@@ -76,7 +76,7 @@ INT_PTR CALLBACK DlgConfigure::staticConfigureProc(HWND hDlg, UINT msg, WPARAM w
 	return FALSE;
 }
 
-int DlgConfigure::staticEventPreShutdown(WPARAM wParam, LPARAM lParam)
+int DlgConfigure::staticEventPreShutdown(WPARAM, LPARAM)
 {
 	if (IsWindow(m_hCfgWnd)) {
 		DestroyWindow(m_hCfgWnd);

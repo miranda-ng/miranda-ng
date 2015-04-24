@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "contact.h"
 #include "utils.h"
 
@@ -74,7 +74,7 @@ void Contact::addMessage(Message& msg)
 	updateTime(msg.getTimestamp());
 }
 
-void Contact::addChat(bool bOutgoing, DWORD localTimestampStarted, DWORD duration)
+void Contact::addChat(bool bOutgoing, DWORD, DWORD duration)
 {
 	if (bOutgoing)
 		m_Chats.out++;

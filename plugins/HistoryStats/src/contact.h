@@ -1,7 +1,7 @@
 #if !defined(HISTORYSTATS_GUARD_CONTACT_H)
 #define HISTORYSTATS_GUARD_CONTACT_H
 
-#include "_globals.h"
+#include "stdafx.h"
 #include "_consts.h"
 
 #include <string>
@@ -130,7 +130,7 @@ protected:
 	bool m_bAsc;
 
 public:
-	virtual bool cmp(const Contact& first, const Contact& second) { return m_bAsc; }
+	virtual bool cmp(const Contact&, const Contact&) { return m_bAsc; }
 	void setDir(bool bAsc) { m_bAsc = bAsc; }
 	explicit ContactCompareBase() : m_bAsc(true) { }
 };

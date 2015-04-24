@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "main.h"
 
 #include <clocale>
@@ -53,7 +53,7 @@ static HANDLE g_hHistoryCopyContact = NULL;
  * services (see m_historystats.h for details)
  */
 
-static INT_PTR SvcIsExcluded(WPARAM hContact, LPARAM lParam)
+static INT_PTR SvcIsExcluded(WPARAM hContact, LPARAM)
 {
 	if (hContact) {
 		MirandaSettings db;
@@ -98,7 +98,7 @@ static INT_PTR SvcSetExclude(WPARAM hContact, LPARAM lParam)
  * global menu stuff
  */
 
-static void MenuIconsChanged(LPARAM lParam)
+static void MenuIconsChanged(LPARAM)
 {
 	if (g_hMenuCreateStatistics)
 	{
@@ -125,13 +125,13 @@ static void MenuIconsChanged(LPARAM lParam)
  * main menu related stuff
  */
 
-static INT_PTR MenuCreateStatistics(WPARAM wParam, LPARAM lParam)
+static INT_PTR MenuCreateStatistics(WPARAM, LPARAM)
 {
 	Statistic::run(*g_pSettings, Statistic::fromMenu, g_hInst);
 	return 0;
 }
 
-static INT_PTR MenuShowStatistics(WPARAM wParam, LPARAM lParam)
+static INT_PTR MenuShowStatistics(WPARAM, LPARAM)
 {
 	if (g_pSettings->canShowStatistics())
 	{
@@ -147,7 +147,7 @@ static INT_PTR MenuShowStatistics(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR MenuConfigure(WPARAM wParam, LPARAM lParam)
+static INT_PTR MenuConfigure(WPARAM, LPARAM)
 {
 	DlgConfigure::showModal();
 	return 0;
@@ -200,7 +200,7 @@ void AddMainMenu()
  * contact menu related stuff
  */
 
-static INT_PTR MenuToggleExclude(WPARAM hContact, LPARAM lParam)
+static INT_PTR MenuToggleExclude(WPARAM hContact, LPARAM)
 {
 	if (hContact) {
 		MirandaSettings db;
@@ -302,7 +302,7 @@ static INT_PTR MenuHistoryPaste(WPARAM wParam, LPARAM lParam)
 }
 #endif
 
-static int EventPreBuildContactMenu(WPARAM hContact, LPARAM lParam)
+static int EventPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	if (hContact)
 	{
@@ -380,7 +380,7 @@ void AddContactMenu()
  * options integration
  */
 
-static int EventOptInitialise(WPARAM wParam, LPARAM lParam)
+static int EventOptInitialise(WPARAM wParam, LPARAM)
 {
 	mu::opt::addPage(
 		wParam,
@@ -398,7 +398,7 @@ static int EventOptInitialise(WPARAM wParam, LPARAM lParam)
  * second initialization phase
  */
 
-static int EventModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int EventModulesLoaded(WPARAM, LPARAM)
 {
 	// register all known columns
 	Column::registerColumns();
@@ -429,7 +429,7 @@ static int EventModulesLoaded(WPARAM wParam, LPARAM lParam)
  * external interface
  */
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 {
 	switch (fdwReason) {
 	case DLL_PROCESS_ATTACH:
@@ -441,7 +441,7 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvRe
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	OutputDebugString(_T("HistoryStats: MirandaPluginInfoEx() was called.\n"));
 

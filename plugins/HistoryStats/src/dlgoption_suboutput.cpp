@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "dlgoption.h"
 
 /*
@@ -53,7 +53,7 @@ DlgOption::SubOutput::~SubOutput()
 {
 }
 
-BOOL DlgOption::SubOutput::handleMsg(UINT msg, WPARAM wParam, LPARAM lParam)
+BOOL DlgOption::SubOutput::handleMsg(UINT msg, WPARAM, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_WINDOWPOSCHANGED:

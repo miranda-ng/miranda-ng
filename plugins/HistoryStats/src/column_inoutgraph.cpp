@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "column_inoutgraph.h"
 
 /*
@@ -168,7 +168,7 @@ void ColInOutGraph::impl_outputRenderHeader(ext::ostream& tos, int row, int rowS
 	}
 }
 
-void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType)
 {
 	// fetch absolute values
 	static int (Contact::*getOut[3])() const = { &Contact::getOutBytes, &Contact::getOutMessages, &Contact::getOutChats };

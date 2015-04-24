@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "iconlib.h"
 
 #include "main.h"
@@ -38,7 +38,7 @@ ext::string IconLib::m_Section;
 ext::a::string IconLib::m_IconName;
 IconLib::CallbackSet IconLib::m_Callbacks;
 
-int IconLib::handleCallbacks(WPARAM wParam, LPARAM lParam)
+int IconLib::handleCallbacks(WPARAM, LPARAM)
 {
 	citer_each_(CallbackSet, i, m_Callbacks)
 	{

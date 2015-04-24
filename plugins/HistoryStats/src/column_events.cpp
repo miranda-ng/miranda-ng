@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "column_events.h"
 
 /*
@@ -75,7 +75,7 @@ void ColEvents::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan)
 	}
 }
 
-void ColEvents::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColEvents::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType)
 {
 	static int (Contact::*getData[6])() const = {
 		&Contact::getInUrls,

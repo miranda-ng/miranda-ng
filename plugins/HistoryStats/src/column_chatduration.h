@@ -36,7 +36,7 @@ protected:
 	virtual void impl_configWrite(SettingsTree& settings) const;
 	virtual void impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup);
 	virtual void impl_configFromUI(OptionsCtrl& Opt);
-	virtual int impl_configGetRestrictions(ext::string* pDetails) const { return crHTMLFull | (m_bGraph ? crPNGFull : 0); }
+	virtual int impl_configGetRestrictions(ext::string*) const { return crHTMLFull | (m_bGraph ? crPNGFull : 0); }
 	virtual void impl_columnDataAfterOmit();
 	virtual StyleList impl_outputGetAdditionalStyles(IDProvider& idp);
 	virtual void impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const;

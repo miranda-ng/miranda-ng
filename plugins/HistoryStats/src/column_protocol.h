@@ -15,7 +15,7 @@ protected:
 	virtual const TCHAR* impl_getTitle() const { return LPGENT("Protocol"); }
 	virtual const TCHAR* impl_getDescription() const { return LPGENT("Column holding the contact's protocol."); }
 	virtual int impl_getFeatures() const { return 0; }
-	virtual int impl_configGetRestrictions(ext::string* pDetails) const { return crHTMLFull; }
+	virtual int impl_configGetRestrictions(ext::string*) const { return crHTMLFull; }
 	virtual void impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const;
 	virtual void impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display);
 };

@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "canvas.h"
 
 void Canvas::updateTrans(BYTE* pData)

@@ -397,7 +397,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemovePersonalSettings", ".
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewAwaySys", "..\plugins\NewAwaySysMod\NewAwaySys_12.vcxproj", "{6A516E27-AC50-5374-756B-A1558DB2EFA9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistoryStats", "..\plugins\HistoryStats\historystats_12.vcxproj", "{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistoryStats", "..\plugins\HistoryStats\historystats.vcxproj", "{B5BCDC2F-81FC-4324-90C6-E5540A225EFF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dropbox", "..\plugins\Dropbox\Dropbox_12.vcxproj", "{CBA58126-3E02-4159-9BD3-059AF9DBC84E}"
 EndProject

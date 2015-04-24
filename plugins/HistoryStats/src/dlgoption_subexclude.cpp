@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "dlgoption.h"
 
 #include "iconlib.h"
@@ -19,7 +19,7 @@ DlgOption::SubExclude::~SubExclude()
 	g_bExcludeLock = false;
 }
 
-BOOL DlgOption::SubExclude::handleMsg(UINT msg, WPARAM wParam, LPARAM lParam)
+BOOL DlgOption::SubExclude::handleMsg(UINT msg, WPARAM, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_WINDOWPOSCHANGED:

@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "dlgoption.h"
 
 #include "column.h"
@@ -9,7 +9,7 @@
  * DlgOption::SubColumns
  */
 
-INT_PTR CALLBACK DlgOption::SubColumns::staticAddProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgOption::SubColumns::staticAddProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	HWND hWndList = GetDlgItem(hDlg, IDC_COLUMN);
 
@@ -39,12 +39,7 @@ INT_PTR CALLBACK DlgOption::SubColumns::staticAddProc(HWND hDlg, UINT msg, WPARA
 		case IDOK:
 			{
 				int nIndex = SendMessage(hWndList, LB_GETCURSEL, 0, 0);
-				if (nIndex != LB_ERR) {
-					int nData = SendMessage(hWndList, LB_GETITEMDATA, nIndex, 0);
-
-					EndDialog(hDlg, nIndex);
-				}
-				else EndDialog(hDlg, -1);
+				EndDialog(hDlg, nIndex);
 			}
 			return TRUE;
 
@@ -104,7 +99,7 @@ BOOL DlgOption::SubColumns::handleMsg(UINT msg, WPARAM wParam, LPARAM lParam)
 				BandCtrl::NMBANDCTRL* pNM = reinterpret_cast<BandCtrl::NMBANDCTRL*>(lParam);
 				if (pNM->hdr.code == BandCtrl::BCN_CLICKED)
 					onBandClicked(pNM->hButton, pNM->dwData);
-				else if (pNM->hdr.code == BandCtrl::BCN_DROPDOWN)
+				else if (pNM->hdr.code == BandCtrl::BCN_DROP_DOWN)
 					onBandDropDown(pNM->hButton, pNM->dwData);
 			}
 			break;
@@ -340,7 +335,7 @@ void DlgOption::SubColumns::addCol(int nCol)
 	}
 }
 
-void DlgOption::SubColumns::onColSelChanging(HANDLE hItem, INT_PTR dwData)
+void DlgOption::SubColumns::onColSelChanging(HANDLE hItem, INT_PTR)
 {
 	if (hItem) {
 		Column* pCol = reinterpret_cast<Column*>(m_Columns.getItemData(hItem));
@@ -374,7 +369,7 @@ void DlgOption::SubColumns::onColSelChanging(HANDLE hItem, INT_PTR dwData)
 	TreeView_DeleteAllItems(hInfo);
 }
 
-void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, INT_PTR dwData)
+void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, INT_PTR)
 {
 	m_Options.setRedraw(false);
 	m_Options.deleteAllItems();
@@ -511,7 +506,7 @@ void DlgOption::SubColumns::onColItemDropped(HANDLE hItem, HANDLE hDropTarget, B
 	getParent()->settingsChanged();
 }
 
-void DlgOption::SubColumns::onBandClicked(HANDLE hButton, INT_PTR dwData)
+void DlgOption::SubColumns::onBandClicked(HANDLE, INT_PTR dwData)
 {
 	switch (dwData) {
 	case caAdd:
@@ -635,7 +630,7 @@ void DlgOption::SubColumns::onMoveDown()
 	getParent()->settingsChanged();
 }
 
-void DlgOption::SubColumns::onColumnButton(HANDLE hButton, INT_PTR dwData)
+void DlgOption::SubColumns::onColumnButton(HANDLE, INT_PTR dwData)
 {
 	if (dwData == Settings::biFilterWords) {
 		HANDLE hSel = m_Columns.getSelection();

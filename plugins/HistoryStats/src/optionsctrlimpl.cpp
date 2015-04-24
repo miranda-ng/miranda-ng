@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "optionsctrlimpl.h"
 
 #include "main.h"
@@ -350,7 +350,7 @@ void OptionsCtrlImpl::staticFreeStateImages()
 	}
 }
 
-void OptionsCtrlImpl::staticUpdateStateImages(LPARAM lParam)
+void OptionsCtrlImpl::staticUpdateStateImages(LPARAM)
 {
 	static const IconLib::IconIndex StateIcons[18] = {
 		IconLib::iiTreeCheck1,
@@ -735,7 +735,7 @@ void OptionsCtrlImpl::onCPNColorChanged()
 	}
 }
 
-void OptionsCtrlImpl::onTreeWMLButtonDown(UINT nFlags, POINTS point)
+void OptionsCtrlImpl::onTreeWMLButtonDown(UINT, POINTS point)
 {
 	TVHITTESTINFO hti = { { point.x, point.y } };
 
@@ -743,7 +743,7 @@ void OptionsCtrlImpl::onTreeWMLButtonDown(UINT nFlags, POINTS point)
 		getItem(hti.hItem)->onToggle();
 }
 
-void OptionsCtrlImpl::onTreeWMChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+void OptionsCtrlImpl::onTreeWMChar(UINT nChar, UINT, UINT)
 {
 	if (nChar == VK_SPACE) {
 		HTREEITEM hItem = TreeView_GetSelection(m_hTree);
@@ -752,7 +752,7 @@ void OptionsCtrlImpl::onTreeWMChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 }
 
-void OptionsCtrlImpl::onTreeWMKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+void OptionsCtrlImpl::onTreeWMKeyDown(UINT nChar, UINT, UINT)
 {
 	if (nChar == VK_RIGHT) {
 		HTREEITEM hItem = TreeView_GetSelection(m_hTree);

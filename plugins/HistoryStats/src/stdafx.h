@@ -7,13 +7,10 @@
  * nicer interface for miranda
  */
 
-#define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NON_CONFORMING_SWPRINTFS
+#define _WIN32_WINDOWS 0x0500 // for WM_MOUSEWHEEL
 
 #pragma warning(disable:4267)
-
-#define _WIN32_WINDOWS 0x0500 // for WM_MOUSEWHEEL
-#define _WIN32_WINNT   0x0501 // for WM_THEMECHANGED
 
 #include <windows.h>
 #include <commctrl.h>

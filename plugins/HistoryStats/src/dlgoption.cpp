@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "dlgoption.h"
 
 #include "bandctrl.h"
@@ -9,7 +9,7 @@
  * DlgOption
  */
 
-INT_PTR CALLBACK DlgOption::staticDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgOption::staticDlgProc(HWND hDlg, UINT msg, WPARAM, LPARAM lParam)
 {
 	DlgOption* pDlg = reinterpret_cast<DlgOption*>(GetWindowLongPtr(hDlg, DWLP_USER));
 
@@ -43,7 +43,7 @@ INT_PTR CALLBACK DlgOption::staticDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LP
 
 				pDlg->onBandClicked(pNM->hButton, pNM->dwData);
 			}
-			else if (p->code == BandCtrl::BCN_DROPDOWN) {
+			else if (p->code == BandCtrl::BCN_DROP_DOWN) {
 				BandCtrl::NMBANDCTRL* pNM = reinterpret_cast<BandCtrl::NMBANDCTRL*>(lParam);
 
 				pDlg->onBandDropDown(pNM->hButton, pNM->dwData);

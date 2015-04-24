@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "statistic.h"
 
 #include <algorithm>
@@ -285,7 +285,7 @@ void Statistic::handleAddChat(Contact& contact, bool bOutgoing, DWORD localTimes
 	}
 }
 
-INT_PTR CALLBACK Statistic::staticProgressProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK Statistic::staticProgressProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	Statistic* pStats = reinterpret_cast<Statistic*>(GetWindowLongPtr(hDlg, GWLP_USERDATA));
 
@@ -1376,9 +1376,6 @@ DWORD WINAPI Statistic::threadProc(LPVOID lpParameter)
 
 	SetEvent(pStats->m_hThreadPushEvent);
 
-	// perform action
-	bool bSuccess = pStats->createStatistics();
-
 	// check for errors
 	if (!pStats->m_ErrorText.empty() && !mu::system::terminated())
 		MessageBox(0, pStats->m_ErrorText.c_str(), TranslateT("HistoryStats - Error"), MB_ICONERROR | MB_OK);
@@ -1465,7 +1462,7 @@ Statistic::~Statistic()
 	}
 }
 
-void Statistic::run(const Settings& settings, InvocationSource invokedFrom, HINSTANCE hInst, HWND hWndParent /* = NULL */)
+void Statistic::run(const Settings& settings, InvocationSource invokedFrom, HINSTANCE hInst, HWND)
 {
 	// check if running and make running
 	if (m_bRunning) {

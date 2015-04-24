@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "settingstree.h"
 
 #include "utils.h"

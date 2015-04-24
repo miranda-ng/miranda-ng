@@ -1,4 +1,4 @@
-#include "_globals.h"
+#include "stdafx.h"
 #include "optionsctrlimpl.h"
 
 #include "main.h"
@@ -32,7 +32,6 @@ void OptionsCtrlImpl::Color::onSelect()
 		return;
 	}
 
-	HFONT hTreeFront = reinterpret_cast<HFONT>(SendMessage(m_pCtrl->m_hTree, WM_GETFONT, 0, 0));
 	RECT r;
 
 	if (m_pCtrl->getItemFreeRect(m_hItem, r))

@@ -85,7 +85,7 @@ protected:
 	virtual void impl_configWrite(SettingsTree& settings) const;
 	virtual void impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup);
 	virtual void impl_configFromUI(OptionsCtrl& Opt);
-	virtual int impl_configGetRestrictions(ext::string* pDetails) const { return crPNGFull; }
+	virtual int impl_configGetRestrictions(ext::string*) const { return crPNGFull; }
 	virtual ext::string impl_contactDataGetUID() const;
 	virtual void impl_contactDataBeginAcquire();
 	virtual void impl_contactDataPrepare(Contact& contact) const;
