@@ -21,23 +21,8 @@ void CToxProto::InitCustomDbEvents()
 	dbEventType.descr = Translate("Action");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
-	dbEventType.eventType = DB_EVENT_AUDIO_CALL;
-	dbEventType.descr = Translate("Outgoing call");
-	dbEventType.eventIcon = GetIconHandle("audio_call");
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
-
-	dbEventType.eventType = DB_EVENT_AUDIO_RING;
-	dbEventType.descr = Translate("Incoming call");
-	dbEventType.eventIcon = GetIconHandle("audio_ring");
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
-
-	dbEventType.eventType = DB_EVENT_AUDIO_START;
-	dbEventType.descr = Translate("Call started");
+	dbEventType.eventType = DB_EVENT_CALL;
+	dbEventType.descr = Translate("Call");
 	dbEventType.eventIcon = GetIconHandle("audio_start");
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
-
-	dbEventType.eventType = DB_EVENT_AUDIO_END;
-	dbEventType.descr = Translate("Call ended");
-	dbEventType.eventIcon = GetIconHandle("audio_end");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 }
