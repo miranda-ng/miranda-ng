@@ -43,7 +43,6 @@ public:
 	void saveAlpha(int x = 0, int y = 0, int w = 0, int h = 0);
 	void restoreAlpha(int x = 0, int y = 0, int w = 0, int h = 0);
 	
-	void Blend(MyBitmap *bmp, int x, int y, int w, int h);
 	void DrawText(TCHAR *str, int x, int y);
 
 	inline COLOR32 *getBits() { return bits; }
@@ -70,8 +69,6 @@ public:
 	{
 		return (c >> 24) & 0xff;
 	}
-
-	HRGN buildOpaqueRgn();
 };
 
 #endif // __bitmap_funcs_h__
