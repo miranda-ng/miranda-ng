@@ -1,4 +1,0 @@
-Features:
-- voice
-- video
-- run skype runtime from resources directly
