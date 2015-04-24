@@ -13,6 +13,7 @@
 #define IDD_GC_CREATE                   111
 #define IDD_GC_INVITE                   112
 #define IDI_CONFERENCE                  114
+#define IDI_SYNCHISTORY                 117
 #define IDC_AUTOSYNC                    1028
 #define IDC_LOCALTIME                   1029
 #define IDC_RADIO1                      1030
@@ -29,7 +30,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        115
+#define _APS_NEXT_RESOURCE_VALUE        119
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1042
 #define _APS_NEXT_SYMED_VALUE           101

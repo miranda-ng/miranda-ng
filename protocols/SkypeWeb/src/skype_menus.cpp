@@ -77,7 +77,7 @@ void CSkypeProto::InitMenus()
 	mi.pszService = MODULE"/GetHistory";
 	mi.ptszName = LPGENT("Get server history");
 	mi.position = CMI_POSITION + CMI_GETSERVERHISTORY;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
+	mi.icolibItem = GetIconHandle("synchistory");
 	ContactMenuItems[CMI_GETSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::GetContactHistory>);
 }

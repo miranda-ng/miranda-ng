@@ -20,7 +20,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 IconInfo CSkypeProto::Icons[] =
 {
 	{ LPGENT("Protocol icon"),			"main",				IDI_SKYPE },
-	{ LPGENT("Create new chat icon"),	"conference",  IDI_CONFERENCE }
+	{ LPGENT("Create new chat icon"),	"conference",  IDI_CONFERENCE },
+	{ LPGENT("Sync history icon"),		"synchistory", IDI_SYNCHISTORY}
 };
 void CSkypeProto::InitIcons()
 {
