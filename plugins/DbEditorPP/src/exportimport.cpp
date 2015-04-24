@@ -44,39 +44,6 @@ static int Openfile(TCHAR *outputFile, const char *module)
 	return 1;
 }
 
-char* StrReplace(char* Search, char* Replace, char* Resource)
-{
-	int i = 0;
-	int SearchLen = (int)_tcslen(Search);
-	char* Work = mir_tstrdup(Replace);
-	int ReplaceLen = (int)_tcslen(Work);
-
-	char* Pointer = _tcsstr(Resource, Search);
-
-	while (Pointer != NULL) {
-		int PointerLen = (int)_tcslen(Pointer);
-		int ResourceLen = (int)_tcslen(Resource);
-
-		char* NewText = (char*)mir_calloc((ResourceLen - SearchLen + ReplaceLen + 1)*sizeof(char));
-
-		_tcsncpy(NewText, Resource, ResourceLen - PointerLen);
-		_tcscat(NewText, Work);
-		_tcscat(NewText, Pointer + SearchLen);
-
-		Resource = (char*)mir_realloc(Resource, (ResourceLen - SearchLen + ReplaceLen + 1)*sizeof(char));
-
-		for (i = 0; i < (ResourceLen - SearchLen + ReplaceLen); i++)
-			Resource[i] = NewText[i];
-		Resource[i] = 0;
-		mir_free(NewText);
-
-		Pointer = _tcsstr(Resource + (ResourceLen - PointerLen + ReplaceLen), Search);
-	}
-	mir_free(Work);
-
-	return Resource;
-}
-
 void exportModule(MCONTACT hContact, char *module, FILE *file)
 {
 	char tmp[32];
@@ -107,10 +74,11 @@ void exportModule(MCONTACT hContact, char *module, FILE *file)
 			case DBVT_ASCIIZ:
 			case DBVT_UTF8:
 				if (strchr(dbv.pszVal, '\r')) {
-					char *end = StrReplace("\\", "\\\\", dbv.pszVal);
-					end = StrReplace("\r", "\\r", end);
-					end = StrReplace("\n", "\\n", end);
-					fprintf(file, "\n%s=g%s", setting->name, end);
+					CMStringA end = dbv.pszVal;
+					end.Replace("\\", "\\\\");
+					end.Replace("\r", "\\r");
+					end.Replace("\n", "\\n");
+					fprintf(file, "\n%s=g%s", setting->name, end.c_str());
 					break;
 				}
 				fprintf(file, "\n%s=%c", setting->name, (dbv.type == DBVT_UTF8) ? 'u' : 's');
