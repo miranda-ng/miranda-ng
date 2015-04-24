@@ -19,7 +19,7 @@ along with this program (AssocMgr-License.txt); if not,  write to the Free Softw
 Foundation,  Inc.,  59 Temple Place - Suite 330,  Boston,  MA  02111-1307,  USA.
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 /* Options */
 extern HINSTANCE hInst;
