@@ -136,11 +136,6 @@ Awatary
 Kontakt zmienił awatar
 [Contact removed avatar]
 Kontakt usunął awatar
-;file \plugins\AvatarHistory\src\AvatarHistory.h
-[removed his/her avatar]
-usunął/usunęła awatar
-[changed his/her avatar]
-zmienił/zmieniła awatar
 ;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 Historia
@@ -165,6 +160,11 @@ Awatar
 Popupy
 [Avatar Change]
 Zmiana awataru
+;file \plugins\AvatarHistory\src\stdafx.h
+[removed his/her avatar]
+usunął/usunęła awatar
+[changed his/her avatar]
+zmienił/zmieniła awatar
 ;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]
 Nieznane UIN

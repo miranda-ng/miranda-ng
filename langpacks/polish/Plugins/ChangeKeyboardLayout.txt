@@ -72,9 +72,6 @@ Odrzuć
 PPM
 [Preview]
 Podgląd
-;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
-[ChangeKeyboardLayout]
-Układ klawiatury
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Changing Layout]
 Zmienianie układu
@@ -87,3 +84,6 @@ Popupy
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
 [Popup]
 Popup
+;file \plugins\ChangeKeyboardLayout\src\stdafx.h
+[ChangeKeyboardLayout]
+Układ klawiatury

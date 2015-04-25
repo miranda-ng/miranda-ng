@@ -52,10 +52,10 @@ Wprowadź hasło, by kontynuować.
 [Skype Link Protocol]
 Protokół Powiązania Skype
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
-[User]
-Użytkownik
 [Admin]
 Admin
+[User]
+Użytkownik
 [&Invite user...]
 &Zaproś użytkownika...
 [&Leave chat session]
@@ -95,6 +95,8 @@ Poproś o autoryzację
 Udziel autoryzacji
 [Get server history]
 Pobieraj historię z serwera
+[Destroy room]
+Zniszcz pokój
 [Create new chat]
 Utwórz nowy czat
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
