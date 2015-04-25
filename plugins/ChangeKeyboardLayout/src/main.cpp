@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+#include "stdafx.h"
 
 int hLangpack;
 LPTSTR ptszLayStrings[20];

@@ -151,7 +151,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RecentContacts", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Twitter", "..\protocols\Twitter\twitter_10.vcxproj", "{12FFF2B0-0D0B-430B-A4C6-1577CA98F598}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChangeKeyboardLayout", "..\plugins\ChangeKeyboardLayout\ChangeKeyboardLayout_10.vcxproj", "{D85D47E7-EAD3-71E0-EE3A-49A7821D4DE4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChangeKeyboardLayout", "..\plugins\ChangeKeyboardLayout\ChangeKeyboardLayout.vcxproj", "{D85D47E7-EAD3-71E0-EE3A-49A7821D4DE4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TopToolBar", "..\plugins\TopToolBar\TopToolBar_10.vcxproj", "{ECE691D0-BFB3-483B-A699-084269EFCE89}"
 EndProject
