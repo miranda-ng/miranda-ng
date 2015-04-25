@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 int facebook_json_parser::parse_buddy_list(std::string *data, List::List< facebook_user >* buddy_list)
 {
@@ -277,7 +277,7 @@ int facebook_json_parser::parse_notifications(std::string *data, std::map< std::
 	return EXIT_SUCCESS;
 }
 
-bool ignore_duplicits(FacebookProto *proto, const std::string &mid, const std::string &text)
+bool ignore_duplicits(FacebookProto *proto, const std::string &mid, const std::string &)
 {
 	ScopedLock s(proto->facy.send_message_lock_);
 
@@ -717,7 +717,6 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 			continue;
 		} else if (t == "ticker_update:home") {
 			JSONNODE *actor_ = json_get(it, "actor");
-			JSONNODE *time_ = json_get(it, "story_time");
 			JSONNODE *story_ = json_get(it, "story_xhp");
 
 			std::string text = json_as_pstring(story_);

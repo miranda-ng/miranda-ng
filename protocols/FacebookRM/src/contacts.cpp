@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 void updateStringUtf(FacebookProto *proto, MCONTACT hContact, const char *key, const std::string &value) {
 	bool update_required = true;
