@@ -6,10 +6,10 @@
 ;  Authors: MaKaR
 ;============================================================
 [Notify with popup if some connection established]
-
+Уведомяване с Popup при установяване на връзка
 ;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
 [Set popup colors]
-
+Избор на цветове
 [Popup options]
 Popup настройки
 [Background]
@@ -17,9 +17,9 @@ Popup настройки
 [Text]
 Текст
 [Close after:]
-
+Показвай:
 [sec (0 default, -1 disabled)]
-
+сек (0=стандарт, -1=постоянно)
 [Settings]
 Настройки
 [try resolve addresses]
@@ -33,7 +33,7 @@ Popup настройки
 [X]
 
 ['Online' means:]
-
+"На линия" означава:
 [Filters]
 Филтри
 [DN]
@@ -41,32 +41,32 @@ Popup настройки
 [UP]
 Нагоре
 [Rule editor]
-
+Редактор на правила
 [Application name]
-
+Приложение
 [Local IP:Port]
-
+Локален IP:Порт
 [Action:]
-
+Действие:
 [Cancel]
 Отказ
 [* and ? wildcard characters also available (for port enter number or *)]
 
 [Remote IP:Port]
-
+Отдалечен IP:Порт
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
 [Show]
 Показване
 [Hide]
 Скриване
 [Always show popup]
-
+Винаги показвай Popup
 [Never show popup]
-
+Никога не пказвай Popup
 [Status]
 Състояние
 [Application]
-
+Приложение
 [Internal socket]
 
 [External socket]
@@ -76,7 +76,7 @@ Popup настройки
 [Plugins]
 Приставки
 [New Connection Notification]
-
+Известие за нова връзка
 ;file \plugins\ConnectionNotify\src\filter.cpp
 [First close options window]
-
+Първо затворете прозореца с настройки

@@ -42,7 +42,7 @@ URL адрес на сайт
 [Associations]
 Асоциации
 [Miranda NG database]
-База от данни на Miranda NG
+База данни на Miranda NG
 ;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
 Отварянето на файла е невъзможно

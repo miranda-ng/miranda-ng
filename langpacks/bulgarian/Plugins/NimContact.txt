@@ -148,7 +148,7 @@ URL
 [Plugins]
 Приставки
 [Main Icon]
-
+Главна икона
 [Non-IM Contact]
 
 [&Non-IM Contact]

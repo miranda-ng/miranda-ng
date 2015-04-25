@@ -2,34 +2,44 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.8
+;  Version: 0.11.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Tox в Miranda NG.
 ;file \protocols\Tox\res\resource.rc
+[Tox ID:]
+Tox ID:
+[Create]
+Създаване
+[Import]
+Внос
+[Copy ID]
+Копиране на ID
+[Export]
+Износ
 [Name:]
 Име:
 [Password:]
 Парола:
 [Default group:]
 Станд. група:
-[C]
-
-[Tox ID:]
-Tox ID:
-[Import tox profile]
-Внасяне не Tox профил
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
-Tox профилът съдържа вашият ID  списъка с приятели.\r\nМожете да внесете съществуващ профил от друг Tox клиент.
-[Connection settings]
-Настройки за свързване
-[Disable UDP (force Tox to use TCP)]
-Изключване на UDP (налага ползването на TCP от Tox)
-[Disable IPv6]
-Изключване на IPv6
 [Tox]
 Tox
+[Create tox profile]
+Създаване на профил
+[Import tox profile]
+Внасяне не Tox профил
+[Copy Tox ID]
+Копиране на ID
+[Export tox profile]
+Износ на профла
+[Connection settings]
+Настройки за свързване
+[Enable UDP (otherwise force Tox to use TCP)]
+Включване на UDP (в противен случай Tox ще ползва TCP)
+[Enable IPv6]
+Включване на IPv6
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Ако полето съдържа Tox адрес (76 шестнадесетични символа), ще бъдете запитани дали да бъде добавен към списъка с приятели. В противен случай Miranda ще търси чрез DNS запитване.
 [Dns name:]
@@ -55,28 +65,60 @@ IPv6 адрес (незадължително)
 [Multimedia]
 Мултимедия
 [Audio input device]
-
+Микрофон
 [Audio output device]
-
-[Filter audio]
-
+Говорител
 [Video input device]
-
+Камера
 [Invite contacts to chat room]
 Поканете контакти в стаята
 [&Invite]
 Покана
 [&Cancel]
 Отказ
+[Call]
+Обаждане
+[End]
+Край
+[Incoming call]
+Входящо обаждане
+[Answer]
+Отговор
+[Reject]
+Отхвърляне
+[From:]
+От:
+[Date:]
+Дата:
+[&User menu]
+Потребителско меню
+[User &details]
+Подробности за потребителя
+[&History]
+История
+[Outgoing call]
+Изходящо обаждане
+[To:]
+За:
 ;file \protocols\Tox\src\tox_chatrooms.cpp
 [Groupchat]
 Групов чат
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 Папка на профилите
+[Action]
+Действие
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Икона на протокола
+[Audio call]
+Аудио обаждане
+[Audio ring]
+
+[Audio start]
+
+[Audio end]
+
 [Protocols]
 Протоколи
 ;file \protocols\Tox\src\tox_menus.cpp
@@ -84,8 +126,23 @@ IPv6 адрес (незадължително)
 Молба за упълномощаване
 [Grant authorization]
 Даване на пълномощно
-[Copy Tox ID]
-Копиране на ID
+;file \protocols\Tox\src\tox_multimedia.cpp
+[Incoming call from %s]
+Входящо обаждане от %s
+[Outgoing call to %s]
+Изходящо обаждане от %s
+[Unable to find input audio device]
+Не може да бъде открит микрофон
+[Video call is unsupported]
+Видео обажданията не се поддържат
+[Call cancelled]
+Обаждането е отказано
+[Unable to find output audio device]
+Не може да бъде открит говорител
+[Call started]
+Начало на разговора
+[Call ended]
+Край на разговора
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s връзка
@@ -96,10 +153,8 @@ Tox профил
 Всички файлове
 [Select tox profile]
 Изберете Tox профил
-[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
-Ппрофилът съществува. Желаете ли да бъде премахнат с всички Tox контакти и историята, след което да продължите с внасянето?
-[Tox profile import]
-Внасяне не Tox профил
+[Save tox profile]
+Запис на Tox профила
 [Add node]
 Добавяне на възел
 [Change node]
@@ -112,8 +167,8 @@ Tox профил
 Въведете публичен ключ
 [Common nodes]
 Общи възли
-[nodes]
-възли
+[User nodes]
+Възли на потребителя
 [Are you sure?]
 Сигурни ли сте?
 [Node deleting]
@@ -125,8 +180,6 @@ Tox профил
 [Nodes]
 Възли
 ;file \protocols\Tox\src\tox_proto.cpp
-[Action]
-Действие
 [You cannot add yourself to your contact list]
 Не може да добавите себе си в списъка с контакти
 [Contact already in your contact list]

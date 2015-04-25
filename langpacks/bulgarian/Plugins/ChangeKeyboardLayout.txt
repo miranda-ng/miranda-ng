@@ -6,14 +6,14 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
-
+Приставка за промяна на клавиатурната подредба на текста (много подредби).
 ;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 Клавишни комбинации
 [Changing layout:]
 Смяна на клавиатурната подредба:
 ["Current word" mode]
-
+Режим "Текуща дума"
 [Changing layout (alternative):]
 Смяна на клавиатурната подредба (алтернативна комбинация):
 [Inverting lettercase:]
@@ -23,7 +23,7 @@
 [Two-way changing layout (experimental)]
 Двупосочна смяна (експериментално)
 [Log operations]
-
+Дневник на действията
 [Copy result to clipboard]
 Копиране на резултата в клипборда
 [Show result in Popup]
@@ -74,7 +74,7 @@ Popup цветове
 Образец
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 [ChangeKeyboardLayout]
-
+ChangeKeyboardLayout
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Changing Layout]
 Смяна на клавиатурната подредба

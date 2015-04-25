@@ -6,26 +6,26 @@
 ;  Authors: Bio
 ;============================================================
 [Console log window for Miranda.]
-
+Прозорец с конзолен дневник за Miranda.
 ;file \plugins\Console\res\resource.rc
 [Console]
 Конзола
 [Single window mode*]
-
+Режим с един прозорец*
 [Show icons in log*]
-
+Икони в дневника*
 [New lines between events*]
-
+Нов ред между отделните събития*
 [Always show at start]
-
+Показвай при стартиране
 [Lines wrap length [25-255]]
-
+Максимална дължина на ред [25-255]
 [Log size limit [1 000 - 1 000 000 lines]]
-
+Максимален размер на дневника [1 000 - 1 000 000 реда]
 [* Restart needed]
-
+* Изисква рестартиране
 [Save settings and restart console]
-
+Запис на настройките и рестартиране на конзолата
 ;file \plugins\Console\src\Console.cpp
 [Show/Hide Console]
 Показване/Скриване на конзолата
@@ -36,31 +36,31 @@
 [Scrolling (Ctrl+Q)]
 
 [Pause logging (Ctrl+P)]
-
+Пауза (Ctrl+P)
 [Save log to file (Ctrl+S)]
-
+Запис на дневника във файл (Ctrl+S)
 [Copy selected log (Ctrl+C)]
-
+Копиране на маркирания дневник (Ctrl+C)
 [Delete selected (Del)]
-
+Изтриване на маркираното (Del)
 [Log options (Ctrl+O)]
-
+Настройки на дневника (Ctrl+O)
 [Start logging in all tabs]
-
+Възобновяване във всеки таб
 [Pause logging in all tabs]
-
+Пауза във всеки таб
 [Close tab (Ctrl+W)]
-
+Затваряне на таба (Ctrl+W)
 [*** Console started ***]
-
+*** Конзолата е стартирана ***
 [*** Console paused ***]
-
+*** Конзолата е на пауза ***
 [*** Console resumed ***]
-
+*** Конзолата е възстановена ***
 [*** Console cleared ***]
-
+*** Конзолата е изчистена ***
 [Miranda Console]
-
+Конзола на Miranda
 [Services]
 Услуги
 [Text]
@@ -72,6 +72,6 @@
 [All Files]
 Всички файлове
 [Save selection to file]
-
+Запис на маркираното във файл
 [Save log to file]
-
+Запис на дневника във файл

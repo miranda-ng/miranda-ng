@@ -47,7 +47,7 @@
 [Screen Saver is running]
 Стартира Screen Saver
 [Workstation is locked]
-
+Компютърът е заключен
 [Defined programs are running]
 
 [All other situations]
@@ -137,7 +137,7 @@
 [Set program list]
 
 [Program]
-
+Програма
 [Cancel]
 Отказ
 [Set LEDs for events]
@@ -163,13 +163,13 @@ URL събития
 [The following events are being ignored:]
 Следните събития ще бъдат игнорирани:
 [Ignore messages]
-
+Игнорирай съобщения
 [Ignore URLs]
-
+Игнорирай URL адреси
 [Ignore files]
-
+Игнорирай файлове
 [Ignore others]
-
+Игнорирай други
 [Ignore all]
 Игнорирай всичко
 [Ignore none]

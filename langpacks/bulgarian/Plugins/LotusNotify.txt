@@ -13,15 +13,15 @@
 [Show error messages]
 
 [Set popup colors]
-
+Избор на цветове
 [Popup options]
-
+Popup настройки
 [Background]
 Фон
 [Text]
 Текст
 [Close after:]
-
+Затваряне след:
 [sec (0 default,\n -1 disabled)]
 
 [...but only if popup not clicked]

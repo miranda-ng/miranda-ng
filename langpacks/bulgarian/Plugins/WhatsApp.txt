@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.12
+;  Version: 0.1.2.13
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -49,7 +49,7 @@
 Настройки на стаята
 [View/change &topic]
 Преглед/Промяна на темата
-[&Leave chat session]
+[&Quit chat session]
 Напускане от разговора
 [Set &avatar]
 
@@ -92,6 +92,10 @@
 
 [Changes will be applied after protocol restart]
 
+[Network]
+Мрежа
+[Account]
+Акаунт
 ;file \protocols\WhatsApp\src\messages.cpp
 [server]
 Сървър
@@ -114,10 +118,6 @@
 
 [Registration code has been sent to your phone.]
 
-[Network]
-Мрежа
-[Account]
-Акаунт
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
 

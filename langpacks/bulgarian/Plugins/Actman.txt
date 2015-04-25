@@ -61,10 +61,14 @@
 Съобщение
 [Choose contact]
 Изберете контакт
+[Keep handle only]
+
 [Active accounts only]
 Изброяване само на активни акаунти
 [Dropdown list format]
 Падащ списък
+[Apply format]
+
 [You can use %name%, %uid%, %account% and %group% macros]
 Можете да използвате %name%, %uid%, %account% и %group%
 [Contacts]
@@ -91,6 +95,12 @@ String
 Структура
 [Free memory]
 Свободна памет
+[Signed value]
+
+[wParam type]
+
+[lParam type]
+
 [number value]
 числова стойност
 [ANSI string]
@@ -154,7 +164,7 @@ Unicode низ
 [int 0, if successful]
 
 [Set status message]
-
+Задаване на текст за състояние
 [Set protocol status]
 Задаване на текст за състояние
 [None]
@@ -223,6 +233,26 @@ Unicode низ
 Гледа pro7
 [Love]
 Любов
+[Sets owner current custom status]
+
+[Display xStatus detail]
+
+[int hMenu handle]
+
+[Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
+
+[Show All Users]
+Показване на всички контакти
+[Show only Online Users]
+Показване само на контактите "На линия"
+[Toggle status]
+
+[Change 'hide offline contacts' option value]
+
+[Set global status]
+Задаване на глобално състояние
+[Switch contact list status]
+
 [Hide All Titlebars]
 Скриване на всички заглавни ленти
 [Show All Frames]
@@ -468,7 +498,7 @@ WORD
 [DWord]
 DWORD
 [QWord]
-QWORD
+
 [NativeInt]
 
 [Byte Array]
@@ -481,8 +511,16 @@ QWORD
 
 [Last result]
 Последен резултат
+[Parameter]
+Параметър
 [Data length]
 Дължина на данните
+[Structure help]
+
+[Descr]
+Описание
+[&Change]
+Промяна
 [C&ancel]
 Отказ
 [Process options]
@@ -793,7 +831,7 @@ INI
 [Right justified text]
 Дясно подравнен текст
 [Database]
-База от данни
+База данни
 [Contact type]
 Тип контакт
 [Save value]

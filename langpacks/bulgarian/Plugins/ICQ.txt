@@ -1534,7 +1534,7 @@ Popup заглавие
 [Scooter]
 Скутер
 [Mask]
-
+Маска
 [Money]
 Пари
 [Pilot]

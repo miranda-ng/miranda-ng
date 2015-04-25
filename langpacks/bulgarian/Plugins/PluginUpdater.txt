@@ -43,7 +43,7 @@
 [Development version (less stable)]
 Развойна версия (нестабилна)
 [Development version with debug symbols]
-Развойна версия с debug символи
+Развойна версия с дебъг символи
 [Custom version]
 Персонализирана версия
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]

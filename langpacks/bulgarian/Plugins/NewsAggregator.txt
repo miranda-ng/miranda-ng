@@ -87,7 +87,7 @@ URL
 [%s\nis not a valid feed's address.]
 
 [empty]
-
+празно
 ;file \plugins\NewsAggregator\Src\ExportImport.cpp
 [Imported %d feed(s)\r\nNot imported %d duplicate(s).]
 
@@ -150,7 +150,7 @@ URL
 [Change Feed]
 
 [Contact deleting]
-
+Изтриване на контакт
 [Network]
 Мрежа
 ;file \plugins\NewsAggregator\Src\Services.cpp

@@ -15,7 +15,7 @@
 [Add/Modify Custom Status]
 
 [Add/Modify]
-
+Добавяне/Промяна
 [Cancel]
 Отказ
 [List settings]
@@ -25,18 +25,18 @@
 [Delete entries in Custom status menu after Import]
 
 [Remember last window position]
-
+Запис на последната позиция на прозорец
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 
 ;file \plugins\CSList\src\cslist.cpp
 [Status]
 Състояние
 [Add new item]
-
+Добавяне на елемент
 [Add]
 Добавяне
 [Modify item]
-
+Промяна на елемент
 [Modify]
 Промяна
 [Warning]
@@ -59,7 +59,7 @@
 [Main Menu]
 Главно меню
 [Main Icon]
-
+Главна икона
 [Modify selected item]
 
 [Delete selected item]

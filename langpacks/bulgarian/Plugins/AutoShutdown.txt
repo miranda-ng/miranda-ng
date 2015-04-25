@@ -31,13 +31,13 @@
 [Automatic Shutdown]
 Автоматично изключване
 [Select the automatic shutdown event]
-
+Изберете събитие стартиращо изключване
 [Shutdown at &specific time]
-
+Изключване в точен час
 [Shutdown a&t:]
-
+Изключване в:
 [Shutdown i&n:]
-
+Изключване след:
 [Shutdown when a &message is received containing the following text:]
 Изключване когато се получи съобщение съдържащо следния текст:
 [Shutdown when Miranda NG becomes &idle]
@@ -76,7 +76,7 @@
 [&Cancel Countdown]
 Отказ от изключване
 [AutoShutdown]
-
+AutoShutdown
 [Countdown on Frame]
 Отброяване в рамка
 [Background]
@@ -107,9 +107,9 @@
 [Month(s)]
 месец (и)
 [(current: %u%%)]
-
+(сега: %u%%)
 [Start/Stop automatic shutdown]
-Старт/Стоп на изклюване
+Старт/Стоп на изключване
 [Start automatic shutdown]
 Старт на изключване
 [Stop automatic shutdown]
@@ -172,7 +172,7 @@ Miranda NG ще бъде затворена след %u секунда(и).
 [Shuts down Windows and then restarts Windows.]
 Изключва Windows и след това рестартира Windows.
 [Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]
-Затваря всички работещи програми и изключва Windows до състояние в което е беопасно да спрете захранването.
+Затваря всички работещи програми и изключва Windows до състояние в което е безопасно да спрете захранването.
 [Saves the current Windows session in memory and sets the system to suspend mode.]
 Записва текущата сесия на Windows в паметта и заспиване на системата.
 [Saves the current Windows session on hard drive, so that the power can be turned off.]
@@ -187,6 +187,6 @@ Miranda NG ще бъде затворена след %u секунда(и).
 Брояч за автоматично изключване
 ;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle Automatic Shutdown]
-Вкл/Изкл на автоматично изклюване
+Вкл/Изкл на автоматично изключване
 [Main]
 Основна

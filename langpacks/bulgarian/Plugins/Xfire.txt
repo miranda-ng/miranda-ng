@@ -149,7 +149,7 @@ IP:
 [Search:]
 Търсене:
 [Custom...]
-
+Персонален...
 [Game name:]
 
 [Game exe:]

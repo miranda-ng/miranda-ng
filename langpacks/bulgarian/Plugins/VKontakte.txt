@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.53
+;  Version: 0.1.1.0
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -55,7 +55,7 @@
 [Wall posts]
 
 [Photos]
-
+Снимки
 [Photos tags]
 
 [Wall photos]
@@ -80,6 +80,8 @@
 
 [Likes]
 
+[Invites]
+Покани
 [Reposts]
 
 [Mentions in comments]
@@ -219,6 +221,12 @@ URL:
 
 [Message read: %s]
 
+[has invited you to a group]
+
+[has invited you to subscribe to a page]
+
+[invites you to event]
+
 [commented on your post]
 
 [commented on your photo]
@@ -254,9 +262,9 @@ URL:
 [shared your video]
 
 [Photo]
-
+Снимка
 [Attachments:]
-
+Прикачени:
 [Audio]
 Аудио
 [Video]

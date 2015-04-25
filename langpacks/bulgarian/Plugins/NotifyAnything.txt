@@ -23,13 +23,13 @@
 [Allow actions to execute programs]
 
 [Sound]
-
+Звук
 [Play sounds]
 
 [Use internal speaker]
 
 [Debug]
-
+Дебъг
 [Log to file]
 Запис във файл
 [Message debugging]

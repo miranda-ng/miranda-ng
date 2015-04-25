@@ -116,8 +116,6 @@
 Нова аларма
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
-[Unknown command issued: "%s"]
-Изпълнена е неизвестна команда: "%s"
 [Set alarm]
 Задаване на аларма
 ;file \plugins\Alarms\src\alarm_win.cpp

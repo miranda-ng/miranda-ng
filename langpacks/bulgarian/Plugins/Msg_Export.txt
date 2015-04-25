@@ -92,7 +92,7 @@ UTF8 за нови файлове
 [With scroll to bottom %d\n]
 
 [Search string was not found!]
-
+Търсеният низ не е намерен!
 [Save as RTF]
 Запис като RTF
 [Color...]
@@ -106,12 +106,12 @@ UTF8 за нови файлове
 [Failed to save file]
 Записването на файла се провали
 [History was saved successfully in file\r\n]
-
+Историята е успешно записана във файла\r\n
 [Failed to create history dialog]
 
 ;file \plugins\Msg_Export\src\Glob.h
 [Miranda NG (Message Export Plugin)]
-
+Miranda NG (приставка Message Export)
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Отваряне на изнесената история
@@ -119,17 +119,17 @@ UTF8 за нови файлове
 
 ;file \plugins\Msg_Export\src\options.cpp
 [No contacts found to export]
-
+Не са открити контакти за изнасяне
 [Reading database information (Phase 1 of 2)]
-
+Четене на информацията от базата данни (Фаза 1 от 2)
 [Failed to export at least one contact]
-
+Изнасянето на поне един контакт се провали
 [Sorting and writing database information (Phase 2 of 2)]
-
+Сортиране и записване на информацията от базата данни (Фаза 2 от 2)
 [Max line width must be at least %d]
 Максималната ширина на ред трябва да е поне %d
 [You need to restart Miranda to change the history function]
-
+Необходимо е рестартиране на Miranda за промяна на функцията
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
 
 [File]
@@ -141,7 +141,7 @@ UTF8 за нови файлове
 [UIN]
 UIN
 [You have not applied the changes, do you wish to apply them first?]
-
+Промените не са приложени. Желаете ли да бъдат приложени сега?
 [Executable files]
 Изпълними файлове
 [All files]
@@ -161,18 +161,18 @@ UIN
 [General]
 Основни
 [Additional]
-
+Допълнителни
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]
-
+Без–Прякор
 [No_Group]
-
+Без–Група
 [Database: Attempt to get wrong type of value, string]
 
 [(Unknown Contact)]
 (Непознат контакт)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
-
+Името на файла за потребител "%s" е променено!\n\nот:\t%s\nна:\t%s\n\nЖелаете ли да бъде променено името на файла?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Неуспешен опит за преименуване на файл\n\nот:\t%s\nна:\t%s\n\nГрешка: %s
 [\nError: ]
@@ -180,7 +180,7 @@ UIN
 [\nMessage has not been saved!\n]
 \nСъобщението не е записано!\n
 [Do you wish to save debug information?]
-
+Да бъде ли записана дебъг информацията?
 [All\0*.*\0Text\0*.TXT\0\0]
 Всички\0*.*\0Текст\0*.TXT\0\0
 [Failed to open or create file :\n]
@@ -248,7 +248,7 @@ URL:
 [Failed to write Invalid Database event the file :\n]
 
 [The following user made an authorization request:]
-
+Следният потребител изпрати молба за упълномощаване:
 [The following user added you to their contact list:]
 Следният потребител Ви добави към списъка си контакти:
 [UIN       :]
@@ -256,9 +256,9 @@ UIN        :
 [Failed to write AUTHREQUEST or ADDED to the file :\n]
 
 [EmailExpress from:]
-
+EmailExpress от:
 [WebPager from:]
-
+WebPager от:
 [No from address]
 
 [Failed to write EmailExpress to the file :\n]
@@ -266,10 +266,10 @@ UIN        :
 [Failed to write SMS to the file :\n]
 
 [Unknown event type %d, size %d]
-
+Неизвестен тип събитие %d, размер %d
 [Failed to write Unknown event to the file :\n]
-
+Записването на неизвестно събитие във файл се провали :\n
 [User has been deleted. Do you want to delete the file?]
-
+Изтрит е потребител. Да бъде ли изтрит и файла?
 [Failed to delete the file]
 Изтриването на файла се провали

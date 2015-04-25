@@ -2,12 +2,22 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
 
 ;file \protocols\SkypeWeb\res\resource.rc
+[Create group chat]
+
+[Cancel]
+Отказ
+[Mark users you want to invite to a new chat]
+
+[Invite user to chat]
+
+[Choose one of your contacts to be invited:]
+
 [Skypename:]
 
 [Password:]
@@ -20,22 +30,62 @@
 Други
 [Automatic messages synchronization]
 
-[Use local time for received messages] 
+[Use local time for received messages]
+
+[Mark message as read...]
+
+[on read]
+
+[on receive]
+
+[on reply]
+
+[on typing]
 
 [Enter password]
 Въведете парола
 [Save password]
 Запис на паролата
-[Cancel]
-Отказ
 [Enter the password to continue.]
 
-;file \protocols\SkypeWeb\src\skype_chats.cpp
-[Groupchat]
+;file \protocols\SkypeWeb\src\main.cpp
+[Skype Link Protocol]
+
+;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
+[User]
+Потребител
+[Admin]
+Администратор
+[&Invite user...]
+Покани потребител...
+[&Leave chat session]
+Напускане от разговора
+[&Change topic]
+
+[Kick &user]
+
+[Set &role]
+Задаване на роля
+[&Admin]
+Администратор
+[&User]
+Потребител
+;file \protocols\SkypeWeb\src\skype_history_sync.cpp
+[Edited at]
+
+[Call started]
+Начало на разговора
+[Call ended]
+Край на разговора
+[Duration]
 
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Икона на протокола
+[Create new chat icon]
+
+[Sync history icon]
+
 [Protocols]
 Протоколи
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
@@ -45,6 +95,9 @@
 Даване на пълномощно
 [Get server history]
 
+[Create new chat]
+
+;file \protocols\SkypeWeb\src\skype_messages.cpp
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Мрежа

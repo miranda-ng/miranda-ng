@@ -9,7 +9,7 @@
 
 ;file \plugins\Dropbox\res\resource.rc
 [Authorization]
-
+Упълномощаване
 [To allow Miranda NG access in your Dropbox account:]
 
 [Go to this link]
