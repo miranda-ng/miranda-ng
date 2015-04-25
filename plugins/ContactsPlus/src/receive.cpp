@@ -21,7 +21,7 @@
 //
 // -----------------------------------------------------------------------------
 
-#include "contacts.h"
+#include "stdafx.h"
 
 /* TRecvContactsData */
 
@@ -56,7 +56,7 @@ TReceivedItem* TRecvContactsData::AddReceivedItem()
 }
 
 
-static int RecvDlg_Resize(HWND hwndDlg,LPARAM lParam,UTILRESIZECONTROL *urc)
+static int RecvDlg_Resize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
 	case IDC_CONTACTS:

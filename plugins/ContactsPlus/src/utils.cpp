@@ -21,7 +21,7 @@
 //
 // ---------------------------------------------------------------------------
 
-#include "contacts.h"
+#include "stdafx.h"
 
 /* a strlennull() that likes NULL */
 size_t __fastcall strlennull(const char *string)
