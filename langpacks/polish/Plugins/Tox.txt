@@ -136,7 +136,7 @@ Nie udało się znaleźć urządzenia wejścia audio
 [Video call is unsupported]
 Rozmowa video nie jest wspierana
 [Call cancelled]
-
+Połączenie anulowane
 [Unable to find output audio device]
 Nie udało się znaleźć urządzenia wyjścia audio
 [Call started]
