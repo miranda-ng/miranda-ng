@@ -131,7 +131,7 @@ Yahoo грешка
 Съобщението е твърде дълго: Yahoo съобщенията са ограничени до 800 UTF8 знака
 ;file \protocols\Yahoo\src\links.cpp
 [YAHOO Link Protocol]
-
+Протокол за Yahoo връзки
 ;file \protocols\Yahoo\src\main.cpp
 [YAHOO plugin HTTP connections]
 HTTP връзки на приставката YAHOO

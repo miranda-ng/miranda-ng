@@ -214,8 +214,8 @@ Popup заглавие
 Още...
 [Weather Protocol INI Setup]
 
-[Weather Protocol INI Setup\nInstall and load your weather ini file here]
-Настройване на протокола Weather\nИнсталирайте и заредете .ini файловете тук
+[Install and load your weather ini file here]
+Инсталирайте и заредете .ini файловете тук
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 Не са намерени .INI файлове на компютъра. За настройване на INI файловете и метеостанциите следвайте следните стъпки:
 [Click here to download a weather ini file from Miranda file listing]

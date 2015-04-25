@@ -56,6 +56,8 @@ AIM настройки
 Изключване на SSL
 [Manage Server Groups]
 Управление на сървърните групи
+[Force Single Client]
+
 [Save Profile]
 Запис на профила
 [Create a new AIM account]
@@ -182,6 +184,8 @@ AIM настройки
 
 [Request denied.]
 Молбата е отхвърлена.
+[Incorrect SNAC format.]
+
 [Insufficient rights.]
 Недостатъчни права.
 [Recipient blocked.]
@@ -222,6 +226,8 @@ AIM настройки
 
 [Invalid Old Password.]
 Невалидна стара парола.
+[Invalid Screen Name Length.]
+
 [Invalid Password Length.]
 Невалидна дължина на паролата.
 [Invalid Email Length.]
@@ -273,7 +279,7 @@ AIM настройки
 Неуспешен опит за отваряне на файл: %s : %s
 ;file \protocols\AimOscar\src\links.cpp
 [AIM Link Protocol]
-
+Протокол за AIM връзки
 ;file \protocols\AimOscar\src\popup.cpp
 [%s Protocol]
 %s протокол

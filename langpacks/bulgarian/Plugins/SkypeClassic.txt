@@ -196,7 +196,7 @@
 [Incoming Skype call]
 
 [Incoming call from %s]
-
+Входящо обаждане от %s
 [Connection to Skype lost]
 
 [Cleanup finished.]

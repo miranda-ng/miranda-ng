@@ -317,7 +317,7 @@ Popup времетраене
 [Remove all whitespace]
 
 [Popup plugin]
-
+Popup приставка
 [Use OSD plugin]
 
 [A string is present]

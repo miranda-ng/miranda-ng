@@ -26,7 +26,7 @@ URL
 [User Online]
 Потребител "На линия"
 [Authorization]
-
+Упълномощаване
 [You Were Added]
 Вие бяхте добавен
 [Typing Notify]

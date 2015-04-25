@@ -16,9 +16,9 @@
 Няма
 [Cancel]
 Отказ
-[Send screenshot]
+[Send screenshot to <unknown>]
 
-[Send screenshot to\n<unknown>]
+[Take a screenshot and send it to a contact]
 
 [Ti&med capture]
 
@@ -168,7 +168,7 @@
 
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Main Icon]
-
+Главна икона
 [Target Cursor]
 
 [Target Desktop]
@@ -217,6 +217,8 @@
 
 [Take a screenshot]
 
+[Send screenshot]
+
 [Send desktop screenshot]
 
 [Open SendSS+]
@@ -227,7 +229,7 @@
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 
-[Send screenshot to\n]
+[Send screenshot to %s]
 
 [Window]
 Прозорец
@@ -266,7 +268,7 @@ FTP File
 [Couldn't take a screenshot]
 
 [Select a file]
-
+Изберете файл
 [Select a target window.]
 
 [Screenshot ]

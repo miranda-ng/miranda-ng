@@ -304,7 +304,7 @@ Dial-up (експериментално)
 [<current>]
 <текущо>
 [<n/a>]
-
+НД
 [Protocol]
 Протокол
 [Closing in %d]

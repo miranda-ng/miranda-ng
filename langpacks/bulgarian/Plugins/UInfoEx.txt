@@ -10,8 +10,8 @@
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit contact information]
 Редактиране на информацията за контакта
-[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-Редактиране на информацията за контакта\nСписъкът ще ви даде представа за годишнините на контактите ви.
+[This list gives you some overview about all your contact's anniversaries.]
+Списъкът ще ви даде представа за годишнините на контактите ви.
 [Origin]
 Родом от
 [&Update]
@@ -164,8 +164,8 @@ popup за годишнина
 Изтриване
 [Anniversary editor]
 Редактиране на годишнина
-[Anniversary Editor\nAdd/Edit your anniversary here.]
-Редактор на годишнини\nДобавяне/Промяна на годишнина.
+[Add/Edit your anniversary here.]
+Добавяне/Редактиране на годишнина.
 [Enter a name for the anniversary here please:]
 Въведете име на годишнината:
 [Anniversary list]
@@ -465,8 +465,6 @@ popup за годишнина
 
 [Details dialog failed to be created. Returning error is %d.]
 Прозорецът с подробности не може да бъде създаден поради следната грешка: %d.
-[The page to add has invalid size %d bytes!]
-
 [General]
 Основни
 [Contact (private)]
@@ -491,6 +489,8 @@ popup за годишнина
 Собственик
 [edit contact information]
 редактиране на информацията за контакта
+[View personal user details and more]
+Преглед на потребителските данни
 [Upload ICQ details]
 Качване на ICQ подробности
 [Upload failed]
@@ -1105,7 +1105,7 @@ Web дизайн
 Телефон (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
-[b]%s (%S)...[/b]\nОстават още %d контакта]
+[b]%s (%S)...[/b]\n%d оставащи контакта
 [Abort Refreshing Contact Details]
 Прекратяване обновяването на подробностите за контакта
 [Do you want to cancel the current refresh procedure?]

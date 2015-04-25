@@ -232,7 +232,7 @@ Windows Phone
 [Mobile overlay]
 Mobile
 [debug overlay]
-debug
+дебъг
 [office overlay]
 office
 [mobile overlay]

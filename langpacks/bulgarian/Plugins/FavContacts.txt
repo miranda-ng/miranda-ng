@@ -31,7 +31,7 @@
 [Favorite Contacts]
 Любими контакти
 [Enable groups]
-
+С групи
 [Multicolumn menu]
 Многоколонно меню
 [Configure fonts and colors...]

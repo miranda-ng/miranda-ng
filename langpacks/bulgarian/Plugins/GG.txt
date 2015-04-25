@@ -75,7 +75,7 @@ Gadu-Gadu номер:
 [Host:]
 Хост:
 [Number:]
-
+Номер:
 [Internal IP:]
 Вътрешно IP:
 [First name:]
@@ -104,8 +104,8 @@ Gadu-Gadu номер:
 Отказ
 [Create Gadu-Gadu account]
 Създаване на Gadu-Gadu акаунт
-[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
-Създай Gadu-Gadu акаунт\nСъздаване на нов акаунт за Gadu-Gadu
+[This will create new Gadu-Gadu account]
+Ще бъде създаден нов акаунт за Gadu-Gadu
 [New password:]
 Нова парола:
 [Confirm password:]
@@ -116,20 +116,20 @@ Gadu-Gadu номер:
 Създаване
 [Remove Gadu-Gadu account]
 Премахване на Gadu-Gadu акаунт
-[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
-Премахни Gadu-Gaduакаунт\nИзтриване на акаунт от Gadu-Gadu
+[This will remove your Gadu-Gadu account]
+Акаунтът за Gadu-Gadu ще бъде изтрит 
 [Yes, I want to remove my account]
 Да желая акаунта да бъде премахнат.
 [Remove]
 Премахване
 [Change Gadu-Gadu password]
 Промяна на Gadu-Gadu парола
-[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
-Промени Gadu-Gadu парола\nПроменяне на текущата ви парола за Gadu-Gadu
+[Changes current Gadu-Gadu user password]
+Паролата за Gadu-Gadu ще бъде променена
 [Change Gadu-Gadu e-mail]
 Промяна на Gadu-Gadu имейла
-[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
-Промени Gadu-Gadu имейл\nПроменяне на текущата ел. поща, която ползвате в Gadu-Gadu
+[Changes current Gadu-Gadu user e-mail]
+Имейлът за Gadu-Gadu ще бъде променена
 [Age from:]
 Възраст от:
 [to:]
@@ -142,14 +142,14 @@ Gadu-Gadu номер:
 Изпращане
 [Open new conference]
 Отваряне на нова конференция
-[Open new conference\nSelect conference participants]
-Отваряне на нова конференция\nИзберете участници
+[Select conference participants]
+Изберете участници
 [Open]
 
-[Concurrent Sessions]
-Едновременни сесии
-[Concurrent %s Login Sessions\nView information on active concurrent sessions]
-Едновременни %s сесии\nПреглед на информацията за едновременните сесии
+[Concurrent %s Login Sessions]
+
+[View information on active concurrent sessions]
+Преглед на информацията за едновременните сесии
 [Sign out all sessions]
 Отписване от всички сесии
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
@@ -386,7 +386,7 @@ Gadu-Gadu номер
 [Gadu-Gadu account chooser]
 
 [Gadu-Gadu Link Protocol]
-
+Протокол за Gadu-Gadu връзки
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 

@@ -159,7 +159,7 @@
 [Quality]
 Качество
 [In]
-
+in
 [Out]
 
 [Finish]
@@ -266,7 +266,7 @@
 [Forwarding]
 
 [%S mail]
-
+%s имейл
 ;file \protocols\Tlen\src\tlen_picture.cpp
 [Image sent file://%s]
 
@@ -295,9 +295,9 @@
 [Private conference]
 
 [%s mail]
-
+%s имейл
 [Subject]
-
+Тема
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 [Account]
 Акаунт

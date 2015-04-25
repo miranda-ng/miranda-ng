@@ -27,9 +27,9 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 [Add separator]
 Добавяне на разделител
 [Add launch]
-Добавяне на стартиращ бутон
+Добавяне на бутон
 [Delete separator/launch button]
-Изтиване на бутона
+Изтриване на бутона
 [Name:]
 Име:
 [Path:]
@@ -38,15 +38,15 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 Задай
 ;file \plugins\TopToolBar\src\InternalButtons.cpp
 [Show main menu]
-
+Главно меню
 [Show options page]
-
+Настройки
 [Show accounts manager]
-
+Акаунти...
 [Find/add contacts]
 Търсене/Добавяне на контакти
 [Show status menu]
-
+Меню на състоянието
 [Show/hide offline contacts]
 Показване/Скриване на контактите "Извън линия"
 [Hide offline contacts]
@@ -54,15 +54,15 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 [Show offline contacts]
 Показване на контактите "Извън линия"
 [Enable/disable metacontacts]
-
+Включване/Изключване на метаконтактите
 [Disable metacontacts]
-
+Изключване на метаконтактите
 [Enable metacontacts]
-
+Включване на метаконтактите
 [Enable/disable groups]
-
+Включване/Изключване на групите
 [Enable groups]
-
+С групи
 [Disable groups]
 Без групи
 [Enable/disable sounds]
@@ -79,7 +79,7 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 [Default]
 Стандарт
 [TopToolBar background]
-
+Фон на TopToolBar
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Nicer+\nYou can get them at http://wiki.miranda-ng.org/Download]
 
 [TopToolBar]

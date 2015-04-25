@@ -6,74 +6,74 @@
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
-
+Приставката превръща Miranda в HTTP сървър.
 ;file \plugins\HTTPServer\res\resource.rc
 [IPAddress1]
-
+IP адрес 1
 [IPAddress2]
-
+IP адрес 2
 [Max downloads]
-
+Макс. сваляния
 [Address]
 Адрес
 [Mask]
-
+Маска
 [Share name]
 
 [Allowed IP]
-
+Разрешени IP адреси
 [HTTP Server statistics view]
-
+Преглед на статистиката за HTTP сървъра
 [Display hidden shares]
 
 [New share]
 
 [Show HTTP server statistics]
-
+Статистика на HTTP сървъра
 [Set to default]
-
+Задаване
 [External server name]
-
+Външно име на сървъра
 [This is the link pasted to the message window]
-
+Следната връзка ще бъде поставяна с прозореца за съобщения
 [Write log file]
 
 [Enable / Disable HTTP server]
-
+Вкл / Изкл на HTTP сървъра
 [Main menu items]
-
+Елементи в главното меню
 [Open log]
-
+Дневник
 [Show popups]
 Показване на popups
 [Page keyword]
 
 [URL address]
-
+URL адрес
 [%ExternalIP% variable]
-
+Променлива %ExternalIP%
 [Test]
 Тест
 [Transfer limit (Kb/s)]
-
+Лимит на трансфер (Kb/s)
 [No control when Away/NA]
-
+Не и при състояние Отсъстващ
 [Connection control]
-
+Контрол на връзките
 [Index creation]
-
+Създаване на индекс
 [Disable]
 Изключване
 [Create HTML (compatibility)]
-
+HTML индекс (съвместимост)
 [Create XML]
-
+XML индекс
 [Notifications]
 Уведомявания
 [Total connection limit]
-
+Общ лимит на връзките
 [Connections per user limit]
-
+Лимит за потребител
 [Default download limit]
 
 [&Edit share]
@@ -81,35 +81,35 @@
 [&Remove share]
 
 [&Open in Browser]
-
+Отваряне в броузър
 [&Copy link]
 Копиране на връзката
 ;file \plugins\HTTPServer\src\Glob.h
 [Miranda NG HTTP-Server]
-
+HTTP сървър на Miranda NG
 ;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
-
+Споделяне на текущата директория
 [All files]
 Всички файлове
 [Specify a file to share]
-
+Изберете файл за споделяне
 [Failed to share new file]
-
+Споделянето на новия файл се провали
 [Max Downloads]
-
+Максимално сваляния
 [Allowed Mask]
-
+Разрешена маска
 [Real path]
-
+Истински оът
 [User]
 Потребител
 [Agent]
-
+Агент
 [Completed]
 ГОТОВО
 [Speed]
-
+Скорост
 [Selected link size is 0]
 
 [Failed to get access to clipboard]
@@ -123,19 +123,19 @@
 [No share selected]
 
 [Current IP Address: ]
-
+Текущ IP адрес: 
 [Current Address: ]
-
+Текущ адрес: 
 [IP Address: ]
-
+IP адрес: 
 [You are browsing from]
-
+Преглеждате от
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
-
+Вашето външно IP е %d.%d.%d.%d\r\nзасечено от: %s
 [You need to restart Miranda to change the main menu]
-
+За променянето на главното меню е необходимо рестартиране на Miranda
 [HTTP Server]
-
+HTTP сървър
 [Network]
 Мрежа
 [Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
@@ -143,7 +143,7 @@
 [Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]
 
 [HTTP Share new file]
-
+HTTP споделяне на нов файл
 [Failed to add contact menu item]
 
 ;file \plugins\HTTPServer\src\HttpUser.cpp
@@ -167,6 +167,6 @@
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
 
 [Disable HTTP server]
-
+Изключване на HTTP сървъра
 [Enable HTTP server]
-
+Включване на HTTP сървъра

@@ -109,9 +109,9 @@
 
 [The Message    (%d Characters)]
 
-[Couldn't allocate enough memory]
-
 [error......]
+грешка......
+[Couldn't allocate enough memory]
 
 [The Message    (0 Characters)]
 

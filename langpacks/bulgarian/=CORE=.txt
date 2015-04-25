@@ -1,7 +1,7 @@
 ﻿;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.4
+;  Version: 0.95.5
 ;============================================================
 ;file \src\resource.rc
 [Enter account name (for example, My Google)]
@@ -1275,9 +1275,9 @@ Wikipedia
 [(Unknown)]
 (Неизвестен)
 [%s requested authorization\n%u (%s) on %s]
-%s изпрати молба за упълномощаване%u (%s) (Акаунт: %s)
+%s изпрати молба за упълномощаване\n%u (%s) (Акаунт: %s)
 [%s requested authorization\n%u on %s]
-%s изпрати молба за упълномощаване%u (Акаунт: %s)
+%s изпрати молба за упълномощаване\n%u (Акаунт: %s)
 [%s requested authorization\n%s on %s]
 %s изпрати молба за упълномощаване\n%s (Акаунт: %s)
 [Feature is not supported by protocol]

@@ -175,4 +175,4 @@ AVH дебъг: Файлът е копиран успешно
 [Avatar History: Unable to create shortcut]
 Avatar History: Създаването на препратка се провали
 [AVH Debug: Shortcut created successfully]
-AVH Debug: Създадена е препратка
+AVH дебъг: Създадена е препратка

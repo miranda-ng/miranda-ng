@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.9
+;  Version: 3.4.0.10
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -799,7 +799,7 @@ Mаксимална ширина за лента с бутони
 [Don't play sounds]
 Без звук
 [Be "super quiet"]
-
+Супер тих режим
 [Font]
 Шрифт
 [Default color]
@@ -909,6 +909,8 @@ Mаксимална ширина за лента с бутони
 [About TabSRMM...]
 Относно TabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
+[<Separator>]
+<Разделител>
 [Protocol button]
 Бутон на протокола
 [Info button]
@@ -945,8 +947,6 @@ Mаксимална ширина за лента с бутони
 Филтър на събития - десен бутон за настройки, ляв бутон за вкл./изкл.
 [Channel manager]
 Настройки на канала
-[<Separator>]
-<Разделител>
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Разговор...
@@ -983,8 +983,6 @@ Mаксимална ширина за лента с бутони
 Звуково уведомяване
 [Container options]
 Настройки на контейнера
-[Configure container options for\n%s]
-Настройване за контейнер\n%s
 [Tabs at the top]
 Табове на върха
 [Switch bar on the left side]
@@ -1080,9 +1078,9 @@ UID: %s (SHIFT+ляв бутон = копиране в клипборда)\nЛя
 [TabSRMM: typing]
 TabSRMM: Писане
 [TabSRMM session list]
-TabSRMM списък на разговорите
+Списък на разговорите в TabSRMM
 [TabSRMM menu]
-TabSRMM Меню
+Меню на TabSRMM
 [&Messaging settings...]
 Настройки на разговорите...
 [&Send later job list...]
@@ -1932,7 +1930,7 @@ TabSRMM съобщение (%s)
 [Nickname]
 Прякор
 [UIN]
-
+UIN
 [Protocol]
 Протокол
 [Contacts local time]

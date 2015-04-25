@@ -273,6 +273,6 @@ Quick Search
 Винаги отгоре
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
-
+Текстови редактор
 [Wrap Text]
 
