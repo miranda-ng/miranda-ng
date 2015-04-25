@@ -159,7 +159,7 @@
 [Quality]
 Качество
 [In]
-in
+
 [Out]
 
 [Finish]

@@ -6,41 +6,41 @@
 ;  Authors: Abyss
 ;============================================================
 [Imports history saved in TXT files from other clients.]
-
+Приставката внася история, от други клиенти, записана в текстови файлове.
 [Import history to ]
-
+Внос на история в
 [Import history]
-
+Внасяне на история
 [Choose a file...]
-
+Избор на файл...
 [Choose a pattern...]
 
 [Choose a file for import...]
-
+Изберете файл за импортиране...
 [Text files (*.txt)]
 Текстови файлове (*.txt)
 [All files (*.*)]
 Всички файлове (*.*)
 [Error in cfg file: ]
-
+Грешка в cgf файл:
 [No Files Patterns Found]
 
 [No messages in this file]
-
+Във файла няма съобщения
 [Import started...]
-
+Начало на вноса...
 [Added: %d messages]
-
+Добавени: %d съобщения
 [Duplicates: %d messages]
-
+Дублирани: %d съобщения
 [In: %d:%d:%d]
 
 [Import not finished. Do you realy want close?]
-
+Внасянето не е приключило. Да бъде ли спряно?
 [Error adding message to database]
-
+Грешка при добавянето на съобщение към базата данни
 [Error opening file]
-
+Грешка при отварянето на файла
 [Error mapping file]
 
 [Error mapping]
@@ -48,47 +48,47 @@
 [Header not found]
 
 [Import Text Files Wizard]
-
+Помощник за внасяне на текстови файлове
 [This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
-
+Помощникът ще ви помогне за внасянето на съобщения от други клиенти и приставки на Miranda, съхранявани в текстови файлове.
 [Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.]
-
+Кликнете върху "Напред" за избор на избор на информация за внасяне или "Отказ" за изход от помощника.
 [Choose type of imported files:]
-
+Изберете тип на внесените файлове:
 [Select files or the whole directory for import:]
-
+Изберете файлове или цяла директория за внасяне:
 [Files...]
-
+Файлове...
 [Directory...]
-
+Директория...
 [All previous chosen files will try to import to this protocol.]
-
+Ще бъде направен опит за внасяне на всички преходно избрани файлове в протокола.
 [Select protocol or account:]
-
+Изберете протокол или акаунт:
 [Click "Next" to start Import or "Cancel" to Abort.]
-
+Кликнете върху "Напред" за начало на вноса или "Отказ" за прекратяване.
 [Select folder for import...]
-
+Изберете папка за внасяне...
 [File: %s]
-
+Файл: в
 [To: %s]
 
 [Can't determine destination contact]
 
 [Default extension]
-
+Стандартно разширение
 [It's not %s file]
 
 [Duplicate:]
-
+Дублирани:
 [Your version of Miranda don't support XML parsing]
 
 [Check for duplicates]
-
+Проверка за дублирани
 [Check messages for duplicates]
-
+Проверка на съобщенията за дублирани
 [Show duplicates]
-
+Показване на дублираните
 [Error at initialization XML parser]
 
 [Import history to %s (%s)]

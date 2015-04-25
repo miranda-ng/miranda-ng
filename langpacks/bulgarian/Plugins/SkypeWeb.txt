@@ -52,10 +52,10 @@
 [Skype Link Protocol]
 
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
-[User]
-Потребител
 [Admin]
 Администратор
+[User]
+Потребител
 [&Invite user...]
 Покани потребител...
 [&Leave chat session]
@@ -94,6 +94,8 @@
 [Grant authorization]
 Даване на пълномощно
 [Get server history]
+
+[Destroy room]
 
 [Create new chat]
 

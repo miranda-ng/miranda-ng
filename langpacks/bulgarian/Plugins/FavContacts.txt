@@ -43,7 +43,7 @@
 [Show]
 Показване
 [recent contacts]
-
+Скорошни контакти
 ;file \plugins\FavContacts\src\favlist.h
 [<no group>]
 

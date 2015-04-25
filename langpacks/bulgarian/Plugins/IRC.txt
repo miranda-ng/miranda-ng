@@ -503,23 +503,23 @@ Latin I
 [<Local IP: ]
 <Локално IP:\s
 [Event: Available]
-
+Събитие: Наличен
 [Event: Away]
-
+Събитие: Отсъстващ
 [Event: N/A]
-
+Събитие: Недостъпен
 [Event: Occupied]
-
+Събитие: Зает
 [Event: DND]
-
+Събитие: Не безпокойте
 [Event: Free for chat]
-
+Събитие: Готов за чат
 [Event: On the phone]
-
+Събитие: На телефона
 [Event: Out for lunch]
-
+Събитие: На обяд
 [Event: Disconnect]
-
+Събитие: Изключване от мрежата
 [ALL NETWORKS]
 Всички мрежи
 [Click to set commands that will be performed for this event]

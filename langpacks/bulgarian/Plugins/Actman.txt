@@ -326,7 +326,7 @@ Ansi текст
 [Ignore 'You were added']
 
 [Ignore Contact]
-
+Игнориране на контакта
 [Unignore Contact]
 
 [restart in default profile or profile manager]

@@ -136,11 +136,6 @@ AVH дебъг: Файлът е копиран успешно
 Контакт смени аватар
 [Contact removed avatar]
 Контакт премахна аватар
-;file \plugins\AvatarHistory\src\AvatarHistory.h
-[removed his/her avatar]
-премахна своя аватар
-[changed his/her avatar]
-промени своя аватар
 ;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 История
@@ -165,6 +160,11 @@ AVH дебъг: Файлът е копиран успешно
 Рopups
 [Avatar Change]
 Промяна на аватар
+;file \plugins\AvatarHistory\src\stdafx.h
+[removed his/her avatar]
+премахна своя аватар
+[changed his/her avatar]
+промени своя аватар
 ;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]
 Неизвестен UIN

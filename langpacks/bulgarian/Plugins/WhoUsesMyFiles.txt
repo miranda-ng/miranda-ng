@@ -64,7 +64,7 @@
 [Plugin WhoUsesMyFiles requires admin privileges in order to work.]
 
 [Error opening file]
-
+Грешка при отварянето на файла
 [Error memory allocation]
 
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp

@@ -135,8 +135,8 @@ IPv6 адрес (незадължително)
 Не може да бъде открит микрофон
 [Video call is unsupported]
 Видео обажданията не се поддържат
-[Call cancelled]
-Обаждането е отказано
+[Call canceled]
+
 [Unable to find output audio device]
 Не може да бъде открит говорител
 [Call started]

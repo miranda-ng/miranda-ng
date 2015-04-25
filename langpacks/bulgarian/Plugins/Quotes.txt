@@ -155,7 +155,7 @@ Quote\\Инф. за курса
 [Quotes]
 
 [Enable/Disable Auto Update]
-
+Вкл / Изкл на автоматично обновяване
 [Refresh All Quotes\\Rates]
 Обновяване на всички Акции\\Курсове
 [Currency Converter...]

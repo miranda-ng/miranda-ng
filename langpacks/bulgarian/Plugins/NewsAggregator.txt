@@ -6,7 +6,7 @@
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
-
+Четец за RSS/Atom новини.
 ;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 Добавяне
@@ -19,49 +19,49 @@
 [Export]
 Износ
 [Retrieve news at startup]
-
+Извличане на новини при стартиране
 [Cancel]
 Отказ
 [General Settings]
-
+Основни настройки
 [Title]
 Заглавие
 [URL]
 URL
 [Check every]
-Проверка на всеки
+Проверка през
 [minutes]
 минути
 [Check Feed]
-
+Проверка
 [Authentication]
-
+Упълномощаване
 [Use &authentication]
-
+Ползване на удостоверяване
 [Login]
-Вписване
+Потребител
 [Password]
 Парола
 [Visualization]
-
+Визуализация
 [Display news using the following format:]
-
+Формат за показване на новините:
 [All item's tags are valid. Put them between #. Example: #<author>#]
 
 [Reset]
 Анулиране
 [0 - check manually]
-
+0=ръчна проверка
 [Feed name]
-
+Име на емисията
 [This feed seems to need authentication. Please fill username and password fields:]
-
+Емисията изисква удостоверяване. Моля, въведете потребител и парола:
 [Username]
 Потребител
 [Available feeds:]
-
+Налични емисии:
 [Feeds to be exported:]
-
+Емисии за експортиране:
 [&Export]
 Износ
 [&Close]
@@ -69,76 +69,76 @@ URL
 [Import from:]
 Внос от:
 [Feeds to be imported:]
-
+Емисии за внасяне:
 [&Import]
 Внос
 ;file \plugins\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
-
+Въведете потребител
 [Error]
 Грешка
 [Enter your password]
-
+Въведете парола
 ;file \plugins\NewsAggregator\Src\CheckFeed.cpp
 [%s\nis a valid feed's address.]
-
+%s\nе валиден адрес на емисия.
 [News Aggregator]
 
 [%s\nis not a valid feed's address.]
-
+%s\nне е валиден адрес на емисия.
 [empty]
 празно
 ;file \plugins\NewsAggregator\Src\ExportImport.cpp
 [Imported %d feed(s)\r\nNot imported %d duplicate(s).]
 
 [Imported %d feed(s).]
-
+Внесени са %d емисии.
 [OPML files]
-
+OPML файлове
 [Not valid import file.]
-
+Файлът за импортиране не е валиден.
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Икона на протокола
 [Check All Feeds]
-
+Проверка на всички емисии
 [Add Feed]
-
+Добавяне на емисия
 [Import Feeds]
-
+Внос на емисии
 [Export Feeds]
-
+Износ на емисии
 [Auto Update Enabled]
 Автообновяването е включено
 [Auto Update Disabled]
 Автообновяването е изключено
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
-
+Проверка за новини
 [Change feed]
-
+Редактиране на емисията
 ;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [Enter Feed name]
-
+Въведете име на емисията
 [Enter Feed URL]
-
+Въведете URL адрес на емисията
 [Enter message format]
-
+Въведете формат за съобщенията
 [The title of the item.]
-
+Заглавие на новината.
 [The item synopsis.]
-
+Кратко описание на новината.
 [The URL of the item.]
-
+URL адрес на новината.
 [Email address of the author of the item.]
-
+Имейл адрес на автора на новината.
 [URL of a page for comments relating to the item.]
-
+URL адрес на страницата за коментари към новината.
 [A string that uniquely identifies the item.]
-
+Низ, уникален идентификатор за новината.
 [Specify one or more categories that the item belongs to.]
-
+Определя една или повече категории към които принадлежи новината.
 [Feed Tag Help]
 
 [Are you sure?]
@@ -146,7 +146,7 @@ URL
 [Tags Mask Reset]
 
 [Wait...]
-
+Изчакайте...
 [Change Feed]
 
 [Contact deleting]
@@ -157,9 +157,9 @@ URL
 [Avatars]
 Аватари
 [Enable/disable auto update]
-
+Вкл / Изкл на автоматично обновяване
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
-
+HTTP връзки на NewsAggregator
 [Feed]
-
+Емисия
