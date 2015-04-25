@@ -1,3 +1,2 @@
 ﻿[Tox ID:]
 [Tox]
-[Call canceled]
