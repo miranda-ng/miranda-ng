@@ -42,6 +42,31 @@ public:
 	}
 };
 
+class SendChatActionRequest : public HttpRequest
+{
+public:
+	SendChatActionRequest(const char *regToken, const char *id, time_t timestamp, const char *message, const char *server = SKYPE_ENDPOINTS_HOST) :
+		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/19:%s/messages", server, id)
+	{
+		Headers
+			<< CHAR_VALUE("Accept", "application/json, text/javascript")
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
+
+		JSONNODE *node = json_new(5);
+		json_push_back(node, json_new_i("clientmessageid", timestamp));
+		json_push_back(node, json_new_a("messagetype", "RichText"));
+		json_push_back(node, json_new_a("contenttype", "text"));
+		json_push_back(node, json_new_a("content", message));
+		json_push_back(node, json_new_i("skypeemoteoffset", 4));
+
+		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
+		Body << VALUE(data);
+
+		json_delete(node);
+	}
+};
+
 class CreateChatroomRequest : public HttpRequest
 {
 public:
