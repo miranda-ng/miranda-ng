@@ -258,6 +258,21 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+INT_PTR CSkypeProto::SvcDestroyChat(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcDestroyKickChat");
+	if (!IsOnline())
+		return 1;
+
+	ptrA chatId(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID));
+
+	SendRequest(new KickUserRequest(RegToken, chatId, SelfSkypeName, Server));
+
+	CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+
+	return 0;
+}
+
 /* CHAT EVENT */
 
 void CSkypeProto::OnChatEvent(JSONNODE *node)

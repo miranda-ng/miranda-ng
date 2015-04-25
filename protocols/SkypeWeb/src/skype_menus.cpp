@@ -28,7 +28,10 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		return 0;
 
 	if (this->isChatRoom(hContact))
+	{
+		Menu_ShowItem(ContactMenuItems[CMI_DESTROYCHAT], true);
 		return 0;
+	}
 
 	bool isCtrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 	bool isAuthNeed = getByte(hContact, "Auth", 0) > 0;
@@ -80,6 +83,13 @@ void CSkypeProto::InitMenus()
 	mi.icolibItem = GetIconHandle("synchistory");
 	ContactMenuItems[CMI_GETSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::GetContactHistory>);
+
+	mi.pszService = MODULE"/DestroyChat";
+	mi.position = CMI_POSITION + CMI_DESTROYCHAT;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_LEAVE);
+	mi.ptszName = LPGENT("Destroy room");
+	ContactMenuItems[CMI_DESTROYCHAT] = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::SvcDestroyChat>);
 }
 
 void CSkypeProto::UninitMenus()
