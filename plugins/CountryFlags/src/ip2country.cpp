@@ -17,7 +17,7 @@ along with this program (Flags-License.txt); if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "flags.h"
+#include "stdafx.h"
 
 extern HINSTANCE hInst;
 extern int nCountriesCount;
@@ -58,7 +58,7 @@ static BYTE *dataRecords;       /* protected by csRecordCache */
 
 #define UNLOADDELAY  30*1000  /* time after which the data records are being unloaded */
 
-static void CALLBACK UnloadRecordCache(LPARAM lParam)
+static void CALLBACK UnloadRecordCache(LPARAM)
 {
 	EnterCriticalSection(&csRecordCache);
 	mir_free(dataRecords);
@@ -97,7 +97,7 @@ static void LeaveRecordCache(void)
 /************************* Services *******************************/
 
 
-INT_PTR ServiceIpToCountry(WPARAM wParam,LPARAM lParam)
+INT_PTR ServiceIpToCountry(WPARAM wParam, LPARAM)
 {
 	BYTE *data;
 	DWORD dwFrom,dwTo;

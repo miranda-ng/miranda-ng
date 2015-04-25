@@ -17,7 +17,7 @@ along with this program (Flags-License.txt); if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "flags.h"
+#include "stdafx.h"
 
 int nCountriesCount;
 CountryListEntry *countries;
@@ -39,13 +39,13 @@ static PLUGININFOEX pluginInfo={
 	{0x68c36842, 0x3d95, 0x4f4a, {0xab, 0x81, 0x1, 0x4d, 0x65, 0x93, 0x86, 0x3b}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }

@@ -17,14 +17,14 @@ along with this program (Flags-License.txt); if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "flags.h"
+#include "stdafx.h"
 
 /* Services */
 static HANDLE hServiceDetectContactOrigin;
 
 /************************* Services *******************************/
 
-static INT_PTR ServiceDetectContactOriginCountry(WPARAM hContact, LPARAM lParam)
+static INT_PTR ServiceDetectContactOriginCountry(WPARAM hContact, LPARAM)
 {
 	int countryNumber = 0xFFFF;
 	char *pszProto = GetContactProto(hContact);
@@ -114,7 +114,7 @@ static void __fastcall UnsetStatusIcon(MCONTACT hContact)
 	Srmm_ModifyIcon(hContact, &sid);
 }
 
-static int MsgWndEvent(WPARAM wParam,LPARAM lParam)
+static int MsgWndEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *msgwe=(MessageWindowEventData*)lParam;
 	switch(msgwe->uType) {
@@ -153,7 +153,7 @@ void CALLBACK UpdateStatusIcons(LPARAM)
 	}
 }
 
-static int StatusIconsChanged(WPARAM wParam,LPARAM lParam)
+static int StatusIconsChanged(WPARAM, LPARAM)
 {
 	if (bShowStatusIcon)
 		CallFunctionBuffered(UpdateStatusIcons, 0, FALSE, STATUSICON_REFRESHDELAY);
@@ -178,7 +178,7 @@ static int ExtraImgSettingChanged(WPARAM hContact, LPARAM lParam)
 
 /************************* Misc ***********************************/
 
-static int ExtraImgModulesLoaded(WPARAM wParam,LPARAM lParam)
+static int ExtraImgModulesLoaded(WPARAM, LPARAM)
 {
 	/* Status Icon */
 	StatusIconData sid = { sizeof(sid) };
