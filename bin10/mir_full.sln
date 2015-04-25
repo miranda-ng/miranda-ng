@@ -45,7 +45,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AuthState", "..\plugins\Aut
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Boltun", "..\plugins\Boltun\Boltun_10.vcxproj", "{98DF7761-41D7-4C5C-9FFE-E5CCB3997783}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BossKey", "..\plugins\BossKeyPlus\BossKey_10.vcxproj", "{88E47CF7-7B40-4312-A35A-9B28885FFED9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BossKey", "..\plugins\BossKeyPlus\BossKey.vcxproj", "{88E47CF7-7B40-4312-A35A-9B28885FFED9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuddyExpectator", "..\plugins\BuddyExpectator\BuddyExpectator_10.vcxproj", "{8CEBD7AC-CD02-4BEC-B889-A7243F3E5DD8}"
 EndProject

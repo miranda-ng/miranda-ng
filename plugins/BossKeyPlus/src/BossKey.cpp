@@ -17,7 +17,7 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	*/
 
-#include "BossKey.h"
+#include "stdafx.h"
 
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
