@@ -9,7 +9,7 @@
 
 ;file \plugins\IEHistory\res\IEHistory.rc
 [Dialog]
-
+Прозорец
 [Close]
 Затваряне
 [&Prev]
@@ -29,11 +29,11 @@
 [Show last page first]
 
 [Other options]
-
+Други настройки
 [Load items in background]
 
 [RTL is default text direction]
-
+Отдясно наляво (Л<Д) като стандартна посока на текста
 [Search]
 Търсене
 [&Find next]
@@ -41,16 +41,16 @@
 [Cancel]
 Отказ
 [Text:]
-
+Текст:
 [Direction]
 
 [Up]
-
+Нагоре
 [Down]
-
+Надолу
 ;file \plugins\IEHistory\src\dlgHandlers.cpp
 [System History]
-
+История на системата
 [Out of a total of]
 
 [You can't close the window now, wait for all events to load.]
@@ -74,4 +74,4 @@
 [View &history]
 Преглед на историята
 [&System History]
-
+История на системата

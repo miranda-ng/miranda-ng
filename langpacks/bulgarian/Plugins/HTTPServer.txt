@@ -15,7 +15,7 @@
 [Max downloads]
 
 [Address]
-
+Адрес
 [Mask]
 
 [Share name]
@@ -31,7 +31,7 @@
 [Show HTTP server statistics]
 
 [Set to default]
-Задаване като стандартен
+
 [External server name]
 
 [This is the link pasted to the message window]
@@ -45,7 +45,7 @@
 [Open log]
 
 [Show popups]
-
+Показване на popups
 [Page keyword]
 
 [URL address]
@@ -53,7 +53,7 @@
 [%ExternalIP% variable]
 
 [Test]
-
+Тест
 [Transfer limit (Kb/s)]
 
 [No control when Away/NA]
@@ -63,13 +63,13 @@
 [Index creation]
 
 [Disable]
-
+Изключване
 [Create HTML (compatibility)]
 
 [Create XML]
 
 [Notifications]
-
+Уведомявания
 [Total connection limit]
 
 [Connections per user limit]
@@ -103,11 +103,11 @@
 [Real path]
 
 [User]
-
+Потребител
 [Agent]
 
 [Completed]
-
+ГОТОВО
 [Speed]
 
 [Selected link size is 0]

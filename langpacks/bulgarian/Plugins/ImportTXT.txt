@@ -18,9 +18,9 @@
 [Choose a file for import...]
 
 [Text files (*.txt)]
-
+Текстови файлове (*.txt)
 [All files (*.*)]
-
+Всички файлове (*.*)
 [Error in cfg file: ]
 
 [No Files Patterns Found]
