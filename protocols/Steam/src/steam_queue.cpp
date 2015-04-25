@@ -2,19 +2,29 @@
 
 void CSteamProto::InitQueue()
 {
+	debugLogA("%s: entering", __FUNCTION__);
+
 	InitializeCriticalSection(&requests_queue_lock);
 	m_evRequestsQueue = CreateEvent(NULL, FALSE, FALSE, NULL);
+
+	debugLogA("%s: leaving", __FUNCTION__);
 }
 
 void CSteamProto::UninitQueue()
 {
+	debugLogA("%s: entering", __FUNCTION__);
+
 	requestsQueue.destroy();
 	CloseHandle(m_evRequestsQueue);
 	DeleteCriticalSection(&requests_queue_lock);
+
+	debugLogA("%s: leaving", __FUNCTION__);
 }
 
 void CSteamProto::StartQueue()
 {
+	debugLogA("%s: entering", __FUNCTION__);
+
 	isTerminated = false;
 
 	if (m_hQueueThread == NULL)
@@ -39,14 +49,20 @@ void CSteamProto::StartQueue()
 
 		m_hQueueThread = ForkThreadEx(&CSteamProto::QueueThread, 0, NULL);
 	}
+
+	debugLogA("%s: leaving", __FUNCTION__);
 }
 
 void CSteamProto::StopQueue()
 {
+	debugLogA("%s: entering", __FUNCTION__);
+
 	isTerminated = true;
 
 	{
 		mir_cslock lock(requests_queue_lock);
+
+		debugLogA("%s: requestsQueue contains %d items", __FUNCTION__, requestsQueue.getCount());
 
 		while (requestsQueue.getCount() > 0)
 		{
@@ -55,6 +71,8 @@ void CSteamProto::StopQueue()
 
 			// QueueItem's destructor properly free request and arg
 			delete item;
+
+			debugLogA("%s: removed item from requestsQueue, %d items remaining", __FUNCTION__, requestsQueue.getCount());
 		}
 	}
 
@@ -68,6 +86,8 @@ void CSteamProto::StopQueue()
 	delete request;
 
 	m_hQueueThread = NULL;
+
+	debugLogA("%s: leaving", __FUNCTION__);
 }
 
 void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request)
@@ -82,6 +102,8 @@ void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request, RESPONSE respon
 
 void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request, RESPONSE response, void *arg, ARG_FREE_TYPE arg_free_type)
 {
+	debugLogA("%s: entering", __FUNCTION__);
+
 	// Always prepare QueueItem so we can use it's destructor to free request and arg
 	QueueItem *item = new QueueItem(request, response);
 	item->arg = arg;
@@ -89,6 +111,8 @@ void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request, RESPONSE respon
 
 	if (isTerminated)
 	{
+		debugLogA("%s: leaving (isTerminated)", __FUNCTION__);
+
 		// QueueItem's destructor properly free request and arg
 		delete item;
 		return;
@@ -100,12 +124,18 @@ void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request, RESPONSE respon
 	}
 
 	SetEvent(m_evRequestsQueue);
+
+	debugLogA("%s: leaving", __FUNCTION__);
 }
 
 void CSteamProto::ExecuteRequest(QueueItem *item)
 {
+	debugLogA("%s: entering", __FUNCTION__);
+
 	if (isTerminated)
 	{
+		debugLogA("%s: leaving (isTerminated)", __FUNCTION__);
+
 		// QueueItem's destructor properly free request and arg
 		delete item;
 		return;
@@ -127,11 +157,13 @@ void CSteamProto::ExecuteRequest(QueueItem *item)
 	}*/
 
 	delete item;
+
+	debugLogA("%s: leaving", __FUNCTION__);
 }
 
 void CSteamProto::QueueThread(void*)
 {
-	debugLog(_T("CSteamProto::QueueThread: entering"));
+	debugLogA("%s: entering", __FUNCTION__);
 
 	while (!isTerminated)
 	{
@@ -156,5 +188,5 @@ void CSteamProto::QueueThread(void*)
 		}
 	}
 
-	debugLog(_T("CSteamProto::QueueThread: leaving"));
+	debugLogA("%s: leaving", __FUNCTION__);
 }
