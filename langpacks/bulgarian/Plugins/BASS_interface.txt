@@ -48,9 +48,6 @@
 На обяд
 [Preview]
 Образец
-;file \plugins\BASS_interface\src\Bass_interface.h
-[Bass Interface]
-BASS интерфейс
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 Версия на библиотеката BASS: %d.%d.%d.%d
@@ -64,9 +61,12 @@ BASS интерфейс
 Включване на звука
 [Frame background]
 Фон на рамката
+[Bass Interface]
+BASS интерфейс
 [Bass library]
 Библиотеката Bass
 [Sounds enabled]
 Звукът е включен
 [Sounds disabled]
 Звукът е изключен
+;file \plugins\BASS_interface\src\stdafx.h

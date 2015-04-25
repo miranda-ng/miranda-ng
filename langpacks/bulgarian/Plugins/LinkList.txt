@@ -51,7 +51,7 @@
 [Text color]
 Цвят на текста
 [General settings]
-
+Основни настройки
 [Open links always in a new window]
 
 [Update list on new events]

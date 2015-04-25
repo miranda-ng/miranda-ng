@@ -11,7 +11,7 @@
 [Fonts]
 Шрифтове
 [General settings]
-
+Основни настройки
 [Show softkey labels]
 
 [Event log:]

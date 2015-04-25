@@ -258,7 +258,7 @@ Popup заглавие
 Стандарт
 ;file \plugins\Weather\src\weather.cpp
 [Enable/disable auto update]
-
+Вкл / Изкл на автоматично обновяване
 [Auto Update Enabled]
 Автообновяването е включено
 [Auto Update Disabled]
@@ -382,9 +382,9 @@ Weather Protocol
 Всички файлове
 ;file \plugins\Weather\src\weather_conv.cpp
 [mb]
-mb
+МБ
 [in]
-in
+
 [mm]
 mm
 [<unknown time>]

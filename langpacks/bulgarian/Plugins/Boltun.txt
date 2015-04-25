@@ -68,6 +68,6 @@
 [Failed to save base of remarks to %s]
 
 [General Settings]
-
+Основни настройки
 [Engine Settings]
 
