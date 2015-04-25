@@ -73,7 +73,7 @@
 [Outgoing call to %s]
 [Unable to find input audio device]
 [Video call is unsupported]
-[Call cancelled]
+[Call canceled]
 [Unable to find output audio device]
 [Call started]
 [Call ended]

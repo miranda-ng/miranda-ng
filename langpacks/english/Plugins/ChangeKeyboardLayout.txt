@@ -39,8 +39,6 @@
 [Dismiss]
 [On right click]
 [Preview]
-;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
-[ChangeKeyboardLayout]
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Changing Layout]
 [Changing Case]
@@ -48,3 +46,5 @@
 [Popups]
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
 [Popup]
+;file \plugins\ChangeKeyboardLayout\src\stdafx.h
+[ChangeKeyboardLayout]

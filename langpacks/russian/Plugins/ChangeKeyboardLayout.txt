@@ -71,8 +71,6 @@
 Правый щелчок
 [Preview]
 Тест
-[ChangeKeyboardLayout]
-Смена раскладки
 [Changing Layout]
 Смена раскладки
 [Changing Case]
@@ -83,3 +81,5 @@
 Всплывающие окна
 [Popup]
 Всплывающее окно
+[ChangeKeyboardLayout]
+Смена раскладки

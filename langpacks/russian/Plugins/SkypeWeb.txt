@@ -49,10 +49,10 @@
 Введите пароль, чтобы продолжить.
 [Skype Link Protocol]
 Протокол Skype
-[User]
-Пользователь
 [Admin]
 Админ
+[User]
+Пользователь
 [&Invite user...]
 &Пригласить пользователя...
 [&Leave chat session]
@@ -89,6 +89,8 @@
 Авторизовать
 [Get server history]
 Синхронизировать историю
+[Destroy room]
+Удалить комнату чата
 [Create new chat]
 Создать новый чат
 [Network]
