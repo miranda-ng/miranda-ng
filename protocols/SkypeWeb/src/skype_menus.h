@@ -25,6 +25,7 @@ enum
 	CMI_AUTH_REQUEST,
 	CMI_AUTH_GRANT,
 	CMI_GETSERVERHISTORY,
+	CMI_DESTROYCHAT,
 	CMI_MAX // this item shall be the last one
 };
 
