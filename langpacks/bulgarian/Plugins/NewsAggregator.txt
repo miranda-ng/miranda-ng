@@ -11,13 +11,13 @@
 [Add]
 Добавяне
 [Change]
-
+Промяна
 [Remove]
 Премахване
 [Import]
-
+Внос
 [Export]
-
+Износ
 [Retrieve news at startup]
 
 [Cancel]
@@ -25,13 +25,13 @@
 [General Settings]
 
 [Title]
-
+Заглавие
 [URL]
 URL
 [Check every]
-
+Проверка на всеки
 [minutes]
-
+минути
 [Check Feed]
 
 [Authentication]
@@ -39,9 +39,9 @@ URL
 [Use &authentication]
 
 [Login]
-
+Вписване
 [Password]
-
+Парола
 [Visualization]
 
 [Display news using the following format:]
@@ -63,15 +63,15 @@ URL
 [Feeds to be exported:]
 
 [&Export]
-
+Износ
 [&Close]
 Затваряне
 [Import from:]
-
+Внос от:
 [Feeds to be imported:]
 
 [&Import]
-
+Внос
 ;file \plugins\NewsAggregator\Src\Authentication.cpp
 [Enter your username]
 
@@ -99,7 +99,7 @@ URL
 
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
-
+Икона на протокола
 [Check All Feeds]
 
 [Add Feed]
@@ -109,9 +109,9 @@ URL
 [Export Feeds]
 
 [Auto Update Enabled]
-
+Автообновяването е включено
 [Auto Update Disabled]
-
+Автообновяването е изключено
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 

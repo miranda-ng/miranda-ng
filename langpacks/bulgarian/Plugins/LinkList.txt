@@ -15,7 +15,7 @@
 [Search for:]
 
 [Message direction]
-
+Посока на текста
 [Message types]
 
 [All directions]
@@ -33,7 +33,7 @@
 [Deep search]
 
 [Static]
-
+Статичен
 [Color select]
 
 [Incoming messages]
@@ -41,7 +41,7 @@
 [Plugin default]
 
 [Preview]
-
+Образец
 [Outgoing messages]
 Изходящи съобщения
 [Background color]
@@ -63,7 +63,7 @@
 [Show...]
 
 [Date]
-
+Дата
 [Parting line]
 
 [Timestamp]
@@ -71,11 +71,11 @@
 [Direction]
 
 [Type]
-
+Тип
 [&File]
 Файл
 [&Save]
-
+Запис
 [&Close]
 Затваряне
 [&Options]
@@ -97,13 +97,13 @@
 [&Search]
 Търсене
 [link]
-Връзка
+връзка
 [Open]
 
 [Open in new window]
 
 [Copy to clipboard]
-
+Запис в клипборда
 [Show message]
 
 ;file \plugins\HistoryLinkListPlus\src\language.h
@@ -116,11 +116,11 @@
 [Error]
 Грешка
 [incoming]
-Входящи
+входящи
 [outgoing]
-Изходящи
+изходящи
 [Filter]
-
+Филтър
 [no filter]
 
 [Search filter]
@@ -149,7 +149,7 @@
 [No messages found!\nPlease change current filter options.]
 
 [RTF file]
-
+RTF файл
 [All files]
 Всички файлове
 [Save RTF File]

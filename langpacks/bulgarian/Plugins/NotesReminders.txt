@@ -47,7 +47,7 @@
 [Open links with this program instead:]
 
 [Reset to defaults]
-
+Стандарт
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
 
 [Add Reminder]
@@ -55,19 +55,19 @@
 [Trigger On Time && Date:]
 
 [Date]
-
+Дата
 [Time]
-
+Час
 [Reminder Note:]
 
 [None]
 Няма
 [Daily]
-
+Дневно
 [Weekly]
-
+Седмично
 [Monthly]
-
+Месечно
 [Repeat Alert Sound]
 
 [Use Sound]
@@ -81,7 +81,7 @@
 [reftime]
 
 [Reminder]
-
+Напомняне
 [After:]
 
 [On Time && Date:]
@@ -115,11 +115,11 @@
 [&Delete Note]
 
 [Appearance]
-
+Външен вид
 [Background Color]
 Цвят на фона
 [Custom...]
-
+Оерсинален...
 [Reset]
 Анулиране
 [Text Color]
@@ -139,7 +139,7 @@
 [C&ut]
 
 [C&lear]
-
+Изчистване
 [&View Notes]
 
 [&Bring All To Front]
@@ -147,7 +147,7 @@
 [Edi&t Note]
 
 [&Visible]
-
+Видима
 [Always &On Top]
 
 [Delete &All Notes]
@@ -225,49 +225,49 @@
 
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]
-
+Черен
 [Maroon]
 
 [Green]
-
+Зелен
 [Olive]
 
 [Navy]
 
 [Purple]
-
+Лилав
 [Teal]
 
 [Gray]
-
+Сив
 [Silver]
 
 [Red]
-
+Червен
 [Orange]
-
+Оранжев
 [Lime]
 
 [Yellow]
-
+Жълт
 [Blue]
-
+Син
 [Fuchsia]
 
 [Aqua]
 
 [White]
-
+Бял
 [Are you sure you want to delete this note?]
 
 [Visible]
-
+Видима
 [Top]
-
+Горе
 [Notes]
 Бележки
 [Note text]
-
+Бележки (текст)
 [Date/Title]
 
 ;file \plugins\NotesAndReminders\src\options.cpp
@@ -283,17 +283,17 @@
 
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [Minutes]
-
+Минути
 [Hours]
-
+Часове
 [Hour]
-
+час
 [Day]
-
+Ден
 [Days]
-
+Дни
 [Week]
-
+Седмица
 [The specified time is invalid due to begin of daylight saving (summer time).]
 
 [The specified time is invalid.]
@@ -303,11 +303,11 @@
 [&Update Reminder]
 
 [Every]
-
+Всеки
 [Seconds]
-секунди
+Секунди
 [Never]
-
+Никога
 [Default]
 Стандарт
 [Alternative 1]

@@ -6,31 +6,31 @@
 ;  Authors: Awkward
 ;============================================================
 [This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
-
+Дава възможност за бързо търсене на прякори, малки имена, фамилии, имейл, UIN в списъка с контакти. Може да бъде добавена, която и да е стойност от списъка, напр. версия на Miranda, група или град.
 [Quick Search]
-
+Quick Search
 [Quick search]
-
+Quick Search
 [Title]
-
+Заглавие
 [Module/InfoType]
 
 [Setting]
-
+Настройка
 [Reload]
-
+Обновяване
 [New]
-
+Нов
 [Up]
-
+Нагоре
 [Down]
-
+Надолу
 [Delete]
 Изтриване
 [Default]
 Стандарт
 [Additional Options]
-
+Допълнителни настройки
 [Tool Window Style]
 
 [Draw Grid]
@@ -38,47 +38,47 @@
 [Save search pattern]
 
 [Auto Close mode]
-
+Режим автозатваряне
 [Sort by Status]
-
+Сортиране по състояние
 [Show Client Icons]
-
+Показване икона на клиента
 [Settings]
-
+Настройки
 [Title:]
-
+Заглавие:
 [Account]
 Акаунт
 [Gender]
-
+Пол
 [UserID]
 
 [Nickname]
 Прякор
 [First name]
-
+Име
 [Last name]
-
+Фамилия
 [Group]
 Група
 [Container]
-
+Контейнер
 [E-mail]
 Имейл
 [Client ID]
-
+ID на клиента
 [Ext IP]
 
 [LastSeen]
 
 [Last Event]
-
+Последно събитие
 [Online since]
-
+"На линия" от
 [Metacontact]
-
+Метаконтакт
 [Event count]
-
+Брой събития
 [Contact add time]
 
 [Type:]
@@ -86,9 +86,9 @@
 [DB setting]
 
 [Script]
-
+Скрипт
 [Service]
-
+Услуга
 [Contact info]
 
 [Other]
@@ -96,73 +96,73 @@
 [Data type:]
 
 [Byte]
-
+BYTE
 [Word]
-
+WORD
 [DWord]
-
+DWORD
 [Signed]
 
 [As hex]
 
 [String]
-
+STRING
 [IP]
-
+IP
 [TimeStamp]
 Времева марка
 [Module:]
-
+Модул:
 [Setting:]
-
+Настройка:
 [Service:]
 Услуга:
 [Param]
 
 [number value]
-
+числова стойност
 [ANSI string]
-
+ANSI низ
 [Unicode string]
-
+Unicode низ
 [current contact]
-
+текущ контакт
 [last result]
-
+последен резултат
 [parameter]
-
+параметър
 [Result]
-
+Резултат
 [Result type]
 
 [Free memory]
-
+Свободна памет
 [Save]
-
+Запис
 [All]
-
+Всички
 [Close]
 Затваряне
 [Refresh]
-
+Обновяване
 [QuickSearch]
-
+Quick Search
 [Show Offline contacts]
-
+Показвай контактите "Извън линия"
 [New column]
-
+Нова колона
 [Save Item]
-
+Запис на елемента
 [InfoType:]
 
 [New Column]
-
+Нова колона
 [Column Up]
-
+Нагоре
 [Column Down]
-
+Надолу
 [Delete Column]
-
+Изтриване на колона
 [Male]
 Мъж
 [Female]
@@ -176,49 +176,49 @@
 [EventCount]
 
 [Script Editor]
-
+Редактор на скриптове
 [Normal background]
-
+Фон на табовете
 [Normal foreground]
-
+Стандартен фон
 [Odd background]
-
+Фон на странните редове
 [Odd foreground]
-
+Цвят на текста в странен ред
 [Disabled account background]
-
+Фон на редовете с изключен акаунт
 [Disabled account foreground]
-
+Цвят на текста за изключен акаунт
 [Deleted account background]
-
+Фон на редовете с изтрит акаунт
 [Deleted account foreground]
-
+Цвят на текста за изтрит акаунт
 [Hidden contact background]
-
+Фон на редовете със скрит контакт
 [Hidden contact foreground]
-
+Цвят на текста за скрит контакт
 [Metacontact background]
-
+Фон на редовете с метаконтакт
 [Metacontact foreground]
-
+Цвят на текста за метаконтакт
 [Subcontact background]
-
+Фон на редовете с подконтакт
 [Subcontact foreground]
-
+Цвят на текста за подконтакт
 [&Delete]
 Изтриване
 [&Copy]
 Копиране
 [C&onvert to Meta]
-
+Превръщане в Мета
 [Attach to &Tab container]
 
 [&Move to Group]
 Преместване в друга група
 [Some of selected contacts in different metacontacts already]
-
+Някои от избраните контакти са част от различни метаконтакти.
 [Do you really want to delete selected contacts?]
-
+Желаете ли избраните контакти да бъдат изтрити?
 [Warning]
 Предупреждение
 [One or more contacts in same Meta already. Try to convert anyway?]
@@ -226,21 +226,21 @@
 [Editing of column ]
 
 [%i users found (%i) Online: %i]
-
+Открити са %i потребителя. На линия: %i
 [ users found (]
-
+ Открити потребители (
 [) Online: ]
-
+) На линия: 
 [Online]
 На линия
 [deleted]
-
+Изтрито
 [off]
-Изкл.
+изключен
 [active]
-
+активен
 [Colorize]
-
+Оцветяване
 [QuickSearch window hotkey]
 
 [Column content is simple database setting.]
@@ -262,15 +262,15 @@
 [Change setting through QS]
 
 [default]
-Стандарт
+стандарт
 [Selected]
-
+Маркирано
 [contacts]
-Контакти
+контакти
 [Unknown]
 Неизвестно
 [Stay on Top]
-
+Винаги отгоре
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 

@@ -6,10 +6,10 @@
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Shows and allows you to edit your details for all protocols.]
-
+Показва (в списъка с контакти) и позволява редактиране на подробностите за акаунтите ви във всеки протокол.
 ;file \plugins\MyDetails\res\resource.rc
 [Set my nickname]
-
+Задаване на прякор
 [Nickname:]
 Прякор:
 [Cancel]
@@ -17,143 +17,143 @@
 [General]
 Основни
 [RTL]
-
+Л<Д
 [Align text to right]
-
+Текста вдясно
 [Auto-resize frame]
-
+Авторазмер на рамката
 [Use contact list smileys]
-
+Ползване на усмивки в списъка с контакти
 [Replace smileys]
-
+Замяна на усмивките
 [Resize smileys]
-
+Оразмеряване на усмивките
 [Global on...]
-
+Общо за...
 [...avatar]
-
+...аватар
 [...nickname]
-
+...прякор
 [...status]
-
+...състояние
 [...status message]
-
+...текст на състоянието
 [Account]
 Акаунт
 [Show account name]
-
+Показвай име на акаунта
 [Show account cycle button]
-
+Бутон за превключване на акаунтите
 [Cycle through accounts every:]
-
+Превключване на акаунтите през:
 [seconds]
 секунди
 [Avatar]
-
+Аватар
 [Custom size:]
-
+Размер:
 [pixels]
 пиксела
 [Allow it to grow]
-
+Възможност за увеличаване
 [Draw border]
-
+Граница
 [Round corners]
-
+Закръглени ъгли
 [Custom corner size:]
-
+Размер на ъгъла:
 [Use free space (under avatar) to other texts]
-
+Ползване на мястото под аватара за друг текст
 [Frame options]
-
+Опции за рамката
 [Top:]
-
+Горе:
 [Bottom:]
-
+Долу:
 [Left:]
-
+Ляво:
 [Right:]
-
+Дясно:
 [Set my status message for all status]
-
+Текст за състояние за всички състояния
 [Status message:]
-
+Текст за състоянието:
 [&Offline]
-
+Извън линия
 [On&line]
-
+На линия
 [&Away]
-
+Отсъстващ
 [&NA]
-
+Недостъпен
 [Occ&upied]
-
+Зает
 [&DND]
-
+Не безпокойте
 [&Free for chat]
-
+Готов за чат
 [&Invisible]
-
+Невидим
 [On the &phone]
-
+На телефона
 [Out to &lunch]
-
+На обяд
 [Set my avatar...]
-
+Задаване на аватар...
 [Set my nickname...]
-
+Задаване на прякор...
 [Set my status message...]
-
+Задаване на текст за състояние...
 [Enable listening to]
-
+Включване на "Слуша"
 [Show next account]
-
+Показване на следващия акаунт
 [Show previous account]
-
+Показване на предишния акаунт
 [Cycle through accounts]
-
+Превключване между акаунтите
 [Don't cycle through accounts]
-
+Без превключване между акаунтите
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
-
+<състоянието няма име>
 ;file \plugins\MyDetails\src\frame.cpp
 [Nickname]
 Прякор
 [Status]
 Състояние
 [Status message]
-
+Текст за състояние
 [Listening to]
-
+Слуша..
 [My details]
-
+Моите детайли
 [Background]
 Фон
 [Avatar border]
-
+Рамка на аватара
 [Show my details]
-
+Показване на моите детайли
 [Enable listening to for %s]
-
+Включване на "Слуша" за %s
 [Set my avatar for %s...]
-
+Задаване на аватар за %s...
 [Set my nickname for %s...]
-
+Задаване на прякор за %s...
 [Set my status message for %s...]
-
+Задаване на текст за състояние "%s"...
 [Hide my details]
-
+Скриване на моите детайли
 ;file \plugins\MyDetails\src\mydetails.cpp
 [Previous account]
-
+Предишен акаунт
 [Next account]
-
+Следващ акаунт
 [Contact list]
 Списък с контакти
 ;file \plugins\MyDetails\src\options.cpp
 ;file \plugins\MyDetails\src\services.cpp
 [Set my nickname for %s]
-
+Задаване на прякор за %s
 [Set my status message for %s]
-
+Текст за състояние "%s"

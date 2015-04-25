@@ -13,49 +13,49 @@
 [Popup text format]
 
 [Preview]
-
+Образец
 [V]
 
 [%extratext% is your status message]
 
 [Click action]
-
+Действие на бутоните на мишката
 [On left click]
-
+Ляв бутон
 [On right click]
-
+Десен бутон
 [Delay]
-
+Закъснение
 [Sec]
 сек
 [0 = Default]
-
+0 = стандарт
 [-1 = Infinite]
-
+-1 = безкрайно
 [Colors]
-
+Цветове
 [Background]
 Фон
 [Use default]
-
+Стандартно
 [Text]
 Текст
 [Only notify when:]
 
 [On&line]
-
+На линия
 [&Away]
-
+Отсъстващ
 [&NA]
-
+Недостъпен
 [Occ&upied]
-
+Зает
 [&DND]
-
+Не безпокойте
 [&Free for chat]
-
+Готов за чат
 [&Other]
-
+Друго
 [Log to a file only when popup notification for a contact is enabled]
 
 [Enable autoreply]
@@ -81,17 +81,17 @@
 [Disable autoreply when...]
 
 [&Invisible]
-
+Невидим
 [On the &phone]
-
+На телефона
 [Out to &lunch]
-
+На обяд
 [Autoreply format:]
 
 [&Variables]
-
+Променливи
 [Se&ttings]
-
+Настройки
 [Ignore requests]
 
 [Send an autoreply]
@@ -103,9 +103,9 @@
 [Save as &new]
 
 [&Save]
-
+Запис
 [Title:]
-
+Заглавие:
 [Use this message as default for]
 
 [New message]
@@ -313,15 +313,15 @@ URL
 [Stranger]
 
 [%d hours]
-
+%d часа
 [%d minutes]
-
+%d минути
 [%d seconds]
 
 [Read status message]
-
+Показване на текста за състояние
 [Set status message]
-
+Задаване на текст за състояние
 [On]
 Включено
 [Off]

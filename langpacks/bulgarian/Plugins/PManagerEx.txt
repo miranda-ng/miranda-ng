@@ -19,8 +19,8 @@
 [Check database]
 Проверка на базата данни
 [Restart]
-
+Рестартиране
 [Database]
-
+База от данни
 [Profile manager]
 

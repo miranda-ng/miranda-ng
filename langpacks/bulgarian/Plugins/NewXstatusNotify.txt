@@ -9,7 +9,7 @@
 
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when contact changes to one of these statuses]
-
+Уведомяване, ако контакт промени състоянието си на:
 [Online]
 На линия
 [Offline]
@@ -31,47 +31,47 @@
 [On the phone]
 На телефона
 [Always when changing from offline]
-
+Винаги при промяна от "Извън линия"
 [Notify when contact changes]
 
 [Extra status]
-
+Допълнително състояние
 [Status message]
-
+Текст за състояние
 [Plugin activation]
-
+Активиране на приставката
 [Automatically turn off Popups and Sounds on status change]
-
+Изключване на Popups и звука при промяна на състоянието
 [Configure]
 Настройване
 [Notify me for people not on my contact list]
 
 [Use individual sounds]
-
+Ползване на индивидуални звуци
 [Blink icon in the system tray]
-
+Мигане на иконата в трея
 [Also when extra status or status message changes]
 
 [Use status icon]
-
+Показване на икона за състоянието
 [Log to file]
-
+Запис във файл
 [Open]
 
 [Change]
-
+Промяна
 [Preview]
-
+Образец
 [Delete]
 Изтриване
 [Enable sounds]
-
+Включване на звука
 [Enable popups]
-
+Включване на popups
 [Status Notify]
-
+Уведомяване за състояния
 [Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox, and then reopen this dialog.]
-
+Индивидуалните звукове са изключени.\n\nЗа да да ги включите отидете в Настройки>Състояние>Уведомяване и включете\n"Ползване на индивидуален звук", след което отворете наново прозореца.
 [Sounds]
 Звук
 [Popups]
@@ -81,71 +81,71 @@
 [Extra status logging]
 
 [Disable all]
-
+Изкл. на всички
 [Enable all]
-
+Вкл. на всички
 [Status message notify]
 
 [Status message logging]
 
 [Popups when status changes to:]
-
+При променено състояние на:
 [Background]
 Фон
 [Text]
 Текст
 [Colors]
-
+Цветове
 [Use custom colors]
 Зададени цветове
 [Use Windows colors]
 Цветове от Windows
 [Use Popup colors]
-
+От Popup приставката
 [Popup text]
-
+Текст на Popup-а
 [Show contact group name]
-
+Показване на групата (в която е контакта)
 [Show status description]
-
+Описание на състоянието
 [Use alternative descriptions]
-
+Алтернативни описания
 [Show previous status too]
-
+Показване и на предишното състояние
 [Read status message]
-
+Показване на текста за състояние
 [Timeout]
-
+Времетраене
 [Sec]
 сек
 [Connection timeout]
 
 [0 = Default]
-
+0 = стандарт
 [-1 = Infinite]
-
+-1 = безкрайно
 [Click action]
-
+Действие на бутоните на мишката
 [On left click]
-
+Ляв бутон
 [On right click]
-
+Десен бутон
 [Notification]
-
+Уведомяване
 [Show Popups when I connect]
 
 [Disable for extra status 'Music']
-
+Изключване за допълнително състояние "Слуша музика"
 [Truncate message length to:]
-
+Орязване на съобщенията до:
 [characters]
-
+знака
 [Templates]
-
+Шаблони
 [Notify when contact changes extra status]
 
 [Template:]
-
+Шаблон:
 [Notify when contact removes extra status]
 
 [Notify when contact changes extra status message]
@@ -153,17 +153,17 @@
 [Notify when contact removes extra status message]
 
 [Variables]
-
+Променливи
 [Reset]
 Анулиране
 [Disable notifications]
-
+Без уведомяване
 [Disable globally]
-
+Изключване за всички
 [Disable when my status is:]
-
+Изключване, при състояние:
 [Disable only if I change global status]
-
+Изключване само при промяна на общото състояние
 [Cancel]
 Отказ
 [Log extra status changes]
@@ -197,7 +197,7 @@
 [Notify when contact removes status message]
 
 [Log status changes]
-
+Запис на промените на състоянията
 [Log status changes to file]
 
 [Log status changes to history]
@@ -240,115 +240,115 @@
 [<unknown>]
 <неизвестно>
 [%s is now %s]
-
+%s сега е %s
 [%s, %s. %s changed status to %s (was %s)\r\n]
-
+%s, %s. %s промени състоянието си на "%s" (беше "%s")\r\n
 [connecting]
 Свързване
 [aborting]
-
+прекратяване
 [playing]
 
 [%s changed status message to %s]
 
 [(M) is back online!]
-
+(M) е пак на линия!
 [(F) is back online!]
-
+(F) е пак на линия!
 [(U) is back online!]
-
+(U) е пак на линия!
 [User: Online]
-
+Потребител: "На линия"
 [(M) went offline! :(]
-
+(M) е извън линия ! :(]
 [(F) went offline! :(]
-
+(F) е извън линия ! :(]
 [(U) went offline! :(]
-
+(U) е извън линия ! :(]
 [User: Offline]
-
+Потребител: "Извън линия"
 [(M) hides in shadows...]
-
+(M) се крие в сенките...
 [(F) hides in shadows...]
-
+(F) се крие в сенките...
 [(U) hides in shadows...]
-
+(U) се крие в сенките...
 [User: Invisible]
-
+Потребител: "Невидим"
 [(M) feels talkative!]
-
+(M) се чувства приказлив!
 [(F) feels talkative!]
-
+(F) се чувства приказлива!
 [(U) feels talkative!]
-
+(U) се чувства приказлив!
 [User: Free for chat]
-
+Потребител: "Готов за чат"
 [(M) went away]
-
+(M) отсъства
 [(F) went away]
-
+(F) отсъства
 [(U) went away]
-
+(U) отсъства
 [User: Away]
-
+Потребител: "Отсъстващ"
 [(M) isn't there anymore!]
-
+(M) не е там!
 [(F) isn't there anymore!]
-
+(F) не е там!
 [(U) isn't there anymore!]
-
+(U) не е там!
 [User: Not available]
-
+Потребител: "Недостъпен"
 [(M) has something else to do]
-
+(M) има нещо друго за вършене
 [(F) has something else to do]
-
+(F) има нещо друго за вършене
 [(U) has something else to do]
-
+(U) има нещо друго за вършене
 [User: Occupied]
-
+Потребител: "Зает"
 [(M) doesn't want to be disturbed!]
-
+(M) не желае да бъде обезпокояван!
 [(F) doesn't want to be disturbed!]
-
+(F) не желае да бъде обезпокоявана!
 [(U) doesn't want to be disturbed!]
-
+(U) не желае да бъде обезпокояван!
 [User: Do not disturb]
-
+Потребител: "Не безпокойте"
 [(M) is eating something]
-
+(M) в момента яде нещо
 [(F) is eating something]
-
+(F)  в момента яде нещо
 [(U) is eating something]
-
+(U)  в момента яде нещо
 [User: Out to lunch]
-
+Потребител: "На обяд"
 [(M) had to answer the phone]
-
+(M) говори по телефона
 [(F) had to answer the phone]
-
+(F) говори по телефона
 [(U) had to answer the phone]
-
+(U) говори по телефона
 [User: On the phone]
-
+Потребител: "На телефона"
 [User: from offline (has priority!)]
-
+Потребител: от "Извън линия" (с предимство!)
 [Status message removed]
 
 [Status message changed]
 
 [Extra status removed]
-
+Премахване на допълнително състояние
 [Extra status message changed]
-
+Промяна на текст на допълнително състояние
 [Extra status changed]
-
+Промяна на допълнително състояние
 [Extra status message removed]
 
 [Enable status notification]
-
+Включване уведомяването за състояния
 [Disable status notification]
-
+Изключване уведомяването за състояния
 [Notification enabled]
 
 [Notification disabled]
@@ -358,68 +358,68 @@
 [Toggle status notification]
 
 [Status change]
-
+Промяна на състояние
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Всички файлове
 [Log]
 Дневник
 [This is status message]
-
+Това е текст за състояние
 [This is extra status]
 
 [Show available variables]
-
+Показване на наличните променливи
 [Reset all templates to default]
-
+Анулиране на всички шаблони
 [Do you want to reset all templates to default?]
-
+Желаете ли да бъдат възстановени стандартните шаблони?
 [Reset templates]
-
+Анулиране на шаблоните
 [Account]
 Акаунт
 [Status logging]
 
 [Filtering]
-
+Филтриране
 ;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
-
+(беше %s)
 [Open message window]
 
 [Close popup]
-
+Затваря popup
 [Open contact details window]
 
 [Open contact menu]
-
+Отваря менюто на контакта
 [Open contact history]
 
 [Do nothing]
-
+Нищо
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 [Can't open the log file!]
-
+Дневникът не може да бъде отворен!
 [NewXstatusNotify]
 
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Mood]
-
+Настроение
 [Activity]
-
+Дейност
 [xStatus]
-
+xСъстояние
 [<no title>]
 
 [%s changed %s]
 
 ;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %n to: %t]
-
+промени състоянието си "%n" на: %t
 [removed %n]
-
+премахна състоянието си "%n"
 [changed %n message to: %m]
-
+промени текста за състояние "%n" на: %m
 [removed %n message]
 
 [changed status message to: %n]
@@ -427,11 +427,11 @@
 [removed status message]
 
 [changed %n @ %t: %m]
-
+промени състоянието си "%n" @ %t: %m
 [changed %n message @ %m]
-
+промени текста за състояние "%n" @ %m
 [has %n @ %t: %m]
-
+има зададено състояние "%n" @ %t: %m
 [changed status message @ %n]
 
 [is %s and has status message @ %n]

@@ -33,7 +33,7 @@
 [Generate and use random key]
 
 [Account:]
-
+Акаунт:
 [Key ID:]
 
 [Copy public key]
@@ -41,17 +41,17 @@
 [Export private key]
 
 [Change password]
-
+Промяна на паролата
 [Set GPG bin path and keyring home dir.]
 
 [Continue]
-
+Продължение
 [Home directory:]
 
 [GnuPG binary:]
 
 [Browse]
-
+Разглеждане
 [Turn on key autoexchange]
 
 [The new public key was received]
@@ -63,7 +63,7 @@
 [Ignore]
 Игнориране
 [Static]
-
+Статичен
 [Key Generation dialog]
 
 [Cancel]
@@ -75,9 +75,9 @@
 [Real name:]
 
 [Email:]
-
+Имейл:
 [Comment:]
-
+Коментар:
 [Expire date:]
 
 [ex.: 2010-08-15]
@@ -99,7 +99,7 @@
 [Default password]
 
 [Import]
-
+Внос
 [Select keyserver for key search:]
 
 [Received encrypted file]
@@ -121,7 +121,7 @@
 [Change private key password]
 
 [Current password:]
-
+Текуща парола:
 [New password twice:]
 
 [User list:]
@@ -179,7 +179,7 @@
 
 ;file \plugins\New_GPG\src\main.cpp
 [Email]
-
+Имейл
 [Name]
 Име
 [Creation date]
@@ -223,7 +223,7 @@
 ["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
 
 [Info]
-
+Информация
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 
 [GPG binary does not exist.\nPlease choose another location]
@@ -307,9 +307,9 @@
 
 ;file \plugins\New_GPG\src\options.cpp
 [Services]
-
+Услуги
 [Main]
-
+Основна
 [GnuPG Variables]
 
 [Messages]
@@ -329,7 +329,7 @@
 [we have secret key for this public key, do not removing from GPG keyring]
 
 [info]
-
+Информация
 [Key removed from GPG keyring]
 
 [Do you want to remove key from entire metacontact (all subcontacts)?]
@@ -343,7 +343,7 @@
 [Set log file]
 
 [LOG files]
-
+Дневници (файлове)
 [Choose gpg.exe]
 
 [Set home directory]

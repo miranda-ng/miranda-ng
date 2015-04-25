@@ -33,7 +33,7 @@
 [Remember newest message ID and don't show older]
 
 [version:]
-
+Версия:
 [Clear popups history]
 
 [Filter messages contain below strings in:]
@@ -41,13 +41,13 @@
 [Sender]
 Изпращач
 [Subject]
-
+Тема
 [Lotus connection settings]
 
 [Primary server:]
 
 [Database:]
-
+База данни:
 [try detect]
 
 [Secondary server:]

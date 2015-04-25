@@ -6,158 +6,158 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 [Uploads the text to web page and sends the URL to your friends.]
-
+Качва текст на уеб страница и зпраща URL адреса до ваш контакт.
 ;file \plugins\PasteIt\res\PasteIt.rc
 [Settings]
-
+Настройки
 [Default web page]
-
+Стандартна уебстаница
 [Default file encoding]
-
+Станд. кодиране на знаците
 [Auto-detect UTF-8]
-
+Автоматично засичане на UTF8
 [Show confirmation dialog box]
-
+Показване на прозорец за потвърждаване
 [Autosend download link to contact]
-
+Автоизпращане на връзка за сваляне на контакта
 [Web page settings]
-
+Настройки за уеб страницата
 [Web page to configure]
-
+Уебстраница за настройване
 [Configure]
 Настройване
 [Default formatting]
-
+Стандартно форматиране
 [Auto-detect format from file extension]
-
+Автоматично засичане на формата от разширението на файла
 [Public paste]
-
+Публично поставяне
 [Login as guest]
-
+Вписване като гост
 [User key]
-
+Потребителски ключ
 [Get user key]
-
+Получаване на потребителски ключ
 [Configure formatting]
-
+Настройване на форматирането
 [Cancel]
 Отказ
 [Up]
-
+Нагоре
 [Down]
-
+Надолу
 [Delete]
 Изтриване
 [Restore defaults]
-
+Стандарт
 [Download more]
-
+Сваляне на още
 [Login to pastebin.com]
-
+Вписване в pastebin.com
 [User name]
-
+Потребителско име
 [Password]
-
+Парола
 [Paste It]
-
+Paste It
 [Format]
-
+Формат
 [Encoding]
-
+Кодиране
 [Recode]
 
 ;file \plugins\PasteIt\src\Options.cpp
 [Use default codepage]
-
+Ползване на стандартна кодова страница
 [Thai]
-
+тайски (тайландски)
 [Japanese]
-
+японски
 [Simplified Chinese]
-
+опростен китайски
 [Korean]
-
+корейски
 [Traditional Chinese]
-
+традиционен китайски
 [Central European]
-
+Централна Европа
 [Cyrillic]
-
+Кирилица
 [Cyrillic KOI8-R]
-
+Кирилица KOI8-R
 [Latin I]
-
+Latin I
 [Greek]
-
+гръцки
 [Turkish]
-
+турски
 [Hebrew]
-
+иврит
 [Arabic]
-
+арабски
 [Baltic]
-
+балтийски
 [Vietnamese]
-
+виетнамски
 [Korean (Johab)]
-
+корейски (Johab)
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
-
+Въвели сте невалидна кодова страница. Изберете от падащото меню или въведете правилно число.
 [Invalid codepage]
-
+Невалидна кодова страница
 [Services]
-
+Услуги
 [Main]
-
+Основна
 [Web page]
-
+Уеб страница
 ;file \plugins\PasteIt\src\PasteIt.cpp
 [All Files (*.*)]
-
+Всички файлове (*.*)
 [Paste It - Select file]
-
+Paste It - Избиране на файл
 [Error]
 Грешка
 [Paste from clipboard]
-
+Поставяне от клипборда
 [Paste from file]
-
+Поставяне от файл
 [Paste It HTTP connections]
-
+HTTP връзки на Paste It
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
-
+Можете да поставите само 1 файл
 [Cannot get data from clipboard]
-
+Данните от клипборда не могат да бъда извлечени
 [File size is %d KB, do you really want to paste such a large file?]
-
+Размерът на файла е %d KB. Желаете да поставите толкова голям файл?
 [Are You sure?]
 Сигурни ли сте?
 [Cannot read file '%s']
-
+Файлът "%s" не може да бъде прочетен
 [File size is larger then 10 MB, cannot be sent]
-
+Файлът е по-голям от 10 MB, поради това не може да бъде изпратен
 [Cannot open file '%s']
-
+Файлът "%s" не може да бъде отворен
 [File '%s' is empty]
-
+Файлът "%s" е празен
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
 [Error during sending text to web page: %s]
-
+Грешка при качването на файла в уеб страницата "%s"
 [Error during sending text to web page]
-
+Грешка при качването на файла в уеб страницата
 [Error during getting user key from web page: %s]
-
+Грешка при получаването на потребителския ключ от уеб страницата "%s"
 [Paste expire date]
-
+Изтичане валидността на текста
 [Never]
-
+Никога
 [10 minutes]
-
+10 минути
 [1 hour]
-
+1 час
 [1 day]
-
+1 ден
 [1 month]
-
+1 месец
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp

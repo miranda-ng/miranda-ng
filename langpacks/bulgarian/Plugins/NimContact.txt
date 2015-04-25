@@ -43,7 +43,7 @@ URL
 [O&pen Folder]
 
 [Link Settings]
-
+Настройки на връзката
 [Contact list settings]
 
 [Group:]
@@ -63,7 +63,7 @@ URL
 [Timer Intervals.  ]
 
 [Dialog]
-
+Прозорец
 [Away as another status]
 
 [Disable timer]

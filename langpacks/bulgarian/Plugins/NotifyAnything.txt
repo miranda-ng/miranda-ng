@@ -11,7 +11,7 @@
 [Property Page]
 
 [Security]
-
+Сигурност
 [Only listen to localhost]
 
 [Port:]
@@ -31,7 +31,7 @@
 [Debug]
 
 [Log to file]
-
+Запис във файл
 [Message debugging]
 
 ;file \plugins\NotifyAnything\src\common.h

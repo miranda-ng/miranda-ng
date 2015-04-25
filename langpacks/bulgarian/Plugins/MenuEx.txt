@@ -9,74 +9,74 @@
 
 ;file \plugins\MenuItemEx\res\resource.rc
 [Enter an authorization request]
-
+Въведете молба за упълномощаване
 [&Send]
 Изпращане
 [&Cancel]
 Отказ
 [Shown menu items]
-
+Показвани елементи в менюто
 [Visibility]
 Видимост
 [Show alpha icons]
-
+Показване на алфа икони
 [Hide from list]
-
+Скриване от списъка
 [Ignore]
 Игнориране
 [Copy to Account (Ctrl+click for move to Account)]
-
+Копиране на акаунта (Ctrl+ляв бутон за преместване в Акаунт)
 [Send 'You were added']
-
+Изпрати "Вие бяхте добавен"
 [Request Authorization]
 Молба за упълномощаване
 [Browse Received Files]
-
+Разглеждане на получените файлове
 [Copy IP]
-
+Копиране на IP
 [Copy MirVer]
-
+Копиране на MirVer стойност
 [Copy Status Message]
-
+Копиране на текста за състояние
 [Add item name]
-
+Добавяне името на елемента
 [Copy ID]
-
+Копиране на ID
 [Add protocol name]
-
+Добавяне името на протокола
 [Show ID in menu item]
 
 [Trim too long ID]
 
 [* Use Ctrl+click to see popup with the copied text]
-
+* Използвайте Ctrl+ляв бутон за показване на popup с копирания текст
 [Hide contact on 'Ignore all']
 
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
-
+Текст за състояние
 [xStatus title]
-
+xСъстояние
 [xStatus message]
-
+Текст на xСъстояние
 [Listening to]
-
+Слуша..
 [Activity title]
-
+Етикет на дейността
 [Activity text]
-
+Текст на дейността
 [Show in list]
-
+Показване в списъка
 [Always visible]
 Винаги видимо
 [Never visible]
-
+Никога видимо
 [Copy to Account]
-
+Копиране в Акаунт
 [Copy xStatus Message]
 
 [All]
-
+Всички
 [Messages]
 Съобщения
 [URL]
@@ -86,17 +86,17 @@ URL
 [User Online]
 Потребител "На линия"
 [Authorization]
-
+Упълномощаване
 [You Were Added]
 Вие бяхте добавен
 [Typing Notify]
 Уведомяване при писане
 [Please authorize me to add you to my contact list.]
-
+Моля, упълномощете ме да ви добавя в списъка си с контакти.
 [Do you want to send authorization request\nto new contact?]
-
+Желаете ли да бъде изпратена молба за упълномощаване до\nновия контакт?
 [Open ignore settings]
-
+Отваряне настройките за игнориране
 [Request authorization]
 Молба за упълномощаване
 [MenuItemEx]

@@ -6,143 +6,143 @@
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
 [Simple updater for Miranda NG premodified packs.]
-
+Инструмент за лесно актуализиране на предварително определени пакети за Miranda NG.
 ;file \plugins\PackUpdater\Res\Resource.rc
 [Updates found!]
-
+Налични са актуализации!
 [Update]
-
+Обнови
 [View info]
-
+Повече инф.
 [Cancel]
 Отказ
 [PackUpdater has detected updated versions\nof the following Miranda components:]
-
+През PackUpdater са налични актуализации \nза следните компоненти на Miranda NG:
 [Description]
-
+Описание
 [Downloading...]
-
+Сваляне...
 [Pack update options]
-
+Настройки за актуализиране на пакета за Miranda NG
 [On startup]
-
+При стартиране
 [Remind about not installed pack update]
-
+Напомняне за неинсталирани актуализации
 [Hotkey]
-
+Клавишна комбинация
 [Go to Customize -> Hotkeys to change the hotkey]
-
+За промени отидете в Персонализиране>Клавишни комбинации
 [Notifications]
-
+Уведомявания
 [Message boxes]
-
+Текстови кутии
 [Errors]
-
+Грешки
 [Info messages]
-
+Инф. съобщения
 [Progress dialogs]
-
+Прозорци за напредъка
 [Every]
-
+Всеки
 [(but only once a day)]
-
+(но по веднъж на ден)
 [Message boxes (*)]
-
+Текстови кутии (*)
 [Back]
-
+Назад
 [Text]
 Текст
 [Colors]
-
+Цветове
 [Use cus&tom colors]
-
+Избор на цветове
 [Use &Windows colors]
-
+Цветове от Windows
 [Use Pop&up colors]
-
+От Popup приставката
 [Preview]
-
+Образец
 [Click action]
-
+Действие на бутоните на мишката
 [On left click]
-
+Ляв бутон
 [On right click]
-
+Десен бутон
 [Timeout]
-
+Времетраене
 [0 = Default]
-
+0 = стандарт
 [-1 = Infinite]
-
+-1 = безкрайно
 [Sec]
 сек
 [* Needs popup actions to be enabled]
-
+* Изисква Popup Действията да са включени
 [Not sets for "Message boxes"]
 
 [Boxes]
-
+Кутии
 [Popups]
 Рopups
 ;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]
-
+Проверка за актуализации
 [Pack Updater]
-
+Pack Updater
 ;file \plugins\PackUpdater\Src\Notifications.cpp
 [An error occurred while downloading the update.]
-
+Възникна грешка при свалянето на актуализацията.
 [Component Name]
-
+Име на компонента
 [Current Version]
-
+Текуща версия
 [New Version]
-
+Нова версия
 [Downloading pack updates...]
-
+Сваляне на актуализации за пакета....
 [Downloading update...]
-
+Сваляне на актуализации...
 [Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-
+Свалянето завърши. Да започне ли актуализиране? Данните Ви ще бъдат съхранени и Miranda NG ще бъде затворена.
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-
+Свалянето завърши. Да започне ли актуализиране? Данните Ви ще бъдат съхранени и Miranda NG ще бъде затворена.
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
-
+Избрахте наличните актуализации да бъдат инсталирани по-късно.\nМожете да го сторите ръчно от:\n\n%s
 ;file \plugins\PackUpdater\Src\Notifications.h
 [Close popup]
-
+Затваря popup
 [Do nothing]
-
+Нищо
 ;file \plugins\PackUpdater\Src\Options.cpp
 [hours]
-
+часа
 [days]
-
+дни
 [Test]
-
+Тест
 [Services]
-
+Услуги
 ;file \plugins\PackUpdater\Src\PackUpdater.cpp
 [Clear pack updates folder]
-
+Изчистване папката на Pack Updater
 ;file \plugins\PackUpdater\Src\Utils.cpp
 ['Yes' Button]
-
+Бутон "Да"
 ['No' Button]
-
+Бутон "не"
 [Pack Updater HTTP connection]
-
+HTTP връзки на Pack Updater
 [URL for checking updates not found.]
-
+Не е  открит URL за актуализиране.
 [Downloading version info...]
-
+Сваляне на инф. за версията...
 [Name of Update's file is not supported.]
-
+Имената на свалените файлове не се поддържат.
 [Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
-
+Актуализирането е невъзможно.\nНямате администраторски права.\nМоля, стартирайте Miranda NG като администратор.
 [No updates found.]
-
+Няма налични актуализации.
 [No files for update.]
-
+Няма файлове за актуализиране.
 [Update checking already started!]
-
+Вече е стартирана проверка за актуализации!
