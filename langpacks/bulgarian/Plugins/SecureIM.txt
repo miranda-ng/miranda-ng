@@ -37,15 +37,15 @@
 [Offline Key Timeout:]
 
 [days]
-
+дни
 [PGP]
-
+PGP
 [GPG]
-
+GPG
 [Reset All]
 
 [Protocols]
-
+Протоколи
 [Split Messages]
 
 [Online:]
@@ -63,11 +63,11 @@
 [E&xport]
 
 [Private]
-
+Частно
 [&Export]
-
+Износ
 [&Import]
-
+Внос
 [Set &keyrings...]
 
 [Disable keyrings use]
@@ -75,7 +75,7 @@
 [Load &Private key]
 
 [Basic]
-
+Основни
 [Executable:]
 
 [Home Directory:]
@@ -87,11 +87,11 @@
 [Debug]
 
 [Log to File]
-
+Запис във файл
 [Save Pass]
 
 [Back]
-
+Назад
 [Text]
 Текст
 [Key agreement colors]
@@ -103,11 +103,11 @@
 [SecureIM Popup Colors]
 
 [Preview]
-
+Образец
 [Events]
 Събития
 [Popup Timeout]
-
+Popup времетраене
 [Time in Seconds]
 
 [0 = Default Popup Timeout Value]
@@ -125,7 +125,7 @@
 [Show a popup on each secure receive]
 
 [Please type in your password]
-
+Моля, въведете паролата
 [Username:]
 Потребител:
 [Password:]
@@ -137,7 +137,7 @@
 [Enter passphrase for the secret key:]
 
 [Mode]
-
+Режим
 [Native SecureIM]
 
 [PGP SecureIM]
@@ -240,7 +240,7 @@
 [Name]
 Име
 [Password is too short!]
-
+Паролата е твърде кратка!
 [ON]
 Включено
 [Off]
@@ -256,7 +256,7 @@
 [This version not supported!]
 
 [(none)]
-
+(никакво)
 [Private key loaded.]
 
 [Private key not loaded!]
@@ -268,9 +268,9 @@
 [Native]
 
 [Disabled]
-
+Изключено
 [Enabled]
-
+Включено
 [Always try]
 
 [Create SecureIM connection]
@@ -339,13 +339,13 @@
 [Connection Established]
 
 [Contact Menu]
-Меню на контактите
+Меню на контакта
 [Disable Secure Connection]
 
 [Establish Secure Connection]
 
 [Message Window]
-
+Прозорец за съобщения
 [Popups]
 Рopups
 [Secure Connection Disabled]
@@ -363,7 +363,7 @@
 [Always Try]
 
 [Overlays]
-
+Насложени икони за
 [Native mode]
 
 [PGP mode]
@@ -403,7 +403,7 @@
 [Load Public Key File]
 
 [Services]
-
+Услуги
 ;file \plugins\SecureIM\src\popupOptions.cpp
 [Key Popup]
 

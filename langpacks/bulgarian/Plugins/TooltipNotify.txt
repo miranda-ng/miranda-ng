@@ -9,7 +9,7 @@
 
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
-
+Изберете протоколи
 [Choose contacts]
 
 [Allow tooltip notifications for the following users:]
@@ -27,7 +27,7 @@
 [Typing]
 Пише
 [Protocols]
-
+Протоколи
 [Suppress notifications upon connection for]
 
 [sec]
@@ -39,7 +39,7 @@
 [Show tooltip for]
 
 [ms]
-
+ms
 [Duration x2 upon online event]
 
 [Double click on tooltip]
@@ -49,9 +49,9 @@
 [Opens message dialog]
 
 [Behavior]
-
+Поведение
 [Misc]
-
+Разни
 [Obey 'Suppress online notification' settings]
 
 [Auto positioning]
@@ -59,7 +59,7 @@
 [Transparent input]
 
 [Preview]
-
+Образец
 [Translucency options]
 Настройки за прозрачност
 [Transparent tooltip]

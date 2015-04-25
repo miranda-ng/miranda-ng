@@ -6,30 +6,30 @@
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
-
+Scriver - за изпращане и получаване на съобщения.
 ;file \plugins\Scriver\res\resource.rc
 [Behavior]
-
+Поведение
 [Automatically pop up the window when]
-
+Изскачане на прозореца при състояние:
 [and stay minimized]
-
+и минимизиране
 [Cascade new windows]
 Каскадно подреждане на новите прозорци
 [Save size and location for each contact]
-
+Запис на размер и местоположение за всеки контакт
 [Minimize on send]
-
+Минимизиране след изпращане
 [Hide windows on close]
-
+Скриване на прозореца при изпращане
 [Send message on 'Enter']
 Изпращане на съобщение с "Enter"
 [Send message on double 'Enter']
 Двукратно натискане на "Enter" изпраща съобщение
 [Remember unsent messages]
-
+Запомняне на неизпратените съобщения
 [Delete temporary contacts on closing]
-
+Изтриване на временните контакти след затваряне
 [Show warning when message has not been received after]
 Предупреждение, ако съобщение не е получено след
 [seconds]
@@ -37,103 +37,103 @@
 [Tabs]
 Табове
 [Enable tabs]
-
+Включване на табовете
 [Always show tab bar]
-
+Постоянно видима лентата с табове
 [Tabs at the bottom]
-
+Табове на дъното
 [Limit names on tabs to]
-
+Максимална дължина за име на таб:
 [characters]
-
+знака
 [Show close button on each tab]
-
+Бутон за затваряне на всеки таб
 [Switch to active tab]
-
+Превключване към активния таб
 [Limit number of tabs per window to]
-
+Ограничаване на броя табове в прозорец до
 [Use separate windows for group chats]
-
+Отделни прозорци за групови чатове
 [Limit number of group chats tabs per window to]
-
+Максимален брой групови чат табове в прозорец
 [Layout]
-
+Изглед
 [Show title bar]
 Заглавна лента
 [Show status bar]
 Показване на лента за състояние
 [Show toolbar]
-
+Показване на лента с инструменти
 [Show info bar]
-
+Показване на информационна лента
 [Show avatars]
-
+Показване на аватари
 [Use the contact's status icon as the window icon]
 Ползване на иконата за състояние на контакта като икона на прозореца
 [Show progress indicator]
-
+Показване на индикатор за напредък
 [Enable transparency]
-
+Прозрачност
 [active]
-
+активно
 [inactive]
-
+неактивно
 [Min input area size]
-
+Минимален размер на полето за въвеждане
 [lines]
-
+линии
 [Message window event log]
 Дневник на събитията в прозореца за съобщения
 [Enable IEView]
-
+Включване на IEView
 [Show icons]
 Показване на икони
 [Show time]
-
+Показване на час
 [Show seconds]
 Показване на секунди
 [Show date]
-
+Показване на дата
 [Long date format]
-
+Ползване на дълга дата
 [Relative date]
-
+Кратък формат за дата
 [Show names]
 Показване на имена
 [Enable message grouping]
-
+Групиране на съобщенията
 [Mark follow-up messages with timestamp]
-
+Времева марка за всички съобщения
 [Start message text on a new line]
-
+Начало на съобщението на нов ред
 [Show lines between messages]
-
+Редове между съобщенията
 [Indent text]
-
+Отстъп на текста
 [Customize fonts and colors]
-
+Персонализиране на шрифтове и цветове
 [Preload]
-
+Допълнително зареждани събития
 [Unread events only]
-
+Само непрочетени събития
 [Last]
-
+Последните
 [Events in the last]
-
+Събития от последните
 [events]
-Събития
+събития
 [minutes]
-
+минути
 [Typing notification options]
-
+Настройки за уведомяване при писане
 [Send typing notifications to the following users when you are typing a message to them:]
 Изпращане на уведомяване при писане до следните потребители, когато им пишете съобщение:
 [Show typing notification switch in the status bar]
-
+Превключвач за уведомяване при писане в лентата за състояние
 [Show typing notifications when a user is typing a message]
 Уведомяване при писане, когато потребител пише съобщение
 [Update message window icons when a user is typing]
-
+Обновяване иконата на прозореца, когато потребител пише
 [Show typing notification when no message dialog is open]
 Уведомяване, ако няма отворен прозорец за съобщения
 [Flash in the system tray and in the contact list]
@@ -163,13 +163,13 @@
 [&History]
 История
 [&Quote]
-
+Цитиране
 [Send to all tabs]
-
+Изпращане до всички табове
 [You are about to send a message to all open tabs.\nAre you sure?]
-
+Съобщението ще бъде изпратено до всички отворени табове.\nСигурни ли сте?
 [Remember my choice for this container]
-
+Запис на избора за контейнера
 [Yes]
 Да
 [No]
@@ -221,7 +221,7 @@
 [Add new rooms to group:]
 Добавяне на новите стаи към група:
 [Nick list row height]
-
+Височина на редовете в списъка с прякори
 [pixels]
 пиксела
 [Log options]
@@ -239,17 +239,17 @@
 [Enable highlighting]
 Отличаване на думи
 [Words to highlight (wildcards allowed)]
-Думи за отличаване (wildcards allowed)
+Думи за отличаване (може да ползвате wildcards)
 [Save logs]
-
+Запис на разговорите в дневник на диска
 [Location]
 Местоположение
 [Trim to]
-
+Макс.
 [KB]
-
+KB
 [Group chat]
-
+Групов чат
 [Use same style as in the message log]
 Ползване на същия стил както в дневника за съобщения
 [Use default colors]
@@ -263,7 +263,7 @@
 [Timeout (s)]
 Времетраене (сек)
 [(0 means default setting, -1 means indefinite time)]
-
+(0 = стандартна стойност, -1 = безкрайност)
 [Log]
 Дневник
 [&Copy]
@@ -275,19 +275,19 @@
 [Word lookup]
 Търсене на дума
 [Bing]
-
+Bing
 [Yandex]
-
+Yandex
 [Wikipedia (en)]
-
+Wikipedia (en)
 [Google Maps]
-
+Google Maps
 [Google Translate]
-
+Google Translate
 [Yahoo]
-
+Yahoo
 [Foodnetwork]
-
+Foodnetwork
 [C&lear log]
 Изчистване на дневника
 [&Open link]
@@ -313,9 +313,9 @@
 [Clear]
 Изчистване
 [Close other tabs]
-
+Затваряне на останалите табове
 [Close tab]
-
+Затваряне на таба
 [List]
 Списък
 [&Message]
@@ -326,27 +326,27 @@
 [Add contact]
 Добавяне на контакт
 [User's details]
-
+Подробности за потребителя
 [User's history]
-
+История на потребителя
 [Send message]
-
+Изпращане на съобщение
 [Smiley button]
 Бутон "Усмивки"
 [User is typing]
-
+Потребителя пише
 [Typing notification off]
-
+Уведомяването при писане е изключено
 [Unicode is on]
-
+Unicode e включен
 [Unicode is off]
-
+Unicode е изключен
 [Sending]
-
+Изпращане
 [Quote button]
-
+Бутон "Цитиране"
 [Close button]
-
+Бутон "Затваряне"
 [Icon overlay]
 Насложена икона
 [Incoming message (10x10)]
@@ -422,69 +422,69 @@
 [Group chats]
 Групови чатове
 [Thai]
-
+тайски (тайландски)
 [Japanese]
-
+японски
 [Simplified Chinese]
-
+опростен китайски
 [Korean]
-
+корейски
 [Traditional Chinese]
-
+традиционен китайски
 [Central European]
-
+Централна Европа
 [Cyrillic]
-
+Кирилица
 [Latin I]
-
+Latin I
 [Greek]
-
+гръцки
 [Turkish]
-
+турски
 [Hebrew]
-
+иврит
 [Arabic]
-
+арабски
 [Baltic]
-
+балтийски
 [Vietnamese]
-
+виетнамски
 [Korean (Johab)]
-
+корейски (Johab)
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Съобщения
 [Navigate: previous tab]
-
+Навигиране: предишен таб
 [Navigate: next tab]
-
+Навигиране: следващ таб
 [Navigate: tab %d]
-
+Навигиране: таб %d
 [Window: Toggle status bar]
-
+Прозорец: Вкл/Изкл на лентата за състояние
 [Window: Toggle title bar]
-
+Прозорец: Вкл/Изкл на заглавни ленти
 [Window: Toggle toolbar]
-
+Прозорец: Вкл/Изкл на лентата с инструменти
 [Window: Toggle info bar]
-
+Прозорец: Вкл/Изкл на информационната лента
 [Window: Clear log]
-
+Прозорец: Изчистване на дневника
 [Window: Minimize]
-
+Прозорец: Минимизиране
 [Window: Close tab]
-
+Прозорец: Затваряне на таба
 [Action: Quote]
-
+Действие: Цитиране
 [Action: Send to all]
-
+Действие: Изпрати до всички
 [Action: Paste and send]
-
+Действие: Поставяне и изпращане
 ;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
-
+Цитиране
 [Smiley]
-
+Smiley
 [User menu]
 Потребителско меню
 [User details]
@@ -492,7 +492,7 @@
 [History]
 История
 [Send]
-
+Изпращане
 [Look up '%s':]
 Търсене за "%s":
 [No word to look up]
@@ -504,20 +504,20 @@
 [View user's history]
 История на съобщенията
 [Quote text]
-
+Цитат
 [Insert emoticon]
-
+Вмъкване на емотикона
 [User menu - %s]
-
+Потребителско меню - %s
 [Sending in progress: %d message(s) left...]
-
+Процес на изпращане: още %d съобщение(я)
 [%s is typing a message...]
 %s пише съобщение...
 [Last message received on %s at %s.]
 Последното съобщение е получено на %s в %s.
 ;file \plugins\Scriver\src\msglog.cpp
 [Unknown contact]
-
+Непознат контакт
 [Me]
 Аз
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
@@ -525,38 +525,38 @@
 [to tiny bits, in Thy mercy]
 
 [My contact]
-
+Мой контакт
 [Lorem ipsum dolor sit amet,]
 
 [consectetur adipisicing elit]
 
 [Today]
-
+Днес
 [Yesterday]
-
+Вчера
 [File sent]
 Файлът е изпратен
 [File received]
 Файлът е получен
 [URL sent]
-
+изпратени URL адреси
 [URL received]
-
+получени URL адреси
 ;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Основни
 [Event log]
-
+Дневник на събития
 [Group chat log]
-
+Дневник за груповите чатове
 [Outgoing messages]
 Изходящи съобщения
 [Outgoing background]
-
+Фон на изходящите
 [Incoming messages]
 Входящите съобщения
 [Incoming background]
-
+Фон на входящите
 [Outgoing name]
 Изходящо име
 [Outgoing time]
@@ -572,19 +572,19 @@
 [Message area]
 Поле за съобщения
 [Input area background]
-
+Фон на полето за въвеждане
 [Outgoing URL]
 Изходящ URL адрес
 [Incoming URL]
 Входящ URL адрес
 [Info bar contact name]
-
+Име на контакта в информационната лента
 [Info bar background]
-
+Фон на информационната лента
 [Info bar status message]
-
+Текст за състояние в информационната лента
 [Line between messages]
-
+Ред между съобщенията
 [Offline]
 Извън линия
 [Online]
@@ -627,11 +627,11 @@
 [Instant messages]
 Незабавни съобщения
 [Incoming (focused window)]
-Входящо (Фокусиран прозорец)
+Входящо (фокусиран прозорец)
 [Incoming (unfocused window)]
-Входящо (Дефокусиран прозорец)
+Входящо (дефокусиран прозорец)
 [Incoming (new session)]
-Входящо (Нов разговор)
+Входящо (нов разговор)
 [Outgoing]
 Изходящи
 [Contact started typing]
@@ -650,41 +650,41 @@
 ;file \plugins\Scriver\src\chat\main.cpp
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
-
+Мигане, когато някой говори
 [Flash when a word is highlighted]
-
+Мигане при отличаване на дума
 [Show chat nick list]
-
+Показване на чат списъка с прякори
 [Enable button context menus]
-
+Включване на контекстното меню на контактите
 [Show topic on your contact list (if supported)]
-
+Показване на темата в списъка с контакти (ако се поддържа)
 [Do not play sounds when focused]
-
+Без звук, когато е фокусиран
 [Do not pop up when joining]
-
+Без изскачане при влизане
 [Show and hide by double clicking in the contact list]
-
+Показване/Скриване на прозореца чрез двукратно натискане върху контакта/стаята
 [Show contact statuses (if supported)]
-
+Показване на състояние (ако се поддържа)
 [Display contact status icon before role icon]
-
+Иконата за състояние пред икона на протокола
 [Add ':' to auto-completed names]
-
+Добавяне на ":" като наставка след автоматично завършените имена
 [Prefix all events with a timestamp]
 Времева марка като представка за всички събития
 [Only prefix with timestamp if it has changed]
 Представка (времева марка) само ако времето е различно
 [Timestamp has same color as event]
-
+Еднакъв цвят на времевата марка и събитието
 [Indent the second line of a message]
 Отстъп на втория ред от всяко съобщение
 [Limit user names to 20 characters]
-
+Ограничаване на потребителските имена до 20 знака
 [Strip colors from messages]
-
+Премахване на цветовете от съобщенията
 [Enable 'event filter' for new rooms]
-
+Включване на "филтър на събития" за новите стаи
 [Show topic changes]
 Промяна на тема
 [Show users joining]
@@ -760,61 +760,61 @@
 [Show popup for status changes]
 Показване на popups при промяна на състояние
 [Appearance and functionality of chat windows]
-
+Външен вид и функционалност на чат стаите
 [Icons to display in the tray]
 Икони за изобразяване в трея
 [nick of current contact (if defined)]
-
+прякор на текущия контакт (ако е зададен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
-
+протокол на текущия акаунт (ако е зададен). Името на акаунта се използва, когато протоколът поддържа акаунти.
 [user-defined account name of current contact (if defined).]
 
 [user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 
 [path to Miranda root folder]
-
+път до главната папка на Miranda
 [path to folder containing Miranda profiles]
-
+път до папката с профили на Miranda
 [name of current Miranda profile (filename, without extension)]
-
+име на текущия профил на Miranda (име без окончание)
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
 
 [will return parsed string %miranda_userdata%\\Logs]
 
 [same as environment variable %APPDATA% for currently logged-on Windows user]
-
+като променливата %APPDATA% за вписаният, в момента, потребител на Windows
 [username for currently logged-on Windows user]
-
+потребителско име на текущия потребител вписан в Windows
 ["My Documents" folder for currently logged-on Windows user]
-
+Папка "My Documents" на потребителя, вписан в Windows
 ["Desktop" folder for currently logged-on Windows user]
-
+Папка "Desktop" на потребителя, вписан в Windows
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 
 [day of month, 1-31]
-
+дата (1-31)
 [day of month, 01-31]
-
+дата (01-31)
 [month number, 1-12]
-
+месец (1-12)
 [month number, 01-12]
-
+месец (01-12)
 [abbreviated month name]
-
+име на месеца (съкратено)
 [full month name]
-
+име на месеца
 [year without century, 01-99]
-
+година без век (01-99)
 [year with century, 1901-9999]
-
+година (1901-9999)
 [abbreviated weekday name]
-
+ден (съкратено)
 [full weekday name]
-
+ден
 [Variables]
-
+Променливи
 [Appearance]
-
+Външен вид
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 Стандартни събития за показване в чат стая при включен "филтър на събития"
 [Select folder]
@@ -826,15 +826,15 @@
 Съобщение %s
 ;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
-
+Наклонен
 [Underline]
-
+Подчертан
 [Filter]
-
+Филтър
 [Manager]
 
 [Nick list]
-
+Списък с прякори
 [Insert a smiley]
 Вмъкване на усмивка
 [Make the text bold (CTRL+B)]
@@ -862,10 +862,10 @@
 [Status]
 Състояние
 [%s: chat room (%u user)]
-%s: Чат стая (%u потребител)
+%s: чат стая (%u потребител)
 [%s: chat room (%u users)]
-%s: Чат стая (%u потребителя)
+%s: чат стая (%u потребителя)
 [%s: message session]
-%s: Разговор
+%s: разговор
 [%s: message session (%u users)]
-%s: Разговор (%u потребителя)
+%s: разговор (%u потребителя)

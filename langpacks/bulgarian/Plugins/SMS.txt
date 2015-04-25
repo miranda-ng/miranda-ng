@@ -11,7 +11,7 @@
 [Received SMS]
 
 [&Reply]
-
+Отговор
 [&Close]
 Затваряне
 [Read Next]
@@ -21,7 +21,7 @@
 [Message received:]
 
 [Number:]
-
+Номер:
 [Send SMS]
 
 [To:]
@@ -33,7 +33,7 @@
 [Multiple >>]
 
 [Enter message:]
-
+Въведете съобщение:
 [Chars:]
 
 [&Send]
@@ -41,17 +41,17 @@
 [SMS Message Didn't Send]
 
 [&Try again]
-
+Нов опит
 [&Cancel]
 Отказ
 [The SMS message send timed out]
 
 [SMS Plugin]
-
+SMS приставка
 [Beginning]
-
+Начало
 [End]
-
+Край
 [Put signature at the:]
 
 [Use Signature]
@@ -67,12 +67,12 @@
 [Message ID:]
 
 [Source:]
-
+Източник:
 [Network:]
 
 ;file \plugins\SMS\src\options.cpp
 [From %s:\r\n\r\n]
-
+От: %s:\r\n\r\n
 [Events]
 Събития
 ;file \plugins\SMS\src\receive.cpp
@@ -120,9 +120,9 @@
 [Send &SMS...]
 
 [&SMS Message]
-
+SMS съобщение
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
-
+Входящо SMS съобщение
 [Incoming SMS Confirmation]
 

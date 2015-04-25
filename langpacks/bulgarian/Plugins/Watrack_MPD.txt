@@ -11,9 +11,9 @@
 [MPD Host]
 
 [Port]
-
+Порт
 [Password]
-
+Парола
 ;file \plugins\Watrack_MPD\src\init.cpp
 [Watrack MPD connection]
 

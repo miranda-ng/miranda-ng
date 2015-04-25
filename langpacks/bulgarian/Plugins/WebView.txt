@@ -13,7 +13,7 @@
 [Update data every]
 
 [minutes]
-
+минути
 [Delay update on start]
 
 [seconds]
@@ -31,15 +31,15 @@
 [Window appearance]
 
 [Background color:]
-
+Цвят на фона:
 [Text color:]
-
+Цвят на текста:
 [Bold]
 Удебеляване
 [Italic]
-
+Наклонен
 [Underline]
-
+Подчертан
 [Save individual window positions]
 
 [Error messages]
@@ -63,9 +63,9 @@
 [Contact name:]
 
 [URL:]
-
+URL:
 [Display]
-
+Изобразяване
 [Between start and end strings]
 
 [Whole web page]
@@ -127,7 +127,7 @@
 [Alert when specific area of web page changes]
 
 [Log to file]
-
+Запис във файл
 [Log file:]
 
 [Append data to file]
@@ -135,17 +135,17 @@
 [Save as raw data]
 
 [Popup delay]
-
+Popup времетраене
 [Delay]
-
+Закъснение
 [From Popup plugin]
-
+От приставката Popup
 [Permanent]
-
+Постоянно
 [Preview]
-
+Образец
 [Colors]
-
+Цветове
 [Use custom colors]
 Зададени цветове
 [Background]
@@ -163,7 +163,7 @@
 [Open web page]
 
 [Dismiss popup]
-
+Затваряне на Popup
 [Right click action]
 
 [Log]
@@ -186,9 +186,9 @@
 [Alert event]
 
 [Auto update disabled]
-
+Автообновяването е изключено
 [Auto update enabled]
-
+Автообновяването е включено
 [Update all Webview sites]
 
 [Mark all Webview sites as read]

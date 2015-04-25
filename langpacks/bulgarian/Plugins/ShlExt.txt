@@ -6,14 +6,14 @@
 ;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
 [Windows Explorer extension for Miranda NG.]
-
+Разширява интегрирането на Miranda NG в Windows Explorer.
 ;file \plugins\ShellExt\res\shldlgs.rc
 [Display contacts in their assigned groups (if any)]
-
+Изобразяване на контактите в групите им (ако имат такава)
 [Only if/when the contact list is using them]
-
+Само ако/когато се използват в списъка с контакти
 [Display hidden, ignored or temporary contacts]
-
+Изобразяване на скрити, игнорирани и временни контакти
 [Menus]
 Менюта
 [Shell Status]
@@ -21,35 +21,35 @@
 [Shell context menus]
 
 [Do not display the profile name in use]
-
+Без името на профила
 [Show contacts that you have set privacy rules for]
-
+Показване на контакти, за които е зададено правило за поверителност
 [Remove]
 Премахване
 [Do not show status icons in menus]
-
+Показване на икони за състояние
 [Do not show contacts that are offline, even if my contact list does]
-
+Без контакти, които са извън линия
 ;file \plugins\ShellExt\src\options.cpp
 [Problem, registration missing/deleted.]
-
+Проблем: интеграцията липсва или е изтрита.
 [Successfully created shell registration.]
-
+Успешно интегриране.
 [Not Approved]
-
+Отхвърлено
 [Approved]
-
+Одобрено
 [Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
-
+Сигурни ли сте? Настройките съхранени в базата от данни ще бъдат премахнати! Също така и промените по регистъра на Windows за интегриране с Miranda NG!
 [Disable/Remove shlext]
-
+Изключване/Премахване на shlext
 [Services]
-
+Услуги
 ;file \plugins\ShellExt\src\shlcom.cpp
 [Recently]
-
+Наскоро
 [Clear entries]
-
+Изчистване на записите
 [Unable to delete registry key for 'shlext COM', this key may already be deleted or you may need admin rights.]
 
 [Problem]

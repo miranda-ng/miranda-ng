@@ -9,11 +9,11 @@
 
 ;file \protocols\WhatsApp\res\whatsapp.rc
 [Phone number]
-
+Телефонен номер
 [Nickname]
 Прякор
 [Default group:]
-
+Стандартна група
 [Use SSL connection (port 443)]
 
 [Automatically open group chats]
@@ -29,44 +29,44 @@
 [Including country code, without '+' or '00']
 
 [Invite users]
-
+Покани потребите
 [Choose a user]
 
 [Other user:]
 
 [&Invite]
-
+Покана
 [Cancel]
 Отказ
 ;file \protocols\WhatsApp\src\chat.cpp
 [Members]
 
 [Owners]
-
+Собственици
 [&Invite a user]
-
+Поканване на потребител
 [&Room options]
-
+Настройки на стаята
 [View/change &topic]
-
+Преглед/Промяна на темата
 [&Leave chat session]
-
+Напускане от разговора
 [Set &avatar]
 
 [Copy room &JID]
-
+Копиране JID на стаята
 [Copy room topic]
-
+Копиране на темата
 [Set new subject for %s]
 
 [&Add to roster]
-
+Добавяне в списъка с хора
 [&Kick]
-
+Изгонване
 [Copy &nickname]
-
+Копиране на прякора
 [Copy real &JID]
-
+Копиране на истинския JID
 [Unknown user]
 
 ;file \protocols\WhatsApp\src\connection.cpp
@@ -77,7 +77,7 @@
 [Please enter a nickname.]
 
 [Please enter a password.]
-
+Моля, въведете парола.
 ;file \protocols\WhatsApp\src\contacts.cpp
 [is now known as '%s']
 
@@ -94,12 +94,12 @@
 
 ;file \protocols\WhatsApp\src\messages.cpp
 [server]
-
+Сървър
 [Message received: %s by %s]
 
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
-
+%s връзка със сървъра
 [Unable to get Netlib connection for WhatsApp]
 
 [Network connection error.]

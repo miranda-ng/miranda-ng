@@ -6,136 +6,136 @@
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
 [Spell checker for the message windows. Uses Hunspell to do the checking.]
-
+Проверка на правописа в прозореца за съобщения. Проверката се извършва чрез Hunspell.
 ;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
-
+Замествания
 [Enable auto-replacements]
-
+Включване на автоматичното заместването
 [Language:]
-
+Език:
 [Add...]
-
+Добавяне
 [Edit...]
-
+Редактиране
 [Remove]
 Премахване
 [Add auto-replace word]
-
+Добавяне на дума за автоматично заменяне
 [Wrong word:]
-
+Грешна дума:
 [No separators and all lowercase chars]
-
+Без разделители и само малки букви
 [Correction:]
-
+Поправка:
 [Use variables in correction]
-
+Ползване на променливи
 [Cancel]
 Отказ
 [Spell Checker]
-
+Spell Checker
 [Default language:]
-
+Стандартен език:
 [Auto-replace words with dictionary suggestions]
-
+Автозамяна на думи с предложени от речника
 [Ignore words with numbers]
-
+Игнориране на думи съдържащи цифри
 [Ignore words in UPPER CASE]
-
+Игнориране на думи с главни букви
 [Ask before sending a message with spelling errors]
-
+Запитване преди изпращане на съобщение с правописни грешки
 [Download more dictionaries]
-
+Сваляне на още речници
 [Advanced]
 Разширени
 [Underline type:]
-
+Вид подчертаване:
 [Show corrections in submenu]
-
+Показване на поправките в подменю
 [Show all corrections in context menu (takes more time to show)]
-
+Показване на поправките в контекстно меню (по-бавно)
 [Show wrong word]
-
+Показване на грешни думи
 [Use flags]
-
+Ползване на знамена
 [Use input language to select dictionary]
-
+Автоизбиране на речник според езика за въвеждане на текст
 [Use dictionaries from other programs]
-
+Ползване на речници от други програми
 [Avoid removing underscores (slows down checking of long texts)]
-
+Запазване на подчертаването (забавя проверката на дълги текстове)
 ;file \plugins\SpellChecker\src\ardialog.cpp
 [The wrong word can't be empty!]
-
+Не сте попълнили полето "Грешна дума"
 [Wrong Correction]
-
+Грешна поправка
 [The correction can't be empty!]
-
+Не сте попълнили полето "Поправка"
 [The correction can't be equal to the wrong word!]
-
+Корекцията не може да съвпада с грешната дума!
 ;file \plugins\SpellChecker\src\dictionary.cpp
 [Tagalog (Philippines)]
-
+тагалог/тагалски (Филипини)
 [German (Germany)]
-
+немски (Германия)
 ;file \plugins\SpellChecker\src\options.cpp
 [Message sessions]
 Разговори
 [Auto-replacements]
-
+Автоматичното заместване
 [Line]
-
+с черта / _____
 [Dotted]
-
+с точки / . . . . .
 [Dash]
-
+с тирета / _ _ _ _ _
 [Dash dot]
-
+с тире и точка / _ . _ . _
 [Dash dot dot]
-
+с тире точка точка / _ . . _ . . _
 [Wave]
-
+с вълна / ~~~~~
 [Thick]
-
+с плътна черта
 [Wrong word]
-
+Грешна дума
 [Correction]
-
+Поправка
 ;file \plugins\SpellChecker\src\spellchecker.cpp
 [Dictionaries]
-
+Речници
 [Custom Dictionaries]
-
+Персонални речници
 [Flags DLL]
-
+DLL файл със знамена
 [Flags]
-
+Държавни знамена
 [Enable/disable spell checker]
-
+Вкл./Изкл. проверяването на правописа
 [Enabled]
-
+Включено
 [Disabled]
-
+Изключено
 [Unknown]
 Неизвестно
 ;file \plugins\SpellChecker\src\utils.cpp
 [There are %d spelling errors. Are you sure you want to send this message?]
-
+Допуснали сте %d правописни грешки. Наистина ли желаете съобщението да бъде изпратено?
 [Other...]
-
+Други:
 [Always replace with]
-
+Винаги заменяй с
 [Ignore all]
-
+Игнорирай всичко
 [Add to dictionary]
-
+Добавяне в речника
 [Corrections]
-
+Поправки
 [Wrong word: %s]
-
+Грешна дума: %s
 [Language]
-
+Език
 [Enable spell checking]
-
+Проверяване на правописа
 [Wrong words]
-
+Грешни думи

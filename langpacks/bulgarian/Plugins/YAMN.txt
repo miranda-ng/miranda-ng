@@ -11,13 +11,13 @@
 [Installed plugins]
 
 [Version:]
-
+Версия:
 [Description:]
 Описание:
 [Copyright:]
 Copyright:
 [Contact:]
-
+Контакт:
 [WWW:]
 
 [Account]
@@ -25,13 +25,13 @@ Copyright:
 [Name:]
 Име:
 [Server:]
-
+Сървър:
 [Port:]
 Порт:
 [SSL]
-
+SSL
 [APOP]
-
+APOP
 [User Name:]
 
 [Password:]
@@ -43,7 +43,7 @@ Copyright:
 [Disable STLS]
 
 [Status:]
-
+Състояние:
 [Options]
 Настройки
 [Check this account]
@@ -65,21 +65,21 @@ Copyright:
 [Disable Events]
 
 [Notifications]
-
+Уведомявания
 [New Mail]
-
+Нов имейл
 [Sound]
-
+Звук
 [Message]
 Съобщение
 [Keyboard Flash]
 
 [Tray Icon]
-
+Трей икона
 [Execute Application]
 
 [Errors]
-
+Грешки
 [Sound notification if failed]
 
 [Message notification if failed]
@@ -93,7 +93,7 @@ Copyright:
 [Cancel]
 Отказ
 [Choose modes]
-
+Изберете състояния
 [Offline]
 Извън линия
 [Online]
@@ -137,7 +137,7 @@ Copyright:
 [Mail Notifications]
 
 [Popup]
-
+Рopup
 [Single popup]
 
 [Multi popup]
@@ -157,7 +157,7 @@ Copyright:
 [..s Popup duration]
 
 [Preview]
-
+Образец
 [Background color]
 Цвят на фона
 [Text color]
@@ -193,7 +193,7 @@ Copyright:
 [An error occurred. Error code: %d]
 
 [Unknown error]
-
+Непозната грешка
 [ - connection error]
 
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
@@ -212,25 +212,25 @@ Copyright:
 [Header]
 
 [Value]
-
+Стойност
 [Copy Selected]
 
 [Copy All]
-
+Копиране на всички
 [Run application]
 
 [Delete selected]
-
+Изтриване на маркираните
 [Select All]
 Избор - всичко
 [From]
-
+От
 [Subject]
-
+Тема
 [Size]
 Размер
 [Date]
-
+Дата
 [Do you really want to delete %d selected mails?]
 
 [Delete confirmation]
@@ -242,7 +242,7 @@ Copyright:
 
 ;file \plugins\YAMN\src\proto\netlib.cpp
 [%s connection]
-
+%s връзка
 ;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 
@@ -346,7 +346,7 @@ Copyright:
 [Dialog box error]
 
 [Failed]
-
+Неуспешно
 [Do you really want to delete this account?]
 
 [Delete account confirmation]

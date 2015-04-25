@@ -11,7 +11,7 @@
 [[img] BBCode support for image]
 
 [off]
-Изкл.
+изкл.
 [for original size images]
 
 [for preview max 130px*130px]
@@ -151,11 +151,11 @@
 [for last 3 days]
 
 [Bots challenge test]
-
+Тест за ботове
 [Instruction:]
-
+Инструкции:
 [Submit]
-
+Пращане
 [Cancel]
 Отказ
 [Invite user to chat]
@@ -169,9 +169,9 @@
 [New chat's title:]
 
 [Share]
-
+Сподели
 [Url:]
-
+URL:
 [Only for friends]
 
 [Attention]
@@ -202,7 +202,7 @@
 [Wall message icon]
 
 [Protocols]
-
+Протоколи
 [VKontakte]
 
 [Access denied! Data will not be sent or received.]
@@ -258,11 +258,11 @@
 [Attachments:]
 
 [Audio]
-
+Аудио
 [Video]
-
+Видео
 [Document]
-
+Документ
 [Wall post]
 
 [Link]
@@ -274,17 +274,17 @@
 [(Unknown contact)]
 (Непознат контакт)
 [Message from]
-
+Съобщение от
 [at]
 
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
-
+Въведете текста, който виждате
 ;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
-
+Участници
 [Owners]
-
+Собственици
 [Unknown]
 Неизвестно
 [Enter new chat title]
@@ -300,15 +300,15 @@
 [Chat]
 
 [&Invite a user]
-
+Поканване на потребител
 [View/change &title]
 
 [&Destroy room]
-
+Унищожаване на стаята
 [&User details]
-
+Подробности за потребителя
 [&Kick]
-
+Изгонване
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [User was tagged in these photos:]
 
@@ -356,14 +356,14 @@
 [News and notifications]
 
 [View]
-
+Преглед
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
-
+%s връзка със сървъра
 [Create new chat]
 
 [Status message]
-
+Текст за състояние
 [Send message to my wall]
 
 [Load news from VK]
@@ -393,9 +393,9 @@
 [for all time]
 
 [Errors]
-
+Грешки
 [Notification]
-
+Уведомяване
 [User %s added as friend]
 
 [You cannot add yourself as friend]
@@ -408,7 +408,7 @@
 [Loading status message from vk.com.\nThis may take some time.]
 
 [Waiting...]
-
+Изчакване...
 [Enter new status message]
 
 ;file \protocols\VKontakte\src\vk_thread.cpp

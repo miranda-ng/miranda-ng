@@ -51,7 +51,7 @@
 [Put default message in message list]
 
 [Variables]
-
+Променливи
 [Update variables in status messages every]
 
 [seconds]
@@ -67,7 +67,7 @@
 [Exclude %date% token from parsing (restart required)]
 
 [Layout]
-
+Изглед
 [Show status list]
 
 [Show status profiles in status list]
@@ -99,15 +99,15 @@
 [* This feature is available only when using StartupStatus plugin.]
 
 [Status on startup]
-
+Състояние при стартиране
 [Set status after]
 
 [milliseconds]
 милисекунди
 [Protocol:]
-
+Протокол:
 [Status:]
-
+Състояние:
 [Independent setting for each protocol]
 
 [Pop up dialog asking for status message]
@@ -172,7 +172,7 @@
 [&Go to URL in %s message]
 
 [Re&ad Away message]
-
+Показване на текста за отсъствие
 [Copy Away message]
 
 [&Go to URL in Away message]
@@ -183,30 +183,30 @@
 [Open status message dialog]
 
 [Status message]
-
+Текст за състояние
 [Status message...]
-
+Текст за състояние...
 [%s (locked)]
 %s (заключен)
 [External Applications]
-
+Външни приложения
 [retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
 
 [Miranda Related]
-
+Свързани с Miranda
 [get the date (Simple Status Message compatible)]
 
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<startup>]
 
 [<current>]
-
+<текущо>
 [Clear history]
 
 [Add to predefined]
 
 [Delete selected]
-
+Изтриване на маркираните
 [global]
 Общо
 [Closing in %d]
@@ -219,9 +219,9 @@
 [Global status change]
 
 [Open string formatting help]
-
+Помощ за форматирането на низове
 [Hide]
-
+Скриване
 [Show next to cancel button]
 
 [Flat, next to cancel button]
@@ -233,7 +233,7 @@
 [Confirm clearing predefined]
 
 [<last status>]
-
+<Последно състояние>
 [Status]
 Състояние
 [General]
@@ -270,4 +270,4 @@
 [Mmm... food.]
 Ммм... храна.
 [idleeeeeeee]
-бездействаммм
+

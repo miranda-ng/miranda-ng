@@ -9,39 +9,39 @@
 
 ;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
-
+Настройки
 [Last seen menu item]
-
+Елемент в менюто
 [Show icon]
-
+Показване на икона
 [User info tab]
-
+Таб в Userinfo
 [Log to file]
-
+Запис във файл
 [Log to history]
-
+Запис в историята
 [Maximum size]
-
+Макс. размер
 [Variable list]
-
+Променливи
 [Enable Idle support]
-
+Поддръжка на "Бездействие"
 [Ignore contacts going offline]
-
+Игнориране на контактите излизащи от линия
 [Enable 'Missed Ones' feature]
 
 [Count times]
 
 [Accounts to watch:]
-
+Акаунти за наблюдаване:
 [Use popups]
-
+Ползване на popups
 [Title]
-
+Заглавие
 [Text]
 Текст
 [Popup Colors]
-
+Popup цветове
 [Online]
 На линия
 [Away]
@@ -63,13 +63,13 @@
 [Offline]
 Извън линия
 [Reset colors]
-
+Анулиране
 [Last seen plugin]
 
 [You missed following contacts:]
-
+Изпуснахте следните контакти:
 [Alert when user status changes]
-
+Уведомяване, ако контакта смени състоянието си
 [User Menu]
 Потребителско меню
 [View User's Details]
@@ -85,13 +85,13 @@
 [LastSeen]
 
 [User status change]
-
+Потребител промени състоянието си
 [Changed to Online]
-
+Сега е на линия
 [User Logged Off]
-
+Отписване на потребител
 [User Logged In]
-
+Вписване на потребител
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <неизвестно>
@@ -99,41 +99,41 @@
 <няма>
 ;file \plugins\SeenPlugin\src\options.cpp
 [-- Date --]
-
+-- Дата --
 [year (4 digits)]
-
+година(4 знака)
 [year (2 digits)]
-
+година (2 знака)
 [month]
-
+месец
 [name of month]
-
+име на месеца
 [short name of month]
-
+кратко име на месеца
 [day]
-
+ден
 [weekday (full)]
-
+ден от седмицата
 [weekday (abbreviated)]
-
+ден от седмицата (кратко име)
 [-- Time --]
-
+-- Час --
 [hours (24)]
-
+часове (24)
 [hours (12)]
-
+часове (12)
 [AM/PM]
-
+AM/PM
 [minutes]
-
+минути
 [seconds]
 секунди
 [-- User --]
-
+-- Потребител --
 [username]
-Потребител
+потребителско име
 [nick]
-Прякор
+прякор
 [UIN/handle]
 
 [Group]
@@ -141,39 +141,39 @@
 [Status]
 Състояние
 [Status message]
-
+Текст за състояние
 [Old status]
-
+Старо състояние
 [external IP]
-
+външно IP
 [internal IP]
-
+вътрешно IP
 [Client info]
-
+Информация за клиента
 [Protocol]
 Протокол
 [Account]
 Акаунт
 [-- Format --]
-
+-- Формат --
 [tabulator]
 
 [line break]
 
 [Note:]
-
+Бележка:
 [Use]
-
+Използване на
 [for empty string]
-
+за празен низ
 [instead of]
-
+вместо
 [Last Seen Variables]
 
 [Contacts]
 Контакти
 [Last seen]
-
+Последно видян
 [Popups]
 Рopups
 ;file \plugins\SeenPlugin\src\seen.h
@@ -200,65 +200,65 @@
 [Saturday]
 събота
 [Sun.]
-
+нед
 [Mon.]
-
+пон
 [Tue.]
-
+вто
 [Wed.]
-
+сря
 [Thu.]
-
+чет
 [Fri.]
-
+пет
 [Sat.]
-
+съб
 [January]
-
+януари
 [February]
-
+февруари
 [March]
-
+март
 [April]
-
+април
 [May]
-
+май
 [June]
-
+юни
 [July]
-
+юли
 [August]
-
+август
 [September]
-
+септември
 [October]
-
+октомври
 [November]
-
+ноември
 [December]
-
+декември
 [Jan.]
-
+яну
 [Feb.]
-
+фев
 [Mar.]
-
+мар
 [Apr.]
-
+апр
 [Jun.]
-
+юни
 [Jul.]
-
+юли
 [Aug.]
-
+авг
 [Sep.]
-
+сеп
 [Oct.]
-
+окт
 [Nov.]
-
+ное
 [Dec.]
-
+дек
 [<never seen>]
 
 [Idle]
