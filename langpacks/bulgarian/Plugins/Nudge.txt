@@ -25,7 +25,7 @@
 [Auto resend nudge after]
 
 [s]
-Ю
+сек
 [Enable popup notification]
 
 [Respect ignore settings (status changes)]
@@ -35,7 +35,7 @@
 [Receiving text]
 
 [Privacy]
-
+Поверителност
 [Allow sending* one nudge to the same contact every:]
 
 [Allow receiving one nudge from the same contact every:]
@@ -43,7 +43,7 @@
 [* Nudge sending delay is hardcoded and cannot be changed.]
 
 [Preview]
-
+Образец
 [Text]
 Текст
 [Allow nudges when you're:]
@@ -75,7 +75,7 @@
 [Width of move]
 
 [Static]
-
+Статичен
 [Shaking Message Window Options]
 
 ;file \plugins\Nudge\src\main.cpp
@@ -88,7 +88,7 @@
 [Nudge as Default]
 
 [Send Nudge]
-
+Изпрати разклащане
 [Send &Nudge]
 
 [Show Nudge]

@@ -11,13 +11,13 @@
 [Delay between pings (secs):]
 
 [Timeout]
-
+Времетраене
 [Ping timeout (secs):]
 
 [Logging]
 
 [Log to File]
-
+Запис във файл
 [Log Filename:]
 
 [Network]
@@ -29,17 +29,17 @@
 [Block Repetitions]
 
 [View Log]
-
+Преглед на дневника
 [Browse...]
-
+Преглед...
 [Interface]
-
+Интерфейс
 [Do not change icon when testing]
 
 [Use the Customize/Fonts options to change text size and color.]
 
 [Indent:]
-
+Отстъп:
 [Row height:]
 Ред (височина):
 [Repeats for success/failure:]
@@ -55,17 +55,17 @@
 [Edit]
 Редактиране
 [Up]
-
+Нагоре
 [Down]
-
+Надолу
 [Edit Host]
 
 [Cancel]
 Отказ
 [Address:]
-
+Адрес:
 [Label:]
-
+Етикет:
 [TCP Connect]
 
 [Port:]
@@ -81,21 +81,21 @@
 [Contact]
 Контакт
 [Protocols]
-
+Протоколи
 [(Optional) Command Parameters:]
 
 [Menu]
-
+Меню
 [Graph]
 
 [Enable]
-
+Включване
 [Disable all pings]
 
 [Enable all pings]
 
 [Options...]
-
+Настройки...
 [Hosts...]
 
 ;file \plugins\Ping\src\menu.cpp
@@ -103,17 +103,17 @@
 
 ;file \plugins\Ping\src\options.cpp
 [Text Files (*.txt)]
-
+Текстови файлове (*.txt)
 [All Files]
 Всички файлове
 [Open log file]
-
+Отваряне на дневника
 [<none>]
 <няма>
 [<all>]
-
+<всички>
 [Settings]
-
+Настройки
 [Hosts]
 
 ;file \plugins\Ping\src\ping.cpp
@@ -126,7 +126,7 @@
 [Testing]
 
 [Disabled]
-
+Изключено
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 
@@ -154,9 +154,9 @@
 [%s - timeout]
 
 [Disable]
-
+изключване
 [enabled]
-
+включено
 [double clicked]
 
 [Show/Hide &Ping Window]
@@ -168,6 +168,6 @@
 
 ;file \plugins\Ping\src\utils.cpp
 [Unknown Address]
-
+Неизвестен адрес
 [Unknown]
 Неизвестно

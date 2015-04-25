@@ -6,27 +6,27 @@
 ;  Authors: Unsane
 ;============================================================
 [Plugin for quick insert (or sending) pre-defined messages in message input area.]
-
+Приставка за бързо въвеждане (или изпращане) на предварително дефиниране съобщения.
 ;file \plugins\QuickReplies\res\resources.rc
 [Quick Replies]
-
+Quick Replies
 [Send replies immediately]
-
+Незабавно изпращане на отговорите
 [- Add your replies, one per line.]
-
+- добавете вашите отговори, по един на всеки ред
 [Variables]
-
+Променливи
 [Hints:]
-
+Съвети:
 [- Add "---" for separator.]
-
+- добавете "---" за разделител
 [- Press [v] button for variable's help.]
-
+- натиснете бутон "V" за помощ, относно променливите
 ;file \plugins\QuickReplies\src\events.cpp
 [Button]
-
+Бутон
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
-
+Quick Replies\r\nЛяв бутон отваря менюто\r\nДесен бутон отваря настройките
 ;file \plugins\QuickReplies\src\options.cpp
 [Message sessions]
 Разговори

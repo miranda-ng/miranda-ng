@@ -15,9 +15,9 @@
 [Create a new Mail.ru account]
 
 [Configuration]
-
+Настройване
 [Login Server:]
-
+Сървър:
 [Port:]
 Порт:
 [Default]
@@ -33,7 +33,7 @@
 [Automatic authorization on Mail.ru web services]
 
 [Notify me when a message delivery has failed]
-
+Уведомяване при неуспешно доставяне на съобщение
 [Notify about new mail if increment]
 
 [Notify about new mail tray icon]
@@ -61,13 +61,13 @@
 [Age:]
 Възраст:
 [from:]
-От:
+от:
 [to:]
-За:
+за:
 [Birthday:]
-
+Рожден ден:
 [Zodiac:]
-
+Зодия:
 [Location]
 Местоположение
 [Country:]
@@ -75,7 +75,7 @@
 [State:]
 Област:
 [Search online users only]
-
+Търси само потребители "На линия"
 [City:]
 Град:
 [Remember]
@@ -83,7 +83,7 @@
 [Enable avatars support (loading)]
 
 [Server:]
-
+Сървър:
 [Updates check interval, min]
 
 [Return absolute path]
@@ -105,7 +105,7 @@
 [Add extra address]
 
 [Your host (or router):]
-
+Ваш хост (или рутер):
 [File send block size:]
 
 [512 - 65536 bytes]
@@ -117,9 +117,9 @@
 [Mail.ru Agent]
 
 [Full e-mail:]
-
+Имейл:
 [Example: Petrov_Ivan@mail.ru]
-
+Пример: Petrov_Ivan@abv.bg
 [Create a new Mail.ru account using the Mail.ru website]
 
 [Retrieve a lost password]
@@ -131,29 +131,29 @@
 [Popup settings]
 
 [Enable]
-
+Включване
 [&Use Windows colors]
-
+Цветове от Windows
 [Back Color]
-
+Фонов цвят
 [Text Color]
 Цвят на текста
 [Timeout]
-
+Времетраене
 [Previe&w]
-
+Образец
 [Custom Status "%s" Details]
-
+Подробности за персоналното състояние на "%s"
 [Closing in %d]
 Затваряне след %d
 [Title:]
-
+Заглавие:
 [Message:]
-
+Съобщение:
 [Cancel]
 Отказ
 [Notify]
-
+Уведомяване
 [Written:]
 
 [Select e-mail]
@@ -164,53 +164,53 @@
 [Female]
 Жена
 [January]
-
+януари
 [February]
-
+февруари
 [March]
-
+март
 [April]
-
+април
 [May]
-
+май
 [June]
-
+юни
 [July]
-
+юли
 [August]
-
+август
 [September]
-
+септември
 [October]
-
+октомври
 [November]
-
+ноември
 [December]
-
+декември
 [Aries]
-
+Овен
 [Taurus]
-
+Телец
 [Gemini]
-
+Близнаци
 [Cancer]
-
+Рак
 [Leo]
-
+Лъв
 [Virgo]
-
+Дева
 [Libra]
-
+Везни
 [Scorpio]
-
+Скорпион
 [Sagittarius]
-
+Стрелец
 [Capricorn]
-
+Козирог
 [Aquarius]
-
+Водолей
 [Pisces]
-
+Риби
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 
@@ -220,7 +220,7 @@
 
 ;file \protocols\MRA\src\MraChat.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
-
+За конферентни разговори е необходима приставката CHAT. Инсталирайте я преди да чатите.
 [invite sender]
 
 [invite new members]
@@ -283,7 +283,7 @@
 [Blog status message]
 
 [New E-mail available in Inbox]
-
+Нов имейл във входящата кутия
 [Please authorize me]
 
 ;file \protocols\MRA\src\MraFilesQueue.cpp
@@ -299,26 +299,26 @@
 
 ;file \protocols\MRA\src\MraIcons.cpp
 [Protocols]
-
+Протоколи
 [MRA]
 
 [Main Menu]
 Главно меню
 [Contact Menu]
-Меню на контактите
+Меню на контакта
 [Extra status]
-
+Допълнително състояние
 [Custom Status]
 Персонално състояние
 ;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 Няма
 [Debug]
-
+Дебъг
 [Information]
 Информация
 [Question]
-
+Въпрос
 [Warning]
 Предупреждение
 [Error]
@@ -329,7 +329,7 @@
 Рopups
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
-
+%s връзка
 [Mail.ru xStatus]
 
 [Mail.ru extra info]
@@ -355,7 +355,7 @@
 [Are you sure?]
 Сигурни ли сте?
 [Services...]
-
+Услуги...
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Мрежа
@@ -400,19 +400,19 @@
 
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Sick]
-
+Болен
 [Home]
-
+Дом
 [Eating]
-
+Яде
 [Compass]
 
 [On WC]
-
+В тоалетната
 [Cooking]
-
+Готви
 [Walking]
-
+разхожда се
 [Alien]
 
 [Shrimp]
@@ -420,33 +420,33 @@
 [Got lost]
 
 [Crazy]
-
+Луд
 [Duck]
 
 [Playing]
 
 [Smoking]
-
+Пуши
 [Office]
 
 [Meeting]
-
+Среща
 [Beer]
-
+Бира
 [Coffee]
-
+Кафе
 [Working]
-
+Работи
 [Relaxing]
-
+Релаксира
 [On the phone]
 На телефона
 [In institute]
 
 [At school]
-
+На училище
 [Wrong number]
-
+Грешен номер
 [Laughing]
 
 [Malicious]
@@ -456,21 +456,21 @@
 [Blind]
 
 [Disappointed]
-
+Разочарован
 [Almost crying]
 
 [Fearful]
 
 [Angry]
-
+Ядосан
 [Vampire]
-
+Вампир
 [Ass]
 
 [Love]
-
+Любов
 [Sleeping]
-
+Спи
 [Cool!]
 
 [Peace!]
@@ -492,8 +492,8 @@
 [Squirrel]
 
 [Star]
-
+Звезда
 [Music]
-
+Музика
 [Dating]
 

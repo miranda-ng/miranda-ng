@@ -41,7 +41,7 @@
 [Protocol]
 Протокол
 [Services]
-
+Услуги
 [Options]
 Настройки
 [Contacts]

@@ -6,196 +6,196 @@
 ;  Authors: Awkward
 ;============================================================
 [This plugin plays and records Internet radio streams. Also local media files can be played.]
-
+Приставката възпроизвежда и записва радио потоци от интернет. Могат да бъдат възпроизвеждани и локални файлове.
 [mRadio Mod]
-
+mRadio Mod
 [REC]
-
+Запис
 [Cave]
-
+Пещера
 [Arena]
-
+Арена
 [Genre]
-
+Жанр
 [Plain]
-
+Равнина
 [Alley]
-
+Алея
 [Dizzy]
-
+Замайване
 [Generic]
-
+Общ
 [Bathroom]
-
+Баня
 [Parking Lot]
-
+Паркинг
 [Stone Corridor]
-
+Коридор от камъни
 [Sewer Pipe]
-
+Канализационна тръба
 [Auditorium]
-
+Аудитория
 [Carpeted Hallway]
-
+Коридор с мокет
 [Play from first]
-
+Възпроизвеждане от началото
 [Shuffle playlist]
-
+Разбъркване на плейлиста
 [Loop single media]
-
+Повтаряне на една и съща медиа (файл)
 [Station Name]
-
+Име на станцията
 [Timeout, ms (5000)]
-
+Времетраене, ms (500)
 [PreBuf, % (75%)]
 
 [Hallway]
-
+Коридор
 [Mountains]
-
+Планина
 [Use EAX]
-
+Ползване на EAX
 [Under Water]
-
+Под вода
 [Station URL (required)]
-
+Адрес на станцията (необходимо)
 [To INI]
-
+.INI файла
 [Buffer, ms (5000)]
-
+Буфер, ms (5000)
 [Add station]
-
+Добавяне на станцията в:
 [Add Station]
-
+Добавяне на нова станция
 [Bitrate]
-
+Честота
 [Stone Room]
-
+Стая от камъни
 [Living Room]
-
+Дневна
 [Drugged]
-
+Забавяне
 [Record path]
-
+Записване в
 [Padded Cell]
-
+Изолирана стая
 [Autoconnect last station]
-
+Автоматично свързване към последната активна станция
 [Concert Hall]
-
+Концертна зала
 [Psychotic]
 
 [Forrest]
-
+Гора
 [To list]
-
+списъка
 [Hangar]
-
+Хангар
 [Offline station as Offline]
-
+Състояние "Извън линия" за невъзпроиз-\nвеждащите станции
 [Protocol depending status]
 
 [Continuous record]
-
+Запис без прекъсване
 [Quarry]
-
+Кариера
 [Sorry!]
-
+Извинете!
 [BASS.DLL not found!]
-
+BASS.DLL не може да бъде намерен!
 [Station]
-
+Станция
 [Custom INI file]
-
+Зададен .INI файл
 [Radio station URL]
-
+URL адрес на станцията
 [Start record]
-
+Начало на запис
 [Stop record]
-
+Край на записа
 [Currently played URL]
-
+URL, който се възпроизвежда в момента
 [Current stream title]
-
+Текущо заглавие на потока
 [Station/playlist URL]
-
+Станция/URL на плейлиста
 [Currently used decoder]
-
+Декодер използван в момента
 [connecting]
-Свързване
+свързване
 [aborting]
-
+прекратяване
 [Can't initialize device]
-
+Устройството не може да бъде инициализирано
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
-
+Свързването с интернет не е възможно. Моля, проверете "Work offline" опцията в Internet Explorer
 [Start broadcasting]
-
+Начало на предаване
 [Stop broadcasting]
-
+Край на предаването
 [Start/Stop broadcasting]
-
+Начало/Край на предаване
 [Start/Stop Record]
-
+Начало/Край на запис
 [Record]
-
+Запис
 [Status message template]
-
+Шаблон за текста за състоянието
 [Equalizer presets]
-
+Шаблони за еквалайзера
 [Export All]
-
+Износ на всичко
 [Current status]
-
+Текущо състояние
 [Broadcast ON]
-
+Начало на предаване
 [Broadcast OFF]
-
+Край на предаването
 [Add EQ preset]
-
+Добавяне
 [Delete EQ preset]
-
+Изтриване
 [BASS library path (empty for default)]
-
+Път до библиотеката BASS (празно=стандартния)
 [Tries to connect]
-
+Опита за свързване
 [Mute]
 Вкл./Изкл. на звука
 [mRadio volume control]
-
+mRadio - управление силата на звука
 [mRadio off]
-
+mRadio изкл.
 [mRadio on]
-
+mRadio вкл.
 [Import File]
-
+Внос от файл
 [Play Station]
-
+Възпроизведи станция
 [Forced Mono]
-
+Направи моно
 [Play/Pause]
-
+Възпроизведи/Пауза
 [Oops! BASS error]
-
+Опа! BASS грешка
 [Mute with Miranda]
-
+При спиране звука на Miranda спирай и този на mRadio
 [Advanced]
 Разширени
 [Stop]
-
+Стоп
 [Play]
-
+Възпроизведи
 [Frame background]
-
+Фон на рамката
 [OFF]
 Изкл.
 [Volume]
-
+Звук
 [Device list]
-
+Списък на устройствата
 [Equalizer]
-
+Еквалайзер
 [New]
-
+Нов
 [Quick Open]
 

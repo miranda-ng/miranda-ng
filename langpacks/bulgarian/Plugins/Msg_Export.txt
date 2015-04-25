@@ -6,40 +6,40 @@
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
-Изнася всяко съобщение, URL или файл който получите в текстови файл.
+Изнася всяко съобщение, URL адрес или файл, който получите като текстови файл.
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
-Преглед
+Разглеждане
 [Use internal viewer]
 
 [Replace Miranda history]
 
 [Use UTF8 in new files]
-
+UTF8 за нови файлове
 [Append extra new line]
 Допълнителен ред
 [Use << and >>]
-Ползване на << и >>
+
 [Auto filename]
-Авт. именуване
+
 [Clear all]
-Изчистване на всички
+Изчисти всички
 [Help]
 Помощ
 [Export all history]
-Износ на историята
+Износ на история
 [Export directory]
-Директоия
+Изнасяне в следната директория
 [Max column width]
 Макс. ширина
 [Time format]
-Формат за дата
+Час (формат)
 [Export format]
 Формат
 [Default file]
 Стандартен файл
 [File viewer]
-
+Преглед
 [Exporting old messages]
 Изнасяне на стари съобщения
 [History file for %s (%s format %s)]
@@ -67,9 +67,9 @@
 [User &details]
 Подробности за потребителя
 [Export selected]
-
+Износ на маркираните
 [Set to default filename]
-
+Стандартно име на файла
 [Copy]
 Копиране
 ;file \plugins\Msg_Export\src\FileViewer.cpp
@@ -114,7 +114,7 @@
 
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
-
+Отваряне на изнесената история
 [Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
 
 ;file \plugins\Msg_Export\src\options.cpp
@@ -127,7 +127,7 @@
 [Sorting and writing database information (Phase 2 of 2)]
 
 [Max line width must be at least %d]
-
+Максималната ширина на ред трябва да е поне %d
 [You need to restart Miranda to change the history function]
 
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
@@ -151,9 +151,9 @@ UIN
 [Failed to Allocate buffer space]
 
 [Select Destination Directory]
-
+Изберете директория
 [Export Protocols]
-
+Протоколи за изнасяне
 [Message export]
 
 [History]
@@ -161,7 +161,7 @@ UIN
 [General]
 Основни
 [Additional]
-Допълнителни
+
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]
 
@@ -174,7 +174,7 @@ UIN
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
-
+Неуспешен опит за преименуване на файл\n\nот:\t%s\nна:\t%s\n\nГрешка: %s
 [\nError: ]
 \nГрешка:
 [\nMessage has not been saved!\n]
