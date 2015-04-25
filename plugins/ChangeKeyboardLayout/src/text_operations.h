@@ -1,7 +1,7 @@
 #ifndef M_CKL_TEXT_OPERATIONS_H
 #define M_CKL_TEXT_OPERATIONS_H
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 BOOL CopyTextToClipboard(LPTSTR ptszText);
 LPSTR GetNameOfLayout(HKL hklLayout);

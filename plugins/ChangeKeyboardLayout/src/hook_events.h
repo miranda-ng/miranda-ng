@@ -1,7 +1,7 @@
 #ifndef M_CKL_HOOK_EVENTS_H
 #define M_CKL_HOOK_EVENTS_H
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 void ReadMainOptions();
 void WriteMainOptions();
