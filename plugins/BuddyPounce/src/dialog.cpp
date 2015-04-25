@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 void populateSettingsList(HWND hwnd2List)
 {
@@ -44,7 +44,6 @@ void saveLastSetting(MCONTACT hContact, HWND hwnd)
 		GetDlgItemText(hwnd, IDC_SETTINGNUMBER, number, SIZEOF(number));
 		db_set_b(hContact, modname, "GiveUpDays", (BYTE)_ttoi(number));
 		{
-			time_t today = time(NULL);
 			db_set_dw(hContact, modname, "GiveUpDate", (DWORD)(_ttoi(number)*SECONDSINADAY));
 		}
 		break;

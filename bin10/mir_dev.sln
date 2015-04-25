@@ -347,7 +347,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FTPFile", "..\plugins\FTPFi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StatusChange", "..\plugins\StatusChange\StatusChange_10.vcxproj", "{D09881C7-E189-49AD-919E-F64355F8EFD0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuddyPounce", "..\plugins\BuddyPounce\buddypounce_10.vcxproj", "{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuddyPounce", "..\plugins\BuddyPounce\buddypounce.vcxproj", "{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MsgPopup", "..\plugins\MsgPopup\MsgPopup_10.vcxproj", "{1E702CF1-E52F-49F8-915A-FCBBCE554774}"
 EndProject
