@@ -125,8 +125,6 @@ IPv6 адрес (необязательно)
 Устройство аудиовхода не найдено
 [Video call is unsupported]
 Видеовызовы не поддерживаются
-[Call cancelled]
-Звонок отменён
 [Unable to find output audio device]
 Выходное аудиоустройство не найдено
 [Call started]

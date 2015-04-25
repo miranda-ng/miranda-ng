@@ -72,9 +72,6 @@
 [Avatars]
 [Contact changed avatar]
 [Contact removed avatar]
-;file \plugins\AvatarHistory\src\AvatarHistory.h
-[removed his/her avatar]
-[changed his/her avatar]
 ;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 [Avatar Overlay]
@@ -88,6 +85,9 @@
 [Avatar]
 [Popups]
 [Avatar Change]
+;file \plugins\AvatarHistory\src\stdafx.h
+[removed his/her avatar]
+[changed his/her avatar]
 ;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]
 [Unknown Protocol]
