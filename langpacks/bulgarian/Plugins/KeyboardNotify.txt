@@ -6,7 +6,7 @@
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
-
+Приставката ще накара лампичките на клавиатурата да мигат при получаване на съобщение.
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Accounts to check]
 
@@ -15,9 +15,9 @@
 [Incoming messages]
 Входящите съобщения
 [Incoming files]
-
+Входящи файлове
 [Incoming URLs]
-
+Входящи URL адреси
 [Everything else]
 
 [Message-Event only]
@@ -45,7 +45,7 @@
 [Full Screen mode]
 
 [Screen Saver is running]
-
+Стартира Screen Saver
 [Workstation is locked]
 
 [Defined programs are running]
@@ -53,7 +53,7 @@
 [All other situations]
 
 [Only notify if status is]
-
+Само при състояние
 [Online]
 На линия
 [Away]
@@ -77,7 +77,7 @@
 [Remind me every]
 
 [minutes]
-
+минути
 [Offline]
 Извън линия
 [xStatuses]
@@ -119,11 +119,11 @@
 [Theme]
 
 [Test]
-
+Тест
 [Add]
 Добавяне
 [Update]
-
+Обнови
 [Delete]
 Изтриване
 [Import/Export]
@@ -131,7 +131,7 @@
 [Export...]
 Износ...
 [Import...]
-
+Внос...
 [Override existing]
 
 [Set program list]
@@ -149,11 +149,11 @@
 [Scroll]
 
 [Message events]
-
+Текстови събития
 [File events]
-
+Файлови събития
 [URL events]
-
+URL събития
 [Other events]
 Други събития
 [Consider event opened after]
@@ -171,9 +171,9 @@
 [Ignore others]
 
 [Ignore all]
-
+Игнорирай всичко
 [Ignore none]
-
+Без игнориране
 [Ignore]
 Игнориране
 [Set xStatus list]
@@ -197,9 +197,9 @@
 [Accounts]
 Акаунти
 [Rules]
-
+Правила
 [Flashing]
-
+Мигане
 [Themes]
 
 [Protocol]

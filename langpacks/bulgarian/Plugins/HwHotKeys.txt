@@ -9,7 +9,7 @@
 [Hardware HotKeys plugin\r\nAllows you to assign expanded multimedia keys (only for PS/2 keyboards)]
 
 [Close Miranda]
-
+Затваряне на Miranda
 [Assign]
 
 [Clear]
