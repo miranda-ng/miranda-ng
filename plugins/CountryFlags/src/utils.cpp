@@ -17,7 +17,7 @@ along with this program (Flags-License.txt); if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "flags.h"
+#include "stdafx.h"
 
 /************************* Buffered Functions *********************/
 
@@ -36,7 +36,7 @@ static struct BufferedCallData *callList;
 static int nCallListCount;
 
 // always gets called in main message loop
-static void CALLBACK BufferedProcTimer(HWND hwnd,UINT msg,UINT_PTR idTimer,DWORD currentTick)
+static void CALLBACK BufferedProcTimer(HWND hwnd,UINT,UINT_PTR idTimer,DWORD currentTick)
 {
 	struct BufferedCallData *buf;
 	UINT uElapsed,uElapseNext=USER_TIMER_MAXIMUM;

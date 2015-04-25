@@ -17,13 +17,13 @@ along with this program (Flags-License.txt); if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "flags.h"
+#include "stdafx.h"
 
 bool bUseUnknown, bShowStatusIcon, bShowExtraIcon, bUseIpToCountry;
 
 #define M_ENABLE_SUBCTLS  (WM_APP+1)
 
-static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM,LPARAM lParam)
 {
 	switch(msg) {
 	case WM_INITDIALOG:
@@ -80,7 +80,7 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 	return FALSE;
 }
 
-int OnOptionsInit(WPARAM wParam, LPARAM lParam)
+int OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;

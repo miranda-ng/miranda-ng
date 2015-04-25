@@ -53,7 +53,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Console", "..\plugins\Conso
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Contacts", "..\plugins\ContactsPlus\contacts.vcxproj", "{F4F2FD25-1553-FB72-F695-0701D20C3168}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Flags", "..\plugins\CountryFlags\flags_10.vcxproj", "{B4361FA0-4073-4B60-EE72-F5C08E6EDF61}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Flags", "..\plugins\CountryFlags\flags.vcxproj", "{B4361FA0-4073-4B60-EE72-F5C08E6EDF61}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSList", "..\plugins\CSList\cslist_10.vcxproj", "{2AD2FF74-06E1-4BD8-984A-526F3C6315B3}"
 EndProject
