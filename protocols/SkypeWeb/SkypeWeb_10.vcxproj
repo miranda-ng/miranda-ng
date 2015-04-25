@@ -257,7 +257,7 @@
     <Image Include="res\Icons\conference.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\sync_history.ico" />
+    <Image Include="res\Icons\sync_history.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

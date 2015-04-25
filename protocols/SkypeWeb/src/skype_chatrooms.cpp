@@ -260,7 +260,7 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 
 INT_PTR CSkypeProto::SvcDestroyChat(WPARAM hContact, LPARAM)
 {
-	debugLogA("CVkProto::SvcDestroyKickChat");
+	debugLogA(__FUNCTION__);
 	if (!IsOnline())
 		return 1;
 
