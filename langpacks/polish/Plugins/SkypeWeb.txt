@@ -85,7 +85,7 @@ Ikona protokołu
 [Create new chat icon]
 Ikona tworzenia nowego czatu
 [Sync history icon]
-
+Ikona synchronizacji historii
 [Protocols]
 Protokoły
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
