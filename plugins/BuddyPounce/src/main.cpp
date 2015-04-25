@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "stdafx.h"
 
 int hLangpack;
 HINSTANCE hInst;
@@ -22,7 +22,7 @@ PLUGININFOEX pluginInfo={
 //  WINAPI DllMain
 //========================
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -32,7 +32,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 //========================
 
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -41,7 +41,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 // MainInit
 //===================
 
-int MainInit(WPARAM wParam, LPARAM lParam)
+int MainInit(WPARAM, LPARAM)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position=10;
@@ -55,7 +55,7 @@ int MainInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int MsgAck(WPARAM wParam, LPARAM lParam) 
+int MsgAck(WPARAM, LPARAM lParam) 
 { 
 	ACKDATA *ack=(ACKDATA*)lParam; 
 
@@ -93,7 +93,7 @@ int MsgAck(WPARAM wParam, LPARAM lParam)
    return 0; 
 } 
 
-int BuddyPounceOptInit(WPARAM wParam, LPARAM lParam)
+int BuddyPounceOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
@@ -188,7 +188,7 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR BuddyPounceMenuCommand(WPARAM hContact, LPARAM lParam)
+INT_PTR BuddyPounceMenuCommand(WPARAM hContact, LPARAM)
 {
 	if (db_get_b(NULL, modname, "UseAdvanced", 0) || db_get_b(hContact, modname, "UseAdvanced", 0))
 		CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_POUNCE),0,BuddyPounceDlgProc, hContact);
@@ -201,7 +201,6 @@ INT_PTR AddSimpleMessage(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = wParam;
 	TCHAR* message = (TCHAR*)lParam;
-	time_t today = time(NULL);
 	db_set_ws(hContact, modname, "PounceMsg", message);
 	db_set_w(hContact, modname, "SendIfMyStatusIsFLAG", (WORD)db_get_w(NULL, modname, "SendIfMyStatusIsFLAG",1));
 	db_set_w(hContact, modname, "SendIfTheirStatusIsFLAG", (WORD)db_get_w(NULL, modname, "SendIfTheirStatusIsFLAG",1));
