@@ -6,16 +6,16 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
-
+Уведомява ви за предстоящи рождени дни.
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays:]
 
 [Popups]
 Рopups
 [Popup timeout:]
-
+Времетраене:
 [Preview]
-
+Образец
 [Don't show popups for subcontacts]
 
 [Show popup when no birthdays are near]
@@ -23,9 +23,9 @@
 [Popup mouse click]
 
 [Left]
-
+Ляво
 [Right]
-
+Дясно
 [Sounds]
 Звук
 [Play sounds when there are]
@@ -37,9 +37,9 @@
 [days in advance and]
 
 [Check every]
-
+Проверка на всеки
 [hours]
-
+часа
 [Only notify once per day.]
 
 [By default use]
@@ -51,9 +51,9 @@
 [in birthday list window]
 
 [Dialog]
-
+Прозорец
 [Timeout:]
-
+Времетраене:
 [seconds]
 секунди
 [Notify for]
@@ -67,19 +67,19 @@
 [Close]
 Затваряне
 [Show all contacts]
-
+Показва всички контакти
 [Set birthday:]
 
 [Manage anniversaries]
 
 [Title:]
-
+Заглавие:
 [Description:]
 Описание:
 [Date:]
 Дата:
 [Save]
-
+Запис
 [Delete]
 Изтриване
 [Upcoming birthdays]
@@ -96,13 +96,13 @@
 [mBirthday module]
 
 [Nothing]
-
+Нищо
 [Dismiss]
-
+Затваряне
 [Message window]
-
+Прозорец за съобщения
 [All contacts]
-
+Всички контакти
 [All contacts except hidden ones]
 
 [All contacts except ignored ones]
@@ -116,7 +116,7 @@
 [Set birthday for %s:]
 
 [%S protocol]
-
+%s протокол
 [N/A]
 НД
 [Unknown]
@@ -130,11 +130,11 @@
 [DTB]
 
 [Birthday]
-
+Рожден ден
 [Age]
-
+Възраст
 [Module]
-
+Модул
 [Closing in %d seconds]
 
 [Closing in %d second]
@@ -162,7 +162,7 @@
 [Export birthdays]
 
 [Birthday today]
-
+Рожден ден днес
 [1 day to birthday]
 
 [%d days to birthday]
@@ -175,11 +175,11 @@
 [No upcoming birthdays.]
 
 [%s has birthday in %d days.]
-
+%s има рожден ден след %d дни.
 [%s has birthday tomorrow.]
-
+%s има рожден ден утре.
 [%s has birthday today.]
-
+%s има рожден ден днес,
 [%s had birthday %d days ago.]
 
 [%s had birthday yesterday.]
@@ -189,11 +189,11 @@
 [Birthday - %s]
 
 [He]
-
+Той
 [She]
-
+Тя
 [He/She]
-
+Той/Тя
 [%s\n%s will be %d years old.]
 
 [%s\n%s just turned %d.]

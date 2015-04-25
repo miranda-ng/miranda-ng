@@ -11,11 +11,11 @@
 [General]
 Основни
 [Align]
-
+Подреждане
 [Select font]
 
 [Shadow]
-
+Сянка
 [Show drop shadow]
 
 [Shadow align]
@@ -31,9 +31,9 @@
 [Background color]
 Цвят на фона
 [Transparent]
-
+Прозрачно
 [Alpha:]
-
+Алфа:
 [Timeout (ms):]
 
 [Show testing OSD]
@@ -49,14 +49,14 @@
 [Show events]
 
 [Format:]
-
+Формат:
 [Show message window after click]
 
 [Show when my status is:]
 
 ;file \plugins\wbOSD\src\events.cpp
 [%s is %s]
-
+%s е %s
 ;file \plugins\wbOSD\src\options.cpp
 [Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
 

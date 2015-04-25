@@ -6,151 +6,151 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
-
+Yet Another Popup Plugin - осигурява услуга за уведомяване чрез popup прозорци за останалите приставки.
 ;file \plugins\YAPP\res\yapp.rc
 [Popup history]
-
+Рopup история
 [Close]
 Затваряне
 [Case sensitive]
 
 [Default Timeout]
-
+Стандартно времетраене
 [Never timeout]
-
+Безкрайно
 [Set timeout:]
-
+Задаване (сек):
 [Width:]
-
+Ширина:
 [Maximum height:]
-
+Макс. височина:
 [Options]
 Настройки
 [Opacity (%):]
-
+Плътност (%):
 [Border]
-
+Рамка
 [Round corners (window)]
-
+Закръглени ъгли (на прозореца)
 [Preview]
-
+Образец
 [Transparent background]
-
+Прозрачен фон
 [Layout]
-
+Изглед
 [Avatar size:]
-
+Аватар (размер):
 [Disable when]
-
+Изключване, когато
 [Global hover]
 
 [Sidebar width:]
-
+Странична лента:
 [Text indent:]
-
+Отстъп на текста:
 [Padding:]
-
+Отстъп:
 [Round corners (avatar)]
-
+Закръглени ъгли (на аватара)
 [Text color:]
-
+Цвят на текста:
 [Background color:]
-
+Цвят на фона:
 [Set timeout]
-
+Задаване на времетраене
 [Timeout value (0 = default):]
-
+Времетраене (0=стандарт):
 ;file \plugins\YAPP\src\icons.cpp
 [Popups are enabled]
-
+Popups са включени
 [Popups are disabled]
-
+Popups са изключени
 [Popup History]
-
+Popup история
 ;file \plugins\YAPP\src\notify_imp.cpp
 [YAPP Popups]
-
+YAPP Popups
 ;file \plugins\YAPP\src\options.cpp
 [Example]
-
+Пример
 [The quick brown fox jumped over the lazy dog.]
-
+Бързата кафява лисица прескочи мързеливото куче.
 [Example With a Long Title]
-
+Пример с дълго заглавие
 [Thequickbrownfoxjumpedoverthelazydog.]
-
+Бързата.кафява.лисица.прескочи.мързеливото.куче.
 [An avatar.]
-
+Аватар.
 [Bottom right]
-
+Долу вдясно
 [Bottom left]
-
+Долу вляво
 [Top right]
-
+Горе вдясно
 [Top left]
-
+Горе вляво
 [Icon on left]
-
+Икона вляво
 [Icon on right]
-
+Икона вдясно
 [No time]
-
+Без час
 [Time on left]
-
+Час вляво
 [Time on right]
-
+Час вдясно
 [Time above avatar]
-
+Час над аватара
 [No avatar]
-
+Няма аватар
 [Left avatar]
-
+Аватар отляво
 [Right avatar]
-
+Аватар отдясно
 [Status]
 Състояние
 [Full-screen app running]
-
+Приложение на цял екран
 [No animate]
-
+Без анимиране
 [Horizontal animate]
-
+Хоризонтално анимиране
 [Vertical animate]
-
+Вертикално анимиране
 [You cannot set a default timeout of 0.\nValue has been reset.]
-
+Времетраенето не може да бъде 0.\nСтойността е нулирана.
 [Error]
 Грешка
 [Popups]
 Рopups
 [Settings]
-
+Настройки
 [Classes]
-
+Класове
 ;file \plugins\YAPP\src\services.cpp
 [Disable Popups]
-
+Изключване на Popups
 [Enable Popups]
-
+Включване на Popups
 ;file \plugins\YAPP\src\yapp.cpp
 [Toggle Popups]
-
+Вкл./Изкл. на Popups
 [First line]
-
+Първи ред
 [Second line]
-
+Втори ред
 [Time]
-
+Час
 [Background]
 Фон
 [Sidebar]
-
+Странична лента
 [Title underline]
-
+Подчертаване на заглавието
 ;file \plugins\YAPP\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
-
+Копиране на заглавието в клипборда
 [Copy message to clipboard]
-
+Копиране на съобщението в клипборда
 [Copy timestamp to clipboard]
-
+Копиране на времевата марка в клипборда

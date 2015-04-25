@@ -15,13 +15,13 @@
 [Restore Last Session]
 
 [Do nothing]
-
+Нищо
 [Only if last session present]
 
 [Startup delay]
 
 [ms]
-
+ms
 [User Sessions Management]
 
 [Edit]
@@ -29,7 +29,7 @@
 [Delete]
 Изтриване
 [Save]
-
+Запис
 [Action on Exit]
 
 [Ask]
@@ -41,7 +41,7 @@
 [Sessions]
 
 [Misc]
-
+Разни
 [Exclude hidden contacts from session on exit]
 
 [Warn, when some of LastSession contacts are hidden]
@@ -67,7 +67,7 @@
 [Enter session name:]
 
 [Save and Close]
-
+Запис и затваряне
 [adv.]
 
 [Sessions Manager]
@@ -106,18 +106,18 @@
 [Restore last Session]
 
 [Close Session]
-
+Затваряне на разговора
 [Save session...]
 
 [Load session...]
 
 [Close session]
-
+Затваряне на разговора
 [Load last session]
 
 ;file \plugins\Sessions\Src\Options.cpp
 [View]
-
+Преглед
 [Message sessions]
 Разговори
 ;file \plugins\Sessions\Src\Utils.cpp

@@ -6,20 +6,20 @@
 ;  Authors: P Boon
 ;============================================================
 [Adds support for dynamic variables in strings for plugins.]
-
+Добавя поддръжка за променливи стойности/низове към приставките.
 ;file \plugins\Variables\res\Variables.rc
 [Parse options]
 
 [Automatically strip "end of line" characters]
-
+Автоматично премахване на символите за "край на реда"
 [Automatically strip white space]
-
+Автоматично премахване на празни пространства
 [Automatically strip all non-parsing characters]
 
 [Test area]
-
+Зона за тестване
 [Click on the help button to get more information]
-
+Натиснете бутона за помощ, за да получите повече информация
 [Parse the following string at startup]
 
 [Auto parse]
@@ -29,15 +29,15 @@
 [Please enter your input below]
 
 [Don't set a contact]
-
+Без задаване на контакт
 [Set to the following contact]
-
+Задаване за следния контакт
 [The token %subject% is translated into a special contact, which depends on the situation in which the string is parsed. Use this dialog to simulate the contact to which %subject% translates. An example for using this token is: !cinfo(%subject%,display).]
 
 [Description]
-
+Описание
 [Setting]
-
+Настройка
 [The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
 
 [Close]
@@ -47,27 +47,27 @@
 [Notes]
 Бележки
 [Variables...]
-
+Променливи...
 ;file \plugins\Variables\src\help.cpp
 [Token]
 
 [Tokens]
 
 [Input]
-
+Въвеждане
 [Cancel]
 Отказ
 [Help]
 Помощ
 [Variables Help]
-
+За променливите
 [Open String Formatting Help]
-
+Помощ за форматирането на низове
 ;file \plugins\Variables\src\options.cpp
 [Services]
-
+Услуги
 [Variables]
-
+Променливи
 ;file \plugins\Variables\src\parse_alias.cpp
 [Alias]
 
@@ -79,16 +79,16 @@
 [Stopped]
 
 [Paused]
-
+На пауза
 [External Applications]
-
+Външни приложения
 [retrieves song name of the song currently playing in Winamp]
-
+Извлича името на песента, която се възпроизвежда в момента от Winamp
 [retrieves current Winamp state (Playing/Paused/Stopped)]
-
+Извлича текущото състоянието на Winamp (възпроизвеждане/пауза/стоп)
 ;file \plugins\Variables\src\parse_inet.cpp
 [Internet Related]
-
+Свързани с интернет
 [converts each non-html character into hex format]
 
 [converts each hex value into non-html character]
@@ -99,7 +99,7 @@
 
 ;file \plugins\Variables\src\parse_logic.cpp
 [Logical Expressions]
-
+Логически изрази
 [performs logical AND (x && y && ...)]
 
 [Boolean FALSE]
@@ -134,7 +134,7 @@
 
 ;file \plugins\Variables\src\parse_math.cpp
 [Mathematical Functions]
-
+Математически функции
 [x + y + ...]
 
 [x divided by y]
@@ -154,9 +154,9 @@
 [pads decimal value x to length y with zeros]
 
 [random number]
-
+произволно число
 [x - y - ...]
-
+x - y - ...
 ;file \plugins\Variables\src\parse_metacontacts.cpp
 [Metacontacts]
 Метаконтакти
@@ -170,11 +170,11 @@
 [Miranda Core Global]
 
 [path to Miranda root folder]
-
+път до главната папка на Miranda
 [path to folder containing Miranda profiles]
-
+път до папката с профили на Miranda
 [name of current Miranda profile (filename, without extension)]
-
+име на текущия профил на Miranda (име без окончание)
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
 
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\AvatarCache]
@@ -184,15 +184,15 @@
 [Miranda Core OS]
 
 [same as environment variable %APPDATA% for currently logged-on Windows user]
-
+като променливата %APPDATA% за вписаният, в момента, потребител на Windows
 [username for currently logged-on Windows user]
-
+потребителско име на текущия потребител вписан в Windows
 ["My Documents" folder for currently logged-on Windows user]
-
+Папка "My Documents" на потребителя, вписан в Windows
 ["Desktop" folder for currently logged-on Windows user]
-
+Папка "Desktop" на потребителя, вписан в Windows
 [Miranda Related]
-
+Свързани с Miranda
 [translates status code x into a status description]
 
 [zth contact with property y described by x, example: (unregistered,nick) (z is optional)]
@@ -202,9 +202,9 @@
 [info property y of contact x]
 
 [database profile name]
-
+има на профила
 [database profile path]
-
+път до профила
 [database setting z of module y of contact x and return w if z doesn't exist (w is optional)]
 
 [get event for contact x (optional), according to y,z,w, see documentation]
@@ -242,7 +242,7 @@
 
 ;file \plugins\Variables\src\parse_str.cpp
 [String Functions]
-
+Низови функции
 [converts each first letter of a word to uppercase, all others to lowercase]
 
 [converts each first letter of a word to uppercase]
@@ -321,9 +321,9 @@
 
 ;file \plugins\Variables\src\parse_system.cpp
 [System Functions]
-
+Системни функции
 [computer name]
-
+име на компютъра
 [CPU load of process x (without extension) (x is optional)]
 
 [current date in format y (y is optional)]
@@ -361,9 +361,9 @@
 [expand environment variable x]
 
 [user name]
-
+Потребителско име
 [text from clipboard]
-
+текст от клипборда
 ;file \plugins\Variables\src\parse_variables.cpp
 [variable set by put(s) with name x]
 

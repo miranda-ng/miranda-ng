@@ -6,146 +6,146 @@
 ;  Authors: Ghost, Mironych
 ;============================================================
 [Adding traffic and time counters.]
-
+Добавя брояч за трафик и време.
 ;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
-
+Общо за избраните
 [Accounts]
 Акаунти
 [Units]
-
+Единици
 [Clear statistics]
-
+Изчистване
 [Notification]
-
+Уведомяване
 [Notify me on every]
-
+Уведомяване всеки
 [kilobytes]
-
+килобайта
 [minutes]
-
+минути
 [Background color:]
-
+Цвят на фона:
 [Text color:]
-
+Цвят на текста:
 [Reset to default]
 Стандарт
 [Popup timeout]
-
+Popup времетраене
 [From Popup plugin]
-
+От приставката Popup
 [Custom]
 Избор
 [Test]
-
+Тест
 [Show now]
-
+Покажи сега
 [Space between lines:]
-
+Отстъп м/у редове:
 [Counters format string:]
-
+Формат на брояча:
 [Tooltip format string:]
-
+Формат (подсказка):
 [Display traffic for current]
-
+Изобразяване на трафика за текущия
 ;file \plugins\TrafficCounter\src\options.cpp
 [Display]
-
+Изобразяване
 [Icon]
-
+Икона
 [Account name]
-
+Име на акаунта
 [Current traffic]
-
+Текущ трафик
 [Total traffic]
-
+Общ трафик
 [Current online]
-
+Текущо време "На линия"
 [Total online]
-
+Общо време "На линия"
 [General]
 Основни
 [Draw frame as skin element]
-
+Добавяне на рамката като елемент на облика
 [Show tooltip in traffic window]
-
+Подсказка в прозореца на брояча
 ["Toggle traffic counter" in main menu]
-
+Вкл./Изкл. на брояча от гл. меню
 [Visible accounts]
-
+Видими акаунти
 [Summary traffic for visible accounts]
-
+Обобщение на статистика за видимите акаунти
 [Overall traffic]
-
+Трафик общо
 [Hide now]
-
+Скрий сега
 [Day]
-
+Ден
 [Week]
-
+Седмица
 [Month]
-
+Месец
 [Year]
-
+Година
 [Services]
-
+Услуги
 [Options]
 Настройки
 [Traffic counter]
-
+Брояч на трафика
 [Statistics]
-
+Статистика
 [Popups]
 Рopups
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
-байта
+Байта
 [KB]
-
+KB
 [MB]
-
+МБ
 [Adaptive]
 
 [Hourly]
-
+Почасово
 [Daily]
-
+Дневно
 [Weekly]
-
+Седмично
 [Monthly]
-
+Месечно
 [Yearly]
-
+Годишно
 [Period]
-
+Период
 [Incoming]
 Входящи
 [Outgoing]
 Изходящи
 [Sum]
-
+Сума
 [Online]
 На линия
 [Now traffic statistics for selected accounts will be cleared.\nContinue?]
-
+Трафик статистиката за всички протоколи ще бъде изчистена.\nСъгласни ли сте?
 [Couldn't read statistics file]
-
+Статистиката не може да бъде прочетена
 [Traffic Counter]
-
+Брояч на трафика
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Шрифт
 [Show/Hide frame]
-
+Вкл./Изкл. на рамката
 [Hide traffic window]
-
+Скриване на трафик прозореца
 [Clear the current (Now:) value]
-
+Изчистване на текущата стойност
 [Toggle traffic counter]
-
+Вкл./Изкл. на брояча за трафик
 [Traffic counter notification]
-
+Брояч на трафика - уведомявания
 [%d kilobytes sent]
-
+%d изпратени килобайта
 [%d kilobytes received]
-
+%d получени килобайта

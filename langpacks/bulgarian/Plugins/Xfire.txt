@@ -75,15 +75,15 @@
 [Be sure you put these files in following folder:]
 
 [Status Message]
-
+Текст за състояние
 [Enable]
-
+Включване
 [With this feature, following status message will be set on your other protocol plugins if you are in game. So your other buddies can also see what you play. It will also change the status to occupied if this option is enabled.]
 
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 
 [Status message:]
-
+Текст за състоянието:
 [Change the status to occupied or dnd]
 
 [The status message and status will be reset if you close the game.]
@@ -91,9 +91,9 @@
 [Prefer dnd when it is available]
 
 [Games]
-
+Игри
 [Game:]
-
+Игра:
 [Don't detect this game as running]
 
 [Apply]
@@ -111,17 +111,17 @@
 [Extra Command Line Parameters:]
 
 [Edit...]
-
+Редактиране
 [Username:]
 Потребител:
 [Game]
-
+Игра
 [Voice chat]
 
 [Name:]
 Име:
 [IP:]
-
+IP:
 [Port:]
 Порт:
 [User details]
@@ -129,11 +129,11 @@
 [Copy]
 Копиране
 [Enter Password]
-
+Въведете парола
 [Join]
 
 [Set Nickname]
-
+Задаване на прякор
 [Cancel]
 Отказ
 [New xfire_games.ini]
@@ -143,7 +143,7 @@
 [New supported games:]
 
 [Update]
-
+Обнови
 [Add game]
 
 [Search:]
@@ -155,7 +155,7 @@
 [Game exe:]
 
 [Browse...]
-
+Преглед...
 [Launcher exe (optional):]
 
 [Game ID:]
@@ -230,7 +230,7 @@
 
 ;file \protocols\Xfire\src\main.cpp
 [Protocol icon]
-
+Икона на протокола
 [%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFire clan site to accept the Invitation.]
 
 [Friends of Friends Playing]
@@ -258,7 +258,7 @@
 [My Current ServerIP]
 
 [Voice]
-
+Глас
 [My Current Voice]
 
 [Voice ServerIP]
@@ -296,9 +296,9 @@
 [&Rescan my games...]
 
 [Set &Nickname]
-
+Задаване на прякор
 [Protocols]
-
+Протоколи
 [XFire game icon]
 
 [XFire voice icon]
@@ -333,7 +333,7 @@
 [Avatars]
 Аватари
 [Disable avatars]
-
+Изключване на аватарите
 [Don't download avatars of clan members]
 
 [Use alternate way for Avatar download]
@@ -391,17 +391,17 @@
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 
 [Hidden]
-
+Скрито
 [Message box]
 
 [Popup]
-
+Рopup
 [No]
 Не
 [On every start]
 
 [Daily]
-
+Дневно
 [<Root Group>]
 <Главна група>
 [Are you sure you want to remove this game?]
@@ -411,7 +411,7 @@
 [Error: unknown game ID.]
 
 [Not supported]
-
+Не се поддържа
 [Configuration saved!]
 
 [Game not found?!]
@@ -421,7 +421,7 @@
 [Account]
 Акаунт
 [Features]
-
+Функции
 [Blocklist / Games]
 
 [StatusMsg]
@@ -442,4 +442,4 @@
 
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp
 [Please wait...]
-
+Моля, изчакайте...

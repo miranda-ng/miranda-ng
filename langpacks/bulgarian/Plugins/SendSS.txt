@@ -9,9 +9,9 @@
 
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
-
+Прозорец
 [All]
-
+Всички
 [None]
 Няма
 [Cancel]
@@ -25,7 +25,7 @@
 [Time (secs):]
 
 [&Format:]
-
+Формат:
 [Send b&y:]
 
 [E&xplore]
@@ -41,7 +41,7 @@
 [&Capture]
 
 [About]
-
+Относно
 [Copyright]
 
 [&Close]
@@ -59,13 +59,13 @@
 [Target tool]
 
 [File:]
-
+Файл:
 [Description:]
 Описание:
 [Result]
-
+Резултат
 [Thumbnail]
-
+Миниатюра
 [&Copy]
 Копиране
 [Close]
@@ -131,10 +131,10 @@
 [The user canceled one of the dialog boxes]
 
 [Unknown Error]
-
+Непозната грешка
 ;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
 [File transfer]
-
+Обмен на файлове
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 
@@ -154,7 +154,7 @@
 
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
-
+Нов опит
 [Yes]
 Да
 [No]
@@ -186,11 +186,11 @@
 [Delete on]
 
 [Prev]
-
+Предишно
 [Next]
-
+Следващо
 [Update]
-
+Обнови
 [Edit on]
 
 [BBC]
@@ -212,7 +212,7 @@
 [Image services (AdvaImg) not found.\nSendSS disabled.]
 
 [Buttons]
-
+Бутони
 [Could not register Miranda service.]
 
 [Take a screenshot]
@@ -223,7 +223,7 @@
 
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
-
+Заслуги
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 
@@ -232,7 +232,7 @@
 [Window]
 Прозорец
 [Desktop]
-
+Работен плот
 [<Entire Desktop>]
 
 [Monitor]
@@ -244,11 +244,11 @@
 [<Only save>]
 
 [File Transfer]
-
+Обмен на файл
 [E-mail]
 Имейл
 [FTP File]
-
+FTP File
 [Upload Pie (30m)]
 
 [Upload Pie (1d)]

@@ -19,7 +19,7 @@
 [Text color]
 Цвят на текста
 [Previe&w]
-
+Образец
 [Show infinitely]
 
 [Default Popup delay]
@@ -56,7 +56,7 @@
 
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [User]
-
+Потребител
 [File]
 Файл
 [Access]
@@ -87,7 +87,7 @@
 [Who uses my files]
 
 [Services]
-
+Услуги
 [Popups]
 Рopups
 [WUMF: Show connections]

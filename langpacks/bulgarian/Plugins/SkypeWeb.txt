@@ -13,19 +13,19 @@
 [Password:]
 Парола:
 [Default group:]
-
+Стандартна група
 [Account]
 Акаунт
 [Others]
-
+Други
 [Automatic messages synchronization]
 
 [Use local time for received messages] 
 
 [Enter password]
-
+Въведете парола
 [Save password]
-
+Запис на паролата
 [Cancel]
 Отказ
 [Enter the password to continue.]
@@ -35,9 +35,9 @@
 
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
-
+Икона на протокола
 [Protocols]
-
+Протоколи
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
 Молба за упълномощаване
@@ -50,6 +50,6 @@
 Мрежа
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
 [%s connection]
-
+%s връзка
 [Action]
-
+Действие

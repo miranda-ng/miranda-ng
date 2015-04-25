@@ -6,16 +6,16 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
-
+Приставката Extended UserInfo за Miranda NG осигурява интерфейс за редактиране на цялата информация за контактите.
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit contact information]
-
+Редактиране на информацията за контакта
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-
+Редактиране на информацията за контакта\nСписъкът ще ви даде представа за годишнините на контактите ви.
 [Origin]
-
+Родом от
 [&Update]
-
+Обновяване
 [Updating]
 Актуализиране
 [Cancel]
@@ -27,15 +27,15 @@
 [Display name:]
 
 [Title:]
-
+Титла:
 [First name:]
 Име:
 [Second name:]
-
+Презиме:
 [Last name:]
 Фамилия:
 [Prefix:]
-
+Представка:
 [Female]
 Жена
 [Male]
@@ -43,9 +43,9 @@
 [Marital status:]
 Брачно състояние:
 [Partner:]
-
+Партньор:
 [Language skills]
-
+Езикови умения
 [Street:]
 Улица:
 [Postal code:]
@@ -53,15 +53,15 @@
 [City:]
 Град:
 [County/State:]
-
+Област:
 [Country:]
 Държава:
 [Contact added to contact list:]
-
+Добавен в списъка на
 [Just from the beginning.]
-
+От началото
 [Your contact's local time is:]
-
+Местно време на контакта:
 [Timezone:]
 Часови пояс:
 [Company:]
@@ -69,21 +69,21 @@
 [Department:]
 Отдел:
 [Office:]
-
+Офис:
 [Position:]
 Позиция:
 [Occupation:]
-
+Работа:
 [Superior:]
-
+Разделител:
 [Assistant:]
-
+Помощник:
 [Add phone number]
 Добавяне на телефонен номер
 [Enter your phone number\nand don't worry about formatting.]
-
+Въведете телефонния номер,\nбез да се тревожите за формата.
 [Enter a category for this number:]
-
+Въведете категория за телефона:
 [Enter country, area code and phone number:]
 Въведете код на държавата, областта и тел. номер:
 [Or enter a full international number:]
@@ -91,41 +91,41 @@
 [Phone can receive SMS text messages]
 Телефонът може да получава SMS съобщения
 [Add e-mail]
-
+Добавяне на имейл
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
-
+Въведете целия адрес на имейла.\n(напр. ivan@abv.bg)
 [Enter a representative name for the e-mail address here:]
-
+Въведете представително име за е-поща:
 [Enter the e-mail address here:]
-
+Въведете адреса на е-поща тук:
 [Show menu items]
-
+Показване елементите на менюто
 [Remind me]
-
+Напомни ми
 [days before]
-
+дни предварително
 [Check every]
-
+Проверка на всеки
 [hours]
-
+часа
 [Icon flashing on event]
-
+Мигане на иконата при събитие
 [Enabled]
-
+Включено
 [Perform check on each startup]
-
+Проверка при всяко стартиране
 [Time of last check:]
-
+Последна проверка:
 [Birthday compatibility mode:]
 
 [Automatically backup and keep protocol based birthdays up to date]
 
 [Play sound]
-
+Възпроизвеждане на звук
 [Use ignore list]
-
+Ползване на списък за игнориране
 [Birthday popup colors]
-
+popup за рожден ден
 [Background color]
 Цвят на фона
 [Text color]
@@ -135,193 +135,193 @@
 [Use default colors]
 Стандартни цветове
 [Delay]
-
+Закъснение
 [From Popup plugin]
-
+От приставката Popup
 [Custom]
 Избор
 [Permanent]
-
+Постоянно
 [Show reminder messages as popups (if reminder is enabled)]
-
+Показване на съобщенията за напомняне като popups (ако напомнянето е включено)
 [Anniversary popup colors]
-
+popup за годишнина
 [Replace progress dialogs with popups]
-
+Замяна на прозореца за напредък с popups
 [Replace message boxes with popups]
-
+Замяна на текстовите кутии с popups
 [Preview]
-
+Образец
 [Homepage:]
 Страница:
 [Add affiliation]
-
+Добави сдружение
 [Add past]
-
+Добави минало
 [Add interest]
-
+Добави интерес
 [Delete]
 Изтриване
 [Anniversary editor]
-
+Редактиране на годишнина
 [Anniversary Editor\nAdd/Edit your anniversary here.]
-
+Редактор на годишнини\nДобавяне/Промяна на годишнина.
 [Enter a name for the anniversary here please:]
-
+Въведете име на годишнината:
 [Anniversary list]
-
+Списък с годишнини
 [Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
 
 [Statistics:]
-
+Статистика:
 [with birthday:]
-
+С рожден ден:
 [female:]
-
+Жени:
 [male:]
-
+Мъже:
 [number of contacts:]
-
+Брой контакти:
 [average age:]
-
+Средна възраст:
 [View]
-
+Преглед
 [Show &during the next]
-
+Годишнини през следващите
 [day(s)]
-
+ден (дни)
 [Reminder]
-
+Напомняне
 [Popup this dialog on a contact's anniversary]
-
+Изскачане на прозореца при годишнина на контакт
 [Icons]
 Икони
 [Check file version of default IconPack to prevent wrong icon display]
-
+Проверяване версията на пакета икони (to prevent wrong icon display)
 [Display icons on each dialog button]
-
+Икона на всеки бутон
 [Metacontacts]
 Метаконтакти
 [Scan subcontacts for missing information]
-
+Сканиране на подконтактите за липсваща информация
 [Enable extended 'send/receive e-mail' service (*)]
-
+Включване на разширената услуга 'send/receive email' (*)
 [Use Windows timezone]
-
+Ползване на Windows timezone (Часови пояси от Windows)
 [(*) Requires Miranda to be restarted.]
-
+(*) Изисква рестартиране на Miranda.
 [Reset factory defaults]
-
+Стандартни настройки
 [Protocol's information]
-
+Информация от протокола
 [Custom information]
-
+Въведена информация
 [Overwritten information]
-
+Презаписана информация
 [Changed information]
-
+Променена информация
 [Enable colors to give information about information's status.]
-
+Ползване на цветове за предаване на информация, за данните.
 [Make protocol based contact information read only]
 
 [Enable groups in details dialog's treeview]
 
 [Sort all tree items alphabetically]
-
+Азбучно сортиране на всички елементи на дървото.
 [Info of a metacontact's subcontact]
-
+Информация от подконтакт на метаконтакт
 [Colors]
-
+Цветове
 [Common]
-
+Общи
 [Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-
+Промяна на ICQ подробностите с UserInfoEx (изключено, ако ICQ не го поддържа)
 [Treeview]
 
 [Adapt propertysheet pages to Aero mode]
 
 [Import]
-
+Внос
 [Importing...\nPlease wait!]
-
+Внасяне...\nМоля, изчакайте!
 [Setting/Event (20/100)]
 
 [John Doe (1/10)]
 
 [Dialog]
-
+Прозорец
 [All]
-
+Всички
 [None]
 Няма
 [Show menu item]
-
+Елементи в менютата
 [Main menu]
 Главно меню
 [Cascade:]
-
+Каскадно:
 [Off]
 Изкл.
 [Export/import items]
-
+Елементи износ/внос
 [Contact menu]
 Меню на контактите
 [Group menu]
-
+Меню на групите
 [Subgroup menu]
-
+Меню на подгрупите
 [Account menu]
-
+Меню на акаунтите
 [Extra icons]
 Допълнителни икони
 [Replace the following default icons:]
-
+Замяна на следните стандартни икони:
 [Homepage]
-
+Домашна страница
 [Phone]
-
+Телефон
 [E-mail]
 Имейл
 [Gender]
-
+Пол
 [Misc]
-
+Разни
 [Show 'Restart' menu item]
-
+Елемент "Рестартиране" в гл. меню
 [Use zodiac as default avatar]
-
+Ползване на задията за аватар
 [Country flags]
-
+Държавни знамена
 [Use &unknown flag if country cannot be determined]
-
+"Непознато знаме", ако не може да се определи държавата
 [Show country flag as &status icon on message window]
-
+Знамето като икона за състояние в прозореца за съобщения
 [Birthday]
-
+Рожден ден
 [Age:]
 Възраст:
 [Zodiac:]
-
+Зодия:
 [not found]
-
+НЕ Е ОТКРИТО
 [Use global reminder settings]
-
+Ползване на общите настройки за напомняне
 [Don't remind me of this anniversary]
-
+Без напомняне за годишнината
 [Refresh contact details]
-
+Обновяване на контактите
 [Preparing...]
-
+Подготвяне...
 [Hide]
-
+Скриване
 [What do you want to export?]
-
+Какво желаете да бъде изнесено?
 [Contact information]
-
+Информация за контакта
 [Contact history]
-
+История на контакта
 [Select modules]
-
+Изберете модули
 [Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
 
 [Check all]
@@ -329,84 +329,84 @@
 [Uncheck all]
 
 [&Export]
-
+Износ
 ;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 [Aries]
-
+Овен
 [Taurus]
-
+Телец
 [Gemini]
-
+Близнаци
 [Cancer]
-
+Рак
 [Leo]
-
+Лъв
 [Virgo]
-
+Дева
 [Libra]
-
+Везни
 [Scorpio]
-
+Скорпион
 [Sagittarius]
-
+Стрелец
 [Capricorn]
-
+Козирог
 [Aquarius]
-
+Водолей
 [Pisces]
-
+Риби
 [%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
-
+Доставен е нов рожден ден за %s през протокола,\n за дата %s (старият е %s).\n\nЖелаете ли новият да бъде използван за в бъдеще?
 [Update custom birthday]
-
+Обновяване на въведените рождени дни
 [Keeps your custom birthday up to date.]
-
+Поддържа въведените от вас рождени дни.
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
 
 [A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
 
 [Rename Item]
-
+Преименуване на елемента
 [Hide Item]
-
+Скриване на елемента
 [Show Items:]
-
+Показвани елементи:
 [Reset to defaults]
-
+Стандарт
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 [Creating unique name for a page failed with %d and error code %d]
 
 [Creating the label for a page failed with %d and error code %d]
 
 [The dialog template type is no longer supported]
-
+Този тип шаблон вече не се поддържа
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
-
+Добавяне на нова годишнина
 [Delete an existing anniversary]
-
+Изтриване на годишнината
 [Unspecified]
 Неуточнено
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit e-mail]
-
+Редактиране на имейл
 [Edit phone number]
 Редактиране на телефонния номер
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
-
+Телефонният номер трябва да започва с "+" и да съдържа само\nцифри, интервали, скоби и тирета.
 [Choose the item to display]
-
+Елемент за изобразяване
 [Edit the currently displayed item]
-
+Редактиране на текущия елемент
 [Add a new custom item]
-
+Добавяне на нов персонален елемент
 [Delete the selected item]
-
+Изтриване на избрания елемент
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
 
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
-
+Наистина ли желаете избраният елемент да бъде изтрит?\n\t%s\n\t%s
 [Other]
 Друго
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
@@ -414,30 +414,30 @@
 <Неуточнено>
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
-
+Още
 [Contact]
 Контакт
 [Proto]
-
+Протокол
 [Age/Nr.]
-
+Години/№
 [Anniversary]
-
+Годишнина
 [Date]
-
+Дата
 [All contacts]
-
+Всички контакти
 [Birthdays only]
-
+Само рождени дни
 [Anniversaries only]
-
+Само годишнини
 [Disabled reminder]
-
+Без напомняне
 [Popup anniversary list]
-
+Показване на годишнините
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
-
+Нов опит
 [Yes]
 Да
 [No]
@@ -450,55 +450,55 @@
 Грешка
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Upload details]
-
+Качване на подробностите
 [Protocol '%s' is offline]
-
+Протоколът "%s" е извън линия
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-
+В момента не сте свързани с ICQ мрежата.\nНеобходимо е да сте на линия, за да бъде обновена вашата информация на сървъра.\n\nНаправените промени ще бъдат запаметени само в базата данни.
 [Uploading]
-
+Качване...
 [Creating the image list failed!]
 
 [Could not find contact's protocol. Maybe it is not active!]
-
+Не е възможно да бъде намерен протокола на контакта. Вероятно е неактивен.
 [No pages have been added. Canceling dialog creation!]
 
 [Details dialog failed to be created. Returning error is %d.]
-
+Прозорецът с подробности не може да бъде създаден поради следната грешка: %d.
 [The page to add has invalid size %d bytes!]
 
 [General]
 Основни
 [Contact (private)]
-
+Данни (Лични)
 [Anniversaries]
-
+Годишнини
 [Work]
 Работа
 [Contact (work)]
-
+Данни (работни)
 [About]
-
+Относно
 [Profile]
 Профил
 [Notes]
 Бележки
 [Export to file]
-
+Износ във файл
 [Import from file]
-
+Внос от файл
 [Owner]
 Собственик
 [edit contact information]
-
+редактиране на информацията за контакта
 [Upload ICQ details]
-
+Качване на ICQ подробности
 [Upload failed]
-
+Неуспешно качване
 [Your details were not uploaded successfully.\nThey were written to database only.]
-
+Подробностите не бяха качени успешно.\nТе бяха записани само в базата от данни.
 [updating]
-Актуализиране
+актуализиране
 ;file \plugins\UserInfoEx\src\init.cpp
 [Fatal error, image services not found. Flags module will be disabled.]
 
@@ -506,43 +506,43 @@
 [IM naming]
 
 [Password]
-
+Парола
 [Timezone]
-
+Часови пояс
 [Marital status]
-
+Брачно състояние
 [Address]
-
+Адрес
 [Export: modules]
-
+Износ: модули
 [Export: folder]
-
+Износ: папка
 [Default]
 Стандарт
 [Details info bar]
-
+Подробности в информационната лента
 [Phone info bar]
-
+Телефон в информационната лента
 [E-mail info bar]
-
+Имейл в информационната лента
 [Export VCard]
-
+Изнасяне като VCard
 [Import VCard]
-
+Внасяне от VCard
 [Anniversary info bar]
-
+Годишнина в информационната лента
 [Update]
-
+Обнови
 [Export]
-
+Износ
 [Goto]
 
 [Fax]
 Факс
 [Cellular]
-
+Мобилен тел.
 [Custom phone]
-
+Зададен телефон
 [Down arrow]
 Стрелка надолу
 [Add]
@@ -552,93 +552,93 @@
 [Search]
 Търсене
 [Export/import]
-
+Износ/Внос
 [Backup birthday]
-
+Резервно копие на рождения ден
 [Birthday today]
-
+Рожден ден днес
 [Birthday tomorrow]
-
+Рожден ден утре
 [Birthday in 2 days]
-
+Рожден ден след 2 дни
 [Birthday in 3 days]
-
+Рожден ден след 3 дни
 [Birthday in 4 days]
-
+Рожден ден след 4 дни
 [Birthday in 5 days]
-
+Рожден ден след 5 дни
 [Birthday in 6 days]
-
+Рожден ден след 6 дни
 [Birthday in 7 days]
-
+Рожден ден след 7 дни
 [Birthday in 8 days]
-
+Рожден ден след 8 дни
 [Birthday in 9 days]
-
+Рожден ден след 9 дни
 [Birthday later]
-
+Рожден ден-късно
 [Anniversary today]
-
+Годишнина днес
 [Anniversary tomorrow]
-
+Годишнина утре
 [Anniversary in 2 days]
-
+Годишнина след 2 дни
 [Anniversary in 3 days]
-
+Годишнина след 3 дни
 [Anniversary in 4 days]
-
+Годишнина след 4 дни
 [Anniversary in 5 days]
-
+Годишнина след 5 дни
 [Anniversary in 6 days]
-
+Годишнина след 6 дни
 [Anniversary in 7 days]
-
+Годишнина след 7 дни
 [Anniversary in 8 days]
-
+Годишнина след 8 дни
 [Anniversary in 9 days]
-
+Годишнина след 9 дни
 [Anniversary later]
-
+Годишнина ден-късно
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
-
+Внимание: Вашият пакет икони се различава от необходимия за инсталираната версия на UserInfoEx.\nНякои икони нямат да бъдат изобразявани правилно
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
-
+Внимание: Не е открит пакет икони в нито една от следните директории:\n- customize\\icons\n- icons\n- plugins
 [Main]
-
+Основна
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
-
+UserInfoEx
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
-
+Износ/Внос на контакта
 [User &details]
 Подробности за потребителя
 [&Export user details]
-
+Износ на подробности за потребителя
 [&Import]
-
+Внос
 [&Import user details]
-
+Внос на подробности за потребителя
 [View/change my &details...]
 Преглед/Промяна на личните данни
 [Export all contacts]
-
+Изнасяне на всички контакти
 [Import all contacts]
-
+Внасяне на всички контакти
 [Backup birthdays]
-
+Резервно копие на рождените дни
 [Check anniversaries]
-
+Проверяване за годишнини
 [Export/import group]
-
+Износ/Внос на група
 [&Export group]
-
+Изнасяне на групата
 [&Import group]
-
+Внасяне на групата
 [&Export xml]
-
+Износ в
 [&Import xml]
-
+Внос в xml
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 Бележки:
@@ -646,437 +646,437 @@
 Относно:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
-
+Първо трябва да въведете валидно описание!
 [No valid date selected for editing!]
 
 [Do you really want to delete the %s?]
-
+Наистина ли желаете да изтриете %s?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
 [home]
-
+дом
 [Open in browser]
-
+Отваряне в браузер
 [Primary e-mail]
-
+Първа е-поща
 [Secondary e-mail]
-
+Втора е-поща
 [Tertiary e-mail]
-
+Трета е-поща
 [Address and contact]
-
+Адрес и контакт
 [company]
-
+компания
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
-
+Въпрос
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
-
+Ще бъдат изтрити всички направени настройки!\nВсички TreeView настройки, позиции на прозорци и други!\n\nНаистина ли желаете това?
 [Ready]
-
+Готово
 [Everything is done!]
-
+Всичко е направено!
 [All settings are reset to default values now!]
-
+Бяха зададени стандартни стойности на настройките!
 [Reminder disabled]
-
+Без напомняне
 [Everything]
-
+Всичко
 [mBirthday]
-
+mBirthday
 [UserInfo (default)]
-
+UserInfo (стандарт)
 [This is the reminder message]
-
+Това е съобщение за напомняне
 [Contacts]
 Контакти
 [Advanced]
 Разширени
 [Details dialog]
-
+Прозорец за подробности
 [Popups]
 Рopups
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
-
+Минало
 [Affiliation]
-
+Сдружение
 [Interest]
-
+Интереси
 [Sorry, but there is a problem with adding a new item of type "%s"]
 
 [<empty>]
-
+<празно>
 [Edit category]
-
+Редактиране на категория
 [Edit value]
-
+Редактиране на стойност
 [Delete an entry]
-
+Изтриване на елемент
 [Do you really want to delete this entry?]
-
+Наистина ли желаете елементът да бъде изтрит?
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
-
+африкаанс (бурски)
 [Albanian]
-
+албански
 [Arabic]
-
+арабски
 [Armenian]
-
+арменски
 [Azerbaijani]
-
+азербайджански
 [Belorussian]
-
+белоруски
 [Bhojpuri]
-
+божпури
 [Bosnian]
-
+босненски
 [Bulgarian]
-
+български
 [Burmese]
-
+бирмански
 [Cantonese]
-
+кантонски
 [Catalan]
-
+каталонски
 [Chamorro]
-
+чаморо
 [Chinese]
-
+китайски
 [Croatian]
-
+хърватски
 [Czech]
-
+чешки
 [Danish]
-
+датски
 [Dutch]
-
+нидерландски (холандски)
 [English]
-
+английски
 [Esperanto]
-
+есперанто
 [Estonian]
-
+естонски
 [Farsi]
-
+персийски (фарси)
 [Finnish]
-
+фински (финландски)
 [French]
-
+френски
 [Gaelic]
-
+келтски
 [German]
-
+немски
 [Greek]
-
+гръцки
 [Gujarati]
-
+гуджарати (гуджаратски)
 [Hebrew]
-
+иврит
 [Hindi]
-
+хинди
 [Hungarian]
-
+унгарски
 [Icelandic]
-
+исландски
 [Indonesian]
-
+индонезийски
 [Italian]
-
+италиански
 [Japanese]
-
+японски
 [Khmer]
-
+кхмерски
 [Korean]
-
+корейски
 [Kurdish]
-
+кюрдски
 [Lao]
-
+лао (лаоски)
 [Latvian]
-
+латвийски
 [Lithuanian]
-
+литовски
 [Macedonian]
-
+македонски
 [Malay]
-
+малайски
 [Mandarin]
-
+мандарин
 [Mongolian]
-
+монголски
 [Norwegian]
-
+норвежки
 [Persian]
-
+персийски
 [Polish]
-
+полски
 [Portuguese]
-
+португалски
 [Punjabi]
-
+пенджаби (пенджабски)
 [Romanian]
-
+румънски
 [Russian]
-
+руски
 [Serbo-Croatian]
-
+сърбохърватски
 [Sindhi]
-
+синдхи
 [Slovak]
-
+словашки
 [Slovenian]
-
+словенски
 [Somali]
-
+сомали
 [Spanish]
-
+испански
 [Swahili]
-
+суахили
 [Swedish]
-
+шведски
 [Tagalog]
-
+тагалог (тагалски)
 [Taiwanese]
-
+тайвански
 [Tamil]
-
+тамилски
 [Tatar]
-
+татарски
 [Thai]
-
+тайски (тайландски)
 [Turkish]
-
+турски
 [Ukrainian]
-
+украински
 [Urdu]
-
+урду
 [Vietnamese]
-
+виетнамски
 [Welsh]
-
+уелски
 [Yiddish]
-
+идиш
 [Yoruba]
-
+йоруба
 [Academic]
-
+Академическа
 [Administrative]
-
+Администрация
 [Art/Entertainment]
-
+Изкуство/Развлечение
 [College Student]
-
+Колежанин
 [Computers]
-
+Компютри
 [Community & Social]
-
+Общност и общество
 [Education]
-
+Образование
 [Engineering]
-
+Инженерство
 [Financial Services]
-
+Финансови услуги
 [Government]
-
+Правителствена
 [High School Student]
-
+Гимназист
 [Home]
-
+Дом
 [ICQ - Providing Help]
-
+ICQ - осигуряване на помощ
 [Law]
-
+Правна
 [Managerial]
-
+Ръководене
 [Manufacturing]
-
+Производство
 [Medical/Health]
-
+Медицина/Здраве
 [Military]
-
+Военен
 [Non-Government Organization]
-
+Неправителствена организация
 [Professional]
-
+Професионална
 [Retail]
-
+Търговия на дребно
 [Retired]
-
+Пенсиониран
 [Science & Research]
-
+Наука и проучване
 [Sports]
-
+Спорт
 [Technical]
-
+Технически
 [University Student]
-
+Студент
 [Web Building]
-
+Web изграждане
 [Other Services]
-
+Други услуги
 [Art]
-
+Изкуство
 [Cars]
-
+Коли
 [Celebrity Fans]
-
+Фен на знаменитости
 [Collections]
-
+Колекции
 [Culture & Literature]
-
+Култура и литература
 [Fitness]
-
+Фитнес
 [Games]
-
+Игри
 [Hobbies]
-
+Хобита
 [Internet]
-
+Интернет
 [Lifestyle]
-
+Стил на живот
 [Movies/TV]
-
+Филми/Телевизия
 [Music]
-
+Музика
 [Outdoor Activities]
-
+Дейности на открито
 [Parenting]
-
+Възпитание
 [Pets/Animals]
-
+Домашни любимци/Животни
 [Religion]
-
+Религия
 [Science/Technology]
-
+Наука/Технологии
 [Skills]
-
+Умения
 [Web Design]
-
+Web дизайн
 [Nature and Environment]
-
+Природа и околна среда
 [News & Media]
-
+Новини
 [Business & Economy]
-
+Бизнес и икономика
 [Mystics]
-
+Мистика
 [Travel]
-
+Пътувания
 [Astronomy]
-
+Астрономия
 [Space]
-
+Космос
 [Clothing]
-
+Облекло
 [Parties]
-
+Партита
 [Women]
-
+Жени
 [Social science]
-
+Социални науки
 [60's]
-
+60-те
 [70's]
-
+70-те
 [80's]
-
+80-те
 [50's]
-
+50-те
 [Finance and corporate]
-
+Финанси
 [Entertainment]
-
+Забавление
 [Consumer electronics]
-
+Потребителска електроника
 [Retail stores]
-
+Търговия на дребно
 [Health and beauty]
-
+Здраве и красота
 [Media]
 
 [Household products]
-
+Продукти за домакинството
 [Mail order catalog]
-
+Каталози за поръчка по пощата
 [Business services]
-
+Бизнес услуги
 [Audio and visual]
-
+Аудио и видео
 [Sporting and athletic]
-
+Спортуване и атлетика
 [Publishing]
-
+Издателска дейност
 [Home automation]
-
+Домашна автоматизация
 [Alumni Org.]
-
+Орг. с идеална цел
 [Charity Org.]
-
+Благотворителни орг.
 [Club/Social Org.]
-
+Клуб/Социална орг.
 [Community Org.]
-
+Обществени орг.
 [Cultural Org.]
-
+Културна орг.
 [Fan Clubs]
-
+Фен клубове
 [Fraternity/Sorority]
-
+Братство/Женски клуб
 [Hobbyists Org.]
 
 [International Org.]
-
+Международни орг.
 [Nature and Environment Org.]
-
+Орг. за природата и околната среда
 [Professional Org.]
-
+Професионална орг.
 [Scientific/Technical Org.]
-
+Научни/Технически орг.
 [Self Improvement Group]
-
+Група за самоусъвършенстване
 [Spiritual/Religious Org.]
-
+Духовни/Религиозни орг.
 [Sports Org.]
-
+Спортни организации
 [Support Org.]
-
+Организация за поддръжка
 [Trade and Business Org.]
-
+Търговски и бизнес орг.
 [Union]
-
+Съюз
 [Volunteer Org.]
-
+Доброволчески орг.
 [Elementary School]
-
+Начално училище
 [High School]
-
+Гимназия
 [College]
-
+Колеж
 [University]
-
+Университет
 [TmplPast Work Place]
 
 [TmplPast Organization]
 
 [Single]
-
+Необвързан(а)
 [Close relationships]
-
+Обвързан(а)
 [Engaged]
-
+Сгоден(а)
 [Married]
-
+Женен/Омъжена
 [Divorced]
-
+Разведен(а)
 [Separated]
-
+Разделен(а)
 [Widowed]
-
+Вдовец/Вдовица
 [jun.]
-
+младши
 [sen.]
-
+старши
 ;file \plugins\UserInfoEx\src\svc_constants.h
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
@@ -1085,106 +1085,106 @@
 [Send e-mail]
 Изпращане на е-писмо
 [Memory allocation error!]
-
+Грешка при заделянето на памет!
 [E-mail (uinfoex)]
-
+Имейл (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 [Gender (uinfoex)]
-
+Пол (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
-
+Потребителят няма валидна домашна страница
 [View Homepage]
-
+Домашна страница
 [&Homepage]
-
+Домашна страница
 [Homepage (uinfoex)]
-
+Страница (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
 [Phone (uinfoex)]
-
+Телефон (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
-
+[b]%s (%S)...[/b]\nОстават още %d контакта]
 [Abort Refreshing Contact Details]
-
+Прекратяване обновяването на подробностите за контакта
 [Do you want to cancel the current refresh procedure?]
-
+Желаете ли процедурата по обновяване да бъде отказана?
 [Miranda must be online for refreshing contact information!]
-
+За да бъде обновена информацията е необходимо да сте на линия!
 [The function caused an exception!]
 
 ;file \plugins\UserInfoEx\src\svc_reminder.cpp
 [%s has %s today.]
-
+%s има %s днес.
 [an anniversary]
-
+годишнина
 [He/she has the following anniversaries:]
-
+Той/тя има следната годишнина:
 [He has the following anniversaries:]
-
+Той има следната годишнина:
 [She has the following anniversaries:]
-
+Тя има следната годишнина:
 [%d. %s today]
-
+%d. %s днес
 [%d. %s tomorrow]
-
+%d. %s утре
 [%d. %s in %d days]
-
+%d. %s след %d дни]
 [%s has birthday today.]
-
+%s има рожден ден днес,
 [%s has birthday tomorrow.]
-
+%s има рожден ден утре.
 [%s has birthday in %d days.]
-
+%s има рожден ден след %d дни.
 [\nHe/she becomes %d years old.]
-
+\nТой/тя навършва %d години.
 [\nHe becomes %d years old.]
-
+\nТой навършва %d години.
 [\nShe becomes %d years old.]
-
+\nТя навършва %d години.
 [No anniversaries to remind of]
-
+Няма годишнини за напомняне
 [Backing up and syncing all birthdays complete!]
-
+Синхронизирането и архивирането на рождените дни приключи!
 [Birthday reminder]
-
+Напомняне за рожден ден
 [Birthday reminder: it's coming]
-
+Напомняне за рожден ден: предстои
 [Anniversary Reminder]
-
+Напомняне за годишнина
 [Reminder (uinfoex)]
-
+Напомняне / (uinfoex)
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]
-
+идентификация на контакта
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]
-
+Внасянето на нов контакт беше прекратено!
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
-
+Внасянето на нов контакт бе прекратено.\nВъзможно е да не е внесена цялата информация за контакта.\n\nЖелаете ли да бъде изтрит непълният контакт?
 [Importing a new meta subcontact failed!]
 
 [The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?]
 
 [Settings: %S]
-
+Настройки: %S
 [Events: %S]
-
+Събития: %S
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 [All Contacts]
-
+Всички контакти
 [Required modules]
-
+Необходими модули
 [Optional modules]
-
+Избираеми модули
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Shows Miranda's installation directory.]
-
+Показва директорията, в която е инсталирана Miranda.
 [Shows the directory with all your Miranda's profiles.]
-
+Показва директорията с всички ваши профили за Miranda.
 [The OpenFileDialog returned an error: %d!]
 
 [The SaveFileDialog returned an error: %d!]
@@ -1193,31 +1193,31 @@
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
-
+Никой от %d контакта от .ini файла не съвпада с избрания контакта!\nНищо няма да бъде внесено
 [Import complete]
-
+Внасянето завърши.
 [Some basic statistics]
-
+Основна статистика
 [Added %d of %d contacts stored in the ini-file.]
-
+Добавени са %d от %d контакта в .ini файла.
 [The ini-file "%s"\nfor reading contact information could not be opened.]
 
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
-
+всички контакти
 [Select a destination file...]
 
 [Import User Details from VCard]
-
+Внос на подробности за потребителя от VCard
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
-
+Създаването на xml файл е невъзможно!\n%S
 [Export took %f ms]
-
+Износа отне %f ms
 [Contact: %s (%S)]
-
+Контакт: %s (%S)
 [Importing %s caused error %d]
-
+Внасянето на %s доведе до грешка %d
 [Loading contact %s from xml failed with error %d]
 
 [Importing Owner caused error %d]
@@ -1225,9 +1225,9 @@
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
 
 [The selected file is no valid XMLCard]
-
+Избраният файл (XMLCard) е невалиден
 [The version of the XMLCard is not supported by UserInfoEx]
-
+Версията на XMLCard не се поддържа от UserInfoEx
 [Complete]
 Завършен
 [Owner contact successfully imported.]
@@ -1235,12 +1235,12 @@
 [Selected XMLCard does not contain an owner contact!]
 
 [Import took %f ms]
-
+Внасянето отне %f ms
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
-
+%u добавени контакта / %u\n%u добавени настройки / %u\n%u добавени събития / %u\n%u повтарящи се събития
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 [Flags (uinfoex)]
-
+Знамена (uinfoex)
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

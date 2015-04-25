@@ -6,93 +6,93 @@
 ;  Authors: Awkward
 ;============================================================
 [Paste played music info into message window or status text]
-
+Поставя информация за възпроизвеждания аудио/видео файл в съобщението или съобщението за състояние. Предлага и водене на статистика.
 [Clear xStatus before set new one]
-
+Изчистване на старото xСъстояние преди задаване на ново
 [Emulate Multimedia keys]
-
+Емулиране на мултимедийни клавиши
 [xStatus will be cleared before text changing and restored with new text later.]
-
+xСъстоянието ще бъде изчиствано преди промяна на текста и възстановено по-късно с нов текст.
 [Use xStatus]
-
+Ползване на xСъстояние
 [If this option is "ON", xStatus doesn't depend on protocol status.]
-
+Опцията прави xСъстоянието независимо от състоянието на протокола.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 
 [Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
-
+Долните черти "_" ще бъдат заменяни с интервал в поставения текст и състоянието.
 [Check file date and time to tag updates while playing.]
-
+Следене времето на последната промяна на файла, за промени в таговете, по време на възпроизвеждане.
 [Report on some errors.]
 
 [Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
 
 [Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled. If value greater than 499, time signify as milliseconds.]
-
+Интервал (сек) за обновяване на информацията за музиката, текста на състоянията и статистиката. Ако зададете 0 автоматичното обновяване ще бъде изключено. Стойности по-големи от 499 се приемат за милисекунди.
 [Text insertion to other Apps]
 
 [Share music list]
 
 [Save events in database]
-
+Събития за запазване в базата от данни
 [Music Info Request]
-
+Заявка за музикална информация
 [Request Error]
 
 [Save ignored requests]
-
+Запазване на игнорираните заявки
 [Answer to ignored requests]
-
+Отговор на игнорираните заявки
 [Use frame]
-
+Ползване на рамка
 [Show info in the frame]
-
+Информация в рамката
 [Show controls in the frame]
-
+Бутони за управление
 [Show volume controls]
-
+Управление на звука
 [Use Picture]
-
+Ползване на картина
 [Use cover instead of picture]
-
+Ползване на обложка вместо картина
 [Show trackbar]
 
 [Cover padding]
 
 [Frame refresh time]
-
+Време за обновяване на рамката
 [Hide frame when no music played]
-
+Скриване на рамката, ако не се възпроизвежда музика
 [Center horizontally]
-
+Центриране по хоризонтала
 [Center vertically]
-
+Центриране по вертикала
 [Use styled trackbar]
 
 [Use buttons gap]
-
+Пролука между бутоните
 [Frame template]
 
 [Text effect]
 Ефекти
 [Text movement]
-
+Движение на текста
 [Text rotation speed (1-20)]
-
+Скорост на движение (1-20)
 [Scroll step]
-
+Стъпка на придвижване
 [Scroll gap]
-
+Пролука между края и началото
 [Minimum scroll tail]
-
+Минимална опашка на придвижване
 [Wrap]
-
+Пренасяне
 [Roll]
-
+Преминаване
 [PingPong]
-
+Напред назад
 [Hide frame when player not found]
-
+Скриване на рамката, ако не бъде открит плейър
 [Pause Hovered]
 
 [Prev Hovered]
@@ -112,9 +112,9 @@
 [Next Pushed]
 
 [Volume Down]
-
+Намаляване
 [Volume Up]
-
+Увеличаване
 [Volume Down Hovered]
 
 [Volume Up Hovered]
@@ -124,129 +124,129 @@
 [Volume Up Pushed]
 
 [song year (date)]
-
+Година (на песента)
 [player window title]
-
+Заглавие на прозореца на плейъра
 [width, video only]
-
+Ширина - само за видео файлове
 [player version]
-
+Версия на плейъра
 [VBR or not (empty)]
-
+VBR или нищо (празно)
 [player version in text format]
-
+Версия на плейъра в текстови формат
 [player status (stopped,playing,paused)]
-
+Състояние (стоп, възпроизвеждане, пауза)
 [player name]
-
+Име на плейъра
 [time/length * 100%]
-
+Позиция/Продължителност * 100%
 ["mono"/"stereo"]
-
+Моно / Стерео
 [height, video only]
-
+Височина - само за видео файлове
 [FPS (frames per second), video only]
-
+FPS (кадъра в секунда) - само за видео файлове
 [media file name]
-
+Име на файла
 [codec, video only]
-
+Кодек - само за видео файлове
 [Color codes]
-
+Кодове на цветовете
 [File size]
-
+Размер на файла
 [FileSize text format]
 
 [Formats]
-
+Формати
 [Player name letters]
-
+Име на плейъра
 [Players list]
-
+Списък с плеъри
 [Popup Title / Text]
-
+Popup етикет / Текст
 [Frame Text]
-
+Текст на рамката
 [Export Text]
 
 [Postfix]
-
+Наставка
 [Refresh time, sec]
-
+Обновяване през Х сек
 [Report]
-
+Създай доклад
 [Report Items]
-
+Елемента във всеки раздел
 [Report file]
-
+Доклад
 [Report format]
 
 [Show in report]
-
+Раздели на доклада
 [Sort]
-
+Сортиране
 [Sort log file]
-
+Сортиране на дневника
 [Statistic log file]
-
+Дневник на статистиката
 [Autosort period, days]
-
+Автосортиране всеки (дни)
 [Template file]
-
+Файл за шаблон
 [Export default]
-
+Износ на станд.
 [Freq. album]
-
+Често възпроизвеждани албуми
 [by Length]
-
+по продължителност
 [Unicode to Ansi translation codepage:]
-
+Кодова таблица при Unicode<->Ansi превод:
 [VBR macro]
 
 [\[x\]Status Title / Text]
-
+\[х]Състояние / Съобщение
 [Insert in messages]
-
+Вмъкване в съобщения
 [Use status messages]
-
+Ползване на текст за състояние
 [Independent xStatus]
-
+Независимо xСъстояние
 [Use process implantation]
-
+Внедряване в процеса
 [Simple Template mode]
 
 [Use existing xStatus]
-
+Ползване на зададеното xСъстояние
 [Only if 'Music' status was set]
-
+Само при зададено състояние "Слуша музика"
 [Keep 'Music' status]
 
 [Replace underlines with spaces]
-
+Замяна на долна черта с интервал
 [Check file time]
-
+Следене часа на файла
 [Other thread handle check]
 
 [Keep old file]
-
+Запазване на стария файл
 [No Music]
-
+Няма възпроизвеждане
 [No player]
-
+Няма плеър
 [User message]
-
+Съобщение до потребител
 [Channel message]
-
+Съобщение за канал
 [If this option is "ON", xStatus number will not be changed, only message will be replaced by WATrack templates]
-
+xСъстоянието няма да бъде променяно, а само текстът, съгласно шаблоните.
 [Keep 'Music' xStatus]
-
+Запазване на xСъстояние "Слуша музика"
 [No-music text]
 
 [No-player text]
 
 [Protocol list]
-
+Списък с протоколи
 [Use Status:]
 
 [Text+Graph]
@@ -254,23 +254,23 @@
 [Use external style]
 
 [Add report file ext.]
-
+Добавяне на разширение към файла
 [Freq. artists]
-
+Чести изпълнители
 [Freq. paths]
-
+Чести пътища
 [Freq. songs]
-
+Често възпроизвеждани песни
 [Last played songs]
-
+Последно възпроизведени песни
 [Song time]
-
+Най-продължителни песни
 [VBR or CBR]
-
+VBR или CBR
 [VBR or empty]
-
+VBR или празно
 [Show file name in info]
-
+Име на файла в информацията
 [Global hotkey]
 
 [Only if messages not used]
@@ -280,35 +280,35 @@
 [Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled.]
 
 [All uppercase]
-
+Всичките главни
 [Do not change]
-
+Без промяна
 [All lowercase]
-
+Всичките малки
 [lowercase %type%]
-
+малки букви %type%
 [If this option is "ON", you can paste music info to your message window pressing hotkey.]
-
+Позволява поставяне на информация относно музиката в прозореца за съобщения чрез клавишна комбинация.
 [If this option is "ON", status text will be replaced by music info.]
-
+Ако включите тази опция, текстът на състоянието ще бъде заменен от информация относно музиката.
 [If this option is "ON", all plugin settings saved in ini-file. They deleted from Miranda DB. Else ini-file will be deleted.]
 
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
 
 [If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
-
+xСъстоянието ще бъде променяно само при условие, че предварително е зададено състояние "Слуша музика".
 [If this option is "ON", xStatus doesn't depend of ICQ's status.]
 
 [If this option is "ON", xStatus won't be changed when player is shut down.]
-
+xСъстоянието няма да бъде променяно след изключване на плейъра.
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
-
+"Слуша музика" ще бъде задавано като xСъстояние, а текстът на състоянието ще бъде заменен от информация относно музиката.
 [If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
-
+Един шаблон ще бъде използван за всеки протокол, състояние и плейър. Необходимо е рестартиране за визуализиране на единната страница на шаблоните.
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
-
+Улеснява извличането на информация, но е възможно да провокира фалшива тревога ако използвате антивирусна програма
 [Keep opened file as active, not newly founded.]
-
+Отметнете ли тази опция отвореният файл ще бъде запазен като активен след откриване на нов (Подходящо при сканиране на плейлисти)
 [Use this option if WATrack freeze while player running. Slower processing.]
 
 [Use "Variables" plugin]
@@ -316,23 +316,23 @@
 [Sorry, but i don't use WATrack right now!]
 
 [Next track]
-
+Следваща песен
 [Show player]
-
+Показва плейъра
 [bitrate]
-
+честота
 [by Count]
-
+по брой
 [by Date]
-
+по дата
 [by Path]
-
+по път
 [by Title]
-
+по заглавие
 [comment from tag]
-
+Коментар от тага на песента
 [current song position (sec)]
-
+Текуща позиция (сек)
 [Disable Log]
 
 [Error report]
@@ -340,35 +340,35 @@
 [Get Info from player]
 
 [media file size]
-
+Размер на медийния файл
 [media file type]
-
+Тип на медийния файл
 [media file]
-
+медиен файл
 [No Player]
-
+Няма плейър
 [number of channels]
-
+Брой канали
 [Open report]
-
+Отваряне на доклада след създаването му
 [Reverse order]
-
+Обратен ред
 [samplerate]
-
+Честота (например 44 kHz)
 [song title]
-
+Име на песента
 [song year]
-
+Година на песента
 [total song length (sec)]
-
+Обща дължина (в секунди)
 [track number]
-
+Номер на песента
 [Try to use OLE interface]
 
 [player status (stopped, playing, paused)]
-
+състояние на плеъра (стоп, пауза, възпроизвеждане)
 [player]
-
+плеър
 ["Variables" ANSI output]
 
 [FPS (Frames per second)]
@@ -378,51 +378,51 @@
 [Save settings in INI-file]
 
 [VBR or not]
-
+VBR или не
 [video codec]
-
+видео кодек
 [video height]
-
+височина на видеото
 [video width]
-
+ширина на видеото
 [Show by request only]
-
+Показване само при заявка
 [second line]
-
+втори ред
 [Cover filenames]
-
+Име на обложката
 [Music Info]
-
+Музикална информация
 [Align text to center]
-
+Подреждане на текста в центъра
 [Create WATrack report]
-
+Създаване на доклад
 [Get user's Music Info]
 
 [WATrack Macro Info]
 
 [Lyric from ID3v2 tag]
-
+Текст на песента от ID3v2 тага
 [Cover file path]
-
+Път до обложката
 [Player volume (0-15)]
-
+Сила на звука (0-15)
 [Player homepage URL]
-
+URL (домашна страница на плейъра)
 [player status (not translated)]
-
+Състояние на плейъра (без превод)
 [Format text Info]
-
+За форматиране на текста
 [Controls]
 
 [Frame Controls]
 
 [Plugin Enabled]
-
+Приставката е включена
 [Plugin Disabled]
-
+Приставката е изключена
 [Create Report]
-
+Създаване на доклад
 [Context menu]
 Контекстно меню
 [/me listening "%title%"]
@@ -432,27 +432,27 @@
 [Status Template]
 
 [xStatus Title]
-
+xСъстояние
 ['mono' / 'stereo']
-
+"моно" / "стерео"
 [- "mono" / "stereo"]
-
+- "моно" / "стерео"
 [- artist]
-
+- изпълнител
 [- bitrate]
-
+- честота
 [- current song position (sec)]
-
+- текуща позиция в песента (сек)
 [- player version]
-
+- версия на плеъра
 [- player]
-
+- плеър
 [- song title]
-
+- име на песен
 [- total song length (sec)]
-
+- продължителност на песента (сек)
 [- track number]
-
+- номер на песента
 [  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music xStatus sets already.\n  Keep 'Music' xStatus - if player stopped or shutdowned, save or not 'Music' xStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
 
 ["Variables" module use]
@@ -466,7 +466,7 @@
 [Pause Pushed]
 
 [-default-]
-
+-стандартно-
 [Global WATrack hotkey]
 
 [WATrack data insert hotkey]
@@ -474,97 +474,97 @@
 [WATrack popup hotkey]
 
 [Switch ON these modules]
-
+Включване на следните модули
 [Modules]
-
+Модули
 [Statistic]
-
+Статистика
 [Export text template]
-
+Шаблон за експорт на текста
 [Use listening info]
-
+Ползване на "Слуша"
 [If this option is "ON", "Listening To" protocol property will be filled by music info.]
-
+Ако включите тази опция, полето "Слуша" (Listening To) на протоколите ще бъде попълнена с текущата музикална информация.
 [Enable Status message]
-
+Ползване на текст за състояние
 [Enable xStatus message]
-
+Ползване на xСъстояние
 [Enable Tunes message]
 
 [Tunes]
 
 [Check all marked players for active (started and playing) or stop at first founded]
-
+Проверява всички маркирани плейъри за активност (стартирани и възпроизвеждащи) и спира при първия окрит
 [Check all players]
-
+Отметване на всички
 [Emulate multimedia keys presses to control palyer]
-
+Управление на плейъра чрез симулиране действието на мултимедийни клавиши
 [User music info text]
 
 [(%artist%, %title%, %album% and %year% macros can be used only)]
-
+Можете да използвате само %artist%, %title%, %album% и %year%
 [Disable Plugin]
-
+Изключване на приставката
 [Enable Plugin]
-
+Включване на приставката
 [Don't forget to enter Login and Password to use Last.fm service]
 
 [Don't forget to enter Login and Password to use MyShows service]
 
 [Attempts]
-
+Опита
 [Disable scrobbling]
 
 [Enable scrobbling]
 
 [no language]
-
+няма език
 [Content language]
-
+Език на съдържанието
 [Artist]
-
+Изпълнител
 [Album]
-
+Албум
 [Track]
-
+Песен
 [Get Artist Info]
-
+Инф. за изпълнителя
 [Get Track Info]
-
+Инф. за песента
 [Get Album Info]
-
+Инф. за албума
 [Music Statistic]
-
+Статистика за музиката
 [Status (common)]
-
+Общи
 [Status (templates)]
-
+Шаблони
 [Set xStatus when...]
-
+Задаване на xСъстояние, когато..
 [xStatus is empty or 'Music']
-
+xСъстоянието или "Слуша музика" е празно
 ['Music' status is set]
-
+е зададено състояние "Слуша музика"
 [any xStatus is set]
-
+е зададено някое xСъстояние
 [Players list\n(F1 for note)]
-
+Списък с плейъри - натиснете\nF1 за повече информация
 [Chat Template]
-
+Чат шаблон
 [This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
-
+Това е опростената версия на редактора на шаблони. Следните шаблони ще бъдат използвани за всеки протокол и всяко състояние (на протоколите и плейъра).
 [No any special notes for this player]
-
+Няма специални бележки за плеъра
 [popup test]
-
+popup тест
 [Frame (main)]
 
 [Frame (text)]
-
+Рамка (текст)
 [Manual element placement]
-
+Ръчно позициониране
 [Alpha]
-
+Алфа
 [Hide when no player]
 
 [Hide when no music]
@@ -572,83 +572,83 @@
 [Use popup action buttons]
 
 [Left click]
-
+Ляв бутон
 [Right click]
-
+Десен бутон
 [Default colors]
-
+Стандартни цветове
 [Windows colors]
-
+Цветове от Windows
 [Custom colors]
-
+Избор на цветове
 [artist]
-
+Изпълнител
 [album]
-
+Албум
 [genre]
-
+Жанр
 [Picture transform]
-
+Трансформиране на снимки
 [Kilobytes]
-
+Килобайта
 [Megabytes]
-
+Мегабайта
 [Precision]
-
+Точност
 [none]
-Няма
+няма
 [kb]
-
+KB
 [Kb]
-
+KB
 [KB]
-
+KB
 [Color]
-
+Цвят
 [Output]
-
+Извеждане
 [Check]
-
+Проверка
 [Choose font...]
-
+Избор на шрифт...
 [Genres]
-
+Жанове
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 
 [Timeout, ms]
-
+Закъснение, ms
 [Get Series Info]
-
+Инф. за поредицата
 [Episode]
-
+Епизод
 ;file \plugins\Watrack\lastfm\i_last_api.inc
 [Last.fm error: ]
-
+Last.fm грешка:\s
 [Client is banned]
-
+Клиента е забранен
 [Bad Auth. Check login and password]
 
 [Bad TimeStamp]
 
 ;file \plugins\Watrack\lastfm\i_last_dlg.inc
 [Similar artists]
-
+Подобни изпълнители
 ;file \plugins\Watrack\proto\proto.pas
 [Music Info from ]
-
+Музикална информация от\s
 [You Get Error]
 
 ;other strings
 [Slider]
-
+Плъзгач
 [Slider Hovered]
 
 [Slider Pushed]
 
 [WATrack status]
-
+WATrack състояние
 [Enable WATrack]
-
+Включване на WATrack
 [Disable WATrack]
-
+Изключване на WATrack

@@ -39,13 +39,13 @@
 [times to connect to Skype API before giving up]
 
 [User name:]
-
+Потребител:
 [Password:]
 Парола:
 [Dial]
 
 [Number:]
-
+Номер:
 [Cancel]
 Отказ
 [%s is calling]
@@ -57,7 +57,7 @@
 [Hang up]
 
 [Dialog]
-
+Прозорец
 [Use Skype proxy connection over network instead of local Skype API]
 
 [Host:]
@@ -71,9 +71,9 @@
 [Name:]
 Име:
 [Birthday:]
-
+Рожден ден:
 [Sex:]
-
+Пол:
 [City:]
 Град:
 [Country:]
@@ -81,13 +81,13 @@
 [Province:]
 
 [Home phone:]
-
+Домашен телефон:
 [Office phone:]
-
+Служебен телефон:
 [Homepage:]
 Страница:
 [Save]
-
+Запис
 [Enable Skype menu options (currently: Find/Add user)]
 
 [Use popup plugin for displaying messages]
@@ -133,7 +133,7 @@
 [Text]
 Текст
 [Preview]
-
+Образец
 [Error messages]
 
 [Display error messages]
@@ -156,7 +156,7 @@
 [&Open group chat]
 
 [Block contact]
-
+Блокиране на контакта
 [Import Skype history]
 
 [Add Skype contact]
@@ -167,17 +167,17 @@
 [Unknown]
 Неизвестно
 [&Invite user...]
-
+Покани потребител...
 [Me]
 Аз
 [&Leave chat session]
-
+Напускане от разговора
 [Set &topic...]
-
+Задаване на тема
 [User &details]
 Подробности за потребителя
 [User &history]
-
+История на потребителя
 [&Kick user]
 
 ;file \protocols\SkypeClassic\src\skype.cpp
@@ -227,7 +227,7 @@
 [Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM']
 
 [Unknown error]
-
+Непозната грешка
 [Cannot resolve host!]
 
 [Cannot find valid host to connect to.]
@@ -254,13 +254,13 @@
 [Skype advanced]
 
 [Skype proxy]
-
+Skype прокси
 [Details]
-
+Подробности
 [MALE]
-Мъж
+МЪЖ
 [FEMALE]
-Жена
+ЖЕНА
 ;file \protocols\SkypeClassic\src\skypesvc.cpp
 [Skype ID]
-
+Skype ID

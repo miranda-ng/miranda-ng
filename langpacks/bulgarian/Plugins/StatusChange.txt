@@ -29,23 +29,23 @@
 [Out to lunch]
 На обяд
 [On events...]
-
+При събития...
 [Send]
-
+Изпращане
 [Receive]
-
+Получаване
 [Message]
 Съобщение
 [URL]
 URL
 [File transfer]
-
+Обмен на файл
 [...change status to...]
 
 [...if status is...]
 
 ;file \plugins\StatusChange\src\main.cpp
 [Status Change]
-
+Промяна на състояние
 [Status]
 Състояние
