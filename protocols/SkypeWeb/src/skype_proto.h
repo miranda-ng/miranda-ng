@@ -228,7 +228,7 @@ private:
 	INT_PTR __cdecl OnLeaveChatRoom	(WPARAM hContact, LPARAM);
 
 	void OnChatEvent(JSONNODE *node);
-
+	void OnSendChatMessage(const TCHAR *chat_id, const TCHAR * tszMessage);
 	char *GetChatUsers(const TCHAR *chat_id);
 	bool IsChatContact(const TCHAR *chat_id, const char *id);
 
