@@ -21,7 +21,7 @@
 //
 // -----------------------------------------------------------------------------
 
-#include "contacts.h"
+#include "stdafx.h"
 
 CLIST_INTERFACE *pcli;
 
@@ -51,7 +51,7 @@ PLUGININFOEX pluginInfo = {
 	{ 0x0324785E, 0x74CE, 0x4600, { 0xB7, 0x81, 0x85, 0x17, 0x73, 0xB3, 0xEF, 0xC5 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -111,7 +111,7 @@ static bool CheckContactsServiceSupport(const char* szProto)
 		return false;
 }
 
-static int HookPreBuildContactMenu(WPARAM hContact, LPARAM lParam)
+static int HookPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	char *szProto = GetContactProto(hContact);
 	int bVisible = FALSE;
@@ -128,7 +128,7 @@ static int HookPreBuildContactMenu(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int HookModulesLoaded(WPARAM, LPARAM)
 {
 	char* modules[2] = { 0 };
 
@@ -160,7 +160,7 @@ static int HookContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int HookContactDeleted(WPARAM wParam, LPARAM lParam)
+static int HookContactDeleted(WPARAM wParam, LPARAM)
 {  // if our contact gets deleted close his window
 	HWND h = WindowList_Find(ghSendWindowList, wParam);
 
@@ -173,7 +173,7 @@ static int HookContactDeleted(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR ServiceSendCommand(WPARAM wParam, LPARAM lParam)
+static INT_PTR ServiceSendCommand(WPARAM wParam, LPARAM)
 {
 	//find window for hContact
 	HWND hWnd = WindowList_Find(ghSendWindowList, wParam);
@@ -186,13 +186,13 @@ static INT_PTR ServiceSendCommand(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR ServiceReceiveCommand(WPARAM wParam, LPARAM lParam)
+static INT_PTR ServiceReceiveCommand(WPARAM, LPARAM lParam)
 {
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_RECEIVE), NULL, RecvDlgProc, lParam);
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
