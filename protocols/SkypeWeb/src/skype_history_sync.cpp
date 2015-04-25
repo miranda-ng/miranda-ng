@@ -38,7 +38,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	if (totalCount >= 99 || json_size(conversations) >= 99)
 		PushRequest(new GetHistoryOnUrlRequest(syncState, RegToken), &CSkypeProto::OnGetServerHistory);
 
-	for (size_t i = 0; i < json_size(conversations); i++)
+	for (int i = json_size(conversations); i >= 0; i--)
 	{
 		JSONNODE *message = json_at(conversations, i);
 

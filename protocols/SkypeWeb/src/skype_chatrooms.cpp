@@ -17,8 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-static LPCTSTR sttStatuses[] = { LPGENT("User"), LPGENT("Admin") };
-
 void CSkypeProto::InitGroupChatModule()
 {
 	GCREGISTER gcr = { sizeof(gcr) };
@@ -87,13 +85,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 	{
 		case GC_USER_MESSAGE:
 		{
-			ptrA msg(mir_t2a(gch->ptszText));
-
-			if (IsOnline()) {
-				debugLogA("  > Chat - Outgoing message");
-				SendRequest(new SendChatMessageRequest(RegToken, chat_id, time(NULL), msg, Server));
-			}
-
+			OnSendChatMessage(gch->pDest->ptszID, gch->ptszText);
 			break;
 		}
 
@@ -205,9 +197,9 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 	{
 		static const struct gc_item Items[] =
 		{
-			{ LPGENT("&Invite user..."), 10, MENU_ITEM, FALSE },
-			{ LPGENT("&Leave chat session"), 20, MENU_ITEM, FALSE },
-			{ LPGENT("&Change topic"), 30, MENU_ITEM, FALSE }
+			{ LPGENT("&Invite user..."),		10, MENU_ITEM, FALSE },
+			{ LPGENT("&Leave chat session"),	20, MENU_ITEM, FALSE },
+			{ LPGENT("&Change topic"),			30, MENU_ITEM, FALSE }
 		};
 		gcmi->nItems = SIZEOF(Items);
 		gcmi->Item = (gc_item*)Items;
@@ -240,6 +232,11 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 
 INT_PTR CSkypeProto::OnJoinChatRoom(WPARAM hContact, LPARAM)
 {
+	if (hContact)
+	{
+		ptrT idT(getTStringA(hContact, "ChatRoomID"));
+		StartChatRoom(idT, idT);
+	}
 	return 0;
 }
 
@@ -410,6 +407,15 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	}
 }
 
+void CSkypeProto::OnSendChatMessage(const TCHAR *chat_id, const TCHAR * tszMessage)
+{
+	if (!IsOnline())
+		return;
+	ptrA szChatId(mir_t2a(chat_id));
+	ptrA szMessage(mir_t2a(tszMessage));
+	SendRequest(new SendChatMessageRequest(RegToken, szChatId, time(NULL), szMessage, Server));
+}
+
 void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL || response->pData == NULL)
@@ -526,43 +532,6 @@ void CSkypeProto::RemoveChatContact(const TCHAR *tchat_id, const char *id, const
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
 
-INT_PTR CSkypeProto::InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			CSkypeProto *ppro = (CSkypeProto*)lParam;
-			HWND hwndCombo = GetDlgItem(hwndDlg, IDC_CONTACT);
-			for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
-				if (ppro->isChatRoom(hContact)) continue; 
-				TCHAR *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
-				int idx = SendMessage(hwndCombo, CB_ADDSTRING, 0, LPARAM(ptszNick));
-				SendMessage(hwndCombo, CB_SETITEMDATA, idx, hContact);
-			}
-			SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			EndDialog(hwndDlg, 0);
-			return TRUE;
-
-		case IDOK:
-			int idx = SendDlgItemMessage(hwndDlg, IDC_CONTACT, CB_GETCURSEL, 0, 0);
-			if (idx != -1)
-				EndDialog(hwndDlg, SendDlgItemMessage(hwndDlg, IDC_CONTACT, CB_GETITEMDATA, idx, 0));
-			else
-				EndDialog(hwndDlg, 0);
-			return TRUE;
-		}		
-	}
-
-	return 0;
-}
-
 INT_PTR CSkypeProto::SvcCreateChat(WPARAM, LPARAM)
 {
 	if (!IsOnline())
@@ -571,24 +540,8 @@ INT_PTR CSkypeProto::SvcCreateChat(WPARAM, LPARAM)
 	return 0;
 }
 
-void CSkypeProto::FilterContacts(HWND hwndDlg, CSkypeProto *ppro)
-{
-	HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		char *proto = GetContactProto(hContact);
-		if (mir_strcmp(proto, ppro->m_szModuleName) || ppro->isChatRoom(hContact))
-			if (HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_FINDCONTACT, hContact, 0))
-				SendMessage(hwndClist, CLM_DELETEITEM, (WPARAM)hItem, 0);
-	}
-}
 
-void CSkypeProto::ResetOptions(HWND hwndDlg)
-{
-	HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
-	SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, 1, 0);
-	SendMessage(hwndClist, CLM_GETHIDEOFFLINEROOT, 1, 0);
-}
-
+/* Dialogs */
 INT_PTR CSkypeProto::GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CSkypeProto *ppro = (CSkypeProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -649,4 +602,59 @@ INT_PTR CSkypeProto::GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 	}
 	return FALSE;
+}
+
+INT_PTR CSkypeProto::InviteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		{
+			CSkypeProto *ppro = (CSkypeProto*)lParam;
+			HWND hwndCombo = GetDlgItem(hwndDlg, IDC_CONTACT);
+			for (MCONTACT hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
+				if (ppro->isChatRoom(hContact)) continue; 
+				TCHAR *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
+				int idx = SendMessage(hwndCombo, CB_ADDSTRING, 0, LPARAM(ptszNick));
+				SendMessage(hwndCombo, CB_SETITEMDATA, idx, hContact);
+			}
+			SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
+		}
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDCANCEL:
+			EndDialog(hwndDlg, 0);
+			return TRUE;
+
+		case IDOK:
+			int idx = SendDlgItemMessage(hwndDlg, IDC_CONTACT, CB_GETCURSEL, 0, 0);
+			if (idx != -1)
+				EndDialog(hwndDlg, SendDlgItemMessage(hwndDlg, IDC_CONTACT, CB_GETITEMDATA, idx, 0));
+			else
+				EndDialog(hwndDlg, 0);
+			return TRUE;
+		}		
+	}
+
+	return 0;
+}
+
+void CSkypeProto::FilterContacts(HWND hwndDlg, CSkypeProto *ppro)
+{
+	HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		char *proto = GetContactProto(hContact);
+		if (mir_strcmp(proto, ppro->m_szModuleName) || ppro->isChatRoom(hContact))
+			if (HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_FINDCONTACT, hContact, 0))
+				SendMessage(hwndClist, CLM_DELETEITEM, (WPARAM)hItem, 0);
+	}
+}
+
+void CSkypeProto::ResetOptions(HWND hwndDlg)
+{
+	HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
+	SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, 1, 0);
+	SendMessage(hwndClist, CLM_GETHIDEOFFLINEROOT, 1, 0);
 }
