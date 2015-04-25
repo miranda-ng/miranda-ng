@@ -16,7 +16,9 @@
 [Cancel]
 Скасувати
 [Send screenshot to <unknown>]
-Відправити знімок екрану для <невідомий контакт>
+Надіслати знімок екрану для <невідомий контакт>
+[Take a screenshot and send it to a contact]
+Створюйте та надсилайте знімки екрану
 [Ti&med capture]
 &Затримка захоплення
 [Time (secs):]
@@ -176,15 +178,17 @@ HTTP-з'єднання SendSS
 [Take a screenshot]
 Зробити скріншот
 [Send screenshot]
-Відправити знімок екрану
+Надіслати знімок екрану
 [Send desktop screenshot]
-Відправити скріншот екрану
+Надіслати знімок усього екрану
 [Open SendSS+]
 Відкрити SendSS
 [Credits]
 Автори
 [Drag&Drop the target on the desired window.]
 Перетягніть приціл на потрібне вікно.
+[Send screenshot to %s]
+Надіслати знімок екрану для %s
 [Window]
 Вікно
 [Desktop]
@@ -232,4 +236,4 @@ Upload Pie (1 тижд)
 [" Window]
 " вікно
 [Send screenshot?]
-Відправити знімок екрану?
+Надіслати знімок екрану?
