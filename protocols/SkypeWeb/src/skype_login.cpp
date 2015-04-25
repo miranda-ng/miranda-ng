@@ -105,6 +105,7 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnLoginSuccess()
 {
+	SelfSkypeName = getStringA("Skypename");
 	TokenSecret = getStringA("TokenSecret");
 	Server = getStringA("registrationToken");
 	SendRequest(new CreateEndpointRequest(TokenSecret), &CSkypeProto::OnEndpointCreated);

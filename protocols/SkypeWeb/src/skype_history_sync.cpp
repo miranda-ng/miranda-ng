@@ -208,7 +208,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 
 		bool isChat = false;
 		ptrA skypename;
-		ptrT topic;
+		TCHAR *topic;
 
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
 		{
@@ -217,16 +217,16 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		else if (conversationLink != NULL && strstr(conversationLink, "/19:"))
 		{
 			skypename = ChatUrlToName(conversationLink);
-			isChat = true;
 			topic =  json_as_string(json_get(threadProperties, "topic"));
-			StartChatRoom(_A2T(skypename), topic);
+			SendRequest(new GetChatInfoRequest(RegToken, skypename, Server), &CSkypeProto::OnGetChatInfo, topic);
+			continue;
 		}
 		else 
 			continue;
 
-		MCONTACT hContact = isChat ? NULL : AddContact(skypename);
+		MCONTACT hContact = AddContact(skypename);
 
-		if (hContact == NULL || GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
-			PushRequest(new GetHistoryRequest(RegToken, skypename, !isChat ? 100 : 15, isChat, 0,Server), &CSkypeProto::OnGetServerHistory);
+		if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
+			PushRequest(new GetHistoryRequest(RegToken, skypename, 100, false, 0, Server), &CSkypeProto::OnGetServerHistory);
 	}
 }
