@@ -185,7 +185,7 @@ void CSkypeProto::StartChatRoom(const TCHAR *tid, const TCHAR *tname)
 	CallServiceSync(MS_GC_EVENT, (hideChats ? WINDOW_HIDDEN : SESSION_INITDONE), reinterpret_cast<LPARAM>(&gce));
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
 
-	SendRequest(new GetChatInfoRequest(RegToken, ptrA(mir_t2a(tid)), Server), &CSkypeProto::OnGetChatInfo); 
+	//SendRequest(new GetChatInfoRequest(RegToken, ptrA(mir_t2a(tid)), Server), &CSkypeProto::OnGetChatInfo); 
 }
 
 int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
@@ -416,17 +416,21 @@ void CSkypeProto::OnSendChatMessage(const TCHAR *chat_id, const TCHAR * tszMessa
 	SendRequest(new SendChatMessageRequest(RegToken, szChatId, time(NULL), szMessage, Server));
 }
 
-void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 {
+	TCHAR *topic = (TCHAR*)p;
 	if (response == NULL || response->pData == NULL)
 		return;
 
 	JSONROOT root(response->pData);
 	JSONNODE *members = json_get(root, "members");
 	JSONNODE *properties = json_get(root, "properties");
-	ptrA topic(mir_t2a(json_as_string(json_get(properties, "topic"))));
-	ptrA chatId(ChatUrlToName(ptrA(mir_t2a(ptrT(json_as_string(json_get(root, "messages")))))));
-	//RenameChat(chatId, topic);
+
+	if (json_empty(json_get(properties, "capabilities")))
+		return;
+
+	ptrA chatId(ChatUrlToName(mir_t2a(ptrT(json_as_string(json_get(root, "messages"))))));
+	StartChatRoom(_A2T(chatId), mir_tstrdup(topic));
 	for (size_t i = 0; i < json_size(members); i++)
 	{
 		JSONNODE *member = json_at(members, i);
@@ -436,6 +440,8 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response)
 		if (!IsChatContact(_A2T(chatId), username))
 			AddChatContact(_A2T(chatId), username, username, role, true);
 	}
+	PushRequest(new GetHistoryRequest(RegToken, chatId, 15, true, 0, Server), &CSkypeProto::OnGetServerHistory);
+	mir_free(topic);
 }
 
 void CSkypeProto::RenameChat(const char *chat_id, const char *name)

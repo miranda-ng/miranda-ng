@@ -91,7 +91,7 @@ private:
 	// accounts
 	static LIST<CSkypeProto> Accounts;
 
-	char *Server, *RegToken, *TokenSecret, *EndpointId;
+	char *Server, *RegToken, *TokenSecret, *EndpointId, *SelfSkypeName;
 
 	static int CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2);
 
@@ -210,6 +210,7 @@ private:
 	void OnGetServerHistory	(const NETLIBHTTPREQUEST *response);
 	void OnSyncHistory		(const NETLIBHTTPREQUEST *response);
 	void SyncHistory();
+
 	//chats
 	void InitGroupChatModule();
 	void CloseAllChatChatSessions();
@@ -222,7 +223,7 @@ private:
 
 	void StartChatRoom(const TCHAR *tid, const TCHAR *tname);
 
-	void OnGetChatInfo(const NETLIBHTTPREQUEST *response);
+	void OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p);
 
 	INT_PTR __cdecl OnJoinChatRoom	(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnLeaveChatRoom	(WPARAM hContact, LPARAM);
