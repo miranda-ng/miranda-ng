@@ -22,7 +22,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define MS_CONSOLE_SHOW_HIDE "Console/Show/Hide"
 
@@ -117,7 +117,7 @@ static int Openfile(TCHAR *outputFile, int selection);
 
 static HANDLE hTTBButt = 0;
 
-static int OnTTBLoaded(WPARAM wParam, LPARAM lParam)
+static int OnTTBLoaded(WPARAM, LPARAM)
 {
 	int state = IsWindowVisible(hwndConsole);
 
@@ -177,7 +177,7 @@ static void ShowConsole(int show)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR ShowHideConsole(WPARAM wParam, LPARAM lParam)
+static INT_PTR ShowHideConsole(WPARAM, LPARAM)
 {
 	if (hwndConsole)
 		ShowConsole(!IsWindowVisible(hwndConsole));
@@ -187,7 +187,7 @@ static INT_PTR ShowHideConsole(WPARAM wParam, LPARAM lParam)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int LogResize(HWND hwnd, LPARAM lParam, UTILRESIZECONTROL *urc)
+int LogResize(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
 	case IDC_LIST:
@@ -603,7 +603,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int ConsoleResize(HWND hwnd, LPARAM lParam, UTILRESIZECONTROL *urc)
+int ConsoleResize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
 	case IDC_TABS:
@@ -916,7 +916,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 ////////////////////////////////////////////////////////////////////////////////
 
 
-void __cdecl ConsoleThread(void *arg)
+void __cdecl ConsoleThread(void*)
 {
 	MSG msg;
 	HWND hwnd;
@@ -1075,7 +1075,7 @@ static INT_PTR CALLBACK OptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 }
 
 
-static int OptInit(WPARAM wParam, LPARAM lParam)
+static int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
@@ -1090,7 +1090,7 @@ static int OptInit(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static int OnColourChange(WPARAM wParam, LPARAM lParam)
+static int OnColourChange(WPARAM, LPARAM)
 {
 	if (hwndConsole) {
 		ColourID cid = { 0 };
@@ -1109,7 +1109,7 @@ static int OnColourChange(WPARAM wParam, LPARAM lParam)
 }
 
 
-static int OnFontChange(WPARAM wParam, LPARAM lParam)
+static int OnFontChange(WPARAM, LPARAM)
 {
 	if (hwndConsole) {
 		HFONT hf = NULL;
@@ -1135,7 +1135,7 @@ static int OnFontChange(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnSystemModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int OnSystemModulesLoaded(WPARAM, LPARAM)
 {
 	CreateServiceFunction(MS_CONSOLE_SHOW_HIDE, ShowHideConsole);
 
@@ -1200,7 +1200,7 @@ static int OnSystemModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int PreshutdownConsole(WPARAM wParam, LPARAM lParam)
+static int PreshutdownConsole(WPARAM, LPARAM)
 {
 	if (hwndConsole)
 		PostMessage(hwndConsole, WM_CLOSE, 0, 1 );
