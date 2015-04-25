@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 	PROTO<FacebookProto>(proto_name, username),

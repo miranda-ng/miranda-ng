@@ -20,14 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 void facebook_client::client_notify(TCHAR* message)
 {
 	parent->NotifyEvent(parent->m_tszUserName, message, NULL, FACEBOOK_EVENT_CLIENT);
 }
 
-http::response facebook_client::flap(RequestType request_type, std::string *post_data, std::string *get_data, int method)
+http::response facebook_client::flap(RequestType request_type, std::string *post_data, std::string *get_data, int)
 {
 	http::response resp;
 
