@@ -385,7 +385,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShlExt", "..\plugins\ShellE
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinterSpeak", "..\plugins\WinterSpeak\WinterSpeak_12.vcxproj", "{A44F96D0-A850-4A67-9570-0E9298A16E40}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VKontakte", "..\protocols\VKontakte\vk_12.vcxproj", "{BF6E1942-7E42-4564-9DF5-FD0A00D71173}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VKontakte", "..\protocols\VKontakte\vk.vcxproj", "{BF6E1942-7E42-4564-9DF5-FD0A00D71173}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartupSilence", "..\plugins\StartupSilence\StartupSilence_12.vcxproj", "{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}"
 EndProject
