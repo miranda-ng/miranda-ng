@@ -73,8 +73,14 @@ IPv6 адреса (необов'язково)
 &Скасувати
 [Call]
 Дзвінок
+[End]
+Завершити
 [Incoming call]
 Вхідний дзвінок
+[Answer]
+Відповісти
+[Reject]
+Відхилити
 [From:]
 Від:
 [Date:]
@@ -113,10 +119,14 @@ IPv6 адреса (необов'язково)
 Авторизувати
 [Incoming call from %s]
 Вхідний дзвінок від %s
+[Outgoing call to %s]
+Вихідний дзвінок до %s
 [Unable to find input audio device]
 Пристрій аудіовходу не знайдено
 [Video call is unsupported]
 Відеовиклики не підтримуються
+[Call cancelled]
+Дзвінок скасовано
 [Unable to find output audio device]
 Пристрій аудіовиходу не знайдено
 [Call started]
@@ -131,6 +141,8 @@ IPv6 адреса (необов'язково)
 Усі файли
 [Select tox profile]
 Виберіть профіль Tox
+[Save tox profile]
+Зберегти профіль Tox
 [Add node]
 Додати нод
 [Change node]

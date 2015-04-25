@@ -1,5 +1,4 @@
-﻿[Take a screenshot and send it to a contact]
-[Indirect capture]
+﻿[Indirect capture]
 [Resulting URL from\n]
 [Copy BBCode]
 [Copy BBCode w/ link]
@@ -12,5 +11,4 @@
 [Edit on]
 [BBC]
 [BBC link]
-[Send screenshot to %s]
 [for Client area ]

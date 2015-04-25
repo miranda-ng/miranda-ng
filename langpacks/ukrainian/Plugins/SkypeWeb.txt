@@ -79,6 +79,8 @@
 Значок протоколу
 [Create new chat icon]
 Створити новий чат
+[Sync history icon]
+Синхронізувати історію
 [Protocols]
 Протоколи
 [Request authorization]
