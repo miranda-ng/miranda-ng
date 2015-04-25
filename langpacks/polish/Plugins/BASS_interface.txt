@@ -48,9 +48,6 @@ Pod telefonem
 Na obiedzie
 [Preview]
 Podgląd
-;file \plugins\BASS_interface\src\Bass_interface.h
-[Bass Interface]
-Interfejs BASS
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 Wersja un4seen's bass: %d.%d.%d.%d
@@ -64,9 +61,12 @@ Wyłącz dźwięki
 Włącz dźwięki
 [Frame background]
 Tło ramki
+[Bass Interface]
+Interfejs BASS
 [Bass library]
 Biblioteka BASS
 [Sounds enabled]
 Dźwięki włączone
 [Sounds disabled]
 Dźwięki wyłączone
+;file \plugins\BASS_interface\src\stdafx.h
