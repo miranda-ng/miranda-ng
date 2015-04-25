@@ -265,12 +265,13 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(node, "clientmessageid")))));
 	ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(node, "skypeeditedid")))));
 	
-	ptrA from(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
+	ptrA fromLink(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
+	ptrA from(ContactUrlToName(fromLink));
 
 	time_t timestamp = IsoToUnixTime(ptrT(json_as_string(json_get(node, "composetime"))));
 
 	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
-	//int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
+	int emoteOffset = atoi(ptrA(mir_t2a(ptrT(json_as_string(json_get(node, "skypeemoteoffset"))))));
 
 	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
 	ptrA chatname(ChatUrlToName(conversationLink));
@@ -282,19 +283,7 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 	if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 	{
-		GCDEST gcd = { m_szModuleName, ptrT(mir_a2t(chatname)), GC_EVENT_MESSAGE };
-		GCEVENT gce = { sizeof(GCEVENT), &gcd };
-		ptrA contactName(ContactUrlToName(from));
-		ptrT tszName(mir_a2t(contactName));
-		ptrA szHtml(RemoveHtml(content));
-		ptrT tszHtml(mir_a2t(szHtml));
-		gce.bIsMe = IsMe(contactName);
-		gce.ptszUID = tszName;
-		gce.time = timestamp;
-		gce.ptszNick = tszName;
-		gce.ptszText = tszHtml;
-		gce.dwFlags = GCEF_ADDTOLOG;
-		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+		AddMessageToChat(_A2T(chatname), _A2T(from), content, emoteOffset != NULL, emoteOffset, timestamp);
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/AddMember"))
 	{
@@ -413,7 +402,36 @@ void CSkypeProto::OnSendChatMessage(const TCHAR *chat_id, const TCHAR * tszMessa
 		return;
 	ptrA szChatId(mir_t2a(chat_id));
 	ptrA szMessage(mir_t2a(tszMessage));
-	SendRequest(new SendChatMessageRequest(RegToken, szChatId, time(NULL), szMessage, Server));
+	if (strncmp(szMessage, "/me ", 4) == 0)
+		SendRequest(new SendChatActionRequest(RegToken, szChatId, time(NULL), szMessage, Server));
+	else 
+		SendRequest(new SendChatMessageRequest(RegToken, szChatId, time(NULL), szMessage, Server));
+}
+
+void CSkypeProto::AddMessageToChat(const TCHAR *chat_id, const TCHAR *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading)
+{
+	GCDEST gcd = { m_szModuleName, chat_id, isAction? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
+	GCEVENT gce = { sizeof(GCEVENT), &gcd };
+
+	gce.bIsMe = IsMe(_T2A(from));
+	gce.ptszNick = from;
+	gce.time = timestamp;
+	gce.ptszUID = from;
+	ptrA szHtml(RemoveHtml(content));
+	ptrT tszHtml(mir_a2t(szHtml));
+	if (!isAction)
+	{
+		gce.ptszText = tszHtml;
+		gce.dwFlags = GCEF_ADDTOLOG;
+	}
+	else
+	{
+		gce.ptszText = &tszHtml[emoteOffset];
+	}
+
+	if (isLoading) gce.dwFlags = GCEF_NOTNOTIFY;
+
+	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 }
 
 void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)

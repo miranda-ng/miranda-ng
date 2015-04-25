@@ -49,17 +49,15 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		ptrA content(mir_t2a(ptrT(json_as_string(json_get(message, "content")))));
 		ptrT composeTime(json_as_string(json_get(message, "composetime")));
 		ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(message, "conversationLink")))));
+		int emoteOffset = atoi(ptrA(mir_t2a(ptrT(json_as_string(json_get(message, "skypeemoteoffset"))))));
 		time_t timestamp = IsoToUnixTime(composeTime);
+		ptrA skypename(ContactUrlToName(from));
 		bool isEdited = (json_get(message, "skypeeditedid") != NULL);
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
 		{
 			if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 			{
-				int emoteOffset = json_as_int(json_get(message, "skypeemoteoffset"));
-
 				int flags = DBEF_UTF | DBEF_READ;
-
-				ptrA skypename(ContactUrlToName(from));
 
 				bool isMe = IsMe(skypename);
 				if (isMe)
@@ -149,15 +147,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 			ptrA chatname(ChatUrlToName(conversationLink));
 			if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 			{
-				GCDEST gcd = { m_szModuleName, _A2T(chatname), GC_EVENT_MESSAGE };
-				GCEVENT gce = { sizeof(GCEVENT), &gcd };
-				gce.bIsMe = IsMe(ContactUrlToName(from));
-				gce.ptszUID = mir_a2t(ContactUrlToName(from));
-				gce.time = timestamp;
-				gce.ptszNick = mir_a2t(ContactUrlToName(from));
-				gce.ptszText = mir_a2t(RemoveHtml(content));
-				gce.dwFlags = GCEF_NOTNOTIFY;
-				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+				AddMessageToChat(_A2T(chatname), _A2T(skypename), content, emoteOffset != NULL, emoteOffset, timestamp, true);
 			}
 		}
 	}

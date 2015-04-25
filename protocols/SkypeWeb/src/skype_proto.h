@@ -232,7 +232,7 @@ private:
 	void OnSendChatMessage(const TCHAR *chat_id, const TCHAR * tszMessage);
 	char *GetChatUsers(const TCHAR *chat_id);
 	bool IsChatContact(const TCHAR *chat_id, const char *id);
-
+	void AddMessageToChat(const TCHAR *chat_id, const TCHAR *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading = false);
 	void AddChatContact(const TCHAR *tchat_id, const char *id, const char *name, const TCHAR *role, bool isChange = false);
 	void RemoveChatContact(const TCHAR *tchat_id, const char *id, const char *name, bool isKick = false, const char *initiator = "");
 
