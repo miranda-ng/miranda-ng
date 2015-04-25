@@ -19,7 +19,7 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	*/
 
-#include "common.h"
+#include "stdafx.h"
 
 #define DEF_COLOR_BACK  0xCEF7AD
 #define DEF_COLOR_FORE  0x000000
