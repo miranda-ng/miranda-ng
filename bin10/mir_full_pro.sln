@@ -47,7 +47,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Boltun", "..\plugins\Boltun
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BossKey", "..\plugins\BossKeyPlus\BossKey.vcxproj", "{88E47CF7-7B40-4312-A35A-9B28885FFED9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuddyExpectator", "..\plugins\BuddyExpectator\BuddyExpectator_10.vcxproj", "{8CEBD7AC-CD02-4BEC-B889-A7243F3E5DD8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuddyExpectator", "..\plugins\BuddyExpectator\BuddyExpectator.vcxproj", "{8CEBD7AC-CD02-4BEC-B889-A7243F3E5DD8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Console", "..\plugins\Console\Console_10.vcxproj", "{A231E008-2D1A-4F24-95DD-59F56F85A499}"
 EndProject
