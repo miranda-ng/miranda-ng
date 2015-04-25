@@ -2,7 +2,7 @@
 Copyright (C) 2010, 2011 tico-tico
 */
 
-#include "bass_interface.h"
+#include "stdafx.h"
 #define BASSDEF(f) (WINAPI *f)
 #include "bass.h"
 

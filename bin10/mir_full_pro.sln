@@ -359,7 +359,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoRun", "..\plugins\AutoR
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoShutdown", "..\plugins\AutoShutdown\shutdown.vcxproj", "{3F8EF54D-0593-4048-B0E5-C938F99B29F3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BASS_interface", "..\plugins\BASS_interface\Bass_interface_10.vcxproj", "{3933E789-D185-41DC-8169-9FF4365B6015}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BASS_interface", "..\plugins\BASS_interface\Bass_interface.vcxproj", "{3933E789-D185-41DC-8169-9FF4365B6015}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AvatarHistory", "..\plugins\AvatarHistory\AvatarHistory.vcxproj", "{9D702039-F4A9-4978-92B3-3615E5C44BEE}"
 EndProject
