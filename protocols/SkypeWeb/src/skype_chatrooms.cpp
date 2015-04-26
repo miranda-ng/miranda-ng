@@ -118,7 +118,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 				break;
 			}
 			case 20:
-				//chat_leave(id);
+				OnLeaveChatRoom(FindChatRoom(chat_id), NULL);
 				break;
 			case 30:
 				break;
@@ -242,7 +242,9 @@ INT_PTR CSkypeProto::OnJoinChatRoom(WPARAM hContact, LPARAM)
 
 INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 {
-	if (hContact)
+	if (!IsOnline())
+		return 1;
+	if (hContact && IDYES == MessageBox(NULL, TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"), TranslateT("Warning"), MB_YESNOCANCEL | MB_ICONQUESTION))
 	{
 		ptrT idT(getTStringA(hContact, "ChatRoomID"));
 
@@ -254,22 +256,11 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 
 		CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, reinterpret_cast<LPARAM>(&gce));
 		CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, reinterpret_cast<LPARAM>(&gce));
+
+		SendRequest(new KickUserRequest(RegToken, _T2A(idT), SelfSkypeName, Server));
+
+		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 	}
-	return 0;
-}
-
-INT_PTR CSkypeProto::SvcDestroyChat(WPARAM hContact, LPARAM)
-{
-	debugLogA(__FUNCTION__);
-	if (!IsOnline())
-		return 1;
-
-	ptrT chatId(db_get_tsa(hContact, m_szModuleName, "ChatRoomID"));
-
-	SendRequest(new KickUserRequest(RegToken, _T2A(chatId), SelfSkypeName, Server));
-
-	CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
-
 	return 0;
 }
 
