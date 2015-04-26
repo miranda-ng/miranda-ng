@@ -255,10 +255,10 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 
 			TCHAR time[64];
 			_locale_t locale = _create_locale(LC_ALL, "");
-			_tcsftime_l(time, sizeof(time), L"%x %X", localtime(&timestamp), locale);
+			_tcsftime_l(time, sizeof(time), L"%X %x", localtime(&timestamp), locale);
 			_free_locale(locale);
 
-			msg.AppendFormat("%s\n%s [%s]:\n%s", dbMsgText, Translate("Edited at"), _T2A(time), message);
+			msg.AppendFormat("%s\n%s %s:\n%s", dbMsgText, Translate("Edited at"), _T2A(time), message);
 			db_event_delete(hContact, dbevent);
 			AddMessageToDb(hContact, dbEventTimestamp, DBEF_UTF, skypeEditedId, msg.GetBuffer());
 		}
