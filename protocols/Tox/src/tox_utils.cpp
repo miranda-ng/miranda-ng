@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 TOX_USER_STATUS CToxProto::MirandaToToxStatus(int status)
 {
