@@ -56,7 +56,7 @@ void TwitterProto::UpdateChat(const twitter_user &update)
 	mir_free(const_cast<TCHAR*>(gce.ptszText));
 }
 
-int TwitterProto::OnChatOutgoing(WPARAM wParam, LPARAM lParam)
+int TwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
 	if (strcmp(hook->pDest->pszModule, m_szModuleName))
