@@ -39,6 +39,8 @@
 [Set &role]
 [&Admin]
 [&User]
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+[Warning]
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 [Call started]
@@ -53,7 +55,6 @@
 [Request authorization]
 [Grant authorization]
 [Get server history]
-[Destroy room]
 [Create new chat]
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 ;file \protocols\SkypeWeb\src\skype_options.cpp
