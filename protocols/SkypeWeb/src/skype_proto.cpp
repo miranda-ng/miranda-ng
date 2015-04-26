@@ -233,7 +233,21 @@ int CSkypeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam
 
 	case EV_PROTO_ONMENU:
 		return OnInitStatusMenu();
+
+	case EV_PROTO_ONEXIT:
+		return OnPreShutdown(wParam, lParam);
 	}
 
 	return 1;
+}
+
+int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
+{
+	debugLogA(__FUNCTION__);
+		
+	isTerminated = true;
+	if (m_pollingConnection)
+		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
+
+	return 0;
 }
