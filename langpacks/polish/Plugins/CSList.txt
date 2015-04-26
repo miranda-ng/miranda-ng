@@ -55,7 +55,7 @@ Wiadomość
 Czy na pewno chcesz usunąć wybrany wpis?
 [Do you want old database entries to be deleted after Import?]
 Czy chcesz usunąć starą bazę danych po imporcie?
-;file \plugins\CSList\src\cslist.h
+;file \plugins\CSList\src\stdafx.h
 [Main Menu]
 Menu główne
 [Main Icon]
