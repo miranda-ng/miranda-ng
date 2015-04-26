@@ -117,6 +117,7 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 
 		JSONNODE *node = json_get(root, "greeting");
 		CMStringA reason = ptrA(mir_t2a(ptrT(json_as_string(node))));
+
 		if (reason != "null")
 			reason.Empty();
 
