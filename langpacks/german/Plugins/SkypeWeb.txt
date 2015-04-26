@@ -52,10 +52,10 @@ Passwort eingeben um fortzufahren.
 [Skype Link Protocol]
 
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
-[User]
-Benutzer
 [Admin]
 Administrator
+[User]
+Benutzer
 [&Invite user...]
 
 [&Leave chat session]
@@ -70,6 +70,10 @@ Administrator
 
 [&User]
 
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sich sicher?
+[Warning]
+Warnung
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 Bearbeitet um
@@ -96,7 +100,7 @@ Autorisierung gewähren
 [Get server history]
 Serververlauf abrufen
 [Create new chat]
-
+Neuen Chat erstellen
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]

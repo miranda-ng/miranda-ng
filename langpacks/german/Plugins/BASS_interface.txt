@@ -48,9 +48,6 @@ Am Telefon
 Zum Essen
 [Preview]
 Vorschau
-;file \plugins\BASS_interface\src\Bass_interface.h
-[Bass Interface]
-Bass-Schnittstelle
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 Un4seen's Bass Version: %d.%d.%d.%d
@@ -64,9 +61,12 @@ Klänge deaktivieren
 Klänge aktivieren
 [Frame background]
 Frame-Hintergrund
+[Bass Interface]
+Bass-Schnittstelle
 [Bass library]
 Bass-Bibliothek
 [Sounds enabled]
 Klänge aktiviert
 [Sounds disabled]
 Klänge deaktiviert
+;file \plugins\BASS_interface\src\stdafx.h

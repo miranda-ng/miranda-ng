@@ -130,11 +130,6 @@
 Кантакт змяніў выяву
 [Contact removed avatar]
 Кантакт выдаліў выяву
-;file \plugins\AvatarHistory\src\AvatarHistory.h
-[removed his/her avatar]
-выдаліў(ла) свой аватар
-[changed his/her avatar]
-змяніў(ла) свой аватар
 ;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 Гісторыя
@@ -159,6 +154,11 @@
 Усплывальныя вокны
 [Avatar Change]
 Змена аватара
+;file \plugins\AvatarHistory\src\stdafx.h
+[removed his/her avatar]
+выдаліў(ла) свой аватар
+[changed his/her avatar]
+змяніў(ла) свой аватар
 ;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]
 Невядомы нумар

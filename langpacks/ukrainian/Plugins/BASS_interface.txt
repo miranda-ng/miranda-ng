@@ -47,8 +47,6 @@
 Обідаю
 [Preview]
 Тест
-[Bass Interface]
-Бібліотека BASS
 [un4seen's bass version: %d.%d.%d.%d]
 Версія бібліотеки BASS: %d.%d.%d.%d
 [--default device--]
@@ -61,6 +59,8 @@
 Увімкнути звуки
 [Frame background]
 Фон
+[Bass Interface]
+Бібліотека BASS
 [Bass library]
 Бібліотека BASS
 [Sounds enabled]

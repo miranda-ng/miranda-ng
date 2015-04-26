@@ -47,8 +47,6 @@ En el teléfono
 Salí a comer
 [Preview]
 Previsualizar
-[Bass Interface]
-Bass interfaz
 [un4seen's bass version: %d.%d.%d.%d]
 Versión de un4seen's bass: %d.%d.%d.%d
 [--default device--]
@@ -61,6 +59,8 @@ Desabilitar sonidos
 Habilitar sonidos
 [Frame background]
 Marco de fondo
+[Bass Interface]
+Bass interfaz
 [Bass library]
 Biblioteca Bass
 [Sounds enabled]

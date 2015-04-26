@@ -55,7 +55,7 @@ Message
 
 [Do you want old database entries to be deleted after Import?]
 
-;file \plugins\CSList\src\cslist.h
+;file \plugins\CSList\src\stdafx.h
 [Main Menu]
 Menu principal
 [Main Icon]

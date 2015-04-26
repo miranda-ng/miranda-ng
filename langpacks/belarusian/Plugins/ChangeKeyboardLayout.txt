@@ -72,9 +72,6 @@
 Правая пстрычка
 [Preview]
 Прагляд
-;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
-[ChangeKeyboardLayout]
-Змена раскладкі
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Changing Layout]
 Змена раскладкі
@@ -87,3 +84,6 @@
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
 [Popup]
 Вакно
+;file \plugins\ChangeKeyboardLayout\src\stdafx.h
+[ChangeKeyboardLayout]
+Змена раскладкі

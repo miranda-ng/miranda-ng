@@ -91,9 +91,9 @@ De :
 [Date:]
 Date :
 [&User menu]
-
+&Menu utilisateur
 [User &details]
-
+&Détails du contact
 [&History]
 &Historique
 [Outgoing call]
@@ -135,7 +135,7 @@ Accorder l'autorisation
 
 [Video call is unsupported]
 
-[Call cancelled]
+[Call canceled]
 
 [Unable to find output audio device]
 

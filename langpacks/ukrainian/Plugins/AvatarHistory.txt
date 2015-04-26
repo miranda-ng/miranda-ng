@@ -133,10 +133,6 @@
 Контакт змінив аватар
 [Contact removed avatar]
 Контакт видалив аватар
-[removed his/her avatar]
-видалив(ла) свій аватар
-[changed his/her avatar]
-змінив(ла) свій аватар
 [History]
 Історія
 [Avatar Overlay]
@@ -159,6 +155,10 @@
 Сплив. вікна
 [Avatar Change]
 Зміна аватарів
+[removed his/her avatar]
+видалив(ла) свій аватар
+[changed his/her avatar]
+змінив(ла) свій аватар
 [Unknown UIN]
 Невідомий номер
 [Unknown Protocol]

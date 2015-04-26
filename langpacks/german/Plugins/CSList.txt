@@ -55,7 +55,7 @@ Nachricht
 Ausgewählten Eintrag wirklich löschen?
 [Do you want old database entries to be deleted after Import?]
 Wollen Sie nach dem Import alte Datenbankeinträge löschen?
-;file \plugins\CSList\src\cslist.h
+;file \plugins\CSList\src\stdafx.h
 [Main Menu]
 Hauptmenü
 [Main Icon]

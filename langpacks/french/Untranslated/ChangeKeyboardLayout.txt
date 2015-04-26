@@ -16,7 +16,7 @@
 [Windows colors]
 [Permanent]
 [Dismiss]
-[ChangeKeyboardLayout]
 [Changing Layout]
 [Changing Case]
 [Popup]
+[ChangeKeyboardLayout]
