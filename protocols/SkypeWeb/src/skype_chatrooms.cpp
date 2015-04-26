@@ -264,9 +264,9 @@ INT_PTR CSkypeProto::SvcDestroyChat(WPARAM hContact, LPARAM)
 	if (!IsOnline())
 		return 1;
 
-	ptrA chatId(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID));
+	ptrT chatId(db_get_tsa(hContact, m_szModuleName, "ChatRoomID"));
 
-	SendRequest(new KickUserRequest(RegToken, chatId, SelfSkypeName, Server));
+	SendRequest(new KickUserRequest(RegToken, _T2A(chatId), SelfSkypeName, Server));
 
 	CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 
@@ -291,9 +291,9 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
 	ptrA chatname(ChatUrlToName(conversationLink));
 
-	ptrT topic(json_as_string(json_get(node, "threadtopic")));
+	TCHAR *topic(json_as_string(json_get(node, "threadtopic")));
 	
-	if (FindChatRoom(chatname) == NULL) StartChatRoom(_A2T(chatname), topic);
+	if (FindChatRoom(chatname) == NULL) SendRequest(new GetChatInfoRequest(RegToken, chatname, Server), &CSkypeProto::OnGetChatInfo, topic);
 	
 	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 	if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
