@@ -67,12 +67,17 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 					MirVer.Append("Skype (Web)");
 					break;
 				case 125:
-					MirVer.AppendFormat("%s %s", skypeNameVersion, version);
+					MirVer.Append("Miranda NG Skype");
 					break;
 				default:
 					MirVer.Append("Skype (Unknown)");
 					break;
 			}
+			if (iTyp == 125)
+				MirVer.AppendFormat(" %s", version);
+			else 
+				MirVer.AppendFormat(" %s", ParseUrl(skypeNameVersion, "/"));
+
 			db_set_s(hContact, m_szModuleName, "MirVer", MirVer);
 		}
 	}
