@@ -417,7 +417,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Steam", "..\protocols\Steam
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQCorp", "..\protocols\ICQCorp\ICQCorp_10.vcxproj", "{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tox", "..\protocols\Tox\Tox_10.vcxproj", "{BCFAB658-326E-466D-995B-E76636C1DEA4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tox", "..\protocols\Tox\Tox.vcxproj", "{BCFAB658-326E-466D-995B-E76636C1DEA4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenSSL", "..\plugins\OpenSSL\OpenSSL_10.vcxproj", "{6C0C35E7-6522-403C-BB60-9805CDB9E52F}"
 EndProject
