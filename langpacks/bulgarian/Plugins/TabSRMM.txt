@@ -1131,7 +1131,7 @@ TabSRMM: Писане
 [Toggle filter]
 Вкл./Изкл. на филтъра
 [Show server window]
-Показване прозореца на сървъра
+Показва прозореца на сървъра
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
 %s    Бездейства: %dч,%02dмин

@@ -9,7 +9,7 @@
 Изнася всяко съобщение, URL адрес или файл, който получите като текстови файл.
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
-Разглеждане
+Преглед
 [Use internal viewer]
 
 [Replace Miranda history]
@@ -21,7 +21,7 @@ UTF8 за нови файлове
 [Use << and >>]
 
 [Auto filename]
-
+Автоматично именуване
 [Clear all]
 Изчисти всички
 [Help]

@@ -29,9 +29,9 @@
 [Use classic dates]
 Класическа дата
 [Create reports in subfolders naming as current date]
-Създаване на докладите в подпапки, с текущата дата като име
+Докладите в подпапки, с текуща дата за име
 [Generate crash reports]
-
+Генериране на доклад при срив
 [* You need to restart Miranda NG to apply changes]
 * За прилагане на промените трябва да рестартирате Miranda
 [View]
@@ -76,9 +76,9 @@
 [Open online Version Info]
 
 [Copy Version Info to clipboard]
-Копиране на информация за версията в клипборда
+Копира информация за версията в клипборда
 [Show Version Info]
-Показване на информация за версията
+Показва информация за версията
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
 [Crash Dumper]
 Crash Dumper
