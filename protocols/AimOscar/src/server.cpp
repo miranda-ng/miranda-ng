@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "aim.h"
+#include "stdafx.h"
 
 void CAimProto::snac_md5_authkey(SNAC &snac,HANDLE hServerConn,unsigned short &seqno, const char* username, const char* password)//family 0x0017
 {
@@ -758,7 +758,7 @@ void CAimProto::process_ssi_list(SNAC &snac, int &offset)
 		break;
 
 	case 0x0014: //avatar record
-		if (!_strcmps(name, "1") || !_strcmps(name, "12")) {
+		if (!mir_strcmp(name, "1") || !mir_strcmp(name, "12")) {
 			if (name_length == 1)
 				avatar_id_sm = item_id;
 			else
@@ -768,7 +768,6 @@ void CAimProto::process_ssi_list(SNAC &snac, int &offset)
 				TLV tlv(snac.val(tlv_base + tlv_offset));
 
 				if (tlv.cmp(0x00d5) && tlv.len() > 2) {
-					unsigned char type = tlv.ubyte(0);
 					if (name_length == 1) {
 						mir_free(hash_sm);
 						hash_sm = bytes_to_string(tlv.val() + 2, tlv.ubyte(1));
@@ -899,7 +898,7 @@ void CAimProto::modify_ssi_list(SNAC &snac, int &offset)
 		break;
 
 	case 0x0014: //avatar record
-		if (!_strcmps(name, "1") || !_strcmps(name, "12"))
+		if (!mir_strcmp(name, "1") || !mir_strcmp(name, "12"))
 		{
 			if (name_length == 1)
 				avatar_id_sm = item_id;
@@ -969,13 +968,13 @@ void CAimProto::delete_ssi_list(SNAC &snac, int &offset)
 		break;
 
 	case 0x0014: //avatar record
-		if (_strcmps(name, "1"))
+		if (mir_strcmp(name, "1"))
 		{
 			avatar_id_sm = 0;
 			mir_free(hash_sm);
 			hash_sm = NULL;
 		}
-		else if (!_strcmps(name, "12"))
+		else if (!mir_strcmp(name, "12"))
 		{
 			avatar_id_lg = 0;
 			mir_free(hash_lg);

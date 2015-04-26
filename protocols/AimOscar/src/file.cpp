@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "aim.h"
+#include "stdafx.h"
 
 #pragma pack(push, 1)
 struct oft2//oscar file transfer 2 class- See On_Sending_Files_via_OSCAR.pdf

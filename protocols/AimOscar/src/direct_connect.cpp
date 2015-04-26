@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "aim.h"
+#include "stdafx.h"
 
 void __cdecl CAimProto::aim_dc_helper(void* param) //only called when we are initiating a direct connection with someone else
 {

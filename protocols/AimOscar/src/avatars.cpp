@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "aim.h"
+#include "stdafx.h"
 
 void __cdecl CAimProto::avatar_request_thread(void* param)
 {
@@ -74,7 +74,7 @@ void CAimProto::avatar_request_handler(MCONTACT hContact, char* hash, unsigned c
 	char* saved_hash = getStringA(hContact, AIM_KEY_AH);
 	if (hash && _stricmp(hash, "0201d20472") && _stricmp(hash, "2b00003341")) //gaim default icon fix- we don't want their blank icon displaying.
 	{
-		if (_strcmps(saved_hash, hash))
+		if (mir_strcmp(saved_hash, hash))
 		{
 			setByte(hContact, AIM_KEY_AHT, type);
 			setString(hContact, AIM_KEY_AH, hash);
@@ -95,7 +95,7 @@ void CAimProto::avatar_request_handler(MCONTACT hContact, char* hash, unsigned c
 	mir_free(saved_hash);
 }
 
-void CAimProto::avatar_retrieval_handler(const char* sn, const char* hash, const char* data, int data_len)
+void CAimProto::avatar_retrieval_handler(const char* sn, const char* /*hash*/, const char* data, int data_len)
 {
 	bool res = false;
 	PROTO_AVATAR_INFORMATIONT AI = {0};
@@ -115,7 +115,7 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* hash, const
 			res = true;
 
 			char *my_sn = getStringA(AIM_KEY_SN);
-			if (!_strcmps(sn, my_sn))
+			if (!mir_strcmp(sn, my_sn))
 				CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 			mir_free(my_sn);
 		}

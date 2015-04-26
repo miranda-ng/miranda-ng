@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "aim.h"
+#include "stdafx.h"
 
 char AIM_CAP_MIRANDA[16] = "MirandaA";
 
@@ -75,10 +75,9 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 ////////////////////////////////////////////////////////////////////////////////////////
 //	OnModulesLoaded - finalizes plugin's configuration on load
 
-static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	aim_links_init();
-
 	return 0;
 }
 
