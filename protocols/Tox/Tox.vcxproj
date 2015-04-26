@@ -33,11 +33,11 @@
       <AdditionalDependencies>Winmm.lib;dnsapi.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent Condition="'$(Platform)'=='Win32'">
-      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)\" /y
+      <Command>copy bin\x86\libtox.* "$(SolutionDir)$(Configuration)\" /y
 copy docs\tox.ini "$(SolutionDir)$(Configuration)\Plugins" /y</Command>
     </PostBuildEvent>
     <PostBuildEvent Condition="'$(Platform)'=='x64'">
-      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)64\" /y
+      <Command>copy bin\x64\libtox.* "$(SolutionDir)$(Configuration)64\" /y
 copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
