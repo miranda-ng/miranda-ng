@@ -33,8 +33,6 @@
 #ifndef __CSLIST_H
 #define __CSLIST_H 1
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <windows.h>
 
 #include <newpluginapi.h>
