@@ -135,7 +135,7 @@ Eingehender Anruf von %s
 
 [Video call is unsupported]
 
-[Call cancelled]
+[Call canceled]
 
 [Unable to find output audio device]
 
