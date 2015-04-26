@@ -11,7 +11,7 @@ protected:
 	virtual void OnInitDialog();
 	virtual void OnClose();
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
 	void SetIcon(const char *name);
 	void SetTitle(const TCHAR *title);
@@ -52,7 +52,7 @@ private:
 
 protected:
 	void OnInitDialog();
-	//void OnClose();
+	void OnClose();
 
 	void OnCall(CCtrlBase*);
 	void OnCancel(CCtrlBase*);

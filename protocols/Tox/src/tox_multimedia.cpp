@@ -7,15 +7,12 @@ CToxCallDlgBase::CToxCallDlgBase(CToxProto *proto, int idDialog, MCONTACT hConta
 
 void CToxCallDlgBase::OnInitDialog()
 {
-	const char *className = typeid(this).name();
-	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, className);
+	WindowList_Add(m_proto->hAudioDialogs, m_hwnd, hContact);
 }
 
 void CToxCallDlgBase::OnClose()
 {
-	//WindowList_Remove(m_proto->hAudioDialogs, m_hwnd);
-	const char *className = typeid(this).name();
-	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, className);
+	WindowList_Remove(m_proto->hAudioDialogs, m_hwnd);
 }
 
 INT_PTR CToxCallDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -52,6 +49,9 @@ CToxIncomingCall::CToxIncomingCall(CToxProto *proto, MCONTACT hContact) :
 
 void CToxIncomingCall::OnInitDialog()
 {
+	CToxCallDlgBase::OnInitDialog();
+	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "IncomingCallWindow_");
+
 	TCHAR *nick = pcli->pfnGetContactDisplayName(hContact, 0);
 	from.SetText(nick);
 
@@ -64,6 +64,8 @@ void CToxIncomingCall::OnInitDialog()
 void CToxIncomingCall::OnClose()
 {
 	toxav_reject(m_proto->toxAv, m_proto->calls[hContact], NULL);
+	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "IncomingCallWindow_");
+	CToxCallDlgBase::OnClose();
 }
 
 void CToxIncomingCall::OnAnswer(CCtrlBase*)
@@ -89,6 +91,9 @@ CToxOutgoingCall::CToxOutgoingCall(CToxProto *proto, MCONTACT hContact) :
 
 void CToxOutgoingCall::OnInitDialog()
 {
+	CToxCallDlgBase::OnInitDialog();
+	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "OutgoingCallWindow_");
+
 	TCHAR *nick = pcli->pfnGetContactDisplayName(hContact, 0);
 	to.SetText(nick);
 
@@ -96,6 +101,12 @@ void CToxOutgoingCall::OnInitDialog()
 	mir_sntprintf(title, SIZEOF(title), TranslateT("Outgoing call to %s"), nick);
 	SetTitle(title);
 	SetIcon("audio_end");
+}
+
+void CToxOutgoingCall::OnClose()
+{
+	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "OutgoingCallWindow_");
+	CToxCallDlgBase::OnClose();
 }
 
 void CToxOutgoingCall::OnCall(CCtrlBase*)
@@ -124,7 +135,7 @@ void CToxOutgoingCall::OnCall(CCtrlBase*)
 
 	char *message = NULL;
 	TCHAR title[MAX_PATH];
-	if(GetWindowText(m_hwnd, title, SIZEOF(title)))
+	if (GetWindowText(m_hwnd, title, SIZEOF(title)))
 		message = mir_utf8encodeT(title);
 	else
 		message = mir_utf8encode("Outgoing call");
@@ -149,12 +160,16 @@ CToxCallDialog::CToxCallDialog(CToxProto *proto, MCONTACT hContact) :
 
 void CToxCallDialog::OnInitDialog()
 {
+	CToxCallDlgBase::OnInitDialog();
+	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "CallWindow_");
 	SetIcon("audio_start");
 }
 
 void CToxCallDialog::OnClose()
 {
 	toxav_hangup(m_proto->toxAv, m_proto->calls[hContact]);
+	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "CallWindow_");
+	CToxCallDlgBase::OnClose();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -195,33 +210,33 @@ ToxAvCSettings* CToxProto::GetAudioCSettings()
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_4S16) || (wic.dwFormats & WAVE_FORMAT_4M16))
 	{
-	cSettings->audio_bitrate = 16 * 1000;
-	cSettings->audio_sample_rate = 24000;
+		cSettings->audio_bitrate = 16 * 1000;
+		cSettings->audio_sample_rate = 24000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_4S08) || (wic.dwFormats & WAVE_FORMAT_4S08))
 	{
-	cSettings->audio_bitrate = 8 * 1000;
-	cSettings->audio_sample_rate = 24000;
+		cSettings->audio_bitrate = 8 * 1000;
+		cSettings->audio_sample_rate = 24000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_2M16) || (wic.dwFormats & WAVE_FORMAT_2S16))
 	{
-	cSettings->audio_bitrate = 16 * 1000;
-	cSettings->audio_sample_rate = 16000;
+		cSettings->audio_bitrate = 16 * 1000;
+		cSettings->audio_sample_rate = 16000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_2M08) || (wic.dwFormats & WAVE_FORMAT_2S08))
 	{
-	cSettings->audio_bitrate = 8 * 1000;
-	cSettings->audio_sample_rate = 16000;
+		cSettings->audio_bitrate = 8 * 1000;
+		cSettings->audio_sample_rate = 16000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_1M16) || (wic.dwFormats & WAVE_FORMAT_1S16))
 	{
-	cSettings->audio_bitrate = 16 * 1000;
-	cSettings->audio_sample_rate = 8000;
+		cSettings->audio_bitrate = 16 * 1000;
+		cSettings->audio_sample_rate = 8000;
 	}
 	else if ((wic.dwFormats & WAVE_FORMAT_1M08) || (wic.dwFormats & WAVE_FORMAT_1S08))
 	{
-	cSettings->audio_bitrate = 8 * 1000;
-	cSettings->audio_sample_rate = 8000;
+		cSettings->audio_bitrate = 8 * 1000;
+		cSettings->audio_sample_rate = 8000;
 	}
 	else
 	{
@@ -233,7 +248,7 @@ ToxAvCSettings* CToxProto::GetAudioCSettings()
 	return cSettings;
 }
 
-/* AUDIO RECEIVING */
+/* INCOMING CALL */
 
 // incoming call flow
 void CToxProto::OnAvInvite(void*, int32_t callId, void *arg)
@@ -317,7 +332,6 @@ INT_PTR CToxProto::OnAudioRing(WPARAM, LPARAM lParam)
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 	CDlgBase *incomingCallDlg = new CToxIncomingCall(this, cle->hContact);
 	incomingCallDlg->Show();
-	WindowList_Add(hAudioDialogs, incomingCallDlg->GetHwnd(), cle->hContact);
 
 	return 0;
 }
@@ -330,7 +344,6 @@ void CToxProto::OnAvCancel(void*, int32_t callId, void *arg)
 	if (friendNumber == TOX_ERROR)
 	{
 		proto->debugLogA(__FUNCTION__": failed to get friend number");
-		toxav_stop_call(proto->toxAv, callId);
 		return;
 	}
 
@@ -338,7 +351,6 @@ void CToxProto::OnAvCancel(void*, int32_t callId, void *arg)
 	if (hContact == NULL)
 	{
 		proto->debugLogA(__FUNCTION__": failed to find contact");
-		toxav_stop_call(proto->toxAv, callId);
 		return;
 	}
 
@@ -358,14 +370,13 @@ void CToxProto::OnAvCancel(void*, int32_t callId, void *arg)
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
 }
 
-/* AUDIO SENDING */
+/* OUTGOING CALL */
 
 // outcoming audio flow
 INT_PTR CToxProto::OnSendAudioCall(WPARAM hContact, LPARAM)
 {
 	CDlgBase *outgoingCallDlg = new CToxOutgoingCall(this, hContact);
 	outgoingCallDlg->Show();
-	WindowList_Add(hAudioDialogs, outgoingCallDlg->GetHwnd(), hContact);
 
 	return 0;
 }
@@ -378,7 +389,6 @@ void CToxProto::OnAvReject(void*, int32_t callId, void *arg)
 	if (friendNumber == TOX_ERROR)
 	{
 		proto->debugLogA(__FUNCTION__": failed to get friend number");
-		toxav_stop_call(proto->toxAv, callId);
 		return;
 	}
 
@@ -386,7 +396,6 @@ void CToxProto::OnAvReject(void*, int32_t callId, void *arg)
 	if (hContact == NULL)
 	{
 		proto->debugLogA(__FUNCTION__": failed to find contact");
-		toxav_stop_call(proto->toxAv, callId);
 		return;
 	}
 
@@ -404,7 +413,6 @@ void CToxProto::OnAvCallTimeout(void*, int32_t callId, void *arg)
 	if (friendNumber == TOX_ERROR)
 	{
 		proto->debugLogA(__FUNCTION__": failed to get friend number");
-		toxav_stop_call(proto->toxAv, callId);
 		return;
 	}
 
@@ -412,7 +420,6 @@ void CToxProto::OnAvCallTimeout(void*, int32_t callId, void *arg)
 	if (hContact == NULL)
 	{
 		proto->debugLogA(__FUNCTION__": failed to find contact");
-		toxav_stop_call(proto->toxAv, callId);
 		return;
 	}
 
@@ -426,17 +433,13 @@ void CToxProto::OnAvCallTimeout(void*, int32_t callId, void *arg)
 
 static void CALLBACK WaveOutCallback(HWAVEOUT hOutDevice, UINT uMsg, DWORD/* dwInstance*/, DWORD dwParam1, DWORD/* dwParam2*/)
 {
-	switch (uMsg)
-	{
-	case WOM_DONE:
+	if (uMsg == WOM_DONE)
 	{
 		WAVEHDR *header = (WAVEHDR*)dwParam1;
 		if (header->dwFlags & WHDR_PREPARED)
 			waveOutUnprepareHeader(hOutDevice, header, sizeof(WAVEHDR));
 		mir_free(header->lpData);
 		mir_free(header);
-	}
-	break;
 	}
 }
 
@@ -526,6 +529,7 @@ void CToxProto::OnAvEnd(void*, int32_t callId, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
+	waveOutReset(proto->hOutDevice);
 	waveOutClose(proto->hOutDevice);
 	toxav_kill_transmission(proto->toxAv, callId);
 
@@ -549,36 +553,25 @@ void CToxProto::OnAvEnd(void*, int32_t callId, void *arg)
 	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
 }
 
-void CToxProto::OnAvPeerTimeout(void*, int32_t callId, void *arg)
+void CToxProto::OnAvPeerTimeout(void *av, int32_t callId, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	int friendNumber = toxav_get_peer_id(proto->toxAv, callId, 0);
-	if (friendNumber == TOX_ERROR)
+	ToxAvCallState callState = toxav_get_call_state(proto->toxAv, callId);
+	switch (callState)
 	{
-		proto->debugLogA(__FUNCTION__": failed to get friend number");
-		toxav_stop_call(proto->toxAv, callId);
+	case av_CallStarting:
+		proto->OnAvCancel(av, callId, arg);
 		return;
-	}
 
-	MCONTACT hContact = proto->GetContact(friendNumber);
-	if (hContact == NULL)
-	{
-		proto->debugLogA(__FUNCTION__": failed to find contact");
-		toxav_stop_call(proto->toxAv, callId);
+	case av_CallActive:
+		proto->OnAvEnd(av, callId, arg);
 		return;
+
+	default:
+		proto->debugLogA(__FUNCTION__": failed to handle callState");
+		break;
 	}
-
-	CLISTEVENT *cle = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, hContact, 0);
-	if (cle)
-		CallService(MS_CLIST_REMOVEEVENT, hContact, cle->hDbEvent);
-
-	char *message = mir_utf8encodeT(TranslateT("Call canceled"));
-	proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
-
-	WindowList_Broadcast(proto->hAudioDialogs, WM_CALL_END, hContact, 0);
-
-	toxav_kill_transmission(proto->toxAv, callId);
 }
 
 //////
