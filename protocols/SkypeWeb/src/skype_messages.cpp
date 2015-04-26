@@ -264,58 +264,78 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 		}
 		else
 			OnReceiveMessage(clientMsgId, conversationLink, timestamp, message, emoteOffset);
-		}
-		else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage")){}
-		else if (!mir_strcmpi(messageType, "Event/Call"))
+	}
+	else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage")){}
+	else if (!mir_strcmpi(messageType, "Event/Call"))
+	{
+		//content=<partlist type="ended" alt=""><part identity="username"><name>user name</name><duration>6</duration></part>
+		//<part identity="echo123"><name>Echo / Sound Test Service</name><duration>6</duration></part></partlist>
+		//content=<partlist type="started" alt=""><part identity="username"><name>user name</name></part></partlist>
+		int iType = 3, iDuration = 0;
+		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("partlist"));
+		if (xml != NULL) 
 		{
-			//content=<partlist type="ended" alt=""><part identity="username"><name>user name</name><duration>6</duration></part>
-			//<part identity="echo123"><name>Echo / Sound Test Service</name><duration>6</duration></part></partlist>
 
-			//content=<partlist type="started" alt=""><part identity="username"><name>user name</name></part></partlist>
-			ptrA name;
-			int iType = 3, iDuration = 0;
-			HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("partlist"));
-			if (xml != NULL) 
-			{
+			ptrA type(mir_t2a(xi.getAttrValue(xml, _T("type"))));
 
-				ptrA type(mir_t2a(xi.getAttrValue(xml, _T("type"))));
+			if (!mir_strcmpi(type, "ended")) iType = 0;
+			else if (!mir_strcmpi(type, "started")) iType = 1;
 
-				if (!mir_strcmpi(type, "ended")) iType = 0;
-				else if (!mir_strcmpi(type, "started")) iType = 1;
+			HXML xmlNode = xi.getChildByPath(xml, _T("part"), 0);
+			HXML duration = xmlNode == NULL ? NULL : xi.getChildByPath(xmlNode, _T("duration"), 0);
+			iDuration = duration != NULL ? atoi(mir_t2a(xi.getText(duration))) : NULL;
 
-				HXML xmlNode = xi.getChildByPath(xml, _T("part"), 0);
-				HXML duration = xmlNode == NULL ? NULL : xi.getChildByPath(xmlNode, _T("duration"), 0);
-				iDuration = duration != NULL ? atoi(mir_t2a(xi.getText(duration))) : NULL;
-
-				xi.destroyNode(xml);
-			}
-			CMStringA text = "";
-			if (iType == 1)
-				text.Append(Translate("Call started"));
-			else if (iType == 0)
-			{
-				CMStringA chours = "", cmins = "", csec = "";
-				int hours=0, mins=0, sec=0;
-				if (iDuration != NULL)
-				{
-					hours = iDuration / 3600;
-					mins = iDuration / 60;
-					sec = iDuration % 60;
-				}
-				else 
-					hours = mins = sec = 0;
-
-				chours.AppendFormat(hours < 10 ? "0%d" : "%d", hours);
-				cmins.AppendFormat(mins < 10 ? "0%d" : "%d", mins);
-				csec.AppendFormat(sec < 10 ? "0%d" : "%d", sec);
-				text.AppendFormat("%s\n%s: %s:%s:%s", Translate("Call ended"), Translate("Duration"), chours, cmins, csec);
-			}
-			if (IsMe(from))
-				AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, text.GetBuffer());
-			else
-				OnReceiveMessage(clientMsgId, conversationLink, timestamp, text.GetBuffer());
+			xi.destroyNode(xml);
 		}
+		CMStringA text = "";
+		if (iType == 1)
+			text.Append(Translate("Call started"));
+		else if (iType == 0)
+		{
+			CMStringA chours = "", cmins = "", csec = "";
+			int hours=0, mins=0, sec=0;
+			if (iDuration != NULL)
+			{
+				hours = iDuration / 3600;
+				mins = iDuration / 60;
+				sec = iDuration % 60;
+			}
+			else 
+				hours = mins = sec = 0;
 
+			chours.AppendFormat(hours < 10 ? "0%d" : "%d", hours);
+			cmins.AppendFormat(mins < 10 ? "0%d" : "%d", mins);
+			csec.AppendFormat(sec < 10 ? "0%d" : "%d", sec);
+			text.AppendFormat("%s\n%s: %s:%s:%s", Translate("Call ended"), Translate("Duration"), chours, cmins, csec);
+		}
+		if (IsMe(from))
+			AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, text.GetBuffer());
+		else
+			OnReceiveMessage(clientMsgId, conversationLink, timestamp, text.GetBuffer());
+	}
+	else if (!mir_strcmpi(messageType, "RichText/Files"))
+	{
+		//content=<files alt="отправил (-а) файл &quot;run.bat&quot;"><file size="97" index="0" tid="4197760077">run.bat</file></files>
+		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("files"));
+		if (xml != NULL) 
+		{
+			for (int i=0; i < xi.getChildCount(xml); i++)
+			{
+				int fileSize; CMStringA msg = "";
+				HXML xmlNode = xi.getNthChild(xml, L"file", i);
+				if (xmlNode == NULL)
+					break;
+				fileSize = atoi(_T2A(xi.getAttrValue(xmlNode, L"size")));
+				ptrA fileName(mir_t2a(xi.getText(xmlNode)));
+				if (fileName == NULL || fileSize == NULL)
+					continue;
+
+				msg.Empty();
+				msg.AppendFormat("%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize , Translate("bytes"));
+				AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_READ, clientMsgId, msg.GetBuffer());
+			}
+		}
+	}
 }
 
 int CSkypeProto::OnDbEventRead(WPARAM hContact, LPARAM hDbEvent)

@@ -53,6 +53,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		time_t timestamp = IsoToUnixTime(composeTime);
 		ptrA skypename(ContactUrlToName(from));
 		bool isEdited = (json_get(message, "skypeeditedid") != NULL);
+		MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
 		{
 			if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
@@ -62,8 +63,6 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				bool isMe = IsMe(skypename);
 				if (isMe)
 					flags |= DBEF_SENT;
-
-				MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
 
 				ptrA message(RemoveHtml(content));
 				MEVENT dbevent =  GetMessageFromDb(hContact, skypeEditedId);
@@ -101,8 +100,6 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				//<part identity="echo123"><name>Echo / Sound Test Service</name><duration>6</duration></part></partlist>
 
 				//content=<partlist type="started" alt=""><part identity="username"><name>user name</name></part></partlist>
-				MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
-				ptrA name;
 				int iType = 3, iDuration = 0;
 				ptrA skypename(ContactUrlToName(from));
 				bool isMe = IsMe(skypename);
@@ -145,6 +142,30 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 					text.AppendFormat("%s\n%s: %s:%s:%s", Translate("Call ended"), Translate("Duration"), chours, cmins, csec);
 				}
 				AddMessageToDb(hContact, timestamp, flags, clientMsgId, text.GetBuffer());
+			}
+			else if (!mir_strcmpi(messageType, "RichText/Files"))
+			{
+				//content=<files alt="отправил (-а) файл &quot;run.bat&quot;"><file size="97" index="0" tid="4197760077">run.bat</file></files>
+				HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("files"));
+				if (xml != NULL) 
+				{
+					for (int i=0; i < xi.getChildCount(xml); i++)
+					{
+						int fileSize; CMStringA msg = "";
+						HXML xmlNode = xi.getNthChild(xml, L"file", i);
+						if (xmlNode == NULL)
+							break;
+						fileSize = atoi(_T2A(xi.getAttrValue(xmlNode, L"size")));
+						ptrA fileName(mir_t2a(xi.getText(xmlNode)));
+						if (fileName == NULL || fileSize == NULL)
+							continue;
+
+						msg.Empty();
+						msg.AppendFormat("%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize , Translate("bytes"));
+						AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_READ, clientMsgId, msg.GetBuffer());
+
+					}
+				}
 			}
 		}
 		else if (conversationLink != NULL && strstr(conversationLink, "/19:"))
@@ -199,13 +220,14 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		char *skypeEditedId = mir_t2a(json_as_string(json_get(lastMessage, "skypeeditedid")));
 		bool isEdited = (skypeEditedId != NULL);
 		char *conversationLink = mir_t2a(json_as_string(json_get(lastMessage, "conversationLink")));
-		time_t composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "conversationLink")))));
+		time_t composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "composetime")))));
 
 		ptrA skypename;
 		TCHAR *topic;
 
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
 		{
+			if (!getByte("AutoSync", 1)) continue;
 			skypename = ContactUrlToName(conversationLink);
 		}
 		else if (conversationLink != NULL && strstr(conversationLink, "/19:"))
