@@ -75,6 +75,7 @@ public:
 	// events
 	static int	OnModulesLoaded	(WPARAM, LPARAM);
 	int __cdecl OnDbEventRead	(WPARAM, LPARAM);
+	int __cdecl OnPreShutdown	(WPARAM, LPARAM);
 	//search
 	void __cdecl SearchBasicThread(void* id);
 
