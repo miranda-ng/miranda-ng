@@ -1128,7 +1128,7 @@ static INT_PTR CALLBACK privacy_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 }
 
 
-int CAimProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
+int CAimProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 1003000;
@@ -1209,7 +1209,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-INT_PTR CAimProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
+INT_PTR CAimProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)CreateDialogParam (hInstance, MAKEINTRESOURCE(IDD_AIMACCOUNT),
 		 (HWND)lParam, first_run_dialog, (LPARAM)this);

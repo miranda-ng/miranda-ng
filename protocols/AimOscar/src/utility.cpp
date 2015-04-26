@@ -85,10 +85,8 @@ void CAimProto::broadcast_status(int status)
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);	
 }
 
-void CAimProto::start_connection(void *arg)
+void CAimProto::start_connection(void*)
 {
-	int status = (int)arg;
-
 	if (m_iStatus<=ID_STATUS_OFFLINE)
 	{
 		offline_contacts();
@@ -539,7 +537,7 @@ int CAimProto::deleteGroupId(MCONTACT hContact, int i)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CAimProto::open_contact_file(const char* sn, const TCHAR* file, const char* mode, TCHAR* &path, bool contact_dir)
+int CAimProto::open_contact_file(const char*, const TCHAR* file, const char*, TCHAR* &path, bool contact_dir)
 {
 	path = (TCHAR*)mir_alloc(MAX_PATH * sizeof(TCHAR));
 
