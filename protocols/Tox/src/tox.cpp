@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 int hLangpack;
 CLIST_INTERFACE* pcli;

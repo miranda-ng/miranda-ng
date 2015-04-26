@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 WORD CToxProto::GetContactStatus(MCONTACT hContact)
 {

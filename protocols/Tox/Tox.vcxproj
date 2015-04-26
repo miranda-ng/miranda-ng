@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BCFAB658-326E-466D-995B-E76636C1DEA4}</ProjectGuid>
+    <ProjectName>Tox</ProjectName>
+  </PropertyGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(ProjectDir)..\..\build\vc.common\common.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>include;..\..\include;..\..\plugins\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Winmm.lib;dnsapi.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent Condition="'$(Platform)'=='Win32'">
+      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)\" /y
+copy docs\tox.ini "$(SolutionDir)$(Configuration)\Plugins" /y</Command>
+    </PostBuildEvent>
+    <PostBuildEvent Condition="'$(Platform)'=='x64'">
+      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)64\" /y
+copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="include\*.h" />
+    <None Include="res\Icons\*.ico" />
+  </ItemGroup>
+</Project>

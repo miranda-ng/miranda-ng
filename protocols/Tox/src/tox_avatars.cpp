@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 std::tstring CToxProto::GetAvatarFilePath(MCONTACT hContact)
 {

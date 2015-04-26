@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 LIST<CToxProto> CToxProto::Accounts(1, CToxProto::CompareAccounts);
 

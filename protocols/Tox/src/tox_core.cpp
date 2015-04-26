@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 bool CToxProto::InitToxCore()
 {
