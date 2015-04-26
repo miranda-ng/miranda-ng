@@ -70,6 +70,10 @@ Wybierz &rolę
 &Admin
 [&User]
 &Użytkownik
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Ten czat zostanie zniszczony wraz z zawartością. Ta operacja nie będzie mogła zostać cofnięta. Czy jesteś pewien?
+[Warning]
+Ostrzeżenie
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 edytowana
@@ -95,8 +99,6 @@ Poproś o autoryzację
 Udziel autoryzacji
 [Get server history]
 Pobieraj historię z serwera
-[Destroy room]
-Zniszcz pokój
 [Create new chat]
 Utwórz nowy czat
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
