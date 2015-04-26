@@ -59,27 +59,6 @@ public:
 	}
 };
 
-class CreateContactsRequest : public HttpRequest
-{
-public:
-	CreateContactsRequest(const char *regToken, const LIST<char> &skypenames, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/contacts", server)
-	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
-
-		CMStringA data = "{\"contacts\":[";
-		for (int i = 0; i < skypenames.getCount(); i++)
-			data.AppendFormat("{\"id\":\"8:%s\"},", skypenames[i]);
-		data.Truncate(data.GetLength() - 1);
-		data.Append("]}");
-
-		Body << VALUE(data);
-	}
-};
-
 class GetContactsAuthRequest : public HttpRequest
 {
 public:
@@ -105,6 +84,19 @@ public:
 		CMStringA data;
 		data.AppendFormat("greeting=%s", ptrA(mir_urlEncode(greeting)));
 		Body << VALUE(data);
+	}
+};
+
+class DeleteContactRequest : public HttpRequest
+{
+public:
+	DeleteContactRequest(const char *token, const char *who, const char *skypename = "self") :
+		HttpRequest(REQUEST_DELETE, FORMAT, "api.skype.com/users/%s/contacts/%s", skypename, who)
+	{
+		Headers
+			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("Accept", "application/json")
+			<< CHAR_VALUE("Content-type", "application/x-www-form-urlencoded");
 	}
 };
 

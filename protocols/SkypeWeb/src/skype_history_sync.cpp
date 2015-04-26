@@ -196,7 +196,6 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		char *conversationLink = mir_t2a(json_as_string(json_get(lastMessage, "conversationLink")));
 		time_t composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "conversationLink")))));
 
-		bool isChat = false;
 		ptrA skypename;
 		TCHAR *topic;
 
