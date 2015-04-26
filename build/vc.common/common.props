@@ -44,7 +44,6 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;..\..\..\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -129,5 +128,4 @@
     <None Include="src\*.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
 </Project>
