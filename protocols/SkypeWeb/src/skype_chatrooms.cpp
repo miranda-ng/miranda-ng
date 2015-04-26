@@ -306,17 +306,22 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
 		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("addmember"));
-		if (xml != NULL) {
+		if (xml == NULL)
+			return;
 
-			HXML xmlNode = xi.getChildByPath(xml, _T("target"), 0);
+		for (int i=0; i < xi.getChildCount(xml); i++)
+		{
+			HXML xmlNode = xi.getNthChild(xml, L"target", i);
+			if (xmlNode == NULL)
+				break;
+
 			xtarget = xmlNode != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
 
-			xi.destroyNode(xml);
+			target = ParseUrl(xtarget, "8:");
+
+			AddChatContact(_A2T(chatname), target, target, L"User");
 		}
-
-		target = ParseUrl(xtarget, "8:");
-
-		AddChatContact(_A2T(chatname), target, target, L"User");
+		xi.destroyNode(xml);
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/DeleteMember"))
 	{
@@ -337,19 +342,10 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 			return;
 
 		target = ParseUrl(xtarget, "8:");
-
-		bool isKick = false;
 		initiator = ParseUrl(xinitiator, "8:");
-		isKick = true;
 
-		if (isKick)
-		{
-			RemoveChatContact(_A2T(chatname), target, target, true, initiator);
-		}
-		else
-		{
-			RemoveChatContact(_A2T(chatname), target, target);
-		}
+		RemoveChatContact(_A2T(chatname), target, target, true, initiator);
+
 	}
 	else if (!mir_strcmpi(messageType, "ThreadActivity/TopicUpdate"))
 	{
@@ -388,10 +384,9 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 				xRole = xmlNode != NULL ? mir_t2a(xi.getText(xmlRole)) : NULL;
 			}
 			xi.destroyNode(xml);
-
 			initiator = ParseUrl(xinitiator, "8:");
 			id = ParseUrl(xId, "8:");
-			
+		
 			GCDEST gcd = { m_szModuleName, _A2T(chatname), !mir_strcmpi(xRole, "Admin") ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS};
 			GCEVENT gce = { sizeof(gce), &gcd };
 			ptrT tszId(mir_a2t(id));
@@ -406,7 +401,6 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 			gce.bIsMe = IsMe(id);
 			gce.ptszStatus = TranslateT("Admin");
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
-
 		}
 	}
 }
