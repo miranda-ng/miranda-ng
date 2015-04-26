@@ -312,7 +312,7 @@ INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
 }
 
 // react on clist event click
-INT_PTR CToxProto::OnAudioRing(WPARAM wParam, LPARAM lParam)
+INT_PTR CToxProto::OnAudioRing(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 	CDlgBase *incomingCallDlg = new CToxIncomingCall(this, cle->hContact);
@@ -342,7 +342,6 @@ void CToxProto::OnAvCancel(void*, int32_t callId, void *arg)
 		return;
 	}
 
-	int iEvent = 0;
 	CLISTEVENT *cle = NULL;
 	while ((cle = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, hContact, 0)))
 	{
@@ -584,7 +583,7 @@ void CToxProto::OnAvPeerTimeout(void*, int32_t callId, void *arg)
 
 //////
 
-void CToxProto::OnFriendAudio(void*, int32_t callId, const int16_t *PCM, uint16_t size, void *arg)
+void CToxProto::OnFriendAudio(void*, int32_t, const int16_t *PCM, uint16_t size, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
