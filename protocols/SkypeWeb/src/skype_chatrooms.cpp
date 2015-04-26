@@ -67,6 +67,39 @@ MCONTACT CSkypeProto::FindChatRoom(const char *chatname)
 	return hContact;
 }
 
+void CSkypeProto::StartChatRoom(const TCHAR *tid, const TCHAR *tname)
+{
+	// Create the group chat session
+	GCSESSION gcw = { sizeof(gcw) };
+	gcw.iType = GCW_PRIVMESS;
+	gcw.ptszID = tid;
+	gcw.pszModule = m_szModuleName;
+	gcw.ptszName = tname;
+	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+
+	// Send setting events
+	GCDEST gcd = { m_szModuleName, tid, GC_EVENT_ADDGROUP };
+	GCEVENT gce = { sizeof(gce), &gcd };
+
+	// Create a user statuses
+	gce.ptszStatus = TranslateT("Admin");
+	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	gce.ptszStatus = TranslateT("User");
+	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+
+	// Finish initialization
+	gcd.iType = GC_EVENT_CONTROL;
+	gce.time = time(NULL);
+	gce.pDest = &gcd;
+
+	bool hideChats = getBool("HideChats", 1);
+
+	CallServiceSync(MS_GC_EVENT, (hideChats ? WINDOW_HIDDEN : SESSION_INITDONE), reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
+}
+
+/* Hooks */
+
 int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK*)lParam;
@@ -151,82 +184,6 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 
 		}
 	}
-	return 0;
-}
-void CSkypeProto::StartChatRoom(const TCHAR *tid, const TCHAR *tname)
-{
-	// Create the group chat session
-	GCSESSION gcw = { sizeof(gcw) };
-	gcw.iType = GCW_PRIVMESS;
-	gcw.ptszID = tid;
-	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = tname;
-	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
-
-	// Send setting events
-	GCDEST gcd = { m_szModuleName, tid, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { sizeof(gce), &gcd };
-
-	// Create a user statuses
-	gce.ptszStatus = TranslateT("Admin");
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
-	gce.ptszStatus = TranslateT("User");
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
-
-	// Finish initialization
-	gcd.iType = GC_EVENT_CONTROL;
-	gce.time = time(NULL);
-	gce.pDest = &gcd;
-
-	bool hideChats = getBool("HideChats", 1);
-
-	// Add self contact
-	//AddChatContact(tid, facy.self_.user_id.c_str(), facy.self_.real_name.c_str());
-	CallServiceSync(MS_GC_EVENT, (hideChats ? WINDOW_HIDDEN : SESSION_INITDONE), reinterpret_cast<LPARAM>(&gce));
-	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
-
-	//SendRequest(new GetChatInfoRequest(RegToken, ptrA(mir_t2a(tid)), Server), &CSkypeProto::OnGetChatInfo); 
-}
-
-int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
-{
-	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
-	if (stricmp(gcmi->pszModule, m_szModuleName)) return 0;
-
-	if (gcmi->Type == MENU_ON_LOG)
-	{
-		static const struct gc_item Items[] =
-		{
-			{ LPGENT("&Invite user..."),		10, MENU_ITEM, FALSE },
-			{ LPGENT("&Leave chat session"),	20, MENU_ITEM, FALSE },
-			{ LPGENT("&Change topic"),			30, MENU_ITEM, FALSE }
-		};
-		gcmi->nItems = SIZEOF(Items);
-		gcmi->Item = (gc_item*)Items;
-	}
-	else if (gcmi->Type == MENU_ON_NICKLIST)
-	{
-		if (IsMe(_T2A(gcmi->pszUID)))
-		{
-			gcmi->nItems = 0;
-			gcmi->Item = NULL;
-		}
-		else
-		{
-			static const struct gc_item Items[] =
-			{
-				{ LPGENT("Kick &user"), 10, MENU_ITEM		},
-				{ NULL,					 0, MENU_SEPARATOR	},
-				{ LPGENT("Set &role"),	20, MENU_NEWPOPUP	},
-				{ LPGENT("&Admin"),		30, MENU_POPUPITEM	},
-				{ LPGENT("&User"),		40, MENU_POPUPITEM	}
-			};
-			gcmi->nItems = SIZEOF(Items);
-			gcmi->Item = (gc_item*)Items;
-		}
-	}
-
-
 	return 0;
 }
 
@@ -500,8 +457,6 @@ char *CSkypeProto::GetChatUsers(const TCHAR *chat_id)
 	gci.pszModule = m_szModuleName;
 	gci.pszID = chat_id;
 	CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
-
-	// mir_free(gci.pszUsers);
 	return gci.pszUsers;
 }
 
@@ -564,8 +519,52 @@ INT_PTR CSkypeProto::SvcCreateChat(WPARAM, LPARAM)
 	return 0;
 }
 
+/* Menus */
+
+int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
+{
+	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
+	if (stricmp(gcmi->pszModule, m_szModuleName)) return 0;
+
+	if (gcmi->Type == MENU_ON_LOG)
+	{
+		static const struct gc_item Items[] =
+		{
+			{ LPGENT("&Invite user..."),		10, MENU_ITEM, FALSE },
+			{ LPGENT("&Leave chat session"),	20, MENU_ITEM, FALSE },
+			{ LPGENT("&Change topic"),			30, MENU_ITEM, FALSE }
+		};
+		gcmi->nItems = SIZEOF(Items);
+		gcmi->Item = (gc_item*)Items;
+	}
+	else if (gcmi->Type == MENU_ON_NICKLIST)
+	{
+		if (IsMe(_T2A(gcmi->pszUID)))
+		{
+			gcmi->nItems = 0;
+			gcmi->Item = NULL;
+		}
+		else
+		{
+			static const struct gc_item Items[] =
+			{
+				{ LPGENT("Kick &user"), 10, MENU_ITEM		},
+				{ NULL,					 0, MENU_SEPARATOR	},
+				{ LPGENT("Set &role"),	20, MENU_NEWPOPUP	},
+				{ LPGENT("&Admin"),		30, MENU_POPUPITEM	},
+				{ LPGENT("&User"),		40, MENU_POPUPITEM	}
+			};
+			gcmi->nItems = SIZEOF(Items);
+			gcmi->Item = (gc_item*)Items;
+		}
+	}
+
+
+	return 0;
+}
 
 /* Dialogs */
+
 INT_PTR CSkypeProto::GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CSkypeProto *ppro = (CSkypeProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);

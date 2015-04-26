@@ -196,7 +196,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 		if(!isChatRoom(hContact))
 			skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
 	}
-	SendRequest(new CreateContactsRequest(RegToken, skypenames, Server));
+	SendRequest(new CreateContactsSubscriptionRequest(RegToken, skypenames, Server));
 	for (int i = 0; i < skypenames.getCount(); i++)
 		mir_free(skypenames[i]);
 	skypenames.destroy();

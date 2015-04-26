@@ -267,5 +267,7 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 
 int CSkypeProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 {
+	if (hContact && !isChatRoom(hContact))
+		PushRequest(new DeleteContactRequest(TokenSecret, db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)));
 	return 0;
 }
