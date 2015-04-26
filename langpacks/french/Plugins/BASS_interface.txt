@@ -48,9 +48,6 @@ Au téléphone
 Parti manger
 [Preview]
 Aperçu
-;file \plugins\BASS_interface\src\Bass_interface.h
-[Bass Interface]
-
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 
@@ -64,9 +61,12 @@ Sons désactivés
 
 [Frame background]
 
+[Bass Interface]
+
 [Bass library]
 
 [Sounds enabled]
 
 [Sounds disabled]
 
+;file \plugins\BASS_interface\src\stdafx.h

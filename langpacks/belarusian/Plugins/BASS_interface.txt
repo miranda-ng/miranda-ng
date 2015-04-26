@@ -48,9 +48,6 @@
 Абедаю
 [Preview]
 Прагляд
-;file \plugins\BASS_interface\src\Bass_interface.h
-[Bass Interface]
-Бібліятэка BASS
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 Версія бібліятэкі BASS: %d.%d.%d.%d
@@ -64,9 +61,12 @@
 Уключыць гукі
 [Frame background]
 Колер фону
+[Bass Interface]
+Бібліятэка BASS
 [Bass library]
 Бібліятэка Bass
 [Sounds enabled]
 Гукі ўключаны
 [Sounds disabled]
 Гукі выключаны
+;file \plugins\BASS_interface\src\stdafx.h

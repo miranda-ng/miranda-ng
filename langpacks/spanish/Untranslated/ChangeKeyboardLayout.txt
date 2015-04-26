@@ -17,6 +17,6 @@
 [Windows colors]
 [Custom colors]
 [Dismiss]
-[ChangeKeyboardLayout]
 [Changing Layout]
 [Changing Case]
+[ChangeKeyboardLayout]

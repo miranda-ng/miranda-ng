@@ -49,10 +49,10 @@
 Введіть пароль для продовження.
 [Skype Link Protocol]
 Протокол Skype
-[User]
-Користувач
 [Admin]
 Адмін
+[User]
+Користувач
 [&Invite user...]
 &Запросити користувача...
 [&Leave chat session]
@@ -67,6 +67,10 @@
 &Адмін
 [&User]
 &Користувач
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Цей чат буде видалено разом з усім його вмістом. Цю дію не можна буде скасувати. Ви впевнені?
+[Warning]
+Попередження
 [Edited at]
 Відредаговане о
 [Call started]

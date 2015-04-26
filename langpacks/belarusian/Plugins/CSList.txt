@@ -55,7 +55,7 @@
 Выдаліць абраны запіс?
 [Do you want old database entries to be deleted after Import?]
 Вы жадаеце выдаліць запісы старой базы дадзеных пасля імпарту?
-;file \plugins\CSList\src\cslist.h
+;file \plugins\CSList\src\stdafx.h
 [Main Menu]
 Галоўнае меню
 [Main Icon]

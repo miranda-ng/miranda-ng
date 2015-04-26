@@ -9,6 +9,8 @@
 Otkazivanje
 [Password:]
 Šifra
+[Warning]
+Upozorenje
 [Request authorization]
 Zatraži autorizaciju
 [Grant authorization]

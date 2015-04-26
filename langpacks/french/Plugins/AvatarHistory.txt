@@ -136,11 +136,6 @@ Avatars
 Le contact a changé d'avatar
 [Contact removed avatar]
 Le contact a retiré l'avatar
-;file \plugins\AvatarHistory\src\AvatarHistory.h
-[removed his/her avatar]
-a effacé son avatar
-[changed his/her avatar]
-a changé d'avatar
 ;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 Historique
@@ -165,6 +160,11 @@ Avatar
 Popups
 [Avatar Change]
 Changement d'avatar
+;file \plugins\AvatarHistory\src\stdafx.h
+[removed his/her avatar]
+a effacé son avatar
+[changed his/her avatar]
+a changé d'avatar
 ;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]
 UIN inconnu

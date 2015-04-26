@@ -52,10 +52,10 @@ Enregistrer le passe
 [Skype Link Protocol]
 
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
-[User]
-Utilisateur
 [Admin]
 
+[User]
+Utilisateur
 [&Invite user...]
 &Inviter l'utilisateur...
 [&Leave chat session]
@@ -70,6 +70,10 @@ Utilisateur
 
 [&User]
 
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+
+[Warning]
+Avertissement
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 

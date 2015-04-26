@@ -11,5 +11,7 @@ Storno
 Heslo:
 [Save password]
 Uložiť heslo
+[Warning]
+Varovanie
 [Network]
 Sieť

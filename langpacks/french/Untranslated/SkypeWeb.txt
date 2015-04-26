@@ -19,6 +19,7 @@
 [Set &role]
 [&Admin]
 [&User]
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 [Edited at]
 [Call started]
 [Call ended]

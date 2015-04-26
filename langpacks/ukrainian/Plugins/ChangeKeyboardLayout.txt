@@ -71,8 +71,6 @@
 Правий клік
 [Preview]
 Тест
-[ChangeKeyboardLayout]
-Зміна розкладки
 [Changing Layout]
 Зміна розкладки
 [Changing Case]
@@ -83,3 +81,5 @@
 Спливаючі вікна
 [Popup]
 Спливаюче вікно
+[ChangeKeyboardLayout]
+Зміна розкладки
