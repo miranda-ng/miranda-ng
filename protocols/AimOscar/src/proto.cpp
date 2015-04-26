@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "aim.h"
+#include "stdafx.h"
 
 CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName) :
 	PROTO<CAimProto>(aProtoName, aUserName),
@@ -105,11 +105,11 @@ CAimProto::~CAimProto()
 ////////////////////////////////////////////////////////////////////////////////////////
 // OnModulesLoadedEx - performs hook registration
 
-int CAimProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+int CAimProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	HookProtoEvent(ME_USERINFO_INITIALISE,      &CAimProto::OnUserInfoInit);
-	HookProtoEvent(ME_IDLE_CHANGED,             &CAimProto::OnIdleChanged);
-	HookProtoEvent(ME_MSG_WINDOWEVENT,          &CAimProto::OnWindowEvent);
+	HookProtoEvent(ME_IDLE_CHANGED, &CAimProto::OnIdleChanged);
+	HookProtoEvent(ME_MSG_WINDOWEVENT, &CAimProto::OnWindowEvent);
+	HookProtoEvent(ME_USERINFO_INITIALISE, &CAimProto::OnUserInfoInit);
 
 	chat_register();
 	InitContactMenus();
@@ -131,25 +131,9 @@ MCONTACT CAimProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// AuthAllow - processes the successful authorization
-
-int CAimProto::Authorize(MEVENT hDbEvent)
-{
-	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// AuthDeny - handles the unsuccessful authorization
-
-int CAimProto::AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
-{
-	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
 
-int __cdecl CAimProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
+int __cdecl CAimProto::AuthRequest(MCONTACT hContact, const TCHAR*)
 {
 	//Not a real authrequest- only used b/c we don't know the group until now.
 	if (state != 1)
@@ -169,7 +153,7 @@ int __cdecl CAimProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileAllow - starts a file transfer
 
-HANDLE __cdecl CAimProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE __cdecl CAimProto::FileAllow(MCONTACT, HANDLE hTransfer, const PROTOCHAR* szPath)
 {
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (ft && ft_list.find_by_ft(ft))
@@ -197,7 +181,7 @@ HANDLE __cdecl CAimProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const P
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileCancel - cancels a file transfer
 
-int __cdecl CAimProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
+int __cdecl CAimProto::FileCancel(MCONTACT, HANDLE hTransfer)
 {
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (!ft_list.find_by_ft(ft)) return 0;
@@ -220,7 +204,7 @@ int __cdecl CAimProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileDeny - denies a file transfer
 
-int __cdecl CAimProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* /*szReason*/)
+int __cdecl CAimProto::FileDeny(MCONTACT, HANDLE hTransfer, const PROTOCHAR* /*szReason*/)
 {
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (!ft_list.find_by_ft(ft)) return 0;
@@ -239,8 +223,7 @@ int __cdecl CAimProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (!ft_list.find_by_ft(ft)) return 0;
 
-	switch (*action)
-	{
+	switch (*action) {
 	case FILERESUME_RESUME:
 		{
 			struct _stati64 statbuf;
@@ -275,10 +258,9 @@ int __cdecl CAimProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetCaps - return protocol capabilities bits
 
-DWORD_PTR __cdecl CAimProto::GetCaps(int type, MCONTACT hContact)
+DWORD_PTR __cdecl CAimProto::GetCaps(int type, MCONTACT)
 {
-	switch (type)
-	{
+	switch (type) {
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_MODEMSG | PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_FILE;
 
@@ -645,7 +627,7 @@ HANDLE __cdecl CAimProto::GetAwayMsg(MCONTACT hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AWAYMSG
 
-int __cdecl CAimProto::RecvAwayMsg(MCONTACT hContact, int statusMode, PROTORECVEVENT* pre)
+int __cdecl CAimProto::RecvAwayMsg(MCONTACT hContact, int, PROTORECVEVENT* pre)
 {
 	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)pre->szMessage);
 	return 0;
@@ -684,7 +666,7 @@ int __cdecl CAimProto::SetAwayMsg(int status, const TCHAR* msg)
 
 	if (state == 1 && status == m_iStatus)
 	{
-		if (!_strcmps(last_status_msg, nmsg))
+		if (!mir_strcmp(last_status_msg, nmsg))
 			return 0;
 
 		mir_free(last_status_msg);

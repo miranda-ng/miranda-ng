@@ -25,7 +25,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModernOpt", "..\plugins\Mod
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM", "..\plugins\TabSRMM\tabsrmm_12.vcxproj", "{99D26CA1-BFD4-4E77-9A1E-919E54CF33F7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AIM", "..\protocols\AimOscar\aim_12.vcxproj", "{736E59E5-CDCE-4C88-9C3A-E7913D45C9EC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AIM", "..\protocols\AimOscar\aim.vcxproj", "{736E59E5-CDCE-4C88-9C3A-E7913D45C9EC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GG", "..\protocols\Gadu-Gadu\Gadu-Gadu_12.vcxproj", "{6DA1396F-2A44-4D5C-8442-012F71006217}"
 EndProject

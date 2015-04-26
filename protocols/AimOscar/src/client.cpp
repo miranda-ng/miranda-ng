@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "aim.h"
+#include "stdafx.h"
 
 int CAimProto::aim_send_connection_packet(HANDLE hServerConn,unsigned short &seqno,char *buf)
 {
@@ -414,8 +414,8 @@ int CAimProto::aim_add_contact(HANDLE hServerConn, unsigned short &seqno, const 
 {
 	unsigned short offset=0;
 	unsigned short sn_length=(unsigned short)strlen(sn);
-	unsigned short nick_length = (unsigned short)_strlens(nick);
-	unsigned short note_length = (unsigned short)_strlens(note);
+	unsigned short nick_length = (unsigned short)mir_strlen(nick);
+	unsigned short note_length = (unsigned short)mir_strlen(note);
 	unsigned short tlv_len = nick || note ? TLV_HEADER_SIZE * 2 + nick_length + note_length : 0;
 
 	char* buf=(char*)alloca(SNAC_SIZE + sn_length + 10 + tlv_len);
@@ -458,8 +458,8 @@ int CAimProto::aim_mod_buddy(HANDLE hServerConn, unsigned short &seqno, const ch
 {
 	unsigned short offset=0;
 	unsigned short sn_length = (unsigned short)strlen(sn);
-	unsigned short nick_length = (unsigned short)_strlens(nick);
-	unsigned short note_length = (unsigned short)_strlens(note);
+	unsigned short nick_length = (unsigned short)mir_strlen(nick);
+	unsigned short note_length = (unsigned short)mir_strlen(note);
 	unsigned short tlv_len = TLV_HEADER_SIZE * 2 + nick_length + note_length;
 	
 	char* buf=(char*)alloca(SNAC_SIZE+sn_length+10+tlv_len);
@@ -625,7 +625,7 @@ int CAimProto::aim_send_file(HANDLE hServerConn, unsigned short &seqno,
 }
 
 
-int CAimProto::aim_file_ad(HANDLE hServerConn,unsigned short &seqno,char* sn, char* icbm_cookie, bool deny, unsigned short max_ver)
+int CAimProto::aim_file_ad(HANDLE hServerConn,unsigned short &seqno,char* sn, char* icbm_cookie, bool deny, unsigned short)
 {	
 	unsigned short frag_offset=0;
 	char msg_frag[10+AIM_CAPS_LENGTH+TLV_HEADER_SIZE*2+6];
@@ -742,7 +742,7 @@ int CAimProto::aim_set_avatar_hash(HANDLE hServerConn, unsigned short &seqno, ch
 	return aim_sendflap(hServerConn,0x02,offset,buf,seqno);
 }
 
-int CAimProto::aim_delete_avatar_hash(HANDLE hServerConn, unsigned short &seqno, char flags, unsigned short bart_type, unsigned short & id)
+int CAimProto::aim_delete_avatar_hash(HANDLE hServerConn, unsigned short &seqno, char /*flags*/, unsigned short bart_type, unsigned short & id)
 {
 	unsigned short offset=0;
 

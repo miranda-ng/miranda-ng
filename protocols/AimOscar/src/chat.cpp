@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "aim.h"
+#include "stdafx.h"
 
 static const COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 
@@ -102,7 +102,7 @@ void CAimProto::chat_leave(const char* id)
 }
 
 
-int CAimProto::OnGCEvent(WPARAM wParam,LPARAM lParam) 
+int CAimProto::OnGCEvent(WPARAM, LPARAM lParam) 
 {
 	GCHOOK *gch = (GCHOOK*) lParam;
 	if (!gch) return 1;
@@ -188,9 +188,9 @@ int CAimProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int CAimProto::OnGCMenuHook(WPARAM wParam,LPARAM lParam) 
+int CAimProto::OnGCMenuHook(WPARAM, LPARAM lParam) 
 {
-	GCMENUITEMS *gcmi= (GCMENUITEMS*) lParam;
+	GCMENUITEMS *gcmi= (GCMENUITEMS*)lParam;
 
 	if ( gcmi == NULL || _stricmp(gcmi->pszModule, m_szModuleName )) return 0;
 

@@ -30,8 +30,6 @@ struct CAimProto : public PROTO<CAimProto>
 
 	virtual	MCONTACT  __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
 
-	virtual	int       __cdecl Authorize( MEVENT hDbEvent );
-	virtual	int       __cdecl AuthDeny( MEVENT hDbEvent, const TCHAR* szReason );
 	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage );
 
 	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath );

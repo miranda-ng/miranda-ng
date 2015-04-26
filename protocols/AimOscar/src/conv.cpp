@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "aim.h"
+#include "stdafx.h"
 
 #pragma warning( disable: 4706 )
 
@@ -610,8 +610,8 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 	BOOL Italic=false;
 	BOOL Underline=false;
 	char Face[32]="";
-	COLORREF Color;
-	COLORREF BackColor;
+	COLORREF Color=0;
+	COLORREF BackColor=0;
 	int Size=0;
 	GETTEXTLENGTHEX tl;
 	tl.flags=GTL_DEFAULT;
@@ -703,7 +703,7 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 				}
 			}
 		}
-		if ( Size != isSize || Color != isColor || BackColor != isBackColor || mir_strcmp( Face, cfOld.szFaceName ))
+		if (Size != isSize || Color != isColor || BackColor != isBackColor || mir_strcmp(Face, cfOld.szFaceName))
 		{
 			Size=isSize;
 			Color=isColor;
