@@ -202,24 +202,62 @@ CToxOptionsMultimedia::CToxOptionsMultimedia(CToxProto *proto)
 {
 }
 
+bool CToxOptionsMultimedia::GetDeviceFullName(GUID guid, TCHAR *deviceName, DWORD deviceNameLength)
+{
+	TCHAR registryKey[MAX_PATH];
+	mir_sntprintf(registryKey, SIZEOF(registryKey), _T("System\\CurrentControlSet\\Control\\MediaCategories\\{%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X}"),
+		guid.Data1, guid.Data2, guid.Data3, guid.Data4[0], guid.Data4[1], guid.Data4[2], guid.Data4[3], guid.Data4[4], guid.Data4[5], guid.Data4[6], guid.Data4[7]);
+
+	HKEY hKey;
+	LONG error = RegOpenKeyEx(HKEY_LOCAL_MACHINE, registryKey, 0, KEY_READ, &hKey);
+	if (error != ERROR_SUCCESS)
+		return false;
+
+	error = RegQueryValueEx(hKey, _T("Name"), 0, NULL, (LPBYTE)deviceName, &deviceNameLength);
+	if (error != ERROR_SUCCESS)
+	{
+		RegCloseKey(hKey);
+		return false;
+	}
+
+	RegCloseKey(hKey);
+	return true;
+}
+
 void CToxOptionsMultimedia::OnInitDialog()
 {
 	CToxDlgBase::OnInitDialog();
 	
 	DWORD count = 0;
+	TCHAR deviceName[MAX_PATH];
+	DWORD deviceNameLength = SIZEOF(deviceName);
 
-	WAVEINCAPS wic;
+	WAVEINCAPS2 wic2;
 	count = waveInGetNumDevs();
 	for (DWORD i = 0; i < count; i++)
-		if (!waveInGetDevCaps(i, &wic, sizeof(WAVEINCAPS)))
-			m_audioInput.InsertString(wic.szPname, i);
+	{
+		if (!waveInGetDevCaps(i, (LPWAVEINCAPS)&wic2, sizeof(WAVEINCAPS2)))
+		{
+			if (!GetDeviceFullName(wic2.NameGuid, deviceName, deviceNameLength))
+				mir_tstrncpy(deviceName, wic2.szPname, deviceNameLength);
+
+			m_audioInput.InsertString(deviceName, i);
+		}
+	}
 	m_audioInput.SetCurSel(m_proto->getDword("AudioInputDeviceID", 0));
 
-	WAVEOUTCAPS woc;
+	WAVEOUTCAPS2 woc2;
 	count = waveOutGetNumDevs();
 	for (DWORD i = 0; i < count; i++)
-		if (!waveOutGetDevCaps(i, &woc, sizeof(WAVEOUTCAPS)))
-			m_audioOutput.InsertString(woc.szPname, i);
+	{
+		if (!waveOutGetDevCaps(i, (LPWAVEOUTCAPS)&woc2, sizeof(WAVEOUTCAPS2)))
+		{
+			if (!GetDeviceFullName(woc2.NameGuid, deviceName, deviceNameLength))
+				mir_tstrncpy(deviceName, woc2.szPname, deviceNameLength);
+
+			m_audioOutput.InsertString(deviceName, i);
+		}
+	}
 	m_audioOutput.SetCurSel(m_proto->getDword("AudioOutputDeviceID", 0));
 }
 
@@ -237,6 +275,7 @@ CToxNodeEditor::CToxNodeEditor(int iItem, CCtrlListView *m_nodes)
 	m_port(this, IDC_PORT), m_pkey(this, IDC_PKEY),
 	m_ok(this, IDOK), m_iItem(iItem)
 {
+	m_autoClose = CLOSE_ON_CANCEL;
 	m_list = m_nodes;
 	m_ok.OnClick = Callback(this, &CToxNodeEditor::OnOk);
 }
