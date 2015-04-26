@@ -172,7 +172,7 @@ Plugin Updater
 Услуги
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for updates]
-Проверка за актуализации
+Проверява за актуализации
 [Available components list]
 Пълният списък с приставки
 [Update completed]

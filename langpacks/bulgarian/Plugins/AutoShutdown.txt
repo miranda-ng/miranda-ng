@@ -187,6 +187,6 @@ Miranda NG ще бъде затворена след %u секунда(и).
 Брояч за автоматично изключване
 ;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle Automatic Shutdown]
-Вкл/Изкл на автоматично изключване
+Вкл./Изкл. автоматичното изключване
 [Main]
 Основна
