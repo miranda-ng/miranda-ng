@@ -125,7 +125,7 @@ IPv6 адреса (необов'язково)
 Пристрій аудіовходу не знайдено
 [Video call is unsupported]
 Відеовиклики не підтримуються
-[Call cancelled]
+[Call canceled]
 Дзвінок скасовано
 [Unable to find output audio device]
 Пристрій аудіовиходу не знайдено
