@@ -71,7 +71,6 @@ MIR_CORE_DLL(DWORD) db_get_dw(MCONTACT hContact, const char *szModule, const cha
 				case DBVT_BYTE:	return dbv.bVal;
 				case DBVT_WORD:   return dbv.wVal;
 				case DBVT_DWORD:	return dbv.dVal;
-				default: currDb->FreeVariant(&dbv);
 			}
 			currDb->FreeVariant(&dbv);
 		}
