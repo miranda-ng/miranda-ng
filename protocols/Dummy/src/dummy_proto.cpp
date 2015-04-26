@@ -50,7 +50,7 @@ CDummyProto::~CDummyProto()
 
 //////////////////////////////////////////////////////////////////////////////
 
-DWORD_PTR CDummyProto::GetCaps(int type, MCONTACT hContact)
+DWORD_PTR CDummyProto::GetCaps(int type, MCONTACT)
 {
 	switch(type) {
 	case PFLAGNUM_1:
@@ -92,13 +92,13 @@ DWORD_PTR CDummyProto::GetCaps(int type, MCONTACT hContact)
 
 //////////////////////////////////////////////////////////////////////////////
 
-int CDummyProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
+int CDummyProto::SendMsg(MCONTACT hContact, int, const char*)
 {
 	ForkThread(&CDummyProto::SendMsgAck, (void*)hContact);
 	return 0;
 }
 
-int CDummyProto::SetStatus(int iNewStatus)
+int CDummyProto::SetStatus(int)
 {
 	return 0;
 }

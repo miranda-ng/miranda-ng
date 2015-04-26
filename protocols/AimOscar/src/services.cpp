@@ -62,7 +62,7 @@ int CAimProto::OnIdleChanged(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-int CAimProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)
+int CAimProto::OnWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData* msgEvData  = (MessageWindowEventData*)lParam;
 
@@ -85,7 +85,7 @@ int CAimProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CAimProto::GetProfile(WPARAM wParam, LPARAM lParam)
+INT_PTR CAimProto::GetProfile(WPARAM wParam, LPARAM)
 {
 	if (state != 1)
 		return 0;
@@ -429,7 +429,7 @@ INT_PTR CAimProto::GetAvatar(WPARAM wParam, LPARAM lParam)
 	return -1;
 }
 
-INT_PTR CAimProto::SetAvatar(WPARAM wParam, LPARAM lParam)
+INT_PTR CAimProto::SetAvatar(WPARAM, LPARAM lParam)
 {
 	TCHAR* szFileName = (TCHAR*)lParam;
 
