@@ -67,6 +67,10 @@
 &Админ
 [&User]
 &Пользователь
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Этот чат будет удалён со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
+[Warning]
+Предупреждение
 [Edited at]
 Отредактировано в
 [Call started]
@@ -89,8 +93,6 @@
 Авторизовать
 [Get server history]
 Синхронизировать историю
-[Destroy room]
-Удалить комнату чата
 [Create new chat]
 Создать новый чат
 [Network]
