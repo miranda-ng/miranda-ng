@@ -105,7 +105,7 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnLoginSuccess()
 {
-	SelfSkypeName = getStringA("Skypename");
+	SelfSkypeName = getStringA(SKYPE_SETTINGS_ID);
 	TokenSecret = getStringA("TokenSecret");
 	Server = getStringA("registrationToken");
 	SendRequest(new CreateEndpointRequest(TokenSecret), &CSkypeProto::OnEndpointCreated);
@@ -203,8 +203,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
 
-	if (getByte("AutoSync", 1))
-		SyncHistory();
+	SyncHistory();
 
 	if (response == NULL || response->pData == NULL)
 		return;
