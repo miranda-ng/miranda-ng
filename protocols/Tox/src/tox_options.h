@@ -53,6 +53,8 @@ private:
 	CCtrlCombo m_audioInput;
 	CCtrlCombo m_audioOutput;
 
+	static bool GetDeviceFullName(GUID guid, TCHAR *deviceName, DWORD deviceNameLength);
+
 protected:
 	void OnInitDialog();
 	void OnApply();
