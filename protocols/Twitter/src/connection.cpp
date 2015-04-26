@@ -571,7 +571,7 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 		}
 
 		if (!updates.empty())
-			since_id_ = std::max(since_id_, updates[0].status.id);
+			since_id_ = max(since_id_, updates[0].status.id);
 
 		for (twitter::status_list::reverse_iterator i = updates.rbegin(); i != updates.rend(); ++i) {
 
@@ -634,7 +634,7 @@ void TwitterProto::UpdateMessages(bool pre_read)
 		}
 
 		if (messages.size())
-			dm_since_id_ = std::max(dm_since_id_, messages[0].status.id);
+			dm_since_id_ = max(dm_since_id_, messages[0].status.id);
 
 		for (twitter::status_list::reverse_iterator i = messages.rbegin(); i != messages.rend(); ++i) {
 			MCONTACT hContact = AddToClientList(i->username.c_str(), "");

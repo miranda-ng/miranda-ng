@@ -274,8 +274,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	mi.hParentMenu = hRoot;
 	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.position = 1001;
-
-	HANDLE m_hMenuRoot = Menu_AddStatusMenuItem(&mi);
+	Menu_AddStatusMenuItem(&mi);
 
 	// TODO: Disable this menu item when offline
 	// "Send Tweet..."
@@ -284,7 +283,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	mi.ptszName = LPGENT("Send Tweet...");
 	mi.popupPosition = 200001;
 	mi.icolibItem = GetIconHandle("tweet");
-	HANDLE m_hMenuBookmarks = Menu_AddStatusMenuItem(&mi);
+	Menu_AddStatusMenuItem(&mi);
 	return 0;
 }
 
@@ -391,7 +390,7 @@ void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 {
 	POPUPDATAT popup = {};
 	mir_sntprintf(popup.lptzContactName, SIZEOF(popup.lptzContactName), TranslateT("%s Protocol"), m_tszUserName);
-	wcs_to_tcs(CP_UTF8, text, popup.lptzText, SIZEOF(popup.lptzText));
+	wcsncpy_s(popup.lptzText, text, _TRUNCATE);
 
 	if (Error) {
 		popup.iSeconds = -1;

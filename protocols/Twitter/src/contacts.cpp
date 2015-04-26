@@ -44,7 +44,7 @@ void TwitterProto::AddToListWorker(void *p)
 	mir_free(name);
 }
 
-MCONTACT TwitterProto::AddToList(int flags, PROTOSEARCHRESULT *result)
+MCONTACT TwitterProto::AddToList(int, PROTOSEARCHRESULT *result)
 {
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return 0;
@@ -172,7 +172,7 @@ HANDLE TwitterProto::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)1;
 }
 
-int TwitterProto::OnContactDeleted(WPARAM hContact, LPARAM lParam)
+int TwitterProto::OnContactDeleted(WPARAM hContact, LPARAM)
 {
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return 0;
@@ -264,7 +264,7 @@ void TwitterProto::SetAllContactStatuses(int status)
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 		if (!db_get_b(hContact, m_szModuleName, "ChatRoom", 0))
-			db_set_w(hContact, m_szModuleName, "Status", status);
+			db_set_w(hContact, m_szModuleName, "Status", (WORD)status);
 
 	SetChatStatus(status);
 }

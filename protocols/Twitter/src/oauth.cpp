@@ -145,10 +145,7 @@ wstring mir_twitter::OAuthWebRequestSubmit(
 	return OAuthWebRequestSubmit(oauthSignedParameters, url);
 }
 
-wstring mir_twitter::OAuthWebRequestSubmit(
-	const OAuthParameters& parameters,
-	const wstring& url
-	)
+wstring mir_twitter::OAuthWebRequestSubmit(const OAuthParameters &parameters, const wstring&)
 {
 	//debugLogW("OAuthWebRequestSubmit(%s)", url);
 
@@ -377,8 +374,8 @@ wstring mir_twitter::OAuthCreateNonce()
 wstring mir_twitter::OAuthCreateTimestamp()
 {
 	__time64_t utcNow;
-	__time64_t ret = _time64(&utcNow);
-	_ASSERTE(ret != -1);
+	_time64(&utcNow);
+	_ASSERTE(utcNow != -1);
 
 	wchar_t buf[100] = {};
 	mir_snwprintf(buf, SIZEOF(buf), L"%I64u", utcNow);

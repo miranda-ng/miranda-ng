@@ -149,7 +149,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Omegle", "..\protocols\Omeg
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RecentContacts", "..\plugins\RecentContacts\RecentContacts_10.vcxproj", "{07137F45-8B5F-4561-BEC8-B883E9123785}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Twitter", "..\protocols\Twitter\twitter_10.vcxproj", "{12FFF2B0-0D0B-430B-A4C6-1577CA98F598}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Twitter", "..\protocols\Twitter\twitter.vcxproj", "{12FFF2B0-0D0B-430B-A4C6-1577CA98F598}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChangeKeyboardLayout", "..\plugins\ChangeKeyboardLayout\ChangeKeyboardLayout.vcxproj", "{D85D47E7-EAD3-71E0-EE3A-49A7821D4DE4}"
 EndProject

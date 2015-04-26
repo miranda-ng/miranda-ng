@@ -92,9 +92,4 @@ inline void mbcs_to_tcs(UINT code_page, const char *mbstr, TCHAR *tstr, int tlen
 	MultiByteToWideChar(code_page, 0, mbstr, -1, tstr, tlen);
 }
 
-inline void wcs_to_tcs(UINT code_page, const wchar_t *wstr, TCHAR *tstr, int tlen)
-{
-	wcsncpy(tstr, wstr, tlen);
-}
-
 bool save_url(HANDLE hNetlib,const std::string &url,const std::tstring &filename);
