@@ -45,4 +45,9 @@ copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
     <None Include="include\*.h" />
     <None Include="res\Icons\*.ico" />
   </ItemGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ExceptionHandling>Sync</ExceptionHandling>
+    </ClCompile>
+  </ItemDefinitionGroup>
 </Project>
