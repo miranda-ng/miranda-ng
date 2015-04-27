@@ -205,9 +205,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		}
 		else
 		{
-			// set status
 			SendRequest(new SetStatusRequest(RegToken, MirandaToSkypeStatus(m_iDesiredStatus)), &CSkypeProto::OnStatusChanged);
-			PushRequest(new SendCapabilitiesRequest(RegToken, EndpointId));	
 		}
 	}
 
