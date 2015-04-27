@@ -124,4 +124,38 @@ public:
 	}
 };
 
+class BlockContactRequest : public HttpRequest
+{
+public:
+	BlockContactRequest(const char *token, const char *who, const char *skypename = "self") :
+		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/contacts/%s/block", skypename, who)
+	{
+		Headers
+			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("Accept", "application/json")
+			<< CHAR_VALUE("Content-type", "application/x-www-form-urlencoded");
+
+		Body
+			<< CHAR_VALUE("reporterIp", "123.123.123.123") //TODO: user ip address
+			<< CHAR_VALUE("uiVersion", MIRANDA_VERSION_STRING);
+	}
+};
+
+class UnblockContactRequest : public HttpRequest
+{
+public:
+	UnblockContactRequest(const char *token, const char *who, const char *skypename = "self") :
+		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/contacts/%s/unblock", skypename, who)
+	{
+		Headers
+			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("Accept", "application/json")
+			<< CHAR_VALUE("Content-type", "application/x-www-form-urlencoded");
+
+		Body
+			<< CHAR_VALUE("reporterIp", "123.123.123.123") //TODO: user ip address
+			<< CHAR_VALUE("uiVersion", MIRANDA_VERSION_STRING);
+	}
+};
+
 #endif //_SKYPE_REQUEST_CONTACTS_H_

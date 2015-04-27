@@ -278,6 +278,8 @@ private:
 	char *GetServerFromUrl	(const char *url);
 
 	//services
+	INT_PTR __cdecl BlockContact						(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl UnblockContact						(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnRequestAuth						(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl OnGrantAuth							(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl GetContactHistory					(WPARAM hContact, LPARAM lParam);
