@@ -106,7 +106,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	WORD v[4];
 	CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
 	std::stringstream agent;
-	agent << "MirandaNG/" << v[0] << "." << v[1] << "." << v[2] << "." << v[3] << ".";
+	agent << "Miranda NG/" << v[0] << "." << v[1] << "." << v[2];
 #ifdef _WIN64
 	agent << " Facebook Protocol RM x64/";
 #else
