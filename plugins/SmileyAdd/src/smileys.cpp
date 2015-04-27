@@ -866,7 +866,7 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 		}
 
 		CMString tname(A2T_SM(acc->szModuleName));
-		AddCategory(tname, displayName, smcProto, paths); 
+		AddCategory(tname, displayName, acc->bIsVirtual ? smcVirtualProto : smcProto, paths);
 	}
 }
 
