@@ -57,6 +57,7 @@ void FacebookProto::ChangeStatus(void*)
 		facy.chat_traceid_.clear();
 		facy.chat_sticky_num_.clear();
 		facy.chat_sticky_pool_.clear();
+		facy.chat_msgs_recv_ = 0;
 
 		facy.clear_cookies();
 		facy.clear_notifications();

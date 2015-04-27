@@ -453,6 +453,8 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		action += "&uid=" + self_.user_id;
 		action += "&viewer_uid=" + self_.user_id;
 
+		action += "&msgs_recv=" + utils::conversion::to_string(&this->chat_msgs_recv_, UTILS_CONV_UNSIGNED_NUMBER);
+
 		if (!this->chat_sticky_num_.empty())
 			action += "&sticky_token=" + this->chat_sticky_num_;
 
@@ -1079,6 +1081,9 @@ bool facebook_client::reconnect()
 		this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
 		parent->debugLogA("    Got self sequence number: %s", this->chat_sequence_num_.c_str());
 
+		// TODO: I'm not sure this goes to 0 after reconnect, or it is always same as chat_sequence_num_ (when watching website it was always same)
+		this->chat_msgs_recv_ = 0;
+
 		this->chat_conn_num_ = utils::text::source_get_value2(&resp.data, "\"max_conn\":", ",}");
 		parent->debugLogA("    Got self max_conn: %s", this->chat_conn_num_.c_str());
 
@@ -1154,6 +1159,12 @@ bool facebook_client::channel()
 		// Get new sequence number
 		std::string seq = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
 		parent->debugLogA("    Got self sequence number: %s", seq.c_str());
+
+		if (type == "msg") {
+			// Update msgs_recv number
+			// TODO: I'm not sure this is updated regarding "msg" received and reseted after reconnect, or it is always same as chat_sequence_num_ (when watching website it was always same)
+			this->chat_msgs_recv_++;
+		}
 
 		// Check if it's different from our old one (which means we should increment our old one)
 		if (seq != this->chat_sequence_num_) {
