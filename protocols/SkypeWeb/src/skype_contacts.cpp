@@ -274,3 +274,16 @@ int CSkypeProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 		PushRequest(new DeleteContactRequest(TokenSecret, db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)));
 	return 0;
 }
+
+INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
+{
+	if (IDYES == MessageBox(NULL, TranslateT(" Are you sure?"), TranslateT("Warning"), MB_YESNOCANCEL | MB_ICONQUESTION))
+		SendRequest(new BlockContactRequest(TokenSecret, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))));
+	return 0;
+}
+
+INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
+{
+	SendRequest(new UnblockContactRequest(TokenSecret, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))));
+	return 0;
+}

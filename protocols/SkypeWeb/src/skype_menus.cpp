@@ -35,9 +35,12 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	bool isCtrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 	bool isAuthNeed = getByte(hContact, "Auth", 0) > 0;
 	bool isGrantNeed = getByte(hContact, "Grant", 0) > 0;
+	bool isBlocked = getByte(hContact, "IsBlocked", 0);
 
 	Menu_ShowItem(ContactMenuItems[CMI_AUTH_REQUEST], isCtrlPressed || isAuthNeed);
 	Menu_ShowItem(ContactMenuItems[CMI_AUTH_GRANT], isCtrlPressed || isGrantNeed);
+	Menu_ShowItem(ContactMenuItems[CMI_BLOCK], true);
+	Menu_ShowItem(ContactMenuItems[CMI_UNBLOCK], isCtrlPressed || isBlocked);
 	Menu_ShowItem(ContactMenuItems[CMI_GETSERVERHISTORY], true);
 
 	return 0;
@@ -82,6 +85,20 @@ void CSkypeProto::InitMenus()
 	mi.icolibItem = GetIconHandle("synchistory");
 	ContactMenuItems[CMI_GETSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::GetContactHistory>);
+
+	mi.pszService = MODULE"/BlockContact";
+	mi.ptszName = LPGENT("Block contact");
+	mi.position = CMI_POSITION + CMI_GETSERVERHISTORY;
+	mi.icolibItem = LoadSkinnedIcon(SKINICON_OTHER_DELETE);
+	ContactMenuItems[CMI_BLOCK] = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::BlockContact>);
+
+	mi.pszService = MODULE"/UnblockContact";
+	mi.ptszName = LPGENT("Unblock contact");
+	mi.position = CMI_POSITION + CMI_GETSERVERHISTORY;
+	mi.icolibItem = LoadSkinnedIcon(SKINICON_OTHER_DELETE);
+	ContactMenuItems[CMI_UNBLOCK] = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::UnblockContact>);
 }
 
 void CSkypeProto::UninitMenus()
