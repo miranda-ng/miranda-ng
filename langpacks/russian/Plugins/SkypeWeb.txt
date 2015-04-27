@@ -53,6 +53,10 @@
 Админ
 [User]
 Пользователь
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Этот чат будет удалён со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
+[Warning]
+Предупреждение
 [&Invite user...]
 &Пригласить пользователя...
 [&Leave chat session]
@@ -67,10 +71,8 @@
 &Админ
 [&User]
 &Пользователь
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-Этот чат будет удалён со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
-[Warning]
-Предупреждение
+[Are you sure?]
+Вы уверены?
 [Edited at]
 Отредактировано в
 [Call started]
@@ -79,6 +81,14 @@
 Окончание беседы
 [Duration]
 Продолжительность
+[File transfer]
+Передача файла
+[File name]
+Имя файла
+[Size]
+Размер
+[bytes]
+байт
 [Protocol icon]
 Значок протокола
 [Create new chat icon]
@@ -93,6 +103,10 @@
 Авторизовать
 [Get server history]
 Синхронизировать историю
+[Block contact]
+Заблокировать контакт
+[Unblock contact]
+Разблокировать контакт
 [Create new chat]
 Создать новый чат
 [Network]
