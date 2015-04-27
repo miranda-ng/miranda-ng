@@ -56,6 +56,10 @@ Protokół Powiązania Skype
 Admin
 [User]
 Użytkownik
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Ten czat zostanie zniszczony wraz z zawartością. Ta operacja nie będzie mogła zostać cofnięta. Czy jesteś pewien?
+[Warning]
+Ostrzeżenie
 [&Invite user...]
 &Zaproś użytkownika...
 [&Leave chat session]
@@ -70,10 +74,9 @@ Wybierz &rolę
 &Admin
 [&User]
 &Użytkownik
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-Ten czat zostanie zniszczony wraz z zawartością. Ta operacja nie będzie mogła zostać cofnięta. Czy jesteś pewien?
-[Warning]
-Ostrzeżenie
+;file \protocols\SkypeWeb\src\skype_contacts.cpp
+[Are you sure?]
+Jesteś pewien?
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 edytowana
@@ -83,6 +86,14 @@ Rozmowa rozpoczęta
 Rozmowa zakończona
 [Duration]
 Czas trwania
+[File transfer]
+Transfer pliku
+[File name]
+Nazwa Pliku
+[Size]
+Rozmiar
+[bytes]
+bajty
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Ikona protokołu
@@ -99,6 +110,10 @@ Poproś o autoryzację
 Udziel autoryzacji
 [Get server history]
 Pobieraj historię z serwera
+[Block contact]
+Zablokuj kontakt
+[Unblock contact]
+Odblokuj kontakt
 [Create new chat]
 Utwórz nowy czat
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
