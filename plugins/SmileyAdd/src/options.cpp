@@ -343,10 +343,12 @@ void OptionsDialogType::UpdateVisibleSmPackList(void)
 
 			CMString FileName;
 			if (!ProtoName.IsEmpty()) {
-				PhysProtoName += ProtoName;			
-				FileName = tmpsmcat.GetSmileyCategory(PhysProtoName) ? tmpsmcat.GetSmileyCategory(PhysProtoName)->GetFilename() : _T("");
-				if (FileName.IsEmpty())
-						visible = true;			
+				PhysProtoName += ProtoName;		
+				SmileyCategoryType* scm = tmpsmcat.GetSmileyCategory(PhysProtoName);
+				if (scm == NULL)
+					visible = false;
+				else if (scm->GetFilename().IsEmpty())
+					visible = true;			
 			}
 		}
 		

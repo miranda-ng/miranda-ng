@@ -225,6 +225,7 @@ typedef enum
 	smcNone,
 	smcStd,
 	smcProto,
+	smcVirtualProto,
 	smcTransportProto,
 	smcPhysProto,
 	smcCustom,
@@ -255,8 +256,9 @@ public:
 	const CMString& GetFilename(void) const { return m_Filename; }
 
 	bool IsCustom(void) { return type == smcCustom; }
-	bool IsProto(void)  { return type == smcProto || type == smcPhysProto || type == smcTransportProto; }
+	bool IsProto(void)  { return type == smcProto || type == smcPhysProto || type == smcTransportProto || type == smcVirtualProto; }
 	bool IsAcc(void)  { return type == smcProto; }
+	bool IsVirtual(void)  { return type == smcProto; }
 	bool IsPhysProto(void)  { return type == smcPhysProto; }
 	bool IsTransportProto(void)  { return type == smcTransportProto; }
 	bool IsExt(void)    { return type == smcExt;  }
