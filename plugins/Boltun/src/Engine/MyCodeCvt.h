@@ -27,19 +27,19 @@ class MyCodeCvt
 	: public MyCodeCvtBase
 {
 public:
-    typedef wchar_t _E;
-    typedef char _To;
-    typedef std::mbstate_t _St;
-    explicit MyCodeCvt( size_t _R=0 );
+	typedef wchar_t _E;
+	typedef char _To;
+	typedef std::mbstate_t _St;
+	explicit MyCodeCvt(size_t _R = 0);
 protected:
-    virtual result do_in(_St& _State, const _To* _F1, const _To* _L1, const _To*& _Mid1,
-                   _E* F2 , _E* _L2 , _E*& _Mid2) const;
+	virtual result do_in(_St& _State, const _To* _F1, const _To* _L1, const _To*& _Mid1,
+		_E* F2, _E* _L2, _E*& _Mid2) const;
 #ifdef MSVC
 	virtual result do_out(_St& _State, const _E* _F1, const _E* _L1, const _E*& _Mid1,
-				   _To* F2, _E* _L2 , _To*& _Mid2) const;
+		_To* F2, _E* _L2, _To*& _Mid2) const;
 #else
 	virtual result do_out(_St& _State, const _E* _F1, const _E* _L1, const _E*& _Mid1,
-				   _To* F2, _To* _L2 , _To*& _Mid2) const;
+		_To* F2, _To* _L2, _To*& _Mid2) const;
 #endif
 	virtual result do_unshift(_St& _State, _To* _F2, _To* _L2, _To*& _Mid2) const;
 #ifdef MSVC
@@ -48,8 +48,8 @@ protected:
 	virtual int do_length(const _St& _State, const _To* _F1, const _To* _L1, size_t _N2) const _THROW0();
 #endif
 	virtual bool do_always_noconv() const _THROW0();
-    virtual int do_max_length() const _THROW0();
-    virtual int do_encoding() const _THROW0();
-} ;
+	virtual int do_max_length() const _THROW0();
+	virtual int do_encoding() const _THROW0();
+};
 
 #endif /* MYCODECVT_H */

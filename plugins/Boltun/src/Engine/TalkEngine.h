@@ -31,18 +31,18 @@ class TalkBot
 public:
 	struct MessageInfo
 	{
-		private:
-			std::tstring Question;
-			MessageInfo(std::tstring q, std::tstring a)
-				:Question(q), Answer(a)
-			{
-			}
-		public:
-			std::tstring Answer;
-			MessageInfo(std::tstring q)
-				:Question(q)
-			{
-			}
+	private:
+		std::tstring Question;
+		MessageInfo(std::tstring q, std::tstring a)
+			:Question(q), Answer(a)
+		{
+		}
+	public:
+		std::tstring Answer;
+		MessageInfo(std::tstring q)
+			:Question(q)
+		{
+		}
 		friend class TalkBot;
 	};
 private:
@@ -50,7 +50,7 @@ private:
 	{
 		BEST, LOOKSLIKE/*, LOOKSLIKE2*/, BAD, FAIL, NOTHING
 	} Level;
-	friend std::tstring LevelToStr(TalkBot::Level target); 
+	friend std::tstring LevelToStr(TalkBot::Level target);
 
 	struct ContactData
 	{
@@ -80,7 +80,7 @@ private:
 	bool makeLowercase;
 	bool understandAlways;
 	void UpdateStartChar(std::tstring &str);
-	typedef std::multimap<std::tstring, std::tstring>::const_iterator mm_cit; 
+	typedef std::multimap<std::tstring, std::tstring>::const_iterator mm_cit;
 	bool FindExact(ContactData *contactData, const std::tstring &incomingMessage, const std::multimap<std::tstring, std::tstring> &map, std::tstring &res);
 	bool FindAny(ValueChooser<> &ch, std::tstring &res);
 	void FindByKeywords(ContactData *contactData, const std::vector<std::tstring> &keywords, std::tstring &res/*, std::tstring& ures*/, bool isQuestion);

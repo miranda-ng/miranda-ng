@@ -18,7 +18,7 @@
 //
 //***********************************************************
 
-#include "..\boltun.h"
+#include "..\stdafx.h"
 
 using namespace std;
 
@@ -31,7 +31,7 @@ WordsList::operator tstring() const
 {
 	tstring res;
 	//if (unstrict)
-    //	res = _T("~");
+	//	res = _T("~");
 	set<tstring>::const_iterator it = words.begin();
 	if (!words.empty())
 		while (true)
@@ -58,11 +58,11 @@ void WordsList::Parse(tstring s/*, bool allowUnstrict*/)
 	isQuestion = false;
 	/*if (allowUnstrict && s.length() && s[0] == _T('~'))
 	{
-        s = s.substr(1, s.npos);
-		unstrict = true;
+	s = s.substr(1, s.npos);
+	unstrict = true;
 	}
 	else
-    	unstrict = false;*/
+	unstrict = false;*/
 	int len = (int)s.length() - 1;
 	while (len != -1 && _istspace(s[len]))
 		len--;
@@ -94,15 +94,15 @@ bool WordsList::MatchesAll(const vector<tstring>& s/*, bool& WasStrict*/, float&
 	//WasStrict = true;
 	for (vector<tstring>::const_iterator it = s.begin(); it != s.end(); ++it)
 	{
-/*		if (words.find(*it) == words.end())
-			if (unstrict)
-			{
-				WasStrict = false;
-				continue;
-			}
-			else
-				return false;
-		temp.insert((*it));*/
+		/*		if (words.find(*it) == words.end())
+					if (unstrict)
+					{
+					WasStrict = false;
+					continue;
+					}
+					else
+					return false;
+					temp.insert((*it));*/
 		if (words.find(*it) != words.end())
 			temp.insert((*it));
 	}
@@ -137,10 +137,10 @@ vector<tstring> WordsList::DoesntIncludeAny(const set<tstring>& list) const
 			res.push_back(*it);
 	return res;
 }
-    
+
 bool WordsList::operator<(const WordsList& value) const
 {
-    return (tstring)*this < (tstring)value;
+	return (tstring)*this < (tstring)value;
 }
 
 bool WordsList::operator!=(const WordsList& value) const

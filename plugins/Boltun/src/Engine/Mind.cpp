@@ -18,18 +18,18 @@
 //
 //***********************************************************
 
-#include "..\boltun.h"
+#include "..\stdafx.h"
 
 using namespace std;
 
-typedef vector<tstring> string_vec; 
-typedef multimap<tstring,tstring> string_mmap;
+typedef vector<tstring> string_vec;
+typedef multimap<tstring, tstring> string_mmap;
 
 Mind::Mind()
 {
 	data = new MindData();
 	data->referenceCount = 1;
-	data->maxSmileLen = 0;  
+	data->maxSmileLen = 0;
 }
 
 Mind::~Mind()
@@ -103,7 +103,7 @@ void Mind::Load(tstring filename)
 
 	file.open(filename.c_str(), ios_base::in | ios_base::binary);
 	tstring s1, st;
-	TCHAR *c, *co;
+	TCHAR *c, *co = NULL;
 	size_t count;
 	int error = 0;
 	int line = 1;
@@ -133,7 +133,7 @@ void Mind::Load(tstring filename)
 
 			format(st);
 			count = st.length();
-			c = co = new TCHAR[count+1];
+			c = co = new TCHAR[count + 1];
 			_tcscpy(c, st.c_str());
 			size_t pos = 0;
 			while (pos < count && _istspace(*c))
@@ -213,41 +213,41 @@ void Mind::Load(tstring filename)
 					++c;
 					count -= 2;
 					c[count] = '\0';
-					if (_tcscmp(c,_T("QUESTION")) == 0)
+					if (_tcscmp(c, _T("QUESTION")) == 0)
 					{
 						toLowerStr(c);
 						data->question.insert(s1);
 					}
 					else
-					if (_tcscmp(c,_T("IGNORED")) == 0)
-					{
-						toLowerStr(c);
-						data->special.insert(s1);
-					}
-					else
-					if (_tcscmp(c,_T("ESCAPE")) == 0)
-					{
-						data->escape.push_back(s1);
-					}
-					else
-					if (_tcscmp(c,_T("FAILURE")) == 0)
-					{
-						data->failure.push_back(s1);
-					}
-					else
-					if (_tcscmp(c,_T("REPEAT")) == 0)
-					{
-						data->repeats.push_back(s1);
-					}
-					else
-					{
-						if (_tcscmp(c,_T("INITIAL")) != 0)
-							throw error;
-						data->initial.push_back(s1);
-					}
+						if (_tcscmp(c, _T("IGNORED")) == 0)
+						{
+							toLowerStr(c);
+							data->special.insert(s1);
+						}
+						else
+							if (_tcscmp(c, _T("ESCAPE")) == 0)
+							{
+								data->escape.push_back(s1);
+							}
+							else
+								if (_tcscmp(c, _T("FAILURE")) == 0)
+								{
+									data->failure.push_back(s1);
+								}
+								else
+									if (_tcscmp(c, _T("REPEAT")) == 0)
+									{
+										data->repeats.push_back(s1);
+									}
+									else
+									{
+										if (_tcscmp(c, _T("INITIAL")) != 0)
+											throw error;
+										data->initial.push_back(s1);
+									}
 					break;
 				case '@':
-					{
+				{
 					if (file.eof())
 						throw error;
 					getline(file, s1);
@@ -267,8 +267,8 @@ void Mind::Load(tstring filename)
 					data->raliases.insert(make_pair(sc, strs));
 					for (vector<tstring>::const_iterator it = strs.begin(); it != strs.end(); ++it)
 						data->aliases.insert(make_pair(*it, sc));
-					}
-					break;
+				}
+				break;
 				default:
 					if (file.eof())
 						throw error;
@@ -296,7 +296,7 @@ void Mind::Load(tstring filename)
 		}
 		delete co;
 	}
-	catch(...)
+	catch (...)
 	{
 		throw CorruptedMind(line);
 		delete co;
@@ -375,7 +375,7 @@ void Mind::Save(tstring filename) const
 		file << _T(" <REPEAT>") << _T('\r') << endl;
 		file << (*it) << _T('\r') << endl;
 	}
-	for (map<tstring,vector<tstring>>::const_iterator it = data->raliases.begin(); it != data->raliases.end(); ++it)
+	for (map<tstring, vector<tstring>>::const_iterator it = data->raliases.begin(); it != data->raliases.end(); ++it)
 	{
 		tstring s;
 		const vector<tstring>& v = (*it).second;
@@ -408,7 +408,7 @@ void Mind::LoadSmiles(tstring filename)
 	{
 		getline(file, s);
 		if (s.length() > l)
-        	l = (int)s.length();
+			l = (int)s.length();
 		data->smiles.insert(s);
 	}
 	data->maxSmileLen = l;
@@ -427,7 +427,7 @@ void Mind::LoadSmiles(void *smiles, size_t size)
 			lend++;
 		tstring s(buf, lend - buf);
 		if ((unsigned)(lend - buf) > l)
-        	l = (int)s.length();
+			l = (int)s.length();
 		data->smiles.insert(s);
 		if (lend == end)
 			break;

@@ -37,12 +37,12 @@ public:
 		numbers = NULL;
 		UpdateLength();
 	}
-	
+
 	~ValueChooser()
 	{
 		delete numbers;
 	}
-	
+
 	void UpdateLength()
 	{
 		delete numbers; //normal if numbers == NULL

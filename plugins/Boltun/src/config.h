@@ -27,8 +27,8 @@ template <class T, class BaseClass>
 class Property
 {
 public:
-	typedef const T (__thiscall BaseClass::*Getter)();
-	typedef const T (__thiscall BaseClass::*Setter)(const T);
+	typedef const T(__thiscall BaseClass::*Getter)();
+	typedef const T(__thiscall BaseClass::*Setter)(const T);
 private:
 	const Getter getter;
 	const Setter setter;

@@ -18,7 +18,7 @@
 //
 //***********************************************************
 
-#include "boltun.h"
+#include "stdafx.h"
 
 int hLangpack;
 
@@ -44,7 +44,7 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {488C5C84-56DA-434F-96F1-B18900DEF760}
-	{0x488c5c84, 0x56da, 0x434f, {0x96, 0xf1, 0xb1, 0x89, 0x0, 0xde, 0xf7, 0x60}}
+	{ 0x488c5c84, 0x56da, 0x434f, { 0x96, 0xf1, 0xb1, 0x89, 0x0, 0xde, 0xf7, 0x60 } }
 };
 
 static HGENMENU hMenuItemAutoChat, hMenuItemNotToChat, hMenuItemStartChatting;
@@ -72,7 +72,7 @@ TCHAR* GetFullName(const TCHAR* filename)
 	if (!_tcschr(filename, _T(':')))
 	{
 		size_t plen = _tcslen(path);
-		fullname = new TCHAR[plen+flen+1];
+		fullname = new TCHAR[plen + flen + 1];
 		fullname[0] = NULL;
 		_tcscat(fullname, path);
 		_tcscat(fullname, filename);
@@ -94,7 +94,7 @@ static bool LoadMind(const TCHAR* filename, int &line)
 	{
 		mind->Load(fullname);
 	}
-	catch(Mind::CorruptedMind c)
+	catch (Mind::CorruptedMind c)
 	{
 		line = c.line;
 		delete mind;
@@ -103,7 +103,7 @@ static bool LoadMind(const TCHAR* filename, int &line)
 		SetCursor(oldCur);
 		return false;
 	}
-	catch(...)
+	catch (...)
 	{
 		delete mind;
 		if (fullname != filename)
@@ -152,7 +152,7 @@ static bool LoadMind(const TCHAR* filename, int &line)
 	{
 		mind->LoadSmiles(data, size);
 	}
-	catch(...)
+	catch (...)
 	{
 		res = false;
 	}
@@ -172,10 +172,10 @@ static bool LoadMind(const TCHAR* filename, int &line)
 
 /*static bool SaveMind(const TCHAR* filename)
 {
-	if (!bot)
-		return false;
-	bot->GetMind().Save(filename);
-	return true;
+if (!bot)
+return false;
+bot->GetMind().Save(filename);
+return true;
 }*/
 
 static bool BoltunAutoChat(MCONTACT hContact)
@@ -190,16 +190,16 @@ static bool BoltunAutoChat(MCONTACT hContact)
 	if (Config.TalkEveryoneWhileAway)
 	{
 		int status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
-		if (status == ID_STATUS_AWAY       ||
-			status == ID_STATUS_DND        ||
-			status == ID_STATUS_NA         ||
-			status == ID_STATUS_OCCUPIED   ||
+		if (status == ID_STATUS_AWAY ||
+			status == ID_STATUS_DND ||
+			status == ID_STATUS_NA ||
+			status == ID_STATUS_OCCUPIED ||
 			status == ID_STATUS_ONTHEPHONE ||
 			status == ID_STATUS_OUTTOLUNCH)
 			return true;
 	}
 
-	if ((db_get_b(hContact,"CList","NotOnList",0) == 1) &&
+	if ((db_get_b(hContact, "CList", "NotOnList", 0) == 1) &&
 		Config.TalkWithNotInList)
 		return true;
 
@@ -244,7 +244,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	return 0;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -266,77 +266,77 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 	static bool loading = true;
 	switch (uMsg)
 	{
-		case WM_INITDIALOG:
-			loading = true;
-			TranslateDialogDefault(hwndDlg);
-			CheckDlgButton(hwndDlg, IDC_EVERYBODY, Config.TalkWithEverybody ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NOTINLIST, Config.TalkWithNotInList ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AUTOAWAY,  Config.TalkEveryoneWhileAway  ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_WARN,      Config.TalkWarnContacts ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_MARKREAD,  Config.MarkAsRead  ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_PAUSEDEPENDS,  Config.PauseDepends ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_PAUSERANDOM,  Config.PauseRandom ? BST_CHECKED : BST_UNCHECKED);
-			SendDlgItemMessage(hwndDlg, IDC_WAITTIME, EM_SETLIMITTEXT, 3, 0);
-			SetDlgItemInt(hwndDlg, IDC_WAITTIME, Config.AnswerPauseTime, FALSE);
-			SendDlgItemMessage(hwndDlg, IDC_THINKTIME, EM_SETLIMITTEXT, 3, 0);
-			SetDlgItemInt(hwndDlg, IDC_THINKTIME, Config.AnswerThinkTime, FALSE);
-			SendDlgItemMessage(hwndDlg, IDC_WARNTXT, EM_SETLIMITTEXT, MAX_WARN_TEXT, 0);
-			SetDlgItemText(hwndDlg, IDC_WARNTXT, Config.WarnText);
+	case WM_INITDIALOG:
+		loading = true;
+		TranslateDialogDefault(hwndDlg);
+		CheckDlgButton(hwndDlg, IDC_EVERYBODY, Config.TalkWithEverybody ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NOTINLIST, Config.TalkWithNotInList ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTOAWAY, Config.TalkEveryoneWhileAway ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_WARN, Config.TalkWarnContacts ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MARKREAD, Config.MarkAsRead ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_PAUSEDEPENDS, Config.PauseDepends ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_PAUSERANDOM, Config.PauseRandom ? BST_CHECKED : BST_UNCHECKED);
+		SendDlgItemMessage(hwndDlg, IDC_WAITTIME, EM_SETLIMITTEXT, 3, 0);
+		SetDlgItemInt(hwndDlg, IDC_WAITTIME, Config.AnswerPauseTime, FALSE);
+		SendDlgItemMessage(hwndDlg, IDC_THINKTIME, EM_SETLIMITTEXT, 3, 0);
+		SetDlgItemInt(hwndDlg, IDC_THINKTIME, Config.AnswerThinkTime, FALSE);
+		SendDlgItemMessage(hwndDlg, IDC_WARNTXT, EM_SETLIMITTEXT, MAX_WARN_TEXT, 0);
+		SetDlgItemText(hwndDlg, IDC_WARNTXT, Config.WarnText);
+		UpdateEverybodyCheckboxes(hwndDlg);
+		loading = false;
+		return TRUE;
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDC_EVERYBODY && HIWORD(wParam) == BN_CLICKED)
 			UpdateEverybodyCheckboxes(hwndDlg);
-			loading = false;
-			return TRUE;
-		case WM_COMMAND:
-			if (LOWORD(wParam) == IDC_EVERYBODY && HIWORD(wParam) == BN_CLICKED)
-				UpdateEverybodyCheckboxes(hwndDlg);
-			if (!loading)
-			{
-				bool notify = true;
-				switch (LOWORD(wParam))
-				{
-					case IDC_WARNTXT:
-					case IDC_WAITTIME:
-					case IDC_THINKTIME:
-						if (HIWORD(wParam) != EN_CHANGE)
-							notify = false;
-						break;
-				}
-				if (notify)
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			}
-			break;
-		case WM_NOTIFY:
+		if (!loading)
 		{
-			NMHDR* nmhdr = (NMHDR*)lParam;
-			switch (nmhdr->code)
+			bool notify = true;
+			switch (LOWORD(wParam))
 			{
-				case PSN_APPLY:
-				case PSN_KILLACTIVE:
-				{
-	                Config.TalkWithEverybody = IsDlgButtonChecked(hwndDlg, IDC_EVERYBODY) == BST_CHECKED ? TRUE : FALSE;
-					Config.TalkWithNotInList = IsDlgButtonChecked(hwndDlg, IDC_NOTINLIST) == BST_CHECKED ? TRUE : FALSE;
-					Config.TalkEveryoneWhileAway  = IsDlgButtonChecked(hwndDlg, IDC_AUTOAWAY)  == BST_CHECKED ? TRUE : FALSE;
-					Config.TalkWarnContacts = IsDlgButtonChecked(hwndDlg, IDC_WARN)      == BST_CHECKED ? TRUE : FALSE;
-					Config.MarkAsRead  = IsDlgButtonChecked(hwndDlg, IDC_MARKREAD)  == BST_CHECKED ? TRUE : FALSE;
-					Config.PauseDepends = IsDlgButtonChecked(hwndDlg, IDC_PAUSEDEPENDS)  == BST_CHECKED ? TRUE : FALSE;
-					Config.PauseRandom = IsDlgButtonChecked(hwndDlg, IDC_PAUSERANDOM)  == BST_CHECKED ? TRUE : FALSE;
-					Config.AnswerPauseTime = GetDlgItemInt(hwndDlg, IDC_WAITTIME, &bTranslated, FALSE);
-					if (!bTranslated)
-						Config.AnswerPauseTime = 2;
-					Config.AnswerThinkTime = GetDlgItemInt(hwndDlg, IDC_THINKTIME, &bTranslated, FALSE);
-					if (!bTranslated)
-						Config.AnswerThinkTime = 4;
-					TCHAR c[MAX_WARN_TEXT];
-					bTranslated = GetDlgItemText(hwndDlg, IDC_WARNTXT, c, SIZEOF(c));
-					if(bTranslated)
-						Config.WarnText = c;
-					else
-						Config.WarnText = TranslateTS(DEFAULT_WARN_TEXT);
-				}
-	            return TRUE;
+			case IDC_WARNTXT:
+			case IDC_WAITTIME:
+			case IDC_THINKTIME:
+				if (HIWORD(wParam) != EN_CHANGE)
+					notify = false;
+				break;
 			}
-			break;
+			if (notify)
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
 		break;
+	case WM_NOTIFY:
+	{
+		NMHDR* nmhdr = (NMHDR*)lParam;
+		switch (nmhdr->code)
+		{
+		case PSN_APPLY:
+		case PSN_KILLACTIVE:
+		{
+			Config.TalkWithEverybody = IsDlgButtonChecked(hwndDlg, IDC_EVERYBODY) == BST_CHECKED ? TRUE : FALSE;
+			Config.TalkWithNotInList = IsDlgButtonChecked(hwndDlg, IDC_NOTINLIST) == BST_CHECKED ? TRUE : FALSE;
+			Config.TalkEveryoneWhileAway = IsDlgButtonChecked(hwndDlg, IDC_AUTOAWAY) == BST_CHECKED ? TRUE : FALSE;
+			Config.TalkWarnContacts = IsDlgButtonChecked(hwndDlg, IDC_WARN) == BST_CHECKED ? TRUE : FALSE;
+			Config.MarkAsRead = IsDlgButtonChecked(hwndDlg, IDC_MARKREAD) == BST_CHECKED ? TRUE : FALSE;
+			Config.PauseDepends = IsDlgButtonChecked(hwndDlg, IDC_PAUSEDEPENDS) == BST_CHECKED ? TRUE : FALSE;
+			Config.PauseRandom = IsDlgButtonChecked(hwndDlg, IDC_PAUSERANDOM) == BST_CHECKED ? TRUE : FALSE;
+			Config.AnswerPauseTime = GetDlgItemInt(hwndDlg, IDC_WAITTIME, &bTranslated, FALSE);
+			if (!bTranslated)
+				Config.AnswerPauseTime = 2;
+			Config.AnswerThinkTime = GetDlgItemInt(hwndDlg, IDC_THINKTIME, &bTranslated, FALSE);
+			if (!bTranslated)
+				Config.AnswerThinkTime = 4;
+			TCHAR c[MAX_WARN_TEXT];
+			bTranslated = GetDlgItemText(hwndDlg, IDC_WARNTXT, c, SIZEOF(c));
+			if (bTranslated)
+				Config.WarnText = c;
+			else
+				Config.WarnText = TranslateTS(DEFAULT_WARN_TEXT);
+		}
+		return TRUE;
+		}
+		break;
+	}
+	break;
 	}
 	return 0;
 }
@@ -357,126 +357,126 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 	static int changeCount = 0;
 	switch (uMsg)
 	{
-		case WM_INITDIALOG:
-			loading = true;
-			TranslateDialogDefault(hwndDlg);
-			CheckDlgButton(hwndDlg, IDC_ENGINE_SILENT,  Config.EngineStaySilent ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_ENGINE_LOWERCASE,  Config.EngineMakeLowerCase ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_ENGINE_UNDERSTAND_ALWAYS,  Config.EngineUnderstandAlways ? BST_CHECKED : BST_UNCHECKED);
-			SetDlgItemText(hwndDlg, IDC_MINDFILE, Config.MindFileName);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BTNSAVE), blInit);
+	case WM_INITDIALOG:
+		loading = true;
+		TranslateDialogDefault(hwndDlg);
+		CheckDlgButton(hwndDlg, IDC_ENGINE_SILENT, Config.EngineStaySilent ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ENGINE_LOWERCASE, Config.EngineMakeLowerCase ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ENGINE_UNDERSTAND_ALWAYS, Config.EngineUnderstandAlways ? BST_CHECKED : BST_UNCHECKED);
+		SetDlgItemText(hwndDlg, IDC_MINDFILE, Config.MindFileName);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_BTNSAVE), blInit);
+		UpdateUnderstandAlwaysCheckbox(hwndDlg);
+		loading = false;
+		return TRUE;
+	case WM_COMMAND:
+		param = LOWORD(wParam);
+		if (param == IDC_ENGINE_SILENT && HIWORD(wParam) == BN_CLICKED)
 			UpdateUnderstandAlwaysCheckbox(hwndDlg);
-			loading = false;
-			return TRUE;
-		case WM_COMMAND:
-			param = LOWORD(wParam);
-			if (param == IDC_ENGINE_SILENT && HIWORD(wParam) == BN_CLICKED)
-				UpdateUnderstandAlwaysCheckbox(hwndDlg);
-			OPENFILENAME ofn;
-			switch(param)
-			{
-				case IDC_BTNPATH:
-					{
-						const size_t fileNameSize = 5000;
-						TCHAR *filename = new TCHAR[fileNameSize];
-						TCHAR *fullname = GetFullName(Config.MindFileName);
-						_tcscpy(filename, fullname);
-						if (fullname != Config.MindFileName)
-							delete[] fullname;
-
-						memset(&ofn, 0, sizeof(ofn));
-						ofn.lStructSize = sizeof(OPENFILENAME);
-						ofn.hwndOwner = GetParent(hwndDlg);
-
-						TCHAR* mind = TranslateTS(MIND_FILE_DESC);
-						TCHAR* anyfile = TranslateTS(ALL_FILES_DESC);
-						size_t l = _tcslen(MIND_DIALOG_FILTER)
-							+ _tcslen(mind) + _tcslen(anyfile);
-						TCHAR *filt = new TCHAR[l];
-						mir_sntprintf(filt, l, MIND_DIALOG_FILTER, mind, anyfile);
-						for (size_t i = 0; i < l; i++)
-							if (filt[i] == '\1')
-								filt[i] = '\0';
-						ofn.lpstrFilter = filt;
-
-						ofn.lpstrFile = filename;
-						ofn.nMaxFile = fileNameSize;
-						ofn.Flags = OFN_FILEMUSTEXIST;
-						ofn.lpstrInitialDir = path;
-						if (!GetOpenFileName(&ofn))
-						{
-							delete[] filename;
-							delete[] filt;
-							break;
-						}
-						delete[] filt;
-						TCHAR* origf = filename;
-						TCHAR* f = filename;
-						TCHAR* p = path;
-						while (*p && *f)
-						{
-							TCHAR p1 = (TCHAR)CharLower((TCHAR*)(long)*p++);
-							TCHAR f1 = (TCHAR)CharLower((TCHAR*)(long)*f++);
-							if (p1 != f1)
-								break;
-						}
-						if (!*p)
-							filename = f;
-						Config.MindFileName = filename;
-						SetDlgItemText(hwndDlg, IDC_MINDFILE, filename);
-						delete[] origf;
-					}
-				case IDC_BTNRELOAD:
-				{
-					const TCHAR *c = Config.MindFileName;
-					int line;
-					bTranslated = blInit = LoadMind(c, line);
-					if (!bTranslated)
-					{
-						TCHAR message[5000];
-						mir_sntprintf(message, SIZEOF(message), TranslateTS(FAILED_TO_LOAD_BASE), line, c);
-						MessageBox(NULL, message, TranslateTS(BOLTUN_ERROR), MB_ICONERROR|MB_TASKMODAL|MB_OK);
-					}
-					break;
-				}
-				default:
-					if (!loading)
-					{
-						if (param == IDC_MINDFILE/* && HIWORD(wParam) != EN_CHANGE*/)
-							break;
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-			}
-			break;
-		case WM_NOTIFY:
+		OPENFILENAME ofn;
+		switch (param)
 		{
-			NMHDR* nmhdr = (NMHDR*)lParam;
-			switch (nmhdr->code)
+		case IDC_BTNPATH:
+		{
+			const size_t fileNameSize = 5000;
+			TCHAR *filename = new TCHAR[fileNameSize];
+			TCHAR *fullname = GetFullName(Config.MindFileName);
+			_tcscpy(filename, fullname);
+			if (fullname != Config.MindFileName)
+				delete[] fullname;
+
+			memset(&ofn, 0, sizeof(ofn));
+			ofn.lStructSize = sizeof(OPENFILENAME);
+			ofn.hwndOwner = GetParent(hwndDlg);
+
+			TCHAR* mind = TranslateTS(MIND_FILE_DESC);
+			TCHAR* anyfile = TranslateTS(ALL_FILES_DESC);
+			size_t l = _tcslen(MIND_DIALOG_FILTER)
+				+ _tcslen(mind) + _tcslen(anyfile);
+			TCHAR *filt = new TCHAR[l];
+			mir_sntprintf(filt, l, MIND_DIALOG_FILTER, mind, anyfile);
+			for (size_t i = 0; i < l; i++)
+				if (filt[i] == '\1')
+					filt[i] = '\0';
+			ofn.lpstrFilter = filt;
+
+			ofn.lpstrFile = filename;
+			ofn.nMaxFile = fileNameSize;
+			ofn.Flags = OFN_FILEMUSTEXIST;
+			ofn.lpstrInitialDir = path;
+			if (!GetOpenFileName(&ofn))
 			{
-				case PSN_APPLY:
-				case PSN_KILLACTIVE:
-				{
-					Config.EngineStaySilent = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_SILENT) == BST_CHECKED ? TRUE : FALSE;
-					Config.EngineMakeLowerCase = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_LOWERCASE) == BST_CHECKED ? TRUE : FALSE;
-					Config.EngineUnderstandAlways = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_UNDERSTAND_ALWAYS) == BST_CHECKED ? TRUE : FALSE;
-					UpdateEngine();
-					TCHAR c[MAX_MIND_FILE];
-					bTranslated = GetDlgItemText(hwndDlg, IDC_MINDFILE, c, SIZEOF(c));
-					if (bTranslated)
-						Config.MindFileName = c;
-					else
-						Config.MindFileName = DEFAULT_MIND_FILE;
-				}
-	            return TRUE;
+				delete[] filename;
+				delete[] filt;
+				break;
+			}
+			delete[] filt;
+			TCHAR* origf = filename;
+			TCHAR* f = filename;
+			TCHAR* p = path;
+			while (*p && *f)
+			{
+				TCHAR p1 = (TCHAR)CharLower((TCHAR*)(long)*p++);
+				TCHAR f1 = (TCHAR)CharLower((TCHAR*)(long)*f++);
+				if (p1 != f1)
+					break;
+			}
+			if (!*p)
+				filename = f;
+			Config.MindFileName = filename;
+			SetDlgItemText(hwndDlg, IDC_MINDFILE, filename);
+			delete[] origf;
+		}
+		case IDC_BTNRELOAD:
+		{
+			const TCHAR *c = Config.MindFileName;
+			int line;
+			bTranslated = blInit = LoadMind(c, line);
+			if (!bTranslated)
+			{
+				TCHAR message[5000];
+				mir_sntprintf(message, SIZEOF(message), TranslateTS(FAILED_TO_LOAD_BASE), line, c);
+				MessageBox(NULL, message, TranslateTS(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 			}
 			break;
 		}
+		default:
+			if (!loading)
+			{
+				if (param == IDC_MINDFILE/* && HIWORD(wParam) != EN_CHANGE*/)
+					break;
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
+		}
 		break;
+	case WM_NOTIFY:
+	{
+		NMHDR* nmhdr = (NMHDR*)lParam;
+		switch (nmhdr->code)
+		{
+		case PSN_APPLY:
+		case PSN_KILLACTIVE:
+		{
+			Config.EngineStaySilent = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_SILENT) == BST_CHECKED ? TRUE : FALSE;
+			Config.EngineMakeLowerCase = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_LOWERCASE) == BST_CHECKED ? TRUE : FALSE;
+			Config.EngineUnderstandAlways = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_UNDERSTAND_ALWAYS) == BST_CHECKED ? TRUE : FALSE;
+			UpdateEngine();
+			TCHAR c[MAX_MIND_FILE];
+			bTranslated = GetDlgItemText(hwndDlg, IDC_MINDFILE, c, SIZEOF(c));
+			if (bTranslated)
+				Config.MindFileName = c;
+			else
+				Config.MindFileName = DEFAULT_MIND_FILE;
+		}
+		return TRUE;
+		}
+		break;
+	}
+	break;
 	}
 	return 0;
 }
 
-static int MessageOptInit(WPARAM wParam, LPARAM lParam)
+static int MessageOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;
@@ -487,7 +487,7 @@ static int MessageOptInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
 	odp.pszTab = TAB_GENERAL;
 	Options_AddPage(wParam, &odp);
-	
+
 	odp.pfnDlgProc = EngineDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_ENGINE);
 	odp.pszTab = TAB_ENGINE;
@@ -495,7 +495,7 @@ static int MessageOptInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ContactClick(WPARAM hContact, LPARAM lParam, BOOL clickNotToChat)
+static int ContactClick(WPARAM hContact, LPARAM, BOOL clickNotToChat)
 {
 	BOOL boltunautochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
 	BOOL boltunnottochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
@@ -503,7 +503,7 @@ static int ContactClick(WPARAM hContact, LPARAM lParam, BOOL clickNotToChat)
 	if (clickNotToChat)
 	{
 		boltunnottochat = !boltunnottochat;
-		if(boltunnottochat)
+		if (boltunnottochat)
 		{
 			boltunautochat = FALSE;
 		}
@@ -511,7 +511,7 @@ static int ContactClick(WPARAM hContact, LPARAM lParam, BOOL clickNotToChat)
 	else
 	{
 		boltunautochat = !boltunautochat;
-		if(boltunautochat)
+		if (boltunautochat)
 		{
 			boltunnottochat = FALSE;
 		}
@@ -537,17 +537,17 @@ static INT_PTR ContactClickNotToChat(WPARAM hContact, LPARAM lParam)
 	return ContactClick(hContact, lParam, 1);
 }
 
-static INT_PTR ContactClickStartChatting(WPARAM hContact, LPARAM lParam)
+static INT_PTR ContactClickStartChatting(WPARAM hContact, LPARAM)
 {
 	StartChatting(hContact);
 	return 0;
 }
 
-static int MessagePrebuild(WPARAM hContact, LPARAM lParam)
+static int MessagePrebuild(WPARAM hContact, LPARAM)
 {
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 
-	if (!blInit || (db_get_b(hContact,"CList","NotOnList",0) == 1)) {
+	if (!blInit || (db_get_b(hContact, "CList", "NotOnList", 0) == 1)) {
 		clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
 
 		Menu_ModifyItem(hMenuItemAutoChat, &clmi);
@@ -557,18 +557,18 @@ static int MessagePrebuild(WPARAM hContact, LPARAM lParam)
 		BOOL boltunautochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
 		BOOL boltunnottochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
 
-		clmi.flags  = CMIM_FLAGS | CMIM_ICON | (boltunautochat ? CMIF_CHECKED : 0);
-		clmi.hIcon = LoadIcon( GetModuleHandle(NULL), MAKEINTRESOURCE((boltunautochat ? IDI_TICK : IDI_NOTICK)));
+		clmi.flags = CMIM_FLAGS | CMIM_ICON | (boltunautochat ? CMIF_CHECKED : 0);
+		clmi.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE((boltunautochat ? IDI_TICK : IDI_NOTICK)));
 		Menu_ModifyItem(hMenuItemAutoChat, &clmi);
 
-		clmi.flags  = CMIM_FLAGS | CMIM_ICON | (boltunnottochat ? CMIF_CHECKED : 0);
-		clmi.hIcon = LoadIcon( GetModuleHandle(NULL), MAKEINTRESOURCE((boltunnottochat ? IDI_TICK : IDI_NOTICK)));
+		clmi.flags = CMIM_FLAGS | CMIM_ICON | (boltunnottochat ? CMIF_CHECKED : 0);
+		clmi.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE((boltunnottochat ? IDI_TICK : IDI_NOTICK)));
 		Menu_ModifyItem(hMenuItemNotToChat, &clmi);
 	}
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -590,7 +590,7 @@ extern "C" int __declspec(dllexport) Load(void)
 			return false;
 		}
 	}
-	*(_tcsrchr(path, _T('\\'))+1) = _T('\0');
+	*(_tcsrchr(path, _T('\\')) + 1) = _T('\0');
 
 	/*initialize miranda hooks and services on options dialog*/
 	HookEvent(ME_OPT_INITIALISE, MessageOptInit);
@@ -603,21 +603,21 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(SERV_CONTACT_START_CHATTING, ContactClickStartChatting);
 	{
 		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.position            = -50010002; //TODO: check the warning
-		mi.pszName             = BOLTUN_AUTO_CHAT;
-		mi.pszService          = SERV_CONTACT_AUTO_CHAT;
-		hMenuItemAutoChat      = Menu_AddContactMenuItem(&mi);
+		mi.position = -50010002; //TODO: check the warning
+		mi.pszName = BOLTUN_AUTO_CHAT;
+		mi.pszService = SERV_CONTACT_AUTO_CHAT;
+		hMenuItemAutoChat = Menu_AddContactMenuItem(&mi);
 
-		mi.position            = -50010001; //TODO: check the warning
-		mi.pszName             = BOLTUN_NOT_TO_CHAT;
-		mi.pszService          = SERV_CONTACT_NOT_TO_CHAT;
-		hMenuItemNotToChat     = Menu_AddContactMenuItem(&mi);
+		mi.position = -50010001; //TODO: check the warning
+		mi.pszName = BOLTUN_NOT_TO_CHAT;
+		mi.pszService = SERV_CONTACT_NOT_TO_CHAT;
+		hMenuItemNotToChat = Menu_AddContactMenuItem(&mi);
 
-		mi.flags               = CMIF_NOTOFFLINE;
-		mi.position            = -50010000; //TODO: check the warning
-		mi.hIcon               = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_RECVMSG));
-		mi.pszName             = BOLTUN_START_CHATTING;
-		mi.pszService          = SERV_CONTACT_START_CHATTING;
+		mi.flags = CMIF_NOTOFFLINE;
+		mi.position = -50010000; //TODO: check the warning
+		mi.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_RECVMSG));
+		mi.pszName = BOLTUN_START_CHATTING;
+		mi.pszService = SERV_CONTACT_START_CHATTING;
 		hMenuItemStartChatting = Menu_AddContactMenuItem(&mi);
 	}
 
@@ -627,7 +627,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	{
 		TCHAR path[2000];
 		mir_sntprintf(path, SIZEOF(path), TranslateTS(FAILED_TO_LOAD_BASE), line, (const TCHAR*)Config.MindFileName);
-		MessageBox(NULL, path, TranslateTS(BOLTUN_ERROR), MB_ICONERROR|MB_TASKMODAL|MB_OK);
+		MessageBox(NULL, path, TranslateTS(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 	}
 	return 0;
 }
@@ -636,14 +636,14 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	if (pTimer)
 		KillTimer(NULL, pTimer);
-	if(blInit)
+	if (blInit)
 	{
 #if 0 //No need to save, we don't have studying algorithm
 		if(Config.MindFileName && !SaveMind(Config.MindFileName))
 		{
-//This causes errors with development core when calling MessageBox.
-//It seems that it's now a Boltun problem.
-//So in case of saving error we will remain silent
+			//This causes errors with development core when calling MessageBox.
+			//It seems that it's now a Boltun problem.
+			//So in case of saving error we will remain silent
 #if 0
 			TCHAR path[MAX_PATH];
 			mir_sntprintf(path, SIZEOF(path), TranslateTS(FAILED_TO_SAVE_BASE), (const TCHAR*)Config.MindFileName);

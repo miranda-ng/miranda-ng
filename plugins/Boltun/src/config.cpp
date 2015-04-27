@@ -18,7 +18,7 @@
 //
 //***********************************************************
 
-#include "boltun.h"
+#include "stdafx.h"
 
 //Database keys
 #define DB_EVERYBODY "Everybody"
@@ -142,7 +142,7 @@ BoltunConfig::~BoltunConfig()
 class _BoltunConfigInit
 {
 public:
-	 BoltunConfig cfg;
+	BoltunConfig cfg;
 };
 
 _BoltunConfigInit inst;
