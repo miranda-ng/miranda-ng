@@ -54,7 +54,8 @@ SmileyPackType* GetSmileyPack(const char* proto, MCONTACT hContact, SmileyPackCT
 					categoryName = _T("AllProto");
 					categoryName += dbv.ptszVal;
 					db_free(&dbv);					
-					if (g_SmileyCategories.GetSmileyCategory(categoryName)->GetFilename().IsEmpty())
+					CMString categoryFileName = g_SmileyCategories.GetSmileyCategory(categoryName) ? g_SmileyCategories.GetSmileyCategory(categoryName)->GetFilename() : _T("");
+					if (categoryFileName.IsEmpty())
 						categoryName = A2T_SM(protonam);
 				}
 				else 

@@ -845,7 +845,7 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 		}
 
 		if (!PhysProtoName.IsEmpty())
-			paths = g_SmileyCategories.GetSmileyCategory(PhysProtoName)->GetFilename();
+			paths = g_SmileyCategories.GetSmileyCategory(PhysProtoName) ? g_SmileyCategories.GetSmileyCategory(PhysProtoName)->GetFilename() : _T("");
 		
 		if (paths.IsEmpty()){
 			const char* packnam = acc->szProtoName;
