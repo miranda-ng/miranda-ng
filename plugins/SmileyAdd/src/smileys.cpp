@@ -724,6 +724,7 @@ SmileyCategoryType::SmileyCategoryType(SmileyPackListType* pSPS, const CMString&
 	type = typ; 
 	m_Name = name; 
 	m_DisplayName = displayName;
+	visible = true;
 
 	opt.ReadPackFileName(m_Filename, m_Name, defaultFilename);
 }
@@ -834,21 +835,35 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 	if (IsAccountEnabled(acc) && acc->szProtoName && IsSmileyProto(acc->szModuleName))
 	{
 		CMString displayName(acc->tszAccountName ? acc->tszAccountName : A2T_SM(acc->szModuleName));
+		CMString PhysProtoName, paths;
+		DBVARIANT dbv;
+		
+		if (db_get_ts(NULL, acc->szModuleName, "AM_BaseProto", &dbv) == 0){
+			PhysProtoName = _T("AllProto");
+			PhysProtoName += dbv.ptszVal;
+			db_free(&dbv);		
+		}
 
-		const char* packnam = acc->szProtoName;
-		if (strcmp(packnam, "JABBER") == 0)
-			packnam = "JGMail";
-		else if (strstr(packnam, "SIP") != NULL)
-			packnam = "MSN";
+		if (!PhysProtoName.IsEmpty())
+			paths = g_SmileyCategories.GetSmileyCategory(PhysProtoName)->GetFilename();
+		
+		if (paths.IsEmpty()){
+			const char* packnam = acc->szProtoName;
+			if (strcmp(packnam, "JABBER") == 0)
+				packnam = "JGMail";
+			else if (strstr(packnam, "SIP") != NULL)
+				packnam = "MSN";
 
-		char path[MAX_PATH];
-		mir_snprintf(path, SIZEOF(path), "Smileys\\nova\\%s.msl", packnam);
+			char path[MAX_PATH];
+			mir_snprintf(path, SIZEOF(path), "Smileys\\nova\\%s.msl", packnam);
 
-		CMString paths = A2T_SM(path), patha; 
-		pathToAbsolute(paths, patha);
+			paths = A2T_SM(path); 
+			CMString patha;
+			pathToAbsolute(paths, patha);
 
-		if (_taccess(patha.c_str(), 0) != 0) 
-			paths = defaultFile;
+			if (_taccess(patha.c_str(), 0) != 0)
+				paths = defaultFile;
+		}
 
 		CMString tname(A2T_SM(acc->szModuleName));
 		AddCategory(tname, displayName, smcProto, paths); 

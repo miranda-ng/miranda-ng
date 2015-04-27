@@ -41,6 +41,7 @@ private:
 	void FilenameChanged(void);
 	void ShowSmileyPreview(void);
 	void PopulateSmPackList(void);
+	void UpdateVisibleSmPackList(void);
 	void UserAction(HTREEITEM hItem);
 	long GetSelProto(HTREEITEM hItem = NULL);
 
@@ -266,7 +267,8 @@ void OptionsDialogType::UserAction(HTREEITEM hItem)
 		if (!BrowseForSmileyPacks(GetSelProto(hItem)))
 			TreeView_SetCheckState(hLstView, hItem, TRUE)
 	}
-	else tmpsmcat.GetSmileyCategory(GetSelProto(hItem))->ClearFilename();
+	else 
+		tmpsmcat.GetSmileyCategory(GetSelProto(hItem))->ClearFilename();	
 
 	if (hItem == TreeView_GetSelection(hLstView))
 		UpdateControls();
@@ -274,6 +276,7 @@ void OptionsDialogType::UserAction(HTREEITEM hItem)
 		TreeView_SelectItem(hLstView, hItem);
 
 	SetChanged();
+	PopulateSmPackList();
 }
 
 
@@ -317,12 +320,42 @@ long OptionsDialogType::GetSelProto(HTREEITEM hItem)
 	return (long)tvi.lParam;
 }
 
-
-void OptionsDialogType::PopulateSmPackList(void)
+void OptionsDialogType::UpdateVisibleSmPackList(void)
 {
 	bool useOne = IsDlgButtonChecked(m_hwndDialog, IDC_USESTDPACK) == BST_UNCHECKED;
 	bool usePhysProto = IsDlgButtonChecked(m_hwndDialog, IDC_USEPHYSPROTO) == BST_CHECKED;
 
+	SmileyCategoryListType::SmileyCategoryVectorType& smc = *tmpsmcat.GetSmileyCategoryList();
+	for (int i = 0; i < smc.getCount(); i++) {
+		bool visiblecat = usePhysProto ? !smc[i].IsAcc() : !smc[i].IsPhysProto();
+		bool visible = useOne ? !smc[i].IsProto() : visiblecat;
+		
+		if (!visible && smc[i].IsAcc()) {
+			CMString PhysProtoName = _T("AllProto");
+			CMString ProtoName = smc[i].GetName();
+			DBVARIANT dbv;	
+			if (db_get_ts(NULL, T2A_SM(ProtoName.GetBuffer()), "AM_BaseProto", &dbv) == 0){
+				ProtoName = dbv.ptszVal;
+				db_free(&dbv);
+			}
+			else
+				ProtoName.Empty();
+
+			CMString FileName;
+			if (!ProtoName.IsEmpty()) {
+				PhysProtoName += PhysProtoName;			
+				FileName = tmpsmcat.GetSmileyCategory(PhysProtoName)->GetFilename();
+				if (FileName.IsEmpty())
+						visible = true;			
+			}
+		}
+		
+		smc[i].SetVisible(visible);
+	}
+}
+
+void OptionsDialogType::PopulateSmPackList(void)
+{
 	HWND hLstView = GetDlgItem(m_hwndDialog, IDC_CATEGORYLIST);
 
 	TreeView_SelectItem(hLstView, NULL);
@@ -333,12 +366,10 @@ void OptionsDialogType::PopulateSmPackList(void)
 	tvi.hInsertAfter = TVI_LAST;
 	tvi.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_STATE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
 	tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_SELECTED;
-
+	UpdateVisibleSmPackList();
 	SmileyCategoryListType::SmileyCategoryVectorType& smc = *tmpsmcat.GetSmileyCategoryList();
-	for (int i=0; i < smc.getCount(); i++) {			
-		bool visiblecat = usePhysProto ? !smc[i].IsAcc() : !smc[i].IsPhysProto();
-		bool visible = useOne ? !smc[i].IsProto() : visiblecat;
-		if (visible) {
+	for (int i=0; i < smc.getCount(); i++) {				
+		if (smc[i].IsVisible()) {
 			tvi.item.pszText = (TCHAR*)smc[i].GetDisplayName().c_str();
 			if (!smc[i].IsProto()) {
 				tvi.item.iImage = 0;
