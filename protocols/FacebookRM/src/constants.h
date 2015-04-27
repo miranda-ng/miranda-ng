@@ -153,15 +153,7 @@ enum RequestType {
 	REQUEST_THREAD_INFO,		// getting thread info
 	REQUEST_THREAD_SYNC,		// getting thread sync (changes since something)
 	REQUEST_UNREAD_THREADS,		// getting unread threads
-	REQUEST_ASYNC,				// marking messages read and getting other things
-	REQUEST_MARK_READ,			// marking messages read (new)
-};
-
-enum MessageMethod {
-	MESSAGE_INBOX,
-	MESSAGE_MERCURY,
-	MESSAGE_TID,
-	MESSAGE_ASYNC
+	REQUEST_MARK_READ			// marking messages read
 };
 
 enum ContactType {

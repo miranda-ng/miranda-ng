@@ -52,7 +52,7 @@ void FacebookProto::SendMsgWorker(void *p)
 		std::string error_text;
 		int result = SEND_MESSAGE_ERROR;
 		while (result == SEND_MESSAGE_ERROR && retries > 0) {
-			result = facy.send_message(data->msgid, data->hContact, std::string(id), data->msg, &error_text, retries % 2 == 0 ? MESSAGE_INBOX : MESSAGE_MERCURY);
+			result = facy.send_message(data->msgid, data->hContact, data->msg, &error_text);
 			retries--;
 		}
 		if (result == SEND_MESSAGE_OK) {
@@ -101,7 +101,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 		}
 
 		if (!tid.empty()) {
-			if (facy.send_message(0, hContact, tid, data->msg, &err_message, MESSAGE_TID) == SEND_MESSAGE_OK)
+			if (facy.send_message(0, hContact, data->msg, &err_message) == SEND_MESSAGE_OK)
 				UpdateChat(_A2T(data->chat_id.c_str()), facy.self_.user_id.c_str(), facy.self_.real_name.c_str(), data->msg.c_str());
 			else
 				UpdateChat(_A2T(data->chat_id.c_str()), NULL, NULL, err_message.c_str());
