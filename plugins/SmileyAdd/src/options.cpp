@@ -343,7 +343,7 @@ void OptionsDialogType::UpdateVisibleSmPackList(void)
 
 			CMString FileName;
 			if (!ProtoName.IsEmpty()) {
-				PhysProtoName += PhysProtoName;			
+				PhysProtoName += ProtoName;			
 				FileName = tmpsmcat.GetSmileyCategory(PhysProtoName)->GetFilename();
 				if (FileName.IsEmpty())
 						visible = true;			
