@@ -243,8 +243,10 @@ private:
 
 	SmileyPackListType* m_pSmileyPackStore;
 
+	bool visible;
+
 public:
-	SmileyCategoryType() { type = smcNone; m_pSmileyPackStore = NULL; };
+	SmileyCategoryType() { type = smcNone; m_pSmileyPackStore = NULL; visible = true;  };
 	SmileyCategoryType(SmileyPackListType* pSPS, const CMString& name, 
 		const CMString& displayName, const CMString& defaultFilename, SmcType typ);
 
@@ -258,6 +260,7 @@ public:
 	bool IsPhysProto(void)  { return type == smcPhysProto; }
 	bool IsTransportProto(void)  { return type == smcTransportProto; }
 	bool IsExt(void)    { return type == smcExt;  }
+	bool IsVisible(void) { return visible; }
 
 	SmcType GetType(void) { return type; }
 
@@ -265,6 +268,7 @@ public:
 
 	void SetFilename(CMString& name) { m_Filename = name; }
 	void SetDisplayName(CMString& name) { m_DisplayName = name; }
+	void SetVisible(bool vis) { visible = vis; }
 
 	void ClearFilename(void) { m_Filename.Empty(); }
 	void SaveSettings(void);
