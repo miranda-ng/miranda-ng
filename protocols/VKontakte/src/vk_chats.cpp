@@ -382,6 +382,19 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 			Push(pReq);
 		}
 		break;
+	case GC_USER_PRIVMESS:
+		{
+			MCONTACT hContact = FindUser(_ttoi(gch->ptszUID));
+			if (hContact == NULL)
+			{
+				hContact = FindUser(_ttoi(gch->ptszUID), true);
+				db_set_b(hContact, "CList", "Hidden", 1);
+				RetrieveUserInfo(_ttoi(gch->ptszUID));
+				db_set_dw(hContact, "Ignore", "Mask1", 0);
+			}
+			CallService(MS_MSG_SENDMESSAGET, hContact, 0);
+		}
+		break;
 
 	case GC_USER_LOGMENU:
 		LogMenuHook(cc, gch);
