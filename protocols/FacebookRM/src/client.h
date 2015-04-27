@@ -37,7 +37,7 @@ public:
 
 	facebook_client()
 	{
-		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = random_ = 0;
+		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = random_ = chat_msgs_recv_ = 0;
 
 		is_typing_ = false;
 
@@ -85,6 +85,7 @@ public:
 	time_t last_feeds_update_;
 	time_t last_notification_time_;
 	int msgid_;
+	int chat_msgs_recv_;
 
 	////////////////////////////////////////////////////////////
 
