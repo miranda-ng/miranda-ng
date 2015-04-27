@@ -21,7 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "commonheaders.h"
+#include "stdafx.h"
 
 static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -305,7 +305,7 @@ static UINT expertOnlyControls[] =
 	IDC_STATIC22, IDC_AUTOSIZEUPWARD, IDC_SHOWMAINMENU, IDC_SHOWCAPTION, IDC_CLIENTDRAG
 };
 
-int CluiOptInit(WPARAM wParam, LPARAM lParam)
+int CluiOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInst;

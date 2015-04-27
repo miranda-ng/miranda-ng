@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
+# Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32_12.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
@@ -331,8 +331,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BasicHistory", "..\plugins\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BASS_interface", "..\plugins\BASS_interface\Bass_interface.vcxproj", "{3933E789-D185-41DC-8169-9FF4365B6015}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_blind", "..\plugins\Clist_blind\Clist_blind_12.vcxproj", "{2E15C462-A150-4A37-ACD6-FBAECF1724F5}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartPosition", "..\plugins\StartPosition\StartPosition_12.vcxproj", "{046C5F80-ABE5-488F-BFC8-B024D4AACC8C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SMS", "..\plugins\SMS\sms_12.vcxproj", "{A3EA507E-C77E-4966-9AEE-51442AF96E4D}"
@@ -426,6 +424,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HwHotKeys", "..\plugins\HwHotKeys\HwHotKeys_12.vcxproj", "{639E2B3A-64F2-4152-B5BB-12468E5D60B6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeWeb", "..\protocols\SkypeWeb\SkypeWeb_12.vcxproj", "{66A9BDEB-150F-45DC-B20F-9892C0B43834}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_blind", "..\plugins\Clist_blind\Clist_blind.vcxproj", "{2E15C462-A150-4A37-ACD6-FBAECF1724F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1547,14 +1547,6 @@ Global
 		{3933E789-D185-41DC-8169-9FF4365B6015}.Release|Win32.Build.0 = Release|Win32
 		{3933E789-D185-41DC-8169-9FF4365B6015}.Release|x64.ActiveCfg = Release|x64
 		{3933E789-D185-41DC-8169-9FF4365B6015}.Release|x64.Build.0 = Release|x64
-		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|Win32.ActiveCfg = Debug|Win32
-		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|Win32.Build.0 = Debug|Win32
-		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|x64.ActiveCfg = Debug|x64
-		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|x64.Build.0 = Debug|x64
-		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|Win32.ActiveCfg = Release|Win32
-		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|Win32.Build.0 = Release|Win32
-		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|x64.ActiveCfg = Release|x64
-		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|x64.Build.0 = Release|x64
 		{046C5F80-ABE5-488F-BFC8-B024D4AACC8C}.Debug|Win32.ActiveCfg = Debug|Win32
 		{046C5F80-ABE5-488F-BFC8-B024D4AACC8C}.Debug|Win32.Build.0 = Debug|Win32
 		{046C5F80-ABE5-488F-BFC8-B024D4AACC8C}.Debug|x64.ActiveCfg = Debug|x64
@@ -1929,6 +1921,14 @@ Global
 		{66A9BDEB-150F-45DC-B20F-9892C0B43834}.Release|Win32.Build.0 = Release|Win32
 		{66A9BDEB-150F-45DC-B20F-9892C0B43834}.Release|x64.ActiveCfg = Release|x64
 		{66A9BDEB-150F-45DC-B20F-9892C0B43834}.Release|x64.Build.0 = Release|x64
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|Win32.Build.0 = Debug|Win32
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|x64.ActiveCfg = Debug|x64
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|x64.Build.0 = Debug|x64
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|Win32.ActiveCfg = Release|Win32
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|Win32.Build.0 = Release|Win32
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|x64.ActiveCfg = Release|x64
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

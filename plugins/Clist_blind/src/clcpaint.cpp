@@ -21,7 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#include "commonheaders.h"
+#include "stdafx.h"
 
 extern HIMAGELIST himlCListClc;
 static BYTE divide3[765] = { 255 };
@@ -265,9 +265,9 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			int selected = index == dat->selection && (dat->showSelAlways || dat->exStyle & CLS_EX_SHOWSELALWAYS || GetFocus() == hwnd)
 				&& group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER;
 			int hottrack = dat->exStyle & CLS_EX_TRACKSELECT && group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER && dat->iHotTrack == index;
-			SIZE textSize, countsSize, spaceSize;
+			SIZE textSize, countsSize = { 0 }, spaceSize = { 0 };
 			int width, checkboxWidth;
-			char *szCounts;
+			char *szCounts = NULL;
 
 			//alternating grey
 			if (style & CLS_GREYALTERNATE && index & 1) {
