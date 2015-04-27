@@ -155,11 +155,15 @@ INT_PTR FacebookProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case AF_DELAYAFTERFAIL:
-		res = 60 * 1000;
+		res = 10 * 60 * 1000;
 		break;
 
-	case AF_ENABLED:
 	case AF_DONTNEEDDELAYS:
+		// We need delays because of larger friend lists 
+		res = 0;
+		break;
+
+	case AF_ENABLED:	
 	case AF_FETCHIFPROTONOTVISIBLE:
 	case AF_FETCHIFCONTACTOFFLINE:
 		res = 1;

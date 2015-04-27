@@ -390,7 +390,7 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, b
 		if (fbu->gender)
 			setByte(hContact, "Gender", fbu->gender);
 
-		CheckAvatarChange(hContact, fbu->image_url);
+		// CheckAvatarChange(hContact, fbu->image_url);
 	}
 
 	return hContact;
