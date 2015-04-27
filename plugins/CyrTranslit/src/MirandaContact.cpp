@@ -17,7 +17,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#include "plugin.h"
+#include "stdafx.h"
 
 namespace CyrTranslit
 {
@@ -78,7 +78,7 @@ void MirandaContact::addMenuItem()
 
 //------------------------------------------------------------------------------
 
-INT_PTR MirandaContact::onMenuCommandTransliterate(WPARAM wParam, LPARAM lParam)
+INT_PTR MirandaContact::onMenuCommandTransliterate(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = MCONTACT(wParam);
 	if (!CallService(MS_DB_CONTACT_IS, wParam, 0))
@@ -90,7 +90,7 @@ INT_PTR MirandaContact::onMenuCommandTransliterate(WPARAM wParam, LPARAM lParam)
 
 //------------------------------------------------------------------------------
 
-int MirandaContact::onPreBuildContactMenu(WPARAM wParam, LPARAM lParam)
+int MirandaContact::onPreBuildContactMenu(WPARAM wParam, LPARAM)
 {
 	if (!hTransliterateCmdMenuItem) return 0;
 	MCONTACT hContact = MCONTACT(wParam);

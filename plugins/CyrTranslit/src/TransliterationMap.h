@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "plugin.h"
+#include "stdafx.h"
 
 namespace CyrTranslit
 {
