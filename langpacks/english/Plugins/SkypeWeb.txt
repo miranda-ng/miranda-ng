@@ -32,6 +32,8 @@
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [Admin]
 [User]
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+[Warning]
 [&Invite user...]
 [&Leave chat session]
 [&Change topic]
@@ -39,13 +41,17 @@
 [Set &role]
 [&Admin]
 [&User]
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-[Warning]
+;file \protocols\SkypeWeb\src\skype_contacts.cpp
+[Are you sure?]
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 [Call started]
 [Call ended]
 [Duration]
+[File transfer]
+[File name]
+[Size]
+[bytes]
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 [Create new chat icon]
@@ -55,6 +61,8 @@
 [Request authorization]
 [Grant authorization]
 [Get server history]
+[Block contact]
+[Unblock contact]
 [Create new chat]
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 ;file \protocols\SkypeWeb\src\skype_options.cpp
