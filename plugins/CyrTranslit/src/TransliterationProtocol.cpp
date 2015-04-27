@@ -17,7 +17,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#include "plugin.h"
+#include "stdafx.h"
 
 namespace CyrTranslit
 {
@@ -37,7 +37,7 @@ void TransliterationProtocol::initialize()
 }
 
 //------------------------------------------------------------------------------
-void TransliterationProtocol::TranslateMessageUTF(WPARAM wParam, LPARAM lParam)
+void TransliterationProtocol::TranslateMessageUTF(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
 
@@ -55,7 +55,7 @@ void TransliterationProtocol::TranslateMessageUTF(WPARAM wParam, LPARAM lParam)
 	strcpy(reinterpret_cast<char*>(ccs->lParam), txtUTF.c_str());
 }
 
-void TransliterationProtocol::TranslateMessageW(WPARAM wParam, LPARAM lParam)
+void TransliterationProtocol::TranslateMessageW(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
 
@@ -75,7 +75,7 @@ void TransliterationProtocol::TranslateMessageW(WPARAM wParam, LPARAM lParam)
 	wcscpy(reinterpret_cast<wchar_t*>(ccs->lParam + txtAlen), txtW.c_str());
 }
 
-void TransliterationProtocol::TranslateMessageA(WPARAM wParam, LPARAM lParam)
+void TransliterationProtocol::TranslateMessageA(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
 
