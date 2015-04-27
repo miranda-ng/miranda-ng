@@ -81,9 +81,8 @@ public:
 			<< CHAR_VALUE("X-Skypetoken", token)
 			<< CHAR_VALUE("Accept", "application/json")
 			<< CHAR_VALUE("Content-type", "application/x-www-form-urlencoded");
-		CMStringA data;
-		data.AppendFormat("greeting=%s", ptrA(mir_urlEncode(greeting)));
-		Body << VALUE(data);
+
+		Body << CHAR_VALUE("greeting", ptrA(mir_urlEncode(greeting)));
 	}
 };
 
