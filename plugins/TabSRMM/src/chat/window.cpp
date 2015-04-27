@@ -2647,16 +2647,7 @@ LABEL_SHOWWINDOW:
 									CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)tr.lpstrText);
 									break;
 								case ID_COPY:
-									if (!OpenClipboard(hwndDlg))
-										break;
-									EmptyClipboard();
-									{
-										HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR) * (mir_tstrlen(tr.lpstrText) + 1));
-										mir_tstrcpy((TCHAR*)GlobalLock(hData), tr.lpstrText);
-										GlobalUnlock(hData);
-										SetClipboardData(CF_UNICODETEXT, hData);
-									}
-									CloseClipboard();
+									Utils::CopyToClipBoard(tr.lpstrText, hwndDlg);
 									SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 									break;
 								}
