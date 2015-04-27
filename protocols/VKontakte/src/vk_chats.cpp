@@ -651,6 +651,7 @@ void CVkProto::OnChatDestroy(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 {
 	CVkChatUser* cu = cc->GetUserById(gch->ptszUID);
+	MCONTACT hContact;
 	if (cu == NULL)
 		return;
 
@@ -660,8 +661,13 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 
 	switch (gch->dwData) {
 	case IDM_INFO:
-		if (MCONTACT hContact = FindUser(cu->m_uid))
-			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
+		hContact = FindUser(cu->m_uid);
+		if (hContact == NULL) {
+			hContact = FindUser(cu->m_uid, true);
+			db_set_b(hContact, "CList", "Hidden", 1);
+			db_set_b(hContact, "CList", "NotOnList", 1);
+		}
+		CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		break;
 		
 	case IDM_KICK:
