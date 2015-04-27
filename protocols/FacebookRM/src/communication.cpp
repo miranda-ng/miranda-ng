@@ -252,7 +252,6 @@ std::string facebook_client::choose_server(RequestType request_type)
 		//	case REQUEST_THREAD_SYNC:
 		//	case REQUEST_VISIBILITY:
 		//	case REQUEST_POKE:
-		//	case REQUEST_ASYNC:
 		//	case REQUEST_MARK_READ:
 		//	case REQUEST_NOTIFICATIONS_READ:
 		//	case REQUEST_TYPING_SEND:
@@ -478,15 +477,6 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 	case REQUEST_POKE:
 		return "/pokes/dialog/?__a=1";
 
-	case REQUEST_ASYNC:
-	{
-		std::string action = "/ajax/messaging/async.php?__a=1";
-		if (get_data != NULL) {
-			action += "&" + (*get_data);
-		}
-		return action;
-	}
-
 	case REQUEST_MARK_READ:
 		return "/ajax/mercury/change_read_status.php?__a=1";
 
@@ -514,7 +504,6 @@ bool facebook_client::notify_errors(RequestType request_type)
 	case REQUEST_BUDDY_LIST:
 	case REQUEST_MESSAGE_SEND_INBOX:
 	case REQUEST_MESSAGE_SEND_CHAT:
-	case REQUEST_ASYNC:
 		return false;
 
 	default:
@@ -1226,10 +1215,8 @@ bool facebook_client::activity_ping()
 	return handle_success("activity_ping");
 }
 
-int facebook_client::send_message(int seqid, MCONTACT hContact, const std::string &message_recipient, const std::string &message_text, std::string *error_text, MessageMethod method, const std::string &captcha_persist_data, const std::string &captcha)
+int facebook_client::send_message(int seqid, MCONTACT hContact, const std::string &message_text, std::string *error_text, const std::string &captcha_persist_data, const std::string &captcha)
 {
-	ScopedLock s(send_message_lock_);
-
 	handle_entry("send_message");
 
 	http::response resp;
@@ -1241,121 +1228,85 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 		data += "&captcha_response=" + captcha;
 	}
 
-	switch (method) {
-	case MESSAGE_INBOX:
-	{
-		parent->debugLogA("  > Sending message through INBOX");
-		data += "&action=send";
-		data += "&body=" + utils::url::encode(message_text);
-		data += "&recipients[0]=" + message_recipient;
-		data += "&__user=" + this->self_.user_id;
-		data += "&__a=1";
-		data += "&fb_dtsg=" + this->dtsg_;
-		data += "&phstamp=" + phstamp(data);
+	std::string userId = ptrA(parent->getStringA(hContact, FACEBOOK_KEY_ID));
+	std::string threadId = ptrA(parent->getStringA(hContact, FACEBOOK_KEY_TID));
+	boolean isChatRoom = parent->isChatRoom(hContact);
 
-		resp = flap(REQUEST_MESSAGE_SEND_INBOX, &data);
-		break;
-	}
-	case MESSAGE_MERCURY:
-	{
-		parent->debugLogA("  > Sending message through CHAT");
-		data += "&message_batch[0][action_type]=ma-type:user-generated-message";
-		data += "&message_batch[0][thread_id]";
-		data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
-		data += "&message_batch[0][author_email]";
-		data += "&message_batch[0][coordinates]";
-		data += "&message_batch[0][timestamp]=" + utils::time::mili_timestamp();
-		data += "&message_batch[0][timestamp_absolute]";
-		data += "&message_batch[0][timestamp_relative]";
-		data += "&message_batch[0][is_unread]=false";
-		data += "&message_batch[0][is_cleared]=false";
-		data += "&message_batch[0][is_forward]=false";
-		data += "&message_batch[0][spoof_warning]=false";
-		data += "&message_batch[0][source]=source:chat:web";
-		data += "&message_batch[0][source_tags][0]=source:chat";
-		data += "&message_batch[0][body]=" + utils::url::encode(message_text);
-		data += "&message_batch[0][has_attachment]=false";
-		data += "&message_batch[0][html_body]=false";
-		data += "&message_batch[0][specific_to_list][0]=fbid:" + message_recipient;
+	data += "&message_batch[0][action_type]=ma-type:user-generated-message";
+	
+	if (isChatRoom) {
+		data += "&message_batch[0][thread_fbid]=" + threadId;
+	} else {
+		data += "&message_batch[0][specific_to_list][0]=fbid:" + userId;
 		data += "&message_batch[0][specific_to_list][1]=fbid:" + this->self_.user_id;
-		data += "&message_batch[0][status]=0";
-		data += "&message_batch[0][message_id]";
-		data += "&message_batch[0][client_thread_id]=user:" + message_recipient;
-		data += "&client=mercury";
-		data += "&fb_dtsg=" + this->dtsg_;
-		data += "&__user=" + this->self_.user_id;
-		data += "&__a=1";
-		data += "&phstamp=" + phstamp(data);
-
-		resp = flap(REQUEST_MESSAGE_SEND_CHAT, &data);
-		break;
+		data += "&message_batch[0][client_thread_id]=user:" + userId;
 	}
-	case MESSAGE_TID:
+
+	data += "&message_batch[0][thread_id]";
+	data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
+	data += "&message_batch[0][author_email]";
+	data += "&message_batch[0][coordinates]";
+	data += "&message_batch[0][timestamp]=" + utils::time::mili_timestamp();
+	data += "&message_batch[0][timestamp_absolute]";
+	data += "&message_batch[0][timestamp_relative]";
+	data += "&message_batch[0][timestamp_time_passed]";
+	data += "&message_batch[0][is_unread]=false";
+	data += "&message_batch[0][is_forward]=false";
+	data += "&message_batch[0][is_filtered_content]=false";
+	data += "&message_batch[0][is_spoof_warning]=false";
+	data += "&message_batch[0][source]=source:chat:web";
+	data += "&message_batch[0][source_tags][0]=source:chat";
+	data += "&message_batch[0][body]=" + utils::url::encode(message_text);
+	data += "&message_batch[0][has_attachment]=false";
+	data += "&message_batch[0][html_body]=false";
+	data += "&message_batch[0][signatureID]";
+	data += "&message_batch[0][ui_push_phase]";
+	data += "&message_batch[0][status]=0";
+	data += "&message_batch[0][message_id]";
+	data += "&message_batch[0][manual_retry_cnt]";
+	data += "&client=mercury&__a=1&__dyn&__req&__rev";
+	data += "&fb_dtsg=" + this->dtsg_;
+	data += "&__user=" + this->self_.user_id;
+	data += "&ttstamp=" + ttstamp();
+
 	{
-		parent->debugLogA("  > Sending message through MERCURY (TID)");
-		data += "&message_batch[0][action_type]=ma-type:user-generated-message";
-		data += "&message_batch[0][thread_id]=" + message_recipient;
-		data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
-		data += "&message_batch[0][timestamp]=" + utils::time::mili_timestamp();
-		data += "&message_batch[0][timestamp_absolute]=";
-		data += "&message_batch[0][timestamp_relative]=";
-		data += "&message_batch[0][is_unread]=false";
-		data += "&message_batch[0][is_cleared]=false";
-		data += "&message_batch[0][is_forward]=false";
-		data += "&message_batch[0][source]=source:chat:web";
-		data += "&message_batch[0][body]=" + utils::url::encode(message_text);
-		data += "&message_batch[0][has_attachment]=false";
-		data += "&message_batch[0][is_html]=false";
-		data += "&message_batch[0][message_id]=";
-		data += "&fb_dtsg=" + this->dtsg_;
-		data += "&__user=" + this->self_.user_id;
-		data += "&phstamp=" + phstamp(data);
-
+		ScopedLock s(send_message_lock_);
 		resp = flap(REQUEST_MESSAGE_SEND_CHAT, &data);
-		break;
-	}
-	case MESSAGE_ASYNC:
-	{
-		parent->debugLogA("  > Sending message through ASYNC");
-		data += "&action=send";
-		data += "&body=" + utils::url::encode(message_text);
-		data += "&recipients[0]=" + message_recipient;
-		data += "&lsd=";
-		data += "&fb_dtsg=" + this->dtsg_;
 
-		resp = flap(REQUEST_ASYNC, &data);
-		break;
-	}
-	}
+		*error_text = resp.error_text;
 
-	*error_text = resp.error_text;
+		if (resp.error_number == 0) {
+			// Everything is OK
+			// Remember this message id
+			std::string mid = utils::text::source_get_value(&resp.data, 2, "\"message_id\":\"", "\"");
+			if (mid.empty())
+				mid = utils::text::source_get_value(&resp.data, 2, "\"mid\":\"", "\"");
+
+			// For classic contacts remember last message id
+			if (!parent->isChatRoom(hContact))
+				parent->setString(hContact, FACEBOOK_KEY_MESSAGE_ID, mid.c_str());
+
+			// Get timestamp
+			std::string timestamp = utils::text::source_get_value(&resp.data, 2, "\"timestamp\":", ",");
+			time_t time = utils::time::from_string(timestamp);
+
+			// Remember last action timestamp for history sync
+			parent->setDword(FACEBOOK_KEY_LAST_ACTION_TS, time);
+
+			// For classic conversation we try to replace timestamp of added event in OnPreCreateEvent()
+			if (seqid > 0)
+				messages_timestamp.insert(std::make_pair(seqid, time));
+
+			// We have this message in database, so ignore further tries (in channel) to add it again
+			messages_ignore.insert(std::make_pair(mid, 0));
+		}
+	}
 
 	switch (resp.error_number)
 	{
-	case 0: // Everything is OK
+	case 0: 
 	{
-		// Remember this message id
-		std::string mid = utils::text::source_get_value(&resp.data, 2, "\"message_id\":\"", "\"");
-		if (mid.empty())
-			mid = utils::text::source_get_value(&resp.data, 2, "\"mid\":\"", "\"");
-
-		// For classic contacts remember last message id
-		if (!parent->isChatRoom(hContact))
-			parent->setString(hContact, FACEBOOK_KEY_MESSAGE_ID, mid.c_str());
-
-		// Get timestamp
-		std::string timestamp = utils::text::source_get_value(&resp.data, 2, "\"timestamp\":", ",");
-		time_t time = utils::time::from_string(timestamp);
-		
-		// Remember last action timestamp for history sync
-		parent->setDword(FACEBOOK_KEY_LAST_ACTION_TS, time);
-
-		// For classic conversation we try to replace timestamp of added event in OnPreCreateEvent()
-		if (seqid > 0)
-			messages_timestamp.insert(std::make_pair(seqid, time));
-
-		// We have this message in database, so ignore further tries (in channel) to add it again
-		messages_ignore.insert(std::make_pair(mid, 0));
+		// Everything is OK
 	} break;
 
 	//case 1356002: // You are offline (probably you can't use mercury or some other request when chat is offline)
@@ -1397,7 +1348,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 				return SEND_MESSAGE_CANCEL;
 			}
 
-			return send_message(seqid, hContact, message_recipient, message_text, error_text, method, captchaPersistData, result);
+			return send_message(seqid, hContact, message_text, error_text, captchaPersistData, result);
 		}
 
 		return SEND_MESSAGE_CANCEL; // Cancel because we failed to load captcha image so we can't continue only with error
