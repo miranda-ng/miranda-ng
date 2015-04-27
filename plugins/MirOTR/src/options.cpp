@@ -3,42 +3,42 @@ extern "C"{
 	#include "otrlextensions.h"
 }
 
-char g_private_key_filename[MAX_PATH];
-char g_fingerprint_store_filename[MAX_PATH];
-char g_instag_filename[MAX_PATH];
+TCHAR g_private_key_filename[MAX_PATH];
+TCHAR g_fingerprint_store_filename[MAX_PATH];
+TCHAR g_instag_filename[MAX_PATH];
 HANDLE hPATH_MIROTR;
 Options options;
-#define DATA_DIRECTORY MIRANDA_USERDATA "\\" MODULENAME
+#define DATA_DIRECTORY MIRANDA_USERDATAT _T("\\") _T(MODULENAME)
 
 struct PROTOREGENKEYOPTIONS {
 	HWND refresh;
 	TCHAR proto[129];
 };
 
-void SetFilenames(const char *path)
+void SetFilenames(const TCHAR *path)
 {
 	if (!path || !path[0]) 
 		return;
-	CreateDirectoryTree(path);
+	CreateDirectoryTreeT(path);
 	
-	strcpy(g_private_key_filename, path);
-	strcat(g_private_key_filename, ("\\"));
-	strcat(g_private_key_filename, PRIVATE_KEY_FILENAME);
+	mir_tstrcpy(g_private_key_filename, path);
+	mir_tstrcat(g_private_key_filename, _T("\\"));
+	mir_tstrcat(g_private_key_filename, _T(PRIVATE_KEY_FILENAME));
 	
-	strcpy(g_fingerprint_store_filename, path);
-	strcat(g_fingerprint_store_filename, ("\\"));
-	strcat(g_fingerprint_store_filename, FINGERPRINT_STORE_FILENAME);
+	mir_tstrcpy(g_fingerprint_store_filename, path);
+	mir_tstrcat(g_fingerprint_store_filename, _T("\\"));
+	mir_tstrcat(g_fingerprint_store_filename, _T(FINGERPRINT_STORE_FILENAME));
 	
-	strcpy(g_instag_filename, path);
-	strcat(g_instag_filename, ("\\"));
-	strcat(g_instag_filename, INSTAG_FILENAME);
+	mir_tstrcpy(g_instag_filename, path);
+	mir_tstrcat(g_instag_filename, _T("\\"));
+	mir_tstrcat(g_instag_filename, _T(INSTAG_FILENAME));
 }
 
 int FoldersChanged(WPARAM wParam, LPARAM lParam)
 {
-	char path[MAX_PATH];
-	if ( FoldersGetCustomPath(hPATH_MIROTR, path, SIZEOF(path), ""))
-		SetFilenames( VARS(DATA_DIRECTORY));
+	TCHAR path[MAX_PATH];
+	if ( FoldersGetCustomPathT(hPATH_MIROTR, path, SIZEOF(path), _T("")))
+		SetFilenames( VARST(DATA_DIRECTORY));
 	else
 		SetFilenames(path);
 
@@ -48,14 +48,14 @@ int FoldersChanged(WPARAM wParam, LPARAM lParam)
 
 void LoadFilenames()
 {
-	if (hPATH_MIROTR = FoldersRegisterCustomPath("OTR", LPGEN("Private Data"), DATA_DIRECTORY)) {
+	if (hPATH_MIROTR = FoldersRegisterCustomPathT("OTR", LPGEN("Private Data"), DATA_DIRECTORY)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersChanged);
 
 		// get the path - above are only defaults - there may be a different value in the db
 		FoldersChanged(0, 0);
 	}
 	else {
-		SetFilenames( VARS(DATA_DIRECTORY));
+		SetFilenames( VARST(DATA_DIRECTORY));
 		ReadPrivkeyFiles();
 	}
 }
@@ -130,9 +130,9 @@ void ReadPrivkeyFiles()
 {
 	DEBUGOUT_T("READ privkey");
 	lib_cs_lock();
-	otrl_privkey_read(otr_user_state, g_private_key_filename);
-	otrl_privkey_read_fingerprints(otr_user_state, g_fingerprint_store_filename, set_context_contact, 0);
-	otrl_instag_read(otr_user_state, g_instag_filename);
+	otrl_privkey_read(otr_user_state, _T2A(g_private_key_filename));
+	otrl_privkey_read_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename), set_context_contact, 0);
+	otrl_instag_read(otr_user_state, _T2A(g_instag_filename));
 	lib_cs_unlock();
 }
 
@@ -374,7 +374,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 						OtrlPrivKey *key = otrl_privkey_find(otr_user_state, proto, proto);
 						if (key) {
 							otrl_privkey_forget(key);
-							otrl_privkey_write(otr_user_state, g_private_key_filename);
+							otrl_privkey_write(otr_user_state, _T2A(g_private_key_filename));
 							ListView_SetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 2, _T(""));
 						}
 					}

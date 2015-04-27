@@ -5,9 +5,9 @@
 #define FINGERPRINT_STORE_FILENAME "otr.fingerprints"
 #define INSTAG_FILENAME "otr.instag"
 
-extern char g_fingerprint_store_filename[MAX_PATH];
-extern char g_private_key_filename[MAX_PATH];
-extern char g_instag_filename[MAX_PATH];
+extern TCHAR g_fingerprint_store_filename[MAX_PATH];
+extern TCHAR g_private_key_filename[MAX_PATH];
+extern TCHAR g_instag_filename[MAX_PATH];
 
 #define CONTACT_DEFAULT_POLICY 	0xFFFF
 

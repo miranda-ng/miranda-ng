@@ -745,7 +745,7 @@ unsigned int CALLBACK verify_context_thread(void *param)
 			case IDYES:
 				lib_cs_lock();
 				otrl_context_set_trust(context->active_fingerprint, "verified");
-				otrl_privkey_write_fingerprints(otr_user_state, g_fingerprint_store_filename);
+				otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
 				lib_cs_unlock();
 				mir_sntprintf(msg, SIZEOF(msg), TranslateT(LANG_FINGERPRINT_VERIFIED), contact_get_nameT(hContact));
 				ShowMessage(hContact, msg);
@@ -754,7 +754,7 @@ unsigned int CALLBACK verify_context_thread(void *param)
 			case IDNO:
 				lib_cs_lock();
 				otrl_context_set_trust(context->active_fingerprint, NULL);
-				otrl_privkey_write_fingerprints(otr_user_state, g_fingerprint_store_filename);
+				otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
 				lib_cs_unlock();
 				mir_sntprintf(msg, SIZEOF(msg), TranslateT(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT(hContact));
 				ShowMessage(hContact, msg);

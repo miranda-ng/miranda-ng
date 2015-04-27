@@ -1,4 +1,4 @@
-#include "ConnectionNotify.h"
+#include "stdafx.h"
 
 void pid2name(DWORD procid, TCHAR *buffer, size_t bufLen)
 {
@@ -15,8 +15,7 @@ void pid2name(DWORD procid, TCHAR *buffer, size_t bufLen)
 			_tcsncpy_s(buffer, bufLen, ProcessStruct.szExeFile, _TRUNCATE);
 			break;
 		}
-	}
-		while( Process32Next( hSnap, &ProcessStruct ));
+	} while (Process32Next(hSnap, &ProcessStruct));
 
-	CloseHandle( hSnap );
+	CloseHandle(hSnap);
 }

@@ -1,5 +1,5 @@
 #pragma once
- 
+
 
 
 struct CONNECTION
@@ -16,5 +16,5 @@ struct CONNECTION
 
 struct CONNECTION* GetConnectionsTable();
 void deleteConnectionsTable(struct CONNECTION* head);
-struct CONNECTION* searchConnection(struct CONNECTION* head,TCHAR *intIp,TCHAR *extIp,int intPort,int extPort,int state);
+struct CONNECTION* searchConnection(struct CONNECTION* head, TCHAR *intIp, TCHAR *extIp, int intPort, int extPort, int state);
 void getDnsName(TCHAR *strIp, TCHAR *strHostName, size_t len);
