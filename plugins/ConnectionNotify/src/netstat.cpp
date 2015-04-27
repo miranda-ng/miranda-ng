@@ -1,21 +1,21 @@
-#include "ConnectionNotify.h"
- 
+#include "stdafx.h"
+
 struct CONNECTION *GetConnectionsTable()
 {
 	// Declare and initialize variables
-	MIB_TCPTABLE_OWNER_PID *pTcpTable = (MIB_TCPTABLE_OWNER_PID *) MALLOC(sizeof (MIB_TCPTABLE_OWNER_PID));
+	MIB_TCPTABLE_OWNER_PID *pTcpTable = (MIB_TCPTABLE_OWNER_PID *)MALLOC(sizeof(MIB_TCPTABLE_OWNER_PID));
 	if (pTcpTable == NULL) {
 		//printf("Error allocating memory!\n");
 		return NULL;
 	}
 
-	DWORD dwSize = sizeof (MIB_TCPTABLE_OWNER_PID);
+	DWORD dwSize = sizeof(MIB_TCPTABLE_OWNER_PID);
 	// Make an initial call to GetTcpTable to
 	// get the necessary size into the dwSize variable
-	DWORD dwRetVal = GetExtendedTcpTable(pTcpTable, &dwSize, TRUE,AF_INET,TCP_TABLE_OWNER_PID_ALL,0);
-	if (dwRetVal ==  ERROR_INSUFFICIENT_BUFFER) {
+	DWORD dwRetVal = GetExtendedTcpTable(pTcpTable, &dwSize, TRUE, AF_INET, TCP_TABLE_OWNER_PID_ALL, 0);
+	if (dwRetVal == ERROR_INSUFFICIENT_BUFFER) {
 		FREE(pTcpTable);
-		pTcpTable = (MIB_TCPTABLE_OWNER_PID *) MALLOC(dwSize);
+		pTcpTable = (MIB_TCPTABLE_OWNER_PID *)MALLOC(dwSize);
 		if (pTcpTable == NULL) {
 			//printf("Error allocating memory\n");
 			return NULL;
@@ -24,7 +24,7 @@ struct CONNECTION *GetConnectionsTable()
 
 	// Make a second call to GetTcpTable to get
 	// the actual data we require
-	if ((dwRetVal = GetExtendedTcpTable(pTcpTable, &dwSize, TRUE,AF_INET,TCP_TABLE_OWNER_PID_ALL,0)) != NO_ERROR) {
+	if ((dwRetVal = GetExtendedTcpTable(pTcpTable, &dwSize, TRUE, AF_INET, TCP_TABLE_OWNER_PID_ALL, 0)) != NO_ERROR) {
 		//printf("\tGetTcpTable() failed with return value %d\n", dwRetVal);
 		FREE(pTcpTable);
 		return NULL;
@@ -33,23 +33,23 @@ struct CONNECTION *GetConnectionsTable()
 	//printf("Number of entries: %d\n", (int) pTcpTable->dwNumEntries);
 	struct in_addr IpAddr;
 	struct CONNECTION *connHead = NULL;
-	for (DWORD i = 0; i < pTcpTable->dwNumEntries; i ++) {
+	for (DWORD i = 0; i < pTcpTable->dwNumEntries; i++) {
 		struct CONNECTION *newConn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
 		memset(newConn, 0, sizeof(struct CONNECTION));
 		//pid2name(pTcpTable->table[i].dwOwningPid,&newConn->Pname);
-		
+
 		if (pTcpTable->table[i].dwLocalAddr) {
-			IpAddr.S_un.S_addr = (ULONG) pTcpTable->table[i].dwLocalAddr;
+			IpAddr.S_un.S_addr = (ULONG)pTcpTable->table[i].dwLocalAddr;
 			//_snprintf(newConn->strIntIp,_countof(newConn->strIntIp),"%d.%d.%d.%d",IpAddr.S_un.S_un_b.s_b1,IpAddr.S_un.S_un_b.s_b2,IpAddr.S_un.S_un_b.s_b3,IpAddr.S_un.S_un_b.s_b4);
 			TCHAR *strIntIp = mir_a2t(inet_ntoa(IpAddr));
-			_tcsncpy(newConn->strIntIp, strIntIp, SIZEOF(newConn->strIntIp)-1);
+			_tcsncpy(newConn->strIntIp, strIntIp, SIZEOF(newConn->strIntIp) - 1);
 			mir_free(strIntIp);
 		}
-		
+
 		if (pTcpTable->table[i].dwRemoteAddr) {
-			IpAddr.S_un.S_addr = (u_long) pTcpTable->table[i].dwRemoteAddr;
+			IpAddr.S_un.S_addr = (u_long)pTcpTable->table[i].dwRemoteAddr;
 			TCHAR *strExtIp = mir_a2t(inet_ntoa(IpAddr));
-			_tcsncpy(newConn->strExtIp, strExtIp, SIZEOF(newConn->strExtIp)-1);
+			_tcsncpy(newConn->strExtIp, strExtIp, SIZEOF(newConn->strExtIp) - 1);
 			mir_free(strExtIp);
 		}
 		newConn->state = pTcpTable->table[i].dwState;
@@ -125,12 +125,12 @@ void deleteConnectionsTable(struct CONNECTION *head)
 
 struct CONNECTION *searchConnection(struct CONNECTION *head, TCHAR *intIp, TCHAR *extIp, int intPort, int extPort, int state)
 {
-	for(struct CONNECTION *cur = head; cur != NULL; cur = cur->next) {
+	for (struct CONNECTION *cur = head; cur != NULL; cur = cur->next) {
 		if (_tcscmp(cur->strIntIp, intIp) == 0 &&
-		    _tcscmp(cur->strExtIp, extIp) == 0 &&
-		    cur->intExtPort == extPort &&
-		    cur->intIntPort == intPort &&
-		    cur->state == state)
+			_tcscmp(cur->strExtIp, extIp) == 0 &&
+			cur->intExtPort == extPort &&
+			cur->intIntPort == intPort &&
+			cur->state == state)
 			return cur;
 	}
 	return NULL;

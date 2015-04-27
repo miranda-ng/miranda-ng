@@ -371,7 +371,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LotusNotify", "..\plugins\L
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirFox", "..\plugins\MirFox\MirFoxNG_10.vcxproj", "{3E9DA555-4C7B-463C-AD5C-214073DE29D6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConnectionNotify", "..\plugins\ConnectionNotify\ConnectionNotify_10.vcxproj", "{3C83B0AB-9739-41C1-A127-ED7DB9551F76}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConnectionNotify", "..\plugins\ConnectionNotify\ConnectionNotify.vcxproj", "{3C83B0AB-9739-41C1-A127-ED7DB9551F76}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exchange", "..\plugins\Exchange\Exchange_10.vcxproj", "{F462FDA1-BDCD-49B2-B996-D7DE71D07393}"
 EndProject

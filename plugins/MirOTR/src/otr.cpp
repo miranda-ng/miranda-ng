@@ -40,7 +40,7 @@ static unsigned int CALLBACK generate_key_thread(void* param)
 	Thread_Push(0);
 	GenKeyData *data = (GenKeyData *)param;
 	//lib_cs_lock();
-	otrl_privkey_generate(otr_user_state, g_private_key_filename, data->proto, data->proto);
+	otrl_privkey_generate(otr_user_state, _T2A(g_private_key_filename), data->proto, data->proto);
 	//lib_cs_unlock();
 	PostMessage(data->dialog, WMU_ENDDIALOG, 0, 0);
 	mir_free(data);
@@ -165,14 +165,14 @@ extern "C" {
 		//CloseHandle((HANDLE)_beginthreadex(0, 0, trust_fp_thread, (void *)fp, 0, 0));
 
 		otrl_context_set_trust(fp, NULL);
-		otrl_privkey_write_fingerprints(otr_user_state, g_fingerprint_store_filename);
+		otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
 	}
 
 	/* The list of known fingerprints has changed.  Write them to disk. */
 	void otr_gui_write_fingerprints(void *opdata) {
 		DEBUGOUT_T("OTR_GUI_WRITE_FINGERPRINTS\n");
 		//if(MessageBox(0, Translate("Would you like to save the current fingerprint list?"), Translate(MODULE), MB_YESNO) == IDYES)
-		otrl_privkey_write_fingerprints(otr_user_state, g_fingerprint_store_filename);
+		otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
 	}
 
 	/* A ConnContext has entered a secure state. */
@@ -389,7 +389,7 @@ extern "C" {
 	
 	void otr_create_instag(void *opdata, const char *accountname, const char *protocol){
 		DEBUGOUT_T("OTR_CREATE_INSTAG\n");
-		FILE* instagf = fopen(g_instag_filename, "w+b");
+		FILE* instagf = _tfopen(g_instag_filename, _T("w+b"));
 		if(!instagf)
 			return;
 		otrl_instag_generate_FILEp(otr_user_state, instagf, accountname, protocol);

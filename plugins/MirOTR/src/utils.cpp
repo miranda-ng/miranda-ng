@@ -75,7 +75,7 @@ TrustLevel otr_context_get_trust(ConnContext *context)
 void VerifyFingerprint(ConnContext *context, bool verify) {
 	lib_cs_lock();
 	otrl_context_set_trust(context->active_fingerprint, (verify)?"verified":NULL);
-	otrl_privkey_write_fingerprints(otr_user_state, g_fingerprint_store_filename);
+	otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
 	lib_cs_unlock();
 	VerifyFingerprintMessage(context, verify);
 }
