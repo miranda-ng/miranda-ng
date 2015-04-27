@@ -190,6 +190,9 @@ private:
 
 	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
 
+	void OnBlockContact		(const NETLIBHTTPREQUEST *response, void *p);
+	void OnUnblockContact	(const NETLIBHTTPREQUEST *response, void *p);
+
 	// messages
 	mir_cs messageSyncLock;
 

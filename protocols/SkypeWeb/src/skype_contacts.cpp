@@ -222,11 +222,11 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 
 			node = json_get(item, "blocked");
 			bool isBlocked = json_as_bool(node);
-			setByte(hContact, "IsBlocked", isBlocked);
 			if (isBlocked)
 			{
 				db_set_dw(hContact, "Ignore", "Mask1", 127);
 				db_set_b(hContact, "CList", "Hidden", 1);
+				setByte(hContact, "IsBlocked", 1);
 			}
 
 			skypenames.insert(mir_strdup(skypename));
@@ -278,12 +278,31 @@ int CSkypeProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
 {
 	if (IDYES == MessageBox(NULL, TranslateT("Are you sure?"), TranslateT("Warning"), MB_YESNOCANCEL | MB_ICONQUESTION))
-		SendRequest(new BlockContactRequest(TokenSecret, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))));
+		SendRequest(new BlockContactRequest(TokenSecret, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))), &CSkypeProto::OnBlockContact, (void *)hContact);
 	return 0;
+}
+
+void CSkypeProto::OnBlockContact(const NETLIBHTTPREQUEST *response, void *p)
+{
+	MCONTACT hContact = (MCONTACT)p;
+	if (response == NULL) 
+		return;
+	db_set_dw(hContact, "Ignore", "Mask1", 127);
+	db_set_b(hContact, "CList", "Hidden", 1);
 }
 
 INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
 {
-	SendRequest(new UnblockContactRequest(TokenSecret, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))));
+	SendRequest(new UnblockContactRequest(TokenSecret, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))), &CSkypeProto::OnUnblockContact, (void *)hContact);
 	return 0;
+}
+
+void CSkypeProto::OnUnblockContact(const NETLIBHTTPREQUEST *response, void *p)
+{
+	MCONTACT hContact = (MCONTACT)p;
+	if (response == NULL) 
+		return;
+	db_set_dw(hContact, "Ignore", "Mask1", 0);
+	db_set_b(hContact, "CList", "Hidden", 0);
+	db_set_b(hContact, m_szModuleName, "IsBlocked", 0);
 }
