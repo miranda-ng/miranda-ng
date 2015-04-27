@@ -1094,32 +1094,17 @@ void TSAPI DM_SaveLocale(TWindowData *dat, WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // generic handler for the WM_COPY message in message log/chat history richedit control(s).
 // it filters out the invisible event boundary markers from the text copied to the clipboard.
-
+// WINE Fix: overwrite clippboad data from original control data
 LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT result = mir_callNextSubclass(hwnd, oldWndProc, msg, wParam, lParam);
 
-	if (!OpenClipboard(hwnd))
-		return result;
-	HANDLE hClip = GetClipboardData(CF_UNICODETEXT);
-	if (!hClip)
-		goto err_out;
-	TCHAR *tszText = (TCHAR*)mir_alloc((mir_tstrlen((TCHAR*)hClip) + 2) * sizeof(TCHAR));
-	if (!tszText)
-		goto err_out;
-	mir_tstrcpy(tszText, (TCHAR*)hClip);
-	Utils::FilterEventMarkers(tszText);
-	EmptyClipboard();
+	ptrA szFromStream(Message_GetFromStream(hwnd, SF_TEXT | SFF_SELECTION));
+	ptrW converted(mir_utf8decodeW(szFromStream));
 
-	HGLOBAL hgbl = GlobalAlloc(GMEM_MOVEABLE, (mir_tstrlen(tszText) + 1) * sizeof(TCHAR));
-	TCHAR *tszLocked = (TCHAR*)GlobalLock(hgbl);
-	mir_tstrcpy(tszLocked, tszText);
-	GlobalUnlock(hgbl);
-	SetClipboardData(CF_UNICODETEXT, hgbl);
-	mir_free(tszText);
+	Utils::FilterEventMarkers(converted);
+	Utils::CopyToClipBoard(converted, hwnd);
 
-err_out:
-	CloseClipboard();
 	return result;
 }
 

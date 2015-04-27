@@ -2000,31 +2000,31 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				// holding ctrl while releasing the button pastes the selection to the input area, using plain text
 				// holding ctrl-alt does the same, but pastes formatted text
 				case WM_LBUTTONUP:
-					if (((NMHDR*)lParam)->idFrom == IDC_LOG) {
+					if (((NMHDR*)lParam)->idFrom == IDC_LOG && M.GetByte("autocopy", 1)) {
 						CHARRANGE cr;
 						SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXGETSEL, 0, (LPARAM)&cr);
-						if (cr.cpMax != cr.cpMin) {
-							cr.cpMin = cr.cpMax;
-							if (isCtrl && M.GetByte("autocopy", 1)) {
-								SETTEXTEX stx = { ST_KEEPUNDO | ST_SELECTION, CP_UTF8 };
-								char *streamOut = NULL;
-								if (isAlt)
-									streamOut = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_LOG), SF_RTFNOOBJS | SFF_PLAINRTF | SFF_SELECTION);
-								else
-									streamOut = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_LOG), SF_TEXT | SFF_SELECTION);
-								if (streamOut) {
-									Utils::FilterEventMarkers(streamOut);
-									SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)streamOut);
-									mir_free(streamOut);
-								}
-								SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
+						if (cr.cpMax == cr.cpMin)
+							break;
+						cr.cpMin = cr.cpMax;
+						if (isCtrl) {
+							SETTEXTEX stx = { ST_KEEPUNDO | ST_SELECTION, CP_UTF8 };
+							char *streamOut = NULL;
+							if (isAlt)
+								streamOut = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_LOG), SF_RTFNOOBJS | SFF_PLAINRTF | SFF_SELECTION);
+							else
+								streamOut = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_LOG), SF_TEXT | SFF_SELECTION);
+							if (streamOut) {
+								Utils::FilterEventMarkers(streamOut);
+								SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)streamOut);
+								mir_free(streamOut);
 							}
-							else if (M.GetByte("autocopy", 1) && !isShift) {
-								SendDlgItemMessage(hwndDlg, IDC_LOG, WM_COPY, 0, 0);
-								SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
-								if (m_pContainer->hwndStatus)
-									SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)TranslateT("Selection copied to clipboard"));
-							}
+							SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
+						}
+						else if (!isShift) {
+							SendDlgItemMessage(hwndDlg, IDC_LOG, WM_COPY, 0, 0);
+							SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
+							if (m_pContainer->hwndStatus)
+								SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)TranslateT("Selection copied to clipboard"));
 						}
 					}
 					break;
@@ -2084,16 +2084,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						break;
 
 					case IDM_COPYLINK:
-						if (!OpenClipboard(hwndDlg))
-							break;
-
-						EmptyClipboard();
-						HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(tszUrl) + 1));
-						TCHAR *buf = (TCHAR*)GlobalLock(hData);
-						mir_tstrcpy(buf, tszUrl);
-						GlobalUnlock(hData);
-						SetClipboardData(CF_UNICODETEXT, hData);
-						CloseClipboard();
+						Utils::CopyToClipBoard(tszUrl, hwndDlg);
 						break;
 					}
 					DestroyMenu(hMenu);
