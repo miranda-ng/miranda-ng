@@ -22,7 +22,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 int hLangpack;
 HINSTANCE g_hInst = 0;
@@ -53,7 +53,7 @@ int CListOptInit(WPARAM wParam, LPARAM lParam);
 /////////////////////////////////////////////////////////////////////////////////////////
 // dll stub
 
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
+BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
 {
 	g_hInst = hInstDLL;
 	DisableThreadLibraryCalls(g_hInst);
@@ -77,7 +77,7 @@ PLUGININFOEX pluginInfo = {
 	{0x53e095a3, 0x2695, 0x490a, {0x9d, 0xad, 0xd2, 0x4, 0x79, 0x9, 0x38, 0x31}}
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -90,7 +90,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CLIST, 
 /////////////////////////////////////////////////////////////////////////////////////////
 // called when number of accounts has been changed
 
-static int OnAccountsChanged(WPARAM wParam, LPARAM lParam)
+static int OnAccountsChanged(WPARAM, LPARAM)
 {
 	himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 	return 0;
@@ -99,7 +99,7 @@ static int OnAccountsChanged(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // called when all modules got loaded
 
-static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 	return 0;
@@ -119,7 +119,7 @@ static int OnOptsInit(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // menu status services
 
-static INT_PTR GetStatusMode(WPARAM wParam, LPARAM lParam)
+static INT_PTR GetStatusMode(WPARAM, LPARAM)
 {
 	return pcli->currentDesiredStatusMode;
 }
@@ -418,20 +418,6 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	return coreCli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 }
 
-static int GetRealStatus(struct ClcContact *contact, int status)
-{
-	int i;
-	char *szProto = contact->proto;
-	if (!szProto)
-		return status;
-	for (i = 0; i < pcli->hClcProtoCount; i++) {
-		if (!mir_strcmp(pcli->clcProto[i].szProto, szProto)) {
-			return pcli->clcProto[i].dwStatus;
-		}
-	}
-	return status;
-}
-
 TCHAR status_name[128];
 TCHAR *GetStatusName(struct ClcContact *item)
 {
@@ -596,7 +582,6 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 			}
 		case CLCIT_CONTACT:
 			{
-				char *szCounts = pcli->pfnGetGroupCountsText((ClcData*)dat, item);
 				const TCHAR *t[] = {
 					_T("%name%"),
 					_T("%status%"),
@@ -665,11 +650,11 @@ void SetGroupExpand(HWND hwnd, ClcData *dat, struct ClcGroup *group, int newStat
 	dat->need_rebuild = TRUE;
 }
 
-void ScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
+void ScrollTo(HWND, ClcData*, int, int)
 {
 }
 
-void RecalcScrollBar(HWND hwnd, ClcData *dat)
+void RecalcScrollBar(HWND, ClcData*)
 {
 }
 
@@ -681,7 +666,7 @@ void LoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	dat->rowHeight = SendMessage(dat->hwnd_list, LB_GETITEMHEIGHT, 0, 0);
 }
 
-int GetRowHeight(ClcData *dat, int item)
+int GetRowHeight(ClcData *dat, int)
 {
 	dat->rowHeight = SendMessage(dat->hwnd_list, LB_GETITEMHEIGHT, 0, 0);
 	return dat->rowHeight;
