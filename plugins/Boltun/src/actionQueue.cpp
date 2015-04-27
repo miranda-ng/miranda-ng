@@ -18,7 +18,7 @@
 //
 //***********************************************************
 
-#include "boltun.h"
+#include "stdafx.h"
 
 #include "newpluginapi.h"
 #include "m_database.h"
@@ -29,7 +29,7 @@ using namespace std;
 
 extern TalkBot* bot;
 
-typedef void (*ActionHandler)(MCONTACT hContact, const TalkBot::MessageInfo *inf);
+typedef void(*ActionHandler)(MCONTACT hContact, const TalkBot::MessageInfo *inf);
 
 typedef struct _QueueElement {
 	MCONTACT hContact;
@@ -52,7 +52,7 @@ CriticalSection typingContactsLock;
 
 void UpdateTimer();
 
-VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	cs.Enter();
 	QueueElement q = actionQueue.front();
@@ -67,7 +67,7 @@ void UpdateTimer()
 	if (timerID)
 		KillTimer(NULL, timerID);
 	if (actionQueue.size())
-		timerID = SetTimer(NULL, 0, actionQueue.front().TimeOffset, TimerProc);	
+		timerID = SetTimer(NULL, 0, actionQueue.front().TimeOffset, TimerProc);
 	else
 		timerID = 0;
 }
@@ -89,8 +89,8 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 
 	bufsize *= sizeof(TCHAR) + 1;
 	msg = new char[bufsize];
-	
-	if (!WideCharToMultiByte(CP_ACP, 0, info->Answer.c_str(), -1, msg, size, 
+
+	if (!WideCharToMultiByte(CP_ACP, 0, info->Answer.c_str(), -1, msg, size,
 		NULL, NULL))
 		memset(msg, '-', (size - 1)); //In case of fault return "----" in ANSI part
 	memcpy(msg + size, info->Answer.c_str(), size * 2);
@@ -98,20 +98,20 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 	CallContactService(hContact, PSS_MESSAGE, PREF_TCHAR, (LPARAM)msg);
 
 	memset(&ldbei, 0, sizeof(ldbei));
-	ldbei.cbSize    = sizeof(ldbei);
+	ldbei.cbSize = sizeof(ldbei);
 	//FIXME: Error may happen
-	ldbei.cbBlob    = bufsize;
-	ldbei.pBlob     = (PBYTE)(void*)msg;
+	ldbei.cbBlob = bufsize;
+	ldbei.pBlob = (PBYTE)(void*)msg;
 	ldbei.eventType = EVENTTYPE_MESSAGE;
-	ldbei.flags     = DBEF_SENT;
-	ldbei.szModule  = BOLTUN_NAME;
+	ldbei.flags = DBEF_SENT;
+	ldbei.szModule = BOLTUN_NAME;
 	ldbei.timestamp = (DWORD)time(NULL);
 
 	db_event_add(hContact, &ldbei);
 	bot->AnswerGiven(hContact, *info);
 	delete info;
 
-	delete [] msg;
+	delete[] msg;
 
 	typingContactsLock.Enter();
 	typingContacts.erase(hContact);
@@ -120,7 +120,7 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 
 static void StartTyping(MCONTACT hContact, const TalkBot::MessageInfo*)
 {
-	CallService(MS_PROTO_SELFISTYPING, hContact, 
+	CallService(MS_PROTO_SELFISTYPING, hContact,
 		(LPARAM)PROTOTYPE_SELFTYPING_ON);
 	typingContactsLock.Enter();
 	typingContacts.insert(hContact);
@@ -140,13 +140,13 @@ void DoAnswer(MCONTACT hContact, const TalkBot::MessageInfo *info, bool sticky =
 	if (Config.PauseRandom)
 	{
 		//Let it be up to 4 times longer.
-		waitTime =  waitTime * (rand() % 300) / 100 + waitTime;
+		waitTime = waitTime * (rand() % 300) / 100 + waitTime;
 	}
 	if (waitTime == 0)
 		waitTime = 50; //it's essential, because otherwise message will be added later 
-					   //then its response, that will cause incorrect ordering of 
-					   //messages in the opened history (reopening will
-					   //help, but anyway it's no good)
+	//then its response, that will cause incorrect ordering of 
+	//messages in the opened history (reopening will
+	//help, but anyway it's no good)
 	if (NotifyTyping(hContact) && Config.AnswerThinkTime)
 	{
 		thinkTime = Config.AnswerThinkTime * 1000;
@@ -154,7 +154,7 @@ void DoAnswer(MCONTACT hContact, const TalkBot::MessageInfo *info, bool sticky =
 		{
 			//Let it be up to 4 times longer.
 			thinkTime = thinkTime * (rand() % 300) / 100 + thinkTime;
-		}				
+		}
 	}
 	cs.Enter();
 	//Check if this contact's timer handler is now waiting for a cs.
@@ -208,7 +208,7 @@ void DoAnswer(MCONTACT hContact, const TalkBot::MessageInfo *info, bool sticky =
 
 void AnswerToContact(MCONTACT hContact, const TCHAR* messageToAnswer)
 {
-	if (Config.TalkWarnContacts && db_get_b(hContact, BOLTUN_KEY, 
+	if (Config.TalkWarnContacts && db_get_b(hContact, BOLTUN_KEY,
 		DB_CONTACT_WARNED, FALSE) == FALSE)
 	{
 		DoAnswer(hContact, new TalkBot::MessageInfo((const TCHAR*)Config.WarnText), true);

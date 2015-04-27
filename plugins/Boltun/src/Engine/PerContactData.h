@@ -41,7 +41,7 @@ class PerContactData
 		}
 
 		inline InternalData()
-			:data(NULL)
+			: data(NULL)
 		{
 			assert(false);
 		}
@@ -133,12 +133,12 @@ void PerContactData<Source, Data, ContactHandle>::CleanupData()
 	mapLock.Enter();
 	time_t now;
 	time(&now);
-	for (mapIt it = datas.begin(); it != datas.end(); )
+	for (mapIt it = datas.begin(); it != datas.end();)
 	{
 		if ((*it).second->time) //it's being in use
 		{
 			int diff = (int)difftime(now, (*it).second->time);
-			if (diff >= 30*60) //half of an hour
+			if (diff >= 30 * 60) //half of an hour
 			{
 				mapIt tmp = it;
 				it++;
@@ -160,7 +160,7 @@ void PerContactData<Source, Data, ContactHandle>::CleanupData()
 }
 
 template <class Source, class Data, class ContactHandle>
-VOID CALLBACK RunTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK RunTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
 	PerContactData<Source, Data, ContactHandle>* val = (PerContactData<Source, Data, ContactHandle>*)perContactDataObjects[idEvent];
 	val->CleanupData();

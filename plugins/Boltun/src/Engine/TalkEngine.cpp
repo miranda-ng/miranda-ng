@@ -18,7 +18,7 @@
 //
 //***********************************************************
 
-#include "..\boltun.h"
+#include "..\stdafx.h"
 
 #ifdef _DEBUG
 
@@ -61,7 +61,7 @@ void TalkBot::UpdateStartChar(tstring& str)
 				TCHAR ncl = (TCHAR)CharLower((LPTSTR)(void*)(long)str[i + 1]);
 				TCHAR ncu = (TCHAR)CharUpper((LPTSTR)(void*)(long)str[i + 1]);
 				if (ncl != ncu && str[i + 1] == ncu)
-					break;				
+					break;
 			}
 			if (cl != cu)
 			{
@@ -73,7 +73,7 @@ void TalkBot::UpdateStartChar(tstring& str)
 }
 
 TalkBot::TalkBot(const Mind& goodMind)
-	:mind(goodMind), beSilent(false), makeLowercase(false), 
+	:mind(goodMind), beSilent(false), makeLowercase(false),
 	understandAlways(false)
 {
 	contactDatas = new PerContactData<Mind, ContactData, MCONTACT>(mind);
@@ -104,7 +104,7 @@ tstring TalkBot::ReplaceAliases(const tstring &message)
 	{
 		unsigned max = (int)(sentence.length() - i);
 		if (max > mind.GetData()->maxSmileLen)
-        	max = mind.GetData()->maxSmileLen;
+			max = mind.GetData()->maxSmileLen;
 		for (unsigned j = max; j > 0; j--)
 		{
 			tstring item = sentence.substr(i, j);
@@ -116,7 +116,7 @@ tstring TalkBot::ReplaceAliases(const tstring &message)
 			}
 		}
 	}
-    len = (int)sentence.length();
+	len = (int)sentence.length();
 	bool hadQuestionSigns = false;
 	int it = 0;
 	while (it != len)
@@ -127,7 +127,7 @@ tstring TalkBot::ReplaceAliases(const tstring &message)
 				hadQuestionSigns = true;
 			map<int, tstring>::iterator smit;
 			if (sentence[it] == '\1')
-			{	
+			{
 				smit = sm.find(it);
 				result.append((*smit).second);
 			}
@@ -162,7 +162,7 @@ tstring TalkBot::ReplaceAliases(const tstring &message)
 tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData *contactData, Level &maxValue, std::multimap<Level, tstring> &mm)
 {
 	tstring res;
-    //Part 1
+	//Part 1
 	if (FindExact(contactData, incomingMessage, mind.GetData()->widelyUsed, res)) //widelyUsed
 	{
 		return res;
@@ -222,16 +222,16 @@ tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData *contact
 			if (maxValue > LOOKSLIKE)
 				maxValue = LOOKSLIKE;
 		}
-/*		if (ures != _T(""))
-		{
-#ifdef DEBUG_PREFIXES
-			mm.insert(make_pair(LOOKSLIKE2, _T("(keywords_unstrict) ")+ures));
-#else
-			mm.insert(make_pair(LOOKSLIKE2, ures));
-#endif
-			if (maxValue > LOOKSLIKE2)
+		/*		if (ures != _T(""))
+				{
+				#ifdef DEBUG_PREFIXES
+				mm.insert(make_pair(LOOKSLIKE2, _T("(keywords_unstrict) ")+ures));
+				#else
+				mm.insert(make_pair(LOOKSLIKE2, ures));
+				#endif
+				if (maxValue > LOOKSLIKE2)
 				maxValue = LOOKSLIKE2;
-		}*/
+				}*/
 		//Part 9
 		if (FindByOthers(contactData, otherwords, res, isQuestion)) //specialEscapes
 		{
@@ -274,14 +274,14 @@ tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData *contact
 
 TalkBot::MessageInfo* TalkBot::Reply(MCONTACT contact, tstring incomingMessage, bool saveChoice)
 {
-	TCHAR* str = new TCHAR[incomingMessage.length()+1];
+	TCHAR* str = new TCHAR[incomingMessage.length() + 1];
 	_tcscpy(str, incomingMessage.c_str());
 	CharLower(str);
 	incomingMessage = str;
-	delete [] str;
+	delete[] str;
 	ContactData *contactData = contactDatas->GetData(contact);
 
-	if (incomingMessage == contactData->lastMessage && GetTickCount() < contactData->lastMessageTime + 30*60*1000)
+	if (incomingMessage == contactData->lastMessage && GetTickCount() < contactData->lastMessageTime + 30 * 60 * 1000)
 	{
 		MessageInfo *info;
 		//only 2-3 repeats
@@ -400,7 +400,7 @@ void TalkBot::SplitSectences(const tstring &incomingMessage, vector<tstring>& ve
 {
 	//FIXME: (THINK ABOUT IT:-))these chars not always mark the end of sentence.
 	const TCHAR symbols[] = _T(".?!");
-    int it = 0, len = (int)incomingMessage.length();
+	int it = 0, len = (int)incomingMessage.length();
 	while (it != len)
 	{
 		while (it != len && _istspace(incomingMessage[it]))
@@ -411,9 +411,9 @@ void TalkBot::SplitSectences(const tstring &incomingMessage, vector<tstring>& ve
 			if (_tcschr(symbols, incomingMessage[it++]))
 			{
 				//Test for a :-! smile
-				if (it > 2 && incomingMessage[it-1] == _T('!')
-					&& incomingMessage[it-2] == _T('-')
-					&& incomingMessage[it-3] == _T(':'))
+				if (it > 2 && incomingMessage[it - 1] == _T('!')
+					&& incomingMessage[it - 2] == _T('-')
+					&& incomingMessage[it - 3] == _T(':'))
 					continue;
 				while (it != len && _tcschr(symbols, incomingMessage[it]))
 					it++;
@@ -427,14 +427,14 @@ void TalkBot::SplitSectences(const tstring &incomingMessage, vector<tstring>& ve
 #ifdef _DEBUG
 tstring LevelToStr(TalkBot::Level target)
 {
-    tstring lev;
+	tstring lev;
 	switch (target)
 	{
-		case TalkBot::BEST: lev = _T("BEST(0)"); break;
-		case TalkBot::LOOKSLIKE: lev = _T("LOOKSLIKE(1)"); break;
-		case TalkBot::BAD: lev = _T("BAD(2)"); break;
-		case TalkBot::FAIL: lev = _T("FAIL(3)"); break;
-		case TalkBot::NOTHING: lev = _T("NOTHING(4)"); break;
+	case TalkBot::BEST: lev = _T("BEST(0)"); break;
+	case TalkBot::LOOKSLIKE: lev = _T("LOOKSLIKE(1)"); break;
+	case TalkBot::BAD: lev = _T("BAD(2)"); break;
+	case TalkBot::FAIL: lev = _T("FAIL(3)"); break;
+	case TalkBot::NOTHING: lev = _T("NOTHING(4)"); break;
 	}
 	return lev;
 }
@@ -451,14 +451,8 @@ tstring TalkBot::ChooseResult(ContactData *contactData, Level maxValue, const mu
 	if (maxValue == NOTHING)
 		return _T("");
 	Level target = maxValue;
-	int num = (int)mm.count(target);
-/*	if (!num)
-	{
-		target = maxValue;
-		num = mm.count(target);
-	}*/
 	typedef multimap<Level, tstring>::const_iterator lt_cit;
-	pair<lt_cit,lt_cit> range = mm.equal_range(target);
+	pair<lt_cit, lt_cit> range = mm.equal_range(target);
 	for (lt_cit it = range.first; it != range.second; ++it)
 		contactData->chooser.AddChoice((*it).second);
 #ifdef DEBUG_SHOW_LEVEL
@@ -474,16 +468,16 @@ void TalkBot::FindByKeywords(ContactData *contactData, const vector<tstring> &ke
 {
 	if (keywords.size() == 0)
 		return;
-	const multimap<WordsList, tstring> &keys = isQuestion ? mind.GetData()->qkeywords : 
+	const multimap<WordsList, tstring> &keys = isQuestion ? mind.GetData()->qkeywords :
 		mind.GetData()->keywords;
 	for (multimap<WordsList, tstring>::const_iterator it = keys.begin(); it != keys.end(); ++it)
 	{
 		float prio;
 		if ((*it).first.MatchesAll(keywords/*, strict*/, prio))
 #ifdef DEBUG_SHOW_SOLUTION_REASON
-				contactData->chooser.AddChoice((tstring)(*it).first + _T(": - ") + (*it).second, prio);
+			contactData->chooser.AddChoice((tstring)(*it).first + _T(": - ") + (*it).second, prio);
 #else
-				contactData->chooser.AddChoice((*it).second, prio);
+			contactData->chooser.AddChoice((*it).second, prio);
 #endif
 	}
 	res = contactData->chooser.Choose();
@@ -492,9 +486,9 @@ void TalkBot::FindByKeywords(ContactData *contactData, const vector<tstring> &ke
 bool TalkBot::FindByOthers(ContactData *contactData, const vector<tstring> &otherwords, tstring& res, bool isQuestion)
 {
 	//vector<tstring> results;
-	const multimap<WordsList, tstring> &specs = isQuestion ? mind.GetData()->qspecialEscapes : 
+	const multimap<WordsList, tstring> &specs = isQuestion ? mind.GetData()->qspecialEscapes :
 		mind.GetData()->specialEscapes;
-	for (multimap<WordsList, tstring>::const_iterator it = specs.begin(); 
+	for (multimap<WordsList, tstring>::const_iterator it = specs.begin();
 		it != specs.end(); ++it)
 		if ((*it).first.MatchesAny(otherwords))
 		{
@@ -527,7 +521,7 @@ void TalkBot::SplitAndSortWords(tstring sentence, vector<tstring>& keywords,
 	{
 		unsigned max = (int)(sentence.length() - i);
 		if (max > mind.GetData()->maxSmileLen)
-        	max = mind.GetData()->maxSmileLen;
+			max = mind.GetData()->maxSmileLen;
 		for (unsigned j = max; j > 0; j--)
 		{
 			tstring item = sentence.substr(i, j);
@@ -540,7 +534,7 @@ void TalkBot::SplitAndSortWords(tstring sentence, vector<tstring>& keywords,
 			}
 		}
 	}
-    len = (int)sentence.length();
+	len = (int)sentence.length();
 	bool hadQuestionSigns = false;
 	int it = 0;
 	while (it != len)
@@ -556,7 +550,7 @@ void TalkBot::SplitAndSortWords(tstring sentence, vector<tstring>& keywords,
 		}
 		if (it == len)
 			break;
-    	hadQuestionSigns = false;
+		hadQuestionSigns = false;
 		int start = it;
 		while (true)
 		{

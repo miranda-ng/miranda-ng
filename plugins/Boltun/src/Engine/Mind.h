@@ -37,7 +37,7 @@ typedef struct
 	std::vector<std::tstring> escape;
 	std::vector<std::tstring> failure;
 	std::vector<std::tstring> repeats;
-    unsigned int maxSmileLen;
+	unsigned int maxSmileLen;
 	std::set<std::tstring> smiles;
 	std::multimap<WordsList, std::tstring> keywords;
 	std::multimap<WordsList, std::tstring> qkeywords;
@@ -55,7 +55,7 @@ class Mind
 {
 private:
 	MindData *data;
-	bool fileTypeMark;	
+	bool fileTypeMark;
 
 	std::vector<std::tstring> Parse(std::tstring s);
 public:

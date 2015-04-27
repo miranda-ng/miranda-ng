@@ -18,7 +18,7 @@
 //
 //***********************************************************
 
-#include "..\boltun.h"
+#include "..\stdafx.h"
 
 using namespace std;
 

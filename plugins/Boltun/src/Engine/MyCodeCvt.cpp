@@ -18,47 +18,47 @@
 //
 //***********************************************************
 
-#include "..\boltun.h"
+#include "..\stdafx.h"
 
 using namespace std;
 
 MyCodeCvt::MyCodeCvt(size_t _R)
-	: MyCodeCvtBase(_R) 
-{ 
+	: MyCodeCvtBase(_R)
+{
 }
 
-MyCodeCvt::result MyCodeCvt::do_in(_St& _State ,
-                   const _To* _F1, const _To* _L1, const _To*& _Mid1,
-                   _E* F2, _E* _L2, _E*& _Mid2) const
+MyCodeCvt::result MyCodeCvt::do_in(_St&,
+	const _To*, const _To*, const _To*&,
+	_E*, _E*, _E*&) const
 {
 	return noconv;
 }
-    
+
 #ifdef MSVC
 MyCodeCvt::result MyCodeCvt::do_out(_St& _State,
-				   const _E* _F1, const _E* _L1, const _E*& _Mid1,
-				   _To* F2, _E* _L2, _To*& _Mid2) const
+	const _E* _F1, const _E* _L1, const _E*& _Mid1,
+	_To* F2, _E* _L2, _To*& _Mid2) const
 #else
-MyCodeCvt::result MyCodeCvt::do_out(_St& _State,
-				   const _E* _F1, const _E* _L1, const _E*& _Mid1,
-				   _To* F2, _To* _L2, _To*& _Mid2) const
+MyCodeCvt::result MyCodeCvt::do_out(_St&,
+	const _E*, const _E*, const _E*&,
+	_To*, _To*, _To*&) const
 #endif
 {
 	return noconv;
 }
 
-MyCodeCvt::result MyCodeCvt::do_unshift( _St& _State,
-            _To* _F2, _To* _L2, _To*& _Mid2) const
+MyCodeCvt::result MyCodeCvt::do_unshift(_St&,
+	_To*, _To*, _To*&) const
 {
 	return noconv;
 }
 
 #ifdef MSVC
 int MyCodeCvt::do_length(_St& _State, const _To* _F1,
-		   const _To* _L1, size_t _N2) const _THROW0()
+	const _To* _L1, size_t _N2) const _THROW0()
 #else
-int MyCodeCvt::do_length(const _St& _State, const _To* _F1,
-		   const _To* _L1, size_t _N2) const _THROW0()
+int MyCodeCvt::do_length(const _St&, const _To* _F1,
+	const _To* _L1, size_t _N2) const _THROW0()
 #endif
 
 {

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{98DF7761-41D7-4C5C-9FFE-E5CCB3997783}</ProjectGuid>
+    <ProjectName>Boltun</ProjectName>
+  </PropertyGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(ProjectDir)..\..\build\vc.common\common.props" />
+  </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Engine\Mind.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Engine\MyCodeCvt.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Engine\TalkEngine.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Engine\UnrecentChooser.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Engine\WordsList.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Engine\*.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Engine\boltun.mindw" />
+  </ItemGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ExceptionHandling>Sync</ExceptionHandling>
+    </ClCompile>
+  </ItemDefinitionGroup>
+</Project>

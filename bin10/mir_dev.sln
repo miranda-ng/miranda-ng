@@ -43,7 +43,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cln_skinedit", "..\plugins\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AuthState", "..\plugins\AuthState\authstate.vcxproj", "{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Boltun", "..\plugins\Boltun\Boltun_10.vcxproj", "{98DF7761-41D7-4C5C-9FFE-E5CCB3997783}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Boltun", "..\plugins\Boltun\Boltun.vcxproj", "{98DF7761-41D7-4C5C-9FFE-E5CCB3997783}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BossKey", "..\plugins\BossKeyPlus\BossKey.vcxproj", "{88E47CF7-7B40-4312-A35A-9B28885FFED9}"
 EndProject
