@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.11
+;  Version: 0.1.2.13
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -30,7 +30,7 @@ Zaregistrovat kód
 Včetně kódu oblasti, bez '+' či '00'
 [Invite users]
 Pozvat uživatele
-[Choose an user]
+[Choose a user]
 Zvolte uživatele
 [Other user:]
 Uživatel:
@@ -49,7 +49,7 @@ Pozvat už&ivatele
 Na&stavení místnosti
 [View/change &topic]
 Zobrazit/změnit &téma
-[&Leave chat session]
+[&Quit chat session]
 &Opustit diskusi
 [Set &avatar]
 Nastavit &avatar
@@ -92,6 +92,10 @@ Vaše heslo bylo nastaveno automaticky. Nyní můžete pokračovat v přihláše
 Zadejte váš registrační kód, který vám přišel v SMS
 [Changes will be applied after protocol restart]
 Změny budou použity při dalším načtení protokolu
+[Network]
+Sítě
+[Account]
+Účet
 ;file \protocols\WhatsApp\src\messages.cpp
 [server]
 Server
@@ -114,10 +118,6 @@ Registrace se nezdařila.
 Zkuste to znovu za %i sekund
 [Registration code has been sent to your phone.]
 Registrační kód byl odeslán do vašeho telefonu.
-[Network]
-Sítě
-[Account]
-Účet
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
 WhatsApp ikona

@@ -26,8 +26,8 @@ Pouze pro zprávy
 Blikat při otevřeném kom. okně
 [and not in foreground]
 které není v popředí
-[Only if last is]
-Jen starší
+[only if last is]
+jen starší
 [sec. old]
 ti sek.
 [Flash until]

@@ -104,8 +104,8 @@ Pokračovat po zadání tokenu
 Zrušit
 [Create Gadu-Gadu account]
 Zřídit nový účet Gadu-Gadu
-[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
-Vytvořit účet Gadu-Gadu\nToto vytvoří nový účet Gadu-Gadu
+[This will create new Gadu-Gadu account]
+Založení nového účtu v síti Gadu-Gadu
 [New password:]
 Nové heslo:
 [Confirm password:]
@@ -116,20 +116,20 @@ Nový e-mail:
 &Vytvořit
 [Remove Gadu-Gadu account]
 Zrušit účet Gadu-Gadu
-[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
-Zrušit účet Gadu-Gadu\nToto zruší váš účet Gadu-Gadu
+[This will remove your Gadu-Gadu account]
+Zrušení vašeho účtu Gadu-Gadu
 [Yes, I want to remove my account]
 Ano, opravdu chci svůj účet zrušit
 [Remove]
 Odebrat
 [Change Gadu-Gadu password]
 Změnit heslo Gadu-Gadu
-[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
-Změnit heslo Gadu-Gadu\nZmění aktuální heslo uživatele Gadu-Gadu
+[Changes current Gadu-Gadu user password]
+Změna aktuálního hesla uživatele Gadu-Gadu
 [Change Gadu-Gadu e-mail]
 Změnit e-mail Gadu-Gadu
-[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
-Změnit e-mail Gadu-Gadu\nZmění aktuální e-mail uživatele Gadu-Gadu
+[Changes current Gadu-Gadu user e-mail]
+Změna aktuálního e-mailu uživatele Gadu-Gadu
 [Age from:]
 Min. věk:
 [to:]
@@ -142,14 +142,14 @@ Hledat pouze mezi uživateli online
 Po&slat
 [Open new conference]
 Založit novou konferenci
-[Open new conference\nSelect conference participants]
-Založit novou konferenci\nVybrat účastníky konference
+[Select conference participants]
+Výběr účastníků konference
 [Open]
 Otevřít
-[Concurrent Sessions]
-Přehled relací
-[Concurrent %s Login Sessions\nView information on active concurrent sessions]
-Přehled přihlášených relací %s\nZobrazí informace o aktivních relacích
+[Concurrent %s Login Sessions]
+Přehled %s přihlášených relací
+[View information on active concurrent sessions]
+Zobrazuje informace o přihlášených relacích
 [Sign out all sessions]
 Odhlásit všechny relace
 ;file \protocols\Gadu-Gadu\src\avatar.cpp

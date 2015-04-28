@@ -2,34 +2,44 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.8
+;  Version: 0.11.1.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Tox protokol pro Mirandu NG.
 ;file \protocols\Tox\res\resource.rc
+[Tox ID:]
+Tox ID:
+[Create]
+Vytvořit
+[Import]
+Importovat
+[Copy ID]
+Zkopírovat ID
+[Export]
+Exportovat
 [Name:]
 Název:
 [Password:]
 Heslo:
 [Default group:]
 Výchozí skupina:
-[C]
-C
-[Tox ID:]
-Tox ID:
-[Import tox profile]
-Importovat Tox profil
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
-Tox profil obsahuje vaše ID a seznam kontaktů.\r\nMůžete naimportovat existující profil z jiného tox klienta.
-[Connection settings]
-Možnosti připojení
-[Disable UDP (force Tox to use TCP)]
-Zakázat UDP (vynutit použití TCP)
-[Disable IPv6]
-Zakázat IPv6
 [Tox]
 Tox
+[Create tox profile]
+Vytvořit Tox profil
+[Import tox profile]
+Importovat Tox profil
+[Copy Tox ID]
+Zkopírovat Tox ID
+[Export tox profile]
+Exportovat Tox profil
+[Connection settings]
+Možnosti připojení
+[Enable UDP (otherwise force Tox to use TCP)]
+Povolit UDP (jinak vynutí použití TCP)
+[Enable IPv6]
+Povolit IPv6
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Pokud toto pole obsahuje adresu Tox (76 hex znaků), bude zobrazen dialog pro přidání kontaktu do vašeho seznamu. V opačném případě bude Miranda hledat kontakt pomocí toxme.se.
 [Dns name:]
@@ -58,8 +68,6 @@ Multimédia
 Vstupní audio zařízení
 [Audio output device]
 Výstupní audio zařízení
-[Filter audio]
-Filtr audia
 [Video input device]
 Vstupní video zařízení
 [Invite contacts to chat room]
@@ -68,15 +76,49 @@ Pozvat kontakty do skupinového rozhovoru
 &Pozvat
 [&Cancel]
 &Zrušit
+[Call]
+Volat
+[End]
+Zavěsit
+[Incoming call]
+Příchozí hovor
+[Answer]
+Zvednout
+[Reject]
+Odmítnout
+[From:]
+Od:
+[Date:]
+Datum:
+[&User menu]
+Nabídka &uživatele
+[User &details]
+&Detaily uživatele
+[&History]
+&Historie
+[Outgoing call]
+Odchozí hovor
+[To:]
+Pro:
 ;file \protocols\Tox\src\tox_chatrooms.cpp
 [Groupchat]
 Skupinový rozhovor
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 Složka s profily
+[Action]
+Akce
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Ikona protokolu
+[Audio call]
+Audio hovor
+[Audio ring]
+Audio vyzvánění
+[Audio start]
+Audio začátek
+[Audio end]
+Audio konec
 [Protocols]
 Protokoly
 ;file \protocols\Tox\src\tox_menus.cpp
@@ -84,8 +126,23 @@ Protokoly
 Požádat o autorizaci
 [Grant authorization]
 Udělit autorizaci
-[Copy Tox ID]
-Zkopírovat Tox ID
+;file \protocols\Tox\src\tox_multimedia.cpp
+[Incoming call from %s]
+Příchozí hovor (%s)
+[Outgoing call to %s]
+Odchozí hovor (%s)
+[Unable to find input audio device]
+Nelze najít vstupní audio zařízení
+[Video call is unsupported]
+Video hovor není podporován
+[Call canceled]
+Hovor přerušen
+[Unable to find output audio device]
+Nelze najít výstupní audio zařízení
+[Call started]
+Hovor začal
+[Call ended]
+Hovor skončil
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s - spojení se serverem
@@ -96,10 +153,8 @@ Tox profil
 Všechny soubory
 [Select tox profile]
 Vyberte Tox profil
-[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
-Váš profil již existuje. Přejete si jej odstranit spolu se všemi Tox kontakty a historií a pokračovat v importu?
-[Tox profile import]
-Import Tox profilu
+[Save tox profile]
+Uložit Tox profil
 [Add node]
 Přidat uzel
 [Change node]
@@ -112,8 +167,8 @@ Chyba
 Zadejte veřejný klíč
 [Common nodes]
 Obecné uzly
-[nodes]
-uzly
+[User nodes]
+Uživatelské uzly
 [Are you sure?]
 Opravdu chcete pokračovat?
 [Node deleting]
@@ -125,8 +180,6 @@ Sítě
 [Nodes]
 Uzly
 ;file \protocols\Tox\src\tox_proto.cpp
-[Action]
-Akce
 [You cannot add yourself to your contact list]
 Nemůžete přidat sami sebe do vašeho seznamu kontaktů
 [Contact already in your contact list]

@@ -1,7 +1,7 @@
 ﻿;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.4
+;  Version: 0.95.5
 ;============================================================
 ;file \src\resource.rc
 [Enter account name (for example, My Google)]
@@ -84,10 +84,10 @@ Další možnosti
 Přidat do seznamu
 [Custom]
 Vlastní
-[Find/add contacts\nHere you can add contacts to your contact list]
-Vyhledání kontaktů\nUmožní vyhledat a přidat nalezené do seznamu kontaktů
-[Options\nConfigure your Miranda NG options]
-Možnosti\nZměňte nastavení vaší Mirandy NG
+[Here you can add contacts to your contact list]
+Umožní vyhledat a přidat nalezené do seznamu kontaktů
+[Configure your Miranda NG options]
+Změňte nastavení vaší Mirandy NG
 [Apply]
 Použít
 [Switch to simple options]
@@ -364,8 +364,8 @@ Obnovit výchozí
 Klávesové zkratky
 [Accounts]
 Účty
-[Accounts\nConfigure your IM accounts]
-Účty\nKonfigurace nebo založení účtu
+[Configure your IM accounts]
+Konfigurace nebo založení účtu
 [Account information:]
 Informace o účtu:
 [Additional:]
@@ -1188,8 +1188,8 @@ Telefon umožňuje příjem SMS zpráv
 Přidat e-mail
 [%s: user details]
 %s: informace
-[%s\nView personal user details and more]
-%s\nPřehled informací o vybrané osobě
+[View personal user details and more]
+Přehled informací o vybrané osobě
 [Update now]
 Aktualizovat
 [Updating]
@@ -1957,6 +1957,9 @@ In&formace o sobě...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s je online
+;file \src\mir_core\src\ui_utils.cpp
+[Account]
+Účet
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Přidat kontakt
@@ -2177,7 +2180,7 @@ Přesunout do s&kupiny
 ;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže být přesunut do nového umístění %s,\nprotože profil s tímto názvem již existuje. Vyřešte prosím tento problém ručně.
-[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
 Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže být přesunut do nového umístění %s automaticky,\nnejspíše kvůli nedostatečným oprávněním. Přesuňte prosím profil ručně.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil nemůže být umístěn v kořenové složce Mirandy.\nProsím přesuňte profil Mirandy na jiné místo.
@@ -2569,6 +2572,42 @@ Pro smazání tohoto účtu musíte deaktivovat doplněk
 [&Accounts...]
 Účt&y...
 ;file \src\modules\skin\hotkey_opts.cpp
+[Browser: Back]
+Prohlížeč: Zpět
+[Browser: Forward]
+Prohlížeč: Vpřed
+[Browser: Refresh]
+Prohlížeč: Obnovit
+[Browser: Stop]
+Prohlížeč: Zastavit
+[Browser: Search]
+Prohlížeč: Hledat
+[Browser: Fav]
+Prohlížeč: Oblíbené
+[Browser: Home]
+Prohlížeč: Domů
+[Mute]
+Ztišit
+[Vol-]
+Hlasitost-
+[Vol+]
+Hlasitost+
+[Media: Next Track]
+Média: Další skladba
+[Media: Prev. Track]
+Média: Předchozí skladba
+[Media: Stop]
+Média: Zastavit
+[Media: Play/Pause]
+Média: Přehrát/pozastavit
+[Mail]
+E-mail
+[Media: Select]
+Média: Vybrat
+[App 1]
+Aplikace 1
+[App 2]
+Aplikace 2
 [Ctrl + ]
 Ctrl +\s
 [Alt + ]

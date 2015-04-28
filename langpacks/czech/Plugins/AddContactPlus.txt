@@ -10,8 +10,8 @@ Umožňuje rychle přidávat nové kontakty.
 ;file \plugins\AddContactPlus\res\resource.rc
 [Add contact]
 Přidat kontakt
-[Add contact\nAdd a contact to your contact list]
-Přidat kontakt\nPřidat kontakt do vašeho seznamu
+[Add a contact to your contact list]
+Přidat kontakt do vašeho seznamu
 [Account:]
 Účet:
 [Contact ID:]

@@ -55,7 +55,7 @@ Zpráva
 Opravdu chcete odstranit vybraný stav?
 [Do you want old database entries to be deleted after Import?]
 Přejete si smazat staré záznamy z databáze po dokončení importování?
-;file \plugins\CSList\src\cslist.h
+;file \plugins\CSList\src\stdafx.h
 [Main Menu]
 Hlavní nabídka
 [Main Icon]

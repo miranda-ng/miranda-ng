@@ -116,8 +116,6 @@ M&ožnosti...
 &Nová připomínka...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
-[Unknown command issued: "%s"]
-Neznámý příkaz: "%s"
 [Set alarm]
 Nová připomínka
 ;file \plugins\Alarms\src\alarm_win.cpp

@@ -214,8 +214,8 @@ Vlhkost
 Více...
 [Weather Protocol INI Setup]
 Nastavení konfiguračního souboru pro počasí
-[Weather Protocol INI Setup\nInstall and load your weather ini file here]
-Správa INI souborů pro počasí\nZde můžete nainstalovat a načíst vaše ini soubory pro počasí
+[Install and load your weather ini file here]
+Instalace a načtení konfiguračních souborů pro počasí
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 Nelze najít požadovaný konfigurační soubor pro počasí. Řiďte se prosím následujícími pokyny:
 [Click here to download a weather ini file from Miranda file listing]
@@ -336,6 +336,20 @@ Aktuální situace: %n, %u
 %c, %t\\nDnes:  Max. %h, min. %l
 [Temperature: %[Temperature]]
 Teplota: %[Temperature]]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
+%c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce\n----------\n\\n\tnový řádek
+[No information available.\r\nPlease update weather condition first.]
+Nejsou dostupné žádné informace.\r\nZkuste nejdříve aktualizovat informace o počasí.
+[%[..]\tcustom variables]
+%[..]\tspeciální proměnné
+[Here is a list of custom variables that are currently available]
+Seznam ostatních proměnných, které jsou k dispozici:
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+Není zadána adresa pro kompletní předpověď počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+Není zadána adresa pro mapu počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Aktuální informace o počasí pro %s.
@@ -352,10 +366,6 @@ Prosím zkuste znovu po aktualizaci předpovědi počasí.
 ;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Předpověď počasí nebyla zaznamenána.
-[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
-Není zadána adresa pro kompletní předpověď počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
-[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
-Není zadána adresa pro mapu počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
 [Get city name from ID]
 Zjistit jméno města dle ID
 [Weather INI information]
@@ -451,8 +461,6 @@ Alokováno paměti:
 bajtů
 [Description:]
 Popis:
-[Here is a list of custom variables that are currently available]
-Seznam ostatních proměnných, které jsou k dispozici:
 ;file \plugins\Weather\src\weather_ini.cpp
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Nelze najít konfigurační soubor. Podívejte se do složky Plugins\\Weather.
@@ -476,15 +484,9 @@ Obecné
 Zobrazení
 [Popups]
 Oznámení
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
-%c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce\n----------\n\\n\tnový řádek
 [Weather Protocol Text Preview]
 Počasí - náhled
 ;file \plugins\Weather\src\weather_popup.cpp
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce
-[%[..]\tcustom variables]
-%[..]\tspeciální proměnné
 ;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 Identifikátor
@@ -528,5 +530,3 @@ Informace
 Aktualizace dat, počkejte prosím...
 [More Info]
 Informace
-[No information available.\r\nPlease update weather condition first.]
-Nejsou dostupné žádné informace.\r\nZkuste nejdříve aktualizovat informace o počasí.

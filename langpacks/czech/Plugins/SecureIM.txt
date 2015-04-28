@@ -303,7 +303,7 @@ Stav SecureIM (vypnuto)
 Stav SecureIM (zapnuto)
 [SecureIM status (always try)]
 Stav SecureIM (zkus vždy)
-[SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+[SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
 Nemohu dešifrovat tuto zprávu - namáte instalován PGP. Více informací na www.pgp.com nebo na www.gnupg.org
 [SecureIM received unencrypted message:\n]
 

@@ -10,8 +10,8 @@
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit contact information]
 Úprava informací o uživateli
-[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-
+[This list gives you some overview about all your contact's anniversaries.]
+Tento seznam představuje přehled o narozeninách osob ve vašem seznamu kontaktů.
 [Origin]
 Původ
 [&Update]
@@ -164,8 +164,8 @@ Přidat zájem
 Smazat
 [Anniversary editor]
 Správce výročí
-[Anniversary Editor\nAdd/Edit your anniversary here.]
-Správce výročí\nZde přidávejte/upravujte vaše výročí.
+[Add/Edit your anniversary here.]
+Zde přidávejte/updavujte vaše výročí.
 [Enter a name for the anniversary here please:]
 Sem prosím vložte název výročí:
 [Anniversary list]
@@ -465,8 +465,6 @@ Nepodařilo se najít protokol kontaktu. Možná není aktivní.
 Nebyly přidány žádné stránky. Tvorba dialogu zrušena!
 [Details dialog failed to be created. Returning error is %d.]
 Nepodařilo se vytvořit dialog detailů. Návratový kód je %d
-[The page to add has invalid size %d bytes!]
-Přidávaná stránka má nesprávnou velikost %d bajtů!
 [General]
 Obecné
 [Contact (private)]
@@ -491,6 +489,8 @@ Importovat...
 Něco o sobě
 [edit contact information]
 Úprava informací o uživateli
+[View personal user details and more]
+Přehled informací o vybrané osobě
 [Upload ICQ details]
 Nahrát detaily ICQ na server
 [Upload failed]

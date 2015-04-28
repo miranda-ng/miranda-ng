@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Nudge.dll
 ;  Plugin: Nudge
-;  Version: 0.1.0.1
+;  Version: 0.2.0.2
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
 [Plugin to shake the contact list and chat window.]
@@ -89,12 +89,12 @@ Výchozí drcnutí
 Drcnutí jako výchozí
 [Send Nudge]
 Drc-drc
+[Send &Nudge]
+&Drc-drc
 [Show Nudge]
 Drcnutí
 [Nudge for %s]
 Drcnutí v síti %s
-[Send &Nudge]
-&Drc-drc
 ;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]
 No tak, probuď se!

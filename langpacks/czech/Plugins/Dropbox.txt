@@ -5,8 +5,8 @@
 ;  Version: 0.11.0.3
 ;  Authors: unsane
 ;============================================================
-[Allows to transfer files via Dropbox.]
-Umožňuje odesílání souboru přes Dropbox.
+[Allows you to transfer files via Dropbox.]
+Umožňuje odesílání souborů přes Dropbox.
 ;file \plugins\Dropbox\res\resource.rc
 [Authorization]
 Autorizace

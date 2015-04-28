@@ -5,8 +5,8 @@
 ;  Version: 0.4.0.3
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
-[New Away System Mod plugin for Miranda NG.]
-
+[Allows you to handle your status messages in a convenient way.]
+Umožňuje pohodlně spravovat stavové zprávy.
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
 [Popup notification]
 Upozornit oznámením
@@ -201,7 +201,7 @@ Vytvořit novou zprávu
 Vytvořit novou kategorii
 [Open Variables help dialog]
 Otevřít nápovědu o proměnných
-[Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages.]
+[Your most recent status messages are placed in this category. It's not recommended that you put your messages manually here, as they'll be replaced by your recent messages.]
 Do této kategorie jsou ukládány nejčastěji používané stavové zprávy. Sem není vhodné ukládat zprávy ručně, neboť budou nahrazeny těmi, které používáte nejčastěji.
 [You can put your frequently used and favorite messages in this category.]
 Do této kategorie můžete zadat často používané a oblíbené odpovědi.

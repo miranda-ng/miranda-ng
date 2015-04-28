@@ -82,7 +82,7 @@ Neakt.
 Min. velikost pole pro zadávání textu:
 [lines]
 řádky
-[Message Window Event Log]
+[Message window event log]
 Záznam událostí
 [Enable IEView]
 Použít doplněk IEView
@@ -124,7 +124,7 @@ Předchozí události starší méně než
 událostí
 [minutes]
 min.
-[Typing Notification Options]
+[Typing notification options]
 Upozornění na psaní zprávy
 [Send typing notifications to the following users when you are typing a message to them:]
 Poslat upozornění na psaní zprávy těmto vybraným kontaktům:
@@ -140,7 +140,7 @@ Zobrazit upozornění i v případě, že není otevřeno okno
 Blikat v oblasti oznámení a okně s kontakty
 [Show balloon popup]
 Oznámit pomocí bubliny
-[Send Error]
+[Send error]
 Chyba při odesílání
 [An error has occurred. The protocol reported the following error:]
 Došlo k chybě. Příslušný protokol zahlásil následující problém:
@@ -150,7 +150,7 @@ během odesílání následující zprávy:
 Opakovat
 [Cancel]
 Zrušit
-[Message Session]
+[Message session]
 Rozhovor
 [&User menu]
 Nabídka &uživatele
@@ -164,7 +164,7 @@ Přid&at
 &Historie
 [&Quote]
 &Citovat
-[Send To All Tabs]
+[Send to all tabs]
 Odeslat všem otevřeným
 [You are about to send a message to all open tabs.\nAre you sure?]
 Zpráva bude odeslána do všech otevřených panelů.\nPřejete si pokračovat?
@@ -186,7 +186,7 @@ Pod&tržené
 Barva &pozadí
 [&Filter]
 &Filtr
-[&Room Settings]
+[&Room settings]
 &Správa místnosti
 [&Show/hide nick list]
 &Přepnout seznam účastníků
@@ -224,7 +224,7 @@ Nové místnosti do skupiny:
 Výška řádku v seznamu účastníků
 [pixels]
 pix.
-[Log Options]
+[Log options]
 Možnosti záznamu
 [Your name]
 Vl. jméno
@@ -248,7 +248,7 @@ Umístění
 Max.
 [KB]
 KB
-[Group Chat]
+[Group chat]
 Skupinový rozhovor
 [Use same style as in the message log]
 Použít nastavení pro záznam komunikace
@@ -268,9 +268,9 @@ Prodleva (s)
 Záznam
 [&Copy]
 Z&kopírovat
-[Co&py All]
+[Co&py all]
 Zko&pírovat vše
-[Select &All]
+[Select &all]
 Vybr&at vše
 [Word lookup]
 Vyhledávání slova
@@ -288,7 +288,7 @@ Překladač Google
 Yahoo
 [Foodnetwork]
 Foodnetwork
-[C&lear Log]
+[C&lear log]
 Vy&mazat záznam
 [&Open link]
 &Otevřít odkaz
@@ -306,15 +306,15 @@ Vyjmout
 Zkopírovat
 [Paste]
 Vložit
-[Paste && Send]
+[Paste && send]
 Vložit a poslat
 [Delete]
 Smazat
 [Clear]
 Vymazat
-[Close Other Tabs]
+[Close other tabs]
 Zavřít ostatní panely
-[Close Tab]
+[Close tab]
 Zavřít panel
 [List]
 Seznam
@@ -322,8 +322,6 @@ Seznam
 &Zpráva
 [Clear lo&g]
 Vy&mazat záznam
-[Co&py all]
-Zko&pírovat vše
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Přidat kontakt
@@ -456,11 +454,11 @@ korejština (Johab)
 ;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Rozhovor
-[Navigate: Previous Tab]
+[Navigate: previous tab]
 Přejít na předchozí panel
-[Navigate: Next Tab]
+[Navigate: next tab]
 Přejít na další panel
-[Navigate: Tab %d]
+[Navigate: tab %d]
 Přejít na panel č.%d
 [Window: Toggle status bar]
 Přepnout stavový řádek
@@ -487,10 +485,8 @@ Vložit text a poslat
 Citovat
 [Smiley]
 Smajlík
-[Add Contact]
-Přidat kontakt
-[User Menu]
-Uživatelské menu
+[User menu]
+Nabídka kontaktu
 [User details]
 Informace o uživateli
 [History]
@@ -501,19 +497,17 @@ Poslat
 Vyhledat '%s':
 [No word to look up]
 Není co vyhledat
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Přidat do seznamu natrvalo
-[View User's Details]
+[View user's details]
 Zobrazit osobní údaje
-[View User's History]
+[View user's history]
 Zobrazit historii
-[Quote Text]
+[Quote text]
 Citovat text
-[Insert Emoticon]
+[Insert emoticon]
 Vložit smajlík
-[Send Message]
-Odeslat zprávu
-[User Menu - %s]
+[User menu - %s]
 Uživatelské menu - %s
 [Sending in progress: %d message(s) left...]
 Odesílání; počet zpráv k odeslání: %d
@@ -522,7 +516,7 @@ Odesílání; počet zpráv k odeslání: %d
 [Last message received on %s at %s.]
 Poslední zpráva přijata %s v %s.
 ;file \plugins\Scriver\src\msglog.cpp
-[Unknown Contact]
+[Unknown contact]
 Neznámý kontakt
 [Me]
 Já
@@ -530,7 +524,7 @@ Já
 O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies
 [to tiny bits, in Thy mercy]
 to tiny bits, in Thy mercy
-[My Contact]
+[My contact]
 Můj kontakt
 [Lorem ipsum dolor sit amet,]
 Lorem ipsum dolor sit amet,
@@ -551,9 +545,9 @@ Přijatý odkaz
 ;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Obecné
-[Event Log]
+[Event log]
 Záznam událostí
-[Group Chat Log]
+[Group chat log]
 Záznam rozhovorů
 [Outgoing messages]
 Odchozí zprávy
@@ -617,26 +611,26 @@ Mám telefon
 ** neznámé kontakty **
 [Show balloon popup (unsupported system)]
 Zobrazit oznámení bublinami (nepodporováno)
-[Message Sessions]
+[Message sessions]
 Komunikace
-[Typing Notify]
+[Typing notify]
 Psaní zprávy
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Zpráva od: %s
 [%s is typing a message]
 %s píše zprávu
-[Typing Notification]
+[Typing notification]
 Upozornění na psaní zprávy
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 Chybí knihovna Msftedit.dll, což znemožňuje použití interního modulu pro zprávy. Pokud používáte emulaci WINE, doinstalujte si tuto knihovnu. Stiskněte 'Ano' pro pokračování v načítání Mirandy.
 [Instant messages]
 Zprávy
-[Incoming (Focused Window)]
+[Incoming (focused window)]
 Příchozí (aktivní okno)
-[Incoming (Unfocused Window)]
+[Incoming (unfocused window)]
 Příchozí (neaktivní okno)
-[Incoming (New Session)]
+[Incoming (new session)]
 Příchozí (nová konverzace)
 [Outgoing]
 Odchozí
@@ -648,7 +642,7 @@ Kontakt přestal psát
 [An unknown error has occurred.]
 Neznámá chyba.
 ;file \plugins\Scriver\src\msgwindow.cpp
-[Always On Top]
+[Always on top]
 Vždy navrchu
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
@@ -823,7 +817,7 @@ Proměnné
 Vzhled
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 Výchozí události, které se mají zobrazit, pokud je filtr událostí aktivní
-[Select Folder]
+[Select folder]
 Vyberte požadovanou složku
 [Popups]
 Oznámení
@@ -867,11 +861,11 @@ Přezdívka
 Identifikátor
 [Status]
 Stavy
-[%s: Chat Room (%u user)]
+[%s: chat room (%u user)]
 %s: kanál (účastníků: %u)
-[%s: Chat Room (%u users)]
+[%s: chat room (%u users)]
 %s: kanál (účastníků: %u)
-[%s: Message Session]
+[%s: message session]
 %s: rozhovor
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 %s: rozhovor (účastníků: %u)

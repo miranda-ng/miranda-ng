@@ -66,7 +66,7 @@ Vyhráli jste!
 
 [New Menu Entry]
 
-[Message Sessions]
+[Message sessions]
 Komunikace
 ;file \plugins\QuickMessages\src\Utils.cpp
 [Quick Messages Button %u]

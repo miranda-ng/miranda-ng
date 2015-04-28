@@ -92,7 +92,7 @@ Gratuluji! Právě jste prošli testem člověk/robot. Teď už mi můžete posl
 
 [Info]
 Info
-[Message Sessions]
+[Message sessions]
 Komunikace
 [General]
 Obecné

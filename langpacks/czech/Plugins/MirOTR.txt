@@ -2,12 +2,12 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.11.0.4
+;  Version: 0.14.1.16
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
 OTR (Mimo záznam) doplněk pro Mirandu NG (používá některé části kódu a nápady ze SecureIM, Pidgin-OTR a starého Miranda OTR (autor SJE)).
-;file \plugins\MirOTR\MirOTR\res\resource.rc
+;file \plugins\MirOTR\res\resource.rc
 [OTR Generating Private Key]
 Generování privátního klíče OTR
 [Generating new private key - please wait.]
@@ -28,6 +28,8 @@ Ukončit relaci při zavření okna
 Ukončit relaci při odhlášení kontaktu
 [Prefix encrypted IMs:]
 Prefix šifrovaných zpráv:
+[don't rely on the prefix, always check the OTR status icon]
+
 [Don't add encrypted messages to the history]
 Nepřidávat šifrované zprávy do historie
 [Also remove OTR system messages]
@@ -36,8 +38,6 @@ Také odstranit systémové zprávy OTR
 Systémové zprávy OTR zobrazovat v okně
 [Show OTR system messages as popup]
 Systémové zprávy OTR zobrazovat jako oznámení
-[Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
-Přepnout UKONČENÉ relace zpět do NEŠIFROVANÉ podoby (BUĎTE OPATRNÍ!)
 [Show verification dialog when receiving unverified fingerprint]
 Zobrazit ověřovací dialog při přijetí neověřeného klíče
 [Set OTR policy per protocol]
@@ -80,7 +80,7 @@ Obnovit šifrovanou relaci (OTR)
 Zrušit šifrovanou relaci (OTR)
 [&Verify Fingerprint]
 Ověřit otisk
-;file \plugins\MirOTR\MirOTR\src\language.h
+;file \plugins\MirOTR\src\language.h
 [Start OTR]
 Šifrovat spojení (OTR)
 [Stop OTR]
@@ -129,16 +129,6 @@ Ukončena šifrovaná relace (OTR) kontaktem '%s'. Měli byste udělat to samé!
 Šifrování (OTR)
 [[OTR INFO] ]
 \[OTR INFO]\s
-[Authentication from %s]
-Ověření od %s
-[Authenticate %s]
-Ověřit %s
-[Unknown]
-neznámý
-[OTR: %s (%s)]
-Šifrování (OTR): %s (%s)
-[OTR %s (%s)]
-Šifrování (OTR) %s (%s)
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 Šifrovaná relace (OTR) s '%s' nyní používá OVĚŘENÝ otisk
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
@@ -167,8 +157,8 @@ Kontakty
 Otisky
 [Contact]
 Kontakt
-[Protocol]
-Protokol
+[Account]
+Účet
 [Policy]
 Aktivace
 [Verified]
@@ -245,13 +235,45 @@ Nelze zahájit šifrování (OTR) pro '%s'. Již se používá SecureIM
 Šifrování (OTR): použito SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 Používáte SecureIM. MirOTR funguje pouze pro kontakty s vypnutým SecureIM
-;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
+;file \plugins\MirOTR\src\mirotrmenu.cpp
 [MirOTR menu]
 Nabídka MirOTR
 [OTR Status]
 Stav šifrování (OTR)
-;file \plugins\MirOTR\MirOTR\src\options.cpp
+;file \plugins\MirOTR\src\options.cpp
 [Private Data]
 Privátní data
 [Services]
 Služby
+;file \plugins\MirOTR\src\otr.cpp
+[\nusing older protocol version %i]
+
+[Attempting to start a private conversation...]
+
+[An error occurred when encrypting your message.\nThe message was not sent]
+
+['%s' has already closed his/her private connection to you; you should do the same]
+
+[Error setting up private conversation: %s]
+
+[Malformed message received]
+
+[We are receiving our own OTR messages.\nYou are either trying to talk to yourself, or someone is reflecting your messages back at you]
+
+[The last message to '%s' was resent]
+
+[The encrypted message received from '%s' is unreadable, as you are not currently communicating privately]
+
+[We received an unreadable encrypted message from '%s']
+
+[We received a malformed data message from '%s']
+
+[The following message received from '%s' was NOT encrypted: [%s]]
+
+['%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message.]
+
+[unknown OTR message received, please report that to Miranda NG]
+
+;file \plugins\MirOTR\src\otr.h
+[ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee http://wikipedia.org/wiki/Off-the-Record_Messaging for more information.]
+

@@ -61,7 +61,7 @@ Pozn.: Zprávy od tohoto kontaktu nebudou přeposílány
 !VŠICHNI!
 [!DON'T FORWARD!]
 !NEPŘEPOSÍLAT!
-[Message Sessions]
+[Message sessions]
 Komunikace
 [Messages forwarding]
 Přeposílání zpráv

@@ -46,7 +46,7 @@ Načíst znovu
 
 [Don't use "I don't understand"-like answers]
 
-;file \plugins\Boltun\src\boltun.h
+;file \plugins\Boltun\src\stdafx.h
 [Message sessions]
 Komunikace
 [Mind Files]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.4.0.2
+;  Version: 1.5.0.1
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
@@ -113,7 +113,7 @@ Skupinové rozhovory
 Historie
 [Default]
 Výchozí
-[Message Sessions]
+[Message sessions]
 Komunikace
 [IEView]
 IEView

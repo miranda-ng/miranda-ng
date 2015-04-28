@@ -38,8 +38,8 @@ Použít doménové jméno
 Vyhledávací služba
 [Roster Editor]
 Správa seznamu na serveru
-[Roster editor\nView and modify your server-side contact list.]
-Seznamy na serveru\nZobrazení a úpravy seznamu kontaktů na serveru
+[View and modify your server-side contact list.]
+Zobrazení a úpravy seznamu kontaktů na serveru
 [Download]
 Stáhnout
 [Upload]
@@ -208,10 +208,10 @@ Původní heslo:
 Nové heslo:
 [Confirm New Password:]
 Nové heslo znovu:
-[Create or Join group chat]
-Založit nebo se připojit do diskuse
-[Jabber Multi-User Conference\nCreate or join existing conference room.]
-Diskusní skupina\nZaložit nebo se připojit do existující diskusní skupiny.
+[Jabber Multi-User Conference]
+Diskusní skupina
+[Create or join existing conference room.]
+Založit nebo se připojit do existující diskusní skupiny.
 [Conference server:]
 Diskusní server:
 [Room:]
@@ -226,10 +226,10 @@ Seznam identifikátorů
 Použít filtr
 [Reset Filter]
 Zrušit filtr
-[Invite Users]
-Pozvat uživatele
-[<room jid>\nSend group chat invitation.]
-<room jid>\nOdeslat pozvánku k diskusi.
+[Invite Users to <room jid>]
+Pozvat uživatele do <room jid>
+[Send group chat invitation.]
+Odeslat pozvánku k diskusi.
 [Other JID:]
 Ostatní JID:
 [Add]
@@ -238,20 +238,20 @@ Přidat
 Důvod pozvánky:
 [&Invite]
 &Pozvat
-[Group chat invitation]
-Pozvánka k diskusi
-[<room jid>\nIncoming group chat invitation.]
-<room jid>\nPříchozí pozvánka k diskusi.
+[Group chat invitation to <room jid>]
+Pozvánka k diskusi do <room jid>
+[Incoming group chat invitation.]
+Příchozí pozvánka k diskusi.
 [You are invited to conference room by]
 Pozvánka do diskusní místnosti od
 [with following reason:]
 s následujícím zdůvodněním:
 [&Accept]
 &Přijmout
-[Jabber Bookmarks]
-Jabber :: Záložky
-[Server side bookmarks\nStore conference rooms and web links on server.]
-Záložky na serveru\nUložení diskusí a odkazů do seznamu na serveru
+[Server side bookmarks]
+Záložky na serveru
+[Store conference rooms and web links on server.]
+Uložení diskusí a odkazů do seznamu na serveru.
 [Remove]
 Odebrat
 [Edit]
@@ -276,8 +276,8 @@ JID / URL:
 Název záložky:
 [Privacy Lists]
 Filtrování kontaktů
-[Privacy Lists\nFlexible way to configure visibility and more.]
-Filtrování kontaktů\nFlexibilní způsob definice viditelnosti
+[Flexible way to configure visibility and more.]
+Flexibilní způsob definice viditelnosti a více.
 [Lists:]
 Seznamy:
 [Rules:]
@@ -348,8 +348,8 @@ Zřídit účet nyní
 Informace o Jabber účtu:
 [Member Information]
 Členské informace
-[Member Information\n<user ID>]
-Členské informace\n<user ID>
+[<user ID>]
+<user ID>
 [Role:]
 Role:
 [Set role]
@@ -372,18 +372,18 @@ Odchod:
 Pohlavek:
 [Authorization request]
 Žádost o autorizaci
-[HTTP Authorization\nAccept or reject incoming request]
-
+[Accept or reject incoming request]
+Přijmout či odmítnout příchozí požadavek
 [Someone (maybe you) has requested the following file:]
-
+Někdo (možná vy) si vyžádal následující soubor:
 [Request was sent from JID:]
-
+Požadavek byl odeslán z JID:
 [The transaction identifier is:]
-
+Identifikátor transakce je:
 [Request method is:]
-
+Metoda požadavku je:
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
-
+Pokud si přejete potvrdit tento požadavek, stiskněte "Autorizovat". V opačném případě použijte "Zamítnout".
 [Authorize]
 Autorizovat
 [Deny]
@@ -391,9 +391,9 @@ Zamítnout
 [Dialog]
 Dialog
 [Jabber Notebook]
-
-[Jabber notebook\nStore notes on server and access them from anywhere.]
-Poznámky\nUložené poznámky budete mít pořád při ruce
+Poznámky
+[Store notes on server and access them from anywhere.]
+Uložené poznámky budete mít pořád při ruce.
 [Bots Challenge Test]
 Kontrola robotů
 [XML Console]
@@ -440,10 +440,10 @@ Zjišťování seznamu příkazů. Počkejte prosím...
 [Sending Ad-Hoc command to %s]
 
 ;file \protocols\JabberG\src\jabber_agent.cpp
-[No message]
-Žádná zpráva
 [Jabber Agent Registration]
 Jabber :: Registrace služby
+[No message]
+Žádná zpráva
 [Register]
 Registrovat
 [Please wait...]
@@ -523,7 +523,7 @@ Podporuje doplněk SecureIM pro Mirandu
 Podporuje OTR (komunikace mimo záznam)
 [Supports New_GPG plugin for Miranda NG]
 Podporuje doplněk New_GPG pro Mirandu
-[Blocks packets from another users/groupchats using Privacy lists]
+[Blocks packets from other users/groupchats using Privacy lists]
 Umožňuje blokovat komunikaci na základě definovaných filtrů
 [Supports Message Receipts]
 Podporuje potvrzenky o doručení
@@ -689,14 +689,14 @@ Zkopírovat &JID
 Zkopírovat JID z místnosti
 [Real &JID: %s]
 Skutečné &JID: %s
-[%s\nSend group chat invitation.]
-%s\nOdeslat pozvánku k diskusi.
+[Invite Users to %s]
+Pozvate uživatele do %s
 [%s (not on roster)]
 %s (není v seznamu)
 [Member Info: %s]
 Členské info: %s
-[Member Information\n%s from %s]
-Členské informace\n%s z %s
+[from %s]
+z %s
 [Real JID not available]
 Skutečné JID není dostupné
 [Reason to kick %s]
@@ -786,6 +786,9 @@ Podporované funkce
 
 [Items request error]
 
+;file \protocols\JabberG\src\jabber_filterlist.cpp
+[Set filter...]
+Filtrovat...
 ;file \protocols\JabberG\src\jabber_form2.cpp
 [One or more addresses for communication related to abusive traffic]
 
@@ -1084,8 +1087,8 @@ Záložky...
 
 [has set the subject to:]
 nastavil téma na:
-[%s\nIncoming group chat invitation.]
-%s\nPříchozí pozvánka k diskusi.
+[Group chat invitation to %s]
+Příchozí pozvánka k diskusi v %s
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]
 Stavové ikony
@@ -1235,8 +1238,6 @@ Podle serveru
 Z&měnit na kontakt
 [&Convert to Chat Room]
 Z&měnit na místnost
-[Options...]
-Možnosti...
 [Services...]
 Služby
 [Registered Transports]
@@ -2529,6 +2530,3 @@ Poslech hudby
 Nálada
 [Activities]
 Činnosti
-;file \protocols\JabberG\src\ui_utils.cpp
-[Set filter...]
-Filtrovat...
