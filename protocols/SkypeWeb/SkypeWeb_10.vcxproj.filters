@@ -162,14 +162,16 @@
     <Image Include="res\icons\skype.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\Icons\conference.ico">
+	<Image Include="res\Icons\sync_history.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\Icons\sync_history.ico">
+	<Image Include="res\Icons\conference.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+	<Image Include="res\Icons\user_block.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+	<Image Include="res\Icons\user_unblock.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
   </ItemGroup>

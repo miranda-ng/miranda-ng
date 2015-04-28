@@ -26,9 +26,11 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_SKYPE               ICON                    "icons\\skype.ico"
+IDI_SKYPE               ICON                    "Icons\\skype.ico"
 IDI_CONFERENCE          ICON                    "Icons\\conference.ico"
 IDI_SYNCHISTORY         ICON                    "Icons\\sync_history.ico"
+IDI_BLOCKUSER			ICON                    "Icons\\user_block.ico"
+IDI_UNBLOCKUSER			ICON                    "Icons\\user_unblock.ico"
 #endif    // Нейтральный (по умолчанию) resources
 /////////////////////////////////////////////////////////////////////////////
 

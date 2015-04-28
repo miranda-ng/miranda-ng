@@ -336,6 +336,9 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 			}
 		}
 	}
+	else if (!mir_strcmpi(messageType, "RichText/Location")){}
+	else if (!mir_strcmpi(messageType, "RichText/UriObject")){} //Picture
+	else if (!mir_strcmpi(messageType, "RichText/Contacts")){}
 }
 
 int CSkypeProto::OnDbEventRead(WPARAM hContact, LPARAM hDbEvent)
