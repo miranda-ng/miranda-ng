@@ -570,3 +570,5 @@ mrholení
 
 [Light Drizzle Mist Patches Fog]
 
+[Partial Fog]
+místy hustá mlha

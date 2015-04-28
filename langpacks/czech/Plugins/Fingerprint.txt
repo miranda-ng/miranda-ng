@@ -147,6 +147,8 @@ Nezjištěný klient
 
 [VK overlay]
 
+[Skype overlay]
+
 [ICQ 2003 overlay]
 
 [ICQ Lite 4 overlay]

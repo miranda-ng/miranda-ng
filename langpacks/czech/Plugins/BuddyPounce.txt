@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.1
+;  Version: 0.3.2.2
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -109,10 +109,10 @@ Do 'Mám telefon'
 Do 'Jsem na obědě'
 [The Message    (%d Characters)]
 Zpráva (počet znaků: %d)
-[Couldn't allocate enough memory]
-Nelze alokovat dostatek paměti
 [error......]
 chyba......
+[Couldn't allocate enough memory]
+Nelze alokovat dostatek paměti
 [The Message    (0 Characters)]
 Zpráva (počet znaků: 0)
 [Reuse this message? (0 to use it once)]
@@ -138,5 +138,5 @@ Chyba při odesílání zprávy (komu: %s)
 ;file \plugins\BuddyPounce\src\main.cpp
 [&Buddy Pounce]
 Zpráva o&ffline
-[Message Sessions]
+[Message sessions]
 Komunikace

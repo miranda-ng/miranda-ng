@@ -72,18 +72,18 @@ Vyřízeno
 Pravé tlačítko
 [Preview]
 Náhled
-;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
-[ChangeKeyboardLayout]
-Změna rozvržení klávesnice
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Changing Layout]
 Změna rozvržení
 [Changing Case]
 Změna velikosti písmen
-[Message Sessions]
+[Message sessions]
 Komunikace
 [Popups]
 Oznámení
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
 [Popup]
 Oznámení
+;file \plugins\ChangeKeyboardLayout\src\stdafx.h
+[ChangeKeyboardLayout]
+Změna rozvržení klávesnice

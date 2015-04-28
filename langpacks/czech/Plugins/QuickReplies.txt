@@ -28,5 +28,5 @@ Tlačítko
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 Rychlé odpovědi\r\nLevé tlačítko - otevřít menu\r\nPravé tlačítko - možnosti
 ;file \plugins\QuickReplies\src\options.cpp
-[Message Sessions]
+[Message sessions]
 Komunikace

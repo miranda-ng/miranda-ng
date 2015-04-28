@@ -1,5 +1,4 @@
 ﻿[Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
-[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 [Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
 [Setting/Event (20/100)]

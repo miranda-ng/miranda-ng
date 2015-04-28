@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.2.3.17
+;  Version: 0.2.3.18
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -11,7 +11,7 @@ Podpora smajlíků pro Mirandu NG.
 [Smiley categories]
 Sady smajlíků
 [Specify smiley pack for each category]
-Pro každý protokol definovat jinou sadu
+Pro každou kategorii definovat jinou sadu
 [Name:]
 Název:
 [Author:]
@@ -20,6 +20,8 @@ Autor:
 Verze:
 [Preview]
 Náhled
+[Use per protocol global smiley packs]
+Používat globální sady smajlíků pro celý protokol
 [Display]
 Zobrazení
 [Replace only smileys surrounded by spaces]
@@ -98,6 +100,8 @@ Knihovna smajlíků %s nebyla nalezena.\nVyberte platnou knihovnu smajlíků v M
 Nepodařilo se načíst požadovanou knihovnu smajlíků.\nDalší informace naleznete v záznamu komunikace po síti.
 [Smiley #%u in file %s for smiley pack %s not found.]
 Smajlík č.%u v souboru %s sady smajlíků %s nebyl nalezen.
+[%s global smiley pack]
+%s globální sada smajlíků
 [Standard]
 Standardní
 [Regular expression "%s" in smiley pack "%s" could produce "empty matches".]

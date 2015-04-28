@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.9
+;  Version: 3.4.0.10
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -402,7 +402,7 @@ Předchozí události starší méně než
 min.
 [Global message log display]
 Zobrazení globálního záznamu komunikace
-[Typing notification]
+[Typing notification options]
 Upozornění na psaní zprávy
 [Send typing notifications to the following users when you are typing a message to them:]
 Poslat upozornění na psaní zprávy těmto vybraným kontaktům:
@@ -909,6 +909,8 @@ Nápověda
 [About TabSRMM...]
 O TabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
+[<Separator>]
+<oddělovač>
 [Protocol button]
 Tlačítko protokolu
 [Info button]
@@ -945,8 +947,6 @@ Přepnout seznam uživatelů
 Filtr událostí - pravé tlačítko pro nastavení, levé pro aktivaci/deaktivaci
 [Channel manager]
 Správa kanálů
-[<Separator>]
-<oddělovač>
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Rozhovor...
@@ -983,8 +983,6 @@ Avatary kontaktu
 Zvukové upozornění
 [Container options]
 Možnosti kontejneru
-[Configure container options for\n%s]
-Nastavit možnosti kontejneru pro\n%s
 [Tabs at the top]
 Panely nahoře
 [Switch bar on the left side]
@@ -1204,6 +1202,8 @@ Avatary
 
 [Group chat logs root]
 
+[Typing notification]
+Upozornění na psaní zprávy
 ;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 Vložit značku [img] / uzavřít vybraný text do [img][/img]

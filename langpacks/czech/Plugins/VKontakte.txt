@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.50
+;  Version: 0.1.1.0
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -44,6 +44,8 @@ Ostatní
 
 [Interval for notification updates (min):]
 
+[Mark notification as viewed on receive]
+
 [Special contact always enabled]
 
 [Autoclear news and notification history]
@@ -78,6 +80,8 @@ Stránky
 
 [Likes]
 
+[Invites]
+Pozvání
 [Reposts]
 
 [Mentions in comments]
@@ -217,6 +221,12 @@ Chyba
 
 [Message read: %s]
 Zpráva byla přečtena: %s
+[has invited you to a group]
+
+[has invited you to subscribe to a page]
+
+[invites you to event]
+
 [commented on your post]
 
 [commented on your photo]

@@ -5,7 +5,7 @@
 ;  Version: 0.1.0.4
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
-[Remove personal settings to allow to send a profile to other user(s) without sending personal data.]
+[Remove personal settings to allow you to send a profile to other user(s) without sending personal data.]
 Odstraní osobní údaje, aby bylo možné odeslat váš profil někomu dalšímu bez vašich osobních dat.
 ;file \plugins\RemovePersonalSettings\src\rps.cpp
 [All your personal settings will be erased!\nMake sure you are running this from a copy of your profile (and not over the original one).\nRunning this will erase files/folders under Miranda main folder.\n\nAre you sure you want to remove all your personal settings?\n\n(You cannot say that I don't told you about the risks :P)]

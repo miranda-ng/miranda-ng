@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.1
+;  Version: 5.0.5.2
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
@@ -98,21 +98,6 @@ Uživatel se přihlásil
 [<none>]
 <žádný>
 ;file \plugins\SeenPlugin\src\options.cpp
-[Last Seen Variables]
-Last Seen - seznam proměnných
-[Contacts]
-Kontakty
-[Last seen]
-Naposledy spatřen
-[Popups]
-Oznámení
-;file \plugins\SeenPlugin\src\seen.h
-[%n is %s (%u)]
-%n je %s (%u)
-[%i(%r)%bWas %o]
-%i (%r) %b byl %o
-[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
-Jméno:%t%N%bStav:%t%s%bDen:%t%d.%m.%Y%bČas:%t%H:%M:%S%bPředchozí stav:%t%o%b%b%P ID:%t%u%bExterní IP:%t%i%bInterní IP:%t%r%bKlient ID: %t%C%b%bZpráva stavu:%t%T
 [-- Date --]
 -- Datum --
 [year (4 digits)]
@@ -183,6 +168,21 @@ Použít
 pro prázdné řetězce
 [instead of]
 namísto
+[Last Seen Variables]
+Last Seen - seznam proměnných
+[Contacts]
+Kontakty
+[Last seen]
+Naposledy spatřen
+[Popups]
+Oznámení
+;file \plugins\SeenPlugin\src\seen.h
+[%n is %s (%u)]
+%n je %s (%u)
+[%i(%r)%bWas %o]
+%i (%r) %b byl %o
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
+Jméno:%t%N%bStav:%t%s%bDen:%t%d.%m.%Y%bČas:%t%H:%M:%S%bPředchozí stav:%t%o%b%b%P ID:%t%u%bExterní IP:%t%i%bInterní IP:%t%r%bKlient ID: %t%C%b%bZpráva stavu:%t%T
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
 [Sunday]

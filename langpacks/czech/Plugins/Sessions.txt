@@ -118,7 +118,7 @@ Načíst poslední relaci
 ;file \plugins\Sessions\Src\Options.cpp
 [View]
 Zobrazit
-[Message Sessions]
+[Message sessions]
 Komunikace
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]

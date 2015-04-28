@@ -48,9 +48,6 @@ Mám telefon
 Jsem na obědě
 [Preview]
 Náhled
-;file \plugins\BASS_interface\src\Bass_interface.h
-[Bass Interface]
-Bass rozhraní
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 Verze un4seen's bass: %d.%d.%d.%d
@@ -64,9 +61,12 @@ Zakázat zvuky
 Povolit zvuky
 [Frame background]
 Barva pozadí rámečku
+[Bass Interface]
+Bass rozhraní
 [Bass library]
 Bass knihovna
 [Sounds enabled]
 Zvuky povoleny
 [Sounds disabled]
 Zvuky zakázány
+;file \plugins\BASS_interface\src\stdafx.h

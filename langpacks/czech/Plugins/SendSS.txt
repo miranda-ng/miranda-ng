@@ -16,10 +16,10 @@ všechno
 ---
 [Cancel]
 Zrušit
-[Send screenshot]
-Odeslat obrázek
-[Send screenshot to\n<unknown>]
-
+[Send screenshot to <unknown>]
+Odeslat obrázek pro <neznámý kontakt>
+[Take a screenshot and send it to a contact]
+Vyfotit obrázek a odeslat ho kontaktu
 [Ti&med capture]
 Časované snímání
 [Time (secs):]
@@ -217,8 +217,10 @@ Tlačítka
 
 [Take a screenshot]
 
+[Send screenshot]
+Odeslat obrázek
 [Send desktop screenshot]
-
+Odeslat obrázek plochy
 [Open SendSS+]
 Otevřít SendSS+
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
@@ -227,8 +229,8 @@ Poděkování
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Umístěte kříž na požadované okno.
-[Send screenshot to\n]
-
+[Send screenshot to %s]
+Odeslat obrázek pro %s
 [Window]
 Okno
 [Desktop]
@@ -270,7 +272,7 @@ Vyberte soubor
 [Select a target window.]
 Vyberte prosím požadované okno.
 [Screenshot ]
-
+Obrázek\s
 [for Client area ]
 pro oblast\s
 [of "]
@@ -278,4 +280,4 @@ okna "
 [" Window]
 "
 [Send screenshot?]
-
+Odeslat obrázek?

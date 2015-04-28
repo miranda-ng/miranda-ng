@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.5
+;  Version: 0.2.10.6
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -139,6 +139,8 @@ Chyba připojení: Něco je vyžadováno.
 Chyba připojení: Váš účet je dočasně zablokován. Musíte potvrdit toto zařízení z webového prohlížeče.
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
 Chyba připojení: Je vyžadována captcha. Musíte potvrdit toto zařízení z webového prohlížeče.
+[Facebook required computer cleaning and plugin correctly skipped it. Please report this to the plugin developer!]
+Facebook žádal vyčištění počítače a doplněk to úspěšně přeskočil. Prosím nahlaste tuto informaci vývojáři doplňku!
 [Login error, probably bad login credentials.]
 Chyba při přihlašování, možná máte špatné přihlašovací údaje.
 [Could not load communication token. You should report this and wait for plugin update.]

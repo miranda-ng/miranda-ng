@@ -32,6 +32,8 @@ Vyžadovat heslo:
 Vrátit původní stav
 [Hotkey]
 Klávesy
+[Miranda NG is locked.\nEnter password to unlock it.]
+Miranda NG je uzamčena.\nZadejte heslo pro její odemčení.
 [Password:]
 Heslo:
 [Cancel]
@@ -57,8 +59,6 @@ Přidat položku do hlavní nabídky
 [Restore hiding on startup after failure]
 Obnovit skrývání při startu po chybě
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
-[Miranda NG is locked.\nEnter password to unlock it.]
-Miranda NG je uzamčena.\nZadejte heslo pro její odemčení.
 [Password is not correct!\nPlease, enter correct password.]
 Heslo není správné!\nZadejte prosím správné heslo.
 [Hide Miranda NG]

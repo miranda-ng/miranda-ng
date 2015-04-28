@@ -136,11 +136,6 @@ Avatary
 
 [Contact removed avatar]
 
-;file \plugins\AvatarHistory\src\AvatarHistory.h
-[removed his/her avatar]
-odstranil(a) svůj avatar
-[changed his/her avatar]
-změnil(a) svůj avatar
 ;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 Historie
@@ -165,6 +160,11 @@ Avatar
 Oznámení
 [Avatar Change]
 Změna avataru
+;file \plugins\AvatarHistory\src\stdafx.h
+[removed his/her avatar]
+odstranil(a) svůj avatar
+[changed his/her avatar]
+změnil(a) svůj avatar
 ;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]
 neznámé UIN

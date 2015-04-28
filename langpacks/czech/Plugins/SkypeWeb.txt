@@ -1,0 +1,127 @@
+﻿#muuid {57e90ac6-1067-423b-8ca3-70a39d200d4f}
+;============================================================
+;  File: SkypeWeb.dll
+;  Plugin: Skype protocol (Web)
+;  Version: 0.11.0.2
+;  Authors: Miranda NG Team
+;============================================================
+[Skype protocol support for Miranda NG. Based on new Skype for Web.]
+
+;file \protocols\SkypeWeb\res\resource.rc
+[Create group chat]
+
+[Cancel]
+Zrušit
+[Mark users you want to invite to a new chat]
+
+[Invite user to chat]
+
+[Choose one of your contacts to be invited:]
+
+[Skypename:]
+
+[Password:]
+Heslo:
+[Default group:]
+Výchozí skupina:
+[Account]
+Účet
+[Others]
+Ostatní
+[Automatic messages synchronization]
+
+[Use local time for received messages]
+Použít lokální čas počítače pro příchozí zprávy
+[Mark message as read...]
+
+[on read]
+
+[on receive]
+
+[on reply]
+
+[on typing]
+
+[Enter password]
+Zadejte heslo
+[Save password]
+Uložit heslo
+[Enter the password to continue.]
+Zadejte heslo pro pokračování.
+;file \protocols\SkypeWeb\src\main.cpp
+[Skype Link Protocol]
+
+;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
+[Admin]
+Admin
+[User]
+Uživatel
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+
+[Warning]
+Upozornění
+[&Invite user...]
+Pozvat k d&iskusi...
+[&Leave chat session]
+&Opustit diskusi
+[&Change topic]
+
+[Kick &user]
+
+[Set &role]
+Určit &roli
+[&Admin]
+&Správce
+[&User]
+&Uživatel
+;file \protocols\SkypeWeb\src\skype_contacts.cpp
+[Are you sure?]
+Opravdu chcete pokračovat?
+;file \protocols\SkypeWeb\src\skype_history_sync.cpp
+[Edited at]
+
+[Call started]
+Hovor začal
+[Call ended]
+Hovor skončil
+[Duration]
+Doba trvání
+[File transfer]
+Přenos souboru
+[File name]
+Název souboru
+[Size]
+Velikost
+[bytes]
+bajtů
+;file \protocols\SkypeWeb\src\skype_icons.cpp
+[Protocol icon]
+Ikona protokolu
+[Create new chat icon]
+
+[Sync history icon]
+
+[Protocols]
+Protokoly
+;file \protocols\SkypeWeb\src\skype_menus.cpp
+[Request authorization]
+Požádat o autorizaci
+[Grant authorization]
+Udělit autorizaci
+[Get server history]
+
+[Block contact]
+Zablokovat kontakt
+[Unblock contact]
+Odblokovat kontakt
+[Create new chat]
+
+;file \protocols\SkypeWeb\src\skype_messages.cpp
+;file \protocols\SkypeWeb\src\skype_options.cpp
+[Network]
+Sítě
+;file \protocols\SkypeWeb\src\skype_proto.cpp
+[%s connection]
+%s - spojení se serverem
+[Action]
+Akce

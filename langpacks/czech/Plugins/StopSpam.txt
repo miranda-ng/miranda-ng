@@ -41,7 +41,7 @@ Odstranit všechny dočasné kontakty po restartu
 [Log Spammers to system history]
 Ukládat spammery do historie systému
 ;file \plugins\StopSpamPlus\src\events.cpp
-[Message Sessions]
+[Message sessions]
 Komunikace
 [General]
 Obecné

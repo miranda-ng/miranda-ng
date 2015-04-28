@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.2.3
-;  Authors: unsane
+;  Version: 0.11.3.2
+;  Authors: unsane, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
 Steam protokol pro Mirandu NG.
@@ -32,6 +32,12 @@ Z bezpečnostních důvodů musíte ověřit přístup k vašemu účtu zadání
 Navštívit doménu e-mailu
 [Block]
 Blokovat
+[Enter password]
+Zadejte heslo
+[Save password]
+Uložit heslo
+[Enter the password to continue.]
+Zadejte heslo pro pokračování.
 ;file \protocols\Steam\src\stdafx.cpp
 [Steam game]
 Steam hra
@@ -40,6 +46,8 @@ Steam hra
 Chci hrát
 [Looking to trade]
 Chci obchodovat
+[ (Non-Steam)]
+ (Non-Steam)
 [ on server %s]
  na serveru %s
 [Playing]
@@ -74,8 +82,6 @@ Přidat se do hry
 ;file \protocols\Steam\src\steam_messages.cpp
 [Unknown error]
 Neznámá chyba
-[You cannot send messages when you are offline.]
-Ve stavu offline nelze odesílat zprávy.
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protokoly
@@ -85,4 +91,6 @@ Ikona protokolu
 Herní ikona
 [SteamID]
 SteamID
+[You cannot send messages when you are offline.]
+Ve stavu offline nelze odesílat zprávy.
 ;file \protocols\Steam\src\steam_xstatus.cpp
