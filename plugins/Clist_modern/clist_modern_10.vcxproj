@@ -260,7 +260,6 @@
     <ClInclude Include="src\hdr\modern_defsettings.h" />
     <ClInclude Include="src\hdr\modern_effectenum.h" />
     <ClInclude Include="src\hdr\modern_image_array.h" />
-    <ClInclude Include="src\hdr\modern_layered_window_engine.h" />
     <ClInclude Include="src\hdr\modern_log.h" />
     <ClInclude Include="src\hdr\modern_row.h" />
     <ClInclude Include="src\hdr\modern_rowheight_funcs.h" />
@@ -270,7 +269,6 @@
     <ClInclude Include="src\hdr\modern_static_cluiframes_service.h" />
     <ClInclude Include="src\hdr\modern_statusbar.h" />
     <ClInclude Include="src\hdr\modern_sync.h" />
-    <ClInclude Include="src\hdr\modern_tstring.h" />
     <ClInclude Include="src\hdr\modern_awaymsg.h" />
     <ClInclude Include="src\hdr\modern_gettextasync.h" />
     <ClInclude Include="src\hdr\modern_global_structure.h" />
