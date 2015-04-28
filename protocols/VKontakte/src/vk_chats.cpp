@@ -385,12 +385,12 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 	case GC_USER_PRIVMESS:
 		{
 			MCONTACT hContact = FindUser(_ttoi(gch->ptszUID));
-			if (hContact == NULL)
-			{
+			if (hContact == NULL) {
 				hContact = FindUser(_ttoi(gch->ptszUID), true);
 				db_set_b(hContact, "CList", "Hidden", 1);
-				RetrieveUserInfo(_ttoi(gch->ptszUID));
+				db_set_b(hContact, "CList", "NotOnList", 1);
 				db_set_dw(hContact, "Ignore", "Mask1", 0);
+				RetrieveUserInfo(_ttoi(gch->ptszUID));
 			}
 			CallService(MS_MSG_SENDMESSAGET, hContact, 0);
 		}
@@ -679,6 +679,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 			hContact = FindUser(cu->m_uid, true);
 			db_set_b(hContact, "CList", "Hidden", 1);
 			db_set_b(hContact, "CList", "NotOnList", 1);
+			db_set_dw(hContact, "Ignore", "Mask1", 0);
 		}
 		CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
 		break;
