@@ -312,3 +312,17 @@ Wcześnie opady śniegu
 Późno delikatne opady śniegu
 [Snow And Sleet]
 Deszcz ze śniegiem i śnieg
+[Pm Rain / Wind]
+popołudniu Deszcz / Wiatr
+[Rain / Wind Early]
+Deszcz/Wiatr Wcześnie
+[Rain / Freezing Rain / Wind]
+Deszcz / Deszcz Marznący / Wiatr
+[Snow / Wind Early]
+Śnieg / Wiatr wcześnie
+[Sunny / Wind]
+Słonecznie / Wiatr
+[Heavy Rain]
+Mocny Deszcz
+[Rain Late]
+Deszcz Późno
