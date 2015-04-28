@@ -17,18 +17,3 @@ BOOL		xpt_EnableThemeDialogTexture(HWND hwnd, DWORD flags);
 // next will be called only from one place
 void		XPThemesUnloadModule();
 void		xpt_OnWM_THEMECHANGED();
-
-
-//definitions
-
-
-//#include <tmschema.h>
-//TODO: ADD HERE other definitions of part and states from	<tmschema.h>
-//WINDOW
-#define WP_CAPTION			1
-#define WP_SMALLCAPTION     2
-#define WP_SMALLMINCAPTION  4
-#define WP_SMALLMAXCAPTION	6
-
-#define CS_ACTIVE			1
-#define CS_INACTIVE			2
