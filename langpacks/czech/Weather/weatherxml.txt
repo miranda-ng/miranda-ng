@@ -312,3 +312,17 @@ k ránu sněžení
 později slabé sněžení
 [Snow And Sleet]
 sníh s deštěm
+[Pm Rain / Wind]
+déšť/vítr (odp.)
+[Rain / Wind Early]
+k ránu déšť/vítr
+[Rain / Freezing Rain / Wind]
+déšť/mrznoucí déšť/vítr
+[Snow / Wind Early]
+k ránu sněžení/vítr
+[Sunny / Wind]
+slunečno/vítr
+[Heavy Rain]
+průtrž mračen
+[Rain Late]
+později déšť
