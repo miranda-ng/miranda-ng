@@ -330,7 +330,7 @@ void OptionsDialogType::UpdateVisibleSmPackList(void)
 		bool visiblecat = usePhysProto ? !smc[i].IsAcc() : !smc[i].IsPhysProto();
 		bool visible = useOne ? !smc[i].IsProto() : visiblecat;
 		
-		if (!visible && smc[i].IsAcc()) {
+		if (!visible && smc[i].IsAcc() && !useOne) {
 			CMString PhysProtoName = _T("AllProto");
 			CMString ProtoName = smc[i].GetName();
 			DBVARIANT dbv;	
