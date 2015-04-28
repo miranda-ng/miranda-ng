@@ -513,8 +513,10 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 	pResourceStatus me(NULL), him(NULL);
 	for (int i=0; i < item->arResources.getCount(); i++) {
 		JABBER_RESOURCE_STATUS *p = item->arResources[i];
-		if (!mir_tstrcmp(p->m_tszResourceName, item->nick))   me = p;
-		if (!mir_tstrcmp(p->m_tszResourceName, gcmi->pszUID)) him = p;
+		if (!mir_tstrcmp(p->m_tszResourceName, item->nick))
+			me = p;
+		else if (!mir_tstrcmp(p->m_tszResourceName, gcmi->pszUID))
+			him = p;
 	}
 
 	if (gcmi->Type == MENU_ON_LOG) {
@@ -721,7 +723,7 @@ public:
 	{
 		CSuper::OnInitDialog();
 
-		SetWindowText(m_hwnd, CMString(FORMAT, TranslateT("Invite Users to %s"), m_room));
+		SetDlgItemText(m_hwnd, IDC_HEADERBAR,CMString(FORMAT, TranslateT("Invite Users to\n%s"), m_room));
 		WindowSetIcon(m_hwnd, m_proto, "group");
 
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE,
@@ -825,7 +827,7 @@ struct TUserInfoData
 static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TUserInfoData *dat = (TUserInfoData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	int value, i, idx;
+	int value, idx;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -853,17 +855,14 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		SendDlgItemMessage(hwndDlg, IDC_ICO_STATUS, STM_SETICON, (WPARAM)LoadSkinnedProtoIcon(dat->ppro->m_szModuleName, dat->him->m_iStatus), 0);
 
 		TCHAR buf[256];
-		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Member Info: %s"), dat->him->m_tszResourceName);
-		SetWindowText(hwndDlg, buf);
-
-		mir_sntprintf(buf, SIZEOF(buf), TranslateT("from %s"), dat->item->jid);
+		mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s from\n%s"), dat->him->m_tszResourceName, dat->item->jid);
 		SetDlgItemText(hwndDlg, IDC_HEADERBAR, buf);
 
 		SetDlgItemText(hwndDlg, IDC_TXT_NICK, dat->him->m_tszResourceName);
 		SetDlgItemText(hwndDlg, IDC_TXT_JID, dat->him->m_tszRealJid ? dat->him->m_tszRealJid : TranslateT("Real JID not available"));
 		SetDlgItemText(hwndDlg, IDC_TXT_STATUS, dat->him->m_tszStatusMessage);
 
-		for (i = 0; i < SIZEOF(sttRoleItems); i++) {
+		for (int i = 0; i < SIZEOF(sttRoleItems); i++) {
 			if ((sttRoleItems[i].value == dat->him->m_role) || sttRoleItems[i].check(dat->me, dat->him)) {
 				SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_SETITEMDATA,
 					idx = SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_ADDSTRING, 0, (LPARAM)sttRoleItems[i].title),
@@ -872,7 +871,7 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 					SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_SETCURSEL, idx, 0);
 			}
 		}
-		for (i = 0; i < SIZEOF(sttAffiliationItems); i++) {
+		for (int i = 0; i < SIZEOF(sttAffiliationItems); i++) {
 			if ((sttAffiliationItems[i].value == dat->him->m_affiliation) || sttAffiliationItems[i].check(dat->me, dat->him)) {
 				SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_SETITEMDATA,
 					idx = SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_ADDSTRING, 0, (LPARAM)sttAffiliationItems[i].title),
