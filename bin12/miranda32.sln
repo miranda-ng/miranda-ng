@@ -143,7 +143,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdSsl", "..\src\core\stdss
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TopToolBar", "..\plugins\TopToolBar\TopToolBar_12.vcxproj", "{ECE691D0-BFB3-483B-A699-084269EFCE89}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbChecker", "..\plugins\DbChecker\dbchecker_12.vcxproj", "{A2E9DA24-95E4-4414-94AF-488A382E276A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbChecker", "..\plugins\DbChecker\dbchecker.vcxproj", "{A2E9DA24-95E4-4414-94AF-488A382E276A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM_icons", "..\plugins\TabSRMM\TabSRMM_icons\NOVA\ICONS_NOVA_12.vcxproj", "{F553F140-B7D3-4984-90B1-00D4831B8A6E}"
 EndProject
