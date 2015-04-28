@@ -118,7 +118,7 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 		JSONNODE *node = json_get(root, "greeting");
 		CMStringA reason = ptrA(mir_t2a(ptrT(json_as_string(node))));
 
-		if (reason != "null")
+		if (reason == "null")
 			reason.Empty();
 
 		MCONTACT hContact = AddContact(skypename);
@@ -179,7 +179,6 @@ void CSkypeProto::LoadContactsInfo(const NETLIBHTTPREQUEST *response)
 			UpdateProfileCountry(item, hContact);
 			UpdateProfileCity(item, hContact);
 			UpdateProfileStatusMessage(item, hContact);
-			//richMood
 			UpdateProfileAvatar(item, hContact);
 		}
 	}
