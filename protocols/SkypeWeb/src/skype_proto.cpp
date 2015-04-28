@@ -201,7 +201,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			if ((tokenExpires - 1800) > time(NULL))
 				OnLoginSuccess();
 			else 
-				PushRequest(new LoginRequest(), &CSkypeProto::OnLoginFirst);
+				SendRequest(new LoginRequest(), &CSkypeProto::OnLoginFirst);
 		}
 		else
 		{

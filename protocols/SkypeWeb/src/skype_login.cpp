@@ -52,7 +52,7 @@ void CSkypeProto::OnLoginFirst(const NETLIBHTTPREQUEST *response)
 
 	ptrA skypename(getStringA(SKYPE_SETTINGS_ID));
 	ptrA password(getStringA(SKYPE_SETTINGS_PASSWORD));
-	PushRequest(new LoginRequest(skypename, password, pie.c_str(), etm.c_str()), &CSkypeProto::OnLoginSecond);
+	SendRequest(new LoginRequest(skypename, password, pie.c_str(), etm.c_str()), &CSkypeProto::OnLoginSecond);
 }
 
 void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
@@ -107,8 +107,8 @@ void CSkypeProto::OnLoginSuccess()
 {
 	SelfSkypeName = getStringA(SKYPE_SETTINGS_ID);
 	TokenSecret = getStringA("TokenSecret");
-	Server = getStringA("registrationToken");
-	SendRequest(new CreateEndpointRequest(TokenSecret), &CSkypeProto::OnEndpointCreated);
+	Server = getStringA("Server");
+	SendRequest(new CreateEndpointRequest(TokenSecret, Server), &CSkypeProto::OnEndpointCreated);
 	PushRequest(new GetProfileRequest(TokenSecret), &CSkypeProto::LoadProfile);
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
 	PushRequest(new GetContactListRequest(TokenSecret), &CSkypeProto::LoadContactList);
@@ -162,8 +162,17 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 
 	if (response->resultCode != 201)
 	{
-		SendRequest(new CreateEndpointRequest(TokenSecret, Server), &CSkypeProto::OnEndpointCreated);
-		return;
+		if (response->resultCode == 401)
+		{
+			delSetting("TokenExpiresIn");
+			SendRequest(new LoginRequest(), &CSkypeProto::OnLoginFirst);
+			return;
+		}
+		else //it should be rewritten
+		{
+			SendRequest(new CreateEndpointRequest(TokenSecret, Server), &CSkypeProto::OnEndpointCreated);
+			return;
+		}
 	}
 
 	RegToken = getStringA("registrationToken");
