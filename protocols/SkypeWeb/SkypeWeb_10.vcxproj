@@ -251,13 +251,11 @@
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\icons\skype.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\Icons\conference.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\Icons\sync_history.ico" />
+    <Image Include="res\Icons\skype.ico" />
+	<Image Include="res\Icons\conference.ico" />
+	<Image Include="res\Icons\sync_history.ico" />
+	<Image Include="res\Icons\user_block.ico" />
+	<Image Include="res\Icons\user_unblock.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

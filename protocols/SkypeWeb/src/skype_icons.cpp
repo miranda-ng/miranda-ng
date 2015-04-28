@@ -21,7 +21,9 @@ IconInfo CSkypeProto::Icons[] =
 {
 	{ LPGENT("Protocol icon"),			"main",				IDI_SKYPE },
 	{ LPGENT("Create new chat icon"),	"conference",  IDI_CONFERENCE },
-	{ LPGENT("Sync history icon"),		"synchistory", IDI_SYNCHISTORY}
+	{ LPGENT("Sync history icon"),		"synchistory", IDI_SYNCHISTORY},
+	{ LPGENT("Block user icon"),		"user_block",	IDI_BLOCKUSER },
+	{ LPGENT("Unblock user icon"),	"user_unblock",	  IDI_UNBLOCKUSER }
 };
 void CSkypeProto::InitIcons()
 {

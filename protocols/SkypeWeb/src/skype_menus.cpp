@@ -89,14 +89,14 @@ void CSkypeProto::InitMenus()
 	mi.pszService = MODULE"/BlockContact";
 	mi.ptszName = LPGENT("Block contact");
 	mi.position = CMI_POSITION + CMI_BLOCK;
-	mi.icolibItem = LoadSkinnedIcon(SKINICON_OTHER_DELETE);
+	mi.icolibItem = GetIconHandle("user_block");
 	ContactMenuItems[CMI_BLOCK] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::BlockContact>);
 
 	mi.pszService = MODULE"/UnblockContact";
 	mi.ptszName = LPGENT("Unblock contact");
 	mi.position = CMI_POSITION + CMI_UNBLOCK;
-	mi.icolibItem = LoadSkinnedIcon(SKINICON_OTHER_ADDCONTACT);
+	mi.icolibItem = GetIconHandle("user_unblock");
 	ContactMenuItems[CMI_UNBLOCK] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSkypeProto::UnblockContact>);
 }
