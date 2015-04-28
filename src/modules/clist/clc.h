@@ -71,7 +71,7 @@ void fnSaveStateAndRebuildList(HWND hwnd, struct ClcData *dat);
 LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /* clcutils.c */
-char* fnGetGroupCountsText(struct ClcData *dat, ClcContact *contact);
+TCHAR* fnGetGroupCountsText(struct ClcData *dat, ClcContact *contact);
 int   fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags);
 void  fnScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
 void  fnEnsureVisible(HWND hwnd, struct ClcData *dat, int iItem, int partialOk);

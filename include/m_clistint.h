@@ -305,7 +305,7 @@ typedef struct
 	void  (*pfnPaintClc)(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint);
 
 	/* clcutils.c */
-	char* (*pfnGetGroupCountsText)(struct ClcData *dat, ClcContact *contact);
+	TCHAR* (*pfnGetGroupCountsText)(struct ClcData *dat, ClcContact *contact);
 	int   (*pfnHitTest)(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags);
 	void  (*pfnScrollTo)(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
 	void  (*pfnEnsureVisible)(HWND hwnd, struct ClcData *dat, int iItem, int partialOk);

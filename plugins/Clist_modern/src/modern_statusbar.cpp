@@ -33,7 +33,7 @@ struct ProtoItemData : public MZeroedObject
 	ptrA   szAccountName;
 	int    iProtoStatus;
 	ptrT   tszProtoHumanName;
-	ptrA   szProtoEMailCount;
+	ptrT   szProtoEMailCount;
 	ptrT   tszProtoStatusText;
 	ptrT   tszProtoXStatus;
 	int    iProtoPos;
@@ -246,9 +246,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			if (p->bShowProtoEmails == 1 && ProtoServiceExists(szProto, PS_GETUNREADEMAILCOUNT)) {
 				int nEmails = (int)ProtoCallService(szProto, PS_GETUNREADEMAILCOUNT, 0, 0);
 				if (nEmails > 0) {
-					char buf[40];
-					mir_snprintf(buf, SIZEOF(buf), "[%d]", nEmails);
-					p->szProtoEMailCount = mir_strdup(buf);
+					TCHAR buf[40];
+					mir_sntprintf(buf, SIZEOF(buf), _T("[%d]"), nEmails);
+					p->szProtoEMailCount = mir_tstrdup(buf);
 				}
 			}
 
@@ -374,7 +374,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			}
 
 			if (p.bShowProtoEmails && p.szProtoEMailCount) {
-				GetTextExtentPoint32A(hDC, p.szProtoEMailCount, (int)mir_strlen(p.szProtoEMailCount), &textSize);
+				GetTextExtentPoint32(hDC, p.szProtoEMailCount, (int)mir_tstrlen(p.szProtoEMailCount), &textSize);
 				w += textSize.cx + 3 + spaceWidth;
 			}
 
@@ -537,14 +537,14 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			}
 
 			if (p.bShowProtoEmails && p.szProtoEMailCount != NULL) {
-				int cbLen = (int)mir_strlen(p.szProtoEMailCount);
+				int cbLen = (int)mir_tstrlen(p.szProtoEMailCount);
 				RECT rt = r;
 				rt.left = x + (spaceWidth >> 1);
 				rt.top = textY;
-				ske_DrawTextA(hDC, p.szProtoEMailCount, cbLen, &rt, 0);
+				ske_DrawText(hDC, p.szProtoEMailCount, cbLen, &rt, 0);
 				if (p.bShowStatusName || ((p.xStatusMode & 8) && p.tszProtoXStatus)) {
 					SIZE textSize;
-					GetTextExtentPoint32A(hDC, p.szProtoEMailCount, cbLen, &textSize);
+					GetTextExtentPoint32(hDC, p.szProtoEMailCount, cbLen, &textSize);
 					x += textSize.cx + 3;
 				}
 			}

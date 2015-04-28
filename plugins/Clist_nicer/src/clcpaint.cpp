@@ -505,7 +505,7 @@ set_bg_l:
 	else
 		ChangeToFont(hdcMem, dat, FONTID_CONTACTS, &fontHeight);
 
-	char *szCounts = NULL;
+	TCHAR *szCounts = NULL;
 	if (type == CLCIT_GROUP) {
 		GetTextExtentPoint32(hdcMem, contact->szText, (int)mir_tstrlen(contact->szText), &textSize);
 		int width = textSize.cx;
@@ -513,7 +513,7 @@ set_bg_l:
 		if (szCounts[0]) {
 			GetTextExtentPoint32(hdcMem, _T(" "), 1, &spaceSize);
 			ChangeToFont(hdcMem, dat, FONTID_GROUPCOUNTS, &fontHeight);
-			GetTextExtentPoint32A(hdcMem, szCounts, (int)mir_strlen(szCounts), &countsSize);
+			GetTextExtentPoint32(hdcMem, szCounts, (int)mir_tstrlen(szCounts), &countsSize);
 			width += spaceSize.cx + countsSize.cx;
 		}
 	}
@@ -1008,7 +1008,7 @@ bgskipped:
 			int labelWidth = textSize.cx + countsSize.cx + spaceSize.cx;
 			int offset = (g_center) ? ((rc.right - rc.left) - labelWidth) / 2 : 0;
 
-			TextOutA(hdcMem, rc.left + offset + textSize.cx + spaceSize.cx, rc.top + groupCountsFontTopShift, szCounts, (int)mir_strlen(szCounts));
+			TextOut(hdcMem, rc.left + offset + textSize.cx + spaceSize.cx, rc.top + groupCountsFontTopShift, szCounts, (int)mir_tstrlen(szCounts));
 			rightLineStart = rc.left + offset + textSize.cx + spaceSize.cx + countsSize.cx + 2;
 
 			if (selected && !g_ignoreselforgroups)

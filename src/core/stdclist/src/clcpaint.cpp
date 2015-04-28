@@ -277,7 +277,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			int hottrack = dat->exStyle & CLS_EX_TRACKSELECT && group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER && dat->iHotTrack == index;
 			SIZE textSize, countsSize, spaceSize;
 			int width, checkboxWidth;
-			char *szCounts;
+			TCHAR *szCounts;
 
 			// alternating grey
 			if (style & CLS_GREYALTERNATE && index & 1) {
@@ -320,9 +320,9 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
 				szCounts = pcli->pfnGetGroupCountsText(dat, group->cl.items[group->scanIndex]);
 				if (szCounts[0]) {
-					GetTextExtentPoint32A(hdcMem, " ", 1, &spaceSize);
+					GetTextExtentPoint32(hdcMem, _T(" "), 1, &spaceSize);
 					ChangeToFont(hdcMem, dat, FONTID_GROUPCOUNTS, &fontHeight);
-					GetTextExtentPoint32A(hdcMem, szCounts, (int)mir_strlen(szCounts), &countsSize);
+					GetTextExtentPoint32(hdcMem, szCounts, (int)mir_tstrlen(szCounts), &countsSize);
 					width += spaceSize.cx + countsSize.cx;
 				}
 			}
@@ -435,7 +435,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 					if (rc.right < rc.left + 4)
 						rc.right = clRect.right + 1;
 					else
-						TextOutA(hdcMem, rc.right, rc.top + groupCountsFontTopShift, szCounts, (int)mir_strlen(szCounts));
+						TextOut(hdcMem, rc.right, rc.top + groupCountsFontTopShift, szCounts, (int)mir_tstrlen(szCounts));
 					ChangeToFont(hdcMem, dat, FONTID_GROUPS, &fontHeight);
 					if (selected)
 						SetTextColor(hdcMem, dat->selTextColour);

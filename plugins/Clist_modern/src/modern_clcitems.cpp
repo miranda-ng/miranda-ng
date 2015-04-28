@@ -636,7 +636,7 @@ void cli_SetContactCheckboxes(ClcContact *cc, int checked)
 		corecli.pfnSetContactCheckboxes(&cc->subcontacts[i], checked);
 }
 
-char* cli_GetGroupCountsText(ClcData *dat, ClcContact *contact)
+TCHAR* cli_GetGroupCountsText(ClcData *dat, ClcContact *contact)
 {
 	return corecli.pfnGetGroupCountsText(dat, contact);
 }

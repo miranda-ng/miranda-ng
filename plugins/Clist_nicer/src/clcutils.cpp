@@ -167,13 +167,13 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, ClcContact *hitcontac
 	GetTextExtentPoint32(hdc, hitcontact->szText, (int)mir_tstrlen(hitcontact->szText), &textSize);
 	width = textSize.cx;
 	if (hitcontact->type == CLCIT_GROUP) {
-		char *szCounts;
+		TCHAR *szCounts;
 		szCounts = pcli->pfnGetGroupCountsText(dat, hitcontact);
 		if (szCounts[0]) {
-			GetTextExtentPoint32A(hdc, " ", 1, &textSize);
+			GetTextExtentPoint32(hdc, _T(" "), 1, &textSize);
 			width += textSize.cx;
 			SelectObject(hdc, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);
-			GetTextExtentPoint32A(hdc, szCounts, (int)mir_strlen(szCounts), &textSize);
+			GetTextExtentPoint32(hdc, szCounts, (int)mir_tstrlen(szCounts), &textSize);
 			width += textSize.cx;
 		}
 	}
@@ -308,13 +308,13 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 	GetTextExtentPoint32(hdc, hitcontact->szText, (int)mir_tstrlen(hitcontact->szText), &textSize);
 	width = textSize.cx;
 	if (hitcontact->type == CLCIT_GROUP) {
-		char *szCounts;
+		TCHAR *szCounts;
 		szCounts = pcli->pfnGetGroupCountsText(dat, hitcontact);
 		if (szCounts[0]) {
-			GetTextExtentPoint32A(hdc, " ", 1, &textSize);
+			GetTextExtentPoint32(hdc, _T(" "), 1, &textSize);
 			width += textSize.cx;
 			SelectObject(hdc, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);
-			GetTextExtentPoint32A(hdc, szCounts, (int)mir_strlen(szCounts), &textSize);
+			GetTextExtentPoint32(hdc, szCounts, (int)mir_tstrlen(szCounts), &textSize);
 			width += textSize.cx;
 		}
 	}
