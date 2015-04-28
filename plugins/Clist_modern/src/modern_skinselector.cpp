@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_skinselector.h"
 #include "hdr/modern_skinengine.h"
-#include "m_api/m_skin_eng.h"
+#include "m_skin_eng.h"
 #include "m_api/m_skinbutton.h"
 #include "hdr/modern_commonprototypes.h"
 
@@ -644,27 +644,4 @@ int SkinDrawGlyphMask(HDC hdc, RECT *rcSize, RECT *rcClip, MODERNMASK *ModernMas
 	rq.rcClipRect = *rcClip;
 	strncpy(rq.szObjectID, "Masked draw", SIZEOF(rq.szObjectID)-1);
 	return ske_Service_DrawGlyph((WPARAM)&rq, (LPARAM)ModernMask);
-}
-
-
-int __inline SkinDrawWindowBack(HWND hwndIn, HDC hdc, RECT *rcClip, char * objectID)
-{
-	SKINDRAWREQUEST rq;
-	POINT pt = { 0 };
-	RECT rc, r1;
-
-	HWND hwnd = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
-	if (!objectID) return 0;
-	GetWindowRect(hwndIn, &r1);
-	pt.x = r1.left;
-	pt.y = r1.top;
-	//ClientToScreen(hwndIn,&pt);
-	GetWindowRect(hwnd, &rc);
-	OffsetRect(&rc, -pt.x, -pt.y);
-	rq.hDC = hdc;
-	rq.rcDestRect = rc;
-	rq.rcClipRect = *rcClip;
-	strncpy(rq.szObjectID, objectID, SIZEOF(rq.szObjectID)-1);
-	///ske_Service_DrawGlyph((WPARAM)&rq,0);    //$$$
-	return CallService(MS_SKIN_DRAWGLYPH, (WPARAM)&rq, 0);
 }

@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //Include
 #include "hdr/modern_commonheaders.h"
 #include <m_png.h>
-#include "m_api/m_skin_eng.h"
+#include "m_skin_eng.h"
 #include "hdr/modern_skinselector.h"
 #include "CLUIFrames/cluiframes.h"
 
