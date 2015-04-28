@@ -106,7 +106,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modern_cache_funcs.h"
 #include "modern_log.h"
 #include "../resource.h"
-#include "modern_layered_window_engine.h"
 
 #define DEFAULT_SKIN_FOLDER		"Skins\\Modern contact list"
 extern TCHAR SkinsFolder[MAX_PATH];
