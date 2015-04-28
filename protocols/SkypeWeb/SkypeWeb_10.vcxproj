@@ -213,6 +213,7 @@
     <ClInclude Include="src\requests\search.h" />
     <ClInclude Include="src\requests\status.h" />
     <ClInclude Include="src\requests\subscriptions.h" />
+    <ClInclude Include="src\requests\trouter.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\skype_dialogs.h" />
     <ClInclude Include="src\skype_icons.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="src\skype_poll_processing.cpp" />
     <ClCompile Include="src\skype_profile.cpp" />
     <ClCompile Include="src\skype_request.cpp" />
+    <ClCompile Include="src\skype_trouter.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -252,10 +254,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Icons\skype.ico" />
-	<Image Include="res\Icons\conference.ico" />
-	<Image Include="res\Icons\sync_history.ico" />
-	<Image Include="res\Icons\user_block.ico" />
-	<Image Include="res\Icons\user_unblock.ico" />
+    <Image Include="res\Icons\conference.ico" />
+    <Image Include="res\Icons\sync_history.ico" />
+    <Image Include="res\Icons\user_block.ico" />
+    <Image Include="res\Icons\user_unblock.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
