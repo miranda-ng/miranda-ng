@@ -87,6 +87,9 @@
     <ClInclude Include="src\requests\chatrooms.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
+    <ClInclude Include="src\requests\trouter.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cpp">
@@ -149,6 +152,9 @@
     <ClCompile Include="src\skype_history_sync.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\skype_trouter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
@@ -168,5 +174,13 @@
     <Image Include="res\Icons\sync_history.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Icons\user_block.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\Icons\user_unblock.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
   </ItemGroup>
 </Project>
