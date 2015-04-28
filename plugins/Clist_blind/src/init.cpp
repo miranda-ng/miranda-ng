@@ -548,7 +548,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 		{
 		case CLCIT_GROUP:
 			{
-				char *szCounts = pcli->pfnGetGroupCountsText((ClcData*)dat, item);
+				TCHAR *szCounts = pcli->pfnGetGroupCountsText((ClcData*)dat, item);
 				const TCHAR *t[] = {
 					_T("%name%"),
 					_T("%count%"),

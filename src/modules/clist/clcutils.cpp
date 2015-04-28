@@ -29,10 +29,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HANDLE hHideInfoTipEvent;
 
-char* fnGetGroupCountsText(struct ClcData *dat, ClcContact *contact)
+TCHAR* fnGetGroupCountsText(struct ClcData *dat, ClcContact *contact)
 {
 	if (contact->type != CLCIT_GROUP || !(dat->exStyle & CLS_EX_SHOWGROUPCOUNTS))
-		return "";
+		return _T("");
 
 	ClcGroup *group = contact->group, *topgroup = group;
 	int onlineCount = 0;
@@ -56,10 +56,10 @@ char* fnGetGroupCountsText(struct ClcData *dat, ClcContact *contact)
 		group->scanIndex++;
 	}
 	if (onlineCount == 0 && dat->exStyle & CLS_EX_HIDECOUNTSWHENEMPTY)
-		return "";
+		return _T("");
 
-	static char szName[32];
-	mir_snprintf(szName, SIZEOF(szName), "(%u/%u)", onlineCount, totalCount);
+	static TCHAR szName[32];
+	mir_sntprintf(szName, SIZEOF(szName), _T("(%u/%u)"), onlineCount, totalCount);
 	return szName;
 }
 
@@ -168,13 +168,13 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *
 	GetTextExtentPoint32(hdc, hitcontact->szText, (int)mir_tstrlen(hitcontact->szText), &textSize);
 	int width = textSize.cx;
 	if (hitcontact->type == CLCIT_GROUP) {
-		char *szCounts;
+		TCHAR *szCounts;
 		szCounts = cli.pfnGetGroupCountsText(dat, hitcontact);
 		if (szCounts[0]) {
-			GetTextExtentPoint32A(hdc, " ", 1, &textSize);
+			GetTextExtentPoint32(hdc, _T(" "), 1, &textSize);
 			width += textSize.cx;
 			SelectObject(hdc, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);
-			GetTextExtentPoint32A(hdc, szCounts, (int)mir_strlen(szCounts), &textSize);
+			GetTextExtentPoint32(hdc, szCounts, (int)mir_tstrlen(szCounts), &textSize);
 			width += textSize.cx;
 		}
 	}

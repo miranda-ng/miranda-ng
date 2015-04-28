@@ -158,11 +158,6 @@ int     ske_UpdateWindowImage();
 int     ske_UpdateWindowImageRect(RECT *lpRect);
 int     ske_ValidateFrameImageProc(RECT *r);
 
-__forceinline BOOL ske_DrawTextA(HDC hdc, char *lpString, int nCount, RECT *lpRect, UINT format)
-{
-	return ske_DrawText(hdc, _A2T(lpString), nCount, lpRect, format);
-}
-
 /* CLUIFrames.c PROXIED */
 
 int CLUIFrames_ActivateSubContainers(BOOL wParam);
@@ -274,7 +269,7 @@ void    cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int upd
 void    cli_DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
 void    cli_FreeContact(ClcContact*);
 void    cli_FreeGroup(ClcGroup*);
-char*   cli_GetGroupCountsText(ClcData *dat, ClcContact *contact);
+TCHAR*   cli_GetGroupCountsText(ClcData *dat, ClcContact *contact);
 void    cli_ChangeContactIcon(MCONTACT hContact, int iIcon, int add);
 void    cli_SetContactCheckboxes(ClcContact*, int);
 LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
