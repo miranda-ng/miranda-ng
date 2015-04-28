@@ -258,7 +258,7 @@ public:
 	bool IsCustom(void) { return type == smcCustom; }
 	bool IsProto(void)  { return type == smcProto || type == smcPhysProto || type == smcTransportProto || type == smcVirtualProto; }
 	bool IsAcc(void)  { return type == smcProto; }
-	bool IsVirtual(void)  { return type == smcProto; }
+	bool IsVirtual(void)  { return type == smcVirtualProto; }
 	bool IsPhysProto(void)  { return type == smcPhysProto; }
 	bool IsTransportProto(void)  { return type == smcTransportProto; }
 	bool IsExt(void)    { return type == smcExt;  }
