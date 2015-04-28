@@ -83,17 +83,27 @@ void CSkypeProto::PollingThread(void*)
 		if (response->pData)
 		{
 			JSONROOT root(response->pData);
-			JSONNODE *errorCode = json_get(root, "errorCode"); 
-			if (errorCode != NULL)
+			JSONNODE *eventMsgs = json_get(root, "eventMessages");
+			JSONNODE *errorCode = json_get(root, "errorCode");
+
+			if (eventMsgs != NULL)
+				ParsePollData(root);
+
+			else if (errorCode != NULL)
 			{
 				errors++;
-				debugLogA(__FUNCTION__": polling error %s", ptrA(mir_t2a(ptrT(json_as_string(errorCode)))));
+				debugLogA(__FUNCTION__": polling error %d", json_as_int(errorCode));
+				if (json_as_int(errorCode) == 729)
+				{
+					SendRequest(new CreateEndpointRequest(TokenSecret), &CSkypeProto::OnEndpointCreated);
+					CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+					delete request;
+					break;
+				}
 			}
-			ParsePollData(root);
 		}
 		m_pollingConnection = response->nlc;
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
-
 		delete request;
 	}
 	
