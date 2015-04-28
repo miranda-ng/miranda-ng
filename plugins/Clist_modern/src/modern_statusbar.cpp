@@ -1,6 +1,6 @@
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_statusbar.h"
-#include "./m_api/m_skin_eng.h"
+#include "m_skin_eng.h"
 #include "hdr/modern_commonprototypes.h"
 #include "hdr/modern_clcpaint.h"
 #include "hdr/modern_sync.h"

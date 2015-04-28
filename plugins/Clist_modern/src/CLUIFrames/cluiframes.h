@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _CLUIFRAMES_H_
 #define _CLUIFRAMES_H_
 
-#include "../m_api/m_skin_eng.h"
+#include "m_skin_eng.h"
 
 int LoadCLUIFramesModule(void);
 int UnLoadCLUIFramesModule(void);

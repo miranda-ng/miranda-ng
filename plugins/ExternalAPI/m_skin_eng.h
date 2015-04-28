@@ -187,15 +187,11 @@ int __inline SkinDrawWindowBack(HWND hwndIn, HDC hdc, RECT * rcClip, char * obje
 	return CallService(MS_SKIN_DRAWGLYPH,(WPARAM)&rq,0);
 }
 
-
-
 //Register object with predefined style
 int __inline CreateGlyphedObjectDefStyle(char * ObjID,BYTE defStyle);
 int __inline CreateGlyphedObjectDefColor(char * ObjID,DWORD defColor);
 //Register default object
 int __inline CreateGlyphedObject(char * ObjID);
-
-
 
 //// Creating and registering objects
 //int __inline CreateGlyphedObject(char * ObjID)
@@ -346,6 +342,7 @@ int __inline SkinInvalidateFrame(HWND hWnd, CONST RECT* lpRect)
 {
 	return SkinEngInvalidateImageFrame(hWnd, lpRect, 0, 0);
 }
+// Alpha channel GDI replacements/helpers
 
 //
 // Paints text with correct alpha channel
@@ -373,6 +370,57 @@ int __inline AlphaText(HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRect, UIN
   ap.ARGBcolor=ARGBcolor;
   return CallService(MS_SKINENG_ALPHATEXTOUT,(WPARAM)&ap,0);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Paints text with correct alpha channel and effect, alternative to DrawText
+// wParam - pointer to DrawTextWithEffectParam
+
+typedef struct MODERNFONTEFFECT_tag
+{
+    BYTE     effectIndex;
+    DWORD    baseColour;        // ARGB
+    DWORD    secondaryColour;   // ARGB
+}
+MODERNFONTEFFECT;
+
+typedef struct DrawTextWithEffectParam_tag
+{
+    int cbSize;
+    HDC             hdc;                  // handle to DC
+    LPCTSTR         lpchText;             // text to draw
+    int             cchText;              // length of text to draw
+    LPRECT          lprc;                 // rectangle coordinates
+    UINT            dwDTFormat;           // formatting options
+    MODERNFONTEFFECT *    pEffect;        // effect to be drawn on
+} DrawTextWithEffectParam;
+
+#define MS_DRAW_TEXT_WITH_EFFECTA "Modern/SkinEngine/DrawTextWithEffectA"
+#define MS_DRAW_TEXT_WITH_EFFECTW "Modern/SkinEngine/DrawTextWithEffectW"
+
+#ifdef UNICODE
+    #define MS_DRAW_TEXT_WITH_EFFECT MS_DRAW_TEXT_WITH_EFFECTW
+#else
+    #define MS_DRAW_TEXT_WITH_EFFECT MS_DRAW_TEXT_WITH_EFFECTA
+#endif
+
+// Helper
+int __inline DrawTextWithEffect( HDC hdc, LPCTSTR lpchText, int cchText, RECT * lprc, UINT dwDTFormat, MODERNFONTEFFECT * pEffect )
+{
+    DrawTextWithEffectParam params;
+    static BYTE bIfServiceExists = ServiceExists( MS_DRAW_TEXT_WITH_EFFECT ) ? 1 : 0;
+    if ( bIfServiceExists == 0 ) return DrawText ( hdc, lpchText, cchText, lprc, dwDTFormat );
+
+    // else
+    params.cbSize       = sizeof( DrawTextWithEffectParam );
+    params.hdc          = hdc;
+    params.lpchText     = lpchText;
+    params.cchText      = cchText;
+    params.lprc         = lprc;
+    params.dwDTFormat   = dwDTFormat;
+    params.pEffect      = pEffect;
+    return CallService( MS_DRAW_TEXT_WITH_EFFECT, (WPARAM)&params, 0 );
+}
+
 
 typedef struct _ImageListFixParam
 {
