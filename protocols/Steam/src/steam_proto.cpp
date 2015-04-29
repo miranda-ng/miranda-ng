@@ -8,9 +8,6 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CSteamProto::OnAccountManagerInit);
 
-	InitializeCriticalSection(&this->contact_search_lock);
-	InitializeCriticalSection(&this->set_status_lock);
-
 	InitQueue();
 
 	m_idleTS = 0;
@@ -72,9 +69,6 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 CSteamProto::~CSteamProto()
 {
 	UninitQueue();
-
-	DeleteCriticalSection(&this->contact_search_lock);
-	DeleteCriticalSection(&this->set_status_lock);
 }
 
 MCONTACT __cdecl CSteamProto::AddToList(int flags, PROTOSEARCHRESULT* psr)

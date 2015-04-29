@@ -4,7 +4,6 @@ void CSteamProto::InitQueue()
 {
 	debugLogA("%s: entering", __FUNCTION__);
 
-	InitializeCriticalSection(&requests_queue_lock);
 	m_evRequestsQueue = CreateEvent(NULL, FALSE, FALSE, NULL);
 
 	debugLogA("%s: leaving", __FUNCTION__);
@@ -16,7 +15,6 @@ void CSteamProto::UninitQueue()
 
 	requestsQueue.destroy();
 	CloseHandle(m_evRequestsQueue);
-	DeleteCriticalSection(&requests_queue_lock);
 
 	debugLogA("%s: leaving", __FUNCTION__);
 }

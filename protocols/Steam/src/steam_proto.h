@@ -150,9 +150,9 @@ protected:
 	HANDLE m_pollingConnection, m_hPollingThread;
 	ULONG  hAuthProcess;
 	ULONG  hMessageProcess;
-	CRITICAL_SECTION contact_search_lock;
-	CRITICAL_SECTION requests_queue_lock;
-	CRITICAL_SECTION set_status_lock;
+	mir_cs contact_search_lock;
+	mir_cs requests_queue_lock;
+	mir_cs set_status_lock;
 	LIST<QueueItem> requestsQueue;
 
 	// instances
