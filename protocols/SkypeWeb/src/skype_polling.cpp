@@ -16,8 +16,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "common.h"
 
-#define POLLING_ERRORS_LIMIT 3
-
 void CSkypeProto::ParsePollData(JSONNODE *data)
 {
 	debugLogA("CSkypeProto::ParsePollData");
