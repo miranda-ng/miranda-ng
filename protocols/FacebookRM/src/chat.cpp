@@ -275,12 +275,13 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
 
 	ptrT idT(getTStringA(hContact, "ChatRoomID"));
 	ptrT nameT(getTStringA(hContact, "Nick"));
+	ptrT threadIdT(getTStringA(hContact, FACEBOOK_KEY_TID));
 
-	if (!idT || !nameT)
+	if (!idT || !nameT || !threadIdT)
 		return 0;
 
 	facebook_chatroom *fbc;
-	std::tstring tthread_id = ptrT(getTStringA(hContact, FACEBOOK_KEY_TID));
+	std::tstring tthread_id = threadIdT;
 
 	std::map<std::tstring, facebook_chatroom*>::iterator it = facy.chat_rooms.find(tthread_id);
 	if (it != facy.chat_rooms.end()) {
@@ -330,9 +331,11 @@ INT_PTR FacebookProto::OnLeaveChat(WPARAM wParam, LPARAM)
 		facy.clear_chatrooms();
 	}
 	else if (!IsSpecialChatRoom(wParam)) {
-		std::tstring tthread_id = ptrT(getTStringA(wParam, FACEBOOK_KEY_TID));
+		ptrT threadIdT(getTStringA(wParam, FACEBOOK_KEY_TID));
+		if (!threadIdT)
+			return 0;
 
-		std::map<std::tstring, facebook_chatroom*>::iterator it = facy.chat_rooms.find(tthread_id);
+		std::map<std::tstring, facebook_chatroom*>::iterator it = facy.chat_rooms.find(std::tstring(threadIdT));
 		if (it != facy.chat_rooms.end()) {
 			delete it->second;
 			facy.chat_rooms.erase(it);

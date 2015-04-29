@@ -84,11 +84,11 @@ void FacebookProto::SendChatMsgWorker(void *p)
 	if (hContact) {
 		ptrA tid_(getStringA(hContact, FACEBOOK_KEY_TID));
 		std::string tid;
-		if (tid_ != NULL) {
+		if (tid_ != NULL && mir_strcmp(tid_, "null")) {
 			tid = tid_;
 		}
 		else {
-			std::string post_data = "threads[group_ids][0]=" + utils::url::encode(data->chat_id);
+			std::string post_data = "threads[thread_ids][0]=" + utils::url::encode(data->chat_id);
 			post_data += "&fb_dtsg=" + facy.dtsg_;
 			post_data += "&__user=" + facy.self_.user_id;
 			post_data += "&phstamp=" + facy.phstamp(post_data);
@@ -96,7 +96,8 @@ void FacebookProto::SendChatMsgWorker(void *p)
 			http::response resp = facy.flap(REQUEST_THREAD_INFO, &post_data);
 
 			tid = utils::text::source_get_value(&resp.data, 2, "\"thread_id\":\"", "\"");
-			setString(hContact, FACEBOOK_KEY_TID, tid.c_str());
+			if (!tid.empty() && tid.compare("null"))
+				setString(hContact, FACEBOOK_KEY_TID, tid.c_str());
 			debugLogA("    Got thread info: %s = %s", data->chat_id.c_str(), tid.c_str());
 		}
 

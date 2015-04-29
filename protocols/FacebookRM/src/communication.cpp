@@ -1228,21 +1228,32 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 		data += "&captcha_response=" + captcha;
 	}
 
-	std::string userId = ptrA(parent->getStringA(hContact, FACEBOOK_KEY_ID));
-	std::string threadId = ptrA(parent->getStringA(hContact, FACEBOOK_KEY_TID));
 	boolean isChatRoom = parent->isChatRoom(hContact);
+
+	ptrA userId( parent->getStringA(hContact, FACEBOOK_KEY_ID));
+	ptrA threadId( parent->getStringA(hContact, FACEBOOK_KEY_TID));
+	
+	// Check if we have userId/threadId to be able to send message
+	if ((isChatRoom && (threadId == NULL || !mir_strcmp(threadId, "null")))
+		|| (!isChatRoom && (userId == NULL || !mir_strcmp(userId, "null")))) {
+		// This shouldn't happen unless user manually deletes some data via Database Editor++
+		*error_text = Translate("Contact doesn't have required data in database.");
+
+		handle_error("send_message");
+		return SEND_MESSAGE_ERROR;
+	}
 
 	data += "&message_batch[0][action_type]=ma-type:user-generated-message";
 	
 	if (isChatRoom) {
-		data += "&message_batch[0][thread_fbid]=" + threadId;
+		data += "&message_batch[0][thread_id]=" + std::string(threadId);
 	} else {
-		data += "&message_batch[0][specific_to_list][0]=fbid:" + userId;
+		data += "&message_batch[0][specific_to_list][0]=fbid:" + std::string(userId);
 		data += "&message_batch[0][specific_to_list][1]=fbid:" + this->self_.user_id;
-		data += "&message_batch[0][client_thread_id]=user:" + userId;
+		data += "&message_batch[0][client_thread_id]=user:" + std::string(userId);
 	}
 
-	data += "&message_batch[0][thread_id]";
+	data += "&message_batch[0][thread_fbid]";
 	data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
 	data += "&message_batch[0][author_email]";
 	data += "&message_batch[0][coordinates]";
