@@ -19,7 +19,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "irc.h"
+#include "stdafx.h"
 #include "version.h"
 
 #define NICKSUBSTITUTE _T("!_nick_!")
@@ -417,7 +417,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR* window, MCONTACT hConta
 			CallFunctionAsync(sttSetTimerOff, this);
 		}
 		if (!mir_tstrcmpi(one.c_str(), _T("time")) && !two.IsEmpty()) {
-			m_iTempCheckTime = StrToInt(two.c_str());
+			m_iTempCheckTime = _ttoi(two.c_str());
 			if (m_iTempCheckTime < 10 && m_iTempCheckTime != 0)
 				m_iTempCheckTime = 10;
 
