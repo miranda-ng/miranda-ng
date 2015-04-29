@@ -19,7 +19,7 @@ class CreateTrouterRequest : public HttpRequest
 {
 public:
 	CreateTrouterRequest() :
-		HttpRequest(REQUEST_POST,"go.trouter.io/v1/users/ME/endpoints")
+		HttpRequest(REQUEST_POST,"go.trouter.io/v2/a")
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");
@@ -27,10 +27,10 @@ public:
 	}
 };
 
-class CreatePoliciesRequest : public HttpRequest
+class CreateTrouterPoliciesRequest : public HttpRequest
 {
 public:
-	CreatePoliciesRequest(const char *token, const char *sr) :
+	CreateTrouterPoliciesRequest(const char *token, const char *sr) :
 		HttpRequest(REQUEST_POST, FORMAT, "prod.tpc.skype.com/v1/policies")
 	{
 		Headers
@@ -49,9 +49,32 @@ public:
 	//{"sr":"AUKRNgA8_eKV0Ibsx037Gbd8GVrsDg8zLQRt1pH8sCyIAile3gtoWmlq2x1yZ_VNZ3tf","issuer":"edf","sp":"connect","st":"1430236511619","se":"1430318082619","sig":"nYczCdlBENCxoAFLy7lPkGELVV1w5TcUnpSUE2G7GLA"}
 };
 
-//GET https://193-149-88-131.drip.trouter.io/socket.io/1/?sr=AUKRNgA8_eKV0Ibsx037Gbd8GVrsDg8zLQRt1pH8sCyIAile3gtoWmlq2x1yZ_VNZ3tf&issuer=edf&sp=connect&st=1430236511619&se=1430318082619&sig=nYczCdlBENCxoAFLy7lPkGELVV1w5TcUnpSUE2G7GLA&r=193.149.88.131&v=v2&p=443&ccid=huzHTfsZt3wZ&dom=web.skype.com&tc=%7B%22cv%22:%222014.8.26%22,%22hr%22:%22%22,%22ua%22:%22SWX%22,%22v%22:%221.2.273%22%7D&t=1430236827898 HTTP/1.1
-//3725b0e4-a8b6-49c9-9cf1-6bef4672fe7a:150:150:websocket,xhr-polling,jsonp-polling
-//														 ^ supported
+class GetTrouterRequest : public HttpRequest
+{
+public:
+	GetTrouterRequest(const char *socketio, const char *sr, int st, int se, const char *sig,
+																const char *instance, const char *ccid) :
+		HttpRequest(REQUEST_POST, FORMAT, "%ssocket.io/1/", socketio)
+	{
+		Url
+			<< CHAR_VALUE("sr", sr)
+			<< CHAR_VALUE("issuer", "edf")
+			<< CHAR_VALUE("sp", "connect")
+			<< INT_VALUE("st", st)
+			<< INT_VALUE("se", se)
+			<< CHAR_VALUE("sig", sig)
+			<< CHAR_VALUE("r", instance)
+			<< CHAR_VALUE("v", "v2")
+			<< INT_VALUE("p", 443)
+			<< CHAR_VALUE("ccid", ccid)
+			<< CHAR_VALUE("tc", ptrA(mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}")))
+			<< INT_VALUE("t", time(NULL)*1000);
+
+		Headers
+			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");
+	}
+};
+
 //GET https://193-149-88-131.drip.trouter.io/socket.io/1/websocket/3725b0e4-a8b6-49c9-9cf1-6bef4672fe7a?sr=AUKRNgA8_eKV0Ibsx037Gbd8GVrsDg8zLQRt1pH8sCyIAile3gtoWmlq2x1yZ_VNZ3tf&issuer=edf&sp=connect&st=1430236511619&se=1430318082619&sig=nYczCdlBENCxoAFLy7lPkGELVV1w5TcUnpSUE2G7GLA&r=193.149.88.131&v=v2&p=443&ccid=huzHTfsZt3wZ&dom=web.skype.com&tc=%7B%22cv%22:%222014.8.26%22,%22hr%22:%22%22,%22ua%22:%22SWX%22,%22v%22:%221.2.273%22%7D HTTP/1.1
 //is websocket
 //
