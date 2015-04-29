@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "jabber.h"
+#include "stdafx.h"
 #include "jabber_iq.h"
 #include "jabber_caps.h"
 #include "jabber_rc.h"
@@ -31,6 +31,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_assocmgr.h"
 #include "m_folders.h"
 #include "m_toptoolbar.h"
+
+#pragma comment(lib, "Dnsapi.lib")
+#pragma comment(lib, "Secur32.lib")
 
 HINSTANCE hInst;
 

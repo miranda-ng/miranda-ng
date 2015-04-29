@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "jabber.h"
+#include "stdafx.h"
 
 #define TAG_MAX_LEN 128
 #define ATTR_MAX_LEN 8192

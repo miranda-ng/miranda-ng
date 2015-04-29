@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "jabber.h"
+#include "stdafx.h"
 
 #define TLIF_VISIBLE	0x01
 #define TLIF_EXPANDED	0x02
