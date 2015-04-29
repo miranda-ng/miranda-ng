@@ -142,10 +142,10 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 	OutBuffer buf;
 	buf.SetUL(dwFlags);
 	buf.SetLPSLowerCase(szEmail);
-	buf.SetLPS(CMStringA(lpszMessageConverted, dwMessageConvertedSize));
+	buf.SetLPS(CMStringA(lpszMessageConverted, (int)dwMessageConvertedSize));
 	buf.SetLPS(lpszMessageRTF);
 	if (dwFlags & MESSAGE_FLAG_MULTICHAT)
-		buf.SetLPS(CMStringA((LPSTR)lpbMultiChatData, dwMultiChatDataSize));
+		buf.SetLPS(CMStringA((LPSTR)lpbMultiChatData, (int)dwMultiChatDataSize));
 
 	if (bAddToQueue)
 		dwRet = MraSendQueueCMD(hSendQueueHandle, 0, hContact, dwAckType, NULL, 0, MRIM_CS_MESSAGE, buf.Data(), buf.Len());
@@ -205,7 +205,7 @@ DWORD CMraProto::MraAddContact(MCONTACT hContact, DWORD dwContactFlag, DWORD dwG
 	buf2.SetUL(2);
 	buf2.SetLPSW(_T(""));//***deb possible nick here
 	buf2.SetLPSW((wszAuthMessage == NULL) ? _T("") : *wszAuthMessage);
-	buf.SetLPS(CMStringA( ptrA( mir_base64_encode(buf2.Data(), buf2.Len()))));
+	buf.SetLPS(CMStringA(ptrA(mir_base64_encode(buf2.Data(), (int)buf2.Len()))));
 
 	buf.SetUL(0);
 
@@ -508,12 +508,12 @@ DWORD CMraProto::MraSendPacket(HANDLE hConnection, DWORD dwCMDNum, DWORD dwType,
 	pmaHeader->proto = (PROTO_VERSION_MAJOR << 16) + PROTO_VERSION_MINOR; // Версия протокола
 	pmaHeader->seq = dwCMDNum;// Sequence
 	pmaHeader->msg = dwType;// Тип пакета
-	pmaHeader->dlen = dwDataSize;// Длина данных
+	pmaHeader->dlen = (unsigned)dwDataSize;// Длина данных
 	
 	debugLogA("Sending packet %08x\n", dwType);
 
 	memcpy((lpbData + sizeof(mrim_packet_header_t)), lpData, dwDataSize);
-	return Netlib_Send(hConnection, (LPSTR)lpbData, (dwDataSize + sizeof(mrim_packet_header_t)), 0);
+	return Netlib_Send(hConnection, (LPSTR)lpbData, (int)(dwDataSize + sizeof(mrim_packet_header_t)), 0);
 }
 
 DWORD CMraProto::MraSendCMD(DWORD dwType, LPVOID lpData, size_t dwDataSize)
