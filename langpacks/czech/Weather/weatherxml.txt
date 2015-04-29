@@ -173,7 +173,7 @@ sněhové přeháňky (dop.)
 [Light Snow]
 slabé sněžení
 [Drifting Snow]
-ustupující sněžení
+poletující sníh
 [Pm Snow Showers]
 Sněhové přeháňky (odp.)
 [Am Clouds / Pm Sun]
@@ -326,3 +326,27 @@ slunečno/vítr
 průtrž mračen
 [Rain Late]
 později déšť
+[Light Rain / Wind Early]
+slabý déšť/k ránu vítr
+[Heavy Rain / Wind]
+průtrž mračen/vítr
+[Cloudy / Windy]
+oblačno/větrno
+[Wintry Mix / Wind]
+mrznoucí déšť se sněhem/vítr
+[Rain Shower]
+dešťová přeháňka
+[Light Freezing Rain / Windy]
+slabý mrznoucí déšť/větrno
+[Light Freezing Rain / Fog]
+slabý mrznoucí déšť/hustá mlha
+[Snow / Windy]
+sněžení/větrno
+[Fog / Windy]
+hustá mlha/větrno
+[Partly Cloudy / Windy]
+částečně oblačno/větrno
+[Sunny / Windy]
+slunečno/větrno
+[Am Snow]
+sněžení (dop.)
