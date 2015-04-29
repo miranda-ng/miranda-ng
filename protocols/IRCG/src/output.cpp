@@ -19,7 +19,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "irc.h"
+#include "stdafx.h"
 
 static CMString FormatOutput(const CIrcMessage* pmsg)
 {
@@ -50,7 +50,7 @@ static CMString FormatOutput(const CIrcMessage* pmsg)
 			goto THE_END;
 		}
 
-		int index = StrToInt(pmsg->sCommand.c_str());
+		int index = _ttoi(pmsg->sCommand.c_str());
 		if (index == 301 && pmsg->parameters.getCount() > 0) {
 			TCHAR temp[500]; *temp = '\0';
 			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%s is away"), pmsg->parameters[1].c_str());
@@ -136,7 +136,7 @@ BOOL CIrcProto::ShowMessage(const CIrcMessage* pmsg)
 	if (!pmsg->m_bIncoming)
 		mess.Replace(_T("%%"), _T("%"));
 
-	int iTemp = StrToInt(pmsg->sCommand.c_str());
+	int iTemp = _ttoi(pmsg->sCommand.c_str());
 
 	//To active window
 	if ((iTemp > 400 || iTemp < 500) && pmsg->sCommand[0] == '4' //all error messages	

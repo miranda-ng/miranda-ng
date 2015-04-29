@@ -19,7 +19,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "irc.h"
+#include "stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Message Box
@@ -435,7 +435,7 @@ static int CALLBACK ListViewSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSo
 		return (*temp1 == 0) ? 1 : -1;
 	}
 
-	return (StrToInt(temp1) < StrToInt(temp2)) ? 1 : -1;
+	return (_ttoi(temp1) < _ttoi(temp2)) ? 1 : -1;
 }
 
 int CListDlg::Resizer(UTILRESIZECONTROL *urc)

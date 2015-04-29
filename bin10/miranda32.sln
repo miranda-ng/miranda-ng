@@ -25,7 +25,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AIM", "..\protocols\AimOsca
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GG", "..\protocols\Gadu-Gadu\Gadu-Gadu_10.vcxproj", "{6DA1396F-2A44-4D5C-8442-012F71006217}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IRC", "..\protocols\IRCG\IRC_10.vcxproj", "{3A12F777-56A8-42EC-BD17-8F325524241E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IRC", "..\protocols\IRCG\IRC.vcxproj", "{3A12F777-56A8-42EC-BD17-8F325524241E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Yahoo", "..\protocols\Yahoo\Yahoo_10.vcxproj", "{E42870DB-9FED-44E7-9C93-4E64D0C87F51}"
 EndProject
@@ -49,7 +49,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_GG", "..\protocols\Ga
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_ICQ", "..\protocols\IcqOscarJ\proto_icq\Proto_ICQ_10.vcxproj", "{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_IRC", "..\protocols\IRCG\proto_irc\Proto_IRC_10.vcxproj", "{DD667247-3712-4355-9774-7E6ACAF2275E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_IRC", "..\protocols\IRCG\proto_irc\Proto_IRC.vcxproj", "{DD667247-3712-4355-9774-7E6ACAF2275E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Jabber", "..\protocols\JabberG\proto_jabber\Proto_Jabber_10.vcxproj", "{1AA0A504-0644-4F00-A1AD-F55D69E50DD0}"
 EndProject

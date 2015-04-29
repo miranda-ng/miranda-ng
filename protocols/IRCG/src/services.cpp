@@ -19,7 +19,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "irc.h"
+#include "stdafx.h"
 
 void CIrcProto::InitMainMenus(void)
 {
@@ -446,11 +446,11 @@ static void DoChatFormatting(TCHAR* pszText)
 				break;
 			case 'C':
 				if (p1[2] == '%' && p1[3] == 'F') {
-					mir_tstrcpy(InsertThis, _T("\00399,99"));
+					mir_tstrcpy(InsertThis, _T("\x0399,99"));
 					iRemoveChars = 4;
 				}
 				else {
-					mir_tstrcpy(InsertThis, _T("\00399"));
+					mir_tstrcpy(InsertThis, _T("\x0399"));
 					iRemoveChars = 2;
 				}
 				iFG = -1;
@@ -459,18 +459,18 @@ static void DoChatFormatting(TCHAR* pszText)
 				if (p1 - 3 >= pszText && p1[-3] == '\003')
 					mir_tstrcpy(InsertThis, _T(","));
 				else if (iFG >= 0)
-					mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("\003%u,"), iFG);
+					mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("\x03%u,"), iFG);
 				else
-					mir_tstrcpy(InsertThis, _T("\00399,"));
+					mir_tstrcpy(InsertThis, _T("\x0399,"));
 
 				iRemoveChars = 2;
 				break;
 
 			case 'F':
 				if (iFG >= 0)
-					mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("\003%u,99"), iFG);
+					mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("\x03%u,99"), iFG);
 				else
-					mir_tstrcpy(InsertThis, _T("\00399,99"));
+					mir_tstrcpy(InsertThis, _T("\x0399,99"));
 				iRemoveChars = 2;
 				break;
 
@@ -1041,7 +1041,7 @@ void __cdecl CIrcProto::DisconnectServerThread(void*)
 
 void CIrcProto::ConnectToServer(void)
 {
-	m_portCount = StrToIntA(m_portStart);
+	m_portCount = atoi(m_portStart);
 	si.sServer = GetWord(m_serverName, 0);
 	si.iPort = m_portCount;
 	si.sNick = m_nick;
@@ -1049,7 +1049,7 @@ void CIrcProto::ConnectToServer(void)
 	si.sFullName = m_name;
 	si.sPassword = m_password;
 	si.bIdentServer = ((m_ident) ? (true) : (false));
-	si.iIdentServerPort = StrToInt(m_identPort);
+	si.iIdentServerPort = _ttoi(m_identPort);
 	si.sIdentServerType = m_identSystem;
 	si.m_iSSL = m_iSSL;
 	si.sNetwork = m_network;
@@ -1069,7 +1069,7 @@ void CIrcProto::ConnectToServer(void)
 		InterlockedIncrement((long *)&m_bConnectRequested);
 
 	TCHAR szTemp[300];
-	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("\0033%s \002%s\002 (%S: %u)"),
+	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("\033%s \002%s\002 (%S: %u)"),
 		TranslateT("Connecting to"), si.sNetwork.c_str(), si.sServer.c_str(), si.iPort);
 	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
 }

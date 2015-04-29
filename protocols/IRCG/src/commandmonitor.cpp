@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // This file holds functions that are called upon receiving
 // certain commands from the server.
 
-#include "irc.h"
+#include "stdafx.h"
 
 using namespace irc;
 
@@ -1591,7 +1591,7 @@ bool CIrcProto::OnIrc_BANLIST(const CIrcMessage* pmsg)
 				S += pmsg->parameters[3];
 				if (pmsg->parameters.getCount() > 4) {
 					S += _T(" -  ( ");
-					time_t time = StrToInt(pmsg->parameters[4].c_str());
+					time_t time = _ttoi(pmsg->parameters[4].c_str());
 					S += _tctime(&time);
 					S.Replace(_T("\n"), _T(" "));
 					S += _T(")");
@@ -1703,7 +1703,7 @@ bool CIrcProto::OnIrc_WHOIS_END(const CIrcMessage* pmsg)
 bool CIrcProto::OnIrc_WHOIS_IDLE(const CIrcMessage* pmsg)
 {
 	if (pmsg->m_bIncoming && m_whoisDlg && pmsg->parameters.getCount() > 2 && m_manualWhoisCount > 0) {
-		int S = StrToInt(pmsg->parameters[2].c_str());
+		int S = _ttoi(pmsg->parameters[2].c_str());
 		int D = S / (60 * 60 * 24);
 		S -= (D * 60 * 60 * 24);
 		int H = S / (60 * 60);
@@ -1880,7 +1880,7 @@ bool CIrcProto::OnIrc_ENDMOTD(const CIrcMessage* pmsg)
 bool CIrcProto::OnIrc_NOOFCHANNELS(const CIrcMessage* pmsg)
 {
 	if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 1)
-		m_noOfChannels = StrToInt(pmsg->parameters[1].c_str());
+		m_noOfChannels = _ttoi(pmsg->parameters[1].c_str());
 
 	if (pmsg->m_bIncoming && !bPerformDone)
 		DoOnConnect(pmsg);
