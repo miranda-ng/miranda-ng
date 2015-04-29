@@ -80,7 +80,7 @@ __inline void SHA1GetDigest(LPVOID lpBuff,size_t dwBuffSize,BYTE *digest)
 	mir_sha1_ctx sha;
 
 	mir_sha1_init(&sha);
-	mir_sha1_append(&sha,(BYTE*)lpBuff,dwBuffSize);
+	mir_sha1_append(&sha,(BYTE*)lpBuff,(int)dwBuffSize);
 	mir_sha1_finish(&sha,digest);
 }
 

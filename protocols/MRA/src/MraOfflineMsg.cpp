@@ -1,4 +1,4 @@
-#include "Mra.h"
+#include "stdafx.h"
 #include "MraOfflineMsg.h"
 #include "MraConstans.h"
 

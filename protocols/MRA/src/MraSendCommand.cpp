@@ -1,4 +1,4 @@
-#include "Mra.h"
+#include "stdafx.h"
 #include "MraRTFMsg.h"
 #include "proto.h"
 
@@ -89,7 +89,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 		buf.SetUL(2);
 		buf.SetLPSW(_T(""));//***deb possible nick here
 		buf.SetLPSW(lpwszMessage);
-		lpszMessageConverted = mir_base64_encode(buf.Data(), buf.Len());
+		lpszMessageConverted = mir_base64_encode(buf.Data(), (int)buf.Len());
 		dwMessageConvertedSize = strlen(lpszMessageConverted);
 	}
 	// messages with Flash
@@ -107,8 +107,8 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 		buf.SetLPS(lpbRTFData);// сам мульт ANSI
 		buf.SetLPSW(lpwszMessage);// сам мульт UNICODE
 
-		DWORD dwRTFDataSize = buf.Len();
-		if ( compress2((LPBYTE)lpbRTFData, &dwRTFDataSize, buf.Data(), buf.Len(), Z_BEST_COMPRESSION) == Z_OK) {
+		DWORD dwRTFDataSize = (DWORD)buf.Len();
+		if (compress2((LPBYTE)lpbRTFData, &dwRTFDataSize, buf.Data(), (int)buf.Len(), Z_BEST_COMPRESSION) == Z_OK) {
 			lpszMessageRTF = mir_base64_encode((LPBYTE)lpbRTFData, dwRTFDataSize);
 			dwMessageRTFSize = mir_strlen(lpszMessageRTF);
 		}
@@ -128,7 +128,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 				buf.SetUL(dwBackColour);
 
 				DWORD dwRTFDataSize = lpbRTFData.GetLength();
-				if ( compress2((LPBYTE)(LPCSTR)lpbRTFData, &dwRTFDataSize, buf.Data(), buf.Len(), Z_BEST_COMPRESSION) == Z_OK) {
+				if (compress2((LPBYTE)(LPCSTR)lpbRTFData, &dwRTFDataSize, buf.Data(), (int)buf.Len(), Z_BEST_COMPRESSION) == Z_OK) {
 					lpszMessageRTF = mir_base64_encode((LPBYTE)(LPCSTR)lpbRTFData, dwRTFDataSize);
 					dwMessageRTFSize = mir_strlen(lpszMessageRTF);
 				}

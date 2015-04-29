@@ -101,7 +101,8 @@ struct CMraProto : public PROTO<CMraProto>
 		return DB_SetStringExW(Contact, m_szModuleName, valueName, parValue); }
 
 	__forceinline bool mraWriteContactSettingBlob(MCONTACT hContact, const char *lpszValueName, LPVOID lpbValue, size_t dwValueSize) {
-		return db_set_blob(hContact, m_szModuleName, lpszValueName, lpbValue, dwValueSize) != 0; }
+		return db_set_blob(hContact, m_szModuleName, lpszValueName, lpbValue, (unsigned int)dwValueSize) != 0;
+	}
 	__forceinline bool mraGetContactSettingBlob(MCONTACT hContact, const char *lpszValueName, LPVOID lpbRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize) {
 		return DB_GetContactSettingBlob(hContact, m_szModuleName, lpszValueName, lpbRet, dwRetBuffSize, pdwRetBuffSize); }
 

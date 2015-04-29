@@ -1,4 +1,4 @@
-#include "Mra.h"
+#include "stdafx.h"
 #include "MraOfflineMsg.h"
 #include "MraRTFMsg.h"
 #include "MraPlaces.h"
@@ -156,7 +156,7 @@ DWORD CMraProto::MraGetNLBData(CMStringA &szHost, WORD *pwPort)
 				bContinue = FALSE;
 				break;
 			case 1:
-				dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(btBuff + dwRcvBuffSizeUsed), (SIZEOF(btBuff) - dwRcvBuffSizeUsed), 0);
+				dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(btBuff + dwRcvBuffSizeUsed), (int)(SIZEOF(btBuff) - dwRcvBuffSizeUsed), 0);
 				if (dwBytesReceived && dwBytesReceived != SOCKET_ERROR)
 					dwRcvBuffSizeUsed += dwBytesReceived;
 				else
@@ -270,7 +270,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 			lpbBufferRcv = (LPBYTE)mir_realloc(lpbBufferRcv, dwRcvBuffSize);
 		}
 
-		DWORD dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(lpbBufferRcv + dwRcvBuffSizeUsed), (dwRcvBuffSize - dwRcvBuffSizeUsed), 0);
+		DWORD dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(lpbBufferRcv + dwRcvBuffSizeUsed), (int)(dwRcvBuffSize - dwRcvBuffSizeUsed), 0);
 		if ( !dwBytesReceived || dwBytesReceived == SOCKET_ERROR) { // disconnected
 			if (m_iStatus != ID_STATUS_OFFLINE) {
 				dwRetErrorCode = GetLastError();
@@ -281,8 +281,8 @@ DWORD CMraProto::MraNetworkDispatcher()
 
 		dwRcvBuffSizeUsed += dwBytesReceived;
 		while (TRUE) {
-			dwDataCurrentBuffSize = (dwRcvBuffSize - dwDataCurrentBuffOffset);
-			dwDataCurrentBuffSizeUsed = (dwRcvBuffSizeUsed - dwDataCurrentBuffOffset);
+			dwDataCurrentBuffSize = (int)(dwRcvBuffSize - dwDataCurrentBuffOffset);
+			dwDataCurrentBuffSizeUsed = (int)(dwRcvBuffSizeUsed - dwDataCurrentBuffOffset);
 			pmaHeader = (mrim_packet_header_t*)(lpbBufferRcv + dwDataCurrentBuffOffset);
 
 			// packet header received
@@ -1604,7 +1604,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 				if (lpbRTFData) {
 					unsigned dwCompressedSize;
 					mir_ptr<BYTE> lpbCompressed((LPBYTE)mir_base64_decode(plpsRFTText, &dwCompressedSize));
-					DWORD dwRTFDataSize = dwRFTBuffSize;
+					DWORD dwRTFDataSize = (DWORD)dwRFTBuffSize;
 					if (uncompress(lpbRTFData, &dwRTFDataSize, lpbCompressed, dwCompressedSize) == Z_OK) {
 						BinBuffer buf(lpbRTFData, dwRTFDataSize);
 
@@ -1814,7 +1814,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 DWORD GetMraXStatusIDFromMraUriStatus(const char *szStatusUri)
 {
 	if (szStatusUri)
-		for (size_t i = 0; lpcszStatusUri[i]; i++)
+		for (DWORD i = 0; lpcszStatusUri[i]; i++)
 			if (!_stricmp(lpcszStatusUri[i], szStatusUri))
 				return i;
 

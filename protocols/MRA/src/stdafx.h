@@ -1,12 +1,7 @@
 #if !defined(AFX_MRA_H__F58D13FF_F6F2_476C_B8F0_7B9E9357CF48__INCLUDED_)
 #define AFX_MRA_H__F58D13FF_F6F2_476C_B8F0_7B9E9357CF48__INCLUDED_
 
-
 #pragma once
-
-#define _CRT_SECURE_NO_WARNINGS
-
-//#define CRTDLL
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
@@ -18,7 +13,6 @@
 #include <mswsock.h>
 #include <WS2tcpip.h>
 
-#pragma comment(lib,"Crypt32.lib")
 #pragma comment(lib,"shlwapi.lib")
 #pragma comment(lib,"ws2_32.lib")
 #pragma comment(lib,"mswsock.lib")
