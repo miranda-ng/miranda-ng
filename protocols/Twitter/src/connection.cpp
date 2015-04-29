@@ -281,17 +281,6 @@ bool TwitterProto::NegotiateConnection()
 		}
 	}
 
-	/*	if( !db_get_s(0,m_szModuleName,TWITTER_KEY_PASS,&dbv)) {
-			CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
-			reinterpret_cast<LPARAM>(dbv.pszVal));
-			pass = dbv.pszVal;
-			db_free(&dbv);
-			}
-			else {
-			ShowPopup(TranslateT("Please enter a password."));
-			return false;
-			}*/
-
 	if (!db_get_s(0, m_szModuleName, TWITTER_KEY_BASEURL, &dbv)) {
 		mir_cslock s(twitter_lock_);
 		twit_.set_base_url(dbv.pszVal);
@@ -308,7 +297,6 @@ bool TwitterProto::NegotiateConnection()
 	bool success;
 	{
 		mir_cslock s(twitter_lock_);
-
 		success = twit_.set_credentials(screenName, ConsumerKey, ConsumerSecret, oauthAccessToken, oauthAccessTokenSecret, L"", true);
 	}
 

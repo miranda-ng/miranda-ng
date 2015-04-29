@@ -18,56 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 #include "twitter.h"
-
-#include "tinyjson.hpp"
-#include <boost/lexical_cast.hpp>
-
-typedef json::grammar<char> js;
+#include "utility.h"
 
 // utility functions
-
-template <typename T>
-static T cast_and_decode(boost::any &a, bool allow_null)
-{
-	if (allow_null && a.type() == typeid(void))
-		return T();
-	return boost::any_cast<T>(a);
-}
-
-template <>
-static std::string cast_and_decode<std::string>(boost::any &a, bool allow_null)
-{
-	if (allow_null && a.type() == typeid(void))
-		return std::string();
-	std::string s = boost::any_cast<std::string>(a);
-
-	// Twitter *only* encodes < and >, so decode them
-	size_t off;
-	while ((off = s.find("&lt;")) != std::string::npos)
-		s.replace(off, 4, "<");
-	while ((off = s.find("&gt;")) != std::string::npos)
-		s.replace(off, 4, ">");
-
-	return s;
-}
-
-template <typename T>
-static T retrieve(const js::object &o, const std::string &key, bool allow_null = false)
-{
-	using boost::any_cast;
-
-	js::object::const_iterator i = o.find(key);
-	if (i == o.end())
-		throw std::exception(("unable to retrieve key '" + key + "'").c_str());
-	try {
-		return cast_and_decode<T>(*i->second, allow_null);
-	}
-	catch (const boost::bad_any_cast &) {
-		throw std::exception(("unable to cast key '" + key + "' to target type").c_str());
-	}
-}
-
-
 
 twitter::twitter() : base_url_("https://api.twitter.com/")
 {}
@@ -113,85 +66,39 @@ const std::string & twitter::get_base_url() const
 	return base_url_;
 }
 
-// this whole function is wrong i think.  should be calling friends/ids, not followers
-/*js::array twitter::buildFriendList() {
-
-	INT_PTR friendCursor = -1;
-	js::array IDs; // an array for the userIDs.  i dunno if js::array is the right thing to use..?
-	js::array masterIDs; // the list that contains all the users that the user follows
-
-	std::vector<twitter_user> friends;
-
-	while (friendCursor != 0) {
-	http::response resp = slurp(base_url_ + "/1.1/followers/ids.json?cursor=" + friendCursor + "&screen_name=" + username_,http::get);
-	if(resp.code != 200)
-	throw bad_response();
-
-	const js::variant var = json::parse( resp.data.begin(),resp.data.end() ); // pull the data out of the http response
-	if(var->type() == typeid(js::object)) // make sure the parsed data is of type js::object (??)
-	{
-	const js::object &friendIDs = boost::any_cast<js::object>(*var); // cast the object into the type we can use
-	if(friendIDs.find("error") != friendIDs.end()) // don't really know why error should be at the end here?
-	throw std::exception("error while parsing friendIDs object from ids.json");
-
-	// ok need to find out how to convert all the IDs into an array. dunno if i can magically make it happen, or
-	// if i will have to parse it myself and add them one by one :(
-	IDs = retrieve<js::array>(friendIDs,"ids");
-	for(js::array::const_iterator i=IDs.begin(); i!=IDs.end(); ++i) {
-	//debugLogA("friends ID: " + i);
-	// add array to master array
-	js::object one = boost::any_cast<js::object>(**i);
-	masterIDs.push_back(one); // i don't understand this. how do we push into the array? should i just use C++ arrays (list?) and bail on boost?
-	}
-
-	// now we need to pick out the cursor stuff, and keep punching IDs into the array
-	}
-	else {
-	throw std::exception("in buildFriendList(), return type is not js::object");
-	}
-	}
-
-
-	}*/
-
-
 std::vector<twitter_user> twitter::get_friends()
 {
-	// maybe once i have the buildFriendLIst() func working.. but for now let's just get twitter working.
-	//js::array friendArray = buildFriendList();
-
 	std::vector<twitter_user> friends;
 	http::response resp = slurp(base_url_ + "1.1/statuses/friends.json", http::get);
 
 	if (resp.code != 200)
 		throw bad_response();
 
-	const js::variant var = json::parse(resp.data.begin(), resp.data.end());
-	if (var->type() != typeid(js::array))
+	JSONNODE *root = json_parse(resp.data.c_str());
+	if (root == NULL)
 		throw std::exception("unable to parse response");
 
-	const js::array &list = boost::any_cast<js::array>(*var);
-	for (js::array::const_iterator i = list.begin(); i != list.end(); ++i) {
-		if ((*i)->type() == typeid(js::object)) {
-			const js::object &one = boost::any_cast<js::object>(**i);
+	JSONNODE *nodes = json_as_array(root);
+	for (int i = 0;; i++) {
+		JSONNODE *pNode = json_at(nodes, i);
+		if (pNode == NULL)
+			break;
 
-			twitter_user user;
-			user.username = retrieve<std::string>(one, "screen_name");
-			user.real_name = retrieve<std::string>(one, "name", true);
-			user.profile_image_url = retrieve<std::string>(one, "profile_image_url", true);
+		twitter_user user;
+		user.username = json_as_pstring(json_get(pNode, "screen_name"));
+		user.real_name = json_as_pstring(json_get(pNode, "name"));
+		user.profile_image_url = json_as_pstring(json_get(pNode, "profile_image_url"));
 
-			if (one.find("status") != one.end()) {
-				js::object &status = retrieve<js::object>(one, "status");
-				user.status.text = retrieve<std::string>(status, "text");
+		JSONNODE *pStatus = json_get(pNode, "status");
+		if (pStatus != NULL) {
+			user.status.text = json_as_pstring(json_get(pStatus, "text"));
+			user.status.id = json_as_int(json_get(pStatus, "id"));
 
-				user.status.id = retrieve<long long>(status, "id");
-
-				std::string timestr = retrieve<std::string>(status, "created_at");
-				user.status.time = parse_time(timestr);
-			}
-
-			friends.push_back(user);
+			std::string timestr = json_as_pstring(json_get(pStatus, "created_at"));
+			user.status.time = parse_time(timestr);
 		}
+
+		friends.push_back(user);
 	}
 
 	return friends;
@@ -208,20 +115,17 @@ bool twitter::get_info(const std::string &name, twitter_user *info)
 	if (resp.code != 200)
 		throw bad_response();
 
-	const js::variant var = json::parse(resp.data.begin(), resp.data.end());
-	if (var->type() == typeid(js::object)) {
-		const js::object &user_info = boost::any_cast<js::object>(*var);
-		if (user_info.find("error") != user_info.end())
-			return false;
-
-		info->username = retrieve<std::string>(user_info, "screen_name");
-		info->real_name = retrieve<std::string>(user_info, "name", true);
-		info->profile_image_url = retrieve<std::string>(user_info, "profile_image_url", true);
-
-		return true;
-	}
-	else
+	JSONNODE *root = json_parse(resp.data.c_str());
+	if (root == NULL)
 		return false;
+
+	if (json_get(root, "error") != NULL)
+		return false;
+
+	info->username = json_as_pstring(json_get(root, "screen_name"));
+	info->real_name = json_as_pstring(json_get(root, "name"));
+	info->profile_image_url = json_as_pstring(json_get(root, "profile_image_url"));
+	return true;
 }
 
 bool twitter::get_info_by_email(const std::string &email, twitter_user *info)
@@ -235,44 +139,40 @@ bool twitter::get_info_by_email(const std::string &email, twitter_user *info)
 	if (resp.code != 200)
 		throw bad_response();
 
-	js::variant var = json::parse(resp.data.begin(), resp.data.end());
-	if (var->type() == typeid(js::object)) {
-		const js::object &user_info = boost::any_cast<js::object>(*var);
-		if (user_info.find("error") != user_info.end())
-			return false;
-
-		info->username = retrieve<std::string>(user_info, "screen_name");
-		info->real_name = retrieve<std::string>(user_info, "name", true);
-		info->profile_image_url = retrieve<std::string>(user_info, "profile_image_url", true);
-
-		return true;
-	}
-	else
+	JSONNODE *root = json_parse(resp.data.c_str());
+	if (root == NULL)
 		return false;
+
+	if (json_get(root, "error") != NULL)
+		return false;
+
+	info->username = json_as_pstring(json_get(root, "screen_name"));
+	info->real_name = json_as_pstring(json_get(root, "name"));
+	info->profile_image_url = json_as_pstring(json_get(root, "profile_image_url"));
+	return true;
 }
 
 twitter_user twitter::add_friend(const std::string &name)
 {
 	std::string url = base_url_ + "1.1/friendships/create/" + http::url_encode(name) + ".json";
 
-	twitter_user ret;
 	http::response resp = slurp(url, http::post);
 	if (resp.code != 200)
 		throw bad_response();
 
-	js::variant var = json::parse(resp.data.begin(), resp.data.end());
-	if (var->type() != typeid(js::object))
+	JSONNODE *root = json_parse(resp.data.c_str());
+	if (root == NULL)
 		throw std::exception("unable to parse response");
 
-	const js::object &user_info = boost::any_cast<js::object>(*var);
-	ret.username = retrieve<std::string>(user_info, "screen_name");
-	ret.real_name = retrieve<std::string>(user_info, "name", true);
-	ret.profile_image_url = retrieve<std::string>(user_info, "profile_image_url", true);
+	twitter_user ret;
+	ret.username = json_as_pstring(json_get(root, "screen_name"));
+	ret.real_name = json_as_pstring(json_get(root, "name"));
+	ret.profile_image_url = json_as_pstring(json_get(root, "profile_image_url"));
 
-	if (user_info.find("status") != user_info.end()) {
-		// TODO: fill in more fields
-		const js::object &status = retrieve<js::object>(user_info, "status");
-		ret.status.text = retrieve<std::string>(status, "text");
+	JSONNODE *pStatus = json_get(root, "status");
+	if (pStatus != NULL) {
+		ret.status.text = json_as_pstring(json_get(pStatus, "text"));
+		ret.status.id = json_as_int(json_get(pStatus, "id"));
 	}
 
 	return ret;
@@ -307,70 +207,67 @@ void twitter::send_direct(const std::string &name, const std::string &text)
 
 std::vector<twitter_user> twitter::get_statuses(int count, twitter_id id)
 {
-	using boost::lexical_cast;
 	std::vector<twitter_user> statuses;
 
 	std::string url = base_url_ + "1.1/statuses/home_timeline.json?count=" +
-		lexical_cast<std::string>(count);
+		int2str(count);
 	if (id != 0)
-		url += "&since_id=" + boost::lexical_cast<std::string>(id);
+		url += "&since_id=" + int2str(id);
 
 	http::response resp = slurp(url, http::get);
 	if (resp.code != 200)
 		throw bad_response();
 
-	js::variant var = json::parse(resp.data.begin(), resp.data.end());
-	if (var->type() != typeid(js::array))
+	JSONNODE *root = json_parse(resp.data.c_str());
+	if (root == NULL)
 		throw std::exception("unable to parse response");
 
-	const js::array &list = boost::any_cast<js::array>(*var);
-	for (js::array::const_iterator i = list.begin(); i != list.end(); ++i) {
-		if ((*i)->type() == typeid(js::object)) {
-			const js::object &one = boost::any_cast<js::object>(**i);
-			const js::object &user = retrieve<js::object>(one, "user");
+	JSONNODE *pNodes = json_as_array(root);
+	for (int i = 0;; i++) {
+		JSONNODE *pNode = json_at(pNodes, i);
+		if (pNode == NULL)
+			break;
 
-			twitter_user u;
-			u.username = retrieve<std::string>(user, "screen_name");
-			u.profile_image_url = retrieve<std::string>(user, "profile_image_url");
+		JSONNODE *pUser = json_get(pNode, "user");
 
-			// the tweet will be truncated unless we take action.  i hate you twitter API
-			if (one.find("retweeted_status") != one.end()) {
-				//MessageBox(NULL, L"retweeted: TRUE", L"long tweets", MB_OK);
-				// here we grab the "retweeted_status" um.. section?  it's in here that all the info we need is
-				// at this point the user will get no tweets and an error popup if the tweet happens to be exactly 140 chars, start with
-				// "RT @", end in " ...", and notactually be a real retweet.  it's possible but unlikely, wish i knew how to get
-				// the retweet_count variable to work :(
-				const js::object &Retweet = retrieve<js::object>(one, "retweeted_status");
-				const js::object &RTUser = retrieve<js::object>(Retweet, "user");
+		twitter_user u;
+		u.username = json_as_pstring(json_get(pUser, "screen_name"));
+		u.profile_image_url = json_as_pstring(json_get(pUser, "profile_image_url"));
 
-				std::string retweeteesName = retrieve<std::string>(RTUser, "screen_name"); // the user that is being retweeted
-				std::string retweetText = retrieve<std::string>(Retweet, "text"); // their tweet in all it's untruncated glory
+		// the tweet will be truncated unless we take action.  i hate you twitter API
+		JSONNODE *pStatus = json_get(pNode, "retweeted_status");
+		if (pStatus != NULL) {
+			// here we grab the "retweeted_status" um.. section?  it's in here that all the info we need is
+			// at this point the user will get no tweets and an error popup if the tweet happens to be exactly 140 chars, start with
+			// "RT @", end in " ...", and notactually be a real retweet.  it's possible but unlikely, wish i knew how to get
+			// the retweet_count variable to work :(
+			JSONNODE *pUser2 = json_get(pStatus, "user");
 
-				// fix "&amp;" in the tweets :(
-				for (size_t pos = 0; (pos = retweetText.find("&amp;", pos)) != std::string::npos; pos++) {
-					retweetText.replace(pos, 5, "&");
-				}
+			std::string retweeteesName = json_as_pstring(json_get(pUser2, "screen_name")); // the user that is being retweeted
+			std::string retweetText = json_as_pstring(json_get(pUser2, "text")); // their tweet in all it's untruncated glory
 
-				u.status.text = "RT @" + retweeteesName + " " + retweetText; // mash it together in some format people will understand
-			}
-			else {
-				// if it's not truncated, then the twitter API returns the native RT correctly anyway,        
-				std::string rawText = retrieve<std::string>(one, "text");
-				// ok here i'm trying some way to fix all the "&amp;" things that are showing up
-				// i dunno why it's happening, so i'll just find and replace each occurance :/
-				for (size_t pos = 0; (pos = rawText.find("&amp;", pos)) != std::string::npos; pos++) {
-					rawText.replace(pos, 5, "&");
-				}
+			// fix "&amp;" in the tweets :(
+			for (size_t pos = 0; (pos = retweetText.find("&amp;", pos)) != std::string::npos; pos++)
+				retweetText.replace(pos, 5, "&");
 
-				u.status.text = rawText;
-			}
-
-			u.status.id = retrieve<long long>(one, "id");
-			std::string timestr = retrieve<std::string>(one, "created_at");
-			u.status.time = parse_time(timestr);
-
-			statuses.push_back(u);
+			u.status.text = "RT @" + retweeteesName + " " + retweetText; // mash it together in some format people will understand
 		}
+		else {
+			// if it's not truncated, then the twitter API returns the native RT correctly anyway,        
+			std::string rawText = json_as_pstring(json_get(pNode, "text"));
+			// ok here i'm trying some way to fix all the "&amp;" things that are showing up
+			// i dunno why it's happening, so i'll just find and replace each occurance :/
+			for (size_t pos = 0; (pos = rawText.find("&amp;", pos)) != std::string::npos; pos++)
+				rawText.replace(pos, 5, "&");
+
+			u.status.text = rawText;
+		}
+
+		u.status.id = json_as_int(json_get(pNode, "id"));
+		std::string timestr = json_as_pstring(json_get(pNode, "created_at"));
+		u.status.time = parse_time(timestr);
+
+		statuses.push_back(u);
 	}
 
 
@@ -383,31 +280,30 @@ std::vector<twitter_user> twitter::get_direct(twitter_id id)
 
 	std::string url = base_url_ + "1.1/direct_messages.json";
 	if (id != 0)
-		url += "?since_id=" + boost::lexical_cast<std::string>(id);
+		url += "?since_id=" + int2str(id);
 
 	http::response resp = slurp(url, http::get);
 	if (resp.code != 200)
 		throw bad_response();
 
-	js::variant var = json::parse(resp.data.begin(), resp.data.end());
-	if (var->type() != typeid(js::array))
+	JSONNODE *root = json_parse(resp.data.c_str());
+	if (root == NULL)
 		throw std::exception("unable to parse response");
 
-	const js::array &list = boost::any_cast<js::array>(*var);
-	for (js::array::const_iterator i = list.begin(); i != list.end(); ++i) {
-		if ((*i)->type() == typeid(js::object)) {
-			const js::object &one = boost::any_cast<js::object>(**i);
+	JSONNODE *pNodes = json_as_array(root);
+	for (int i = 0;; i++) {
+		JSONNODE *pNode = json_at(pNodes, i);
+		if (pNode == NULL)
+			break;
 
-			twitter_user u;
-			u.username = retrieve<std::string>(one, "sender_screen_name");
+		twitter_user u;
+		u.username = json_as_pstring(json_get(pNode, "sender_screen_name"));
 
-			u.status.text = retrieve<std::string>(one, "text");
-			u.status.id = retrieve<long long>(one, "id");
-			std::string timestr = retrieve<std::string>(one, "created_at");
-			u.status.time = parse_time(timestr);
-
-			messages.push_back(u);
-		}
+		u.status.text = json_as_pstring(json_get(pNode, "text"));
+		u.status.id = json_as_int(json_get(pNode, "id"));
+		std::string timestr = json_as_pstring(json_get(pNode, "created_at"));
+		u.status.time = parse_time(timestr);
+		messages.push_back(u);
 	}
 
 	return messages;
@@ -422,8 +318,8 @@ string twitter::urlencode(const string &c)
 		if ((48 <= c[i] && c[i] <= 57) ||//0-9
 			(65 <= c[i] && c[i] <= 90) ||//ABC...XYZ
 			(97 <= c[i] && c[i] <= 122) || //abc...xyz
-			(c[i] == '~' || c[i] == '-' || c[i] == '_' || c[i] == '.')
-			) {
+			(c[i] == '~' || c[i] == '-' || c[i] == '_' || c[i] == '.'))
+		{
 			escaped.append(&c[i], 1);
 		}
 		else {

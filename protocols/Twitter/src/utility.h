@@ -23,6 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 std::string b64encode(const std::string &s);
 
+std::string int2str(int32_t);
+std::string int2str(uint64_t);
+
 class mir_twitter : public twitter
 {
 public:
@@ -51,8 +54,7 @@ public:
 
 	std::wstring OAuthWebRequestSubmit( 
 		const OAuthParameters& parameters, 
-		const std::wstring& url 
-		);
+		const std::wstring& url);
 
 	std::wstring UrlGetQuery( const std::wstring& url );
 

@@ -26,6 +26,20 @@ std::string b64encode(const std::string &s)
 	return std::string(ptrA(mir_base64_encode((BYTE*)s.c_str(), (unsigned)s.length())));
 }
 
+std::string int2str(int32_t iVal)
+{
+	char buf[100];
+	_itoa_s(iVal, buf, 10);
+	return std::string(buf);
+}
+
+std::string int2str(uint64_t iVal)
+{
+	char buf[100];
+	_i64toa_s(iVal, buf, _countof(buf), 10);
+	return std::string(buf);
+}
+
 http::response mir_twitter::slurp(const std::string &url, http::method meth, OAuthParameters postParams)
 {
 	NETLIBHTTPREQUEST req = { sizeof(req) };

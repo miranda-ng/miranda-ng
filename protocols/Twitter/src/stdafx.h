@@ -62,6 +62,7 @@ typedef std::basic_string<TCHAR> tstring;
 #include <m_icolib.h>
 #include <m_utils.h>
 #include <m_hotkeys.h>
+#include <m_json.h>
 #include <win2k.h>
 #pragma warning(pop)
 
