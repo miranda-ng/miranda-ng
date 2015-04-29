@@ -562,17 +562,9 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 				TCHAR *txt;
 
 				if (szCounts[0] != '\0')
-				{
-#ifdef UNICODE
-					mir_sntprintf(count, SIZEOF(count), L"%S ", szCounts);
-#else
-					mir_sntprintf(count, SIZEOF(count), "%s ", szCounts);
-#endif
-				}
+					mir_sntprintf(count, SIZEOF(count), _T("%s "), szCounts);
 				else
-				{
 					count[0] = _T('\0');
-				}
 
 				txt = ParseText(template_group, t, SIZEOF(t), v, SIZEOF(v));
 				if (txt != NULL)
