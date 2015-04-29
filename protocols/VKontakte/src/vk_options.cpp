@@ -62,7 +62,7 @@ INT_PTR CALLBACK VKAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			TCHAR str[128];
+			TCHAR str[1025];
 			GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
 			ppro->setTString("Login", str);
 			
@@ -169,7 +169,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			TCHAR str[128];
+			TCHAR str[1025];
 			GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
 			ppro->setTString("Login", str);
 
