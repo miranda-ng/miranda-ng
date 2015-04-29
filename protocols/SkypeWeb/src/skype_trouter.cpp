@@ -27,11 +27,12 @@ void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 	ptrA connId(mir_t2a(ptrT(json_as_string(json_get(root, "connId")))));
 	ptrA instance(mir_t2a(ptrT(json_as_string(json_get(root, "instance")))));
 	ptrA socketio(mir_t2a(ptrT(json_as_string(json_get(root, "socketio")))));
-
+	ptrA url(mir_t2a(ptrT(json_as_string(json_get(root, "url")))));
 	setString("Trouter_ccid", ccid);
 	setString("Trouter_connId", connId);
 	setString("Trouter_instance", instance);
 	setString("Trouter_socketio", socketio);
+	setString("Trouter_url", url);
 
 	SendRequest(new CreateTrouterPoliciesRequest(TokenSecret, connId), &CSkypeProto::OnTrouterPoliciesCreated);
 }
@@ -71,6 +72,21 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 	CMStringA szToken = data.Tokenize(":", iStart).Trim();
 	setString("Trouter_SessId", szToken);
 	m_hTrouterThread = ForkThreadEx(&CSkypeProto::TRouterThread, 0, NULL);
+	SendRequest(new RegisterTrouterRequest(TokenSecret, ptrA(getStringA("Trouter_url"))));
+}
+
+void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST *response)
+{
+	ptrA socketIo(getStringA("Trouter_socketio"));
+	ptrA connId(getStringA("Trouter_connId"));
+	ptrA st(getStringA("Trouter_st"));
+	ptrA se(getStringA("Trouter_se"));
+	ptrA instance(getStringA("Trouter_instance"));
+	ptrA ccid(getStringA("Trouter_ccid"));
+	ptrA sessId(getStringA("Trouter_SessId"));
+	ptrA sig(getStringA("Trouter_sig"));
+
+	SendRequest(new GetTrouterRequest(socketIo, connId, st, se, sig, instance, ccid), &CSkypeProto::OnGetTrouter);
 }
 
 void CSkypeProto::TRouterThread(void*)
@@ -104,12 +120,23 @@ void CSkypeProto::TRouterThread(void*)
 
 		if (response->resultCode != 200)
 		{
-			errors++;
+			SendRequest(new HealthTrouterRequest(ccid), &CSkypeProto::OnHealth);
+			break;
 		}
 
 		if (response->pData)
 		{
-			
+			char *json = strstr(response->pData, "{");
+
+			if (json == NULL) continue;
+
+			JSONROOT  root(json);
+			ptrA szBody(mir_t2a(ptrT(json_as_string(json_get(root, "body")))));
+			JSONNODE *headers = json_get(root, "headers");
+			JSONROOT jsonBody(szBody);
+			ptrT displayname(json_as_string(json_get(jsonBody, "displayname")));
+			ptrT uid(json_as_string(json_get(jsonBody, "conversationId")));
+			ShowNotification(displayname, TranslateT("Incoming call"));
 		}
 
 		m_TrouterConnection = response->nlc;
@@ -120,7 +147,6 @@ void CSkypeProto::TRouterThread(void*)
 	if (!isTerminated)
 	{
 		debugLogA(__FUNCTION__": unexpected termination; switching protocol to offline");
-		//SetStatus(ID_STATUS_OFFLINE);
 	}
 	m_hTrouterThread = NULL;
 	m_TrouterConnection = NULL;
