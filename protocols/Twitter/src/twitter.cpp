@@ -92,7 +92,7 @@ std::vector<twitter_user> twitter::get_friends()
 		JSONNODE *pStatus = json_get(pNode, "status");
 		if (pStatus != NULL) {
 			user.status.text = json_as_pstring(json_get(pStatus, "text"));
-			user.status.id = json_as_int(json_get(pStatus, "id"));
+			user.status.id = str2int(json_as_pstring(json_get(pStatus, "id")));
 
 			std::string timestr = json_as_pstring(json_get(pStatus, "created_at"));
 			user.status.time = parse_time(timestr);
@@ -172,7 +172,7 @@ twitter_user twitter::add_friend(const std::string &name)
 	JSONNODE *pStatus = json_get(root, "status");
 	if (pStatus != NULL) {
 		ret.status.text = json_as_pstring(json_get(pStatus, "text"));
-		ret.status.id = json_as_int(json_get(pStatus, "id"));
+		ret.status.id = str2int(json_as_pstring(json_get(pStatus, "id")));
 	}
 
 	return ret;
@@ -263,7 +263,7 @@ std::vector<twitter_user> twitter::get_statuses(int count, twitter_id id)
 			u.status.text = rawText;
 		}
 
-		u.status.id = json_as_int(json_get(pNode, "id"));
+		u.status.id = str2int(json_as_pstring(json_get(pNode, "id")));
 		std::string timestr = json_as_pstring(json_get(pNode, "created_at"));
 		u.status.time = parse_time(timestr);
 
@@ -300,7 +300,7 @@ std::vector<twitter_user> twitter::get_direct(twitter_id id)
 		u.username = json_as_pstring(json_get(pNode, "sender_screen_name"));
 
 		u.status.text = json_as_pstring(json_get(pNode, "text"));
-		u.status.id = json_as_int(json_get(pNode, "id"));
+		u.status.id = str2int(json_as_pstring(json_get(pNode, "id")));
 		std::string timestr = json_as_pstring(json_get(pNode, "created_at"));
 		u.status.time = parse_time(timestr);
 		messages.push_back(u);
