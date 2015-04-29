@@ -25,13 +25,11 @@ void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 
 	ptrA ccid(mir_t2a(ptrT(json_as_string(json_get(root, "ccid")))));
 	ptrA connId(mir_t2a(ptrT(json_as_string(json_get(root, "connId")))));
-	ptrA id(mir_t2a(ptrT(json_as_string(json_get(root, "cid")))));
 	ptrA instance(mir_t2a(ptrT(json_as_string(json_get(root, "instance")))));
 	ptrA socketio(mir_t2a(ptrT(json_as_string(json_get(root, "socketio")))));
 
 	setString("Trouter_ccid", ccid);
 	setString("Trouter_connId", connId);
-	setString("Trouter_id", id);
 	setString("Trouter_instance", instance);
 	setString("Trouter_socketio", socketio);
 
@@ -48,6 +46,9 @@ void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 	ptrA st(mir_t2a(ptrT(json_as_string(json_get(root, "st")))));
 	ptrA se(mir_t2a(ptrT(json_as_string(json_get(root, "se")))));
 	ptrA sig(mir_t2a(ptrT(json_as_string(json_get(root, "sig")))));
+	setString("Trouter_st", st);
+	setString("Trouter_se", se);
+	setString("Trouter_sig", sig);
 
 	SendRequest(new GetTrouterRequest
 									(
@@ -56,7 +57,7 @@ void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 										st, se, sig, 
 										getStringA("Trouter_instance"), 
 										getStringA("Trouter_ccid")
-									));
+									), &CSkypeProto::OnGetTrouter);
 
 
 }
@@ -69,9 +70,59 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 	int iStart = 0;
 	CMStringA szToken = data.Tokenize(":", iStart).Trim();
 	setString("Trouter_SessId", szToken);
+	m_hTrouterThread = ForkThreadEx(&CSkypeProto::TRouterThread, 0, NULL);
 }
 
 void CSkypeProto::TRouterThread(void*)
 {
+	debugLogA(__FUNCTION__": entering");
 
+	int errors = 0;
+	isTerminated = false;
+
+	ptrA socketIo(getStringA("Trouter_socketio"));
+	ptrA connId(getStringA("Trouter_connId"));
+	ptrA st(getStringA("Trouter_st"));
+	ptrA se(getStringA("Trouter_se"));
+	ptrA instance(getStringA("Trouter_instance"));
+	ptrA ccid(getStringA("Trouter_ccid"));
+	ptrA sessId(getStringA("Trouter_SessId"));
+	ptrA sig(getStringA("Trouter_sig"));
+
+	while (!isTerminated && errors < POLLING_ERRORS_LIMIT)
+	{
+		TrouterPollRequest *request = new TrouterPollRequest(socketIo, connId, st, se, sig, instance, ccid, sessId) ;
+		request->nlc = m_TrouterConnection;
+		NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
+
+		if (response == NULL)
+		{
+			errors++;
+			delete request;
+			continue;
+		}
+
+		if (response->resultCode != 200)
+		{
+			errors++;
+		}
+
+		if (response->pData)
+		{
+			
+		}
+
+		m_TrouterConnection = response->nlc;
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+		delete request;
+	}
+	
+	if (!isTerminated)
+	{
+		debugLogA(__FUNCTION__": unexpected termination; switching protocol to offline");
+		SetStatus(ID_STATUS_OFFLINE);
+	}
+	m_hPollingThread = NULL;
+	m_pollingConnection = NULL;
+	debugLogA(__FUNCTION__": leaving");
 }
