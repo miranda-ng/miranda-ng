@@ -40,6 +40,11 @@ std::string int2str(uint64_t iVal)
 	return std::string(buf);
 }
 
+uint64_t str2int(const std::string &str)
+{
+	return atoll(str.c_str());
+}
+
 http::response mir_twitter::slurp(const std::string &url, http::method meth, OAuthParameters postParams)
 {
 	NETLIBHTTPREQUEST req = { sizeof(req) };

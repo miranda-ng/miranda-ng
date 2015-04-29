@@ -25,6 +25,7 @@ std::string b64encode(const std::string &s);
 
 std::string int2str(int32_t);
 std::string int2str(uint64_t);
+uint64_t str2int(const std::string &str);
 
 class mir_twitter : public twitter
 {
