@@ -229,16 +229,12 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			GetDlgItemTextA(hwndDlg, IDC_UN, str, SIZEOF(str));
 			db_set_s(0, proto->ModuleName(), TWITTER_KEY_UN, str);
 
-			/*GetDlgItemTextA(hwndDlg,IDC_PW,str,SIZEOF(str));
-			CallService(MS_DB_CRYPT_ENCODESTRING,sizeof(str),reinterpret_cast<LPARAM>(str));
-			db_set_s(0,proto->ModuleName(),TWITTER_KEY_PASS,str);*/
-
 			GetDlgItemTextA(hwndDlg, IDC_BASEURL, str, SIZEOF(str) - 1);
 			if (str[strlen(str) - 1] != '/')
 				strncat(str, "/", sizeof(str));
 			db_set_s(0, proto->ModuleName(), TWITTER_KEY_BASEURL, str);
 
-			db_set_b(0, proto->ModuleName(), TWITTER_KEY_CHATFEED, IsDlgButtonChecked(hwndDlg, IDC_CHATFEED));
+			db_set_b(0, proto->ModuleName(), TWITTER_KEY_CHATFEED, IsDlgButtonChecked(hwndDlg, IDC_CHATFEED) != 0);
 
 			GetDlgItemTextA(hwndDlg, IDC_POLLRATE, str, SIZEOF(str));
 			int rate = atoi(str);
@@ -246,7 +242,7 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				rate = 80;
 			db_set_dw(0, proto->ModuleName(), TWITTER_KEY_POLLRATE, rate);
 
-			db_set_b(0, proto->ModuleName(), TWITTER_KEY_TWEET_TO_MSG, IsDlgButtonChecked(hwndDlg, IDC_TWEET_MSG));
+			db_set_b(0, proto->ModuleName(), TWITTER_KEY_TWEET_TO_MSG, IsDlgButtonChecked(hwndDlg, IDC_TWEET_MSG) != 0);
 
 			proto->UpdateSettings();
 			return true;
@@ -275,7 +271,7 @@ namespace popup_options
 	{
 		if (IsDlgButtonChecked(hwndDlg, IDC_COL_WINDOWS)) {
 			if (for_db)
-				return -1;
+				return (COLORREF)-1;
 			else
 				return GetSysColor(COLOR_WINDOWTEXT);
 		}
@@ -289,7 +285,7 @@ namespace popup_options
 	{
 		if (IsDlgButtonChecked(hwndDlg, IDC_COL_WINDOWS)) {
 			if (for_db)
-				return -1;
+				return (COLORREF)-1;
 			else
 				return GetSysColor(COLOR_WINDOW);
 		}
@@ -449,7 +445,7 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY) {
 			proto = reinterpret_cast<TwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 
-			db_set_b(0, proto->ModuleName(), TWITTER_KEY_POPUP_SHOW, IsDlgButtonChecked(hwndDlg, IDC_SHOWPOPUPS));
+			db_set_b(0, proto->ModuleName(), TWITTER_KEY_POPUP_SHOW, IsDlgButtonChecked(hwndDlg, IDC_SHOWPOPUPS) != 0);
 			db_set_b(0, proto->ModuleName(), TWITTER_KEY_POPUP_SIGNON, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_NOSIGNONPOPUPS));
 
 			// ***** Write color settings
