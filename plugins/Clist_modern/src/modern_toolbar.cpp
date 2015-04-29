@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_commonprototypes.h"
-#include "./m_api/m_skinbutton.h"
+#include "m_skinbutton.h"
 #include <m_toptoolbar.h>
 #include "hdr/modern_sync.h"
 

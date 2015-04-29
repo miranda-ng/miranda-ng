@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_skinselector.h"
 #include "hdr/modern_skinengine.h"
 #include "m_skin_eng.h"
-#include "m_api/m_skinbutton.h"
+#include "m_skinbutton.h"
 #include "hdr/modern_commonprototypes.h"
 
 /// IMPLEMENTATIONS
