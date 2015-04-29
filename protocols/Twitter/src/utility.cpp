@@ -42,7 +42,7 @@ std::string int2str(uint64_t iVal)
 
 uint64_t str2int(const std::string &str)
 {
-	return atoll(str.c_str());
+	return _atoi64(str.c_str());
 }
 
 http::response mir_twitter::slurp(const std::string &url, http::method meth, OAuthParameters postParams)
