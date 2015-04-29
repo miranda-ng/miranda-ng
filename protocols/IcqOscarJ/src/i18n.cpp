@@ -28,7 +28,7 @@
 //  character sets.
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 static BOOL bHasCP_UTF8 = FALSE;
 

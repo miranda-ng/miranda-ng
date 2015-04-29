@@ -27,7 +27,7 @@
 //  Code for User details ICQ specific pages
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 #define SVS_NORMAL        0
 #define SVS_ZEROISUNSPEC  2

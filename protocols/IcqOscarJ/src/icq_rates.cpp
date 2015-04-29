@@ -27,7 +27,7 @@
 //  Rate Management stuff
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 //
 // Rate Level 1 Management

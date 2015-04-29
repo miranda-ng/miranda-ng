@@ -25,7 +25,7 @@
 //  ChangeInfo Plugin stuff
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 int CIcqProto::StringToListItemId(const char *szSetting,int def)
 {

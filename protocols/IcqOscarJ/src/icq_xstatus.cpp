@@ -27,7 +27,7 @@
 //  Support for Custom Statuses
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 #include "m_extraicons.h"
 #include "..\icons_pack\src\resource.h"
 

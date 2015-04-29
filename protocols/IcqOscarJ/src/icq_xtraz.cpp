@@ -27,7 +27,7 @@
 //  Internal Xtraz API
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, size_t nMsgLen, BOOL bThruDC)
 {

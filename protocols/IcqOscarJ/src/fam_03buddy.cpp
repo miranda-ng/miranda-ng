@@ -27,7 +27,7 @@
 //  Handles packets from Buddy family
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 extern const char* cliSpamBot;
 

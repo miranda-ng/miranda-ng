@@ -27,7 +27,7 @@
 //  Internal Database API
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 int CIcqProto::getSetting(MCONTACT hContact, const char *szSetting, DBVARIANT *dbv)
 {

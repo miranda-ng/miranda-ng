@@ -27,7 +27,7 @@
 //  High-level code for exported API services
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 INT_PTR CIcqProto::AddServerContact(WPARAM hContact, LPARAM)
 {

@@ -27,7 +27,7 @@
 //  HTTP Gateway Handling routines
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 int icq_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQUEST *nlhr)
 {

@@ -25,7 +25,7 @@
 //  ChangeInfo Plugin stuff
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 #define DM_PROTOACK  (WM_USER+10)
 

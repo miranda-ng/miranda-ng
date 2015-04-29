@@ -27,7 +27,7 @@
 //  OSCAR File-Transfers implementation
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 struct oscarthreadstartinfo 
 {

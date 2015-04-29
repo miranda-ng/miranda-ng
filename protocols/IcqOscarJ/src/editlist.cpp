@@ -25,7 +25,7 @@
 //  ChangeInfo Plugin stuff
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 static ChangeInfoData *dataListEdit = NULL;
 static HWND hwndListEdit = NULL;

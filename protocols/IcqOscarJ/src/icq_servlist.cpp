@@ -27,7 +27,7 @@
 //  Functions that handles list of used server IDs, sends low-level packets for SSI information
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 // SERVER-LIST UPDATE BOARD
 //

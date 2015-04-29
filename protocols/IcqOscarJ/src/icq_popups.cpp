@@ -27,7 +27,7 @@
 //  Popup Plugin stuff
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 extern BOOL bPopupService;
 

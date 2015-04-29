@@ -27,7 +27,7 @@
 //  Manages Avatar connection, provides internal service for handling avatars
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 #include "m_folders.h"
 
 BYTE hashEmptyAvatar[9] = {0x00, 0x01, 0x00, 0x05, 0x02, 0x01, 0xD2, 0x04, 0x72};

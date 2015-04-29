@@ -32,7 +32,7 @@
 //  adding process too much.
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 struct icq_capability
 {
