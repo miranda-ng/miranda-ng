@@ -240,7 +240,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		else 
 			continue;
 
-		MCONTACT hContact = AddContact(skypename);
+		MCONTACT hContact = AddContact(skypename, true);
 
 		if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
 			PushRequest(new GetHistoryRequest(RegToken, skypename, 100, false, 0, Server), &CSkypeProto::OnGetServerHistory);

@@ -52,22 +52,22 @@ public:
 class GetTrouterRequest : public HttpRequest
 {
 public:
-	GetTrouterRequest(const char *socketio, const char *sr, int st, int se, const char *sig,
+	GetTrouterRequest(const char *socketio, const char *sr, const char *st, const char *se, const char *sig,
 																const char *instance, const char *ccid) :
-		HttpRequest(REQUEST_POST, FORMAT, "%ssocket.io/1/", socketio)
+		HttpRequest(REQUEST_GET, FORMAT, "%ssocket.io/1/", socketio)
 	{
 		Url
 			<< CHAR_VALUE("sr", sr)
 			<< CHAR_VALUE("issuer", "edf")
 			<< CHAR_VALUE("sp", "connect")
-			<< INT_VALUE("st", st)
-			<< INT_VALUE("se", se)
+			<< CHAR_VALUE("st", st)
+			<< CHAR_VALUE("se", se)
 			<< CHAR_VALUE("sig", sig)
 			<< CHAR_VALUE("r", instance)
 			<< CHAR_VALUE("v", "v2")
 			<< INT_VALUE("p", 443)
 			<< CHAR_VALUE("ccid", ccid)
-			<< CHAR_VALUE("tc", ptrA(mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}")))
+			<< CHAR_VALUE("tc", "%7B%22cv%22:%222014.8.26%22,%22hr%22:%22%22,%22ua%22:%22SWX%22,%22v%22:%221.2.273%22%7D")//ptrA(mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}")))
 			<< INT_VALUE("t", time(NULL)*1000);
 
 		Headers

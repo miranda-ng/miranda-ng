@@ -45,8 +45,8 @@ void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 
 	JSONROOT root(response->pData);
 
-	int st = _ttoi(json_as_string(json_get(root, "st")));
-	int se = _ttoi(json_as_string(json_get(root, "se")));
+	ptrA st(mir_t2a(ptrT(json_as_string(json_get(root, "st")))));
+	ptrA se(mir_t2a(ptrT(json_as_string(json_get(root, "se")))));
 	ptrA sig(mir_t2a(ptrT(json_as_string(json_get(root, "sig")))));
 
 	SendRequest(new GetTrouterRequest
@@ -67,7 +67,7 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 		return;
 	CMStringA data(response->pData);
 	int iStart = 0;
-	CMStringA szToken = data.Tokenize(";", iStart).Trim();
+	CMStringA szToken = data.Tokenize(":", iStart).Trim();
 	setString("Trouter_SessId", szToken);
 }
 
