@@ -49,11 +49,6 @@ typedef struct _tagButtonItem {
     struct  _tagButtonItem *nextItem;
 } ButtonItem;
 
-typedef struct _tagButtonSet {
-    ButtonItem  *items;
-    LONG        left, top, right, bottom;               // client area offsets, calculated from button layout
-} ButtonSet;
-
 typedef struct {
     char szName[40];
     char szDBname[40];
