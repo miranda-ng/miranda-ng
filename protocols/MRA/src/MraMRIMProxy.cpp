@@ -151,7 +151,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 									_CrtDbgBreak();
 								}
 								else {
-									dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(lpbBufferRcv+dwRcvBuffSizeUsed), (dwRcvBuffSize-dwRcvBuffSizeUsed), 0);
+									dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(lpbBufferRcv + dwRcvBuffSizeUsed), (int)(dwRcvBuffSize - dwRcvBuffSizeUsed), 0);
 									if (dwBytesReceived && dwBytesReceived != SOCKET_ERROR) { // connected
 										dwRcvBuffSizeUsed += dwBytesReceived;
 										if (dwRcvBuffSizeUsed >= sizeof(mrim_packet_header_t)) { // packet header received

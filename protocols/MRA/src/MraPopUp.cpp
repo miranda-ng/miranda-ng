@@ -68,9 +68,8 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 
 		case IDC_PREVIEW:
 			{
-				for (size_t i = 0; i < POPUPS_TYPES_COUNT; i++) {
+				for (int i = 0; i < POPUPS_TYPES_COUNT; i++)
 					ppro->MraPopupShowFromAgentW(i, 0, TranslateTS(lpcwszPopupsTypes[i]));
-				}
 			}
 			break;
 

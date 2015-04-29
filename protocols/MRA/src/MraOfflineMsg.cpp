@@ -81,7 +81,7 @@ static DWORD MraOfflineMessageGetHeaderValue(LPSTR lpszHeader, LPSTR lpszHeaderL
 			size_t dwValueSize = lpszValueEnd - lpszValue;
 			lpszValue = lpszHeader + (lpszValue-lpszHeaderLow);
 			SkeepSPWSP(lpszValue, dwValueSize, &lpszValue, &dwValueSize);
-			plpszValue = CMStringA(lpszValue, dwValueSize);
+			plpszValue = CMStringA(lpszValue, (int)dwValueSize);
 			return NO_ERROR;
 		}
 	}
@@ -229,15 +229,15 @@ DWORD MraOfflineMessageGet(const CMStringA &plpsMsg, DWORD &pdwTime, DWORD &pdwF
 					if (MraOfflineMessageGetHeaderValueLow(lpszMIMEHeaderLow, dwMIMEHeaderSize, "content-type", 12, &lpszMIMEContentType, &dwMIMEContentTypeSize) == NO_ERROR) {
 						if (MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "text/plain", 10)) {
 							// this is simple text part: text/plain
-							return PlainText2message(CMStringA(lpszMIMEContentType, dwMIMEContentTypeSize), CMStringA(lpszMIMEBody, dwMIMEBodySize), plpsText, &pdwFlags);
+							return PlainText2message(CMStringA(lpszMIMEContentType, (int)dwMIMEContentTypeSize), CMStringA(lpszMIMEBody, (int)dwMIMEBodySize), plpsText, &pdwFlags);
 						}
 						if (MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "application/x-mrim-rtf", 22)) {
-							plpsRTFText = CMStringA(lpszMIMEBody, dwMIMEBodySize);
+							plpsRTFText = CMStringA(lpszMIMEBody, (int)dwMIMEBodySize);
 							pdwFlags |= MESSAGE_FLAG_RTF; // set RTF flag if not exist
 							return NO_ERROR;
 						}
 						if (MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "application/x-mrim+xml", 22)) {
-							plpsMultiChatData = CMStringA(lpszMIMEBody, dwMIMEBodySize);
+							plpsMultiChatData = CMStringA(lpszMIMEBody, (int)dwMIMEBodySize);
 							pdwFlags |= MESSAGE_FLAG_MULTICHAT; // set MESSAGE_FLAG_MULTICHAT flag if not exist
 							return NO_ERROR;
 						}
@@ -253,10 +253,10 @@ DWORD MraOfflineMessageGet(const CMStringA &plpsMsg, DWORD &pdwTime, DWORD &pdwF
 	}
 
 	if (MemoryFind(0, lpszContentTypeLow, dwContentTypeSize, "text/plain", 10))
-		return PlainText2message(CMStringA(lpszContentTypeLow, dwContentTypeSize), CMStringA(lpszBody, dwBodySize), plpsText, &pdwFlags);
+		return PlainText2message(CMStringA(lpszContentTypeLow, (int)dwContentTypeSize), CMStringA(lpszBody, (int)dwBodySize), plpsText, &pdwFlags);
 
 	if (MemoryFind(0, lpszContentTypeLow, dwContentTypeSize, "application/x-mrim-auth-req", 27)) { // Content-Type: application/x-mrim-auth-req
-		plpsText = CMStringA(lpszBody, dwBodySize);
+		plpsText = CMStringA(lpszBody, (int)dwBodySize);
 		return NO_ERROR;
 	}
 

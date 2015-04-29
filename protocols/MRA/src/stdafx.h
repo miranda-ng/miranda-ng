@@ -14,8 +14,6 @@
 #include <WS2tcpip.h>
 
 #pragma comment(lib,"shlwapi.lib")
-#pragma comment(lib,"ws2_32.lib")
-#pragma comment(lib,"mswsock.lib")
 
 #include <crtdbg.h>
 #include <malloc.h>
