@@ -7,11 +7,8 @@
 
 #include <windows.h>
 #include <Commdlg.h>
-#include <wincrypt.h>
 #include <shlwapi.h>
 #include <winsock2.h>
-#include <mswsock.h>
-#include <WS2tcpip.h>
 
 #pragma comment(lib,"shlwapi.lib")
 
