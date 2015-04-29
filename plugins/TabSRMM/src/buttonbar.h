@@ -5,6 +5,8 @@
 #define MAX_CBUTTONID 5000
 
 struct CustomButtonData;
+struct TWindowData;
+
 void CB_WriteButtonSettings(MCONTACT hContact, CustomButtonData *cbd);
 
 void CB_DeInitCustomButtons();

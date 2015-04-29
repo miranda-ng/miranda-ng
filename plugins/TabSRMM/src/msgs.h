@@ -169,6 +169,8 @@ struct TContainerSettings
 	BYTE	reserved[10];
 };
 
+struct ButtonItem;
+
 struct TContainerData
 {
 	TContainerData *pNext;
