@@ -326,3 +326,27 @@ Słonecznie / Wiatr
 Mocny Deszcz
 [Rain Late]
 Deszcz Późno
+[Light Rain / Wind Early]
+Deszczyk / Wiatr wcześnie
+[Heavy Rain / Wind]
+Mocny Deszcz / Wiatr
+[Cloudy / Windy]
+Pochmurnie / Wietrznie
+[Wintry Mix / Wind]
+Deszcz ze śniegiem / Wiatr
+[Rain Shower]
+Ulewa
+[Light Freezing Rain / Windy]
+Delikatny Marznący Deszcz / Wietrznie
+[Light Freezing Rain / Fog]
+Delikatny Marznący Deszcz / Mgła
+[Snow / Windy]
+Śnieg / Wietrznie
+[Fog / Windy]
+Mgła / Wietrznie
+[Partly Cloudy / Windy]
+Częściowe Zachmurzenie / Wietrznie
+[Sunny / Windy]
+Słonecznie / Wietrznie
+[Am Snow]
+Do południa śnieg
