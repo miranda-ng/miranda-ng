@@ -84,7 +84,7 @@ private:
 	RequestQueue *requestQueue;
 	bool isTerminated;
 	std::map<std::string, std::string> cookies;
-	HANDLE m_pollingConnection, m_hPollingThread;
+	HANDLE m_pollingConnection, m_hPollingThread, m_hTrouterThread;
 	static std::map<std::tstring, std::tstring> languages;
 
 	static INT_PTR CALLBACK PasswordEditorProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -143,6 +143,13 @@ private:
 	void OnSubscriptionsCreated	(const NETLIBHTTPREQUEST *response);
 	void OnCapabilitiesSended	(const NETLIBHTTPREQUEST *response);
 	void OnStatusChanged		(const NETLIBHTTPREQUEST *response);
+
+	//TRouter
+
+	void OnCreateTrouter(const NETLIBHTTPREQUEST *response);
+	void OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response);
+	void OnGetTrouter(const NETLIBHTTPREQUEST *response);
+	void CSkypeProto::TRouterThread(void*);
 
 	// profile
 	void UpdateProfileFirstName		(JSONNODE *root, MCONTACT hContact = NULL);

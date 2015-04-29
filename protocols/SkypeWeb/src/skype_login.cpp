@@ -109,6 +109,7 @@ void CSkypeProto::OnLoginSuccess()
 	TokenSecret = getStringA("TokenSecret");
 	Server = getStringA("Server");
 	SendRequest(new CreateEndpointRequest(TokenSecret, Server), &CSkypeProto::OnEndpointCreated);
+	SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
 	PushRequest(new GetProfileRequest(TokenSecret), &CSkypeProto::LoadProfile);
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
 	PushRequest(new GetContactListRequest(TokenSecret), &CSkypeProto::LoadContactList);
