@@ -462,8 +462,8 @@ void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, i
 	{
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
-		wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
-		wcsncpy(ppd.lpwzText, message, MAX_SECONDLINE);
+		mir_tstrcpy(ppd.lpwzContactName, caption);
+		mir_tstrcpy(ppd.lpwzText, message);
 		ppd.lchIcon = Skin_GetIcon("Skype_main");
 
 		if (!PUAddPopupT(&ppd))
