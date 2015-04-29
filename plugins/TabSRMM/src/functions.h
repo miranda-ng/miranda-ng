@@ -29,6 +29,8 @@
 #ifndef _TABSRMM_FUNCTIONS_H
 #define _TABSRMM_FUNCTIONS_H
 
+class CImageItem;
+
 int  MyAvatarChanged(WPARAM wParam, LPARAM lParam);
 int  IconsChanged(WPARAM wParam, LPARAM lParam);
 int  IcoLibIconsChanged(WPARAM wParam, LPARAM lParam);

@@ -113,8 +113,6 @@ typedef struct _DWM_THUMBNAIL_PROPERTIES
 	BOOL fSourceClientAreaOnly;
 } DWM_THUMBNAIL_PROPERTIES, *PDWM_THUMBNAIL_PROPERTIES;
 
-#include "m_cln_skinedit.h"
-
 #include "resource.h"
 #include "version.h"
 #include "buttonbar.h"

@@ -59,6 +59,63 @@ void CustomizeButton(HWND hwndButton);
 #define BUTTONSETASSIDEBARBUTTON (BUTTONSETASFLATBTN + 22)
 #define BUTTONSETOVERLAYICON	   (BUTTONSETASFLATBTN + 23)
 
+// FLAGS
+#define CORNER_NONE 0
+#define CORNER_ACTIVE 1
+#define CORNER_TL 2
+#define CORNER_TR 4
+#define CORNER_BR 8
+#define CORNER_BL 16
+#define CORNER_ALL (CORNER_TL | CORNER_TR | CORNER_BR | CORNER_BL | CORNER_ACTIVE)
+
+#define GRADIENT_NONE 0
+#define GRADIENT_ACTIVE 1
+#define GRADIENT_LR 2
+#define GRADIENT_RL 4
+#define GRADIENT_TB 8
+#define GRADIENT_BT 16
+
+#define IMAGE_PERPIXEL_ALPHA 1
+#define IMAGE_FLAG_DIVIDED 2
+#define IMAGE_FILLSOLID 4
+#define IMAGE_GLYPH 8
+
+#define IMAGE_STRETCH_V 1
+#define IMAGE_STRETCH_H 2
+#define IMAGE_STRETCH_B 4
+
+#define BUTTON_ISINTERNAL 1
+#define BUTTON_ISTOGGLE 2
+#define BUTTON_ISSERVICE 4
+#define BUTTON_ISPROTOSERVICE 8
+#define BUTTON_PASSHCONTACTW 16
+#define BUTTON_PASSHCONTACTL 32
+#define BUTTON_ISDBACTION    64
+#define BUTTON_ISCONTACTDBACTION 128
+#define BUTTON_DBACTIONONCONTACT 256
+#define BUTTON_ISSIDEBAR 512
+#define BUTTON_NORMALGLYPHISICON 1024
+#define BUTTON_PRESSEDGLYPHISICON 2048
+#define BUTTON_HOVERGLYPHISICON 4096
+#define BUTTON_HASLABEL 8192
+
+#define CLCDEFAULT_GRADIENT 0
+#define CLCDEFAULT_CORNER 0
+
+#define CLCDEFAULT_COLOR 0xd0d0d0
+#define CLCDEFAULT_COLOR2 0xd0d0d0
+
+#define CLCDEFAULT_TEXTCOLOR 0x000000
+
+#define CLCDEFAULT_COLOR2_TRANSPARENT 1
+
+#define CLCDEFAULT_ALPHA 100
+#define CLCDEFAULT_MRGN_LEFT 0
+#define CLCDEFAULT_MRGN_TOP 0
+#define CLCDEFAULT_MRGN_RIGHT 0
+#define CLCDEFAULT_MRGN_BOTTOM 0
+#define CLCDEFAULT_IGNORE 1
+
 struct AeroEffect
 {
 	TCHAR    tszName[40];
@@ -189,6 +246,33 @@ private:
 	HBRUSH  		m_fillBrush;								// brush to fill the inner part (faster) dwFlags & IMAGE_FILLSOLID must be set
 	LONG    		m_glyphMetrics[4];							// these coordinates point into the glyph image (if IMAGE_GLYPH is set)
 	CImageItem*		m_nextItem;									// next item in a set of image items (usually the skin set)
+};
+
+
+struct CSkinItem {
+	TCHAR szName[40];
+	char szDBname[40];
+	int statusID;
+
+	BYTE GRADIENT;
+	BYTE CORNER;
+
+	DWORD COLOR;
+	DWORD COLOR2;
+
+	BYTE COLOR2_TRANSPARENT;
+
+	DWORD TEXTCOLOR;
+
+	int ALPHA;
+
+	int MARGIN_LEFT;
+	int MARGIN_TOP;
+	int MARGIN_RIGHT;
+	int MARGIN_BOTTOM;
+	BYTE IGNORED;
+	DWORD BORDERSTYLE;
+	CImageItem *imageItem;
 };
 
 /**
@@ -359,7 +443,6 @@ private:
 	int				m_nrSkinIcons;
 	DWORD			m_dwmColor;
 
-private:
 	static	void TSAPI AeroEffectCallback_Milk(const HDC hdc, const RECT *rc, int iEffectArea);
 	static	void TSAPI AeroEffectCallback_Carbon(const HDC hdc, const RECT *rc, int iEffectArea);
 	static	void TSAPI AeroEffectCallback_Solid(const HDC hdc, const RECT *rc, int iEffectArea);
@@ -395,5 +478,38 @@ struct TabControlData
 };
 
 extern CSkin *Skin;
+
+/*
+* data structs
+*/
+
+struct ButtonItem {
+	TCHAR   szName[40];
+	HWND    hWnd;
+	LONG    xOff, yOff;
+	LONG    width, height;
+	CImageItem *imgNormal, *imgPressed, *imgHover;
+	LONG_PTR normalGlyphMetrics[4];
+	LONG_PTR hoverGlyphMetrics[4];
+	LONG_PTR pressedGlyphMetrics[4];
+	DWORD   dwFlags, dwStockFlags;
+	DWORD   uId;
+	TCHAR   szTip[256];
+	char    szService[256];
+	char    szModule[256], szSetting[256];
+	BYTE    bValuePush[256], bValueRelease[256];
+	DWORD   type;
+	void(*pfnAction)(ButtonItem *item, HWND hwndDlg, TWindowData *dat, HWND hwndItem);
+	void(*pfnCallback)(ButtonItem *item, HWND hwndDlg, TWindowData *dat, HWND hwndItem);
+	TCHAR   tszLabel[40];
+	ButtonItem* nextItem;
+	HANDLE  hContact;
+	TWindowData *dat;
+};
+
+typedef struct _tagButtonSet {
+	ButtonItem  *items;
+	LONG        left, top, right, bottom;               // client area offsets, calculated from button layout
+} ButtonSet;
 
 #endif /* __THEMES_H */
