@@ -82,7 +82,7 @@ MCONTACT CSteamProto::FindContact(const char *steamId)
 {
 	MCONTACT hContact = NULL;
 
-	EnterCriticalSection(&this->contact_search_lock);
+	mir_cslock lck(this->contact_search_lock);
 
 	for (hContact = db_find_first(this->m_szModuleName); hContact; hContact = db_find_next(hContact, this->m_szModuleName))
 	{
@@ -90,8 +90,6 @@ MCONTACT CSteamProto::FindContact(const char *steamId)
 		if (!lstrcmpA(cSteamId, steamId))
 			break;
 	}
-
-	LeaveCriticalSection(&this->contact_search_lock);
 
 	return hContact;
 }
