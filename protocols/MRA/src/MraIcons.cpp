@@ -1,4 +1,4 @@
-#include "Mra.h"
+#include "stdafx.h"
 #include "MraIcons.h"
 
 HANDLE hXStatusAdvancedStatusIcons[MRA_XSTATUS_COUNT+4];

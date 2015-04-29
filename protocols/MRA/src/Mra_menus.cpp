@@ -1,4 +1,4 @@
-#include "Mra.h"
+#include "stdafx.h"
 #include "proto.h"
 
 INT_PTR CMraProto::MraGotoInbox(WPARAM, LPARAM)

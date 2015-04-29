@@ -1,4 +1,4 @@
-#include "Mra.h"
+#include "stdafx.h"
 #include "MraMPop.h"
 
 //	MPOP_SESSION

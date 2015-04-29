@@ -1,4 +1,4 @@
-#include "Mra.h"
+#include "stdafx.h"
 
 #define MRA_PASS_CRYPT_VER	2
 
@@ -189,7 +189,7 @@ bool DB_GetStaticStringA(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueN
 	if (db_get_ws(hContact, lpszModule, lpszValueName, &dbv) == 0) {
 		size_t dwRetBuffSizeLocal, dwReadedStringLen = mir_wstrlen(dbv.pwszVal);
 		if (lpszRetBuff && (dwRetBuffSize > dwReadedStringLen)) {
-			dwRetBuffSizeLocal = WideCharToMultiByte(MRA_CODE_PAGE, 0, dbv.pwszVal, dwReadedStringLen, lpszRetBuff, dwRetBuffSize, NULL, NULL);
+			dwRetBuffSizeLocal = WideCharToMultiByte(MRA_CODE_PAGE, 0, dbv.pwszVal, (int)dwReadedStringLen, lpszRetBuff, (int)dwRetBuffSize, NULL, NULL);
 			(*((CHAR*)(lpszRetBuff + dwRetBuffSizeLocal))) = 0;
 			bRet = true;
 		}
@@ -764,10 +764,10 @@ bool IsEMailMR(const CMStringA &szEmail)
 {
 	if (szEmail) {
 		for (int i = 0; lpcszMailRuDomains[i]; i++) {
-			int dwDomainLen = mir_strlen(lpcszMailRuDomains[i]);
+			size_t dwDomainLen = mir_strlen(lpcszMailRuDomains[i]);
 			if (dwDomainLen < szEmail.GetLength())
 			if (!_stricmp(lpcszMailRuDomains[i], szEmail.c_str() + szEmail.GetLength() - dwDomainLen))
-			if (szEmail[szEmail.GetLength() - dwDomainLen - 1] == '@')
+				if (szEmail[szEmail.GetLength() - (int)dwDomainLen - 1] == '@')
 				return true;
 		}
 	}
@@ -1052,7 +1052,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 			dwBuffSize = GetDlgItemText(hWndDlg, IDC_XTITLE, szBuff, (STATUS_TITLE_MAX + 1));
 			if (dwBuffSize == 0) { // user delete all text
 				mir_tstrncpy(szBuff, TranslateTS(lpcszXStatusNameDef[dat->dwXStatus]), STATUS_TITLE_MAX + 1);
-				dwBuffSize = mir_wstrlen(szBuff);
+				dwBuffSize = (DWORD)mir_wstrlen(szBuff);
 			}
 			mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%dName", dat->dwXStatus);
 			dat->ppro->mraSetStringExW(NULL, szValueName, szBuff);
@@ -1173,7 +1173,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 				TCHAR tszBuff[MAX_PATH];
 				size_t dwMessageSize = GetWindowTextLength(GetDlgItem(hWndDlg, IDC_MSG_TO_SEND));
 
-				EnableWindow(GetDlgItem(hWndDlg, IDOK), dwMessageSize);
+				EnableWindow(GetDlgItem(hWndDlg, IDOK), (int)dwMessageSize);
 				mir_sntprintf(tszBuff, SIZEOF(tszBuff), _T("%d/%d"), dwMessageSize, MICBLOG_STATUS_MAX);
 				SetDlgItemText(hWndDlg, IDC_STATIC_CHARS_COUNTER, tszBuff);
 			}
@@ -1234,8 +1234,8 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 		DWORD dwPathLen, dwRecDeepAllocated, dwRecDeepCurPos, dwFilePathLen;
 		RECURSION_DATA_STACK_ITEM *prdsiItems;
 
-		if (dwFolderLen == -1) dwFolderLen = mir_wstrlen(lpszFolder);
-		if (dwFileNameLen == -1) dwFileNameLen = mir_wstrlen(lpszFileName);
+		if (dwFolderLen == -1) dwFolderLen = (int)mir_wstrlen(lpszFolder);
+		if (dwFileNameLen == -1) dwFileNameLen = (int)mir_wstrlen(lpszFileName);
 
 		dwRecDeepCurPos = 0;
 		dwRecDeepAllocated = RECURSION_DATA_STACK_ITEMS_MIN;
@@ -1261,7 +1261,7 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 						if (prdsiItems[dwRecDeepCurPos].w32fdFindFileData.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) {// folder
 							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, _T("."), 1) != CSTR_EQUAL)
 							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, _T(".."), 2) != CSTR_EQUAL) {
-								prdsiItems[dwRecDeepCurPos].dwFileNameLen = (mir_wstrlen(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName) + 1);
+								prdsiItems[dwRecDeepCurPos].dwFileNameLen = (int)mir_wstrlen(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName) + 1;
 								memcpy((szPath + dwPathLen), prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, (prdsiItems[dwRecDeepCurPos].dwFileNameLen*sizeof(WCHAR)));
 								mir_tstrcat(szPath, _T("\\*.*"));
 								dwPathLen += prdsiItems[dwRecDeepCurPos].dwFileNameLen;
@@ -1281,7 +1281,7 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 						}
 						else {// file
 							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, lpszFileName, dwFileNameLen) == CSTR_EQUAL) {
-								prdsiItems[dwRecDeepCurPos].dwFileNameLen = mir_wstrlen(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName);
+								prdsiItems[dwRecDeepCurPos].dwFileNameLen = (int)mir_wstrlen(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName);
 								memcpy((szPath + dwPathLen), prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, ((prdsiItems[dwRecDeepCurPos].dwFileNameLen + 1)*sizeof(WCHAR)));
 								dwFilePathLen = (dwPathLen + prdsiItems[dwRecDeepCurPos].dwFileNameLen);
 
@@ -1340,7 +1340,7 @@ bool CMraProto::GetPassDB(CMStringA &res)
 			if (0 != memcmp(&btCryptedPass[1], btRandomData, MIR_SHA1_HASH_SIZE))
 				return false;
 
-			res = CMStringA((char*)&btCryptedPass[(1 + MIR_SHA1_HASH_SIZE)], dwPassSize);
+			res = CMStringA((char*)&btCryptedPass[(1 + MIR_SHA1_HASH_SIZE)], (int)dwPassSize);
 		}
 		else if (storageType == 1) {
 			RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);

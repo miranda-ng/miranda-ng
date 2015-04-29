@@ -125,7 +125,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Variables", "..\plugins\Var
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhenWasIt", "..\plugins\WhenWasIt\WhenWasIt_12.vcxproj", "{63E05ECA-0A63-479E-86BD-2CAF53869BDA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MRA", "..\protocols\MRA\Mra_12.vcxproj", "{EE182018-5D3D-43F3-955F-7B5AB0BE2FCA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MRA", "..\protocols\MRA\Mra.vcxproj", "{EE182018-5D3D-43F3-955F-7B5AB0BE2FCA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GTalkExt", "..\protocols\GTalkExt\GTalkExt.vcxproj", "{2A737817-2443-48FF-A2E8-CA8D69E450F3}"
 EndProject
