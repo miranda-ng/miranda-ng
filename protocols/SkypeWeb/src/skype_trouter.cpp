@@ -133,10 +133,14 @@ void CSkypeProto::TRouterThread(void*)
 			JSONROOT  root(json);
 			ptrA szBody(mir_t2a(ptrT(json_as_string(json_get(root, "body")))));
 			JSONNODE *headers = json_get(root, "headers");
+
 			JSONROOT jsonBody(szBody);
-			ptrT displayname(json_as_string(json_get(jsonBody, "displayname")));
+
+			ptrT displayname(json_as_string(json_get(jsonBody, "displayName")));
 			ptrT uid(json_as_string(json_get(jsonBody, "conversationId")));
-			ShowNotification(displayname, TranslateT("Incoming call"));
+			MCONTACT hContact = FindContact(_T2A(uid));
+			if (uid != NULL)
+				ShowNotification(uid, TranslateT("Incoming call"), 0, hContact);
 		}
 
 		m_TrouterConnection = response->nlc;
