@@ -1,6 +1,6 @@
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_commonprototypes.h"
-#include "m_api/m_skinbutton.h"
+#include "m_skinbutton.h"
 #include "hdr/modern_clcpaint.h"
 
 #include <m_button_int.h>

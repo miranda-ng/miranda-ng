@@ -29,7 +29,7 @@ $Id: viewmodes.c 2998 2006-06-01 07:11:52Z nightwish2004 $
 
 #include "hdr/modern_commonheaders.h"
 #include "CLUIFrames/cluiframes.h"
-#include "m_api/m_skinbutton.h"
+#include "m_skinbutton.h"
 
 #define TIMERID_VIEWMODEEXPIRE 100
 
