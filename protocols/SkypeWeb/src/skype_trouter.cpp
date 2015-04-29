@@ -120,9 +120,9 @@ void CSkypeProto::TRouterThread(void*)
 	if (!isTerminated)
 	{
 		debugLogA(__FUNCTION__": unexpected termination; switching protocol to offline");
-		SetStatus(ID_STATUS_OFFLINE);
+		//SetStatus(ID_STATUS_OFFLINE);
 	}
-	m_hPollingThread = NULL;
-	m_pollingConnection = NULL;
+	m_hTrouterThread = NULL;
+	m_TrouterConnection = NULL;
 	debugLogA(__FUNCTION__": leaving");
 }
