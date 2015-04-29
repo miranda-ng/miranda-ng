@@ -25,7 +25,7 @@
 //  ChangeInfo Plugin stuff
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 static FieldNamesItem months[] = {
 	{ 1, LPGEN("January") },

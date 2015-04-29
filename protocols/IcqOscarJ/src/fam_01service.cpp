@@ -27,7 +27,7 @@
 //  Handles packets from Service family
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 extern capstr capXStatus[];
 

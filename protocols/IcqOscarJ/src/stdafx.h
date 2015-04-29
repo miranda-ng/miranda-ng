@@ -115,7 +115,7 @@
 
 #include "icq_avatar.h"
 
-#include "changeinfo/changeinfo.h"
+#include "changeinfo.h"
 #include "icq_popups.h"
 #include "icq_proto.h"
 

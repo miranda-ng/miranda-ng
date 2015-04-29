@@ -27,7 +27,7 @@
 //  Implements Manage Server List dialog
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 static int bListInit = 0;
 static HANDLE hItemAll;

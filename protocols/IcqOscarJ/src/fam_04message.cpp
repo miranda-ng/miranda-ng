@@ -27,7 +27,7 @@
 //  Handles packets from Family 4 ICBM Messages
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 void CIcqProto::handleMsgFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader)
 {

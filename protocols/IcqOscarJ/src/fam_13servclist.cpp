@@ -23,7 +23,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 static int unpackServerListItem(BYTE **pbuf, size_t *pwLen, char *pszRecordName, WORD *pwGroupId, WORD *pwItemId, WORD *pwItemType, size_t *pwTlvLength);
 

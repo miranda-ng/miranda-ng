@@ -23,7 +23,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 void CIcqProto::handleBosFam(unsigned char *pBuffer, size_t wBufferLength, snac_header* pSnacHeader)
 {

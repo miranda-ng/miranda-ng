@@ -27,7 +27,7 @@
 //  Handles packet & message cookies
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 #define INVALID_COOKIE_INDEX -1
 

@@ -25,7 +25,7 @@
 //  ChangeInfo Plugin stuff
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 void ChangeInfoData::LoadSettingsFromDb(int keepChanged)
 {

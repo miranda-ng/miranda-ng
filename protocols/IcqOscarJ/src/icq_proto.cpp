@@ -27,7 +27,7 @@
 //  Protocol Interface Implementation
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 #include "m_icolib.h"
 

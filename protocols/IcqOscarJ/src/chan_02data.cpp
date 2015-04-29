@@ -27,7 +27,7 @@
 //  Handle channel 2 (Data) packets
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 void CIcqProto::handleDataChannel(BYTE *pBuffer, size_t wBufferLength, serverthread_info *info)
 {

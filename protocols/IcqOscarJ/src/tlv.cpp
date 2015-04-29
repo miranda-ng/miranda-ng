@@ -27,7 +27,7 @@
 //  Helper functions for Oscar TLV chains
 // -----------------------------------------------------------------------------
 
-#include "icqoscar.h"
+#include "stdafx.h"
 
 /* set maxTlvs<=0 to get all TLVs in length, or a positive integer to get at most the first n */
 oscar_tlv_chain* readIntoTLVChain(BYTE **buf, size_t wLen, int maxTlvs)
