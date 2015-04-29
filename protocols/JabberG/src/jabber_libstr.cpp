@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "jabber.h"
+#include "stdafx.h"
 
 int lstrcmp_null(const TCHAR *s1, const TCHAR *s2)
 {
