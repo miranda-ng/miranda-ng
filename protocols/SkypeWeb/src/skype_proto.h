@@ -149,6 +149,7 @@ private:
 	void OnCreateTrouter(const NETLIBHTTPREQUEST *response);
 	void OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response);
 	void OnGetTrouter(const NETLIBHTTPREQUEST *response);
+	void OnHealth(const NETLIBHTTPREQUEST *response);
 	void __cdecl CSkypeProto::TRouterThread(void*);
 
 	// profile
