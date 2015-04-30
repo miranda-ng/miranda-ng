@@ -52,7 +52,7 @@ static int GetDataRecord(BYTE *data,DWORD index,DWORD *pdwFrom,DWORD *pdwTo)
 
 /************************* Record Cache ***************************/
 
-static CRITICAL_SECTION csRecordCache;
+static mir_cs csRecordCache;
 static DWORD nDataRecordsCount; /* protected by csRecordCache */
 static BYTE *dataRecords;       /* protected by csRecordCache */
 
@@ -60,10 +60,9 @@ static BYTE *dataRecords;       /* protected by csRecordCache */
 
 static void CALLBACK UnloadRecordCache(LPARAM)
 {
-	EnterCriticalSection(&csRecordCache);
+	mir_cslock lck(csRecordCache);
 	mir_free(dataRecords);
 	dataRecords=NULL;
-	LeaveCriticalSection(&csRecordCache);
 }
 
 // function assumes it has got the csRecordCache mutex
@@ -71,16 +70,18 @@ static BOOL EnsureRecordCacheLoaded(BYTE **pdata,DWORD *pcount)
 {
 	HRSRC hrsrc;
 	DWORD cb;
-	EnterCriticalSection(&csRecordCache);
+	mir_cslock lck(csRecordCache);
 	if (dataRecords == NULL) {
 		/* load record data list from resources */
 		hrsrc=FindResource(hInst,MAKEINTRESOURCE(IDR_IPTOCOUNTRY),_T("BIN"));
 		cb=SizeofResource(hInst,hrsrc);
 		dataRecords=(BYTE*)LockResource(LoadResource(hInst,hrsrc));
-		if (cb<=sizeof(DWORD) || dataRecords == NULL) { LeaveCriticalSection(&csRecordCache); return FALSE; }
+		if (cb<=sizeof(DWORD) || dataRecords == NULL)
+			return FALSE;
 		/* uncompress record data */
 		dataRecords=GetDataHeader(dataRecords,cb,&nDataRecordsCount);
-		if (dataRecords == NULL || !nDataRecordsCount) { LeaveCriticalSection(&csRecordCache); return FALSE; }
+		if (dataRecords == NULL || !nDataRecordsCount)
+			return FALSE;
 	}
 	*pdata=dataRecords;
 	*pcount=nDataRecordsCount;
@@ -91,7 +92,6 @@ static void LeaveRecordCache(void)
 {
 	/* mark for unload */
 	CallFunctionBuffered(UnloadRecordCache,0,FALSE,UNLOADDELAY);
-	LeaveCriticalSection(&csRecordCache);
 }
 
 /************************* Services *******************************/
@@ -301,8 +301,6 @@ static void BinConvThread(void *unused)
 
 void InitIpToCountry(void)
 {
-	/* Record Cache */
-	InitializeCriticalSection(&csRecordCache);
 	nDataRecordsCount=0;
 	dataRecords=NULL;
 	/* Services */
@@ -314,8 +312,6 @@ void InitIpToCountry(void)
 
 void UninitIpToCountry(void)
 {
-	/* Record Cache */
-	DeleteCriticalSection(&csRecordCache);
 	mir_free(dataRecords); /* does NULL check */
 	/* Servcies */
 	DestroyServiceFunction(hServiceIpToCountry);
