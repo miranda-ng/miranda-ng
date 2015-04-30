@@ -45,7 +45,7 @@ typedef struct TMBCtrl{
 } BTNCTRL, *LPBTNCTRL;
 
 // External theme methods and properties
-static CRITICAL_SECTION csTips;
+static mir_cs csTips;
 static HWND hwndToolTips = NULL;
 
 /**
@@ -379,7 +379,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 		}
 	case WM_DESTROY:
 		if (bct) {
-			EnterCriticalSection(&csTips);
+			mir_cslock lck(csTips);
 			if (hwndToolTips) {
 				TOOLINFO ti;
 
@@ -396,7 +396,6 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 					hwndToolTips = NULL;
 				}
 			}
-			LeaveCriticalSection(&csTips);
 			DestroyTheme(bct);
 			mir_free(bct);
 		}
@@ -508,7 +507,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 		break;
 	case BUTTONADDTOOLTIP:
 		if (wParam) {			
-			EnterCriticalSection(&csTips);
+			mir_cslock lck(csTips);
 			if (!hwndToolTips)
 				hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL, WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
 
@@ -544,7 +543,6 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 				ti.lpszText=(LPSTR)wParam;
 				SendMessage(hwndToolTips, TTM_ADDTOOLA, 0, (LPARAM)&ti);
 			}
-			LeaveCriticalSection(&csTips);
 		}
 		break;
 	case BUTTONTRANSLATE:
@@ -628,7 +626,6 @@ void CtrlButtonUnloadModule()
 {
 	if(!g_init) return;
 	g_init=false;
-	DeleteCriticalSection(&csTips);
 	UnregisterClass(UINFOBUTTONCLASS, g_hSendSS);
 }
 
@@ -646,6 +643,5 @@ void CtrlButtonLoadModule()/// @fixme : compatibility with UInfoEx is everything
 	wc.cbWndExtra		 = sizeof(LPBTNCTRL);
 	wc.style					= CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
-	InitializeCriticalSection(&csTips);
 }
 
