@@ -97,8 +97,23 @@ void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *headers)
 	MCONTACT hContact = FindContact(_T2A(uid));
 	if (hContact != NULL)
 	{
-		AddCallToDb(hContact, time(NULL), 0);
+		MEVENT hEvent = AddCallToDb(hContact, time(NULL), DBEF_READ);
 		SkinPlaySound("skype_inc_call");
+
+		CLISTEVENT cle = { sizeof(cle) };
+		cle.flags |= CLEF_TCHAR;
+		cle.hContact = hContact;
+		cle.hDbEvent = hEvent;
+		cle.lParam = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
+		cle.hIcon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
+
+		CMStringA service(FORMAT, "%s/IncomingCall", GetContactProto(hContact));
+		cle.pszService = service.GetBuffer();
+
+		CMString tooltip(FORMAT, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+		cle.ptszTooltip = tooltip.GetBuffer();
+
+		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 	}
 }
 
@@ -162,4 +177,11 @@ void CSkypeProto::TRouterThread(void*)
 	m_hTrouterThread = NULL;
 	m_TrouterConnection = NULL;
 	debugLogA(__FUNCTION__": leaving");
+}
+
+INT_PTR CSkypeProto::OnIncomingCall(WPARAM wParam, LPARAM lParam)
+{
+	CLISTEVENT *cle = (CLISTEVENT*)lParam;
+	NotifyEventHooks(m_hCallHook, (WPARAM)cle->hContact, (LPARAM)0);
+	return 0;
 }
