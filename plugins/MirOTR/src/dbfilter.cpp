@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 static HANDLE hDBEventPreAdd, hDBEventAdded, hContactSettingChanged;
-static CRITICAL_SECTION RemoveChainCS={0}, *lpRemoveChainCS = &RemoveChainCS;
+static mir_cs RemoveChainCS, *lpRemoveChainCS = &RemoveChainCS;
 static UINT_PTR timerId = 0;
 
 struct DeleteEventNode {
@@ -18,7 +18,7 @@ static DeleteEventHead DeleteEvents = {0,0};
 
 VOID CALLBACK DeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) {
 	if (!DeleteEvents.first) return;
-	EnterCriticalSection(lpRemoveChainCS);
+	mir_cslock lck(*lpRemoveChainCS);
 	DeleteEventNode *prev =0, *current, *next;
 	DBEVENTINFO info = { sizeof(info) };
 	next = DeleteEvents.first;
@@ -38,7 +38,6 @@ VOID CALLBACK DeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTi
 		}
 	}
 	if (!DeleteEvents.first) DeleteEvents.last = 0;
-	LeaveCriticalSection(lpRemoveChainCS);
 }
 
 
@@ -211,13 +210,12 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 					node->hDbEvent = lParam;
 					node->timestamp = time(0);
 					node->next = 0;
-					EnterCriticalSection(lpRemoveChainCS);
+					mir_cslock lck(*lpRemoveChainCS);
 					if (DeleteEvents.last)
 						DeleteEvents.last->next = node;
 					else 
 						DeleteEvents.first = node;
 					DeleteEvents.last = node;
-					LeaveCriticalSection(lpRemoveChainCS);
 				}
 			}
 		}
@@ -260,7 +258,6 @@ int WindowEvent(WPARAM wParam, LPARAM lParam) {
 
 	lib_cs_lock();
 	ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
-	lib_cs_unlock();
 
 	SetEncryptionStatus(hContact, otr_context_get_trust(context));
 
@@ -292,7 +289,6 @@ int StatusModeChange(WPARAM wParam, LPARAM lParam) {
 			}
 			context = context->next;
 		}
-	lib_cs_unlock();
 	
 	return 0;
 }
@@ -332,7 +328,6 @@ int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 }
 
 void InitDBFilter() {
-	InitializeCriticalSectionAndSpinCount(lpRemoveChainCS, 500);
 	hDBEventPreAdd = HookEvent(ME_DB_EVENT_FILTER_ADD, OnDatabaseEventPreAdd);
 	hDBEventAdded = HookEvent(ME_DB_EVENT_ADDED, OnDatabaseEventAdded);
 	hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
@@ -347,5 +342,4 @@ void DeinitDBFilter() {
 	hContactSettingChanged=0;
 	if (timerId) KillTimer(0, timerId);
 	DeleteTimerProc(0,0,0,0);
-	DeleteCriticalSection(lpRemoveChainCS);
 }

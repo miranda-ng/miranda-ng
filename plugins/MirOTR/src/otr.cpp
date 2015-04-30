@@ -39,9 +39,7 @@ static unsigned int CALLBACK generate_key_thread(void* param)
 {
 	Thread_Push(0);
 	GenKeyData *data = (GenKeyData *)param;
-	//lib_cs_lock();
 	otrl_privkey_generate(otr_user_state, _T2A(g_private_key_filename), data->proto, data->proto);
-	//lib_cs_unlock();
 	PostMessage(data->dialog, WMU_ENDDIALOG, 0, 0);
 	mir_free(data);
 	Thread_Pop();

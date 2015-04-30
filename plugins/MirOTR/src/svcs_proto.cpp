@@ -137,7 +137,6 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 	int ignore_msg = otrl_message_receiving(otr_user_state, &ops, (void*)ccs->hContact,
 		proto, proto, uname, oldmessage_utf,
 		&newmessage, &tlvs, &context, add_appdata, (void*)ccs->hContact);
-	lib_cs_unlock();
 	mir_free(uname);
 
 	if ( !(pre->flags & PREF_UTF))

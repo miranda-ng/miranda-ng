@@ -1,25 +1,10 @@
 #include "stdafx.h"
 
-CRITICAL_SECTION lib_cs;
-
-void InitUtils()
-{
-	InitializeCriticalSection(&lib_cs);
-}
-
-void DeinitUtils()
-{
-	DeleteCriticalSection(&lib_cs);
-}
+mir_cs lib_cs;
 
 void lib_cs_lock()
 {
-	EnterCriticalSection(&lib_cs);
-}
-
-void lib_cs_unlock()
-{
-	LeaveCriticalSection(&lib_cs);
+	mir_cslock lck(lib_cs);
 }
 
 MCONTACT find_contact(const char* userid, const char* protocol)
@@ -76,7 +61,6 @@ void VerifyFingerprint(ConnContext *context, bool verify) {
 	lib_cs_lock();
 	otrl_context_set_trust(context->active_fingerprint, (verify)?"verified":NULL);
 	otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
-	lib_cs_unlock();
 	VerifyFingerprintMessage(context, verify);
 }
 
