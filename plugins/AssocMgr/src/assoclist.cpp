@@ -43,7 +43,7 @@ typedef struct {
 
 static ASSOCDATA *pAssocList; /* protected by csAssocList */
 static int nAssocListCount;   /* protected by csAssocList */
-static CRITICAL_SECTION csAssocList;
+static mir_cs csAssocList;
 
 /************************* Assoc Enabled **************************/
 
@@ -91,7 +91,7 @@ void CleanupAssocEnabledSettings(void)
 
 	/* delete old enabled_* settings if associated plugin no longer present */
 	if(EnumDbPrefixSettings("AssocMgr", "enabled_", &ppszSettings, &nSettingsCount)) {
-		EnterCriticalSection(&csAssocList);
+		mir_cslock lck(csAssocList);
 		for(i = 0;i<nSettingsCount;++i) {
 			pszSuffix = &ppszSettings[i][8];
 			mir_snprintf(szSetting, SIZEOF(szSetting), "module_%s", pszSuffix);
@@ -108,7 +108,6 @@ void CleanupAssocEnabledSettings(void)
 			}
 			mir_free(ppszSettings[i]);
 		}
-		LeaveCriticalSection(&csAssocList);
 		mir_free(ppszSettings); /* does NULL check */
 	}
 }
@@ -143,7 +142,7 @@ void CleanupMimeTypeAddedSettings(void)
 
 	/* delete old mime_* settings and unregister the associated mime type */
 	if(EnumDbPrefixSettings("AssocMgr", "mime_", &ppszSettings, &nSettingsCount)) {
-		EnterCriticalSection(&csAssocList);
+		mir_cslock lck(csAssocList);
 		for(i = 0;i<nSettingsCount;++i) {
 			pszSuffix = &ppszSettings[i][5];
 			for(j = 0;j<nAssocListCount;++j)
@@ -159,7 +158,6 @@ void CleanupMimeTypeAddedSettings(void)
 			}
 			mir_free(ppszSettings[i]);
 		}
-		LeaveCriticalSection(&csAssocList);
 		mir_free(ppszSettings);
 	}
 }
@@ -169,27 +167,25 @@ void CleanupMimeTypeAddedSettings(void)
 #define SHELLNOTIFY_DELAY  3000  /* time for which assoc changes are buffered */
 
 static UINT nNotifyTimerID; /* protected by csNotifyTimer */
-static CRITICAL_SECTION csNotifyTimer;
+static mir_cs csNotifyTimer;
 
 static void CALLBACK NotifyTimerProc(HWND hwnd, UINT, UINT_PTR nTimerID, DWORD)
 {
-	EnterCriticalSection(&csNotifyTimer);
+	mir_cslock lck(csNotifyTimer);
 	KillTimer(hwnd, nTimerID);
 	if(nNotifyTimerID == nTimerID) /* might be stopped previously */
 		SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST|SHCNF_FLUSHNOWAIT, NULL, NULL);
 	nNotifyTimerID = 0;
-	LeaveCriticalSection(&csNotifyTimer);
 }
 
 static void NotifyAssocChange(BOOL fNow)
 {
-	EnterCriticalSection(&csNotifyTimer);
+	mir_cslock lck(csNotifyTimer);
 	if(fNow) {
 		nNotifyTimerID = 0; /* stop previous timer */
 		SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST|SHCNF_FLUSH, NULL, NULL);
 	}
 	else nNotifyTimerID  =  SetTimer(NULL, nNotifyTimerID, SHELLNOTIFY_DELAY, NotifyTimerProc);
-	LeaveCriticalSection(&csNotifyTimer);
 }
 
 /************************* Assoc List Utils ***********************/
@@ -207,9 +203,8 @@ static int FindAssocItem(const char *pszClassName)
 BOOL IsRegisteredAssocItem(const char *pszClassName)
 {
 	int index;
-	EnterCriticalSection(&csAssocList);
+	mir_cslock lck(csAssocList);
 	index = FindAssocItem(pszClassName);
-	LeaveCriticalSection(&csAssocList);
 	return index!= -1;
 }
 
@@ -400,16 +395,14 @@ static BOOL AddNewAssocItem_Worker(char *pszClassName, const TYPEDESCHEAD *tdh, 
 	ASSOCDATA *pAssocListBuf, *assoc;
 	
 	/* is already in list? */
-	EnterCriticalSection(&csAssocList);
+	mir_cslock lck(csAssocList);
 	int index = FindAssocItem(pszClassName);
 	if(index!= -1) return FALSE;
 
 	/* resize storage array */
 	pAssocListBuf = (ASSOCDATA*)mir_realloc(pAssocList, (nAssocListCount+1)*sizeof(ASSOCDATA));
-	if(pAssocListBuf == NULL) {
-		LeaveCriticalSection(&csAssocList);
+	if(pAssocListBuf == NULL)
 		return FALSE;
-	}
 	pAssocList = pAssocListBuf;
 	
 	/* init new item */
@@ -428,7 +421,6 @@ static BOOL AddNewAssocItem_Worker(char *pszClassName, const TYPEDESCHEAD *tdh, 
 	if(assoc->pszDescription == NULL || (assoc->pszService == NULL && tdh->pszService!= NULL)) {
 		mir_free(assoc->pszService);     /* does NULL check */
 		mir_free(assoc->pszDescription); /* does NULL check */
-		LeaveCriticalSection(&csAssocList);
 		return FALSE;
 	}
 
@@ -447,12 +439,10 @@ static BOOL RemoveAssocItem_Worker(const char *pszClassName)
 	ASSOCDATA *pAssocListBuf, *assoc;
 
 	/* find index */
-	EnterCriticalSection(&csAssocList);
+	mir_cslock lck(csAssocList);
 	int index = FindAssocItem(pszClassName);
-	if(index == -1) {
-		LeaveCriticalSection(&csAssocList);
+	if(index == -1)
 		return FALSE;
-	}
 	assoc = &pAssocList[index];
 
 	/* delete registry keys and db setting */
@@ -475,7 +465,6 @@ static BOOL RemoveAssocItem_Worker(const char *pszClassName)
 	pAssocListBuf = (ASSOCDATA*)mir_realloc(pAssocList, (nAssocListCount-1)*sizeof(ASSOCDATA));
 	if(pAssocListBuf!= NULL) pAssocList = pAssocListBuf;
 	--nAssocListCount;
-	LeaveCriticalSection(&csAssocList);
 
 	NotifyAssocChange(FALSE);
 	return TRUE;
@@ -561,12 +550,10 @@ static BOOL InvokeHandler_Worker(const char *pszClassName, const TCHAR *pszParam
 	char *pszService;
 
 	/* find it in list */
-	EnterCriticalSection(&csAssocList);
+	mir_cslock lck(csAssocList);
 	int index = FindAssocItem(pszClassName);
-	if(index == -1) {
-		LeaveCriticalSection(&csAssocList);
+	if(index == -1)
 		return FALSE;
-	}
 	ASSOCDATA *assoc = &pAssocList[index];
 	/* no service specified? correct registry to use main commandline */
 	if(assoc->pszService == NULL) {
@@ -580,7 +567,6 @@ static BOOL InvokeHandler_Worker(const char *pszClassName, const TCHAR *pszParam
 	/* get params */
 	pszService = mir_strdup(assoc->pszService);
 	pvParam = t2s(pszParam, assoc->flags&FTDF_UNICODE, FALSE);
-	LeaveCriticalSection(&csAssocList);
 
 	/* call service */
 	if(pszService!= NULL && pvParam!= NULL)
@@ -685,7 +671,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				ListView_InsertColumn(hwndList, lvc.iSubItem = 1, &lvc);
 			}
 			/* create image storage */
-			EnterCriticalSection(&csAssocList);
+			mir_cslock lck(csAssocList);
 			{	HDC hdc;
 				hdc = GetDC(hwndList);
 				if(hdc!= NULL) { /* BITSPIXEL is compatible with ILC_COLOR flags */
@@ -746,7 +732,6 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 					ListView_SetItem(hwndList, &lvi);
 				}
 			}
-			LeaveCriticalSection(&csAssocList);
 			lvi.iItem = ListView_GetTopIndex(hwndList);
 			ListView_SetItemState(hwndList, lvi.iItem, LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);
 			ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE_USEHEADER); /* size to fit window */
@@ -892,7 +877,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 							HWND hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
 							lvi.iSubItem = 0;
 							lvi.mask = LVIF_PARAM;
-							EnterCriticalSection(&csAssocList);
+							mir_cslock lck(csAssocList);
 							for(lvi.iItem = 0;ListView_GetItem(hwndList, &lvi);++lvi.iItem) {
 								assoc = (ASSOCDATA*)lvi.lParam;
 								if(assoc == NULL) continue; /* groups */
@@ -907,7 +892,6 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 									fRegFailed = TRUE; /* just show one time */
 								}
 							}
-							LeaveCriticalSection(&csAssocList);
 							NotifyAssocChange(TRUE);
 							PostMessage(hwndDlg, M_REFRESH_ICONS, 0, 0);
 							/* autostart */
@@ -965,7 +949,6 @@ void InitAssocList(void)
 	/* Assoc List */
 	pAssocList = NULL;
 	nAssocListCount = 0;
-	InitializeCriticalSection(&csAssocList);
 
 	/* Services */
 	hServiceAddFile = CreateServiceFunction(MS_ASSOCMGR_ADDNEWFILETYPE, ServiceAddNewFileType);
@@ -975,7 +958,6 @@ void InitAssocList(void)
 
 	/* Notify Shell */
 	nNotifyTimerID = 0;
-	InitializeCriticalSection(&csNotifyTimer);
 
 	/* register open-with app */
 	{
@@ -1047,12 +1029,10 @@ void UninitAssocList(void)
 		mir_free(assoc->pszMimeType); /* does NULL check */
 	}
 	mir_free(pAssocList);
-	DeleteCriticalSection(&csAssocList);
 
 	/* Notify Shell */
 	if(fOnlyWhileRunning && nAssocListCount)
 		NotifyAssocChange(TRUE);
-	DeleteCriticalSection(&csNotifyTimer);
 
 	/* unregister open-with app */
 	if(fOnlyWhileRunning) {
