@@ -10,8 +10,6 @@ static int CompareItem(const CContactCache::TContactInfo *p1, const CContactCach
 CContactCache::CContactCache() :
 	m_cache(50, CompareItem)
 {
-	InitializeCriticalSection(&m_cs);
-
 	int(__cdecl CContactCache::*pfn)(WPARAM, LPARAM);
 	pfn = &CContactCache::OnDbEventAdded;
 	HookEventObj(ME_DB_EVENT_ADDED, *(MIRANDAHOOKOBJ *)&pfn, this);
@@ -23,8 +21,6 @@ CContactCache::~CContactCache()
 {
 	for (int i = 0; i < m_cache.getCount(); i++)
 		delete m_cache[i];
-
-	DeleteCriticalSection(&m_cs);
 }
 
 int __cdecl CContactCache::OnDbEventAdded(WPARAM hContact, LPARAM hEvent)

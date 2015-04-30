@@ -25,7 +25,7 @@ public:
 private:
 	LIST<TContactInfo> m_cache;
 	unsigned long m_lastUpdate;
-	CRITICAL_SECTION m_cs;
+	mir_cs m_cs;
 
 	int __cdecl OnDbEventAdded(WPARAM wParam, LPARAM lParam);
 	float GetEventWeight(unsigned long age);
