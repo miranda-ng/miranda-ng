@@ -566,11 +566,16 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 	if (szSecondParam)
 		*(szSecondParam++) = 0;
 
+	MCONTACT hContact = AddContact(_T2A(szJid), true);
 	// no command or message command
 	if (!szCommand || (szCommand && !_tcsicmp(szCommand, _T("chat")))) 
 	{
-		MCONTACT hContact = AddContact(_T2A(szJid), true);
 		CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, NULL);
+		return 0;
+	}
+	else if (szCommand && !_tcsicmp(szCommand, _T("call")))
+	{
+		NotifyEventHooks(m_hCallHook, (WPARAM)hContact, (LPARAM)0);
 		return 0;
 	}
 	else if (szCommand && !_tcsicmp(szCommand, _T("userinfo"))){ return 0;}
