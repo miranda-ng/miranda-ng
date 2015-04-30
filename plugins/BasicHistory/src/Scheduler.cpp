@@ -758,7 +758,7 @@ void StopThread()
 
 bool GetNextExportTime(bool init, time_t now)
 {
-	EnterCriticalSection(&Options::instance->criticalSection);
+	mir_cslock lck(Options::instance->criticalSection);
 	bool isExport = false;
 	for (std::vector<TaskOptions>::iterator it = Options::instance->taskOptions.begin(); it != Options::instance->taskOptions.end(); ++it) {
 		if (it->forceExecute) {
@@ -788,7 +788,6 @@ bool GetNextExportTime(bool init, time_t now)
 		}
 	}
 	
-	LeaveCriticalSection(&Options::instance->criticalSection);
 	return isExport;
 }
 
@@ -801,7 +800,7 @@ static void CALLBACK DoTaskFinishInMainAPCFunc(ULONG_PTR dwParam)
 
 bool ExecuteCurrentTask(time_t now)
 {
-	EnterCriticalSection(&Options::instance->criticalSection);
+	mir_cslock lck(Options::instance->criticalSection);
 	TaskOptions to;
 	bool isExport = false;
 	for (std::vector<TaskOptions>::iterator it = Options::instance->taskOptions.begin(); it != Options::instance->taskOptions.end(); ++it) {
@@ -824,12 +823,10 @@ bool ExecuteCurrentTask(time_t now)
 		}
 	}
 
-	LeaveCriticalSection(&Options::instance->criticalSection);
-	
 	if (isExport) {
 		bool error = DoTask(to);
 		if (to.forceExecute) {
-			EnterCriticalSection(&Options::instance->criticalSection);
+			mir_cslock lck(Options::instance->criticalSection);
 			for (std::vector<TaskOptions>::iterator it = Options::instance->taskOptions.begin(); it != Options::instance->taskOptions.end(); ++it) {
 				if (it->taskName == to.taskName) {
 					it->forceExecute = false;
@@ -837,8 +834,6 @@ bool ExecuteCurrentTask(time_t now)
 					break;
 				}
 			}
-
-			LeaveCriticalSection(&Options::instance->criticalSection);
 
 			if (to.showMBAfterExecute) {
 				size_t size = to.taskName.size() + 1024;
@@ -1265,16 +1260,13 @@ void CreatePath(const TCHAR *szDir)
 
 INT_PTR ExecuteTaskService(WPARAM wParam, LPARAM lParam)
 {
-	EnterCriticalSection(&Options::instance->criticalSection);
+	mir_cslock lck(Options::instance->criticalSection);
 	int taskNr = (int)wParam;
-	if (taskNr < 0 || taskNr >= (int)Options::instance->taskOptions.size()) {
-		LeaveCriticalSection(&Options::instance->criticalSection);
+	if (taskNr < 0 || taskNr >= (int)Options::instance->taskOptions.size())
 		return FALSE;
-	}
 
 	Options::instance->taskOptions[taskNr].forceExecute = true;
 	Options::instance->taskOptions[taskNr].showMBAfterExecute = true;
-	LeaveCriticalSection(&Options::instance->criticalSection);
 	StartThread(false);
 	return TRUE;
 }

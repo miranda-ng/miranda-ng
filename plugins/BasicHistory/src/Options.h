@@ -151,7 +151,6 @@ public:
 	void SaveTaskTime(TaskOptions& to);
 	void Load(void);
 	void LoadTasks();
-	void Unload();
 
 	bool showContacts, showContactGroups, noFindBorder, groupNewOnTop, groupShowEvents, groupShowTime, groupShowName, groupShowMessage;
 	bool messagesNewOnTop, messagesShowDate, messagesShowSec, messagesShowName, messagesShowEvents, messagesUseSmileys;
@@ -169,7 +168,7 @@ public:
 	std::wstring ftpLogPath;
 	std::wstring ftpExePathDef;
 	std::wstring ftpExePath;
-	CRITICAL_SECTION criticalSection;
+	mir_cs criticalSection;
 
 	enum Fonts
 	{

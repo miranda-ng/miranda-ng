@@ -229,14 +229,8 @@ const int g_colorsSize = SIZEOF(g_ColorOptionsList);
 
 const int g_hotkeysSize = SIZEOF(g_HotkeyOptionsList);
 
-void Options::Unload()
-{
-	DeleteCriticalSection(&criticalSection);
-}
-
 void Options::Load(void)
 {
-	InitializeCriticalSection(&criticalSection);
 	FontIDT fid = {0};
 	ColourIDT cid = {0};
 	HOTKEYDESC hid = {0};
@@ -507,7 +501,7 @@ void Options::Save()
 
 void Options::SaveTasks(std::list<TaskOptions>* tasks)
 {
-	EnterCriticalSection(&criticalSection);
+	mir_cslock lck(criticalSection);
 	int oldTaskNr = (int)taskOptions.size();
 	taskOptions.clear();
 	int i = 0;
@@ -619,8 +613,6 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			db_unset(hContact, MODULE, buf);
 	}
-
-	LeaveCriticalSection(&criticalSection);
 }
 
 void Options::SaveTaskTime(TaskOptions& to)
