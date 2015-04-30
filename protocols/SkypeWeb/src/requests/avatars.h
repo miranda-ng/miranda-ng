@@ -39,7 +39,7 @@ public:
 
 		pData = (char*)mir_alloc(dataSize);
 		memcpy(pData, data, dataSize);
-		dataLength = dataSize;
+		dataLength = (int)dataSize;
 	}
 
 	~SetAvatarRequest()

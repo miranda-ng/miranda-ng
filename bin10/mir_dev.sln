@@ -423,7 +423,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenSSL", "..\plugins\OpenS
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HwHotKeys", "..\plugins\HwHotKeys\HwHotKeys_10.vcxproj", "{639E2B3A-64F2-4152-B5BB-12468E5D60B6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeWeb", "..\protocols\SkypeWeb\SkypeWeb_10.vcxproj", "{66A9BDEB-150F-45DC-B20F-9892C0B43834}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeWeb", "..\protocols\SkypeWeb\SkypeWeb.vcxproj", "{66A9BDEB-150F-45DC-B20F-9892C0B43834}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
