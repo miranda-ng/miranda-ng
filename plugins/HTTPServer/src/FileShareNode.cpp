@@ -19,7 +19,7 @@
 #include "Glob.h"
 
 CLFileShareNode * pclFirstNode = NULL;
-CRITICAL_SECTION csFileShareListAccess;
+mir_cs csFileShareListAccess;
 
 
 

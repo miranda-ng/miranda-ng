@@ -73,7 +73,7 @@ private:
 };
 
 extern CLFileShareNode * pclFirstNode;
-extern CRITICAL_SECTION csFileShareListAccess;
+extern mir_cs csFileShareListAccess;
 
 class CLFileShareListAccess {
 	bool bLocked;
@@ -88,13 +88,12 @@ public:
 	void Lock() {
 		if (bLocked)
 			return;
-		EnterCriticalSection(&csFileShareListAccess);
+		mir_cslock lck(csFileShareListAccess);
 		bLocked = true;
 	}
 	void Unlock() {
 		if (!bLocked)
 			return;
-		LeaveCriticalSection(&csFileShareListAccess);
 		bLocked = false;
 	}
 
