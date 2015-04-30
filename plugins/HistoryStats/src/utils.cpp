@@ -1001,13 +1001,11 @@ void RTFFilter::init()
 		m_Data.m_hRTFConv = NULL;
 	}
 
-	InitializeCriticalSection(&m_Data.m_RTFConvCS);
 }
 
 void RTFFilter::uninit()
 {
 	if (m_Data.m_hRTFConv) {
-		DeleteCriticalSection(&m_Data.m_RTFConvCS);
 		FreeLibrary(m_Data.m_hRTFConv);
 
 		m_Data.m_hRTFConv = NULL;
@@ -1018,7 +1016,7 @@ void RTFFilter::uninit()
 ext::t::string RTFFilter::filter(const ext::t::string& str)
 {
 	// protect, because library is not thread-safe
-	EnterCriticalSection(&m_Data.m_RTFConvCS);
+	mir_cslock lck(m_Data.m_RTFConvCS);
 
 #if defined(_UNICODE)
 	const ext::a::string strA = utils::toA(str);
@@ -1036,7 +1034,6 @@ ext::t::string RTFFilter::filter(const ext::t::string& str)
 
 	if (len == -1) {
 		// someting went wrong, maybe it's not a real RTF string
-		LeaveCriticalSection(&m_Data.m_RTFConvCS);
 		return str;
 	}
 
@@ -1054,14 +1051,11 @@ ext::t::string RTFFilter::filter(const ext::t::string& str)
 		// someting went wrong, maybe it's not a real RTF string
 		delete[] out_buf;
 
-		LeaveCriticalSection(&m_Data.m_RTFConvCS);
 		return str;
 	}
 
 	ext::t::string out_str(out_buf, res / sizeof(TCHAR)-1);
 	delete[] out_buf;
-
-	LeaveCriticalSection(&m_Data.m_RTFConvCS);
 
 	return out_str;
 }
