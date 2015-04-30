@@ -49,10 +49,7 @@ struct IMAGE_ARRAY_DATA
 	HBITMAP img;
 	int width;
 	int height;
-	void * lpBits;
-
-	// CS
-	mir_cs cs;
+	void *lpBits;
 
 	// Array
 	IMAGE_ARRAY_DATA_NODE *nodes;

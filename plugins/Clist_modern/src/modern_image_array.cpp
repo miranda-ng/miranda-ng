@@ -28,6 +28,8 @@ Created by Pescuma
 #include "hdr/modern_image_array.h"
 #include "hdr/modern_commonprototypes.h"
 
+static mir_cs cs;
+
 // To use this code in other places, replace the body of this func by the body of ske_CreateDIB32
 static HBITMAP ImageArray_CreateBitmapPoint(int cx, int cy, void ** pt)
 {
@@ -179,7 +181,7 @@ int ImageArray_AddImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 	if (hBmp == NULL)
 		return -1;
 
-	mir_cslock lck(iad->cs);
+	mir_cslock lck(cs);
 
 	if (pos < 0)
 		pos = iad->nodes_size;
@@ -337,7 +339,7 @@ BOOL ImageArray_ChangeImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 	if (pos >= iad->nodes_size)
 		return FALSE;
 
-	mir_cslock lck(iad->cs);
+	mir_cslock lck(cs);
 
 	// Get bounds
 	if (!GetObject(hBmp, sizeof(BITMAP), &bm))
@@ -467,7 +469,7 @@ BOOL ImageArray_RemoveImage(IMAGE_ARRAY_DATA *iad, int pos)
 	if (pos >= iad->nodes_size)
 		return FALSE;
 
-	mir_cslock lck(iad->cs);
+	mir_cslock lck(cs);
 
 	// Get bounds
 	if (iad->width_based) {
@@ -577,7 +579,7 @@ BOOL ImageArray_DrawImage(IMAGE_ARRAY_DATA *iad, int pos, HDC hdcDest, int nXDes
 	if (hdcDest == NULL || pos < 0 || pos >= iad->nodes_size)
 		return FALSE;
 
-	mir_cslock lck(iad->cs);
+	mir_cslock lck(cs);
 	{
 		int w, h, i;
 
@@ -603,9 +605,9 @@ BOOL ImageArray_DrawImage(IMAGE_ARRAY_DATA *iad, int pos, HDC hdcDest, int nXDes
 	return FALSE;
 }
 
-BOOL ImageArray_GetImageSize(IMAGE_ARRAY_DATA *iad, int pos, SIZE * lpSize)
+BOOL ImageArray_GetImageSize(IMAGE_ARRAY_DATA *iad, int pos, SIZE *lpSize)
 {
-	mir_cslock lck(iad->cs);
+	mir_cslock lck(cs);
 	if (lpSize) {
 		lpSize->cx = iad->nodes[pos].width;
 		lpSize->cy = iad->nodes[pos].height;
