@@ -5,9 +5,6 @@ void __stdcall	ShowPopup(TCHAR *line1, TCHAR *line2, int flags );
 
 INT_PTR PluginPing(WPARAM wParam,LPARAM lParam);
 
-void Lock(CRITICAL_SECTION *cs, char *lab);
-void Unlock(CRITICAL_SECTION *cs);
-
 INT_PTR PingDisableAll(WPARAM wParam, LPARAM lParam);
 INT_PTR PingEnableAll(WPARAM wParam, LPARAM lParam);
 

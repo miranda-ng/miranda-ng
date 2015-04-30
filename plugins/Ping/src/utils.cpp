@@ -130,29 +130,6 @@ INT_PTR PluginPing(WPARAM,LPARAM lParam)
 	return 0;
 }
 
-void Lock(CRITICAL_SECTION *cs, char *lab) {
-//	if(logging) {
-//		std::ostringstream oss1;
-//		oss1 << "Locking cs: " << cs << ", " << lab;
-//		CallService(PROTO "/Log", (WPARAM)oss1.str().c_str(), 0);
-//	}
-	EnterCriticalSection(cs);
-//	if(logging) {
-//		std::ostringstream oss2;
-//		oss2 << "Locked cs: " << cs;
-//		CallService(PROTO "/Log", (WPARAM)oss2.str().c_str(), 0);
-//	}
-}
-
-void Unlock(CRITICAL_SECTION *cs) {
-//	if(logging) {
-//		std::ostringstream oss1;
-//		oss1 << "Unlocking cs: " << cs;
-//		CallService(PROTO "/Log", (WPARAM)oss1.str().c_str(), 0);
-//	}
-	LeaveCriticalSection(cs);
-}
-
 INT_PTR PingDisableAll(WPARAM wParam, LPARAM lParam) {
 	PINGLIST pl;
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
@@ -287,7 +264,7 @@ void import_ping_addresses()
 	int count = db_get_dw(0, "PingPlug", "NumEntries", 0);
 	PINGADDRESS pa;
 
-	EnterCriticalSection(&list_cs);
+	mir_cslock lck(list_cs);
 	list_items.clear();
 	for(int index = 0; index < count; index++)
 	{
@@ -295,7 +272,6 @@ void import_ping_addresses()
 		list_items.push_back(pa);
 	}
 	write_ping_addresses();
-	LeaveCriticalSection(&list_cs);
 }
 
 HANDLE hPopupClass;

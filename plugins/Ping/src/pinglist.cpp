@@ -1,7 +1,7 @@
 #include "common.h"
 
 PINGLIST list_items;
-CRITICAL_SECTION list_cs;
+mir_cs list_cs;
 HANDLE reload_event_handle;
 
 DWORD NextID = 1;
@@ -37,9 +37,8 @@ INT_PTR GetPingList(WPARAM,LPARAM lParam)
 {
 	PINGLIST *pa = (PINGLIST *)lParam;
 
-	EnterCriticalSection(&list_cs);
+	mir_cslock lck(list_cs);
 	*pa = list_items;
-	LeaveCriticalSection(&list_cs);
 	
 	return 0;
 }
@@ -47,9 +46,8 @@ INT_PTR GetPingList(WPARAM,LPARAM lParam)
 INT_PTR GetListSize(WPARAM, LPARAM)
 {
 	INT_PTR ret = 0;
-	EnterCriticalSection(&list_cs);
+	mir_cslock lck(list_cs);
 	ret = list_items.size();
-	LeaveCriticalSection(&list_cs);
 	return ret;
 }
 
@@ -182,9 +180,8 @@ void read_ping_addresses()
 
 INT_PTR LoadPingList(WPARAM wParam, LPARAM lParam)
 {
-	EnterCriticalSection(&list_cs);
+	mir_cslock lck(list_cs);
 	read_ping_addresses();
-	LeaveCriticalSection(&list_cs);
 	NotifyEventHooks(reload_event_handle, 0, 0);
 	return 0;
 }
@@ -193,10 +190,8 @@ INT_PTR LoadPingList(WPARAM wParam, LPARAM lParam)
 // lParam is zero
 INT_PTR SavePingList(WPARAM wParam, LPARAM lParam)
 {
-	EnterCriticalSection(&list_cs);
+	mir_cslock lck(list_cs);
 	write_ping_addresses();
-	LeaveCriticalSection(&list_cs);
-	//NotifyEventHooks(reload_event_handle, 0, 0);
 
 	return 0;
 }
@@ -207,9 +202,8 @@ INT_PTR SetPingList(WPARAM wParam, LPARAM lParam)
 {
 	PINGLIST *pli = (PINGLIST *)wParam;
 
-	EnterCriticalSection(&list_cs);
+	mir_cslock lck(list_cs);
 	list_items = *pli;
-	LeaveCriticalSection(&list_cs);
 	NotifyEventHooks(reload_event_handle, 0, 0);
 
 	return 0;
@@ -221,12 +215,11 @@ INT_PTR SetAndSavePingList(WPARAM wParam, LPARAM lParam)
 {
 	PINGLIST *pli = (PINGLIST *)wParam;
 
-	EnterCriticalSection(&list_cs);
+	mir_cslock lck(list_cs);
 
 	// set new list
 	list_items = *pli;
 	write_ping_addresses();
-	LeaveCriticalSection(&list_cs);
 
 	NotifyEventHooks(reload_event_handle, 0, 0);
 
@@ -235,9 +228,8 @@ INT_PTR SetAndSavePingList(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ClearPingList(WPARAM wParam, LPARAM lParam)
 {
-	EnterCriticalSection(&list_cs);
+	mir_cslock lck(list_cs);
 	list_items.clear();
-	LeaveCriticalSection(&list_cs);
 
 	NotifyEventHooks(reload_event_handle, 0, 0);
 	return 0;

@@ -8,7 +8,7 @@ HANDLE mainThread;
 HANDLE hWakeEvent = 0;
 
 // thread protected variables
-CRITICAL_SECTION thread_finished_cs, list_changed_cs, data_list_cs;
+mir_cs thread_finished_cs, list_changed_cs, data_list_cs;
 bool thread_finished = false, list_changed = false;
 PINGLIST data_list;
 
@@ -30,29 +30,25 @@ static int transparentFocus=1;
 /////////////////
 
 bool get_thread_finished() {
-	Lock(&thread_finished_cs, "get_thread_finished");
+	mir_cslock lck(thread_finished_cs);
 	bool retval = thread_finished;
-	Unlock(&thread_finished_cs);
 	return retval;
 }
 
 void set_thread_finished(bool f) {
-	Lock(&thread_finished_cs, "set_thread_finished");
+	mir_cslock lck(thread_finished_cs);
 	thread_finished = f;
-	Unlock(&thread_finished_cs);
 }
 
 bool get_list_changed() {
-	Lock(&list_changed_cs, "get_list_changed");
+	mir_cslock lck(list_changed_cs);
 	bool retval = list_changed;
-	Unlock(&list_changed_cs);
 	return retval;
 }
 
 void set_list_changed(bool f) {
-	Lock(&list_changed_cs, "set_list_changed");
+	mir_cslock lck(list_changed_cs);
 	list_changed = f;
-	Unlock(&list_changed_cs);
 }
 
 void SetProtoStatus(TCHAR *pszLabel, char *pszProto, int if_status, int new_status) {
@@ -100,15 +96,14 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 		PINGADDRESS pa;
 		HistPair history_entry;
 
-		Lock(&data_list_cs, "ping thread loop start");
+		mir_cslock lck(data_list_cs);
 		set_list_changed(false);
 		size_t size = data_list.size();
-		Unlock(&data_list_cs);
 
 		size_t index = 0;
 		for(; index < size; index++)
 		{
-			Lock(&data_list_cs, "ping thread loop start");
+			mir_cslock lck(data_list_cs);
 			size_t c = 0;
 			for (pinglist_it i = data_list.begin(); i != data_list.end() && c <= index; ++i, c++)
 			{
@@ -128,14 +123,13 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 				}
 
 			}
-			Unlock(&data_list_cs);
 
 			if(get_thread_finished()) break;
 			if(get_list_changed()) break;
 
 			if(pa.status != PS_DISABLED) {
 				if(!options.no_test_icon) {
-					Lock(&data_list_cs, "ping thread loop start");
+					mir_cslock lck(data_list_cs);
 					for(pinglist_it i = data_list.begin(); i != data_list.end(); ++i)
 					{
 						if(i->item_id == pa.item_id)
@@ -143,7 +137,6 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 							i->status = PS_TESTING;
 						}
 					}
-					Unlock(&data_list_cs);
 					InvalidateRect(list_hwnd, 0, FALSE);
 				}
 
@@ -152,7 +145,7 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 				if(get_thread_finished()) break;
 				if(get_list_changed()) break;
 
-				Lock(&data_list_cs, "ping thread loop start");
+				mir_cslock lck(data_list_cs);
 				for(pinglist_it i = data_list.begin(); i != data_list.end(); ++i)
 				{
 					if(i->item_id == pa.item_id)
@@ -190,7 +183,6 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 						break;
 					}
 				}
-				Unlock(&data_list_cs);
 
 				if(pa.responding) {	
 					count++;
@@ -276,7 +268,7 @@ int FillList(WPARAM wParam, LPARAM lParam) {
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
 
 	SendMessage(list_hwnd, WM_SETREDRAW, FALSE, 0);
-	Lock(&data_list_cs, "fill_list");
+	mir_cslock lck(data_list_cs);
 
 	data_list = pl;
 	SendMessage(list_hwnd, LB_RESETCONTENT, 0, 0);
@@ -290,7 +282,6 @@ int FillList(WPARAM wParam, LPARAM lParam) {
 
 	list_size = data_list.size();
 
-	Unlock(&data_list_cs);
 	SendMessage(list_hwnd, WM_SETREDRAW, TRUE, 0);
 
 	InvalidateRect(list_hwnd, 0, FALSE);
@@ -369,9 +360,8 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			HBRUSH ttbrush = 0;
 			COLORREF tcol;
 			if(dis->itemID != -1) {
-				Lock(&data_list_cs, "draw item");
+				mir_cslock lck(data_list_cs);
 				itemData = *(PINGADDRESS *)dis->itemData;
-				Unlock(&data_list_cs);
 
 				SendMessage(list_hwnd, LB_SETITEMHEIGHT, 0, (LPARAM)options.row_height);
 				//dis->rcItem.bottom = dis->rcItem.top + options.row_height;
@@ -468,13 +458,11 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			bool found = false;
 			if(HIWORD(item) == 0) {
 				int count = LOWORD(item);
-				Lock(&data_list_cs, "show graph");
+				mir_cslock lck(data_list_cs);
 				if(count >= 0 && count < (int)data_list.size()) {
 					itemData = *(PINGADDRESS *)SendMessage(list_hwnd, LB_GETITEMDATA, count, 0);
 					found = true;
 				}
-				Unlock(&data_list_cs);
-
 			}
 
 			if(found) {
@@ -681,12 +669,11 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				if(HIWORD(item) == 0) {
 					int count = LOWORD(item);
 					bool found = false;
-					Lock(&data_list_cs, "menu show graph");
+					mir_cslock lck(data_list_cs);
 					if(count >= 0 && count < (int)data_list.size()) {
 						itemData = *(PINGADDRESS *)SendMessage(list_hwnd, LB_GETITEMDATA, count, 0);
 						found = true;
 					}
-					Unlock(&data_list_cs);
 					if(found)
 						CallService(PLUG "/ShowGraph", (WPARAM)itemData.item_id, (LPARAM)itemData.pszLabel);
 				}
@@ -702,12 +689,11 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				if(HIWORD(item) == 0) {
 					int count = LOWORD(item);
 					bool found = false;
-					Lock(&data_list_cs, "menu toggle");
+					mir_cslock lck(data_list_cs);
 					if(count >= 0 && count < (int)data_list.size()) {
 						itemData = *(PINGADDRESS *)SendMessage(list_hwnd, LB_GETITEMDATA, count, 0);
 						found = true;
 					}
-					Unlock(&data_list_cs);
 					if(found)
 						CallService(PLUG "/ToggleEnabled", (WPARAM)itemData.item_id, 0);
 				}
@@ -723,18 +709,16 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				PINGADDRESS *temp = 0;
 				if(HIWORD(item) == 0) {
 					int count = LOWORD(item);
-					Lock(&data_list_cs, "menu edit");
+					mir_cslock lck(data_list_cs);
 					if(count >= 0 && count < (int)data_list.size()) {
 						temp = (PINGADDRESS *)SendMessage(list_hwnd, LB_GETITEMDATA, count, 0);
 					}
-					Unlock(&data_list_cs);
 					if(temp) {
 						itemData = *temp;
 						if(Edit(hwnd, itemData)) {
-							Lock(&data_list_cs, "menu edited");
+							mir_cslock lck(data_list_cs);
 							*temp = itemData;
 							CallService(PLUG "/SetAndSavePingList", (WPARAM)&data_list, 0);
-							Unlock(&data_list_cs);
 						}
 					}
 				}
@@ -774,11 +758,10 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				if(lp != LB_ERR) {
 					PINGADDRESS *pItemData = (PINGADDRESS *)lp;
 
-					Lock(&data_list_cs, "command");
+					mir_cslock lck(data_list_cs);
 
 					if(pItemData) {
 						DWORD item_id = pItemData->item_id;
-						Unlock(&data_list_cs);
 
 						int wake = CallService(PLUG "/DblClick", (WPARAM)item_id, 0);
 						InvalidateRect(list_hwnd, 0, FALSE);
@@ -790,8 +773,6 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 							CallService(PLUG "/Log", (WPARAM)buf, 0);
 						}
 
-					} else {
-						Unlock(&data_list_cs);
 					}
 				}
 			}

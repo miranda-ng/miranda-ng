@@ -23,7 +23,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			WindowData *wd = (WindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 			bool found = false;
-			EnterCriticalSection(&data_list_cs);
+			mir_cslock lck(data_list_cs);
 			for(pinglist_it i = data_list.begin(); i != data_list.end(); ++i) {
 				if(i->item_id == wd->item_id) {
 					wd->list = history_map[wd->item_id];
@@ -31,7 +31,6 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					break;
 				}
 			}
-			LeaveCriticalSection(&data_list_cs);
 
 			if(!found) {
 				PostMessage(hwnd, WM_CLOSE, 0, 0);
