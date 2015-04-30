@@ -84,7 +84,7 @@ private:
 	RequestQueue *requestQueue;
 	bool isTerminated;
 	std::map<std::string, std::string> cookies;
-	HANDLE m_pollingConnection, m_hPollingThread, m_hTrouterThread, m_TrouterConnection;
+	HANDLE m_pollingConnection, m_hPollingThread, m_hTrouterThread, m_TrouterConnection, m_hCallHook;
 	static std::map<std::tstring, std::tstring> languages;
 
 	static INT_PTR CALLBACK PasswordEditorProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -290,6 +290,7 @@ private:
 	char *GetServerFromUrl	(const char *url);
 
 	//services
+	INT_PTR __cdecl OnIncomingCall						(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl BlockContact						(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl UnblockContact						(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnRequestAuth						(WPARAM hContact, LPARAM lParam);

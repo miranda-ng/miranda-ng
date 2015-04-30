@@ -40,6 +40,8 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	CreateProtoService(PS_GETMYAVATART, &CSkypeProto::SvcGetMyAvatar);
 	CreateProtoService(PS_SETMYAVATART, &CSkypeProto::SvcSetMyAvatar);
 
+	CreateProtoService("/IncomingCall", &CSkypeProto::OnIncomingCall);
+
 	m_tszAvatarFolder = std::tstring(VARST(_T("%miranda_avatarcache%"))) + _T("\\") + m_tszUserName;
 	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -57,7 +59,9 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	dbEventType.descr = Translate("Incoming Call");
 	dbEventType.eventIcon = GetIconHandle("inc_call");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
-
+	//hooks
+	m_hCallHook = CreateHookableEvent(MODULE"/IncomingCall");
+	//sounds
 	SkinAddNewSoundEx("skype_inc_call", "SkypeWeb", LPGEN("Incoming call sound"));
 }
 
