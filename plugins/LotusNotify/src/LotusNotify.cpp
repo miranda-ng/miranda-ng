@@ -28,7 +28,7 @@ HINSTANCE hLotusDll;
 HEMREGISTRATION hLotusRegister = 0;
 
 boolean volatile Plugin_Terminated = false;
-CRITICAL_SECTION checkthreadCS;
+mir_cs checkthreadCS;
 
 HANDLE hMenuService = NULL;
 HGENMENU hMenuHandle = NULL;
@@ -605,7 +605,7 @@ void checkthread(void*)
 	WCHAR       field_to_UNICODE[MAX_FIELD];
 	WCHAR       field_copy_UNICODE[MAX_FIELD];
 
-	EnterCriticalSection(&checkthreadCS);
+	mir_cslock lck(checkthreadCS);
 	log(L"checkthread: inside new check thread");
 
 	if (error = (NotesInitThread1)()) {
@@ -832,7 +832,6 @@ void checkthread(void*)
 	if(currentStatus != ID_STATUS_OFFLINE){
 		LNEnableMenuItem(hMenuHandle, !running);
 	}
-	LeaveCriticalSection(&checkthreadCS);
 	return;
 
 errorblock0:
@@ -846,7 +845,6 @@ errorblock:
 	//LNEnableMenuItem(hMenuHandle,!running);
 	//SetStatus(ID_STATUS_OFFLINE,0);
 	running = FALSE;
-	LeaveCriticalSection(&checkthreadCS);
 	return;
 }
 
@@ -1574,7 +1572,6 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 	Plugin_Terminated = false;
-	InitializeCriticalSection(&checkthreadCS);
 
 	//if(pluginLink)//strange, but this function is called by Lotus API Extension Manager (instead of MainEntryPoint) probably always with parameter poiter =1
 	if(bMirandaCall){
@@ -1662,9 +1659,7 @@ extern "C" int __declspec(dllexport) Unload()
 
 	log(L"Unload: start");
 	Plugin_Terminated = true;
-	EnterCriticalSection(&checkthreadCS);
-	LeaveCriticalSection(&checkthreadCS);
-	DeleteCriticalSection(&checkthreadCS);
+	mir_cslock lck(checkthreadCS);
 
 	if (hMenuService) DestroyServiceFunction(hMenuService);
 	if (hCheckEvent) DestroyHookableEvent(hCheckEvent);
