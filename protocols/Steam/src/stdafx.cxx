@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 int hLangpack;
 HINSTANCE g_hInstance;
@@ -27,7 +27,7 @@ DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }

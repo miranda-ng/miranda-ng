@@ -1,4 +1,4 @@
-﻿#include "common.h"
+﻿#include "stdafx.h"
 
 CSteamPasswordEditor::CSteamPasswordEditor(CSteamProto *proto) :
 	CSuper(proto, IDD_PASSWORD_EDITOR, false), m_ok(this, IDOK),
