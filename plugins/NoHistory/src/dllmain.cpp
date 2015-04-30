@@ -11,7 +11,7 @@ static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam);
 HGENMENU hMenuToggle, hMenuClear;
 HANDLE   hServiceToggle, hServiceClear;
 
-CRITICAL_SECTION list_cs;
+mir_cs list_cs;
 
 #define MS_NOHISTORY_TOGGLE 		MODULE "/ToggleOnOff"
 #define MS_NOHISTORY_CLEAR	 		MODULE "/Clear"
@@ -59,7 +59,7 @@ void RemoveReadEvents(MCONTACT hContact = 0)
 	DBEVENTINFO info = { sizeof(info) };
 	bool remove;
 
-	EnterCriticalSection(&list_cs);
+	mir_cslock lck(list_cs);
 	EventListNode *node = event_list, *prev = 0;
 	while(node) {
 		remove = false;
@@ -93,8 +93,6 @@ void RemoveReadEvents(MCONTACT hContact = 0)
 			node = node->next;
 		}
 	}
-	
-	LeaveCriticalSection(&list_cs);	
 }
 
 void RemoveAllEvents(MCONTACT hContact)
@@ -125,10 +123,9 @@ int OnDatabaseEventAdd(WPARAM hContact, LPARAM hDBEvent)
 			node->hContact = hContact;
 			node->hDBEvent = hDBEvent;	
 
-			EnterCriticalSection(&list_cs);
+			mir_cslock lck(list_cs);
 			node->next = event_list;
 			event_list = node;		
-			LeaveCriticalSection(&list_cs);	
 		}
 	}
 
@@ -273,8 +270,6 @@ extern "C" __declspec (dllexport) int Load()
 {
 	mir_getLP(&pluginInfo);
 
-	InitializeCriticalSection(&list_cs);
-
 	// Ensure that the common control DLL is loaded (for listview)
 	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_LISTVIEW_CLASSES };
 	InitCommonControlsEx(&icex); 	
@@ -297,6 +292,5 @@ extern "C" __declspec (dllexport) int Unload(void)
 	DestroyServiceFunction(hServiceClear);
 
 	RemoveReadEvents();
-	DeleteCriticalSection(&list_cs);
 	return 0;
 }
