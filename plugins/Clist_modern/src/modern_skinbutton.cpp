@@ -369,20 +369,19 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 		return TRUE;
 
 	case WM_DESTROY:
-	{
 		if (bct == NULL)
 			break;
-		mir_cslock lck(csTips);
+
 		if (hwndToolTips) {
-			TOOLINFO ti;
-			memset(&ti, 0, sizeof(ti));
+			mir_cslock lck(csTips);
+			TOOLINFO ti = { 0 };
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND;
 			ti.hwnd = bct->hwnd;
 			ti.uId = (UINT_PTR)bct->hwnd;
-			if (SendMessage(hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti)) {
+			if (SendMessage(hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti))
 				SendMessage(hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
-			}
+
 			if (SendMessage(hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti) == 0) {
 				DestroyWindow(hwndToolTips);
 				hwndToolTips = NULL;
@@ -397,16 +396,15 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 		mir_free(bct->ValueTypeDef);
 		mir_free(bct);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-	}
-	break;	// DONT! fall thru
+		break;	// DONT! fall thru
 
 	case WM_SETCURSOR:
-	{
-		HCURSOR hCurs1 = LoadCursor(NULL, IDC_ARROW);
-		if (hCurs1) SetCursor(hCurs1);
-		if (bct) SetToolTip(hwndDlg, bct->Hint);
-	}
-	return 1;
+		{
+			HCURSOR hCurs1 = LoadCursor(NULL, IDC_ARROW);
+			if (hCurs1) SetCursor(hCurs1);
+			if (bct) SetToolTip(hwndDlg, bct->Hint);
+		}
+		return 1;
 
 	case WM_PRINT:
 		if (IsWindowVisible(hwndDlg))
