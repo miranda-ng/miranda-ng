@@ -107,7 +107,7 @@ void CSkypeProto::OnLoginSuccess()
 {
 	SelfSkypeName = getStringA(SKYPE_SETTINGS_ID);
 	TokenSecret = getStringA("TokenSecret");
-	Server = getStringA("Server");
+	Server = getStringA("Server") != NULL ? getStringA("Server") : SKYPE_ENDPOINTS_HOST;
 	SendRequest(new CreateEndpointRequest(TokenSecret, Server), &CSkypeProto::OnEndpointCreated);
 	SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
 	PushRequest(new GetProfileRequest(TokenSecret), &CSkypeProto::LoadProfile);
