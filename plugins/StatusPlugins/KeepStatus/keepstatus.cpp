@@ -28,7 +28,7 @@ struct TimerInfo {
 	HANDLE hEvent;
 };
 
-static CRITICAL_SECTION GenTimerCS, GenStatusCS, CheckContinueslyCS;
+static mir_cs GenTimerCS, GenStatusCS, CheckContinueslyCS;
 
 static HANDLE hProtoAckHook = NULL;
 static HANDLE hStatusChangeHook = NULL;
@@ -171,16 +171,14 @@ static void GetCurrentConnectionSettings()
 
 static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
 {
-	EnterCriticalSection(&GenStatusCS);
+	mir_cslock lck(GenStatusCS);
 	PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX**)malloc(connectionSettings.getCount()*sizeof(PROTOCOLSETTINGEX *));
 	if (ps == NULL) {
-		LeaveCriticalSection(&GenStatusCS);
 		return NULL;
 	}
 	for (int i = 0; i < connectionSettings.getCount(); i++) {
 		ps[i] = (PROTOCOLSETTINGEX*)calloc(1, sizeof(PROTOCOLSETTINGEX));
 		if (ps[i] == NULL) {
-			LeaveCriticalSection(&GenStatusCS);
 			return NULL;
 		}
 
@@ -192,7 +190,6 @@ static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
 		ps[i]->szName = cs.szName;
 		ps[i]->tszAccName = cs.tszAccName;
 	}
-	LeaveCriticalSection(&GenStatusCS);
 
 	return ps;
 }
@@ -212,7 +209,7 @@ static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, TCH
 	if (status < MIN_STATUS || status > MAX_STATUS)
 		return -1;
 
-	EnterCriticalSection(&GenStatusCS);
+	mir_cslock lck(GenStatusCS);
 
 	char dbSetting[128];
 	mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", cs->szName);
@@ -238,7 +235,6 @@ static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, TCH
 
 		cs->szMsg = NULL;
 	}
-	LeaveCriticalSection(&GenStatusCS);
 	return 0;
 }
 
@@ -346,7 +342,7 @@ static int StartTimerFunction(int timer, int timeout, BOOL restart)
 {
 	int res = 0;
 
-	EnterCriticalSection(&GenTimerCS);
+	mir_cslock lck(GenTimerCS);
 	log_debugA("StartTimer: %d, %d, %d", timer, timeout, restart);
 	log_debugA("ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
 	if (timer & IDT_PROCESSACK) {
@@ -422,7 +418,6 @@ static int StartTimerFunction(int timer, int timeout, BOOL restart)
 
 	log_debugA("ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
 	log_debugA("StartTimer done %d", res);
-	LeaveCriticalSection(&GenTimerCS);
 
 	return res;
 }
@@ -457,7 +452,7 @@ static int StopTimer(int timer)
 {
 	int res = 0;
 
-	EnterCriticalSection(&GenTimerCS);
+	mir_cslock lck(GenTimerCS);
 	log_debugA("StopTimer %d", timer);
 	log_debugA("ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
 
@@ -513,7 +508,6 @@ static int StopTimer(int timer)
 
 	log_debugA("ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
 	log_debugA("StopTimer done %d", res);
-	LeaveCriticalSection(&GenTimerCS);
 
 	return res;
 }
@@ -759,7 +753,7 @@ static void CheckContinueslyFunction(void *)
 	static int pingFailures = 0;
 
 	// one at the time is enough, do it the 'easy' way
-	EnterCriticalSection(&CheckContinueslyCS);
+	mir_cslock lck(CheckContinueslyCS);
 
 	// do a ping, even if reconnecting
 	bool doPing = false;
@@ -780,7 +774,6 @@ static void CheckContinueslyFunction(void *)
 
 	if (!doPing) {
 		log_debugA("CheckContinueslyFunction: All protocols should be offline, no need to check connection");
-		LeaveCriticalSection(&CheckContinueslyCS);
 		return;
 	}
 
@@ -835,7 +828,6 @@ static void CheckContinueslyFunction(void *)
 	}
 
 	if (StartTimer(IDT_CHECKCONN, -1, FALSE)) {
-		LeaveCriticalSection(&CheckContinueslyCS);
 		return; // already connecting, leave
 	}
 
@@ -861,7 +853,6 @@ static void CheckContinueslyFunction(void *)
 		}
 		if (StartTimer(IDT_CHECKCONN | IDT_PROCESSACK, -1, FALSE)) {// are our 'set offlines' noticed?
 			log_debugA("CheckContinueslyFunction: currently checking");
-			LeaveCriticalSection(&CheckContinueslyCS);
 			return;
 		}
 		log_infoA("KeepStatus: connection lost! (continuesly check)");
@@ -872,7 +863,6 @@ static void CheckContinueslyFunction(void *)
 			maxRetries = -1;
 		StartTimer(IDT_CHECKCONN, initDelay, FALSE);
 	}
-	LeaveCriticalSection(&CheckContinueslyCS);
 }
 
 static VOID CALLBACK CheckContinueslyTimer(HWND, UINT, UINT_PTR, DWORD)
@@ -1199,18 +1189,11 @@ static int onShutdown(WPARAM, LPARAM)
 
 	connectionSettings.destroy();
 
-	DeleteCriticalSection(&GenTimerCS);
-	DeleteCriticalSection(&GenStatusCS);
-	DeleteCriticalSection(&CheckContinueslyCS);
 	return 0;
 }
 
 int CSModuleLoaded(WPARAM, LPARAM)
 {
-	InitializeCriticalSection(&GenTimerCS);
-	InitializeCriticalSection(&GenStatusCS);
-	InitializeCriticalSection(&CheckContinueslyCS);
-
 	protoList = (OBJLIST<PROTOCOLSETTINGEX>*)&connectionSettings;
 
 	hMessageWindow = NULL;
