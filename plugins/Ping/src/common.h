@@ -123,10 +123,10 @@ extern PINGADDRESS add_edit_addr;
 extern HistoryMap history_map;
 extern PINGLIST list_items;
 extern HANDLE reload_event_handle;
-extern CRITICAL_SECTION list_cs;
+extern mir_cs list_cs;
 extern HANDLE mainThread;
 extern HANDLE hWakeEvent; 
-extern CRITICAL_SECTION thread_finished_cs, list_changed_cs, data_list_cs;
+extern mir_cs thread_finished_cs, list_changed_cs, data_list_cs;
 
 extern PINGLIST data_list;
 

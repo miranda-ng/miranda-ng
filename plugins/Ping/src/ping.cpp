@@ -137,11 +137,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	DuplicateHandle( GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &mainThread, THREAD_SET_CONTEXT, FALSE, 0 );
 	hWakeEvent = CreateEvent(NULL, FALSE, FALSE, _T("Local\\ThreadWaitEvent"));
 
-	InitializeCriticalSection(&list_cs);
-	InitializeCriticalSection(&thread_finished_cs);
-	InitializeCriticalSection(&list_changed_cs);
-	InitializeCriticalSection(&data_list_cs);
-
 	// create services before loading options - so we can have the 'getlogfilename' service!
 	CreatePluginServices();
 
@@ -166,11 +161,6 @@ extern "C" __declspec(dllexport) int Load(void)
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	SavePingList(0, 0);
-
-	DeleteCriticalSection(&list_cs);
-	DeleteCriticalSection(&thread_finished_cs);
-	DeleteCriticalSection(&list_changed_cs);
-	DeleteCriticalSection(&data_list_cs);
 
 	CloseHandle( mainThread );
 
