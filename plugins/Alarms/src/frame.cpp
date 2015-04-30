@@ -16,7 +16,7 @@ HBRUSH bk_brush = 0;
 #define CLUIFrameTitleBarClassName				"CLUIFrameTitleBar"
 
 AlarmList alarm_list;
-CRITICAL_SECTION list_cs;
+mir_cs list_cs;
 
 HGENMENU hMenuShowReminders = 0;
 
@@ -117,10 +117,9 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		dis = (DRAWITEMSTRUCT *)lParam;
 		if (dis->itemID != (DWORD)-1) {
 			ALARM alarm = {0};
-			EnterCriticalSection(&list_cs);
+			mir_cslock lck(list_cs);
 			ALARM &list_alarm = alarm_list.at(dis->itemData);
 			copy_alarm_data(&alarm, &list_alarm);
-			LeaveCriticalSection(&list_cs);
 
 			RECT r;
 			GetClientRect(hwnd, &r);
@@ -296,7 +295,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			SendMessage(hwnd_list, WM_SETREDRAW, FALSE, 0);
 
-			EnterCriticalSection(&list_cs);
+			mir_cslock lck(list_cs);
 			SendMessage(hwnd_list, LB_RESETCONTENT, 0, 0);
 			copy_list(alarm_list, t1, t2);
 			alarm_list.sort();
@@ -307,7 +306,6 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					continue;
 				SendMessage(hwnd_list, LB_ADDSTRING, 0, (LPARAM)index);
 			}
-			LeaveCriticalSection(&list_cs);
 
 			SendMessage(hwnd, WMU_SIZE_LIST, 0, 0);
 			SendMessage(hwnd_list, WM_SETREDRAW, TRUE, 0);
@@ -350,7 +348,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			GetCursorPos(&pt);
 			ScreenToClient(hwnd_list, &pt);
 
-			EnterCriticalSection(&list_cs);
+			mir_cslock lck(list_cs);
 			DWORD item = SendMessage(hwnd_list, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
 
 			HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1)), submenu = GetSubMenu(menu, 0);
@@ -373,7 +371,6 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				EnableMenuItem(submenu, ID_REMINDERFRAMECONTEXT_EDIT, MF_BYCOMMAND | MF_GRAYED);
 				EnableMenuItem(submenu, ID_REMINDERFRAMECONTEXT_DELETE, MF_BYCOMMAND | MF_GRAYED);
 			}
-			LeaveCriticalSection(&list_cs);
 
 			//ClientToScreen(hwnd_list, &pt);
 			GetCursorPos(&pt);
@@ -629,7 +626,6 @@ void RefreshReminderFrame() {
 
 void InitFrames()
 {
-	InitializeCriticalSection(&list_cs);
 	CreateFrame();
 }
 
@@ -642,7 +638,5 @@ void DeinitFrames()
 	if (hwnd_frame) DestroyWindow(hwnd_frame);
 
 	DeleteObject(bk_brush);
-
-	DeleteCriticalSection(&list_cs);
 }
 

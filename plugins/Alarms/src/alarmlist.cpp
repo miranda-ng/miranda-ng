@@ -2,7 +2,7 @@
 #include "alarmlist.h"
 
 AlarmList alarms;
-CRITICAL_SECTION alarm_cs;
+mir_cs alarm_cs;
 
 unsigned short next_alarm_id = 1; // 0 is used for invalid id
 
@@ -41,9 +41,8 @@ void copy_alarm_data(ALARM *dest, ALARM *src) {
 }
 
 void GetPluginTime(SYSTEMTIME *t) {
-	EnterCriticalSection(&alarm_cs);
+	mir_cslock lck(alarm_cs);
 	*t = last_check;
-	LeaveCriticalSection(&alarm_cs);
 }
 
 int MinutesInFuture(SYSTEMTIME time, Occurrence occ) {
@@ -184,7 +183,7 @@ void LoadAlarms() {
 	SYSTEMTIME now;
 	GetLocalTime(&now);
 
-	EnterCriticalSection(&alarm_cs);
+	mir_cslock lck(alarm_cs);
 	alarms.clear();
 
 	for(int i = 0; i < num_alarms; i++) {
@@ -279,14 +278,13 @@ void LoadAlarms() {
 		}
 		free_alarm_data(&alarm);
 	}
-	LeaveCriticalSection(&alarm_cs);
 }
 
 void SaveAlarms() {
 	int index = 0;
 	char buff[256];
 
-	EnterCriticalSection(&alarm_cs);
+	mir_cslock lck(alarm_cs);
 
 	ALARM *i;
 	for(alarms.reset(); i = alarms.current(); alarms.next(), index++) {
@@ -348,56 +346,47 @@ void SaveAlarms() {
 		db_set_dw(0, MODULE, buff, i->flags);
 	}
 	db_set_w(0, MODULE, "Count", index);
-
-	LeaveCriticalSection(&alarm_cs);
 }
 
 void copy_list(AlarmList &copy) {
 	copy.clear();
 	ALARM *i;
-	EnterCriticalSection(&alarm_cs);
+	mir_cslock lck(alarm_cs);
 	for(alarms.reset(); i = alarms.current(); alarms.next())
 		copy.push_back(i);
-
-	LeaveCriticalSection(&alarm_cs);
 }
 
 void copy_list(AlarmList &copy, SYSTEMTIME &start, SYSTEMTIME &end) {
 	copy.clear();
 	ALARM *i;
-	EnterCriticalSection(&alarm_cs);
+	mir_cslock lck(alarm_cs);
 	for(alarms.reset(); i = alarms.current(); alarms.next())
 		if (IsBetween(i->time, start, end))
 			copy.push_back(i);
-
-	LeaveCriticalSection(&alarm_cs);
 }
 
 void set_list(AlarmList &copy) {
-	EnterCriticalSection(&alarm_cs);
+	mir_cslock lck(alarm_cs);
 	alarms.clear();
 	ALARM *i;
 	for(copy.reset(); i = copy.current(); copy.next())
 		alarms.push_back(i);
 
-	LeaveCriticalSection(&alarm_cs);
-
 	SaveAlarms();
 }
 
 void append_to_list(ALARM *alarm) {
-	EnterCriticalSection(&alarm_cs);
+	mir_cslock lck(alarm_cs);
 	if (!alarm->id)
 		alarm->id = next_alarm_id++;
 	alarms.push_back(alarm);
-	LeaveCriticalSection(&alarm_cs);
 
 	SaveAlarms();
 }
 
 void alter_alarm_list(ALARM *alarm) {
 	bool found = false;
-	EnterCriticalSection(&alarm_cs);
+	mir_cslock lck(alarm_cs);
 	if (alarm->id != 0) {
 		ALARM *i;
 		for(alarms.reset(); i = alarms.current(); alarms.next()) {
@@ -414,13 +403,11 @@ void alter_alarm_list(ALARM *alarm) {
 		alarms.push_back(alarm);
 	}
 
-	LeaveCriticalSection(&alarm_cs);
-
 	SaveAlarms();
 }
 
 void remove(unsigned short alarm_id) {
-	EnterCriticalSection(&alarm_cs);
+	mir_cslock lck(alarm_cs);
 	ALARM *i;
 	for(alarms.reset(); i = alarms.current(); alarms.next()) {
 		if (i->id == alarm_id) {
@@ -428,13 +415,12 @@ void remove(unsigned short alarm_id) {
 			break;
 		}
 	}
-	LeaveCriticalSection(&alarm_cs);
 
 	SaveAlarms();
 }
 
 void suspend(unsigned short alarm_id) {
-	EnterCriticalSection(&alarm_cs);
+	mir_cslock lck(alarm_cs);
 	ALARM *i;
 	for(alarms.reset(); i = alarms.current(); alarms.next()) {
 		if (i->id == alarm_id && i->occurrence != OC_ONCE) {
@@ -442,7 +428,6 @@ void suspend(unsigned short alarm_id) {
 			break;
 		}
 	}
-	LeaveCriticalSection(&alarm_cs);
 
 	SaveAlarms();
 }
@@ -592,7 +577,7 @@ void CheckAlarms() {
 	// put triggered alarms in another list - so we don't keep the critical section locked for longer than necessary
 	AlarmList triggered_list, remove_list;
 
-	EnterCriticalSection(&alarm_cs);
+	mir_cslock lck(alarm_cs);
 	ALARM *i;
 	for(alarms.reset(); i = alarms.current(); alarms.next()) {
 		if (!UpdateAlarm(i->time, i->occurrence)) { 
@@ -624,7 +609,6 @@ void CheckAlarms() {
 	WriteLastCheckTime();
 
 	startup = false;
-	LeaveCriticalSection(&alarm_cs);
 
 	for(triggered_list.reset(); i = triggered_list.current(); triggered_list.next())
 		DoAlarm(i);
@@ -667,8 +651,6 @@ int IdleChanged(WPARAM, LPARAM lParam)
 
 void InitList()
 {
-	InitializeCriticalSection(&alarm_cs);
-
 	SkinAddNewSoundEx("Triggered1", LPGEN("Alarms"), LPGEN("Alert 1"));
 	SkinAddNewSoundEx("Triggered2", LPGEN("Alarms"), LPGEN("Alert 2"));
 	SkinAddNewSoundEx("Triggered3", LPGEN("Alarms"), LPGEN("Alert 3"));
@@ -703,19 +685,12 @@ void DeinitList() {
 	DeinitAlarmWin();
 
 	// i don't think this should be necessary, but...
-	EnterCriticalSection(&alarm_cs);
+	mir_cslock lck(alarm_cs);
 	KillTimer(0, timer_id);
-	LeaveCriticalSection(&alarm_cs);
 
 	DestroyHookableEvent(hAlarmTriggeredEvent);
 	DestroyServiceFunction(hAddAlarmService);
 
-	SaveAlarms(); // we may have erased some 'cause they were once-offs that were triggered
-
-	//WriteLastCheckTime(); // moved to the CheckAlarms function - for virt db and general crash problems
-
-	// delete this after save alarms above
-	DeleteCriticalSection(&alarm_cs);
-
+	SaveAlarms(); // we may have erased some 'cause they were once-offs that were triggeredf
 }
 
