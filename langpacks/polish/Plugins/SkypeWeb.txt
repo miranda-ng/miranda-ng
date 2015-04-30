@@ -101,6 +101,10 @@ Ikona protokołu
 Ikona tworzenia nowego czatu
 [Sync history icon]
 Ikona synchronizacji historii
+[Block user icon]
+Ikona blokowania użytkownika
+[Unblock user icon]
+Ikona odblokowania użytkownika
 [Protocols]
 Protokoły
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
@@ -125,3 +129,6 @@ Protokoły
 Połączenie %s
 [Action]
 Akcja
+;file \protocols\SkypeWeb\src\skype_trouter.cpp
+[Incoming call]
+Połączenie przychodzące

@@ -226,10 +226,8 @@ Lista JID
 Zastosuj filtr
 [Reset Filter]
 Resetuj filtr
-[Invite Users to <room jid>]
-Zaproś użytkownika do <jid pokoju>
-[Send group chat invitation.]
-Wysłano zaproszenie czatu.
+[Send group chat invitation]
+Wyślij zaproszenie do czatu
 [Other JID:]
 Inny JID:
 [Add]
@@ -238,10 +236,8 @@ Dodaj
 Powód zaproszenia:
 [&Invite]
 &Zaproś
-[Group chat invitation to <room jid>]
-Zaproszenie czatowe do <jid pokoju>
-[Incoming group chat invitation.]
-Nadchodzące zaproszenie czatu.
+[Incoming group chat invitation]
+Przychodzące zaproszenie do czatu
 [You are invited to conference room by]
 Jesteś zaproszony do pokoju konferencyjnego przez
 [with following reason:]
@@ -348,8 +344,6 @@ Zarejestruj konto
 Informacje o koncie Jabber:
 [Member Information]
 Informacje o użytkowniku
-[<user ID>]
-<ID użytkownika>
 [Role:]
 Rola:
 [Set role]
@@ -415,11 +409,6 @@ Błąd krytyczny, nie znaleziono usługi obrazów. Protokół Jabber zostanie wy
 Aktywność
 [Jabber Mood]
 Nastrój
-;file \protocols\JabberG\src\jabber.h
-[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-Jestem szczęśliwym użytkownikiem Mirandy NG. Wypróbuj pobierając z http://miranda-ng.org/.
-[/me slaps %s around a bit with a large trout]
-/me delikatnie bije %s dużym pstrągiem
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 Błąd %s %s
@@ -689,14 +678,12 @@ Kopiuj prawdziwy &JID
 Kopiuj JID z pokoju
 [Real &JID: %s]
 Prawdziwy &JID: %s
-[Invite Users to %s]
-Zaproś użytkowników do %s
+[Invite Users to\n%s]
+Zaproś użytkowników do\n%s
 [%s (not on roster)]
 %s (nie na liście)
-[Member Info: %s]
-Info użytkownika: %s
-[from %s]
-z %s
+[%s from\n%s]
+%s od\n%s
 [Real JID not available]
 Prawdziwy JID niedostępny
 [Reason to kick %s]
@@ -789,283 +776,6 @@ Błąd żądania elementów
 ;file \protocols\JabberG\src\jabber_filterlist.cpp
 [Set filter...]
 Wybierz filtr...
-;file \protocols\JabberG\src\jabber_form2.cpp
-[One or more addresses for communication related to abusive traffic]
-Jeden lub więcej adresów przeznaczonych do komunikacji w sprawach dotyczących nadużywania transmisji danych
-[One or more addresses for customer feedback]
-Jeden lub więcej adresów do zgłaszania uwag przez użytkowników
-[One or more addresses for communication related to sales and marketing]
-Jeden lub więcej adresów przeznaczonych na komunikację związaną ze sprzedażą i marketingiem
-[One or more addresses for communication related to security concerns]
-Jeden lub więcej adresów przeznaczonych na komunikację związaną z kwestiami bezpieczeństwa
-[One or more addresses for customer support]
-Jeden lub więcej adresów przeznaczonych na wsparcie techniczne
-[The Jabber ID of a single entity to which an operation applies]
-Jabber ID pojedynczej jednostki, do której stosowana jest operacja
-[The Jabber ID of one or more entities to which an operation applies]
-Jabber ID jednej lub więcej jednostek, do których stosowana jest operacja
-[The Jabber IDs associated with active sessions]
-Jabber ID'y skojarzone z aktywnymi sesjami
-[The number of online entities that are active]
-Liczba dostępnych jednostek, które są aktywne
-[A list of entities with administrative privileges]
-Lista jednostek z uprawnieniami administratora
-[The text of an announcement to be sent to active users or all users]
-Tekst ogłoszenia, które ma zostać wysłane do aktywnych użytkowników lub wszystkich użytkowników
-[A list of entities with whom communication is blocked]
-Lista jednostek, z którymi komunikacja jest zablokowana
-[The number of seconds to delay before applying a change]
-Liczba sekund, o którą należy opóźnić zastosowanie zmiany
-[The Jabber IDs that have been disabled]
-Jabber ID'y, które zostały wyłączone
-[The number of disabled entities]
-Liczba wyłączonych jednostek
-[The email address for a user]
-Adres e-mail użytkownika
-[The given (first) name of a user]
-Podane imię użytkownika
-[The number of online entities that are idle]
-Liczba dostępnych jednostek w stanie bezczynności
-[The IP addresses of an account's online sessions]
-Adresy IP dostępnych sesji konta
-[The last login time (per XEP-0082) of a user]
-Ostatni czas zalogowania użytkownika (według XEP-0082)
-[The number of logins per minute for an account]
-Liczba zalogowań na minutę dla konta
-[The maximum number of items associated with a search or list]
-Maksymalna liczba elementów powiązanych z wyszukiwaniem lub listą
-[The text of a message of the day]
-Tekst wiadomości dnia
-[The names of an account's online sessions]
-Nazwy dostępnych sesji konta
-[The Jabber IDs associated with online users]
-Jabber ID'y powiązane z dostępnymi użytkownikami
-[The number of online entities]
-Liczba dostępnych jednostek
-[The password for an account]
-Hasło konta
-[Password verification]
-Weryfikacja hasła
-[A list of registered entities]
-Lista zarejestrowanych jednostek
-[The number of registered entities]
-Liczba zarejestrowanych jednostek
-[Number of roster items for an account]
-Liczba elementów rostera dla konta
-[The number of stanzas being sent per second by an account]
-Liczba stanz wysyłanych każdej sekundy przez konto
-[The family (last) name of a user]
-Nazwisko użytkownika
-[The text of a welcome message]
-Tekst wiadomości powitalnej
-[A list of entities with whom communication is allowed]
-Lista jednostek, z którymi komunikacja jest dozwolona
-[First Name]
-Imię
-[Last Name]
-Nazwisko
-[Desired Nickname]
-Żądany nick
-[Your URL]
-Twój link
-[Email Address]
-Adres e-mail
-[FAQ Entry]
-Wpis FAQ
-[Whether to allow occupants to invite others]
-Pozwolić użytkownikom na zapraszanie innych
-[Whether to allow occupants to change subject]
-Pozwolić użytkownikom na zmianę tematu
-[Whether to enable logging of room conversations]
-Włączyć logowanie rozmów
-[Natural language for room discussions]
-Naturalny język dyskusji w pokoju
-[Maximum number of room occupants]
-Maksymalna liczba użytkowników w pokoju
-[Whether to make room members-only]
-Czy uczynić pokój dostępnym tylko dla zaproszonych członków
-[Whether to make room moderated]
-Sprawić, by pokój był moderowany
-[Whether a password is required to enter]
-Hasło jest wymagane
-[Whether to make room persistent]
-Sprawić, by pokój był stały
-[Roles for which presence is broadcast]
-Role, dla których obecność jest transmitowana
-[Whether to allow public searching for room]
-Zezwolić na publiczne wyszukiwanie pokoju
-[Full list of room admins]
-Pełna lista administratorów pokoju
-[Short description of room]
-Krótki opis pokoju
-[Natural-language room name]
-Nazwa pokoju w języku naturalnym
-[Full list of room owners]
-Pełna lista właścicieli pokoju
-[The room password]
-Hasło pokoju
-[Affiliations that may discover real JIDs of occupants]
-Powiązania zezwalające na odkrywanie prawdziwych JIDów
-[Precondition: node configuration with the specified access model]
-Warunek wstępny: konfiguracja węzła z ustalonym modelem dostępu
-[Whether to allow the subscription]
-Pozwolić na subskrypcję
-[The SubID of the subscription]
-ID podrzędne subskrypcji
-[The NodeID of the relevant node]
-ID węzła właściwego
-[The address (JID) of the subscriber]
-Adres (JID) subskrybenta
-[Whether an entity wants to receive or disable notifications]
-Jednostka chce otrzymywać lub wyłączyć powiadomienia
-[Whether an entity wants to receive digests (aggregations) of notifications or all notifications individually]
-Jednostka chce otrzymywać paczki powiadomień lub wszystkie powiadomienia indywidualnie
-[The minimum number of milliseconds between sending any two notification digests]
-Minimalna liczba milisekund pomiędzy wysyłkami paczek powiadomień
-[The date and time at which a leased subscription will end or has ended]
-Data i czas wygaśnięcia subskrypcji
-[Whether an entity wants to receive an XMPP message body in addition to the payload format]
-Jednostka chce otrzymywać treść wiadomości XMPP oprócz formatu bloku danych
-[The presence states for which an entity wants to receive notifications]
-Stany obecności, przy których jednostka chce otrzymywać powiadomienia
-[Who may subscribe and retrieve items]
-Kto może subskrybować i pobierać elementy
-[The URL of an XSL transformation which can be applied to payloads in order to generate an appropriate message body element.]
-Link transformacji XLS, która może zostać zastosowana do bloków danych w celu wygenerowania stosownej treści wiadomości.
-[The collection with which a node is affiliated]
-Kolekcja, z którą jest powiązany węzeł
-[The URL of an XSL transformation which can be applied to the payload format in order to generate a valid Data Forms result that the client could display using a generic Data Forms rendering engine]
-Link transformacji XLS, która może zostać zastosowana do bloków danych w celu wygenerowania poprawnego wyniku formularzy danych, który klient może wyświetlić używając ogólnego silnika renderowania formularzy danych
-[Whether to deliver payloads with event notifications]
-Dostarczać bloki danych wraz z powiadomieniami o zdarzeniach
-[Whether owners or publisher should receive replies to items]
-Właściciele lub osoba publikująca powinni otrzymywać odpowiedzi na elementy
-[Who may associate leaf nodes with a collection]
-Kto może kojarzyć węzły liściaste z kolekcją
-[The list of JIDs that may associated leaf nodes with a collection]
-Lista JIDów, które mogą kojarzyć węzły liściaste z kolekcją
-[The child nodes (leaf or collection) associated with a collection]
-Liść węzła potomnego lub kolekcji skojarzone z kolekcją
-[The maximum number of child nodes that can be associated with a collection]
-Maksymalna liczba węzłów potomnych, które mogą być skojarzone z kolekcją
-[The maximum number of items to persist]
-Maksymalna liczba elementów do utrzymania
-[The maximum payload size in bytes]
-Maksymalny rozmiar bloku danych w bajtach
-[Whether the node is a leaf (default) or a collection]
-Węzeł jest liściem (domyślnie) lub kolekcją
-[Whether to notify subscribers when the node configuration changes]
-Powiadamiać subskrybentów, gdy konfiguracja węzła zmieni się
-[Whether to notify subscribers when the node is deleted]
-Powiadamiać subskrybentów, gdy węzeł zostaje usunięty
-[Whether to notify subscribers when items are removed from the node]
-Powiadamiać subskrybentów, gdy elementy są usuwane z węzła
-[Whether to persist items to storage]
-Utrzymywać elementy w przechowalni
-[Whether to deliver notifications to available users only]
-Dostarczać powiadomienia tylko dostępnym użytkownikom
-[The publisher model]
-Model publikowania
-[The specific multi-user chat rooms to specify for replyroom]
-Określone pokoje czatów wieloosobowych do ustalenia jako pokoje odpowiedzi
-[The specific JID(s) to specify for replyto]
-Określone JIDy do ustalenia do pola odpowiedzi
-[The roster group(s) allowed to subscribe and retrieve items]
-Grupy rostera uprawnione do subskrybowania i pobierania elementów
-[Whether to send items to new subscribers]
-Wysyłać elementy nowym subskrybentom
-[Whether to allow subscriptions]
-Zezwolić na subskrypcje
-[A friendly name for the node]
-Przyjazna nazwa węzła
-[The type of node data, usually specified by the namespace of the payload (if any); MAY be list-single rather than text-single]
-Typ danych węzła, zazwyczaj określany przez przestrzeń nazw jeśli w ogóle; może być pojedynczą listą, a nie pojedynczym tekstem
-[The JIDs of those to contact with questions]
-JIDy tych, z którymi należy się kontaktować w razie pytań
-[The date and time when the node was created]
-Data i czas utworzenia węzła
-[The JID of the node creator]
-JID twórcy węzła
-[A description of the node]
-Opis węzła
-[The default language of the node]
-Domyślny język węzła
-[The number of subscribers to the node]
-Liczba subskrybentów węzła
-[The JIDs of those with an affiliation of owner]
-JIDy z przynależnością właściciela
-[The JIDs of those with an affiliation of publisher]
-JIDy osób z przynależnością osoby publikującej
-[The name of the node]
-Nazwa węzła
-[Payload type]
-Typ bloku danych
-[Whether to automatically authorize subscription requests]
-Autoryzować automatycznie prośby o subskrypcję
-[Whether to automatically accept file transfers]
-Automatycznie akceptować transfery plików
-[Whether to automatically open new messages]
-Automatycznie otwierać nowe wiadomości
-[Whether to automatically go offline when idle]
-Automatycznie rozłączać się, po przejściu w stan bezczynności
-[Whether to play sounds]
-Grać dźwięki
-[A list of pending file transfers]
-Lista oczekujących transferów pliku
-[A list of joined group chat rooms]
-Lista pokoi czatowych, do których dołączyłeś
-[A presence or availability status]
-Obecność lub status dostępności
-[The status message text]
-Tekst opisu
-[The new priority for the client]
-Nowy priorytet klienta
-[Account name associated with the user]
-Nazwa konta powiązana z użytkownikiem
-[Familiar name of the user]
-Znajoma nazwa użytkownika
-[Password or secret for the user]
-Hasło lub tajemnica użytkownika
-[Full name of the user]
-Imię i nazwisko użytkownika
-[First name or given name of the user]
-Imię lub podana nazwa użytkownika
-[Last name, surname, or family name of the user]
-Nazwisko użytkownika
-[Email address of the user]
-Adres e-mail użytkownika
-[Street portion of a physical or mailing address]
-Ulica w adresie fizycznym lub pocztowym
-[Locality portion of a physical or mailing address]
-Miejscowość w adresie fizycznym lub pocztowym
-[Region portion of a physical or mailing address]
-Region w adresie fizycznym lub pocztowym
-[Postal code portion of a physical or mailing address]
-Kod pocztowy w adresie fizycznym lub pocztowym
-[Family Name]
-Nazwisko
-[Whether to accept the invitation]
-Akceptować zaproszenie
-[Another resource with which to continue the session]
-Inny zasób, na którym należy kontynuować sesję
-[Disclosure of content, decryption keys or identities]
-Ujawnienie zawartości, klucze lub tożsamości odszyfrowujące
-[Whether may send Chat State Notifications per XEP-0085]
-Może wysyłać powiadomienia o stanie w czatach (według XEP-0085)
-[Whether allowed to use XHTML-IM formatting per XEP-0071]
-Zezwolić na używanie formatowania wiadomości XHTML według XEP-0071
-[Primary written language of the chat (each value appears in order of preference and conforms to RFC 4646 and the IANA registry)]
-Pierwszy język pisany czatu (każda wartość pojawia się w preferowanym porządku i odpowiada RFC 4646 oraz rejestrowi IANA)
-[Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
-Zezwolić na logowanie wiadomości (czyli tryb Off-The-Record jest wymagany)
-[Whether to renegotiate the session]
-Renegocjować sesję
-[Minimum security level]
-Minimalny poziom bezpieczeństwa
-[Whether to terminate the session]
-Zakańczać sesję
-[Whether to enable Message Receipts per XEP-0184]
-Włączyć potwierdzenie otrzymania wiadomości według XEP-0184
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Nie udało się pobrać listy pokoi z serwera.
@@ -1087,8 +797,8 @@ Zakładki...
 Zmień nick w <%s>
 [has set the subject to:]
 ustawił temat na:
-[Group chat invitation to %s]
-Zarposzenie do czatu do %s
+[Group chat invitation to\n%s]
+Zaproszenie do czatu\n%s
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]
 Ikony statusu
@@ -2530,3 +2240,285 @@ Obecnie Słucham
 Nastrój
 [Activities]
 Aktywność
+;file \protocols\JabberG\src\stdafx.h
+[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
+Jestem szczęśliwym użytkownikiem Mirandy NG. Wypróbuj pobierając z http://miranda-ng.org/.
+[/me slaps %s around a bit with a large trout]
+/me delikatnie bije %s dużym pstrągiem
+;file \protocols\JabberG\src\obsoleted\jabber_form2.cpp
+[One or more addresses for communication related to abusive traffic]
+Jeden lub więcej adresów przeznaczonych do komunikacji w sprawach dotyczących nadużywania transmisji danych
+[One or more addresses for customer feedback]
+Jeden lub więcej adresów do zgłaszania uwag przez użytkowników
+[One or more addresses for communication related to sales and marketing]
+Jeden lub więcej adresów przeznaczonych na komunikację związaną ze sprzedażą i marketingiem
+[One or more addresses for communication related to security concerns]
+Jeden lub więcej adresów przeznaczonych na komunikację związaną z kwestiami bezpieczeństwa
+[One or more addresses for customer support]
+Jeden lub więcej adresów przeznaczonych na wsparcie techniczne
+[The Jabber ID of a single entity to which an operation applies]
+Jabber ID pojedynczej jednostki, do której stosowana jest operacja
+[The Jabber ID of one or more entities to which an operation applies]
+Jabber ID jednej lub więcej jednostek, do których stosowana jest operacja
+[The Jabber IDs associated with active sessions]
+Jabber ID'y skojarzone z aktywnymi sesjami
+[The number of online entities that are active]
+Liczba dostępnych jednostek, które są aktywne
+[A list of entities with administrative privileges]
+Lista jednostek z uprawnieniami administratora
+[The text of an announcement to be sent to active users or all users]
+Tekst ogłoszenia, które ma zostać wysłane do aktywnych użytkowników lub wszystkich użytkowników
+[A list of entities with whom communication is blocked]
+Lista jednostek, z którymi komunikacja jest zablokowana
+[The number of seconds to delay before applying a change]
+Liczba sekund, o którą należy opóźnić zastosowanie zmiany
+[The Jabber IDs that have been disabled]
+Jabber ID'y, które zostały wyłączone
+[The number of disabled entities]
+Liczba wyłączonych jednostek
+[The email address for a user]
+Adres e-mail użytkownika
+[The given (first) name of a user]
+Podane imię użytkownika
+[The number of online entities that are idle]
+Liczba dostępnych jednostek w stanie bezczynności
+[The IP addresses of an account's online sessions]
+Adresy IP dostępnych sesji konta
+[The last login time (per XEP-0082) of a user]
+Ostatni czas zalogowania użytkownika (według XEP-0082)
+[The number of logins per minute for an account]
+Liczba zalogowań na minutę dla konta
+[The maximum number of items associated with a search or list]
+Maksymalna liczba elementów powiązanych z wyszukiwaniem lub listą
+[The text of a message of the day]
+Tekst wiadomości dnia
+[The names of an account's online sessions]
+Nazwy dostępnych sesji konta
+[The Jabber IDs associated with online users]
+Jabber ID'y powiązane z dostępnymi użytkownikami
+[The number of online entities]
+Liczba dostępnych jednostek
+[The password for an account]
+Hasło konta
+[Password verification]
+Weryfikacja hasła
+[A list of registered entities]
+Lista zarejestrowanych jednostek
+[The number of registered entities]
+Liczba zarejestrowanych jednostek
+[Number of roster items for an account]
+Liczba elementów rostera dla konta
+[The number of stanzas being sent per second by an account]
+Liczba stanz wysyłanych każdej sekundy przez konto
+[The family (last) name of a user]
+Nazwisko użytkownika
+[The text of a welcome message]
+Tekst wiadomości powitalnej
+[A list of entities with whom communication is allowed]
+Lista jednostek, z którymi komunikacja jest dozwolona
+[First Name]
+Imię
+[Last Name]
+Nazwisko
+[Desired Nickname]
+Żądany nick
+[Your URL]
+Twój link
+[Email Address]
+Adres e-mail
+[FAQ Entry]
+Wpis FAQ
+[Whether to allow occupants to invite others]
+Pozwolić użytkownikom na zapraszanie innych
+[Whether to allow occupants to change subject]
+Pozwolić użytkownikom na zmianę tematu
+[Whether to enable logging of room conversations]
+Włączyć logowanie rozmów
+[Natural language for room discussions]
+Naturalny język dyskusji w pokoju
+[Maximum number of room occupants]
+Maksymalna liczba użytkowników w pokoju
+[Whether to make room members-only]
+Czy uczynić pokój dostępnym tylko dla zaproszonych członków
+[Whether to make room moderated]
+Sprawić, by pokój był moderowany
+[Whether a password is required to enter]
+Hasło jest wymagane
+[Whether to make room persistent]
+Sprawić, by pokój był stały
+[Roles for which presence is broadcast]
+Role, dla których obecność jest transmitowana
+[Whether to allow public searching for room]
+Zezwolić na publiczne wyszukiwanie pokoju
+[Full list of room admins]
+Pełna lista administratorów pokoju
+[Short description of room]
+Krótki opis pokoju
+[Natural-language room name]
+Nazwa pokoju w języku naturalnym
+[Full list of room owners]
+Pełna lista właścicieli pokoju
+[The room password]
+Hasło pokoju
+[Affiliations that may discover real JIDs of occupants]
+Powiązania zezwalające na odkrywanie prawdziwych JIDów
+[Precondition: node configuration with the specified access model]
+Warunek wstępny: konfiguracja węzła z ustalonym modelem dostępu
+[Whether to allow the subscription]
+Pozwolić na subskrypcję
+[The SubID of the subscription]
+ID podrzędne subskrypcji
+[The NodeID of the relevant node]
+ID węzła właściwego
+[The address (JID) of the subscriber]
+Adres (JID) subskrybenta
+[Whether an entity wants to receive or disable notifications]
+Jednostka chce otrzymywać lub wyłączyć powiadomienia
+[Whether an entity wants to receive digests (aggregations) of notifications or all notifications individually]
+Jednostka chce otrzymywać paczki powiadomień lub wszystkie powiadomienia indywidualnie
+[The minimum number of milliseconds between sending any two notification digests]
+Minimalna liczba milisekund pomiędzy wysyłkami paczek powiadomień
+[The date and time at which a leased subscription will end or has ended]
+Data i czas wygaśnięcia subskrypcji
+[Whether an entity wants to receive an XMPP message body in addition to the payload format]
+Jednostka chce otrzymywać treść wiadomości XMPP oprócz formatu bloku danych
+[The presence states for which an entity wants to receive notifications]
+Stany obecności, przy których jednostka chce otrzymywać powiadomienia
+[Who may subscribe and retrieve items]
+Kto może subskrybować i pobierać elementy
+[The URL of an XSL transformation which can be applied to payloads in order to generate an appropriate message body element.]
+Link transformacji XLS, która może zostać zastosowana do bloków danych w celu wygenerowania stosownej treści wiadomości.
+[The collection with which a node is affiliated]
+Kolekcja, z którą jest powiązany węzeł
+[The URL of an XSL transformation which can be applied to the payload format in order to generate a valid Data Forms result that the client could display using a generic Data Forms rendering engine]
+Link transformacji XLS, która może zostać zastosowana do bloków danych w celu wygenerowania poprawnego wyniku formularzy danych, który klient może wyświetlić używając ogólnego silnika renderowania formularzy danych
+[Whether to deliver payloads with event notifications]
+Dostarczać bloki danych wraz z powiadomieniami o zdarzeniach
+[Whether owners or publisher should receive replies to items]
+Właściciele lub osoba publikująca powinni otrzymywać odpowiedzi na elementy
+[Who may associate leaf nodes with a collection]
+Kto może kojarzyć węzły liściaste z kolekcją
+[The list of JIDs that may associated leaf nodes with a collection]
+Lista JIDów, które mogą kojarzyć węzły liściaste z kolekcją
+[The child nodes (leaf or collection) associated with a collection]
+Liść węzła potomnego lub kolekcji skojarzone z kolekcją
+[The maximum number of child nodes that can be associated with a collection]
+Maksymalna liczba węzłów potomnych, które mogą być skojarzone z kolekcją
+[The maximum number of items to persist]
+Maksymalna liczba elementów do utrzymania
+[The maximum payload size in bytes]
+Maksymalny rozmiar bloku danych w bajtach
+[Whether the node is a leaf (default) or a collection]
+Węzeł jest liściem (domyślnie) lub kolekcją
+[Whether to notify subscribers when the node configuration changes]
+Powiadamiać subskrybentów, gdy konfiguracja węzła zmieni się
+[Whether to notify subscribers when the node is deleted]
+Powiadamiać subskrybentów, gdy węzeł zostaje usunięty
+[Whether to notify subscribers when items are removed from the node]
+Powiadamiać subskrybentów, gdy elementy są usuwane z węzła
+[Whether to persist items to storage]
+Utrzymywać elementy w przechowalni
+[Whether to deliver notifications to available users only]
+Dostarczać powiadomienia tylko dostępnym użytkownikom
+[The publisher model]
+Model publikowania
+[The specific multi-user chat rooms to specify for replyroom]
+Określone pokoje czatów wieloosobowych do ustalenia jako pokoje odpowiedzi
+[The specific JID(s) to specify for replyto]
+Określone JIDy do ustalenia do pola odpowiedzi
+[The roster group(s) allowed to subscribe and retrieve items]
+Grupy rostera uprawnione do subskrybowania i pobierania elementów
+[Whether to send items to new subscribers]
+Wysyłać elementy nowym subskrybentom
+[Whether to allow subscriptions]
+Zezwolić na subskrypcje
+[A friendly name for the node]
+Przyjazna nazwa węzła
+[The type of node data, usually specified by the namespace of the payload (if any); MAY be list-single rather than text-single]
+Typ danych węzła, zazwyczaj określany przez przestrzeń nazw jeśli w ogóle; może być pojedynczą listą, a nie pojedynczym tekstem
+[The JIDs of those to contact with questions]
+JIDy tych, z którymi należy się kontaktować w razie pytań
+[The date and time when the node was created]
+Data i czas utworzenia węzła
+[The JID of the node creator]
+JID twórcy węzła
+[A description of the node]
+Opis węzła
+[The default language of the node]
+Domyślny język węzła
+[The number of subscribers to the node]
+Liczba subskrybentów węzła
+[The JIDs of those with an affiliation of owner]
+JIDy z przynależnością właściciela
+[The JIDs of those with an affiliation of publisher]
+JIDy osób z przynależnością osoby publikującej
+[The name of the node]
+Nazwa węzła
+[Payload type]
+Typ bloku danych
+[Whether to automatically authorize subscription requests]
+Autoryzować automatycznie prośby o subskrypcję
+[Whether to automatically accept file transfers]
+Automatycznie akceptować transfery plików
+[Whether to automatically open new messages]
+Automatycznie otwierać nowe wiadomości
+[Whether to automatically go offline when idle]
+Automatycznie rozłączać się, po przejściu w stan bezczynności
+[Whether to play sounds]
+Grać dźwięki
+[A list of pending file transfers]
+Lista oczekujących transferów pliku
+[A list of joined group chat rooms]
+Lista pokoi czatowych, do których dołączyłeś
+[A presence or availability status]
+Obecność lub status dostępności
+[The status message text]
+Tekst opisu
+[The new priority for the client]
+Nowy priorytet klienta
+[Account name associated with the user]
+Nazwa konta powiązana z użytkownikiem
+[Familiar name of the user]
+Znajoma nazwa użytkownika
+[Password or secret for the user]
+Hasło lub tajemnica użytkownika
+[Full name of the user]
+Imię i nazwisko użytkownika
+[First name or given name of the user]
+Imię lub podana nazwa użytkownika
+[Last name, surname, or family name of the user]
+Nazwisko użytkownika
+[Email address of the user]
+Adres e-mail użytkownika
+[Street portion of a physical or mailing address]
+Ulica w adresie fizycznym lub pocztowym
+[Locality portion of a physical or mailing address]
+Miejscowość w adresie fizycznym lub pocztowym
+[Region portion of a physical or mailing address]
+Region w adresie fizycznym lub pocztowym
+[Postal code portion of a physical or mailing address]
+Kod pocztowy w adresie fizycznym lub pocztowym
+[Family Name]
+Nazwisko
+[Whether to accept the invitation]
+Akceptować zaproszenie
+[Another resource with which to continue the session]
+Inny zasób, na którym należy kontynuować sesję
+[Disclosure of content, decryption keys or identities]
+Ujawnienie zawartości, klucze lub tożsamości odszyfrowujące
+[Whether may send Chat State Notifications per XEP-0085]
+Może wysyłać powiadomienia o stanie w czatach (według XEP-0085)
+[Whether allowed to use XHTML-IM formatting per XEP-0071]
+Zezwolić na używanie formatowania wiadomości XHTML według XEP-0071
+[Primary written language of the chat (each value appears in order of preference and conforms to RFC 4646 and the IANA registry)]
+Pierwszy język pisany czatu (każda wartość pojawia się w preferowanym porządku i odpowiada RFC 4646 oraz rejestrowi IANA)
+[Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
+Zezwolić na logowanie wiadomości (czyli tryb Off-The-Record jest wymagany)
+[Whether to renegotiate the session]
+Renegocjować sesję
+[Minimum security level]
+Minimalny poziom bezpieczeństwa
+[Whether to terminate the session]
+Zakańczać sesję
+[Whether to enable Message Receipts per XEP-0184]
+Włączyć potwierdzenie otrzymania wiadomości według XEP-0184
