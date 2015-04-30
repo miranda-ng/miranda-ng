@@ -2,7 +2,7 @@
 
 namespace
 {
-	CLightMutex g_Mutex;
+	mir_cs g_Mutex;
 
 	tstring get_log_file_name()
 	{
@@ -20,7 +20,7 @@ namespace
 
 	void do_log(const tstring& rsFileName, const tstring& rsMsg)
 	{
-		CGuard<CLightMutex> guard(g_Mutex);
+		mir_cslock lck(g_Mutex);
 		tofstream file(rsFileName.c_str(), std::ios::ate | std::ios::app);
 		if (file.good())
 		{

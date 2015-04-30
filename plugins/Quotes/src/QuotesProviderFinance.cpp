@@ -37,7 +37,7 @@ bool CQuotesProviderFinance::WatchForQuote(const CQuote& rQuote, bool bWatch)
 	{
 		MCONTACT hContact = *i;
 		{// for CCritSection
-			CGuard<CLightMutex> cs(m_cs);
+			mir_cslock lck(m_cs);
 			m_aContacts.erase(i);
 		}
 
@@ -64,7 +64,7 @@ bool CQuotesProviderFinance::WatchForQuote(const CQuote& rQuote, bool bWatch)
 
 MCONTACT CQuotesProviderFinance::GetContactByQuoteID(const tstring& rsQuoteID)const
 {
-	CGuard<CLightMutex> cs(m_cs);
+	mir_cslock lck(m_cs);
 
 	TContracts::const_iterator i = std::find_if(m_aContacts.begin(), m_aContacts.end(),
 		boost::bind(std::equal_to<tstring>(), rsQuoteID, boost::bind(get_quote_id, _1)));

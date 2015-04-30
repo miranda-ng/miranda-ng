@@ -102,7 +102,7 @@ private:
 
 protected:
 	TContracts m_aContacts;
-	mutable CLightMutex m_cs;
+	mutable mir_cs m_cs;
 
 private:
 	typedef boost::scoped_ptr<CXMLFileInfo> TXMLFileInfoPtr;

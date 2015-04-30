@@ -4,7 +4,7 @@ namespace
 {
 	CModuleInfo::TXMLEnginePtr g_pXMLEngine;
 	CModuleInfo::THTMLEnginePtr g_pHTMLEngine;
-	CLightMutex g_lmParsers;
+	mir_cs g_lmParsers;
 }
 
 CModuleInfo::CModuleInfo()
@@ -58,7 +58,7 @@ CModuleInfo::TXMLEnginePtr CModuleInfo::GetXMLEnginePtr()
 {
 	if (!g_pXMLEngine)
 	{
-		CGuard<CLightMutex> cs(g_lmParsers);
+		mir_cslock lck(g_lmParsers);
 		if (!g_pXMLEngine)
 		{
 			mir_getXI(&xi);
@@ -78,7 +78,7 @@ CModuleInfo::THTMLEnginePtr CModuleInfo::GetHTMLEngine()
 {
 	if (!g_pHTMLEngine)
 	{
-		CGuard<CLightMutex> cs(g_lmParsers);
+		mir_cslock lck(g_lmParsers);
 		if (!g_pHTMLEngine)
 		{
 			g_pHTMLEngine = THTMLEnginePtr(new CHTMLEngineMS);

@@ -48,9 +48,6 @@
     <ClCompile Include="src\ImportExport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\LightMutex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Locale.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -165,9 +162,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\IXMLEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LightMutex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Locale.h">
