@@ -161,7 +161,7 @@ private:
 private:
 	HMODULE m_hRTFConv;
 	RTFCONVSTRING m_RTFConvString;
-	CRITICAL_SECTION m_RTFConvCS;
+	mir_cs m_RTFConvCS;
 
 private:
 	explicit RTFFilter();
