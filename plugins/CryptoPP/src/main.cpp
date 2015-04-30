@@ -8,8 +8,8 @@ HINSTANCE g_hInst;
 HANDLE hPGPPRIV = NULL;
 HANDLE hRSA4096 = NULL;
 
-CRITICAL_SECTION localQueueMutex;
-CRITICAL_SECTION localContextMutex;
+mir_cs localQueueMutex;
+mir_cs localContextMutex;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -27,16 +27,7 @@ PLUGININFOEX pluginInfoEx = {
 
 BOOL WINAPI DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID)
 {
-	if (dwReason == DLL_PROCESS_ATTACH) {
-		g_hInst = hInst;
-		InitializeCriticalSection(&localQueueMutex);
-		InitializeCriticalSection(&localContextMutex);
-	}
-	else if (dwReason == DLL_PROCESS_DETACH) {
-		DeleteCriticalSection(&localQueueMutex);
-		DeleteCriticalSection(&localContextMutex);
-	}
-
+	g_hInst = hInst;
 	return TRUE;
 }
 
