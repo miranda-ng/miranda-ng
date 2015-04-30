@@ -167,7 +167,7 @@ void addMsg2Queue(pUinKey ptr, WPARAM wParam, LPSTR szMsg)
 
 	pWM ptrMessage;
 
-	EnterCriticalSection(&localQueueMutex);
+	mir_cslock lck(localQueueMutex);
 
 	if (ptr->msgQueue == NULL) {
 		// create new
@@ -195,7 +195,6 @@ void addMsg2Queue(pUinKey ptr, WPARAM wParam, LPSTR szMsg)
 	}
 	else ptrMessage->Message = mir_strdup(szMsg);
 
-	LeaveCriticalSection(&localQueueMutex);
 }
 
 void getContactNameA(MCONTACT hContact, LPSTR szName)

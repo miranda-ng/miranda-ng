@@ -308,7 +308,6 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	mir_getLP(&pluginInfoEx);
 
 	DisableThreadLibraryCalls(g_hInst);
-	InitializeCriticalSection(&localQueueMutex);
 
 	char temp[MAX_PATH];
 	GetTempPath(sizeof(temp), temp);
@@ -389,7 +388,6 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 
 extern "C" __declspec(dllexport) int __cdecl Unload()
 {
-	DeleteCriticalSection(&localQueueMutex);
 	freelib();
 	return 0;
 }

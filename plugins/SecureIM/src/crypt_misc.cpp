@@ -18,7 +18,7 @@ static void sttWaitForExchange(LPVOID param)
 	// if keyexchange failed or timeout
 	if (ptr->waitForExchange == 1 || ptr->waitForExchange == 3) { // протухло - отправляем незашифрованно, если надо
 		if (ptr->msgQueue && msgbox1(0, sim104, MODULENAME, MB_YESNO | MB_ICONQUESTION) == IDYES) {
-			EnterCriticalSection(&localQueueMutex);
+			mir_cslock lck(localQueueMutex);
 			ptr->sendQueue = true;
 			pWM ptrMessage = ptr->msgQueue;
 			while (ptrMessage) {
@@ -33,13 +33,12 @@ static void sttWaitForExchange(LPVOID param)
 			}
 			ptr->msgQueue = NULL;
 			ptr->sendQueue = false;
-			LeaveCriticalSection(&localQueueMutex);
 		}
 		ptr->waitForExchange = 0;
 		ShowStatusIconNotify(ptr->hContact);
 	}
 	else if (ptr->waitForExchange == 2) { // дослать очередь через установленное соединение
-		EnterCriticalSection(&localQueueMutex);
+		mir_cslock lck(localQueueMutex);
 		// we need to resend last send back message with new crypto Key
 		pWM ptrMessage = ptr->msgQueue;
 		while (ptrMessage) {
@@ -54,10 +53,9 @@ static void sttWaitForExchange(LPVOID param)
 		}
 		ptr->msgQueue = NULL;
 		ptr->waitForExchange = 0;
-		LeaveCriticalSection(&localQueueMutex);
 	}
 	else if (ptr->waitForExchange == 0) { // очистить очередь
-		EnterCriticalSection(&localQueueMutex);
+		mir_cslock lck(localQueueMutex);
 		// we need to resend last send back message with new crypto Key
 		pWM ptrMessage = ptr->msgQueue;
 		while (ptrMessage) {
@@ -67,7 +65,6 @@ static void sttWaitForExchange(LPVOID param)
 			mir_free(tmp);
 		}
 		ptr->msgQueue = NULL;
-		LeaveCriticalSection(&localQueueMutex);
 	}
 }
 
