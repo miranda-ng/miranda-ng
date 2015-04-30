@@ -65,7 +65,7 @@ extern PLUGININFOEX pluginInfoEx;
 extern HANDLE hPGPPRIV;
 extern HANDLE hRSA4096;
 
-extern CRITICAL_SECTION localQueueMutex;
+extern mir_cs localQueueMutex;
 
 void ExtractFile(char*,int,int);
 size_t rtrim(LPCSTR);
