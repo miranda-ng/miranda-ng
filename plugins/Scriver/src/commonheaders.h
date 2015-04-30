@@ -106,7 +106,6 @@ extern void LoadInfobarFonts();
 extern HCURSOR hDragCursor;
 extern ITaskbarList3 *pTaskbarInterface;
 extern GlobalMessageData g_dat;
-extern CRITICAL_SECTION	cs;
 extern HMENU  g_hMenu;
 extern HANDLE hHookWinPopup, hHookWinWrite;
 extern HCURSOR hCurSplitNS, hCurSplitWE;
