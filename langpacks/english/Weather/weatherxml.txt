@@ -176,3 +176,5 @@
 [Partly Cloudy / Windy]
 [Sunny / Windy]
 [Am Snow]
+[Rain / Snow Late]
+[Am Rain / Snow]
