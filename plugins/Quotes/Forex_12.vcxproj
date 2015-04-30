@@ -183,7 +183,6 @@
     <ClCompile Include="src\HTTPSession.cpp" />
     <ClCompile Include="src\IconLib.cpp" />
     <ClCompile Include="src\ImportExport.cpp" />
-    <ClCompile Include="src\LightMutex.cpp" />
     <ClCompile Include="src\Locale.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\ModuleInfo.cpp" />
@@ -227,7 +226,6 @@
     <ClInclude Include="src\IQuotesProvider.h" />
     <ClInclude Include="src\IsWithinAccuracy.h" />
     <ClInclude Include="src\IXMLEngine.h" />
-    <ClInclude Include="src\LightMutex.h" />
     <ClInclude Include="src\Locale.h" />
     <ClInclude Include="src\Log.h" />
     <ClInclude Include="src\ModuleInfo.h" />

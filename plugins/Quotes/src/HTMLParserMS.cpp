@@ -230,7 +230,7 @@ CHTMLParserMS::THTMLNodePtr CHTMLParserMS::ParseString(const tstring& rsHTML)
 
 	try
 	{
-		CGuard<CLightMutex> cs(m_cs);
+		mir_cslock lck(m_cs);
 
 		OLECHAR* p = T2OLE(const_cast<LPTSTR>(rsHTML.c_str()));
 		CComPtr<IMarkupContainer>  pMC;

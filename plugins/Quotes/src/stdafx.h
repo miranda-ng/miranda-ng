@@ -100,7 +100,6 @@ inline int quotes_stricmp(LPCTSTR p1, LPCTSTR p2)
 #include "SettingsDlg.h"
 #include "CreateFilePath.h"
 #include "Locale.h"
-#include "LightMutex.h"
 #include "ExtraImages.h"
 #include "IsWithinAccuracy.h"
 #include "OptionDukasCopy.h"

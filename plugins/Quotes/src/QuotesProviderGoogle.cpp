@@ -57,7 +57,7 @@ bool CQuotesProviderGoogle::WatchForRate(const CRateInfo& ri,
 	{
 		MCONTACT hContact = *i;
 		{// for CCritSection
-			CGuard<CLightMutex> cs(m_cs);
+			mir_cslock lck(m_cs);
 			m_aContacts.erase(i);
 		}
 
@@ -508,7 +508,7 @@ namespace
 
 MCONTACT CQuotesProviderGoogle::GetContactByID(const tstring& rsFromID, const tstring& rsToID)const
 {
-	CGuard<CLightMutex> cs(m_cs);
+	mir_cslock lck(m_cs);
 
 	TContracts::const_iterator i = std::find_if(m_aContacts.begin(), m_aContacts.end(),
 		boost::bind(is_equal_ids, _1, boost::cref(rsFromID), boost::cref(rsToID)));

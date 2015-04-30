@@ -17,7 +17,7 @@ private:
 	CComPtr<IMarkupServices>  m_pMS;
 	CComPtr<IMarkupPointer>  m_pMkStart;
 	CComPtr<IMarkupPointer>  m_pMkFinish;
-	mutable CLightMutex m_cs;
+	mutable mir_cs m_cs;
 };
 
 class CHTMLEngineMS : public IHTMLEngine

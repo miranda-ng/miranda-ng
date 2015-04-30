@@ -248,7 +248,7 @@ void CQuotesProviderBase::AddContact(MCONTACT hContact)
 
 void CQuotesProviderBase::DeleteContact(MCONTACT hContact)
 {
-	CGuard<CLightMutex> cs(m_cs);
+	mir_cslock lck(m_cs);
 
 	TContracts::iterator i = std::find(m_aContacts.begin(), m_aContacts.end(), hContact);
 	if (i != m_aContacts.end())
@@ -824,7 +824,7 @@ MCONTACT CQuotesProviderBase::CreateNewContact(const tstring& rsName)
 			db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL, rsName.c_str());
 			db_set_ts(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, rsName.c_str());
 
-			CGuard<CLightMutex> cs(m_cs);
+			mir_cslock lck(m_cs);
 			m_aContacts.push_back(hContact);
 		}
 		else {
@@ -922,7 +922,7 @@ void CQuotesProviderBase::Run()
 
 	TContracts anContacts;
 	{
-		CGuard<CLightMutex> cs(m_cs);
+		mir_cslock lck(m_cs);
 		anContacts = m_aContacts;
 	}
 
@@ -960,7 +960,7 @@ void CQuotesProviderBase::Run()
 			m_sTendencyFormat = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
 
 			{
-				CGuard<CLightMutex> cs(m_cs);
+				mir_cslock lck(m_cs);
 				anContacts = m_aContacts;
 			}
 			break;
@@ -973,7 +973,7 @@ void CQuotesProviderBase::Run()
 			}
 
 				{
-					CGuard<CLightMutex> cs(m_cs);
+					mir_cslock lck(m_cs);
 					anContacts = m_aRefreshingContacts;
 					m_aRefreshingContacts.clear();
 				}
@@ -987,7 +987,7 @@ void CQuotesProviderBase::Run()
 		case WAIT_TIMEOUT:
 			nTimeout = get_refresh_timeout_miliseconds(visitor);
 			{
-				CGuard<CLightMutex> cs(m_cs);
+				mir_cslock lck(m_cs);
 				anContacts = m_aContacts;
 			}
 			{
@@ -1007,7 +1007,7 @@ void CQuotesProviderBase::OnEndRun()
 {
 	TContracts anContacts;
 	{// for CCritSection
-		CGuard<CLightMutex> cs(m_cs);
+		mir_cslock lck(m_cs);
 		anContacts = m_aContacts;
 		m_aRefreshingContacts.clear();
 	}
@@ -1030,7 +1030,7 @@ void CQuotesProviderBase::RefreshSettings()
 void CQuotesProviderBase::RefreshAllContacts()
 {
 	{// for CCritSection
-		CGuard<CLightMutex> cs(m_cs);
+		mir_cslock lck(m_cs);
 		m_aRefreshingContacts.clear();
 		std::for_each(std::begin(m_aContacts), std::end(m_aContacts), [&](MCONTACT hContact){m_aRefreshingContacts.push_back(hContact); });
 	}
@@ -1042,7 +1042,7 @@ void CQuotesProviderBase::RefreshAllContacts()
 void CQuotesProviderBase::RefreshContact(MCONTACT hContact)
 {
 	{// for CCritSection
-		CGuard<CLightMutex> cs(m_cs);
+		mir_cslock lck(m_cs);
 		m_aRefreshingContacts.push_back(hContact);
 	}
 

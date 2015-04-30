@@ -172,7 +172,7 @@ namespace
 			NETLIBHTTPREQUEST* pReply = NULL;
 
 			{
-				CGuard<CLightMutex> guard(m_mx);
+				mir_cslock lck(m_mx);
 				pReply = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService(MS_NETLIB_HTTPTRANSACTION,
 					reinterpret_cast<WPARAM>(g_hNetLib), reinterpret_cast<LPARAM>(&nlhr)));
 			}
@@ -215,7 +215,7 @@ namespace
 		static HANDLE g_hNetLib;
 		typedef std::vector<char> TBuffer;
 		mutable TBuffer m_aURL;
-		mutable CLightMutex m_mx;
+		mutable mir_cs m_mx;
 	};
 
 	HANDLE CImplMI::g_hNetLib = NULL;
