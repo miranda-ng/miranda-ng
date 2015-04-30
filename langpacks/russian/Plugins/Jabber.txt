@@ -767,6 +767,8 @@ Jabber ошибка
 Изменить ник в <%s>
 [has set the subject to:]
 установил(а) тему:
+[Group chat invitation to\n%s]
+Приглашение в конференцию\n%s
 [Status icons]
 Значки статуса
 [transport]

@@ -772,7 +772,7 @@ xHTML-формат повідомлень чату
 [has set the subject to:]
 встановив(ла) тему:
 [Group chat invitation to\n%s]
-Запрошення в конференцію
+Запрошення в конференцію\n%s
 [Status icons]
 Статуси
 [transport]
