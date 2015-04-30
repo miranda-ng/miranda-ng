@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define AMASKPERIOD 3000
 
-static CRITICAL_SECTION	amCS;
+static mir_cs amCS;
 static LIST<void> amItems(10, PtrKeySortT);
 
 static HANDLE  hamProcessEvent = NULL;
@@ -159,7 +159,6 @@ void amRequestAwayMsg(MCONTACT hContact)
 
 void InitAwayMsgModule()
 {
-	InitializeCriticalSection(&amCS);
 	hamProcessEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	g_hAwayMsgThread = mir_forkthread(amThreadProc, 0);
 }
@@ -172,5 +171,4 @@ void UninitAwayMsgModule()
 		SleepEx(50, TRUE);
 
 	CloseHandle(hamProcessEvent);
-	DeleteCriticalSection(&amCS);
 }

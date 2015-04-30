@@ -23,15 +23,13 @@ CSkinnedProfile::~CSkinnedProfile()
 
 HRESULT CSkinnedProfile::Init()
 {
-	CAutoCriticalSection Lock( SkinProfile()->_Lock, true );
-	SkinnedProfile.clear();
+	mir_cslock lck(_Lock);
 	return S_OK;
 }
 
 HRESULT CSkinnedProfile::Clear()
 {
-	CAutoCriticalSection Lock( SkinProfile()->_Lock, true );
-	SkinnedProfile.clear();
+	mir_cslock lck(_Lock);
 	return S_OK;
 }
 
@@ -54,7 +52,7 @@ BYTE CSkinnedProfile::SpiGetSkinByte( HANDLE hContact, const char * szSection, c
 	if ( hContact ) 
 		return db_get_b( hContact, szSection, szKey, defValue ); //per-contact settings are not skinnablr at all
 
-	CAutoCriticalSection Lock( SkinProfile()->_Lock, true );
+	mir_cslock lck(_Lock);
 
 	ValueVariant* value = SkinProfile()->_GetValue( szSection, szKey );
 
@@ -72,7 +70,7 @@ WORD CSkinnedProfile::SpiGetSkinWord( HANDLE hContact, const char * szSection, c
 	if ( hContact ) 
 		return db_get_w( hContact, szSection, szKey, defValue ); //per-contact settings are not skinnablr at all
 
-	CAutoCriticalSection Lock( SkinProfile()->_Lock, true );
+	mir_cslock lck(_Lock);
 
 	ValueVariant* value = SkinProfile()->_GetValue( szSection, szKey );
 	
@@ -90,7 +88,7 @@ DWORD CSkinnedProfile::SpiGetSkinDword( HANDLE hContact, const char * szSection,
 	if ( hContact ) 
 		return db_get_dw( hContact, szSection, szKey, defValue ); //per-contact settings are not skinnablr at all
 
-	CAutoCriticalSection Lock( SkinProfile()->_Lock, true );
+	mir_cslock lck(_Lock);
 
 	ValueVariant* value = SkinProfile()->_GetValue( szSection, szKey );
 
@@ -108,7 +106,7 @@ BOOL CSkinnedProfile::SpiCheckSkinned( HANDLE hContact, const char * szSection, 
 	if ( hContact ) 
 		return FALSE;
 
-	CAutoCriticalSection Lock( SkinProfile()->_Lock, true );
+	mir_cslock lck(_Lock);
 
 	return ( SkinProfile()->_GetValue( szSection, szKey ) == NULL );
 }

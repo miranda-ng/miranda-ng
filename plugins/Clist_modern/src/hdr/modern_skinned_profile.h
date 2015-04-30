@@ -47,55 +47,6 @@ public:
 
 };
 
-class CAutoCriticalSection
-{
-public:
-	CAutoCriticalSection()  //Init critical section here
-		: _pLinkedCS(NULL)
-	{
-		InitializeCriticalSection(&_CS);
-		_ifCSOwner = true;
-		_ifLocked = false;
-	}
-	CAutoCriticalSection(CAutoCriticalSection& Locker, bool doLock = true)
-		: _pLinkedCS(&Locker)
-	{
-		_ifCSOwner = false;
-		_ifLocked = false;
-		if (doLock)
-			Lock();
-	}
-	~CAutoCriticalSection() 	// Leave if auto locker, and destroy if not
-	{
-		if (_ifLocked)
-			Unlock();
-		if (_ifCSOwner)
-			DeleteCriticalSection(&_CS);
-	}
-
-	void Lock()					// Enter Section
-	{
-		if (_ifLocked) return;
-		if (_ifCSOwner) EnterCriticalSection(&_CS);
-		else  			 _pLinkedCS->Lock();
-		_ifLocked = true;
-		return;
-	}
-	void Unlock()	// Leave Section
-	{
-		if (!_ifLocked) return;
-		if (_ifCSOwner) LeaveCriticalSection(&_CS);
-		else  			 _pLinkedCS->Unlock();
-		_ifLocked = false;
-	}
-
-private:
-	CRITICAL_SECTION		_CS;
-	CAutoCriticalSection *	_pLinkedCS;
-	bool _ifCSOwner;
-	bool _ifLocked;
-};
-
 class ValueVariant
 {
 public:
@@ -225,7 +176,7 @@ private:
 
 	ValueVariant* _GetValue(const char * szSection, const char * szKey);
 
-	CAutoCriticalSection _Lock; // critical section to matable skinned profile access
+	mir_cs _Lock; // critical section to matable skinned profile access
 
 public:
 	static CSkinnedProfile* SkinProfile() { return &_me; }

@@ -52,7 +52,7 @@ struct IMAGE_ARRAY_DATA
 	void * lpBits;
 
 	// CS
-	CRITICAL_SECTION cs;
+	mir_cs cs;
 
 	// Array
 	IMAGE_ARRAY_DATA_NODE *nodes;

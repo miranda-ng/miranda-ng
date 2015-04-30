@@ -66,7 +66,7 @@ typedef struct _HandleServiceParams
 	BOOL    handled;
 } HandleServiceParams;
 
-static CRITICAL_SECTION csTips;
+static mir_cs csTips;
 static HWND hwndToolTips = NULL;
 
 int ModernSkinButtonLoadModule()
@@ -81,14 +81,12 @@ int ModernSkinButtonLoadModule()
 	wc.hbrBackground = 0;
 	wc.style = CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
-	InitializeCriticalSection(&csTips);
 	ModernSkinButtonModuleIsLoaded = TRUE;
 	return 0;
 }
 
 int ModernSkinButtonUnloadModule(WPARAM, LPARAM)
 {
-	DeleteCriticalSection(&csTips);
 	return 0;
 }
 
@@ -371,9 +369,10 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 		return TRUE;
 
 	case WM_DESTROY:
+	{
 		if (bct == NULL)
 			break;
-		EnterCriticalSection(&csTips);
+		mir_cslock lck(csTips);
 		if (hwndToolTips) {
 			TOOLINFO ti;
 			memset(&ti, 0, sizeof(ti));
@@ -389,7 +388,6 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 				hwndToolTips = NULL;
 			}
 		}
-		LeaveCriticalSection(&csTips);
 		mir_free(bct->ID);
 		mir_free(bct->CommandService);
 		mir_free(bct->StateService);
@@ -399,7 +397,8 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 		mir_free(bct->ValueTypeDef);
 		mir_free(bct);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-		break;	// DONT! fall thru
+	}
+	break;	// DONT! fall thru
 
 	case WM_SETCURSOR:
 	{
@@ -489,7 +488,7 @@ HWND SetToolTip(HWND hwnd, TCHAR * tip)
 {
 	TOOLINFO ti;
 	if (!tip) return 0;
-	EnterCriticalSection(&csTips);
+	mir_cslock lck(csTips);
 	if (!hwndToolTips) {
 		//  hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
 
@@ -517,7 +516,6 @@ HWND SetToolTip(HWND hwnd, TCHAR * tip)
 	ti.lpszText = (TCHAR*)tip;
 	SendMessage(hwndToolTips, TTM_ADDTOOL, 0, (LPARAM)&ti);
 
-	LeaveCriticalSection(&csTips);
 	return hwndToolTips;
 }
 
