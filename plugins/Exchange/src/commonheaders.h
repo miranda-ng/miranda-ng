@@ -28,38 +28,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DEFAULT_RECONNECT_INTERVAL 10 //in minutes
 
 #include <windows.h>
-//#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-
-#include "resource.h"
-
-#include "version.h"
-#include "utils.h"
-#include "emails.h"
-#include "services.h"
-#include "hooked_events.h"
-//#include "mirandaMem.h"
-
-//#include "forkthread.h"
 
 #include <newpluginapi.h>
 #include <m_core.h>
 #include <m_popup.h>
 #include <m_utils.h>
 #include <m_system.h>
-//#include "m_skin.h"
+#include <m_system_cpp.h>
 #include <m_options.h>
 #include <m_clist.h>
 #include <m_langpack.h>
-//#include "m_history.h"
-//#include "m_contacts.h"
-//#include "m_fontservice.h"
-
 #include "m_utils.h"
 
-//#include "m_updater.h"
+#include "resource.h"
+#include "version.h"
+#include "utils.h"
+#include "emails.h"
+#include "services.h"
+#include "hooked_events.h"
 
 extern char ModuleName[];
 extern HINSTANCE hInstance;

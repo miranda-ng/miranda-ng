@@ -21,21 +21,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 #include "services.h"
 
-CRITICAL_SECTION csCheck;
-
 int InitServices()
 {
 	CreateServiceFunction(MS_EXCHANGE_CHECKEMAIL, (MIRANDASERVICE) CheckEmailService);
-	InitializeCriticalSection(&csCheck);
-	
 	return 0;
 }
 
 int DestroyServices()
 {
 	DestroyServiceFunction(MS_EXCHANGE_CHECKEMAIL);
-	DeleteCriticalSection(&csCheck);
-	
 	return 0;
 }
 
