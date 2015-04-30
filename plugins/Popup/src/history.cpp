@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "headers.h"
 
-static CRITICAL_SECTION csPopupHistory;
+static mir_cs csPopupHistory;
 static LIST<POPUPDATA2> arPopupHistory(SETTING_HISTORYSIZE_DEFAULT);
 static int popupHistoryBuffer = 0;
 
@@ -56,7 +56,6 @@ void PopupHistoryResize()
 
 void PopupHistoryLoad()
 {
-	InitializeCriticalSection(&csPopupHistory);
 	popupHistoryBuffer = db_get_w(NULL, MODULNAME, "HistorySize", SETTING_HISTORYSIZE_DEFAULT);
 }
 
@@ -65,8 +64,6 @@ void PopupHistoryUnload()
 	for (int i = 0; i < arPopupHistory.getCount(); ++i)
 		FreeHistoryItem(arPopupHistory[i]);
 	arPopupHistory.destroy();
-
-	DeleteCriticalSection(&csPopupHistory);
 }
 
 void PopupHistoryAdd(POPUPDATA2 *ppdNew)
