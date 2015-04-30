@@ -31,6 +31,7 @@ IDI_CONFERENCE          ICON                    "Icons\\conference.ico"
 IDI_SYNCHISTORY         ICON                    "Icons\\sync_history.ico"
 IDI_BLOCKUSER			ICON                    "Icons\\user_block.ico"
 IDI_UNBLOCKUSER			ICON                    "Icons\\user_unblock.ico"
+IDI_CALL				ICON                    "Icons\\call.ico"
 #endif    // Нейтральный (по умолчанию) resources
 /////////////////////////////////////////////////////////////////////////////
 

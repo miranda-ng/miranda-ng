@@ -52,6 +52,11 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_ACTION;
 	dbEventType.descr = Translate("Action");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
+	dbEventType.descr = Translate("Incoming Call");
+	dbEventType.eventIcon = GetIconHandle("inc_call");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 }
 
 CSkypeProto::~CSkypeProto()
@@ -171,6 +176,8 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		isTerminated = true;
 		if (m_pollingConnection)
 			CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
+		if (m_TrouterConnection)
+			CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_TrouterConnection, 0);
 
 		if (m_iStatus > ID_STATUS_CONNECTING + 1)
 		{
@@ -246,6 +253,8 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 	isTerminated = true;
 	if (m_pollingConnection)
 		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
+	if (m_TrouterConnection)
+		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_TrouterConnection, 0);
 
 	return 0;
 }
