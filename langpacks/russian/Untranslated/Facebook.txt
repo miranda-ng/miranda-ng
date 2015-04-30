@@ -1,3 +1,4 @@
 ﻿[URL:]
 [Ticker feeds]
+[Contact doesn't have required data in database.]
 [Sample ticker]
