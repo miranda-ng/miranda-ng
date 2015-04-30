@@ -28,7 +28,7 @@ struct ALIASREGISTER
 };
 
 static LIST<ALIASREGISTER> arAliases(5);
-static CRITICAL_SECTION csAliasRegister;
+static mir_cs csAliasRegister;
 
 static ALIASREGISTER *searchAliasRegister(TCHAR *szAlias)
 {
@@ -190,13 +190,10 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai)
 void registerAliasTokens()
 {
 	registerIntToken(ADDALIAS, parseAddAlias, TRF_FUNCTION | TRF_UNPARSEDARGS, LPGEN("Variables")"\t(x,y)\t"LPGEN("stores y as alias named x"));//TRF_UNPARSEDARGS);
-	InitializeCriticalSection(&csAliasRegister);
 }
 
 void unregisterAliasTokens()
 {
-	DeleteCriticalSection(&csAliasRegister);
-
 	for (int i = 0; i < arAliases.getCount(); i++) {
 		ALIASREGISTER *p = arAliases[i];
 		for (unsigned j = 0; j < p->argc; j++)
