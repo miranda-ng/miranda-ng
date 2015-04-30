@@ -99,6 +99,8 @@
 Заблокировать контакт
 [Unblock user icon]
 Разблокировать контакт
+[Incoming call icon]
+Значок входящего звонка
 [Protocols]
 Протоколы
 [Request authorization]
@@ -113,11 +115,17 @@
 Разблокировать контакт
 [Create new chat]
 Создать новый чат
+[Incoming call]
+Входящий звонок
 [Network]
 Сеть
 [%s connection]
 %s подключение
 [Action]
 Действие
-[Incoming call]
+[Incoming Call]
 Входящий звонок
+[Incoming call sound]
+Звук входящего звонка
+[Incoming call from %s]
+Входящий звонок от %s
