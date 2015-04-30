@@ -56,6 +56,8 @@
 [Protocol icon]
 [Create new chat icon]
 [Sync history icon]
+[Block user icon]
+[Unblock user icon]
 [Protocols]
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
@@ -70,3 +72,5 @@
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
 [%s connection]
 [Action]
+;file \protocols\SkypeWeb\src\skype_trouter.cpp
+[Incoming call]
