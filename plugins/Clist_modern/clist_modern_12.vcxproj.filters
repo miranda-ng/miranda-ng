@@ -179,9 +179,6 @@
     <ClInclude Include="src\hdr\modern_cache_funcs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\hdr\modern_callproc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\hdr\modern_clc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
