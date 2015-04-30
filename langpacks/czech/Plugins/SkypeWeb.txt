@@ -101,6 +101,10 @@ Ikona protokolu
 
 [Sync history icon]
 
+[Block user icon]
+
+[Unblock user icon]
+
 [Protocols]
 Protokoly
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
@@ -125,3 +129,6 @@ Sítě
 %s - spojení se serverem
 [Action]
 Akce
+;file \protocols\SkypeWeb\src\skype_trouter.cpp
+[Incoming call]
+Příchozí hovor

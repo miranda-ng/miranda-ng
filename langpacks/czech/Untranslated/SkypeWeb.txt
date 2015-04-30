@@ -17,5 +17,7 @@
 [Edited at]
 [Create new chat icon]
 [Sync history icon]
+[Block user icon]
+[Unblock user icon]
 [Get server history]
 [Create new chat]

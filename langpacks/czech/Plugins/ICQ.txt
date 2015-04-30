@@ -274,6 +274,9 @@ Potvrdit změnu hesla
 Zadejte prosím nové heslo znovu:
 [Enter your current password:]
 Zadejte prosím své heslo:
+;file \protocols\IcqOscarJ\src\askauthentication.cpp
+[Please authorize me to add you to my contact list.]
+Prosím potvrďte můj požadavek o přidání vás do mého seznamu kontaktů.
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
 
@@ -305,6 +308,167 @@ Chyba připojení.\nNeznámý problém během přihlašování: 0x%02x
 Byli jste odpojeni od sítě ICQ. V danou chvíli je jinde přihlášený jiný uživatel se stejným UIN.
 [Unknown runtime error: 0x%02x]
 Neznámý typ chyby: 0x%02x
+;file \protocols\IcqOscarJ\src\constants.cpp
+[January]
+leden
+[February]
+únor
+[March]
+březen
+[April]
+duben
+[May]
+květen
+[June]
+červen
+[July]
+červenec
+[August]
+srpen
+[September]
+září
+[October]
+říjen
+[November]
+listopad
+[December]
+prosinec
+[Personal]
+Základní informace
+[Nickname]
+Přezdívka
+[First name]
+Jméno
+[Last name]
+Příjmení
+[Gender]
+Pohlaví
+[About]
+Informace
+[Password]
+Heslo
+[Contact]
+Kontakt
+[Primary e-mail]
+Primární e-mail
+[Secondary e-mail]
+Druhý e-mail
+[Tertiary e-mail]
+Třetí e-mail
+[Street]
+Ulice
+[City]
+Město
+[State]
+Stát
+[ZIP/postcode]
+PSČ
+[Country]
+Země
+[Phone number]
+Telefon
+[Fax number]
+Fax
+[Cellular number]
+Mobilní telefon
+[Personal Detail]
+Podrobnosti
+[Timezone]
+Časové pásmo
+[Year of birth]
+Rok narození
+[Month of birth]
+Měsíc narození
+[Day of birth]
+Den narození
+[Marital Status]
+Rodinný stav
+[Spoken language 1]
+Ovládané jazyky (č.1)
+[Spoken language 2]
+Ovládané jazyky (č.2)
+[Spoken language 3]
+Ovládané jazyky (č.3)
+[Originally from]
+Původem
+[Education]
+Vzdělávání
+[Level]
+Úroveň vzdělání
+[Institute]
+Škola
+[Degree]
+Titul
+[Graduation Year]
+Ukončeno
+[Company name]
+Název firmy
+[Company homepage]
+Domovská stránka
+[Company street]
+Ulice
+[Company city]
+Město
+[Company state]
+Stát
+[Company phone]
+Telefon
+[Company fax]
+Fax
+[Company ZIP/postcode]
+PSČ
+[Company country]
+Země
+[Company department]
+Oddělení
+[Company position]
+Postavení
+[Company industry]
+Obor
+[Personal Interests]
+Zájmy
+[Interest category 1]
+Kategorie č.1
+[Interest areas 1]
+Oblast zájmů č.1
+[Interest category 2]
+Kategorie č.2
+[Interest areas 2]
+Oblast zájmů č.2
+[Interest category 3]
+Kategorie č.3
+[Interest areas 3]
+Oblast zájmů č.3
+[Interest category 4]
+Kategorie č.4
+[Interest areas 4]
+Oblast zájmů č.4
+;file \protocols\IcqOscarJ\src\db.cpp
+[The password does not match your current password. Check Caps Lock and try again.]
+
+[Change ICQ Details]
+Upravit informace
+[The password does not match the password you originally entered. Check Caps Lock and try again.]
+
+[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
+
+;file \protocols\IcqOscarJ\src\dlgproc.cpp
+[<unremovable once applied>]
+<po zadání nelze odstranit>
+[<empty>]
+<neuvedeno>
+[Unknown value]
+neznámá hodnota
+[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
+Některé z údajů byly změněny. Opravdu chcete tento dialog zavřít bez uložení změn?
+[Upload in progress...]
+Aktualizace dat na serveru...
+[Upload in progress...%d%%]
+Probíhá nahrávání...%d%%
+[Upload complete]
+Aktualizace dat dokončena
+[Upload FAILED]
+Chyba při aktualizaci dat.
 ;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 
@@ -1179,8 +1343,6 @@ stavebnictví
 
 [Corporate Services]
 
-[Education]
-Vzdělávání
 [Finance]
 
 [High Tech]
@@ -1648,6 +1810,9 @@ Proxy odmítla zadané uživatelské jméno a heslo. Zkontrolujte prosím nastav
 Zadaný server ICQ neexistuje. Zkontrolujte prosím nastavení v nastavení Mirandy (položka Síť->ICQ).
 [error]
 chyba
+;file \protocols\IcqOscarJ\src\loginpassword.cpp
+[Enter a password for UIN %u:]
+Zadejte heslo pro UIN %u:
 ;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
 [%d Files]
 %d soubory
@@ -1673,178 +1838,10 @@ chyba
 
 [Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 
-;file \protocols\IcqOscarJ\src\utilities.cpp
-[<invalid>]
-<neplatný>
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
-[January]
-leden
-[February]
-únor
-[March]
-březen
-[April]
-duben
-[May]
-květen
-[June]
-červen
-[July]
-červenec
-[August]
-srpen
-[September]
-září
-[October]
-říjen
-[November]
-listopad
-[December]
-prosinec
-[Personal]
-Základní informace
-[Nickname]
-Přezdívka
-[First name]
-Jméno
-[Last name]
-Příjmení
-[Gender]
-Pohlaví
-[About]
-Informace
-[Password]
-Heslo
-[Contact]
-Kontakt
-[Primary e-mail]
-Primární e-mail
-[Secondary e-mail]
-Druhý e-mail
-[Tertiary e-mail]
-Třetí e-mail
-[Street]
-Ulice
-[City]
-Město
-[State]
-Stát
-[ZIP/postcode]
-PSČ
-[Country]
-Země
-[Phone number]
-Telefon
-[Fax number]
-Fax
-[Cellular number]
-Mobilní telefon
-[Personal Detail]
-Podrobnosti
-[Timezone]
-Časové pásmo
-[Year of birth]
-Rok narození
-[Month of birth]
-Měsíc narození
-[Day of birth]
-Den narození
-[Marital Status]
-Rodinný stav
-[Spoken language 1]
-Ovládané jazyky (č.1)
-[Spoken language 2]
-Ovládané jazyky (č.2)
-[Spoken language 3]
-Ovládané jazyky (č.3)
-[Originally from]
-Původem
-[Level]
-Úroveň vzdělání
-[Institute]
-Škola
-[Degree]
-Titul
-[Graduation Year]
-Ukončeno
-[Company name]
-Název firmy
-[Company homepage]
-Domovská stránka
-[Company street]
-Ulice
-[Company city]
-Město
-[Company state]
-Stát
-[Company phone]
-Telefon
-[Company fax]
-Fax
-[Company ZIP/postcode]
-PSČ
-[Company country]
-Země
-[Company department]
-Oddělení
-[Company position]
-Postavení
-[Company industry]
-Obor
-[Personal Interests]
-Zájmy
-[Interest category 1]
-Kategorie č.1
-[Interest areas 1]
-Oblast zájmů č.1
-[Interest category 2]
-Kategorie č.2
-[Interest areas 2]
-Oblast zájmů č.2
-[Interest category 3]
-Kategorie č.3
-[Interest areas 3]
-Oblast zájmů č.3
-[Interest category 4]
-Kategorie č.4
-[Interest areas 4]
-Oblast zájmů č.4
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
-[The password does not match your current password. Check Caps Lock and try again.]
-
-[Change ICQ Details]
-Upravit informace
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-
-[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
-
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
-[<unremovable once applied>]
-<po zadání nelze odstranit>
-[<empty>]
-<neuvedeno>
-[Unknown value]
-neznámá hodnota
-[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
-Některé z údajů byly změněny. Opravdu chcete tento dialog zavřít bez uložení změn?
-[Upload in progress...]
-Aktualizace dat na serveru...
-[Upload in progress...%d%%]
-Probíhá nahrávání...%d%%
-[Upload complete]
-Aktualizace dat dokončena
-[Upload FAILED]
-Chyba při aktualizaci dat.
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
+;file \protocols\IcqOscarJ\src\upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Momentálně nejste připojeni k síti ICQ. Chcete-li zaktualizovat informace na serveru, musíte být online.
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
-[Please authorize me to add you to my contact list.]
-Prosím potvrďte můj požadavek o přidání vás do mého seznamu kontaktů.
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
-[Enter a password for UIN %u:]
-Zadejte heslo pro UIN %u:
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+;file \protocols\IcqOscarJ\src\userinfotab.cpp
 [ (DC Established)]
  (přímé spojení)
 [ScreenName:]
@@ -1855,3 +1852,6 @@ Jméno:
 Účet založen:
 [%s Details]
 %s Informace
+;file \protocols\IcqOscarJ\src\utilities.cpp
+[<invalid>]
+<neplatný>
