@@ -1578,7 +1578,7 @@ public:
 	}
 
 protected:
-	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_FBOOK, ACC_OK, ACC_SMS };
+	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_OK, ACC_SMS };
 
 	void OnInitDialog()
 	{
@@ -1618,7 +1618,6 @@ protected:
 		m_cbType.AddString(TranslateT("Secure XMPP Network (old style)"), ACC_SSL);
 		m_cbType.AddString(TranslateT("Google Talk!"), ACC_GTALK);
 		m_cbType.AddString(TranslateT("LiveJournal Talk"), ACC_LJTALK);
-		m_cbType.AddString(TranslateT("Facebook Chat"), ACC_FBOOK);
 		m_cbType.AddString(TranslateT("Odnoklassniki"), ACC_OK);
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
 
@@ -1635,10 +1634,6 @@ protected:
 		}
 		else if (!mir_strcmp(server, "livejournal.com")) {
 			m_cbType.SetCurSel(ACC_LJTALK);
-			m_canregister = false;
-		}
-		else if (!mir_strcmp(server, "chat.facebook.com")) {
-			m_cbType.SetCurSel(ACC_FBOOK);
 			m_canregister = false;
 		}
 		else if (!mir_strcmp(server, "xmpp.odnoklassniki.ru")) {
@@ -1737,7 +1732,6 @@ protected:
 			}
 			break;
 
-		case ACC_FBOOK:
 		case ACC_OK:
 			m_proto->m_options.IgnoreRosterGroups = TRUE;
 			m_proto->m_options.UseSSL = FALSE;
@@ -1896,7 +1890,6 @@ private:
 	void setupSecureSSL();
 	void setupGoogle();
 	void setupLJ();
-	void setupFB();
 	void setupVK();
 	void setupOK();
 	void setupSMS();
@@ -1935,7 +1928,6 @@ void CJabberDlgAccMgrUI::setupConnection(int type)
 		case ACC_SSL: setupSecureSSL(); break;
 		case ACC_GTALK: setupGoogle(); break;
 		case ACC_LJTALK: setupLJ(); break;
-		case ACC_FBOOK: setupFB(); break;
 		case ACC_OK: setupOK(); break;
 		case ACC_SMS: setupSMS(); break;
 	}
@@ -2015,24 +2007,6 @@ void CJabberDlgAccMgrUI::setupLJ()
 	m_chkManualHost.SetState(BST_UNCHECKED);
 	m_txtManualHost.SetTextA("");
 	m_txtPort.SetInt(5222);
-
-	m_cbServer.Disable();
-	m_chkManualHost.Disable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Disable();
-}
-
-void CJabberDlgAccMgrUI::setupFB()
-{
-	m_canregister = false;
-	m_gotservers = true;
-	m_cbServer.ResetContent();
-	m_cbServer.SetTextA("chat.facebook.com");
-	m_cbServer.AddStringA("chat.facebook.com");
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("");
-	m_txtPort.SetInt(443);
 
 	m_cbServer.Disable();
 	m_chkManualHost.Disable();
