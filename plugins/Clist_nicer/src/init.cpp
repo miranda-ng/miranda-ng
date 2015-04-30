@@ -189,8 +189,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	if (iCount < 300)
 		iCount = 300;
 
-	cfg::init();
-
 	cfg::dat.hMenuNotify = CreatePopupMenu();
 	cfg::dat.wNextMenuID = 1;
 	cfg::dat.sortTimer = cfg::getDword("CLC", "SortTimer", 150);
