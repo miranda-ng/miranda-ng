@@ -217,10 +217,6 @@ Jabber vCard: добавление телефона
 Применить фильтр
 [Reset Filter]
 Сбросить фильтр
-[Invite Users to <room jid>]
-Пригласить пользователей в <room jid>
-[Send group chat invitation.]
-Пригласить в конференцию.
 [Other JID:]
 Другой JID:
 [Add]
@@ -229,10 +225,6 @@ Jabber vCard: добавление телефона
 Причина приглашения:
 [&Invite]
 &Пригласить
-[Group chat invitation to <room jid>]
-Приглашение в конференцию <room jid>
-[Incoming group chat invitation.]
-Приглашение в конференцию.
 [You are invited to conference room by]
 Вас пригласил:
 [with following reason:]
@@ -401,10 +393,6 @@ XML Консоль
 Занятие Jabber
 [Jabber Mood]
 Настроение Jabber
-[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-Я использую Miranda NG (http://miranda-ng.org/.)
-[/me slaps %s around a bit with a large trout]
-/me шарахнул %s веслом по голове
 [Error %s %s]
 Ошибка %s %s
 [Select Command]
@@ -665,14 +653,8 @@ xHTML формат чат сообщений
 Копировать JID с комнаты чата
 [Real &JID: %s]
 Реальный &JID: %s
-[Invite Users to %s]
-Пригласить пользователей в %s
 [%s (not on roster)]
 %s (не в ростере)
-[Member Info: %s]
-Инфо пользователя: %s
-[from %s]
-из %s
 [Real JID not available]
 Реальный JID недоступен
 [Reason to kick %s]
@@ -759,10 +741,6 @@ Jabber ошибка
 Ошибка запроса значений
 [Set filter...]
 Фильтр...
-[First Name]
-Имя
-[Last Name]
-Фамилия
 [Failed to retrieve room list from server.]
 Ошибка запроса списка комнат с сервера.
 [No rooms available on server.]
@@ -781,8 +759,6 @@ Jabber ошибка
 Изменить ник в <%s>
 [has set the subject to:]
 установил(а) тему:
-[Group chat invitation to %s]
-Приглашение в конференцию %s
 [Status icons]
 Значки статуса
 [transport]
@@ -2193,3 +2169,11 @@ Jabber vCard: редактирование телефона
 Настроения
 [Activities]
 Занятия
+[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
+Я использую Miranda NG (http://miranda-ng.org/.)
+[/me slaps %s around a bit with a large trout]
+/me шарахнул %s веслом по голове
+[First Name]
+Имя
+[Last Name]
+Фамилия

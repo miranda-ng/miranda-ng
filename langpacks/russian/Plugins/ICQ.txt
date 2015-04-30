@@ -273,6 +273,8 @@ xСтатус "%s"
 Повторите ваш новый пароль:
 [Enter your current password:]
 Введите текущий пароль:
+[Please authorize me to add you to my contact list.]
+Разрешите, пожалуйста, добавить вас в список контактов.
 [Unable to connect to migrated ICQ communication server]
 Невозможно подключиться к мигрированному серверу общения ICQ
 [Unable to connect to ICQ communication server]
@@ -303,6 +305,164 @@ xСтатус "%s"
 Сервер закрыл соединение, так как вы вошли с другого места используя тот же номер ICQ.
 [Unknown runtime error: 0x%02x]
 Неизвестная ошибка: 0x%02x
+[January]
+Январь
+[February]
+Февраль
+[March]
+Март
+[April]
+Апрель
+[May]
+Май
+[June]
+Июнь
+[July]
+Июль
+[August]
+Август
+[September]
+Сентябрь
+[October]
+Октябрь
+[November]
+Ноябрь
+[December]
+Декабрь
+[Personal]
+Личное
+[Nickname]
+Ник
+[First name]
+Имя
+[Last name]
+Фамилия
+[Gender]
+Пол
+[About]
+Информация
+[Password]
+Пароль
+[Contact]
+Контакт
+[Primary e-mail]
+Основной e-mail
+[Secondary e-mail]
+Вторичный e-mail
+[Tertiary e-mail]
+Третий e-mail
+[Street]
+Улица
+[City]
+Город
+[State]
+Штат
+[ZIP/postcode]
+Индекс
+[Country]
+Страна
+[Phone number]
+Телефон
+[Fax number]
+Факс
+[Cellular number]
+Мобильный тел.
+[Personal Detail]
+Личные данные
+[Timezone]
+Часовой пояс
+[Year of birth]
+Год рождения
+[Month of birth]
+Месяц рождения
+[Day of birth]
+День рождения
+[Marital Status]
+Семейное положение
+[Spoken language 1]
+Язык 1
+[Spoken language 2]
+Язык 2
+[Spoken language 3]
+Язык 3
+[Originally from]
+По происхождению
+[Education]
+Образование
+[Level]
+Ступень
+[Institute]
+ВУЗ
+[Degree]
+Степень
+[Graduation Year]
+Год окончания
+[Company name]
+Имя компании
+[Company homepage]
+Сайт компании
+[Company street]
+Адрес компании
+[Company city]
+Город
+[Company state]
+Штат
+[Company phone]
+Телефон
+[Company fax]
+Факс
+[Company ZIP/postcode]
+Индекс
+[Company country]
+Страна
+[Company department]
+Департамент
+[Company position]
+Должность
+[Company industry]
+Вид деятельности
+[Personal Interests]
+Персональные интересы
+[Interest category 1]
+Категория 1
+[Interest areas 1]
+Интересуюсь 1
+[Interest category 2]
+Категория 2
+[Interest areas 2]
+Интересуюсь 2
+[Interest category 3]
+Категория 3
+[Interest areas 3]
+Интересуюсь 3
+[Interest category 4]
+Категория 4
+[Interest areas 4]
+Интересуюсь 4
+[The password does not match your current password. Check Caps Lock and try again.]
+Пароль не совпадает с существующим. Проверьте Caps Lock и попробуйте снова.
+[Change ICQ Details]
+Изменить данные ICQ
+[The password does not match the password you originally entered. Check Caps Lock and try again.]
+Пароль не совпадает с паролем, введённым ранее. Проверьте Caps Lock и попробуйте снова.
+[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
+Сервер ICQ не поддерживает пароли длиной более 8 символов. Используйте пароль покороче.
+[<unremovable once applied>]
+<нельзя удалить после ввода>
+[<empty>]
+<нет>
+[Unknown value]
+Неизвестное значение
+[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
+Вы сделали изменения, но не сохранили их на сервере. Закрыть окно?
+[Upload in progress...]
+Загрузка...
+[Upload in progress...%d%%]
+Загрузка...%d%%
+[Upload complete]
+Загрузка завершена
+[Upload FAILED]
+Загрузка не удалась
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Переход с сервера на сервер не удался так как сервер вернул неверные данные. Вам нужно подключиться вручную.
 [Failed to request offline messages. They may be received next time you log in.]
@@ -1169,8 +1329,6 @@ Web Дизайн
 Потребительские товары
 [Corporate Services]
 Корпоративные услуги
-[Education]
-Образование
 [Finance]
 Финансы
 [High Tech]
@@ -1625,6 +1783,8 @@ xСтатус ICQ
 Сервер, к которому вы пытаетесь подключиться, не существует. Проверьте сервер: Настройки->Сеть->ICQ.
 [error]
 ошибка
+[Enter a password for UIN %u:]
+Введите пароль для %u:
 [%d Files]
 %d файлов
 [The file transfer was aborted by the other user.]
@@ -1649,170 +1809,8 @@ xСтатус ICQ
 Контрольная сумма файла "%s" не совпадает, файл может быть поврежден.
 [Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 Передача файлов прервана (ошибка=%d), поскольку один из файлов более недоступен. Возможно, вы удалили или переместили его.
-[<invalid>]
-<неверно>
-[January]
-Январь
-[February]
-Февраль
-[March]
-Март
-[April]
-Апрель
-[May]
-Май
-[June]
-Июнь
-[July]
-Июль
-[August]
-Август
-[September]
-Сентябрь
-[October]
-Октябрь
-[November]
-Ноябрь
-[December]
-Декабрь
-[Personal]
-Личное
-[Nickname]
-Ник
-[First name]
-Имя
-[Last name]
-Фамилия
-[Gender]
-Пол
-[About]
-Информация
-[Password]
-Пароль
-[Contact]
-Контакт
-[Primary e-mail]
-Основной e-mail
-[Secondary e-mail]
-Вторичный e-mail
-[Tertiary e-mail]
-Третий e-mail
-[Street]
-Улица
-[City]
-Город
-[State]
-Штат
-[ZIP/postcode]
-Индекс
-[Country]
-Страна
-[Phone number]
-Телефон
-[Fax number]
-Факс
-[Cellular number]
-Мобильный тел.
-[Personal Detail]
-Личные данные
-[Timezone]
-Часовой пояс
-[Year of birth]
-Год рождения
-[Month of birth]
-Месяц рождения
-[Day of birth]
-День рождения
-[Marital Status]
-Семейное положение
-[Spoken language 1]
-Язык 1
-[Spoken language 2]
-Язык 2
-[Spoken language 3]
-Язык 3
-[Originally from]
-По происхождению
-[Level]
-Ступень
-[Institute]
-ВУЗ
-[Degree]
-Степень
-[Graduation Year]
-Год окончания
-[Company name]
-Имя компании
-[Company homepage]
-Сайт компании
-[Company street]
-Адрес компании
-[Company city]
-Город
-[Company state]
-Штат
-[Company phone]
-Телефон
-[Company fax]
-Факс
-[Company ZIP/postcode]
-Индекс
-[Company country]
-Страна
-[Company department]
-Департамент
-[Company position]
-Должность
-[Company industry]
-Вид деятельности
-[Personal Interests]
-Персональные интересы
-[Interest category 1]
-Категория 1
-[Interest areas 1]
-Интересуюсь 1
-[Interest category 2]
-Категория 2
-[Interest areas 2]
-Интересуюсь 2
-[Interest category 3]
-Категория 3
-[Interest areas 3]
-Интересуюсь 3
-[Interest category 4]
-Категория 4
-[Interest areas 4]
-Интересуюсь 4
-[The password does not match your current password. Check Caps Lock and try again.]
-Пароль не совпадает с существующим. Проверьте Caps Lock и попробуйте снова.
-[Change ICQ Details]
-Изменить данные ICQ
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-Пароль не совпадает с паролем, введённым ранее. Проверьте Caps Lock и попробуйте снова.
-[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
-Сервер ICQ не поддерживает пароли длиной более 8 символов. Используйте пароль покороче.
-[<unremovable once applied>]
-<нельзя удалить после ввода>
-[<empty>]
-<нет>
-[Unknown value]
-Неизвестное значение
-[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
-Вы сделали изменения, но не сохранили их на сервере. Закрыть окно?
-[Upload in progress...]
-Загрузка...
-[Upload in progress...%d%%]
-Загрузка...%d%%
-[Upload complete]
-Загрузка завершена
-[Upload FAILED]
-Загрузка не удалась
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Вы не подключены к сети ICQ. Чтобы обновлять данные, нужно подключиться к сети ICQ.
-[Please authorize me to add you to my contact list.]
-Разрешите, пожалуйста, добавить вас в список контактов.
-[Enter a password for UIN %u:]
-Введите пароль для %u:
 [ (DC Established)]
  (ПП установлено)
 [ScreenName:]
@@ -1823,3 +1821,5 @@ xСтатус ICQ
 Участник с:
 [%s Details]
 %s Детали
+[<invalid>]
+<неверно>
