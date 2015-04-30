@@ -150,6 +150,7 @@ private:
 	void OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response);
 	void OnGetTrouter(const NETLIBHTTPREQUEST *response);
 	void OnHealth(const NETLIBHTTPREQUEST *response);
+	void OnTrouterEvent(JSONNODE *body, JSONNODE *headers);
 	void __cdecl CSkypeProto::TRouterThread(void*);
 
 	// profile
@@ -206,7 +207,7 @@ private:
 
 	MEVENT GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp = 0);
 	MEVENT AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content, int emoteOffset = 0);
-
+	MEVENT AddCallToDb(MCONTACT hContact, DWORD timestamp, DWORD flags);
 	int OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset = 0, bool isRead = false);
 	int SaveMessageToDb(MCONTACT hContact, PROTORECVEVENT *pre);
 

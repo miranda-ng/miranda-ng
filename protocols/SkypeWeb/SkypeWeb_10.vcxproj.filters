@@ -180,5 +180,8 @@
     <Image Include="res\Icons\user_unblock.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
+	<Image Include="res\Icons\call.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
   </ItemGroup>
 </Project>

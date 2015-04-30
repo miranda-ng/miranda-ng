@@ -258,6 +258,7 @@
     <Image Include="res\Icons\sync_history.ico" />
     <Image Include="res\Icons\user_block.ico" />
     <Image Include="res\Icons\user_unblock.ico" />
+	<Image Include="res\Icons\call.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

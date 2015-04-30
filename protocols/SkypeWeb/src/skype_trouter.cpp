@@ -89,6 +89,16 @@ void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST *response)
 	SendRequest(new GetTrouterRequest(socketIo, connId, st, se, sig, instance, ccid), &CSkypeProto::OnGetTrouter);
 }
 
+void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *headers)
+{
+	ptrT displayname(json_as_string(json_get(body, "displayName")));
+	ptrT uid(json_as_string(json_get(body, "conversationId")));
+
+	MCONTACT hContact = FindContact(_T2A(uid));
+	if (hContact != NULL)
+		AddCallToDb(hContact, time(NULL), 0);
+}
+
 void CSkypeProto::TRouterThread(void*)
 {
 	debugLogA(__FUNCTION__": entering");
@@ -133,14 +143,8 @@ void CSkypeProto::TRouterThread(void*)
 			JSONROOT  root(json);
 			ptrA szBody(mir_t2a(ptrT(json_as_string(json_get(root, "body")))));
 			JSONNODE *headers = json_get(root, "headers");
-
 			JSONROOT jsonBody(szBody);
-
-			ptrT displayname(json_as_string(json_get(jsonBody, "displayName")));
-			ptrT uid(json_as_string(json_get(jsonBody, "conversationId")));
-			MCONTACT hContact = FindContact(_T2A(uid));
-			if (uid != NULL)
-				ShowNotification(uid, TranslateT("Incoming call"), 0, hContact);
+			OnTrouterEvent(jsonBody, headers);
 		}
 
 		m_TrouterConnection = response->nlc;
