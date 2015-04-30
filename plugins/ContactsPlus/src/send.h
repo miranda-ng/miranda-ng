@@ -42,7 +42,7 @@
 struct TSendProcessList {
   int Count;
   HANDLE* Items;
-  CRITICAL_SECTION lock;
+  mir_cs lock;
   void Add(HANDLE hProcc);
   void Remove(HANDLE hProcc);
   TSendProcessList();
