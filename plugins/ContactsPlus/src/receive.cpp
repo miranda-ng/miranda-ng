@@ -108,7 +108,7 @@ static void RebuildGroupCombo(HWND hwndDlg)
 
 	if (bHasGroups) {
 		int curs = SendMessage(hGroupsCombo, CB_GETCURSEL, 0, 0);
-		TCHAR* curst;
+		TCHAR *curst = NULL;
 
 		EnableDlgItem(hwndDlg, IDC_ENABLEGROUPS, TRUE);
 		EnableGroupCombo(hwndDlg);

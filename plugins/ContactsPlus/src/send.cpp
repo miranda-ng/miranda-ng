@@ -28,7 +28,6 @@
 
 TSendProcessList::TSendProcessList()
 {
-	InitializeCriticalSection(&lock);
 	Count = 0;
 	Items = NULL;
 }
@@ -36,7 +35,6 @@ TSendProcessList::TSendProcessList()
 TSendProcessList::~TSendProcessList()
 {
 	mir_free(Items);
-	DeleteCriticalSection(&lock);
 }
 
 void TSendProcessList::Add(HANDLE hProcc)
