@@ -105,8 +105,6 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 {
-	Initialize();
-
 	bReadMirandaDirAndPath();
 	UpdateFileToColWidth();
 
@@ -240,7 +238,6 @@ extern "C" __declspec(dllexport) int Load()
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	WindowList_Destroy(hInternalWindowList);
-	Uninitilize();
 	bUseInternalViewer(false);
 	return 0;
 }
