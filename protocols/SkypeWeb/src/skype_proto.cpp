@@ -40,7 +40,8 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	CreateProtoService(PS_GETMYAVATART, &CSkypeProto::SvcGetMyAvatar);
 	CreateProtoService(PS_SETMYAVATART, &CSkypeProto::SvcSetMyAvatar);
 
-	CreateProtoService("/IncomingCall", &CSkypeProto::OnIncomingCall);
+	CreateProtoService("/IncomingCallCLE", &CSkypeProto::OnIncomingCallCLE);
+	CreateProtoService("/IncomingCallPP", &CSkypeProto::OnIncomingCallPP);
 
 	m_tszAvatarFolder = std::tstring(VARST(_T("%miranda_avatarcache%"))) + _T("\\") + m_tszUserName;
 	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());

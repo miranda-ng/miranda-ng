@@ -107,13 +107,15 @@ void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *headers)
 		cle.lParam = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
 		cle.hIcon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
 
-		CMStringA service(FORMAT, "%s/IncomingCall", GetContactProto(hContact));
+		CMStringA service(FORMAT, "%s/IncomingCallCLE", GetContactProto(hContact));
 		cle.pszService = service.GetBuffer();
 
 		CMString tooltip(FORMAT, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 		cle.ptszTooltip = tooltip.GetBuffer();
 
 		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+
+		ShowNotification(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Incoming call"), 0, hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL);
 	}
 }
 
@@ -179,9 +181,24 @@ void CSkypeProto::TRouterThread(void*)
 	debugLogA(__FUNCTION__": leaving");
 }
 
-INT_PTR CSkypeProto::OnIncomingCall(WPARAM wParam, LPARAM lParam)
+INT_PTR CSkypeProto::OnIncomingCallCLE(WPARAM wParam, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
+	NotifyEventHooks(m_hCallHook, (WPARAM)cle->hContact, (LPARAM)0);
+	return 0;
+}
+
+INT_PTR CSkypeProto::OnIncomingCallPP(WPARAM wParam, LPARAM hContact)
+{
+	CLISTEVENT *cle = NULL;
+	while ((cle = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, hContact, 0)))
+	{
+		if (cle->lParam == SKYPE_DB_EVENT_TYPE_INCOMING_CALL)
+		{
+			CallService(MS_CLIST_REMOVEEVENT, hContact, cle->hDbEvent);
+			break;
+		}
+	}
 	NotifyEventHooks(m_hCallHook, (WPARAM)cle->hContact, (LPARAM)0);
 	return 0;
 }
