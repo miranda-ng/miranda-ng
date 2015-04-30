@@ -1,4 +1,6 @@
-#include "common.h"
+#include "stdafx.h"
+
+#pragma comment(lib, "crypt32.lib")
 
 WORD CSteamProto::SteamToMirandaStatus(int state)
 {
@@ -116,7 +118,7 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, const char *data, BYTE *encr
 		goto exit;
 	}
 
-	DWORD dataSize = strlen(data);
+	DWORD dataSize = (DWORD)strlen(data);
 
 	// if data is not allocated just renurn size
 	if (encryptedData == NULL)

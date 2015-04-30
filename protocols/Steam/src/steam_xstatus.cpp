@@ -1,4 +1,4 @@
-﻿#include "common.h"
+﻿#include "stdafx.h"
 
 #define STATUS_TITLE_MAX 64
 #define STATUS_DESC_MAX  250
@@ -6,7 +6,7 @@
 static std::vector<int> xstatusIconsValid;
 static std::map<int, int> xstatusIcons;
 
-int OnReloadIcons(WPARAM wParam, LPARAM lParam)
+int OnReloadIcons(WPARAM, LPARAM)
 {
 	xstatusIconsValid.clear();
 	return 0;
@@ -113,7 +113,7 @@ INT_PTR CSteamProto::OnGetXStatusIcon(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)GetXStatusIcon(wParam, lParam);
 }
 
-INT_PTR CSteamProto::OnRequestAdvStatusIconIdx(WPARAM wParam, LPARAM lParam)
+INT_PTR CSteamProto::OnRequestAdvStatusIconIdx(WPARAM wParam, LPARAM)
 {
 	int status = GetContactXStatus(wParam);
 	if (status)

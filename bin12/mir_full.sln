@@ -415,7 +415,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhatsApp", "..\protocols\Wh
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dummy", "..\protocols\Dummy\dummy.vcxproj", "{D3B4DDFF-D3A5-4452-AE9D-B43B3C97C821}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Steam", "..\protocols\Steam\Steam_12.vcxproj", "{8236EA1F-579A-4AFB-9DFE-5FA056AEDDBB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Steam", "..\protocols\Steam\Steam.vcxproj", "{8236EA1F-579A-4AFB-9DFE-5FA056AEDDBB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenSSL", "..\plugins\OpenSSL\OpenSSL_12.vcxproj", "{6C0C35E7-6522-403C-BB60-9805CDB9E52F}"
 EndProject

@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 TCHAR* CSteamProto::GetAvatarFilePath(MCONTACT hContact)
 {

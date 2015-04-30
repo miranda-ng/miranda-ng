@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 //void CSteamProto::SendTypingThread(void *arg)
 //{

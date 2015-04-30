@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 #define POLLING_ERRORS_LIMIT 3
 

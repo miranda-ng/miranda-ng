@@ -74,7 +74,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_WhatsApp", "..\protoc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Dummy", "..\protocols\Dummy\proto_dummy\Proto_Dummy_10.vcxproj", "{018F801B-E80F-4E49-A640-E30BC445E74A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Steam", "..\protocols\Steam\proto_steam\Proto_Steam_10.vcxproj", "{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Steam", "..\protocols\Steam\proto_steam\Proto_Steam.vcxproj", "{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
