@@ -35,7 +35,7 @@ static int CompareTokens(const TokenRegisterEntry* p1, const TokenRegisterEntry*
 
 static LIST<TokenRegisterEntry> tokens(100, CompareTokens);
 
-static CRITICAL_SECTION csRegister;
+static mir_cs csRegister;
 
 unsigned long int hashlittle(void *key, size_t length, unsigned long int initval);
 
@@ -235,7 +235,6 @@ int getTokenRegisterCount()
 
 int initTokenRegister()
 {
-	InitializeCriticalSection(&csRegister);
 	return 0;
 }
 
@@ -259,6 +258,5 @@ int deinitTokenRegister()
 	}
 	tokens.destroy();
 
-	DeleteCriticalSection(&csRegister);
 	return 0;
 }

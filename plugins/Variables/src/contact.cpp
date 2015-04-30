@@ -82,7 +82,7 @@ typedef struct {
 /* cache for 'getcontactfromstring' service */
 static CONTACTCE *cce = NULL;
 static int cacheSize = 0;
-static CRITICAL_SECTION csContactCache;
+static mir_cs csContactCache;
 
 static HANDLE hContactSettingChangedHook;
 
@@ -397,7 +397,6 @@ static int contactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 int initContactModule()
 {
-	InitializeCriticalSection(&csContactCache);
 	hContactSettingChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, contactSettingChanged);
 	return 0;
 }
@@ -405,7 +404,6 @@ int initContactModule()
 int deinitContactModule()
 {
 	UnhookEvent(hContactSettingChangedHook);
-	DeleteCriticalSection(&csContactCache);
 	return 0;
 }
 
