@@ -179,14 +179,11 @@ protected:
 
 private:
 
-	LIST<CQueueItem>	_queue;
+	LIST<CQueueItem> _queue;
 
-	CRITICAL_SECTION	_cs;
-	HANDLE				_hEvent;
-	EQueueStatus		_status;
-
-	void Lock();
-	void Release();
+	mir_cs _cs;
+	HANDLE _hEvent;
+	EQueueStatus _status;
 
 	/**
 	 * This member function really adds an item into the time sorted queue list.
