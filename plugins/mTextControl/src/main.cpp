@@ -64,7 +64,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (hMsfteditDll)
 		MyCreateTextServices = (pfnMyCreateTextServices)GetProcAddress(hMsfteditDll, "CreateTextServices");
 
-	LoadEmfCache();
 	LoadRichEdit();
 	LoadTextUsers();
 	LoadServices();
