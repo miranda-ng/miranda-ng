@@ -354,3 +354,15 @@ sněžení (dop.)
 déšť / později sněžení
 [Am Rain / Snow]
 déšť (dop.) / sněžení
+[Partly Cloudy / Wind]
+částečně oblačno / vítr
+[Mostly Sunny / Wind]
+převážně slunečno / vítr
+[Isolated T-Storms / Wind]
+ojedinělé bouřky / vítr
+[T-Storms Late]
+později bouřky
+[Scattered T-Storms / Wind]
+proměnlivé bouřky / vítr
+[Snow To Wintry Mix]
+sněžení s mrznoucím deštěm
