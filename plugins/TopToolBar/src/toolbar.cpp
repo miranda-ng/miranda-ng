@@ -16,7 +16,7 @@ int nextButtonId = 200;
 HANDLE hTTBModuleLoaded;
 static WNDPROC buttonWndProc;
 
-CRITICAL_SECTION csButtonsHook;
+mir_cs csButtonsHook;
 
 int sortfunc(const TopButtonInt *a, const TopButtonInt *b)
 {
@@ -656,7 +656,6 @@ int LoadToolbarModule()
 
 	db_unset(NULL, TTB_OPTDIR, "WarningDone");
 
-	InitializeCriticalSection(&csButtonsHook);
 	hBmpSeparator = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SEP));
 
 	HookEvent(ME_SYSTEM_MODULELOAD, OnPluginLoad);
@@ -702,7 +701,6 @@ int UnloadToolbarModule()
 	DestroyHookableEvent(hTTBModuleLoaded);
 
 	DeleteObject(hBmpSeparator);
-	DeleteCriticalSection(&csButtonsHook);
 
 	for (int i = 0; i < Buttons.getCount(); i++)
 		delete Buttons[i];
