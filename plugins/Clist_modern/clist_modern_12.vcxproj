@@ -267,7 +267,6 @@
     <ClInclude Include="src\hdr\modern_row.h" />
     <ClInclude Include="src\hdr\modern_rowheight_funcs.h" />
     <ClInclude Include="src\hdr\modern_skinengine.h" />
-    <ClInclude Include="src\hdr\modern_skinned_profile.h" />
     <ClInclude Include="src\hdr\modern_static_clui.h" />
     <ClInclude Include="src\hdr\modern_static_cluiframes_service.h" />
     <ClInclude Include="src\hdr\modern_statusbar.h" />
