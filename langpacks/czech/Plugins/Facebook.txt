@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.6
+;  Version: 0.2.10.8
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -147,6 +147,8 @@ Chyba při přihlašování, možná máte špatné přihlašovací údaje.
 Nelze načíst komunikační token. Měli byste tento problém nahlásit a počkat na aktualizaci.
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
 Nelze načíst všechna požadovaná data. Doplněk může stále fungovat korektně, ale měli byste tento problém nahlásit a počkat na aktualizaci.
+[Contact doesn't have required data in database.]
+
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Vyžadováno potvrzení pro odesílání zpráv jiným klientům.\nOtevřte stránky Facebooku a odešlete znovu zprávu tomuto kontaktu!
 [User cancel captcha challenge.]
