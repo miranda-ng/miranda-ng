@@ -57,7 +57,7 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
-	dbEventType.descr = Translate("Incoming Call");
+	dbEventType.descr = Translate("Incoming call");
 	dbEventType.eventIcon = GetIconHandle("inc_call");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 	//hooks
