@@ -857,7 +857,6 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 
 	extern "C" __declspec(dllexport) int Load() {
 		mir_getLP(&pluginInfo);
-		InitializeCriticalSection(&csFileShareListAccess);
 
 		hHttpAcceptConnectionsService = CreateServiceFunction(MS_HTTP_ACCEPT_CONNECTIONS, nToggelAcceptConnections);
 		if (! hHttpAcceptConnectionsService) {
