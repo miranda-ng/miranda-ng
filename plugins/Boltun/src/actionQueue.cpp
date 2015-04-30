@@ -47,18 +47,19 @@ static list<QueueElement> actionQueue;
 static set<MCONTACT> typingContacts;
 UINT_PTR timerID = 0;
 
-CriticalSection cs;
-CriticalSection typingContactsLock;
+mir_cs cs;
+mir_cs typingContactsLock;
 
 void UpdateTimer();
 
 VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	cs.Enter();
+	mir_cslockfull lck(cs);
 	QueueElement q = actionQueue.front();
 	actionQueue.pop_front();
 	UpdateTimer();
-	cs.Leave();
+	lck.unlock();
+
 	q.Handler(q.hContact, q.inf);
 }
 
@@ -90,8 +91,7 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 	bufsize *= sizeof(TCHAR) + 1;
 	msg = new char[bufsize];
 
-	if (!WideCharToMultiByte(CP_ACP, 0, info->Answer.c_str(), -1, msg, size,
-		NULL, NULL))
+	if (!WideCharToMultiByte(CP_ACP, 0, info->Answer.c_str(), -1, msg, (int)size, NULL, NULL))
 		memset(msg, '-', (size - 1)); //In case of fault return "----" in ANSI part
 	memcpy(msg + size, info->Answer.c_str(), size * 2);
 
@@ -100,7 +100,7 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 	memset(&ldbei, 0, sizeof(ldbei));
 	ldbei.cbSize = sizeof(ldbei);
 	//FIXME: Error may happen
-	ldbei.cbBlob = bufsize;
+	ldbei.cbBlob = (int)bufsize;
 	ldbei.pBlob = (PBYTE)(void*)msg;
 	ldbei.eventType = EVENTTYPE_MESSAGE;
 	ldbei.flags = DBEF_SENT;
@@ -113,18 +113,16 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 
 	delete[] msg;
 
-	typingContactsLock.Enter();
+	mir_cslock lck(typingContactsLock);
 	typingContacts.erase(hContact);
-	typingContactsLock.Leave();
 }
 
 static void StartTyping(MCONTACT hContact, const TalkBot::MessageInfo*)
 {
-	CallService(MS_PROTO_SELFISTYPING, hContact,
-		(LPARAM)PROTOTYPE_SELFTYPING_ON);
-	typingContactsLock.Enter();
+	CallService(MS_PROTO_SELFISTYPING, hContact, PROTOTYPE_SELFTYPING_ON);
+
+	mir_cslock lck(typingContactsLock);
 	typingContacts.insert(hContact);
-	typingContactsLock.Leave();
 }
 
 void DoAnswer(MCONTACT hContact, const TalkBot::MessageInfo *info, bool sticky = false)
@@ -156,15 +154,14 @@ void DoAnswer(MCONTACT hContact, const TalkBot::MessageInfo *info, bool sticky =
 			thinkTime = thinkTime * (rand() % 300) / 100 + thinkTime;
 		}
 	}
-	cs.Enter();
+	
+	mir_cslock lck(cs);
 	//Check if this contact's timer handler is now waiting for a cs.
 	bool needTimerRearrange = false;
 	if (!actionQueue.empty() && actionQueue.front().hContact == hContact)
 	{
 		needTimerRearrange = true;
 		KillTimer(NULL, timerID);
-		cs.Leave();
-		cs.Enter();
 	}
 	if (!actionQueue.empty())
 	{
@@ -189,13 +186,14 @@ void DoAnswer(MCONTACT hContact, const TalkBot::MessageInfo *info, bool sticky =
 			--it;
 		}
 	}
-	typingContactsLock.Enter();
-	if (typingContacts.find(hContact) != typingContacts.end())
 	{
-		CallService(MS_PROTO_SELFISTYPING, hContact, (LPARAM)PROTOTYPE_SELFTYPING_OFF);
-		typingContacts.erase(hContact);
+		mir_cslock tcl(typingContactsLock);
+		if (typingContacts.find(hContact) != typingContacts.end())
+		{
+			CallService(MS_PROTO_SELFISTYPING, hContact, (LPARAM)PROTOTYPE_SELFTYPING_OFF);
+			typingContacts.erase(hContact);
+		}
 	}
-	typingContactsLock.Leave();
 	if (actionQueue.empty())
 		needTimerRearrange = true;
 	if (thinkTime)
@@ -203,7 +201,6 @@ void DoAnswer(MCONTACT hContact, const TalkBot::MessageInfo *info, bool sticky =
 	actionQueue.push_back(QueueElement(hContact, TimerAnswer, waitTime, info, sticky));
 	if (needTimerRearrange)
 		UpdateTimer();
-	cs.Leave();
 }
 
 void AnswerToContact(MCONTACT hContact, const TCHAR* messageToAnswer)

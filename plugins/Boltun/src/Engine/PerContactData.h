@@ -21,17 +21,16 @@
 #ifndef PerContactDataH
 #define PerContactDataH
 
-#include "CriticalSection.h"
-
 static std::map<unsigned, void*> perContactDataObjects;
 
 template <class Source, class Data, class ContactHandle>
 class PerContactData
 {
+	PerContactData& operator=(const PerContactData&);
+
 	template <class Source, class Data>
 	struct InternalData
 	{
-		CriticalSection lock;
 		Data *data;
 		time_t time;
 		inline InternalData(const Source& src)
@@ -51,7 +50,7 @@ class PerContactData
 			delete data;
 		}
 	};
-	CriticalSection mapLock;
+	mir_cs mapLock;
 	unsigned timerID;
 	std::map<ContactHandle, InternalData<Source, Data>* > datas;
 	typedef typename std::map<ContactHandle, InternalData<Source, Data>* >::iterator mapIt;
@@ -59,6 +58,7 @@ class PerContactData
 	void CleanupData();
 	template <class Source, class Data, class ContactHandle>
 	friend VOID CALLBACK RunTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
+
 public:
 	PerContactData(const Source& src);
 	~PerContactData();
@@ -75,7 +75,7 @@ PerContactData<Source, Data, ContactHandle>::PerContactData(const Source& src)
 template <class Source, class Data, class ContactHandle>
 PerContactData<Source, Data, ContactHandle>::~PerContactData()
 {
-	mapLock.Enter();
+	mir_cslock mlck(mapLock);
 	if (timerID)
 	{
 		KillTimer(NULL, timerID);
@@ -83,40 +83,26 @@ PerContactData<Source, Data, ContactHandle>::~PerContactData()
 	}
 	while (!datas.empty())
 	{
-		while (!(*datas.begin()).second->lock.TryEnter())
-		{
-			mapLock.Leave();
-			Sleep(10);
-			mapLock.Enter();
-		}
-		//Now we know exactly that no-one onws a contact lock
-		InternalData<Source, Data>* data = (*datas.begin()).second;
-		data->lock.Leave();
-		delete data;
+		delete (*datas.begin()).second;
 		datas.erase(datas.begin());
 	}
-	mapLock.Leave();
 }
 
 template <class Source, class Data, class ContactHandle>
 Data* PerContactData<Source, Data, ContactHandle>::GetData(ContactHandle Contact)
 {
-	mapLock.Enter();
+	mir_cslock mlck(mapLock);
 	mapIt it;
 	if ((it = datas.find(Contact)) == datas.end())
 		it = datas.insert(make_pair(Contact, new InternalData<Source, Data>(source))).first;
-	(*it).second->lock.Enter();
 	(*it).second->time = 0;
-	Data* data = (*it).second->data;
-	mapLock.Leave();
-	return data;
+	return (*it).second->data;
 }
 
 template <class Source, class Data, class ContactHandle>
 void PerContactData<Source, Data, ContactHandle>::PutData(ContactHandle Contact)
 {
-	mapLock.Enter();
-	datas[Contact]->lock.Leave();
+	mir_cslock mlck(mapLock);
 	::time(&(datas[Contact]->time));
 	if (!timerID)
 	{
@@ -124,13 +110,12 @@ void PerContactData<Source, Data, ContactHandle>::PutData(ContactHandle Contact)
 		assert(timerID);
 		perContactDataObjects[timerID] = this;
 	}
-	mapLock.Leave();
 }
 
 template <class Source, class Data, class ContactHandle>
 void PerContactData<Source, Data, ContactHandle>::CleanupData()
 {
-	mapLock.Enter();
+	mir_cslock mlck(mapLock);
 	time_t now;
 	time(&now);
 	for (mapIt it = datas.begin(); it != datas.end();)
@@ -156,7 +141,6 @@ void PerContactData<Source, Data, ContactHandle>::CleanupData()
 		KillTimer(NULL, timerID);
 		perContactDataObjects.erase(timerID);
 	}
-	mapLock.Leave();
 }
 
 template <class Source, class Data, class ContactHandle>

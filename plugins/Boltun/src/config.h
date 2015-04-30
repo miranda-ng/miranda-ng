@@ -29,12 +29,16 @@ class Property
 public:
 	typedef const T(__thiscall BaseClass::*Getter)();
 	typedef const T(__thiscall BaseClass::*Setter)(const T);
+
 private:
 	const Getter getter;
 	const Setter setter;
 	BaseClass* owner;
 	bool cacheValid;
 	T cached;
+
+	Property& operator=(const Property&);
+
 public:
 	Property(Getter g, Setter s)
 		:getter(g), setter(s), cacheValid(false)
@@ -68,12 +72,16 @@ class PtrProperty
 public:
 	typedef const T* (__thiscall BaseClass::*Getter)();
 	typedef const T* (__thiscall BaseClass::*Setter)(const T*);
+
 private:
 	const Getter getter;
 	const Setter setter;
 	BaseClass* owner;
 	bool cacheValid;
 	const T* cached;
+
+	PtrProperty& operator=(const PtrProperty&);
+
 public:
 	PtrProperty(Getter g, Setter s)
 		:getter(g), setter(s), cacheValid(false), cached(NULL)
