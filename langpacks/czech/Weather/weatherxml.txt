@@ -350,3 +350,7 @@ hustá mlha/větrno
 slunečno/větrno
 [Am Snow]
 sněžení (dop.)
+[Rain / Snow Late]
+déšť / později sněžení
+[Am Rain / Snow]
+déšť (dop.) / sněžení
