@@ -97,8 +97,7 @@ tstring TalkBot::ReplaceAliases(const tstring &message)
 	const TCHAR dividers[] = _T(" \t\n\r,./?\\|;:'\"~!#^&*()_-+=[{]}—\1");
 	tstring sentence = message;
 	tstring result;
-	int len = (int)sentence.length();
-	map<int, tstring> sm;
+	map<size_t, tstring> sm;
 	//Find smiles
 	for (size_t i = 0; i < sentence.length() - 1; i++)
 	{
@@ -116,7 +115,7 @@ tstring TalkBot::ReplaceAliases(const tstring &message)
 			}
 		}
 	}
-	len = (int)sentence.length();
+	int len = (int)sentence.length();
 	bool hadQuestionSigns = false;
 	int it = 0;
 	while (it != len)
@@ -125,7 +124,7 @@ tstring TalkBot::ReplaceAliases(const tstring &message)
 		{
 			if (sentence[it] == _T('?'))
 				hadQuestionSigns = true;
-			map<int, tstring>::iterator smit;
+			map<size_t, tstring>::iterator smit;
 			if (sentence[it] == '\1')
 			{
 				smit = sm.find(it);
@@ -515,7 +514,7 @@ void TalkBot::SplitAndSortWords(tstring sentence, vector<tstring>& keywords,
 	const TCHAR dividers[] = _T(" \t\n\r,./?\\|;:'\"~!#^&*()_-+=[{]}—");
 	int len = (int)sentence.length();
 	vector<tstring> words;
-	map<int, tstring> sm;
+	map<size_t, tstring> sm;
 	//Find smiles
 	for (size_t i = 0; i < sentence.length() - 1; i++)
 	{
@@ -543,7 +542,7 @@ void TalkBot::SplitAndSortWords(tstring sentence, vector<tstring>& keywords,
 		{
 			if (sentence[it] == _T('?'))
 				hadQuestionSigns = true;
-			map<int, tstring>::iterator smit;
+			map<size_t, tstring>::iterator smit;
 			if (_istspace(sentence[it]) && (smit = sm.find(it)) != sm.end())
 				words.push_back((*smit).second);
 			it++;

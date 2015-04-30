@@ -29,6 +29,9 @@ private:
 	bool *numbers;
 	const container data;
 	bool notifyOnReset;
+
+	ValueChooser& operator=(const ValueChooser&);
+
 public:
 	ValueChooser(const container& vec, bool NotifyOnReset = false)
 		:data(vec), notifyOnReset(NotifyOnReset)

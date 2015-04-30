@@ -28,6 +28,8 @@
 
 class TalkBot
 {
+	TalkBot& operator=(const TalkBot&);
+
 public:
 	struct MessageInfo
 	{
