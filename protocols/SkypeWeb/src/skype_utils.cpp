@@ -586,3 +586,102 @@ INT_PTR CSkypeProto::GlobalParseSkypeUriService(WPARAM wParam, LPARAM lParam)
 
 	return 1;
 }
+/*
+LPCTSTR CSkypeProto::ClearText(CMString &result, const TCHAR *message)
+{
+	BSTR bstrHtml = SysAllocString(message), bstrRes = SysAllocString(_T(""));
+	HRESULT hr = TestMarkupServices(bstrHtml, &TestDocumentText, bstrRes);
+	if (SUCCEEDED(hr))
+		result = bstrRes;
+	else
+		result = message;
+	SysFreeString(bstrHtml);
+	SysFreeString(bstrRes);
+
+	return result;
+}
+
+HRESULT CSkypeProto::TestDocumentText(IHTMLDocument3 *pHtmlDoc, BSTR &message)
+{
+	IHTMLDocument2 *pDoc = NULL;
+	IHTMLElement *pElem = NULL;
+	BSTR bstrId = SysAllocString(L"test");
+
+	HRESULT hr = pHtmlDoc->QueryInterface(IID_PPV_ARGS(&pDoc));
+	if (SUCCEEDED(hr) && pDoc) {
+		hr = pDoc->get_body(&pElem);
+		if (SUCCEEDED(hr) && pElem) {
+			BSTR bstrText = NULL;
+			pElem->get_innerText(&bstrText);
+			message = SysAllocString(bstrText);
+			SysFreeString(bstrText);
+			pElem->Release();
+		}
+
+		pDoc->Release();
+	}
+
+	SysFreeString(bstrId);
+	return hr;
+}
+
+
+
+HRESULT CSkypeProto::TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback, BSTR &message)
+{
+	IHTMLDocument3 *pHtmlDocRoot = NULL;
+
+	// Create the root document -- a "workspace" for parsing.
+	HRESULT hr = CoCreateInstance(CLSID_HTMLDocument, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pHtmlDocRoot));
+	if (SUCCEEDED(hr) && pHtmlDocRoot) {
+		IPersistStreamInit *pPersistStreamInit = NULL;
+
+		HRESULT hr = pHtmlDocRoot->QueryInterface(IID_PPV_ARGS(&pPersistStreamInit));
+		if (SUCCEEDED(hr)) {
+			// Initialize the root document to a default state -- ready for parsing.
+			pPersistStreamInit->InitNew();
+
+			IMarkupServices *pMarkupServices = NULL;
+			hr = pHtmlDocRoot->QueryInterface(IID_PPV_ARGS(&pMarkupServices));
+			if (SUCCEEDED(hr)) {
+				IMarkupPointer *pMarkupBegin = NULL;
+				IMarkupPointer *pMarkupEnd = NULL;
+
+				// These markup pointers indicate the insertion point.
+				hr = pMarkupServices->CreateMarkupPointer(&pMarkupBegin);
+				if (SUCCEEDED(hr))
+					hr = pMarkupServices->CreateMarkupPointer(&pMarkupEnd);
+
+				if (SUCCEEDED(hr) && pMarkupBegin && pMarkupEnd) {
+					IMarkupContainer *pMarkupContainer = NULL;
+
+					// Parse the string -- the markup container contains the parsed HTML.
+					// Markup pointers are updated to point to begining and end of new container.
+					hr = pMarkupServices->ParseString(bstrHtml, 0, &pMarkupContainer, pMarkupBegin, pMarkupEnd);
+					if (SUCCEEDED(hr) && pMarkupContainer) {
+						IHTMLDocument3 *pHtmlDoc = NULL;
+
+						// Retrieve the document interface to the markup container.
+						hr = pMarkupContainer->QueryInterface(IID_PPV_ARGS(&pHtmlDoc));
+						if (SUCCEEDED(hr) && pHtmlDoc) {
+							// Invoke the user-defined action for this new fragment.
+							hr = pCallback(pHtmlDoc, message);
+
+							// Clean up.
+							pHtmlDoc->Release();
+						}
+						pMarkupContainer->Release();
+					}
+					pMarkupEnd->Release();
+				}
+				if (pMarkupBegin)
+					pMarkupBegin->Release();
+				pMarkupServices->Release();
+			}
+			pPersistStreamInit->Release();
+		}
+		pHtmlDocRoot->Release();
+	}
+	return hr;
+}
+*/
