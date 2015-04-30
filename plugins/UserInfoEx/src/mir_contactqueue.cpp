@@ -49,8 +49,6 @@ CContactQueue::CContactQueue(int initialSize)
 	_hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 	_status = RUNNING;
 
-	InitializeCriticalSection(&_cs);
-
 	mir_forkthread((pThreadFunc)CContactQueue::ThreadProc, this);
 }
 
@@ -77,25 +75,6 @@ CContactQueue::~CContactQueue()
 	}
 
 	CloseHandle(_hEvent);
-	DeleteCriticalSection(&_cs);
-}
-
-/**
- *
- *
- **/
-void CContactQueue::Lock()
-{
-	EnterCriticalSection(&_cs);
-}
-
-/**
- *
- *
- **/
-void CContactQueue::Release()
-{
-	LeaveCriticalSection(&_cs);
 }
 
 /**
@@ -107,13 +86,11 @@ void CContactQueue::Release()
  **/
 void CContactQueue::RemoveAll()
 {
-	Lock();
+	mir_cslock lck(_cs);
 
 	for (int i = _queue.getCount() - 1; i >= 0; --i)
 		mir_free(_queue[i]);
 	_queue.destroy();
-
-	Release();
 }
 
 /**
@@ -125,7 +102,7 @@ void CContactQueue::RemoveAll()
  **/
 void CContactQueue::RemoveAll(MCONTACT hContact)
 {
-	Lock();
+	mir_cslock lck(_cs);
 
 	for (int i = _queue.getCount() - 1; i >= 0; --i)
 	{
@@ -137,8 +114,6 @@ void CContactQueue::RemoveAll(MCONTACT hContact)
 			mir_free(qi);
 		}
 	}
-
-	Release();
 }
 
 /**
@@ -151,7 +126,7 @@ void CContactQueue::RemoveAll(MCONTACT hContact)
  **/
 void CContactQueue::RemoveAllConsiderParam(MCONTACT hContact, PVOID param)
 {
-	Lock();
+	mir_cslock lck(_cs);
 
 	for (int i = _queue.getCount() - 1; i >= 0; --i)
 	{
@@ -163,8 +138,6 @@ void CContactQueue::RemoveAllConsiderParam(MCONTACT hContact, PVOID param)
 			mir_free(qi);
 		}
 	}
-
-	Release();
 }
 
 /**
@@ -181,11 +154,9 @@ BOOL CContactQueue::Add(int waitTime, MCONTACT hContact, PVOID param)
 {
 	BOOL rc;
 
-	Lock();
+	mir_cslock lck(_cs);
 
 	rc = InternalAdd(waitTime, hContact, param);
-
-	Release();
 
 	return rc;
 }
@@ -206,7 +177,7 @@ BOOL CContactQueue::AddIfDontHave(int waitTime, MCONTACT hContact, PVOID param)
 	int i;
 	BOOL rc;
 
-	Lock();
+	mir_cslock lck(_cs);
 
 	for (i = _queue.getCount() - 1; i >= 0; --i)
 	{
@@ -217,8 +188,6 @@ BOOL CContactQueue::AddIfDontHave(int waitTime, MCONTACT hContact, PVOID param)
 	}
 
 	rc = (i == -1) ? InternalAdd(waitTime, hContact, param) : 0;
-
-	Release();
 
 	return rc;
 }
@@ -239,12 +208,10 @@ BOOL CContactQueue::AddUnique(int waitTime, MCONTACT hContact, PVOID param)
 {
 	BOOL rc;
 
-	Lock();
+	mir_cslock lck(_cs);
 
 	RemoveAll(hContact);
 	rc = InternalAdd(waitTime, hContact, param);
-
-	Release();
 
 	return rc;
 }
@@ -265,12 +232,10 @@ BOOL CContactQueue::AddUniqueConsiderParam(int waitTime, MCONTACT hContact, PVOI
 {
 	BOOL rc;
 
-	Lock();
+	mir_cslock lck(_cs);
 
 	RemoveAllConsiderParam(hContact, param);
 	rc = InternalAdd(waitTime, hContact, param);
-
-	Release();
 
 	return rc;
 }
@@ -322,15 +287,12 @@ void CContactQueue::Thread()
 	{
 		ResetEvent(_hEvent);
 
-		Lock();
+		mir_cslock lck(_cs);
 
 		if (_queue.getCount() <= 0)
 		{
 			// can be used by a derivant
 			OnEmpty();
-
-			// No items, so supend thread
-			Release();
 
 			Suspend(INFINITE);
 		}
@@ -342,17 +304,12 @@ void CContactQueue::Thread()
 			int dt = qi->check_time - GetTickCount();
 			if (dt > 0)
 			{
-				// Not time to request yet, wait...
-				Release();
-
 				Suspend(dt);
 			}
 			else
 			{
 				// Will request this queue item
 				_queue.remove(0);
-
-				Release();
 
 				Callback(qi->hContact, qi->param);
 
@@ -391,7 +348,7 @@ void CContactQueue::ContinueWithNext()
 	{
 		int i, c, dt;
 
-		Lock();
+		mir_cslock lck(_cs);
 
 		c = _queue.getCount();
 		if (c > 0)
@@ -406,6 +363,5 @@ void CContactQueue::ContinueWithNext()
 			}
 		}
 		SetEvent(_hEvent);
-		Release();
 	}
 }
