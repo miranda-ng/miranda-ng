@@ -87,7 +87,7 @@ private:
 
 COptions         g_Options;
 CStatusInfo      g_CurrStatusInfo;
-CRITICAL_SECTION g_csStatusInfo;
+mir_cs g_csStatusInfo;
 
 int SSC_OnProtocolAck(WPARAM, LPARAM lParam)
 {
@@ -280,7 +280,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&g_pluginInfo);
-	InitializeCriticalSection(&g_csStatusInfo);
 
 	g_MsgIDSkypeControlAPIAttach = ::RegisterWindowMessage(_T("SkypeControlAPIAttach"));
 	g_MsgIDSkypeControlAPIDiscover = ::RegisterWindowMessage(_T("SkypeControlAPIDiscover"));
@@ -314,6 +313,5 @@ extern "C" int __declspec(dllexport) Load()
 
 extern "C" __declspec(dllexport) int Unload(void)		// Executed on DLL unload
 {
-	DeleteCriticalSection(&g_csStatusInfo);
 	return 0;
 }
