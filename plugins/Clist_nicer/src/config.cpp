@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 TCluiData cfg::dat = {0};
 ClcData* cfg::clcdat = 0;
 
-static CRITICAL_SECTION cachecs;
+static mir_cs cachecs;
 LIST<TExtraCache> cfg::arCache(100, LIST<TExtraCache>::FTSortFunc(NumericKeySortT));
 
 bool cfg::shutDown = false;
@@ -46,11 +46,6 @@ TCHAR   API::exReason[256] = _T("");
 int     API::exLine = 0;
 bool    API::exAllowContinue = false;
 HMODULE API::hDwm = 0;
-
-void cfg::init()
-{
-	InitializeCriticalSection(&cachecs);
-}
 
 DWORD cfg::getDword(const MCONTACT hContact = 0, const char *szModule = 0, const char *szSetting = 0, DWORD uDefault = 0)
 {
@@ -198,7 +193,6 @@ void CSH_Destroy()
 	}
 
 	cfg::arCache.destroy();
-	DeleteCriticalSection(&cachecs);
 }
 
 void API::onInit()

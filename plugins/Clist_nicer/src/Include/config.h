@@ -50,8 +50,6 @@ private:
 class cfg
 {
 public:
-	static void    init();
-
    static DWORD   getDword(const MCONTACT hContact, const char *szModule, const char *szSetting, DWORD uDefault);
    static DWORD   getDword(const char *szModule, const char *szSetting, DWORD uDefault);
    static DWORD   getDword(const char *szSetting, DWORD uDefault);
