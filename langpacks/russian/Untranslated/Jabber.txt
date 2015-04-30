@@ -6,7 +6,6 @@
 [Bytestream Proxy not available]
 [Outgoing XML parsing error]
 [Please specify group chat directory first.]
-[Group chat invitation to\n%s]
 [JID]
 [Google Talk!]
 [Odnoklassniki]
