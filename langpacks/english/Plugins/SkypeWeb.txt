@@ -58,6 +58,7 @@
 [Sync history icon]
 [Block user icon]
 [Unblock user icon]
+[Incoming call icon]
 [Protocols]
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
@@ -67,10 +68,13 @@
 [Unblock contact]
 [Create new chat]
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
+[Incoming call]
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
 [%s connection]
 [Action]
+[Incoming Call]
+[Incoming call sound]
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
-[Incoming call]
+[Incoming call from %s]
