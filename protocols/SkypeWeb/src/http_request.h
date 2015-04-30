@@ -253,7 +253,7 @@ public:
 
 		if (!pData) {
 			pData = Body.ToString();
-			dataLength = mir_strlen(pData);
+			dataLength = (int)mir_strlen(pData);
 		}
 
 		char message[1024];

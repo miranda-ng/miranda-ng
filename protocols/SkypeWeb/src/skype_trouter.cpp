@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "common.h"
+#include "stdafx.h"
 
 void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 {
@@ -75,7 +75,7 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 	SendRequest(new RegisterTrouterRequest(TokenSecret, ptrA(getStringA("Trouter_url"))));
 }
 
-void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST*)
 {
 	ptrA socketIo(getStringA("Trouter_socketio"));
 	ptrA connId(getStringA("Trouter_connId"));
@@ -181,14 +181,14 @@ void CSkypeProto::TRouterThread(void*)
 	debugLogA(__FUNCTION__": leaving");
 }
 
-INT_PTR CSkypeProto::OnIncomingCallCLE(WPARAM wParam, LPARAM lParam)
+INT_PTR CSkypeProto::OnIncomingCallCLE(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 	NotifyEventHooks(m_hCallHook, (WPARAM)cle->hContact, (LPARAM)0);
 	return 0;
 }
 
-INT_PTR CSkypeProto::OnIncomingCallPP(WPARAM wParam, LPARAM hContact)
+INT_PTR CSkypeProto::OnIncomingCallPP(WPARAM, LPARAM hContact)
 {
 	CLISTEVENT *cle = NULL;
 	while ((cle = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, hContact, 0)))
