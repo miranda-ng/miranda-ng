@@ -21,7 +21,7 @@ BOOL bGPGloaded = false, bGPGkeyrings = false, bSavePass = false;
 BOOL bSFT, bSOM, bASI, bMCD, bSCM, bDGP, bAIP, bNOL, bAAK, bMCM;
 BYTE bPGP, bGPG;
 DWORD iCoreVersion = 0;
-CRITICAL_SECTION localQueueMutex;
+mir_cs localQueueMutex;
 
 LPSTR myDBGetStringDecode(MCONTACT hContact, const char *szModule, const char *szSetting)
 {
