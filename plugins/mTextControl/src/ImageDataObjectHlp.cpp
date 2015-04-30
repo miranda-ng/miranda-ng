@@ -30,12 +30,7 @@ struct EMFCACHE
 	EMFCACHE *next;
 } *emfCache = 0;
 int emfCacheSize = 0;
-CRITICAL_SECTION csEmfCache;
-
-void LoadEmfCache()
-{
-	InitializeCriticalSection(&csEmfCache);
-}
+mir_cs csEmfCache;
 
 void UnloadEmfCache()
 {
@@ -45,13 +40,12 @@ void UnloadEmfCache()
 		delete emfCache;
 		emfCache = tmp;
 	}
-	DeleteCriticalSection(&csEmfCache);
 }
 
 HENHMETAFILE CacheIconToEmf(HICON hIcon)
 {
 	HENHMETAFILE result = 0;
-	EnterCriticalSection(&csEmfCache);
+	mir_cslock lck(csEmfCache);
 	for (EMFCACHE *p = emfCache; p; p = p->next)
 		if (p->hIcon == hIcon)
 		{
@@ -102,8 +96,6 @@ HENHMETAFILE CacheIconToEmf(HICON hIcon)
 		if (p->next) p->next->prev = p;
 		emfCacheSize = 20;
 	}
-
-	LeaveCriticalSection(&csEmfCache);
 
 	return result;
 }
