@@ -1,3 +1,0 @@
-﻿[Block user icon]
-[Unblock user icon]
-[Incoming call]

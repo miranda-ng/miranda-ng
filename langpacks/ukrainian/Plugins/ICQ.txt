@@ -273,6 +273,8 @@ xСтатус "%s"
 Повторіть пароль:
 [Enter your current password:]
 Введіть поточний пароль:
+[Please authorize me to add you to my contact list.]
+Будь ласка, дозвольте додати вас до списку контактів.
 [Unable to connect to migrated ICQ communication server]
 Неможливо підключитися до мігрованого сервера спілкування ICQ
 [Unable to connect to ICQ communication server]
@@ -303,6 +305,164 @@ xСтатус "%s"
 Сервер закрив з'єднання, тому що ви ввійшли з іншого місця, використовуючи цей номер ICQ.
 [Unknown runtime error: 0x%02x]
 Невідома помилка: 0x%02x
+[January]
+Січень
+[February]
+Лютий
+[March]
+Березень
+[April]
+Квітень
+[May]
+Травень
+[June]
+Червень
+[July]
+Липень
+[August]
+Серпень
+[September]
+Вересень
+[October]
+Жовтень
+[November]
+Листопад
+[December]
+Грудень
+[Personal]
+Особисте
+[Nickname]
+Нік
+[First name]
+Ім'я
+[Last name]
+Прізвище
+[Gender]
+Стать
+[About]
+Інформація
+[Password]
+Пароль
+[Contact]
+Контакт
+[Primary e-mail]
+Основний E-mail
+[Secondary e-mail]
+Другий E-mail
+[Tertiary e-mail]
+Третій E-mail
+[Street]
+Вулиця
+[City]
+Місто
+[State]
+Область
+[ZIP/postcode]
+Індекс
+[Country]
+Країна
+[Phone number]
+Телефон
+[Fax number]
+Факс
+[Cellular number]
+Мобільний
+[Personal Detail]
+Особисті дані
+[Timezone]
+Часовий пояс
+[Year of birth]
+Рік народження
+[Month of birth]
+Місяць народження
+[Day of birth]
+День народження
+[Marital Status]
+Сімейний стан
+[Spoken language 1]
+Мова 1
+[Spoken language 2]
+Мова 2
+[Spoken language 3]
+Мова 3
+[Originally from]
+За походженням
+[Education]
+Освіта
+[Level]
+Ступінь
+[Institute]
+ВНЗ
+[Degree]
+Ступінь
+[Graduation Year]
+Рік закінчення
+[Company name]
+Ім'я компанії
+[Company homepage]
+Сайт компанії
+[Company street]
+Адреса компанії
+[Company city]
+Місто
+[Company state]
+Область
+[Company phone]
+Телефон
+[Company fax]
+Факс
+[Company ZIP/postcode]
+Індекс
+[Company country]
+Країна
+[Company department]
+Відділ
+[Company position]
+Посада
+[Company industry]
+Вид діяльності
+[Personal Interests]
+Персональні інтереси
+[Interest category 1]
+Категорія 1
+[Interest areas 1]
+Цікавлюся 1
+[Interest category 2]
+Категорія 2
+[Interest areas 2]
+Цікавлюся 2
+[Interest category 3]
+Категорія 3
+[Interest areas 3]
+Цікавлюся 3
+[Interest category 4]
+Категорія 4
+[Interest areas 4]
+Цікавлюся 4
+[The password does not match your current password. Check Caps Lock and try again.]
+Пароль не збігається з наявним. Перевірте Caps Lock і спробуйте знову.
+[Change ICQ Details]
+Змінити дані ICQ
+[The password does not match the password you originally entered. Check Caps Lock and try again.]
+Пароль не збігається з паролем, введеним раніше. Перевірте Caps Lock і спробуйте знову.
+[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
+Сервер ICQ не підтримує паролі довжиною більше 8 символів. Використовуйте коротший пароль.
+[<unremovable once applied>]
+<не можна видалити після введення>
+[<empty>]
+<немає>
+[Unknown value]
+Невідоме значення
+[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
+Ви зробили зміни, але не зберегли їх на сервері. Закрити вікно?
+[Upload in progress...]
+Завантаження...
+[Upload in progress...%d%%]
+Завантаження...%d%%
+[Upload complete]
+Завантаження завершено
+[Upload FAILED]
+Завантаження не вдалося
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Перехід з сервера на сервер не вдався, тому що сервер повернув неправильні дані. Вам потрібно підключитися вручну.
 [Failed to request offline messages. They may be received next time you log in.]
@@ -1169,8 +1329,6 @@ Web-дизайн
 Споживчі товари
 [Corporate Services]
 Корпоративні послуги
-[Education]
-Освіта
 [Finance]
 Фінанси
 [High Tech]
@@ -1625,6 +1783,8 @@ xСтатус ICQ
 Сервер, до якого ви намагаєтеся підключитися, не існує. Перевірте сервер: Налаштування -> Мережа -> ICQ.
 [error]
 помилка
+[Enter a password for UIN %u:]
+Введіть пароль для %u:
 [%d Files]
 %d файлів
 [The file transfer was aborted by the other user.]
@@ -1649,170 +1809,8 @@ xСтатус ICQ
 Контрольна сума файлу "%s" не збігається, можливо файл пошкоджений.
 [Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 Передачу файлів скасовано (помилка: %d), тому що один з вибраних файлів не читається з диска. Можливо, його було переміщено або видалено.
-[<invalid>]
-<неправильно>
-[January]
-Січень
-[February]
-Лютий
-[March]
-Березень
-[April]
-Квітень
-[May]
-Травень
-[June]
-Червень
-[July]
-Липень
-[August]
-Серпень
-[September]
-Вересень
-[October]
-Жовтень
-[November]
-Листопад
-[December]
-Грудень
-[Personal]
-Особисте
-[Nickname]
-Нік
-[First name]
-Ім'я
-[Last name]
-Прізвище
-[Gender]
-Стать
-[About]
-Інформація
-[Password]
-Пароль
-[Contact]
-Контакт
-[Primary e-mail]
-Основний E-mail
-[Secondary e-mail]
-Другий E-mail
-[Tertiary e-mail]
-Третій E-mail
-[Street]
-Вулиця
-[City]
-Місто
-[State]
-Область
-[ZIP/postcode]
-Індекс
-[Country]
-Країна
-[Phone number]
-Телефон
-[Fax number]
-Факс
-[Cellular number]
-Мобільний
-[Personal Detail]
-Особисті дані
-[Timezone]
-Часовий пояс
-[Year of birth]
-Рік народження
-[Month of birth]
-Місяць народження
-[Day of birth]
-День народження
-[Marital Status]
-Сімейний стан
-[Spoken language 1]
-Мова 1
-[Spoken language 2]
-Мова 2
-[Spoken language 3]
-Мова 3
-[Originally from]
-За походженням
-[Level]
-Ступінь
-[Institute]
-ВНЗ
-[Degree]
-Ступінь
-[Graduation Year]
-Рік закінчення
-[Company name]
-Ім'я компанії
-[Company homepage]
-Сайт компанії
-[Company street]
-Адреса компанії
-[Company city]
-Місто
-[Company state]
-Область
-[Company phone]
-Телефон
-[Company fax]
-Факс
-[Company ZIP/postcode]
-Індекс
-[Company country]
-Країна
-[Company department]
-Відділ
-[Company position]
-Посада
-[Company industry]
-Вид діяльності
-[Personal Interests]
-Персональні інтереси
-[Interest category 1]
-Категорія 1
-[Interest areas 1]
-Цікавлюся 1
-[Interest category 2]
-Категорія 2
-[Interest areas 2]
-Цікавлюся 2
-[Interest category 3]
-Категорія 3
-[Interest areas 3]
-Цікавлюся 3
-[Interest category 4]
-Категорія 4
-[Interest areas 4]
-Цікавлюся 4
-[The password does not match your current password. Check Caps Lock and try again.]
-Пароль не збігається з наявним. Перевірте Caps Lock і спробуйте знову.
-[Change ICQ Details]
-Змінити дані ICQ
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-Пароль не збігається з паролем, введеним раніше. Перевірте Caps Lock і спробуйте знову.
-[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
-Сервер ICQ не підтримує паролі довжиною більше 8 символів. Використовуйте коротший пароль.
-[<unremovable once applied>]
-<не можна видалити після введення>
-[<empty>]
-<немає>
-[Unknown value]
-Невідоме значення
-[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
-Ви зробили зміни, але не зберегли їх на сервері. Закрити вікно?
-[Upload in progress...]
-Завантаження...
-[Upload in progress...%d%%]
-Завантаження...%d%%
-[Upload complete]
-Завантаження завершено
-[Upload FAILED]
-Завантаження не вдалося
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Ви не підключені до мережі ICQ. Щоб оновлювати дані на сервері, потрібно підключитися до мережі ICQ.
-[Please authorize me to add you to my contact list.]
-Будь ласка, дозвольте додати вас до списку контактів.
-[Enter a password for UIN %u:]
-Введіть пароль для %u:
 [ (DC Established)]
 (ПП встановлено)
 [ScreenName:]
@@ -1823,3 +1821,5 @@ xСтатус ICQ
 Учасник з:
 [%s Details]
 %s деталі
+[<invalid>]
+<неправильно>

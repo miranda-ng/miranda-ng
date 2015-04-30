@@ -274,7 +274,7 @@ Weather: Погодное предупреждение
 [Weather service ini for this station is not found (20)]
 INI файл погоды для этой станции не найден (20)
 [Netlib error - check your internet connection (30)]
-Ошибка netlib - проверьте соединение с интернетом (30)
+Ошибка netlib - проверьте соединение с Интернетом (30)
 [Empty data is retrieved (40)]
 Получены пустые данные (40)
 [Document not found (42)]

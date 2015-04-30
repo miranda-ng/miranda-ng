@@ -92,9 +92,13 @@
 [Protocol icon]
 Значок протокола
 [Create new chat icon]
-Значок создания нового чата
+Создать новый чат
 [Sync history icon]
-Значок синхронизации истории
+Синхронизировать историю
+[Block user icon]
+Заблокировать контакт
+[Unblock user icon]
+Разблокировать контакт
 [Protocols]
 Протоколы
 [Request authorization]
@@ -115,3 +119,5 @@
 %s подключение
 [Action]
 Действие
+[Incoming call]
+Входящий звонок
