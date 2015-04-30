@@ -279,8 +279,10 @@ private:
 	char *MirandaToSkypeStatus(int status);
 
 	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
-	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
+	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL, int type = 0);
 	static bool IsFileExists(std::tstring path);
+
+	static LRESULT CALLBACK PopupDlgProcCall(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	char *ParseUrl(const char *url, const char *token);
 
@@ -290,7 +292,8 @@ private:
 	char *GetServerFromUrl	(const char *url);
 
 	//services
-	INT_PTR __cdecl OnIncomingCall						(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl OnIncomingCallCLE					(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl OnIncomingCallPP					(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl BlockContact						(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl UnblockContact						(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnRequestAuth						(WPARAM hContact, LPARAM lParam);

@@ -453,7 +453,7 @@ int CSkypeProto::SkypeToMirandaStatus(const char *status)
 		return ID_STATUS_OFFLINE;
 }
 
-void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, int flags, MCONTACT hContact)
+void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, int flags, MCONTACT hContact, int type)
 {
 	if (Miranda_Terminated())
 		return;
@@ -462,15 +462,33 @@ void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, i
 	{
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
-		mir_tstrcpy(ppd.lpwzContactName, caption);
-		mir_tstrcpy(ppd.lpwzText, message);
+		_tcsncpy(ppd.lptzContactName, caption, MAX_CONTACTNAME);
+		_tcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
 		ppd.lchIcon = Skin_GetIcon("Skype_main");
+		if (type == SKYPE_DB_EVENT_TYPE_INCOMING_CALL)
+			ppd.PluginWindowProc = PopupDlgProcCall;
 
 		if (!PUAddPopupT(&ppd))
 			return;
 	}
 
 	MessageBox(NULL, message, caption, MB_OK | flags);
+}
+
+LRESULT CSkypeProto::PopupDlgProcCall(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg) {
+	case WM_CONTEXTMENU:
+		PUDeletePopup(hPopup);
+		break;
+	case WM_COMMAND:
+		PUDeletePopup(hPopup);
+		CallService(MODULE"/IncomingCallPP", 0, PUGetContact(hPopup));
+
+		break;
+	}
+
+	return DefWindowProc(hPopup, uMsg, wParam, lParam);
 }
 
 void CSkypeProto::ShowNotification(const TCHAR *message, int flags, MCONTACT hContact)
