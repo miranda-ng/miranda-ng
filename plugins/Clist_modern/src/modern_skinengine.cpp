@@ -457,7 +457,7 @@ static int SortBufferList(const DCBUFFER *buf1, const DCBUFFER *buf2)
 }
 
 LIST<DCBUFFER> BufferList(2, SortBufferList);
-CRITICAL_SECTION BufferListCS = { 0 };
+mir_cs BufferListCS;
 
 enum
 {

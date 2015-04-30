@@ -112,8 +112,6 @@ void ImageArray_Initialize(IMAGE_ARRAY_DATA *iad, BOOL width_based, int grow_ste
 	iad->width = 0;
 	iad->height = 0;
 
-	InitializeCriticalSection(&iad->cs);
-
 	iad->nodes = NULL;
 	iad->nodes_allocated_size = 0;
 	iad->nodes_size = 0;
@@ -139,8 +137,6 @@ HBITMAP ImageArray_Free(IMAGE_ARRAY_DATA *iad, BOOL keep_bitmap)
 		iad->nodes_allocated_size = 0;
 		iad->nodes_size = 0;
 	}
-
-	DeleteCriticalSection(&iad->cs);
 
 	return iad->img;
 }
@@ -183,7 +179,7 @@ int ImageArray_AddImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 	if (hBmp == NULL)
 		return -1;
 
-	EnterCriticalSection(&iad->cs);
+	mir_cslock lck(iad->cs);
 
 	if (pos < 0)
 		pos = iad->nodes_size;
@@ -198,10 +194,8 @@ int ImageArray_AddImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 	}
 
 	// Get bounds
-	if (!GetObject(hBmp, sizeof(BITMAP), &bm)) {
-		LeaveCriticalSection(&iad->cs);
+	if (!GetObject(hBmp, sizeof(BITMAP), &bm))
 		return -1;
-	}
 
 	if (iad->width_based) {
 		new_width = max(bm.bmWidth, iad->width);
@@ -214,15 +208,12 @@ int ImageArray_AddImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 
 	// Alloc image
 	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height, &(iad->lpBits));
-	if (hNewBmp == NULL) {
-		LeaveCriticalSection(&iad->cs);
+	if (hNewBmp == NULL)
 		return -1;
-	}
 
 	// Alloc array
 	if (!ImageArray_Alloc(iad, iad->nodes_size + 1)) {
 		DeleteObject(hNewBmp);
-		LeaveCriticalSection(&iad->cs);
 		return -1;
 	}
 
@@ -323,9 +314,6 @@ int ImageArray_AddImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 	iad->width = new_width;
 	iad->height = new_height;
 
-	// Finished it!
-	LeaveCriticalSection(&iad->cs);
-
 	return pos;
 }
 
@@ -349,13 +337,11 @@ BOOL ImageArray_ChangeImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 	if (pos >= iad->nodes_size)
 		return FALSE;
 
-	EnterCriticalSection(&iad->cs);
+	mir_cslock lck(iad->cs);
 
 	// Get bounds
-	if (!GetObject(hBmp, sizeof(BITMAP), &bm)) {
-		LeaveCriticalSection(&iad->cs);
+	if (!GetObject(hBmp, sizeof(BITMAP), &bm))
 		return FALSE;
-	}
 
 	if (iad->width_based) {
 		new_width = max(bm.bmWidth, iad->width);
@@ -368,10 +354,8 @@ BOOL ImageArray_ChangeImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 
 	// Alloc image
 	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height, &(iad->lpBits));
-	if (hNewBmp == NULL) {
-		LeaveCriticalSection(&iad->cs);
+	if (hNewBmp == NULL)
 		return FALSE;
-	}
 
 	// Move image...
 
@@ -465,9 +449,6 @@ BOOL ImageArray_ChangeImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos)
 	iad->width = new_width;
 	iad->height = new_height;
 
-	// Finished it!
-	LeaveCriticalSection(&iad->cs);
-
 	return pos;
 }
 
@@ -486,7 +467,7 @@ BOOL ImageArray_RemoveImage(IMAGE_ARRAY_DATA *iad, int pos)
 	if (pos >= iad->nodes_size)
 		return FALSE;
 
-	EnterCriticalSection(&iad->cs);
+	mir_cslock lck(iad->cs);
 
 	// Get bounds
 	if (iad->width_based) {
@@ -500,10 +481,8 @@ BOOL ImageArray_RemoveImage(IMAGE_ARRAY_DATA *iad, int pos)
 
 	// Alloc image
 	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height, &(iad->lpBits));
-	if (hNewBmp == NULL) {
-		LeaveCriticalSection(&iad->cs);
+	if (hNewBmp == NULL)
 		return FALSE;
-	}
 
 	// Move image...
 
@@ -588,9 +567,6 @@ BOOL ImageArray_RemoveImage(IMAGE_ARRAY_DATA *iad, int pos)
 	// Free array
 	ImageArray_Alloc(iad, iad->nodes_size);
 
-	// Finished it!
-	LeaveCriticalSection(&iad->cs);
-
 	return pos;
 }
 
@@ -601,7 +577,7 @@ BOOL ImageArray_DrawImage(IMAGE_ARRAY_DATA *iad, int pos, HDC hdcDest, int nXDes
 	if (hdcDest == NULL || pos < 0 || pos >= iad->nodes_size)
 		return FALSE;
 
-	EnterCriticalSection(&iad->cs);
+	mir_cslock lck(iad->cs);
 	{
 		int w, h, i;
 
@@ -624,17 +600,15 @@ BOOL ImageArray_DrawImage(IMAGE_ARRAY_DATA *iad, int pos, HDC hdcDest, int nXDes
 		AlphaBlend(hdcDest, nXDest, nYDest, iad->nodes[pos].width, iad->nodes[pos].height, iad->hdc, w, h, iad->nodes[pos].width, iad->nodes[pos].height, bf);
 	}
 
-	LeaveCriticalSection(&iad->cs);
 	return FALSE;
 }
 
 BOOL ImageArray_GetImageSize(IMAGE_ARRAY_DATA *iad, int pos, SIZE * lpSize)
 {
-	EnterCriticalSection(&iad->cs);
+	mir_cslock lck(iad->cs);
 	if (lpSize) {
 		lpSize->cx = iad->nodes[pos].width;
 		lpSize->cy = iad->nodes[pos].height;
 	}
-	LeaveCriticalSection(&iad->cs);
 	return TRUE;
 }

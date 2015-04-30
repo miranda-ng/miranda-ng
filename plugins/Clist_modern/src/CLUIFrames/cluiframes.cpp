@@ -61,7 +61,7 @@ static int  _us_DoSetFramePaintProc(WPARAM wParam, LPARAM lParam);
 
 
 
-static CRITICAL_SECTION _cluiFramesModuleCS = { 0 };
+static mir_cs _cluiFramesModuleCS;
 static BOOL				_cluiFramesModuleCSInitialized = FALSE;
 static BOOL				_fCluiFramesModuleNotStarted = TRUE;
 static XPTHANDLE		_hFrameTitleTheme = NULL;
@@ -3610,7 +3610,6 @@ int CLUIFrameOnModulesUnload(WPARAM, LPARAM)
 
 int LoadCLUIFramesModule(void)
 {
-	InitializeCriticalSection(&_cluiFramesModuleCS);
 	_cluiFramesModuleCSInitialized = TRUE;
 
 	WNDCLASS wndclass = { 0 };
@@ -3708,7 +3707,6 @@ int UnLoadCLUIFramesModule(void)
 	DeleteObject(_hTitleBarFont);
 
 	_cluiFramesModuleCSInitialized = FALSE;
-	DeleteCriticalSection(&_cluiFramesModuleCS);
 	return 0;
 }
 

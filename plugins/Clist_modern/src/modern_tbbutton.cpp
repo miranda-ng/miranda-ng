@@ -30,7 +30,7 @@ struct TBBUTTONDATA : public MButtonCtrl
 	XPTHANDLE hThemeButton, hThemeToolbar;
 };
 
-static CRITICAL_SECTION csTips;
+static mir_cs csTips;
 static HWND hwndToolTips = NULL;
 static BOOL	bThemed = FALSE;
 
