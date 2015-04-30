@@ -295,7 +295,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	DestroyCursor(hCurSplitWE);
 	
 	if (Options::instance != NULL) {
-		Options::instance->Unload();
 		delete Options::instance;
 		Options::instance = NULL;
 	}
