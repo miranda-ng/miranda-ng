@@ -147,7 +147,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientChangeNotify", "..\pl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ListeningTo", "..\plugins\ListeningTo\listeningto_12.vcxproj", "{5FAA475D-0593-454F-8601-0D7150DCA4A0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Omegle", "..\protocols\Omegle\omegle_12.vcxproj", "{D5E2FEC1-B29A-476C-BD41-469FE282EE0F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Omegle", "..\protocols\Omegle\omegle.vcxproj", "{D5E2FEC1-B29A-476C-BD41-469FE282EE0F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RecentContacts", "..\plugins\RecentContacts\RecentContacts_12.vcxproj", "{07137F45-8B5F-4561-BEC8-B883E9123785}"
 EndProject

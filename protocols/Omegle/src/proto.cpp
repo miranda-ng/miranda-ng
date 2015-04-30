@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username) :
 	PROTO<OmegleProto>(proto_name, username)
@@ -78,7 +78,7 @@ OmegleProto::~OmegleProto( )
 
 //////////////////////////////////////////////////////////////////////////////
 
-DWORD_PTR OmegleProto::GetCaps( int type, MCONTACT hContact )
+DWORD_PTR OmegleProto::GetCaps(int type, MCONTACT)
 {
 	switch(type) {
 	case PFLAGNUM_1:
@@ -160,13 +160,13 @@ int OmegleProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
 //////////////////////////////////////////////////////////////////////////////
 // EVENTS
 
-INT_PTR OmegleProto::SvcCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
+INT_PTR OmegleProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_OmegleACCOUNT),
-		(HWND)lParam, OmegleAccountProc, (LPARAM)this );
+		(HWND)lParam, OmegleAccountProc, (LPARAM)this);
 }
 
-int OmegleProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
+int OmegleProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	// Register group chat
 	GCREGISTER gcr = {sizeof(gcr)};
@@ -181,7 +181,7 @@ int OmegleProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int OmegleProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
+int OmegleProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance   = g_hInstance;
@@ -198,13 +198,13 @@ int OmegleProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int OmegleProto::OnPreShutdown(WPARAM wParam,LPARAM lParam)
+int OmegleProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	SetStatus( ID_STATUS_OFFLINE );
 	return 0;
 }
 
-int OmegleProto::OnContactDeleted(WPARAM wparam,LPARAM)
+int OmegleProto::OnContactDeleted(WPARAM, LPARAM)
 {
 	OnLeaveChat(NULL, NULL);
 	return 0;
