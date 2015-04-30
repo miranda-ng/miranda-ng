@@ -1,8 +1,5 @@
 #include "common.h"
 
-#define EnterCS(cs) EnterCriticalSection(cs)
-#define LeaveCS(cs) LeaveCriticalSection(cs)
-
 void cslog(const TCHAR *what, const TCHAR *file, int line)
 {
 	if (g_settings.log_to_file) {
@@ -21,25 +18,11 @@ void cslog(const TCHAR *what, const TCHAR *file, int line)
 	}
 }
 
-void EnterCSHelper(CRITICAL_SECTION *cs, const TCHAR *file, int line)
-{
-	cslog(_T(">enter"), file, line);
-	EnterCriticalSection(cs);
-	cslog(_T("<enter"), file, line);
-}
-
-void LeaveCSHelper(CRITICAL_SECTION *cs, const TCHAR *file, int line)
-{
-	cslog(_T(">leave"), file, line);
-	LeaveCriticalSection(cs);
-	cslog(_T("<leave"), file, line);
-}
-
 HANDLE g_udp_thread, g_tcp_thread;
 SOCKET g_udp_socket, g_tcp_socket;
 volatile bool g_exit_threads, g_firstrun;
 std::tstring g_mirandaDir;
-CRITICAL_SECTION g_wsocklock;
+mir_cs g_wsocklock;
 
 HINSTANCE hInst;
 int hLangpack;
@@ -85,7 +68,7 @@ typedef std::map<std::tstring, popup_t *> popups_t;
 typedef std::set<popup_t *> anon_popups_t;
 popups_t g_popups;
 anon_popups_t g_anon_popups;
-CRITICAL_SECTION g_popups_cs;
+mir_cs g_popups_cs;
 
 std::tstring strip(std::tstring str)
 {
@@ -319,9 +302,9 @@ void getAll(std::vector<std::tstring> &out, std::tstring &in, TCHAR sep, bool un
 	std::tstring arg;
 	while (getNext(arg, in, sep))
 		if (!arg.empty()) {
-		if (unquote_)
-			arg = unquote(arg);
-		out.push_back(arg);
+			if (unquote_)
+				arg = unquote(arg);
+			out.push_back(arg);
 		}
 }
 
@@ -441,11 +424,10 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	switch (message) {
 	case WM_COMMAND:
 	{
-		EnterCS(&g_popups_cs);
+		mir_cslock lck(g_popups_cs);
 		std::tstring left;
 		if (pd)
 			left = pd->left;
-		LeaveCS(&g_popups_cs);
 
 		if (left.empty())
 			PUDeletePopup(hWnd);
@@ -456,15 +438,14 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 				PUDeletePopup(hWnd);
 		}
 	}
-		return TRUE;
+	return TRUE;
 
 	case WM_CONTEXTMENU:
 	{
-		EnterCS(&g_popups_cs);
+		mir_cslock lck(g_popups_cs);
 		std::tstring right;
 		if (pd)
 			right = pd->right;
-		LeaveCS(&g_popups_cs);
 
 		if (right.empty())
 			PUDeletePopup(hWnd);
@@ -475,16 +456,18 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 				PUDeletePopup(hWnd);
 		}
 	}
-		return TRUE;
+	return TRUE;
 
 	case UM_INITPOPUP:
-		EnterCS(&g_popups_cs);
+	{
+		mir_cslock lck(g_popups_cs);
 		pd->hwnd = hWnd;
-		LeaveCS(&g_popups_cs);
-		return TRUE;
+	}
+	return TRUE;
 
 	case UM_FREEPLUGINDATA:
-		EnterCS(&g_popups_cs);
+	{
+		mir_cslock lck(g_popups_cs);
 		std::tstring closed;
 		if (pd)
 			closed = pd->closed;
@@ -492,14 +475,13 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		g_popups.erase(pd->id);
 		g_anon_popups.erase(pd);
 		delete pd;
-		LeaveCS(&g_popups_cs);
 
 		if (!closed.empty()) {
 			bool closeflag = false;
 			processAction(closed, closeflag);
 		}
-
-		return TRUE;
+	}
+	return TRUE;
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
@@ -515,7 +497,7 @@ int showMessage(const popup_t &msg)
 	ppd.PluginWindowProc = PopupDlgProc;
 	ppd.iSeconds = msg.delay;
 
-	EnterCS(&g_popups_cs);
+	mir_cslock lck(g_popups_cs);
 
 	popup_t *msgp = new popup_t(msg);
 
@@ -524,14 +506,12 @@ int showMessage(const popup_t &msg)
 	g_anon_popups.insert(msgp);
 	ppd.PluginData = msgp;
 
-	LeaveCS(&g_popups_cs);
-
 	return PUAddPopupT(&ppd);
 }
 
 void replaceMessage(const popup_t &msg)
 {
-	EnterCS(&g_popups_cs);
+	mir_cslock lck(g_popups_cs);
 
 	popups_t::iterator i = g_popups.find(msg.id);
 	if (i != g_popups.end()) {
@@ -559,14 +539,11 @@ void replaceMessage(const popup_t &msg)
 			if (!msg.closed.empty())
 				nmsg.closed = msg.closed;
 
-			LeaveCS(&g_popups_cs);
-
 			PUChangeTextT(i->second->hwnd, strip(i->second->message).c_str());
 			return;
 		}
 	}
 
-	LeaveCS(&g_popups_cs);
 }
 
 inline int dehex(int c) {
@@ -854,7 +831,7 @@ void processMessage(std::tstring buf)
 
 void initWinsock()
 {
-	EnterCS(&g_wsocklock);
+	mir_cslock lck(g_wsocklock);
 	if (g_firstrun) {
 		// probably not needed, but just in case...
 		// give Popup a second to sort itself out
@@ -866,7 +843,6 @@ void initWinsock()
 		if (err)
 			throw "WSAStartup failed";
 	}
-	LeaveCS(&g_wsocklock);
 }
 
 DWORD WINAPI udptcpThreadFunc(LPVOID useUdp)
@@ -981,7 +957,7 @@ void start_threads()
 {
 	g_exit_threads = false;
 	DWORD id;
-	g_udp_thread = CreateThread(NULL, 0, udptcpThreadFunc, (void *) 1, 0, &id);
+	g_udp_thread = CreateThread(NULL, 0, udptcpThreadFunc, (void *)1, 0, &id);
 	g_tcp_thread = CreateThread(NULL, 0, udptcpThreadFunc, NULL, 0, &id);
 }
 
@@ -1010,9 +986,6 @@ extern "C" int __declspec(dllexport) Load()
 	_tcscpy(buf, _T("."));
 	g_mirandaDir = _tgetcwd(buf, MAX_PATH);
 
-	InitializeCriticalSection(&g_popups_cs);
-	InitializeCriticalSection(&g_wsocklock);
-
 	registerSound(_T("Notice"));
 	registerSound(_T("Message"));
 	registerSound(_T("Error"));
@@ -1030,7 +1003,5 @@ extern "C" int __declspec(dllexport) Unload(void)
 	stop_threads();
 	WSACleanup();
 
-	DeleteCriticalSection(&g_popups_cs);
-	DeleteCriticalSection(&g_wsocklock);
 	return 0;
 }
