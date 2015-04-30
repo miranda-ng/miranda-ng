@@ -542,12 +542,10 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 								unsigned char hash[20];
 								lib_cs_lock();
 								if (!otrl_privkey_fingerprint_raw(otr_user_state, hash, context->accountname, context->protocol)) {
-									lib_cs_unlock();
 									DestroyWindow(hwndDlg);
 									return FALSE;
 								}
 								otrl_privkey_hash_to_humanT(buff, hash);
-								lib_cs_unlock();
 								SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, buff);
 								SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD1, EM_SETREADONLY, TRUE, 0);
 								SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD1, TranslateT(LANG_YOUR_PRIVKEY));
@@ -688,12 +686,10 @@ INT_PTR CALLBACK DlgBoxProcVerifyContext(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			unsigned char hash[20];
 			lib_cs_lock();
 			if (!otrl_privkey_fingerprint_raw(otr_user_state, hash, context->accountname, context->protocol)) {
-				lib_cs_unlock();
 				EndDialog(hwndDlg, IDCANCEL);
 				return FALSE;
 			}
 			otrl_privkey_hash_to_humanT(buff, hash);
-			lib_cs_unlock();
 			SetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, buff);
 			SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD1, EM_SETREADONLY, TRUE, 0);
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_FIELD1, TranslateT(LANG_YOUR_PRIVKEY));
@@ -746,7 +742,6 @@ unsigned int CALLBACK verify_context_thread(void *param)
 				lib_cs_lock();
 				otrl_context_set_trust(context->active_fingerprint, "verified");
 				otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
-				lib_cs_unlock();
 				mir_sntprintf(msg, SIZEOF(msg), TranslateT(LANG_FINGERPRINT_VERIFIED), contact_get_nameT(hContact));
 				ShowMessage(hContact, msg);
 				SetEncryptionStatus(hContact, otr_context_get_trust(context));
@@ -755,7 +750,6 @@ unsigned int CALLBACK verify_context_thread(void *param)
 				lib_cs_lock();
 				otrl_context_set_trust(context->active_fingerprint, NULL);
 				otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
-				lib_cs_unlock();
 				mir_sntprintf(msg, SIZEOF(msg), TranslateT(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT(hContact));
 				ShowMessage(hContact, msg);
 				SetEncryptionStatus(hContact, otr_context_get_trust(context));

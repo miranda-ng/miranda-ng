@@ -44,7 +44,6 @@ int StartOTR(MCONTACT hContact) {
 		mir_free(msg_utf8);
 	}
 	#endif
-	lib_cs_unlock();
 	mir_free(uname);
 	return 0;
 }
@@ -105,7 +104,6 @@ int otr_disconnect_contact(MCONTACT hContact)
 
 	lib_cs_lock();
 	otrl_message_disconnect_all_instances(otr_user_state, &ops, (void*)hContact, proto, proto, uname);
-	lib_cs_unlock();
 	mir_free(uname);
 	return 0;
 }

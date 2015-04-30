@@ -33,11 +33,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	InitUtils();
-
 	lib_cs_lock();
 	otr_user_state = otrl_userstate_create();
-	lib_cs_unlock();
 
 	// this calls ReadPrivkeyFiles (above) to set filename values (also called on ME_FOLDERS_PATH_CHANGED)
 	InitOptions();
@@ -112,9 +109,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	lib_cs_lock();
 	otrl_userstate_free(otr_user_state);
-	lib_cs_unlock();
-
-	DeinitUtils();
 
 	return 0;
 }

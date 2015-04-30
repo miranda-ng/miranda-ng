@@ -5,7 +5,6 @@
 
 
 void lib_cs_lock();
-void lib_cs_unlock();
 
 MCONTACT find_contact(const char* userid, const char* protocol);
 ConnContext * otrl_context_find_miranda(OtrlUserState us, MCONTACT hContact);
@@ -40,9 +39,6 @@ void ShowMessageInlineUtf(const MCONTACT hContact, const char *msg);
 
 void ShowMessage(const MCONTACT hContact, const TCHAR *msg);
 void ShowMessageUtf(const MCONTACT hContact, const char *msg);
-
-void InitUtils();
-void DeinitUtils();
 
 const TCHAR *policy_to_string(OtrlPolicy policy);
 OtrlPolicy policy_from_string(const TCHAR *polstring);
