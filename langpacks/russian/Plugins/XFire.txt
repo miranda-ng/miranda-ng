@@ -72,7 +72,7 @@
 [Enable]
 Включено
 [With this feature, following status message will be set on your other protocol plugins if you are in game. So your other buddies can also see what you play. It will also change the status to occupied if this option is enabled.]
-С этой возможностью, следующее статусное сообщение будет установлено на другой протокол, если вы в игре. Так ваши друзья будут видеть, что вы играете. Это так же изменит ваш статус на "занят", если вы включили эту функцию.
+С этой возможностью, следующее статусное сообщение будет установлено на другой протокол, если вы в игре. Так ваши друзья будут видеть, что вы играете. Если эта функция включена, ваш статус изменится на "Занят".
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Доступны следующие переменные: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
 [Status message:]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.6
+;  Version: 0.2.10.8
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -141,6 +141,8 @@
 Неможливо отримати токен авторизації. Повідомте про цю помилку та чекайте на оновлення плагіна.
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
 Неможливо отримати всі необхідні дані. Можливо, плагін працюватиме коректно, але краще повідомити про цю помилку та дочекатися оновлення плагіна.
+[Contact doesn't have required data in database.]
+У базі відсутні необхідні дані контакта.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Щоб надсилати повідомлення для інших клієнтів, необхідне підтвердження.\nВідкрийте сайт Facebook і спробуйте надіслати повідомлення знову!
 [User cancel captcha challenge.]

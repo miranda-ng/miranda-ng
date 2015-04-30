@@ -217,6 +217,8 @@ Jabber vCard: добавление телефона
 Применить фильтр
 [Reset Filter]
 Сбросить фильтр
+[Send group chat invitation]
+Пригласить в конференцию
 [Other JID:]
 Другой JID:
 [Add]
@@ -225,6 +227,8 @@ Jabber vCard: добавление телефона
 Причина приглашения:
 [&Invite]
 &Пригласить
+[Incoming group chat invitation]
+Приглашение в конференцию
 [You are invited to conference room by]
 Вас пригласил:
 [with following reason:]
@@ -653,8 +657,12 @@ xHTML формат чат сообщений
 Копировать JID с комнаты чата
 [Real &JID: %s]
 Реальный &JID: %s
+[Invite Users to\n%s]
+Пригласить пользователей в\n%s
 [%s (not on roster)]
 %s (не в ростере)
+[%s from\n%s]
+%s из\n%s
 [Real JID not available]
 Реальный JID недоступен
 [Reason to kick %s]

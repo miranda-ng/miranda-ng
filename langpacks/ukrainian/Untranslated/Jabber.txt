@@ -3,7 +3,6 @@
 [ISDN]
 [PCS]
 [JID:]
-[<user ID>]
 [Bytestream Proxy not available]
 [JID]
 [Jabber vCard]

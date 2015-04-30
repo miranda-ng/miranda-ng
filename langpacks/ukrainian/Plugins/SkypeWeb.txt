@@ -53,6 +53,10 @@
 Адмін
 [User]
 Користувач
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Цей чат буде видалено разом з усім його вмістом. Цю дію не можна буде скасувати. Ви впевнені?
+[Warning]
+Попередження
 [&Invite user...]
 &Запросити користувача...
 [&Leave chat session]
@@ -67,10 +71,8 @@
 &Адмін
 [&User]
 &Користувач
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-Цей чат буде видалено разом з усім його вмістом. Цю дію не можна буде скасувати. Ви впевнені?
-[Warning]
-Попередження
+[Are you sure?]
+Ви впевнені?
 [Edited at]
 Відредаговане о
 [Call started]
@@ -79,12 +81,24 @@
 Завершення бесіди
 [Duration]
 Тривалість
+[File transfer]
+Передача файлу
+[File name]
+Ім'я файлу
+[Size]
+Розмір
+[bytes]
+байт
 [Protocol icon]
 Значок протоколу
 [Create new chat icon]
 Створити новий чат
 [Sync history icon]
 Синхронізувати історію
+[Block user icon]
+Заблокувати контакт
+[Unblock user icon]
+Розблокувати контакт
 [Protocols]
 Протоколи
 [Request authorization]
@@ -93,6 +107,10 @@
 Авторизувати
 [Get server history]
 Синхронізувати історію
+[Block contact]
+Заблокувати контакт
+[Unblock contact]
+Розблокувати контакт
 [Create new chat]
 Створити новий чат
 [Network]
@@ -101,3 +119,5 @@
 З'єднання %s
 [Action]
 Дія
+[Incoming call]
+Вхідний дзвінок
