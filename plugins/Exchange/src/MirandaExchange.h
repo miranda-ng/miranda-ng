@@ -231,7 +231,7 @@ private:
 
 	bool          m_bNoInitAgain;
 	UINT          m_nNumberOfHeaders;
-	CRITICAL_SECTION m_myCritical;
+	mir_cs m_myCritical;
 
 };
 

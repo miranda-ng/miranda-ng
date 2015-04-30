@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define ___DEB
 
+mir_cs csCheck;
+
 int LogInit()
 {
 #ifdef ___DEBUGG
@@ -201,7 +203,7 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 
 DWORD WINAPI CheckEmailWorkerThread(LPVOID data)
 {
-	EnterCriticalSection(&csCheck);
+	mir_cslock lck(csCheck);
 
 	int bForceAttempt = (int) data;
 
@@ -209,8 +211,6 @@ DWORD WINAPI CheckEmailWorkerThread(LPVOID data)
 		exchangeServer.Connect(bForceAttempt);
 
 	exchangeServer.Check(bForceAttempt);
-
-	LeaveCriticalSection(&csCheck);
 
 	return 0;
 }
