@@ -73,7 +73,6 @@ static CTransportProtoTableItem TransportProtoTable[] =
 	{ _T("studivz*"),        "StudiVZ" },
 	{ _T("schuelervz*"),     "SchuelerVZ" },
 	{ _T("meinvz*"),         "MeinVZ" },
-	{ _T("|fb*|facebook*"),  "Facebook" },
 };
 
 static int skinIconStatusToResourceId[] = {IDI_OFFLINE,IDI_ONLINE,IDI_AWAY,IDI_DND,IDI_NA,IDI_NA,/*IDI_OCCUPIED,*/IDI_FREE4CHAT,IDI_INVISIBLE,IDI_ONTHEPHONE,IDI_OUTTOLUNCH};
