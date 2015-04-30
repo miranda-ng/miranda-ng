@@ -350,3 +350,35 @@ Częściowe Zachmurzenie / Wietrznie
 Słonecznie / Wietrznie
 [Am Snow]
 Do południa śnieg
+[Rain / Snow Late]
+Deszcz / Śnieg Późno
+[Am Rain / Snow]
+Przed południem Deszcz / Śnieg
+[Partly Cloudy / Wind]
+Częściowe Zachmurzenie /Wiatr
+[Mostly Sunny / Wind]
+Przewaga Słońca / Wiatr
+[Isolated T-Storms / Wind]
+Izolowane Burze / Wiatr
+[T-Storms Late]
+Izolowane Burze Późno
+[Scattered T-Storms / Wind]
+Rozsiane Burze / Wiatr
+[Snow To Wintry Mix]
+Śnieg przechodzący w deszcz ze śniegiem
+[T-Storms Early]
+Burze Wcześnie
+[T-Storms Late]
+Izolowane Burze Późno
+[Am T-Storms]
+Przed Południem Burze
+[Fog Late]
+Mgła Późno
+[Partly Cloudy / Wind]
+Częściowe Zachmurzenie /Wiatr
+[Rain / Snow Late]
+Deszcz / Śnieg Późno
+[Am Rain / Snow]
+Przed południem Deszcz / Śnieg
+[Rain Early]
+Deszcz Wcześnie
