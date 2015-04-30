@@ -96,7 +96,10 @@ void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *headers)
 
 	MCONTACT hContact = FindContact(_T2A(uid));
 	if (hContact != NULL)
+	{
 		AddCallToDb(hContact, time(NULL), 0);
+		SkinPlaySound("skype_inc_call");
+	}
 }
 
 void CSkypeProto::TRouterThread(void*)

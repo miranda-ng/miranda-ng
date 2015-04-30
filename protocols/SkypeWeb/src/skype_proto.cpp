@@ -57,6 +57,8 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	dbEventType.descr = Translate("Incoming Call");
 	dbEventType.eventIcon = GetIconHandle("inc_call");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	SkinAddNewSoundEx("skype_inc_call", "SkypeWeb", LPGEN("Incoming call sound"));
 }
 
 CSkypeProto::~CSkypeProto()
