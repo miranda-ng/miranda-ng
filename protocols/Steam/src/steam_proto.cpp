@@ -71,7 +71,7 @@ CSteamProto::~CSteamProto()
 	UninitQueue();
 }
 
-MCONTACT __cdecl CSteamProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+MCONTACT __cdecl CSteamProto::AddToList(int, PROTOSEARCHRESULT* psr)
 {
 	MCONTACT hContact = NULL;
 	ptrA steamId(mir_u2a(psr->id));
@@ -126,7 +126,7 @@ int __cdecl CSteamProto::Authorize(MEVENT hDbEvent)
 	return 1;
 }
 
-int __cdecl CSteamProto::AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
+int __cdecl CSteamProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 {
 	if (IsOnline() && hDbEvent)
 	{
@@ -153,7 +153,7 @@ int __cdecl CSteamProto::AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
 	return 1;
 }
 
-int __cdecl CSteamProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
+int __cdecl CSteamProto::AuthRequest(MCONTACT hContact, const TCHAR*)
 {
 	if (IsOnline() && hContact)
 	{
@@ -193,7 +193,7 @@ int __cdecl CSteamProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 	return 1;
 }
 
-DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
+DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT)
 {
 	switch(type)
 	{

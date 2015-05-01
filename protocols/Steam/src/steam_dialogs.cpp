@@ -231,10 +231,6 @@ void CSteamOptionsBlockList::OnInitDialog()
 {
 	m_list.SetExtendedListViewStyle(LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_LABELTIP);
 
-	HIMAGELIST hIml = m_list.CreateImageList(LVSIL_SMALL);
-	//ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("group"));
-	//ImageList_AddIcon_Icolib(hIml, LoadSkinnedIcon(SKINICON_EVENT_URL));
-
 	m_list.AddColumn(0, TranslateT("Name"), 220);
 	m_list.AddColumn(1, _T(""), 32 - GetSystemMetrics(SM_CXVSCROLL));
 }
