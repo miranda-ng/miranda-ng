@@ -51,5 +51,6 @@ static const TCHAR *clients[] = {
 	_T("sleekxmpp.com"),
 	_T("facebook (mobile"),
 	_T("facebook app"),
-	_T("facebook messenger")
+	_T("facebook messenger"),
+	_T("wp")
 };
