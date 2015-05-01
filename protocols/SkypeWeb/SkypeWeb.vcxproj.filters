@@ -7,6 +7,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+	<ClInclude Include="src\requests\avatars.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
     <ClInclude Include="src\requests\capabilities.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
