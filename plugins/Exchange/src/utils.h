@@ -45,5 +45,5 @@ int GetStringFromDatabase(char *szSettingName, TCHAR *szError, TCHAR *szResult, 
 
 int ThreadCheckEmail(int bForceAttempt);
 
-void _popupUtil(char* szMsg);
+void _popupUtil(TCHAR *szMsg);
 #endif

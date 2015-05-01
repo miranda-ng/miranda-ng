@@ -224,11 +224,11 @@ int ThreadCheckEmail(int bForceAttempt)
 	return 0;
 }
 
-void _popupUtil(char* szMsg)
+void _popupUtil(TCHAR* szMsg)
 {
 	POPUPDATAT ppd = {0};
 	ppd.lchIcon = hiMailIcon;
-	_tcscpy(ppd.lptzContactName, _T("Exchange notifier"));
-	_tcscpy(ppd.lptzText, mir_a2t(szMsg));
+	_tcsncpy(ppd.lptzContactName, _T("Exchange notifier"), MAX_CONTACTNAME-1);
+	_tcsncpy(ppd.lptzText, szMsg,MAX_SECONDLINE-1);
 	PUAddPopupT(&ppd); //show a popup to tell the user what we're doing.
 }

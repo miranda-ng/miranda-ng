@@ -148,7 +148,7 @@ CKeeper::~CKeeper()
 
 	if ( m_nSizeSubject>0 && NULL != m_szSubject )
 	{
-		m_nSizeSender =0;
+		m_nSizeSubject =0;
 		delete[] m_szSubject;
 		m_szSubject   = NULL;
 	}
@@ -216,7 +216,7 @@ CMirandaExchange::~CMirandaExchange()
 		m_lpMAPISession = NULL;
 	}
 
-	if ( m_nNumberOfHeaders>0 && NULL != m_HeadersKeeper )
+	if ( m_nNumberOfHeaders>0)
 	{
 		for( UINT i=0; i<m_nNumberOfHeaders; i++ )
 		{
@@ -390,7 +390,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 
 HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPassword, LPCTSTR szExchangeServer )
 {
-	_popupUtil("Connecting to Exchange ...");
+	_popupUtil(TranslateT("Connecting to Exchange ..."));
 	UINT  nSize = 0;
 	short nSizeOfTCHAR = sizeof( TCHAR );
 
@@ -439,8 +439,8 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 			TCHAR	szPID[20];
 
 			_tstrtime(szPID);
-			_tcscpy(szPIDandName, m_szUsername);		
-			_tcscat(szPIDandName, szPID);
+			_tcsncpy(szPIDandName, m_szUsername, SIZEOF(szPIDandName)-1);		
+			_tcsncat(szPIDandName, szPID, SIZEOF(szPIDandName)-1);
 			
 			hr = CreateProfile(szPIDandName);
 			if ( HR_FAILED(hr)) {

@@ -162,7 +162,7 @@ VOID CALLBACK OnCheckTimer(HWND hWnd, UINT msg, UINT_PTR idEvent, DWORD dwTime)
 VOID CALLBACK OnReconnectTimer(HWND hWnd, UINT msg, UINT_PTR idEvent, DWORD dwTime)
 {
 
-	_popupUtil("Forcefully reconnecting to Exchange server ...");
+	_popupUtil(TranslateT("Forcefully reconnecting to Exchange server ..."));
 	
 	exchangeServer.Reconnect(); //reconnect
 }
