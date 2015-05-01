@@ -63,7 +63,7 @@ MCONTACT CSkypeProto::FindContact(const char *skypename)
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
 		ptrA cSkypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-		if (mir_strcmpi(skypename, cSkypename) == 0)
+		if (!mir_strcmpi(skypename, cSkypename))
 			break;
 	}
 	return hContact;
