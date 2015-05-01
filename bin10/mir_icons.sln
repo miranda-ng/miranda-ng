@@ -16,7 +16,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_ice_Z1", "..\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_ice_Z2", "..\plugins\UserInfoEx\IconPacks\ice\icons_ice_10_z2.vcxproj", "{E787B42A-6489-4078-90CD-B78B751A1284}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_AIM", "..\protocols\AimOscar\proto_aim\Proto_AIM_10.vcxproj", "{975505EA-F0C7-4DAC-A95E-75249615F30C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_AIM", "..\protocols\AimOscar\proto_aim\Proto_AIM.vcxproj", "{975505EA-F0C7-4DAC-A95E-75249615F30C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Facebook", "..\protocols\FacebookRM\proto_facebook\Proto_Facebook_10.vcxproj", "{44298314-7DD4-4EF7-B576-30E503257223}"
 EndProject
