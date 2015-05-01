@@ -45,7 +45,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_Jabber", "..\protoc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cln_skinedit", "..\plugins\clist_nicer\skineditor\skinedit_12.vcxproj", "{987F026D-EB1F-4013-ADA8-2406ACCDA526}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_AIM", "..\protocols\AimOscar\proto_aim\Proto_AIM_12.vcxproj", "{975505EA-F0C7-4DAC-A95E-75249615F30C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_AIM", "..\protocols\AimOscar\proto_aim\Proto_AIM.vcxproj", "{975505EA-F0C7-4DAC-A95E-75249615F30C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_GG", "..\protocols\Gadu-Gadu\proto_gg\Proto_GG_12.vcxproj", "{33912E32-3B68-4E2C-82AE-64C06EE987A7}"
 EndProject
