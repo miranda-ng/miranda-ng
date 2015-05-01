@@ -399,8 +399,8 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		return TRUE;
 
 	case WM_NCDESTROY:
-		DestroyAnimation(data);
 		if (data) {
+			DestroyAnimation(data);
 			UnhookEvent(data->hHook);
 			UnhookEvent(data->hHookMy);
 			mir_free(data);
@@ -421,10 +421,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			DestroyAnimation(data);
 
 			data->hContact = lParam;
-			if (lParam == NULL)
-				data->proto[0] = '\0';
-			else
-				mir_strncpy(data->proto, GetContactProto(data->hContact), sizeof(data->proto));
+			mir_strncpy(data->proto, GetContactProto(data->hContact), sizeof(data->proto));
 
 			StartAnimation(data);
 
