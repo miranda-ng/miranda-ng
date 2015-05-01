@@ -32,7 +32,7 @@ Miranda NG настройки
 [Accounts]
 Акаунти
 [Setup your account information to start messaging.]
-Настройте акаунтите, за да започнете да пращате съобщения.
+Настройте акаунти, за да пращате съобщения.
 [Style]
 Стил
 [Change the look of Miranda NG according to your taste.]

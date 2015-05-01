@@ -21,7 +21,7 @@ UTF8 за нови файлове
 [Use << and >>]
 
 [Auto filename]
-Автоматично именуване
+Авт. именуване
 [Clear all]
 Изчисти всички
 [Help]
@@ -190,7 +190,7 @@ UIN
 [Failed to UTF8 byte order code to file :\n]
 
 [      History for\r\n]
-       История за\r\n
+							История за\r\n
 [User      : %User%\r\n]
 Потребител : %User%\r\n
 [Protocol  : %Proto%\r\n]
@@ -226,11 +226,11 @@ UIN        : %UIN%\r\n
 [Failed to write message to the file :\n]
 
 [URL: ]
-URL: 
+URL:
 [File: ]
-Файл: 
+Файл:
 [Description: ]
-Описание: 
+Описание:
 [Failed to write URL/File to the file :\n]
 
 [Nick      :]

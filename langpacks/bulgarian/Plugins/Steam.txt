@@ -51,7 +51,7 @@
 [ on server %s]
 
 [Playing]
-
+Играе
 [%s has been removed from your contact list]
 
 [%s is back in your contact list]

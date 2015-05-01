@@ -1530,7 +1530,7 @@ Popup заглавие
 [Evil]
 Зъл
 [Alien]
-
+Извънземен
 [Scooter]
 Скутер
 [Mask]
@@ -1554,7 +1554,7 @@ Popup заглавие
 [Up yours]
 
 [Laughing]
-
+Смее се
 [Dog]
 Куче
 [Candy]
@@ -1612,7 +1612,7 @@ Popup заглавие
 [Sushi]
 Суши
 [Playing]
-
+Играе
 [Writing]
 Пише
 [%s Custom Status]

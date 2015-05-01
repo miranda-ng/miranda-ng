@@ -1611,7 +1611,7 @@ Jabber източник
 [Swedish]
 шведски
 [Tahitian]
-таитянски 
+таитянски
 [Tamil]
 тамилски
 [Tatar]
@@ -1891,7 +1891,7 @@ Facebook чат
 [messages]
 съобщения
 [ and ]
- и\s
+	и\s
 [incoming presences]
 входящи присъствия
 [outgoing presences]
@@ -1903,7 +1903,7 @@ Facebook чат
 [If Jabber ID is ']
 Ако Jabber ID е '
 [ (nickname: ]
- (прякор:\s
+	(прякор:\s
 [If group is ']
 Ако групата е '
 [If subscription is ']
@@ -1911,11 +1911,11 @@ Facebook чат
 [then ]
 тогава\s
 [ (act., def.)]
- (активен, стандартен)
+	(активен, стандартен)
 [ (active)]
- (активен)
+	(активен)
 [ (default)]
- (стандартен)
+	(стандартен)
 [Ready.]
 Готово.
 [Privacy lists are not saved, discard any changes and exit?]
@@ -2367,15 +2367,15 @@ Jabber vCard: Редактиране на телефонен номер
 [Set Mood]
 Избор на настроение
 [Doing chores]
-
+Домакинства
 [buying groceries]
-
+пазарува домашни продукти
 [cleaning]
 чисти
 [cooking]
 готви
 [doing maintenance]
-
+ремонтира
 [doing the dishes]
 мие чиниите
 [doing the laundry]
@@ -2441,7 +2441,7 @@ Jabber vCard: Редактиране на телефонен номер
 [Having appointment]
 Има среща
 [Inactive]
-Неактивно
+Неактивен
 [day off]
 почивен ден
 [hanging out]

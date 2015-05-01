@@ -23,13 +23,13 @@
 [Custom filters]
 Персонални филтри
 [Add filter]
-Добавяне на филтър
+Нов филтър
 [Delete filter]
-Изтриване на филтър
+Изтриване
 [Add event]
-Добавяне на събитие
+Ново събитие
 [Delete event]
-Изтриване на събитие
+Изтриване
 [WinSCP path]
 Път до WinSCP
 [WinSCP log path]
@@ -51,7 +51,7 @@
 [hours]
 часа
 [Limit messages to:]
-
+Лимит за броя на съобщения:
 [Show date in timestamps]
 Дата във времевата марка
 [Show seconds in timestamps]
@@ -85,17 +85,17 @@
 [External CSS file]
 Външен CSS файл
 [* Choose encoding from combo box or enter code page number and name separated by semicolon, name is used in Content-Type header.]
-* 
+
 [Add task]
-Добавяне на задача
+Нова задача
 [Edit task]
-Редактиране на задача
+Редактиране
 [Delete task]
-Изтриване на задача
+Изтриване
 [Display errors using popups]
-Изобразяване на грешки чрез popups
+Изобразяване на грешките чрез popups
 [Save errors to system history]
-Запис на грешки в системната история
+Запис на грешките в системната история
 [Task]
 Задача
 [Name]
