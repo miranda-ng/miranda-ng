@@ -105,6 +105,8 @@ Ikona synchronizacji historii
 Ikona blokowania użytkownika
 [Unblock user icon]
 Ikona odblokowania użytkownika
+[Incoming call icon]
+Ikona rozmowy przychodzącej
 [Protocols]
 Protokoły
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
@@ -121,6 +123,8 @@ Odblokuj kontakt
 [Create new chat]
 Utwórz nowy czat
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
+[Incoming call]
+Połączenie przychodzące
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Protokoły
@@ -129,6 +133,10 @@ Protokoły
 Połączenie %s
 [Action]
 Akcja
-;file \protocols\SkypeWeb\src\skype_trouter.cpp
-[Incoming call]
+[Incoming Call]
 Połączenie przychodzące
+[Incoming call sound]
+Dźwięk rozmowy przychodzącej
+;file \protocols\SkypeWeb\src\skype_trouter.cpp
+[Incoming call from %s]
+Przychodząca rozmowa od %s
