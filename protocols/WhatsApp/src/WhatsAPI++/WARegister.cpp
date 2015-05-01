@@ -13,7 +13,7 @@ using namespace Utilities;
 /////////////////////////////////////////////////////////////////////////////////////////
 // Token generation
 
-static char WaToken[] = "PdA2DJyKoUrwLw1Bg6EIhzh502dF9noR9uFCllGk1418865329241";
+static char WaToken[] = "PdA2DJyKoUrwLw1Bg6EIhzh502dF9noR9uFCllGk1425519315543";
 
 std::string WAToken::GenerateToken(const string &number)
 {
