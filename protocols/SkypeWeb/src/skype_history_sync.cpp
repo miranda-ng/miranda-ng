@@ -52,7 +52,9 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		int emoteOffset = atoi(ptrA(mir_t2a(ptrT(json_as_string(json_get(message, "skypeemoteoffset"))))));
 		time_t timestamp = IsoToUnixTime(composeTime);
 		ptrA skypename(ContactUrlToName(from));
+
 		bool isEdited = (json_get(message, "skypeeditedid") != NULL);
+
 		MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
 		{
@@ -218,7 +220,6 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 
 		char *clientMsgId = mir_t2a(json_as_string(json_get(lastMessage, "clientmessageid")));
 		char *skypeEditedId = mir_t2a(json_as_string(json_get(lastMessage, "skypeeditedid")));
-		bool isEdited = (skypeEditedId != NULL);
 		char *conversationLink = mir_t2a(json_as_string(json_get(lastMessage, "conversationLink")));
 		time_t composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "composetime")))));
 
