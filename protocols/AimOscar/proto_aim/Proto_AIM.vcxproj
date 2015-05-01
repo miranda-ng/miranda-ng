@@ -23,6 +23,6 @@
     <ProjectGuid>{975505EA-F0C7-4DAC-A95E-75249615F30C}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(ProjectDir)..\..\..\build\vc.common\common.props" />
+    <Import Project="$(ProjectDir)..\..\..\build\vc.common\icons.props" />
   </ImportGroup>
 </Project>
