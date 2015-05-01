@@ -24,7 +24,7 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 	ptrA skypename(ContactUrlToName(selfLink));
 	if (skypename == NULL)
 		return;
-	MCONTACT hContact = FindContact(skypename);
+	MCONTACT hContact = AddContact(skypename, true);
 
 	//"publicInfo":{"capabilities":"","typ":"11","skypeNameVersion":"0/7.1.0.105//","nodeInfo":"","version":"24"}
 	JSONNODE *publicInfo = json_get(node, "publicInfo");
@@ -104,7 +104,7 @@ void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node)
 		}
 		return;
 	}
-	MCONTACT hContact = FindContact(skypename);
+	MCONTACT hContact = AddContact(skypename, true);
 	SetContactStatus(hContact, SkypeToMirandaStatus(status));
 }
 

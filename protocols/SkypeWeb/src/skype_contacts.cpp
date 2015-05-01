@@ -227,6 +227,15 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 				db_set_b(hContact, "CList", "Hidden", 1);
 				setByte(hContact, "IsBlocked", 1);
 			}
+			else 
+			{
+				if (db_get_b(hContact, m_szModuleName, "IsBlocked", 0))
+				{
+					db_set_dw(hContact, "Ignore", "Mask1", 0);
+					db_set_b(hContact, "CList", "Hidden", 0);
+					setByte(hContact, "IsBlocked", 0);
+				}
+			}
 
 			skypenames.insert(mir_strdup(skypename));
 		}

@@ -92,6 +92,7 @@ void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST*)
 void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *headers)
 {
 	ptrT displayname(json_as_string(json_get(body, "displayName")));
+	ptrT cuid(json_as_string(json_get(body, "callerId")));
 	ptrT uid(json_as_string(json_get(body, "conversationId")));
 	ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "callId")))));
 	int evt = json_as_int(json_get(body, "evt"));
@@ -126,7 +127,7 @@ void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *headers)
 			}
 			break;
 		}
-	case 104: //call canceled
+	case 104: //call canceled: callerId=""; conversationId=NULL; callId=call id
 		{
 			break;
 		}
@@ -185,11 +186,6 @@ void CSkypeProto::TRouterThread(void*)
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 		delete request;
 	}
-	
-	if (!isTerminated)
-	{
-		debugLogA(__FUNCTION__": unexpected termination; switching protocol to offline");
-	}
 	m_hTrouterThread = NULL;
 	m_TrouterConnection = NULL;
 	debugLogA(__FUNCTION__": leaving");
@@ -213,7 +209,9 @@ INT_PTR CSkypeProto::OnIncomingCallPP(WPARAM wParam, LPARAM hContact)
 			break;
 		}
 	}
+
 	if (wParam == 1)
 		NotifyEventHooks(m_hCallHook, (WPARAM)hContact, (LPARAM)0);
+
 	return 0;
 }
