@@ -37,7 +37,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MSN", "..\protocols\MSN\msn
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_nicer", "..\plugins\clist_nicer\clist_nicer_10.vcxproj", "{3C42510C-A29E-4A53-899C-203BFA874E0B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_ICQ", "..\protocols\IcqOscarJ\icons_pack\ICONS_10.vcxproj", "{E98A8615-1082-1979-D6D8-F763F13BFCBD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_ICQ", "..\protocols\IcqOscarJ\icq_xstatus\xStatus_ICQ.vcxproj", "{E98A8615-1082-1979-D6D8-F763F13BFCBD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_Jabber", "..\protocols\JabberG\jabber_xstatus\JABBER_XSTATUS_10.vcxproj", "{6BBEEA1E-3C87-6CD1-F32A-027C3EC5320E}"
 EndProject
@@ -47,7 +47,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_AIM", "..\protocols\A
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_GG", "..\protocols\Gadu-Gadu\proto_gg\Proto_GG.vcxproj", "{33912E32-3B68-4E2C-82AE-64C06EE987A7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_ICQ", "..\protocols\IcqOscarJ\proto_icq\Proto_ICQ_10.vcxproj", "{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_ICQ", "..\protocols\IcqOscarJ\proto_icq\Proto_ICQ.vcxproj", "{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_IRC", "..\protocols\IRCG\proto_irc\Proto_IRC.vcxproj", "{DD667247-3712-4355-9774-7E6ACAF2275E}"
 EndProject
