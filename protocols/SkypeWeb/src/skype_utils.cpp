@@ -566,24 +566,61 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		*(szCommand++) = 0;
 
 	// parameters
-	TCHAR *szSecondParam = szCommand ? _tcschr(szCommand, _T(';')) : NULL;
+	TCHAR *szSecondParam = szCommand ? _tcschr(szCommand, _T('&')) : NULL;
 	if (szSecondParam)
 		*(szSecondParam++) = 0;
 
-	MCONTACT hContact = AddContact(_T2A(szJid), true);
 	// no command or message command
 	if (!szCommand || (szCommand && !_tcsicmp(szCommand, _T("chat")))) 
 	{
+		if (szSecondParam)
+		{
+			TCHAR *szChatId = _tcsstr(szSecondParam, _T("id="));
+			if (szChatId)
+			{
+				szChatId += 5;
+				StartChatRoom(szChatId, szChatId);
+				return 0;
+			}
+		}
+		MCONTACT hContact = AddContact(_T2A(szJid), true);
 		CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, NULL);
 		return 0;
 	}
-	else if (szCommand && !_tcsicmp(szCommand, _T("call")))
+	else if (!_tcsicmp(szCommand, _T("call")))
 	{
+		MCONTACT hContact = AddContact(_T2A(szJid), true);
 		NotifyEventHooks(m_hCallHook, (WPARAM)hContact, (LPARAM)0);
 		return 0;
 	}
-	else if (szCommand && !_tcsicmp(szCommand, _T("userinfo"))){ return 0;}
+	else if (!_tcsicmp(szCommand, _T("userinfo"))){ return 0;}
+	else if (!_tcsicmp(szCommand, _T("add")))
+	{ 
+		MCONTACT hContact = FindContact(_T2A(szJid));
+		if (hContact == NULL)
+		{
+			PROTOSEARCHRESULT psr = { 0 };
+			psr.id = mir_tstrdup(szJid);
+			psr.nick = mir_tstrdup(szJid);
+			psr.flags = PSR_TCHAR;
 
+			ADDCONTACTSTRUCT acs;
+			acs.handleType = HANDLE_SEARCHRESULT;
+			acs.szProto = m_szModuleName;
+			acs.psr = &psr;
+			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
+		}
+		return 0;
+	}
+	if (!_tcsicmp(szCommand, _T("sendfile"))) 
+	{
+		MCONTACT hContact = AddContact(_T2A(szJid), true);
+		CallService(MS_FILE_SENDFILE, hContact, NULL);
+	}
+	if (!_tcsicmp(szCommand, _T("voicemail"))) 
+	{
+		return 1;
+	}
 	return 1; /* parse failed */
 }
 

@@ -57,6 +57,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_imgsrvc.h>
 #include <m_xml.h>
 #include <m_assocmgr.h>
+#include <m_file.h>
 
 struct CSkypeProto;
 
