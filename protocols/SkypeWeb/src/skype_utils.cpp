@@ -464,9 +464,13 @@ void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, i
 		ppd.lchContact = hContact;
 		_tcsncpy(ppd.lptzContactName, caption, MAX_CONTACTNAME);
 		_tcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
-		ppd.lchIcon = Skin_GetIcon("Skype_main");
 		if (type == SKYPE_DB_EVENT_TYPE_INCOMING_CALL)
+		{
+			ppd.lchIcon = Skin_GetIcon("inc_call");
 			ppd.PluginWindowProc = PopupDlgProcCall;
+		}
+		else
+			ppd.lchIcon = Skin_GetIcon("Skype_main");
 
 		if (!PUAddPopupT(&ppd))
 			return;

@@ -235,6 +235,7 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 
 	if (!mir_strcmpi(messageType, "Control/Typing"))
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
+
 	else if (!mir_strcmpi(messageType, "Control/ClearTyping"))
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 

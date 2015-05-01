@@ -229,20 +229,16 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		{
 			if (!getByte("AutoSync", 1)) continue;
 			skypename = ContactUrlToName(conversationLink);
+			MCONTACT hContact = AddContact(skypename, true);
+
+			if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
+				PushRequest(new GetHistoryRequest(RegToken, skypename, 100, false, 0, Server), &CSkypeProto::OnGetServerHistory);
 		}
 		else if (conversationLink != NULL && strstr(conversationLink, "/19:"))
 		{
 			skypename = ChatUrlToName(conversationLink);
 			topic =  json_as_string(json_get(threadProperties, "topic"));
 			SendRequest(new GetChatInfoRequest(RegToken, skypename, Server), &CSkypeProto::OnGetChatInfo, topic);
-			continue;
 		}
-		else 
-			continue;
-
-		MCONTACT hContact = AddContact(skypename, true);
-
-		if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
-			PushRequest(new GetHistoryRequest(RegToken, skypename, 100, false, 0, Server), &CSkypeProto::OnGetServerHistory);
 	}
 }
