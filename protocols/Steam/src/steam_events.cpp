@@ -29,12 +29,12 @@ int CSteamProto::OnPreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR CSteamProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
+INT_PTR CSteamProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)(CSteamOptionsMain::CreateAccountManagerPage(this, (HWND)lParam))->GetHwnd();
 }
 
-int CSteamProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
+int CSteamProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = g_hInstance;
@@ -52,7 +52,7 @@ int CSteamProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CSteamProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)
+int CSteamProto::OnIdleChanged(WPARAM, LPARAM lParam)
 {
 	bool idle = (lParam & IDF_ISIDLE) != 0;
 	bool privacy = (lParam & IDF_PRIVACY) != 0;

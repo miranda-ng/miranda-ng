@@ -14,7 +14,7 @@ bool CSteamProto::IsMe(const char *steamId)
 	return false;
 }
 
-void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *)
 {
 	if (response == NULL)
 		return;
@@ -46,7 +46,6 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *arg)
 
 	DWORD error = 0;
 	DWORD encryptedSize = 0;
-	DWORD passwordSize = (DWORD)strlen(password);
 	if ((error = RsaEncrypt(modulus, password, NULL, encryptedSize)) != 0)
 	{
 		debugLogA("CSteamProto::OnGotRsaKey: encryption error (%lu)", error);
@@ -74,7 +73,7 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *arg)
 		&CSteamProto::OnAuthorization);
 }
 
-void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *)
 {
 	if (response == NULL) {
 		SetStatus(ID_STATUS_OFFLINE);
@@ -190,7 +189,7 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 		&CSteamProto::OnLoggedOn);
 }
 
-void CSteamProto::OnGotSession(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnGotSession(const NETLIBHTTPREQUEST *response, void *)
 {
 	if(response == NULL)
 		return;
@@ -209,7 +208,7 @@ void CSteamProto::OnGotSession(const NETLIBHTTPREQUEST *response, void *arg)
 	}
 }
 
-void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *)
 {
 	if (response == NULL)
 	{

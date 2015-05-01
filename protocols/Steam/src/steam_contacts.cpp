@@ -359,7 +359,7 @@ void CSteamProto::ProcessContact(std::map<std::string, JSONNODE*>::iterator *it,
 	}
 }
 
-void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *)
 {
 	if (response == NULL)
 		return;
@@ -444,7 +444,7 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 	}
 }
 
-void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response, void *)
 {
 	if (response == NULL)
 		return;
@@ -488,7 +488,7 @@ void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response, void *arg)
 	}
 }
 
-void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *)
 {
 	if (response == NULL)
 		return;
@@ -753,7 +753,7 @@ void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg
 	json_delete(nodes);
 }
 
-void CSteamProto::OnSearchByNameStarted(const NETLIBHTTPREQUEST *response, void *arg)
+void CSteamProto::OnSearchByNameStarted(const NETLIBHTTPREQUEST *, void *)
 {
 }
 
