@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>Icq_Xstatus</ProjectName>
+    <ProjectName>xStatus_ICQ</ProjectName>
     <ProjectGuid>{E98A8615-1082-1979-D6D8-F763F13BFCBD}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
