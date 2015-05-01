@@ -93,29 +93,43 @@ void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *headers)
 {
 	ptrT displayname(json_as_string(json_get(body, "displayName")));
 	ptrT uid(json_as_string(json_get(body, "conversationId")));
+	ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "callId")))));
+	int evt = json_as_int(json_get(body, "evt"));
 
-	MCONTACT hContact = FindContact(_T2A(uid));
-	if (hContact != NULL)
+	switch (evt)
 	{
-		MEVENT hEvent = AddCallToDb(hContact, time(NULL), DBEF_READ);
-		SkinPlaySound("skype_inc_call");
+	case 100: //incoming call
+		{		
+			if (uid != NULL)
+			{
+				MCONTACT hContact = AddContact(_T2A(uid), true);
 
-		CLISTEVENT cle = { sizeof(cle) };
-		cle.flags |= CLEF_TCHAR;
-		cle.hContact = hContact;
-		cle.hDbEvent = hEvent;
-		cle.lParam = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
-		cle.hIcon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
+				MEVENT hEvent = AddCallToDb(hContact, time(NULL), DBEF_READ, callId);
+				SkinPlaySound("skype_inc_call");
 
-		CMStringA service(FORMAT, "%s/IncomingCallCLE", GetContactProto(hContact));
-		cle.pszService = service.GetBuffer();
+				CLISTEVENT cle = { sizeof(cle) };
+				cle.flags |= CLEF_TCHAR;
+				cle.hContact = hContact;
+				cle.hDbEvent = hEvent;
+				cle.lParam = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
+				cle.hIcon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
 
-		CMString tooltip(FORMAT, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
-		cle.ptszTooltip = tooltip.GetBuffer();
+				CMStringA service(FORMAT, "%s/IncomingCallCLE", GetContactProto(hContact));
+				cle.pszService = service.GetBuffer();
 
-		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+				CMString tooltip(FORMAT, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+				cle.ptszTooltip = tooltip.GetBuffer();
 
-		ShowNotification(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Incoming call"), 0, hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL);
+				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+
+				ShowNotification(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Incoming call"), 0, hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL);
+			}
+			break;
+		}
+	case 104: //call canceled
+		{
+			break;
+		}
 	}
 }
 
