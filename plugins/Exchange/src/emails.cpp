@@ -45,7 +45,7 @@ int CExchangeServer::Connect(int bForceConnect)
 	if (cConnections >= maxRetries) {
 		bTryConnect = 0;
 		cConnections = 0;
-		_popupUtil("Maximum number of retries reached.\nPlugin will stop trying to connect automatically.");
+		_popupUtil(TranslateT("Maximum number of retries reached.\nPlugin will stop trying to connect automatically."));
 	}
 
 	if (bTryConnect)
@@ -53,7 +53,7 @@ int CExchangeServer::Connect(int bForceConnect)
 		
 	if ((bTryConnect) && !IsServerAvailable()) {
 		bTryConnect = 0;
-		_popupUtil("Server not available");
+		_popupUtil(TranslateT("Server not available"));
 	}		
 		
 	if ( !IsConnected() && bTryConnect) {
@@ -72,7 +72,7 @@ int CExchangeServer::Connect(int bForceConnect)
 		if (_tcslen(server) > 0) //only connect if there's a server to connect to
 			return DoConnect(user, password, server, port);			
 
-		_popupUtil("Server is not configured...");
+		_popupUtil(TranslateT("Server is not configured..."));
 	}
 	return -1; //0 on success, != 0 otherwise
 }
@@ -288,7 +288,7 @@ int CExchangeServer::Check(int bNoEmailsNotify)
 	}
 
 	if (count==-1)
-		_popupUtil("Cannot connect to Exchange server...");
+		_popupUtil(TranslateT("Cannot connect to Exchange server..."));
 
 	return count;
 }
