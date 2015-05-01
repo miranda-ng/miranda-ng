@@ -2,15 +2,6 @@
 #define CONSTANTS_H
 
 // Version management
-#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(0, 0, 2, 0)
-#define __PRODUCT_DWORD             PLUGIN_MAKE_VERSION(0, 9, 14, 0)
-#define __VERSION_STRING            "0.0.2.0"
-#define __PRODUCT_STRING            "0.9.14.0"
-#define __VERSION_VS_FILE           0,0,2,
-#define __VERSION_VS_PROD           0,9,14,0
-#define __VERSION_VS_FILE_STRING    "0, 0, 2, 0"
-#define __VERSION_VS_PROD_STRING    "0, 9, 14, 0"
-
 #define PRODUCT_NAME _T("WhatsApp Protocol")
 
 // Limits
@@ -33,7 +24,7 @@
 
 // WhatsApp
 #define WHATSAPP_LOGIN_SERVER "c.whatsapp.net"
-#define ACCOUNT_USER_AGENT "WhatsApp/2.12.60 S40Version/14.26 Device/Nokia302"
+#define ACCOUNT_USER_AGENT "WhatsApp/2.12.68 S40Version/14.26 Device/Nokia302"
 #define ACCOUNT_URL_CODEREQUEST "https://r.whatsapp.net/v1/code.php"
 #define ACCOUNT_URL_CODEREQUESTV2 "https://v.whatsapp.net/v2/code"
 #define ACCOUNT_URL_REGISTERREQUEST "https://r.whatsapp.net/v1/register.php"
@@ -42,7 +33,7 @@
 #define ACCOUNT_URL_EXISTSV2 "https://v.whatsapp.net/v2/exist"
 
 // WhatsApp Nokia 302 S40
-#define ACCOUNT_RESOURCE  "S40-2.12.60"
+#define ACCOUNT_RESOURCE  "S40-2.12.68"
 
 #define WHATSAPP_RECV_MESSAGE 1
 #define WHATSAPP_SEND_MESSAGE 2

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "version.h"
 
 CLIST_INTERFACE *pcli;
 int hLangpack;
@@ -7,13 +8,13 @@ HINSTANCE g_hInstance;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"WhatsApp Protocol",
-	__VERSION_DWORD,
-	"Provides basic support for WhatsApp.",
-	"Uli Hecht",
-	"uli.hecht@gmail.com",
-	"© 2013-14 Uli Hecht",
-	"http://example.com",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE, //not transient
 	// {4f1ff7fa-4d75-44b9-93b0-2ced2e4f9e3e}
 	{ 0x4f1ff7fa, 0x4d75, 0x44b9, { 0x93, 0xb0, 0x2c, 0xed, 0x2e, 0x4f, 0x9e, 0x3e } }
