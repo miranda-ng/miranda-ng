@@ -188,7 +188,7 @@ INT_PTR CSkypeProto::OnIncomingCallCLE(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CSkypeProto::OnIncomingCallPP(WPARAM, LPARAM hContact)
+INT_PTR CSkypeProto::OnIncomingCallPP(WPARAM wParam, LPARAM hContact)
 {
 	CLISTEVENT *cle = NULL;
 	while ((cle = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, hContact, 0)))
@@ -199,6 +199,7 @@ INT_PTR CSkypeProto::OnIncomingCallPP(WPARAM, LPARAM hContact)
 			break;
 		}
 	}
-	NotifyEventHooks(m_hCallHook, (WPARAM)cle->hContact, (LPARAM)0);
+	if (wParam == 1)
+		NotifyEventHooks(m_hCallHook, (WPARAM)hContact, (LPARAM)0);
 	return 0;
 }

@@ -20,7 +20,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 typedef void(CSkypeProto::*SkypeResponseCallback)(const NETLIBHTTPREQUEST *response);
 typedef void(CSkypeProto::*SkypeResponseWithArgCallback)(const NETLIBHTTPREQUEST *response, void *arg);
-typedef HRESULT(MarkupCallback)(IHTMLDocument3 *, BSTR &message);
+
+typedef HRESULT(MarkupCallback)(IHTMLDocument3 *pHtmlDoc, BSTR &message);
 
 struct CSkypeProto : public PROTO < CSkypeProto >
 {
@@ -292,9 +293,7 @@ private:
 	char *SelfUrlToName		(const char *url);
 	char *GetServerFromUrl	(const char *url);
 
-	LPCTSTR ClearText(CMString &result, const TCHAR *message);
-	HRESULT TestDocumentText(IHTMLDocument3 *pHtmlDoc, BSTR &message);
-	HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback, BSTR &message);
+	LPCTSTR ClearText(CMString &value, const TCHAR *message);
 
 	//services
 	INT_PTR __cdecl OnIncomingCallCLE					(WPARAM wParam, LPARAM lParam);
@@ -315,5 +314,8 @@ private:
 		return proto ? (proto->*Service)(wParam, lParam) : 0;
 	}
 };
+
+HRESULT TestDocumentText(IHTMLDocument3 *pHtmlDoc, BSTR &message);
+HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback, BSTR &message);
 
 #endif //_SKYPE_PROTO_H_
