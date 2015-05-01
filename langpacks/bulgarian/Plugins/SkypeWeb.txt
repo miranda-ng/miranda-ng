@@ -70,6 +70,10 @@
 Администратор
 [&User]
 Потребител
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+
+[Warning]
+Предупреждение
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 
@@ -94,8 +98,6 @@
 [Grant authorization]
 Даване на пълномощно
 [Get server history]
-
-[Destroy room]
 
 [Create new chat]
 

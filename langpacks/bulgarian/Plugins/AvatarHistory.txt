@@ -33,7 +33,7 @@
 [Enable tracking for these protocols:]
 Следене на следните протоколи:
 [Metacontacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
-Метаконтактите се третират различно. Инф. винаги се взима от подконтактите (известията от метаконтактите се игнорират)
+Метаконтактите се третират различно. Инф. винаги се взима от подконтактите (известията от метаконтактите се игнорират).
 [Show popup when a contact change his avatar]
 popup когато контакта промени аватара си
 [Colors]

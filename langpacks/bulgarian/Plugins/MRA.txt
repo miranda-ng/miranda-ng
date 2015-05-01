@@ -414,7 +414,7 @@
 [Walking]
 разхожда се
 [Alien]
-
+Извънземен
 [Shrimp]
 
 [Got lost]
@@ -424,7 +424,7 @@
 [Duck]
 
 [Playing]
-
+Играе
 [Smoking]
 Пуши
 [Office]
@@ -448,7 +448,7 @@
 [Wrong number]
 Грешен номер
 [Laughing]
-
+Смее се
 [Malicious]
 
 [Imp]

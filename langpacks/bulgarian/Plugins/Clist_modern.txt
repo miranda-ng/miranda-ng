@@ -1,4 +1,4 @@
-﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
@@ -81,7 +81,7 @@
 [Available skins]
 Налични облици
 [Rescan]
-Повторно сканиране
+Сканирай
 [Apply]
 Прилагане
 [Info]
@@ -327,21 +327,21 @@ ms между две мигания
 [Use xStatus icon]
 Ползване на икона за xСъстояние
 [Icon mode]
-
+Режим за икони
 [For similar statuses]
-
+За сходни състояния
 [Global status]
 Общи състояния
 [Single account]
-
+Един акаунт
 [Cycle icons]
-
+Смяна на икони
 [All accounts]
-
+Всички акаунти
 [For different statuses]
-
+За различни състояния
 [Cycle period, seconds]
-
+Период за смяна (сек)
 [Additional stuff]
 И още нещо
 [Ignore empty extra icons places (arrange to right).]

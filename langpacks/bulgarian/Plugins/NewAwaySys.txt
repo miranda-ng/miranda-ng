@@ -386,6 +386,6 @@ URL
 [available autoreply only]
 
 [all accounts]
-
+Всички акаунти
 [Closing in %d]
 Затваряне след %d

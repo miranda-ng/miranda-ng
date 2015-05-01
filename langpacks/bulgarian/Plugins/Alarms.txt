@@ -29,15 +29,15 @@
 [Reminder frame]
 Рамка за напомняния
 [Auto hide/show]
-Автоматично скриване/показване
+Авт. скриване/показване
 [Loop sound]
 Повтаряне
 [Period (hours):]
 Период (часове):
 [Hide/show with clist]
-Показване/скриване със списъка с контакти
+
 [Auto size vertically]
-Автооразмеряване вертикално
+
 [Transparency (%):]
 Прозрачност (%):
 [Alert window]

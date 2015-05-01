@@ -248,7 +248,7 @@
 [aborting]
 прекратяване
 [playing]
-
+Играе
 [%s changed status message to %s]
 
 [(M) is back online!]

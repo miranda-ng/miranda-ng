@@ -320,7 +320,7 @@ IP:
 [%s is playing %s on server %d.%d.%d.%d:%d.]
 
 [Playing]
-
+Играе
 [Do you really want to delete your friend %s?]
 
 [Confirm Delete]

@@ -114,7 +114,7 @@ Plugin Updater
 [Component Name]
 Име на компонента
 [State]
-Област
+Състояние
 [Plugins]
 Приставки
 [Icons]
