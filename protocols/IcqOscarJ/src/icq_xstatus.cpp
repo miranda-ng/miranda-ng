@@ -29,7 +29,7 @@
 
 #include "stdafx.h"
 #include "m_extraicons.h"
-#include "..\icons_pack\src\resource.h"
+#include "..\icq_xstatus\src\resource.h"
 
 static HANDLE hXStatusIcons[XSTATUS_COUNT];
 static int    hXStatusCListIcons[XSTATUS_COUNT];
