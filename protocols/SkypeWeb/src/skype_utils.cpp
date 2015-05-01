@@ -480,11 +480,11 @@ LRESULT CSkypeProto::PopupDlgProcCall(HWND hPopup, UINT uMsg, WPARAM wParam, LPA
 	switch (uMsg) {
 	case WM_CONTEXTMENU:
 		PUDeletePopup(hPopup);
+		CallService(MODULE"/IncomingCallPP", 0, PUGetContact(hPopup));
 		break;
 	case WM_COMMAND:
 		PUDeletePopup(hPopup);
-		CallService(MODULE"/IncomingCallPP", 0, PUGetContact(hPopup));
-
+		CallService(MODULE"/IncomingCallPP", 1, PUGetContact(hPopup));
 		break;
 	}
 
@@ -591,7 +591,7 @@ INT_PTR CSkypeProto::GlobalParseSkypeUriService(WPARAM wParam, LPARAM lParam)
 
 	return 1;
 }
-/*
+
 LPCTSTR CSkypeProto::ClearText(CMString &result, const TCHAR *message)
 {
 	BSTR bstrHtml = SysAllocString(message), bstrRes = SysAllocString(_T(""));
@@ -606,7 +606,7 @@ LPCTSTR CSkypeProto::ClearText(CMString &result, const TCHAR *message)
 	return result;
 }
 
-HRESULT CSkypeProto::TestDocumentText(IHTMLDocument3 *pHtmlDoc, BSTR &message)
+HRESULT TestDocumentText(IHTMLDocument3 *pHtmlDoc, BSTR &message)
 {
 	IHTMLDocument2 *pDoc = NULL;
 	IHTMLElement *pElem = NULL;
@@ -632,7 +632,7 @@ HRESULT CSkypeProto::TestDocumentText(IHTMLDocument3 *pHtmlDoc, BSTR &message)
 
 
 
-HRESULT CSkypeProto::TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback, BSTR &message)
+HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback, BSTR &message)
 {
 	IHTMLDocument3 *pHtmlDocRoot = NULL;
 
@@ -689,4 +689,3 @@ HRESULT CSkypeProto::TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback
 	}
 	return hr;
 }
-*/
