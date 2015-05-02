@@ -28,7 +28,7 @@ void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 	ptrA instance(mir_t2a(ptrT(json_as_string(json_get(root, "instance")))));
 	ptrA socketio(mir_t2a(ptrT(json_as_string(json_get(root, "socketio")))));
 	ptrA url(mir_t2a(ptrT(json_as_string(json_get(root, "url")))));
-	setString("Trouter_ccid", ccid);
+	setString("Trouter_ccid", ccid); 
 	setString("Trouter_connId", connId);
 	setString("Trouter_instance", instance);
 	setString("Trouter_socketio", socketio);
@@ -130,6 +130,7 @@ void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *headers)
 	case 104: //call canceled: callerId=""; conversationId=NULL; callId=call id
 		{
 			ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "callId")))));
+			SkinPlaySound("skype_call_canceled");
 			break;
 		}
 	}
@@ -179,8 +180,8 @@ void CSkypeProto::TRouterThread(void*)
 			JSONROOT  root(json);
 			ptrA szBody(mir_t2a(ptrT(json_as_string(json_get(root, "body")))));
 			JSONNODE *headers = json_get(root, "headers");
-			JSONROOT jsonBody(szBody);
-			OnTrouterEvent(jsonBody, headers);
+			JSONNODE *body = json_parse(szBody);
+			OnTrouterEvent(body, headers);
 		}
 
 		m_TrouterConnection = response->nlc;

@@ -328,8 +328,8 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 			{
 				HXML xmlId = xi.getChildByPath(xmlNode, _T("id"), 0);
 				HXML xmlRole = xi.getChildByPath(xmlNode, _T("role"), 0);
-				xId = xmlNode != NULL ? mir_t2a(xi.getText(xmlId)) : NULL;
-				xRole = xmlNode != NULL ? mir_t2a(xi.getText(xmlRole)) : NULL;
+				xId = xmlId != NULL ? mir_t2a(xi.getText(xmlId)) : NULL;
+				xRole = xmlRole != NULL ? mir_t2a(xi.getText(xmlRole)) : NULL;
 			}
 			xi.destroyNode(xml);
 			initiator = ParseUrl(xinitiator, "8:");
