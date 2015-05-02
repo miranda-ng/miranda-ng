@@ -94,13 +94,13 @@ void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *headers)
 	ptrT displayname(json_as_string(json_get(body, "displayName")));
 	ptrT cuid(json_as_string(json_get(body, "callerId")));
 	ptrT uid(json_as_string(json_get(body, "conversationId")));
-	ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "callId")))));
 	int evt = json_as_int(json_get(body, "evt"));
 
 	switch (evt)
 	{
 	case 100: //incoming call
-		{		
+		{	
+			ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "convoCallId")))));
 			if (uid != NULL)
 			{
 				MCONTACT hContact = AddContact(_T2A(uid), true);
@@ -129,6 +129,7 @@ void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *headers)
 		}
 	case 104: //call canceled: callerId=""; conversationId=NULL; callId=call id
 		{
+			ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "callId")))));
 			break;
 		}
 	}

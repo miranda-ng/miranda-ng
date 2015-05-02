@@ -109,7 +109,6 @@ void CSkypeProto::OnLoginSuccess()
 	TokenSecret = getStringA("TokenSecret");
 	Server = getStringA("Server") != NULL ? getStringA("Server") : SKYPE_ENDPOINTS_HOST;
 	SendRequest(new CreateEndpointRequest(TokenSecret, Server), &CSkypeProto::OnEndpointCreated);
-	SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
 	PushRequest(new GetProfileRequest(TokenSecret), &CSkypeProto::LoadProfile);
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
 	PushRequest(new GetContactListRequest(TokenSecret), &CSkypeProto::LoadContactList);
@@ -179,6 +178,7 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 	RegToken = getStringA("registrationToken");
 	EndpointId = getStringA("endpointId");
 	SendRequest(new CreateSubscriptionsRequest(RegToken, Server), &CSkypeProto::OnSubscriptionsCreated);
+	SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
 }
 
 void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
