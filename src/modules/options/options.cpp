@@ -67,8 +67,6 @@ struct DlgTemplateExBegin
 
 struct OptionsPageData
 {
-	DLGTEMPLATE *pTemplate;
-	DLGPROC dlgProc;
 	HINSTANCE hInst;
 	HTREEITEM hTreeItem;
 	HWND hwnd;
@@ -79,7 +77,6 @@ struct OptionsPageData
 	TCHAR *ptszTitle, *ptszGroup, *ptszTab;
 	int hLangpack;
 	BOOL insideTab;
-	LPARAM dwInitParam;
 	CDlgBase *pDialog;
 
 	int offsetX;
@@ -209,14 +206,9 @@ PageHash GetPluginPageHash(const OptionsPageData *page)
 
 static HWND CreateOptionWindow(const OptionsPageData *opd, HWND hWndParent)
 {
-	if (opd->pDialog != NULL) {
-		opd->pDialog->SetParent(hWndParent);
-		opd->pDialog->Create();
-		return opd->pDialog->GetHwnd();
-	}
-
-	// create the options dialog page so we can parse it;
-	return CreateDialogIndirectParamA(opd->hInst, opd->pTemplate, hWndParent, opd->dlgProc, opd->dwInitParam);
+	opd->pDialog->SetParent(hWndParent);
+	opd->pDialog->Create();
+	return opd->pDialog->GetHwnd();
 }
 
 static void FindFilterStrings(int enableKeywordFiltering, int current, HWND hWndParent, const OptionsPageData *page)
@@ -347,7 +339,6 @@ static void FreeOptionsPageData(OptionsPageData *opd)
 	mir_free(opd->ptszGroup);
 	mir_free(opd->ptszTab);
 	mir_free(opd->ptszTitle);
-	mir_free(opd->pTemplate);
 	mir_free(opd);
 }
 
@@ -680,65 +671,54 @@ static BOOL IsInsideTab(HWND hdlg, OptionsDlgData *dat, int i)
 	return (pages > 1);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class COptionPageDialog : public CDlgBase
+{
+	DLGPROC  m_wndProc;
+	LPARAM  m_lParam;
+
+public:
+	COptionPageDialog(HINSTANCE hInst, int idDialog, DLGPROC pProc, LPARAM lParam) :
+		CDlgBase(hInst, idDialog),
+		m_wndProc(pProc),
+		m_lParam(lParam)
+	{}
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+	{
+		if (msg == WM_INITDIALOG)
+			lParam = m_lParam;
+
+		return CallWindowProc(m_wndProc, m_hwnd, msg, wParam, lParam);
+	}
+};
+
 static bool LoadOptionsPage(OPTIONSDIALOGPAGE *src, OptionsPageData *dst)
 {
-	// old fashioned Windows dialog loading
 	if (src->hInstance != NULL && src->pszTemplate != NULL) {
-		HRSRC hrsrc = FindResourceA(src->hInstance, src->pszTemplate, MAKEINTRESOURCEA(5));
-		if (hrsrc == NULL)
-			return false;
-
-		HGLOBAL hglb = LoadResource(src->hInstance, hrsrc);
-		if (hglb == NULL)
-			return false;
-
-		DWORD resSize = SizeofResource(src->hInstance, hrsrc);
-		dst->pTemplate = (DLGTEMPLATE*)mir_alloc(resSize);
-		memcpy(dst->pTemplate, LockResource(hglb), resSize);
-		DlgTemplateExBegin *dte = (struct DlgTemplateExBegin*)dst->pTemplate;
-		if (dte->signature == 0xFFFF) {
-			//this feels like an access violation, and is according to boundschecker
-			//...but it works - for now
-			//may well have to remove and sort out the original dialogs
-			dte->style &= ~(WS_VISIBLE | WS_CHILD | WS_POPUP | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | DS_MODALFRAME | DS_CENTER);
-			dte->style |= WS_CHILD;
-		}
-		else {
-			dst->pTemplate->style &= ~(WS_VISIBLE | WS_CHILD | WS_POPUP | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | DS_MODALFRAME | DS_CENTER);
-			dst->pTemplate->style |= WS_CHILD;
-		}
 		dst->hInst = src->hInstance;
-		dst->dlgProc = src->pfnDlgProc;
-		dst->dwInitParam = src->dwInitParam;
+		dst->pDialog = new COptionPageDialog(src->hInstance, (int)src->pszTemplate, src->pfnDlgProc, src->dwInitParam);
 	}
 	else {
 		dst->hInst = src->pDialog->GetInst();
 		dst->pDialog = src->pDialog;
 	}
 
-	dst->hwnd = NULL;
-	dst->changed = 0;
-	dst->height = 0;
-	dst->width = 0;
 	dst->flags = src->flags;
 	dst->hLangpack = src->hLangpack;
-	if (src->pszTitle == NULL)
-		dst->ptszTitle = NULL;
-	else if (src->flags & ODPF_UNICODE)
+
+	if (src->flags & ODPF_UNICODE)
 		dst->ptszTitle = mir_tstrdup(src->ptszTitle);
 	else
 		dst->ptszTitle = mir_a2t(src->pszTitle);
 
-	if (src->pszGroup == NULL)
-		dst->ptszGroup = NULL;
-	else if (src->flags & ODPF_UNICODE)
+	if (src->flags & ODPF_UNICODE)
 		dst->ptszGroup = mir_tstrdup(src->ptszGroup);
 	else
 		dst->ptszGroup = mir_a2t(src->pszGroup);
 
-	if (src->pszTab == NULL)
-		dst->ptszTab = NULL;
-	else if (src->flags & ODPF_UNICODE)
+	if (src->flags & ODPF_UNICODE)
 		dst->ptszTab = mir_tstrdup(src->ptszTab);
 	else
 		dst->ptszTab = mir_a2t(src->pszTab);
