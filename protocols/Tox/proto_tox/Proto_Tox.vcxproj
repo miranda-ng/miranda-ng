@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>Peoto_Tox</ProjectName>
+    <ProjectName>Proto_Tox</ProjectName>
     <ProjectGuid>{129A4E61-E476-45E8-BD50-5E03BA80E9AD}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
