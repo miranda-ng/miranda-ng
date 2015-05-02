@@ -9,6 +9,10 @@
 Cancelar
 [Password:]
 Contraseña:
+[Size]
+Tamaño
+[bytes]
+bytes
 [Request authorization]
 Solicitar autorización
 [Grant authorization]

@@ -107,6 +107,18 @@ Nepripojený, lebo server vrátil chybné informácie. Skúste ešte raz.
 Ste odpojený z ICQ siete, lebo vaše ICQ číslo je už prihlásené
 [Unknown runtime error: 0x%02x]
 Neznáma spúšťacia chyba: 0x%02x
+[Personal]
+Osoba
+[Nickname]
+Prezívka
+[First name]
+Meno
+[Last name]
+Priezvisko
+[About]
+O
+[Contact]
+Kontakt
 [ICQ Note]
 ICQ poznámka
 [Art]
@@ -195,17 +207,5 @@ ICQ "fatalita"
 chyba
 [%d Files]
 %d súbory
-[Personal]
-Osoba
-[Nickname]
-Prezívka
-[First name]
-Meno
-[Last name]
-Priezvisko
-[About]
-O
-[Contact]
-Kontakt
 [<not specified>]
 <nešpecifikované>

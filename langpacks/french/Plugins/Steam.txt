@@ -38,7 +38,7 @@ Entrez le passe
 Enregistrer le passe
 [Enter the password to continue.]
 
-;file \protocols\Steam\src\stdafx.cpp
+;file \protocols\Steam\src\main.cpp
 [Steam game]
 
 ;file \protocols\Steam\src\steam_contacts.cpp

@@ -27,6 +27,7 @@
 [Facebook required computer cleaning and plugin correctly skipped it. Please report this to the plugin developer!]
 [Could not load communication token. You should report this and wait for plugin update.]
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
+[Contact doesn't have required data in database.]
 [User cancel captcha challenge.]
 [Pages]
 [%s and more (%d)]

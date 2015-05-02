@@ -59,6 +59,7 @@
 [Login error, probably bad login credentials.]
 [Could not load communication token. You should report this and wait for plugin update.]
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
+[Contact doesn't have required data in database.]
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 [User cancel captcha challenge.]
 [Timeout when sending message.]

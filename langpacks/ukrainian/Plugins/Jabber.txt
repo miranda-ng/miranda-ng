@@ -1473,8 +1473,6 @@ XML для MS Excel (кодування UTF-8)
 Google Hangouts
 [LiveJournal Talk]
 ЖЖ
-[Facebook Chat]
-Чат Facebook
 [Odnoklassniki]
 Однокласники
 [Some changes will take effect the next time you connect to the Jabber network.]

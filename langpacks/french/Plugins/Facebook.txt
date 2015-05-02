@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.6
+;  Version: 0.2.10.8
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -146,6 +146,8 @@ Erreur inconnue
 [Could not load communication token. You should report this and wait for plugin update.]
 
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
+
+[Contact doesn't have required data in database.]
 
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 

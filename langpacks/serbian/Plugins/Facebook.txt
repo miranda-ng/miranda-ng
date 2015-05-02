@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.6
+;  Version: 0.2.10.8
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [E-mail:]

@@ -12,7 +12,14 @@
 Пароль:
 ;file \protocols\SkypeWeb\src\main.cpp
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
+;file \protocols\SkypeWeb\src\skype_contacts.cpp
+[Are you sure?]
+Вы ўпэўнены?
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
+[Size]
+Памер
+[bytes]
+байт
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
@@ -24,3 +31,4 @@
 [Network]
 Сеціва
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
+;file \protocols\SkypeWeb\src\skype_trouter.cpp

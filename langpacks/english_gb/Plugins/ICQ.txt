@@ -27,6 +27,8 @@ Use default colours
 Organisation:
 [Synchronize]
 Synchronise
+[Please authorize me to add you to my contact list.]
+Please authorise me to add you to my contact list.
 [Contact "%s" was authorized in the server list.]
 Contact "%s" was authorised in the server list.
 [Contact "%s" lost its authorization in the server list.]
@@ -51,5 +53,3 @@ You have to be online to synchronise the server-list!
 Failed to Initialise File Transfer. No valid files were specified.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
 Failed to Initialise File Transfer. Unable to bind local port and File proxy unavailable.
-[Please authorize me to add you to my contact list.]
-Please authorise me to add you to my contact list.

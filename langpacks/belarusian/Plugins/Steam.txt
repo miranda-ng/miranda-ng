@@ -14,7 +14,7 @@
 Кантакты
 [Cancel]
 Скасаваць
-;file \protocols\Steam\src\stdafx.cpp
+;file \protocols\Steam\src\main.cpp
 ;file \protocols\Steam\src\steam_contacts.cpp
 ;file \protocols\Steam\src\steam_dialogs.cpp
 [Name]

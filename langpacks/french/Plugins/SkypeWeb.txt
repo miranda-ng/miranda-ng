@@ -56,6 +56,10 @@ Enregistrer le passe
 
 [User]
 Utilisateur
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+
+[Warning]
+Avertissement
 [&Invite user...]
 &Inviter l'utilisateur...
 [&Leave chat session]
@@ -70,10 +74,9 @@ Utilisateur
 
 [&User]
 
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-
-[Warning]
-Avertissement
+;file \protocols\SkypeWeb\src\skype_contacts.cpp
+[Are you sure?]
+Etes-vous sûr?
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 
@@ -83,12 +86,26 @@ Avertissement
 
 [Duration]
 Durée
+[File transfer]
+Transfert de fichiers
+[File name]
+
+[Size]
+Taille
+[bytes]
+octets
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 
 [Create new chat icon]
 
 [Sync history icon]
+
+[Block user icon]
+
+[Unblock user icon]
+
+[Incoming call icon]
 
 [Protocols]
 Protocoles
@@ -99,9 +116,15 @@ Demander l'autorisation
 Accorder l'autorisation
 [Get server history]
 
+[Block contact]
+
+[Unblock contact]
+
 [Create new chat]
 
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
+[Incoming call]
+
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Réseau
@@ -109,4 +132,11 @@ Réseau
 [%s connection]
 
 [Action]
+
+[Incoming call sound]
+
+[Incoming call canceled sound]
+
+;file \protocols\SkypeWeb\src\skype_trouter.cpp
+[Incoming call from %s]
 

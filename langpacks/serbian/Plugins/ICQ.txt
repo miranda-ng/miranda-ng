@@ -69,6 +69,10 @@ Bio
 Ostalo
 [Closing in %d]
 Zatvaram (%d)
+[Nickname]
+Nadimak
+[Contact]
+Kontakt
 [Afghanistan]
 Avganistan
 [Albania]
@@ -527,11 +531,7 @@ Poseban status
 Greška
 [%d Files]
 %d datoteka
-[<invalid>]
-<pogrešno>
-[Nickname]
-Nadimak
-[Contact]
-Kontakt
 [<not specified>]
 <neodređeno>
+[<invalid>]
+<pogrešno>

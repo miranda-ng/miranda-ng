@@ -73,6 +73,16 @@ Otro
 Cerrando en %d
 [Title:]
 Título:
+[Nickname]
+Apodo
+[About]
+Acerca de...
+[Password]
+Contraseña
+[Contact]
+Contacto
+[State]
+Estado
 [Afghanistan]
 Afganistán
 [Albania]
@@ -547,17 +557,7 @@ Estado personalizado
 error
 [%d Files]
 %d archivos
-[<invalid>]
-<inválido>
-[Nickname]
-Apodo
-[About]
-Acerca de...
-[Password]
-Contraseña
-[Contact]
-Contacto
-[State]
-Estado
 [<not specified>]
 <no especificado>
+[<invalid>]
+<inválido>

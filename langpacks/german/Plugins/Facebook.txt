@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.6
+;  Version: 0.2.10.8
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -147,6 +147,8 @@ Loginfehler, wahrscheinlich falsche Anmeldeinformationen.
 Konnte Verbindungstoken nicht laden. Sie sollten dies melden und auf ein Update des Plugins warten.
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
 Konnte nicht alle benötigten Daten laden. Plugin kann immer noch funktionieren, Sie sollten dies aber melden und auf ein Update des Plugins warten.
+[Contact doesn't have required data in database.]
+
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Eine Bestätigung zum Nachrichtenversand zu anderen Clients wird benötigt.\nÖffnen Sie die Facebook-Seite und senden Sie dem Kontakt die Nachricht erneut!
 [User cancel captcha challenge.]
