@@ -21,48 +21,50 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "commonheaders.h"
 
-char	*mir_strncat_c(char *pszDest, const char cSrc) 
+char* mir_strncat_c(char *pszDest, const char cSrc)
 {
-	char *pszRet;
 	size_t size = 2;
-
 	if (pszDest != NULL)
 		size += strlen(pszDest); //cSrc = 1 + 1 forNULL temination 
-	pszRet = (char *)mir_realloc(pszDest, (sizeof(char) * size));
+
+	char *pszRet = (char *)mir_realloc(pszDest, (sizeof(char) * size));
 	if (pszRet == NULL)
 		return NULL;
+	
 	pszRet[size - 2] = cSrc;
 	pszRet[size - 1] = 0;
 	return pszRet;
 }
 
-wchar_t	*mir_wcsncat_c(wchar_t *pwszDest, const wchar_t wcSrc) {
-	wchar_t *pwszRet;
+wchar_t* mir_wcsncat_c(wchar_t *pwszDest, const wchar_t wcSrc)
+{
 	size_t size = 2;
-
 	if (pwszDest != NULL)
 		size += wcslen(pwszDest); //cSrc = 1 + 1 forNULL temination 
-	pwszRet = (wchar_t *)mir_realloc(pwszDest, (sizeof(wchar_t) * size));
+
+	wchar_t *pwszRet = (wchar_t *)mir_realloc(pwszDest, (sizeof(wchar_t) * size));
 	if (pwszRet == NULL)
 		return NULL;
+	
 	pwszRet[size - 2] = wcSrc;
 	pwszRet[size - 1] = 0;
 	return pwszRet;
 }
 
-char	*mir_strnerase(char *pszDest, size_t sizeFrom, size_t sizeTo) {
+char* mir_strnerase(char *pszDest, size_t sizeFrom, size_t sizeTo)
+{
 	char *pszReturn = NULL;
 	size_t sizeNew, sizeLen = strlen(pszDest);
 	if (sizeFrom >= 0 && sizeFrom < sizeLen && sizeTo >= 0 && sizeTo <= sizeLen && sizeFrom < sizeTo) {
 		sizeNew = sizeLen - (sizeTo - sizeFrom);
 		size_t sizeCopy = sizeNew - sizeFrom;
-		pszReturn = (char *) mir_alloc(sizeNew + 1);
+		pszReturn = (char *)mir_alloc(sizeNew + 1);
 		memcpy(pszReturn, pszDest, sizeFrom);
 		memcpy(pszReturn + sizeFrom, pszDest + sizeTo, sizeCopy);
 		pszReturn[sizeNew] = 0;
 	}
 
-	pszDest = (char *) mir_realloc(pszDest, sizeNew + 1);
+	pszDest = (char *)mir_realloc(pszDest, sizeNew + 1);
 	pszDest = mir_strcpy(pszDest, pszReturn);
 	mir_free(pszReturn);
 	return pszDest;
@@ -72,11 +74,12 @@ int mir_IsEmptyA(char *str)
 {
 	if (str == NULL || str[0] == 0)
 		return 1;
+	
 	int i = 0;
 	while (str[i]) {
-		if (str[i]!=' ' &&
-			str[i]!='\r' &&
-			str[i]!='\n')
+		if (str[i] != ' ' &&
+			str[i] != '\r' &&
+			str[i] != '\n')
 			return 0;
 		i++;
 	}
@@ -87,14 +90,14 @@ int mir_IsEmptyW(wchar_t *str)
 {
 	if (str == NULL || str[0] == 0)
 		return 1;
+	
 	int i = 0;
 	while (str[i]) {
-		if (str[i]!=' ' &&
-			str[i]!='\r' &&
-			str[i]!='\n')
+		if (str[i] != ' ' &&
+			str[i] != '\r' &&
+			str[i] != '\n')
 			return 0;
 		i++;
 	}
 	return 1;
 }
-
