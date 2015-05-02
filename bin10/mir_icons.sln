@@ -64,7 +64,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_YAMN", "..\plugins\YA
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fingerprint Icons", "..\plugins\FingerprintNG\iconpacks\fp_icons_10.vcxproj", "{7F854B13-37EA-4956-BAEE-9715AE9F4579}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_VKontakte", "..\protocols\VKontakte\proto_vkontakte\Proto_VKontakte_10.vcxproj", "{5F8495EF-0765-4E03-905D-639BDBF05B4F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_VKontakte", "..\protocols\VKontakte\proto_vkontakte\Proto_VKontakte.vcxproj", "{5F8495EF-0765-4E03-905D-639BDBF05B4F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Sametime", "..\protocols\Sametime\proto_sametime\Proto_Sametime.vcxproj", "{217C99B1-0D5E-4A85-A84F-836FCA167B25}"
 EndProject
