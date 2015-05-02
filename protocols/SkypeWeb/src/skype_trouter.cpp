@@ -58,21 +58,25 @@ void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 										st, se, sig, 
 										getStringA("Trouter_instance"), 
 										getStringA("Trouter_ccid")
-									), &CSkypeProto::OnGetTrouter);
+									), &CSkypeProto::OnGetTrouter, (void *)false);
 
 
 }
 
-void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p)
 {
 	if (response == NULL || response->pData == NULL)
 		return;
+
+	bool isHealth = (bool)p;
+
 	CMStringA data(response->pData);
 	int iStart = 0;
 	CMStringA szToken = data.Tokenize(":", iStart).Trim();
 	setString("Trouter_SessId", szToken);
 	m_hTrouterThread = ForkThreadEx(&CSkypeProto::TRouterThread, 0, NULL);
-	SendRequest(new RegisterTrouterRequest(TokenSecret, ptrA(getStringA("Trouter_url")), szToken));
+	if (!isHealth)
+		SendRequest(new RegisterTrouterRequest(TokenSecret, ptrA(getStringA("Trouter_url")), szToken));
 }
 
 void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST*)
@@ -86,7 +90,7 @@ void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST*)
 	ptrA sessId(getStringA("Trouter_SessId"));
 	ptrA sig(getStringA("Trouter_sig"));
 
-	SendRequest(new GetTrouterRequest(socketIo, connId, st, se, sig, instance, ccid), &CSkypeProto::OnGetTrouter);
+	SendRequest(new GetTrouterRequest(socketIo, connId, st, se, sig, instance, ccid), &CSkypeProto::OnGetTrouter, (void *)true);
 }
 
 void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *headers)

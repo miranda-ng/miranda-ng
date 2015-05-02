@@ -150,7 +150,7 @@ private:
 
 	void OnCreateTrouter(const NETLIBHTTPREQUEST *response);
 	void OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response);
-	void OnGetTrouter(const NETLIBHTTPREQUEST *response);
+	void OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p);
 	void OnHealth(const NETLIBHTTPREQUEST *response);
 	void OnTrouterEvent(JSONNODE *body, JSONNODE *headers);
 	void __cdecl CSkypeProto::TRouterThread(void*);
