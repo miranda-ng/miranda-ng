@@ -18,7 +18,7 @@
 [Note: You can only change these settings if you are connected to Xfire.]
 Примітка: Ви можете змінити налаштування, тільки якщо підключені до Xfire.
 [Create a new Xfire account on website]
-Створити новий обліковий запис на сайті
+Створити обліковий запис на сайті
 [Lost password?]
 Забули пароль?
 [Account options]
@@ -36,7 +36,7 @@
 [Show my voice chat server to my friends]
 Показувати мій сервер голосового чату моїм друзям
 [Show people when I type to them]
-Показувати повідомлення про набір тексту мною
+Показувати сповіщення про набір тексту мною
 [Show nicknames when available]
 Показувати ніки, якщо доступно
 [Show friends of my friends]
@@ -46,7 +46,7 @@
 [More options]
 Додатково
 [Display Error and Info message:]
-Помилка та інформація:
+Помилки та інформація:
 [Main group for clan groups:]
 Група для групи клану:
 [Automatically scan for games:]
@@ -58,21 +58,21 @@
 [Blocked User List]
 Список заблокованих користувачів
 [This list contains all your blocked Xfire users. You can remove one if you wanna allow him to send you a friend request.]
-Цей список містить заблокованих користувачів. Ви можете видалити одного, що дозволить йому надсилати вам повідомлення.
+Ці користувачі заблоковані. Щоб дозволити кому-небудь знову надсилати вам повідомлення, видаліть його з цього списку.
 [You can simply block someone if you right click on his friend request in contact list and choose Block User...]
 Ви можете заблокувати кого-небудь просто клацнувши правою кнопкою по користувачеві в списку контактів.
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
-Цей файл використовується для пошуку і виявлення ігор. Файл містить підтримувані ігри Xfire.
+Використовується для пошуку і виявлення ігор, містить підтримувані ігри Xfire.
 [This file contains all original game icons. You can also activate the option for icon downloading if you don't have it.]
-Цей файл містить оригінальні значки ігор. Ви можете також активувати автоматичне завантаження, якщо цього файлу у вас немає.
+Містить оригінальні значки ігор. Можна також активувати автоматичне завантаження, якщо цього файлу у вас немає.
 [Be sure you put these files in following folder:]
-Переконайтеся, що ви помістили ці файли в папку:
+Ці файли повинні знаходитися в папці:
 [Status Message]
 Статусне повідомлення:
 [Enable]
 Увімкнути
 [With this feature, following status message will be set on your other protocol plugins if you are in game. So your other buddies can also see what you play. It will also change the status to occupied if this option is enabled.]
-З цією можливістю наступне статусне повідомлення буде встановлено на інший протокол, якщо ви в грі. Так ваші друзі будуть бачити, що ви граєте. Якщо ця функція увімкнена, ваш статус зміниться на "Зайнятий".
+Дозволяє встановити вказане статусне повідомлення на інші протоколи, якщо ви в грі. Друзі будуть бачити, у що ви граєте. Якщо ця опція увімкнена, ваш статус зміниться на "Зайнятий".
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Доступні змінні: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
 [Status message:]
@@ -152,7 +152,7 @@ ID гри:
 [Please choose one game in the list!]
 Будь ласка, виберіть гру зі списку!
 [If you add a mod of an Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
-Якщо ви додаєте мод гри, яка підтримується Xfire, то можна вказати, який ID буде відправлено Xfire. Наприклад, можна вказати ID Half-Life для моду Half-Life, тоді ваші друзі будуть бачити значок Half-Life поряд з вашим іменем, коли гратимете в цей мод.
+Якщо ви додаєте мод гри, яка підтримується Xfire, то можна вказати, який ID буде відправлено Xfire. Наприклад, можна вказати ID Half-Life для моду Half-Life, тоді друзі будуть бачити значок Half-Life поряд з вашим іменем, коли ви гратимете в цей мод.
 [Please enter a game name.]
 Введіть назву гри.
 [Please enter a game ID.]
@@ -314,11 +314,11 @@ XFire не підтримує надсилання офлайн-повідомл
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 Необхідно перепідключились до мережі XFire, щоб зроблені вами зміни вступили в силу.
 [Hidden]
-Прихований
+Сховати
 [Message box]
 Діалогове вікно
 [Popup]
-Сплив. вікно
+Спливаюче вікно
 [No]
 Ні
 [On every start]
