@@ -1,7 +1,7 @@
 #ifndef _HTTP_REQUEST_H_
 #define _HTTP_REQUEST_H_
 
-#include "common.h"
+#include "stdafx.h"
 
 enum HTTP_STATUS
 {

@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 int CDropbox::SendFile(const char *fileName, const char *data, int length)
 {
