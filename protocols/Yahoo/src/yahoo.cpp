@@ -560,8 +560,6 @@ void CYahooProto::ext_got_calendar(const char *url, int type, const char *msg, i
 
 void CYahooProto::ext_got_stealth(char *stealthlist)
 {
-	char **s;
-	int found = 0;
 	char **stealth = NULL;
 
 	LOG(("[ext_got_stealth] list: %s", stealthlist));
@@ -574,13 +572,11 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 		if (getString( hContact, YAHOO_LOGINID, &dbv))
 			continue;
 
-		found = 0;
-
-		for(s = stealth; s && *s; s++) {
-
+		bool found = false;
+		for(char **s = stealth; s && *s; s++) {
 			if (mir_strcmpi(*s, dbv.pszVal) == 0) {
 				debugLogA("GOT id = %s", dbv.pszVal);
-				found = 1;
+				found = true;
 				break;
 			}
 		}
@@ -598,9 +594,9 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 			if (getWord(hContact, "ApparentMode", 0))
 				delSetting(hContact, "ApparentMode");
 		}
-
 		db_free(&dbv);
 	}
+	y_strfreev(stealth);
 }
 
 void CYahooProto::ext_got_buddies(YList * buds)
