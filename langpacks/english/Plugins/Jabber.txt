@@ -769,7 +769,6 @@
 [Secure XMPP Network (old style)]
 [Google Talk!]
 [LiveJournal Talk]
-[Facebook Chat]
 [Odnoklassniki]
 [Some changes will take effect the next time you connect to the Jabber network.]
 ;file \protocols\JabberG\src\jabber_password.cpp

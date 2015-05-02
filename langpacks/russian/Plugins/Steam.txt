@@ -35,8 +35,6 @@
 Сохранить пароль
 [Enter the password to continue.]
 Введите пароль, чтобы продолжить.
-[Steam game]
-Игра Steam
 [Looking to play]
 Хотите играть
 [Looking to trade]
