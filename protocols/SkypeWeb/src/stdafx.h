@@ -52,7 +52,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_string.h>
 #include <m_json.h>
 #include <m_timezones.h>
-#include <m_version.h>
 #include <m_gui.h>
 #include <m_imgsrvc.h>
 #include <m_xml.h>
@@ -60,6 +59,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_file.h>
 
 struct CSkypeProto;
+
+extern HINSTANCE g_hInstance;
+extern char g_szMirVer[];
 
 #define SKYPE_ENDPOINTS_HOST "client-s.gateway.messenger.live.com"
 
@@ -86,8 +88,6 @@ struct CSkypeProto;
 #include "requests\trouter.h"
 #include "request_queue.h"
 #include "skype_proto.h"
-
-extern HINSTANCE g_hInstance;
 
 #define MODULE "Skype"
 
