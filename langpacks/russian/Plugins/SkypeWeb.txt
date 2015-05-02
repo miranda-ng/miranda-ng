@@ -123,9 +123,9 @@
 %s подключение
 [Action]
 Действие
-[Incoming Call]
-Входящий звонок
 [Incoming call sound]
 Звук входящего звонка
+[Incoming call canceled sound]
+Звук отмены входящего звонка
 [Incoming call from %s]
 Входящий звонок от %s

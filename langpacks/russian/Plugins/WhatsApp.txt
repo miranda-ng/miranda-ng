@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.13
+;  Version: 0.1.2.14
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]

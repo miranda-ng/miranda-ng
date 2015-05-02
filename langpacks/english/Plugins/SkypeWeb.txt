@@ -74,7 +74,7 @@
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
 [%s connection]
 [Action]
-[Incoming Call]
 [Incoming call sound]
+[Incoming call canceled sound]
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Incoming call from %s]
