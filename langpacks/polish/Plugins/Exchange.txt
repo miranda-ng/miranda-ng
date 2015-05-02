@@ -50,10 +50,18 @@ Temat
 [Sender]
 Nadawca
 ;file \plugins\Exchange\src\emails.cpp
+[Maximum number of retries reached.\nPlugin will stop trying to connect automatically.]
+Maksymalna liczba prób ponownego połączenia osiągnięta.\nWtyczka zaprzestanie dalszych prób ponownego połączenia.
+[Server not available]
+Serwer niedostępny
+[Server is not configured...]
+Serwer nie jest skonfigurowany
 [You have %d unread emails...]
 Masz %d nieprzeczytane wiadomości...
 [You have one unread email...]
 Masz jedną nieprzeczytaną wiadomość...
+[Cannot connect to Exchange server...]
+Nie można połączyć się z serwerem Exchange...
 [Exchange email]
 E-mail Exchange
 [Do you want to see the email headers?]
@@ -65,3 +73,8 @@ Sprawdź skrzynkę Exchange
 Powiadomienia Exchange
 [Plugins]
 Wtyczki
+[Forcefully reconnecting to Exchange server ...]
+Wymuszone ponowne łączenie z serwerem Exchange ...
+;file \plugins\Exchange\src\MirandaExchange.cpp
+[Connecting to Exchange ...]
+Łączenie z Exchange ...
