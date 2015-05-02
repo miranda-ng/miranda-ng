@@ -33,10 +33,8 @@ struct CQueueItem
 	PVOID	param;
 };
 
-/**
- *
- *
- **/
+/////////////////////////////////////////////////////////////////////////////////////////
+
 class CContactQueue
 {
 public:
@@ -48,33 +46,23 @@ public:
 		STOPPED		= 2
 	};
 
-	CContactQueue				(int initialSize = 10);
-	~CContactQueue				();
+	CContactQueue(int initialSize = 10);
+	~CContactQueue();
 
-	inline int			Size	()			const	{ return _queue.getCount();}
-	inline int			Remove	(int idx)			{ mir_free(_queue[idx]); return _queue.remove(idx);}
-	inline CQueueItem*	Get		(int idx) const		{ return _queue[idx];}
-
-
+	__forceinline int Size() const {
+		return _queue.getCount();
+	}
+	
+	CQueueItem*	Get(int idx) const {
+		return _queue[idx];
+	}
+	
 	void RemoveAll();
 	
-	/**
-	 * This function removes all queue items for the hContact.
-	 *
-	 * @param		hContact		- the contact whose queue items to delete
-	 *
-	 * @return	nothing
-	 **/
+	// This function removes all queue items for the hContact.
 	void RemoveAll(MCONTACT hContact);
 
-	/**
-	 * This function removes all queue items for the hContact considering the correct parameter.
-	 *
-	 * @param		hContact		- the contact whose queue items to delete
-	 * @param		param			- a caller defined parameter passed to the callback function
-	 *
-	 * @return	nothing
-	 **/
+	// This function removes all queue items for the hContact considering the correct parameter.
 	void RemoveAllConsiderParam(MCONTACT hContact, PVOID param);
 
 	/**
@@ -128,19 +116,12 @@ public:
 	 **/
 	BOOL AddUniqueConsiderParam	(int waitTime, MCONTACT hContact, PVOID param = NULL);
 
-	/**
-	 * This method resumes the worker thread and immitiatly goes on with the next entry.
-	 *
-	 * @param		none
-	 *
-	 * @return		nothing
-	 **/
+	// This method resumes the worker thread and immitiatly goes on with the next entry.
 	void ContinueWithNext();
 
 protected:
-	
-	virtual void OnEmpty		() {};
-	virtual void Callback		(MCONTACT hContact, PVOID param) = 0;
+	virtual void OnEmpty() {};
+	virtual void Callback(MCONTACT hContact, PVOID param) = 0;
 
 	/**
 	 * This is the real thread callback function. As long as _status
@@ -155,32 +136,18 @@ protected:
 	 **/
 	void Thread();
 	
-	/**
-	 * This is a static method to redirect the thread's callback function
-	 * to the desired class object.
-	 *
-	 * @param		obj	- pointer to the object (instance) of CContactQueue
-	 *
-	 * @return	nothing
-	 **/
+	// This is a static method to redirect the thread's callback function
+	// to the desired class object.
 	static void ThreadProc(CContactQueue* obj)
 	{
 		obj->Thread();
 	}
 
-	/**
-	 * This method suspends the worker thread for the given ammount of time.
-	 *
-	 * @param		time	- milliseconds to suspend the thread for
-	 *
-	 * @return	nothing
-	 **/
+	// This method suspends the worker thread for the given ammount of time.
 	void Suspend(int time) const;
 
 private:
-
 	LIST<CQueueItem> _queue;
-
 	mir_cs _cs;
 	HANDLE _hEvent;
 	EQueueStatus _status;
@@ -196,6 +163,8 @@ private:
 	 * @retval		FALSE		- The item is not added to the queue.
 	 **/
 	BOOL InternalAdd(int waitTime, MCONTACT hContact, PVOID param);
+
+	void Remove(int idx);
 };
 
 #endif // __CONTACTASYNCQUEUE_H__
