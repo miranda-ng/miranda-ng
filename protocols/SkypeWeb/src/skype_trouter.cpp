@@ -158,32 +158,36 @@ void CSkypeProto::TRouterThread(void*)
 		request->nlc = m_TrouterConnection;
 		NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 
-		if (response != NULL)
+		if (response == NULL)
 		{
-			if (response->resultCode == 200)
-			{
-				if (response->pData)
-				{
-					char *json = strstr(response->pData, "{");
-
-					if (json == NULL) 
-						continue;
-
-					JSONROOT  root(json);
-					ptrA szBody(mir_t2a(ptrT(json_as_string(json_get(root, "body")))));
-					JSONNODE *headers = json_get(root, "headers");
-					JSONNODE *body = json_parse(szBody);
-					OnTrouterEvent(body, headers);
-				}
-			}
-			else 
-			{
-				SendRequest(new HealthTrouterRequest(ccid), &CSkypeProto::OnHealth);
-			}
-
-			m_TrouterConnection = response->nlc;
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);	
+			errors++;
+			delete request;
+			continue;
 		}
+
+		if (response->resultCode == 200)
+		{
+			if (response->pData)
+			{
+				char *json = strstr(response->pData, "{");
+				if (json == NULL) 
+					continue;
+
+				JSONROOT  root(json);
+				ptrA szBody(mir_t2a(ptrT(json_as_string(json_get(root, "body")))));
+				JSONNODE *headers = json_get(root, "headers");
+				JSONNODE *body = json_parse(szBody);
+				OnTrouterEvent(body, headers);
+			}
+		}
+		else 
+		{
+			SendRequest(new HealthTrouterRequest(ccid), &CSkypeProto::OnHealth);
+			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+			delete request;
+			break;
+		}
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 		delete request;
 	}
 	m_hTrouterThread = NULL;
