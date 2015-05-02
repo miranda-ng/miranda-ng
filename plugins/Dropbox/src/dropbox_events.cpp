@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 int CDropbox::OnModulesLoaded(void *obj, WPARAM, LPARAM)
 {

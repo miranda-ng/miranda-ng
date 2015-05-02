@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 INT_PTR CDropbox::SendFilesToDropboxCommand(void *obj, WPARAM hContact, LPARAM)
 {

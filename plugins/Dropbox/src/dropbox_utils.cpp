@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 wchar_t *CDropbox::HttpStatusToText(HTTP_STATUS status)
 {

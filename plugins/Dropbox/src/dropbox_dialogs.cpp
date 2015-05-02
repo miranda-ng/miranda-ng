@@ -1,4 +1,4 @@
-#include "common.h"
+#include "stdafx.h"
 
 INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
