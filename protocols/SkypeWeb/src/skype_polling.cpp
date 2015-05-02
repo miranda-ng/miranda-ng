@@ -73,33 +73,41 @@ void CSkypeProto::PollingThread(void*)
 			continue;
 		}
 
-		if (response->resultCode != 200)
+		if (response->resultCode == 200)
 		{
-			errors++;
-		}
-
-		if (response->pData)
-		{
-			JSONROOT root(response->pData);
-			JSONNODE *eventMsgs = json_get(root, "eventMessages");
-			JSONNODE *errorCode = json_get(root, "errorCode");
-
-			if (eventMsgs != NULL)
-				ParsePollData(root);
-
-			else if (errorCode != NULL)
+			if (response->pData)
 			{
-				errors++;
-				debugLogA(__FUNCTION__": polling error %d", json_as_int(errorCode));
-				if (json_as_int(errorCode) == 729)
+				JSONROOT root(response->pData);
+				JSONNODE *events = json_get(root, "eventMessages");
+				if (events != NULL)
 				{
-					SendRequest(new CreateEndpointRequest(TokenSecret), &CSkypeProto::OnEndpointCreated);
-					CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
-					delete request;
-					break;
+					ParsePollData(root);
 				}
 			}
 		}
+		else 
+		{
+			errors++;
+
+			if (response->pData)
+			{
+				JSONROOT root(response->pData);
+				JSONNODE *error = json_get(root, "errorCode");
+				if (error != NULL)
+				{
+					int errorCode = json_as_int(error);
+
+					if (errorCode == 729)
+					{
+						SendRequest(new CreateEndpointRequest(TokenSecret), &CSkypeProto::OnEndpointCreated);
+						CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+						delete request;
+						break;
+					}
+				}		
+			}
+		}
+
 		m_pollingConnection = response->nlc;
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 		delete request;
