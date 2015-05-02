@@ -70,7 +70,7 @@ MEVENT CSkypeProto::AddCallToDb(MCONTACT hContact, DWORD timestamp, DWORD flags,
 {
 	const char *message = Translate("Incoming call");
 	size_t callIdLength = mir_strlen(callId);
-	size_t messageLength = mir_strlen(message);
+	size_t messageLength = mir_strlen(message) + 1;
 	size_t cbBlob = messageLength + callIdLength;
 	PBYTE pBlob = (PBYTE)mir_alloc(cbBlob);
 	memcpy(pBlob, message, messageLength);

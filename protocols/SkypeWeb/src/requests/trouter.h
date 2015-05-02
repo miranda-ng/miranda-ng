@@ -52,7 +52,7 @@ public:
 class RegisterTrouterRequest : public HttpRequest
 {
 public:
-	RegisterTrouterRequest(const char *token, const char *trouterUrl) :
+	RegisterTrouterRequest(const char *token, const char *trouterUrl, const char *id) :
 		HttpRequest(REQUEST_POST, "prod.registrar.skype.com/v2/registrations")
 	{
 		Headers
@@ -60,7 +60,7 @@ public:
 			<< CHAR_VALUE("X-Skypetoken", token);
 
 		CMStringA data;
-		data.AppendFormat("{\"clientDescription\":{\"aesKey\":\"\",\"languageId\":\"en-US\",\"platform\":\"SWX\",\"templateKey\":\"SkypeWeb_1.0\"},\"registrationId\":\"eafc0311-7bb4-4a93-4f32-7fce2496d724\",\"nodeId\":\"\",\"transports\":{\"TROUTER\":[{\"context\":\"\",\"path\":\"%s\",\"ttl\":3600}]}}", trouterUrl);
+		data.AppendFormat("{\"clientDescription\":{\"aesKey\":\"\",\"languageId\":\"en-US\",\"platform\":\"SWX\",\"templateKey\":\"SkypeWeb_1.0\"},\"registrationId\":\"%s\",\"nodeId\":\"\",\"transports\":{\"TROUTER\":[{\"context\":\"\",\"path\":\"%s\",\"ttl\":3600}]}}", id, trouterUrl);
 
 		Body << VALUE(data);
 	}

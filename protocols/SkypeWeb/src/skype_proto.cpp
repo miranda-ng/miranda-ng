@@ -218,7 +218,6 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			delSetting("registrationRoken");
 			delSetting("endpointId");
 			delSetting("expires");
-
 		}
 		requestQueue->Stop();
 
