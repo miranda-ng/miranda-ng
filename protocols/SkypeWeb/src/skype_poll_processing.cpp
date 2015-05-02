@@ -24,7 +24,10 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 	ptrA skypename(ContactUrlToName(selfLink));
 	if (skypename == NULL)
 		return;
-	MCONTACT hContact = AddContact(skypename, true);
+
+	MCONTACT hContact = NULL;
+	if (!IsMe(skypename))
+		hContact = AddContact(skypename, true);
 
 	//"publicInfo":{"capabilities":"","typ":"11","skypeNameVersion":"0/7.1.0.105//","nodeInfo":"","version":"24"}
 	JSONNODE *publicInfo = json_get(node, "publicInfo");
