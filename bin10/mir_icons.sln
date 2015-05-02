@@ -38,7 +38,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_ICQ", "..\protocols
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_Jabber", "..\protocols\JabberG\jabber_xstatus\xStatus_Jabber.vcxproj", "{6BBEEA1E-3C87-6CD1-F32A-027C3EC5320E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_MRA", "..\protocols\MRA\xstatus_MRA\xStatus_MRA.vcxproj", "{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_MRA", "..\protocols\MRA\xstatus_mra\xStatus_MRA.vcxproj", "{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Yahoo", "..\protocols\Yahoo\proto_yahoo\Proto_Yahoo_10.vcxproj", "{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}"
 EndProject

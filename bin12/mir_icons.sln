@@ -68,7 +68,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_WhatsApp", "..\protoc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_VKontakte", "..\protocols\VKontakte\proto_vkontakte\Proto_VKontakte_12.vcxproj", "{5F8495EF-0765-4E03-905D-639BDBF05B4F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_MRA", "..\protocols\MRA\xstatus_MRA\xStatus_MRA.vcxproj", "{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_MRA", "..\protocols\MRA\xstatus_mra\xStatus_MRA.vcxproj", "{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Sametime", "..\protocols\Sametime\proto_sametime\Proto_Sametime_12.vcxproj", "{217C99B1-0D5E-4A85-A84F-836FCA167B25}"
 EndProject
