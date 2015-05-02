@@ -136,7 +136,7 @@ public:
 
 		Body
 			<< CHAR_VALUE("reporterIp", "123.123.123.123") //TODO: user ip address
-			<< CHAR_VALUE("uiVersion", MIRANDA_VERSION_STRING);
+			<< CHAR_VALUE("uiVersion", g_szMirVer);
 	}
 };
 
@@ -153,7 +153,7 @@ public:
 
 		Body
 			<< CHAR_VALUE("reporterIp", "123.123.123.123") //TODO: user ip address
-			<< CHAR_VALUE("uiVersion", MIRANDA_VERSION_STRING);
+			<< CHAR_VALUE("uiVersion", g_szMirVer);
 	}
 };
 

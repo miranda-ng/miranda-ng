@@ -22,6 +22,7 @@ XML_API  xi;
 TIME_API tmi = { 0 };
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
+char g_szMirVer[100];
 
 PLUGININFOEX pluginInfo =
 {
@@ -58,6 +59,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	mir_getXI(&xi);
 	mir_getCLI();
+
+	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(g_szMirVer), LPARAM(g_szMirVer));
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "SKYPE";
