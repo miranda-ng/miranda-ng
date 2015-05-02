@@ -133,10 +133,10 @@ Protokoły
 Połączenie %s
 [Action]
 Akcja
-[Incoming Call]
-Połączenie przychodzące
 [Incoming call sound]
 Dźwięk rozmowy przychodzącej
+[Incoming call canceled sound]
+Dźwięk anulowania rozmowy przychodzącej
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Incoming call from %s]
 Przychodząca rozmowa od %s

@@ -38,7 +38,7 @@ Wprowadź hasło
 Zapisz hasło
 [Enter the password to continue.]
 Wprowadź hasło, by kontynuować.
-;file \protocols\Steam\src\stdafx.cpp
+;file \protocols\Steam\src\main.cpp
 [Steam game]
 Gra Steam
 ;file \protocols\Steam\src\steam_contacts.cpp
