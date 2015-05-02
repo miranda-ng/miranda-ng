@@ -55,7 +55,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_IRC", "..\protocols\I
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Jabber", "..\protocols\JabberG\proto_jabber\Proto_Jabber.vcxproj", "{1AA0A504-0644-4F00-A1AD-F55D69E50DD0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MSN", "..\protocols\MSN\proto_msn\Proto_MSN_12.vcxproj", "{7BC6C3E7-2B17-4718-A82E-084798710E14}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MSN", "..\protocols\MSN\proto_msn\Proto_MSN.vcxproj", "{7BC6C3E7-2B17-4718-A82E-084798710E14}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Yahoo", "..\protocols\Yahoo\proto_yahoo\Proto_Yahoo_12.vcxproj", "{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}"
 EndProject
