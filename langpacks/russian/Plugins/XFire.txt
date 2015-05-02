@@ -18,7 +18,7 @@
 [Note: You can only change these settings if you are connected to Xfire.]
 Примечание: Вы можете изменить настройки, только если подключены к Xfire.
 [Create a new Xfire account on website]
-Создать новую учётную запись на сайте
+Создать учётную запись на сайте
 [Lost password?]
 Забыли пароль?
 [Account options]
@@ -46,7 +46,7 @@
 [More options]
 Ещё настройки
 [Display Error and Info message:]
-Ошибка и инфосообщение:
+Ошибки и информация:
 [Main group for clan groups:]
 Группа для группы кланов:
 [Automatically scan for games:]
@@ -56,15 +56,15 @@
 [Files]
 Файлы
 [Blocked User List]
-Заблокированный список пользователей
+Список заблокированных пользователей
 [This list contains all your blocked Xfire users. You can remove one if you wanna allow him to send you a friend request.]
-Этот список содержит заблокированных пользователей. Вы можете удалить одного, что позволит ему отправлять вам сообщения.
+Эти пользователи заблокированы. Чтобы позволить кому-нибудь снова отправлять вам сообщения, удалите его из этого списка.
 [You can simply block someone if you right click on his friend request in contact list and choose Block User...]
 Вы можете просто заблокировать кого-нибудь щелчком правой кнопки по пользователю в списке контактов.
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Этот файл используется для поиска и обнаружения игры. Файл содержит поддерживаемые игры Xfire.
 [This file contains all original game icons. You can also activate the option for icon downloading if you don't have it.]
-Этот файл содержит оригинальные значки игр. Вы можете так же активировать автоматическую загрузку, если этого файла у вас нет.
+Этот файл содержит оригинальные значки игр. Вы можете также активировать автоматическую загрузку, если этого файла у вас нет.
 [Be sure you put these files in following folder:]
 Будьте внимательны, вы поместите файлы в эту папку:
 [Status Message]
@@ -72,7 +72,7 @@
 [Enable]
 Включено
 [With this feature, following status message will be set on your other protocol plugins if you are in game. So your other buddies can also see what you play. It will also change the status to occupied if this option is enabled.]
-Позволяет установить указанное статусное сообщение на другие протоколы, если вы в игре. Друзья будут видеть, что вы играете. Кроме того, если эта функция включена, ваш статус изменится на "Занят".
+Позволяет установить указанное статусное сообщение на другие протоколы, если вы в игре. Друзья будут видеть, во что вы играете. Кроме того, если эта функция включена, ваш статус изменится на "Занят".
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Доступны следующие переменные: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
 [Status message:]
@@ -308,7 +308,7 @@ IP сервера
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 Для вступления в силу сделанных вами изменений необходимо переподключиться к сети XFire
 [Hidden]
-Скрытый
+Скрыть
 [Message box]
 Окно сообщений
 [Popup]
