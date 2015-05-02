@@ -60,10 +60,13 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	dbEventType.descr = Translate("Incoming call");
 	dbEventType.eventIcon = GetIconHandle("inc_call");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
 	//hooks
 	m_hCallHook = CreateHookableEvent(MODULE"/IncomingCall");
+
 	//sounds
-	SkinAddNewSoundEx("skype_inc_call", "SkypeWeb", LPGEN("Incoming call sound"));
+	SkinAddNewSoundEx("skype_inc_call",		 "SkypeWeb",	LPGEN("Incoming call sound")			);
+	SkinAddNewSoundEx("skype_call_canceled", "SkypeWeb",	LPGEN("Incoming call canceled sound")	);
 }
 
 CSkypeProto::~CSkypeProto()
@@ -107,7 +110,30 @@ MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	return hContact;
 }
 
-MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT) { return 0; }
+MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent) 
+{
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
+		return NULL;
+	if ((dbei.pBlob=(PBYTE)alloca(dbei.cbBlob)) == NULL)
+		return NULL;
+	if (db_event_get(hDbEvent, &dbei))
+		return NULL;
+	if (strcmp(dbei.szModule, m_szModuleName))
+		return NULL;
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
+		return NULL;
+
+	char *nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);
+	char *firstName = nick + strlen(nick) + 1;
+	char *lastName = firstName + strlen(firstName) + 1;
+	char *skypename = lastName + strlen(lastName) + 1;
+
+	char *newSkypename = (dbei.flags & DBEF_UTF) ? mir_utf8decodeA(skypename) : skypename;
+	MCONTACT hContact = AddContact(newSkypename);
+	mir_free(newSkypename);
+	return hContact; 
+}
 
 int CSkypeProto::Authorize(MEVENT hDbEvent)
 {
@@ -256,12 +282,14 @@ int CSkypeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam
 int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	debugLogA(__FUNCTION__);
-		
+	
 	isTerminated = true;
 	if (m_pollingConnection)
 		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
 	if (m_TrouterConnection)
 		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_TrouterConnection, 0);
+
+	requestQueue->Stop();
 
 	return 0;
 }
