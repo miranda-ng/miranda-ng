@@ -66,7 +66,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fp_icons", "..\plugins\Fing
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_WhatsApp", "..\protocols\WhatsApp\proto_whatsapp\Proto_WhatsApp_12.vcxproj", "{64A2B403-90AF-4CF8-BC69-4E8D33872D64}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_VKontakte", "..\protocols\VKontakte\proto_vkontakte\Proto_VKontakte_12.vcxproj", "{5F8495EF-0765-4E03-905D-639BDBF05B4F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_VKontakte", "..\protocols\VKontakte\proto_vkontakte\Proto_VKontakte.vcxproj", "{5F8495EF-0765-4E03-905D-639BDBF05B4F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_MRA", "..\protocols\MRA\xstatus_mra\xStatus_MRA.vcxproj", "{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}"
 EndProject
