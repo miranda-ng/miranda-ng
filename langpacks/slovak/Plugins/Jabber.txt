@@ -127,10 +127,6 @@ Informácie o užívatelovi
 typ
 [Type]
 typ
-[First Name]
-Meno
-[Last Name]
-Priezvisko
 [Notes]
 Poznámky
 [Personal vCard]
@@ -241,3 +237,7 @@ Kontakty
 Poznámka:
 [on the phone]
 Telefonuje
+[First Name]
+Meno
+[Last Name]
+Priezvisko

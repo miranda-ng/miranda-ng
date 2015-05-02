@@ -274,6 +274,9 @@ xСтатус "%s"
 Паўторыце ваш новы пароль:
 [Enter your current password:]
 Увядзіце бягучы пароль:
+;file \protocols\IcqOscarJ\src\askauthentication.cpp
+[Please authorize me to add you to my contact list.]
+Дазволіце, калі ласка, дадаць Вас у спіс.
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
 Немагчыма далучыцца да мігрыраванага серверу зносін ICQ
@@ -305,6 +308,167 @@ xСтатус "%s"
 Сервер зачыніў злучэнне, бо вы ўвайшлі з іншага месца выкарыстоўваючы той жа нумар ICQ.
 [Unknown runtime error: 0x%02x]
 Невядомая памылка: 0x%02x
+;file \protocols\IcqOscarJ\src\constants.cpp
+[January]
+Студзень
+[February]
+Люты
+[March]
+Сакавік
+[April]
+Красавік
+[May]
+Травень
+[June]
+Чэрвень
+[July]
+Ліпень
+[August]
+Жнівень
+[September]
+Верасень
+[October]
+Кастрычнік
+[November]
+Лістапад
+[December]
+Снежань
+[Personal]
+Асабістае
+[Nickname]
+Мянушка
+[First name]
+Імя
+[Last name]
+Прозвішча
+[Gender]
+Род
+[About]
+Інфармацыя
+[Password]
+Пароль
+[Contact]
+Кантакт
+[Primary e-mail]
+Асноўны e-mail
+[Secondary e-mail]
+Другасны e-mail
+[Tertiary e-mail]
+Трэці e-mail
+[Street]
+Вуліца
+[City]
+Горад
+[State]
+Стан
+[ZIP/postcode]
+Індэкс
+[Country]
+Краіна
+[Phone number]
+Тэлефон
+[Fax number]
+Факс
+[Cellular number]
+Мабільны тэлефон
+[Personal Detail]
+Асабістыя дадзеныя
+[Timezone]
+Гадзінны пояс
+[Year of birth]
+Год нараджэння
+[Month of birth]
+Месяц нараджэння
+[Day of birth]
+Дзень нараджэння
+[Marital Status]
+Сямейнае становішча
+[Spoken language 1]
+Валодае Мовай 1
+[Spoken language 2]
+Валодае Мовай 2
+[Spoken language 3]
+Валодае Мовай 3
+[Originally from]
+Па паходжанні
+[Education]
+Адукацыя
+[Level]
+Ступень
+[Institute]
+ВНУ
+[Degree]
+Ступень
+[Graduation Year]
+Год канчатка
+[Company name]
+Імя кампаніі
+[Company homepage]
+Сайт кампаніі
+[Company street]
+Адрас кампаніі
+[Company city]
+Горад
+[Company state]
+Штат
+[Company phone]
+Тэлефон
+[Company fax]
+Факс
+[Company ZIP/postcode]
+Індэкс
+[Company country]
+Краіна
+[Company department]
+Дэпартамент
+[Company position]
+Пасада
+[Company industry]
+Выгляд дзейнасці
+[Personal Interests]
+Персанальныя інтарэсы
+[Interest category 1]
+Катэгорыя 1
+[Interest areas 1]
+Цікаўлюся 1
+[Interest category 2]
+Катэгорыя 2
+[Interest areas 2]
+Цікаўлюся 2
+[Interest category 3]
+Катэгорыя 3
+[Interest areas 3]
+Цікаўлюся 3
+[Interest category 4]
+Катэгорыя 4
+[Interest areas 4]
+Цікаўлюся 4
+;file \protocols\IcqOscarJ\src\db.cpp
+[The password does not match your current password. Check Caps Lock and try again.]
+Пароль не супадае з існым. Праверце Caps Lock і паспрабуйце зноў.
+[Change ICQ Details]
+Змяніць дадзеныя ICQ
+[The password does not match the password you originally entered. Check Caps Lock and try again.]
+Пароль не супадае з паролем, уведзеным раней. Праверце Caps Lock і паспрабуйце зноў.
+[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
+Сервер ICQ не падтрымлівае паролі даўжынёй больш 8 знакаў. Выкарыстоўвайце пароль па карацей.
+;file \protocols\IcqOscarJ\src\dlgproc.cpp
+[<unremovable once applied>]
+<нельга выдаліць пасля ўводу>
+[<empty>]
+<пуста>
+[Unknown value]
+Невядомае значэнне
+[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
+Вы зрабілі змены, але не захавалі іх на серверы. Зачыніць вакно?
+[Upload in progress...]
+Загрузка...
+[Upload in progress...%d%%]
+Запампоўка...%d%%
+[Upload complete]
+Загрузка завершана
+[Upload FAILED]
+Загрузка не атрымалася
 ;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Пераход з сервера на сервер не атрымаўся бо сервер вярнуў няслушныя дадзеныя. Вам трэба далучыцца ўручную.
@@ -1179,8 +1343,6 @@ Web Дызайн
 Спажывецкія тавары
 [Corporate Services]
 Карпаратыўныя паслугі
-[Education]
-Адукацыя
 [Finance]
 Фінансы
 [High Tech]
@@ -1648,6 +1810,9 @@ xСтатус ICQ
 Сервер, да якога вы спрабуеце далучыцца, не існуе. Праверце сервер: Налады->Сетка->ICQ.
 [error]
 памылка
+;file \protocols\IcqOscarJ\src\loginpassword.cpp
+[Enter a password for UIN %u:]
+Увядзіце пароль для %u:
 ;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
 [%d Files]
 %d файлаў
@@ -1671,178 +1836,10 @@ xСтатус ICQ
 Перадача файла не атрымалася па невядомым чынніку.
 [The checksum of file "%s" does not match, the file is probably damaged.]
 Кантрольная сума файла "%s" не супадае, файл можа быць пашкоджаны.
-;file \protocols\IcqOscarJ\src\utilities.cpp
-[<invalid>]
-<памылкова>
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
-[January]
-Студзень
-[February]
-Люты
-[March]
-Сакавік
-[April]
-Красавік
-[May]
-Травень
-[June]
-Чэрвень
-[July]
-Ліпень
-[August]
-Жнівень
-[September]
-Верасень
-[October]
-Кастрычнік
-[November]
-Лістапад
-[December]
-Снежань
-[Personal]
-Асабістае
-[Nickname]
-Мянушка
-[First name]
-Імя
-[Last name]
-Прозвішча
-[Gender]
-Род
-[About]
-Інфармацыя
-[Password]
-Пароль
-[Contact]
-Кантакт
-[Primary e-mail]
-Асноўны e-mail
-[Secondary e-mail]
-Другасны e-mail
-[Tertiary e-mail]
-Трэці e-mail
-[Street]
-Вуліца
-[City]
-Горад
-[State]
-Стан
-[ZIP/postcode]
-Індэкс
-[Country]
-Краіна
-[Phone number]
-Тэлефон
-[Fax number]
-Факс
-[Cellular number]
-Мабільны тэлефон
-[Personal Detail]
-Асабістыя дадзеныя
-[Timezone]
-Гадзінны пояс
-[Year of birth]
-Год нараджэння
-[Month of birth]
-Месяц нараджэння
-[Day of birth]
-Дзень нараджэння
-[Marital Status]
-Сямейнае становішча
-[Spoken language 1]
-Валодае Мовай 1
-[Spoken language 2]
-Валодае Мовай 2
-[Spoken language 3]
-Валодае Мовай 3
-[Originally from]
-Па паходжанні
-[Level]
-Ступень
-[Institute]
-ВНУ
-[Degree]
-Ступень
-[Graduation Year]
-Год канчатка
-[Company name]
-Імя кампаніі
-[Company homepage]
-Сайт кампаніі
-[Company street]
-Адрас кампаніі
-[Company city]
-Горад
-[Company state]
-Штат
-[Company phone]
-Тэлефон
-[Company fax]
-Факс
-[Company ZIP/postcode]
-Індэкс
-[Company country]
-Краіна
-[Company department]
-Дэпартамент
-[Company position]
-Пасада
-[Company industry]
-Выгляд дзейнасці
-[Personal Interests]
-Персанальныя інтарэсы
-[Interest category 1]
-Катэгорыя 1
-[Interest areas 1]
-Цікаўлюся 1
-[Interest category 2]
-Катэгорыя 2
-[Interest areas 2]
-Цікаўлюся 2
-[Interest category 3]
-Катэгорыя 3
-[Interest areas 3]
-Цікаўлюся 3
-[Interest category 4]
-Катэгорыя 4
-[Interest areas 4]
-Цікаўлюся 4
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
-[The password does not match your current password. Check Caps Lock and try again.]
-Пароль не супадае з існым. Праверце Caps Lock і паспрабуйце зноў.
-[Change ICQ Details]
-Змяніць дадзеныя ICQ
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-Пароль не супадае з паролем, уведзеным раней. Праверце Caps Lock і паспрабуйце зноў.
-[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
-Сервер ICQ не падтрымлівае паролі даўжынёй больш 8 знакаў. Выкарыстоўвайце пароль па карацей.
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
-[<unremovable once applied>]
-<нельга выдаліць пасля ўводу>
-[<empty>]
-<пуста>
-[Unknown value]
-Невядомае значэнне
-[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
-Вы зрабілі змены, але не захавалі іх на серверы. Зачыніць вакно?
-[Upload in progress...]
-Загрузка...
-[Upload in progress...%d%%]
-Запампоўка...%d%%
-[Upload complete]
-Загрузка завершана
-[Upload FAILED]
-Загрузка не атрымалася
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
+;file \protocols\IcqOscarJ\src\upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Вы не далучаны да ICQ. Каб абнаўляць дадзеныя, трэба далучыцца.
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
-[Please authorize me to add you to my contact list.]
-Дазволіце, калі ласка, дадаць Вас у спіс.
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
-[Enter a password for UIN %u:]
-Увядзіце пароль для %u:
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+;file \protocols\IcqOscarJ\src\userinfotab.cpp
 [ (DC Established)]
  (DC усталявана)
 [ScreenName:]
@@ -1853,3 +1850,6 @@ xСтатус ICQ
 Удзельнік з:
 [%s Details]
 %s Дэталі
+;file \protocols\IcqOscarJ\src\utilities.cpp
+[<invalid>]
+<памылкова>

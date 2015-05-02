@@ -11,6 +11,12 @@ Otkazivanje
 Šifra
 [Warning]
 Upozorenje
+[Are you sure?]
+Potpuno ste sigurni?
+[Size]
+Veličina
+[bytes]
+bajtova
 [Request authorization]
 Zatraži autorizaciju
 [Grant authorization]

@@ -274,6 +274,9 @@ Confirmer le mot de passe
 Veuillez retaper votre mot de passe :
 [Enter your current password:]
 Entrez le mot de passe actuel :
+;file \protocols\IcqOscarJ\src\askauthentication.cpp
+[Please authorize me to add you to my contact list.]
+
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
 
@@ -305,6 +308,167 @@ Connexion échouée.\nErreur inconnue lors de l'authentification : 0x%02x
 Vous avez été déconnecté du réseau ICQ parce que vous vous êtes authentifié avec un autre client et le même numéro ICQ.
 [Unknown runtime error: 0x%02x]
 Erreur d'exécution inconnue : 0x%02x
+;file \protocols\IcqOscarJ\src\constants.cpp
+[January]
+
+[February]
+
+[March]
+
+[April]
+
+[May]
+
+[June]
+
+[July]
+
+[August]
+
+[September]
+
+[October]
+
+[November]
+
+[December]
+
+[Personal]
+Personnel
+[Nickname]
+Pseudo
+[First name]
+Prénom
+[Last name]
+Nom
+[Gender]
+
+[About]
+
+[Password]
+Mot de passe
+[Contact]
+Contact
+[Primary e-mail]
+
+[Secondary e-mail]
+
+[Tertiary e-mail]
+
+[Street]
+Rue
+[City]
+Ville
+[State]
+État
+[ZIP/postcode]
+Code Postal
+[Country]
+Pays
+[Phone number]
+Téléphone
+[Fax number]
+Fax
+[Cellular number]
+Portable
+[Personal Detail]
+Détails Personnels
+[Timezone]
+
+[Year of birth]
+Année de naissance
+[Month of birth]
+Mois de naissance
+[Day of birth]
+Jour de naissance
+[Marital Status]
+Situation
+[Spoken language 1]
+Langue parlée 1
+[Spoken language 2]
+Langue parlée 2
+[Spoken language 3]
+Langue parlée 3
+[Originally from]
+Originaire de
+[Education]
+
+[Level]
+
+[Institute]
+
+[Degree]
+
+[Graduation Year]
+
+[Company name]
+Entreprise
+[Company homepage]
+Page Web
+[Company street]
+Rue
+[Company city]
+Ville
+[Company state]
+État
+[Company phone]
+Téléphone
+[Company fax]
+Fax
+[Company ZIP/postcode]
+Code Postal
+[Company country]
+Pays
+[Company department]
+Département
+[Company position]
+Position
+[Company industry]
+
+[Personal Interests]
+Centre d'intérêts
+[Interest category 1]
+Catégorie 1
+[Interest areas 1]
+Mots-clés 1
+[Interest category 2]
+Catégorie 2
+[Interest areas 2]
+Mots-clés 2
+[Interest category 3]
+Catégorie 3
+[Interest areas 3]
+Mots-clés 3
+[Interest category 4]
+Catégorie 4
+[Interest areas 4]
+Mots-clés 4
+;file \protocols\IcqOscarJ\src\db.cpp
+[The password does not match your current password. Check Caps Lock and try again.]
+
+[Change ICQ Details]
+Changer Détails ICQ
+[The password does not match the password you originally entered. Check Caps Lock and try again.]
+
+[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
+Le serveur d'ICQ ne supporte pas les mots de passe supérieur à 8 caractères. Utiliser en un plus court.
+;file \protocols\IcqOscarJ\src\dlgproc.cpp
+[<unremovable once applied>]
+<définitif une fois appliqué>
+[<empty>]
+
+[Unknown value]
+Valeur inconnue
+[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
+Vous avez fait des modifications de vos détails ICQ mais elles n'ont pu être sauvegardé sur le serveur. Voulez-vous vraiment fermer cette fenêtre ?
+[Upload in progress...]
+Sauvegarde en cours...
+[Upload in progress...%d%%]
+Sauvegarde en cours...%d%%
+[Upload complete]
+Sauvegarde terminée
+[Upload FAILED]
+Échec de la sauvegarde
 ;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Une migration de serveur a échoué car le serveur a envoyé des données invalides. Vous devez vous reconnecter manuellement.
@@ -1179,8 +1343,6 @@ Homme
 
 [Corporate Services]
 
-[Education]
-
 [Finance]
 
 [High Tech]
@@ -1648,6 +1810,9 @@ Le mot de passe ou nom d'utilisateur que vous avez fourni a été rejeté par le
 Le serveur auquel vous tentez de vous connecter n'existe pas. Vérifiez l'orthographe dans M->Options->Réseau->ICQ.
 [error]
 erreur
+;file \protocols\IcqOscarJ\src\loginpassword.cpp
+[Enter a password for UIN %u:]
+Entrez un mot de passe pour UIN %u :
 ;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
 [%d Files]
 Fichiers %d
@@ -1673,178 +1838,10 @@ Fichiers %d
 
 [Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 
-;file \protocols\IcqOscarJ\src\utilities.cpp
-[<invalid>]
-<invalide>
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
-[January]
-
-[February]
-
-[March]
-
-[April]
-
-[May]
-
-[June]
-
-[July]
-
-[August]
-
-[September]
-
-[October]
-
-[November]
-
-[December]
-
-[Personal]
-Personnel
-[Nickname]
-Pseudo
-[First name]
-Prénom
-[Last name]
-Nom
-[Gender]
-
-[About]
-
-[Password]
-Mot de passe
-[Contact]
-Contact
-[Primary e-mail]
-
-[Secondary e-mail]
-
-[Tertiary e-mail]
-
-[Street]
-Rue
-[City]
-Ville
-[State]
-État
-[ZIP/postcode]
-Code Postal
-[Country]
-Pays
-[Phone number]
-Téléphone
-[Fax number]
-Fax
-[Cellular number]
-Portable
-[Personal Detail]
-Détails Personnels
-[Timezone]
-
-[Year of birth]
-Année de naissance
-[Month of birth]
-Mois de naissance
-[Day of birth]
-Jour de naissance
-[Marital Status]
-Situation
-[Spoken language 1]
-Langue parlée 1
-[Spoken language 2]
-Langue parlée 2
-[Spoken language 3]
-Langue parlée 3
-[Originally from]
-Originaire de
-[Level]
-
-[Institute]
-
-[Degree]
-
-[Graduation Year]
-
-[Company name]
-Entreprise
-[Company homepage]
-Page Web
-[Company street]
-Rue
-[Company city]
-Ville
-[Company state]
-État
-[Company phone]
-Téléphone
-[Company fax]
-Fax
-[Company ZIP/postcode]
-Code Postal
-[Company country]
-Pays
-[Company department]
-Département
-[Company position]
-Position
-[Company industry]
-
-[Personal Interests]
-Centre d'intérêts
-[Interest category 1]
-Catégorie 1
-[Interest areas 1]
-Mots-clés 1
-[Interest category 2]
-Catégorie 2
-[Interest areas 2]
-Mots-clés 2
-[Interest category 3]
-Catégorie 3
-[Interest areas 3]
-Mots-clés 3
-[Interest category 4]
-Catégorie 4
-[Interest areas 4]
-Mots-clés 4
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
-[The password does not match your current password. Check Caps Lock and try again.]
-
-[Change ICQ Details]
-Changer Détails ICQ
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-
-[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
-Le serveur d'ICQ ne supporte pas les mots de passe supérieur à 8 caractères. Utiliser en un plus court.
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
-[<unremovable once applied>]
-<définitif une fois appliqué>
-[<empty>]
-
-[Unknown value]
-Valeur inconnue
-[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
-Vous avez fait des modifications de vos détails ICQ mais elles n'ont pu être sauvegardé sur le serveur. Voulez-vous vraiment fermer cette fenêtre ?
-[Upload in progress...]
-Sauvegarde en cours...
-[Upload in progress...%d%%]
-Sauvegarde en cours...%d%%
-[Upload complete]
-Sauvegarde terminée
-[Upload FAILED]
-Échec de la sauvegarde
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
+;file \protocols\IcqOscarJ\src\upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Vous n'êtes plus connecté au réseau ICQ. Vous devez être en ligne afin de mettre à jour vos informations sur le serveur.
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
-[Please authorize me to add you to my contact list.]
-
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
-[Enter a password for UIN %u:]
-Entrez un mot de passe pour UIN %u :
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+;file \protocols\IcqOscarJ\src\userinfotab.cpp
 [ (DC Established)]
 
 [ScreenName:]
@@ -1855,3 +1852,6 @@ Nom affiché :
 Inscrit depuis :
 [%s Details]
 %s détails
+;file \protocols\IcqOscarJ\src\utilities.cpp
+[<invalid>]
+<invalide>

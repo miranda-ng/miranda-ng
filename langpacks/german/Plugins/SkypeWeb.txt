@@ -56,6 +56,10 @@ Passwort eingeben um fortzufahren.
 Administrator
 [User]
 Benutzer
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sich sicher?
+[Warning]
+Warnung
 [&Invite user...]
 
 [&Leave chat session]
@@ -70,10 +74,9 @@ Benutzer
 
 [&User]
 
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sich sicher?
-[Warning]
-Warnung
+;file \protocols\SkypeWeb\src\skype_contacts.cpp
+[Are you sure?]
+Sind Sie sich sicher?
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 Bearbeitet um
@@ -83,12 +86,26 @@ Bearbeitet um
 
 [Duration]
 Dauer
+[File transfer]
+Dateiübertragung
+[File name]
+Dateiname
+[Size]
+Größe
+[bytes]
+Bytes
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Protokollicon
 [Create new chat icon]
 
 [Sync history icon]
+
+[Block user icon]
+
+[Unblock user icon]
+
+[Incoming call icon]
 
 [Protocols]
 Protokolle
@@ -99,9 +116,15 @@ Autorisierung anfragen
 Autorisierung gewähren
 [Get server history]
 Serververlauf abrufen
+[Block contact]
+Kontakt blockieren
+[Unblock contact]
+Blockierung aufheben
 [Create new chat]
 Neuen Chat erstellen
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
+[Incoming call]
+
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Netzwerk
@@ -110,3 +133,10 @@ Netzwerk
 %s-Verbindung
 [Action]
 Aktion
+[Incoming call sound]
+
+[Incoming call canceled sound]
+
+;file \protocols\SkypeWeb\src\skype_trouter.cpp
+[Incoming call from %s]
+Eingehender Anruf von %s

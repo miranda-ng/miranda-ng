@@ -50,9 +50,17 @@ minutes
 [Sender]
 
 ;file \plugins\Exchange\src\emails.cpp
+[Maximum number of retries reached.\nPlugin will stop trying to connect automatically.]
+
+[Server not available]
+
+[Server is not configured...]
+
 [You have %d unread emails...]
 
 [You have one unread email...]
+
+[Cannot connect to Exchange server...]
 
 [Exchange email]
 
@@ -65,3 +73,8 @@ minutes
 
 [Plugins]
 Plugins
+[Forcefully reconnecting to Exchange server ...]
+
+;file \plugins\Exchange\src\MirandaExchange.cpp
+[Connecting to Exchange ...]
+

@@ -113,11 +113,11 @@
 Розблокувати контакт
 [Create new chat]
 Створити новий чат
+[Incoming call]
+Вхідний дзвінок
 [Network]
 Мережа
 [%s connection]
 З'єднання %s
 [Action]
 Дія
-[Incoming call]
-Вхідний дзвінок

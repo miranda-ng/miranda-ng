@@ -226,10 +226,8 @@ JID-Liste
 Filter anwenden
 [Reset Filter]
 Filter zurücksetzen
-[Invite Users to <room jid>]
-
-[Send group chat invitation.]
-Gruppenchateinladung senden.
+[Send group chat invitation]
+Gruppenchateinladung senden
 [Other JID:]
 Andere JID:
 [Add]
@@ -238,10 +236,8 @@ Hinzufügen
 Einladungsgrund:
 [&Invite]
 E&inladen
-[Group chat invitation to <room jid>]
-
-[Incoming group chat invitation.]
-Eingehende Gruppenchateinladung.
+[Incoming group chat invitation]
+Eingehende Gruppenchateinladung
 [You are invited to conference room by]
 Sie wurden in den Konferenzraum von
 [with following reason:]
@@ -348,8 +344,6 @@ Konto jetzt registrieren
 Jabber-Kontoinformationen:
 [Member Information]
 Information über Mitglied
-[<user ID>]
-
 [Role:]
 Rolle:
 [Set role]
@@ -415,11 +409,6 @@ Schwerer Fehler, Bilddienste nicht gefunden. Jabber-Protokoll wird deaktiviert.
 Jabber-Aktivität
 [Jabber Mood]
 Jabber-Stimmung
-;file \protocols\JabberG\src\jabber.h
-[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-Ich bin ein fröhlicher Miranda-NG-Nutzer. Sie bekommen es unter http://miranda-ng.org.
-[/me slaps %s around a bit with a large trout]
-/me schlägt %s mit einem großen Hering.
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 Fehler %s %s
@@ -689,14 +678,12 @@ Echte &JID kopieren
 JID für diesen Raum kopieren
 [Real &JID: %s]
 Echte &JID: %s
-[Invite Users to %s]
+[Invite Users to\n%s]
 
 [%s (not on roster)]
 %s (nicht in der Kontaktliste)
-[Member Info: %s]
-Mitglieder-Info: %s
-[from %s]
-aus %s
+[%s from\n%s]
+%s aus\n%s
 [Real JID not available]
 Echte JID nicht verfügbar
 [Reason to kick %s]
@@ -789,283 +776,6 @@ Elementanfragefehler
 ;file \protocols\JabberG\src\jabber_filterlist.cpp
 [Set filter...]
 Filter setzen...
-;file \protocols\JabberG\src\jabber_form2.cpp
-[One or more addresses for communication related to abusive traffic]
-
-[One or more addresses for customer feedback]
-
-[One or more addresses for communication related to sales and marketing]
-
-[One or more addresses for communication related to security concerns]
-
-[One or more addresses for customer support]
-
-[The Jabber ID of a single entity to which an operation applies]
-
-[The Jabber ID of one or more entities to which an operation applies]
-
-[The Jabber IDs associated with active sessions]
-
-[The number of online entities that are active]
-
-[A list of entities with administrative privileges]
-Eine Liste an Benutzern mit administrativen Befugnissen
-[The text of an announcement to be sent to active users or all users]
-Der Text einer Ankündigung, die an aktive oder alle Benutzer gesendet wird
-[A list of entities with whom communication is blocked]
-Eine Liste der Benutzer, mit denen Kommunikation blockiert ist
-[The number of seconds to delay before applying a change]
-Die Anzahl an Sekunden der Verzögerung vor Anwendung einer Änderung
-[The Jabber IDs that have been disabled]
-Die deaktivierten Jabber-IDs
-[The number of disabled entities]
-Die Anzahl deaktivierter Benutzer
-[The email address for a user]
-Die E-Mail-Adresse eines Benutzers
-[The given (first) name of a user]
-Der Vorname eines Benutzers
-[The number of online entities that are idle]
-
-[The IP addresses of an account's online sessions]
-
-[The last login time (per XEP-0082) of a user]
-Die letzte Anmeldezeit (gemäß XEP-0082) eines benutzers
-[The number of logins per minute for an account]
-
-[The maximum number of items associated with a search or list]
-
-[The text of a message of the day]
-Der Text einer Nachricht des Tages
-[The names of an account's online sessions]
-Die Namen der Onlinesitzungen eines Kontos
-[The Jabber IDs associated with online users]
-
-[The number of online entities]
-Die Anzahl der Onlineentitäten
-[The password for an account]
-Das Passwort für ein Konto
-[Password verification]
-Passwortverifizierung
-[A list of registered entities]
-Eine Liste registrierter Entitäten
-[The number of registered entities]
-Die Anzahl registrierter Entitäten
-[Number of roster items for an account]
-
-[The number of stanzas being sent per second by an account]
-
-[The family (last) name of a user]
-Der Familienname (Nachname) eines Benutzers
-[The text of a welcome message]
-Der Text einer Willkommensnachricht
-[A list of entities with whom communication is allowed]
-
-[First Name]
-Vorname
-[Last Name]
-Nachname
-[Desired Nickname]
-Gewünschter Nickname
-[Your URL]
-Ihr URL
-[Email Address]
-E-Mail-Adresse
-[FAQ Entry]
-FAQ-Eintrag
-[Whether to allow occupants to invite others]
-
-[Whether to allow occupants to change subject]
-
-[Whether to enable logging of room conversations]
-
-[Natural language for room discussions]
-
-[Maximum number of room occupants]
-
-[Whether to make room members-only]
-
-[Whether to make room moderated]
-
-[Whether a password is required to enter]
-
-[Whether to make room persistent]
-
-[Roles for which presence is broadcast]
-
-[Whether to allow public searching for room]
-Ob öffentliche Suche in diesem Raum erlaubt ist
-[Full list of room admins]
-Volle Liste aller Raum-Admins
-[Short description of room]
-Kurze Beschreibung des Raums
-[Natural-language room name]
-Raumname in natürlicher Sprache
-[Full list of room owners]
-Vollständige Liste der Raumbesitzer
-[The room password]
-Das Passwort für den Raum
-[Affiliations that may discover real JIDs of occupants]
-
-[Precondition: node configuration with the specified access model]
-
-[Whether to allow the subscription]
-
-[The SubID of the subscription]
-
-[The NodeID of the relevant node]
-
-[The address (JID) of the subscriber]
-
-[Whether an entity wants to receive or disable notifications]
-
-[Whether an entity wants to receive digests (aggregations) of notifications or all notifications individually]
-
-[The minimum number of milliseconds between sending any two notification digests]
-
-[The date and time at which a leased subscription will end or has ended]
-
-[Whether an entity wants to receive an XMPP message body in addition to the payload format]
-
-[The presence states for which an entity wants to receive notifications]
-
-[Who may subscribe and retrieve items]
-
-[The URL of an XSL transformation which can be applied to payloads in order to generate an appropriate message body element.]
-
-[The collection with which a node is affiliated]
-
-[The URL of an XSL transformation which can be applied to the payload format in order to generate a valid Data Forms result that the client could display using a generic Data Forms rendering engine]
-
-[Whether to deliver payloads with event notifications]
-
-[Whether owners or publisher should receive replies to items]
-
-[Who may associate leaf nodes with a collection]
-
-[The list of JIDs that may associated leaf nodes with a collection]
-
-[The child nodes (leaf or collection) associated with a collection]
-
-[The maximum number of child nodes that can be associated with a collection]
-Die Höchstzahl an Kindknoten, die mit einer Sammlung verknüpft werden können
-[The maximum number of items to persist]
-Die Höchstzahl an zu behaltenden Elementen
-[The maximum payload size in bytes]
-Die maximale Nutzlastgröße in Byte
-[Whether the node is a leaf (default) or a collection]
-
-[Whether to notify subscribers when the node configuration changes]
-
-[Whether to notify subscribers when the node is deleted]
-
-[Whether to notify subscribers when items are removed from the node]
-
-[Whether to persist items to storage]
-
-[Whether to deliver notifications to available users only]
-
-[The publisher model]
-Das Veröffentlichungsmodell
-[The specific multi-user chat rooms to specify for replyroom]
-
-[The specific JID(s) to specify for replyto]
-
-[The roster group(s) allowed to subscribe and retrieve items]
-
-[Whether to send items to new subscribers]
-
-[Whether to allow subscriptions]
-Ob Abonnements erlaubt werden sollen
-[A friendly name for the node]
-Ein freundlicher Name für den Knoten
-[The type of node data, usually specified by the namespace of the payload (if any); MAY be list-single rather than text-single]
-
-[The JIDs of those to contact with questions]
-
-[The date and time when the node was created]
-Datum und Uhrzeit der Knotenerzeugung
-[The JID of the node creator]
-Die JID des Knotenerzeugers
-[A description of the node]
-Eine Beschreibung des Knotens
-[The default language of the node]
-Die Standardsprache des Knotens
-[The number of subscribers to the node]
-
-[The JIDs of those with an affiliation of owner]
-
-[The JIDs of those with an affiliation of publisher]
-
-[The name of the node]
-Der Name des Knotens
-[Payload type]
-Nutzlasttyp
-[Whether to automatically authorize subscription requests]
-Ob Autorisierungsanfragen automatisch angenommen werden
-[Whether to automatically accept file transfers]
-Ob Dateiübertragungen automatisch angenommen werden
-[Whether to automatically open new messages]
-Ob neue nachrichten automatisch geöffnet werden
-[Whether to automatically go offline when idle]
-Ob bei Untätigkeit automatisch offline gegangen wird
-[Whether to play sounds]
-Ob Klänge abgespielt werden sollen
-[A list of pending file transfers]
-Eine Liste ausstehender Dateiübertragungen
-[A list of joined group chat rooms]
-Eine Liste betretener Gruppenchaträume
-[A presence or availability status]
-
-[The status message text]
-Der Statusnachrichtentext
-[The new priority for the client]
-Die neue Priorität für den Client
-[Account name associated with the user]
-Mit dem Benutzer verknüpfter Kontoname
-[Familiar name of the user]
-Bekannter Name des Benutzers
-[Password or secret for the user]
-Passwort oder geheime Phrase für den Benutzer
-[Full name of the user]
-Voller Name des Benutzers
-[First name or given name of the user]
-Vor- oder Rufname des Benutzers
-[Last name, surname, or family name of the user]
-Nachname des Benutzers
-[Email address of the user]
-E-Mail-Adresse des Benutzers
-[Street portion of a physical or mailing address]
-
-[Locality portion of a physical or mailing address]
-
-[Region portion of a physical or mailing address]
-
-[Postal code portion of a physical or mailing address]
-
-[Family Name]
-Familienname
-[Whether to accept the invitation]
-Ob die Einladung angenommen werden soll
-[Another resource with which to continue the session]
-
-[Disclosure of content, decryption keys or identities]
-
-[Whether may send Chat State Notifications per XEP-0085]
-Ob Chatstatusbenachrichtigungen gemäß XEP-0085 gesendet werden dürfen
-[Whether allowed to use XHTML-IM formatting per XEP-0071]
-Ob XHTML-Nachrichtenformatierungen gemäß XEP-0071 erlaubt sind
-[Primary written language of the chat (each value appears in order of preference and conforms to RFC 4646 and the IANA registry)]
-
-[Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
-
-[Whether to renegotiate the session]
-
-[Minimum security level]
-Mindestsicherheitsstufe
-[Whether to terminate the session]
-Ob die Sitzung terminiert werden soll
-[Whether to enable Message Receipts per XEP-0184]
-Ob Nachrichtenbestätigungen gemäß XEP-0184 aktiviert sind
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Fehler beim Abrufen der Raumliste vom Server.
@@ -1087,7 +797,7 @@ Lesezeichen...
 Nicknamen in <%s> ändern
 [has set the subject to:]
 hat den Betreff geändert auf:
-[Group chat invitation to %s]
+[Group chat invitation to\n%s]
 
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]
@@ -1800,8 +1510,6 @@ Sicheres XMPP-Netzwerk (veraltet)
 Google Talk!
 [LiveJournal Talk]
 LiveJournal Talk
-[Facebook Chat]
-Facebook Chat
 [Odnoklassniki]
 Odnoklassniki
 [Some changes will take effect the next time you connect to the Jabber network.]
@@ -2530,3 +2238,285 @@ Hört gerade
 Stimmungen
 [Activities]
 Aktivitäten
+;file \protocols\JabberG\src\stdafx.h
+[I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
+Ich bin ein fröhlicher Miranda-NG-Nutzer. Sie bekommen es unter http://miranda-ng.org.
+[/me slaps %s around a bit with a large trout]
+/me schlägt %s mit einem großen Hering.
+;file \protocols\JabberG\src\obsoleted\jabber_form2.cpp
+[One or more addresses for communication related to abusive traffic]
+
+[One or more addresses for customer feedback]
+
+[One or more addresses for communication related to sales and marketing]
+
+[One or more addresses for communication related to security concerns]
+
+[One or more addresses for customer support]
+
+[The Jabber ID of a single entity to which an operation applies]
+
+[The Jabber ID of one or more entities to which an operation applies]
+
+[The Jabber IDs associated with active sessions]
+
+[The number of online entities that are active]
+
+[A list of entities with administrative privileges]
+Eine Liste an Benutzern mit administrativen Befugnissen
+[The text of an announcement to be sent to active users or all users]
+Der Text einer Ankündigung, die an aktive oder alle Benutzer gesendet wird
+[A list of entities with whom communication is blocked]
+Eine Liste der Benutzer, mit denen Kommunikation blockiert ist
+[The number of seconds to delay before applying a change]
+Die Anzahl an Sekunden der Verzögerung vor Anwendung einer Änderung
+[The Jabber IDs that have been disabled]
+Die deaktivierten Jabber-IDs
+[The number of disabled entities]
+Die Anzahl deaktivierter Benutzer
+[The email address for a user]
+Die E-Mail-Adresse eines Benutzers
+[The given (first) name of a user]
+Der Vorname eines Benutzers
+[The number of online entities that are idle]
+
+[The IP addresses of an account's online sessions]
+
+[The last login time (per XEP-0082) of a user]
+Die letzte Anmeldezeit (gemäß XEP-0082) eines benutzers
+[The number of logins per minute for an account]
+
+[The maximum number of items associated with a search or list]
+
+[The text of a message of the day]
+Der Text einer Nachricht des Tages
+[The names of an account's online sessions]
+Die Namen der Onlinesitzungen eines Kontos
+[The Jabber IDs associated with online users]
+
+[The number of online entities]
+Die Anzahl der Onlineentitäten
+[The password for an account]
+Das Passwort für ein Konto
+[Password verification]
+Passwortverifizierung
+[A list of registered entities]
+Eine Liste registrierter Entitäten
+[The number of registered entities]
+Die Anzahl registrierter Entitäten
+[Number of roster items for an account]
+
+[The number of stanzas being sent per second by an account]
+
+[The family (last) name of a user]
+Der Familienname (Nachname) eines Benutzers
+[The text of a welcome message]
+Der Text einer Willkommensnachricht
+[A list of entities with whom communication is allowed]
+
+[First Name]
+Vorname
+[Last Name]
+Nachname
+[Desired Nickname]
+Gewünschter Nickname
+[Your URL]
+Ihr URL
+[Email Address]
+E-Mail-Adresse
+[FAQ Entry]
+FAQ-Eintrag
+[Whether to allow occupants to invite others]
+
+[Whether to allow occupants to change subject]
+
+[Whether to enable logging of room conversations]
+
+[Natural language for room discussions]
+
+[Maximum number of room occupants]
+
+[Whether to make room members-only]
+
+[Whether to make room moderated]
+
+[Whether a password is required to enter]
+
+[Whether to make room persistent]
+
+[Roles for which presence is broadcast]
+
+[Whether to allow public searching for room]
+Ob öffentliche Suche in diesem Raum erlaubt ist
+[Full list of room admins]
+Volle Liste aller Raum-Admins
+[Short description of room]
+Kurze Beschreibung des Raums
+[Natural-language room name]
+Raumname in natürlicher Sprache
+[Full list of room owners]
+Vollständige Liste der Raumbesitzer
+[The room password]
+Das Passwort für den Raum
+[Affiliations that may discover real JIDs of occupants]
+
+[Precondition: node configuration with the specified access model]
+
+[Whether to allow the subscription]
+
+[The SubID of the subscription]
+
+[The NodeID of the relevant node]
+
+[The address (JID) of the subscriber]
+
+[Whether an entity wants to receive or disable notifications]
+
+[Whether an entity wants to receive digests (aggregations) of notifications or all notifications individually]
+
+[The minimum number of milliseconds between sending any two notification digests]
+
+[The date and time at which a leased subscription will end or has ended]
+
+[Whether an entity wants to receive an XMPP message body in addition to the payload format]
+
+[The presence states for which an entity wants to receive notifications]
+
+[Who may subscribe and retrieve items]
+
+[The URL of an XSL transformation which can be applied to payloads in order to generate an appropriate message body element.]
+
+[The collection with which a node is affiliated]
+
+[The URL of an XSL transformation which can be applied to the payload format in order to generate a valid Data Forms result that the client could display using a generic Data Forms rendering engine]
+
+[Whether to deliver payloads with event notifications]
+
+[Whether owners or publisher should receive replies to items]
+
+[Who may associate leaf nodes with a collection]
+
+[The list of JIDs that may associated leaf nodes with a collection]
+
+[The child nodes (leaf or collection) associated with a collection]
+
+[The maximum number of child nodes that can be associated with a collection]
+Die Höchstzahl an Kindknoten, die mit einer Sammlung verknüpft werden können
+[The maximum number of items to persist]
+Die Höchstzahl an zu behaltenden Elementen
+[The maximum payload size in bytes]
+Die maximale Nutzlastgröße in Byte
+[Whether the node is a leaf (default) or a collection]
+
+[Whether to notify subscribers when the node configuration changes]
+
+[Whether to notify subscribers when the node is deleted]
+
+[Whether to notify subscribers when items are removed from the node]
+
+[Whether to persist items to storage]
+
+[Whether to deliver notifications to available users only]
+
+[The publisher model]
+Das Veröffentlichungsmodell
+[The specific multi-user chat rooms to specify for replyroom]
+
+[The specific JID(s) to specify for replyto]
+
+[The roster group(s) allowed to subscribe and retrieve items]
+
+[Whether to send items to new subscribers]
+
+[Whether to allow subscriptions]
+Ob Abonnements erlaubt werden sollen
+[A friendly name for the node]
+Ein freundlicher Name für den Knoten
+[The type of node data, usually specified by the namespace of the payload (if any); MAY be list-single rather than text-single]
+
+[The JIDs of those to contact with questions]
+
+[The date and time when the node was created]
+Datum und Uhrzeit der Knotenerzeugung
+[The JID of the node creator]
+Die JID des Knotenerzeugers
+[A description of the node]
+Eine Beschreibung des Knotens
+[The default language of the node]
+Die Standardsprache des Knotens
+[The number of subscribers to the node]
+
+[The JIDs of those with an affiliation of owner]
+
+[The JIDs of those with an affiliation of publisher]
+
+[The name of the node]
+Der Name des Knotens
+[Payload type]
+Nutzlasttyp
+[Whether to automatically authorize subscription requests]
+Ob Autorisierungsanfragen automatisch angenommen werden
+[Whether to automatically accept file transfers]
+Ob Dateiübertragungen automatisch angenommen werden
+[Whether to automatically open new messages]
+Ob neue nachrichten automatisch geöffnet werden
+[Whether to automatically go offline when idle]
+Ob bei Untätigkeit automatisch offline gegangen wird
+[Whether to play sounds]
+Ob Klänge abgespielt werden sollen
+[A list of pending file transfers]
+Eine Liste ausstehender Dateiübertragungen
+[A list of joined group chat rooms]
+Eine Liste betretener Gruppenchaträume
+[A presence or availability status]
+
+[The status message text]
+Der Statusnachrichtentext
+[The new priority for the client]
+Die neue Priorität für den Client
+[Account name associated with the user]
+Mit dem Benutzer verknüpfter Kontoname
+[Familiar name of the user]
+Bekannter Name des Benutzers
+[Password or secret for the user]
+Passwort oder geheime Phrase für den Benutzer
+[Full name of the user]
+Voller Name des Benutzers
+[First name or given name of the user]
+Vor- oder Rufname des Benutzers
+[Last name, surname, or family name of the user]
+Nachname des Benutzers
+[Email address of the user]
+E-Mail-Adresse des Benutzers
+[Street portion of a physical or mailing address]
+
+[Locality portion of a physical or mailing address]
+
+[Region portion of a physical or mailing address]
+
+[Postal code portion of a physical or mailing address]
+
+[Family Name]
+Familienname
+[Whether to accept the invitation]
+Ob die Einladung angenommen werden soll
+[Another resource with which to continue the session]
+
+[Disclosure of content, decryption keys or identities]
+
+[Whether may send Chat State Notifications per XEP-0085]
+Ob Chatstatusbenachrichtigungen gemäß XEP-0085 gesendet werden dürfen
+[Whether allowed to use XHTML-IM formatting per XEP-0071]
+Ob XHTML-Nachrichtenformatierungen gemäß XEP-0071 erlaubt sind
+[Primary written language of the chat (each value appears in order of preference and conforms to RFC 4646 and the IANA registry)]
+
+[Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
+
+[Whether to renegotiate the session]
+
+[Minimum security level]
+Mindestsicherheitsstufe
+[Whether to terminate the session]
+Ob die Sitzung terminiert werden soll
+[Whether to enable Message Receipts per XEP-0184]
+Ob Nachrichtenbestätigungen gemäß XEP-0184 aktiviert sind

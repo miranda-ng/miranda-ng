@@ -46,7 +46,7 @@
 Пачынаць адказы з маленькай літары.
 [Don't use "I don't understand"-like answers]
 Не выкарыстоўваць адказы тыпу "Не зразумеў?"
-;file \plugins\Boltun\src\boltun.h
+;file \plugins\Boltun\src\stdafx.h
 [Message sessions]
 Гутаркі
 [Mind Files]

@@ -224,10 +224,8 @@ PCS
 Ужыць фільтр
 [Reset Filter]
 Скінуць фільтр
-[Invite Users to <room jid>]
-Запрашэнне кантактаў у <room jid>
-[Send group chat invitation.]
-Запрасіць у чат.
+[Send group chat invitation]
+Запрасіць у чат
 [Other JID:]
 Іншы JID:
 [Add]
@@ -236,10 +234,8 @@ PCS
 Чыннік запрашэння:
 [&Invite]
 Запрасіць
-[Group chat invitation to <room jid>]
-Запрашэнне ў канферэнцыю <room jid>
-[Incoming group chat invitation.]
-Запрашэнне ў чат.
+[Incoming group chat invitation]
+Запрашэнне ў чат
 [You are invited to conference room by]
 Вас запрасіў:
 [with following reason:]
@@ -409,7 +405,6 @@ XML Кансоль
 Занятак Jabber
 [Jabber Mood]
 Настрой Jabber
-;file \protocols\JabberG\src\jabber.h
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 Памылка %s %s
@@ -677,10 +672,8 @@ xHTML фармат чат-паведамленняў
 Рэальны JID: %s
 [%s (not on roster)]
 %s (не ў росцеры)
-[Member Info: %s]
-Пра удзельніка:% s
-[from %s]
-з %s
+[%s from\n%s] 
+%s з\n%s
 [Real JID not available]
 Сапраўдны JID недасяжны
 [Reason to kick %s]
@@ -771,11 +764,6 @@ Jabber памылка
 ;file \protocols\JabberG\src\jabber_filterlist.cpp
 [Set filter...]
 Фільтр...
-;file \protocols\JabberG\src\jabber_form2.cpp
-[First Name]
-Імя
-[Last Name]
-Прозвішча
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Памылка запыту спісу чатаў.
@@ -795,8 +783,8 @@ Jabber памылка
 Змяніць мянушку ў <%s>
 [has set the subject to:]
 усталяваў(ла) тэму:
-[Group chat invitation to %s]
-Запрашэнне ў канферэнцыю %s
+[Group chat invitation to\n%s]
+Запрашэнне ў канферэнцыю\n%s
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]
 Статус
@@ -1506,8 +1494,6 @@ XML для MS Excel (кадзіроўка UTF-8)
 Google Talk!
 [LiveJournal Talk]
 Чат LiveJournal
-[Facebook Chat]
-Чат Facebook
 [Odnoklassniki]
 Odnoklassniki
 [Some changes will take effect the next time you connect to the Jabber network.]
@@ -2236,3 +2222,9 @@ Jabber vCard: рэдагаванне тэлефона
 Настроі
 [Activities]
 Заняткі
+;file \protocols\JabberG\src\stdafx.h
+;file \protocols\JabberG\src\obsoleted\jabber_form2.cpp
+[First Name]
+Імя
+[Last Name]
+Прозвішча

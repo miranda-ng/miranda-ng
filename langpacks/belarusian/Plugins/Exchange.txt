@@ -65,3 +65,4 @@
 Паведамленне Exchange
 [Plugins]
 Плагіны
+;file \plugins\Exchange\src\MirandaExchange.cpp

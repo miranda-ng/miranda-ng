@@ -312,3 +312,73 @@
 
 [Snow And Sleet]
 
+[Pm Rain / Wind]
+
+[Rain / Wind Early]
+
+[Rain / Freezing Rain / Wind]
+
+[Snow / Wind Early]
+
+[Sunny / Wind]
+
+[Heavy Rain]
+
+[Rain Late]
+
+[Light Rain / Wind Early]
+
+[Heavy Rain / Wind]
+
+[Cloudy / Windy]
+
+[Wintry Mix / Wind]
+
+[Rain Shower]
+
+[Light Freezing Rain / Windy]
+
+[Light Freezing Rain / Fog]
+
+[Snow / Windy]
+
+[Fog / Windy]
+
+[Partly Cloudy / Windy]
+
+[Sunny / Windy]
+
+[Am Snow]
+
+[Rain / Snow Late]
+
+[Am Rain / Snow]
+
+[Partly Cloudy / Wind]
+
+[Mostly Sunny / Wind]
+
+[Isolated T-Storms / Wind]
+
+[T-Storms Late]
+
+[Scattered T-Storms / Wind]
+
+[Snow To Wintry Mix]
+
+[T-Storms Early]
+
+[T-Storms Late]
+
+[Am T-Storms]
+
+[Fog Late]
+
+[Partly Cloudy / Wind]
+
+[Rain / Snow Late]
+
+[Am Rain / Snow]
+
+[Rain Early]
+

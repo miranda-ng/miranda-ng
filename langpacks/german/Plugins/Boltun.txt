@@ -46,7 +46,7 @@ Ruhig bleiben, wenn keine gute Antwort einfällt
 Antworten mit einem Kleinbuchstaben beginnen
 [Don't use "I don't understand"-like answers]
 Antworten wie "Ich verstehe nicht" nicht verwenden
-;file \plugins\Boltun\src\boltun.h
+;file \plugins\Boltun\src\stdafx.h
 [Message sessions]
 Nachrichtensitzungen
 [Mind Files]

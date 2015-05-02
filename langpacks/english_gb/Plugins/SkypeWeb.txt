@@ -11,3 +11,5 @@ Automatic messages synchronisation
 Request authorisation
 [Grant authorization]
 Grant authorisation
+[Incoming call canceled sound]
+Incoming call cancelled sound

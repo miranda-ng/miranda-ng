@@ -274,6 +274,9 @@ Passwortänderung bestätigen
 Bitte neues Passwort hier eingeben:
 [Enter your current password:]
 Aktuelles Passwort hier eingeben:
+;file \protocols\IcqOscarJ\src\askauthentication.cpp
+[Please authorize me to add you to my contact list.]
+Bitte autorisieren Sie mich, Sie meiner Kontaktliste hinzuzufügen.
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
 Es konnte keine Verbindung zum ICQ-Loginserver migriert werden.
@@ -305,6 +308,167 @@ Verbindung fehlgeschlagen.\nUnbekannter Fehler beim Anmelden: 0x%02x
 Sie wurden vom ICQ-Netzwerk getrennt, da Sie bereits von einem anderen Ort mit derselben ICQ-Nummer eingeloggt sind.
 [Unknown runtime error: 0x%02x]
 Unbekannter Laufzeitfehler: 0x%02x
+;file \protocols\IcqOscarJ\src\constants.cpp
+[January]
+Januar
+[February]
+Februar
+[March]
+März
+[April]
+April
+[May]
+Mai
+[June]
+Juni
+[July]
+Juli
+[August]
+August
+[September]
+September
+[October]
+Oktober
+[November]
+November
+[December]
+Dezember
+[Personal]
+Persönlich
+[Nickname]
+Nick
+[First name]
+Vorname
+[Last name]
+Nachname
+[Gender]
+Geschlecht
+[About]
+Über
+[Password]
+Passwort
+[Contact]
+Kontakt
+[Primary e-mail]
+Erste E-Mail
+[Secondary e-mail]
+Zweite E-Mail
+[Tertiary e-mail]
+Dritte E-Mail
+[Street]
+Straße
+[City]
+Stadt
+[State]
+Region
+[ZIP/postcode]
+Postleitzahl
+[Country]
+Land
+[Phone number]
+Telefon
+[Fax number]
+Fax
+[Cellular number]
+Mobiltelefon
+[Personal Detail]
+Persönliches Profil
+[Timezone]
+Zeitzone
+[Year of birth]
+Geburtsjahr
+[Month of birth]
+Geburtsmonat
+[Day of birth]
+Geburtstag
+[Marital Status]
+Familienstand
+[Spoken language 1]
+Erste Sprache
+[Spoken language 2]
+Zweite Sprache
+[Spoken language 3]
+Dritte Sprache
+[Originally from]
+Herkunft
+[Education]
+Bildung
+[Level]
+Schulart
+[Institute]
+Institut
+[Degree]
+Grad
+[Graduation Year]
+Abschlussjahr
+[Company name]
+Firmenname
+[Company homepage]
+Firmenhomepage
+[Company street]
+Straße
+[Company city]
+Stadt
+[Company state]
+Region
+[Company phone]
+Telefon (geschäftl.)
+[Company fax]
+Fax (geschäftl.)
+[Company ZIP/postcode]
+Postleitzahl (geschäftl.)
+[Company country]
+Land
+[Company department]
+Abteilung
+[Company position]
+Position
+[Company industry]
+Geschäftszweig
+[Personal Interests]
+Persönliche Interessen
+[Interest category 1]
+Interessengebiete 1
+[Interest areas 1]
+Interessen Text 1
+[Interest category 2]
+Interessengebiete 2
+[Interest areas 2]
+Interessen Text 2
+[Interest category 3]
+Interessengebiete 3
+[Interest areas 3]
+Interessen Text 4
+[Interest category 4]
+Interessengebiete 4
+[Interest areas 4]
+Interessen Text 4
+;file \protocols\IcqOscarJ\src\db.cpp
+[The password does not match your current password. Check Caps Lock and try again.]
+Passwort stimmt nicht mit Ihrem aktuellen überein. Ist die Feststelltaste aktiviert?
+[Change ICQ Details]
+ICQ-Profil ändern
+[The password does not match the password you originally entered. Check Caps Lock and try again.]
+Das Passwort stimmt nicht mit dem Original Passwort überein. Prüfen Sie Caps-Lock und versuchen Sie es nochmal.
+[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
+Der ICQ-Server unterstützt keine Passwörter, die länger als 8 Zeichen sind. Bitte ein kürzeres Passwort verwenden.
+;file \protocols\IcqOscarJ\src\dlgproc.cpp
+[<unremovable once applied>]
+<nicht mehr entfernbar>
+[<empty>]
+<leer>
+[Unknown value]
+Unbekannter Wert
+[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
+Sie haben Änderungen an Ihren ICQ-Details vorgenommen, diese wurden aber noch nicht auf dem Server gespeichert. Trotzdem schließen und nicht speichern?
+[Upload in progress...]
+Upload erfolgt...
+[Upload in progress...%d%%]
+Upload erfolgt...%d%%
+[Upload complete]
+Upload fertig
+[Upload FAILED]
+Upload FEHLGESCHLAGEN
 ;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Probleme beim Datenaustausch mit dem Server, es wurden ungültige Daten vom Server gesendet. Bitte manuell neu verbinden.
@@ -1179,8 +1343,6 @@ Bau
 Verbrauchsgüter
 [Corporate Services]
 Unternehmensdienste
-[Education]
-Bildung
 [Finance]
 Finanzen
 [High Tech]
@@ -1648,6 +1810,9 @@ Ihr Proxy hat den Benutzernamen und das Passwort abgewiesen. Überprüfen Sie di
 Der angegebene Server existiert nicht. Eintrag prüfen unter Einstellungen->Netzwerk->ICQ.
 [error]
 Fehler
+;file \protocols\IcqOscarJ\src\loginpassword.cpp
+[Enter a password for UIN %u:]
+Geben Sie ein Passwort für UIN %u an:
 ;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
 [%d Files]
 %d Dateien
@@ -1673,178 +1838,10 @@ Datenübertragung aus unbekannten Gründen fehlgeschlagen.
 Die Prüfsumme von Datei "%s" stimmt nicht, die Datei ist vermutlich beschädigt.
 [Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 Ihre Dateiübertragung wurde abgebrochen (Fehler=%d), da eine der ausgewählten Dateien nicht mehr von der Festplatte lesbar ist. Möglicherweise haben Sie diese verschoben oder gelöscht.
-;file \protocols\IcqOscarJ\src\utilities.cpp
-[<invalid>]
-<ungültig>
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
-[January]
-Januar
-[February]
-Februar
-[March]
-März
-[April]
-April
-[May]
-Mai
-[June]
-Juni
-[July]
-Juli
-[August]
-August
-[September]
-September
-[October]
-Oktober
-[November]
-November
-[December]
-Dezember
-[Personal]
-Persönlich
-[Nickname]
-Nick
-[First name]
-Vorname
-[Last name]
-Nachname
-[Gender]
-Geschlecht
-[About]
-Über
-[Password]
-Passwort
-[Contact]
-Kontakt
-[Primary e-mail]
-Erste E-Mail
-[Secondary e-mail]
-Zweite E-Mail
-[Tertiary e-mail]
-Dritte E-Mail
-[Street]
-Straße
-[City]
-Stadt
-[State]
-Region
-[ZIP/postcode]
-Postleitzahl
-[Country]
-Land
-[Phone number]
-Telefon
-[Fax number]
-Fax
-[Cellular number]
-Mobiltelefon
-[Personal Detail]
-Persönliches Profil
-[Timezone]
-Zeitzone
-[Year of birth]
-Geburtsjahr
-[Month of birth]
-Geburtsmonat
-[Day of birth]
-Geburtstag
-[Marital Status]
-Familienstand
-[Spoken language 1]
-Erste Sprache
-[Spoken language 2]
-Zweite Sprache
-[Spoken language 3]
-Dritte Sprache
-[Originally from]
-Herkunft
-[Level]
-Schulart
-[Institute]
-Institut
-[Degree]
-Grad
-[Graduation Year]
-Abschlussjahr
-[Company name]
-Firmenname
-[Company homepage]
-Firmenhomepage
-[Company street]
-Straße
-[Company city]
-Stadt
-[Company state]
-Region
-[Company phone]
-Telefon (geschäftl.)
-[Company fax]
-Fax (geschäftl.)
-[Company ZIP/postcode]
-Postleitzahl (geschäftl.)
-[Company country]
-Land
-[Company department]
-Abteilung
-[Company position]
-Position
-[Company industry]
-Geschäftszweig
-[Personal Interests]
-Persönliche Interessen
-[Interest category 1]
-Interessengebiete 1
-[Interest areas 1]
-Interessen Text 1
-[Interest category 2]
-Interessengebiete 2
-[Interest areas 2]
-Interessen Text 2
-[Interest category 3]
-Interessengebiete 3
-[Interest areas 3]
-Interessen Text 4
-[Interest category 4]
-Interessengebiete 4
-[Interest areas 4]
-Interessen Text 4
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
-[The password does not match your current password. Check Caps Lock and try again.]
-Passwort stimmt nicht mit Ihrem aktuellen überein. Ist die Feststelltaste aktiviert?
-[Change ICQ Details]
-ICQ-Profil ändern
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-Das Passwort stimmt nicht mit dem Original Passwort überein. Prüfen Sie Caps-Lock und versuchen Sie es nochmal.
-[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
-Der ICQ-Server unterstützt keine Passwörter, die länger als 8 Zeichen sind. Bitte ein kürzeres Passwort verwenden.
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
-[<unremovable once applied>]
-<nicht mehr entfernbar>
-[<empty>]
-<leer>
-[Unknown value]
-Unbekannter Wert
-[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
-Sie haben Änderungen an Ihren ICQ-Details vorgenommen, diese wurden aber noch nicht auf dem Server gespeichert. Trotzdem schließen und nicht speichern?
-[Upload in progress...]
-Upload erfolgt...
-[Upload in progress...%d%%]
-Upload erfolgt...%d%%
-[Upload complete]
-Upload fertig
-[Upload FAILED]
-Upload FEHLGESCHLAGEN
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
+;file \protocols\IcqOscarJ\src\upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Sie sind nicht mit dem ICQ-Netzwerk verbunden.\nSie müssen online sein um das ICQ-Profil auf dem Server aktualisieren zu können.
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
-[Please authorize me to add you to my contact list.]
-Bitte autorisieren Sie mich, Sie meiner Kontaktliste hinzuzufügen.
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
-[Enter a password for UIN %u:]
-Geben Sie ein Passwort für UIN %u an:
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+;file \protocols\IcqOscarJ\src\userinfotab.cpp
 [ (DC Established)]
  (Direktverbindung)
 [ScreenName:]
@@ -1855,3 +1852,6 @@ ScreenName:
 Mitglied seit:
 [%s Details]
 %s Details
+;file \protocols\IcqOscarJ\src\utilities.cpp
+[<invalid>]
+<ungültig>

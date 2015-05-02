@@ -50,10 +50,18 @@ Betreff
 [Sender]
 Sender
 ;file \plugins\Exchange\src\emails.cpp
+[Maximum number of retries reached.\nPlugin will stop trying to connect automatically.]
+
+[Server not available]
+
+[Server is not configured...]
+
 [You have %d unread emails...]
 Sie haben %d ungelesene E-Mails...
 [You have one unread email...]
 Sie haben eine ungelesene E-Mail...
+[Cannot connect to Exchange server...]
+
 [Exchange email]
 Exchange E-Mail
 [Do you want to see the email headers?]
@@ -65,3 +73,8 @@ Exchange Mailbox prüfen
 Exchange Notify
 [Plugins]
 Plugins
+[Forcefully reconnecting to Exchange server ...]
+
+;file \plugins\Exchange\src\MirandaExchange.cpp
+[Connecting to Exchange ...]
+
