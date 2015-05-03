@@ -65,23 +65,23 @@ struct DlgTemplateExBegin
 
 struct OptionsPageData
 {
-	HINSTANCE hInst;
+	CDlgBase *pDialog;
+	int hLangpack;
+	TCHAR *ptszTitle, *ptszGroup, *ptszTab;
 	HTREEITEM hTreeItem;
 	HWND hwnd;
 	int changed;
 	int height;
 	int width;
 	DWORD flags;
-	TCHAR *ptszTitle, *ptszGroup, *ptszTab;
-	int hLangpack;
 	BOOL insideTab;
-	CDlgBase *pDialog;
 
-	int offsetX;
-	int offsetY;
+	__forceinline HWND getHwnd() const { return pDialog->GetHwnd(); }
+	__forceinline HINSTANCE getInst() const { return pDialog->GetInst(); }
 
 	__forceinline TCHAR* getString(TCHAR *ptszStr)
-	{	if (flags & ODPF_DONTTRANSLATE)
+	{
+		if (flags & ODPF_DONTTRANSLATE)
 			return ptszStr;
 		return TranslateTH(hLangpack, ptszStr);
 	}
@@ -224,8 +224,8 @@ static void FindFilterStrings(int enableKeywordFiltering, int current, HWND hWnd
 	DWORD key = GetPluginPageHash(page); // get the plugin page hash
 
 	TCHAR pluginName[MAX_PATH];
-	char *temp = GetPluginNameByInstance(page->hInst);
-	GetDialogStrings(enableKeywordFiltering, key, GetPluginName(page->hInst, pluginName, SIZEOF(pluginName)), hWnd, page->ptszGroup, page->ptszTitle, page->ptszTab, _A2T(temp));
+	char *temp = GetPluginNameByInstance(page->getInst());
+	GetDialogStrings(enableKeywordFiltering, key, GetPluginName(page->getInst(), pluginName, SIZEOF(pluginName)), hWnd, page->ptszGroup, page->ptszTitle, page->ptszTab, _A2T(temp));
 
 	if (enableKeywordFiltering && !current)
 		DestroyWindow(hWnd); // destroy the page, we're done with it
@@ -456,7 +456,7 @@ static void FillFilterCombo(HWND hDlg, OptionsDlgData* dat)
 		OptionsPageData *opd = dat->arOpd[i];
 		FindFilterStrings(FALSE, FALSE, hDlg, opd); // only modules name (fast enougth)
 
-		HINSTANCE inst = opd->hInst;
+		HINSTANCE inst = opd->getInst();
 		if (inst == hInst)
 			continue;
 
@@ -688,20 +688,21 @@ public:
 		if (msg == WM_INITDIALOG)
 			lParam = m_lParam;
 
-		return m_wndProc(m_hwnd, msg, wParam, lParam);
+		LRESULT res = m_wndProc(m_hwnd, msg, wParam, lParam);
+
+		if (msg == WM_DESTROY)
+			m_hwnd = NULL;
+
+		return res;
 	}
 };
 
 static bool LoadOptionsPage(OPTIONSDIALOGPAGE *src, OptionsPageData *dst)
 {
-	if (src->hInstance != NULL && src->pszTemplate != NULL) {
-		dst->hInst = src->hInstance;
+	if (src->hInstance != NULL && src->pszTemplate != NULL)
 		dst->pDialog = new COptionPageDialog(src->hInstance, (int)src->pszTemplate, src->pfnDlgProc, src->dwInitParam);
-	}
-	else {
-		dst->hInst = src->pDialog->GetInst();
+	else
 		dst->pDialog = src->pDialog;
-	}
 
 	dst->flags = src->flags;
 	dst->hLangpack = src->hLangpack;
@@ -736,7 +737,7 @@ static void LoadOptionsModule(HWND hdlg, OptionsDlgData *dat, HINSTANCE hInst)
 		if (LoadOptionsPage(&opi.odp[i], opd))
 			dat->arOpd.insert(opd);
 		else
-			mir_free(opd);
+			FreeOptionsPageData(opd);
 	}
 
 	FreeOptionsData(&opi);
@@ -749,7 +750,7 @@ static void UnloadOptionsModule(HWND hdlg, OptionsDlgData *dat, HINSTANCE hInst)
 
 	for (int i = dat->arOpd.getCount() - 1; i >= 0; i--) {
 		OptionsPageData *opd = dat->arOpd[i];
-		if (opd->hInst != hInst)
+		if (opd->getInst() != hInst)
 			continue;
 
 		if (dat->currentPage > i)
@@ -969,9 +970,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 					RECT rc;
 					GetWindowRect(opd->hwnd, &rc);
-
-					opd->offsetX = 0;
-					opd->offsetY = 0;
 
 					opd->insideTab = IsInsideTab(hdlg, dat, dat->currentPage);
 					if (opd->insideTab) {
