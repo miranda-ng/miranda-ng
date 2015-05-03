@@ -81,6 +81,11 @@ public:
 	//search
 	void __cdecl SearchBasicThread(void* id);
 
+	////////////////////////////////////////////
+	UINT_PTR m_timer;
+	static int CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2);
+	void CSkypeProto::ProcessTimer();
+
 private:
 	char *password;
 	RequestQueue *requestQueue;
@@ -95,8 +100,6 @@ private:
 	static LIST<CSkypeProto> Accounts;
 
 	char *Server, *RegToken, *TokenSecret, *EndpointId, *SelfSkypeName;
-
-	static int CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2);
 
 	static CSkypeProto* GetContactAccount(MCONTACT hContact);
 
@@ -295,6 +298,9 @@ private:
 	char *GetServerFromUrl	(const char *url);
 
 	LPCTSTR ClearText(CMString &value, const TCHAR *message);
+
+	void CALLBACK SkypeUnsetTimer(void*);
+	void CALLBACK SkypeSetTimer(void*);
 
 	//services
 	INT_PTR __cdecl OnIncomingCallCLE					(WPARAM wParam, LPARAM lParam);

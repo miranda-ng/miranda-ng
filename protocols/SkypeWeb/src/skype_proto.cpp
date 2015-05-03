@@ -17,6 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+LIST<CSkypeProto> skypeInstances(1, CSkypeProto::CompareAccounts);
+
 CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 PROTO<CSkypeProto>(protoName, userName), password(NULL)
 {
@@ -67,6 +69,8 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	//sounds
 	SkinAddNewSoundEx("skype_inc_call",		 "SkypeWeb",	LPGEN("Incoming call sound")			);
 	SkinAddNewSoundEx("skype_call_canceled", "SkypeWeb",	LPGEN("Incoming call canceled sound")	);
+
+	skypeInstances.insert(this);
 }
 
 CSkypeProto::~CSkypeProto()
@@ -74,6 +78,7 @@ CSkypeProto::~CSkypeProto()
 	delete requestQueue;
 	Netlib_CloseHandle(m_hNetlibUser);
 	m_hNetlibUser = NULL;
+	skypeInstances.remove(this);
 }
 
 DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
@@ -221,6 +226,8 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		}
 		requestQueue->Stop();
 
+		SkypeUnsetTimer(this);
+
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
@@ -289,6 +296,8 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
 	if (m_TrouterConnection)
 		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_TrouterConnection, 0);
+	if (m_timer)
+		SkypeUnsetTimer(this);
 
 	requestQueue->Stop();
 

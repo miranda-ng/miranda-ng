@@ -112,6 +112,9 @@ void CSkypeProto::OnLoginSuccess()
 	PushRequest(new GetProfileRequest(TokenSecret), &CSkypeProto::LoadProfile);
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
 	PushRequest(new GetContactListRequest(TokenSecret), &CSkypeProto::LoadContactList);
+
+	if (!m_timer)
+		SkypeSetTimer(this);
 }
 
 void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
