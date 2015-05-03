@@ -535,16 +535,19 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 		TCHAR *ptszStatusMsg = item->getTemp()->m_tszStatusMessage;
 		if (ptszStatusMsg && *ptszStatusMsg) {
 			TCHAR *bufPtr = url_buf;
-			for (TCHAR *p = _tcsstr(ptszStatusMsg, _T("http://")); p && *p; p = _tcsstr(p+1, _T("http://"))) {
-				mir_tstrncpy(bufPtr, p, SIZEOF(url_buf) - (bufPtr - url_buf));
-				gc_item *pItem = sttFindGcMenuItem(gcmi, idx);
-				pItem->pszDesc = bufPtr;
-				pItem->uType = MENU_POPUPITEM;
-				for (; *bufPtr && !_istspace(*bufPtr); ++bufPtr) ;
-				*bufPtr++ = 0;
+			for (TCHAR *p = _tcsstr(ptszStatusMsg, _T("http")); p && *p; p = _tcsstr(p+1, _T("http"))) {
+				if (!_tcsncmp(p,_T("http://"),7) || !_tcsncmp(p,_T("https://"),8))
+				{
+					mir_tstrncpy(bufPtr, p, SIZEOF(url_buf) - (bufPtr - url_buf));
+					gc_item *pItem = sttFindGcMenuItem(gcmi, idx);
+					pItem->pszDesc = bufPtr;
+					pItem->uType = MENU_POPUPITEM;
+					for (; *bufPtr && !_istspace(*bufPtr); ++bufPtr) ;
+					*bufPtr++ = 0;
 
-				if (++idx > IDM_LINK9)
-					break;
+					if (++idx > IDM_LINK9)
+						break;
+				}
 			}
 		}
 		for (; idx <= IDM_LINK9; ++idx)
