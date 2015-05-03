@@ -84,7 +84,7 @@ END
 ///////////////////////////////////////////////////////////////////////////////
 
 IDD_OPT_ICQCORP DIALOGEX 0, 0, 261, 160
-STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
