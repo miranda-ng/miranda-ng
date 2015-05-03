@@ -29,8 +29,7 @@ public:
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
-		CMStringA data;
-		data.AppendFormat("{\"status\":\"%s\"}", status);
+		CMStringA data(::FORMAT, "{\"status\":\"%s\"}", status);
 		Body << VALUE(data);
 	}
 };
