@@ -71,6 +71,9 @@ public:
 	static void InitMenus();
 	static void UninitMenus();
 
+	//popups
+	void InitPopups();
+
 	// languages
 	static void InitLanguages();
 
@@ -95,6 +98,9 @@ private:
 	static std::map<std::tstring, std::tstring> languages;
 
 	static INT_PTR CALLBACK PasswordEditorProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+	HANDLE 
+		m_hPopupClassCall;
 
 	// accounts
 	static LIST<CSkypeProto> Accounts;
@@ -284,8 +290,8 @@ private:
 	int SkypeToMirandaStatus(const char *status);
 	char *MirandaToSkypeStatus(int status);
 
-	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
-	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL, int type = 0);
+	void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
+	void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL, int type = 0);
 	static bool IsFileExists(std::tstring path);
 
 	static LRESULT CALLBACK PopupDlgProcCall(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam);

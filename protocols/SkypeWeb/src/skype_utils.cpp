@@ -458,7 +458,7 @@ void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, i
 	if (Miranda_Terminated())
 		return;
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
+	if (ServiceExists(MS_POPUP_ADDPOPUPT))
 	{
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
@@ -475,8 +475,36 @@ void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, i
 		if (!PUAddPopupT(&ppd))
 			return;
 	}
+	/*
+		if (ServiceExists(MS_POPUP_ADDPOPUPT))
+	{
+		if (type == SKYPE_DB_EVENT_TYPE_INCOMING_CALL)
+		{
+			char className[256];
 
-	//MessageBox(NULL, message, caption, MB_OK | flags);
+			POPUPDATACLASS ppd = { 0 };
+			ppd.ptszTitle = caption;
+			ppd.ptszText  = message;
+			ppd.hContact = hContact;
+			ppd.pszClassName = className;
+			mir_snprintf(className, SIZEOF(className), "%s_%s", m_szModuleName, "Call");
+			CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
+			return;
+		}
+		else
+		{
+			POPUPDATAT ppd = { 0 };
+			ppd.lchContact = hContact;
+			_tcsncpy(ppd.lptzContactName, caption, MAX_CONTACTNAME);
+			_tcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
+			ppd.lchIcon = Skin_GetIcon("Skype_main");
+			PUAddPopupT(&ppd);
+			return;
+		}
+	}*/
+
+
+	MessageBox(NULL, message, caption, MB_OK | flags);
 }
 
 LRESULT CSkypeProto::PopupDlgProcCall(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam)
