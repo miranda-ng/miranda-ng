@@ -40,7 +40,7 @@ void CSkypeProto::SetAllContactsStatus(WORD status)
 		if (!isChatRoom(hContact))
 			SetContactStatus(hContact, status);
 		else 
-			SetContactStatus(hContact, status);
+			SetChatStatus(hContact, status);
 	}
 }
 
