@@ -258,6 +258,7 @@ private:
 
 	static void ResetOptions(HWND hwndDlg);
 	static void FilterContacts(HWND hwndDlg, CSkypeProto *ppro);
+	void SetChatStatus(MCONTACT hContact, int iStatus);
 
 	//polling
 	void __cdecl PollingThread			(void*);
