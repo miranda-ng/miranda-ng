@@ -36,7 +36,22 @@ void CSkypeProto::SetContactStatus(MCONTACT hContact, WORD status)
 void CSkypeProto::SetAllContactsStatus(WORD status)
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
-		SetContactStatus(hContact, status);
+	{
+		if (!isChatRoom(hContact))
+			SetContactStatus(hContact, status);
+		else 
+			SetContactStatus(hContact, status);
+	}
+}
+
+void CSkypeProto::SetChatStatus(MCONTACT hContact, int iStatus)
+{
+	ptrT tszChatID(getTStringA(hContact, "ChatRoomID"));
+	if (tszChatID == NULL)
+		return;
+	GCDEST gcd = { m_szModuleName, tszChatID, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	CallServiceSync(MS_GC_EVENT, (iStatus == ID_STATUS_OFFLINE) ? SESSION_OFFLINE : SESSION_ONLINE, (LPARAM)&gce);
 }
 
 MCONTACT CSkypeProto::GetContactFromAuthEvent(MEVENT hEvent)

@@ -221,10 +221,12 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		}
 		requestQueue->Stop();
 
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+
 		if (!Miranda_Terminated())
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
-
-		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+		return 0;
 	}
 	else
 	{
