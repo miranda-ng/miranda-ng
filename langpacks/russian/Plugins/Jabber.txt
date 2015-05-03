@@ -28,7 +28,7 @@
 [Register new user]
 Регистрация
 [Use custom connection host and port:]
-Настройка подключения (узел и порт):
+Настройка подключения (хост и порт):
 [Use Domain Login]
 Доменный логин
 [Go]

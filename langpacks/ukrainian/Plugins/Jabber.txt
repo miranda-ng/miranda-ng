@@ -28,7 +28,7 @@
 [Register new user]
 Реєстрація
 [Use custom connection host and port:]
-Налаштування підключення (вузол і порт):
+Налаштування підключення (хост і порт):
 [Use Domain Login]
 Active Directory логін
 [Go]

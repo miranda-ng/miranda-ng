@@ -47,10 +47,18 @@ ID запису
 Тема
 [Sender]
 Відправник
+[Maximum number of retries reached.\nPlugin will stop trying to connect automatically.]
+Ліміт спроб вичерпано.\nПлагін припинить спроби підключитися автоматично.
+[Server not available]
+Сервер недоступний
+[Server is not configured...]
+Сервер не налаштований...
 [You have %d unread emails...]
 У вас %d непрочитаних листів...
 [You have one unread email...]
 У вас 1 непрочитаний лист...
+[Cannot connect to Exchange server...]
+Неможливо підключитися до сервера Exchange...
 [Exchange email]
 Пошта Exchange
 [Do you want to see the email headers?]
@@ -61,3 +69,7 @@ ID запису
 Сповіщення Exchange
 [Plugins]
 Плагіни
+[Forcefully reconnecting to Exchange server ...]
+Примусове підключення до сервера Exchange...
+[Connecting to Exchange ...]
+Підключення до Exchange...
