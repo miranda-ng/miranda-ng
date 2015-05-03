@@ -31,10 +31,14 @@ public:
 
 		CMStringA data;
 		int bitness = 32;
+		char compName[MAX_COMPUTERNAME_LENGTH + 1];
+		DWORD size = SIZEOF(compName);
+		GetComputerNameA(compName, &size);
+
 #ifdef _WIN64
 		bitness = 64;
 #endif
-		data.AppendFormat("{\"id\":\"messagingService\",\"type\":\"EndpointPresenceDoc\",\"selfLink\":\"uri\",\"privateInfo\":{\"epname\":\"Miranda\"},\"publicInfo\":{\"capabilities\":\"Audio|Video\",\"typ\":125,\"skypeNameVersion\":\"Miranda NG Skype\",\"nodeInfo\":\"xx\",\"version\":\"%s x%d\"}}", g_szMirVer, bitness);
+		data.AppendFormat("{\"id\":\"messagingService\",\"type\":\"EndpointPresenceDoc\",\"selfLink\":\"uri\",\"privateInfo\":{\"epname\":\"%s\"},\"publicInfo\":{\"capabilities\":\"Audio|Video\",\"typ\":125,\"skypeNameVersion\":\"Miranda NG Skype\",\"nodeInfo\":\"xx\",\"version\":\"%s x%d\"}}", compName, g_szMirVer, bitness);
 
 		Body <<
 			VALUE(data);
