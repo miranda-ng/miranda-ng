@@ -43,8 +43,6 @@ static int FilterPage = 0;
 static int FilterLoadProgress = 100;
 static int FilterTimerId = 0;
 
-extern bool bOldMode;
-
 struct OptionsPageInit
 {
 	int pageCount;
@@ -690,7 +688,7 @@ public:
 		if (msg == WM_INITDIALOG)
 			lParam = m_lParam;
 
-		return CallWindowProc(m_wndProc, m_hwnd, msg, wParam, lParam);
+		return m_wndProc(m_hwnd, msg, wParam, lParam);
 	}
 };
 
@@ -1320,16 +1318,15 @@ static int OptModulesLoaded(WPARAM, LPARAM)
 	mi.pszName = LPGEN("&Options...");
 	mi.pszService = "Options/OptionsCommand";
 	Menu_AddMainMenuItem(&mi);
-
-	bOldMode = db_get_b(NULL, "Options", "OldPluginSettings", false) != 0;
 	return 0;
 }
 
 int ShutdownOptionsModule(WPARAM, LPARAM)
 {
-	if (IsWindow(hwndOptions))
+	if (IsWindow(hwndOptions)) {
 		DestroyWindow(hwndOptions);
-	hwndOptions = NULL;
+		hwndOptions = NULL;
+	}
 	return 0;
 }
 
