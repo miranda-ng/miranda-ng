@@ -69,7 +69,6 @@ struct OptionsPageData
 	int hLangpack;
 	TCHAR *ptszTitle, *ptszGroup, *ptszTab;
 	HTREEITEM hTreeItem;
-	HWND hwnd;
 	int changed;
 	int height;
 	int width;
@@ -214,7 +213,7 @@ static void FindFilterStrings(int enableKeywordFiltering, int current, HWND hWnd
 	HWND hWnd = 0;
 	if (enableKeywordFiltering) {
 		if (current)
-			hWnd = page->hwnd;
+			hWnd = page->getHwnd();
 		else {
 			hWnd = CreateOptionWindow(page, hWndParent);
 			ShowWindow(hWnd, SW_HIDE); // make sure it's hidden
@@ -332,8 +331,8 @@ static void FreeOptionsData(OptionsPageInit* popi)
 
 static void FreeOptionsPageData(OptionsPageData *opd)
 {
-	if (opd->hwnd != NULL)
-		DestroyWindow(opd->hwnd);
+	if (opd->getHwnd() != NULL)
+		DestroyWindow(opd->getHwnd());
 	mir_free(opd->ptszGroup);
 	mir_free(opd->ptszTab);
 	mir_free(opd->ptszTitle);
@@ -534,7 +533,7 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 
 	OptionsPageData *opd = dat->getCurrent();
 	if (opd != NULL) {
-		oldWnd = opd->hwnd;
+		oldWnd = opd->getHwnd();
 		if (opd->insideTab)
 			oldTab = GetDlgItem(hdlg, IDC_TAB);
 	}
@@ -634,7 +633,7 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 
 	if (oldWnd) {
 		opd = dat->getCurrent();
-		if (opd && oldWnd != opd->hwnd) {
+		if (opd && oldWnd != opd->getHwnd()) {
 			ShowWindow(oldWnd, SW_HIDE);
 			if (oldTab && (opd == NULL || !opd->insideTab))
 				ShowWindow(oldTab, SW_HIDE);
@@ -906,13 +905,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			case TCN_SELCHANGING:
 			case TVN_SELCHANGING:
 				opd = dat->getCurrent();
-				if (opd && opd->hwnd != NULL) {
+				if (opd && opd->getHwnd() != NULL) {
 					PSHNOTIFY pshn;
 					pshn.hdr.code = PSN_KILLACTIVE;
-					pshn.hdr.hwndFrom = dat->arOpd[dat->currentPage]->hwnd;
+					pshn.hdr.hwndFrom = dat->arOpd[dat->currentPage]->getHwnd();
 					pshn.hdr.idFrom = 0;
 					pshn.lParam = 0;
-					if (SendMessage(dat->arOpd[dat->currentPage]->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn)) {
+					if (SendMessage(dat->arOpd[dat->currentPage]->getHwnd(), WM_NOTIFY, 0, (LPARAM)&pshn)) {
 						SetWindowLongPtr(hdlg, DWLP_MSGRESULT, TRUE);
 						return TRUE;
 					}
@@ -924,8 +923,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				ShowWindow(GetDlgItem(hdlg, IDC_STNOPAGE), SW_HIDE);
 
 				opd = dat->getCurrent();
-				if (opd && opd->hwnd != NULL)
-					ShowWindow(opd->hwnd, SW_HIDE);
+				if (opd && opd->getHwnd() != NULL)
+					ShowWindow(opd->getHwnd(), SW_HIDE);
 
 				if (wParam != IDC_TAB) {
 					TVITEM tvi;
@@ -958,27 +957,27 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					ShowWindow(GetDlgItem(hdlg, IDC_STNOPAGE), SW_SHOW);
 					break;
 				}
-				if (opd->hwnd == NULL) {
-					opd->hwnd = CreateOptionWindow(opd, hdlg);
+				if (opd->getHwnd() == NULL) {
+					CreateOptionWindow(opd, hdlg);
 					if (opd->flags & ODPF_BOLDGROUPS)
-						EnumChildWindows(opd->hwnd, BoldGroupTitlesEnumChildren, (LPARAM)dat->hBoldFont);
+						EnumChildWindows(opd->getHwnd(), BoldGroupTitlesEnumChildren, (LPARAM)dat->hBoldFont);
 
 					RECT rcPage;
-					GetClientRect(opd->hwnd, &rcPage);
+					GetClientRect(opd->getHwnd(), &rcPage);
 					int w = opd->width = rcPage.right;
 					int h = opd->height = rcPage.bottom;
 
 					RECT rc;
-					GetWindowRect(opd->hwnd, &rc);
+					GetWindowRect(opd->getHwnd(), &rc);
 
 					opd->insideTab = IsInsideTab(hdlg, dat, dat->currentPage);
 					if (opd->insideTab) {
-						SetWindowPos(opd->hwnd, HWND_TOP, (dat->rcTab.left + dat->rcTab.right - w) >> 1, dat->rcTab.top, w, h, 0);
-						ThemeDialogBackground(opd->hwnd, TRUE);
+						SetWindowPos(opd->getHwnd(), HWND_TOP, (dat->rcTab.left + dat->rcTab.right - w) >> 1, dat->rcTab.top, w, h, 0);
+						ThemeDialogBackground(opd->getHwnd(), TRUE);
 					}
 					else {
-						SetWindowPos(opd->hwnd, HWND_TOP, (dat->rcDisplay.left + dat->rcDisplay.right - w) >> 1, (dat->rcDisplay.top + dat->rcDisplay.bottom - h) >> 1, w, h, 0);
-						ThemeDialogBackground(opd->hwnd, FALSE);
+						SetWindowPos(opd->getHwnd(), HWND_TOP, (dat->rcDisplay.left + dat->rcDisplay.right - w) >> 1, (dat->rcDisplay.top + dat->rcDisplay.bottom - h) >> 1, w, h, 0);
+						ThemeDialogBackground(opd->getHwnd(), FALSE);
 					}
 				}
 
@@ -1012,10 +1011,10 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 						ShowWindow(hwndTab, opd->insideTab ? SW_SHOW : SW_HIDE);
 					}
 
-					ThemeDialogBackground(opd->hwnd, opd->insideTab);
+					ThemeDialogBackground(opd->getHwnd(), opd->insideTab);
 				}
 
-				ShowWindow(opd->hwnd, SW_SHOW);
+				ShowWindow(opd->getHwnd(), SW_SHOW);
 				if (((LPNMTREEVIEW)lParam)->action == TVC_BYMOUSE)
 					PostMessage(hdlg, DM_FOCUSPAGE, 0, 0);
 				else
@@ -1026,7 +1025,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 	case DM_FOCUSPAGE:
 		if (dat->currentPage != -1)
-			SetFocus(dat->arOpd[dat->currentPage]->hwnd);
+			SetFocus(dat->arOpd[dat->currentPage]->getHwnd());
 		break;
 
 	case WM_TIMER:
@@ -1061,10 +1060,11 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				pshn.lParam = 0;
 				pshn.hdr.code = PSN_RESET;
 				for (int i = 0; i < dat->arOpd.getCount(); i++) {
-					if (dat->arOpd[i]->hwnd == NULL || !dat->arOpd[i]->changed)
+					OptionsPageData *p = dat->arOpd[i];
+					if (p->getHwnd() == NULL || !p->changed)
 						continue;
-					pshn.hdr.hwndFrom = dat->arOpd[i]->hwnd;
-					SendMessage(dat->arOpd[i]->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
+					pshn.hdr.hwndFrom = p->getHwnd();
+					SendMessage(p->getHwnd(), WM_NOTIFY, 0, (LPARAM)&pshn);
 				}
 				DestroyWindow(hdlg);
 			}
@@ -1084,24 +1084,25 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				pshn.hdr.idFrom = 0;
 				pshn.lParam = LOWORD(wParam);
 				pshn.hdr.code = PSN_KILLACTIVE;
-				pshn.hdr.hwndFrom = opd->hwnd;
-				if (SendMessage(opd->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn))
+				pshn.hdr.hwndFrom = opd->getHwnd();
+				if (SendMessage(opd->getHwnd(), WM_NOTIFY, 0, (LPARAM)&pshn))
 					break;
 			}
 
 			pshn.hdr.code = PSN_APPLY;
 			for (int i = 0; i < dat->arOpd.getCount(); i++) {
-				if (dat->arOpd[i]->hwnd == NULL || !dat->arOpd[i]->changed) continue;
-				dat->arOpd[i]->changed = 0;
-				pshn.hdr.hwndFrom = dat->arOpd[i]->hwnd;
-				if (SendMessage(dat->arOpd[i]->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
-					dat->hCurrentPage = dat->arOpd[i]->hTreeItem;
+				OptionsPageData *p = dat->arOpd[i];
+				if (p->getHwnd() == NULL || !p->changed) continue;
+				p->changed = 0;
+				pshn.hdr.hwndFrom = p->getHwnd();
+				if (SendMessage(p->getHwnd(), WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
+					dat->hCurrentPage = p->hTreeItem;
 					TreeView_SelectItem(hwndTree, dat->hCurrentPage);
 					if (opd)
-						ShowWindow(opd->hwnd, SW_HIDE);
+						opd->pDialog->Show(SW_HIDE);
 					dat->currentPage = i;
 					if (opd)
-						ShowWindow(opd->hwnd, SW_SHOW);
+						opd->pDialog->Show();
 					return 0;
 				}
 			}
