@@ -47,7 +47,7 @@ void RequestQueue::Stop()
 		return;
 
 	isTerminated = true;
-	hRequestQueueThread = NULL;
+	SetEvent(hRequestQueueEvent);
 }
 
 void RequestQueue::Push(HttpRequest *request, HttpResponseCallback response, void *arg)
@@ -114,5 +114,6 @@ unsigned int RequestQueue::WorkerThread(void *arg)
 		}
 	}
 
+	queue->hRequestQueueThread = NULL;
 	return 0;
 }
