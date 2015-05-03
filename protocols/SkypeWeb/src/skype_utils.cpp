@@ -730,3 +730,31 @@ HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback, BSTR &messa
 	}
 	return hr;
 }
+
+void CSkypeProto::ProcessTimer()
+{
+	if (IsOnline())
+	{
+		PushRequest(new GetContactListRequest(TokenSecret), &CSkypeProto::LoadContactList);
+	}
+}
+
+static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
+{
+	for (int i = 0; i < skypeInstances.getCount(); i++)
+	{
+		skypeInstances[i]->ProcessTimer();
+	}
+}
+
+void CSkypeProto::SkypeSetTimer(void*)
+{
+	CSkypeProto::m_timer = SetTimer(NULL, 0, 600000, TimerProc);
+}
+
+void CSkypeProto::SkypeUnsetTimer(void*)
+{
+	if (CSkypeProto::m_timer)
+		KillTimer(NULL, CSkypeProto::m_timer);
+	CSkypeProto::m_timer = 0;
+}

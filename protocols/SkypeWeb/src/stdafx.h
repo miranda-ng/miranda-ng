@@ -62,6 +62,7 @@ struct CSkypeProto;
 
 extern HINSTANCE g_hInstance;
 extern char g_szMirVer[];
+extern LIST<CSkypeProto> skypeInstances;
 
 #define SKYPE_ENDPOINTS_HOST "client-s.gateway.messenger.live.com"
 
@@ -106,4 +107,5 @@ enum SKYPE_LOGIN_ERROR
 
 #define SKYPE_DB_EVENT_TYPE_ACTION			10001
 #define SKYPE_DB_EVENT_TYPE_INCOMING_CALL	10002
+
 #endif //_COMMON_H_
