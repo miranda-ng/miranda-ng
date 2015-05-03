@@ -106,8 +106,7 @@ public:
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
-		CMStringA data;
-		data.AppendFormat("{\"consumptionhorizon\":\"%lld000;%lld000;%lld000\"}", msgTimestamp, time(NULL), msgId);
+		CMStringA data(::FORMAT, "{\"consumptionhorizon\":\"%lld000;%lld000;%lld000\"}", msgTimestamp, time(NULL), msgId);
 		Body << VALUE(data);
 	}
 };

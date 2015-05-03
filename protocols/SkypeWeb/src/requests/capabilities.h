@@ -29,7 +29,6 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
 
-		CMStringA data;
 		int bitness = 32;
 		char compName[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD size = SIZEOF(compName);
@@ -38,7 +37,8 @@ public:
 #ifdef _WIN64
 		bitness = 64;
 #endif
-		data.AppendFormat("{\"id\":\"messagingService\",\"type\":\"EndpointPresenceDoc\",\"selfLink\":\"uri\",\"privateInfo\":{\"epname\":\"%s\"},\"publicInfo\":{\"capabilities\":\"Audio|Video\",\"typ\":125,\"skypeNameVersion\":\"Miranda NG Skype\",\"nodeInfo\":\"xx\",\"version\":\"%s x%d\"}}", compName, g_szMirVer, bitness);
+
+		CMStringA data(::FORMAT, "{\"id\":\"messagingService\",\"type\":\"EndpointPresenceDoc\",\"selfLink\":\"uri\",\"privateInfo\":{\"epname\":\"%s\"},\"publicInfo\":{\"capabilities\":\"Audio|Video\",\"typ\":125,\"skypeNameVersion\":\"Miranda NG Skype\",\"nodeInfo\":\"xx\",\"version\":\"%s x%d\"}}", compName, g_szMirVer, bitness);
 
 		Body <<
 			VALUE(data);

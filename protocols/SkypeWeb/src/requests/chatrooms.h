@@ -116,8 +116,7 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
 
-		CMStringA data;
-		data.AppendFormat("{\"role\":\"%s\"}", role);
+		CMStringA data(::FORMAT, "{\"role\":\"%s\"}", role);
 		Body << VALUE(data);
 	}
 };
