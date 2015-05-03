@@ -37,9 +37,9 @@ IDI_BASSSoundOff	ICON           "BASSSoundOff.ico"
 //
 
 IDD_OPTIONS DIALOGEX 0, 0, 313, 240
-STYLE DS_SHELLFONT | WS_VISIBLE | WS_CHILDWINDOW
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 1
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
 	GROUPBOX        "un4seen's bass interface", IDC_STATIC, 5, 5, 302, 231
 	LTEXT           "bass.dll loading error", IDC_BASSVERSION, 20, 20, 210, 8, SS_LEFT
