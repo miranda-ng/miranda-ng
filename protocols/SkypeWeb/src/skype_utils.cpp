@@ -476,7 +476,7 @@ void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, i
 			return;
 	}
 
-	MessageBox(NULL, message, caption, MB_OK | flags);
+	//MessageBox(NULL, message, caption, MB_OK | flags);
 }
 
 LRESULT CSkypeProto::PopupDlgProcCall(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam)
