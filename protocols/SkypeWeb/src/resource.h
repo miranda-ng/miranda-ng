@@ -17,6 +17,7 @@
 #define IDI_BLOCKUSER					118
 #define IDI_UNBLOCKUSER					119
 #define IDI_CALL						120
+#define IDI_NOTIFY                      121
 #define IDC_AUTOSYNC                    1028
 #define IDC_LOCALTIME                   1029
 #define IDC_RADIO1                      1030
@@ -33,7 +34,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        121
+#define _APS_NEXT_RESOURCE_VALUE        122
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1042
 #define _APS_NEXT_SYMED_VALUE           101

@@ -326,7 +326,7 @@ void CSkypeProto::InitPopups()
 	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Notification");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
-	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("main"));
+	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("notify"));
 	ppc.colorBack = RGB(255, 255, 255); 
 	ppc.colorText = RGB(0, 0, 0); 
 	ppc.iSeconds = 5;

@@ -32,6 +32,7 @@ IDI_SYNCHISTORY         ICON                    "Icons\\sync_history.ico"
 IDI_BLOCKUSER			ICON                    "Icons\\user_block.ico"
 IDI_UNBLOCKUSER			ICON                    "Icons\\user_unblock.ico"
 IDI_CALL				ICON                    "Icons\\call.ico"
+IDI_NOTIFY				ICON                    "Icons\\notify.ico"
 #endif    // Нейтральный (по умолчанию) resources
 /////////////////////////////////////////////////////////////////////////////
 
