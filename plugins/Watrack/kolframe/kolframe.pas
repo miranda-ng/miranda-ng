@@ -9,6 +9,8 @@ uses windows,kol,commdlg,messages,common,commctrl, KOLCCtrls,
      wat_api,wrapper,global,m_api,dbsettings,waticons,mirutils,
      icobuttons,textblock,kolsizer;
 
+{$include resource.inc}
+
 {$R frm.res}
 
 {$include frm_data.inc}
@@ -298,13 +300,13 @@ begin
     count:=2;
   if count=2 then
   begin
-    tmpl:='FRAME';
+    tmpl:=PAnsiChar(IDD_OPTION_FRAME);
     proc:=@FrameViewDlg;
     name:='Frame (main)';
   end
   else
   begin
-    tmpl:='FRAME2';
+    tmpl:=PAnsiChar(IDD_OPTION_FRAME2);
     proc:=@FrameTextDlg;
     name:='Frame (text)';
   end;

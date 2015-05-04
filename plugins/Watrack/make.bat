@@ -15,16 +15,16 @@ set PROJECT=Watrack
 if not exist %OUTDIR% mkdir %OUTDIR%
 md tmp
 
-rem brcc32.exe res\watrack.rc         -fores\watrack.res
-rem brcc32.exe lastfm\lastfm.rc       -folastfm\lastfm.res
-rem brcc32.exe myshows\myshows.rc     -fomyshows\myshows.res
-rem brcc32.exe players\mradio.rc      -foplayers\mradio.res
-rem brcc32.exe kolframe\frm.rc        -fokolframe\frm.res
-rem brcc32.exe popup\popup.rc         -fopopup\popup.res
-rem brcc32.exe proto\proto.rc         -foproto\proto.res
-rem brcc32.exe stat\stat.rc           -fostat\stat.res
-rem brcc32.exe status\status.rc       -fostatus\status.res
-rem brcc32.exe templates\templates.rc -fotemplates\templates.res
+brcc32.exe res\watrack.rc         -fores\watrack.res
+brcc32.exe lastfm\lastfm.rc       -folastfm\lastfm.res
+brcc32.exe myshows\myshows.rc     -fomyshows\myshows.res
+brcc32.exe players\mradio.rc      -foplayers\mradio.res
+brcc32.exe kolframe\frm.rc        -fokolframe\frm.res
+brcc32.exe popup\popup.rc         -fopopup\popup.res
+brcc32.exe proto\proto.rc         -foproto\proto.res
+brcc32.exe stat\stat.rc           -fostat\stat.res
+brcc32.exe status\status.rc       -fostatus\status.res
+brcc32.exe templates\templates.rc -fotemplates\templates.res
 
 %FPCBIN% @..\Utils.pas\fpc.cfg %PROJECT%.dpr %3 %4 %5 %6 %7 %8 %9
 if errorlevel 1 exit /b 1

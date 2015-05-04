@@ -10,6 +10,7 @@ uses
   common,m_api,mirutils,mircontacts,dbsettings,wrapper,
   global,wat_api;
 
+{$include resource.inc}
 {$include i_proto_rc.inc}
 
 const
@@ -537,7 +538,7 @@ end;
 
 function AddOptionsPage(var tmpl:pAnsiChar;var proc:pointer;var name:PAnsiChar):integer;
 begin
-  tmpl:='MISC';
+  tmpl:=PAnsiChar(IDD_OPT_MISC);
   proc:=@DlgProcOptions;
   name:='Misc';
   result:=0;

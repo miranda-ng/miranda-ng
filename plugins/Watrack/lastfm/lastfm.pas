@@ -9,6 +9,8 @@ uses windows, messages, commctrl,
   m_api,dbsettings,wrapper,mirutils, datetime,
   wat_api,global;
 
+{$include resource.inc}
+
 const
   opt_ModStatus:PAnsiChar = 'module/lastfm';
 const
@@ -217,7 +219,7 @@ end;
 
 function AddOptionsPage(var tmpl:pAnsiChar;var proc:pointer;var name:PAnsiChar):integer;
 begin
-  tmpl:='LASTFM';
+  tmpl:=PAnsiChar(IDD_OPT_LASTFM);
   proc:=@DlgProcOptions;
   name:='LastFM';
   result:=0;
