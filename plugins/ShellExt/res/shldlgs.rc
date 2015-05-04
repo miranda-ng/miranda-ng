@@ -13,6 +13,7 @@
 IDD_SHLOPTS DIALOG DISCARDABLE  0, 0, 312, 238
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Display contacts in their assigned groups (if any)",
                     IDC_USEGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,
