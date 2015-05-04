@@ -457,54 +457,27 @@ void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, i
 {
 	if (Miranda_Terminated())
 		return;
+	
+	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
+		CMStringA className(FORMAT, "%s_", m_szModuleName);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT))
-	{
-		POPUPDATAT ppd = { 0 };
-		ppd.lchContact = hContact;
-		_tcsncpy(ppd.lptzContactName, caption, MAX_CONTACTNAME);
-		_tcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
 		if (type == SKYPE_DB_EVENT_TYPE_INCOMING_CALL)
-		{
-			ppd.lchIcon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
-			ppd.PluginWindowProc = PopupDlgProcCall;
-		}
-		else
-			ppd.lchIcon = Skin_GetIcon("Skype_main");
+			className.Append("Call");
+		else 
+			className.Append("Notification");
 
-		if (!PUAddPopupT(&ppd))
-			return;
+		POPUPDATACLASS ppd = { sizeof(ppd) };
+		ppd.ptszTitle = caption;
+		ppd.ptszText = message;
+		ppd.pszClassName = className.GetBuffer();
+		ppd.hContact = hContact;
+
+		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 	}
-	/*
-		if (ServiceExists(MS_POPUP_ADDPOPUPT))
-	{
-		if (type == SKYPE_DB_EVENT_TYPE_INCOMING_CALL)
-		{
-			char className[256];
-
-			POPUPDATACLASS ppd = { 0 };
-			ppd.ptszTitle = caption;
-			ppd.ptszText  = message;
-			ppd.hContact = hContact;
-			ppd.pszClassName = className;
-			mir_snprintf(className, SIZEOF(className), "%s_%s", m_szModuleName, "Call");
-			CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
-			return;
-		}
-		else
-		{
-			POPUPDATAT ppd = { 0 };
-			ppd.lchContact = hContact;
-			_tcsncpy(ppd.lptzContactName, caption, MAX_CONTACTNAME);
-			_tcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
-			ppd.lchIcon = Skin_GetIcon("Skype_main");
-			PUAddPopupT(&ppd);
-			return;
-		}
-	}*/
-
-
-	MessageBox(NULL, message, caption, MB_OK | flags);
+	else {
+		DWORD mtype = MB_OK | MB_SETFOREGROUND | MB_ICONSTOP;
+		MessageBox(NULL, message, caption, mtype);
+	}
 }
 
 LRESULT CSkypeProto::PopupDlgProcCall(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -642,8 +615,9 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 	}
 	if (!_tcsicmp(szCommand, _T("sendfile"))) 
 	{
-		MCONTACT hContact = AddContact(_T2A(szJid), true);
-		CallService(MS_FILE_SENDFILE, hContact, NULL);
+		//CONTACT hContact = AddContact(_T2A(szJid), true);
+		//CallService(MS_FILE_SENDFILE, hContact, NULL);
+		return 1;
 	}
 	if (!_tcsicmp(szCommand, _T("voicemail"))) 
 	{
