@@ -57,8 +57,6 @@
 Контакт всегда видим
 [Unless Non-IM Contacts protocol is OFFLINE]
 скрыть, если не-IM протокол не в сети
-[Dialog]
-Диалог
 [Away as another status]
 Отсутствую, как другой статус
 [Disable timer]

@@ -10,7 +10,6 @@
 [Unread emails]
 [Close]
 [Mark as read]
-[Dialog]
 [Connection]
 [Username:]
 [Password:]

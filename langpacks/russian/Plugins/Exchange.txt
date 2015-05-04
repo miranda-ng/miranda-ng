@@ -13,8 +13,6 @@
 Закрыть
 [Mark as read]
 Прочитанное
-[Dialog]
-Диалог
 [Connection]
 Подключение
 [Username:]
