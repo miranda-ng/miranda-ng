@@ -50,6 +50,8 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());
 
+	db_set_resident(m_szModuleName, "Status");
+
 	// custom event
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
 	dbEventType.module = m_szModuleName;
