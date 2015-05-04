@@ -20,6 +20,7 @@ const
 {$include pop_rc.inc}
 {$include pop_vars.inc}
 {$include pop_opt.inc}
+{$include resource.inc}
 
 const
   MainTmpl = 'artist: %ls'#13#10'title: "%ls"'#13#10'album: "%ls"'#13#10+
@@ -369,7 +370,7 @@ begin
   odp.szTitle.a  :=PluginName;
 
   odp.szGroup.a  :='Popups';
-  odp.pszTemplate:=DLGPOPUP;
+  odp.pszTemplate:=PAnsiChar(IDD_OPT_POPUP);
   odp.pfnDlgProc :=@DlgPopupOpt;
   CallService(MS_OPT_ADDPAGE,wParam,tlparam(@odp));
   result:=0;

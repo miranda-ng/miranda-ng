@@ -26,13 +26,13 @@ begin
   odp.szGroup.a  :='Plugins';
 
   odp.flags      :=ODPF_BOLDGROUPS;
-  odp.pszTemplate:='PARTS';
+  odp.pszTemplate:=PAnsiChar(IDD_OPT_PARTS);
   odp.pfnDlgProc :=@DlgProcOptions0;
   odp.szTab.a    :='Modules';
   CallService(MS_OPT_ADDPAGE,wParam,tlparam(@odp));
 
   odp.flags      :=ODPF_BOLDGROUPS;
-  odp.pszTemplate:='BASIC';
+  odp.pszTemplate:=PAnsiChar(IDD_OPT_BASIC);
   odp.pfnDlgProc :=@DlgProcOptions1;
   odp.szTab.a    :='Basic';
   CallService(MS_OPT_ADDPAGE,wParam,tlparam(@odp));

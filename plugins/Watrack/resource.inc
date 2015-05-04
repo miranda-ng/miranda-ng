@@ -1,0 +1,4 @@
+const
+  IDD_OPT_BASIC = 201;
+  IDD_OPT_PARTS = 202;
+  IDD_OPT_POPUP = 203;
