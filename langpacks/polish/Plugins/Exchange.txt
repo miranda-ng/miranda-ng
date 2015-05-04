@@ -14,8 +14,6 @@ Nieprzeczytane e-maile
 Zamknij
 [Mark as read]
 Oznacz jako przeczytane
-[Dialog]
-Okno
 [Connection]
 Połączenie
 [Username:]
