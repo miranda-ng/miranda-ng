@@ -175,8 +175,11 @@ void CSkypeProto::TRouterThread(void*)
 			{
 				char *json = strstr(response->pData, "{");
 				if (json == NULL) 
+				{
+					CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+					delete request;
 					continue;
-
+				}
 				JSONROOT  root(json);
 				ptrA szBody(mir_t2a(ptrT(json_as_string(json_get(root, "body")))));
 				JSONNODE *headers = json_get(root, "headers");
