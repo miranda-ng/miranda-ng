@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-LIST<CSkypeProto> CSkypeProto::Accounts(1, CSkypeProto::CompareAccounts);
+LIST<CSkypeProto> Accounts(1, CSkypeProto::CompareAccounts);
 
 int CSkypeProto::CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2)
 {

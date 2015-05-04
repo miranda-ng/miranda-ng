@@ -103,7 +103,6 @@ private:
 		m_hPopupClassCall;
 
 	// accounts
-	static LIST<CSkypeProto> Accounts;
 
 	char *Server, *RegToken, *TokenSecret, *EndpointId, *SelfSkypeName;
 

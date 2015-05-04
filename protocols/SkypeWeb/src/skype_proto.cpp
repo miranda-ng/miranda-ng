@@ -71,8 +71,6 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	//sounds
 	SkinAddNewSoundEx("skype_inc_call",		 "SkypeWeb",	LPGEN("Incoming call sound")			);
 	SkinAddNewSoundEx("skype_call_canceled", "SkypeWeb",	LPGEN("Incoming call canceled sound")	);
-
-	skypeInstances.insert(this);
 }
 
 CSkypeProto::~CSkypeProto()
