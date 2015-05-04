@@ -8,8 +8,6 @@
 [Sticky Notes & Reminders Implementation for Miranda NG.]
 Notatki i przypomnienia.
 ;file \plugins\NotesAndReminders\res\resource.rc
-[Sticky Notes Options]
-Opcje notatek
 [Default Note Size]
 Domyślny rozmiar notatki
 [Width (Pixels)]

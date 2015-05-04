@@ -98,8 +98,6 @@ Szukaj
 Szukaj:
 [Search was completed.]
 Wyszukiwanie zostało ukończone.
-[Alert options]
-Opcje powiadomień
 [Events and alerts]
 Zdarzenia i powiadomienia
 [Enable alerts]
@@ -250,6 +248,8 @@ Załadowano z Cache
 ;file \plugins\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
 Błąd: masz dwa lub więcej kontaktów w Webview o tym samym adresie i nazwie.
+[Alert options]
+Opcje powiadomień
 [Stop processing]
 Zakończ przetwarzanie
 [Click here to open this URL in a browser window.]

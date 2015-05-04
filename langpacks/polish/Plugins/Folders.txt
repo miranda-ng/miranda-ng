@@ -8,8 +8,6 @@
 [Allows plugins to save their data to user selected folders; supports variables.]
 Pozwala wtyczkom zapisywać dane do folderów wybranych przez użytkownika; wspiera zmienne.
 ;file \plugins\Folders\res\folders.rc
-[Dialog]
-Okno
 [Custom folders]
 Niestandardowe foldery
 [Preview]

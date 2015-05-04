@@ -62,8 +62,6 @@ Kontakt zawsze widoczny
 chyba, że protokół jest rozłączony
 [Timer Intervals.  ]
 Odstępy timera.
-[Dialog]
-Okno
 [Away as another status]
 Zaraz wracam jako kolejny status
 [Disable timer]
