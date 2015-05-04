@@ -29,6 +29,7 @@ uses
 ;
 
 {$include res\i_const.inc}
+{$include resource.inc}
 
 {$Resource res\watrack.res}
 
