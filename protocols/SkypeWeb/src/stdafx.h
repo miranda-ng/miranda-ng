@@ -62,7 +62,7 @@ struct CSkypeProto;
 
 extern HINSTANCE g_hInstance;
 extern char g_szMirVer[];
-extern LIST<CSkypeProto> skypeInstances;
+extern LIST<CSkypeProto> Accounts;
 
 #define SKYPE_ENDPOINTS_HOST "client-s.gateway.messenger.live.com"
 

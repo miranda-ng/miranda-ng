@@ -743,9 +743,9 @@ void CSkypeProto::ProcessTimer()
 
 static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	for (int i = 0; i < skypeInstances.getCount(); i++)
+	for (int i = 0; i < Accounts.getCount(); i++)
 	{
-		skypeInstances[i]->ProcessTimer();
+		Accounts[i]->ProcessTimer();
 	}
 }
 
