@@ -49,25 +49,72 @@ struct OptionsPageInit
 	OPTIONSDIALOGPAGE *odp;
 };
 
-struct DlgTemplateExBegin
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class COptionPageDialog : public CDlgBase
 {
-	WORD   dlgVer;
-	WORD   signature;
-	DWORD  helpID;
-	DWORD  exStyle;
-	DWORD  style;
-	WORD   cDlgItems;
-	short  x;
-	short  y;
-	short  cx;
-	short  cy;
+	DLGPROC m_wndProc;
+	LPARAM  m_lParam;
+
+public:
+	COptionPageDialog(HINSTANCE hInst, int idDialog, DLGPROC pProc, LPARAM lParam) :
+		CDlgBase(hInst, idDialog),
+		m_wndProc(pProc),
+		m_lParam(lParam)
+	{
+	}
+
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+	{
+		if (msg == WM_INITDIALOG)
+			lParam = m_lParam;
+
+		LRESULT res = m_wndProc(m_hwnd, msg, wParam, lParam);
+
+		if (msg == WM_DESTROY)
+			m_hwnd = NULL;
+
+		return res;
+	}
 };
 
-struct OptionsPageData
+struct OptionsPageData : public MZeroedObject
 {
+	OptionsPageData(OPTIONSDIALOGPAGE *src)
+	{
+		if (src->hInstance != NULL && src->pszTemplate != NULL)
+			pDialog = new COptionPageDialog(src->hInstance, (int)src->pszTemplate, src->pfnDlgProc, src->dwInitParam);
+		else
+			pDialog = src->pDialog;
+
+		flags = src->flags;
+		hLangpack = src->hLangpack;
+
+		if (src->flags & ODPF_UNICODE)
+			ptszTitle = mir_tstrdup(src->ptszTitle);
+		else
+			ptszTitle = mir_a2t(src->pszTitle);
+
+		if (src->flags & ODPF_UNICODE)
+			ptszGroup = mir_tstrdup(src->ptszGroup);
+		else
+			ptszGroup = mir_a2t(src->pszGroup);
+
+		if (src->flags & ODPF_UNICODE)
+			ptszTab = mir_tstrdup(src->ptszTab);
+		else
+			ptszTab = mir_a2t(src->pszTab);
+  	}
+	
+	~OptionsPageData()
+	{
+		if (getHwnd() != NULL)
+			DestroyWindow(getHwnd());
+	}
+
 	CDlgBase *pDialog;
 	int hLangpack;
-	TCHAR *ptszTitle, *ptszGroup, *ptszTab;
+	ptrT ptszTitle, ptszGroup, ptszTab;
 	HTREEITEM hTreeItem;
 	int changed;
 	int height;
@@ -327,16 +374,6 @@ static void FreeOptionsData(OptionsPageInit* popi)
 			mir_free((char*)popi->odp[i].pszTemplate);
 	}
 	mir_free(popi->odp);
-}
-
-static void FreeOptionsPageData(OptionsPageData *opd)
-{
-	if (opd->getHwnd() != NULL)
-		DestroyWindow(opd->getHwnd());
-	mir_free(opd->ptszGroup);
-	mir_free(opd->ptszTab);
-	mir_free(opd->ptszTitle);
-	mir_free(opd);
 }
 
 static LRESULT CALLBACK AeroPaintSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -668,62 +705,6 @@ static BOOL IsInsideTab(HWND hdlg, OptionsDlgData *dat, int i)
 	return (pages > 1);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-class COptionPageDialog : public CDlgBase
-{
-	DLGPROC  m_wndProc;
-	LPARAM  m_lParam;
-
-public:
-	COptionPageDialog(HINSTANCE hInst, int idDialog, DLGPROC pProc, LPARAM lParam) :
-		CDlgBase(hInst, idDialog),
-		m_wndProc(pProc),
-		m_lParam(lParam)
-	{}
-
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		if (msg == WM_INITDIALOG)
-			lParam = m_lParam;
-
-		LRESULT res = m_wndProc(m_hwnd, msg, wParam, lParam);
-
-		if (msg == WM_DESTROY)
-			m_hwnd = NULL;
-
-		return res;
-	}
-};
-
-static bool LoadOptionsPage(OPTIONSDIALOGPAGE *src, OptionsPageData *dst)
-{
-	if (src->hInstance != NULL && src->pszTemplate != NULL)
-		dst->pDialog = new COptionPageDialog(src->hInstance, (int)src->pszTemplate, src->pfnDlgProc, src->dwInitParam);
-	else
-		dst->pDialog = src->pDialog;
-
-	dst->flags = src->flags;
-	dst->hLangpack = src->hLangpack;
-
-	if (src->flags & ODPF_UNICODE)
-		dst->ptszTitle = mir_tstrdup(src->ptszTitle);
-	else
-		dst->ptszTitle = mir_a2t(src->pszTitle);
-
-	if (src->flags & ODPF_UNICODE)
-		dst->ptszGroup = mir_tstrdup(src->ptszGroup);
-	else
-		dst->ptszGroup = mir_a2t(src->pszGroup);
-
-	if (src->flags & ODPF_UNICODE)
-		dst->ptszTab = mir_tstrdup(src->ptszTab);
-	else
-		dst->ptszTab = mir_a2t(src->pszTab);
-
-	return true;
-}
-
 static void LoadOptionsModule(HWND hdlg, OptionsDlgData *dat, HINSTANCE hInst)
 {
 	OptionsPageInit opi = { 0 };
@@ -731,13 +712,8 @@ static void LoadOptionsModule(HWND hdlg, OptionsDlgData *dat, HINSTANCE hInst)
 	if (opi.pageCount == 0)
 		return;
 
-	for (int i = 0; i < opi.pageCount; i++) {
-		OptionsPageData *opd = (OptionsPageData*)mir_calloc(sizeof(OptionsPageData));
-		if (LoadOptionsPage(&opi.odp[i], opd))
-			dat->arOpd.insert(opd);
-		else
-			FreeOptionsPageData(opd);
-	}
+	for (int i = 0; i < opi.pageCount; i++)
+		dat->arOpd.insert(new OptionsPageData(&opi.odp[i]));
 
 	FreeOptionsData(&opi);
 	PostMessage(hdlg, DM_REBUILDPAGETREE, 0, 0);
@@ -754,8 +730,9 @@ static void UnloadOptionsModule(HWND hdlg, OptionsDlgData *dat, HINSTANCE hInst)
 
 		if (dat->currentPage > i)
 			dat->currentPage--;
-		FreeOptionsPageData(opd);
+
 		dat->arOpd.remove(i);
+		delete opd;
 		bToRebuildTree = true;
 	}
 
@@ -837,12 +814,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 			OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)psh->ppsp;
 			for (UINT i = 0; i < psh->nPages; i++, odp++) {
-				opd = (OptionsPageData*)mir_calloc(sizeof(OptionsPageData));
-				if (!LoadOptionsPage(odp, opd)) {
-					mir_free(opd);
-					continue;
-				}
-				dat->arOpd.insert(opd);
+				dat->arOpd.insert(new OptionsPageData(odp));
 
 				if (!mir_tstrcmp(lastPage, odp->ptszTitle) && !mir_tstrcmp(lastGroup, odp->ptszGroup))
 					if ((ood->pszTab == NULL && dat->currentPage == -1) || !mir_tstrcmp(lastTab, odp->ptszTab))
@@ -1146,7 +1118,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 		Utils_SaveWindowPosition(hdlg, NULL, "Options", "");
 
 		for (int i = 0; i < dat->arOpd.getCount(); i++)
-			FreeOptionsPageData(dat->arOpd[i]);
+			delete dat->arOpd[i];
 
 		DeleteObject(dat->hBoldFont);
 		delete dat;
