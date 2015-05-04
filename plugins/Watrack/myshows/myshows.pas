@@ -9,6 +9,8 @@ uses windows, messages, commctrl,
   m_api,dbsettings,wrapper, mirutils,
   wat_api,global;
 
+{$include resource.inc}
+
 const
   DefTimerValue = 10*60*1000; // 10 minutes
 const
@@ -250,7 +252,7 @@ end;
 
 function AddOptionsPage(var tmpl:pAnsiChar;var proc:pointer;var name:PAnsiChar):integer;
 begin
-  tmpl:='MYSHOWS';
+  tmpl:=PAnsiChar(IDD_OPT_MYSHOWS);
   proc:=@DlgProcOptions;
   name:='MyShows';
   result:=0;

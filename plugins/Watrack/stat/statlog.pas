@@ -8,6 +8,7 @@ implementation
 uses windows,messages,shellapi,commctrl
      ,wrapper,io,wat_api,common,global,m_api,dbsettings,mirutils;
 
+{$include resource.inc}
 {$include stat_data.inc}
 {$include stat_vars.inc}
 {$include stat_opt.inc}
@@ -626,7 +627,7 @@ end;
 
 function AddOptionsPage(var tmpl:pAnsiChar;var proc:pointer;var name:PAnsiChar):integer;
 begin
-  tmpl:='STATS';
+  tmpl:=PAnsiChar(IDD_OPT_STATS);
   proc:=@DlgProcOptions;
   name:='Statistics';
   result:=0;

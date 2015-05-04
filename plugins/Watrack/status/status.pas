@@ -10,6 +10,8 @@ uses
   common,m_api,mirutils,mircontacts,protocols,dbsettings,wrapper,
   global,wat_api,hlpdlg,CBEx,myRTF,Tmpl;
 
+{$include resource.inc}
+
 const
   HKN_INSERT:PansiChar = 'WAT_Insert';
 
@@ -103,19 +105,19 @@ begin
     count:=2;
   case count of
     2: begin
-      tmpl:='COMMON';
+      tmpl:=PAnsiChar(IDD_OPT_COMMON);
       proc:=@DlgProcOptions3;
       name:='Status (common)';
     end;
     1: begin
       if SimpleMode=BST_UNCHECKED then
       begin
-        tmpl:='TEMPLATE11';
+        tmpl:=PAnsiChar(IDD_OPT_TEMPLATE11);
         proc:=@DlgProcOptions11;
       end
       else
       begin
-        tmpl:='TEMPLATE12';
+        tmpl:=PAnsiChar(IDD_OPT_TEMPLATE12);
         proc:=@DlgProcOptions12;
       end;
       name:='Status (templates)';

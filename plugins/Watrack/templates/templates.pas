@@ -10,6 +10,8 @@ uses
   m_api,dbsettings,mirutils,
   wat_api,global,macros;
 
+{$include resource.inc}
+
 const
   splStopped:PWideChar = 'stopped';
   splPlaying:PWideChar = 'playing';
@@ -63,7 +65,7 @@ end;
 
 function AddOptionsPage(var tmpl:pAnsiChar;var proc:pointer;var name:PAnsiChar):integer;
 begin
-  tmpl:='FORMAT';
+  tmpl:=PAnsiChar(IDD_OPT_FORMAT);
   proc:=@DlgProcOptions;
   name:='Templates';
   result:=0;
