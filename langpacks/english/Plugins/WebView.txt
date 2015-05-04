@@ -52,7 +52,6 @@
 [&Find next]
 [Find what:]
 [Search was completed.]
-[Alert options]
 [Events and alerts]
 [Enable alerts]
 [Always log to file]
@@ -130,6 +129,7 @@
 [Loaded from cache]
 ;file \plugins\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
+[Alert options]
 [Stop processing]
 [Click here to open this URL in a browser window.]
 [Stick to the front]

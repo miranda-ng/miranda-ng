@@ -7,7 +7,6 @@
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
 ;file \plugins\NotesAndReminders\res\resource.rc
-[Sticky Notes Options]
 [Default Note Size]
 [Width (Pixels)]
 [Height (Pixels)]

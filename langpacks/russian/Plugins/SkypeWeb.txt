@@ -127,5 +127,9 @@
 Звук входящего звонка
 [Incoming call canceled sound]
 Звук отмены входящего звонка
+[Calls]
+Звонки
+[Notifications]
+Уведомления
 [Incoming call from %s]
 Входящий звонок от %s
