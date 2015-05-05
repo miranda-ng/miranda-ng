@@ -137,7 +137,6 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, JSONNODE *pRe
 
 CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost)
 {
-	//debugLogA("CVkProto::GetVkNewsItem");
 	bool bPostLink = true;
 	CVKNewsItem *vkNewsItem = new CVKNewsItem();
 	if (pItem == NULL)
@@ -276,6 +275,7 @@ CMString CVkProto::GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, 
 	if (iUserId) {
 		vkUser = GetVkUserInfo(iUserId, vkUsers);
 		CMString tszText = json_as_CMString(json_get(pFeedback, "text"));
+		tszText.Replace(_T("%"), _T("%%"));
 		tszRes.AppendFormat(tszFormat, SetBBCString(vkUser->m_tszUserNick.GetBuffer(), m_iBBCForNews, vkbbcUrl, vkUser->m_tszLink.GetBuffer()), ClearFormatNick(tszText).GetBuffer());
 	}
 
