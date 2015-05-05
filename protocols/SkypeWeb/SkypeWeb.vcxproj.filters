@@ -37,9 +37,6 @@
     <ClInclude Include="src\requests\profile.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
-    <ClInclude Include="src\requests\reg_info.h">
-      <Filter>Header Files\requests</Filter>
-    </ClInclude>
     <ClInclude Include="src\requests\search.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>

@@ -61,18 +61,7 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	db_set_resident(m_szModuleName, "Trouter_sig");
 	db_set_resident(m_szModuleName, "Trouter_SessId");
 
-	// custom event
-	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
-	dbEventType.module = m_szModuleName;
-	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
-	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_ACTION;
-	dbEventType.descr = Translate("Action");
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
-
-	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
-	dbEventType.descr = Translate("Incoming call");
-	dbEventType.eventIcon = GetIconHandle("inc_call");
-	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+	InitDBEvents();
 
 	//hooks
 	m_hCallHook = CreateHookableEvent(MODULE"/IncomingCall");

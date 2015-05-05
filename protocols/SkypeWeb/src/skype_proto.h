@@ -88,6 +88,8 @@ public:
 	UINT_PTR m_timer;
 	static int CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2);
 	void CSkypeProto::ProcessTimer();
+	static INT_PTR EventGetIcon (WPARAM wParam, LPARAM lParam);
+	static INT_PTR GetCallEventText(WPARAM, LPARAM lParam);
 
 private:
 	char *password;
@@ -223,7 +225,7 @@ private:
 
 	MEVENT GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp = 0);
 	MEVENT AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content, int emoteOffset = 0);
-	MEVENT AddCallToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *callId);
+	MEVENT AddCallToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *callId, const char *gp);
 	int OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset = 0, bool isRead = false);
 	int SaveMessageToDb(MCONTACT hContact, PROTORECVEVENT *pre);
 
@@ -312,6 +314,9 @@ private:
 
 	void CALLBACK SkypeUnsetTimer(void*);
 	void CALLBACK SkypeSetTimer(void*);
+
+	//events
+	void CSkypeProto::InitDBEvents();
 
 	//services
 	INT_PTR __cdecl OnIncomingCallCLE					(WPARAM wParam, LPARAM lParam);
