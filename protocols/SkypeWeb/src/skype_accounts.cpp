@@ -52,6 +52,7 @@ int CSkypeProto::OnAccountLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CSkypeProto::OnPreCreateMessage);
 
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CSkypeProto::OnDbEventRead);
+	InitDBEvents();
 	InitPopups();
 	InitGroupChatModule();
 

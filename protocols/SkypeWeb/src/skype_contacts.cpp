@@ -37,10 +37,7 @@ void CSkypeProto::SetAllContactsStatus(WORD status)
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		if (!isChatRoom(hContact))
-			SetContactStatus(hContact, status);
-		else 
-			SetChatStatus(hContact, status);
+		SetContactStatus(hContact, status);
 	}
 }
 
