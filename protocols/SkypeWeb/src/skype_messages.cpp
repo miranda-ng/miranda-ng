@@ -334,7 +334,7 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 		{
 			for (int i=0; i < xi.getChildCount(xml); i++)
 			{
-				int fileSize; CMStringA msg = "";
+				int fileSize;
 				HXML xmlNode = xi.getNthChild(xml, L"file", i);
 				if (xmlNode == NULL)
 					break;
@@ -343,14 +343,16 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 				if (fileName == NULL || fileSize == NULL)
 					continue;
 
-				msg.Empty();
-				msg.AppendFormat("%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize , Translate("bytes"));
+				CMStringA msg(FORMAT, "%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize , Translate("bytes"));
 				AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_READ, clientMsgId, msg.GetBuffer());
 			}
 		}
 	}
 	else if (!mir_strcmpi(messageType, "RichText/Location")){}
-	else if (!mir_strcmpi(messageType, "RichText/UriObject")){} //Picture
+	else if (!mir_strcmpi(messageType, "RichText/UriObject"))
+	{
+
+	} //Picture
 	else if (!mir_strcmpi(messageType, "RichText/Contacts")){}
 }
 
