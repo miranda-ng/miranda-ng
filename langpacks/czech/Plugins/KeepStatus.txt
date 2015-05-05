@@ -66,8 +66,6 @@ Po návratu obnovit původní stav
 Potvrdit návrat do původního stavu
 [Only set if current status is]
 Nastavit pouze tehdy, je-li stav
-[Command line]
-Příkazový řádek
 [Copy to clipboard]
 Zkopírovat do schránky
 [Command line:]

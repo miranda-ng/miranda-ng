@@ -8,8 +8,6 @@
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
 Anti-šéf doplněk. Umožní skrýt nebo chránit heslem vaši Mirandu NG.
 ;file \plugins\BossKeyPlus\res\BossKey.rc
-[BossKey]
-BossKey
 [Go to Customize -> Hotkeys to change the hotkey]
 Zkratky změníte v sekci Vlastní úpravy -> Klávesové zkratky
 [When I press the hotkey:]
@@ -67,6 +65,8 @@ Skrýt Mirandu
 Skrýt
 [Hide/Show Miranda]
 Skrýt/zobrazit Mirandu
+[BossKey]
+BossKey
 [get the BossKey name]
 získat Bosskey jméno
 ;file \plugins\BossKeyPlus\src\Options.cpp

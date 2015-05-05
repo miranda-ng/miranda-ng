@@ -15,7 +15,7 @@ Zrušit
 [Mark users you want to invite to a new chat]
 
 [Invite user to chat]
-
+Pozvat uživatele k diskusi
 [Choose one of your contacts to be invited:]
 
 [Skypename:]
@@ -29,19 +29,19 @@ Výchozí skupina:
 [Others]
 Ostatní
 [Automatic messages synchronization]
-
+Automatická synchronizace zpráv
 [Use local time for received messages]
 Použít lokální čas počítače pro příchozí zprávy
 [Mark message as read...]
-
+Označit zprávu jako přečtenou...
 [on read]
-
+při přečtení
 [on receive]
-
+při přijetí
 [on reply]
-
+při odpovězení
 [on typing]
-
+při psaní
 [Enter password]
 Zadejte heslo
 [Save password]
@@ -50,7 +50,7 @@ Uložit heslo
 Zadejte heslo pro pokračování.
 ;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
-
+Skype Link protokol
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [Admin]
 Admin
@@ -59,15 +59,15 @@ Uživatel
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 
 [Warning]
-Upozornění
+Varování
 [&Invite user...]
 Pozvat k d&iskusi...
 [&Leave chat session]
 &Opustit diskusi
 [&Change topic]
-
+&Změnit téma
 [Kick &user]
-
+Vykopnout &uživatele
 [Set &role]
 Určit &roli
 [&Admin]
@@ -79,7 +79,7 @@ Určit &roli
 Opravdu chcete pokračovat?
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
-
+Upraveno v
 [Call started]
 Hovor začal
 [Call ended]
@@ -98,13 +98,15 @@ bajtů
 [Protocol icon]
 Ikona protokolu
 [Create new chat icon]
-
+Ikona vytvoření nového chatu
 [Sync history icon]
-
+Ikona synchronizace historie
 [Block user icon]
-
+Ikona blokování uživatele
 [Unblock user icon]
-
+Ikona odblokování uživatele
+[Incoming call icon]
+Ikona příchozího hovoru
 [Protocols]
 Protokoly
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
@@ -113,14 +115,16 @@ Požádat o autorizaci
 [Grant authorization]
 Udělit autorizaci
 [Get server history]
-
+Načíst historii ze serveru
 [Block contact]
 Zablokovat kontakt
 [Unblock contact]
 Odblokovat kontakt
 [Create new chat]
-
+Založit novou diskusi
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
+[Incoming call]
+Příchozí hovor
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Sítě
@@ -129,6 +133,14 @@ Sítě
 %s - spojení se serverem
 [Action]
 Akce
+[Incoming call sound]
+Zvuk příchozího hovoru
+[Incoming call canceled sound]
+Zvuk zrušení příchozího hovoru
+[Calls]
+Hovory
+[Notifications]
+Upozornění
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
-[Incoming call]
-Příchozí hovor
+[Incoming call from %s]
+Příchozí hovor (%s)

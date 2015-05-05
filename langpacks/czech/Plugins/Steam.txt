@@ -38,7 +38,7 @@ Zadejte heslo
 Uložit heslo
 [Enter the password to continue.]
 Zadejte heslo pro pokračování.
-;file \protocols\Steam\src\stdafx.cpp
+;file \protocols\Steam\src\main.cpp
 [Steam game]
 Steam hra
 ;file \protocols\Steam\src\steam_contacts.cpp

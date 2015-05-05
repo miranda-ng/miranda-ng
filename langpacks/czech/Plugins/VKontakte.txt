@@ -135,15 +135,15 @@ Použít lokální čas počítače pro příchozí zprávy
 [Automatically wipe local contacts missing in your friend list]
 
 [Mark message as read...]
-
+Označit zprávu jako přečtenou...
 [on read]
-
+při přečtení
 [on receive]
-
+při přijetí
 [on reply]
-
+při odpovězení
 [on typing]
-
+při psaní
 [Sync history on protocol online...]
 
 [automatically]
@@ -161,7 +161,7 @@ Potvrdit
 [Cancel]
 Zrušit
 [Invite user to chat]
-
+Pozvat uživatele k diskusi
 [Choose one of your contacts to be invited:]
 
 [Create group chat]
@@ -369,7 +369,7 @@ Zobrazit
 [%s server connection]
 %s - spojení se serverem
 [Create new chat]
-
+Založit novou diskusi
 [Status message]
 Zpráva stavu
 [Send message to my wall]

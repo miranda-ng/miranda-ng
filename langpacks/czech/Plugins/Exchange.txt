@@ -14,8 +14,6 @@ Nepřečtené e-maily
 Zavřít
 [Mark as read]
 Označit jako přečtený
-[Dialog]
-Dialog
 [Connection]
 Spojení
 [Username:]
@@ -50,10 +48,18 @@ Předmět
 [Sender]
 Odesílatel
 ;file \plugins\Exchange\src\emails.cpp
+[Maximum number of retries reached.\nPlugin will stop trying to connect automatically.]
+Maximální počet pokusů překročen.\nDoplněk se již nebude snažit připojit automaticky.
+[Server not available]
+Server není dostupný
+[Server is not configured...]
+Server není nakonfigurován...
 [You have %d unread emails...]
 Máte %d nepřečtených e-mailů...
 [You have one unread email...]
 Máte nepřečtený e-mail...
+[Cannot connect to Exchange server...]
+Nelze se připojit k Exchange serveru...
 [Exchange email]
 Exchange e-mail
 [Do you want to see the email headers?]
@@ -65,3 +71,8 @@ Zkontrolovat schránku Exchange
 Upozornění Exchange
 [Plugins]
 Doplňky
+[Forcefully reconnecting to Exchange server ...]
+Vynucené znovu-připojení k Exchange serveru...
+;file \plugins\Exchange\src\MirandaExchange.cpp
+[Connecting to Exchange ...]
+Připojování k Exchange...
