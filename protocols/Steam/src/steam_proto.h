@@ -190,6 +190,8 @@ protected:
 
 	void OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg);
 
+	void HandleTokenExpired();
+
 	// contacts
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);

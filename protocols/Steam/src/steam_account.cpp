@@ -208,12 +208,24 @@ void CSteamProto::OnGotSession(const NETLIBHTTPREQUEST *response, void *)
 	}
 }
 
+void CSteamProto::HandleTokenExpired()
+{
+	// Notify error to user
+	ShowNotification(_T("Steam"), TranslateT("Connection token expired. Please login again."));
+
+	// Delete expired token
+	delSetting("TokenSecret");
+
+	// Set status to offline
+	SetStatus(ID_STATUS_OFFLINE);
+}
+
 void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *)
 {
 	if (response == NULL)
 	{
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
+		// Probably expired TokenSecret
+		return HandleTokenExpired();
 	}
 
 	JSONROOT root(response->pData);
@@ -222,12 +234,8 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *)
 	ptrW error(json_as_string(node));
 	if (lstrcmpi(error, L"OK")/* || response->resultCode == HTTP_STATUS_UNAUTHORIZED*/)
 	{
-		//delSetting("TokenSecret");
-		//delSetting("Cookie");
-
-		// set status to offline
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
+		// Probably expired TokenSecret
+		return HandleTokenExpired();
 	}
 
 	node = json_get(root, "umqid");
