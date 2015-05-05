@@ -65,31 +65,21 @@ BOOL CCtrlTreeOpts::OnNotify(int idCtrl, NMHDR *pnmh)
 			hti.pt.y = (short)HIWORD(GetMessagePos());
 			ScreenToClient(pnmh->hwndFrom, &hti.pt);
 			if (HitTest(&hti))
-			if (hti.flags&TVHT_ONITEMICON)
-				ProcessItemClick(hti.hItem);
+				if (hti.flags & TVHT_ONITEMICON)
+					ProcessItemClick(hti.hItem);
 		}
 		break;
 
-	case TVN_ITEMEXPANDEDW:
+	case TVN_ITEMEXPANDED:
 		{
-			LPNMTREEVIEWW lpnmtv = (LPNMTREEVIEWW)pnmh;
+			LPNMTREEVIEW lpnmtv = (LPNMTREEVIEW)pnmh;
 			TVITEM tvi;
 			tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 			tvi.hItem = lpnmtv->itemNew.hItem;
 			tvi.iImage = tvi.iSelectedImage =
 				(lpnmtv->itemNew.state & TVIS_EXPANDED) ? IMG_GRPOPEN : IMG_GRPCLOSED;
-			SendMessageW(pnmh->hwndFrom, TVM_SETITEMW, 0, (LPARAM)&tvi);
+			SendMessage(pnmh->hwndFrom, TVM_SETITEM, 0, (LPARAM)&tvi);
 		}
-		break;
-
-	case TVN_ITEMEXPANDEDA:
-		LPNMTREEVIEWA lpnmtv = (LPNMTREEVIEWA)pnmh;
-		TVITEM tvi;
-		tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-		tvi.hItem = lpnmtv->itemNew.hItem;
-		tvi.iImage = tvi.iSelectedImage =
-			(lpnmtv->itemNew.state & TVIS_EXPANDED) ? IMG_GRPOPEN : IMG_GRPCLOSED;
-		SendMessageA(pnmh->hwndFrom, TVM_SETITEMA, 0, (LPARAM)&tvi);
 		break;
 	}
 
@@ -201,6 +191,7 @@ void CCtrlTreeOpts::ProcessItemClick(HTREEITEM hti)
 		tvi.iImage = tvi.iSelectedImage = IMG_GRPCLOSED;
 		Expand(tvi.hItem, TVE_COLLAPSE);
 		break;
+
 	case IMG_GRPCLOSED:
 		tvi.iImage = tvi.iSelectedImage = IMG_GRPOPEN;
 		Expand(tvi.hItem, TVE_EXPAND);
@@ -210,10 +201,12 @@ void CCtrlTreeOpts::ProcessItemClick(HTREEITEM hti)
 		tvi.iImage = tvi.iSelectedImage = IMG_NOCHECK;
 		SendMessage(::GetParent(::GetParent(m_hwnd)), PSM_CHANGED, 0, 0);
 		break;
+
 	case IMG_NOCHECK:
 		tvi.iImage = tvi.iSelectedImage = IMG_CHECK;
 		SendMessage(::GetParent(::GetParent(m_hwnd)), PSM_CHANGED, 0, 0);
 		break;
+
 	case IMG_NORCHECK:
 		for (int i = 0; i < m_options.getCount(); i++) {
 			if (m_options[i]->m_groupId == m_options[tvi.lParam]->m_groupId) {

@@ -509,30 +509,19 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM, LPARAM lParam)
 			return FALSE;
 		item.hItem = (HTREEITEM)hti.hItem;
 		break;
+
 	case TVN_ITEMEXPANDEDW:
-	{
-		LPNMTREEVIEWW lpnmtv = (LPNMTREEVIEWW)lParam;
+		{
+			LPNMTREEVIEWW lpnmtv = (LPNMTREEVIEWW)lParam;
 
-		item.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-		item.hItem = lpnmtv->itemNew.hItem;
-		item.iImage = item.iSelectedImage =
-			(lpnmtv->itemNew.state & TVIS_EXPANDED) ? IMG_GRPOPEN : IMG_GRPCLOSED;
-		SendMessageW(((LPNMHDR)lParam)->hwndFrom, TVM_SETITEMW, 0, (LPARAM)&item);
-	}
-	return TRUE;
-	break;
-	case TVN_ITEMEXPANDEDA:
-	{
-		LPNMTREEVIEWA lpnmtv = (LPNMTREEVIEWA)lParam;
+			item.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+			item.hItem = lpnmtv->itemNew.hItem;
+			item.iImage = item.iSelectedImage =
+				(lpnmtv->itemNew.state & TVIS_EXPANDED) ? IMG_GRPOPEN : IMG_GRPCLOSED;
+			SendMessageW(((LPNMHDR)lParam)->hwndFrom, TVM_SETITEMW, 0, (LPARAM)&item);
+		}
+		return TRUE;
 
-		item.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-		item.hItem = lpnmtv->itemNew.hItem;
-		item.iImage = item.iSelectedImage =
-			(lpnmtv->itemNew.state & TVIS_EXPANDED) ? IMG_GRPOPEN : IMG_GRPCLOSED;
-		SendMessageA(((LPNMHDR)lParam)->hwndFrom, TVM_SETITEMA, 0, (LPARAM)&item);
-	}
-	return TRUE;
-	break;
 	default:
 		return FALSE;
 	}

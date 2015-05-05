@@ -753,14 +753,12 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					SendMessage(hdlg,WM_COMMAND,IDC_MTREEREMOVE,0);
 								  }break;
 
-			case TVN_BEGINLABELEDITA:
-			case TVN_BEGINLABELEDITW:
+			case TVN_BEGINLABELEDIT:
 				hwndEdit=TreeView_GetEditControl(hMenuTree);
 				mir_subclassWindow(hwndEdit, LabelEditSubclassProc);
 				break;
 
-			case TVN_ENDLABELEDITA:
-			case TVN_ENDLABELEDITW:
+			case TVN_ENDLABELEDIT:
 				{
 					TVITEM tvi;
 					ButtonData* bd=NULL;
@@ -800,40 +798,34 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 						TreeView_SetItem(hMenuTree, &tvi);
 						SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
 					}
-				}break;
+				}
+				break;
 
 			case NM_KILLFOCUS:
 				TreeView_EndEditLabelNow(hButtonsList, 1);
 				break;
 
-			case TVN_BEGINDRAGA:
-			case TVN_BEGINDRAGW:
+			case TVN_BEGINDRAG:
 				SetCapture(hdlg);
 				drag=1;
 				hDragItem=((LPNMTREEVIEW)lparam)->itemNew.hItem;
 				TreeView_SelectItem(hMenuTree,hDragItem);
 				break;
 
-			case TVN_SELCHANGINGA:
-			case TVN_SELCHANGINGW:
+			case TVN_SELCHANGING:
 				{
-					TVITEM tvi;
-					HTREEITEM hti;
-					ButtonData* bd;
-
-					hti=TreeView_GetSelection(hMenuTree);
-
+					HTREEITEM hti = TreeView_GetSelection(hMenuTree);
 					if (hti==NULL)
 						break;
 
+					TVITEM tvi;
 					tvi.hItem=hti;
 					tvi.mask=TVIF_HANDLE|TVIF_PARAM;
 					TreeView_GetItem(hMenuTree,&tvi);
-
 					if (tvi.lParam == 0)
 						break;
 
-					bd = ( ButtonData* )tvi.lParam;
+					ButtonData *bd = ( ButtonData* )tvi.lParam;
 					if (bd) {
 						TCHAR szValue[256];
 						GetDlgItemText(hdlg, IDC_MENUVALUE, szValue, SIZEOF(szValue));
@@ -846,26 +838,21 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 						bd->bOpInQMenu=IsDlgButtonChecked(hdlg,IDC_INQMENU);
 						bd->bIsOpServName=IsDlgButtonChecked(hdlg,IDC_ISSERVNAME);
 					}
-				}break;
-			case TVN_SELCHANGEDA:
-			case TVN_SELCHANGEDW:
+				}
+				break;
+
+			case TVN_SELCHANGED:
 				{
-					TVITEM tvi;
-					HTREEITEM hti;
-					ButtonData* bd=NULL;
-
-					hti=TreeView_GetSelection(hMenuTree);
-
-					if (hti==NULL)
+					HTREEITEM hti = TreeView_GetSelection(hMenuTree);
+					if (hti == NULL)
 						break;
 
+					TVITEM tvi;
 					tvi.mask=TVIF_HANDLE|TVIF_PARAM;
-
 					tvi.hItem=hti;
 					TreeView_GetItem(hMenuTree,&tvi);
 
-
-					bd = ( ButtonData* )tvi.lParam;
+					ButtonData *bd = ( ButtonData* )tvi.lParam;
 					if (bd) {
 						if (!TreeView_GetChild(hMenuTree, tvi.hItem)&&!(bd->fEntryOpType&QMF_EX_SEPARATOR))
 						{
@@ -886,7 +873,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 						CheckDlgButton(hdlg,IDC_ISSERVNAME,bd->bIsOpServName ? BST_CHECKED : BST_UNCHECKED);
 					}
 				}
-			}break;
+			}
+			break;
 
 		case IDC_BUTTONSLIST:
 			switch (((LPNMHDR)lparam)->code) {
@@ -898,14 +886,12 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					SendMessage(hdlg,WM_COMMAND,IDC_BLISTREMOVE,0);
 								  }break;
 
-			case TVN_BEGINLABELEDITA:
-			case TVN_BEGINLABELEDITW:
+			case TVN_BEGINLABELEDIT:
 				hwndEdit = TreeView_GetEditControl(hButtonsList);
 				mir_subclassWindow(hwndEdit, LabelEditSubclassProc);
 				break;
 
-			case TVN_ENDLABELEDITA:
-			case TVN_ENDLABELEDITW:
+			case TVN_ENDLABELEDIT:
 				{
 					TVITEM tvi;
 					TCHAR strbuf[128];
@@ -926,21 +912,16 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 					TreeView_SetItem(hButtonsList, &tvi);
 					SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
-				}break;
+				}
+				break;
 
-			case TVN_SELCHANGINGA:
-			case TVN_SELCHANGINGW:
+			case TVN_SELCHANGING:
 				SetMenuEntryProperties(hdlg);
 				break;
 
-			case TVN_SELCHANGEDA:
-			case TVN_SELCHANGEDW:
+			case TVN_SELCHANGED:
 				{
-					TVITEM tvi;
-					HTREEITEM hti;
-
-					hti=TreeView_GetSelection(hButtonsList);
-
+					HTREEITEM hti = TreeView_GetSelection(hButtonsList);
 					if(hti==NULL||!TreeView_GetCount(hButtonsList)) {
 						EnableWindow(GetDlgItem(hdlg,IDC_MENUVALUE),FALSE);
 						EnableWindow(GetDlgItem(hdlg,IDC_ISSERVNAME),FALSE);
@@ -950,6 +931,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 						break;
 					}
 
+					TVITEM tvi;
 					tvi.mask=TVIF_HANDLE|TVIF_PARAM;
 					tvi.hItem=hti;
 					TreeView_GetItem(hButtonsList,&tvi);
@@ -967,8 +949,10 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 						SetDlgItemText(hdlg, IDC_RCLICKVALUE, ((ListData*)tvi.lParam)->ptszOPQValue);
 					else
 						SetDlgItemText(hdlg, IDC_RCLICKVALUE, _T(""));
-				}break;
-			}break;
+				}
+				break;
+			}
+			break;
 		}
 		break;
 

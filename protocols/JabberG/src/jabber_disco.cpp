@@ -989,7 +989,7 @@ INT_PTR CJabberDlgDiscovery::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			HWND hwndList = GetDlgItem(m_hwnd, IDC_TREE_DISCO);
 			RECT rcCtl; GetClientRect(hwndList, &rcCtl);
 			RECT rcHdr; GetClientRect(ListView_GetHeader(hwndList), &rcHdr);
-			LVHITTESTINFO lvhti = {0};
+			LVHITTESTINFO lvhti = { 0 };
 			lvhti.pt.x = rcCtl.left + 5;
 			lvhti.pt.y = rcHdr.bottom + 5;
 			int iFirst = ListView_HitTest(hwndList, &lvhti);
@@ -1003,9 +1003,8 @@ INT_PTR CJabberDlgDiscovery::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			XmlNode packet(NULL);
 			{
 				mir_cslock lck(m_proto->m_SDManager.cs());
-				for (int i = iFirst; i <= iLast; i++)
-				{
-					LVITEM lvi = {0};
+				for (int i = iFirst; i <= iLast; i++) {
+					LVITEM lvi = { 0 };
 					lvi.mask = LVIF_PARAM;
 					lvi.iItem = i;
 					ListView_GetItem(hwndList, &lvi);
@@ -1029,13 +1028,12 @@ INT_PTR CJabberDlgDiscovery::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_CONTEXTMENU:
-		if (GetWindowLongPtr((HWND)wParam, GWL_ID) == IDC_TREE_DISCO)
-		{
+		if (GetWindowLongPtr((HWND)wParam, GWL_ID) == IDC_TREE_DISCO) {
 			HWND hwndList = (HWND)wParam;
 			POINT pt = { (signed short)LOWORD(lParam), (signed short)HIWORD(lParam) };
 
 			if ((pt.x == -1) && (pt.y == -1)) {
-				LVITEM lvi = {0};
+				LVITEM lvi = { 0 };
 				lvi.iItem = ListView_GetNextItem(hwndList, -1, LVNI_SELECTED);
 				if (lvi.iItem < 0) return FALSE;
 
@@ -1103,13 +1101,11 @@ INT_PTR CJabberDlgDiscovery::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			return TRUE;
 		}
-
 		break;
 
 	case WM_COMMAND:
-		switch (LOWORD(wParam))
-		{
-			case IDOK:
+		switch (LOWORD(wParam)) {
+		case IDOK:
 			{
 				HWND hwndFocus = GetFocus();
 				if (!hwndFocus) return TRUE;
@@ -1119,13 +1115,12 @@ INT_PTR CJabberDlgDiscovery::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 				else if ((GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_COMBO_NODE) || (GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_COMBO_JID))
 					PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_BUTTON_BROWSE, 0), 0);
-				return TRUE;
 			}
-			case IDCANCEL:
-			{
-				PostMessage(m_hwnd, WM_CLOSE, 0, 0);
-				return TRUE;
-			}
+			return TRUE;
+
+		case IDCANCEL:
+			PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+			return TRUE;
 		}
 		break;
 
