@@ -1157,22 +1157,18 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 		if (((LPNMHDR) lParam)->idFrom == IDC_FONTGROUP) {
 			switch(((NMHDR*)lParam)->code) {
-			case TVN_SELCHANGEDA: // !!!! This needs to be here - both !!
-			case TVN_SELCHANGEDW:
+			case TVN_SELCHANGED:
 				SendMessage(hwndDlg, UM_SETFONTGROUP, 0, 0);
 				break;
 
-			case TVN_DELETEITEMA: // no idea why both TVN_SELCHANGEDA/W should be there but let's keep this both too...
-			case TVN_DELETEITEMW:
-				{
-					TreeItem *treeItem = (TreeItem *)(((LPNMTREEVIEW)lParam)->itemOld.lParam);
-					if (treeItem) {
-						mir_free(treeItem->groupName);
-						mir_free(treeItem->paramName);
-						mir_free(treeItem);
-					}
-					break;
+			case TVN_DELETEITEM:
+				TreeItem *treeItem = (TreeItem *)(((LPNMTREEVIEW)lParam)->itemOld.lParam);
+				if (treeItem) {
+					mir_free(treeItem->groupName);
+					mir_free(treeItem->paramName);
+					mir_free(treeItem);
 				}
+				break;
 			}
 		}
 		break;

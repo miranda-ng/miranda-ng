@@ -579,8 +579,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd h
 		}
 		break;
 
-	case TVN_SELCHANGEDA:
-	case TVN_SELCHANGEDW:
+	case TVN_SELCHANGED:
 	{
 		ModuleTreeInfoStruct *mtis;
 		LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;

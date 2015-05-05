@@ -48,9 +48,7 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 {
 	HWND hwndProto = GetDlgItem(hwnd, IDC_PROTO);
 
-	switch (msg)
-	{
-
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 
@@ -100,16 +98,15 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 
 		case IDC_PROTO:
 			switch (((LPNMHDR)lParam)->code) {
-			case TVN_DELETEITEMA:
-			{
-				NMTREEVIEWA * pnmtv = (NMTREEVIEWA *)lParam;
-				if (pnmtv && pnmtv->itemOld.lParam)
-					mir_free((ProtocolData*)pnmtv->itemOld.lParam);
-			}
-			break;
+			case TVN_DELETEITEM:
+				{
+					NMTREEVIEWA * pnmtv = (NMTREEVIEWA *)lParam;
+					if (pnmtv && pnmtv->itemOld.lParam)
+						mir_free((ProtocolData*)pnmtv->itemOld.lParam);
+				}
+				break;
 
 			case NM_CLICK:
-			{
 				TVHITTESTINFO hti;
 				hti.pt.x = (short)LOWORD(GetMessagePos());
 				hti.pt.y = (short)HIWORD(GetMessagePos());
@@ -129,7 +126,7 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 							SendMessage(GetParent(hwnd), PSM_CHANGED, (WPARAM)hwnd, 0);
 						}
 					}
-				}	}
+				}
 			}
 			break;
 		}

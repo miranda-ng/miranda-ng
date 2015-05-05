@@ -588,8 +588,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		
 		if (lpnmhdr->idFrom == IDC_EXTRAORDER) {
 			switch (lpnmhdr->code) {
-			case TVN_BEGINDRAGW:
-			case TVN_BEGINDRAGA:
+			case TVN_BEGINDRAG:
 				SetCapture(hwndDlg);
 				dragging = 1;
 				hDragItem = ((LPNMTREEVIEWA) lParam)->itemNew.hItem;

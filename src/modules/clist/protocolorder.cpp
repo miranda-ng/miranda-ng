@@ -218,7 +218,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		case IDC_PROTOCOLORDER:
 			switch (((LPNMHDR)lParam)->code) {
-			case TVN_DELETEITEMA:
+			case TVN_DELETEITEM:
 				{
 					NMTREEVIEWA * pnmtv = (NMTREEVIEWA *) lParam;
 					if (pnmtv && pnmtv->itemOld.lParam)
@@ -226,7 +226,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				}
 				break;
 
-			case TVN_BEGINDRAGA:
+			case TVN_BEGINDRAG:
 				SetCapture(hwndDlg);
 				dat->dragging = 1;
 				dat->hDragItem = ((LPNMTREEVIEW)lParam)->itemNew.hItem;
