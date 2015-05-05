@@ -17,6 +17,26 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
+{
+	DBEVENTGETTEXT *pEvent = (DBEVENTGETTEXT *)lParam;
+
+	INT_PTR nRetVal = 0;
+	char *pszText = Translate("Incoming call");
+
+
+	if (pEvent->datatype == DBVT_TCHAR) 
+	{
+		TCHAR *pwszText = _A2T(pszText);
+		nRetVal = (INT_PTR)mir_tstrdup(pwszText);
+	}
+
+	else if (pEvent->datatype == DBVT_ASCIIZ)
+		nRetVal = (INT_PTR)mir_strdup(Translate(pszText));
+
+	return nRetVal;
+}
+
 INT_PTR CSkypeProto::EventGetIcon(WPARAM wParam, LPARAM lParam) // it not work , ????
 {
 	DBEVENTINFO* dbei = (DBEVENTINFO*)lParam;
@@ -56,24 +76,4 @@ void CSkypeProto::InitDBEvents()
 	dbEventType.textService = MODULE"/GetCallText";
 	dbEventType.flags |= DETF_NONOTIFY;
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
-}
-
-INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
-{
-	DBEVENTGETTEXT *pEvent = (DBEVENTGETTEXT *)lParam;
-
-	INT_PTR nRetVal = 0;
-	char *pszText = Translate("Incoming call");
-
-
-	if (pEvent->datatype == DBVT_TCHAR) 
-	{
-		TCHAR *pwszText = _A2T(pszText);
-		nRetVal = (INT_PTR)mir_wstrdup(pwszText);
-	}
-
-	else if (pEvent->datatype == DBVT_ASCIIZ)
-		nRetVal = (INT_PTR)mir_strdup(Translate(pszText));
-
-	return nRetVal;
 }
