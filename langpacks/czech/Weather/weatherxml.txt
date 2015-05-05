@@ -382,3 +382,7 @@ déšť / později sněžení
 déšť (dop.) / sněžení
 [Rain Early]
 k ránu déšť
+[AM Rain]
+déšť (dop.)
+[Pm Rain]
+déšť (odp.)
