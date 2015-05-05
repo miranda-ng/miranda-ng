@@ -78,6 +78,12 @@ CSkypeProto::~CSkypeProto()
 	delete requestQueue;
 	Netlib_CloseHandle(m_hNetlibUser);
 	m_hNetlibUser = NULL;
+
+	if (m_hPopupClassCall)
+		Popup_UnregisterClass(m_hPopupClassCall);
+	if (m_hPopupClassNotify)
+		Popup_UnregisterClass(m_hPopupClassNotify);
+
 	skypeInstances.remove(this);
 }
 
@@ -330,5 +336,5 @@ void CSkypeProto::InitPopups()
 	ppc.colorBack = RGB(255, 255, 255); 
 	ppc.colorText = RGB(0, 0, 0); 
 	ppc.iSeconds = 5;
-	m_hPopupClassCall = Popup_RegisterClass(&ppc);
+	m_hPopupClassNotify = Popup_RegisterClass(&ppc);
 }
