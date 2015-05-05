@@ -92,7 +92,7 @@
 [Can't write to working file, aggressive mode may be too aggressive now]
 Неможливо записати в робочий файл, агресивний режим може бути занадто агресивним
 [Can't write to output file - disk full? (%u)]
-Неможливо записати у файл - диск переповнений? (%u)
+Неможливо записати файл - диск переповнений? (%u)
 [Event count marked wrongly: correcting]
 Кількість подій вказано помилково: виправлення
 [Event chain corrupted, trying to recover...]
