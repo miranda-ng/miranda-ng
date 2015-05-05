@@ -4,7 +4,6 @@ int CToxProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	CToxProto::InitIcons();
 	CToxProto::InitMenus();
-	CToxProto::InitCustomDbEvents();
 
 	hProfileFolderPath = FoldersRegisterCustomPathT("Tox", Translate("Profiles folder"), MIRANDA_USERDATAT);
 
@@ -14,7 +13,7 @@ int CToxProto::OnModulesLoaded(WPARAM, LPARAM)
 void CToxProto::InitCustomDbEvents()
 {
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
-	dbEventType.module = MODULE;
+	dbEventType.module = m_szModuleName;
 	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
 
 	dbEventType.eventType = DB_EVENT_ACTION;
