@@ -99,6 +99,8 @@
 Заблокувати контакт
 [Unblock user icon]
 Розблокувати контакт
+[Incoming call icon]
+Вхідний дзвінок
 [Protocols]
 Протоколи
 [Request authorization]
@@ -121,3 +123,13 @@
 З'єднання %s
 [Action]
 Дія
+[Incoming call sound]
+Вхідний дзвінок
+[Incoming call canceled sound]
+Вхідний дзвінок скасовано
+[Calls]
+Дзвінки
+[Notifications]
+Сповіщення
+[Incoming call from %s]
+Вхідний дзвінок від %s

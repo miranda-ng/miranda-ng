@@ -338,7 +338,7 @@ OpenSSL не завантажений.
 [Delete account confirmation]
 Підтвердження видалення облікового запису
 [Please wait while no account is in use.]
-Будь ласка, почекайте, жоден обліковий запис не використовується.
+Будь ласка, зачекайте, жоден обліковий запис не використовується.
 [This is not a valid number value]
 Неправильне числове значення
 [Input error]

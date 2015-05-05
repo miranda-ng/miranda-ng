@@ -124,7 +124,7 @@
 [Online]
 В мережі
 [Now traffic statistics for selected accounts will be cleared.\nContinue?]
-Усю статистику за вибраними обліковими записами буде очищено\nПродовжити?
+Усю статистику за вибраними обліковими записами буде очищено.\nПродовжити?
 [Couldn't read statistics file]
 Неможливо прочитать файл статистики
 [Traffic Counter]

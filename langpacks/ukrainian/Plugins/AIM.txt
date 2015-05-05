@@ -148,7 +148,7 @@ AIM Встановити Instant Idle
 [Mismatched Screen Name or password.]
 Неправильне ім'я AIM або пароль.
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
-Ви підключаєтесь занадто часто. Почекайте 10 хвилин і спробуйте знову.
+Ви підключаєтесь занадто часто. Зачекайте 10 хвилин і спробуйте знову.
 [Unknown error occurred when attempting to connect.]
 Невідома помилка при з'єднанні.
 [Not supported by server.]

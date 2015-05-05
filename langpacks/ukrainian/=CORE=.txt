@@ -1930,7 +1930,7 @@ URL від %s
 [Information messages]
 Інформаційні повідомлення
 [User enables status for ...]
-Увімкнення статусу ...
+Увімкнення статусу
 [User disables status for ...]
 Вимкнення статусу
 [Action message]
