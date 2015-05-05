@@ -64,7 +64,7 @@ public:
 	static void UninitMenus();
 
 	// events
-	static void InitCustomDbEvents();
+	void InitCustomDbEvents();
 
 	static int OnModulesLoaded(WPARAM, LPARAM);
 
