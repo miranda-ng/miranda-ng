@@ -61,8 +61,6 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	db_set_resident(m_szModuleName, "Trouter_sig");
 	db_set_resident(m_szModuleName, "Trouter_SessId");
 
-	InitDBEvents();
-
 	//hooks
 	m_hCallHook = CreateHookableEvent(MODULE"/IncomingCall");
 
