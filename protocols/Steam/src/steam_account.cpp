@@ -225,7 +225,8 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *)
 	if (response == NULL)
 	{
 		// Probably expired TokenSecret
-		return HandleTokenExpired();
+		HandleTokenExpired();
+		return;
 	}
 
 	JSONROOT root(response->pData);
@@ -235,7 +236,8 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *)
 	if (lstrcmpi(error, L"OK")/* || response->resultCode == HTTP_STATUS_UNAUTHORIZED*/)
 	{
 		// Probably expired TokenSecret
-		return HandleTokenExpired();
+		HandleTokenExpired();
+		return;
 	}
 
 	node = json_get(root, "umqid");
