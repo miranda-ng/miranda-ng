@@ -17,8 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-LIST<CSkypeProto> skypeInstances(1, CSkypeProto::CompareAccounts);
-
 CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 PROTO<CSkypeProto>(protoName, userName), password(NULL)
 {
@@ -81,8 +79,6 @@ CSkypeProto::~CSkypeProto()
 		Popup_UnregisterClass(m_hPopupClassCall);
 	if (m_hPopupClassNotify)
 		Popup_UnregisterClass(m_hPopupClassNotify);
-
-	skypeInstances.remove(this);
 }
 
 DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
