@@ -983,8 +983,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		case IDC_CATEGORYLIST:
 			switch(((NMHDR*)lParam)->code) {
-			case TVN_SELCHANGEDA: // !!!! This needs to be here - both !!
-			case TVN_SELCHANGEDW:
+			case TVN_SELCHANGED:
 				{
 					NMTREEVIEW *pnmtv = (NMTREEVIEW*)lParam;
 					TVITEM tvi = pnmtv->itemNew;
@@ -993,19 +992,18 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						SendMessage(hwndDlg, DM_REBUILDICONSPREVIEW, 0, (LPARAM)(
 							(SECTIONPARAM_FLAGS(treeItem->value)&SECTIONPARAM_HAVEPAGE)?
 							sectionList[ SECTIONPARAM_INDEX(treeItem->value) ] : NULL));
-					break;
 				}
-			case TVN_DELETEITEMA: // no idea why both TVN_SELCHANGEDA/W should be there but let's keep this both too...
-			case TVN_DELETEITEMW:
-				{
-					TreeItem *treeItem = (TreeItem *)(((LPNMTREEVIEW)lParam)->itemOld.lParam);
-					if (treeItem) {
-						mir_free(treeItem->paramName);
-						mir_free(treeItem);
-					}
-					break;
+				break;
+
+			case TVN_DELETEITEM:
+				TreeItem *treeItem = (TreeItem *)(((LPNMTREEVIEW)lParam)->itemOld.lParam);
+				if (treeItem) {
+					mir_free(treeItem->paramName);
+					mir_free(treeItem);
 				}
+				break;
 			}
+
 			if (bNeedRebuild) {
 				{
 					mir_cslock lck(csIconList);

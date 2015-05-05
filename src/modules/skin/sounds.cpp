@@ -376,8 +376,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		case IDC_SOUNDTREE:
 			switch(((NMHDR*)lParam)->code) {
-			case TVN_SELCHANGEDW:
-			case TVN_SELCHANGEDA:
+			case TVN_SELCHANGED:
 				{
 					NMTREEVIEW *pnmtv = (NMTREEVIEW*)lParam;
 					TVITEM tvi = pnmtv->itemNew;

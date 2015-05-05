@@ -231,8 +231,7 @@ BOOL OptionsDialogType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lParam)
 					(LPARAM)TreeView_GetSelection(((LPNMHDR)lParam)->hwndFrom));
 				break;
 
-			case TVN_SELCHANGEDA:
-			case TVN_SELCHANGEDW:
+			case TVN_SELCHANGED:
 				LPNMTREEVIEW pnmtv = (LPNMTREEVIEW) lParam;
 				if (pnmtv->itemNew.state & TVIS_SELECTED)
 					UpdateControls();

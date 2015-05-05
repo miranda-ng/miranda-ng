@@ -418,7 +418,7 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 			break;
 
 		case IDC_NAMEORDER:
-			if (((LPNMHDR)lParam)->code == TVN_BEGINDRAGA) {
+			if (((LPNMHDR)lParam)->code == TVN_BEGINDRAG) {
 				LPNMTREEVIEWA notify = (LPNMTREEVIEWA)lParam;
 				if (notify->itemNew.lParam == 0 || notify->itemNew.lParam == SIZEOF(nameOrderDescr)-1)
 					break;

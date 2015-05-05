@@ -696,16 +696,14 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 		case IDC_TOOLBARTREE:
 			switch (((LPNMHDR)lParam)->code) {
-			case TVN_BEGINDRAGA:
-			case TVN_BEGINDRAGW:
+			case TVN_BEGINDRAG:
 				SetCapture(hwndDlg);
 				drag = 1;
 				hDragItem = ((LPNMTREEVIEW)lParam)->itemNew.hItem;
 				TreeView_SelectItem(hToolBarTree, hDragItem);
 				break;
 
-			case TVN_SELCHANGINGA:
-			case TVN_SELCHANGINGW:
+			case TVN_SELCHANGING:
 				hti = TreeView_GetSelection(hToolBarTree);
 				if (hti != NULL) {
 					TCHAR strbuf[128];
@@ -733,8 +731,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				}
 				break;
 
-			case TVN_SELCHANGEDW:
-			case TVN_SELCHANGEDA:
+			case TVN_SELCHANGED:
 				hti = TreeView_GetSelection(hToolBarTree);
 				if (hti != NULL) {
 					TCHAR strbuf[128];
@@ -1447,4 +1444,3 @@ void CB_DeInitCustomButtons()
 	DestroyServiceFunction(hButtonsBarGetButtonState);
 	DestroyServiceFunction(hButtonsBarSetButtonState);
 }
-

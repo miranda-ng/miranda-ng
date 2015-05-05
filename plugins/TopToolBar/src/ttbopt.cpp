@@ -399,8 +399,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		case IDC_BUTTONORDERTREE:
 			switch (((LPNMHDR)lParam)->code) {
-			case TVN_BEGINDRAGA:
-			case TVN_BEGINDRAGW:
+			case TVN_BEGINDRAG:
 				SetCapture(hwndDlg);
 				dat->dragging = 1;
 				dat->hDragItem = ((LPNMTREEVIEW)lParam)->itemNew.hItem;
@@ -421,8 +420,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				}
 				break;
 
-			case TVN_SELCHANGEDA:
-			case TVN_SELCHANGEDW:
+			case TVN_SELCHANGED:
 				{
 					HTREEITEM hti = TreeView_GetSelection(hTree);
 					if (hti == NULL)
