@@ -25,6 +25,10 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\common.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Steam\*.h" />
+    <None Include="res\*.ico" />
+</ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <ExceptionHandling>Sync</ExceptionHandling>
