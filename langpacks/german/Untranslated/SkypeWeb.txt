@@ -7,6 +7,8 @@
 [&Admin]
 [&User]
 [Call started]
+[Calls]
+[Notifications]
 [Call ended]
 [Create new chat icon]
 [Sync history icon]

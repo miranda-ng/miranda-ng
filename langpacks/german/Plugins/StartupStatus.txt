@@ -66,8 +66,6 @@ Status nach Rückkehr zurücksetzen
 Zurücksetzen des Status bestätigen
 [Only set if current status is]
 Nur setzen bei akt. Status
-[Command line]
-Befehlszeile
 [Copy to clipboard]
 In Zwischenablage kopieren
 [Command line:]

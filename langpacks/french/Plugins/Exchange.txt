@@ -14,8 +14,6 @@ E-mails non-lus
 Fermer
 [Mark as read]
 Marquer comme lu
-[Dialog]
-Dialogue
 [Connection]
 
 [Username:]

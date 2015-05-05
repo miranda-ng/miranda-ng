@@ -8,8 +8,6 @@
 [This plugin imports and creates the Yahoo groups defined in Yahoo Messenger.]
 Імпартуе і стварае гурты Yahoo, існыя ў Yahoo Messenger.
 ;file \plugins\YahooGroups\res\YahooGroups.rc
-[Dialog]
-Гутарка
 [Move Yahoo contacts to groups now]
 Перамясціць кантакты ў гурты
 [Move Yahoo contacts automatically on startup]

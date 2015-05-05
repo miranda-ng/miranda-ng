@@ -13,8 +13,6 @@ Mensajes de correo no leídos
 Cerrar
 [Mark as read]
 Marcar como leído
-[Dialog]
-Diálogo
 [Connection]
 Conexión
 [Username:]

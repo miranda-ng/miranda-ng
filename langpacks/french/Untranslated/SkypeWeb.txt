@@ -39,4 +39,5 @@
 [Action]
 [Incoming call sound]
 [Incoming call canceled sound]
+[Calls]
 [Incoming call from %s]

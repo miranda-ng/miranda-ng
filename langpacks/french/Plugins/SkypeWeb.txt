@@ -137,6 +137,10 @@ Réseau
 
 [Incoming call canceled sound]
 
+[Calls]
+
+[Notifications]
+Notifications
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Incoming call from %s]
 

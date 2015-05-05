@@ -66,8 +66,6 @@ AutoAway - плагін з пашыраным наборам функцый.
 Пацвердзіць скід статусу
 [Only set if current status is]
 Толькі калі статус:
-[Command line]
-Камандны радок
 [Copy to clipboard]
 Капіяваць у буфер
 [Command line:]

@@ -1,5 +1,4 @@
 ﻿[Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
-[BossKey]
 [When I press the hotkey:]
 [Change status to]
 [Change only if current status is Online]
@@ -23,4 +22,5 @@
 [Hide Miranda NG]
 [Hide]
 [Hide/Show Miranda]
+[BossKey]
 [get the BossKey name]

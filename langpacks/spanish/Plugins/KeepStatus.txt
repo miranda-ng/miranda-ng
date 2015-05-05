@@ -61,8 +61,6 @@ Restablecer el estado al volver
 Confirmar el reajuste de estado
 [Only set if current status is]
 Sólo establecer si el estado actual es
-[Command line]
-Línea de comandos
 [Copy to clipboard]
 Copiar al portapapeles
 [Command line:]

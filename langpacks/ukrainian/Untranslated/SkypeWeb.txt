@@ -1,4 +1,6 @@
 ﻿[Incoming call icon]
 [Incoming call sound]
 [Incoming call canceled sound]
+[Calls]
+[Notifications]
 [Incoming call from %s]

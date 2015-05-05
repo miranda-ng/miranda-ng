@@ -137,6 +137,10 @@ Aktion
 
 [Incoming call canceled sound]
 
+[Calls]
+
+[Notifications]
+
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Incoming call from %s]
 Eingehender Anruf von %s

@@ -1,5 +1,4 @@
 ﻿[Displays popups for custom events, triggered by UDP packages.]
-[Property Page]
 [Only listen to localhost]
 [(Default is 12001)]
 [Allow actions to execute programs]

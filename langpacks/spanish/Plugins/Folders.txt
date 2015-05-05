@@ -5,8 +5,6 @@
 ;  Version: 0.2.0.1
 ;  Authors: Cristian Libotean, Miranda NG Team
 ;============================================================
-[Dialog]
-Diálogo
 [Preview]
 Previsualizar
 [Edit]

@@ -98,8 +98,6 @@ Weitersuchen
 Suchen nach:
 [Search was completed.]
 Suche wurde beendet.
-[Alert options]
-Alarm-Einstellungen
 [Events and alerts]
 Ereignisse and Alarm
 [Enable alerts]
@@ -250,6 +248,8 @@ Aus Zwischenspeicher
 ;file \plugins\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
 FEHLER: Sie haben zwei oder mehr Webview-Kontakte mit demselben URL und Kontaktnamen.
+[Alert options]
+Alarm-Einstellungen
 [Stop processing]
 Verarbeitung stoppen
 [Click here to open this URL in a browser window.]

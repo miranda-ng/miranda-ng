@@ -8,8 +8,6 @@
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
 Дазваляе па націску "гарачай клавішы" хаваць Міранду ад старонніх вачэй.
 ;file \plugins\BossKeyPlus\res\BossKey.rc
-[BossKey]
-АнтыБос
 [Go to Customize -> Hotkeys to change the hotkey]
 Налада ў Тонкая налада -> Гарачыя клавішы
 [When I press the hotkey:]
@@ -67,6 +65,8 @@ Windows не актыўны
 Схаваць
 [Hide/Show Miranda]
 Схаваць/Паказаць Miranda
+[BossKey]
+АнтыБос
 [get the BossKey name]
 атрымаць імя BossKey
 ;file \plugins\BossKeyPlus\src\Options.cpp
