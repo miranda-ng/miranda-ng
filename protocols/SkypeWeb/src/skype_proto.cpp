@@ -51,6 +51,15 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());
 
 	db_set_resident(m_szModuleName, "Status");
+	db_set_resident(m_szModuleName, "Trouter_ccid"); 
+	db_set_resident(m_szModuleName, "Trouter_connId");
+	db_set_resident(m_szModuleName, "Trouter_instance");
+	db_set_resident(m_szModuleName, "Trouter_socketio");
+	db_set_resident(m_szModuleName, "Trouter_url");
+	db_set_resident(m_szModuleName, "Trouter_st");
+	db_set_resident(m_szModuleName, "Trouter_se");
+	db_set_resident(m_szModuleName, "Trouter_sig");
+	db_set_resident(m_szModuleName, "Trouter_SessId");
 
 	// custom event
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
@@ -79,6 +88,8 @@ CSkypeProto::~CSkypeProto()
 	Netlib_CloseHandle(m_hNetlibUser);
 	m_hNetlibUser = NULL;
 
+	if (m_hCallHook)
+		DestroyHookableEvent(m_hCallHook);
 	if (m_hPopupClassCall)
 		Popup_UnregisterClass(m_hPopupClassCall);
 	if (m_hPopupClassNotify)

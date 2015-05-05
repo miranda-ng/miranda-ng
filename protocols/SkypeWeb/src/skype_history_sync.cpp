@@ -197,6 +197,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 	if (response == NULL)
 		return;
 	JSONROOT root(response->pData);
+
 	if (root == NULL)
 		return;
 
@@ -209,6 +210,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 	if (totalCount >= 99 || json_size(conversations) >= 99)
 		PushRequest(new SyncHistoryFirstRequest(syncState, RegToken), &CSkypeProto::OnSyncHistory);
 
+	bool autoSyncEnabled = getByte("AutoSync", 1);
 	
 	for (size_t i = 0; i < json_size(conversations); i++)
 	{
@@ -228,12 +230,14 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
 		{
-			if (!getByte("AutoSync", 1)) continue;
-			skypename = ContactUrlToName(conversationLink);
-			MCONTACT hContact = AddContact(skypename, true);
+			if (autoSyncEnabled)
+			{
+				skypename = ContactUrlToName(conversationLink);
+				MCONTACT hContact = AddContact(skypename, true);
 
-			if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
-				PushRequest(new GetHistoryRequest(RegToken, skypename, 100, false, 0, Server), &CSkypeProto::OnGetServerHistory);
+				if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
+					PushRequest(new GetHistoryRequest(RegToken, skypename, 100, false, 0, Server), &CSkypeProto::OnGetServerHistory);
+			}
 		}
 		else if (conversationLink != NULL && strstr(conversationLink, "/19:"))
 		{

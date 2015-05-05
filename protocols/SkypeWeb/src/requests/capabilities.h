@@ -29,7 +29,8 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
 
-		int bitness = 32;
+		short bitness = 32;
+
 		char compName[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD size = SIZEOF(compName);
 		GetComputerNameA(compName, &size);
