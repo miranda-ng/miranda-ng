@@ -72,7 +72,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	CSkypeProto::InitIcons();
 	CSkypeProto::InitMenus();
 	CSkypeProto::InitLanguages();
-
+	CreateServiceFunction(MODULE"/GetEventIcon", &CSkypeProto::EventGetIcon);
+	CreateServiceFunction(MODULE"/GetCallText", &CSkypeProto::GetCallEventText);
 	HookEvent(ME_SYSTEM_MODULESLOADED, &CSkypeProto::OnModulesLoaded);
 
 	return 0;

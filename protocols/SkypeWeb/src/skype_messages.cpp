@@ -66,14 +66,13 @@ MEVENT CSkypeProto::AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD fla
 	return AddEventToDb(hContact, emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, timestamp, flags, (DWORD)cbBlob, pBlob);
 }
 
-MEVENT CSkypeProto::AddCallToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *callId)
+MEVENT CSkypeProto::AddCallToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *callId, const char *gp)
 {
-	const char *message = Translate("Incoming call");
 	size_t callIdLength = mir_strlen(callId);
-	size_t messageLength = mir_strlen(message) + 1;
+	size_t messageLength = mir_strlen(gp) + 1;
 	size_t cbBlob = messageLength + callIdLength;
 	PBYTE pBlob = (PBYTE)mir_alloc(cbBlob);
-	memcpy(pBlob, message, messageLength);
+	memcpy(pBlob, gp, messageLength);
 	memcpy(pBlob + messageLength, callId, callIdLength);
 
 	return AddEventToDb(hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL, timestamp, flags, (DWORD)cbBlob, pBlob);

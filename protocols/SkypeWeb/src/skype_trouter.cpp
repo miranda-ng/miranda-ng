@@ -131,6 +131,7 @@ void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *headers)
 	ptrT displayname(json_as_string(json_get(body, "displayName")));
 	ptrT cuid(json_as_string(json_get(body, "callerId")));
 	ptrT uid(json_as_string(json_get(body, "conversationId")));
+	ptrT gp(json_as_string(json_get(body, "gp")));
 	int evt = json_as_int(json_get(body, "evt"));
 
 	switch (evt)
@@ -142,7 +143,7 @@ void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *headers)
 			{
 				MCONTACT hContact = AddContact(_T2A(uid), true);
 
-				MEVENT hEvent = AddCallToDb(hContact, time(NULL), DBEF_READ, callId);
+				MEVENT hEvent = AddCallToDb(hContact, time(NULL), DBEF_READ, callId, _T2A(gp));
 				SkinPlaySound("skype_inc_call");
 
 				CLISTEVENT cle = { sizeof(cle) };
