@@ -8,8 +8,6 @@
 [Allows plugins to save their data to user selected folders; supports variables.]
 Дазваляе іншым плагiнам захоўваць свае дадзеныя ў адвольных тэчках. Падтрымліваюцца зменныя.
 ;file \plugins\Folders\res\folders.rc
-[Dialog]
-Гутарка
 [Custom folders]
 Тэчкі
 [Preview]

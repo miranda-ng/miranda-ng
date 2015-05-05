@@ -25,7 +25,6 @@
 [Contact is always visible]
 [Unless Non-IM Contacts protocol is OFFLINE]
 [Timer Intervals.  ]
-[Dialog]
 [Away as another status]
 [Disable timer]
 [Timer interval (in seconds)]

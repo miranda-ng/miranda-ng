@@ -8,8 +8,6 @@
 [Sticky Notes & Reminders Implementation for Miranda NG.]
 Нататкі і напамінкі для Miranda NG.
 ;file \plugins\NotesAndReminders\res\resource.rc
-[Sticky Notes Options]
-Налады нататак
 [Default Note Size]
 Памер нататкі
 [Width (Pixels)]

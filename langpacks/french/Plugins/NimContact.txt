@@ -62,8 +62,6 @@ Contact toujours visible
 Sauf si le protocole Non-IM est Hors ligne
 [Timer Intervals.  ]
 
-[Dialog]
-Dialogue
 [Away as another status]
 
 [Disable timer]

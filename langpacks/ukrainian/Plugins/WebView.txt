@@ -95,8 +95,6 @@
 Знайти:
 [Search was completed.]
 Пошук закінчено.
-[Alert options]
-Налаштування сповіщення
 [Events and alerts]
 Події та сповіщення
 [Enable alerts]
@@ -243,6 +241,8 @@
 Завантажено з кешу
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
 ПОМИЛКА: У вас є два або більше контактів WebView з однаковою URL-адресою та ім'ям контакту.
+[Alert options]
+Налаштування сповіщення
 [Stop processing]
 Зупинити обробку
 [Click here to open this URL in a browser window.]

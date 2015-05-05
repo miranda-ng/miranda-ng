@@ -7,8 +7,6 @@
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
 Нотатки та нагадування для Miranda NG.
-[Sticky Notes Options]
-Налаштування
 [Default Note Size]
 Розмір нотатки
 [Width (Pixels)]

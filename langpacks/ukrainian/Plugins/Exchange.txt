@@ -13,8 +13,6 @@
 Закрити
 [Mark as read]
 Позначити як прочитане
-[Dialog]
-Діалог
 [Connection]
 Підключення
 [Username:]

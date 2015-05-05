@@ -7,8 +7,6 @@
 ;============================================================
 [Displays popups for custom events, triggered by UDP packages.]
 Сповіщає в спливаючих вікнах про різні події, викликані UDP-пакетами.
-[Property Page]
-Властивості
 [Security]
 Безпека
 [Only listen to localhost]

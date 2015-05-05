@@ -60,8 +60,6 @@
 схаваць, калі не-IM пратакол не ў сеткі
 [Timer Intervals.  ]
 Час затрымкі.
-[Dialog]
-Гутарка
 [Away as another status]
 Адсутнічаю, як іншы статус
 [Disable timer]

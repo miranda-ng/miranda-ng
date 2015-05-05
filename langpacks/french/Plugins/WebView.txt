@@ -98,8 +98,6 @@ Chercher
 Chercher :
 [Search was completed.]
 
-[Alert options]
-
 [Events and alerts]
 
 [Enable alerts]
@@ -249,6 +247,8 @@ Popups
 
 ;file \plugins\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
+
+[Alert options]
 
 [Stop processing]
 

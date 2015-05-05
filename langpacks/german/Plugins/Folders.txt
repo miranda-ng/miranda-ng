@@ -8,8 +8,6 @@
 [Allows plugins to save their data to user selected folders; supports variables.]
 Dienst, welcher es Plugins erlaubt Daten in vom Nutzer gewählten Verzeichnissen zu speichern. Unterstützt das Variables-Plugin.
 ;file \plugins\Folders\res\folders.rc
-[Dialog]
-Dialog
 [Custom folders]
 Eigene Ordner
 [Preview]

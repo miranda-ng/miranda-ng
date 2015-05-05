@@ -14,8 +14,6 @@
 Зачыніць
 [Mark as read]
 Адзначыць як прачытанае
-[Dialog]
-Гутарка
 [Connection]
 Далучэнне
 [Username:]

@@ -14,8 +14,6 @@ Ungelesene E-Mails
 Schließen
 [Mark as read]
 Als gelesen markieren
-[Dialog]
-Dialog
 [Connection]
 Verbindung
 [Username:]

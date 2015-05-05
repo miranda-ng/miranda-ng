@@ -11,8 +11,6 @@ URL
 Enlace
 [Group:]
 Grupo:
-[Dialog]
-Diálogo
 [&Exit]
 &Salir
 [Help]

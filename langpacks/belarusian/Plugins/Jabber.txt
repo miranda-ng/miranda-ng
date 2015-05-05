@@ -672,7 +672,7 @@ xHTML фармат чат-паведамленняў
 Рэальны JID: %s
 [%s (not on roster)]
 %s (не ў росцеры)
-[%s from\n%s] 
+[%s from\n%s]
 %s з\n%s
 [Real JID not available]
 Сапраўдны JID недасяжны

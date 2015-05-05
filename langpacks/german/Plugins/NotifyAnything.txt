@@ -8,8 +8,6 @@
 [Displays popups for custom events, triggered by UDP packages.]
 Zeigt Popups für eigene Ereignisse, ausgelöst durch UDP-Pakete.
 ;file \plugins\NotifyAnything\res\NotifyAnything.rc
-[Property Page]
-Eigenschaftenseite
 [Security]
 Sicherheit
 [Only listen to localhost]

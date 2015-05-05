@@ -7,8 +7,6 @@
 ;============================================================
 [Allows plugins to save their data to user selected folders; supports variables.]
 Дозволяє іншим плагінам зберігати свої дані в довільних папках. Підтримуються змінні.
-[Dialog]
-Діалог
 [Custom folders]
 Папки
 [Preview]
