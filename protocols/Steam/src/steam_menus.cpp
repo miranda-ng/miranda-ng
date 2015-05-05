@@ -135,7 +135,7 @@ void CSteamProto::OnInitStatusMenu()
 
 void CSteamProto::InitMenus()
 {
-	hChooserMenu = MO_CreateMenuObject("SkypeAccountChooser", LPGEN("Steam menu chooser"), 0, "Steam/MenuChoose");
+	hChooserMenu = MO_CreateMenuObject("SteamAccountChooser", LPGEN("Steam menu chooser"), 0, "Steam/MenuChoose");
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization

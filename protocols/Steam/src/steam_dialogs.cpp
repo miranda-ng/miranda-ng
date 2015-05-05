@@ -205,12 +205,10 @@ void CSteamOptionsMain::OnApply()
 	if (m_username.IsChanged())
 	{
 		m_proto->delSetting("SteamID");
-		m_proto->delSetting("Cookies");
 		m_proto->delSetting("TokenSecret");
 	}
 	if (m_password.IsChanged())
 	{
-		m_proto->delSetting("Cookie");
 		m_proto->delSetting("TokenSecret");
 	}
 	mir_free(group);

@@ -183,7 +183,7 @@ void CSteamProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 		ppd.lchContact = hContact;
 		wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
 		wcsncpy(ppd.lpwzText, message, MAX_SECONDLINE);
-		ppd.lchIcon = ::Skin_GetIcon("Skype_main");
+		ppd.lchIcon = ::Skin_GetIcon(MODULE"_main");
 
 		if (!PUAddPopupW(&ppd))
 			return;
