@@ -192,3 +192,5 @@
 [Rain / Snow Late]
 [Am Rain / Snow]
 [Rain Early]
+[AM Rain]
+[Pm Rain]
