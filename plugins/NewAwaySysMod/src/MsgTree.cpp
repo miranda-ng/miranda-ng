@@ -70,8 +70,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->hwndFrom == dat->hTreeView) {
 			switch (((LPNMHDR)lParam)->code) {
-			case TVN_BEGINDRAGA:
-			case TVN_BEGINDRAGW:
+			case TVN_BEGINDRAG:
 				{
 					LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
 					NMMSGTREE nm = { 0 };
@@ -92,8 +91,8 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 					}
 				}
 				break;
-			case TVN_SELCHANGEDA:
-			case TVN_SELCHANGEDW:
+
+			case TVN_SELCHANGED:
 				if (dat->UpdateLock)
 					return 0;
 				else {
@@ -119,8 +118,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 				}
 				break;
 
-			case TVN_BEGINLABELEDITA:
-			case TVN_BEGINLABELEDITW:
+			case TVN_BEGINLABELEDIT:
 				if (dat->GetTreeCtrl()->IDToOrder(((LPNMTVDISPINFO)lParam)->item.lParam) < 0)
 					return true; // cancel editing
 

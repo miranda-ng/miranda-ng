@@ -396,7 +396,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 
 	case 2: // restore saved
 		if (GetValue(NULL, modname, "LastModule", SelectedModule, SIZEOF(SelectedModule))) {
-			hSelectedContact = db_get_dw(NULL, modname, "LastContact", (DWORD)INVALID_HANDLE_VALUE);
+			hSelectedContact = db_get_dw(NULL, modname, "LastContact", INVALID_CONTACT_ID);
 			if (hSelectedContact != INVALID_CONTACT_ID)
 				Select = 1;
 			GetValue(NULL, modname, "LastSetting", SelectedSetting, SIZEOF(SelectedSetting));
@@ -534,8 +534,7 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam);
 void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd here is to the main window, NOT the treview
 {
 	switch (((NMHDR *)lParam)->code) {
-	case TVN_ITEMEXPANDINGA:
-	case TVN_ITEMEXPANDINGW:
+	case TVN_ITEMEXPANDING:
 		if (populating && ((LPNMTREEVIEW)lParam)->action == TVE_EXPAND) {
 			ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)((LPNMTREEVIEW)lParam)->itemNew.lParam;
 			if (mtis && (mtis->type == (CONTACT | EMPTY))) {
@@ -580,119 +579,117 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd h
 		break;
 
 	case TVN_SELCHANGED:
-	{
-		ModuleTreeInfoStruct *mtis;
-		LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
-		TVITEM tvi = { 0 };
-		char text[264];
-		MCONTACT hContact;
-		HWND hwnd2Settings = GetDlgItem(hwnd, IDC_SETTINGS);
-		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
-		tvi.hItem = pnmtv->itemNew.hItem;
-		tvi.pszText = text;
-		tvi.cchTextMax = SIZEOF(text);
-		TreeView_GetItem(pnmtv->hdr.hwndFrom, &tvi);
+		{
+			ModuleTreeInfoStruct *mtis;
+			LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
+			TVITEM tvi = { 0 };
+			char text[264];
+			MCONTACT hContact;
+			HWND hwnd2Settings = GetDlgItem(hwnd, IDC_SETTINGS);
+			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
+			tvi.hItem = pnmtv->itemNew.hItem;
+			tvi.pszText = text;
+			tvi.cchTextMax = SIZEOF(text);
+			TreeView_GetItem(pnmtv->hdr.hwndFrom, &tvi);
 
-		if (tvi.lParam) {
-			mtis = (ModuleTreeInfoStruct *)tvi.lParam;
-			hContact = mtis->hContact;
+			if (tvi.lParam) {
+				mtis = (ModuleTreeInfoStruct *)tvi.lParam;
+				hContact = mtis->hContact;
 
-			if (mtis->type == STUB)
-				break;
+				if (mtis->type == STUB)
+					break;
 
-			if (populating)
-				Select = 0;
+				if (populating)
+					Select = 0;
 
-			if (mtis->type == MODULE) {
-				SettingListInfo *info = (SettingListInfo *)GetWindowLongPtr(hwnd2Settings, GWLP_USERDATA);
-				BOOL refresh = 1;
+				if (mtis->type == MODULE) {
+					SettingListInfo *info = (SettingListInfo *)GetWindowLongPtr(hwnd2Settings, GWLP_USERDATA);
+					BOOL refresh = 1;
 
-				if (info) {
-					if (info->hContact == hContact && !mir_strcmp(info->module, text))
-						refresh = 0;
-				}
-
-				if (refresh)
-					PopulateSettings(hwnd2Settings, hContact, text);
-			}
-			else if (((mtis->type & CONTACT) == CONTACT && hContact) || (mtis->type == CONTACT_ROOT_ITEM && !hContact)) {
-				char data[32], szProto[256];
-				int index, loaded, multi = 0;
-				LVITEM lvi = { 0 };
-				lvi.mask = LVIF_IMAGE | LVIF_TEXT | LVIF_PARAM;
-				lvi.iImage = 6;
-
-				ClearListview(hwnd2Settings);
-				SetWindowLongPtr(hwnd2Settings, GWLP_USERDATA, 0);
-				if (himl2)
-					ListView_SetImageList(hwnd2Settings, himl2, LVSIL_SMALL);
-
-				if (mtis->type == CONTACT_ROOT_ITEM && !hContact) {
-					multi = 1;
-					hContact = db_find_first();
-				}
-
-				while (hContact && hwnd2mainWindow) {
-					if (multi) {
-						// filter
-						if (GetValue(hContact, "Protocol", "p", szProto, SIZEOF(szProto)))
-							loaded = IsProtocolLoaded(szProto);
-						else
-							loaded = 0;
-
-						if ((loaded && Mode == MODE_UNLOADED) || (!loaded && Mode == MODE_LOADED)) {
-							hContact = db_find_next(hContact);
-							continue;
-						}
+					if (info) {
+						if (info->hContact == hContact && !mir_strcmp(info->module, text))
+							refresh = 0;
 					}
 
-					lvi.iItem = 0;
-					lvi.pszText = (char *)GetContactName(hContact, NULL, FALSE);
-
-					index = ListView_InsertItem(hwnd2Settings, &lvi);
-
-					mir_snprintf(data, SIZEOF(data), "0x%08X (%ld)", hContact, hContact);
-
-					ListView_SetItemText(hwnd2Settings, index, 1, data);
-					ListView_SetItemText(hwnd2Settings, index, 2, Translate("HANDLE"));
-					ListView_SetItemText(hwnd2Settings, index, 3, "0x0004 (4)");
-
-					if (!multi)
-						break;
-
-					hContact = db_find_next(hContact);
+					if (refresh)
+						PopulateSettings(hwnd2Settings, hContact, text);
 				}
+				else if (((mtis->type & CONTACT) == CONTACT && hContact) || (mtis->type == CONTACT_ROOT_ITEM && !hContact)) {
+					char data[32], szProto[256];
+					int index, loaded, multi = 0;
+					LVITEM lvi = { 0 };
+					lvi.mask = LVIF_IMAGE | LVIF_TEXT | LVIF_PARAM;
+					lvi.iImage = 6;
+
+					ClearListview(hwnd2Settings);
+					SetWindowLongPtr(hwnd2Settings, GWLP_USERDATA, 0);
+					if (himl2)
+						ListView_SetImageList(hwnd2Settings, himl2, LVSIL_SMALL);
+
+					if (mtis->type == CONTACT_ROOT_ITEM && !hContact) {
+						multi = 1;
+						hContact = db_find_first();
+					}
+
+					while (hContact && hwnd2mainWindow) {
+						if (multi) {
+							// filter
+							if (GetValue(hContact, "Protocol", "p", szProto, SIZEOF(szProto)))
+								loaded = IsProtocolLoaded(szProto);
+							else
+								loaded = 0;
+
+							if ((loaded && Mode == MODE_UNLOADED) || (!loaded && Mode == MODE_LOADED)) {
+								hContact = db_find_next(hContact);
+								continue;
+							}
+						}
+
+						lvi.iItem = 0;
+						lvi.pszText = (char *)GetContactName(hContact, NULL, FALSE);
+
+						index = ListView_InsertItem(hwnd2Settings, &lvi);
+
+						mir_snprintf(data, SIZEOF(data), "0x%08X (%ld)", hContact, hContact);
+
+						ListView_SetItemText(hwnd2Settings, index, 1, data);
+						ListView_SetItemText(hwnd2Settings, index, 2, Translate("HANDLE"));
+						ListView_SetItemText(hwnd2Settings, index, 3, "0x0004 (4)");
+
+						if (!multi)
+							break;
+
+						hContact = db_find_next(hContact);
+					}
+				}
+				else
+					ClearListview(hwnd2Settings);
 			}
-			else
+			else // clear any settings that may be there...
 				ClearListview(hwnd2Settings);
 		}
-		else // clear any settings that may be there...
-			ClearListview(hwnd2Settings);
-	}
-	break; //TVN_SELCHANGED:
+		break; //TVN_SELCHANGED:
 
 	case NM_RCLICK:
 		if (((NMHDR *)lParam)->code == NM_RCLICK)
 			moduleListRightClick(hwnd, wParam, lParam);
 		break;
 
-	case TVN_BEGINLABELEDITA: // subclass it..
-	case TVN_BEGINLABELEDITW:
-	{
-		LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)lParam;
-		ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)ptvdi->item.lParam;
-		HWND hwnd2Edit = TreeView_GetEditControl(GetDlgItem(hwnd, IDC_MODULES));
-		if (!mtis->type || (mtis->type == CONTACT)) {
-			SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
-			break;
+	case TVN_BEGINLABELEDIT: // subclass it..
+		{
+			LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)lParam;
+			ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)ptvdi->item.lParam;
+			HWND hwnd2Edit = TreeView_GetEditControl(GetDlgItem(hwnd, IDC_MODULES));
+			if (!mtis->type || (mtis->type == CONTACT)) {
+				SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
+				break;
+			}
+			mir_subclassWindow(hwnd2Edit, ModuleTreeLabelEditSubClassProc);
+			SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
 		}
-		mir_subclassWindow(hwnd2Edit, ModuleTreeLabelEditSubClassProc);
-		SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
-	}
-	break;
+		break;
 
-	case TVN_ENDLABELEDITA:
-	case TVN_ENDLABELEDITW:
+	case TVN_ENDLABELEDIT:
 		LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)lParam;
 		TVITEM tvi = { 0 };
 		char text[264];

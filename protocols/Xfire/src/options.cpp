@@ -481,15 +481,15 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_NOTIFY:
-	{
 		switch (((LPNMHDR)lParam)->idFrom)
 		{
 		case IDC_TREE:
 		{
 			switch (((NMHDR*)lParam)->code) { //wenn was geändert wurde, apply aktivieren
-			case TVN_SELCHANGEDA:
+			case TVN_SELCHANGED:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
+			
 			case TVN_KEYDOWN: //tastatursteuerung
 			{
 				NMTVKEYDOWN* ptkd = (NMTVKEYDOWN*)lParam;
@@ -512,7 +512,7 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 			}
 		}
-		}
+
 		switch (((LPNMHDR)lParam)->code)
 		{
 		case PSN_APPLY:

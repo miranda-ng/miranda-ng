@@ -475,8 +475,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 		case IDC_TREE1:
 			switch (((LPNMHDR)lParam)->code) {
-			case TVN_SELCHANGEDA:
-			case TVN_SELCHANGEDW:
+			case TVN_SELCHANGED:
 				PostMessage(hwnd, WM_USER, 0, 0);
 				break;
 			}
