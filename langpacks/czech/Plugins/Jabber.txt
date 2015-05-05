@@ -1510,8 +1510,6 @@ XMPP (zabezpečená síť, starší typ)
 Google Talk!
 [LiveJournal Talk]
 LiveJournal Talk
-[Facebook Chat]
-Facebook Chat
 [Odnoklassniki]
 Odnoklassniki
 [Some changes will take effect the next time you connect to the Jabber network.]

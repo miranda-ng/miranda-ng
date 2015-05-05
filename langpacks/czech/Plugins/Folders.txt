@@ -8,8 +8,6 @@
 [Allows plugins to save their data to user selected folders; supports variables.]
 
 ;file \plugins\Folders\res\folders.rc
-[Dialog]
-Dialog
 [Custom folders]
 Vlastní složky
 [Preview]

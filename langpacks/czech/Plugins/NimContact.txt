@@ -62,8 +62,6 @@ Skupina:
 
 [Timer Intervals.  ]
 
-[Dialog]
-Dialog
 [Away as another status]
 
 [Disable timer]
