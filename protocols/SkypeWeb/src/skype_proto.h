@@ -100,11 +100,17 @@ private:
 	static INT_PTR CALLBACK PasswordEditorProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	HANDLE 
-		m_hPopupClassCall;
+		m_hPopupClassCall,
+		m_hPopupClassNotify;
 
 	// accounts
 
-	char *Server, *RegToken, *TokenSecret, *EndpointId, *SelfSkypeName;
+	char 
+		*Server, 
+		*RegToken, 
+		*TokenSecret, 
+		*EndpointId, 
+		*SelfSkypeName;
 
 	static CSkypeProto* GetContactAccount(MCONTACT hContact);
 
