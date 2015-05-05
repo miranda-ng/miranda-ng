@@ -19,15 +19,30 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL || response->pData == NULL)
+	{
+		ShowNotification(_A2T(m_szModuleName), _T("Failed establish a TRouter connection."));
 		return;
-
+	}
 	JSONROOT root(response->pData);
+
+	if (root == NULL)
+	{
+		ShowNotification(_A2T(m_szModuleName), _T("Failed establish a TRouter connection."));
+		return;
+	}
 
 	ptrA ccid(mir_t2a(ptrT(json_as_string(json_get(root, "ccid")))));
 	ptrA connId(mir_t2a(ptrT(json_as_string(json_get(root, "connId")))));
 	ptrA instance(mir_t2a(ptrT(json_as_string(json_get(root, "instance")))));
 	ptrA socketio(mir_t2a(ptrT(json_as_string(json_get(root, "socketio")))));
 	ptrA url(mir_t2a(ptrT(json_as_string(json_get(root, "url")))));
+
+	if (ccid == NULL || connId == NULL || instance == NULL || socketio == NULL || url == NULL)
+	{
+		ShowNotification(_A2T(m_szModuleName), _T("Failed establish a TRouter connection."));
+		return;
+	}
+
 	setString("Trouter_ccid", ccid); 
 	setString("Trouter_connId", connId);
 	setString("Trouter_instance", instance);
@@ -40,13 +55,29 @@ void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL || response->pData == NULL)
+	{
+		ShowNotification(_A2T(m_szModuleName), _T("Failed establish a TRouter connection."));
 		return;
+	}
 
 	JSONROOT root(response->pData);
+
+	if (root == NULL)
+	{
+		ShowNotification(_A2T(m_szModuleName), _T("Failed establish a TRouter connection."));
+		return;
+	}
 
 	ptrA st(mir_t2a(ptrT(json_as_string(json_get(root, "st")))));
 	ptrA se(mir_t2a(ptrT(json_as_string(json_get(root, "se")))));
 	ptrA sig(mir_t2a(ptrT(json_as_string(json_get(root, "sig")))));
+
+	if (st == NULL || se == NULL || sig == NULL)
+	{
+		ShowNotification(_A2T(m_szModuleName), _T("Failed establish a TRouter connection."));
+		return;
+	}
+
 	setString("Trouter_st", st);
 	setString("Trouter_se", se);
 	setString("Trouter_sig", sig);
@@ -66,8 +97,10 @@ void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p)
 {
 	if (response == NULL || response->pData == NULL)
+	{
+		ShowNotification(_A2T(m_szModuleName), _T("Failed establish a TRouter connection."));
 		return;
-
+	}
 	bool isHealth = (bool)p;
 
 	CMStringA data(response->pData);
@@ -145,7 +178,6 @@ void CSkypeProto::TRouterThread(void*)
 	debugLogA(__FUNCTION__": entering");
 
 	int errors = 0;
-	isTerminated = false;
 
 	ptrA socketIo(getStringA("Trouter_socketio"));
 	ptrA connId(getStringA("Trouter_connId"));
