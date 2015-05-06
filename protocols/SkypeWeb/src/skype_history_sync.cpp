@@ -109,9 +109,6 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				//content=<partlist type="started" alt=""><part identity="username"><name>user name</name></part></partlist>
 				int iType = 3, iDuration = 0;
 				ptrA skypename(ContactUrlToName(from));
-				bool isMe = IsMe(skypename);
-				if (isMe)
-					flags |= DBEF_SENT;
 				HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("partlist"));
 				if (xml != NULL) 
 				{
