@@ -38,7 +38,7 @@ MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, L
 		dbei.pBlob = blob;
 		db_event_get(hDbEvent, &dbei);
 
-		if (dbei.eventType != EVENTTYPE_MESSAGE && dbei.eventType != SKYPE_DB_EVENT_TYPE_ACTION)
+		if (dbei.eventType != EVENTTYPE_MESSAGE && dbei.eventType != SKYPE_DB_EVENT_TYPE_ACTION && dbei.eventType != SKYPE_DB_EVENT_TYPE_CALL_INFO)
 			continue;
 
 		size_t cbLen = strlen((char*)dbei.pBlob);
@@ -64,6 +64,20 @@ MEVENT CSkypeProto::AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD fla
 	memcpy(pBlob + messageLength, messageId, messageIdLength);
 
 	return AddEventToDb(hContact, emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, timestamp, flags, (DWORD)cbBlob, pBlob);
+}
+
+MEVENT CSkypeProto::AddCallInfoToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content)
+{
+	if (MEVENT hDbEvent = GetMessageFromDb(hContact, messageId, timestamp))
+		return hDbEvent;
+	size_t messageLength = mir_strlen(content) + 1;
+	size_t messageIdLength = mir_strlen(messageId);
+	size_t cbBlob = messageLength + messageIdLength;
+	PBYTE pBlob = (PBYTE)mir_alloc(cbBlob);
+	memcpy(pBlob, content, messageLength);
+	memcpy(pBlob + messageLength, messageId, messageIdLength);
+
+	return AddEventToDb(hContact,SKYPE_DB_EVENT_TYPE_CALL_INFO, timestamp, flags, (DWORD)cbBlob, pBlob);
 }
 
 MEVENT CSkypeProto::AddCallToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *callId, const char *gp)
@@ -321,10 +335,11 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 			csec.AppendFormat(sec < 10 ? "0%d" : "%d", sec);
 			text.AppendFormat("%s\n%s: %s:%s:%s", Translate("Call ended"), Translate("Duration"), chours, cmins, csec);
 		}
-		if (IsMe(from))
-			AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, text.GetBuffer());
-		else
-			OnReceiveMessage(clientMsgId, conversationLink, timestamp, text.GetBuffer());
+
+		int flags = DBEF_UTF;
+		if (IsMe(from)) flags |= DBEF_SENT;
+
+		AddCallInfoToDb(hContact, timestamp, flags, clientMsgId, text.GetBuffer());
 	}
 	else if (!mir_strcmpi(messageType, "RichText/Files"))
 	{

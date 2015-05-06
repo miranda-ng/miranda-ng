@@ -76,6 +76,10 @@ void CSkypeProto::InitDBEvents()
 	dbEventType.descr = Translate("Action");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
+	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_CALL_INFO;
+	dbEventType.descr = Translate("Call information.");
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
 	dbEventType.descr = Translate("Incoming call");
 	dbEventType.textService = MODULE"/GetCallText";
