@@ -370,8 +370,12 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("URIObject"));
 		if (xml != NULL) 
 		{
-			ptrA url(mir_t2a(xi.getAttrValue(xml, L"url_thumbnail")));
-			AddMessageToDb(hContact, timestamp, DBEF_UTF, clientMsgId, url);
+			ptrA url(mir_t2a(xi.getAttrValue(xml, L"uri")));
+			ptrA object(ParseUrl(url, "/objects/"));
+
+			CMStringA data(FORMAT, "%s: https://api.asm.skype.com/s/i?%s", Translate("Image"), object);
+
+			AddMessageToDb(hContact, timestamp, DBEF_UTF, clientMsgId, data.GetBuffer());
 		}
 	} //Picture
 	else if (!mir_strcmpi(messageType, "RichText/Contacts")){}
