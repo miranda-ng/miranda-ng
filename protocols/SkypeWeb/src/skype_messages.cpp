@@ -366,11 +366,17 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 	else if (!mir_strcmpi(messageType, "RichText/Location")){}
 	else if (!mir_strcmpi(messageType, "RichText/UriObject"))
 	{
-
+		//content=<URIObject type="Picture.1" uri="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834" url_thumbnail="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834/views/imgt1"><Title></Title><Description></Description>Для просмотра этого общего фото перейдите по ссылке: https://api.asm.skype.com/s/i?0-weu-d1-262f0a1ee256d03b8e4b8360d9208834<meta type="photo" originalName="ysd7ZE4BqOg.jpg"/><OriginalName v="ysd7ZE4BqOg.jpg"/></URIObject>
+		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("URIObject"));
+		if (xml != NULL) 
+		{
+			ptrA url(mir_t2a(xi.getAttrValue(xml, L"url_thumbnail")));
+			AddMessageToDb(hContact, timestamp, DBEF_UTF, clientMsgId, url);
+		}
 	} //Picture
 	else if (!mir_strcmpi(messageType, "RichText/Contacts")){}
 
-	if (clientMsgId)
+	if (clientMsgId && (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText")))
 	{
 			PushRequest(new MarkMessageReadRequest(skypename, RegToken, _ttoi(json_as_string(json_get(node, "id"))), timestamp, false, Server));
 	}
