@@ -369,13 +369,18 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 
 	} //Picture
 	else if (!mir_strcmpi(messageType, "RichText/Contacts")){}
+
+	if (clientMsgId)
+	{
+			PushRequest(new MarkMessageReadRequest(skypename, RegToken, _ttoi(json_as_string(json_get(node, "id"))), timestamp, false, Server));
+	}
 }
 
 int CSkypeProto::OnDbEventRead(WPARAM hContact, LPARAM hDbEvent)
 {
 	debugLogA(__FUNCTION__);
-	if (IsOnline() && !isChatRoom(hContact) && !mir_strcmp(GetContactProto(hContact), m_szModuleName))
-		MarkMessagesRead(hContact, hDbEvent);
+	//if (IsOnline() && !isChatRoom(hContact) && !mir_strcmp(GetContactProto(hContact), m_szModuleName))
+	//	MarkMessagesRead(hContact, hDbEvent);
 	return 0;
 }
 
