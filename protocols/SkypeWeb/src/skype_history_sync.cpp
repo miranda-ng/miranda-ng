@@ -39,11 +39,6 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	if (totalCount >= 99 || json_size(conversations) >= 99)
 		PushRequest(new GetHistoryOnUrlRequest(syncState, RegToken), &CSkypeProto::OnGetServerHistory);
 
-	int flags = DBEF_UTF;
-
-	if (!markAllAsUnread)
-		flags |= DBEF_READ;
-
 	for (int i = json_size(conversations); i >= 0; i--)
 	{
 		JSONNODE *message = json_at(conversations, i);
@@ -62,14 +57,19 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		bool isEdited = (json_get(message, "skypeeditedid") != NULL);
 
 		MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
+
+		int flags = DBEF_UTF;
+
+		if (!markAllAsUnread)
+			flags |= DBEF_READ;
+
+		if (IsMe(skypename))
+			flags |= DBEF_SENT;
+
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
 		{
 			if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 			{
-
-				bool isMe = IsMe(skypename);
-				if (isMe)
-					flags |= DBEF_SENT;
 
 				ptrA message(RemoveHtml(content));
 				MEVENT dbevent =  GetMessageFromDb(hContact, skypeEditedId);
@@ -147,7 +147,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 					csec.AppendFormat(sec < 10 ? "0%d" : "%d", sec);
 					text.AppendFormat("%s\n%s: %s:%s:%s", Translate("Call ended"), Translate("Duration"), chours, cmins, csec);
 				}
-				AddMessageToDb(hContact, timestamp, flags, clientMsgId, text.GetBuffer());
+				AddCallInfoToDb(hContact, timestamp, flags, clientMsgId, text.GetBuffer());
 			}
 			else if (!mir_strcmpi(messageType, "RichText/Files"))
 			{
