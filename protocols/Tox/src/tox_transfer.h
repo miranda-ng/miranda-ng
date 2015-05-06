@@ -22,6 +22,8 @@ struct FileTransferParam
 	uint32_t fileNumber;
 	uint64_t transferNumber;
 
+	bool isAvatar;
+
 	FileTransferParam(uint32_t friendNumber, uint32_t fileNumber, const TCHAR *fileName, uint64_t fileSize)
 	{
 		status = NONE;
@@ -40,6 +42,8 @@ struct FileTransferParam
 		pfts.totalProgress = pfts.currentFileProgress = 0;
 		pfts.currentFileNumber = 0;
 		pfts.tszWorkingDir = NULL;
+
+		isAvatar = false;
 	}
 
 	bool OpenFile(const TCHAR *mode)
