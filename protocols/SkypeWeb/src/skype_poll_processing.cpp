@@ -92,10 +92,20 @@ void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node)
 
 	ptrA selfLink(mir_t2a(ptrT(json_as_string(json_get(node, "selfLink")))));
 	ptrA status(mir_t2a(ptrT(json_as_string(json_get(node, "status")))));
-	ptrA skypename(ContactUrlToName(selfLink));
-	if (skypename == NULL)
+	char *skypename;
+
+	if (strstr(selfLink, "/8:"))
 	{
-		if (IsMe(ptrA(SelfUrlToName(selfLink))))
+		skypename = ContactUrlToName(selfLink);
+	}
+	else if (strstr(selfLink, "/1:"))
+	{
+		skypename = SelfUrlToName(selfLink);
+	}
+
+	if (skypename != NULL)
+	{
+		if (IsMe(skypename))
 		{
 			int iNewStatus = SkypeToMirandaStatus(status);
 			int old_status = m_iStatus;
@@ -105,10 +115,12 @@ void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node)
 				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, iNewStatus);
 			return;
 		}
-		return;
+		else
+		{
+			MCONTACT hContact = AddContact(skypename, true);
+			SetContactStatus(hContact, SkypeToMirandaStatus(status));
+		}
 	}
-	MCONTACT hContact = AddContact(skypename, true);
-	SetContactStatus(hContact, SkypeToMirandaStatus(status));
 }
 
 void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
