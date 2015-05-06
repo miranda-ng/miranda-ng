@@ -25,9 +25,7 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 	if (skypename == NULL)
 		return;
 
-	MCONTACT hContact = NULL;
-	if (!IsMe(skypename))
-		hContact = AddContact(skypename, true);
+	MCONTACT hContact = FindContact(skypename);
 
 	//"publicInfo":{"capabilities":"","typ":"11","skypeNameVersion":"0/7.1.0.105//","nodeInfo":"","version":"24"}
 	JSONNODE *publicInfo = json_get(node, "publicInfo");
