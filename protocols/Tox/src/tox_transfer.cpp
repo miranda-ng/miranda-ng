@@ -13,6 +13,13 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 		switch (kind)
 		{
 		case TOX_FILE_KIND_AVATAR:
+		{
+			ptrA id(proto->getStringA(hContact, TOX_SETTINGS_ID));
+			char avatarName[MAX_PATH];
+			mir_snprintf(avatarName, MAX_PATH, "%s.png", id);
+			fileName = (const uint8_t*)avatarName;
+			filenameLength = mir_strlen(avatarName);
+		}
 		case TOX_FILE_KIND_DATA:
 		{
 			ptrA rawName((char*)mir_alloc(filenameLength + 1));
@@ -24,9 +31,13 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 			transfer->pfts.hContact = hContact;
 			proto->transfers.Add(transfer);
 
-			if (kind == TOX_FILE_KIND_AVATAR)
+			if(kind == TOX_FILE_KIND_AVATAR)
 			{
-				proto->OnGotFriendAvatarInfo(transfer, fileName);
+				transfer->isAvatar = true;
+				uint8_t hash[TOX_HASH_LENGTH];
+				TOX_ERR_FILE_GET error;
+				tox_file_get_file_id(proto->tox, friendNumber, fileNumber, hash, &error);
+				proto->OnGotFriendAvatarInfo(transfer, hash);
 				return;
 			}
 
@@ -152,6 +163,34 @@ void CToxProto::OnFileReceiveData(Tox*, uint32_t friendNumber, uint32_t fileNumb
 		{
 			proto->debugLogA(__FUNCTION__": file (%d) is transferred not completely", fileNumber);
 		}
+
+		if(transfer->isAvatar)
+		{
+			uint8_t *avatar = (uint8_t*)mir_alloc(length);
+			if (fread(avatar, sizeof(uint8_t), length, transfer->hFile) != length)
+			{
+				proto->debugLogA(__FUNCTION__": failed to read avatar file");
+				mir_free(avatar);
+				return;
+			}
+
+			uint8_t hash[TOX_HASH_LENGTH];
+			tox_hash(hash, avatar, TOX_HASH_LENGTH);
+			db_set_blob(transfer->pfts.hContact, proto->m_szModuleName, TOX_SETTINGS_AVATAR_HASH, hash, TOX_HASH_LENGTH);
+			mir_free(avatar);
+
+			fclose(transfer->hFile);
+			transfer->hFile = NULL;
+
+			PROTO_AVATAR_INFORMATIONT pai = { sizeof(pai) };
+			pai.format = PA_FORMAT_PNG;
+			pai.hContact = transfer->pfts.hContact;
+			mir_tstrcpy(pai.filename, transfer->pfts.tszCurrentFile);
+			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+			proto->transfers.Remove(transfer);
+			return;
+		}
+
 		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, isFileFullyTransfered ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)transfer, 0);
 		proto->transfers.Remove(transfer);
 	}
@@ -220,7 +259,7 @@ HANDLE CToxProto::OnSendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR **pp
 	transfer->pfts.tszWorkingDir = fileDir;
 	transfer->hFile = hFile;
 	transfers.Add(transfer);
-	
+
 	mir_free(name);
 	return (HANDLE)transfer;
 }
