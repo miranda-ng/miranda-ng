@@ -24,7 +24,6 @@ INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
 	INT_PTR nRetVal = 0;
 	char *pszText = Translate("Incoming call");
 
-
 	if (pEvent->datatype == DBVT_TCHAR) 
 	{
 		TCHAR *pwszText = _A2T(pszText);
