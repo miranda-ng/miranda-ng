@@ -5,6 +5,10 @@
     <Filter Include="Header Files\requests">
       <UniqueIdentifier>{957f1f93-0eaa-46b2-8f18-5df27d47239e}</UniqueIdentifier>
     </Filter>
+	<Filter Include="Resource Files\Icons">
+      <UniqueIdentifier>{5FAEFAD1-A7C5-452F-A497-4ECA0C2D0CDA}</UniqueIdentifier>
+	  <Extensions>ico;cur;bmp;gif;jpg;jpeg</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
 	<ClInclude Include="src\requests\avatars.h">

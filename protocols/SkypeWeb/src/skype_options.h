@@ -26,6 +26,7 @@ private:
 	CCtrlEdit m_group;
 	CCtrlCheck m_autosync;
 	CCtrlCheck m_localtime;
+	CCtrlCheck m_allasunread;
 
 protected:
 	CSkypeOptionsMain(CSkypeProto *proto, int idDialog);

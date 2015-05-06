@@ -303,32 +303,3 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 
 	return 0;
 }
-
-void CSkypeProto::InitPopups()
-{
-	TCHAR desc[256];
-	char name[256];
-	POPUPCLASS ppc = { sizeof(ppc) };
-	ppc.flags = PCF_TCHAR;
-
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Calls"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Call");
-	ppc.ptszDescription = desc;
-	ppc.pszName = name;
-	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
-	ppc.colorBack = RGB(255, 255, 255); 
-	ppc.colorText = RGB(0, 0, 0); 
-	ppc.iSeconds = 30;
-	ppc.PluginWindowProc = PopupDlgProcCall;
-	m_hPopupClassCall = Popup_RegisterClass(&ppc);
-
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Notifications"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Notification");
-	ppc.ptszDescription = desc;
-	ppc.pszName = name;
-	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("notify"));
-	ppc.colorBack = RGB(255, 255, 255); 
-	ppc.colorText = RGB(0, 0, 0); 
-	ppc.iSeconds = 5;
-	m_hPopupClassNotify = Popup_RegisterClass(&ppc);
-}
