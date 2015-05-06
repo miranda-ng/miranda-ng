@@ -71,7 +71,7 @@ void CSkypeProto::StartChatRoom(const TCHAR *tid, const TCHAR *tname)
 {
 	// Create the group chat session
 	GCSESSION gcw = { sizeof(gcw) };
-	gcw.iType = GCW_PRIVMESS;
+	gcw.iType = GCW_CHATROOM;
 	gcw.ptszID = tid;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = tname;
