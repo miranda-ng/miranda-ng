@@ -534,7 +534,8 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam);
 void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd here is to the main window, NOT the treview
 {
 	switch (((NMHDR *)lParam)->code) {
-	case TVN_ITEMEXPANDING:
+	case TVN_ITEMEXPANDINGA:
+	case TVN_ITEMEXPANDINGW:
 		if (populating && ((LPNMTREEVIEW)lParam)->action == TVE_EXPAND) {
 			ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)((LPNMTREEVIEW)lParam)->itemNew.lParam;
 			if (mtis && (mtis->type == (CONTACT | EMPTY))) {
@@ -578,7 +579,8 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd h
 		}
 		break;
 
-	case TVN_SELCHANGED:
+	case TVN_SELCHANGEDA:
+	case TVN_SELCHANGEDW:
 		{
 			ModuleTreeInfoStruct *mtis;
 			LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
@@ -675,7 +677,8 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd h
 			moduleListRightClick(hwnd, wParam, lParam);
 		break;
 
-	case TVN_BEGINLABELEDIT: // subclass it..
+	case TVN_BEGINLABELEDITA: // subclass it..
+	case TVN_BEGINLABELEDITW:
 		{
 			LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)lParam;
 			ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)ptvdi->item.lParam;
@@ -689,7 +692,8 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd h
 		}
 		break;
 
-	case TVN_ENDLABELEDIT:
+	case TVN_ENDLABELEDITA:
+	case TVN_ENDLABELEDITW:
 		LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)lParam;
 		TVITEM tvi = { 0 };
 		char text[264];
