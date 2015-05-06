@@ -382,3 +382,13 @@ Deszcz / Śnieg Późno
 Przed południem Deszcz / Śnieg
 [Rain Early]
 Deszcz Wcześnie
+[AM Rain]
+
+[Pm Rain]
+
+[Am Snow]
+Do południa śnieg
+[Pm Snow]
+
+[Pm Showers / Wind]
+
