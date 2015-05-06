@@ -34,9 +34,15 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	int totalCount = json_as_int(json_get(metadata, "totalCount"));
 	ptrA syncState(mir_t2a(ptrT(json_as_string(json_get(metadata, "syncState")))));
 
+	bool markAllAsUnread = getByte("MarkMesUnread",0);
 
 	if (totalCount >= 99 || json_size(conversations) >= 99)
 		PushRequest(new GetHistoryOnUrlRequest(syncState, RegToken), &CSkypeProto::OnGetServerHistory);
+
+	int flags = DBEF_UTF;
+
+	if (!markAllAsUnread)
+		flags |= DBEF_READ;
 
 	for (int i = json_size(conversations); i >= 0; i--)
 	{
@@ -60,7 +66,6 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		{
 			if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
 			{
-				int flags = DBEF_UTF | DBEF_READ;
 
 				bool isMe = IsMe(skypename);
 				if (isMe)
@@ -105,7 +110,6 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				int iType = 3, iDuration = 0;
 				ptrA skypename(ContactUrlToName(from));
 				bool isMe = IsMe(skypename);
-				int flags = DBEF_UTF | DBEF_READ;
 				if (isMe)
 					flags |= DBEF_SENT;
 				HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("partlist"));
@@ -164,7 +168,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 						msg.Empty();
 						msg.AppendFormat("%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize , Translate("bytes"));
-						AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_READ, clientMsgId, msg.GetBuffer());
+						AddMessageToDb(hContact, timestamp, flags, clientMsgId, msg.GetBuffer());
 
 					}
 				}

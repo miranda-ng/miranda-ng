@@ -29,10 +29,10 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
 IDI_SKYPE               ICON                    "Icons\\skype.ico"
 IDI_CONFERENCE          ICON                    "Icons\\conference.ico"
 IDI_SYNCHISTORY         ICON                    "Icons\\sync_history.ico"
-IDI_BLOCKUSER			ICON                    "Icons\\user_block.ico"
-IDI_UNBLOCKUSER			ICON                    "Icons\\user_unblock.ico"
-IDI_CALL				ICON                    "Icons\\call.ico"
-IDI_NOTIFY				ICON                    "Icons\\notify.ico"
+IDI_BLOCKUSER           ICON                    "Icons\\user_block.ico"
+IDI_UNBLOCKUSER         ICON                    "Icons\\user_unblock.ico"
+IDI_CALL                ICON                    "Icons\\call.ico"
+IDI_NOTIFY              ICON                    "Icons\\notify.ico"
 #endif    // Нейтральный (по умолчанию) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -170,12 +170,9 @@ BEGIN
     GROUPBOX        "Others",IDC_STATIC,5,79,298,51
     CONTROL         "Automatic messages synchronization",IDC_AUTOSYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,89,282,10
     CONTROL         "Use local time for received messages",IDC_LOCALTIME,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,99,282,10
-    GROUPBOX        "Mark message as read...",IDC_STATIC_MARC_AS_READ,6,132,297,38,NOT WS_VISIBLE
-    CONTROL         "on read",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE,13,142,124,10
-    CONTROL         "on receive",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE,13,153,113,10
-    CONTROL         "on reply",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE,146,142,122,10
-    CONTROL         "on typing",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE,146,153,125,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,100,282,10
+    CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,112,209,10
 END
 
 IDD_PASSWORD_EDITOR DIALOGEX 0, 0, 209, 75
@@ -207,7 +204,6 @@ BEGIN
     IDD_OPTIONS_MAIN, DIALOG
     BEGIN
         VERTGUIDE, 13
-        VERTGUIDE, 146
         HORZGUIDE, 89
         HORZGUIDE, 99
         HORZGUIDE, 142

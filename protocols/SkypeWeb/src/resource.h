@@ -14,21 +14,16 @@
 #define IDD_GC_INVITE                   112
 #define IDI_CONFERENCE                  114
 #define IDI_SYNCHISTORY                 117
-#define IDI_BLOCKUSER					118
-#define IDI_UNBLOCKUSER					119
-#define IDI_CALL						120
+#define IDI_BLOCKUSER                   118
+#define IDI_UNBLOCKUSER                 119
+#define IDI_CALL                        120
 #define IDI_NOTIFY                      121
 #define IDC_AUTOSYNC                    1028
 #define IDC_LOCALTIME                   1029
-#define IDC_RADIO1                      1030
-#define IDC_RADIO2                      1031
-#define IDC_RADIO3                      1032
-#define IDC_RADIO4                      1033
-#define IDC_STATIC_MARC_AS_READ         1034
-#define IDC_CLIST                       1035
-#define IDC_TITLE                       1036
-#define IDC_CONTACT                     1037
-#define IDC_CUSTOM1                     1041
+#define IDC_CLIST                       1030
+#define IDC_TITLE                       1031
+#define IDC_CONTACT                     1032
+#define IDC_MESASUREAD                  1033
 
 // Next default values for new objects
 // 
@@ -36,7 +31,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        122
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1042
+#define _APS_NEXT_CONTROL_VALUE         1034
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
