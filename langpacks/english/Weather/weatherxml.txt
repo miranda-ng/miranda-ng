@@ -194,3 +194,6 @@
 [Rain Early]
 [AM Rain]
 [Pm Rain]
+[Am Snow]
+[Pm Snow]
+[Pm Showers / Wind]

@@ -386,3 +386,9 @@ k ránu déšť
 déšť (dop.)
 [Pm Rain]
 déšť (odp.)
+[Am Snow]
+sněžení (dop.)
+[Pm Snow]
+sněžení (odp.)
+[Pm Showers / Wind]
+přeháňky (odp.) / vítr
