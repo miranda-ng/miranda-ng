@@ -1181,9 +1181,7 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 
 			case TC_STATUS:
 				if ((Drawing->type == CLCIT_GROUP && !dat->row_hide_group_icon) || (Drawing->type == CLCIT_CONTACT && Drawing->iImage != -1
-					&& !(dat->icon_hide_on_avatar && dat->avatars_show
-					&& ((dat->use_avatar_service && Drawing->avatar_data != NULL) || (!dat->use_avatar_service && Drawing->avatar_pos != AVATAR_POS_DONT_HAVE))
-					&& !Drawing->image_is_special))) {
+					&& !(dat->icon_hide_on_avatar && dat->avatars_show && Drawing->avatar_data != NULL && !Drawing->image_is_special))) {
 					int iImage = -1;
 					// Get image
 					if (Drawing->type == CLCIT_GROUP) {
@@ -1223,15 +1221,15 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 
 			case TC_AVATAR:
 				{
-					BOOL hasAvatar = (dat->use_avatar_service && Drawing->avatar_data != NULL) || (!dat->use_avatar_service && Drawing->avatar_pos != AVATAR_POS_DONT_HAVE);
+					BOOL hasAvatar = Drawing->avatar_data != NULL;
 					BYTE blendmode = 255;
 					if (hottrack)
 						blendmode = 255;
-					else if (Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST)
+					else if (Drawing->type == CLCIT_CONTACT && Drawing->flags & CONTACTF_NOTONLIST)
 						blendmode = 128;
 					if (Drawing->type == CLCIT_CONTACT && dat->showIdle && (Drawing->flags&CONTACTF_IDLE) &&
-						_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-						blendmode = 128;
+						 _GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+						 blendmode = 128;
 					if (!hasAvatar) { // if no avatar then paint icon image
 						int iImage = Drawing->iImage;
 						if (iImage != -1) {
@@ -1243,7 +1241,7 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 								colourFg = dat->hotTextColour;
 								mode = ILD_NORMAL;
 							}
-							else if (Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST) {
+							else if (Drawing->type == CLCIT_CONTACT && Drawing->flags & CONTACTF_NOTONLIST) {
 								colourFg = dat->fontModernInfo[FONTID_NOTONLIST].colour;
 								mode = ILD_BLEND50;
 							}
@@ -1252,8 +1250,8 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 								mode = ILD_NORMAL;
 							}
 
-							if (Drawing->type == CLCIT_CONTACT && dat->showIdle && (Drawing->flags&CONTACTF_IDLE) &&
-								_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
+							if (Drawing->type == CLCIT_CONTACT && dat->showIdle && (Drawing->flags & CONTACTF_IDLE) &&
+								 _GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 								mode = ILD_SELECTED;
 							}
 
@@ -1279,9 +1277,8 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 							else
 								round_radius = min(width, height) / 5;
 						}
-						else {
-							round_radius = 0;
-						}
+						else round_radius = 0;
+
 						if (dat->avatars_draw_border) {
 							HBRUSH hBrush = CreateSolidBrush(dat->avatars_border_color);
 							HBRUSH hOldBrush = (HBRUSH)SelectObject(hdcMem, hBrush);
@@ -1304,10 +1301,7 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 						}
 
 						// Draw avatar
-						if (dat->use_avatar_service)
-							_DrawContactAvatar(hdcMem, dat, Drawing, &row_rc, selected, hottrack, &p_rect);
-						else
-							ImageArray_DrawImage(&dat->avatar_cache, Drawing->avatar_pos, hdcMem, p_rect.left, p_rect.top, 255);
+						_DrawContactAvatar(hdcMem, dat, Drawing, &row_rc, selected, hottrack, &p_rect);
 
 						// Restore region
 						if (dat->avatars_round_corners || dat->avatars_draw_border)
@@ -1321,7 +1315,7 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 						//TODO fix overlays
 						// Draw overlay
 						if (dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
-							&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons)) {
+							 && GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons)) {
 							p_rect.top = p_rect.bottom - ICON_HEIGHT;
 							p_rect.left = p_rect.right - ICON_HEIGHT;
 
@@ -1530,11 +1524,8 @@ BOOL CLCPaint::_DrawNonEnginedBackground(HDC hdcMem, RECT *rcPaint, RECT clRect,
 		else {
 			destw = clRect.right;
 			desth = bmp.bmHeight;
-			if (dat->backgroundBmpUse&CLBF_TILEVTOROWHEIGHT)
-			{
+			if (dat->backgroundBmpUse & CLBF_TILEVTOROWHEIGHT)
 				desth = dat->row_min_heigh;
-			}
-
 		}
 		break;
 
@@ -1553,9 +1544,7 @@ BOOL CLCPaint::_DrawNonEnginedBackground(HDC hdcMem, RECT *rcPaint, RECT clRect,
 		destw = bmp.bmWidth;
 		desth = bmp.bmHeight;
 		if (dat->backgroundBmpUse&CLBF_TILEVTOROWHEIGHT)
-		{
 			desth = dat->row_min_heigh;
-		}
 		break;
 	}
 
@@ -2081,9 +2070,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 					max_width = dat->avatars_maxheight_size;
 
 				// Has to draw?
-				if ((dat->use_avatar_service && Drawing->avatar_data == NULL)
-					|| (!dat->use_avatar_service && Drawing->avatar_pos == AVATAR_POS_DONT_HAVE)
-					|| miniMode) {
+				if (Drawing->avatar_data == NULL || miniMode) {
 					// Don't have to draw avatar
 
 					// Has to draw icon instead?
@@ -2149,9 +2136,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 			{
 				RECT rc;
 				int iImage = -1;
-				BOOL has_avatar = ((dat->use_avatar_service && Drawing->avatar_data != NULL) ||
-					(!dat->use_avatar_service && Drawing->avatar_pos != AVATAR_POS_DONT_HAVE))
-					&& !(CheckMiniMode(dat, selected));
+				BOOL has_avatar = Drawing->avatar_data != NULL && !CheckMiniMode(dat, selected);
 
 				if (Drawing->type == CLCIT_CONTACT
 					&& dat->icon_hide_on_avatar

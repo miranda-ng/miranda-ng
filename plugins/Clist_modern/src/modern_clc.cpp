@@ -48,8 +48,6 @@ static BOOL		fMouseUpped;
 static BYTE		IsDragToScrollMode = 0;
 static int		StartDragPos = 0;
 static int		StartScrollPos = 0;
-HANDLE			hAckHook = NULL;
-HANDLE			hAvatarChanged = NULL;
 static BOOL		g_bSortTimerIsSet = FALSE;
 static ClcContact *hitcontact = NULL;
 HANDLE hSkinFolder;
@@ -65,79 +63,6 @@ static int clcExitDragToScroll();
 int ReloadSkinFolder(WPARAM, LPARAM)
 {
 	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, SIZEOF(SkinsFolder), _T(DEFAULT_SKIN_FOLDER));
-	return 0;
-}
-
-static int clcHookModulesLoaded(WPARAM, LPARAM)
-{
-	if (MirandaExiting())
-		return 0;
-
-	HookEvent(ME_MODERNOPT_INITIALIZE, ModernOptInit);
-	HookEvent(ME_MODERNOPT_INITIALIZE, ModernSkinOptInit);
-
-	HookEvent(ME_FOLDERS_PATH_CHANGED, ReloadSkinFolder);
-	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Modern contact list"), MIRANDA_PATHT _T("\\") _T(DEFAULT_SKIN_FOLDER));
-	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, SIZEOF(SkinsFolder), _T(DEFAULT_SKIN_FOLDER));
-
-	// Get icons
-	TCHAR szMyPath[MAX_PATH];
-	GetModuleFileName(g_hInst, szMyPath, SIZEOF(szMyPath));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.cx = sid.cy = 16;
-	sid.ptszDefaultFile = szMyPath;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	sid.pszSection = LPGEN("Contact list");
-	sid.pszDescription = LPGEN("Listening to");
-	sid.pszName = "LISTENING_TO_ICON";
-	sid.iDefaultIndex = -IDI_LISTENING_TO;
-	Skin_AddIcon(&sid);
-
-	sid.pszSection = LPGEN("Contact list") "/" LPGEN("Avatar overlay");
-	for (int i = 0; i < SIZEOF(g_pAvatarOverlayIcons); i++) {
-		sid.pszDescription = g_pAvatarOverlayIcons[i].description;
-		sid.pszName = g_pAvatarOverlayIcons[i].name;
-		sid.iDefaultIndex = -g_pAvatarOverlayIcons[i].id;
-		Skin_AddIcon(&sid);
-	}
-
-	sid.pszSection = LPGEN("Contact list") "/" LPGEN("Status overlay");
-	for (int i = 0; i < SIZEOF(g_pStatusOverlayIcons); i++) {
-		sid.pszDescription = g_pStatusOverlayIcons[i].description;
-		sid.pszName = g_pStatusOverlayIcons[i].name;
-		sid.iDefaultIndex = -g_pStatusOverlayIcons[i].id;
-		Skin_AddIcon(&sid);
-	}
-
-	clcHookIconsChanged(0, 0);
-
-	HookEvent(ME_SKIN2_ICONSCHANGED, clcHookIconsChanged);
-
-	// Register smiley category
-	if (ServiceExists(MS_SMILEYADD_REGISTERCATEGORY)) {
-		SMADD_REGCAT rc;
-		rc.cbSize = sizeof(rc);
-		rc.name = "clist";
-		rc.dispname = Translate("Contact list smileys");
-
-		CallService(MS_SMILEYADD_REGISTERCATEGORY, 0, (LPARAM)&rc);
-
-		HookEvent(ME_SMILEYADD_OPTIONSCHANGED, clcHookSmileyAddOptionsChanged);
-	}
-
-	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("List background")"/CLC"), 0);
-	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Menu background")"/Menu"), 0);
-	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Status bar background")"/StatusBar"), 0);
-	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Frames title bar background")"/FrameTitleBar"), 0);
-
-	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, clcHookBkgndConfigChanged);
-	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, BgStatusBarChange);
-	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnFrameTitleBarBackgroundChange);
-	HookEvent(ME_COLOUR_RELOAD, OnFrameTitleBarBackgroundChange);
-
-	AniAva_UpdateOptions();
 	return 0;
 }
 
@@ -378,10 +303,6 @@ static LRESULT clcOnCreate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPA
 	dat->hCheckBoxTheme = xpt_AddThemeHandle(hwnd, L"BUTTON");
 	dat->m_paintCouter = 0;
 	dat->hWnd = hwnd;
-	dat->use_avatar_service = ServiceExists(MS_AV_GETAVATARBITMAP);
-	if (dat->use_avatar_service)
-		if (!hAvatarChanged)
-			hAvatarChanged = HookEvent(ME_AV_AVATARCHANGED, clcHookAvatarChanged);
 
 	ImageArray_Initialize(&dat->avatar_cache, FALSE, 20); //this array will be used to keep small avatars too
 
@@ -1549,12 +1470,12 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	return 0;
 }
 
-static LRESULT clcOnIntmAvatarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM)
+static LRESULT clcOnIntmAvatarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM hContact, LPARAM)
 {
 	ClcContact *contact;
-	if (FindItem(hwnd, dat, wParam, &contact, NULL, NULL, FALSE))
+	if (FindItem(hwnd, dat, hContact, &contact, NULL, NULL, FALSE))
 		Cache_GetAvatar(dat, contact);
-	else if (dat->use_avatar_service && !wParam)
+	else if (hContact == 0)
 		UpdateAllAvatars(dat);
 
 	CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
@@ -1693,6 +1614,86 @@ static LRESULT clcOnIntmReloadOptions(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 	return TRUE;
 }
 
+static int clcHookModulesLoaded(WPARAM, LPARAM)
+{
+	if (MirandaExiting())
+		return 0;
+
+	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
+		MessageBox(NULL,
+			TranslateT("Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://miranda-ng.org"),
+			TranslateT("Error loading plugin"), MB_ICONERROR | MB_OK);
+
+	HookEvent(ME_AV_AVATARCHANGED, clcHookAvatarChanged);
+
+	HookEvent(ME_MODERNOPT_INITIALIZE, ModernOptInit);
+	HookEvent(ME_MODERNOPT_INITIALIZE, ModernSkinOptInit);
+
+	HookEvent(ME_FOLDERS_PATH_CHANGED, ReloadSkinFolder);
+	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Modern contact list"), MIRANDA_PATHT _T("\\") _T(DEFAULT_SKIN_FOLDER));
+	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, SIZEOF(SkinsFolder), _T(DEFAULT_SKIN_FOLDER));
+
+	// Get icons
+	TCHAR szMyPath[MAX_PATH];
+	GetModuleFileName(g_hInst, szMyPath, SIZEOF(szMyPath));
+
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.cx = sid.cy = 16;
+	sid.ptszDefaultFile = szMyPath;
+	sid.flags = SIDF_PATH_TCHAR;
+
+	sid.pszSection = LPGEN("Contact list");
+	sid.pszDescription = LPGEN("Listening to");
+	sid.pszName = "LISTENING_TO_ICON";
+	sid.iDefaultIndex = -IDI_LISTENING_TO;
+	Skin_AddIcon(&sid);
+
+	sid.pszSection = LPGEN("Contact list") "/" LPGEN("Avatar overlay");
+	for (int i = 0; i < SIZEOF(g_pAvatarOverlayIcons); i++) {
+		sid.pszDescription = g_pAvatarOverlayIcons[i].description;
+		sid.pszName = g_pAvatarOverlayIcons[i].name;
+		sid.iDefaultIndex = -g_pAvatarOverlayIcons[i].id;
+		Skin_AddIcon(&sid);
+	}
+
+	sid.pszSection = LPGEN("Contact list") "/" LPGEN("Status overlay");
+	for (int i = 0; i < SIZEOF(g_pStatusOverlayIcons); i++) {
+		sid.pszDescription = g_pStatusOverlayIcons[i].description;
+		sid.pszName = g_pStatusOverlayIcons[i].name;
+		sid.iDefaultIndex = -g_pStatusOverlayIcons[i].id;
+		Skin_AddIcon(&sid);
+	}
+
+	clcHookIconsChanged(0, 0);
+
+	HookEvent(ME_SKIN2_ICONSCHANGED, clcHookIconsChanged);
+
+	// Register smiley category
+	if (ServiceExists(MS_SMILEYADD_REGISTERCATEGORY)) {
+		SMADD_REGCAT rc;
+		rc.cbSize = sizeof(rc);
+		rc.name = "clist";
+		rc.dispname = Translate("Contact list smileys");
+
+		CallService(MS_SMILEYADD_REGISTERCATEGORY, 0, (LPARAM)&rc);
+
+		HookEvent(ME_SMILEYADD_OPTIONSCHANGED, clcHookSmileyAddOptionsChanged);
+	}
+
+	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("List background")"/CLC"), 0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Menu background")"/Menu"), 0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Status bar background")"/StatusBar"), 0);
+	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("Frames title bar background")"/FrameTitleBar"), 0);
+
+	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, clcHookBkgndConfigChanged);
+	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, BgStatusBarChange);
+	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnFrameTitleBarBackgroundChange);
+	HookEvent(ME_COLOUR_RELOAD, OnFrameTitleBarBackgroundChange);
+
+	AniAva_UpdateOptions();
+	return 0;
+}
+
 HRESULT ClcLoadModule()
 {
 	g_himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
@@ -1701,7 +1702,7 @@ HRESULT ClcLoadModule()
 	HookEvent(ME_MC_ENABLED, clcMetaModeChanged);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, clcHookSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, ClcOptInit);
-	hAckHook = (HANDLE)HookEvent(ME_PROTO_ACK, clcHookProtoAck);
+	HookEvent(ME_PROTO_ACK, clcHookProtoAck);
 	HookEvent(ME_SYSTEM_MODULESLOADED, clcHookModulesLoaded);
 	HookEvent(ME_DB_EVENT_ADDED, clcHookDbEventAdded);
 	return S_OK;
@@ -1734,7 +1735,6 @@ int ClcDoProtoAck(MCONTACT, ACKDATA * ack)
 	}
 	else if (ack->type == ACKTYPE_AWAYMSG) {
 		if (ack->result == ACKRESULT_SUCCESS && ack->lParam) {
-			//Do not change DB if it is IRC protocol
 			if (ack->szModule != NULL)
 				if (db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0)
 					return 0;
@@ -1743,9 +1743,6 @@ int ClcDoProtoAck(MCONTACT, ACKDATA * ack)
 			gtaRenewText(ack->hContact);
 		}
 		else {
-			//db_unset(ack->hContact,"CList","StatusMsg");
-			//char a = '\0';
-			//Do not change DB if it is IRC protocol
 			if (ack->szModule != NULL)
 				if (db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0)
 					return 0;
@@ -1760,7 +1757,6 @@ int ClcDoProtoAck(MCONTACT, ACKDATA * ack)
 					mir_free(val);
 				}
 			}
-			//pcli->pfnClcBroadcast(INTM_STATUSMSGCHANGED,(WPARAM)ack->hContact,&a);
 		}
 	}
 	else if (ack->type == ACKTYPE_AVATAR) {
@@ -1786,6 +1782,7 @@ int ClcGetShortData(ClcData* pData, SHORTDATA *pShortData)
 	pShortData->text_smiley_height = pData->text_smiley_height;
 	pShortData->text_use_protocol_smileys = pData->text_use_protocol_smileys;
 	pShortData->contact_time_show_only_if_different = pData->contact_time_show_only_if_different;
+
 	// Second line
 	pShortData->second_line_show = pData->second_line_show;
 	pShortData->second_line_draw_smileys = pData->second_line_draw_smileys;
@@ -1798,6 +1795,7 @@ int ClcGetShortData(ClcData* pData, SHORTDATA *pShortData)
 	pShortData->second_line_show_listening_if_no_away = pData->second_line_show_listening_if_no_away;
 	pShortData->second_line_use_name_and_message_for_xstatus = pData->second_line_use_name_and_message_for_xstatus;
 
+	// Third line
 	pShortData->third_line_show = pData->third_line_show;
 	pShortData->third_line_draw_smileys = pData->third_line_draw_smileys;
 	pShortData->third_line_type = pData->third_line_type;
