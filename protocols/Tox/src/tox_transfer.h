@@ -69,7 +69,7 @@ struct AvatarTransferParam : public FileTransferParam
 	uint8_t hash[TOX_HASH_LENGTH];
 
 	AvatarTransferParam(uint32_t friendNumber, uint32_t fileNumber, const TCHAR *fileName, uint64_t fileSize)
-		: FileTransferParam(friendNumber, fileNumber, NULL, fileSize)
+		: FileTransferParam(friendNumber, fileNumber, fileName, fileSize)
 	{
 		transferType = TOX_FILE_KIND_AVATAR;
 	}
