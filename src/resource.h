@@ -468,7 +468,6 @@
 #define IDC_OPEN_WINDOW                 1544
 #define IDC_DELETEHISTORY               1560
 #define IDC_AUTHREQ                     1577
-#define IDC_AUTHGB                      1578
 #define IDC_PROTOCOL                    1580
 #define IDC_CONTRIBLINK                 1586
 #define IDC_DEVS                        1589
