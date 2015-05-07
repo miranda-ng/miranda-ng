@@ -92,7 +92,7 @@ void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node)
 
 	ptrA selfLink(mir_t2a(ptrT(json_as_string(json_get(node, "selfLink")))));
 	ptrA status(mir_t2a(ptrT(json_as_string(json_get(node, "status")))));
-	char *skypename;
+	ptrA skypename;
 
 	if (strstr(selfLink, "/8:"))
 	{

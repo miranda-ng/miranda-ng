@@ -176,8 +176,12 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("URIObject"));
 				if (xml != NULL) 
 				{
-					ptrA url(mir_t2a(xi.getAttrValue(xml, L"url_thumbnail")));
-					AddMessageToDb(hContact, timestamp, flags, clientMsgId, url);
+					ptrA url(mir_t2a(xi.getAttrValue(xml, L"uri")));
+					ptrA object(ParseUrl(url, "/objects/"));
+
+					CMStringA data(FORMAT, "%s: https://api.asm.skype.com/s/i?%s", Translate("Image"), object);
+
+					AddMessageToDb(hContact, timestamp, flags, clientMsgId, data.GetBuffer());
 				}
 			} //Picture
 		}
