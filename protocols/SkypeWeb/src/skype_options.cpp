@@ -47,10 +47,12 @@ void CSkypeOptionsMain::OnInitDialog()
 
 void CSkypeOptionsMain::OnApply()
 {
-	if (mir_strcmpi(ptrA(m_proto->getStringA(SKYPE_SETTINGS_ID)), ptrA(m_skypename.GetTextA())) || mir_strcmpi(ptrA(m_proto->getStringA("Password")), ptrA(m_password.GetTextA())))
+	ptrA tszNewSkypename(m_skypename.GetTextA()),tszNewPassword(m_password.GetTextA()),
+		tszOldSkypename(m_proto->getStringA(SKYPE_SETTINGS_ID)),tszOldPassword(m_proto->getStringA("Password"));
+	if (mir_strcmpi(tszNewSkypename, tszOldSkypename) || mir_strcmpi(tszNewPassword, tszOldPassword))
 		m_proto->delSetting("TokenExpiresIn");
-	m_proto->setString(SKYPE_SETTINGS_ID, m_skypename.GetTextA());
-	m_proto->setString("Password", m_password.GetTextA());
+	m_proto->setString(SKYPE_SETTINGS_ID, tszNewSkypename);
+	m_proto->setString("Password", tszNewPassword);
 	ptrT group(m_group.GetText());
 	if (mir_tstrlen(group) > 0 && !Clist_GroupExists(group))
 		Clist_CreateGroup(0, group);
