@@ -59,10 +59,37 @@ public:
 			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml")
 			<< CHAR_VALUE("X-Skypetoken", token);
 
-		CMStringA data;
-		data.AppendFormat("{\"clientDescription\":{\"aesKey\":\"\",\"languageId\":\"en-US\",\"platform\":\"SWX\",\"templateKey\":\"SkypeWeb_1.0\"},\"registrationId\":\"%s\",\"nodeId\":\"\",\"transports\":{\"TROUTER\":[{\"context\":\"\",\"path\":\"%s\",\"ttl\":3600}]}}", id, trouterUrl);
+		JSONNODE *node = json_new(5);
+		JSONNODE *clientDescription = json_new(5);
+		JSONNODE *transports = json_new(5);
+		JSONNODE *TRouter = json_new(5);
+		JSONNODE *TROUTER = json_new(4);
+
+		json_set_name(clientDescription, "clientDescription");
+		json_set_name(transports, "transports");
+		json_set_name(TROUTER, "TROUTER");
+
+		json_push_back(node, json_new_a("registrationId",	id		));
+		json_push_back(node, json_new_a("nodeId",			""		));
+
+		json_push_back(clientDescription, json_new_a("aesKey",			""		));
+		json_push_back(clientDescription, json_new_a("languageId",		"en-US" ));
+		json_push_back(clientDescription, json_new_a("platform",		"SWX"   ));
+		json_push_back(clientDescription, json_new_a("templateKey",		"SkypeWeb_1.0"));
+		json_push_back(node, clientDescription);
+		
+		json_push_back(TRouter, json_new_a("context",		""));
+		json_push_back(TRouter, json_new_a("path",		trouterUrl));
+		json_push_back(TRouter, json_new_i("ttl",		3600));
+		json_push_back(TROUTER, TRouter);
+		json_push_back(transports, TROUTER);
+		json_push_back(node, transports);
+
+		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
 
 		Body << VALUE(data);
+
+		json_delete(node);
 	}
 };
 

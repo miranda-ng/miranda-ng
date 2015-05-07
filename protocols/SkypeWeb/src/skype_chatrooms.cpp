@@ -192,7 +192,8 @@ INT_PTR CSkypeProto::OnJoinChatRoom(WPARAM hContact, LPARAM)
 	if (hContact)
 	{
 		ptrT idT(getTStringA(hContact, "ChatRoomID"));
-		StartChatRoom(idT, idT);
+		ptrT nameT(getTStringA(hContact, "Nick"));
+		StartChatRoom(idT, nameT != NULL ? nameT : idT);
 	}
 	return 0;
 }

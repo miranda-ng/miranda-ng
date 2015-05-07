@@ -28,13 +28,13 @@ void CSkypeProto::SearchBasicThread(void* id)
 	debugLogA("CSkypeProto::OnSearchBasicThread");
 	if (!IsOnline())
 		return;
-	ptrA token(getStringA("TokenSecret"));
 	ptrA string(mir_urlEncode(ptrA(mir_utf8encodeT((TCHAR*)id))));
-	SendRequest(new GetSearchRequest(token, string), &CSkypeProto::OnSearch);
+	SendRequest(new GetSearchRequest(TokenSecret, string), &CSkypeProto::OnSearch);
 }
 
 void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 {
+	debugLogA(__FUNCTION__);
 	if (response == NULL)
 	{
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);

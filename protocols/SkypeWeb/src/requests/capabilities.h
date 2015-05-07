@@ -39,10 +39,36 @@ public:
 		bitness = 64;
 #endif
 
-		CMStringA data(::FORMAT, "{\"id\":\"messagingService\",\"type\":\"EndpointPresenceDoc\",\"selfLink\":\"uri\",\"privateInfo\":{\"epname\":\"%s\"},\"publicInfo\":{\"capabilities\":\"Audio|Video\",\"typ\":125,\"skypeNameVersion\":\"Miranda NG Skype\",\"nodeInfo\":\"xx\",\"version\":\"%s x%d\"}}", compName, g_szMirVer, bitness);
+		CMStringA verString(::FORMAT, "%s x%d", g_szMirVer, bitness);
 
+		JSONNODE *node =		json_new(5);
+		JSONNODE *privateInfo = json_new(5);
+		JSONNODE *publicInfo  = json_new(5);
+
+		json_set_name(privateInfo, "privateInfo");
+		json_set_name(publicInfo,	"publicInfo");
+
+		json_push_back(node, json_new_a			("id",				"messagingService"		));
+		json_push_back(node, json_new_a			("type",			"EndpointPresenceDoc"	));
+		json_push_back(node, json_new_a			("selfLink",		"uri"					));
+
+		json_push_back(privateInfo, json_new_a	("epname",			compName				));
+
+		json_push_back(publicInfo, json_new_a	("capabilities",	"Audio|Video"			));
+		json_push_back(publicInfo, json_new_i	("capabilities",	125						));
+		json_push_back(publicInfo, json_new_a	("skypeNameVersion","Miranda NG Skype"		));
+		json_push_back(publicInfo, json_new_a	("nodeInfo",		"xx"					));
+		json_push_back(publicInfo, json_new_a	("version",			verString.GetBuffer()	));
+
+		json_push_back(node, privateInfo);
+		json_push_back(node, publicInfo);
+		
+		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
+		
 		Body <<
 			VALUE(data);
+
+		json_delete(node);
 	}
 };
 #endif //_SKYPE_REQUEST_CAPS_H_

@@ -28,9 +28,25 @@ public:
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
+		
+		JSONNODE *node = json_new(5);
+		JSONNODE *interestedResources = json_new(4);
+		json_set_name(interestedResources, "interestedResources");
 
-		const char *data = "{\"channelType\":\"httpLongPoll\",\"template\":\"raw\",\"interestedResources\":[\"/v1/users/ME/conversations/ALL/properties\",\"/v1/users/ME/conversations/ALL/messages\",\"/v1/users/ME/contacts/ALL\",\"/v1/threads/ALL\"]}";
+		json_push_back(node, json_new_a("channelType", "httpLongPoll"));
+		json_push_back(node, json_new_a("template",	   "raw"		 ));
+
+		json_push_back(interestedResources, json_new_a(NULL, "/v1/users/ME/conversations/ALL/properties"));
+		json_push_back(interestedResources, json_new_a(NULL, "/v1/users/ME/conversations/ALL/messages"));
+		json_push_back(interestedResources, json_new_a(NULL, "/v1/users/ME/contacts/ALL"));
+		json_push_back(interestedResources, json_new_a(NULL, "/v1/threads/ALL"));
+		json_push_back(node, interestedResources);
+
+		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
+		
 		Body << VALUE(data);
+
+		json_delete(node);
 	}
 };
 
