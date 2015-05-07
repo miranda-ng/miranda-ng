@@ -34,7 +34,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	int totalCount = json_as_int(json_get(metadata, "totalCount"));
 	ptrA syncState(mir_t2a(ptrT(json_as_string(json_get(metadata, "syncState")))));
 
-	bool markAllAsUnread = getByte("MarkMesUnread",0);
+	bool markAllAsUnread = getBool("MarkMesUnread",false);
 
 	if (totalCount >= 99 || json_size(conversations) >= 99)
 		PushRequest(new GetHistoryOnUrlRequest(syncState, RegToken), &CSkypeProto::OnGetServerHistory);
@@ -225,7 +225,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 	if (totalCount >= 99 || json_size(conversations) >= 99)
 		PushRequest(new SyncHistoryFirstRequest(syncState, RegToken), &CSkypeProto::OnSyncHistory);
 
-	bool autoSyncEnabled = getByte("AutoSync", 1);
+	bool autoSyncEnabled = getBool("AutoSync", true);
 	
 	for (size_t i = 0; i < json_size(conversations); i++)
 	{
@@ -236,7 +236,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 			continue;
 
 		char *clientMsgId = mir_t2a(json_as_string(json_get(lastMessage, "clientmessageid")));
-		char *skypeEditedId = mir_t2a(json_as_string(json_get(lastMessage, "skypeeditedid")));
+		//char *skypeEditedId = mir_t2a(json_as_string(json_get(lastMessage, "skypeeditedid")));
 		char *conversationLink = mir_t2a(json_as_string(json_get(lastMessage, "conversationLink")));
 		time_t composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "composetime")))));
 

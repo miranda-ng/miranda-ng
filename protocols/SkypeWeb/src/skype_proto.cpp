@@ -98,7 +98,6 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)SKYPE_SETTINGS_ID;
 	}
-
 	return 0;
 }
 
@@ -296,8 +295,7 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);
 	if (m_TrouterConnection)
 		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_TrouterConnection, 0);
-	if (m_timer)
-		SkypeUnsetTimer(this);
+	SkypeUnsetTimer(this);
 
 	requestQueue->Stop();
 

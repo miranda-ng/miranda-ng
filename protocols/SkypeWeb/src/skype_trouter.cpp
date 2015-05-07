@@ -126,7 +126,7 @@ void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST*)
 	SendRequest(new GetTrouterRequest(socketIo, connId, st, se, sig, instance, ccid), &CSkypeProto::OnGetTrouter, (void *)true);
 }
 
-void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *headers)
+void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *)
 {
 	ptrT displayname(json_as_string(json_get(body, "displayName")));
 	ptrT cuid(json_as_string(json_get(body, "callerId")));
