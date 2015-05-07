@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "clc.h"
 
-INT_PTR AddMainMenuItem(WPARAM wParam, LPARAM lParam);
-INT_PTR AddContactMenuItem(WPARAM wParam, LPARAM lParam);
 INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam);
 int InitCListEvents(void);
 void UninitCListEvents(void);
@@ -38,7 +36,6 @@ INT_PTR InvalidateDisplayName(WPARAM wParam, LPARAM lParam);
 int InitGroupServices(void);
 void LoadCluiServices();
 INT_PTR Docking_IsDocked(WPARAM wParam, LPARAM lParam);
-void FreeDisplayNameCache(void);
 int LoadCLUIModule(void);
 int InitClistHotKeys(void);
 
