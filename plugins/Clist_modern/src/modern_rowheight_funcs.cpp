@@ -114,7 +114,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 		return tmp;
 	}
 
-	hasAvatar = (dat->use_avatar_service && contact->avatar_data != NULL) || (!dat->use_avatar_service && contact->avatar_pos != AVATAR_POS_DONT_HAVE);
+	hasAvatar = contact->avatar_data != NULL;
 	while (gl_RowTabAccess[i] != NULL) {
 		if (gl_RowTabAccess[i]->type != TC_SPACE) {
 			gl_RowTabAccess[i]->h = 0;
@@ -226,16 +226,11 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 					(hasAvatar || (dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)))
 				{
 					int iW = 0, iH = 0;
-					if (dat->use_avatar_service) {
-						if (contact->avatar_data) {
-							iH = contact->avatar_data->bmHeight;
-							iW = contact->avatar_data->bmWidth;
-						}
+					if (contact->avatar_data) {
+						iH = contact->avatar_data->bmHeight;
+						iW = contact->avatar_data->bmWidth;
 					}
-					else if (dat->avatar_cache.nodes) {
-						iW = dat->avatar_cache.nodes[contact->avatar_pos].width;
-						iH = dat->avatar_cache.nodes[contact->avatar_pos].height;
-					}
+
 					SIZE sz = GetAvatarSize(iW, iH, dat->avatars_maxwidth_size, dat->avatars_maxheight_size);
 					if ((sz.cx == 0 || sz.cy == 0) && dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space && contact->iImage != -1)
 						sz.cx = ICON_HEIGHT, sz.cy = ICON_HEIGHT;
@@ -581,12 +576,8 @@ int RowHeights_GetRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact,
 		}
 
 		// Avatar size
-		if (dat->avatars_show && !dat->avatars_ignore_size_for_row_height &&
-			contact->type == CLCIT_CONTACT &&
-			((dat->use_avatar_service && contact->avatar_data != NULL) || (!dat->use_avatar_service && contact->avatar_pos != AVATAR_POS_DONT_HAVE)) && !minimalistic)
-		{
+		if (dat->avatars_show && !dat->avatars_ignore_size_for_row_height && contact->type == CLCIT_CONTACT && contact->avatar_data != NULL && !minimalistic)
 			height = max(height, dat->avatars_maxheight_size);
-		}
 
 		// Checkbox size
 		if ((style & CLS_CHECKBOXES && contact->type == CLCIT_CONTACT) ||
@@ -598,12 +589,8 @@ int RowHeights_GetRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact,
 
 		// Icon size
 		if (!dat->icon_ignore_size_for_row_height) {
-			if (contact->type == CLCIT_GROUP
-				|| (contact->type == CLCIT_CONTACT && contact->iImage != -1
-				&& !(dat->icon_hide_on_avatar && dat->avatars_show
-				&& ((dat->use_avatar_service && contact->avatar_data != NULL) ||
-				(!dat->use_avatar_service && contact->avatar_pos != AVATAR_POS_DONT_HAVE))
-				&& !contact->image_is_special)))
+			if (contact->type == CLCIT_GROUP || 
+				(contact->type == CLCIT_CONTACT && contact->iImage != -1 && !(dat->icon_hide_on_avatar && dat->avatars_show && contact->avatar_data != NULL && !contact->image_is_special)))
 			{
 				height = max(height, ICON_HEIGHT);
 			}

@@ -272,7 +272,6 @@ struct ClcData : public ClcDataBase
 	int row_heights_allocated;
 
 	// Avatar cache
-	int use_avatar_service;
 	IMAGE_ARRAY_DATA avatar_cache;
 
 	// Row
