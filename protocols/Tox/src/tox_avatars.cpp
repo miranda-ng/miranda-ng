@@ -78,7 +78,7 @@ void CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 		}
 
 		TOX_ERR_FILE_SEND error;
-		uint32_t fileNumber = tox_file_send(tox, friendNumber, TOX_FILE_KIND_AVATAR, length, NULL, hash, TOX_HASH_LENGTH, &error);
+		uint32_t fileNumber = tox_file_send(tox, friendNumber, TOX_FILE_KIND_AVATAR, length, hash, NULL, 0, &error);
 		if (error != TOX_ERR_FILE_SEND_OK)
 		{
 			mir_free(data);
@@ -86,7 +86,8 @@ void CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 			return;
 		}
 
-		FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, _T("avatar"), length);
+		AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, NULL, length);
+		memcpy(transfer->hash, hash, TOX_HASH_LENGTH);
 		transfer->pfts.hContact = hContact;
 		transfer->hFile = _tfopen(path.c_str(), L"rb");
 		transfers.Add(transfer);
@@ -136,7 +137,7 @@ INT_PTR CToxProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 		std::tstring path = GetAvatarFilePath(pai->hContact);
 		if (IsFileExists(path))
 		{
-			_tcsncpy(pai->filename, path.c_str(), SIZEOF(pai->filename));
+			mir_tstrncpy(pai->filename, path.c_str(), SIZEOF(pai->filename));
 			pai->format = PA_FORMAT_PNG;
 
 			return GAIR_SUCCESS;
@@ -156,7 +157,7 @@ INT_PTR CToxProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	std::tstring path = GetAvatarFilePath();
 	if (IsFileExists(path))
 	{
-		_tcsncpy((TCHAR*)wParam, path.c_str(), (int)lParam);
+		mir_tstrncpy((TCHAR*)wParam, path.c_str(), (int)lParam);
 
 		return 0;
 	}
@@ -196,7 +197,7 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 				}
 
 				TOX_ERR_FILE_SEND error;
-				if (!tox_file_send(tox, NULL, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, &error))
+				if (!tox_file_send(tox, friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, &error))
 				{
 					debugLogA(__FUNCTION__": failed to unset avatar");
 					return -1;
@@ -205,11 +206,9 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 		}
 
 		if (IsFileExists(avatarPath))
-		{
 			DeleteFile(avatarPath.c_str());
-		}
 
-		db_unset(NULL, m_szModuleName, TOX_SETTINGS_AVATAR_HASH);
+		delSetting(TOX_SETTINGS_AVATAR_HASH);
 	}
 
 	return 0;

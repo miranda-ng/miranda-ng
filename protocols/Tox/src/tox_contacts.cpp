@@ -381,20 +381,21 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 				}
 
 				TOX_ERR_FILE_SEND error;
-				uint32_t fileNumber = tox_file_send(proto->tox, friendNumber, TOX_FILE_KIND_AVATAR, length, NULL, hash, TOX_HASH_LENGTH, &error);
+				uint32_t fileNumber = tox_file_send(proto->tox, friendNumber, TOX_FILE_KIND_AVATAR, length, hash, NULL, 0, &error);
 				if (error != TOX_ERR_FILE_SEND_OK)
 				{
 					proto->debugLogA(__FUNCTION__": failed to set new avatar");
 					return;
 				}
 
-				FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, _T("avatar"), length);
+				AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, NULL, length);
+				memcpy(transfer->hash, hash, TOX_HASH_LENGTH);
 				transfer->pfts.hContact = hContact;
 				transfer->hFile = hFile;
 				proto->transfers.Add(transfer);
 			}
 			else
-				tox_file_send(proto->tox, NULL, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, NULL);
+				tox_file_send(proto->tox, friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, NULL);
 		}
 		else
 		{

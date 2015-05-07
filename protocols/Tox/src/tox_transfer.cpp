@@ -14,13 +14,11 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 		{
 		case TOX_FILE_KIND_AVATAR:
 		{
-			ptrA id(proto->getStringA(hContact, TOX_SETTINGS_ID));
-			char avatarName[MAX_PATH];
-			mir_snprintf(avatarName, MAX_PATH, "%s.png", id);
-			fileName = (const uint8_t*)avatarName;
-			filenameLength = mir_strlen(avatarName);
+			ptrT id(proto->getTStringA(hContact, TOX_SETTINGS_ID));
+			TCHAR avatarName[MAX_PATH];
+			mir_sntprintf(avatarName, MAX_PATH, _T("%s.png"), id);
 			
-			AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, NULL, fileSize);
+			AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, avatarName, fileSize);
 			transfer->pfts.hContact = hContact;
 			proto->transfers.Add(transfer);
 
@@ -81,9 +79,10 @@ HANDLE CToxProto::OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCH
 	{
 		int action = FILERESUME_OVERWRITE;
 		const TCHAR **szFilename = (const TCHAR**)mir_alloc(sizeof(TCHAR) * 2);
-		szFilename[0] = &fullPath[0];
+		szFilename[0] = fullPath;
 		szFilename[1] = NULL;
 		OnFileResume(hTransfer, &action, szFilename);
+		//mir_free(szFilename);
 	}
 
 	return hTransfer;
@@ -94,14 +93,14 @@ int CToxProto::OnFileResume(HANDLE hTransfer, int *action, const PROTOCHAR **szF
 {
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 
-	if (*action = FILERESUME_SKIP)
+	if (*action == FILERESUME_SKIP)
 	{
 		tox_file_control(tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 		transfers.Remove(transfer);
 		return 0;
 	}
 
-	if (*action = FILERESUME_RENAME)
+	if (*action == FILERESUME_RENAME)
 		transfer->ChangeName(*szFilename);
 
 	TCHAR *mode = *action == FILERESUME_OVERWRITE ? _T("wb") : _T("ab");
