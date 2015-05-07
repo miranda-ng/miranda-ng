@@ -55,7 +55,7 @@ bool CToxProto::InitToxCore()
 		// transfers
 		tox_callback_file_recv_control(tox, OnFileRequest, this);
 		tox_callback_file_recv(tox, OnFriendFile, this);
-		tox_callback_file_recv_chunk(tox, OnFileReceiveData, this);
+		tox_callback_file_recv_chunk(tox, OnDataReceiving, this);
 		tox_callback_file_chunk_request(tox, OnFileSendData, this);
 		// group chats
 		//tox_callback_group_invite(tox, OnGroupChatInvite, this);
@@ -98,7 +98,6 @@ void CToxProto::UninitToxCore()
 		for (size_t i = 0; i < transfers.Count(); i++)
 		{
 			FileTransferParam *transfer = transfers.GetAt(i);
-			transfer->status = CANCELED;
 			tox_file_control(tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 			ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
 			transfers.Remove(transfer);

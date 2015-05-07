@@ -348,7 +348,6 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 				if (transfer->friendNumber == friendNumber && transfer->GetDirection() == 1)
 				{
 					proto->debugLogA(__FUNCTION__": sending ask to resume the transfer of file (%d)", transfer->fileNumber);
-					transfer->status = STARTED;
 					TOX_ERR_FILE_CONTROL error;
 					if (!tox_file_control(proto->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_RESUME, &error))
 					{
@@ -402,12 +401,12 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 			proto->SetContactStatus(hContact, ID_STATUS_OFFLINE);
 			proto->setDword(hContact, "LastEventDateTS", time(NULL));
 
-			for (size_t i = 0; i < proto->transfers.Count(); i++)
+			/*for (size_t i = 0; i < proto->transfers.Count(); i++)
 			{
 				FileTransferParam *transfer = proto->transfers.GetAt(i);
 				if (transfer->friendNumber == friendNumber)
 					transfer->status = BROKEN;
-			}
+			}*/
 		}
 	}
 }

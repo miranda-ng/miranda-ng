@@ -1,32 +1,18 @@
 #ifndef _TOX_TRANSFERS_H_
 #define _TOX_TRANSFERS_H_
 
-enum FILE_TRANSFER_STATUS
-{
-	NONE,
-	STARTED,
-	PAUSED,
-	BROKEN,
-	FAILED,
-	CANCELED,
-	FINISHED,
-	DESTROYED
-};
-
 struct FileTransferParam
 {
 	PROTOFILETRANSFERSTATUS pfts;
-	FILE_TRANSFER_STATUS status;
 	FILE *hFile;
 	uint32_t friendNumber;
 	uint32_t fileNumber;
 	uint64_t transferNumber;
 
-	bool isAvatar;
+	TOX_FILE_KIND transferType;
 
 	FileTransferParam(uint32_t friendNumber, uint32_t fileNumber, const TCHAR *fileName, uint64_t fileSize)
 	{
-		status = NONE;
 		hFile = NULL;
 		this->friendNumber = friendNumber;
 		this->fileNumber = fileNumber;
@@ -43,7 +29,7 @@ struct FileTransferParam
 		pfts.currentFileNumber = 0;
 		pfts.tszWorkingDir = NULL;
 
-		isAvatar = false;
+		transferType = TOX_FILE_KIND_DATA;
 	}
 
 	bool OpenFile(const TCHAR *mode)
@@ -64,7 +50,6 @@ struct FileTransferParam
 
 	~FileTransferParam()
 	{
-		status = DESTROYED;
 		if (pfts.tszWorkingDir != NULL)
 		{
 			mir_free(pfts.tszWorkingDir);
@@ -76,6 +61,17 @@ struct FileTransferParam
 			fclose(hFile);
 			hFile = NULL;
 		}
+	}
+};
+
+struct AvatarTransferParam : public FileTransferParam
+{
+	uint8_t hash[TOX_HASH_LENGTH];
+
+	AvatarTransferParam(uint32_t friendNumber, uint32_t fileNumber, const TCHAR *fileName, uint64_t fileSize)
+		: FileTransferParam(friendNumber, fileNumber, NULL, fileSize)
+	{
+		transferType = TOX_FILE_KIND_AVATAR;
 	}
 };
 
@@ -117,17 +113,6 @@ public:
 			return it->second;
 		}
 		return NULL;
-	}
-
-	void Remove(uint32_t friendNumber, uint32_t fileNumber)
-	{
-		int64_t transferNumber = (((int64_t)friendNumber) << 32) | ((int64_t)fileNumber);
-		if (transfers.find(transferNumber) != transfers.end())
-		{
-			FileTransferParam *transfer = transfers.at(transferNumber);
-			transfers.erase(transferNumber);
-			delete transfer;
-		}
 	}
 
 	void Remove(FileTransferParam *transfer)
