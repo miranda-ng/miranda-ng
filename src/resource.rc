@@ -82,7 +82,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Contact display options",IDC_STATIC,7,7,299,228
     CTEXT           "Instead of displaying contacts by their nickname,\ndrag to choose another order:",IDC_STATIC,64,39,181,32
-    CONTROL         "Tree1",IDC_NAMEORDER,"SysTreeView32",TVS_NOTOOLTIPS | TVS_FULLROWSELECT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,65,78,182,93
+    CONTROL         "Tree1",IDC_NAMEORDER,"SysTreeView32",TVS_NOHSCROLL | TVS_NOTOOLTIPS | TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,65,78,182,93
 END
 
 IDD_PROFILEMANAGER DIALOGEX 0, 0, 219, 211
