@@ -216,33 +216,33 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 
 void CToxProto::OnGotFriendAvatarInfo(AvatarTransferParam *transfer)
 {
-	MCONTACT hContact = transfer->pfts.hContact;
 	if (transfer->pfts.totalBytes == 0)
 	{
-		delSetting(hContact, TOX_SETTINGS_AVATAR_HASH);
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, 0, 0);
-		std::tstring path = GetAvatarFilePath(hContact);
+		std::tstring path = GetAvatarFilePath(transfer->pfts.hContact);
 		if (IsFileExists(path))
 			DeleteFile(path.c_str());
-		OnFileCancel(hContact, transfer);
+
+		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, 0, 0);
+		delSetting(transfer->pfts.hContact, TOX_SETTINGS_AVATAR_HASH);
+		transfers.Remove(transfer);
+		return;
 	}
-	else
+
+	DBVARIANT dbv;
+	if (!db_get(transfer->pfts.hContact, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, &dbv))
 	{
-		DBVARIANT dbv;
-		if (!db_get(transfer->pfts.hContact, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, &dbv))
+		if (memcmp(transfer->hash, dbv.pbVal, TOX_HASH_LENGTH) == 0)
 		{
-			if (memcmp(transfer->hash, dbv.pbVal, TOX_HASH_LENGTH) == 0)
-			{
-				db_free(&dbv);
-				OnFileCancel(hContact, transfer);
-				return;
-			}
 			db_free(&dbv);
+			OnFileCancel(transfer->pfts.hContact, transfer);
+			return;
 		}
-		TCHAR path[MAX_PATH];
-		mir_sntprintf(path, SIZEOF(path), _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
-		OnFileAllow(hContact, transfer, path);
+		db_free(&dbv);
 	}
+
+	TCHAR path[MAX_PATH];
+	mir_sntprintf(path, SIZEOF(path), _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
+	OnFileAllow(transfer->pfts.hContact, transfer, path);
 }
 
 void CToxProto::OnGotFriendAvatarData(AvatarTransferParam *transfer)
