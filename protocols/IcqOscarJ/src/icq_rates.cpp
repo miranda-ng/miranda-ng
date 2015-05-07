@@ -310,6 +310,10 @@ struct rate_delay_args
 void __cdecl CIcqProto::rateDelayThread(rate_delay_args *pArgs)
 {
 	SleepEx(pArgs->nDelay, TRUE);
+
+	if (g_bTerminated)
+		return;
+
 	(pArgs->queue->*pArgs->delaycode)();
 	SAFE_FREE((void**)&pArgs);
 }

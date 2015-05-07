@@ -32,6 +32,7 @@ HINSTANCE hInst;
 int hLangpack;
 TIME_API tmi;
 CLIST_INTERFACE *pcli;
+bool g_bTerminated;
 
 BOOL bPopupService = FALSE;
 
@@ -85,6 +86,12 @@ int ModuleLoad(WPARAM, LPARAM)
 	return 0;
 }
 
+static int OnPreShutdown(WPARAM, LPARAM)
+{
+	g_bTerminated = true;
+	return 0;
+}
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -114,6 +121,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
+
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 
 	hExtraXStatus = ExtraIcon_Register("xstatus", LPGEN("ICQ xStatus"), "icq_xstatus13");
 
