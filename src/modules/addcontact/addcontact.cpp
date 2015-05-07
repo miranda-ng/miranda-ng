@@ -24,247 +24,219 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\..\core\commonheaders.h"
 
-INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
+class CAddContactDlg : public CDlgBase
 {
-	ADDCONTACTSTRUCT *acs;
+	ADDCONTACTSTRUCT m_acs;
 
-	switch(msg) {
-	case WM_INITDIALOG:
+	CCtrlEdit   m_authReq, m_myHandle;
+	CCtrlCheck  m_chkAdded, m_chkAuth, m_chkOpen;
+	CCtrlButton m_btnOk;
+	CCtrlCombo  m_group;
+
+public:
+	CAddContactDlg(ADDCONTACTSTRUCT *acs) :
+		CDlgBase(hInst, IDD_ADDCONTACT),
+		m_chkAdded(this, IDC_ADDED),
+		m_chkAuth(this, IDC_AUTH),
+		m_chkOpen(this, IDC_OPEN_WINDOW),
+		m_btnOk(this, IDOK),
+		m_group(this, IDC_GROUP),
+		m_authReq(this, IDC_AUTHREQ),
+		m_myHandle(this, IDC_MYHANDLE)
+	{
+		m_chkAuth.OnChange = Callback(this, &CAddContactDlg::OnAuthClicked);
+		m_chkOpen.OnChange = Callback(this, &CAddContactDlg::OnOpenClicked);
+		m_btnOk.OnClick = Callback(this, &CAddContactDlg::OnOk);
+
+		m_acs = *acs;
+		if (m_acs.psr) {
+			PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)mir_alloc(m_acs.psr->cbSize);
+			memcpy(psr, m_acs.psr, m_acs.psr->cbSize);
+			psr->nick = (psr->flags & PSR_UNICODE) ? mir_u2t((wchar_t*)psr->nick) : mir_a2t((char*)psr->nick);
+			psr->firstName = (psr->flags & PSR_UNICODE) ? mir_u2t((wchar_t*)psr->firstName) : mir_a2t((char*)psr->firstName);
+			psr->lastName = (psr->flags & PSR_UNICODE) ? mir_u2t((wchar_t*)psr->lastName) : mir_a2t((char*)psr->lastName);
+			psr->email = (psr->flags & PSR_UNICODE) ? mir_u2t((wchar_t*)psr->email) : mir_a2t((char*)psr->email);
+			psr->id = (psr->flags & PSR_UNICODE) ? mir_u2t((wchar_t*)psr->id) : mir_a2t((char*)psr->id);
+			psr->flags = psr->flags & ~PSR_UNICODE | PSR_TCHAR;
+			m_acs.psr = psr;
+		}
+	}
+
+	void OnInitDialog()
+	{
 		char szUin[10];
-		acs = (ADDCONTACTSTRUCT *)lparam;
-		SetWindowLongPtr(hdlg, GWLP_USERDATA, (LONG_PTR)acs);
-
-		TranslateDialogDefault(hdlg);
-		Window_SetIcon_IcoLib(hdlg, SKINICON_OTHER_ADDCONTACT);
-		if (acs->handleType == HANDLE_EVENT) {
+		Window_SetIcon_IcoLib(m_hwnd, SKINICON_OTHER_ADDCONTACT);
+		if (m_acs.handleType == HANDLE_EVENT) {
 			DWORD dwUin;
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			dbei.cbBlob = sizeof(DWORD);
 			dbei.pBlob = (PBYTE)&dwUin;
-			db_event_get(acs->hDbEvent, &dbei);
+			db_event_get(m_acs.hDbEvent, &dbei);
 			_ltoa(dwUin, szUin, 10);
-			acs->szProto = dbei.szModule;
+			m_acs.szProto = dbei.szModule;
 		}
+
 		MCONTACT hContact;
-		{
-			TCHAR *szName = NULL, *tmpStr = NULL;
-			if (acs->handleType == HANDLE_CONTACT)
-				szName = cli.pfnGetContactDisplayName(hContact = acs->hContact, 0);
-			else {
-				int isSet = 0;
-				hContact = 0;
+		TCHAR *szName = NULL, *tmpStr = NULL;
+		if (m_acs.handleType == HANDLE_CONTACT)
+			szName = cli.pfnGetContactDisplayName(hContact = m_acs.hContact, 0);
+		else {
+			int isSet = 0;
+			hContact = 0;
 
-				if (acs->handleType == HANDLE_EVENT) {
-					DBEVENTINFO dbei = { sizeof(dbei) };
-					dbei.cbBlob = db_event_getBlobSize(acs->hDbEvent);
-					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-					db_event_get(acs->hDbEvent, &dbei);
-					hContact = *(MCONTACT*)(dbei.pBlob + sizeof(DWORD));
-					mir_free(dbei.pBlob);
-					if (hContact != INVALID_CONTACT_ID) {
-						szName = cli.pfnGetContactDisplayName(hContact, 0);
-						isSet = 1;
-					}
-				}
-				if (!isSet) {
-					szName = (acs->handleType == HANDLE_EVENT) ? (tmpStr = mir_a2t(szUin)) :
-						(acs->psr->id ? acs->psr->id : acs->psr->nick);
+			if (m_acs.handleType == HANDLE_EVENT) {
+				DBEVENTINFO dbei = { sizeof(dbei) };
+				dbei.cbBlob = db_event_getBlobSize(m_acs.hDbEvent);
+				dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
+				db_event_get(m_acs.hDbEvent, &dbei);
+				hContact = *(MCONTACT*)(dbei.pBlob + sizeof(DWORD));
+				mir_free(dbei.pBlob);
+				if (hContact != INVALID_CONTACT_ID) {
+					szName = cli.pfnGetContactDisplayName(hContact, 0);
+					isSet = 1;
 				}
 			}
-
-			if (szName && szName[0]) {
-				TCHAR  szTitle[128];
-				mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("Add %s"), szName);
-				SetWindowText(hdlg, szTitle);
+			if (!isSet) {
+				szName = (m_acs.handleType == HANDLE_EVENT) ? (tmpStr = mir_a2t(szUin)) :
+					(m_acs.psr->id ? m_acs.psr->id : m_acs.psr->nick);
 			}
-			else SetWindowText(hdlg, TranslateT("Add contact"));
-			mir_free(tmpStr);
 		}
 
-		if (acs->handleType == HANDLE_CONTACT && acs->hContact)
-			if (acs->szProto == NULL || (acs->szProto != NULL && *acs->szProto == 0))
-				acs->szProto = GetContactProto(acs->hContact);
-
-		{
-			int groupSel = 0;
-			ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
-			TCHAR *grpName;
-			for (int groupId = 1; (grpName = cli.pfnGetGroupName(groupId, NULL)) != NULL; groupId++) {
-				int id = SendDlgItemMessage(hdlg, IDC_GROUP, CB_ADDSTRING, 0, (LPARAM)grpName);
-				SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETITEMDATA, id, groupId);
-				if (!mir_tstrcmpi(tszGroup, grpName))
-					groupSel = id;
-			}
-
-			SendDlgItemMessage(hdlg, IDC_GROUP, CB_INSERTSTRING, 0, (LPARAM)TranslateT("None"));
-			SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETCURSEL, groupSel, 0);
-		}
-		
-		/* acs->szProto may be NULL don't expect it */
-		{
-			// By default check both checkboxes
-			CheckDlgButton(hdlg, IDC_ADDED, BST_CHECKED);
-			CheckDlgButton(hdlg, IDC_AUTH, BST_CHECKED);
-
-			// Set last choice
-			if (db_get_b(NULL, "Miranda", "AuthOpenWindow", 1))
-				CheckDlgButton(hdlg, IDC_OPEN_WINDOW, BST_CHECKED);
-
-			DWORD flags = (acs->szProto) ? CallProtoServiceInt(NULL,acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
-			if (flags&PF4_FORCEADDED) { // force you were added requests for this protocol
-				EnableWindow( GetDlgItem(hdlg, IDC_ADDED), FALSE);
-			}
-			if (flags&PF4_FORCEAUTH) { // force auth requests for this protocol
-				EnableWindow( GetDlgItem(hdlg, IDC_AUTH), FALSE);
-			}
-			if (flags&PF4_NOCUSTOMAUTH) {
-				EnableWindow( GetDlgItem(hdlg, IDC_AUTHREQ), FALSE);
-				EnableWindow( GetDlgItem(hdlg, IDC_AUTHGB), FALSE);
-			}
-			else {
-				EnableWindow( GetDlgItem(hdlg, IDC_AUTHREQ), IsDlgButtonChecked(hdlg, IDC_AUTH));
-				EnableWindow( GetDlgItem(hdlg, IDC_AUTHGB), IsDlgButtonChecked(hdlg, IDC_AUTH));
-				SetDlgItemText(hdlg, IDC_AUTHREQ, TranslateT("Please authorize my request and add me to your contact list."));
-			}
-		}
-		break;
-
-	case WM_COMMAND:
-		acs = (ADDCONTACTSTRUCT *)GetWindowLongPtr(hdlg, GWLP_USERDATA);
-
-		switch (LOWORD(wparam)) {
-		case IDC_AUTH:
-			{
-				DWORD flags = CallProtoServiceInt(NULL,acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0);
-				if (flags & PF4_NOCUSTOMAUTH) {
-					EnableWindow( GetDlgItem(hdlg, IDC_AUTHREQ), FALSE);
-					EnableWindow( GetDlgItem(hdlg, IDC_AUTHGB), FALSE);
-				}
-				else {
-					EnableWindow( GetDlgItem(hdlg, IDC_AUTHREQ), IsDlgButtonChecked(hdlg, IDC_AUTH));
-					EnableWindow( GetDlgItem(hdlg, IDC_AUTHGB), IsDlgButtonChecked(hdlg, IDC_AUTH));
-				}
-			}
-			break;
-		case IDC_OPEN_WINDOW:
-			// Remember this choice
-			db_set_b(NULL, "Miranda", "AuthOpenWindow", IsDlgButtonChecked(hdlg, IDC_OPEN_WINDOW));
-			break;
-		case IDOK:
-			{
-				MCONTACT hContact = INVALID_CONTACT_ID;
-				switch (acs->handleType) {
-				case HANDLE_EVENT:
-					{
-						DBEVENTINFO dbei = { sizeof(dbei) };
-						db_event_get(acs->hDbEvent, &dbei);
-						hContact = (MCONTACT)CallProtoServiceInt(NULL, dbei.szModule, PS_ADDTOLISTBYEVENT, 0, (LPARAM)acs->hDbEvent);
-					}
-					break;
-
-				case HANDLE_SEARCHRESULT:
-					hContact = (MCONTACT)CallProtoServiceInt(NULL, acs->szProto, PS_ADDTOLIST, 0, (LPARAM)acs->psr);
-					break;
-
-				case HANDLE_CONTACT:
-					hContact = acs->hContact;
-					break;
-				}
-
-				if (hContact == NULL)
-					break;
-
-				TCHAR szHandle[256];
-				if ( GetDlgItemText(hdlg, IDC_MYHANDLE, szHandle, SIZEOF(szHandle)))
-					db_set_ts(hContact, "CList", "MyHandle", szHandle);
-
-				int item = SendDlgItemMessage(hdlg, IDC_GROUP, CB_GETCURSEL, 0, 0);
-				if (item > 0) {
-					item = SendDlgItemMessage(hdlg, IDC_GROUP, CB_GETITEMDATA, item, 0);
-					CallService(MS_CLIST_CONTACTCHANGEGROUP, hContact, item);
-				}
-
-				db_unset(hContact, "CList", "NotOnList");
-
-				if (IsDlgButtonChecked(hdlg, IDC_ADDED))
-					CallContactService(hContact, PSS_ADDED, 0, 0);
-
-				if (IsDlgButtonChecked(hdlg, IDC_AUTH)) {
-					DWORD flags = CallProtoServiceInt(NULL,acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0);
-					if (flags & PF4_NOCUSTOMAUTH)
-						CallContactService(hContact, PSS_AUTHREQUESTT, 0, 0);
-					else {
-						TCHAR szReason[512];
-						GetDlgItemText(hdlg, IDC_AUTHREQ, szReason, SIZEOF(szReason));
-						CallContactService(hContact, PSS_AUTHREQUESTT, 0, (LPARAM)szReason);
-					}
-				}
-
-				if (IsDlgButtonChecked(hdlg, IDC_OPEN_WINDOW))
-					CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
-			}
-			// fall through
-		case IDCANCEL:
-			if (GetParent(hdlg) == NULL)
-				DestroyWindow(hdlg);
-			else
-				EndDialog(hdlg, 0);
-			break;
-		}
-		break;
-
-	case WM_CLOSE:
-		/* if there is no parent for the dialog, its a modeless dialog and can't be killed using EndDialog() */
-		if (GetParent(hdlg) == NULL)
-			DestroyWindow(hdlg);
+		if (szName && szName[0])
+			SetCaption(CMString(FORMAT, TranslateT("Add %s"), szName));
 		else
-			EndDialog(hdlg, 0);
-		break;
+			SetCaption(TranslateT("Add contact"));
+		mir_free(tmpStr);
 
-	case WM_DESTROY:
-		Window_FreeIcon_IcoLib(hdlg);
-		acs = (ADDCONTACTSTRUCT*)GetWindowLongPtr(hdlg, GWLP_USERDATA);
-		if (acs) {
-			if (acs->psr) {
-				mir_free(acs->psr->nick);
-				mir_free(acs->psr->firstName);
-				mir_free(acs->psr->lastName);
-				mir_free(acs->psr->email);
-				mir_free(acs->psr);
-			}
-			mir_free(acs);
+		if (m_acs.handleType == HANDLE_CONTACT && m_acs.hContact)
+			if (m_acs.szProto == NULL || (m_acs.szProto != NULL && *m_acs.szProto == 0))
+				m_acs.szProto = GetContactProto(m_acs.hContact);
+
+		int groupSel = 0;
+		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
+		TCHAR *grpName;
+		for (int groupId = 1; (grpName = cli.pfnGetGroupName(groupId, NULL)) != NULL; groupId++) {
+			int id = m_group.AddString(grpName, groupId);
+			if (!mir_tstrcmpi(tszGroup, grpName))
+				groupSel = id;
 		}
-		break;
+
+		m_group.InsertString(TranslateT("None"), 0);
+		m_group.SetCurSel(groupSel);
+
+		// By default check both checkboxes
+		m_chkAdded.SetState(true);
+		m_chkAuth.SetState(true);
+
+		// Set last choice
+		if (db_get_b(NULL, "Miranda", "AuthOpenWindow", 1))
+			m_chkOpen.SetState(true);
+
+		DWORD flags = (m_acs.szProto) ? CallProtoServiceInt(NULL, m_acs.szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
+		if (flags & PF4_FORCEADDED)  // force you were added requests for this protocol
+			m_chkAdded.Enable(false);
+
+		if (flags & PF4_FORCEAUTH)  // force auth requests for this protocol
+			m_chkAuth.Enable(false);
+
+		if (flags & PF4_NOCUSTOMAUTH)
+			m_authReq.Enable(false);
+		else {
+			m_authReq.Enable(m_chkAuth.Enabled());
+			m_authReq.SetText(TranslateT("Please authorize my request and add me to your contact list."));
+		}
 	}
 
-	return FALSE;
-}
+	void OnDestroy()
+	{
+		Window_FreeIcon_IcoLib(m_hwnd);
+
+		if (m_acs.psr) {
+			mir_free(m_acs.psr->nick);
+			mir_free(m_acs.psr->firstName);
+			mir_free(m_acs.psr->lastName);
+			mir_free(m_acs.psr->email);
+			mir_free(m_acs.psr);
+		}
+	}
+
+	void OnAuthClicked(CCtrlButton*)
+	{
+		DWORD flags = CallProtoServiceInt(NULL, m_acs.szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+		if (flags & PF4_NOCUSTOMAUTH)
+			m_authReq.Enable(false);
+		else
+			m_authReq.Enable(m_chkAuth.Enabled());
+	}
+
+	void OnOpenClicked(CCtrlButton*)
+	{
+		// Remember this choice
+		db_set_b(NULL, "Miranda", "AuthOpenWindow", m_chkOpen.Enabled());
+	}
+
+	void OnOk(CCtrlButton*)
+	{
+		MCONTACT hContact = INVALID_CONTACT_ID;
+		switch (m_acs.handleType) {
+		case HANDLE_EVENT:
+			{
+				DBEVENTINFO dbei = { sizeof(dbei) };
+				db_event_get(m_acs.hDbEvent, &dbei);
+				hContact = (MCONTACT)CallProtoServiceInt(NULL, dbei.szModule, PS_ADDTOLISTBYEVENT, 0, (LPARAM)m_acs.hDbEvent);
+			}
+			break;
+
+		case HANDLE_SEARCHRESULT:
+			hContact = (MCONTACT)CallProtoServiceInt(NULL, m_acs.szProto, PS_ADDTOLIST, 0, (LPARAM)m_acs.psr);
+			break;
+
+		case HANDLE_CONTACT:
+			hContact = m_acs.hContact;
+			break;
+		}
+
+		if (hContact == NULL)
+			return;
+
+		ptrT szHandle(m_myHandle.GetText());
+		if (mir_tstrlen(szHandle))
+			db_set_ts(hContact, "CList", "MyHandle", szHandle);
+
+		int item = m_group.GetCurSel();
+		if (item > 0)
+			CallService(MS_CLIST_CONTACTCHANGEGROUP, hContact, m_group.GetItemData(item));
+
+		db_unset(hContact, "CList", "NotOnList");
+
+		if (m_chkAdded.GetState())
+			CallContactService(hContact, PSS_ADDED, 0, 0);
+
+		if (m_chkAuth.GetState()) {
+			DWORD flags = CallProtoServiceInt(NULL, m_acs.szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+			if (flags & PF4_NOCUSTOMAUTH)
+				CallContactService(hContact, PSS_AUTHREQUESTT, 0, 0);
+			else
+				CallContactService(hContact, PSS_AUTHREQUESTT, 0, ptrT(m_authReq.GetText()));
+		}
+
+		if (m_chkOpen.GetState())
+			CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
+	}
+};
 
 INT_PTR AddContactDialog(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam == 0)
 		return 1;
-	
-	ADDCONTACTSTRUCT *acs = (ADDCONTACTSTRUCT*)mir_alloc(sizeof(ADDCONTACTSTRUCT));
-	memcpy(acs, (ADDCONTACTSTRUCT*)lParam, sizeof(ADDCONTACTSTRUCT));
-	if (acs->psr) {
-		// bad! structures that are bigger than psr will cause crashes if they define pointers within unreachable structural space
-		PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)mir_alloc(acs->psr->cbSize);
-		memcpy(psr, acs->psr, acs->psr->cbSize);
-		psr->nick = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->nick) : mir_a2t((char*)psr->nick);
-		psr->firstName = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->firstName) : mir_a2t((char*)psr->firstName);
-		psr->lastName = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->lastName) : mir_a2t((char*)psr->lastName);
-		psr->email = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->email) : mir_a2t((char*)psr->email);
-		psr->id = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->id) : mir_a2t((char*)psr->id);
-		psr->flags = psr->flags & ~PSR_UNICODE | PSR_TCHAR;
-		acs->psr = psr;
-		/* copied the passed acs structure, the psr structure with, the pointers within that  */
-	}
 
-	if (wParam)
-		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ADDCONTACT), (HWND)wParam, AddContactDlgProc, (LPARAM)acs);
-	else
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDCONTACT), (HWND)wParam, AddContactDlgProc, (LPARAM)acs);
+	ADDCONTACTSTRUCT *acs = (ADDCONTACTSTRUCT*)lParam;
+	if (wParam) {
+		CAddContactDlg dlg(acs);
+		dlg.SetParent((HWND)wParam);
+		dlg.DoModal();
+	}
+	else (new CAddContactDlg(acs))->Show();
 	return 0;
 }
 
