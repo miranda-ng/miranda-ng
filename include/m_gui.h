@@ -267,6 +267,8 @@ public:
 	void Show(int nCmdShow = SW_SHOW);
 	int DoModal();
 
+	void SetCaption(const TCHAR *ptszCaption);
+
 	__forceinline HINSTANCE GetInst() const { return m_hInst; }
 	__forceinline HWND GetHwnd() const { return m_hwnd; }
 	__forceinline bool IsInitialized() const { return m_initialized; }

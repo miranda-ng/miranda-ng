@@ -77,6 +77,12 @@ int CDlgBase::DoModal()
 	return DialogBoxParam(m_hInst, MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this);
 }
 
+void CDlgBase::SetCaption(const TCHAR *ptszCaption)
+{
+	if (m_hwnd && ptszCaption)
+		SetWindowText(m_hwnd, ptszCaption);
+}
+
 int CDlgBase::Resizer(UTILRESIZECONTROL*)
 {
 	return RD_ANCHORX_LEFT|RD_ANCHORY_TOP;
