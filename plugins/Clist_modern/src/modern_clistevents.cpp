@@ -57,7 +57,7 @@ struct CListEvent {
 	int imlIconOverlayIndex;
 };
 
-static struct CListEvent *event;
+static CListEvent *event;
 static int eventCount;
 static int disableTrayFlash;
 static int disableIconFlash;
@@ -83,10 +83,8 @@ struct NotifyMenuItemExData {
 
 static CLISTEVENT* MyGetEvent(int iSelection)
 {
-	int i;
-
-	for (i = 0; i < pcli->events.count; i++) {
-		struct CListEvent* p = pcli->events.items[i];
+	for (int i = 0; i < pcli->events.count; i++) {
+		CListEvent *p = pcli->events.items[i];
 		if (p->menuId == iSelection)
 			return &p->cle;
 	}
@@ -100,9 +98,9 @@ CListEvent* cliCreateEvent(void)
 	return p;
 }
 
-struct CListEvent* cli_AddEvent(CLISTEVENT *cle)
+CListEvent* cli_AddEvent(CLISTEVENT *cle)
 {
-	struct CListEvent* p = corecli.pfnAddEvent(cle);
+	CListEvent* p = corecli.pfnAddEvent(cle);
 	if (p == NULL)
 		return NULL;
 

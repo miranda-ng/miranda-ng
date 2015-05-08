@@ -406,7 +406,6 @@ int Cache_GetLineText(
 	BOOL show_status_if_no_away, BOOL show_listening_if_no_away, BOOL use_name_and_message_for_xstatus,
 	BOOL pdnce_time_show_only_if_different)
 {
-
 	if (text == NULL)
 		return TEXT_EMPTY;
 	text[0] = '\0';
@@ -485,13 +484,13 @@ int Cache_GetLineText(
 		return TEXT_LISTENING_TO;
 
 	case TEXT_TEXT:
-	{
-		TCHAR *tmp = variables_parsedup(variable_text, pdnce->tszName, pdnce->hContact);
-		mir_tstrncpy(text, tmp, text_size);
-		mir_free(tmp);
-		CopySkipUnprintableChars(text, text, text_size - 1);
-	}
-	return TEXT_TEXT;
+		{
+			TCHAR *tmp = variables_parsedup(variable_text, pdnce->tszName, pdnce->hContact);
+			mir_tstrncpy(text, tmp, text_size);
+			mir_free(tmp);
+			CopySkipUnprintableChars(text, text, text_size - 1);
+		}
+		return TEXT_TEXT;
 
 	case TEXT_CONTACT_TIME:
 		if (pdnce->hTimeZone) {
@@ -654,9 +653,7 @@ static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size)
 // Return TRUE if finished, FALSE if was stoped
 static BOOL ExecuteOnAllContacts(ClcData *dat, ExecuteOnAllContactsFuncPtr func, void *param)
 {
-	BOOL res;
-	res = ExecuteOnAllContactsOfGroup(&dat->list, func, param);
-	return res;
+	return ExecuteOnAllContactsOfGroup(&dat->list, func, param);
 }
 
 static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFuncPtr func, void *param)
@@ -708,13 +705,14 @@ BOOL ReduceAvatarPosition(ClcContact *contact, BOOL, void *param)
 
 void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 {
-	struct avatarCacheEntry * ace = contact->avatar_data;
+	avatarCacheEntry * ace = contact->avatar_data;
 	int old_pos = contact->avatar_pos;
 
 	if (ace == NULL || ace->dwFlags == AVS_BITMAP_EXPIRED || ace->hbmPic == NULL) {
-		//Avatar was not ready or removed - need to remove it from cache
+		// Avatar was not ready or removed - need to remove it from cache
 		if (old_pos >= 0) {
 			ImageArray_RemoveImage(&dat->avatar_cache, old_pos);
+			
 			// Update all items
 			ExecuteOnAllContacts(dat, ReduceAvatarPosition, (void *)&old_pos);
 			contact->avatar_pos = AVATAR_POS_DONT_HAVE;
@@ -750,14 +748,12 @@ void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 		HDC hdc = CreateCompatibleDC(dat->avatar_cache.hdc);
 		HBITMAP hDrawBmp = ske_CreateDIB32Point(width_clip, height_clip, &pt);
 		HBITMAP oldBmp = (HBITMAP)SelectObject(hdc, hDrawBmp);
-		//need to draw avatar bitmap here
-		{
-			int w = width_clip;
-			int h = height_clip;
-			DrawAvatarImageWithGDIp(hdc, 0, 0, w, h, ace->hbmPic, 0, 0, ace->bmWidth, ace->bmHeight, ace->dwFlags, 255);
-		}
+
+		// need to draw avatar bitmap here
+		DrawAvatarImageWithGDIp(hdc, 0, 0, width_clip, height_clip, ace->hbmPic, 0, 0, ace->bmWidth, ace->bmHeight, ace->dwFlags, 255);
 		SelectObject(hdc, oldBmp);
 		DeleteDC(hdc);
+		
 		// Add to list
 		if (old_pos >= 0) {
 			ImageArray_ChangeImage(&dat->avatar_cache, hDrawBmp, old_pos);
@@ -782,8 +778,8 @@ void Cache_GetAvatar(ClcData *dat, ClcContact *contact)
 	}
 
 	if (dat->avatars_show && !db_get_b(contact->hContact, "CList", "HideContactAvatar", 0)) {
-		contact->avatar_data = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)contact->hContact, 0);
-		if (contact->avatar_data == NULL || contact->avatar_data->cbSize != sizeof(struct avatarCacheEntry) || contact->avatar_data->dwFlags == AVS_BITMAP_EXPIRED)
+		contact->avatar_data = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, contact->hContact, 0);
+		if (contact->avatar_data == NULL || contact->avatar_data->cbSize != sizeof(avatarCacheEntry) || contact->avatar_data->dwFlags == AVS_BITMAP_EXPIRED)
 			contact->avatar_data = NULL;
 
 		if (contact->avatar_data != NULL)

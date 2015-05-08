@@ -41,8 +41,7 @@ static void Docking_GetMonitorRectFromPoint(LPPOINT pt, LPRECT rc)
 	HMONITOR hMonitor = MonitorFromPoint(*pt, MONITOR_DEFAULTTONEAREST); // always returns a valid value
 	monitorInfo.cbSize = sizeof(monitorInfo);
 
-	if (GetMonitorInfo(hMonitor, &monitorInfo))
-	{
+	if (GetMonitorInfo(hMonitor, &monitorInfo)) {
 		*rc = monitorInfo.rcMonitor;
 		return;
 	}
@@ -64,7 +63,7 @@ static void Docking_RectToDock(LPRECT rc)
 
 static void Docking_PosCommand(HWND hwnd, LPRECT rc, bool query)
 {
-	APPBARDATA abd = {0};
+	APPBARDATA abd = { 0 };
 
 	abd.cbSize = sizeof(abd);
 	abd.hWnd = hwnd;
@@ -76,7 +75,7 @@ static void Docking_PosCommand(HWND hwnd, LPRECT rc, bool query)
 
 static UINT_PTR Docking_Command(HWND hwnd, int cmd)
 {
-	APPBARDATA abd = {0};
+	APPBARDATA abd = { 0 };
 
 	abd.cbSize = sizeof(abd);
 	abd.hWnd = hwnd;
@@ -90,13 +89,11 @@ static void Docking_AdjustPosition(HWND hwnd, LPRECT rcDisplay, LPRECT rc, bool 
 
 	rc->top = rcDisplay->top;
 	rc->bottom = rcDisplay->bottom;
-	if (docked == DOCKED_LEFT)
-	{
+	if (docked == DOCKED_LEFT) {
 		rc->right = rcDisplay->left + (rc->right - rc->left);
 		rc->left = rcDisplay->left;
 	}
-	else
-	{
+	else {
 		rc->left = rcDisplay->right - (rc->right - rc->left);
 		rc->right = rcDisplay->right;
 	}
@@ -107,16 +104,14 @@ static void Docking_AdjustPosition(HWND hwnd, LPRECT rcDisplay, LPRECT rc, bool 
 	else
 		rc->left = rc->right - cx;
 
-	if (!query)
-	{
+	if (!query) {
 		Docking_PosCommand(hwnd, rc, false);
 		dockPos = *(LPPOINT)rc;
 	}
 
-	if (move)
-	{
+	if (move) {
 		MoveWindow(hwnd, rc->left, rc->top, rc->right - rc->left,
-			rc->bottom - rc->top, TRUE);
+					  rc->bottom - rc->top, TRUE);
 	}
 }
 
@@ -142,18 +137,15 @@ INT_PTR Docking_IsDocked(WPARAM, LPARAM)
 int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 {
 	static int draggingTitle;
-	MSG *msg = (MSG *) wParam;
+	MSG *msg = (MSG *)wParam;
 
-	if (msg->message == WM_DESTROY)
-	{
-		if (docked)
-		{
-			db_set_b(NULL, "CList", "Docked", (BYTE) docked);
-			db_set_dw(NULL, "CList", "DockX", (DWORD) dockPos.x);
-			db_set_dw(NULL, "CList", "DockY", (DWORD) dockPos.y);
+	if (msg->message == WM_DESTROY) {
+		if (docked) {
+			db_set_b(NULL, "CList", "Docked", (BYTE)docked);
+			db_set_dw(NULL, "CList", "DockX", (DWORD)dockPos.x);
+			db_set_dw(NULL, "CList", "DockY", (DWORD)dockPos.y);
 		}
-		else
-		{
+		else {
 			db_unset(NULL, "CList", "Docked");
 			db_unset(NULL, "CList", "DockX");
 			db_unset(NULL, "CList", "DockY");
@@ -163,12 +155,11 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 	if (!docked && msg->message != WM_CREATE && msg->message != WM_MOVING)
 		return 0;
 
-	switch (msg->message)
-	{
+	switch (msg->message) {
 	case WM_CREATE:
 		draggingTitle = 0;
 		docked = db_get_b(NULL, "CLUI", "DockToSides", 1) ?
-			(char) db_get_b(NULL, "CList", "Docked", 0) : 0;
+			(char)db_get_b(NULL, "CList", "Docked", 0) : 0;
 		dockPos.x = (int)db_get_dw(NULL, "CList", "DockX", 0);
 		dockPos.y = (int)db_get_dw(NULL, "CList", "DockY", 0);
 		break;
@@ -178,86 +169,80 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_WINDOWPOSCHANGING:
-	{
-		LPWINDOWPOS wp = (LPWINDOWPOS)msg->lParam;
-
-		bool vis = Docking_IsWindowVisible(msg->hwnd);
-		if (wp->flags & SWP_SHOWWINDOW)
-			vis = !IsIconic(msg->hwnd);
-		if (wp->flags & SWP_HIDEWINDOW)
-			vis = false;
-
-		if (vis)
 		{
-			if (!(wp->flags & (SWP_NOMOVE | SWP_NOSIZE)))
-			{
-				bool addbar = Docking_Command(msg->hwnd, ABM_NEW) != 0;
+			LPWINDOWPOS wp = (LPWINDOWPOS)msg->lParam;
 
-				RECT rc = {0};
-				GetWindowRect(msg->hwnd, &rc);
+			bool vis = Docking_IsWindowVisible(msg->hwnd);
+			if (wp->flags & SWP_SHOWWINDOW)
+				vis = !IsIconic(msg->hwnd);
+			if (wp->flags & SWP_HIDEWINDOW)
+				vis = false;
 
-				int cx = rc.right - rc.left;
-				if (!(wp->flags & SWP_NOMOVE)) { rc.left = wp->x; rc.top = wp->y; }
+			if (vis) {
+				if (!(wp->flags & (SWP_NOMOVE | SWP_NOSIZE))) {
+					bool addbar = Docking_Command(msg->hwnd, ABM_NEW) != 0;
 
-				if (addbar)
-					Docking_RectToDock(&rc);
-
-				if (!(wp->flags & SWP_NOSIZE))
-				{
-					rc.right = rc.left + wp->cx;
-					rc.bottom = rc.top + wp->cy;
-					addbar |= (cx != wp->cx);
-				}
-
-				Docking_SetSize(msg->hwnd, &rc, !addbar, false);
-
-				if (!(wp->flags & SWP_NOMOVE)) { wp->x = rc.left; wp->y = rc.top; }
-				if (!(wp->flags & SWP_NOSIZE)) wp->cy = rc.bottom - rc.top;
-
-				*((LRESULT *) lParam) = TRUE;
-				return TRUE;
-			}
-			else
-			{
-				if ((wp->flags & SWP_SHOWWINDOW) && Docking_Command(msg->hwnd, ABM_NEW))
-				{
-					RECT rc = {0};
+					RECT rc = { 0 };
 					GetWindowRect(msg->hwnd, &rc);
-					Docking_RectToDock(&rc);
 
-					Docking_SetSize(msg->hwnd, &rc, false, false);
+					int cx = rc.right - rc.left;
+					if (!(wp->flags & SWP_NOMOVE)) { rc.left = wp->x; rc.top = wp->y; }
 
-					wp->x = rc.left;
-					wp->y = rc.top;
-					wp->cy = rc.bottom - rc.top;
-					wp->cx = rc.right - rc.left;
-					wp->flags &= ~(SWP_NOSIZE | SWP_NOMOVE);
+					if (addbar)
+						Docking_RectToDock(&rc);
+
+					if (!(wp->flags & SWP_NOSIZE)) {
+						rc.right = rc.left + wp->cx;
+						rc.bottom = rc.top + wp->cy;
+						addbar |= (cx != wp->cx);
+					}
+
+					Docking_SetSize(msg->hwnd, &rc, !addbar, false);
+
+					if (!(wp->flags & SWP_NOMOVE)) { wp->x = rc.left; wp->y = rc.top; }
+					if (!(wp->flags & SWP_NOSIZE)) wp->cy = rc.bottom - rc.top;
+
+					*((LRESULT *)lParam) = TRUE;
+					return TRUE;
+				}
+				else {
+					if ((wp->flags & SWP_SHOWWINDOW) && Docking_Command(msg->hwnd, ABM_NEW)) {
+						RECT rc = { 0 };
+						GetWindowRect(msg->hwnd, &rc);
+						Docking_RectToDock(&rc);
+
+						Docking_SetSize(msg->hwnd, &rc, false, false);
+
+						wp->x = rc.left;
+						wp->y = rc.top;
+						wp->cy = rc.bottom - rc.top;
+						wp->cx = rc.right - rc.left;
+						wp->flags &= ~(SWP_NOSIZE | SWP_NOMOVE);
+					}
 				}
 			}
 		}
 		break;
-	}
 
 	case WM_WINDOWPOSCHANGED:
-	{
-		LPWINDOWPOS wp = (LPWINDOWPOS)msg->lParam;
-		bool vis = Docking_IsWindowVisible(msg->hwnd);
-		if (wp->flags & SWP_SHOWWINDOW)
-			vis = !IsIconic(msg->hwnd);
-		if (wp->flags & SWP_HIDEWINDOW)
-			vis = false;
+		{
+			LPWINDOWPOS wp = (LPWINDOWPOS)msg->lParam;
+			bool vis = Docking_IsWindowVisible(msg->hwnd);
+			if (wp->flags & SWP_SHOWWINDOW)
+				vis = !IsIconic(msg->hwnd);
+			if (wp->flags & SWP_HIDEWINDOW)
+				vis = false;
 
-		if (!vis)
-			Docking_Command(msg->hwnd, ABM_REMOVE);
-		else
-			Docking_Command(msg->hwnd, ABM_WINDOWPOSCHANGED);
+			if (!vis)
+				Docking_Command(msg->hwnd, ABM_REMOVE);
+			else
+				Docking_Command(msg->hwnd, ABM_WINDOWPOSCHANGED);
+		}
 		break;
-	}
 
 	case WM_DISPLAYCHANGE:
-		if (Docking_IsWindowVisible(msg->hwnd))
-		{
-			RECT rc = {0};
+		if (Docking_IsWindowVisible(msg->hwnd)) {
+			RECT rc = { 0 };
 			GetWindowRect(msg->hwnd, &rc);
 			Docking_RectToDock(&rc);
 			Docking_SetSize(msg->hwnd, &rc, false, true);
@@ -265,8 +250,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_MOVING:
-		if (!docked)
-		{
+		if (!docked) {
 			RECT rcMonitor;
 			POINT ptCursor;
 
@@ -275,7 +259,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 				return 0;
 
 			// GetMessagePos() is no good, position is always unsigned
-//			GetCursorPos(&ptCursor);
+			//			GetCursorPos(&ptCursor);
 			DWORD pos = GetMessagePos();
 			ptCursor.x = GET_X_LPARAM(pos);
 			ptCursor.y = GET_Y_LPARAM(pos);
@@ -283,40 +267,36 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 
 			if (((ptCursor.x < rcMonitor.left + EDGESENSITIVITY) ||
 				(ptCursor.x >= rcMonitor.right - EDGESENSITIVITY)) &&
-				db_get_b(NULL, "CLUI", "DockToSides", 1))
-			{
+				db_get_b(NULL, "CLUI", "DockToSides", 1)) {
 				docked = (ptCursor.x < rcMonitor.left + EDGESENSITIVITY) ? DOCKED_LEFT : DOCKED_RIGHT;
 				PostMessage(msg->hwnd, WM_LBUTTONUP, 0, MAKELPARAM(ptCursor.x, ptCursor.y));
 
 				Docking_Command(msg->hwnd, ABM_NEW);
 				Docking_AdjustPosition(msg->hwnd, &rcMonitor, (LPRECT)msg->lParam, false, true);
 
-				*((LRESULT *) lParam) = TRUE;
+				*((LRESULT *)lParam) = TRUE;
 				return TRUE;
 			}
 		}
 		break;
 
 	case WM_NCHITTEST:
-		switch (DefWindowProc(msg->hwnd, WM_NCHITTEST, msg->wParam, msg->lParam))
-		{
+		switch (DefWindowProc(msg->hwnd, WM_NCHITTEST, msg->wParam, msg->lParam)) {
 		case HTSIZE: case HTTOP: case HTTOPLEFT: case HTTOPRIGHT:
 		case HTBOTTOM: case HTBOTTOMRIGHT: case HTBOTTOMLEFT:
-			*((LRESULT *) lParam) = HTCLIENT;
+			*((LRESULT *)lParam) = HTCLIENT;
 			return TRUE;
 
 		case HTLEFT:
-			if (docked == DOCKED_LEFT)
-			{
-				*((LRESULT *) lParam) = HTCLIENT;
+			if (docked == DOCKED_LEFT) {
+				*((LRESULT *)lParam) = HTCLIENT;
 				return TRUE;
 			}
 			break;
 
 		case HTRIGHT:
-			if (docked == DOCKED_RIGHT)
-			{
-				*((LRESULT *) lParam) = HTCLIENT;
+			if (docked == DOCKED_RIGHT) {
+				*((LRESULT *)lParam) = HTCLIENT;
 				return TRUE;
 			}
 			break;
@@ -330,28 +310,26 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		SetActiveWindow(msg->hwnd);
 		SetCapture(msg->hwnd);
 		draggingTitle = 1;
-		*((LRESULT *) lParam) = 0;
+		*((LRESULT *)lParam) = 0;
 		return 1;
 
 	case WM_MOUSEMOVE:
-		if (draggingTitle)
-		{
+		if (draggingTitle) {
 			RECT rc;
 			POINT pt;
 			GetClientRect(msg->hwnd, &rc);
-			if ((docked == DOCKED_LEFT && (short) LOWORD(msg->lParam) > rc.right)  ||
-				(docked == DOCKED_RIGHT && (short) LOWORD(msg->lParam) < 0))
-			{
+			if ((docked == DOCKED_LEFT && (short)LOWORD(msg->lParam) > rc.right) ||
+				 (docked == DOCKED_RIGHT && (short)LOWORD(msg->lParam) < 0)) {
 				ReleaseCapture();
 				draggingTitle = 0;
 				docked = 0;
 				GetCursorPos(&pt);
 				PostMessage(msg->hwnd, WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(pt.x, pt.y));
 				SetWindowPos(msg->hwnd, 0, pt.x - rc.right / 2,
-					pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2,
-					db_get_dw(NULL, "CList", "Width", 0),
-					db_get_dw(NULL, "CList", "Height", 0),
-					SWP_NOZORDER);
+								 pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2,
+								 db_get_dw(NULL, "CList", "Width", 0),
+								 db_get_dw(NULL, "CList", "Height", 0),
+								 SWP_NOZORDER);
 				Docking_Command(msg->hwnd, ABM_REMOVE);
 			}
 			return 1;
@@ -359,26 +337,22 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_LBUTTONUP:
-		if (draggingTitle)
-		{
+		if (draggingTitle) {
 			ReleaseCapture();
 			draggingTitle = 0;
 		}
 		break;
 
 	case WM_DOCKCALLBACK:
-		switch (msg->wParam)
-		{
+		switch (msg->wParam) {
 		case ABN_WINDOWARRANGE:
 			ShowWindow(msg->hwnd, msg->lParam ? SW_HIDE : SW_SHOW);
 			break;
 
 		case ABN_POSCHANGED:
-			{
-				RECT rc = {0};
-				GetWindowRect(msg->hwnd, &rc);
-				Docking_SetSize(msg->hwnd, &rc, false, true);
-			}
+			RECT rc = { 0 };
+			GetWindowRect(msg->hwnd, &rc);
+			Docking_SetSize(msg->hwnd, &rc, false, true);
 			break;
 		}
 		return 1;

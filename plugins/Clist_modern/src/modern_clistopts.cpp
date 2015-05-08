@@ -228,7 +228,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		CheckDlgButton(hwndDlg, IDC_SHOW_AVATARS, db_get_b(NULL, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOW_ANIAVATARS, db_get_b(NULL, "CList", "AvatarsAnimated", ServiceExists(MS_AV_GETAVATARBITMAP)) == 1 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOW_ANIAVATARS, db_get_b(NULL, "CList", "AvatarsAnimated", BST_CHECKED));
 		CheckDlgButton(hwndDlg, IDC_AVATAR_FASTDRAW, db_get_b(NULL, "CList", "AvatarsInSeparateWnd", SETTINGS_AVATARINSEPARATE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_AVATAR_DRAW_BORDER, db_get_b(NULL, "CList", "AvatarsDrawBorders", SETTINGS_AVATARDRAWBORDER_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_AVATAR_ROUND_CORNERS, db_get_b(NULL, "CList", "AvatarsRoundCorners", SETTINGS_AVATARROUNDCORNERS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
@@ -308,11 +308,6 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_OVERLAY_ICON_PROTOCOL), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_OVERLAY_ICON_CONTACT), FALSE);
 		}
-
-		if (!ServiceExists(MS_AV_GETAVATARBITMAP)) {
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOW_ANIAVATARS), FALSE);
-			SetDlgItemText(hwndDlg, IDC_SHOW_ANIAVATARS, TranslateT("Animate avatars (GDI+ and Avatar service module (avs.dll) are required)"));
-		}
 		break;
 
 	case WM_COMMAND:
@@ -332,7 +327,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_SIZE), enabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_SIZE_SPIN), enabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_SIZE_PIXELS3), enabled);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOW_ANIAVATARS), enabled && ServiceExists(MS_AV_GETAVATARBITMAP));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOW_ANIAVATARS), enabled);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_WIDTH), enabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_WIDTH_SPIN), enabled);

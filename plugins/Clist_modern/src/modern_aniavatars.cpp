@@ -946,8 +946,7 @@ int AniAva_SetAvatarPos(MCONTACT hContact, RECT *rc, int overlayIdx, BYTE bAlpha
 int AniAva_UpdateOptions()
 {
 	BOOL bReloadAvatars = FALSE;
-	BOOL bBeEnabled = (db_get_b(NULL, "CList", "AvatarsAnimated", ServiceExists(MS_AV_GETAVATARBITMAP)) &&
-		db_get_b(NULL, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT));
+	BOOL bBeEnabled = db_get_b(NULL, "CList", "AvatarsAnimated", db_get_b(NULL, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT));
 	if (bBeEnabled && !s_bModuleStarted) {
 		AniAva_InitModule();
 		bReloadAvatars = TRUE;
@@ -988,8 +987,7 @@ void AniAva_UpdateParent()
 
 int AniAva_InitModule()
 {
-	if (!(db_get_b(NULL, "CList", "AvatarsAnimated", ServiceExists(MS_AV_GETAVATARBITMAP)) &&
-		db_get_b(NULL, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT)))
+	if (!db_get_b(NULL, "CList", "AvatarsAnimated", db_get_b(NULL, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT)))
 		return 0;
 
 	WNDCLASSEX wc = { sizeof(wc) };

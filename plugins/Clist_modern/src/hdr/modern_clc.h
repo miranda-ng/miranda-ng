@@ -215,7 +215,7 @@ struct ClcContact : public ClcContactBase
 	//	int status;
 	BOOL image_is_special;
 	int avatar_pos;
-	struct avatarCacheEntry *avatar_data;
+	avatarCacheEntry *avatar_data;
 	SIZE avatar_size;
 	CSmileyString ssText;
 
