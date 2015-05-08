@@ -173,7 +173,7 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 	MCONTACT hContact = AddContact(skypename, true);
 	
-	if (!HistorySynced) db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
+	if (HistorySynced) db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
 
 	if (!mir_strcmpi(messageType, "Control/Typing"))
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
