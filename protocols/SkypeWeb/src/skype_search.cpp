@@ -28,7 +28,9 @@ void CSkypeProto::SearchBasicThread(void* id)
 	debugLogA("CSkypeProto::OnSearchBasicThread");
 	if (!IsOnline())
 		return;
-	ptrA string(mir_urlEncode(ptrA(mir_utf8encodeT((TCHAR*)id))));
+
+	TCHAR *idT = (TCHAR *)id;
+	ptrA string(mir_urlEncode(mir_utf8encodeT(idT)));
 	SendRequest(new GetSearchRequest(TokenSecret, string), &CSkypeProto::OnSearch);
 }
 

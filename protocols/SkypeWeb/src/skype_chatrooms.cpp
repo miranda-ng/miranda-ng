@@ -98,6 +98,47 @@ void CSkypeProto::StartChatRoom(const TCHAR *tid, const TCHAR *tname)
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
 }
 
+void CSkypeProto::OnLoadChats(const NETLIBHTTPREQUEST *response)
+{
+	if (response == NULL)
+		return;
+
+	JSONROOT root(response->pData);
+
+	if (root == NULL)
+		return;
+
+	JSONNODE *metadata = json_get(root, "_metadata");
+	JSONNODE *conversations = json_as_array(json_get(root, "conversations"));
+
+	int totalCount = json_as_int(json_get(metadata, "totalCount"));
+	ptrA syncState(mir_t2a(ptrT(json_as_string(json_get(metadata, "syncState")))));
+
+	if (totalCount >= 99 || json_size(conversations) >= 99)
+		PushRequest(new SyncHistoryFirstRequest(syncState, RegToken), &CSkypeProto::OnSyncHistory);
+	
+	for (size_t i = 0; i < json_size(conversations); i++)
+	{
+		JSONNODE *conversation = json_at(conversations, i);
+		JSONNODE *lastMessage = json_get(conversation, "lastMessage");
+		JSONNODE *threadProperties = json_get(conversation, "threadProperties");
+		if (json_empty(lastMessage))
+			continue;
+
+		char *conversationLink = mir_t2a(json_as_string(json_get(lastMessage, "conversationLink")));
+
+		ptrA skypename;
+		TCHAR *topic;
+
+		if (conversationLink != NULL && strstr(conversationLink, "/19:"))
+		{
+			skypename = ChatUrlToName(conversationLink);
+			topic =  json_as_string(json_get(threadProperties, "topic"));
+			SendRequest(new GetChatInfoRequest(RegToken, skypename, Server), &CSkypeProto::OnGetChatInfo, topic);
+		}
+	}
+}
+
 /* Hooks */
 
 int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)

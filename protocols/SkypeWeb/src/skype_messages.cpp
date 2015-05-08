@@ -17,81 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp)
-{
-	if(messageId == NULL)
-		return NULL;
-
-	timestamp -= 600; // we check events written 10 minutes ago
-	size_t messageIdLength = mir_strlen(messageId);
-
-	mir_cslock lock(messageSyncLock);
-	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent))
-	{
-		DBEVENTINFO dbei = { sizeof(dbei) };
-		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-
-		if (dbei.cbBlob < messageIdLength)
-			continue;
-
-		mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
-		dbei.pBlob = blob;
-		db_event_get(hDbEvent, &dbei);
-
-		if (dbei.eventType != EVENTTYPE_MESSAGE && dbei.eventType != SKYPE_DB_EVENT_TYPE_ACTION && dbei.eventType != SKYPE_DB_EVENT_TYPE_CALL_INFO)
-			continue;
-
-		size_t cbLen = strlen((char*)dbei.pBlob);
-		if (memcmp(&dbei.pBlob[cbLen+1], messageId, messageIdLength) == 0)
-			return hDbEvent;
-
-		if (dbei.timestamp < timestamp)
-			break;
-	}
-
-	return NULL;
-}
-
-MEVENT CSkypeProto::AddMessageToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content, int emoteOffset)
-{
-	if (MEVENT hDbEvent = GetMessageFromDb(hContact, messageId, timestamp))
-		return hDbEvent;
-	size_t messageLength = mir_strlen(&content[emoteOffset]) + 1;
-	size_t messageIdLength = mir_strlen(messageId);
-	size_t cbBlob = messageLength + messageIdLength;
-	PBYTE pBlob = (PBYTE)mir_alloc(cbBlob);
-	memcpy(pBlob, &content[emoteOffset], messageLength);
-	memcpy(pBlob + messageLength, messageId, messageIdLength);
-
-	return AddEventToDb(hContact, emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, timestamp, flags, (DWORD)cbBlob, pBlob);
-}
-
-MEVENT CSkypeProto::AddCallInfoToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content)
-{
-	if (MEVENT hDbEvent = GetMessageFromDb(hContact, messageId, timestamp))
-		return hDbEvent;
-	size_t messageLength = mir_strlen(content) + 1;
-	size_t messageIdLength = mir_strlen(messageId);
-	size_t cbBlob = messageLength + messageIdLength;
-	PBYTE pBlob = (PBYTE)mir_alloc(cbBlob);
-	memcpy(pBlob, content, messageLength);
-	memcpy(pBlob + messageLength, messageId, messageIdLength);
-
-	return AddEventToDb(hContact,SKYPE_DB_EVENT_TYPE_CALL_INFO, timestamp, flags, (DWORD)cbBlob, pBlob);
-}
-
-MEVENT CSkypeProto::AddCallToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *callId, const char *gp)
-{
-	size_t callIdLength = mir_strlen(callId);
-	size_t messageLength = mir_strlen(gp) + 1;
-	size_t cbBlob = messageLength + callIdLength;
-	PBYTE pBlob = (PBYTE)mir_alloc(cbBlob);
-	memcpy(pBlob, gp, messageLength);
-	memcpy(pBlob + messageLength, callId, callIdLength);
-
-	return AddEventToDb(hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL, timestamp, flags, (DWORD)cbBlob, pBlob);
-}
-
 /* MESSAGE RECEIVING */
 
 // incoming message flow
@@ -247,6 +172,8 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 	
 	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 	MCONTACT hContact = AddContact(skypename, true);
+	
+	if (!HistorySynced) db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
 
 	if (!mir_strcmpi(messageType, "Control/Typing"))
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
@@ -399,10 +326,6 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 	debugLogA(__FUNCTION__);
 	ptrA username(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID));
 	DBEVENTINFO dbei = { sizeof(dbei) };
-
-	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-	mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
-	dbei.pBlob = blob;
 
 	db_event_get(hDbEvent, &dbei);
 
