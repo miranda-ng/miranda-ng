@@ -720,8 +720,6 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				ShowWindow(GetDlgItem(hwndDlg, _page2Controls[i++]), SW_HIDE);
 			ShowWindow(hwndDlg, SW_SHOWNORMAL);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_APPLY), FALSE);
-			//EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLES), FALSE);
-			//EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLES), ServiceExists(MS_VARS_FORMATSTRING));
 			SendDlgItemMessage(hwndDlg, IDC_AUTOCLEARSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
 			SetWindowText(hwndDlg, TranslateT("Configure view modes"));
 		}

@@ -106,7 +106,8 @@ extern "C" __declspec(dllexport) int Unload(void)
 {
 	TRACE("Unloading Clist Modern\r\n");
 
-	if (IsWindow(pcli->hwndContactList)) DestroyWindow(pcli->hwndContactList);
+	if (IsWindow(pcli->hwndContactList))
+		DestroyWindow(pcli->hwndContactList);
 	pcli->hwndContactList = NULL;
 
 	ToolbarButtonUnloadModule();

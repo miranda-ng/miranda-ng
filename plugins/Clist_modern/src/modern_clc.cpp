@@ -1718,7 +1718,7 @@ int ClcUnloadModule()
 	return 0;
 }
 
-int ClcDoProtoAck(MCONTACT, ACKDATA * ack)
+int ClcDoProtoAck(MCONTACT, ACKDATA *ack)
 {
 	if (MirandaExiting()) return 0;
 	if (ack->type == ACKTYPE_STATUS) {
@@ -1757,13 +1757,6 @@ int ClcDoProtoAck(MCONTACT, ACKDATA * ack)
 					mir_free(val);
 				}
 			}
-		}
-	}
-	else if (ack->type == ACKTYPE_AVATAR) {
-		if (ack->result == ACKRESULT_SUCCESS) {
-			PROTO_AVATAR_INFORMATIONT *pai = (PROTO_AVATAR_INFORMATIONT*)ack->hProcess;
-			if (pai != NULL && pai->hContact != NULL)
-				pcli->pfnClcBroadcast(INTM_AVATARCHANGED, (WPARAM)pai->hContact, 0);
 		}
 	}
 	else if (ack->type == ACKTYPE_EMAIL) {

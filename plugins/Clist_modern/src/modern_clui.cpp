@@ -203,20 +203,6 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM, LPARAM)
 		Menu_ShowItem(hHideAvatarMenuItem, false);
 	}
 	else {
-		int has_avatar;
-
-		if (ServiceExists(MS_AV_GETAVATARBITMAP))
-			has_avatar = CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hItem, 0);
-		else {
-			DBVARIANT dbv;
-			if (db_get_ts(hItem, "ContactPhoto", "File", &dbv))
-				has_avatar = 0;
-			else {
-				has_avatar = 1;
-				db_free(&dbv);
-			}
-		}
-
 		bool bHideAvatar = db_get_b(hItem, "CList", "HideContactAvatar", 0) != 0;
 		Menu_ShowItem(hShowAvatarMenuItem, bHideAvatar);
 		Menu_ShowItem(hHideAvatarMenuItem, !bHideAvatar);
