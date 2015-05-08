@@ -101,6 +101,8 @@ private:
 
 	static INT_PTR CALLBACK PasswordEditorProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+	bool HistorySynced;
+
 	HANDLE 
 		m_hPopupClassCall,
 		m_hPopupClassNotify;
@@ -255,6 +257,8 @@ private:
 
 	void StartChatRoom(const TCHAR *tid, const TCHAR *tname);
 
+	void OnLoadChats(const NETLIBHTTPREQUEST *response);
+
 	void OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p);
 
 	INT_PTR __cdecl OnJoinChatRoom	(WPARAM hContact, LPARAM);
@@ -315,6 +319,8 @@ private:
 
 	void CALLBACK SkypeUnsetTimer(void*);
 	void CALLBACK SkypeSetTimer(void*);
+
+	time_t GetLastMessageTime(MCONTACT hContact);
 
 	//events
 	void CSkypeProto::InitDBEvents();

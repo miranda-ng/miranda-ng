@@ -216,7 +216,10 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
 
-	SyncHistory();
+	//SyncHistory();
+
+	SendRequest(new LoadChatsRequest(RegToken, Server), &CSkypeProto::OnLoadChats);
+	PushRequest(new SyncHistoryFirstRequest(RegToken, 100, Server), &CSkypeProto::OnSyncHistory);
 
 	if (response == NULL || response->pData == NULL)
 		return;

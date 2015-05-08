@@ -22,11 +22,13 @@ class GetSearchRequest : public HttpRequest
 {
 public:
 	GetSearchRequest(const char *token, const char *string) : 
-	  HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/search/users/any?keyWord=%s&contactTypes[]=skype", string)
+	  HttpRequest(REQUEST_GET, "api.skype.com/search/users/any")
 	{
+		Url 
+			<< CHAR_VALUE("keyWord", string)
+			<< CHAR_VALUE("contactTypes[]", "skype");
 		Headers
 			<< CHAR_VALUE("Accept", "application/json")
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< CHAR_VALUE("Connection", "keep-alive")
 			<< CHAR_VALUE("X-Skypetoken", token);
 	}

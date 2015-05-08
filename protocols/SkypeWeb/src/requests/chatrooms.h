@@ -18,6 +18,25 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_CHATS_H_
 #define _SKYPE_REQUEST_CHATS_H_
 
+class LoadChatsRequest : public HttpRequest
+{
+public:
+	LoadChatsRequest(const char *regToken, const char *server = SKYPE_ENDPOINTS_HOST) :
+		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations", server)
+	{
+		Url 
+			<< INT_VALUE("startTime", 0)
+			<< INT_VALUE("pageSize", 100)
+			<< CHAR_VALUE("view", "msnp24Equivalent")
+			<< CHAR_VALUE("targetType", "Thread");
+
+		Headers
+			<< CHAR_VALUE("Accept", "application/json, text/javascript")
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
+			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
+	}
+};
+
 class SendChatMessageRequest : public HttpRequest
 {
 public:

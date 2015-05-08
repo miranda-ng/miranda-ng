@@ -58,6 +58,10 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 		MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
 
+
+		if (timestamp > db_get_dw(hContact,m_szModuleName, "LastMsgTime", 0))
+			db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
+
 		int flags = DBEF_UTF;
 
 		if (!markAllAsUnread)
@@ -202,14 +206,9 @@ INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void CSkypeProto::SyncHistory()
-{
-	PushRequest(new SyncHistoryFirstRequest(RegToken, 100, Server), &CSkypeProto::OnSyncHistory);
-}
-
 void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (response == NULL || response->pData == NULL)
 		return;
 	JSONROOT root(response->pData);
 
@@ -224,41 +223,30 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 
 	if (totalCount >= 99 || json_size(conversations) >= 99)
 		PushRequest(new SyncHistoryFirstRequest(syncState, RegToken), &CSkypeProto::OnSyncHistory);
-
-	bool autoSyncEnabled = getBool("AutoSync", true);
 	
 	for (size_t i = 0; i < json_size(conversations); i++)
 	{
 		JSONNODE *conversation = json_at(conversations, i);
 		JSONNODE *lastMessage = json_get(conversation, "lastMessage");
-		JSONNODE *threadProperties = json_get(conversation, "threadProperties");
 		if (json_empty(lastMessage))
 			continue;
 
 		char *clientMsgId = mir_t2a(json_as_string(json_get(lastMessage, "clientmessageid")));
-		//char *skypeEditedId = mir_t2a(json_as_string(json_get(lastMessage, "skypeeditedid")));
 		char *conversationLink = mir_t2a(json_as_string(json_get(lastMessage, "conversationLink")));
 		time_t composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "composetime")))));
 
 		ptrA skypename;
-		TCHAR *topic;
 
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
 		{
-			if (autoSyncEnabled)
-			{
-				skypename = ContactUrlToName(conversationLink);
-				MCONTACT hContact = AddContact(skypename, true);
+			skypename = ContactUrlToName(conversationLink);
+			MCONTACT hContact = AddContact(skypename, true);
 
-				if (GetMessageFromDb(hContact, clientMsgId, composeTime) == NULL)
-					PushRequest(new GetHistoryRequest(RegToken, skypename, 100, false, 0, Server), &CSkypeProto::OnGetServerHistory);
+			if (/*GetLastMessageTime(hContact) < composeTime || */db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) < composeTime) 
+			{
+				PushRequest(new GetHistoryRequest(RegToken, skypename, 100, false, 0, Server), &CSkypeProto::OnGetServerHistory);
+				HistorySynced = true;
 			}
-		}
-		else if (conversationLink != NULL && strstr(conversationLink, "/19:"))
-		{
-			skypename = ChatUrlToName(conversationLink);
-			topic =  json_as_string(json_get(threadProperties, "topic"));
-			SendRequest(new GetChatInfoRequest(RegToken, skypename, Server), &CSkypeProto::OnGetChatInfo, topic);
 		}
 	}
 }
