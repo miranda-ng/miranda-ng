@@ -1,0 +1,2 @@
+﻿[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://miranda-ng.org]
+[Error loading plugin]

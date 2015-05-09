@@ -601,24 +601,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [&Delete group]
 Выдаліць гурт
 ;file \plugins\Clist_modern\src\modern_clc.cpp
-[Skins]
-Скіны
-[Modern contact list]
-Прадвінуты спіс кантактаў
-[Avatar overlay]
-Адбітак аватара
-[Status overlay]
-Адбітак статусу
-[Contact list smileys]
-Смайлы спісу кантактаў
-[List background]
-Фон спісу
-[Menu background]
-Фон меню
-[Status bar background]
-Фон панэлі статуса
-[Frames title bar background]
-Фон загалоўка фрэймаў
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Жадаеце канверсаваць '%s' у метакантакт і дадаць '%s' у яго?
 [Converting to metacontact]
@@ -639,6 +621,24 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Жадаеце выдаліць '%s' з метакантакту '%s' і дадаць у '%s'?
 [Changing metacontacts (moving)]
 Змена метакантакту (перасоўванне)
+[Skins]
+Скіны
+[Modern contact list]
+Прадвінуты спіс кантактаў
+[Avatar overlay]
+Адбітак аватара
+[Status overlay]
+Адбітак статусу
+[Contact list smileys]
+Смайлы спісу кантактаў
+[List background]
+Фон спісу
+[Menu background]
+Фон меню
+[Status bar background]
+Фон панэлі статуса
+[Frames title bar background]
+Фон загалоўка фрэймаў
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Кантакты
@@ -793,8 +793,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Тэкст
 [Extra icons]
 Экстра абразкі
-[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
-Анімаваныя аватары (патрэбны GDI+ і сервіс аватараў (avs.dll))
 [Left align group names]
 Імёны гуртоў злева
 [Center group names]

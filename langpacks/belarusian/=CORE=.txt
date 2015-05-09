@@ -12,8 +12,8 @@
 Пазначце ўнутранае імя конту (не абавязкова)
 [Cancel]
 Скасаваць
-[Add %s]
-Дадаць %s
+[Add contact]
+Дадаць кантакт
 [&Add]
 Дадаць
 [&Cancel]
@@ -1947,8 +1947,8 @@ URL ад %s
 %s далучаны
 ;file \src\mir_core\src\ui_utils.cpp
 ;file \src\modules\addcontact\addcontact.cpp
-[Add contact]
-Дадаць кантакт
+[Add %s]
+Дадаць %s
 [Please authorize my request and add me to your contact list.]
 Калі ласка, дазвольце дадаць Вас у мой спіс кантактаў.
 ;file \src\modules\chat\chat_opts.cpp

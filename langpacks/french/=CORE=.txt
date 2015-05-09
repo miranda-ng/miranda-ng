@@ -12,8 +12,8 @@ Choisissez le type de protocole
 Spécifiez le nom interne du compte (optionnel)
 [Cancel]
 Annuler
-[Add %s]
-Ajouter %s
+[Add contact]
+Ajouter le contact
 [&Add]
 &Ajouter
 [&Cancel]
@@ -1961,8 +1961,8 @@ Voir/Changer mes &détails...
 [Account]
 Compte
 ;file \src\modules\addcontact\addcontact.cpp
-[Add contact]
-Ajouter le contact
+[Add %s]
+Ajouter %s
 [Please authorize my request and add me to your contact list.]
 Veuillez autoriser ma demande et m'ajouter à votre liste de contact.
 ;file \src\modules\chat\chat_opts.cpp

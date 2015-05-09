@@ -12,8 +12,8 @@ Wählen Sie den Protokolltyp aus
 Geben Sie den internen Kontonamen an (optional)
 [Cancel]
 Abbrechen
-[Add %s]
-%s hinzufügen
+[Add contact]
+Kontakt hinzufügen
 [&Add]
 &Hinzufügen
 [&Cancel]
@@ -1961,8 +1961,8 @@ Mein Profil än&dern...
 [Account]
 Konto
 ;file \src\modules\addcontact\addcontact.cpp
-[Add contact]
-Kontakt hinzufügen
+[Add %s]
+%s hinzufügen
 [Please authorize my request and add me to your contact list.]
 Bitte autorisieren Sie mich und fügen Sie mich Ihrer Kontaktliste hinzu.
 ;file \src\modules\chat\chat_opts.cpp
