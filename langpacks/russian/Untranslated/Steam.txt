@@ -1,3 +1,2 @@
 ﻿[Steam Guard]
-[Steam game]
 [SteamID]

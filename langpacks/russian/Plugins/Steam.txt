@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.3.2
+;  Version: 0.11.3.3
 ;  Authors: unsane, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -35,6 +35,10 @@
 Сохранить пароль
 [Enter the password to continue.]
 Введите пароль, чтобы продолжить.
+[Steam game]
+Игра Steam
+[Connection token expired. Please login again.]
+Токен соединения устарел. Пожалуйста, войдите заново.
 [Looking to play]
 Хотите играть
 [Looking to trade]

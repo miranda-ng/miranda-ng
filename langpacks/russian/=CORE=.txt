@@ -11,8 +11,8 @@
 Укажите внутреннее имя (не обязательно)
 [Cancel]
 Отмена
-[Add %s]
-Добавить %s
+[Add contact]
+Добавить контакт
 [&Add]
 &Добавить
 [&Cancel]
@@ -1907,8 +1907,8 @@ URL от %s
 %s в сети
 [Account]
 Учётная запись
-[Add contact]
-Добавить контакт
+[Add %s]
+Добавить %s
 [Please authorize my request and add me to your contact list.]
 Пожалуйста, разрешите добавить вас в мой список контактов.
 [Others nicknames]
