@@ -43,21 +43,14 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	CreateProtoService("/IncomingCallCLE", &CSkypeProto::OnIncomingCallCLE);
 	CreateProtoService("/IncomingCallPP", &CSkypeProto::OnIncomingCallPP);
 
+	//HookProtoEvent(ME_MSG_WINDOWEVENT, &CSkypeProto::ProcessSrmmEvent);
+
 	m_tszAvatarFolder = std::tstring(VARST(_T("%miranda_avatarcache%"))) + _T("\\") + m_tszUserName;
 	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());
 
 	db_set_resident(m_szModuleName, "Status");
-	db_set_resident(m_szModuleName, "Trouter_ccid"); 
-	db_set_resident(m_szModuleName, "Trouter_connId");
-	db_set_resident(m_szModuleName, "Trouter_instance");
-	db_set_resident(m_szModuleName, "Trouter_socketio");
-	db_set_resident(m_szModuleName, "Trouter_url");
-	db_set_resident(m_szModuleName, "Trouter_st");
-	db_set_resident(m_szModuleName, "Trouter_se");
-	db_set_resident(m_szModuleName, "Trouter_sig");
-	db_set_resident(m_szModuleName, "Trouter_SessId");
 
 	//hooks
 	m_hCallHook = CreateHookableEvent(MODULE"/IncomingCall");

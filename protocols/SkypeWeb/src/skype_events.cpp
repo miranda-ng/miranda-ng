@@ -125,3 +125,14 @@ void CSkypeProto::InitPopups()
 	ppc.iSeconds = -1;
 	m_hPopupClassNotify = Popup_RegisterClass(&ppc);
 }
+
+/*int CSkypeProto::ProcessSrmmEvent(WPARAM, LPARAM lParam)
+{
+	debugLogA(__FUNCTION__);
+	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
+
+	if (event->uType == MSG_WINDOW_EVT_OPENING)
+		SetSrmmReadStatus(event->hContact);
+
+	return 0;
+}*/

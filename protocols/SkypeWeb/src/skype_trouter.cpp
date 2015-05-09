@@ -43,13 +43,13 @@ void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	setString("Trouter_ccid", ccid); 
-	setString("Trouter_connId", connId);
-	setString("Trouter_instance", instance);
-	setString("Trouter_socketio", socketio);
-	setString("Trouter_url", url);
+	TRouter.ccid		= mir_strdup(ccid);
+	TRouter.connId		= mir_strdup(connId);
+	TRouter.instance	= mir_strdup(instance);
+	TRouter.socketIo	= mir_strdup(socketio);
+	TRouter.url			= mir_strdup(url);
 
-	SendRequest(new CreateTrouterPoliciesRequest(TokenSecret, connId), &CSkypeProto::OnTrouterPoliciesCreated);
+	SendRequest(new CreateTrouterPoliciesRequest(TokenSecret, TRouter.connId), &CSkypeProto::OnTrouterPoliciesCreated);
 }
 
 void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
@@ -78,17 +78,19 @@ void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	setString("Trouter_st", st);
-	setString("Trouter_se", se);
-	setString("Trouter_sig", sig);
+	TRouter.st	= mir_strdup(st);
+	TRouter.se	= mir_strdup(se);
+	TRouter.sig = mir_strdup(sig);
 
 	SendRequest(new GetTrouterRequest
 									(
-										getStringA("Trouter_socketio"), 
-										getStringA("Trouter_connId"),
-										st, se, sig, 
-										getStringA("Trouter_instance"), 
-										getStringA("Trouter_ccid")
+									TRouter.socketIo, 
+									TRouter.connId,
+									TRouter.st,
+									TRouter.se,
+									TRouter.sig, 
+									TRouter.instance, 
+									TRouter.ccid
 									), &CSkypeProto::OnGetTrouter, (void *)false);
 
 
@@ -106,24 +108,24 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p)
 	CMStringA data(response->pData);
 	int iStart = 0;
 	CMStringA szToken = data.Tokenize(":", iStart).Trim();
-	setString("Trouter_SessId", szToken);
+	TRouter.sessId = mir_strdup(szToken.GetBuffer());
 	m_hTrouterThread = ForkThreadEx(&CSkypeProto::TRouterThread, 0, NULL);
+
 	if (!isHealth)
-		SendRequest(new RegisterTrouterRequest(TokenSecret, ptrA(getStringA("Trouter_url")), szToken));
+		SendRequest(new RegisterTrouterRequest(TokenSecret, TRouter.url, TRouter.sessId));
 }
 
 void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST*)
 {
-	ptrA socketIo(getStringA("Trouter_socketio"));
-	ptrA connId(getStringA("Trouter_connId"));
-	ptrA st(getStringA("Trouter_st"));
-	ptrA se(getStringA("Trouter_se"));
-	ptrA instance(getStringA("Trouter_instance"));
-	ptrA ccid(getStringA("Trouter_ccid"));
-	ptrA sessId(getStringA("Trouter_SessId"));
-	ptrA sig(getStringA("Trouter_sig"));
 
-	SendRequest(new GetTrouterRequest(socketIo, connId, st, se, sig, instance, ccid), &CSkypeProto::OnGetTrouter, (void *)true);
+	SendRequest(new GetTrouterRequest(TRouter.socketIo, 
+										TRouter.connId,
+										TRouter.st, 
+										TRouter.se,
+										TRouter.sig,
+										TRouter.instance,
+										TRouter.ccid),
+														&CSkypeProto::OnGetTrouter, (void *)true);
 }
 
 void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *)
@@ -180,18 +182,9 @@ void CSkypeProto::TRouterThread(void*)
 
 	int errors = 0;
 
-	ptrA socketIo(getStringA("Trouter_socketio"));
-	ptrA connId(getStringA("Trouter_connId"));
-	ptrA st(getStringA("Trouter_st"));
-	ptrA se(getStringA("Trouter_se"));
-	ptrA instance(getStringA("Trouter_instance"));
-	ptrA ccid(getStringA("Trouter_ccid"));
-	ptrA sessId(getStringA("Trouter_SessId"));
-	ptrA sig(getStringA("Trouter_sig"));
-
 	while (!isTerminated && errors < POLLING_ERRORS_LIMIT)
 	{
-		TrouterPollRequest *request = new TrouterPollRequest(socketIo, connId, st, se, sig, instance, ccid, sessId) ;
+		TrouterPollRequest *request = new TrouterPollRequest(TRouter.socketIo, TRouter.connId, TRouter.st, TRouter.se, TRouter.sig, TRouter.instance, TRouter.ccid, TRouter.sessId) ;
 		request->nlc = m_TrouterConnection;
 		NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 
@@ -222,7 +215,7 @@ void CSkypeProto::TRouterThread(void*)
 		}
 		else 
 		{
-			SendRequest(new HealthTrouterRequest(ccid), &CSkypeProto::OnHealth);
+			SendRequest(new HealthTrouterRequest(TRouter.ccid), &CSkypeProto::OnHealth);
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 			delete request;
 			break;

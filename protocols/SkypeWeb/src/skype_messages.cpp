@@ -304,7 +304,7 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 
 			AddMessageToDb(hContact, timestamp, DBEF_UTF, clientMsgId, data.GetBuffer());
 		}
-	} //Picture
+	}
 	else if (!mir_strcmpi(messageType, "RichText/Contacts")){}
 
 	if (clientMsgId && (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText")))
