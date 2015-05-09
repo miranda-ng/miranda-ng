@@ -383,12 +383,12 @@ Przed południem Deszcz / Śnieg
 [Rain Early]
 Deszcz Wcześnie
 [AM Rain]
-
+Deszcz przed południem
 [Pm Rain]
-
+Deszcz popołudniu
 [Am Snow]
 Do południa śnieg
 [Pm Snow]
-
+Śnieg popołudniu
 [Pm Showers / Wind]
-
+Ulewy / Wiatr Popołudniu
