@@ -11,8 +11,8 @@
 Внутрішнє ім'я облікового запису (необов'язково)
 [Cancel]
 Скасувати
-[Add %s]
-Додати %s
+[Add contact]
+Додати контакт
 [&Add]
 &Додати
 [&Cancel]
@@ -1905,8 +1905,8 @@ URL від %s
 %s в мережі
 [Account]
 Обліковий запис
-[Add contact]
-Додати контакт
+[Add %s]
+Додати %s
 [Please authorize my request and add me to your contact list.]
 Будь ласка, авторизуйте мене і внесіть до свого списку контактів.
 [Others nicknames]

@@ -482,7 +482,7 @@ xСтатус "%s"
 [The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
 Этот пользователь ушел из сети. Попробуйте отправить оффлайн-сообщение.\r\nSNAC(4.1) ошибка x04
 [The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
-Служба отправки сообщений временно не доступна. Попробуйте позже.\r\nSNAC(4.1) Ошибка x05
+Служба отправки сообщений временно недоступна. Попробуйте позже.\r\nSNAC(4.1) Ошибка x05
 [The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
 Клиент получателя не поддерживает этот тип сообщения.\r\nSNAC(4.1) ошибка x09
 [You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]

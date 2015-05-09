@@ -1,6 +1,3 @@
 ﻿[UIN:]
-[Ping:]
 [ICQ Corp]
 [ICQ#:]
-[%d file]
-[%d directory]

@@ -408,7 +408,7 @@ DCC-запит на передачу файлу надісланий %s [%s]
 [Please choose an IRC-network to go online. This network will be the default.]
 Виберіть мережу IRC. Ця мережа буде встановлена за замовчанням.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-Неможливо встановити підключення. Ви не ввели всі необхідні дані (нік, ID користувача та ім'я)
+Неможливо встановити з'єднання. Ви не ввели всі необхідні дані (нік, ID користувача та ім'я).
 [Main]
 Головний
 [Add]

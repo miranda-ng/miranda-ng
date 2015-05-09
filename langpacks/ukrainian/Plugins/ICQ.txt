@@ -280,7 +280,7 @@ xСтатус "%s"
 [Unable to connect to ICQ communication server]
 Неможливо підключитися до сервера спілкування ICQ
 [You could not sign on because the server returned invalid data. Try again.]
-Ви не увійшли в мережу, тому що сервер повернув неправильні дані. Спробуйте пізніше.
+Ви не ввійшли в мережу, тому що сервер повернув неправильні дані. Спробуйте пізніше.
 [You have been disconnected from the ICQ network because the current server shut down.]
 Вас відключили від мережі ICQ, тому що поточний сервер був вимкнений.
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
@@ -482,7 +482,7 @@ xСтатус "%s"
 [The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
 Цей користувач пішов з мережі. Спробуйте надіслати офлайн-повідомлення.\r\nSNAC(4.1) помилка x04
 [The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
-Служба відправки повідомлень тимчасово не доступна. Спробуйте пізніше.\r\nSNAC(4.1) Помилка x05
+Служба відправки повідомлень тимчасово недоступна. Спробуйте пізніше.\r\nSNAC(4.1) Помилка x05
 [The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
 Клієнт одержувача не підтримує цей тип повідомлень.\r\nSNAC(4.1) помилка x09
 [You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
