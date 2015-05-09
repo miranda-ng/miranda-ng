@@ -66,6 +66,8 @@ Przywróć status po powrocie
 Potwierdź resetowanie statusu
 [Only set if current status is]
 Ustaw tylko, gdy obecny status to:
+[Command line]
+Linia poleceń
 [Copy to clipboard]
 Kopiuj do schowka
 [Command line:]

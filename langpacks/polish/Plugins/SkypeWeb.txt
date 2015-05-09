@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -32,16 +32,8 @@ Inne
 Automatyczna synchronizacja wiadomości
 [Use local time for received messages]
 Używaj czasu lokalnego dla odebranych wiadomości
-[Mark message as read...]
-Oznaczaj wiadomość jako przeczytaną...
-[on read]
-po przeczytaniu
-[on receive]
-po otrzymaniu
-[on reply]
-po odpowiedzeniu
-[on typing]
-podczas pisania
+[Always notify as unread for all incoming message]
+Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodzących
 [Enter password]
 Wprowadź hasło
 [Save password]
@@ -77,6 +69,17 @@ Wybierz &rolę
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 Jesteś pewien?
+;file \protocols\SkypeWeb\src\skype_events.cpp
+[Incoming call]
+Połączenie przychodzące
+[Action]
+Akcja
+[Call information.]
+Informacje o rozmowie.
+[Calls]
+Rozmowy
+[Notifications]
+Powiadomienia
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 edytowana
@@ -94,6 +97,8 @@ Nazwa Pliku
 Rozmiar
 [bytes]
 bajty
+[Image]
+Obraz
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Ikona protokołu
@@ -107,6 +112,8 @@ Ikona blokowania użytkownika
 Ikona odblokowania użytkownika
 [Incoming call icon]
 Ikona rozmowy przychodzącej
+[Notification icon]
+Ikona powiadomienia
 [Protocols]
 Protokoły
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
@@ -123,24 +130,18 @@ Odblokuj kontakt
 [Create new chat]
 Utwórz nowy czat
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
-[Incoming call]
-Połączenie przychodzące
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Protokoły
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
 [%s connection]
 Połączenie %s
-[Action]
-Akcja
 [Incoming call sound]
 Dźwięk rozmowy przychodzącej
 [Incoming call canceled sound]
 Dźwięk anulowania rozmowy przychodzącej
-[Calls]
-Rozmowy
-[Notifications]
-Powiadomienia
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
+[Failed establish a TRouter connection.]
+Nie udało się ustanowić połączenia TRouter.
 [Incoming call from %s]
 Przychodząca rozmowa od %s

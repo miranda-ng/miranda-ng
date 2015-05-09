@@ -621,24 +621,6 @@ Ukryj Mirandę
 [&Delete group]
 &Usuń grupę
 ;file \plugins\Clist_modern\src\modern_clc.cpp
-[Skins]
-Skórki
-[Modern contact list]
-Modern contact list
-[Avatar overlay]
-Otoczka awatara
-[Status overlay]
-Otoczka statusu
-[Contact list smileys]
-Emotikony listy kontaktów
-[List background]
-Tło listy
-[Menu background]
-Tło Menu
-[Status bar background]
-Tło Paska Stanu
-[Frames title bar background]
-Tło Paska Tytułu Ramek
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Chcesz przekonwertować kontakt "%s" do metakontaktu i dodać do niego "%s"?
 [Converting to metacontact]
@@ -659,6 +641,28 @@ Ustaw domyślny kontakt
 Chcesz usunąć kontakt "%s" z metakontaktu "%s" i dodać go do "%s"?
 [Changing metacontacts (moving)]
 Zmiana metakontaktów (przesuwanie)
+[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://miranda-ng.org]
+Clist Modern wymaga zainstalowanej wtyczki AVS. Zainstaluj ją używając PluginUpdater lub pobierz z http://miranda-ng.org
+[Error loading plugin]
+Błąd ładowania wtyczki
+[Skins]
+Skórki
+[Modern contact list]
+Modern contact list
+[Avatar overlay]
+Otoczka awatara
+[Status overlay]
+Otoczka statusu
+[Contact list smileys]
+Emotikony listy kontaktów
+[List background]
+Tło listy
+[Menu background]
+Tło Menu
+[Status bar background]
+Tło Paska Stanu
+[Frames title bar background]
+Tło Paska Tytułu Ramek
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Nazwy kontaktów
@@ -813,8 +817,6 @@ Ikona
 Tekst
 [Extra icons]
 Dodatkowe ikony
-[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
-Animowane awatary (GDI + moduł avs.dll są wymagane)
 [Left align group names]
 Wyrównaj nazwy grup do lewej
 [Center group names]

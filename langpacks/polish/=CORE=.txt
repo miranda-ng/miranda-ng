@@ -12,8 +12,8 @@ Wybierz typ protokołu
 Utwórz wewnętrzną nazwę konta (opcjonalnie)
 [Cancel]
 Anuluj
-[Add %s]
-Dodaj %s
+[Add contact]
+Dodaj kontakt
 [&Add]
 &Dodaj
 [&Cancel]
@@ -1961,8 +1961,8 @@ Pokaż/Zmień moje &dane...
 [Account]
 Konto
 ;file \src\modules\addcontact\addcontact.cpp
-[Add contact]
-Dodaj kontakt
+[Add %s]
+Dodaj %s
 [Please authorize my request and add me to your contact list.]
 Proszę, autoryzuj mnie i dodaj do swojej listy kontaktów.
 ;file \src\modules\chat\chat_opts.cpp
