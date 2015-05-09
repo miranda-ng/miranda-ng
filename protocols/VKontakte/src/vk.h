@@ -67,7 +67,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKERR_INVALID_FILENAME		301	// Invalid filename
 #define VKERR_INVALID_FILESIZE		302	// Invalid filesize
 
-#define VK_API_VER "5.30"
+#define VK_API_VER "5.31"
 #define VER_API CHAR_PARAM("v", VK_API_VER)
 
 #define VK_FEED_USER 2147483647L
