@@ -55,7 +55,7 @@ public:
 		json_push_back(privateInfo, json_new_a	("epname",			compName				));
 
 		json_push_back(publicInfo, json_new_a	("capabilities",	"Audio|Video"			));
-		json_push_back(publicInfo, json_new_i	("capabilities",	125						));
+		json_push_back(publicInfo, json_new_i	("typ",	125						));
 		json_push_back(publicInfo, json_new_a	("skypeNameVersion","Miranda NG Skype"		));
 		json_push_back(publicInfo, json_new_a	("nodeInfo",		"xx"					));
 		json_push_back(publicInfo, json_new_a	("version",			verString.GetBuffer()	));
