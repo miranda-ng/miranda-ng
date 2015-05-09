@@ -324,7 +324,7 @@
 [Set default contact]
 [Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?]
 [Changing metacontacts (moving)]
-[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://miranda-ng.org]
+[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download]
 [Error loading plugin]
 [Skins]
 [Modern contact list]

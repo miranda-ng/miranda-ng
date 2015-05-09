@@ -84,3 +84,5 @@
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Failed establish a TRouter connection.]
 [Incoming call from %s]
+;file \protocols\SkypeWeb\src\skype_utils.cpp
+[Message read: %s]

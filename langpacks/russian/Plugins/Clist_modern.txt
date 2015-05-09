@@ -639,8 +639,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Хотите удалить '%s' из метаконтакта '%s' и добавить в '%s'?
 [Changing metacontacts (moving)]
 Изменение метаконтакта (перемещение)
-[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://miranda-ng.org]
-Clist Modern требует наличия плагина AVS. Установите его, используя PluginUpdater, или скачайте с http://miranda-ng.org
+[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download]
+Clist Modern требует наличия плагина AVS. Установите его, используя PluginUpdater, или скачайте с http://wiki.miranda-ng.org/Download
 [Error loading plugin]
 Ошибка загрузки плагина
 [Skins]
