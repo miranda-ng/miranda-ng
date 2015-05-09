@@ -43,6 +43,7 @@ INT_PTR CSkypeProto::EventGetIcon(WPARAM wParam, LPARAM lParam)
 	
 	switch (dbei->eventType)
 	{
+	case SKYPE_DB_EVENT_TYPE_CALL_INFO:
 	case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
 		{
 			icon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
@@ -50,7 +51,7 @@ INT_PTR CSkypeProto::EventGetIcon(WPARAM wParam, LPARAM lParam)
 		}
 	case SKYPE_DB_EVENT_TYPE_ACTION:
 		{
-			icon = LoadSkinnedIcon(SKINICON_INFORMATION);
+			icon = Skin_GetIconByHandle(GetIconHandle("me_action"));
 			break;
 		}
 	default:
@@ -112,5 +113,15 @@ void CSkypeProto::InitPopups()
 	ppc.colorBack = RGB(255, 255, 255); 
 	ppc.colorText = RGB(0, 0, 0); 
 	ppc.iSeconds = 5;
+	m_hPopupClassNotify = Popup_RegisterClass(&ppc);
+
+	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Errors"));
+	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
+	ppc.ptszDescription = desc;
+	ppc.pszName = name;
+	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("error"));
+	ppc.colorBack = RGB(255, 255, 255); 
+	ppc.colorText = RGB(0, 0, 0); 
+	ppc.iSeconds = -1;
 	m_hPopupClassNotify = Popup_RegisterClass(&ppc);
 }
