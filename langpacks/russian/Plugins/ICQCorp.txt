@@ -17,6 +17,8 @@
 Версия ICQ:
 [Miranda Version:]
 Версия Miranda:
+[Ping:]
+Пинг:
 [Login Server:]
 Сервер:
 [Password:]
@@ -33,8 +35,12 @@
 Сервер не принял номер и пароль ICQ Corp. Исправьте их через Настройки -> ICQCorp и попробуйте подключиться снова.
 [ICQ number:]
 Номер ICQ:
+[%d file]
+%d файл
 [%d files]
 %d файла(ов)
+[%d directory]
+%d каталог
 [%d directories]
 %d каталога(ов)
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -31,16 +31,8 @@
 Автоматична синхронізація повідомлень
 [Use local time for received messages]
 Локальний час для прийнятих повідомлень
-[Mark message as read...]
-Позначати повідомлення прочитаними...
-[on read]
-при читанні
-[on receive]
-при отриманні
-[on reply]
-при відповіді
-[on typing]
-при наборі тексту
+[Always notify as unread for all incoming message]
+Позначати всі вхідні повідомлення непрочитаними
 [Enter password]
 Введіть пароль
 [Save password]
@@ -73,6 +65,16 @@
 &Користувач
 [Are you sure?]
 Ви впевнені?
+[Incoming call]
+Вхідний дзвінок
+[Action]
+Дія
+[Call information.]
+Інформація про дзвінок.
+[Calls]
+Дзвінки
+[Notifications]
+Сповіщення
 [Edited at]
 Відредаговане о
 [Call started]
@@ -89,6 +91,8 @@
 Розмір
 [bytes]
 байт
+[Image]
+Зображення
 [Protocol icon]
 Значок протоколу
 [Create new chat icon]
@@ -101,6 +105,8 @@
 Розблокувати контакт
 [Incoming call icon]
 Вхідний дзвінок
+[Notification icon]
+Сповіщення
 [Protocols]
 Протоколи
 [Request authorization]
@@ -115,21 +121,15 @@
 Розблокувати контакт
 [Create new chat]
 Створити новий чат
-[Incoming call]
-Вхідний дзвінок
 [Network]
 Мережа
 [%s connection]
 З'єднання %s
-[Action]
-Дія
 [Incoming call sound]
 Вхідний дзвінок
 [Incoming call canceled sound]
 Вхідний дзвінок скасовано
-[Calls]
-Дзвінки
-[Notifications]
-Сповіщення
+[Failed establish a TRouter connection.]
+Неможливо встановити з'єднання для TRouter.
 [Incoming call from %s]
 Вхідний дзвінок від %s

@@ -106,7 +106,7 @@
 [Incoming call icon]
 Значок входящего звонка
 [Notification icon]
-Notification icon
+Значок уведомления
 [Protocols]
 Протоколы
 [Request authorization]
@@ -130,6 +130,6 @@ Notification icon
 [Incoming call canceled sound]
 Звук отмены входящего звонка
 [Failed establish a TRouter connection.]
-Неврзможно установить соединение для TRouter.
+Невозможно установить соединение для TRouter.
 [Incoming call from %s]
 Входящий звонок от %s

@@ -615,24 +615,6 @@ xСтатус: xПовідомлення
 &Перейменувати групу
 [&Delete group]
 &Видалити групу
-[Skins]
-Скіни
-[Modern contact list]
-Список контактів Modern
-[Avatar overlay]
-Оверлеї аватарів
-[Status overlay]
-Оверлеї статусів
-[Contact list smileys]
-Список контактів
-[List background]
-Фон списку
-[Menu background]
-Фон меню
-[Status bar background]
-Фон панелі статусів
-[Frames title bar background]
-Фон заголовка фреймів
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Хочете конвертувати '%s' в метаконтакт і додати до нього '%s'?
 [Converting to metacontact]
@@ -653,6 +635,28 @@ xСтатус: xПовідомлення
 Хочете видалити '%s' з метаконтакту '%s' і додати до '%s'?
 [Changing metacontacts (moving)]
 Зміна метаконтакту (переміщення)
+[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://miranda-ng.org]
+Для Clist_modern потрібен плагін AVS. Встановіть його за допомогою PluginUpdater або завантажте з http://miranda-ng.org
+[Error loading plugin]
+Помилка завантаження плагіна
+[Skins]
+Скіни
+[Modern contact list]
+Список контактів Modern
+[Avatar overlay]
+Оверлеї аватарів
+[Status overlay]
+Оверлеї статусів
+[Contact list smileys]
+Список контактів
+[List background]
+Фон списку
+[Menu background]
+Фон меню
+[Status bar background]
+Фон панелі статусів
+[Frames title bar background]
+Фон заголовка фреймів
 [Contact names]
 Контакти
 [Row items]
@@ -803,8 +807,6 @@ xСтатус: xПовідомлення
 Текст
 [Extra icons]
 Додаткові значки
-[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
-Анімація аватарів (потрібні GDI+ і AVS.dll)
 [Left align group names]
 Імена груп ліворуч
 [Center group names]

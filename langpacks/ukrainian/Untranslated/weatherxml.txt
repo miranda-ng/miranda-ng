@@ -33,3 +33,8 @@
 [Rain / Snow Late]
 [Am Rain / Snow]
 [Rain Early]
+[AM Rain]
+[Pm Rain]
+[Am Snow]
+[Pm Snow]
+[Pm Showers / Wind]

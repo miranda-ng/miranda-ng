@@ -65,6 +65,8 @@
 Підтвердити скидання статусу
 [Only set if current status is]
 Тільки якщо статус:
+[Command line]
+Ком. рядок
 [Copy to clipboard]
 Копіювати в буфер обміну
 [Command line:]

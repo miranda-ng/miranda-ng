@@ -48,7 +48,7 @@
 [Database Panic]
 Проблема з базою
 [This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
-Формат вашого профілю застарів. Для оновлення за допомогою PluginUpdater, необхідно спочатку конвертувати профіль у сучасний формат.\n\nНатисніть "Так", щоб дізнатися, як це зробити.
+Формат вашого профілю застарів. Для оновлення за допомогою PluginUpdater необхідно спочатку конвертувати профіль у сучасний формат.\n\nНатисніть "Так", щоб дізнатися, як це зробити.
 [Obsolete database format]
 Застарілий формат профілю
 [Change/remove password]
