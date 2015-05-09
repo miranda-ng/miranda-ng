@@ -19,6 +19,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 static char* szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_604", "photo_256", "photo_130", "photo_128", "photo_75", "photo_64" };
 
+static char* szGiftTypes[] = { "thumb_256", "thumb_96", "thumb_48" };
+
 bool IsEmpty(TCHAR *str)
 {
 	if (str == NULL)
@@ -1083,6 +1085,27 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments, BBCSupport iBBC)
 
 			if (ptszDescription)
 				res.AppendFormat(_T("\n\t%s"), ptszDescription);
+		}
+		else if (!mir_tstrcmp(ptszType, _T("gift"))) {
+			JSONNODE *pGift = json_get(pAttach, "gift");
+			if (pGift == NULL)
+				continue;
+
+			ptrT ptszLink;
+			for (int i = 0; i < SIZEOF(szImageTypes); i++) {
+				JSONNODE *n = json_get(pGift, szGiftTypes[i]);
+				if (n != NULL) {
+					ptszLink = json_as_string(n);
+					break;
+				}
+			}
+			if (IsEmpty(ptszLink))
+				continue;
+			res += SetBBCString(TranslateT("Gift"), iBBC, vkbbcUrl, ptszLink);
+
+			if (m_iIMGBBCSupport)
+				res.AppendFormat(_T("\n\t[img]%s[/img]"), ptszLink);
+
 		}
 		else 
 			res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), SetBBCString(ptszType, iBBC, vkbbcB).GetBuffer());
