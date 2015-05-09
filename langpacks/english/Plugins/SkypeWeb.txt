@@ -45,6 +45,7 @@
 [Call information.]
 [Calls]
 [Notifications]
+[Errors]
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 [Call started]
@@ -63,6 +64,8 @@
 [Unblock user icon]
 [Incoming call icon]
 [Notification icon]
+[Error icon]
+[Action icon]
 [Protocols]
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]

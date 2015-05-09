@@ -75,6 +75,8 @@
 Звонки
 [Notifications]
 Уведомления
+[Errors]
+Ошибки
 [Edited at]
 Отредактировано в
 [Call started]
@@ -107,6 +109,10 @@
 Значок входящего звонка
 [Notification icon]
 Значок уведомления
+[Error icon]
+Значок ошибки
+[Action icon]
+Значок действия
 [Protocols]
 Протоколы
 [Request authorization]
