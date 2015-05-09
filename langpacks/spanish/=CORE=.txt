@@ -11,8 +11,8 @@ Seleccione el tipo de protocolo
 Especifique el nombre de la cuenta interna (opcional)
 [Cancel]
 Cancelar
-[Add %s]
-Añadir %s
+[Add contact]
+Añadir contacto
 [&Add]
 &Añadir
 [&Cancel]
@@ -1857,8 +1857,8 @@ Propietario
 Ver/cambiar mis &datos...
 [%s is online]
 %s está en línea
-[Add contact]
-Añadir contacto
+[Add %s]
+Añadir %s
 [Please authorize my request and add me to your contact list.]
 Por favor autorice mi petición y añadame a su lista de contactos.
 [Others nicknames]

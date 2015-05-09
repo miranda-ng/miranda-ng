@@ -621,24 +621,6 @@ Cacher Miranda
 [&Delete group]
 &Effacer le groupe
 ;file \plugins\Clist_modern\src\modern_clc.cpp
-[Skins]
-Skins
-[Modern contact list]
-
-[Avatar overlay]
-
-[Status overlay]
-
-[Contact list smileys]
-Smileys de la CList
-[List background]
-Arrière-plan
-[Menu background]
-
-[Status bar background]
-Arrière plan de la barre d'état
-[Frames title bar background]
-
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Voulez-vous que le contact '%s' soit converti en metacontact et y ajouter '%s' ?
 [Converting to metacontact]
@@ -659,6 +641,28 @@ Ce contact en par défaut
 Voulez-vous que le contact '%s' soit transféré du metacontact '%s' au metacontact '%s' ?
 [Changing metacontacts (moving)]
 Changement de metacontact (déplacement)
+[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://miranda-ng.org]
+
+[Error loading plugin]
+
+[Skins]
+Skins
+[Modern contact list]
+
+[Avatar overlay]
+
+[Status overlay]
+
+[Contact list smileys]
+Smileys de la CList
+[List background]
+Arrière-plan
+[Menu background]
+
+[Status bar background]
+Arrière plan de la barre d'état
+[Frames title bar background]
+
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Noms des contacts
@@ -813,8 +817,6 @@ Avatar
 Texte
 [Extra icons]
 Icônes d'accès rapide
-[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
-
 [Left align group names]
 Aligner les groupes sur la gauche
 [Center group names]

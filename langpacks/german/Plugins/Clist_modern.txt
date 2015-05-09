@@ -621,24 +621,6 @@ G&ruppe umbenennen
 [&Delete group]
 Gruppe &löschen
 ;file \plugins\Clist_modern\src\modern_clc.cpp
-[Skins]
-Skins
-[Modern contact list]
-Modern contact list
-[Avatar overlay]
-Avatar-Overlay
-[Status overlay]
-Status-Overlay
-[Contact list smileys]
-Smileys in Kontaktliste
-[List background]
-Liste Hintergrund
-[Menu background]
-Menü Hintergrund
-[Status bar background]
-Statusleiste Hintergrund
-[Frames title bar background]
-Frame Titelleisten Hintergrund
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Soll Kontakt '%s' in Metakontakt konvertiert und '%s' hinzugefügt werden?
 [Converting to metacontact]
@@ -659,6 +641,28 @@ Standardkontakt setzen
 Soll Kontakt '%s' aus Metakontakt '%s' entfernt und zu '%s' hinzugefügt werden?
 [Changing metacontacts (moving)]
 Ändere Metakontakte (Verschiebe)
+[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://miranda-ng.org]
+
+[Error loading plugin]
+
+[Skins]
+Skins
+[Modern contact list]
+Modern contact list
+[Avatar overlay]
+Avatar-Overlay
+[Status overlay]
+Status-Overlay
+[Contact list smileys]
+Smileys in Kontaktliste
+[List background]
+Liste Hintergrund
+[Menu background]
+Menü Hintergrund
+[Status bar background]
+Statusleiste Hintergrund
+[Frames title bar background]
+Frame Titelleisten Hintergrund
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Kontaktnamen
@@ -813,8 +817,6 @@ Icon
 Text
 [Extra icons]
 Extraicons
-[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
-Avatare animieren (GDI+ und Avatar-Service-Plugin (avs.dll) werden benötigt)
 [Left align group names]
 Gruppennamen links anordnen
 [Center group names]

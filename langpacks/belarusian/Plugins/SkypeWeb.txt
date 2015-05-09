@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \protocols\SkypeWeb\res\resource.rc
@@ -15,6 +15,7 @@
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 Вы ўпэўнены?
+;file \protocols\SkypeWeb\src\skype_events.cpp
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Size]
 Памер

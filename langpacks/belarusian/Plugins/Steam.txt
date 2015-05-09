@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.3.2
+;  Version: 0.11.3.3
 ;  Authors: unsane, Robert Pösel
 ;============================================================
 ;file \protocols\Steam\res\Resource.rc
@@ -15,6 +15,7 @@
 [Cancel]
 Скасаваць
 ;file \protocols\Steam\src\main.cpp
+;file \protocols\Steam\src\steam_account.cpp
 ;file \protocols\Steam\src\steam_contacts.cpp
 ;file \protocols\Steam\src\steam_dialogs.cpp
 [Name]

@@ -11,6 +11,7 @@
 [Save password]
 [Enter the password to continue.]
 [Steam game]
+[Connection token expired. Please login again.]
 [Looking to play]
 [Looking to trade]
 [ (Non-Steam)]

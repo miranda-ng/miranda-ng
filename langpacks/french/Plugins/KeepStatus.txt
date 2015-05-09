@@ -66,6 +66,8 @@ OK
 
 [Only set if current status is]
 
+[Command line]
+
 [Copy to clipboard]
 Copier dans le Presse-Papiers
 [Command line:]

@@ -11,8 +11,8 @@ Odaberite protokol
 Interno ime naloga (po nahođenju)
 [Cancel]
 Otkazivanje
-[Add %s]
-Dodaj %s
+[Add contact]
+Dodaj kontakt
 [&Add]
 &Dodati
 [&Cancel]
@@ -1903,8 +1903,8 @@ Vlasnik
 Pregledaj/menjaj &detalje...
 [%s is online]
 %s je prisutan
-[Add contact]
-Dodaj kontakt
+[Add %s]
+Dodaj %s
 [Please authorize my request and add me to your contact list.]
 Dodaj me na spisak i daj mi autorizaciju, molim.
 [Others nicknames]

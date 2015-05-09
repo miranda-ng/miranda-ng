@@ -24,6 +24,7 @@
 [Reset status on return]
 [Confirm resetting status]
 [Only set if current status is]
+[Command line]
 [Copy to clipboard]
 [Create shortcut]
 [Add new profile]
