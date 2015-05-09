@@ -449,10 +449,24 @@ void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, i
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		CMStringA className(FORMAT, "%s_", m_szModuleName);
 
-		if (type == SKYPE_DB_EVENT_TYPE_INCOMING_CALL)
-			className.Append("Call");
-		else 
-			className.Append("Notification");
+		switch (type)
+		{
+		case 1:
+			{
+				className.Append("Error");
+				break;
+			}
+		case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
+			{
+				className.Append("Call");
+				break;
+			}
+		default:
+			{
+				className.Append("Notification");
+				break;
+			}
+		}
 
 		POPUPDATACLASS ppd = { sizeof(ppd) };
 		ppd.ptszTitle = caption;

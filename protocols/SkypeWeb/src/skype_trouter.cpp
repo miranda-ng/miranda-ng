@@ -20,14 +20,14 @@ void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL || response->pData == NULL)
 	{
-		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."));
+		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."), 0, NULL, 1);
 		return;
 	}
 	JSONROOT root(response->pData);
 
 	if (root == NULL)
 	{
-		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."));
+		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."), 0, NULL, 1);
 		return;
 	}
 
@@ -39,7 +39,7 @@ void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 
 	if (ccid == NULL || connId == NULL || instance == NULL || socketio == NULL || url == NULL)
 	{
-		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."));
+		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."), 0, NULL, 1);
 		return;
 	}
 
@@ -56,7 +56,7 @@ void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL || response->pData == NULL)
 	{
-		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."));
+		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."), 0, NULL, 1);
 		return;
 	}
 
@@ -64,7 +64,7 @@ void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 
 	if (root == NULL)
 	{
-		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."));
+		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."), 0, NULL, 1);
 		return;
 	}
 
@@ -74,7 +74,7 @@ void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 
 	if (st == NULL || se == NULL || sig == NULL)
 	{
-		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."));
+		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."), 0, NULL, 1);
 		return;
 	}
 
@@ -98,7 +98,7 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p)
 {
 	if (response == NULL || response->pData == NULL)
 	{
-		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."));
+		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."), 0, NULL, 1);
 		return;
 	}
 	bool isHealth = (bool)p;
