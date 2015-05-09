@@ -641,8 +641,8 @@ Ustaw domyślny kontakt
 Chcesz usunąć kontakt "%s" z metakontaktu "%s" i dodać go do "%s"?
 [Changing metacontacts (moving)]
 Zmiana metakontaktów (przesuwanie)
-[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://miranda-ng.org]
-Clist Modern wymaga zainstalowanej wtyczki AVS. Zainstaluj ją używając PluginUpdater lub pobierz z http://miranda-ng.org
+[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download]
+Clist Modern wymaga zainstalowanej wtyczki AVS. Zainstaluj ją używając PluginUpdater lub pobierz z http://wiki.miranda-ng.org/Download
 [Error loading plugin]
 Błąd ładowania wtyczki
 [Skins]

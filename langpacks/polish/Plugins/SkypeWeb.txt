@@ -80,6 +80,8 @@ Informacje o rozmowie.
 Rozmowy
 [Notifications]
 Powiadomienia
+[Errors]
+Błędy
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 edytowana
@@ -114,6 +116,10 @@ Ikona odblokowania użytkownika
 Ikona rozmowy przychodzącej
 [Notification icon]
 Ikona powiadomienia
+[Error icon]
+Ikona błędu
+[Action icon]
+Ikona działania
 [Protocols]
 Protokoły
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
@@ -145,3 +151,6 @@ Dźwięk anulowania rozmowy przychodzącej
 Nie udało się ustanowić połączenia TRouter.
 [Incoming call from %s]
 Przychodząca rozmowa od %s
+;file \protocols\SkypeWeb\src\skype_utils.cpp
+[Message read: %s]
+Wiadomość odczytana: %s
