@@ -1092,7 +1092,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments, BBCSupport iBBC)
 				continue;
 
 			ptrT ptszLink;
-			for (int i = 0; i < SIZEOF(szImageTypes); i++) {
+			for (int i = 0; i < SIZEOF(szGiftTypes); i++) {
 				JSONNODE *n = json_get(pGift, szGiftTypes[i]);
 				if (n != NULL) {
 					ptszLink = json_as_string(n);
