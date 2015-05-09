@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -19,11 +19,7 @@
 [Others]
 [Automatic messages synchronization]
 [Use local time for received messages]
-[Mark message as read...]
-[on read]
-[on receive]
-[on reply]
-[on typing]
+[Always notify as unread for all incoming message]
 [Enter password]
 [Save password]
 [Enter the password to continue.]
@@ -43,6 +39,12 @@
 [&User]
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
+;file \protocols\SkypeWeb\src\skype_events.cpp
+[Incoming call]
+[Action]
+[Call information.]
+[Calls]
+[Notifications]
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 [Call started]
@@ -52,6 +54,7 @@
 [File name]
 [Size]
 [bytes]
+[Image]
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 [Create new chat icon]
@@ -59,6 +62,7 @@
 [Block user icon]
 [Unblock user icon]
 [Incoming call icon]
+[Notification icon]
 [Protocols]
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
@@ -68,15 +72,12 @@
 [Unblock contact]
 [Create new chat]
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
-[Incoming call]
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
 [%s connection]
-[Action]
 [Incoming call sound]
 [Incoming call canceled sound]
-[Calls]
-[Notifications]
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
+[Failed establish a TRouter connection.]
 [Incoming call from %s]

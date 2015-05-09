@@ -8,7 +8,7 @@
 [Choose the protocol type]
 [Specify the internal account name (optional)]
 [Cancel]
-[Add %s]
+[Add contact]
 [&Add]
 [&Cancel]
 [Send "You were added"]
@@ -1008,7 +1008,7 @@
 ;file \src\mir_core\src\ui_utils.cpp
 [Account]
 ;file \src\modules\addcontact\addcontact.cpp
-[Add contact]
+[Add %s]
 [Please authorize my request and add me to your contact list.]
 ;file \src\modules\chat\chat_opts.cpp
 [Others nicknames]
