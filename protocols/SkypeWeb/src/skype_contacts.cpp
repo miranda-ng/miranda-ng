@@ -130,8 +130,12 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 		node = json_get(item, "sender");
 		ptrA skypename(mir_t2a(ptrT(json_as_string(node))));
 
-		JSONNODE *node = json_get(root, "greeting");
+		node = json_get(root, "greeting");
 		CMStringA reason = ptrA(mir_t2a(ptrT(json_as_string(node))));
+
+		node = json_get(root, "event_time");
+		ptrT eventTimeStr(json_as_string(node));
+		time_t eventTime = IsoToUnixTime(eventTimeStr);
 
 		if (reason == "null")
 			reason.Empty();
@@ -139,28 +143,34 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 		MCONTACT hContact = AddContact(skypename);
 		if (hContact)
 		{
-			delSetting(hContact, "Auth");
+			time_t lastEventTime = db_get_dw(hContact, m_szModuleName, "LastAuthRequestTime", 0);
 
-			PROTORECVEVENT pre = { 0 };
-			pre.flags = PREF_UTF;
-			pre.timestamp = time(NULL);
-			pre.lParam = (DWORD)(sizeof(DWORD) * 2 + mir_strlen(skypename) + reason.GetLength() + 5);
+			if (lastEventTime == 0 || lastEventTime < eventTime)
+			{
+				db_set_dw(hContact, m_szModuleName,"LastAuthRequestTime", eventTime);
+				delSetting(hContact, "Auth");
 
-			/*blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), id(ASCIIZ), reason(ASCIIZ)*/
-			PBYTE pBlob, pCurBlob;
-			pCurBlob = pBlob = (PBYTE)mir_calloc(pre.lParam);
+				PROTORECVEVENT pre = { 0 };
+				pre.flags = PREF_UTF;
+				pre.timestamp = time(NULL);
+				pre.lParam = (DWORD)(sizeof(DWORD) * 2 + mir_strlen(skypename) + reason.GetLength() + 5);
 
-			*((PDWORD)pCurBlob) = 0;
-			pCurBlob += sizeof(DWORD);
-			*((PDWORD)pCurBlob) = (DWORD)hContact;
-			pCurBlob += sizeof(DWORD);
-			pCurBlob += 3;
-			mir_strcpy((char*)pCurBlob, skypename);
-			pCurBlob += mir_strlen(skypename) + 1;
-			mir_strcpy((char*)pCurBlob, reason);
-			pre.szMessage = (char*)pBlob;
+				/*blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), id(ASCIIZ), reason(ASCIIZ)*/
+				PBYTE pBlob, pCurBlob;
+				pCurBlob = pBlob = (PBYTE)mir_calloc(pre.lParam);
 
-			ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+				*((PDWORD)pCurBlob) = 0;
+				pCurBlob += sizeof(DWORD);
+				*((PDWORD)pCurBlob) = (DWORD)hContact;
+				pCurBlob += sizeof(DWORD);
+				pCurBlob += 3;
+				mir_strcpy((char*)pCurBlob, skypename);
+				pCurBlob += mir_strlen(skypename) + 1;
+				mir_strcpy((char*)pCurBlob, reason);
+				pre.szMessage = (char*)pBlob;
+
+				ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+			}
 		}
 	}
 	json_delete(items);

@@ -22,6 +22,24 @@ bool CSkypeProto::IsOnline()
 	return m_iStatus > ID_STATUS_OFFLINE && m_hPollingThread;
 }
 
+void CSkypeProto::SetSrmmReadStatus(MCONTACT hContact)
+{
+	time_t time = getDword(hContact, "LastMsgReadTime", 0);
+	if (!time)
+		return;
+
+	TCHAR ttime[64];
+	_locale_t locale = _create_locale(LC_ALL, "");
+	_tcsftime_l(ttime, SIZEOF(ttime), _T("%X - %x"), localtime(&time), locale);
+	_free_locale(locale);
+
+	StatusTextData st = { 0 };
+	st.cbSize = sizeof(st);
+	st.hIcon = LoadSkinnedIcon(SKINICON_OTHER_HISTORY);
+	mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s"), ttime);
+	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
+}
+
 time_t CSkypeProto::IsoToUnixTime(const TCHAR *stamp)
 {
 	TCHAR date[9];

@@ -23,6 +23,19 @@ typedef void(CSkypeProto::*SkypeResponseWithArgCallback)(const NETLIBHTTPREQUEST
 
 typedef HRESULT(MarkupCallback)(IHTMLDocument3 *pHtmlDoc, BSTR &message);
 
+struct TRInfo
+{
+	char *socketIo;
+	char *connId;
+	char *st;
+	char *se;
+	char *instance;
+	char *ccid;
+	char *sessId;
+	char *sig;
+	char *url;
+};
+
 struct CSkypeProto : public PROTO < CSkypeProto >
 {
 	friend CSkypePasswordEditor;
@@ -102,6 +115,8 @@ private:
 	static INT_PTR CALLBACK PasswordEditorProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	bool HistorySynced;
+
+	TRInfo TRouter;
 
 	HANDLE 
 		m_hPopupClassCall,
@@ -310,6 +325,8 @@ private:
 
 	char *ParseUrl(const char *url, const char *token);
 
+	void SetSrmmReadStatus(MCONTACT hContact);
+
 	char *ChatUrlToName		(const char *url);
 	char *ContactUrlToName	(const char *url);
 	char *SelfUrlToName		(const char *url);
@@ -323,7 +340,8 @@ private:
 	time_t GetLastMessageTime(MCONTACT hContact);
 
 	//events
-	void CSkypeProto::InitDBEvents();
+	void InitDBEvents();
+	//int __cdecl ProcessSrmmEvent(WPARAM, LPARAM);
 
 	//services
 	INT_PTR __cdecl OnIncomingCallCLE					(WPARAM wParam, LPARAM lParam);

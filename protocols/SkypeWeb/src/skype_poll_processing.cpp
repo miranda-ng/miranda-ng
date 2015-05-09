@@ -137,7 +137,23 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 
 void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)
 {
-	return; //it should be rewritten
+	JSONNODE *lastMessage = json_get(node, "lastMessage");
+	JSONNODE *properties  = json_get(node, "properties" );
+
+	ptrA convLink(mir_t2a(json_as_string(json_get(lastMessage, "conversationLink"))));
+
+	if (strstr(convLink, "/8:"))
+	{
+		ptrA skypename(ContactUrlToName(convLink));
+		MCONTACT hContact = FindContact(skypename);
+		
+		if (hContact != NULL)
+		{
+			ptrA consumptionhorizon(mir_t2a(json_as_string(json_get(properties, "consumptionhorizon"))));
+
+			//server return bad data
+		}
+	}
 }
 
 void CSkypeProto::ProcessThreadUpdateRes(JSONNODE *node)
