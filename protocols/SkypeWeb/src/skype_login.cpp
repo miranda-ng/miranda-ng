@@ -219,7 +219,8 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	//SyncHistory();
 
 	SendRequest(new LoadChatsRequest(RegToken, Server), &CSkypeProto::OnLoadChats);
-	PushRequest(new SyncHistoryFirstRequest(RegToken, 100, Server), &CSkypeProto::OnSyncHistory);
+	if (getBool("AutoSync", true))
+		PushRequest(new SyncHistoryFirstRequest(RegToken, 100, Server), &CSkypeProto::OnSyncHistory);
 
 	if (response == NULL || response->pData == NULL)
 		return;
