@@ -640,7 +640,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Changing metacontacts (moving)]
 Изменение метаконтакта (перемещение)
 [Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://miranda-ng.org]
-Clist Modern требует наличия плагина AVS. Установите его, используя PluginUpdater или скачайте с http://miranda-ng.org
+Clist Modern требует наличия плагина AVS. Установите его, используя PluginUpdater, или скачайте с http://miranda-ng.org
 [Error loading plugin]
 Ошибка загрузки плагина
 [Skins]
