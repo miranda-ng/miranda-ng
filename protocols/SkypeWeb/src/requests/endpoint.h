@@ -28,7 +28,7 @@ public:
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< FORMAT_VALUE("Authentication", "skypetoken=%s", token);
-		
+
 		Body << VALUE("{}");
 	}
 };

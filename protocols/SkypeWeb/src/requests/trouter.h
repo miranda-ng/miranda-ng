@@ -19,11 +19,11 @@ class CreateTrouterRequest : public HttpRequest
 {
 public:
 	CreateTrouterRequest() :
-		HttpRequest(REQUEST_POST,"go.trouter.io/v2/a")
+		HttpRequest(REQUEST_POST, "go.trouter.io/v2/a")
 	{
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");
-	//{"secure":true,"ccid":"huzHTfsZt3wZ","connId":"AUKRNgA8_eKV0Ibsx037Gbd8GVrsDg8zLQRt1pH8sCyIAile3gtoWmlq2x1yZ_VNZ3tf","healthUrl":"https://go.trouter.io:443/v2/h","id":"QpE2ADz94pXQhuzHTfsZt3wZ","instance":"193.149.88.131","instancePort":443,"socketio":"https://193-149-88-131.drip.trouter.io:443/","surl":"https://193-149-88-131.drip.trouter.io:8443/v2/f/QpE2ADz94pXQhuzHTfsZt3wZ/","url":"https://193-149-88-131.drip.trouter.io:443/v2/f/QpE2ADz94pXQhuzHTfsZt3wZ/"}
+		//{"secure":true,"ccid":"huzHTfsZt3wZ","connId":"AUKRNgA8_eKV0Ibsx037Gbd8GVrsDg8zLQRt1pH8sCyIAile3gtoWmlq2x1yZ_VNZ3tf","healthUrl":"https://go.trouter.io:443/v2/h","id":"QpE2ADz94pXQhuzHTfsZt3wZ","instance":"193.149.88.131","instancePort":443,"socketio":"https://193-149-88-131.drip.trouter.io:443/","surl":"https://193-149-88-131.drip.trouter.io:8443/v2/f/QpE2ADz94pXQhuzHTfsZt3wZ/","url":"https://193-149-88-131.drip.trouter.io:443/v2/f/QpE2ADz94pXQhuzHTfsZt3wZ/"}
 	}
 };
 
@@ -37,7 +37,7 @@ public:
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< CHAR_VALUE("X-Skypetoken", token);
-		
+
 		JSONNODE *node = json_new(5);
 		json_push_back(node, json_new_a("sr", sr));
 		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
@@ -69,18 +69,18 @@ public:
 		json_set_name(transports, "transports");
 		json_set_name(TROUTER, "TROUTER");
 
-		json_push_back(node, json_new_a("registrationId",	id		));
-		json_push_back(node, json_new_a("nodeId",			""		));
+		json_push_back(node, json_new_a("registrationId", id));
+		json_push_back(node, json_new_a("nodeId", ""));
 
-		json_push_back(clientDescription, json_new_a("aesKey",			""		));
-		json_push_back(clientDescription, json_new_a("languageId",		"en-US" ));
-		json_push_back(clientDescription, json_new_a("platform",		"SWX"   ));
-		json_push_back(clientDescription, json_new_a("templateKey",		"SkypeWeb_1.0"));
+		json_push_back(clientDescription, json_new_a("aesKey", ""));
+		json_push_back(clientDescription, json_new_a("languageId", "en-US"));
+		json_push_back(clientDescription, json_new_a("platform", "SWX"));
+		json_push_back(clientDescription, json_new_a("templateKey", "SkypeWeb_1.0"));
 		json_push_back(node, clientDescription);
-		
-		json_push_back(TRouter, json_new_a("context",		""));
-		json_push_back(TRouter, json_new_a("path",		trouterUrl));
-		json_push_back(TRouter, json_new_i("ttl",		3600));
+
+		json_push_back(TRouter, json_new_a("context", ""));
+		json_push_back(TRouter, json_new_a("path", trouterUrl));
+		json_push_back(TRouter, json_new_i("ttl", 3600));
 		json_push_back(TROUTER, TRouter);
 		json_push_back(transports, TROUTER);
 		json_push_back(node, transports);
@@ -112,7 +112,7 @@ class GetTrouterRequest : public HttpRequest
 {
 public:
 	GetTrouterRequest(const char *socketio, const char *sr, const char *st, const char *se, const char *sig,
-																const char *instance, const char *ccid) :
+		const char *instance, const char *ccid) :
 		HttpRequest(REQUEST_GET, FORMAT, "%ssocket.io/1/", socketio)
 	{
 		Url
@@ -127,7 +127,7 @@ public:
 			<< INT_VALUE("p", 443)
 			<< CHAR_VALUE("ccid", ccid)
 			<< CHAR_VALUE("tc", ptrA(mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}")))
-			<< INT_VALUE("t", time(NULL)*1000);
+			<< INT_VALUE("t", time(NULL) * 1000);
 
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");
@@ -138,7 +138,7 @@ class TrouterPollRequest : public HttpRequest
 {
 public:
 	TrouterPollRequest(const char *socketio, const char *sr, const char *st, const char *se, const char *sig,
-																const char *instance, const char *ccid, const char *sessId) :
+		const char *instance, const char *ccid, const char *sessId) :
 		HttpRequest(REQUEST_GET, FORMAT, "%ssocket.io/1/xhr-polling/%s", socketio, sessId)
 	{
 		timeout = INFINITE;
@@ -155,7 +155,7 @@ public:
 			<< INT_VALUE("p", 443)
 			<< CHAR_VALUE("ccid", ccid)
 			<< CHAR_VALUE("tc", ptrA(mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}")))
-			<< INT_VALUE("t", time(NULL)*1000);
+			<< INT_VALUE("t", time(NULL) * 1000);
 
 		Headers
 			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");

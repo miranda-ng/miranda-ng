@@ -21,10 +21,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class GetSearchRequest : public HttpRequest
 {
 public:
-	GetSearchRequest(const char *token, const char *string) : 
-	  HttpRequest(REQUEST_GET, "api.skype.com/search/users/any")
+	GetSearchRequest(const char *token, const char *string) :
+		HttpRequest(REQUEST_GET, "api.skype.com/search/users/any")
 	{
-		Url 
+		Url
 			<< CHAR_VALUE("keyWord", string)
 			<< CHAR_VALUE("contactTypes[]", "skype");
 		Headers

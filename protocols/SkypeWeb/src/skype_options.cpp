@@ -47,8 +47,8 @@ void CSkypeOptionsMain::OnInitDialog()
 
 void CSkypeOptionsMain::OnApply()
 {
-	ptrA tszNewSkypename(m_skypename.GetTextA()),tszNewPassword(m_password.GetTextA()),
-		tszOldSkypename(m_proto->getStringA(SKYPE_SETTINGS_ID)),tszOldPassword(m_proto->getStringA("Password"));
+	ptrA tszNewSkypename(m_skypename.GetTextA()), tszNewPassword(m_password.GetTextA()),
+		tszOldSkypename(m_proto->getStringA(SKYPE_SETTINGS_ID)), tszOldPassword(m_proto->getStringA("Password"));
 	if (mir_strcmpi(tszNewSkypename, tszOldSkypename) || mir_strcmp(tszNewPassword, tszOldPassword))
 		m_proto->delSetting("TokenExpiresIn");
 	m_proto->setString(SKYPE_SETTINGS_ID, tszNewSkypename);

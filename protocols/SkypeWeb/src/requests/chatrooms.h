@@ -24,7 +24,7 @@ public:
 	LoadChatsRequest(const char *regToken, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations", server)
 	{
-		Url 
+		Url
 			<< INT_VALUE("startTime", 0)
 			<< INT_VALUE("pageSize", 100)
 			<< CHAR_VALUE("view", "msnp24Equivalent")
@@ -89,7 +89,7 @@ public:
 class CreateChatroomRequest : public HttpRequest
 {
 public:
-	CreateChatroomRequest(const char *regToken, const LIST<char> &skypenames,const char *selfname, const char *server = SKYPE_ENDPOINTS_HOST) :
+	CreateChatroomRequest(const char *regToken, const LIST<char> &skypenames, const char *selfname, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/threads", server)
 	{
 		//{"members":[{"id":"8:user3","role":"User"},{"id":"8:user2","role":"User"},{"id":"8:user1","role":"Admin"}]}

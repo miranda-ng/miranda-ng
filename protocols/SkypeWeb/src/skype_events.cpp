@@ -24,7 +24,7 @@ INT_PTR CSkypeProto::GetCallEventText(WPARAM, LPARAM lParam)
 	INT_PTR nRetVal = 0;
 	char *pszText = Translate("Incoming call");
 
-	if (pEvent->datatype == DBVT_TCHAR) 
+	if (pEvent->datatype == DBVT_TCHAR)
 	{
 		TCHAR *pwszText = _A2T(pszText);
 		nRetVal = (INT_PTR)mir_tstrdup(pwszText);
@@ -40,27 +40,27 @@ INT_PTR CSkypeProto::EventGetIcon(WPARAM wParam, LPARAM lParam)
 {
 	DBEVENTINFO* dbei = (DBEVENTINFO*)lParam;
 	HICON icon = NULL;
-	
+
 	switch (dbei->eventType)
 	{
 	case SKYPE_DB_EVENT_TYPE_CALL_INFO:
 	case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
-		{
-			icon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
-			break;
-		}
-	case SKYPE_DB_EVENT_TYPE_ACTION:
-		{
-			icon = Skin_GetIconByHandle(GetIconHandle("me_action"));
-			break;
-		}
-	default:
-		{
-			icon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-			break;
-		}
+	{
+		icon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
+		break;
 	}
-	
+	case SKYPE_DB_EVENT_TYPE_ACTION:
+	{
+		icon = Skin_GetIconByHandle(GetIconHandle("me_action"));
+		break;
+	}
+	default:
+	{
+		icon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+		break;
+	}
+	}
+
 	return (INT_PTR)((wParam & LR_SHARED) ? icon : CopyIcon(icon));
 }
 
@@ -99,8 +99,8 @@ void CSkypeProto::InitPopups()
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
-	ppc.colorBack = RGB(255, 255, 255); 
-	ppc.colorText = RGB(0, 0, 0); 
+	ppc.colorBack = RGB(255, 255, 255);
+	ppc.colorText = RGB(0, 0, 0);
 	ppc.iSeconds = 30;
 	ppc.PluginWindowProc = PopupDlgProcCall;
 	m_hPopupClassCall = Popup_RegisterClass(&ppc);
@@ -110,8 +110,8 @@ void CSkypeProto::InitPopups()
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("notify"));
-	ppc.colorBack = RGB(255, 255, 255); 
-	ppc.colorText = RGB(0, 0, 0); 
+	ppc.colorBack = RGB(255, 255, 255);
+	ppc.colorText = RGB(0, 0, 0);
 	ppc.iSeconds = 5;
 	m_hPopupClassNotify = Popup_RegisterClass(&ppc);
 
@@ -120,8 +120,8 @@ void CSkypeProto::InitPopups()
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("error"));
-	ppc.colorBack = RGB(255, 255, 255); 
-	ppc.colorText = RGB(0, 0, 0); 
+	ppc.colorBack = RGB(255, 255, 255);
+	ppc.colorText = RGB(0, 0, 0);
 	ppc.iSeconds = -1;
 	m_hPopupClassNotify = Popup_RegisterClass(&ppc);
 }

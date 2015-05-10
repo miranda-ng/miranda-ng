@@ -17,8 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-RequestQueue::RequestQueue(HANDLE hConnection) : 
-	hConnection(hConnection), requests(1)
+RequestQueue::RequestQueue(HANDLE hConnection) :
+hConnection(hConnection), requests(1)
 {
 	isTerminated = true;
 	hRequestQueueThread = NULL;

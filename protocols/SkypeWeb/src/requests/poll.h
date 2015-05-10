@@ -26,7 +26,7 @@ public:
 	{
 		timeout = INFINITE;
 		flags |= NLHRF_PERSISTENT;
-		Headers 
+		Headers
 			<< CHAR_VALUE("Connection", "keep-alive")
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);

@@ -19,15 +19,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 IconInfo CSkypeProto::Icons[] =
 {
-	{ LPGENT("Protocol icon"),			"main",					IDI_SKYPE			},
-	{ LPGENT("Create new chat icon"),	"conference",			IDI_CONFERENCE		},
-	{ LPGENT("Sync history icon"),		"synchistory",			IDI_SYNCHISTORY		},
-	{ LPGENT("Block user icon"),		"user_block",			IDI_BLOCKUSER		},
-	{ LPGENT("Unblock user icon"),		"user_unblock",			IDI_UNBLOCKUSER		},
-	{ LPGENT("Incoming call icon"),		"inc_call",				IDI_CALL			},
-	{ LPGENT("Notification icon"),		"notify",				IDI_NOTIFY			},
-	{ LPGENT("Error icon"),		        "error",				IDI_ERRORICON		},
-	{ LPGENT("Action icon"),		    "me_action",			IDI_ACTION_ME		}
+	{ LPGENT("Protocol icon"), "main", IDI_SKYPE },
+	{ LPGENT("Create new chat icon"), "conference", IDI_CONFERENCE },
+	{ LPGENT("Sync history icon"), "synchistory", IDI_SYNCHISTORY },
+	{ LPGENT("Block user icon"), "user_block", IDI_BLOCKUSER },
+	{ LPGENT("Unblock user icon"), "user_unblock", IDI_UNBLOCKUSER },
+	{ LPGENT("Incoming call icon"), "inc_call", IDI_CALL },
+	{ LPGENT("Notification icon"), "notify", IDI_NOTIFY },
+	{ LPGENT("Error icon"), "error", IDI_ERRORICON },
+	{ LPGENT("Action icon"), "me_action", IDI_ACTION_ME }
 };
 void CSkypeProto::InitIcons()
 {

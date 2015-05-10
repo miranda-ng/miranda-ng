@@ -34,7 +34,7 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	requestQueue = new RequestQueue(m_hNetlibUser);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
-	
+
 	CreateProtoService(PS_GETAVATARINFOT, &CSkypeProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CSkypeProto::SvcGetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATART, &CSkypeProto::SvcGetMyAvatar);
@@ -56,8 +56,8 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 	m_hCallHook = CreateHookableEvent(MODULE"/IncomingCall");
 
 	//sounds
-	SkinAddNewSoundEx("skype_inc_call",		 "SkypeWeb",	LPGEN("Incoming call sound")			);
-	SkinAddNewSoundEx("skype_call_canceled", "SkypeWeb",	LPGEN("Incoming call canceled sound")	);
+	SkinAddNewSoundEx("skype_inc_call", "SkypeWeb", LPGEN("Incoming call sound"));
+	SkinAddNewSoundEx("skype_call_canceled", "SkypeWeb", LPGEN("Incoming call canceled sound"));
 }
 
 CSkypeProto::~CSkypeProto()
@@ -79,7 +79,7 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	switch (type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_AUTHREQ | PF1_CHAT | PF1_BASICSEARCH;
+		return PF1_IM | PF1_AUTHREQ | PF1_CHAT | PF1_BASICSEARCH | PF1_MODEMSG;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_HEAVYDND;
 	case PFLAGNUM_3:
@@ -94,8 +94,8 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	return 0;
 }
 
-MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr) 
-{ 
+MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr)
+{
 	debugLogA("CSkypeProto::AddToList");
 
 
@@ -107,12 +107,12 @@ MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	return hContact;
 }
 
-MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent) 
+MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return NULL;
-	if ((dbei.pBlob=(PBYTE)alloca(dbei.cbBlob)) == NULL)
+	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == NULL)
 		return NULL;
 	if (db_event_get(hDbEvent, &dbei))
 		return NULL;
@@ -121,7 +121,7 @@ MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return NULL;
 
-	char *nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);
+	char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
 	char *firstName = nick + strlen(nick) + 1;
 	char *lastName = firstName + strlen(firstName) + 1;
 	char *skypename = lastName + strlen(lastName) + 1;
@@ -129,7 +129,7 @@ MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 	char *newSkypename = (dbei.flags & DBEF_UTF) ? mir_utf8decodeA(skypename) : skypename;
 	MCONTACT hContact = AddContact(newSkypename);
 	mir_free(newSkypename);
-	return hContact; 
+	return hContact;
 }
 
 int CSkypeProto::Authorize(MEVENT hDbEvent)
@@ -137,7 +137,7 @@ int CSkypeProto::Authorize(MEVENT hDbEvent)
 	MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
-	
+
 	ptrA token(getStringA("TokenSecret"));
 	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
 	PushRequest(new AuthAcceptRequest(token, skypename));
@@ -169,10 +169,10 @@ int CSkypeProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage)
 	ptrA token(getStringA("TokenSecret"));
 	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
 	PushRequest(new AddContactRequest(token, skypename, ptrA(mir_t2a(szMessage))));
-	return 0; 
+	return 0;
 }
 
-int CSkypeProto::GetInfo(MCONTACT hContact, int) 
+int CSkypeProto::GetInfo(MCONTACT hContact, int)
 {
 	PushRequest(
 		new GetProfileRequest(ptrA(getStringA("TokenSecret")), ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))),
@@ -185,7 +185,7 @@ int CSkypeProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	return SaveMessageToDb(hContact, pre);
 }
 
-int CSkypeProto::SendMsg(MCONTACT hContact, int flags, const char *msg) 
+int CSkypeProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 {
 	return OnSendMessage(hContact, flags, msg);
 }
@@ -241,7 +241,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			HistorySynced = false;
 			if ((tokenExpires - 1800) > time(NULL))
 				OnLoginSuccess();
-			else 
+			else
 				SendRequest(new LoginRequest(), &CSkypeProto::OnLoginFirst);
 		}
 		else
@@ -283,7 +283,7 @@ int CSkypeProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam
 int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	debugLogA(__FUNCTION__);
-	
+
 	isTerminated = true;
 	if (m_pollingConnection)
 		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)m_pollingConnection, 0);

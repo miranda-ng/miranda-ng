@@ -14,6 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include "stdafx.h"
 
 void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
@@ -43,11 +44,11 @@ void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	TRouter.ccid		= mir_strdup(ccid);
-	TRouter.connId		= mir_strdup(connId);
-	TRouter.instance	= mir_strdup(instance);
-	TRouter.socketIo	= mir_strdup(socketio);
-	TRouter.url			= mir_strdup(url);
+	TRouter.ccid = mir_strdup(ccid);
+	TRouter.connId = mir_strdup(connId);
+	TRouter.instance = mir_strdup(instance);
+	TRouter.socketIo = mir_strdup(socketio);
+	TRouter.url = mir_strdup(url);
 
 	SendRequest(new CreateTrouterPoliciesRequest(TokenSecret, TRouter.connId), &CSkypeProto::OnTrouterPoliciesCreated);
 }
@@ -78,20 +79,20 @@ void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	TRouter.st	= mir_strdup(st);
-	TRouter.se	= mir_strdup(se);
+	TRouter.st = mir_strdup(st);
+	TRouter.se = mir_strdup(se);
 	TRouter.sig = mir_strdup(sig);
 
 	SendRequest(new GetTrouterRequest
-									(
-									TRouter.socketIo, 
-									TRouter.connId,
-									TRouter.st,
-									TRouter.se,
-									TRouter.sig, 
-									TRouter.instance, 
-									TRouter.ccid
-									), &CSkypeProto::OnGetTrouter, (void *)false);
+		(
+		TRouter.socketIo,
+		TRouter.connId,
+		TRouter.st,
+		TRouter.se,
+		TRouter.sig,
+		TRouter.instance,
+		TRouter.ccid
+		), &CSkypeProto::OnGetTrouter, (void *)false);
 
 
 }
@@ -118,14 +119,14 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p)
 void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST*)
 {
 
-	SendRequest(new GetTrouterRequest(TRouter.socketIo, 
-										TRouter.connId,
-										TRouter.st, 
-										TRouter.se,
-										TRouter.sig,
-										TRouter.instance,
-										TRouter.ccid),
-														&CSkypeProto::OnGetTrouter, (void *)true);
+	SendRequest(new GetTrouterRequest(TRouter.socketIo,
+		TRouter.connId,
+		TRouter.st,
+		TRouter.se,
+		TRouter.sig,
+		TRouter.instance,
+		TRouter.ccid),
+		&CSkypeProto::OnGetTrouter, (void *)true);
 }
 
 void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *)
@@ -139,40 +140,40 @@ void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *)
 	switch (evt)
 	{
 	case 100: //incoming call
-		{	
-			ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "convoCallId")))));
-			if (uid != NULL)
-			{
-				MCONTACT hContact = AddContact(_T2A(uid), true);
-
-				MEVENT hEvent = AddCallToDb(hContact, time(NULL), DBEF_READ, callId, _T2A(gp));
-				SkinPlaySound("skype_inc_call");
-
-				CLISTEVENT cle = { sizeof(cle) };
-				cle.flags |= CLEF_TCHAR;
-				cle.hContact = hContact;
-				cle.hDbEvent = hEvent;
-				cle.lParam = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
-				cle.hIcon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
-
-				CMStringA service(FORMAT, "%s/IncomingCallCLE", GetContactProto(hContact));
-				cle.pszService = service.GetBuffer();
-
-				CMString tooltip(FORMAT, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
-				cle.ptszTooltip = tooltip.GetBuffer();
-
-				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
-
-				ShowNotification(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Incoming call"), 0, hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL);
-			}
-			break;
-		}
-	case 104: //call canceled: callerId=""; conversationId=NULL; callId=call id
+	{
+		ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "convoCallId")))));
+		if (uid != NULL)
 		{
-			ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "callId")))));
-			SkinPlaySound("skype_call_canceled");
-			break;
+			MCONTACT hContact = AddContact(_T2A(uid), true);
+
+			MEVENT hEvent = AddCallToDb(hContact, time(NULL), DBEF_READ, callId, _T2A(gp));
+			SkinPlaySound("skype_inc_call");
+
+			CLISTEVENT cle = { sizeof(cle) };
+			cle.flags |= CLEF_TCHAR;
+			cle.hContact = hContact;
+			cle.hDbEvent = hEvent;
+			cle.lParam = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
+			cle.hIcon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
+
+			CMStringA service(FORMAT, "%s/IncomingCallCLE", GetContactProto(hContact));
+			cle.pszService = service.GetBuffer();
+
+			CMString tooltip(FORMAT, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+			cle.ptszTooltip = tooltip.GetBuffer();
+
+			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+
+			ShowNotification(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Incoming call"), 0, hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL);
 		}
+		break;
+	}
+	case 104: //call canceled: callerId=""; conversationId=NULL; callId=call id
+	{
+		ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "callId")))));
+		SkinPlaySound("skype_call_canceled");
+		break;
+	}
 	}
 }
 
@@ -184,7 +185,7 @@ void CSkypeProto::TRouterThread(void*)
 
 	while (!isTerminated && errors < POLLING_ERRORS_LIMIT)
 	{
-		TrouterPollRequest *request = new TrouterPollRequest(TRouter.socketIo, TRouter.connId, TRouter.st, TRouter.se, TRouter.sig, TRouter.instance, TRouter.ccid, TRouter.sessId) ;
+		TrouterPollRequest *request = new TrouterPollRequest(TRouter.socketIo, TRouter.connId, TRouter.st, TRouter.se, TRouter.sig, TRouter.instance, TRouter.ccid, TRouter.sessId);
 		request->nlc = m_TrouterConnection;
 		NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 
@@ -200,7 +201,7 @@ void CSkypeProto::TRouterThread(void*)
 			if (response->pData)
 			{
 				char *json = strstr(response->pData, "{");
-				if (json == NULL) 
+				if (json == NULL)
 				{
 					CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 					delete request;
@@ -213,7 +214,7 @@ void CSkypeProto::TRouterThread(void*)
 				OnTrouterEvent(body, headers);
 			}
 		}
-		else 
+		else
 		{
 			SendRequest(new HealthTrouterRequest(TRouter.ccid), &CSkypeProto::OnHealth);
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
