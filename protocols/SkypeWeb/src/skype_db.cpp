@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp)
 {
-	if(messageId == NULL)
+	if (messageId == NULL)
 		return NULL;
 
 	timestamp -= 600; // we check events written 10 minutes ago
@@ -42,7 +42,7 @@ MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, L
 			continue;
 
 		size_t cbLen = strlen((char*)dbei.pBlob);
-		if (memcmp(&dbei.pBlob[cbLen+1], messageId, messageIdLength) == 0)
+		if (memcmp(&dbei.pBlob[cbLen + 1], messageId, messageIdLength) == 0)
 			return hDbEvent;
 
 		if (dbei.timestamp < timestamp)
@@ -77,7 +77,7 @@ MEVENT CSkypeProto::AddCallInfoToDb(MCONTACT hContact, DWORD timestamp, DWORD fl
 	memcpy(pBlob, content, messageLength);
 	memcpy(pBlob + messageLength, messageId, messageIdLength);
 
-	return AddEventToDb(hContact,SKYPE_DB_EVENT_TYPE_CALL_INFO, timestamp, flags, (DWORD)cbBlob, pBlob);
+	return AddEventToDb(hContact, SKYPE_DB_EVENT_TYPE_CALL_INFO, timestamp, flags, (DWORD)cbBlob, pBlob);
 }
 
 MEVENT CSkypeProto::AddCallToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *callId, const char *gp)

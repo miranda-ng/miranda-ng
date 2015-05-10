@@ -40,10 +40,10 @@ protected:
 	{
 		/*if (m_savePermanently.Enabled())
 			m_proto->setString("Password", m_password.GetTextA());
-		if (m_proto->password != NULL)
+			if (m_proto->password != NULL)
 			mir_free(m_proto->password);
-		m_proto->password = mir_utf8encodeW(m_password.GetText());
-		*/
+			m_proto->password = mir_utf8encodeW(m_password.GetText());
+			*/
 		EndDialog(m_hwnd, 1);
 	}
 

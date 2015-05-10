@@ -110,7 +110,7 @@ protected:
 	class HttpRequestHeaders
 	{
 		HttpRequestHeaders& operator=(const HttpRequestHeaders&); // to prevent copying;
-	
+
 		HttpRequest &request;
 
 		void Add(LPCSTR szName)

@@ -36,7 +36,7 @@ PLUGININFOEX pluginInfo =
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {57E90AC6-1067-423B-8CA3-70A39D200D4F}
-	{ 0x57e90ac6, 0x1067, 0x423b, {0x8c, 0xa3, 0x70, 0xa3, 0x9d, 0x20, 0xd, 0x4f}}
+	{ 0x57e90ac6, 0x1067, 0x423b, { 0x8c, 0xa3, 0x70, 0xa3, 0x9d, 0x20, 0xd, 0x4f } }
 };
 
 DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
@@ -88,12 +88,12 @@ extern "C" int __declspec(dllexport) Unload(void)
 }
 
 
-int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM) 
-{ 
+int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
+{
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
 	{
 		CreateServiceFunction(MODULE "/ParseUri", CSkypeProto::GlobalParseSkypeUriService);
 		AssocMgr_AddNewUrlTypeT("skype:", TranslateT("Skype Link Protocol"), g_hInstance, IDI_SKYPE, MODULE "/ParseUri", 0);
 	}
-	return 0; 
+	return 0;
 }

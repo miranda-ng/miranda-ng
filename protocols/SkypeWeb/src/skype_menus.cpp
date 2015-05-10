@@ -128,9 +128,9 @@ int CSkypeProto::OnInitStatusMenu()
 
 	/*else
 	{
-		if (m_hMenuRoot)
-			CallService(MO_REMOVEMENUITEM, (WPARAM)m_hMenuRoot, 0);
-		m_hMenuRoot = NULL;
+	if (m_hMenuRoot)
+	CallService(MO_REMOVEMENUITEM, (WPARAM)m_hMenuRoot, 0);
+	m_hMenuRoot = NULL;
 	}*/
 	mi.hParentMenu = hStatusMunuRoot;
 	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR;

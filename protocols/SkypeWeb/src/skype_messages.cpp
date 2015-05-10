@@ -151,7 +151,7 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 {
 	ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(node, "clientmessageid")))));
-	ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(node, "skypeeditedid")))));	
+	ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(node, "skypeeditedid")))));
 
 	bool isEdited = (json_get(node, "skypeeditedid") != NULL);
 
@@ -169,10 +169,10 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 
 	ptrA message(RemoveHtml(content));
 
-	
+
 	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
 	MCONTACT hContact = AddContact(skypename, true);
-	
+
 	if (HistorySynced) db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
 
 	if (!mir_strcmpi(messageType, "Control/Typing"))
@@ -192,7 +192,7 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 			return;
 		}
 		debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-		MEVENT dbevent =  GetMessageFromDb(hContact, skypeEditedId);
+		MEVENT dbevent = GetMessageFromDb(hContact, skypeEditedId);
 		if (isEdited && dbevent != NULL)
 		{
 			DBEVENTINFO dbei = { sizeof(dbei) };
@@ -227,7 +227,7 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 		//content=<partlist type="started" alt=""><part identity="username"><name>user name</name></part></partlist>
 		int iType = 3, iDuration = 0;
 		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("partlist"));
-		if (xml != NULL) 
+		if (xml != NULL)
 		{
 
 			ptrA type(mir_t2a(xi.getAttrValue(xml, _T("type"))));
@@ -247,14 +247,14 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 		else if (iType == 0)
 		{
 			CMStringA chours = "", cmins = "", csec = "";
-			int hours=0, mins=0, sec=0;
+			int hours = 0, mins = 0, sec = 0;
 			if (iDuration != NULL)
 			{
 				hours = iDuration / 3600;
 				mins = iDuration / 60;
 				sec = iDuration % 60;
 			}
-			else 
+			else
 				hours = mins = sec = 0;
 
 			chours.AppendFormat(hours < 10 ? "0%d" : "%d", hours);
@@ -272,9 +272,9 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 	{
 		//content=<files alt="отправил (-а) файл &quot;run.bat&quot;"><file size="97" index="0" tid="4197760077">run.bat</file></files>
 		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("files"));
-		if (xml != NULL) 
+		if (xml != NULL)
 		{
-			for (int i=0; i < xi.getChildCount(xml); i++)
+			for (int i = 0; i < xi.getChildCount(xml); i++)
 			{
 				int fileSize;
 				HXML xmlNode = xi.getNthChild(xml, L"file", i);
@@ -285,7 +285,7 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 				if (fileName == NULL || fileSize == NULL)
 					continue;
 
-				CMStringA msg(FORMAT, "%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize , Translate("bytes"));
+				CMStringA msg(FORMAT, "%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize, Translate("bytes"));
 				AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_READ, clientMsgId, msg.GetBuffer());
 			}
 		}
@@ -295,7 +295,7 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 	{
 		//content=<URIObject type="Picture.1" uri="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834" url_thumbnail="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834/views/imgt1"><Title></Title><Description></Description>Для просмотра этого общего фото перейдите по ссылке: https://api.asm.skype.com/s/i?0-weu-d1-262f0a1ee256d03b8e4b8360d9208834<meta type="photo" originalName="ysd7ZE4BqOg.jpg"/><OriginalName v="ysd7ZE4BqOg.jpg"/></URIObject>
 		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("URIObject"));
-		if (xml != NULL) 
+		if (xml != NULL)
 		{
 			ptrA url(mir_t2a(xi.getAttrValue(xml, L"uri")));
 			ptrA object(ParseUrl(url, "/objects/"));

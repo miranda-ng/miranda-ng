@@ -446,7 +446,7 @@ char *CSkypeProto::MirandaToSkypeStatus(int status)
 int CSkypeProto::SkypeToMirandaStatus(const char *status)
 {
 	if (!mir_strcmpi(status, "Online"))
-		return ID_STATUS_ONLINE;	 
+		return ID_STATUS_ONLINE;
 	else if (!mir_strcmpi(status, "Hidden"))
 		return ID_STATUS_INVISIBLE;
 	else if (!mir_strcmpi(status, "Away"))
@@ -455,7 +455,7 @@ int CSkypeProto::SkypeToMirandaStatus(const char *status)
 		return /*ID_STATUS_IDLE*/ID_STATUS_AWAY;
 	else if (!mir_strcmpi(status, "Busy"))
 		return ID_STATUS_DND;
-	else 
+	else
 		return ID_STATUS_OFFLINE;
 }
 
@@ -463,27 +463,27 @@ void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, i
 {
 	if (Miranda_Terminated())
 		return;
-	
+
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		CMStringA className(FORMAT, "%s_", m_szModuleName);
 
 		switch (type)
 		{
 		case 1:
-			{
-				className.Append("Error");
-				break;
-			}
+		{
+			className.Append("Error");
+			break;
+		}
 		case SKYPE_DB_EVENT_TYPE_INCOMING_CALL:
-			{
-				className.Append("Call");
-				break;
-			}
+		{
+			className.Append("Call");
+			break;
+		}
 		default:
-			{
-				className.Append("Notification");
-				break;
-			}
+		{
+			className.Append("Notification");
+			break;
+		}
 		}
 
 		POPUPDATACLASS ppd = { sizeof(ppd) };
@@ -567,7 +567,7 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		return 1;
 
 	// skip leading prefix
-	TCHAR szUri[ 1024 ];
+	TCHAR szUri[1024];
 	_tcsncpy_s(szUri, arg, _TRUNCATE);
 	TCHAR *szJid = _tcschr(szUri, _T(':'));
 	if (szJid == NULL)
@@ -592,7 +592,7 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		*(szSecondParam++) = 0;
 
 	// no command or message command
-	if (!szCommand || (szCommand && !_tcsicmp(szCommand, _T("chat")))) 
+	if (!szCommand || (szCommand && !_tcsicmp(szCommand, _T("chat"))))
 	{
 		if (szSecondParam)
 		{
@@ -614,9 +614,9 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		NotifyEventHooks(m_hCallHook, (WPARAM)hContact, (LPARAM)0);
 		return 0;
 	}
-	else if (!_tcsicmp(szCommand, _T("userinfo"))){ return 0;}
+	else if (!_tcsicmp(szCommand, _T("userinfo"))){ return 0; }
 	else if (!_tcsicmp(szCommand, _T("add")))
-	{ 
+	{
 		MCONTACT hContact = FindContact(_T2A(szJid));
 		if (hContact == NULL)
 		{
@@ -633,13 +633,13 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		}
 		return 0;
 	}
-	if (!_tcsicmp(szCommand, _T("sendfile"))) 
+	if (!_tcsicmp(szCommand, _T("sendfile")))
 	{
 		//CONTACT hContact = AddContact(_T2A(szJid), true);
 		//CallService(MS_FILE_SENDFILE, hContact, NULL);
 		return 1;
 	}
-	if (!_tcsicmp(szCommand, _T("voicemail"))) 
+	if (!_tcsicmp(szCommand, _T("voicemail")))
 	{
 		return 1;
 	}

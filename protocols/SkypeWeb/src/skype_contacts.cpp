@@ -115,7 +115,7 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 	if (response == NULL)
 		return;
 
-	
+
 	JSONROOT root(response->pData);
 	if (root == NULL)
 		return;
@@ -147,7 +147,7 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 
 			if (lastEventTime == 0 || lastEventTime < eventTime)
 			{
-				db_set_dw(hContact, m_szModuleName,"LastAuthRequestTime", eventTime);
+				db_set_dw(hContact, m_szModuleName, "LastAuthRequestTime", eventTime);
 				delSetting(hContact, "Auth");
 
 				PROTORECVEVENT pre = { 0 };
@@ -252,7 +252,7 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 				db_set_b(hContact, "CList", "Hidden", 1);
 				setByte(hContact, "IsBlocked", 1);
 			}
-			else 
+			else
 			{
 				if (db_get_b(hContact, m_szModuleName, "IsBlocked", 0))
 				{
@@ -318,7 +318,7 @@ INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
 void CSkypeProto::OnBlockContact(const NETLIBHTTPREQUEST *response, void *p)
 {
 	MCONTACT hContact = (MCONTACT)p;
-	if (response == NULL) 
+	if (response == NULL)
 		return;
 	db_set_dw(hContact, "Ignore", "Mask1", 127);
 	db_set_b(hContact, "CList", "Hidden", 1);
@@ -333,7 +333,7 @@ INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
 void CSkypeProto::OnUnblockContact(const NETLIBHTTPREQUEST *response, void *p)
 {
 	MCONTACT hContact = (MCONTACT)p;
-	if (response == NULL) 
+	if (response == NULL)
 		return;
 	db_set_dw(hContact, "Ignore", "Mask1", 0);
 	db_set_b(hContact, "CList", "Hidden", 0);

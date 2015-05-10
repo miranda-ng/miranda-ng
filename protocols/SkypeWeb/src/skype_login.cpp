@@ -206,7 +206,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	LIST<char> skypenames(1);
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		if(!isChatRoom(hContact))
+		if (!isChatRoom(hContact))
 			skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
 	}
 	SendRequest(new CreateContactsSubscriptionRequest(RegToken, skypenames, Server));
@@ -241,7 +241,7 @@ void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
-	
+
 	JSONROOT json(response->pData);
 	if (json == NULL)
 	{

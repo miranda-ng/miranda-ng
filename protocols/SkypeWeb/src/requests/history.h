@@ -23,7 +23,7 @@ public:
 	SyncHistoryFirstRequest(const char *regToken, int pageSize = 100, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations", server)
 	{
-		Url 
+		Url
 			<< INT_VALUE("startTime", 0)
 			<< INT_VALUE("pageSize", pageSize)
 			<< CHAR_VALUE("view", "msnp24Equivalent")
@@ -52,7 +52,7 @@ public:
 	GetHistoryRequest(const char *regToken, const char *username, int pageSize = 100, bool isChat = false, LONGLONG timestamp = 0, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations/%s:%s/messages", server, isChat ? "19" : "8", ptrA(mir_urlEncode(username)))
 	{
-		Url 
+		Url
 			<< INT_VALUE("startTime", timestamp)
 			<< INT_VALUE("pageSize", pageSize)
 			<< CHAR_VALUE("view", "msnp24Equivalent")

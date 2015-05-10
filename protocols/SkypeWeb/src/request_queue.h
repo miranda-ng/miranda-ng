@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_QUEUE_H_
 #define _SKYPE_REQUEST_QUEUE_H_
 
-typedef void (*HttpResponseCallback)(const NETLIBHTTPREQUEST *response, void *arg);
+typedef void(*HttpResponseCallback)(const NETLIBHTTPREQUEST *response, void *arg);
 
 struct RequestQueueItem
 {

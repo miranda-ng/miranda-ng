@@ -42,43 +42,43 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 			CMStringA MirVer = "";
 			switch (iTyp)
 			{
-				case 17:
-					MirVer.Append("Skype (Android)");
-					break;
-				case 16:
-					MirVer.Append("Skype (iOS)");
-					break;
-				case 12:
-					MirVer.Append("Skype (WinRT)");
-					break;
-				case 15:
-					MirVer.Append("Skype (WP)");
-					break;
-				case 13:
-					MirVer.Append("Skype (OSX)");
-					break;
-				case 11:
-					MirVer.Append("Skype (Windows)");
-					break;
-				case 14:
-					MirVer.Append("Skype (Linux)");
-					break;
-				case 10:
-					MirVer.Append("Skype (XBOX)");
-					break;
-				case 1:
-					MirVer.Append("Skype (Web)");
-					break;
-				case 125:
-					MirVer.Append("Miranda NG Skype");
-					break;
-				default:
-					MirVer.Append("Skype (Unknown)");
-					break;
+			case 17:
+				MirVer.Append("Skype (Android)");
+				break;
+			case 16:
+				MirVer.Append("Skype (iOS)");
+				break;
+			case 12:
+				MirVer.Append("Skype (WinRT)");
+				break;
+			case 15:
+				MirVer.Append("Skype (WP)");
+				break;
+			case 13:
+				MirVer.Append("Skype (OSX)");
+				break;
+			case 11:
+				MirVer.Append("Skype (Windows)");
+				break;
+			case 14:
+				MirVer.Append("Skype (Linux)");
+				break;
+			case 10:
+				MirVer.Append("Skype (XBOX)");
+				break;
+			case 1:
+				MirVer.Append("Skype (Web)");
+				break;
+			case 125:
+				MirVer.Append("Miranda NG Skype");
+				break;
+			default:
+				MirVer.Append("Skype (Unknown)");
+				break;
 			}
 			if (iTyp == 125)
 				MirVer.AppendFormat(" %s", version);
-			else 
+			else
 				MirVer.AppendFormat(" %s", ParseUrl(skypeNameVersion, "/"));
 
 			db_set_s(hContact, m_szModuleName, "MirVer", MirVer);
@@ -138,16 +138,16 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)
 {
 	JSONNODE *lastMessage = json_get(node, "lastMessage");
-	JSONNODE *properties  = json_get(node, "properties" );
+	JSONNODE *properties = json_get(node, "properties");
 
 	ptrA convLink(mir_t2a(json_as_string(json_get(lastMessage, "conversationLink"))));
 	ptrA fromLink(mir_t2a(json_as_string(json_get(lastMessage, "from"))));
 
- 	if (strstr(convLink, "/8:") && IsMe(ContactUrlToName(fromLink)))
+	if (strstr(convLink, "/8:") && IsMe(ContactUrlToName(fromLink)))
 	{
 		ptrA skypename(ContactUrlToName(convLink));
 		MCONTACT hContact = FindContact(skypename);
-		
+
 		if (hContact != NULL)
 		{
 			CMStringA consumptionhorizon(mir_t2a(json_as_string(json_get(properties, "consumptionhorizon"))));
@@ -165,7 +165,7 @@ void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)
 				db_set_dw(hContact, m_szModuleName, "LastMsgReadTime", evttime);
 
 				SetSrmmReadStatus(hContact);
-			}	
+			}
 		}
 	}
 }

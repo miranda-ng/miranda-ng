@@ -31,7 +31,7 @@ enum
 };
 
 enum ProtoMenuIndexes {
-		SMI_CREATECHAT
+	SMI_CREATECHAT
 };
 
 #define SMI_POSITION 200000

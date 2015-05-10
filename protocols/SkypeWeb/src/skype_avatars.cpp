@@ -150,7 +150,7 @@ void CSkypeProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 	}
 	else {
 		setTString(hContact, "AvatarUrl", tszUrl.GetBuffer());
-		setByte(hContact,"NeedNewAvatar", 1);
+		setByte(hContact, "NeedNewAvatar", 1);
 		PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
 		AI.hContact = hContact;
 		GetAvatarFileName(AI.hContact, AI.filename, SIZEOF(AI.filename));

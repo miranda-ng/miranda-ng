@@ -14,6 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include "stdafx.h"
 
 void CSkypeProto::ParsePollData(JSONNODE *data)
@@ -45,7 +46,7 @@ void CSkypeProto::ParsePollData(JSONNODE *data)
 			else if (!mir_strcmpi(resourceType, "ConversationUpdate"))
 			{
 				ProcessConversationUpdateRes(resource);
-			} 
+			}
 			else if (!mir_strcmpi(resourceType, "ThreadUpdate"))
 			{
 				ProcessThreadUpdateRes(resource);
@@ -85,7 +86,7 @@ void CSkypeProto::PollingThread(void*)
 				}
 			}
 		}
-		else 
+		else
 		{
 			errors++;
 
@@ -104,7 +105,7 @@ void CSkypeProto::PollingThread(void*)
 						delete request;
 						break;
 					}
-				}		
+				}
 			}
 		}
 
@@ -112,7 +113,7 @@ void CSkypeProto::PollingThread(void*)
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 		delete request;
 	}
-	
+
 	if (!isTerminated)
 	{
 		debugLogA(__FUNCTION__": unexpected termination; switching protocol to offline");

@@ -34,7 +34,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	int totalCount = json_as_int(json_get(metadata, "totalCount"));
 	ptrA syncState(mir_t2a(ptrT(json_as_string(json_get(metadata, "syncState")))));
 
-	bool markAllAsUnread = getBool("MarkMesUnread",false);
+	bool markAllAsUnread = getBool("MarkMesUnread", false);
 
 	if (totalCount >= 99 || json_size(conversations) >= 99)
 		PushRequest(new GetHistoryOnUrlRequest(syncState, RegToken), &CSkypeProto::OnGetServerHistory);
@@ -59,7 +59,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
 
 
-		if (timestamp > db_get_dw(hContact,m_szModuleName, "LastMsgTime", 0))
+		if (timestamp > db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0))
 			db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
 
 		int flags = DBEF_UTF;
@@ -76,7 +76,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 			{
 
 				ptrA message(RemoveHtml(content));
-				MEVENT dbevent =  GetMessageFromDb(hContact, skypeEditedId);
+				MEVENT dbevent = GetMessageFromDb(hContact, skypeEditedId);
 
 				if (isEdited && dbevent != NULL)
 				{
@@ -114,7 +114,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				int iType = 3, iDuration = 0;
 				ptrA skypename(ContactUrlToName(from));
 				HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("partlist"));
-				if (xml != NULL) 
+				if (xml != NULL)
 				{
 
 					ptrA type(mir_t2a(xi.getAttrValue(xml, _T("type"))));
@@ -133,14 +133,14 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				else if (iType == 0)
 				{
 					CMStringA chours = "", cmins = "", csec = "";
-					int hours=0, mins=0, sec=0;
+					int hours = 0, mins = 0, sec = 0;
 					if (iDuration != NULL)
 					{
 						hours = iDuration / 3600;
 						mins = iDuration / 60;
 						sec = iDuration % 60;
 					}
-					else 
+					else
 						hours = mins = sec = 0;
 
 					chours.AppendFormat(hours < 10 ? "0%d" : "%d", hours);
@@ -154,9 +154,9 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 			{
 				//content=<files alt="отправил (-а) файл &quot;run.bat&quot;"><file size="97" index="0" tid="4197760077">run.bat</file></files>
 				HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("files"));
-				if (xml != NULL) 
+				if (xml != NULL)
 				{
-					for (int i=0; i < xi.getChildCount(xml); i++)
+					for (int i = 0; i < xi.getChildCount(xml); i++)
 					{
 						int fileSize; CMStringA msg = "";
 						HXML xmlNode = xi.getNthChild(xml, L"file", i);
@@ -168,7 +168,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 							continue;
 
 						msg.Empty();
-						msg.AppendFormat("%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize , Translate("bytes"));
+						msg.AppendFormat("%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize, Translate("bytes"));
 						AddMessageToDb(hContact, timestamp, flags, clientMsgId, msg.GetBuffer());
 
 					}
@@ -178,7 +178,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 			{
 				//content=<URIObject type="Picture.1" uri="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834" url_thumbnail="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834/views/imgt1"><Title></Title><Description></Description>Для просмотра этого общего фото перейдите по ссылке: https://api.asm.skype.com/s/i?0-weu-d1-262f0a1ee256d03b8e4b8360d9208834<meta type="photo" originalName="ysd7ZE4BqOg.jpg"/><OriginalName v="ysd7ZE4BqOg.jpg"/></URIObject>
 				HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("URIObject"));
-				if (xml != NULL) 
+				if (xml != NULL)
 				{
 					ptrA url(mir_t2a(xi.getAttrValue(xml, L"uri")));
 					ptrA object(ParseUrl(url, "/objects/"));
@@ -223,7 +223,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 
 	if (totalCount >= 99 || json_size(conversations) >= 99)
 		PushRequest(new SyncHistoryFirstRequest(syncState, RegToken), &CSkypeProto::OnSyncHistory);
-	
+
 	for (size_t i = 0; i < json_size(conversations); i++)
 	{
 		JSONNODE *conversation = json_at(conversations, i);
@@ -242,7 +242,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 			skypename = ContactUrlToName(conversationLink);
 			MCONTACT hContact = AddContact(skypename, true);
 
-			if (/*GetLastMessageTime(hContact) < composeTime || */db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) < composeTime) 
+			if (/*GetLastMessageTime(hContact) < composeTime || */db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) < composeTime)
 			{
 				PushRequest(new GetHistoryRequest(RegToken, skypename, 100, false, 0, Server), &CSkypeProto::OnGetServerHistory);
 				HistorySynced = true;
