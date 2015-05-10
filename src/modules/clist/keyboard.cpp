@@ -31,17 +31,7 @@ static INT_PTR hkHideShow(WPARAM, LPARAM)
 	cli.pfnShowHide(0, 0);
 	return 0;
 }
-/*
-INT_PTR hkSearch(WPARAM wParam, LPARAM lParam)
-{
-	DBVARIANT dbv = {0};
-	if (!db_get_s(NULL, "CList", "SearchUrl", &dbv)) {
-		CallService(MS_UTILS_OPENURL, db_get_b(NULL, "CList", "HKSearchNewWnd", 0), (LPARAM)dbv.pszVal);
-		db_free(&dbv);
-	}
-	return 0;
-}
-*/
+
 static INT_PTR hkRead(WPARAM, LPARAM)
 {
 	if (cli.pfnEventsProcessTrayDoubleClick(0) == 0) return TRUE;
@@ -55,26 +45,7 @@ static INT_PTR hkOpts(WPARAM, LPARAM)
 	CallService("Options/OptionsCommand", 0, 0);
 	return 0;
 }
-/*
-static INT_PTR hkCloseMiranda(WPARAM wParam, LPARAM lParam)
-{
-	CallService("CloseAction", 0, 0);
-	return 0;
-}
 
-INT_PTR hkRestoreStatus(WPARAM wParam, LPARAM lParam)
-{
-	int nStatus = db_get_w(NULL, "CList", "Status", ID_STATUS_OFFLINE);
-	CallService(MS_CLIST_SETSTATUSMODE, nStatus, 0);
-	return 0;
-}
-
-static INT_PTR hkAllOffline(WPARAM, LPARAM)
-{
-	CallService(MS_CLIST_SETSTATUSMODE, ID_STATUS_OFFLINE, 0);
-	return 0;
-}
-*/
 int InitClistHotKeys(void)
 {
 	CreateServiceFunction("CLIST/HK/SHOWHIDE", hkHideShow);
@@ -96,14 +67,7 @@ int InitClistHotKeys(void)
 	shk.pszService = "CLIST/HK/Read";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'I');
 	Hotkey_Register(&shk);
-/*
-	shk.pszDescription = "Search in site";
-	shk.pszName = "SearchInWeb";
-	shk.pszSection = "Main";
-	shk.pszService = "CLIST/HK/Search";
-	shk.DefHotKey = 846;
-	Hotkey_Register(&shk);
-*/
+
 	shk.ptszDescription = LPGENT("Open Options page");
 	shk.pszName = "ShowOptions";
 	shk.ptszSection = _T("Main");
@@ -124,29 +88,6 @@ int InitClistHotKeys(void)
 	shk.pszService = "FindAdd/FindAddCommand";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'F') | HKF_MIRANDA_LOCAL;
 	Hotkey_Register(&shk);
-
-/*
-	shk.pszDescription = "Close Miranda";
-	shk.pszName = "CloseMiranda";
-	shk.pszSection = "Main";
-	shk.pszService = "CLIST/HK/CloseMiranda";
-	shk.DefHotKey = 0;
-	Hotkey_Register(&shk);
-
-	shk.pszDescription = "Restore last status";
-	shk.pszName = "RestoreLastStatus";
-	shk.pszSection = "Status";
-	shk.pszService = "CLIST/HK/RestoreStatus";
-	shk.DefHotKey = 0;
-	Hotkey_Register(&shk);
-
-	shk.pszDescription = "Set All Offline";
-	shk.pszName = "AllOffline";
-	shk.pszSection = "Status";
-	shk.pszService = "CLIST/HK/AllOffline";
-	shk.DefHotKey = 0;
-	Hotkey_Register(&shk);
-*/
 	return 0;
 }
 

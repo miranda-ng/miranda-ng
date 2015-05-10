@@ -135,9 +135,11 @@ BOOL	FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles 
 
 LPTSTR GetMenuItemText(PMO_IntMenuItem);
 
-int GenMenuOptInit(WPARAM wParam, LPARAM lParam);
+int GenMenuOptInit(WPARAM wParam, LPARAM);
 int GetMenuObjbyId(const int id);
 int GetMenuItembyId(const int objpos, const int id);
+
+int ProtocolOrderOptInit(WPARAM wParam, LPARAM);
 
 INT_PTR MO_GetMenuItem(WPARAM wParam, LPARAM lParam);
 void FreeAndNil(void **p);
