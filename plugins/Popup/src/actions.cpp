@@ -46,9 +46,9 @@ void LoadActions()
 
 		// remove popup action
 #if defined(_DEBUG)
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_POPUP_ON, 0), LPGEN("Popup Plus")"/"LPGEN("Test action"), PAF_ENABLED },
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_CLOSE, 0), LPGEN("Popup Plus")"/"LPGEN("Second test action"), 0 },
-		{ sizeof(POPUPACTION), LoadSkinnedIcon(SKINICON_OTHER_MIRANDA), LPGEN("Popup Plus")"/"LPGEN("One more action"), PAF_ENABLED },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_POPUP_ON, 0), "Popup Plus/Test action", PAF_ENABLED },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_CLOSE, 0), "Popup Plus/Second test action", 0 },
+		{ sizeof(POPUPACTION), LoadSkinnedIcon(SKINICON_OTHER_MIRANDA), "Popup Plus/One more action", PAF_ENABLED },
 #endif
 	};
 
