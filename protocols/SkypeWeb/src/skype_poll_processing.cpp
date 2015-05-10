@@ -164,7 +164,7 @@ void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)
 				time_t evttime = atoi(szToken2.GetBuffer());
 				db_set_dw(hContact, m_szModuleName, "LastMsgReadTime", evttime);
 
-				SetSrmmReadStatus(hContact);
+				//SetSrmmReadStatus(hContact);
 			}
 		}
 	}
