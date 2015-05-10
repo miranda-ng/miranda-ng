@@ -341,7 +341,7 @@ private:
 
 	//events
 	void InitDBEvents();
-	//int __cdecl ProcessSrmmEvent(WPARAM, LPARAM);
+	int __cdecl ProcessSrmmEvent(WPARAM, LPARAM);
 
 	//services
 	INT_PTR __cdecl OnIncomingCallCLE					(WPARAM wParam, LPARAM lParam);

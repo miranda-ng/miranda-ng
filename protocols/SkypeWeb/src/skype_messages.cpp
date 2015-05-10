@@ -307,17 +307,17 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 	}
 	else if (!mir_strcmpi(messageType, "RichText/Contacts")){}
 
-	if (clientMsgId && (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText")))
-	{
-		PushRequest(new MarkMessageReadRequest(skypename, RegToken, _ttoi(json_as_string(json_get(node, "id"))), timestamp, false, Server));
-	}
+	//if (clientMsgId && (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText")))
+	//{
+	//	PushRequest(new MarkMessageReadRequest(skypename, RegToken, _ttoi(json_as_string(json_get(node, "id"))), timestamp, false, Server));
+	//}
 }
 
-int CSkypeProto::OnDbEventRead(WPARAM, LPARAM)
+int CSkypeProto::OnDbEventRead(WPARAM hContact, LPARAM hDbEvent)
 {
 	debugLogA(__FUNCTION__);
-	//if (IsOnline() && !isChatRoom(hContact) && !mir_strcmp(GetContactProto(hContact), m_szModuleName))
-	//	MarkMessagesRead(hContact, hDbEvent);
+	if (IsOnline() && !isChatRoom(hContact) && !mir_strcmp(GetContactProto(hContact), m_szModuleName))
+		MarkMessagesRead(hContact, hDbEvent);
 	return 0;
 }
 
@@ -331,5 +331,5 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 
 	time_t timestamp = dbei.timestamp;
 
-	PushRequest(new MarkMessageReadRequest(username, RegToken, time(NULL)+60/*it should be rewritten*/, timestamp, false, Server));
+	PushRequest(new MarkMessageReadRequest(username, RegToken, timestamp, timestamp, false, Server));
 }
