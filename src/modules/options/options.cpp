@@ -86,6 +86,7 @@ struct OptionsPageData : public MZeroedObject
 			pDialog = new COptionPageDialog(src->hInstance, (int)src->pszTemplate, src->pfnDlgProc, src->dwInitParam);
 		else
 			pDialog = src->pDialog;
+		assert(pDialog != NULL);
 
 		flags = src->flags;
 		hLangpack = src->hLangpack;
@@ -108,7 +109,7 @@ struct OptionsPageData : public MZeroedObject
 	
 	~OptionsPageData()
 	{
-		if (getHwnd() != NULL)
+		if (pDialog && getHwnd() != NULL)
 			DestroyWindow(getHwnd());
 	}
 
@@ -712,8 +713,13 @@ static void LoadOptionsModule(HWND hdlg, OptionsDlgData *dat, HINSTANCE hInst)
 	if (opi.pageCount == 0)
 		return;
 
-	for (int i = 0; i < opi.pageCount; i++)
-		dat->arOpd.insert(new OptionsPageData(&opi.odp[i]));
+	for (int i = 0; i < opi.pageCount; i++) {
+		OptionsPageData *opd = new OptionsPageData(&opi.odp[i]);
+		if (opd->pDialog == NULL) // smth went wrong
+			delete opd;
+		else
+			dat->arOpd.insert(opd);
+	}
 
 	FreeOptionsData(&opi);
 	PostMessage(hdlg, DM_REBUILDPAGETREE, 0, 0);
@@ -814,7 +820,11 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 			OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)psh->ppsp;
 			for (UINT i = 0; i < psh->nPages; i++, odp++) {
-				dat->arOpd.insert(new OptionsPageData(odp));
+				OptionsPageData *opd = new OptionsPageData(odp);
+				if (opd->pDialog == NULL) // smth went wrong
+					delete opd;
+				else
+					dat->arOpd.insert(opd);
 
 				if (!mir_tstrcmp(lastPage, odp->ptszTitle) && !mir_tstrcmp(lastGroup, odp->ptszGroup))
 					if ((ood->pszTab == NULL && dat->currentPage == -1) || !mir_tstrcmp(lastTab, odp->ptszTab))
