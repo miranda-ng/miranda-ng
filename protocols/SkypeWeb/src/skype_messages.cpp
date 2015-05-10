@@ -93,7 +93,7 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessa
 	debugLogA(__FUNCTION__ " clientmsgid = %d", param->hMessage);
 
 	if (strncmp(message, "/me ", 4) == 0)
-		SendRequest(new SendActionRequest(RegToken, username, param->hMessage, &message[4], Server), &CSkypeProto::OnMessageSent, param);
+		SendRequest(new SendActionRequest(RegToken, SelfSkypeName, param->hMessage, &message[4], Server), &CSkypeProto::OnMessageSent, param);
 	else
 		SendRequest(new SendMessageRequest(RegToken, username, param->hMessage, message, Server), &CSkypeProto::OnMessageSent, param);
 
