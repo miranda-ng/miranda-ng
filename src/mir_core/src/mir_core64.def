@@ -815,7 +815,7 @@ mir_wstrcmpi                  @280
 ?GetItem@CCtrlListView@@QEAAXPEAUtagLVITEMW@@@Z @814 NONAME
 ?GetItem@CCtrlTreeView@@QEAAXPEAU_TREEITEM@@PEAUtagTVITEMEXW@@@Z @815 NONAME
 ?GetItem@CCtrlTreeView@@QEAAXPEAU_TREEITEM@@PEAUtagTVITEMEXW@@PEA_WH@Z @816 NONAME
-?GetItem@CCtrlTreeView@@QEAAXPEAUtagTVITEMEXW@@@Z @817 NONAME
+?GetItem@CCtrlTreeView@@QEAA_NPEAUtagTVITEMEXW@@@Z @817 NONAME
 ?GetItemCount@CCtrlListView@@QEAAHXZ @818 NONAME
 ?GetItemData@CCtrlCombo@@QEAA_JH@Z @819 NONAME
 ?GetItemData@CCtrlListBox@@QEAA_JH@Z @820 NONAME
@@ -1073,7 +1073,6 @@ ProtoWindowAdd @1071 NONAME
 ProtoWindowRemove @1072 NONAME
 Proto_IsProtocolLoaded @1073 NONAME
 Proto_RegisterModule @1074 NONAME
-
 ?GetInst@CDlgBase@@QEBAPEAUHINSTANCE__@@XZ @1075 NONAME
 ?Find@CDlgBase@@SAPEAV1@PEAUHWND__@@@Z @1076 NONAME
 ?SetCaption@CDlgBase@@QEAAXPEB_W@Z @1077 NONAME

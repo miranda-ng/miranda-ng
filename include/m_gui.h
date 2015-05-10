@@ -971,7 +971,7 @@ public:
 	HIMAGELIST GetImageList(int iImage);
 	int        GetIndent();
 	COLORREF   GetInsertMarkColor();
-	void       GetItem(TVITEMEX *tvi);
+	bool       GetItem(TVITEMEX *tvi);
 	int        GetItemHeight();
 	void       GetItemRect(HTREEITEM hItem, RECT *rcItem, BOOL fItemRect);
 	DWORD      GetItemState(HTREEITEM hItem, DWORD stateMask);
