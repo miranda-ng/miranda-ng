@@ -272,7 +272,7 @@ from the version info file, if available).</value>
     <value>File =VERSION=.txt not found...</value>
   </data>
   <data name="VIGen" xml:space="preserve">
-    <value>File VersionInfo.txt founded, making shot langpack...</value>
+    <value>File VersionInfo.txt founded, making short langpack...</value>
   </data>
   <data name="WeatherLink" xml:space="preserve">
     <value>Writing files from Weather folder...</value>

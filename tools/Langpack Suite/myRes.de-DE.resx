@@ -121,7 +121,7 @@
     <value>Sprachdatei zugeordnet...</value>
   </data>
   <data name="AssignLangBtn" xml:space="preserve">
-    <value>Zuordnung</value>
+    <value>Zuordnen</value>
   </data>
   <data name="AutoModeBtn" xml:space="preserve">
     <value>Automatisch</value>
@@ -133,7 +133,7 @@
     <value>Kommentare finden</value>
   </data>
   <data name="ComNotFound" xml:space="preserve">
-    <value>Kommentare nicht gefunden!</value>
+    <value>Keine Kommentare gefunden!</value>
   </data>
   <data name="CoreNotFound" xml:space="preserve">
     <value>Datei =CORE=.txt nicht gefunden...</value>
@@ -231,13 +231,13 @@ ausgelesen, falls verfügbar).</value>
     <value>Kann Datei nicht öffnen.</value>
   </data>
   <data name="NotTransFound" xml:space="preserve">
-    <value>Not Translated lines founded...</value>
+    <value>Unübersetzte Zeilen gefunden...</value>
   </data>
   <data name="NotTranslFindBtn" xml:space="preserve">
-    <value>Find Not Translated</value>
+    <value>Unübersetzte finden</value>
   </data>
   <data name="NotTransNotFound" xml:space="preserve">
-    <value>Not translated lines not found!</value>
+    <value>Keine unübersetzten Zeilen geunden!</value>
   </data>
   <data name="NotWrite" xml:space="preserve">
     <value>Kann Datei nicht schreiben.</value>
@@ -246,13 +246,13 @@ ausgelesen, falls verfügbar).</value>
     <value>Eigene Datei zur Sprachdatei hinzufügen</value>
   </data>
   <data name="PlugLink" xml:space="preserve">
-    <value>Writing files from Plugins folder...</value>
+    <value>Schreibe Dateien aus Plugins Verzeichnis...</value>
   </data>
   <data name="PlugLinkNotFound" xml:space="preserve">
     <value>Unterverzeichnis Plugins nicht gefunden...</value>
   </data>
   <data name="RootLink" xml:space="preserve">
-    <value>Schreiben von Dateien aus Root Ordner ...</value>
+    <value>Schreibe Dateien aus Root Verzeichnis...</value>
   </data>
   <data name="SelectOwnFileBtn" xml:space="preserve">
     <value>Auswählen</value>
@@ -270,7 +270,7 @@ ausgelesen, falls verfügbar).</value>
     <value>Datei =VERSION=.txt nicht gefunden...</value>
   </data>
   <data name="VIGen" xml:space="preserve">
-    <value>Datei VersionInfo.txt gefunden, making shot langpack...</value>
+    <value>Datei VersionInfo.txt gefunden, gekürzte Sprachdatei erstellen...</value>
   </data>
   <data name="WeatherLink" xml:space="preserve">
     <value>Schreibe Dateien aus Weather Verzeichnis...</value>
@@ -279,7 +279,7 @@ ausgelesen, falls verfügbar).</value>
     <value>Unterverzeichnis Weather nicht gefunden...</value>
   </data>
   <data name="WOVIGen" xml:space="preserve">
-    <value>VersionInfo.txt nicht gefunden, so dass volle langpack ...</value>
+    <value>VersionInfo.txt nicht gefunden, volle Sprachdatei erstellen...</value>
   </data>
   <data name="WrongSelect" xml:space="preserve">
     <value>Falsches Verzeichnis ausgewählt...</value>
@@ -301,8 +301,11 @@ ausgelesen, falls verfügbar).</value>
 \n - Dateiname der Sprachdatei oder Sprachdatei Ausgabepfad
 \o - Pfad zu Hinzufügen eigener Datei
 \u - Link zu VI von vi.miranda-ng.org oder voller lokaler Pfad
-\p - Verfügbare Langpack Ordnernamen
+\p - Verfügbare Sprachdatei Ordnernamen
 
 Beispiel LangpackSuite.exe \q \pgerman \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt</value>
+  </data>
+  <data name="AvailLangpacks" xml:space="preserve">
+    <value>Verfügb. Sprachdateien:</value>
   </data>
 </root>
