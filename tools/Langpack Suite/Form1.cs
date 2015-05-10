@@ -357,22 +357,6 @@ namespace Langpack_Suite
                     return;
                 }
 
-                LangPack.WriteLine("");
-                if (File.Exists(FolderName + "\\=DUPES=.txt"))
-                {
-                    ReadFile = new StreamReader(FolderName + "\\=DUPES=.txt");
-                    while ((s = ReadFile.ReadLine()) != null)
-                    {
-                        LangPack.WriteLine(s);
-                    }
-                    ReadFile.Close();
-                }
-                else
-                {
-                    LocaleText = rm.GetString("DupesNotFound", culture);
-                    InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText + "\r\n";
-                }
-
                 rf = new FileStream(vipath, FileMode.Open, FileAccess.Read);
                 rf.Read(buffer, 0, 3);
                 rf.Close();
@@ -573,22 +557,6 @@ namespace Langpack_Suite
                     InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText;
                     LangPack.Close();
                     return;
-                }
-
-                LangPack.WriteLine("");
-                if (File.Exists(FolderName + "\\=DUPES=.txt"))
-                {
-                    ReadFile = new StreamReader(FolderName + "\\=DUPES=.txt");
-                    while ((s = ReadFile.ReadLine()) != null)
-                    {
-                        LangPack.WriteLine(s);
-                    }
-                    ReadFile.Close();
-                }
-                else
-                {
-                    LocaleText = rm.GetString("DupesNotFound", culture);
-                    InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText + "\r\n";
                 }
 
                 DirectoryInfo PluginsDir = new DirectoryInfo(FolderName + "\\Plugins");

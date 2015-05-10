@@ -290,7 +290,7 @@ from the version info file, if available).</value>
     <value>Get VersionInfo from Internet or type full local path</value>
   </data>
   <data name="label6" xml:space="preserve">
-    <value>e.g. http://www.miranda-vi.org/report/mataes</value>
+    <value>e.g. http://vi.miranda-ng.org/detail/mataes</value>
   </data>
   <data name="tipper" xml:space="preserve">
     <value>Command line arguments list</value>
@@ -302,7 +302,7 @@ from the version info file, if available).</value>
     <value>\q - silent generate
 \n - Langpack file name or output Langpack path
 \o - Path for adding own File
-\u - link to VI from miranda-vi.org or full local path
+\u - link to VI from vi.miranda-ng.org or full local path
 \p - Available Langpack folder name
 
 Example, LangpackSuite.exe \q \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt \prussian</value>

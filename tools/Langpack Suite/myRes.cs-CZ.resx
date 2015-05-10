@@ -286,7 +286,7 @@
     <value>Načíst VersionInfo z internetu nebo z lokálního souboru</value>
   </data>
   <data name="label6" xml:space="preserve">
-    <value>např. http://www.miranda-vi.org/report/mataes</value>
+    <value>např. http://vi.miranda-ng.org/detail/mataes</value>
   </data>
   <data name="tipper" xml:space="preserve">
     <value>Seznam argumentů příkazové řádky</value>
@@ -298,7 +298,7 @@
     <value>\q - Tiché generování
 \n - Název souboru s překladem nebo cesta pro výstup překladu
 \o - Cesta pro přidání vlastního souboru
-\u - Odkaz na VI z miranda-vi.org nebo úplná cesta k souboru
+\u - Odkaz na VI z vi.miranda-ng.org nebo úplná cesta k souboru
 \p - Název složky s dostupným překladem
 
 Např.: LangpackSuite.exe \q \nLang_Test \o"Moje řetězce.txt" \uD:\Miranda\VersionInfo.txt \pczech</value>

@@ -292,7 +292,7 @@
     <value>Запампаваць файл VI з Інтэрнэту ці поўны шлях</value>
   </data>
   <data name="label6" xml:space="preserve">
-    <value>напрыклад,  http://www.miranda-vi.org/report/mataes</value>
+    <value>напрыклад,  http://vi.miranda-ng.org/detail/mataes</value>
   </data>
   <data name="tipper" xml:space="preserve">
     <value>Спіс аргументаў каманднага радка</value>
@@ -304,7 +304,7 @@
     <value>\q - ціхая генерацыя
 \n - імя файла пакета або шлях выходнага файла пакета
 \o - шлях да файла для ўключэння ў пакет
-\u - спасылка на VI з miranda-vi.org ці поўны лакальны шлях
+\u - спасылка на VI з vi.miranda-ng.org ці поўны лакальны шлях
 \p - даступны моўнай пакет
 
 Прыклад, LangpackSuite.exe \q \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt \prussian</value>
