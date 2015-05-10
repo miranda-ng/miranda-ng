@@ -141,17 +141,29 @@ void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)
 	JSONNODE *properties  = json_get(node, "properties" );
 
 	ptrA convLink(mir_t2a(json_as_string(json_get(lastMessage, "conversationLink"))));
+	ptrA fromLink(mir_t2a(json_as_string(json_get(lastMessage, "from"))));
 
-	if (strstr(convLink, "/8:"))
+ 	if (strstr(convLink, "/8:") && IsMe(ContactUrlToName(fromLink)))
 	{
 		ptrA skypename(ContactUrlToName(convLink));
 		MCONTACT hContact = FindContact(skypename);
 		
 		if (hContact != NULL)
 		{
-			ptrA consumptionhorizon(mir_t2a(json_as_string(json_get(properties, "consumptionhorizon"))));
+			CMStringA consumptionhorizon(mir_t2a(json_as_string(json_get(properties, "consumptionhorizon"))));
 
-			//server return bad data
+			int iStart = 0;
+			CMStringA szToken1 = consumptionhorizon.Tokenize(";", iStart).Trim();
+
+			if (iStart != -1)
+			{
+				CMStringA szToken2 = consumptionhorizon.Tokenize(";", iStart).Trim();
+
+				time_t evttime = atoi(szToken2.GetBuffer());
+				db_set_dw(hContact, m_szModuleName, "LastMsgReadTime", evttime);
+
+				SetSrmmReadStatus(hContact);
+			}	
 		}
 	}
 }
