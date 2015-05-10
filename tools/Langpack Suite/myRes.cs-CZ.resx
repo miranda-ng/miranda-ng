@@ -147,9 +147,6 @@
   <data name="DupesFindBtn" xml:space="preserve">
     <value>Najít duplikáty</value>
   </data>
-  <data name="DupesNotFound" xml:space="preserve">
-    <value>Soubor =DUPES=.txt nebyl nalezen...</value>
-  </data>
   <data name="DupFound" xml:space="preserve">
     <value>Duplikáty nalezeny...</value>
   </data>
