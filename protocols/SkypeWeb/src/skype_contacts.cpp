@@ -137,8 +137,8 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 		ptrT eventTimeStr(json_as_string(node));
 		time_t eventTime = IsoToUnixTime(eventTimeStr);
 
-		if (reason == "null")
-			reason.Empty();
+		//if (reason == "null")
+		//	reason.Empty();
 
 		MCONTACT hContact = AddContact(skypename);
 		if (hContact)
