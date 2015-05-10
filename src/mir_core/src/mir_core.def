@@ -815,7 +815,7 @@ mir_wstrcmpi                  @280
 ?GetItem@CCtrlListView@@QAEXPAUtagLVITEMW@@@Z @814 NONAME
 ?GetItem@CCtrlTreeView@@QAEXPAU_TREEITEM@@PAUtagTVITEMEXW@@@Z @815 NONAME
 ?GetItem@CCtrlTreeView@@QAEXPAU_TREEITEM@@PAUtagTVITEMEXW@@PA_WH@Z @816 NONAME
-?GetItem@CCtrlTreeView@@QAEXPAUtagTVITEMEXW@@@Z @817 NONAME
+?GetItem@CCtrlTreeView@@QAE_NPAUtagTVITEMEXW@@@Z @817 NONAME
 ?GetItemCount@CCtrlListView@@QAEHXZ @818 NONAME
 ?GetItemData@CCtrlCombo@@QAEJH@Z @819 NONAME
 ?GetItemData@CCtrlListBox@@QAEJH@Z @820 NONAME

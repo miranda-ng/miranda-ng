@@ -1452,8 +1452,8 @@ COLORREF CCtrlTreeView::GetInsertMarkColor()
 {	return TreeView_GetInsertMarkColor(m_hwnd);
 }
 
-void CCtrlTreeView::GetItem(TVITEMEX *tvi)
-{	TreeView_GetItem(m_hwnd, tvi);
+bool CCtrlTreeView::GetItem(TVITEMEX *tvi)
+{	return TreeView_GetItem(m_hwnd, tvi) == TRUE;
 }
 
 int CCtrlTreeView::GetItemHeight()
