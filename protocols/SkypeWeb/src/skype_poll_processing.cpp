@@ -159,6 +159,8 @@ void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)
 			{
 				CMStringA szToken2 = consumptionhorizon.Tokenize(";", iStart).Trim();
 
+				szToken2.Truncate(szToken2.GetLength() - 3);
+
 				time_t evttime = atoi(szToken2.GetBuffer());
 				db_set_dw(hContact, m_szModuleName, "LastMsgReadTime", evttime);
 
