@@ -109,10 +109,8 @@ static void Docking_AdjustPosition(HWND hwnd, LPRECT rcDisplay, LPRECT rc, bool 
 		dockPos = *(LPPOINT)rc;
 	}
 
-	if (move) {
-		MoveWindow(hwnd, rc->left, rc->top, rc->right - rc->left,
-					  rc->bottom - rc->top, TRUE);
-	}
+	if (move)
+		MoveWindow(hwnd, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top, TRUE);
 }
 
 static void Docking_SetSize(HWND hwnd, LPRECT rc, bool query, bool move)
@@ -319,17 +317,17 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			POINT pt;
 			GetClientRect(msg->hwnd, &rc);
 			if ((docked == DOCKED_LEFT && (short)LOWORD(msg->lParam) > rc.right) ||
-				 (docked == DOCKED_RIGHT && (short)LOWORD(msg->lParam) < 0)) {
+				(docked == DOCKED_RIGHT && (short)LOWORD(msg->lParam) < 0)) {
 				ReleaseCapture();
 				draggingTitle = 0;
 				docked = 0;
 				GetCursorPos(&pt);
 				PostMessage(msg->hwnd, WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(pt.x, pt.y));
 				SetWindowPos(msg->hwnd, 0, pt.x - rc.right / 2,
-								 pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2,
-								 db_get_dw(NULL, "CList", "Width", 0),
-								 db_get_dw(NULL, "CList", "Height", 0),
-								 SWP_NOZORDER);
+					pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2,
+					db_get_dw(NULL, "CList", "Width", 0),
+					db_get_dw(NULL, "CList", "Height", 0),
+					SWP_NOZORDER);
 				Docking_Command(msg->hwnd, ABM_REMOVE);
 			}
 			return 1;

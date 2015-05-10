@@ -69,7 +69,7 @@ void FreeAndNil(void **p)
 
 int GetMenuObjbyId(const int id)
 {
-	for (int i=0; i < g_menus.getCount(); i++)
+	for (int i = 0; i < g_menus.getCount(); i++)
 		if (g_menus[i]->id == id)
 			return i;
 
@@ -131,8 +131,8 @@ int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis)
 	if (pimi->iconId == -1)
 		return FALSE;
 
-	mis->itemWidth = max(0, GetSystemMetrics(SM_CXSMICON)-GetSystemMetrics(SM_CXMENUCHECK)+4);
-	mis->itemHeight = GetSystemMetrics(SM_CYSMICON)+2;
+	mis->itemWidth = max(0, GetSystemMetrics(SM_CXSMICON) - GetSystemMetrics(SM_CXMENUCHECK) + 4);
+	mis->itemHeight = GetSystemMetrics(SM_CYSMICON) + 2;
 	return TRUE;
 }
 
@@ -154,12 +154,12 @@ int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis)
 	if (pimi == NULL || pimi->iconId == -1)
 		return FALSE;
 
-	int y = (dis->rcItem.bottom - dis->rcItem.top - GetSystemMetrics(SM_CYSMICON))/2+1;
+	int y = (dis->rcItem.bottom - dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2 + 1;
 	if (dis->itemState & ODS_SELECTED) {
 		if (dis->itemState & ODS_CHECKED) {
 			RECT rc;
-			rc.left = 2; rc.right = GetSystemMetrics(SM_CXSMICON)+2;
-			rc.top = y; rc.bottom = rc.top+GetSystemMetrics(SM_CYSMICON)+2;
+			rc.left = 2; rc.right = GetSystemMetrics(SM_CXSMICON) + 2;
+			rc.top = y; rc.bottom = rc.top + GetSystemMetrics(SM_CYSMICON) + 2;
 			FillRect(dis->hDC, &rc, GetSysColorBrush(COLOR_HIGHLIGHT));
 			ImageList_DrawEx(pimi->parent->m_hMenuIcons, pimi->iconId, dis->hDC, 2, y, 0, 0, CLR_NONE, CLR_DEFAULT, ILD_SELECTED);
 		}
@@ -168,13 +168,13 @@ int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis)
 	else {
 		if (dis->itemState & ODS_CHECKED) {
 			RECT rc;
-			rc.left = 0; rc.right = GetSystemMetrics(SM_CXSMICON)+4;
-			rc.top = y-2; rc.bottom = rc.top + GetSystemMetrics(SM_CYSMICON)+4;
+			rc.left = 0; rc.right = GetSystemMetrics(SM_CXSMICON) + 4;
+			rc.top = y - 2; rc.bottom = rc.top + GetSystemMetrics(SM_CYSMICON) + 4;
 			DrawEdge(dis->hDC, &rc, BDR_SUNKENOUTER, BF_RECT);
 			InflateRect(&rc, -1, -1);
 			COLORREF menuCol = GetSysColor(COLOR_MENU);
 			COLORREF hiliteCol = GetSysColor(COLOR_3DHIGHLIGHT);
-			HBRUSH hBrush = CreateSolidBrush(RGB((GetRValue(menuCol)+GetRValue(hiliteCol))/2, (GetGValue(menuCol)+GetGValue(hiliteCol))/2, (GetBValue(menuCol)+GetBValue(hiliteCol))/2));
+			HBRUSH hBrush = CreateSolidBrush(RGB((GetRValue(menuCol) + GetRValue(hiliteCol)) / 2, (GetGValue(menuCol) + GetGValue(hiliteCol)) / 2, (GetBValue(menuCol) + GetBValue(hiliteCol)) / 2));
 			FillRect(dis->hDC, &rc, GetSysColorBrush(COLOR_MENU));
 			DeleteObject(hBrush);
 			ImageList_DrawEx(pimi->parent->m_hMenuIcons, pimi->iconId, dis->hDC, 2, y, 0, 0, CLR_NONE, GetSysColor(COLOR_MENU), ILD_BLEND50);
@@ -186,7 +186,7 @@ int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis)
 
 int MO_RemoveAllObjects()
 {
-	for (int i=0; i < g_menus.getCount(); i++)
+	for (int i = 0; i < g_menus.getCount(); i++)
 		delete g_menus[i];
 	g_menus.destroy();
 	return 0;
@@ -379,12 +379,11 @@ PMO_IntMenuItem MO_GetIntMenuItem(HGENMENU wParam)
 	if (result == NULL || wParam == (HGENMENU)0xffff1234 || wParam == HGENMENU_ROOT)
 		return NULL;
 
-	__try
-	{
+	__try {
 		if (result->signature != MENUITEM_SIGNATURE)
 			result = NULL;
 	}
-	__except(EXCEPTION_EXECUTE_HANDLER)
+	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
 		result = NULL;
 	}
@@ -426,7 +425,7 @@ INT_PTR MO_ProcessCommandByMenuIdent(WPARAM wParam, LPARAM lParam)
 	PMO_IntMenuItem pimi = NULL;
 	{
 		mir_cslock lck(csMenuHook);
-		for (int i=0; i < g_menus.getCount(); i++)
+		for (int i = 0; i < g_menus.getCount(); i++)
 			if ((pimi = MO_RecursiveWalkMenu(g_menus[i]->m_items.first, FindMenuByCommand, (void*)wParam)) != NULL)
 				break;
 	}
@@ -578,7 +577,7 @@ struct KillMenuItemsParam
 	KillMenuItemsParam(int _hLangpack) :
 		hLangpack(_hLangpack),
 		arItems(10)
-		{}
+	{}
 
 	int hLangpack;
 	LIST<TMO_IntMenuItem> arItems;
@@ -599,10 +598,10 @@ void KillModuleMenus(int hLangpack)
 	KillMenuItemsParam param(hLangpack);
 
 	mir_cslock lck(csMenuHook);
-	for (int i=0; i < g_menus.getCount(); i++)
+	for (int i = 0; i < g_menus.getCount(); i++)
 		MO_RecursiveWalkMenu(g_menus[i]->m_items.first, (pfnWalkFunc)KillMenuItems, &param);
 
-	for (int k=0; k < param.arItems.getCount(); k++)
+	for (int k = 0; k < param.arItems.getCount(); k++)
 		MO_RemoveMenuItem((WPARAM)param.arItems[k], 0);
 }
 
@@ -620,7 +619,7 @@ static int GetNextObjectMenuItemId()
 	// if menu commands are exausted, pack the menu array
 	if (NextObjectMenuItemId >= CLISTMENUIDMAX) {
 		NextObjectMenuItemId = CLISTMENUIDMIN;
-		for (int i=0; i < g_menus.getCount(); i++)
+		for (int i = 0; i < g_menus.getCount(); i++)
 			MO_RecursiveWalkMenu(g_menus[i]->m_items.first, PackMenuItems, NULL);
 	}
 
@@ -758,13 +757,13 @@ static int WhereToPlace(HMENU hMenu, PMO_MenuItem mi)
 {
 	MENUITEMINFO mii = { sizeof(mii) };
 	mii.fMask = MIIM_SUBMENU | MIIM_DATA;
-	for (int i = GetMenuItemCount(hMenu)-1; i >= 0; i--) {
+	for (int i = GetMenuItemCount(hMenu) - 1; i >= 0; i--) {
 		GetMenuItemInfo(hMenu, i, TRUE, &mii);
 		if (mii.fType != MFT_SEPARATOR) {
 			PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)mii.dwItemData);
 			if (pimi != NULL)
 				if (pimi->mi.position <= mi->position)
-					return i+1;
+					return i + 1;
 		}
 	}
 
@@ -806,7 +805,7 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 
 	// check for separator before
 	if (uItem) {
-		UINT fType = GetMenuItemTypeData(hMenu, uItem-1, p);
+		UINT fType = GetMenuItemTypeData(hMenu, uItem - 1, p);
 		if (p != NULL && fType != MFT_SEPARATOR) {
 			if ((p->mi.position / SEPARATORPOSITIONINTERVAL) != (pimi->mi.position / SEPARATORPOSITIONINTERVAL)) {
 				// but might be supposed to be after the next one instead
@@ -1038,7 +1037,7 @@ int OnIconLibChanges(WPARAM, LPARAM)
 {
 	{
 		mir_cslock lck(csMenuHook);
-		for (int mo=0; mo < g_menus.getCount(); mo++)
+		for (int mo = 0; mo < g_menus.getCount(); mo++)
 			if ((int)hStatusMenuObject != g_menus[mo]->id) //skip status menu
 				MO_RecursiveWalkMenu(g_menus[mo]->m_items.first, MO_ReloadIcon, 0);
 	}
@@ -1074,7 +1073,7 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 				if ((p = _tcschr(p, '&')) == NULL)
 					break;
 
-				memmove(p, p+1, sizeof(TCHAR)*(_tcslen(p+1)+1));
+				memmove(p, p + 1, sizeof(TCHAR)*(_tcslen(p + 1) + 1));
 				if (*p == '\0')
 					p++;
 			}
@@ -1102,7 +1101,7 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 int RegisterAllIconsInIconLib()
 {
 	// register all icons
-	for (int mo=0; mo < g_menus.getCount(); mo++) {
+	for (int mo = 0; mo < g_menus.getCount(); mo++) {
 		if ((int)hStatusMenuObject == g_menus[mo]->id) //skip status menu
 			continue;
 
@@ -1118,7 +1117,7 @@ int TryProcessDoubleClick(MCONTACT hContact)
 	if (iMenuID != -1) {
 		NotifyEventHooks(hPreBuildContactMenuEvent, hContact, 0);
 
-		PMO_IntMenuItem pimi = (PMO_IntMenuItem)MO_GetDefaultMenuItem((WPARAM)g_menus[ iMenuID ]->m_items.first, 0);
+		PMO_IntMenuItem pimi = (PMO_IntMenuItem)MO_GetDefaultMenuItem((WPARAM)g_menus[iMenuID]->m_items.first, 0);
 		if (pimi != NULL) {
 			MO_ProcessCommand(pimi, hContact);
 			return 0;
@@ -1189,7 +1188,7 @@ int InitGenMenu()
 	bIsGenMenuInited = true;
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	HookEvent(ME_OPT_INITIALISE,       GenMenuOptInit);
+	HookEvent(ME_OPT_INITIALISE, GenMenuOptInit);
 	return 0;
 }
 

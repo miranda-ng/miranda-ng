@@ -31,226 +31,134 @@ extern bool bIconsDisabled;
 extern int DefaultImageListColorDepth;
 void RebuildProtoMenus(int);
 
-struct OrderData
+struct MenuItemOptData : public MZeroedObject
 {
-	int dragging;
-	HTREEITEM hDragItem;
-	int iInitMenuValue;
-};
+	~MenuItemOptData() {}
 
-typedef struct tagMenuItemOptData
-{
-	TCHAR *name;
-	TCHAR *defname;
-	char  *uniqname;
+	int    pos; // sort key
 
-	int    pos;
+	ptrT   name;
+	ptrT   defname;
+	ptrA   uniqname;
+	
 	bool   bShow, bIsSelected;
 	int    id;
 
 	PMO_IntMenuItem pimi;
-}
-	MenuItemOptData, *lpMenuItemOptData;
+};
 
-static BOOL GetCurrentMenuObjectID(HWND hwndDlg, int* result)
+class CGenMenuOptionsPage : public CDlgBase
 {
-	HWND hTree = GetDlgItem(hwndDlg, IDC_MENUOBJECTS);
-	HTREEITEM hti = TreeView_GetSelection(hTree);
-	if (hti == NULL)
-		return FALSE;
+	int m_bDragging;
+	int iInitMenuValue;
 
-	TVITEM tvi;
-	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-	tvi.hItem = hti;
-	TreeView_GetItem(hTree, &tvi);
-	*result = (int)tvi.lParam;
-	return TRUE;
-}
+	HTREEITEM m_hDragItem;
 
-static int SaveTree(HWND hwndDlg)
-{
-	int MenuObjectId;
-	if (!GetCurrentMenuObjectID(hwndDlg, &MenuObjectId))
-		return 0;
-
-	HWND hTree = GetDlgItem(hwndDlg, IDC_MENUITEMS);
-	TCHAR idstr[100];
-
-	TVITEM tvi;
-	tvi.hItem = TreeView_GetRoot(hTree);
-	tvi.cchTextMax = SIZEOF(idstr);
-	tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE;
-	tvi.pszText = idstr;
-
-	int count = 0;
-	int menupos = GetMenuObjbyId(MenuObjectId);
-	if (menupos == -1)
-		return -1;
-
-	TIntMenuObject *pimo = g_menus[menupos];
-
-	char MenuNameItems[256];
-	mir_snprintf(MenuNameItems, SIZEOF(MenuNameItems), "%s_Items", pimo->pszName);
-	int runtimepos = 100;
-
-	while (tvi.hItem != NULL) {
-		TreeView_GetItem(hTree, &tvi);
-		MenuItemOptData *iod = (MenuItemOptData*)tvi.lParam;
-		if (iod->pimi) {
-			char menuItemName[256], DBString[300];
-			GetMenuItemName(iod->pimi, menuItemName, sizeof(menuItemName));
-
-			mir_snprintf(DBString, SIZEOF(DBString), "%s_visible", menuItemName);
-			db_set_b(NULL, MenuNameItems, DBString, iod->bShow);
-
-			mir_snprintf(DBString, SIZEOF(DBString), "%s_pos", menuItemName);
-			db_set_dw(NULL, MenuNameItems, DBString, runtimepos);
-
-			mir_snprintf(DBString, SIZEOF(DBString), "%s_name", menuItemName);
-			if (iod->name != NULL && iod->defname != NULL &&
-			    mir_tstrcmp(iod->name, iod->defname) != 0)
-				db_set_ts(NULL, MenuNameItems, DBString, iod->name);
-			else
-				db_unset(NULL, MenuNameItems, DBString);
-
-			runtimepos += 100;
-		}
-
-		if (iod->name && !_tcscmp(iod->name, STR_SEPARATOR) && iod->bShow)
-			runtimepos += SEPARATORPOSITIONINTERVAL;
-
-		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
-		count++;
-	}
-	return 1;
-}
-
-static int BuildMenuObjectsTree(HWND hwndDlg)
-{
-	TVINSERTSTRUCT tvis;
-	HWND hTree = GetDlgItem(hwndDlg, IDC_MENUOBJECTS);
-	int i;
-
-	tvis.hParent = NULL;
-	tvis.hInsertAfter = TVI_LAST;
-	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-	TreeView_DeleteAllItems(hTree);
-	if (g_menus.getCount() == 0)
-		return FALSE;
-
-	for (i=0; i < g_menus.getCount(); i++) {
-		TIntMenuObject *p = g_menus[i];
-		if (p->id == (int)hStatusMenuObject  || !p->m_bUseUserDefinedItems)
-			continue;
-
-		tvis.item.lParam = (LPARAM)p->id;
-		tvis.item.pszText = TranslateTS(p->ptszDisplayName);
-		tvis.item.iImage = tvis.item.iSelectedImage = TRUE;
-		TreeView_InsertItem(hTree, &tvis);
-	}
-	return 1;
-}
-
-static int sortfunc(const void *a, const void *b)
-{
-	lpMenuItemOptData *sd1, *sd2;
-	sd1 = (lpMenuItemOptData *)a;
-	sd2 = (lpMenuItemOptData *)b;
-	if ((*sd1)->pos > (*sd2)->pos)
-		return 1;
-
-	if ((*sd1)->pos < (*sd2)->pos)
-		return -1;
-
-	return 0;
-}
-
-static int InsertSeparator(HWND hwndDlg)
-{
-	HWND hMenuTree = GetDlgItem(hwndDlg, IDC_MENUITEMS);
-	HTREEITEM hti = TreeView_GetSelection(hMenuTree);
-	if (hti == NULL)
-		return 1;
-
-	TVITEM tvi = {0};
-	tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM | TVIF_TEXT;
-	tvi.hItem = hti;
-	if (TreeView_GetItem(hMenuTree, &tvi) == FALSE)
-		return 1;
-
-	MenuItemOptData *PD = (MenuItemOptData*)mir_calloc(sizeof(MenuItemOptData));
-	PD->id = -1;
-	PD->name = mir_tstrdup(STR_SEPARATOR);
-	PD->bShow = true;
-	PD->pos = ((MenuItemOptData *)tvi.lParam)->pos-1;
-
-	TVINSERTSTRUCT tvis = {0};
-	tvis.item.lParam = (LPARAM)(PD);
-	tvis.item.pszText = PD->name;
-	tvis.item.iImage = tvis.item.iSelectedImage = PD->bShow;
-	tvis.hInsertAfter = hti;
-	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-	TreeView_InsertItem(hMenuTree, &tvis);
-	return 1;
-}
-
-static void FreeTreeData(HWND hwndDlg)
-{
-	HTREEITEM hItem = TreeView_GetRoot( GetDlgItem(hwndDlg, IDC_MENUITEMS));
-	while (hItem != NULL) {
-		TVITEM tvi;
-		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-		tvi.hItem = hItem;
-		TreeView_GetItem( GetDlgItem(hwndDlg, IDC_MENUITEMS), &tvi);
-		{
-			MenuItemOptData* O = (MenuItemOptData *)tvi.lParam;
-			if (O->name) mir_free(O->name);
-			if (O->defname) mir_free(O->defname);
-			if (O->uniqname) mir_free(O->uniqname);
-			mir_free(O);
-		}
-
-		tvi.lParam = 0;
-		TreeView_SetItem( GetDlgItem(hwndDlg, IDC_MENUITEMS), &tvi);
-
-		hItem = TreeView_GetNextSibling( GetDlgItem(hwndDlg, IDC_MENUITEMS), hItem);
-	}
-}
-
-static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
-{
-	char menuItemName[256], MenuNameItems[256];
-	char buf[256];
-
-	FreeTreeData(hwndDlg);
-	TreeView_DeleteAllItems( GetDlgItem(hwndDlg, IDC_MENUITEMS));
-
-	int menupos = GetMenuObjbyId(MenuObjectId);
-	if (menupos == -1)
-		return FALSE;
-
-	TIntMenuObject* pimo = g_menus[menupos];
-	if (pimo->m_items.first == NULL)
-		return FALSE;
-
-	mir_snprintf(MenuNameItems, SIZEOF(MenuNameItems), "%s_Items", pimo->pszName);
-
-	int count = 0;
+	void SaveTree()
 	{
-		for (PMO_IntMenuItem p = pimo->m_items.first; p != NULL; p = p->next)
-			if (p->mi.root == (HGENMENU)-1 || p->mi.root == NULL)
-				count++;
+		int MenuObjectId;
+		if (!GetCurrentMenuObjectID(MenuObjectId))
+			return;
+
+		TCHAR idstr[100];
+
+		TVITEMEX tvi;
+		tvi.hItem = m_menuItems.GetRoot();
+		tvi.cchTextMax = SIZEOF(idstr);
+		tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE;
+		tvi.pszText = idstr;
+
+		int count = 0;
+		int menupos = GetMenuObjbyId(MenuObjectId);
+		if (menupos == -1)
+			return;
+
+		TIntMenuObject *pimo = g_menus[menupos];
+
+		char MenuNameItems[256];
+		mir_snprintf(MenuNameItems, SIZEOF(MenuNameItems), "%s_Items", pimo->pszName);
+		int runtimepos = 100;
+
+		while (tvi.hItem != NULL) {
+			m_menuItems.GetItem(&tvi);
+			MenuItemOptData *iod = (MenuItemOptData*)tvi.lParam;
+			if (iod->pimi) {
+				char menuItemName[256], DBString[300];
+				GetMenuItemName(iod->pimi, menuItemName, sizeof(menuItemName));
+
+				mir_snprintf(DBString, SIZEOF(DBString), "%s_visible", menuItemName);
+				db_set_b(NULL, MenuNameItems, DBString, iod->bShow);
+
+				mir_snprintf(DBString, SIZEOF(DBString), "%s_pos", menuItemName);
+				db_set_dw(NULL, MenuNameItems, DBString, runtimepos);
+
+				mir_snprintf(DBString, SIZEOF(DBString), "%s_name", menuItemName);
+				if (iod->name != NULL && iod->defname != NULL &&
+					mir_tstrcmp(iod->name, iod->defname) != 0)
+					db_set_ts(NULL, MenuNameItems, DBString, iod->name);
+				else
+					db_unset(NULL, MenuNameItems, DBString);
+
+				runtimepos += 100;
+			}
+
+			if (iod->name && !_tcscmp(iod->name, STR_SEPARATOR) && iod->bShow)
+				runtimepos += SEPARATORPOSITIONINTERVAL;
+
+			tvi.hItem = m_menuItems.GetNextSibling(tvi.hItem);
+			count++;
+		}
 	}
 
-	lpMenuItemOptData *PDar = (lpMenuItemOptData*)mir_alloc(sizeof(lpMenuItemOptData)*count);
-
-	count = 0;
+	void FreeTreeData()
 	{
+		HTREEITEM hItem = m_menuItems.GetRoot();
+		while (hItem != NULL) {
+			TVITEMEX tvi;
+			tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+			tvi.hItem = hItem;
+			m_menuItems.GetItem(&tvi);
+			delete (MenuItemOptData *)tvi.lParam;
+
+			tvi.lParam = 0;
+			m_menuItems.SetItem(&tvi);
+
+			hItem = m_menuItems.GetNextSibling(hItem);
+		}
+	}
+
+	void RebuildCurrent()
+	{
+		int MenuObjectID;
+		if (GetCurrentMenuObjectID(MenuObjectID))
+			BuildTree(MenuObjectID, true);
+	}
+
+	bool BuildTree(int MenuObjectId, bool bReread)
+	{
+		char buf[256];
+
+		FreeTreeData();
+		m_menuItems.DeleteAllItems();
+
+		int menupos = GetMenuObjbyId(MenuObjectId);
+		if (menupos == -1)
+			return false;
+
+		TIntMenuObject* pimo = g_menus[menupos];
+		if (pimo->m_items.first == NULL)
+			return false;
+
+		char menuItemName[256], MenuNameItems[256];
+		mir_snprintf(MenuNameItems, SIZEOF(MenuNameItems), "%s_Items", pimo->pszName);
+
+		LIST<MenuItemOptData> arItems(20, NumericKeySortT);
+
 		for (PMO_IntMenuItem p = pimo->m_items.first; p != NULL; p = p->next) {
 			if (p->mi.root != (HGENMENU)-1 && p->mi.root != NULL)
 				continue;
 
-			MenuItemOptData *PD = (MenuItemOptData*)mir_calloc(sizeof(MenuItemOptData));
+			MenuItemOptData *PD = new MenuItemOptData();
 			GetMenuItemName(p, menuItemName, sizeof(menuItemName));
 			{
 				DBVARIANT dbv;
@@ -280,164 +188,338 @@ static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
 			if (p->UniqName)
 				PD->uniqname = mir_strdup(p->UniqName);
 
-			PDar[ count ] = PD;
-			count++;
-		}
-	}
-
-	qsort(PDar, count, sizeof(lpMenuItemOptData), sortfunc);
-
-	SendDlgItemMessage(hwndDlg, IDC_MENUITEMS, WM_SETREDRAW, FALSE, 0);
-	int lastpos = 0;
-	bool first = TRUE;
-
-	TVINSERTSTRUCT tvis;
-	tvis.hParent = NULL;
-	tvis.hInsertAfter = TVI_LAST;
-	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-	for (int i=0; i < count; i++) {
-		if (PDar[i]->pos - lastpos >= SEPARATORPOSITIONINTERVAL) {
-			MenuItemOptData *PD = (MenuItemOptData*)mir_calloc(sizeof(MenuItemOptData));
-			PD->id = -1;
-			PD->name = mir_tstrdup(STR_SEPARATOR);
-			PD->pos = PDar[i]->pos - 1;
-			PD->bShow = true;
-
-			tvis.item.lParam = (LPARAM)PD;
-			tvis.item.pszText = PD->name;
-			tvis.item.iImage = tvis.item.iSelectedImage = PD->bShow;
-			SendDlgItemMessage(hwndDlg, IDC_MENUITEMS, TVM_INSERTITEM, 0, (LPARAM)&tvis);
+			arItems.insert(PD);
 		}
 
-		tvis.item.lParam = (LPARAM)PDar[i];
-		tvis.item.pszText = PDar[i]->name;
-		tvis.item.iImage = tvis.item.iSelectedImage = PDar[i]->bShow;
+		m_menuItems.SendMsg(WM_SETREDRAW, FALSE, 0);
+		int lastpos = 0;
+		bool bIsFirst = TRUE;
 
-		HTREEITEM hti = (HTREEITEM)SendDlgItemMessage(hwndDlg, IDC_MENUITEMS, TVM_INSERTITEM, 0, (LPARAM)&tvis);
-		if (first) {
-			TreeView_SelectItem( GetDlgItem(hwndDlg, IDC_MENUITEMS), hti);
-			first = FALSE;
-		}
-
-		lastpos = PDar[i]->pos;
-	}
-
-	SendDlgItemMessage(hwndDlg, IDC_MENUITEMS, WM_SETREDRAW, TRUE, 0);
-	mir_free(PDar);
-	ShowWindow( GetDlgItem(hwndDlg, IDC_NOTSUPPORTWARNING), (pimo->m_bUseUserDefinedItems) ? SW_HIDE : SW_SHOW);
-	EnableWindow( GetDlgItem(hwndDlg, IDC_MENUITEMS), pimo->m_bUseUserDefinedItems);
-	EnableWindow( GetDlgItem(hwndDlg, IDC_INSERTSEPARATOR), pimo->m_bUseUserDefinedItems);
-	return 1;
-}
-
-static void RebuildCurrent(HWND hwndDlg)
-{
-	int MenuObjectID;
-	if (GetCurrentMenuObjectID(hwndDlg, &MenuObjectID))
-		BuildTree(hwndDlg, MenuObjectID, TRUE);
-}
-
-static void ResetMenuItems(HWND hwndDlg)
-{
-	int MenuObjectID;
-	if (GetCurrentMenuObjectID(hwndDlg, &MenuObjectID))
-		BuildTree(hwndDlg, MenuObjectID, FALSE);
-}
-
-static HTREEITEM MoveItemAbove(HWND hTreeWnd, HTREEITEM hItem, HTREEITEM hInsertAfter)
-{
-	TVITEM tvi = { 0 };
-	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-	tvi.hItem = hItem;
-	if (!SendMessage(hTreeWnd, TVM_GETITEM, 0, (LPARAM)&tvi))
-		return NULL;
-	if (hItem && hInsertAfter) {
 		TVINSERTSTRUCT tvis;
-		TCHAR name[128];
-		if (hItem == hInsertAfter)
-			return hItem;
-
-		tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-		tvis.item.stateMask = 0xFFFFFFFF;
-		tvis.item.pszText = name;
-		tvis.item.cchTextMax = SIZEOF(name);
-		tvis.item.hItem = hItem;
-		tvis.item.iImage = tvis.item.iSelectedImage = ((MenuItemOptData*)tvi.lParam)->bShow;
-		if (!SendMessage(hTreeWnd, TVM_GETITEM, 0, (LPARAM)&tvis.item))
-			return NULL;
-		if (!TreeView_DeleteItem(hTreeWnd, hItem))
-			return NULL;
 		tvis.hParent = NULL;
-		tvis.hInsertAfter = hInsertAfter;
-		return TreeView_InsertItem(hTreeWnd, &tvis);
-	}
-	return NULL;
-}
+		tvis.hInsertAfter = TVI_LAST;
+		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+		for (int i = 0; i < arItems.getCount(); i++) {
+			auto p = arItems[i];
+			if (p->pos - lastpos >= SEPARATORPOSITIONINTERVAL) {
+				MenuItemOptData *PD = new MenuItemOptData();
+				PD->id = -1;
+				PD->name = mir_tstrdup(STR_SEPARATOR);
+				PD->pos = p->pos - 1;
+				PD->bShow = true;
 
-LRESULT CALLBACK LBTNDOWNProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	if (uMsg == WM_LBUTTONDOWN && !(GetKeyState(VK_CONTROL)&0x8000)) {
-
-		TVHITTESTINFO hti;
-		hti.pt.x = (short)LOWORD(lParam);
-		hti.pt.y = (short)HIWORD(lParam);
-		//		ClientToScreen(hwndDlg, &hti.pt);
-		//		ScreenToClient( GetDlgItem(hwndDlg, IDC_MENUITEMS), &hti.pt);
-		TreeView_HitTest(hwnd, &hti);
-		if (hti.flags&TVHT_ONITEMLABEL) {
-			/// LabelClicked Set/unset selection
-			TVITEM tvi;
-			HWND tvw = hwnd;
-			tvi.mask = TVIF_HANDLE|TVIF_PARAM;
-			tvi.hItem = hti.hItem;
-			TreeView_GetItem(tvw, &tvi);
-
-			if (!((MenuItemOptData *)tvi.lParam)->bIsSelected) { /* is not Selected*/
-				// reset all selection except current
-				HTREEITEM hit;
-				hit = TreeView_GetRoot(tvw);
-				if (hit)
-					do {
-						TVITEM tvi = {0};
-						tvi.mask = TVIF_HANDLE|TVIF_PARAM;
-						tvi.hItem = hit;
-						TreeView_GetItem(tvw, &tvi);
-
-						if (hti.hItem != hit)
-							((MenuItemOptData *)tvi.lParam)->bIsSelected = false;
-						else
-							((MenuItemOptData *)tvi.lParam)->bIsSelected = true;
-						TreeView_SetItem(tvw, &tvi);
-					}
-						while (hit = TreeView_GetNextSibling(tvw, hit));
+				tvis.item.lParam = (LPARAM)PD;
+				tvis.item.pszText = PD->name;
+				tvis.item.iImage = tvis.item.iSelectedImage = PD->bShow;
+				m_menuItems.InsertItem(&tvis);
 			}
+
+			tvis.item.lParam = (LPARAM)p;
+			tvis.item.pszText = p->name;
+			tvis.item.iImage = tvis.item.iSelectedImage = p->bShow;
+
+			HTREEITEM hti = m_menuItems.InsertItem(&tvis);
+			if (bIsFirst) {
+				m_menuItems.SelectItem(hti);
+				bIsFirst = false;
+			}
+
+			lastpos = p->pos;
+		}
+
+		m_menuItems.SendMsg(WM_SETREDRAW, TRUE, 0);
+
+		ShowWindow(m_warning.GetHwnd(), (pimo->m_bUseUserDefinedItems) ? SW_HIDE : SW_SHOW);
+		m_menuItems.Enable(pimo->m_bUseUserDefinedItems);
+		m_btnInsert.Enable(pimo->m_bUseUserDefinedItems);
+		return 1;
+	}
+
+	bool GetCurrentMenuObjectID(int &result)
+	{
+		HTREEITEM hti = m_menuObjects.GetSelection();
+		if (hti == NULL)
+			return false;
+
+		TVITEMEX tvi;
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+		tvi.hItem = hti;
+		m_menuObjects.GetItem(&tvi);
+		result = (int)tvi.lParam;
+		return true;
+	}
+
+	HTREEITEM MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter)
+	{
+		TVITEMEX tvi = { 0 };
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+		tvi.hItem = hItem;
+		if (!m_menuItems.GetItem(&tvi))
+			return NULL;
+		
+		if (hItem && hInsertAfter) {
+			TCHAR name[128];
+			if (hItem == hInsertAfter)
+				return hItem;
+
+			TVINSERTSTRUCT tvis = { 0 };
+			tvis.itemex.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+			tvis.itemex.stateMask = 0xFFFFFFFF;
+			tvis.itemex.pszText = name;
+			tvis.itemex.cchTextMax = SIZEOF(name);
+			tvis.itemex.hItem = hItem;
+			tvis.itemex.iImage = tvis.itemex.iSelectedImage = ((MenuItemOptData*)tvi.lParam)->bShow;
+			if (!m_menuItems.GetItem(&tvis.itemex))
+				return NULL;
+			
+			m_menuItems.DeleteItem(hItem);
+			
+			tvis.hParent = NULL;
+			tvis.hInsertAfter = hInsertAfter;
+			return m_menuItems.InsertItem(&tvis);
+		}
+		return NULL;
+	}
+
+	CCtrlTreeView m_menuItems, m_menuObjects;
+	CCtrlCheck m_radio1, m_radio2, m_disableIcons;
+	CCtrlEdit m_customName, m_service;
+	CCtrlButton m_btnInsert, m_btnReset, m_btnSet, m_btnDefault;
+	CCtrlBase m_warning;
+
+public:
+	CGenMenuOptionsPage() :
+		CDlgBase(hInst, IDD_OPT_GENMENU),
+		m_menuItems(this, IDC_MENUITEMS),
+		m_menuObjects(this, IDC_MENUOBJECTS),
+		m_radio1(this, IDC_RADIO1),
+		m_radio2(this, IDC_RADIO2),
+		m_disableIcons(this, IDC_DISABLEMENUICONS),
+		m_btnInsert(this, IDC_INSERTSEPARATOR),
+		m_btnReset(this, IDC_RESETMENU),
+		m_btnSet(this, IDC_GENMENU_SET),
+		m_btnDefault(this, IDC_GENMENU_DEFAULT),
+		m_customName(this, IDC_GENMENU_CUSTOMNAME),
+		m_service(this, IDC_GENMENU_SERVICE),
+		m_warning(this, IDC_NOTSUPPORTWARNING)
+	{
+		m_btnSet.OnClick = Callback(this, &CGenMenuOptionsPage::btnSet_Clicked);
+		m_btnReset.OnClick = Callback(this, &CGenMenuOptionsPage::btnReset_Clicked);
+		m_btnInsert.OnClick = Callback(this, &CGenMenuOptionsPage::btnInsert_Clicked);
+		m_btnDefault.OnClick = Callback(this, &CGenMenuOptionsPage::btnDefault_Clicked);
+
+		m_menuObjects.OnSelChanged = Callback(this, &CGenMenuOptionsPage::onMenuObjectChanged);
+		
+		m_menuItems.OnSelChanged = Callback(this, &CGenMenuOptionsPage::onMenuItemChanged);
+		m_menuItems.OnBeginDrag = Callback(this, &CGenMenuOptionsPage::onMenuItemBeginDrag);
+	}
+
+	//---- init dialog -------------------------------------------
+	virtual void OnInitDialog()
+	{
+		iInitMenuValue = db_get_b(NULL, "CList", "MoveProtoMenus", TRUE);
+
+		HIMAGELIST himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
+		ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_NOTICK);
+		ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_TICK);
+
+		m_menuItems.SetImageList(himlCheckBoxes, TVSIL_NORMAL);
+		m_menuObjects.SetImageList(himlCheckBoxes, TVSIL_NORMAL);
+
+		if (iInitMenuValue)
+			m_radio2.SetState(true);
+		else
+			m_radio1.SetState(true);
+
+		m_disableIcons.SetState(bIconsDisabled);
+
+		//---- init tree -------------------------------------------
+		TVINSERTSTRUCT tvis;
+		tvis.hParent = NULL;
+		tvis.hInsertAfter = TVI_LAST;
+		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+
+		for (int i = 0; i < g_menus.getCount(); i++) {
+			TIntMenuObject *p = g_menus[i];
+			if (p->id == (int)hStatusMenuObject || !p->m_bUseUserDefinedItems)
+				continue;
+
+			tvis.item.lParam = (LPARAM)p->id;
+			tvis.item.pszText = TranslateTS(p->ptszDisplayName);
+			tvis.item.iImage = tvis.item.iSelectedImage = true;
+			m_menuObjects.InsertItem(&tvis);
 		}
 	}
 
-	return mir_callNextSubclass(hwnd, LBTNDOWNProc, uMsg, wParam, lParam);
-}
+	virtual void OnApply()
+	{
+		bIconsDisabled = m_disableIcons.GetState() != 0;
+		db_set_b(NULL, "CList", "DisableMenuIcons", bIconsDisabled);
+		SaveTree();
 
-static int handleCustomDraw(HWND hWndTreeView, LPNMTVCUSTOMDRAW pNMTVCD)
-{
-	if (pNMTVCD == NULL)
-		return -1;
+		int iNewMenuValue = !m_radio1.GetState();
+		if (iNewMenuValue != iInitMenuValue) {
+			RebuildProtoMenus(iNewMenuValue);
+			iInitMenuValue = iNewMenuValue;
+		}
+		RebuildCurrent();
+	}
 
-	switch (pNMTVCD->nmcd.dwDrawStage) {
-	case CDDS_PREPAINT:
-		return CDRF_NOTIFYITEMDRAW;
+	virtual void OnDestroy()
+	{
+		ImageList_Destroy(m_menuItems.GetImageList(TVSIL_NORMAL));
+		FreeTreeData();
+	}
 
-	case CDDS_ITEMPREPAINT:
-		{
+	void btnInsert_Clicked(CCtrlButton*)
+	{
+		HTREEITEM hti = m_menuItems.GetSelection();
+		if (hti == NULL)
+			return;
+
+		TVITEMEX tvi = { 0 };
+		tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM | TVIF_TEXT;
+		tvi.hItem = hti;
+		if (!m_menuItems.GetItem(&tvi))
+			return;
+
+		MenuItemOptData *PD = new MenuItemOptData();
+		PD->id = -1;
+		PD->name = mir_tstrdup(STR_SEPARATOR);
+		PD->bShow = true;
+		PD->pos = ((MenuItemOptData *)tvi.lParam)->pos - 1;
+
+		TVINSERTSTRUCT tvis = { 0 };
+		tvis.item.lParam = (LPARAM)(PD);
+		tvis.item.pszText = PD->name;
+		tvis.item.iImage = tvis.item.iSelectedImage = PD->bShow;
+		tvis.hInsertAfter = hti;
+		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+		m_menuItems.InsertItem(&tvis);
+
+		NotifyChange();
+	}
+
+	void btnReset_Clicked(CCtrlButton*)
+	{
+		int MenuObjectID;
+		if (GetCurrentMenuObjectID(MenuObjectID)) {
+			BuildTree(MenuObjectID, false);
+			NotifyChange();
+		}
+	}
+
+	void btnDefault_Clicked(CCtrlButton*)
+	{
+		HTREEITEM hti = m_menuItems.GetSelection();
+		if (hti == NULL)
+			return;
+
+		TVITEMEX tvi;
+		tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
+		tvi.hItem = hti;
+		m_menuItems.GetItem(&tvi);
+
+		MenuItemOptData *iod = (MenuItemOptData *)tvi.lParam;
+		if (iod->name && _tcsstr(iod->name, STR_SEPARATOR))
+			return;
+
+		iod->name = mir_tstrdup(iod->defname);
+
+		SaveTree();
+		RebuildCurrent();
+		NotifyChange();
+	}
+
+	void btnSet_Clicked(CCtrlButton*)
+	{
+		HTREEITEM hti = m_menuItems.GetSelection();
+		if (hti == NULL)
+			return;
+
+		TVITEMEX tvi;
+		tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
+		tvi.hItem = hti;
+		m_menuItems.GetItem(&tvi);
+
+		MenuItemOptData *iod = (MenuItemOptData *)tvi.lParam;
+		if (iod->name && _tcsstr(iod->name, STR_SEPARATOR))
+			return;
+
+		iod->name = m_customName.GetText();
+
+		SaveTree();
+		RebuildCurrent();
+		NotifyChange();
+	}
+
+	void onMenuObjectChanged(void*)
+	{
+		RebuildCurrent();
+	}
+
+	void onMenuItemChanged(void*)
+	{
+		m_customName.SetTextA("");
+		m_service.SetTextA("");
+
+		m_btnDefault.Enable(false);
+		m_btnSet.Enable(false);
+		m_customName.Enable(false);
+
+		HTREEITEM hti = m_menuItems.GetSelection();
+		if (hti == NULL)
+			return;
+
+		TVITEMEX tvi;
+		tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
+		tvi.hItem = hti;
+		m_menuItems.GetItem(&tvi);
+		if (tvi.lParam == 0)
+			return;
+
+		MenuItemOptData *iod = (MenuItemOptData *)tvi.lParam;
+		if (iod->name && _tcsstr(iod->name, STR_SEPARATOR))
+			return;
+
+		m_customName.SetText(iod->name);
+
+		if (iod->pimi->submenu.first == NULL && iod->uniqname)
+			m_service.SetTextA(iod->uniqname);
+
+		m_btnDefault.Enable(mir_tstrcmp(iod->name, iod->defname) != 0);
+		m_btnSet.Enable(true);
+		m_customName.Enable(true);
+	}
+
+	void onMenuItemBeginDrag(CCtrlTreeView::TEventInfo *evt)
+	{
+		SetCapture(m_hwnd);
+		m_bDragging = true;
+		m_hDragItem = evt->nmtv->itemNew.hItem;
+		m_menuItems.SelectItem(m_hDragItem);
+	}
+
+	int onMenuItemDraw(LPNMTVCUSTOMDRAW pNMTVCD)
+	{
+		if (pNMTVCD == NULL)
+			return -1;
+
+		switch (pNMTVCD->nmcd.dwDrawStage) {
+		case CDDS_PREPAINT:
+			return CDRF_NOTIFYITEMDRAW;
+
+		case CDDS_ITEMPREPAINT:
 			HTREEITEM hItem = (HTREEITEM)pNMTVCD->nmcd.dwItemSpec;
 			TCHAR buf[255];
 
-			TVITEM tvi = { 0 };
+			TVITEMEX tvi = { 0 };
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIS_SELECTED | TVIF_TEXT | TVIF_IMAGE;
 			tvi.stateMask = TVIS_SELECTED;
 			tvi.hItem = hItem;
 			tvi.pszText = buf;
 			tvi.cchTextMax = SIZEOF(buf);
-			TreeView_GetItem(hWndTreeView, &tvi);
+			m_menuItems.GetItem(&tvi);
 			if (((MenuItemOptData *)tvi.lParam)->bIsSelected) {
 				pNMTVCD->clrTextBk = GetSysColor(COLOR_HIGHLIGHT);
 				pNMTVCD->clrText = GetSysColor(COLOR_HIGHLIGHTTEXT);
@@ -451,7 +533,7 @@ static int handleCustomDraw(HWND hWndTreeView, LPNMTVCUSTOMDRAW pNMTVCD)
 			and any subitems and return CDRF_NEWFONT. If the list-view control
 			is in report mode, you can simply return CDRF_NOTIFYSUBITEMREDRAW
 			to customize the item's subitems individually */
-			int retVal = CDRF_NEWFONT;
+			int res = CDRF_NEWFONT;
 			if (tvi.iImage == -1) {
 				SIZE sz;
 				GetTextExtentPoint32(pNMTVCD->nmcd.hdc, tvi.pszText, (int)mir_tstrlen(tvi.pszText), &sz);
@@ -469,379 +551,190 @@ static int handleCustomDraw(HWND hWndTreeView, LPNMTVCUSTOMDRAW pNMTVCD)
 				DeleteObject(br);
 				DrawText(pNMTVCD->nmcd.hdc, tvi.pszText, -1, &pNMTVCD->nmcd.rc, DT_LEFT | DT_VCENTER | DT_NOPREFIX);
 
-				retVal |= CDRF_SKIPDEFAULT;
+				res |= CDRF_SKIPDEFAULT;
 			}
-
-			return retVal;
+			return res;
 		}
+
+		return 0;
 	}
-	return 0;
-}
 
-static void OnClickCheckbox(HWND hwndDlg, HWND hwndTree, HTREEITEM hItem)
-{
-	TVITEM tvi;
-	tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
-	tvi.hItem = hItem;
-	TreeView_GetItem(hwndTree, &tvi);
+	void OnClickCheckbox(HTREEITEM hItem)
+	{
+		TVITEMEX tvi;
+		tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
+		tvi.hItem = hItem;
+		m_menuItems.GetItem(&tvi);
 
-	tvi.iImage = tvi.iSelectedImage = !tvi.iImage;
-	((MenuItemOptData *)tvi.lParam)->bShow = tvi.iImage != 0;
-	TreeView_SetItem(hwndTree, &tvi);
-	SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-}
+		tvi.iImage = tvi.iSelectedImage = !tvi.iImage;
+		((MenuItemOptData *)tvi.lParam)->bShow = tvi.iImage != 0;
+		m_menuItems.SetItem(&tvi);
+		
+		NotifyChange();
+	}
 
-static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	struct OrderData *dat = (struct OrderData*)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MENUITEMS), GWLP_USERDATA);
-	LPNMHDR hdr;
+	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+	{
+		TVHITTESTINFO hti;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		dat = (struct OrderData*)mir_alloc(sizeof(struct OrderData));
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MENUITEMS), GWLP_USERDATA, (LONG_PTR)dat);
-		dat->dragging = 0;
-		dat->iInitMenuValue = db_get_b(NULL, "CList", "MoveProtoMenus", TRUE);
-		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_MENUITEMS), LBTNDOWNProc);
-		{
-			HIMAGELIST himlCheckBoxes;
-			himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
-
-			ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_NOTICK);
-			ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_TICK);
-
-			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_MENUOBJECTS), himlCheckBoxes, TVSIL_NORMAL);
-			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_MENUITEMS), himlCheckBoxes, TVSIL_NORMAL);
-		}
-		CheckDlgButton(hwndDlg, dat->iInitMenuValue ? IDC_RADIO2 : IDC_RADIO1, BST_CHECKED);
-		CheckDlgButton(hwndDlg, IDC_DISABLEMENUICONS, bIconsDisabled ? BST_CHECKED : BST_UNCHECKED);
-		BuildMenuObjectsTree(hwndDlg);
-		return TRUE;
-
-	case WM_COMMAND:
-		if (HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == BN_DBLCLK) {
-			switch (LOWORD(wParam)) {
-			case IDC_INSERTSEPARATOR:
-				InsertSeparator(hwndDlg);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		switch (msg) {
+		case WM_MOUSEMOVE:
+			if (!m_bDragging)
 				break;
-
-			case IDC_RESETMENU:
-				ResetMenuItems(hwndDlg);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-
-			case IDC_DISABLEMENUICONS:
-			case IDC_RADIO1:
-			case IDC_RADIO2:
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-
-			case IDC_GENMENU_DEFAULT:
-				{
-					HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_MENUITEMS));
-					if (hti == NULL)
-						break;
-
-					TVITEM tvi;
-					tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
-					tvi.hItem = hti;
-					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_MENUITEMS), &tvi);
-					MenuItemOptData *iod = (MenuItemOptData *)tvi.lParam;
-
-					if (iod->name && _tcsstr(iod->name, STR_SEPARATOR))
-						break;
-
-					if (iod->name)
-						mir_free(iod->name);
-					iod->name = mir_tstrdup(iod->defname);
-
-					SaveTree(hwndDlg);
-					RebuildCurrent(hwndDlg);
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				break;
-
-			case IDC_GENMENU_SET:
-				{
-					TCHAR buf[256];
-
-					HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_MENUITEMS));
-					if (hti == NULL)
-						break;
-
-					TVITEM tvi;
-					tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
-					tvi.hItem = hti;
-					SendDlgItemMessage(hwndDlg, IDC_MENUITEMS, TVM_GETITEM, 0, (LPARAM)&tvi);
-
-					MenuItemOptData *iod = (MenuItemOptData *)tvi.lParam;
-					if (iod->name && _tcsstr(iod->name, STR_SEPARATOR))
-						break;
-
-					buf[0] = 0;
-					GetDlgItemText(hwndDlg, IDC_GENMENU_CUSTOMNAME, buf, SIZEOF(buf));
-					if (iod->name)
-						mir_free(iod->name);
-
-					iod->name = mir_tstrdup(buf);
-
-					SaveTree(hwndDlg);
-					RebuildCurrent(hwndDlg);
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				break;
-			}
-		}
-		break;
-
-	case WM_NOTIFY:
-		hdr = (LPNMHDR)lParam;
-		switch (hdr->idFrom) {
-		case 0:
-			if (hdr->code == PSN_APPLY) {
-				bIconsDisabled = IsDlgButtonChecked(hwndDlg, IDC_DISABLEMENUICONS) != 0;
-				db_set_b(NULL, "CList", "DisableMenuIcons", bIconsDisabled);
-				SaveTree(hwndDlg);
-				int iNewMenuValue = IsDlgButtonChecked(hwndDlg, IDC_RADIO1) ? 0 : 1;
-				if (iNewMenuValue != dat->iInitMenuValue) {
-					RebuildProtoMenus(iNewMenuValue);
-					dat->iInitMenuValue = iNewMenuValue;
-				}
-				RebuildCurrent(hwndDlg);
-			}
-			break;
-
-		case IDC_MENUOBJECTS:
-			if (hdr->code == TVN_SELCHANGED)
-				RebuildCurrent(hwndDlg);
-			break;
-
-		case IDC_MENUITEMS:
-			switch (hdr->code) {
-			case NM_CUSTOMDRAW:
-				SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, handleCustomDraw(GetDlgItem(hwndDlg, IDC_MENUITEMS), (LPNMTVCUSTOMDRAW)lParam));
-				return TRUE;
-
-			case TVN_BEGINDRAG:
-				SetCapture(hwndDlg);
-				dat->dragging = 1;
-				dat->hDragItem = ((LPNMTREEVIEW)lParam)->itemNew.hItem;
-				TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_MENUITEMS), dat->hDragItem);
-				break;
-
-			case TVN_KEYDOWN:
-				if (((LPNMLVKEYDOWN)lParam)->wVKey == VK_SPACE)
-					OnClickCheckbox(hwndDlg, hdr->hwndFrom, TreeView_GetSelection(hdr->hwndFrom));
-				break;
-
-			case NM_CLICK:
-				{
-					TVHITTESTINFO hti;
-					hti.pt.x = (short)LOWORD(GetMessagePos());
-					hti.pt.y = (short)HIWORD(GetMessagePos());
-					ScreenToClient(hdr->hwndFrom, &hti.pt);
-					if (TreeView_HitTest(hdr->hwndFrom, &hti)) {
-						if (hti.flags & TVHT_ONITEMICON)
-							OnClickCheckbox(hwndDlg, hdr->hwndFrom, hti.hItem);
-
-						/*--------MultiSelection----------*/
-						if (hti.flags & TVHT_ONITEMLABEL) {
-							/// LabelClicked Set/unset selection
-							TVITEM tvi;
-							HWND tvw = hdr->hwndFrom;
-							tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-							tvi.hItem = hti.hItem;
-							TreeView_GetItem(tvw, &tvi);
-							if (GetKeyState(VK_CONTROL) & 0x8000) {
-								MenuItemOptData *iod = (MenuItemOptData*)tvi.lParam;
-								iod->bIsSelected = !iod->bIsSelected;
-								TreeView_SetItem(tvw, &tvi);
-							}
-							else if (GetKeyState(VK_SHIFT) & 0x8000) {
-								;  // shifted click
-							}
-							else {
-								// reset all selection except current
-								HTREEITEM hit = TreeView_GetRoot(tvw);
-								if (!hit)
-									break;
-
-								do {
-									TVITEM tvi = { 0 };
-									tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-									tvi.hItem = hit;
-									TreeView_GetItem(tvw, &tvi);
-
-									MenuItemOptData *iod = (MenuItemOptData*)tvi.lParam;
-									iod->bIsSelected = (hti.hItem == hit);
-									TreeView_SetItem(tvw, &tvi);
-								} while (hit = TreeView_GetNextSibling(tvw, hit));
-							}
-						}
-					}
-				}
-				break;
-
-			case TVN_SELCHANGED:
-				SetDlgItemTextA(hwndDlg, IDC_GENMENU_CUSTOMNAME, "");
-				SetDlgItemTextA(hwndDlg, IDC_GENMENU_SERVICE, "");
-
-				EnableWindow(GetDlgItem(hwndDlg, IDC_GENMENU_CUSTOMNAME), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_GENMENU_DEFAULT), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_GENMENU_SET), FALSE);
-
-				HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_MENUITEMS));
-				if (hti == NULL)
-					break;
-
-				TVITEM tvi;
-				tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
-				tvi.hItem = hti;
-				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_MENUITEMS), &tvi);
-
-				if (tvi.lParam == 0)
-					break;
-
-				MenuItemOptData *iod = (MenuItemOptData *)tvi.lParam;
-				if (iod->name && _tcsstr(iod->name, STR_SEPARATOR))
-					break;
-
-				SetDlgItemText(hwndDlg, IDC_GENMENU_CUSTOMNAME, iod->name);
-
-				if (iod->pimi->submenu.first == NULL && iod->uniqname)
-					SetDlgItemTextA(hwndDlg, IDC_GENMENU_SERVICE, iod->uniqname);
-
-				EnableWindow(GetDlgItem(hwndDlg, IDC_GENMENU_DEFAULT), mir_tstrcmp(iod->name, iod->defname) != 0);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_GENMENU_SET), TRUE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_GENMENU_CUSTOMNAME), TRUE);
-				break;
-			}
-		}
-		break;
-
-	case WM_MOUSEMOVE:
-		if (!dat || !dat->dragging) break;
-		{
-			TVHITTESTINFO hti;
 
 			hti.pt.x = (short)LOWORD(lParam);
 			hti.pt.y = (short)HIWORD(lParam);
-			ClientToScreen(hwndDlg, &hti.pt);
-			ScreenToClient(GetDlgItem(hwndDlg, IDC_MENUITEMS), &hti.pt);
-			TreeView_HitTest(GetDlgItem(hwndDlg, IDC_MENUITEMS), &hti);
-			if (hti.flags&(TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
+			ClientToScreen(m_hwnd, &hti.pt);
+			ScreenToClient(m_menuItems.GetHwnd(), &hti.pt);
+			m_menuItems.HitTest(&hti);
+			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
 				HTREEITEM it = hti.hItem;
-				hti.pt.y -= TreeView_GetItemHeight(GetDlgItem(hwndDlg, IDC_MENUITEMS)) / 2;
-				TreeView_HitTest(GetDlgItem(hwndDlg, IDC_MENUITEMS), &hti);
-				if (!(hti.flags&TVHT_ABOVE))
-					TreeView_SetInsertMark(GetDlgItem(hwndDlg, IDC_MENUITEMS), hti.hItem, 1);
+				hti.pt.y -= m_menuItems.GetItemHeight() / 2;
+				m_menuItems.HitTest(&hti);
+				if (!(hti.flags & TVHT_ABOVE))
+					m_menuItems.SetInsertMark(hti.hItem, 1);
 				else
-					TreeView_SetInsertMark(GetDlgItem(hwndDlg, IDC_MENUITEMS), it, 0);
+					m_menuItems.SetInsertMark(it, 0);
 			}
 			else {
-				if (hti.flags&TVHT_ABOVE) SendDlgItemMessage(hwndDlg, IDC_MENUITEMS, WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
-				if (hti.flags&TVHT_BELOW) SendDlgItemMessage(hwndDlg, IDC_MENUITEMS, WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN, 0), 0);
-				TreeView_SetInsertMark(GetDlgItem(hwndDlg, IDC_MENUITEMS), NULL, 0);
+				if (hti.flags & TVHT_ABOVE)
+					m_menuItems.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
+				if (hti.flags & TVHT_BELOW)
+					m_menuItems.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN, 0), 0);
+				m_menuItems.SetInsertMark(NULL, 0);
 			}
-		}
-		break;
-
-	case WM_LBUTTONUP:
-		if (!dat->dragging)
 			break;
 
-		TreeView_SetInsertMark(GetDlgItem(hwndDlg, IDC_MENUITEMS), NULL, 0);
-		dat->dragging = 0;
-		ReleaseCapture();
-		{
-			TVHITTESTINFO hti;
+		case WM_LBUTTONUP:
+			if (!m_bDragging)
+				break;
+
+			m_menuItems.SetInsertMark(NULL, 0);
+			m_bDragging = false;
+			ReleaseCapture();
+
 			hti.pt.x = (short)LOWORD(lParam);
 			hti.pt.y = (short)HIWORD(lParam);
-			ClientToScreen(hwndDlg, &hti.pt);
-			ScreenToClient(GetDlgItem(hwndDlg, IDC_MENUITEMS), &hti.pt);
-			hti.pt.y -= TreeView_GetItemHeight(GetDlgItem(hwndDlg, IDC_MENUITEMS)) / 2;
-			TreeView_HitTest(GetDlgItem(hwndDlg, IDC_MENUITEMS), &hti);
-			if (hti.flags&TVHT_ABOVE) hti.hItem = TVI_FIRST;
-			if (dat->hDragItem == hti.hItem) break;
-			dat->hDragItem = NULL;
-			if (hti.flags&(TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST)) {
+			ClientToScreen(m_hwnd, &hti.pt);
+			ScreenToClient(m_menuItems.GetHwnd(), &hti.pt);
+			hti.pt.y -= m_menuItems.GetItemHeight() / 2;
+			m_menuItems.HitTest(&hti);
+			if (hti.flags & TVHT_ABOVE)
+				hti.hItem = TVI_FIRST;
+			if (m_hDragItem == hti.hItem)
+				break;
+				
+			m_hDragItem = NULL;
+			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST)) {
 				HTREEITEM FirstItem = NULL;
-				HWND tvw = GetDlgItem(hwndDlg, IDC_MENUITEMS);
-				UINT uITCnt = TreeView_GetCount(tvw);
-				UINT uSic = 0;
-				if (uITCnt) {
-					HTREEITEM *pSIT = (HTREEITEM *)mir_alloc(sizeof(HTREEITEM)*uITCnt);
-					if (pSIT) {
-						HTREEITEM hit = TreeView_GetRoot(tvw);
-						if (hit) {
-							do {
-								TVITEM tvi = { 0 };
-								tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-								tvi.hItem = hit;
-								TreeView_GetItem(tvw, &tvi);
-								if (((MenuItemOptData *)tvi.lParam)->bIsSelected) {
-									pSIT[uSic] = tvi.hItem;
-									uSic++;
-								}
-							} while (hit = TreeView_GetNextSibling(tvw, hit));
-						}
-						// Proceed moving
-						HTREEITEM insertAfter = hti.hItem;
-						for (UINT i = 0; i < uSic; i++) {
-							if (insertAfter) insertAfter = MoveItemAbove(tvw, pSIT[i], insertAfter);
-							else break;
-							if (!i) FirstItem = insertAfter;
-						}
-						
-						// free pointers...
-						mir_free(pSIT);
+				if (m_menuItems.GetCount()) {
+					LIST<void> arItems(10);
+
+					HTREEITEM hit = m_menuItems.GetRoot();
+					if (hit) {
+						do {
+							TVITEMEX tvi = { 0 };
+							tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+							tvi.hItem = hit;
+							m_menuItems.GetItem(&tvi);
+							if (((MenuItemOptData *)tvi.lParam)->bIsSelected)
+								arItems.insert(tvi.hItem);
+						} while (hit = m_menuItems.GetNextSibling(hit));
+					}
+					
+					// Proceed moving
+					HTREEITEM insertAfter = hti.hItem;
+					for (int i = 0; i < arItems.getCount(); i++) {
+						if (!insertAfter)
+							break;
+
+						insertAfter = MoveItemAbove((HTREEITEM)arItems[i], insertAfter);
+						if (!i)
+							FirstItem = insertAfter;
 					}
 				}
 
 				if (FirstItem)
-					TreeView_SelectItem(tvw, FirstItem);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				SaveTree(hwndDlg);
+					m_menuItems.SelectItem(FirstItem);
+				NotifyChange();
+				SaveTree();
 			}
+			break;
+
+		case WM_NOTIFY:
+			LPNMHDR phdr = (LPNMHDR)lParam;
+			if (phdr->idFrom == IDC_MENUITEMS) {
+				switch (phdr->code) {
+				case NM_CUSTOMDRAW:
+					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, onMenuItemDraw((LPNMTVCUSTOMDRAW)phdr));
+					return TRUE;
+
+				case TVN_KEYDOWN:
+					if (((LPNMLVKEYDOWN)phdr)->wVKey == VK_SPACE)
+						OnClickCheckbox(m_menuItems.GetSelection());
+					break;
+
+				case NM_CLICK:
+					TVHITTESTINFO hti;
+					hti.pt.x = (short)LOWORD(GetMessagePos());
+					hti.pt.y = (short)HIWORD(GetMessagePos());
+					ScreenToClient(phdr->hwndFrom, &hti.pt);
+					if (!m_menuItems.HitTest(&hti))
+						break;
+
+					if (hti.flags & TVHT_ONITEMICON)
+						OnClickCheckbox(hti.hItem);
+
+					/*--------MultiSelection----------*/
+					if (hti.flags & TVHT_ONITEMLABEL) {
+						/// LabelClicked Set/unset selection
+						TVITEMEX tvi;
+						tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+						tvi.hItem = hti.hItem;
+						m_menuItems.GetItem(&tvi);
+						if (GetKeyState(VK_CONTROL) & 0x8000) {
+							MenuItemOptData *iod = (MenuItemOptData*)tvi.lParam;
+							iod->bIsSelected = !iod->bIsSelected;
+							m_menuItems.SetItem(&tvi);
+						}
+						else if (GetKeyState(VK_SHIFT) & 0x8000) {
+							;  // shifted click
+						}
+						else {
+							// reset all selection except current
+							HTREEITEM hit = m_menuItems.GetRoot();
+							if (!hit)
+								break;
+
+							do {
+								TVITEMEX tvi = { 0 };
+								tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+								tvi.hItem = hit;
+								m_menuItems.GetItem(&tvi);
+
+								MenuItemOptData *iod = (MenuItemOptData*)tvi.lParam;
+								iod->bIsSelected = (hti.hItem == hit);
+								m_menuItems.SetItem(&tvi);
+							} while (hit = m_menuItems.GetNextSibling(hit));
+						}
+					}
+				}
+			}
+			break;
 		}
-		break;
-
-	case WM_DESTROY:
-		if (dat)
-			mir_free(dat);
-
-		ImageList_Destroy(TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_MENUOBJECTS), NULL, TVSIL_NORMAL));
-		FreeTreeData(hwndDlg);
-		break;
-
+		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
-	return FALSE;
-}
-
-INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+};
 
 int GenMenuOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
-
 	odp.position = -1000000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENMENU);
 	odp.pszTitle = LPGEN("Menus");
 	odp.pszGroup = LPGEN("Customize");
-	odp.pfnDlgProc = GenMenuOpts;
 	odp.flags = ODPF_BOLDGROUPS;
+	odp.pDialog = new CGenMenuOptionsPage();
 	Options_AddPage(wParam, &odp);
-
-	odp.position = -10000000;
-	odp.groupPosition = 1000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PROTOCOLORDER);
-	odp.pszTitle = LPGEN("Accounts");
-	odp.pszGroup = LPGEN("Contact list");
-	odp.pfnDlgProc = ProtocolOrderOpts;
-	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, &odp);
-	return 0;
+	
+	return ProtocolOrderOptInit(wParam, 0);
 }
