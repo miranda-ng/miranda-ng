@@ -268,6 +268,7 @@ public:
 	int DoModal();
 
 	void SetCaption(const TCHAR *ptszCaption);
+	void NotifyChange(void); // sends a notification to a parent window
 
 	__forceinline HINSTANCE GetInst() const { return m_hInst; }
 	__forceinline HWND GetHwnd() const { return m_hwnd; }
