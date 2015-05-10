@@ -147,9 +147,6 @@
   <data name="DupesFindBtn" xml:space="preserve">
     <value>Duplikate finden</value>
   </data>
-  <data name="DupesNotFound" xml:space="preserve">
-    <value>Datei =DUPES=.txt nicht gefunden...</value>
-  </data>
   <data name="DupFound" xml:space="preserve">
     <value>Duplikate gefunden...</value>
   </data>
