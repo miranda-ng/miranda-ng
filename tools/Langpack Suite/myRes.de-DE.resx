@@ -291,7 +291,7 @@ ausgelesen, falls verfügbar).</value>
     <value>VersionInfo aus Internet oder vollen lokalen Pfad</value>
   </data>
   <data name="label6" xml:space="preserve">
-    <value>bspw. http://www.miranda-vi.org/report/mataes</value>
+    <value>bspw. http://vi.miranda-ng.org/detail/mataes</value>
   </data>
   <data name="tipper" xml:space="preserve">
     <value>Kommandozeilen-Argumente</value>
@@ -303,7 +303,7 @@ ausgelesen, falls verfügbar).</value>
     <value>\q - stille Erzeugung
 \n - Dateiname der Sprachdatei oder Sprachdatei Ausgabepfad
 \o - Pfad zu Hinzufügen eigener Datei
-\u - Link zu VI von miranda-vi.org oder voller lokaler Pfad
+\u - Link zu VI von vi.miranda-ng.org oder voller lokaler Pfad
 \p - Verfügbare Langpack Ordnernamen
 
 Beispiel LangpackSuite.exe \q \pgerman \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt</value>

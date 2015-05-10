@@ -235,7 +235,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(223, 13);
             this.label6.TabIndex = 2;
-            this.label6.Text = "e.g. http://www.miranda-vi.org/report/mataes";
+            this.label6.Text = "e.g. http://vi.miranda-ng.org/detail/mataes";
             // 
             // VIURLTextBox
             // 

@@ -292,7 +292,7 @@
     <value>Скачать файл ВИ с Интернета или полный путь</value>
   </data>
   <data name="label6" xml:space="preserve">
-    <value>например,  http://www.miranda-vi.org/report/mataes</value>
+    <value>например,  http://vi.miranda-ng.org/detail/mataes</value>
   </data>
   <data name="tipper" xml:space="preserve">
     <value>Список аргументов командной строки</value>
@@ -304,7 +304,7 @@
     <value>\q - тихая генерация
 \n - имя файла ленгпака или путь выходного файла ленгпака
 \o - путь к файлу для включения в ленгпак
-\u - ссылка на ВИ с miranda-vi.org или полный локальный путь
+\u - ссылка на ВИ с vi.miranda-ng.org или полный локальный путь
 \p - доступный языковой пакет
 
 Пример, LangpackSuite.exe \q \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt \prussian</value>
