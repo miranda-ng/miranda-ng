@@ -77,6 +77,12 @@ int CDlgBase::DoModal()
 	return DialogBoxParam(m_hInst, MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this);
 }
 
+void CDlgBase::NotifyChange(void)
+{
+	if (m_hwndParent)
+		SendMessage(m_hwndParent, PSM_CHANGED, (WPARAM)m_hwnd, 0);
+}
+
 void CDlgBase::SetCaption(const TCHAR *ptszCaption)
 {
 	if (m_hwnd && ptszCaption)
