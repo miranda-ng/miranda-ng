@@ -5,9 +5,6 @@
 ;  Version: 1.3.0.0
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
-[Change status when you send/receive an event.]
-
-;file \plugins\StatusChange\res\resource.rc
 [Offline]
 Извън линия
 [Online]
@@ -40,11 +37,6 @@
 URL
 [File transfer]
 Обмен на файл
-[...change status to...]
-
-[...if status is...]
-
-;file \plugins\StatusChange\src\main.cpp
 [Status Change]
 Промяна на състояние
 [Status]

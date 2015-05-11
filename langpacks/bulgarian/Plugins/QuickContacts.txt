@@ -7,7 +7,6 @@
 ;============================================================
 [Open contact-specific windows by hotkey.]
 Отваря прозорец до точно пределен контакт чрез клавишна комбинация.
-;file \plugins\QuickContacts\res\resource.rc
 [Last Sent]
 Последно изпратени
 [Enable last-sent-to]
@@ -36,10 +35,8 @@
 Въведете име на потребител:
 [Show all contacts (Ctrl+A)]
 Показване на всички контакти (Ctrl+A)
-;file \plugins\QuickContacts\src\options.cpp
 [Quick Contacts]
 Quick Contacts
-;file \plugins\QuickContacts\src\quickcontacts.cpp
 [Open dialog]
 Отваря прозорец
 [Send file]

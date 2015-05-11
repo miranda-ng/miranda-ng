@@ -39,7 +39,6 @@
 [Sound file]
 [(default sound)]
 [<no status message>]
-[playing]
 [%s changed status message to %s]
 [Status message removed]
 [Status message changed]

@@ -13,8 +13,6 @@ Quick Search
 Quick Search
 [Title]
 Заглавие
-[Module/InfoType]
-
 [Setting]
 Настройка
 [Reload]
@@ -31,12 +29,6 @@ Quick Search
 Стандарт
 [Additional Options]
 Допълнителни настройки
-[Tool Window Style]
-
-[Draw Grid]
-
-[Save search pattern]
-
 [Auto Close mode]
 Режим автозатваряне
 [Sort by Status]
@@ -51,8 +43,6 @@ Quick Search
 Акаунт
 [Gender]
 Пол
-[UserID]
-
 [Nickname]
 Прякор
 [First name]
@@ -67,10 +57,6 @@ Quick Search
 Имейл
 [Client ID]
 ID на клиента
-[Ext IP]
-
-[LastSeen]
-
 [Last Event]
 Последно събитие
 [Online since]
@@ -79,32 +65,20 @@ ID на клиента
 Метаконтакт
 [Event count]
 Брой събития
-[Contact add time]
-
 [Type:]
 Тип:
-[DB setting]
-
 [Script]
 Скрипт
 [Service]
 Услуга
-[Contact info]
-
 [Other]
 Друго
-[Data type:]
-
 [Byte]
 BYTE
 [Word]
 WORD
 [DWord]
 DWORD
-[Signed]
-
-[As hex]
-
 [String]
 STRING
 [IP]
@@ -117,8 +91,6 @@ IP
 Настройка:
 [Service:]
 Услуга:
-[Param]
-
 [number value]
 числова стойност
 [ANSI string]
@@ -133,8 +105,6 @@ Unicode низ
 параметър
 [Result]
 Резултат
-[Result type]
-
 [Free memory]
 Свободна памет
 [Save]
@@ -153,8 +123,6 @@ Quick Search
 Нова колона
 [Save Item]
 Запис на елемента
-[InfoType:]
-
 [New Column]
 Нова колона
 [Column Up]
@@ -169,12 +137,6 @@ Quick Search
 Жена
 [Contacts]
 Контакти
-[ContactInfo]
-
-[LastEvent]
-
-[EventCount]
-
 [Script Editor]
 Редактор на скриптове
 [Normal background]
@@ -211,8 +173,6 @@ Quick Search
 Копиране
 [C&onvert to Meta]
 Превръщане в Мета
-[Attach to &Tab container]
-
 [&Move to Group]
 Преместване в друга група
 [Some of selected contacts in different metacontacts already]
@@ -221,10 +181,6 @@ Quick Search
 Желаете ли избраните контакти да бъдат изтрити?
 [Warning]
 Предупреждение
-[One or more contacts in same Meta already. Try to convert anyway?]
-
-[Editing of column ]
-
 [%i users found (%i) Online: %i]
 Открити са %i потребителя. На линия: %i
 [ users found (]
@@ -241,26 +197,6 @@ Quick Search
 активен
 [Colorize]
 Оцветяване
-[QuickSearch window hotkey]
-
-[Column content is simple database setting.]
-
-[Column content is script result.\r\nMore help from "Help" button in script dialog.]
-
-[Column content is contact property (see list). Can be empty.]
-
-[Content is last online time.]
-
-[Content is time of last contact event.]
-
-[Content is metacontact info.]
-
-[Content is count of ALL contact events (not messages only)]
-
-[Other info]
-
-[Change setting through QS]
-
 [default]
 стандарт
 [Selected]
@@ -274,5 +210,3 @@ Quick Search
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 Текстови редактор
-[Wrap Text]
-

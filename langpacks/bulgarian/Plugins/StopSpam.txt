@@ -7,7 +7,6 @@
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
 Приставка за борба с нежеланите съобщения (SPAM).
-;file \plugins\StopSpamPlus\res\stopspam.rc
 [Question (Ctrl+Enter for carriage return):]
 Въпрос (Ctrl+Enter = нов ред):
 [Restore defaults]
@@ -40,7 +39,6 @@
 Премахване на временните контакти след рестартиране
 [Log Spammers to system history]
 Вписване на спамърите в системната история
-;file \plugins\StopSpamPlus\src\events.cpp
 [Message sessions]
 Разговори
 [General]
@@ -49,19 +47,15 @@
 Съобщения
 [Accounts]
 Акаунти
-;file \plugins\StopSpamPlus\src\headers.h
 [StopSpam]
 StopSpam
-;file \plugins\StopSpamPlus\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
 Без повече спам! Добре дошли са само изпратените от хора съобщения!\r\n\r\nКомуникацията ви с потребители от списъка с контакти няма да бъде възпрепятствана от приставката, но първите съобщенията от непознати потребители няма да ви бъдат предоставяни, но няма и да бъдат игнорирани. Вие ще получите даденото съобщение при условие, че потребителят даде (еднократно) правилен отговор на въпрос, предварително определен от вас.
 [StopSpam automatic message:\r\n]
 Автоматично съобщение от StopSpam:\r\n
-;file \plugins\StopSpamPlus\src\services.cpp
 [Not In List]
 Не е в списъка
 [Complete]
 Завършен
-;file \plugins\StopSpamPlus\src\stopspam.cpp
 [Remove Temporary Contacts]
 Премахване на временните контакти

@@ -1,6 +1,5 @@
 ﻿[Shell Status]
 [Shell context menus]
-[Services]
 [Unable to delete registry key for 'shlext COM', this key may already be deleted or you may need admin rights.]
 [Problem]
 [Unable to delete registry key for 'File context menu handlers', this key may already be deleted or you may need admin rights.]

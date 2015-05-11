@@ -13,8 +13,6 @@
 Внасяне на история
 [Choose a file...]
 Избор на файл...
-[Choose a pattern...]
-
 [Choose a file for import...]
 Изберете файл за импортиране...
 [Text files (*.txt)]
@@ -23,8 +21,6 @@
 Всички файлове (*.*)
 [Error in cfg file: ]
 Грешка в cgf файл:
-[No Files Patterns Found]
-
 [No messages in this file]
 Във файла няма съобщения
 [Import started...]
@@ -33,20 +29,12 @@
 Добавени: %d съобщения
 [Duplicates: %d messages]
 Дублирани: %d съобщения
-[In: %d:%d:%d]
-
 [Import not finished. Do you realy want close?]
 Внасянето не е приключило. Да бъде ли спряно?
 [Error adding message to database]
 Грешка при добавянето на съобщение към базата данни
 [Error opening file]
 Грешка при отварянето на файла
-[Error mapping file]
-
-[Error mapping]
-
-[Header not found]
-
 [Import Text Files Wizard]
 Помощник за внасяне на текстови файлове
 [This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
@@ -71,25 +59,13 @@
 Изберете папка за внасяне...
 [File: %s]
 Файл: в
-[To: %s]
-
-[Can't determine destination contact]
-
 [Default extension]
 Стандартно разширение
-[It's not %s file]
-
 [Duplicate:]
 Дублирани:
-[Your version of Miranda don't support XML parsing]
-
 [Check for duplicates]
 Проверка за дублирани
 [Check messages for duplicates]
 Проверка на съобщенията за дублирани
 [Show duplicates]
 Показване на дублираните
-[Error at initialization XML parser]
-
-[Import history to %s (%s)]
-

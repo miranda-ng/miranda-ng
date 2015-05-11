@@ -5,11 +5,6 @@
 ;  Version: 1.6.0.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
-[Allows you to send and receive contacts.]
-
-;file \plugins\ContactsPlus\res\contacts.rc
-[Send contacts]
-
 [&Add]
 Добавяне
 [&User menu]
@@ -18,14 +13,10 @@
 Подробности за потребителя
 [&History]
 История
-[Choose contacts to be send:]
-
 [&Send]
 Изпращане
 [Cancel]
 Отказ
-[&Select All]
-
 [Received contacts]
 Получени контакти
 [Add to &group:]
@@ -34,8 +25,6 @@
 Подробности
 [Close]
 Затваряне
-[Contacts send error]
-
 [An error has occurred. The protocol reported the following error:]
 Възникна следната грешка:
 [Try again]
@@ -48,16 +37,12 @@
 Подробности за потребителя
 [Send Message]
 Изпращане на съобщение
-;file \plugins\ContactsPlus\src\main.cpp
-[Contacts received from]
-
 [Contacts]
 Контакти
 [Incoming Contacts]
 Входящи контакти
 [Outgoing Contacts]
 Изходящи контакти
-;file \plugins\ContactsPlus\src\receive.cpp
 [Nick]
 Прякор
 [First Name]
@@ -74,6 +59,3 @@
 Потребителско меню
 [Contacts from]
 Контаки от
-;file \plugins\ContactsPlus\src\send.cpp
-[Send Contacts to]
-

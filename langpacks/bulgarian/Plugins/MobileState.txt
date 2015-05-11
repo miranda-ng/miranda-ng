@@ -5,8 +5,3 @@
 ;  Version: 0.0.1.6
 ;  Authors: Robert Pösel
 ;============================================================
-[Plugin shows mobile icon in contact list next to contacts which are using mobile client.]
-
-;file \plugins\MobileState\src\main.cpp
-[Mobile State]
-

@@ -108,7 +108,6 @@
 [Ice Pellets 30% Chance Of Precipitation]
 [Ice Pellets 40% Chance Of Precipitation]
 [Ice Pellets 80% Chance Of Precipitation]
-[Cloudy]
 [Light Snow Freezing Fog]
 [Drizzle]
 [Snow Showers 80% Chance Of Precipitation]

@@ -1,4 +1,0 @@
-﻿[Plugin for changing keyboard layout of text (multilayout).]
-["Current word" mode]
-[Log operations]
-[ChangeKeyboardLayout]

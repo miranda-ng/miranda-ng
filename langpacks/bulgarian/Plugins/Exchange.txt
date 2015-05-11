@@ -7,15 +7,10 @@
 ;============================================================
 [Notifies you if you have unread email on an exchange server.]
 Уведомява ви за непрочетени имейли на Exchange сървър.
-;file \plugins\Exchange\res\exchange.rc
 [Unread emails]
 Непрочетени имейли
 [Close]
 Затваряне
-[Mark as read]
-
-[Dialog]
-Прозорец
 [Connection]
 Връзка
 [Username:]
@@ -30,38 +25,15 @@
 Проверка на всеки
 [seconds]
 секунди
-[Force reconnect every]
-
 [minutes]
 минути
-[Check server before trying to connect]
-
-[Try to connect]
-
-[times before giving up]
-
-[Show email notifications using popup module]
-
-;file \plugins\Exchange\src\dlg_handlers.cpp
-[Entry ID]
-
 [Subject]
 Тема
 [Sender]
 Изпращач
-;file \plugins\Exchange\src\emails.cpp
 [You have %d unread emails...]
 %d непрочетени имейла...
 [You have one unread email...]
 Един непрочетен имейл...
-[Exchange email]
-
-[Do you want to see the email headers?]
-
-;file \plugins\Exchange\src\hooked_events.cpp
-[Check exchange mailbox]
-
-[Exchange notify]
-
 [Plugins]
 Приставки

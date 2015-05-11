@@ -82,4 +82,3 @@
 [Predefined message]
 [Go to URL in Away message]
 [Simple Status Message]
-[idleeeeeeee]

@@ -7,7 +7,6 @@
 ;============================================================
 [Provides popup notification services for different plugins.]
 Услуга за уведомяване чрез popup за останалите приставки.
-;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Съдържание и стил
 [Go to Customize > Fonts && Colors for fonts and colors options]
@@ -28,8 +27,6 @@
 Запис на посл.
 [events]
 събития
-[Use History++ to render log]
-
 [Avatars]
 Аватари
 [Draw avatar borders]
@@ -44,8 +41,6 @@
 Аватар (размер):
 [Enable avatar updates]
 Актуализиране на аватарите
-[Multimonitor]
-
 [Start the popups in the monitor with]
 Показване на popups в монитора с
 [Miranda's window]
@@ -148,8 +143,6 @@ Popup действията са малките бутони под текста.
 Десен бутон:
 [Disable when global status is...]
 Изключване, когато общото състояние е...
-[Disable when relevant protocol's status is...]
-
 [Colors can be configured in\r\nCustomize > Fonts and colors]
 Цветовете се настройват от Персонализиране>\r\nШрифтове и цветове
 [More...]
@@ -166,8 +159,6 @@ Popup действията са малките бутони под текста.
 Настройване на визуализирането по отделно за контактите
 [Show always]
 Винаги
-[Ignore fullscreen]
-
 [Never show]
 Никога
 [Show default]
@@ -202,7 +193,6 @@ Popup действията са малките бутони под текста.
 Режим на цял екран
 [Debug]
 Дебъг
-;file \plugins\Popup\src\actions.cpp
 [No overwrite]
 без подмяна
 [Send message]
@@ -221,11 +211,6 @@ Popup действията са малките бутони под текста.
 Запис в клипборда
 [Action]
 Действие
-;file \plugins\Popup\src\config.cpp
-[The Jabberwocky]
-
-[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
-
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
 Тестови образец за настройките на popup приставката. Би трябвало да е достатъчно дълъг, за да не се събере на един ред...
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
@@ -236,10 +221,6 @@ Popup действията са малките бутони под текста.
 Това е предупреждение
 [This is an error message]
 Това е съобщение за грешка
-;file \plugins\Popup\src\effects.cpp
-[Square fading]
-
-;file \plugins\Popup\src\font.h
 [Popups]
 Рopups
 [Title]
@@ -260,20 +241,14 @@ Popup действията са малките бутони под текста.
 Подчертаване на заглавието
 [Avatar border]
 Рамка на аватара
-;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 Popup историята е изклюена
 [Popup History message]
 Popup история на съобщенията
-;file \plugins\Popup\src\icons.cpp
 [Popups are enabled]
 Popups са включени
 [Popups are disabled]
 Popups са изключени
-[With "favorite" overlay]
-
-[With "fullscreen" overlay]
-
 [Refresh skin list]
 Обновяване на списъка с облици
 [Popup placement]
@@ -284,15 +259,12 @@ Popup позиция
 Popup група
 [Favorite contact]
 Любим контакт
-[Show in fullscreen]
-
 [Blocked contact]
 Блокиран контакт
 [Pinned popup]
 Прилепен popup
 [Add contact permanently]
 Добавяне на контакта за постоянно
-;file \plugins\Popup\src\main.cpp
 [Classes]
 Класове
 [Actions]
@@ -311,17 +283,14 @@ Popup група
 Popup Plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Грешка: Неуспешно регистриране на Popup Window class.\r\nПриставката няма да може да работи.
-;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Без ефект
 [Fade in/out]
 Избледняване/Изсветляване
-;file \plugins\Popup\src\opt_class.cpp
 [CLASS Plugins]
 CLASS приставки
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!
-;file \plugins\Popup\src\opt_gen.cpp
 [Offline]
 Извън линия
 [Online]
@@ -362,11 +331,8 @@ Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!
 Състояния на протоколите
 [You cannot specify a value lower than %d and higher than %d.]
 Не е възможно задаването на стойност по-малка от %d и по-голяма от %d.
-['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
-
 [Popup Plus Warning]
 Popup Plus Предупреждение
-;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
 Неуспешно регистриране на %s class.
 [Skin preview]
@@ -375,37 +341,20 @@ Popup Plus Предупреждение
 Просто погледнете този облик... ;)
 [Show clock]
 Показване на часа
-[Drop shadow effect]
-
-[non rectangular]
-
-[Enable Aero Glass (Vista+)]
-
 [Use Windows colors]
 Цветове от Windows
-[Use advanced text render]
-
 [Global settings]
 Общи настройки
 [Refresh List]
 Обновяване на списъка
-;file \plugins\Popup\src\popup_thread.cpp
-;file \plugins\Popup\src\popup_wnd2.cpp
-[Failed to GetClassInfoExW from EDIT class.]
-
-[Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
-
-;file \plugins\Popup\src\services.cpp
 [Error]
 Грешка
 [Warning]
 Предупреждение
 [Notify]
 Уведомяване
-;file \plugins\Popup\src\skin.cpp
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 Обликът който се опитвате да заредите е разработен\r\nза по-нова версия на Popup Plus. Затова\r\nняма да работи нормално.\r\n\r\nМоля, изберете друг облик.
-;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 Авто
 [Favorite]

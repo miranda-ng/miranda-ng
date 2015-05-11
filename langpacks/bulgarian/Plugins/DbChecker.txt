@@ -7,7 +7,6 @@
 ;============================================================
 [Miranda NG Database Checker.]
 Валидатор за базата данни на Miranda NG.
-;file \plugins\DbChecker\res\resource.rc
 [Welcome to the Miranda Database Wizard]
 Добре дошли в помощника за бази данни на Miranda
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
@@ -90,17 +89,14 @@ Miranda ще зареди профила, който бе обработен.
 Копие:
 [The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
 Обработката на базата данни завърши. Натиснете "Напред >" за връщане в началото (където можете да изберете друга база данни) или натиснете "Готово" за затваряне на помощника.
-;file \plugins\DbChecker\src\finished.cpp
 [&Finish]
 Готово
-;file \plugins\DbChecker\src\progress.cpp
 [Click Next to continue]
 Натиснете "Напред >", за да продължите
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
 Процесът не е завършил. Ако се откажете сега, промените които са извършени до момента ще бъдат анулирани и базата данни ще бъде върната към предишното си състояние. Наистина ли желаете да се откажете?
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 Процесът не е завършил. Ако се върнете назад сега, промените които са извършени до момента ще бъдат анулирани и базата данни ще бъде върната към предишното си състояние. Наистина ли желаете да се върнете назад?
-;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Няма подходяща приставка, която да отвори "%s".
 [Error]
@@ -115,10 +111,6 @@ Miranda ще зареди профила, който бе обработен.
 Бази данни на Miranda(*.dat)
 [All Files]
 Всички файлове
-;file \plugins\DbChecker\src\wizard.cpp
-;file \plugins\DbChecker\src\worker.cpp
-[Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
-
 [%s\\Backup of %s]
 %s\\Резервно копие на %s
 [%s\\Backup (%d) of %s]
@@ -129,12 +121,8 @@ Miranda ще зареди профила, който бе обработен.
 Изтриването на първоначалния файл е невъзможно
 [Unable to rename output file]
 Преименуването на изходния файл е невъзможно
-[Database worker thread activated]
-
 [<check only>]
 <само проверка>
-[ (Output).dat]
-
 [Can't create output file (%u)]
 Изходният файл не може да бъде създаден (%u)
 [Processing aborted by user]

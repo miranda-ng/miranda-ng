@@ -5,69 +5,24 @@
 ;  Version: 0.0.0.56
 ;  Authors: leecher, tweety, jls17
 ;============================================================
-[Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
-
-;file \protocols\SkypeClassic\res\Resource.rc
 [Set]
 Задай
 [Delete]
 Изтриване
-[Start Skype with Miranda NG if not running using the following command line options:]
-
-[/NOSPLASH - Don't show splash screen on startup]
-
-[/MINIMIZED - Start Skype minimized]
-
-[/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
-
-[/REMOVEABLE - For running portable Skype]
-
-[/SECONDARY - This is the second instance]
-
-[/DATAPATH - Specify Skype data folder*]
-
-[Use custom Skype executable*]
-
-[* Relative path root is Miranda NG folder]
-
-[Shutdown Skype when you close Miranda NG]
-
-[Unload Skype when you change to Offline status]
-
-[Try at least]
-
-[times to connect to Skype API before giving up]
-
 [User name:]
 Потребител:
 [Password:]
 Парола:
-[Dial]
-
 [Number:]
 Номер:
 [Cancel]
 Отказ
-[%s is calling]
-
-[Join conference with %s]
-
-[Answer call; set call to %s on hold]
-
-[Hang up]
-
 [Dialog]
 Прозорец
-[Use Skype proxy connection over network instead of local Skype API]
-
 [Host:]
 Хост:
 [Port:]
 Порт:
-[* You must restart Miranda NG in order to let the settings take effect]
-
-[This Skype proxy requires password authentication:]
-
 [Name:]
 Име:
 [Birthday:]
@@ -78,8 +33,6 @@
 Град:
 [Country:]
 Държава:
-[Province:]
-
 [Home phone:]
 Домашен телефон:
 [Office phone:]
@@ -88,42 +41,6 @@
 Страница:
 [Save]
 Запис
-[Enable Skype menu options (currently: Find/Add user)]
-
-[Use popup plugin for displaying messages]
-
-[Suppress all error messages (not recommended, but if it annoys you... ;)]
-
-[Use group chat interface for conversations (requires group chat module)]
-
-[Mark group chat message as read to avoid notification]
-
-[Keep requested online status on startup under every circumstance]
-
-[Use time zone patch]
-
-[Ignore time zones]
-
-[Show default Skype avatar for contacts]
-
-[Suppress call summary chat message]
-
-[Disable support for N/A and SkypeMe status (for Skype 4+)]
-
-[Show full name in contact list instead of nickname]
-
-[SkypeOut contacts are in status:]
-
-[Cleanup nicknames]
-
-[Do not wait for message SENT acknowledgment (for some buggy Skype versions >6)]
-
-[Skype popups]
-
-[Incoming calls]
-
-[Show incoming calls]
-
 [seconds]
 секунди
 [Background]
@@ -134,36 +51,10 @@
 Текст
 [Preview]
 Образец
-[Error messages]
-
-[Display error messages]
-
-;file \protocols\SkypeClassic\src\contacts.cpp
-[Call (Skype)]
-
-[Call using SkypeOut]
-
-[Hang up call (Skype)]
-
-[Hang up SkypeOut call]
-
-[Hold call]
-
-[Resume call]
-
 [&File]
 Файл
-[&Open group chat]
-
 [Block contact]
 Блокиране на контакта
-[Import Skype history]
-
-[Add Skype contact]
-
-[Unblock contact]
-
-;file \protocols\SkypeClassic\src\gchat.cpp
 [Unknown]
 Неизвестно
 [&Invite user...]
@@ -178,81 +69,10 @@
 Подробности за потребителя
 [User &history]
 История на потребителя
-[&Kick user]
-
-;file \protocols\SkypeClassic\src\skype.cpp
-[Username '%s' provided by Skype API doesn't match username '%s' in your settings. Please either remove username setting in your configuration or correct it. Will not connect!]
-
-[Cannot reach Skype API, plugin disfunct.]
-
-[Do a SkypeOut-call]
-
-[Unable to register with group chat module!]
-
-[invited]
-
-[Phone call]
-
-[Incoming Skype call]
-
 [Incoming call from %s]
 Входящо обаждане от %s
-[Connection to Skype lost]
-
-[Cleanup finished.]
-
-[Cannot create window.]
-
-[Memory allocation error on startup.]
-
-[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
-
-[Cannot register window message.]
-
-[Unable to create mutex!]
-
-;file \protocols\SkypeClassic\src\skypeapi.cpp
-[Misc. error]
-
-[User does not exist, check username]
-
-[Trying to send IM to a user, who is not online]
-
-[IM blocked by recipient]
-
-[Type unsupported]
-
-[Sending IM message to user, who has not added you to friend list and has chosen 'only people in my friend list can start IM']
-
-[Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM']
-
 [Unknown error]
 Непозната грешка
-[Cannot resolve host!]
-
-[Cannot find valid host to connect to.]
-
-[Authentication is not supported/needed for this Skype proxy server. It will be disabled.]
-
-[Authentication failed for this server, connection was not successful. Verify that your password is correct!]
-
-[The server you specified requires authentication, but you have not supplied a password for it. Check the Skype plugin settings and try again.]
-
-[ERROR: Skype not running / too old / not working!]
-
-[Skype refused the connection :(]
-
-[The Skype API is not available]
-
-[Wheee, Skype won't let me use the API. :(]
-
-;file \protocols\SkypeClassic\src\skypeopt.cpp
-[Preview error message]
-
-[Skype default]
-
-[Skype advanced]
-
 [Skype proxy]
 Skype прокси
 [Details]
@@ -261,6 +81,5 @@ Skype прокси
 МЪЖ
 [FEMALE]
 ЖЕНА
-;file \protocols\SkypeClassic\src\skypesvc.cpp
 [Skype ID]
 Skype ID

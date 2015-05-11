@@ -5,25 +5,16 @@
 ;  Version: 0.9.0.2
 ;  Authors: P Boon
 ;============================================================
-[KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
-
-;file \Plugins\StatusPlugins\resource.rc
 [Check connection]
 Проверяване на връзката
 [Max. retries]
 Макс. брой опити
-[Account connection]
-
 [Delay between retries (secs)]
 Пауза между 2 опита (сек)
 [Show popups]
 Показване на popups
 [General]
 Основни
-[Accounts to check]
-
-[Dial-Up]
-
 [Don't reconnect if no internet connection seems available]
 Без автовписване, когато връзката с интернет се възстанови
 [Continuously check for internet connection]
@@ -44,8 +35,6 @@
 Акаунт
 [Set]
 Задай
-[when full-screen mode is active]
-
 [when screen saver engages]
 при включване на screen saver
 [when workstation is locked]
@@ -54,8 +43,6 @@
 след
 [minutes of inactivity]
 минути бездействие
-[minutes of level 1 mode]
-
 [only set when inactive]
 задаване само при липса на активност
 [Monitor Miranda's activity only]
@@ -106,10 +93,6 @@ ms
 Местоположение на прозореца
 [Set window size]
 Размер на прозореца
-[x]
-
-[Allow override]
-
 [Note: status profiles can be created in the 'Status profiles' options screen]
 Можете да създадете нов профил от таб "Профили на състоянията"
 [Window on startup]
@@ -170,18 +153,12 @@ Dial-up (експериментално)
 Използвайте %time% и %date% за текущ час и дата.
 [Variables...]
 Променливи...
-[Specify settings for each account]
-
-[Use same settings for all accounts]
-
 [Ignore Caps Lock, Num Lock and Scroll Lock keys]
 Игнориране на Caps Lock, Num Lock и Scroll Lock клавишите
 [Check interval (secs)]
 Интервал за проверяване (сек)
 [Confirm dialog timeout (secs)]
 Времетраене на прозореца за потвърждаване (сек)
-[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-
 [Monitor keyboard activity]
 Следене активността на клавиатурата
 [Monitor mouse activity]
@@ -220,10 +197,6 @@ Dial-up (експериментално)
 Макс. пауза (сек)
 [Increase delay exponential]
 Експоненциално увеличаване на паузата между опитите
-[Cancel all if an account connects from another location]
-
-[Reconnect on APM resume]
-
 [Stop trying to reconnect]
 Без повече опити за повторно свързване
 [Set delay to]
@@ -232,51 +205,16 @@ Dial-up (експериментално)
 Ако възникне грешка при вписване
 [seconds]
 секунди
-[Set account offline before a connection attempt]
-
-[Max. account connecting time (secs)]
-
-[Timers]
-
 [Reconnecting]
 Повторно свързване
-[Ignore locked status of accounts]
-
 [Consider connection lost after]
 Считай връзката за загубена след
 [failed pings]
 неуспешни пингове
 [Continuously check interval (secs)]
 Интервал за периодично проверяване (сек)
-[Entering first auto-away status]
-
-[Entering second auto-away status]
-
-[Leaving first auto-away status]
-
-[Leaving second auto-away status]
-
-[Becoming active without status change]
-
-[Pre-conditions]
-
-[TriggerData]
-
-[Status: The status the account will change to\r\nAccount: The account changing state]
-
-;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 [Protocol]
 Протокол
-[%s connected from another location]
-
-[%s login error, cancel reconnecting]
-
-[%s login error (next retry (%d) in %d s)]
-
-[%s status error (next retry (%d) in %d s)]
-
-[Status error (next retry (%d) in %d s)]
-
 [%s\t(will be set to %s)\r\n]
 %s\t(ще бъде зададено %s)\r\n
 [Resetting status... (last try (%d))%s]
@@ -289,20 +227,12 @@ Dial-up (експериментално)
 Няма налична връзка с интернет... (нов опит (%d) след %dсек)
 [Status was set ok]
 Зададено е състояние
-[Giving up]
-
-[KeepStatus]
-
-;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Basic]
 Основни
 [Advanced]
 Разширени
-[You broke the Internet!]
-
 [Popups]
 Рopups
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Отсъствам от %time%.
 [Give it up, I'm not in!]
@@ -325,7 +255,6 @@ Dial-up (експериментално)
 Ммм... храна.
 [idleeeeeeee]
 бездействаммм
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]
 Задаване на текст "%s" за акаунт %s.
 [<last>]

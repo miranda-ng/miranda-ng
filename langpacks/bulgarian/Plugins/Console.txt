@@ -7,7 +7,6 @@
 ;============================================================
 [Console log window for Miranda.]
 Прозорец с конзолен дневник за Miranda.
-;file \plugins\Console\res\resource.rc
 [Console]
 Конзола
 [Single window mode*]
@@ -26,15 +25,12 @@
 * Изисква рестартиране
 [Save settings and restart console]
 Запис на настройките и рестартиране на конзолата
-;file \plugins\Console\src\Console.cpp
 [Show/Hide Console]
 Показване/Скриване на конзолата
 [Hide Console]
 Скриване на конзолата
 [Show Console]
 Показване на конзолата
-[Scrolling (Ctrl+Q)]
-
 [Pause logging (Ctrl+P)]
 Пауза (Ctrl+P)
 [Save log to file (Ctrl+S)]

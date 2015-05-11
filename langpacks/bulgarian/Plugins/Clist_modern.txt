@@ -1,4 +1,4 @@
-#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
@@ -7,7 +7,6 @@
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Изобразява контакти, уведомявания за събития, състояние на протоколите с предимство на визуалните модификации. Поддържа множество прозорци (в списъка) и работа с метаконтакти.
-;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Прозрачност:
 [Window behavior:]
@@ -74,8 +73,6 @@
 Придвижване с текста
 [Stretch proportionally]
 Пропорционално разтягане
-[Tile vertically according to row height]
-
 [Use Windows colors]
 Цветове от Windows
 [Available skins]
@@ -94,8 +91,6 @@
 ВНИМАНИЕ: \tВъзможно е облика да промени текущия профил. Промените са необратими. \n\t\tМоля, направете резервно копие на базата от данни преди прилагането на облика.
 [* Restart may be required for all changes to take effect]
 *Изисква рестарт за осъществяването на някои промени
-[Skin folder]
-
 [Available view modes]
 Налични режими за преглед
 [Include protocols]
@@ -208,14 +203,10 @@
 Без групи
 [Ask before deleting contacts]
 Запитване преди изтриване на контакт
-[Don't move offline user to bottom]
-
 [Contact list]
 Списък с контакти
 [Contact list sorting]
 Сортиране на списъка с контакти по:
-[Place offline users out of groups]
-
 [Gamma correction]
 Корекция на гамата
 [Default]
@@ -346,12 +337,6 @@ ms между две мигания
 И още нещо
 [Ignore empty extra icons places (arrange to right).]
 Заемане мястото на липсващи допълнителни икони (подреждане вдясно).
-[Allow internal requesting of status message text]
-
-[Remove status message if contact became offline]
-
-[Use improved search method in contact list]
-
 [Metacontacts stuff]
 Метаконтакти - настройки
 [Use 'Meta' protocol icons for metacontacts]
@@ -372,8 +357,6 @@ ms между две мигания
 Външен вид
 [Pin to desktop]
 Прилепване към работния плот
-[Client area margins]
-
 [Thin border main window]
 Прозорец с тънка рамка
 [Borderless main window]
@@ -384,20 +367,12 @@ ms между две мигания
 Заглавна лента
 [Title bar text:]
 Заглавна лента:
-[Tool style main window]
-
 [Minimize to tray]
 Минимизиране в трея
 [Translucency options]
 Настройки за прозрачност
-[Enable drop shadow (restart required)]
-
 [Frames]
 Рамки
-[Gaps between frames:]
-
-[Gaps after captions:]
-
 [Use non-layered mode]
 Режим без слоеве
 [Round corners]
@@ -406,8 +381,6 @@ ms между две мигания
 Режим без слоеве
 [Disable skin engine]
 Изключване на машината за облици
-[Enable Aero Glass (Vista+)]
-
 [Order of items:]
 Ред на елементите:
 [Minimum row height:]
@@ -434,12 +407,8 @@ ms между две мигания
 Рамка на аватара
 [Draw overlay icons]
 Наслагване на икони
-[Max size (pixels):]
-
 [Round corners of avatars]
 Закръглени ъгли на аватарите
-[Ignore size for row height calcs]
-
 [Border color:]
 Рамка (цвят):
 [Custom corner size:]
@@ -454,16 +423,12 @@ ms между две мигания
 височина
 [width]
 Ширина
-[Use old render method (fast, but has artifacts)]
-
 [Hide icon when showing avatar]
 Скриване на иконата, когато има аватар
 [Draw icon in avatar space]
 Наслагване на икона върху аватара
 [Hide groups icon]
 Без икони за групите
-[Always show "Always visible" icon]
-
 [Use extra status icon instead protocol]
 Икона допълнителното състояние вместо тази на протокола
 [Draw normal status as overlay]
@@ -472,8 +437,6 @@ ms между две мигания
 Режим на четене отдясно наляво (огледален шаблон)
 [Replace smileys in contact list]
 Замяна на усмивките в списъка с контакти
-[Use protocol smileys]
-
 [Draw smileys on first line]
 Показване на усмивки в първия ред
 [Resize smileys and 'Listening to' icon]
@@ -542,8 +505,6 @@ ms между две мигания
 Подреждане на рамките
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
 В РЕМОНТ!!!           НЕ РАБОТИ
-[Row template]
-
 [Add container]
 Добавяне на контейнер
 [Remove container]
@@ -558,8 +519,6 @@ ms между две мигания
 Ширина на контейнера:
 [Container height:]
 Височина на контейнера
-[Layered]
-
 [Move up]
 Местене нагоре
 [Move down]
@@ -620,25 +579,6 @@ ms между две мигания
 Преименуване на групата
 [&Delete group]
 Изтриване на групата
-;file \plugins\Clist_modern\src\modern_clc.cpp
-[Skins]
-Облици
-[Modern contact list]
-Modern contact list
-[Avatar overlay]
-Насложени над аватара икони
-[Status overlay]
-Насложени над състоянието икони
-[Contact list smileys]
-Усмивки в списъка с контакти
-[List background]
-Фон на списъка
-[Menu background]
-
-[Status bar background]
-
-[Frames title bar background]
-
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Желаете ли контакта "%s" да бъде превърнат в метаконтакт и "%s" да бъде добавен към него?
 [Converting to metacontact]
@@ -659,7 +599,18 @@ Modern contact list
 Желаете ли контакта "%s" да бъде премахнат от метаконтакта "%s" и добавен към "%s"?
 [Changing metacontacts (moving)]
 Промяна на метаконтакт (преместване)
-;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Skins]
+Облици
+[Modern contact list]
+Modern contact list
+[Avatar overlay]
+Насложени над аватара икони
+[Status overlay]
+Насложени над състоянието икони
+[Contact list smileys]
+Усмивки в списъка с контакти
+[List background]
+Фон на списъка
 [Contact names]
 Имена на контактите
 [Row items]
@@ -728,8 +679,6 @@ Modern contact list
 Маркиран текст в менюто
 [Frame title text]
 Заглавие на рамките
-[3rd party frames transparent back color]
-
 [Not focused]
 Дефокусирано
 [Offline]
@@ -776,14 +725,10 @@ Modern contact list
 Списък
 [Window]
 Прозорец
-;file \plugins\Clist_modern\src\modern_clistevents.cpp
 [No events]
 Няма събития
-[Event area background]
-
 [Event area]
 Зона за събития
-;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 Оценка на контакта
 [None]
@@ -804,7 +749,6 @@ Modern contact list
 Оценка на контакта: висока
 [Show even if offline]
 Показване и когато е извън линия
-;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 Аватар
 [Icon]
@@ -813,8 +757,6 @@ Modern contact list
 Текст
 [Extra icons]
 Допълнителни икони
-[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
-Анимирани аватари (изисква се GDI+ и услугата за аватари - avs.dll)
 [Left align group names]
 Имената на групите вляво
 [Center group names]
@@ -823,12 +765,8 @@ Modern contact list
 Имената на групите вдясно
 [Row]
 Ред
-[Row design]
-
-;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Непознат контакт)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
 Трей меню
 [&Hide/show]
@@ -839,7 +777,6 @@ Modern contact list
 Настройки...
 [&About]
 Относно
-;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show avatar]
 Показване на аватара
 [Hide avatar]
@@ -852,7 +789,6 @@ Modern contact list
 Моите контакти
 [My Contacts]
 Моите контакти
-;file \plugins\Clist_modern\src\modern_keyboard.cpp
 [Close Miranda]
 Затваряне на Miranda
 [Main]
@@ -861,9 +797,6 @@ Modern contact list
 Възстановя предишното състояние
 [Show/Hide offline users]
 Показване/Скриване на потребителите "Извън линия"
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-[Empty %s cell]
-
 [column]
 колона
 [line]
@@ -872,16 +805,10 @@ Modern contact list
 колони
 [lines]
 линии
-[%s, contain %s]
-
-[ layered]
-
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
 Необходима е услуга за изображенията за обработка на PNG изображения.
 [Error]
 Грешка
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 (неизвестно)
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -894,8 +821,6 @@ reVista за Modern v0.5
 Вторият стандартен облик за Modern Contact list в стил Aero
 [Angeli-Ka (graphics), FYR (template)]
 Angeli-Ka (изображения), FYR (шаблон)
-[Inside library]
-
 [Skin information]
 Информация за облика
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
@@ -910,10 +835,6 @@ Angeli-Ka (изображения), FYR (шаблон)
 Изберете облик, който да бъде приложен
 [Default Skin]
 Стандартен облик
-[%Default Skin%]
-
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<Общо>>
 [Left]
@@ -926,7 +847,6 @@ Angeli-Ka (изображения), FYR (шаблон)
 Горе
 [Bottom]
 Долу
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Главно меню
 [Status menu]
@@ -957,11 +877,6 @@ Angeli-Ka (изображения), FYR (шаблон)
 Минимизиране
 [To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
 За да имате лента с инструменти в Clist_modern се нуждаете от приставката TopToolBar.\nНатиснете "Да" ако искате да я свалите или "Отказ" за да продължите
-[Toolbar background]
-
-[Toolbar upgrade]
-
-;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
 Негрупирани контакти
 [And]
@@ -1006,11 +921,8 @@ Angeli-Ka (изображения), FYR (шаблон)
 Изчистване на режима за преглед и връщане към стандартния
 [Reset view mode]
 Анулиране на режима за преглед
-[View mode background]
-
 [View modes]
 Режими за преглед
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
 [&Visible]
 Видима
 [&Show title]
@@ -1045,10 +957,8 @@ Angeli-Ka (изображения), FYR (шаблон)
 Скриване на всички заглавни ленти
 [Lock frame]
 Заключване на рамката
-;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
 Меню на рамките
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [New group]
 Нова група
 [Group menu]

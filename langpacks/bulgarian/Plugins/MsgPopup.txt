@@ -5,46 +5,15 @@
 ;  Version: 0.1.2.1
 ;  Authors: StDenis
 ;============================================================
-[Plugin replaces message boxes (those having only OK button) with popups.]
-
-;file \plugins\MsgPopup\res\MsgPopup.rc
-[ASTERISK style]
-
 [Background color]
 Цвят на фона
 [Text color]
 Цвят на текста
-[ERROR style]
-
-[EXCLAMATION style]
-
-[QUESTION style]
-
 [Preview]
 Образец
 [Timeout]
 Времетраене
-[Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
-
-[Emit a sound]
-
-;file \plugins\MsgPopup\src\main.cpp
-[VirtualProtect failed. Code %d\nTry to call the author]
-
 [Error]
 Грешка
-[Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
-
-[MessagePopup]
-
 [Popups]
 Рopups
-;file \plugins\MsgPopup\src\options.cpp
-[Message with question]
-
-[Message with exclamation]
-
-[Message with error]
-
-[Message with asterisk]
-

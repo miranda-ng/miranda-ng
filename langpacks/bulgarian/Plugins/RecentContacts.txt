@@ -7,7 +7,6 @@
 ;============================================================
 [Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
 Приставката добавя елемент в главното меню, който отваря прозорец с имената на контакти с които сте общували последно.
-;file \plugins\RecentContacts\res\resource.rc
 [Recent Contacts]
 Скорошни контакти
 [Plugin settings]
@@ -20,20 +19,15 @@
 Скриване на контактите "Извън линия"
 [Resize window according to contact list]
 Преоразмеряване на прозореца спрямо списъка с контакти
-;file \plugins\RecentContacts\src\options.cpp
 [Contacts]
 Контакти
-;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Main icon]
 Главна икона
 [Contact]
 Контакт
-[Toggle Ignore]
-
 [Ignore Contact]
 Игнориране на контакта
 [Show Contact]
 Показване на контактите
 [Show Recent Contacts]
 Показване на скорошните контакти
-;file \plugins\RecentContacts\src\RecentContacts.h

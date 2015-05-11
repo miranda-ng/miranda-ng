@@ -25,5 +25,3 @@
 [StartupStatus]
 [Pressed toolbar icon]
 [Released toolbar icon]
-[idleeeeeeee]
-[<n/a>]

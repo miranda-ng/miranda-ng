@@ -7,7 +7,6 @@
 ;============================================================
 [un4seen's BASS interface Miranda NG plugin.]
 Приставката е интерфейс за библиотеката BASS на un4seen
-;file \plugins\BASS_interface\res\Bass.rc
 [un4seen's bass interface]
 Интерфейс за библиотеката BASS на un4seen
 [bass.dll loading error]
@@ -48,7 +47,6 @@
 На обяд
 [Preview]
 Образец
-;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 Версия на библиотеката BASS: %d.%d.%d.%d
 [--default device--]
@@ -69,4 +67,3 @@ BASS интерфейс
 Звукът е включен
 [Sounds disabled]
 Звукът е изключен
-;file \plugins\BASS_interface\src\stdafx.h

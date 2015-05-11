@@ -7,7 +7,6 @@
 ;============================================================
 [Check your Gmail inboxes locally.]
 Проверявайте вашата входящата кутия в Gmail.
-;file \plugins\GmailNotifier\res\options.rc
 [Gmail account]
 Gmail акаунт
 [Name:]
@@ -34,40 +33,16 @@ Gmail акаунт
 секунди
 [Text|Background:]
 Текст|Фон:
-[On double click:]
-
 [System tray]
 Системен трей
 [Popup plugin]
 Popup приставка
-[Login using default browser]
-
-[Login using Internet Explorer]
-
-[Run custom program]
-
-[Use online contacts when no new mail]
-
-[Enable icon selection and icon in status bar (restart)]
-
-[This is a shared computer so disable auto login]
-
-[Log unread threads into database (enable history)]
-
-;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
 Проверяване...
-[Can't open Internet!]
-
 [Can't reach server!]
 Сървърът не е достъпен!
-[Can't send account data!]
-
-[Can't get RSS feed!]
-
 [Wrong name or password!]
 Грешно име или парола!
-;file \plugins\GmailNotifier\src\main.cpp
 [Other]
 Друго
 [Gmail: New thread(s)]
@@ -76,8 +51,5 @@ Gmail: Нови писма
 Проверка на всички кутии
 [&Check Gmail inbox]
 Проверка на Gmail кутията
-;file \plugins\GmailNotifier\src\options.cpp
-[GmailNotifier]
-
 [Network]
 Мрежа

@@ -5,9 +5,6 @@
 ;  Version: 0.14.1.16
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
-[OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
-
-;file \plugins\MirOTR\res\resource.rc
 [OTR Generating Private Key]
 OTR създаване на нов частен ключ
 [Generating new private key - please wait.]
@@ -28,8 +25,6 @@ OTR създаване на нов частен ключ
 Приключване на сесията при състояние на контакта "Извън линия"
 [Prefix encrypted IMs:]
 Представка за шифровани съобщения:
-[don't rely on the prefix, always check the OTR status icon]
-
 [Don't add encrypted messages to the history]
 Без добавяне на шифрованите съобщения към историята
 [Also remove OTR system messages]
@@ -58,14 +53,8 @@ OTR създаване на нов частен ключ
 Задай непознат
 [Forget]
 Забравяне
-[Socialist Millionaires Protocol]
-
-[Socialist Millionaires Protocol\r\nVerification progress]
-
 [&Cancel]
 Отказ
-[Socialist Millionaires Protocol\r\nVerification]
-
 [&No]
 Не
 [&Yes]
@@ -80,7 +69,6 @@ OTR състояние
 Прекратяване на OTR сесията
 [&Verify Fingerprint]
 Проверяване на отпечатъка
-;file \plugins\MirOTR\src\language.h
 [Start OTR]
 Включване на OTR шифроването
 [Stop OTR]
@@ -127,8 +115,6 @@ OTR шифрованата сесия бе прекратена от "%s". Ви�
 Криптирането по време на изпращане не е възможно
 [OTR Information]
 OTR информация
-[[OTR INFO] ]
-
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 Сега се използва ПОТВЪРДЕН отпечатък за OTR шифрованата сесия с "%s"
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
@@ -235,45 +221,9 @@ OTR не може да бъде включен за "%s". Приставката
 OTR: Инсталирана е приставката SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 В момента се използва приставката SecureIM.\nMirOTR ще може да бъде използван само с контакти, за които SecureIM е изключена.
-;file \plugins\MirOTR\src\mirotrmenu.cpp
 [MirOTR menu]
 Меню на MirOTR
 [OTR Status]
 OTR състояние
-;file \plugins\MirOTR\src\options.cpp
-[Private Data]
-
 [Services]
 Услуги
-;file \plugins\MirOTR\src\otr.cpp
-[\nusing older protocol version %i]
-
-[Attempting to start a private conversation...]
-
-[An error occurred when encrypting your message.\nThe message was not sent]
-
-['%s' has already closed his/her private connection to you; you should do the same]
-
-[Error setting up private conversation: %s]
-
-[Malformed message received]
-
-[We are receiving our own OTR messages.\nYou are either trying to talk to yourself, or someone is reflecting your messages back at you]
-
-[The last message to '%s' was resent]
-
-[The encrypted message received from '%s' is unreadable, as you are not currently communicating privately]
-
-[We received an unreadable encrypted message from '%s']
-
-[We received a malformed data message from '%s']
-
-[The following message received from '%s' was NOT encrypted: [%s]]
-
-['%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message.]
-
-[unknown OTR message received, please report that to Miranda NG]
-
-;file \plugins\MirOTR\src\otr.h
-[ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee http://wikipedia.org/wiki/Off-the-Record_Messaging for more information.]
-

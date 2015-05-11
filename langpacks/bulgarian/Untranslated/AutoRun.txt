@@ -1,3 +1,1 @@
 ﻿[Autorun]
-[Launch Miranda NG at system startup]
-[Note: At startup Miranda NG will use current profile]

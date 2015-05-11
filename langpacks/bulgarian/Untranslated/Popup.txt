@@ -2,7 +2,6 @@
 [Multimonitor]
 [Disable when relevant protocol's status is...]
 [Ignore fullscreen]
-[Debug]
 [The Jabberwocky]
 [`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
 [Square fading]

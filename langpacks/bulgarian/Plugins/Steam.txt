@@ -2,12 +2,9 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.3.2
+;  Version: 0.11.3.3
 ;  Authors: unsane, Robert Pösel
 ;============================================================
-[Steam protocol support for Miranda NG.]
-
-;file \protocols\Steam\res\Resource.rc
 [Username:]
 Потребител:
 [Password:]
@@ -20,77 +17,31 @@
 Контакти
 [Use bigger avatars]
 Ползване на по-големи аватари
-[Captcha]
-
 [Cancel]
 Отказ
-[Steam Guard]
-
-[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-
-[Go to email domain]
-
 [Block]
 Блокиране
 [Enter password]
 Въведете парола
 [Save password]
 Запис на паролата
-[Enter the password to continue.]
-
-;file \protocols\Steam\src\stdafx.cpp
-[Steam game]
-
-;file \protocols\Steam\src\steam_contacts.cpp
-[Looking to play]
-
-[Looking to trade]
-
-[ (Non-Steam)]
-
-[ on server %s]
-
 [Playing]
 Играе
-[%s has been removed from your contact list]
-
-[%s is back in your contact list]
-
-[%s has added you to his or her Friend List]
-
-;file \protocols\Steam\src\steam_dialogs.cpp
-[Fatal error, image services not found. Avatar services will be disabled.]
-
 [Avatar Service]
 Услуга за аватари
 [Name]
 Име
-;file \protocols\Steam\src\steam_events.cpp
 [%s connection]
 %s връзка
 [Network]
 Мрежа
-[Blocked contacts]
-
-;file \protocols\Steam\src\steam_menus.cpp
-[Steam menu chooser]
-
 [Request authorization]
 Молба за упълномощаване
-[Join to game]
-
-;file \protocols\Steam\src\steam_messages.cpp
 [Unknown error]
 Непозната грешка
-;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Протоколи
 [Protocol icon]
 Икона на протокола
-[Gaming icon]
-
-[SteamID]
-
 [You cannot send messages when you are offline.]
 Не можете да изпращате съобщения, когато сте "Извън линия"
-;file \protocols\Steam\src\steam_xstatus.cpp

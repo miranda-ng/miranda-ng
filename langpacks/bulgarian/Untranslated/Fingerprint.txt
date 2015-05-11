@@ -1,6 +1,0 @@
-﻿[Facebook clients]
-[VKontakte clients]
-[VK overlay]
-[Skype overlay]
-[Website overlay]
-[Windows Phone overlay]

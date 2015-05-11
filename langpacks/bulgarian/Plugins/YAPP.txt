@@ -7,13 +7,10 @@
 ;============================================================
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
 Yet Another Popup Plugin - осигурява услуга за уведомяване чрез popup прозорци за останалите приставки.
-;file \plugins\YAPP\res\yapp.rc
 [Popup history]
 Рopup история
 [Close]
 Затваряне
-[Case sensitive]
-
 [Default Timeout]
 Стандартно времетраене
 [Never timeout]
@@ -42,8 +39,6 @@ Yet Another Popup Plugin - осигурява услуга за уведомяв
 Аватар (размер):
 [Disable when]
 Изключване, когато
-[Global hover]
-
 [Sidebar width:]
 Странична лента:
 [Text indent:]
@@ -60,17 +55,14 @@ Yet Another Popup Plugin - осигурява услуга за уведомяв
 Задаване на времетраене
 [Timeout value (0 = default):]
 Времетраене (0=стандарт):
-;file \plugins\YAPP\src\icons.cpp
 [Popups are enabled]
 Popups са включени
 [Popups are disabled]
 Popups са изключени
 [Popup History]
 Popup история
-;file \plugins\YAPP\src\notify_imp.cpp
 [YAPP Popups]
 YAPP Popups
-;file \plugins\YAPP\src\options.cpp
 [Example]
 Пример
 [The quick brown fox jumped over the lazy dog.]
@@ -127,12 +119,10 @@ YAPP Popups
 Настройки
 [Classes]
 Класове
-;file \plugins\YAPP\src\services.cpp
 [Disable Popups]
 Изключване на Popups
 [Enable Popups]
 Включване на Popups
-;file \plugins\YAPP\src\yapp.cpp
 [Toggle Popups]
 Вкл./Изкл. на Popups
 [First line]
@@ -147,7 +137,6 @@ YAPP Popups
 Странична лента
 [Title underline]
 Подчертаване на заглавието
-;file \plugins\YAPP\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
 Копиране на заглавието в клипборда
 [Copy message to clipboard]

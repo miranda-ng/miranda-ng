@@ -7,7 +7,6 @@
 ;============================================================
 [Adding traffic and time counters.]
 Добавя брояч за трафик и време.
-;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 Общо за избраните
 [Accounts]
@@ -48,7 +47,6 @@ Popup времетраене
 Формат (подсказка):
 [Display traffic for current]
 Изобразяване на трафика за текущия
-;file \plugins\TrafficCounter\src\options.cpp
 [Display]
 Изобразяване
 [Icon]
@@ -97,15 +95,12 @@ Popup времетраене
 Статистика
 [Popups]
 Рopups
-;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 Байта
 [KB]
 KB
 [MB]
 МБ
-[Adaptive]
-
 [Hourly]
 Почасово
 [Daily]
@@ -132,7 +127,6 @@ KB
 Статистиката не може да бъде прочетена
 [Traffic Counter]
 Брояч на трафика
-;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Шрифт
 [Show/Hide frame]

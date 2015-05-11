@@ -7,7 +7,6 @@
 ;============================================================
 [Shows rating of contact in contact list (if present).]
 Приставката показва оценката на контактите в списъка с контакти (ако имат такава).
-;file \plugins\Rate\src\main.cpp
 [Rate high]
 Висока
 [Rate medium]

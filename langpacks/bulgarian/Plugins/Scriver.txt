@@ -7,7 +7,6 @@
 ;============================================================
 [Scriver - send and receive instant messages.]
 Scriver - за изпращане и получаване на съобщения.
-;file \plugins\Scriver\res\resource.rc
 [Behavior]
 Поведение
 [Automatically pop up the window when]
@@ -322,7 +321,6 @@ Foodnetwork
 Съобщение
 [Clear lo&g]
 Изчистване на дневника
-;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Добавяне на контакт
 [User's details]
@@ -417,8 +415,6 @@ Unicode е изключен
 Отличаване (10x10)
 [Information (10x10)]
 Информация (10х10)
-[Single Messaging]
-
 [Group chats]
 Групови чатове
 [Thai]
@@ -451,7 +447,6 @@ Latin I
 виетнамски
 [Korean (Johab)]
 корейски (Johab)
-;file \plugins\Scriver\src\input.cpp
 [Messaging]
 Съобщения
 [Navigate: previous tab]
@@ -480,7 +475,6 @@ Latin I
 Действие: Изпрати до всички
 [Action: Paste and send]
 Действие: Поставяне и изпращане
-;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
 Цитиране
 [Smiley]
@@ -515,21 +509,12 @@ Smiley
 %s пише съобщение...
 [Last message received on %s at %s.]
 Последното съобщение е получено на %s в %s.
-;file \plugins\Scriver\src\msglog.cpp
 [Unknown contact]
 Непознат контакт
 [Me]
 Аз
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-
-[to tiny bits, in Thy mercy]
-
 [My contact]
 Мой контакт
-[Lorem ipsum dolor sit amet,]
-
-[consectetur adipisicing elit]
-
 [Today]
 Днес
 [Yesterday]
@@ -542,7 +527,6 @@ Smiley
 изпратени URL адреси
 [URL received]
 получени URL адреси
-;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Основни
 [Event log]
@@ -615,15 +599,12 @@ Smiley
 Разговори
 [Typing notify]
 Уведомяване при писане
-;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Съобщение от %s
 [%s is typing a message]
 %s пише съобщение
 [Typing notification]
 Уведомявания при писане
-[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
-
 [Instant messages]
 Незабавни съобщения
 [Incoming (focused window)]
@@ -638,17 +619,10 @@ Smiley
 Контакт започна да пише
 [Contact stopped typing]
 Контакт спря да пише
-;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Възникна непозната грешка.
-;file \plugins\Scriver\src\msgwindow.cpp
 [Always on top]
 Винаги отгоре
-;file \plugins\Scriver\src\sendqueue.cpp
-[The message send timed out.]
-
-;file \plugins\Scriver\src\chat\main.cpp
-;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Мигане, когато някой говори
 [Flash when a word is highlighted]
@@ -767,20 +741,12 @@ Smiley
 прякор на текущия контакт (ако е зададен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 протокол на текущия акаунт (ако е зададен). Името на акаунта се използва, когато протоколът поддържа акаунти.
-[user-defined account name of current contact (if defined).]
-
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
-
 [path to Miranda root folder]
 път до главната папка на Miranda
 [path to folder containing Miranda profiles]
 път до папката с профили на Miranda
 [name of current Miranda profile (filename, without extension)]
 име на текущия профил на Miranda (име без окончание)
-[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
-
-[will return parsed string %miranda_userdata%\\Logs]
-
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 като променливата %APPDATA% за вписаният, в момента, потребител на Windows
 [username for currently logged-on Windows user]
@@ -789,8 +755,6 @@ Smiley
 Папка "My Documents" на потребителя, вписан в Windows
 ["Desktop" folder for currently logged-on Windows user]
 Папка "Desktop" на потребителя, вписан в Windows
-[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-
 [day of month, 1-31]
 дата (1-31)
 [day of month, 01-31]
@@ -821,18 +785,14 @@ Smiley
 Избор на папка
 [Popups]
 Рopups
-;file \plugins\Scriver\src\chat\tools.cpp
 [&Message %s]
 Съобщение %s
-;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
 Наклонен
 [Underline]
 Подчертан
 [Filter]
 Филтър
-[Manager]
-
 [Nick list]
 Списък с прякори
 [Insert a smiley]

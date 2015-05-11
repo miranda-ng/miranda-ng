@@ -7,7 +7,6 @@
 ;============================================================
 [Simple updater for Miranda NG premodified packs.]
 Инструмент за лесно актуализиране на предварително определени пакети за Miranda NG.
-;file \plugins\PackUpdater\Res\Resource.rc
 [Updates found!]
 Налични са актуализации!
 [Update]
@@ -78,18 +77,14 @@
 сек
 [* Needs popup actions to be enabled]
 * Изисква Popup Действията да са включени
-[Not sets for "Message boxes"]
-
 [Boxes]
 Кутии
 [Popups]
 Рopups
-;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]
 Проверка за актуализации
 [Pack Updater]
 Pack Updater
-;file \plugins\PackUpdater\Src\Notifications.cpp
 [An error occurred while downloading the update.]
 Възникна грешка при свалянето на актуализацията.
 [Component Name]
@@ -108,12 +103,10 @@ Pack Updater
 Свалянето завърши. Да започне ли актуализиране? Данните Ви ще бъдат съхранени и Miranda NG ще бъде затворена.
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
 Избрахте наличните актуализации да бъдат инсталирани по-късно.\nМожете да го сторите ръчно от:\n\n%s
-;file \plugins\PackUpdater\Src\Notifications.h
 [Close popup]
 Затваря popup
 [Do nothing]
 Нищо
-;file \plugins\PackUpdater\Src\Options.cpp
 [hours]
 часа
 [days]
@@ -122,10 +115,8 @@ Pack Updater
 Тест
 [Services]
 Услуги
-;file \plugins\PackUpdater\Src\PackUpdater.cpp
 [Clear pack updates folder]
 Изчистване папката на Pack Updater
-;file \plugins\PackUpdater\Src\Utils.cpp
 ['Yes' Button]
 Бутон "Да"
 ['No' Button]

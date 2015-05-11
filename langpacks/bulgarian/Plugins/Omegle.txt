@@ -5,122 +5,21 @@
 ;  Version: 0.1.2.2
 ;  Authors: Robert Pösel
 ;============================================================
-[Omegle protocol support for Miranda NG.]
-
-;file \protocols\Omegle\res\omegle.rc
 [Server:]
 Сървър:
 [Language:]
 Език:
-[Visible name:]
-
-[Meet strangers with common interests (separated by commas):]
-
-[Automatically send this message to stranger after connection:]
-
-[This text will be sent when you use "/asl" message:]
-
-[Last used question (Question mode):]
-
-[I want Omegle to reuse my questions if they are good enough (Question mode)]
-
-[Automatically connect to stranger when protocol is turned online]
-
-[Automatically connect to another stranger when current disconnects]
-
-[Don't clear chat before connecting to new stranger]
-
-[Load count of users on actual server after connection]
-
-[Meet strangers with common interests]
-
-[Your interests (separated by commas):]
-
-;file \protocols\Omegle\src\chat.cpp
 [Server]
 Сървър
-[Last question is empty.]
-
-[Your question is too short.]
-
-[Your '/asl' setting is empty.]
-
-[There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
-
-[You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
-
-[Unknown command. Send '/commands' for list.]
-
-[You aren't connected to any stranger. Send '/help' or '/commands' for help.]
-
-[You can't send messages in question mode.]
-
-[Omegle is a great way of meeting new friends!]
-
-[You]
-
-;file \protocols\Omegle\src\communication.cpp
-[Connection error.]
-
-[Connected to server %s. There are %s users online now.]
-
-[Connected to server %s.]
-
-[Stranger 1]
-
-[Stranger 2]
-
-[Stranger]
-
-[You and the Stranger both like: ]
-
-[%s is typing.]
-
-[%s stopped typing.]
-
-[%s disconnected.]
-
-[Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
-
 [Error: ]
 Грешка: 
-[We are still waiting...]
-
-;file \protocols\Omegle\src\connection.cpp
-[Connecting canceled.]
-
-[Disconnecting...]
-
-[We are already waiting for new stranger...]
-
 [Connecting...]
 Свързване...
-[Waiting for Stranger...]
-
-;file \protocols\Omegle\src\constants.h
 [Random]
 Произволен
-[Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
-
-[You both speak the same language.]
-
-;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 %s връзка със сървъра
-[Unable to get Netlib connection for Omegle]
-
-[Stranger typing]
-
-[Stranger stopped typing]
-
-[Changing stranger]
-
-[Visible name]
-
 [Network]
 Мрежа
 [Account]
 Акаунт
-;file \protocols\Omegle\src\theme.cpp
-[Omegle Icon]
-

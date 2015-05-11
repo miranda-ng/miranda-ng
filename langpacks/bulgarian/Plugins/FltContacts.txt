@@ -5,25 +5,10 @@
 ;  Version: 0.7.0.1
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
-[Floating Contacts plugin for Miranda.]
-
-;file \plugins\FloatingContacts\res\fltcnt.rc
-[Hiding contacts]
-
 [Hide offline contacts]
 Скриване на контактите "Извън линия"
-[Stick together]
-
-[Use fixed width]
-
 [pixels]
 пиксела
-[Hide all contacts]
-
-[Hide when a fullscreen app is active]
-
-[Show tooltips*]
-
 [ms]
 ms
 [Tooltips]
@@ -32,30 +17,16 @@ ms
 Разни
 [0 = Default]
 0 = стандарт
-[*requires Tipper plugin]
-
-[Bring to front]
-
-[Bring to front every]
-
 [seconds]
 секунди
-[Hide when contact list is shown]
-
 [Single click interface]
 Интерфейс с едно натискане
 [Dim idle contacts]
 Потъмняване на бездействащите контакти
-[Idle contacts]
-
 [Border]
 Рамка
 [Draw border]
 Граница
-[Left-top edge's color:]
-
-[Right-bottom edge's color:]
-
 [Background]
 Фон
 [Background color:]
@@ -74,7 +45,6 @@ ms
 Пропорционално разтягане
 [Opacity:]
 Плътност:
-;file \plugins\FloatingContacts\src\main.cpp
 [Standard contacts]
 Стандартни контакти
 [Online contacts to whom you have a different visibility]
@@ -87,20 +57,9 @@ ms
 Контакти, които не са в списъка
 [Floating contacts]
 Плаващи контакти
-[Show all thumbs]
-
-[Hide all thumbs]
-
-[Remove thumb]
-
-[Show/Hide all thumbs]
-
-;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 Плаващи контакти
 [Contact list]
 Списък с контакти
-[Main Features]
-
 [Appearance]
 Външен вид

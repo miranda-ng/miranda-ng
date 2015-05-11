@@ -3,7 +3,6 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.5
 ;============================================================
-;file \src\resource.rc
 [Enter account name (for example, My Google)]
 Въведете име на акаунта
 [Choose the protocol type]
@@ -12,8 +11,8 @@
 Въведете вътрешно име (не е задължително)
 [Cancel]
 Отказ
-[Add %s]
-Добавяне на %s
+[Add contact]
+Добавяне на контакт
 [&Add]
 Добавяне
 [&Cancel]
@@ -22,8 +21,6 @@
 Изпращане на съобщение "Вие бяхте добавен(а)"
 [Send authorization request]
 Изпрати молба за упълномощаване
-[Open contact's chat window]
-
 [Custom name:]
 Избор на име:
 [Group:]
@@ -126,12 +123,8 @@ Miranda NG - диспечер на профили
 Отказ от вноса
 [Database import complete]
 Внасянето на базата от данни завърши
-[The import has completed from]
-
 [What do you want to do with the file now?]
 Какво желаете да стане с файла?
-[&Recycle]
-
 [&Delete]
 Изтриване
 [&Move/Rename]
@@ -150,20 +143,14 @@ Miranda NG - диспечер на профили
 Допълнителни данни поради прокси комуникация
 [SSL traffic]
 SSL трафик
-[Text dumps where available]
-
 [Auto-detect text]
 Автооткриване на текст
-[Calling modules' names]
-
 [Log to]
 Запис в
 [OutputDebugString()]
 OutputDebugString()
 [File]
 Файл
-[Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
-
 [Run now]
 Стартиране
 [Show this dialog box when Miranda NG starts]
@@ -254,8 +241,6 @@ URL адреси
 Порт:
 [(often %d)]
 (често %d)
-[Use custom login (domain login picked up automatically)]
-
 [Username:]
 Потребител:
 [Password:]
@@ -270,8 +255,6 @@ URL адреси
 Потвърждаване на SSL сертификатите
 [Incoming connections]
 Входящи връзки
-[Enable UPnP port mapping]
-
 [You will need to reconnect for the changes you have made on this page to take effect.]
 Необходимо е да се свържете на ново, за да бъдат осъществени промените направени тук.
 [Please complete the following form to create a new user profile]
@@ -298,8 +281,6 @@ URL адреси
 Имейл:
 [Homepage:]
 Страница:
-[Unique ID:]
-
 [Copyright:]
 Copyright:
 [Please restart Miranda NG for your changes to take effect.]
@@ -348,8 +329,6 @@ Copyright:
 Ред и видимост на акаунтите
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Бележка: За осъществяване на промени е необходимо да рестартирате Miranda.
-[Key bindings]
-
 [Shortcut:]
 Препратка:
 [Add]
@@ -386,8 +365,6 @@ Copyright:
 Премахване...
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG се рестартира.\nМоля, изчакайте...
-[Error console]
-
 [Error notifications]
 Уведомяване за грешки
 [Headers:]
@@ -444,8 +421,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Нагоре
 [Move &down]
 Надолу
-[Send &offline]
-
 [&Apply]
 Прилагане
 [Context menu]
@@ -456,8 +431,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 С display name
 [Contact labels]
 Именуване на контактите
-[When I click on a sub in the popup menu...]
-
 [Set default and open message window]
 Да се отваря прозореца за съобщения
 [Show subcontact context menu]
@@ -470,8 +443,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Показване прякора на подконтакта
 [Display subcontact display name]
 Показване на display name на подконтакта
-[Lock name to first contact]
-
 [Current language:]
 Текущ език:
 [Last modified using:]
@@ -516,8 +487,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Изтриване на групата
 [&Reset to default]
 Стандарт
-[find/add]
-
 [&Add to list]
 Добавяне в списъка
 [User &details]
@@ -544,7 +513,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Отказ на промяната
 [Ungroup]
 Дегрупиране
-;file \src\core\stdauth\res\resource.rc
 [&Authorize]
 Приемане
 [&Deny]
@@ -561,7 +529,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Вие бяхте добавен
 [&Close]
 Затваряне
-;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 Текст "%s" на %s
 [Retrieving %s message...]
@@ -584,7 +551,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Промяна на текста "%s"
 [Closing in %d]
 Затваряне след %d
-;file \src\core\stdchat\res\chat.rc
 [&Send]
 Изпращане
 [&Emoticons]
@@ -669,8 +635,6 @@ Popup за приставката Chat
 Текст
 [Background]
 Фон
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-
 [List]
 Списък
 [&Message]
@@ -709,7 +673,6 @@ Wikipedia
 Затваряне на другите табове
 [&Open at this position]
 Отваряне на тази позиция
-;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 Скриване на контактите "Извън линия"
 [Hide empty groups]
@@ -752,8 +715,6 @@ Wikipedia
 Прозорец
 [Always on top]
 Винаги отгоре
-[Tool style main window]
-
 [Minimize to tray]
 Минимизиране в трея
 [Show menu bar]
@@ -922,7 +883,6 @@ Wikipedia
 На телефона\tCtrl+8
 [Out to &lunch\tCtrl+9]
 На обяд\tCtrl+9
-;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Изпрати файл(ове)
 [To:]
@@ -1033,20 +993,16 @@ Wikipedia
 Преименуване (наставка (1),(2)...)
 [You will always be asked about files from people not on your contact list]
 Винаги ще бъдете питани за файлове, пратени от хора извън списъка ви с контакти
-;file \src\core\stdhelp\res\resource.rc
 [About Miranda NG]
 Относно Miranda NG
 [Credits >]
 Заслуги >
-;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 Бездействащ при липса на активност в:
 [Become idle if the screen saver is active]
 Бездействащ при активен screen saver
 [Become idle if the computer is locked]
 Бездействащ при заключване на компютъра
-[Become idle if a terminal session is disconnected]
-
 [Do not let protocols report any idle information]
 Без изпращане на информация за бездействие
 [minute(s)]
@@ -1067,7 +1023,6 @@ Wikipedia
 Бездействащ при липса на активност на компютъра за:
 [Idle (auto-away):]
 Бездействащ (автоотсъстващ):
-;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Изскачане на прозореца при състояние:
 [In background]
@@ -1128,8 +1083,6 @@ Wikipedia
 Показване на секунди
 [Show dates]
 Показване на дати
-[Show formatting]
-
 [Load history events]
 Допълнително зареждани събития
 [Load unread events only]
@@ -1156,15 +1109,12 @@ Wikipedia
 Запис на позицията на прозореца поотделно за всеки контакт
 [Message window behavior:]
 Поведение на прозореца за съобщения:
-[Messaging:]
-
 [&Open link]
 Отваряне на връзката
 [Paste and send]
 Поставяне и изпращане
 [Delete]
 Изтриване
-;file \src\core\stduihist\res\resource.rc
 [Find]
 Намери
 [&Find next]
@@ -1175,7 +1125,6 @@ Wikipedia
 История на съобщенията
 [&Find...]
 Търсене...
-;file \src\core\stduserinfo\res\resource.rc
 [Add phone number]
 Добавяне на телефонен номер
 [Enter country, area code and phone number:]
@@ -1246,7 +1195,6 @@ Wikipedia
 Позиция:
 [Website:]
 Сайт:
-;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 %s желае да бъде упълномощен
 [%u requests authorization]
@@ -1259,7 +1207,6 @@ Wikipedia
 Уведомявания
 [Added event]
 Добавяне на събитие
-;file \src\core\stdauth\src\authdialogs.cpp
 [View user's details]
 Подробности за потребителя
 [Add contact permanently to list]
@@ -1282,12 +1229,10 @@ Wikipedia
 %s изпрати молба за упълномощаване\n%s (Акаунт: %s)
 [Feature is not supported by protocol]
 Не се поддържа от протокола
-;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Показване на текста "%s"
 [Re&ad status message]
 Показване на текста за състояние
-;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 Отсъствам от %time%.
 [Give it up, I'm not in!]
@@ -1312,7 +1257,6 @@ Wikipedia
 бездействаммм
 [Status]
 Състояние
-;file \src\core\stdchat\src\main.cpp
 [Chat module]
 Чат модул
 [Group chat log background]
@@ -1325,7 +1269,6 @@ Wikipedia
 Редове на списък с прякори
 [Nick list background (selected)]
 Фон на списъка с прякори (маркирано)
-;file \src\core\stdchat\src\options.cpp
 [Use a tabbed interface]
 Ползване на табове
 [Close tab on double click]
@@ -1362,8 +1305,6 @@ Wikipedia
 Без звук, когато чат стаята е на фокус
 [Do not pop up the window when joining a chat room]
 Без изскачане на прозореца при влизане в чат стая
-[Toggle the visible state when double clicking in the contact list]
-
 [Show contact statuses if protocol supports them]
 Показване състоянието на потребителите (ако се поддържа от протокола)
 [Display contact status icon before user role icon]
@@ -1576,14 +1517,12 @@ Popups за изобразяване
 Чат дневник
 [Popups]
 Рopups
-;file \src\core\stdchat\src\tools.cpp
 [Look up '%s':]
 Търсене за "%s":
 [No word to look up]
 Няма дума за търсене
 [&Message %s]
 Съобщение %s
-;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Вмъкване на усмивка
 [Make the text bold (CTRL+B)]
@@ -1618,7 +1557,6 @@ Popups за изобразяване
 %s: Разговор
 [%s: message session (%u users)]
 %s: Разговор (%u потребителя)
-;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Стандартни контакти
 [Online contacts to whom you have a different visibility]
@@ -1639,7 +1577,6 @@ Popups за изобразяване
 Посочен текст
 [Quicksearch text]
 Бързо търсен текст
-;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 Дефокусирано
 [Offline]
@@ -1664,21 +1601,16 @@ Popups за изобразяване
 На телефона
 [List background]
 Фон на списъка
-;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Общо
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
 Стандартен доставчик на криптиране
-;file \src\core\stdemail\src\email.cpp
 [User has not registered an e-mail address]
 Потребителят не е задал имейл
 [Send e-mail]
 Изпращане на е-писмо
 [&E-mail]
 Имейл
-;file \src\core\stdfile\src\file.cpp
 [File from %s]
 Файл от %s
 [bytes]
@@ -1695,17 +1627,14 @@ Popups за изобразяване
 Грешка
 [Denied]
 Отхвърлен
-;file \src\core\stdfile\src\fileexistsdlg.cpp
 [%s file]
 %s файл
 [All files]
 Всички файлове
-;file \src\core\stdfile\src\fileopts.cpp
 [Executable files]
 Изпълними файлове
 [Events]
 Събития
-;file \src\core\stdfile\src\filerecvdlg.cpp
 [My received files]
 Получени файлове
 [View user's history]
@@ -1716,12 +1645,10 @@ Popups за изобразяване
 Отказано
 [This file transfer has been canceled by the other side]
 Прехвърлянето на файла е отказано от отсрещната страна.
-;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d файла
 [%d directories]
 %d директории
-;file \src\core\stdfile\src\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Файлът не е сканиран за вируси. Сигурни ли сте, че желаете да бъде отворен?
 [File received]
@@ -1772,13 +1699,10 @@ Popups за изобразяване
 Сканиране за вируси...
 [Transfer and virus scan complete]
 Прехвърлянето и сканирането за вируси завърши.
-;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Изходящи
-;file \src\core\stdhelp\src\about.cpp
 [< Copyright]
 < Copyright
-;file \src\core\stdhelp\src\help.cpp
 [&Help]
 Помощ
 [&About...]
@@ -1789,28 +1713,20 @@ Popups за изобразяване
 Страницата на Miranda NG
 [&Report bug]
 Съобщи за програмна грешка
-;file \src\core\stdidle\src\idle.cpp
 [Idle]
 Бездействие
-;file \src\core\stdmsg\src\cmdlist.cpp
-[The message send timed out.]
-
-;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 Входящо съобщение (10х10)
 [Outgoing message (10x10)]
 Изходящо съобщение (10х10)
-;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Последното съобщение е получено на %s в %s.
 [%s is typing a message...]
 %s пише съобщение...
-;file \src\core\stdmsg\src\msglog.cpp
 [Me]
 Аз
 [File sent]
 Файлът е изпратен
-;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Изходящи съобщения
 [Incoming messages]
@@ -1843,15 +1759,12 @@ Popups за изобразяване
 Дневник за съобщения
 [Typing notify]
 Уведомяване при писане
-;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Съобщение от %s
 [%s is typing a message]
 %s пише съобщение
 [Typing notification]
 Уведомявания при писане
-[Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
-
 [Instant messages]
 Незабавни съобщения
 [Incoming (focused window)]
@@ -1866,15 +1779,10 @@ Popups за изобразяване
 Контакт започна да пише
 [Contact stopped typing]
 Контакт спря да пише
-;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Възникна непозната грешка.
-;file \src\core\stdssl\src\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-
 [Host we are connecting to is not the one certificate was issued for]
 Хоста към който се свързвате не е този, за който е издаден сертификата
-;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 Невалидно съобщение
 [Outgoing message]
@@ -1897,19 +1805,14 @@ Popups за изобразяване
 Изтриване на историята
 [View &history]
 Преглед на историята
-;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL адрес от %s
 [Web page address (&URL)]
 уеб страница (URL)
 [URL]
 URL
-;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Изпращане на URL до
-[Send timed out]
-
-;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 Редактиране на имейла
 [Edit phone number]
@@ -1920,8 +1823,6 @@ URL
 Невалиден телефонен номер
 [Primary]
 Основен
-[Custom %d]
-
 [Fax]
 Факс
 [Mobile]
@@ -1930,7 +1831,6 @@ URL
 Работен телефон
 [Work fax]
 Работен факс
-;file \src\core\stduserinfo\src\stdinfo.cpp
 [Male]
 Мъж
 [Female]
@@ -1949,23 +1849,18 @@ URL
 Биографични данни
 [Notes]
 Бележки
-;file \src\core\stduserinfo\src\userinfo.cpp
 [Owner]
 Собственик
 [View/change my &details...]
 Преглед/Промяна на личните данни
-;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s е на линия
-;file \src\mir_core\src\ui_utils.cpp
 [Account]
 Акаунт
-;file \src\modules\addcontact\addcontact.cpp
-[Add contact]
-Добавяне на контакт
+[Add %s]
+Добавяне на %s
 [Please authorize my request and add me to your contact list.]
 Моля, приемете моята молба за упълномощаване и ме добавете в списъка си с контакти.
-;file \src\modules\chat\chat_opts.cpp
 [Others nicknames]
 Други прякори
 [Your nickname]
@@ -2000,8 +1895,6 @@ URL
 Списък с прякори (Отсъстващ)
 [Message typing area]
 Поле за въвеждане на съобщения
-[Chat log symbols (Webdings)]
-
 [Message is highlighted]
 Отличаване на съобщение
 [User has performed an action]
@@ -2016,16 +1909,12 @@ URL
 Получаване на известие
 [The topic has been changed]
 Промяна на тема
-;file \src\modules\chat\chat_svc.cpp
 [&Join chat]
 Влизане
 [&Leave chat]
 Излизане
-;file \src\modules\chat\clist.cpp
 [&Open chat window]
 Отваряне на чат прозореца
-;file \src\modules\chat\colorchooser.cpp
-;file \src\modules\chat\log.cpp
 [%s has joined]
 %s влезе
 [You have joined %s]
@@ -2054,7 +1943,6 @@ URL
 %s отне статута "%s" на "%s"
 [<invalid>]
 <невалидно>
-;file \src\modules\chat\tools.cpp
 [%s wants your attention in %s]
 %s изисква вниманието ви в %s
 [%s speaks in %s]
@@ -2089,8 +1977,6 @@ URL
 Темата е "%s"
 [The topic is '%s' (set by %s)]
 Темата е "%s" (зададена от %s)
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 Персонално състояние
 [%s (locked)]
@@ -2099,16 +1985,12 @@ URL
 Меню на състоянието
 [Main menu]
 Главно меню
-;file \src\modules\clist\clistmod.cpp
 [Connecting]
 Свързване
 [Connecting (attempt %d)]
 Свързване (опит %d)
-;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Непознат контакт)
-;file \src\modules\clist\clisttray.cpp
-;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Контактът е от система за съобщения, която съхранява списъка с контакти на централен сървър. Контактът ще бъде премахнат от сървъра и вашия списък с контакти следващия път, когато се свържете към мрежата.
 [De&lete]
@@ -2117,7 +1999,6 @@ URL
 Преименуване
 [&Add permanently to list]
 Добавяне за постоянно в списъка
-;file \src\modules\clist\contacts.cpp
 [My custom name (not movable)]
 Зададено име (неподвижно)
 [Nick]
@@ -2140,15 +2021,12 @@ URL
 "(Непознат контакт)"
 [Contact names]
 Имена на контактите
-;file \src\modules\clist\genmenu.cpp
 [Menu icons]
 Икони в менютата
-;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Менюта
 [Customize]
 Персонализиране
-;file \src\modules\clist\groups.cpp
 [New group]
 Нова група
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2161,7 +2039,6 @@ URL
 Преименуване на групата
 [This group]
 Тази група
-;file \src\modules\clist\keyboard.cpp
 [Show/Hide contact list]
 Показва/Скрива списъка с контакти
 [Read message]
@@ -2172,12 +2049,10 @@ URL
 Отваря "Настройки на дневника на мрежовите връзки"
 [Open 'Find user' dialog]
 Отваря "Търсене/Добавяне на контакти"
-;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 Преместване в друга група
 [<Root group>]
 <Главна група>
-;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Грешка при надграждане структурата на профила.\nПреместването на профила "%s" в %s е невъзможно.\nВероятно вече съществува профил със същото име. Моля, разрешете проблема ръчно!
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
@@ -2196,7 +2071,6 @@ URL
 Профилът "%s" не може да бъде отворен.\nФайлът е недостъпен или се използва от друго приложение или инстанция на Miranda.
 [Miranda can't open that profile]
 Отварянето на профила е невъзможно.
-;file \src\modules\database\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Налични са системи за предотвратяване на злонамерени промени. Ще бъдете уведомени преди всяка промяна.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2211,14 +2085,12 @@ URL
 Тази команда не е известна като сигурна.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Невалиден тип настройка за "%s". Първият знак на всяка стойност трябва да бъде b, w, d, l, s, e, u, g, h или n.
-;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 Молба за упълномощаване от %s%s: %s
 [You were added by %s%s]
 Бяхте добавени от %s%s
 [Contacts: ]
 Контакти:\s
-;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профилът "%s" вече съществува. Желаете ли да бъде преместен в Кошчето?\n\nВНИМАНИЕ:Профилът ще бъде изтрит ако Кошчето е изключено.\nВНИМАНИЕ: Профилът може да съдържа поверителна и лична информация, затова е препоръчително да го изтриете по подходящ начин.
 [The profile already exists]
@@ -2259,20 +2131,14 @@ URL
 Моите профили
 [New profile]
 Нов профил
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
 [Chat activity]
 Чат активност
-;file \src\modules\extraicons\extraicons.cpp
-;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 Допълнителни икони
-;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Не сте попълнили полето за търсене. Моля, въведете израз и опитайте отново.
 [Search]
 Търсене
-[Ctrl+Search add contact]
-
 [Results]
 Резултати
 [There are no results to display.]
@@ -2281,11 +2147,8 @@ URL
 Търсене
 [All networks]
 Всички мрежи
-[Handle]
-
 [&Find/add contacts...]
 Търсене/Добавяне на контакти
-;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Търсенето в "%s" не може да бъде започнато. Свързан ли сте към %s?
 [Could not search on any of the protocols, are you online?]
@@ -2300,7 +2163,6 @@ URL
 %d намерени потребителя (
 [No users found]
 Няма намерени потребители
-;file \src\modules\fonts\FontOptions.cpp
 [Failed to create file]
 Грешка при създаването на файла
 [<none>]
@@ -2309,16 +2171,6 @@ URL
 Сянка отляво
 [Shadow at right]
 Сянка отдясно
-[Outline]
-
-[Outline smooth]
-
-[Smooth bump]
-
-[Contour thin]
-
-[Contour heavy]
-
 [Configuration files]
 Файлове съдържащи настройки
 [Text files]
@@ -2329,20 +2181,16 @@ URL
 Примерен текст
 [Fonts]
 Шрифтове
-;file \src\modules\fonts\FontService.cpp
 [Headers]
 Горни колонтитули
 [Generic text]
 Основен текст
 [Small text]
 Малък текст
-;file \src\modules\icolib\skin2opts.cpp
 [Icon sets]
 Комплект икони
-;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Всички контакти **
-;file \src\modules\langpack\lpopts.cpp
 [(incompatible)]
 (несъвместимо)
 [Unknown]
@@ -2351,12 +2199,8 @@ URL
 Вграден
 [Languages]
 Езици
-;file \src\modules\metacontacts\metacontacts.h
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 Ще бъдат премахнати всички контакти добавени в метаконтакта.\nТова ще изтрие метаконтакта.\n\nНаистина ли го желаете?
-;file \src\modules\metacontacts\meta_addto.cpp
-[Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
-
 [This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
 Контактът е метаконтакт.\nНе можете да добавяте метаконтакт в метаконтакт.\n\nМоля, изберете друг.
 [Metacontact conflict]
@@ -2379,18 +2223,12 @@ URL
 Неуспешно добавяне към метаконтакт.
 [Assignment failure]
 Провалено добавяне
-;file \src\modules\metacontacts\meta_edit.cpp
 [ID]
 Идентификатор
 [Protocol]
 Протокол
-[Send offline]
-
-[Send &online]
-
 [Delete metacontact?]
 Изтриване на метаконтакта?
-;file \src\modules\metacontacts\meta_main.cpp
 [Toggle off]
 Изключване
 [Toggle on]
@@ -2405,9 +2243,6 @@ URL
 Задаване като стандартен
 [MetaContacts]
 Метаконтакти
-;file \src\modules\metacontacts\meta_menu.cpp
-[There was a problem in assigning the contact to the metacontact]
-
 [This will remove the metacontact permanently.\n\nProceed anyway?]
 Метаконтакта ще бъде премахнат.\n\nТова ли желаете?
 [Are you sure?]
@@ -2428,36 +2263,14 @@ URL
 Изтриване на метаконтакта
 [Subcontacts]
 Подконтактите
-;file \src\modules\metacontacts\meta_options.cpp
 [Metacontacts]
 Метаконтакти
-;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 Не са открити контакти "На линия"
 [Select metacontact]
 Изберете метакнтакт
-;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 Изпращач
-[Could not retrieve contact protocol]
-
-[Assignment error]
-
-[Could not get unique ID of contact]
-
-[Contact is 'not on list' - please add the contact to your contact list before assigning.]
-
-[Metacontact is full]
-
-[Could not write contact protocol to metacontact]
-
-[Could not write unique ID of contact to metacontact]
-
-[Could not write nickname of contact to metacontact]
-
-;file \src\modules\netlib\netliblog.cpp
-[Standard netlib log]
-
 [No times]
 Без час
 [Standard hh:mm:ss times]
@@ -2466,20 +2279,14 @@ URL
 Часът в милисекунди
 [Times in microseconds]
 Часът в микросекунди
-[(Miranda core logging)]
-
 [Select where log file will be created]
 Изберете къде да бъде създаден дневника
 [Select program to be run]
 Изберете програма за изпълнение
-;file \src\modules\netlib\netlibopts.cpp
-[<mixed>]
-
 [<All connections>]
 <Всички връзки>
 [Network]
 Мрежа
-;file \src\modules\options\options.cpp
 [<all modules>]
 <всички модули>
 [<core modules>]
@@ -2492,13 +2299,10 @@ URL
 Настройки на Miranda NG
 [&Options...]
 Настройки...
-;file \src\modules\plugins\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Няма заредена приставка за съобщения. Моля, инсталирайте/включете една приставка, например "StdMsg.dll"
 ['%s' is disabled, re-enable?]
 "%s" е изключена, желаете да бъде включена?
-[Re-enable Miranda plugin?]
-
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Приставката "%s" от ядрото не може да бъде заредена. Miranda ще се изключи
 [Fatal error]
@@ -2509,7 +2313,6 @@ URL
 Нито една от инсталираните приставки за списъка с контакти не може да бъде заредена.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Не е намерена приставка за списъка с контакти! Необходима е StdClist или всяка друга clist приставка.
-;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Приставка
 [Version]
@@ -2520,15 +2323,12 @@ URL
 Желаете ли да бъде рестартирана сега?
 [Plugins]
 Приставки
-;file \src\modules\protocols\protoopts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 ВНИМАНИЕ! Акаунтът ще бъде изтрит. Тоест всички негови настройки, контакти и историята ще бъдат изтрити.\n\nНаистина ли желаете това?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
 Вашият акаунт е надграден успешно. Необходимо е да рестартирате Miranda NG, за да се активира.\n\nАко желаете Miranda NG да бъде рестартирана сега натиснете "Да", в противен случай - "Не".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Акаунтът изисква много стара приставка за протокола. Променете настройките на акаунта през прозореца с настройки на Miranda NG.
-[Account name must be filled.]
-
 [Account error]
 Грешка в акаунт
 [Account name has to be unique. Please enter unique name.]
@@ -2571,7 +2371,6 @@ ID на акаунта
 Необходимо е да изключите приставка, за да бъде изтрит акаунта.
 [&Accounts...]
 Акаунти...
-;file \src\modules\skin\hotkey_opts.cpp
 [Browser: Back]
 Браузър: Назад
 [Browser: Forward]
@@ -2604,10 +2403,6 @@ ID на акаунта
 Поща
 [Media: Select]
 Медия: Избор
-[App 1]
-
-[App 2]
-
 [Ctrl + ]
 Ctrl +\s
 [Alt + ]
@@ -2634,7 +2429,6 @@ Win +\s
 За Windows
 [Miranda scope]
 Само за Miranda
-;file \src\modules\skin\skinicons.cpp
 [User online]
 Потребител "На линия"
 [Group (open)]
@@ -2661,8 +2455,6 @@ Win +\s
 Сайта на Miranda
 [Small dot]
 Малка точица
-[Filled blob]
-
 [Empty blob]
 Без отметка
 [Unicode plugin]
@@ -2713,12 +2505,10 @@ ANSI приставка
 %s икони
 [Main icons]
 Главни икони
-;file \src\modules\skin\sounds.cpp
 [Sound files]
 Файлове със звуци
 [WAV files]
 WAV файлове
-;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Необходима е услуга за изображенията за обработка на PNG изображения.
 [All bitmaps]
@@ -2731,15 +2521,12 @@ JPEG изображения
 GIF изображения
 [PNG bitmaps]
 PNG изображения
-;file \src\modules\utils\path.cpp
 [Avatars]
 Аватари
 [Avatars root folder]
 Основна папка за аватари
-;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 <Неуточнено>
-;file \src\modules\utils\utils.cpp
 [Unspecified]
 Неуточнено
 [Afghanistan]
@@ -3240,4 +3027,3 @@ PNG изображения
 Замбия
 [Zimbabwe]
 Зимбабве
-;file \src\modules\visibility\visibility.cpp

@@ -3,5 +3,4 @@
 [Trim too long ID]
 [Hide contact on 'Ignore all']
 [Copy xStatus Message]
-[Authorization]
 [MenuItemEx]
