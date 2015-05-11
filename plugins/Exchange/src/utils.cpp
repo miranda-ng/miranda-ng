@@ -201,7 +201,7 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 	return rChild;
 }
 
-DWORD WINAPI CheckEmailWorkerThread(LPVOID data)
+void __cdecl CheckEmailWorkerThread(void *data)
 {
 	mir_cslock lck(csCheck);
 
@@ -211,14 +211,11 @@ DWORD WINAPI CheckEmailWorkerThread(LPVOID data)
 		exchangeServer.Connect(bForceAttempt);
 
 	exchangeServer.Check(bForceAttempt);
-
-	return 0;
 }
 
 int ThreadCheckEmail(int bForceAttempt)
 {
-	DWORD idThread;
-	HANDLE hCheckThread = CreateThread(NULL, NULL, CheckEmailWorkerThread, (void *) bForceAttempt, 0, &idThread);
+	HANDLE hCheckThread = mir_forkthread(CheckEmailWorkerThread, (void *)bForceAttempt);
 	CloseHandle(hCheckThread);
 
 	return 0;
