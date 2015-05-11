@@ -4,17 +4,11 @@
 Xfire_avatar_loader::Xfire_avatar_loader(xfirelib::Client* client) {
 	threadrunning = FALSE;
 	this->client = client;
-	InitializeCriticalSection(&this->avatarMutex);
 }
 
 Xfire_avatar_loader::~Xfire_avatar_loader() {
 	//liste leeren, damit der laufende thread abgebrochen wird
 	list.clear();
-	//warten bis der thread geschlossen wurde
-	EnterCriticalSection(&this->avatarMutex);
-	LeaveCriticalSection(&this->avatarMutex);
-	//critical section entfernen
-	DeleteCriticalSection(&this->avatarMutex);
 }
 
 void Xfire_avatar_loader::loadThread(void *arg) {
@@ -24,7 +18,7 @@ void Xfire_avatar_loader::loadThread(void *arg) {
 	if (!loader)
 		return;
 
-	EnterCriticalSection(&loader->avatarMutex);
+	mir_cslock lck(loader->avatarMutex);
 	loader->threadrunning = TRUE;
 
 	while (1){
@@ -56,7 +50,6 @@ void Xfire_avatar_loader::loadThread(void *arg) {
 	}
 
 	loader->threadrunning = FALSE;
-	LeaveCriticalSection(&loader->avatarMutex);
 
 	return;
 }

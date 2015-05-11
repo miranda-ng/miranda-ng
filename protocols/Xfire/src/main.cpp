@@ -108,9 +108,9 @@ ULONG_PTR           gdiplusToken;
 xfire_prefitem xfireconfig[XFIRE_RECVPREFSPACKET_MAXCONFIGS];
 extern xfireconfigitem xfireconfigitems[XFIRE_RECVPREFSPACKET_SUPPORTEDONFIGS];
 
-CRITICAL_SECTION modeMsgsMutex;
-CRITICAL_SECTION avatarMutex;
-CRITICAL_SECTION connectingMutex;
+mir_cs modeMsgsMutex;
+mir_cs avatarMutex;
+mir_cs connectingMutex;
 
 DWORD pid = NULL; //processid des gefunden spiels
 DWORD ts2pid = NULL; // processid vom teamspeak/ventrilo
@@ -768,10 +768,6 @@ extern "C" __declspec(dllexport) int  Unload(void)
 	pthread_win32_process_detach_np ();
 #endif
 
-	DeleteCriticalSection(&modeMsgsMutex);
-	DeleteCriticalSection(&connectingMutex);
-	DeleteCriticalSection(&avatarMutex);
-
 	Gdiplus::GdiplusShutdown(gdiplusToken);
 
 	return 0;
@@ -802,7 +798,7 @@ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 //suche nach ini und danach starte gamedetection thread
 void StartIniUpdateAndDetection(LPVOID dummy)
 {
-	EnterCriticalSection(&connectingMutex);
+	mir_cslock lck(connectingMutex);
 
 	//ini/ico updater, nur wenn aktiv
 	if (db_get_b(NULL, protocolname, "autoiniupdate", 0))
@@ -816,8 +812,6 @@ void StartIniUpdateAndDetection(LPVOID dummy)
 #else
 	mir_forkthread(inigamedetectiont, NULL);
 #endif
-
-	LeaveCriticalSection(&connectingMutex);
 }
 
 INT_PTR UrlCall(WPARAM wparam, LPARAM lparam) {
@@ -1027,10 +1021,6 @@ int ExtraImageApply2(WPARAM wparam, LPARAM lparam)
 extern "C" __declspec(dllexport) int  Load(void)
 {
 	mir_getLP(&pluginInfo);
-
-	InitializeCriticalSection(&modeMsgsMutex);
-	InitializeCriticalSection(&connectingMutex);
-	InitializeCriticalSection(&avatarMutex);
 
 	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
@@ -1434,13 +1424,13 @@ static void ConnectingThread(LPVOID params)
 {
 	WPARAM wParam = (WPARAM)params;
 
-	EnterCriticalSection(&connectingMutex);
+	mir_cslock lck(connectingMutex);
 
 	if (myClient != NULL&&myClient->client != NULL)
 		myClient->run();
 	else
 	{
-		EnterCriticalSection(&connectingMutex);
+		mir_cslock lck(connectingMutex);
 		return;
 	}
 
@@ -1459,8 +1449,6 @@ static void ConnectingThread(LPVOID params)
 	bpStatus = wParam;
 
 	ProtoBroadcastAck(protocolname, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, wParam);
-
-	LeaveCriticalSection(&connectingMutex);
 }
 
 //=======================================================
@@ -1769,10 +1757,7 @@ void SetAvatar2(void *arg) {
 }
 
 void SetAvatar(void *arg)
-//void SetAvatar(MCONTACT hContact, char* username)
 {
-	//EnterCriticalSection(&avatarMutex);
-	//WaitForSingleObject(hMutex, INFINITE);
 	static int lasttime = 0;
 	int sleep = db_get_w(NULL, protocolname, "avatarloadlatency", 250);
 
@@ -3135,8 +3120,9 @@ void CreateGroup(char*grpn, char*field) {
 }
 
 
-INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam) {
-	EnterCriticalSection(&modeMsgsMutex);
+INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam)
+{
+	mir_cslock lck(modeMsgsMutex);
 	if ((char*)lParam == NULL)
 	{
 		if (wParam == ID_STATUS_ONLINE)
@@ -3174,7 +3160,6 @@ INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam) {
 				myClient->Status(statusmessage[1]);
 		}
 	}
-	LeaveCriticalSection(&modeMsgsMutex);
 	return 0;
 }
 

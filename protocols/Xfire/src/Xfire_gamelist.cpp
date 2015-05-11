@@ -52,7 +52,6 @@ Xfire_gamelist::Xfire_gamelist()
 {
 	nextgameid = 0;
 	ingame = FALSE;
-	InitializeCriticalSection(&gamlistMutex);
 }
 
 //dekonstruktor
@@ -62,7 +61,6 @@ Xfire_gamelist::~Xfire_gamelist() {
 		if (game) delete game;
 	}
 	gamelist.clear();
-	DeleteCriticalSection(&gamlistMutex);
 }
 
 //hole das nächste game
@@ -97,9 +95,7 @@ BOOL Xfire_gamelist::getnextGame(Xfire_game**currentgame)
 void Xfire_gamelist::Block(BOOL block)
 {
 	if (block)
-		EnterCriticalSection(&gamlistMutex);
-	else
-		LeaveCriticalSection(&gamlistMutex);
+		mir_cslock lck(gamlistMutex);
 }
 
 //fügt simple ein gameobject in den vector ein
