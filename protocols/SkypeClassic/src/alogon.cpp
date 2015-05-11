@@ -12,10 +12,10 @@ extern HANDLE SkypeReady;
  */
 static const TCHAR* getClassName(HWND wnd)
 {
-    static TCHAR className[256];
-	
-	*className=0;
-	GetClassName(wnd, &className[0], sizeof(className)/sizeof(className[0]));
+	static TCHAR className[256];
+
+	*className = 0;
+	GetClassName(wnd, &className[0], sizeof(className) / sizeof(className[0]));
 	return className;
 }
 
@@ -27,22 +27,22 @@ static const TCHAR* getClassName(HWND wnd)
  */
 static HWND findWindow(HWND parent, const TCHAR* childClassName)
 {
-    // Get child window
-    // This window is not combo box or edit box
+	// Get child window
+	// This window is not combo box or edit box
 	HWND wnd = GetWindow(parent, GW_CHILD);
-	while(wnd != NULL && _tcscmp(getClassName(wnd), childClassName) != 0)
+	while (wnd != NULL && _tcscmp(getClassName(wnd), childClassName) != 0)
 		wnd = GetWindow(wnd, GW_HWNDNEXT);
-    
-    return wnd;
+
+	return wnd;
 }
 
 static BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
 {
 	DWORD dwPID;
-	GetWindowThreadProcessId(hWnd,&dwPID);
+	GetWindowThreadProcessId(hWnd, &dwPID);
 	if (lParam != 0 && dwPID != (DWORD)lParam) return TRUE;
 	const TCHAR *lpszClassName = getClassName(hWnd);
-	if(_tcscmp(lpszClassName, _T("tSkMainForm.UnicodeClass")) == 0 ||
+	if (_tcscmp(lpszClassName, _T("tSkMainForm.UnicodeClass")) == 0 ||
 		_tcscmp(lpszClassName, _T("TLoginForm.UnicodeClass")) == 0)
 	{
 		HWND loginControl = GetWindow(hWnd, GW_CHILD);
@@ -52,28 +52,28 @@ static BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
 		// Sleep for some time, while Skype is loading
 		// It loads slowly :(
 		//Sleep(5000);
-		LOG (("TLoginControl = %S", getClassName(loginControl)));
+		LOG(("TLoginControl = %S", getClassName(loginControl)));
 
 		// Check for login control
-		if(_tcscmp(getClassName(loginControl), _T("TLoginControl")) == 0)
+		if (_tcscmp(getClassName(loginControl), _T("TLoginControl")) == 0)
 		{
 			// Find user name window
 			HWND userName = findWindow(loginControl, _T("TNavigableTntComboBox.UnicodeClass"));
 			HWND password = findWindow(loginControl, _T("TNavigableTntEdit.UnicodeClass"));
 
-			LOG (("userName=%08X; password=%08X", userName, password));
+			LOG(("userName=%08X; password=%08X", userName, password));
 			if (userName && password)
 			{
 				// Set user name and password
 				DBVARIANT dbv;
 
-				if(!db_get_ws(NULL,SKYPE_PROTONAME,"LoginUserName",&dbv)) 
+				if (!db_get_ws(NULL, SKYPE_PROTONAME, "LoginUserName", &dbv))
 				{
 					SetWindowTextW(userName, dbv.pwszVal);
-					db_free(&dbv);    
+					db_free(&dbv);
 				}
 
-				if(!db_get_ws(NULL,SKYPE_PROTONAME,"LoginPassword",&dbv)) 
+				if (!db_get_ws(NULL, SKYPE_PROTONAME, "LoginPassword", &dbv))
 				{
 					SetWindowTextW(password, dbv.pwszVal);
 					db_free(&dbv);
@@ -82,9 +82,9 @@ static BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
 
 
 				SendMessageW(hWnd,
-							 WM_COMMAND,
-							 0x4a8,  // sign-in button; WARNING: This ID can change during newer Skype versions
-							 (LPARAM)findWindow(loginControl, _T("TTntButton.UnicodeClass")));
+					WM_COMMAND,
+					0x4a8,  // sign-in button; WARNING: This ID can change during newer Skype versions
+					(LPARAM)findWindow(loginControl, _T("TTntButton.UnicodeClass")));
 			}
 			return FALSE;
 		}
@@ -93,21 +93,20 @@ static BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
 	return TRUE;
 }
 
-DWORD WINAPI setUserNamePasswordThread(LPVOID lpDummy)
+void __cdecl setUserNamePasswordThread(void *lpDummy)
 {
 	DWORD dwPid = (DWORD)lpDummy;
 	HANDLE mutex = CreateMutex(NULL, TRUE, _T("setUserNamePasswordMutex"));
 
 	// Check double entrance
-	if(GetLastError() == ERROR_ALREADY_EXISTS)
-		return 0;
+	if (GetLastError() == ERROR_ALREADY_EXISTS)
+		return;
 
 	WaitForSingleObject(SkypeReady, 5000);
 	EnumWindows(EnumWindowsProc, dwPid);
 
 	ReleaseMutex(mutex);
 	CloseHandle(mutex);
-	return 0;
 }
 
 /**
@@ -118,8 +117,7 @@ DWORD WINAPI setUserNamePasswordThread(LPVOID lpDummy)
  */
 void setUserNamePassword(int dwPid)
 {
-	DWORD threadId;
-	CreateThread(NULL, 0, &setUserNamePasswordThread, (LPVOID)dwPid, 0, &threadId);
+	mir_forkthread(setUserNamePasswordThread, (void*)dwPid);
 
 	// Give time to thread
 	Sleep(100);
