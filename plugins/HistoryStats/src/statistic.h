@@ -160,8 +160,8 @@ private:
 	explicit Statistic(const Settings& settings, InvocationSource invokedFrom, HINSTANCE hInst);
 	bool createStatistics();
 	bool createStatisticsSteps();
-	static DWORD WINAPI threadProc(LPVOID lpParameter);
-	static DWORD WINAPI threadProcSteps(LPVOID lpParameter);
+	static void __cdecl threadProc(void *lpParameter);
+	static void __cdecl threadProcSteps(void *lpParameter);
 
 public:
 	~Statistic();

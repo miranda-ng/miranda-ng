@@ -1261,8 +1261,7 @@ bool Statistic::createStatistics()
 	utils::centerDialog(m_hWndProgress);
 	UpdateWindow(m_hWndProgress);
 
-	DWORD dwThreadID = 0;
-	HANDLE hThread = CreateThread(NULL, 0, threadProcSteps, this, 0, &dwThreadID);
+	HANDLE hThread = mir_forkthread(threadProcSteps, (void*)this);
 
 	bool bDone = false;
 	MSG msg;
@@ -1370,7 +1369,7 @@ bool Statistic::createStatisticsSteps()
 	return true;
 }
 
-DWORD WINAPI Statistic::threadProc(LPVOID lpParameter)
+void __cdecl Statistic::threadProc(void *lpParameter)
 {
 	Statistic* pStats = reinterpret_cast<Statistic*>(lpParameter);
 
@@ -1384,18 +1383,15 @@ DWORD WINAPI Statistic::threadProc(LPVOID lpParameter)
 	delete pStats;
 
 	m_bRunning = false;
-	return 0;
 }
 
-DWORD WINAPI Statistic::threadProcSteps(LPVOID lpParameter)
+void __cdecl Statistic::threadProcSteps(void *lpParameter)
 {
 	Statistic* pStats = reinterpret_cast<Statistic*>(lpParameter);
 	if (pStats->m_Settings.m_ThreadLowPriority)
 		SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
 
-	bool bSuccess = pStats->createStatisticsSteps();
-
-	return (bSuccess ? 0 : 1);
+	pStats->createStatisticsSteps();
 }
 
 INT_PTR CALLBACK Statistic::staticConflictProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1485,8 +1481,7 @@ void Statistic::run(const Settings& settings, InvocationSource invokedFrom, HINS
 	Statistic *pStats = new Statistic(settings, invokedFrom, hInst);
 	pStats->m_hThreadPushEvent = hEvent;
 	// create worker thread
-	DWORD dwThreadID = 0;
-	HANDLE hThread = CreateThread(NULL, 0, threadProc, pStats, 0, &dwThreadID);
+	HANDLE hThread = mir_forkthread(threadProc, (void*)pStats);
 
 	// wait for thread to place itself on thread unwind stack
 	if (hThread != NULL)
