@@ -28,7 +28,7 @@ CBirthdays::CBirthdays(int initialSize)
 	size = 0;
 	birthdays = NULL;
 	advancedIcon = CLIST_ICON;
-	
+
 	Realloc(initialSize);
 }
 
@@ -79,14 +79,14 @@ void CBirthdays::EnsureCapacity()
 void CBirthdays::Realloc(int increaseCapacity)
 {
 	size += increaseCapacity;
-	birthdays = (PBirthdayContact *) realloc(birthdays, size * sizeof(PBirthdayContact));
+	birthdays = (PBirthdayContact *)realloc(birthdays, size * sizeof(PBirthdayContact));
 }
 
 int CBirthdays::Add(MCONTACT hContact, HANDLE hClistIcon)
 {
-	if ( !Contains(hContact)) {
+	if (!Contains(hContact)) {
 		EnsureCapacity();
-		TBirthdayContact *item = (TBirthdayContact *) malloc(sizeof(TBirthdayContact));
+		TBirthdayContact *item = (TBirthdayContact *)malloc(sizeof(TBirthdayContact));
 		item->hContact = hContact;
 		item->hClistIcon = hClistIcon;
 		birthdays[count++] = item;
@@ -109,7 +109,7 @@ int CBirthdays::Remove(int index)
 
 int CBirthdays::Remove(MCONTACT hContact)
 {
-	return Remove( Index(hContact));
+	return Remove(Index(hContact));
 }
 
 int CBirthdays::Contains(MCONTACT hContact) const

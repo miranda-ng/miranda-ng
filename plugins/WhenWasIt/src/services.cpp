@@ -160,7 +160,7 @@ INT_PTR CheckBirthdaysService(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ShowListService(WPARAM wParam, LPARAM lParam)
 {
-	if ( !hBirthdaysDlg)
+	if (!hBirthdaysDlg)
 		hBirthdaysDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_BIRTHDAYS), NULL, DlgProcBirthdays);
 
 	ShowWindow(hBirthdaysDlg, SW_SHOW);
@@ -171,14 +171,14 @@ INT_PTR AddBirthdayService(WPARAM hContact, LPARAM lParam)
 {
 	HWND hWnd = WindowList_Find(hAddBirthdayWndsList, hContact);
 	if (!hWnd)
-		hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_ADD_BIRTHDAY), NULL, DlgProcAddBirthday, (LPARAM) hContact);
+		hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_ADD_BIRTHDAY), NULL, DlgProcAddBirthday, (LPARAM)hContact);
 
 	return ShowWindow(hWnd, SW_SHOW);
 }
 
 void ShowPopupMessage(TCHAR *title, TCHAR *message, HANDLE icon)
 {
-	POPUPDATAT pd = {0};
+	POPUPDATAT pd = { 0 };
 	pd.lchIcon = Skin_GetIconByHandle(icon);
 	_tcsncpy(pd.lptzContactName, title, MAX_CONTACTNAME - 1);
 	_tcsncpy(pd.lptzText, message, MAX_SECONDLINE - 1);
@@ -187,7 +187,7 @@ void ShowPopupMessage(TCHAR *title, TCHAR *message, HANDLE icon)
 	PUAddPopupT(&pd);
 }
 
-DWORD WINAPI RefreshUserDetailsWorkerThread(LPVOID param)
+void __cdecl RefreshUserDetailsWorkerThread(void *param)
 {
 	ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Starting to refresh user details"), hRefreshUserDetails);
 	int delay = db_get_w(NULL, ModuleName, "UpdateDelay", REFRESH_DETAILS_DELAY);
@@ -201,18 +201,11 @@ DWORD WINAPI RefreshUserDetailsWorkerThread(LPVOID param)
 			Sleep(delay); //sleep for a few seconds between requests
 	}
 	ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done refreshing user details"), hRefreshUserDetails);
-	return 0;
 }
 
 INT_PTR RefreshUserDetailsService(WPARAM wParam, LPARAM lParam)
 {
-	DWORD threadID;
-	HANDLE result = CreateThread(NULL, 0, RefreshUserDetailsWorkerThread, NULL, 0, &threadID);
-	if ( !result) {
-		TCHAR buffer[1024];
-		mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Could not create worker thread. Error#%d - threadID %d"), GetLastError(), threadID);
-		MessageBox(0, buffer, TranslateT("Error"), MB_OK | MB_ICONERROR);
-	}
+	HANDLE result = mir_forkthread(RefreshUserDetailsWorkerThread, 0);
 
 	if ((result != NULL) && (result != INVALID_HANDLE_VALUE))
 		CloseHandle(result);
@@ -222,8 +215,8 @@ INT_PTR RefreshUserDetailsService(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ImportBirthdaysService(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR fileName[1024] = {0};
-	OPENFILENAME of = {0};
+	TCHAR fileName[1024] = { 0 };
+	OPENFILENAME of = { 0 };
 	of.lStructSize = sizeof(OPENFILENAME);
 	//of.hInstance = hInstance;
 	TCHAR filter[MAX_PATH];
@@ -234,7 +227,7 @@ INT_PTR ImportBirthdaysService(WPARAM wParam, LPARAM lParam)
 	of.lpstrTitle = TranslateT("Please select a file to import birthdays from...");
 	of.Flags = OFN_FILEMUSTEXIST;
 
-	if ( GetOpenFileName(&of)) {
+	if (GetOpenFileName(&of)) {
 		TCHAR buffer[2048];
 		mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Importing birthdays from file: %s"), fileName);
 		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hImportBirthdays);
@@ -247,8 +240,8 @@ INT_PTR ImportBirthdaysService(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ExportBirthdaysService(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR fileName[1024]= {0};
-	OPENFILENAME of = {0};
+	TCHAR fileName[1024] = { 0 };
+	OPENFILENAME of = { 0 };
 	of.lStructSize = sizeof(OPENFILENAME);
 	//of.hInstance = hInstance;
 	TCHAR filter[MAX_PATH];
@@ -258,10 +251,10 @@ INT_PTR ExportBirthdaysService(WPARAM wParam, LPARAM lParam)
 	of.nMaxFile = SIZEOF(fileName);
 	of.lpstrTitle = TranslateT("Please select a file to export birthdays to...");
 
-	if ( GetSaveFileName(&of)) {
+	if (GetSaveFileName(&of)) {
 		TCHAR buffer[2048];
 		TCHAR *fn = _tcsrchr(fileName, _T('\\')) + 1;
-		if ( !_tcschr(fn, _T('.')))
+		if (!_tcschr(fn, _T('.')))
 			_tcscat(fileName, _T(BIRTHDAY_EXTENSION));
 
 		mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Exporting birthdays to file: %s"), fileName);
@@ -276,7 +269,7 @@ INT_PTR ExportBirthdaysService(WPARAM wParam, LPARAM lParam)
 int DoImport(TCHAR *fileName)
 {
 	FILE *fin = _tfopen(fileName, _T("rt"));
-	if ( !fin) {
+	if (!fin) {
 		MessageBox(0, TranslateT("Could not open file to import birthdays"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
@@ -325,7 +318,7 @@ int DoImport(TCHAR *fileName)
 int DoExport(TCHAR *fileName)
 {
 	FILE *fout = _tfopen(fileName, _T("wt"));
-	if ( !fout) {
+	if (!fout) {
 		MessageBox(0, TranslateT("Could not open file to export birthdays"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
@@ -336,7 +329,7 @@ int DoExport(TCHAR *fileName)
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		int year, month, day;
 		GetContactDOB(hContact, year, month, day);
-		if ( IsDOBValid(year, month, day)) {
+		if (IsDOBValid(year, month, day)) {
 			char *szProto = GetContactProto(hContact);
 			TCHAR *szHandle = GetContactID(hContact, szProto);
 

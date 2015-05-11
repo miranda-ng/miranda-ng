@@ -30,37 +30,37 @@ typedef TBirthdayContact *PBirthdayContact;
 
 class CBirthdays
 {
-	protected:
-		int count;
-		int size;
-		PBirthdayContact *birthdays;
-		int advancedIcon;
-		
-		void Realloc(int increaseCapacity);
-		void EnsureCapacity();
-		
-		void ClearItem(int index);
-	
-	public:
-		CBirthdays(int initialSize = 10);
-		~CBirthdays();
-		
-		int Add(MCONTACT hContact, HANDLE hClistIcon);
-		int Remove(int index);
-		int Remove(MCONTACT hContact);
-		void Clear();
-		void Destroy();
-		
-		int Index(MCONTACT hContact) const;
-		int Contains(MCONTACT hContact) const;
-		
-		void SetAdvancedIconIndex(int advIcon);
-		int GetAdvancedIconIndex() const;
-		
-		HANDLE GetClistIcon(MCONTACT hContact) const;
-		
-		int Count() const;
-		int Size() const;
+protected:
+	int count;
+	int size;
+	PBirthdayContact *birthdays;
+	int advancedIcon;
+
+	void Realloc(int increaseCapacity);
+	void EnsureCapacity();
+
+	void ClearItem(int index);
+
+public:
+	CBirthdays(int initialSize = 10);
+	~CBirthdays();
+
+	int Add(MCONTACT hContact, HANDLE hClistIcon);
+	int Remove(int index);
+	int Remove(MCONTACT hContact);
+	void Clear();
+	void Destroy();
+
+	int Index(MCONTACT hContact) const;
+	int Contains(MCONTACT hContact) const;
+
+	void SetAdvancedIconIndex(int advIcon);
+	int GetAdvancedIconIndex() const;
+
+	HANDLE GetClistIcon(MCONTACT hContact) const;
+
+	int Count() const;
+	int Size() const;
 };
 
 extern CBirthdays &birthdays;

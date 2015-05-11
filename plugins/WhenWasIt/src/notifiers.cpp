@@ -31,12 +31,12 @@ void FillPopupData(POPUPDATAT &pd, int dtb)
 
 void PopupNotifyNoBirthdays()
 {
-	POPUPDATAT pd = {0};
+	POPUPDATAT pd = { 0 };
 	FillPopupData(pd, -1);
 	pd.lchIcon = GetDTBIcon(-1);
 
-	_tcsncpy(pd.lptzContactName, TranslateT("WhenWasIt"), MAX_CONTACTNAME -1);
-	_tcsncpy(pd.lptzText, TranslateT("No upcoming birthdays."), MAX_SECONDLINE -1);
+	_tcsncpy(pd.lptzContactName, TranslateT("WhenWasIt"), MAX_CONTACTNAME - 1);
+	_tcsncpy(pd.lptzText, TranslateT("No upcoming birthdays."), MAX_SECONDLINE - 1);
 	PUAddPopupT(&pd);
 }
 
@@ -48,7 +48,7 @@ TCHAR *BuildDTBText(int dtb, TCHAR *name, TCHAR *text, int size)
 		mir_sntprintf(text, size, TranslateT("%s has birthday tomorrow."), name);
 	else
 		mir_sntprintf(text, size, TranslateT("%s has birthday today."), name);
-		
+
 	return text;
 }
 
@@ -60,7 +60,7 @@ TCHAR *BuildDABText(int dab, TCHAR *name, TCHAR *text, int size)
 		mir_sntprintf(text, size, TranslateT("%s had birthday yesterday."), name);
 	else
 		mir_sntprintf(text, size, TranslateT("%s has birthday today (Should not happen, please report)."), name);
-	
+
 	return text;
 }
 
@@ -74,13 +74,13 @@ int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 	TCHAR text[1024];
 	BuildDTBText(dtb, name, text, SIZEOF(text));
 	int gender = GetContactGender(hContact);
-	
-	POPUPDATAT pd = {0};
+
+	POPUPDATAT pd = { 0 };
 	FillPopupData(pd, dtb);
 	pd.lchContact = hContact;
 	pd.PluginWindowProc = DlgProcPopup;
 	pd.lchIcon = GetDTBIcon(dtb);
-	
+
 	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME, TranslateT("Birthday - %s"), name);
 	TCHAR *sex;
 	switch (toupper(gender)) {
@@ -101,8 +101,8 @@ int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 			mir_sntprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
 	}
 	else
-		mir_tstrncpy(pd.lptzText, text, MAX_SECONDLINE-1);
-	
+		mir_tstrncpy(pd.lptzText, text, MAX_SECONDLINE - 1);
+
 	PUAddPopupT(&pd);
 
 	return 0;
@@ -118,17 +118,17 @@ int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 	TCHAR text[1024];
 	BuildDABText(dab, name, text, SIZEOF(text));
 	int gender = GetContactGender(hContact);
-	
-	POPUPDATAT pd = {0};
+
+	POPUPDATAT pd = { 0 };
 	FillPopupData(pd, dab);
 	pd.lchContact = hContact;
 	pd.PluginWindowProc = DlgProcPopup;
 	pd.lchIcon = GetDTBIcon(dab);
-	
+
 	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME, TranslateT("Birthday - %s"), name);
 	TCHAR *sex;
 	switch (toupper(gender)) {
-	case _T('M'): 
+	case _T('M'):
 		sex = TranslateT("He");
 		break;
 	case _T('F'):
@@ -144,8 +144,8 @@ int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 		else
 			mir_sntprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
 	}
-	else 
-		mir_tstrncpy(pd.lptzText, text, MAX_SECONDLINE-1);
+	else
+		mir_tstrncpy(pd.lptzText, text, MAX_SECONDLINE - 1);
 
 	PUAddPopupT(&pd);
 	return 0;
@@ -162,14 +162,14 @@ int DialogNotifyBirthday(MCONTACT hContact, int dtb, int age)
 		ShowWindow(hUpcomingDlg, commonData.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
 	}
 
-	TUpcomingBirthday data = {0};
+	TUpcomingBirthday data = { 0 };
 	data.name = name;
 	data.message = text;
 	data.dtb = dtb;
 	data.hContact = hContact;
 	data.age = age;
-	
-	SendMessage(hUpcomingDlg, WWIM_ADD_UPCOMING_BIRTHDAY, (WPARAM) &data, NULL);
+
+	SendMessage(hUpcomingDlg, WWIM_ADD_UPCOMING_BIRTHDAY, (WPARAM)&data, NULL);
 	return 0;
 }
 
@@ -179,19 +179,19 @@ int DialogNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 
 	TCHAR text[1024];
 	BuildDABText(dab, name, text, SIZEOF(text));
-	if ( !hUpcomingDlg) {
+	if (!hUpcomingDlg) {
 		hUpcomingDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_UPCOMING), NULL, DlgProcUpcoming);
 		ShowWindow(hUpcomingDlg, commonData.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
 	}
-	
-	TUpcomingBirthday data = {0};
+
+	TUpcomingBirthday data = { 0 };
 	data.name = name;
 	data.message = text;
 	data.dtb = -dab;
 	data.hContact = hContact;
 	data.age = age;
-	
-	SendMessage(hUpcomingDlg, WWIM_ADD_UPCOMING_BIRTHDAY, (WPARAM) &data, NULL);
+
+	SendMessage(hUpcomingDlg, WWIM_ADD_UPCOMING_BIRTHDAY, (WPARAM)&data, NULL);
 	return 0;
 }
 

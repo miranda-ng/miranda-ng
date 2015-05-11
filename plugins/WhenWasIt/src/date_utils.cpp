@@ -38,32 +38,32 @@ int GetContactDOB(MCONTACT hContact, int &year, int &month, int &day)
 	year = db_get_w(hContact, "UserInfo", "DOBy", 0);
 	month = db_get_b(hContact, "UserInfo", "DOBm", 0);
 	day = db_get_b(hContact, "UserInfo", "DOBd", 0);
-	if ( IsDOBValid(year, month, day))
+	if (IsDOBValid(year, month, day))
 		return DOB_USERINFO;
 
 	char *szProto = GetContactProto(hContact);
 	year = db_get_w(hContact, szProto, "BirthYear", 0);
 	month = db_get_b(hContact, szProto, "BirthMonth", 0);
 	day = db_get_b(hContact, szProto, "BirthDay", 0);
-	if ( IsDOBValid(year, month, day))
+	if (IsDOBValid(year, month, day))
 		return DOB_PROTOCOL;
 
 	year = db_get_w(hContact, "BirthDay", "BirthYear", 0);
 	month = db_get_b(hContact, "BirthDay", "BirthMonth", 0);
 	day = db_get_b(hContact, "BirthDay", "BirthDay", 0);
-	if ( IsDOBValid(year, month, day))
+	if (IsDOBValid(year, month, day))
 		return DOB_BIRTHDAYREMINDER;
 
 	year = db_get_w(hContact, "mBirthday", "BirthYear", 0);
 	month = db_get_b(hContact, "mBirthday", "BirthMonth", 0);
 	day = db_get_b(hContact, "mBirthday", "BirthDay", 0);
-	if ( IsDOBValid(year, month, day))
+	if (IsDOBValid(year, month, day))
 		return DOB_MBIRTHDAY;
 
 	year = db_get_dw(hContact, "micqBirthday", "BirthYear", 0);
 	month = db_get_dw(hContact, "micqBirthday", "BirthMonth", 0);
 	day = db_get_dw(hContact, "micqBirthday", "BirthDay", 0);
-	if ( IsDOBValid(year, month, day))
+	if (IsDOBValid(year, month, day))
 		return DOB_MICQBIRTHDAY;
 
 	return DOB_UNKNOWN;
@@ -76,9 +76,9 @@ int GetContactAge(MCONTACT hContact)
 	time(&tNow);
 	struct tm *now = localtime(&tNow);
 	GetContactDOB(hContact, year, month, day);
-	if (year == 0) 
-		return 0; 
-	else 
+	if (year == 0)
+		return 0;
+	else
 		return (now->tm_year + 1900) - year;
 }
 
@@ -102,7 +102,7 @@ unsigned int GetDaysDifference(time_t time1, time_t time2)
 	double diff = difftime(time1, time2);
 	if (errno == 0) {
 		diff = diff / (60 * 60 * 24);
-		int days = (int) floor(diff);
+		int days = (int)floor(diff);
 		if (days < 0) {
 			struct tm *date = gmtime(&time1);
 			int leap = 0;
@@ -123,22 +123,22 @@ int GetDaysDifferenceAfter(time_t time1, time_t time2)
 	if (errno == 0)
 	{
 		diff = diff / (60 * 60 * 24);
-		int days = (int) floor(diff);
+		int days = (int)floor(diff);
 		if (days > 0)
 		{
 			return -1;
 		}
-		
+
 		return -days;
 	}
-	
+
 	return -1;
 }
 
 unsigned int DaysToBirthday(time_t now, int ctYear, int ctMonth, int ctDay)
 {
-	if ( IsDOBValid(ctYear, ctMonth, ctDay)) {
-		struct tm ct = {0};
+	if (IsDOBValid(ctYear, ctMonth, ctDay)) {
+		struct tm ct = { 0 };
 		struct tm *tmp = gmtime(&now);
 		ct.tm_year = tmp->tm_year;
 		ct.tm_mon = ctMonth - 1;
@@ -151,8 +151,8 @@ unsigned int DaysToBirthday(time_t now, int ctYear, int ctMonth, int ctDay)
 
 int DaysAfterBirthday(time_t now, int ctYear, int ctMonth, int ctDay)
 {
-	if ( IsDOBValid(ctYear, ctMonth, ctDay)) {
-		struct tm ct = {0};
+	if (IsDOBValid(ctYear, ctMonth, ctDay)) {
+		struct tm ct = { 0 };
 		struct tm *tmp = gmtime(&now);
 		ct.tm_year = tmp->tm_year;
 		ct.tm_mon = ctMonth - 1;
@@ -195,7 +195,7 @@ int SaveBirthday(MCONTACT hContact, int year, int month, int day, int mode)
 	char *sMonth, *sdMonth, *sd2Month;
 	char *sDay, *sdDay, *sd2Day;
 	char *protocol = GetContactProto(hContact);
-	
+
 	switch (mode) {
 	case SAVE_MODE_MBIRTHDAY:
 		FillmBirthday(sModule, sYear, sMonth, sDay);
@@ -235,11 +235,11 @@ int SaveBirthday(MCONTACT hContact, int year, int month, int day, int mode)
 	db_unset(hContact, sdModule, sdYear);
 	db_unset(hContact, sdModule, sdMonth);
 	db_unset(hContact, sdModule, sdDay);
-	
+
 	db_unset(hContact, sd2Module, sd2Year);
 	db_unset(hContact, sd2Module, sd2Month);
 	db_unset(hContact, sd2Module, sd2Day);
-	
+
 	db_unset(hContact, "BirthDay", "BirthYear");
 	db_unset(hContact, "BirthDay", "BirthMonth");
 	db_unset(hContact, "BirthDay", "BirthDay");

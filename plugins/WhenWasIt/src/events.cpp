@@ -25,13 +25,13 @@ HANDLE heContactSendMessage;
 int CreateEvents()
 {
 	heContactSendMessage = CreateHookableEvent(ME_WWI_SENDMESSAGE);
-	
+
 	return 0;
 }
 
 int DestroyEvents()
 {
 	DestroyHookableEvent(heContactSendMessage);
-	
+
 	return 0;
 }
