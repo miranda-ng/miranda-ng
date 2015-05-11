@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+void InitializeIcons();
+
 int hLangpack;
 CDropbox *dropbox;
 HINSTANCE g_hInstance;
@@ -16,7 +18,7 @@ PLUGININFOEX pluginInfo =
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {B908773A-86F7-4A91-8674-6A20BA0E67D1} 
-	{0xb908773a, 0x86f7, 0x4a91, {0x86, 0x74, 0x6a, 0x20, 0xba, 0xe, 0x67, 0xd1}}
+	{ 0xb908773a, 0x86f7, 0x4a91, { 0x86, 0x74, 0x6a, 0x20, 0xba, 0xe, 0x67, 0xd1 } }
 
 };
 
@@ -36,8 +38,9 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	dropbox = new CDropbox();
+	InitializeIcons();
 
+	dropbox = new CDropbox();
 	return 0;
 }
 

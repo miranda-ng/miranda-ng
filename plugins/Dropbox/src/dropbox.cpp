@@ -24,11 +24,9 @@ CDropbox::CDropbox()
 	CreateProtoServiceFunctionObj(PSS_MESSAGE, ProtoSendMessage, this);
 	CreateProtoServiceFunctionObj(PSR_MESSAGE, ProtoReceiveMessage, this);
 
-	InitializeIcons();
 	InitializeMenus();
 
 	hFileProcess = hMessageProcess = 1;
-	hDefaultContact = hTransferContact = 0;
 }
 
 CDropbox::~CDropbox()
@@ -41,11 +39,9 @@ MCONTACT CDropbox::GetDefaultContact()
 	if (!hDefaultContact)
 		hDefaultContact = db_find_first(MODULE);
 
-	if (!hDefaultContact)
-	{
+	if (!hDefaultContact) {
 		hDefaultContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		if (!CallService(MS_PROTO_ADDTOCONTACT, hDefaultContact, (LPARAM)MODULE))
-		{
+		if (!CallService(MS_PROTO_ADDTOCONTACT, hDefaultContact, (LPARAM)MODULE)) {
 			db_set_s(NULL, MODULE, "Nick", MODULE);
 			db_set_s(hDefaultContact, MODULE, "Nick", MODULE);
 			db_set_ws(hDefaultContact, "CList", "MyHandle", L"Dropbox");
@@ -74,46 +70,38 @@ void CDropbox::RequestAccountInfo()
 
 	MCONTACT hContact = CDropbox::GetDefaultContact();
 
-	if (response && response->resultCode == HTTP_STATUS_OK)
-	{
+	if (response && response->resultCode == HTTP_STATUS_OK) {
 		JSONROOT root(response->pData);
-		if (root)
-		{
+		if (root) {
 			JSONNODE *node = json_get(root, "referral_link");
-			if (node)
-			{
+			if (node) {
 				ptrW referral_link = ptrW(json_as_string(node));
 				db_set_ws(hContact, MODULE, "Homepage", referral_link);
 			}
 
 			node = json_get(root, "display_name");
-			if (node)
-			{
+			if (node) {
 				ptrW display_name = ptrW(json_as_string(node));
 				wchar_t *sep = wcsrchr(display_name, L' ');
-				if (sep)
-				{
+				if (sep) {
 					db_set_ws(hContact, MODULE, "LastName", sep + 1);
 					display_name[wcslen(display_name) - wcslen(sep)] = '\0';
 					db_set_ws(hContact, MODULE, "FirstName", display_name);
 				}
-				else
-				{
+				else {
 					db_set_ws(hContact, MODULE, "FirstName", display_name);
 					db_unset(hContact, MODULE, "LastName");
 				}
 			}
 
 			node = json_get(root, "country");
-			if (node)
-			{
+			if (node) {
 				ptrW isocodeW(json_as_string(node));
 				ptrA isocode(mir_u2a(isocodeW));
 
 				if (!strlen(isocode))
 					db_unset(hContact, MODULE, "Country");
-				else
-				{
+				else {
 					char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode, 0);
 					db_set_s(hContact, MODULE, "Country", country);
 				}
@@ -121,8 +109,7 @@ void CDropbox::RequestAccountInfo()
 
 			node = json_get(root, "quota_info");
 			JSONNODE *nroot = json_as_node(node);
-			if (nroot)
-			{
+			if (nroot) {
 				node = json_get(nroot, "shared");
 				if (node)
 					db_set_dw(hContact, MODULE, "SharedQuota", json_as_int(node));
@@ -150,10 +137,8 @@ void CDropbox::DestroyAcceessToken()
 
 	db_unset(NULL, MODULE, "TokenSecret");
 	if (hContact)
-	{
 		if (db_get_w(hContact, MODULE, "Status", ID_STATUS_ONLINE) == ID_STATUS_ONLINE)
 			db_set_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE);
-	}
 }
 
 UINT CDropbox::RequestAcceessTokenAsync(void *owner, void* param)
@@ -189,19 +174,15 @@ UINT CDropbox::RequestAcceessTokenAsync(void *owner, void* param)
 
 	MCONTACT hContact = instance->GetDefaultContact();
 
-	if (response)
-	{
+	if (response) {
 		JSONROOT root(response->pData);
-		if (root)
-		{
-			if (response->resultCode == HTTP_STATUS_OK)
-			{
+		if (root) {
+			if (response->resultCode == HTTP_STATUS_OK) {
 				JSONNODE *node = json_get(root, "access_token");
 				ptrA access_token = ptrA(mir_u2a(json_as_string(node)));
 				db_set_s(NULL, MODULE, "TokenSecret", access_token);
 
-				if (hContact)
-				{
+				if (hContact) {
 					if (db_get_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 						db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
 				}
@@ -213,8 +194,7 @@ UINT CDropbox::RequestAcceessTokenAsync(void *owner, void* param)
 				/*else
 					ShowNotification(TranslateT("you have been authorized"), MB_ICONINFORMATION);*/
 			}
-			else
-			{
+			else {
 				JSONNODE *node = json_get(root, "error_description");
 				ptrW error_description(json_as_string(node));
 
@@ -225,8 +205,7 @@ UINT CDropbox::RequestAcceessTokenAsync(void *owner, void* param)
 			}
 		}
 	}
-	else
-	{
+	else {
 		if (hwndDlg)
 			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("server does not respond"));
 
