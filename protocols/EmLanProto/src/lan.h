@@ -98,11 +98,9 @@ private:
 	void AcceptTCP();
 	//! Accept TCP thread handle
 	HANDLE m_hAcceptTCPThread;
-	//! Semaphore for killing accept thread
-	mir_cs m_csAcceptTCPThread;
 
 	//! Called when new income TCP connection is created
-	static DWORD WINAPI OnInTCPConnectionProc(LPVOID lpParameter);
+	static void __cdecl OnInTCPConnectionProc(void *lpParameter);
 	//! Called when new ougoing TCP connectio is created
 	static DWORD WINAPI OnOutTCPConnectionProc(LPVOID lpParameter);
 

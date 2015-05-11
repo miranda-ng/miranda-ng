@@ -78,7 +78,6 @@ void CLan::StopListen()
 	}
 	if (m_hAcceptTCPThread)
 	{
-		mir_cslock lck(m_csAcceptTCPThread);
 		TerminateThread(m_hAcceptTCPThread, 0);
 		m_hAcceptTCPThread = NULL;
 	}
@@ -231,28 +230,26 @@ void CLan::AcceptTCP()
 		sockaddr_in addrFrom;
 		int addrLen = sizeof(addrFrom);
 		in_socket = accept(m_filesoc, (sockaddr*)&addrFrom, &addrLen);
-		mir_cslock lck(m_csAcceptTCPThread);
 		if (in_socket != INVALID_SOCKET)
 		{
 			TTCPConnect* tcp_conn = new TTCPConnect;
 			tcp_conn->m_addr = addrFrom.sin_addr.S_un.S_addr;
 			tcp_conn->m_lan = this;
 			tcp_conn->m_socket = in_socket;
-			DWORD threadId;
-			CreateThread(NULL, 0, OnInTCPConnectionProc, (LPVOID)tcp_conn, 0, &threadId);
+			mir_forkthread(OnInTCPConnectionProc, (void*)tcp_conn);
 		}
 		Sleep(100);
 	}
 }
 
-DWORD WINAPI CLan::OnInTCPConnectionProc(LPVOID lpParameter)
+void __cdecl CLan::OnInTCPConnectionProc(void *lpParameter)
 {
 	TTCPConnect* tcp_conn = (TTCPConnect*)lpParameter;
 	tcp_conn->m_lan->OnInTCPConnection(tcp_conn->m_addr, tcp_conn->m_socket);
 	shutdown(tcp_conn->m_socket, SD_BOTH);
 	closesocket(tcp_conn->m_socket);
 	delete tcp_conn;
-	return 0;
+	return;
 }
 
 SOCKET CLan::CreateTCPConnection(u_long addr, LPVOID lpParameter)
