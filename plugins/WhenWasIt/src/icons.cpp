@@ -24,10 +24,10 @@ HANDLE hCheckMenu, hListMenu, hAddBirthdayContact, hRefreshUserDetails;
 HANDLE hImportBirthdays, hExportBirthdays;
 
 const int cDTB = 10;
-HANDLE hDTB[cDTB] = {NULL};
+HANDLE hDTB[cDTB] = { NULL };
 HANDLE hDTBMore = NULL;
 
-HANDLE hWWIExtraIcons = (HANDLE) -1;
+HANDLE hWWIExtraIcons = (HANDLE)-1;
 
 static HANDLE AddIcon(char *name, char *description, TCHAR *tszPath, int iDefaultIdx)
 {
@@ -62,7 +62,7 @@ int AddIcons()
 	for (int i = 2; i < cDTB; i++) {
 		mir_snprintf(name, SIZEOF(name), "DTB%d", i);
 		mir_snprintf(description, SIZEOF(description), Translate("%d days to birthday"), i);
-		hDTB[i] = AddIcon(name, description, tszPath, IDI_DTB0+i);
+		hDTB[i] = AddIcon(name, description, tszPath, IDI_DTB0 + i);
 	}
 	mir_snprintf(description, SIZEOF(description), Translate("More than %d days to birthday"), cDTB - 1);
 	hDTBMore = AddIcon("DTBMore", description, tszPath, IDI_DTBMORE);

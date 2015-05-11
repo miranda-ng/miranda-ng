@@ -49,7 +49,7 @@ static int OnOptionsInitialise(WPARAM wParam, LPARAM)
 	odp.ptszTitle = LPGENT("Birthdays");
 	odp.ptszGroup = LPGENT("Contacts");
 	odp.groupPosition = 910000000;
-	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 	return 0;
@@ -57,11 +57,11 @@ static int OnOptionsInitialise(WPARAM wParam, LPARAM)
 
 static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *dw = (DBCONTACTWRITESETTING *) lParam;
+	DBCONTACTWRITESETTING *dw = (DBCONTACTWRITESETTING *)lParam;
 	DBVARIANT dv = dw->value;
 	if ((strcmp(dw->szModule, DUMMY_MODULE) == 0) && (strcmp(dw->szSetting, DUMMY_SETTING) == 0))
 		RefreshContactListIcons(hContact);
-	
+
 	return 0;
 }
 
@@ -69,7 +69,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_TTB_MODULELOADED, OnTopToolBarModuleLoaded);
-	
+
 	UpdateTimers();
 	return 0;
 }
@@ -153,9 +153,9 @@ int UpdateTimers()
 	long interval = db_get_dw(NULL, ModuleName, "Interval", CHECK_INTERVAL);
 	interval *= 1000 * 60 * 60; //go from miliseconds to hours
 	hCheckTimer = SetTimer(NULL, 0, interval, OnCheckTimer);
-	if ( !hDateChangeTimer)
+	if (!hDateChangeTimer)
 		hDateChangeTimer = SetTimer(NULL, 0, 1000 * DATE_CHANGE_CHECK_INTERVAL, OnDateChangeTimer);
-		
+
 	return 0;
 }
 

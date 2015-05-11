@@ -35,7 +35,7 @@ HANDLE hmImportBirthdays = NULL;
 HANDLE hmExportBirthdays = NULL;
 
 
-CommonData commonData = {0};
+CommonData commonData = { 0 };
 
 CLIST_INTERFACE *pcli;
 
@@ -50,10 +50,10 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {2FF96C84-B0B5-470E-BBF9-907B9F3F5D2F}
-	{0x2ff96c84, 0xb0b5, 0x470e, {0xbb, 0xf9, 0x90, 0x7b, 0x9f, 0x3f, 0x5d, 0x2f}}
+	{ 0x2ff96c84, 0xb0b5, 0x470e, { 0xbb, 0xf9, 0x90, 0x7b, 0x9f, 0x3f, 0x5d, 0x2f } }
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
@@ -69,15 +69,15 @@ extern "C" int __declspec(dllexport) Load(void)
 	icex.dwSize = sizeof(icex);
 	icex.dwICC = ICC_DATE_CLASSES;
 	InitCommonControlsEx(&icex);
-	
+
 	AddIcons();
 
 	Log("%s", "Creating service functions ...");
 	InitServices();
 
-	Log("%s", "Hooking events ...");	
+	Log("%s", "Hooking events ...");
 	HookEvents();
-	
+
 	hAddBirthdayWndsList = WindowList_Create();
 
 	CLISTMENUITEM cl = { sizeof(cl) };
@@ -88,29 +88,29 @@ extern "C" int __declspec(dllexport) Load(void)
 	cl.icolibItem = hCheckMenu;
 	cl.pszName = LPGEN("Check for birthdays");
 	hmCheckBirthdays = Menu_AddMainMenuItem(&cl);
-	
+
 	cl.pszService = MS_WWI_LIST_SHOW;
 	cl.pszName = LPGEN("Birthday list");
 	cl.icolibItem = hListMenu;
 	hmBirthdayList = Menu_AddMainMenuItem(&cl);
-	
+
 	cl.pszService = MS_WWI_REFRESH_USERDETAILS;
 	cl.position = 10100000;
 	cl.pszName = LPGEN("Refresh user details");
 	cl.icolibItem = hRefreshUserDetails;
 	hmRefreshDetails = Menu_AddMainMenuItem(&cl);
-	
+
 	cl.pszService = MS_WWI_IMPORT_BIRTHDAYS;
 	cl.position = 10200000;
 	cl.pszName = LPGEN("Import birthdays");
 	cl.icolibItem = hImportBirthdays;
 	hmImportBirthdays = Menu_AddMainMenuItem(&cl);
-	
+
 	cl.pszService = MS_WWI_EXPORT_BIRTHDAYS;
 	cl.pszName = LPGEN("Export birthdays");
 	cl.icolibItem = hExportBirthdays;
 	hmExportBirthdays = Menu_AddMainMenuItem(&cl);
-	
+
 	cl.pszService = MS_WWI_ADD_BIRTHDAY;
 	cl.position = 10000000;
 	cl.icolibItem = hAddBirthdayContact;
@@ -125,16 +125,16 @@ extern "C" int __declspec(dllexport) Load(void)
 	hotkey.pszDescription = LPGEN("Birthday list");
 	hotkey.pszService = MS_WWI_LIST_SHOW;
 	Hotkey_Register(&hotkey);
-		
+
 	hotkey.pszName = "wwi_check_birthdays";
 	hotkey.pszDescription = LPGEN("Check for birthdays");
 	hotkey.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	Hotkey_Register(&hotkey);
-	
-	
+
+
 	SkinAddNewSoundExT(BIRTHDAY_NEAR_SOUND, LPGENT("WhenWasIt"), LPGENT("Birthday near"));
 	SkinAddNewSoundExT(BIRTHDAY_TODAY_SOUND, LPGENT("WhenWasIt"), LPGENT("Birthday today"));
-	
+
 	Log("%s", "Leaving function " __FUNCTION__);
 	return 0;
 }
@@ -142,22 +142,22 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload()
 {
 	Log("%s", "Entering function " __FUNCTION__);
-	
+
 	if (hBirthdaysDlg)
 		SendMessage(hBirthdaysDlg, WM_CLOSE, 0, 0);
-	
+
 	if (hUpcomingDlg)
 		SendMessage(hUpcomingDlg, WM_CLOSE, 0, 0);
-	
+
 	WindowList_Broadcast(hAddBirthdayWndsList, WM_CLOSE, 0, 0);
 	WindowList_Destroy(hAddBirthdayWndsList);
 
 	Log("%s", "Killing timers ...");
 	KillTimers();
-	
+
 	Log("%s", "Unhooking events ...");
 	UnhookEvents();
-	
+
 	Log("%s", "Destroying service functions ...");
 	DestroyServices();
 
