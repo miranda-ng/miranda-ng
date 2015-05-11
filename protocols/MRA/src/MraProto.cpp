@@ -12,7 +12,6 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	m_bLoggedIn(false),
 	m_groups(5, NumericKeySortT)
 {
-	InitializeCriticalSectionAndSpinCount(&csCriticalSectionSend, 0);
 	MraSendQueueInitialize(0, &hSendQueueHandle);
 	MraFilesQueueInitialize(0, &hFilesQueueHandle);
 	MraMPopSessionQueueInitialize(&hMPopSessionQueue);//getByte("AutoAuthOnWebServices", MRA_DEFAULT_AUTO_AUTH_ON_WEB_SVCS)
@@ -72,7 +71,6 @@ CMraProto::~CMraProto()
 	MraMPopSessionQueueDestroy(hMPopSessionQueue);
 	MraFilesQueueDestroy(hFilesQueueHandle);
 	MraSendQueueDestroy(hSendQueueHandle);
-	DeleteCriticalSection(&csCriticalSectionSend);
 }
 
 INT_PTR CMraProto::MraCreateAccMgrUI(WPARAM, LPARAM lParam)

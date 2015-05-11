@@ -191,7 +191,7 @@ struct CMraProto : public PROTO<CMraProto>
 
 	char     szNewMailSound[MAX_PATH];
 
-	CRITICAL_SECTION csCriticalSectionSend;
+	mir_cs csCriticalSectionSend;
 
 	MCONTACT AddToListByEmail(LPCTSTR plpsEMail, LPCTSTR plpsNick, LPCTSTR plpsFirstName, LPCTSTR plpsLastName, DWORD dwFlags);
 
