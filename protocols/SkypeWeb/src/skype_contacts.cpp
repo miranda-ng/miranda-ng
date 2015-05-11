@@ -133,7 +133,7 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 		node = json_get(root, "greeting");
 		CMStringA reason = ptrA(mir_t2a(ptrT(json_as_string(node))));
 
-		node = json_get(root, "event_time");
+		node = json_get(root, "event_time_iso");
 		ptrT eventTimeStr(json_as_string(node));
 		time_t eventTime = IsoToUnixTime(eventTimeStr);
 
