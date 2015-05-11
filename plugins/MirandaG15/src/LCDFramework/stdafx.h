@@ -19,6 +19,8 @@ using namespace std;
 	#define tstring string
 #endif
 
+#include <m_core.h>
+
 #include "debug.h"
 #include "misc.h"
 
