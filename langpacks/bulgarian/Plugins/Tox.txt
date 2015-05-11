@@ -7,7 +7,6 @@
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Tox в Miranda NG.
-;file \protocols\Tox\res\resource.rc
 [Tox ID:]
 Tox ID:
 [Create]
@@ -100,33 +99,22 @@ IPv6 адрес (незадължително)
 Изходящо обаждане
 [To:]
 За:
-;file \protocols\Tox\src\tox_chatrooms.cpp
 [Groupchat]
 Групов чат
-;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 Папка на профилите
 [Action]
 Действие
-;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Икона на протокола
 [Audio call]
 Аудио обаждане
-[Audio ring]
-
-[Audio start]
-
-[Audio end]
-
 [Protocols]
 Протоколи
-;file \protocols\Tox\src\tox_menus.cpp
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]
 Даване на пълномощно
-;file \protocols\Tox\src\tox_multimedia.cpp
 [Incoming call from %s]
 Входящо обаждане от %s
 [Outgoing call to %s]
@@ -135,18 +123,14 @@ IPv6 адрес (незадължително)
 Не може да бъде открит микрофон
 [Video call is unsupported]
 Видео обажданията не се поддържат
-[Call canceled]
-
 [Unable to find output audio device]
 Не може да бъде открит говорител
 [Call started]
 Начало на разговора
 [Call ended]
 Край на разговора
-;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s връзка
-;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 Tox профил
 [All files]
@@ -179,11 +163,9 @@ Tox профил
 Акаунт
 [Nodes]
 Възли
-;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]
 Не може да добавите себе си в списъка с контакти
 [Contact already in your contact list]
 Контактът вече присъства в списъка ви с контакти
-;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Търсене

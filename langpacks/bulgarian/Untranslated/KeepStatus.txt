@@ -31,5 +31,3 @@
 [Giving up]
 [KeepStatus]
 [You broke the Internet!]
-[idleeeeeeee]
-[<n/a>]

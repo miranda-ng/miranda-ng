@@ -1,5 +1,4 @@
 ﻿[Hardware HotKeys plugin\r\nAllows you to assign expanded multimedia keys (only for PS/2 keyboards)]
-[Close Miranda]
 [Assign]
 [Last pressed key]
 [Extended flag (1xx), Hardware scan code (x23), KeyName]

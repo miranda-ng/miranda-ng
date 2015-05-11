@@ -7,7 +7,6 @@
 ;============================================================
 [ToptoolBar adds buttons in top frame for fast access.]
 ToptoolBar - добавя бутони в лента за бърз достъп до различни функции.
-;file \plugins\TopToolBar\res\main.rc
 [Buttons order and visibility]
 Подреждане на бутоните и видимост
 [Button height]
@@ -36,7 +35,6 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 Път:
 [Set]
 Задай
-;file \plugins\TopToolBar\src\InternalButtons.cpp
 [Show main menu]
 Главно меню
 [Show options page]
@@ -75,16 +73,12 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 Минимизиране на списъка с контакти
 [Exit]
 Изход
-;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Стандарт
 [TopToolBar background]
 Фон на TopToolBar
-[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Nicer+\nYou can get them at http://wiki.miranda-ng.org/Download]
-
 [TopToolBar]
 TopToolBar
-;file \plugins\TopToolBar\src\ttbopt.cpp
 [Contact list]
 Списък с контакти
 [Toolbar]

@@ -26,4 +26,3 @@
 [Received %d contacts.]
 [ added you to the contact list]
 [Plugin Test]
-[[b]Number of new message(s): %d[/b]\n]

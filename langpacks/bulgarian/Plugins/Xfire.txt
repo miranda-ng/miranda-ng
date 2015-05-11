@@ -5,119 +5,36 @@
 ;  Version: 0.1.9.0
 ;  Authors: dufte
 ;============================================================
-[Xfire protocol support for Miranda NG.]
-
-;file \protocols\Xfire\res\resource.rc
 [Password:]
 Парола:
-[Login name:]
-
-[XFire]
-
 [Nick:]
 Прякор:
-[Current protocol version:]
-
-[Note: You can only change these settings if you are connected to Xfire.]
-
-[Create a new Xfire account on website]
-
-[Lost password?]
-
-[Account options]
-
-[Show my friends]
-
-[Game Status]
-
-[Show on my profile and miniprofile]
-
-[Show my game server data]
-
-[Other Activity]
-
-[Show my voice chat server to my friends]
-
-[Show people when I type to them]
-
-[Show nicknames when available]
-
-[Show friends of my friends]
-
 [Options]
 Настройки
 [More options]
 Още опции
-[Display Error and Info message:]
-
-[Main group for clan groups:]
-
-[Automatically scan for games:]
-
-[Main group for Friends of Friends:]
-
 [Files]
 Файлове
-[xfire_games.ini]
-
-[icons.dll]
-
-[Blocked User List]
-
-[This list contains all your blocked Xfire users. You can remove one if you wanna allow him to send you a friend request.]
-
-[You can simply block someone if you right click on his friend request in contact list and choose Block User...]
-
-[This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
-
-[This file contains all original game icons. You can also activate the option for icon downloading if you don't have it.]
-
-[Be sure you put these files in following folder:]
-
 [Status Message]
 Текст за състояние
 [Enable]
 Включване
-[With this feature, following status message will be set on your other protocol plugins if you are in game. So your other buddies can also see what you play. It will also change the status to occupied if this option is enabled.]
-
-[Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
-
 [Status message:]
 Текст за състоянието:
-[Change the status to occupied or dnd]
-
-[The status message and status will be reset if you close the game.]
-
-[Prefer dnd when it is available]
-
 [Games]
 Игри
 [Game:]
 Игра:
-[Don't detect this game as running]
-
 [Apply]
 Прилагане
-[Don't set status message for other protocols]
-
-[Add new game]
-
 [Remove]
 Премахване
-[Don't show in start menu]
-
-[(manual added)]
-
-[Extra Command Line Parameters:]
-
 [Edit...]
 Редактиране
 [Username:]
 Потребител:
 [Game]
 Игра
-[Voice chat]
-
 [Name:]
 Име:
 [IP:]
@@ -130,74 +47,20 @@ IP:
 Копиране
 [Enter Password]
 Въведете парола
-[Join]
-
 [Set Nickname]
 Задаване на прякор
 [Cancel]
 Отказ
-[New xfire_games.ini]
-
-[There is a new XFire game list online, do you want to update now?]
-
-[New supported games:]
-
 [Update]
 Обнови
-[Add game]
-
 [Search:]
 Търсене:
 [Custom...]
 Персонален...
-[Game name:]
-
-[Game exe:]
-
 [Browse...]
 Преглед...
-[Launcher exe (optional):]
-
-[Game ID:]
-
-[Send game ID:]
-
-[Status message for Xfire if this game will be started:]
-
-[Parameter:]
-
-[Add a new game]
-
-[Searching games...]
-
-;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Всички файлове
-[Please wait, game.ini will be currently parsed...]
-
-[XFire Options]
-
-[Please choose one game in the list!]
-
-[If you add a mod of an Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
-
-[Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used IDs. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game.]
-
-[Please enter a game name.]
-
-[Please enter a game ID.]
-
-[Please enter a game ID above 1.]
-
-[This game ID is already in use.]
-
-[Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu.]
-
-[Supported Games]
-
-[Custom game]
-
-;file \protocols\Xfire\src\all_statusmsg.cpp
 [Yep, I'm here.]
 Да, тук съм.
 [I've been away since %time%.]
@@ -208,238 +71,47 @@ IP:
 Не точно сега.
 [Give a guy some peace, would ya?]
 Дайте на човека малко спокойствие!
-[Well, I would talk to you if Miranda ICQ supported chat]
-
 [That'll be the phone.]
 Това май е телефона.
 [Mmm... food.]
 Ммм... храна.
-;file \protocols\Xfire\src\baseProtocol.h
-[XFire Protocol]
-
-;file \protocols\Xfire\src\iniupdater.cpp
-[The xfire_games.ini was updated.]
-
-[Error during xfire_games.ini update.]
-
-[There is a new Icons.dll online, do you want to update now?]
-
-[The Icons.dll was updated.]
-
-[Error during Icons.dll Update.]
-
-;file \protocols\Xfire\src\main.cpp
 [Protocol icon]
 Икона на протокола
-[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFire clan site to accept the Invitation.]
-
-[Friends of Friends Playing]
-
-[Login failed.]
-
-[The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
-
-[The protocol version is too old. Cannot detect a new version number.]
-
-[Someone logged in with your account. Disconnect.]
-
-[Do you really want to add %s to your friend list?]
-
-[Add me to your friend list.]
-
-[XFire is not connected.]
-
-[Current Game]
-
-[My Current Game]
-
-[ServerIP]
-
-[My Current ServerIP]
-
 [Voice]
 Глас
-[My Current Voice]
-
-[Voice ServerIP]
-
-[My Voice ServerIP]
-
-[Xfire Link Protocol]
-
-[Buddy start a game]
-
-[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer.]
-
-[Away from Keyboard]
-
-[&XFire Online Profile]
-
-[XFire &Clan Site]
-
-[C&opy Server Address and Port]
-
-[Cop&y Voice Server Address and Port]
-
-[Join &Game...]
-
-[Play this game...]
-
-[Remove F&riend...]
-
-[Block U&ser...]
-
-[&My XFire Online Profile]
-
-[&Activity Report]
-
-[&Rescan my games...]
-
 [Set &Nickname]
 Задаване на прякор
 [Protocols]
 Протоколи
-[XFire game icon]
-
-[XFire voice icon]
-
-[XFire does not support offline messaging!]
-
 [Username]
 Потребител
-[Unable to connect to XFire.]
-
-[No Login name is set!]
-
-[No Password is set!]
-
-[Last game: %s playtime: %.2d:%.2d:%.2d]
-
-[%s is playing %s.]
-
-[%s is playing %s on server %d.%d.%d.%d:%d.]
-
 [Playing]
 Играе
-[Do you really want to delete your friend %s?]
-
-[Confirm Delete]
-
-[Block this user from ever contacting you again?]
-
-[Block Confirmation]
-
-;file \protocols\Xfire\src\options.cpp
 [Avatars]
 Аватари
 [Disable avatars]
 Изключване на аватарите
-[Don't download avatars of clan members]
-
-[Use alternate way for Avatar download]
-
 [General]
 Основни
-[Automatically reconnect on protocol version changes]
-
-[No IP/Port in StatusMsg]
-
-[Use Online status for unsupported global statuses]
-
-[Don't move friends to clan groups]
-
-[GameServerQuery support]
-
-[No custom away message]
-
-[Remove friend of friend buddies from database]
-
-[Hide yourself in buddylist]
-
-[Don't display game search results]
-
-[Don't display game search status window]
-
-[Display popup if someone starts a game]
-
-[Don't automatically create clan groups]
-
-[Enable MBot support]
-
-[Game detection]
-
-[Disable game detection]
-
-[Use TSRemote.dll to get TeamSpeak server info]
-
-[Disable popups when ingame]
-
-[Disable sound events when ingame]
-
-[Automatically update xfire_games.ini (pro-laming.de)]
-
-[Automatically update icons.dll (pro-laming.de)]
-
-[Download missing game icons from Xfire website]
-
-[No backup on update]
-
-[Background updating]
-
-[The username must be lowercase, so it will be lowercased saved.]
-
-[The changes you have made require you to reconnect to the XFire network before they take effect]
-
 [Hidden]
 Скрито
-[Message box]
-
 [Popup]
 Рopup
 [No]
 Не
-[On every start]
-
 [Daily]
 Дневно
 [<Root Group>]
 <Главна група>
-[Are you sure you want to remove this game?]
-
-[Please select a game.]
-
-[Error: unknown game ID.]
-
 [Not supported]
 Не се поддържа
-[Configuration saved!]
-
-[Game not found?!]
-
 [Network]
 Мрежа
 [Account]
 Акаунт
 [Features]
 Функции
-[Blocklist / Games]
-
-[StatusMsg]
-
-;file \protocols\Xfire\src\pwd_dlg.cpp
-[Please enter server password...]
-
-;file \protocols\Xfire\src\searching4games.cpp
-[Write to database...]
-
-[Games found:%s%s]
-
-;file \protocols\Xfire\src\userdetails.cpp
 [<not specified>]
 <неуточнено>
-;file \protocols\Xfire\src\Xfire_game.cpp
-[Start game]
-
-;file \protocols\Xfire\src\Xfire_gamelist.cpp
 [Please wait...]
 Моля, изчакайте...

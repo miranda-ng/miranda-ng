@@ -5,13 +5,6 @@
 ;  Version: 0.1.21.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
-[Notify about new mail in Lotus Database]
-
-;file \plugins\LotusNotify\res\LotusNotify.rc
-[Show again if still unread]
-
-[Show error messages]
-
 [Set popup colors]
 Избор на цветове
 [Popup options]
@@ -22,80 +15,17 @@ Popup настройки
 Текст
 [Close after:]
 Затваряне след:
-[sec (0 default,\n -1 disabled)]
-
-[...but only if popup not clicked]
-
-[Left button click cmd:]
-
-[Command parameters:]
-
-[Remember newest message ID and don't show older]
-
 [version:]
 Версия:
-[Clear popups history]
-
-[Filter messages contain below strings in:]
-
 [Sender]
 Изпращач
 [Subject]
 Тема
-[Lotus connection settings]
-
-[Primary server:]
-
 [Database:]
 База данни:
-[try detect]
-
-[Secondary server:]
-
-[Check interval:]
-
-[(0-disabled)]
-
-[min.]
-
 [Password:]
 Парола:
-[Offline status mean:]
-
-[To / CopyTo]
-
-[autoregister]
-
-;file \plugins\LotusNotify\src\LotusNotify.cpp
-[Unable to load all required Lotus API functions]
-
-[Lotus Notes Client not detected. Check plugin configuration description on install.txt]
-
-[Unable to initialize Notes.]
-
-[Lotus Notes Extension Manager was not registered. Authentication function will not work properly]
-
-[In notes.ini file there is no required entry EXTMGR_ADDINS=plugindllnamewithout".dll"]
-
-[This utility check your notes.ini file if it's set to authenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin built-in authentication will not work properly. Do you want to add plugin as Lotus Extension (modify notes.ini by adding "EXTMGR_ADDINS=PLUGINNAME")?]
-
-[LotusNotify plugin configuration]
-
-[notes.ini modified correctly. Miranda restart required.]
-
-[notes.ini seem to be set correctly.]
-
-[Now checking Lotus, try again later]
-
-[Attachments: %d bytes]
-
 [Status]
 Състояние
 [Plugins]
 Приставки
-[&Check Lotus]
-
-[Lotus Notify]
-
-[New Lotus document detected]
-

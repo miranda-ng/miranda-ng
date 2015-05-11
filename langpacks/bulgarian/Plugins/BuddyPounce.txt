@@ -5,68 +5,20 @@
 ;  Version: 0.3.2.2
 ;  Authors: Jonathan Gordon
 ;============================================================
-[Allows you to send a message to contacts if they change status.]
-
-;file \plugins\BuddyPounce\res\resource.rc
-[Confirm Pounce send]
-
 [Send]
 Изпращане
 [Cancel]
 Отказ
-[Pounce being sent to]
-
-[Buddy Pounce]
-
-[The Message:]
-
-[Delete Pounce]
-
-[Load default Settings]
-
 [Setting Value]
 Стойност на настройката
-[Setting text...........]
-
 [Settings]
 Настройки
-[Contact To Send Pounce To]
-
-[<< Simple]
-
 [Advanced >>]
 Разширено >>
-[The Message]
-
 [Dialog]
 Прозорец
 [Status]
 Състояние
-[Use Advanced Dialog]
-
-[The Message (characters: )]
-
-[Default Settings]
-
-[Show Delivery Messages]
-
-[These settings are also used when sending a "Simple" pounce]
-
-;file \plugins\BuddyPounce\src\dialog.cpp
-[Send If My Status Is...]
-
-[Send If They Change Status to...]
-
-[Reuse Pounce]
-
-[Give Up delay]
-
-[Confirmation Window]
-
-[Send If My Status Is]
-
-[Any]
-
 [Online]
 На линия
 [Away]
@@ -85,58 +37,15 @@
 На телефона
 [Out To Lunch]
 На обяд
-[Send If Their Status changes]
-
 [From Offline]
 От "Извън линия"
-[To Online]
-
-[To Away]
-
-[To NA]
-
-[To Occupied]
-
-[To DND]
-
-[To Free For Chat]
-
-[To Invisible]
-
-[To On The Phone]
-
-[To Out To Lunch]
-
-[The Message    (%d Characters)]
-
 [error......]
 грешка......
-[Couldn't allocate enough memory]
-
-[The Message    (0 Characters)]
-
-[Reuse this message? (0 to use it once)]
-
 [Times]
 пъти
-[Give up after... (0 to not give up)]
-
 [Days]
 Дни
-[Show confirmation window? (0 to not Show)]
-
-[Seconds to wait before sending]
-
-[Pounce being sent to %s in %d seconds]
-
 [Retry]
 Нов опит
-[Message successfully sent to %s]
-
-[Message failed to send to %s]
-
-;file \plugins\BuddyPounce\src\main.cpp
-[&Buddy Pounce]
-
 [Message sessions]
 Разговори

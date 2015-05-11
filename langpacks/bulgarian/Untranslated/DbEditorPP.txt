@@ -4,7 +4,6 @@
 [Edit &Bytes in Hex]
 [Edit &Words in Hex]
 [Edit &Dwords in Hex]
-[Main icon]
 [Open user tree]
 [BLOB setting]
 [Byte setting]

@@ -7,7 +7,6 @@
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
 Внася контакти и съобщения от профили на Miranda или от други програми.
-;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
 Източник, от който желаете да бъде внесена информация:
 [From a Miranda NG database.]
@@ -52,14 +51,6 @@
 Внос само на контакти
 [Custom import]
 Настройка на вноса
-[Makes precise copy of the original profile, including all settings, contacts and history.]
-
-[Imports only contacts and history, and a few settings. Ideal for synchronizing.]
-
-[Imports contacts only, doesn't import any message history.]
-
-[Custom schema: you can choose what to import.]
-
 [New contacts && groups]
 Нови контакти и групи
 [System history]
@@ -80,9 +71,6 @@ URL адреси
 Обмен на файлове
 [Other]
 Друго
-[Choose appropriate accounts for import]
-
-;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 Пропуснато събитие от/към мен
 [Added contact %u (found in history)]
@@ -93,48 +81,10 @@ URL адреси
 Стар акаунт
 [New account]
 Нов акаунт
-[Protocol %S is not loaded, skipping account %s creation]
-
-[Unable to create an account %s of protocol %S]
-
-[Failed to add %S contact %s]
-
-[Added %S contact %s, '%s']
-
-[Added %S contact %s]
-
-[Metacontact cannot be imported due to its ambiguity.]
-
-[Added metacontact '%s']
-
-[Added metacontact]
-
 [Skipping contact with no protocol]
 Пропуснат контакт без протокол
-[Skipping contact, account %S cannot be mapped.]
-
-[Skipping contact, %S not installed.]
-
-[Skipping non-IM contact (%S)]
-
-[Skipping %S contact, ID not found]
-
-[Skipping duplicate %S contact %s]
-
-[Unknown error while adding %S contact %s]
-
-[Failed to add message]
-
-[Error retrieving current profile, exiting.]
-
-[There's no database driver to open the input file, exiting.]
-
-[Error loading source file, exiting.]
-
 [Number of contacts in database: %d]
 Брой контакти в базата от данни: %d
-[Error mapping accounts, exiting.]
-
 [Importing groups.]
 Внасяне на групи.
 [Group import failed.]
@@ -161,10 +111,8 @@ URL адреси
 Пропуснати контакти - %d.
 [Skipped %d duplicates and %d filtered events.]
 Пропуснати контакти - %d и %d филтрирани събития.
-;file \plugins\Import\src\main.cpp
 [&Import...]
 Внос...
-;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Файлът не съществува. Моля, проверете правилно ли е въведено името.
 [Miranda Import]
@@ -173,11 +121,9 @@ Miranda внос
 База от данни на Miranda NG
 [All Files]
 Всички файлове
-;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Пропускане на дублираща се група %s.
 [Import...]
 Внос...
-;file \plugins\Import\src\wizard.cpp
 [Finish]
 Готово

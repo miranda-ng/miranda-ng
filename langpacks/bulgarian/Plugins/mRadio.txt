@@ -47,8 +47,6 @@ mRadio Mod
 Име на станцията
 [Timeout, ms (5000)]
 Времетраене, ms (500)
-[PreBuf, % (75%)]
-
 [Hallway]
 Коридор
 [Mountains]
@@ -83,8 +81,6 @@ mRadio Mod
 Автоматично свързване към последната активна станция
 [Concert Hall]
 Концертна зала
-[Psychotic]
-
 [Forrest]
 Гора
 [To list]
@@ -93,8 +89,6 @@ mRadio Mod
 Хангар
 [Offline station as Offline]
 Състояние "Извън линия" за невъзпроиз-\nвеждащите станции
-[Protocol depending status]
-
 [Continuous record]
 Запис без прекъсване
 [Quarry]
@@ -197,5 +191,3 @@ mRadio вкл.
 Еквалайзер
 [New]
 Нов
-[Quick Open]
-

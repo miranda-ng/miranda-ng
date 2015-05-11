@@ -16,8 +16,6 @@
 Днес: максимална
 [Forecast Day 1 Low]
 Днес: минимална
-[Heat Index]
-
 [Wind Direction]
 Вятър (посока)
 [Wind Speed]

@@ -5,124 +5,45 @@
 ;  Version: 0.2.5.3
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
-[Send SMS text messages to mobile phones through the IM networks.]
-
-;file \plugins\SMS\res\resource.rc
-[Received SMS]
-
 [&Reply]
 Отговор
 [&Close]
 Затваряне
-[Read Next]
-
 [From:]
 От:
-[Message received:]
-
 [Number:]
 Номер:
-[Send SMS]
-
 [To:]
 За:
-[Add number to list]
-
-[Save number]
-
-[Multiple >>]
-
 [Enter message:]
 Въведете съобщение:
-[Chars:]
-
 [&Send]
 Изпращане
-[SMS Message Didn't Send]
-
 [&Try again]
 Нов опит
 [&Cancel]
 Отказ
-[The SMS message send timed out]
-
 [SMS Plugin]
 SMS приставка
 [Beginning]
 Начало
 [End]
 Край
-[Put signature at the:]
-
-[Use Signature]
-
-[Show server notifications]
-
-[Auto popup on new message]
-
-[Save window position per contact]
-
-[SMS Message Sent]
-
-[Message ID:]
-
 [Source:]
 Източник:
-[Network:]
-
-;file \plugins\SMS\src\options.cpp
 [From %s:\r\n\r\n]
 От: %s:\r\n\r\n
 [Events]
 Събития
-;file \plugins\SMS\src\receive.cpp
-[SMS message didn't send by %S to %s because: %S]
-
-[SMS Message from %s]
-
-[SMS Confirmation from %s]
-
-;file \plugins\SMS\src\recvdlg.cpp
-[Received SMS Confirmation]
-
-;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 История на съобщенията
-[Add Number To The Multiple List]
-
-[Save Number To The User's Details Phonebook]
-
-[Show/Hide Multiple List]
-
-[Shows How Much Chars You've Typed]
-
-[The SMS message send to %s timed out.]
-
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Номера трябва да започва с "+" и да съдържа само цифри, интервали и тирета.
 [Invalid Phone Number]
 Невалиден телефонен номер
-[Message is too long, press OK to continue.]
-
-[Error - Message too long]
-
-[There must be numbers in the list first.]
-
-[No Numbers]
-
-[Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
-
 [Invalid phone number]
 Невалиден телефонен номер
-[<< Single]
-
-;file \plugins\SMS\src\SMSConstans.h
-[Send &SMS...]
-
 [&SMS Message]
 SMS съобщение
-;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 Входящо SMS съобщение
-[Incoming SMS Confirmation]
-

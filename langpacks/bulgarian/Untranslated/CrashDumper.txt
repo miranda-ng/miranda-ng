@@ -1,6 +1,2 @@
 ﻿[Crash Dumper and Version Information for Miranda NG.]
-[Crash reports]
-[Generate crash reports]
-[* You need to restart Miranda NG to apply changes]
-[Copy link to clipboard]
 [Open online Version Info]

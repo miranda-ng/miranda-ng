@@ -1,5 +1,4 @@
 ﻿[Provides an interface to use Miranda from the LCD of various Logitech devices.]
-[General settings]
 [Show softkey labels]
 [Event log:]
 [Message log:]
@@ -8,7 +7,6 @@
 [If the applet is active:]
 [Use the VolumeWheel to scroll up and down (might affect system performance)]
 [Use transition effects when changing screens]
-[Credits]
 [Mirandag15 + TrillianG15]
 [For updates and news check the thread on http://www.g15forums.com]
 [Or visit http://www.mkleinhans.de]

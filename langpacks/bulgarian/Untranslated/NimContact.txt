@@ -56,7 +56,6 @@
 [File couldn't be opened,2]
 [line(%-3d) = | %s]
 [Non-IM Contacts]
-[Main Icon]
 [Non-IM Contact]
 [&Non-IM Contact]
 [&Add Non-IM Contact]

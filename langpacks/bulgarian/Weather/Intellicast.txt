@@ -2,8 +2,6 @@
 ;  File: Intellicast.ini
 ;  Module: weather
 ;============================================================
-[Ceiling]
-
 [Mon]
 пон
 [Tue]
@@ -18,8 +16,6 @@
 съб
 [Sun]
 нед
-[Full]
-
 [Sunny]
 Слънчево
 [Waning Crescent]
@@ -70,20 +66,12 @@
 Ден 10: _Прогноза
 [Forecast today]
 Прогнозата днес
-[Heat Index]
-
 [Moon]
 Лунна фаза
 [MoonRise]
 Луна (изгрев)
 [MoonSet]
 Луна (залез)
-[Update1]
-
-[Update2]
-
-[Wind Chill]
-
 [Wind Direction]
 Вятър (посока)
 [Wind Speed]
@@ -120,12 +108,6 @@
 ЗНЗ
 [ESE]
 ИЮИ
-[WindDir1]
-
-[WindDir2]
-
-[Broken Clouds]
-
 [Scattered Clouds]
 Променлива облачност
 [North]

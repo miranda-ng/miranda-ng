@@ -7,7 +7,6 @@
 ;============================================================
 [Support for new options design.]
 Поддръжка на новия дизайн на настройките.
-;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 Посетете официалната страница на Miranda NG
 [Sample page]
@@ -24,7 +23,6 @@ Miranda NG настройки
 Класически вид на настройките
 [Advanced]
 Разширени
-;file \plugins\ModernOpt\src\modernopt.cpp
 [Home]
 Дом
 [Miranda NG configuration center]

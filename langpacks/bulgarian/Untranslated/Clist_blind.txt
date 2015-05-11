@@ -1,3 +1,2 @@
 ﻿[Tool style main window]
 [Group: %name% %count% [%mode%]]
-[Collapsed]

@@ -2,24 +2,11 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: Miranda NG Team
 ;============================================================
-[Skype protocol support for Miranda NG. Based on new Skype for Web.]
-
-;file \protocols\SkypeWeb\res\resource.rc
-[Create group chat]
-
 [Cancel]
 Отказ
-[Mark users you want to invite to a new chat]
-
-[Invite user to chat]
-
-[Choose one of your contacts to be invited:]
-
-[Skypename:]
-
 [Password:]
 Парола:
 [Default group:]
@@ -28,85 +15,47 @@
 Акаунт
 [Others]
 Други
-[Automatic messages synchronization]
-
-[Use local time for received messages]
-
-[Mark message as read...]
-
-[on read]
-
-[on receive]
-
-[on reply]
-
-[on typing]
-
 [Enter password]
 Въведете парола
 [Save password]
 Запис на паролата
-[Enter the password to continue.]
-
-;file \protocols\SkypeWeb\src\main.cpp
-[Skype Link Protocol]
-
-;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [Admin]
 Администратор
 [User]
 Потребител
+[Warning]
+Предупреждение
 [&Invite user...]
 Покани потребител...
 [&Leave chat session]
 Напускане от разговора
-[&Change topic]
-
-[Kick &user]
-
 [Set &role]
 Задаване на роля
 [&Admin]
 Администратор
 [&User]
 Потребител
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-
-[Warning]
-Предупреждение
-;file \protocols\SkypeWeb\src\skype_history_sync.cpp
-[Edited at]
-
+[Are you sure?]
+Сигурни ли сте?
+[Action]
+Действие
 [Call started]
 Начало на разговора
 [Call ended]
 Край на разговора
-[Duration]
-
-;file \protocols\SkypeWeb\src\skype_icons.cpp
+[Size]
+Размер
+[bytes]
+байта
 [Protocol icon]
 Икона на протокола
-[Create new chat icon]
-
-[Sync history icon]
-
 [Protocols]
 Протоколи
-;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]
 Даване на пълномощно
-[Get server history]
-
-[Create new chat]
-
-;file \protocols\SkypeWeb\src\skype_messages.cpp
-;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Мрежа
-;file \protocols\SkypeWeb\src\skype_proto.cpp
 [%s connection]
 %s връзка
-[Action]
-Действие

@@ -5,17 +5,8 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-[Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
-
-;file \plugins\NewEventNotify\res\resource.rc
 [General options]
 Основни настройки
-[Show entry in the Popups menu]
-
-[Temporarily disable event popups]
-
-[Show preview of event in popup]
-
 [Popup options]
 Popup настройки
 [Message]
@@ -32,30 +23,12 @@ URL
 Фон
 [Timeout]
 Времетраене
-[Notify me of...]
-
-[Left click actions]
-
 [Dismiss popup]
 Затваряне на Popup
 [Open event]
 Отваряне на събитието
 [Dismiss event]
 Затваряне на събитието
-[Right click actions]
-
-[Timeout actions]
-
-[Message event only]
-
-[Don't show popup when message dialog is already open]
-
-[Hide popup when sending new message]
-
-[Open reply dialog instead of reading the message]
-
-[Merge popups from one user]
-
 [Preview]
 Образец
 [Show date]
@@ -64,52 +37,20 @@ URL
 Показване на час
 [Show headers]
 Показване на горните колонтитули
-[Number of begin shown messages]
-
-[Last message display first]
-
-[Last message display last]
-
 [Edit]
 Редактиране
-[No popups for RSS contacts]
-
-[No popups for read messages]
-
-;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Рopups
-;file \plugins\NewEventNotify\src\neweventnotify.h
 [Contacts]
 Контакти
 [You were added!]
 Вие бяхте добавен!
 [Requests your authorization]
 Желае упълномощаване от ваша страна
-[ICQ Web pager]
-
-[ICQ Email express]
-
 [SMS Message]
 SMS съобщение
-[SMS Confirmation]
-
 [Unknown Event]
 Неизвестно събитие
-[Notify of new events]
-
-[Enable new event notification]
-
-[Disable new event notification]
-
-;file \plugins\NewEventNotify\src\options.cpp
-[Event Notify]
-
-;file \plugins\NewEventNotify\src\popup.cpp
-[Received %d contacts.]
-
-[ added you to the contact list]
-
 [ requested authorization]
  заявено упълномощаване
 [This is a sample message event :-)]
@@ -120,7 +61,5 @@ SMS съобщение
 Пример за файлово събитие :-D
 [This is a sample other event ;-D]
 Пример за друго събитие ;-D
-[Plugin Test]
-
 [[b]Number of new message(s): %d[/b]\n]
 [b]Брой нови съобщения: %d[/b]\n

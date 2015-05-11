@@ -5,9 +5,6 @@
 ;  Version: 1.4.0.11
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
-[Notifies you when a contact changes his/her (X)status or status message.]
-
-;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when contact changes to one of these statuses]
 Уведомяване, ако контакт промени състоянието си на:
 [Online]
@@ -32,8 +29,6 @@
 На телефона
 [Always when changing from offline]
 Винаги при промяна от "Извън линия"
-[Notify when contact changes]
-
 [Extra status]
 Допълнително състояние
 [Status message]
@@ -44,20 +39,14 @@
 Изключване на Popups и звука при промяна на състоянието
 [Configure]
 Настройване
-[Notify me for people not on my contact list]
-
 [Use individual sounds]
 Ползване на индивидуални звуци
 [Blink icon in the system tray]
 Мигане на иконата в трея
-[Also when extra status or status message changes]
-
 [Use status icon]
 Показване на икона за състоянието
 [Log to file]
 Запис във файл
-[Open]
-
 [Change]
 Промяна
 [Preview]
@@ -76,18 +65,10 @@
 Звук
 [Popups]
 Рopups
-[Extra status notify]
-
-[Extra status logging]
-
 [Disable all]
 Изкл. на всички
 [Enable all]
 Вкл. на всички
-[Status message notify]
-
-[Status message logging]
-
 [Popups when status changes to:]
 При променено състояние на:
 [Background]
@@ -118,8 +99,6 @@
 Времетраене
 [Sec]
 сек
-[Connection timeout]
-
 [0 = Default]
 0 = стандарт
 [-1 = Infinite]
@@ -132,8 +111,6 @@
 Десен бутон
 [Notification]
 Уведомяване
-[Show Popups when I connect]
-
 [Disable for extra status 'Music']
 Изключване за допълнително състояние "Слуша музика"
 [Truncate message length to:]
@@ -142,16 +119,8 @@
 знака
 [Templates]
 Шаблони
-[Notify when contact changes extra status]
-
 [Template:]
 Шаблон:
-[Notify when contact removes extra status]
-
-[Notify when contact changes extra status message]
-
-[Notify when contact removes extra status message]
-
 [Variables]
 Променливи
 [Reset]
@@ -166,75 +135,20 @@
 Изключване само при промяна на общото състояние
 [Cancel]
 Отказ
-[Log extra status changes]
-
-[Log extra status changes to file]
-
-[Log extra status changes to history]
-
-[Only when message window is open]
-
-[Remove events from history when closing message window]
-
-[Log when contact changes extra status]
-
-[Log when contact removes extra status]
-
-[Log when contact changes extra status message]
-
-[Log when contact removes extra status message]
-
-[Log extra status when opening message window]
-
 [General]
 Основни
 [Accounts]
 Акаунти
-[Enable/Disable accounts which you don't wish to be notified for:]
-
-[Notify when contact changes status message]
-
-[Notify when contact removes status message]
-
 [Log status changes]
 Запис на промените на състоянията
-[Log status changes to file]
-
-[Log status changes to history]
-
-[Log previous status too]
-
-[Log status message changes]
-
-[Log status message changes to file]
-
-[Log status message changes to history]
-
-[Log when contact changes status message]
-
-[Log when contact removes status message]
-
-[Log status message when opening message window]
-
-;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
 Файлове със звуци
 [All files]
 Всички файлове
-[Wave files]
-
 [Status]
 Състояние
-[Sound file]
-
 [** All contacts **]
 ** Всички контакти **
-;file \plugins\NewXstatusNotify\src\indsnd.h
-[(default sound)]
-
-;file \plugins\NewXstatusNotify\src\main.cpp
-[<no status message>]
-
 [Contact]
 Контакт
 [<unknown>]
@@ -249,8 +163,6 @@
 прекратяване
 [playing]
 Играе
-[%s changed status message to %s]
-
 [(M) is back online!]
 (M) е пак на линия!
 [(F) is back online!]
@@ -333,41 +245,24 @@
 Потребител: "На телефона"
 [User: from offline (has priority!)]
 Потребител: от "Извън линия" (с предимство!)
-[Status message removed]
-
-[Status message changed]
-
 [Extra status removed]
 Премахване на допълнително състояние
 [Extra status message changed]
 Промяна на текст на допълнително състояние
 [Extra status changed]
 Промяна на допълнително състояние
-[Extra status message removed]
-
 [Enable status notification]
 Включване уведомяването за състояния
 [Disable status notification]
 Изключване уведомяването за състояния
-[Notification enabled]
-
-[Notification disabled]
-
-[New Status Notify]
-
-[Toggle status notification]
-
 [Status change]
 Промяна на състояние
-;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Всички файлове
 [Log]
 Дневник
 [This is status message]
 Това е текст за състояние
-[This is extra status]
-
 [Show available variables]
 Показване на наличните променливи
 [Reset all templates to default]
@@ -378,65 +273,33 @@
 Анулиране на шаблоните
 [Account]
 Акаунт
-[Status logging]
-
 [Filtering]
 Филтриране
-;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
 (беше %s)
-[Open message window]
-
 [Close popup]
 Затваря popup
-[Open contact details window]
-
 [Open contact menu]
 Отваря менюто на контакта
-[Open contact history]
-
 [Do nothing]
 Нищо
-;file \plugins\NewXstatusNotify\src\utils.cpp
 [Can't open the log file!]
 Дневникът не може да бъде отворен!
-[NewXstatusNotify]
-
-;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Mood]
 Настроение
 [Activity]
 Дейност
 [xStatus]
 xСъстояние
-[<no title>]
-
-[%s changed %s]
-
-;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %n to: %t]
 промени състоянието си "%n" на: %t
 [removed %n]
 премахна състоянието си "%n"
 [changed %n message to: %m]
 промени текста за състояние "%n" на: %m
-[removed %n message]
-
-[changed status message to: %n]
-
-[removed status message]
-
 [changed %n @ %t: %m]
 промени състоянието си "%n" @ %t: %m
 [changed %n message @ %m]
 промени текста за състояние "%n" @ %m
 [has %n @ %t: %m]
 има зададено състояние "%n" @ %t: %m
-[changed status message @ %n]
-
-[is %s and has status message @ %n]
-
-[These variables are available:\r\n\r\n%n\textra status name (xStatus, Mood, Activity)\r\n%t\textra status title\r\n%m\textra status message\r\n%c\tcustom nickname\r\n\\n\tline break\r\n\\t\ttab stop]
-
-[These variables are available:\r\n\r\n%n\tnew status message\r\n%o\told status message\r\n%c\tcustom nickname\r\n%s\tcurrent status\r\n\\n\tline break\r\n\\t\ttab stop]
-

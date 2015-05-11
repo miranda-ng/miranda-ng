@@ -2,45 +2,21 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.13
+;  Version: 0.1.2.14
 ;  Authors: Uli Hecht
 ;============================================================
-[WhatsApp protocol support for Miranda NG.]
-
-;file \protocols\WhatsApp\res\whatsapp.rc
 [Phone number]
 Телефонен номер
 [Nickname]
 Прякор
 [Default group:]
 Стандартна група
-[Use SSL connection (port 443)]
-
-[Automatically open group chats]
-
-[Registration]
-
-[SMS code]
-
-[Request code]
-
-[Register code]
-
-[Including country code, without '+' or '00']
-
 [Invite users]
 Покани потребите
-[Choose a user]
-
-[Other user:]
-
 [&Invite]
 Покана
 [Cancel]
 Отказ
-;file \protocols\WhatsApp\src\chat.cpp
-[Members]
-
 [Owners]
 Собственици
 [&Invite a user]
@@ -51,14 +27,10 @@
 Преглед/Промяна на темата
 [&Quit chat session]
 Напускане от разговора
-[Set &avatar]
-
 [Copy room &JID]
 Копиране JID на стаята
 [Copy room topic]
 Копиране на темата
-[Set new subject for %s]
-
 [&Add to roster]
 Добавяне в списъка с хора
 [&Kick]
@@ -67,61 +39,13 @@
 Копиране на прякора
 [Copy real &JID]
 Копиране на истинския JID
-[Unknown user]
-
-;file \protocols\WhatsApp\src\connection.cpp
-[Please enter a country code.]
-
-[Please enter a phone number without country code.]
-
-[Please enter a nickname.]
-
 [Please enter a password.]
 Моля, въведете парола.
-;file \protocols\WhatsApp\src\contacts.cpp
-[is now known as '%s']
-
-[Last seen on %x at %X]
-
-;file \protocols\WhatsApp\src\dialogs.cpp
-[An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
-
-[Your password has been set automatically. You can proceed with login now]
-
-[Please correctly specify your registration code received by SMS]
-
-[Changes will be applied after protocol restart]
-
 [Network]
 Мрежа
 [Account]
 Акаунт
-;file \protocols\WhatsApp\src\messages.cpp
 [server]
 Сървър
-[Message received: %s by %s]
-
-;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 %s връзка със сървъра
-[Unable to get Netlib connection for WhatsApp]
-
-[Network connection error.]
-
-[Registration failed. Invalid server response.]
-
-[Registration failed due to stale code. Please request a new code]
-
-[Registration failed.]
-
-[Please try again in %i seconds]
-
-[Registration code has been sent to your phone.]
-
-;file \protocols\WhatsApp\src\theme.cpp
-[WhatsApp icon]
-
-[Create chat group]
-
-[Create group]
-

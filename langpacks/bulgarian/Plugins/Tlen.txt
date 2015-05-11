@@ -5,9 +5,6 @@
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
-[Tlen protocol support for Miranda NG.]
-
-;file \protocols\Tlen\res\tlen.rc
 [Username:]
 Потребител:
 [Password:]
@@ -16,70 +13,20 @@
 Запис на паролата
 [Create new account]
 Създаване на акаунт
-[Tlen]
-
 [Options]
 Настройки
-[Automatically reconnect after unintentional disconnection]
-
-[Leave status message after disconnection]
-
-[Ignore advertisements]
-
 [Automatically delete contacts not in my roster]
 Автоизтриване на контакти, които не са в моя списък с хора
-[Show offline users with status messages as invisible in contact list]
-
 [Enable avatars]
 Ползване на аватари
-[Send and receive client version information]
-
-[Alert policy]
-
-[Use Nudge plugin]
-
-[Log alerts as messages]
-
-[Group chat policy]
-
-[Image transfer policy]
-
-[Voice Chats]
-
-[Voice chat policy]
-
-[Recording device:]
-
-[Playback device:]
-
-[Expert Options]
-
 [Login server:]
 Сървър за вписване:
-[Connection Host:]
-
 [Port:]
 Порт:
 [Keep connection alive]
 Поддържане на връзката
 [Enable encryption]
 Шифроване на базата от данни
-[Enable Always Visible and Never Visible]
-
-[P2P Connections]
-
-[Use proxy for incoming connections]
-
-[Proxy type:]
-
-[Proxy server:]
-
-[Proxy requires authorization]
-
-[Mail Notification]
-
-[Enable incoming mail notification]
-
 [Colors]
 Цветове
 [Background]
@@ -96,8 +43,6 @@
 Постоянно
 [Preview]
 Образец
-[Tlen Password]
-
 [Cancel]
 Отказ
 [Nickname:]
@@ -110,123 +55,46 @@
 Имейл:
 [Gender:]
 Пол:
-[Year of birth:]
-
 [City:]
 Град:
-[School:]
-
 [Occupation:]
 Работа:
-[Looking for:]
-
-[Voice chats]
-
-[Publicly visible status]
-
 [Save changes]
 Запис на промените
 [Avatar]
 Аватар
 [Avatar Options]
 Настройки на аватара
-[Public avatar]
-
-[Tlen login:]
-
-[Subscription:]
-
-[Software:]
-
 [Version:]
 Версия:
-[System:]
-
-[Personal Information]
-
 [Age:]
 Възраст:
 [to]
 до
-[Extra Search Criteria]
-
 [Status:]
 Състояние:
-[Plan:]
-
-[Tlen Voice Chat]
-
 [Quality]
 Качество
-[In]
-
-[Out]
-
 [Finish]
 Готово
-[Tlen Voice Chat Invitation]
-
 [&Accept]
 Приемане
 [From:]
 От:
-[The following invitation to join a voice chat is received.]
-
-;file \protocols\Tlen\src\tlen.cpp
 [Protocol icon]
 Икона на протокола
-[Tlen inbox]
-
 [Group chats]
 Групови чатове
-[Tlen chats]
-
-[Voice chat]
-
-[Microphone]
-
-[Speaker]
-
-[Send image]
-
-[Incoming mail]
-
-[Alert]
-
 [Multi-User Conference]
 Конференция
-[Tlen Mail]
-
-[Send picture]
-
-[Voice Chat]
-
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]
 Даване на пълномощно
-;file \protocols\Tlen\src\tlen_avatar.cpp
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-
-[Cannot save new avatar file "%s" Error:\n\t%s (Error: %d)]
-
-[Error while setting avatar on Tlen account (no response)]
-
-[Error while setting avatar on Tlen account (invalid response)]
-
-[Error while setting avatar on Tlen account]
-
-;file \protocols\Tlen\src\tlen_file.cpp
-[1 File]
-
 [%d Files]
 %d файла
-;file \protocols\Tlen\src\tlen_iqid.cpp
 [Authentication failed for %s@%s.]
 Неуспешно удостоверяване за %s@%s.
-[Tlen Authentication]
-
-;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 Основни
 [Advanced]
@@ -235,70 +103,18 @@
 Уведомявания
 [Network]
 Мрежа
-[These changes will take effect the next time you connect to the Tlen network.]
-
-[Tlen Protocol Option]
-
-[Accept all alerts]
-
-[Ignore alerts from unauthorized contacts]
-
-[Ignore all alerts]
-
-[Always ask me]
-
-[Accept invitations from authorized contacts]
-
-[Accept all invitations]
-
-[Ignore invitations from unauthorized contacts]
-
-[Ignore all invitation]
-
-[Accept all images]
-
-[Ignore images from unauthorized contacts]
-
-[Ignore all images]
-
-[<Last message>]
-
-[Forwarding]
-
 [%S mail]
 %s имейл
-;file \protocols\Tlen\src\tlen_picture.cpp
-[Image sent file://%s]
-
-[Image received file://%s]
-
-;file \protocols\Tlen\src\tlen_svc.cpp
-[Tlen login]
-
-[You need to be connected to Tlen account to set avatar.]
-
-;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for %s]
 Въведете парола за %s
-[Tlen Connection Error]
-
-[%s Web Messages]
-
-[Web message]
-
 [From]
 От
 [E-mail]
 Имейл
-[An alert has been received.]
-
-[Private conference]
-
 [%s mail]
 %s имейл
 [Subject]
 Тема
-;file \protocols\Tlen\src\tlen_userinfo.cpp
 [Account]
 Акаунт
 [both]
@@ -309,21 +125,7 @@
 няма
 [not on roster]
 не е в списъка с хора
-;file \protocols\Tlen\src\tlen_voice.cpp
-[...Connecting...]
-
-[...Waiting for connection...]
-
-[...Finished...]
-
-[...Error...]
-
-[...Denied...]
-
 [Default]
 Стандарт
-;file \protocols\Tlen\src\tlen_ws.cpp
 [%s connection]
 %s връзка
-[%s SOCKS connection]
-

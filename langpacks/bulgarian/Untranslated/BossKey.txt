@@ -1,2 +1,1 @@
-﻿[Workstation is locked]
-[Restore hiding on startup after failure]
+﻿[Restore hiding on startup after failure]

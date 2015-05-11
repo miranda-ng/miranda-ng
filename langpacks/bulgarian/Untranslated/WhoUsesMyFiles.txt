@@ -20,7 +20,6 @@
 [Show current connections]
 [Access]
 [Plugin WhoUsesMyFiles requires admin privileges in order to work.]
-[Error opening file]
 [Error memory allocation]
 [Error creating menu]
 [Popup plugin not found!]

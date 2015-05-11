@@ -7,7 +7,6 @@
 ;============================================================
 [Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings).]
 Възпира Popup прозорците и спира звука за 10-300 секунди след стартиране на Miranda NG, след което връща предходното състояние.
-;file \plugins\StartupSilence\res\StartupSilence.rc
 [Silence at Startup]
 Тишина при стартиране
 [Settings for the next Computer Name:]
@@ -38,14 +37,10 @@ TopToolBar бутон (изисква се рестарт на Miranda)
 Филтриране на Popup-и (за без Popup-и не поставяйте отметки)
 [Enable sounds]
 Включване на звука
-[Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
-
 [Allow mRadio or Weather popups, etc.]
 Разрешаване на Popup от mRadio, Weather и др.
-;file \plugins\StartupSilence\src\main.cpp
 [Events]
 Събития
-;file \plugins\StartupSilence\src\StartupSilence.h
 [Silence at startup]
 Тишина при стартиране
 [Toggle Silence OFF]

@@ -7,9 +7,6 @@
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
 Приставката съхранява резерни копия на аватари на вашите контакти, при промяна и/или ви известява с popup.
-;file \plugins\AvatarHistory\res\AvatarHistory.rc
-[Avatar List Popup]
-
 [Save As...]
 Запис като...
 [Delete this entry]
@@ -94,7 +91,6 @@ popup когато контакта промени аватара си
 Запис на историята само на диска. Може да се преглежда чрез приставката.
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 Всички аватари в <Профил>\\История на аватарите\\<Протокол>\\<Contact ID>\\<Времева марка> (един и същ аватар може да бъде запаметен много пъти)
-;file \plugins\AvatarHistory\src\AvatarDlg.cpp
 [Avatar History for %s]
 История на аватарите за %s
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
@@ -111,21 +107,14 @@ popup когато контакта промени аватара си
 Сигурни ли сте, че желаете архивираният аватар да бъде изтрит?\nПрепратката и аватарът ще бъдат изтрити също.\nВНИМАНИЕ: Възможно да бъдат засегнати и други препратки!
 [Avatar History is empty!]
 Историята на аватарите е празна!
-[avatar path is null.]
-
 [View Avatar History]
 История на аватарите
 [Save Avatar for %s]
 Запис на аватара за %s
 [Save Avatar]
 Запис на аватара
-;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 [AVH Debug]
 AVH дебъг
-[Removed avatar, no avatar before... skipping]
-
-[Hashes are the same... skipping]
-
 [Avatar History: Unable to save avatar]
 Avatar History: Аватарът не може да бъде записан
 [AVH Debug: File copied successfully]
@@ -136,12 +125,10 @@ AVH дебъг: Файлът е копиран успешно
 Контакт смени аватар
 [Contact removed avatar]
 Контакт премахна аватар
-;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 История
 [Avatar Overlay]
 Насложени над аватара икони
-;file \plugins\AvatarHistory\src\options.cpp
 [Do nothing]
 Нищо
 [Close popup]
@@ -160,18 +147,14 @@ AVH дебъг: Файлът е копиран успешно
 Рopups
 [Avatar Change]
 Промяна на аватар
-;file \plugins\AvatarHistory\src\stdafx.h
 [removed his/her avatar]
 премахна своя аватар
 [changed his/her avatar]
 промени своя аватар
-;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]
 Неизвестен UIN
 [Unknown Protocol]
 Непознат протокол
-[AVH Debug: GetOldStyleAvatarName]
-
 [Avatar History: Unable to create shortcut]
 Avatar History: Създаването на препратка се провали
 [AVH Debug: Shortcut created successfully]

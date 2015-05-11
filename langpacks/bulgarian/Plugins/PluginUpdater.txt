@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin updater for Miranda NG.]
 Актуализира приставки за Miranda NG.
-;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 Налични са актуализации!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
@@ -86,8 +85,6 @@
 -1 = безкрайно
 [Sec]
 сек
-[For "Restart" popup setting is always infinity]
-
 [Popups]
 Рopups
 [Component list]
@@ -96,7 +93,6 @@
 Всички компоненти за Miranda NG, които не сте инсталирали. Отметнете тези, които желаете да свалите и натиснете "Сваляне".\nНатиснете бутона "i" за да прегледате страницата с информация за даден компонент.
 [Download]
 Сваляне
-;file \plugins\PluginUpdater\src\DlgListNew.cpp
 [Downloading...]
 Сваляне...
 [Succeeded.]
@@ -127,15 +123,12 @@ Plugin Updater
 Списъкът е празен.
 [List loading already started!]
 Списъкът вече се зарежда.
-;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 Ще бъде изтрито!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Актуализирането приключи. Кликнете върху "Да" за рестартиране на Miranda сега или "Не" за да откажете.
 [Miranda NG Core]
 Ядро на Miranda NG
-[Deprecated!]
-
 [Update found!]
 Налична е актуализация!
 [<< Details]
@@ -154,14 +147,10 @@ Plugin Updater
 Няма налични актуализации.
 [Update checking already started!]
 Вече е стартирана проверка за актуализации!
-;file \plugins\PluginUpdater\src\Events.cpp
-;file \plugins\PluginUpdater\src\Notifications.cpp
-;file \plugins\PluginUpdater\src\Notifications.h
 [Close popup]
 Затваря popup
 [Do nothing]
 Нищо
-;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 часа
 [days]
@@ -170,7 +159,6 @@ Plugin Updater
 Тест
 [Services]
 Услуги
-;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for updates]
 Проверява за актуализации
 [Available components list]
@@ -179,7 +167,6 @@ Plugin Updater
 Приключено актуализиране
 [Update failed]
 Провалено актуализиране
-;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Инф. за приставката
 [Plugin Updater HTTP connection]

@@ -7,7 +7,6 @@
 ;============================================================
 [Sets once-off, daily, weekly and weekday alarms.]
 Задавайте еднократни, ежедневни, ежеседмични  аларми или само за събота и неделя.
-;file \plugins\Alarms\res\resource.rc
 [New]
 Нов
 [Delete]
@@ -34,10 +33,6 @@
 Повтаряне
 [Period (hours):]
 Период (часове):
-[Hide/show with clist]
-
-[Auto size vertically]
-
 [Transparency (%):]
 Прозрачност (%):
 [Alert window]
@@ -72,8 +67,6 @@
 Тревога 2
 [Alert 3]
 Тревога 3
-[Speak]
-
 [Occurrence]
 Повторение
 [Once]
@@ -104,8 +97,6 @@
 Отлагане
 [Static]
 Статичен
-[&Suspend]
-
 [&Edit...]
 Редактиране
 [&Delete]
@@ -114,11 +105,8 @@
 Настройки...
 [&New alarm...]
 Нова аларма
-;file \plugins\Alarms\src\alarmlist.cpp
-;file \plugins\Alarms\src\alarms.cpp
 [Set alarm]
 Задаване на аларма
-;file \plugins\Alarms\src\alarm_win.cpp
 [Example alarm]
 Примерна аларма
 [Some example text. Example, example, example.]
@@ -141,7 +129,6 @@
 Фон
 [Window]
 Прозорец
-;file \plugins\Alarms\src\frame.cpp
 [%dh %dm]
 %dчас %dмин
 [%dm]
@@ -154,7 +141,6 @@
 Рамки
 [Alarm reminders]
 Напомняния за аларми
-;file \plugins\Alarms\src\icons.cpp
 [Menu: Set alarm]
 Меню: Задаване на аларма
 [Reminder: Soon]
@@ -165,7 +151,6 @@
 Аларма: Системен трей
 [Menu: Show/Hide reminders]
 Меню: Показване/Скриване на напмняния
-;file \plugins\Alarms\src\options.cpp
 [Sunday]
 неделя
 [Monday]

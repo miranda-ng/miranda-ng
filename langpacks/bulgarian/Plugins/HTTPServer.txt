@@ -7,7 +7,6 @@
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
 Приставката превръща Miranda в HTTP сървър.
-;file \plugins\HTTPServer\res\resource.rc
 [IPAddress1]
 IP адрес 1
 [IPAddress2]
@@ -18,16 +17,10 @@ IP адрес 2
 Адрес
 [Mask]
 Маска
-[Share name]
-
 [Allowed IP]
 Разрешени IP адреси
 [HTTP Server statistics view]
 Преглед на статистиката за HTTP сървъра
-[Display hidden shares]
-
-[New share]
-
 [Show HTTP server statistics]
 Статистика на HTTP сървъра
 [Set to default]
@@ -36,8 +29,6 @@ IP адрес 2
 Външно име на сървъра
 [This is the link pasted to the message window]
 Следната връзка ще бъде поставяна с прозореца за съобщения
-[Write log file]
-
 [Enable / Disable HTTP server]
 Вкл / Изкл на HTTP сървъра
 [Main menu items]
@@ -46,8 +37,6 @@ IP адрес 2
 Дневник
 [Show popups]
 Показване на popups
-[Page keyword]
-
 [URL address]
 URL адрес
 [%ExternalIP% variable]
@@ -74,20 +63,12 @@ XML индекс
 Общ лимит на връзките
 [Connections per user limit]
 Лимит за потребител
-[Default download limit]
-
-[&Edit share]
-
-[&Remove share]
-
 [&Open in Browser]
 Отваряне в броузър
 [&Copy link]
 Копиране на връзката
-;file \plugins\HTTPServer\src\Glob.h
 [Miranda NG HTTP-Server]
 HTTP сървър на Miranda NG
-;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
 Споделяне на текущата директория
 [All files]
@@ -110,18 +91,6 @@ HTTP сървър на Miranda NG
 ГОТОВО
 [Speed]
 Скорост
-[Selected link size is 0]
-
-[Failed to get access to clipboard]
-
-[Failed to get close the clipboard]
-
-[Failed to set clipboard data]
-
-[ListView_GetItem failed]
-
-[No share selected]
-
 [Current IP Address: ]
 Текущ IP адрес: 
 [Current Address: ]
@@ -138,34 +107,8 @@ IP адрес:
 HTTP сървър
 [Network]
 Мрежа
-[Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
-
-[Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]
-
 [HTTP Share new file]
 HTTP споделяне на нов файл
-[Failed to add contact menu item]
-
-;file \plugins\HTTPServer\src\HttpUser.cpp
-[Share removed]
-
-;file \plugins\HTTPServer\src\main.cpp
-[Failed to open or create log file]
-
-[Failed to move to the end of the log file]
-
-[Failed to write some part of the log file]
-
-[Failed to open or create file ]
-
-[Failed to write xml header to file ]
-
-[Failed to write xml data to file ]
-
-[Failed to write xml tail to file ]
-
-[Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
-
 [Disable HTTP server]
 Изключване на HTTP сървъра
 [Enable HTTP server]

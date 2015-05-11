@@ -13,10 +13,6 @@
 Гласов разговор
 [Sh&ow in history]
 Показване в историята
-[Log default]
-
-[History default]
-
 [Drop down arrow]
 Падащ триъгълник
 [Status message changes]
@@ -25,8 +21,6 @@
 Псевдо редактиране
 [Pseudo-edit mode...]
 Режим на псевдо редактиране...
-[Group log messages]
-
 [Need more options?]
 Още опции?
 [Incoming WATrack notify]
@@ -41,24 +35,16 @@ WATrack уведомяване
 Отваряне на връзка
 [WATrack: information request]
 WATrack: заявка за информация
-[Artist: %s\\nTitle: %s\\nAlbum: %s]
-
 [WATrack: %s]
 WATrack: %s
 [WATrack: request denied]
 WATrack: отхвърлена молба
 [Imitate IEView API]
 Имитиране на IEView API
-[Text formatting options]
-
-[Enable raw RTF support]
-
 [Display changed avatars]
 Изобразяване на променени аватари
 [Grid background]
 Фон на мрежата
-[Grid messages]
-
 [History Actions]
 Действия с историята
 [Advanced search options]
@@ -109,14 +95,8 @@ WATrack: отхвърлена молба
 Дата/Час:
 [Copy All]
 Копиране на всички
-[&Select All]
-
 [SMS Message]
 SMS съобщение
-[WebPager]
-
-[EMail Express]
-
 [Other event]
 Друго събитие
 [Global History Search]
@@ -245,8 +225,6 @@ History++ Търсене
 Отваряне на файл
 [Open File Fo&lder]
 Отваряне папката на файла
-[Disable &Processing]
-
 [Export as &HTML...]
 Износ като HTML...
 [Export as &XML...]
@@ -285,8 +263,6 @@ ANSI кодиране
 %d събитие
 [%0.n events (%s)]
 %0.n събития (%s)
-[Enable &Processing]
-
 [Do you really want to delete ALL items (%.0f) for this contact?]
 Наистина ли желаете всички (%.0f) елементи от историята да бъдат изтрити?
 [Note: It can take several minutes for large history.]
@@ -345,12 +321,6 @@ Email express от %s (%s): %s
 Молба за упълномощаване от %s (%d): %s отхвърлено
 [User %s (%d) removed himself from your contact list: %s]
 Потребител %s (%d) се премахна от вашият списък с контакти: %s
-[Authorization future request by %s (%d): %s]
-
-[Broadcast message from %s (%s): %s]
-
-[All except status]
-
 [Show all events]
 Показване на всички събития
 [Avatar changes]
@@ -365,14 +335,10 @@ Email express от %s (%s): %s
 Webpager съобщение
 [EMail Express message]
 EMail Express съобщение
-[Grid options]
-
 [Recent events on top]
 Скорошните събития отгоре
 [Use RTL by default]
 Л<Д като стандарт
-[Additional processing support]
-
 [Enable BBCodes]
 Включване на BBCodes
 [Open event details by Enter]
@@ -409,16 +375,12 @@ Enter отваря подробности за събитието
 Изтриване на всичко
 [Events filter]
 Филтър на събитията
-[In-place filter wait]
-
 [Search Up]
 Търсене нагоре
 [Search Down]
 Търсене надолу
 [End of page]
 Край на страницата
-[Clear in-place filter]
-
 [Conversation header]
 Горен колонтитул на съобщенията
 [Divider]
@@ -435,14 +397,10 @@ Enter отваря подробности за събитието
 Изходящ url адрес
 [Selected background]
 Фон на маркираното
-[SMTP Simple]
-
 [Show sender information]
 Показване на информация за изпращача
 [Show receiver information]
 Показване на информация за получателя
-[Toggle &Processing]
-
 [Toolbar]
 Лента с инструменти
 [Incoming SMS Message]
@@ -465,8 +423,6 @@ XML файл
 HTML файл
 [&Browse Received Files]
 Разглеждане на получените файлове
-[Include custom event type (0-65535)]
-
 [&Open file folder]
 Отвори папката на файла
 [&Copy Filename]
@@ -521,10 +477,6 @@ HTML файл
 Инсталираната версия на Emoticons не се поддържа
 [%.0f items in history]
 %.0f елемента в историята
-[%s (to %s)]
-
-[%s Header]
-
 [&Additional]
 Допълнително
 [&Delete All]
@@ -541,20 +493,12 @@ HTML файл
 Молба за упълномощаване от %s (%s%s%d): %s
 [Authorization Request Sample]
 Пример за молба за упълномощаване
-[Change nick and date font for %s.]
-
-[Customize %s]
-
-[Customize the look of %s Event. Select it's font, font color and background color.]
-
 [Date Font Color]
 Цвят за фона
 [Date Font]
 Шрифт за дата
 [Event Icons]
 Икони за събития
-[Forward &Message]
-
 [History++ Options]
 History++ - Настройки
 [History++ [%s]]
@@ -573,8 +517,6 @@ HTML файл (*.htm; *.html)|*.htm;*.html
 Входящо съобщение
 [Incoming Url]
 Входящ url адрес
-[Make sure you have CAPS LOCK turned off.]
-
 [Miranda's settings used]
 Ползват се настройките на Miranda
 [Nick Font Color]
@@ -619,14 +561,8 @@ HTML файл (*.htm; *.html)|*.htm;*.html
 Пример за системна история
 [Use Miranda default settings]
 Ползване на стандартните настройки
-[You were added by %s (%s%s%d)]
-
-[You Were Added Message Sample]
-
 [Authorization request]
 Молба за упълномощаване
-[Your were added message]
-
 [Show events count in menu]
 Брой събития в менюто
 [Group messages]
@@ -639,8 +575,6 @@ HTML файл (*.htm; *.html)|*.htm;*.html
 Преглеждане на историята
 [Visit Wiki page for more options]
 Посетете Wiki страницата за още опции
-[&Code Editor...]
-
 [&Load...]
 Зареждане...
 [&Save...]
@@ -651,12 +585,8 @@ HTML файл (*.htm; *.html)|*.htm;*.html
 (Непознат контакт)"
 [0 lines]
 0 реда
-[Other (unknown)]
-
 [Database:]
 База данни:
-[Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
-
 [History++ Error]
 History++ Грешка
 [History++ Warning]

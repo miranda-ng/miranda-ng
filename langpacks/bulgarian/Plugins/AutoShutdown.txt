@@ -7,7 +7,6 @@
 ;============================================================
 [Adds the possibility to shutdown the computer when a specified event occurs.]
 Добавя функционалност за изключване на компютъра при определено събитие.
-;file \plugins\AutoShutdown\res\resource.rc
 [Shutdown]
 Изключване
 [&Show confirmation dialog before shutdown]
@@ -62,7 +61,6 @@
 Моля, кликнете върху "Отказ" ако желаете да прекратите процеса.
 [&Now!]
 Сега!
-;file \plugins\AutoShutdown\src\frame.cpp
 [Shutdown at:]
 Изключване в:
 [Time left:]
@@ -81,19 +79,12 @@ AutoShutdown
 Отброяване в рамка
 [Background]
 Фон
-[Progress Bar]
-
-;file \plugins\AutoShutdown\src\main.cpp
-[Header]
-
 [Active]
 Активно
 [Inactive]
 Неактивно
-;file \plugins\AutoShutdown\src\options.cpp
 [Events]
 Събития
-;file \plugins\AutoShutdown\src\settingsdlg.cpp
 [Second(s)]
 секунда (и)
 [Minute(s)]
@@ -118,7 +109,6 @@ AutoShutdown
 Спиране на изключване
 [Automatic &shutdown...]
 Автоматично изключване...
-;file \plugins\AutoShutdown\src\shutdownsvc.cpp
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda NG ще бъде затворена след %u секунда(и).
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
@@ -127,14 +117,10 @@ Miranda NG ще бъде затворена след %u секунда(и).
 Ще излезете от Windows автоматично след след %u секунда(и).
 [The computer will automatically be restarted in %u second(s).]
 Компютърът ще бъде рестартиран след %u секунда(и).
-[The computer will automatically be set to standby mode in %u second(s).]
-
 [The computer will automatically be set to hibernate mode in %u second(s).]
 Компютърът ще се хибернира след %u секунда(и).
 [The workstation will automatically get locked in %u second(s).]
 Компютърът ще бъде заключен след %u секунда(и).
-[All dialup connections will be closed in %u second(s).]
-
 [The computer will automatically be shut down in %u second(s).]
 Компютърът ще се изключи автоматично след %u секунда(и).
 [Automatic Shutdown Error]
@@ -147,8 +133,6 @@ Miranda NG ще бъде затворена след %u секунда(и).
 Инициализирането на процеса за изключване се провали!\nПричина: %s
 [Close Miranda NG]
 Затваряне на Miranda NG
-[Set Miranda NG offline]
-
 [Log off user]
 Излизане на потребител
 [Restart computer]
@@ -161,8 +145,6 @@ Miranda NG ще бъде затворена след %u секунда(и).
 Режим на хибернация
 [Lock workstation]
 Заключване на работната станция
-[Hang up dialup connections]
-
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
 Задава състояние "Извън линия" за всеки протокол. и затваря Miranda NG.
 [Sets all Miranda NG protocols to offline.]
@@ -185,7 +167,6 @@ Miranda NG ще бъде затворена след %u секунда(и).
 Уведомявания
 [Automatic Shutdown Countdown]
 Брояч за автоматично изключване
-;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle Automatic Shutdown]
 Вкл./Изкл. автоматичното изключване
 [Main]

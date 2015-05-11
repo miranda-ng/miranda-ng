@@ -7,19 +7,12 @@
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
 Изнася всяко съобщение, URL адрес или файл, който получите като текстови файл.
-;file \plugins\Msg_Export\res\resource.rc
 [Browse]
 Преглед
-[Use internal viewer]
-
-[Replace Miranda history]
-
 [Use UTF8 in new files]
 UTF8 за нови файлове
 [Append extra new line]
 Допълнителен ред
-[Use << and >>]
-
 [Auto filename]
 Авт. именуване
 [Clear all]
@@ -42,12 +35,8 @@ UTF8 за нови файлове
 Преглед
 [Exporting old messages]
 Изнасяне на стари съобщения
-[History file for %s (%s format %s)]
-
 [&Find...]
 Търсене...
-[&External]
-
 [&Close]
 Затваряне
 [When filename changes]
@@ -72,25 +61,6 @@ UTF8 за нови файлове
 Стандартно име на файла
 [Copy]
 Копиране
-;file \plugins\Msg_Export\src\FileViewer.cpp
-[Failed to write to the RichEdit the buffer was to small.]
-
-[Error: Optimal buffer size decreased to a too low size!]
-
-[Internal error! (lExtraRead >= 0)]
-
-[Failed to execute external file view]
-
-[Failed to load Rich Edit ( Msftedit.DLL )]
-
-[Failed to get handle to RichEdit!]
-
-[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
-
-[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
-
-[With scroll to bottom %d\n]
-
 [Search string was not found!]
 Търсеният низ не е намерен!
 [Save as RTF]
@@ -99,25 +69,16 @@ UTF8 за нови файлове
 Цвят...
 [Font...]
 Шрифт...
-[Syntax highlight]
-
 [Failed to create file]
 Грешка при създаването на файла
 [Failed to save file]
 Записването на файла се провали
 [History was saved successfully in file\r\n]
 Историята е успешно записана във файла\r\n
-[Failed to create history dialog]
-
-;file \plugins\Msg_Export\src\Glob.h
 [Miranda NG (Message Export Plugin)]
 Miranda NG (приставка Message Export)
-;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Отваряне на изнесената история
-[Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
-
-;file \plugins\Msg_Export\src\options.cpp
 [No contacts found to export]
 Не са открити контакти за изнасяне
 [Reading database information (Phase 1 of 2)]
@@ -130,8 +91,6 @@ Miranda NG (приставка Message Export)
 Максималната ширина на ред трябва да е поне %d
 [You need to restart Miranda to change the history function]
 Необходимо е рестартиране на Miranda за промяна на функцията
-[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt yourself]
-
 [File]
 Файл
 [Nick]
@@ -146,29 +105,20 @@ UIN
 Изпълними файлове
 [All files]
 Всички файлове
-[Failed to get the shells allocator!]
-
-[Failed to Allocate buffer space]
-
 [Select Destination Directory]
 Изберете директория
 [Export Protocols]
 Протоколи за изнасяне
-[Message export]
-
 [History]
 История
 [General]
 Основни
 [Additional]
 Допълнителни
-;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]
 Без–Прякор
 [No_Group]
 Без–Група
-[Database: Attempt to get wrong type of value, string]
-
 [(Unknown Contact)]
 (Непознат контакт)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
@@ -185,10 +135,6 @@ UIN
 Всички\0*.*\0Текст\0*.TXT\0\0
 [Failed to open or create file :\n]
 Отварянето на създадения файл се провали :\n
-[Failed to move to the end of the file :\n]
-
-[Failed to UTF8 byte order code to file :\n]
-
 [      History for\r\n]
 							История за\r\n
 [User      : %User%\r\n]
@@ -219,20 +165,12 @@ UIN        : %UIN%\r\n
 Страница   : %Homepage%\r\n
 [- About -\r\n%About%\r\n]
 - Относно -\r\n%About%\r\n
-[Failed to write user details to file :\n]
-
-[Failed to write timestamp and username to file :\n]
-
-[Failed to write message to the file :\n]
-
 [URL: ]
 URL:
 [File: ]
 Файл:
 [Description: ]
 Описание:
-[Failed to write URL/File to the file :\n]
-
 [Nick      :]
 Прякор     :
 [FirstName :]
@@ -243,28 +181,16 @@ URL:
 Имейл      :
 [Reason    :]
 Причина    :
-[Invalid Database event received. Type %d, size %d]
-
-[Failed to write Invalid Database event the file :\n]
-
 [The following user made an authorization request:]
 Следният потребител изпрати молба за упълномощаване:
 [The following user added you to their contact list:]
 Следният потребител Ви добави към списъка си контакти:
 [UIN       :]
 UIN        :
-[Failed to write AUTHREQUEST or ADDED to the file :\n]
-
 [EmailExpress from:]
 EmailExpress от:
 [WebPager from:]
 WebPager от:
-[No from address]
-
-[Failed to write EmailExpress to the file :\n]
-
-[Failed to write SMS to the file :\n]
-
 [Unknown event type %d, size %d]
 Неизвестен тип събитие %d, размер %d
 [Failed to write Unknown event to the file :\n]
