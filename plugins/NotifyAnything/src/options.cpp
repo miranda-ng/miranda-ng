@@ -7,20 +7,20 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		if(g_settings.local_only) {
+		if (g_settings.local_only) {
 			CheckDlgButton(hwndDlg, NA_LOCAL_CHECK, BST_CHECKED);
 		}
-		if(g_settings.log_to_file) {
+		if (g_settings.log_to_file) {
 			CheckDlgButton(hwndDlg, NA_LOG_CHECK, BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, NA_DEBUG_MSG_CHECK), TRUE);
 		}
-		if(g_settings.debug_messages) {
+		if (g_settings.debug_messages) {
 			CheckDlgButton(hwndDlg, NA_DEBUG_MSG_CHECK, BST_CHECKED);
 		}
-		if(g_settings.use_pcspeaker) {
+		if (g_settings.use_pcspeaker) {
 			CheckDlgButton(hwndDlg, NA_PCSPEAKER_CHECK, BST_CHECKED);
 		}
-		if(g_settings.allow_execute) {
+		if (g_settings.allow_execute) {
 			CheckDlgButton(hwndDlg, NA_ALLOW_EXECUTE, BST_CHECKED);
 		}
 

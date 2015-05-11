@@ -845,7 +845,7 @@ void initWinsock()
 	}
 }
 
-DWORD WINAPI udptcpThreadFunc(LPVOID useUdp)
+void __cdecl udptcpThreadFunc(void *useUdp)
 {
 	try
 	{
@@ -883,7 +883,7 @@ DWORD WINAPI udptcpThreadFunc(LPVOID useUdp)
 				int err = recvfrom(sock, buf, sizeof buf - 1, 0, reinterpret_cast<sockaddr *>(&from), &fromSize);
 
 				if (g_exit_threads)
-					return 0;
+					return;
 
 				if (err == SOCKET_ERROR)
 					throw "socket error";
@@ -901,7 +901,7 @@ DWORD WINAPI udptcpThreadFunc(LPVOID useUdp)
 				SOCKET msgsock = accept(sock, reinterpret_cast<sockaddr *>(&from), &fromSize);
 
 				if (g_exit_threads)
-					return 0;
+					return;
 
 				if (msgsock == INVALID_SOCKET)
 					throw "socket error";
@@ -926,7 +926,7 @@ DWORD WINAPI udptcpThreadFunc(LPVOID useUdp)
 					processMessage((TCHAR*)_A2T(buf));
 			}
 		}
-		return 0;
+		return;
 	}
 	catch (const char *err) {
 		std::string t = err;
@@ -949,16 +949,15 @@ DWORD WINAPI udptcpThreadFunc(LPVOID useUdp)
 			t += buf;
 
 		MessageBoxA(0, t.c_str(), Translate("Error"), MB_OK);
-		return 1;
+		return;
 	}
 }
 
 void start_threads()
 {
 	g_exit_threads = false;
-	DWORD id;
-	g_udp_thread = CreateThread(NULL, 0, udptcpThreadFunc, (void *)1, 0, &id);
-	g_tcp_thread = CreateThread(NULL, 0, udptcpThreadFunc, NULL, 0, &id);
+	g_udp_thread = mir_forkthread(udptcpThreadFunc, (void *)1);
+	g_tcp_thread = mir_forkthread(udptcpThreadFunc, 0);
 }
 
 void stop_threads()
