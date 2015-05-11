@@ -235,7 +235,7 @@
     <value>Найдены непереведённые строки...</value>
   </data>
   <data name="NotTranslFindBtn" xml:space="preserve">
-    <value>Поиск непереведенного</value>
+    <value>Поиск непереведённого</value>
   </data>
   <data name="NotTransNotFound" xml:space="preserve">
     <value>Непереведённые строки не найдены!</value>
