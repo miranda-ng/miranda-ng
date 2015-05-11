@@ -27,7 +27,6 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const TCHAR* tszUserNam
 	debugLog(_T("CSametimeProto::CSametimeProto() start  m_szModuleName=[%s], m_tszUserName=[%s]"), _A2T(m_szModuleName), m_tszUserName);
 
 	SametimeInitIcons();
-	InitCritSection();
 
 	CreateProtoService(PS_GETNAME, &CSametimeProto::GetName);
 	CreateProtoService(PS_GETSTATUS, &CSametimeProto::GetStatus);
@@ -72,7 +71,6 @@ CSametimeProto::~CSametimeProto()
 
 	DeinitAwayMsg();
 	UnregisterPopups();
-	DeinitCritSection();
 
 	debugLog(_T("CSametimeProto::~CSametimeProto() end"));
 
