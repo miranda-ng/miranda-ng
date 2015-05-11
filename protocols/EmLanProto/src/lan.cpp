@@ -249,7 +249,6 @@ void __cdecl CLan::OnInTCPConnectionProc(void *lpParameter)
 	shutdown(tcp_conn->m_socket, SD_BOTH);
 	closesocket(tcp_conn->m_socket);
 	delete tcp_conn;
-	return;
 }
 
 SOCKET CLan::CreateTCPConnection(u_long addr, LPVOID lpParameter)
