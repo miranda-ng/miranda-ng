@@ -4,7 +4,8 @@ INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam
 {
 	CDropbox *instance = (CDropbox*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) {
+	switch (msg)
+	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		instance = (CDropbox*)lParam;
@@ -33,7 +34,8 @@ INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		return TRUE;
 
 	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
+		switch (LOWORD(wParam))
+		{
 		case IDC_GETAUTH:
 			CallService(MS_UTILS_OPENURL, 0, (LPARAM)DROPBOX_WWW_URL DROPBOX_API_VER "/oauth2/authorize?response_type=code&client_id=" DROPBOX_API_KEY);
 			SetFocus(GetDlgItem(hwndDlg, IDC_REQUEST_CODE));
@@ -48,7 +50,7 @@ INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			break;
 
 		case IDC_AUTHORIZE:
-			mir_forkthreadowner(CDropbox::RequestAcceessTokenAsync, instance, hwndDlg, 0);
+			mir_forkthreadowner(CDropbox::RequestAccessTokenAsync, instance, hwndDlg, 0);
 			break;
 
 		case IDC_USE_SHORT_LINKS:
@@ -62,7 +64,8 @@ INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		break;
 
 	case WM_NOTIFY:
-		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY) {
+		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY)
+		{
 			db_set_b(NULL, MODULE, "UseSortLinks", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USE_SHORT_LINKS));
 			db_set_b(NULL, MODULE, "UrlAutoSend", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_URL_AUTOSEND));
 			db_set_b(NULL, MODULE, "UrlPasteToMessageInputArea", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_URL_COPYTOMIA));

@@ -2,7 +2,7 @@
 #define _COMMON_H_
 
 #include <windows.h>
-#include <Shlwapi.h>
+#include <shlwapi.h>
 
 #include <malloc.h>
 #include <time.h>
