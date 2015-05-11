@@ -37,7 +37,7 @@ extern "C" __declspec(dllexport) void ProcessConsoleCommand(PCommand command, TA
 	HandleCommand(command, arguments, count, reply);
 }
 
-DWORD WINAPI ServerWorkerThread(void *data)
+void __cdecl ServerWorkerThread(void *data)
 {
 	int done = FALSE;
 	const HANDLE events[] = {heServerExec, heServerClose};
@@ -63,8 +63,6 @@ DWORD WINAPI ServerWorkerThread(void *data)
 			}
 		}
 	}
-	
-	return 0;
 }
 
 int StartServer()
@@ -74,8 +72,7 @@ int StartServer()
 	{
 		if (sdCmdLine->instances == 0)
 		{
-			DWORD threadID;
-			HANDLE server = CreateThread(NULL, NULL, ServerWorkerThread, NULL, 0, &threadID);
+			HANDLE server = mir_forkthread(ServerWorkerThread, 0);
 			if (server)
 			{
 				char path[MIMFOLDER_SIZE];
