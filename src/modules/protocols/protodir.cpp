@@ -60,7 +60,7 @@ typedef struct {
 } contactEntry;
 
 typedef struct {
-	CRITICAL_SECTION csLock;
+	mir_cs csLock;
 	SortedList contactCache;	// index for id/proto -> hContact
 	SortedList protoCache;		// index for hContact -> proto/id
 	SortedList protoNameCache;	// index of protocol names
@@ -104,14 +104,13 @@ char * contactDir_Proto_Add(contactDir * cd, char * proto)
 {
 	int index = 0 ;
 	char * szCache = 0;
-	EnterCriticalSection(&cd->csLock);
+	mir_cslock lck(cd->csLock);
 	if ( List_GetIndex(&cd->protoNameCache, proto, &index) ) szCache = cd->protoNameCache.items[index];
 	else {
 		szCache = HeapAlloc(hCacheHeap, HEAP_NO_SERIALIZE, strlen(proto)+1);
 		strcpy(szCache, proto);
 		List_Insert(&cd->protoNameCache, szCache, index);
 	}
-	LeaveCriticalSection(&cd->csLock);
 	return szCache;
 }
 
@@ -124,12 +123,11 @@ char * contactDir_Proto_Get(contactDir * cd, HANDLE hContact)
 	e.hContact=hContact;
 	e.proto="";
 	e.id="";
-	EnterCriticalSection(&cd->csLock);
+	mir_cslock lck(cd->csLock);
 	if ( List_GetIndex(&cd->protoCache, &e, &index) ) {
 		contactEntry * p = cd->protoCache.items[index];
 		szCache = p->proto;
 	}
-	LeaveCriticalSection(&cd->csLock);
 	return szCache;
 }
 
@@ -144,7 +142,7 @@ void contactDir_Contact_Add(contactDir * cd, HANDLE hContact, char * proto, char
 		e.hContact=hContact;
 		e.proto = proto;
 		e.id = "";
-		EnterCriticalSection(&cd->csLock);
+		mir_cslock lck(cd->csLock);
 		if ( List_GetIndex(&cd->protoCache, &e, &index) ) {
 			contactEntry * p = cd->protoCache.items[index];
 			// this hContact is in the cache, protcol changing?
@@ -159,7 +157,6 @@ void contactDir_Contact_Add(contactDir * cd, HANDLE hContact, char * proto, char
 			// add it
 			List_Insert(&cd->protoCache, p, index);
 		}
-		LeaveCriticalSection(&cd->csLock);
 	} else {
 		// this contact HAS to be in ->protoCache since it was added during startup
 		// need to find the contactEntry* that should already exist for it
@@ -197,7 +194,6 @@ void contactDir_Proto_Walk(contactDir * cd)
 
 void contactDir_Init(contactDir * cd)
 {
-	InitializeCriticalSection(&cd->csLock);
 	cd->contactCache.increment=50;
 	cd->contactCache.sortFunc=contactCacheCompare;
 	cd->protoCache.increment=50;
@@ -213,7 +209,6 @@ void contactDir_Deinit(contactDir * cd)
 	List_Destroy(&cd->contactCache);
 	List_Destroy(&cd->protoCache);
 	List_Destroy(&cd->protoNameCache);
-	DeleteCriticalSection(&cd->csLock);
 }
 
 static int contactDirGetProto(WPARAM wParam, LPARAM lParam)
