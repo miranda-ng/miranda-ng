@@ -71,7 +71,7 @@ struct FileTransferParam
 			mir_free(pwszFolders);
 		}
 
-		for (int i = 0; urlList.getCount(); i++)
+		for (int i = 0; i < urlList.getCount(); i++)
 			mir_free(urlList[i]);
 		urlList.destroy();
 	}
