@@ -1423,15 +1423,13 @@ int ContactMatchSearch(MCONTACT hContact, char *contact, char *id, char *account
 	return matches;
 }
 
-DWORD WINAPI OpenMessageWindowThread(void *data)
+void __cdecl OpenMessageWindowThread(void *data)
 {
 	MCONTACT hContact = (MCONTACT) data;
 	if (hContact)
 	{
 		CallServiceSync(MS_MSG_SENDMESSAGET, hContact, 0);
 	}
-	
-	return 0;
 }
 
 
@@ -1493,10 +1491,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 					char *contact = GetContactName(hContact, protocol);
 					char *id = GetContactID(hContact, protocol);
 					if (ContactMatchSearch(hContact, contact, id, protocol, &argv[3], argc - 3))
-					{
-						DWORD threadID;
-						HANDLE thread = CreateThread(NULL, NULL, OpenMessageWindowThread, (void*)hContact, NULL, &threadID);
-					}
+						HANDLE thread = mir_forkthread(OpenMessageWindowThread, (void*)hContact);
 						
 					free(contact);
 					free(id);
@@ -1508,10 +1503,8 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					MEVENT hUnreadEvent = db_event_firstUnread(hContact);
-					if (hUnreadEvent != NULL) {
-						DWORD threadID;
-						HANDLE thread = CreateThread(NULL, NULL, OpenMessageWindowThread, (void*)hContact, NULL, &threadID);
-					}
+					if (hUnreadEvent != NULL)
+						HANDLE thread = mir_forkthread(OpenMessageWindowThread, (void*)hContact);
 				}
 			}
 			else HandleWrongParametersCount(command, reply);
