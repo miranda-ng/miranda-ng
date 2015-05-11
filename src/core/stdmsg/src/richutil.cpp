@@ -47,7 +47,7 @@ static int RichUtil_CmpVal(void *p1, void *p2)
 	return (int)((INT_PTR)tp1->hwnd - (INT_PTR)tp2->hwnd);
 }
 
-static CRITICAL_SECTION csRich;
+static mir_cs csRich;
 
 static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 static void RichUtil_ClearUglyBorder(TRichUtil *ru);
@@ -56,14 +56,11 @@ void RichUtil_Load(void)
 {
 	sListInt.increment = 10;
 	sListInt.sortFunc = RichUtil_CmpVal;
-
-	InitializeCriticalSection(&csRich);
 }
 
 void RichUtil_Unload(void)
 {
 	List_Destroy(&sListInt);
-	DeleteCriticalSection(&csRich);
 }
 
 int RichUtil_SubClass(HWND hwndEdit)
