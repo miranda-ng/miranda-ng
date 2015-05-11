@@ -28,22 +28,22 @@ HINSTANCE hInstance;
 HANDLE hOpenWindowsList = NULL;
 
 HMODULE hUxTheme = 0;
-BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD) = NULL;
+BOOL(WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD) = NULL;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_DISPLAY_NAME,
 	__VERSION_DWORD,
 	__DESC,
-	__AUTHOR,__AUTHOREMAIL,
+	__AUTHOR, __AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {2f093b88-f389-44f1-9e2a-37c29194203a}
-	{0x2f093b88, 0xf389, 0x44f1, {0x9e, 0x2a, 0x37, 0xc2, 0x91, 0x94, 0x20, 0x3a}}
+	{ 0x2f093b88, 0xf389, 0x44f1, { 0x9e, 0x2a, 0x37, 0xc2, 0x91, 0x94, 0x20, 0x3a } }
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
@@ -70,10 +70,10 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	/// all initialization here
 	hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_HISTORYICON));
-	hOpenWindowsList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hOpenWindowsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 	InitServices();
-	
+
 	/// menu items
 	CLISTMENUITEM menuItem = { sizeof(CLISTMENUITEM) };
 	menuItem.ptszName = LPGENT("View &history");
@@ -82,7 +82,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	menuItem.hIcon = hIcon;
 	menuItem.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	Menu_AddContactMenuItem(&menuItem);
-/// @todo (White-Tiger#1#08/19/14): fully implement System History someday^^
+	/// @todo (White-Tiger#1#08/19/14): fully implement System History someday^^
 	menuItem.ptszName = LPGENT("&System History");
 	Menu_AddMainMenuItem(&menuItem);
 

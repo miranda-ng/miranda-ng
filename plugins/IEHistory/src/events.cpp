@@ -44,6 +44,6 @@ int OnOptionsInitialize(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HISTORY);
 	odp.hInstance = hInstance;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
