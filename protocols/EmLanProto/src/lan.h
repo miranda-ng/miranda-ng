@@ -99,7 +99,7 @@ private:
 	//! Accept TCP thread handle
 	HANDLE m_hAcceptTCPThread;
 	//! Semaphore for killing accept thread
-	CRITICAL_SECTION m_csAcceptTCPThread;
+	mir_cs m_csAcceptTCPThread;
 
 	//! Called when new income TCP connection is created
 	static DWORD WINAPI OnInTCPConnectionProc(LPVOID lpParameter);

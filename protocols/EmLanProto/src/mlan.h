@@ -96,9 +96,9 @@ private:
 	char m_name[MAX_HOSTNAME_LEN];
 	int m_nameLen;
 
-	CRITICAL_SECTION m_csAccessClass;
-	CRITICAL_SECTION m_csReceiveThreadLock;
-	CRITICAL_SECTION m_csAccessAwayMes;
+	mir_cs m_csAccessClass;
+	mir_cs m_csReceiveThreadLock;
+	mir_cs m_csAccessAwayMes;
 
 	void RequestStatus(bool answer=false, u_long m_addr=INADDR_BROADCAST);
 	MCONTACT FindContact(in_addr addr, const char* nick, bool add_to_list, bool make_permanent, bool make_visible, u_int status = ID_STATUS_ONLINE);
@@ -162,9 +162,8 @@ private:
 
 		TFileConnection();
 		~TFileConnection();
-		void Lock() { EnterCriticalSection(&m_csAccess); }
-		void Unlock() { LeaveCriticalSection(&m_csAccess); }
-		void Terminate() { Lock(); m_state = FCS_TERMINATE; Unlock(); }
+		void Lock() { mir_cslock lck(m_csAccess); }
+		void Terminate() { Lock(); m_state = FCS_TERMINATE; }
 		int Recv(bool halt=true);
 		int Send(u_char* buf, int size);
 		int SendRaw(u_char* buf, int size);
@@ -186,12 +185,12 @@ private:
 		u_char* m_buf;
 		int m_recSize;
 
-		CRITICAL_SECTION m_csAccess;
+		mir_cs m_csAccess;
 	};
 	void FileAddToList(TFileConnection* conn);
 	void FileRemoveFromList(TFileConnection* conn);
 
-	CRITICAL_SECTION m_csFileConnectionList;
+	mir_cs m_csFileConnectionList;
 	TFileConnection* m_pFileConnectionList;
 };
 

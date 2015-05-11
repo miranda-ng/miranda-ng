@@ -51,11 +51,6 @@ CMLan::CMLan()
 
 	LoadSettings();
 
-	InitializeCriticalSection(&m_csAccessClass);
-	InitializeCriticalSection(&m_csReceiveThreadLock);
-	InitializeCriticalSection(&m_csAccessAwayMes);
-	InitializeCriticalSection(&m_csFileConnectionList);
-
 	SetAllOffline();
 
 	//m_hookIcqMsgReq = CreateHookableEvent(ME_ICQ_STATUSMSGREQ);
@@ -68,10 +63,6 @@ CMLan::~CMLan()
 	DeleteCache();
 	StopListen();
 	Shutdown();
-	DeleteCriticalSection(&m_csFileConnectionList);
-	DeleteCriticalSection(&m_csAccessAwayMes);
-	DeleteCriticalSection(&m_csReceiveThreadLock);
-	DeleteCriticalSection(&m_csAccessClass);
 
 	delete[] m_amesAway;
 	delete[] m_amesNa;
@@ -154,18 +145,16 @@ void CMLan::StartChecking()
 
 void CMLan::StopChecking()
 {
-	EnterCriticalSection(&m_csAccessClass);
+	mir_cslock lck(m_csAccessClass);
 	if (m_hCheckThread)
 	{
 		TerminateThread(m_hCheckThread, 0);
 		m_hCheckThread = NULL;
 	}
-	LeaveCriticalSection(&m_csAccessClass);
-	EnterCriticalSection(&m_csReceiveThreadLock);
+	mir_cslock lck2(m_csReceiveThreadLock);
 	m_mirStatus = ID_STATUS_OFFLINE;
 	RequestStatus(false);
 	StopListen();
-	LeaveCriticalSection(&m_csReceiveThreadLock);
 
 	TFileConnection* fc = m_pFileConnectionList;
 	while (fc)
@@ -191,7 +180,7 @@ void CMLan::Check()
 	while(1)
 	{
 		Sleep(MLAN_SLEEP);
-		EnterCriticalSection(&m_csAccessClass);
+		mir_cslock lck(m_csAccessClass);
 		TContact* cont = m_pRootContact;
 		while (cont)
 		{
@@ -213,7 +202,6 @@ void CMLan::Check()
 			}
 			cont = cont->m_prev;
 		}
-		LeaveCriticalSection(&m_csAccessClass);
 	}
 }
 
@@ -269,7 +257,7 @@ MCONTACT CMLan::FindContact(in_addr addr, const char* nick,  bool add_to_list, b
 
 void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 {
-	EnterCriticalSection(&m_csReceiveThreadLock);
+	mir_cslock lck(m_csReceiveThreadLock);
 
 	if (len)
 	{
@@ -287,7 +275,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 			}
 			if (pak.idStatus)
 			{
-				EnterCriticalSection(&m_csAccessClass);
+				mir_cslock lck(m_csAccessClass);
 				if (!cont)
 				{
 					if (!pak.strName)
@@ -331,7 +319,6 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 //							db_set_s(hContact, PROTONAME, "UID", host->h_name);
 					}
 				}
-				LeaveCriticalSection(&m_csAccessClass);
 			}
 			if (pak.flReqStatus)
 				RequestStatus(false, from.S_un.S_addr);
@@ -393,7 +380,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 //					db_unset(hContact, "ICQ", "UIN");
 //				}
 
-				EnterCriticalSection(&m_csAccessAwayMes);
+				mir_cslock lck(m_csAccessAwayMes);
 
 				char* mesAway = NULL;
 				switch (m_mirStatus)
@@ -413,12 +400,9 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 					npak.strAwayMessage = mesAway;
 					SendPacketExt(npak, cont->m_addr.S_un.S_addr);
 				}
-
-				LeaveCriticalSection(&m_csAccessAwayMes);
 			}
 		}
 	}
-	LeaveCriticalSection(&m_csReceiveThreadLock);
 }
 
 void CMLan::RecvMessageUrl(CCSDATA* ccs)
@@ -625,13 +609,12 @@ int CMLan::SetAwayMsg(u_int status, char* msg)
 	default:
 		return 1;
 	}
-	EnterCriticalSection(&m_csAccessAwayMes);
+	mir_cslock lck(m_csAccessAwayMes);
 	delete[] *ppMsg;
 	if (msg)
 		*ppMsg = _strdup(msg);
 	else
 		*ppMsg = NULL;
-	LeaveCriticalSection(&m_csAccessAwayMes);
 	return 0;
 }
 
@@ -894,7 +877,6 @@ void CMLan::SaveSettings()
 CMLan::TFileConnection::TFileConnection()
 {
 	memset(this, 0, sizeof(TFileConnection));
-	InitializeCriticalSection(&m_csAccess);
 	m_state = FCS_OK;
 }
 
@@ -919,7 +901,6 @@ CMLan::TFileConnection::~TFileConnection()
 	delete[] m_buf;
 	delete[] m_szDir;
 	delete[] m_szRenamedFile;
-	DeleteCriticalSection(&m_csAccess);
 }
 
 int CMLan::TFileConnection::Recv(bool halt)
@@ -974,7 +955,6 @@ int CMLan::TFileConnection::Recv(bool halt)
 	delete[] m_buf;
 	m_buf = new u_char[size];
 	m_recSize = size;
-	Unlock();
 
 	EMLOG("Waiting for the whole packet (" << size << " bytes)");
 	int csize = 0;
@@ -998,7 +978,6 @@ int CMLan::TFileConnection::Recv(bool halt)
 		EMLOG("Getting data (approx " << size << " bytes)");
 		Lock();
 		res = recv(m_socket, (char*)m_buf+csize, size-csize, 0);
-		Unlock();
 		EMLOGERR();
 		EMLOGIF("Connection was gracefully closed", res==0);
 		if (res==0 || res==SOCKET_ERROR)
@@ -1057,7 +1036,7 @@ int CMLan::TFileConnection::Send(u_char* buf, int size)
 
 void CMLan::FileAddToList(TFileConnection* conn)
 {
-	EnterCriticalSection(&m_csFileConnectionList);
+	mir_cslock lck(m_csFileConnectionList);
 	conn->Lock();
 	conn->m_pNext = m_pFileConnectionList;
 	conn->m_pPrev = NULL;
@@ -1065,13 +1044,11 @@ void CMLan::FileAddToList(TFileConnection* conn)
 		m_pFileConnectionList->m_pPrev = conn;
 	m_pFileConnectionList = conn;
 	conn->m_pLan = this;
-	conn->Unlock();
-	LeaveCriticalSection(&m_csFileConnectionList);
 }
 
 void CMLan::FileRemoveFromList(TFileConnection* conn)
 {
-	EnterCriticalSection(&m_csFileConnectionList);
+	mir_cslock lck(m_csFileConnectionList);
 	conn->Lock();
 	if (conn->m_pPrev)
 		conn->m_pPrev->m_pNext = conn->m_pNext;
@@ -1082,8 +1059,6 @@ void CMLan::FileRemoveFromList(TFileConnection* conn)
 	conn->m_pLan = NULL;
 	conn->m_pPrev = NULL;
 	conn->m_pNext = NULL;
-	conn->Unlock();
-	LeaveCriticalSection(&m_csFileConnectionList);
 }
 
 void CMLan::RecvFile(CCSDATA* ccs)
@@ -1182,7 +1157,6 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 
 	conn->Lock();
 	conn->m_state = TFileConnection::FCS_OK;
-	conn->Unlock();
 
 	u_char buf = FCODE_SND_ACCEPT;
 	if (conn->Send(&buf, 1))
@@ -1246,7 +1220,6 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 		{
 			conn->Lock();
 			conn->m_state = TFileConnection::FCS_OVERWRITE;
-			conn->Unlock();
 		}
 		else
 		{
@@ -1270,7 +1243,6 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 			EMLOG("Skipped");
 			conn->Lock();
 			conn->m_state = TFileConnection::FCS_OK;
-			conn->Unlock();
 			snd_buf[0] = FCODE_SND_FILESKIP;
 			if (conn->Send(snd_buf, 1))
 			{
@@ -1292,7 +1264,6 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 
 		conn->Lock();
 		conn->m_state = TFileConnection::FCS_OK;
-		conn->Unlock();
 
 		EMLOG("Creating file");
 		HANDLE hFile = CreateFile(filename, GENERIC_WRITE, FILE_SHARE_READ, NULL, mode_open, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -1649,7 +1620,6 @@ int CMLan::FileAllow(CCSDATA* ccs)
 	conn->Lock();
 	conn->m_state = TFileConnection::FCS_ALLOW;
 	conn->m_szDir = _strdup((char*)ccs->lParam);
-	conn->Unlock();
 	return cid;
 }
 
@@ -1668,7 +1638,6 @@ int CMLan::FileDeny(CCSDATA* ccs)
 
 	conn->Lock();
 	conn->m_state = TFileConnection::FCS_TERMINATE;
-	conn->Unlock();
 	return 0;
 }
 
@@ -1687,7 +1656,6 @@ int CMLan::FileCancel(CCSDATA* ccs)
 
 	conn->Lock();
 	conn->m_state = TFileConnection::FCS_TERMINATE;
-	conn->Unlock();
 	return 0;
 }
 
@@ -1724,7 +1692,6 @@ int CMLan::FileResume(int cid, PROTOFILERESUME* pfr)
 		conn->m_state = TFileConnection::FCS_SKIP;
 		break;
 	}
-	conn->Unlock();
 
 	return 0;
 }
