@@ -15,7 +15,7 @@ struct TRANSFERINFO
 {
 	HANDLE hProcess;	// hProcess
 	int status;			// status of transfer. 0 on success otherwise fail
-	wchar_t** data;		// NULL ended array of download links
+	char** data;		// NULL ended array of download links
 };
 
 // notifies a caller that file has been sent
