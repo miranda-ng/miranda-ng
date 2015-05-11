@@ -31,7 +31,7 @@ FLASHING_SEQUENCE *getCustomSeq(void);
 FLASHING_SEQUENCE *getPredefinedSeq(void);
 FLASHING_SEQUENCE *getTrillianSeq(void);
 void updateTrillianSeq(void);
-static void TestThread(FLASHING_SEQUENCE *);
+static void __cdecl TestThread(void *param);
 static void PreviewThread(void *);
 FLASHING_SEQUENCE str2FS(TCHAR *);
 BYTE KbdChar2Byte(char);
@@ -310,13 +310,13 @@ void testSequence(TCHAR *testStr)
 	static FLASHING_SEQUENCE Test = {0};
 	Test = str2FS(testStr);
 	
-	DWORD threadID = 0;
-	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)TestThread, &Test, 0, &threadID);
+	mir_forkthread(TestThread, (void*)&Test);
 }
 
 
-static void TestThread(FLASHING_SEQUENCE *pTest)
+static void __cdecl TestThread(void *param)
 {
+	FLASHING_SEQUENCE *pTest = (FLASHING_SEQUENCE *)param;
 	unsigned int testNum = (unsigned int)db_get_b(NULL, KEYBDMODULE, "testnum", DEF_SETTING_TESTNUM);
 	unsigned int testSecs = (unsigned int)db_get_b(NULL, KEYBDMODULE, "testsecs", DEF_SETTING_TESTSECS);
 
@@ -339,8 +339,7 @@ void previewFlashing(BOOL buttonState)
 		return;
 
 	bPreviewSemaphore = TRUE;
-	DWORD threadID = 0;
-	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)PreviewThread, NULL, 0, &threadID);
+	mir_forkthread(PreviewThread, 0);
 }
 
 
