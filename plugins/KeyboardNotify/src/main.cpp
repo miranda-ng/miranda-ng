@@ -264,7 +264,7 @@ BOOL checkUnopenEvents()
 	return FALSE;
 }
 
-static void FlashThreadFunction()
+static void __cdecl FlashThreadFunction(void *)
 {
 	BOOL bEvent = FALSE;
 	DWORD dwEventStarted, dwFlashStarted;
@@ -503,20 +503,17 @@ INT_PTR NormalizeSequenceService(WPARAM wParam, LPARAM lParam)
 
 
 // Support for Trigger plugin
-static DWORD WINAPI ForceEventsWereOpenedThread(void *eventMaxSeconds)
+static void __cdecl ForceEventsWereOpenedThread(void *eventMaxSeconds)
 {
 	Sleep(((WORD)eventMaxSeconds) * 1000);
 	CallService(MS_KBDNOTIFY_EVENTSOPENED, 1, 0);
-	return 0;
 }
 
 
 void StartBlinkAction(char *flashSequence, WORD eventMaxSeconds)
 {
-	DWORD threadID = 0;
-
 	if (eventMaxSeconds)
-		CreateThread(NULL, 0, ForceEventsWereOpenedThread, (void *)eventMaxSeconds, 0, &threadID);
+		mir_forkthread(ForceEventsWereOpenedThread, (void *)eventMaxSeconds);
 
 	CallService(MS_KBDNOTIFY_STARTBLINK, 1, (LPARAM)flashSequence);
 }
@@ -729,7 +726,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mir_sntprintf(eventName, SIZEOF(eventName), _T("%s/ExitEvent"), eventPrefix);
 	hExitEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
 
-	hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)FlashThreadFunction, NULL, 0, &IDThread);
+	hThread = mir_forkthread(FlashThreadFunction, 0);
 
 	HookEvent(ME_MC_ENABLED, OnMetaChanged);
 	HookEvent(ME_DB_EVENT_ADDED, PluginMessageEventHook);
