@@ -39,4 +39,9 @@ extern HINSTANCE g_hInstance;
 
 #include "dropbox.h"
 
+// icons
+void   InitializeIcons();
+HANDLE GetIconHandle(int iconId);
+HICON  LoadIconEx(int iconId, bool big = false);
+
 #endif //_COMMON_H_

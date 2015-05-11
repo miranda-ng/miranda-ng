@@ -2,15 +2,8 @@
 
 int CDropbox::SendFile(const char *fileName, const char *data, int length)
 {
-	char *utf8_fileName = mir_utf8encode(fileName);
-
-	CMStringA url;
-	url.AppendFormat(DROPBOX_APICONTENT_URL "/files_put/%s/%s",
-		DROPBOX_API_ROOT,
-		utf8_fileName);
+	CMStringA url(FORMAT, DROPBOX_APICONTENT_URL "/files_put/%s/%s", DROPBOX_API_ROOT, ptrA(mir_utf8encode(fileName)));
 	url.Replace('\\', '/');
-
-	mir_free(utf8_fileName);
 
 	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_PUT, DROPBOX_APICONTENT_URL "/files_put");
 	request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
@@ -38,11 +31,9 @@ int CDropbox::SendFileChunkedFirst(const char *data, int length, char *uploadId,
 
 	delete request;
 
-	if (response && response->resultCode == HTTP_STATUS_OK)
-	{
+	if (response && response->resultCode == HTTP_STATUS_OK) {
 		JSONROOT root(response->pData);
-		if (root)
-		{
+		if (root) {
 			JSONNODE *node = json_get(root, "upload_id");
 			strcpy(uploadId, mir_u2a(json_as_string(node)));
 
@@ -56,7 +47,7 @@ int CDropbox::SendFileChunkedFirst(const char *data, int length, char *uploadId,
 
 int CDropbox::SendFileChunkedNext(const char *data, int length, const char *uploadId, size_t &offset)
 {
-	CMStringA url = DROPBOX_APICONTENT_URL "/chunked_upload";
+	CMStringA url(DROPBOX_APICONTENT_URL "/chunked_upload");
 	url.AppendFormat("?upload_id=%s&offset=%i", uploadId, offset);
 
 	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_PUT, url);
@@ -70,11 +61,9 @@ int CDropbox::SendFileChunkedNext(const char *data, int length, const char *uplo
 
 	delete request;
 
-	if (response && response->resultCode == HTTP_STATUS_OK)
-	{
+	if (response && response->resultCode == HTTP_STATUS_OK) {
 		JSONROOT root(response->pData);
-		if (root)
-		{
+		if (root) {
 			JSONNODE *node = json_get(root, "offset");
 			offset = json_as_int(node);
 		}
@@ -85,12 +74,7 @@ int CDropbox::SendFileChunkedNext(const char *data, int length, const char *uplo
 
 int CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId)
 {
-	CMStringA url;
-	url.AppendFormat(
-		"%s/commit_chunked_upload/%s/%s",
-		DROPBOX_APICONTENT_URL,
-		DROPBOX_API_ROOT,
-		fileName);
+	CMStringA url(FORMAT, "%s/commit_chunked_upload/%s/%s", DROPBOX_APICONTENT_URL, DROPBOX_API_ROOT, fileName);
 	url.Replace('\\', '/');
 
 	CMStringA param = CMStringA("upload_id=") + uploadId;
@@ -110,13 +94,10 @@ int CDropbox::SendFileChunkedLast(const char *fileName, const char *uploadId)
 
 int CDropbox::CreateFolder(const char *folderName)
 {
-	CMStringA folder = folderName;
+	CMStringA folder(folderName);
 	folder.Replace('\\', '/');
 
-	CMStringA param;
-	param.AppendFormat("root=%s&path=%s",
-		DROPBOX_API_ROOT,
-		folder);
+	CMStringA param(FORMAT, "root=%s&path=%s", DROPBOX_API_ROOT, folder);
 
 	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/fileops/create_folder");
 	request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
@@ -137,10 +118,8 @@ int CDropbox::CreateFolder(const char *folderName)
 
 int CDropbox::CreateDownloadUrl(const char *path, wchar_t *url)
 {
-	CMStringA api_url = DROPBOX_API_URL;
-	api_url.AppendFormat("/shares/%s/%s",
-		DROPBOX_API_ROOT,
-		path);
+	CMStringA api_url(DROPBOX_API_URL);
+	api_url.AppendFormat("/shares/%s/%s", DROPBOX_API_ROOT, path);
 
 	if (!db_get_b(NULL, MODULE, "UseSortLinks", 1))
 		api_url += "?short_url=false";
@@ -152,11 +131,9 @@ int CDropbox::CreateDownloadUrl(const char *path, wchar_t *url)
 
 	delete request;
 
-	if (response && response->resultCode == HTTP_STATUS_OK)
-	{
+	if (response && response->resultCode == HTTP_STATUS_OK) {
 		JSONROOT root(response->pData);
-		if (root)
-		{
+		if (root) {
 			JSONNODE *node = json_get(root, "url");
 			wcscpy(url, json_as_string(node));
 		}
@@ -173,41 +150,32 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 
 	ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ftp->hProcess, 0);
 
-	if (ftp->pwszFolders)
-	{
-		for (int i = 0; ftp->pwszFolders[i]; i++)
-		{
+	if (ftp->pwszFolders) {
+		for (int i = 0; ftp->pwszFolders[i]; i++) {
 			ptrA utf8_folderName(mir_utf8encodeW(ftp->pwszFolders[i]));
 
-			if (!instance->CreateFolder(utf8_folderName))
-			{
-				if (!strchr(utf8_folderName, '\\'))
-				{
+			if (!instance->CreateFolder(utf8_folderName)) {
+				if (!strchr(utf8_folderName, '\\')) {
 					wchar_t url[MAX_PATH];
 					if (!instance->CreateDownloadUrl(utf8_folderName, url))
 						ftp->AddUrl(url);
-					else
-					{
+					else {
 						error = true;
 						break;
 					}
 				}
 			}
-			else
-			{
+			else {
 				error = true;
 				break;
 			}
 		}
 	}
 
-	if (!error)
-	{
-		for (int i = 0; ftp->pfts.pwszFiles[i]; i++)
-		{
+	if (!error) {
+		for (int i = 0; ftp->pfts.pwszFiles[i]; i++) {
 			FILE *file = _wfopen(ftp->pfts.pwszFiles[i], L"rb");
-			if (file)
-			{
+			if (file) {
 				const wchar_t *fileName = NULL;
 				if (!ftp->relativePathStart)
 					fileName = wcsrchr(ftp->pfts.pwszFiles[i], L'\\') + 1;
@@ -235,10 +203,8 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 				else if (fileSize > 20 * 1024 * 1024)
 					chunkSize = DROPBOX_FILE_CHUNK_SIZE;
 
-				while (!feof(file) && fileSize != offset)
-				{
-					if (ferror(file))
-					{
+				while (!feof(file) && fileSize != offset) {
+					if (ferror(file)) {
 						error = true;
 						break;
 					}
@@ -246,18 +212,14 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 					char *data = new char[chunkSize + 1];
 					int count = (int)fread(data, sizeof(char), chunkSize, file);
 
-					if (!offset)
-					{
-						if (instance->SendFileChunkedFirst(data, count, uploadId, offset))
-						{
+					if (!offset) {
+						if (instance->SendFileChunkedFirst(data, count, uploadId, offset)) {
 							error = true;
 							break;
 						}
 					}
-					else
-					{
-						if (instance->SendFileChunkedNext(data, count, uploadId, offset))
-						{
+					else {
+						if (instance->SendFileChunkedNext(data, count, uploadId, offset)) {
 							error = true;
 							break;
 						}
@@ -271,24 +233,19 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 
 				fclose(file);
 
-				if (!error)
-				{
+				if (!error) {
 					ptrA utf8_fileName(mir_utf8encodeW(fileName));
 
-					if (instance->SendFileChunkedLast(utf8_fileName, uploadId))
-					{
+					if (instance->SendFileChunkedLast(utf8_fileName, uploadId)) {
 						error = true;
 						break;
 					}
-					else
-					{
-						if (!wcschr(fileName, L'\\'))
-						{
+					else {
+						if (!wcschr(fileName, L'\\')) {
 							wchar_t url[MAX_PATH];
 							if (!instance->CreateDownloadUrl(utf8_fileName, url))
 								ftp->AddUrl(url);
-							else
-							{
+							else {
 								error = true;
 								break;
 							}
@@ -301,16 +258,14 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 					}
 				}
 			}
-			else
-			{
+			else {
 				error = true;
 				break;
 			}
 		}
 	}
 
-	if (error)
-	{
+	if (error) {
 		ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ftp->hProcess, 0);
 
 		return 1;
@@ -327,20 +282,16 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 	FileTransferParam *ftp = (FileTransferParam*)arg;
 
 	int res = SendFilesAsync(owner, arg);
-	if (!res)
-	{
+	if (!res) {
 		CMString urls;
 		for (int i = 0; ftp->pwszUrls[i]; i++)
 			urls.AppendFormat(L"%s\r\n", ftp->pwszUrls[i]);
 		wchar_t *data = urls.GetBuffer();
 
-		if (db_get_b(NULL, MODULE, "UrlAutoSend", 1))
-		{
+		if (db_get_b(NULL, MODULE, "UrlAutoSend", 1)) {
 			char *message = mir_utf8encodeW(data);
-			if (ftp->hContact != instance->GetDefaultContact())
-			{
-				if (CallContactService(ftp->hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)message) != ACKRESULT_FAILED)
-				{
+			if (ftp->hContact != instance->GetDefaultContact()) {
+				if (CallContactService(ftp->hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)message) != ACKRESULT_FAILED) {
 					DBEVENTINFO dbei = { sizeof(dbei) };
 					dbei.flags = DBEF_UTF | DBEF_SENT/* | DBEF_READ*/;
 					dbei.szModule = MODULE;
@@ -352,8 +303,7 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 				}
 				else CallServiceSync(MS_MSG_SENDMESSAGEW, (WPARAM)ftp->hContact, (LPARAM)data);
 			}
-			else
-			{
+			else {
 				DBEVENTINFO dbei = { sizeof(dbei) };
 				dbei.flags = DBEF_UTF;
 				dbei.szModule = MODULE;
@@ -368,18 +318,14 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 		if (db_get_b(NULL, MODULE, "UrlPasteToMessageInputArea", 0))
 			CallServiceSync(MS_MSG_SENDMESSAGEW, (WPARAM)ftp->hContact, (LPARAM)data);
 
-		if (db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0))
-		{
-			if (OpenClipboard(NULL))
-			{
+		if (db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0)) {
+			if (OpenClipboard(NULL)) {
 				EmptyClipboard();
 				size_t size = sizeof(wchar_t) * (urls.GetLength() + 1);
 				HGLOBAL hClipboardData = GlobalAlloc(NULL, size);
-				if (hClipboardData)
-				{
+				if (hClipboardData) {
 					wchar_t *pchData = (wchar_t*)GlobalLock(hClipboardData);
-					if (pchData)
-					{
+					if (pchData) {
 						memcpy(pchData, (wchar_t*)data, size);
 						GlobalUnlock(hClipboardData);
 						SetClipboardData(CF_UNICODETEXT, hClipboardData);

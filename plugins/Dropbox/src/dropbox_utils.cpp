@@ -2,8 +2,7 @@
 
 wchar_t *CDropbox::HttpStatusToText(HTTP_STATUS status)
 {
-	switch (status)
-	{
+	switch (status) {
 	case HTTP_STATUS_OK:
 		return L"OK";
 	case HTTP_STATUS_BAD_REQUEST:
@@ -29,14 +28,12 @@ wchar_t *CDropbox::HttpStatusToText(HTTP_STATUS status)
 
 int CDropbox::HandleHttpResponseError(HANDLE hNetlibUser, NETLIBHTTPREQUEST *response)
 {
-	if (!response)
-	{
+	if (!response) {
 		Netlib_Logf(hNetlibUser, "%s: %s", MODULE, "Server does not respond");
 		return ACKRESULT_FAILED;
 	}
 
-	if (response->resultCode != HTTP_STATUS_OK)
-	{
+	if (response->resultCode != HTTP_STATUS_OK) {
 		Netlib_Logf(hNetlibUser, "%s: %s", MODULE, HttpStatusToText((HTTP_STATUS)response->resultCode));
 		return response->resultCode;
 	}

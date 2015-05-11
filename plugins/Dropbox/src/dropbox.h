@@ -23,7 +23,7 @@ enum
 	CMI_MAX   // this item shall be the last one
 };
 
-class CDropbox
+class CDropbox : public MZeroedObject
 {
 	struct CommandParam
 	{
@@ -109,10 +109,6 @@ private:
 
 	// contacts
 	MCONTACT GetDefaultContact();
-
-	// icons
-	void InitializeIcons();
-	static HICON LoadIconEx(const char *name, bool big);
 
 	// menus
 	void InitializeMenus();

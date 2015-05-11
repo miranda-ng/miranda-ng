@@ -12,8 +12,7 @@ HANDLE CDropbox::CreateProtoServiceFunctionObj(const char *szService, MIRANDASER
 
 INT_PTR CDropbox::ProtoGetCaps(WPARAM wParam, LPARAM)
 {
-	switch (wParam)
-	{
+	switch (wParam) {
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_FILESEND;
 	case PFLAGNUM_2:
@@ -37,7 +36,7 @@ INT_PTR CDropbox::ProtoGetName(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CDropbox::ProtoLoadIcon(WPARAM wParam, LPARAM)
 {
-	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(LoadIconEx("main", FALSE)) : 0;
+	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(LoadIconEx(IDI_DROPBOX)) : 0;
 }
 
 INT_PTR CDropbox::ProtoGetStatus(WPARAM, LPARAM)
@@ -80,8 +79,7 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 
 	wchar_t **paths = (wchar_t**)pccsd->lParam;
 
-	for (int i = 0; paths[i]; i++)
-	{
+	for (int i = 0; paths[i]; i++) {
 		if (PathIsDirectory(paths[i]))
 			ftp->totalFolders++;
 		else
@@ -94,12 +92,9 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 	ftp->pfts.pwszFiles = (wchar_t**)mir_alloc(sizeof(wchar_t*) * (ftp->pfts.totalFiles + 1));
 	ftp->pfts.pwszFiles[ftp->pfts.totalFiles] = NULL;
 
-	for (int i = 0, j = 0, k = 0; paths[i]; i++)
-	{
-		if (PathIsDirectory(paths[i]))
-		{
-			if (!ftp->relativePathStart)
-			{
+	for (int i = 0, j = 0, k = 0; paths[i]; i++) {
+		if (PathIsDirectory(paths[i])) {
+			if (!ftp->relativePathStart) {
 				wchar_t *rootFolder = paths[j];
 				wchar_t *relativePath = wcsrchr(rootFolder, '\\') + 1;
 				ftp->relativePathStart = relativePath - rootFolder;
@@ -109,10 +104,8 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 
 			j++;
 		}
-		else
-		{
-			if (!ftp->pfts.wszWorkingDir)
-			{
+		else {
+			if (!ftp->pfts.wszWorkingDir) {
 				wchar_t *path = paths[j];
 				int length = wcsrchr(path, '\\') - path;
 				ftp->pfts.wszWorkingDir = (wchar_t*)mir_alloc(sizeof(wchar_t) * (length + 1));
@@ -124,8 +117,7 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 			ftp->pfts.pwszFiles[k] = mir_wstrdup(paths[i]);
 
 			FILE *file = _wfopen(paths[i], L"rb");
-			if (file != NULL)
-			{
+			if (file != NULL) {
 				fseek(file, 0, SEEK_END);
 				ftp->pfts.totalBytes += ftell(file);
 				fseek(file, 0, SEEK_SET);
@@ -174,14 +166,14 @@ INT_PTR CDropbox::ProtoSendMessage(void *obj, WPARAM, LPARAM lParam)
 		}
 		static commands[] =
 		{
-			{ "help",    &CDropbox::CommandHelp },
+			{ "help", &CDropbox::CommandHelp },
 			{ "content", &CDropbox::CommandContent },
-			{ "share",   &CDropbox::CommandShare },
-			{ "delete",  &CDropbox::CommandDelete }
+			{ "share", &CDropbox::CommandShare },
+			{ "delete", &CDropbox::CommandDelete }
 		};
 
-		for (int i=0; i < SIZEOF(commands); i++) {
-			if (!strcmp(message+1, commands[i].szCommand)) {
+		for (int i = 0; i < SIZEOF(commands); i++) {
+			if (!strcmp(message + 1, commands[i].szCommand)) {
 				ULONG messageId = InterlockedIncrement(&instance->hMessageProcess);
 
 				CommandParam *param = new CommandParam();

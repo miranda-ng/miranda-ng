@@ -22,14 +22,13 @@ int CDropbox::OnModulesLoaded(void *obj, WPARAM, LPARAM)
 
 	instance->GetDefaultContact();
 
-	if (ServiceExists(MS_BB_ADDBUTTON))
-	{
+	if (ServiceExists(MS_BB_ADDBUTTON)) {
 		BBButton bbd = { sizeof(bbd) };
 		bbd.pszModuleName = MODULE;
 
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON;
 		bbd.ptszTooltip = TranslateT("Send files to Dropbox");
-		bbd.hIcon = LoadSkinnedIconHandle(SKINICON_EVENT_FILE);
+		bbd.hIcon = GetIconHandle(IDI_DROPBOX);
 		bbd.dwButtonID = BBB_ID_FILE_SEND;
 		bbd.dwDefPos = 100 + bbd.dwButtonID;
 		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
@@ -42,8 +41,7 @@ int CDropbox::OnModulesLoaded(void *obj, WPARAM, LPARAM)
 
 int CDropbox::OnPreShutdown(void *, WPARAM, LPARAM)
 {
-	if (ServiceExists(MS_BB_ADDBUTTON))
-	{
+	if (ServiceExists(MS_BB_ADDBUTTON)) {
 		BBButton bbd = { sizeof(bbd) };
 		bbd.pszModuleName = MODULE;
 
@@ -58,8 +56,7 @@ int CDropbox::OnContactDeleted(void *obj, WPARAM hContact, LPARAM)
 {
 	CDropbox *instance = (CDropbox*)obj;
 
-	if (mir_strcmpi(GetContactProto(hContact), MODULE) == 0)
-	{
+	if (mir_strcmpi(GetContactProto(hContact), MODULE) == 0) {
 		if (instance->HasAccessToken())
 			instance->DestroyAcceessToken();
 	}
@@ -87,8 +84,7 @@ int CDropbox::OnOptionsInitialized(void *obj, WPARAM wParam, LPARAM)
 int CDropbox::OnSrmmWindowOpened(void *obj, WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *ev = (MessageWindowEventData*)lParam;
-	if (ev->uType == MSG_WINDOW_EVT_OPENING && ev->hContact)
-	{
+	if (ev->uType == MSG_WINDOW_EVT_OPENING && ev->hContact) {
 		CDropbox *instance = (CDropbox*)obj;
 		char *proto = GetContactProto(ev->hContact);
 		bool isProtoOnline = CallProtoService(proto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE;
@@ -115,8 +111,7 @@ int CDropbox::OnTabSrmmButtonPressed(void *obj, WPARAM, LPARAM lParam)
 	CDropbox *instance = (CDropbox*)obj;
 
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
-	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == BBB_ID_FILE_SEND && cbc->hContact)
-	{
+	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == BBB_ID_FILE_SEND && cbc->hContact) {
 		instance->hTransferContact = cbc->hContact;
 		instance->hTransferWindow = (HWND)CallService(MS_FILE_SENDFILE, instance->GetDefaultContact(), 0);
 
@@ -150,8 +145,7 @@ int CDropbox::OnFileDialogCancelled(void *obj, WPARAM, LPARAM lParam)
 	CDropbox *instance = (CDropbox*)obj;
 
 	HWND hwnd = (HWND)lParam;
-	if (instance->hTransferWindow == hwnd)
-	{
+	if (instance->hTransferWindow == hwnd) {
 		CallFunctionAsync(EnableTabSrmmButtonAsync, (void*)instance->hTransferContact);
 		instance->hTransferWindow = 0;
 	}
@@ -164,8 +158,7 @@ int CDropbox::OnFileDialogSuccessed(void *obj, WPARAM, LPARAM lParam)
 	CDropbox *instance = (CDropbox*)obj;
 
 	HWND hwnd = (HWND)lParam;
-	if (instance->hTransferWindow == hwnd)
-	{
+	if (instance->hTransferWindow == hwnd) {
 		CallFunctionAsync(EnableTabSrmmButtonAsync, (void*)instance->hTransferContact);
 		instance->hTransferWindow = 0;
 	}
@@ -180,23 +173,20 @@ int CDropbox::OnProtoAck(void *, WPARAM, LPARAM lParam)
 	if (!strcmp(ack->szModule, MODULE))
 		return 0; // don't rebroadcast our own acks
 
-	if (ack->type == ACKTYPE_STATUS/* && ((int)ack->lParam != (int)ack->hProcess)*/)
-	{
+	if (ack->type == ACKTYPE_STATUS/* && ((int)ack->lParam != (int)ack->hProcess)*/) {
 		WORD status = ack->lParam;
 		bool canSendOffline = (CallProtoService(ack->szModule, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDOFFLINE) > 0;
 
 		MessageWindowInputData msgwi = { sizeof(msgwi) };
 		msgwi.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 
-		for (MCONTACT hContact = db_find_first(ack->szModule); hContact; hContact = db_find_next(hContact, ack->szModule))
-		{
+		for (MCONTACT hContact = db_find_first(ack->szModule); hContact; hContact = db_find_next(hContact, ack->szModule)) {
 			msgwi.hContact = hContact;
 
 			MessageWindowData msgw;
 			msgw.cbSize = sizeof(msgw);
 
-			if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgwi, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS)
-			{
+			if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&msgwi, (LPARAM)&msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
 				BBButton bbd = { sizeof(bbd) };
 				bbd.pszModuleName = MODULE;
 				bbd.dwButtonID = BBB_ID_FILE_SEND;

@@ -29,8 +29,7 @@ public:
 
 	~HttpRequest()
 	{
-		for (int i = 0; i < headersCount; i++)
-		{
+		for (int i = 0; i < headersCount; i++) {
 			mir_free(headers[i].szName);
 			mir_free(headers[i].szValue);
 		}
@@ -89,27 +88,9 @@ public:
 		headersCount++;
 	}
 
-	/*void AddParameter(LPCSTR szName, LPCSTR szValue)
-	{
-	if (m_szUrl.Find('?') == -1)
-	m_szUrl.AppendFormat("?%s=%s", szName, szValue);
-	else
-	m_szUrl.AppendFormat("&%s=%s", szName, szValue);
-	}
-
-	void AddParameter(LPCSTR szName, int value)
-	{
-	if (m_szUrl.Find('?') == -1)
-	m_szUrl.AppendFormat("?%s=%i", szName, value);
-	else
-	m_szUrl.AppendFormat("&%s=%i", szName, value);
-	}*/
-
 	NETLIBHTTPREQUEST *Send()
 	{
 		szUrl = m_szUrl.GetBuffer();
-		/*CMStringA message; message.AppendFormat("Send request to %s", szUrl);
-		CallService(MS_NETLIB_LOG, (WPARAM)m_hNetlibUser, (LPARAM)message.GetBuffer());*/
 		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)this);
 	}
 
