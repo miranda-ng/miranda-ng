@@ -140,7 +140,7 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 	return DefWindowProc(hwnd, message, wParam, lParam);
 }
 
-int SplashThread(void *arg)
+void __cdecl SplashThread(void *arg)
 {
 	IGraphBuilder *pGraph = NULL;
 	IMediaControl *pControl = NULL;
@@ -329,8 +329,6 @@ int SplashThread(void *arg)
 		pGraph->Release();
 		CoUninitialize();
 	}
-
-	ExitThread(0);
 }
 
 BOOL ShowSplash(BOOL bpreview)
@@ -348,8 +346,6 @@ BOOL ShowSplash(BOOL bpreview)
 
 	if (!SplashBmp->loadFromFile(szSplashFile, NULL))
 		return 0;
-
-	DWORD threadID;
 
 #ifdef _DEBUG
 	logMessage(_T("Thread"), _T("start"));
@@ -375,7 +371,7 @@ BOOL ShowSplash(BOOL bpreview)
 #endif
 	}
 
-	hSplashThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)SplashThread, (LPVOID)timeout, 0, &threadID);
+	hSplashThread = mir_forkthread(SplashThread, (void*)timeout);
 
 #ifdef _DEBUG
 	logMessage(_T("Thread"), _T("end"));
