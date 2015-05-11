@@ -31,11 +31,11 @@ extern "C" MIR_CORE_DLL(void) db_mc_notifyDefChange(WPARAM wParam, LPARAM lParam
 char *pendingACK = 0;    // Name of the protocol in which an ACK is about to come.
 
 int previousMode,        // Previous status of the MetaContacts Protocol
-	mcStatus;             // Current status of the MetaContacts Protocol
+mcStatus;             // Current status of the MetaContacts Protocol
 
 HANDLE
-	hSubcontactsChanged,  // HANDLE to the 'contacts changed' event
-	hEventNudge;
+hSubcontactsChanged,  // HANDLE to the 'contacts changed' event
+hEventNudge;
 
 UINT_PTR setStatusTimerId = 0;
 BOOL firstSetOnline = TRUE; // see Meta_SetStatus function
@@ -45,12 +45,12 @@ OBJLIST<MetaSrmmData> arMetaWindows(1, NumericKeySortT);
 /** Get the capabilities of the "MetaContacts" protocol.
 *
 * @param wParam : 	equals to one of the following values :\n
-			<tt> PFLAGNUM_1 | PFLAGNUM_2 | PFLAGNUM_3 | PFLAGNUM_4 | PFLAG_UNIQUEIDTEXT | PFLAG_MAXLENOFMESSAGE | PFLAG_UNIQUEIDSETTING </tt>.
+<tt> PFLAGNUM_1 | PFLAGNUM_2 | PFLAGNUM_3 | PFLAGNUM_4 | PFLAG_UNIQUEIDTEXT | PFLAG_MAXLENOFMESSAGE | PFLAG_UNIQUEIDSETTING </tt>.
 * @param lParam :	Allways set to 0.
 *
 * @return			Depending on the \c WPARAM.
 */
-INT_PTR Meta_GetCaps(WPARAM wParam,LPARAM lParam)
+INT_PTR Meta_GetCaps(WPARAM wParam, LPARAM lParam)
 {
 	switch (wParam) {
 	case PFLAGNUM_1:
@@ -79,24 +79,24 @@ INT_PTR Meta_GetCaps(WPARAM wParam,LPARAM lParam)
 * @param lParam :	reference to a char *, which will hold the name
 */
 
-INT_PTR Meta_GetName(WPARAM wParam,LPARAM lParam)
+INT_PTR Meta_GetName(WPARAM wParam, LPARAM lParam)
 {
 	char *name = (char *)Translate(META_PROTO);
-	size_t size = min(strlen(name),wParam-1);	// copy only the first size bytes.
-	if (strncpy((char *)lParam,name,size)==NULL)
+	size_t size = min(strlen(name), wParam - 1);	// copy only the first size bytes.
+	if (strncpy((char *)lParam, name, size) == NULL)
 		return 1;
-	((char *)lParam)[size]='\0';
+	((char *)lParam)[size] = '\0';
 	return 0;
 }
 
 /** Loads the icon corresponding to the status
 * Called by the CList when the status changes.
 * @param wParam : 	one of the following values : \n
-					<tt>PLI_PROTOCOL | PLI_ONLINE | PLI_OFFLINE</tt>
+<tt>PLI_PROTOCOL | PLI_ONLINE | PLI_OFFLINE</tt>
 * @return			an \c HICON in which the icon has been loaded.
 */
 
-INT_PTR Meta_LoadIcon(WPARAM wParam,LPARAM lParam)
+INT_PTR Meta_LoadIcon(WPARAM wParam, LPARAM lParam)
 {
 	UINT id;
 	switch (wParam & 0xFFFF) {
@@ -133,7 +133,7 @@ static INT_PTR MetaFilter_RecvMessage(WPARAM wParam, LPARAM lParam)
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(ccs->hContact);
 	if (cc && cc->IsSub())
 		Meta_SetSrmmSub(cc->parentID, cc->contactID);
-	
+
 	CallService(MS_PROTO_CHAINRECV, wParam, lParam);
 	return 0;
 }
@@ -145,7 +145,7 @@ void CALLBACK SetStatusThread(HWND hWnd, UINT msg, UINT_PTR id, DWORD dw)
 	previousMode = mcStatus;
 
 	mcStatus = ID_STATUS_ONLINE;
-	ProtoBroadcastAck(META_PROTO, NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS, (HANDLE)previousMode, mcStatus);
+	ProtoBroadcastAck(META_PROTO, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)previousMode, mcStatus);
 
 	KillTimer(0, setStatusTimerId);
 }
@@ -155,26 +155,25 @@ void CALLBACK SetStatusThread(HWND hWnd, UINT msg, UINT_PTR id, DWORD dw)
 * @param lParam :	Allways set to 0.
 */
 
-INT_PTR Meta_SetStatus(WPARAM wParam,LPARAM lParam)
+INT_PTR Meta_SetStatus(WPARAM wParam, LPARAM lParam)
 {
 	// firstSetOnline starts out true - used to delay metacontact's 'onlineness' to prevent double status notifications on startup
 	if (mcStatus == ID_STATUS_OFFLINE && firstSetOnline) {
 		// causes crash on exit if miranda is closed in under options.set_status_from_offline milliseconds!
-		//CloseHandle( CreateThread( NULL, 0, SetStatusThread, (void *)wParam, 0, 0 ));
 		setStatusTimerId = SetTimer(0, 0, options.set_status_from_offline_delay, SetStatusThread);
 		firstSetOnline = FALSE;
 	}
 	else {
 		previousMode = mcStatus;
 		mcStatus = (int)wParam;
-		ProtoBroadcastAck(META_PROTO, NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS, (HANDLE)previousMode, mcStatus);
+		ProtoBroadcastAck(META_PROTO, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)previousMode, mcStatus);
 	}
 	return 0;
 }
 
 /** Returns the current status
 */
-INT_PTR Meta_GetStatus(WPARAM wParam,LPARAM lParam)
+INT_PTR Meta_GetStatus(WPARAM wParam, LPARAM lParam)
 {
 	return mcStatus;
 }
@@ -191,17 +190,16 @@ struct TFakeAckParams
 	char msg[512];
 };
 
-static DWORD CALLBACK sttFakeAckFail( LPVOID param )
+static void __cdecl sttFakeAckFail(void *param)
 {
-	TFakeAckParams *tParam = ( TFakeAckParams* )param;
-	WaitForSingleObject( tParam->hEvent, INFINITE );
+	TFakeAckParams *tParam = (TFakeAckParams*)param;
+	WaitForSingleObject(tParam->hEvent, INFINITE);
 
-	Sleep( 100 );
+	Sleep(100);
 	ProtoBroadcastAck(META_PROTO, tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)tParam->id, (WPARAM)tParam->msg);
 
-	CloseHandle( tParam->hEvent );
+	CloseHandle(tParam->hEvent);
 	mir_free(tParam);
-	return 0;
 }
 
 INT_PTR Meta_SendNudge(WPARAM wParam, LPARAM lParam)
@@ -225,7 +223,7 @@ INT_PTR Meta_SendNudge(WPARAM wParam, LPARAM lParam)
 * @return 0 on success, 1 otherwise.
 */
 
-INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
+INT_PTR Meta_SendMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
 
@@ -245,10 +243,9 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 		tfap->hContact = ccs->hContact;
 		tfap->hEvent = hEvent;
 		tfap->id = 10;
-		strncpy(tfap->msg, Translate("No online contacts found."),SIZEOF(tfap->msg)-1);
+		strncpy(tfap->msg, Translate("No online contacts found."), SIZEOF(tfap->msg) - 1);
 
-		DWORD dwThreadId;
-		CloseHandle(CreateThread(NULL, 0, sttFakeAckFail, tfap, 0, &dwThreadId));
+		CloseHandle(mir_forkthread(sttFakeAckFail, (void*)tfap));
 		SetEvent(hEvent);
 		return 10;
 	}
@@ -430,7 +427,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		// update subcontact status setting
 		mir_snprintf(buffer, SIZEOF(buffer), "Status%d", contact_number);
 		db_set_w(ccMeta->contactID, META_PROTO, buffer, dcws->value.wVal);
-		
+
 		mir_snprintf(buffer, SIZEOF(buffer), "StatusString%d", contact_number);
 		db_set_ts(ccMeta->contactID, META_PROTO, buffer, cli.pfnGetStatusModeDescription(dcws->value.wVal, 0));
 
@@ -654,7 +651,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	// create srmm icon
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = META_PROTO;
-	sid.flags =  MBF_TCHAR;
+	sid.flags = MBF_TCHAR;
 	sid.tszTooltip = LPGENT("Select metacontact");
 	sid.hIcon = LoadSkinnedProtoIcon(META_PROTO, ID_STATUS_ONLINE);
 	Srmm_AddIcon(&sid);
@@ -691,7 +688,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 			INT_PTR caps = CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0);
 			if ((caps & PF1_IMSEND) || (caps & PF1_CHAT)) {
 				// set default contact for sending/status and open message window
-				Meta_SetSrmmSub(hMeta, hContact);				
+				Meta_SetSrmmSub(hMeta, hContact);
 				db_mc_setDefaultNum(hMeta, lParam, false);
 				CallService(MS_MSG_SENDMESSAGET, hMeta, 0);
 			}
