@@ -203,7 +203,7 @@ static void TlenSendPresenceTo(TlenProtocol *proto, int status, char *to)
 
 	// Send <presence/> update for status (we won't handle ID_STATUS_OFFLINE here)
 	// Note: tlenModeMsg is already encoded using TlenTextEncode()
-	EnterCriticalSection(&proto->modeMsgMutex);
+	mir_cslock lck(proto->modeMsgMutex);
 
 	showBody = NULL;
 	statusMsg = NULL;
@@ -309,8 +309,6 @@ static void TlenSendPresenceTo(TlenProtocol *proto, int status, char *to)
 	}
 
 	setOwnStatusOnCList(proto, proto->m_iStatus, statusMsg);
-
-	LeaveCriticalSection(&proto->modeMsgMutex);
 }
 
 

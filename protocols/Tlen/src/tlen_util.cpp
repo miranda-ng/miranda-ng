@@ -28,24 +28,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void TlenSerialInit(TlenProtocol *proto)
 {
-	InitializeCriticalSection(&proto->csSerial);
 	proto->serial = 0;
 }
-
-void TlenSerialUninit(TlenProtocol *proto)
-{
-	DeleteCriticalSection(&proto->csSerial);
-}
-
 
 unsigned int TlenSerialNext(TlenProtocol *proto)
 {
 	unsigned int ret;
 
-	EnterCriticalSection(&proto->csSerial);
+	mir_cslock lck(proto->csSerial);
 	ret = proto->serial;
 	proto->serial++;
-	LeaveCriticalSection(&proto->csSerial);
 	return ret;
 }
 
@@ -58,7 +50,7 @@ int TlenSend(TlenProtocol *proto, const char *fmt, ...)
 	va_list vararg;
 	int result = 0;
 
-	EnterCriticalSection(&proto->csSend);
+	mir_cslock lck(proto->csSend);
 
 	va_start(vararg,fmt);
 	size = 512;
@@ -78,7 +70,6 @@ int TlenSend(TlenProtocol *proto, const char *fmt, ...)
 			result = TlenWsSend(proto, proto->threadData->s, str, size);
 		}
 	}
-	LeaveCriticalSection(&proto->csSend);
 
 	mir_free(str);
 	return result;

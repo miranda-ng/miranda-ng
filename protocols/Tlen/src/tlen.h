@@ -309,19 +309,19 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 
 	int listsCount;
 	struct TLEN_LIST_ITEM_STRUCT *lists;
-	CRITICAL_SECTION csLists;
+	mir_cs csLists;
 
 	int iqCount;
 	int iqAlloced;
 	struct TLEN_IQ_FUNC_STRUCT *iqList;
-	CRITICAL_SECTION csIqList;
+	mir_cs csIqList;
 
-	CRITICAL_SECTION csSerial;
+	mir_cs csSerial;
 	unsigned int serial;
 	BOOL isOnline;
 	BOOL isConnected;
 
-	CRITICAL_SECTION modeMsgMutex;
+	mir_cs modeMsgMutex;
 
 	void initMenuItems();
 	HGENMENU hMenuRoot;
@@ -332,7 +332,7 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 	char *searchQuery;
 	int searchQueryLen;
 
-	CRITICAL_SECTION csSend;
+	mir_cs csSend;
 
 	HWND voiceDlgHWND;
 	struct TLEN_VOICE_CONTROL_STRUCT *playbackControl;
@@ -455,7 +455,6 @@ int TlenWsRecvAES(TlenProtocol *proto, char *data, long datalen, aes_context *ae
 
 // tlen_util.cpp
 void TlenSerialInit(TlenProtocol *proto);
-void TlenSerialUninit(TlenProtocol *proto);
 unsigned int TlenSerialNext(TlenProtocol *proto);
 int TlenSend(TlenProtocol *proto, const char *fmt, ...);
 MCONTACT TlenHContactFromJID(TlenProtocol *proto, const char *jid);
