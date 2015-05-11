@@ -1,8 +1,6 @@
 #ifndef _HTTP_REQUEST_H_
 #define _HTTP_REQUEST_H_
 
-#include "stdafx.h"
-
 enum HTTP_STATUS
 {
 	HTTP_STATUS_OK = 200,

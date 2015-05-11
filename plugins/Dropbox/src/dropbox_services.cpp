@@ -67,7 +67,6 @@ INT_PTR CDropbox::ProtoSetStatus(void *obj, WPARAM wp, LPARAM)
 INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 {
 	CDropbox *instance = (CDropbox*)obj;
-
 	if (!instance->HasAccessToken())
 		return ACKRESULT_FAILED;
 
@@ -147,69 +146,60 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 INT_PTR CDropbox::ProtoSendMessage(void *obj, WPARAM, LPARAM lParam)
 {
 	CDropbox *instance = (CDropbox*)obj;
-
 	if (!instance->HasAccessToken())
 		return ACKRESULT_FAILED;
 
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
-	char *message = (char*)pccsd->lParam;
+	char *message = NEWSTR_ALLOCA((char*)pccsd->lParam);
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = MODULE;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = strlen(message);
+	dbei.cbBlob = (int)strlen(message);
 	dbei.pBlob = (PBYTE)message;
 	dbei.flags = DBEF_SENT | DBEF_READ | DBEF_UTF;
 	db_event_add(pccsd->hContact, &dbei);
 
-	char help[1024];
-
-	if (message[0] && message[0] == '/')
-	{
+	if (message[0] && message[0] == '/') {
 		// parse commands
 		char *sep = strchr(message, ' ');
-		int len = strlen(message) - (sep ? strlen(sep) : 0) - 1;
-		ptrA cmd((char*)mir_alloc(len + 1));
-		strncpy(cmd, message + 1, len);
-		cmd[len] = 0;
-		if (instance->commands.find((char*)cmd) != instance->commands.end())
+		if (sep != NULL) *sep = 0;
+
+		struct
 		{
-			ULONG messageId = InterlockedIncrement(&instance->hMessageProcess);
-
-			CommandParam *param = new CommandParam();
-			param->instance = instance;
-			param->hContact = pccsd->hContact;
-			param->hProcess = (HANDLE)messageId;
-			param->data = (sep ? sep + 1 : NULL);
-
-			mir_forkthread(instance->commands[(char*)cmd], param);
-
-			return messageId;
+			const char *szCommand;
+			pThreadFunc pHandler;
 		}
-		else
+		static commands[] =
 		{
-			mir_snprintf(
-				help,
-				SIZEOF(help),
-				Translate("Unknown command \"%s\".\nUse \"/help\" for more info."),
-				message);
+			{ "help",    &CDropbox::CommandHelp },
+			{ "content", &CDropbox::CommandContent },
+			{ "share",   &CDropbox::CommandShare },
+			{ "delete",  &CDropbox::CommandDelete }
+		};
 
-			CallContactService(instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)help);
+		for (int i=0; i < SIZEOF(commands); i++) {
+			if (!strcmp(message+1, commands[i].szCommand)) {
+				ULONG messageId = InterlockedIncrement(&instance->hMessageProcess);
 
-			return 0;
+				CommandParam *param = new CommandParam();
+				param->instance = instance;
+				param->hContact = pccsd->hContact;
+				param->hProcess = (HANDLE)messageId;
+				param->data = (sep ? sep + 1 : NULL);
+
+				mir_forkthread(commands[i].pHandler, param);
+
+				return messageId;
+			}
 		}
 	}
 
-	mir_snprintf(
-		help,
-		SIZEOF(help),
-		Translate("\"%s\" is not valid.\nUse \"/help\" for more info."),
-		message);
-
+	char help[1024];
+	mir_snprintf(help, SIZEOF(help), Translate("\"%s\" is not valid.\nUse \"/help\" for more info."), message);
 	CallContactService(instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)help);
-
 	return 0;
 }
 
@@ -223,7 +213,7 @@ INT_PTR CDropbox::ProtoReceiveMessage(void *, WPARAM, LPARAM lParam)
 	dbei.szModule = MODULE;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = strlen(message);
+	dbei.cbBlob = (int)strlen(message);
 	dbei.pBlob = (PBYTE)message;
 	db_event_add(pccsd->hContact, &dbei);
 
@@ -233,7 +223,6 @@ INT_PTR CDropbox::ProtoReceiveMessage(void *, WPARAM, LPARAM lParam)
 INT_PTR CDropbox::SendFileToDropbox(void *obj, WPARAM hContact, LPARAM lParam)
 {
 	CDropbox *instance = (CDropbox*)obj;
-
 	if (!instance->HasAccessToken())
 		return 0;
 

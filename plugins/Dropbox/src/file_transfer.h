@@ -1,8 +1,6 @@
 #ifndef _FILE_TRANSFER_H_
 #define _FILE_TRANSFER_H_
 
-#include "stdafx.h"
-
 struct FileTransferParam
 {
 	HANDLE hProcess;
@@ -79,7 +77,8 @@ struct FileTransferParam
 			for (; pwszUrls[count]; count++);
 			pwszUrls = (wchar_t**)mir_realloc(pwszUrls, sizeof(wchar_t*) * (count + 2));
 		}
-		int length = wcslen(url);
+		
+		size_t length = wcslen(url);
 		pwszUrls[count] = (wchar_t*)mir_alloc(sizeof(wchar_t) * (length + 1));
 		wcscpy(pwszUrls[count], url);
 		pwszUrls[count][length] = '\0';

@@ -1,8 +1,6 @@
 #ifndef _DROPBOX_PROTO_H_
 #define _DROPBOX_PROTO_H_
 
-#include <map>
-#include <string>
 #include "http_request.h"
 #include "file_transfer.h"
 
@@ -25,16 +23,16 @@ enum
 	CMI_MAX   // this item shall be the last one
 };
 
-struct CommandParam
-{
-	CDropbox *instance;
-	HANDLE hProcess;
-	MCONTACT hContact;
-	void *data;
-};
-
 class CDropbox
 {
+	struct CommandParam
+	{
+		CDropbox *instance;
+		HANDLE hProcess;
+		MCONTACT hContact;
+		void *data;
+	};
+
 public:
 	CDropbox();
 	virtual ~CDropbox();
@@ -48,9 +46,7 @@ private:
 
 	MCONTACT hDefaultContact;
 	MCONTACT hTransferContact;
-
-	std::map<HWND, MCONTACT> dcftp;
-	std::map<std::string, pThreadFunc> commands;
+	HWND     hTransferWindow;
 
 	HGENMENU contactMenuItems[CMI_MAX];
 
@@ -97,7 +93,7 @@ private:
 	// account info
 	void RequestAccountInfo();
 
-	// transrers
+	// transfers
 	int SendFile(const char *fileName, const char *data, int length);
 	int SendFileChunkedFirst(const char *data, int length, char *uploadId, size_t &offset);
 	int SendFileChunkedNext(const char *data, int length, const char *uploadId, size_t &offset);
@@ -126,6 +122,9 @@ private:
 
 	// dialogs
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	// SRMM
+	static void DisableSrmmButton(MCONTACT hContact);
 
 	// utils
 	static wchar_t *HttpStatusToText(HTTP_STATUS status);

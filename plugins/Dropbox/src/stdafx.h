@@ -3,6 +3,8 @@
 
 #include <windows.h>
 #include <Shlwapi.h>
+
+#include <malloc.h>
 #include <time.h>
 
 #include <newpluginapi.h>
@@ -34,8 +36,6 @@
 #define MODULE "Dropbox"
 
 extern HINSTANCE g_hInstance;
-
-class CDropbox;
 
 #include "dropbox.h"
 

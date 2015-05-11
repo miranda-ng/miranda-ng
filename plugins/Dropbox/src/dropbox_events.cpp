@@ -118,20 +118,21 @@ int CDropbox::OnTabSrmmButtonPressed(void *obj, WPARAM, LPARAM lParam)
 	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == BBB_ID_FILE_SEND && cbc->hContact)
 	{
 		instance->hTransferContact = cbc->hContact;
+		instance->hTransferWindow = (HWND)CallService(MS_FILE_SENDFILE, instance->GetDefaultContact(), 0);
 
-		HWND hwnd = (HWND)CallService(MS_FILE_SENDFILE, instance->GetDefaultContact(), 0);
-
-		instance->dcftp[hwnd] = cbc->hContact;
-
-		BBButton bbd = { sizeof(bbd) };
-		bbd.pszModuleName = MODULE;
-		bbd.dwButtonID = BBB_ID_FILE_SEND;
-		bbd.bbbFlags = BBSF_DISABLED;
-
-		CallService(MS_BB_SETBUTTONSTATE, cbc->hContact, (LPARAM)&bbd);
+		DisableSrmmButton(cbc->hContact);
 	}
 
 	return 0;
+}
+
+void CDropbox::DisableSrmmButton(MCONTACT hContact)
+{
+	BBButton bbd = { sizeof(bbd) };
+	bbd.pszModuleName = MODULE;
+	bbd.dwButtonID = BBB_ID_FILE_SEND;
+	bbd.bbbFlags = BBSF_DISABLED;
+	CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
 }
 
 void __stdcall EnableTabSrmmButtonAsync(void *arg)
@@ -141,7 +142,6 @@ void __stdcall EnableTabSrmmButtonAsync(void *arg)
 	bbd.dwButtonID = BBB_ID_FILE_SEND;
 	bbd.bbbFlags = BBSF_RELEASED;
 	MCONTACT hContact = (MCONTACT)arg;
-
 	CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
 }
 
@@ -150,12 +150,10 @@ int CDropbox::OnFileDialogCancelled(void *obj, WPARAM, LPARAM lParam)
 	CDropbox *instance = (CDropbox*)obj;
 
 	HWND hwnd = (HWND)lParam;
-	if (instance->hTransferContact == instance->dcftp[hwnd])
+	if (instance->hTransferWindow == hwnd)
 	{
 		CallFunctionAsync(EnableTabSrmmButtonAsync, (void*)instance->hTransferContact);
-
-		instance->dcftp.erase((HWND)lParam);
-		instance->hTransferContact = 0;
+		instance->hTransferWindow = 0;
 	}
 
 	return 0;
@@ -166,11 +164,10 @@ int CDropbox::OnFileDialogSuccessed(void *obj, WPARAM, LPARAM lParam)
 	CDropbox *instance = (CDropbox*)obj;
 
 	HWND hwnd = (HWND)lParam;
-	if (instance->hTransferContact == instance->dcftp[hwnd])
+	if (instance->hTransferWindow == hwnd)
 	{
-		instance->dcftp.erase((HWND)lParam);
-
 		CallFunctionAsync(EnableTabSrmmButtonAsync, (void*)instance->hTransferContact);
+		instance->hTransferWindow = 0;
 	}
 
 	return 0;

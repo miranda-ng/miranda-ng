@@ -346,12 +346,11 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 					dbei.szModule = MODULE;
 					dbei.timestamp = time(NULL);
 					dbei.eventType = EVENTTYPE_MESSAGE;
-					dbei.cbBlob = wcslen(data);
+					dbei.cbBlob = (int)wcslen(data);
 					dbei.pBlob = (PBYTE)message;
 					db_event_add(ftp->hContact, &dbei);
 				}
-				else
-					CallServiceSync(MS_MSG_SENDMESSAGEW, (WPARAM)ftp->hContact, (LPARAM)data);
+				else CallServiceSync(MS_MSG_SENDMESSAGEW, (WPARAM)ftp->hContact, (LPARAM)data);
 			}
 			else
 			{
@@ -360,7 +359,7 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 				dbei.szModule = MODULE;
 				dbei.timestamp = time(NULL);
 				dbei.eventType = EVENTTYPE_MESSAGE;
-				dbei.cbBlob = wcslen(data);
+				dbei.cbBlob = (int)wcslen(data);
 				dbei.pBlob = (PBYTE)message;
 				db_event_add(ftp->hContact, &dbei);
 			}
