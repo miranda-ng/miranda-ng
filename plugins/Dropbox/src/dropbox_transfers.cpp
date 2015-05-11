@@ -256,7 +256,7 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 	if (!res)
 	{
 		CMStringA urls;
-		for (int i = 0; ftp->urlList.getCount(); i++)
+		for (int i = 0; i < ftp->urlList.getCount(); i++)
 			urls.AppendFormat("%s\r\n", ftp->urlList[i]);
 		char *data = urls.GetBuffer();
 
