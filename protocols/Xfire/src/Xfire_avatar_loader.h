@@ -46,7 +46,7 @@ class Xfire_avatar_loader : public Xfire_base {
 private:
 	static void loadThread(LPVOID lparam);
 	xfirelib::Client *client;
-	CRITICAL_SECTION avatarMutex;
+	mir_cs avatarMutex;
 public:
 	vector<Xfire_avatar_process> list;
 	BOOL threadrunning;

@@ -44,7 +44,7 @@ private:
 	HANDLE dummymenuitem;
 	unsigned int nextgameid;
 	BOOL ingame;
-	CRITICAL_SECTION gamlistMutex;
+	mir_cs gamlistMutex;
 
 	void removeDummyMenuItem();
 	void createDummyMenuItem();
