@@ -221,13 +221,6 @@ int DoLoadEvents(HWND hWnd, HistoryWindowData *data, IEVIEWEVENT ieEvent)
 		threadData->hWnd = hWnd;
 		threadData->ieEvent = ieEvent;
 		WorkerThread(threadData);
-		/*
-		DWORD threadID;
-		HANDLE thread = CreateThread(NULL, 0, WorkerThread, threadData, 0, &threadID);
-		if (!thread)
-		{
-		MessageBox(hWnd, TranslateT("An error occured while trying to create the worker thread (%m)"), TranslateT("Error"), MB_OK | MB_ICONERROR);
-		} */
 	}
 	else {
 		ieEvent.iType = IEE_LOG_DB_EVENTS;
@@ -376,14 +369,14 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 				SetWindowLongPtr(hWnd, GWL_EXSTYLE, WS_EX_RTLREADING);
 
 			HWND hStatusBar = CreateWindow(STATUSCLASSNAME, //class
-													 _T("-"), //title
-													 WS_CHILD | WS_VISIBLE | SBARS_TOOLTIPS | SBARS_SIZEGRIP, //style
-													 0, 0, //x, y
-													 0, 0, //width, height
-													 hWnd, //parent
-													 (HMENU)IDC_STATUSBAR, //menu
-													 hInstance, //instance
-													 NULL); //lpParam
+				_T("-"), //title
+				WS_CHILD | WS_VISIBLE | SBARS_TOOLTIPS | SBARS_SIZEGRIP, //style
+				0, 0, //x, y
+				0, 0, //width, height
+				hWnd, //parent
+				(HMENU)IDC_STATUSBAR, //menu
+				hInstance, //instance
+				NULL); //lpParam
 			int x;
 			int widths[] = { x = 50, x += 50, x += 150, -1 };
 			int count = sizeof(widths) / sizeof(widths[0]);
@@ -428,34 +421,34 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_WINDOWPOSCHANGING:
-		{
-			HDWP hdWnds = BeginDeferWindowPos(6);
-			RECT rParent;
-			HWND hStatusBar = GetDlgItem(hWnd, IDC_STATUSBAR);
-			WINDOWPOS *wndPos = (WINDOWPOS *)lParam;
-			GetWindowRect(hWnd, &rParent);
+	{
+		HDWP hdWnds = BeginDeferWindowPos(6);
+		RECT rParent;
+		HWND hStatusBar = GetDlgItem(hWnd, IDC_STATUSBAR);
+		WINDOWPOS *wndPos = (WINDOWPOS *)lParam;
+		GetWindowRect(hWnd, &rParent);
 
-			// if (NULL != hStatusBar) /* Wine fix. */
-			//	hdWnds = DeferWindowPos(hdWnds, hStatusBar, HWND_NOTOPMOST, wndPos->x, wndPos->y + wndPos->cy - statusHeight, statusWidth, statusHeight, SWP_NOZORDER);
-			SendMessage(hStatusBar, WM_SIZE, 0, 0);
-			if (wndPos->cx < MIN_HISTORY_WIDTH)
-				wndPos->cx = MIN_HISTORY_WIDTH;
-			if (wndPos->cy < MIN_HISTORY_HEIGHT)
-				wndPos->cy = MIN_HISTORY_HEIGHT;
+		// if (NULL != hStatusBar) /* Wine fix. */
+		//	hdWnds = DeferWindowPos(hdWnds, hStatusBar, HWND_NOTOPMOST, wndPos->x, wndPos->y + wndPos->cy - statusHeight, statusWidth, statusHeight, SWP_NOZORDER);
+		SendMessage(hStatusBar, WM_SIZE, 0, 0);
+		if (wndPos->cx < MIN_HISTORY_WIDTH)
+			wndPos->cx = MIN_HISTORY_WIDTH;
+		if (wndPos->cy < MIN_HISTORY_HEIGHT)
+			wndPos->cy = MIN_HISTORY_HEIGHT;
 
-			//MoveWindow(hStatusBar, wndPos->x, wndPos->y + wndPos->cy - statusHeight - 2, statusWidth - 2, statusHeight, TRUE);
-			AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_STATUSBAR), &rParent, wndPos, ANCHOR_BOTTOM);
-			AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_CLOSE), &rParent, wndPos, ANCHOR_RIGHT | ANCHOR_BOTTOM);
-			AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_IEVIEW_PLACEHOLDER), &rParent, wndPos, ANCHOR_ALL);
-			AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_PREV), &rParent, wndPos, ANCHOR_LEFT | ANCHOR_BOTTOM);
-			AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_NEXT), &rParent, wndPos, ANCHOR_LEFT | ANCHOR_BOTTOM);
-			//AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_PAGE_NUMBER), &rParent, wndPos, ANCHOR_LEFT | ANCHOR_BOTTOM);
-			AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_SEARCH), &rParent, wndPos, ANCHOR_RIGHT | ANCHOR_BOTTOM);
+		//MoveWindow(hStatusBar, wndPos->x, wndPos->y + wndPos->cy - statusHeight - 2, statusWidth - 2, statusHeight, TRUE);
+		AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_STATUSBAR), &rParent, wndPos, ANCHOR_BOTTOM);
+		AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_CLOSE), &rParent, wndPos, ANCHOR_RIGHT | ANCHOR_BOTTOM);
+		AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_IEVIEW_PLACEHOLDER), &rParent, wndPos, ANCHOR_ALL);
+		AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_PREV), &rParent, wndPos, ANCHOR_LEFT | ANCHOR_BOTTOM);
+		AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_NEXT), &rParent, wndPos, ANCHOR_LEFT | ANCHOR_BOTTOM);
+		//AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_PAGE_NUMBER), &rParent, wndPos, ANCHOR_LEFT | ANCHOR_BOTTOM);
+		AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_SEARCH), &rParent, wndPos, ANCHOR_RIGHT | ANCHOR_BOTTOM);
 
-			EndDeferWindowPos(hdWnds);
-			MoveIeView(hWnd);
-		}
-		break;
+		EndDeferWindowPos(hdWnds);
+		MoveIeView(hWnd);
+	}
+	break;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
