@@ -424,12 +424,14 @@ void __cdecl SessionThread(LPVOID param)
 	handler.on_setPrivacyInfo = SessionSetPrivacyInfo;
 	handler.on_setUserStatus = SessionSetUserStatus;
 
-	mir_cslock lck(proto->session_cs);
-	proto->session = mwSession_new(&handler);
+	{
+		mir_cslock lck(proto->session_cs);
+		proto->session = mwSession_new(&handler);
 
-	proto->InitMeanwhileServices();
+		proto->InitMeanwhileServices();
 
-	mwSession_start(proto->session);
+		mwSession_start(proto->session);
+	}
 
 	mir_forkthread(KeepAliveThread, (void*)proto);
 
