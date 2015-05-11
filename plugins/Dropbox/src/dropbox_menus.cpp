@@ -3,23 +3,13 @@
 INT_PTR CDropbox::SendFilesToDropboxCommand(void *obj, WPARAM hContact, LPARAM)
 {
 	CDropbox *instance = (CDropbox*)obj;
-
 	if (!instance->HasAccessToken())
 		return 1;
 
 	instance->hTransferContact = hContact;
+	instance->hTransferWindow = (HWND)CallService(MS_FILE_SENDFILE, instance->GetDefaultContact(), 0);
 
-	HWND hwnd = (HWND)CallService(MS_FILE_SENDFILE, instance->GetDefaultContact(), 0);
-
-	instance->dcftp[hwnd] = hContact;
-
-	BBButton bbd = { sizeof(bbd) };
-	bbd.pszModuleName = MODULE;
-	bbd.dwButtonID = BBB_ID_FILE_SEND;
-	bbd.bbbFlags = BBSF_DISABLED;
-
-	CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
-
+	DisableSrmmButton(hContact);
 	return 0;
 }
 

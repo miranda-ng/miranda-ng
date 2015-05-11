@@ -27,11 +27,6 @@ CDropbox::CDropbox()
 	InitializeIcons();
 	InitializeMenus();
 
-	commands["help"] = CDropbox::CommandHelp;
-	commands["content"] = CDropbox::CommandContent;
-	commands["share"] = CDropbox::CommandShare;
-	commands["delete"] = CDropbox::CommandDelete;
-
 	hFileProcess = hMessageProcess = 1;
 	hDefaultContact = hTransferContact = 0;
 }
