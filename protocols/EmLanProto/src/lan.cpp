@@ -11,14 +11,12 @@ CLan::CLan()
 	m_mode = LM_OFF;
 	m_hListenThread = NULL;
 	m_hAcceptTCPThread = NULL;
-	InitializeCriticalSection(&m_csAcceptTCPThread);
 	Startup();
 }
 
 CLan::~CLan()
 {
 	Shutdown();
-	DeleteCriticalSection(&m_csAcceptTCPThread);
 }
 
 void CLan::Startup()
@@ -80,10 +78,9 @@ void CLan::StopListen()
 	}
 	if (m_hAcceptTCPThread)
 	{
-		EnterCriticalSection(&m_csAcceptTCPThread);
+		mir_cslock lck(m_csAcceptTCPThread);
 		TerminateThread(m_hAcceptTCPThread, 0);
 		m_hAcceptTCPThread = NULL;
-		LeaveCriticalSection(&m_csAcceptTCPThread);
 	}
 	if (m_income != INVALID_SOCKET)
 	{
@@ -234,7 +231,7 @@ void CLan::AcceptTCP()
 		sockaddr_in addrFrom;
 		int addrLen = sizeof(addrFrom);
 		in_socket = accept(m_filesoc, (sockaddr*)&addrFrom, &addrLen);
-		EnterCriticalSection(&m_csAcceptTCPThread);
+		mir_cslock lck(m_csAcceptTCPThread);
 		if (in_socket != INVALID_SOCKET)
 		{
 			TTCPConnect* tcp_conn = new TTCPConnect;
@@ -244,7 +241,6 @@ void CLan::AcceptTCP()
 			DWORD threadId;
 			CreateThread(NULL, 0, OnInTCPConnectionProc, (LPVOID)tcp_conn, 0, &threadId);
 		}
-		LeaveCriticalSection(&m_csAcceptTCPThread);
 		Sleep(100);
 	}
 }
