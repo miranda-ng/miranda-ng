@@ -21,7 +21,7 @@ Avatar History Plugin
 #include "stdafx.h"
 
 HGENMENU hMenu = NULL; 
-DWORD WINAPI AvatarDialogThread(LPVOID param);
+void __cdecl AvatarDialogThread(void *param);
 static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam);
 int ShowSaveDialog(HWND hwnd, TCHAR* fn,MCONTACT hContact = NULL);
 
@@ -75,7 +75,6 @@ int OpenAvatarDialog(MCONTACT hContact, char* fn)
 		return 0;
 	}
 
-	DWORD dwId;
 	struct AvatarDialogData *avdlg = (struct AvatarDialogData*)malloc(sizeof(struct AvatarDialogData));
 	memset(avdlg, 0, sizeof(struct AvatarDialogData));
 	avdlg->hContact = hContact;
@@ -88,15 +87,14 @@ int OpenAvatarDialog(MCONTACT hContact, char* fn)
 		MultiByteToWideChar(CP_ACP, 0, fn, -1, avdlg->fn, SIZEOF(avdlg->fn));
 	}
 
-	CloseHandle(CreateThread(NULL, 0, AvatarDialogThread, (LPVOID)avdlg, 0, &dwId));
+	CloseHandle(mir_forkthread(AvatarDialogThread, (void*)avdlg));
 	return 0;
 }
 
-DWORD WINAPI AvatarDialogThread(LPVOID param)
+void __cdecl AvatarDialogThread(void *param)
 {
 	struct AvatarDialogData* data = (struct AvatarDialogData*)param;
 	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AVATARDLG), data->parent, AvatarDlgProc, (LPARAM)param);
-	return 0;
 }
 
 void EnableDisableControls(HWND hwnd)
