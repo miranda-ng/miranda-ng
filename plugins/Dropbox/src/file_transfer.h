@@ -1,6 +1,22 @@
 #ifndef _FILE_TRANSFER_H_
 #define _FILE_TRANSFER_H_
 
+class TransferException
+{
+	CMStringA message;
+
+public:
+	TransferException(const char *message) :
+		message(message)
+	{
+	}
+
+	const char* what() const throw()
+	{
+		return message.c_str();
+	}
+};
+
 struct FileTransferParam
 {
 	HANDLE hProcess;
@@ -8,19 +24,19 @@ struct FileTransferParam
 	PROTOFILETRANSFERSTATUS pfts;
 
 	int totalFolders;
-	wchar_t **pwszFolders;
+	TCHAR **pwszFolders;
 	int relativePathStart;
 
-	wchar_t **pwszUrls;
+	LIST<char> urlList;
 
-	FileTransferParam()
+	FileTransferParam() : urlList(1)
 	{
 		totalFolders = 0;
 		pwszFolders = NULL;
 		relativePathStart = 0;
 
 		pfts.cbSize = sizeof(this->pfts);
-		pfts.flags = PFTS_UNICODE;
+		pfts.flags = PFTS_TCHAR;
 		pfts.currentFileNumber = 0;
 		pfts.currentFileProgress = 0;
 		pfts.currentFileSize = 0;
@@ -30,8 +46,6 @@ struct FileTransferParam
 		pfts.pszFiles = NULL;
 		pfts.tszWorkingDir = NULL;
 		pfts.wszCurrentFile = NULL;
-
-		pwszUrls = NULL;
 	}
 
 	~FileTransferParam()
@@ -57,32 +71,14 @@ struct FileTransferParam
 			mir_free(pwszFolders);
 		}
 
-		if (pwszUrls)
-		{
-			for (int i = 0; pwszUrls[i]; i++)
-			{
-				if (pwszUrls[i]) mir_free(pwszUrls[i]);
-			}
-			mir_free(pwszUrls);
-		}
+		for (int i = 0; urlList.getCount(); i++)
+			mir_free(urlList[i]);
+		urlList.destroy();
 	}
 
-	void AddUrl(const wchar_t *url)
+	void AddUrl(const char *url)
 	{
-		int count = 0;
-		if (pwszUrls == NULL)
-			pwszUrls = (wchar_t**)mir_alloc(sizeof(wchar_t*) * 2);
-		else
-		{
-			for (; pwszUrls[count]; count++);
-			pwszUrls = (wchar_t**)mir_realloc(pwszUrls, sizeof(wchar_t*) * (count + 2));
-		}
-		
-		size_t length = wcslen(url);
-		pwszUrls[count] = (wchar_t*)mir_alloc(sizeof(wchar_t) * (length + 1));
-		wcscpy(pwszUrls[count], url);
-		pwszUrls[count][length] = '\0';
-		pwszUrls[count + 1] = NULL;
+		urlList.insert(mir_strdup(url));
 	}
 };
 

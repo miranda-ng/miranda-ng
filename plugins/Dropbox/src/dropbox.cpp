@@ -39,9 +39,11 @@ MCONTACT CDropbox::GetDefaultContact()
 	if (!hDefaultContact)
 		hDefaultContact = db_find_first(MODULE);
 
-	if (!hDefaultContact) {
+	if (!hDefaultContact)
+	{
 		hDefaultContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		if (!CallService(MS_PROTO_ADDTOCONTACT, hDefaultContact, (LPARAM)MODULE)) {
+		if (!CallService(MS_PROTO_ADDTOCONTACT, hDefaultContact, (LPARAM)MODULE))
+		{
 			db_set_s(NULL, MODULE, "Nick", MODULE);
 			db_set_s(hDefaultContact, MODULE, "Nick", MODULE);
 			db_set_ws(hDefaultContact, "CList", "MyHandle", L"Dropbox");
@@ -62,7 +64,7 @@ bool CDropbox::HasAccessToken()
 
 void CDropbox::RequestAccountInfo()
 {
-	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_GET, DROPBOX_API_URL "/account/info");
+	HttpRequest *request = new HttpRequest(hNetlibConnection, REQUEST_GET, DROPBOX_API_URL "/account/info");
 	request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
 	mir_ptr<NETLIBHTTPREQUEST> response(request->Send());
 
@@ -70,65 +72,71 @@ void CDropbox::RequestAccountInfo()
 
 	MCONTACT hContact = CDropbox::GetDefaultContact();
 
-	if (response && response->resultCode == HTTP_STATUS_OK) {
-		JSONROOT root(response->pData);
-		if (root) {
-			JSONNODE *node = json_get(root, "referral_link");
-			if (node) {
-				ptrW referral_link = ptrW(json_as_string(node));
-				db_set_ws(hContact, MODULE, "Homepage", referral_link);
+	HandleHttpResponseError(response);
+
+	JSONROOT root(response->pData);
+	if (root)
+	{
+		JSONNODE *node = json_get(root, "referral_link");
+		if (node)
+		{
+			ptrW referral_link = ptrW(json_as_string(node));
+			db_set_ws(hContact, MODULE, "Homepage", referral_link);
+		}
+
+		node = json_get(root, "display_name");
+		if (node)
+		{
+			ptrW display_name = ptrW(json_as_string(node));
+			TCHAR *sep = wcsrchr(display_name, L' ');
+			if (sep)
+			{
+				db_set_ws(hContact, MODULE, "LastName", sep + 1);
+				display_name[wcslen(display_name) - wcslen(sep)] = '\0';
+				db_set_ws(hContact, MODULE, "FirstName", display_name);
 			}
-
-			node = json_get(root, "display_name");
-			if (node) {
-				ptrW display_name = ptrW(json_as_string(node));
-				wchar_t *sep = wcsrchr(display_name, L' ');
-				if (sep) {
-					db_set_ws(hContact, MODULE, "LastName", sep + 1);
-					display_name[wcslen(display_name) - wcslen(sep)] = '\0';
-					db_set_ws(hContact, MODULE, "FirstName", display_name);
-				}
-				else {
-					db_set_ws(hContact, MODULE, "FirstName", display_name);
-					db_unset(hContact, MODULE, "LastName");
-				}
-			}
-
-			node = json_get(root, "country");
-			if (node) {
-				ptrW isocodeW(json_as_string(node));
-				ptrA isocode(mir_u2a(isocodeW));
-
-				if (!strlen(isocode))
-					db_unset(hContact, MODULE, "Country");
-				else {
-					char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode, 0);
-					db_set_s(hContact, MODULE, "Country", country);
-				}
-			}
-
-			node = json_get(root, "quota_info");
-			JSONNODE *nroot = json_as_node(node);
-			if (nroot) {
-				node = json_get(nroot, "shared");
-				if (node)
-					db_set_dw(hContact, MODULE, "SharedQuota", json_as_int(node));
-				node = json_get(nroot, "normal");
-				if (node)
-					db_set_dw(hContact, MODULE, "NormalQuota", json_as_int(node));
-				node = json_get(nroot, "quota");
-				if (node)
-					db_set_dw(hContact, MODULE, "TotalQuota", json_as_int(node));
+			else
+			{
+				db_set_ws(hContact, MODULE, "FirstName", display_name);
+				db_unset(hContact, MODULE, "LastName");
 			}
 		}
-	}
 
-	HandleHttpResponseError(hNetlibUser, response);
+		node = json_get(root, "country");
+		if (node)
+		{
+			ptrW isocodeW(json_as_string(node));
+			ptrA isocode(mir_u2a(isocodeW));
+
+			if (!strlen(isocode))
+				db_unset(hContact, MODULE, "Country");
+			else
+			{
+				char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode, 0);
+				db_set_s(hContact, MODULE, "Country", country);
+			}
+		}
+
+		node = json_get(root, "quota_info");
+		JSONNODE *nroot = json_as_node(node);
+		if (nroot)
+		{
+			node = json_get(nroot, "shared");
+			if (node)
+				db_set_dw(hContact, MODULE, "SharedQuota", json_as_int(node));
+			node = json_get(nroot, "normal");
+			if (node)
+				db_set_dw(hContact, MODULE, "NormalQuota", json_as_int(node));
+			node = json_get(nroot, "quota");
+			if (node)
+				db_set_dw(hContact, MODULE, "TotalQuota", json_as_int(node));
+		}
+	}
 }
 
-void CDropbox::DestroyAcceessToken()
+void CDropbox::DestroyAccessToken()
 {
-	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/disable_access_token");
+	HttpRequest *request = new HttpRequest(hNetlibConnection, REQUEST_POST, DROPBOX_API_URL "/disable_access_token");
 	mir_ptr<NETLIBHTTPREQUEST> response(request->Send());
 
 	delete request;
@@ -141,7 +149,7 @@ void CDropbox::DestroyAcceessToken()
 			db_set_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE);
 }
 
-UINT CDropbox::RequestAcceessTokenAsync(void *owner, void* param)
+UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 {
 	HWND hwndDlg = (HWND)param;
 	CDropbox *instance = (CDropbox*)owner;
@@ -150,7 +158,7 @@ UINT CDropbox::RequestAcceessTokenAsync(void *owner, void* param)
 	SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("in process..."));
 
 	if (instance->HasAccessToken())
-		instance->DestroyAcceessToken();
+		instance->DestroyAccessToken();
 
 	char requestToken[128];
 	GetDlgItemTextA(hwndDlg, IDC_REQUEST_CODE, requestToken, SIZEOF(requestToken));
@@ -162,7 +170,7 @@ UINT CDropbox::RequestAcceessTokenAsync(void *owner, void* param)
 		"grant_type=authorization_code&code=%s",
 		requestToken);
 
-	HttpRequest *request = new HttpRequest(instance->hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/oauth2/token");
+	HttpRequest *request = new HttpRequest(instance->hNetlibConnection, REQUEST_POST, DROPBOX_API_URL "/oauth2/token");
 	request->AddBasicAuthHeader(DROPBOX_API_KEY, DROPBOX_API_SECRET);
 	request->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	request->pData = mir_strdup(data);
@@ -174,42 +182,52 @@ UINT CDropbox::RequestAcceessTokenAsync(void *owner, void* param)
 
 	MCONTACT hContact = instance->GetDefaultContact();
 
-	if (response) {
-		JSONROOT root(response->pData);
-		if (root) {
-			if (response->resultCode == HTTP_STATUS_OK) {
-				JSONNODE *node = json_get(root, "access_token");
-				ptrA access_token = ptrA(mir_u2a(json_as_string(node)));
-				db_set_s(NULL, MODULE, "TokenSecret", access_token);
-
-				if (hContact) {
-					if (db_get_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
-						db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
-				}
-
-				instance->RequestAccountInfo();
-
-				if (hwndDlg)
-					SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("you have been authorized"));
-				/*else
-					ShowNotification(TranslateT("you have been authorized"), MB_ICONINFORMATION);*/
-			}
-			else {
-				JSONNODE *node = json_get(root, "error_description");
-				ptrW error_description(json_as_string(node));
-
-				if (hwndDlg)
-					SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, error_description);
-				/*else
-					ShowNotification((wchar_t*)error_description, MB_ICONERROR);*/
-			}
-		}
-	}
-	else {
+	if (response == NULL)
+	{
 		if (hwndDlg)
 			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("server does not respond"));
+		/*else
+			ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);*/
+	}
+	JSONROOT root(response->pData);
+	if (root)
+	{
+		if (response->resultCode == HTTP_STATUS_OK)
+		{
+			JSONNODE *node = json_get(root, "access_token");
+			ptrA access_token = ptrA(mir_u2a(json_as_string(node)));
+			db_set_s(NULL, MODULE, "TokenSecret", access_token);
 
-		HandleHttpResponseError(instance->hNetlibUser, response);
+			if (hContact) {
+				if (db_get_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+					db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
+			}
+
+			try
+			{
+				instance->RequestAccountInfo();
+			}
+			catch (TransferException &ex)
+			{
+				Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, ex.what());
+				return 0;
+			}
+
+			if (hwndDlg)
+				SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("you have been authorized"));
+			/*else
+				ShowNotification(TranslateT("you have been authorized"), MB_ICONINFORMATION);*/
+		}
+		else
+		{
+			JSONNODE *node = json_get(root, "error_description");
+			ptrW error_description(json_as_string(node));
+
+			if (hwndDlg)
+				SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, error_description);
+			/*else
+				ShowNotification((TCHAR*)error_description, MB_ICONERROR);*/
+		}
 	}
 
 	SetDlgItemTextA(hwndDlg, IDC_REQUEST_CODE, "");

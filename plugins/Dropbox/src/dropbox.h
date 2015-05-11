@@ -38,7 +38,7 @@ public:
 	virtual ~CDropbox();
 
 private:
-	HANDLE hNetlibUser;
+	HANDLE hNetlibConnection;
 	ULONG  hFileProcess;
 	ULONG  hMessageProcess;
 
@@ -85,23 +85,23 @@ private:
 	// access token
 	bool HasAccessToken();
 
-	void RequestAcceessToken();
-	void DestroyAcceessToken();
+	void RequestAccessToken();
+	void DestroyAccessToken();
 
-	static UINT RequestAcceessTokenAsync(void *owner, void* param);
+	static UINT RequestAccessTokenAsync(void *owner, void *param);
 
 	// account info
 	void RequestAccountInfo();
 
 	// transfers
-	int SendFile(const char *fileName, const char *data, int length);
-	int SendFileChunkedFirst(const char *data, int length, char *uploadId, size_t &offset);
-	int SendFileChunkedNext(const char *data, int length, const char *uploadId, size_t &offset);
-	int SendFileChunkedLast(const char *fileName, const char *uploadId);
+	void SendFile(const char *fileName, const char *data, int length);
+	void SendFileChunkedFirst(const char *data, int length, char *uploadId, size_t &offset);
+	void SendFileChunkedNext(const char *data, int length, const char *uploadId, size_t &offset);
+	void SendFileChunkedLast(const char *fileName, const char *uploadId);
 
-	int CreateFolder(const char *folderName);
+	void CreateFolder(const char *folderName);
 
-	int CreateDownloadUrl(const char *path, wchar_t *url);
+	void CreateDownloadUrl(const char *path, char *url);
 
 	static UINT SendFilesAsync(void *owner, void *arg);
 	static UINT SendFilesAndEventAsync(void *owner, void *arg);
@@ -123,8 +123,8 @@ private:
 	static void DisableSrmmButton(MCONTACT hContact);
 
 	// utils
-	static wchar_t *HttpStatusToText(HTTP_STATUS status);
-	static int HandleHttpResponseError(HANDLE hNetlibUser, NETLIBHTTPREQUEST *response);
+	static char* HttpStatusToText(HTTP_STATUS status);
+	static void HandleHttpResponseError(NETLIBHTTPREQUEST *response);
 };
 
 #endif //_DROPBOX_PROTO_H_

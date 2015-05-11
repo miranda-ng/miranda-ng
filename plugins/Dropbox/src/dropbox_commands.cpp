@@ -23,7 +23,7 @@ void CDropbox::CommandContent(void *arg)
 	if (name)
 		url.AppendFormat("/%s", ptrA(mir_utf8encode(name)));
 
-	HttpRequest *request = new HttpRequest(param->instance->hNetlibUser, REQUEST_GET, url);
+	HttpRequest *request = new HttpRequest(param->instance->hNetlibConnection, REQUEST_GET, url);
 	request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
 
 	mir_ptr<NETLIBHTTPREQUEST> response(request->Send());
@@ -74,7 +74,7 @@ void CDropbox::CommandShare(void *arg)
 		if (name)
 			url.AppendFormat("/%s", ptrA(mir_utf8encode(name)));
 
-		HttpRequest *request = new HttpRequest(param->instance->hNetlibUser, REQUEST_POST, url);
+		HttpRequest *request = new HttpRequest(param->instance->hNetlibConnection, REQUEST_POST, url);
 		request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
 
 		mir_ptr<NETLIBHTTPREQUEST> response(request->Send());
@@ -114,7 +114,7 @@ void CDropbox::CommandDelete(void *arg)
 	if (name) {
 		CMStringA pparam = CMStringA("root=" DROPBOX_API_ROOT "&path=") + ptrA(mir_utf8encode(name));
 
-		HttpRequest *request = new HttpRequest(param->instance->hNetlibUser, REQUEST_POST, DROPBOX_API_URL "/fileops/delete");
+		HttpRequest *request = new HttpRequest(param->instance->hNetlibConnection, REQUEST_POST, DROPBOX_API_URL "/fileops/delete");
 		request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
 		request->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 		request->pData = mir_strdup(pparam);

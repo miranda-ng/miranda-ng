@@ -18,7 +18,7 @@ int CDropbox::OnModulesLoaded(void *obj, WPARAM, LPARAM)
 
 	CDropbox *instance = (CDropbox*)obj;
 
-	instance->hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	instance->hNetlibConnection = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	instance->GetDefaultContact();
 
@@ -56,10 +56,9 @@ int CDropbox::OnContactDeleted(void *obj, WPARAM hContact, LPARAM)
 {
 	CDropbox *instance = (CDropbox*)obj;
 
-	if (mir_strcmpi(GetContactProto(hContact), MODULE) == 0) {
+	if (mir_strcmpi(GetContactProto(hContact), MODULE) == 0)
 		if (instance->HasAccessToken())
-			instance->DestroyAcceessToken();
-	}
+			instance->DestroyAccessToken();
 
 	return 0;
 }

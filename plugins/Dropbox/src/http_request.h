@@ -3,6 +3,7 @@
 
 enum HTTP_STATUS
 {
+	HTTP_STATUS_ERROR = 0,
 	HTTP_STATUS_OK = 200,
 	HTTP_STATUS_BAD_REQUEST = 400,
 	HTTP_STATUS_UNAUTHORIZED = 401,
@@ -17,13 +18,13 @@ enum HTTP_STATUS
 class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 {
 public:
-	HttpRequest(HANDLE hNetlibUser, int requestType, LPCSTR url)
+	HttpRequest(HANDLE hNetlibConnection, int requestType, LPCSTR url)
 	{
 		cbSize = sizeof(NETLIBHTTPREQUEST);
 		flags = NLHRF_HTTP11;
 		this->requestType = requestType;
 
-		m_hNetlibUser = hNetlibUser;
+		m_hNetlibConnection = hNetlibConnection;
 		m_szUrl = mir_strdup(url);
 	}
 
@@ -91,12 +92,12 @@ public:
 	NETLIBHTTPREQUEST *Send()
 	{
 		szUrl = m_szUrl.GetBuffer();
-		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)this);
+		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibConnection, (LPARAM)this);
 	}
 
 private:
 	CMStringA m_szUrl;
-	HANDLE m_hNetlibUser;
+	HANDLE m_hNetlibConnection;
 };
 
 #endif //_HTTP_REQUEST_H_
