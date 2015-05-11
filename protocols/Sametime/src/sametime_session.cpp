@@ -238,9 +238,8 @@ void __cdecl SessionSetUserStatus(struct mwSession* session)
 
 void CSametimeProto::UpdateSelfStatus()
 {
-	EnterCriticalSection(&session_cs);
+	mir_cslock lck(session_cs);
 	if (session) SessionSetUserStatus(session);
-	LeaveCriticalSection(&session_cs);
 }
 
 int CSametimeProto::SetSessionStatus(int status)
@@ -366,13 +365,11 @@ void __cdecl KeepAliveThread(LPVOID param)
 
 		SleepEx(250, TRUE);
 
-		EnterCriticalSection(&(proto->session_cs));
+		mir_cslock lck(proto->session_cs);
 		if (Miranda_Terminated() || !proto->session) {
-			LeaveCriticalSection(&(proto->session_cs));
 			proto->debugLog(_T("KeepAliveThread() end"));
 			break;
 		}
-		LeaveCriticalSection(&(proto->session_cs));
 	}
 
 	return;
@@ -427,13 +424,12 @@ void __cdecl SessionThread(LPVOID param)
 	handler.on_setPrivacyInfo = SessionSetPrivacyInfo;
 	handler.on_setUserStatus = SessionSetUserStatus;
 
-	EnterCriticalSection(&proto->session_cs);
+	mir_cslock lck(proto->session_cs);
 	proto->session = mwSession_new(&handler);
 
 	proto->InitMeanwhileServices();
 
 	mwSession_start(proto->session);
-	LeaveCriticalSection(&proto->session_cs);
 
 	mir_forkthread(KeepAliveThread, (void*)proto);
 
@@ -452,19 +448,17 @@ void __cdecl SessionThread(LPVOID param)
 			break;
 		}
 		else {
-			EnterCriticalSection(&proto->session_cs);
+			mir_cslock lck(proto->session_cs);
 			mwSession_recv(proto->session, recv_buffer, bytes);
-			LeaveCriticalSection(&proto->session_cs);
 		}
 	}
 	mir_free(recv_buffer);
 
-	EnterCriticalSection(&proto->session_cs);
+	mir_cslock lck2(proto->session_cs);
 	proto->DeinitMeanwhileServices();
 	mwSession* old_session = proto->session;
 	proto->session = 0; // kills keepalive thread, if awake
 	mwSession_free(old_session);
-	LeaveCriticalSection(&proto->session_cs);
 
 	proto->BroadcastNewStatus(ID_STATUS_OFFLINE);
 	proto->SetAllOffline();
@@ -498,13 +492,11 @@ int CSametimeProto::LogIn(int ls, HANDLE hNetlibUser)
 {
 	debugLog(_T("LogIn() start"));
 
-	EnterCriticalSection(&session_cs);
+	mir_cslock lck(session_cs);
 	if (session) {
-		LeaveCriticalSection(&session_cs);
 		debugLog(_T("LogIn() end, currently in session"));
 		return 0;
 	}
-	LeaveCriticalSection(&session_cs);
 
 	login_status = ls;
 
@@ -518,12 +510,11 @@ int CSametimeProto::LogOut()
 	debugLog(_T("LogOut() start"));
 	continue_connect = false;
 
-	EnterCriticalSection(&session_cs);
+	mir_cslock lck(session_cs);
 	if (session && server_connection && m_iStatus != ID_STATUS_OFFLINE && !mwSession_isStopped(session) && !mwSession_isStopping(session)) {
 		debugLog(_T("LogOut() mwSession_stop"));
 		mwSession_stop(session, 0);
 	}
-	LeaveCriticalSection(&session_cs);
 
 	return 0;
 }
@@ -586,16 +577,4 @@ void CSametimeProto::DeinitSessionMenu()
 {
 	debugLog(_T("CSametimeProto::DeinitSessionMenu()"));
 	CallService(MO_REMOVEMENUITEM, (WPARAM)hSessionAnnounceMenuItem, 0);
-}
-
-void CSametimeProto::InitCritSection()
-{
-	debugLog(_T("CSametimeProto::InitCritSection()"));
-	InitializeCriticalSection(&session_cs);
-}
-
-void CSametimeProto::DeinitCritSection()
-{
-	debugLog(_T("CSametimeProto::DeinitCritSection()"));
-	DeleteCriticalSection(&session_cs);
 }

@@ -115,8 +115,6 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	void DeinitSessionMenu();
 	int LogIn(int status, HANDLE hNetlibUser);
 	int LogOut();
-	void InitCritSection();
-	void DeinitCritSection();
 	int SetSessionStatus(int status);
 	void UpdateSelfStatus();
 	int SetIdle(bool idle);
@@ -153,7 +151,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 
 	char szProtoGroups[128];
 	HANDLE mainThread;
-	CRITICAL_SECTION session_cs;
+	mir_cs session_cs;
 	mwSession* session;
 	int previous_status;
 	bool is_idle;
@@ -168,7 +166,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	mwServiceFileTransfer* service_files;
 
 	// messaging.cpp
-	CRITICAL_SECTION q_cs;
+	mir_cs q_cs;
 	mwServiceIm* service_im;
 	ContactMessageQueue contact_message_queue;
 

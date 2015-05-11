@@ -28,7 +28,7 @@ void mwIm_conversation_opened(mwConversation* conv)
 	}
 
 	ContactMessageQueue::iterator i;
-	EnterCriticalSection(&proto->q_cs);
+	mir_cslock lck(proto->q_cs);
 	if ((i = proto->contact_message_queue.find(hContact)) != proto->contact_message_queue.end()) {
 		while (i->second.size()) {
 			mwConversation_send(conv, mwImSend_PLAIN, (gconstpointer)i->second.front().c_str());
@@ -36,7 +36,6 @@ void mwIm_conversation_opened(mwConversation* conv)
 		}
 		proto->contact_message_queue.erase(i);
 	}
-	LeaveCriticalSection(&proto->q_cs);
 
 	// gives linker error 'unresolved external symbol' :( So instead we will either add ciphers to the session or not (see session.cpp)
 	//mwConversation_setEncrypted(conv, options.encrypt_session);
@@ -57,12 +56,10 @@ void mwIm_conversation_closed(mwConversation* conv, guint32 err)
 	mwIdBlock* idb = mwConversation_getTarget(conv);
 	MCONTACT hContact = proto->FindContactByUserId(idb->user);
 	if (hContact) {
-		EnterCriticalSection(&proto->q_cs);
+		mir_cslock lck(proto->q_cs);
 		ContactMessageQueue::iterator i = proto->contact_message_queue.find(hContact);
 		if (i != proto->contact_message_queue.end())
 			proto->contact_message_queue.erase(i);
-
-		LeaveCriticalSection(&proto->q_cs);
 	}
 }
 
@@ -130,9 +127,8 @@ HANDLE CSametimeProto::SendMessageToUser(MCONTACT hContact, char* msg_utf8)
 		if (conv) {
 			if (!mwConversation_isOpen(conv)) {
 				debugLog(_T("CSametimeProto::SendMessageToUser()  mwConversation_isOpen"));
-				EnterCriticalSection(&q_cs);
+				mir_cslock lck(q_cs);
 				contact_message_queue[hContact].push(msg_utf8);
-				LeaveCriticalSection(&q_cs);
 				mwConversation_open(conv);
 			}
 			else {
@@ -196,7 +192,6 @@ void CSametimeProto::CloseIm(MCONTACT hContact)
 void CSametimeProto::InitMessaging()
 {
 	debugLog(_T("CSametimeProto::InitMessaging()"));
-	InitializeCriticalSection(&q_cs);
 	mwSession_addService(session, (mwService*)(service_im = mwServiceIm_new(session, &mwIm_handler)));
 	mwServiceIm_setClientType(service_im, mwImClient_PLAIN);
 }
@@ -207,5 +202,4 @@ void CSametimeProto::DeinitMessaging()
 	mwSession_removeService(session, mwService_IM);
 	mwService_free((mwService*)service_im);
 	service_im = 0;
-	DeleteCriticalSection(&q_cs);
 }
