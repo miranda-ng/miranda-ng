@@ -420,7 +420,7 @@ int TlenProtocol::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
 
 	debugLogA("SetAwayMsg called, wParam=%d lParam=%s", iStatus, newModeMsg);
 
-	EnterCriticalSection(&modeMsgMutex);
+	mir_cslock lck(modeMsgMutex);
 
 	switch (iStatus) {
 	case ID_STATUS_ONLINE:
@@ -445,7 +445,6 @@ int TlenProtocol::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
 		szMsg = &modeMsgs.szInvisible;
 		break;
 	default:
-		LeaveCriticalSection(&modeMsgMutex);
 		return 1;
 	}
 
@@ -464,7 +463,6 @@ int TlenProtocol::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
 		}
 	}
 
-	LeaveCriticalSection(&modeMsgMutex);
 	return 0;
 }
 
@@ -1222,9 +1220,6 @@ TlenProtocol::TlenProtocol( const char *aProtoName, const TCHAR *aUserName) :
 {
 	TlenInitServicesVTbl(this);
 
-	InitializeCriticalSection(&modeMsgMutex);
-	InitializeCriticalSection(&csSend);
-
 	hTlenNudge = CreateProtoEvent("/Nudge");
 
 	HookProtoEvent(ME_OPT_INITIALISE,            &TlenProtocol::OptionsInit);
@@ -1261,9 +1256,6 @@ TlenProtocol::~TlenProtocol()
 		DestroyHookableEvent(hTlenNudge);
 	TlenListUninit(this);
 	TlenIqUninit(this);
-	TlenSerialUninit(this);
-	DeleteCriticalSection(&modeMsgMutex);
-	DeleteCriticalSection(&csSend);
 	TlenWsUninit(this);
 
 	mir_free(modeMsgs.szOnline);

@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void TlenIqInit(TlenProtocol *proto)
 {
-	InitializeCriticalSection(&proto->csIqList);
 	proto->iqList = NULL;
 	proto->iqCount = 0;
 	proto->iqAlloced = 0;
@@ -38,17 +37,15 @@ void TlenIqUninit(TlenProtocol *proto)
 	proto->iqList = NULL;
 	proto->iqCount = 0;
 	proto->iqAlloced = 0;
-	DeleteCriticalSection(&proto->csIqList);
 }
 
 static void TlenIqRemove(TlenProtocol *proto, int index)
 {
-	EnterCriticalSection(&proto->csIqList);
+	mir_cslock lck(proto->csIqList);
 	if (index >= 0 && index<proto->iqCount) {
 		memmove(proto->iqList+index, proto->iqList+index+1, sizeof(TLEN_IQ_FUNC)*(proto->iqCount-index-1));
 		proto->iqCount--;
 	}
-	LeaveCriticalSection(&proto->csIqList);
 }
 
 static void TlenIqExpire(TlenProtocol *proto)
@@ -56,7 +53,7 @@ static void TlenIqExpire(TlenProtocol *proto)
 	int i;
 	time_t expire;
 
-	EnterCriticalSection(&proto->csIqList);
+	mir_cslock lck(proto->csIqList);
 	expire = time(NULL) - 120;	// 2 minute
 	i = 0;
 	while (i < proto->iqCount) {
@@ -65,7 +62,6 @@ static void TlenIqExpire(TlenProtocol *proto)
 		else
 			i++;
 	}
-	LeaveCriticalSection(&proto->csIqList);
 }
 
 TLEN_IQ_PFUNC TlenIqFetchFunc(TlenProtocol *proto, int iqId)
@@ -73,7 +69,7 @@ TLEN_IQ_PFUNC TlenIqFetchFunc(TlenProtocol *proto, int iqId)
 	int i;
 	TLEN_IQ_PFUNC res;
 
-	EnterCriticalSection(&proto->csIqList);
+	mir_cslock lck(proto->csIqList);
 	TlenIqExpire(proto);
 	for (i=0; i<proto->iqCount && proto->iqList[i].iqId != iqId; i++);
 	if (i < proto->iqCount) {
@@ -83,7 +79,6 @@ TLEN_IQ_PFUNC TlenIqFetchFunc(TlenProtocol *proto, int iqId)
 	else {
 		res = (TLEN_IQ_PFUNC) NULL;
 	}
-	LeaveCriticalSection(&proto->csIqList);
 	return res;
 }
 
@@ -91,7 +86,7 @@ void TlenIqAdd(TlenProtocol *proto, unsigned int iqId, TLEN_IQ_PROCID procId, TL
 {
 	int i;
 
-	EnterCriticalSection(&proto->csIqList);
+	mir_cslock lck(proto->csIqList);
 	if (procId == IQ_PROC_NONE)
 		i = proto->iqCount;
 	else
@@ -109,6 +104,5 @@ void TlenIqAdd(TlenProtocol *proto, unsigned int iqId, TLEN_IQ_PROCID procId, TL
 		proto->iqList[i].requestTime = time(NULL);
 		if (i == proto->iqCount) proto->iqCount++;
 	}
-	LeaveCriticalSection(&proto->csIqList);
 }
 

@@ -31,20 +31,18 @@ void TlenListInit(TlenProtocol *proto)
 {
 	proto->lists = NULL;
 	proto->listsCount = 0;
-	InitializeCriticalSection(&proto->csLists);
 }
 
 void TlenListUninit(TlenProtocol *proto)
 {
 	TlenListWipe(proto);
-	DeleteCriticalSection(&proto->csLists);
 }
 
 void TlenListWipe(TlenProtocol *proto)
 {
 	int i;
 
-	EnterCriticalSection(&proto->csLists);
+	mir_cslock lck(proto->csLists);
 	for (i=0; i<proto->listsCount; i++)
 		TlenListFreeItemInternal(&(proto->lists[i]));
 	if (proto->lists != NULL) {
@@ -52,13 +50,12 @@ void TlenListWipe(TlenProtocol *proto)
 		proto->lists = NULL;
 	}
 	proto->listsCount=0;
-	LeaveCriticalSection(&proto->csLists);
 }
 
 void TlenListWipeSpecial(TlenProtocol *proto)
 {
 	int i;
-	EnterCriticalSection(&proto->csLists);
+	mir_cslock lck(proto->csLists);
 	for (i=0; i<proto->listsCount; i++) {
 		if (proto->lists[i].list != LIST_FILE && proto->lists[i].list != LIST_VOICE) {
 			TlenListFreeItemInternal(&(proto->lists[i]));
@@ -68,7 +65,6 @@ void TlenListWipeSpecial(TlenProtocol *proto)
 		}
 	}
 	proto->lists = (TLEN_LIST_ITEM *) mir_realloc(proto->lists, sizeof(TLEN_LIST_ITEM)*proto->listsCount);
-	LeaveCriticalSection(&proto->csLists);
 }
 
 static void TlenListFreeItemInternal(TLEN_LIST_ITEM *item)
@@ -117,17 +113,15 @@ int TlenListExist(TlenProtocol *proto, TLEN_LIST list, const char *jid)
 	s = GetItemId(list, jid);
 	len = strlen(s);
 
-	EnterCriticalSection(&proto->csLists);
+	mir_cslock lck(proto->csLists);
 	for (i=0; i<proto->listsCount; i++)
 		if (proto->lists[i].list == list) {
 			p = proto->lists[i].jid;
 			if (p && strlen(p) >= len && (p[(int)len] == '\0' || p[(int)len] == '/') && !strncmp(p, s, len)) {
-				LeaveCriticalSection(&proto->csLists);
 				mir_free(s);
 				return i+1;
 			}
 		}
-	LeaveCriticalSection(&proto->csLists);
 	mir_free(s);
 	return 0;
 }
@@ -137,9 +131,8 @@ TLEN_LIST_ITEM *TlenListAdd(TlenProtocol *proto, TLEN_LIST list, const char *jid
 	char *s;
 	TLEN_LIST_ITEM *item;
 
-	EnterCriticalSection(&proto->csLists);
+	mir_cslock lck(proto->csLists);
 	if ((item=TlenListGetItemPtr(proto, list, jid)) != NULL) {
-		LeaveCriticalSection(&proto->csLists);
 		return item;
 	}
 
@@ -168,7 +161,6 @@ TLEN_LIST_ITEM *TlenListAdd(TlenProtocol *proto, TLEN_LIST list, const char *jid
 	item->versionRequested = FALSE;
 	item->infoRequested = FALSE;
 	proto->listsCount++;
-	LeaveCriticalSection(&proto->csLists);
 
 	return item;
 }
@@ -177,10 +169,9 @@ void TlenListRemove(TlenProtocol *proto, TLEN_LIST list, const char *jid)
 {
 	int i;
 
-	EnterCriticalSection(&proto->csLists);
+	mir_cslock lck(proto->csLists);
 	i = TlenListExist(proto, list, jid);
 	if (!i) {
-		LeaveCriticalSection(&proto->csLists);
 		return;
 	}
 	i--;
@@ -188,7 +179,6 @@ void TlenListRemove(TlenProtocol *proto, TLEN_LIST list, const char *jid)
 	proto->listsCount--;
 	memmove(proto->lists+i, proto->lists+i+1, sizeof(TLEN_LIST_ITEM)*(proto->listsCount-i));
 	proto->lists = (TLEN_LIST_ITEM *) mir_realloc(proto->lists, sizeof(TLEN_LIST_ITEM)*proto->listsCount);
-	LeaveCriticalSection(&proto->csLists);
 }
 
 void TlenListRemoveList(TlenProtocol *proto, TLEN_LIST list)
@@ -203,24 +193,22 @@ void TlenListRemoveList(TlenProtocol *proto, TLEN_LIST list)
 
 void TlenListRemoveByIndex(TlenProtocol *proto, int index)
 {
-	EnterCriticalSection(&proto->csLists);
+	mir_cslock lck(proto->csLists);
 	if (index >= 0 && index<proto->listsCount) {
 		TlenListFreeItemInternal(&(proto->lists[index]));
 		proto->listsCount--;
 		memmove(proto->lists+index, proto->lists+index+1, sizeof(TLEN_LIST_ITEM)*(proto->listsCount-index));
 		proto->lists = (TLEN_LIST_ITEM *) mir_realloc(proto->lists, sizeof(TLEN_LIST_ITEM)*proto->listsCount);
 	}
-	LeaveCriticalSection(&proto->csLists);
 }
 
 void TlenListAddResource(TlenProtocol *proto, TLEN_LIST list, const char *jid, int status, const char *statusMessage)
 {
 	int i;
 
-	EnterCriticalSection(&proto->csLists);
+	mir_cslock lck(proto->csLists);
 	i = TlenListExist(proto, list, jid);
 	if (!i) {
-		LeaveCriticalSection(&proto->csLists);
 		return;
 	}
 	i--;
@@ -231,34 +219,29 @@ void TlenListAddResource(TlenProtocol *proto, TLEN_LIST list, const char *jid, i
 		proto->lists[i].statusMessage = mir_strdup(statusMessage);
 	else
 		proto->lists[i].statusMessage = NULL;
-	LeaveCriticalSection(&proto->csLists);
 }
 
 void TlenListRemoveResource(TlenProtocol *proto, TLEN_LIST list, const char *jid)
 {
 	int i;
-	EnterCriticalSection(&proto->csLists);
+	mir_cslock lck(proto->csLists);
 	i = TlenListExist(proto, list, jid);
 	if (!i) {
-		LeaveCriticalSection(&proto->csLists);
 		return;
 	}
 	i--;
-	LeaveCriticalSection(&proto->csLists);
 }
 
 int TlenListFindNext(TlenProtocol *proto, TLEN_LIST list, int fromOffset)
 {
 	int i;
 
-	EnterCriticalSection(&proto->csLists);
+	mir_cslock lck(proto->csLists);
 	i = (fromOffset >= 0) ? fromOffset : 0;
 	for (; i<proto->listsCount; i++)
 		if (proto->lists[i].list == list) {
-			LeaveCriticalSection(&proto->csLists);
 			return i;
 		}
-	LeaveCriticalSection(&proto->csLists);
 	return -1;
 }
 
@@ -266,14 +249,12 @@ TLEN_LIST_ITEM *TlenListGetItemPtr(TlenProtocol *proto, TLEN_LIST list, const ch
 {
 	int i;
 
-	EnterCriticalSection(&proto->csLists);
+	mir_cslock lck(proto->csLists);
 	i = TlenListExist(proto, list, jid);
 	if (!i) {
-		LeaveCriticalSection(&proto->csLists);
 		return NULL;
 	}
 	i--;
-	LeaveCriticalSection(&proto->csLists);
 	return &(proto->lists[i]);
 }
 
@@ -286,30 +267,26 @@ TLEN_LIST_ITEM *TlenListFindItemPtrById2(TlenProtocol *proto, TLEN_LIST list, co
 
 	len = strlen(id);
 
-	EnterCriticalSection(&proto->csLists);
+	mir_cslock lck(proto->csLists);
 	for (i=0; i<proto->listsCount; i++) {
 		if (proto->lists[i].list == list) {
 			p = proto->lists[i].id2;
 			if (p != NULL) {
 				if (!strncmp(p, id, len)) {
-					LeaveCriticalSection(&proto->csLists);
 					return &(proto->lists[i]);
 				}
 			}
 		}
 	}
-	LeaveCriticalSection(&proto->csLists);
 	return NULL;
 }
 
 TLEN_LIST_ITEM *TlenListGetItemPtrFromIndex(TlenProtocol *proto, int index)
 {
-	EnterCriticalSection(&proto->csLists);
+	mir_cslock lck(proto->csLists);
 	if (index >= 0 && index<proto->listsCount) {
-		LeaveCriticalSection(&proto->csLists);
 		return &(proto->lists[index]);
 	}
-	LeaveCriticalSection(&proto->csLists);
 	return NULL;
 }
 
