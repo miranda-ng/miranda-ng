@@ -13,7 +13,7 @@
 class CLan
 {
 public:
-    //! constructor
+	//! constructor
 	CLan();
 	//! destructor
 	~CLan();
@@ -79,7 +79,7 @@ protected:
 
 private:
 	//! Launches Listen procedure when in new thread
-	static DWORD WINAPI ListenProc(LPVOID lpParameter);
+	static void __cdecl ListenProc(void *lpParameter);
 	//! Listnes for incoming messages
 	void Listen();
 	//! Listen thread handle
@@ -93,7 +93,7 @@ private:
 		LPVOID m_lpParameter;
 	};
 	//! Launches accept procedure for TCP connections in new thread
-	static DWORD WINAPI AcceptTCPProc(LPVOID lpParameter);
+	static void __cdecl AcceptTCPProc(void *lpParameter);
 	//! Accepts TCP connections
 	void AcceptTCP();
 	//! Accept TCP thread handle
@@ -102,7 +102,7 @@ private:
 	//! Called when new income TCP connection is created
 	static void __cdecl OnInTCPConnectionProc(void *lpParameter);
 	//! Called when new ougoing TCP connectio is created
-	static DWORD WINAPI OnOutTCPConnectionProc(LPVOID lpParameter);
+	static void __cdecl OnOutTCPConnectionProc(void *lpParameter);
 
 	//! Stores retrieved host addresses
 	in_addr m_hostAddr[MAX_INTERNAL_IP];

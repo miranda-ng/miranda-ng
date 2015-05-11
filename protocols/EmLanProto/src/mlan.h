@@ -16,7 +16,7 @@
 
 class CMLan;
 
-typedef struct 
+typedef struct
 {
 	PROTOSEARCHRESULT hdr;
 	u_long ipaddr;
@@ -34,13 +34,13 @@ public:
 	char* const msg;
 	CMLan* lan;
 
-	explicit TDataHolder(const CCSDATA* cc,unsigned long _id, long _op, CMLan* _lan):
-	msg(_strdup((char*)cc->lParam)),hContact(cc->hContact),id(_id),op(_op),lan(_lan)
+	explicit TDataHolder(const CCSDATA* cc, unsigned long _id, long _op, CMLan* _lan) :
+		msg(_strdup((char*)cc->lParam)), hContact(cc->hContact), id(_id), op(_op), lan(_lan)
 	{}
-	explicit TDataHolder(const char* str,unsigned long _id, long _op, CMLan* _lan):
-	msg(_strdup(str)),hContact(0), id(_id), op(_op), lan(_lan)
+	explicit TDataHolder(const char* str, unsigned long _id, long _op, CMLan* _lan) :
+		msg(_strdup(str)), hContact(0), id(_id), op(_op), lan(_lan)
 	{}
-	~TDataHolder(){delete[] msg;}
+	~TDataHolder(){ delete[] msg; }
 };
 
 class CMLan : public CLan
@@ -100,19 +100,19 @@ private:
 	mir_cs m_csReceiveThreadLock;
 	mir_cs m_csAccessAwayMes;
 
-	void RequestStatus(bool answer=false, u_long m_addr=INADDR_BROADCAST);
+	void RequestStatus(bool answer = false, u_long m_addr = INADDR_BROADCAST);
 	MCONTACT FindContact(in_addr addr, const char* nick, bool add_to_list, bool make_permanent, bool make_visible, u_int status = ID_STATUS_ONLINE);
 	void DeleteCache();
 
 	void StartChecking();
 	void StopChecking();
-	static DWORD WINAPI CheckProc(LPVOID lpParameter);
+	static void __cdecl CheckProc(void *lpParameter);
 	void Check();
 
 	int m_handleId;
 	int GetRandomProcId() { return m_handleId++; } // TODO: must create propper CRITICAL SECTION, cause there may be collisions
 
-	static DWORD WINAPI LaunchExt(LPVOID lpParameter);
+	static void __cdecl LaunchExt(void *lpParameter);
 	void SearchExt(TDataHolder* hold);
 	void SendMessageExt(TDataHolder* hold);
 	void GetAwayMsgExt(TDataHolder* hold);
@@ -131,8 +131,8 @@ private:
 		char* strAwayMessage; // NULL means no away message
 		int idAckAwayMessage;
 	};
-	u_char* CreatePacket(TPacket& pak, int* pBufLen=NULL);
-	void ParsePacket(TPacket& pak, u_char* buf, int len=65536);
+	u_char* CreatePacket(TPacket& pak, int* pBufLen = NULL);
+	void ParsePacket(TPacket& pak, u_char* buf, int len = 65536);
 	void SendPacketExt(TPacket& pak, u_long addr);
 
 	bool m_UseHostName;
@@ -164,7 +164,7 @@ private:
 		~TFileConnection();
 		void Lock() { mir_cslock lck(m_csAccess); }
 		void Terminate() { Lock(); m_state = FCS_TERMINATE; }
-		int Recv(bool halt=true);
+		int Recv(bool halt = true);
 		int Send(u_char* buf, int size);
 		int SendRaw(u_char* buf, int size);
 
