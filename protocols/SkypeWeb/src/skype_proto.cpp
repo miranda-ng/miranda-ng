@@ -51,6 +51,7 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());
 
 	db_set_resident(m_szModuleName, "Status");
+	db_set_resident(m_szModuleName, "LastAuthRequestTime");
 
 	//hooks
 	m_hCallHook = CreateHookableEvent(MODULE"/IncomingCall");
