@@ -356,7 +356,7 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	LONG userID = getDword(hContact, "ID", -1);
 	bool bisFriend = (getByte(hContact, "Auth", -1) == 0);
 	bool bisBroadcast = !(IsEmpty(ptrT(db_get_tsa(hContact, m_szModuleName, "AudioUrl"))));
-	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], !isChatRoom(hContact));
+	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], !isChatRoom(hContact) && userID != VK_FEED_USER);
 	Menu_ShowItem(g_hContactMenuItems[CMI_WALLPOST], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact) && userID != VK_FEED_USER);
 	Menu_ShowItem(g_hContactMenuItems[CMI_DELETEFRIEND], bisFriend && userID != VK_FEED_USER);
