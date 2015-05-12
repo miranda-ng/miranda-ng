@@ -41,7 +41,7 @@ struct MenuItemOptData : public MZeroedObject
 	ptrT   defname;
 	ptrA   uniqname;
 	
-	bool   bShow, bIsSelected;
+	bool   bIsSelected;
 	int    id;
 
 	PMO_IntMenuItem pimi;
@@ -65,7 +65,7 @@ class CGenMenuOptionsPage : public CDlgBase
 		TVITEMEX tvi;
 		tvi.hItem = m_menuItems.GetRoot();
 		tvi.cchTextMax = SIZEOF(idstr);
-		tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE;
+		tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE | TVIF_IMAGE;
 		tvi.pszText = idstr;
 
 		int count = 0;
@@ -87,7 +87,7 @@ class CGenMenuOptionsPage : public CDlgBase
 				GetMenuItemName(iod->pimi, menuItemName, sizeof(menuItemName));
 
 				mir_snprintf(DBString, SIZEOF(DBString), "%s_visible", menuItemName);
-				db_set_b(NULL, MenuNameItems, DBString, iod->bShow);
+				db_set_b(NULL, MenuNameItems, DBString, tvi.iImage != 0);
 
 				mir_snprintf(DBString, SIZEOF(DBString), "%s_pos", menuItemName);
 				db_set_dw(NULL, MenuNameItems, DBString, runtimepos);
@@ -102,7 +102,7 @@ class CGenMenuOptionsPage : public CDlgBase
 				runtimepos += 100;
 			}
 
-			if (iod->name && !_tcscmp(iod->name, STR_SEPARATOR) && iod->bShow)
+			if (iod->name && !_tcscmp(iod->name, STR_SEPARATOR) && tvi.iImage)
 				runtimepos += SEPARATORPOSITIONINTERVAL;
 
 			tvi.hItem = m_menuItems.GetNextSibling(tvi.hItem);
@@ -152,7 +152,14 @@ class CGenMenuOptionsPage : public CDlgBase
 		char menuItemName[256], MenuNameItems[256];
 		mir_snprintf(MenuNameItems, SIZEOF(MenuNameItems), "%s_Items", pimo->pszName);
 
-		LIST<MenuItemOptData> arItems(20, NumericKeySortT);
+		m_menuItems.SendMsg(WM_SETREDRAW, FALSE, 0);
+		int lastpos = 0;
+		bool bIsFirst = TRUE;
+
+		TVINSERTSTRUCT tvis;
+		tvis.hParent = NULL;
+		tvis.hInsertAfter = TVI_LAST;
+		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 
 		for (PMO_IntMenuItem p = pimo->m_items.first; p != NULL; p = p->next) {
 			if (p->mi.root != (HGENMENU)-1 && p->mi.root != NULL)
@@ -175,7 +182,7 @@ class CGenMenuOptionsPage : public CDlgBase
 			PD->defname = mir_tstrdup(GetMenuItemText(p));
 
 			mir_snprintf(buf, SIZEOF(buf), "%s_visible", menuItemName);
-			PD->bShow = db_get_b(NULL, MenuNameItems, buf, 1) != 0;
+			int bShow = db_get_b(NULL, MenuNameItems, buf, 1) != 0;
 
 			if (bReread) {
 				mir_snprintf(buf, SIZEOF(buf), "%s_pos", menuItemName);
@@ -188,35 +195,21 @@ class CGenMenuOptionsPage : public CDlgBase
 			if (p->UniqName)
 				PD->uniqname = mir_strdup(p->UniqName);
 
-			arItems.insert(PD);
-		}
+			if (PD->pos - lastpos >= SEPARATORPOSITIONINTERVAL) {
+				MenuItemOptData *sep = new MenuItemOptData();
+				sep->id = -1;
+				sep->name = mir_tstrdup(STR_SEPARATOR);
+				sep->pos = PD->pos - 1;
 
-		m_menuItems.SendMsg(WM_SETREDRAW, FALSE, 0);
-		int lastpos = 0;
-		bool bIsFirst = TRUE;
-
-		TVINSERTSTRUCT tvis;
-		tvis.hParent = NULL;
-		tvis.hInsertAfter = TVI_LAST;
-		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-		for (int i = 0; i < arItems.getCount(); i++) {
-			auto p = arItems[i];
-			if (p->pos - lastpos >= SEPARATORPOSITIONINTERVAL) {
-				MenuItemOptData *PD = new MenuItemOptData();
-				PD->id = -1;
-				PD->name = mir_tstrdup(STR_SEPARATOR);
-				PD->pos = p->pos - 1;
-				PD->bShow = true;
-
-				tvis.item.lParam = (LPARAM)PD;
-				tvis.item.pszText = PD->name;
-				tvis.item.iImage = tvis.item.iSelectedImage = PD->bShow;
+				tvis.item.lParam = (LPARAM)sep;
+				tvis.item.pszText = sep->name;
+				tvis.item.iImage = tvis.item.iSelectedImage = 1;
 				m_menuItems.InsertItem(&tvis);
 			}
 
-			tvis.item.lParam = (LPARAM)p;
-			tvis.item.pszText = p->name;
-			tvis.item.iImage = tvis.item.iSelectedImage = p->bShow;
+			tvis.item.lParam = (LPARAM)PD;
+			tvis.item.pszText = PD->name;
+			tvis.item.iImage = tvis.item.iSelectedImage = bShow;
 
 			HTREEITEM hti = m_menuItems.InsertItem(&tvis);
 			if (bIsFirst) {
@@ -224,7 +217,7 @@ class CGenMenuOptionsPage : public CDlgBase
 				bIsFirst = false;
 			}
 
-			lastpos = p->pos;
+			lastpos = PD->pos;
 		}
 
 		m_menuItems.SendMsg(WM_SETREDRAW, TRUE, 0);
@@ -252,7 +245,7 @@ class CGenMenuOptionsPage : public CDlgBase
 	HTREEITEM MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter)
 	{
 		TVITEMEX tvi = { 0 };
-		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE;
 		tvi.hItem = hItem;
 		if (!m_menuItems.GetItem(&tvi))
 			return NULL;
@@ -268,7 +261,7 @@ class CGenMenuOptionsPage : public CDlgBase
 			tvis.itemex.pszText = name;
 			tvis.itemex.cchTextMax = SIZEOF(name);
 			tvis.itemex.hItem = hItem;
-			tvis.itemex.iImage = tvis.itemex.iSelectedImage = ((MenuItemOptData*)tvi.lParam)->bShow;
+			tvis.itemex.iImage = tvis.itemex.iSelectedImage = tvi.iImage;
 			if (!m_menuItems.GetItem(&tvis.itemex))
 				return NULL;
 			
@@ -309,7 +302,8 @@ public:
 		m_btnDefault.OnClick = Callback(this, &CGenMenuOptionsPage::btnDefault_Clicked);
 
 		m_menuObjects.OnSelChanged = Callback(this, &CGenMenuOptionsPage::onMenuObjectChanged);
-		
+
+		m_menuItems.SetFlags(MTREE_CHECKBOX);
 		m_menuItems.OnSelChanged = Callback(this, &CGenMenuOptionsPage::onMenuItemChanged);
 		m_menuItems.OnBeginDrag = Callback(this, &CGenMenuOptionsPage::onMenuItemBeginDrag);
 	}
@@ -386,13 +380,12 @@ public:
 		MenuItemOptData *PD = new MenuItemOptData();
 		PD->id = -1;
 		PD->name = mir_tstrdup(STR_SEPARATOR);
-		PD->bShow = true;
 		PD->pos = ((MenuItemOptData *)tvi.lParam)->pos - 1;
 
 		TVINSERTSTRUCT tvis = { 0 };
 		tvis.item.lParam = (LPARAM)(PD);
 		tvis.item.pszText = PD->name;
-		tvis.item.iImage = tvis.item.iSelectedImage = PD->bShow;
+		tvis.item.iImage = tvis.item.iSelectedImage = 1;
 		tvis.hInsertAfter = hti;
 		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 		m_menuItems.InsertItem(&tvis);
@@ -559,20 +552,6 @@ public:
 		return 0;
 	}
 
-	void OnClickCheckbox(HTREEITEM hItem)
-	{
-		TVITEMEX tvi;
-		tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
-		tvi.hItem = hItem;
-		m_menuItems.GetItem(&tvi);
-
-		tvi.iImage = tvi.iSelectedImage = !tvi.iImage;
-		((MenuItemOptData *)tvi.lParam)->bShow = tvi.iImage != 0;
-		m_menuItems.SetItem(&tvi);
-		
-		NotifyChange();
-	}
-
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		TVHITTESTINFO hti;
@@ -669,11 +648,6 @@ public:
 					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, onMenuItemDraw((LPNMTVCUSTOMDRAW)phdr));
 					return TRUE;
 
-				case TVN_KEYDOWN:
-					if (((LPNMLVKEYDOWN)phdr)->wVKey == VK_SPACE)
-						OnClickCheckbox(m_menuItems.GetSelection());
-					break;
-
 				case NM_CLICK:
 					TVHITTESTINFO hti;
 					hti.pt.x = (short)LOWORD(GetMessagePos());
@@ -681,9 +655,6 @@ public:
 					ScreenToClient(phdr->hwndFrom, &hti.pt);
 					if (!m_menuItems.HitTest(&hti))
 						break;
-
-					if (hti.flags & TVHT_ONITEMICON)
-						OnClickCheckbox(hti.hItem);
 
 					/*--------MultiSelection----------*/
 					if (hti.flags & TVHT_ONITEMLABEL) {

@@ -870,7 +870,7 @@ mir_wstrcmpi                  @280
 ?GetTextBkColor@CCtrlListView@@QEAAKXZ @869 NONAME
 ?GetTextColor@CCtrlListView@@QEAAKXZ @870 NONAME
 ?GetTextColor@CCtrlTreeView@@QEAAKXZ @871 NONAME
-?GetTextColot@CCtrlClc@@QEAAKH@Z @872 NONAME
+?GetTextColor@CCtrlClc@@QEAAKH@Z @872 NONAME
 ?GetTileInfo@CCtrlListView@@QEAAXPEAUtagLVTILEINFO@@@Z @873 NONAME
 ?GetTileViewInfo@CCtrlListView@@QEAAXPEAUtagLVTILEVIEWINFO@@@Z @874 NONAME
 ?GetToolTips@CCtrlListView@@QEAAPEAUHWND__@@XZ @875 NONAME
@@ -897,7 +897,7 @@ mir_wstrcmpi                  @280
 ?InsertMarkHitTest@CCtrlListView@@QEAAHPEAUtagPOINT@@PEAULVINSERTMARK@@@Z @896 NONAME
 ?InsertString@CCtrlCombo@@QEAAHPEA_WH_J@Z @897 NONAME
 ?InsertString@CCtrlListBox@@QEAAHPEA_WH_J@Z @898 NONAME
-?IsChanged@CCtrlData@@QEBA_NXZ @899 NONAME
+?IsChanged@CCtrlBase@@QEBA_NXZ @899 NONAME
 ?IsGroupViewEnabled@CCtrlListView@@QEAAHXZ @900 NONAME
 ?IsInitialized@CDlgBase@@QEBA_NXZ @901 NONAME
 ?LoadInt@CCtrlData@@IEAAKXZ @902 NONAME
@@ -908,7 +908,7 @@ mir_wstrcmpi                  @280
 ?MakePush@CCtrlMButton@@QEAAXXZ @907 NONAME
 ?MapIDToIndex@CCtrlListView@@QEAAII@Z @908 NONAME
 ?MapIndexToID@CCtrlListView@@QEAAII@Z @909 NONAME
-?NotifyChange@CCtrlData@@IEAAXXZ @910 NONAME
+?NotifyChange@CCtrlBase@@QEAAXXZ @910 NONAME
 ?NotifyControls@CDlgBase@@AEAAXP8CCtrlBase@@EAAXXZ@Z @911 NONAME
 ?OnApply@CCtrlBase@@UEAAXXZ @912 NONAME
 ?OnApply@CCtrlCheck@@UEAAXXZ @913 NONAME
@@ -930,10 +930,8 @@ mir_wstrcmpi                  @280
 ?OnDestroy@CDlgBase@@MEAAXXZ @929 NONAME
 ?OnDrawItem@CCtrlBase@@UEAAHPEAUtagDRAWITEMSTRUCT@@@Z @930 NONAME
 ?OnInit@CCtrlBase@@UEAAXXZ @931 NONAME
-?OnInit@CCtrlCheck@@UEAAXXZ @932 NONAME
 ?OnInit@CCtrlCombo@@UEAAXXZ @933 NONAME
 ?OnInit@CCtrlData@@UEAAXXZ @934 NONAME
-?OnInit@CCtrlEdit@@UEAAXXZ @935 NONAME
 ?OnInit@CCtrlMButton@@UEAAXXZ @936 NONAME
 ?OnInit@CCtrlPages@@MEAAXXZ @937 NONAME
 ?OnInitDialog@CDlgBase@@MEAAXXZ @938 NONAME
@@ -1077,3 +1075,5 @@ Proto_RegisterModule @1074 NONAME
 ?Find@CDlgBase@@SAPEAV1@PEAUHWND__@@@Z @1076 NONAME
 ?SetCaption@CDlgBase@@QEAAXPEB_W@Z @1077 NONAME
 ?NotifyChange@CDlgBase@@QEAAXXZ @1078 NONAME
+?InvertCheck@CCtrlTreeView@@QEAAXPEAU_TREEITEM@@@Z @1079 NONAME
+?SetFlags@CCtrlTreeView@@QEAAXI@Z @1080 NONAME
