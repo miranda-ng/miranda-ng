@@ -10,7 +10,7 @@
 #define DROPBOX_API_URL "https://api.dropbox.com/" DROPBOX_API_VER
 #define DROPBOX_APICONTENT_URL "https://api-content.dropbox.com/" DROPBOX_API_VER
 
-#define DROPBOX_API_KEY "fa8du7gkf2q8xzg"
+#define DROPBOX_APP_KEY "fa8du7gkf2q8xzg"
 #include "..\..\..\miranda-private-keys\Dropbox\secret_key.h"
 
 #define DROPBOX_FILE_CHUNK_SIZE 4 * 1024 * 1024 //4 MB
@@ -50,6 +50,8 @@ private:
 
 	HGENMENU contactMenuItems[CMI_MAX];
 
+	LIST<FileTransferParam> transfers;
+
 	// hooks
 	static int OnProtoAck(void *obj, WPARAM wParam, LPARAM lParam);
 	static int OnPreShutdown(void *obj, WPARAM wParam, LPARAM lParam);
@@ -71,6 +73,7 @@ private:
 	static INT_PTR ProtoGetStatus(WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoSetStatus(void *obj, WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoSendFile(void *obj, WPARAM wParam, LPARAM lParam);
+	static INT_PTR ProtoCancelFile(void *obj, WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoSendMessage(void *obj, WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoReceiveMessage(void *obj, WPARAM wParam, LPARAM lParam);
 

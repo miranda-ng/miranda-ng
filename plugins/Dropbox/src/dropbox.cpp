@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-CDropbox::CDropbox()
+CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 {
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = MODULE;
@@ -21,6 +21,7 @@ CDropbox::CDropbox()
 	CreateProtoServiceFunction(MODULE, PS_GETSTATUS, ProtoGetStatus);
 	CreateProtoServiceFunctionObj(PS_SETSTATUS, ProtoSetStatus, this);
 	CreateProtoServiceFunctionObj(PSS_FILEW, ProtoSendFile, this);
+	CreateProtoServiceFunctionObj(PSS_FILECANCEL, ProtoCancelFile, this);
 	CreateProtoServiceFunctionObj(PSS_MESSAGE, ProtoSendMessage, this);
 	CreateProtoServiceFunctionObj(PSR_MESSAGE, ProtoReceiveMessage, this);
 
@@ -171,7 +172,7 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 		requestToken);
 
 	HttpRequest *request = new HttpRequest(instance->hNetlibConnection, REQUEST_POST, DROPBOX_API_URL "/oauth2/token");
-	request->AddBasicAuthHeader(DROPBOX_API_KEY, DROPBOX_API_SECRET);
+	request->AddBasicAuthHeader(DROPBOX_APP_KEY, DROPBOX_API_SECRET);
 	request->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	request->pData = mir_strdup(data);
 	request->dataLength = (int)strlen(data);
