@@ -23,8 +23,10 @@ struct FileTransferParam
 	MCONTACT hContact;
 	PROTOFILETRANSFERSTATUS pfts;
 
+	bool isTerminated;
+
 	int totalFolders;
-	TCHAR **pwszFolders;
+	TCHAR **ptszFolders;
 	int relativePathStart;
 
 	LIST<char> urlList;
@@ -32,8 +34,10 @@ struct FileTransferParam
 	FileTransferParam() : urlList(1)
 	{
 		totalFolders = 0;
-		pwszFolders = NULL;
+		ptszFolders = NULL;
 		relativePathStart = 0;
+
+		isTerminated = false;
 
 		pfts.cbSize = sizeof(this->pfts);
 		pfts.flags = PFTS_TCHAR;
@@ -45,13 +49,13 @@ struct FileTransferParam
 		pfts.totalProgress = 0;
 		pfts.pszFiles = NULL;
 		pfts.tszWorkingDir = NULL;
-		pfts.wszCurrentFile = NULL;
+		pfts.tszCurrentFile = NULL;
 	}
 
 	~FileTransferParam()
 	{
-		if (pfts.wszWorkingDir)
-			mir_free(pfts.wszWorkingDir);
+		if (pfts.tszWorkingDir)
+			mir_free(pfts.tszWorkingDir);
 
 		if (pfts.pszFiles)
 		{
@@ -62,13 +66,13 @@ struct FileTransferParam
 			mir_free(pfts.pszFiles);
 		}
 
-		if (pwszFolders)
+		if (ptszFolders)
 		{
-			for (int i = 0; pwszFolders[i]; i++)
+			for (int i = 0; ptszFolders[i]; i++)
 			{
-				if (pwszFolders[i]) mir_free(pwszFolders[i]);
+				if (ptszFolders[i]) mir_free(ptszFolders[i]);
 			}
-			mir_free(pwszFolders);
+			mir_free(ptszFolders);
 		}
 
 		for (int i = 0; i < urlList.getCount(); i++)

@@ -12,7 +12,8 @@ HANDLE CDropbox::CreateProtoServiceFunctionObj(const char *szService, MIRANDASER
 
 INT_PTR CDropbox::ProtoGetCaps(WPARAM wParam, LPARAM)
 {
-	switch (wParam) {
+	switch (wParam)
+	{
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_FILESEND;
 	case PFLAGNUM_2:
@@ -26,7 +27,8 @@ INT_PTR CDropbox::ProtoGetCaps(WPARAM wParam, LPARAM)
 
 INT_PTR CDropbox::ProtoGetName(WPARAM wParam, LPARAM lParam)
 {
-	if (lParam) {
+	if (lParam)
+	{
 		mir_strncpy((char *)lParam, MODULE, wParam);
 		return 0;
 	}
@@ -48,9 +50,11 @@ INT_PTR CDropbox::ProtoSetStatus(void *obj, WPARAM wp, LPARAM)
 {
 	CDropbox *instance = (CDropbox*)obj;
 	int nStatus = wp;
-	if ((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus)) {
+	if ((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus))
+	{
 		int nOldStatus = g_nStatus;
-		if (nStatus != g_nStatus) {
+		if (nStatus != g_nStatus)
+		{
 			g_nStatus = nStatus;
 
 			MCONTACT hContact = instance->GetDefaultContact();
@@ -79,38 +83,44 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 
 	TCHAR **paths = (TCHAR**)pccsd->lParam;
 
-	for (int i = 0; paths[i]; i++) {
+	for (int i = 0; paths[i]; i++)
+	{
 		if (PathIsDirectory(paths[i]))
 			ftp->totalFolders++;
 		else
 			ftp->pfts.totalFiles++;
 	}
 
-	ftp->pwszFolders = (TCHAR**)mir_alloc(sizeof(TCHAR*) * (ftp->totalFolders + 1));
-	ftp->pwszFolders[ftp->totalFolders] = NULL;
+	ftp->ptszFolders = (TCHAR**)mir_alloc(sizeof(TCHAR*) * (ftp->totalFolders + 1));
+	ftp->ptszFolders[ftp->totalFolders] = NULL;
 
 	ftp->pfts.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*) * (ftp->pfts.totalFiles + 1));
 	ftp->pfts.ptszFiles[ftp->pfts.totalFiles] = NULL;
 
-	for (int i = 0, j = 0, k = 0; paths[i]; i++) {
-		if (PathIsDirectory(paths[i])) {
-			if (!ftp->relativePathStart) {
+	for (int i = 0, j = 0, k = 0; paths[i]; i++)
+	{
+		if (PathIsDirectory(paths[i]))
+		{
+			if (!ftp->relativePathStart)
+			{
 				TCHAR *rootFolder = paths[j];
 				TCHAR *relativePath = wcsrchr(rootFolder, '\\') + 1;
 				ftp->relativePathStart = relativePath - rootFolder;
 			}
 
-			ftp->pwszFolders[j] = mir_wstrdup(&paths[i][ftp->relativePathStart]);
+			ftp->ptszFolders[j] = mir_tstrdup(&paths[i][ftp->relativePathStart]);
 
 			j++;
 		}
-		else {
-			if (!ftp->pfts.wszWorkingDir) {
+		else
+		{
+			if (!ftp->pfts.tszWorkingDir)
+			{
 				TCHAR *path = paths[j];
 				int length = wcsrchr(path, '\\') - path;
-				ftp->pfts.wszWorkingDir = (TCHAR*)mir_alloc(sizeof(TCHAR) * (length + 1));
-				mir_tstrncpy(ftp->pfts.wszWorkingDir, paths[j], length + 1);
-				ftp->pfts.wszWorkingDir[length] = '\0';
+				ftp->pfts.tszWorkingDir = (TCHAR*)mir_alloc(sizeof(TCHAR) * (length + 1));
+				mir_tstrncpy(ftp->pfts.tszWorkingDir, paths[j], length + 1);
+				ftp->pfts.tszWorkingDir[length] = '\0';
 
 			}
 
@@ -129,10 +139,29 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 
 	ULONG fileId = InterlockedIncrement(&instance->hFileProcess);
 	ftp->hProcess = (HANDLE)fileId;
+	instance->transfers.insert(ftp);
 
 	mir_forkthreadowner(CDropbox::SendFilesAndReportAsync, obj, ftp, 0);
 
 	return fileId;
+}
+
+INT_PTR CDropbox::ProtoCancelFile(void *obj, WPARAM, LPARAM lParam)
+{
+	CDropbox *instance = (CDropbox*)obj;
+	if (!instance->HasAccessToken())
+		return ACKRESULT_FAILED;
+
+	CCSDATA *pccsd = (CCSDATA*)lParam;
+
+	HANDLE hTransfer = (HANDLE)pccsd->wParam;
+	FileTransferParam *ftp = instance->transfers.find((FileTransferParam*)&hTransfer);
+	if (ftp == NULL)
+		return 0;
+
+	ftp->isTerminated = true;
+
+	return 0;
 }
 
 INT_PTR CDropbox::ProtoSendMessage(void *obj, WPARAM, LPARAM lParam)
@@ -154,7 +183,8 @@ INT_PTR CDropbox::ProtoSendMessage(void *obj, WPARAM, LPARAM lParam)
 	dbei.flags = DBEF_SENT | DBEF_READ | DBEF_UTF;
 	db_event_add(pccsd->hContact, &dbei);
 
-	if (message[0] && message[0] == '/') {
+	if (message[0] && message[0] == '/')
+	{
 		// parse commands
 		char *sep = strchr(message, ' ');
 		if (sep != NULL) *sep = 0;
@@ -172,8 +202,10 @@ INT_PTR CDropbox::ProtoSendMessage(void *obj, WPARAM, LPARAM lParam)
 			{ "delete", &CDropbox::CommandDelete }
 		};
 
-		for (int i = 0; i < SIZEOF(commands); i++) {
-			if (!strcmp(message + 1, commands[i].szCommand)) {
+		for (int i = 0; i < SIZEOF(commands); i++)
+		{
+			if (!strcmp(message + 1, commands[i].szCommand))
+			{
 				ULONG messageId = InterlockedIncrement(&instance->hMessageProcess);
 
 				CommandParam *param = new CommandParam();
@@ -192,6 +224,7 @@ INT_PTR CDropbox::ProtoSendMessage(void *obj, WPARAM, LPARAM lParam)
 	char help[1024];
 	mir_snprintf(help, SIZEOF(help), Translate("\"%s\" is not valid.\nUse \"/help\" for more info."), message);
 	CallContactService(instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)help);
+
 	return 0;
 }
 
@@ -230,10 +263,10 @@ INT_PTR CDropbox::SendFileToDropbox(void *obj, WPARAM hContact, LPARAM lParam)
 	ftp->hContact = (instance->hTransferContact) ? instance->hTransferContact : hContact;
 	instance->hTransferContact = 0;
 
-	int length = wcsrchr(filePath, '\\') - filePath;
-	ftp->pfts.wszWorkingDir = (TCHAR*)mir_alloc(sizeof(TCHAR) * (length + 1));
-	mir_tstrncpy(ftp->pfts.wszWorkingDir, filePath, length + 1);
-	ftp->pfts.wszWorkingDir[length] = '\0';
+	int length = _tcsrchr(filePath, '\\') - filePath;
+	ftp->pfts.tszWorkingDir = (TCHAR*)mir_alloc(sizeof(TCHAR) * (length + 1));
+	mir_tstrncpy(ftp->pfts.tszWorkingDir, filePath, length + 1);
+	ftp->pfts.tszWorkingDir[length] = '\0';
 
 	ftp->pfts.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*) * (ftp->pfts.totalFiles + 1));
 	ftp->pfts.ptszFiles[0] = mir_wstrdup(filePath);

@@ -37,7 +37,7 @@ INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		switch (LOWORD(wParam))
 		{
 		case IDC_GETAUTH:
-			CallService(MS_UTILS_OPENURL, 0, (LPARAM)DROPBOX_WWW_URL DROPBOX_API_VER "/oauth2/authorize?response_type=code&client_id=" DROPBOX_API_KEY);
+			CallService(MS_UTILS_OPENURL, 0, (LPARAM)DROPBOX_WWW_URL DROPBOX_API_VER "/oauth2/authorize?response_type=code&client_id=" DROPBOX_APP_KEY);
 			SetFocus(GetDlgItem(hwndDlg, IDC_REQUEST_CODE));
 			break;
 
