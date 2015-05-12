@@ -34,11 +34,11 @@
 #define IDC_BUTTON_REMOVE_SENDER_FILTER 1024
 #define IDC_BUTTON_REMOVE_SUBJECT_FILTER 1025
 #define IDC_PASSWORD                    1026
-#define IDC_CHECK1                      1027
 #define IDC_BUTTON_CHECK                1027
 #define IDC_FILTER_TO                   1028
 #define IDC_BUTTON_ADD_TO_FILTER        1029
 #define IDC_BUTTON_REMOVE_TO_FILTER     1030
+#define IDC_KEEP_CONNEXION_ON_ERROR     1031
 
 // Next default values for new objects
 // 
@@ -46,7 +46,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        104
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1028
+#define _APS_NEXT_CONTROL_VALUE         1032
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

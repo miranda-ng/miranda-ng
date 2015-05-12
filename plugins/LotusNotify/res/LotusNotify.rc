@@ -102,7 +102,7 @@ BEGIN
     PUSHBUTTON      "try detect",IDC_BUTTON_DETECT,191,14,51,36,BS_MULTILINE
     LTEXT           "Secondary server:",IDC_STATIC,10,29,65,9
     GROUPBOX        "Check interval:",IDC_STATIC,246,7,61,57
-    LTEXT           "(0-disabled)",IDC_STATIC,250,34,56,8
+    LTEXT           "(0-disabled)",IDC_STATIC,250,31,56,8
     LTEXT           "min.",IDC_STATIC,273,19,19,8
     EDITTEXT        IDC_PASSWORD,75,50,115,11,ES_PASSWORD | ES_AUTOHSCROLL
     LTEXT           "Password:",IDC_STATIC,10,51,65,9
@@ -118,6 +118,9 @@ BEGIN
     PUSHBUTTON      "-",IDC_BUTTON_REMOVE_TO_FILTER,185,184,16,11,BS_CENTER
     CONTROL         "autoregister",IDC_BUTTON_CHECK,"Button",BS_AUTOCHECKBOX | 
                     BS_PUSHLIKE | WS_TABSTOP,191,50,51,12
+    CONTROL         "Keep connection on error",IDC_KEEP_CONNEXION_ON_ERROR,
+                    "Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | BS_MULTILINE | 
+                    WS_TABSTOP,248,42,57,20
 END
 
 

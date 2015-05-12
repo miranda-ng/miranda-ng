@@ -15,6 +15,7 @@ There is no warranty.
 #include "lotusnotes.h"
 #include "LotusNotify.h"
 
+INT_PTR SetStatus(WPARAM wParam, LPARAM lParam);
 
 #define MAX_FIELD 256
 #define MAX_SETTING_STR 512
@@ -65,6 +66,7 @@ BYTE settingNonClickedOnly = 0;
 BYTE settingNewest = 0;
 BOOL settingStatus[STATUS_COUNT];
 BOOL bMirandaCall=FALSE;
+BYTE settingKeepConnection = 1;
 
 struct HISTORIA *first = NULL;
 BOOL running = FALSE;
@@ -702,6 +704,10 @@ void checkthread(void*)
 
 		log(L"checkthread: skiped-only newest option enabled, so if old id don't show it");
 
+		// remember newest id
+		if(settingNewest&&(noteID > settingNewestID) )
+			db_set_dw(NULL, PLUGINNAME, "LNNewestID", settingNewestID=noteID);
+
 		//if(((!settingOnceOnly||(settingOnceOnly&&settingNonClickedOnly))&&existElem(noteID))||(settingNewest&&settingNewestID>=noteID))
 			//continue;
 
@@ -841,9 +847,13 @@ errorblock:
 	log_p(L"checkthread: errorblock. error=%d", error);
 	ErMsgByLotusCode(error);
 	//NotesTerm();
-	//if(currentStatus!=ID_STATUS_OFFLINE)
-	//LNEnableMenuItem(hMenuHandle,!running);
-	//SetStatus(ID_STATUS_OFFLINE,0);
+
+	// go offline if connection error occurs and let KeepStatus or other plugin managing reconnection
+	if(!settingKeepConnection && currentStatus!=ID_STATUS_OFFLINE) {
+		LNEnableMenuItem(hMenuHandle,!running);
+		SetStatus(ID_STATUS_OFFLINE,0);
+	}
+
 	running = FALSE;
 	return;
 }
@@ -960,6 +970,7 @@ void LoadSettings()
 {
 	settingInterval = (INT)db_get_dw(NULL, PLUGINNAME, "LNInterval", 15);
 	settingInterval1 = (INT)db_get_dw(NULL, PLUGINNAME, "LNInterval1", 0);
+	settingKeepConnection = db_get_b(NULL, PLUGINNAME, "LNKeepConnection", 1);
 
 	DBVARIANT dbv;
 	if(!db_get_s(NULL, PLUGINNAME, "LNDatabase", &dbv)){
@@ -1040,6 +1051,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, settingPassword);
 				SetDlgItemInt(hwndDlg, IDC_INTERVAL, settingInterval,FALSE);
 				SetDlgItemInt(hwndDlg, IDC_INTERVAL1, settingInterval1,TRUE);
+				CheckDlgButton(hwndDlg, IDC_KEEP_CONNEXION_ON_ERROR, settingKeepConnection ? BST_CHECKED : BST_UNCHECKED);
 				SetDlgItemTextA(hwndDlg, IDC_COMMAND, settingCommand);
 				SetDlgItemTextA(hwndDlg, IDC_PARAMETERS, settingParameters);
 				CheckDlgButton(hwndDlg, IDC_ONCEONLY, settingOnceOnly ? BST_CHECKED : BST_UNCHECKED);
@@ -1161,6 +1173,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 						case IDC_INTERVAL: settingInterval =GetDlgItemInt(hwndDlg, IDC_INTERVAL, NULL, FALSE); break;
 						case IDC_INTERVAL1: settingInterval1 =GetDlgItemInt(hwndDlg, IDC_INTERVAL1, NULL, TRUE); break;
+						case IDC_KEEP_CONNEXION_ON_ERROR: settingKeepConnection=(BYTE) IsDlgButtonChecked(hwndDlg, IDC_KEEP_CONNEXION_ON_ERROR); break;
 						case IDC_COMMAND: GetDlgItemTextA(hwndDlg, IDC_COMMAND, settingCommand, SIZEOF(settingCommand)); break;
 						case IDC_PARAMETERS: GetDlgItemTextA(hwndDlg, IDC_PARAMETERS, settingParameters, SIZEOF(settingParameters)); break;
 						case IDC_ONCEONLY:
@@ -1267,6 +1280,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 								db_set_s(NULL, PLUGINNAME, "LNDatabase", settingDatabase);
 								db_set_dw (NULL, PLUGINNAME, "LNInterval", settingInterval);
 								db_set_dw (NULL, PLUGINNAME, "LNInterval1", settingInterval1);
+								db_set_b(NULL, PLUGINNAME, "LNKeepConnection", settingKeepConnection);
 								db_set_s(NULL, PLUGINNAME, "LNCommand", settingCommand );
 								db_set_s(NULL, PLUGINNAME, "LNParameters", settingParameters);
 								db_set_b(NULL, PLUGINNAME, "LNOnceOnly", settingOnceOnly);
