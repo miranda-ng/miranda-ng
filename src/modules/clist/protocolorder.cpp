@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct ProtocolData
 {
 	char *RealName;
-	int show, enabled;
+	int enabled;
 };
 
 int isProtoSuitable(PROTO_INTERFACE* ppi)
@@ -125,11 +125,10 @@ class CProtocolOrderOpts : public CDlgBase
 			ProtocolData *PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
 			PD->RealName = pa->szModuleName;
 			PD->enabled = Proto_IsAccountEnabled(pa) && isProtoSuitable(pa->ppro);
-			PD->show = PD->enabled ? pa->bIsVisible : 100;
 
 			tvis.item.lParam = (LPARAM)PD;
 			tvis.item.pszText = pa->tszAccountName;
-			tvis.item.iImage = tvis.item.iSelectedImage = PD->show;
+			tvis.item.iImage = tvis.item.iSelectedImage = PD->enabled ? pa->bIsVisible : 100;
 			m_order.InsertItem(&tvis);
 		}
 	}
@@ -150,6 +149,7 @@ public:
 	{
 		m_btnReset.OnClick = Callback(this, &CProtocolOrderOpts::onReset_Click);
 
+		m_order.SetFlags(MTREE_CHECKBOX);
 		m_order.OnBeginDrag = Callback(this, &CProtocolOrderOpts::onOrder_BeginDrag);
 		m_order.OnDeleteItem = Callback(this, &CProtocolOrderOpts::onOrder_DeleteItem);
 	}
@@ -170,7 +170,7 @@ public:
 
 		TVITEMEX tvi;
 		tvi.hItem = m_order.GetRoot();
-		tvi.mask = TVIF_PARAM | TVIF_HANDLE;
+		tvi.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_IMAGE;
 		while (tvi.hItem != NULL) {
 			m_order.GetItem(&tvi);
 
@@ -182,7 +182,7 @@ public:
 						idx++;
 					pa->iOrder = idx++;
 					if (ppd->enabled)
-						pa->bIsVisible = ppd->show != 0;
+						pa->bIsVisible = tvi.iImage != 0;
 				}
 			}
 
@@ -230,31 +230,6 @@ public:
 		TVHITTESTINFO hti;
 
 		switch (msg) {
-		case WM_NOTIFY:
-			switch (((LPNMHDR)lParam)->code) {
-			case NM_CLICK:
-				hti.pt.x = (short)LOWORD(GetMessagePos());
-				hti.pt.y = (short)HIWORD(GetMessagePos());
-				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
-				if (m_order.HitTest(&hti)) {
-					if (hti.flags & TVHT_ONITEMICON) {
-						TVITEMEX tvi;
-						tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-						tvi.hItem = hti.hItem;
-						m_order.GetItem(&tvi);
-
-						ProtocolData *pData = (ProtocolData*)tvi.lParam;
-						if (pData->enabled) {
-							tvi.iImage = tvi.iSelectedImage = !tvi.iImage;
-							pData->show = tvi.iImage;
-							m_order.SetItem(&tvi);
-							NotifyChange();
-						}
-					}
-				}
-			}
-			break;
-
 		case WM_MOUSEMOVE:
 			if (!m_bDragging)
 				break;
@@ -300,7 +275,7 @@ public:
 				hti.hItem = TVI_FIRST;
 
 			TVITEMEX tvi;
-			tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE;
 			tvi.hItem = m_hDragItem;
 			m_order.GetItem(&tvi);
 			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST)) {
@@ -311,7 +286,7 @@ public:
 				tvis.itemex.pszText = name;
 				tvis.itemex.cchTextMax = SIZEOF(name);
 				tvis.itemex.hItem = m_hDragItem;
-				tvis.itemex.iImage = tvis.itemex.iSelectedImage = ((ProtocolData *)tvi.lParam)->show;
+				tvis.itemex.iImage = tvis.itemex.iSelectedImage = tvi.iImage;
 				m_order.GetItem(&tvis.itemex);
 
 				// the pointed lParam will be freed inside TVN_DELETEITEM

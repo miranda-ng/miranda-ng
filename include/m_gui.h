@@ -338,10 +338,13 @@ public:
 	__forceinline HWND GetHwnd() const { return m_hwnd; }
 	__forceinline int GetCtrlId() const { return m_idCtrl; }
 	__forceinline CDlgBase *GetParent() { return m_parentWnd; }
+	__forceinline bool IsChanged() const { return m_bChanged; }
 
 	void Enable(int bIsEnable = true);
 	__forceinline void Disable() { Enable(false); }
 	BOOL Enabled(void) const;
+
+	void NotifyChange();
 
 	LRESULT SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam);
 
@@ -367,8 +370,10 @@ public:
 	virtual void OnInit();
 	virtual void OnDestroy();
 
-	virtual void OnApply() {}
-	virtual void OnReset() {}
+	virtual void OnApply();
+	virtual void OnReset();
+
+	CCallback<CCtrlBase> OnChange;
 
 	static int cmp(const CCtrlBase *c1, const CCtrlBase *c2)
 	{
@@ -382,6 +387,7 @@ protected:
 	int m_idCtrl;
 	CCtrlBase* m_next;
 	CDlgBase* m_parentWnd;
+	bool m_bChanged;
 
 	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
 	void Subclass();
@@ -447,52 +453,52 @@ class MIR_CORE_EXPORT CCtrlClc : public CCtrlBase
 public:
 	CCtrlClc(CDlgBase *dlg, int ctrlId);
 
-	void AddContact(MCONTACT hContact);
-	void AddGroup(HANDLE hGroup);
-	void AutoRebuild();
-	void DeleteItem(HANDLE hItem);
-	void EditLabel(HANDLE hItem);
-	void EndEditLabel(bool save);
-	void EnsureVisible(HANDLE hItem, bool partialOk);
-	void Expand(HANDLE hItem, DWORD flags);
-	HANDLE FindContact(MCONTACT hContact);
-	HANDLE FindGroup(HANDLE hGroup);
-	COLORREF GetBkColor();
-	bool GetCheck(HANDLE hItem);
-	int GetCount();
-	HWND GetEditControl();
-	DWORD GetExpand(HANDLE hItem);
-	int GetExtraColumns();
-	BYTE GetExtraImage(HANDLE hItem, int iColumn);
+	void       AddContact(MCONTACT hContact);
+	void       AddGroup(HANDLE hGroup);
+	void       AutoRebuild();
+	void       DeleteItem(HANDLE hItem);
+	void       EditLabel(HANDLE hItem);
+	void       EndEditLabel(bool save);
+	void       EnsureVisible(HANDLE hItem, bool partialOk);
+	void       Expand(HANDLE hItem, DWORD flags);
+	HANDLE     FindContact(MCONTACT hContact);
+	HANDLE     FindGroup(HANDLE hGroup);
+	COLORREF   GetBkColor();
+	bool       GetCheck(HANDLE hItem);
+	int        GetCount();
+	HWND       GetEditControl();
+	DWORD      GetExpand(HANDLE hItem);
+	int        GetExtraColumns();
+	BYTE       GetExtraImage(HANDLE hItem, int iColumn);
 	HIMAGELIST GetExtraImageList();
-	HFONT GetFont(int iFontId);
-	HANDLE GetSelection();
-	HANDLE HitTest(int x, int y, DWORD *hitTest);
-	void SelectItem(HANDLE hItem);
-	void SetBkBitmap(DWORD mode, HBITMAP hBitmap);
-	void SetBkColor(COLORREF clBack);
-	void SetCheck(HANDLE hItem, bool check);
-	void SetExtraColumns(int iColumns);
-	void SetExtraImage(HANDLE hItem, int iColumn, int iImage);
-	void SetExtraImageList(HIMAGELIST hImgList);
-	void SetFont(int iFontId, HANDLE hFont, bool bRedraw);
-	void SetIndent(int iIndent);
-	void SetItemText(HANDLE hItem, char *szText);
-	void SetHideEmptyGroups(bool state);
-	void SetGreyoutFlags(DWORD flags);
-	bool GetHideOfflineRoot();
-	void SetHideOfflineRoot(bool state);
-	void SetUseGroups(bool state);
-	void SetOfflineModes(DWORD modes);
-	DWORD GetExStyle();
-	void SetExStyle(DWORD exStyle);
-	int GetLefrMargin();
-	void SetLeftMargin(int iMargin);
-	HANDLE AddInfoItem(CLCINFOITEM *cii);
-	int GetItemType(HANDLE hItem);
-	HANDLE GetNextItem(HANDLE hItem, DWORD flags);
-	COLORREF GetTextColot(int iFontId);
-	void SetTextColor(int iFontId, COLORREF clText);
+	HFONT      GetFont(int iFontId);
+	HANDLE     GetSelection();
+	HANDLE     HitTest(int x, int y, DWORD *hitTest);
+	void       SelectItem(HANDLE hItem);
+	void       SetBkBitmap(DWORD mode, HBITMAP hBitmap);
+	void       SetBkColor(COLORREF clBack);
+	void       SetCheck(HANDLE hItem, bool check);
+	void       SetExtraColumns(int iColumns);
+	void       SetExtraImage(HANDLE hItem, int iColumn, int iImage);
+	void       SetExtraImageList(HIMAGELIST hImgList);
+	void       SetFont(int iFontId, HANDLE hFont, bool bRedraw);
+	void       SetIndent(int iIndent);
+	void       SetItemText(HANDLE hItem, char *szText);
+	void       SetHideEmptyGroups(bool state);
+	void       SetGreyoutFlags(DWORD flags);
+	bool       GetHideOfflineRoot();
+	void       SetHideOfflineRoot(bool state);
+	void       SetUseGroups(bool state);
+	void       SetOfflineModes(DWORD modes);
+	DWORD      GetExStyle();
+	void       SetExStyle(DWORD exStyle);
+	int        GetLefrMargin();
+	void       SetLeftMargin(int iMargin);
+	HANDLE     AddInfoItem(CLCINFOITEM *cii);
+	int        GetItemType(HANDLE hItem);
+	HANDLE     GetNextItem(HANDLE hItem, DWORD flags);
+	COLORREF   GetTextColor(int iFontId);
+	void       SetTextColor(int iFontId, COLORREF clText);
 
 	struct TEventInfo
 	{
@@ -514,7 +520,7 @@ public:
 	CCallback<TEventInfo>	OnClick;
 
 protected:
-	BOOL OnNotify(int idCtrl, NMHDR *pnmh);
+	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -526,13 +532,7 @@ class MIR_CORE_EXPORT CCtrlData : public CCtrlBase
 
 public:
 	CCtrlData(CDlgBase *dlg, int ctrlId);
-
-	virtual ~CCtrlData()
-	{
-		if (m_dbLink) delete m_dbLink;
-	}
-
-	__inline bool IsChanged() const { return m_changed; }
+	virtual ~CCtrlData();
 
 	void CreateDbLink(const char* szModuleName, const char* szSetting, BYTE type, DWORD iValue);
 	void CreateDbLink(const char* szModuleName, const char* szSetting, TCHAR* szValue);
@@ -540,14 +540,8 @@ public:
 
 	virtual void OnInit();
 
-	// Events
-	CCallback<CCtrlData> OnChange;
-
 protected:
 	CDataLink *m_dbLink;
-	bool m_changed;
-
-	void NotifyChange();
 
 	__inline BYTE GetDataType() { return m_dbLink ? m_dbLink->GetDataType() : DBVT_DELETED; }
 	__inline DWORD LoadInt() { return m_dbLink ? m_dbLink->LoadInt() : 0; }
@@ -565,20 +559,10 @@ class MIR_CORE_EXPORT CCtrlCheck : public CCtrlData
 
 public:
 	CCtrlCheck(CDlgBase *dlg, int ctrlId);
-	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) { NotifyChange(); return TRUE; }
-	virtual void OnInit()
-	{
-		CSuper::OnInit();
-		OnReset();
-	}
-	virtual void OnApply()
-	{
-		SaveInt(GetState());
-	}
-	virtual void OnReset()
-	{
-		SetState(LoadInt());
-	}
+	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/);
+
+	virtual void OnApply();
+	virtual void OnReset();
 
 	int GetState();
 	void SetState(int state);
@@ -593,38 +577,10 @@ class MIR_CORE_EXPORT CCtrlEdit : public CCtrlData
 
 public:
 	CCtrlEdit(CDlgBase *dlg, int ctrlId);
-	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode)
-	{
-		if (idCode == EN_CHANGE)
-			NotifyChange();
-		return TRUE;
-	}
-	virtual void OnInit()
-	{
-		CSuper::OnInit();
-		OnReset();
-	}
-	virtual void OnApply()
-	{
-		if (GetDataType() == DBVT_TCHAR)
-		{
-			int len = GetWindowTextLength(m_hwnd) + 1;
-			TCHAR *buf = (TCHAR *)_alloca(sizeof(TCHAR) * len);
-			GetWindowText(m_hwnd, buf, len);
-			SaveText(buf);
-		}
-		else if (GetDataType() != DBVT_DELETED)
-		{
-			SaveInt(GetInt());
-		}
-	}
-	virtual void OnReset()
-	{
-		if (GetDataType() == DBVT_TCHAR)
-			SetText(LoadText());
-		else if (GetDataType() != DBVT_DELETED)
-			SetInt(LoadInt());
-	}
+	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode);
+
+	virtual void OnApply();
+	virtual void OnReset();
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -675,49 +631,10 @@ class MIR_CORE_EXPORT CCtrlCombo : public CCtrlData
 public:
 	CCtrlCombo(CDlgBase *dlg, int ctrlId);
 
-	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode)
-	{
-		switch (idCode)
-		{
-			case CBN_CLOSEUP:  OnCloseup(this);  break;
-			case CBN_DROPDOWN: OnDropdown(this); break;
-
-			case CBN_EDITCHANGE:
-			case CBN_EDITUPDATE:
-			case CBN_SELCHANGE:
-			case CBN_SELENDOK:
-				NotifyChange();
-				break;
-		}
-		return TRUE;
-	}
-
-	virtual void OnInit()
-	{
-		CSuper::OnInit();
-		OnReset();
-	}
-	virtual void OnApply()
-	{
-		if (GetDataType() == DBVT_TCHAR)
-		{
-			int len = GetWindowTextLength(m_hwnd) + 1;
-			TCHAR *buf = (TCHAR *)_alloca(sizeof(TCHAR) * len);
-			GetWindowText(m_hwnd, buf, len);
-			SaveText(buf);
-		}
-		else if (GetDataType() != DBVT_DELETED)
-		{
-			SaveInt(GetInt());
-		}
-	}
-	virtual void OnReset()
-	{
-		if (GetDataType() == DBVT_TCHAR)
-			SetText(LoadText());
-		else if (GetDataType() != DBVT_DELETED)
-			SetInt(LoadInt());
-	}
+	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode);
+	virtual void OnInit();
+	virtual void OnApply();
+	virtual void OnReset();
 
 	// Control interface
 	int    AddString(const TCHAR *text, LPARAM data = 0);
@@ -754,147 +671,136 @@ public:
 	CCtrlListView(CDlgBase *dlg, int ctrlId);
 
 	// Classic LV interface
-	DWORD ApproximateViewRect(int cx, int cy, int iCount);
-	void Arrange(UINT code);
-	void CancelEditLabel();
+	DWORD      ApproximateViewRect(int cx, int cy, int iCount);
+	void       Arrange(UINT code);
+	void       CancelEditLabel();
 	HIMAGELIST CreateDragImage(int iItem, LPPOINT lpptUpLeft);
-	void DeleteAllItems();
-	void DeleteColumn(int iCol);
-	void DeleteItem(int iItem);
-	HWND EditLabel(int iItem);
-	int EnableGroupView(BOOL fEnable);
-	BOOL EnsureVisible(int i, BOOL fPartialOK);
-	int FindItem(int iStart, const LVFINDINFO *plvfi);
-	COLORREF GetBkColor();
-	void GetBkImage(LPLVBKIMAGE plvbki);
-	UINT GetCallbackMask();
-	BOOL GetCheckState(UINT iIndex);
-	void GetColumn(int iCol, LPLVCOLUMN pcol);
-	void GetColumnOrderArray(int iCount, int *lpiArray);
-	int GetColumnWidth(int iCol);
-	int GetCountPerPage();
-	HWND GetEditControl();
-	//void GetEmptyText(PWSTR pszText, UINT cchText);
-	DWORD GetExtendedListViewStyle();
-	INT GetFocusedGroup();
-	//void GetFooterInfo(LVFOOTERINFO *plvfi);
-	//void GetFooterItem(UINT iItem, LVFOOTERITEM *pfi);
-	//void GetFooterItemRect(UINT iItem,  RECT *prc);
-	//void GetFooterRect(RECT *prc);
-	int GetGroupCount();
-	//HIMAGELIST GetGroupHeaderImageList();
-	void GetGroupInfo(int iGroupId, PLVGROUP pgrp);
-	void GetGroupInfoByIndex(int iIndex, PLVGROUP pgrp);
-	void GetGroupMetrics(LVGROUPMETRICS *pGroupMetrics);
-	//BOOL GetGroupRect(int iGroupId, RECT *prc);
-	UINT GetGroupState(UINT dwGroupId, UINT dwMask);
-	HWND GetHeader();
-	HCURSOR GetHotCursor();
-	INT GetHotItem();
-	DWORD GetHoverTime();
+	void       DeleteAllItems();
+	void       DeleteColumn(int iCol);
+	void       DeleteItem(int iItem);
+	HWND       EditLabel(int iItem);
+	int        EnableGroupView(BOOL fEnable);
+	BOOL       EnsureVisible(int i, BOOL fPartialOK);
+	int        FindItem(int iStart, const LVFINDINFO *plvfi);
+	COLORREF   GetBkColor();
+	void       GetBkImage(LPLVBKIMAGE plvbki);
+	UINT       GetCallbackMask();
+	BOOL       GetCheckState(UINT iIndex);
+	void       GetColumn(int iCol, LPLVCOLUMN pcol);
+	void       GetColumnOrderArray(int iCount, int *lpiArray);
+	int        GetColumnWidth(int iCol);
+	int        GetCountPerPage();
+	HWND       GetEditControl();
+	DWORD      GetExtendedListViewStyle();
+	INT        GetFocusedGroup();
+	int        GetGroupCount();
+	void       GetGroupInfo(int iGroupId, PLVGROUP pgrp);
+	void       GetGroupInfoByIndex(int iIndex, PLVGROUP pgrp);
+	void       GetGroupMetrics(LVGROUPMETRICS *pGroupMetrics);
+	UINT       GetGroupState(UINT dwGroupId, UINT dwMask);
+	HWND       GetHeader();
+	HCURSOR    GetHotCursor();
+	INT        GetHotItem();
+	DWORD      GetHoverTime();
 	HIMAGELIST GetImageList(int iImageList);
-	BOOL GetInsertMark(LVINSERTMARK *plvim);
-	COLORREF GetInsertMarkColor();
-	int GetInsertMarkRect(LPRECT prc);
-	BOOL GetISearchString(LPSTR lpsz);
-	void GetItem(LPLVITEM pitem);
-	int GetItemCount();
-	//void GetItemIndexRect(LVITEMINDEX *plvii, LONG iSubItem, LONG code, LPRECT prc);
-	void GetItemPosition(int i, POINT *ppt);
-	void GetItemRect(int i, RECT *prc, int code);
-	DWORD GetItemSpacing(BOOL fSmall);
-	UINT GetItemState(int i, UINT mask);
-	void GetItemText(int iItem, int iSubItem, LPTSTR pszText, int cchTextMax);
-	int GetNextItem(int iStart, UINT flags);
-	//BOOL GetNextItemIndex(LVITEMINDEX *plvii, LPARAM flags);
-	BOOL GetNumberOfWorkAreas(LPUINT lpuWorkAreas);
-	BOOL GetOrigin(LPPOINT lpptOrg);
-	COLORREF GetOutlineColor();
-	UINT GetSelectedColumn();
-	UINT GetSelectedCount();
-	INT GetSelectionMark();
-	int GetStringWidth(LPCSTR psz);
-	BOOL GetSubItemRect(int iItem, int iSubItem, int code, LPRECT lpRect);
-	COLORREF GetTextBkColor();
-	COLORREF GetTextColor();
-	void GetTileInfo(PLVTILEINFO plvtinfo);
-	void GetTileViewInfo(PLVTILEVIEWINFO plvtvinfo);
-	HWND GetToolTips();
-	int GetTopIndex();
-	BOOL GetUnicodeFormat();
-	DWORD GetView();
-	BOOL GetViewRect(RECT *prc);
-	void GetWorkAreas(INT nWorkAreas, LPRECT lprc);
-	BOOL HasGroup(int dwGroupId);
-	int HitTest(LPLVHITTESTINFO pinfo);
-	int HitTestEx(LPLVHITTESTINFO pinfo);
-	int InsertColumn(int iCol, const LPLVCOLUMN pcol);
-	int InsertGroup(int index, PLVGROUP pgrp);
-	void InsertGroupSorted(PLVINSERTGROUPSORTED structInsert);
-	int InsertItem(const LPLVITEM pitem);
-	BOOL InsertMarkHitTest(LPPOINT point, LVINSERTMARK *plvim);
-	BOOL IsGroupViewEnabled();
-	UINT IsItemVisible(UINT index);
-	UINT MapIDToIndex(UINT id);
-	UINT MapIndexToID(UINT index);
-	BOOL RedrawItems(int iFirst, int iLast);
-	void RemoveAllGroups();
-	int RemoveGroup(int iGroupId);
-	BOOL Scroll(int dx, int dy);
-	BOOL SetBkColor(COLORREF clrBk);
-	BOOL SetBkImage(LPLVBKIMAGE plvbki);
-	BOOL SetCallbackMask(UINT mask);
-	void SetCheckState(UINT iIndex, BOOL fCheck);
-	BOOL SetColumn(int iCol, LPLVCOLUMN pcol);
-	BOOL SetColumnOrderArray(int iCount, int *lpiArray);
-	BOOL SetColumnWidth(int iCol, int cx);
-	void SetExtendedListViewStyle(DWORD dwExStyle);
-	void SetExtendedListViewStyleEx(DWORD dwExMask, DWORD dwExStyle);
-	//HIMAGELIST SetGroupHeaderImageList(HIMAGELIST himl);
-	int SetGroupInfo(int iGroupId, PLVGROUP pgrp);
-	void SetGroupMetrics(PLVGROUPMETRICS pGroupMetrics);
-	void SetGroupState(UINT dwGroupId, UINT dwMask, UINT dwState);
-	HCURSOR SetHotCursor(HCURSOR hCursor);
-	INT SetHotItem(INT iIndex);
-	void SetHoverTime(DWORD dwHoverTime);
-	DWORD SetIconSpacing(int cx, int cy);
+	BOOL       GetInsertMark(LVINSERTMARK *plvim);
+	COLORREF   GetInsertMarkColor();
+	int        GetInsertMarkRect(LPRECT prc);
+	BOOL       GetISearchString(LPSTR lpsz);
+	void       GetItem(LPLVITEM pitem);
+	int        GetItemCount();
+	void       GetItemPosition(int i, POINT *ppt);
+	void       GetItemRect(int i, RECT *prc, int code);
+	DWORD      GetItemSpacing(BOOL fSmall);
+	UINT       GetItemState(int i, UINT mask);
+	void       GetItemText(int iItem, int iSubItem, LPTSTR pszText, int cchTextMax);
+	int        GetNextItem(int iStart, UINT flags);
+	BOOL       GetNumberOfWorkAreas(LPUINT lpuWorkAreas);
+	BOOL       GetOrigin(LPPOINT lpptOrg);
+	COLORREF   GetOutlineColor();
+	UINT       GetSelectedColumn();
+	UINT       GetSelectedCount();
+	INT        GetSelectionMark();
+	int        GetStringWidth(LPCSTR psz);
+	BOOL       GetSubItemRect(int iItem, int iSubItem, int code, LPRECT lpRect);
+	COLORREF   GetTextBkColor();
+	COLORREF   GetTextColor();
+	void       GetTileInfo(PLVTILEINFO plvtinfo);
+	void       GetTileViewInfo(PLVTILEVIEWINFO plvtvinfo);
+	HWND       GetToolTips();
+	int        GetTopIndex();
+	BOOL       GetUnicodeFormat();
+	DWORD      GetView();
+	BOOL       GetViewRect(RECT *prc);
+	void       GetWorkAreas(INT nWorkAreas, LPRECT lprc);
+	BOOL       HasGroup(int dwGroupId);
+	int        HitTest(LPLVHITTESTINFO pinfo);
+	int        HitTestEx(LPLVHITTESTINFO pinfo);
+	int        InsertColumn(int iCol, const LPLVCOLUMN pcol);
+	int        InsertGroup(int index, PLVGROUP pgrp);
+	void       InsertGroupSorted(PLVINSERTGROUPSORTED structInsert);
+	int        InsertItem(const LPLVITEM pitem);
+	BOOL       InsertMarkHitTest(LPPOINT point, LVINSERTMARK *plvim);
+	BOOL       IsGroupViewEnabled();
+	UINT       IsItemVisible(UINT index);
+	UINT       MapIDToIndex(UINT id);
+	UINT       MapIndexToID(UINT index);
+	BOOL       RedrawItems(int iFirst, int iLast);
+	void       RemoveAllGroups();
+	int        RemoveGroup(int iGroupId);
+	BOOL       Scroll(int dx, int dy);
+	BOOL       SetBkColor(COLORREF clrBk);
+	BOOL       SetBkImage(LPLVBKIMAGE plvbki);
+	BOOL       SetCallbackMask(UINT mask);
+	void       SetCheckState(UINT iIndex, BOOL fCheck);
+	BOOL       SetColumn(int iCol, LPLVCOLUMN pcol);
+	BOOL       SetColumnOrderArray(int iCount, int *lpiArray);
+	BOOL       SetColumnWidth(int iCol, int cx);
+	void       SetExtendedListViewStyle(DWORD dwExStyle);
+	void       SetExtendedListViewStyleEx(DWORD dwExMask, DWORD dwExStyle);
+	int        SetGroupInfo(int iGroupId, PLVGROUP pgrp);
+	void       SetGroupMetrics(PLVGROUPMETRICS pGroupMetrics);
+	void       SetGroupState(UINT dwGroupId, UINT dwMask, UINT dwState);
+	HCURSOR    SetHotCursor(HCURSOR hCursor);
+	INT        SetHotItem(INT iIndex);
+	void       SetHoverTime(DWORD dwHoverTime);
+	DWORD      SetIconSpacing(int cx, int cy);
 	HIMAGELIST SetImageList(HIMAGELIST himl, int iImageList);
-	BOOL SetInfoTip(PLVSETINFOTIP plvSetInfoTip);
-	BOOL SetInsertMark(LVINSERTMARK *plvim);
-	COLORREF SetInsertMarkColor(COLORREF color);
-	BOOL SetItem(const LPLVITEM pitem);
-	void SetItemCount(int cItems);
-	void SetItemCountEx(int cItems, DWORD dwFlags);
-	//HRESULT SetItemIndexState(LVITEMINDEX *plvii, UINT data, UINT mask);
-	BOOL SetItemPosition(int i, int x, int y);
-	void SetItemPosition32(int iItem, int x, int y);
-	void SetItemState(int i, UINT state, UINT mask);
-	void SetItemText(int i, int iSubItem, TCHAR *pszText);
-	COLORREF SetOutlineColor(COLORREF color);
-	void SetSelectedColumn(int iCol);
-	INT SetSelectionMark(INT iIndex);
-	BOOL SetTextBkColor(COLORREF clrText);
-	BOOL SetTextColor(COLORREF clrText);
-	BOOL SetTileInfo(PLVTILEINFO plvtinfo);
-	BOOL SetTileViewInfo(PLVTILEVIEWINFO plvtvinfo);
-	HWND SetToolTips(HWND ToolTip);
-	BOOL SetUnicodeFormat(BOOL fUnicode);
-	int SetView(DWORD iView);
-	void SetWorkAreas(INT nWorkAreas, LPRECT lprc);
-	int SortGroups(PFNLVGROUPCOMPARE pfnGroupCompare, LPVOID plv);
-	BOOL SortItems(PFNLVCOMPARE pfnCompare, LPARAM lParamSort);
-	BOOL SortItemsEx(PFNLVCOMPARE pfnCompare, LPARAM lParamSort);
-	INT SubItemHitTest(LPLVHITTESTINFO pInfo);
-	INT SubItemHitTestEx(LPLVHITTESTINFO plvhti);
-	BOOL Update(int iItem);
+	BOOL       SetInfoTip(PLVSETINFOTIP plvSetInfoTip);
+	BOOL       SetInsertMark(LVINSERTMARK *plvim);
+	COLORREF   SetInsertMarkColor(COLORREF color);
+	BOOL       SetItem(const LPLVITEM pitem);
+	void       SetItemCount(int cItems);
+	void       SetItemCountEx(int cItems, DWORD dwFlags);
+	BOOL       SetItemPosition(int i, int x, int y);
+	void       SetItemPosition32(int iItem, int x, int y);
+	void       SetItemState(int i, UINT state, UINT mask);
+	void       SetItemText(int i, int iSubItem, TCHAR *pszText);
+	COLORREF   SetOutlineColor(COLORREF color);
+	void       SetSelectedColumn(int iCol);
+	INT        SetSelectionMark(INT iIndex);
+	BOOL       SetTextBkColor(COLORREF clrText);
+	BOOL       SetTextColor(COLORREF clrText);
+	BOOL       SetTileInfo(PLVTILEINFO plvtinfo);
+	BOOL       SetTileViewInfo(PLVTILEVIEWINFO plvtvinfo);
+	HWND       SetToolTips(HWND ToolTip);
+	BOOL       SetUnicodeFormat(BOOL fUnicode);
+	int        SetView(DWORD iView);
+	void       SetWorkAreas(INT nWorkAreas, LPRECT lprc);
+	int        SortGroups(PFNLVGROUPCOMPARE pfnGroupCompare, LPVOID plv);
+	BOOL       SortItems(PFNLVCOMPARE pfnCompare, LPARAM lParamSort);
+	BOOL       SortItemsEx(PFNLVCOMPARE pfnCompare, LPARAM lParamSort);
+	INT        SubItemHitTest(LPLVHITTESTINFO pInfo);
+	INT        SubItemHitTestEx(LPLVHITTESTINFO plvhti);
+	BOOL       Update(int iItem);
 
 	// Additional APIs
 	HIMAGELIST CreateImageList(int iImageList);
-	void AddColumn(int iSubItem, TCHAR *name, int cx);
-	void AddGroup(int iGroupId, TCHAR *name);
-	int AddItem(TCHAR *text, int iIcon, LPARAM lParam = 0, int iGroupId = -1);
-	void SetItem(int iItem, int iSubItem, TCHAR *text, int iIcon = -1);
-	LPARAM GetItemData(int iItem);
+	void       AddColumn(int iSubItem, TCHAR *name, int cx);
+	void       AddGroup(int iGroupId, TCHAR *name);
+	int        AddItem(TCHAR *text, int iIcon, LPARAM lParam = 0, int iGroupId = -1);
+	void       SetItem(int iItem, int iSubItem, TCHAR *text, int iIcon = -1);
+	LPARAM     GetItemData(int iItem);
 
 	// Events
 	struct TEventInfo {
@@ -916,15 +822,12 @@ public:
 	CCallback<TEventInfo> OnBeginRDrag;
 	CCallback<TEventInfo> OnBeginScroll;
 	CCallback<TEventInfo> OnColumnClick;
-	//CCallback<TEventInfo> OnColumnDropdown;
-	//CCallback<TEventInfo> OnColumnOverflowClick;
 	CCallback<TEventInfo> OnDeleteAllItems;
 	CCallback<TEventInfo> OnDeleteItem;
 	CCallback<TEventInfo> OnDoubleClick;
 	CCallback<TEventInfo> OnEndLabelEdit;
 	CCallback<TEventInfo> OnEndScroll;
 	CCallback<TEventInfo> OnGetDispInfo;
-	//CCallback<TEventInfo> OnGetEmptyMarkup;
 	CCallback<TEventInfo> OnGetInfoTip;
 	CCallback<TEventInfo> OnHotTrack;
 	CCallback<TEventInfo> OnIncrementalSearch;
@@ -933,12 +836,11 @@ public:
 	CCallback<TEventInfo> OnItemChanged;
 	CCallback<TEventInfo> OnItemChanging;
 	CCallback<TEventInfo> OnKeyDown;
-	//CCallback<TEventInfo> OnLinkClick;
 	CCallback<TEventInfo> OnMarqueeBegin;
 	CCallback<TEventInfo> OnSetDispInfo;
 
 protected:
-	BOOL OnNotify(int idCtrl, NMHDR *pnmh);
+	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -947,12 +849,17 @@ protected:
 #undef GetNextSibling
 #undef GetPrevSibling
 
+#define MTREE_CHECKBOX 0x0001
+#define MTREE_DND      0x0002
+
 class MIR_CORE_EXPORT CCtrlTreeView : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
 
 public:
 	CCtrlTreeView(CDlgBase *dlg, int ctrlId);
+
+	void       SetFlags(uint32_t dwFlags); // MTREE_* combination
 
 	// Classic TV interface
 	HIMAGELIST CreateDragImage(HTREEITEM hItem);
@@ -1020,16 +927,17 @@ public:
 	HTREEITEM  FindNamedItem(HTREEITEM hItem, const TCHAR *name);
 	void       GetItem(HTREEITEM hItem, TVITEMEX *tvi);
 	void       GetItem(HTREEITEM hItem, TVITEMEX *tvi, TCHAR *szText, int iTextLength);
+	void       InvertCheck(HTREEITEM hItem);
 
 	// Events
 	struct TEventInfo {
 		CCtrlTreeView *treeviewctrl;
 		union {
-			NMHDR			*nmhdr;
-			NMTREEVIEW		*nmtv;
-			NMTVDISPINFO	*nmtvdi;
-			NMTVGETINFOTIP	*nmtvit;
-			NMTVKEYDOWN		*nmtvkey;
+			NMHDR *nmhdr;
+			NMTREEVIEW *nmtv;
+			NMTVKEYDOWN *nmtvkey;
+			NMTVDISPINFO *nmtvdi;
+			NMTVGETINFOTIP *nmtvit;
 		};
 	};
 
@@ -1049,7 +957,17 @@ public:
 	CCallback<TEventInfo> OnSingleExpand;
 
 protected:
-	BOOL OnNotify(int idCtrl, NMHDR *pnmh);
+	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh);
+
+	union {
+		uint32_t m_dwFlags;
+		struct {
+			bool m_bDndEnabled : 1;
+			bool m_bDragging : 1;
+			bool m_bCheckBox : 1;
+		};
+	};
+	HTREEITEM m_hDragItem; // valid if m_bDragging == true
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1069,7 +987,7 @@ public:
 
 
 protected:
-	BOOL OnNotify(int idCtrl, NMHDR *pnmh);
+	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh);
 	void OnInit();
 	void OnDestroy();
 

@@ -280,6 +280,51 @@ CCtrlCombo::CCtrlCombo(CDlgBase* dlg, int ctrlId) :
 {
 }
 
+BOOL CCtrlCombo::OnCommand(HWND, WORD, WORD idCode)
+{
+	switch (idCode) {
+	case CBN_CLOSEUP:  OnCloseup(this);  break;
+	case CBN_DROPDOWN: OnDropdown(this); break;
+
+	case CBN_EDITCHANGE:
+	case CBN_EDITUPDATE:
+	case CBN_SELCHANGE:
+	case CBN_SELENDOK:
+		NotifyChange();
+		break;
+	}
+	return TRUE;
+}
+
+void CCtrlCombo::OnInit()
+{
+	CSuper::OnInit();
+	OnReset();
+}
+
+void CCtrlCombo::OnApply()
+{
+	CSuper::OnApply();
+
+	if (GetDataType() == DBVT_TCHAR) {
+		int len = GetWindowTextLength(m_hwnd) + 1;
+		TCHAR *buf = (TCHAR *)_alloca(sizeof(TCHAR) * len);
+		GetWindowText(m_hwnd, buf, len);
+		SaveText(buf);
+	}
+	else if (GetDataType() != DBVT_DELETED) {
+		SaveInt(GetInt());
+	}
+}
+
+void CCtrlCombo::OnReset()
+{
+	if (GetDataType() == DBVT_TCHAR)
+		SetText(LoadText());
+	else if (GetDataType() != DBVT_DELETED)
+		SetInt(LoadInt());
+}
+
 int CCtrlCombo::AddString(const TCHAR *text, LPARAM data)
 {
 	int iItem = SendMessage(m_hwnd, CB_ADDSTRING, 0, (LPARAM)text);
@@ -484,14 +529,30 @@ CCtrlCheck::CCtrlCheck(CDlgBase* dlg, int ctrlId) :
 {
 }
 
-int CCtrlCheck::GetState()
+BOOL CCtrlCheck::OnCommand(HWND, WORD, WORD)
 {
-	return SendMessage(m_hwnd, BM_GETCHECK, 0, 0);
+	NotifyChange();
+	return TRUE;
+}
+
+void CCtrlCheck::OnApply()
+{
+	CSuper::OnApply();
+
+	SaveInt(GetState());
+}
+
+void CCtrlCheck::OnReset()
+{
+	SetState(LoadInt());
+}
+
+int CCtrlCheck::GetState()
+{	return SendMessage(m_hwnd, BM_GETCHECK, 0, 0);
 }
 
 void CCtrlCheck::SetState(int state)
-{
-	SendMessage(m_hwnd, BM_SETCHECK, state, 0);
+{	SendMessage(m_hwnd, BM_SETCHECK, state, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -502,31 +563,55 @@ CCtrlEdit::CCtrlEdit(CDlgBase* dlg, int ctrlId) :
 {
 }
 
+BOOL CCtrlEdit::OnCommand(HWND, WORD, WORD idCode)
+{
+	if (idCode == EN_CHANGE)
+		NotifyChange();
+	return TRUE;
+}
+
+void CCtrlEdit::OnApply()
+{
+	CSuper::OnApply();
+
+	if (GetDataType() == DBVT_TCHAR) {
+		int len = GetWindowTextLength(m_hwnd) + 1;
+		TCHAR *buf = (TCHAR *)_alloca(sizeof(TCHAR) * len);
+		GetWindowText(m_hwnd, buf, len);
+		SaveText(buf);
+	}
+	else if (GetDataType() != DBVT_DELETED) {
+		SaveInt(GetInt());
+	}
+}
+
+void CCtrlEdit::OnReset()
+{
+	if (GetDataType() == DBVT_TCHAR)
+		SetText(LoadText());
+	else if (GetDataType() != DBVT_DELETED)
+		SetInt(LoadInt());
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlData class
 
 CCtrlData::CCtrlData(CDlgBase *wnd, int idCtrl) :
 	CCtrlBase(wnd, idCtrl),
-	m_dbLink(NULL),
-	m_changed(false)
+	m_dbLink(NULL)
 {
+}
+
+CCtrlData::~CCtrlData()
+{
+	if (m_dbLink)
+		delete m_dbLink;
 }
 
 void CCtrlData::OnInit()
 {
 	CCtrlBase::OnInit();
-}
-
-void CCtrlData::NotifyChange()
-{
-	if (!m_parentWnd || m_parentWnd->IsInitialized()) m_changed = true;
-	if (m_parentWnd) {
-		m_parentWnd->OnChange(this);
-		if (m_parentWnd->IsInitialized())
-			::SendMessage(::GetParent(m_parentWnd->GetHwnd()), PSM_CHANGED, 0, 0);
-	}
-
-	OnChange(this);
+	OnReset();
 }
 
 void CCtrlData::CreateDbLink(const char* szModuleName, const char* szSetting, BYTE type, DWORD iValue)
@@ -814,7 +899,7 @@ HANDLE CCtrlClc::GetNextItem(HANDLE hItem, DWORD flags)
 {	return (HANDLE)SendMessage(m_hwnd, CLM_GETNEXTITEM, (WPARAM)flags, (LPARAM)hItem);
 }
 
-COLORREF CCtrlClc::GetTextColot(int iFontId)
+COLORREF CCtrlClc::GetTextColor(int iFontId)
 {	return (COLORREF)SendMessage(m_hwnd, CLM_GETTEXTCOLOR, (WPARAM)iFontId, 0);
 }
 
@@ -1272,9 +1357,6 @@ BOOL CCtrlListView::SortItemsEx(PFNLVCOMPARE pfnCompare, LPARAM lParamSort)
 INT CCtrlListView::SubItemHitTest(LPLVHITTESTINFO pInfo)
 {	return ListView_SubItemHitTest(m_hwnd, pInfo);
 }
-//INT CCtrlListView::SubItemHitTestEx(LPLVHITTESTINFO plvhti)
-//{	return ListView_SubItemHitTestEx(m_hwnd, plvhti);
-//}
 BOOL CCtrlListView::Update(int iItem)
 {	return ListView_Update(m_hwnd, iItem);
 }
@@ -1283,8 +1365,21 @@ BOOL CCtrlListView::Update(int iItem)
 // CCtrlTreeView
 
 CCtrlTreeView::CCtrlTreeView(CDlgBase* dlg, int ctrlId):
-	CCtrlBase(dlg, ctrlId)
+	CCtrlBase(dlg, ctrlId),
+	m_dwFlags(0)
 {
+}
+
+void CCtrlTreeView::SetFlags(uint32_t dwFlags)
+{
+	if (dwFlags & MTREE_CHECKBOX)
+		m_bCheckBox = true;
+
+	if (dwFlags & MTREE_DND) {
+		m_bDndEnabled = true;
+		m_bDragging = false;
+		m_hDragItem = NULL;
+	}
 }
 
 BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
@@ -1292,23 +1387,53 @@ BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 	TEventInfo evt = { this, pnmh };
 
 	switch (pnmh->code) {
-		case TVN_BEGINDRAG:			OnBeginDrag(&evt);		return TRUE;
-		case TVN_BEGINLABELEDIT:	OnBeginLabelEdit(&evt);	return TRUE;
-		case TVN_BEGINRDRAG:		OnBeginRDrag(&evt);		return TRUE;
-		case TVN_DELETEITEM:		OnDeleteItem(&evt);		return TRUE;
-		case TVN_ENDLABELEDIT:		OnEndLabelEdit(&evt);	return TRUE;
-		case TVN_GETDISPINFO:		OnGetDispInfo(&evt);	return TRUE;
-		case TVN_GETINFOTIP:		OnGetInfoTip(&evt);		return TRUE;
-		case TVN_ITEMEXPANDED:		OnItemExpanded(&evt);	return TRUE;
-		case TVN_ITEMEXPANDING:		OnItemExpanding(&evt);	return TRUE;
-		case TVN_KEYDOWN:			OnKeyDown(&evt);		return TRUE;
-		case TVN_SELCHANGED:		OnSelChanged(&evt);		return TRUE;
-		case TVN_SELCHANGING:		OnSelChanging(&evt);	return TRUE;
-		case TVN_SETDISPINFO:		OnSetDispInfo(&evt);	return TRUE;
-		case TVN_SINGLEEXPAND:		OnSingleExpand(&evt);	return TRUE;
+		case TVN_BEGINDRAG:      OnBeginDrag(&evt);       return TRUE;
+		case TVN_BEGINLABELEDIT: OnBeginLabelEdit(&evt);  return TRUE;
+		case TVN_BEGINRDRAG:     OnBeginRDrag(&evt);      return TRUE;
+		case TVN_DELETEITEM:     OnDeleteItem(&evt);      return TRUE;
+		case TVN_ENDLABELEDIT:   OnEndLabelEdit(&evt);    return TRUE;
+		case TVN_GETDISPINFO:    OnGetDispInfo(&evt);     return TRUE;
+		case TVN_GETINFOTIP:     OnGetInfoTip(&evt);      return TRUE;
+		case TVN_ITEMEXPANDED:   OnItemExpanded(&evt);    return TRUE;
+		case TVN_ITEMEXPANDING:  OnItemExpanding(&evt);   return TRUE;
+		case TVN_SELCHANGED:     OnSelChanged(&evt);      return TRUE;
+		case TVN_SELCHANGING:    OnSelChanging(&evt);     return TRUE;
+		case TVN_SETDISPINFO:    OnSetDispInfo(&evt);     return TRUE;
+		case TVN_SINGLEEXPAND:   OnSingleExpand(&evt);    return TRUE;
+
+		case TVN_KEYDOWN:
+			if (m_bCheckBox && evt.nmtvkey->wVKey == VK_SPACE)
+				InvertCheck(GetSelection());
+
+			OnKeyDown(&evt);
+			return TRUE;
+	}
+
+	if (m_bCheckBox && pnmh->code == NM_CLICK) {
+		TVHITTESTINFO hti;
+		hti.pt.x = (short)LOWORD(GetMessagePos());
+		hti.pt.y = (short)HIWORD(GetMessagePos());
+		ScreenToClient(pnmh->hwndFrom, &hti.pt);
+		if (HitTest(&hti))
+			if (hti.flags & TVHT_ONITEMICON)
+				InvertCheck(hti.hItem);
 	}
 
 	return FALSE;
+}
+
+void CCtrlTreeView::InvertCheck(HTREEITEM hItem)
+{
+	TVITEMEX tvi;
+	tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
+	tvi.hItem = hItem;
+	if (!GetItem(&tvi))
+		return;
+
+	tvi.iImage = tvi.iSelectedImage = !tvi.iImage;
+	SetItem(&tvi);
+
+	NotifyChange();
 }
 
 void CCtrlTreeView::TranslateItem(HTREEITEM hItem)
@@ -1651,14 +1776,12 @@ void CCtrlPages::AddPage(TCHAR *ptszName, HICON hIcon, CCallback<void> onCreate,
 	info->m_param = param;
 	info->m_pDlg = NULL;
 
-	TCITEM tci = {0};
-	tci.mask = TCIF_PARAM|TCIF_TEXT;
+	TCITEM tci = { 0 };
+	tci.mask = TCIF_PARAM | TCIF_TEXT;
 	tci.lParam = (LPARAM)info;
 	tci.pszText = ptszName;
-	if (hIcon)
-	{
-		if (!m_hIml)
-		{
+	if (hIcon) {
+		if (!m_hIml) {
 			m_hIml = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 1);
 			TabCtrl_SetImageList(m_hwnd, m_hIml);
 		}
@@ -1675,7 +1798,7 @@ void CCtrlPages::AttachDialog(int iPage, CDlgBase *pDlg)
 	if ((iPage < 0) || (iPage >= TabCtrl_GetItemCount(m_hwnd)))
 		return;
 
-	TCITEM tci = {0};
+	TCITEM tci = { 0 };
 	tci.mask = TCIF_PARAM;
 	TabCtrl_GetItem(m_hwnd, iPage, &tci);
 
@@ -1701,7 +1824,7 @@ void CCtrlPages::ShowPage(CDlgBase *pDlg)
 	GetClientRect(m_hwnd, &rc);
 	TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
 	MapWindowPoints(m_hwnd, ::GetParent(m_hwnd), (LPPOINT)&rc, 2);
-	SetWindowPos(pDlg->GetHwnd(), HWND_TOP, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, SWP_SHOWWINDOW);
+	SetWindowPos(pDlg->GetHwnd(), HWND_TOP, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_SHOWWINDOW);
 }
 
 void CCtrlPages::ActivatePage(int iPage)
@@ -1715,7 +1838,7 @@ BOOL CCtrlPages::OnNotify(int /*idCtrl*/, NMHDR *pnmh)
 	switch (pnmh->code) {
 	case TCN_SELCHANGING:
 		{
-			TCITEM tci = {0};
+			TCITEM tci = { 0 };
 			tci.mask = TCIF_PARAM;
 			TabCtrl_GetItem(m_hwnd, TabCtrl_GetCurSel(m_hwnd), &tci);
 
@@ -1730,7 +1853,7 @@ BOOL CCtrlPages::OnNotify(int /*idCtrl*/, NMHDR *pnmh)
 
 	case TCN_SELCHANGE:
 		{
-			TCITEM tci = {0};
+			TCITEM tci = { 0 };
 			tci.mask = TCIF_PARAM;
 			TabCtrl_GetItem(m_hwnd, TabCtrl_GetCurSel(m_hwnd), &tci);
 
@@ -1754,8 +1877,8 @@ BOOL CCtrlPages::OnNotify(int /*idCtrl*/, NMHDR *pnmh)
 void CCtrlPages::OnDestroy()
 {
 	int count = TabCtrl_GetItemCount(m_hwnd);
-	for (int i=0; i < count; i++) {
-		TCITEM tci = {0};
+	for (int i = 0; i < count; i++) {
+		TCITEM tci = { 0 };
 		tci.mask = TCIF_PARAM;
 		TabCtrl_GetItem(m_hwnd, i, &tci);
 
@@ -1778,10 +1901,11 @@ void CCtrlPages::OnDestroy()
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlBase
 
-CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl) :
-	m_parentWnd(wnd),
+CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl)
+	: m_parentWnd(wnd),
 	m_idCtrl(idCtrl),
-	m_hwnd(NULL)
+	m_hwnd(NULL),
+	m_bChanged(false)
 {
 	if (wnd) {
 		m_next = wnd->m_first;
@@ -1800,6 +1924,15 @@ void CCtrlBase::OnDestroy()
 	m_hwnd = NULL;
 }
 
+void CCtrlBase::OnApply()
+{
+	m_bChanged = false;
+}
+
+void CCtrlBase::OnReset()
+{
+}
+
 void CCtrlBase::Enable(int bIsEnable)
 {
 	::EnableWindow(m_hwnd, bIsEnable);
@@ -1808,6 +1941,20 @@ void CCtrlBase::Enable(int bIsEnable)
 BOOL CCtrlBase::Enabled() const
 {
 	return (m_hwnd) ? IsWindowEnabled(m_hwnd) : FALSE;
+}
+
+void CCtrlBase::NotifyChange()
+{
+	if (!m_parentWnd || m_parentWnd->IsInitialized())
+		m_bChanged = true;
+	
+	if (m_parentWnd) {
+		m_parentWnd->OnChange(this);
+		if (m_parentWnd->IsInitialized())
+			::SendMessage(::GetParent(m_parentWnd->GetHwnd()), PSM_CHANGED, 0, 0);
+	}
+
+	OnChange(this);
 }
 
 LRESULT CCtrlBase::SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam)
@@ -1827,7 +1974,7 @@ void CCtrlBase::SetTextA(const char *text)
 
 void CCtrlBase::SetInt(int value)
 {
-	TCHAR buf[32] = {0};
+	TCHAR buf[32] = { 0 };
 	mir_sntprintf(buf, SIZEOF(buf), _T("%d"), value);
 	SetWindowText(m_hwnd, buf);
 }
@@ -1851,14 +1998,14 @@ char* CCtrlBase::GetTextA()
 TCHAR* CCtrlBase::GetText(TCHAR *buf, int size)
 {
 	GetWindowText(m_hwnd, buf, size);
-	buf[size-1] = 0;
+	buf[size - 1] = 0;
 	return buf;
 }
 
 char* CCtrlBase::GetTextA(char *buf, int size)
 {
 	GetWindowTextA(m_hwnd, buf, size);
-	buf[size-1] = 0;
+	buf[size - 1] = 0;
 	return buf;
 }
 
@@ -1897,7 +2044,7 @@ LRESULT CALLBACK CCtrlBase::GlobalSubclassWndProc(HWND hwnd, UINT msg, WPARAM wP
 void CCtrlBase::Subclass()
 {
 	mir_subclassWindow(m_hwnd, GlobalSubclassWndProc);
-	
+
 	mir_cslock lck(csCtrl);
 	arControls.insert(this);
 }
@@ -1978,12 +2125,13 @@ void CDbLink::SaveText(TCHAR *value)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Base protocol dialog
 
-CProtoIntDlgBase::CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, bool show_label) :
-	CDlgBase(::ProtoGetInstance(proto->m_szModuleName), idDialog),
+CProtoIntDlgBase::CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, bool show_label)
+	: CDlgBase(::ProtoGetInstance(proto->m_szModuleName), idDialog),
 	m_proto_interface(proto),
 	m_show_label(show_label),
 	m_hwndStatus(NULL)
-{}
+{
+}
 
 void CProtoIntDlgBase::CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue)
 {
@@ -2041,7 +2189,7 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (m_hwndStatus) {
 			RECT rcStatus; GetWindowRect(m_hwndStatus, &rcStatus);
 			RECT rcClient; GetClientRect(m_hwnd, &rcClient);
-			SetWindowPos(m_hwndStatus, NULL, 0, rcClient.bottom-(rcStatus.bottom-rcStatus.top), rcClient.right, (rcStatus.bottom-rcStatus.top), SWP_NOZORDER);
+			SetWindowPos(m_hwndStatus, NULL, 0, rcClient.bottom - (rcStatus.bottom - rcStatus.top), rcClient.right, (rcStatus.bottom - rcStatus.top), SWP_NOZORDER);
 			UpdateStatusBar();
 		}
 		break;
@@ -2103,7 +2251,7 @@ void CProtoIntDlgBase::UpdateStatusBar()
 	ReleaseDC(m_hwndStatus, hdc);
 
 	RECT rcStatus; GetWindowRect(m_hwndStatus, &rcStatus);
-	int parts[] = { rcStatus.right-rcStatus.left - sz.cx, -1 };
+	int parts[] = { rcStatus.right - rcStatus.left - sz.cx, -1 };
 	SendMessage(m_hwndStatus, SB_SETPARTS, 2, (LPARAM)parts);
 	SendMessage(m_hwndStatus, SB_SETICON, 1, (LPARAM)LoadSkinnedProtoIcon(m_proto_interface->m_szModuleName, m_proto_interface->m_iStatus));
 	SendMessage(m_hwndStatus, SB_SETTEXT, 1, (LPARAM)m_proto_interface->m_tszUserName);
