@@ -4,8 +4,8 @@
 class UploadFileRequest : public HttpRequest
 {
 public:
-	UploadFileRequest(const char *token, const char *fileName, const char *data, int length) :
-		HttpRequest(REQUEST_PUT, FORMAT, DROPBOX_APICONTENT_URL "/files_put/auto/%s", fileName)
+	UploadFileRequest(const char *token, const char *fileName, const char *data, int length, const char *root = "auto") :
+		HttpRequest(REQUEST_PUT, FORMAT, DROPBOX_APICONTENT_URL "/files_put/%s/%s", root, fileName)
 	{
 		AddBearerAuthHeader(token);
 		pData = (char*)data;
@@ -34,8 +34,8 @@ public:
 		dataLength = length;
 	}
 
-	UploadFileChunkRequest(const char *token, const char *uploadId, const char *path) :
-		HttpRequest(REQUEST_POST, FORMAT, DROPBOX_APICONTENT_URL "/commit_chunked_upload/auto/%s", path)
+	UploadFileChunkRequest(const char *token, const char *uploadId, const char *path, const char *root = "auto") :
+		HttpRequest(REQUEST_POST, FORMAT, DROPBOX_APICONTENT_URL "/commit_chunked_upload/%s/%s", root, path)
 	{
 		AddBearerAuthHeader(token);
 		AddHeader("Content-Type", "application/x-www-form-urlencoded");

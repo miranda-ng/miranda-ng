@@ -46,10 +46,13 @@ INT_PTR CDropbox::ProtoGetStatus(WPARAM, LPARAM)
 
 INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 {
-	if (!HasAccessToken())
-		return ACKRESULT_FAILED;
-
 	CCSDATA *pccsd = (CCSDATA*)lParam;
+
+	if (!HasAccessToken())
+	{
+		ProtoBroadcastAck(MODULE, pccsd->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send files when you are not authorized.");
+		return 0;
+	}
 
 	FileTransferParam *ftp = new FileTransferParam();
 	ftp->pfts.flags |= PFTS_SENDING;
@@ -124,9 +127,6 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 
 INT_PTR CDropbox::ProtoCancelFile(WPARAM, LPARAM lParam)
 {
-	if (!HasAccessToken())
-		return ACKRESULT_FAILED;
-
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
 	HANDLE hTransfer = (HANDLE)pccsd->wParam;
@@ -141,10 +141,13 @@ INT_PTR CDropbox::ProtoCancelFile(WPARAM, LPARAM lParam)
 
 INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 {
-	if (!HasAccessToken())
-		return ACKRESULT_FAILED;
-
 	CCSDATA *pccsd = (CCSDATA*)lParam;
+
+	if (!HasAccessToken())
+	{
+		ProtoBroadcastAck(MODULE, pccsd->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send messages when you are not authorized.");
+		return 0;
+	}
 
 	char *message = NULL;
 	char *szMessage = (char*)pccsd->lParam;

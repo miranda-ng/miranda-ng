@@ -141,6 +141,8 @@ void CDropbox::DestroyAccessToken()
 	if (hContact)
 		if (db_get_w(hContact, MODULE, "Status", ID_STATUS_ONLINE) == ID_STATUS_ONLINE)
 			db_set_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE);
+
+	ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_ONLINE, (WPARAM)ID_STATUS_OFFLINE);
 }
 
 UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
