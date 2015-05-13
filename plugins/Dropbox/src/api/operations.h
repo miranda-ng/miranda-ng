@@ -4,8 +4,8 @@
 class ShareRequest : public HttpRequest
 {
 public:
-	ShareRequest(const char *token, const char *path, bool useShortUrl = true) :
-		HttpRequest(REQUEST_POST, FORMAT, DROPBOX_API_URL "/shares/auto/%s", path)
+	ShareRequest(const char *token, const char *path, bool useShortUrl = true, const char *root = "auto") :
+		HttpRequest(REQUEST_POST, FORMAT, DROPBOX_API_URL "/shares/%s/%s", root, path)
 	{
 		if (!useShortUrl)
 			AddUrlParameter("short_url=false");
@@ -18,13 +18,13 @@ public:
 class DeleteRequest : public HttpRequest
 {
 public:
-	DeleteRequest(const char *token, const char *path) :
+	DeleteRequest(const char *token, const char *path, const char *root = "auto") :
 		HttpRequest(REQUEST_POST, DROPBOX_API_URL "/fileops/delete")
 	{
 		AddBearerAuthHeader(token);
 		AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
-		CMStringA data(CMStringDataFormat::FORMAT, "root=auto&path=%s", path);
+		CMStringA data(CMStringDataFormat::FORMAT, "root=%s&path=%s", root, path);
 		data.Replace('\\', '/');
 		SetData(data.GetBuffer(), data.GetLength());
 	}
@@ -33,13 +33,13 @@ public:
 class CreateFolderRequest : public HttpRequest
 {
 public:
-	CreateFolderRequest(const char *token, const char *path) :
+	CreateFolderRequest(const char *token, const char *path, const char *root = "auto") :
 		HttpRequest(REQUEST_POST, DROPBOX_API_URL "/fileops/create_folder")
 	{
 		AddBearerAuthHeader(token);
 		AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
-		CMStringA data(CMStringDataFormat::FORMAT, "root=auto&path=%s", path);
+		CMStringA data(CMStringDataFormat::FORMAT, "root=%s&path=%s", root, path);
 		data.Replace('\\', '/');
 		SetData(data.GetBuffer(), data.GetLength());
 	}
@@ -48,8 +48,8 @@ public:
 class GetMetadataRequest : public HttpRequest
 {
 public:
-	GetMetadataRequest(const char *token, const char *path) :
-		HttpRequest(REQUEST_GET, FORMAT, DROPBOX_API_URL "/metadata/auto/%s", path)
+	GetMetadataRequest(const char *token, const char *path, const char *root = "auto") :
+		HttpRequest(REQUEST_GET, FORMAT, DROPBOX_API_URL "/metadata/%s/%s", root, path)
 	{
 		AddBearerAuthHeader(token);
 	}

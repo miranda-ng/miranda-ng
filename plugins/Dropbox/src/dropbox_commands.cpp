@@ -5,9 +5,9 @@ void CDropbox::CommandHelp(void *arg)
 	CommandParam *param = (CommandParam*)arg;
 
 	CMStringA help(Translate("Dropbox supports the following commands:")); help += "\n";
-	help += "\"/content [dir]\" - "; help += Translate("shows all files in folder \"dir\" (\"dir\" can be omitted for root folder)"); help += "\n";
-	help += "\"/share <path>\" - "; help += Translate("returns download link for file or folder with specified path (\"path\" is relative from root folder)"); help += "\n";
-	help += "\"/delete <path>\" - "; help += Translate("deletes file or folder with specified path (\"path\" is relative from root folder)");
+	help += "\"/content [dir]\" \t- "; help += Translate("shows all files in folder \"dir\" (\"dir\" can be omitted for root folder)"); help += "\n";
+	help += "\"/share <path>\" \t- "; help += Translate("returns download link for file or folder with specified path (\"path\" is relative from root folder)"); help += "\n";
+	help += "\"/delete <path>\" \t- "; help += Translate("deletes file or folder with specified path (\"path\" is relative from root folder)");
 
 	ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
 	CallContactService(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)help.GetBuffer());

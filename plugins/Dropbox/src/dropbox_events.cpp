@@ -20,6 +20,9 @@ int CDropbox::OnModulesLoaded(WPARAM, LPARAM)
 
 	GetDefaultContact();
 
+	WORD status = ProtoGetStatus(0, 0);
+	ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, status);
+
 	if (ServiceExists(MS_BB_ADDBUTTON))
 	{
 		BBButton bbd = { sizeof(bbd) };
