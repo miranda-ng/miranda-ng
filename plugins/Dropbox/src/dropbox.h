@@ -104,9 +104,6 @@ private:
 
 	static INT_PTR SendFilesToDropboxCommand(void *obj, WPARAM wParam, LPARAM lParam);
 
-	// dialogs
-	static INT_PTR CALLBACK MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
 	// SRMM
 	static void DisableSrmmButton(MCONTACT hContact);
 
