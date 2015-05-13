@@ -34,10 +34,10 @@ static int CompareDialogs(const CDlgBase *p1, const CDlgBase *p2)
 }
 static LIST<CDlgBase> arDialogs(10, CompareDialogs);
 
-static int CompareDialogs(const CCtrlBase *p1, const CCtrlBase *p2)
+static int CompareControls(const CCtrlBase *p1, const CCtrlBase *p2)
 {	return (INT_PTR)p1->GetHwnd() - (INT_PTR)p2->GetHwnd();
 }
-static LIST<CCtrlBase> arControls(10, PtrKeySortT);
+static LIST<CCtrlBase> arControls(10, CompareControls);
 
 #pragma comment(lib, "uxtheme")
 
@@ -1382,31 +1382,131 @@ void CCtrlTreeView::SetFlags(uint32_t dwFlags)
 	}
 }
 
+void CCtrlTreeView::OnInit()
+{
+	CSuper::OnInit();
+
+	if (m_bDndEnabled)
+		Subclass();
+}
+
+LRESULT CCtrlTreeView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	TVHITTESTINFO hti;
+
+	switch (msg) {
+	case WM_MOUSEMOVE:
+		if (!m_bDragging)
+			break;
+
+		hti.pt.x = (short)LOWORD(lParam);
+		hti.pt.y = (short)HIWORD(lParam);
+		HitTest(&hti);
+		if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
+			HTREEITEM it = hti.hItem;
+			hti.pt.y -= GetItemHeight() / 2;
+			HitTest(&hti);
+			if (!(hti.flags & TVHT_ABOVE))
+				SetInsertMark(hti.hItem, 1);
+			else
+				SetInsertMark(it, 0);
+		}
+		else {
+			if (hti.flags & TVHT_ABOVE) SendMsg(WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
+			if (hti.flags & TVHT_BELOW) SendMsg(WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN, 0), 0);
+			SetInsertMark(NULL, 0);
+		}
+		break;
+
+	case WM_LBUTTONUP:
+		if (!m_bDragging)
+			break;
+
+		SetInsertMark(NULL, 0);
+		m_bDragging = 0;
+		ReleaseCapture();
+
+		hti.pt.x = (short)LOWORD(lParam);
+		hti.pt.y = (short)HIWORD(lParam) - GetItemHeight() / 2;
+		HitTest(&hti);
+		if (m_hDragItem == hti.hItem)
+			break;
+		if (hti.flags & TVHT_ABOVE)
+			hti.hItem = TVI_FIRST;
+
+		TVITEMEX tvi;
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE;
+		tvi.hItem = m_hDragItem;
+		GetItem(&tvi);
+		if ((hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) || hti.hItem == TVI_FIRST) {
+			TCHAR name[128];
+			TVINSERTSTRUCT tvis = { 0 };
+			tvis.itemex.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+			tvis.itemex.stateMask = 0xFFFFFFFF;
+			tvis.itemex.pszText = name;
+			tvis.itemex.cchTextMax = SIZEOF(name);
+			tvis.itemex.hItem = m_hDragItem;
+			tvis.itemex.iImage = tvis.itemex.iSelectedImage = tvi.iImage;
+			GetItem(&tvis.itemex);
+
+			// the pointed lParam will be freed inside TVN_DELETEITEM
+			// so lets substitute it with 0
+			LPARAM saveOldData = tvis.itemex.lParam;
+			tvis.itemex.lParam = 0;
+			SetItem(&tvis.itemex);
+
+			// now current item contain lParam = 0 we can delete it. the memory will be kept.
+			tvis.itemex.lParam = saveOldData;
+			DeleteItem(m_hDragItem);
+
+			tvis.hParent = NULL;
+			tvis.hInsertAfter = hti.hItem;
+			SelectItem(InsertItem(&tvis));
+			
+			NotifyChange();
+		}
+		break;
+	}
+
+	return CSuper::CustomWndProc(msg, wParam, lParam);
+}
+
 BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 {
 	TEventInfo evt = { this, pnmh };
 
 	switch (pnmh->code) {
-		case TVN_BEGINDRAG:      OnBeginDrag(&evt);       return TRUE;
-		case TVN_BEGINLABELEDIT: OnBeginLabelEdit(&evt);  return TRUE;
-		case TVN_BEGINRDRAG:     OnBeginRDrag(&evt);      return TRUE;
-		case TVN_DELETEITEM:     OnDeleteItem(&evt);      return TRUE;
-		case TVN_ENDLABELEDIT:   OnEndLabelEdit(&evt);    return TRUE;
-		case TVN_GETDISPINFO:    OnGetDispInfo(&evt);     return TRUE;
-		case TVN_GETINFOTIP:     OnGetInfoTip(&evt);      return TRUE;
-		case TVN_ITEMEXPANDED:   OnItemExpanded(&evt);    return TRUE;
-		case TVN_ITEMEXPANDING:  OnItemExpanding(&evt);   return TRUE;
-		case TVN_SELCHANGED:     OnSelChanged(&evt);      return TRUE;
-		case TVN_SELCHANGING:    OnSelChanging(&evt);     return TRUE;
-		case TVN_SETDISPINFO:    OnSetDispInfo(&evt);     return TRUE;
-		case TVN_SINGLEEXPAND:   OnSingleExpand(&evt);    return TRUE;
+	case TVN_BEGINLABELEDIT: OnBeginLabelEdit(&evt);  return TRUE;
+	case TVN_BEGINRDRAG:     OnBeginRDrag(&evt);      return TRUE;
+	case TVN_DELETEITEM:     OnDeleteItem(&evt);      return TRUE;
+	case TVN_ENDLABELEDIT:   OnEndLabelEdit(&evt);    return TRUE;
+	case TVN_GETDISPINFO:    OnGetDispInfo(&evt);     return TRUE;
+	case TVN_GETINFOTIP:     OnGetInfoTip(&evt);      return TRUE;
+	case TVN_ITEMEXPANDED:   OnItemExpanded(&evt);    return TRUE;
+	case TVN_ITEMEXPANDING:  OnItemExpanding(&evt);   return TRUE;
+	case TVN_SELCHANGED:     OnSelChanged(&evt);      return TRUE;
+	case TVN_SELCHANGING:    OnSelChanging(&evt);     return TRUE;
+	case TVN_SETDISPINFO:    OnSetDispInfo(&evt);     return TRUE;
+	case TVN_SINGLEEXPAND:   OnSingleExpand(&evt);    return TRUE;
 
-		case TVN_KEYDOWN:
-			if (m_bCheckBox && evt.nmtvkey->wVKey == VK_SPACE)
-				InvertCheck(GetSelection());
+	case TVN_BEGINDRAG:
+		OnBeginDrag(&evt);
 
-			OnKeyDown(&evt);
-			return TRUE;
+		// user-defined can clear the event code to disable dragging
+		if (m_bDndEnabled && pnmh->code) {
+			::SetCapture(m_hwnd);
+			m_bDragging = true;
+			m_hDragItem = evt.nmtv->itemNew.hItem;
+			SelectItem(m_hDragItem);
+		}
+		return TRUE;
+
+	case TVN_KEYDOWN:
+		if (m_bCheckBox && evt.nmtvkey->wVKey == VK_SPACE)
+			InvertCheck(GetSelection());
+
+		OnKeyDown(&evt);
+		return TRUE;
 	}
 
 	if (m_bCheckBox && pnmh->code == NM_CLICK) {

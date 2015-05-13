@@ -376,9 +376,6 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam)
 
 class CContactOptsDlg : public CDlgBase
 {
-	int dragging;
-	HTREEITEM hDragItem;
-
 	CCtrlTreeView m_nameOrder;
 
 public:
@@ -386,13 +383,12 @@ public:
 		CDlgBase(hInst, IDD_OPT_CONTACT),
 		m_nameOrder(this, IDC_NAMEORDER)
 	{
+		m_nameOrder.SetFlags(MTREE_DND);
 		m_nameOrder.OnBeginDrag = Callback(this, &CContactOptsDlg::OnBeginDrag);
 	}
 
 	virtual void OnInitDialog()
 	{
-		dragging = 0;
-
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = NULL;
 		tvis.hInsertAfter = TVI_LAST;
@@ -423,82 +419,7 @@ public:
 	{
 		LPNMTREEVIEW pNotify = evt->nmtv;
 		if (pNotify->itemNew.lParam == 0 || pNotify->itemNew.lParam == SIZEOF(nameOrderDescr) - 1)
-			return;
-		
-		SetCapture(m_hwnd);
-		dragging = 1;
-		hDragItem = pNotify->itemNew.hItem;
-		m_nameOrder.SelectItem(hDragItem);
-	}
-
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		TVHITTESTINFO hti;
-
-		switch (msg) {
-		case WM_MOUSEMOVE:
-			if (!dragging)
-				break;
-
-			hti.pt.x = (short)LOWORD(lParam);
-			hti.pt.y = (short)HIWORD(lParam);
-			ClientToScreen(m_hwnd, &hti.pt);
-			ScreenToClient(m_nameOrder.GetHwnd(), &hti.pt);
-			m_nameOrder.HitTest(&hti);
-			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
-				hti.pt.y -= m_nameOrder.GetItemHeight() / 2;
-				m_nameOrder.HitTest(&hti);
-				m_nameOrder.SetInsertMark(hti.hItem, 1);
-			}
-			else {
-				if (hti.flags & TVHT_ABOVE) m_nameOrder.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
-				if (hti.flags & TVHT_BELOW) m_nameOrder.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN, 0), 0);
-				m_nameOrder.SetInsertMark(NULL, 0);
-			}
-			break;
-
-		case WM_LBUTTONUP:
-			if (!dragging)
-				break;
-
-			m_nameOrder.SetInsertMark(NULL, 0);
-			dragging = 0;
-			ReleaseCapture();
-
-			hti.pt.x = (short)LOWORD(lParam);
-			hti.pt.y = (short)HIWORD(lParam);
-			ClientToScreen(m_hwnd, &hti.pt);
-			ScreenToClient(m_nameOrder.GetHwnd(), &hti.pt);
-			hti.pt.y -= m_nameOrder.GetItemHeight() / 2;
-			m_nameOrder.HitTest(&hti);
-			if (hDragItem == hti.hItem)
-				break;
-
-			TVITEMEX tvi;
-			tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-			tvi.hItem = hti.hItem;
-			m_nameOrder.GetItem(&tvi);
-			if (tvi.lParam == SIZEOF(nameOrderDescr) - 1)
-				break;
-
-			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
-				TCHAR name[128];
-				TVINSERTSTRUCT tvis = { 0 };
-				tvis.itemex.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_PARAM;
-				tvis.itemex.stateMask = 0xFFFFFFFF;
-				tvis.itemex.pszText = name;
-				tvis.itemex.cchTextMax = SIZEOF(name);
-				tvis.itemex.hItem = hDragItem;
-				m_nameOrder.GetItem(&tvis.itemex);
-				m_nameOrder.DeleteItem(hDragItem);
-				tvis.hParent = NULL;
-				tvis.hInsertAfter = hti.hItem;
-				m_nameOrder.SelectItem(m_nameOrder.InsertItem(&tvis));
-				NotifyChange();
-			}
-			break;
-		}
-		return CDlgBase::DlgProc(msg, wParam, lParam);
+			pNotify->hdr.code = 0; // deny dragging
 	}
 };
 

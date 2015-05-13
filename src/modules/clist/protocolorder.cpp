@@ -149,8 +149,7 @@ public:
 	{
 		m_btnReset.OnClick = Callback(this, &CProtocolOrderOpts::onReset_Click);
 
-		m_order.SetFlags(MTREE_CHECKBOX);
-		m_order.OnBeginDrag = Callback(this, &CProtocolOrderOpts::onOrder_BeginDrag);
+		m_order.SetFlags(MTREE_CHECKBOX | MTREE_DND);
 		m_order.OnDeleteItem = Callback(this, &CProtocolOrderOpts::onOrder_DeleteItem);
 	}
 
@@ -215,96 +214,6 @@ public:
 		NMTREEVIEW *pnmtv = env->nmtv;
 		if (pnmtv)
 			mir_free((ProtocolData*)pnmtv->itemOld.lParam);
-	}
-
-	void onOrder_BeginDrag(CCtrlTreeView::TEventInfo *env)
-	{
-		SetCapture(m_hwnd);
-		m_bDragging = true;
-		m_hDragItem = env->nmtv->itemNew.hItem;
-		m_order.SelectItem(m_hDragItem);
-	}
-
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		TVHITTESTINFO hti;
-
-		switch (msg) {
-		case WM_MOUSEMOVE:
-			if (!m_bDragging)
-				break;
-
-			hti.pt.x = (short)LOWORD(lParam);
-			hti.pt.y = (short)HIWORD(lParam);
-			ClientToScreen(m_hwnd, &hti.pt);
-			ScreenToClient(m_order.GetHwnd(), &hti.pt);
-			m_order.HitTest(&hti);
-			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
-				HTREEITEM it = hti.hItem;
-				hti.pt.y -= m_order.GetItemHeight() / 2;
-				m_order.HitTest(&hti);
-				if (!(hti.flags & TVHT_ABOVE))
-					m_order.SetInsertMark(hti.hItem, 1);
-				else
-					m_order.SetInsertMark(it, 0);
-			}
-			else {
-				if (hti.flags & TVHT_ABOVE) m_order.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
-				if (hti.flags & TVHT_BELOW) m_order.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN, 0), 0);
-				m_order.SetInsertMark(NULL, 0);
-			}
-			break;
-
-		case WM_LBUTTONUP:
-			if (!m_bDragging)
-				break;
-
-			m_order.SetInsertMark(NULL, 0);
-			m_bDragging = false;
-			ReleaseCapture();
-
-			hti.pt.x = (short)LOWORD(lParam);
-			hti.pt.y = (short)HIWORD(lParam);
-			ClientToScreen(m_hwnd, &hti.pt);
-			ScreenToClient(m_order.GetHwnd(), &hti.pt);
-			hti.pt.y -= m_order.GetItemHeight() / 2;
-			m_order.HitTest(&hti);
-			if (m_hDragItem == hti.hItem)
-				break;
-			if (hti.flags & TVHT_ABOVE)
-				hti.hItem = TVI_FIRST;
-
-			TVITEMEX tvi;
-			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE;
-			tvi.hItem = m_hDragItem;
-			m_order.GetItem(&tvi);
-			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST)) {
-				TCHAR name[128];
-				TVINSERTSTRUCT tvis;
-				tvis.itemex.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-				tvis.itemex.stateMask = 0xFFFFFFFF;
-				tvis.itemex.pszText = name;
-				tvis.itemex.cchTextMax = SIZEOF(name);
-				tvis.itemex.hItem = m_hDragItem;
-				tvis.itemex.iImage = tvis.itemex.iSelectedImage = tvi.iImage;
-				m_order.GetItem(&tvis.itemex);
-
-				// the pointed lParam will be freed inside TVN_DELETEITEM
-				// so lets substitute it with 0
-				ProtocolData *lpOldData = (ProtocolData*)tvis.itemex.lParam;
-				tvis.itemex.lParam = 0;
-				m_order.SetItem(&tvis.itemex);
-
-				// now current item contain lParam = 0 we can delete it. the memory will be kept.
-				tvis.itemex.lParam = (LPARAM)lpOldData;
-				m_order.DeleteItem(m_hDragItem);
-				tvis.hParent = NULL;
-				tvis.hInsertAfter = hti.hItem;
-				m_order.SelectItem(m_order.InsertItem(&tvis));
-				NotifyChange();
-			}
-		}
-		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 };
 

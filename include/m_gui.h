@@ -373,8 +373,6 @@ public:
 	virtual void OnApply();
 	virtual void OnReset();
 
-	CCallback<CCtrlBase> OnChange;
-
 	static int cmp(const CCtrlBase *c1, const CCtrlBase *c2)
 	{
 		if (c1->m_idCtrl < c2->m_idCtrl) return -1;
@@ -389,6 +387,10 @@ protected:
 	CDlgBase* m_parentWnd;
 	bool m_bChanged;
 
+public:
+	CCallback<CCtrlBase> OnChange;
+
+protected:
 	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
 	void Subclass();
 	void Unsubclass();
@@ -957,7 +959,10 @@ public:
 	CCallback<TEventInfo> OnSingleExpand;
 
 protected:
+	virtual void OnInit();
 	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh);
+	
+	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
 	union {
 		uint32_t m_dwFlags;
