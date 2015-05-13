@@ -53,16 +53,16 @@ private:
 	LIST<FileTransferParam> transfers;
 
 	// hooks
-	static int OnProtoAck(void *obj, WPARAM wParam, LPARAM lParam);
-	static int OnPreShutdown(void *obj, WPARAM wParam, LPARAM lParam);
-	static int OnModulesLoaded(void *obj, WPARAM wParam, LPARAM lParam);
-	static int OnContactDeleted(void *obj, WPARAM wParam, LPARAM lParam);
-	static int OnOptionsInitialized(void *obj, WPARAM wParam, LPARAM lParam);
-	static int OnPrebuildContactMenu(void *obj, WPARAM wParam, LPARAM lParam);
-	static int OnSrmmWindowOpened(void *obj, WPARAM wParam, LPARAM lParam);
-	static int OnTabSrmmButtonPressed(void *obj, WPARAM wParam, LPARAM lParam);
-	static int OnFileDialogCancelled(void *obj, WPARAM wParam, LPARAM lParam);
-	static int OnFileDialogSuccessed(void *obj, WPARAM wParam, LPARAM lParam);
+	static int OnProtoAck(WPARAM wParam, LPARAM lParam);
+	static int OnPreShutdown(WPARAM wParam, LPARAM lParam);
+	int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
+	int OnContactDeleted(WPARAM wParam, LPARAM lParam);
+	int OnOptionsInitialized(WPARAM wParam, LPARAM lParam);
+	int OnPrebuildContactMenu(WPARAM wParam, LPARAM lParam);
+	int OnSrmmWindowOpened(WPARAM wParam, LPARAM lParam);
+	int OnTabSrmmButtonPressed(WPARAM wParam, LPARAM lParam);
+	int OnFileDialogCancelled(WPARAM wParam, LPARAM lParam);
+	int OnFileDialogSuccessed(WPARAM wParam, LPARAM lParam);
 
 	// services
 	static HANDLE CreateProtoServiceFunctionObj(const char *szService, MIRANDASERVICEOBJ serviceProc, void *obj);
@@ -70,13 +70,13 @@ private:
 	static INT_PTR ProtoGetCaps(WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoGetName(WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoLoadIcon(WPARAM wParam, LPARAM lParam);
-	static INT_PTR ProtoGetStatus(void *obj, WPARAM wParam, LPARAM lParam);
-	static INT_PTR ProtoSendFile(void *obj, WPARAM wParam, LPARAM lParam);
-	static INT_PTR ProtoCancelFile(void *obj, WPARAM wParam, LPARAM lParam);
-	static INT_PTR ProtoSendMessage(void *obj, WPARAM wParam, LPARAM lParam);
-	static INT_PTR ProtoReceiveMessage(void *obj, WPARAM wParam, LPARAM lParam);
+	INT_PTR ProtoGetStatus(WPARAM wParam, LPARAM lParam);
+	INT_PTR ProtoSendFile(WPARAM wParam, LPARAM lParam);
+	INT_PTR ProtoCancelFile(WPARAM wParam, LPARAM lParam);
+	INT_PTR ProtoSendMessage(WPARAM wParam, LPARAM lParam);
+	static INT_PTR ProtoReceiveMessage(WPARAM wParam, LPARAM lParam);
 
-	static INT_PTR SendFileToDropbox(void *obj, WPARAM wParam, LPARAM lParam);
+	INT_PTR SendFileToDropbox(WPARAM wParam, LPARAM lParam);
 
 	// commands
 	static void CommandHelp(void *arg);
@@ -127,6 +127,20 @@ private:
 	// utils
 	static char* HttpStatusToText(HTTP_STATUS status);
 	static void HandleHttpResponseError(NETLIBHTTPREQUEST *response);
+
+	template<int(CDropbox::*Event)(WPARAM, LPARAM)>
+	static int GlobalEvent(void *obj, WPARAM wParam, LPARAM lParam)
+	{
+		CDropbox *instance = (CDropbox*)obj;
+		return instance ? (instance->*Event)(wParam, lParam) : 0;
+	}
+
+	template<INT_PTR(CDropbox::*Service)(WPARAM, LPARAM)>
+	static INT_PTR GlobalService(void *obj, WPARAM wParam, LPARAM lParam)
+	{
+		CDropbox *instance = (CDropbox*)obj;
+		return instance ? (instance->*Service)(wParam, lParam) : 0;
+	}
 };
 
 #endif //_DROPBOX_PROTO_H_

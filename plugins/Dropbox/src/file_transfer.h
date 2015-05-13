@@ -40,7 +40,7 @@ struct FileTransferParam
 		isTerminated = false;
 
 		pfts.cbSize = sizeof(this->pfts);
-		pfts.flags = PFTS_TCHAR;
+		pfts.flags = PFTS_TCHAR | PFTS_SENDING;
 		pfts.currentFileNumber = 0;
 		pfts.currentFileProgress = 0;
 		pfts.currentFileSize = 0;

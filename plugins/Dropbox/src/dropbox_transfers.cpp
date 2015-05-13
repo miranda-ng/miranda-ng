@@ -129,7 +129,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 			ftp->pfts.currentFileNumber = i;
 			ftp->pfts.currentFileSize = fileSize;
 			ftp->pfts.currentFileProgress = 0;
-			ftp->pfts.tszCurrentFile = wcsrchr(ftp->pfts.ptszFiles[i], '\\') + 1;
+			ftp->pfts.tszCurrentFile = _tcsrchr(ftp->pfts.ptszFiles[i], '\\') + 1;
 
 			ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
 

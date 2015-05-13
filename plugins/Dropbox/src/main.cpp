@@ -41,6 +41,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitializeIcons();
 
 	dropbox = new CDropbox();
+
 	return 0;
 }
 

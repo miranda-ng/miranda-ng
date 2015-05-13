@@ -7,22 +7,22 @@ CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 	pd.type = PROTOTYPE_VIRTUAL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
-	HookEventObj(ME_PROTO_ACK, OnProtoAck, this);
-	HookEventObj(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown, this);
-	HookEventObj(ME_SYSTEM_MODULESLOADED, OnModulesLoaded, this);
+	HookEvent(ME_PROTO_ACK, OnProtoAck);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
+	HookEventObj(ME_SYSTEM_MODULESLOADED, GlobalEvent<&CDropbox::OnModulesLoaded>, this);
 
 	hFileSentEventHook = CreateHookableEvent(ME_DROPBOX_SENT);
 
-	CreateServiceFunctionObj(MS_DROPBOX_SEND_FILE, SendFileToDropbox, this);
+	CreateServiceFunctionObj(MS_DROPBOX_SEND_FILE, GlobalService<&CDropbox::SendFileToDropbox>, this);
 
 	CreateProtoServiceFunction(MODULE, PS_GETCAPS, ProtoGetCaps);
 	CreateProtoServiceFunction(MODULE, PS_GETNAME, ProtoGetName);
 	CreateProtoServiceFunction(MODULE, PS_LOADICON, ProtoLoadIcon);
-	CreateProtoServiceFunctionObj(PS_GETSTATUS, ProtoGetStatus, this);
-	CreateProtoServiceFunctionObj(PSS_FILEW, ProtoSendFile, this);
-	CreateProtoServiceFunctionObj(PSS_FILECANCEL, ProtoCancelFile, this);
-	CreateProtoServiceFunctionObj(PSS_MESSAGE, ProtoSendMessage, this);
-	CreateProtoServiceFunctionObj(PSR_MESSAGE, ProtoReceiveMessage, this);
+	CreateProtoServiceFunctionObj(PS_GETSTATUS, GlobalService<&CDropbox::ProtoGetStatus>, this);
+	CreateProtoServiceFunctionObj(PSS_FILEW, GlobalService<&CDropbox::ProtoSendFile>, this);
+	CreateProtoServiceFunctionObj(PSS_FILECANCEL, GlobalService<&CDropbox::ProtoCancelFile>, this);
+	CreateProtoServiceFunctionObj(PSS_MESSAGE, GlobalService<&CDropbox::ProtoSendMessage>, this);
+	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, ProtoReceiveMessage);
 
 	InitializeMenus();
 
@@ -85,11 +85,11 @@ void CDropbox::RequestAccountInfo()
 		if (node)
 		{
 			ptrW display_name = ptrW(json_as_string(node));
-			TCHAR *sep = wcsrchr(display_name, L' ');
+			TCHAR *sep = _tcsrchr(display_name, L' ');
 			if (sep)
 			{
 				db_set_ws(hContact, MODULE, "LastName", sep + 1);
-				display_name[wcslen(display_name) - wcslen(sep)] = '\0';
+				display_name[mir_tstrlen(display_name) - mir_tstrlen(sep)] = '\0';
 				db_set_ws(hContact, MODULE, "FirstName", display_name);
 			}
 			else
@@ -187,6 +187,7 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 	JSONNODE *node = json_get(root, "access_token");
 	ptrA access_token = ptrA(mir_u2a(json_as_string(node)));
 	db_set_s(NULL, MODULE, "TokenSecret", access_token);
+	ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, (WPARAM)ID_STATUS_ONLINE);
 
 	MCONTACT hContact = instance->GetDefaultContact();
 	if (hContact)
