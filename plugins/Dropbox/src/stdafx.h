@@ -29,6 +29,10 @@
 #include <m_netlib.h>
 
 #include <m_dropbox.h>
+#include "dropbox.h"
+#include "api\account.h"
+#include "api\upload.h"
+#include "api\operations.h"
 
 #include "version.h"
 #include "resource.h"
@@ -36,8 +40,6 @@
 #define MODULE "Dropbox"
 
 extern HINSTANCE g_hInstance;
-
-#include "dropbox.h"
 
 // icons
 void   InitializeIcons();
