@@ -812,7 +812,7 @@ mir_wstrcmpi                  @280
 ?GetInsertMarkColor@CCtrlTreeView@@QEAAKXZ @811 NONAME
 ?GetInsertMarkRect@CCtrlListView@@QEAAHPEAUtagRECT@@@Z @812 NONAME
 ?GetInt@CCtrlBase@@QEAAHXZ @813 NONAME
-?GetItem@CCtrlListView@@QEAAXPEAUtagLVITEMW@@@Z @814 NONAME
+?GetItem@CCtrlListView@@QEAA_NPEAUtagLVITEMW@@@Z @814 NONAME
 ?GetItem@CCtrlTreeView@@QEAAXPEAU_TREEITEM@@PEAUtagTVITEMEXW@@@Z @815 NONAME
 ?GetItem@CCtrlTreeView@@QEAAXPEAU_TREEITEM@@PEAUtagTVITEMEXW@@PEA_WH@Z @816 NONAME
 ?GetItem@CCtrlTreeView@@QEAA_NPEAUtagTVITEMEXW@@@Z @817 NONAME
@@ -1077,3 +1077,5 @@ Proto_RegisterModule @1074 NONAME
 ?NotifyChange@CDlgBase@@QEAAXXZ @1078 NONAME
 ?InvertCheck@CCtrlTreeView@@QEAAXPEAU_TREEITEM@@@Z @1079 NONAME
 ?SetFlags@CCtrlTreeView@@QEAAXI@Z @1080 NONAME
+?CustomWndProc@CCtrlTreeView@@MEAA_JI_K_J@Z @1081 NONAME
+?OnInit@CCtrlTreeView@@MEAAXXZ @1082 NONAME

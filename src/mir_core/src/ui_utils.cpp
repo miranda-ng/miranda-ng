@@ -1114,8 +1114,8 @@ int CCtrlListView::GetInsertMarkRect(LPRECT prc)
 BOOL CCtrlListView::GetISearchString(LPSTR lpsz)
 {	return ListView_GetISearchString(m_hwnd, lpsz);
 }
-void CCtrlListView::GetItem(LPLVITEM pitem)
-{	ListView_GetItem(m_hwnd, pitem);
+bool CCtrlListView::GetItem(LPLVITEM pitem)
+{	return ListView_GetItem(m_hwnd, pitem) == TRUE;
 }
 int CCtrlListView::GetItemCount()
 {	return ListView_GetItemCount(m_hwnd);

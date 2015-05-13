@@ -812,7 +812,7 @@ mir_wstrcmpi                  @280
 ?GetInsertMarkColor@CCtrlTreeView@@QAEKXZ @811 NONAME
 ?GetInsertMarkRect@CCtrlListView@@QAEHPAUtagRECT@@@Z @812 NONAME
 ?GetInt@CCtrlBase@@QAEHXZ @813 NONAME
-?GetItem@CCtrlListView@@QAEXPAUtagLVITEMW@@@Z @814 NONAME
+?GetItem@CCtrlListView@@QAE_NPAUtagLVITEMW@@@Z @814 NONAME
 ?GetItem@CCtrlTreeView@@QAEXPAU_TREEITEM@@PAUtagTVITEMEXW@@@Z @815 NONAME
 ?GetItem@CCtrlTreeView@@QAEXPAU_TREEITEM@@PAUtagTVITEMEXW@@PA_WH@Z @816 NONAME
 ?GetItem@CCtrlTreeView@@QAE_NPAUtagTVITEMEXW@@@Z @817 NONAME
@@ -1077,3 +1077,5 @@ Proto_RegisterModule @1074 NONAME
 ?NotifyChange@CDlgBase@@QAEXXZ @1078 NONAME
 ?InvertCheck@CCtrlTreeView@@QAEXPAU_TREEITEM@@@Z @1079 NONAME
 ?SetFlags@CCtrlTreeView@@QAEXI@Z @1080 NONAME
+?CustomWndProc@CCtrlTreeView@@MAEJIIJ@Z @1081 NONAME
+?OnInit@CCtrlTreeView@@MAEXXZ @1082 NONAME

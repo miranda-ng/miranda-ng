@@ -709,7 +709,7 @@ public:
 	COLORREF   GetInsertMarkColor();
 	int        GetInsertMarkRect(LPRECT prc);
 	BOOL       GetISearchString(LPSTR lpsz);
-	void       GetItem(LPLVITEM pitem);
+	bool       GetItem(LPLVITEM pitem);
 	int        GetItemCount();
 	void       GetItemPosition(int i, POINT *ppt);
 	void       GetItemRect(int i, RECT *prc, int code);
