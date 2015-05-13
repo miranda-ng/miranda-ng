@@ -31,21 +31,32 @@ extern bool bIconsDisabled;
 extern int DefaultImageListColorDepth;
 void RebuildProtoMenus(int);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 struct MenuItemOptData : public MZeroedObject
 {
 	~MenuItemOptData() {}
 
-	int    pos; // sort key
+	int    pos;
 
 	ptrT   name;
 	ptrT   defname;
 	ptrA   uniqname;
 	
-	bool   bIsSelected;
+	bool   bShow, bIsSelected;
 	int    id;
 
 	PMO_IntMenuItem pimi;
 };
+
+static int SortMenuItems(const MenuItemOptData *p1, const MenuItemOptData *p2)
+{
+	if (p1->pos < p2->pos) return -1;
+	if (p1->pos > p2->pos) return 1;
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 class CGenMenuOptionsPage : public CDlgBase
 {
@@ -152,14 +163,7 @@ class CGenMenuOptionsPage : public CDlgBase
 		char menuItemName[256], MenuNameItems[256];
 		mir_snprintf(MenuNameItems, SIZEOF(MenuNameItems), "%s_Items", pimo->pszName);
 
-		m_menuItems.SendMsg(WM_SETREDRAW, FALSE, 0);
-		int lastpos = 0;
-		bool bIsFirst = TRUE;
-
-		TVINSERTSTRUCT tvis;
-		tvis.hParent = NULL;
-		tvis.hInsertAfter = TVI_LAST;
-		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+		LIST<MenuItemOptData> arItems(10, SortMenuItems);
 
 		for (PMO_IntMenuItem p = pimo->m_items.first; p != NULL; p = p->next) {
 			if (p->mi.root != (HGENMENU)-1 && p->mi.root != NULL)
@@ -182,7 +186,7 @@ class CGenMenuOptionsPage : public CDlgBase
 			PD->defname = mir_tstrdup(GetMenuItemText(p));
 
 			mir_snprintf(buf, SIZEOF(buf), "%s_visible", menuItemName);
-			int bShow = db_get_b(NULL, MenuNameItems, buf, 1) != 0;
+			PD->bShow = db_get_b(NULL, MenuNameItems, buf, 1) != 0;
 
 			if (bReread) {
 				mir_snprintf(buf, SIZEOF(buf), "%s_pos", menuItemName);
@@ -195,6 +199,20 @@ class CGenMenuOptionsPage : public CDlgBase
 			if (p->UniqName)
 				PD->uniqname = mir_strdup(p->UniqName);
 
+			arItems.insert(PD);
+		}
+
+		m_menuItems.SendMsg(WM_SETREDRAW, FALSE, 0);
+		int lastpos = 0;
+		bool bIsFirst = TRUE;
+
+		TVINSERTSTRUCT tvis;
+		tvis.hParent = NULL;
+		tvis.hInsertAfter = TVI_LAST;
+		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+
+		for (int i = 0; i < arItems.getCount(); i++) {
+			MenuItemOptData *PD = arItems[i];
 			if (PD->pos - lastpos >= SEPARATORPOSITIONINTERVAL) {
 				MenuItemOptData *sep = new MenuItemOptData();
 				sep->id = -1;
@@ -209,7 +227,7 @@ class CGenMenuOptionsPage : public CDlgBase
 
 			tvis.item.lParam = (LPARAM)PD;
 			tvis.item.pszText = PD->name;
-			tvis.item.iImage = tvis.item.iSelectedImage = bShow;
+			tvis.item.iImage = tvis.item.iSelectedImage = PD->bShow;
 
 			HTREEITEM hti = m_menuItems.InsertItem(&tvis);
 			if (bIsFirst) {
