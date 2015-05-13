@@ -43,7 +43,7 @@ typedef struct _StatusBarProtocolOptions
 
 static StatusBarProtocolOptions _GlobalOptions = { 0 };
 
-static void UpdateXStatusIconOptions(HWND hwndDlg, BOOL perProto, StatusBarProtocolOptions *dat, int curSelProto)
+static void UpdateXStatusIconOptions(HWND hwndDlg, StatusBarProtocolOptions &dat)
 {
 	int en = IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR) && IsDlgButtonChecked(hwndDlg, IDC_SHOWICON);
 
@@ -63,33 +63,25 @@ static void UpdateXStatusIconOptions(HWND hwndDlg, BOOL perProto, StatusBarProto
 		val += IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENTOVERLAY) ? 4 : 0;
 	}
 	val += IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUSNAME) ? 8 : 0;
-	if (perProto)
-		dat[curSelProto].ShowXStatus = val;
-	else
-		_GlobalOptions.ShowXStatus = val;
+	dat.ShowXStatus = val;
 }
 
 static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 {
-	StatusBarProtocolOptions *dat = (StatusBarProtocolOptions *)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_STATUSBAR_PROTO_LIST), GWLP_USERDATA);
-	BOOL perProto = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_STATUSBAR_PER_PROTO);
 	HWND hwndComboBox = GetDlgItem(hwndDlg, IDC_STATUSBAR_PROTO_LIST);
-	StatusBarProtocolOptions sbpo;
-	int curSelProto = SendMessage(hwndComboBox, CB_GETITEMDATA, SendMessage(hwndComboBox, CB_GETCURSEL, 0, 0), NULL) - 1; //first entry is the combo box is a constant.
-	if (curSelProto < 0)
+	BOOL perProto = IsDlgButtonChecked(hwndDlg, IDC_STATUSBAR_PER_PROTO);
+
+	StatusBarProtocolOptions *dat = (StatusBarProtocolOptions*)SendMessage(hwndComboBox, CB_GETITEMDATA, SendMessage(hwndComboBox, CB_GETCURSEL, 0, 0), NULL);
+	if (dat == NULL)
 		perProto = FALSE;
 
-	if (perProto)
-		sbpo = dat[curSelProto];
-	else
-		sbpo = _GlobalOptions;
+	StatusBarProtocolOptions &sbpo = (dat == NULL) ? _GlobalOptions : *dat;
 
 	if (perProto) {
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SBAR_USE_ACCOUNT_SETTINGS), TRUE);
 		CheckDlgButton(hwndDlg, IDC_SBAR_USE_ACCOUNT_SETTINGS, sbpo.AccountIsCustomized ? BST_CHECKED : BST_UNCHECKED);
 	}
-	else
-		EnableWindow(GetDlgItem(hwndDlg, IDC_SBAR_USE_ACCOUNT_SETTINGS), FALSE);
+	else EnableWindow(GetDlgItem(hwndDlg, IDC_SBAR_USE_ACCOUNT_SETTINGS), FALSE);
 
 	CheckDlgButton(hwndDlg, IDC_SBAR_HIDE_ACCOUNT_COMPLETELY, sbpo.HideAccount ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_USECONNECTINGICON, sbpo.UseConnectingIcon ? BST_CHECKED : BST_UNCHECKED);
@@ -115,7 +107,7 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 	SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN_RIGHT, UDM_SETPOS, 0, MAKELONG(sbpo.PaddingRight, 2));
 
 	if (!sbpo.AccountIsCustomized)
-		UpdateXStatusIconOptions(hwndDlg, perProto, dat, curSelProto);
+		UpdateXStatusIconOptions(hwndDlg, sbpo);
 
 	{
 		BOOL enableIcons = IsDlgButtonChecked(hwndDlg, IDC_SHOWICON);
@@ -144,17 +136,18 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 	}
 
 	if (!perProto || sbpo.AccountIsCustomized)
-		UpdateXStatusIconOptions(hwndDlg, perProto, dat, curSelProto);
+		UpdateXStatusIconOptions(hwndDlg, sbpo);
 }
 
 INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	StatusBarProtocolOptions *dat = (StatusBarProtocolOptions *)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_STATUSBAR_PROTO_LIST), GWLP_USERDATA);
-	BOOL perProto = IsDlgButtonChecked(hwndDlg, IDC_STATUSBAR_PER_PROTO);
 	HWND hwndComboBox = GetDlgItem(hwndDlg, IDC_STATUSBAR_PROTO_LIST);
-	int curSelProto = SendMessage(hwndComboBox, CB_GETITEMDATA, SendMessage(hwndComboBox, CB_GETCURSEL, 0, 0), NULL) - 1; //first entry is the combo box is a constant.
-	if (curSelProto < 0)
+	StatusBarProtocolOptions *dat = (StatusBarProtocolOptions*)SendMessage(hwndComboBox, CB_GETITEMDATA, SendMessage(hwndComboBox, CB_GETCURSEL, 0, 0), 0);
+	BOOL perProto = IsDlgButtonChecked(hwndDlg, IDC_STATUSBAR_PER_PROTO);
+	if (dat == NULL) {
 		perProto = FALSE;
+		dat = &_GlobalOptions;
+	}
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -166,56 +159,53 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		CheckDlgButton(hwndDlg, IDC_STATUSBAR_PER_PROTO, perProto ? BST_CHECKED : BST_UNCHECKED);
 		{
 			// populate per-proto list box.
-			char *szName;
-			char buf[256];
-			int count;
-
 			SendMessage(hwndComboBox, CB_RESETCONTENT, 0, 0);
 
+			int count;
 			PROTOACCOUNT **accs;
 			ProtoEnumAccounts(&count, &accs);
-
-			dat = (StatusBarProtocolOptions *)mir_alloc(sizeof(StatusBarProtocolOptions) * count);
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_STATUSBAR_PROTO_LIST), GWLP_USERDATA, (LONG_PTR)dat);
 
 			SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)TranslateT("<<Global>>"));
 			SendMessage(hwndComboBox, CB_SETITEMDATA, 0, 0);
 
 			for (int i = 0; i < count; i++) {
-				if (!accs[i]->bIsVirtual) {
-					szName = accs[i]->szModuleName;
-					dat[i].szName = szName;
+				if (accs[i]->bIsVirtual)
+					continue;
 
-					DWORD dwNewId = SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)accs[i]->tszAccountName);
-					SendMessage(hwndComboBox, CB_SETITEMDATA, dwNewId, (LPARAM)i + 1);
+				char *szName = accs[i]->szModuleName;
+				dat = (StatusBarProtocolOptions *)mir_calloc(sizeof(StatusBarProtocolOptions));
+				dat->szName = szName;
 
-					mir_snprintf(buf, SIZEOF(buf), "SBarAccountIsCustom_%s", szName);
-					dat[i].AccountIsCustomized = db_get_b(NULL, "CLUI", buf, SETTING_SBARACCOUNTISCUSTOM_DEFAULT);
+				DWORD dwNewId = SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)accs[i]->tszAccountName);
+				SendMessage(hwndComboBox, CB_SETITEMDATA, dwNewId, (LPARAM)dat);
 
-					mir_snprintf(buf, SIZEOF(buf), "HideAccount_%s", szName);
-					dat[i].HideAccount = db_get_b(NULL, "CLUI", buf, SETTING_SBARHIDEACCOUNT_DEFAULT);
+				char buf[256];
+				mir_snprintf(buf, SIZEOF(buf), "SBarAccountIsCustom_%s", szName);
+				dat->AccountIsCustomized = db_get_b(NULL, "CLUI", buf, SETTING_SBARACCOUNTISCUSTOM_DEFAULT);
 
-					mir_snprintf(buf, SIZEOF(buf), "SBarShow_%s", szName);
-					dat[i].SBarShow = db_get_b(NULL, "CLUI", buf, SETTING_SBARSHOW_DEFAULT);
+				mir_snprintf(buf, SIZEOF(buf), "HideAccount_%s", szName);
+				dat->HideAccount = db_get_b(NULL, "CLUI", buf, SETTING_SBARHIDEACCOUNT_DEFAULT);
 
-					mir_snprintf(buf, SIZEOF(buf), "SBarRightClk_%s", szName);
-					dat[i].SBarRightClk = db_get_b(NULL, "CLUI", buf, SETTING_SBARRIGHTCLK_DEFAULT);
+				mir_snprintf(buf, SIZEOF(buf), "SBarShow_%s", szName);
+				dat->SBarShow = db_get_b(NULL, "CLUI", buf, SETTING_SBARSHOW_DEFAULT);
 
-					mir_snprintf(buf, SIZEOF(buf), "ShowUnreadEmails_%s", szName);
-					dat[i].ShowUnreadEmails = db_get_b(NULL, "CLUI", buf, SETTING_SHOWUNREADEMAILS_DEFAULT);
+				mir_snprintf(buf, SIZEOF(buf), "SBarRightClk_%s", szName);
+				dat->SBarRightClk = db_get_b(NULL, "CLUI", buf, SETTING_SBARRIGHTCLK_DEFAULT);
 
-					mir_snprintf(buf, SIZEOF(buf), "ShowXStatus_%s", szName);
-					dat[i].ShowXStatus = db_get_b(NULL, "CLUI", buf, SETTING_SHOWXSTATUS_DEFAULT);
+				mir_snprintf(buf, SIZEOF(buf), "ShowUnreadEmails_%s", szName);
+				dat->ShowUnreadEmails = db_get_b(NULL, "CLUI", buf, SETTING_SHOWUNREADEMAILS_DEFAULT);
 
-					mir_snprintf(buf, SIZEOF(buf), "UseConnectingIcon_%s", szName);
-					dat[i].UseConnectingIcon = db_get_b(NULL, "CLUI", buf, SETTING_USECONNECTINGICON_DEFAULT);
+				mir_snprintf(buf, SIZEOF(buf), "ShowXStatus_%s", szName);
+				dat->ShowXStatus = db_get_b(NULL, "CLUI", buf, SETTING_SHOWXSTATUS_DEFAULT);
 
-					mir_snprintf(buf, SIZEOF(buf), "PaddingLeft_%s", szName);
-					dat[i].PaddingLeft = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGLEFT_DEFAULT);
+				mir_snprintf(buf, SIZEOF(buf), "UseConnectingIcon_%s", szName);
+				dat->UseConnectingIcon = db_get_b(NULL, "CLUI", buf, SETTING_USECONNECTINGICON_DEFAULT);
 
-					mir_snprintf(buf, SIZEOF(buf), "PaddingRight_%s", szName);
-					dat[i].PaddingRight = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGRIGHT_DEFAULT);
-				}
+				mir_snprintf(buf, SIZEOF(buf), "PaddingLeft_%s", szName);
+				dat->PaddingLeft = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGLEFT_DEFAULT);
+
+				mir_snprintf(buf, SIZEOF(buf), "PaddingRight_%s", szName);
+				dat->PaddingRight = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGRIGHT_DEFAULT);
 			}
 
 			if (count)
@@ -356,62 +346,41 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		}
-		else if (LOWORD(wParam) == IDC_SHOWXSTATUS ||
-			LOWORD(wParam) == IDC_SHOWBOTH ||
-			LOWORD(wParam) == IDC_SHOWNORMAL ||
-			LOWORD(wParam) == IDC_TRANSPARENTOVERLAY ||
-			LOWORD(wParam) == IDC_SHOWXSTATUSNAME)
-			UpdateXStatusIconOptions(hwndDlg, perProto, dat, curSelProto);
+		else if (LOWORD(wParam) == IDC_SHOWXSTATUS || LOWORD(wParam) == IDC_SHOWBOTH || LOWORD(wParam) == IDC_SHOWNORMAL || LOWORD(wParam) == IDC_TRANSPARENTOVERLAY || LOWORD(wParam) == IDC_SHOWXSTATUSNAME)
+		{
+			UpdateXStatusIconOptions(hwndDlg, *dat);
+		}
 		else if (LOWORD(wParam) == IDC_SBAR_USE_ACCOUNT_SETTINGS) {
 			if (perProto) {
-				dat[curSelProto].AccountIsCustomized = IsDlgButtonChecked(hwndDlg, IDC_SBAR_USE_ACCOUNT_SETTINGS);
+				dat->AccountIsCustomized = IsDlgButtonChecked(hwndDlg, IDC_SBAR_USE_ACCOUNT_SETTINGS);
 				UpdateStatusBarOptionsDisplay(hwndDlg);
 			}
 		}
 		else if (LOWORD(wParam) == IDC_SBAR_HIDE_ACCOUNT_COMPLETELY) {
 			if (perProto)
-				dat[curSelProto].HideAccount = IsDlgButtonChecked(hwndDlg, IDC_SBAR_HIDE_ACCOUNT_COMPLETELY);
+				dat->HideAccount = IsDlgButtonChecked(hwndDlg, IDC_SBAR_HIDE_ACCOUNT_COMPLETELY);
 		}
 		else if (LOWORD(wParam) == IDC_USECONNECTINGICON) {
-			if (perProto)
-				dat[curSelProto].UseConnectingIcon = IsDlgButtonChecked(hwndDlg, IDC_USECONNECTINGICON);
-			else
-				_GlobalOptions.UseConnectingIcon = IsDlgButtonChecked(hwndDlg, IDC_USECONNECTINGICON);
+			dat->UseConnectingIcon = IsDlgButtonChecked(hwndDlg, IDC_USECONNECTINGICON);
 		}
 		else if (LOWORD(wParam) == IDC_SHOWUNREADEMAIL) {
-			if (perProto)
-				dat[curSelProto].ShowUnreadEmails = IsDlgButtonChecked(hwndDlg, IDC_SHOWUNREADEMAIL);
-			else
-				_GlobalOptions.ShowUnreadEmails = IsDlgButtonChecked(hwndDlg, IDC_SHOWUNREADEMAIL);
+			dat->ShowUnreadEmails = IsDlgButtonChecked(hwndDlg, IDC_SHOWUNREADEMAIL);
 		}
 		else if (LOWORD(wParam) == IDC_SHOWICON || LOWORD(wParam) == IDC_SHOWPROTO || LOWORD(wParam) == IDC_SHOWSTATUS) {
-			BYTE val = (IsDlgButtonChecked(hwndDlg, IDC_SHOWICON) ? 1 : 0) |
+			dat->SBarShow = (IsDlgButtonChecked(hwndDlg, IDC_SHOWICON) ? 1 : 0) |
 				(IsDlgButtonChecked(hwndDlg, IDC_SHOWPROTO) ? 2 : 0) |
 				(IsDlgButtonChecked(hwndDlg, IDC_SHOWSTATUS) ? 4 : 0);
-			if (perProto)
-				dat[curSelProto].SBarShow = val;
-			else
-				_GlobalOptions.SBarShow = val;
 
 			UpdateStatusBarOptionsDisplay(hwndDlg);
 		}
 		else if (LOWORD(wParam) == IDC_RIGHTSTATUS || LOWORD(wParam) == IDC_RIGHTMIRANDA) {
-			if (perProto)
-				dat[curSelProto].SBarRightClk = IsDlgButtonChecked(hwndDlg, IDC_RIGHTMIRANDA);
-			else
-				_GlobalOptions.SBarRightClk = IsDlgButtonChecked(hwndDlg, IDC_RIGHTMIRANDA);
+			dat->SBarRightClk = IsDlgButtonChecked(hwndDlg, IDC_RIGHTMIRANDA);
 		}
 		else if (LOWORD(wParam) == IDC_OFFSETICON_LEFT) {
-			if (perProto)
-				dat[curSelProto].PaddingLeft = (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN_LEFT, UDM_GETPOS, 0, 0);
-			else
-				_GlobalOptions.PaddingLeft = (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN_LEFT, UDM_GETPOS, 0, 0);
+			dat->PaddingLeft = (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN_LEFT, UDM_GETPOS, 0, 0);
 		}
 		else if (LOWORD(wParam) == IDC_OFFSETICON_RIGHT) {
-			if (perProto)
-				dat[curSelProto].PaddingRight = (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN_RIGHT, UDM_GETPOS, 0, 0);
-			else
-				_GlobalOptions.PaddingRight = (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN_RIGHT, UDM_GETPOS, 0, 0);
+			dat->PaddingRight = (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN_RIGHT, UDM_GETPOS, 0, 0);
 		}
 		else if ((LOWORD(wParam) == IDC_MULTI_COUNT || LOWORD(wParam) == IDC_OFFSETICON || LOWORD(wParam) == IDC_OFFSETICON2
 			|| LOWORD(wParam) == IDC_OFFSETICON3 || LOWORD(wParam) == IDC_SBAR_BORDER_BOTTOM || LOWORD(wParam) == IDC_SBAR_BORDER_TOP)
@@ -423,38 +392,37 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		}
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		break;
+
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-		{
-			int count = db_get_dw(0, "Protocols", "ProtoCount", -1);
 			db_set_b(NULL, "CLUI", "SBarPerProto", IsDlgButtonChecked(hwndDlg, IDC_STATUSBAR_PER_PROTO));
 
-			for (int i = 0; i < count; i++) {
-				StatusBarProtocolOptions sbpo = dat[i];
-				char *defProto = sbpo.szName;
+			int count = SendMessage(hwndComboBox, CB_GETCOUNT, 0, 0);
+			for (int i = 1; i < count; i++) {
+				StatusBarProtocolOptions *sbpo = (StatusBarProtocolOptions*)SendMessage(hwndComboBox, CB_GETITEMDATA, i, 0);
 
 				char settingBuf[256];
-				mir_snprintf(settingBuf, SIZEOF(settingBuf), "SBarAccountIsCustom_%s", defProto);
-				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo.AccountIsCustomized);
+				mir_snprintf(settingBuf, SIZEOF(settingBuf), "SBarAccountIsCustom_%s", sbpo->szName);
+				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->AccountIsCustomized);
 
-				mir_snprintf(settingBuf, SIZEOF(settingBuf), "HideAccount_%s", defProto);
-				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo.HideAccount);
+				mir_snprintf(settingBuf, SIZEOF(settingBuf), "HideAccount_%s", sbpo->szName);
+				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->HideAccount);
 
-				mir_snprintf(settingBuf, SIZEOF(settingBuf), "SBarShow_%s", defProto);
-				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo.SBarShow);
-				mir_snprintf(settingBuf, SIZEOF(settingBuf), "SBarRightClk_%s", defProto);
-				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo.SBarRightClk);
-				mir_snprintf(settingBuf, SIZEOF(settingBuf), "UseConnectingIcon_%s", defProto);
-				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo.UseConnectingIcon);
-				mir_snprintf(settingBuf, SIZEOF(settingBuf), "ShowUnreadEmails_%s", defProto);
-				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo.ShowUnreadEmails);
-				mir_snprintf(settingBuf, SIZEOF(settingBuf), "ShowXStatus_%s", defProto);
-				db_set_b(NULL, "CLUI", settingBuf, sbpo.ShowXStatus);
-				mir_snprintf(settingBuf, SIZEOF(settingBuf), "PaddingLeft_%s", defProto);
-				db_set_dw(NULL, "CLUI", settingBuf, sbpo.PaddingLeft);
-				mir_snprintf(settingBuf, SIZEOF(settingBuf), "PaddingRight_%s", defProto);
-				db_set_dw(NULL, "CLUI", settingBuf, sbpo.PaddingRight);
+				mir_snprintf(settingBuf, SIZEOF(settingBuf), "SBarShow_%s", sbpo->szName);
+				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->SBarShow);
+				mir_snprintf(settingBuf, SIZEOF(settingBuf), "SBarRightClk_%s", sbpo->szName);
+				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->SBarRightClk);
+				mir_snprintf(settingBuf, SIZEOF(settingBuf), "UseConnectingIcon_%s", sbpo->szName);
+				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->UseConnectingIcon);
+				mir_snprintf(settingBuf, SIZEOF(settingBuf), "ShowUnreadEmails_%s", sbpo->szName);
+				db_set_b(NULL, "CLUI", settingBuf, (BYTE)sbpo->ShowUnreadEmails);
+				mir_snprintf(settingBuf, SIZEOF(settingBuf), "ShowXStatus_%s", sbpo->szName);
+				db_set_b(NULL, "CLUI", settingBuf, sbpo->ShowXStatus);
+				mir_snprintf(settingBuf, SIZEOF(settingBuf), "PaddingLeft_%s", sbpo->szName);
+				db_set_dw(NULL, "CLUI", settingBuf, sbpo->PaddingLeft);
+				mir_snprintf(settingBuf, SIZEOF(settingBuf), "PaddingRight_%s", sbpo->szName);
+				db_set_dw(NULL, "CLUI", settingBuf, sbpo->PaddingRight);
 			}
 
 			db_set_b(NULL, "CLUI", "SBarShow", (BYTE)_GlobalOptions.SBarShow);
@@ -481,12 +449,12 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			cliCluiProtocolStatusChanged(0, 0);
 			return TRUE;
 		}
-		}
 		break;
 
 	case WM_DESTROY:
-		mir_free(dat);
-		break;
+		int count = SendMessage(hwndComboBox, CB_GETCOUNT, 0, 0);
+		for (int i = 0; i < count; i++)
+			mir_free((void*)SendMessage(hwndComboBox, CB_GETITEMDATA, i, 0));
 	}
 	return FALSE;
 }
