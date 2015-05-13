@@ -70,8 +70,7 @@ private:
 	static INT_PTR ProtoGetCaps(WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoGetName(WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoLoadIcon(WPARAM wParam, LPARAM lParam);
-	static INT_PTR ProtoGetStatus(WPARAM wParam, LPARAM lParam);
-	static INT_PTR ProtoSetStatus(void *obj, WPARAM wParam, LPARAM lParam);
+	static INT_PTR ProtoGetStatus(void *obj, WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoSendFile(void *obj, WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoCancelFile(void *obj, WPARAM wParam, LPARAM lParam);
 	static INT_PTR ProtoSendMessage(void *obj, WPARAM wParam, LPARAM lParam);
