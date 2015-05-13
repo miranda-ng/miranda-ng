@@ -311,6 +311,7 @@ public:
 	//---- init dialog -------------------------------------------
 	virtual void OnInitDialog()
 	{
+		m_bDragging = 0;
 		iInitMenuValue = db_get_b(NULL, "CList", "MoveProtoMenus", TRUE);
 
 		HIMAGELIST himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
@@ -353,6 +354,8 @@ public:
 
 		int iNewMenuValue = !m_radio1.GetState();
 		if (iNewMenuValue != iInitMenuValue) {
+			db_set_b(NULL, "CList", "MoveProtoMenus", iNewMenuValue);
+
 			RebuildProtoMenus(iNewMenuValue);
 			iInitMenuValue = iNewMenuValue;
 		}
