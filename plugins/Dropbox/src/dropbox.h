@@ -1,22 +1,6 @@
 #ifndef _DROPBOX_PROTO_H_
 #define _DROPBOX_PROTO_H_
 
-#include "http_request.h"
-#include "file_transfer.h"
-
-#define DROPBOX_API_VER "1"
-#define DROPBOX_API_ROOT "sandbox"
-#define DROPBOX_WWW_URL "https://www.dropbox.com/"
-#define DROPBOX_API_URL "https://api.dropbox.com/" DROPBOX_API_VER
-#define DROPBOX_APICONTENT_URL "https://api-content.dropbox.com/" DROPBOX_API_VER
-
-#define DROPBOX_APP_KEY "fa8du7gkf2q8xzg"
-#include "..\..\..\miranda-private-keys\Dropbox\secret_key.h"
-
-#define DROPBOX_FILE_CHUNK_SIZE 4 * 1024 * 1024 //4 MB
-
-#define BBB_ID_FILE_SEND 10001
-
 enum
 {
 	CMI_SEND_FILES,
@@ -25,6 +9,8 @@ enum
 
 class CDropbox : public MZeroedObject
 {
+	friend CDropboxOptionsMain;
+
 	struct CommandParam
 	{
 		CDropbox *instance;
