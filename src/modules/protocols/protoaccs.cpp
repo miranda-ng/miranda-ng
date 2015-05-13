@@ -608,8 +608,6 @@ void BuildProtoMenus()
 
 void RebuildProtoMenus(int iNewValue)
 {
-	db_set_b(NULL, "CList", "MoveProtoMenus", iNewValue);
-
 	RebuildMenuOrder();
 	BuildProtoMenus();
 }
