@@ -18,8 +18,7 @@ CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 	CreateProtoServiceFunction(MODULE, PS_GETCAPS, ProtoGetCaps);
 	CreateProtoServiceFunction(MODULE, PS_GETNAME, ProtoGetName);
 	CreateProtoServiceFunction(MODULE, PS_LOADICON, ProtoLoadIcon);
-	CreateProtoServiceFunction(MODULE, PS_GETSTATUS, ProtoGetStatus);
-	CreateProtoServiceFunctionObj(PS_SETSTATUS, ProtoSetStatus, this);
+	CreateProtoServiceFunctionObj(PS_GETSTATUS, ProtoGetStatus, this);
 	CreateProtoServiceFunctionObj(PSS_FILEW, ProtoSendFile, this);
 	CreateProtoServiceFunctionObj(PSS_FILECANCEL, ProtoCancelFile, this);
 	CreateProtoServiceFunctionObj(PSS_MESSAGE, ProtoSendMessage, this);

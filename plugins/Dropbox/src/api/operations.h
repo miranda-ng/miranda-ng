@@ -26,8 +26,7 @@ public:
 
 		CMStringA data(CMStringDataFormat::FORMAT, "root=auto&path=%s", path);
 		data.Replace('\\', '/');
-		pData = data.GetBuffer();
-		dataLength = data.GetLength();
+		SetData(data.GetBuffer(), data.GetLength());
 	}
 };
 
@@ -42,8 +41,7 @@ public:
 
 		CMStringA data(CMStringDataFormat::FORMAT, "root=auto&path=%s", path);
 		data.Replace('\\', '/');
-		pData = data.GetBuffer();
-		dataLength = data.GetLength();
+		SetData(data.GetBuffer(), data.GetLength());
 	}
 };
 

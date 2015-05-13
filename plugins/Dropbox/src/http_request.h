@@ -115,7 +115,7 @@ protected:
 		va_end(urlArgs);
 	}
 
-	/*void SetData(const char *data, size_t size)
+	void SetData(const char *data, size_t size)
 	{
 		if (pData != NULL)
 			mir_free(pData);
@@ -124,7 +124,7 @@ protected:
 		pData = (char*)mir_alloc(size + 1);
 		memcpy(pData, data, size);
 		pData[size] = 0;
-	}*/
+	}
 
 public:
 	HttpRequest(int type, LPCSTR url)
@@ -152,6 +152,8 @@ public:
 			mir_free(headers[i].szValue);
 		}
 		mir_free(headers);
+		if (pData)
+			mir_free(pData);
 	}
 
 	NETLIBHTTPREQUEST* Send(HANDLE hNetlibConnection)

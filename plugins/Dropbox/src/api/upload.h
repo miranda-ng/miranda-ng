@@ -39,7 +39,6 @@ public:
 	{
 		AddBearerAuthHeader(token);
 		AddHeader("Content-Type", "application/x-www-form-urlencoded");
-
 		AddUrlParameter("upload_id=%s", uploadId);
 	}
 };

@@ -151,7 +151,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 				if (ftp->isTerminated)
 					throw TransferException("Transfer was terminated");
 
-				char *data = new char[chunkSize + 1];
+				char *data = (char*)mir_alloc(chunkSize);
 				int count = (int)fread(data, sizeof(char), chunkSize, hFile);
 
 				if (offset == 0)

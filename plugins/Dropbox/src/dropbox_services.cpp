@@ -41,30 +41,10 @@ INT_PTR CDropbox::ProtoLoadIcon(WPARAM wParam, LPARAM)
 	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(LoadIconEx(IDI_DROPBOX)) : 0;
 }
 
-INT_PTR CDropbox::ProtoGetStatus(WPARAM, LPARAM)
-{
-	return g_nStatus;
-}
-
-INT_PTR CDropbox::ProtoSetStatus(void *obj, WPARAM wp, LPARAM)
+INT_PTR CDropbox::ProtoGetStatus(void *obj, WPARAM, LPARAM)
 {
 	CDropbox *instance = (CDropbox*)obj;
-	int nStatus = wp;
-	if ((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus))
-	{
-		int nOldStatus = g_nStatus;
-		if (nStatus != g_nStatus)
-		{
-			g_nStatus = nStatus;
-
-			MCONTACT hContact = instance->GetDefaultContact();
-			db_set_w(hContact, MODULE, "Status", nStatus);
-
-			ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)nOldStatus, g_nStatus);
-		}
-	}
-
-	return 0;
+	return instance->HasAccessToken() ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 }
 
 INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
@@ -172,7 +152,14 @@ INT_PTR CDropbox::ProtoSendMessage(void *obj, WPARAM, LPARAM lParam)
 
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
-	char *message = NEWSTR_ALLOCA((char*)pccsd->lParam);
+	char *message = NULL;
+	char *szMessage = (char*)pccsd->lParam;
+	if (pccsd->wParam & PREF_UNICODE)
+		message = mir_utf8encodeW((wchar_t*)&szMessage[mir_strlen(szMessage) + 1]);
+	else if (pccsd->wParam & PREF_UTF)
+		message = mir_strdup(szMessage);
+	else
+		message = mir_utf8encode(szMessage);
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = MODULE;
