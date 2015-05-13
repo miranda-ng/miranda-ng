@@ -29,8 +29,6 @@ char* CDropbox::HttpStatusToText(HTTP_STATUS status)
 	return "Unknown error";
 }
 
-
-
 void CDropbox::HandleHttpResponseError(NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)

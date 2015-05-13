@@ -65,14 +65,11 @@ bool CDropbox::HasAccessToken()
 
 void CDropbox::RequestAccountInfo()
 {
-	HttpRequest *request = new HttpRequest(hNetlibConnection, REQUEST_GET, DROPBOX_API_URL "/account/info");
-	request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
-	mir_ptr<NETLIBHTTPREQUEST> response(request->Send());
-
-	delete request;
-
 	MCONTACT hContact = CDropbox::GetDefaultContact();
 
+	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
+	GetAccountInfoRequest request(token);
+	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(hNetlibConnection));
 	HandleHttpResponseError(response);
 
 	JSONROOT root(response->pData);
@@ -137,14 +134,11 @@ void CDropbox::RequestAccountInfo()
 
 void CDropbox::DestroyAccessToken()
 {
-	HttpRequest *request = new HttpRequest(hNetlibConnection, REQUEST_POST, DROPBOX_API_URL "/disable_access_token");
-	mir_ptr<NETLIBHTTPREQUEST> response(request->Send());
-
-	delete request;
-
-	MCONTACT hContact = CDropbox::GetDefaultContact();
+	DisableAccessTokenRequest request;
+	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(hNetlibConnection));
 
 	db_unset(NULL, MODULE, "TokenSecret");
+	MCONTACT hContact = CDropbox::GetDefaultContact();
 	if (hContact)
 		if (db_get_w(hContact, MODULE, "Status", ID_STATUS_ONLINE) == ID_STATUS_ONLINE)
 			db_set_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE);
@@ -164,72 +158,58 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 	char requestToken[128];
 	GetDlgItemTextA(hwndDlg, IDC_REQUEST_CODE, requestToken, SIZEOF(requestToken));
 
-	char data[1024];
-	mir_snprintf(
-		data,
-		SIZEOF(data),
-		"grant_type=authorization_code&code=%s",
-		requestToken);
-
-	HttpRequest *request = new HttpRequest(instance->hNetlibConnection, REQUEST_POST, DROPBOX_API_URL "/oauth2/token");
-	request->AddBasicAuthHeader(DROPBOX_APP_KEY, DROPBOX_API_SECRET);
-	request->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-	request->pData = mir_strdup(data);
-	request->dataLength = (int)strlen(data);
-
-	mir_ptr<NETLIBHTTPREQUEST> response(request->Send());
-
-	delete request;
-
-	MCONTACT hContact = instance->GetDefaultContact();
+	GetAccessTokenRequest request(requestToken);
+	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(instance->hNetlibConnection));
 
 	if (response == NULL)
 	{
+		Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, HttpStatusToText(HTTP_STATUS_ERROR));
 		if (hwndDlg)
 			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("server does not respond"));
 		/*else
 			ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);*/
+		return 0;
 	}
+
 	JSONROOT root(response->pData);
-	if (root)
+	if (root == NULL)
 	{
-		if (response->resultCode == HTTP_STATUS_OK)
-		{
-			JSONNODE *node = json_get(root, "access_token");
-			ptrA access_token = ptrA(mir_u2a(json_as_string(node)));
-			db_set_s(NULL, MODULE, "TokenSecret", access_token);
+		JSONNODE *node = json_get(root, "error_description");
+		ptrW error_description(json_as_string(node));
 
-			if (hContact) {
-				if (db_get_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
-					db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
-			}
-
-			try
-			{
-				instance->RequestAccountInfo();
-			}
-			catch (TransferException &ex)
-			{
-				Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, ex.what());
-				return 0;
-			}
-
-			if (hwndDlg)
-				SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("you have been authorized"));
-			/*else
-				ShowNotification(TranslateT("you have been authorized"), MB_ICONINFORMATION);*/
-		}
-		else
-		{
-			JSONNODE *node = json_get(root, "error_description");
-			ptrW error_description(json_as_string(node));
-
-			if (hwndDlg)
-				SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, error_description);
-			/*else
-				ShowNotification((TCHAR*)error_description, MB_ICONERROR);*/
-		}
+		Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, HttpStatusToText((HTTP_STATUS)response->resultCode)));
+		if (hwndDlg)
+			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, error_description);
+		/*else
+			ShowNotification((TCHAR*)error_description, MB_ICONERROR);*/
+		return 0;
 	}
+
+	JSONNODE *node = json_get(root, "access_token");
+	ptrA access_token = ptrA(mir_u2a(json_as_string(node)));
+	db_set_s(NULL, MODULE, "TokenSecret", access_token);
+
+	MCONTACT hContact = instance->GetDefaultContact();
+	if (hContact)
+	{
+		if (db_get_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+			db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
+	}
+
+	try
+	{
+		instance->RequestAccountInfo();
+	}
+	catch (TransferException &ex)
+	{
+		Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, ex.what());
+		return 0;
+	}
+
+	if (hwndDlg)
+		SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("you have been authorized"));
+	/*else
+		ShowNotification(TranslateT("you have been authorized"), MB_ICONINFORMATION);*/
 
 	SetDlgItemTextA(hwndDlg, IDC_REQUEST_CODE, "");
 

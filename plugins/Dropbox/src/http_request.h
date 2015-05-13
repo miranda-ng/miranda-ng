@@ -15,33 +15,50 @@ enum HTTP_STATUS
 	HTTP_STATUS_INSUFICIENTE_STORAGE = 507
 };
 
-class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
+class HttpRequestException
 {
+	CMStringA message;
+
 public:
-	HttpRequest(HANDLE hNetlibConnection, int requestType, LPCSTR url)
+	HttpRequestException(const char *message) :
+		message(message)
+	{
+	}
+
+	const char* what() const throw()
+	{
+		return message.c_str();
+	}
+};
+
+class HttpRequest : protected NETLIBHTTPREQUEST//, public MZeroedObject
+{
+private:
+	CMStringA m_szUrl;
+	va_list formatArgs;
+
+	void Init(int type)
 	{
 		cbSize = sizeof(NETLIBHTTPREQUEST);
-		flags = NLHRF_HTTP11;
-		this->requestType = requestType;
-
-		m_hNetlibConnection = hNetlibConnection;
-		m_szUrl = mir_strdup(url);
+		requestType = type;
+		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
+		szUrl = NULL;
+		headers = NULL;
+		headersCount = 0;
+		pData = NULL;
+		dataLength = 0;
+		resultCode = 0;
+		szResultDescr = NULL;
+		nlc = NULL;
+		timeout = 0;
 	}
 
-	~HttpRequest()
-	{
-		for (int i = 0; i < headersCount; i++) {
-			mir_free(headers[i].szName);
-			mir_free(headers[i].szValue);
-		}
-		mir_free(headers);
-		mir_free(pData);
-	}
-
+protected:
+	enum HttpRequestUrlFormat { FORMAT };
 
 	void AddHeader(LPCSTR szName, LPCSTR szValue)
 	{
-		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
+		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER) * (headersCount + 1));
 		headers[headersCount].szName = mir_strdup(szName);
 		headers[headersCount].szValue = mir_strdup(szValue);
 		headersCount++;
@@ -89,15 +106,60 @@ public:
 		headersCount++;
 	}
 
-	NETLIBHTTPREQUEST *Send()
+	void AddUrlParameter(const char *urlFormat, ...)
 	{
-		szUrl = m_szUrl.GetBuffer();
-		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibConnection, (LPARAM)this);
+		va_list urlArgs;
+		va_start(urlArgs, urlFormat);
+		m_szUrl += m_szUrl.Find('?') == -1 ? '?' : '&';
+		m_szUrl.AppendFormatV(urlFormat, urlArgs);
+		va_end(urlArgs);
 	}
 
-private:
-	CMStringA m_szUrl;
-	HANDLE m_hNetlibConnection;
+	/*void SetData(const char *data, size_t size)
+	{
+		if (pData != NULL)
+			mir_free(pData);
+
+		dataLength = (int)size;
+		pData = (char*)mir_alloc(size + 1);
+		memcpy(pData, data, size);
+		pData[size] = 0;
+	}*/
+
+public:
+	HttpRequest(int type, LPCSTR url)
+	{
+		Init(type);
+
+		m_szUrl = url;
+	}
+
+	HttpRequest(int type, HttpRequestUrlFormat, LPCSTR urlFormat, ...)
+	{
+		Init(type);
+
+		va_list formatArgs;
+		va_start(formatArgs, urlFormat);
+		m_szUrl.AppendFormatV(urlFormat, formatArgs);
+		va_end(formatArgs);
+	}
+
+	~HttpRequest()
+	{
+		for (int i = 0; i < headersCount; i++)
+		{
+			mir_free(headers[i].szName);
+			mir_free(headers[i].szValue);
+		}
+		mir_free(headers);
+	}
+
+	NETLIBHTTPREQUEST* Send(HANDLE hNetlibConnection)
+	{
+		m_szUrl.Replace('\\', '/');
+		szUrl = m_szUrl.GetBuffer();
+		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibConnection, (LPARAM)this);
+	}
 };
 
 #endif //_HTTP_REQUEST_H_

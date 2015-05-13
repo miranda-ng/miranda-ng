@@ -25,6 +25,10 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\common.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClInclude Include="src\api\*.h" />
+    <None Include="res\*.ico" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <Link>
       <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
