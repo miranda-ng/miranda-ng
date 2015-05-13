@@ -2,8 +2,8 @@
 
 CDropboxOptionsMain::CDropboxOptionsMain(CDropbox *instance, int idDialog)
 	: CDropboxDlgBase(instance, idDialog),
-	m_auth(NULL, IDC_GETAUTH, DROPBOX_WWW_URL DROPBOX_API_VER "/oauth2/authorize?response_type=code&client_id=" DROPBOX_APP_KEY),
-	m_requestCode(NULL, IDC_REQUEST_CODE), m_authorize(NULL, IDC_AUTHORIZE), m_authStatus(NULL, IDC_AUTH_STATUS),
+	m_auth(this, IDC_GETAUTH, DROPBOX_WWW_URL DROPBOX_API_VER "/oauth2/authorize?response_type=code&client_id=" DROPBOX_APP_KEY),
+	m_requestCode(this, IDC_REQUEST_CODE), m_authorize(this, IDC_AUTHORIZE), m_authStatus(this, IDC_AUTH_STATUS),
 	m_useShortUrl(this, IDC_USE_SHORT_LINKS), m_urlAutoSend(this, IDC_URL_AUTOSEND),
 	m_urlPasteToMessageInputArea(this, IDC_URL_COPYTOMIA), m_urlCopyToClipboard(this, IDC_URL_COPYTOCB)
 {
