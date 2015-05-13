@@ -25,17 +25,19 @@ void CDropbox::InitializeMenus()
 	CreateServiceFunctionObj(mi.pszService, SendFilesToDropboxCommand, this);
 }
 
-int CDropbox::OnPrebuildContactMenu(void *obj, WPARAM hContact, LPARAM)
+int CDropbox::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	if (!hContact)
 		return 0;
 
 	BOOL bShow = FALSE;
 
-	CDropbox *instance = (CDropbox*)obj;
-	if (instance->HasAccessToken() && !instance->hTransferContact && hContact != instance->GetDefaultContact()) {
+	if (HasAccessToken() && !hTransferContact && hContact != GetDefaultContact())
+	{
 		char *proto = GetContactProto(hContact);
-		if (proto && !db_get_b(hContact, proto, "ChatRoom", 0)) {
+		bool isContact = db_get_b(hContact, proto, "ChatRoom", 0) == 0;
+		if (proto && isContact)
+		{
 			bool isProtoOnline = CallProtoService(proto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE;
 			WORD status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
 			bool canSendOffline = (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDOFFLINE) > 0;
@@ -44,6 +46,6 @@ int CDropbox::OnPrebuildContactMenu(void *obj, WPARAM hContact, LPARAM)
 		}
 	}
 
-	Menu_ShowItem(instance->contactMenuItems[CMI_SEND_FILES], bShow);
+	Menu_ShowItem(contactMenuItems[CMI_SEND_FILES], bShow);
 	return 0;
 }
