@@ -11,8 +11,7 @@ public:
 		AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
 		CMStringA data(CMStringDataFormat::FORMAT, "grant_type=authorization_code&code=%s", requestToken);
-		pData = data.GetBuffer();
-		dataLength = data.GetLength();
+		SetData(data.GetBuffer(), data.GetLength());
 	}
 };
 

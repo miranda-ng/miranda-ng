@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -39,7 +39,7 @@ BEGIN
     EDITTEXT        IDC_REQUEST_CODE,144,51,169,13,ES_AUTOHSCROLL
     LTEXT           "3.",IDC_STATIC,21,71,8,8
     LTEXT           "Initiate authorization",IDC_STATIC,29,71,109,16
-    PUSHBUTTON      "Authorize",IDC_AUTHORIZE,144,68,169,14,BS_CENTER
+    PUSHBUTTON      "Authorize",IDC_AUTHORIZE,144,68,169,14,BS_CENTER | WS_DISABLED
     GROUPBOX        "Download link",IDC_STATIC,5,111,313,70
     CONTROL         "Use shortened download links",IDC_URL_USE_SHORT,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,15,125,298,10
     LTEXT           "4.",IDC_STATIC,22,89,8,8
@@ -123,7 +123,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""winres.h""\r\n"
     "\0"
 END
 

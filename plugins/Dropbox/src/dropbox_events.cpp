@@ -61,23 +61,6 @@ int CDropbox::OnContactDeleted(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-int CDropbox::OnOptionsInitialized(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.position = 100000000;
-	odp.hInstance = g_hInstance;
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_MAIN);
-	odp.pszGroup = LPGEN("Network");
-	odp.pszTitle = "Dropbox";
-	odp.pfnDlgProc = MainOptionsProc;
-	odp.dwInitParam = (LPARAM)this;
-
-	Options_AddPage(wParam, &odp);
-
-	return 0;
-}
-
 int CDropbox::OnSrmmWindowOpened(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *ev = (MessageWindowEventData*)lParam;
