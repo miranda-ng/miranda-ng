@@ -399,14 +399,25 @@ void CMsnProto::MSN_GoOffline(void)
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)msnOldStatus, ID_STATUS_OFFLINE);
 		isIdle = false;
 
-		int count = -1;
-		for (;;) {
-			MsnContact *msc = Lists_GetNext(count);
-			if (msc == NULL) break;
+		MCONTACT hContact = NULL;
 
-			if (ID_STATUS_OFFLINE != getWord(msc->hContact, "Status", ID_STATUS_OFFLINE)) {
-				setWord(msc->hContact, "Status", ID_STATUS_OFFLINE);
-				setDword(msc->hContact, "IdleTS", 0);
+		for (hContact = db_find_first(m_szModuleName); hContact; 
+				hContact = db_find_next(hContact, m_szModuleName)) 
+		{
+			if (isChatRoom(hContact) != 0) {
+				DBVARIANT dbv;
+				if (getTString(hContact, "ChatRoomID", &dbv) == 0) {
+					GCDEST gcd = { m_szModuleName, dbv.ptszVal, GC_EVENT_CONTROL };
+					GCEVENT gce = { sizeof(gce), &gcd };
+					CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
+					db_free(&dbv);
+				}
+			}
+			else {
+				if (ID_STATUS_OFFLINE != getWord(hContact, "Status", ID_STATUS_OFFLINE)) {
+					setWord(hContact, "Status", ID_STATUS_OFFLINE);
+					setDword(hContact, "IdleTS", 0);
+				}
 			}
 		}
 	}
@@ -417,12 +428,10 @@ void CMsnProto::MSN_GoOffline(void)
 
 int ThreadData::sendMessage(int msgType, const char* email, int netId, const char* parMsg, int parFlags)
 {
-	char buf[2048];
-	int off;
-
-	off = mir_snprintf(buf, SIZEOF(buf), "MIME-Version: 1.0\r\n");
+	CMStringA buf;
 
 	if ((parFlags & MSG_DISABLE_HDR) == 0) {
+		/*
 		char  tFontName[100], tFontStyle[3];
 		DWORD tFontColor;
 
@@ -459,18 +468,55 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 		if (parFlags & MSG_OFFLINE)
 			off += mir_snprintf((buf + off), (SIZEOF(buf) - off), "Dest-Agent: client\r\n");
 
-		off += mir_snprintf((buf + off), (SIZEOF(buf) - off), "Content-Type: text/plain; charset=UTF-8\r\n");
-		off += mir_snprintf((buf + off), (SIZEOF(buf) - off), "X-MMS-IM-Format: FN=%s; EF=%s; CO=%x; CS=0; PF=31%s\r\n\r\n",
+		buf.AppendFormat("X-MMS-IM-Format: FN=%s; EF=%s; CO=%x; CS=0; PF=31%s\r\n\r\n",
 			tFontName, tFontStyle, tFontColor, (parFlags & MSG_RTL) ? ";RL=1" : "");
+		*/
+		char *pszNick=proto->MyOptions.szEmail;
+		DBVARIANT dbv;
+		time_t cur_time;
+
+		/* FIXME: Use a real message ID and save it, not just this random UUID */
+		unsigned __int64 msgid;
+		time(&cur_time);
+		msgid = ((unsigned __int64)cur_time<<32)|GetTickCount();
+
+		if (!proto->getString("Nick", &dbv))
+			pszNick = dbv.pszVal;
+
+		buf.AppendFormat(
+		"Messaging: 2.0\r\n"
+		"Client-Message-ID: %llu\r\n"
+		"Message-Type: Text\r\n"
+		"IM-Display-Name: %s\r\n"
+		"Content-Type: Text/plain; charset=UTF-8\r\n"
+		"Content-Length: %d\r\n\r\n%s",
+		msgid,
+		pszNick,
+		strlen(parMsg), parMsg);
+
+		if (pszNick!=proto->MyOptions.szEmail) db_free(&dbv);
+		parMsg = buf;
 	}
 
-	int seq;
+	// TODO: Handle msgType!
+
+	int seq = sendPacketPayload("SDG", "MSGR", 
+		"Routing: 1.0\r\n"
+		"To: %d:%s\r\n"
+		"From: %d:%s;epid=%s\r\n\r\n"
+		"Reliability: 1.0\r\n\r\n%s",
+		netId, email,
+		netId == NETID_SKYPE?netId:proto->GetMyNetID(), proto->GetMyUsername(netId), proto->MyOptions.szMachineGuid,
+		parMsg);
+
+	/*
 	if (netId == NETID_YAHOO || netId == NETID_MOB || (parFlags & MSG_OFFLINE))
 		seq = sendPacket("UUM", "%s %d %c %d\r\n%s%s", email, netId, msgType,
 		strlen(parMsg) + off, buf, parMsg);
 	else
 		seq = sendPacket("MSG", "%c %d\r\n%s%s", msgType,
 		strlen(parMsg) + off, buf, parMsg);
+	*/
 
 	return seq;
 }
@@ -491,7 +537,7 @@ void ThreadData::sendCaps(void)
 void ThreadData::sendTerminate(void)
 {
 	if (!termPending) {
-		sendPacket("OUT", NULL);
+		sendPacket("OUT", "CON 0");
 		termPending = true;
 	}
 }
@@ -521,46 +567,22 @@ int ThreadData::sendRawMessage(int msgType, const char* data, int datLen)
 
 // Typing notifications support
 
-void CMsnProto::MSN_SendTyping(ThreadData* info, const char* email, int netId)
+void CMsnProto::MSN_SendTyping(ThreadData* info, const char* email, int netId, bool bTyping)
 {
 	char tCommand[1024];
 	mir_snprintf(tCommand, SIZEOF(tCommand),
-		"Content-Type: text/x-msmsgscontrol\r\n"
-		"TypingUser: %s\r\n\r\n\r\n", MyOptions.szEmail);
+		"Messaging: 2.0\r\n"
+		"Message-Type: %s\r\n"
+		"Content-Type: Application/Message\r\n"
+		"Content-Length: 0\r\n",
+		bTyping?"Control/Typing":"Control/ClearTyping");
 
 	info->sendMessage(netId == NETID_MSN ? 'U' : '2', email, netId, tCommand, MSG_DISABLE_HDR);
 }
 
-
-static ThreadData* FindThreadTimer(UINT timerId)
+void CMsnProto::MSN_StartStopTyping(GCThreadData* info, bool start)
 {
-	ThreadData* res = NULL;
-	for (int i = 0; i < g_Instances.getCount() && res == NULL; ++i)
-		res = g_Instances[i].MSN_GetThreadByTimer(timerId);
-
-	return res;
-}
-
-static VOID CALLBACK TypingTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
-{
-	ThreadData* T = FindThreadTimer(idEvent);
-	if (T != NULL)
-		T->proto->MSN_SendTyping(T, NULL, 1);
-	else
-		KillTimer(NULL, idEvent);
-}
-
-
-void CMsnProto::MSN_StartStopTyping(ThreadData* info, bool start)
-{
-	if (start && info->mTimerId == 0) {
-		info->mTimerId = SetTimer(NULL, 0, 5000, TypingTimerProc);
-		MSN_SendTyping(info, NULL, 1);
-	}
-	else if (!start && info->mTimerId != 0) {
-		KillTimer(NULL, info->mTimerId);
-		info->mTimerId = 0;
-	}
+	MSN_SendTyping(msnNsThread, info->szEmail, info->netId, start);
 }
 
 
@@ -580,6 +602,9 @@ void CMsnProto::MSN_SendStatusMessage(const char* msg)
 {
 	if (!msnLoggedIn)
 		return;
+
+	/* FIXME: Currently not implemented, shuold be set on status change anyway */
+	return;
 
 	char* msgEnc = HtmlEncode(msg ? msg : "");
 
@@ -690,6 +715,37 @@ int ThreadData::sendPacket(const char* cmd, const char* fmt, ...)
 	return (result > 0) ? thisTrid : -1;
 }
 
+int ThreadData::sendPacketPayload(const char* cmd, const char *param, const char* fmt, ...)
+{
+	int thisTrid = 0;
+
+	if (this == NULL) return 0;
+
+	size_t strsize = 512;
+	char* str = (char*)mir_alloc(strsize);
+
+	va_list vararg;
+	va_start(vararg, fmt);
+
+	thisTrid = InterlockedIncrement(&mTrid);
+	int regSz = proto->msnRegistration?strlen(proto->msnRegistration)+16:0;
+	int paramStart = mir_snprintf(str, strsize, "%s %d %s ", cmd, thisTrid, param), strszstart = 0, strSz;
+	while ((strSz = mir_vsnprintf(str + paramStart, strsize - paramStart - regSz - 10, fmt, vararg)) == -1)
+		str = (char*)mir_realloc(str, strsize += 512);
+	if (strSz) strSz+=2;
+	paramStart+=mir_snprintf(str+paramStart, strsize - paramStart , "%d\r\n", strSz+regSz);
+	if (proto->msnRegistration) paramStart+=mir_snprintf(str+paramStart, strsize - paramStart, "Registration: %s\r\n", proto->msnRegistration);
+	if (strSz) paramStart+=mir_snprintf(str+paramStart, strsize - paramStart, "\r\n");
+	mir_vsnprintf(str + paramStart, strsize - paramStart, fmt, vararg);
+	str[strsize - 3] = 0;
+	va_end(vararg);
+
+	int result = send(str, strlen(str));
+	mir_free(str);
+	return (result > 0) ? thisTrid : -1;
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // MSN_SetServerStatus - changes plugins status at the server
 
@@ -717,7 +773,8 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 
 		unsigned myFlagsEx = capex_SupportsPeerToPeerV2;
 
-		char szMsg[256];
+		char szMsg[2048];
+		/*
 		if (m_iStatus < ID_STATUS_ONLINE) {
 			int sz = mir_snprintf(szMsg, SIZEOF(szMsg),
 				"<EndpointData><Capabilities>%u:%u</Capabilities></EndpointData>", myFlags, myFlagsEx);
@@ -732,6 +789,7 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 				db_free(&dbv);
 			}
 		}
+		*/
 
 		char *szPlace;
 		DBVARIANT dbv;
@@ -744,6 +802,45 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 			szPlace = mir_utf8encodeT(buf);
 		}
 
+		char** msgptr = GetStatusMsgLoc(newStatus);
+		/* FIXME: This is what Skype client sends
+		myFlags = 0;
+		myFlagsEx = cap_SupportsSDrive | cap_SupportsActivities;
+		*/
+		int sz = mir_snprintf(szMsg, SIZEOF(szMsg),
+			"<user>"
+			"<sep n=\"PE\" epid=\"%s\"><VER>%s</VER><TYP>11</TYP><Capabilities>0:0</Capabilities></sep>"
+			"<s n=\"IM\"><Status>%s</Status></s>"
+			"<sep n=\"IM\" epid=\"%s\"><Capabilities>%u:%u</Capabilities></sep>"
+			"<sep n=\"PD\" epid=\"%s\"><EpName>%s</EpName><ClientType>11</ClientType></sep>"
+			"<s n=\"SKP\"><Mood>%s</Mood><Skypename>%s</Skypename></s>"
+			"<sep n=\"SKP\" epid=\"%s\"><NodeInfo></NodeInfo><Version>24</Version><Seamless>true</Seamless></sep>"
+			"</user>",
+			MyOptions.szMachineGuid, msnProductVer,
+			szStatusName,
+			MyOptions.szMachineGuid, myFlags, myFlagsEx,
+			MyOptions.szMachineGuid, szPlace,
+			msgptr?ptrA(HtmlEncode(*msgptr)):"", GetMyUsername(NETID_SKYPE),
+			MyOptions.szMachineGuid,
+			MyOptions.szMachineGuid);
+		msnNsThread->sendPacketPayload("PUT", "MSGR\\PRESENCE", 
+			"Routing: 1.0\r\n"
+			"To: %d:%s\r\n"
+			"From: %d:%s;epid=%s\r\n\r\n"
+			"Reliability: 1.0\r\n\r\n"
+			"Publication: 1.0\r\n"
+			"Uri: /user\r\n"
+			"Content-Type: application/user+xml\r\n"
+			"Status-Priority: low\r\n"
+			"Content-Length: %d\r\n\r\n%s",
+			GetMyNetID(), MyOptions.szEmail,
+			GetMyNetID(), MyOptions.szEmail,
+			MyOptions.szMachineGuid,
+			sz, szMsg);
+
+
+		// TODO: Send, MSN_SendStatusMessage anpassen.
+		/*
 		int sz = mir_snprintf(szMsg, SIZEOF(szMsg),
 			"<PrivateEndpointData>"
 			"<EpName>%s</EpName>"
@@ -753,8 +850,10 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 			"</PrivateEndpointData>",
 			szPlace, newStatus == ID_STATUS_IDLE ? "true" : "false", szStatusName);
 		msnNsThread->sendPacket("UUX", "%d\r\n%s", sz, szMsg);
+		*/
 		mir_free(szPlace);
 
+		/*
 		if (newStatus != ID_STATUS_IDLE) {
 			char** msgptr = GetStatusMsgLoc(newStatus);
 			if (msgptr != NULL)
@@ -762,9 +861,38 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 		}
 
 		msnNsThread->sendPacket("CHG", "%s %u:%u %s", szStatusName, myFlags, myFlagsEx, msnObject.pszVal ? msnObject.pszVal : "0");
+		*/
 		db_free(&msnObject);
 	}
-	else msnNsThread->sendPacket("CHG", szStatusName);
+	//else msnNsThread->sendPacket("CHG", szStatusName);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// MSN_FetchRecentMessages - fetches missed offline messages
+
+void CMsnProto::MSN_FetchRecentMessages(time_t since)
+{
+	if (!since) {
+		/* Assuming that you want all messages that were sent after the last
+		 * user conversation according to DB 
+		 */
+		MCONTACT hContact;
+		MEVENT hDbEvent;
+		for (hContact = db_find_first(m_szModuleName); hContact; 
+			 hContact = db_find_next(hContact, m_szModuleName)) 
+		{
+			if (!(hDbEvent = db_event_last(hContact)))
+				continue;
+
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			db_event_get(hDbEvent, &dbei);
+			if (dbei.timestamp>since) since=dbei.timestamp;
+		}
+	}
+
+	msnNsThread->sendPacketPayload("GET", "MSGR\\RECENTCONVERSATIONS", 
+		"<recentconversations><start>%llu</start><pagesize>100</pagesize></recentconversations>",
+		((unsigned __int64)since)*1000);
 }
 
 
@@ -959,8 +1087,7 @@ void CMsnProto::MSN_ShowPopup(const TCHAR* nickname, const TCHAR* msg, int flags
 
 void CMsnProto::MSN_ShowPopup(const MCONTACT hContact, const TCHAR* msg, int flags)
 {
-	const TCHAR* nickname = hContact ? GetContactNameT(hContact) : _T("Me");
-	MSN_ShowPopup(nickname, msg, flags, NULL);
+	MSN_ShowPopup(GetContactNameT(hContact), msg, flags, NULL);
 }
 
 
@@ -1195,7 +1322,8 @@ bool CMsnProto::MSN_IsMeByContact(MCONTACT hContact, char* szEmail)
 	char *emailPtr = szEmail ? szEmail : tEmail;
 
 	*emailPtr = 0;
-	if (db_get_static(hContact, m_szModuleName, "e-mail", emailPtr, sizeof(tEmail)))
+	if (db_get_static(hContact, m_szModuleName, "wlid", emailPtr, sizeof(tEmail)) &&
+		db_get_static(hContact, m_szModuleName, "e-mail", emailPtr, sizeof(tEmail)))
 		return false;
 
 	return _stricmp(emailPtr, MyOptions.szEmail) == 0;

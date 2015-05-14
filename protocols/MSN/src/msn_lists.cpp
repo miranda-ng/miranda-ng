@@ -166,7 +166,7 @@ int CMsnProto::Lists_Add(int list, int netId, const char* email, MCONTACT hConta
 		p->invite = mir_strdup(invite);
 		p->nick = mir_strdup(nick);
 		p->hContact = hContact;
-		p->p2pMsgId = 0;
+		p->p2pMsgId = p->cap1 = p->cap2 = 0;
 		m_arContacts.insert(p);
 	}
 	else {
@@ -205,12 +205,13 @@ void CMsnProto::Lists_Populate(void)
 			db_get_static(hContact, m_szModuleName, "e-mail", szEmail, sizeof(szEmail));
 		if (szEmail[0]) {
 			bool localList = getByte(hContact, "LocalList", 0) != 0;
+			int netId = getWord(hContact, "netId", localList?NETID_MSN:NETID_UNKNOWN);
 			if (localList)
-				Lists_Add(LIST_LL, NETID_MSN, szEmail, hContact);
+				Lists_Add(LIST_LL, netId, szEmail, hContact);
 			else
-				Lists_Add(0, NETID_UNKNOWN, szEmail, hContact);
+				Lists_Add(0, netId, szEmail, hContact);
 		}
-		else CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+		else if (!isChatRoom(hContact)) CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 		hContact = hNext;
 	}
 }
@@ -273,9 +274,9 @@ void CMsnProto::MSN_CreateContList(void)
 {
 	bool *used = (bool*)mir_calloc(m_arContacts.getCount()*sizeof(bool));
 
-	char cxml[8192];
+	CMStringA cxml;
 
-	size_t sz = mir_snprintf(cxml, SIZEOF(cxml), "<ml l=\"1\">");
+	cxml.Append("<ml l=\"1\">");
 	{
 		mir_cslock lck(m_csLists);
 
@@ -296,44 +297,36 @@ void CMsnProto::MSN_CreateContList(void)
 
 				const char *dom = strchr(C.email, '@');
 				if (dom == NULL && lastds == NULL) {
-					if (sz == 0) sz = mir_snprintf((cxml + sz), (SIZEOF(cxml) - sz), "<ml l=\"1\">");
 					if (newdom) {
-						sz += mir_snprintf((cxml + sz), (SIZEOF(cxml) - sz), "<t>");
+						cxml.Append("<skp>");
 						newdom = false;
 					}
-
-					sz += mir_snprintf((cxml + sz), (SIZEOF(cxml) - sz), "<c n=\"%s\" l=\"%d\"/>", C.email, C.list & ~(LIST_RL | LIST_LL));
+					int list = C.list & ~(LIST_RL | LIST_LL);
+					list = LIST_FL | LIST_AL; /* Seems to be always 3 in Skype... */
+					cxml.AppendFormat("<c n=\"%s\" t=\"%d\"><s l=\"%d\" n=\"PE\"/><s l=\"%d\" n=\"IM\"/><s l=\"%d\" n=\"SKP\"/><s l=\"%d\" n=\"PUB\"/></c>", C.email, C.netId, list, list, list, list);
 					used[j] = true;
 				}
 				else if (dom != NULL && lastds != NULL && _stricmp(lastds, dom) == 0) {
-					if (sz == 0) sz = mir_snprintf((cxml + sz), (SIZEOF(cxml) - sz), "<ml l=\"1\">");
 					if (newdom) {
-						sz += mir_snprintf((cxml + sz), (SIZEOF(cxml) - sz), "<d n=\"%s\">", lastds + 1);
+						cxml.AppendFormat("<d n=\"%s\">", lastds + 1);
 						newdom = false;
 					}
 
 					*(char*)dom = 0;
-					sz += mir_snprintf((cxml + sz), (SIZEOF(cxml) - sz), "<c n=\"%s\" l=\"%d\" t=\"%d\"/>", C.email, C.list & ~(LIST_RL | LIST_LL), C.netId);
+					cxml.AppendFormat("<c n=\"%s\" t=\"%d\"><s n=\"IM\" l=\"%d\"/></c>", C.email, C.netId, C.list & ~(LIST_RL | LIST_LL));
 					*(char*)dom = '@';
 					used[j] = true;
 				}
-
-				if (used[j] && sz > 7400) {
-					sz += mir_snprintf((cxml + sz), (SIZEOF(cxml) - sz), "</%c></ml>", lastds ? 'd' : 't');
-					msnNsThread->sendPacket("ADL", "%d\r\n%s", sz, cxml);
-					sz = 0;
-					newdom = true;
-				}
 			}
-			if (!newdom)
-				sz += mir_snprintf((cxml + sz), (SIZEOF(cxml) - sz), lastds ? "</d>" : "</t>");
+			if (!newdom) cxml.Append(lastds ? "</d>" : "</skp>");
 		}
 	}
 
-	if (sz) {
-		sz += mir_snprintf((cxml + sz), (SIZEOF(cxml) - sz), "</ml>");
-		msnNsThread->sendPacket("ADL", "%d\r\n%s", sz, cxml);
-	}
+	cxml.Append("</ml>");
+	msnNsThread->sendPacketPayload("PUT", "MSGR\\CONTACTS", "%s", cxml);
+
+	if (msnP24Ver > 1)
+		msnNsThread->sendPacketPayload("PUT", "MSGR\\SUBSCRIPTIONS", "<subscribe><presence><buddies><all /></buddies></presence><messaging><im /><conversations /></messaging><notifications><partners><partner>ABCH</partner></partners></notifications></subscribe>");
 
 	mir_free(used);
 }
@@ -382,7 +375,8 @@ static void SetContactIcons(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 	}
 
 	char szEmail[MSN_MAX_EMAIL_LEN];
-	if (db_get_static(hItem, proto->m_szModuleName, "e-mail", szEmail, sizeof(szEmail))) {
+	if (db_get_static(hItem, proto->m_szModuleName, "wlid", szEmail, sizeof(szEmail)) && 
+		db_get_static(hItem, proto->m_szModuleName, "e-mail", szEmail, sizeof(szEmail))) {
 		SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 		return;
 	}
@@ -448,7 +442,8 @@ static void SaveSettings(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 			char szEmail[MSN_MAX_EMAIL_LEN];
 
 			if (IsHContactContact(hItem)) {
-				if (db_get_static(hItem, proto->m_szModuleName, "e-mail", szEmail, sizeof(szEmail)))
+				if (db_get_static(hItem, proto->m_szModuleName, "wlid", szEmail, sizeof(szEmail)) &&
+					db_get_static(hItem, proto->m_szModuleName, "e-mail", szEmail, sizeof(szEmail)))
 					continue;
 			}
 			else if (IsHContactInfo(hItem)) {

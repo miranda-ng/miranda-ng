@@ -37,7 +37,7 @@ ezxml_t CMsnProto::abSoapHdr(const char* service, const char* scenario, ezxml_t&
 	ezxml_t node = ezxml_add_child(apphdr, "ApplicationId", 0);
 	ezxml_set_txt(node, msnAppID);
 	node = ezxml_add_child(apphdr, "IsMigration", 0);
-	ezxml_set_txt(node, abchMigrated ? "false" : "true");
+	ezxml_set_txt(node, "false"); // abchMigrated ? "false" : "true");
 	node = ezxml_add_child(apphdr, "PartnerScenario", 0);
 	ezxml_set_txt(node, scenario);
 
@@ -828,6 +828,16 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 
 						anot = ezxml_next(anot);
 					}
+
+					ezxml_t nil = ezxml_get(contInf, "NetworkInfoList", 0, "NetworkInfo", -1);
+					while (nil != NULL) {
+						if (strcmp(ezxml_txt(ezxml_child(nil, "SourceId")), "SKYPE") == 0) {
+							const char *pszPartner = ezxml_txt(ezxml_child(nil, "DomainTag"));
+							if (*pszPartner) setString("SkypePartner", pszPartner);
+						}
+						nil = ezxml_next(nil);
+					}
+
 				}
 			}
 			if (!msnLoggedIn && msnNsThread) {
@@ -859,6 +869,107 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 	return status == 200;
 }
 
+bool CMsnProto::MSN_ABRefreshClist(void)
+{
+	NETLIBHTTPREQUEST nlhr = { 0 };
+	NETLIBHTTPREQUEST *nlhrReply;
+	NETLIBHTTPHEADER headers[2];
+	bool bRet = false;
+
+	if (!authCookies) return false;
+
+	// initialize the netlib request
+	nlhr.cbSize = sizeof(nlhr);
+	nlhr.requestType = REQUEST_GET;
+	nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_REDIRECT;
+	nlhr.nlc = hHttpsConnection;
+	nlhr.headersCount = 2;
+	nlhr.headers = headers;
+	nlhr.headers[0].szName = "User-Agent";
+	nlhr.headers[0].szValue = (char*)MSN_USER_AGENT;
+	nlhr.headers[1].szName = "Cookie";
+	nlhr.headers[1].szValue = authCookies;
+	nlhr.szUrl = "https://people.directory.live.com/people/abcore?SerializeAs=xml&market=en-gb&appid=3C48F07D-DE71-490C-B263-A78CFB1CA351&version=W5.M2";
+
+	// Query addressbook
+	mHttpsTS = clock();
+	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	mHttpsTS = clock();
+	if (nlhrReply)  {
+		hHttpsConnection = nlhrReply->nlc;
+		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
+			ezxml_t xmlm = ezxml_parse_str(nlhrReply->pData, strlen(nlhrReply->pData));
+			
+			if (xmlm) {
+				bRet = true;
+				ezxml_t abinf = ezxml_child(xmlm, "ab");
+
+				for (ezxml_t pers = ezxml_get(abinf, "persons", 0, "Person", -1); pers != NULL; pers = ezxml_next(pers)) {
+					const char *cid = ezxml_txt(ezxml_child(pers, "cid"));
+					if (mycid && !strcmp(cid, mycid)) continue;
+
+					for (ezxml_t cont = ezxml_get(pers, "contacts", 0, "Contact", -1); cont != NULL; cont = ezxml_next(cont)) {
+						int netId = NETID_UNKNOWN;
+						const char* szEmail;
+
+						const char *src = ezxml_txt(ezxml_child(cont, "sourceId"));
+						if (!strcmp(src, "WL")) {
+							netId = NETID_MSN;
+							szEmail = ezxml_txt(ezxml_child(cont, "domainTag"));
+						} else if (!strcmp(src, "SKYPE")) {
+							netId = NETID_SKYPE;
+							szEmail = ezxml_txt(ezxml_child(cont, "objectId"));
+						}
+						
+						if (netId == NETID_UNKNOWN || szEmail[0] == 0)
+							continue;
+
+						ezxml_t xmlnick = ezxml_child(pers, "nickname");
+						const char *pszNickname = xmlnick?xmlnick->txt:NULL;
+						Lists_Add(LIST_FL, netId, szEmail, NULL, pszNickname);
+						char szWLId[128];
+						mir_snprintf(szWLId, sizeof(szWLId), "%d:%s", netId, szEmail);
+
+						MCONTACT hContact = MSN_HContactFromEmail(szWLId, pszNickname, true, false);
+						if (!hContact) continue;
+
+						const char* szNick = ezxml_txt(ezxml_child(pers, "orderedName"));
+						if (*szNick) db_set_utf(hContact, "CList", "MyHandle", szNick);
+						else db_unset(hContact, "CList", "MyHandle");
+						setString(hContact, "ID", ezxml_txt(ezxml_child(pers, "id")));
+						SetAbParam(hContact, "CID", cid);
+
+						const char *szTmp = ezxml_txt(ezxml_child(pers, "firstName"));
+						SetAbParam(hContact, "FirstName", szTmp);
+
+						szTmp = ezxml_txt(ezxml_child(pers, "lastName"));
+						SetAbParam(hContact, "LastName", szTmp);
+
+						szTmp = ezxml_txt(ezxml_child(pers, "birthday"));
+						char *szPtr;
+						if (strtol(szTmp, &szPtr, 10) > 1) {
+							setWord(hContact, "BirthYear", (WORD)strtol(szTmp, &szPtr, 10));
+							setByte(hContact, "BirthMonth", (BYTE)strtol(szPtr + 1, &szPtr, 10));
+							setByte(hContact, "BirthDay", (BYTE)strtol(szPtr + 1, &szPtr, 10));
+						}
+
+						setByte("MobileEnabled", atoi(ezxml_txt(ezxml_child(cont, "phonesIMEnabled"))));
+					}
+				}
+				ezxml_free(xmlm);
+			}
+		}
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+	} else hHttpsConnection = NULL;
+	return bRet;
+}
+
+/*
+bool MSN_ABSearchSkypeDirectory()
+{
+	//authAccessToken
+}
+*/
 
 //		"ABGroupContactAdd" : "ABGroupContactDelete", "ABGroupDelete", "ABContactDelete"
 bool CMsnProto::MSN_ABAddDelContactGroup(const char* szCntId, const char* szGrpId, const char* szMethod, bool allowRecurse)
