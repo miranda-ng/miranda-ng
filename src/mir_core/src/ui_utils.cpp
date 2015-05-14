@@ -1561,21 +1561,28 @@ BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 		return TRUE;
 
 	case TVN_KEYDOWN:
-		if (m_bCheckBox && evt.nmtvkey->wVKey == VK_SPACE)
-			InvertCheck(GetSelection());
+		if (evt.nmtvkey->wVKey == VK_SPACE) {
+			if (m_bCheckBox)
+				InvertCheck(GetSelection());
+			NotifyChange();
+		}
 
 		OnKeyDown(&evt);
 		return TRUE;
 	}
 
-	if (m_bCheckBox && pnmh->code == NM_CLICK) {
+	if (pnmh->code == NM_CLICK) {
 		TVHITTESTINFO hti;
 		hti.pt.x = (short)LOWORD(GetMessagePos());
 		hti.pt.y = (short)HIWORD(GetMessagePos());
 		ScreenToClient(pnmh->hwndFrom, &hti.pt);
-		if (HitTest(&hti))
-			if (hti.flags & TVHT_ONITEMICON)
-				InvertCheck(hti.hItem);
+		if (HitTest(&hti)) {
+			if (m_bCheckBox && (hti.flags & TVHT_ONITEMICON) || !m_bCheckBox && (hti.flags & TVHT_ONITEMSTATEICON)) {
+				if (m_bCheckBox)
+					InvertCheck(hti.hItem);
+				NotifyChange();
+			}
+		}
 	}
 
 	return FALSE;
@@ -1591,8 +1598,6 @@ void CCtrlTreeView::InvertCheck(HTREEITEM hItem)
 
 	tvi.iImage = tvi.iSelectedImage = !tvi.iImage;
 	SetItem(&tvi);
-
-	NotifyChange();
 }
 
 void CCtrlTreeView::TranslateItem(HTREEITEM hItem)

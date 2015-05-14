@@ -246,7 +246,7 @@ public:
 		CDlgBase(hInst, IDD_EI_OPTIONS),
 		m_tree(this, IDC_EXTRAORDER)
 	{
-		m_tree.SetFlags(MTREE_CHECKBOX | MTREE_DND | MTREE_MULTISELECT);
+		m_tree.SetFlags(MTREE_DND | MTREE_MULTISELECT);
 	}
 
 	virtual void OnInitDialog()
