@@ -34,6 +34,7 @@ INT_PTR CMsnProto::MsnBlockCommand(WPARAM hContact, LPARAM)
 {
 	if (msnLoggedIn) {
 		char tEmail[MSN_MAX_EMAIL_LEN];
+		if (db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail)))
 		db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail));
 
 		if (Lists_IsInList(LIST_BL, tEmail))

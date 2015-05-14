@@ -38,6 +38,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	m_arContacts(10, CompareLists),
 	m_arGroups(10, CompareId),
 	m_arThreads(10, PtrKeySortT),
+	m_arGCThreads(10, PtrKeySortT),
 	m_arSessions(10, PtrKeySortT),
 	m_arDirect(10, PtrKeySortT),
 	lsMessageQueue(1),
@@ -140,6 +141,8 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s plugin connections"), m_tszUserName);
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+
+	m_DisplayNameCache = NULL;
 }
 
 CMsnProto::~CMsnProto()
@@ -168,10 +171,12 @@ CMsnProto::~CMsnProto()
 	mir_free(msnLastStatusMsg);
 	mir_free(msnPreviousUUX);
 	mir_free(msnExternalIP);
+	mir_free(msnRegistration);
 
 	mir_free(abCacheKey);
 	mir_free(sharingCacheKey);
 	mir_free(storageCacheKey);
+	mir_free(m_DisplayNameCache);
 
 	FreeAuthTokens();
 }
@@ -280,12 +285,13 @@ int __cdecl CMsnProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 {
 	if (msnLoggedIn) {
 		char email[MSN_MAX_EMAIL_LEN];
-		if (db_get_static(hContact, m_szModuleName, "e-mail", email, sizeof(email)))
+		if (db_get_static(hContact, m_szModuleName, "wlid", email, sizeof(email)) &&
+			db_get_static(hContact, m_szModuleName, "e-mail", email, sizeof(email)))
 			return 1;
 
 		char* szMsg = mir_utf8encodeT(szMessage);
 
-		int netId = strncmp(email, "tel:", 4) == 0 ? NETID_MOB : NETID_MSN;
+		int netId = strncmp(email, "tel:", 4) == 0 ? NETID_MOB : (strncmp(email, "live:", 5) == 0 ? NETID_SKYPE : NETID_MSN);
 		if (MSN_AddUser(hContact, email, netId, LIST_FL, szMsg)) {
 			MSN_AddUser(hContact, email, netId, LIST_PL + LIST_REMOVE);
 			MSN_AddUser(hContact, email, netId, LIST_BL + LIST_REMOVE);
@@ -653,7 +659,7 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT)
 		return (UINT_PTR)Translate("Live ID");
 
 	case PFLAG_UNIQUEIDSETTING:
-		return (UINT_PTR)"e-mail";
+		return (UINT_PTR)"wlid";
 
 	case PFLAG_MAXLENOFMESSAGE:
 		return 1202;
@@ -668,7 +674,8 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT)
 int __cdecl CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	char tEmail[MSN_MAX_EMAIL_LEN];
-	db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail));
+	if (db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail)))
+	    db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail));
 
 	if (Lists_IsInList(LIST_FL, tEmail))
 		db_unset(hContact, "CList", "Hidden");
@@ -824,7 +831,10 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 		else {
 			const char msgType = MyOptions.SlowSend ? 'A' : 'N';
 			bool isOffline;
-			ThreadData* thread = MSN_StartSB(tEmail, isOffline);
+			ThreadData* thread; // = MSN_StartSB(tEmail, isOffline);
+			/* MSNP24 doesn't have a switchboard anymore */
+			thread = NULL; isOffline = true;
+
 			if (thread == NULL) {
 				if (isOffline) {
 					if (netId != NETID_LCS) {
@@ -948,6 +958,7 @@ int __cdecl CMsnProto::UserIsTyping(MCONTACT hContact, int type)
 	bool typing = type == PROTOTYPE_SELFTYPING_ON;
 
 	int netId = Lists_GetNetId(tEmail);
+	/*
 	switch (netId) {
 	case NETID_UNKNOWN:
 	case NETID_MSN:
@@ -971,6 +982,9 @@ int __cdecl CMsnProto::UserIsTyping(MCONTACT hContact, int type)
 	default:
 		break;
 	}
+	*/
+	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+		MSN_SendTyping(msnNsThread, tEmail, netId, typing);
 
 	return 0;
 }

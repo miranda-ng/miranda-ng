@@ -22,6 +22,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_proto.h"
 #include "des.h"
 
+/* SkyLogin Prototypes */
+typedef void* SkyLogin;
+typedef SkyLogin (*pfnSkyLogin_Init)();
+typedef void (*pfnSkyLogin_Exit)(SkyLogin pInst);
+typedef int (*pfnSkyLogin_LoadCredentials)(SkyLogin pInst, char *pszUser);
+typedef int (*pfnSkyLogin_PerformLogin)(SkyLogin pInst, char *pszUser, char *pszPass);
+typedef int (*pfnSkyLogin_CreateUICString)(SkyLogin pInst, const char *pszNonce, char *pszOutUIC);
+typedef int (*pfnSkyLogin_PerformLoginOAuth)(SkyLogin pInst, const char *OAuth);
+typedef int (*pfnSkyLogin_GetCredentialsUIC)(SkyLogin pInst, char *pszOutUIC);
+typedef char *(*pfnSkyLogin_GetUser)(SkyLogin pInst);
+
+#define LOAD_FN(name) (##name = (pfn##name)GetProcAddress(hLibSkylogin, #name))
+
 static const char defaultPassportUrl[] = "https://login.live.com/RST2.srf";
 
 static const char authPacket[] =
@@ -71,10 +84,10 @@ static const char authPacket[] =
 				"<wst:RequestType>http://schemas.xmlsoap.org/ws/2005/02/trust/Issue</wst:RequestType>"
 				"<wsp:AppliesTo>"
 					"<wsa:EndpointReference>"
-						"<wsa:Address>messengerclear.live.com</wsa:Address>"
+						"<wsa:Address>chatservice.live.com</wsa:Address>"
 					"</wsa:EndpointReference>"
 				"</wsp:AppliesTo>"
-				"<wsp:PolicyReference URI=\"MBI_KEY_OLD\" />"
+				"<wsp:PolicyReference URI=\"MBI_SSL\" />"
 			"</wst:RequestSecurityToken>"
 			"<wst:RequestSecurityToken Id=\"RST2\">"
 				"<wst:RequestType>http://schemas.xmlsoap.org/ws/2005/02/trust/Issue</wst:RequestType>"
@@ -194,7 +207,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 						node = ezxml_get(tokr, "wst:RequestedProofToken", 0, "wst:BinarySecret", -1);
 						replaceStr(hotSecretToken, ezxml_txt(node));
 					}
-					else if (strcmp(addr, "messengerclear.live.com") == 0) {
+					else if (strcmp(addr, "chatservice.live.com") == 0) {
 						ezxml_t node = ezxml_get(tokr, "wst:RequestedProofToken", 0,
 							"wst:BinarySecret", -1);
 						if (toks) {
@@ -438,6 +451,444 @@ CMStringA CMsnProto::HotmailLogin(const char* url)
 	return result;
 }
 
+/* 1	-	Login successful
+   0	-	Login failed
+   -1	-	Loading Skylogin library failed
+   -2	-	Functions cannot be loaded from Skylogin library
+   -3	-	Initializing Skylogin library failed
+ */
+int CMsnProto::MSN_SkypeAuth(const char *pszNonce, char *pszUIC)
+{
+	int iRet = -1;
+	pfnSkyLogin_Init SkyLogin_Init;
+	pfnSkyLogin_Exit SkyLogin_Exit;
+	pfnSkyLogin_LoadCredentials SkyLogin_LoadCredentials;
+	pfnSkyLogin_PerformLogin SkyLogin_PerformLogin;
+	pfnSkyLogin_CreateUICString SkyLogin_CreateUICString;
+
+	HMODULE hLibSkylogin;
+
+	if ((hLibSkylogin = LoadLibraryA("Plugins\\skylogin.dll"))) {
+		SkyLogin hLogin;
+		char szPassword[100];
+
+		// load function pointers
+		if (!LOAD_FN(SkyLogin_Init) ||
+			!LOAD_FN(SkyLogin_Exit) ||
+			!LOAD_FN(SkyLogin_LoadCredentials) ||
+			!LOAD_FN(SkyLogin_PerformLogin) ||
+			!LOAD_FN(SkyLogin_CreateUICString))
+		{
+			FreeLibrary(hLibSkylogin);
+			return -2;
+		}
+
+		// Perform login
+		if (hLogin = SkyLogin_Init()) {
+			db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword));
+			if (SkyLogin_LoadCredentials(hLogin, MyOptions.szEmail) ||
+				SkyLogin_PerformLogin(hLogin, MyOptions.szEmail, szPassword))
+			{
+				if (SkyLogin_CreateUICString(hLogin, pszNonce, pszUIC))
+					iRet = 1;
+			} else iRet = 0;
+			SkyLogin_Exit(hLogin);
+		} else iRet = -3;
+		FreeLibrary(hLibSkylogin);
+	}
+	return iRet;
+}
+
+/* 1	-	Login successful
+   0	-	Login failed
+   -1	-	Loading Skylogin library failed
+   -2	-	Functions cannot be loaded from Skylogin library
+   -3	-	Initializing Skylogin library failed
+ */
+int CMsnProto::LoginSkypeOAuth(const char *pRefreshToken)
+{
+	int iRet = -1;
+	pfnSkyLogin_Init SkyLogin_Init;
+	pfnSkyLogin_Exit SkyLogin_Exit;
+	pfnSkyLogin_LoadCredentials SkyLogin_LoadCredentials;
+	pfnSkyLogin_PerformLoginOAuth SkyLogin_PerformLoginOAuth;
+	pfnSkyLogin_GetCredentialsUIC SkyLogin_GetCredentialsUIC;
+	pfnSkyLogin_GetUser SkyLogin_GetUser;
+
+	HMODULE hLibSkylogin;
+
+	if ((hLibSkylogin = LoadLibraryA("Plugins\\skylogin.dll"))) {
+		SkyLogin hLogin;
+
+		// load function pointers
+		if (!LOAD_FN(SkyLogin_Init) ||
+			!LOAD_FN(SkyLogin_Exit) ||
+			!LOAD_FN(SkyLogin_LoadCredentials) ||
+			!LOAD_FN(SkyLogin_PerformLoginOAuth) ||
+			!LOAD_FN(SkyLogin_GetCredentialsUIC) ||
+			!LOAD_FN(SkyLogin_GetUser))
+		{
+			FreeLibrary(hLibSkylogin);
+			return -2;
+		}
+
+		// Perform login
+		if (hLogin = SkyLogin_Init()) {
+			char szLoginToken[1024];
+			if (RefreshOAuth(pRefreshToken, "service::login.skype.com::MBI_SSL", szLoginToken) &&
+				SkyLogin_PerformLoginOAuth(hLogin, szLoginToken))
+			{
+				char szUIC[1024];
+				if (SkyLogin_GetCredentialsUIC(hLogin, szUIC)) {
+					char *pszPartner;
+
+					replaceStr(authUIC, szUIC);
+					iRet = 1;
+					if (pszPartner = SkyLogin_GetUser(hLogin)) 
+						setString("SkypePartner", pszPartner);
+				}
+			} else iRet = 0;
+			SkyLogin_Exit(hLogin);
+		} else iRet = -3;
+		FreeLibrary(hLibSkylogin);
+	}
+	return iRet;
+}
+
+static int CopyCookies(NETLIBHTTPREQUEST *nlhrReply, NETLIBHTTPHEADER *hdr)
+{
+	int i, nSize = 1;
+	char *p;
+
+	if (hdr) {
+		hdr->szName = "Cookie";
+		*hdr->szValue = 0;
+	}
+	for (i = 0; i < nlhrReply->headersCount; i++) {
+		if (mir_strcmpi(nlhrReply->headers[i].szName, "Set-Cookie"))
+			continue;
+		if (p=strchr(nlhrReply->headers[i].szValue, ';')) *p=0;
+		if (hdr) {
+			if (*hdr->szValue) strcat (hdr->szValue, "; ");
+			strcat (hdr->szValue, nlhrReply->headers[i].szValue);
+		} else nSize += strlen(nlhrReply->headers[i].szValue) + 2;
+	}
+	return nSize;
+}
+
+/*
+   pszService: 
+	service::login.skype.com::MBI_SSL   - For LoginSkypeOAuth
+	service::ssl.live.com::MBI_SSL		- For ssl-compact-ticket
+	service::contacts.msn.com::MBI_SSL	- Contact SOAP service -> authContactToken
+	service::m.hotmail.com::MBI_SSL     - ActiveSync contactlist, not used by us
+	service::storage.live.com::MBI_SSL  - Storage service (authStorageToken)
+	service::skype.com::MBI_SSL			- ?
+	service::skype.net::MBI_SSL			- ?
+*/
+bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService, char *pszAccessToken, char *pszOutRefreshToken, time_t *ptExpires)
+{
+	NETLIBHTTPREQUEST nlhr = { 0 };
+	NETLIBHTTPREQUEST *nlhrReply;
+	NETLIBHTTPHEADER headers[3];
+	bool bRet = false;
+	CMStringA post;
+
+	if (!authCookies) return false;
+
+	// initialize the netlib request
+	nlhr.cbSize = sizeof(nlhr);
+	nlhr.requestType = REQUEST_POST;
+	nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_REDIRECT;
+	nlhr.nlc = hHttpsConnection;
+	nlhr.headersCount = 3;
+	nlhr.headers = headers;
+	nlhr.headers[0].szName = "User-Agent";
+	nlhr.headers[0].szValue = (char*)MSN_USER_AGENT;
+	nlhr.headers[1].szName = "Content-Type";
+	nlhr.headers[1].szValue = "application/x-www-form-urlencoded";
+	nlhr.headers[2].szName = "Cookie";
+	nlhr.headers[2].szValue = authCookies;
+	post.Format("client_id=00000000480BC46C&scope=%s&grant_type=refresh_token&refresh_token=%s",
+		ptrA(mir_urlEncode(pszService)), pszRefreshToken);
+	
+	nlhr.pData = (char*)(const char*)post;
+	nlhr.dataLength = (int)strlen(nlhr.pData);
+	nlhr.szUrl = "https://login.live.com/oauth20_token.srf";
+
+	// Query
+	mHttpsTS = clock();
+	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	mHttpsTS = clock();
+	if (nlhrReply)  {
+		hHttpsConnection = nlhrReply->nlc;
+		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
+			char *p;
+			bRet = true;
+
+			if (pszAccessToken && (p=strstr(nlhrReply->pData, "\"access_token\":"))) 
+				bRet &= sscanf(p+sizeof("\"access_token\""), "\"%[^\"]\"", pszAccessToken)==1;
+			if (pszOutRefreshToken && (p=strstr(nlhrReply->pData, "\"refresh_token\":"))) 
+				bRet &= sscanf(p+sizeof("\"refresh_token\""), "\"%[^\"]\"", pszOutRefreshToken)==1;
+			if (ptExpires && (p=strstr(nlhrReply->pData, "\"expires_in\""))) {
+				int expires;
+				if (sscanf(p+sizeof("\"expires_in\""), "%d,", &expires) == 1) {
+					time(ptExpires);
+					*ptExpires+=expires;
+					bRet&=true;
+				}
+			}
+		}
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+	} else hHttpsConnection = NULL;
+	return bRet;
+}
+
+void CMsnProto::LoadAuthTokensDB(void)
+{
+	DBVARIANT dbv;
+
+	authTokenExpiretime = getDword("authTokenExpiretime", 0);
+	authMethod = getDword("authMethod", 0);
+	if (getString("authUser", &dbv) == 0) {
+		replaceStr(authUser, dbv.pszVal);
+		db_free(&dbv);
+	}
+	if (getString("authSSLToken", &dbv) == 0) {
+		replaceStr(authSSLToken, dbv.pszVal);
+		db_free(&dbv);
+	}
+	if (getString("authContactToken", &dbv) == 0) {
+		replaceStr(authContactToken, dbv.pszVal);
+		db_free(&dbv);
+	}
+	if (getString("authUIC", &dbv) == 0) {
+		replaceStr(authUIC, dbv.pszVal);
+		db_free(&dbv);
+	}
+	if (getString("authCookies", &dbv) == 0) {
+		replaceStr(authCookies, dbv.pszVal);
+		db_free(&dbv);
+	}
+}
+
+void CMsnProto::SaveAuthTokensDB(void)
+{
+	setDword("authTokenExpiretime", authTokenExpiretime);
+	setDword("authMethod", authMethod);
+	setString("authUser", authUser);
+	setString("authSSLToken", authSSLToken);
+	setString("authContactToken", authContactToken);
+	setString("authUIC", authUIC);
+	setString("authCookies", authCookies);
+}
+
+// -1 - Error on login sequence 
+//  0 - Login failed (invalid username?)
+//  1 - Login via Skype login server succeeded
+//  2 - Login via Skypeweb succeeded
+int CMsnProto::MSN_AuthOAuth(void)
+{
+	int retVal = -1;
+	const char *pszPostParams = "client_id=00000000480BC46C&scope=service%3A%3Askype.com%3A%3AMBI_SSL&response_type=token&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf";
+	NETLIBHTTPREQUEST nlhr = { 0 };
+	NETLIBHTTPREQUEST *nlhrReply;
+	NETLIBHTTPHEADER headers[3];
+	time_t t;
+
+	// Load credentials from DB so that we don't have to do all this stuff if token isn't expired 
+	if (!authTokenExpiretime) LoadAuthTokensDB();
+
+	// Is there already a valid token and we can skip this?
+	if (time(&t)+10 < authTokenExpiretime && !strcmp(authUser, MyOptions.szEmail)) return authMethod;
+
+	// initialize the netlib request
+	nlhr.cbSize = sizeof(nlhr);
+	nlhr.requestType = REQUEST_GET;
+	nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_REDIRECT;
+	nlhr.nlc = hHttpsConnection;
+	nlhr.headersCount = 1;
+	nlhr.headers = headers;
+	nlhr.headers[0].szName = "User-Agent";
+	nlhr.headers[0].szValue = (char*)MSN_USER_AGENT;
+
+	// Get oauth20 login data
+	CMStringA url;
+	url.Format("https://login.live.com/oauth20_authorize.srf?%s", pszPostParams);
+	nlhr.szUrl = (char*)(const char*)url;
+	mHttpsTS = clock();
+	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	mHttpsTS = clock();
+
+	if (nlhrReply)  {
+		hHttpsConnection = nlhrReply->nlc;
+
+		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
+			char *pPPFT, *pEnd;
+
+			/* Get PPFT */
+			if ((pPPFT = strstr(nlhrReply->pData, "name=\"PPFT\"")) && (pPPFT = strstr(pPPFT, "value=\"")) && (pEnd=strchr(pPPFT+7, '"'))) {
+				*pEnd=0;
+				pPPFT+=7;
+
+				/* Get POST URL if available */
+				if ((nlhr.szUrl = strstr(nlhrReply->pData, "urlPost:'")) && (pEnd=strchr(nlhr.szUrl+9, '\''))) {
+					*pEnd=0;
+					nlhr.szUrl += 9;
+				} else {
+					url.Format("https://login.live.com/ppsecure/post.srf?%s", pszPostParams);
+					nlhr.szUrl = (char*)(const char*)url;
+				}
+
+				/* Get Cookies */
+				nlhr.headers[1].szValue = (char*)alloca(CopyCookies(nlhrReply, NULL));
+				CopyCookies(nlhrReply, &nlhr.headers[1]);
+				if (*nlhr.headers[1].szValue) nlhr.headersCount++;
+
+				/* Create POST data */
+				CMStringA post;
+				char szPassword[100];
+				db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword));
+				szPassword[16] = 0;
+				post.Format("PPFT=%s&login=%s&passwd=%s", ptrA(mir_urlEncode(pPPFT)), 
+					ptrA(mir_urlEncode(MyOptions.szEmail)), ptrA(mir_urlEncode(szPassword)));
+
+				/* Setup headers */
+				nlhr.headers[nlhr.headersCount].szName = "Content-Type";
+				nlhr.headers[nlhr.headersCount++].szValue = "application/x-www-form-urlencoded";
+
+				/* Do the login and get the required tokens */
+				nlhr.requestType = REQUEST_POST;
+				nlhr.flags &= (~NLHRF_REDIRECT);
+				mHttpsTS = clock();
+				nlhr.dataLength = (int)strlen(post);
+				nlhr.pData = (char*)(const char*)post;
+				NETLIBHTTPREQUEST *nlhrReply2 = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+				nlhrReply = nlhrReply2;
+				mHttpsTS = clock();
+				if (nlhrReply) {
+					hHttpsConnection = nlhrReply->nlc;
+
+					if (nlhrReply->resultCode == 302) {
+						char *pAccessToken;
+
+						/* Extract access_token from Location can be found */
+						for (int i = 0; i < nlhrReply->headersCount; i++)
+							if (!mir_strcmpi(nlhrReply->headers[i].szName, "Location") &&
+								(pAccessToken = strstr(nlhrReply->headers[i].szValue, "access_token=")) && 
+								(pEnd=strchr(pAccessToken+13, '&')))
+							{
+								char *pRefreshToken, *pExpires, szToken[1024];
+								bool bLogin=false;
+
+								*pEnd = 0;
+								pAccessToken+=13;
+								UrlDecode(pAccessToken);
+								replaceStr(authAccessToken, pAccessToken);
+
+								/* Extract refresh token */
+								if ((pRefreshToken = strstr(pEnd+1, "refresh_token=")) && (pEnd=strchr(pRefreshToken+14, '&'))) {
+									*pEnd = 0;
+									pRefreshToken+=14;
+								}
+
+								/* Extract expire time */
+								time(&authTokenExpiretime);
+								if ((pExpires = strstr(pEnd+1, "expires_in=")) && (pEnd=strchr(pExpires+11, '&'))) {
+									*pEnd = 0;
+									pExpires+=11;
+									authTokenExpiretime+=atoi(pExpires);
+								} else authTokenExpiretime+=86400;
+
+								/* Copy auth Cookies to class for other web requests like contact list fetching to avoid ActiveSync */
+								mir_free(authCookies);
+								authCookies = nlhr.headers[1].szValue = (char*)mir_alloc(CopyCookies(nlhrReply, NULL));
+								CopyCookies(nlhrReply, &nlhr.headers[1]);
+
+								int loginRet;
+								/* Do Login via Skype login server, if not possible switch to SkypeWebExperience login */
+								if ((loginRet = LoginSkypeOAuth(pRefreshToken))<1) {
+									if (loginRet<0) bLogin=true; else retVal = 0;
+								}
+
+								/* Request required tokens */
+								if (RefreshOAuth(pRefreshToken, "service::ssl.live.com::MBI_SSL", szToken)) {
+									replaceStr(authSSLToken, szToken);
+									if (RefreshOAuth(pRefreshToken, "service::contacts.msn.com::MBI_SSL", szToken)) {
+										replaceStr(authContactToken, szToken);
+										if (!bLogin) {
+											authMethod=retVal=1;
+											replaceStr(authUser, MyOptions.szEmail);
+										}
+									} else bLogin=false;
+								} else bLogin=false;
+
+
+								/* If you need Skypewebexperience login, as i.e. skylogin.dll is not available, we do this here */
+								if (bLogin) {
+									/* Prepare headers*/
+									nlhr.headers[2].szValue = "application/json";
+									nlhr.pData = "{\"trouterurl\":\"https://\",\"connectionid\":\"a\"}";
+									nlhr.dataLength = (int)strlen(nlhr.pData);
+									nlhr.szUrl = "https://skypewebexperience.live.com/v1/User/Initialization";
+								
+									/* Request MappingContainer */
+									mHttpsTS = clock();
+									CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+									nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+									mHttpsTS = clock();
+									if (nlhrReply)  {
+										hHttpsConnection = nlhrReply->nlc;
+
+										if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
+											/* Parse JSON stuff for MappingContainer */
+											char *pMappingContainer;
+
+											if ((pMappingContainer = strstr(nlhrReply->pData, "\"MappingContainer\":\"")) && 
+												(pEnd=strchr(pMappingContainer+20, '"')))
+											{
+												*pEnd = 0;
+												pMappingContainer+=20;
+												UrlDecode(pMappingContainer);
+												replaceStr(authUIC, pMappingContainer);
+												authMethod = retVal = 2;
+											} else retVal = 0;
+										} else retVal = 0;
+									} else hHttpsConnection = NULL;
+								}
+							}
+					} else hHttpsConnection = NULL;
+				}
+			}
+		}
+		if (nlhrReply) CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+	} else hHttpsConnection = NULL;
+
+	if (retVal<=0) authTokenExpiretime=0; else SaveAuthTokensDB();
+	return retVal;
+}
+
+int	 CMsnProto::GetMyNetID(void)
+{
+	return strchr(MyOptions.szEmail, '@')?NETID_MSN:NETID_SKYPE;
+}
+
+const char *CMsnProto::GetMyUsername(int netId)
+{
+	static char szPartner[128];
+
+	if (netId == NETID_SKYPE)
+	{
+		if (GetMyNetID()==NETID_MSN)
+		{
+			if (db_get_static(NULL, m_szModuleName, "SkypePartner", szPartner, sizeof(szPartner)) == 0)
+				return szPartner;
+		}
+	}
+	return MyOptions.szEmail;
+}
+
 void CMsnProto::FreeAuthTokens(void)
 {
 	mir_free(pAuthToken);
@@ -448,5 +899,10 @@ void CMsnProto::FreeAuthTokens(void)
 	mir_free(authContactToken);
 	mir_free(authStorageToken);
 	mir_free(hotSecretToken);
+	mir_free(authUIC);
+	mir_free(authCookies);
+	mir_free(authSSLToken);
+	mir_free(authUser);
+	mir_free(authAccessToken);
 	free(hotAuthToken);
 }

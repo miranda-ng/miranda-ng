@@ -27,25 +27,49 @@ MCONTACT CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick,
 {
 	MCONTACT hContact = NULL;
 
-	char *szEmail;
-	parseWLID(NEWSTR_ALLOCA(wlid), NULL, &szEmail, NULL);
+	char *szEmail, *szNet = NULL;
+	parseWLID(NEWSTR_ALLOCA(wlid), &szNet, &szEmail, NULL);
 
 	MsnContact *msc = Lists_Get(szEmail);
 	if (msc && msc->hContact)
 		hContact = msc->hContact;
 
 	if (hContact == NULL && addIfNeeded) {
+		int netId = msc->netId?msc->netId:(szNet?atoi(szNet):NETID_MSN);
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
-		setString(hContact, "e-mail", szEmail);
+		if (netId != NETID_SKYPE) setString(hContact, "e-mail", szEmail);
 		setStringUtf(hContact, "Nick", msnNick ? msnNick : wlid);
+		setWord(hContact, "netId", netId);
+		setString(hContact, "wlid", szEmail);
 		if (temporary)
 			db_set_b(hContact, "CList", "NotOnList", 1);
 
-		Lists_Add(0, NETID_MSN, wlid, hContact);
+		Lists_Add(0, szNet?atoi(szNet):NETID_MSN, szEmail, hContact);
 	}
 
 	return hContact;
+}
+
+MCONTACT CMsnProto::MSN_HContactFromChatID(const char* wlid)
+{
+	MCONTACT hContact = NULL;
+
+	for (hContact = db_find_first(m_szModuleName); hContact; 
+			hContact = db_find_next(hContact, m_szModuleName)) 
+	{
+		if (isChatRoom(hContact) != 0) {
+			DBVARIANT dbv;
+			if (getString(hContact, "ChatRoomID", &dbv) == 0) {
+				if (strcmp(dbv.pszVal, wlid) == 0) {
+					db_free(&dbv);
+					return hContact;
+				}
+				db_free(&dbv);
+			}
+		}
+	}
+	return NULL;
 }
 
 
@@ -226,21 +250,34 @@ bool CMsnProto::MSN_RefreshContactList(void)
 	Lists_Wipe();
 	Lists_Populate();
 
-	if (!MSN_SharingFindMembership()) return false;
+	if (GetMyNetID() != NETID_SKYPE)
+	{
+		if (!MSN_SharingFindMembership()) return false;
 
-	if (m_iDesiredStatus == ID_STATUS_OFFLINE) return false;
+		if (m_iDesiredStatus == ID_STATUS_OFFLINE) return false;
 
-	if (!MSN_ABFind("ABFindContactsPaged", NULL)) return false;
+		if (!MSN_ABFind("ABFindContactsPaged", NULL)) return false;
+		MSN_ABRefreshClist();
 
-	if (m_iDesiredStatus == ID_STATUS_OFFLINE) return false;
+		if (m_iDesiredStatus == ID_STATUS_OFFLINE) return false;
 
-	MSN_CleanupLists();
+		MSN_CleanupLists();
 
-	if (m_iDesiredStatus == ID_STATUS_OFFLINE) return false;
+		if (m_iDesiredStatus == ID_STATUS_OFFLINE) return false;
 
-	msnLoggedIn = true;
+		msnLoggedIn = true;
 
-	MSN_CreateContList();
-	MSN_StoreGetProfile();
+		MSN_CreateContList();
+		//MSN_StoreGetProfile();
+	}
+	else
+	{
+		/* TODO: Add pulling Skype contacts from event server or skypeweb or other unknown method.. */
+		MSN_CreateContList();
+	}
+
+	// Refresh Threads which are also part of the contact list
+	if (msnP24Ver>1) MSN_GCRefreshThreadsInfo();
+
 	return true;
 }

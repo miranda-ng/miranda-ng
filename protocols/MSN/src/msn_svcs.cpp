@@ -71,8 +71,10 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		cont = Lists_Get(AI->hContact);
 		if (cont == NULL) return GAIR_NOAVATAR;
 
+		/*
 		if ((cont->cap1 & 0xf0000000) == 0)
 			return GAIR_NOAVATAR;
+		*/
 	}
 
 	if (AI->hContact == NULL || _stricmp(cont->email, MyOptions.szEmail) == 0) {
@@ -454,7 +456,8 @@ int CMsnProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	if (!strcmp(cws->szSetting, "ApparentMode")) {
 		char tEmail[MSN_MAX_EMAIL_LEN];
-		if (!db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail))) {
+		if (!db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail)) ||
+			!db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail))) {
 			bool isBlocked = Lists_IsInList(LIST_BL, tEmail);
 
 			if (isBlocked && (cws->value.type == DBVT_DELETED || cws->value.wVal == 0)) {

@@ -52,8 +52,10 @@ TCHAR* CMsnProto::GetContactNameT(MCONTACT hContact)
 	ci.cbSize = sizeof(ci);
 	ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
 	ci.szProto = m_szModuleName;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
-		return (TCHAR*)ci.pszVal;
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
+		if (m_DisplayNameCache) mir_free(m_DisplayNameCache);
+		return (TCHAR*)m_DisplayNameCache = ci.pszVal;
+	}
 	else
 		return _T("Me");
 }
