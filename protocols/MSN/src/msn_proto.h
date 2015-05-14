@@ -474,18 +474,18 @@ struct CMsnProto : public PROTO<CMsnProto>
 	//	MSN Authentication
 
 	int       MSN_GetPassportAuth(void);
-	int		  MSN_SkypeAuth(const char *pszNonce, char *pszUIC);
-	int		  MSN_DoOAuth(void);
-	char*	  GenerateLoginBlob(char* challenge);
+	int       MSN_SkypeAuth(const char *pszNonce, char *pszUIC);
+	int       MSN_DoOAuth(void);
+	char*     GenerateLoginBlob(char* challenge);
 	void      LoadAuthTokensDB(void);
 	void      SaveAuthTokensDB(void);
-	int		  LoginSkypeOAuth(const char *pRefreshToken);
+	int       LoginSkypeOAuth(const char *pRefreshToken);
 	bool      RefreshOAuth(const char *pszRefreshToken, const char *pszService, char *pszAccessToken, char *pszOutRefreshToken=NULL, time_t *ptExpires=NULL);
-	int		  MSN_AuthOAuth(void);
+	int       MSN_AuthOAuth(void);
 	CMStringA HotmailLogin(const char* url);
 	void	    FreeAuthTokens(void);
-	int	 GetMyNetID(void);
-	const char *GetMyUsername(int netId);
+	int       GetMyNetID(void);
+	LPCSTR    GetMyUsername(int netId);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	//	MSN avatars support

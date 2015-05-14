@@ -705,7 +705,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 	if (!authTokenExpiretime) LoadAuthTokensDB();
 
 	// Is there already a valid token and we can skip this?
-	if (time(&t)+10 < authTokenExpiretime && !strcmp(authUser, MyOptions.szEmail)) return authMethod;
+	if (time(&t)+10 < authTokenExpiretime && !mir_strcmp(authUser, MyOptions.szEmail)) return authMethod;
 
 	// initialize the netlib request
 	nlhr.cbSize = sizeof(nlhr);
