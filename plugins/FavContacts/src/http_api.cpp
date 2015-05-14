@@ -6,7 +6,7 @@
 
 #define MS_FAVCONTACTS_OPEN_CONTACT			"FavContacts/OpenContact"
 
-class CHttpProcessor: public IConnectionProcessor
+class CHttpProcessor : public IConnectionProcessor
 {
 private:
 	CSocket *m_socket;
@@ -21,26 +21,28 @@ private:
 	}
 
 public:
-	CHttpProcessor(CSocket *s): m_socket(s) {}
+	CHttpProcessor(CSocket *s) : m_socket(s) {}
 
 	void ProcessConnection()
 	{
 		char buf[1024];
 		int n = m_socket->Recv(buf, sizeof(buf));
-		buf[n] = 0;
+		if (n > 0) {
+			buf[n] = 0;
 
-		char *s = FetchURL(buf);
+			char *s = FetchURL(buf);
 
-		if (!strncmp(s, "/fav/list/", 10))
-		{
-			SendList();
-		} else
-		if (!strncmp(s, "/fav/open/", 10))
-		{
-			OpenContact(s);
+			if (!strncmp(s, "/fav/list/", 10))
+			{
+				SendList();
+			}
+			else if (!strncmp(s, "/fav/open/", 10))
+			{
+				OpenContact(s);
+			}
+
+			mir_free(s);
 		}
-
-		mir_free(s);
 		m_socket->Close();
 	}
 
@@ -117,7 +119,7 @@ public:
 	{
 		int length = 0;
 		const XCHAR *p;
-		for (p = s; *p;  p++)
+		for (p = s; *p; p++)
 		{
 			if (*p == '\'' || *p == '\\' || *p == '\"')
 				length++;
@@ -125,7 +127,7 @@ public:
 		}
 		XCHAR *buf = (XCHAR *)mir_alloc(sizeof(XCHAR) * (length + 1));
 		XCHAR *q = buf;
-		for (p = s; *p;  p++)
+		for (p = s; *p; p++)
 		{
 			if (*p == '\'' || *p == '\\' || *p == '\"')
 			{
@@ -141,7 +143,7 @@ public:
 	}
 };
 
-class CHttpProcessorFactory: public IConnectionProcessorFactory
+class CHttpProcessorFactory : public IConnectionProcessorFactory
 {
 public:
 	IConnectionProcessor *Create(CSocket *s)
