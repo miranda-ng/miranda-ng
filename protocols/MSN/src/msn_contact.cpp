@@ -35,7 +35,7 @@ MCONTACT CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick,
 		hContact = msc->hContact;
 
 	if (hContact == NULL && addIfNeeded) {
-		int netId = msc->netId?msc->netId:(szNet?atoi(szNet):NETID_MSN);
+		int netId = (msc && msc->netId)?msc->netId:(szNet?atoi(szNet):NETID_MSN);
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
 		if (netId != NETID_SKYPE) setString(hContact, "e-mail", szEmail);
