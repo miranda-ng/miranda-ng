@@ -30,7 +30,7 @@ void InitFonts() {
 	FontIDT fid = { 0 };
 	fid.cbSize = sizeof(FontIDT);
 	mir_tstrncpy(fid.group, _T(PU_FNT_AND_COLOR), SIZEOF(fid.group));
-	strncpy(fid.dbSettingsGroup, PU_FNT_AND_COLOR_DB, SIZEOF(fid.dbSettingsGroup));
+	mir_strncpy(fid.dbSettingsGroup, PU_FNT_AND_COLOR_DB, SIZEOF(fid.dbSettingsGroup));
 	fid.flags = FIDF_DEFAULTVALID;
 	fid.deffontsettings.charset = DEFAULT_CHARSET;
 	fid.deffontsettings.size = -11;
@@ -67,15 +67,15 @@ void InitFonts() {
 	ColourIDT cid = { 0 };
 	cid.cbSize = sizeof(ColourIDT);
 	mir_tstrncpy(cid.group, _T(PU_FNT_AND_COLOR), SIZEOF(cid.group));
-	strncpy(cid.dbSettingsGroup, PU_FNT_AND_COLOR_DB, SIZEOF(cid.dbSettingsGroup));
+	mir_strncpy(cid.dbSettingsGroup, PU_FNT_AND_COLOR_DB, SIZEOF(cid.dbSettingsGroup));
 
 	mir_tstrncpy(cid.name, PU_COL_BACK_NAME, SIZEOF(cid.name));
-	strncpy(cid.setting, PU_COL_BACK_SETTING, SIZEOF(cid.setting));
+	mir_strncpy(cid.setting, PU_COL_BACK_SETTING, SIZEOF(cid.setting));
 	cid.defcolour = SETTING_BACKCOLOUR_DEFAULT;
 	ColourRegisterT(&cid);
 
 	mir_tstrncpy(cid.name, PU_COL_AVAT_NAME, SIZEOF(cid.name));
-	strncpy(cid.setting, PU_COL_AVAT_SETTING, SIZEOF(cid.setting));
+	mir_strncpy(cid.setting, PU_COL_AVAT_SETTING, SIZEOF(cid.setting));
 	cid.defcolour = SETTING_TEXTCOLOUR_DEFAULT;
 	ColourRegisterT(&cid);
 

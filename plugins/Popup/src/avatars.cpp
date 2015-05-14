@@ -31,10 +31,10 @@ PopupAvatar *PopupAvatar::create(MCONTACT hContact)
 		{
 			avatarCacheEntry *av = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 			//			MessageBox(NULL, _T("00"), _T(MODULNAME_LONG), MB_OK);
-			if (av && (_tcslen(av->szFilename) > 4))
+			if (av && (mir_tstrlen(av->szFilename) > 4))
 			{
 				//				MessageBox(NULL, _T("01"), _T(MODULNAME_LONG), MB_OK);
-				if (!_tcsicmp(av->szFilename + _tcslen(av->szFilename) - 4, _T(".gif")))
+				if (!mir_tstrcmpi(av->szFilename + mir_tstrlen(av->szFilename) - 4, _T(".gif")))
 				{
 					//					MessageBox(NULL, _T("02"), _T(MODULNAME_LONG), MB_OK);
 					if (db_get_b(NULL, MODULNAME, "EnableGifAnimation", 1) && GDIPlus_IsAnimatedGIF(av->szFilename))

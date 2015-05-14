@@ -230,8 +230,8 @@ HANDLE FindTreeData(LPTSTR group, LPTSTR name, BYTE typ)
 	for (int i = 0; i < gTreeData.getCount(); i++) {
 		POPUPTREEDATA *p = gTreeData[i];
 		if (p->typ == typ &&
-			(!group || (_tcscmp(p->pszTreeRoot, group) == 0)) &&
-			(!name || (_tcscmp(p->pszDescription, name) == 0)))
+			(!group || (mir_tstrcmp(p->pszTreeRoot, group) == 0)) &&
+			(!name || (mir_tstrcmp(p->pszDescription, name) == 0)))
 		{
 			return p;
 		}

@@ -835,7 +835,7 @@ BOOL IsUtfSendAvailable(MCONTACT hContact)
 	char* szProto = GetContactProto(hContact);
 	if (szProto == NULL) return FALSE;
 	// check for MetaContact and get szProto from subcontact
-	if (!strcmp(szProto, META_PROTO)) {
+	if (!mir_strcmp(szProto, META_PROTO)) {
 		MCONTACT hSubContact = db_mc_getDefault(hContact);
 		if (!hSubContact)
 			return FALSE;
@@ -999,16 +999,16 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			break;
 
 		case ACT_DEF_ADD:
-			{
-				ADDCONTACTSTRUCT acs = { 0 };
-				acs.hContact = m_hContact;
-				acs.handleType = HANDLE_CONTACT;
-				acs.szProto = 0;
-				CallServiceSync(MS_ADDCONTACT_SHOW, NULL, (LPARAM)&acs);
-				if (!(PopupOptions.actions&ACT_DEF_KEEPWND))
-					PUDeletePopup(m_hwnd);
-			}
-			break;
+		{
+			ADDCONTACTSTRUCT acs = { 0 };
+			acs.hContact = m_hContact;
+			acs.handleType = HANDLE_CONTACT;
+			acs.szProto = 0;
+			CallServiceSync(MS_ADDCONTACT_SHOW, NULL, (LPARAM)&acs);
+			if (!(PopupOptions.actions&ACT_DEF_KEEPWND))
+				PUDeletePopup(m_hwnd);
+		}
+		break;
 
 		case ACT_DEF_PIN:
 			if (m_bIsPinned)
@@ -1029,8 +1029,8 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 		case ACT_DEF_COPY:
 			if (m_lptzText || m_lptzTitle) {
-				CMString tszText(FORMAT, _T("%s\n\n%s"), 
-					(m_lptzTitle) ? m_lptzTitle : _T(""), 
+				CMString tszText(FORMAT, _T("%s\n\n%s"),
+					(m_lptzTitle) ? m_lptzTitle : _T(""),
 					(m_lptzText) ? m_lptzText : _T(""));
 
 				if (OpenClipboard(m_hwnd)) {
@@ -1154,16 +1154,16 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			break;
 
 		case AVATAR_TIMER:
-			{
-				int newDelay = m_avatar->activeFrameDelay();
-				animate();
-				if ((newDelay <= 0) || (newDelay != m_avatarFrameDelay)) KillTimer(m_hwnd, AVATAR_TIMER);
-				if (newDelay > 0) {
-					SetTimer(m_hwnd, AVATAR_TIMER, newDelay, 0);
-					m_avatarFrameDelay = newDelay;
-				}
+		{
+			int newDelay = m_avatar->activeFrameDelay();
+			animate();
+			if ((newDelay <= 0) || (newDelay != m_avatarFrameDelay)) KillTimer(m_hwnd, AVATAR_TIMER);
+			if (newDelay > 0) {
+				SetTimer(m_hwnd, AVATAR_TIMER, newDelay, 0);
+				m_avatarFrameDelay = newDelay;
 			}
-			break;
+		}
+		break;
 
 		case CURSOR_TIMER:
 			POINT pt; GetCursorPos(&pt);

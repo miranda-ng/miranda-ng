@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HWND hwndBox = NULL;
 
 LRESULT CALLBACK AvatarTrackBarWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-LRESULT CALLBACK AlphaTrackBarWndProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK AlphaTrackBarWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // effekt name for drop down box
 LIST<TCHAR> g_lstPopupVfx(5, _tcsicmp);
@@ -37,7 +37,7 @@ void OptAdv_RegisterVfx(char *name)
 
 void OptAdv_UnregisterVfx()
 {
-	for (int i=0; i < g_lstPopupVfx.getCount(); ++i)
+	for (int i = 0; i < g_lstPopupVfx.getCount(); ++i)
 		mir_free(g_lstPopupVfx[i]);
 	g_lstPopupVfx.destroy();
 }
@@ -85,23 +85,23 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	switch (msg) {
 	case WM_INITDIALOG:
 		// Create preview box:
-		{
-			hwndBox = CreateWindowEx(
-				WS_EX_TOOLWINDOW|WS_EX_TOPMOST,		//  dwStyleEx
-				_T(BOXPREVIEW_WNDCLASS),			//  Class name
-				NULL,								//  Title
-				DS_SETFONT|DS_FIXEDSYS|WS_POPUP,	//  dwStyle
-				CW_USEDEFAULT,						//  x
-				CW_USEDEFAULT,						//  y
-				CW_USEDEFAULT,						//  Width
-				CW_USEDEFAULT,						//  Height
-				HWND_DESKTOP,						//  Parent
-				NULL,								//  menu handle
-				hInst,								//  Instance
-				(LPVOID)0);
-			ShowWindow(hwndBox, SW_HIDE);
-		}
-		// Group: History
+	{
+		hwndBox = CreateWindowEx(
+			WS_EX_TOOLWINDOW | WS_EX_TOPMOST,		//  dwStyleEx
+			_T(BOXPREVIEW_WNDCLASS),			//  Class name
+			NULL,								//  Title
+			DS_SETFONT | DS_FIXEDSYS | WS_POPUP,	//  dwStyle
+			CW_USEDEFAULT,						//  x
+			CW_USEDEFAULT,						//  y
+			CW_USEDEFAULT,						//  Width
+			CW_USEDEFAULT,						//  Height
+			HWND_DESKTOP,						//  Parent
+			NULL,								//  menu handle
+			hInst,								//  Instance
+			(LPVOID)0);
+		ShowWindow(hwndBox, SW_HIDE);
+	}
+	// Group: History
 		{
 			CheckDlgButton(hwnd, IDC_ENABLE_HISTORY, PopupOptions.EnableHistory ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemInt(hwnd, IDC_HISTORYSIZE, PopupOptions.HistorySize, FALSE);
@@ -114,12 +114,12 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SendMessage(hCtrl, BUTTONADDTOOLTIP, (WPARAM)Translate("Popup History"), 0);
 			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_HISTORY, 0));
 
-			EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC1),	PopupOptions.EnableHistory);
-			EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE),		PopupOptions.EnableHistory);
-			EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE_SPIN),PopupOptions.EnableHistory);
-			EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC2),	PopupOptions.EnableHistory);
-			EnableWindow(GetDlgItem(hwnd, IDC_SHOWHISTORY),		PopupOptions.EnableHistory);
-			EnableWindow(GetDlgItem(hwnd, IDC_HPPLOG),			PopupOptions.EnableHistory && gbHppInstalled);
+			EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC1), PopupOptions.EnableHistory);
+			EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE), PopupOptions.EnableHistory);
+			EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE_SPIN), PopupOptions.EnableHistory);
+			EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC2), PopupOptions.EnableHistory);
+			EnableWindow(GetDlgItem(hwnd, IDC_SHOWHISTORY), PopupOptions.EnableHistory);
+			EnableWindow(GetDlgItem(hwnd, IDC_HPPLOG), PopupOptions.EnableHistory && gbHppInstalled);
 		}
 		// Group: Avatars
 		{
@@ -182,29 +182,29 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			// Fade
 			SetDlgItemInt(hwnd, IDC_FADEIN, PopupOptions.FadeIn, FALSE);
 			SetDlgItemInt(hwnd, IDC_FADEOUT, PopupOptions.FadeOut, FALSE);
-			UDACCEL aAccels[] = {{0,50},{1,100},{3,500}};
+			UDACCEL aAccels[] = { { 0, 50 }, { 1, 100 }, { 3, 500 } };
 			SendDlgItemMessage(hwnd, IDC_FADEIN_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(SETTING_FADEINTIME_MAX, SETTING_FADEINTIME_MIN));
 			SendDlgItemMessage(hwnd, IDC_FADEIN_SPIN, UDM_SETACCEL, (WPARAM)SIZEOF(aAccels), (LPARAM)&aAccels);
 			SendDlgItemMessage(hwnd, IDC_FADEOUT_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(SETTING_FADEOUTTIME_MAX, SETTING_FADEOUTTIME_MIN));
 			SendDlgItemMessage(hwnd, IDC_FADEOUT_SPIN, UDM_SETACCEL, (WPARAM)SIZEOF(aAccels), (LPARAM)&aAccels);
 
 			BOOL how = PopupOptions.UseAnimations || PopupOptions.UseEffect;
-			EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT1),		how);
-			EnableWindow(GetDlgItem(hwnd, IDC_FADEIN),			how);
-			EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_SPIN),		how);
-			EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT2),		how);
-			EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_TXT1),	how);
-			EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT),			how);
-			EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_SPIN),	how);
-			EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_TXT2),	how);
+			EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT1), how);
+			EnableWindow(GetDlgItem(hwnd, IDC_FADEIN), how);
+			EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_SPIN), how);
+			EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT2), how);
+			EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_TXT1), how);
+			EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT), how);
+			EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_SPIN), how);
+			EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_TXT2), how);
 			// effects drop down
 			{
 				DWORD dwItem, dwActiveItem = 0;
 
 				BOOL how = TRUE;
 
-				EnableWindow(GetDlgItem(hwnd, IDC_EFFECT),		how);
-				EnableWindow(GetDlgItem(hwnd, IDC_EFFECT_TXT),	how);
+				EnableWindow(GetDlgItem(hwnd, IDC_EFFECT), how);
+				EnableWindow(GetDlgItem(hwnd, IDC_EFFECT_TXT), how);
 
 				HWND hCtrl = GetDlgItem(hwnd, IDC_EFFECT);
 				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("No effect")), -2);
@@ -253,11 +253,11 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			switch (idCtrl) {
 			case IDC_ENABLE_HISTORY:
 				PopupOptions.EnableHistory = !PopupOptions.EnableHistory;
-				EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC1),	PopupOptions.EnableHistory);
-				EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE),		PopupOptions.EnableHistory);
-				EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE_SPIN),PopupOptions.EnableHistory);
-				EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC2),	PopupOptions.EnableHistory);
-				EnableWindow(GetDlgItem(hwnd, IDC_SHOWHISTORY),		PopupOptions.EnableHistory);
+				EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC1), PopupOptions.EnableHistory);
+				EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE), PopupOptions.EnableHistory);
+				EnableWindow(GetDlgItem(hwnd, IDC_HISTORYSIZE_SPIN), PopupOptions.EnableHistory);
+				EnableWindow(GetDlgItem(hwnd, IDC_HISTORY_STATIC2), PopupOptions.EnableHistory);
+				EnableWindow(GetDlgItem(hwnd, IDC_SHOWHISTORY), PopupOptions.EnableHistory);
 				EnableWindow(GetDlgItem(hwnd, IDC_HPPLOG), PopupOptions.EnableHistory && gbHppInstalled);
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
@@ -273,7 +273,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			case IDC_AVT_BORDER:
 				PopupOptions.avatarBorders = !PopupOptions.avatarBorders;
-				EnableWindow(GetDlgItem(hwnd, IDC_AVT_PNGBORDER),	PopupOptions.avatarBorders);
+				EnableWindow(GetDlgItem(hwnd, IDC_AVT_PNGBORDER), PopupOptions.avatarBorders);
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				break;
 
@@ -301,10 +301,10 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				PopupOptions.UseTransparency = !PopupOptions.UseTransparency;
 				{
 					BOOL how = TRUE;
-					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_TXT1),			how && PopupOptions.UseTransparency);
-					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_SLIDER),		how && PopupOptions.UseTransparency);
-					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_PERCENT),		how && PopupOptions.UseTransparency);
-					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_OPAQUEONHOVER),	how && PopupOptions.UseTransparency);
+					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_TXT1), how && PopupOptions.UseTransparency);
+					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_SLIDER), how && PopupOptions.UseTransparency);
+					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_PERCENT), how && PopupOptions.UseTransparency);
+					EnableWindow(GetDlgItem(hwnd, IDC_TRANS_OPAQUEONHOVER), how && PopupOptions.UseTransparency);
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
 				break;
@@ -318,14 +318,14 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				PopupOptions.UseAnimations = !PopupOptions.UseAnimations;
 				{
 					BOOL enable = PopupOptions.UseAnimations || PopupOptions.UseEffect;
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT1),		enable);
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN),			enable);
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_SPIN),		enable);
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT2),		enable);
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_TXT1),	enable);
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT),			enable);
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_SPIN),	enable);
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_TXT2),	enable);
+					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT1), enable);
+					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN), enable);
+					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_SPIN), enable);
+					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT2), enable);
+					EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_TXT1), enable);
+					EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT), enable);
+					EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_SPIN), enable);
+					EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_TXT2), enable);
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
 				break;
@@ -340,24 +340,24 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			// lParam = Handle to the control
 			switch (idCtrl) {
 			case IDC_EFFECT:
-				{
-					int iEffect = ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
-					PopupOptions.UseEffect = (iEffect != -2) ? TRUE : FALSE;
-					mir_free(PopupOptions.Effect);
-					PopupOptions.Effect = mir_tstrdup((iEffect >= 0) ? g_lstPopupVfx[iEffect] : _T(""));
+			{
+				int iEffect = ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
+				PopupOptions.UseEffect = (iEffect != -2) ? TRUE : FALSE;
+				mir_free(PopupOptions.Effect);
+				PopupOptions.Effect = mir_tstrdup((iEffect >= 0) ? g_lstPopupVfx[iEffect] : _T(""));
 
-					BOOL enable = PopupOptions.UseAnimations || PopupOptions.UseEffect;
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT1),		enable);
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN),			enable);
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_SPIN),		enable);
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT2),		enable);
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_TXT1),	enable);
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT),			enable);
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_SPIN),	enable);
-					EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_TXT2),	enable);
-					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-				}
-				break;
+				BOOL enable = PopupOptions.UseAnimations || PopupOptions.UseEffect;
+				EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT1), enable);
+				EnableWindow(GetDlgItem(hwnd, IDC_FADEIN), enable);
+				EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_SPIN), enable);
+				EnableWindow(GetDlgItem(hwnd, IDC_FADEIN_TXT2), enable);
+				EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_TXT1), enable);
+				EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT), enable);
+				EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_SPIN), enable);
+				EnableWindow(GetDlgItem(hwnd, IDC_FADEOUT_TXT2), enable);
+				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+			}
+			break;
 			}
 			break;
 
@@ -366,50 +366,50 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			// lParam = Handle to the control
 			switch (idCtrl) {
 			case IDC_MAXPOPUPS:
-				{
-					int maxPop = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-					if (maxPop > 0) {
-						PopupOptions.MaxPopups = maxPop;
-						SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-					}
+			{
+				int maxPop = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				if (maxPop > 0) {
+					PopupOptions.MaxPopups = maxPop;
+					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
-				break;
+			}
+			break;
 			case IDC_HISTORYSIZE:
-				{
-					int histSize = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-					if (histSize > 0 && histSize <= SETTING_HISTORYSIZE_MAX) {
-							PopupOptions.HistorySize = histSize;
-							SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-					}
+			{
+				int histSize = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				if (histSize > 0 && histSize <= SETTING_HISTORYSIZE_MAX) {
+					PopupOptions.HistorySize = histSize;
+					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
-				break;
+			}
+			break;
 			case IDC_AVT_RADIUS:
-				{
-					int avtRadius = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-					if (avtRadius <= SETTING_AVTSIZE_MAX / 2 ) {
-						PopupOptions.avatarRadius = avtRadius;
-						SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-					}
+			{
+				int avtRadius = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				if (avtRadius <= SETTING_AVTSIZE_MAX / 2) {
+					PopupOptions.avatarRadius = avtRadius;
+					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
-				break;
+			}
+			break;
 			case IDC_FADEIN:
-				{
-					int fadeIn = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-					if (fadeIn >= SETTING_FADEINTIME_MIN && fadeIn <= SETTING_FADEINTIME_MAX ) {
-							PopupOptions.FadeIn = fadeIn;
-							SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-					}
+			{
+				int fadeIn = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				if (fadeIn >= SETTING_FADEINTIME_MIN && fadeIn <= SETTING_FADEINTIME_MAX) {
+					PopupOptions.FadeIn = fadeIn;
+					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
-				break;
+			}
+			break;
 			case IDC_FADEOUT:
-				{
-					int fadeOut = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-					if (fadeOut >= SETTING_FADEOUTTIME_MIN && fadeOut <= SETTING_FADEOUTTIME_MAX) {
-							PopupOptions.FadeOut = fadeOut;
-							SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-					}
+			{
+				int fadeOut = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				if (fadeOut >= SETTING_FADEOUTTIME_MIN && fadeOut <= SETTING_FADEOUTTIME_MAX) {
+					PopupOptions.FadeOut = fadeOut;
+					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
-				break;
+			}
+			break;
 			}
 			break;
 
@@ -417,70 +417,70 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			// lParam = Handle to the control
 			switch (idCtrl) {
 			case IDC_MAXPOPUPS:
-				{
-					int maxPop = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-					if (maxPop <= 0)
-						PopupOptions.MaxPopups = 20;
-					if (maxPop != PopupOptions.MaxPopups) {
-						SetDlgItemInt(hwnd, idCtrl, PopupOptions.MaxPopups, FALSE);
-						// ErrorMSG(1);
-						SetFocus((HWND)lParam);
-					}
+			{
+				int maxPop = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				if (maxPop <= 0)
+					PopupOptions.MaxPopups = 20;
+				if (maxPop != PopupOptions.MaxPopups) {
+					SetDlgItemInt(hwnd, idCtrl, PopupOptions.MaxPopups, FALSE);
+					// ErrorMSG(1);
+					SetFocus((HWND)lParam);
 				}
-				break;
+			}
+			break;
 			case IDC_HISTORYSIZE:
-				{
-					int histSize = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-					if (histSize <= 0)
-						PopupOptions.HistorySize = SETTING_HISTORYSIZE_DEFAULT;
-					else if (histSize > SETTING_HISTORYSIZE_MAX)
-						PopupOptions.HistorySize = SETTING_HISTORYSIZE_MAX;
-					if (histSize != PopupOptions.HistorySize) {
-						SetDlgItemInt(hwnd, idCtrl, PopupOptions.HistorySize, FALSE);
-						ErrorMSG(1, SETTING_HISTORYSIZE_MAX);
-						SetFocus((HWND)lParam);
-					}
+			{
+				int histSize = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				if (histSize <= 0)
+					PopupOptions.HistorySize = SETTING_HISTORYSIZE_DEFAULT;
+				else if (histSize > SETTING_HISTORYSIZE_MAX)
+					PopupOptions.HistorySize = SETTING_HISTORYSIZE_MAX;
+				if (histSize != PopupOptions.HistorySize) {
+					SetDlgItemInt(hwnd, idCtrl, PopupOptions.HistorySize, FALSE);
+					ErrorMSG(1, SETTING_HISTORYSIZE_MAX);
+					SetFocus((HWND)lParam);
 				}
-				break;
+			}
+			break;
 			case IDC_AVT_RADIUS:
-				{
-					int avtRadius = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-					if (avtRadius > SETTING_AVTSIZE_MAX / 2)
-						PopupOptions.avatarRadius = SETTING_AVTSIZE_MAX / 2;
-					if (avtRadius != PopupOptions.avatarRadius) {
-						SetDlgItemInt(hwnd, idCtrl, PopupOptions.avatarRadius, FALSE);
-						ErrorMSG(0, SETTING_AVTSIZE_MAX / 2);
-						SetFocus((HWND)lParam);
-					}
+			{
+				int avtRadius = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				if (avtRadius > SETTING_AVTSIZE_MAX / 2)
+					PopupOptions.avatarRadius = SETTING_AVTSIZE_MAX / 2;
+				if (avtRadius != PopupOptions.avatarRadius) {
+					SetDlgItemInt(hwnd, idCtrl, PopupOptions.avatarRadius, FALSE);
+					ErrorMSG(0, SETTING_AVTSIZE_MAX / 2);
+					SetFocus((HWND)lParam);
 				}
-				break;
+			}
+			break;
 			case IDC_FADEIN:
-				{
-					int fade = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-					if (fade < SETTING_FADEINTIME_MIN)
-						PopupOptions.FadeIn = SETTING_FADEINTIME_MIN;
-					else if (fade > SETTING_FADEINTIME_MAX)
-						PopupOptions.FadeIn = SETTING_FADEINTIME_MAX;
-					if (fade != (int)PopupOptions.FadeIn) {
-						SetDlgItemInt(hwnd, idCtrl, PopupOptions.FadeIn, FALSE);
-						ErrorMSG(SETTING_FADEINTIME_MIN, SETTING_FADEINTIME_MAX);
-						SetFocus((HWND)lParam);
-					}
+			{
+				int fade = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				if (fade < SETTING_FADEINTIME_MIN)
+					PopupOptions.FadeIn = SETTING_FADEINTIME_MIN;
+				else if (fade > SETTING_FADEINTIME_MAX)
+					PopupOptions.FadeIn = SETTING_FADEINTIME_MAX;
+				if (fade != (int)PopupOptions.FadeIn) {
+					SetDlgItemInt(hwnd, idCtrl, PopupOptions.FadeIn, FALSE);
+					ErrorMSG(SETTING_FADEINTIME_MIN, SETTING_FADEINTIME_MAX);
+					SetFocus((HWND)lParam);
 				}
-				break;
+			}
+			break;
 			case IDC_FADEOUT:
-				{
-					int fade = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-					if (fade < SETTING_FADEOUTTIME_MIN)
-						PopupOptions.FadeOut = SETTING_FADEOUTTIME_MIN;
-					else if (fade > SETTING_FADEOUTTIME_MAX)
-						PopupOptions.FadeOut = SETTING_FADEOUTTIME_MAX;
-					if (fade != (int)PopupOptions.FadeOut) {
-						SetDlgItemInt(hwnd, idCtrl, PopupOptions.FadeOut, FALSE);
-						ErrorMSG(SETTING_FADEOUTTIME_MIN, SETTING_FADEOUTTIME_MAX);
-						SetFocus((HWND)lParam);
-					}
+			{
+				int fade = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				if (fade < SETTING_FADEOUTTIME_MIN)
+					PopupOptions.FadeOut = SETTING_FADEOUTTIME_MIN;
+				else if (fade > SETTING_FADEOUTTIME_MAX)
+					PopupOptions.FadeOut = SETTING_FADEOUTTIME_MAX;
+				if (fade != (int)PopupOptions.FadeOut) {
+					SetDlgItemInt(hwnd, idCtrl, PopupOptions.FadeOut, FALSE);
+					ErrorMSG(SETTING_FADEOUTTIME_MIN, SETTING_FADEOUTTIME_MAX);
+					SetFocus((HWND)lParam);
 				}
+			}
 			}
 		}
 		break;
@@ -546,31 +546,31 @@ LRESULT CALLBACK AvatarTrackBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			break;
 
 	case WM_MOUSEMOVE:
-		{
-			TRACKMOUSEEVENT tme;
-			tme.cbSize = sizeof(tme);
-			tme.dwFlags = TME_LEAVE;
-			tme.dwHoverTime = HOVER_DEFAULT;
-			tme.hwndTrack = hwnd;
-			_TrackMouseEvent(&tme);
+	{
+		TRACKMOUSEEVENT tme;
+		tme.cbSize = sizeof(tme);
+		tme.dwFlags = TME_LEAVE;
+		tme.dwHoverTime = HOVER_DEFAULT;
+		tme.hwndTrack = hwnd;
+		_TrackMouseEvent(&tme);
 
-			int newVal = (BYTE)SendMessage(hwnd, TBM_GETPOS, 0, 0);
-			if (oldVal != newVal) {
-				if (oldVal < 0)
-					SetWindowLongPtr(hwndBox, GWLP_USERDATA, 0);
+		int newVal = (BYTE)SendMessage(hwnd, TBM_GETPOS, 0, 0);
+		if (oldVal != newVal) {
+			if (oldVal < 0)
+				SetWindowLongPtr(hwndBox, GWLP_USERDATA, 0);
 
-				RECT rc; GetWindowRect(hwnd, &rc);
-				SetWindowPos(hwndBox, NULL,
-					(rc.left + rc.right - newVal) / 2, rc.bottom + 2, newVal, newVal,
-					SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
+			RECT rc; GetWindowRect(hwnd, &rc);
+			SetWindowPos(hwndBox, NULL,
+				(rc.left + rc.right - newVal) / 2, rc.bottom + 2, newVal, newVal,
+				SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
 
-				HRGN rgn = CreateRoundRectRgn(0, 0, newVal, newVal, 2 * PopupOptions.avatarRadius, 2 * PopupOptions.avatarRadius);
-				SetWindowRgn(hwndBox, rgn, TRUE);
-				InvalidateRect(hwndBox, NULL, FALSE);
-				oldVal = newVal;
-			}
+			HRGN rgn = CreateRoundRectRgn(0, 0, newVal, newVal, 2 * PopupOptions.avatarRadius, 2 * PopupOptions.avatarRadius);
+			SetWindowRgn(hwndBox, rgn, TRUE);
+			InvalidateRect(hwndBox, NULL, FALSE);
+			oldVal = newVal;
 		}
-		break;
+	}
+	break;
 
 	case WM_MOUSELEAVE:
 		SetWindowRgn(hwndBox, NULL, TRUE);
@@ -595,34 +595,34 @@ LRESULT CALLBACK AlphaTrackBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			break;
 
 	case WM_MOUSEMOVE:
+	{
+		TRACKMOUSEEVENT tme;
+		tme.cbSize = sizeof(tme);
+		tme.dwFlags = TME_LEAVE;
+		tme.dwHoverTime = HOVER_DEFAULT;
+		tme.hwndTrack = hwnd;
+		_TrackMouseEvent(&tme);
+
+		int newVal = (BYTE)SendMessage(hwnd, TBM_GETPOS, 0, 0);
+		if (oldVal != newVal)
 		{
-			TRACKMOUSEEVENT tme;
-			tme.cbSize = sizeof(tme);
-			tme.dwFlags = TME_LEAVE;
-			tme.dwHoverTime = HOVER_DEFAULT;
-			tme.hwndTrack = hwnd;
-			_TrackMouseEvent(&tme);
 
-			int newVal = (BYTE)SendMessage(hwnd, TBM_GETPOS, 0, 0);
-			if (oldVal != newVal)
+			if (oldVal < 0)
 			{
-
-				if (oldVal < 0)
-				{
-					SetWindowLongPtr(hwndBox, GWLP_USERDATA, 1);
-					RECT rc; GetWindowRect(hwnd, &rc);
-					SetWindowPos(hwndBox, NULL,
-						(rc.left + rc.right - 170) / 2, rc.bottom + 2, 170, 50,
-						SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
-					SetWindowRgn(hwndBox, NULL, TRUE);
-				}
-				SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) | WS_EX_LAYERED);
-				SetLayeredWindowAttributes(hwndBox, NULL, newVal, LWA_ALPHA);
-
-				oldVal = newVal;
+				SetWindowLongPtr(hwndBox, GWLP_USERDATA, 1);
+				RECT rc; GetWindowRect(hwnd, &rc);
+				SetWindowPos(hwndBox, NULL,
+					(rc.left + rc.right - 170) / 2, rc.bottom + 2, 170, 50,
+					SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
+				SetWindowRgn(hwndBox, NULL, TRUE);
 			}
+			SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) | WS_EX_LAYERED);
+			SetLayeredWindowAttributes(hwndBox, NULL, newVal, LWA_ALPHA);
+
+			oldVal = newVal;
 		}
-		break;
+	}
+	break;
 
 	case WM_MOUSELEAVE:
 		SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) & ~WS_EX_LAYERED);
