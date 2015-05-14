@@ -670,6 +670,10 @@ void CMsnProto::LoadAuthTokensDB(void)
 		replaceStr(authCookies, dbv.pszVal);
 		db_free(&dbv);
 	}
+	if (getString("authStrToken", &dbv) == 0) {
+		replaceStr(authStrToken, dbv.pszVal);
+		db_free(&dbv);
+	}
 }
 
 void CMsnProto::SaveAuthTokensDB(void)
@@ -681,6 +685,7 @@ void CMsnProto::SaveAuthTokensDB(void)
 	setString("authContactToken", authContactToken);
 	setString("authUIC", authUIC);
 	setString("authCookies", authCookies);
+	setString("authStrToken", authStrToken);
 }
 
 // -1 - Error on login sequence 
@@ -852,6 +857,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 												pMappingContainer+=20;
 												UrlDecode(pMappingContainer);
 												replaceStr(authUIC, pMappingContainer);
+												MSN_GetPassportAuth();
 												authMethod = retVal = 2;
 											} else retVal = 0;
 										} else retVal = 0;

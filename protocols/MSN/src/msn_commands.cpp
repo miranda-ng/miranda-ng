@@ -1367,24 +1367,34 @@ LBL_InvalidCommand:
 
 			if (GetMyNetID()!=NETID_SKYPE) {
 				/* MSN account login */
-				char *pszSite = "";
 
 				switch (MSN_AuthOAuth())
 				{
-				case 1: break;
-				case 2: pszSite = "<ssl-site-name>chatservice.live.com</ssl-site-name>"; break;
+				case 1: 
+					info->sendPacketPayload("ATH", "CON\\USER",
+						"<user><ssl-compact-ticket>t=%s</ssl-compact-ticket>"
+						"<uic>%s</uic>"
+						"<id>%s</id><alias>%s</alias></user>\r\n", 
+						authSSLToken ? ptrA(HtmlEncode(authSSLToken)) : "", 
+						authUIC, 
+						GetMyUsername(NETID_MSN), GetMyUsername(NETID_SKYPE));
+					break;
+
+				case 2: 
+					info->sendPacketPayload("ATH", "CON\\USER",
+						"<user><ssl-compact-ticket>%s</ssl-compact-ticket>"
+						"<uic>%s</uic>"
+						"<ssl-site-name>chatservice.live.com</ssl-site-name>"
+						"</user>\r\n", 
+						authStrToken ? ptrA(HtmlEncode(authStrToken)) : "",
+						authUIC);
+					break;
+
 				default:
 					m_iDesiredStatus = ID_STATUS_OFFLINE;
 					return 1;
 				}
 
-				info->sendPacketPayload("ATH", "CON\\USER",
-					"<user><ssl-compact-ticket>t=%s</ssl-compact-ticket>"
-					"<uic>%s</uic>%s"
-					"<id>%s</id><alias>%s</alias></user>\r\n", 
-					authSSLToken ? ptrA(HtmlEncode(authSSLToken)) : "", 
-					authUIC, pszSite, 
-					GetMyUsername(NETID_MSN), GetMyUsername(NETID_SKYPE));
 			} else {
 				/* Skype username/pass login */
 				ezxml_t xmlcnt = ezxml_parse_str(msgBody, strlen(msgBody));
