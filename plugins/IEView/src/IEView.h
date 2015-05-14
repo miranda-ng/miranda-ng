@@ -437,11 +437,11 @@ private:
 	IEViewSink *sink;
 	HTMLBuilder *builder;
 
-	WNDPROC mainWndProc, docWndProc, serverWndProc;
-	bool getFocus;
-	bool clearRequired;
-	BSTR selectedText;
-	bool isContactSet;
+	WNDPROC  mainWndProc, docWndProc, serverWndProc;
+	bool     getFocus;
+	bool     clearRequired;
+	WCHAR*   selectedText;
+	bool     isContactSet;
 	MCONTACT hContact;
 
 	// IUnknown
