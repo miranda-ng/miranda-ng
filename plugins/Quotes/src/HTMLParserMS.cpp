@@ -120,6 +120,7 @@ namespace
 					{
 					}
 				}
+				::SysFreeString(pbstrAttrName);
 			}
 
 			return sAttr;
