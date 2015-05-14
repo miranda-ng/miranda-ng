@@ -689,7 +689,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Select the extra icons to be shown in the contact list:",IDC_STATIC,1,9,274,13
-    CONTROL         "",IDC_EXTRAORDER,"SysTreeView32",TVS_NOTOOLTIPS | TVS_CHECKBOXES | TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,1,24,274,160
+    CONTROL         "",IDC_EXTRAORDER,"SysTreeView32",TVS_NOTOOLTIPS | TVS_NOHSCROLL | TVS_CHECKBOXES | TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,1,24,274,160
     LTEXT           "*only the first %d icons will be shown",IDC_MAX_ICONS_L,1,190,274,13,NOT WS_VISIBLE
     LTEXT           "You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)",IDC_STATIC,1,208,274,20
 END
