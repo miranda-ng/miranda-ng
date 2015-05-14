@@ -851,8 +851,9 @@ protected:
 #undef GetNextSibling
 #undef GetPrevSibling
 
-#define MTREE_CHECKBOX 0x0001
-#define MTREE_DND      0x0002
+#define MTREE_CHECKBOX    0x0001
+#define MTREE_DND         0x0002
+#define MTREE_MULTISELECT 0x0004
 
 class MIR_CORE_EXPORT CCtrlTreeView : public CCtrlBase
 {
@@ -931,6 +932,21 @@ public:
 	void       GetItem(HTREEITEM hItem, TVITEMEX *tvi, TCHAR *szText, int iTextLength);
 	void       InvertCheck(HTREEITEM hItem);
 
+	bool       IsSelected(HTREEITEM hItem);
+	int        GetNumSelected();
+	void       GetSelected(LIST<_TREEITEM> &selected);
+
+	void       Select(HTREEITEM hItem);
+	void       Select(LIST<_TREEITEM> &selected);
+	void       SelectAll();
+	void       SelectRange(HTREEITEM hStart, HTREEITEM hEnd);
+
+	void       Unselect(HTREEITEM hItem);
+	void       UnselectAll();
+
+	void       DropHilite(HTREEITEM hItem);
+	void       DropUnhilite(HTREEITEM hItem);
+
 	// Events
 	struct TEventInfo {
 		CCtrlTreeView *treeviewctrl;
@@ -970,6 +986,7 @@ protected:
 			bool m_bDndEnabled : 1;
 			bool m_bDragging : 1;
 			bool m_bCheckBox : 1;
+			bool m_bMultiSelect : 1;
 		};
 	};
 	HTREEITEM m_hDragItem; // valid if m_bDragging == true

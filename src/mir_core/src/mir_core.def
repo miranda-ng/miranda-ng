@@ -1079,3 +1079,14 @@ Proto_RegisterModule @1074 NONAME
 ?SetFlags@CCtrlTreeView@@QAEXI@Z @1080 NONAME
 ?CustomWndProc@CCtrlTreeView@@MAEJIIJ@Z @1081 NONAME
 ?OnInit@CCtrlTreeView@@MAEXXZ @1082 NONAME
+?DropHilite@CCtrlTreeView@@QAEXPAU_TREEITEM@@@Z @1083 NONAME
+?DropUnhilite@CCtrlTreeView@@QAEXPAU_TREEITEM@@@Z @1084 NONAME
+?GetNumSelected@CCtrlTreeView@@QAEHXZ @1085 NONAME
+?GetSelected@CCtrlTreeView@@QAEXAAU?$LIST@U_TREEITEM@@@@@Z @1086 NONAME
+?IsSelected@CCtrlTreeView@@QAE_NPAU_TREEITEM@@@Z @1087 NONAME
+?Select@CCtrlTreeView@@QAEXAAU?$LIST@U_TREEITEM@@@@@Z @1088 NONAME
+?Select@CCtrlTreeView@@QAEXPAU_TREEITEM@@@Z @1089 NONAME
+?SelectAll@CCtrlTreeView@@QAEXXZ @1090 NONAME
+?SelectRange@CCtrlTreeView@@QAEXPAU_TREEITEM@@0@Z @1091 NONAME
+?Unselect@CCtrlTreeView@@QAEXPAU_TREEITEM@@@Z @1092 NONAME
+?UnselectAll@CCtrlTreeView@@QAEXXZ @1093 NONAME
