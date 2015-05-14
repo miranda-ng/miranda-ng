@@ -603,8 +603,7 @@ void CMsnProto::MSN_SendStatusMessage(const char* msg)
 	if (!msnLoggedIn)
 		return;
 
-	/* FIXME: Currently not implemented, shuold be set on status change anyway */
-	return;
+	/* FIXME: Currently not implemented, shuold be set on status change anyway 
 
 	char* msgEnc = HtmlEncode(msg ? msg : "");
 
@@ -673,7 +672,7 @@ void CMsnProto::MSN_SendStatusMessage(const char* msg)
 		replaceStr(msnPreviousUUX, szMsg);
 		msnNsThread->sendPacket("UUX", "%d\r\n%s", sz, szMsg);
 		mStatusMsgTS = clock();
-	}
+	} */
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

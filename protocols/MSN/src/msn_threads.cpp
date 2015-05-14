@@ -72,18 +72,18 @@ void __cdecl CMsnProto::msn_keepAliveThread(void*)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	MSN server thread - read and process commands from a server
-static bool ReallocInfoBuffer(ThreadData *info, int mDataSize)
+
+static bool ReallocInfoBuffer(ThreadData *info, size_t mDataSize)
 {
 	char *mData = (char*)mir_realloc(info->mData, mDataSize+1);
-	if (mData) {
-		info->mData = mData;
-		info->mDataSize = mDataSize;
-		ZeroMemory(&mData[info->mBytesInData], info->mDataSize-info->mBytesInData+1);
-		return true;
-	}
-	return false;
-}
+	if (mData == NULL)
+		return false;
 
+	info->mData = mData;
+	info->mDataSize = mDataSize;
+	ZeroMemory(&mData[info->mBytesInData], info->mDataSize-info->mBytesInData+1);
+	return true;
+}
 
 void __cdecl CMsnProto::MSNServerThread(void* arg)
 {
@@ -202,18 +202,18 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 				if (peol == NULL)
 					break;
 
-				if (info->mBytesInData < peol - info->mData + 2)
+				int msgLen = (int)(peol - info->mData);
+				if (info->mBytesInData < msgLen + 2)
 					break;  //wait for full line end
 
-				char msg[1024];
-				memcpy(msg, info->mData, peol - info->mData); msg[peol - info->mData] = 0;
+				ptrA msg(mir_strndup(info->mData, msgLen));
 
 				if (*++peol != '\n')
 					debugLogA("Dodgy line ending to command: ignoring");
 				else
 					peol++;
 
-				info->mBytesInData -= peol - info->mData;
+				info->mBytesInData -= msgLen;
 				memmove(info->mData, peol, info->mBytesInData);
 				debugLogA("RECV: %s", msg);
 
