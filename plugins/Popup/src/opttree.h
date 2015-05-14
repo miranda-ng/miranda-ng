@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -27,14 +27,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define OPTTREE_CHECK	0
 
 typedef struct {
-  int       iconIndex;
-  LPTSTR    pszOptionName;
-  int       groupId;
-  DWORD     dwFlag;
-  HTREEITEM hItem;
-  LPTSTR    pszSettingName;
-  BOOL      bState;
-  int       Data;		//free for use (depend on data)
+	int       iconIndex;
+	LPTSTR    pszOptionName;
+	int       groupId;
+	DWORD     dwFlag;
+	HTREEITEM hItem;
+	LPTSTR    pszSettingName;
+	BOOL      bState;
+	int       Data;		//free for use (depend on data)
 } OPTTREE_OPTION;
 
 BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, BOOL *result, int idcTree, OPTTREE_OPTION *options, int optionCount);
