@@ -913,8 +913,9 @@ void IEView::clear(IEVIEWEVENT *event)
 
 void* IEView::getSelection(IEVIEWEVENT *event)
 {
-	replaceStrT(selectedText, getSelection());
-	if (selectedText == NULL || wcslen(selectedText) == 0)
+	mir_free(selectedText);
+	selectedText = getSelection();
+	if (mir_wstrlen(selectedText) == 0)
 		return NULL;
 
 	if (event->dwFlags & IEEF_NO_UNICODE) {
