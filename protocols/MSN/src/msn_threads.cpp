@@ -206,7 +206,8 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 				if (info->mBytesInData < msgLen + 2)
 					break;  //wait for full line end
 
-				ptrA msg(mir_strndup(info->mData, msgLen));
+				char msg[1024];
+				strncpy_s(msg, info->mData, _TRUNCATE);
 
 				if (*++peol != '\n')
 					debugLogA("Dodgy line ending to command: ignoring");
@@ -357,8 +358,10 @@ ThreadData* CMsnProto::MSN_GetThreadByContact(const char* wlid, TInfoType type)
 
 GCThreadData* CMsnProto::MSN_GetThreadByChatId(const TCHAR* chatId)
 {
-	mir_cslock lck(m_csThreads);
+	if (mir_tstrlen(chatId) == 0)
+		return NULL;
 
+	mir_cslock lck(m_csThreads);
 	for (int i = 0; i < m_arGCThreads.getCount(); i++) {
 		GCThreadData *T = m_arGCThreads[i];
 		if (_tcsicmp(T->mChatID, chatId) == 0)

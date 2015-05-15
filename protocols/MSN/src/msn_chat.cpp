@@ -83,16 +83,16 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 
 void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 {
-	const char *pszID, *pszCreator;
-	GCThreadData* info;
+	const char *pszCreator;
+	
 	int j;
 
 	if (!strcmp(xmli->txt, "thread")) return;
 	
 	// If Chat ID already exists, don'T create a new one
-	pszID = ezxml_txt(ezxml_child(xmli, "id"));
-	if (!(*pszID && (info = MSN_GetThreadByChatId(_A2T(pszID)))))
-	{
+	const char *pszID = ezxml_txt(ezxml_child(xmli, "id"));
+	GCThreadData* info = MSN_GetThreadByChatId(_A2T(pszID));
+	if (info = NULL) {
 		info = new GCThreadData;
 		{
 			mir_cslock lck(m_csThreads);
@@ -466,17 +466,9 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				delete cont;
 			}
 			else {
-				/*
-				if (tEmail[0]) cont->insertn(tEmail);
-				param->ppro->MsgQueue_Add("chat", 'X', NULL, 0, NULL, 0, cont);
-				if (param->ppro->msnLoggedIn)
-					param->ppro->msnNsThread->sendPacket("XFR", "SB");
-				*/
-				CMStringA buf;
-				int myNetId = param->ppro->GetMyNetID();
-
 				/* Group chats only work for Skype users */
-				buf.AppendFormat("<thread><id></id><members><member><mri>%d:%s</mri><role>admin</role></member>", 
+				CMStringA buf;
+				buf.AppendFormat("<thread><id></id><members><member><mri>%d:%s</mri><role>admin</role></member>",
 					NETID_SKYPE, param->ppro->GetMyUsername(NETID_SKYPE));
 				for (int i = 0; i < cont->getCount(); ++i) {
 					// TODO: Add support for assigning role in invite dialog maybe?
