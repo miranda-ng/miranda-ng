@@ -82,6 +82,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Dropbox", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Skype", "..\protocols\SkypeWeb\proto_skype\Proto_Skype.vcxproj", "{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Tox", "..\protocols\Tox\proto_tox\Proto_Tox.vcxproj", "{129A4E61-E476-45E8-BD50-5E03BA80E9AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -410,6 +412,14 @@ Global
 		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|Win32.Build.0 = Release|Win32
 		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|x64.ActiveCfg = Release|x64
 		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|x64.Build.0 = Release|x64
+		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Debug|Win32.Build.0 = Debug|Win32
+		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Debug|x64.ActiveCfg = Debug|x64
+		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Debug|x64.Build.0 = Debug|x64
+		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Release|Win32.ActiveCfg = Release|Win32
+		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Release|Win32.Build.0 = Release|Win32
+		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Release|x64.ActiveCfg = Release|x64
+		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
