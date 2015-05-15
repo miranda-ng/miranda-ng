@@ -92,7 +92,7 @@ void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 	// If Chat ID already exists, don'T create a new one
 	const char *pszID = ezxml_txt(ezxml_child(xmli, "id"));
 	GCThreadData* info = MSN_GetThreadByChatId(_A2T(pszID));
-	if (info = NULL) {
+	if (info == NULL) {
 		info = new GCThreadData;
 		{
 			mir_cslock lck(m_csThreads);
