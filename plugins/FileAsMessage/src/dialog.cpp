@@ -66,24 +66,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 {
 	MCONTACT hContact = PUGetContact(hWnd);
 	HWND hDlg = (HWND)PUGetPluginData(hWnd);
-	/*
-		if(hContact)
-		{
-		CLISTEVENT *lpcle;
-		int indx = 0;
-		for(;;)
-		{
-		if((lpcle = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, hContact, indx)) == NULL)
-		break;
-		if(mir_tstrcmp(lpcle->pszService, SERVICE_NAME "/FERecvFile") == 0)
-		{
-		lpcle->lParam = (LPARAM)hWnd;
-		break;
-		}
-		indx++;
-		}
-		}
-		*/
+
 	switch (message) {
 	case WM_COMMAND:
 	{
@@ -423,11 +406,11 @@ void FILEECHO::sendReq()
 		return;
 	}
 	///!!!!!!!
-	char *p = filename + strlen(filename);
+	char *p = filename + mir_strlen(filename);
 	while (p != filename && *p != '\\')
 		p--;
 	if (*p == '\\')
-		strcpy(filename, p + 1);
+		mir_strcpy(filename, p + 1);
 
 	mir_snprintf(sendbuf, SIZEOF(sendbuf), Translate("Size: %d bytes"), fileSize);
 	SetDlgItemText(hDlg, IDC_FILESIZE, sendbuf);
@@ -446,9 +429,9 @@ void FILEECHO::incomeRequest(char *param)
 	char *p = strchr(param, '?');
 	if (p == NULL) return; *p++ = 0;
 	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)buf);
-	strncat(buf, param, sizeof(buf));
+	mir_strncat(buf, param, SIZEOF(buf));
 	free(filename);
-	filename = strdup(buf);
+	filename = mir_strdup(buf);
 	// p == &c
 	if (*p == 0) return; asBinary = (*p++) != '0';
 	if (*p == 0) return; codeSymb = *p++;
@@ -631,7 +614,7 @@ void FILEECHO::onSendTimer()
 	else
 	{
 		ptrA enc(mir_base64_encode(data, data_end - data));
-		strncpy((char*)buffer, enc, chunkMaxLen * 2);
+		mir_strncpy((char*)buffer, enc, chunkMaxLen * 2);
 	}
 
 	char prefix[128];
@@ -865,9 +848,9 @@ int FILEECHO::sendCmd(int id, int cmd, char *szParam, char *szPrefix)
 {
 	char *buf;
 	int retval;
-	int buflen = (int)_tcslen(szServicePrefix) + (int)_tcslen(szParam) + 2;
+	int buflen = (int)mir_tstrlen(szServicePrefix) + (int)mir_tstrlen(szParam) + 2;
 	if (szPrefix != NULL)
-		buflen += (int)_tcslen(szPrefix);
+		buflen += (int)mir_tstrlen(szPrefix);
 
 	buf = (char*)malloc(buflen);
 	if (szPrefix == NULL)
@@ -886,7 +869,7 @@ void CreateDirectoryTree(char *szDir)
 	DWORD dwAttributes;
 	char *pszLastBackslash, szTestDir[MAX_PATH];
 
-	strncpy_s(szTestDir, szDir, _TRUNCATE);
+	mir_strncpy(szTestDir, szDir, _TRUNCATE);
 	if ((dwAttributes = GetFileAttributes(szTestDir)) != 0xffffffff && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return;
 	pszLastBackslash = strrchr(szTestDir, '\\');
@@ -1186,7 +1169,7 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (size != -1)
 				mir_snprintf(str, SIZEOF(str), Translate("Size: %d bytes"), size);
 			else
-				strncpy_s(str, Translate("Can't get a file size"), _TRUNCATE);
+				mir_strncpy(str, Translate("Can't get a file size"), _TRUNCATE);
 			SetDlgItemText(hDlg, IDC_FILESIZE, str);
 
 			break;

@@ -2,12 +2,12 @@ extern HINSTANCE hInst;
 
 int getMsgId(char *msg);
 
-INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam );
+INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 #ifdef _DEBUG
-	#define CHECKPOINT
+#define CHECKPOINT
 #else
-	#define CHECKPOINT error
+#define CHECKPOINT error
 #endif
 
 #define TIMER_SEND	100
@@ -20,13 +20,13 @@ enum
 	CMD_REQ,
 	CMD_ACCEPT,
 	CMD_CANCEL,
-	
+
 	CMD_NEXT,
-	
+
 	CMD_DATA,
 	CMD_DACK,
 	CMD_END,
-	
+
 	CMD_COUNT
 };
 
@@ -95,13 +95,13 @@ public:
 	void setState(DWORD state);
 	void updateProgress();
 	void updateTitle();
-	
+
 	void perform(char *str);
 	void cmdACCEPT();
 	void cmdDACK(char *data);
 	void sendReq();
 	int  sendCmd(int id, int cmd, char *szParam, char *szPrefix = NULL);
-	
+
 	void cmdDATA(char *data);
 	void cmdEND();
 
@@ -111,7 +111,7 @@ public:
 	void onSendTimer();
 	void onRecvTimer();
 	void incomeRequest(char *data);
-	
+
 };
 
 void InitCRC32();
