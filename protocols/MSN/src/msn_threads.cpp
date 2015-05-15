@@ -213,7 +213,7 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 				else
 					peol++;
 
-				info->mBytesInData -= msgLen;
+				info->mBytesInData -= peol - info->mData;
 				memmove(info->mData, peol, info->mBytesInData);
 				debugLogA("RECV: %s", msg);
 

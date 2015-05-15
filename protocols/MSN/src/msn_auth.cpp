@@ -583,7 +583,7 @@ static int CopyCookies(NETLIBHTTPREQUEST *nlhrReply, NETLIBHTTPHEADER *hdr)
 	service::contacts.msn.com::MBI_SSL	- Contact SOAP service -> authContactToken
 	service::m.hotmail.com::MBI_SSL     - ActiveSync contactlist, not used by us
 	service::storage.live.com::MBI_SSL  - Storage service (authStorageToken)
-	service::skype.com::MBI_SSL			- ?
+	service::skype.com::MBI_SSL			- Root of all OAuth tokens
 	service::skype.net::MBI_SSL			- ?
 */
 bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService, char *pszAccessToken, char *pszOutRefreshToken, time_t *ptExpires)
@@ -815,19 +815,17 @@ int CMsnProto::MSN_AuthOAuth(void)
 								/* Do Login via Skype login server, if not possible switch to SkypeWebExperience login */
 								if ((loginRet = LoginSkypeOAuth(pRefreshToken))<1) {
 									if (loginRet<0) bLogin=true; else retVal = 0;
-								}
-
-								/* Request required tokens */
-								if (RefreshOAuth(pRefreshToken, "service::ssl.live.com::MBI_SSL", szToken)) {
-									replaceStr(authSSLToken, szToken);
-									if (RefreshOAuth(pRefreshToken, "service::contacts.msn.com::MBI_SSL", szToken)) {
-										replaceStr(authContactToken, szToken);
-										if (!bLogin) {
-											authMethod=retVal=1;
+								} else {
+									/* SkyLogin succeeded, request required tokens */
+									if (RefreshOAuth(pRefreshToken, "service::ssl.live.com::MBI_SSL", szToken)) {
+										replaceStr(authSSLToken, szToken);
+										if (RefreshOAuth(pRefreshToken, "service::contacts.msn.com::MBI_SSL", szToken)) {
+											replaceStr(authContactToken, szToken);
 											replaceStr(authUser, MyOptions.szEmail);
+											authMethod=retVal=1;
 										}
-									} else bLogin=false;
-								} else bLogin=false;
+									}
+								}
 
 
 								/* If you need Skypewebexperience login, as i.e. skylogin.dll is not available, we do this here */
@@ -857,6 +855,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 												pMappingContainer+=20;
 												UrlDecode(pMappingContainer);
 												replaceStr(authUIC, pMappingContainer);
+												replaceStr(authUser, MyOptions.szEmail);
 												MSN_GetPassportAuth();
 												authMethod = retVal = 2;
 											} else retVal = 0;
