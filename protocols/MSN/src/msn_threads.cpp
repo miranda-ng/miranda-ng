@@ -207,7 +207,7 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 					break;  //wait for full line end
 
 				char msg[1024];
-				strncpy_s(msg, info->mData, _TRUNCATE);
+				strncpy_s(msg, info->mData, msgLen);
 
 				if (*++peol != '\n')
 					debugLogA("Dodgy line ending to command: ignoring");

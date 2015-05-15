@@ -923,8 +923,7 @@ bool CMsnProto::MSN_ABRefreshClist(void)
 						}
 						else continue;
 						
-						if (mir_strlen(szEmail) == 0)
-							continue;
+						if (!*szEmail) continue;
 
 						ezxml_t xmlnick = ezxml_child(pers, "nickname");
 						const char *pszNickname = xmlnick?xmlnick->txt:NULL;
