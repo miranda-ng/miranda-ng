@@ -421,6 +421,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HwHotKeys", "..\plugins\HwH
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeWeb", "..\protocols\SkypeWeb\SkypeWeb.vcxproj", "{66A9BDEB-150F-45DC-B20F-9892C0B43834}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tox", "..\protocols\Tox\Tox.vcxproj", "{BCFAB658-326E-466D-995B-E76636C1DEA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1897,6 +1899,14 @@ Global
 		{66A9BDEB-150F-45DC-B20F-9892C0B43834}.Release|Win32.Build.0 = Release|Win32
 		{66A9BDEB-150F-45DC-B20F-9892C0B43834}.Release|x64.ActiveCfg = Release|x64
 		{66A9BDEB-150F-45DC-B20F-9892C0B43834}.Release|x64.Build.0 = Release|x64
+		{BCFAB658-326E-466D-995B-E76636C1DEA4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BCFAB658-326E-466D-995B-E76636C1DEA4}.Debug|Win32.Build.0 = Debug|Win32
+		{BCFAB658-326E-466D-995B-E76636C1DEA4}.Debug|x64.ActiveCfg = Debug|x64
+		{BCFAB658-326E-466D-995B-E76636C1DEA4}.Debug|x64.Build.0 = Debug|x64
+		{BCFAB658-326E-466D-995B-E76636C1DEA4}.Release|Win32.ActiveCfg = Release|Win32
+		{BCFAB658-326E-466D-995B-E76636C1DEA4}.Release|Win32.Build.0 = Release|Win32
+		{BCFAB658-326E-466D-995B-E76636C1DEA4}.Release|x64.ActiveCfg = Release|x64
+		{BCFAB658-326E-466D-995B-E76636C1DEA4}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
