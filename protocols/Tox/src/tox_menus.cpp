@@ -14,17 +14,15 @@ int CToxProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		return 0;
 
 	bool isCtrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
-	bool isAuthNeed = getByte(hContact, "Auth", 0) > 0;
-	bool isGrantNeed = getByte(hContact, "Grant", 0) > 0;
-	//bool isOffline = GetContactStatus(hContact) == ID_STATUS_OFFLINE;
-	//bool isLongOffline = ((time(NULL) - getDword(hContact, "LastEventDateTS", 0)) / (1000 * 60 * 60 * 24 * 7)) > 0;
-	//bool hasDnsID = mir_strlen(ptrA(getStringA(hContact, TOX_SETTINGS_DNS))) > 0;
 
+	bool isAuthNeed = getByte(hContact, "Auth", 0) > 0;
 	Menu_ShowItem(ContactMenuItems[CMI_AUTH_REQUEST], isCtrlPressed || isAuthNeed);
+
+	bool isGrantNeed = getByte(hContact, "Grant", 0) > 0;
 	Menu_ShowItem(ContactMenuItems[CMI_AUTH_GRANT], isCtrlPressed || isGrantNeed);
 
 	bool isContactOnline = GetContactStatus(hContact) > ID_STATUS_OFFLINE;
-	Menu_ShowItem(ContactMenuItems[CMI_AUDIO_CALL], isContactOnline);
+	Menu_ShowItem(ContactMenuItems[CMI_AUDIO_CALL], toxAv && isContactOnline);
 
 	return 0;
 }

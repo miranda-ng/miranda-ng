@@ -9,13 +9,13 @@ std::tstring CToxProto::GetAvatarFilePath(MCONTACT hContact)
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
 
-	ptrT id(getTStringA(hContact, TOX_SETTINGS_ID));
-	if (hContact != NULL)
-		mir_sntprintf(path, MAX_PATH, _T("%s\\%s.png"), path, id);
-	else if (id != NULL)
-		mir_sntprintf(path, MAX_PATH, _T("%s\\%s avatar.png"), path, id);
-	else
+	ptrT address(getTStringA(hContact, TOX_SETTINGS_ID));
+	if (address == NULL)
 		return _T("");
+
+	if (hContact && mir_tstrlen(address) > TOX_PUBLIC_KEY_SIZE * 2)
+		address[TOX_PUBLIC_KEY_SIZE * 2] = 0;
+	mir_sntprintf(path, MAX_PATH, _T("%s\\%s.png"), path, address);
 
 	return path;
 }
@@ -197,7 +197,8 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 				}
 
 				TOX_ERR_FILE_SEND error;
-				if (!tox_file_send(tox, friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, &error))
+				tox_file_send(tox, friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, &error);
+				if (error != TOX_ERR_FILE_SEND_OK)
 				{
 					debugLogA(__FUNCTION__": failed to unset avatar");
 					return -1;
@@ -218,13 +219,14 @@ void CToxProto::OnGotFriendAvatarInfo(AvatarTransferParam *transfer)
 {
 	if (transfer->pfts.totalBytes == 0)
 	{
-		std::tstring path = GetAvatarFilePath(transfer->pfts.hContact);
+		MCONTACT hConact = transfer->pfts.hContact;
+		std::tstring path = GetAvatarFilePath(hConact);
 		if (IsFileExists(path))
 			DeleteFile(path.c_str());
 
-		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, 0, 0);
-		delSetting(transfer->pfts.hContact, TOX_SETTINGS_AVATAR_HASH);
 		transfers.Remove(transfer);
+		delSetting(hConact, TOX_SETTINGS_AVATAR_HASH);
+		ProtoBroadcastAck(hConact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, 0, 0);
 		return;
 	}
 

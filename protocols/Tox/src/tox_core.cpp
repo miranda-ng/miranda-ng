@@ -60,7 +60,7 @@ bool CToxProto::InitToxCore()
 		// group chats
 		//tox_callback_group_invite(tox, OnGroupChatInvite, this);
 		// a/v
-		toxAv = toxav_new(tox, TOX_MAX_CALLS);
+		/*toxAv = toxav_new(tox, TOX_MAX_CALLS);
 		toxav_register_audio_callback(toxAv, OnFriendAudio, this);
 		toxav_register_callstate_callback(toxAv, OnAvInvite, av_OnInvite, this);
 		toxav_register_callstate_callback(toxAv, OnAvStart, av_OnStart, this);
@@ -68,7 +68,7 @@ bool CToxProto::InitToxCore()
 		toxav_register_callstate_callback(toxAv, OnAvReject, av_OnReject, this);
 		toxav_register_callstate_callback(toxAv, OnAvEnd, av_OnEnd, this);
 		toxav_register_callstate_callback(toxAv, OnAvCallTimeout, av_OnRequestTimeout, this);
-		toxav_register_callstate_callback(toxAv, OnAvPeerTimeout, av_OnPeerTimeout, this);
+		toxav_register_callstate_callback(toxAv, OnAvPeerTimeout, av_OnPeerTimeout, this);*/
 
 		uint8_t data[TOX_ADDRESS_SIZE];
 		tox_self_get_address(tox, data);

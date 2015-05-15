@@ -143,7 +143,8 @@ void CToxProto::DoTox()
 	{
 		mir_cslock lock(toxLock);
 		tox_iterate(tox);
-		toxav_do(toxAv);
+		if (toxAv)
+			toxav_do(toxAv);
 	}
 	uint32_t interval = tox_iteration_interval(tox);
 	Sleep(interval);

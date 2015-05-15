@@ -51,9 +51,7 @@ struct FileTransferParam
 	~FileTransferParam()
 	{
 		if (pfts.tszWorkingDir != NULL)
-		{
 			mir_free(pfts.tszWorkingDir);
-		}
 		mir_free(pfts.pszFiles[0]);
 		mir_free(pfts.pszFiles);
 		if (hFile != NULL)
