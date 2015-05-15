@@ -311,9 +311,9 @@ struct HReadBuffer
 	BYTE* surelyRead(size_t parBytes);
 
 	ThreadData* owner;
-	BYTE*			buffer;
-	size_t			totalDataSize;
-	size_t			startOffset;
+	BYTE* buffer;
+	size_t totalDataSize;
+	size_t startOffset;
 };
 
 enum TInfoType
