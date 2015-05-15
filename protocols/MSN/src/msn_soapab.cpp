@@ -909,19 +909,21 @@ bool CMsnProto::MSN_ABRefreshClist(void)
 					if (mycid && !strcmp(cid, mycid)) continue;
 
 					for (ezxml_t cont = ezxml_get(pers, "contacts", 0, "Contact", -1); cont != NULL; cont = ezxml_next(cont)) {
-						int netId = NETID_UNKNOWN;
+						int netId;
 						const char* szEmail;
 
 						const char *src = ezxml_txt(ezxml_child(cont, "sourceId"));
 						if (!strcmp(src, "WL")) {
 							netId = NETID_MSN;
 							szEmail = ezxml_txt(ezxml_child(cont, "domainTag"));
-						} else if (!strcmp(src, "SKYPE")) {
+						}
+						else if (!strcmp(src, "SKYPE")) {
 							netId = NETID_SKYPE;
 							szEmail = ezxml_txt(ezxml_child(cont, "objectId"));
 						}
+						else continue;
 						
-						if (netId == NETID_UNKNOWN || szEmail[0] == 0)
+						if (mir_strlen(szEmail) == 0)
 							continue;
 
 						ezxml_t xmlnick = ezxml_child(pers, "nickname");

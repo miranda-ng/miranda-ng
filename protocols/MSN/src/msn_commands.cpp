@@ -323,7 +323,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	}
 
 	int msgBytes;
-	char *nick = NULL, *email;
+	char *nick = NULL, *email = NULL;
 	TCHAR *mChatID = NULL;
 	bool ubmMsg = strncmp(cmdString, "UBM", 3) == 0;
 	bool sdgMsg = strncmp(cmdString, "SDG", 3) == 0;
@@ -331,8 +331,10 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 	if (sdgMsg) {
 		msgBytes = atol(datas.strMsgBytes);
-		if (stricmp(datas.typeId, "MSGR")) return;
-	} else  {
+		if (stricmp(datas.typeId, "MSGR"))
+			return;
+	}
+	else {
 		if (ubmMsg) {
 			msgBytes = atol(datau.strMsgBytes);
 			nick = datau.fromEmail;
