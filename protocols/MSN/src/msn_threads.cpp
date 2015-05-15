@@ -678,6 +678,8 @@ HReadBuffer::~HReadBuffer()
 		owner->mBytesInData = (int)totalDataSize;
 	}
 	else owner->mBytesInData = 0;
+
+	buffer[owner->mBytesInData] = 0;
 }
 
 BYTE* HReadBuffer::surelyRead(size_t parBytes)

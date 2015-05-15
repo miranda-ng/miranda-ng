@@ -56,9 +56,9 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 
 	case ERR_CONTACT_LIST_FAILED:
 	case ERR_LIST_UNAVAILABLE:
-		char* tWords[3];
-		if (sttDivideWords(cmdString, 3, tWords) == 3)
-			HReadBuffer(info, 0).surelyRead(atol(tWords[2]));
+		char* tWords[4];
+		if (sttDivideWords(cmdString, SIZEOF(tWords), tWords) == SIZEOF(tWords))
+			HReadBuffer(info, 0).surelyRead(atol(tWords[3]));
 		return 0;
 
 	case ERR_NOT_ONLINE:
