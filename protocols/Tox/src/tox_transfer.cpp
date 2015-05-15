@@ -277,6 +277,7 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 	}
 
 	transfer->pfts.totalProgress = transfer->pfts.currentFileProgress += length;
+	proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)transfer, (LPARAM)&transfer->pfts);
 
 	mir_free(data);
 }
