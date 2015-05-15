@@ -423,7 +423,11 @@ int ChangeAvatar(MCONTACT hContact, bool fLoad, bool fNotifyHist, int pa_format)
 		PushAvatarRequest(node);
 		SetEvent(hLoaderEvent);
 	}
-	else node->wipeInfo();
+	else {
+		node->wipeInfo();
+		NotifyMetaAware(hContact, node);
+	}
+
 	return 0;
 }
 
