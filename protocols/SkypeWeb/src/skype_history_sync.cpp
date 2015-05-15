@@ -240,7 +240,9 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
 		{
 			skypename = ContactUrlToName(conversationLink);
-			MCONTACT hContact = AddContact(skypename, true);
+			MCONTACT hContact = FindContact(skypename);
+			if (hContact == NULL)
+				continue;
 
 			if (/*GetLastMessageTime(hContact) < composeTime || */db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) < composeTime)
 			{
