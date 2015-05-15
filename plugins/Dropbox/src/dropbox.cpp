@@ -47,12 +47,10 @@ MCONTACT CDropbox::GetDefaultContact()
 			db_set_s(NULL, MODULE, "Nick", MODULE);
 			db_set_s(hDefaultContact, MODULE, "Nick", MODULE);
 			db_set_ws(hDefaultContact, "CList", "MyHandle", L"Dropbox");
-
-			int status = db_get_w(hDefaultContact, MODULE, "Status", ID_STATUS_OFFLINE);
-			if (HasAccessToken() && status == ID_STATUS_OFFLINE)
-				db_set_w(hDefaultContact, MODULE, "Status", ID_STATUS_ONLINE);
 		}
 	}
+
+	db_set_w(hDefaultContact, MODULE, "Status", HasAccessToken() ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
 
 	return hDefaultContact;
 }
@@ -139,7 +137,7 @@ void CDropbox::DestroyAccessToken()
 	db_unset(NULL, MODULE, "TokenSecret");
 	MCONTACT hContact = CDropbox::GetDefaultContact();
 	if (hContact)
-		if (db_get_w(hContact, MODULE, "Status", ID_STATUS_ONLINE) == ID_STATUS_ONLINE)
+		if (db_get_w(hContact, MODULE, "Status", ID_STATUS_ONLINE) != ID_STATUS_OFFLINE)
 			db_set_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE);
 
 	ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_ONLINE, (WPARAM)ID_STATUS_OFFLINE);
@@ -194,7 +192,7 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 	MCONTACT hContact = instance->GetDefaultContact();
 	if (hContact)
 	{
-		if (db_get_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+		if (db_get_w(hContact, MODULE, "Status", ID_STATUS_OFFLINE) != ID_STATUS_ONLINE)
 			db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
 	}
 
