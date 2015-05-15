@@ -107,7 +107,7 @@ CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny)
 // can display the message either as systray notification (baloon popup) or using the
 // popup plugin.
 
-void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY *ace = (AVATARCACHEENTRY*)-1)
+void NotifyMetaAware(MCONTACT hContact, CacheNode *node, AVATARCACHEENTRY *ace)
 {
 	if (g_shutDown)
 		return;

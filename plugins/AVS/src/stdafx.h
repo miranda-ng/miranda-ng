@@ -133,6 +133,7 @@ void UnloadCache(void);
 int  CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto);
 void DeleteAvatarFromCache(MCONTACT hContact, bool bForever);
 void PicLoader(LPVOID param);
+void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY *ace = (AVATARCACHEENTRY*)-1);
 
 void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bmHeight, DWORD dwFlags);
 
