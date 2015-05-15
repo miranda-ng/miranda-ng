@@ -14,9 +14,9 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 		{
 		case TOX_FILE_KIND_AVATAR:
 		{
-			ptrT id(proto->getTStringA(hContact, TOX_SETTINGS_ID));
+			ptrT address(proto->getTStringA(hContact, TOX_SETTINGS_ID));
 			TCHAR avatarName[MAX_PATH];
-			mir_sntprintf(avatarName, MAX_PATH, _T("%s.png"), id);
+			mir_sntprintf(avatarName, MAX_PATH, _T("%s.png"), address);
 			
 			AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, avatarName, fileSize);
 			transfer->pfts.hContact = hContact;
@@ -246,9 +246,7 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 		proto->debugLogA(__FUNCTION__": finised the transfer of file (%d)", fileNumber);
 		bool isFileFullyTransfered = transfer->pfts.currentFileProgress == transfer->pfts.currentFileSize;
 		if (!isFileFullyTransfered)
-		{
-			proto->debugLogA(__FUNCTION__": file (%d) is transferred not completely", fileNumber);
-		}
+			proto->debugLogA(__FUNCTION__": file (%d) is not completely transferred", fileNumber);
 		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, isFileFullyTransfered ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)transfer, 0);
 		proto->transfers.Remove(transfer);
 		return;
@@ -278,7 +276,7 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 		return;
 	}
 
-	transfer->pfts.totalProgress = transfer->pfts.currentFileProgress = length;
+	transfer->pfts.totalProgress = transfer->pfts.currentFileProgress += length;
 
 	mir_free(data);
 }

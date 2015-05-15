@@ -415,9 +415,7 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 {
 	if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)m_szModuleName))
-	{
 		return 0;
-	}
 
 	MCONTACT hContact = lParam;
 	char *szProto = GetContactProto(hContact);
