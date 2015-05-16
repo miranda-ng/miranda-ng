@@ -832,7 +832,7 @@ LRESULT CALLBACK EditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				}
 			}
 			ft.chrg.cpMin = LONG(res);
-			ft.chrg.cpMax = LONG(res + _tcslen(fr->lpstrFindWhat));
+			ft.chrg.cpMax = LONG(res + mir_tstrlen(fr->lpstrFindWhat));
 			SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&ft.chrg);
 			return 0;
 		}
@@ -912,7 +912,7 @@ void SetRichEditFont(HWND hRichEdit, bool bUseSyntaxHL)
 	ncf.dwMask = CFM_BOLD | CFM_FACE | CFM_ITALIC | CFM_SIZE | CFM_UNDERLINE;
 	ncf.dwEffects = db_get_dw(NULL, MODULE, szFileViewDB "TEffects", 0);
 	ncf.yHeight = db_get_dw(NULL, MODULE, szFileViewDB "THeight", 165);
-	_tcscpy(ncf.szFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", _T("Courier New")).c_str());
+	mir_tstrcpy(ncf.szFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", _T("Courier New")).c_str());
 
 	if (!bUseSyntaxHL) {
 		ncf.dwMask |= CFM_COLOR;
@@ -1040,7 +1040,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			lf.lfStrikeOut = (dwEffects & CFE_STRIKEOUT) != 0;
 			lf.lfItalic = (dwEffects & CFE_ITALIC) != 0;
 
-			_tcscpy(lf.lfFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", _T("Courier New")).c_str());
+			mir_tstrcpy(lf.lfFaceName, _DBGetString(NULL, MODULE, szFileViewDB "TFace", _T("Courier New")).c_str());
 			CHOOSEFONT cf = { 0 };
 			cf.lStructSize = sizeof(cf);
 			cf.hwndOwner = hwndDlg;

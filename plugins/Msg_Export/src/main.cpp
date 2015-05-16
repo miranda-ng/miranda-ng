@@ -40,7 +40,7 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {46102B07-C215-4162-9C83-D377881DA7CC}
-	{0x46102b07, 0xc215, 0x4162, {0x9c, 0x83, 0xd3, 0x77, 0x88, 0x1d, 0xa7, 0xcc}}
+	{ 0x46102b07, 0xc215, 0x4162, { 0x9c, 0x83, 0xd3, 0x77, 0x88, 0x1d, 0xa7, 0xcc } }
 };
 
 
@@ -112,7 +112,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	HookEvent(ME_DB_CONTACT_DELETED, nContactDeleted);
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 
-	if ( !bReplaceHistory)
+	if (!bReplaceHistory)
 	{
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = 0;
@@ -123,7 +123,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 		mi.pszService = MS_SHOW_EXPORT_HISTORY;
 		hOpenHistoryMenuItem = Menu_AddContactMenuItem(&mi);
 
-		if ( !hOpenHistoryMenuItem)
+		if (!hOpenHistoryMenuItem)
 			MessageBox(NULL, TranslateT("Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)"), MSG_BOX_TITEL, MB_OK);
 	}
 
@@ -192,10 +192,10 @@ extern "C" __declspec(dllexport) int Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 
 	nMaxLineWidth = db_get_w(NULL, MODULE, "MaxLineWidth", nMaxLineWidth);
-	if(nMaxLineWidth < 5)
+	if (nMaxLineWidth < 5)
 		nMaxLineWidth = 5;
 
-	sExportDir  = _DBGetString(NULL, MODULE, "ExportDir", _T("%dbpath%\\MsgExport\\"));
+	sExportDir = _DBGetString(NULL, MODULE, "ExportDir", _T("%dbpath%\\MsgExport\\"));
 	sDefaultFile = _DBGetString(NULL, MODULE, "DefaultFile", _T("%nick%.txt"));
 
 	sTimeFormat = _DBGetString(NULL, MODULE, "TimeFormat", _T("d s"));
@@ -215,7 +215,7 @@ extern "C" __declspec(dllexport) int Load()
 	if (bReplaceHistory)
 		hServiceFunñ = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowExportHistory); //this need new code
 
-	if ( !hServiceFunñ)
+	if (!hServiceFunñ)
 		hServiceFunñ = CreateServiceFunction(MS_SHOW_EXPORT_HISTORY, ShowExportHistory);
 
 	hInternalWindowList = WindowList_Create();
