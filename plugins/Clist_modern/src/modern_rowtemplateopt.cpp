@@ -326,7 +326,7 @@ void RefreshTree(HWND hwndDlg, HTREEITEM hti)
 				else
 					mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s, contain %s"), TranslateTS(types[cell->type]), cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines"));
 			}
-			if (cell->layer) mir_tstrncat(buf, TranslateT(" layered"), _TRUNCATE);
+			if (cell->layer) mir_tstrncat(buf, TranslateT(" layered"), SIZEOF(buf) - mir_tstrlen(buf));
 			tvi.mask = TVIF_HANDLE | TVIF_TEXT;
 			tvi.pszText = buf;
 			TreeView_SetItem(htree, &tvi);
