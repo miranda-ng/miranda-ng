@@ -83,7 +83,7 @@ void CSmileyString::AddListeningToIcon(SHORTDATA *dat, TCHAR *szText)
 	if (szText == NULL)
 		return;
 
-	int text_size = (int)_tcslen(szText);
+	int text_size = (int)mir_tstrlen(szText);
 
 	plText = List_Create(0, 1);
 
@@ -189,7 +189,7 @@ void CSmileyString::ReplaceSmileys(SHORTDATA *dat, ClcCacheEntry *pdnce, TCHAR *
 	if (!dat->text_replace_smileys || !replace_smileys || szText == NULL)
 		return;
 
-	int text_size = (int)_tcslen(szText);
+	int text_size = (int)mir_tstrlen(szText);
 
 	// Call service for the first time to see if needs to be used...
 	SMADD_BATCHPARSE2 sp = { 0 };
@@ -304,7 +304,7 @@ int GetStatusName(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus
 	// Get Status name
 	TCHAR *tmp = pcli->pfnGetStatusModeDescription(nStatus, 0);
 	if (tmp && *tmp) {
-		_tcsncpy_s(text, text_size, tmp, _TRUNCATE);
+		mir_tstrncpy(text, tmp, text_size);
 		return 1;
 	}
 
@@ -459,7 +459,7 @@ int Cache_GetLineText(
 			// Try to get XStatusName
 			if (!db_get_ts(pdnce->hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) {
 				if (dbv.ptszVal != NULL && dbv.ptszVal[0] != 0)
-					_tcsncpy_s(text, text_size, dbv.ptszVal, _TRUNCATE);
+					mir_tstrncpy(text, dbv.ptszVal, text_size);
 				CopySkipUnprintableChars(text, text, text_size - 1);
 				db_free(&dbv);
 			}
@@ -484,13 +484,13 @@ int Cache_GetLineText(
 		return TEXT_LISTENING_TO;
 
 	case TEXT_TEXT:
-		{
-			TCHAR *tmp = variables_parsedup(variable_text, pdnce->tszName, pdnce->hContact);
-			mir_tstrncpy(text, tmp, text_size);
-			mir_free(tmp);
-			CopySkipUnprintableChars(text, text, text_size - 1);
-		}
-		return TEXT_TEXT;
+	{
+		TCHAR *tmp = variables_parsedup(variable_text, pdnce->tszName, pdnce->hContact);
+		mir_tstrncpy(text, tmp, text_size);
+		mir_free(tmp);
+		CopySkipUnprintableChars(text, text, text_size - 1);
+	}
+	return TEXT_TEXT;
 
 	case TEXT_CONTACT_TIME:
 		if (pdnce->hTimeZone) {
@@ -523,7 +523,7 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 			db_free(&dbv);
 
 			// They are the same -> use the name to keep the case
-			if (_tcsicmp(name, nick) == 0)
+			if (mir_tstrcmpi(name, nick) == 0)
 				mir_tstrncpy(contact->szText, name, SIZEOF(contact->szText));
 			else
 				// Append then
@@ -551,8 +551,8 @@ void Cache_GetSecondLineText(SHORTDATA *dat, ClcCacheEntry *pdnce)
 
 	if (dat->second_line_show)
 		type = Cache_GetLineText(pdnce, dat->second_line_type, Text, SIZEOF(Text), dat->second_line_text,
-			dat->second_line_xstatus_has_priority, dat->second_line_show_status_if_no_away, dat->second_line_show_listening_if_no_away,
-			dat->second_line_use_name_and_message_for_xstatus, dat->contact_time_show_only_if_different);
+		dat->second_line_xstatus_has_priority, dat->second_line_show_status_if_no_away, dat->second_line_show_listening_if_no_away,
+		dat->second_line_use_name_and_message_for_xstatus, dat->contact_time_show_only_if_different);
 
 	Text[SIZEOF(Text) - 1] = 0; //to be sure that it is null terminated string
 
@@ -575,8 +575,8 @@ void Cache_GetThirdLineText(SHORTDATA *dat, ClcCacheEntry *pdnce)
 	int type = TEXT_EMPTY;
 	if (dat->third_line_show)
 		type = Cache_GetLineText(pdnce, dat->third_line_type, Text, SIZEOF(Text), dat->third_line_text,
-			dat->third_line_xstatus_has_priority, dat->third_line_show_status_if_no_away, dat->third_line_show_listening_if_no_away,
-			dat->third_line_use_name_and_message_for_xstatus, dat->contact_time_show_only_if_different);
+		dat->third_line_xstatus_has_priority, dat->third_line_show_status_if_no_away, dat->third_line_show_listening_if_no_away,
+		dat->third_line_use_name_and_message_for_xstatus, dat->contact_time_show_only_if_different);
 
 	Text[SIZEOF(Text) - 1] = 0; //to be sure that it is null terminated string
 
@@ -592,8 +592,8 @@ void Cache_GetThirdLineText(SHORTDATA *dat, ClcCacheEntry *pdnce)
 void RemoveTag(TCHAR *to, TCHAR *tag)
 {
 	TCHAR *st = to;
-	int len = (int)_tcslen(tag);
-	int lastsize = (int)_tcslen(to) + 1;
+	int len = (int)mir_tstrlen(tag);
+	int lastsize = (int)mir_tstrlen(to) + 1;
 	while (st = _tcsstr(st, tag)) {
 		lastsize -= len;
 		memmove((void*)st, (void*)(st + len), (lastsize)*sizeof(TCHAR));
@@ -712,7 +712,7 @@ void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 		// Avatar was not ready or removed - need to remove it from cache
 		if (old_pos >= 0) {
 			ImageArray_RemoveImage(&dat->avatar_cache, old_pos);
-			
+
 			// Update all items
 			ExecuteOnAllContacts(dat, ReduceAvatarPosition, (void *)&old_pos);
 			contact->avatar_pos = AVATAR_POS_DONT_HAVE;
@@ -753,7 +753,7 @@ void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 		DrawAvatarImageWithGDIp(hdc, 0, 0, width_clip, height_clip, ace->hbmPic, 0, 0, ace->bmWidth, ace->bmHeight, ace->dwFlags, 255);
 		SelectObject(hdc, oldBmp);
 		DeleteDC(hdc);
-		
+
 		// Add to list
 		if (old_pos >= 0) {
 			ImageArray_ChangeImage(&dat->avatar_cache, hDrawBmp, old_pos);

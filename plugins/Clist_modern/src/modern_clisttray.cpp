@@ -390,8 +390,7 @@ VOID CALLBACK cliTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 		pcli->cycleStep = (pcli->cycleStep + 1) % AccNum;
 		if (pcli->cycleStep == t)
 			return;
-	}
-		while (acc[pcli->cycleStep]->bIsVirtual || !acc[pcli->cycleStep]->bIsVisible);
+	} while (acc[pcli->cycleStep]->bIsVirtual || !acc[pcli->cycleStep]->bIsVisible);
 
 	cliTrayCalcChanged(acc[pcli->cycleStep]->szModuleName, 0, 0);
 }
@@ -531,18 +530,18 @@ int cliTrayIconInit(HWND hwnd)
 		break;
 
 	case TRAY_ICON_MODE_ACC:
-		{
-			ptrA szProto(db_get_sa(NULL, "CList", (!bDiffers) ? "tiAccS" : "tiAccV"));
-			if (!szProto)
-				break;
+	{
+		ptrA szProto(db_get_sa(NULL, "CList", (!bDiffers) ? "tiAccS" : "tiAccV"));
+		if (!szProto)
+			break;
 
-			PROTOACCOUNT *pa = ProtoGetAccount(szProto);
-			if (!pa || !pa->ppro)
-				pcli->pfnTrayIconAdd(hwnd, NULL, NULL, CListTray_GetGlobalStatus(0, 0));
-			else
-				pcli->pfnTrayIconAdd(hwnd, pa->szModuleName, NULL, pa->ppro->m_iStatus);
-		}
-		break;
+		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
+		if (!pa || !pa->ppro)
+			pcli->pfnTrayIconAdd(hwnd, NULL, NULL, CListTray_GetGlobalStatus(0, 0));
+		else
+			pcli->pfnTrayIconAdd(hwnd, pa->szModuleName, NULL, pa->ppro->m_iStatus);
+	}
+	break;
 
 	case TRAY_ICON_MODE_CYCLE:
 		pcli->pfnTrayIconAdd(hwnd, NULL, NULL, CListTray_GetGlobalStatus(0, 0));
@@ -571,33 +570,33 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 {
 	if (!szChangedProto)
 		return -1;
-	
+
 	if (!pcli->trayIconCount)
 		return -1;
-	
+
 	if (!pcli->pfnGetProtocolVisibility(szChangedProto))
 		return -1;
 
 	bool bDiffers, bConn;
 	GetGoodAccNum(&bDiffers, &bConn);
-	
+
 	// if the icon number to be changed, reinitialize module from scratch
 	BYTE Mode = db_get_b(NULL, "CList", (!bDiffers) ? "tiModeS" : "tiModeV", TRAY_ICON_MODE_GLOBAL);
 	if (Mode != OldMode) {
 		OldMode = Mode;
 		pcli->pfnTrayIconIconsChanged();
 	}
-	
+
 	HICON hIcon = NULL;
 	int i = 0, iStatus;
 	char *szProto;
-	
+
 	switch (Mode) {
 	case TRAY_ICON_MODE_GLOBAL:
 		hIcon = pcli->pfnGetIconFromStatusMode(NULL, NULL, CListTray_GetGlobalStatus(0, 0));
 		pcli->pfnTrayIconMakeTooltip(NULL, NULL);
 		break;
-	
+
 	case TRAY_ICON_MODE_ACC:
 		// В этом режиме показывается иконка совершенно определённого аккаунта, и не всегда это szChangedProto.
 		szProto = db_get_sa(NULL, "CList", bDiffers ? "tiAccV" : "tiAccS");
@@ -609,10 +608,10 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szProto, 0);
 		else
 			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szProto, ProtoCallService(szProto, PS_GETSTATUS, 0, 0));
-			
+
 		pcli->pfnTrayIconMakeTooltip(NULL, szProto);
 		break;
-	
+
 	case TRAY_ICON_MODE_CYCLE:
 		iStatus = ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0);
 		if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
@@ -621,11 +620,11 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szChangedProto, ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0));
 		pcli->pfnTrayIconMakeTooltip(NULL, NULL);
 		break;
-	
+
 	case TRAY_ICON_MODE_ALL:
 		// Какой индекс у аккаунта, который будем апдейтить?
 		for (; i < pcli->trayIconCount; i++)
-			if (!strcmp(pcli->trayIcon[i].szProto, szChangedProto))
+			if (!mir_strcmp(pcli->trayIcon[i].szProto, szChangedProto))
 				break;
 
 		iStatus = ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0);
@@ -649,7 +648,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 
 	// if Tipper is missing or turned off for tray, use system tooltips
 	if (!ServiceExists("mToolTip/ShowTip") || !db_get_b(NULL, "Tipper", "TrayTip", 1))
-		lstrcpyn(nid.szTip, pcli->szTip, SIZEOF(nid.szTip));
+		mir_tstrncpy(nid.szTip, pcli->szTip, SIZEOF(nid.szTip));
 
 	Shell_NotifyIcon(NIM_MODIFY, &nid);
 

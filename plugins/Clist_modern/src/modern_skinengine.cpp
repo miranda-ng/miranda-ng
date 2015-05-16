@@ -185,15 +185,15 @@ HRESULT IniParser::WriteStrToDb(const char * szSection, const char * szName, con
 int IniParser::GetSkinFolder(IN const TCHAR * szFileName, OUT TCHAR * pszFolderName)
 {
 	TCHAR *szBuff = mir_tstrdup(szFileName);
-	TCHAR *pszPos = szBuff + _tcslen(szBuff);
+	TCHAR *pszPos = szBuff + mir_tstrlen(szBuff);
 	while (pszPos > szBuff && *pszPos != _T('.')) { pszPos--; }
 	*pszPos = _T('\0');
-	_tcscpy(pszFolderName, szBuff);
+	mir_tstrcpy(pszFolderName, szBuff);
 
 	TCHAR custom_folder[MAX_PATH], cus[MAX_PATH];
 	TCHAR *b3;
-	_tcsncpy(custom_folder, pszFolderName, MAX_PATH-1);
-	b3 = custom_folder + _tcslen(custom_folder);
+	mir_tstrncpy(custom_folder, pszFolderName, SIZEOF(custom_folder));
+	b3 = custom_folder + mir_tstrlen(custom_folder);
 	while (b3 > custom_folder && *b3 != _T('\\')) { b3--; }
 	*b3 = _T('\0');
 
@@ -288,7 +288,7 @@ const char * IniParser::_RemoveTailings(const char * szLine, size_t& len)
 	const char * pStart = szLine;
 	while (*pStart == ' ' || *pStart == '\t')
 		pStart++; //skip spaces at begin
-	const char * pEnd = pStart + strlen(pStart);
+	const char * pEnd = pStart + mir_strlen(pStart);
 	while (pEnd > pStart && (*pEnd == ' ' || *pEnd == '\t' || *pEnd == '\n' || *pEnd == '\r'))
 		pEnd--;
 
@@ -299,7 +299,7 @@ const char * IniParser::_RemoveTailings(const char * szLine, size_t& len)
 BOOL IniParser::_DoParseLine(char *szLine)
 {
 	_nLine++;
-	size_t len = strlen(szLine);
+	size_t len = mir_strlen(szLine);
 	if (len == 0)
 		return TRUE;
 
@@ -322,7 +322,7 @@ BOOL IniParser::_DoParseLine(char *szLine)
 
 			DWORD sectionLen = ebuf - tbuf;
 			_szSection = (char*)mir_alloc(sectionLen + 1);
-			strncpy(_szSection, tbuf, sectionLen);
+			mir_strncpy(_szSection, tbuf, sectionLen);
 			_szSection[sectionLen] = '\0';
 		}
 		return TRUE;
@@ -334,7 +334,7 @@ BOOL IniParser::_DoParseLine(char *szLine)
 		char *keyName = szLine;
 		char *keyValue = szLine;
 
-		size_t eqPlace = 0, len2 = strlen(keyName);
+		size_t eqPlace = 0, len2 = mir_strlen(keyName);
 		while (eqPlace < len2 && keyName[eqPlace] != '=')
 			eqPlace++; //find '='
 
@@ -1382,7 +1382,7 @@ INT_PTR ske_Service_DrawGlyph(WPARAM wParam, LPARAM lParam)
 	LPSKINDRAWREQUEST preq = (LPSKINDRAWREQUEST)wParam;
 	if (preq == NULL)
 		return -1;
-	
+
 	mir_cslock lck(cs_SkinChanging);
 
 	LPSKINOBJECTDESCRIPTOR pgl = (lParam ? ske_FindObjectByMask((MODERNMASK*)lParam, NULL) : ske_FindObject(preq->szObjectID, NULL));
@@ -1462,7 +1462,7 @@ int ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder, BOOL m
 	if (file[0] != '\\' && file[1] != ':')
 		mir_sntprintf(b2, SIZEOF(b2), _T("%s\\%s"), (skinfolder == NULL) ? SkinPlace : ((INT_PTR)skinfolder != -1) ? skinfolder : _T(""), file);
 	else
-		_tcsncpy(b2, file, SIZEOF(b2));
+		mir_tstrncpy(b2, file, SIZEOF(b2));
 
 	if (madeAbsolute) {
 		if (b2[0] == '\\' && b2[1] != '\\')
@@ -1470,7 +1470,7 @@ int ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder, BOOL m
 		else
 			PathToAbsoluteT(b2, buf);
 	}
-	else _tcsncpy(buf, b2, MAX_PATH);
+	else mir_tstrncpy(buf, b2, MAX_PATH);
 
 	mir_free(SkinPlace);
 	return 0;
@@ -1742,7 +1742,7 @@ HBITMAP ske_LoadGlyphImage(const TCHAR *tszFileName)
 		return NULL;
 
 	// add to loaded list
-	if (dwLoadedImagesCount + 1>dwLoadedImagesAlocated) {
+	if (dwLoadedImagesCount + 1 > dwLoadedImagesAlocated) {
 		pLoadedImages = (GLYPHIMAGE*)mir_realloc(pLoadedImages, sizeof(GLYPHIMAGE)*(dwLoadedImagesCount + 1));
 		if (!pLoadedImages)
 			return NULL;
@@ -1761,7 +1761,7 @@ int ske_UnloadGlyphImage(HBITMAP hbmp)
 	for (DWORD i = 0; i < dwLoadedImagesCount && pLoadedImages; i++) {
 		if (hbmp != pLoadedImages[i].hGlyph)
 			continue;
-		
+
 		pLoadedImages[i].dwLoadedTimes--;
 		if (pLoadedImages[i].dwLoadedTimes == 0) {
 			LPGLYPHIMAGE gl = &(pLoadedImages[i]);
@@ -1802,7 +1802,7 @@ int ske_UnloadSkin(SKINOBJECTSLIST * Skin)
 	if (Skin->pTextList) List_Destroy(Skin->pTextList);
 	mir_free_and_nil(Skin->pTextList);
 	ModernSkinButtonDeleteAll();
-	if (Skin->dwObjLPAlocated == 0) 
+	if (Skin->dwObjLPAlocated == 0)
 		return 0;
 
 	for (DWORD i = 0; i < Skin->dwObjLPAlocated; i++) {
@@ -1854,7 +1854,7 @@ static void RegisterMaskByParce(const char *szSetting, char *szValue, SKINOBJECT
 		DWORD ID = atoi(szSetting + 1);
 		Mask = szValue + i + 1;
 		Obj = (char*)mir_alloc(i + 1);
-		strncpy(Obj, szValue, i);
+		mir_strncpy(Obj, szValue, i);
 		Obj[i] = '\0';
 		res = AddStrModernMaskToList(ID, Mask, Obj, pSkin->pMaskList);
 		mir_free(Obj);
@@ -2307,7 +2307,7 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 	int workRectWidth = workRect.right - workRect.left;
 	int workRectHeight = workRect.bottom - workRect.top;
 	if (workRectWidth <= 0 || workRectHeight <= 0) {
-		if(destHasNotDIB)
+		if (destHasNotDIB)
 			mir_free(pDestBits);
 		return 0;
 	}
@@ -2649,7 +2649,7 @@ BOOL ske_DrawIconEx(HDC hdcDst, int xLeft, int yTop, HICON hIcon, int cxWidth, i
 		DeleteObject(ici.hbmMask);
 		return 0;
 	}
-	
+
 	BITMAP immaskbt;
 	GetObject(ici.hbmMask, sizeof(BITMAP), &immaskbt);
 	DWORD cy = imbt.bmHeight;
@@ -2667,7 +2667,7 @@ BOOL ske_DrawIconEx(HDC hdcDst, int xLeft, int yTop, HICON hIcon, int cxWidth, i
 		}
 		DeleteDC(tempDC1);
 	}
-	
+
 	bool NoDIBImage = (imbt.bmBits == NULL);
 	if (NoDIBImage) {
 		imimagbits = (BYTE*)malloc(cy*imbt.bmWidthBytes);
@@ -3492,7 +3492,7 @@ static void ske_AddParseSkinFont(char * szFontID, char * szDefineString)
 	logfont.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 
 	char buf[255];
-	strncpy(logfont.lfFaceName, GetParamN(szDefineString, buf, sizeof(buf), 0, ',', TRUE), 32);
+	mir_strncpy(logfont.lfFaceName, GetParamN(szDefineString, buf, sizeof(buf), 0, ',', TRUE), SIZEOF(logfont.lfFaceName));
 	logfont.lfHeight = atoi(GetParamN(szDefineString, buf, sizeof(buf), 1, ',', TRUE));
 	if (logfont.lfHeight < 0) {
 		HDC hdc = CreateCompatibleDC(NULL);
@@ -3749,13 +3749,13 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 }
 
 #define NEWJOINEDSTR(destination, first, separator, last) \
-	destination = (char*)alloca(strlen(first)+strlen(separator)+strlen(last)+1);	\
+	destination = (char*)alloca(mir_strlen(first)+mir_strlen(separator)+mir_strlen(last)+1);	\
 	if (destination) { \
 		*destination = '\0'; \
-		strcat(destination,first); \
-		strcat(destination,separator); \
-		strcat(destination,last); \
-		}
+		mir_strcat(destination,first); \
+		mir_strcat(destination,separator); \
+		mir_strcat(destination,last); \
+			}
 
 #define SKINSETSECTION "SkinnedSettings"
 

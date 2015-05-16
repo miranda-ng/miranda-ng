@@ -221,7 +221,7 @@ int CLUIFrames_OnShowHide(int mode)
 			else SetWindowPos(g_pfwFrames[i].OwnerWindow, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOMOVE);
 		}
 	}
-	
+
 	if (mode != SW_HIDE)
 		SetForegroundWindow(pcli->hwndContactList);
 	AniAva_RedrawAllAvatars(TRUE);
@@ -243,7 +243,7 @@ static int id2pos(int id)
 	for (int i = 0; i < g_nFramesCount; i++)
 		if (g_pfwFrames[i].id == id)
 			return i;
-	
+
 	return -1;
 };
 
@@ -292,7 +292,7 @@ int FindFrameID(HWND FrameHwnd)
 {
 	if (FrameHwnd == NULL)
 		return 0;
-	
+
 	FRAMEWND *frm = FindFrameByItsHWND(FrameHwnd);
 	return (frm) ? frm->id : 0;
 }
@@ -595,8 +595,8 @@ static void GetBorderSize(HWND hwnd, RECT *rect)
 static char __inline *AS(char *str, const char *setting, char *addstr)
 {
 	if (str != NULL) {
-		strcpy(str, setting);
-		strcat(str, addstr);
+		mir_strcpy(str, setting);
+		mir_strcat(str, addstr);
 	}
 	return str;
 }

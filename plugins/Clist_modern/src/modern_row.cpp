@@ -222,40 +222,40 @@ void rowParserGetParam(ROWCELL* &cell, char *tbuf, int &hbuf)
 	char * word = rowParserGetNextWord(tbuf, hbuf);
 	int param = 0;
 
-	if (!_strnicmp(word, "avatar", strlen(word))) param = TC_AVATAR;
-	else if (!_strnicmp(word, "text1", strlen(word))) param = TC_TEXT1;
-	else if (!_strnicmp(word, "text2", strlen(word))) param = TC_TEXT2;
-	else if (!_strnicmp(word, "text3", strlen(word))) param = TC_TEXT3;
-	else if (!_strnicmp(word, "status", strlen(word))) param = TC_STATUS;
-	else if (!_strnicmp(word, "extra", strlen(word))) param = TC_EXTRA;
-	else if (!_strnicmp(word, "extra1", strlen(word))) param = TC_EXTRA1;
-	else if (!_strnicmp(word, "extra2", strlen(word))) param = TC_EXTRA2;
-	else if (!_strnicmp(word, "extra3", strlen(word))) param = TC_EXTRA3;
-	else if (!_strnicmp(word, "extra4", strlen(word))) param = TC_EXTRA4;
-	else if (!_strnicmp(word, "extra5", strlen(word))) param = TC_EXTRA5;
-	else if (!_strnicmp(word, "extra6", strlen(word))) param = TC_EXTRA6;
-	else if (!_strnicmp(word, "extra7", strlen(word))) param = TC_EXTRA7;
-	else if (!_strnicmp(word, "extra8", strlen(word))) param = TC_EXTRA8;
-	else if (!_strnicmp(word, "extra9", strlen(word))) param = TC_EXTRA9;
-	else if (!_strnicmp(word, "time", strlen(word))) param = TC_TIME;
-	else if (!_strnicmp(word, "space", strlen(word))) param = TC_SPACE;
-	else if (!_strnicmp(word, "fspace", strlen(word))) param = TC_FIXED;
+	if (!_strnicmp(word, "avatar", mir_strlen(word))) param = TC_AVATAR;
+	else if (!_strnicmp(word, "text1", mir_strlen(word))) param = TC_TEXT1;
+	else if (!_strnicmp(word, "text2", mir_strlen(word))) param = TC_TEXT2;
+	else if (!_strnicmp(word, "text3", mir_strlen(word))) param = TC_TEXT3;
+	else if (!_strnicmp(word, "status", mir_strlen(word))) param = TC_STATUS;
+	else if (!_strnicmp(word, "extra", mir_strlen(word))) param = TC_EXTRA;
+	else if (!_strnicmp(word, "extra1", mir_strlen(word))) param = TC_EXTRA1;
+	else if (!_strnicmp(word, "extra2", mir_strlen(word))) param = TC_EXTRA2;
+	else if (!_strnicmp(word, "extra3", mir_strlen(word))) param = TC_EXTRA3;
+	else if (!_strnicmp(word, "extra4", mir_strlen(word))) param = TC_EXTRA4;
+	else if (!_strnicmp(word, "extra5", mir_strlen(word))) param = TC_EXTRA5;
+	else if (!_strnicmp(word, "extra6", mir_strlen(word))) param = TC_EXTRA6;
+	else if (!_strnicmp(word, "extra7", mir_strlen(word))) param = TC_EXTRA7;
+	else if (!_strnicmp(word, "extra8", mir_strlen(word))) param = TC_EXTRA8;
+	else if (!_strnicmp(word, "extra9", mir_strlen(word))) param = TC_EXTRA9;
+	else if (!_strnicmp(word, "time", mir_strlen(word))) param = TC_TIME;
+	else if (!_strnicmp(word, "space", mir_strlen(word))) param = TC_SPACE;
+	else if (!_strnicmp(word, "fspace", mir_strlen(word))) param = TC_FIXED;
 
-	else if (!_strnicmp(word, "left", strlen(word))) param = TC_LEFT;
-	else if (!_strnicmp(word, "top", strlen(word))) param = TC_TOP;
-	else if (!_strnicmp(word, "vcenter", strlen(word))) param = TC_VCENTER;
-	else if (!_strnicmp(word, "hcenter", strlen(word))) param = TC_HCENTER;
-	else if (!_strnicmp(word, "right", strlen(word))) param = TC_RIGHT;
-	else if (!_strnicmp(word, "bottom", strlen(word))) param = TC_BOTTOM;
+	else if (!_strnicmp(word, "left", mir_strlen(word))) param = TC_LEFT;
+	else if (!_strnicmp(word, "top", mir_strlen(word))) param = TC_TOP;
+	else if (!_strnicmp(word, "vcenter", mir_strlen(word))) param = TC_VCENTER;
+	else if (!_strnicmp(word, "hcenter", mir_strlen(word))) param = TC_HCENTER;
+	else if (!_strnicmp(word, "right", mir_strlen(word))) param = TC_RIGHT;
+	else if (!_strnicmp(word, "bottom", mir_strlen(word))) param = TC_BOTTOM;
 
-	else if (!_strnicmp(word, "layer", strlen(word))) cell->layer = TRUE;
+	else if (!_strnicmp(word, "layer", mir_strlen(word))) cell->layer = TRUE;
 
-	else if (!_strnicmp(word, "width", strlen(word))) param = TC_WIDTH;
-	else if (!_strnicmp(word, "height", strlen(word))) param = TC_HEIGHT;
+	else if (!_strnicmp(word, "width", mir_strlen(word))) param = TC_WIDTH;
+	else if (!_strnicmp(word, "height", mir_strlen(word))) param = TC_HEIGHT;
 
 	else
 	{
-		hbuf -= (int)strlen(word);
+		hbuf -= (int)mir_strlen(word);
 		return;
 	}
 
@@ -326,11 +326,11 @@ BOOL rowParse(ROWCELL* &cell, ROWCELL* parent, char *tbuf, int &hbuf, int &seque
 	word = rowParserGetNextWord(tbuf, hbuf);
 	int cont;
 
-	if (!_strnicmp(word, "<tr", strlen(word)) || !_strnicmp(word, "<tr>", strlen(word))) cont = TC_ROW;
-	else if (!_strnicmp(word, "<tc", strlen(word)) || !_strnicmp(word, "<tc>", strlen(word))) cont = TC_COL;
-	else if (!_strnicmp(word, "/>", strlen(word)) ||
-		!_strnicmp(word, "</tr>", strlen(word)) ||
-		!_strnicmp(word, "</tc>", strlen(word))) return TRUE;
+	if (!_strnicmp(word, "<tr", mir_strlen(word)) || !_strnicmp(word, "<tr>", mir_strlen(word))) cont = TC_ROW;
+	else if (!_strnicmp(word, "<tc", mir_strlen(word)) || !_strnicmp(word, "<tc>", mir_strlen(word))) cont = TC_COL;
+	else if (!_strnicmp(word, "/>", mir_strlen(word)) ||
+		!_strnicmp(word, "</tr>", mir_strlen(word)) ||
+		!_strnicmp(word, "</tc>", mir_strlen(word))) return TRUE;
 	else return FALSE;
 
 	rowAddCell(cell, cont);

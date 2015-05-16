@@ -6,8 +6,8 @@ char * __cdecl strstri(char *a, const char *b)
 {
 	char * x, *y;
 	if (!a || !b) return FALSE;
-	x = _strdup(a);
-	y = _strdup(b);
+	x = mir_strdup(a);
+	y = mir_strdup(b);
 	x = _strupr(x);
 	y = _strupr(y);
 	char * pos = strstr(x, y);

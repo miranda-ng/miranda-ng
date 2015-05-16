@@ -318,7 +318,7 @@ void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam);
 static int Toolbar_ModuleReloaded(WPARAM wParam, LPARAM)
 {
 	PLUGININFOEX *pInfo = (PLUGININFOEX*)wParam;
-	if (!_stricmp(pInfo->shortName, "TopToolBar"))
+	if (!mir_strcmpi(pInfo->shortName, "TopToolBar"))
 		TopToolbar_SetCustomProc(CustomizeButton, 0);
 
 	return 0;

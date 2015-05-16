@@ -276,7 +276,7 @@ HRESULT CLUI::CreateCluiFrames()
 }
 
 CLUI::CLUI() :
-	m_hDwmapiDll(NULL)
+m_hDwmapiDll(NULL)
 {
 	m_pCLUI = this;
 	g_CluiData.bSTATE = STATE_CLUI_LOADING;
@@ -642,7 +642,7 @@ void CLUI_ChangeWindowMode()
 	g_CluiData.fSmoothAnimation = db_get_b(NULL, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT);
 	if (g_bTransparentFlag == 0 && g_CluiData.bCurrentAlpha != 0)
 		g_CluiData.bCurrentAlpha = 255;
-	
+
 	// 2 - Calculate STYLES and STYLESEX
 	if (!g_CluiData.fLayered) {
 		style = 0;
@@ -1056,19 +1056,19 @@ int CLUI_ReloadCLUIOptions()
 	g_CluiData.fAutoSize = db_get_b(NULL, "CLUI", "AutoSize", SETTING_AUTOSIZE_DEFAULT);
 	g_CluiData.bInternalAwayMsgDiscovery = db_get_b(NULL, "ModernData", "InternalAwayMsgDiscovery", SETTING_INTERNALAWAYMSGREQUEST_DEFAULT);
 	g_CluiData.bRemoveAwayMessageForOffline = db_get_b(NULL, "ModernData", "RemoveAwayMessageForOffline", SETTING_REMOVEAWAYMSGFOROFFLINE_DEFAULT);
-	
+
 	// window borders
 	if (g_CluiData.fDisableSkinEngine) {
-		g_CluiData.LeftClientMargin   = 0;
-		g_CluiData.RightClientMargin  = 0;
-		g_CluiData.TopClientMargin    = 0;
+		g_CluiData.LeftClientMargin = 0;
+		g_CluiData.RightClientMargin = 0;
+		g_CluiData.TopClientMargin = 0;
 		g_CluiData.BottomClientMargin = 0;
 	}
 	else {
 		// window borders
-		g_CluiData.LeftClientMargin   = db_get_b(NULL, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT);
-		g_CluiData.RightClientMargin  = db_get_b(NULL, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT);
-		g_CluiData.TopClientMargin    = db_get_b(NULL, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT);
+		g_CluiData.LeftClientMargin = db_get_b(NULL, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT);
+		g_CluiData.RightClientMargin = db_get_b(NULL, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT);
+		g_CluiData.TopClientMargin = db_get_b(NULL, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT);
 		g_CluiData.BottomClientMargin = db_get_b(NULL, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT);
 	}
 	BroadCastMessageToChild(pcli->hwndContactList, WM_THEMECHANGED, 0, 0);

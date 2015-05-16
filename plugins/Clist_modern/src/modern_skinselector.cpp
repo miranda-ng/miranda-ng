@@ -95,7 +95,7 @@ DWORD mod_CalcHash(const char *szStr)
 			mov  esi, szStr
 			mov  al, [esi]
 			xor  cl, cl
-lph_top :	 //only 4 of 9 instructions in here don't use AL, so optimal pipe use is impossible
+		lph_top :	 //only 4 of 9 instructions in here don't use AL, so optimal pipe use is impossible
 		xor  edx, eax
 			inc  esi
 			xor  eax, eax
@@ -195,8 +195,7 @@ int SortMaskList(LISTMODERNMASK * mmList)
 				pos = 1;
 		}
 		else pos++;
-	}
-		while (pos < mmList->dwMaskCnt);
+	} while (pos < mmList->dwMaskCnt);
 
 	return 1;
 }
@@ -327,7 +326,7 @@ int ParseToModernMask(MODERNMASK *mm, char *szText)
 		}
 		else //ParamName = 'Module'
 		{
-			param.szName = _strdup("Module");
+			param.szName = mir_strdup("Module");
 			param.dwId = mod_CalcHash(param.szName);
 		}
 
@@ -414,7 +413,7 @@ int AddStrModernMaskToList(DWORD maskID, char *szStr, char *objectName, LISTMODE
 
 SKINOBJECTDESCRIPTOR *skin_FindObjectByMask(MODERNMASK *mm, LISTMODERNMASK *mmTemplateList)
 {
-	for (DWORD i = 0;i < mmTemplateList->dwMaskCnt;i++)
+	for (DWORD i = 0; i < mmTemplateList->dwMaskCnt; i++)
 		if (CompareModernMask(mm, &(mmTemplateList->pl_Masks[i])))
 			return (SKINOBJECTDESCRIPTOR*)mmTemplateList->pl_Masks[i].pObject;
 
@@ -465,7 +464,7 @@ WCHAR* GetParamN(WCHAR *string, WCHAR *buf, int buflen, BYTE paramN, WCHAR Delim
 				i--;
 		}
 		len = ((int)(i - start) < buflen) ? i - start : buflen;
-		_tcsncpy(buf, string + start, len);
+		mir_tstrncpy(buf, string + start, len);
 		buf[len] = '\0';
 	}
 	else buf[0] = '\0';
@@ -491,7 +490,7 @@ char * GetParamN(char * string, char * buf, int buflen, BYTE paramN, char Delim,
 				i--;
 		}
 		len = ((int)(i - start) < buflen) ? i - start : buflen;
-		strncpy(buf, string + start, len);
+		mir_strncpy(buf, string + start, len);
 		buf[len] = '\0';
 	}
 	else buf[0] = '\0';
@@ -642,6 +641,6 @@ int SkinDrawGlyphMask(HDC hdc, RECT *rcSize, RECT *rcClip, MODERNMASK *ModernMas
 	rq.hDC = hdc;
 	rq.rcDestRect = *rcSize;
 	rq.rcClipRect = *rcClip;
-	strncpy(rq.szObjectID, "Masked draw", SIZEOF(rq.szObjectID)-1);
+	mir_strncpy(rq.szObjectID, "Masked draw", SIZEOF(rq.szObjectID));
 	return ske_Service_DrawGlyph((WPARAM)&rq, (LPARAM)ModernMask);
 }

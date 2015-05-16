@@ -74,7 +74,7 @@ int cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 		if (c->type == CLCIT_GROUP) {
 			if (c->group == subgroup && contactIndex == -1)
 				return count - 1;
-			
+
 			if (c->group->expanded) {
 				group = c->group;
 				group->scanIndex = 0;

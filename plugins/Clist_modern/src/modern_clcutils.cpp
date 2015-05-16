@@ -611,7 +611,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 		ptrT tszLineText(db_get_tsa(NULL, "CList", "SecondLineText"));
 		if (tszLineText)
-			_tcsncpy_s(dat->second_line_text, SIZEOF(dat->second_line_text), tszLineText, _TRUNCATE);
+			mir_tstrncpy(dat->second_line_text, tszLineText, SIZEOF(dat->second_line_text));
 		else
 			dat->second_line_text[0] = _T('\0');
 
@@ -639,7 +639,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 		ptrT tszLineText(db_get_tsa(NULL, "CList", "ThirdLineText"));
 		if (tszLineText)
-			_tcsncpy_s(dat->third_line_text, SIZEOF(dat->third_line_text), tszLineText, _TRUNCATE);
+			mir_tstrncpy(dat->third_line_text, tszLineText, SIZEOF(dat->third_line_text));
 		else
 			dat->third_line_text[0] = _T('\0');
 
