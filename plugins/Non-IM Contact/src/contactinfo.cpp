@@ -536,7 +536,7 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 				fgets(line, 2000, file);
 			}
 			// the line that has the </tooltip>
-			strncat(tooltip, line, strlen(line) - strlen("</tooltip>\r\n"));
+			strncat(tooltip, line, SIZEOF(tooltip) - mir_strlen(tooltip));
 		}
 		else if (!strncmp(line, "Icon=", strlen("Icon="))) {
 			i = (int)strlen("Icon=");
