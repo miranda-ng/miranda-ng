@@ -179,7 +179,7 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 						char szSkypeCmd[BUFFER_SIZE];
 						const char szSkypeCmdSetStatus[] = "SET USERSTATUS ";
 						::strncpy_s(szSkypeCmd,szSkypeCmdSetStatus,sizeof(szSkypeCmdSetStatus)/sizeof(szSkypeCmdSetStatus[0]));
-						::strncat_s(szSkypeCmd,ms.m_pszSkypeStatus,strlen(ms.m_pszSkypeStatus));
+						::strncat_s(szSkypeCmd, ms.m_pszSkypeStatus, SIZEOF(szSkypeCmd) - mir_strlen(szSkypeCmd));
 						DWORD cLength = static_cast<DWORD>(strlen(szSkypeCmd));
 
 						COPYDATASTRUCT oCopyData;
@@ -201,7 +201,7 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 
 								const char szSkypeCmdSetStatusMsg[] = "SET PROFILE MOOD_TEXT ";
 								::strncpy_s(szSkypeCmd,szSkypeCmdSetStatusMsg,sizeof(szSkypeCmdSetStatusMsg)/sizeof(szSkypeCmdSetStatusMsg[0]));
-								::strncat_s(szSkypeCmd,pMsg,strlen(pMsg));										
+								::strncat_s(szSkypeCmd, pMsg, SIZEOF(szSkypeCmd) - mir_strlen(szSkypeCmd));
 								mir_free(pMsg);
 										
 								DWORD cLength = static_cast<DWORD>(strlen(szSkypeCmd));
