@@ -910,8 +910,8 @@ void TfrmMain::edtSizeUpdate(HWND hWnd, BOOL ClientArea, HWND hTarget, UINT Ctrl
 	_itot(rect.right - rect.left, B, 10);
 //	_itot_s(rect.bottom - rect.top, H, 16, 10);
 	_itot(rect.bottom - rect.top, H, 10);
-	mir_tstrncat(B, _T("x"), 33);
-	mir_tstrncat(B, H, 33);
+	mir_tstrncat(B, _T("x"), SIZEOF(B) - mir_tstrlen(B));
+	mir_tstrncat(B, H, SIZEOF(B) - mir_tstrlen(B));
 	SetDlgItemText(hTarget, Ctrl, B);
 }
 
@@ -921,8 +921,8 @@ void TfrmMain::edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl) {
 	_itot(ABS(rect.right - rect.left), B, 10);
 //	_itot_s(ABS(rect.bottom - rect.top), H, 16, 10);
 	_itot(ABS(rect.bottom - rect.top), H, 10);
-	mir_tstrncat(B, _T("x"), 33);
-	mir_tstrncat(B, H, 33);
+	mir_tstrncat(B, _T("x"), SIZEOF(B) - mir_tstrlen(B));
+	mir_tstrncat(B, H, SIZEOF(B) - mir_tstrlen(B));
 	SetDlgItemText(hTarget, Ctrl, B);
 }
 
