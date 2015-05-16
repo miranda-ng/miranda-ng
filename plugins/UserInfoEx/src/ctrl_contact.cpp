@@ -1425,7 +1425,7 @@ int CtrlContactWriteItemToDB(
 		db_unset(hContact, pszModule, pszSetting);
 	else {
 		if (cbi.wFlags & CBEXIF_SMS)
-			mir_tstrncat(szVal, _T(" SMS"), SIZEOF(szVal));
+			mir_tstrncat(szVal, _T(" SMS"), SIZEOF(szVal) - mir_tstrlen(szVal));
 
 		if (db_set_ts(hContact, pszModule, pszSetting, szVal)) return 1;
 	}
@@ -1475,7 +1475,7 @@ int CtrlContactWriteMyItemsToDB(
 	while (CtrlContactWndProc(hCtrl, CBEXM_GETITEM, NULL, (LPARAM)&cbi) && cbi.iItem < 50) {
 		if (!(cbi.wFlags & CBEXIF_DELETED) && *szVal) {
 			if (cbi.wFlags & CBEXIF_SMS) {
-				mir_tstrncat(szVal, _T(" SMS"), SIZEOF(szVal));
+				mir_tstrncat(szVal, _T(" SMS"), SIZEOF(szVal) - mir_tstrlen(szVal));
 			}
 			mir_snprintf(pszSetting, SIZEOF(pszSetting), szFormatCat, i);
 			if (*szCat && _tcsncmp(szCat, pszOther, ccOther)) {
