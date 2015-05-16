@@ -320,9 +320,9 @@ BOOL IniParser::_DoParseLine(char *szLine)
 			if (*ebuf == '\0')
 				return FALSE; // no close bracket
 
-			DWORD sectionLen = ebuf - tbuf;
+			DWORD sectionLen = ebuf - tbuf + 1;
 			_szSection = (char*)mir_alloc(sectionLen + 1);
-			strncpy(_szSection, tbuf, sectionLen);
+			mir_strncpy(_szSection, tbuf, sectionLen);
 			_szSection[sectionLen] = '\0';
 		}
 		return TRUE;
@@ -1853,9 +1853,9 @@ static void RegisterMaskByParce(const char *szSetting, char *szValue, SKINOBJECT
 		int res;
 		DWORD ID = atoi(szSetting + 1);
 		Mask = szValue + i + 1;
-		Obj = (char*)mir_alloc(i + 1);
-		strncpy(Obj, szValue, i);
-		Obj[i] = '\0';
+		Obj = (char*)mir_alloc(i + 2);
+		mir_strncpy(Obj, szValue, i + 1);
+		Obj[i + 1] = '\0';
 		res = AddStrModernMaskToList(ID, Mask, Obj, pSkin->pMaskList);
 		mir_free(Obj);
 	}

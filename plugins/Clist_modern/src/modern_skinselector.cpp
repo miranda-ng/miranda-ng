@@ -464,7 +464,7 @@ WCHAR* GetParamN(WCHAR *string, WCHAR *buf, int buflen, BYTE paramN, WCHAR Delim
 				i--;
 		}
 		len = ((int)(i - start) < buflen) ? i - start : buflen;
-		_tcsncpy(buf, string + start, len);
+		mir_tstrncpy(buf, string + start, len);
 		buf[len] = '\0';
 	}
 	else buf[0] = '\0';
@@ -489,8 +489,8 @@ char * GetParamN(char * string, char * buf, int buflen, BYTE paramN, char Delim,
 			while (i>1 && string[i - 1] == ' ' && i > (int)start)
 				i--;
 		}
-		len = ((int)(i - start) < buflen) ? i - start : buflen;
-		strncpy(buf, string + start, len);
+		len = ((int)(i - start) < buflen) ? i - start + 1 : buflen;
+		mir_strncpy(buf, string + start, len);
 		buf[len] = '\0';
 	}
 	else buf[0] = '\0';
