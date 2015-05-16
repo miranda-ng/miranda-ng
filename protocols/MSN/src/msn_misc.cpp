@@ -603,6 +603,7 @@ void CMsnProto::MSN_SendStatusMessage(const char* msg)
 	if (!msnLoggedIn)
 		return;
 
+	MSN_SetServerStatus(m_iDesiredStatus);
 	/* FIXME: Currently not implemented, shuold be set on status change anyway 
 
 	char* msgEnc = HtmlEncode(msg ? msg : "");
@@ -802,10 +803,9 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 		}
 
 		char** msgptr = GetStatusMsgLoc(newStatus);
-		/* FIXME: This is what Skype client sends
+		/* FIXME: This is what Skype client sends */
 		myFlags = 0;
 		myFlagsEx = cap_SupportsSDrive | cap_SupportsActivities;
-		*/
 		int sz = mir_snprintf(szMsg, SIZEOF(szMsg),
 			"<user>"
 			"<sep n=\"PE\" epid=\"%s\"><VER>%s</VER><TYP>11</TYP><Capabilities>0:0</Capabilities></sep>"
@@ -830,7 +830,6 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 			"Publication: 1.0\r\n"
 			"Uri: /user\r\n"
 			"Content-Type: application/user+xml\r\n"
-			"Status-Priority: low\r\n"
 			"Content-Length: %d\r\n\r\n%s",
 			GetMyNetID(), MyOptions.szEmail,
 			GetMyNetID(), MyOptions.szEmail,

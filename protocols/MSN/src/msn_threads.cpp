@@ -706,7 +706,7 @@ BYTE* HReadBuffer::surelyRead(size_t parBytes)
 		}
 	}
 
-	while ((startOffset + parBytes) > totalDataSize) {
+  	while ((startOffset + parBytes) > totalDataSize) {
 		int recvResult = owner->recv((char*)buffer + totalDataSize, owner->mDataSize - totalDataSize);
 
 		if (recvResult <= 0)

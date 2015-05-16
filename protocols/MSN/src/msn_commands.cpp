@@ -1194,6 +1194,7 @@ LBL_InvalidCommand:
 			else
 			{
 				msnLoggedIn = true;
+				isConnectSuccess = true;
 				MSN_SetServerStatus(m_iStatus);
 				MSN_EnableMenuItems(true);
 				MSN_RefreshContactList();
