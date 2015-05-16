@@ -266,7 +266,7 @@ static int ModernSkinButtonToggleDBValue(char * ValueDBSection, char *ValueTypeD
 
 static char *_skipblank(char * str) //str will be modified;
 {
-	char * endstr = str + strlen(str);
+	char * endstr = str + mir_strlen(str);
 	while ((*str == ' ' || *str == '\t') && *str != '\0') str++;
 	while ((*endstr == ' ' || *endstr == '\t') && *endstr != '\0' && endstr < str) endstr--;
 	if (*endstr != '\0')
@@ -285,7 +285,7 @@ static int _CallServiceStrParams(IN char * toParce, OUT int *Return)
 	char *pszService = mir_strdup(toParce);
 	if (!pszService)
 		return 0;
-	if (strlen(pszService) == 0) {
+	if (mir_strlen(pszService) == 0) {
 		mir_free(pszService);
 		return 0;
 	}
@@ -295,7 +295,7 @@ static int _CallServiceStrParams(IN char * toParce, OUT int *Return)
 		paramCount++;
 		*param2 = '\0';	param2++;
 		_skipblank(param2);
-		if (strlen(param2) == 0)
+		if (mir_strlen(param2) == 0)
 			param2 = NULL;
 	}
 	char *param1 = strrchr(pszService, '%');
@@ -304,13 +304,13 @@ static int _CallServiceStrParams(IN char * toParce, OUT int *Return)
 		paramCount++;
 		*param1 = '\0';	param1++;
 		_skipblank(param1);
-		if (strlen(param1) == 0)
+		if (mir_strlen(param1) == 0)
 			param1 = NULL;
 	}
 	if (param1 && *param1 == '\"')
 	{
 		param1++;
-		*(param1 + strlen(param1)) = '\0';
+		*(param1 + mir_strlen(param1)) = '\0';
 	}
 	else if (param1)
 	{
@@ -319,7 +319,7 @@ static int _CallServiceStrParams(IN char * toParce, OUT int *Return)
 	if (param2 && *param2 == '\"')
 	{
 		param2++;
-		*(param2 + strlen(param2)) = '\0';
+		*(param2 + mir_strlen(param2)) = '\0';
 	}
 	else if (param2)
 		param2 = (char*)atoi(param2);
@@ -399,12 +399,12 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 		break;	// DONT! fall thru
 
 	case WM_SETCURSOR:
-		{
-			HCURSOR hCurs1 = LoadCursor(NULL, IDC_ARROW);
-			if (hCurs1) SetCursor(hCurs1);
-			if (bct) SetToolTip(hwndDlg, bct->Hint);
-		}
-		return 1;
+	{
+		HCURSOR hCurs1 = LoadCursor(NULL, IDC_ARROW);
+		if (hCurs1) SetCursor(hCurs1);
+		if (bct) SetToolTip(hwndDlg, bct->Hint);
+	}
+	return 1;
 
 	case WM_PRINT:
 		if (IsWindowVisible(hwndDlg))

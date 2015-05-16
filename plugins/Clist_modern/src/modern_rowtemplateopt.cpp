@@ -317,16 +317,16 @@ void RefreshTree(HWND hwndDlg, HTREEITEM hti)
 				if (cell->type == 0)
 					mir_sntprintf(buf, SIZEOF(buf), TranslateT("Empty %s cell"), cell->cont == TC_COL ? TranslateT("column") : TranslateT("line"));
 				else
-					_tcsncpy_s(buf, TranslateTS(types[cell->type]), _TRUNCATE);
+					mir_tstrncpy(buf, TranslateTS(types[cell->type]), SIZEOF(buf));
 			}
 			else
 			{
 				if (cell->type == 0)
-					_tcsncpy_s(buf, (cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines")), _TRUNCATE);
+					mir_tstrncpy(buf, (cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines")), SIZEOF(buf));
 				else
 					mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s, contain %s"), TranslateTS(types[cell->type]), cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines"));
 			}
-			if (cell->layer) _tcsncat_s(buf, TranslateT(" layered"),_TRUNCATE);
+			if (cell->layer) mir_tstrncat(buf, TranslateT(" layered"), _TRUNCATE);
 			tvi.mask = TVIF_HANDLE | TVIF_TEXT;
 			tvi.pszText = buf;
 			TreeView_SetItem(htree, &tvi);

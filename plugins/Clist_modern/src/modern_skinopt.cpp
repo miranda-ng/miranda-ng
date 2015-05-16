@@ -105,39 +105,39 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case IDC_BUTTON_INFO:
+		{
+			TCHAR Author[255], URL[MAX_PATH], Contact[255], Description[400], text[2000];
+			SkinListData *sd = NULL;
+			HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_TREE1));
+			if (hti == 0) return 0;
 			{
-				TCHAR Author[255], URL[MAX_PATH], Contact[255], Description[400], text[2000];
-				SkinListData *sd = NULL;
-				HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_TREE1));
-				if (hti == 0) return 0;
-				{
-					TVITEM tvi = { 0 };
-					tvi.hItem = hti;
-					tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE1), &tvi);
-					sd = (SkinListData*)(tvi.lParam);
-				}
-				if (!sd) return 0;
-				if (sd->File && !_tcschr(sd->File, _T('%'))) {
-					GetPrivateProfileString(_T("Skin_Description_Section"), _T("Author"), TranslateT("( unknown )"), Author, SIZEOF(Author), sd->File);
-					GetPrivateProfileString(_T("Skin_Description_Section"), _T("URL"), _T(""), URL, SIZEOF(URL), sd->File);
-					GetPrivateProfileString(_T("Skin_Description_Section"), _T("Contact"), _T(""), Contact, SIZEOF(Contact), sd->File);
-					GetPrivateProfileString(_T("Skin_Description_Section"), _T("Description"), _T(""), Description, SIZEOF(Description), sd->File);
-					mir_sntprintf(text, SIZEOF(text), TranslateT("%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
-									  sd->Name, Description, Author, Contact, URL, sd->File);
-				}
-				else {
-					mir_sntprintf(text, SIZEOF(text), TranslateT("%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
-									  TranslateT("reVista for Modern v0.5"),
-									  TranslateT("This is second default Modern Contact list skin in Vista Aero style"),
-									  TranslateT("Angeli-Ka (graphics), FYR (template)"),
-									  _T("JID: fyr@jabber.ru"),
-									  _T("fyr.mirandaim.ru"),
-									  TranslateT("Inside library"));
-				}
-				MessageBox(hwndDlg, text, TranslateT("Skin information"), MB_OK | MB_ICONINFORMATION);
+				TVITEM tvi = { 0 };
+				tvi.hItem = hti;
+				tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE1), &tvi);
+				sd = (SkinListData*)(tvi.lParam);
 			}
-			break;
+			if (!sd) return 0;
+			if (sd->File && !_tcschr(sd->File, _T('%'))) {
+				GetPrivateProfileString(_T("Skin_Description_Section"), _T("Author"), TranslateT("( unknown )"), Author, SIZEOF(Author), sd->File);
+				GetPrivateProfileString(_T("Skin_Description_Section"), _T("URL"), _T(""), URL, SIZEOF(URL), sd->File);
+				GetPrivateProfileString(_T("Skin_Description_Section"), _T("Contact"), _T(""), Contact, SIZEOF(Contact), sd->File);
+				GetPrivateProfileString(_T("Skin_Description_Section"), _T("Description"), _T(""), Description, SIZEOF(Description), sd->File);
+				mir_sntprintf(text, SIZEOF(text), TranslateT("%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
+					sd->Name, Description, Author, Contact, URL, sd->File);
+			}
+			else {
+				mir_sntprintf(text, SIZEOF(text), TranslateT("%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
+					TranslateT("reVista for Modern v0.5"),
+					TranslateT("This is second default Modern Contact list skin in Vista Aero style"),
+					TranslateT("Angeli-Ka (graphics), FYR (template)"),
+					_T("JID: fyr@jabber.ru"),
+					_T("fyr.mirandaim.ru"),
+					TranslateT("Inside library"));
+			}
+			MessageBox(hwndDlg, text, TranslateT("Skin information"), MB_OK | MB_ICONINFORMATION);
+		}
+		break;
 
 		case IDC_BUTTON_APPLY_SKIN:
 			if (HIWORD(wParam) == BN_CLICKED) {
@@ -230,88 +230,88 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_TREE1:
-			{
-				NMTREEVIEW * nmtv = (NMTREEVIEW *)lParam;
-				if (nmtv == NULL)
-					return 0;
+		{
+			NMTREEVIEW * nmtv = (NMTREEVIEW *)lParam;
+			if (nmtv == NULL)
+				return 0;
 
-				if (nmtv->hdr.code == TVN_SELCHANGED) {
-					SkinListData * sd = NULL;
-					if (hPreviewBitmap) {
-						ske_UnloadGlyphImage(hPreviewBitmap);
-						hPreviewBitmap = NULL;
-					}
+			if (nmtv->hdr.code == TVN_SELCHANGED) {
+				SkinListData * sd = NULL;
+				if (hPreviewBitmap) {
+					ske_UnloadGlyphImage(hPreviewBitmap);
+					hPreviewBitmap = NULL;
+				}
 
-					if (nmtv->itemNew.lParam) {
-						sd = (SkinListData*)nmtv->itemNew.lParam;
+				if (nmtv->itemNew.lParam) {
+					sd = (SkinListData*)nmtv->itemNew.lParam;
 
-						TCHAR buf[MAX_PATH];
-						PathToRelativeT(sd->File, buf);
-						SetDlgItemText(hwndDlg, IDC_EDIT_SKIN_FILENAME, buf);
+					TCHAR buf[MAX_PATH];
+					PathToRelativeT(sd->File, buf);
+					SetDlgItemText(hwndDlg, IDC_EDIT_SKIN_FILENAME, buf);
 
-						TCHAR prfn[MAX_PATH] = { 0 }, imfn[MAX_PATH] = { 0 }, skinfolder[MAX_PATH] = { 0 };
-						GetPrivateProfileString(_T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, SIZEOF(imfn), sd->File);
-						IniParser::GetSkinFolder(sd->File, skinfolder);
-						mir_sntprintf(prfn, SIZEOF(prfn), _T("%s\\%s"), skinfolder, imfn);
-						PathToAbsoluteT(prfn, imfn);
-						hPreviewBitmap = ske_LoadGlyphImage(imfn);
+					TCHAR prfn[MAX_PATH] = { 0 }, imfn[MAX_PATH] = { 0 }, skinfolder[MAX_PATH] = { 0 };
+					GetPrivateProfileString(_T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, SIZEOF(imfn), sd->File);
+					IniParser::GetSkinFolder(sd->File, skinfolder);
+					mir_sntprintf(prfn, SIZEOF(prfn), _T("%s\\%s"), skinfolder, imfn);
+					PathToAbsoluteT(prfn, imfn);
+					hPreviewBitmap = ske_LoadGlyphImage(imfn);
 
-						EnableWindow(GetDlgItem(hwndDlg, IDC_BUTTON_APPLY_SKIN), TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_BUTTON_INFO), TRUE);
-						if (hPreviewBitmap)
-							InvalidateRect(GetDlgItem(hwndDlg, IDC_PREVIEW), NULL, TRUE);
-						else { //prepare text
-							TCHAR Author[255], URL[MAX_PATH], Contact[255], Description[400], text[2000];
-							SkinListData* sd = NULL;
-							HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_TREE1));
-							if (hti == 0) return 0;
-							{
-								TVITEM tvi = { 0 };
-								tvi.hItem = hti;
-								tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-								TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE1), &tvi);
-								sd = (SkinListData*)(tvi.lParam);
-							}
-							if (!sd) return 0;
-
-							if (sd->File && !_tcschr(sd->File, _T('%'))) {
-								GetPrivateProfileString(_T("Skin_Description_Section"), _T("Author"), TranslateT("( unknown )"), Author, SIZEOF(Author), sd->File);
-								GetPrivateProfileString(_T("Skin_Description_Section"), _T("URL"), _T(""), URL, SIZEOF(URL), sd->File);
-								GetPrivateProfileString(_T("Skin_Description_Section"), _T("Contact"), _T(""), Contact, SIZEOF(Contact), sd->File);
-								GetPrivateProfileString(_T("Skin_Description_Section"), _T("Description"), _T(""), Description, SIZEOF(Description), sd->File);
-								mir_sntprintf(text, SIZEOF(text), TranslateT("Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s"),
-												  sd->Name, Description, Author, Contact, URL);
-							}
-							else {
-								mir_sntprintf(text, SIZEOF(text), TranslateT("%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n"),
-												  TranslateT("reVista for Modern v0.5"),
-												  TranslateT("This is second default Modern Contact list skin in Vista Aero style"),
-												  TranslateT("graphics by Angeli-Ka\ntemplate by FYR"),
-												  _T("JID: fyr@jabber.ru"),
-												  _T("fyr.mirandaim.ru"));
-							}
-							ShowWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), SW_HIDE);
-							ShowWindow(GetDlgItem(hwndDlg, IDC_STATIC_INFO), SW_SHOW);
-							SetDlgItemText(hwndDlg, IDC_STATIC_INFO, text);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BUTTON_APPLY_SKIN), TRUE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BUTTON_INFO), TRUE);
+					if (hPreviewBitmap)
+						InvalidateRect(GetDlgItem(hwndDlg, IDC_PREVIEW), NULL, TRUE);
+					else { //prepare text
+						TCHAR Author[255], URL[MAX_PATH], Contact[255], Description[400], text[2000];
+						SkinListData* sd = NULL;
+						HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_TREE1));
+						if (hti == 0) return 0;
+						{
+							TVITEM tvi = { 0 };
+							tvi.hItem = hti;
+							tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+							TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE1), &tvi);
+							sd = (SkinListData*)(tvi.lParam);
 						}
-					}
-					else {
-						//no selected
-						SetDlgItemText(hwndDlg, IDC_EDIT_SKIN_FILENAME, TranslateT("Select skin from list"));
-						EnableWindow(GetDlgItem(hwndDlg, IDC_BUTTON_APPLY_SKIN), FALSE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_BUTTON_INFO), FALSE);
-						SetDlgItemText(hwndDlg, IDC_STATIC_INFO, TranslateT("Please select skin to apply"));
+						if (!sd) return 0;
+
+						if (sd->File && !_tcschr(sd->File, _T('%'))) {
+							GetPrivateProfileString(_T("Skin_Description_Section"), _T("Author"), TranslateT("( unknown )"), Author, SIZEOF(Author), sd->File);
+							GetPrivateProfileString(_T("Skin_Description_Section"), _T("URL"), _T(""), URL, SIZEOF(URL), sd->File);
+							GetPrivateProfileString(_T("Skin_Description_Section"), _T("Contact"), _T(""), Contact, SIZEOF(Contact), sd->File);
+							GetPrivateProfileString(_T("Skin_Description_Section"), _T("Description"), _T(""), Description, SIZEOF(Description), sd->File);
+							mir_sntprintf(text, SIZEOF(text), TranslateT("Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s"),
+								sd->Name, Description, Author, Contact, URL);
+						}
+						else {
+							mir_sntprintf(text, SIZEOF(text), TranslateT("%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n"),
+								TranslateT("reVista for Modern v0.5"),
+								TranslateT("This is second default Modern Contact list skin in Vista Aero style"),
+								TranslateT("graphics by Angeli-Ka\ntemplate by FYR"),
+								_T("JID: fyr@jabber.ru"),
+								_T("fyr.mirandaim.ru"));
+						}
 						ShowWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), SW_HIDE);
+						ShowWindow(GetDlgItem(hwndDlg, IDC_STATIC_INFO), SW_SHOW);
+						SetDlgItemText(hwndDlg, IDC_STATIC_INFO, text);
 					}
-					ShowWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), hPreviewBitmap ? SW_SHOW : SW_HIDE);
-					return 0;
 				}
-				else if (nmtv->hdr.code == TVN_DELETEITEM) {
-					mir_free_and_nil(nmtv->itemOld.lParam);
-					return 0;
+				else {
+					//no selected
+					SetDlgItemText(hwndDlg, IDC_EDIT_SKIN_FILENAME, TranslateT("Select skin from list"));
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BUTTON_APPLY_SKIN), FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BUTTON_INFO), FALSE);
+					SetDlgItemText(hwndDlg, IDC_STATIC_INFO, TranslateT("Please select skin to apply"));
+					ShowWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), SW_HIDE);
 				}
+				ShowWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), hPreviewBitmap ? SW_SHOW : SW_HIDE);
+				return 0;
 			}
-			break;
+			else if (nmtv->hdr.code == TVN_DELETEITEM) {
+				mir_free_and_nil(nmtv->itemOld.lParam);
+				return 0;
+			}
+		}
+		break;
 
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
@@ -346,7 +346,7 @@ int SearchSkinFiles(HWND hwndDlg, TCHAR * Folder)
 	hFile = _tfindfirst(mask, &fd);
 	{
 		do {
-			if (fd.attrib&_A_SUBDIR && !(_tcsicmp(fd.name, _T(".")) == 0 || _tcsicmp(fd.name, _T("..")) == 0))
+			if (fd.attrib&_A_SUBDIR && !(mir_tstrcmpi(fd.name, _T(".")) == 0 || mir_tstrcmpi(fd.name, _T("..")) == 0))
 			{//Next level of subfolders
 				TCHAR path[MAX_PATH];
 				mir_sntprintf(path, SIZEOF(path), _T("%s\\%s"), Folder, fd.name);
@@ -384,8 +384,8 @@ HTREEITEM AddSkinToListFullName(HWND hwndDlg, TCHAR * fullName)
 	TCHAR path[MAX_PATH] = { 0 };
 	TCHAR file[MAX_PATH] = { 0 };
 	TCHAR *buf;
-	_tcsncpy(path, fullName, SIZEOF(path));
-	buf = path + _tcslen(path);
+	mir_tstrncpy(path, fullName, SIZEOF(path));
+	buf = path + mir_tstrlen(path);
 	while (buf > path)
 	{
 		if (*buf == _T('\\'))
@@ -396,7 +396,7 @@ HTREEITEM AddSkinToListFullName(HWND hwndDlg, TCHAR * fullName)
 		buf--;
 	}
 	buf++;
-	_tcsncpy(file, buf, SIZEOF(file));
+	mir_tstrncpy(file, buf, SIZEOF(file));
 	return AddSkinToList(hwndDlg, path, file);
 }
 
@@ -411,14 +411,14 @@ HTREEITEM AddSkinToList(HWND hwndDlg, TCHAR * path, TCHAR* file)
 	if (!file || _tcschr(file, _T('%'))) {
 		mir_sntprintf(sd->File, SIZEOF(sd->File), _T("%%Default Skin%%"));
 		mir_sntprintf(sd->Name, SIZEOF(sd->Name), TranslateT("%Default Skin%"));
-		_tcsncpy(fullName, TranslateT("Default Skin"), SIZEOF(fullName));
+		mir_tstrncpy(fullName, TranslateT("Default Skin"), SIZEOF(fullName));
 	}
 	else {
 		mir_sntprintf(fullName, SIZEOF(fullName), _T("%s\\%s"), path, file);
-		memcpy(defskinname, file, (_tcslen(file) - 4) * sizeof(TCHAR));
-		defskinname[_tcslen(file) + 1] = _T('\0');
+		memcpy(defskinname, file, (mir_tstrlen(file) - 4) * sizeof(TCHAR));
+		defskinname[mir_tstrlen(file) + 1] = _T('\0');
 		GetPrivateProfileString(_T("Skin_Description_Section"), _T("Name"), defskinname, sd->Name, SIZEOF(sd->Name), fullName);
-		_tcscpy(sd->File, fullName);
+		mir_tstrcpy(sd->File, fullName);
 	}
 	return AddItemToTree(GetDlgItem(hwndDlg, IDC_TREE1), sd->Name, sd);
 }
@@ -439,7 +439,7 @@ HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data)
 		tvi.pszText = buf;
 		tvi.cchTextMax = SIZEOF(buf);
 		TreeView_GetItem(hTree, &tvi);
-		if (_tcsicmp(Caption, tvi.pszText) == 0) {
+		if (mir_tstrcmpi(Caption, tvi.pszText) == 0) {
 			if (!data)
 				return tmp;
 
@@ -449,7 +449,7 @@ HTREEITEM FindChild(HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data)
 			TreeView_GetItem(hTree, &tvi);
 			SkinListData *sd = (SkinListData*)tvi.lParam;
 			if (sd)
-				if (!_tcsicmp(sd->File, ((SkinListData*)data)->File))
+				if (!mir_tstrcmpi(sd->File, ((SkinListData*)data)->File))
 					return tmp;
 		}
 		tmp = TreeView_GetNextSibling(hTree, tmp);

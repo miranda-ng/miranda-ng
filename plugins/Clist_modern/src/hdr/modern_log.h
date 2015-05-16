@@ -5,7 +5,7 @@
 
 #ifdef _DEBUG
 
-void Log(const char *file,int line,const char *fmt,...);
+void Log(const char *file, int line, const char *fmt, ...);
 #define log0(s)  Log(__FILE__,__LINE__,s)
 #define log1(s,a)  Log(__FILE__,__LINE__,s,a)
 

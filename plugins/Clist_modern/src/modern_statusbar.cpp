@@ -566,7 +566,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				RECT rt = r;
 				rt.left = x + (spaceWidth >> 1);
 				rt.top = textY;
-				ske_DrawText(hDC, p.tszProtoXStatus, (int)_tcslen(p.tszProtoXStatus), &rt, 0);
+				ske_DrawText(hDC, p.tszProtoXStatus, (int)mir_tstrlen(p.tszProtoXStatus), &rt, 0);
 			}
 
 			p.protoRect = r;
@@ -782,10 +782,10 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 						char *pos = strstri(g_CluiData.protoFilter, p.szAccountName);
 						if (pos) {
 							// remove filter
-							size_t len = strlen(protoF);
-							memmove(pos, pos + len, strlen(pos + len) + 1);
+							size_t len = mir_strlen(protoF);
+							memmove(pos, pos + len, mir_strlen(pos + len) + 1);
 
-							if (strlen(g_CluiData.protoFilter) == 0)
+							if (mir_strlen(g_CluiData.protoFilter) == 0)
 								ApplyViewMode("");
 							else
 								g_CluiData.bFilterEffective = CLVM_FILTER_PROTOS;
@@ -816,8 +816,8 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 							if (strstri(g_CluiData.protoFilter, protoF)) {
 								char * temp = mir_utf8encodeT(accs[i]->tszAccountName);
 								if (!first)
-									strncat(filterName, "; ", SIZEOF(filterName) - strlen(filterName));
-								strncat(filterName, temp, SIZEOF(filterName) - strlen(filterName));
+									mir_strncat(filterName, "; ", SIZEOF(filterName) - mir_strlen(filterName));
+								mir_strncat(filterName, temp, SIZEOF(filterName) - mir_strlen(filterName));
 								first = false;
 								mir_free(temp);
 							}

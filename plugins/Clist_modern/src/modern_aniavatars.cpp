@@ -153,7 +153,7 @@ static int _AniAva_SortAvatarInfo(const ANIAVA_INFO *aai1, const ANIAVA_INFO *aa
 {
 	int res;
 	if (aai1 && aai1->tcsFilename && aai2 && aai2->tcsFilename)
-		res = _tcsicmp(aai2->tcsFilename, aai1->tcsFilename);
+		res = mir_tstrcmpi(aai2->tcsFilename, aai1->tcsFilename);
 	else {
 		int a1 = (aai1 != NULL && aai1->tcsFilename != NULL);
 		int a2 = (aai2 != NULL && aai2->tcsFilename != NULL);
@@ -188,7 +188,7 @@ static void _AniAva_AnimationTreadProc(void*)
 		DWORD rc = MsgWaitForMultipleObjectsEx(1, &s_hExitEvent, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
 		if (MirandaExiting())
 			break;
-		
+
 		ResetEvent(s_hExitEvent);
 		if (rc == WAIT_OBJECT_0 + 1) {
 			MSG msg;
@@ -228,7 +228,7 @@ static void CALLBACK _AniAva_SyncCallerUserAPCProc(DWORD_PTR dwParam)
 
 static INT_PTR _AniAva_CreateAvatarWindowSync_Worker(WPARAM tszName, LPARAM)
 {
-	HWND hwnd = CreateWindowEx(WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_NOPARENTNOTIFY, ANIAVAWINDOWCLASS, 
+	HWND hwnd = CreateWindowEx(WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_NOPARENTNOTIFY, ANIAVAWINDOWCLASS,
 		(TCHAR*)tszName, WS_POPUP, 0, 0, 1, 1, pcli->hwndContactList, NULL, pcli->hInst, NULL);
 	return (INT_PTR)hwnd;
 }
@@ -305,7 +305,7 @@ static void _AniAva_RealRemoveAvatar(DWORD UniqueID)
 							taai->nStripTop -= aai->FrameSize.cx*aai->nFrameCount;
 					}
 				}
-				
+
 				if (s_AniAvatarList.getCount() > 0) {
 					int newWidth = s_width - aai->FrameSize.cx*aai->nFrameCount;
 					int newHeight = 0;

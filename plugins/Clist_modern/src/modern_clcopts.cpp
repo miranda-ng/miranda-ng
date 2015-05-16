@@ -135,33 +135,33 @@ void RegisterCLUIFonts(void)
 	int index = 0;
 
 	fontid.cbSize = sizeof(fontid);
-	strncpy(fontid.dbSettingsGroup, "CLC", SIZEOF(fontid.dbSettingsGroup));
+	mir_strncpy(fontid.dbSettingsGroup, "CLC", SIZEOF(fontid.dbSettingsGroup));
 
 	effectid.cbSize = sizeof(effectid);
-	strncpy(effectid.dbSettingsGroup, "CLC", SIZEOF(effectid.dbSettingsGroup));
+	mir_strncpy(effectid.dbSettingsGroup, "CLC", SIZEOF(effectid.dbSettingsGroup));
 
 	for (int i = 0; i < SIZEOF(fontOptionsList); i++, index++) {
 		fontid.flags = FIDF_DEFAULTVALID | FIDF_APPENDNAME | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_ALLOWREREGISTER | FIDF_NOAS;
 		fontid.flags |= fontOptionsList[i].dwFlags;
 
-		_tcsncpy(fontid.group, fontOptionsList[i].szGroup, SIZEOF(fontid.group));
-		_tcsncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
+		mir_tstrncpy(fontid.group, fontOptionsList[i].szGroup, SIZEOF(fontid.group));
+		mir_tstrncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
 		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", fontOptionsList[i].fontID);
-		strncpy(fontid.prefix, idstr, SIZEOF(fontid.prefix));
+		mir_strncpy(fontid.prefix, idstr, SIZEOF(fontid.prefix));
 		fontid.order = i + 1;
 
 		fontid.deffontsettings.charset = fontOptionsList[i].defCharset;
 		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
 		fontid.deffontsettings.size = fontOptionsList[i].defSize;
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
-		_tcsncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fontid.deffontsettings.szFace));
+		mir_tstrncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fontid.deffontsettings.szFace));
 
 		FontRegisterT(&fontid);
 
-		_tcsncpy(effectid.group, fontOptionsList[i].szGroup, SIZEOF(effectid.group));
-		_tcsncpy(effectid.name, fontOptionsList[i].szDescr, SIZEOF(effectid.name));
+		mir_tstrncpy(effectid.group, fontOptionsList[i].szGroup, SIZEOF(effectid.group));
+		mir_tstrncpy(effectid.name, fontOptionsList[i].szDescr, SIZEOF(effectid.name));
 		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", fontOptionsList[i].fontID);
-		strncpy(effectid.setting, idstr, SIZEOF(effectid.setting));
+		mir_strncpy(effectid.setting, idstr, SIZEOF(effectid.setting));
 		effectid.order = i + 1;
 
 		effectid.defeffect.effectIndex = fontOptionsList[i].defeffect.effectIndex;
@@ -175,10 +175,10 @@ void RegisterCLUIFonts(void)
 	colourid.cbSize = sizeof(colourid);
 
 	for (int i = 0; i < SIZEOF(colourOptionsList); i++) {
-		_tcsncpy(colourid.group, colourOptionsList[i].szGroup, SIZEOF(colourid.group));
-		_tcsncpy(colourid.name, colourOptionsList[i].szDescr, SIZEOF(colourid.group));
-		strncpy(colourid.setting, colourOptionsList[i].chName, SIZEOF(colourid.setting));
-		strncpy(colourid.dbSettingsGroup, colourOptionsList[i].chGroup, SIZEOF(colourid.dbSettingsGroup));
+		mir_tstrncpy(colourid.group, colourOptionsList[i].szGroup, SIZEOF(colourid.group));
+		mir_tstrncpy(colourid.name, colourOptionsList[i].szDescr, SIZEOF(colourid.group));
+		mir_strncpy(colourid.setting, colourOptionsList[i].chName, SIZEOF(colourid.setting));
+		mir_strncpy(colourid.dbSettingsGroup, colourOptionsList[i].chGroup, SIZEOF(colourid.dbSettingsGroup));
 		colourid.defcolour = colourOptionsList[i].defColour;
 		colourid.order = i + 1;
 		ColourRegisterT(&colourid);
@@ -211,8 +211,8 @@ void GetFontSetting(int i, LOGFONT *lf, COLORREF *colour, BYTE *effect, COLORREF
 
 	FontIDT fontid = { 0 };
 	fontid.cbSize = sizeof(fontid);
-	_tcsncpy(fontid.group, fontOptionsList[index].szGroup, SIZEOF(fontid.group));
-	_tcsncpy(fontid.name, fontOptionsList[index].szDescr, SIZEOF(fontid.name));
+	mir_tstrncpy(fontid.group, fontOptionsList[index].szGroup, SIZEOF(fontid.group));
+	mir_tstrncpy(fontid.name, fontOptionsList[index].szDescr, SIZEOF(fontid.name));
 
 	COLORREF col = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)lf);
 
@@ -1263,7 +1263,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			dat->item = (struct BkgrItem*)mir_alloc(sizeof(struct BkgrItem)*dat->count);
 			dat->indx = CB_ERR;
 			for (indx = 0; indx < dat->count; indx++) {
-				char *module = bkgrList[indx] + strlen(bkgrList[indx]) + 1;
+				char *module = bkgrList[indx] + mir_strlen(bkgrList[indx]) + 1;
 				int jndx;
 
 				dat->item[indx].changed = FALSE;
@@ -1276,7 +1276,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (!db_get_s(NULL, module, "BkBitmap", &dbv)) {
 					int retval = PathToAbsolute(dbv.pszVal, dat->item[indx].filename);
 					if (!retval || retval == CALLSERVICE_NOTFOUND)
-						mir_strncpy(dat->item[indx].filename, dbv.pszVal, MAX_PATH);
+						mir_strncpy(dat->item[indx].filename, dbv.pszVal, SIZEOF(dat->item[indx].filename));
 					mir_free(dbv.pszVal);
 				}
 				else *dat->item[indx].filename = 0;
@@ -1429,7 +1429,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (!p.changed)
 						continue;
 
-					char *module = bkgrList[indx] + strlen(bkgrList[indx]) + 1;
+					char *module = bkgrList[indx] + mir_strlen(bkgrList[indx]) + 1;
 					db_set_b(NULL, module, "UseBitmap", (BYTE)p.useBitmap);
 
 					COLORREF col;
@@ -1467,7 +1467,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 static INT_PTR BkgrCfg_Register(WPARAM wParam, LPARAM lParam)
 {
 	char *szSetting = (char*)wParam;
-	size_t len = strlen(szSetting) + 1;
+	size_t len = mir_strlen(szSetting) + 1;
 
 	char *value = (char *)mir_alloc(len + 4); // add room for flags (DWORD)
 	memcpy(value, szSetting, len);

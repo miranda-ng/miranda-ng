@@ -438,7 +438,7 @@ void  CLCPaint::_DrawTextSmiley(HDC hdcMem, RECT *free_rc, SIZE * text_size, TCH
 		int pos_x = 0;
 		int row_height;
 		RECT tmp_rc = *free_rc;
-		if (len == -1) len = (int)_tcslen(szText);
+		if (len == -1) len = (int)mir_tstrlen(szText);
 		if (uTextFormat & DT_RTLREADING)
 			i = plText->realCount - 1;
 		else
@@ -539,14 +539,14 @@ void  CLCPaint::_FillParam(MASKPARAM * lpParam, DWORD dwParamHash, const char* c
 {
 	lpParam->bMaskParamFlag = MPF_EQUAL | MPF_HASHED;
 	lpParam->dwId = dwParamHash;
-	
+
 	if (!dwValueHash && szValue && szValue[0])
 		lpParam->dwValueHash = mod_CalcHash(szValue);
 	else
 		lpParam->dwValueHash = dwValueHash;
-	
+
 	if (szValue)
-		lpParam->szValue = strdupn(szValue, (int)strlen(szValue));
+		lpParam->szValue = strdupn(szValue, (int)mir_strlen(szValue));
 	else
 		lpParam->szValue = NULL;
 }
@@ -572,7 +572,7 @@ MODERNMASK *CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 		_AddParamShort(mpModernMask, hi_Open, (Drawing->group && Drawing->group->expanded) ? hi_True : hi_False);
 		_AddParamShort(mpModernMask, hi_IsEmpty, (Drawing->group->cl.count == 0) ? hi_True : hi_False);
 		break;
-	
+
 	case CLCIT_CONTACT:
 	{
 		ClcContact *mCont = Drawing;
@@ -599,17 +599,17 @@ MODERNMASK *CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 		AddParam(mpModernMask, HASH[hi_Protocol], Drawing->proto, 0);
 		_AddParamShort(mpModernMask, hi_RootGroup, (group && group->parent == NULL) ? hi_True : hi_False);
 		switch (GetContactCachedStatus(Drawing->hContact)) {
-			case ID_STATUS_ONLINE:      _AddParamShort(mpModernMask, hi_Status, hi_ONLINE);    break;
-			case ID_STATUS_AWAY:        _AddParamShort(mpModernMask, hi_Status, hi_AWAY);      break;
-			case ID_STATUS_DND:         _AddParamShort(mpModernMask, hi_Status, hi_DND);       break;
-			case ID_STATUS_NA:          _AddParamShort(mpModernMask, hi_Status, hi_NA);        break;
-			case ID_STATUS_OCCUPIED:    _AddParamShort(mpModernMask, hi_Status, hi_OCCUPIED);  break;
-			case ID_STATUS_FREECHAT:    _AddParamShort(mpModernMask, hi_Status, hi_FREECHAT);  break;
-			case ID_STATUS_INVISIBLE:   _AddParamShort(mpModernMask, hi_Status, hi_INVISIBLE); break;
-			case ID_STATUS_OUTTOLUNCH:  _AddParamShort(mpModernMask, hi_Status, hi_OUTTOLUNCH); break;
-			case ID_STATUS_ONTHEPHONE:  _AddParamShort(mpModernMask, hi_Status, hi_ONTHEPHONE); break;
-			case ID_STATUS_IDLE:        _AddParamShort(mpModernMask, hi_Status, hi_IDLE);      break;
-			default:                    _AddParamShort(mpModernMask, hi_Status, hi_OFFLINE);
+		case ID_STATUS_ONLINE:      _AddParamShort(mpModernMask, hi_Status, hi_ONLINE);    break;
+		case ID_STATUS_AWAY:        _AddParamShort(mpModernMask, hi_Status, hi_AWAY);      break;
+		case ID_STATUS_DND:         _AddParamShort(mpModernMask, hi_Status, hi_DND);       break;
+		case ID_STATUS_NA:          _AddParamShort(mpModernMask, hi_Status, hi_NA);        break;
+		case ID_STATUS_OCCUPIED:    _AddParamShort(mpModernMask, hi_Status, hi_OCCUPIED);  break;
+		case ID_STATUS_FREECHAT:    _AddParamShort(mpModernMask, hi_Status, hi_FREECHAT);  break;
+		case ID_STATUS_INVISIBLE:   _AddParamShort(mpModernMask, hi_Status, hi_INVISIBLE); break;
+		case ID_STATUS_OUTTOLUNCH:  _AddParamShort(mpModernMask, hi_Status, hi_OUTTOLUNCH); break;
+		case ID_STATUS_ONTHEPHONE:  _AddParamShort(mpModernMask, hi_Status, hi_ONTHEPHONE); break;
+		case ID_STATUS_IDLE:        _AddParamShort(mpModernMask, hi_Status, hi_IDLE);      break;
+		default:                    _AddParamShort(mpModernMask, hi_Status, hi_OFFLINE);
 		}
 		_AddParamShort(mpModernMask, hi_HasAvatar, (dat->avatars_show  && Drawing->avatar_data != NULL) ? hi_True : hi_False);
 		_AddParamShort(mpModernMask, hi_Rate, hi_None + Drawing->bContactRate);
@@ -623,7 +623,7 @@ MODERNMASK *CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 		_AddParamShort(mpModernMask, hi_Type, hi_Info);
 		break;
 	}
-	
+
 	if (group->scanIndex == 0 && group->cl.count == 1)
 		_AddParamShort(mpModernMask, hi_GroupPos, hi_First_Single);
 	else if (group->scanIndex == 0)
@@ -718,7 +718,7 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 			}
 			else if (Drawing->type == CLCIT_CONTACT)
 				iImage = Drawing->iImage;
-			
+
 			if (iImage != -1) {
 				COLORREF colourFg;
 				int mode;
@@ -1006,67 +1006,67 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 			OffsetRect(&p_rect, dx, dy);
 			if (dat->text_rtl != 0 && gl_RowTabAccess[i]->type != TC_EXTRA /*each extra icon modified separately*/)
 				_RTLRect(&p_rect, free_row_rc.right);
-			
+
 			SIZE text_size;
 			switch (gl_RowTabAccess[i]->type) {
 			case TC_TEXT1:
-				{
-					// paint text 1
-					UINT uTextFormat = (dat->text_rtl ? DT_RTLREADING : 0);
-					text_size.cx = p_rect.right - p_rect.left;
-					text_size.cy = p_rect.bottom - p_rect.top;
-					ChangeToFont(hdcMem, dat, GetBasicFontID(Drawing), NULL);
+			{
+				// paint text 1
+				UINT uTextFormat = (dat->text_rtl ? DT_RTLREADING : 0);
+				text_size.cx = p_rect.right - p_rect.left;
+				text_size.cy = p_rect.bottom - p_rect.top;
+				ChangeToFont(hdcMem, dat, GetBasicFontID(Drawing), NULL);
 
-					uTextFormat |= (gl_RowTabAccess[i]->valign == TC_VCENTER) ? DT_VCENTER : (gl_RowTabAccess[i]->valign == TC_BOTTOM) ? DT_BOTTOM : 0;
-					uTextFormat |= (gl_RowTabAccess[i]->halign == TC_HCENTER) ? DT_CENTER : (gl_RowTabAccess[i]->halign == TC_RIGHT) ? DT_RIGHT : 0;
+				uTextFormat |= (gl_RowTabAccess[i]->valign == TC_VCENTER) ? DT_VCENTER : (gl_RowTabAccess[i]->valign == TC_BOTTOM) ? DT_BOTTOM : 0;
+				uTextFormat |= (gl_RowTabAccess[i]->halign == TC_HCENTER) ? DT_CENTER : (gl_RowTabAccess[i]->halign == TC_RIGHT) ? DT_RIGHT : 0;
 
-					uTextFormat = uTextFormat | (gl_TrimText ? DT_END_ELLIPSIS : 0) | DT_SINGLELINE;
-					if (Drawing->type == CLCIT_CONTACT) {
-						if (selected)
-							SetTextColor(hdcMem, dat->selTextColour);
-						else if (hottrack)
-							_SetHotTrackColour(hdcMem, dat);
-						_DrawTextSmiley(hdcMem, &p_rect, &text_size, Drawing->szText, 0, (int)mir_tstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
-						if ((dat->filterSearch || selected) && dat->szQuickSearch[0] != '\0') {
-							int idx = 0;
-							if (dat->filterSearch) {
-								TCHAR *lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
-								TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
-								TCHAR *p1 = _tcsstr(lowered, lowered_search);
-								if (p1)
-									idx = int(p1 - lowered);
-							}
-							SetTextColor(hdcMem, dat->quickSearchColour);
-							_DrawTextSmiley(hdcMem, &p_rect, &text_size, Drawing->szText, idx, (int)mir_tstrlen(dat->szQuickSearch), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
+				uTextFormat = uTextFormat | (gl_TrimText ? DT_END_ELLIPSIS : 0) | DT_SINGLELINE;
+				if (Drawing->type == CLCIT_CONTACT) {
+					if (selected)
+						SetTextColor(hdcMem, dat->selTextColour);
+					else if (hottrack)
+						_SetHotTrackColour(hdcMem, dat);
+					_DrawTextSmiley(hdcMem, &p_rect, &text_size, Drawing->szText, 0, (int)mir_tstrlen(Drawing->szText), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
+					if ((dat->filterSearch || selected) && dat->szQuickSearch[0] != '\0') {
+						int idx = 0;
+						if (dat->filterSearch) {
+							TCHAR *lowered = CharLowerW(NEWTSTR_ALLOCA(Drawing->szText));
+							TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
+							TCHAR *p1 = _tcsstr(lowered, lowered_search);
+							if (p1)
+								idx = int(p1 - lowered);
 						}
-						Drawing->pos_rename_rect = p_rect;
-
-						SIZE size;
-						GetTextSize(&size, hdcMem, p_rect, Drawing->szText, Drawing->ssText.plText, 0, dat->text_resize_smileys ? 0 : Drawing->ssText.iMaxSmileyHeight);
-						Drawing->pos_label = p_rect;
-						Drawing->pos_label.right = min(Drawing->pos_label.right, Drawing->pos_label.left + size.cx);
+						SetTextColor(hdcMem, dat->quickSearchColour);
+						_DrawTextSmiley(hdcMem, &p_rect, &text_size, Drawing->szText, idx, (int)mir_tstrlen(dat->szQuickSearch), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys);
 					}
-					else if (Drawing->type == CLCIT_GROUP) {
-						RECT nameRect = p_rect;
-						RECT countRect = { 0 };
-						RECT count_rc = { 0 };
-						SIZE count_size = { 0 };
-						int space_width = 0;
-						TCHAR *szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
-						// Has to draw the count?
-						if (szCounts && mir_tstrlen(szCounts) > 0) {
-							// calc width and height
-							ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
-							ske_DrawText(hdcMem, _T(" "), 1, &count_rc, DT_CALCRECT | DT_NOPREFIX);
-							count_size.cx = count_rc.right - count_rc.left;
-							space_width = count_size.cx;
-							count_rc.right = 0;
-							count_rc.left = 0;
-							ske_DrawText(hdcMem, szCounts, (int)mir_tstrlen(szCounts), &count_rc, DT_CALCRECT);
-							count_size.cx += count_rc.right - count_rc.left;
-							count_size.cy = count_rc.bottom - count_rc.top;
-						}
-						// modify text rect
+					Drawing->pos_rename_rect = p_rect;
+
+					SIZE size;
+					GetTextSize(&size, hdcMem, p_rect, Drawing->szText, Drawing->ssText.plText, 0, dat->text_resize_smileys ? 0 : Drawing->ssText.iMaxSmileyHeight);
+					Drawing->pos_label = p_rect;
+					Drawing->pos_label.right = min(Drawing->pos_label.right, Drawing->pos_label.left + size.cx);
+				}
+				else if (Drawing->type == CLCIT_GROUP) {
+					RECT nameRect = p_rect;
+					RECT countRect = { 0 };
+					RECT count_rc = { 0 };
+					SIZE count_size = { 0 };
+					int space_width = 0;
+					TCHAR *szCounts = pcli->pfnGetGroupCountsText(dat, Drawing);
+					// Has to draw the count?
+					if (szCounts && mir_tstrlen(szCounts) > 0) {
+						// calc width and height
+						ChangeToFont(hdcMem, dat, Drawing->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
+						ske_DrawText(hdcMem, _T(" "), 1, &count_rc, DT_CALCRECT | DT_NOPREFIX);
+						count_size.cx = count_rc.right - count_rc.left;
+						space_width = count_size.cx;
+						count_rc.right = 0;
+						count_rc.left = 0;
+						ske_DrawText(hdcMem, szCounts, (int)mir_tstrlen(szCounts), &count_rc, DT_CALCRECT);
+						count_size.cx += count_rc.right - count_rc.left;
+						count_size.cy = count_rc.bottom - count_rc.top;
+					}
+					// modify text rect
 						{
 							SIZE text_size = { 0 };
 							int wid = p_rect.right - p_rect.left;
@@ -1118,66 +1118,66 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 						}
 						Drawing->pos_rename_rect = p_rect;
 						Drawing->pos_label = nameRect;
-					}
 				}
-				break;
+			}
+			break;
 
 			case TC_TEXT2:
-				{
-					// paint text 2
-					//
-					// Select font
-					UINT uTextFormat = (dat->text_rtl ? DT_RTLREADING : 0);
+			{
+				// paint text 2
+				//
+				// Select font
+				UINT uTextFormat = (dat->text_rtl ? DT_RTLREADING : 0);
 
-					if (dat->second_line_show && dat->second_line_type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
-						// Get contact time
-						TCHAR buf[70] = _T("");
-						mir_free_and_nil(pdnce->szSecondLineText);
+				if (dat->second_line_show && dat->second_line_type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
+					// Get contact time
+					TCHAR buf[70] = _T("");
+					mir_free_and_nil(pdnce->szSecondLineText);
 
-						tmi.printDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
-						pdnce->szSecondLineText = mir_tstrdup(buf);
-					}
-
-					uTextFormat |= (gl_RowTabAccess[i]->valign == TC_VCENTER) ? DT_VCENTER : (gl_RowTabAccess[i]->valign == TC_BOTTOM) ? DT_BOTTOM : 0;
-					uTextFormat |= (gl_RowTabAccess[i]->halign == TC_HCENTER) ? DT_CENTER : (gl_RowTabAccess[i]->halign == TC_RIGHT) ? DT_RIGHT : 0;
-
-					text_size.cx = p_rect.right - p_rect.left;
-					text_size.cy = p_rect.bottom - p_rect.top;
-
-					ChangeToFont(hdcMem, dat, FONTID_SECONDLINE, NULL);
-					uTextFormat = uTextFormat | (gl_TrimText ? DT_END_ELLIPSIS : 0) | DT_SINGLELINE;
-					if (Drawing->type == CLCIT_CONTACT)
-						_DrawTextSmiley(hdcMem, &p_rect, &text_size, pdnce->szSecondLineText, 0, (int)mir_tstrlen(pdnce->szSecondLineText), pdnce->ssSecondLine.plText, uTextFormat, dat->text_resize_smileys);
+					tmi.printDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
+					pdnce->szSecondLineText = mir_tstrdup(buf);
 				}
-				break;
+
+				uTextFormat |= (gl_RowTabAccess[i]->valign == TC_VCENTER) ? DT_VCENTER : (gl_RowTabAccess[i]->valign == TC_BOTTOM) ? DT_BOTTOM : 0;
+				uTextFormat |= (gl_RowTabAccess[i]->halign == TC_HCENTER) ? DT_CENTER : (gl_RowTabAccess[i]->halign == TC_RIGHT) ? DT_RIGHT : 0;
+
+				text_size.cx = p_rect.right - p_rect.left;
+				text_size.cy = p_rect.bottom - p_rect.top;
+
+				ChangeToFont(hdcMem, dat, FONTID_SECONDLINE, NULL);
+				uTextFormat = uTextFormat | (gl_TrimText ? DT_END_ELLIPSIS : 0) | DT_SINGLELINE;
+				if (Drawing->type == CLCIT_CONTACT)
+					_DrawTextSmiley(hdcMem, &p_rect, &text_size, pdnce->szSecondLineText, 0, (int)mir_tstrlen(pdnce->szSecondLineText), pdnce->ssSecondLine.plText, uTextFormat, dat->text_resize_smileys);
+			}
+			break;
 
 			case TC_TEXT3:
-				{
-					//paint text 3
-					// Select font
-					UINT uTextFormat = (dat->text_rtl ? DT_RTLREADING : 0);
+			{
+				//paint text 3
+				// Select font
+				UINT uTextFormat = (dat->text_rtl ? DT_RTLREADING : 0);
 
-					if (dat->third_line_show && dat->third_line_type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
-						// Get contact time
-						TCHAR buf[70] = _T("");
-						mir_free(pdnce->szThirdLineText);
+				if (dat->third_line_show && dat->third_line_type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
+					// Get contact time
+					TCHAR buf[70] = _T("");
+					mir_free(pdnce->szThirdLineText);
 
-						tmi.printDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
-						pdnce->szThirdLineText = mir_tstrdup(buf);
-					}
-
-					uTextFormat |= (gl_RowTabAccess[i]->valign == TC_VCENTER) ? DT_VCENTER : (gl_RowTabAccess[i]->valign == TC_BOTTOM) ? DT_BOTTOM : 0;
-					uTextFormat |= (gl_RowTabAccess[i]->halign == TC_HCENTER) ? DT_CENTER : (gl_RowTabAccess[i]->halign == TC_RIGHT) ? DT_RIGHT : 0;
-
-					text_size.cx = p_rect.right - p_rect.left;
-					text_size.cy = p_rect.bottom - p_rect.top;
-
-					ChangeToFont(hdcMem, dat, FONTID_THIRDLINE, NULL);
-					uTextFormat = uTextFormat | (gl_TrimText ? DT_END_ELLIPSIS : 0) | DT_SINGLELINE;
-					if (Drawing->type == CLCIT_CONTACT)
-						_DrawTextSmiley(hdcMem, &p_rect, &text_size, pdnce->szThirdLineText, 0, (int)mir_tstrlen(pdnce->szThirdLineText), pdnce->ssThirdLine.plText, uTextFormat, dat->text_resize_smileys);
+					tmi.printDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
+					pdnce->szThirdLineText = mir_tstrdup(buf);
 				}
-				break;
+
+				uTextFormat |= (gl_RowTabAccess[i]->valign == TC_VCENTER) ? DT_VCENTER : (gl_RowTabAccess[i]->valign == TC_BOTTOM) ? DT_BOTTOM : 0;
+				uTextFormat |= (gl_RowTabAccess[i]->halign == TC_HCENTER) ? DT_CENTER : (gl_RowTabAccess[i]->halign == TC_RIGHT) ? DT_RIGHT : 0;
+
+				text_size.cx = p_rect.right - p_rect.left;
+				text_size.cy = p_rect.bottom - p_rect.top;
+
+				ChangeToFont(hdcMem, dat, FONTID_THIRDLINE, NULL);
+				uTextFormat = uTextFormat | (gl_TrimText ? DT_END_ELLIPSIS : 0) | DT_SINGLELINE;
+				if (Drawing->type == CLCIT_CONTACT)
+					_DrawTextSmiley(hdcMem, &p_rect, &text_size, pdnce->szThirdLineText, 0, (int)mir_tstrlen(pdnce->szThirdLineText), pdnce->ssThirdLine.plText, uTextFormat, dat->text_resize_smileys);
+			}
+			break;
 
 			case TC_STATUS:
 				if ((Drawing->type == CLCIT_GROUP && !dat->row_hide_group_icon) || (Drawing->type == CLCIT_CONTACT && Drawing->iImage != -1
@@ -1220,142 +1220,142 @@ void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact 
 				break;
 
 			case TC_AVATAR:
-				{
-					BOOL hasAvatar = Drawing->avatar_data != NULL;
-					BYTE blendmode = 255;
-					if (hottrack)
-						blendmode = 255;
-					else if (Drawing->type == CLCIT_CONTACT && Drawing->flags & CONTACTF_NOTONLIST)
-						blendmode = 128;
-					if (Drawing->type == CLCIT_CONTACT && dat->showIdle && (Drawing->flags&CONTACTF_IDLE) &&
-						 _GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-						 blendmode = 128;
-					if (!hasAvatar) { // if no avatar then paint icon image
-						int iImage = Drawing->iImage;
-						if (iImage != -1) {
-							COLORREF colourFg;
-							int mode;
-							// Store pos
-							Drawing->pos_icon = p_rect;
-							if (hottrack) {
-								colourFg = dat->hotTextColour;
-								mode = ILD_NORMAL;
-							}
-							else if (Drawing->type == CLCIT_CONTACT && Drawing->flags & CONTACTF_NOTONLIST) {
-								colourFg = dat->fontModernInfo[FONTID_NOTONLIST].colour;
-								mode = ILD_BLEND50;
-							}
-							else {
-								colourFg = dat->selBkColour;
-								mode = ILD_NORMAL;
-							}
-
-							if (Drawing->type == CLCIT_CONTACT && dat->showIdle && (Drawing->flags & CONTACTF_IDLE) &&
-								 _GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
-								mode = ILD_SELECTED;
-							}
-
-							_DrawStatusIcon(Drawing, dat, iImage, hdcMem, p_rect.left, p_rect.top, 0, 0, CLR_NONE, colourFg, mode);
-
-						}
-					}
-					else {
-						HRGN rgn = NULL;
-						HRGN oldrgn;
-						int round_radius = 0;
-						int width = p_rect.right - p_rect.left;
-						int height = p_rect.bottom - p_rect.top;
+			{
+				BOOL hasAvatar = Drawing->avatar_data != NULL;
+				BYTE blendmode = 255;
+				if (hottrack)
+					blendmode = 255;
+				else if (Drawing->type == CLCIT_CONTACT && Drawing->flags & CONTACTF_NOTONLIST)
+					blendmode = 128;
+				if (Drawing->type == CLCIT_CONTACT && dat->showIdle && (Drawing->flags&CONTACTF_IDLE) &&
+					_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+					blendmode = 128;
+				if (!hasAvatar) { // if no avatar then paint icon image
+					int iImage = Drawing->iImage;
+					if (iImage != -1) {
+						COLORREF colourFg;
+						int mode;
 						// Store pos
-						Drawing->pos_avatar = p_rect;
-						oldrgn = CreateRectRgn(0, 0, 0, 0);
-						GetClipRgn(hdcMem, oldrgn);
-
-						// Round corners
-						if (dat->avatars_round_corners) {
-							if (dat->avatars_use_custom_corner_size)
-								round_radius = dat->avatars_custom_corner_size;
-							else
-								round_radius = min(width, height) / 5;
+						Drawing->pos_icon = p_rect;
+						if (hottrack) {
+							colourFg = dat->hotTextColour;
+							mode = ILD_NORMAL;
 						}
-						else round_radius = 0;
+						else if (Drawing->type == CLCIT_CONTACT && Drawing->flags & CONTACTF_NOTONLIST) {
+							colourFg = dat->fontModernInfo[FONTID_NOTONLIST].colour;
+							mode = ILD_BLEND50;
+						}
+						else {
+							colourFg = dat->selBkColour;
+							mode = ILD_NORMAL;
+						}
+
+						if (Drawing->type == CLCIT_CONTACT && dat->showIdle && (Drawing->flags & CONTACTF_IDLE) &&
+							_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
+							mode = ILD_SELECTED;
+						}
+
+						_DrawStatusIcon(Drawing, dat, iImage, hdcMem, p_rect.left, p_rect.top, 0, 0, CLR_NONE, colourFg, mode);
+
+					}
+				}
+				else {
+					HRGN rgn = NULL;
+					HRGN oldrgn;
+					int round_radius = 0;
+					int width = p_rect.right - p_rect.left;
+					int height = p_rect.bottom - p_rect.top;
+					// Store pos
+					Drawing->pos_avatar = p_rect;
+					oldrgn = CreateRectRgn(0, 0, 0, 0);
+					GetClipRgn(hdcMem, oldrgn);
+
+					// Round corners
+					if (dat->avatars_round_corners) {
+						if (dat->avatars_use_custom_corner_size)
+							round_radius = dat->avatars_custom_corner_size;
+						else
+							round_radius = min(width, height) / 5;
+					}
+					else round_radius = 0;
+
+					if (dat->avatars_draw_border) {
+						HBRUSH hBrush = CreateSolidBrush(dat->avatars_border_color);
+						HBRUSH hOldBrush = (HBRUSH)SelectObject(hdcMem, hBrush);
+						HRGN rgn2;
+						rgn = CreateRoundRectRgn(p_rect.left, p_rect.top, p_rect.right + 1, p_rect.bottom + 1, round_radius << 1, round_radius << 1);
+						rgn2 = CreateRoundRectRgn(p_rect.left + 1, p_rect.top + 1, p_rect.right, p_rect.bottom, round_radius << 1, round_radius << 1);
+						CombineRgn(rgn2, rgn, rgn2, RGN_DIFF);
+						// FrameRgn(hdcMem, rgn, hBrush, 1, 1 );
+						FillRgn(hdcMem, rgn2, hBrush);
+						ske_SetRgnOpaque(hdcMem, rgn2);
+						SelectObject(hdcMem, hOldBrush);
+						DeleteObject(hBrush);
+						DeleteObject(rgn);
+						DeleteObject(rgn2);
+					}
+					if (dat->avatars_round_corners || dat->avatars_draw_border) {
+						int k = dat->avatars_draw_border ? 1 : 0;
+						rgn = CreateRoundRectRgn(p_rect.left + k, p_rect.top + k, p_rect.right + 1 - k, p_rect.bottom + 1 - k, round_radius * 2, round_radius * 2);
+						ExtSelectClipRgn(hdcMem, rgn, RGN_AND);
+					}
+
+					// Draw avatar
+					_DrawContactAvatar(hdcMem, dat, Drawing, &row_rc, selected, hottrack, &p_rect);
+
+					// Restore region
+					if (dat->avatars_round_corners || dat->avatars_draw_border)
+						DeleteObject(rgn);
+
+					SelectClipRgn(hdcMem, oldrgn);
+					DeleteObject(oldrgn);
+
+					// Draw borders
+
+					//TODO fix overlays
+					// Draw overlay
+					if (dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
+						&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons)) {
+						p_rect.top = p_rect.bottom - ICON_HEIGHT;
+						p_rect.left = p_rect.right - ICON_HEIGHT;
 
 						if (dat->avatars_draw_border) {
-							HBRUSH hBrush = CreateSolidBrush(dat->avatars_border_color);
-							HBRUSH hOldBrush = (HBRUSH)SelectObject(hdcMem, hBrush);
-							HRGN rgn2;
-							rgn = CreateRoundRectRgn(p_rect.left, p_rect.top, p_rect.right + 1, p_rect.bottom + 1, round_radius << 1, round_radius << 1);
-							rgn2 = CreateRoundRectRgn(p_rect.left + 1, p_rect.top + 1, p_rect.right, p_rect.bottom, round_radius << 1, round_radius << 1);
-							CombineRgn(rgn2, rgn, rgn2, RGN_DIFF);
-							// FrameRgn(hdcMem, rgn, hBrush, 1, 1 );
-							FillRgn(hdcMem, rgn2, hBrush);
-							ske_SetRgnOpaque(hdcMem, rgn2);
-							SelectObject(hdcMem, hOldBrush);
-							DeleteObject(hBrush);
-							DeleteObject(rgn);
-							DeleteObject(rgn2);
-						}
-						if (dat->avatars_round_corners || dat->avatars_draw_border) {
-							int k = dat->avatars_draw_border ? 1 : 0;
-							rgn = CreateRoundRectRgn(p_rect.left + k, p_rect.top + k, p_rect.right + 1 - k, p_rect.bottom + 1 - k, round_radius * 2, round_radius * 2);
-							ExtSelectClipRgn(hdcMem, rgn, RGN_AND);
+							p_rect.top--;
+							p_rect.left--;
 						}
 
-						// Draw avatar
-						_DrawContactAvatar(hdcMem, dat, Drawing, &row_rc, selected, hottrack, &p_rect);
-
-						// Restore region
-						if (dat->avatars_round_corners || dat->avatars_draw_border)
-							DeleteObject(rgn);
-
-						SelectClipRgn(hdcMem, oldrgn);
-						DeleteObject(oldrgn);
-
-						// Draw borders
-
-						//TODO fix overlays
-						// Draw overlay
-						if (dat->avatars_draw_overlay && dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
-							 && GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons)) {
-							p_rect.top = p_rect.bottom - ICON_HEIGHT;
-							p_rect.left = p_rect.right - ICON_HEIGHT;
-
-							if (dat->avatars_draw_border) {
-								p_rect.top--;
-								p_rect.left--;
-							}
-
-							switch (dat->avatars_overlay_type) {
-							case SETTING_AVATAR_OVERLAY_TYPE_NORMAL:
-								{
-									UINT a = blendmode;
-									a = (a << 24);
-									ske_ImageList_DrawEx(hAvatarOverlays, g_pAvatarOverlayIcons[GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE].listID,
-										hdcMem,
-										p_rect.left, p_rect.top, ICON_HEIGHT, ICON_HEIGHT,
-										CLR_NONE, CLR_NONE,
-										(blendmode == 255) ? ILD_NORMAL : (blendmode == 128) ? ILD_BLEND50 : ILD_BLEND25);
-								}
-								break;
-							case SETTING_AVATAR_OVERLAY_TYPE_PROTOCOL:
-								{
-									int item = pcli->pfnIconFromStatusMode(Drawing->proto, Drawing->proto == NULL ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
-									if (item != -1)
-										_DrawStatusIcon(Drawing, dat, item, hdcMem,
-											p_rect.left, p_rect.top, ICON_HEIGHT, ICON_HEIGHT,
-											CLR_NONE, CLR_NONE, (blendmode == 255) ? ILD_NORMAL : (blendmode == 128) ? ILD_BLEND50 : ILD_BLEND25);
-								}
-								break;
-							case SETTING_AVATAR_OVERLAY_TYPE_CONTACT:
-								if (Drawing->iImage != -1)
-									_DrawStatusIcon(Drawing, dat, Drawing->iImage, hdcMem,
-										p_rect.left, p_rect.top, ICON_HEIGHT, ICON_HEIGHT,
-										CLR_NONE, CLR_NONE, (blendmode == 255) ? ILD_NORMAL : (blendmode == 128) ? ILD_BLEND50 : ILD_BLEND25);
-								break;
-							}
+						switch (dat->avatars_overlay_type) {
+						case SETTING_AVATAR_OVERLAY_TYPE_NORMAL:
+						{
+							UINT a = blendmode;
+							a = (a << 24);
+							ske_ImageList_DrawEx(hAvatarOverlays, g_pAvatarOverlayIcons[GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE].listID,
+								hdcMem,
+								p_rect.left, p_rect.top, ICON_HEIGHT, ICON_HEIGHT,
+								CLR_NONE, CLR_NONE,
+								(blendmode == 255) ? ILD_NORMAL : (blendmode == 128) ? ILD_BLEND50 : ILD_BLEND25);
+						}
+						break;
+						case SETTING_AVATAR_OVERLAY_TYPE_PROTOCOL:
+						{
+							int item = pcli->pfnIconFromStatusMode(Drawing->proto, Drawing->proto == NULL ? ID_STATUS_OFFLINE : GetContactCachedStatus(Drawing->hContact), Drawing->hContact);
+							if (item != -1)
+								_DrawStatusIcon(Drawing, dat, item, hdcMem,
+								p_rect.left, p_rect.top, ICON_HEIGHT, ICON_HEIGHT,
+								CLR_NONE, CLR_NONE, (blendmode == 255) ? ILD_NORMAL : (blendmode == 128) ? ILD_BLEND50 : ILD_BLEND25);
+						}
+						break;
+						case SETTING_AVATAR_OVERLAY_TYPE_CONTACT:
+							if (Drawing->iImage != -1)
+								_DrawStatusIcon(Drawing, dat, Drawing->iImage, hdcMem,
+								p_rect.left, p_rect.top, ICON_HEIGHT, ICON_HEIGHT,
+								CLR_NONE, CLR_NONE, (blendmode == 255) ? ILD_NORMAL : (blendmode == 128) ? ILD_BLEND50 : ILD_BLEND25);
+							break;
 						}
 					}
 				}
-				break;
+			}
+			break;
 
 			case TC_EXTRA:
 				if (Drawing->type == CLCIT_CONTACT &&
@@ -1804,16 +1804,16 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 						switch (dat->HiLightMode) {
 						case 0:
 						case 1:
-							{
-								int row_height = row_rc.bottom - row_rc.top;
-								for (int i = y; i < y + row_height; i += max(dat->row_min_heigh, 1)) {
-									ImageList_DrawEx(dat->himlHighlight, 0, pc.hdcMem, 0, i, clRect.right,
-										min(y + row_height - i, max(dat->row_min_heigh, 1)), CLR_NONE, CLR_NONE,
-										dat->exStyle&CLS_EX_NOTRANSLUCENTSEL ? ILD_NORMAL : ILD_BLEND25);
-								}
-								SetTextColor(pc.hdcMem, paintMode&DM_CONTROL ? GetSysColor(COLOR_HIGHLIGHTTEXT) : dat->selTextColour);
+						{
+							int row_height = row_rc.bottom - row_rc.top;
+							for (int i = y; i < y + row_height; i += max(dat->row_min_heigh, 1)) {
+								ImageList_DrawEx(dat->himlHighlight, 0, pc.hdcMem, 0, i, clRect.right,
+									min(y + row_height - i, max(dat->row_min_heigh, 1)), CLR_NONE, CLR_NONE,
+									dat->exStyle&CLS_EX_NOTRANSLUCENTSEL ? ILD_NORMAL : ILD_BLEND25);
 							}
-							break;
+							SetTextColor(pc.hdcMem, paintMode&DM_CONTROL ? GetSysColor(COLOR_HIGHLIGHTTEXT) : dat->selTextColour);
+						}
+						break;
 
 						case 2:
 							int row_height = row_rc.bottom - row_rc.top - 1;
@@ -1921,7 +1921,7 @@ void CLCPaint::_DrawInsertionMark(ClcData *dat, RECT& clRect, _PaintContext& pc)
 	pts[5].x = pts[2].x + 1;      pts[5].y = pts[1].y + 2;
 	pts[6].x = pts[1].x;        pts[6].y = pts[5].y;
 	pts[7].x = pts[0].x;        pts[7].y = pts[4].y;
-	
+
 	HRGN hRgn = CreatePolygonRgn(pts, sizeof(pts) / sizeof(pts[0]), ALTERNATE);
 	HBRUSH hBrush = CreateSolidBrush(dat->fontModernInfo[FONTID_CONTACTS].colour);
 	HBRUSH hoBrush = (HBRUSH)SelectObject(pc.hdcMem, hBrush);
@@ -2054,131 +2054,98 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 
 		switch (dat->row_items[item]) {
 		case ITEM_AVATAR: ///////////////////////////////////////////////////////////////////////////////////////////////////
-			{
-				RECT rc;
-				int max_width;
-				int width;
-				int height;
-				BOOL miniMode;
-				if (!dat->avatars_show || Drawing->type != CLCIT_CONTACT)
-					break;
-				miniMode = CheckMiniMode(dat, selected);
-				AniAva_InvalidateAvatarPositions(Drawing->hContact);
-				if (dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space)
-					max_width = max(dat->iconXSpace, dat->avatars_maxheight_size);
-				else
-					max_width = dat->avatars_maxheight_size;
+		{
+			RECT rc;
+			int max_width;
+			int width;
+			int height;
+			BOOL miniMode;
+			if (!dat->avatars_show || Drawing->type != CLCIT_CONTACT)
+				break;
+			miniMode = CheckMiniMode(dat, selected);
+			AniAva_InvalidateAvatarPositions(Drawing->hContact);
+			if (dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space)
+				max_width = max(dat->iconXSpace, dat->avatars_maxheight_size);
+			else
+				max_width = dat->avatars_maxheight_size;
 
-				// Has to draw?
-				if (Drawing->avatar_data == NULL || miniMode) {
-					// Don't have to draw avatar
+			// Has to draw?
+			if (Drawing->avatar_data == NULL || miniMode) {
+				// Don't have to draw avatar
 
-					// Has to draw icon instead?
-					if (dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space && Drawing->iImage != -1) {
-						RECT rc;
+				// Has to draw icon instead?
+				if (dat->icon_hide_on_avatar && dat->icon_draw_on_avatar_space && Drawing->iImage != -1) {
+					RECT rc;
 
-						// Make rectangle
-						rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos,
-							left, dat->iconXSpace, max_width, ICON_HEIGHT, HORIZONTAL_SPACE);
+					// Make rectangle
+					rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos,
+						left, dat->iconXSpace, max_width, ICON_HEIGHT, HORIZONTAL_SPACE);
 
-						if (rc.left < rc.right) {
-							/* center icon in avatar place */
-							if (rc.right - rc.left > 16) rc.left += (((rc.right - rc.left) - 16) >> 1);
-							if (rc.bottom - rc.top > 16) rc.top += (((rc.bottom - rc.top) - 16) >> 1);
+					if (rc.left < rc.right) {
+						/* center icon in avatar place */
+						if (rc.right - rc.left > 16) rc.left += (((rc.right - rc.left) - 16) >> 1);
+						if (rc.bottom - rc.top > 16) rc.top += (((rc.bottom - rc.top) - 16) >> 1);
 
-							// Store position
-							_StoreItemPos(Drawing, CIT_ICON, &rc);
-						}
+						// Store position
+						_StoreItemPos(Drawing, CIT_ICON, &rc);
 					}
-					else {
-						// Has to keep the empty space??
-						if ((left && !dat->row_align_left_items_to_left) || (!left && !dat->row_align_right_items_to_right)) {
-							// Make rectangle
-							rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos,
-								left, max_width, max_width, dat->avatars_maxheight_size, HORIZONTAL_SPACE);
-
-							// Store position
-							//StoreItemPos( Drawing, CIT_AVATAR, &rc );
-							//Drawing->pos_avatar = rc;
-						}
-					}
-					break;
-				}
-
-				// Has to draw avatar
-				if (dat->avatar_cache.nodes && Drawing->avatar_pos > AVATAR_POS_DONT_HAVE) {
-					width = dat->avatar_cache.nodes[Drawing->avatar_pos].width;
-					height = dat->avatar_cache.nodes[Drawing->avatar_pos].height;
-				}
-				else if (Drawing->avatar_pos == AVATAR_POS_ANIMATED) {
-					width = Drawing->avatar_size.cx;
-					height = Drawing->avatar_size.cy;
 				}
 				else {
-					width = 0;
-					height = 0;
+					// Has to keep the empty space??
+					if ((left && !dat->row_align_left_items_to_left) || (!left && !dat->row_align_right_items_to_right)) {
+						// Make rectangle
+						rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos,
+							left, max_width, max_width, dat->avatars_maxheight_size, HORIZONTAL_SPACE);
+
+						// Store position
+						//StoreItemPos( Drawing, CIT_AVATAR, &rc );
+						//Drawing->pos_avatar = rc;
+					}
 				}
-
-				// Make rectangle
-				rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos,
-					left, width, max_width, height, HORIZONTAL_SPACE);
-
-				rc.top = max(free_row_rc.top, rc.top);
-				rc.bottom = min(free_row_rc.bottom, rc.bottom);
-
-				if (rc.left < rc.right) // Store position
-					_StoreItemPos(Drawing, CIT_AVATAR, &rc);
-				//TO DO: CALC avatar overlays
+				break;
 			}
-			break;
+
+			// Has to draw avatar
+			if (dat->avatar_cache.nodes && Drawing->avatar_pos > AVATAR_POS_DONT_HAVE) {
+				width = dat->avatar_cache.nodes[Drawing->avatar_pos].width;
+				height = dat->avatar_cache.nodes[Drawing->avatar_pos].height;
+			}
+			else if (Drawing->avatar_pos == AVATAR_POS_ANIMATED) {
+				width = Drawing->avatar_size.cx;
+				height = Drawing->avatar_size.cy;
+			}
+			else {
+				width = 0;
+				height = 0;
+			}
+
+			// Make rectangle
+			rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos,
+				left, width, max_width, height, HORIZONTAL_SPACE);
+
+			rc.top = max(free_row_rc.top, rc.top);
+			rc.bottom = min(free_row_rc.bottom, rc.bottom);
+
+			if (rc.left < rc.right) // Store position
+				_StoreItemPos(Drawing, CIT_AVATAR, &rc);
+			//TO DO: CALC avatar overlays
+		}
+		break;
 
 		case ITEM_ICON: /////////////////////////////////////////////////////////////////////////////////////////////////////
+		{
+			RECT rc;
+			int iImage = -1;
+			BOOL has_avatar = Drawing->avatar_data != NULL && !CheckMiniMode(dat, selected);
+
+			if (Drawing->type == CLCIT_CONTACT
+				&& dat->icon_hide_on_avatar
+				&& !dat->icon_draw_on_avatar_space
+				&& has_avatar
+				&& !Drawing->image_is_special)
 			{
-				RECT rc;
-				int iImage = -1;
-				BOOL has_avatar = Drawing->avatar_data != NULL && !CheckMiniMode(dat, selected);
-
-				if (Drawing->type == CLCIT_CONTACT
-					&& dat->icon_hide_on_avatar
-					&& !dat->icon_draw_on_avatar_space
-					&& has_avatar
-					&& !Drawing->image_is_special)
-				{
-					// Don't have to draw, but has to keep the empty space?
-					if ((left && !dat->row_align_left_items_to_left) || (!left && !dat->row_align_right_items_to_right)) {
-						rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos,
-							left, dat->iconXSpace, dat->iconXSpace, ICON_HEIGHT, HORIZONTAL_SPACE);
-
-						if (rc.left < rc.right) {
-							// Store position
-							_StoreItemPos(Drawing, CIT_ICON, &rc);
-						}
-					}
-					break;
-				}
-				if (Drawing->type == CLCIT_CONTACT
-					&& dat->icon_hide_on_avatar
-					&& dat->icon_draw_on_avatar_space
-					&& (!Drawing->image_is_special || !has_avatar ||
-					(dat->avatars_draw_overlay
-					&& dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
-					&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons)
-					&& dat->avatars_overlay_type == SETTING_AVATAR_OVERLAY_TYPE_CONTACT)))
-				{
-					// Don't have to draw and don't have to keep the empty space
-					break;
-				}
-
-				// Get image
-				iImage = -1;
-				if (Drawing->type == CLCIT_GROUP && !dat->row_hide_group_icon)
-					iImage = Drawing->group->expanded ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
-				else if (Drawing->type == CLCIT_CONTACT)
-					iImage = Drawing->iImage;
-
-				// Has image to draw?
-				if (iImage != -1) {
-					// Make rectangle
+				// Don't have to draw, but has to keep the empty space?
+				if ((left && !dat->row_align_left_items_to_left) || (!left && !dat->row_align_right_items_to_right)) {
 					rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos,
 						left, dat->iconXSpace, dat->iconXSpace, ICON_HEIGHT, HORIZONTAL_SPACE);
 
@@ -2187,40 +2154,73 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 						_StoreItemPos(Drawing, CIT_ICON, &rc);
 					}
 				}
+				break;
 			}
-			break;
+			if (Drawing->type == CLCIT_CONTACT
+				&& dat->icon_hide_on_avatar
+				&& dat->icon_draw_on_avatar_space
+				&& (!Drawing->image_is_special || !has_avatar ||
+				(dat->avatars_draw_overlay
+				&& dat->avatars_maxheight_size >= ICON_HEIGHT + (dat->avatars_draw_border ? 2 : 0)
+				&& GetContactCachedStatus(Drawing->hContact) - ID_STATUS_OFFLINE < SIZEOF(g_pAvatarOverlayIcons)
+				&& dat->avatars_overlay_type == SETTING_AVATAR_OVERLAY_TYPE_CONTACT)))
+			{
+				// Don't have to draw and don't have to keep the empty space
+				break;
+			}
+
+			// Get image
+			iImage = -1;
+			if (Drawing->type == CLCIT_GROUP && !dat->row_hide_group_icon)
+				iImage = Drawing->group->expanded ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
+			else if (Drawing->type == CLCIT_CONTACT)
+				iImage = Drawing->iImage;
+
+			// Has image to draw?
+			if (iImage != -1) {
+				// Make rectangle
+				rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos,
+					left, dat->iconXSpace, dat->iconXSpace, ICON_HEIGHT, HORIZONTAL_SPACE);
+
+				if (rc.left < rc.right) {
+					// Store position
+					_StoreItemPos(Drawing, CIT_ICON, &rc);
+				}
+			}
+		}
+		break;
 
 		case ITEM_CONTACT_TIME: /////////////////////////////////////////////////////////////////////////////////////////////////////
-			{
-				ClcCacheEntry *pdnce = (Drawing->type == CLCIT_CONTACT) ? pcli->pfnGetCacheEntry(Drawing->hContact) : NULL;
-				if (Drawing->type == CLCIT_CONTACT && dat->contact_time_show && pdnce->hTimeZone) {
-					TCHAR szResult[80];
+		{
+			ClcCacheEntry *pdnce = (Drawing->type == CLCIT_CONTACT) ? pcli->pfnGetCacheEntry(Drawing->hContact) : NULL;
+			if (Drawing->type == CLCIT_CONTACT && dat->contact_time_show && pdnce->hTimeZone) {
+				TCHAR szResult[80];
 
-					if (!tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
-						SIZE text_size;
-						RECT rc;
+				if (!tmi.printDateTime(pdnce->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0)) {
+					SIZE text_size;
+					RECT rc;
 
-						// Select font
-						ChangeToFont(hdcMem, dat, FONTID_CONTACT_TIME, NULL);
+					// Select font
+					ChangeToFont(hdcMem, dat, FONTID_CONTACT_TIME, NULL);
 
-						// Get text size
-						text_size.cy = ske_DrawText(hdcMem, szResult, (int)mir_tstrlen(szResult), &rc, DT_CALCRECT | DT_NOPREFIX | DT_SINGLELINE);
-						text_size.cy = min(text_size.cy, free_row_rc.bottom - free_row_rc.top);
-						text_size.cx = rc.right - rc.left;
+					// Get text size
+					text_size.cy = ske_DrawText(hdcMem, szResult, (int)mir_tstrlen(szResult), &rc, DT_CALCRECT | DT_NOPREFIX | DT_SINGLELINE);
+					text_size.cy = min(text_size.cy, free_row_rc.bottom - free_row_rc.top);
+					text_size.cx = rc.right - rc.left;
 
-						// Get rc
-						rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos, left,
-							text_size.cx, text_size.cx, text_size.cy, HORIZONTAL_SPACE);
+					// Get rc
+					rc = _GetRectangle(dat, &row_rc, &free_row_rc, &left_pos, &right_pos, left,
+						text_size.cx, text_size.cx, text_size.cy, HORIZONTAL_SPACE);
 
-						if (rc.left < rc.right) {
-							// Store pos
-							Drawing->pos_contact_time = rc;
-							_StoreItemPos(Drawing, CIT_TIME, &rc);
-						}
+					if (rc.left < rc.right) {
+						// Store pos
+						Drawing->pos_contact_time = rc;
+						_StoreItemPos(Drawing, CIT_TIME, &rc);
 					}
 				}
 			}
-			break;
+		}
+		break;
 
 		case ITEM_TEXT: /////////////////////////////////////////////////////////////////////////////////////////////////////
 			// Store init text position:
@@ -2474,116 +2474,116 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 
 			switch (Drawing->type) {
 			case CLCIT_DIVIDER:
-				{
-					//devider
-					RECT trc = free_row_rc;
-					RECT rc = free_row_rc;
-					rc.top += (rc.bottom - rc.top) >> 1;
-					rc.bottom = rc.top + 2;
-					rc.right = rc.left + ((rc.right - rc.left - text_size.cx) >> 1) - 3;
-					trc.left = rc.right + 3;
-					trc.right = trc.left + text_size.cx + 6;
-					if (text_size.cy < trc.bottom - trc.top) {
-						trc.top += (trc.bottom - trc.top - text_size.cy) >> 1;
-						trc.bottom = trc.top + text_size.cy;
-					}
-					_StoreItemPos(Drawing, CIT_TEXT, &trc);
-					rc.left = rc.right + 6 + text_size.cx;
-					rc.right = free_row_rc.right;
+			{
+				//devider
+				RECT trc = free_row_rc;
+				RECT rc = free_row_rc;
+				rc.top += (rc.bottom - rc.top) >> 1;
+				rc.bottom = rc.top + 2;
+				rc.right = rc.left + ((rc.right - rc.left - text_size.cx) >> 1) - 3;
+				trc.left = rc.right + 3;
+				trc.right = trc.left + text_size.cx + 6;
+				if (text_size.cy < trc.bottom - trc.top) {
+					trc.top += (trc.bottom - trc.top - text_size.cy) >> 1;
+					trc.bottom = trc.top + text_size.cy;
 				}
-				break;
+				_StoreItemPos(Drawing, CIT_TEXT, &trc);
+				rc.left = rc.right + 6 + text_size.cx;
+				rc.right = free_row_rc.right;
+			}
+			break;
 			case CLCIT_GROUP:
-				{
-					RECT rc = text_rc;
+			{
+				RECT rc = text_rc;
 
-					// Get text rectangle
-					if (dat->text_align_right)
-						rc.left = rc.right - text_size.cx;
-					else
-						rc.right = rc.left + text_size.cx;
+				// Get text rectangle
+				if (dat->text_align_right)
+					rc.left = rc.right - text_size.cx;
+				else
+					rc.right = rc.left + text_size.cx;
 
 
-					if (text_size.cy < rc.bottom - rc.top) {
-						rc.top += (rc.bottom - rc.top - text_size.cy) >> 1;
-						rc.bottom = rc.top + text_size.cy;
-					}
-
-					// Draw text
-					_StoreItemPos(Drawing, CIT_TEXT, &rc);
-
-					// Has to draw the count?
-					if (counts_size.cx > 0) {
-						RECT counts_rc = text_rc;
-						//counts_size.cx;
-						if (dat->text_align_right)
-							counts_rc.right = text_rc.left + counts_size.cx;
-						else
-							counts_rc.left = text_rc.right - counts_size.cx;
-
-						if (counts_size.cy < counts_rc.bottom - counts_rc.top) {
-							counts_rc.top += (counts_rc.bottom - counts_rc.top - counts_size.cy + 1) >> 1;
-							counts_rc.bottom = counts_rc.top + counts_size.cy;
-						}
-						// Draw counts
-						_StoreItemPos(Drawing, CIT_SUBTEXT1, &counts_rc);
-					}
+				if (text_size.cy < rc.bottom - rc.top) {
+					rc.top += (rc.bottom - rc.top - text_size.cy) >> 1;
+					rc.bottom = rc.top + text_size.cy;
 				}
-				break;
-			case CLCIT_CONTACT:
-				{
-					RECT free_rc = text_rc;
-					if (text_size.cx > 0 && free_rc.bottom > free_rc.top) {
-						RECT rc = free_rc;
-						rc.bottom = min(rc.bottom, rc.top + text_size.cy);
 
-						if (text_size.cx < rc.right - rc.left) {
+				// Draw text
+				_StoreItemPos(Drawing, CIT_TEXT, &rc);
+
+				// Has to draw the count?
+				if (counts_size.cx > 0) {
+					RECT counts_rc = text_rc;
+					//counts_size.cx;
+					if (dat->text_align_right)
+						counts_rc.right = text_rc.left + counts_size.cx;
+					else
+						counts_rc.left = text_rc.right - counts_size.cx;
+
+					if (counts_size.cy < counts_rc.bottom - counts_rc.top) {
+						counts_rc.top += (counts_rc.bottom - counts_rc.top - counts_size.cy + 1) >> 1;
+						counts_rc.bottom = counts_rc.top + counts_size.cy;
+					}
+					// Draw counts
+					_StoreItemPos(Drawing, CIT_SUBTEXT1, &counts_rc);
+				}
+			}
+			break;
+			case CLCIT_CONTACT:
+			{
+				RECT free_rc = text_rc;
+				if (text_size.cx > 0 && free_rc.bottom > free_rc.top) {
+					RECT rc = free_rc;
+					rc.bottom = min(rc.bottom, rc.top + text_size.cy);
+
+					if (text_size.cx < rc.right - rc.left) {
+						if (dat->text_align_right)
+							rc.left = rc.right - text_size.cx;
+						else
+							rc.right = rc.left + text_size.cx;
+					}
+					uTextFormat |= DT_VCENTER;
+					_StoreItemPos(Drawing, CIT_TEXT, &rc);
+					free_rc.top = rc.bottom;
+				}
+				uTextFormat &= ~DT_VCENTER;
+				if (second_line_text_size.cx > 0 && free_rc.bottom > free_rc.top) {
+					free_rc.top += dat->second_line_top_space;
+
+					if (free_rc.bottom > free_rc.top) {
+						RECT rc = free_rc;
+						rc.bottom = min(rc.bottom, rc.top + second_line_text_size.cy);
+
+						if (second_line_text_size.cx < rc.right - rc.left) {
 							if (dat->text_align_right)
-								rc.left = rc.right - text_size.cx;
+								rc.left = rc.right - second_line_text_size.cx;
 							else
-								rc.right = rc.left + text_size.cx;
+								rc.right = rc.left + second_line_text_size.cx;
 						}
-						uTextFormat |= DT_VCENTER;
-						_StoreItemPos(Drawing, CIT_TEXT, &rc);
+						_StoreItemPos(Drawing, CIT_SUBTEXT1, &rc);
 						free_rc.top = rc.bottom;
 					}
-					uTextFormat &= ~DT_VCENTER;
-					if (second_line_text_size.cx > 0 && free_rc.bottom > free_rc.top) {
-						free_rc.top += dat->second_line_top_space;
+				}
 
-						if (free_rc.bottom > free_rc.top) {
-							RECT rc = free_rc;
-							rc.bottom = min(rc.bottom, rc.top + second_line_text_size.cy);
+				if (third_line_text_size.cx > 0 && free_rc.bottom > free_rc.top) {
+					free_rc.top += dat->third_line_top_space;
 
-							if (second_line_text_size.cx < rc.right - rc.left) {
-								if (dat->text_align_right)
-									rc.left = rc.right - second_line_text_size.cx;
-								else
-									rc.right = rc.left + second_line_text_size.cx;
-							}
-							_StoreItemPos(Drawing, CIT_SUBTEXT1, &rc);
-							free_rc.top = rc.bottom;
+					if (free_rc.bottom > free_rc.top) {
+						RECT rc = free_rc;
+						rc.bottom = min(rc.bottom, rc.top + third_line_text_size.cy);
+
+						if (third_line_text_size.cx < rc.right - rc.left) {
+							if (dat->text_align_right)
+								rc.left = rc.right - third_line_text_size.cx;
+							else
+								rc.right = rc.left + third_line_text_size.cx;
 						}
-					}
-
-					if (third_line_text_size.cx > 0 && free_rc.bottom > free_rc.top) {
-						free_rc.top += dat->third_line_top_space;
-
-						if (free_rc.bottom > free_rc.top) {
-							RECT rc = free_rc;
-							rc.bottom = min(rc.bottom, rc.top + third_line_text_size.cy);
-
-							if (third_line_text_size.cx < rc.right - rc.left) {
-								if (dat->text_align_right)
-									rc.left = rc.right - third_line_text_size.cx;
-								else
-									rc.right = rc.left + third_line_text_size.cx;
-							}
-							_StoreItemPos(Drawing, CIT_SUBTEXT2, &rc);
-							free_rc.top = rc.bottom;
-						}
+						_StoreItemPos(Drawing, CIT_SUBTEXT2, &rc);
+						free_rc.top = rc.bottom;
 					}
 				}
-				break;
+			}
+			break;
 
 			default: // CLCIT_INFO
 				_StoreItemPos(Drawing, CIT_TEXT, &text_rc);

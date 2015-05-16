@@ -318,11 +318,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 	return height;
 }
 
-/*
-*
-*/
-
-BOOL RowHeights_Initialize(struct	ClcData	*dat)
+BOOL RowHeights_Initialize(struct ClcData *dat)
 {
 	dat->rowHeight = 0;
 	dat->row_heights_size = 0;
@@ -589,7 +585,7 @@ int RowHeights_GetRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact,
 
 		// Icon size
 		if (!dat->icon_ignore_size_for_row_height) {
-			if (contact->type == CLCIT_GROUP || 
+			if (contact->type == CLCIT_GROUP ||
 				(contact->type == CLCIT_CONTACT && contact->iImage != -1 && !(dat->icon_hide_on_avatar && dat->avatars_show && contact->avatar_data != NULL && !contact->image_is_special)))
 			{
 				height = max(height, ICON_HEIGHT);

@@ -290,19 +290,19 @@ public:
 
 	HashStringKeyNoCase(const char* szKey)
 	{
-		_strKey = _strdup(szKey);
+		_strKey = mir_strdup(szKey);
 		_CreateHashKey();
 	}
 
 	HashStringKeyNoCase(const HashStringKeyNoCase& hsKey)
 	{
-		_strKey = _strdup(hsKey._strKey);
+		_strKey = mir_strdup(hsKey._strKey);
 		_dwKey = hsKey._dwKey;
 	}
 
 	HashStringKeyNoCase& operator= (const HashStringKeyNoCase& hsKey)
 	{
-		_strKey = _strdup(hsKey._strKey);
+		_strKey = mir_strdup(hsKey._strKey);
 		_dwKey = hsKey._dwKey;
 	}
 

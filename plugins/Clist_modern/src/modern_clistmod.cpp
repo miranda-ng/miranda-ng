@@ -305,8 +305,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 							break;
 						}
 					}
-				}
-					while (hAux != NULL  && hAuxOld != hAux);
+				} while (hAux != NULL  && hAuxOld != hAux);
 
 				if (hWndFound)        // There's  window!
 					iNotCoveredDots++; // Let's count the not covered dots.
@@ -414,7 +413,7 @@ int cliShowHide(WPARAM, LPARAM lParam)
 int CListMod_HideWindow()
 {
 	KillTimer(pcli->hwndContactList, 1);
-	
+
 	if (!CLUI_HideBehindEdge())
 		return CLUI_SmoothAlphaTransition(pcli->hwndContactList, 0, 1);
 	return 0;

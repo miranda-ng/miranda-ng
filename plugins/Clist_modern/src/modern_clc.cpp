@@ -1268,7 +1268,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 				TCHAR *shortGroup = NULL;
 				TCHAR *sourceGrName = mir_tstrdup(pcli->pfnGetGroupName(destgroup->groupId, 0));
 				if (groupName) {
-					int len = (int)_tcslen(groupName);
+					int len = (int)mir_tstrlen(groupName);
 					do { len--; } while (len >= 0 && groupName[len] != '\\');
 					if (len >= 0) shortGroup = groupName + len + 1;
 					else shortGroup = groupName;
@@ -1278,7 +1278,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 					if (sourceGrName)
 						mir_sntprintf(newName, SIZEOF(newName), _T("%s\\%s"), sourceGrName, shortGroup);
 					else
-						_tcsncpy_s(newName, shortGroup, _TRUNCATE);
+						mir_tstrncpy(newName, shortGroup, SIZEOF(newName));
 				}
 				mir_free(groupName);
 				mir_free(sourceGrName);
@@ -1621,8 +1621,8 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 
 	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
 		MessageBox(NULL,
-			TranslateT("Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download"),
-			TranslateT("Error loading plugin"), MB_ICONERROR | MB_OK);
+		TranslateT("Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download"),
+		TranslateT("Error loading plugin"), MB_ICONERROR | MB_OK);
 
 	HookEvent(ME_AV_AVATARCHANGED, clcHookAvatarChanged);
 
@@ -1781,7 +1781,7 @@ int ClcGetShortData(ClcData* pData, SHORTDATA *pShortData)
 	pShortData->second_line_draw_smileys = pData->second_line_draw_smileys;
 	pShortData->second_line_type = pData->second_line_type;
 
-	_tcsncpy(pShortData->second_line_text, pData->second_line_text, TEXT_TEXT_MAX_LENGTH);
+	mir_tstrncpy(pShortData->second_line_text, pData->second_line_text, SIZEOF(pShortData->second_line_text));
 
 	pShortData->second_line_xstatus_has_priority = pData->second_line_xstatus_has_priority;
 	pShortData->second_line_show_status_if_no_away = pData->second_line_show_status_if_no_away;
@@ -1793,7 +1793,7 @@ int ClcGetShortData(ClcData* pData, SHORTDATA *pShortData)
 	pShortData->third_line_draw_smileys = pData->third_line_draw_smileys;
 	pShortData->third_line_type = pData->third_line_type;
 
-	_tcsncpy(pShortData->third_line_text, pData->third_line_text, TEXT_TEXT_MAX_LENGTH);
+	mir_tstrncpy(pShortData->third_line_text, pData->third_line_text, SIZEOF(pShortData->third_line_text));
 
 	pShortData->third_line_xstatus_has_priority = pData->third_line_xstatus_has_priority;
 	pShortData->third_line_show_status_if_no_away = pData->third_line_show_status_if_no_away;
