@@ -9,17 +9,13 @@ void CToxProto::SetContactStatus(MCONTACT hContact, WORD status)
 {
 	WORD oldStatus = GetContactStatus(hContact);
 	if (oldStatus != status)
-	{
 		setWord(hContact, "Status", status);
-	}
 }
 
 void CToxProto::SetAllContactsStatus(WORD status)
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
-	{
 		SetContactStatus(hContact, status);
-	}
 }
 
 MCONTACT CToxProto::GetContactFromAuthEvent(MEVENT hEvent)
@@ -62,9 +58,7 @@ MCONTACT CToxProto::GetContact(const char *pubKey)
 		ptrA contactPubKey(getStringA(hContact, TOX_SETTINGS_ID));
 		// check only public key part of address
 		if (strnicmp(pubKey, contactPubKey, TOX_PUBLIC_KEY_SIZE) == 0)
-		{
 			break;
-		}
 	}
 	return hContact;
 }
@@ -80,9 +74,7 @@ MCONTACT CToxProto::AddContact(const char *address, const TCHAR *dnsId, bool isT
 		setString(hContact, TOX_SETTINGS_ID, address);
 
 		if (dnsId && mir_tstrlen(dnsId))
-		{
 			setTString(hContact, TOX_SETTINGS_DNS, dnsId);
-		}
 
 		DBVARIANT dbv;
 		if (!getTString(TOX_SETTINGS_GROUP, &dbv))
@@ -108,9 +100,7 @@ uint32_t CToxProto::GetToxFriendNumber(MCONTACT hContact)
 	TOX_ERR_FRIEND_BY_PUBLIC_KEY error;
 	uint32_t friendNumber = tox_friend_by_public_key(tox, pubKey, &error);
 	if (error != TOX_ERR_FRIEND_BY_PUBLIC_KEY_OK)
-	{
 		debugLogA(__FUNCTION__": failed to get friend number (%d)", error);
-	}
 	return friendNumber;
 }
 
