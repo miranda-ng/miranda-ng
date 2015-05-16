@@ -1197,8 +1197,8 @@ LBL_InvalidCommand:
 				isConnectSuccess = true;
 				MSN_SetServerStatus(m_iStatus);
 				MSN_EnableMenuItems(true);
-				MSN_RefreshContactList();
-				MSN_FetchRecentMessages();
+				// Fork refreshing and populating contact list to the background
+				ForkThread(&CMsnProto::msn_loginThread, NULL);
 			}
 		}
 		break;
@@ -1415,7 +1415,8 @@ LBL_InvalidCommand:
 
 			bSentBND = false;
 			ForkThread(&CMsnProto::msn_keepAliveThread, NULL);
-			ForkThread(&CMsnProto::MSNConnDetectThread, NULL);
+			/* FIXME: Currently disables, as P2P maybe not working anymore in MSNP24? */
+			//ForkThread(&CMsnProto::MSNConnDetectThread, NULL);
 		}
 		break;
 	case ' RVC':    //********* CVR: MSNP8

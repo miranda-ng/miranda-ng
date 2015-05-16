@@ -106,6 +106,7 @@ void CMsnProto::MSN_SetContactDb(MCONTACT hContact, const char *szEmail)
 
 void CMsnProto::AddDelUserContList(const char* email, const int list, const int netId, const bool del)
 {
+/*
 	char buf[512];
 	size_t sz;
 
@@ -125,6 +126,7 @@ void CMsnProto::AddDelUserContList(const char* email, const int list, const int 
 		}
 		msnNsThread->sendPacket(del ? "RML" : "ADL", "%d\r\n%s", sz, buf);
 	}
+*/
 
 	if (del)
 		Lists_Remove(list, email);
@@ -252,21 +254,27 @@ bool CMsnProto::MSN_RefreshContactList(void)
 
 	if (GetMyNetID() != NETID_SKYPE)
 	{
+		// Get your own profile info
 		if (!MSN_SharingFindMembership()) return false;
 
 		if (m_iDesiredStatus == ID_STATUS_OFFLINE) return false;
 
+		// Get "classic" MSN contacts
 		if (!MSN_ABFind("ABFindContactsPaged", NULL)) return false;
-		MSN_ABRefreshClist();
+
+		// Get Skype contacts on linked profiles
+		if (!MSN_ABRefreshClist()) return false;
 
 		if (m_iDesiredStatus == ID_STATUS_OFFLINE) return false;
 
+		// Remove contacts not on server etc.
 		MSN_CleanupLists();
 
 		if (m_iDesiredStatus == ID_STATUS_OFFLINE) return false;
 
 		msnLoggedIn = true;
 
+		// Populate Contact list on MSN network to get status updates of contacts
 		MSN_CreateContList();
 		//MSN_StoreGetProfile();
 	}

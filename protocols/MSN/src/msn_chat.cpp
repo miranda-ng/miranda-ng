@@ -346,7 +346,7 @@ static void ChatInviteSend(HANDLE hItem, HWND hwndList, STRLIST &str, CMsnProto 
 						char szContact[MSN_MAX_EMAIL_LEN];
 
 						sprintf(szContact, "%d:%s", msc->netId, msc->email);
-						str.insertn(msc->email);
+						str.insertn(szContact);
 					}
 				}
 			}

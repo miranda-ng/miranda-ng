@@ -229,6 +229,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 					}
 					else if (strcmp(addr, "contacts.msn.com") == 0 && toks) {
 						replaceStr(authContactToken, ezxml_txt(toks));
+						setString("authContactToken", authContactToken);
 					}
 					else if (strcmp(addr, "messengersecure.live.com") == 0 && toks) {
 						replaceStr(oimSendToken, ezxml_txt(toks));
