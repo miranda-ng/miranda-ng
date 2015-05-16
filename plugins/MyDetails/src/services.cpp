@@ -52,14 +52,14 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 
 				bool foundDefNick = true;
 				for (int i = 1; foundDefNick && i < protocols->GetSize(); i++) {
-					if (_tcsicmp(protocols->Get(i)->nickname, nick) != 0) {
+					if (mir_tstrcmpi(protocols->Get(i)->nickname, nick) != 0) {
 						foundDefNick = false;
 						break;
 					}
 				}
 
 				if (foundDefNick)
-					if (_tcsicmp(protocols->default_nick, nick) != 0)
+					if (mir_tstrcmpi(protocols->default_nick, nick) != 0)
 						mir_tstrcpy(protocols->default_nick, nick);
 			}
 
@@ -130,7 +130,7 @@ INT_PTR PluginCommand_SetMyNicknameUI(WPARAM, LPARAM lParam)
 	if (proto != NULL) {
 		int i;
 		for (i = 0; i < protocols->GetSize(); i++) {
-			if (_stricmp(protocols->Get(i)->name, proto) == 0) {
+			if (mir_strcmpi(protocols->Get(i)->name, proto) == 0) {
 				proto_num = i;
 				break;
 			}
@@ -164,7 +164,7 @@ INT_PTR PluginCommand_SetMyNickname(WPARAM wParam, LPARAM lParam)
 	char *proto = (char *)wParam;
 	if (proto != NULL) {
 		for (int i = 0; i < protocols->GetSize(); i++) {
-			if (_stricmp(protocols->Get(i)->name, proto) == 0) {
+			if (mir_strcmpi(protocols->Get(i)->name, proto) == 0) {
 				if (!protocols->Get(i)->CanSetNick())
 					return -2;
 
@@ -212,7 +212,7 @@ INT_PTR PluginCommand_SetMyAvatarUI(WPARAM, LPARAM lParam)
 	if (proto != NULL) {
 		int i;
 		for (i = 0; i < protocols->GetSize(); i++) {
-			if (_stricmp(protocols->Get(i)->name, proto) == 0) {
+			if (mir_strcmpi(protocols->Get(i)->name, proto) == 0) {
 				proto_num = i;
 				break;
 			}
@@ -238,7 +238,7 @@ INT_PTR PluginCommand_SetMyAvatar(WPARAM wParam, LPARAM lParam)
 	char *proto = (char *)wParam;
 	if (proto != NULL) {
 		for (int i = 0; i < protocols->GetSize(); i++) {
-			if (_stricmp(protocols->Get(i)->name, proto) == 0) {
+			if (mir_strcmpi(protocols->Get(i)->name, proto) == 0) {
 				if (!protocols->Get(i)->CanSetAvatar())
 					return -2;
 
@@ -268,7 +268,7 @@ INT_PTR PluginCommand_GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	}
 
 	for (int i = 0; i < protocols->GetSize(); i++) {
-		if (_stricmp(protocols->Get(i)->name, proto) == 0) {
+		if (mir_strcmpi(protocols->Get(i)->name, proto) == 0) {
 			if (!protocols->Get(i)->CanGetAvatar())
 				return -2;
 
@@ -403,14 +403,14 @@ INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 	int proto_num = -1;
 	Protocol *proto = NULL;
 
-	if (status != 0 && (status < ID_STATUS_OFFLINE || status > ID_STATUS_OUTTOLUNCH)) 
+	if (status != 0 && (status < ID_STATUS_OFFLINE || status > ID_STATUS_OUTTOLUNCH))
 		return -10;
 
 	if (proto_name != NULL) {
 		for (int i = 0; i < protocols->GetSize(); i++) {
 			proto = protocols->Get(i);
 
-			if (_stricmp(proto->name, proto_name) == 0) {
+			if (mir_strcmpi(proto->name, proto_name) == 0) {
 				proto_num = i;
 				break;
 			}
@@ -425,10 +425,10 @@ INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 	else if (ServiceExists(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG)) {
 		if (status != 0)
 			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, status, (LPARAM)proto_name);
-		else if (proto != 0) 
-			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, proto->status, (LPARAM)proto_name); 
+		else if (proto != 0)
+			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, proto->status, (LPARAM)proto_name);
 		else
-			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, protocols->GetGlobalStatus(), NULL);    
+			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, protocols->GetGlobalStatus(), NULL);
 		return 0;
 	}
 
