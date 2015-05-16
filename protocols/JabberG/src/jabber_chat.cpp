@@ -515,7 +515,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 		JABBER_RESOURCE_STATUS *p = item->arResources[i];
 		if (!mir_tstrcmp(p->m_tszResourceName, item->nick))
 			me = p;
-		else if (!mir_tstrcmp(p->m_tszResourceName, gcmi->pszUID))
+		if (!mir_tstrcmp(p->m_tszResourceName, gcmi->pszUID))
 			him = p;
 	}
 
