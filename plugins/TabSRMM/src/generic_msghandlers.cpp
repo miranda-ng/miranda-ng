@@ -1100,10 +1100,13 @@ LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM w
 	LRESULT result = mir_callNextSubclass(hwnd, oldWndProc, msg, wParam, lParam);
 
 	ptrA szFromStream(Message_GetFromStream(hwnd, SF_TEXT | SFF_SELECTION));
-	ptrW converted(mir_utf8decodeW(szFromStream));
-
-	Utils::FilterEventMarkers(converted);
-	Utils::CopyToClipBoard(converted, hwnd);
+	if (szFromStream != NULL) {
+		ptrW converted(mir_utf8decodeW(szFromStream));
+		if (converted != NULL) {
+			Utils::FilterEventMarkers(converted);
+			Utils::CopyToClipBoard(converted, hwnd);
+		}
+	}
 
 	return result;
 }
