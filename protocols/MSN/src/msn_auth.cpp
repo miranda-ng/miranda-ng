@@ -206,6 +206,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 						node = ezxml_get(tokr, "wst:RequestedProofToken", 0, "wst:BinarySecret", -1);
 						replaceStr(hotSecretToken, ezxml_txt(node));
+						setString("hotSecretToken", hotSecretToken);
 					}
 					else if (strcmp(addr, "chatservice.live.com") == 0) {
 						ezxml_t node = ezxml_get(tokr, "wst:RequestedProofToken", 0,
@@ -674,6 +675,10 @@ void CMsnProto::LoadAuthTokensDB(void)
 	}
 	if (getString("authStrToken", &dbv) == 0) {
 		replaceStr(authStrToken, dbv.pszVal);
+		db_free(&dbv);
+	}
+	if (getString("hotSecretToken", &dbv) == 0) {
+		replaceStr(hotSecretToken, dbv.pszVal);
 		db_free(&dbv);
 	}
 }

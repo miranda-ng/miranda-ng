@@ -60,10 +60,10 @@ BEGIN
     GROUPBOX        "Connection settings",IDC_STATIC,4,3,298,64
     RTEXT           "Direct:",IDC_STATIC,10,18,52,8
     EDITTEXT        IDC_DIRECTSERVER,68,16,135,12,ES_AUTOHSCROLL
-    LTEXT           " 1863",IDC_STATIC,209,16,28,12,SS_SUNKEN
+    LTEXT           " 443",IDC_STATIC,209,16,28,12,SS_SUNKEN
     RTEXT           "Gateway:",IDC_STATIC,10,32,52,8
     EDITTEXT        IDC_GATEWAYSERVER,68,30,135,12,ES_AUTOHSCROLL
-    CONTROL         " 80",IDC_STATIC,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,209,30,28,12
+    CONTROL         " 443",IDC_STATIC,"Static",SS_SIMPLE | SS_SUNKEN | WS_GROUP,209,30,28,12
     PUSHBUTTON      "Reset",IDC_RESETSERVER,244,16,48,12
     CONTROL         "Notify me when a message delivery has failed",IDC_SLOWSEND,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,49,285,8
@@ -99,9 +99,11 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Hotmail",IDC_STATIC,5,7,262,60
-    CONTROL         "Disable Popup notifications",IDC_DISABLEHOTMAILPOPUP,
+    CONTROL         "Enable Popup notifications",IDC_DISABLEHOTMAILPOPUP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,18,245,10
-    CONTROL         "Disable Tray notifications",IDC_DISABLEHOTMAILTRAY,
+    CONTROL         "Enable Contact List notifications",IDC_DISABLEHOTMAILCL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,30,245,10
+    CONTROL         "Enable Tray notifications",IDC_DISABLEHOTMAILTRAY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,41,245,10
     CONTROL         "Ignore new messages not in Inbox folder",IDC_DISABLEHOTJUNK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,52,245,10
@@ -112,8 +114,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,92,245,10
     CONTROL         "Enable 'Contact left channel' popup",IDC_NOTIFY_ENDSESSION,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,105,245,8
-    CONTROL         "Disable Contact List notifications",IDC_DISABLEHOTMAILCL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,30,245,10
 END
 
 IDD_SETNICKNAME DIALOGEX 0, 0, 187, 42
