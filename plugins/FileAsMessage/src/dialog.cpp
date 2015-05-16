@@ -429,7 +429,7 @@ void FILEECHO::incomeRequest(char *param)
 	char *p = strchr(param, '?');
 	if (p == NULL) return; *p++ = 0;
 	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)buf);
-	mir_strncat(buf, param, SIZEOF(buf));
+	mir_strncat(buf, param, SIZEOF(buf) - mir_strlen(buf));
 	free(filename);
 	filename = mir_strdup(buf);
 	// p == &c
