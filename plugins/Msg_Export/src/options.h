@@ -20,7 +20,7 @@
 #ifndef MSG_EXP_OPTIONS_H
 #define MSG_EXP_OPTIONS_H
 
-int OptionsInitialize( WPARAM, LPARAM);
+int OptionsInitialize(WPARAM, LPARAM);
 int nExportCompleatList(HWND hParent, bool bOnlySelected);
 
 #endif

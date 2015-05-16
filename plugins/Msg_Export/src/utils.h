@@ -49,35 +49,35 @@ tstring sGetErrorString(DWORD dwError);
 tstring sGetErrorString();
 void DisplayLastError(const TCHAR *pszError);
 
-TCHAR *CheckedTranslate( const TCHAR *szEng, int nFormatCount = -1);
+TCHAR *CheckedTranslate(const TCHAR *szEng, int nFormatCount = -1);
 
 void SaveSettings();
 void ShowDebugInfo();
 
-int nExportEvent(WPARAM wparam,LPARAM lparam);
-int nContactDeleted(WPARAM wparam,LPARAM lparam);
+int nExportEvent(WPARAM wparam, LPARAM lparam);
+int nContactDeleted(WPARAM wparam, LPARAM lparam);
 
 const TCHAR *NickFromHandle(MCONTACT hContact);
 
-tstring __inline _DBGetStringW(MCONTACT hContact,const char *szModule,const char *szSetting, const TCHAR *pszError);
-string __inline _DBGetStringA(MCONTACT hContact,const char *szModule,const char *szSetting, const char *pszError);
+tstring __inline _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSetting, const TCHAR *pszError);
+string __inline _DBGetStringA(MCONTACT hContact, const char *szModule, const char *szSetting, const char *pszError);
 
-void ReplaceAll( tstring &sSrc, const TCHAR *pszReplace, const tstring &sNew);
-void ReplaceAll( tstring &sSrc, const TCHAR *pszReplace, const TCHAR *pszNew);
+void ReplaceAll(tstring &sSrc, const TCHAR *pszReplace, const tstring &sNew);
+void ReplaceAll(tstring &sSrc, const TCHAR *pszReplace, const TCHAR *pszNew);
 
 void UpdateFileToColWidth();
 
 bool bReadMirandaDirAndPath();
-tstring GetFilePathFromUser( MCONTACT hContact);
+tstring GetFilePathFromUser(MCONTACT hContact);
 
-void ReplaceDefines( MCONTACT hContact, tstring & sTarget);
-void ReplaceTimeVariables( tstring &sRet);
+void ReplaceDefines(MCONTACT hContact, tstring & sTarget);
+void ReplaceTimeVariables(tstring &sRet);
 
-bool bCreatePathToFile( tstring sFilePath);
+bool bCreatePathToFile(tstring sFilePath);
 
-bool bWriteIndentedToFile( HANDLE hFile, int nIndent, const char *pszSrc, bool bUtf8File);
-bool bWriteIndentedToFile( HANDLE hFile, int nIndent, const TCHAR *pszSrc, bool bUtf8File);
-bool bWriteNewLine( HANDLE hFile, DWORD dwIndent);
-bool bIsUtf8Header( BYTE * pucByteOrder);
+bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const char *pszSrc, bool bUtf8File);
+bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const TCHAR *pszSrc, bool bUtf8File);
+bool bWriteNewLine(HANDLE hFile, DWORD dwIndent);
+bool bIsUtf8Header(BYTE * pucByteOrder);
 
 #endif

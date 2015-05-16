@@ -19,12 +19,12 @@
 #ifndef MSG_EXP_FILE_VIEWER
 #define MSG_EXP_FILE_VIEWER
 
-void UpdateFileViews( const TCHAR *pszFile);
+void UpdateFileViews(const TCHAR *pszFile);
 
-bool bOpenExternaly( MCONTACT hContact);
-bool bShowFileViewer( MCONTACT hContact);
+bool bOpenExternaly(MCONTACT hContact);
+bool bShowFileViewer(MCONTACT hContact);
 
-bool bUseInternalViewer( bool bNew);
+bool bUseInternalViewer(bool bNew);
 bool bUseInternalViewer();
 
 extern tstring sFileViewerPrg;
