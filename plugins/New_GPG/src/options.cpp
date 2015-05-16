@@ -905,8 +905,8 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 							ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 							_tcsncpy(tmp2, ptmp, MAX_PATH-1);
 							mir_free(ptmp);
-							_tcsncat(tmp2, _T("\\"), MAX_PATH-1);
-							_tcsncat(tmp2, _T("temporary_exported.asc"), MAX_PATH-1);
+							_tcsncat(tmp2, _T("\\"), SIZEOF(tmp2) - mir_tstrlen(tmp2));
+							_tcsncat(tmp2, _T("temporary_exported.asc"), SIZEOF(tmp2) - mir_tstrlen(tmp2));
 							boost::filesystem::remove(tmp2);
 							wfstream f(tmp2, std::ios::out);
 							ptmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", _T(""));
