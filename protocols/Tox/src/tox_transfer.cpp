@@ -269,6 +269,11 @@ void CToxProto::OnFileSendData(Tox*, uint32_t friendNumber, uint32_t fileNumber,
 	TOX_ERR_FILE_SEND_CHUNK error;
 	if (!tox_file_send_chunk(proto->tox, friendNumber, fileNumber, position, data, length, &error))
 	{
+		if (error == TOX_ERR_FILE_SEND_CHUNK_FRIEND_NOT_CONNECTED)
+		{
+			mir_free(data);
+			return;
+		}
 		proto->debugLogA(__FUNCTION__": failed to send file chunk (%d)", error);
 		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
 		tox_file_control(proto->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
