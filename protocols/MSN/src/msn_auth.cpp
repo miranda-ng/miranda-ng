@@ -870,7 +870,15 @@ int CMsnProto::MSN_AuthOAuth(void)
 									} else hHttpsConnection = NULL;
 								}
 							}
-					} else hHttpsConnection = NULL;
+					} else {
+						/* There may be a problem with login, i.e. M$ security measures. Open up browser
+						 * window with same URL in order to let user correct this */
+						if (nlhrReply->resultCode == 200 && nlhrReply->pData && strstr(nlhrReply->pData, "ar/cancel")) {
+							url.Format("https://login.live.com/oauth20_authorize.srf?%s", pszPostParams);
+							CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)url.GetString());
+						}
+						hHttpsConnection = NULL;
+					}
 				}
 			}
 		}
