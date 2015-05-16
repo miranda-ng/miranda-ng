@@ -331,7 +331,7 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 			proto->delSetting(hContact, "Grant");
 
 			// resume transfers
-			/*for (size_t i = 0; i < proto->transfers.Count(); i++)
+			for (size_t i = 0; i < proto->transfers.Count(); i++)
 			{
 				// only for receiving
 				FileTransferParam *transfer = proto->transfers.GetAt(i);
@@ -342,10 +342,10 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 					if (!tox_file_control(proto->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_RESUME, &error))
 					{
 						proto->debugLogA(__FUNCTION__": failed to resume the transfer (%d)", error);
-						tox_file_control(proto->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_RESUME, NULL);
+						tox_file_control(proto->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, NULL);
 					}
 				}
-			}*/
+			}
 
 			// update avatar
 			std::tstring avatarPath = proto->GetAvatarFilePath();
@@ -379,6 +379,7 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 				}
 
 				AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, NULL, length);
+				transfer->pfts.flags |= PFTS_SENDING;
 				memcpy(transfer->hash, hash, TOX_HASH_LENGTH);
 				transfer->pfts.hContact = hContact;
 				transfer->hFile = hFile;
@@ -391,13 +392,6 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 		{
 			proto->SetContactStatus(hContact, ID_STATUS_OFFLINE);
 			proto->setDword(hContact, "LastEventDateTS", time(NULL));
-
-			/*for (size_t i = 0; i < proto->transfers.Count(); i++)
-			{
-				FileTransferParam *transfer = proto->transfers.GetAt(i);
-				if (transfer->friendNumber == friendNumber)
-					transfer->status = BROKEN;
-			}*/
 		}
 	}
 }
