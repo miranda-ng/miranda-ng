@@ -5,15 +5,15 @@ ICMP *ICMP::instance = 0;
 
 #define BUFFER_SIZE			(16 * (sizeof(ICMP_ECHO_REPLY) + sizeof(data)))
 
-ICMP::ICMP():
-	timeout(2000),
-	functions_loaded(false)
+ICMP::ICMP() :
+timeout(2000),
+functions_loaded(false)
 {
 	WSAData wsaData;
 	if (WSAStartup(MAKEWORD(1, 1), &wsaData) != 0) {
 		WSACleanup();
 		return;
-    }
+	}
 
 	buff = new char[BUFFER_SIZE];
 	functions_loaded = true;
@@ -24,7 +24,7 @@ void ICMP::stop()
 }
 
 ICMP::~ICMP() {
-	if(hIP) stop();
+	if (hIP) stop();
 	WSACleanup();
 	delete[] buff;
 }
@@ -53,7 +53,7 @@ bool ICMP::ping(char *host, ICMP_ECHO_REPLY &reply)
 	ipoi.Flags = 0;
 	ipoi.OptionsSize = 0;
 	ipoi.OptionsData = 0;
-	
+
 	reply.Status = 0;
 
 	hIP = IcmpCreateFile();
@@ -81,11 +81,11 @@ bool ICMP::ping(char *host, ICMP_ECHO_REPLY &reply)
 }
 
 ICMP *ICMP::get_instance() {
-	if(!instance)
+	if (!instance)
 		instance = new ICMP();
 	return instance;
 }
 
 void ICMP::cleanup() {
-	if(instance) delete instance;
+	if (instance) delete instance;
 }

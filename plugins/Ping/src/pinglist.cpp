@@ -33,13 +33,13 @@ const bool PINGADDRESS::operator<(const PINGADDRESS &b) const
 
 // lParam is address of pointer to a std::list<PINGADDRESS> 
 // copies data into this structure
-INT_PTR GetPingList(WPARAM,LPARAM lParam)
+INT_PTR GetPingList(WPARAM, LPARAM lParam)
 {
 	PINGLIST *pa = (PINGLIST *)lParam;
 
 	mir_cslock lck(list_cs);
 	*pa = list_items;
-	
+
 	return 0;
 }
 
@@ -57,7 +57,7 @@ void write_ping_address(PINGADDRESS &i)
 	char buff[16];
 	mir_snprintf(buff, SIZEOF(buff), "PING_DEST_%d", i.index);
 
-	if(i.item_id == 0) {
+	if (i.item_id == 0) {
 		i.item_id = NextID++;
 		db_set_dw(0, PLUG, "NextID", NextID);
 	}
@@ -68,11 +68,11 @@ void write_ping_address(PINGADDRESS &i)
 	db_set_w(0, buff, "Status", i.status);
 	db_set_dw(0, buff, "Port", i.port);
 	db_set_s(0, buff, "Proto", i.pszProto);
-	if(_tcslen(i.pszCommand))
+	if (mir_tstrlen(i.pszCommand))
 		db_set_ts(0, buff, "Command", i.pszCommand);
 	else
 		db_unset(0, buff, "Command");
-	if(_tcslen(i.pszParams))
+	if (mir_tstrlen(i.pszParams))
 		db_set_ts(0, buff, "CommandParams", i.pszParams);
 	else
 		db_unset(0, buff, "CommandParams");
@@ -85,7 +85,7 @@ void write_ping_address(PINGADDRESS &i)
 void write_ping_addresses()
 {
 	int index = 0;
-	for(pinglist_it i = list_items.begin(); i != list_items.end(); ++i, index++)
+	for (pinglist_it i = list_items.begin(); i != list_items.end(); ++i, index++)
 	{
 		i->index = index;
 		write_ping_address(*i);
@@ -98,11 +98,11 @@ void write_ping_addresses()
 	do {
 		found = false;
 		mir_snprintf(buff, SIZEOF(buff), "PING_DEST_%d", index++);
-		if(db_get_dw(0, buff, "Id", 0) != 0) {
+		if (db_get_dw(0, buff, "Id", 0) != 0) {
 			found = true;
 			db_set_dw(0, buff, "Id", 0);
 		}
-	} while(found);
+	} while (found);
 }
 
 bool read_ping_address(PINGADDRESS &pa) {
@@ -112,38 +112,43 @@ bool read_ping_address(PINGADDRESS &pa) {
 	mir_snprintf(buff, SIZEOF(buff), "PING_DEST_%d", index);
 
 	// return if not more contacts, or only deleted contacts remaining
-	if((pa.item_id = db_get_dw(0, buff, "Id", 0)) == 0)	return false;
+	if ((pa.item_id = db_get_dw(0, buff, "Id", 0)) == 0)	return false;
 
 	DBVARIANT dbv;
-	if(!db_get_ts(0, buff, "Address", &dbv)) {
-		_tcsncpy(pa.pszName, dbv.ptszVal, MAX_PINGADDRESS_STRING_LENGTH);
+	if (!db_get_ts(0, buff, "Address", &dbv)) {
+		mir_tstrncpy(pa.pszName, dbv.ptszVal, SIZEOF(pa.pszName));
 		db_free(&dbv);
-	} else return false;
+	}
+	else return false;
 
-	if(!db_get_ts(0, buff, "Label", &dbv)) {
-		_tcsncpy(pa.pszLabel, dbv.ptszVal, MAX_PINGADDRESS_STRING_LENGTH);
+	if (!db_get_ts(0, buff, "Label", &dbv)) {
+		mir_tstrncpy(pa.pszLabel, dbv.ptszVal, SIZEOF(pa.pszLabel));
 		db_free(&dbv);
-	} else return false;
+	}
+	else return false;
 
 	pa.status = db_get_w(0, buff, "Status", PS_NOTRESPONDING);
-	if(pa.status != PS_DISABLED) pa.status = PS_NOTRESPONDING;
+	if (pa.status != PS_DISABLED) pa.status = PS_NOTRESPONDING;
 
 	pa.port = (int)db_get_dw(0, buff, "Port", -1);
 
-	if(!db_get_s(0, buff, "Proto", &dbv)) {
-		strncpy(pa.pszProto, dbv.pszVal, MAX_PINGADDRESS_STRING_LENGTH);
+	if (!db_get_s(0, buff, "Proto", &dbv)) {
+		mir_strncpy(pa.pszProto, dbv.pszVal, SIZEOF(pa.pszProto));
 		db_free(&dbv);
-	} else pa.pszProto[0] = '\0';
+	}
+	else pa.pszProto[0] = '\0';
 
-	if(!db_get_ts(0, buff, "Command", &dbv)) {
-		_tcsncpy(pa.pszCommand, dbv.ptszVal, MAX_PATH);
+	if (!db_get_ts(0, buff, "Command", &dbv)) {
+		mir_tstrncpy(pa.pszCommand, dbv.ptszVal, SIZEOF(pa.pszCommand));
 		db_free(&dbv);
-	} else
+	}
+	else
 		pa.pszCommand[0] = '\0';
-	if(!db_get_ts(0, buff, "CommandParams", &dbv)) {
-		_tcsncpy(pa.pszParams, dbv.ptszVal, MAX_PATH);
+	if (!db_get_ts(0, buff, "CommandParams", &dbv)) {
+		mir_tstrncpy(pa.pszParams, dbv.ptszVal, SIZEOF(pa.pszParams));
 		db_free(&dbv);
-	} else
+	}
+	else
 		pa.pszParams[0] = '\0';
 
 	pa.set_status = db_get_w(0, buff, "SetStatus", ID_STATUS_ONLINE);
@@ -155,7 +160,7 @@ bool read_ping_address(PINGADDRESS &pa) {
 	pa.index = db_get_w(0, buff, "Index", 0);
 
 	pa.index = index;
-	if(pa.item_id >= NextID) {
+	if (pa.item_id >= NextID) {
 		NextID = pa.item_id + 1;
 		db_set_dw(0, PLUG, "NextID", NextID);
 	}

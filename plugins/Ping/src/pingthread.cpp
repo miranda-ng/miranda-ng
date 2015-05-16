@@ -52,7 +52,7 @@ void set_list_changed(bool f) {
 }
 
 void SetProtoStatus(TCHAR *pszLabel, char *pszProto, int if_status, int new_status) {
-	if (strcmp(pszProto, Translate("<all>")) == 0) {
+	if (mir_strcmp(pszProto, Translate("<all>")) == 0) {
 		int num_protocols;
 		PROTOACCOUNT **pppDesc;
 
@@ -115,9 +115,9 @@ void __cdecl sttCheckStatusThreadProc(void *vp)
 					pa.item_id = i->item_id;
 					pa.miss_count = i->miss_count;
 					pa.port = i->port;
-					_tcsncpy(pa.pszLabel, i->pszLabel, MAX_PINGADDRESS_STRING_LENGTH);
-					_tcsncpy(pa.pszName, i->pszName, MAX_PINGADDRESS_STRING_LENGTH);
-					strncpy(pa.pszProto, i->pszProto, MAX_PINGADDRESS_STRING_LENGTH);
+					mir_tstrncpy(pa.pszLabel, i->pszLabel, SIZEOF(pa.pszLabel));
+					mir_tstrncpy(pa.pszName, i->pszName, SIZEOF(pa.pszName));
+					mir_strncpy(pa.pszProto, i->pszProto, SIZEOF(pa.pszProto));
 					pa.set_status = i->set_status;
 					pa.status = i->status;
 					break;
@@ -1009,27 +1009,27 @@ void InitList()
 
 	{
 		font_id.cbSize = sizeof(FontIDT);
-		_tcsncpy(font_id.group, LPGENT("Ping"), SIZEOF(font_id.group));
-		_tcsncpy(font_id.name, LPGENT("List"), SIZEOF(font_id.name));
-		strncpy(font_id.dbSettingsGroup, "PING", sizeof(font_id.dbSettingsGroup));
-		strncpy(font_id.prefix, "Font", sizeof(font_id.prefix));
-		_tcsncpy(font_id.backgroundGroup, _T("Ping"), SIZEOF(font_id.backgroundGroup));
-		_tcsncpy(font_id.backgroundName, _T("Background"), SIZEOF(font_id.backgroundName));
+		mir_tstrncpy(font_id.group, LPGENT("Ping"), SIZEOF(font_id.group));
+		mir_tstrncpy(font_id.name, LPGENT("List"), SIZEOF(font_id.name));
+		mir_strncpy(font_id.dbSettingsGroup, "PING", SIZEOF(font_id.dbSettingsGroup));
+		mir_strncpy(font_id.prefix, "Font", SIZEOF(font_id.prefix));
+		mir_tstrncpy(font_id.backgroundGroup, _T("Ping"), SIZEOF(font_id.backgroundGroup));
+		mir_tstrncpy(font_id.backgroundName, _T("Background"), SIZEOF(font_id.backgroundName));
 		font_id.order = 0;
 		font_id.flags = FIDF_DEFAULTVALID;
 		font_id.deffontsettings.charset = DEFAULT_CHARSET;
 		font_id.deffontsettings.size = -14;
 		font_id.deffontsettings.style = 0;
 		font_id.deffontsettings.colour = RGB(255, 255, 255);
-		_tcsncpy(font_id.deffontsettings.szFace, _T("Tahoma"), SIZEOF(font_id.deffontsettings.szFace));
+		mir_tstrncpy(font_id.deffontsettings.szFace, _T("Tahoma"), SIZEOF(font_id.deffontsettings.szFace));
 
 		FontRegisterT(&font_id);
 
 		bk_col_id.cbSize = sizeof(ColourIDT);
-		_tcsncpy(bk_col_id.group, _T("Ping"), SIZEOF(bk_col_id.group));
-		_tcsncpy(bk_col_id.name, _T("Background"), SIZEOF(bk_col_id.name));
-		strncpy(bk_col_id.dbSettingsGroup, "PING", sizeof(bk_col_id.dbSettingsGroup));
-		strncpy(bk_col_id.setting, "BgColor", sizeof(bk_col_id.setting));
+		mir_tstrncpy(bk_col_id.group, _T("Ping"), SIZEOF(bk_col_id.group));
+		mir_tstrncpy(bk_col_id.name, _T("Background"), SIZEOF(bk_col_id.name));
+		mir_strncpy(bk_col_id.dbSettingsGroup, "PING", SIZEOF(bk_col_id.dbSettingsGroup));
+		mir_strncpy(bk_col_id.setting, "BgColor", SIZEOF(bk_col_id.setting));
 		bk_col_id.defcolour = RGB(0, 0, 0);
 		ColourRegisterT(&bk_col_id);
 

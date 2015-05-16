@@ -1,9 +1,9 @@
 #ifndef _PING_UTILS
 #define _PING_UTILS
 
-void __stdcall	ShowPopup(TCHAR *line1, TCHAR *line2, int flags );
+void __stdcall	ShowPopup(TCHAR *line1, TCHAR *line2, int flags);
 
-INT_PTR PluginPing(WPARAM wParam,LPARAM lParam);
+INT_PTR PluginPing(WPARAM wParam, LPARAM lParam);
 
 INT_PTR PingDisableAll(WPARAM wParam, LPARAM lParam);
 INT_PTR PingEnableAll(WPARAM wParam, LPARAM lParam);

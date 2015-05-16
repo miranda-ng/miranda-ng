@@ -2,7 +2,7 @@
 #define _PINGLIST_H
 
 INT_PTR LoadPingList(WPARAM wParam, LPARAM lParam);
-INT_PTR GetPingList(WPARAM wParam,LPARAM lParam);
+INT_PTR GetPingList(WPARAM wParam, LPARAM lParam);
 INT_PTR SavePingList(WPARAM wParam, LPARAM lParam);
 INT_PTR SetPingList(WPARAM wParam, LPARAM lParam); // use when you modified db yourself
 INT_PTR SetAndSavePingList(WPARAM wParam, LPARAM lParam);

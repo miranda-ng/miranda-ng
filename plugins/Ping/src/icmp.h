@@ -22,14 +22,14 @@ public:
 	static void cleanup();
 
 	bool ping(char *host, ICMP_ECHO_REPLY &reply);
-	
+
 	void set_timeout(unsigned int t) {
 		timeout = t;
 	}
 
 	void stop();
 
-	unsigned int get_timeout() {return timeout;}
+	unsigned int get_timeout() { return timeout; }
 
 };
 #endif //_ICMP_H
