@@ -575,7 +575,7 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 			if (pdata->pluginOptions->bShowDate)
 				_tcsncpy(formatTime, _T("%Y.%m.%d"), SIZEOF(formatTime));
 			else if (pdata->pluginOptions->bShowTime)
-				_tcsncat(formatTime, _T(" %H:%M"), SIZEOF(formatTime));
+				_tcsncat(formatTime, _T(" %H:%M"), SIZEOF(formatTime) - mir_tstrlen(formatTime));
 			time_t localTime = dbe.timestamp;
 			_tcsftime(timestamp, SIZEOF(timestamp), formatTime, localtime(&localTime));
 			mir_sntprintf(lpzText, SIZEOF(lpzText), _T("%s[b][i]%s[/i][/b]\n"), lpzText, timestamp);
