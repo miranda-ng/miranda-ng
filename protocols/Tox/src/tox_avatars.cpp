@@ -87,6 +87,7 @@ void CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 		}
 
 		AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, NULL, length);
+		transfer->pfts.flags |= PFTS_SENDING;
 		memcpy(transfer->hash, hash, TOX_HASH_LENGTH);
 		transfer->pfts.hContact = hContact;
 		transfer->hFile = _tfopen(path.c_str(), L"rb");
@@ -131,8 +132,8 @@ INT_PTR CToxProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATIONW *pai = (PROTO_AVATAR_INFORMATIONW *)lParam;
 
-	ptrA id(getStringA(pai->hContact, TOX_SETTINGS_ID));
-	if (id != NULL)
+	ptrA address(getStringA(pai->hContact, TOX_SETTINGS_ID));
+	if (address != NULL)
 	{
 		std::tstring path = GetAvatarFilePath(pai->hContact);
 		if (IsFileExists(path))

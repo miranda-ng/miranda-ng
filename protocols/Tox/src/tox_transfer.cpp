@@ -19,6 +19,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 			mir_sntprintf(avatarName, MAX_PATH, _T("%s.png"), address);
 			
 			AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, avatarName, fileSize);
+			transfer->pfts.flags |= PFTS_RECEIVING;
 			transfer->pfts.hContact = hContact;
 			proto->transfers.Add(transfer);
 
@@ -41,6 +42,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 			TCHAR *name = mir_utf8decodeT(rawName);
 
 			FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, name, fileSize);
+			transfer->pfts.flags |= PFTS_RECEIVING;
 			transfer->pfts.hContact = hContact;
 			proto->transfers.Add(transfer);
 
@@ -220,6 +222,7 @@ HANDLE CToxProto::OnSendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR **pp
 	}
 
 	FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, fileName, fileSize);
+	transfer->pfts.flags |= PFTS_SENDING;
 	transfer->pfts.hContact = hContact;
 	transfer->pfts.tszWorkingDir = fileDir;
 	transfer->hFile = hFile;
