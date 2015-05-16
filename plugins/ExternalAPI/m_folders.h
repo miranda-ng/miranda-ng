@@ -209,10 +209,10 @@ __inline static INT_PTR FoldersGetCustomPathEx(HANDLE hFolderEntry, char *path, 
 	}
 
 	if (path[0] != '\0')
-		strncat(path, "\\", size);
+		strncat(path, "\\", size - mir_strlen(path));
 
 	if (fileName)
-		strncat(path, fileName, size);
+		strncat(path, fileName, size - mir_strlen(path));
 
 	return res;
 }
@@ -232,10 +232,10 @@ __inline static INT_PTR FoldersGetCustomPathExW(HANDLE hFolderEntry, wchar_t *pa
 	}
 
 	if (pathW[0] != '\0')
-		wcsncat(pathW, L"\\", size);
+		wcsncat(pathW, L"\\", size - mir_wstrlen(pathW));
 
 	if (fileNameW)
-		wcsncat(pathW, fileNameW, size);
+		wcsncat(pathW, fileNameW, size - mir_wstrlen(pathW));
 
 	return res;
 }
