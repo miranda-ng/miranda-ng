@@ -60,9 +60,9 @@ int UpdateWeather(MCONTACT hContact)
 			// show warnings by popup
 			mir_sntprintf(str, SIZEOF(str) - 105,
 				TranslateT("Unable to retrieve weather information for %s"), dbv.ptszVal);
-			_tcsncat(str, _T("\n"), SIZEOF(str) - 1);
+			_tcsncat(str, _T("\n"), SIZEOF(str) - mir_tstrlen(str));
 			TCHAR *tszError = GetError(code);
-			_tcsncat(str, tszError, SIZEOF(str) - 1);
+			_tcsncat(str, tszError, SIZEOF(str) - mir_tstrlen(str));
 			WPShowMessage(str, SM_WARNING);
 			mir_free(tszError);
 		}
