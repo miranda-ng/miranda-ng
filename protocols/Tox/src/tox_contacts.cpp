@@ -331,7 +331,7 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 			proto->delSetting(hContact, "Grant");
 
 			// resume transfers
-			for (size_t i = 0; i < proto->transfers.Count(); i++)
+			/*for (size_t i = 0; i < proto->transfers.Count(); i++)
 			{
 				// only for receiving
 				FileTransferParam *transfer = proto->transfers.GetAt(i);
@@ -345,7 +345,7 @@ void CToxProto::OnConnectionStatusChanged(Tox*, uint32_t friendNumber, TOX_CONNE
 						tox_file_control(proto->tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_RESUME, NULL);
 					}
 				}
-			}
+			}*/
 
 			// update avatar
 			std::tstring avatarPath = proto->GetAvatarFilePath();
