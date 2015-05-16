@@ -397,9 +397,9 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_VAR3:
 			// display variable list
 			_tcsncpy(str, _T("                                                            \n"),SIZEOF(str) - 1);		// to make the message box wider
-			_tcsncat(str, VAR_LIST_POPUP, SIZEOF(str) - 1);
-			_tcsncat(str, _T("\n"),SIZEOF(str) - 1);
-			_tcsncat(str, CUSTOM_VARS,SIZEOF(str) - 1);
+			_tcsncat(str, VAR_LIST_POPUP, SIZEOF(str) - mir_tstrlen(str));
+			_tcsncat(str, _T("\n"), SIZEOF(str) - mir_tstrlen(str));
+			_tcsncat(str, CUSTOM_VARS, SIZEOF(str) - mir_tstrlen(str));
 			MessageBox(NULL, str, TranslateT("Variable List"), MB_OK|MB_ICONASTERISK|MB_TOPMOST);
 			break;
 

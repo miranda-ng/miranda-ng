@@ -159,48 +159,48 @@ void GetINIInfo(TCHAR *pszSvc)
 	else
 	{
 		mir_sntprintf(str2, SIZEOF(str2), TranslateT("Weather INI information for \"%s\":"), pszSvc);
-		_tcsncat(str2,_T("\n\n"), SIZEOF(str2) - 1);
-		_tcsncat(str2, TranslateT("Name:"), SIZEOF(str2) - 1);
-		_tcsncat(str2,_T("\t\t"), SIZEOF(str2) - 1);
-		_tcsncat(str2, sData->DisplayName, SIZEOF(str2) - 1);
-		_tcsncat(str2,_T("\n"), SIZEOF(str2) - 1);
-		_tcsncat(str2, TranslateT("Internal Name:"), SIZEOF(str2) - 1);
-		_tcsncat(str2,_T("\t"), SIZEOF(str2) - 1);
-		_tcsncat(str2, sData->InternalName, SIZEOF(str2) - 1);
-		_tcsncat(str2,_T("\n"), SIZEOF(str2) - 1);
-		_tcsncat(str2, TranslateT("Author:"), SIZEOF(str2) - 1);
-		_tcsncat(str2,_T("\t\t"), SIZEOF(str2) - 1);
-		_tcsncat(str2, sData->Author, SIZEOF(str2) - 1);
-		_tcsncat(str2,_T("\n"), SIZEOF(str2) - 1);
-		_tcsncat(str2, TranslateT("Version:"), SIZEOF(str2) - 1);
-		_tcsncat(str2,_T("\t\t"), SIZEOF(str2) - 1);
-		_tcsncat(str2, sData->Version, SIZEOF(str2) - 1);
-		_tcsncat(str2,_T("\n"), SIZEOF(str2) - 1);
-		_tcsncat(str2, TranslateT("INI Version:"), SIZEOF(str2) - 1);
-		_tcsncat(str2,_T("\t"), SIZEOF(str2) - 1);
+		_tcsncat(str2, _T("\n\n"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, TranslateT("Name:"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, _T("\t\t"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, sData->DisplayName, SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, _T("\n"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, TranslateT("Internal Name:"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, _T("\t"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, sData->InternalName, SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, _T("\n"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, TranslateT("Author:"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, _T("\t\t"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, sData->Author, SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, _T("\n"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, TranslateT("Version:"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, _T("\t\t"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, sData->Version, SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, _T("\n"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, TranslateT("INI Version:"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, _T("\t"), SIZEOF(str2) - mir_tstrlen(str2));
 		switch (sData->InternalVer) {
-			case 1: _tcsncat(str2,_T("1.0"), SIZEOF(str2) - 1); break;
-			case 2: _tcsncat(str2,_T("1.1"), SIZEOF(str2) - 1); break;
-			case 3: _tcsncat(str2,_T("1.1a"), SIZEOF(str2) - 1); break;
-			case 4: _tcsncat(str2,_T("1.2"), SIZEOF(str2) - 1); break;
-			case 5: _tcsncat(str2,_T("1.3"), SIZEOF(str2) - 1); break;
-			case 6: _tcsncat(str2,_T("1.4"), SIZEOF(str2) - 1); break;
-			case 7: _tcsncat(str2,_T("1.5"), SIZEOF(str2) - 1); break;
+		case 1: _tcsncat(str2, _T("1.0"), SIZEOF(str2) - mir_tstrlen(str2)); break;
+		case 2: _tcsncat(str2, _T("1.1"), SIZEOF(str2) - mir_tstrlen(str2)); break;
+		case 3: _tcsncat(str2, _T("1.1a"), SIZEOF(str2) - mir_tstrlen(str2)); break;
+		case 4: _tcsncat(str2, _T("1.2"), SIZEOF(str2) - mir_tstrlen(str2)); break;
+		case 5: _tcsncat(str2, _T("1.3"), SIZEOF(str2) - mir_tstrlen(str2)); break;
+		case 6: _tcsncat(str2, _T("1.4"), SIZEOF(str2) - mir_tstrlen(str2)); break;
+		case 7: _tcsncat(str2, _T("1.5"), SIZEOF(str2) - mir_tstrlen(str2)); break;
 		}
-		_tcsncat(str2,_T("\n"), SIZEOF(str2) - 1);
-		_tcsncat(str2, TranslateT("File Name:"), SIZEOF(str2) - 1);
-		_tcsncat(str2,_T("\t"), SIZEOF(str2) - 1);
-		_tcsncat(str2, sData->ShortFileName, SIZEOF(str2) - 1);
-		_tcsncat(str2, _T("\n"), SIZEOF(str2) - 1);
-		_tcsncat(str2, TranslateT("Item Count:"), SIZEOF(str2) - 1);
+		_tcsncat(str2, _T("\n"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, TranslateT("File Name:"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, _T("\t"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, sData->ShortFileName, SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, _T("\n"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, TranslateT("Item Count:"), SIZEOF(str2) - mir_tstrlen(str2));
 		mir_sntprintf(str2, SIZEOF(str2), _T("%s\t%i\n"), str2, sData->UpdateDataCount);
-		_tcsncat(str2, TranslateT("Memory Used:"), SIZEOF(str2) - 1);
+		_tcsncat(str2, TranslateT("Memory Used:"), SIZEOF(str2) - mir_tstrlen(str2));
 		mir_sntprintf(str2, SIZEOF(str2), _T("%s\t%i "), str2, sData->MemUsed);
-		_tcsncat(str2, TranslateT("bytes"), SIZEOF(str2) - 1); 
-		_tcsncat(str2,_T("\n\n"), SIZEOF(str2) - 1); 
-		_tcsncat(str2, TranslateT("Description:"), SIZEOF(str2) - 1);
-		_tcsncat(str2,_T("\n"), SIZEOF(str2) - 1);
-		_tcsncat(str2, sData->Description, SIZEOF(str2) - 1);
+		_tcsncat(str2, TranslateT("bytes"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, _T("\n\n"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, TranslateT("Description:"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, _T("\n"), SIZEOF(str2) - mir_tstrlen(str2));
+		_tcsncat(str2, sData->Description, SIZEOF(str2) - mir_tstrlen(str2));
 
 		// display the message box and quit
 		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK|MB_ICONINFORMATION);
@@ -217,7 +217,7 @@ void MoreVarList(void)
 
 	// heading
 	_tcsncpy(str, VARS_LIST, SIZEOF(str) - 1);
-	_tcsncat(str, _T("\n\n"), SIZEOF(str) - 1);
+	_tcsncat(str, _T("\n\n"), SIZEOF(str) - mir_tstrlen(str));
 	// loop through all weather services to find custom variables
 	for (WIDATALIST *Item = WIHead;Item != NULL;Item = Item->next) 
 	{
@@ -231,8 +231,8 @@ void MoreVarList(void)
 				TCHAR* find = _tcsstr(str, tempstr);
 				// if the custom variable does not exist in the list, add it to the list
 				if (find == NULL) {
-					_tcsncat(str, tempstr, SIZEOF(str) - 1);
-					_tcsncat(str, _T(", "), SIZEOF(str) - 1);
+					_tcsncat(str, tempstr, SIZEOF(str) - mir_tstrlen(str));
+					_tcsncat(str, _T(", "), SIZEOF(str) - mir_tstrlen(str));
 				}
 			}
 		}
