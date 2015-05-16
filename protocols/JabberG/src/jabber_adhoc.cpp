@@ -541,8 +541,8 @@ int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM hContact, LPARAM lParam)
 					if (selected > 0) {
 						JABBER_RESOURCE_STATUS *r = item->arResources[selected - 1];
 						if (r) {
-							_tcsncat(jid, _T("/"), SIZEOF(jid));
-							_tcsncat(jid, r->m_tszResourceName, SIZEOF(jid));
+							_tcsncat(jid, _T("/"), SIZEOF(jid) - mir_tstrlen(jid));
+							_tcsncat(jid, r->m_tszResourceName, SIZEOF(jid) - mir_tstrlen(jid));
 						}
 						selected = 1;
 					}
