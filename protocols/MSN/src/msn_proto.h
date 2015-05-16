@@ -264,6 +264,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	// MSN thread functions
 
 	void __cdecl msn_keepAliveThread(void* arg);
+	void __cdecl msn_loginThread(void* arg);
 	void __cdecl MSNServerThread(void* arg);
 
 	void __cdecl MsnFileAckThread(void* arg);

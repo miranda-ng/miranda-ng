@@ -70,6 +70,12 @@ void __cdecl CMsnProto::msn_keepAliveThread(void*)
 	debugLogA("Closing keep-alive thread");
 }
 
+void __cdecl CMsnProto::msn_loginThread(void*)
+{
+	MSN_RefreshContactList();
+	MSN_FetchRecentMessages();
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 //	MSN server thread - read and process commands from a server
 
