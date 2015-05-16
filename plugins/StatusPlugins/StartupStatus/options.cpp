@@ -161,7 +161,7 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 {
 	TCHAR savePath[MAX_PATH];
 	if (SHGetSpecialFolderPath(NULL, savePath, 0x10, FALSE))
-		_tcsncat_s(savePath, SHORTCUT_FILENAME, _TRUNCATE);
+		_tcsncat_s(savePath, SHORTCUT_FILENAME, SIZEOF(savePath) - mir_tstrlen(savePath));
 	else
 		mir_sntprintf(savePath, SIZEOF(savePath), _T(".\\%s"), SHORTCUT_FILENAME);
 
