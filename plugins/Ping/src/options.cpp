@@ -241,7 +241,7 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_GETCURSEL, 0, 0) != -1)
 				{
 					GetDlgItemTextA(hwndDlg, IDC_COMBO_DESTPROTO, add_edit_addr.pszProto, SIZEOF(add_edit_addr.pszProto));
-					if (!strcmp(add_edit_addr.pszProto, Translate("<none>")))
+					if (!mir_strcmp(add_edit_addr.pszProto, Translate("<none>")))
 						add_edit_addr.pszProto[0] = '\0';
 					else {
 						int sel = SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTSTAT, CB_GETCURSEL, 0, 0);

@@ -9,7 +9,7 @@ HANDLE hFillListEvent = 0;
 bool use_raw_ping = true;
 
 // plugin stuff
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -20,7 +20,7 @@ PLUGININFOEX pluginInfo={
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {760EA901-C0C2-446C-8029-94C3BC47C45E}
-	{0x760ea901, 0xc0c2, 0x446c, {0x80, 0x29, 0x94, 0xc3, 0xbc, 0x47, 0xc4, 0x5e}}
+	{ 0x760ea901, 0xc0c2, 0x446c, { 0x80, 0x29, 0x94, 0xc3, 0xbc, 0x47, 0xc4, 0x5e } }
 };
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -48,7 +48,7 @@ void CreatePluginServices() {
 	CreateServiceFunction(PLUG "/SavePingList", SavePingList);
 
 	reload_event_handle = CreateHookableEvent(PLUG "/ListReload");
-	
+
 	//log
 	CreateServiceFunction(PLUG "/Log", Log);
 	CreateServiceFunction(PLUG "/ViewLogData", ViewLogData);
@@ -71,7 +71,7 @@ int OnShutdown(WPARAM wParam, LPARAM lParam) {
 
 	DeinitList();
 
-	if(use_raw_ping)
+	if (use_raw_ping)
 		cleanup_raw_ping();
 	else
 		ICMP::cleanup();
@@ -80,7 +80,7 @@ int OnShutdown(WPARAM wParam, LPARAM lParam) {
 }
 
 int OnModulesLoaded(WPARAM, LPARAM) {
-	NETLIBUSER nl_user = {0};
+	NETLIBUSER nl_user = { 0 };
 	nl_user.cbSize = sizeof(nl_user);
 	nl_user.szSettingsModule = PLUG;
 	nl_user.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
@@ -99,8 +99,8 @@ int OnModulesLoaded(WPARAM, LPARAM) {
 
 	hFillListEvent = HookEvent(PLUG "/ListReload", FillList);
 
-	if(!db_get_b(0, PLUG, "PingPlugImport", 0)) {
-		if(db_get_dw(0, "PingPlug", "NumEntries", 0)) {
+	if (!db_get_b(0, PLUG, "PingPlugImport", 0)) {
+		if (db_get_dw(0, "PingPlug", "NumEntries", 0)) {
 			import_ping_addresses();
 			db_set_b(0, PLUG, "PingPlugImport", 1);
 		}
@@ -112,7 +112,7 @@ int OnModulesLoaded(WPARAM, LPARAM) {
 
 	graphs_init();
 
-	if(options.logging) CallService(PLUG "/Log", (WPARAM)_T("start"), 0);
+	if (options.logging) CallService(PLUG "/Log", (WPARAM)_T("start"), 0);
 
 	return 0;
 }
@@ -128,13 +128,13 @@ static IconItem iconList[] =
 extern "C" __declspec(dllexport) int Load(void)
 {
 	//if(init_raw_ping()) {
-		//MessageBox(0, Translate("Failed to initialize. Plugin disabled."), Translate("Ping Plugin"), MB_OK | MB_ICONERROR);
-		//return 1;
-		use_raw_ping = false;
+	//MessageBox(0, Translate("Failed to initialize. Plugin disabled."), Translate("Ping Plugin"), MB_OK | MB_ICONERROR);
+	//return 1;
+	use_raw_ping = false;
 	//}
 	db_set_b(0, PLUG, "UsingRawSockets", (BYTE)use_raw_ping);
 
-	DuplicateHandle( GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &mainThread, THREAD_SET_CONTEXT, FALSE, 0 );
+	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &mainThread, THREAD_SET_CONTEXT, FALSE, 0);
 	hWakeEvent = CreateEvent(NULL, FALSE, FALSE, _T("Local\\ThreadWaitEvent"));
 
 	// create services before loading options - so we can have the 'getlogfilename' service!
@@ -147,7 +147,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
-	HookEvent(ME_OPT_INITIALISE, PingOptInit );
+	HookEvent(ME_OPT_INITIALISE, PingOptInit);
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 
@@ -162,9 +162,9 @@ extern "C" __declspec(dllexport) int Unload(void)
 {
 	SavePingList(0, 0);
 
-	CloseHandle( mainThread );
+	CloseHandle(mainThread);
 
-	if(options.logging) CallService(PLUG "/Log", (WPARAM)_T("stop"), 0);
+	if (options.logging) CallService(PLUG "/Log", (WPARAM)_T("stop"), 0);
 
 	return 0;
 }

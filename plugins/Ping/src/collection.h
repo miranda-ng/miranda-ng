@@ -2,56 +2,56 @@ template<class T> class Collection {
 protected:
 	unsigned long count;
 public:
-	Collection(): count(0) {}
+	Collection() : count(0) {}
 
 	virtual void clear() = 0;
 	virtual void add(const T &val) = 0;
 	virtual const bool remove(const T &val) = 0;
 
-	const unsigned long size() const {return count;}
+	const unsigned long size() const { return count; }
 };
 
 template<class T> class Node {
 public:
 	T val;
 
-	Node(const T &v): val(v) {}
+	Node(const T &v) : val(v) {}
 	virtual ~Node() {}
 };
 
-template<class T> class ListNode: public Node<T> {
+template<class T> class ListNode : public Node < T > {
 public:
 	ListNode<T> *next, *prev;
 
-	ListNode(const T &v): Node<T>(v), next(0), prev(0) {}
+	ListNode(const T &v) : Node<T>(v), next(0), prev(0) {}
 	virtual ~ListNode() {
-		if(next) next->prev = prev;
-		if(prev) prev->next = next;
+		if (next) next->prev = prev;
+		if (prev) prev->next = next;
 	}
 };
 
-template<class T> class LinkedList: public Collection<T> {
+template<class T> class LinkedList : public Collection < T > {
 protected:
 	ListNode<T> *head, *tail;
 
 public:
 	class Iterator {
-		friend class LinkedList<T>;
+		friend class LinkedList < T > ;
 	protected:
 		ListNode<T> *n;
-		Iterator(ListNode<T> *start): n(start) {}
+		Iterator(ListNode<T> *start) : n(start) {}
 	public:
-		Iterator(const Iterator &other): n(other.n) {}
+		Iterator(const Iterator &other) : n(other.n) {}
 
-		virtual T &val() {return n->val;}
-		virtual void next() {if(n) n = n->next;}
-		virtual void prev() {if(n) n = n->prev;}
-		virtual const bool has_val() {return (n ? true : false); }
+		virtual T &val() { return n->val; }
+		virtual void next() { if (n) n = n->next; }
+		virtual void prev() { if (n) n = n->prev; }
+		virtual const bool has_val() { return (n ? true : false); }
 	};
 
-	LinkedList(): Collection<T>(), head(0), tail(0) {};
-	LinkedList(const LinkedList<T> &other): Collection<T>(), head(0), tail(0) {
-		for(Iterator i = other.begin(); i.has_val(); i.next())
+	LinkedList() : Collection<T>(), head(0), tail(0) {};
+	LinkedList(const LinkedList<T> &other) : Collection<T>(), head(0), tail(0) {
+		for (Iterator i = other.begin(); i.has_val(); i.next())
 			add(i.val());
 	}
 	virtual ~LinkedList() { clear(); }
@@ -59,7 +59,7 @@ public:
 	LinkedList<T> &operator=(const LinkedList<T> &other)
 	{
 		clear();
-		for(Iterator i = other.begin(); i.has_val(); i.next())
+		for (Iterator i = other.begin(); i.has_val(); i.next())
 			add(i.val());
 		return *this;
 	}
@@ -67,7 +67,7 @@ public:
 	virtual void clear()
 	{
 		ListNode<T> *n;
-		while(head) {
+		while (head) {
 			n = head;
 			head = head->next;
 			delete n;
@@ -76,37 +76,38 @@ public:
 		Collection<T>::count = 0;
 	}
 
-	virtual Iterator begin() const {return Iterator(head);}
+	virtual Iterator begin() const { return Iterator(head); }
 
 	virtual void add_front(T &val) {
 		ListNode<T> *n = new ListNode<T>(val);
 		n->next = head;
-		if(head) head->prev = n;
+		if (head) head->prev = n;
 		head = n;
-		if(!tail) tail = n;
+		if (!tail) tail = n;
 		Collection<T>::count++;
 	}
 
 	virtual void add(const T &val) {
 		ListNode<T> *n = new ListNode<T>(val);
 		n->prev = tail;
-		if(tail) tail->next = n;
+		if (tail) tail->next = n;
 		tail = n;
-		if(!head) head = n;
+		if (!head) head = n;
 		Collection<T>::count++;
 	}
 
 	virtual const bool remove(const T &val) {
 		ListNode<T> *n = head;
-		while(n) {
-			if(n->val == val) {
-				if(n == head) head = head->next;
-				if(n == tail) tail = tail->prev;
-				
+		while (n) {
+			if (n->val == val) {
+				if (n == head) head = head->next;
+				if (n == tail) tail = tail->prev;
+
 				delete n;
 				Collection<T>::count--;
 				return true;
-			} else
+			}
+			else
 				n = n->next;
 		}
 
@@ -115,10 +116,11 @@ public:
 
 	virtual const bool contains(T &val) const {
 		ListNode<T> *n = head;
-		while(n) {
-			if(n->val == val) {
+		while (n) {
+			if (n->val == val) {
 				return true;
-			} else
+			}
+			else
 				n = n->next;
 		}
 
@@ -137,22 +139,23 @@ public:
 	}
 
 	virtual const bool pop(T &val) {
-		if(!head) return false;
+		if (!head) return false;
 
 		ListNode<T> *n = head;
-		if(head) {
+		if (head) {
 			head = head->next;
-			if(n == tail) tail = 0;
+			if (n == tail) tail = 0;
 			val = n->val;
 			delete n;
 			Collection<T>::count--;
 			return true;
-		} else
+		}
+		else
 			return false;
 	}
 };
 
-template<class T> class DynamicArray: public Collection<T> {
+template<class T> class DynamicArray : public Collection < T > {
 protected:
 	T *ar;
 
@@ -160,56 +163,57 @@ protected:
 
 public:
 	class Iterator {
-		friend class DynamicArray<T>;
+		friend class DynamicArray < T > ;
 	protected:
 		T *ar;
 		unsigned long count;
 		unsigned long pos;
-		Iterator(T *a, const int c, unsigned long p): ar(a), count(c), pos(p) {}
+		Iterator(T *a, const int c, unsigned long p) : ar(a), count(c), pos(p) {}
 	public:
-		Iterator(const Iterator &other): ar(other.ar), count(other.count), pos(other.pos) {}
+		Iterator(const Iterator &other) : ar(other.ar), count(other.count), pos(other.pos) {}
 
-		virtual T &val() {return ar[pos];}
-		virtual void next() {pos++;}
-		virtual void prev() {pos--;}
-		virtual const bool has_val() {return pos < count; }
+		virtual T &val() { return ar[pos]; }
+		virtual void next() { pos++; }
+		virtual void prev() { pos--; }
+		virtual const bool has_val() { return pos < count; }
 	};
 
-	DynamicArray(unsigned long init = 0, unsigned long inc = 1): Collection<T>(), ar(0), initial(init), limit(init), increment(inc) {
-		if(limit) ar = (T *)malloc(limit * sizeof(T));
+	DynamicArray(unsigned long init = 0, unsigned long inc = 1) : Collection<T>(), ar(0), initial(init), limit(init), increment(inc) {
+		if (limit) ar = (T *)malloc(limit * sizeof(T));
 	}
-	virtual ~DynamicArray() {if(ar) free(ar);}
+	virtual ~DynamicArray() { if (ar) free(ar); }
 
 	virtual void clear() {
 		Collection<T>::count = 0;
 		limit = initial;
-		if(limit) ar = (T *)realloc(ar, limit * sizeof(T));
+		if (limit) ar = (T *)realloc(ar, limit * sizeof(T));
 		else {
 			free(ar);
 			ar = 0;
 		}
 	}
 
-	virtual Iterator begin() const {return Iterator(ar, Collection<T>::count, 0);}
+	virtual Iterator begin() const { return Iterator(ar, Collection<T>::count, 0); }
 
 	virtual void add(const T &val) {
-		if(Collection<T>::count == limit) {
+		if (Collection<T>::count == limit) {
 			limit += increment;
 			ar = (T *)realloc(ar, limit * sizeof(T));
 			ar[Collection<T>::count++] = val;
-		} else
+		}
+		else
 			ar[Collection<T>::count++] = val;
 	}
 
 	virtual void add_all(DynamicArray<T> &other) {
-		for(Iterator i = other.begin(); i != pl.end(); ++i) {
+		for (Iterator i = other.begin(); i != pl.end(); ++i) {
 			add(i.val());
 		}
 	}
 
 	virtual const bool remove(const T &val) {
-		for(unsigned long i = 0; i < Collection<T>::count; i++) {
-			if(ar[i] == val) {
+		for (unsigned long i = 0; i < Collection<T>::count; i++) {
+			if (ar[i] == val) {
 				memmove(ar + i, ar + i + 1, (Collection<T>::count - i) * sizeof(T));
 				Collection<T>::count--;
 				return true;
@@ -219,7 +223,7 @@ public:
 	}
 
 	virtual const bool remove(const unsigned long index) {
-		if(index >= Collection<T>::count) return false;
+		if (index >= Collection<T>::count) return false;
 
 		memmove(ar + index, ar + index + 1, (Collection<T>::count - index) * sizeof(T));
 		Collection<T>::count--;
@@ -227,16 +231,16 @@ public:
 	}
 
 	virtual const bool insert(const T &val, const unsigned long index) {
-		if(index > Collection<T>::count) return false;
+		if (index > Collection<T>::count) return false;
 
-		if(Collection<T>::count == limit) {
+		if (Collection<T>::count == limit) {
 			limit += increment;
 			ar = (T *)realloc(ar, limit * sizeof(T));
 		}
 
-		if(index < Collection<T>::count)
+		if (index < Collection<T>::count)
 			memmove(ar + index + 1, ar + index, (Collection<T>::count - index) * sizeof(T));
-		
+
 		ar[index] = val;
 		Collection<T>::count++;
 		return true;
@@ -247,8 +251,8 @@ public:
 	}
 
 	const bool index_of(const T &val, unsigned long &index) const {
-		for(int i = 0; i < Collection<T>::count; i++) {
-			if(ar[index] == val) {
+		for (int i = 0; i < Collection<T>::count; i++) {
+			if (ar[index] == val) {
 				index = i;
 				return true;
 			}
@@ -257,8 +261,8 @@ public:
 	}
 
 	const int index_of(const T &val) const {
-		for(int i = 0; i < Collection<T>::count; i++) {
-			if(ar[i] == val) {
+		for (int i = 0; i < Collection<T>::count; i++) {
+			if (ar[i] == val) {
 				return i;
 			}
 		}
@@ -267,9 +271,9 @@ public:
 
 	// stack functions
 	virtual const bool pop(T &val) {
-		if(Collection<T>::count) {
-			val = ar[Collection<T>::count -1];
-			remove(Collection<T>::count -1);
+		if (Collection<T>::count) {
+			val = ar[Collection<T>::count - 1];
+			remove(Collection<T>::count - 1);
 			return true;
 		}
 		return false;
@@ -280,26 +284,28 @@ public:
 	}
 };
 
-template<class T> class SortedDynamicArray: public DynamicArray<T> {
+template<class T> class SortedDynamicArray : public DynamicArray < T > {
 public:
-	SortedDynamicArray(unsigned long init = 0, unsigned long inc = 1): DynamicArray<T>(init, inc) {}
+	SortedDynamicArray(unsigned long init = 0, unsigned long inc = 1) : DynamicArray<T>(init, inc) {}
 	virtual ~SortedDynamicArray() {}
 
 	const bool get_index(const T &val, unsigned long &index) {
-		unsigned long low  = 0;
-		unsigned long high = Collection<T>::count-1;
+		unsigned long low = 0;
+		unsigned long high = Collection<T>::count - 1;
 
-		while( high < Collection<T>::count && low <= high )
-		{  
-			unsigned long i = ( low+high )/2;
-			if ( DynamicArray<T>::ar[i] == val )
-			{	index = i;
+		while (high < Collection<T>::count && low <= high)
+		{
+			unsigned long i = (low + high) / 2;
+			if (DynamicArray<T>::ar[i] == val)
+			{
+				index = i;
 				return true;
-			} else 
+			}
+			else
 				if (DynamicArray<T>::ar[i] < val)
-					low = i+1;
+					low = i + 1;
 				else
-					high = i-1;
+					high = i - 1;
 		}
 
 		index = low;
@@ -313,47 +319,52 @@ public:
 	}
 };
 
-template<class T> class TreeNode: public Node<T> {
+template<class T> class TreeNode : public Node < T > {
 public:
 	TreeNode<T> *parent, *left, *right;
 
-	TreeNode(const T &v, TreeNode<T> *par): Node<T>(v), parent(par), left(0), right(0) {}
+	TreeNode(const T &v, TreeNode<T> *par) : Node<T>(v), parent(par), left(0), right(0) {}
 	virtual ~TreeNode() {
-		if(parent) {
-			if(parent->left == this) parent->left = 0;
-			if(parent->right == this)parent->right = 0;
+		if (parent) {
+			if (parent->left == this) parent->left = 0;
+			if (parent->right == this)parent->right = 0;
 		}
 	}
 };
 
-template<class T, class N = TreeNode<T> > class BinaryTree: public Collection<T> {
+template<class T, class N = TreeNode<T> > class BinaryTree : public Collection < T > {
 protected:
 
 	N *root;
 
 	virtual void delete_node(N *n) {
-		if(n->left && n->right) {
+		if (n->left && n->right) {
 			N *minmax = n->left;
-			while(minmax->right) minmax = minmax->right;
+			while (minmax->right) minmax = minmax->right;
 			n->val = minmax->val;
 			delete_node(minmax);
 			return;
-		} else if(n->right) {
-			if(n->parent) {
-				if(n->parent->left == n) n->parent->left = n->right;
+		}
+		else if (n->right) {
+			if (n->parent) {
+				if (n->parent->left == n) n->parent->left = n->right;
 				else n->parent->right = n->right;
-			} else
+			}
+			else
 				root = n->right;
 			n->right->parent = n->parent;
-		} else if(n->left) {
-			if(n->parent) {
-				if(n->parent->left == n)	n->parent->left = n->left;
+		}
+		else if (n->left) {
+			if (n->parent) {
+				if (n->parent->left == n)	n->parent->left = n->left;
 				else n->parent->right = n->left;
-			} else
+			}
+			else
 				root = n->left;
 			n->left->parent = n->parent;
-		} else {
-			if(n == root) root = 0;
+		}
+		else {
+			if (n == root) root = 0;
 		}
 		delete n;
 		Collection<T>::count--;
@@ -361,21 +372,23 @@ protected:
 
 	virtual void insert_node(N *n) {
 		N *current = root, *parent = 0;
-		while(current) {
+		while (current) {
 			parent = current;
-			if(n->val < current->val)
+			if (n->val < current->val)
 				current = current->left;
 			else
 				current = current->right;
 		}
 
-		if(parent) {
-			if(n->val < parent->val) {
+		if (parent) {
+			if (n->val < parent->val) {
 				parent->left = n;
-			} else {
+			}
+			else {
 				parent->right = n;
 			}
-		} else
+		}
+		else
 			root = n;
 
 		n->parent = parent;
@@ -384,7 +397,7 @@ protected:
 
 public:
 	class Iterator {
-		friend class BinaryTree<T, N>;
+		friend class BinaryTree < T, N > ;
 	protected:
 
 		class EvalNode {
@@ -392,62 +405,62 @@ public:
 			bool evaluate;
 			N *node;
 
-			EvalNode(): evaluate(false), node(0) {}
-			EvalNode(const bool eval, N *n): evaluate(eval), node(n) {}
-			const bool operator==(const EvalNode &other) const {return node == other.node;}
-			EvalNode &operator=(const EvalNode &other) {evaluate = other.evaluate; node = other.node; return *this;}
+			EvalNode() : evaluate(false), node(0) {}
+			EvalNode(const bool eval, N *n) : evaluate(eval), node(n) {}
+			const bool operator==(const EvalNode &other) const { return node == other.node; }
+			EvalNode &operator=(const EvalNode &other) { evaluate = other.evaluate; node = other.node; return *this; }
 
 		};
 
 		N *n;
 		LinkedList<EvalNode> stack;
 
-		
-		Iterator(N *start): n(0) {
-			if(start) {
+
+		Iterator(N *start) : n(0) {
+			if (start) {
 				stack.push(EvalNode(true, start));
 				next();
 			}
 		}
 
 	public:
-		Iterator(const Iterator &other):n(other.n), stack(other.stack)  {}
+		Iterator(const Iterator &other) :n(other.n), stack(other.stack)  {}
 		virtual ~Iterator() {}
 
-		virtual T &val() {return n->val;}
+		virtual T &val() { return n->val; }
 		virtual void next() {
 			EvalNode en;
 			bool popped = false;
-			while((popped = stack.pop(en)) && en.evaluate) {
-				if(en.node->right) stack.push(EvalNode(true, en.node->right));
+			while ((popped = stack.pop(en)) && en.evaluate) {
+				if (en.node->right) stack.push(EvalNode(true, en.node->right));
 				stack.push(EvalNode(false, en.node));
-				if(en.node->left) stack.push(EvalNode(true, en.node->left));
+				if (en.node->left) stack.push(EvalNode(true, en.node->left));
 			}
-			
+
 			n = (popped ? en.node : 0);
 		}
-		virtual const bool has_val() {return (n ? true : false);}
+		virtual const bool has_val() { return (n ? true : false); }
 	};
 
-	BinaryTree(): Collection<T>(), root(0) {};
-	BinaryTree(BinaryTree<T> &other): Collection<T>(), root(0) {
-		for(Iterator i = other.begin(); i != pl.end(); ++i)
+	BinaryTree() : Collection<T>(), root(0) {};
+	BinaryTree(BinaryTree<T> &other) : Collection<T>(), root(0) {
+		for (Iterator i = other.begin(); i != pl.end(); ++i)
 			add(i.val());
 	}
-	virtual ~BinaryTree() {clear();}
+	virtual ~BinaryTree() { clear(); }
 
 	BinaryTree &operator=(BinaryTree<T> &other) {
 		clear();
-		for(Iterator i = other.begin(); i != pl.end(); ++i)
+		for (Iterator i = other.begin(); i != pl.end(); ++i)
 			add(i.val());
 		return *this;
 	}
 
 	virtual void clear() {
 		N *current = root, *parent = 0;
-		while(current) {
-			if(current->left) current = current->left;
-			else if(current->right) current = current->right;
+		while (current) {
+			if (current->left) current = current->left;
+			else if (current->right) current = current->right;
 			else {
 				parent = current->parent;
 				delete current;
@@ -466,16 +479,16 @@ public:
 
 	const bool remove(const T &val) {
 		N *current = root;
-		while(current) {
-			if(current->val == val)
+		while (current) {
+			if (current->val == val)
 				break;
-			else if(val < current->val)
+			else if (val < current->val)
 				current = current->left;
-			else 
+			else
 				current = current->right;
 		}
 
-		if(current) {
+		if (current) {
 			delete_node(current);
 			return true;
 		}
@@ -485,40 +498,40 @@ public:
 
 	const bool contains(const T &val) const {
 		N *current = root;
-		while(current) {
-			if(current->val == val)
+		while (current) {
+			if (current->val == val)
 				break;
-			else if(val < current->val)
+			else if (val < current->val)
 				current = current->left;
-			else 
+			else
 				current = current->right;
 		}
 
 		return current != 0;
 	}
 
-	Iterator begin() const {return Iterator(root);}
+	Iterator begin() const { return Iterator(root); }
 };
 
 #define RED		1
 #define BLACK	0
 
 // thanks to wikipedia (http://en.wikipedia.org/wiki/Red_black_tree)
-template<class T> class ColouredTreeNode: public Node<T> {
+template<class T> class ColouredTreeNode : public Node < T > {
 public:
 	ColouredTreeNode<T> *parent, *left, *right;
 	char color;
 
-	ColouredTreeNode(const T &v, ColouredTreeNode<T> *par): Node<T>(v), parent(par), left(0), right(0), color(BLACK) {}
+	ColouredTreeNode(const T &v, ColouredTreeNode<T> *par) : Node<T>(v), parent(par), left(0), right(0), color(BLACK) {}
 	virtual ~ColouredTreeNode() {
-		if(parent) {
-			if(parent->left == this) parent->left = 0;
-			if(parent->right == this)parent->right = 0;
+		if (parent) {
+			if (parent->left == this) parent->left = 0;
+			if (parent->right == this)parent->right = 0;
 		}
 	}
 };
 
-template<class T, class N = ColouredTreeNode<T> > class RedBlackTree: public BinaryTree<T, N> {
+template<class T, class N = ColouredTreeNode<T> > class RedBlackTree : public BinaryTree < T, N > {
 protected:
 	N *grandparent(N *n) {
 		if (n && n->parent)
@@ -527,21 +540,23 @@ protected:
 			return NULL;
 	}
 	N *uncle(N *n) {
-		if(grandparent(n)) {
+		if (grandparent(n)) {
 			if (n->parent == grandparent(n)->left)
 				return grandparent(n)->right;
 			else
 				return grandparent(n)->left;
-		} else
+		}
+		else
 			return NULL;
 	}
 	N *sibling(N *n) {
-		if(n->parent) {
+		if (n->parent) {
 			if (n == n->parent->left)
 				return n->parent->right;
 			else
 				return n->parent->left;
-		} else
+		}
+		else
 			return NULL;
 	}
 	bool is_leaf(N *n) {
@@ -550,10 +565,11 @@ protected:
 
 	void replace_node(N *o, N *n) {
 		n->parent = o->parent;
-		if(n->parent) {
-			if(n->parent->left == o) n->parent->left = n;
-			else if(n->parent->right == o) n->parent->right = n;
-		} else
+		if (n->parent) {
+			if (n->parent->left == o) n->parent->left = n;
+			else if (n->parent->right == o) n->parent->right = n;
+		}
+		else
 			BinaryTree<T, N>::root = n;
 	}
 
@@ -562,14 +578,15 @@ protected:
 		N *q = n;
 
 		q->right = p->left;
-		if(q->right) q->right->parent = q;
+		if (q->right) q->right->parent = q;
 		p->left = q;
 		p->parent = q->parent;
 		q->parent = p;
-		if(p->parent) {
-			if(p->parent->left == q) p->parent->left = p;
-			else if(p->parent->right == q) p->parent->right = p;
-		} else
+		if (p->parent) {
+			if (p->parent->left == q) p->parent->left = p;
+			else if (p->parent->right == q) p->parent->right = p;
+		}
+		else
 			BinaryTree<T, N>::root = p;
 	}
 	void rotate_right(N *n) {
@@ -577,14 +594,15 @@ protected:
 		N *q = n;
 
 		q->left = p->right;
-		if(q->left) q->left->parent = q;
+		if (q->left) q->left->parent = q;
 		p->right = q;
 		p->parent = q->parent;
 		q->parent = p;
-		if(p->parent) {
-			if(p->parent->left == q) p->parent->left = p;
-			else if(p->parent->right == q) p->parent->right = p;
-		} else
+		if (p->parent) {
+			if (p->parent->left == q) p->parent->left = p;
+			else if (p->parent->right == q) p->parent->right = p;
+		}
+		else
 			BinaryTree<T, N>::root = p;
 	}
 
@@ -606,14 +624,16 @@ protected:
 			uncle(n)->color = BLACK;
 			grandparent(n)->color = RED;
 			insert_case1(grandparent(n));
-		} else
+		}
+		else
 			insert_case4(n);
 	}
 	void insert_case4(N *n) {
 		if (n == n->parent->right && n->parent == grandparent(n)->left) {
 			rotate_left(n->parent);
 			n = n->left;
-		} else if (n == n->parent->left && n->parent == grandparent(n)->right) {
+		}
+		else if (n == n->parent->left && n->parent == grandparent(n)->right) {
 			rotate_right(n->parent);
 			n = n->right;
 		}
@@ -624,7 +644,8 @@ protected:
 		grandparent(n)->color = RED;
 		if (n == n->parent->left && n->parent == grandparent(n)->left) {
 			rotate_right(grandparent(n));
-		} else {
+		}
+		else {
 			/* Here, n == n->parent->right && n->parent == grandparent(n)->right */
 			rotate_left(grandparent(n));
 		}
@@ -633,17 +654,18 @@ protected:
 	void delete_case0(N *n) {
 		/* Precondition: n has at most one non-null child */
 		N *child = is_leaf(n->right) ? n->left : n->right;
-		if(child) replace_node(n, child);
+		if (child) replace_node(n, child);
 		if (n->color == BLACK) {
-			if(child) {
+			if (child) {
 				if (child->color == RED)
 					child->color = BLACK;
 				else
 					delete_case1(child);
-			} else
+			}
+			else
 				delete_case1(n);
 		}
-		if(BinaryTree<T, N>::root == n) BinaryTree<T, N>::root = 0;
+		if (BinaryTree<T, N>::root == n) BinaryTree<T, N>::root = 0;
 		delete n;
 		Collection<T>::count--;
 	}
@@ -673,7 +695,8 @@ protected:
 		{
 			sibling(n)->color = RED;
 			delete_case1(n->parent);
-		} else
+		}
+		else
 			delete_case4(n);
 	}
 	void delete_case4(N *n) {
@@ -685,24 +708,26 @@ protected:
 		{
 			sibling(n)->color = RED;
 			n->parent->color = BLACK;
-		} else
+		}
+		else
 			delete_case5(n);
 	}
 	void delete_case5(N *n) {
 		if (n == n->parent->left &&
-			sibling(n) && 
+			sibling(n) &&
 			sibling(n)->color == BLACK &&
-			sibling(n)->left && 
+			sibling(n)->left &&
 			sibling(n)->left->color == RED &&
 			(sibling(n)->right == 0 || sibling(n)->right->color == BLACK))
 		{
 			sibling(n)->color = RED;
 			sibling(n)->left->color = BLACK;
 			rotate_right(sibling(n));
-		} else if (n == n->parent->right &&
-			sibling(n) && 
+		}
+		else if (n == n->parent->right &&
+			sibling(n) &&
 			sibling(n)->color == BLACK &&
-			sibling(n)->right && 
+			sibling(n)->right &&
 			sibling(n)->right->color == RED &&
 			(sibling(n)->left == 0 || sibling(n)->left->color == BLACK))
 		{
@@ -719,7 +744,8 @@ protected:
 			/* Here, sibling(n)->right->color == RED */
 			sibling(n)->right->color = BLACK;
 			rotate_left(n->parent);
-		} else {
+		}
+		else {
 			/* Here, sibling(n)->left->color == RED */
 			sibling(n)->left->color = BLACK;
 			rotate_right(n->parent);
@@ -728,7 +754,7 @@ protected:
 
 	N *get_predecessor(N *n) {
 		N *minmax = n->left;
-		while(minmax->right) minmax = minmax->right;
+		while (minmax->right) minmax = minmax->right;
 		return minmax;
 	}
 
@@ -740,16 +766,17 @@ protected:
 	}
 
 	virtual void delete_node(N *n) {
-		if(n->left && n->right) {
+		if (n->left && n->right) {
 			N *predecessor = get_predecessor(n);
 			n->val = predecessor->val;
 			delete_case0(predecessor);
-		} else
+		}
+		else
 			delete_case0(n);
 	}
 
 public:
-	RedBlackTree(): BinaryTree< T, N >() {}
+	RedBlackTree() : BinaryTree< T, N >() {}
 	virtual ~RedBlackTree() {}
 };
 
@@ -758,26 +785,26 @@ public:
 	A first;
 	B second;
 
-	Pair(const A &f): first(f) {}
-	Pair(const A &f, const B &s): first(f), second(s) {}
-	Pair(const Pair<A,B> &other): first(other.first), second(other.second) {}
+	Pair(const A &f) : first(f) {}
+	Pair(const A &f, const B &s) : first(f), second(s) {}
+	Pair(const Pair<A, B> &other) : first(other.first), second(other.second) {}
 	virtual ~Pair() {}
 
-	const bool operator<(const Pair<A,B> &other) const {return first < other.first;}
-	const bool operator==(const Pair<A,B> &other) const {return first == other.first;}
-	Pair<A,B> &operator=(const Pair<A,B> &other) {first = other.first; second = other.second; return *this;}
+	const bool operator<(const Pair<A, B> &other) const { return first < other.first; }
+	const bool operator==(const Pair<A, B> &other) const { return first == other.first; }
+	Pair<A, B> &operator=(const Pair<A, B> &other) { first = other.first; second = other.second; return *this; }
 };
 
 //template<class A, class B, class N = TreeNode<Pair<A, B> > > class Map: public BinaryTree< Pair< A, B >, N > {
-template<class A, class B, class N = ColouredTreeNode<Pair<A, B> > > class Map: public RedBlackTree< Pair< A, B >, N > {
+template<class A, class B, class N = ColouredTreeNode<Pair<A, B> > > class Map : public RedBlackTree < Pair< A, B >, N > {
 protected:
-	
+
 	N *find(A &key) const {
 		N *n = RedBlackTree< Pair< A, B >, N >::root;
-		while(n) {
-			if(n->val.first == key)
+		while (n) {
+			if (n->val.first == key)
 				return n;
-			else if(key < n->val.first)
+			else if (key < n->val.first)
 				n = n->left;
 			else
 				n = n->right;
@@ -787,25 +814,26 @@ protected:
 	}
 public:
 	//Map(): BinaryTree< Pair<A,B>, N >() {}
-	Map(): RedBlackTree< Pair<A,B>, N >() {}
+	Map() : RedBlackTree< Pair<A, B>, N >() {}
 	virtual ~Map() {}
 
 	void put(A &key, B &value) {
-		add(Pair<A,B>(key, value));
+		add(Pair<A, B>(key, value));
 	}
 
 	const bool get(A &key, B &val) const {
 		const N *n = find(key);
-		if(n) {
+		if (n) {
 			val = n->val.second;
 			return true;
-		} else
+		}
+		else
 			return false;
 	}
 
 	B &operator[](A &key) {
 		N *n = find(key);
-		if(n)
+		if (n)
 			return n->val.second;
 		else {
 			Pair< A, B > p(key);
@@ -817,18 +845,20 @@ public:
 
 	virtual const bool exists(A &key) const {
 		const N *n = find(key);
-		if(n) {
+		if (n) {
 			return true;
-		} else
+		}
+		else
 			return false;
 	}
 
 	virtual const bool remove(A &key) {
 		N *n = find(key);
-		if(n) {
+		if (n) {
 			delete_node(n);
 			return true;
-		} else
+		}
+		else
 			return false;
 	}
 };
