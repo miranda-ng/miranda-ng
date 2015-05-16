@@ -176,7 +176,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		return;
 
 	strcpy(tempBase, "file://");
-	strncat(tempBase, tmpm->getFilename(), SIZEOF(tempBase)-1);
+	strncat(tempBase, tmpm->getFilename(), SIZEOF(tempBase) - mir_strlen(tempBase));
 	char *pathrun = tempBase + strlen(tempBase);
 	while ((*pathrun != '\\' && *pathrun != '/') && (pathrun > tempBase))
 		pathrun--;

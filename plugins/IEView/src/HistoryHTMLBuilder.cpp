@@ -89,7 +89,7 @@ char *HistoryHTMLBuilder::timestampToString(time_t check)
 	szResult[0] = '\0';
 	dbtts.szFormat = (char *)"d t";
 	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM)& dbtts);
-	strncat(szResult, str, 500);
+	strncat(szResult, str, SIZEOF(szResult) - mir_strlen(szResult));
 	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;
 }
