@@ -869,7 +869,7 @@ void CreateDirectoryTree(char *szDir)
 	DWORD dwAttributes;
 	char *pszLastBackslash, szTestDir[MAX_PATH];
 
-	mir_strncpy(szTestDir, szDir, _TRUNCATE);
+	mir_strncpy(szTestDir, szDir, SIZEOF(szTestDir));
 	if ((dwAttributes = GetFileAttributes(szTestDir)) != 0xffffffff && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return;
 	pszLastBackslash = strrchr(szTestDir, '\\');
@@ -936,7 +936,7 @@ LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		for (uint indx = 0; indx < dat->chunkCount; indx++)
 		{
 			HBRUSH hbr;
-			COLORREF colour;
+			COLORREF colour = 0;
 			if (dat->inSend && indx == dat->chunkIndx)
 				colour = dat->rgbToSend;
 			else
@@ -1169,7 +1169,7 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (size != -1)
 				mir_snprintf(str, SIZEOF(str), Translate("Size: %d bytes"), size);
 			else
-				mir_strncpy(str, Translate("Can't get a file size"), _TRUNCATE);
+				mir_strncpy(str, Translate("Can't get a file size"), SIZEOF(str));
 			SetDlgItemText(hDlg, IDC_FILESIZE, str);
 
 			break;
