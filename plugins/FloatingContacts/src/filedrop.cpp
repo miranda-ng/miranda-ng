@@ -289,7 +289,7 @@ static void SaveFiles( char *szItem, char **ppFiles, int *pnCount )
 				if ( NULL != strstr( szFile, "*.*" ))
 				{
 					szFile[ strlen( szFile ) - 3 ] = '\0';
-					strncat( szFile, fd.cFileName, MAX_PATH - 1);
+					strncat(szFile, fd.cFileName, nSize - mir_strlen(szFile));
 				}
 								
 				ppFiles[ *pnCount ] = szFile;
