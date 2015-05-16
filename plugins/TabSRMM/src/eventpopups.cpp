@@ -517,10 +517,10 @@ static int PopupUpdateT(MCONTACT hContact, MEVENT hEvent)
 
 	TCHAR *szPreview = GetPreviewT(dbe.eventType, &dbe);
 	if (szPreview) {
-		_tcsncat(pdata->eventData[pdata->nrMerged].tszText, szPreview, MAX_SECONDLINE);
+		_tcsncat(pdata->eventData[pdata->nrMerged].tszText, szPreview, SIZEOF(pdata->eventData[pdata->nrMerged].tszText) - mir_tstrlen(pdata->eventData[pdata->nrMerged].tszText));
 		mir_free(szPreview);
 	}
-	else _tcsncat(pdata->eventData[pdata->nrMerged].tszText, _T(" "), MAX_SECONDLINE);
+	else _tcsncat(pdata->eventData[pdata->nrMerged].tszText, _T(" "), SIZEOF(pdata->eventData[pdata->nrMerged].tszText) - mir_tstrlen(pdata->eventData[pdata->nrMerged].tszText));
 
 	pdata->eventData[pdata->nrMerged].tszText[MAX_SECONDLINE - 1] = 0;
 
@@ -544,7 +544,7 @@ static int PopupUpdateT(MCONTACT hContact, MEVENT hEvent)
 	}
 	i = (available > 0) ? i + 1 : i + 2;
 	for (; i <= pdata->nrMerged; i++)
-		_tcsncat(lpzText, pdata->eventData[i].tszText, SIZEOF(lpzText));
+		_tcsncat(lpzText, pdata->eventData[i].tszText, SIZEOF(lpzText) - mir_tstrlen(lpzText));
 
 	pdata->eventData[pdata->nrMerged].hEvent = hEvent;
 	pdata->eventData[pdata->nrMerged].timestamp = dbe.timestamp;
