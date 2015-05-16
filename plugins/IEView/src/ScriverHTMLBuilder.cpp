@@ -172,7 +172,7 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 		//		CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, check, (LPARAM) & dbtts);
 		CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM)& dbtts);
 		//_tcsncat(szResult, str, 500);
-		strncat(szResult, str, 500);
+		strncat(szResult, str, SIZEOF(szResult) - mir_strlen(szResult));
 	}
 	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;
