@@ -427,7 +427,7 @@ Protocol *ProtocolArray::Get(const char *name)
 		return NULL;
 
 	for (int i = 0; i < buffer_len; i++)
-		if (strcmp(name, buffer[i]->name) == 0)
+		if (mir_strcmp(name, buffer[i]->name) == 0)
 			return buffer[i];
 
 	return NULL;
@@ -522,7 +522,7 @@ void ProtocolArray::GetDefaultNick()
 {
 	ptrT tszNick(db_get_tsa(0, MODULE_NAME, SETTING_DEFAULT_NICK));
 	if (tszNick)
-		_tcsncpy_s(default_nick, tszNick, _TRUNCATE);
+		mir_tstrncpy(default_nick, tszNick, SIZEOF(default_nick));
 	else
 		default_nick[0] = '\0';
 }
@@ -531,7 +531,7 @@ void ProtocolArray::GetDefaultAvatar()
 {
 	ptrT tszFile(db_get_tsa(0, "ContactPhoto", "File"));
 	if (tszFile)
-		_tcsncpy_s(default_avatar_file, tszFile, _TRUNCATE);
+		mir_tstrncpy(default_avatar_file, tszFile, SIZEOF(default_avatar_file));
 	else
 		default_avatar_file[0] = '\0';
 }

@@ -131,7 +131,7 @@ int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT 
 	int ret;
 
 	if (nCount < 0)
-		nCount = (int)_tcslen(lpString);
+		nCount = (int)mir_tstrlen(lpString);
 
 	// Get parse info
 	if (parseInfo == NULL)
