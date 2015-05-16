@@ -230,6 +230,8 @@ LBL_Continue:
 				reconnectRequired = true;
 				strcpy(proto->MyOptions.szEmail, szEmail);
 				proto->setString("e-mail", szEmail);
+				proto->setString("wlid", szEmail);
+				proto->setDword("netId", proto->GetMyNetID());
 			}
 
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, SIZEOF(password));
@@ -441,9 +443,9 @@ static INT_PTR CALLBACK DlgProcHotmailPopupOpts(HWND hwndDlg, UINT msg, WPARAM w
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		proto = (CMsnProto*)lParam;
-		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILPOPUP, proto->getByte("DisableHotmail", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILTRAY, proto->getByte("DisableHotmailTray", 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILCL, proto->getByte("DisableHotmailCL", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILPOPUP, proto->getByte("DisableHotmail", 0) ? BST_UNCHECKED : BST_CHECKED);
+		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILTRAY, proto->getByte("DisableHotmailTray", 1) ? BST_UNCHECKED : BST_CHECKED);
+		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILCL, proto->getByte("DisableHotmailCL", 0) ? BST_UNCHECKED : BST_CHECKED);
 		CheckDlgButton(hwndDlg, IDC_DISABLEHOTJUNK, proto->getByte("DisableHotmailJunk", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_NOTIFY_ENDSESSION, proto->getByte("EnableSessionPopup", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_NOTIFY_FIRSTMSG, proto->getByte("EnableDeliveryPopup", 0) ? BST_CHECKED : BST_UNCHECKED);
@@ -479,9 +481,9 @@ static INT_PTR CALLBACK DlgProcHotmailPopupOpts(HWND hwndDlg, UINT msg, WPARAM w
 				proto->MyOptions.ShowErrorsAsPopups = IsDlgButtonChecked(hwndDlg, IDC_ERRORS_USING_POPUPS) != 0;
 				proto->setByte("ShowErrorsAsPopups", proto->MyOptions.ShowErrorsAsPopups);
 
-				proto->setByte("DisableHotmail", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILPOPUP));
-				proto->setByte("DisableHotmailCL", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILCL));
-				proto->setByte("DisableHotmailTray", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILTRAY));
+				proto->setByte("DisableHotmail", IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILPOPUP) ? FALSE : TRUE);
+				proto->setByte("DisableHotmailCL", IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILCL) ? FALSE : TRUE);
+				proto->setByte("DisableHotmailTray", IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILTRAY) ? FALSE : TRUE);
 				proto->setByte("DisableHotmailJunk", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTJUNK));
 				proto->setByte("EnableDeliveryPopup", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFY_FIRSTMSG));
 				proto->setByte("EnableSessionPopup", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFY_ENDSESSION));
@@ -551,6 +553,8 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (strcmp(szEmail, proto->MyOptions.szEmail)) {
 				strcpy(proto->MyOptions.szEmail, szEmail);
 				proto->setString("e-mail", szEmail);
+				proto->setString("wlid", szEmail);
+				proto->setDword("netId", proto->GetMyNetID());
 			}
 
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, SIZEOF(password));
@@ -664,7 +668,8 @@ void CMsnProto::LoadOptions(void)
 	MyOptions.ManageServer = getByte("ManageServer", TRUE) != 0;
 	MyOptions.ShowErrorsAsPopups = getByte("ShowErrorsAsPopups", TRUE) != 0;
 	MyOptions.SlowSend = getByte("SlowSend", FALSE) != 0;
-	if (db_get_static(NULL, m_szModuleName, "e-mail", MyOptions.szEmail, sizeof(MyOptions.szEmail)))
+	if (db_get_static(NULL, m_szModuleName, "wlid", MyOptions.szEmail, sizeof(MyOptions.szEmail)) &&
+		db_get_static(NULL, m_szModuleName, "e-mail", MyOptions.szEmail, sizeof(MyOptions.szEmail)))
 		MyOptions.szEmail[0] = 0;
 	_strlwr(MyOptions.szEmail);
 

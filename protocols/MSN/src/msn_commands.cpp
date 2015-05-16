@@ -748,6 +748,7 @@ void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *u
 	char* szEmail, *szNet;
 	parseWLID(NEWSTR_ALLOCA(wlid), &szNet, &szEmail, NULL);
 	if (!stricmp(szEmail, GetMyUsername(atoi(szNet)))) {
+		if (!*userStatus) return;
 		isMe = true;
 		int newStatus = MSNStatusToMiranda(userStatus);
 		if (newStatus != m_iStatus && newStatus != ID_STATUS_IDLE) {
