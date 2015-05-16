@@ -94,7 +94,7 @@ enum TOX_DB_EVENT
 
 #define PSR_AUDIO "/RecvAudio"
 
-#define TOX_MAX_AVATAR_SIZE 1024 * 1024
+#define TOX_MAX_AVATAR_SIZE 1 << 16 // 2 ^ 16 bytes
 
 extern HMODULE g_hToxLibrary;
 
