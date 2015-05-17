@@ -20,25 +20,25 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 PasteFormat PasteToWeb2::defFormats[] =
 {
-	{L"text", L"Text"},
-	{L"xml", L"XML"},
-	{L"html", L"HTML"},
-	{L"js", L"JavaScript"},
-	{L"php", L"PHP"},
-	{L"c", L"C"},
-	{L"csharp", L"C#"},
-	{L"cpp", L"C++"},
-	{L"java", L"Java"},
-	{L"ini", L"INI"},
-	{L"css", L"CSS"},
-	{L"sql", L"SQL"},
-	{L"nasm", L"NASM"},
-	{L"delphi", L"Delphi"},
-	{L"diff", L"Diff"},
-	{L"tex", L"TeX"},
-	{L"perl", L"Perl"},
-	{L"python", L"Python"},
-	{L"vb.net", L"VB.net"}
+	{ L"text", L"Text" },
+	{ L"xml", L"XML" },
+	{ L"html", L"HTML" },
+	{ L"js", L"JavaScript" },
+	{ L"php", L"PHP" },
+	{ L"c", L"C" },
+	{ L"csharp", L"C#" },
+	{ L"cpp", L"C++" },
+	{ L"java", L"Java" },
+	{ L"ini", L"INI" },
+	{ L"css", L"CSS" },
+	{ L"sql", L"SQL" },
+	{ L"nasm", L"NASM" },
+	{ L"delphi", L"Delphi" },
+	{ L"diff", L"Diff" },
+	{ L"tex", L"TeX" },
+	{ L"perl", L"Perl" },
+	{ L"python", L"Python" },
+	{ L"vb.net", L"VB.net" }
 };
 
 PasteToWeb2::PasteToWeb2()
@@ -55,7 +55,7 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 	std::map<std::string, std::string> headers;
 	headers["Content-Type"] = "text/xml";
 	std::wstring content = _T("<?xml version=\"1.0\"?>\r\n<methodCall><methodName>create_paste</methodName><params><param><value>");
-	if(fileName == L"")
+	if (fileName == L"")
 	{
 		content += format;
 		content += _T("</value></param><param><value>");
@@ -64,13 +64,13 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 	{
 		content += _T("</value></param><param><value>");
 	}
-	for(std::wstring::iterator it = str.begin(); it != str.end(); ++it)
+	for (std::wstring::iterator it = str.begin(); it != str.end(); ++it)
 	{
-		if(*it == L'&')
+		if (*it == L'&')
 		{
 			content += L"&amp;";
 		}
-		else if(*it ==L'<')
+		else if (*it == L'<')
 		{
 			content += L"&lt;";
 		}
@@ -81,15 +81,15 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 	}
 
 	content += _T("</value></param><param><value></value></param><param><value>");
-	if(fileName != L"")
+	if (fileName != L"")
 	{
-		for(std::wstring::iterator it = fileName.begin(); it != fileName.end(); ++it)
+		for (std::wstring::iterator it = fileName.begin(); it != fileName.end(); ++it)
 		{
-			if(*it == L'&')
+			if (*it == L'&')
 			{
 				content += L"&amp;";
 			}
-			else if(*it ==L'<')
+			else if (*it == L'<')
 			{
 				content += L"&lt;";
 			}
@@ -100,28 +100,28 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 		}
 	}
 	content += _T("</value></param><param><value></value></param><param><value><double>1.5</double></value></param></params></methodCall>");
-	
+
 	wchar_t* resCont = SendToWeb("http://wklej.to/api/", headers, content);
 	error = TranslateT("Error during sending text to web page");
-	if(resCont != NULL)
+	if (resCont != NULL)
 	{
 		HXML hXml = xi.parseString(resCont, NULL, _T("methodResponse"));
-		if(hXml != NULL)
+		if (hXml != NULL)
 		{
 			HXML node = xi.getChildByPath(hXml, _T("params/param/value/array/data/value/int"), 0);
-			if(node != NULL && !_tcscmp(xi.getText(node), _T("1")))
+			if (node != NULL && !mir_tstrcmp(xi.getText(node), _T("1")))
 			{
 				node = xi.getChildByPath(hXml, _T("params/param/value/array/data"), 0);
-				if(node != NULL)
+				if (node != NULL)
 				{
 					node = xi.getNthChild(node, _T("value"), 1);
-					if(node != NULL)
+					if (node != NULL)
 					{
 						node = xi.getChildByPath(node, _T("string"), 0);
-						if(node != NULL)
+						if (node != NULL)
 						{
 							char* s = mir_t2a_cp(xi.getText(node), CP_ACP);
-							strcpy_s(szFileLink, 256, s);
+							mir_strncpy(szFileLink, s, SIZEOF(szFileLink));
 							mir_free(s);
 							error = NULL;
 						}
@@ -137,51 +137,51 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 std::list<PasteFormat> PasteToWeb2::GetFormats()
 {
 	std::list<PasteFormat> ret;
-	
+
 	std::map<std::string, std::string> headers;
 	headers["Content-Type"] = "text/xml";
 	std::wstring content = _T("<?xml version=\"1.0\"?>\r\n<methodCall><methodName>types</methodName></methodCall>");
-	
+
 	wchar_t* resCont = SendToWeb("http://wklej.to/api/", headers, content);
-	if(resCont != NULL)
+	if (resCont != NULL)
 	{
 		HXML hXml = xi.parseString(resCont, NULL, _T("methodResponse"));
-		if(hXml != NULL)
+		if (hXml != NULL)
 		{
 			HXML node = xi.getChildByPath(hXml, _T("params/param/value/array/data/value/int"), 0);
-			if(node != NULL && !_tcscmp(xi.getText(node), _T("1")))
+			if (node != NULL && !mir_tstrcmp(xi.getText(node), _T("1")))
 			{
 				node = xi.getChildByPath(hXml, _T("params/param/value/array/data"), 0);
-				if(node != NULL)
+				if (node != NULL)
 				{
 					node = xi.getNthChild(node, _T("value"), 1);
-					if(node != NULL)
+					if (node != NULL)
 					{
 						node = xi.getChildByPath(node, _T("string"), 0);
-						if(node != NULL)
+						if (node != NULL)
 						{
 							std::wstring str = xi.getText(node);
 							std::wstring::size_type pos = str.find(L'\n');
-							if(pos < str.length())
+							if (pos < str.length())
 							{
 								str = str.substr(pos + 1);
 							}
 							pos = str.find(L'\n');
-							if(pos < str.length())
+							if (pos < str.length())
 							{
 								str = str.substr(pos + 1);
 							}
 							pos = str.find(L'\n');
-							while(pos < str.length())
+							while (pos < str.length())
 							{
 								std::wstring line = str.substr(0, pos);
 								std::wstring::size_type sep = line.find(L':');
-								if(sep < line.length())
+								if (sep < line.length())
 								{
 									PasteFormat pf;
 									pf.name = line.substr(0, sep);
 									std::wstring::size_type sep2 = line.find(L',');
-									if(sep2 < line.length())
+									if (sep2 < line.length())
 									{
 										pf.id = line.substr(sep + 2, sep2 - sep - 2);
 									}
@@ -192,7 +192,7 @@ std::list<PasteFormat> PasteToWeb2::GetFormats()
 									ret.push_back(pf);
 								}
 
-								if(pos < str.length() - 1)
+								if (pos < str.length() - 1)
 								{
 									str = str.substr(pos + 1);
 								}
@@ -205,12 +205,12 @@ std::list<PasteFormat> PasteToWeb2::GetFormats()
 							{
 								std::wstring line = str;
 								std::wstring::size_type sep = line.find(L':');
-								if(sep < line.length())
+								if (sep < line.length())
 								{
 									PasteFormat pf;
 									pf.name = line.substr(0, sep);
 									std::wstring::size_type sep2 = line.find(L',');
-									if(sep2 < line.length())
+									if (sep2 < line.length())
 									{
 										pf.id = line.substr(sep + 2, sep2 - sep - 2);
 									}
