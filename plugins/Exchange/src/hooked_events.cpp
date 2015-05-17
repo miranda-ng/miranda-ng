@@ -18,7 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 #include "dlg_handlers.h"
 #include "hooked_events.h"
 
@@ -56,7 +56,7 @@ int UnhookEvents()
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+int OnModulesLoaded(WPARAM, LPARAM)
 {
 
 	UpdateTimers();
@@ -142,7 +142,7 @@ int KillTimers()
 	return 0;
 }
 
-VOID CALLBACK OnCheckTimer(HWND hWnd, UINT msg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK OnCheckTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	/*if (exchangeServer.IsConnected())
 		{
@@ -159,7 +159,7 @@ VOID CALLBACK OnCheckTimer(HWND hWnd, UINT msg, UINT_PTR idEvent, DWORD dwTime)
 		}
 }
 
-VOID CALLBACK OnReconnectTimer(HWND hWnd, UINT msg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK OnReconnectTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 
 	_popupUtil(TranslateT("Forcefully reconnecting to Exchange server ..."));

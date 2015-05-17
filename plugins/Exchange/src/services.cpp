@@ -18,7 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 #include "services.h"
 
 int InitServices()
@@ -33,7 +33,7 @@ int DestroyServices()
 	return 0;
 }
 
-int CheckEmailService(WPARAM wParam, LPARAM lParam)
+int CheckEmailService(WPARAM, LPARAM)
 {
 /*
 	if (!exchangeServer.IsConnected())
