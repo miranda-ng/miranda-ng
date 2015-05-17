@@ -43,7 +43,7 @@ struct MenuItemOptData : public MZeroedObject
 	ptrT   defname;
 	ptrA   uniqname;
 	
-	bool   bShow, bIsSelected;
+	bool   bShow;
 	int    id;
 
 	PMO_IntMenuItem pimi;
@@ -60,10 +60,7 @@ static int SortMenuItems(const MenuItemOptData *p1, const MenuItemOptData *p2)
 
 class CGenMenuOptionsPage : public CDlgBase
 {
-	int m_bDragging;
 	int iInitMenuValue;
-
-	HTREEITEM m_hDragItem;
 
 	void SaveTree()
 	{
@@ -256,41 +253,9 @@ class CGenMenuOptionsPage : public CDlgBase
 		return true;
 	}
 
-	HTREEITEM MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter)
-	{
-		TVITEMEX tvi = { 0 };
-		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE;
-		tvi.hItem = hItem;
-		if (!m_menuItems.GetItem(&tvi))
-			return NULL;
-		
-		if (hItem && hInsertAfter) {
-			TCHAR name[128];
-			if (hItem == hInsertAfter)
-				return hItem;
-
-			TVINSERTSTRUCT tvis = { 0 };
-			tvis.itemex.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-			tvis.itemex.stateMask = 0xFFFFFFFF;
-			tvis.itemex.pszText = name;
-			tvis.itemex.cchTextMax = SIZEOF(name);
-			tvis.itemex.hItem = hItem;
-			tvis.itemex.iImage = tvis.itemex.iSelectedImage = tvi.iImage;
-			if (!m_menuItems.GetItem(&tvis.itemex))
-				return NULL;
-			
-			m_menuItems.DeleteItem(hItem);
-			
-			tvis.hParent = NULL;
-			tvis.hInsertAfter = hInsertAfter;
-			return m_menuItems.InsertItem(&tvis);
-		}
-		return NULL;
-	}
-
 	CCtrlListBox m_menuObjects;
 	CCtrlTreeView m_menuItems;
-	CCtrlCheck m_radio1, m_radio2, m_disableIcons;
+	CCtrlCheck m_radio1, m_radio2, m_enableIcons;
 	CCtrlEdit m_customName, m_service;
 	CCtrlButton m_btnInsert, m_btnReset, m_btnSet, m_btnDefault;
 	CCtrlBase m_warning;
@@ -302,7 +267,7 @@ public:
 		m_menuObjects(this, IDC_MENUOBJECTS),
 		m_radio1(this, IDC_RADIO1),
 		m_radio2(this, IDC_RADIO2),
-		m_disableIcons(this, IDC_DISABLEMENUICONS),
+		m_enableIcons(this, IDC_DISABLEMENUICONS),
 		m_btnInsert(this, IDC_INSERTSEPARATOR),
 		m_btnReset(this, IDC_RESETMENU),
 		m_btnSet(this, IDC_GENMENU_SET),
@@ -318,15 +283,13 @@ public:
 
 		m_menuObjects.OnSelChange = Callback(this, &CGenMenuOptionsPage::onMenuObjectChanged);
 
-		m_menuItems.SetFlags(MTREE_CHECKBOX);
+		m_menuItems.SetFlags(MTREE_CHECKBOX | MTREE_DND | MTREE_MULTISELECT);
 		m_menuItems.OnSelChanged = Callback(this, &CGenMenuOptionsPage::onMenuItemChanged);
-		m_menuItems.OnBeginDrag = Callback(this, &CGenMenuOptionsPage::onMenuItemBeginDrag);
 	}
 
 	//---- init dialog -------------------------------------------
 	virtual void OnInitDialog()
 	{
-		m_bDragging = 0;
 		iInitMenuValue = db_get_b(NULL, "CList", "MoveProtoMenus", TRUE);
 
 		HIMAGELIST himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
@@ -339,7 +302,7 @@ public:
 		else
 			m_radio1.SetState(true);
 
-		m_disableIcons.SetState(bIconsDisabled ? BST_UNCHECKED : BST_CHECKED);
+		m_enableIcons.SetState(!bIconsDisabled);
 
 		//---- init menu object list --------------------------------------
 		for (int i = 0; i < g_menus.getCount(); i++) {
@@ -354,7 +317,7 @@ public:
 
 	virtual void OnApply()
 	{
-		bIconsDisabled = m_disableIcons.GetState() == 0;
+		bIconsDisabled = m_enableIcons.GetState() == 0;
 		db_set_b(NULL, "CList", "DisableMenuIcons", bIconsDisabled);
 		SaveTree();
 
@@ -494,217 +457,6 @@ public:
 		m_btnDefault.Enable(mir_tstrcmp(iod->name, iod->defname) != 0);
 		m_btnSet.Enable(true);
 		m_customName.Enable(true);
-	}
-
-	void onMenuItemBeginDrag(CCtrlTreeView::TEventInfo *evt)
-	{
-		SetCapture(m_hwnd);
-		m_bDragging = true;
-		m_hDragItem = evt->nmtv->itemNew.hItem;
-		m_menuItems.SelectItem(m_hDragItem);
-	}
-
-	int onMenuItemDraw(LPNMTVCUSTOMDRAW pNMTVCD)
-	{
-		if (pNMTVCD == NULL)
-			return -1;
-
-		switch (pNMTVCD->nmcd.dwDrawStage) {
-		case CDDS_PREPAINT:
-			return CDRF_NOTIFYITEMDRAW;
-
-		case CDDS_ITEMPREPAINT:
-			HTREEITEM hItem = (HTREEITEM)pNMTVCD->nmcd.dwItemSpec;
-			TCHAR buf[255];
-
-			TVITEMEX tvi = { 0 };
-			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIS_SELECTED | TVIF_TEXT | TVIF_IMAGE;
-			tvi.stateMask = TVIS_SELECTED;
-			tvi.hItem = hItem;
-			tvi.pszText = buf;
-			tvi.cchTextMax = SIZEOF(buf);
-			m_menuItems.GetItem(&tvi);
-			if (((MenuItemOptData *)tvi.lParam)->bIsSelected) {
-				pNMTVCD->clrTextBk = GetSysColor(COLOR_HIGHLIGHT);
-				pNMTVCD->clrText = GetSysColor(COLOR_HIGHLIGHTTEXT);
-			}
-			else {
-				pNMTVCD->clrTextBk = GetSysColor(COLOR_WINDOW);
-				pNMTVCD->clrText = GetSysColor(COLOR_WINDOWTEXT);
-			}
-
-			/* At this point, you can change the background colors for the item
-			and any subitems and return CDRF_NEWFONT. If the list-view control
-			is in report mode, you can simply return CDRF_NOTIFYSUBITEMREDRAW
-			to customize the item's subitems individually */
-			int res = CDRF_NEWFONT;
-			if (tvi.iImage == -1) {
-				SIZE sz;
-				GetTextExtentPoint32(pNMTVCD->nmcd.hdc, tvi.pszText, (int)mir_tstrlen(tvi.pszText), &sz);
-
-				RECT rc;
-				if (sz.cx + 3 > pNMTVCD->nmcd.rc.right - pNMTVCD->nmcd.rc.left)
-					rc = pNMTVCD->nmcd.rc;
-				else
-					SetRect(&rc, pNMTVCD->nmcd.rc.left, pNMTVCD->nmcd.rc.top, pNMTVCD->nmcd.rc.left + sz.cx + 3, pNMTVCD->nmcd.rc.bottom);
-
-				HBRUSH br = CreateSolidBrush(pNMTVCD->clrTextBk);
-				SetTextColor(pNMTVCD->nmcd.hdc, pNMTVCD->clrText);
-				SetBkColor(pNMTVCD->nmcd.hdc, pNMTVCD->clrTextBk);
-				FillRect(pNMTVCD->nmcd.hdc, &rc, br);
-				DeleteObject(br);
-				DrawText(pNMTVCD->nmcd.hdc, tvi.pszText, -1, &pNMTVCD->nmcd.rc, DT_LEFT | DT_VCENTER | DT_NOPREFIX);
-
-				res |= CDRF_SKIPDEFAULT;
-			}
-			return res;
-		}
-
-		return 0;
-	}
-
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		TVHITTESTINFO hti;
-
-		switch (msg) {
-		case WM_MOUSEMOVE:
-			if (!m_bDragging)
-				break;
-
-			hti.pt.x = (short)LOWORD(lParam);
-			hti.pt.y = (short)HIWORD(lParam);
-			ClientToScreen(m_hwnd, &hti.pt);
-			ScreenToClient(m_menuItems.GetHwnd(), &hti.pt);
-			m_menuItems.HitTest(&hti);
-			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
-				HTREEITEM it = hti.hItem;
-				hti.pt.y -= m_menuItems.GetItemHeight() / 2;
-				m_menuItems.HitTest(&hti);
-				if (!(hti.flags & TVHT_ABOVE))
-					m_menuItems.SetInsertMark(hti.hItem, 1);
-				else
-					m_menuItems.SetInsertMark(it, 0);
-			}
-			else {
-				if (hti.flags & TVHT_ABOVE)
-					m_menuItems.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
-				if (hti.flags & TVHT_BELOW)
-					m_menuItems.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN, 0), 0);
-				m_menuItems.SetInsertMark(NULL, 0);
-			}
-			break;
-
-		case WM_LBUTTONUP:
-			if (!m_bDragging)
-				break;
-
-			m_menuItems.SetInsertMark(NULL, 0);
-			m_bDragging = false;
-			ReleaseCapture();
-
-			hti.pt.x = (short)LOWORD(lParam);
-			hti.pt.y = (short)HIWORD(lParam);
-			ClientToScreen(m_hwnd, &hti.pt);
-			ScreenToClient(m_menuItems.GetHwnd(), &hti.pt);
-			hti.pt.y -= m_menuItems.GetItemHeight() / 2;
-			m_menuItems.HitTest(&hti);
-			if (hti.flags & TVHT_ABOVE)
-				hti.hItem = TVI_FIRST;
-			if (m_hDragItem == hti.hItem)
-				break;
-				
-			m_hDragItem = NULL;
-			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST)) {
-				HTREEITEM FirstItem = NULL;
-				if (m_menuItems.GetCount()) {
-					LIST<void> arItems(10);
-
-					HTREEITEM hit = m_menuItems.GetRoot();
-					if (hit) {
-						do {
-							TVITEMEX tvi = { 0 };
-							tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-							tvi.hItem = hit;
-							m_menuItems.GetItem(&tvi);
-							if (((MenuItemOptData *)tvi.lParam)->bIsSelected)
-								arItems.insert(tvi.hItem);
-						} while (hit = m_menuItems.GetNextSibling(hit));
-					}
-					
-					// Proceed moving
-					HTREEITEM insertAfter = hti.hItem;
-					for (int i = 0; i < arItems.getCount(); i++) {
-						if (!insertAfter)
-							break;
-
-						insertAfter = MoveItemAbove((HTREEITEM)arItems[i], insertAfter);
-						if (!i)
-							FirstItem = insertAfter;
-					}
-				}
-
-				if (FirstItem)
-					m_menuItems.SelectItem(FirstItem);
-				NotifyChange();
-				SaveTree();
-			}
-			break;
-
-		case WM_NOTIFY:
-			LPNMHDR phdr = (LPNMHDR)lParam;
-			if (phdr->idFrom == IDC_MENUITEMS) {
-				switch (phdr->code) {
-				case NM_CUSTOMDRAW:
-					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, onMenuItemDraw((LPNMTVCUSTOMDRAW)phdr));
-					return TRUE;
-
-				case NM_CLICK:
-					TVHITTESTINFO hti;
-					hti.pt.x = (short)LOWORD(GetMessagePos());
-					hti.pt.y = (short)HIWORD(GetMessagePos());
-					ScreenToClient(phdr->hwndFrom, &hti.pt);
-					if (!m_menuItems.HitTest(&hti))
-						break;
-
-					/*--------MultiSelection----------*/
-					if (hti.flags & TVHT_ONITEMLABEL) {
-						/// LabelClicked Set/unset selection
-						TVITEMEX tvi;
-						tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-						tvi.hItem = hti.hItem;
-						m_menuItems.GetItem(&tvi);
-						if (GetKeyState(VK_CONTROL) & 0x8000) {
-							MenuItemOptData *iod = (MenuItemOptData*)tvi.lParam;
-							iod->bIsSelected = !iod->bIsSelected;
-							m_menuItems.SetItem(&tvi);
-						}
-						else if (GetKeyState(VK_SHIFT) & 0x8000) {
-							;  // shifted click
-						}
-						else {
-							// reset all selection except current
-							HTREEITEM hit = m_menuItems.GetRoot();
-							if (!hit)
-								break;
-
-							do {
-								TVITEMEX tvi = { 0 };
-								tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-								tvi.hItem = hit;
-								m_menuItems.GetItem(&tvi);
-
-								MenuItemOptData *iod = (MenuItemOptData*)tvi.lParam;
-								iod->bIsSelected = (hti.hItem == hit);
-								m_menuItems.SetItem(&tvi);
-							} while (hit = m_menuItems.GetNextSibling(hit));
-						}
-					}
-				}
-			}
-			break;
-		}
-		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 };
 

@@ -1090,3 +1090,4 @@ Proto_RegisterModule @1074 NONAME
 ?SelectRange@CCtrlTreeView@@QAEXPAU_TREEITEM@@0@Z @1091 NONAME
 ?Unselect@CCtrlTreeView@@QAEXPAU_TREEITEM@@@Z @1092 NONAME
 ?UnselectAll@CCtrlTreeView@@QAEXXZ @1093 NONAME
+?MoveItemAbove@CCtrlTreeView@@AAEPAU_TREEITEM@@PAU2@0@Z @1094 NONAME

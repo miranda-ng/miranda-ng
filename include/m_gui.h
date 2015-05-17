@@ -859,6 +859,8 @@ class MIR_CORE_EXPORT CCtrlTreeView : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
 
+	HTREEITEM MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter);
+
 public:
 	CCtrlTreeView(CDlgBase *dlg, int ctrlId);
 
