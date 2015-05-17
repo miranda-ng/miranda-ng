@@ -37,7 +37,7 @@ HINSTANCE hInst;
 #define DEF_PAGES_START 20
 #define MS_PASTEIT_CONTACTMENU	"PasteIt/ContactMenu"
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -46,14 +46,14 @@ PLUGININFOEX pluginInfo={
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	UNICODE_AWARE, 
+	UNICODE_AWARE,
 	// {1AAC15E8-DCEC-4050-B66F-2AA0E6120C22}
-	{0x1aac15e8, 0xdcec, 0x4050, {0xb6, 0x6f, 0x2a, 0xa0, 0xe6, 0x12, 0xc, 0x22}}
+	{ 0x1aac15e8, 0xdcec, 0x4050, { 0xb6, 0x6f, 0x2a, 0xa0, 0xe6, 0x12, 0xc, 0x22 } }
 };
 
 static IconItem icon = { LPGEN("Paste It"), "PasteIt_main", IDI_MENU };
 
-XML_API xi = {0};
+XML_API xi = { 0 };
 int hLangpack = 0;
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
@@ -72,12 +72,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 std::wstring GetFile()
 {
 	TCHAR filter[512];
-	_tcscpy_s(filter, 512, TranslateT("All Files (*.*)"));
-	memcpy(filter + _tcslen(filter), _T("\0*.*\0"), 6 * sizeof(TCHAR));
+	mir_tstrncpy(filter, TranslateT("All Files (*.*)"), SIZEOF(filter));
+	memcpy(filter + mir_tstrlen(filter), _T("\0*.*\0"), 6 * sizeof(TCHAR));
 	TCHAR stzFilePath[1024];
 	stzFilePath[0] = 0;
 	stzFilePath[1] = 0;
-	OPENFILENAME ofn = {0};
+	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = 0;
 	ofn.lpstrFilter = filter;
@@ -86,7 +86,7 @@ std::wstring GetFile()
 	ofn.lpstrTitle = TranslateT("Paste It - Select file");
 	ofn.nMaxFile = SIZEOF(stzFilePath);
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR;
-	if(GetOpenFileName(&ofn))
+	if (GetOpenFileName(&ofn))
 	{
 		return stzFilePath;
 	}
@@ -97,14 +97,14 @@ std::wstring GetFile()
 void PasteIt(MCONTACT hContact, int mode)
 {
 	PasteToWeb* pasteToWeb = pasteToWebs[Options::instance->defWeb];
-	if(mode == FROM_CLIPBOARD)
+	if (mode == FROM_CLIPBOARD)
 	{
 		pasteToWeb->FromClipboard();
 	}
-	else if(mode == FROM_FILE)
+	else if (mode == FROM_FILE)
 	{
 		std::wstring file = GetFile();
-		if(file.length() > 0)
+		if (file.length() > 0)
 		{
 			pasteToWeb->FromFile(file);
 		}
@@ -112,27 +112,27 @@ void PasteIt(MCONTACT hContact, int mode)
 	}
 	else return;
 
-	if(pasteToWeb->szFileLink[0] == 0 && pasteToWeb->error != NULL)
+	if (pasteToWeb->szFileLink[0] == 0 && pasteToWeb->error != NULL)
 	{
 		MessageBox(NULL, pasteToWeb->error, TranslateT("Error"), MB_OK | MB_ICONERROR);
 	}
-	else if(hContact != NULL && pasteToWeb->szFileLink[0] != 0)
+	else if (hContact != NULL && pasteToWeb->szFileLink[0] != 0)
 	{
 		char *szProto = GetContactProto(hContact);
 		if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND)
 		{
-			BOOL isChat = db_get_b(hContact, szProto, "ChatRoom", 0); 
-			if(Options::instance->autoSend)
+			BOOL isChat = db_get_b(hContact, szProto, "ChatRoom", 0);
+			if (Options::instance->autoSend)
 			{
-				if(!isChat)
+				if (!isChat)
 				{
-					DBEVENTINFO dbei = {0};
+					DBEVENTINFO dbei = { 0 };
 					dbei.cbSize = sizeof(dbei);
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.flags = DBEF_SENT;
 					dbei.szModule = szProto;
 					dbei.timestamp = (DWORD)time(NULL);
-					dbei.cbBlob = (DWORD)strlen(pasteToWeb->szFileLink) + 1;
+					dbei.cbBlob = (DWORD)mir_strlen(pasteToWeb->szFileLink) + 1;
 					dbei.pBlob = (PBYTE)pasteToWeb->szFileLink;
 					db_event_add(hContact, &dbei);
 					CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)pasteToWeb->szFileLink);
@@ -144,39 +144,39 @@ void PasteIt(MCONTACT hContact, int mode)
 					// in chat room. 
 					// Next step is to get all protocol sessions and find
 					// one with correct hContact 
-					GC_INFO gci = {0};    
+					GC_INFO gci = { 0 };
 					GCDEST  gcd = { szProto, NULL, GC_EVENT_SENDMESSAGE };
 					GCEVENT gce = { sizeof(gce), &gcd };
-					int cnt = (int)CallService(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)szProto);  
-					for (int i = 0; i < cnt ; i++ ) 
+					int cnt = (int)CallService(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)szProto);
+					for (int i = 0; i < cnt; i++)
 					{
 						gci.iItem = i;
 						gci.pszModule = szProto;
 						gci.Flags = GCF_BYINDEX | GCF_HCONTACT | GCF_ID;
 						CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
-						if (gci.hContact == hContact) 
+						if (gci.hContact == hContact)
 						{
 							// In this place session was finded, gci.pszID contains
 							// session ID, but it is in unicode or ascii format,
 							// depends on protocol wersion
 							gcd.ptszID = gci.pszID;
-							gce.bIsMe = TRUE;             
-							gce.dwFlags = GCEF_ADDTOLOG;  
-							gce.ptszText = mir_a2u_cp(pasteToWeb->szFileLink, CP_ACP);             
-							gce.time = time(NULL);                                            
-							CallService(MS_GC_EVENT, 0, (LPARAM)(GCEVENT *) &gce); 
-							mir_free((void*)gce.ptszText);                       
-							break;  
+							gce.bIsMe = TRUE;
+							gce.dwFlags = GCEF_ADDTOLOG;
+							gce.ptszText = mir_a2u_cp(pasteToWeb->szFileLink, CP_ACP);
+							gce.time = time(NULL);
+							CallService(MS_GC_EVENT, 0, (LPARAM)(GCEVENT *)&gce);
+							mir_free((void*)gce.ptszText);
+							break;
 						}
 					}
 				}
-				
+
 				// Send message to focus window
 				CallServiceSync(MS_MSG_SENDMESSAGE, hContact, 0);
 			}
 			else
 			{
-				if(isChat)
+				if (isChat)
 				{
 					// MS_MSG_SENDMESSAGE in incompatible with chat rooms,
 					// because it sends text to IDC_MESSAGE window,
@@ -185,7 +185,7 @@ void PasteIt(MCONTACT hContact, int mode)
 					// with assaigned to them chat windows. 
 					// This map is prepared in ME_MSG_WINDOWEVENT event. 
 					std::map<MCONTACT, HWND>::iterator it = contactWindows->find(hContact);
-					if(it != contactWindows->end())
+					if (it != contactWindows->end())
 					{
 						// it->second is imput window, so now I can send to them 
 						// new text. Afterr all is sended MS_MSG_SENDMESSAGE 
@@ -209,24 +209,24 @@ void PasteIt(MCONTACT hContact, int mode)
 	}
 }
 
-int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam) 
+int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
 
-	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == 1 && hContact) 
+	if (!mir_strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == 1 && hContact)
 	{
-		if (cbc->flags == BBCF_ARROWCLICKED) 
+		if (cbc->flags == BBCF_ARROWCLICKED)
 		{
 			HMENU hMenu = CreatePopupMenu();
-			if (hMenu) 
+			if (hMenu)
 			{
 				AppendMenu(hMenu, MF_STRING, FROM_CLIPBOARD, TranslateT("Paste from clipboard"));
 				AppendMenu(hMenu, MF_STRING, FROM_FILE, TranslateT("Paste from file"));
 				HMENU hDefMenu = CreatePopupMenu();
-				for(int i = 0 ; i < PasteToWeb::pages; ++i)
+				for (int i = 0; i < PasteToWeb::pages; ++i)
 				{
 					UINT flags = MF_STRING;
-					if(Options::instance->defWeb == i)
+					if (Options::instance->defWeb == i)
 						flags |= MF_CHECKED;
 
 					AppendMenu(hDefMenu, flags, DEF_PAGES_START + i, pasteToWebs[i]->GetName());
@@ -237,7 +237,7 @@ int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
 				POINT pt;
 				GetCursorPos(&pt);
 				HWND hwndBtn = WindowFromPoint(pt);
-				if (hwndBtn) 
+				if (hwndBtn)
 				{
 					RECT rc;
 					GetWindowRect(hwndBtn, &rc);
@@ -245,7 +245,7 @@ int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
 					int selected = TrackPopupMenu(hMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, cbc->hwndFrom, 0);
 					if (selected != 0)
 					{
-						if(selected >= DEF_PAGES_START)
+						if (selected >= DEF_PAGES_START)
 						{
 							Options::instance->SetDefWeb(selected - DEF_PAGES_START);
 						}
@@ -255,11 +255,11 @@ int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
 						}
 					}
 				}
-				
+
 				DestroyMenu(hDefMenu);
 				DestroyMenu(hMenu);
 			}
-		} 
+		}
 		else
 		{
 			PasteIt(hContact, FROM_CLIPBOARD);
@@ -272,7 +272,7 @@ int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
 int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	bool bIsContact = false;
-	
+
 	char *szProto = GetContactProto(wParam);
 	if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND)
 		bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) != 0;
@@ -281,9 +281,9 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ContactMenuService(WPARAM hContact, LPARAM lParam) 
+INT_PTR ContactMenuService(WPARAM hContact, LPARAM lParam)
 {
-	if(lParam >= DEF_PAGES_START)
+	if (lParam >= DEF_PAGES_START)
 		Options::instance->SetDefWeb(lParam - DEF_PAGES_START);
 	else
 		PasteIt(hContact, lParam);
@@ -305,7 +305,7 @@ void InitMenuItems()
 	mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.pszService = MS_PASTEIT_CONTACTMENU;
 	mi.hParentMenu = hContactMenu;
-	mi.popupPosition = FROM_CLIPBOARD;	
+	mi.popupPosition = FROM_CLIPBOARD;
 	mi.ptszName = LPGENT("Paste from clipboard");
 	Menu_AddContactMenuItem(&mi);
 
@@ -316,14 +316,14 @@ void InitMenuItems()
 	mi.popupPosition = DEF_PAGES_START - 1;
 	mi.ptszName = LPGENT("Default web page");
 	HGENMENU hDefWebMenu = Menu_AddContactMenuItem(&mi);
-	
+
 	CLISTMENUITEM mi2 = { sizeof(mi2) };
 	mi2.pszService = MS_PASTEIT_CONTACTMENU;
 	mi2.hParentMenu = hDefWebMenu;
-	for(int i = 0 ; i < PasteToWeb::pages; ++i)
+	for (int i = 0; i < PasteToWeb::pages; ++i)
 	{
-		mi2.flags =  CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR;
-		if(Options::instance->defWeb == i)
+		mi2.flags = CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR;
+		if (Options::instance->defWeb == i)
 			mi2.flags |= CMIF_CHECKED;
 		mi2.ptszName = pasteToWebs[i]->GetName();
 		mi2.popupPosition = mi2.position = DEF_PAGES_START + i;
@@ -338,7 +338,7 @@ void DefWebPageChanged()
 	CLISTMENUITEM mi = { sizeof(mi) };
 	for (int i = 0; i < PasteToWeb::pages; i++) {
 		mi.flags = CMIM_FLAGS;
-		if (Options::instance->defWeb == i) 
+		if (Options::instance->defWeb == i)
 			mi.flags |= CMIF_CHECKED;
 
 		Menu_ModifyItem(hWebPageMenus[i], &mi);
@@ -347,9 +347,9 @@ void DefWebPageChanged()
 
 void InitTabsrmmButton()
 {
-	if (ServiceExists(MS_BB_ADDBUTTON)) 
+	if (ServiceExists(MS_BB_ADDBUTTON))
 	{
-		BBButton btn = {0};
+		BBButton btn = { 0 };
 		btn.cbSize = sizeof(btn);
 		btn.dwButtonID = 1;
 		btn.pszModuleName = MODULE;
@@ -359,7 +359,7 @@ void InitTabsrmmButton()
 		btn.ptszTooltip = TranslateT("Paste It");
 		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&btn);
 
-		if(hTabsrmmButtonPressed != NULL)
+		if (hTabsrmmButtonPressed != NULL)
 			UnhookEvent(hTabsrmmButtonPressed);
 
 		hTabsrmmButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
@@ -368,21 +368,21 @@ void InitTabsrmmButton()
 
 int WindowEvent(WPARAM wParam, MessageWindowEventData* lParam)
 {
-	if(lParam->uType == MSG_WINDOW_EVT_OPEN)
+	if (lParam->uType == MSG_WINDOW_EVT_OPEN)
 	{
 		char *szProto = GetContactProto(lParam->hContact);
 		if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND)
 		{
-			if(db_get_b(lParam->hContact, szProto, "ChatRoom", 0))
+			if (db_get_b(lParam->hContact, szProto, "ChatRoom", 0))
 			{
 				(*contactWindows)[lParam->hContact] = lParam->hwndInput;
 			}
 		}
 	}
-	else if(lParam->uType == MSG_WINDOW_EVT_CLOSE)
+	else if (lParam->uType == MSG_WINDOW_EVT_CLOSE)
 	{
 		std::map<MCONTACT, HWND>::iterator it = contactWindows->find(lParam->hContact);
-		if(it != contactWindows->end())
+		if (it != contactWindows->end())
 		{
 			contactWindows->erase(it);
 		}
@@ -407,13 +407,13 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	Icon_Register(hInst, LPGEN("Paste It"), &icon, 1);
 
-	NETLIBUSER nlu = {0};
+	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
-  	nlu.flags = NUF_TCHAR | NUF_OUTGOING | NUF_HTTPCONNS;
+	nlu.flags = NUF_TCHAR | NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = MODULE;
 	nlu.ptszDescriptiveName = TranslateT("Paste It HTTP connections");
-	g_hNetlibUser = ( HANDLE )CallService(MS_NETLIB_REGISTERUSER, 0, ( LPARAM )&nlu );
-	
+	g_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+
 	pasteToWebs[0] = new PasteToWeb1();
 	pasteToWebs[0]->pageIndex = 0;
 	pasteToWebs[1] = new PasteToWeb2();
@@ -430,26 +430,26 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Unload(void) 
-{	
+extern "C" int __declspec(dllexport) Unload(void)
+{
 	UnhookEvent(hModulesLoaded);
 	UnhookEvent(hPrebuildContactMenu);
 	UnhookEvent(hOptionsInit);
-	if(hWindowEvent != NULL)
+	if (hWindowEvent != NULL)
 		UnhookEvent(hWindowEvent);
 
 	DestroyServiceFunction(hServiceContactMenu);
 	Netlib_CloseHandle(g_hNetlibUser);
-	if(hTabsrmmButtonPressed != NULL)
+	if (hTabsrmmButtonPressed != NULL)
 		UnhookEvent(hTabsrmmButtonPressed);
 
-	for(int i=0; i < PasteToWeb::pages; ++i)
-		if(pasteToWebs[i] != NULL) {
+	for (int i = 0; i < PasteToWeb::pages; ++i)
+		if (pasteToWebs[i] != NULL) {
 			delete pasteToWebs[i];
 			pasteToWebs[i] = NULL;
 		}
 
-	if(Options::instance != NULL) {
+	if (Options::instance != NULL) {
 		delete Options::instance;
 		Options::instance = NULL;
 	}

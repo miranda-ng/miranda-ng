@@ -2,7 +2,7 @@
 #define __MINOR_VERSION            0
 #define __RELEASE_NUM            0
 #define __BUILD_NUM               3
- 
+
 #include <stdver.h>
 
 #define __PLUGIN_NAME            "Paste it"
