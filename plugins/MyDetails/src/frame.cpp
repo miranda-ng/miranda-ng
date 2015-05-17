@@ -503,7 +503,7 @@ RECT GetRect(HDC hdc, RECT rc, const TCHAR *text, const TCHAR *def_text, Protoco
 	else
 		DrawText(hdc, tmp2, -1, &r_tmp, uFormat | DT_CALCRECT);
 
-	free(tmp2);
+	mir_free(tmp2);
 
 	s.cx = r_tmp.right - r_tmp.left;
 	s.cy = r_tmp.bottom - r_tmp.top;
@@ -1080,7 +1080,7 @@ void DrawTextWithRect(HDC hdc, const TCHAR *text, const TCHAR *def_text, RECT rc
 	if (mouse_over)
 		FrameRect(hdc, &rc, (HBRUSH)GetStockObject(GRAY_BRUSH));
 
-	free(tmp2);
+	mir_free(tmp2);
 }
 
 void Draw(HWND hwnd, HDC hdc_orig)
