@@ -252,7 +252,7 @@ bool CMsnProto::MSN_RefreshContactList(void)
 	Lists_Wipe();
 	Lists_Populate();
 
-	if (GetMyNetID() != NETID_SKYPE)
+	if (MyOptions.netId != NETID_SKYPE)
 	{
 		// Get your own profile info
 		if (!MSN_SharingFindMembership()) return false;

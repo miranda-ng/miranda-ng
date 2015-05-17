@@ -662,18 +662,20 @@ INT_PTR CMsnProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 
 void CMsnProto::LoadOptions(void)
 {
-	int bNoWlid;
 	memset(&MyOptions, 0, sizeof(MyOptions));
 
 	//Popup Options
 	MyOptions.ManageServer = getByte("ManageServer", TRUE) != 0;
 	MyOptions.ShowErrorsAsPopups = getByte("ShowErrorsAsPopups", TRUE) != 0;
 	MyOptions.SlowSend = getByte("SlowSend", FALSE) != 0;
-	if ((bNoWlid=db_get_static(NULL, m_szModuleName, "wlid", MyOptions.szEmail, sizeof(MyOptions.szEmail))) &&
-		db_get_static(NULL, m_szModuleName, "e-mail", MyOptions.szEmail, sizeof(MyOptions.szEmail)))
-		MyOptions.szEmail[0] = 0;
-	else if (bNoWlid) setString("wlid", MyOptions.szEmail);
+	if (db_get_static(NULL, m_szModuleName, "wlid", MyOptions.szEmail, sizeof(MyOptions.szEmail)))
+	{
+		if (db_get_static(NULL, m_szModuleName, "e-mail", MyOptions.szEmail, sizeof(MyOptions.szEmail)))
+			MyOptions.szEmail[0] = 0;
+		else setString("wlid", MyOptions.szEmail);
+	}
 	_strlwr(MyOptions.szEmail);
+	MyOptions.netId = getDword("netId", GetMyNetID());
 
 	if (db_get_static(NULL, m_szModuleName, "MachineGuid", MyOptions.szMachineGuid, sizeof(MyOptions.szMachineGuid))) {
 		char* uuid = getNewUuid();
