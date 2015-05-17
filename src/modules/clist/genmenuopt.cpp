@@ -248,15 +248,11 @@ class CGenMenuOptionsPage : public CDlgBase
 
 	bool GetCurrentMenuObjectID(int &result)
 	{
-		HTREEITEM hti = m_menuObjects.GetSelection();
-		if (hti == NULL)
+		int iItem = m_menuObjects.GetCurSel();
+		if (iItem == -1)
 			return false;
 
-		TVITEMEX tvi;
-		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-		tvi.hItem = hti;
-		m_menuObjects.GetItem(&tvi);
-		result = (int)tvi.lParam;
+		result = (int)m_menuObjects.GetItemData(iItem);
 		return true;
 	}
 
@@ -292,7 +288,8 @@ class CGenMenuOptionsPage : public CDlgBase
 		return NULL;
 	}
 
-	CCtrlTreeView m_menuItems, m_menuObjects;
+	CCtrlListBox m_menuObjects;
+	CCtrlTreeView m_menuItems;
 	CCtrlCheck m_radio1, m_radio2, m_disableIcons;
 	CCtrlEdit m_customName, m_service;
 	CCtrlButton m_btnInsert, m_btnReset, m_btnSet, m_btnDefault;
@@ -319,7 +316,7 @@ public:
 		m_btnInsert.OnClick = Callback(this, &CGenMenuOptionsPage::btnInsert_Clicked);
 		m_btnDefault.OnClick = Callback(this, &CGenMenuOptionsPage::btnDefault_Clicked);
 
-		m_menuObjects.OnSelChanged = Callback(this, &CGenMenuOptionsPage::onMenuObjectChanged);
+		m_menuObjects.OnSelChange = Callback(this, &CGenMenuOptionsPage::onMenuObjectChanged);
 
 		m_menuItems.SetFlags(MTREE_CHECKBOX);
 		m_menuItems.OnSelChanged = Callback(this, &CGenMenuOptionsPage::onMenuItemChanged);
@@ -335,9 +332,7 @@ public:
 		HIMAGELIST himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
 		ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_NOTICK);
 		ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_TICK);
-
 		m_menuItems.SetImageList(himlCheckBoxes, TVSIL_NORMAL);
-		m_menuObjects.SetImageList(himlCheckBoxes, TVSIL_NORMAL);
 
 		if (iInitMenuValue)
 			m_radio2.SetState(true);
@@ -346,22 +341,15 @@ public:
 
 		m_disableIcons.SetState(bIconsDisabled);
 
-		//---- init tree -------------------------------------------
-		TVINSERTSTRUCT tvis;
-		tvis.hParent = NULL;
-		tvis.hInsertAfter = TVI_LAST;
-		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-
+		//---- init menu object list --------------------------------------
 		for (int i = 0; i < g_menus.getCount(); i++) {
 			TIntMenuObject *p = g_menus[i];
-			if (p->id == (int)hStatusMenuObject || !p->m_bUseUserDefinedItems)
-				continue;
-
-			tvis.item.lParam = (LPARAM)p->id;
-			tvis.item.pszText = TranslateTS(p->ptszDisplayName);
-			tvis.item.iImage = tvis.item.iSelectedImage = true;
-			m_menuObjects.InsertItem(&tvis);
+			if (p->id != (int)hStatusMenuObject && p->m_bUseUserDefinedItems)
+				m_menuObjects.AddString(TranslateTS(p->ptszDisplayName), p->id);
 		}
+		
+		m_menuObjects.SetCurSel(0);
+		RebuildCurrent();
 	}
 
 	virtual void OnApply()
@@ -469,7 +457,9 @@ public:
 
 	void onMenuObjectChanged(void*)
 	{
+		m_initialized = false;
 		RebuildCurrent();
+		m_initialized = true;
 	}
 
 	void onMenuItemChanged(void*)
