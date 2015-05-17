@@ -339,7 +339,7 @@ public:
 		else
 			m_radio1.SetState(true);
 
-		m_disableIcons.SetState(bIconsDisabled);
+		m_disableIcons.SetState(bIconsDisabled ? BST_UNCHECKED : BST_CHECKED);
 
 		//---- init menu object list --------------------------------------
 		for (int i = 0; i < g_menus.getCount(); i++) {
@@ -354,7 +354,7 @@ public:
 
 	virtual void OnApply()
 	{
-		bIconsDisabled = m_disableIcons.GetState() != 0;
+		bIconsDisabled = m_disableIcons.GetState() == 0;
 		db_set_b(NULL, "CList", "DisableMenuIcons", bIconsDisabled);
 		SaveTree();
 
