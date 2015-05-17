@@ -326,7 +326,8 @@ void CMsnProto::MSN_CreateContList(void)
 	msnNsThread->sendPacketPayload("PUT", "MSGR\\CONTACTS", "%s", cxml);
 
 	if (msnP24Ver > 1)
-		msnNsThread->sendPacketPayload("PUT", "MSGR\\SUBSCRIPTIONS", "<subscribe><presence><buddies><all /></buddies></presence><messaging><im /><conversations /></messaging><notifications><partners><partner>ABCH</partner></partners></notifications></subscribe>");
+		msnNsThread->sendPacketPayload("PUT", "MSGR\\SUBSCRIPTIONS", "<subscribe><presence><buddies><all /></buddies></presence><messaging><im /><conversations /></messaging><notifications><partners>%s<partner>ABCH</partner></partners></notifications></subscribe>",
+		GetMyNetID()==NETID_MSN?"<partner>Hotmail</partner>":"");
 
 	mir_free(used);
 }

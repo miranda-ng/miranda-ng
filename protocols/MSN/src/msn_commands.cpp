@@ -327,11 +327,17 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	TCHAR *mChatID = NULL;
 	bool ubmMsg = strncmp(cmdString, "UBM", 3) == 0;
 	bool sdgMsg = strncmp(cmdString, "SDG", 3) == 0;
+	bool nfyMsg = strncmp(cmdString, "NFY", 3) == 0;
 	bool sentMsg = false;
 
 	if (sdgMsg) {
 		msgBytes = atol(datas.strMsgBytes);
 		if (stricmp(datas.typeId, "MSGR"))
+			return;
+	}
+	else if (nfyMsg) {
+		msgBytes = atol(datas.strMsgBytes);
+		if (stricmp(datas.typeId, "MSGR\\HOTMAIL"))
 			return;
 	}
 	else {
@@ -386,6 +392,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 			HtmlDecode(msgBody);
 		}
 	}
+	else if (nfyMsg) msgBody = tHeader.readFromBuffer(msgBody);
 	else mChatID = info->mChatID;
 
 	const char* tMsgId = tHeader["Message-ID"];
@@ -406,12 +413,14 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	}
 
 	// message from the server (probably)
-	if (!ubmMsg && !sdgMsg && strchr(email, '@') == NULL && _stricmp(email, "Hotmail"))
+	if (!ubmMsg && !sdgMsg && !nfyMsg && strchr(email, '@') == NULL && _stricmp(email, "Hotmail"))
 		return;
 
 	const char* tContentType = tHeader["Content-Type"];
 	if (tContentType == NULL)
 		return;
+
+	if (nfyMsg) msgBody = tHeader.readFromBuffer(msgBody);
 
 	if (!_strnicmp(tContentType, "text/x-clientcaps", 17)) {
 		MimeHeaders tFileInfo;
@@ -425,7 +434,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 			delSetting(hContact, "StdMirVer");
 		}
 	}
-	else if (!ubmMsg && !sdgMsg && !info->firstMsgRecv) {
+	else if (!ubmMsg && !sdgMsg && !nfyMsg && !info->firstMsgRecv) {
 		info->firstMsgRecv = true;
 		MsnContact *cont = Lists_Get(email);
 		if (cont && cont->hContact != NULL)
@@ -1196,6 +1205,7 @@ LBL_InvalidCommand:
 			{
 				msnLoggedIn = true;
 				isConnectSuccess = true;
+				emailEnabled = GetMyNetID()==NETID_MSN; // Let's assume it?
 				MSN_SetServerStatus(m_iStatus);
 				MSN_EnableMenuItems(true);
 				// Fork refreshing and populating contact list to the background
@@ -1792,6 +1802,12 @@ LBL_InvalidCommand:
 			HReadBuffer buf(info, 0);
 			char* msgBody = (char*)buf.surelyRead(atol(data.strMsgBytes));
 			if (msgBody == NULL) break;
+			if (!strcmp(data.typeId, "MSGR\\HOTMAIL")) {
+				char szParam[128];
+				mir_snprintf(szParam, sizeof(szParam), "%s %s", data.typeId, data.strMsgBytes);
+				MSN_ReceiveMessage(info, cmdString, szParam);
+				break;
+			}
 
 			if (!strcmp(data.typeId, "MSGR\\PUT") || !strcmp(data.typeId, "MSGR\\DEL")) {
 				MimeHeaders tHeader;
