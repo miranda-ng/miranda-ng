@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	purpose:	Miranda Exchange Plugin
 *********************************************************************/
 
-#include "commonheaders.h"
+#include "stdafx.h"
 #include "MirandaExchange.h"
 #include "utils.h"
 
@@ -163,9 +163,6 @@ CKeeper::~CKeeper()
 
 CMirandaExchange::CMirandaExchange()
 {
-	UINT  nSize        = 0;
-	short nSizeOfTCHAR = sizeof( TCHAR );
-
 	m_szUsername       = NULL  ;
 	m_szPassword       = NULL  ;
 	m_szExchangeServer = NULL  ;
@@ -426,7 +423,6 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 	
 	if (!m_bLoginOK || m_lpInbox || NULL == m_lpMAPISession) {
 		HRESULT hr          = S_OK;
-		LPMDB lpMDB         = NULL;
 		MAPIINIT_0 mapiInit = { MAPI_INIT_VERSION , MAPI_MULTITHREAD_NOTIFICATIONS };
 		
 		if ( !m_bNoInitAgain) {
@@ -590,7 +586,7 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 	return hr;
 }
 
-HRESULT CMirandaExchange::isMapiSessionOK( LPMAPISESSION lpSession )
+HRESULT CMirandaExchange::isMapiSessionOK( LPMAPISESSION )
 {
 	return S_OK;
 }
@@ -692,16 +688,6 @@ HRESULT CMirandaExchange::LogOFF()
 HRESULT CMirandaExchange::MarkAsRead( LPTSTR szEntryID )
 {
     LPMESSAGE lpMessage = NULL ;
-
-	SizedSPropTagArray(3,sptaFlags) = 
-	{
-		3, 
-		{	PR_ENTRYID      ,
-			PR_MESSAGE_FLAGS,
-			PR_SENDER_NAME
-		}
-	};
-
 	LPBYTE lpData = NULL ;
 	ULONG  ulC    = 0    ;
 
@@ -730,7 +716,6 @@ HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 	LPSRowSet lpRow = NULL;
 	LPSPropValue lpRowProp = NULL;
 	ULONG i = 0L;
-	ULONG *lpcbeid = NULL; 
 	TCHAR* szSenderName = NULL;
 	TCHAR* szSubject = NULL;
 	LPSTR szEntryID = NULL;
@@ -827,7 +812,6 @@ HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 			}
 		};
 
-		ULONG ulObjType = 0L;
 
 		hr = MAPICALL( lpFolder)->GetHierarchyTable( MAPI_DEFERRED_ERRORS, &lpTable);
 		if (!FAILED(hr)) {
@@ -852,7 +836,7 @@ HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 	return hr;
 }
 
-HRESULT CMirandaExchange::OpenTheMessage( LPTSTR szEntryID )
+HRESULT CMirandaExchange::OpenTheMessage( LPTSTR )
 {
 	//(Default)//// HKEY_CLASSES_ROOT\mailto\shell\open\command
 	HKEY hTheKey;
@@ -887,8 +871,6 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR szEntryID )
 				_tcscat( szRegValue, _T(" /recycle") );
 				STARTUPINFO         si;
 				PROCESS_INFORMATION pi;
-				
-				DWORD               dwCode  =   0;
 				
 				memset(&si, 0, sizeof(STARTUPINFO));
 				

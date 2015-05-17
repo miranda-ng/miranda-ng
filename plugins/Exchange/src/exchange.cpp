@@ -18,7 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 char ModuleName[] = "ExchangeNotify";
 HINSTANCE hInstance;
@@ -45,7 +45,7 @@ PLUGININFOEX pluginInfo = {
 
 //OLD_MIRANDAPLUGININFO_SUPPORT;
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD) 
 {
 //	Log("%s", "Entering function " __FUNCTION__);
 //	Log("%s", "Leaving function " __FUNCTION__);
@@ -83,7 +83,7 @@ extern "C" int __declspec(dllexport) Unload()
 	return 0;
 }
 
-extern "C" bool WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+extern "C" bool WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID)
 {
 	hInstance = hinstDLL; //save global instance
 	if (fdwReason == DLL_PROCESS_ATTACH)
