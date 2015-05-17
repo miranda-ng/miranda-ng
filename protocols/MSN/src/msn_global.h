@@ -790,6 +790,7 @@ typedef struct _tag_MYOPTIONS
 	bool		ManageServer;
 
 	char		szEmail[MSN_MAX_EMAIL_LEN];
+	int			netId;
 	char		szMachineGuid[MSN_GUID_LEN];
 	char		szMachineGuidP2P[MSN_GUID_LEN];
 }

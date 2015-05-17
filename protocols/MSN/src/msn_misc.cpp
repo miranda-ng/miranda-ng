@@ -506,7 +506,7 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 		"From: %d:%s;epid=%s\r\n\r\n"
 		"Reliability: 1.0\r\n\r\n%s",
 		netId, email,
-		netId == NETID_SKYPE?netId:proto->GetMyNetID(), proto->GetMyUsername(netId), proto->MyOptions.szMachineGuid,
+		netId == NETID_SKYPE?netId:proto->MyOptions.netId, proto->GetMyUsername(netId), proto->MyOptions.szMachineGuid,
 		parMsg);
 
 	/*
@@ -831,8 +831,8 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 			"Uri: /user\r\n"
 			"Content-Type: application/user+xml\r\n"
 			"Content-Length: %d\r\n\r\n%s",
-			GetMyNetID(), MyOptions.szEmail,
-			GetMyNetID(), MyOptions.szEmail,
+			MyOptions.netId, MyOptions.szEmail,
+			MyOptions.netId, MyOptions.szEmail,
 			MyOptions.szMachineGuid,
 			sz, szMsg);
 

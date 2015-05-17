@@ -203,6 +203,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 						ezxml_t node = ezxml_get(tokr, "wst:RequestedSecurityToken", 0, "EncryptedData", -1);
 						free(hotAuthToken);
 						hotAuthToken = ezxml_toxml(node, 0);
+						setString("hotAuthToken", hotAuthToken);
 
 						node = ezxml_get(tokr, "wst:RequestedProofToken", 0, "wst:BinarySecret", -1);
 						replaceStr(hotSecretToken, ezxml_txt(node));
@@ -681,6 +682,11 @@ void CMsnProto::LoadAuthTokensDB(void)
 		replaceStr(hotSecretToken, dbv.pszVal);
 		db_free(&dbv);
 	}
+	if (getString("hotAuthToken", &dbv) == 0) {
+		free(hotAuthToken);
+		hotAuthToken = strdup(dbv.pszVal);
+		db_free(&dbv);
+	}
 }
 
 void CMsnProto::SaveAuthTokensDB(void)
@@ -826,11 +832,8 @@ int CMsnProto::MSN_AuthOAuth(void)
 									/* SkyLogin succeeded, request required tokens */
 									if (RefreshOAuth(pRefreshToken, "service::ssl.live.com::MBI_SSL", szToken)) {
 										replaceStr(authSSLToken, szToken);
-										if (RefreshOAuth(pRefreshToken, "service::contacts.msn.com::MBI_SSL", szToken)) {
-											replaceStr(authContactToken, szToken);
-											replaceStr(authUser, MyOptions.szEmail);
-											authMethod=retVal=1;
-										}
+										replaceStr(authUser, MyOptions.szEmail);
+										authMethod=retVal=1;
 									}
 								}
 
@@ -863,7 +866,6 @@ int CMsnProto::MSN_AuthOAuth(void)
 												UrlDecode(pMappingContainer);
 												replaceStr(authUIC, pMappingContainer);
 												replaceStr(authUser, MyOptions.szEmail);
-												MSN_GetPassportAuth();
 												authMethod = retVal = 2;
 											} else retVal = 0;
 										} else retVal = 0;
@@ -885,7 +887,10 @@ int CMsnProto::MSN_AuthOAuth(void)
 		if (nlhrReply) CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	} else hHttpsConnection = NULL;
 
-	if (retVal<=0) authTokenExpiretime=0; else SaveAuthTokensDB();
+	if (retVal<=0) authTokenExpiretime=0; else {
+		MSN_GetPassportAuth();
+		SaveAuthTokensDB();
+	}
 	return retVal;
 }
 
@@ -900,7 +905,7 @@ const char *CMsnProto::GetMyUsername(int netId)
 
 	if (netId == NETID_SKYPE)
 	{
-		if (GetMyNetID()==NETID_MSN)
+		if (MyOptions.netId==NETID_MSN)
 		{
 			if (db_get_static(NULL, m_szModuleName, "SkypePartner", szPartner, sizeof(szPartner)) == 0)
 				return szPartner;

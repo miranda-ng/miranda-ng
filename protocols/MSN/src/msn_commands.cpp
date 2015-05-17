@@ -1205,7 +1205,7 @@ LBL_InvalidCommand:
 			{
 				msnLoggedIn = true;
 				isConnectSuccess = true;
-				emailEnabled = GetMyNetID()==NETID_MSN; // Let's assume it?
+				emailEnabled = MyOptions.netId==NETID_MSN; // Let's assume it?
 				MSN_SetServerStatus(m_iStatus);
 				MSN_EnableMenuItems(true);
 				// Fork refreshing and populating contact list to the background
@@ -1379,7 +1379,7 @@ LBL_InvalidCommand:
 			char* msgBody = (char*)buf.surelyRead(atol(data.strMsgBytes));
 			if (strcmp(data.typeId, "CON")) break;
 
-			if (GetMyNetID()!=NETID_SKYPE) {
+			if (MyOptions.netId!=NETID_SKYPE) {
 				/* MSN account login */
 
 				switch (MSN_AuthOAuth())
