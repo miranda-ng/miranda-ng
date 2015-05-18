@@ -43,7 +43,7 @@ void SaveColumnSizes(HWND hwndResults)
 	int columnCount = Header_GetItemCount(ListView_GetHeader(hwndResults));
 	if (columnCount != NUM_COLUMNID) return;
 	ListView_GetColumnOrderArray(hwndResults, columnCount, columnOrder);
-	for (int i=0; i < NUM_COLUMNID; i++) {
+	for (int i = 0; i < NUM_COLUMNID; i++) {
 		char szSetting[32];
 		mir_snprintf(szSetting, SIZEOF(szSetting), "ColOrder%d", i);
 		db_set_b(NULL, "FindAdd", szSetting, (BYTE)columnOrder[i]);
@@ -55,7 +55,7 @@ void SaveColumnSizes(HWND hwndResults)
 }
 
 static const TCHAR *szColumnNames[] = { NULL, NULL, _T("Nick"), _T("First Name"), _T("Last Name"), _T("E-mail") };
-static int defaultColumnSizes[] = {0, 90, 100, 100, 100, 2000};
+static int defaultColumnSizes[] = { 0, 90, 100, 100, 100, 2000 };
 void LoadColumnSizes(HWND hwndResults, const char *szProto)
 {
 	HDITEM hdi;
@@ -69,24 +69,19 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 
 	columnCount = NUM_COLUMNID;
 	colOrdersValid = true;
-	for (int i=0; i < NUM_COLUMNID; i++)
-	{
+	for (int i = 0; i < NUM_COLUMNID; i++) {
 		LVCOLUMN lvc;
-		if (i < columnCount)
-		{
+		if (i < columnCount) {
 			int bNeedsFree = FALSE;
 			lvc.mask = LVCF_TEXT | LVCF_WIDTH;
 			if (szColumnNames[i] != NULL)
 				lvc.pszText = TranslateTS(szColumnNames[i]);
-			else if (i == COLUMNID_HANDLE)
-			{
-				if (szProto)
-				{
+			else if (i == COLUMNID_HANDLE) {
+				if (szProto) {
 					bNeedsFree = TRUE;
-					lvc.pszText = mir_a2t((char*)CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0));
+					lvc.pszText = mir_a2t((char*)CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0));
 				}
-				else
-					lvc.pszText = _T("ID");
+				else lvc.pszText = _T("ID");
 			}
 			else lvc.mask &= ~LVCF_TEXT;
 			mir_snprintf(szSetting, SIZEOF(szSetting), "ColWidth%d", i);
@@ -98,7 +93,8 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 		}
 		mir_snprintf(szSetting, SIZEOF(szSetting), "ColOrder%d", i);
 		columnOrder[i] = db_get_b(NULL, "FindAdd", szSetting, -1);
-		if (columnOrder[i] == -1 || columnOrder[i] >= NUM_COLUMNID) colOrdersValid = false;
+		if (columnOrder[i] == -1 || columnOrder[i] >= NUM_COLUMNID)
+			colOrdersValid = false;
 	}
 
 	if (colOrdersValid)
@@ -124,22 +120,19 @@ static LPARAM ListView_GetItemLParam(HWND hwndList, int idx)
 
 int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
-	struct FindAddDlgData *dat = (struct FindAddDlgData*)GetWindowLongPtr((HWND) lParamSort, GWLP_USERDATA);
-	int sortMultiplier;
-	int sortCol;
+	struct FindAddDlgData *dat = (struct FindAddDlgData*)GetWindowLongPtr((HWND)lParamSort, GWLP_USERDATA);
 	struct ListSearchResult *lsr1, *lsr2;
-	HWND hList = GetDlgItem((HWND) lParamSort, IDC_RESULTS);
+	HWND hList = GetDlgItem((HWND)lParamSort, IDC_RESULTS);
 
-	sortMultiplier = dat->bSortAscending?1:-1;
-	sortCol = dat->iLastColumnSortIndex;
-	if (!dat->bFlexSearchResult)
-	{
+	int sortMultiplier = dat->bSortAscending ? 1 : -1;
+	int sortCol = dat->iLastColumnSortIndex;
+	if (!dat->bFlexSearchResult) {
 		lsr1 = (struct ListSearchResult*)ListView_GetItemLParam(hList, (int)lParam1);
 		lsr2 = (struct ListSearchResult*)ListView_GetItemLParam(hList, (int)lParam2);
-
-		if (lsr1 == NULL || lsr2 == NULL) return 0;
-		switch(sortCol)
-		{
+		if (lsr1 == NULL || lsr2 == NULL)
+			return 0;
+		
+		switch (sortCol) {
 		case COLUMNID_PROTO:
 			return mir_strcmp(lsr1->szProto, lsr2->szProto)*sortMultiplier;
 		case COLUMNID_HANDLE:
@@ -154,8 +147,7 @@ int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 			return mir_tstrcmpi(lsr1->psr.email, lsr2->psr.email)*sortMultiplier;
 		}
 	}
-	else
-	{
+	else {
 		TCHAR szText1[100];
 		TCHAR szText2[100];
 		ListView_GetItemText(hList, (int)lParam1, sortCol, szText1, SIZEOF(szText1));
@@ -168,7 +160,7 @@ int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 void FreeSearchResults(HWND hwndResults)
 {
 	LV_ITEM lvi;
-	for (lvi.iItem = ListView_GetItemCount(hwndResults)-1;lvi.iItem>=0;lvi.iItem--) {
+	for (lvi.iItem = ListView_GetItemCount(hwndResults) - 1; lvi.iItem >= 0; lvi.iItem--) {
 		lvi.mask = LVIF_PARAM;
 		ListView_GetItem(hwndResults, &lvi);
 		struct ListSearchResult *lsr = (struct ListSearchResult*)lvi.lParam;
@@ -205,12 +197,12 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 		int failures = 0;
 		dat->searchCount = 0;
 		dat->search = (struct ProtoSearchInfo*)mir_calloc(sizeof(struct ProtoSearchInfo) * accounts.getCount());
-		for (int i=0; i < accounts.getCount();i++) {
+		for (int i = 0; i < accounts.getCount(); i++) {
 			PROTOACCOUNT *pa = accounts[i];
 			if (!Proto_IsAccountEnabled(pa)) continue;
-			DWORD caps = (DWORD)CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+			DWORD caps = (DWORD)CallProtoServiceInt(NULL, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 			if (!(caps&requiredCapability)) continue;
-			dat->search[dat->searchCount].hProcess = (HANDLE)CallProtoServiceInt(NULL,pa->szModuleName, szSearchService, 0, (LPARAM)pvSearchParams);
+			dat->search[dat->searchCount].hProcess = (HANDLE)CallProtoServiceInt(NULL, pa->szModuleName, szSearchService, 0, (LPARAM)pvSearchParams);
 			dat->search[dat->searchCount].szProto = pa->szModuleName;
 			if (dat->search[dat->searchCount].hProcess == NULL) failures++;
 			else dat->searchCount++;
@@ -228,7 +220,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 	else {
 		dat->search = (struct ProtoSearchInfo*)mir_alloc(sizeof(struct ProtoSearchInfo));
 		dat->searchCount = 1;
-		dat->search[0].hProcess = (HANDLE)CallProtoServiceInt(NULL,szProto, szSearchService, 0, (LPARAM)pvSearchParams);
+		dat->search[0].hProcess = (HANDLE)CallProtoServiceInt(NULL, szProto, szSearchService, 0, (LPARAM)pvSearchParams);
 		dat->search[0].szProto = szProto;
 		if (dat->search[0].hProcess == NULL) {
 			//infuriatingly vague error message. fixme.
@@ -243,57 +235,58 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 	return 0;
 }
 
-// !!!!!!!! this code is dangerous like a hell
 void SetStatusBarSearchInfo(HWND hwndStatus, struct FindAddDlgData *dat)
 {
-	TCHAR str[256];
+	CMString str;
 
 	if (dat->searchCount != 0) {
-		mir_tstrcpy(str, TranslateT("Searching"));
-		for (int i=0; i < dat->searchCount; i++) {
+		str = TranslateT("Searching");
+		for (int i = 0; i < dat->searchCount; i++) {
 			PROTOACCOUNT *pa = Proto_GetAccount(dat->search[i].szProto);
 			if (!pa)
 				continue;
 
-			mir_tstrcat(str, i ? _T(", ") : _T(" "));
-			mir_tstrcat(str, pa->tszAccountName);
+			str.Append(i ? _T(", ") : _T(" "));
+			str.Append(pa->tszAccountName);
 		}
 	}
-	else mir_tstrcpy(str, TranslateT("Idle"));
+	else str = TranslateT("Idle");
 
-	SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)str);
+	SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)str.c_str());
 }
 
 struct ProtoResultsSummary {
 	const char *szProto;
 	int count;
 };
+
 void SetStatusBarResultInfo(HWND hwndDlg)
 {
 	HWND hwndResults = GetDlgItem(hwndDlg, IDC_RESULTS);
-	TCHAR str[256];
+	CMString str;
+
 	int total = ListView_GetItemCount(hwndResults);
 	if (total != 0) {
 		LV_ITEM lvi;
 		struct ProtoResultsSummary *subtotal = NULL;
 		int subtotalCount = 0;
-		for (lvi.iItem = total-1;lvi.iItem>=0;lvi.iItem--) {
+		for (lvi.iItem = total - 1; lvi.iItem >= 0; lvi.iItem--) {
 			lvi.mask = LVIF_PARAM;
 			ListView_GetItem(hwndResults, &lvi);
 			struct ListSearchResult *lsr = (struct ListSearchResult*)lvi.lParam;
 			if (lsr == NULL)
 				continue;
+			
 			int i = 0;
-			while (i<subtotalCount) {
+			while (i < subtotalCount) {
 				if (subtotal[i].szProto == lsr->szProto) {
 					subtotal[i].count++;
 					break;
 				}
-				else
-					i++;
+				i++;
 			}
 			if (i == subtotalCount) {
-				subtotal = (struct ProtoResultsSummary*)mir_realloc(subtotal, sizeof(struct ProtoResultsSummary)*(subtotalCount+1));
+				subtotal = (struct ProtoResultsSummary*)mir_realloc(subtotal, sizeof(struct ProtoResultsSummary)*(subtotalCount + 1));
 				subtotal[subtotalCount].szProto = lsr->szProto;
 				subtotal[subtotalCount++].count = 1;
 			}
@@ -305,30 +298,29 @@ void SetStatusBarResultInfo(HWND hwndDlg)
 				return;
 			}
 			else if (total == 1)
-				mir_sntprintf(str, SIZEOF(str), TranslateT("1 %s user found"), pa->tszAccountName);
+				str.AppendFormat(TranslateT("1 %s user found"), pa->tszAccountName);
 			else
-				mir_sntprintf(str, SIZEOF(str), TranslateT("%d %s users found"), total, pa->tszAccountName);
+				str.AppendFormat(TranslateT("%d %s users found"), total, pa->tszAccountName);
 		}
 		else {
-			mir_sntprintf(str, SIZEOF(str), TranslateT("%d users found ("), total);
-			for (int i=0; i < subtotalCount; i++) {
+			str.AppendFormat(TranslateT("%d users found ("), total);
+			for (int i = 0; i < subtotalCount; i++) {
 				PROTOACCOUNT *pa = Proto_GetAccount(subtotal[i].szProto);
 				if (pa == NULL)
 					continue;
-				
-				if (i) 
-					mir_tstrcat(str, _T(", "));
-				
-				TCHAR substr[64];
-				mir_sntprintf(substr, SIZEOF(substr), _T("%d %s"), subtotal[i].count, pa->tszAccountName);
-				mir_tstrcat(str, substr);
+
+				if (i)
+					str.Append(_T(", "));
+
+				str.AppendFormat(_T("%d %s"), subtotal[i].count, pa->tszAccountName);
 			}
-			mir_tstrcat(str, _T(")"));
+			str.AppendChar(')');
 		}
 		mir_free(subtotal);
 	}
-	else mir_tstrcpy(str, TranslateT("No users found"));
-	SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETTEXT, 2, (LPARAM)str);
+	else str = TranslateT("No users found");
+	
+	SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETTEXT, 2, (LPARAM)str.c_str());
 }
 
 void CreateResultsColumns(HWND hwndResults, struct FindAddDlgData *dat, char *szProto)
@@ -344,38 +336,38 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 	struct FindAddDlgData *dat = (struct FindAddDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	LVITEM lvi;
-	if (ListView_GetSelectedCount( GetDlgItem(hwndDlg, IDC_RESULTS)) != 1) return;
+	if (ListView_GetSelectedCount(GetDlgItem(hwndDlg, IDC_RESULTS)) != 1) return;
 	lvi.mask = LVIF_PARAM;
-	lvi.iItem = ListView_GetNextItem( GetDlgItem(hwndDlg, IDC_RESULTS), -1, LVNI_ALL|LVNI_SELECTED);
-	ListView_GetItem( GetDlgItem(hwndDlg, IDC_RESULTS), &lvi);
+	lvi.iItem = ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_RESULTS), -1, LVNI_ALL | LVNI_SELECTED);
+	ListView_GetItem(GetDlgItem(hwndDlg, IDC_RESULTS), &lvi);
 	struct ListSearchResult *lsr = (struct ListSearchResult*)lvi.lParam;
 
 	HMENU hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 	HMENU hPopupMenu = GetSubMenu(hMenu, 4);
 	TranslateMenu(hPopupMenu);
-	int commandId = TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON|TPM_RETURNCMD, x, y, 0, hwndDlg, NULL);
-	switch(commandId) {
-		case IDC_ADD:
+	int commandId = TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, x, y, 0, hwndDlg, NULL);
+	switch (commandId) {
+	case IDC_ADD:
 		{
 			ADDCONTACTSTRUCT acs = { 0 };
 			acs.handleType = HANDLE_SEARCHRESULT;
 			acs.szProto = lsr->szProto;
 			acs.psr = &lsr->psr;
 			CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
-			break;
 		}
-		case IDC_DETAILS:
+		break;
+	case IDC_DETAILS:
 		{
 			MCONTACT hContact = (MCONTACT)CallProtoServiceInt(NULL, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
 			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
-			break;
 		}
-		case IDC_SENDMESSAGE:
+		break;
+	case IDC_SENDMESSAGE:
 		{
 			MCONTACT hContact = (MCONTACT)CallProtoServiceInt(NULL, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
-			break;
 		}
+		break;
 	}
 	DestroyMenu(hPopupMenu);
 	DestroyMenu(hMenu);

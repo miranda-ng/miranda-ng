@@ -42,7 +42,7 @@ struct IcoLibOptsData
 static HICON ExtractIconFromPath(const TCHAR *path, int cxIcon, int cyIcon)
 {
 	TCHAR *comma;
-	TCHAR file[ MAX_PATH ], fileFull[ MAX_PATH ];
+	TCHAR file[MAX_PATH], fileFull[MAX_PATH];
 	int n;
 	HICON hIcon;
 
@@ -54,7 +54,7 @@ static HICON ExtractIconFromPath(const TCHAR *path, int cxIcon, int cyIcon)
 	if (!comma)
 		n = 0;
 	else {
-		n = _ttoi(comma+1);
+		n = _ttoi(comma + 1);
 		*comma = 0;
 	}
 	PathToAbsoluteT(file, fileFull);
@@ -148,14 +148,14 @@ static void __fastcall MySetCursor(TCHAR* nCursor)
 
 static void LoadSectionIcons(TCHAR *filename, SectionItem* sectionActive)
 {
-	TCHAR path[ MAX_PATH ];
+	TCHAR path[MAX_PATH];
 	mir_sntprintf(path, SIZEOF(path), _T("%s,"), filename);
 	size_t suffIndx = mir_tstrlen(path);
 
 	mir_cslock lck(csIconList);
 
 	for (int indx = 0; indx < iconList.getCount(); indx++) {
-		IcolibItem *item = iconList[ indx ];
+		IcolibItem *item = iconList[indx];
 
 		if (item->default_file && item->section == sectionActive) {
 			_itot(item->default_indx, path + suffIndx, 10);
@@ -181,7 +181,7 @@ void LoadSubIcons(HWND htv, TCHAR *filename, HTREEITEM hItem)
 	TreeView_GetItem(htv, &tvi);
 
 	TreeItem *treeItem = (TreeItem *)tvi.lParam;
-	SectionItem* sectionActive = sectionList[ SECTIONPARAM_INDEX(treeItem->value) ];
+	SectionItem* sectionActive = sectionList[SECTIONPARAM_INDEX(treeItem->value)];
 
 	tvi.hItem = TreeView_GetChild(htv, tvi.hItem);
 	while (tvi.hItem) {
@@ -195,7 +195,7 @@ void LoadSubIcons(HWND htv, TCHAR *filename, HTREEITEM hItem)
 
 static void UndoChanges(int iconIndx, int cmd)
 {
-	IcolibItem *item = iconList[ iconIndx ];
+	IcolibItem *item = iconList[iconIndx];
 
 	if (!item->temp_file && !item->temp_icon && item->temp_reset && cmd == ID_CANCELCHANGE)
 		item->temp_reset = FALSE;
@@ -210,7 +210,7 @@ static void UndoChanges(int iconIndx, int cmd)
 
 void UndoSubItemChanges(HWND htv, HTREEITEM hItem, int cmd)
 {
-	TVITEM tvi = {0};
+	TVITEM tvi = { 0 };
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 	tvi.hItem = hItem;
 	TreeView_GetItem(htv, &tvi);
@@ -220,7 +220,7 @@ void UndoSubItemChanges(HWND htv, HTREEITEM hItem, int cmd)
 		mir_cslock lck(csIconList);
 
 		for (int indx = 0; indx < iconList.getCount(); indx++)
-			if (iconList[ indx ]->section == sectionList[ SECTIONPARAM_INDEX(treeItem->value) ])
+			if (iconList[indx]->section == sectionList[SECTIONPARAM_INDEX(treeItem->value)])
 				UndoChanges(indx, cmd);
 	}
 
@@ -246,15 +246,15 @@ static int OpenPopupMenu(HWND hwndDlg)
 	hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_ICOLIB_CONTEXT));
 	hPopup = GetSubMenu(hMenu, 0);
 	TranslateMenu(hPopup);
-	cmd = TrackPopupMenu(hPopup, TPM_RIGHTBUTTON|TPM_RETURNCMD, pt.x,  pt.y, 0, hwndDlg, NULL);
+	cmd = TrackPopupMenu(hPopup, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 	DestroyMenu(hMenu);
 	return cmd;
 }
 
 static TCHAR* OpenFileDlg(HWND hParent, const TCHAR* szFile, BOOL bAll)
 {
-	OPENFILENAME ofn = {0};
-	TCHAR filter[512], *pfilter, file[MAX_PATH*2];
+	OPENFILENAME ofn = { 0 };
+	TCHAR filter[512], *pfilter, file[MAX_PATH * 2];
 
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = hParent;
@@ -265,7 +265,7 @@ static TCHAR* OpenFileDlg(HWND hParent, const TCHAR* szFile, BOOL bAll)
 	else
 		mir_tstrcat(filter, _T(" (*.dll)"));
 
-	pfilter = filter+mir_tstrlen(filter)+1;
+	pfilter = filter + mir_tstrlen(filter) + 1;
 	if (bAll)
 		mir_tstrcpy(pfilter, _T("*.DLL;*.ICL;*.EXE;*.ICO"));
 	else
@@ -284,7 +284,7 @@ static TCHAR* OpenFileDlg(HWND hParent, const TCHAR* szFile, BOOL bAll)
 	mir_tstrncpy(file, szFile, SIZEOF(file));
 	ofn.lpstrFile = file;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
-	ofn.nMaxFile = MAX_PATH*2;
+	ofn.nMaxFile = MAX_PATH * 2;
 
 	if (!GetOpenFileName(&ofn))
 		return NULL;
@@ -335,7 +335,7 @@ void DoIconsChanged(HWND hwndDlg)
 
 static HTREEITEM FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TCHAR *name)
 {
-	TVITEM tvi = {0};
+	TVITEM tvi = { 0 };
 	TCHAR str[MAX_PATH];
 
 	if (hItem)
@@ -350,8 +350,7 @@ static HTREEITEM FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TCHAR
 	tvi.pszText = str;
 	tvi.cchTextMax = SIZEOF(str);
 
-	while (tvi.hItem)
-	{
+	while (tvi.hItem) {
 		TreeView_GetItem(hwndTree, &tvi);
 
 		if (!mir_tstrcmp(tvi.pszText, name))
@@ -396,7 +395,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		hwndParent = (HWND)lParam;
 		hPreview = GetDlgItem(hwndDlg, IDC_PREVIEW);
 		dragging = dragItem = 0;
-		ListView_SetImageList(hPreview, ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32|ILC_MASK, 0, 100), LVSIL_NORMAL);
+		ListView_SetImageList(hPreview, ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 100), LVSIL_NORMAL);
 		ListView_SetIconSpacing(hPreview, 56, 67);
 		{
 			RECT rcThis, rcParent;
@@ -404,20 +403,20 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			GetWindowRect(hwndDlg, &rcThis);
 			GetWindowRect(hwndParent, &rcParent);
-			OffsetRect(&rcThis, rcParent.right-rcThis.left, 0);
-			OffsetRect(&rcThis, 0, rcParent.top-rcThis.top);
+			OffsetRect(&rcThis, rcParent.right - rcThis.left, 0);
+			OffsetRect(&rcThis, 0, rcParent.top - rcThis.top);
 			GetWindowRect(GetParent(hwndParent), &rcParent);
 			if (rcThis.right > cxScreen) {
-				OffsetRect(&rcParent, cxScreen-rcThis.right, 0);
-				OffsetRect(&rcThis, cxScreen-rcThis.right, 0);
-				MoveWindow(GetParent(hwndParent), rcParent.left, rcParent.top, rcParent.right-rcParent.left, rcParent.bottom-rcParent.top, TRUE);
+				OffsetRect(&rcParent, cxScreen - rcThis.right, 0);
+				OffsetRect(&rcThis, cxScreen - rcThis.right, 0);
+				MoveWindow(GetParent(hwndParent), rcParent.left, rcParent.top, rcParent.right - rcParent.left, rcParent.bottom - rcParent.top, TRUE);
 			}
-			MoveWindow(hwndDlg, rcThis.left, rcThis.top, rcThis.right-rcThis.left, rcThis.bottom-rcThis.top, FALSE);
+			MoveWindow(hwndDlg, rcThis.left, rcThis.top, rcThis.right - rcThis.left, rcThis.bottom - rcThis.top, FALSE);
 			GetClientRect(hwndDlg, &rcThis);
-			SendMessage(hwndDlg, WM_SIZE, 0, MAKELPARAM(rcThis.right-rcThis.left, rcThis.bottom-rcThis.top));
+			SendMessage(hwndDlg, WM_SIZE, 0, MAKELPARAM(rcThis.right - rcThis.left, rcThis.bottom - rcThis.top));
 		}
 
-		SHAutoComplete( GetDlgItem(hwndDlg, IDC_ICONSET), 1);
+		SHAutoComplete(GetDlgItem(hwndDlg, IDC_ICONSET), 1);
 
 		SetDlgItemText(hwndDlg, IDC_ICONSET, _T("icons.dll"));
 		return TRUE;
@@ -435,22 +434,22 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				RECT rcPreview, rcGroup;
 
 				GetWindowRect(hPreview, &rcPreview);
-				GetWindowRect( GetDlgItem(hwndDlg, IDC_IMPORTMULTI), &rcGroup);
+				GetWindowRect(GetDlgItem(hwndDlg, IDC_IMPORTMULTI), &rcGroup);
 				//SetWindowPos(hPreview, 0, 0, 0, rcPreview.right-rcPreview.left, rcGroup.bottom-rcPreview.top, SWP_NOZORDER|SWP_NOMOVE);
 			}
 
-			if ( _taccess(filename, 0) != 0) {
+			if (_taccess(filename, 0) != 0) {
 				MySetCursor(IDC_ARROW);
 				break;
 			}
 
 			LVITEM lvi;
-			lvi.mask = LVIF_TEXT|LVIF_IMAGE|LVIF_PARAM;
+			lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 			lvi.iSubItem = 0;
 			lvi.iItem = 0;
 			int count = (int)_ExtractIconEx(filename, -1, 16, 16, NULL, LR_DEFAULTCOLOR);
-			for (int i=0; i < count; lvi.iItem++, i++) {
-				mir_sntprintf(caption, SIZEOF(caption), _T("%d"), i+1);
+			for (int i = 0; i < count; lvi.iItem++, i++) {
+				mir_sntprintf(caption, SIZEOF(caption), _T("%d"), i + 1);
 				lvi.pszText = caption;
 
 				HICON hIcon;
@@ -465,7 +464,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDC_BROWSE:
 			{
 				TCHAR str[MAX_PATH], *file;
@@ -553,7 +552,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				ListView_GetItem(hPreview, &lvi);
 				mir_sntprintf(path, SIZEOF(path), _T("%s,%d"), filename, (int)lvi.lParam);
 				SendMessage(hwndParent, DM_CHANGEICON, dropHiLite, (LPARAM)path);
-				ListView_SetItemState( GetDlgItem(hwndParent, IDC_PREVIEW), dropHiLite, 0, LVIS_DROPHILITED);
+				ListView_SetItemState(GetDlgItem(hwndParent, IDC_PREVIEW), dropHiLite, 0, LVIS_DROPHILITED);
 			}
 		}
 		break;
@@ -567,7 +566,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				dragging = 1;
 				dragItem = ((LPNMLISTVIEW)lParam)->iItem;
 				dropHiLite = -1;
-				ImageList_BeginDrag(ListView_GetImageList(hPreview, LVSIL_NORMAL), dragItem, GetSystemMetrics(SM_CXICON)/2, GetSystemMetrics(SM_CYICON)/2);
+				ImageList_BeginDrag(ListView_GetImageList(hPreview, LVSIL_NORMAL), dragItem, GetSystemMetrics(SM_CXICON) / 2, GetSystemMetrics(SM_CYICON) / 2);
 				{
 					POINT pt;
 					RECT rc;
@@ -585,7 +584,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_SIZE: // make the dlg resizeable
 		if (!IsIconic(hwndDlg)) {
-			UTILRESIZEDIALOG urd = {0};
+			UTILRESIZEDIALOG urd = { 0 };
 			urd.cbSize = sizeof(urd);
 			urd.hInstance = hInst;
 			urd.hwndDlg = hwndDlg;
@@ -598,7 +597,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_CLOSE:
 		DestroyWindow(hwndDlg);
-		EnableWindow( GetDlgItem(hwndParent, IDC_IMPORT), TRUE);
+		EnableWindow(GetDlgItem(hwndParent, IDC_IMPORT), TRUE);
 		break;
 
 	}
@@ -684,7 +683,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		//
 		ListView_SetUnicodeFormat(hPreview, TRUE);
 		ListView_SetExtendedListViewStyleEx(hPreview, LVS_EX_INFOTIP, LVS_EX_INFOTIP);
-		ListView_SetImageList(hPreview, ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32|ILC_MASK, 0, 30), LVSIL_NORMAL);
+		ListView_SetImageList(hPreview, ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 30), LVSIL_NORMAL);
 		ListView_SetIconSpacing(hPreview, 56, 67);
 
 		SendMessage(hwndDlg, DM_REBUILD_CTREE, 0, 0);
@@ -724,22 +723,22 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					hItem = FindNamedTreeItemAt(hwndTree, hSection, pItemName);
 					if (!sectionName || !hItem) {
 						if (!hItem) {
-							TVINSERTSTRUCT tvis = {0};
+							TVINSERTSTRUCT tvis = { 0 };
 							TreeItem *treeItem = (TreeItem *)mir_alloc(sizeof(TreeItem));
 							treeItem->value = SECTIONPARAM_MAKE(indx, sectionLevel, sectionName ? 0 : SECTIONPARAM_HAVEPAGE);
 							treeItem->paramName = mir_t2a(itemName);
 
 							tvis.hParent = hSection;
 							tvis.hInsertAfter = TVI_SORT;
-							tvis.item.mask = TVIF_TEXT|TVIF_PARAM|TVIF_STATE;
+							tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
 							tvis.item.pszText = pItemName;
-							tvis.item.lParam = (LPARAM) treeItem;
+							tvis.item.lParam = (LPARAM)treeItem;
 
 							tvis.item.state = tvis.item.stateMask = db_get_b(NULL, "SkinIconsUI", treeItem->paramName, TVIS_EXPANDED);
 							hItem = TreeView_InsertItem(hwndTree, &tvis);
 						}
 						else {
-							TVITEM tvi = {0};
+							TVITEM tvi = { 0 };
 							tvi.hItem = hItem;
 							tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 							TreeView_GetItem(hwndTree, &tvi);
@@ -764,7 +763,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		}
 		break;
 
-	//  Rebuild preview to new section
+		//  Rebuild preview to new section
 	case DM_REBUILDICONSPREVIEW:
 		{
 			SectionItem* sectionActive = (SectionItem*)lParam;
@@ -777,7 +776,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			if (sectionActive == NULL)
 				break;
 
-			LVITEM lvi = {0};
+			LVITEM lvi = { 0 };
 			lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 			{
 				mir_cslock lck(csIconList);
@@ -808,12 +807,12 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	// Refresh preview to new section
 	case DM_UPDATEICONSPREVIEW:
 		{
-			LVITEM lvi = {0};
+			LVITEM lvi = { 0 };
 			HICON hIcon;
 			int indx, count;
 			HIMAGELIST hIml = ListView_GetImageList(hPreview, LVSIL_NORMAL);
 
-			lvi.mask = LVIF_IMAGE|LVIF_PARAM;
+			lvi.mask = LVIF_IMAGE | LVIF_PARAM;
 			count = ListView_GetItemCount(hPreview);
 
 			for (indx = 0; indx < count; indx++) {
@@ -837,13 +836,13 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	// Temporary change icon - only inside options dialog
 	case DM_CHANGEICON:
 		{
-			LVITEM lvi = {0};
+			LVITEM lvi = { 0 };
 			lvi.mask = LVIF_PARAM;
 			lvi.iItem = wParam;
 			ListView_GetItem(hPreview, &lvi);
 			{
 				mir_cslock lck(csIconList);
-				IcolibItem *item = iconList[ lvi.lParam ];
+				IcolibItem *item = iconList[lvi.lParam];
 
 				SAFE_FREE((void**)&item->temp_file);
 				SafeDestroyIcon(&item->temp_icon);
@@ -867,12 +866,12 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			break;
 		}
 		else if (LOWORD(wParam) == IDC_LOADICONS) {
-			TCHAR filetmp[1] = {0};
+			TCHAR filetmp[1] = { 0 };
 			TCHAR *file;
 
 			if (file = OpenFileDlg(hwndDlg, filetmp, FALSE)) {
 				HWND htv = GetDlgItem(hwndDlg, IDC_CATEGORYLIST);
-				TCHAR filename[ MAX_PATH ];
+				TCHAR filename[MAX_PATH];
 
 				PathToRelativeT(file, filename);
 				SAFE_FREE((void**)&file);
@@ -892,11 +891,11 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			if (count > 0) {
 				int cmd = OpenPopupMenu(hwndDlg);
-				switch(cmd) {
+				switch (cmd) {
 				case ID_CANCELCHANGE:
 				case ID_RESET:
 					{
-						LVITEM lvi = {0};
+						LVITEM lvi = { 0 };
 						int itemIndx = -1;
 
 						while ((itemIndx = ListView_GetNextItem(hPreview, itemIndx, LVNI_SELECTED)) != -1) {
@@ -918,7 +917,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			if ((HWND)wParam == htv) {
 				int cmd = OpenPopupMenu(hwndDlg);
 
-				switch(cmd) {
+				switch (cmd) {
 				case ID_CANCELCHANGE:
 				case ID_RESET:
 					UndoSubItemChanges(htv, TreeView_GetSelection(htv), cmd);
@@ -930,9 +929,9 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
-			switch(((LPNMHDR)lParam)->code) {
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				{
 					mir_cslock lck(csIconList);
@@ -982,7 +981,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			break;
 
 		case IDC_CATEGORYLIST:
-			switch(((NMHDR*)lParam)->code) {
+			switch (((NMHDR*)lParam)->code) {
 			case TVN_SELCHANGED:
 				{
 					NMTREEVIEW *pnmtv = (NMTREEVIEW*)lParam;
@@ -990,8 +989,8 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					TreeItem *treeItem = (TreeItem *)tvi.lParam;
 					if (treeItem)
 						SendMessage(hwndDlg, DM_REBUILDICONSPREVIEW, 0, (LPARAM)(
-							(SECTIONPARAM_FLAGS(treeItem->value)&SECTIONPARAM_HAVEPAGE)?
-							sectionList[ SECTIONPARAM_INDEX(treeItem->value) ] : NULL));
+						(SECTIONPARAM_FLAGS(treeItem->value)&SECTIONPARAM_HAVEPAGE) ?
+						sectionList[SECTIONPARAM_INDEX(treeItem->value)] : NULL));
 				}
 				break;
 
@@ -1015,7 +1014,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_DESTROY:
-		SaveCollapseState( GetDlgItem(hwndDlg, IDC_CATEGORYLIST));
+		SaveCollapseState(GetDlgItem(hwndDlg, IDC_CATEGORYLIST));
 		DestroyWindow(dat->hwndIndex);
 		{
 			mir_cslock lck(csIconList);
