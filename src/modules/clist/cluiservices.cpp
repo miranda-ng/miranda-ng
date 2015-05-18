@@ -165,11 +165,12 @@ void fnCluiProtocolStatusChanged(int, const char*)
 	}
 	else {
 		HDC hdc;
+		HFONT hFont;
 		SIZE textSize;
 		BYTE showOpts = db_get_b(NULL, "CLUI", "SBarShow", 1);
 
 		hdc = GetDC(NULL);
-		SelectObject(hdc, (HFONT) SendMessage(cli.hwndStatus, WM_GETFONT, 0, 0));
+		hFont = (HFONT)SelectObject(hdc, (HFONT) SendMessage(cli.hwndStatus, WM_GETFONT, 0, 0));
 		for (i=0; i < cli.menuProtoCount; i++) {  //count down since built in ones tend to go at the end
 			int x = 2;
 			if (showOpts & 1)
@@ -196,6 +197,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 			}
 			partWidths[ i ] = (i ? partWidths[ i-1] : 0) + x + 2;
 		}
+		SelectObject(hdc, hFont);
 		ReleaseDC(NULL, hdc);
 	}
 
