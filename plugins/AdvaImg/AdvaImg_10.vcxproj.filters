@@ -546,5 +546,8 @@
     <ClInclude Include="src\CacheFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\MapIntrospector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
