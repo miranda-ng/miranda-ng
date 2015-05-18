@@ -19,6 +19,8 @@
 #define PUAddPopupT PUAddPopUpT
 #define PUDeletePopup PUDeletePopUp
 
+#define NETLIB_USER_AGENT "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)"
+
 template<class T> class mir_ptr
 {
 	T *data;
