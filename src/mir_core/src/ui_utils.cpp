@@ -1381,12 +1381,6 @@ void CCtrlTreeView::OnInit()
 
 HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter)
 {
-	TVITEMEX tvi = { 0 };
-	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE;
-	tvi.hItem = hItem;
-	if (!GetItem(&tvi))
-		return NULL;
-
 	if (hItem == NULL || hInsertAfter == NULL)
 		return NULL;
 
@@ -1395,11 +1389,10 @@ HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter)
 
 	TCHAR name[128];
 	TVINSERTSTRUCT tvis = { 0 };
-	tvis.itemex.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+	tvis.itemex.mask = (UINT)-1;
 	tvis.itemex.pszText = name;
 	tvis.itemex.cchTextMax = SIZEOF(name);
 	tvis.itemex.hItem = hItem;
-	tvis.itemex.iImage = tvis.itemex.iSelectedImage = tvi.iImage;
 	if (!GetItem(&tvis.itemex))
 		return NULL;
 
@@ -1412,6 +1405,7 @@ HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter)
 	// now current item contain lParam = 0 we can delete it. the memory will be kept.
 	DeleteItem(hItem);
 
+	tvis.itemex.stateMask = tvis.itemex.state;
 	tvis.itemex.lParam = saveOldData;
 	tvis.hParent = NULL;
 	tvis.hInsertAfter = hInsertAfter;
