@@ -1042,15 +1042,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 		InvalidateRect(GetDlgItem(hwndDlg, IDC_MESSAGE), NULL, FALSE);
 		{
-			HFONT hFont;
 			LOGFONT lf;
 			CHARFORMAT cf = { 0 };
-			hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_MESSAGE, WM_GETFONT, 0, 0);
-			if (hFont != NULL && hFont != (HFONT)SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0))
-				DeleteObject(hFont);
+			if (dat->hFont) DeleteObject(dat->hFont);
 			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &cf.crTextColor);
-			hFont = CreateFontIndirect(&lf);
-			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
+			dat->hFont = CreateFontIndirect(&lf);
+			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, WM_SETFONT, (WPARAM)dat->hFont, MAKELPARAM(TRUE, 0));
 
 			cf.cbSize = sizeof(CHARFORMAT);
 			cf.dwMask = CFM_COLOR;
@@ -1713,9 +1710,10 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			WindowList_Remove(g_dat.hMessageWindowList, hwndDlg);
 			db_set_dw(bSavePerContact ? dat->hContact : NULL, SRMMMOD, "splitterPos", dat->splitterPos);
 
-			HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_MESSAGE, WM_GETFONT, 0, 0);
-			if (hFont != NULL && hFont != (HFONT)SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0))
-				DeleteObject(hFont);
+			if (dat->hFont)	{
+				DeleteObject(dat->hFont);
+				dat->hFont = NULL;
+			}
 
 			MCONTACT hContact = (bSavePerContact) ? dat->hContact : NULL;
 

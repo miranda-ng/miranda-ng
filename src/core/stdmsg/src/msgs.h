@@ -42,6 +42,7 @@ struct SrmmWindowData : public MZeroedObject
 	MCONTACT hContact;
 	MEVENT hDbEventFirst, hDbEventLast;
 	HBRUSH hBkgBrush;
+	HFONT hFont;
 	int splitterPos, originalSplitterPos;
 	SIZE minEditBoxSize;
 	RECT minEditInit;
