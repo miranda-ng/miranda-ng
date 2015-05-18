@@ -215,14 +215,13 @@ static BOOL
 FillBackgroundBitmap(FIBITMAP *dib, const RGBQUAD *color, int options) {
 
 	if ((!dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP)) {
-		return FALSE;
+		return FALSE;;
 	}
 	
 	if (!color) {
 		return FALSE;
 	}
 	
-	RGBQUAD blend;
 	const RGBQUAD *color_intl = color;
 	unsigned bpp = FreeImage_GetBPP(dib);
 	unsigned width = FreeImage_GetWidth(dib);
@@ -251,7 +250,7 @@ FillBackgroundBitmap(FIBITMAP *dib, const RGBQUAD *color, int options) {
 		// release, just assume to have an unicolor background and fill
 		// all with an 'alpha-blended' color.
 		if (color->rgbReserved < 255) {
-
+							
 			// If we will draw on an unicolor background, it's
 			// faster to draw opaque with an alpha blended color.
 			// So, first get the color from the first pixel in the
@@ -259,24 +258,25 @@ FillBackgroundBitmap(FIBITMAP *dib, const RGBQUAD *color, int options) {
 			RGBQUAD bgcolor;
 			if (bpp == 8) {
 				bgcolor = FreeImage_GetPalette(dib)[*src_bits];
-			} else {
+			} else {	
 				bgcolor.rgbBlue = src_bits[FI_RGBA_BLUE];
 				bgcolor.rgbGreen = src_bits[FI_RGBA_GREEN];
 				bgcolor.rgbRed = src_bits[FI_RGBA_RED];
 				bgcolor.rgbReserved = 0xFF;
 			}
+			RGBQUAD blend;
 			GetAlphaBlendedColor(&bgcolor, color_intl, &blend);
 			color_intl = &blend;
 		}
 	}
-
+	
 	int index = (bpp <= 8) ? GetPaletteIndex(dib, color_intl, options, &color_type) : 0;
 	if (index == -1) {
 		// No palette index found for a palletized
 		// image. This should never happen...
 		return FALSE;
 	}
-
+	
 	// first, build the first scanline (line 0)
 	switch (bpp) {
 		case 1: {

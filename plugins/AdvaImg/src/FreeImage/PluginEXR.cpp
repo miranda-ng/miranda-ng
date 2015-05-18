@@ -22,6 +22,12 @@
 
 #include "FreeImage.h"
 #include "Utilities.h"
+
+#ifdef _MSC_VER
+// OpenEXR has many problems with MSVC warnings (why not just correct them ?), just ignore one of them
+#pragma warning (disable : 4800) // ImfVersion.h - 'const int' : forcing value to bool 'true' or 'false' (performance warning)
+#endif 
+
 #include "../OpenEXR/IlmImf/ImfIO.h"
 #include "../OpenEXR/Iex/Iex.h"
 #include "../OpenEXR/IlmImf/ImfOutputFile.h"
@@ -44,72 +50,64 @@ static int s_format_id;
 
 /**
 FreeImage input stream wrapper
+@see Imf_2_2::IStream
 */
-class C_IStream: public Imf::IStream {
-public:
-	C_IStream (FreeImageIO *io, fi_handle handle):
-	IStream(""), _io (io), _handle(handle) {}
-
-	virtual bool	read (char c[/*n*/], int n);
-	virtual Imf::Int64	tellg ();
-	virtual void	seekg (Imf::Int64 pos);
-	virtual void	clear () {};
-
+class C_IStream : public Imf::IStream {
 private:
     FreeImageIO *_io;
 	fi_handle _handle;
+
+public:
+	C_IStream (FreeImageIO *io, fi_handle handle) : 
+	  Imf::IStream(""), _io (io), _handle(handle) {
+	}
+
+	virtual bool read (char c[/*n*/], int n) {
+		return ((unsigned)n != _io->read_proc(c, 1, n, _handle));
+	}
+
+	virtual Imath::Int64 tellg() {
+		return _io->tell_proc(_handle);
+	}
+
+	virtual void seekg(Imath::Int64 pos) {
+		_io->seek_proc(_handle, (unsigned)pos, SEEK_SET);
+	}
+
+	virtual void clear() {
+	}
 };
 
+// ----------------------------------------------------------
 
 /**
 FreeImage output stream wrapper
+@see Imf_2_2::OStream
 */
-class C_OStream: public Imf::OStream {
-public:
-	C_OStream (FreeImageIO *io, fi_handle handle):
-	OStream(""), _io (io), _handle(handle) {}
-
-    virtual void	write (const char c[/*n*/], int n);
-	virtual Imf::Int64	tellp ();
-	virtual void	seekp (Imf::Int64 pos);
-
+class C_OStream : public Imf::OStream {
 private:
     FreeImageIO *_io;
 	fi_handle _handle;
-};
 
-
-bool
-C_IStream::read (char c[/*n*/], int n) {
-	return ((unsigned)n != _io->read_proc(c, 1, n, _handle));
-}
-
-Imf::Int64
-C_IStream::tellg () {
-	return _io->tell_proc(_handle);
-}
-
-void
-C_IStream::seekg (Imf::Int64 pos) {
-	_io->seek_proc(_handle, (unsigned)pos, SEEK_SET);
-}
-
-void
-C_OStream::write (const char c[/*n*/], int n) {
-	if((unsigned)n != _io->write_proc((void*)&c[0], 1, n, _handle)) {
-		Iex::throwErrnoExc();
+public:
+	C_OStream (FreeImageIO *io, fi_handle handle) : 
+	  Imf::OStream(""), _io (io), _handle(handle) {
 	}
-}
 
-Imf::Int64
-C_OStream::tellp () {
-	return _io->tell_proc(_handle);
-}
+	virtual void write(const char c[/*n*/], int n) {
+		if((unsigned)n != _io->write_proc((void*)&c[0], 1, n, _handle)) {
+			Iex::throwErrnoExc();
+		}
+	}
 
-void
-C_OStream::seekp (Imf::Int64 pos) {
-	_io->seek_proc(_handle, (unsigned)pos, SEEK_SET);
-}
+	virtual Imath::Int64 tellp() {
+		return _io->tell_proc(_handle);
+	}
+
+	virtual void seekp(Imath::Int64 pos) {
+		_io->seek_proc(_handle, (unsigned)pos, SEEK_SET);
+	}
+};
 
 // ----------------------------------------------------------
 
@@ -667,7 +665,9 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		if(pixelType == Imf::HALF) {
 			// convert from float to half
 			halfData = new(std::nothrow) half[width * height * components];
-			if(!halfData) THROW (Iex::NullExc, FI_MSG_ERROR_MEMORY);
+			if(!halfData) {
+				THROW (Iex::NullExc, FI_MSG_ERROR_MEMORY);
+			}
 
 			for(int y = 0; y < height; y++) {
 				float *src_bits = (float*)FreeImage_GetScanLine(dib, height - 1 - y);
@@ -716,7 +716,9 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		file.setFrameBuffer (frameBuffer);
 		file.writePixels (height);
 
-		if(halfData != NULL) delete[] halfData;
+		if(halfData != NULL) {
+			delete[] halfData;
+		}
 		if(bIsFlipped) {
 			// invert dib scanlines
 			FreeImage_FlipVertical(dib);
@@ -725,7 +727,9 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		return TRUE;
 
 	} catch(Iex::BaseExc & e) {
-		if(halfData != NULL) delete[] halfData;
+		if(halfData != NULL) {
+			delete[] halfData;
+		}
 		if(bIsFlipped) {
 			// invert dib scanlines
 			FreeImage_FlipVertical(dib);
@@ -744,6 +748,11 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 void DLL_CALLCONV
 InitEXR(Plugin *plugin, int format_id) {
 	s_format_id = format_id;
+
+	// initialize the OpenEXR library
+	// note that this OpenEXR function produce so called "false memory leaks"
+	// see http://lists.nongnu.org/archive/html/openexr-devel/2013-11/msg00000.html
+	Imf::staticInitialize();
 
 	plugin->format_proc = Format;
 	plugin->description_proc = Description;

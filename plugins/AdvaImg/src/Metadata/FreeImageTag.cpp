@@ -295,11 +295,6 @@ FreeImage_SetTagValue(FITAG *tag, const void *value) {
 // FITAG internal helper functions
 // --------------------------------------------------------------------------
 
-/**
-Given a FREE_IMAGE_MDTYPE, calculate the size of this type in bytes unit
-@param type Input data type
-@return Returns the size of the data type, in bytes unit
-*/
 unsigned 
 FreeImage_TagDataWidth(FREE_IMAGE_MDTYPE type) {
 	static const unsigned format_bytes[] = { 
@@ -328,3 +323,31 @@ FreeImage_TagDataWidth(FREE_IMAGE_MDTYPE type) {
 		  format_bytes[type] : 0;
 }
 
+size_t 
+FreeImage_GetTagMemorySize(FITAG *tag) {
+	size_t size = 0;
+	if (tag) {
+		FITAGHEADER *tag_header = (FITAGHEADER *)tag->data;
+		size += sizeof(FITAG);
+		size += sizeof(FITAGHEADER);
+		if (tag_header->key) {
+			size += strlen(tag_header->key) + 1;
+		}
+		if (tag_header->description) {
+			size += strlen(tag_header->description) + 1;
+		}
+		if (tag_header->value) {
+			switch (tag_header->type) {
+				case FIDT_ASCII:
+					// for ASCII strings, the value of the count part of an ASCII tag entry includes the NULL.
+					// however, FreeImage adds another '\0' to be sure that this last character is present.
+					size += tag_header->length + 1;
+					break;
+				default:
+					size += tag_header->length;
+					break;
+			}
+		}
+	}
+	return size;
+}

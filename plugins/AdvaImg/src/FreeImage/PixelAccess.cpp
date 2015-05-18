@@ -28,19 +28,6 @@
 // ----------------------------------------------------------
 
 BYTE * DLL_CALLCONV
-FreeImage_GetBits(FIBITMAP *dib) {
-	if(!FreeImage_HasPixels(dib)) {
-		return NULL;
-	}
-	// returns the pixels aligned on a FIBITMAP_ALIGNMENT bytes alignment boundary
-	size_t lp = (size_t)FreeImage_GetInfoHeader(dib);
-	lp += sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * FreeImage_GetColorsUsed(dib);
-	lp += FreeImage_HasRGBMasks(dib) ? sizeof(DWORD) * 3 : 0;
-	lp += (lp % FIBITMAP_ALIGNMENT ? FIBITMAP_ALIGNMENT - lp % FIBITMAP_ALIGNMENT : 0);
-	return (BYTE *)lp;
-}
-
-BYTE * DLL_CALLCONV
 FreeImage_GetScanLine(FIBITMAP *dib, int scanline) {
 	if(!FreeImage_HasPixels(dib)) {
 		return NULL;

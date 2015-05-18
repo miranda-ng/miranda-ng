@@ -33,11 +33,13 @@ Get an integer value from the actual position pointed by handle
 static int
 GetInt(FreeImageIO *io, fi_handle handle) {
     char c = 0;
-	BOOL firstchar;
+	BOOL bFirstChar;
 
     // skip forward to start of next number
 
-    if(!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
+	if(!io->read_proc(&c, 1, 1, handle)) {
+		throw FI_MSG_ERROR_PARSING;
+	}
 
     while (1) {
         // eat comments
@@ -45,15 +47,16 @@ GetInt(FreeImageIO *io, fi_handle handle) {
         if (c == '#') {
 			// if we're at a comment, read to end of line
 
-            firstchar = TRUE;
+            bFirstChar = TRUE;
 
             while (1) {
-				if(!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
+				if(!io->read_proc(&c, 1, 1, handle)) {
+					throw FI_MSG_ERROR_PARSING;
+				}
 
-				if (firstchar && c == ' ') {
+				if (bFirstChar && c == ' ') {
 					// loop off 1 sp after #
-
-					firstchar = FALSE;
+					bFirstChar = FALSE;
 				} else if (c == '\n') {
 					break;
 				}
@@ -62,11 +65,12 @@ GetInt(FreeImageIO *io, fi_handle handle) {
 
         if (c >= '0' && c <='9') {
 			// we've found what we were looking for
-
             break;
 		}
 
-        if(!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
+		if(!io->read_proc(&c, 1, 1, handle)) {
+			throw FI_MSG_ERROR_PARSING;
+		}
     }
 
     // we're at the start of a number, continue until we hit a non-number
@@ -76,10 +80,13 @@ GetInt(FreeImageIO *io, fi_handle handle) {
     while (1) {
         i = (i * 10) + (c - '0');
 
-        if(!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
+		if(!io->read_proc(&c, 1, 1, handle)) {
+			throw FI_MSG_ERROR_PARSING;
+		}
 
-        if (c < '0' || c > '9')
-            break;
+		if (c < '0' || c > '9') {
+			break;
+		}
     }
 
     return i;

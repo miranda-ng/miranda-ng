@@ -22,11 +22,27 @@
 
 #include "Resize.h"
 
-FIBITMAP * DLL_CALLCONV 
-FreeImage_Rescale(FIBITMAP *src, int dst_width, int dst_height, FREE_IMAGE_FILTER filter) {
+FIBITMAP * DLL_CALLCONV
+FreeImage_RescaleRect(FIBITMAP *src, int dst_width, int dst_height, int src_left, int src_top, int src_right, int src_bottom, FREE_IMAGE_FILTER filter, unsigned flags) {
 	FIBITMAP *dst = NULL;
 
-	if (!FreeImage_HasPixels(src) || (dst_width <= 0) || (dst_height <= 0) || (FreeImage_GetWidth(src) <= 0) || (FreeImage_GetHeight(src) <= 0)) {
+	const int src_width = FreeImage_GetWidth(src);
+	const int src_height = FreeImage_GetHeight(src);
+
+	if (!FreeImage_HasPixels(src) || (dst_width <= 0) || (dst_height <= 0) || (src_width <= 0) || (src_height <= 0)) {
+		return NULL;
+	}
+
+	// normalize the rectangle
+	if (src_right < src_left) {
+		INPLACESWAP(src_left, src_right);
+	}
+	if (src_bottom < src_top) {
+		INPLACESWAP(src_top, src_bottom);
+	}
+
+	// check the size of the sub image
+	if((src_left < 0) || (src_right > src_width) || (src_top < 0) || (src_bottom > src_height)) {
 		return NULL;
 	}
 
@@ -59,15 +75,22 @@ FreeImage_Rescale(FIBITMAP *src, int dst_width, int dst_height, FREE_IMAGE_FILTE
 
 	CResizeEngine Engine(pFilter);
 
-	dst = Engine.scale(src, dst_width, dst_height, 0, 0,
-			FreeImage_GetWidth(src), FreeImage_GetHeight(src));
+	dst = Engine.scale(src, dst_width, dst_height, src_left, src_top,
+			src_right - src_left, src_bottom - src_top, flags);
 
 	delete pFilter;
 
-	// copy metadata from src to dst
-	FreeImage_CloneMetadata(dst, src);
-	
+	if ((flags & FI_RESCALE_OMIT_METADATA) != FI_RESCALE_OMIT_METADATA) {
+		// copy metadata from src to dst
+		FreeImage_CloneMetadata(dst, src);
+	}
+
 	return dst;
+}
+
+FIBITMAP * DLL_CALLCONV
+FreeImage_Rescale(FIBITMAP *src, int dst_width, int dst_height, FREE_IMAGE_FILTER filter) {
+	return FreeImage_RescaleRect(src, dst_width, dst_height, 0, 0, FreeImage_GetWidth(src), FreeImage_GetHeight(src), filter, FI_RESCALE_DEFAULT);
 }
 
 FIBITMAP * DLL_CALLCONV
@@ -164,6 +187,6 @@ FreeImage_MakeThumbnail(FIBITMAP *dib, int max_pixel_size, BOOL convert) {
 
 	// copy metadata from src to dst
 	FreeImage_CloneMetadata(thumbnail, dib);
-	
+
 	return thumbnail;
 }

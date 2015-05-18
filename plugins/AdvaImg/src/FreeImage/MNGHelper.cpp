@@ -357,7 +357,6 @@ Retrieve the position of a chunk in a PNG stream
 */
 static BOOL 
 mng_FindChunk(FIMEMORY *hPngMemory, BYTE *chunk_name, long offset, DWORD *start_pos, DWORD *next_pos) {
-	BOOL mEnd = FALSE;
 	DWORD mLength = 0;
 
 	BYTE *data = NULL;
@@ -513,10 +512,14 @@ mng_RemoveChunk(FIMEMORY *hPngMemory, BYTE *chunk_name) {
 	DWORD next_pos = 0;
 	
 	bResult = mng_FindChunk(hPngMemory, chunk_name, 8, &start_pos, &next_pos);
-	if(!bResult) return FALSE;
+	if(!bResult) {
+		return FALSE;
+	}
 
 	bResult = mng_CopyRemoveChunks(hPngMemory, start_pos, next_pos);
-	if(!bResult) return FALSE;
+	if(!bResult) {
+		return FALSE;
+	}
 
 	return TRUE;
 }
@@ -529,10 +532,14 @@ mng_InsertChunk(FIMEMORY *hPngMemory, BYTE *inNextChunkName, BYTE *inInsertChunk
 	DWORD next_pos = 0;
 	
 	bResult = mng_FindChunk(hPngMemory, inNextChunkName, 8, &start_pos, &next_pos);
-	if(!bResult) return FALSE;
+	if(!bResult) {
+		return FALSE;
+	}
 
 	bResult = mng_CopyInsertChunks(hPngMemory, inNextChunkName, inInsertChunk, chunk_length, start_pos, next_pos);
-	if(!bResult) return FALSE;
+	if(!bResult) {
+		return FALSE;
+	}
 
 	return TRUE;
 }
@@ -962,7 +969,7 @@ mng_ReadChunks(int format_id, FreeImageIO *io, fi_handle handle, long Offset, in
 						jng_color_type = mChunk[8];
 						jng_image_sample_depth = mChunk[9];
 						jng_image_compression_method = mChunk[10];
-						BYTE jng_image_interlace_method = mChunk[11];
+						//BYTE jng_image_interlace_method = mChunk[11];	// for debug only
 
 						jng_alpha_sample_depth = mChunk[12];
 						jng_alpha_compression_method = mChunk[13];
@@ -1000,7 +1007,9 @@ mng_ReadChunks(int format_id, FreeImageIO *io, fi_handle handle, long Offset, in
 						break;
 					}
 					// load the JPEG
-					if(dib) FreeImage_Unload(dib);
+					if(dib) {
+						FreeImage_Unload(dib);
+					}
 					dib = mng_LoadFromMemoryHandle(hJpegMemory, flags);
 
 					// load the PNG alpha layer
@@ -1017,7 +1026,9 @@ mng_ReadChunks(int format_id, FreeImageIO *io, fi_handle handle, long Offset, in
 							}
 							mng_WritePNGStream(jng_width, jng_height, jng_alpha_sample_depth, data, size_in_bytes, hPngMemory);
 							// load the PNG
-							if(dib_alpha) FreeImage_Unload(dib_alpha);
+							if(dib_alpha) {
+								FreeImage_Unload(dib_alpha);
+							}
 							dib_alpha = mng_LoadFromMemoryHandle(hPngMemory, flags);
 						}
 					}

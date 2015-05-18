@@ -4,6 +4,7 @@
 // Design and implementation by
 // - Ryan Rubley <ryan@lostreality.org>
 // - Raphaël Gaquer <raphael.gaquer@alcer.com>
+// - Aaron Shumate <aaron@shumate.us>
 //
 // This file is part of FreeImage 3
 //
@@ -773,7 +774,11 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 					}
 					if( info.disposal_method == GIF_DISPOSAL_BACKGROUND ) {
 						for( y = 0; y < info.height; y++ ) {
-							scanline = (RGBQUAD *)FreeImage_GetScanLine(dib, logicalheight - (y + info.top) - 1) + info.left;
+							const int scanidx = logicalheight - (y + info.top) - 1;
+							if ( scanidx < 0 ) {
+								break;  // If data is corrupt, don't calculate in invalid scanline
+							}
+							scanline = (RGBQUAD *)FreeImage_GetScanLine(dib, scanidx) + info.left;
 							for( x = 0; x < info.width; x++ ) {
 								*scanline++ = background;
 							}
@@ -800,7 +805,11 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 					}
 					//copy page data into logical buffer, with full alpha opaqueness
 					for( y = 0; y < info.height; y++ ) {
-						scanline = (RGBQUAD *)FreeImage_GetScanLine(dib, logicalheight - (y + info.top) - 1) + info.left;
+						const int scanidx = logicalheight - (y + info.top) - 1;
+						if ( scanidx < 0 ) {
+							break;  // If data is corrupt, don't calculate in invalid scanline
+						}
+						scanline = (RGBQUAD *)FreeImage_GetScanLine(dib, scanidx) + info.left;
 						BYTE *pageline = FreeImage_GetScanLine(pagedib, info.height - y - 1);
 						for( x = 0; x < info.width; x++ ) {
 							if( !have_transparent || *pageline != transparent_color ) {

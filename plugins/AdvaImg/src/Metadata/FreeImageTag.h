@@ -291,13 +291,21 @@
 // Helper functions to deal with the FITAG structure
 // --------------------------------------------------------------------------
 
-/** 
+/**
 Describes the tag format descriptor
+Given a FREE_IMAGE_MDTYPE, calculate the size of this type in bytes unit
 @param type Tag data type
-@return Returns the width of a single element, in bytes
+@return Returns the size of the data type, in bytes
 @see FREE_IMAGE_MDTYPE
 */
 unsigned FreeImage_TagDataWidth(FREE_IMAGE_MDTYPE type);
+
+/**
+Calculate the memory size required by a tag, including the size of the structure
+@param tag The tag to examine
+@return Retuns the memory size used by a tag
+*/
+size_t FreeImage_GetTagMemorySize(FITAG *tag);
 
 // --------------------------------------------------------------------------
 
@@ -467,13 +475,18 @@ static const char *g_TagLib_ExifRawFieldName = "ExifRaw";
 extern "C" {
 #endif
 
-// JPEG Exif profile
+// JPEG / JPEG-XR Exif profile (see Exif.cpp)
+// --------------------------------------------------------------------------
 BOOL jpeg_read_exif_profile(FIBITMAP *dib, const BYTE *dataptr, unsigned datalen);
 BOOL jpeg_read_exif_profile_raw(FIBITMAP *dib, const BYTE *profile, unsigned length);
-BOOL jpegxr_read_exif_profile(FIBITMAP *dib, const BYTE *profile, unsigned length);
-BOOL jpegxr_read_exif_gps_profile(FIBITMAP *dib, const BYTE *profile, unsigned length);
+BOOL jpegxr_read_exif_profile(FIBITMAP *dib, const BYTE *profile, unsigned length, unsigned file_offset);
+BOOL jpegxr_read_exif_gps_profile(FIBITMAP *dib, const BYTE *profile, unsigned length, unsigned file_offset);
 
-// JPEG / TIFF IPTC profile
+BOOL tiff_get_ifd_profile(FIBITMAP *dib, FREE_IMAGE_MDMODEL md_model, BYTE **ppbProfile, unsigned *uProfileLength);
+
+
+// JPEG / TIFF IPTC profile (see IPTC.cpp)
+// --------------------------------------------------------------------------
 BOOL read_iptc_profile(FIBITMAP *dib, const BYTE *dataptr, unsigned int datalen);
 BOOL write_iptc_profile(FIBITMAP *dib, BYTE **profile, unsigned *profile_size);
 

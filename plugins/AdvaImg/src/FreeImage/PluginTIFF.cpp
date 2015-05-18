@@ -44,29 +44,22 @@
 #include "FreeImageIO.h"
 #include "PSDParser.h"
 
-// ----------------------------------------------------------
-//   geotiff interface (see XTIFF.cpp)
-// ----------------------------------------------------------
-
-// Extended TIFF Directory GEO Tag Support
+// --------------------------------------------------------------------------
+// GeoTIFF profile (see XTIFF.cpp)
+// --------------------------------------------------------------------------
 void XTIFFInitialize();
+BOOL tiff_read_geotiff_profile(TIFF *tif, FIBITMAP *dib);
+BOOL tiff_write_geotiff_profile(TIFF *tif, FIBITMAP *dib);
 
-// GeoTIFF profile
-void tiff_read_geotiff_profile(TIFF *tif, FIBITMAP *dib);
-void tiff_write_geotiff_profile(TIFF *tif, FIBITMAP *dib);
-
+// --------------------------------------------------------------------------
+// TIFF Exif profile (see XTIFF.cpp)
 // ----------------------------------------------------------
-//   exif interface (see XTIFF.cpp)
-// ----------------------------------------------------------
-
-// TIFF Exif profile
 BOOL tiff_read_exif_tags(TIFF *tif, TagLib::MDMODEL md_model, FIBITMAP *dib);
 BOOL tiff_write_exif_tags(TIFF *tif, TagLib::MDMODEL md_model, FIBITMAP *dib);
 
-// ----------------------------------------------------------
+// --------------------------------------------------------------------------
 //   LogLuv conversion functions interface (see TIFFLogLuv.cpp)
-// ----------------------------------------------------------
-
+// --------------------------------------------------------------------------
 void tiff_ConvertLineXYZToRGB(BYTE *target, BYTE *source, double stonits, int width_in_pixels);
 void tiff_ConvertLineRGBToXYZ(BYTE *target, BYTE *source, int width_in_pixels);
 
@@ -141,13 +134,13 @@ typedef struct {
 static tmsize_t 
 _tiffReadProc(thandle_t handle, void *buf, tmsize_t size) {
 	fi_TIFFIO *fio = (fi_TIFFIO*)handle;
-	return fio->io->read_proc(buf, size, 1, fio->handle) * size;
+	return fio->io->read_proc(buf, (unsigned)size, 1, fio->handle) * size;
 }
 
 static tmsize_t
 _tiffWriteProc(thandle_t handle, void *buf, tmsize_t size) {
 	fi_TIFFIO *fio = (fi_TIFFIO*)handle;
-	return fio->io->write_proc(buf, size, 1, fio->handle) * size;
+	return fio->io->write_proc(buf, (unsigned)size, 1, fio->handle) * size;
 }
 
 static toff_t
@@ -192,20 +185,11 @@ Open a TIFF file descriptor for reading or writing
 TIFF *
 TIFFFdOpen(thandle_t handle, const char *name, const char *mode) {
 	TIFF *tif;
-
 	
 	// Open the file; the callback will set everything up
 	tif = TIFFClientOpen(name, mode, handle,
 	    _tiffReadProc, _tiffWriteProc, _tiffSeekProc, _tiffCloseProc,
 	    _tiffSizeProc, _tiffMapProc, _tiffUnmapProc);
-
-	// Warning: tif_fd is declared as 'int' currently (see libTIFF), 
-    // may result in incorrect file pointers inside libTIFF on 
-    // 64bit machines (sizeof(int) != sizeof(long)). 
-    // Needs to be fixed within libTIFF.
-	if (tif) {
-		tif->tif_fd = (long)handle;
-	}
 
 	return tif;
 }
@@ -933,7 +917,6 @@ tiff_write_xmp_profile(TIFF *tiff, FIBITMAP *dib) {
 static BOOL
 tiff_write_exif_profile(TIFF *tiff, FIBITMAP *dib) {
 	BOOL bResult = FALSE;
-	uint32 exif_offset = 0;
 	
 	// write EXIF_MAIN tags, EXIF_EXIF not supported yet
 	bResult = tiff_write_exif_tags(tiff, TagLib::EXIF_MAIN, dib);
@@ -1062,6 +1045,8 @@ Open(FreeImageIO *io, fi_handle handle, BOOL read) {
 	if (read) {
 		fio->tif = TIFFFdOpen((thandle_t)fio, "", "r");
 	} else {
+		// mode = "w"	: write Classic TIFF
+		// mode = "w8"	: write Big TIFF
 		fio->tif = TIFFFdOpen((thandle_t)fio, "", "w");
 	}
 	if(fio->tif == NULL) {
@@ -1106,11 +1091,10 @@ PageCount(FreeImageIO *io, fi_handle handle, void *data) {
 check for uncommon bitspersample values (e.g. 10, 12, ...)
 @param photometric TIFFTAG_PHOTOMETRIC tiff tag
 @param bitspersample TIFFTAG_BITSPERSAMPLE tiff tag
-@param samplesperpixel TIFFTAG_SAMPLESPERPIXEL tiff tag
 @return Returns FALSE if a uncommon bit-depth is encountered, returns TRUE otherwise
 */
 static BOOL 
-IsValidBitsPerSample(uint16 photometric, uint16 bitspersample, uint16 samplesperpixel) {
+IsValidBitsPerSample(uint16 photometric, uint16 bitspersample) {
 
 	switch(bitspersample) {
 		case 1:
@@ -1131,7 +1115,12 @@ IsValidBitsPerSample(uint16 photometric, uint16 bitspersample, uint16 samplesper
 			}
 			break;
 		case 32:
-			return TRUE;
+			if((photometric == PHOTOMETRIC_MINISWHITE) || (photometric == PHOTOMETRIC_MINISBLACK) || (photometric == PHOTOMETRIC_LOGLUV)) { 
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+			break;
 		case 64:
 		case 128:
 			if(photometric == PHOTOMETRIC_MINISBLACK) { 
@@ -1376,7 +1365,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		// check for unsupported formats
 		// ---------------------------------------------------------------------------------
 
-		if(IsValidBitsPerSample(photometric, bitspersample, samplesperpixel) == FALSE) {
+		if(IsValidBitsPerSample(photometric, bitspersample) == FALSE) {
 			FreeImage_OutputMessageProc(s_format_id, 
 				"Unable to handle this format: bitspersample = %d, samplesperpixel = %d, photometric = %d", 
 				(int)bitspersample, (int)samplesperpixel, (int)photometric);
@@ -2029,8 +2018,8 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 				// calculate src line and dst pitch
 				int dst_pitch = FreeImage_GetPitch(dib);
-				int tileRowSize = TIFFTileRowSize(tif);
-				int imageRowSize = TIFFScanlineSize(tif);
+				uint32 tileRowSize = (uint32)TIFFTileRowSize(tif);
+				uint32 imageRowSize = (uint32)TIFFScanlineSize(tif);
 
 
 				// In the tiff file the lines are saved from up to down 
@@ -2038,11 +2027,10 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 				BYTE *bits = FreeImage_GetScanLine(dib, height - 1);
 				
-				uint32 x, y, rowSize;
-				for (y = 0; y < height; y += tileHeight) {						
+				for (uint32 y = 0; y < height; y += tileHeight) {						
 					int32 nrows = (y + tileHeight > height ? height - y : tileHeight);					
 
-					for (x = 0, rowSize = 0; x < width; x += tileWidth, rowSize += tileRowSize) {
+					for (uint32 x = 0, rowSize = 0; x < width; x += tileWidth, rowSize += tileRowSize) {
 						memset(tileBuffer, 0, tileSize);
 
 						// read one tile
