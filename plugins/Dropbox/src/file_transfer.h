@@ -37,13 +37,18 @@ struct FileTransferParam
 		ptszFolders = NULL;
 		relativePathStart = 0;
 
+		hProcess = NULL;
+		hContact = NULL;
+
 		isTerminated = false;
 
 		pfts.cbSize = sizeof(this->pfts);
 		pfts.flags = PFTS_TCHAR | PFTS_SENDING;
+		pfts.hContact = NULL;
 		pfts.currentFileNumber = 0;
 		pfts.currentFileProgress = 0;
 		pfts.currentFileSize = 0;
+		pfts.currentFileTime = 0;
 		pfts.totalBytes = 0;
 		pfts.totalFiles = 0;
 		pfts.totalProgress = 0;

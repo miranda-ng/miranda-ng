@@ -135,7 +135,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 
 			//
 			size_t offset = 0;
-			char *uploadId = new char[32];
+			char uploadId[32];
 
 			int chunkSize = DROPBOX_FILE_CHUNK_SIZE / 4;
 			if (fileSize < 1024 * 1024)
@@ -143,6 +143,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 			else if (fileSize > 20 * 1024 * 1024)
 				chunkSize = DROPBOX_FILE_CHUNK_SIZE;
 
+			char *data = (char*)mir_alloc(chunkSize);
 			while (!feof(hFile) && fileSize != offset)
 			{
 				if (ferror(hFile))
@@ -151,20 +152,28 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 				if (ftp->isTerminated)
 					throw TransferException("Transfer was terminated");
 
-				char *data = (char*)mir_alloc(chunkSize);
 				int count = (int)fread(data, sizeof(char), chunkSize, hFile);
 
-				if (offset == 0)
-					instance->SendFileChunkedFirst(data, count, uploadId, offset);
-				else
-					instance->SendFileChunkedNext(data, count, uploadId, offset);
+				try
+				{
+					if (offset == 0)
+						instance->SendFileChunkedFirst(data, count, uploadId, offset);
+					else
+						instance->SendFileChunkedNext(data, count, uploadId, offset);
+				}
+				catch (TransferException)
+				{
+					mir_free(data);
+					fclose(hFile);
+					throw;
+				}
 
 				ftp->pfts.currentFileProgress += count;
 				ftp->pfts.totalProgress += count;
 
 				ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
 			}
-
+			mir_free(data);
 			fclose(hFile);
 
 			ptrA utf8_fileName(mir_utf8encodeW(fileName));
@@ -230,7 +239,11 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 				dbei.pBlob = (PBYTE)message;
 				db_event_add(ftp->hContact, &dbei);
 			}
-			else CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)ftp->hContact, (LPARAM)data);
+			else
+			{
+				CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)ftp->hContact, (LPARAM)data);
+				mir_free(message);
+			}
 		}
 		else
 		{
