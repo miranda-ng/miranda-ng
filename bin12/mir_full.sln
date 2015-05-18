@@ -61,7 +61,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSList", "..\plugins\CSList
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Db_autobackups", "..\plugins\Db_autobackups\db_autobackups_12.vcxproj", "{751ED05D-AD3E-4EC6-A485-4ECDF1FE6068}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FavContacts", "..\plugins\FavContacts\favcontacts_12.vcxproj", "{2D0B4CB0-3ACA-4612-B745-FF3050E1500A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FavContacts", "..\plugins\FavContacts\favcontacts.vcxproj", "{2D0B4CB0-3ACA-4612-B745-FF3050E1500A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FltContacts", "..\plugins\FloatingContacts\FltCont_12.vcxproj", "{9290A9CC-3FDA-4FD6-A8A2-04AD4BA1C856}"
 EndProject
