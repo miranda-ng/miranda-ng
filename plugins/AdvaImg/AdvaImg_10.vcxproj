@@ -342,6 +342,7 @@
     <ClInclude Include="src\LibPNG\pnginfo.h" />
     <ClInclude Include="src\LibPNG\pnglibconf.h" />
     <ClInclude Include="src\LibPNG\pngpriv.h" />
+    <ClInclude Include="src\MapIntrospector.h" />
     <ClInclude Include="src\Metadata\FIRational.h" />
     <ClInclude Include="src\FreeImage.h" />
     <ClInclude Include="src\FreeImageIO.h" />
