@@ -257,7 +257,7 @@ FreeImage_Initialise(BOOL load_local_plugins_only) {
 			//s_plugins->AddNode(InitTIFF);
 			//s_plugins->AddNode(InitWBMP);
 			//s_plugins->AddNode(InitPSD);
-			s_plugins->AddNode(InitCUT);
+			//s_plugins->AddNode(InitCUT);
 			//s_plugins->AddNode(InitXBM);
 			//s_plugins->AddNode(InitXPM);
 			//s_plugins->AddNode(InitDDS);

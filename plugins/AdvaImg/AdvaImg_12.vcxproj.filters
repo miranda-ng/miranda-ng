@@ -80,9 +80,6 @@
     <ClCompile Include="src\FreeImage\PluginBMP.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
-    <ClCompile Include="src\FreeImage\PluginCUT.cpp">
-      <Filter>Source Files\Plugins</Filter>
-    </ClCompile>
     <ClCompile Include="src\FreeImage\PluginGIF.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
