@@ -412,8 +412,8 @@ void SaveState()
 				item.cchTextMax = SIZEOF(szTemp);
 				item.iItem = i;
 				SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
-				mir_tstrncat(newGroupFilter, szTemp, _TRUNCATE);
-				mir_tstrncat(newGroupFilter, _T("|"), _TRUNCATE);
+				mir_tstrncat(newGroupFilter, szTemp, SIZEOF(newGroupFilter) - mir_tstrlen(newGroupFilter));
+				mir_tstrncat(newGroupFilter, _T("|"), SIZEOF(newGroupFilter) - mir_tstrlen(newGroupFilter));
 				newGroupFilter[2047] = 0;
 			}
 		}
