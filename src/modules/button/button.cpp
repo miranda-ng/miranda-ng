@@ -129,10 +129,8 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 				SelectObject(dc, oldBrush);
 				ReleaseDC(hwndParent, dc);
 			}
-			if (hbr) {
+			if (hbr)
 				FillRect(hdcMem, &rcClient, hbr);
-				DeleteObject(hbr);
-			}
 			if (ctl->stateId == PBS_HOT || ctl->focus) {
 				if (ctl->bIsPushed)
 					DrawEdge(hdcMem, &rcClient, EDGE_ETCHED, BF_RECT|BF_SOFT);
