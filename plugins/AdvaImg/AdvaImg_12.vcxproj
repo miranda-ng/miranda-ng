@@ -198,7 +198,6 @@
     <ClCompile Include="src\FreeImage\PixelAccess.cpp" />
     <ClCompile Include="src\FreeImage\Plugin.cpp" />
     <ClCompile Include="src\FreeImage\PluginBMP.cpp" />
-    <ClCompile Include="src\FreeImage\PluginCUT.cpp" />
     <ClCompile Include="src\FreeImage\PluginGIF.cpp" />
     <ClCompile Include="src\FreeImage\PluginICO.cpp" />
     <ClCompile Include="src\FreeImage\PluginJPEG.cpp" />
