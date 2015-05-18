@@ -832,7 +832,7 @@ bool MyBitmap::loadFromFile(const TCHAR *fn, const TCHAR *fnAlpha)
 		return loadFromFile_gradient(fn);
 
 	TCHAR ext[5];
-	mir_tstrncpy(ext, fn + (mir_tstrlen(fn) - 4), _TRUNCATE);
+	mir_tstrncpy(ext, fn + (mir_tstrlen(fn) - 4), SIZEOF(ext));
 	if (!mir_tstrcmpi(ext, _T(".png")))
 		return loadFromFile_png(fn);
 
