@@ -192,7 +192,6 @@
     <ClCompile Include="src\FreeImage\ConversionRGB16.cpp" />
     <ClCompile Include="src\FreeImage\ConversionUINT16.cpp" />
     <ClCompile Include="src\FreeImage\FreeImage.cpp" />
-    <ClCompile Include="src\FreeImage\FreeImageC.c" />
     <ClCompile Include="src\FreeImage\FreeImageIO.cpp" />
     <ClCompile Include="src\FreeImage\GetType.cpp" />
     <ClCompile Include="src\FreeImage\MemoryIO.cpp" />

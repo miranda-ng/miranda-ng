@@ -62,9 +62,6 @@
     <ClCompile Include="src\FreeImage\FreeImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\FreeImage\FreeImageC.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\FreeImage\FreeImageIO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
