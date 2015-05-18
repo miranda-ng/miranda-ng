@@ -108,22 +108,43 @@ WuQuantizer::Hist3D(LONG *vwt, LONG *vmr, LONG *vmg, LONG *vmb, float *m2, int R
 	for(i = 0; i < 256; i++)
 		table[i] = i * i;
 
-	for(y = 0; y < height; y++) {
-		BYTE *bits = FreeImage_GetScanLine(m_dib, y);
+	if (FreeImage_GetBPP(m_dib) == 24) {
+		for(y = 0; y < height; y++) {
+			BYTE *bits = FreeImage_GetScanLine(m_dib, y);
 
-		for(x = 0; x < width; x++)	{
-			inr = (bits[FI_RGBA_RED] >> 3) + 1;
-			ing = (bits[FI_RGBA_GREEN] >> 3) + 1;
-			inb = (bits[FI_RGBA_BLUE] >> 3) + 1;
-			ind = INDEX(inr, ing, inb);
-			Qadd[y*width + x] = (WORD)ind;
-			// [inr][ing][inb]
-			vwt[ind]++;
-			vmr[ind] += bits[FI_RGBA_RED];
-			vmg[ind] += bits[FI_RGBA_GREEN];
-			vmb[ind] += bits[FI_RGBA_BLUE];
-			m2[ind] += (float)(table[bits[FI_RGBA_RED]] + table[bits[FI_RGBA_GREEN]] + table[bits[FI_RGBA_BLUE]]);
-			bits += 3;
+			for(x = 0; x < width; x++)	{
+				inr = (bits[FI_RGBA_RED] >> 3) + 1;
+				ing = (bits[FI_RGBA_GREEN] >> 3) + 1;
+				inb = (bits[FI_RGBA_BLUE] >> 3) + 1;
+				ind = INDEX(inr, ing, inb);
+				Qadd[y*width + x] = (WORD)ind;
+				// [inr][ing][inb]
+				vwt[ind]++;
+				vmr[ind] += bits[FI_RGBA_RED];
+				vmg[ind] += bits[FI_RGBA_GREEN];
+				vmb[ind] += bits[FI_RGBA_BLUE];
+				m2[ind] += (float)(table[bits[FI_RGBA_RED]] + table[bits[FI_RGBA_GREEN]] + table[bits[FI_RGBA_BLUE]]);
+				bits += 3;
+			}
+		}
+	} else {
+		for(y = 0; y < height; y++) {
+			BYTE *bits = FreeImage_GetScanLine(m_dib, y);
+
+			for(x = 0; x < width; x++)	{
+				inr = (bits[FI_RGBA_RED] >> 3) + 1;
+				ing = (bits[FI_RGBA_GREEN] >> 3) + 1;
+				inb = (bits[FI_RGBA_BLUE] >> 3) + 1;
+				ind = INDEX(inr, ing, inb);
+				Qadd[y*width + x] = (WORD)ind;
+				// [inr][ing][inb]
+				vwt[ind]++;
+				vmr[ind] += bits[FI_RGBA_RED];
+				vmg[ind] += bits[FI_RGBA_GREEN];
+				vmb[ind] += bits[FI_RGBA_BLUE];
+				m2[ind] += (float)(table[bits[FI_RGBA_RED]] + table[bits[FI_RGBA_GREEN]] + table[bits[FI_RGBA_BLUE]]);
+				bits += 4;
+			}
 		}
 	}
 

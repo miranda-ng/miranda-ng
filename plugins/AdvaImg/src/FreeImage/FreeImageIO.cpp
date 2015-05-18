@@ -68,14 +68,18 @@ _MemoryReadProc(void *buffer, unsigned size, unsigned count, fi_handle handle) {
 	FIMEMORYHEADER *mem_header = (FIMEMORYHEADER*)(((FIMEMORY*)handle)->data);
 
 	for(x = 0; x < count; x++) {
-		//if there isnt size bytes left to read, set pos to eof and return a short count
-		if( (mem_header->filelen - mem_header->curpos) < (long)size ) {
-			mem_header->curpos = mem_header->filelen;
+		long remaining_bytes = mem_header->file_length - mem_header->current_position;
+		//if there isn't size bytes left to read, set pos to eof and return a short count
+		if( remaining_bytes < (long)size ) {
+			if(remaining_bytes > 0) {
+				memcpy( buffer, (char *)mem_header->data + mem_header->current_position, remaining_bytes );
+			}
+			mem_header->current_position = mem_header->file_length;
 			break;
 		}
 		//copy size bytes count times
-		memcpy( buffer, (char *)mem_header->data + mem_header->curpos, size );
-		mem_header->curpos += size;
+		memcpy( buffer, (char *)mem_header->data + mem_header->current_position, size );
+		mem_header->current_position += size;
 		buffer = (char *)buffer + size;
 	}
 	return x;
@@ -89,32 +93,32 @@ _MemoryWriteProc(void *buffer, unsigned size, unsigned count, fi_handle handle) 
 	FIMEMORYHEADER *mem_header = (FIMEMORYHEADER*)(((FIMEMORY*)handle)->data);
 
 	//double the data block size if we need to
-	while( (mem_header->curpos + (long)(size*count)) >= mem_header->datalen ) {
+	while( (mem_header->current_position + (long)(size * count)) >= mem_header->data_length ) {
 		//if we are at or above 1G, we cant double without going negative
-		if( mem_header->datalen & 0x40000000 ) {
+		if( mem_header->data_length & 0x40000000 ) {
 			//max 2G
-			if( mem_header->datalen == 0x7FFFFFFF ) {
+			if( mem_header->data_length == 0x7FFFFFFF ) {
 				return 0;
 			}
 			newdatalen = 0x7FFFFFFF;
-		} else if( mem_header->datalen == 0 ) {
+		} else if( mem_header->data_length == 0 ) {
 			//default to 4K if nothing yet
 			newdatalen = 4096;
 		} else {
 			//double size
-			newdatalen = mem_header->datalen << 1;
+			newdatalen = mem_header->data_length << 1;
 		}
 		newdata = realloc( mem_header->data, newdatalen );
 		if( !newdata ) {
 			return 0;
 		}
 		mem_header->data = newdata;
-		mem_header->datalen = newdatalen;
+		mem_header->data_length = newdatalen;
 	}
-	memcpy( (char *)mem_header->data + mem_header->curpos, buffer, size*count );
-	mem_header->curpos += size*count;
-	if( mem_header->curpos > mem_header->filelen ) {
-		mem_header->filelen = mem_header->curpos;
+	memcpy( (char *)mem_header->data + mem_header->current_position, buffer, size * count );
+	mem_header->current_position += size * count;
+	if( mem_header->current_position > mem_header->file_length ) {
+		mem_header->file_length = mem_header->current_position;
 	}
 	return count;
 }
@@ -123,25 +127,28 @@ int DLL_CALLCONV
 _MemorySeekProc(fi_handle handle, long offset, int origin) {
 	FIMEMORYHEADER *mem_header = (FIMEMORYHEADER*)(((FIMEMORY*)handle)->data);
 
+	// you can use _MemorySeekProc to reposition the pointer anywhere in a file
+	// the pointer can also be positioned beyond the end of the file
+
 	switch(origin) { //0 to filelen-1 are 'inside' the file
 		default:
 		case SEEK_SET: //can fseek() to 0-7FFFFFFF always
 			if( offset >= 0 ) {
-				mem_header->curpos = offset;
+				mem_header->current_position = offset;
 				return 0;
 			}
 			break;
 
 		case SEEK_CUR:
-			if( mem_header->curpos + offset >= 0 ) {
-				mem_header->curpos += offset;
+			if( mem_header->current_position + offset >= 0 ) {
+				mem_header->current_position += offset;
 				return 0;
 			}
 			break;
 
 		case SEEK_END:
-			if( mem_header->filelen + offset >= 0 ) {
-				mem_header->curpos = mem_header->filelen + offset;
+			if( mem_header->file_length + offset >= 0 ) {
+				mem_header->current_position = mem_header->file_length + offset;
 				return 0;
 			}
 			break;
@@ -154,7 +161,7 @@ long DLL_CALLCONV
 _MemoryTellProc(fi_handle handle) {
 	FIMEMORYHEADER *mem_header = (FIMEMORYHEADER*)(((FIMEMORY*)handle)->data);
 
-	return mem_header->curpos;
+	return mem_header->current_position;
 }
 
 // ----------------------------------------------------------

@@ -119,6 +119,12 @@
     <ClCompile Include="src\FreeImage\ConversionRGBF.cpp">
       <Filter>Source Files\Conversion</Filter>
     </ClCompile>
+    <ClCompile Include="src\FreeImage\ConversionRGBA16.cpp">
+      <Filter>Source Files\Conversion</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FreeImage\ConversionRGBAF.cpp">
+      <Filter>Source Files\Conversion</Filter>
+    </ClCompile>
     <ClCompile Include="src\FreeImage\ConversionType.cpp">
       <Filter>Source Files\Conversion</Filter>
     </ClCompile>
@@ -142,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="src\FreeImage\ToneMapping.cpp">
       <Filter>Source Files\Conversion</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FreeImage\LFPQuantizer.cpp">
+      <Filter>Source Files\Quantizers</Filter>
     </ClCompile>
     <ClCompile Include="src\FreeImage\NNQuantizer.cpp">
       <Filter>Source Files\Quantizers</Filter>

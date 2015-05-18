@@ -140,12 +140,72 @@ public:
 
 /**
 Convert a processed raw data array to a FIBITMAP
-@param image Processed raw image
+@param RawProcessor LibRaw handle containing the processed raw image
 @return Returns the converted dib if successfull, returns NULL otherwise
 */
 static FIBITMAP * 
-libraw_ConvertToDib(libraw_processed_image_t *image) {
+libraw_ConvertProcessedRawToDib(LibRaw *RawProcessor) {
 	FIBITMAP *dib = NULL;
+    int width, height, colors, bpp;
+
+	try {
+		int bgr = 0;	// pixel copy order: RGB if (bgr == 0) and BGR otherwise
+
+		// get image info
+		RawProcessor->get_mem_image_format(&width, &height, &colors, &bpp);
+
+		// only 3-color images supported...
+		if(colors != 3) {
+			throw "LibRaw : only 3-color images supported";
+		}
+
+		if(bpp == 16) {
+			// allocate output dib
+			dib = FreeImage_AllocateT(FIT_RGB16, width, height);
+			if(!dib) {
+				throw FI_MSG_ERROR_DIB_MEMORY;
+			}
+
+		} else if(bpp == 8) {
+#if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_BGR
+			bgr = 1;	// only useful for FIT_BITMAP types
+#endif
+
+			// allocate output dib
+			dib = FreeImage_AllocateT(FIT_BITMAP, width, height, 24);
+			if(!dib) {
+				throw FI_MSG_ERROR_DIB_MEMORY;
+			}
+		}
+
+		// copy post-processed bitmap data into FIBITMAP buffer
+		if(RawProcessor->copy_mem_image(FreeImage_GetBits(dib), FreeImage_GetPitch(dib), bgr) != LIBRAW_SUCCESS) {
+			throw "LibRaw : failed to copy data into dib";
+		}
+
+		// flip vertically
+		FreeImage_FlipVertical(dib);
+
+		return dib;
+
+	} catch(const char *text) {
+		FreeImage_Unload(dib);
+		FreeImage_OutputMessageProc(s_format_id, text);
+		return NULL;
+	}
+}
+
+
+/**
+Convert a processed raw image to a FIBITMAP
+@param image Processed raw image
+@return Returns the converted dib if successfull, returns NULL otherwise
+@see libraw_LoadEmbeddedPreview
+*/
+static FIBITMAP * 
+libraw_ConvertProcessedImageToDib(libraw_processed_image_t *image) {
+	FIBITMAP *dib = NULL;
+
 	try {
 		unsigned width = image->width;
 		unsigned height = image->height;
@@ -185,12 +245,14 @@ libraw_ConvertToDib(libraw_processed_image_t *image) {
 				}
 			}
 		}
+		
+		return dib;
 
 	} catch(const char *text) {
+		FreeImage_Unload(dib);
 		FreeImage_OutputMessageProc(s_format_id, text);
+		return NULL;
 	}
-
-	return dib;
 }
 
 /** 
@@ -228,9 +290,9 @@ libraw_LoadEmbeddedPreview(LibRaw *RawProcessor, int flags) {
 				dib = FreeImage_LoadFromMemory(fif, hmem, flags);
 				// close the stream
 				FreeImage_CloseMemory(hmem);
-			} else {
+			} else if((flags & FIF_LOAD_NOPIXELS) != FIF_LOAD_NOPIXELS) {
 				// convert processed data to output dib
-				dib = libraw_ConvertToDib(thumb_image);
+				dib = libraw_ConvertProcessedImageToDib(thumb_image);
 			}
 		} else {
 			throw "LibRaw : failed to run dcraw_make_mem_thumb";
@@ -262,7 +324,6 @@ Load raw data and convert to FIBITMAP
 static FIBITMAP * 
 libraw_LoadRawData(LibRaw *RawProcessor, int bitspersample) {
 	FIBITMAP *dib = NULL;
-	libraw_processed_image_t *processed_image = NULL;
 
 	try {
 		// set decoding parameters
@@ -300,38 +361,119 @@ libraw_LoadRawData(LibRaw *RawProcessor, int bitspersample) {
 		}
 
 		// retrieve processed image
-		int error_code = 0;
-		processed_image = RawProcessor->dcraw_make_mem_image(&error_code);
-		if(processed_image) {
-			// type SHOULD be LIBRAW_IMAGE_BITMAP, but we'll check
-			if(processed_image->type != LIBRAW_IMAGE_BITMAP) {
-				throw "invalid image type";
-			}
-			// only 3-color images supported...
-			if(processed_image->colors != 3) {
-				throw "only 3-color images supported";
-			}
-		} else {
-			throw "LibRaw : failed to run dcraw_make_mem_image";
-		}
-
-		// convert processed data to output dib
-		dib = libraw_ConvertToDib(processed_image);
+		dib = libraw_ConvertProcessedRawToDib(RawProcessor);
 	
-		// clean-up and return
-		RawProcessor->dcraw_clear_mem(processed_image);
-
 		return dib;
 
 	} catch(const char *text) {
-		// clean-up and return
-		if(processed_image) {
-			RawProcessor->dcraw_clear_mem(processed_image);
-		}
 		FreeImage_OutputMessageProc(s_format_id, text);
+		return NULL;
 	}
+}
 
-	return NULL;
+/**
+Load the Bayer matrix (unprocessed raw data) as a FIT_UINT16 image. 
+Note that some formats don't have a Bayer matrix (e.g. Foveon, Canon sRAW, demosaiced DNG files). 
+@param RawProcessor Libraw handle
+@return Returns the loaded dib if successfull, returns NULL otherwise
+*/
+static FIBITMAP * 
+libraw_LoadUnprocessedData(LibRaw *RawProcessor) {
+	FIBITMAP *dib = NULL;
+
+	try {
+		// unpack data
+		if(RawProcessor->unpack() != LIBRAW_SUCCESS) {
+			throw "LibRaw : failed to unpack data";
+		}
+
+		// check for a supported Bayer format
+		if(!(RawProcessor->imgdata.idata.filters || RawProcessor->imgdata.idata.colors == 1)) {
+			throw "LibRaw : only Bayer-pattern RAW files are supported";
+		}
+
+		// allocate output dib
+		const unsigned width = RawProcessor->imgdata.sizes.raw_width;
+		const unsigned height = RawProcessor->imgdata.sizes.raw_height;
+		const size_t line_size = width * sizeof(WORD);
+		const WORD *src_bits = (WORD*)RawProcessor->imgdata.rawdata.raw_image;
+
+		if(src_bits) {
+			dib = FreeImage_AllocateT(FIT_UINT16, width, height);
+		}
+		if(!dib) {
+			throw FI_MSG_ERROR_DIB_MEMORY;
+		}
+
+		// retrieve the raw image
+		for(unsigned y = 0; y < height; y++) {
+			WORD *dst_bits = (WORD*)FreeImage_GetScanLine(dib, height - 1 - y);
+			memcpy(dst_bits, src_bits, line_size);
+			src_bits += width;
+		}
+
+		// store metadata needed for post-processing
+		{
+			char value[512];
+
+			const libraw_image_sizes_t *sizes = &RawProcessor->imgdata.sizes;
+
+			// image output width & height
+			{
+				sprintf(value, "%d", sizes->iwidth);
+				FreeImage_SetMetadataKeyValue(FIMD_COMMENTS, dib, "Raw.Output.Width", value);
+				
+				sprintf(value, "%d", sizes->iheight);
+				FreeImage_SetMetadataKeyValue(FIMD_COMMENTS, dib, "Raw.Output.Height", value);
+			}
+
+			// image output frame
+			{
+				const unsigned f_left = sizes->left_margin;
+				const unsigned f_top = sizes->top_margin;
+				const unsigned f_width = sizes->width;
+				const unsigned f_height = sizes->height;
+				
+				sprintf(value, "%d", f_left);
+				FreeImage_SetMetadataKeyValue(FIMD_COMMENTS, dib, "Raw.Frame.Left", value);
+
+				sprintf(value, "%d", f_top);
+				FreeImage_SetMetadataKeyValue(FIMD_COMMENTS, dib, "Raw.Frame.Top", value);
+
+				sprintf(value, "%d", f_width);
+				FreeImage_SetMetadataKeyValue(FIMD_COMMENTS, dib, "Raw.Frame.Width", value);
+
+				sprintf(value, "%d", f_height);
+				FreeImage_SetMetadataKeyValue(FIMD_COMMENTS, dib, "Raw.Frame.Height", value);
+			}
+
+			// Bayer pattern
+			// Mask describing the order of color pixels in the matrix. 
+			// This field describe 16 pixels (8 rows with two pixels in each, from left to right and from top to bottom). 
+
+			if(RawProcessor->imgdata.idata.filters) {
+				// description of colors numbered from 0 to 3 (RGBG,RGBE,GMCY, or GBTG)
+				char *cdesc = RawProcessor->imgdata.idata.cdesc;
+				if(!cdesc[3]) {
+					cdesc[3] = 'G';
+				}
+				char *pattern = &value[0];
+				for(int i = 0; i < 16; i++) {
+					pattern[i] = cdesc[ RawProcessor->fcol(i >> 1, i & 1) ];
+				}
+				pattern[16] = 0;
+
+				FreeImage_SetMetadataKeyValue(FIMD_COMMENTS, dib, "Raw.BayerPattern", value);
+			}
+		}
+	
+		return dib;
+
+	} catch(const char *text) {
+		FreeImage_Unload(dib);
+		FreeImage_OutputMessageProc(s_format_id, text);
+		return NULL;
+	}
 }
 
 // ==========================================================
@@ -397,8 +539,8 @@ Extension() {
 		"sr2,"   // Sony Digital Camera Raw Image Format.
 		"srf,"   // Sony Digital Camera Raw Image Format for DSC-F828 8 megapixel digital camera or Sony DSC-R1.
 		"srw,"   // Samsung Raw Image Format.
-		"sti";   // Sinar Capture Shop Raw Image File.
-//		"x3f"   // Sigma Digital Camera Raw Image Format for devices based on Foveon X3 direct image sensor.
+		"sti,"   // Sinar Capture Shop Raw Image File.
+		"x3f";   // Sigma Digital Camera Raw Image Format for devices based on Foveon X3 direct image sensor.
 	return raw_extensions;
 }
 
@@ -416,33 +558,37 @@ static BOOL
 HasMagicHeader(FreeImageIO *io, fi_handle handle) {
 	const unsigned signature_size = 32;
 	BYTE signature[signature_size] = { 0 };
-
-	// Canon (CR2), Intel byte order
+	/*
+	note: classic TIFF signature is
+	{ 0x49, 0x49, 0x2A, 0x00 } Classic TIFF, little-endian
+	{ 0x4D, 0x4D, 0x00, 0x2A } Classic TIFF, big-endian
+	*/
+	// Canon (CR2), little-endian byte order
 	const BYTE CR2_II[] = { 0x49, 0x49, 0x2A, 0x00, 0x10, 0x00, 0x00, 0x00, 0x43, 0x52, 0x02, 0x00 };
-	// Canon (CR2), Motorola byte order
-	const BYTE CR2_MM[] = { 0x4D, 0x4D, 0x2A, 0x00, 0x10, 0x00, 0x00, 0x00, 0x43, 0x52, 0x02, 0x00 };
-	// Canon (CRW), Intel byte order
-	const BYTE CRW_II[] = { 0x49, 0x49, 0x1A, 0x00, 0x00, 0x00, 0x48, 0x45, 0x41, 0x50, 0x43, 0x43, 0x44, 0x52, 0x02, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+	// Canon (CRW), little-endian byte order
+	const BYTE CRW_II[] = { 0x49, 0x49, 0x1A, 0x00, 0x00, 0x00, 0x48, 0x45, 0x41, 0x50, 0x43, 0x43, 0x44, 0x52, 0x02, 0x00 };
 	// Minolta (MRW)
 	const BYTE MRW[] = { 0x00, 0x4D, 0x52, 0x4D, 0x00 };
-	// Olympus (ORF), Intel byte order
+	// Olympus (ORF), little-endian byte order
 	const BYTE ORF_IIRS[] = { 0x49, 0x49, 0x52, 0x53, 0x08, 0x00, 0x00, 0x00 }; 
 	const BYTE ORF_IIRO[] = { 0x49, 0x49, 0x52, 0x4F, 0x08, 0x00, 0x00, 0x00 }; 
-	// Olympus (ORF), Motorola byte order
+	// Olympus (ORF), big-endian byte order
 	const BYTE ORF_MMOR[] = { 0x4D, 0x4D, 0x4F, 0x52, 0x00, 0x00, 0x00, 0x08 }; 
 	// Fujifilm (RAF)
-	const BYTE RAF[] = { 0x46, 0x55, 0x4A, 0x49, 0x46, 0x49, 0x4C, 0x4D, 0x43, 0x43, 0x44, 0x2D, 0x52, 0x41, 0x57, 0x20, 0x30, 0x32, 0x30, 0x31 };
-	// Panasonic (RW2) or Leica (RWL)
-	const BYTE RW2_II[] = { 0x49, 0x49, 0x55, 0x00, 0x18, 0x00, 0x00, 0x00, 0x88, 0xE7, 0x74, 0xD8, 0xF8, 0x25, 0x1D, 0x4D, 0x94, 0x7A, 0x6E, 0x77, 0x82, 0x2B, 0x5D, 0x6A };
+	const BYTE RAF[] = { 0x46, 0x55, 0x4A, 0x49, 0x46, 0x49, 0x4C, 0x4D, 0x43, 0x43, 0x44, 0x2D, 0x52, 0x41, 0x57, 0x20 };
+	// Panasonic (RW2) or Leica (RWL), little-endian byte order
+	const BYTE RWx_II[] = { 0x49, 0x49, 0x55, 0x00, 0x18, 0x00, 0x00, 0x00, 0x88, 0xE7, 0x74, 0xD8, 0xF8, 0x25, 0x1D, 0x4D, 0x94, 0x7A, 0x6E, 0x77, 0x82, 0x2B, 0x5D, 0x6A };
+	// Panasonic (RAW) or Leica (RAW), little-endian byte order
+	const BYTE RAW_II[] = { 0x49, 0x49, 0x55, 0x00, 0x08, 0x00, 0x00, 0x00, 0x22, 0x00, 0x01, 0x00, 0x07, 0x00, 0x04, 0x00, 0x00, 0x00 };
+	// Foveon (X3F)
+	const BYTE X3F[] = { 0x46, 0x4F, 0x56, 0x62 };
 
 	if(io->read_proc(signature, 1, signature_size, handle) != signature_size) {
 		return FALSE;
 	}
 	if(memcmp(CR2_II, signature, 12) == 0)
 		return TRUE;
-	if(memcmp(CR2_MM, signature, 12) == 0)
-		return TRUE;
-	if(memcmp(CRW_II, signature, 26) == 0)
+	if(memcmp(CRW_II, signature, 16) == 0)
 		return TRUE;
 	if(memcmp(MRW, signature, 5) == 0)
 		return TRUE;
@@ -452,9 +598,13 @@ HasMagicHeader(FreeImageIO *io, fi_handle handle) {
 		return TRUE;
 	if(memcmp(ORF_MMOR, signature, 8) == 0)
 		return TRUE;
-	if(memcmp(RAF, signature, 20) == 0)
+	if(memcmp(RAF, signature, 16) == 0)
 		return TRUE;
-	if(memcmp(RW2_II, signature, 24) == 0)
+	if(memcmp(RWx_II, signature, 24) == 0)
+		return TRUE;
+	if(memcmp(RAW_II, signature, 18) == 0)
+		return TRUE;
+	if(memcmp(X3F, signature, 4) == 0)
 		return TRUE;
 
 	return FALSE;
@@ -547,6 +697,8 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		RawProcessor->imgdata.params.shot_select = 0;
 		// (-w) Use camera white balance, if possible (otherwise, fallback to auto_wb)
 		RawProcessor->imgdata.params.use_camera_wb = 1;
+		// (-M) Use any color matrix from the camera metadata. This option only affects Olympus, Leaf, and Phase One cameras.
+		RawProcessor->imgdata.params.use_camera_matrix = 1;
 		// (-h) outputs the image in 50% size
 		RawProcessor->imgdata.params.half_size = ((flags & RAW_HALFSIZE) == RAW_HALFSIZE) ? 1 : 0;
 
@@ -558,6 +710,10 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		if(header_only) {
 			// header only mode
 			dib = FreeImage_AllocateHeaderT(header_only, FIT_RGB16, RawProcessor->imgdata.sizes.width, RawProcessor->imgdata.sizes.height);
+		}
+		else if((flags & RAW_UNPROCESSED) == RAW_UNPROCESSED) {
+			// load raw data without post-processing (i.e. as a Bayer matrix)
+			dib = libraw_LoadUnprocessedData(RawProcessor);
 		}
 		else if((flags & RAW_PREVIEW) == RAW_PREVIEW) {
 			// try to get the embedded JPEG

@@ -110,6 +110,23 @@ CalculateImageOffset(std::vector<FIBITMAP*>& vPages, int nIndex ) {
     return dwSize;
 }
 
+/**
+Vista icon support
+@return Returns TRUE if the bitmap data is stored in PNG format
+*/
+static BOOL
+IsPNG(FreeImageIO *io, fi_handle handle) {
+	BYTE png_signature[8] = { 137, 80, 78, 71, 13, 10, 26, 10 };
+	BYTE signature[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+	long tell = io->tell_proc(handle);
+	io->read_proc(&signature, 1, 8, handle);
+	BOOL bIsPNG = (memcmp(png_signature, signature, 8) == 0);
+	io->seek_proc(handle, tell, SEEK_SET);
+
+	return bIsPNG;
+}
+
 #ifdef FREEIMAGE_BIGENDIAN
 static void
 SwapInfoHeader(BITMAPINFOHEADER *header) {
@@ -407,16 +424,17 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			// load the requested icon
 			if (page < icon_header->idCount) {
 				// seek to the start of the bitmap data for the icon
-				io->seek_proc(handle, 0, SEEK_SET);
-				io->seek_proc(handle, icon_list[page].dwImageOffset, SEEK_CUR);
+				io->seek_proc(handle, icon_list[page].dwImageOffset, SEEK_SET);
 
-				if((icon_list[page].bWidth == 0) && (icon_list[page].bHeight == 0)) {
+				if( IsPNG(io, handle) ) {
 					// Vista icon support
+					// see http://blogs.msdn.com/b/oldnewthing/archive/2010/10/22/10079192.aspx
 					dib = FreeImage_LoadFromHandle(FIF_PNG, io, handle, header_only ? FIF_LOAD_NOPIXELS : PNG_DEFAULT);
 				}
 				else {
 					// standard icon support
 					// see http://msdn.microsoft.com/en-us/library/ms997538.aspx
+					// see http://blogs.msdn.com/b/oldnewthing/archive/2010/10/18/10077133.aspx
 					dib = LoadStandardIcon(io, handle, flags, header_only);
 				}
 

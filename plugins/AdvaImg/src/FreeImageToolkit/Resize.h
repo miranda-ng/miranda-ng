@@ -157,7 +157,7 @@ public:
 	@param src_height Height of the source rectangle to be scaled
 	@return Returns the scaled image if successful, returns NULL otherwise
 	*/
-	FIBITMAP* scale(FIBITMAP *src, unsigned dst_width, unsigned dst_height, unsigned src_left, unsigned src_top, unsigned src_width, unsigned src_height);
+	FIBITMAP* scale(FIBITMAP *src, unsigned dst_width, unsigned dst_height, unsigned src_left, unsigned src_top, unsigned src_width, unsigned src_height, unsigned flags);
 
 private:
 

@@ -48,7 +48,7 @@ FreeImage_OpenMemory(BYTE *data, DWORD size_in_bytes) {
 				// wrap a user buffer
 				mem_header->delete_me = FALSE;
 				mem_header->data = (BYTE*)data;
-				mem_header->datalen = mem_header->filelen = size_in_bytes;
+				mem_header->data_length = mem_header->file_length = size_in_bytes;
 			} else {
 				mem_header->delete_me = TRUE;
 			}
@@ -120,7 +120,7 @@ FreeImage_AcquireMemory(FIMEMORY *stream, BYTE **data, DWORD *size_in_bytes) {
 		FIMEMORYHEADER *mem_header = (FIMEMORYHEADER*)(stream->data);
 
 		*data = (BYTE*)mem_header->data;
-		*size_in_bytes = mem_header->filelen;
+		*size_in_bytes = mem_header->file_length;
 		return TRUE;
 	}
 

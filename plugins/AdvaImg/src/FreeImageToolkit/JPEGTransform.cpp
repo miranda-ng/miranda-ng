@@ -376,7 +376,7 @@ closeStdIO(fi_handle src_handle, fi_handle dst_handle) {
 	if(src_handle) {
 		fclose((FILE*)src_handle);
 	}
-	if(dst_handle) {
+	if(dst_handle && (dst_handle != src_handle)) {
 		fclose((FILE*)dst_handle);
 	}
 }

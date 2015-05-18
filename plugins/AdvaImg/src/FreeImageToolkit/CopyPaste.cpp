@@ -6,6 +6,7 @@
 // - Hervé Drolon (drolon@infonie.fr)
 // - Manfred Tausch (manfred.tausch@t-online.de)
 // - Riley McNiff (rmcniff@marexgroup.com)
+// - Carsten Klein (cklein05@users.sourceforge.net)
 //
 // This file is part of FreeImage 3
 //
@@ -92,7 +93,6 @@ Combine1(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsigned 
 
 static BOOL 
 Combine4(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsigned alpha) {
-
 	int swapTable[16];
 	BOOL bOddStart, bOddEnd;
 
@@ -744,4 +744,118 @@ FreeImage_Paste(FIBITMAP *dst, FIBITMAP *src, int left, int top, int alpha) {
 	return bResult;
 }
 
+// ----------------------------------------------------------
 
+/** @brief Creates a dynamic read/write view into a FreeImage bitmap.
+
+ A dynamic view is a FreeImage bitmap with its own width and height, that,
+ however, shares its bits with another FreeImage bitmap. Typically, views
+ are used to define one or more rectangular sub-images of an existing
+ bitmap. All FreeImage operations, like saving, displaying and all the
+ toolkit functions, when applied to the view, only affect the view's
+ rectangular area.
+
+ Although the view's backing image's bits not need to be copied around,
+ which makes the view much faster than similar solutions using
+ FreeImage_Copy, a view uses some private memory that needs to be freed by
+ calling FreeImage_Unload on the view's handle to prevent memory leaks.
+
+ Only the backing image's pixels are shared by the view. For all other image
+ data, notably for the resolution, background color, color palette,
+ transparency table and for the ICC profile, the view gets a private copy
+ of the data. By default, the backing image's metadata is NOT copied to
+ the view.
+
+ As with all FreeImage functions that take a rectangle region, top and left
+ positions are included, whereas right and bottom positions are excluded
+ from the rectangle area.
+
+ Since the memory block shared by the backing image and the view must start
+ at a byte boundary, the value of parameter left must be a multiple of 8
+ for 1-bit images and a multiple of 2 for 4-bit images.
+
+ @param dib The FreeImage bitmap on which to create the view.
+ @param left The left position of the view's area.
+ @param top The top position of the view's area.
+ @param right The right position of the view's area.
+ @param bottom The bottom position of the view's area.
+ @return Returns a handle to the newly created view or NULL if the view
+ was not created.
+ */
+FIBITMAP * DLL_CALLCONV
+FreeImage_CreateView(FIBITMAP *dib, unsigned left, unsigned top, unsigned right, unsigned bottom) {
+	if (!FreeImage_HasPixels(dib)) {
+		return NULL;
+	}
+
+	// normalize the rectangle
+	if (right < left) {
+		INPLACESWAP(left, right);
+	}
+	if (bottom < top) {
+		INPLACESWAP(top, bottom);
+	}
+
+	// check the size of the sub image
+	unsigned width = FreeImage_GetWidth(dib);
+	unsigned height = FreeImage_GetHeight(dib);
+	if (left < 0 || right > width || top < 0 || bottom > height) {
+		return NULL;
+	}
+
+	unsigned bpp = FreeImage_GetBPP(dib);
+	BYTE *bits = FreeImage_GetScanLine(dib, height - bottom);
+	switch (bpp) {
+		case 1:
+			if (left % 8 != 0) {
+				// view can only start at a byte boundary
+				return NULL;
+			}
+			bits += (left / 8);
+			break;
+		case 4:
+			if (left % 2 != 0) {
+				// view can only start at a byte boundary
+				return NULL;
+				}
+			bits += (left / 2);
+			break;
+		default:
+			bits += left * (bpp / 8);
+			break;
+	}
+
+	FIBITMAP *dst = FreeImage_AllocateHeaderForBits(bits, FreeImage_GetPitch(dib), FreeImage_GetImageType(dib), 
+		right - left, bottom - top, 
+		bpp, 
+		FreeImage_GetRedMask(dib), FreeImage_GetGreenMask(dib), FreeImage_GetBlueMask(dib));
+
+	if (dst == NULL) {
+		return NULL;
+	}
+
+	// copy some basic image properties needed for displaying and saving
+
+	// resolution
+	FreeImage_SetDotsPerMeterX(dst, FreeImage_GetDotsPerMeterX(dib));
+	FreeImage_SetDotsPerMeterY(dst, FreeImage_GetDotsPerMeterY(dib));
+
+	// background color
+	RGBQUAD bkcolor;
+	if (FreeImage_GetBackgroundColor(dib, &bkcolor)) {
+		FreeImage_SetBackgroundColor(dst, &bkcolor);
+	}
+
+	// palette
+	memcpy(FreeImage_GetPalette(dst), FreeImage_GetPalette(dib), FreeImage_GetColorsUsed(dib) * sizeof(RGBQUAD));
+
+	// transparency table
+	FreeImage_SetTransparencyTable(dst, FreeImage_GetTransparencyTable(dib), FreeImage_GetTransparencyCount(dib));
+
+	// ICC profile
+	FIICCPROFILE *src_profile = FreeImage_GetICCProfile(dib);
+	FIICCPROFILE *dst_profile = FreeImage_CreateICCProfile(dst, src_profile->data, src_profile->size);
+	dst_profile->flags = src_profile->flags;
+
+	return dst;
+}

@@ -3,6 +3,7 @@
 //
 // Design and implementation by:
 // - Hervé Drolon <drolon@infonie.fr>
+// - Carsten Klein (cklein05@users.sourceforge.net)
 //
 // This file is part of FreeImage 3
 //
@@ -223,3 +224,131 @@ public:
 
 };
 
+/**
+ * LFPQUANT - Lossless Fast Pseudo-Quantization Algorithm
+ *
+ * The Lossless Fast Pseudo-Quantization algorithm is no real quantization
+ * algorithm, since it makes no attempt to create a palette, that is suitable
+ * for all colors of the 24-bit source image. However, it provides very fast
+ * conversions from 24-bit to 8-bit images, if the number of distinct colors
+ * in the source image is not greater than the desired palette size. If the
+ * number of colors in the source image is exceeded, the Quantize method of
+ * this implementation stops the process and returns NULL.
+ *
+ * This implementation uses a very fast hash map implementation to collect
+ * the source image's colors. It turned out that a customized implementation
+ * of a hash table with open addressing (using linear probing) provides the
+ * best performance. The hash table has 512 entries, which prevents the load
+ * factor to exceed 0.5 as we have 256 entries at most. Each entry consumes
+ * 64 bits, so the whole hash table takes 4KB of memory.
+ *
+ * For large images, the LFPQuantizer is typically up to three times faster
+ * than the WuQuantizer.
+ */
+class LFPQuantizer {
+public:
+	/** Constructor */
+	LFPQuantizer(unsigned PaletteSize);
+
+	/** Destructor */
+	~LFPQuantizer();
+
+	/**
+	 * Quantizer
+	 * @param dib input 24-bit or 32-bit bitmap to be quantized
+	 * @return returns the pseudo-quantized 8-bit bitmap
+	 */
+	FIBITMAP* Quantize(FIBITMAP *dib, int ReserveSize, RGBQUAD *ReservePalette);
+
+protected:
+	/** The maximum size of a palette. */
+	static const unsigned MAX_SIZE = 256;
+
+	/**
+	 * The size of the hash table. Must be a power of 2. By sizing it
+	 * MAX_SIZE * 2, we ensure the load factor not to exceed 0.5 at any
+	 * time, since we will have MAX_SIZE entries at most.
+	 */
+	static const unsigned MAP_SIZE = MAX_SIZE * 2;
+
+	/**
+	 * With open addressing we need a special value for empty buckets.
+	 * Both entry.color and entry.index are 0xFFFFFFFF for an empty
+	 * entry.
+	 */
+	static const unsigned EMPTY_BUCKET = 0xFFFFFFFF;
+
+	/**
+	 * This structure defines a single entry in the hash table. We use
+	 * color as the entry's key.
+	 */
+	typedef struct MapEntry {
+		unsigned color;
+		unsigned index;
+	} MapEntry;
+
+	/** The hash table. */
+	MapEntry *m_map;
+
+	/**
+	 * The current size of the newly created palette. Since the provided
+	 * reserve palette could contain duplicates, this is not necessarily
+	 * the number of entries in the hash table. Initialized to zero.
+	 */
+	unsigned m_size;
+
+	/**
+	 * The desired maximum number of entries in the newly created palette.
+	 * If m_size exceeds this value, the palette is full and the
+	 * quantization process is stopped. Initialized to the desired
+	 * palette size.
+	 */
+	unsigned m_limit;
+
+	/**
+	 *  The palette index used for the next color added. Initialized to
+	 *  zero (the reserve palette is put to the end of the palette).
+	 */
+	unsigned m_index;
+
+	/**
+	 * Ensures that hash codes that differ only by constant multiples
+	 * at each bit position have a bounded number of collisions.
+	 * @param h the initial (aka raw) hash code
+	 * @return the modified hash code
+	 */
+	static inline unsigned hash(unsigned h) {
+		h ^= (h >> 20) ^ (h >> 12);
+		return h ^ (h >> 7) ^ (h >> 4);
+	}
+
+	/**
+	 * Returns the palette index of the specified color. Tries to put the
+	 * color into the map, if it's not already present in the map. In that
+	 * case, a new index is used for the color. Returns -1, if adding the
+	 * color would exceed the desired maximum number of colors in the
+	 * palette.
+	 * @param color the color to get the index from
+	 * @return the palette index of the specified color or -1, if there
+	 * is no space left in the palette
+	 */
+	int GetIndexForColor(unsigned color);
+
+	/**
+	 * Adds the specified number of entries of the specified reserve
+	 * palette to the newly created palette.
+	 * @param *palette a pointer to the reserve palette to copy from
+	 * @param size the number of entries to copy
+	 */
+	void AddReservePalette(const void *palette, unsigned size);
+
+	/**
+	 * Copies the newly created palette into the specified destination
+	 * palettte. Although unused palette entries are not overwritten in
+	 * the destination palette, it is assumed to have space for at
+	 * least 256 entries.
+	 * @param palette a pointer to the destination palette
+	 */
+	void WritePalette(void *palette);
+
+};

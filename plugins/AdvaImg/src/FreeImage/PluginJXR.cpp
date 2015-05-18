@@ -163,8 +163,6 @@ JXR_ErrorMessage(const int error) {
 		default:
 			return "Invalid instruction - please contact the FreeImage team";
 	}
-
-	return NULL;
 }
 
 // ==========================================================
@@ -410,11 +408,12 @@ GetOutputPixelFormat(FIBITMAP *dib, PKPixelFormatGUID *guid_format, BOOL *bHasAl
 }
 
 // ==========================================================
-// Metadata loading & saving
+// Metadata loading
 // ==========================================================
 
 /**
 Read a JPEG-XR IFD as a buffer
+@see ReadMetadata
 */
 static ERR
 ReadProfile(WMPStream* pStream, unsigned cbByteCount, unsigned uOffset, BYTE **ppbProfile) {
@@ -436,6 +435,7 @@ ReadProfile(WMPStream* pStream, unsigned cbByteCount, unsigned uOffset, BYTE **p
 
 /**
 Convert a DPKPROPVARIANT to a FITAG, then store the tag as FIMD_EXIF_MAIN
+@see ReadDescriptiveMetadata
 */
 static BOOL
 ReadPropVariant(WORD tag_id, const DPKPROPVARIANT & varSrc, FIBITMAP *dib) {
@@ -470,7 +470,7 @@ ReadPropVariant(WORD tag_id, const DPKPROPVARIANT & varSrc, FIBITMAP *dib) {
 			case DPKVT_LPWSTR:
 				FreeImage_SetTagType(tag, FIDT_UNDEFINED);
 				dwSize = (DWORD)(sizeof(U16) * (wcslen((wchar_t *) varSrc.VT.pwszVal) + 1)); // +1 for NULL term
-				FreeImage_SetTagCount(tag, dwSize / 2);
+				FreeImage_SetTagCount(tag, dwSize);
 				FreeImage_SetTagLength(tag, dwSize);
 				FreeImage_SetTagValue(tag, varSrc.VT.pwszVal);
 				break;
@@ -533,6 +533,7 @@ ReadDescriptiveMetadata(PKImageDecode *pID, FIBITMAP *dib) {
 
 /**
 Read ICC, XMP, Exif, Exif-GPS, IPTC, descriptive (i.e. Exif-TIFF) metadata
+@see ReadProfile, ReadDescriptiveMetadata
 */
 static ERR
 ReadMetadata(PKImageDecode *pID, FIBITMAP *dib) {
@@ -593,7 +594,7 @@ ReadMetadata(PKImageDecode *pID, FIBITMAP *dib) {
 			error_code = ReadProfile(pStream, cbByteCount, uOffset, &pbProfile);
 			JXR_CHECK(error_code);
 			// decode the Exif profile
-			jpegxr_read_exif_profile(dib, pbProfile, cbByteCount);
+			jpegxr_read_exif_profile(dib, pbProfile, cbByteCount, uOffset);
 		}
 
 		// Exif-GPS metadata
@@ -603,7 +604,7 @@ ReadMetadata(PKImageDecode *pID, FIBITMAP *dib) {
 			error_code = ReadProfile(pStream, cbByteCount, uOffset, &pbProfile);
 			JXR_CHECK(error_code);
 			// decode the Exif-GPS profile
-			jpegxr_read_exif_gps_profile(dib, pbProfile, cbByteCount);
+			jpegxr_read_exif_gps_profile(dib, pbProfile, cbByteCount, uOffset);
 		}
 
 		// free profile buffer
@@ -628,6 +629,168 @@ ReadMetadata(PKImageDecode *pID, FIBITMAP *dib) {
 		return error_code;
 	}
 }
+
+// ==========================================================
+// Metadata saving
+// ==========================================================
+
+/**
+Convert a FITAG (coming from FIMD_EXIF_MAIN) to a DPKPROPVARIANT.
+No allocation is needed here, the function just copy pointers when needed. 
+@see WriteDescriptiveMetadata
+*/
+static BOOL
+WritePropVariant(FIBITMAP *dib, WORD tag_id, DPKPROPVARIANT & varDst) {
+	FITAG *tag = NULL;
+
+	TagLib& s = TagLib::instance();
+	
+	// clear output DPKPROPVARIANT
+	varDst.vt = DPKVT_EMPTY;
+
+	// given the tag id, get the tag key
+	const char *key = s.getTagFieldName(TagLib::EXIF_MAIN, tag_id, NULL);
+	// then, get the tag info
+	if(!FreeImage_GetMetadata(FIMD_EXIF_MAIN, dib, key, &tag)) {
+		return FALSE;
+	}
+
+	// set the tag value
+	switch(FreeImage_GetTagType(tag)) {
+		case FIDT_ASCII:
+			varDst.vt = DPKVT_LPSTR;
+			varDst.VT.pszVal = (char*)FreeImage_GetTagValue(tag);
+			break;
+		case FIDT_BYTE:
+		case FIDT_UNDEFINED:
+			varDst.vt = DPKVT_LPWSTR;
+			varDst.VT.pwszVal = (U16*)FreeImage_GetTagValue(tag);
+			break;
+		case FIDT_SHORT:
+			varDst.vt = DPKVT_UI2;
+			varDst.VT.uiVal = *((U16*)FreeImage_GetTagValue(tag));
+			break;
+		case FIDT_LONG:
+			varDst.vt = DPKVT_UI4;
+			varDst.VT.ulVal = *((U32*)FreeImage_GetTagValue(tag));
+			break;
+		default:
+			break;
+	}
+	
+	return TRUE;
+}
+
+/**
+Write EXIF_MAIN metadata to JPEG-XR descriptive metadata
+@see WritePropVariant
+*/
+static ERR
+WriteDescriptiveMetadata(PKImageEncode *pIE, FIBITMAP *dib) {
+	ERR error_code = 0;		// error code as returned by the interface
+	DESCRIPTIVEMETADATA DescMetadata;
+
+	// fill the DESCRIPTIVEMETADATA structure (use pointers to arrays when needed)
+	WritePropVariant(dib, WMP_tagImageDescription, DescMetadata.pvarImageDescription);
+	WritePropVariant(dib, WMP_tagCameraMake, DescMetadata.pvarCameraMake);
+	WritePropVariant(dib, WMP_tagCameraModel, DescMetadata.pvarCameraModel);
+	WritePropVariant(dib, WMP_tagSoftware, DescMetadata.pvarSoftware);
+	WritePropVariant(dib, WMP_tagDateTime, DescMetadata.pvarDateTime);
+	WritePropVariant(dib, WMP_tagArtist, DescMetadata.pvarArtist);
+	WritePropVariant(dib, WMP_tagCopyright, DescMetadata.pvarCopyright);
+	WritePropVariant(dib, WMP_tagRatingStars, DescMetadata.pvarRatingStars);
+	WritePropVariant(dib, WMP_tagRatingValue, DescMetadata.pvarRatingValue);
+	WritePropVariant(dib, WMP_tagCaption, DescMetadata.pvarCaption);
+	WritePropVariant(dib, WMP_tagDocumentName, DescMetadata.pvarDocumentName);
+	WritePropVariant(dib, WMP_tagPageName, DescMetadata.pvarPageName);
+	WritePropVariant(dib, WMP_tagPageNumber, DescMetadata.pvarPageNumber);
+	WritePropVariant(dib, WMP_tagHostComputer, DescMetadata.pvarHostComputer);
+
+	// copy the structure to the encoder
+	error_code = pIE->SetDescriptiveMetadata(pIE, &DescMetadata);
+
+	// no need to free anything here
+	return error_code;
+}
+
+/**
+Write ICC, XMP, Exif, Exif-GPS, IPTC, descriptive (i.e. Exif-TIFF) metadata
+*/
+static ERR
+WriteMetadata(PKImageEncode *pIE, FIBITMAP *dib) {
+	ERR error_code = 0;		// error code as returned by the interface
+	BYTE *profile = NULL;
+	unsigned profile_size = 0;
+	
+	try {
+		// write ICC profile
+		{
+			FIICCPROFILE *iccProfile = FreeImage_GetICCProfile(dib);
+			if(iccProfile->data) {
+				error_code = pIE->SetColorContext(pIE, (U8*)iccProfile->data, iccProfile->size);
+				JXR_CHECK(error_code);
+			}
+		}
+		
+		// write descriptive metadata
+		if(FreeImage_GetMetadataCount(FIMD_EXIF_MAIN, dib)) {
+			error_code = WriteDescriptiveMetadata(pIE, dib);
+			JXR_CHECK(error_code);
+		}
+
+		// write IPTC metadata
+		if(FreeImage_GetMetadataCount(FIMD_IPTC, dib)) {
+			// create a binary profile
+			if(write_iptc_profile(dib, &profile, &profile_size)) {
+				// write the profile
+				error_code = PKImageEncode_SetIPTCNAAMetadata_WMP(pIE, profile, profile_size);
+				JXR_CHECK(error_code);
+				// release profile
+				free(profile);
+				profile = NULL;
+			}
+		}
+
+		// write XMP metadata
+		{
+			FITAG *tag_xmp = NULL;
+			if(FreeImage_GetMetadata(FIMD_XMP, dib, g_TagLib_XMPFieldName, &tag_xmp)) {
+				error_code = PKImageEncode_SetXMPMetadata_WMP(pIE, (BYTE*)FreeImage_GetTagValue(tag_xmp), FreeImage_GetTagLength(tag_xmp));
+				JXR_CHECK(error_code);
+			}
+		}
+
+		// write Exif metadata
+		{
+			if(tiff_get_ifd_profile(dib, FIMD_EXIF_EXIF, &profile, &profile_size)) {
+				error_code = PKImageEncode_SetEXIFMetadata_WMP(pIE, profile, profile_size);
+				JXR_CHECK(error_code);
+				// release profile
+				free(profile);
+				profile = NULL;
+			}
+		}
+
+		// write Exif GPS metadata
+		{
+			if(tiff_get_ifd_profile(dib, FIMD_EXIF_GPS, &profile, &profile_size)) {
+				error_code = PKImageEncode_SetGPSInfoMetadata_WMP(pIE, profile, profile_size);
+				JXR_CHECK(error_code);
+				// release profile
+				free(profile);
+				profile = NULL;
+			}
+		}
+
+		return WMP_errSuccess;
+
+	} catch(...) {
+		free(profile);
+		return error_code;
+	}
+}
+
+
 
 // ==========================================================
 // Quantization tables (Y, U, V, YHP, UHP, VHP), 
@@ -1238,8 +1401,11 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		float resY = (float)(unsigned)(0.5F + 0.0254F * FreeImage_GetDotsPerMeterY(dib));
 		pEncoder->SetResolution(pEncoder, resX, resY);
 
-		// write pixels
-		// --------------
+		// set metadata
+		WriteMetadata(pEncoder, dib);
+
+		// write metadata & pixels
+		// -----------------------
 
 		// dib coordinates are upside-down relative to usual conventions
 		bIsFlipped = FreeImage_FlipVertical(dib);
@@ -1250,7 +1416,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		// get dst pitch (count of BYTE for stride)
 		const unsigned cbStride = FreeImage_GetPitch(dib);
 
-		// write pixels on output
+		// write metadata + pixels on output
 		error_code = pEncoder->WritePixels(pEncoder, height, dib_bits, cbStride);
 		JXR_CHECK(error_code);
 

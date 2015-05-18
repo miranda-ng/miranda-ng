@@ -119,6 +119,21 @@
     <ClCompile Include="src\FreeImage\ConversionRGBF.cpp">
       <Filter>Source Files\Conversion</Filter>
     </ClCompile>
+    <ClCompile Include="src\FreeImage\ConversionRGBA16.cpp">
+      <Filter>Source Files\Conversion</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FreeImage\ConversionFloat.cpp">
+      <Filter>Source Files\Conversion</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FreeImage\ConversionRGB16.cpp">
+      <Filter>Source Files\Conversion</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FreeImage\ConversionUINT16.cpp">
+      <Filter>Source Files\Conversion</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FreeImage\ConversionRGBAF.cpp">
+      <Filter>Source Files\Conversion</Filter>
+    </ClCompile>
     <ClCompile Include="src\FreeImage\ConversionType.cpp">
       <Filter>Source Files\Conversion</Filter>
     </ClCompile>
@@ -142,6 +157,9 @@
     </ClCompile>
     <ClCompile Include="src\FreeImage\ToneMapping.cpp">
       <Filter>Source Files\Conversion</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FreeImage\LFPQuantizer.cpp">
+      <Filter>Source Files\Quantizers</Filter>
     </ClCompile>
     <ClCompile Include="src\FreeImage\NNQuantizer.cpp">
       <Filter>Source Files\Quantizers</Filter>
@@ -344,6 +362,18 @@
     <ClCompile Include="src\LibJPEG\wrtarga.c">
       <Filter>Source Files\LibJPEG\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\LibJPEG\jaricom.c">
+      <Filter>Source Files\LibJPEG\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jcarith.c">
+      <Filter>Source Files\LibJPEG\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdarith.c">
+      <Filter>Source Files\LibJPEG\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdhuff.c">
+      <Filter>Source Files\LibJPEG\Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\LibPNG\png.c">
       <Filter>Source Files\LibPNG\Source Files</Filter>
     </ClCompile>
@@ -418,27 +448,6 @@
     </ClCompile>
     <ClCompile Include="src\FreeImageToolkit\Resize.cpp">
       <Filter>Toolkit Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jaricom.c">
-      <Filter>Source Files\LibJPEG\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jcarith.c">
-      <Filter>Source Files\LibJPEG\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdarith.c">
-      <Filter>Source Files\LibJPEG\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdhuff.c">
-      <Filter>Source Files\LibJPEG\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FreeImage\ConversionFloat.cpp">
-      <Filter>Source Files\Conversion</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FreeImage\ConversionRGB16.cpp">
-      <Filter>Source Files\Conversion</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FreeImage\ConversionUINT16.cpp">
-      <Filter>Source Files\Conversion</Filter>
     </ClCompile>
     <ClCompile Include="src\FreeImageToolkit\Background.cpp">
       <Filter>Toolkit Files</Filter>

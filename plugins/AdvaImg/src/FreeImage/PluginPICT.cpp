@@ -82,21 +82,21 @@ static const int outputMessageSize = 256;
 // Internal functions
 // ==========================================================
 
-static unsigned
+static BYTE
 Read8(FreeImageIO *io, fi_handle handle) {
-	unsigned char i = 0;
+	BYTE i = 0;
 	io->read_proc(&i, 1, 1, handle);
 	return i;
 }
 
-static unsigned
+static WORD
 Read16(FreeImageIO *io, fi_handle handle) {
 	// reads a two-byte big-endian integer from the given file and returns its value.
 	// assumes unsigned.
 	
 	unsigned hi = Read8(io, handle);
 	unsigned lo = Read8(io, handle);
-	return lo + (hi << 8);
+	return (WORD)(lo + (hi << 8));
 }
 
 static unsigned
@@ -388,7 +388,7 @@ ReadColorTable( FreeImageIO *io, fi_handle handle, WORD* pNumColors, RGBQUAD* pP
 			// The indicies in a device colour table are bogus and
 			// usually == 0, so I assume we allocate up the list of
 			// colours in order.
-			val = i;
+			val = (WORD)i;
 		}
 		if (val >= numColors) {
 			throw "pixel value greater than color table size.";
@@ -416,7 +416,7 @@ SkipBits( FreeImageIO *io, fi_handle handle, MacRect* bounds, WORD rowBytes, int
 	if (pixelSize <= 8) {
 		rowBytes &= 0x7fff;
 	}
-	pixwidth = width;
+	pixwidth = (WORD)width;
 	
 	if (pixelSize == 16) {
 		pixwidth *= 2;
@@ -541,6 +541,7 @@ expandBuf8( FreeImageIO *io, fi_handle handle, int width, int bpp, BYTE* dst )
 
 static BYTE* 
 UnpackPictRow( FreeImageIO *io, fi_handle handle, BYTE* pLineBuf, int width, int rowBytes, int srcBytes ) {	
+
 	if (rowBytes < 8) { // Ah-ha!  The bits aren't actually packed.  This will be easy.
 		io->read_proc( pLineBuf, rowBytes, 1, handle );
 	}
@@ -589,7 +590,7 @@ Unpack32Bits( FreeImageIO *io, fi_handle handle, FIBITMAP* dib, MacRect* bounds,
 	int width = bounds->right - bounds->left;
 	
 	if (rowBytes == 0) {
-		rowBytes = width*4;
+		rowBytes = (WORD)( width * 4 );
 	}
 	
 	BYTE* pLineBuf = (BYTE*)malloc( rowBytes ); // Let's allocate enough for 4 bit planes
@@ -656,7 +657,7 @@ Unpack8Bits( FreeImageIO *io, fi_handle handle, FIBITMAP* dib, MacRect* bounds, 
 	rowBytes &= 0x7fff;
 	
 	if (rowBytes == 0) {
-		rowBytes = width;
+		rowBytes = (WORD)width;
 	}
 	
 	for ( int i = 0; i < height; i++ ) {
@@ -694,7 +695,7 @@ UnpackBits( FreeImageIO *io, fi_handle handle, FIBITMAP* dib, MacRect* bounds, W
 		rowBytes &= 0x7fff;
 	}
 	
-	pixwidth = width;
+	pixwidth = (WORD)width;
 	pkpixsize = 1;          // RLE unit: one byte for everything...
 	if (pixelSize == 16) {    // ...except 16 bpp.
 		pkpixsize = 2;

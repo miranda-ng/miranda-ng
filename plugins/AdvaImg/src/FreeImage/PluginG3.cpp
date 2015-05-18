@@ -92,7 +92,7 @@ G3GetFileSize(FreeImageIO *io, fi_handle handle) {
 
 static BOOL 
 G3ReadFile(FreeImageIO *io, fi_handle handle, uint8 *tif_rawdata, tmsize_t tif_rawdatasize) {
-	return ((tmsize_t)(io->read_proc(tif_rawdata, tif_rawdatasize, 1, handle) * tif_rawdatasize) == tif_rawdatasize);
+	return ((tmsize_t)(io->read_proc(tif_rawdata, (unsigned)tif_rawdatasize, 1, handle) * tif_rawdatasize) == tif_rawdatasize);
 }
 
 // ==========================================================

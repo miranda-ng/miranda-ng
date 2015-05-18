@@ -5,6 +5,55 @@ What's New for FreeImage
 ! : changed
 + : added
 
+March 15th, 2015 - 3.17.0
+! FreeImage now uses LibPNG 1.6.16
+! FreeImage now uses LibWebP 0.4.2 (GIT patch 2015-03-03)
+! FreeImage now uses LibRaw 0.17-Alpha1
+! FreeImage now uses LibTIFF 4.0.4 (CVS patch 2015-01-26)
+! FreeImage now uses OpenEXR 2.2.0
+- [Herve Drolon] removed VS 2003 project files : this IDE is no longer supported because of its outdated C++ compiler
++ [Mihail Naydenov] added FreeImage_ConvertFromRawBitsEx
++ [Herve Drolon] added RAW_UNPROCESSED load flag to the RAW plugin
++ [Herve Drolon] added FreeImage_SetMetadataKeyValue
++ [Herve Drolon] added support for metadata writing to the JPEG-JXR plugin
++ [Herve Drolon] added VS 2013 project files
++ [Herve Drolon] added support for PNG tIME metadata (read/write, handle as Exif-TIFF DateTime)
++ [Carsten Klein] added explicit definition of endianness and color order in compiler options
++ [Carsten Klein] added FIQ_LFPQUANT quantizer algorithm
++ [Carsten Klein] added support for input 32-bit dib in Wu quantizer
++ [Tanner Helland] added FreeImage_ConvertToRGBAF and updated conversions in FreeImage_ConvertToType
++ [Herve Drolon] added FreeImage_ConvertToRGBA16 and updated conversions in FreeImage_ConvertToType
++ [Carsten Klein] added FreeImage_CreateView
++ [Carsten Klein] added FreeImage_RescaleRect
++ [Carsten Klein] added FreeImage_GetMemorySize
+* [Tanner Helland] ICO plugin: improved support for Vista icons
+* [fpgaminer] fixed a rounding error in RGB to greyscale conversion formula
+* [Sven-Hendrik Haase] fixed Makefile.fip so that it installs symlinks
+* [Joachim Reichel] fixed a potential memory access violation in PluginHDR Save function
+* [Christian Schluchter] fixed a bug in FreeImage_LookupSVGColor ("green" color was not found)
+* [Marco Altomonte] fixed TARGA signature validation for TARGA versions < 2.0
+* [Jeremy Reyniers] fixed FreeImage_GetScanLine not working with very large images on x64 platforms
+* [Herve Drolon] improved PluginTIFF compatibility with LibTIFF 4
+* [Aaron Shumate] fixed a segfault occuring on a corrupted animated GIF
+* [Herve Drolon] improved memory allocation in PluginRAW
+* [Herve Drolon] fixed loading/saving of TIFF containing a GPS IFD inside the Exif-TIFF metadata segment (the solution is to ignore the tag) 
+* [Mihail Naydenov] fixed a bug in FreeImage_JPEGCrop*/_JPEGTransform* functions occuring when using the same source / destination filename
+* [Herve Drolon] fixed a bug with output image quality in PluginJP2::Save & PluginJ2K::Save functions (regression from FI 3.15.4)
+* [Herve Drolon] improved RAW file format detection
+* [Aaron Shumate] fixed FreeImage_GetFileType behavior with ANI file formats
+* [Herve Drolon] improved Exif reader so as to handle Exif IFD with a suspicious offset (can occur with maker notes)
+* [Herve Drolon] fixed a memory leak in PluginPNG:Save occuring when dealing with invalid PNG files
+* [Tanner Helland] fixed PNG plugin handling of 16-bit grayscale + 16-bit alpha images
+* [Tanner Helland] fixed PNG plugin handling of 16-bit grayscale + tRNS chunk images
+* [Tanner Helland] fixed PNG plugin handling of 24-bit RGB + tRNS chunk images
+* [Tanner Helland] fixed PNG plugin handling of 1-,4-bit greyscale/palettized + tRNS chunk images
+* [ekpyron] fixed invalid directory delimiter in include statement (mingw-w64) in Source/LibJXR/image/sys/strcodec.h
+* [ekpyron] fixed Invalid condition for defining _byteswap_ulong (mingw-w64) in Source/LibJXR/image/sys/strcodec.c
+* [tostercx] fixed FreeImage_Get*Mask not returning 0 for greyscale images
+* [robpats] fixed loading of external plugins when using UNICODE directory names to store plugins
+* [Herve Drolon] fixed loading of JXR files when using memory streams
+* [Carsten Klein] added Dist/ directory creation in Makefiles (in case it is not already present)
+
 March 23rd, 2014 - 3.16.0
 ! FreeImage now uses LibJPEG 9a
 ! FreeImage now uses LibPNG 1.6.10

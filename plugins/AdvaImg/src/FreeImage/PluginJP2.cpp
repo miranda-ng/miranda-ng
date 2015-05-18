@@ -175,7 +175,9 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			if (header_only) {
 				// create output image 
 				dib = J2KImageToFIBITMAP(s_format_id, image, header_only);
-				if(!dib) throw "Failed to import JPEG2000 image";
+				if(!dib) {
+					throw "Failed to import JPEG2000 image";
+				}
 				// clean-up and return header data
 				opj_destroy_codec(d_codec);
 				opj_image_destroy(image);
@@ -193,7 +195,9 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 			// create output image 
 			dib = J2KImageToFIBITMAP(s_format_id, image, header_only);
-			if(!dib) throw "Failed to import JPEG2000 image";
+			if(!dib) {
+				throw "Failed to import JPEG2000 image";
+			}
 
 			// free image data structure
 			opj_image_destroy(image);
@@ -201,7 +205,9 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			return dib;
 
 		} catch (const char *text) {
-			if(dib) FreeImage_Unload(dib);
+			if(dib) {
+				FreeImage_Unload(dib);
+			}
 			// free remaining structures
 			opj_destroy_codec(d_codec);
 			opj_image_destroy(image);
@@ -231,27 +237,22 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		opj_set_default_encoder_parameters(&parameters);
 
 		try {
-			parameters.numresolution = 1;
-			// check the resolution (i.e. parameters.numresolution)
-			int min_size = MIN(FreeImage_GetWidth(dib), FreeImage_GetHeight(dib));
-			if(min_size < (1 << parameters.numresolution)) {
-				throw "Invalid image size - image is too small";
-			}
-
-			parameters.tcp_numlayers = 0;	
+			parameters.tcp_numlayers = 0;
 			// if no rate entered, apply a 16:1 rate by default
-			if(flags == J2K_DEFAULT) {
+			if(flags == JP2_DEFAULT) {
 				parameters.tcp_rates[0] = (float)16;
 			} else {
 				// for now, the flags parameter is only used to specify the rate
-				parameters.tcp_rates[0] = (float)flags;
+				parameters.tcp_rates[0] = (float)(flags & 0x3FF);
 			}
 			parameters.tcp_numlayers++;
 			parameters.cp_disto_alloc = 1;
 
 			// convert the dib to a OpenJPEG image
 			image = FIBITMAPToJ2KImage(s_format_id, dib, &parameters);
-			if(!image) return FALSE;
+			if(!image) {
+				return FALSE;
+			}
 
 			// decide if MCT should be used
 			parameters.tcp_mct = (image->numcomps == 3) ? 1 : 0;
