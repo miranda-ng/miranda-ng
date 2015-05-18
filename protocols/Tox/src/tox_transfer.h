@@ -20,6 +20,7 @@ struct FileTransferParam
 
 		pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 		pfts.flags = PFTS_TCHAR;
+		pfts.hContact = NULL;
 		pfts.totalFiles = 1;
 		pfts.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*)*(pfts.totalFiles + 1));
 		pfts.ptszFiles[0] = pfts.tszCurrentFile = mir_tstrdup(fileName);
@@ -27,6 +28,7 @@ struct FileTransferParam
 		pfts.totalBytes = pfts.currentFileSize = fileSize;
 		pfts.totalProgress = pfts.currentFileProgress = 0;
 		pfts.currentFileNumber = 0;
+		pfts.currentFileTime = time(NULL);
 		pfts.tszWorkingDir = NULL;
 
 		transferType = TOX_FILE_KIND_DATA;
