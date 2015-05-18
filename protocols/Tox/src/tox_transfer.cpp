@@ -80,11 +80,11 @@ HANDLE CToxProto::OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCH
 	if (!ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)transfer, (LPARAM)&transfer->pfts))
 	{
 		int action = FILERESUME_OVERWRITE;
-		const TCHAR **szFilename = (const TCHAR**)mir_alloc(sizeof(TCHAR) * 2);
+		const TCHAR **szFilename = (const TCHAR**)mir_alloc(sizeof(TCHAR*) * 2);
 		szFilename[0] = fullPath;
 		szFilename[1] = NULL;
 		OnFileResume(hTransfer, &action, szFilename);
-		//mir_free(szFilename);
+		mir_free(szFilename);
 	}
 
 	return hTransfer;

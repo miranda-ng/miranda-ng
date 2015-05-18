@@ -16,7 +16,7 @@ std::tstring CToxProto::GetToxProfilePath(const TCHAR *accountName)
 	return profilePath;
 }
 
-bool CToxProto::LoadToxProfile(Tox_Options *options)
+bool CToxProto::LoadToxProfile(const Tox_Options *options)
 {
 	debugLogA(__FUNCTION__": loading tox profile");
 
@@ -37,11 +37,10 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	fseek(profile, 0, SEEK_END);
 	size = ftell(profile);
 	rewind(profile);
-	if (size == 0)
+	if (size < 0)
 	{
 		fclose(profile);
-		debugLogA(__FUNCTION__": tox profile is empty");
-		return true;
+		size = 0;
 	}
 
 	data = (uint8_t*)mir_calloc(size);
@@ -54,7 +53,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	}
 	fclose(profile);
 
-	if (data != NULL && tox_is_data_encrypted(data))
+	if (data && tox_is_data_encrypted(data))
 	{
 		password = mir_utf8encodeW(ptrT(getTStringA("Password")));
 		if (password == NULL || mir_strlen(password) == 0)

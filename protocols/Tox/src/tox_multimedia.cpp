@@ -121,6 +121,7 @@ void CToxOutgoingCall::OnCall(CCtrlBase*)
 	int friendNumber = m_proto->GetToxFriendNumber(hContact);
 	if (friendNumber == UINT32_MAX)
 	{
+		mir_free(cSettings);
 		Close();
 		return;
 	}
@@ -128,9 +129,11 @@ void CToxOutgoingCall::OnCall(CCtrlBase*)
 	int32_t callId;
 	if (toxav_call(m_proto->toxAv, &callId, friendNumber, cSettings, 10) == TOX_ERROR)
 	{
+		mir_free(cSettings);
 		m_proto->debugLogA(__FUNCTION__": failed to start outgoing call");
 		return;
 	}
+	mir_free(cSettings);
 	m_proto->calls[hContact] = callId;
 
 	char *message = NULL;
