@@ -196,6 +196,23 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	if (iNewStatus == m_iDesiredStatus)
 		return 0;
 
+	switch (iNewStatus)
+	{
+	case ID_STATUS_FREECHAT:
+	case ID_STATUS_ONTHEPHONE:
+		iNewStatus = ID_STATUS_ONLINE;
+		break;
+
+	case ID_STATUS_NA:
+	case ID_STATUS_OUTTOLUNCH:
+		iNewStatus = ID_STATUS_AWAY;
+		break;
+
+	case ID_STATUS_OCCUPIED:
+		iNewStatus = ID_STATUS_DND;
+		break;
+	}
+
 	debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, iNewStatus);
 
 	int old_status = m_iStatus;
