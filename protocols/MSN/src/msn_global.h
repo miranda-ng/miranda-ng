@@ -741,6 +741,9 @@ struct MsnContact
 #define capex_SupportsP4Activity            0x40000000
 #define capex_SupportsChats                 0x80000000
 
+#define capexex_SupportsMissedConversations	0x00000001
+#define capexex_SupportsShortCircuit		0x00000020
+
 #define NETID_UNKNOWN	0
 #define NETID_MSN		1
 #define NETID_LCS		2

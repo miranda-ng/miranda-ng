@@ -771,7 +771,8 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 		if (getByte("MobileEnabled", 0) && getByte("MobileAllowed", 0))
 			myFlags |= cap_MobileEnabled;
 
-		unsigned myFlagsEx = capex_SupportsPeerToPeerV2;
+		unsigned myFlagsEx = capex_SupportsPeerToPeerV2 | capex_SupportsOfflineIM;
+		unsigned myFlagsExEx = capexex_SupportsMissedConversations | capexex_SupportsShortCircuit;
 
 		char szMsg[2048];
 		/*
@@ -803,21 +804,18 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 		}
 
 		char** msgptr = GetStatusMsgLoc(newStatus);
-		/* FIXME: This is what Skype client sends */
-		myFlags = 0;
-		myFlagsEx = cap_SupportsSDrive | cap_SupportsActivities;
 		int sz = mir_snprintf(szMsg, SIZEOF(szMsg),
 			"<user>"
 			"<sep n=\"PE\" epid=\"%s\"><VER>%s</VER><TYP>11</TYP><Capabilities>0:0</Capabilities></sep>"
 			"<s n=\"IM\"><Status>%s</Status></s>"
-			"<sep n=\"IM\" epid=\"%s\"><Capabilities>%u:%u</Capabilities></sep>"
+			"<sep n=\"IM\" epid=\"%s\"><Capabilities>%u:%u:%u</Capabilities></sep>"
 			"<sep n=\"PD\" epid=\"%s\"><EpName>%s</EpName><ClientType>11</ClientType></sep>"
 			"<s n=\"SKP\"><Mood>%s</Mood><Skypename>%s</Skypename></s>"
 			"<sep n=\"SKP\" epid=\"%s\"><NodeInfo></NodeInfo><Version>24</Version><Seamless>true</Seamless></sep>"
 			"</user>",
 			MyOptions.szMachineGuid, msnProductVer,
 			szStatusName,
-			MyOptions.szMachineGuid, myFlags, myFlagsEx,
+			MyOptions.szMachineGuid, myFlags, myFlagsEx, myFlagsExEx,
 			MyOptions.szMachineGuid, szPlace,
 			msgptr?ptrA(HtmlEncode(*msgptr)):"", GetMyUsername(NETID_SKYPE),
 			MyOptions.szMachineGuid,
