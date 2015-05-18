@@ -18,31 +18,31 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "headers.h"
+#include "stdafx.h"
 
 static MCONTACT hContactToActivate;
 static HANDLE hDialogsList;
 
-INT_PTR svcShowMenu(WPARAM wParam, LPARAM lParam)
+INT_PTR svcShowMenu(WPARAM, LPARAM)
 {
 	ShowMenu(false);
 	return 0;
 }
 
-INT_PTR svcShowMenuCentered(WPARAM wParam, LPARAM lParam)
+INT_PTR svcShowMenuCentered(WPARAM, LPARAM)
 {
 	ShowMenu(g_Options.bCenterHotkey ? true : false);
 	return 0;
 }
 
-INT_PTR svcOpenContact(WPARAM wParam, LPARAM lParam)
+INT_PTR svcOpenContact(WPARAM wParam, LPARAM)
 {
 	hContactToActivate = wParam;
 	CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)hContactToActivate, 0);
 	return 0;
 }
 
-int ProcessSrmmEvent(WPARAM wParam, LPARAM lParam)
+int ProcessSrmmEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
 
@@ -110,7 +110,7 @@ static __forceinline COLORREF sttShadeColor(COLORREF clLine1, COLORREF clBack)
 		(GetBValue(clLine1) * 66UL + GetBValue(clBack) * 34UL) / 100);
 }
 
-int ProcessTBLoaded(WPARAM wParam, LPARAM lParam)
+int ProcessTBLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = { sizeof(ttb) };
 	ttb.pszTooltipUp = ttb.name = LPGEN("Favorite Contacts");
@@ -121,7 +121,7 @@ int ProcessTBLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int ProcessReloadFonts(WPARAM wParam, LPARAM lParam)
+int ProcessReloadFonts(WPARAM, LPARAM)
 {
 	if (g_Options.hfntName) DeleteObject(g_Options.hfntName);
 	if (g_Options.hfntSecond) DeleteObject(g_Options.hfntSecond);
@@ -154,7 +154,7 @@ int ProcessReloadFonts(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ProcessModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_TTB_MODULELOADED, ProcessTBLoaded);
 

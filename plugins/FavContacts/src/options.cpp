@@ -18,7 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "headers.h"
+#include "stdafx.h"
 
 void LoadOptions()
 {
@@ -257,7 +257,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	return FALSE;
 }
 
-int ProcessOptInitialise(WPARAM wParam, LPARAM lParam)
+int ProcessOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
