@@ -439,7 +439,7 @@ void CAimProto::set_local_nick(MCONTACT hContact, char* nick, char* note)
 		unsigned short buddy_id = getBuddyId(hContact, i);
 		if (buddy_id == 0) break;
 
-		aim_mod_buddy(hServerConn, seqno, dbv.pszVal, group_id, buddy_id, nick, note);
+		aim_mod_buddy(hServerConn, seqno, dbv.pszVal, buddy_id, group_id, nick, note);
 	}
 	db_free(&dbv);
 }

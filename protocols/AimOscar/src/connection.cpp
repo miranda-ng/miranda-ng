@@ -61,84 +61,81 @@ HANDLE CAimProto::aim_peer_connect(unsigned long ip, unsigned short port)
 
 void CAimProto::aim_connection_authorization(void)
 {
-	NETLIBPACKETRECVER packetRecv = {0};
-	HANDLE hServerPacketRecver = NULL;
+	if (m_iDesiredStatus != ID_STATUS_OFFLINE) {
+		char *password = getStringA(AIM_KEY_PW);
+		if (password != NULL) {
+			mir_free(username);
+			username = getStringA(AIM_KEY_SN);
+			if (username != NULL) {
+				HANDLE hServerPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hServerConn, 2048 * 4);
+				NETLIBPACKETRECVER packetRecv = {0};
+				packetRecv.cbSize = sizeof(packetRecv);
+				packetRecv.dwTimeout = 5000;
+				for (;;) {
+					int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM) hServerPacketRecver, (LPARAM) & packetRecv);
+					if (recvResult == 0) {
+						debugLogA("Connection Closed: No Error? during Connection Authorization");
+						break;
+					}
+					else if (recvResult < 0) {
+						debugLogA("Connection Closed: Socket Error during Connection Authorization %d", WSAGetLastError());
+						break;
+					}
+					else {
+						unsigned short flap_length=0;
+						for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed = flap_length) {
+							if (!packetRecv.buffer)
+								break;
 
-	if (m_iDesiredStatus == ID_STATUS_OFFLINE)
-		goto exit;
+							FLAP flap((char*)&packetRecv.buffer[packetRecv.bytesUsed],(unsigned short)(packetRecv.bytesAvailable-packetRecv.bytesUsed));
+							if (!flap.len())
+								break;
 
-	char *password = getStringA(AIM_KEY_PW);
-	if (password == NULL)
-		goto exit;
+							flap_length+=FLAP_SIZE+flap.len();
+							if (flap.cmp(0x01)) {
+								if (aim_send_connection_packet(hServerConn, seqno,flap.val())==0)//cookie challenge
+									aim_authkey_request(hServerConn, seqno);//md5 authkey request
+							}
+							else if (flap.cmp(0x02)) {
+								SNAC snac(flap.val(),flap.snaclen());
+								if (snac.cmp(0x0017)) {
+									snac_md5_authkey(snac,hServerConn,seqno, username, password);
+									int authres = snac_authorization_reply(snac);
+									switch (authres) {
+									case 1:
+										mir_free(password);
+										Netlib_CloseHandle(hServerPacketRecver);
+										debugLogA("Connection Authorization Thread Ending: Negotiation Beginning");
+										return;
 
-	mir_free(username);
-	username = getStringA(AIM_KEY_SN);
-	if (username == NULL)
-		goto exit;
+									case 2:
+										ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+										goto exit;
 
-	hServerPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hServerConn, 2048 * 4);
-	packetRecv.cbSize = sizeof(packetRecv);
-	packetRecv.dwTimeout = 5000;
-	for (;;) {
-		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM) hServerPacketRecver, (LPARAM) & packetRecv);
-		if (recvResult == 0) {
-			debugLogA("Connection Closed: No Error? during Connection Authorization");
-			break;
-		}
-		else if (recvResult < 0) {
-			debugLogA("Connection Closed: Socket Error during Connection Authorization %d", WSAGetLastError());
-			break;
-		}
-		else {
-			unsigned short flap_length=0;
-			for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed = flap_length) {
-				if (!packetRecv.buffer)
-					break;
-
-				FLAP flap((char*)&packetRecv.buffer[packetRecv.bytesUsed],(unsigned short)(packetRecv.bytesAvailable-packetRecv.bytesUsed));
-				if (!flap.len())
-					break;
-
-				flap_length+=FLAP_SIZE+flap.len();
-				if (flap.cmp(0x01)) {
-					if (aim_send_connection_packet(hServerConn, seqno,flap.val())==0)//cookie challenge
-						aim_authkey_request(hServerConn, seqno);//md5 authkey request
-				}
-				else if (flap.cmp(0x02)) {
-					SNAC snac(flap.val(),flap.snaclen());
-					if (snac.cmp(0x0017)) {
-						snac_md5_authkey(snac,hServerConn,seqno, username, password);
-						int authres = snac_authorization_reply(snac);
-						switch (authres) {
-						case 1:
-							mir_free(password);
-							Netlib_CloseHandle(hServerPacketRecver);
-							debugLogA("Connection Authorization Thread Ending: Negotiation Beginning");
-							return;
-
-						case 2:
-							ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
-							goto exit;
-
-						case 3:
-							ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
-							goto exit;
+									case 3:
+										ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
+										goto exit;
+									}
+								}
+							}
+							else if (flap.cmp(0x04)) {
+								debugLogA("Connection Authorization Thread Ending: Flap 0x04");
+								goto exit;
+							}
 						}
 					}
 				}
-				else if (flap.cmp(0x04)) {
-					debugLogA("Connection Authorization Thread Ending: Flap 0x04");
-					goto exit;
-				}
+exit:
+				if (hServerPacketRecver)
+					Netlib_CloseHandle(hServerPacketRecver); 
 			}
 		}
+		mir_free(password);
 	}
-
-exit:
-	mir_free(password);
-	if (m_iStatus!=ID_STATUS_OFFLINE) broadcast_status(ID_STATUS_OFFLINE);
-	if (hServerPacketRecver) Netlib_CloseHandle(hServerPacketRecver); 
-	Netlib_CloseHandle(hServerConn); hServerConn=NULL;
+	if (m_iStatus!=ID_STATUS_OFFLINE)
+		broadcast_status(ID_STATUS_OFFLINE);
+	Netlib_CloseHandle(hServerConn);
+	hServerConn=NULL;
 	debugLogA("Connection Authorization Thread Ending: End of Thread");
 }
 
