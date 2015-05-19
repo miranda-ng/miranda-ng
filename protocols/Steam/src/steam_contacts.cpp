@@ -183,34 +183,29 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	// client
 	node = json_get(data, "personastateflags");
 	int stateflags = node ? json_as_int(node) : -1;
-	switch (stateflags)
-	{
-	case 0:
-		{
-			// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
-			WORD status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
-			if (status == ID_STATUS_ONLINE || status == ID_STATUS_OUTTOLUNCH || status == ID_STATUS_FREECHAT)
-				setTString(hContact, "MirVer", _T("Steam"));
-		}
-		break;
-	case 256:
+	
+	if (stateflags == 0) {
+		// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
+		WORD status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+		if (status == ID_STATUS_ONLINE || status == ID_STATUS_OUTTOLUNCH || status == ID_STATUS_FREECHAT)
+			setTString(hContact, "MirVer", _T("Steam"));
+	} else if (stateflags & 2) {
+		// game
+		setTString(hContact, "MirVer", _T("Steam (in game)"));
+	} else if (stateflags & 256) {
 		// on website
 		setTString(hContact, "MirVer", _T("Steam (website)"));
-		break;
-	case 512:
+	} else if (stateflags & 512) {
 		// on mobile
 		setTString(hContact, "MirVer", _T("Steam (mobile)"));
-		break;
-	case 1024:
+	} else if (stateflags & 1024) {
 		// big picture mode
 		setTString(hContact, "MirVer", _T("Steam (Big Picture)"));
-		break;
-	default:
+	} else {
 		// none/unknown (e.g. when contact is offline)
 		delSetting(hContact, "MirVer");
-		break;
 	}
-
+	
 	// playing game
 	node = json_get(data, "gameid");
 	DWORD gameId = node ? atol(_T2A(ptrT(json_as_string(node)))) : 0;
