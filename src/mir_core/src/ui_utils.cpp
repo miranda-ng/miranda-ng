@@ -1590,6 +1590,8 @@ BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 			if (m_bCheckBox && (hti.flags & TVHT_ONITEMICON) || !m_bCheckBox && (hti.flags & TVHT_ONITEMSTATEICON)) {
 				if (m_bCheckBox)
 					InvertCheck(hti.hItem);
+				else
+					SelectItem(hti.hItem);
 				NotifyChange();
 			}
 		}
