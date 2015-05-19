@@ -68,9 +68,9 @@ namespace SteamWebApi
 	//		JSONROOT root(response->pData);
 
 	//		JSONNODE *node = json_get(root, "error");
-	//		ptrW error(json_as_string(node));
+	//		ptrT error(json_as_string(node));
 
-	//		if (lstrcmp(error, L"OK"))
+	//		if (mir_tstrcmp(error, _T("OK")))
 	//			return;
 
 	//		node = json_get(root, "utc_timestamp");

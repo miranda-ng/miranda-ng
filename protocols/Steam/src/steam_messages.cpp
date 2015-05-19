@@ -38,10 +38,12 @@ void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	else
 		debugLog(_T("CSteamProto::OnMessageSent: failed to send message for %s (%s)"), steamId, error);
 
+	ptrA errorA(mir_t2a(error));
+
 	ProtoBroadcastAck(
 		param->hContact,
 		ACKTYPE_MESSAGE,
 		status,
 		param->hMessage,
-		error);
+		(LPARAM) errorA);
 }

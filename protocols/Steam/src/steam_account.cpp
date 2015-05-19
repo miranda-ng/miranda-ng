@@ -229,6 +229,7 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *)
 	if (response == NULL)
 	{
 		// Probably expired TokenSecret
+		// FIXME: no response could be also when there is no internet connection available! and in that case it shouldn't delete the token from db...
 		HandleTokenExpired();
 		return;
 	}
