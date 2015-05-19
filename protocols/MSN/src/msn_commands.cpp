@@ -1850,6 +1850,11 @@ LBL_InvalidCommand:
 				mir_snprintf(szParam, sizeof(szParam), "%s %s", data.typeId, data.strMsgBytes);
 				MSN_ReceiveMessage(info, cmdString, szParam);
 				break;
+			} else if (!strcmp(data.typeId, "MSGR\\ABCH")) {
+				MimeHeaders tHeader;
+				msgBody = tHeader.readFromBuffer(msgBody);
+				MSN_ProcessNotificationMessage(msgBody, strlen(msgBody));
+				break;
 			}
 
 			if (!strcmp(data.typeId, "MSGR\\PUT") || !strcmp(data.typeId, "MSGR\\DEL")) {
