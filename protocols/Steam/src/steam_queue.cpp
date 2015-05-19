@@ -80,7 +80,10 @@ void CSteamProto::StopQueue()
 
 	SteamWebApi::HttpRequest *request = new SteamWebApi::LogoffRequest(token, umqid);
 	NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
-	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+	if (response != NULL)
+	{
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+	}
 	delete request;
 
 	m_hQueueThread = NULL;
