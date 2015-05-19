@@ -983,9 +983,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		{
 			HMENU hMenu = GetSubMenu(hMainMenu, 0);
 
-			POINT pt;
-			pt.x = (short)LOWORD(lParam);
-			pt.y = (short)HIWORD(lParam);
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			if (pt.x == -1 && pt.y == -1)
 			{
 				HWND hMapUser = GetDlgItem(hwndDlg, IDC_MAP_USER_LIST);

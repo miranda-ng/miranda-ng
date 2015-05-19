@@ -102,12 +102,12 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_GETMINMAXINFO:
-	{
-		LPMINMAXINFO mmi = (LPMINMAXINFO)lParam;
-		mmi->ptMinTrackSize.x = 400; // The minimum width in points
-		mmi->ptMinTrackSize.y = 300; // The minimum height in points
-	}
-	break;
+		{
+			LPMINMAXINFO mmi = (LPMINMAXINFO)lParam;
+			mmi->ptMinTrackSize.x = 400; // The minimum width in points
+			mmi->ptMinTrackSize.y = 300; // The minimum height in points
+		}
+		break;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
@@ -126,44 +126,42 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_CONTEXTMENU:
-	{
-		HWND hView = GetDlgItem(hwndDlg, IDC_VIEWVERSIONINFO);
-		GetWindowRect(hView, &rc);
+		{
+			HWND hView = GetDlgItem(hwndDlg, IDC_VIEWVERSIONINFO);
+			GetWindowRect(hView, &rc);
 
-		POINT pt;
-		pt.x = LOWORD(lParam);
-		pt.y = HIWORD(lParam);
-		if (PtInRect(&rc, pt)) {
-			static const CHARRANGE all = { 0, -1 };
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+			if (PtInRect(&rc, pt)) {
+				static const CHARRANGE all = { 0, -1 };
 
-			HMENU hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXT));
-			HMENU hSubMenu = GetSubMenu(hMenu, 0);
-			TranslateMenu(hSubMenu);
+				HMENU hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+				HMENU hSubMenu = GetSubMenu(hMenu, 0);
+				TranslateMenu(hSubMenu);
 
-			CHARRANGE sel;
-			SendMessage(hView, EM_EXGETSEL, 0, (LPARAM)&sel);
-			if (sel.cpMin == sel.cpMax)
-				EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
+				CHARRANGE sel;
+				SendMessage(hView, EM_EXGETSEL, 0, (LPARAM)&sel);
+				if (sel.cpMin == sel.cpMax)
+					EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
 
-			switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
-			case IDM_COPY:
-				SendMessage(hView, WM_COPY, 0, 0);
-				break;
+				switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
+				case IDM_COPY:
+					SendMessage(hView, WM_COPY, 0, 0);
+					break;
 
-			case IDM_COPYALL:
-				SendMessage(hView, EM_EXSETSEL, 0, (LPARAM)&all);
-				SendMessage(hView, WM_COPY, 0, 0);
-				SendMessage(hView, EM_EXSETSEL, 0, (LPARAM)&sel);
-				break;
+				case IDM_COPYALL:
+					SendMessage(hView, EM_EXSETSEL, 0, (LPARAM)&all);
+					SendMessage(hView, WM_COPY, 0, 0);
+					SendMessage(hView, EM_EXSETSEL, 0, (LPARAM)&sel);
+					break;
 
-			case IDM_SELECTALL:
-				SendMessage(hView, EM_EXSETSEL, 0, (LPARAM)&all);
-				break;
+				case IDM_SELECTALL:
+					SendMessage(hView, EM_EXSETSEL, 0, (LPARAM)&all);
+					break;
+				}
+				DestroyMenu(hMenu);
 			}
-			DestroyMenu(hMenu);
 		}
-	}
-	break;
+		break;
 
 	case WM_DESTROY:
 		hViewWnd = NULL;

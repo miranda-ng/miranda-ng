@@ -1030,7 +1030,7 @@ INT_PTR CJabberDlgDiscovery::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_CONTEXTMENU:
 		if (GetWindowLongPtr((HWND)wParam, GWL_ID) == IDC_TREE_DISCO) {
 			HWND hwndList = (HWND)wParam;
-			POINT pt = { (signed short)LOWORD(lParam), (signed short)HIWORD(lParam) };
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 
 			if ((pt.x == -1) && (pt.y == -1)) {
 				LVITEM lvi = { 0 };

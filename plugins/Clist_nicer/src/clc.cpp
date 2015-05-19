@@ -659,7 +659,6 @@ LBL_Def:
 	case WM_CONTEXTMENU:
 		{
 			HMENU hMenu = NULL;
-			POINT pt;
 			DWORD hitFlags;
 
 			pcli->pfnEndRename(hwnd, dat, 1);
@@ -670,8 +669,8 @@ LBL_Def:
 				SetFocus(hwnd);
 			dat->iHotTrack = -1;
 			dat->szQuickSearch[0] = 0;
-			pt.x = (short) LOWORD(lParam);
-			pt.y = (short) HIWORD(lParam);
+
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			if (pt.x == -1 && pt.y == -1) {
 				dat->selection = pcli->pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
 				if (dat->selection != -1)

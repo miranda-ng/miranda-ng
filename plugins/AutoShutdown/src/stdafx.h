@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <time.h>   /* for mktime(),time() */
 #include <windows.h>
+#include <windowsx.h>
 #include <Uxtheme.h>
 #include <Shlwapi.h>
 #include <PowrProf.h>

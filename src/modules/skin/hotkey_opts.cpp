@@ -664,7 +664,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 	case WM_CONTEXTMENU:
 		if (GetWindowLongPtr((HWND)wParam, GWL_ID) == IDC_LV_HOTKEYS) {
 			HWND hwndList = (HWND)wParam;
-			POINT pt = { (signed short)LOWORD(lParam), (signed short)HIWORD(lParam) };
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			LVITEM lvi = {0};
 			THotkeyItem *item = NULL;
 

@@ -203,39 +203,32 @@ LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 // Handle to popup events
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	PopupDataType *popup = (PopupDataType*)PUGetPluginData(hWnd);
+
 	switch(message) {
-		case WM_COMMAND:
-		{
-			PopupDataType* popup = (PopupDataType*)PUGetPluginData(hWnd);
-			PostMessage(hPopupWindow, WMU_ACTION, (WPARAM)popup->plugin_data, opts.popup_left_click_action);
+	case WM_COMMAND:
+		PostMessage(hPopupWindow, WMU_ACTION, (WPARAM)popup->plugin_data, opts.popup_left_click_action);
 
-			if (opts.popup_left_click_action != POPUP_ACTION_DONOTHING)
-				PUDeletePopup(hWnd);
+		if (opts.popup_left_click_action != POPUP_ACTION_DONOTHING)
+			PUDeletePopup(hWnd);
 
-			return TRUE;
+		return TRUE;
+
+	case WM_CONTEXTMENU:
+		PostMessage(hPopupWindow, WMU_ACTION, (WPARAM)popup->plugin_data, opts.popup_right_click_action);
+
+		if (opts.popup_right_click_action != POPUP_ACTION_DONOTHING)
+			PUDeletePopup(hWnd);
+
+		return TRUE;
+
+	case UM_FREEPLUGINDATA:
+		PopupDataType* popup = (PopupDataType*)PUGetPluginData(hWnd);
+		if ((INT_PTR)popup != CALLSERVICE_NOTFOUND) {
+			DestroyIcon(popup->hIcon);
+			mir_free(popup);
 		}
-
-		case WM_CONTEXTMENU:
-		{
-			PopupDataType* popup = (PopupDataType*)PUGetPluginData(hWnd);
-			PostMessage(hPopupWindow, WMU_ACTION, (WPARAM)popup->plugin_data, opts.popup_right_click_action);
-
-			if (opts.popup_right_click_action != POPUP_ACTION_DONOTHING)
-				PUDeletePopup(hWnd);
-
-			return TRUE;
-		}
-
-		case UM_FREEPLUGINDATA:
-		{
-			PopupDataType* popup = (PopupDataType*)PUGetPluginData(hWnd);
-			if ((INT_PTR)popup != CALLSERVICE_NOTFOUND)
-			{
-				DestroyIcon(popup->hIcon);
-				mir_free(popup);
-			}
-			return FALSE; //the return value is ignored
-		}
+		return FALSE; //the return value is ignored
 	}
 
 	return DefWindowProc(hWnd, message, wParam, lParam);
@@ -246,28 +239,21 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 static LRESULT CALLBACK DumbPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message) {
-		case WM_COMMAND:
-		{
-			PUDeletePopup(hWnd);
-			return TRUE;
-		}
+	case WM_COMMAND:
+		PUDeletePopup(hWnd);
+		return TRUE;
 
-		case WM_CONTEXTMENU:
-		{
-			PUDeletePopup(hWnd);
-			return TRUE;
-		}
+	case WM_CONTEXTMENU:
+		PUDeletePopup(hWnd);
+		return TRUE;
 
-		case UM_FREEPLUGINDATA:
-		{
-			PopupDataType* popup = (PopupDataType*)PUGetPluginData(hWnd);
-			if ((INT_PTR)popup != CALLSERVICE_NOTFOUND)
-			{
-				DestroyIcon(popup->hIcon);
-				mir_free(popup);
-			}
-			return FALSE; //the return value is ignored
+	case UM_FREEPLUGINDATA:
+		PopupDataType* popup = (PopupDataType*)PUGetPluginData(hWnd);
+		if ((INT_PTR)popup != CALLSERVICE_NOTFOUND) {
+			DestroyIcon(popup->hIcon);
+			mir_free(popup);
 		}
+		return FALSE; //the return value is ignored
 	}
 
 	return DefWindowProc(hWnd, message, wParam, lParam);

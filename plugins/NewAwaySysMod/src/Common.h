@@ -26,6 +26,7 @@
 #define MIRANDA_VER 0x0A00
 
 #include <windows.h>
+#include <windowsx.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>

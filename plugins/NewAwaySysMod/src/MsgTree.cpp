@@ -342,8 +342,8 @@ static LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, 
 	case WM_CONTEXTMENU:
 		{
 			TVHITTESTINFO ht;
-			ht.pt.x = (short)LOWORD(lParam);
-			ht.pt.y = (short)HIWORD(lParam);
+			ht.pt.x = GET_X_LPARAM(lParam);
+			ht.pt.y = GET_Y_LPARAM(lParam);
 			TVITEM tvi = { 0 };
 			if (ht.pt.x == -1 && ht.pt.y == -1) { // use selected item 
 				if (tvi.hItem = TreeView_GetSelection(hWnd)) {

@@ -771,7 +771,7 @@ LRESULT CALLBACK EditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	{
 		HMENU nMenu = LoadMenu(hInstance, MAKEINTRESOURCE(IDR_FV_EDIT));
 		HMENU nSubMenu = GetSubMenu(nMenu, 0);
-		POINT pt = { (short)LOWORD(lParam), (short)HIWORD(lParam) };
+		POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 
 		if (pt.x == -1 && pt.y == -1) {
 			DWORD dwStart, dwEnd;

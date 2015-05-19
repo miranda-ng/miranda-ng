@@ -21,6 +21,7 @@
 #define _CRT_SECURE_NO_DEPRECATE
 
 #include <windows.h>
+#include <windowsx.h>
 #include <commctrl.h>
 #include <time.h>
 #include <string>

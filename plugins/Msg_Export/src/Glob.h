@@ -22,6 +22,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <Windows.h>
+#include <windowsx.h>
 #include <Richedit.h>
 using namespace std;
 #include <Shlobj.h>

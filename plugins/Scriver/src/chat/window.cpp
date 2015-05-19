@@ -681,8 +681,8 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			ClientToScreen(hwnd, &pt);
 		}
 		else {
-			pt.x = (short)LOWORD(lParam);
-			pt.y = (short)HIWORD(lParam);
+			pt.x = GET_X_LPARAM(lParam);
+			pt.y = GET_Y_LPARAM(lParam);
 		}
 		ptl.x = (LONG)pt.x;
 		ptl.y = (LONG)pt.y;
@@ -873,8 +873,8 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			int height = 0;
 
 			TVHITTESTINFO hti;
-			hti.pt.x = (short)LOWORD(lParam);
-			hti.pt.y = (short)HIWORD(lParam);
+			hti.pt.x = GET_X_LPARAM(lParam);
+			hti.pt.y = GET_Y_LPARAM(lParam);
 			if (hti.pt.x == -1 && hti.pt.y == -1) {
 				int index = SendMessage(hwnd, LB_GETCURSEL, 0, 0);
 				int top = SendMessage(hwnd, LB_GETTOPINDEX, 0, 0);

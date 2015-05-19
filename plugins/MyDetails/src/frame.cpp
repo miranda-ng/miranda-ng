@@ -1702,10 +1702,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_CONTEXTMENU:
 		proto = protocols->Get(data->protocol_number);
 		if (proto != NULL) {
-			POINT p;
-			p.x = LOWORD(lParam);
-			p.y = HIWORD(lParam);
-
+			POINT p = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			ScreenToClient(hwnd, &p);
 
 			data->showing_menu = true;

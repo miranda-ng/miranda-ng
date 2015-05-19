@@ -817,9 +817,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 			if (hMainMenu) {
 				HMENU hMenu = GetSubMenu(hMainMenu, 0);
 
-				POINT pt;
-				pt.x = (short)LOWORD(lParam);
-				pt.y = (short)HIWORD(lParam);
+				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 				if (pt.x == -1 && pt.y == -1) {
 					HWND hMapUser = GetDlgItem(hwndDlg, IDC_CURRENT_SHARES);
 					int nFirst = ListView_GetNextItem(hMapUser, -1, LVNI_FOCUSED);
@@ -1393,27 +1391,19 @@ void CALLBACK OpenStatisticViewFromPopupProc(ULONG_PTR /* dwParam */) {
 	nShowStatisticsView(0, 0);
 }
 
-LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
 	PUGetPluginData(hWnd);
-	//HANDLE hData = (HANDLE)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)&hData);
-	
+
 	switch (message) {
-		//case WM_LBUTTONUP:
-		//case WM_LBUTTONDBLCLK: // These don't work I can't undestande why !!
-		case WM_LBUTTONDOWN:
+	case WM_LBUTTONDOWN:
+		QueueUserAPC(OpenStatisticViewFromPopupProc, hMainThread, 0);
+		PUDeletePopup( hWnd );
+		return 0;
 
-			//nShowStatisticsView(0,0);
-			// has to be called from the right thread
-			//QueueUserAPC(OpenStatisticViewFromPopupProc, hMainThread, 0);
-
-			QueueUserAPC(OpenStatisticViewFromPopupProc, hMainThread, 0);
-			PUDeletePopup( hWnd );
-			return 0;
-
-		case WM_CONTEXTMENU: {
-				PUDeletePopup( hWnd );
-				return 0;
-			}
+	case WM_CONTEXTMENU:
+		PUDeletePopup( hWnd );
+		return 0;
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }

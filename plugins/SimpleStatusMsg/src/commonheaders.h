@@ -21,6 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <windows.h>
+#include <windowsx.h>
 #include <time.h>
 
 #include <newpluginapi.h>

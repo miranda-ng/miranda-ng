@@ -540,8 +540,8 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			ClientToScreen(hwnd, &pt);
 		}
 		else {
-			pt.x = (short)LOWORD(lParam);
-			pt.y = (short)HIWORD(lParam);
+			pt.x = GET_X_LPARAM(lParam);
+			pt.y = GET_Y_LPARAM(lParam);
 		}
 
 		ShowPopupMenu(mwdat, IDC_LOG, hwnd, pt);
@@ -790,8 +790,8 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			ClientToScreen(hwnd, &pt);
 		}
 		else {
-			pt.x = (short)LOWORD(lParam);
-			pt.y = (short)HIWORD(lParam);
+			pt.x = GET_X_LPARAM(lParam);
+			pt.y = GET_Y_LPARAM(lParam);
 		}
 
 		ShowPopupMenu(mwdat, IDC_MESSAGE, hwnd, pt);

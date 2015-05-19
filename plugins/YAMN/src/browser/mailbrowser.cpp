@@ -1599,8 +1599,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		if (GetWindowLongPtr((HWND)wParam, GWLP_ID) == IDC_LISTHEADERS)	{
 			//MessageBox(0,"LISTHEADERS","Debug",0);
 			HWND hList = GetDlgItem(hDlg, IDC_LISTHEADERS);
-			POINT pt = { (signed short)LOWORD(lParam), (signed short)HIWORD(lParam) };
-			HTREEITEM hItem = 0;
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			if (pt.x == -1) pt.x = 0;
 			if (pt.y == -1) pt.y = 0;
 			if (int numRows = ListView_GetItemCount(hList)) {
@@ -2385,8 +2384,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		if (GetWindowLongPtr((HWND)wParam, GWLP_ID) == IDC_LISTMAILS)	{
 			//MessageBox(0,"LISTHEADERS","Debug",0);
 			HWND hList = GetDlgItem(hDlg, IDC_LISTMAILS);
-			POINT pt = { (signed short)LOWORD(lParam), (signed short)HIWORD(lParam) };
-			HTREEITEM hItem = 0;
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			if (pt.x == -1) pt.x = 0;
 			if (pt.y == -1) pt.y = 0;
 			if (int numRows = ListView_GetItemCount(hList)) {

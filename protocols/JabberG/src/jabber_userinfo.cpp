@@ -498,7 +498,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	case WM_CONTEXTMENU:
 		if (GetWindowLongPtr((HWND)wParam, GWL_ID) == IDC_TV_INFO) {
 			HWND hwndTree = GetDlgItem(hwndDlg, IDC_TV_INFO);
-			POINT pt = { (signed short)LOWORD(lParam), (signed short)HIWORD(lParam) };
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			HTREEITEM hItem = 0;
 
 			if ((pt.x == -1) && (pt.y == -1)) {

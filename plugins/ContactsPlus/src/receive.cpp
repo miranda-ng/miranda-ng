@@ -405,14 +405,17 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_CONTEXTMENU:
 		{
 			HWND hLV = GetDlgItem(hwndDlg, IDC_CONTACTS);
-			LVHITTESTINFO lvh;
 			RECT rt;
 
 			wndData->iPopupItem = -1;
-			if ((HWND)wParam != hLV) break;  // if not our ListView go away
-			lvh.pt.x = LOWORD(lParam);
-			lvh.pt.y = HIWORD(lParam);
-			if (GetWindowRect(hLV, &rt)==0) return FALSE; // ?? why this, some check ??
+			if ((HWND)wParam != hLV)
+				break;  // if not our ListView go away
+			
+			LVHITTESTINFO lvh;
+			lvh.pt.x = GET_X_LPARAM(lParam);
+			lvh.pt.y = GET_Y_LPARAM(lParam);
+			GetWindowRect(hLV, &rt);
+			
 			ScreenToClient(hLV, &lvh.pt); // convert to ListView local coordinates
 			int ci = ListView_HitTest(hLV, &lvh);
 			if (ci==-1) break; // mouse is not over any item

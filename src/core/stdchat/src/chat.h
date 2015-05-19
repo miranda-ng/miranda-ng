@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <shlobj.h>
 #include <windows.h>
+#include <windowsx.h>
 #include <commctrl.h>
 #include <richedit.h>
 #include <ole2.h>

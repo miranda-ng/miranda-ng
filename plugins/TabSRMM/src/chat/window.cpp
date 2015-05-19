@@ -1527,8 +1527,8 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			SESSION_INFO *parentdat = dat->si;
 
 			int height = 0;
-			hti.pt.x = (short)LOWORD(lParam);
-			hti.pt.y = (short)HIWORD(lParam);
+			hti.pt.x = GET_X_LPARAM(lParam);
+			hti.pt.y = GET_Y_LPARAM(lParam);
 			if (hti.pt.x == -1 && hti.pt.y == -1) {
 				int index = SendMessage(hwnd, LB_GETCURSEL, 0, 0);
 				int top = SendMessage(hwnd, LB_GETTOPINDEX, 0, 0);
