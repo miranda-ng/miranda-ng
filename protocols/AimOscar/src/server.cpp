@@ -911,7 +911,7 @@ void CAimProto::modify_ssi_list(SNAC &snac, int &offset)
 
 				if (tlv.cmp(0x00d5) && tlv.len() > 2)
 				{
-					unsigned char type = tlv.ubyte(0);
+//					unsigned char type = tlv.ubyte(0);
 					if (name_length == 1)
 					{
 						mir_free(hash_sm);
@@ -1436,7 +1436,7 @@ void CAimProto::snac_file_decline(SNAC &snac)//family 0x0004
 		{
 			int sn_len = snac.ubyte(10);
 			char* sn   = snac.part(11, sn_len);
-			int reason = snac.ushort(11 + sn_len);
+//			int reason = snac.ushort(11 + sn_len);
 			MCONTACT hContact = contact_from_sn(sn);
 
 			msg_ack_param *msg_ack = (msg_ack_param*)mir_alloc(sizeof(msg_ack_param));

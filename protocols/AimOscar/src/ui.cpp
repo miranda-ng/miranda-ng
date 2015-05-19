@@ -71,7 +71,7 @@ void DrawMyControl(HDC hDC, HWND /*hwndButton*/, HANDLE hTheme, UINT iState, REC
 		}
 		else // ...else draw non pressed button
 		{
-			UINT uState = DFCS_BUTTONPUSH|(bIsPressed? DFCS_PUSHED : 0);
+			UINT uState = DFCS_BUTTONPUSH;
 			DrawFrameControl(hDC, &rect, DFC_BUTTON, uState);
 		}
 	}
@@ -919,7 +919,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				//PN
 				int port = GetDlgItemInt(hwndDlg, IDC_PN, NULL, FALSE);
-				if (port > 0 && port != ppro->getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_PORT : AIM_DEFAULT_SSL_PORT)
+				if (port > 0 && port != (ppro->getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_PORT : AIM_DEFAULT_SSL_PORT))
 					ppro->setWord(AIM_KEY_PN, (WORD)port);
 				else
 					ppro->delSetting(AIM_KEY_PN);
