@@ -373,13 +373,6 @@ public:
 	virtual void OnApply();
 	virtual void OnReset();
 
-	static int cmp(const CCtrlBase *c1, const CCtrlBase *c2)
-	{
-		if (c1->m_idCtrl < c2->m_idCtrl) return -1;
-		if (c1->m_idCtrl > c2->m_idCtrl) return +1;
-		return 0;
-	}
-
 protected:
 	HWND m_hwnd;  // must be the first data item
 	int m_idCtrl;
