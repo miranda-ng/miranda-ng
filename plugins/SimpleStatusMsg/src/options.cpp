@@ -30,7 +30,7 @@ static LRESULT CALLBACK OptEditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 	switch (uMsg) {
 	case WM_CONTEXTMENU:
 		{
-			POINT pt = {(LONG)LOWORD(lParam), (LONG)HIWORD(lParam)};
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			RECT rc;
 			GetClientRect(hwndDlg, &rc);
 

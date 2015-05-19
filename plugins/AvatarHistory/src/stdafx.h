@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <windowsx.h>
 #include <time.h>
 #include <ShObjIdl.h>
 #include <ShlGuid.h>

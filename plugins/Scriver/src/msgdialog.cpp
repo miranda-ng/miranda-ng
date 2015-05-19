@@ -318,8 +318,8 @@ static LRESULT CALLBACK LogEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			ClientToScreen(hwnd, &pt);
 		}
 		else {
-			pt.x = (short)LOWORD(lParam);
-			pt.y = (short)HIWORD(lParam);
+			pt.x = GET_X_LPARAM(lParam);
+			pt.y = GET_Y_LPARAM(lParam);
 		}
 
 		POINTL ptl = { (LONG)pt.x, (LONG)pt.y };

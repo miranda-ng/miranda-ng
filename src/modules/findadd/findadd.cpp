@@ -801,7 +801,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_CONTEXTMENU:
 		{
-			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 
 			LVHITTESTINFO lvhti;
 			lvhti.pt = pt;

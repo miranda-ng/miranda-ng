@@ -397,27 +397,28 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			SendMessage(hwndFrame,M_UPDATE_COUNTDOWN,0,0);
 			return 0;
 		case WM_CONTEXTMENU:
-		{	HMENU hContextMenu;
-			POINT pt;
-			if (dat->flags&FWPDF_COUNTDOWNINVALID) return 0;
-			POINTSTOPOINT(pt,MAKEPOINTS(lParam));
-			if (pt.x==-1 && pt.y==-1) { /* invoked by keyboard */
-				RECT rc;
-				/* position in middle above rect */
-				if (!GetWindowRect(hwndFrame, &rc)) return 0;
-				pt.x=rc.left+((int)(rc.right-rc.left)/2);
-				pt.y=rc.top+((int)(rc.bottom-rc.top)/2);
-			}
-			hContextMenu=CreatePopupMenu();
-			if (hContextMenu != NULL) {
-				AppendMenu(hContextMenu,MF_STRING,MENUITEM_PAUSECOUNTDOWN,(dat->flags&FWPDF_PAUSED)?TranslateT("&Unpause Countdown"):TranslateT("&Pause Countdown"));
-				SetMenuDefaultItem(hContextMenu,MENUITEM_PAUSECOUNTDOWN,FALSE);
-				AppendMenu(hContextMenu,MF_STRING,MENUITEM_STOPCOUNTDOWN,TranslateT("&Cancel Countdown"));
-				TrackPopupMenuEx(hContextMenu,TPM_LEFTALIGN|TPM_TOPALIGN|TPM_HORPOSANIMATION|TPM_VERPOSANIMATION|TPM_RIGHTBUTTON,pt.x,pt.y,hwndFrame,NULL);
-				DestroyMenu(hContextMenu);
+			{
+				if (dat->flags & FWPDF_COUNTDOWNINVALID)
+					return 0;
+
+				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+				if (pt.x==-1 && pt.y==-1) { /* invoked by keyboard */
+					RECT rc;
+					/* position in middle above rect */
+					if (!GetWindowRect(hwndFrame, &rc)) return 0;
+					pt.x=rc.left+((int)(rc.right-rc.left)/2);
+					pt.y=rc.top+((int)(rc.bottom-rc.top)/2);
+				}
+				HMENU hContextMenu = CreatePopupMenu();
+				if (hContextMenu != NULL) {
+					AppendMenu(hContextMenu,MF_STRING,MENUITEM_PAUSECOUNTDOWN,(dat->flags&FWPDF_PAUSED)?TranslateT("&Unpause Countdown"):TranslateT("&Pause Countdown"));
+					SetMenuDefaultItem(hContextMenu,MENUITEM_PAUSECOUNTDOWN,FALSE);
+					AppendMenu(hContextMenu,MF_STRING,MENUITEM_STOPCOUNTDOWN,TranslateT("&Cancel Countdown"));
+					TrackPopupMenuEx(hContextMenu,TPM_LEFTALIGN|TPM_TOPALIGN|TPM_HORPOSANIMATION|TPM_VERPOSANIMATION|TPM_RIGHTBUTTON,pt.x,pt.y,hwndFrame,NULL);
+					DestroyMenu(hContextMenu);
+				}
 			}
 			return 0;
-		}
 		case WM_LBUTTONDBLCLK:
 			if (!(dat->flags&FWPDF_COUNTDOWNINVALID))
 				SendMessage(hwndFrame,M_PAUSE_COUNTDOWN,0,0);

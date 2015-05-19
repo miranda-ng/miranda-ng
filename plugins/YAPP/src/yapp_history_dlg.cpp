@@ -518,15 +518,14 @@ static LRESULT CALLBACK PopupsListSubclassProc(HWND hWnd, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_CONTEXTMENU:
 		{
-			int x = LOWORD(lParam);
-			int y = HIWORD(lParam);
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			int selection;		
 
 			HMENU hMenu = CreatePopupMenu();
 			AppendMenu(hMenu, MF_STRING, POPUPMENU_TITLE, TranslateT("Copy title to clipboard"));
 			AppendMenu(hMenu, MF_STRING, POPUPMENU_MESSAGE, TranslateT("Copy message to clipboard"));
 			AppendMenu(hMenu, MF_STRING, POPUPMENU_TIMESTAMP, TranslateT("Copy timestamp to clipboard"));
-			selection = TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, x, y, 0, hWnd, NULL);
+			selection = TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hWnd, NULL);
 			DestroyMenu(hMenu);
 			if (selection)
 			{

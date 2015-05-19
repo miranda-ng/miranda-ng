@@ -180,10 +180,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 			int pos;
 
 			if ((HANDLE)wParam == hwndList) {
-				POINT p;
-				p.x = LOWORD(lParam); 
-				p.y = HIWORD(lParam); 
-
+				POINT p = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 				ScreenToClient(hwndList, &p);
 
 				pos = SendMessage(hwndList, LB_ITEMFROMPOINT, 0, MAKELONG(p.x, p.y));

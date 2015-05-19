@@ -37,6 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  * Global header files
  *******************************************************************/
 #include <windows.h>
+#include <windowsx.h>
 #include <commctrl.h>
 #include <uxtheme.h>
 #include <richedit.h>

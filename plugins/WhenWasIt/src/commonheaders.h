@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define _CRT_NON_CONFORMING_SWPRINTFS
 
 #include <windows.h>
+#include <windowsx.h>
 #include <time.h>
 #include <math.h>
 #include <commctrl.h>

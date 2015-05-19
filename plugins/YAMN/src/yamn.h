@@ -6,6 +6,7 @@
 #define VC_EXTRALEAN
 
 #include <windows.h>
+#include <windowsx.h>
 #include <commctrl.h>
 
 #include <win2k.h>

@@ -452,7 +452,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1)),
 			submenu = GetSubMenu(menu, 0);
 
-		POINT pt = { LOWORD(context_point), HIWORD(context_point) };
+		POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 
 		RECT r;
 		GetClientRect(list_hwnd, &r);

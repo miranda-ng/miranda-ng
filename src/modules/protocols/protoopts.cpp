@@ -688,10 +688,10 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 	case WM_CONTEXTMENU:
 		if (GetWindowLongPtr((HWND)wParam, GWL_ID) == IDC_ACCLIST) {
-			POINT pt = { (signed short)LOWORD(lParam), (signed short)HIWORD(lParam) };
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			int iItem = ListBox_GetCurSel(hwndList);
 
-			if ((pt.x == -1) && (pt.y == -1)) {
+			if (pt.x == -1 && pt.y == -1) {
 				if (iItem != LB_ERR) {
 					RECT rc;
 					ListBox_GetItemRect(hwndList, iItem, &rc);

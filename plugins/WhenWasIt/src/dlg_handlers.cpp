@@ -640,7 +640,6 @@ int UpdateBirthdayEntry(HWND hList, MCONTACT hContact, int entry, int bShowAll, 
 static LRESULT CALLBACK BirthdaysListSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	LVITEM item = { 0 };
-	POINT pt = { 0 };
 	MCONTACT hContact;
 	int i, count;
 
@@ -670,8 +669,7 @@ static LRESULT CALLBACK BirthdaysListSubclassProc(HWND hWnd, UINT msg, WPARAM wP
 		break;
 
 	case WM_CONTEXTMENU:
-		pt.x = (short)LOWORD(lParam);
-		pt.y = (short)HIWORD(lParam);
+		POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 		count = ListView_GetItemCount(hWnd);
 		item.mask = LVIF_PARAM;
 		for (i = 0; i < count; i++) {
