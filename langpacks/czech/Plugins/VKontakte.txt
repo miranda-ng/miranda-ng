@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.1.1
+;  Version: 0.1.1.2
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -97,7 +97,7 @@ Extra
 [Hide chats on startup]
 
 [Always notify as unread for all incoming message]
-
+Vždy upozornit všechny příchozí zprávy jako nepřečtené
 [Force invisible status upon user activity]
 
 [Invisible interval timeout (min):]
@@ -163,11 +163,11 @@ Zrušit
 [Invite user to chat]
 Pozvat uživatele k diskusi
 [Choose one of your contacts to be invited:]
-
+Zvolte kontakty, které chcete pozvat:
 [Create group chat]
-
+Vytvořit diskusi
 [Mark users you want to invite to a new chat]
-
+Označte kontakty, které chcete pozvat do nové diskuse
 [New chat's title:]
 
 [Share]
@@ -182,7 +182,7 @@ Odkaz:
 [Captcha form icon]
 Ikona okna s captcha kódem
 [Notification icon]
-
+Ikona upozornění
 [Read message icon]
 
 [Visit profile icon]
@@ -272,11 +272,13 @@ Video
 [Document]
 Dokument
 [Wall post]
-
+Příspěvek na zdi
 [Link]
 Adresa
 [Image]
-
+Obrázek
+[Gift]
+Dárek
 [Unsupported or unknown attachment type: %s]
 Nepodporovaný nebo neznámý typ přílohy: %s
 [(Unknown contact)]
@@ -298,7 +300,7 @@ neznámý
 [Enter new chat title]
 
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-
+Tato diskuse bude navždy zrušena s veškerým jejím obsahem. Tuto akci nelze vrátit zpět. Přejete si pokračovat?
 [Warning]
 Upozornění
 [I'm back]

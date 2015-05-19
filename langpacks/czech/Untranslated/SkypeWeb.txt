@@ -1,6 +1,0 @@
-﻿[Skype protocol support for Miranda NG. Based on new Skype for Web.]
-[Create group chat]
-[Mark users you want to invite to a new chat]
-[Choose one of your contacts to be invited:]
-[Skypename:]
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]

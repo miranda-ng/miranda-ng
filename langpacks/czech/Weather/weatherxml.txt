@@ -104,10 +104,10 @@ dorůstá
 noc
 [Feel]
 Subj.
-[Forcast Update]
+[Forecast Update]
 Aktualizace předpovědi
-[Forcast Update VAR]
-
+[Forecast Update VAR]
+Aktualizace předpovědi VAR
 [Forecast Day 0]
 Předpověď na dnešní den
 [Forecast Day 1]
@@ -143,9 +143,9 @@ Měsíc
 [Observatory]
 
 [Pressure Tendency]
-
+Tlaková tendence
 [Update VAR]
-
+Aktualizace VAR
 [UV]
 UV
 [UV Index]

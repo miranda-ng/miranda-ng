@@ -227,7 +227,7 @@ Použít filtr
 [Reset Filter]
 Zrušit filtr
 [Send group chat invitation]
-
+Odeslat pozvánku k diskusi
 [Other JID:]
 Ostatní JID:
 [Add]
@@ -237,7 +237,7 @@ Důvod pozvánky:
 [&Invite]
 &Pozvat
 [Incoming group chat invitation]
-
+Příchozí pozvánka k diskusi
 [You are invited to conference room by]
 Pozvánka do diskusní místnosti od
 [with following reason:]
@@ -679,11 +679,11 @@ Zkopírovat JID z místnosti
 [Real &JID: %s]
 Skutečné &JID: %s
 [Invite Users to\n%s]
-
+Pozvat uživatele do\n%s
 [%s (not on roster)]
 %s (není v seznamu)
 [%s from\n%s]
-
+%s z\n%s
 [Real JID not available]
 Skutečné JID není dostupné
 [Reason to kick %s]
@@ -798,7 +798,7 @@ Záložky...
 [has set the subject to:]
 nastavil téma na:
 [Group chat invitation to\n%s]
-
+Příchozí pozvánka k diskusi v\n%s
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]
 Stavové ikony

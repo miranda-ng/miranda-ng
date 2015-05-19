@@ -2,24 +2,24 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
-
+Skype protokol pro Mirandu NG. Založen na novém Skypu pro Web.
 ;file \protocols\SkypeWeb\res\resource.rc
 [Create group chat]
-
+Vytvořit diskusi
 [Cancel]
 Zrušit
 [Mark users you want to invite to a new chat]
-
+Označte kontakty, které chcete pozvat do nové diskuse
 [Invite user to chat]
 Pozvat uživatele k diskusi
 [Choose one of your contacts to be invited:]
-
+Zvolte kontakty, které chcete pozvat:
 [Skypename:]
-
+Skype jméno:
 [Password:]
 Heslo:
 [Default group:]
@@ -32,16 +32,8 @@ Ostatní
 Automatická synchronizace zpráv
 [Use local time for received messages]
 Použít lokální čas počítače pro příchozí zprávy
-[Mark message as read...]
-Označit zprávu jako přečtenou...
-[on read]
-při přečtení
-[on receive]
-při přijetí
-[on reply]
-při odpovězení
-[on typing]
-při psaní
+[Always notify as unread for all incoming message]
+Vždy upozornit všechny příchozí zprávy jako nepřečtené
 [Enter password]
 Zadejte heslo
 [Save password]
@@ -57,7 +49,7 @@ Admin
 [User]
 Uživatel
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-
+Tato diskuse bude navždy zrušena s veškerým jejím obsahem. Tuto akci nelze vrátit zpět. Přejete si pokračovat?
 [Warning]
 Varování
 [&Invite user...]
@@ -77,6 +69,19 @@ Určit &roli
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 Opravdu chcete pokračovat?
+;file \protocols\SkypeWeb\src\skype_events.cpp
+[Incoming call]
+Příchozí hovor
+[Action]
+Akce
+[Call information.]
+Informace o hovoru.
+[Calls]
+Hovory
+[Notifications]
+Upozornění
+[Errors]
+Chyby
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 Upraveno v
@@ -94,6 +99,8 @@ Název souboru
 Velikost
 [bytes]
 bajtů
+[Image]
+Obrázek
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Ikona protokolu
@@ -107,6 +114,12 @@ Ikona blokování uživatele
 Ikona odblokování uživatele
 [Incoming call icon]
 Ikona příchozího hovoru
+[Notification icon]
+Ikona upozornění
+[Error icon]
+Ikona chyby
+[Action icon]
+Ikona akce
 [Protocols]
 Protokoly
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
@@ -123,24 +136,21 @@ Odblokovat kontakt
 [Create new chat]
 Založit novou diskusi
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
-[Incoming call]
-Příchozí hovor
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Sítě
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
 [%s connection]
 %s - spojení se serverem
-[Action]
-Akce
 [Incoming call sound]
 Zvuk příchozího hovoru
 [Incoming call canceled sound]
 Zvuk zrušení příchozího hovoru
-[Calls]
-Hovory
-[Notifications]
-Upozornění
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
+[Failed establish a TRouter connection.]
+Nelze navázat TRouter spojení.
 [Incoming call from %s]
 Příchozí hovor (%s)
+;file \protocols\SkypeWeb\src\skype_utils.cpp
+[Message read: %s]
+Zpráva byla přečtena: %s

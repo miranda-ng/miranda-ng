@@ -12,8 +12,8 @@ Vyberte požadovaný protokol
 Zadejte interní název účtu (nepovinné)
 [Cancel]
 Zrušit
-[Add %s]
-Mezi kontakty přidat: %s
+[Add contact]
+Přidat kontakt
 [&Add]
 Přid&at
 [&Cancel]
@@ -1961,8 +1961,8 @@ In&formace o sobě...
 [Account]
 Účet
 ;file \src\modules\addcontact\addcontact.cpp
-[Add contact]
-Přidat kontakt
+[Add %s]
+Mezi kontakty přidat: %s
 [Please authorize my request and add me to your contact list.]
 Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
 ;file \src\modules\chat\chat_opts.cpp
