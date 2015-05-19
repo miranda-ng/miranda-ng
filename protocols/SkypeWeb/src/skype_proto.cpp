@@ -21,7 +21,6 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 PROTO<CSkypeProto>(protoName, userName), password(NULL)
 {
 	m_hProtoIcon = Icons[0].Handle;
-	SetAllContactsStatus(ID_STATUS_OFFLINE);
 
 	wchar_t name[128];
 	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
