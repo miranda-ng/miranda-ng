@@ -47,8 +47,6 @@ public:
 
 	virtual	DWORD_PTR __cdecl GetCaps( int type, MCONTACT hContact = NULL );
 
-	virtual	int       __cdecl SendMsg( MCONTACT hContact, int flags, const char* msg );
-
 	virtual	int       __cdecl SetStatus( int iNewStatus );
 
 	virtual	int       __cdecl UserIsTyping( MCONTACT hContact, int type );

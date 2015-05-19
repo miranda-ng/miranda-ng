@@ -47,7 +47,7 @@ void OmegleProto::UpdateChat(const TCHAR *name, const TCHAR *message, bool addto
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 }
 
-int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
+int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
 

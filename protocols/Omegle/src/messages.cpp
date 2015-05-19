@@ -68,24 +68,12 @@ void OmegleProto::SendTypingWorker(void *p)
 		facy.typing_stop();
 }
 
-void OmegleProto::NewChatWorker(void*p)
+void OmegleProto::NewChatWorker(void*)
 {
 	NewChat();
 }
 
-void OmegleProto::StopChatWorker(void*p)
+void OmegleProto::StopChatWorker(void*)
 {
 	StopChat();
-}
-
-int OmegleProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
-{
-	// TODO: msg comes as Unicode (retyped wchar_t*), why should we convert it as ANSI to UTF-8? o_O
-/*	if ( flags & PREF_UNICODE )
-		msg = mir_utf8encode(msg);
-  
-	facy.msgid_ = (facy.msgid_ % 1024)+1;
-	ForkThread( &OmegleProto::SendMsgWorker, this,new send_direct(hContact,msg,(HANDLE)facy.msgid_));
-	return facy.msgid_;*/
-	return 0;
 }

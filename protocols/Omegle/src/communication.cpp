@@ -21,25 +21,44 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-http::response Omegle_client::flap( const int request_type, std::string* request_data, std::string* get_data )
+http::response Omegle_client::flap(const int request_type, std::string *post_data, std::string *get_data)
 {
-	NETLIBHTTPREQUEST nlhr = {sizeof( NETLIBHTTPREQUEST )};
-	nlhr.requestType = choose_method( request_type );
-	std::string url = choose_request_url( request_type, request_data, get_data );
-	nlhr.szUrl = (char*)url.c_str( );
-	nlhr.flags = NLHRF_HTTP11 | NLHRF_NODUMP;
-	nlhr.headers = get_request_headers( request_type, &nlhr.headersCount );
-	nlhr.timeout = 1000 * (( request_type == OMEGLE_REQUEST_EVENTS ) ? 60 : 15);
+	http::response resp;
 
-	if ( request_data != NULL )
-	{
-		nlhr.pData = (char*)(*request_data).c_str();
-		nlhr.dataLength = (int)request_data->length( );
+	// Prepare the request
+	NETLIBHTTPREQUEST nlhr = { sizeof(NETLIBHTTPREQUEST) };
+
+	// Set request URL
+	std::string url = choose_server(request_type) + choose_action(request_type, get_data);
+	nlhr.szUrl = (char*)url.c_str();
+
+	// Set timeout (bigger for channel request)
+	nlhr.timeout = 1000 * ((request_type == OMEGLE_REQUEST_EVENTS) ? 65 : 20);
+
+	// Set request type (GET/POST) and eventually also POST data
+	if (post_data != NULL) {
+		nlhr.requestType = REQUEST_POST;
+		nlhr.pData = (char*)(*post_data).c_str();
+		nlhr.dataLength = (int)post_data->length();
+	}
+	else {
+		nlhr.requestType = REQUEST_GET;
 	}
 
-	parent->debugLogA("@@@@@ Sending request to '%s'", nlhr.szUrl);
+	// Set headers - it depends on requestType so it must be after setting that
+	nlhr.headers = get_request_headers(nlhr.requestType, &nlhr.headersCount);
 
-	switch ( request_type )
+	// Set flags
+	nlhr.flags = NLHRF_HTTP11;
+
+#ifdef _DEBUG 
+	nlhr.flags |= NLHRF_DUMPASTEXT;
+#else
+	nlhr.flags |= NLHRF_NODUMP;
+#endif	
+
+	// Set persistent connection (or not)
+	switch (request_type)
 	{
 	case OMEGLE_REQUEST_HOME:
 		nlhr.nlc = NULL;
@@ -57,10 +76,14 @@ http::response Omegle_client::flap( const int request_type, std::string* request
 		break;
 	}
 
-	NETLIBHTTPREQUEST* pnlhr = ( NETLIBHTTPREQUEST* )CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)handle_, (LPARAM)&nlhr );
+	parent->debugLogA("@@@@@ Sending request to '%s'", nlhr.szUrl);
 
-	http::response resp;
+	// Send the request	
+	NETLIBHTTPREQUEST *pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)handle_, (LPARAM)&nlhr);
 
+	mir_free(nlhr.headers);
+
+	// Remember the persistent connection handle (or not)
 	switch ( request_type )
 	{
 	case OMEGLE_REQUEST_HOME:
@@ -76,10 +99,11 @@ http::response Omegle_client::flap( const int request_type, std::string* request
 		break;
 	}
 
-	if ( pnlhr != NULL )
+	// Check and copy response data
+	if (pnlhr != NULL)
 	{
 		parent->debugLogA("@@@@@ Got response with code %d", pnlhr->resultCode);
-		store_headers( &resp, pnlhr->headers, pnlhr->headersCount );
+		store_headers(&resp, pnlhr->headers, pnlhr->headersCount);
 		resp.code = pnlhr->resultCode;
 		resp.data = pnlhr->pData ? pnlhr->pData : "";
 
@@ -89,8 +113,7 @@ http::response Omegle_client::flap( const int request_type, std::string* request
 	} else {
 		parent->debugLogA("!!!!! No response from server (time-out)");
 		resp.code = HTTP_CODE_FAKE_DISCONNECTED;
-		// Better to have something set explicitely as this value
-	    // is compaired in all communication requests
+		// Better to have something set explicitely as this value is compaired in all communication requests
 	}
 
 	return resp;
@@ -159,27 +182,7 @@ std::string Omegle_client::get_language()
 	return language > 0 ? languages[language].id : "en";
 }
 
-int Omegle_client::choose_method( int request_type )
-{
-	switch ( request_type )
-	{
-	case OMEGLE_REQUEST_HOME:
-	case OMEGLE_REQUEST_COUNT:
-		return REQUEST_GET;
-	
-/*	case OMEGLE_REQUEST_START:
-	case OMEGLE_REQUEST_STOP:
-	case OMEGLE_REQUEST_SEND:
-	case OMEGLE_REQUEST_EVENTS:
-	case OMEGLE_REQUEST_TYPING_START:
-	case OMEGLE_REQUEST_TYPING_STOP:
-	case OMEGLE_REQUEST_RECAPTCHA:
-*/	default:
-		return REQUEST_POST;
-	}
-}
-
-std::string Omegle_client::choose_server( int request_type, std::string* data, std::string* get_data )
+std::string Omegle_client::choose_server(int request_type)
 {
 	switch ( request_type )
 	{
@@ -201,7 +204,7 @@ std::string Omegle_client::choose_server( int request_type, std::string* data, s
 	}
 }
 
-std::string Omegle_client::choose_action( int request_type, std::string* data, std::string* get_data )
+std::string Omegle_client::choose_action(int request_type, std::string* get_data)
 {
 	switch ( request_type )
 	{
@@ -244,61 +247,27 @@ std::string Omegle_client::choose_action( int request_type, std::string* data, s
 	}
 }
 
-std::string Omegle_client::choose_request_url( int request_type, std::string* data, std::string* get_data )
-{
-	std::string url = "";
-	url.append( choose_server( request_type, data, get_data ));
-	url.append( choose_action( request_type, data, get_data ));
-	return url;
-}
 
 NETLIBHTTPHEADER* Omegle_client::get_request_headers( int request_type, int* headers_count )
 {
-	switch ( request_type )
-	{
-	case OMEGLE_REQUEST_START:
-	case OMEGLE_REQUEST_STOP:
-	case OMEGLE_REQUEST_SEND:
-	case OMEGLE_REQUEST_EVENTS:
-	case OMEGLE_REQUEST_TYPING_START:
-	case OMEGLE_REQUEST_TYPING_STOP:
-	case OMEGLE_REQUEST_RECAPTCHA:
+	if (request_type == REQUEST_POST)
 		*headers_count = 4;
-		break;
-
-	case OMEGLE_REQUEST_HOME:
-	case OMEGLE_REQUEST_COUNT:
-	default:
+	else
 		*headers_count = 3;
-		break;
-	}
 
-	NETLIBHTTPHEADER* headers = ( NETLIBHTTPHEADER* )utils::mem::allocate( sizeof( NETLIBHTTPHEADER )*( *headers_count ));
+	NETLIBHTTPHEADER *headers = (NETLIBHTTPHEADER*)mir_calloc(sizeof(NETLIBHTTPHEADER)*(*headers_count));
 
-	switch ( request_type )
-	{
-	case OMEGLE_REQUEST_START:
-	case OMEGLE_REQUEST_STOP:
-	case OMEGLE_REQUEST_SEND:
-	case OMEGLE_REQUEST_EVENTS:
-	case OMEGLE_REQUEST_TYPING_START:
-	case OMEGLE_REQUEST_TYPING_STOP:
-	case OMEGLE_REQUEST_RECAPTCHA:
+	if (request_type == REQUEST_POST) {
 		headers[3].szName = "Content-Type";
 		headers[3].szValue = "application/x-www-form-urlencoded; charset=utf-8";
-		// intentionally no break;
-
-	case OMEGLE_REQUEST_HOME:
-	case OMEGLE_REQUEST_COUNT:
-	default:
-		headers[2].szName = "User-Agent";
-		headers[2].szValue = (char *)g_strUserAgent.c_str( );
-		headers[1].szName = "Accept";
-		headers[1].szValue = "*/*";
-		headers[0].szName = "Accept-Language";
-		headers[0].szValue = "en,en-US;q=0.9";
-		break;
 	}
+
+	headers[2].szName = "User-Agent";
+	headers[2].szValue = (char *)g_strUserAgent.c_str();
+	headers[1].szName = "Accept";
+	headers[1].szValue = "*/*";
+	headers[0].szName = "Accept-Language";
+	headers[0].szValue = "en,en-US;q=0.9";
 
 	return headers;
 }
@@ -438,7 +407,7 @@ bool Omegle_client::start()
 	}
 }
 
-bool Omegle_client::stop( )
+bool Omegle_client::stop()
 {
 	if ( parent->isOffline())
 		return true;
@@ -473,7 +442,7 @@ bool Omegle_client::stop( )
 	}*/
 }
 
-bool Omegle_client::events( )
+bool Omegle_client::events()
 {
 	handle_entry( "events" );
 
@@ -519,9 +488,9 @@ bool Omegle_client::events( )
 			mir_free(msg);
 		}*/
 
-		if ( (pos = resp.data.find( "[\"serverMessage\", \"" )) != std::string::npos ) {
+		if ( (pos = resp.data.find( "[\"serverMessage\"," )) != std::string::npos ) {
 			// We got server message
-			pos += 19;
+			pos += 18;
 
 			std::string message = utils::text::trim( resp.data.substr(pos, resp.data.find("\"]", pos) - pos));
 			TCHAR *tstr = Langpack_PcharToTchar(message.c_str());
@@ -545,7 +514,7 @@ bool Omegle_client::events( )
 		}
 
 		if ( (pos = resp.data.find( "[\"commonLikes\"," )) != std::string::npos ) {
-			pos += 18;
+			pos += 17;
 			std::string like = resp.data.substr(pos, resp.data.find("\"]", pos) - pos);
 			utils::text::replace_all(&like, "\", \"", ", ");
 
@@ -559,7 +528,7 @@ bool Omegle_client::events( )
 		}
 
 		if ( (pos = resp.data.find( "[\"question\"," )) != std::string::npos ) {
-			pos += 14;
+			pos += 13;
 
 			std::string question = utils::text::trim(
 				utils::text::special_expressions_decode(
@@ -604,7 +573,7 @@ bool Omegle_client::events( )
 
 		pos = 0;
 		while ( (pos = resp.data.find( "[\"gotMessage\",", pos )) != std::string::npos ) {
-			pos += 16;
+			pos += 15;
 
 			std::string message = utils::text::trim(
 				utils::text::special_expressions_decode(
@@ -622,7 +591,7 @@ bool Omegle_client::events( )
 
 		pos = 0;
 		while ( (pos = resp.data.find( "[\"spyMessage\",", pos )) != std::string::npos ) {
-			pos += 16;
+			pos += 15;
 
 			std::string message = resp.data.substr(pos, resp.data.find("\"]", pos) - pos);
 			
@@ -658,7 +627,7 @@ bool Omegle_client::events( )
 		}
 
 		if ( (pos = resp.data.find( "[\"spyDisconnected\"," )) != std::string::npos ) {
-			pos += 21;
+			pos += 20;
 
 			std::string stranger = utils::text::trim(
 				utils::text::special_expressions_decode(
@@ -694,7 +663,7 @@ bool Omegle_client::events( )
 		}
 
 		if ( (pos = resp.data.find( "[\"error\"," )) != std::string::npos ) {
-			pos += 11;
+			pos += 10;
 
 			std::string error = utils::text::trim(
 				utils::text::special_expressions_decode(
@@ -833,22 +802,22 @@ bool Omegle_client::recaptcha()
 	}
 }
 
-std::string Omegle_client::get_page( const int request_type )
+std::string Omegle_client::get_page(const int request_type)
 {
-	handle_entry( "get_page" );
+	handle_entry("get_page");
 
-	http::response resp = flap( OMEGLE_REQUEST_COUNT );
+	http::response resp = flap(request_type);
 
 	switch ( resp.code )
 	{
 	case HTTP_CODE_OK:
-		handle_success( "get_page" );
+		handle_success("get_page");
 		break;
 
 	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	default:
-		handle_error( "get_page" );
+		handle_error("get_page");
 	}
 
 	return resp.data;
