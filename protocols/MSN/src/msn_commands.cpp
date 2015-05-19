@@ -442,13 +442,56 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	}
 
 	if (!_strnicmp(tContentType, "text/plain", 10) ||
-		(!_strnicmp(tContentType, "application/user+xml", 10) && tHeader["Message-Type"] && !strcmp(tHeader["Message-Type"], "RichText"))) {
+		(!_strnicmp(tContentType, "application/user+xml", 10) && tHeader["Message-Type"] && !strncmp(tHeader["Message-Type"], "RichText", 8))) {
 		MCONTACT hContact = strncmp(email, "19:", 3)?MSN_HContactFromEmail(email, nick, true, true):NULL;
 
-		int iTyping = -1;
-		if (!_stricmp(tHeader["Message-Type"], "Control/Typing")) iTyping=7; else
-		if (!_stricmp(tHeader["Message-Type"], "Control/ClearTyping")) iTyping=0;
-		if (iTyping == -1) {
+		if (!_stricmp(tHeader["Message-Type"], "RichText/Contacts")) {
+			ezxml_t xmli = ezxml_parse_str(msgBody, strlen(msgBody));
+			if (xmli) {
+				if (!strcmp(xmli->name, "contacts")) {
+					ezxml_t c;
+					int cnt;
+					PROTOSEARCHRESULT **isr;
+
+					for (c = ezxml_child(xmli, "c"), cnt=0; c; c = c->next) cnt++;
+					if (isr = (PROTOSEARCHRESULT**)mir_calloc(sizeof(PROTOSEARCHRESULT*) * cnt)) {
+						cnt=0;
+						for (c = ezxml_child(xmli, "c"); c; c = c->next) {
+							const char *t = ezxml_attr(c, "t"), *wlid;
+							if (t && (wlid = ezxml_attr(c, t))) {
+								switch (*t)
+								{
+								case 's':
+								case 'p':
+									isr[cnt] = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
+									isr[cnt]->cbSize = sizeof(isr);
+									isr[cnt]->flags = PSR_TCHAR;
+									isr[cnt]->id = isr[cnt]->nick = isr[cnt]->email = mir_a2t(wlid);
+									cnt++;
+								}
+							}
+						}
+						if (cnt) {
+							PROTORECVEVENT pre = { 0 };
+							pre.timestamp = (DWORD)time(NULL);
+							pre.szMessage = (char *)isr;
+							pre.lParam = cnt;
+							pre.flags = PREF_TCHAR;
+							ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
+							for (cnt=0; cnt<pre.lParam; cnt++) {
+								mir_free(isr[cnt]->email);
+								mir_free(isr[cnt]);
+							}
+						}
+						mir_free(isr);
+					}
+				}
+				ezxml_free(xmli);
+			}
+		} else
+		if (!_stricmp(tHeader["Message-Type"], "Control/Typing")) CallService(MS_PROTO_CONTACTISTYPING, hContact, 7); else
+		if (!_stricmp(tHeader["Message-Type"], "Control/ClearTyping")) CallService(MS_PROTO_CONTACTISTYPING, hContact, 0);
+		else {
 
 			const char* p = tHeader["X-MMS-IM-Format"];
 			bool isRtl = p != NULL && strstr(p, "RL=1") != NULL;
@@ -507,7 +550,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 					db_event_add(hContact, &dbei);
 				}
 			}
-		} else CallService(MS_PROTO_CONTACTISTYPING, hContact, iTyping);
+		}
 	}
 	else if (!_strnicmp(tContentType, "text/x-msmsgsprofile", 20)) {
 		replaceStr(msnExternalIP, tHeader["ClientIP"]);

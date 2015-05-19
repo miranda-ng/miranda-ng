@@ -639,7 +639,7 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT)
 	switch (type) {
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH |
-			PF1_ADDSEARCHRES | PF1_CHAT |
+			PF1_ADDSEARCHRES | PF1_CHAT | PF1_CONTACT | 
 			/*PF1_FILESEND | PF1_FILERECV | */PF1_URLRECV | PF1_VISLIST | PF1_MODEMSG;
 
 	case PFLAGNUM_2:
@@ -663,6 +663,9 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT)
 
 	case PFLAG_MAXLENOFMESSAGE:
 		return 1202;
+
+	case PFLAG_MAXCONTACTSPERPACKET:
+		return 1024; // Only an assumption...
 	}
 
 	return 0;
@@ -682,6 +685,35 @@ int __cdecl CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 
 	return Proto_RecvMessage(hContact, pre);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// MsnRecvContacts - creates a database event from the contacts received
+
+int CMsnProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
+{
+	PROTOSEARCHRESULT **isrList = (PROTOSEARCHRESULT**)pre->szMessage;
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	BYTE *pCurBlob;
+	int i;
+
+	for (i = 0; i < pre->lParam; i++)
+			dbei.cbBlob += mir_tstrlen(isrList[i]->nick) + 2 + mir_tstrlen(isrList[i]->id);
+	dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
+	for (i = 0, pCurBlob = dbei.pBlob; i < pre->lParam; i++) {
+		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->nick));
+		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->id));
+		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+	}
+
+	dbei.szModule = m_szModuleName;
+	dbei.timestamp = pre->timestamp;
+	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
+	dbei.eventType = EVENTTYPE_CONTACTS;
+	db_event_add(hContact, &dbei);
+	return 0;
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendFile - initiates a file transfer
@@ -735,14 +767,16 @@ HANDLE __cdecl CMsnProto::SendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHA
 
 struct TFakeAckParams
 {
-	inline TFakeAckParams(MCONTACT p2, long p3, const char* p4, CMsnProto *p5) :
+	inline TFakeAckParams(MCONTACT p2, long p3, const char* p4, CMsnProto *p5, int p6=ACKTYPE_MESSAGE) :
 		hContact(p2),
 		id(p3),
 		msg(p4),
-		proto(p5)
+		proto(p5),
+		type(p6)
 	{}
 
 	MCONTACT hContact;
+	int     type;
 	long	id;
 	const char*	msg;
 	CMsnProto *proto;
@@ -753,7 +787,7 @@ void CMsnProto::MsnFakeAck(void* arg)
 	TFakeAckParams* tParam = (TFakeAckParams*)arg;
 
 	Sleep(150);
-	tParam->proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_MESSAGE,
+	tParam->proto->ProtoBroadcastAck(tParam->hContact, tParam->type,
 		tParam->msg ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
 		(HANDLE)tParam->id, LPARAM(tParam->msg));
 
@@ -862,6 +896,32 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 	mir_free(msg);
 	return seq;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// MsnSendContacts - sends contacts to a certain user
+int __cdecl CMsnProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
+{
+	if (!msnLoggedIn)
+		return 0;
+
+	char tEmail[MSN_MAX_EMAIL_LEN];
+	if (MSN_IsMeByContact(hContact, tEmail)) return 0;
+
+	int seq = 0;
+	int netId = Lists_GetNetId(tEmail);
+	CMStringA msg;
+
+	msg.Append("<contacts alt=\"[Contacts enclosed. Please upgrade to latest Skype version to receive contacts.]\">");
+	for (int i = 0; i < nContacts; i++) {
+		ptrA wlid(getStringA(hContactsList[i], "wlid"));
+		if (wlid != NULL) msg.AppendFormat("<c t=\"s\" s=\"%s\"/>", wlid);
+	}
+	msg.Append("</contacts>");
+	seq = msnNsThread->sendMessage('1', tEmail, netId, msg, MSG_CONTACT);
+	ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, NULL, this, ACKTYPE_CONTACTS));
+	return seq;
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnSetAwayMsg - sets the current status message for a user

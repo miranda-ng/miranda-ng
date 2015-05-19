@@ -196,6 +196,7 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const TCHAR *mChatID)
 		gce.ptszText = mir_a2t(ezxml_txt(ezxml_child(xmli, "value")));
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 		mir_free((TCHAR*)gce.ptszUID);
+		mir_free((TCHAR*)gce.ptszText);
 	}
 	else if (ezxml_t target = ezxml_child(xmli, "target")) {
 		MCONTACT hContInitiator = NULL;
@@ -258,9 +259,9 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const TCHAR *mChatID)
 					CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
 					break;
 				}
+				mir_free((TCHAR*)gce.ptszUID);
 				target = ezxml_next(target);
 			}
-			mir_free((TCHAR*)gce.ptszUID);
 		}
 	}
 }

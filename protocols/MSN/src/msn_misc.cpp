@@ -32,8 +32,8 @@ const char* CMsnProto::MirandaStatusToMSN(int status)
 {
 	switch (status) {
 		case ID_STATUS_OFFLINE:		return "FLN";
-		case ID_STATUS_ONTHEPHONE:
-		case ID_STATUS_OUTTOLUNCH:
+		case ID_STATUS_ONTHEPHONE:	return "PHN";
+		case ID_STATUS_OUTTOLUNCH:	return "LUN";
 		case ID_STATUS_NA:
 		case ID_STATUS_AWAY:		return "AWY";
 		case ID_STATUS_DND:
@@ -49,8 +49,8 @@ WORD CMsnProto::MSNStatusToMiranda(const char *status)
 	switch ((*(PDWORD)status & 0x00FFFFFF) | 0x20000000) {
 		case ' LDI': return ID_STATUS_IDLE;
 		case ' NLN': return ID_STATUS_ONLINE;
-		case ' NHP':
-		case ' NUL':
+		case ' NHP': return ID_STATUS_ONTHEPHONE;
+		case ' NUL': return ID_STATUS_OUTTOLUNCH;
 		case ' BRB':
 		case ' YWA': return ID_STATUS_AWAY;
 		case ' YSB': return ID_STATUS_OCCUPIED;
@@ -486,12 +486,14 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 		buf.AppendFormat(
 		"Messaging: 2.0\r\n"
 		"Client-Message-ID: %llu\r\n"
-		"Message-Type: Text\r\n"
+		"Message-Type: %s\r\n"
 		"IM-Display-Name: %s\r\n"
-		"Content-Type: Text/plain; charset=UTF-8\r\n"
+		"Content-Type: %s\r\n"
 		"Content-Length: %d\r\n\r\n%s",
 		msgid,
+		(parFlags & MSG_CONTACT)?"RichText/Contacts":"Text",
 		pszNick,
+		(parFlags & MSG_CONTACT)?"application/user+xml\r\nSkype-Age: 18":"Text/plain; charset=UTF-8",
 		strlen(parMsg), parMsg);
 
 		if (pszNick!=proto->MyOptions.szEmail) db_free(&dbv);
