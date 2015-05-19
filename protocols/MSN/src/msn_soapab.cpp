@@ -922,12 +922,19 @@ bool CMsnProto::MSN_ABRefreshClist(void)
 							szEmail = ezxml_txt(ezxml_child(cont, "objectId"));
 						}
 						else continue;
+						/* Other valid sourceIds:
+						 * GOOG	-	Google
+						 * SCD	-	Short circuit
+						 * FB	-	Facebook */
 						
 						if (!*szEmail) continue;
 
 						ezxml_t xmlnick = ezxml_child(pers, "nickname");
 						const char *pszNickname = xmlnick?xmlnick->txt:NULL;
-						Lists_Add(LIST_FL, netId, szEmail, NULL, pszNickname);
+						int lstId = LIST_FL;
+						if (mir_strcmpi(ezxml_txt(ezxml_child(cont, "isBlocked")), "true") == 0) lstId = LIST_BL;
+						else if (mir_strcmp(ezxml_txt(ezxml_child(cont, "contactState")), "2") == 0) lstId = LIST_PL;
+						Lists_Add(lstId, netId, szEmail, NULL, pszNickname);
 						char szWLId[128];
 						mir_snprintf(szWLId, sizeof(szWLId), "%d:%s", netId, szEmail);
 
@@ -937,6 +944,8 @@ bool CMsnProto::MSN_ABRefreshClist(void)
 						const char* szNick = ezxml_txt(ezxml_child(pers, "orderedName"));
 						if (*szNick) db_set_utf(hContact, "CList", "MyHandle", szNick);
 						else db_unset(hContact, "CList", "MyHandle");
+						if (mir_strcmpi(ezxml_txt(ezxml_child(pers, "onHideList")), "true") == 0) 
+							db_set_b(hContact, "CList", "Hidden", 1); 
 						setString(hContact, "ID", ezxml_txt(ezxml_child(pers, "id")));
 						SetAbParam(hContact, "CID", cid);
 
