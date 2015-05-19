@@ -781,6 +781,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 				mHttpsTS = clock();
 				nlhr.dataLength = (int)strlen(post);
 				nlhr.pData = (char*)(const char*)post;
+				nlhr.nlc = hHttpsConnection;
 				NETLIBHTTPREQUEST *nlhrReply2 = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 				nlhrReply = nlhrReply2;
@@ -845,6 +846,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 									nlhr.pData = "{\"trouterurl\":\"https://\",\"connectionid\":\"a\"}";
 									nlhr.dataLength = (int)strlen(nlhr.pData);
 									nlhr.szUrl = "https://skypewebexperience.live.com/v1/User/Initialization";
+									nlhr.nlc = hHttpsConnection;
 								
 									/* Request MappingContainer */
 									mHttpsTS = clock();

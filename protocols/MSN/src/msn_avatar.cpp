@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void CMsnProto::AvatarQueue_Init()
 {
-	hevAvatarQueue = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+	hevAvatarQueue = ::CreateSemaphore(NULL, 0, 255, NULL);
 
 	ForkThread(&CMsnProto::MSN_AvatarsThread, 0);
 }
@@ -44,7 +44,7 @@ void CMsnProto::pushAvatarRequest(MCONTACT hContact, LPCSTR pszUrl)
 				return;
 
 		lsAvatarQueue.insert(new AvatarQueueEntry(hContact, pszUrl));
-		SetEvent(hevAvatarQueue);
+		ReleaseSemaphore(hevAvatarQueue, 1, NULL);
 	}
 }
 
@@ -118,5 +118,12 @@ void __cdecl CMsnProto::MSN_AvatarsThread(void*)
 		if (!loadHttpAvatar(p))
 			ProtoBroadcastAck(p->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, 0, 0);
 		delete p;
+	}
+	{
+		mir_cslock lck(csAvatarQueue);
+		while (lsAvatarQueue.getCount() > 0) {
+			delete lsAvatarQueue[0];
+			lsAvatarQueue.remove(0);
+		}
 	}
 }
