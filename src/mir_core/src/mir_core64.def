@@ -1066,7 +1066,6 @@ mir_wstrcmpi                  @280
 ?UpdateStatusBar@CProtoIntDlgBase@@AEAAXXZ @1067 NONAME
 ?WindowSubscribe@PROTO_INTERFACE@@QEAAXPEAUHWND__@@@Z @1068 NONAME
 ?WindowUnsubscribe@PROTO_INTERFACE@@QEAAXPEAUHWND__@@@Z @1069 NONAME
-?cmp@CCtrlBase@@SAHPEBV1@0@Z @1070 NONAME
 ProtoWindowAdd @1071 NONAME
 ProtoWindowRemove @1072 NONAME
 Proto_IsProtocolLoaded @1073 NONAME

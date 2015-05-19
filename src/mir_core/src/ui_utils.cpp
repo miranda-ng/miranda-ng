@@ -41,8 +41,12 @@ static LIST<CCtrlBase> arControls(10, CompareControls);
 
 #pragma comment(lib, "uxtheme")
 
+static int CompareControlId(const CCtrlBase *c1, const CCtrlBase *c2)
+{	return c1->GetCtrlId() - c2->GetCtrlId();
+}
+
 CDlgBase::CDlgBase(HINSTANCE hInst, int idDialog)
-	: m_controls(1, CCtrlBase::cmp)
+	: m_controls(1, CompareControlId)
 {
 	m_hInst = hInst;
 	m_idDialog = idDialog;
