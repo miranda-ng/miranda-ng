@@ -621,24 +621,6 @@ Př&ejmenovat skupinu
 [&Delete group]
 &Smazat skupinu
 ;file \plugins\Clist_modern\src\modern_clc.cpp
-[Skins]
-Skiny
-[Modern contact list]
-Moderní seznam kontaktů
-[Avatar overlay]
-Překrytí avataru
-[Status overlay]
-Překrytí stavu
-[Contact list smileys]
-Smajlíky pro kontakty
-[List background]
-Pozadí seznamu
-[Menu background]
-Pozadí nabídky
-[Status bar background]
-Pozadí stavové lišty
-[Frames title bar background]
-Pozadí záhlaví rámečku
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Chcete zkonvertovat kontakt '%s' na metakontakt a '%s' k němu přidat?
 [Converting to metacontact]
@@ -659,6 +641,28 @@ Nastavení výchozího kontaktu
 Chcete odstranit kontakt '%s' z metakontaktu '%s' a přidat jej do '%s'?
 [Changing metacontacts (moving)]
 Změna metakontaktu (přesun)
+[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download]
+Clist Modern vyžaduje použití doplňku AVS. Nainstalujte jej pomocí Aktualizátoru nebo jej stáhněte ručně z http://wiki.miranda-ng.org/Download
+[Error loading plugin]
+Chyba při načítání doplňku
+[Skins]
+Skiny
+[Modern contact list]
+Moderní seznam kontaktů
+[Avatar overlay]
+Překrytí avataru
+[Status overlay]
+Překrytí stavu
+[Contact list smileys]
+Smajlíky pro kontakty
+[List background]
+Pozadí seznamu
+[Menu background]
+Pozadí nabídky
+[Status bar background]
+Pozadí stavové lišty
+[Frames title bar background]
+Pozadí záhlaví rámečku
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Jména kontaktů
@@ -813,8 +817,6 @@ Ikona
 Text
 [Extra icons]
 Doplňkové ikony
-[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
-Animovat avatary (je zapotřebí GDI+ a modul Avatar Service (avs.dll))
 [Left align group names]
 Názvy skupiny vlevo
 [Center group names]
