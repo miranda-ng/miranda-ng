@@ -238,6 +238,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 					}
 					else if (strcmp(addr, "storage.msn.com") == 0 && toks) {
 						replaceStr(authStorageToken, ezxml_txt(toks));
+						setString("authStorageToken", authStorageToken);
 					}
 
 					tokr = ezxml_next(tokr);
@@ -687,6 +688,10 @@ void CMsnProto::LoadAuthTokensDB(void)
 		hotAuthToken = strdup(dbv.pszVal);
 		db_free(&dbv);
 	}
+	if (getString("authStorageToken", &dbv) == 0) {
+		replaceStr(authStorageToken, dbv.pszVal);
+		db_free(&dbv);
+	}
 }
 
 void CMsnProto::SaveAuthTokensDB(void)
@@ -695,7 +700,6 @@ void CMsnProto::SaveAuthTokensDB(void)
 	setDword("authMethod", authMethod);
 	setString("authUser", authUser);
 	setString("authSSLToken", authSSLToken);
-	setString("authContactToken", authContactToken);
 	setString("authUIC", authUIC);
 	setString("authCookies", authCookies);
 	setString("authStrToken", authStrToken);
