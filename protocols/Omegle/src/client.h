@@ -35,7 +35,7 @@ class Omegle_client
 public:
 
 	// Client definition
-	Omegle_client( )
+	Omegle_client()
 	{
 		nick_ = NULL;
 		//msgid_ = 0;
@@ -78,9 +78,9 @@ public:
 	bool spy_mode_;
 
 	// Data storage
-	void    store_headers( http::response* resp, NETLIBHTTPHEADER* headers, int headers_count );
+	void    store_headers(http::response *resp, NETLIBHTTPHEADER *headers, int headers_count);
 	
-	std::string get_server( bool not_last = false );
+	std::string get_server(bool not_last = false);
 	std::string get_language();
 
 	// Connection handling
@@ -88,34 +88,31 @@ public:
 
 	bool    handle_entry(const std::string &method);
 	bool    handle_success(const std::string &method);
-	bool    handle_error(const std::string &method, bool force_disconnect = false );
+	bool    handle_error(const std::string &method, bool force_disconnect = false);
 
-	void __inline increment_error( ) { error_count_++; }
-	void __inline decrement_error( ) { if ( error_count_ > 0 ) error_count_--; }
-	void __inline reset_error( ) { error_count_ = 0; }	
+	void __inline increment_error() { error_count_++; }
+	void __inline decrement_error() { if ( error_count_ > 0 ) error_count_--; }
+	void __inline reset_error() { error_count_ = 0; }	
 
-	bool    start( );
-	bool    stop( );
-	bool    events( );
+	bool    start();
+	bool    stop();
+	bool    events();
 
-	bool    typing_start( );
-	bool    typing_stop( );
-	bool    recaptcha( );
+	bool    typing_start();
+	bool    typing_stop();
+	bool    recaptcha();
 
-	std::string get_page( int );
+	std::string get_page(int);
 	
-	bool    send_message(const std::string &message_text );
+	bool    send_message(const std::string &message_text);
 
 	// HTTP communication
-	http::response  flap( const int request_type, std::string* request_data = NULL, std::string* get_data = NULL );
+	http::response  flap(const int request_type, std::string *post_data = NULL, std::string *get_data = NULL);
 
-	int     choose_method( int );
-	std::string choose_proto( int );
-	std::string choose_server( int, std::string* data = NULL, std::string* get_data = NULL );
-	std::string choose_action( int, std::string* data = NULL, std::string* get_data = NULL );
-	std::string choose_request_url( int, std::string* data = NULL, std::string* get_data = NULL );
+	std::string choose_server(int);
+	std::string choose_action(int, std::string *get_data = NULL);
 
-	NETLIBHTTPHEADER*   get_request_headers( int request_type, int* headers_count );
+	NETLIBHTTPHEADER *get_request_headers(int request_type, int *headers_count);
 
 	// Netlib handle
 
