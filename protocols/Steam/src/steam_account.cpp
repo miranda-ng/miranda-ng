@@ -87,9 +87,13 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *)
 	{
 		node = json_get(root, "message");
 		ptrT message(json_as_string(node));
-		if (!lstrcmpi(message, L"Incorrect login"))
+		
+		// Always show error notification
+		ShowNotification(TranslateTS(message));
+		
+		if (!mir_tstrcmpi(message, _T("Incorrect login.")))
 		{
-			ShowNotification(TranslateTS(message));
+			// We can't continue with incorrect login/password
 			SetStatus(ID_STATUS_OFFLINE);
 			return;
 		}
@@ -232,8 +236,8 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *)
 	JSONROOT root(response->pData);
 
 	JSONNODE *node = json_get(root, "error");
-	ptrW error(json_as_string(node));
-	if (lstrcmpi(error, L"OK")/* || response->resultCode == HTTP_STATUS_UNAUTHORIZED*/)
+	ptrT error(json_as_string(node));
+	if (mir_tstrcmpi(error, _T("OK"))/* || response->resultCode == HTTP_STATUS_UNAUTHORIZED*/)
 	{
 		// Probably expired TokenSecret
 		HandleTokenExpired();
