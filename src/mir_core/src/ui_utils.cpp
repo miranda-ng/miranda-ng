@@ -178,8 +178,10 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			NMHDR *pnmh = (NMHDR *)lParam;
 			if (pnmh->idFrom == 0) {
 				if (pnmh->code == PSN_APPLY) {
+					m_lresult = true;
 					NotifyControls(&CCtrlBase::OnApply);
-					OnApply();
+					if (m_lresult)
+						OnApply();
 				}
 				else if (pnmh->code == PSN_RESET) {
 					NotifyControls(&CCtrlBase::OnReset);
@@ -2082,7 +2084,7 @@ void CCtrlPages::OnInit()
 		p->m_pageId = TabCtrl_InsertItem(m_hwnd, TabCtrl_GetItemCount(m_hwnd), &tci);
 	}
 
-	::SetWindowLong(m_hwnd, GWL_EXSTYLE, ::GetWindowLong(m_hwnd, GWL_EXSTYLE) | WS_EX_CONTROLPARENT);
+	::SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, ::GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_CONTROLPARENT);
 
 	TPageInfo *info = GetCurrPage();
 	if (info) {
@@ -2254,8 +2256,10 @@ void CCtrlPages::OnApply()
 	if (m_pActivePage != NULL) {
 		pshn.hdr.code = PSN_KILLACTIVE;
 		pshn.hdr.hwndFrom = m_pActivePage->GetHwnd();
-		if (SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn))
+		if (SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn)) {
+			m_parentWnd->Fail();
 			return;
+		}
 	}
 
 	pshn.hdr.code = PSN_APPLY;
@@ -2272,6 +2276,7 @@ void CCtrlPages::OnApply()
 				ShowWindow(m_pActivePage->GetHwnd(), SW_HIDE);
 			m_pActivePage = p->m_pDlg;
 			ShowWindow(m_pActivePage->GetHwnd(), SW_SHOW);
+			m_parentWnd->Fail();
 			return;
 		}
 	}

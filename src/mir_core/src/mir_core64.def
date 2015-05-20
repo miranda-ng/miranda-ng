@@ -1090,3 +1090,6 @@ Proto_RegisterModule @1074 NONAME
 ?UnselectAll@CCtrlTreeView@@QEAAXXZ @1093 NONAME
 ?MoveItemAbove@CCtrlTreeView@@AEAAPEAU_TREEITEM@@PEAU2@0@Z @1094 NONAME
 ?GetCurrPage@CCtrlPages@@AEAAPEAUTPageInfo@1@XZ @1095 NONAME
+?Fail@CDlgBase@@QEAAXXZ @1096 NONAME
+?OnApply@CCtrlPages@@MEAAXXZ @1097 NONAME
+?OnReset@CCtrlPages@@MEAAXXZ @1098 NONAME
