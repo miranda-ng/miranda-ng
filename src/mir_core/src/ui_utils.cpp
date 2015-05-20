@@ -50,9 +50,7 @@ CDlgBase::CDlgBase(HINSTANCE hInst, int idDialog)
 {
 	m_hInst = hInst;
 	m_idDialog = idDialog;
-	m_hwndParent = NULL;
-	m_hwnd = NULL;
-	m_first = NULL;
+	m_hwnd = m_hwndParent = NULL;
 	m_isModal = false;
 	m_initialized = false;
 	m_autoClose = CLOSE_ON_OK | CLOSE_ON_CANCEL;
@@ -104,10 +102,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_INITDIALOG:
 		m_initialized = false;
 		TranslateDialogDefault(m_hwnd);
-		{
-			for (CCtrlBase* p = m_first; p != NULL; p = p->m_next)
-				AddControl(p);
-		}
+
 		NotifyControls(&CCtrlBase::OnInit);
 		OnInitDialog();
 
@@ -2310,11 +2305,8 @@ CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl)
 	m_hwnd(NULL),
 	m_bChanged(false)
 {
-	if (wnd) {
-		m_next = wnd->m_first;
-		wnd->m_first = this;
-	}
-	else m_next = NULL;
+	if (wnd)
+		wnd->AddControl(this);
 }
 
 void CCtrlBase::OnInit()
