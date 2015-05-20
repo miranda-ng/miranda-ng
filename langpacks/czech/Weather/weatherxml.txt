@@ -392,3 +392,9 @@ sněžení (dop.)
 sněžení (odp.)
 [Pm Showers / Wind]
 přeháňky (odp.) / vítr
+[Rain / Wind]
+déšť / vítr
+[Freezing Rain / Windy]
+mrznoucí déšť / větrno
+[Clear / Wind]
+jasno / vítr
