@@ -593,7 +593,6 @@ HRESULT CMirandaExchange::isMapiSessionOK( LPMAPISESSION )
 
 HRESULT CMirandaExchange::CheckForNewMails( int &nNewMails)
 {
-	HRESULT hRes;
 	if ( m_nNumberOfHeaders>0 && NULL != m_HeadersKeeper )
 	{
 		for( UINT i=0; i<m_nNumberOfHeaders; i++ )
@@ -610,6 +609,7 @@ HRESULT CMirandaExchange::CheckForNewMails( int &nNewMails)
 	
 	m_nNumberOfHeaders = 0;
 
+	HRESULT hRes;
 	try
 	{
 		if ( m_lpMAPISession != NULL && (isMapiSessionOK(m_lpMAPISession)== S_OK) && m_lpInbox != NULL && m_bFolderInboxOK )
@@ -634,7 +634,7 @@ HRESULT CMirandaExchange::CheckForNewMails( int &nNewMails)
 	}
 	catch (...)
 	{
-
+		hRes = E_FAIL;
 	}
 
 	return hRes;
