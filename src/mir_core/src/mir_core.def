@@ -703,13 +703,12 @@ mir_wstrcmpi                  @280
 ?AddGroup@CCtrlListView@@QAEXHPA_W@Z @702 NONAME
 ?AddInfoItem@CCtrlClc@@QAEPAXPAUCLCINFOITEM@@@Z @703 NONAME
 ?AddItem@CCtrlListView@@QAEHPA_WHJH@Z @704 NONAME
-?AddPage@CCtrlPages@@QAEXPA_WPAUHICON__@@U?$CCallback@X@@PAX@Z @705 NONAME
+?AddPage@CCtrlPages@@QAEXPA_WPAUHICON__@@PAVCDlgBase@@@Z @705 NONAME
 ?AddString@CCtrlCombo@@QAEHPB_WJ@Z @706 NONAME
 ?AddString@CCtrlListBox@@QAEHPA_WJ@Z @707 NONAME
 ?AddStringA@CCtrlCombo@@QAEHPBDJ@Z @708 NONAME
 ?ApproximateViewRect@CCtrlListView@@QAEKHHH@Z @709 NONAME
 ?Arrange@CCtrlListView@@QAEXI@Z @710 NONAME
-?AttachDialog@CCtrlPages@@QAEXHPAVCDlgBase@@@Z @711 NONAME
 ?AutoRebuild@CCtrlClc@@QAEXXZ @712 NONAME
 ?CancelEditLabel@CCtrlListView@@QAEXXZ @713 NONAME
 ?Close@CDlgBase@@QAEXXZ @714 NONAME
@@ -1090,3 +1089,4 @@ Proto_RegisterModule @1074 NONAME
 ?Unselect@CCtrlTreeView@@QAEXPAU_TREEITEM@@@Z @1092 NONAME
 ?UnselectAll@CCtrlTreeView@@QAEXXZ @1093 NONAME
 ?MoveItemAbove@CCtrlTreeView@@AAEPAU_TREEITEM@@PAU2@0@Z @1094 NONAME
+?GetCurrPage@CCtrlPages@@AAEPAUTPageInfo@1@XZ @1095 NONAME

@@ -990,6 +990,12 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlTreeView
 
+#define PSN_INFOCHANGED    1
+#define PSN_PARAMCHANGED   2
+
+// force-send a PSN_INFOCHANGED to all pages
+#define PSM_FORCECHANGED  (WM_USER+100)
+
 class MIR_CORE_EXPORT CCtrlPages : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
@@ -997,16 +1003,17 @@ class MIR_CORE_EXPORT CCtrlPages : public CCtrlBase
 public:
 	CCtrlPages(CDlgBase *dlg, int ctrlId);
 
-	void AddPage(TCHAR *ptszName, HICON hIcon, CCallback<void> onCreate = CCallback<void>(), void *param = NULL);
-	void AttachDialog(int iPage, CDlgBase *pDlg);
-
+	void AddPage(TCHAR *ptszName, HICON hIcon, CDlgBase *pDlg);
 	void ActivatePage(int iPage);
-
 
 protected:
 	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh);
-	void OnInit();
-	void OnDestroy();
+	
+	virtual void OnInit();
+	virtual void OnDestroy();
+
+	virtual void OnApply();
+	virtual void OnReset();
 
 	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -1014,14 +1021,19 @@ private:
 	HIMAGELIST m_hIml;
 	CDlgBase *m_pActivePage;
 
-	struct TPageInfo
+	struct TPageInfo : public MZeroedObject
 	{
-		CCallback<void> m_onCreate;
-		void *m_param;
+		int m_pageId;
+		ptrT m_ptszHeader;
+		HICON m_hIcon;
+		BOOL m_bChanged;
 		CDlgBase *m_pDlg;
 	};
 
 	void ShowPage(CDlgBase *pDlg);
+
+	TPageInfo* GetCurrPage();
+	LIST<TPageInfo> m_pages;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
