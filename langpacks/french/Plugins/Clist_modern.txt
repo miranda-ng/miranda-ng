@@ -641,7 +641,7 @@ Ce contact en par défaut
 Voulez-vous que le contact '%s' soit transféré du metacontact '%s' au metacontact '%s' ?
 [Changing metacontacts (moving)]
 Changement de metacontact (déplacement)
-[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://miranda-ng.org]
+[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download]
 
 [Error loading plugin]
 

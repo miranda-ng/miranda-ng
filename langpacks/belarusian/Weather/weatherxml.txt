@@ -72,9 +72,9 @@
 Ноч
 [Feel]
 Адчуванне
-[Forcast Update]
+[Forecast Update]
 Абнаўленне прагнозу
-[Forcast Update VAR]
+[Forecast Update VAR]
 Абнаўленне прагнозу VAR
 [Forecast Day 0]
 Прагноз: Дзень 0

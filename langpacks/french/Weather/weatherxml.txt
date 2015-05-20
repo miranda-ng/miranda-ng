@@ -104,9 +104,9 @@
 
 [Feel]
 
-[Forcast Update]
+[Forecast Update]
 
-[Forcast Update VAR]
+[Forecast Update VAR]
 
 [Forecast Day 0]
 
@@ -391,4 +391,10 @@
 [Pm Snow]
 
 [Pm Showers / Wind]
+
+[Rain / Wind]
+
+[Freezing Rain / Windy]
+
+[Clear / Wind]
 

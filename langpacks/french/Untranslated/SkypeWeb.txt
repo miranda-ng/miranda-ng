@@ -32,6 +32,8 @@
 [Unblock user icon]
 [Incoming call icon]
 [Notification icon]
+[Error icon]
+[Action icon]
 [Get server history]
 [Block contact]
 [Unblock contact]

@@ -80,6 +80,8 @@ Aktion
 
 [Notifications]
 
+[Errors]
+
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 Bearbeitet um
@@ -114,6 +116,10 @@ Protokollicon
 
 [Notification icon]
 
+[Error icon]
+
+[Action icon]
+
 [Protocols]
 Protokolle
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
@@ -145,3 +151,6 @@ Netzwerk
 
 [Incoming call from %s]
 Eingehender Anruf von %s
+;file \protocols\SkypeWeb\src\skype_utils.cpp
+[Message read: %s]
+Nachricht gelesen: %s

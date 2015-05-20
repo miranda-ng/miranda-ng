@@ -1,0 +1,4 @@
+﻿[Errors]
+[Error icon]
+[Action icon]
+[Message read: %s]
