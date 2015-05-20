@@ -201,7 +201,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		if (options->bSysColors) {
 			FillRect(hdcTemp, &lpdis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
 			clBack = GetSysColor(COLOR_HIGHLIGHT);
-			clLine1 = GetSysColor(COLOR_HIGHLIGHTTEXT);
+			clLine1 = clLine2 = GetSysColor(COLOR_HIGHLIGHTTEXT);
 		}
 		else {
 			clBack = g_Options.clBackSel;
@@ -213,7 +213,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		if (options->bSysColors) {
 			FillRect(hdcTemp, &lpdis->rcItem, GetSysColorBrush(COLOR_MENU));
 			clBack = GetSysColor(COLOR_MENU);
-			clLine1 = GetSysColor(COLOR_MENUTEXT);
+			clLine1 = clLine2 = GetSysColor(COLOR_MENUTEXT);
 		}
 		else {
 			clBack = g_Options.clBack;
