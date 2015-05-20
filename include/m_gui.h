@@ -275,6 +275,7 @@ public:
 	__forceinline bool IsInitialized() const { return m_initialized; }
 	__forceinline void SetParent(HWND hwnd) { m_hwndParent = hwnd; }
 	__forceinline void Close() { SendMessage(m_hwnd, WM_CLOSE, 0, 0); }
+	__forceinline void Fail() { m_lresult = false; }
 
 	static CDlgBase* Find(HWND hwnd);
 
@@ -308,7 +309,7 @@ protected:
 	// main dialog procedure
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
-	// resister controls
+	// register controls
 	void AddControl(CCtrlBase *ctrl);
 
 	// win32 stuff
