@@ -152,10 +152,22 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					return result;
 			}
 
-			if (idCode == BN_CLICKED &&
-				((idCtrl == IDOK) && (m_autoClose & CLOSE_ON_OK) ||
-				(idCtrl == IDCANCEL) && (m_autoClose & CLOSE_ON_CANCEL))) {
-				PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+			if (idCode == BN_CLICKED) {
+				// close dialog automatically if 'Cancel' button is pressed
+				if (idCtrl == IDCANCEL && (m_autoClose & CLOSE_ON_CANCEL))
+					PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+
+				// close dialog automatically if 'OK' button is pressed
+				if (idCtrl == IDOK && (m_autoClose & CLOSE_ON_OK)) {
+					// validate dialog data first
+					m_lresult = TRUE;
+					NotifyControls(&CCtrlBase::OnApply);
+					OnApply();
+
+					// everything ok? good, let's close it
+					if (m_lresult == TRUE)
+						PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+				}
 			}
 		}
 		return FALSE;
@@ -2042,146 +2054,239 @@ void CCtrlTreeView::SortChildrenCB(TVSORTCB *cb, BOOL fRecurse)
 CCtrlPages::CCtrlPages(CDlgBase* dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId),
 	m_hIml(NULL),
-	m_pActivePage(NULL)
+	m_pActivePage(NULL),
+	m_pages(4)
 {}
 
 void CCtrlPages::OnInit()
 {
 	CSuper::OnInit();
 	Subclass();
+
+	for (int i = 0; i < m_pages.getCount(); i++) {
+		TPageInfo *p = m_pages[i];
+		TCITEM tci = { 0 };
+		tci.mask = TCIF_PARAM | TCIF_TEXT;
+		tci.lParam = (LPARAM)p;
+		tci.pszText = TranslateTS(p->m_ptszHeader);
+		if (p->m_hIcon) {
+			if (!m_hIml) {
+				m_hIml = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 1);
+				TabCtrl_SetImageList(m_hwnd, m_hIml);
+			}
+
+			tci.mask |= TCIF_IMAGE;
+			tci.iImage = ImageList_AddIcon(m_hIml, p->m_hIcon);
+		}
+
+		p->m_pageId = TabCtrl_InsertItem(m_hwnd, TabCtrl_GetItemCount(m_hwnd), &tci);
+	}
+
+	::SetWindowLong(m_hwnd, GWL_EXSTYLE, ::GetWindowLong(m_hwnd, GWL_EXSTYLE) | WS_EX_CONTROLPARENT);
+
+	TPageInfo *info = GetCurrPage();
+	if (info) {
+		m_pActivePage = info->m_pDlg;
+		ShowPage(m_pActivePage);
+
+		PSHNOTIFY pshn;
+		pshn.hdr.code = PSN_INFOCHANGED;
+		pshn.hdr.hwndFrom = m_pActivePage->GetHwnd();
+		pshn.hdr.idFrom = 0;
+		pshn.lParam = 0;
+		SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
+	}
 }
 
 LRESULT CCtrlPages::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_SIZE)
-		ShowPage(m_pActivePage);
+	PSHNOTIFY pshn;
+
+	switch (msg) {
+	case WM_SIZE:
+		RECT rc;
+		GetClientRect(m_hwnd, &rc);
+		TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
+
+		for (int i = 0; i < m_pages.getCount(); i++) {
+			TPageInfo *p = m_pages[i];
+			if (p->m_pDlg->GetHwnd() != NULL)
+				SetWindowPos(m_pActivePage->GetHwnd(), HWND_TOP, rc.left, rc.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+		}
+		break;
+
+	case PSM_CHANGED:
+		if (TPageInfo *info = GetCurrPage())
+			info->m_bChanged = TRUE;
+		return TRUE;
+
+	case PSM_FORCECHANGED:
+		pshn.hdr.code = PSN_INFOCHANGED;
+		pshn.hdr.idFrom = 0;
+		pshn.lParam = 0;
+		for (int i = 0; i < m_pages.getCount(); i++) {
+			pshn.hdr.hwndFrom = m_pages[i]->m_pDlg->GetHwnd();
+			if (pshn.hdr.hwndFrom != NULL)
+				SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
+		}
+		break;
+	}
 
 	return CSuper::CustomWndProc(msg, wParam, lParam);
 }
 
-void CCtrlPages::AddPage(TCHAR *ptszName, HICON hIcon, CCallback<void> onCreate, void *param)
+void CCtrlPages::AddPage(TCHAR *ptszName, HICON hIcon, CDlgBase *pDlg)
 {
 	TPageInfo *info = new TPageInfo;
-	info->m_onCreate = onCreate;
-	info->m_param = param;
-	info->m_pDlg = NULL;
-
-	TCITEM tci = { 0 };
-	tci.mask = TCIF_PARAM | TCIF_TEXT;
-	tci.lParam = (LPARAM)info;
-	tci.pszText = ptszName;
-	if (hIcon) {
-		if (!m_hIml) {
-			m_hIml = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 1);
-			TabCtrl_SetImageList(m_hwnd, m_hIml);
-		}
-
-		tci.mask |= TCIF_IMAGE;
-		tci.iImage = ImageList_AddIcon(m_hIml, hIcon);
-	}
-
-	TabCtrl_InsertItem(m_hwnd, TabCtrl_GetItemCount(m_hwnd), &tci);
-}
-
-void CCtrlPages::AttachDialog(int iPage, CDlgBase *pDlg)
-{
-	if ((iPage < 0) || (iPage >= TabCtrl_GetItemCount(m_hwnd)))
-		return;
-
-	TCITEM tci = { 0 };
-	tci.mask = TCIF_PARAM;
-	TabCtrl_GetItem(m_hwnd, iPage, &tci);
-
-	if (TPageInfo *info = (TPageInfo *)tci.lParam) {
-		if (info->m_pDlg)
-			info->m_pDlg->Close();
-
-		info->m_pDlg = pDlg;
-		if (pDlg->GetHwnd() == NULL) {
-			pDlg->SetParent(m_hwnd);
-			pDlg->Create();
-		}
-
-		if (iPage == TabCtrl_GetCurSel(m_hwnd)) {
-			m_pActivePage = pDlg;
-			ShowPage(pDlg);
-		}
-	}
-}
-
-void CCtrlPages::ShowPage(CDlgBase *pDlg)
-{
-	if (!pDlg) return;
-
-	RECT rc;
-	GetClientRect(m_hwnd, &rc);
-	TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
-
-	EnableThemeDialogTexture(pDlg->GetHwnd(), ETDT_ENABLETAB);
-	SetWindowPos(pDlg->GetHwnd(), HWND_TOP, rc.left, rc.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+	info->m_pDlg = pDlg;
+	info->m_hIcon = hIcon;
+	info->m_ptszHeader = mir_tstrdup(ptszName);
+	m_pages.insert(info);
 }
 
 void CCtrlPages::ActivatePage(int iPage)
 {
-	TabCtrl_SetCurSel(m_hwnd, iPage);
+	TPageInfo *info = m_pages[iPage];
+	if (info == NULL)
+		return;
+
+	if (m_pActivePage != NULL)
+		ShowWindow(m_pActivePage->GetHwnd(), SW_HIDE);
+
+	m_pActivePage = info->m_pDlg;
+	ShowPage(m_pActivePage);
+
+	TabCtrl_SetCurSel(m_hwnd, info->m_pageId);
+}
+
+CCtrlPages::TPageInfo* CCtrlPages::GetCurrPage()
+{
+	TCITEM tci = { 0 };
+	tci.mask = TCIF_PARAM;
+	if (!TabCtrl_GetItem(m_hwnd, TabCtrl_GetCurSel(m_hwnd), &tci))
+		return NULL;
+
+	return (TPageInfo*)tci.lParam;
+}
+
+void CCtrlPages::ShowPage(CDlgBase *pDlg)
+{
+	if (pDlg->GetHwnd() == NULL) {
+		pDlg->SetParent(m_hwnd);
+		pDlg->Create();
+
+		RECT rc;
+		GetClientRect(m_hwnd, &rc);
+		TabCtrl_AdjustRect(m_hwnd, FALSE, &rc);
+		SetWindowPos(pDlg->GetHwnd(), HWND_TOP, rc.left, rc.top, 0, 0, SWP_NOSIZE);
+
+		EnableThemeDialogTexture(pDlg->GetHwnd(), ETDT_ENABLETAB);
+
+		PSHNOTIFY pshn;
+		pshn.hdr.code = PSN_INFOCHANGED;
+		pshn.hdr.hwndFrom = pDlg->GetHwnd();
+		pshn.hdr.idFrom = 0;
+		pshn.lParam = 0;
+		SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
+	}
+	ShowWindow(pDlg->GetHwnd(), SW_SHOW);
 }
 
 BOOL CCtrlPages::OnNotify(int /*idCtrl*/, NMHDR *pnmh)
 {
+	TPageInfo *info;
+	PSHNOTIFY pshn;
+
 	switch (pnmh->code) {
 	case TCN_SELCHANGING:
-		{
-			TCITEM tci = { 0 };
-			tci.mask = TCIF_PARAM;
-			TabCtrl_GetItem(m_hwnd, TabCtrl_GetCurSel(m_hwnd), &tci);
-
-			if (TPageInfo *info = (TPageInfo *)tci.lParam) {
-				if (info->m_pDlg) {
-					m_pActivePage = NULL;
-					ShowWindow(info->m_pDlg->GetHwnd(), SW_HIDE);
-				}
+		if (info = GetCurrPage()) {
+			pshn.hdr.code = PSN_KILLACTIVE;
+			pshn.hdr.hwndFrom = info->m_pDlg->GetHwnd();
+			pshn.hdr.idFrom = 0;
+			pshn.lParam = 0;
+			if (SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn)) {
+				SetWindowLongPtr(GetParent()->GetHwnd(), DWLP_MSGRESULT, TRUE);
+				return TRUE;
 			}
 		}
 		return TRUE;
 
 	case TCN_SELCHANGE:
-		{
-			TCITEM tci = { 0 };
-			tci.mask = TCIF_PARAM;
-			TabCtrl_GetItem(m_hwnd, TabCtrl_GetCurSel(m_hwnd), &tci);
+		if (m_pActivePage != NULL)
+			ShowWindow(m_pActivePage->GetHwnd(), SW_HIDE);
 
-			if (TPageInfo *info = (TPageInfo *)tci.lParam) {
-				if (info->m_pDlg) {
-					m_pActivePage = info->m_pDlg;
-					ShowPage(info->m_pDlg);
-				}
-				else {
-					m_pActivePage = NULL;
-					info->m_onCreate(info->m_param);
-				}
-			}
+		if (info = GetCurrPage()) {
+			m_pActivePage = info->m_pDlg;
+			ShowPage(m_pActivePage);
 		}
+		else m_pActivePage = NULL;
 		return TRUE;
 	}
 
 	return FALSE;
 }
 
-void CCtrlPages::OnDestroy()
+void CCtrlPages::OnReset()
 {
-	int count = TabCtrl_GetItemCount(m_hwnd);
-	for (int i = 0; i < count; i++) {
-		TCITEM tci = { 0 };
-		tci.mask = TCIF_PARAM;
-		TabCtrl_GetItem(m_hwnd, i, &tci);
+	CSuper::OnReset();
 
-		if (TPageInfo *info = (TPageInfo *)tci.lParam) {
-			if (info->m_pDlg)
-				info->m_pDlg->Close();
+	PSHNOTIFY pshn;
+	pshn.hdr.code = PSN_INFOCHANGED;
+	pshn.hdr.idFrom = 0;
+	pshn.lParam = 0;
 
-			delete info;
+	for (int i = 0; i < m_pages.getCount(); i++) {
+		TPageInfo *p = m_pages[i];
+		if (p->m_pDlg->GetHwnd() == NULL || !p->m_bChanged)
+			continue;
+
+		pshn.hdr.hwndFrom = p->m_pDlg->GetHwnd();
+		SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
+	}
+}
+
+void CCtrlPages::OnApply()
+{
+	PSHNOTIFY pshn;
+	pshn.hdr.idFrom = 0;
+	pshn.lParam = 0;
+
+	if (m_pActivePage != NULL) {
+		pshn.hdr.code = PSN_KILLACTIVE;
+		pshn.hdr.hwndFrom = m_pActivePage->GetHwnd();
+		if (SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn))
+			return;
+	}
+
+	pshn.hdr.code = PSN_APPLY;
+	for (int i = 0; i < m_pages.getCount(); i++) {
+		TPageInfo *p = m_pages[i];
+		if (p->m_pDlg->GetHwnd() == NULL || !p->m_bChanged)
+			continue;
+
+		pshn.hdr.hwndFrom = p->m_pDlg->GetHwnd();
+		SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
+		if (GetWindowLongPtr(pshn.hdr.hwndFrom, DWLP_MSGRESULT) == PSNRET_INVALID_NOCHANGEPAGE) {
+			TabCtrl_SetCurSel(m_hwnd, p->m_pageId);
+			if (m_pActivePage != NULL)
+				ShowWindow(m_pActivePage->GetHwnd(), SW_HIDE);
+			m_pActivePage = p->m_pDlg;
+			ShowWindow(m_pActivePage->GetHwnd(), SW_SHOW);
+			return;
 		}
 	}
+	
+	CSuper::OnApply();
+}
+
+void CCtrlPages::OnDestroy()
+{
+	for (int i = 0; i < m_pages.getCount(); i++) {
+		TPageInfo *p = m_pages[i];
+		if (p->m_pDlg->GetHwnd())
+			p->m_pDlg->Close();
+		delete p;
+	}			
 
 	TabCtrl_DeleteAllItems(m_hwnd);
 

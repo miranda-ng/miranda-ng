@@ -703,13 +703,12 @@ mir_wstrcmpi                  @280
 ?AddGroup@CCtrlListView@@QEAAXHPEA_W@Z @702 NONAME
 ?AddInfoItem@CCtrlClc@@QEAAPEAXPEAUCLCINFOITEM@@@Z @703 NONAME
 ?AddItem@CCtrlListView@@QEAAHPEA_WH_JH@Z @704 NONAME
-?AddPage@CCtrlPages@@QEAAXPEA_WPEAUHICON__@@U?$CCallback@X@@PEAX@Z @705 NONAME
+?AddPage@CCtrlPages@@QEAAXPEA_WPEAUHICON__@@PEAVCDlgBase@@@Z @705 NONAME
 ?AddString@CCtrlCombo@@QEAAHPEB_W_J@Z @706 NONAME
 ?AddString@CCtrlListBox@@QEAAHPEA_W_J@Z @707 NONAME
 ?AddStringA@CCtrlCombo@@QEAAHPEBD_J@Z @708 NONAME
 ?ApproximateViewRect@CCtrlListView@@QEAAKHHH@Z @709 NONAME
 ?Arrange@CCtrlListView@@QEAAXI@Z @710 NONAME
-?AttachDialog@CCtrlPages@@QEAAXHPEAVCDlgBase@@@Z @711 NONAME
 ?AutoRebuild@CCtrlClc@@QEAAXXZ @712 NONAME
 ?CancelEditLabel@CCtrlListView@@QEAAXXZ @713 NONAME
 ?Close@CDlgBase@@QEAAXXZ @714 NONAME
@@ -1090,3 +1089,4 @@ Proto_RegisterModule @1074 NONAME
 ?Unselect@CCtrlTreeView@@QEAAXPEAU_TREEITEM@@@Z @1092 NONAME
 ?UnselectAll@CCtrlTreeView@@QEAAXXZ @1093 NONAME
 ?MoveItemAbove@CCtrlTreeView@@AEAAPEAU_TREEITEM@@PEAU2@0@Z @1094 NONAME
+?GetCurrPage@CCtrlPages@@AEAAPEAUTPageInfo@1@XZ @1095 NONAME
