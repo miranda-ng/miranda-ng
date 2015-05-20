@@ -228,9 +228,8 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *)
 {
 	if (response == NULL)
 	{
-		// Probably expired TokenSecret
-		// FIXME: no response could be also when there is no internet connection available! and in that case it shouldn't delete the token from db...
-		HandleTokenExpired();
+		// Probably timeout or no connection, we can do nothing here
+		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
 
@@ -238,7 +237,7 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *)
 
 	JSONNODE *node = json_get(root, "error");
 	ptrT error(json_as_string(node));
-	if (mir_tstrcmpi(error, _T("OK"))/* || response->resultCode == HTTP_STATUS_UNAUTHORIZED*/)
+	if (mir_tstrcmpi(error, _T("OK")) || response->resultCode == HTTP_STATUS_UNAUTHORIZED)
 	{
 		// Probably expired TokenSecret
 		HandleTokenExpired();
