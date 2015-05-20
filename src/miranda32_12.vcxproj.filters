@@ -285,9 +285,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="core\commonheaders.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="core\miranda.cpp">
       <Filter>Core</Filter>
     </ClCompile>
