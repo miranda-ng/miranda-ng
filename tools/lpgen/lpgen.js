@@ -125,7 +125,6 @@ sln_stream.Close();
 // project_files.push(trunk+"\\plugins\\HistoryPlusPlus\\historypp.dpr");
 // project_files.push(trunk+"\\plugins\\ImportTXT\\importtxt.dpr");
 // project_files.push(trunk+"\\plugins\\QuickSearch\\quicksearch.dpr");
-// project_files.push(trunk+"\\plugins\\ShlExt\\shlext.dpr");
 // project_files.push(trunk+"\\plugins\\Watrack\\watrack.dpr");
 // project_files.push(trunk+"\\plugins\\mRadio\\mradio.dpr");
 
