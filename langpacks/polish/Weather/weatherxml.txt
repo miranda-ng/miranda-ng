@@ -395,6 +395,6 @@ Ulewy / Wiatr Popołudniu
 [Rain / Wind]
 Deszcz/Wiatr
 [Freezing Rain / Windy]
-
+Deszcz marznący / Wietrznie
 [Clear / Wind]
-
+Pogodnie / Wiatr
