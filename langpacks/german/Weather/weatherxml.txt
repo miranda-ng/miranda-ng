@@ -104,9 +104,9 @@ zunehmender Mond
 Nachts
 [Feel]
 gefühlt
-[Forcast Update]
+[Forecast Update]
 Vorhersage aktualisiert
-[Forcast Update VAR]
+[Forecast Update VAR]
 Forcast Update VAR
 [Forecast Day 0]
 Vorhersage Tag 0
@@ -391,4 +391,10 @@ Schnee und Graupel
 [Pm Snow]
 
 [Pm Showers / Wind]
+
+[Rain / Wind]
+
+[Freezing Rain / Windy]
+
+[Clear / Wind]
 

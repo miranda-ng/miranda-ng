@@ -80,6 +80,8 @@ Etes-vous sûr?
 
 [Notifications]
 Notifications
+[Errors]
+Erreurs
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 
@@ -114,6 +116,10 @@ octets
 
 [Notification icon]
 
+[Error icon]
+
+[Action icon]
+
 [Protocols]
 Protocoles
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
@@ -145,3 +151,6 @@ Réseau
 
 [Incoming call from %s]
 
+;file \protocols\SkypeWeb\src\skype_utils.cpp
+[Message read: %s]
+Message lu : %s

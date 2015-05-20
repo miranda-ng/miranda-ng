@@ -104,9 +104,9 @@ Przed pełnią
 Noc
 [Feel]
 Odczuwalna
-[Forcast Update]
+[Forecast Update]
 Aktualizacja prognozy
-[Forcast Update VAR]
+[Forecast Update VAR]
 Zmienna aktualizacji prognozy
 [Forecast Day 0]
 Prognoza dzień 0
@@ -392,3 +392,9 @@ Do południa śnieg
 Śnieg popołudniu
 [Pm Showers / Wind]
 Ulewy / Wiatr Popołudniu
+[Rain / Wind]
+Deszcz/Wiatr
+[Freezing Rain / Windy]
+
+[Clear / Wind]
+

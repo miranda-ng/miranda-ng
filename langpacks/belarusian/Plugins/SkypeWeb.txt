@@ -33,3 +33,4 @@
 Сеціва
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
+;file \protocols\SkypeWeb\src\skype_utils.cpp

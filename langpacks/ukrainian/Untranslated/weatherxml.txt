@@ -1,4 +1,6 @@
-﻿[Pm Rain / Wind]
+﻿[Forecast Update]
+[Forecast Update VAR]
+[Pm Rain / Wind]
 [Rain / Wind Early]
 [Rain / Freezing Rain / Wind]
 [Snow / Wind Early]
@@ -38,3 +40,4 @@
 [Am Snow]
 [Pm Snow]
 [Pm Showers / Wind]
+[Freezing Rain / Windy]

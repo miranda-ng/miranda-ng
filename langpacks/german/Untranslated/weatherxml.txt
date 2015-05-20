@@ -38,3 +38,6 @@
 [Am Snow]
 [Pm Snow]
 [Pm Showers / Wind]
+[Rain / Wind]
+[Freezing Rain / Windy]
+[Clear / Wind]

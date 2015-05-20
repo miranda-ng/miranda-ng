@@ -104,9 +104,9 @@
 Ночь
 [Feel]
 Ощущение
-[Forcast Update]
+[Forecast Update]
 Обновление прогноза
-[Forcast Update VAR]
+[Forecast Update VAR]
 Обновление прогноза VAR
 [Forecast Day 0]
 Прогноз: День 0
@@ -312,3 +312,9 @@
 Слабый снег во второй половине дня
 [Snow And Sleet]
 Дождь со снегом
+[Rain / Wind]
+Дождь / ветер
+[Freezing Rain / Windy]
+Ледяной дождь / ветрено
+[Clear / Wind]
+Ясно / ветер
