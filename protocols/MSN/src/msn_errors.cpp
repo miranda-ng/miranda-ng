@@ -54,7 +54,7 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 		MSN_ShowError("User is already in your contact list");
 		return 0;
 
-	case ERR_CONTACT_LIST_FAILED:
+	case ERR_DETAILED_ERR_IN_PAYLOAD:
 	case ERR_LIST_UNAVAILABLE:
 		char* tWords[4];
 		if (sttDivideWords(cmdString, SIZEOF(tWords), tWords) == SIZEOF(tWords))
