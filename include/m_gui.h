@@ -292,8 +292,6 @@ protected:
 	enum { CLOSE_ON_OK = 0x1, CLOSE_ON_CANCEL = 0x2 };
 	BYTE    m_autoClose;    // automatically close dialog on IDOK/CANCEL commands. default: CLOSE_ON_OK|CLOSE_ON_CANCEL
 
-	CCtrlBase* m_first;
-
 	// override this handlers to provide custom functionality
 	// general messages
 	virtual void OnInitDialog() { }
@@ -377,7 +375,6 @@ public:
 protected:
 	HWND m_hwnd;  // must be the first data item
 	int m_idCtrl;
-	CCtrlBase* m_next;
 	CDlgBase* m_parentWnd;
 	bool m_bChanged;
 
