@@ -276,7 +276,9 @@ bool CMsnProto::MSN_RefreshContactList(void)
 
 		// Populate Contact list on MSN network to get status updates of contacts
 		MSN_CreateContList();
-		//MSN_StoreGetProfile();
+
+		// Read my own profile from SOAP AB
+		MSN_StoreGetProfile();
 	}
 	else
 	{
