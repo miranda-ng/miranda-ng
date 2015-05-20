@@ -292,7 +292,6 @@
     </ClCompile>
     <ClCompile Include="core\miranda.cpp" />
     <ClCompile Include="core\modules.cpp" />
-    <ClCompile Include="core\commonheaders.cpp" />
     <ClCompile Include="modules\addcontact\addcontact.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
