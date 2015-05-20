@@ -105,7 +105,7 @@ sln_stream=FSO.GetFile(slnfile).OpenAsTextStream(ForReading, TristateUseDefault)
      sln_project_regexp=new Array();
      //read one line into slnline
      slnline=sln_stream.ReadLine();
-     //find a project defenition in sln file by RegExp
+     //find a project definition in sln file by RegExp
      sln_project_regexp=slnline.match(/(?:Project\(\"\{[\w\d-]+\}\"\)\x20+\=\x20+\"(.+?)\",\x20*?\"\.\.)(\\(:?plugins|protocols).*vcxproj)(?=",)/i);      
      // if exist sln_project_regexp, add to array, adding leading path to "trunk"
      if (sln_project_regexp) {
@@ -120,7 +120,7 @@ sln_stream=FSO.GetFile(slnfile).OpenAsTextStream(ForReading, TristateUseDefault)
 //closing file
 sln_stream.Close();
 //ok, now we have all project files in array, let's add Pascal files to this array directly.
-// remove following lines commets to add Pascal plugins processing.
+// remove following lines comments to add Pascal plugins processing.
 // project_files.push(trunk+"\\plugins\\Actman\\actman.dpr");
 // project_files.push(trunk+"\\plugins\\HistoryPlusPlus\\historypp.dpr");
 // project_files.push(trunk+"\\plugins\\ImportTXT\\importtxt.dpr");
@@ -207,7 +207,7 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
         //get plugin name from vcxprojfile
         plugin=GetPluginName(vcxprojfile);
         } else {
-        //if vcxprojfile ommited, try to find plugin name from folder files.
+        //if vcxprojfile omitted, try to find plugin name from folder files.
         plugin=GetPluginName(pluginpath);
         };
     //if we didn't find plugin name, return.
@@ -245,7 +245,7 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
         };
     //We have all strings in "foundstrings", next we remove duplicate strings from array and put results into "nodupes"
     nodupes=eliminateDuplicates(foundstrings);
-     //if dupes requred, make nodupes with dupes :)
+     //if dupes required, make nodupes with dupes :)
     if (dupes) nodupes=foundstrings;
     //combine head and translated strings.
     plugintemplate=head.concat(nodupes);
@@ -259,7 +259,7 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
 function FindFiles (path,name,filelistarray) {
  //Init vars
  var Folder, Folders, Files, file, filename;
- // second param "name" is our case insensive RegExp
+ // second param "name" is our case insensitive RegExp
  var filemask=new RegExp(name,"i");
  //Put path into var Folder
  Folder=FSO.GetFolder(path);
@@ -345,13 +345,13 @@ function GetMUUID (folder,array) {
             //now check, is there some values, which have omitted zero after 0x, like in alarms: " 0x4dd7762b, 0xd612, 0x4f84, { 0xaa, 0x86, 0x(no_zero_here_)6, 0x8f, 0x17, 0x85, 0x9b, 0x6d}"
             //first value in values have to be 8 bytes, while length less than 8, add leading "0" to values[0],  
             while (values[0].length<8) {values[0]="0"+values[0]};
-            //next two values have to be 4 bytes, adding leading zeroes, while length less than 4.
+            //next two values have to be 4 bytes, adding leading zeros, while length less than 4.
             for (i=1;i<=2;i++) {
                 while (values[i].length<4) {
                     values[i]="0"+values[i];
                     }
                 }
-            //other values have to be 2 bytes, same as above, adding zeroes
+            //other values have to be 2 bytes, same as above, adding zeros
             for (i=3;i<=10;i++) {
                 while (values[i].length<2) {
                     values[i]="0"+values[i];
@@ -457,7 +457,7 @@ function ParseSourceFile (FileTextVar,array) {
     onestring=string[1].replace(/["']?(?:\#13\#10)*?\\?\r*\n(?:(?:\x20|\t)*['"])?/g,"");
     //trim single-line whitespaces - multi-line parsing catches whitespaces after last " in single-line case
     trimedstring=onestring.replace(/[\s]*$/g,"");
-    //remove trailing slash from the string. This is a tree item, slesh is a crap :)
+    //remove trailing slash from the string. This is a tree item, slash is a crap :)
     noslashstring=trimedstring.replace(/\/(?=$)/g,"");
     //remove first and last "
     nofirstlaststring=noslashstring.slice(1, -1)
@@ -483,7 +483,7 @@ var filter2=/^(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|
 var filter3=/^.+(001|\/value|\*!\*|=)$/g;
 //filter from Kildor
 var filter4=/^((d\s\w)|\[\/?(\w|url|img|size|quote|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d)+$/gi;
-//filter from Kildor for remove filenames and pathes.
+//filter from Kildor for remove filenames and paths.
 var filter5=/^[\w_:%.\\\/*-]+\.\w+$/g;
 
 //apply filters to our string
@@ -504,7 +504,7 @@ if (!test1 && !test2 && !test3 && !test4 && !test5) {
         }
 };
 
-//Parse Version.h file to get one translated stirng from "Description" and make a pluging template header.
+//Parse Version.h file to get one translated string from "Description" and make a plugin template header.
 function ParseVersion_h (pluginfolder,array) {
 //cleanup var
 var VersionFile;
@@ -554,7 +554,7 @@ array.push(";============================================================");
 if (description) array.push("["+description[1]+"]");
 }
 
-//Replaces \x?? hexa codes with their char representation
+//Replaces \x?? hex codes with their char representation
 function fixHexa(string) {
   return string.replace(/\\x([a-fA-F0-9]{2})" "/g,function() {
     return String.fromCharCode(parseInt(arguments[1],16));
