@@ -207,7 +207,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	void        MSN_SendStatusMessage(const char* msg);
 	void        MSN_SetServerStatus(int newStatus);
-	void		MSN_FetchRecentMessages(time_t since = 0);
+	void        MSN_FetchRecentMessages(time_t since = 0);
 	void        MSN_StartStopTyping(GCThreadData* info, bool start);
 	void        MSN_SendTyping(ThreadData* info, const char* email, int netId, bool bTyping );
 
@@ -215,9 +215,9 @@ struct CMsnProto : public PROTO<CMsnProto>
 	void        MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* params);
 	int			MSN_HandleCommands(ThreadData* info, char* cmdString);
 	int			MSN_HandleErrors(ThreadData* info, char* cmdString);
-	void        MSN_ProcessNotificationMessage(char* buf, unsigned len);
-	void		MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid);
-	void		MSN_ProcessNLN(const char *userStatus, const char *wlid, char *userNick, const char *objid, char *cmdstring);
+	void        MSN_ProcessNotificationMessage(char* buf, size_t bufLen);
+	void        MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid);
+	void        MSN_ProcessNLN(const char *userStatus, const char *wlid, char *userNick, const char *objid, char *cmdstring);
 	void        MSN_ProcessPage(char* buf, unsigned len);
 	void        MSN_ProcessRemove(char* buf, size_t len);
 	void        MSN_ProcessAdd(char* buf, size_t len);

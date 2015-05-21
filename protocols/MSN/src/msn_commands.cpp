@@ -732,7 +732,7 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 #endif
 }
 
-void CMsnProto::MSN_ProcessNotificationMessage(char* buf, unsigned len)
+void CMsnProto::MSN_ProcessNotificationMessage(char* buf, size_t len)
 {
 	if (buf == NULL) return;
 	ezxml_t xmlnot = ezxml_parse_str(buf, len);
@@ -1047,7 +1047,7 @@ LBL_InvalidCommand:
 								MEVENT hDbEvent;
 								bool bDuplicate = false;
 								DBEVENTINFO dbei = { sizeof(dbei) };
-								DWORD cbBlob = strlen(message);
+								DWORD cbBlob = (DWORD)strlen(message);
 								dbei.cbBlob = cbBlob;
 								BYTE *pszMsgBuf = (BYTE*)mir_calloc(cbBlob);
 								if (pszMsgBuf) {

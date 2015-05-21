@@ -751,7 +751,7 @@ int ThreadData::sendPacketPayload(const char* cmd, const char *param, const char
 	va_start(vararg, fmt);
 
 	thisTrid = InterlockedIncrement(&mTrid);
-	int regSz = proto->msnRegistration?strlen(proto->msnRegistration)+16:0;
+	int regSz = proto->msnRegistration ? (int)strlen(proto->msnRegistration)+16 : 0;
 	int paramStart = mir_snprintf(str, strsize, "%s %d %s ", cmd, thisTrid, param), strszstart = 0, strSz;
 	while ((strSz = mir_vsnprintf(str + paramStart, strsize - paramStart - regSz - 10, fmt, vararg)) == -1)
 		str = (char*)mir_realloc(str, strsize += 512);

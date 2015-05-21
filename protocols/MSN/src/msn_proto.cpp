@@ -707,7 +707,7 @@ int CMsnProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 	int i;
 
 	for (i = 0; i < pre->lParam; i++)
-			dbei.cbBlob += mir_tstrlen(isrList[i]->nick) + 2 + mir_tstrlen(isrList[i]->id);
+		dbei.cbBlob += int(mir_tstrlen(isrList[i]->nick) + 2 + mir_tstrlen(isrList[i]->id));
 	dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
 	for (i = 0, pCurBlob = dbei.pBlob; i < pre->lParam; i++) {
 		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->nick));
