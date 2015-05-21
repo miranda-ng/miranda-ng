@@ -64,7 +64,7 @@ void CreateHelperWnd()
 		return; // We need only one helper window
 	// Widows taskbar workaround
 	// We don't want our helper window to be displayed on Windows taskbar.
-	// So firt of all we have to create an invisible window and then set it as
+	// So first of all we have to create an invisible window and then set it as
 	// parent to our window.
 
 	// Register windows class
