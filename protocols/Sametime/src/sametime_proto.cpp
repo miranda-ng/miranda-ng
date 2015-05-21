@@ -131,7 +131,7 @@ DWORD_PTR CSametimeProto::GetCaps(int type, MCONTACT hContact)
 		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_LIGHTDND;
 		break;
 	case PFLAGNUM_4:
-		ret = PF4_SUPPORTTYPING | PF4_IMSENDUTF;
+		ret = PF4_SUPPORTTYPING;
 		break;
 	case PFLAG_UNIQUEIDTEXT:
 		ret = (DWORD_PTR)Translate("ID");
@@ -231,9 +231,9 @@ HANDLE CSametimeProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescriptio
 	return 0; // failure
 }
 
-int CSametimeProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
+int CSametimeProto::SendMsg(MCONTACT hContact, int, const char* msg)
 {
-	debugLog(_T("CSametimeProto::SendMsg()  hContact=[%x], flags=[%d]"), hContact, flags);
+	debugLog(_T("CSametimeProto::SendMsg()  hContact=[%x]"), hContact);
 
 	char *proto = GetContactProto(hContact);
 	int ret;
@@ -247,19 +247,10 @@ int CSametimeProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 		return 0;
 	}
 
-	char *msg_utf8;
-	if (flags & PREF_UNICODE)
-		msg_utf8 = mir_utf8encodeW((wchar_t*)&msg[strlen(msg) + 1]);
-	else if (flags & PREF_UTF)
-		msg_utf8 = mir_strdup(msg);
-	else
-		msg_utf8 = mir_utf8encode(msg);
-
-	if (!msg_utf8)
+	if (!msg)
 		return 0;
 
-	ret = (int)SendMessageToUser(hContact, msg_utf8);
-	mir_free(msg_utf8);
+	ret = (int)SendMessageToUser(hContact, msg);
 
 	TFakeAckParams *tfap = (TFakeAckParams*)mir_alloc(sizeof(TFakeAckParams));
 	tfap->proto = this;
@@ -305,13 +296,8 @@ int CSametimeProto::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt
 {
 	debugLog(_T("CSametimeProto::RecvAwayMsg()  hContact=[%x], mode=[%d]"), hContact, mode);
 
-	if (evt->flags & PREF_UTF) {
-		TCHAR* pszMsg = mir_utf8decodeT(evt->szMessage);
-		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)pszMsg);
-		mir_free(pszMsg);
-	}
-	else ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)(TCHAR*)_A2T(evt->szMessage));
-
+	ptrT pszMsg(mir_utf8decodeT(evt->szMessage));
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, pszMsg);
 	return 0;
 }
 

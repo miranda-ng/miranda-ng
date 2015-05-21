@@ -633,7 +633,7 @@ DWORD_PTR __cdecl CIcqProto::GetCaps(int type, MCONTACT hContact)
 		break;
 
 	case PFLAGNUM_4:
-		nReturn = PF4_SUPPORTIDLE | PF4_IMSENDUTF | PF4_IMSENDOFFLINE | PF4_INFOSETTINGSVC;
+		nReturn = PF4_SUPPORTIDLE | PF4_IMSENDOFFLINE | PF4_INFOSETTINGSVC;
 		if (m_bAvatarsEnabled)
 			nReturn |= PF4_AVATARS;
 #ifdef DBG_CAPMTN
@@ -869,41 +869,27 @@ int __cdecl CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 	ICQSEARCHRESULT **isrList = (ICQSEARCHRESULT**)pre->szMessage;
 	int i;
 	size_t cbBlob = 0;
-	DWORD flags = 0;
-
-	if (pre->flags & PREF_UTF || pre->flags & PREF_UNICODE)
-		flags |= DBEF_UTF;
+	DWORD flags = DBEF_UTF;
 
 	for (i = 0; i < pre->lParam; i++) {
-		if (pre->flags & PREF_UNICODE)
-			cbBlob += get_utf8_size((WCHAR*)isrList[i]->hdr.nick) + 2;
-		else
-			cbBlob += mir_strlen((char*)isrList[i]->hdr.nick) + 2; // both trailing zeros
+		cbBlob += mir_strlen((char*)isrList[i]->hdr.nick) + 2; // both trailing zeros
 		if (isrList[i]->uin)
 			cbBlob += getUINLen(isrList[i]->uin);
-		else if (pre->flags & PREF_UNICODE)
-			cbBlob += mir_wstrlen((WCHAR*)isrList[i]->hdr.id);
 		else
 			cbBlob += mir_strlen((char*)isrList[i]->hdr.id);
 	}
 	PBYTE pBlob = (PBYTE)_alloca(cbBlob), pCurBlob;
 	for (i = 0, pCurBlob = pBlob; i < pre->lParam; i++) {
-		if (pre->flags & PREF_UNICODE)
-			make_utf8_string_static((WCHAR*)isrList[i]->hdr.nick, (char*)pCurBlob, cbBlob - (pCurBlob - pBlob));
-		else
-			strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.nick);
+		strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.nick);
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 		if (isrList[i]->uin) {
 			char szUin[UINMAXLEN];
 			_itoa(isrList[i]->uin, szUin, 10);
 			strcpy((char*)pCurBlob, szUin);
 		}
-		else { // aim contact
-			if (pre->flags & PREF_UNICODE)
-				unicode_to_ansi_static((WCHAR*)isrList[i]->hdr.id, (char*)pCurBlob, cbBlob - (pCurBlob - pBlob));
-			else
-				strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.id);
-		}
+		else // aim contact
+			strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.id);
+
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	}
 
@@ -917,17 +903,8 @@ int __cdecl CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 
 int __cdecl CIcqProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
-	DWORD flags = 0;
-
 	size_t cbBlob = mir_strlen(pre->szMessage) + 1;
-	// process utf-8 encoded messages
-	if ((pre->flags & PREF_UTF) && !IsUSASCII(pre->szMessage, mir_strlen(pre->szMessage)))
-		flags |= DBEF_UTF;
-	// process unicode ucs-2 messages
-	if ((pre->flags & PREF_UNICODE) && !IsUnicodeAscii((WCHAR*)(pre->szMessage + cbBlob), mir_wstrlen((WCHAR*)(pre->szMessage + cbBlob))))
-		cbBlob *= (sizeof(WCHAR)+1);
-
-	ICQAddRecvEvent(hContact, EVENTTYPE_MESSAGE, pre, cbBlob, (PBYTE)pre->szMessage, flags);
+	ICQAddRecvEvent(hContact, EVENTTYPE_MESSAGE, pre, cbBlob, (PBYTE)pre->szMessage, DBEF_UTF);
 
 	// stop contact from typing - some clients do not sent stop notify
 	if (CheckContactCapabilities(hContact, CAPF_TYPING))
@@ -1275,13 +1252,13 @@ HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const TCHAR* szDescription
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SendMessage - sends a message
 
-int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
+int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 {
 	if (hContact == NULL || pszSrc == NULL)
 		return NULL;
 
 	DWORD dwCookie;
-	char* puszText = NULL;
+	char* puszText = (char*)pszSrc;
 	int bNeedFreeU = 0;
 
 	// Invalid contact
@@ -1290,23 +1267,11 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 	if (getContactUid(hContact, &dwUin, &szUID))
 		return ReportGenericSendError(hContact, ACKTYPE_MESSAGE, "The receiver has an invalid user ID.");
 
-	if (flags & PREF_UNICODE) {
-		puszText = make_utf8_string((WCHAR*)(pszSrc + mir_strlen(pszSrc) + 1)); // get the UTF-16 part
-		bNeedFreeU = 1;
-	}
-	else if (flags & PREF_UTF)
-		puszText = (char*)pszSrc;
-	else {
-		puszText = (char*)ansi_to_utf8(pszSrc);
-		bNeedFreeU = 1;
-	}
-
 	WORD wRecipientStatus = getContactStatus(hContact);
 
 	BOOL plain_ascii = IsUSASCII(puszText, mir_strlen(puszText));
 
 	BOOL oldAnsi = plain_ascii || !m_bUtfEnabled ||
-		(!(flags & (PREF_UTF | PREF_UNICODE)) && m_bUtfEnabled == 1) ||
 		!CheckContactCapabilities(hContact, CAPF_UTF) ||
 		!getByte(hContact, "UnicodeSend", 1);
 
@@ -1342,11 +1307,9 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 			dwCookie = icq_SendDirectMessage(hContact, dc_msg, mir_strlen(dc_msg), pCookieData, dc_cap);
 
 			SAFE_FREE(&szUserAnsi);
-			if (dwCookie) { // free the buffers if alloced
-				if (bNeedFreeU) SAFE_FREE(&puszText);
-
+			if (dwCookie) // free the buffers if alloced
 				return dwCookie; // we succeded, return
-			}
+
 			// on failure, fallback to send thru server
 		}
 
@@ -1358,7 +1321,6 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 			memmove(mng + 12, mng, len + 1);
 			memcpy(mng, "<HTML><BODY>", 12);
 			strcat(mng, "</BODY></HTML>");
-			if (bNeedFreeU) SAFE_FREE(&puszText);
 			puszText = mng;
 			bNeedFreeU = 1;
 		}
@@ -1779,17 +1741,11 @@ HANDLE __cdecl CIcqProto::GetAwayMsg(MCONTACT hContact)
 
 int __cdecl CIcqProto::RecvAwayMsg(MCONTACT hContact, int, PROTORECVEVENT* evt)
 {
-	if (evt->flags & PREF_UTF) {
-		setStatusMsgVar(hContact, evt->szMessage, false);
+	setStatusMsgVar(hContact, evt->szMessage, false);
 
-		TCHAR* pszMsg = mir_utf8decodeT(evt->szMessage);
-		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)pszMsg);
-		mir_free(pszMsg);
-	}
-	else {
-		setStatusMsgVar(hContact, evt->szMessage, true);
-		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)(TCHAR*)_A2T(evt->szMessage));
-	}
+	TCHAR* pszMsg = mir_utf8decodeT(evt->szMessage);
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)pszMsg);
+	mir_free(pszMsg);
 	return 0;
 }
 

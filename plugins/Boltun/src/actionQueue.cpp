@@ -83,31 +83,21 @@ static bool NotifyTyping(MCONTACT hContact)
 
 static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 {
-	DBEVENTINFO ldbei;
-	size_t size = info->Answer.length() + 1;
-	size_t bufsize = size;
-	char* msg;
+	ptrA msg(mir_utf8encodeT(info->Answer.c_str()));
+	size_t bufsize = mir_strlen(msg);
 
-	bufsize *= sizeof(TCHAR) + 1;
-	msg = new char[bufsize];
+	CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)msg);
 
-	if (!WideCharToMultiByte(CP_ACP, 0, info->Answer.c_str(), -1, msg, (int)size, NULL, NULL))
-		memset(msg, '-', (size - 1)); //In case of fault return "----" in ANSI part
-	memcpy(msg + size, info->Answer.c_str(), size * 2);
+	DBEVENTINFO dbei = { 0 };
+	dbei.cbSize = sizeof(dbei);
+	dbei.cbBlob = (int)bufsize;
+	dbei.pBlob = (PBYTE)(char*)msg;
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.flags = DBEF_SENT;
+	dbei.szModule = BOLTUN_NAME;
+	dbei.timestamp = (DWORD)time(NULL);
 
-	CallContactService(hContact, PSS_MESSAGE, PREF_TCHAR, (LPARAM)msg);
-
-	memset(&ldbei, 0, sizeof(ldbei));
-	ldbei.cbSize = sizeof(ldbei);
-	//FIXME: Error may happen
-	ldbei.cbBlob = (int)bufsize;
-	ldbei.pBlob = (PBYTE)(void*)msg;
-	ldbei.eventType = EVENTTYPE_MESSAGE;
-	ldbei.flags = DBEF_SENT;
-	ldbei.szModule = BOLTUN_NAME;
-	ldbei.timestamp = (DWORD)time(NULL);
-
-	db_event_add(hContact, &ldbei);
+	db_event_add(hContact, &dbei);
 	bot->AnswerGiven(hContact, *info);
 	delete info;
 

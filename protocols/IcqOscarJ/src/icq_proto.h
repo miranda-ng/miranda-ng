@@ -290,7 +290,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   handleRecvServMsgError(BYTE *buf, size_t wLen, DWORD dwRef);
 	void   handleRecvMsgResponse(BYTE *buf, size_t wLen);
 	void   handleServerAck(BYTE *buf, size_t wLen, DWORD dwRef);
-	void   handleStatusMsgReply(const char *szPrefix, MCONTACT hContact, DWORD dwUin, WORD wVersion, int bMsgType, WORD wCookie, const char *szMsg);
+	void   handleStatusMsgReply(const char *szPrefix, MCONTACT hContact, DWORD dwUin, int bMsgType, WORD wCookie, const char *szMsg);
 	void   handleTypingNotification(BYTE *buf, size_t wLen);
 	void   handleMissedMsg(BYTE *buf, size_t wLen);
 	void   handleOffineMessagesReply(DWORD dwRef);
@@ -300,7 +300,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   parseServRelayData(BYTE *pDataBuf, size_t wLen, MCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType);
 	void   parseServRelayPluginData(BYTE *pDataBuf, size_t wLen, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType, BYTE bFlags, WORD wStatus, WORD wCookie, WORD wVersion);
 
-	HANDLE handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, WORD wVersion, int type, PBYTE buf, BYTE bFlags);
+	HANDLE handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, int type, PBYTE buf, BYTE bFlags);
 	void   handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, DWORD dwMsgID, DWORD dwMsgID2, WORD wCookie, WORD wVersion, int type, int flags, WORD wAckType, size_t dwDataLen, size_t wMsgLen, char *pMsg, int nMsgFlags, message_ack_params *pAckParams);
 	void   sendMessageTypesAck(MCONTACT hContact, int bUnicode, message_ack_params *pArgs);
 	void   sendTypingNotification(MCONTACT hContact, WORD wMTNCode);

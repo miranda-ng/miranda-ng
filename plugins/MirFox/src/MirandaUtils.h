@@ -78,11 +78,9 @@ private:
 
 	void sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_MODE mode);
 
-	int getMirandaSendModeFlag(char* targetHandleSzProto);
+	HANDLE sendMessageMiranda(MCONTACT hContact, char* msgBuffer);
 
-	HANDLE sendMessageMiranda(MCONTACT hContact, int mirandaSendModeFlag, char* msgBuffer);
-
-	void addMessageToDB(MCONTACT hContact, int mirandaSendModeFlag, char* msgBuffer, std::size_t bufSize, char* targetHandleSzProto);
+	void addMessageToDB(MCONTACT hContact, char* msgBuffer, std::size_t bufSize, char* targetHandleSzProto);
 
 	void setStatusOnAccount(ActionThreadArgStruct* args);
 

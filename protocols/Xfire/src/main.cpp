@@ -715,12 +715,11 @@ void XFireClient::receivedPacket(XFirePacket *packet) {
 			{
 				str = ((MessagePacket*)content)->getMessage();
 
+				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)entry->hcontact, PROTOTYPE_CONTACTTYPING_OFF);
+
 				PROTORECVEVENT pre = { 0 };
 				pre.timestamp = time(NULL);
 				pre.szMessage = (char*)str.c_str();
-				pre.flags = PREF_UTF;
-
-				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)entry->hcontact, PROTOTYPE_CONTACTTYPING_OFF);
 				ProtoChainRecvMsg(entry->hcontact, &pre);
 			}
 		}

@@ -66,9 +66,8 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, hContact, hDbEvent)
 						msg = 0; //is it useful ?
 				}
 				if(msg) {
-					char * buff=mir_utf8encodeW(variables_parse(gbAuthRepl, hcntct).c_str());
-					CallContactService(hcntct, PSS_MESSAGE, PREF_UTF, (LPARAM) buff);
-					mir_free(buff);
+					ptrA buff(mir_utf8encodeW(variables_parse(gbAuthRepl, hcntct).c_str()));
+					CallContactService(hcntct, PSS_MESSAGE, 0, (LPARAM)buff);
 				}
 				return 1;
 			}
@@ -197,9 +196,9 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 			if((Stricmp(_T("ICQ"),prot.c_str()))||(!gbAutoReqAuth))
 			{
 				char * buf=mir_utf8encodeW(variables_parse(gbCongratulation, hContact).c_str());
-				CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)buf);
+				CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
 				mir_free(buf);
-			};
+			}
 			// Note: For ANSI can be not work
 			if(!Stricmp(_T("ICQ"),prot.c_str())){
 				// grand auth.
@@ -298,9 +297,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 			else
 				q += variables_parse(gbQuestion, hContact);
 
-			char * buf=mir_utf8encodeW(q.c_str());
-			CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)buf);
-			mir_free(buf);
+			CallContactService(hContact, PSS_MESSAGE, 0, ptrA(mir_utf8encodeW(q.c_str())));
 
 			// increment question count
 			DWORD questCount = db_get_dw(hContact, pluginName, "QuestionCount", 0);

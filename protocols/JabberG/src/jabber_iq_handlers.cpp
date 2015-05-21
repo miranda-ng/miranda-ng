@@ -673,7 +673,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 		JabberHttpUrlDecode(str2);
 
 		PROTORECVFILET pre;
-		pre.flags = PREF_TCHAR;
+		pre.dwFlags = PRFF_TCHAR;
 		pre.timestamp = time(NULL);
 		pre.tszDescription = desc;
 		pre.ptszFiles = &str2;

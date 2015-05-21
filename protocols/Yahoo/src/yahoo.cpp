@@ -782,9 +782,7 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 	//setWord(hContact, "yprotoid", protocol);
 	Set_Protocol(hContact, protocol);
 
-	pre.flags			= PREF_UTF;
-	pre.timestamp		= time(NULL);
-
+	pre.timestamp = time(NULL);
 	pre.lParam = sizeof(DWORD)+sizeof(HANDLE)+mir_strlen(who)+mir_strlen(nick)+5;
 
 	if (fname != NULL)

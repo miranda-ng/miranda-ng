@@ -848,7 +848,6 @@ retry:
 						PROTORECVEVENT pre = {0};
 						time_t t = time(NULL);
 						pre.timestamp = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
-						pre.flags = PREF_UTF;
 						pre.szMessage = e->event.msg.message;
 						ProtoChainRecvMsg( getcontact(e->event.msg.sender, 1, 0, NULL), &pre);
 					}
@@ -1058,7 +1057,7 @@ retry:
 					TCHAR* filenameT = mir_a2t((char*)dcc7->filename);
 
 					PROTORECVFILET pre = {0};
-					pre.flags = PREF_TCHAR;
+					pre.dwFlags = PRFF_TCHAR;
 					pre.fileCount = 1;
 					pre.timestamp = time(NULL);
 					pre.tszDescription = filenameT;

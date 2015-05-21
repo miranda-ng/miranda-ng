@@ -35,10 +35,8 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			if (_tcsstr(type, _T("my_")) == NULL)
 			{
 				PROTORECVEVENT recv = { 0 };
-				recv.flags = PREF_UTF;
 				recv.timestamp = timestamp;
 				recv.szMessage = szMessage;
-
 				ProtoChainRecvMsg(hContact, &recv);
 			}
 			else

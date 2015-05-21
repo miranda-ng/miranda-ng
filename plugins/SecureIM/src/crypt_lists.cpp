@@ -186,15 +186,7 @@ void addMsg2Queue(pUinKey ptr, WPARAM wParam, LPSTR szMsg)
 
 	ptrMessage->wParam = wParam;
 	ptrMessage->nextMessage = NULL;
-
-	if (wParam & PREF_UNICODE) {
-		int slen = (int)strlen(szMsg) + 1;
-		int wlen = (int)wcslen((wchar_t *)(szMsg + slen)) + 1;
-		ptrMessage->Message = (LPSTR)mir_alloc(slen + wlen*sizeof(WCHAR));
-		memcpy(ptrMessage->Message, szMsg, slen + wlen*sizeof(WCHAR));
-	}
-	else ptrMessage->Message = mir_strdup(szMsg);
-
+	ptrMessage->Message = mir_strdup(szMsg);
 }
 
 void getContactNameA(MCONTACT hContact, LPSTR szName)

@@ -140,7 +140,6 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PF4_SUPPORTIDLE      0x00000010 // protocol understands idle
 #define PF4_AVATARS		     0x00000020 // protocol has avatar support
 #define PF4_OFFLINEFILES     0x00000040 // protocols supports sending files to offline users
-#define PF4_IMSENDUTF        0x00000080 // protocol is able to process messages in utf-8
 #define PF4_IMSENDOFFLINE    0x00000100 // protocol supports sending offline messages
 #define PF4_INFOSETTINGSVC   0x00000200 // protocol supports user info translation services
 #define PF4_NOAUTHDENYREASON 0x00000400 // protocol doesn't support authorization deny reason
@@ -698,28 +697,17 @@ typedef struct {
 //DB event: EVENTTYPE_MESSAGE, blob contains szMessage without 0 terminator
 //Return 0 - success, other failure
 typedef struct {
-	DWORD flags;
-	DWORD timestamp;   //unix time
-	union {
-		char *szMessage;
-		TCHAR *tszMessage;
-	};
-	LPARAM lParam;     //extra space for the network level protocol module
-	void *pCustomData;
-	DWORD cbCustomDataSize;
+	DWORD  flags;
+	DWORD  timestamp;   // unix time
+	char  *szMessage;   // message body in utf8
+	LPARAM lParam;      // extra space for the network level protocol module
+	void  *pCustomData;
+	DWORD  cbCustomDataSize;
 } PROTORECVEVENT;
 
 #define PREF_CREATEREAD   1     //create the database event with the 'read' flag set
-#define PREF_UNICODE      2
 #define PREF_RTL          4     // 0.5+ addition: support for right-to-left messages
-#define PREF_UTF          8     // message is in utf-8 (0.7.0+)
 #define PREF_SENT        16     // message will be created with the DBEF_SENT flag
-
-#if defined(_UNICODE)
-	#define PREF_TCHAR PREF_UNICODE
-#else
-	#define PREF_TCHAR 0
-#endif
 
 /* Proto/RecvMessage
 Copies a message from a PROTORECVEVENT event into the database
@@ -751,17 +739,30 @@ __forceinline INT_PTR Proto_AuthRecv(const char *szProtoName, PROTORECVEVENT *pc
 {	return CallService(MS_PROTO_AUTHRECV, (WPARAM)szProtoName, (LPARAM)pcre);
 }
 
-//File(s) have been received
-//wParam = 0
-//lParam = (LPARAM)(PROTORECVFILET*)&prf
+// File(s) have been received
+// wParam = 0
+// lParam = (LPARAM)(PROTORECVFILET*)&prf
+
+#define PRFF_UNICODE 1
+#if defined(_UNICODE)
+	#define PRFF_TCHAR PRFF_UNICODE
+#else
+	#define PRFF_TCHAR 0
+#endif
 
 typedef struct {
-	DWORD flags;
-	DWORD timestamp;   //unix time
-	TCHAR *tszDescription;
-	int   fileCount;
-	TCHAR **ptszFiles;
-	LPARAM lParam;     //extra space for the network level protocol module
+	DWORD dwFlags;       // PRFF_*
+	DWORD timestamp;     // unix time
+	union {
+		char  *szDescription;   // utf8
+		TCHAR *tszDescription;  // TCHAR*, if PRFF_TCHAR is specified
+	};
+	int fileCount;
+	union {
+		char  **pszFiles;  // utf8
+		TCHAR **ptszFiles; // TCHAR*, if PRFF_TCHAR is specified
+	};
+	LPARAM lParam;       // extra space for the network level protocol module
 } PROTORECVFILET;
 
 #define PSR_FILE       "/RecvFile"
@@ -774,21 +775,20 @@ __forceinline INT_PTR Proto_RecvFile(MCONTACT hContact, PROTORECVFILET *pcre)
 	return CallService(MS_PROTO_RECVFILET, 0, ( LPARAM )&ccs);
 }
 
-
-//An URL has been received
-//wParam = 0
-//lParam = (LPARAM)(PROTORECVEVENT*)&pre
-//szMessage is encoded the same as for PSS_URL
-//DB event: EVENTTYPE_URL, blob contains szMessage without 0 terminator
+// An URL has been received
+// wParam = 0
+// lParam = (LPARAM)(PROTORECVEVENT*)&pre
+// szMessage is encoded the same as for PSS_URL
+// DB event: EVENTTYPE_URL, blob contains szMessage without 0 terminator
 #define PSR_URL       "/RecvUrl"
 
-//Contacts have been received
-//wParam = 0
-//lParam = (LPARAM)(PROTORECVEVENT*)&pre
-//pre.szMessage is actually a (PROTOSEARCHRESULT**) list.
-//pre.lParam is the number of contacts in that list.
-//pre.flags can contain PREF_UTF defining the strings as utf-8 encoded (0.7.0+)
-//PS_ADDTOLIST can be used to add the contacts to the contact list.
+// Contacts have been received
+// wParam = 0
+// lParam = (LPARAM)(PROTORECVEVENT*)&pre
+// pre.szMessage is actually a (PROTOSEARCHRESULT**) list.
+// pre.lParam is the number of contacts in that list.
+// pre.flags can contain PREF_UTF defining the strings as utf-8 encoded (0.7.0+)
+// PS_ADDTOLIST can be used to add the contacts to the contact list.
 #define PSR_CONTACTS       "/RecvContacts"
 
 /* contacts database event format (EVENTTYPE_CONTACTS)
@@ -806,9 +806,9 @@ zero-terminated, binary data should be converted to text.
 Use PS_ADDTOLISTBYEVENT to add the contacts from one of these to the list.
 */
 
-//An away message reply has been received
-//wParam = statusMode
-//lParam = (LPARAM)(PROTORECVEVENT*)&pre
+// An away message reply has been received
+// wParam = statusMode
+// lParam = (LPARAM)(PROTORECVEVENT*)&pre
 #define PSR_AWAYMSG    "/RecvAwayMsg"
 
 #ifdef _UNICODE

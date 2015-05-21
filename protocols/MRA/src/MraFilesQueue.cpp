@@ -692,7 +692,7 @@ DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags
 
 	// Send chain event
 	PROTORECVFILET prf;
-	prf.flags = PREF_UNICODE;
+	prf.dwFlags = PRFF_UNICODE;
 	prf.timestamp = _time32(NULL);
 	prf.tszDescription = dat->pwszDescription;
 	prf.fileCount = 1;//dat->dwFilesCount;

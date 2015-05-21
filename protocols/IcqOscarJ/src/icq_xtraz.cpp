@@ -332,7 +332,7 @@ void CIcqProto::handleXtrazData(DWORD dwUin, char* szMsg, BOOL bThruDC)
 				PROTORECVEVENT pre = { 0 };
 				pre.timestamp = time(NULL);
 				pre.szMessage = szWork;
-				pre.flags = PREF_UTF;
+				pre.flags = 0;
 
 				int bAdded;
 				ProtoChainRecvMsg(HContactFromUIN(dwUin, &bAdded), &pre);

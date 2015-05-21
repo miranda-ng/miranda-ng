@@ -48,7 +48,6 @@
 #include "options.h"
 #include "popupoptions.h"
 #include "loadicons.h"
-#include "rtfconv.h"
 #include "cryptopp.h"
 #include "loadlib.h"
 #include "images.h"

@@ -150,7 +150,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 					BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 					db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-					CallContactService(hContact, PSS_MESSAGE, (WPARAM)PREF_UTF, (LPARAM)"Unable to decrypt PGP encrypted message");
+					CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
 					db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc);
 					return;
@@ -179,7 +179,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 					{
 						BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 						db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-						CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)"Unable to decrypt PGP encrypted message");
+						CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 						HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
 						db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc);
 						break;
@@ -217,7 +217,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 						HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 						BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 						db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-						CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)"Unable to decrypt PGP encrypted message");
+						CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 						HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
 						db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc);
 						return;
@@ -236,7 +236,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 					BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 					db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-					CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)"Unable to decrypt PGP encrypted message");
+					CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
 					db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc);
 					return;
@@ -267,7 +267,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 						HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 						BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 						db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-						CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)"Unable to decrypt PGP encrypted message");
+						CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 						HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
 						db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc);
 						mir_free(tmp);
@@ -304,7 +304,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 						HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 						BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 						db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-						CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)"Unable to decrypt PGP encrypted message");
+						CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 						HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
 						db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc);
 						mir_free(tmp);
@@ -524,7 +524,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					db_set_b(ccs->hContact, szGPGModuleName, "GPGEncryption", 0);
 				string str = "-----PGP KEY RESPONSE-----";
 				str.append(tmp);
-				CallContactService(ccs->hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)str.c_str());
+				CallContactService(ccs->hContact, PSS_MESSAGE, 0, (LPARAM)str.c_str());
 				if(enc_state)
 					db_set_b(ccs->hContact, szGPGModuleName, "GPGEncryption", 1);
 			}
@@ -540,7 +540,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					ICQ_CUSTOMCAP cap = {0};
 					strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps));
 					if(ProtoCallService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)ccs->hContact, (LPARAM)&cap)) {
-						CallContactService(ccs->hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)"-----PGP KEY REQUEST-----");
+						CallContactService(ccs->hContact, PSS_MESSAGE, 0, (LPARAM)"-----PGP KEY REQUEST-----");
 						return 0;
 					}
 				}
@@ -586,9 +586,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 {
 	bool isansi = false;
-	DWORD dbflags = 0;
-	if((flags & PREF_UTF) == PREF_UTF)
-		dbflags |= DBEF_UTF;
+	DWORD dbflags = DBEF_UTF;
 	wstring str = toUTF16(msg);
 	if(bStripTags && bAppendTags)
 	{
@@ -752,8 +750,6 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	if(bDebugLog)
 		debuglog<<std::string(time_str()+": adding event to contact: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR))+" on send message.");
 
-	if(!(flags & PREF_UTF))
-		flags |= PREF_UTF; 
 	fix_line_term(str);
 	sent_msgs.push_back((HANDLE)CallContactService(hContact, PSS_MESSAGE, flags, (LPARAM)toUTF8(str).c_str()));
 }
@@ -765,16 +761,11 @@ INT_PTR SendMsgSvc(WPARAM w, LPARAM l)
 		return CallService(MS_PROTO_CHAINSEND, w, l);
 	if(!ccs->lParam)
 		return CallService(MS_PROTO_CHAINSEND, w, l);
-	char *msg = nullptr;
-	if((ccs->wParam & PREF_UTF) == PREF_UTF)
-		msg = mir_strdup((char*)(ccs->lParam));
-	else
-		msg = mir_utf8encode((char*)(ccs->lParam));
+	char *msg = (char*)ccs->lParam;
 	if (!msg)
 	{
 		if(bDebugLog)
 			debuglog<<std::string(time_str()+": info: failed to get message data, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-		mir_free(msg);
 		return CallService(MS_PROTO_CHAINSEND, w, l);
 	}
 	if(strstr(msg,"-----BEGIN PGP MESSAGE-----"))
@@ -791,10 +782,8 @@ INT_PTR SendMsgSvc(WPARAM w, LPARAM l)
 	{
 		if(bDebugLog)
 			debuglog<<std::string(time_str()+": info: contact not secured, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-		mir_free(msg);
 		return CallService(MS_PROTO_CHAINSEND, w, l);
 	}
-	mir_free(msg);
 	return returnNoError(ccs->hContact);
 }
 
@@ -850,7 +839,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 					if( ProtoCallService(proto, PS_ICQ_CHECKCAPABILITY, hContact, (LPARAM)&cap)) {
 						if(bDebugLog)
 							debuglog<<std::string(time_str()+": info(autoexchange, icq): sending key requiest, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
-						CallContactService(hContact, PSS_MESSAGE, (dbei->flags & DBEF_UTF) ? PREF_UTF : 0, (LPARAM)"-----PGP KEY REQUEST-----");
+						CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)"-----PGP KEY REQUEST-----");
 						hcontact_data[hContact].msgs_to_send.push_back((char*)dbei->pBlob);
 						boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, (void*)hContact));
 						//TODO: wait for message
@@ -885,7 +874,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 							{
 								if(bDebugLog)
 									debuglog<<std::string(time_str()+": info(autoexchange, jabber): autoexchange capability found, sending key request, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
-								CallContactService(hContact, PSS_MESSAGE, (dbei->flags & DBEF_UTF) ? PREF_UTF : 0, (LPARAM)"-----PGP KEY REQUEST-----");
+								CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)"-----PGP KEY REQUEST-----");
 								hcontact_data[hContact].msgs_to_send.push_back((char*)dbei->pBlob);
 								boost::thread *thr = new boost::thread(boost::bind(send_encrypted_msgs_thread, (void*)hContact));
 								//mir_free((char*)dbei->pBlob);
@@ -905,10 +894,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 	}
 	if(isContactSecured(hContact) && (dbei->flags & DBEF_SENT)) //aggressive outgoing events filtering
 	{
-		DWORD flags = 0;
-		if((dbei->flags & DBEF_UTF) == DBEF_UTF)
-			flags |= PREF_UTF;
-		SendMsgSvc_func(hContact, (char*)dbei->pBlob, flags);
+		SendMsgSvc_func(hContact, (char*)dbei->pBlob, 0);
 		//TODO: handle errors somehow ...
 		if(bAppendTags)
 		{
@@ -921,33 +907,6 @@ int HookSendMsg(WPARAM w, LPARAM l)
 		}
 
 		return 0;
-/*		bool stop = false;
-		int count = 0; */
-/*		while(!stop)
-		{
-			if(count >= 300)
-				stop = true;
-			if(!hcontact_data[hContact].msgs_to_pass.empty())
-			{
-				event_processing_mutex.lock();
-				std::list<string>::iterator end = hcontact_data[hContact].msgs_to_pass.end();
-				for(std::list<string>::iterator i = hcontact_data[hContact].msgs_to_pass.begin(); i != end; ++i)
-				{
-					if(!strcmp((*i).c_str(), (char*)dbei->pBlob))
-					{
-						hcontact_data[hContact].msgs_to_pass.erase(i);
-						if(bDebugLog)
-							debuglog<<std::string(time_str()+": event message: \""+(char*)dbei->pBlob+"\" passed event filter, contact "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR))+", message is in allowed list");
-						event_processing_mutex.unlock();
-						return 0;
-					}
-				}
-				event_processing_mutex.unlock();
-			}
-			boost::this_thread::sleep(boost::posix_time::milliseconds(100));
-			count++;
-		} */
-		//return 1;
 	}
 	if(!isContactSecured(hContact))
 	{

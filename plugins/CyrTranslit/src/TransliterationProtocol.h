@@ -46,8 +46,6 @@ public:
 	*/
 	static INT_PTR sendMessage(WPARAM wParam, LPARAM lParam);
 
-	static void TranslateMessageA(WPARAM wParam, LPARAM lParam);
-	static void TranslateMessageW(WPARAM wParam, LPARAM lParam);
 	static void TranslateMessageUTF(WPARAM wParam, LPARAM lParam);
 
 private:

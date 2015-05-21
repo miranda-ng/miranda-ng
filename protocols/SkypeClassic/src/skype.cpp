@@ -513,8 +513,6 @@ static void QueryUserWaitingAuthorization(char *pszNick, char *pszAuthRq)
 		pCurBlob += sizeof(DWORD); // Not used
 		memcpy(pCurBlob, &hContact, sizeof(HANDLE));	pCurBlob += sizeof(HANDLE);
 
-		pre.flags |= PREF_UTF;
-
 		sprintf(pCurBlob, "%s%c%s%c%s%c%c%s", pszNick, 0, firstname ? firstname : "", 0, lastname ? lastname : "", 0, 0, authmsg ? authmsg : "");
 
 		CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
@@ -1215,28 +1213,15 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 
 			if (!isGroupChat) {				// I guess Groupchat doesn't support UTF8?
 				msg = ptr;
-				pre.flags |= PREF_UTF;
 			}
-			else {	// Older version has to decode either UTF8->ANSI or UTF8->UNICODE
+			else {
+				// Older version has to decode either UTF8->ANSI or UTF8->UNICODE
 				// This could be replaced by mir_getUTFI - functions for Miranda 0.5+ builds, but we stay
 				// 0.4 compatible for backwards compatibility. Unfortunately this requires us to link with utf8.c
-#ifdef _UNICODE
-				int wcLen;
-#endif
-
 				if (utf8_decode(msgptr, &msg) == -1) {
 					free(ptr);
 					__leave;
 				}
-#ifdef _UNICODE
-				msglen = (int)strlen(msg) + 1;
-				msgptr = (char*)make_unicode_string((const unsigned char*)msgptr);
-				wcLen = int(_tcslen((TCHAR*)msgptr) + 1)*sizeof(TCHAR);
-				msg = (char*)realloc(msg, msglen + wcLen);
-				memcpy(msg + msglen, msgptr, wcLen);
-				free(msgptr);
-				pre.flags |= PREF_UNICODE;
-#endif
 				msgptr = msg;
 				free(ptr);
 			}
@@ -1309,13 +1294,11 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				if (!(dbei.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0)))
 					dbei.szModule = SKYPE_PROTONAME;
 				dbei.cbBlob = msglen;
-				if (pre.flags & PREF_UNICODE)
-					dbei.cbBlob += sizeof(WCHAR)*((DWORD)wcslen((WCHAR*)&msgptr[dbei.cbBlob]) + 1);
 				dbei.pBlob = (PBYTE)msgptr;
 				dbei.timestamp = timestamp > 0 ? timestamp : (DWORD)SkypeTime(NULL);
 				dbei.flags = direction;
-				if (pre.flags & PREF_CREATEREAD) dbei.flags |= DBEF_READ;
-				if (pre.flags & PREF_UTF) dbei.flags |= DBEF_UTF;
+				if (pre.flags & PREF_CREATEREAD)
+					dbei.flags |= DBEF_READ;
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				pme = MsgList_Add((DWORD)pre.lParam, db_event_add(hContact, &dbei));
 
@@ -2711,7 +2694,7 @@ void MessageSendWatchThread(void *a) {
 INT_PTR SkypeSendMessage(WPARAM, LPARAM lParam) {
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	DBVARIANT dbv;
-	char *msg = (char *)ccs->lParam, *utfmsg = NULL, *mymsgcmd = cmdMessage, szId[16] = { 0 };
+	char *msg = (char *)ccs->lParam, *mymsgcmd = cmdMessage, szId[16] = { 0 };
 	static DWORD dwMsgNum = 0;
 	BYTE bIsChatroom = 0 != db_get_b(ccs->hContact, SKYPE_PROTONAME, "ChatRoom", 0);
 
@@ -2728,24 +2711,14 @@ INT_PTR SkypeSendMessage(WPARAM, LPARAM lParam) {
 		mymsgcmd = "MESSAGE";
 	}
 
-	if (ccs->wParam & PREF_UTF) {
-		utfmsg = msg;
-	}
-	else if (ccs->wParam & PREF_UNICODE) {
-		utfmsg = (char*)make_utf8_string((WCHAR*)(msg + strlen(msg) + 1));
-	}
-	else {
-		if (utf8_encode(msg, &utfmsg) == -1) utfmsg = NULL;
-	}
 	if (protocol >= 4) {
 		InterlockedIncrement((LONG*)&dwMsgNum);
 		sprintf(szId, "#M%d ", dwMsgNum++);
 	}
 	InterlockedIncrement(&sendwatchers);
 	bool sendok = true;
-	if (!utfmsg || SkypeSend("%s%s %s %s", szId, mymsgcmd, dbv.pszVal, utfmsg))
+	if (!msg || SkypeSend("%s%s %s %s", szId, mymsgcmd, dbv.pszVal, msg))
 		sendok = false;
-	if (utfmsg && utfmsg != msg) free(utfmsg);
 	db_free(&dbv);
 
 	if (sendok) {
@@ -2777,12 +2750,11 @@ INT_PTR SkypeRecvMessage(WPARAM, LPARAM lParam)
 	dbei.cbSize = sizeof(dbei);
 	dbei.szModule = SKYPE_PROTONAME;
 	dbei.timestamp = pre->timestamp;
-	if (pre->flags & PREF_CREATEREAD) dbei.flags |= DBEF_READ;
-	if (pre->flags & PREF_UTF) dbei.flags |= DBEF_UTF;
+	if (pre->flags & PREF_CREATEREAD)
+		dbei.flags |= DBEF_READ;
+	dbei.flags |= DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (int)strlen(pre->szMessage) + 1;
-	if (pre->flags & PREF_UNICODE)
-		dbei.cbBlob += sizeof(wchar_t)*((DWORD)wcslen((wchar_t*)&pre->szMessage[dbei.cbBlob]) + 1);
 	dbei.pBlob = (PBYTE)pre->szMessage;
 	MsgList_Add((DWORD)pre->lParam, db_event_add(ccs->hContact, &dbei));
 	return 0;
@@ -2838,8 +2810,7 @@ INT_PTR SkypeRecvAuth(WPARAM, LPARAM lParam) {
 	dbei.cbSize = sizeof(dbei);
 	dbei.szModule = SKYPE_PROTONAME;
 	dbei.timestamp = pre->timestamp;
-	dbei.flags = ((pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0);
-	dbei.flags |= (pre->flags & PREF_UTF) ? DBEF_UTF : 0;
+	dbei.flags = DBEF_UTF | ((pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0);
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = (int)pre->lParam;
 	dbei.pBlob = (PBYTE)pre->szMessage;

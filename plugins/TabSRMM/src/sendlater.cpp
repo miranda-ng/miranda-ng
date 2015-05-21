@@ -417,12 +417,7 @@ int CSendLater::sendIt(CSendLaterJob *job)
 	job->iSendCount++;
 	job->hTargetContact = hContact;
 	job->bCode = CSendLaterJob::JOB_WAITACK;
-
-	DWORD dwFlags = IsUtfSendAvailable(hContact) ? PREF_UTF : PREF_UNICODE;
-	if (dwFlags & PREF_UTF)
-		job->hProcess = (HANDLE)CallContactService(hContact, PSS_MESSAGE, dwFlags, (LPARAM)job->sendBuffer);
-	else
-		job->hProcess = (HANDLE)CallContactService(hContact, PSS_MESSAGE, dwFlags, (LPARAM)job->pBuf);
+	job->hProcess = (HANDLE)CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)job->sendBuffer);
 	return 0;
 }
 

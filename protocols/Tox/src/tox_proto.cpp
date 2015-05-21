@@ -49,8 +49,7 @@ DWORD_PTR CToxProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_3:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_4:
-		return PF4_IMSENDUTF | PF4_SINGLEFILEONLY | PF4_SUPPORTTYPING | PF4_AVATARS
-			| PF4_FORCEADDED | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH;
+		return PF4_SINGLEFILEONLY | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_FORCEADDED | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)"Tox ID";
 	case PFLAG_UNIQUEIDSETTING:
@@ -136,9 +135,9 @@ int CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	return OnReceiveMessage(hContact, pre);
 }
 
-int CToxProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
+int CToxProto::SendMsg(MCONTACT hContact, int, const char *msg)
 {
-	return OnSendMessage(hContact, flags, msg);
+	return OnSendMessage(hContact, msg);
 }
 
 HANDLE CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR *msg, PROTOCHAR **ppszFiles)

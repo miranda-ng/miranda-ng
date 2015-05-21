@@ -149,15 +149,6 @@ void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 	NotifyEventHooks(hHookWinEvt, 0, (LPARAM)&mwe);
 }
 
-static BOOL IsUtfSendAvailable(MCONTACT hContact)
-{
-	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
-		return FALSE;
-
-	return (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDUTF) ? TRUE : FALSE;
-}
-
 int RTL_Detect(WCHAR *pszwText)
 {
 	size_t iLen = mir_wstrlen(pszwText);
@@ -1188,7 +1179,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		pf2.cbSize = sizeof(pf2);
 		pf2.dwMask = PFM_RTLPARA;
 		dat->flags ^= SMF_RTL;
-		if (dat->flags&SMF_RTL) {
+		if (dat->flags & SMF_RTL) {
 			pf2.wEffects = PFE_RTLPARA;
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE), GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG), GWL_EXSTYLE) | WS_EX_LEFTSCROLLBAR);
@@ -1480,31 +1471,15 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case DM_SENDMESSAGE:
 		if (lParam) {
 			MessageSendQueueItem *msi = (MessageSendQueueItem *)lParam;
+			SendMessage(hwndDlg, DM_STARTMESSAGESENDING, 0, 0);
+
 			MessageSendQueueItem *item = CreateSendQueueItem(hwndDlg);
 			item->hContact = dat->hContact;
 			item->proto = mir_strdup(dat->szProto);
 			item->flags = msi->flags;
 			item->codepage = dat->codePage;
-			if (IsUtfSendAvailable(dat->hContact)) {
-				char *szMsgUtf = mir_utf8encodeW((TCHAR*)&msi->sendBuffer[strlen(msi->sendBuffer) + 1]);
-				item->flags &= ~PREF_UNICODE;
-				if (!szMsgUtf)
-					break;
-
-				if (*szMsgUtf == 0) {
-					mir_free(szMsgUtf);
-					break;
-				}
-				item->sendBufferSize = (int)strlen(szMsgUtf) + 1;
-				item->sendBuffer = szMsgUtf;
-				item->flags |= PREF_UTF;
-			}
-			else {
-				item->sendBufferSize = msi->sendBufferSize;
-				item->sendBuffer = (char*)mir_alloc(msi->sendBufferSize);
-				memcpy(item->sendBuffer, msi->sendBuffer, msi->sendBufferSize);
-			}
-			SendMessage(hwndDlg, DM_STARTMESSAGESENDING, 0, 0);
+			item->sendBufferSize = msi->sendBufferSize;
+			item->sendBuffer = mir_strndup(msi->sendBuffer, msi->sendBufferSize);
 			SendSendQueueItem(item);
 		}
 		break;
@@ -1627,48 +1602,40 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				break;
 
 			if (dat->hContact != NULL) {
-				int ansiBufSize = GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), dat->codePage, TRUE) + 1;
-				int bufSize = ansiBufSize + GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), 1200, TRUE) + 2;
-
 				memset(&pf2, 0, sizeof(pf2));
 				pf2.cbSize = sizeof(pf2);
 				pf2.dwMask = PFM_RTLPARA;
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
 
-				ptrA szSendBuffer((char*)mir_alloc(bufSize));
+				int bufSize = GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), 1200, TRUE) + 2;
+				ptrT ptszUnicode((TCHAR*)mir_alloc(bufSize * sizeof(TCHAR)));
 
 				MessageSendQueueItem msi = { 0 };
-				msi.flags = PREF_TCHAR;
 				if (pf2.wEffects & PFE_RTLPARA)
 					msi.flags |= PREF_RTL;
-				msi.sendBufferSize = bufSize;
-				msi.sendBuffer = szSendBuffer;
 
 				GETTEXTEX gt = { 0 };
 				gt.flags = GT_USECRLF;
-				gt.cb = ansiBufSize;
-				gt.codepage = dat->codePage;
-				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)msi.sendBuffer);
-				gt.cb = bufSize - ansiBufSize;
+				gt.cb = bufSize;
 				gt.codepage = 1200;
-				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)&msi.sendBuffer[ansiBufSize]);
-				if (RTL_Detect((wchar_t*)&msi.sendBuffer[ansiBufSize]))
+				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETTEXTEX, (WPARAM)&gt, ptszUnicode);
+				if (RTL_Detect(ptszUnicode))
 					msi.flags |= PREF_RTL;
 
-				if (msi.sendBuffer[0] == 0)
+				msi.sendBuffer = mir_utf8encodeT(ptszUnicode);
+				msi.sendBufferSize = (int)mir_strlen(msi.sendBuffer);
+				if (msi.sendBufferSize == 0)
 					break;
 
 				/* Store messaging history */
-				char *msgText = GetRichTextEncoded(GetDlgItem(hwndDlg, IDC_MESSAGE), dat->codePage);
 				TCmdList *cmdListNew = tcmdlist_last(dat->cmdList);
 				while (cmdListNew != NULL && cmdListNew->temporary) {
 					dat->cmdList = tcmdlist_remove(dat->cmdList, cmdListNew);
 					cmdListNew = tcmdlist_last(dat->cmdList);
 				}
-				if (msgText != NULL) {
-					dat->cmdList = tcmdlist_append(dat->cmdList, rtrim(msgText), 20, FALSE);
-					mir_free(msgText);
-				}
+				if (msi.sendBuffer != NULL)
+					dat->cmdList = tcmdlist_append(dat->cmdList, rtrim(msi.sendBuffer), 20, FALSE);
+
 				dat->cmdListCurrent = NULL;
 
 				if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON)

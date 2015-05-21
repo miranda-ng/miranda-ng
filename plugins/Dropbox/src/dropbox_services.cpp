@@ -149,28 +149,21 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 		return 0;
 	}
 
-	char *message = NULL;
 	char *szMessage = (char*)pccsd->lParam;
-	if (pccsd->wParam & PREF_UNICODE)
-		message = mir_utf8encodeW((wchar_t*)&szMessage[mir_strlen(szMessage) + 1]);
-	else if (pccsd->wParam & PREF_UTF)
-		message = mir_strdup(szMessage);
-	else
-		message = mir_utf8encode(szMessage);
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = MODULE;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = (int)mir_strlen(message);
-	dbei.pBlob = (PBYTE)message;
+	dbei.cbBlob = (int)mir_strlen(szMessage);
+	dbei.pBlob = (PBYTE)szMessage;
 	dbei.flags = DBEF_SENT | DBEF_READ | DBEF_UTF;
 	db_event_add(pccsd->hContact, &dbei);
 
-	if (message[0] && message[0] == '/')
+	if (*szMessage == '/')
 	{
 		// parse commands
-		char *sep = strchr(message, ' ');
+		char *sep = strchr(szMessage, ' ');
 		if (sep != NULL) *sep = 0;
 
 		struct
@@ -188,7 +181,7 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 
 		for (int i = 0; i < SIZEOF(commands); i++)
 		{
-			if (!strcmp(message + 1, commands[i].szCommand))
+			if (!strcmp(szMessage+1, commands[i].szCommand))
 			{
 				ULONG messageId = InterlockedIncrement(&hMessageProcess);
 
@@ -206,9 +199,8 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 	}
 
 	char help[1024];
-	mir_snprintf(help, SIZEOF(help), Translate("\"%s\" is not valid.\nUse \"/help\" for more info."), message);
+	mir_snprintf(help, SIZEOF(help), Translate("\"%s\" is not valid.\nUse \"/help\" for more info."), szMessage);
 	CallContactService(GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)help);
-
 	return 0;
 }
 

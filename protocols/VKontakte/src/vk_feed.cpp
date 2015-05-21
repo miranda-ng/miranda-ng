@@ -54,16 +54,14 @@ void CVkProto::AddFeedEvent(CMString& tszBody, time_t tTime)
 	}
 	
 	MCONTACT hContact = FindUser(VK_FEED_USER, true);
-	ptrT ptszBody(mir_tstrdup(tszBody.GetBuffer()));
-	PROTORECVEVENT recv = { 0 };
+	ptrA pszBody(mir_utf8encodeT(tszBody));
 
-	recv.flags = PREF_TCHAR;
+	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = tTime;
-	recv.tszMessage = ptszBody;
+	recv.szMessage = pszBody;
 	recv.lParam = 0;
 	recv.pCustomData = NULL;
 	recv.cbCustomDataSize = 0;
-
 	ProtoChainRecvMsg(hContact, &recv);
 }
 

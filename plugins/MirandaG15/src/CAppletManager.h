@@ -83,9 +83,6 @@ public:
 	// sends typing notifications to the specified contact
 	static void SendTypingNotification(MCONTACT hContact,bool bEnable);
 
-	// returns the contacts message service name
-	static char *GetMessageServiceName(MCONTACT hContact,bool bIsUnicode);
-	static bool  IsUtfSendAvailable(MCONTACT hContact);
 	// returns a formatted timestamp string
 	static tstring GetFormattedTimestamp(tm *time);
 

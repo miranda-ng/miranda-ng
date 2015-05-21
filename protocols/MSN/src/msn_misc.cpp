@@ -98,7 +98,6 @@ void CMsnProto::MSN_AddAuthRequest(const char *email, const char *nick, const ch
 	int reasonlen = (int)strlen(reason);
 
 	PROTORECVEVENT pre = { 0 };
-	pre.flags = PREF_UTF;
 	pre.timestamp = (DWORD)time(NULL);
 	pre.lParam = sizeof(DWORD) + sizeof(HANDLE) + nicklen + emaillen + 5 + reasonlen;
 

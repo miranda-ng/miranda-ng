@@ -255,7 +255,6 @@ void CToxProto::OnFriendRequest(Tox*, const uint8_t *pubKey, const uint8_t *mess
 	proto->delSetting(hContact, "Auth");
 
 	PROTORECVEVENT pre = { 0 };
-	pre.flags = PREF_UTF;
 	pre.timestamp = time(NULL);
 	pre.lParam = (DWORD)(sizeof(DWORD) * 2 + address.GetLength() + length + 5);
 

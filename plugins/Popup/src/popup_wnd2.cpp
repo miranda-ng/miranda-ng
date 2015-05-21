@@ -830,32 +830,15 @@ struct ReplyEditData
 	WNDPROC oldWndProc;
 };
 
-BOOL IsUtfSendAvailable(MCONTACT hContact)
-{
-	char* szProto = GetContactProto(hContact);
-	if (szProto == NULL) return FALSE;
-	// check for MetaContact and get szProto from subcontact
-	if (!mir_strcmp(szProto, META_PROTO)) {
-		MCONTACT hSubContact = db_mc_getDefault(hContact);
-		if (!hSubContact)
-			return FALSE;
-		szProto = GetContactProto(hSubContact);
-	}
-	return(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDUTF) ? TRUE : FALSE;
-}
-
-void AddMessageToDB(MCONTACT hContact, char *msg, int flag/*bool utf*/)
+void AddMessageToDB(MCONTACT hContact, char *msg)
 {
 	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.flags = DBEF_SENT | ((flag&PREF_UTF) == PREF_UTF ? DBEF_UTF : 0);
+	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.szModule = GetContactProto(hContact);
 	dbei.timestamp = time(NULL);
-	if (!((flag & PREF_UTF) == PREF_UTF) && (flag & PREF_UNICODE) == PREF_UNICODE)
-		dbei.cbBlob = ((int)mir_tstrlen((LPTSTR)msg) + 1)*sizeof(TCHAR);
-	else
-		dbei.cbBlob = (int)mir_strlen(msg) + 1;
+	dbei.cbBlob = (int)mir_strlen(msg) + 1;
 	dbei.pBlob = (PBYTE)msg;
 	db_event_add(hContact, &dbei);
 }
@@ -869,33 +852,19 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case VK_RETURN:
-		{
-			char *buf = NULL;
-			int flag = 0;
 			TCHAR msg[2048];
-
 			GetWindowText(hwnd, msg, SIZEOF(msg));
-
 			if (wcslen(msg) == 0) {
 				DestroyWindow(hwnd);
 				return 0;
 			}
-			// we have unicode message, check if it is possible and reasonable to send it as unicode
-			if (IsUtfSendAvailable(dat->hContact)) {
-				buf = mir_utf8encodeT(msg);
-				flag = PREF_UTF;
-			}
-			else {
-				buf = mir_t2a(msg);
-				flag = 0;
-			}
 
-			CallContactService(dat->hContact, PSS_MESSAGE, flag, (LPARAM)buf);
-			AddMessageToDB(dat->hContact, buf, flag);
-			mir_free(buf);
-		}
-		DestroyWindow(hwnd);
-		return 0;
+			{
+				ptrA buf(mir_utf8encodeT(msg));
+				CallContactService(dat->hContact, PSS_MESSAGE, 0, (LPARAM)buf);
+				AddMessageToDB(dat->hContact, buf);
+			}
+			// fall through
 
 		case VK_ESCAPE:
 			DestroyWindow(hwnd);

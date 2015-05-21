@@ -53,15 +53,6 @@ static void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 	}
 }
 
-static BOOL IsUtfSendAvailable(MCONTACT hContact)
-{
-	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
-		return FALSE;
-
-	return (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDUTF) ? TRUE : FALSE;
-}
-
 static int RTL_Detect(const TCHAR *ptszText)
 {
 	int iLen = (int)_tcslen(ptszText);
@@ -81,34 +72,13 @@ int SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char *szProto)
 		return NULL;
 
 	int flags = 0;
-	int bufSize = 0;
-	char *sendBuffer = NULL;
-
 	if (RTL_Detect(szMsg))
 		flags |= PREF_RTL;
 
-	if (IsUtfSendAvailable(hContact)) {
-		flags |= PREF_UTF;
-		sendBuffer = mir_utf8encodeT(szMsg);
-		if (!sendBuffer || !sendBuffer[0]) {
-			mir_free(sendBuffer);
-			return NULL;
-		}
-		bufSize = (int)strlen(sendBuffer) + 1;
-	}
-	else {
-		flags |= PREF_TCHAR;
-		sendBuffer = mir_t2a(szMsg);
-		if (!sendBuffer || !sendBuffer[0]) {
-			mir_free(sendBuffer);
-			return NULL;
-		}
-		bufSize = (int)strlen(sendBuffer) + 1;
-
-		size_t bufSizeT = (_tcslen(szMsg) + 1) * sizeof(TCHAR);
-		sendBuffer = (char*)mir_realloc(sendBuffer, bufSizeT + bufSize);
-		memcpy((TCHAR*)&sendBuffer[bufSize], szMsg, bufSizeT);
-		bufSize += (int)bufSizeT;
+	char *sendBuffer = mir_utf8encodeT(szMsg);
+	if (!sendBuffer || !sendBuffer[0]) {
+		mir_free(sendBuffer);
+		return NULL;
 	}
 
 	if (sendBuffer == NULL)

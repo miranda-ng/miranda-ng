@@ -21,19 +21,11 @@ INT_PTR SkypeRecvFile(WPARAM, LPARAM lParam)
 	dbei.szModule = SKYPE_PROTONAME;
 	dbei.timestamp = pre->timestamp;
 	if (pre->flags & PREF_CREATEREAD) dbei.flags |= DBEF_READ;
-	if (pre->flags & PREF_UTF) dbei.flags |= DBEF_UTF;
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.cbBlob = sizeof(DWORD);
-	if (pre->flags & PREF_UNICODE) {
-		for (nFiles = 0; cbFilename = wcslen((wchar_t*)&pre->szMessage[dbei.cbBlob])*sizeof(wchar_t); nFiles++)
-			dbei.cbBlob += DWORD(cbFilename) + sizeof(wchar_t);
-		dbei.cbBlob += sizeof(wchar_t);
-	}
-	else {
-		for (nFiles = 0; cbFilename = strlen(&pre->szMessage[dbei.cbBlob]); nFiles++)
-			dbei.cbBlob += DWORD(cbFilename) + 1;
-		dbei.cbBlob++;
-	}
+	for (nFiles = 0; cbFilename = strlen(&pre->szMessage[dbei.cbBlob]); nFiles++)
+		dbei.cbBlob += DWORD(cbFilename) + 1;
+	dbei.cbBlob++;
 	dbei.pBlob = (PBYTE)pre->szMessage;
 
 	TYP_MSGLENTRY *pEntry = MsgList_Add(pre->lParam, db_event_add(ccs->hContact, &dbei));
@@ -48,21 +40,12 @@ INT_PTR SkypeRecvFile(WPARAM, LPARAM lParam)
 			pfts->hContact = ccs->hContact;
 			pfts->totalFiles = nFiles;
 			if (pfts->pszFiles = (char**)calloc(nFiles + 1, sizeof(char*))) {
-				if (pre->flags & PREF_UNICODE) {
-					wchar_t *pFN;
-					for (size_t i = 0; cbFilename = wcslen(pFN = (wchar_t*)&pre->szMessage[iOffs])*sizeof(wchar_t); i++) {
-						pfts->pszFiles[i] = (char*)wcsdup(pFN);
-						iOffs += cbFilename + sizeof(wchar_t);
-					}
+				char *pFN;
+				for (size_t i = 0; cbFilename = strlen(pFN = &pre->szMessage[iOffs]); i++) {
+					pfts->pszFiles[i] = strdup(pFN);
+					iOffs += cbFilename + 1;
 				}
-				else {
-					char *pFN;
-					for (size_t i = 0; cbFilename = strlen(pFN = &pre->szMessage[iOffs]); i++) {
-						pfts->pszFiles[i] = strdup(pFN);
-						iOffs += cbFilename + 1;
-					}
-					if (pre->flags & PREF_UTF) pfts->flags |= PFTS_UTF;
-				}
+				pfts->flags |= PFTS_UTF;
 				ret = pre->lParam;
 			}
 		}
@@ -244,7 +227,6 @@ BOOL FXHandleRecv(PROTORECVEVENT *pre, MCONTACT hContact)
 								cbMsg = cbNewSize - 1;
 							}
 							else pszMsgNum = NULL;
-							pre->flags |= PREF_UTF;
 							free(pszFN);
 						}
 					}

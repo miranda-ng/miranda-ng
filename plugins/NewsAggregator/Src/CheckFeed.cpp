@@ -148,10 +148,11 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 		if (stamp == 0)
 			stamp = time(NULL);
 
+		ptrA pszMessage(mir_utf8encodeT(message));
+
 		PROTORECVEVENT recv = { 0 };
-		recv.flags = PREF_TCHAR;
 		recv.timestamp = (DWORD)stamp;
-		recv.tszMessage = (TCHAR*)message.c_str();
+		recv.szMessage = pszMessage;
 		ProtoChainRecvMsg(hContact, &recv);
 	}
 }

@@ -10,54 +10,52 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 	MCONTACT hContact = proto->GetContact(friendNumber);
 	if (hContact)
 	{
-		switch (kind)
-		{
+		switch (kind) {
 		case TOX_FILE_KIND_AVATAR:
-		{
-			ptrT address(proto->getTStringA(hContact, TOX_SETTINGS_ID));
-			TCHAR avatarName[MAX_PATH];
-			mir_sntprintf(avatarName, MAX_PATH, _T("%s.png"), address);
-			
-			AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, avatarName, fileSize);
-			transfer->pfts.flags |= PFTS_RECEIVING;
-			transfer->pfts.hContact = hContact;
-			proto->transfers.Add(transfer);
-
-			TOX_ERR_FILE_GET error;
-			tox_file_get_file_id(proto->tox, friendNumber, fileNumber, transfer->hash, &error);
-			if (error != TOX_ERR_FILE_GET_OK)
 			{
-				proto->debugLogA(__FUNCTION__": unable to get avatar hash (%d)", error);
-				memset(transfer->hash, 0, TOX_HASH_LENGTH);
+				ptrT address(proto->getTStringA(hContact, TOX_SETTINGS_ID));
+				TCHAR avatarName[MAX_PATH];
+				mir_sntprintf(avatarName, MAX_PATH, _T("%s.png"), address);
+
+				AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, avatarName, fileSize);
+				transfer->pfts.flags |= PFTS_RECEIVING;
+				transfer->pfts.hContact = hContact;
+				proto->transfers.Add(transfer);
+
+				TOX_ERR_FILE_GET error;
+				tox_file_get_file_id(proto->tox, friendNumber, fileNumber, transfer->hash, &error);
+				if (error != TOX_ERR_FILE_GET_OK) {
+					proto->debugLogA(__FUNCTION__": unable to get avatar hash (%d)", error);
+					memset(transfer->hash, 0, TOX_HASH_LENGTH);
+				}
+				proto->OnGotFriendAvatarInfo(transfer);
 			}
-			proto->OnGotFriendAvatarInfo(transfer);
-		}
-		break;
+			break;
 
 		case TOX_FILE_KIND_DATA:
-		{
-			ptrA rawName((char*)mir_alloc(filenameLength + 1));
-			memcpy(rawName, fileName, filenameLength);
-			rawName[filenameLength] = 0;
-			TCHAR *name = mir_utf8decodeT(rawName);
+			{
+				ptrA rawName((char*)mir_alloc(filenameLength + 1));
+				memcpy(rawName, fileName, filenameLength);
+				rawName[filenameLength] = 0;
+				TCHAR *name = mir_utf8decodeT(rawName);
 
-			FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, name, fileSize);
-			transfer->pfts.flags |= PFTS_RECEIVING;
-			transfer->pfts.hContact = hContact;
-			proto->transfers.Add(transfer);
+				FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, name, fileSize);
+				transfer->pfts.flags |= PFTS_RECEIVING;
+				transfer->pfts.hContact = hContact;
+				proto->transfers.Add(transfer);
 
-			PROTORECVFILET pre = { 0 };
-			pre.flags = PREF_TCHAR;
-			pre.fileCount = 1;
-			pre.timestamp = time(NULL);
-			pre.tszDescription = _T("");
-			pre.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*) * 2);
-			pre.ptszFiles[0] = name;
-			pre.ptszFiles[1] = NULL;
-			pre.lParam = (LPARAM)transfer;
-			ProtoChainRecvFile(hContact, &pre);
-		}
-		break;
+				PROTORECVFILET pre = { 0 };
+				pre.dwFlags = PRFF_TCHAR;
+				pre.fileCount = 1;
+				pre.timestamp = time(NULL);
+				pre.tszDescription = _T("");
+				pre.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*) * 2);
+				pre.ptszFiles[0] = name;
+				pre.ptszFiles[1] = NULL;
+				pre.lParam = (LPARAM)transfer;
+				ProtoChainRecvFile(hContact, &pre);
+			}
+			break;
 
 		default:
 			proto->debugLogA(__FUNCTION__": unsupported transfer type (%d)", kind);

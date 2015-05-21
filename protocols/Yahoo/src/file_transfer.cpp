@@ -503,7 +503,7 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 	TCHAR* ptszFileName = mir_a2t(fn);
 
 	PROTORECVFILET pre = {0};
-	pre.flags = PREF_TCHAR;
+	pre.dwFlags = PRFF_TCHAR;
 	pre.fileCount = 1;
 	pre.timestamp = time(NULL);
 	pre.tszDescription = mir_a2t(msg);
@@ -547,18 +547,13 @@ void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_
 
 	}
 
-	TCHAR* ptszFileName = mir_a2t(fn);
-
 	PROTORECVFILET pre = {0};
-	pre.flags = PREF_TCHAR;
 	pre.fileCount = 1;
 	pre.timestamp = time(NULL);
-	pre.tszDescription = _T("");
-	pre.ptszFiles = &ptszFileName;
+	pre.szDescription = "";
+	pre.pszFiles = (char**)&fn;
 	pre.lParam = (LPARAM)ft;
 	ProtoChainRecvFile(ft->hContact, &pre);
-
-	mir_free(ptszFileName);
 }
 
 void CYahooProto::ext_got_file7info(const char *me, const char *who, const char *url, const char *fname, const char *ft_token)

@@ -228,7 +228,7 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 		char *message = mir_utf8encode(data);
 		if (ftp->hContact != instance->GetDefaultContact())
 		{
-			if (CallContactService(ftp->hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)message) != ACKRESULT_FAILED)
+			if (CallContactService(ftp->hContact, PSS_MESSAGE, 0, (LPARAM)message) != ACKRESULT_FAILED)
 			{
 				DBEVENTINFO dbei = { sizeof(dbei) };
 				dbei.flags = DBEF_UTF | DBEF_SENT/* | DBEF_READ*/;

@@ -30,7 +30,6 @@ void WhatsAppProto::onMessageForMe(const FMessage &pMsg)
 		MCONTACT hContact = this->AddToContactList(pMsg.key.remote_jid, pMsg.notifyname.c_str());
 
 		PROTORECVEVENT recv = { 0 };
-		recv.flags = PREF_UTF;
 		recv.szMessage = const_cast<char*>(msg.c_str());
 		recv.timestamp = time(NULL);
 		ProtoChainRecvMsg(hContact, &recv);
@@ -40,7 +39,7 @@ void WhatsAppProto::onMessageForMe(const FMessage &pMsg)
 		m_pConnection->sendMessageReceived(pMsg);
 }
 
-int WhatsAppProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
+int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *msg)
 {
 	ptrA jid(getStringA(hContact, "ID"));
 	if (jid == NULL)

@@ -371,27 +371,6 @@ INT_PTR openRecDir(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void sttRecvCreateBlob(DBEVENTINFO &dbei, int fileCount, char **pszFiles, char *szDescr)
-{
-	dbei.cbBlob = sizeof(DWORD);
-
-	for (int i = 0; i < fileCount; i++)
-		dbei.cbBlob += (int)mir_strlen(pszFiles[i]) + 1;
-
-	dbei.cbBlob += (int)mir_strlen(szDescr) + 1;
-
-	if ((dbei.pBlob = (BYTE*)mir_alloc(dbei.cbBlob)) == 0)
-		return;
-
-	*(DWORD*)dbei.pBlob = 0;
-	BYTE* p = dbei.pBlob + sizeof(DWORD);
-	for (int i = 0; i < fileCount; i++) {
-		strcpy((char*)p, pszFiles[i]);
-		p += mir_strlen(pszFiles[i]) + 1;
-	}
-	strcpy((char*)p, (szDescr == NULL) ? "" : szDescr);
-}
-
 static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
@@ -402,20 +381,46 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = GetContactProto(ccs->hContact);
 	dbei.timestamp = pre->timestamp;
-	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
+	dbei.flags = DBEF_UTF | (pre->dwFlags & PREF_CREATEREAD) ? DBEF_READ : 0;
 	dbei.eventType = EVENTTYPE_FILE;
 
-	char **pszFiles = (char**)alloca(pre->fileCount * sizeof(char*));
-	for (int i = 0; i < pre->fileCount; i++)
-		pszFiles[i] = Utf8EncodeT(pre->ptszFiles[i]);
+	bool bUnicode = (pre->dwFlags & PRFF_UNICODE) == PRFF_UNICODE;
 
-	char *szDescr = Utf8EncodeT(pre->tszDescription);
-	dbei.flags |= DBEF_UTF;
-	sttRecvCreateBlob(dbei, pre->fileCount, pszFiles, szDescr);
+	char *szDescr, **pszFiles;
+	if (bUnicode) {
+		pszFiles = (char**)alloca(pre->fileCount * sizeof(char*));
+		for (int i = 0; i < pre->fileCount; i++)
+			pszFiles[i] = Utf8EncodeT(pre->ptszFiles[i]);
+		
+		szDescr = Utf8EncodeT(pre->tszDescription);
+	}
+	else {
+		pszFiles = pre->pszFiles;
+		szDescr = pre->szDescription;
+	}
+
+	dbei.cbBlob = sizeof(DWORD);
 
 	for (int i = 0; i < pre->fileCount; i++)
-		mir_free(pszFiles[i]);
-	mir_free(szDescr);
+		dbei.cbBlob += (int)mir_strlen(pszFiles[i]) + 1;
+
+	dbei.cbBlob += (int)mir_strlen(szDescr) + 1;
+
+	if ((dbei.pBlob = (BYTE*)mir_alloc(dbei.cbBlob)) == 0)
+		return 0;
+
+	*(DWORD*)dbei.pBlob = 0;
+	BYTE* p = dbei.pBlob + sizeof(DWORD);
+	for (int i = 0; i < pre->fileCount; i++) {
+		strcpy((char*)p, pszFiles[i]);
+		p += mir_strlen(pszFiles[i]) + 1;
+		if (bUnicode)
+			mir_free(pszFiles[i]);
+	}
+
+	strcpy((char*)p, (szDescr == NULL) ? "" : szDescr);
+	if (bUnicode)
+		mir_free(szDescr);
 
 	MEVENT hdbe = db_event_add(ccs->hContact, &dbei);
 	PushFileEvent(ccs->hContact, hdbe, pre->lParam);

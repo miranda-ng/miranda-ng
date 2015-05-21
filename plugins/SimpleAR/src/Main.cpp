@@ -230,7 +230,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						}else
 							ptszTemp = Utils_ReplaceVarsT(ptszTemp2);
 						char* pszUtf = mir_utf8encodeT(ptszTemp);
-						CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)pszUtf);
+						CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)pszUtf);
 
 						dbei.cbSize = sizeof(dbei);
 						dbei.eventType = EVENTTYPE_MESSAGE;

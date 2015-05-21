@@ -37,7 +37,7 @@ void CVkProto::SendMsgAck(void *param)
 	delete ack;
 }
 
-int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
+int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 {
 	debugLogA("CVkProto::SendMsg");
 	if (!IsOnline())
@@ -47,14 +47,6 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 		ForkThread(&CVkProto::SendMsgAck, new TFakeAckParams(hContact, 0));
 		return 0;
 	}
-
-	ptrA szMsg;
-	if (flags & PREF_UTF)
-		szMsg = mir_strdup(msg);
-	else if (flags & PREF_UNICODE)
-		szMsg = mir_utf8encodeW((wchar_t*)&msg[mir_strlen(msg) + 1]);
-	else
-		szMsg = mir_utf8encode(msg);
 
 	int StickerId = 0;
 	ptrA retMsg(GetStickerId(szMsg, StickerId));
@@ -77,9 +69,8 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 		ForkThread(&CVkProto::SendMsgAck, new TFakeAckParams(hContact, msgId));
 
 	if (retMsg) {
-		int _flags = flags | PREF_UTF;
 		Sleep(330);
-		SendMsg(hContact, _flags, retMsg);
+		SendMsg(hContact, 0, retMsg);
 	}
 	return msgId;
 }
@@ -255,7 +246,6 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 
 		PROTORECVEVENT recv = { 0 };
-		recv.flags = PREF_TCHAR;
 		if (isRead && !m_bMesAsUnread)
 			recv.flags |= PREF_CREATEREAD;
 		if (isOut)
@@ -264,7 +254,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			SetInvisible(hContact);
 
 		recv.timestamp = m_bUseLocalTime ? time(NULL) : datetime;
-		recv.tszMessage = ptszBody;
+		recv.szMessage = mir_utf8encodeT(ptszBody);
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;
 		recv.cbCustomDataSize = (int)mir_strlen(szMid);
@@ -280,6 +270,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			if (!isOut)
 				m_incIds.insert((HANDLE)mid);
 		}
+
+		mir_free((char*)recv.szMessage);
 	}
 
 	if (!mids.IsEmpty())

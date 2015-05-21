@@ -117,7 +117,6 @@ void CMsnProto::getOIMs(ezxml_t xmli)
 
 			PROTORECVEVENT pre = { 0 };
 			pre.szMessage = mailInfo.decodeMailBody((char*)mailbody);
-			pre.flags = PREF_UTF /*+ ((isRtl) ? PREF_RTL : 0)*/;
 			pre.timestamp = evtm;
 			ProtoChainRecvMsg(MSN_HContactFromEmail(szEmail), &pre);
 			mir_free(pre.szMessage);

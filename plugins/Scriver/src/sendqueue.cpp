@@ -28,17 +28,7 @@ static mir_cs queueMutex;
 
 TCHAR* GetSendBufferMsg(MessageSendQueueItem *item)
 {
-	TCHAR *szMsg = NULL;
-	size_t len = strlen(item->sendBuffer);
-
-	if (item->flags & PREF_UTF)
-		szMsg = mir_utf8decodeW(item->sendBuffer);
-	else {
-		szMsg = (TCHAR*)mir_alloc(item->sendBufferSize - len - 1);
-		memcpy(szMsg, item->sendBuffer + len + 1, item->sendBufferSize - len - 1);
-	}
-
-	return szMsg;
+	return mir_utf8decodeW(item->sendBuffer);
 }
 
 MessageSendQueueItem* CreateSendQueueItem(HWND hwndSender)
