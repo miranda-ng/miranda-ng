@@ -106,7 +106,7 @@ void CMsnProto::MSN_SetContactDb(MCONTACT hContact, const char *szEmail)
 
 void CMsnProto::AddDelUserContList(const char* email, const int list, const int netId, const bool del)
 {
-/*
+#ifdef OBSOLETE
 	char buf[512];
 	size_t sz;
 
@@ -126,7 +126,7 @@ void CMsnProto::AddDelUserContList(const char* email, const int list, const int 
 		}
 		msnNsThread->sendPacket(del ? "RML" : "ADL", "%d\r\n%s", sz, buf);
 	}
-*/
+#endif
 
 	if (del)
 		Lists_Remove(list, email);
@@ -204,8 +204,10 @@ bool CMsnProto::MSN_AddUser(MCONTACT hContact, const char* email, int netId, int
 				MSN_SharingFindMembership(true);
 				AddDelUserContList(email, flags, netId, false);
 			}
+#ifdef OBSOLETE
 			else if (netId == 1 && strstr(email, "@yahoo.com") != 0)
 				MSN_FindYahooUser(email);
+#endif
 
 			db_free(&dbv);
 		}
@@ -232,7 +234,7 @@ bool CMsnProto::MSN_AddUser(MCONTACT hContact, const char* email, int netId, int
 	return res;
 }
 
-
+#ifdef OBSOLETE
 void CMsnProto::MSN_FindYahooUser(const char* email)
 {
 	const char *dom = strchr(email, '@');
@@ -246,6 +248,7 @@ void CMsnProto::MSN_FindYahooUser(const char* email)
 		msnNsThread->sendPacket("FQY", "%d\r\n%s", sz, buf);
 	}
 }
+#endif
 
 bool CMsnProto::MSN_RefreshContactList(void)
 {

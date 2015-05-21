@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_global.h"
 #include "msn_proto.h"
 
+#ifdef OBSOLETE
 //a few little functions to manage queuing send message requests until the
 //connection is established
 
@@ -179,3 +180,4 @@ void __cdecl CMsnProto::MsgQueue_AllClearThread(void* arg)
 	MsgQueue_Clear((char*)arg);
 	mir_free(arg);
 }
+#endif

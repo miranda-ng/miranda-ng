@@ -23,29 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_global.h"
 #include "msn_proto.h"
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// Starts a file sending thread
-
-void MSN_ConnectionProc(HANDLE hNewConnection, DWORD /* dwRemoteIP */, void* extra)
-{
-	CMsnProto *proto = (CMsnProto*)extra;
-
-	proto->debugLogA("File transfer connection accepted");
-
-	NETLIBCONNINFO connInfo = { sizeof(connInfo) };
-	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hNewConnection, (LPARAM)&connInfo);
-
-	ThreadData* T = proto->MSN_GetThreadByPort(connInfo.wPort);
-	if (T != NULL && T->s == NULL) {
-		T->s = hNewConnection;
-		ReleaseSemaphore(T->hWaitEvent, 1, NULL);
-	}
-	else {
-		proto->debugLogA("There's no registered file transfers for incoming port #%u, connection closed", connInfo.wPort);
-		Netlib_CloseHandle(hNewConnection);
-	}
-}
-
 void CMsnProto::MSN_SetMirVer(MCONTACT hContact, DWORD dwValue, bool always)
 {
 	static const char* MirVerStr[] =
@@ -93,215 +70,6 @@ void CMsnProto::MSN_SetMirVer(MCONTACT hContact, DWORD dwValue, bool always)
 	setByte(hContact, "StdMirVer", 1);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// Processes various invitations
-
-void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, char* nick)
-{
-	MimeHeaders tFileInfo;
-	tFileInfo.readFromBuffer(msgBody);
-
-	const char* Appname = tFileInfo["Application-Name"];
-	const char* AppGUID = tFileInfo["Application-GUID"];
-	const char* Invcommand = tFileInfo["Invitation-Command"];
-	const char* Invcookie = tFileInfo["Invitation-Cookie"];
-	const char* Appfile = tFileInfo["Application-File"];
-	const char* Appfilesize = tFileInfo["Application-FileSize"];
-	const char* IPAddress = tFileInfo["IP-Address"];
-	const char* IPAddressInt = tFileInfo["IP-Address-Internal"];
-	const char* Port = tFileInfo["Port"];
-	const char* PortXInt = tFileInfo["PortX-Internal"];
-	const char* AuthCookie = tFileInfo["AuthCookie"];
-	const char* SessionID = tFileInfo["Session-ID"];
-	const char* SessionProtocol = tFileInfo["Session-Protocol"];
-	//	const char* Connectivity = tFileInfo["Connectivity"];
-
-	if (AppGUID != NULL) {
-		if (!strcmp(AppGUID, "{02D3C01F-BF30-4825-A83A-DE7AF41648AA}")) {
-			MSN_ShowPopup(info->getContactHandle(),
-				TranslateT("Contact tried to open an audio conference (not currently supported)"), MSN_ALLOW_MSGBOX);
-			return;
-		}
-	}
-
-	if (Invcommand && (strcmp(Invcommand, "CANCEL") == 0)) {
-		delete info->mMsnFtp;
-		info->mMsnFtp = NULL;
-	}
-
-	if (Appname != NULL && Appfile != NULL && Appfilesize != NULL)  // receive first
-	{
-		filetransfer* ft = info->mMsnFtp = new filetransfer(this);
-
-		ft->std.hContact = MSN_HContactFromEmail(email, nick, true, true);
-		mir_free(ft->std.tszCurrentFile);
-		ft->std.tszCurrentFile = mir_utf8decodeT(Appfile);
-		ft->std.totalBytes = ft->std.currentFileSize = _atoi64(Appfilesize);
-		ft->std.totalFiles = 1;
-		ft->szInvcookie = mir_strdup(Invcookie);
-		ft->p2p_dest = mir_strdup(email);
-
-		TCHAR tComment[40];
-		mir_sntprintf(tComment, SIZEOF(tComment), TranslateT("%I64u bytes"), ft->std.currentFileSize);
-
-		PROTORECVFILET pre = { 0 };
-		pre.flags = PREF_TCHAR;
-		pre.fileCount = 1;
-		pre.timestamp = time(NULL);
-		pre.tszDescription = tComment;
-		pre.ptszFiles = &ft->std.tszCurrentFile;
-		pre.lParam = (LPARAM)ft;
-		ProtoChainRecvFile(ft->std.hContact, &pre);
-		return;
-	}
-
-	// receive Second
-	if (IPAddress != NULL && Port != NULL && AuthCookie != NULL) {
-		ThreadData* newThread = new ThreadData;
-
-		if (inet_addr(IPAddress) != MyConnection.extIP || !IPAddressInt)
-			mir_snprintf(newThread->mServer, SIZEOF(newThread->mServer), "%s:%s", IPAddress, Port);
-		else
-			mir_snprintf(newThread->mServer, SIZEOF(newThread->mServer), "%s:%u", IPAddressInt, atol(PortXInt) ^ 0x3141);
-
-		newThread->mType = SERVER_FILETRANS;
-
-		if (info->mMsnFtp == NULL) {
-			ThreadData* otherThread = MSN_GetOtherContactThread(info);
-			if (otherThread) {
-				info->mMsnFtp = otherThread->mMsnFtp;
-				otherThread->mMsnFtp = NULL;
-			}
-		}
-
-		newThread->mMsnFtp = info->mMsnFtp; info->mMsnFtp = NULL;
-		strcpy(newThread->mCookie, AuthCookie);
-
-		newThread->startThread(&CMsnProto::MSNServerThread, this);
-		return;
-	}
-
-	// send 1
-	if (Invcommand != NULL && Invcookie != NULL && Port == NULL && AuthCookie == NULL && SessionID == NULL) { 
-		msnftp_startFileSend(info, Invcommand, Invcookie);
-		return;
-	}
-
-	// netmeeting send 1
-	if (Appname == NULL && SessionID != NULL && SessionProtocol != NULL) {
-		if (!_stricmp(Invcommand, "ACCEPT")) {
-			ShellExecuteA(NULL, "open", "conf.exe", NULL, NULL, SW_SHOW);
-			Sleep(3000);
-
-			info->sendPacketPayload("MSG", "N",
- 				"MIME-Version: 1.0\r\n"
-				"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-				"Invitation-Command: ACCEPT\r\n"
-				"Invitation-Cookie: %s\r\n"
-				"Session-ID: {1A879604-D1B8-11D7-9066-0003FF431510}\r\n"
-				"Launch-Application: TRUE\r\n"
-				"IP-Address: %s\r\n\r\n",
-				Invcookie, MyConnection.GetMyExtIPStr());
-		}
-		return;
-	}
-
-	// netmeeting receive 1
-	if (Appname != NULL && !_stricmp(Appname, "NetMeeting")) {
-		TCHAR text[512], *tszEmail = mir_a2t(email);
-		mir_sntprintf(text, SIZEOF(text), TranslateT("Accept NetMeeting request from %s?"), tszEmail);
-		mir_free(tszEmail);
-
-		if (MessageBox(NULL, text, TranslateT("MSN Protocol"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-			info->sendPacketPayload("MSG", "N",
-				"MIME-Version: 1.0\r\n"
-				"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-				"Invitation-Command: ACCEPT\r\n"
-				"Invitation-Cookie: %s\r\n"
-				"Session-ID: {A2ED5ACF-F784-4B47-A7D4-997CD8F643CC}\r\n"
-				"Session-Protocol: SM1\r\n"
-				"Launch-Application: TRUE\r\n"
-				"Request-Data: IP-Address:\r\n"
-				"IP-Address: %s\r\n\r\n",
-				Invcookie, MyConnection.GetMyExtIPStr());
-		}
-		else {
-			info->sendPacketPayload("MSG", "N",
-				"MIME-Version: 1.0\r\n"
-				"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-				"Invitation-Command: CANCEL\r\n"
-				"Invitation-Cookie: %s\r\n"
-				"Cancel-Code: REJECT\r\n\r\n",
-				Invcookie);
-		}
-		return;
-	}
-
-	if (IPAddress != NULL && Port == NULL && SessionID != NULL && SessionProtocol == NULL) { // netmeeting receive 2
-		char ipaddr[256];
-		mir_snprintf(ipaddr, SIZEOF(ipaddr), "callto://%s", IPAddress);
-		ShellExecuteA(NULL, "open", ipaddr, NULL, NULL, SW_SHOW);
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Processes custom smiley messages
-
-void CMsnProto::MSN_CustomSmiley(const char* msgBody, char* email, char* nick, int iSmileyType)
-{
-	MCONTACT hContact = MSN_HContactFromEmail(email, nick, true, true);
-
-	char smileyList[500] = "";
-
-	const char *tok1 = msgBody, *tok2;
-	char *smlp = smileyList;
-	char lastsml[50];
-
-	unsigned iCount = 0;
-	bool parseSmiley = true;
-
-	for (;;) {
-		tok2 = strchr(tok1, '\t');
-		if (tok2 == NULL) break;
-
-		size_t sz = tok2 - tok1;
-		if (parseSmiley) {
-			sz = min(sz, sizeof(lastsml)-1);
-			memcpy(lastsml, tok1, sz);
-			lastsml[sz] = 0;
-
-			memcpy(smlp, tok1, sz); smlp += sz;
-			*(smlp++) = '\n'; *smlp = 0;
-			++iCount;
-		}
-		else {
-			filetransfer* ft = new filetransfer(this);
-			ft->std.hContact = hContact;
-
-			ft->p2p_object = (char*)mir_alloc(sz + 1);
-			memcpy(ft->p2p_object, tok1, sz);
-			ft->p2p_object[sz] = 0;
-
-			size_t slen = strlen(lastsml);
-			ptrA buf(mir_base64_encode((PBYTE)lastsml, (unsigned)slen));
-			ptrA smileyName(mir_urlEncode(buf));
-
-			TCHAR path[MAX_PATH];
-			MSN_GetCustomSmileyFileName(hContact, path, SIZEOF(path), smileyName, iSmileyType);
-			ft->std.tszCurrentFile = mir_tstrdup(path);
-
-			if (p2p_IsDlFileOk(ft))
-				delete ft;
-			else {
-				debugLogA("Custom Smiley p2p invite for object : %s", ft->p2p_object);
-				p2p_invite(iSmileyType, ft, email);
-				Sleep(3000);
-			}
-		}
-		parseSmiley = !parseSmiley;
-		tok1 = tok2 + 1;
-	}
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	MSN_ReceiveMessage - receives message or a file from the server
@@ -620,6 +388,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		sttNotificationMessage(msgBody, true);
 	else if (!_strnicmp(tContentType, "text/x-msmsgsoimnotification", 28))
 		sttNotificationMessage(msgBody, false);
+#ifdef OBSOLETE
 	else if (!_strnicmp(tContentType, "text/x-msmsgsinvite", 19))
 		MSN_InviteMessage(info, msgBody, email, nick);
 	else if (!_strnicmp(tContentType, "application/x-msnmsgrp2p", 24)) {
@@ -643,6 +412,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		MSN_CustomSmiley(msgBody, email, nick, MSN_APPID_CUSTOMSMILEY);
 	else if (!_strnicmp(tContentType, "text/x-mms-animemoticon", 23))
 		MSN_CustomSmiley(msgBody, email, nick, MSN_APPID_CUSTOMANIMATEDSMILEY);
+#endif
 
 	mir_free(mChatID);
 	mir_free(newbody);
@@ -697,90 +467,6 @@ void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 		}
 	}
 
-	ezxml_free(xmli);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Process user addition
-
-void CMsnProto::MSN_ProcessAdd(char* buf, size_t len)
-{
-	if (buf == NULL) return;
-
-	ezxml_t xmli = ezxml_parse_str(buf, len);
-	ezxml_t dom  = ezxml_child(xmli, "d");
-	while (dom != NULL) {
-		const char* szDom = ezxml_attr(dom, "n");
-		ezxml_t cont = ezxml_child(dom, "c");
-		while (cont != NULL) {
-			const char* szCont = ezxml_attr(cont, "n");
-			const char* szNick = ezxml_attr(cont, "f");
-			int listId = atol(ezxml_attr(cont, "l"));
-			int netId = atol(ezxml_attr(cont, "t"));
-
-			char szEmail[128];
-			mir_snprintf(szEmail, SIZEOF(szEmail), "%s@%s", szCont, szDom);
-
-			UrlDecode((char*)szNick);
-
-			if (listId == LIST_FL) {
-				MCONTACT hContact = MSN_HContactFromEmail(szEmail, szNick, true, false);
-				MSN_SetContactDb(hContact, szEmail);
-			}
-
-			if (listId == LIST_RL)
-				MSN_SharingFindMembership(true);
-			else
-				MSN_AddUser(NULL, szEmail, netId, listId);
-
-			MsnContact* msc = Lists_Get(szEmail);
-			if (msc == NULL) {
-				Lists_Add(listId, netId, szEmail);
-				msc = Lists_Get(szEmail);
-			}
-
-			if (listId == LIST_RL) {
-				if ((msc->list & (LIST_AL | LIST_BL)) == 0) {
-					MSN_AddAuthRequest(szEmail, szNick, msc->invite);
-					msc->netId = netId;
-				}
-				else MSN_AddUser(NULL, szEmail, netId, LIST_PL + LIST_REMOVE);
-			}
-
-			cont = ezxml_next(cont);
-		}
-		dom = ezxml_next(dom);
-	}
-	ezxml_free(xmli);
-}
-
-void CMsnProto::MSN_ProcessRemove(char* buf, size_t len)
-{
-	ezxml_t xmli = ezxml_parse_str(buf, len);
-	ezxml_t dom  = ezxml_child(xmli, "d");
-	while (dom != NULL) {
-		const char* szDom = ezxml_attr(dom, "n");
-		ezxml_t cont = ezxml_child(dom, "c");
-		while (cont != NULL) {
-			const char* szCont = ezxml_attr(cont, "n");
-			int listId = atol(ezxml_attr(cont, "l"));
-
-			char szEmail[128];
-			mir_snprintf(szEmail, SIZEOF(szEmail), "%s@%s", szCont, szDom);
-			Lists_Remove(listId, szEmail);
-
-			MsnContact* msc = Lists_Get(szEmail);
-			if (msc == NULL || (msc->list & (LIST_RL | LIST_FL | LIST_LL)) == 0) {
-				if (msc->hContact && _stricmp(szEmail, MyOptions.szEmail)) {
-					CallService(MS_DB_CONTACT_DELETE, (WPARAM)msc->hContact, 0);
-					msc->hContact = NULL;
-				}
-			}
-
-			cont = ezxml_next(cont);
-		}
-		dom = ezxml_next(dom);
-	}
 	ezxml_free(xmli);
 }
 
@@ -934,6 +620,7 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, tszStatus);
 	}
 
+#ifdef OBSOLETE
 	// Process current media info
 	const char* szCrntMda = ezxml_txt(ezxml_child(xmli, "CurrentMedia"));
 	if (!*szCrntMda) {
@@ -1038,25 +725,7 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 		mir_free(lti.ptszPlayer);
 		mir_free(lti.ptszType);
 	}
-}
-
-void CMsnProto::MSN_ProcessPage(char* buf, unsigned len)
-{
-	if (buf == NULL) return;
-	ezxml_t xmlnot = ezxml_parse_str(buf, len);
-
-	ezxml_t xmlbdy = ezxml_get(xmlnot, "MSG", 0, "BODY", -1);
-	const char* szMsg = ezxml_txt(ezxml_child(xmlbdy, "TEXT"));
-	const char* szTel = ezxml_attr(ezxml_child(xmlnot, "FROM"), "name");
-
-	if (szTel && *szMsg) {
-		PROTORECVEVENT pre = { 0 };
-		pre.szMessage = (char*)szMsg;
-		pre.flags = PREF_UTF /*+ ((isRtl) ? PREF_RTL : 0)*/;
-		pre.timestamp = time(NULL);
-		ProtoChainRecvMsg(MSN_HContactFromEmail(szTel, szTel, true, true), &pre);
-	}
-	ezxml_free(xmlnot);
+#endif
 }
 
 void CMsnProto::MSN_ProcessNotificationMessage(char* buf, unsigned len)
@@ -1106,60 +775,6 @@ void CMsnProto::MSN_ProcessNotificationMessage(char* buf, unsigned len)
 	ezxml_free(xmlnot);
 }
 
-void CMsnProto::MSN_InitSB(ThreadData* info, const char* szEmail)
-{
-/* MSNP21: No more switchboard, bye, bye ... 
-	MsnContact *cont = Lists_Get(szEmail);
-
-	if (cont->netId == NETID_MSN)
-		info->sendCaps();
-
-	bool typing = false;
-
-	for (int i = 3; --i;) {
-		MsgQueueEntry E;
-		while (MsgQueue_GetNext(szEmail, E)) {
-			if (E.msgType == 'X') ;
-			else if (E.msgType == 2571)
-				typing = E.flags != 0;
-			else if (E.msgSize == 0) {
-				info->sendMessage(E.msgType, NULL, 1, E.message, E.flags);
-				ProtoBroadcastAck(cont->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)E.seq, 0);
-			}
-			else {
-				if (E.msgType == 'D' && !info->mBridgeInit) { //&& strchr(data.flags, ':'))  {
-					info->mBridgeInit = true;
-
-//					P2PV2_Header hdrdata(E.message);
-//					P2PV2_Header tHdr;
-//					tHdr.mID = hdrdata.mID;
-//					p2p_sendMsg(info, E.wlid, 0, tHdr, NULL, 0);
-				}
-				info->sendRawMessage(E.msgType, E.message, E.msgSize);
-			}
-
-			mir_free(E.message);
-			mir_free(E.wlid);
-
-			if (E.ft != NULL)
-				info->mMsnFtp = E.ft;
-		}
-		mir_free(info->mInitialContactWLID); info->mInitialContactWLID = NULL;
-	}
-
-	if (typing)
-		MSN_StartStopTyping(info, true);
-
-	if (getByte("EnableDeliveryPopup", 0))
-		MSN_ShowPopup(cont->hContact, info->mCaller ?
-			TranslateT("Chat session established by my request") :
-			TranslateT("Chat session established by contact request"), 0);
-
-	PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai), cont->hContact };
-	GetAvatarInfo(GAIF_FORCE, (LPARAM)&ai);
-	*/
-}
-
 int CMsnProto::MSN_HandleCommands(ThreadData* info, char* cmdString)
 {
 	char* params = "";
@@ -1182,43 +797,8 @@ int CMsnProto::MSN_HandleCommands(ThreadData* info, char* cmdString)
 	}
 
 	switch((*(PDWORD)cmdString & 0x00FFFFFF) | 0x20000000) {
-	case ' KCA':    //********* ACK: section 8.7 Instant Messages
-		ReleaseSemaphore(info->hWaitEvent, 1, NULL);
-
-		if (info->mJoinedContactsWLID.getCount() > 0 && MyOptions.SlowSend)
-			ProtoBroadcastAck(info->getContactHandle(), ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)trid, 0);
-		break;
-
-	case ' YQF':	//********* FQY: Find Yahoo User
-		char* tWords[1];
-		if (sttDivideWords(params, 1, tWords) != 1)
-			debugLogA("Invalid %.3s command, ignoring", cmdString);
-		else {
-			size_t len = atol(tWords[0]);
-			MSN_ProcessYFind((char*)HReadBuffer(info, 0).surelyRead(len), len);
-		}
-		break;
-
-	case ' LDA':	//********* ADL: Add to the list
-		{
-			char* tWords[1];
-			if (sttDivideWords(params, 1, tWords) != 1) {
-LBL_InvalidCommand:
-				debugLogA("Invalid %.3s command, ignoring", cmdString);
-				break;
-			}
-
-			if (strcmp(tWords[0], "OK") != 0) {
-				size_t len = atol(tWords[0]);
-				MSN_ProcessAdd((char*)HReadBuffer(info, 0).surelyRead(len), len);
-			}
-		}
-		break;
 
 	case ' SBS':
-		break;
-
-	case ' SNA':    //********* ANS: section 8.4 Getting Invited to a Switchboard Session
 		break;
 
 	case ' HTA':	//********* ATH: MSNP21+ Authentication
@@ -1228,8 +808,11 @@ LBL_InvalidCommand:
 				struct { char *typeId, *strMsgBytes; } data;
 			};
 
-			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2)
-				goto LBL_InvalidCommand;
+			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2) {
+LBL_InvalidCommand:
+				debugLogA("Invalid %.3s command, ignoring", cmdString);
+				break;
+			}
 
 			HReadBuffer buf(info, 0);
 			char* msgBody = (char*)buf.surelyRead(atol(data.strMsgBytes));
@@ -1255,12 +838,6 @@ LBL_InvalidCommand:
 				ForkThread(&CMsnProto::msn_loginThread, NULL);
 			}
 		}
-		break;
-
-	case ' PRP':
-		break;
-
-	case ' PLB':    //********* BLP: section 7.6 List Retrieval And Property Management
 		break;
 
 	case ' DNB':	//********* BND: MSNP21+ bind request answer?
@@ -1294,120 +871,6 @@ LBL_InvalidCommand:
 		}
 		break;
 
-	case ' EYB':   //********* BYE: section 8.5 Session Participant Changes
-		{
-			union {
-				char* tWords[2];
-				// modified for chat, orginally param2 = junk
-				// param 2: quit due to idle = "1", normal quit = nothing
-				struct { char *userEmail, *isIdle; } data;
-			};
-
-			sttDivideWords(params, 2, tWords);
-			UrlDecode(data.userEmail);
-
-			if (strchr(data.userEmail, ';')) {
-				if (info->mJoinedContactsWLID.getCount() == 1)
-					p2p_clearThreadSessions((MCONTACT)info->mJoinedContactsWLID[0], info->mType);
-				info->contactLeft(data.userEmail);
-				break;
-			}
-
-			MCONTACT hContact = MSN_HContactFromEmail(data.userEmail);
-
-			if (getByte("EnableSessionPopup", 0))
-				MSN_ShowPopup(hContact, TranslateT("Contact left channel"), 0);
-
-			// modified for chat
-			{
-				GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_QUIT };
-				GCEVENT gce = { sizeof(gce), &gcd };
-				gce.dwFlags = GCEF_ADDTOLOG;
-				gce.ptszNick = GetContactNameT(hContact);
-				gce.ptszUID = mir_a2t(data.userEmail);
-				gce.time = time(NULL);
-				gce.bIsMe = FALSE;
-				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
-				mir_free((void*)gce.ptszUID);
-			}
-
-			int personleft = info->contactLeft(data.userEmail);
-
-			int temp_status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
-			if (temp_status == ID_STATUS_INVISIBLE && MSN_GetThreadByContact(data.userEmail) == NULL)
-				setWord(hContact, "Status", ID_STATUS_OFFLINE);
-
-			// see if the session is quit due to idleness
-			if (info->mChatID[0] && personleft == 1) {
-				if (!strcmp(data.isIdle, "1")) {
-					GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_INFORMATION };
-					GCEVENT gce = { sizeof(gce), &gcd };
-					gce.dwFlags = GCEF_ADDTOLOG;
-					gce.bIsMe = FALSE;
-					gce.time = time(NULL);
-					gce.ptszText = TranslateT("This conversation has been inactive, participants will be removed.");
-					CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
-					gce.ptszText = TranslateT("To resume the conversation, please quit this session and start a new chat session.");
-					CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
-				}
-				else {
-					if (!Miranda_Terminated() && MessageBox(NULL,
-						TranslateT("There is only 1 person left in the chat, do you want to switch back to standard message window?"),
-						TranslateT("MSN Chat"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-						// kill chat dlg and open srmm dialog
-						MSN_KillChatSession(info->mChatID);
-
-						// open up srmm dialog when quit while 1 person left
-						MCONTACT hContact = info->getContactHandle();
-						if (hContact) CallServiceSync(MS_MSG_SENDMESSAGE, hContact, 0);
-					}
-				}
-			}
-			// this is not in chat session, quit the session when everyone left
-			else if (info->mJoinedContactsWLID.getCount() < 1)
-				return 1;
-
-		}
-		break;
-
-	case ' LAC':    //********* CAL: section 8.3 Inviting Users to a Switchboard Session
-		break;
-
-	case ' GHC':    //********* CHG: section 7.7 Client States
-		{
-			int oldStatus = m_iStatus;
-			int newStatus = MSNStatusToMiranda(params);
-			if (oldStatus <= ID_STATUS_OFFLINE) {
-				isConnectSuccess = true;
-				int count = -1;
-				for (;;) {
-					MsnContact *msc = Lists_GetNext(count);
-					if (msc == NULL) break;
-
-					if (msc->netId == NETID_MOB)
-						setWord(msc->hContact, "Status", ID_STATUS_ONTHEPHONE);
-				}
-			}
-			if (newStatus != ID_STATUS_IDLE) {
-				m_iStatus = newStatus;
-				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, newStatus);
-				debugLogA("Status change acknowledged: %s", params);
-				MSN_RemoveEmptyGroups();
-			}
-			if (newStatus == ID_STATUS_OFFLINE) return 1;
-		}
-		break;
-	case ' LHC':    //********* CHL: Query from Server on MSNP7
-		{
-			char* authChallengeInfo;
-			if (sttDivideWords(params, 1, &authChallengeInfo) != 1)
-				goto LBL_InvalidCommand;
-
-			char dgst[64];
-			MSN_MakeDigest(authChallengeInfo, dgst);
-			info->sendPacket("QRY", "%s 32\r\n%s", msnProductID, dgst);
-		}
-		break;
 	case ' TNC':	//********* CNT: Connect, MSNP21+ Authentication
 		{
 			union {
@@ -1469,30 +932,10 @@ LBL_InvalidCommand:
 
 			bSentBND = false;
 			ForkThread(&CMsnProto::msn_keepAliveThread, NULL);
-			/* FIXME: Currently disables, as P2P maybe not working anymore in MSNP24? */
-			//ForkThread(&CMsnProto::MSNConnDetectThread, NULL);
-		}
-		break;
-	case ' RVC':    //********* CVR: MSNP8
-		break;
-
-	case ' NLF':    //********* FLN: section 7.9 Notification Messages
-		{
-			union {
-				char* tWords[2];
-				struct { char *userEmail, *netId; } data;
-			};
-
-			int tArgs = sttDivideWords(params, 2, tWords);
-			if (tArgs < 2)
-				goto LBL_InvalidCommand;
-
-			MCONTACT hContact = MSN_HContactFromEmail(data.userEmail);
-			if (hContact != NULL) {
-				setWord(hContact, "Status", MSN_GetThreadByContact(data.userEmail) ? ID_STATUS_INVISIBLE : ID_STATUS_OFFLINE);
-				setDword(hContact, "IdleTS", 0);
-				ForkThread(&CMsnProto::MsgQueue_AllClearThread, mir_strdup(data.userEmail));
-			}
+#ifdef OBSOLETE
+			/* FIXME: Currently disabled, as P2P maybe not working anymore in MSNP24? */
+			ForkThread(&CMsnProto::MSNConnDetectThread, NULL);
+#endif
 		}
 		break;
 
@@ -1656,6 +1099,771 @@ LBL_InvalidCommand:
 		}
 		break;
 
+	case ' YFN':   //********* NFY: MSNP21+ Notifications
+		{
+			union {
+				char* tWords[2];
+				struct { char *typeId, *strMsgBytes; } data;
+			};
+
+			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2)
+				goto LBL_InvalidCommand;
+
+			HReadBuffer buf(info, 0);
+			char* msgBody = (char*)buf.surelyRead(atol(data.strMsgBytes));
+			if (msgBody == NULL) break;
+			if (!strcmp(data.typeId, "MSGR\\HOTMAIL")) {
+				char szParam[128];
+				mir_snprintf(szParam, sizeof(szParam), "%s %s", data.typeId, data.strMsgBytes);
+				MSN_ReceiveMessage(info, cmdString, szParam);
+				break;
+			} else if (!strcmp(data.typeId, "MSGR\\ABCH")) {
+				MimeHeaders tHeader;
+				msgBody = tHeader.readFromBuffer(msgBody);
+				MSN_ProcessNotificationMessage(msgBody, strlen(msgBody));
+				break;
+			}
+
+			if (!strcmp(data.typeId, "MSGR\\PUT") || !strcmp(data.typeId, "MSGR\\DEL")) {
+				MimeHeaders tHeader;
+
+				int i;
+				for (i=0; i<2; i++) msgBody = tHeader.readFromBuffer(msgBody);
+				char *pszTo = NULL, *pszToNet;
+				if (tHeader["To"]) parseWLID(NEWSTR_ALLOCA(tHeader["To"]), &pszToNet, &pszTo, NULL);
+				const char *pszFrom =  tHeader["From"];
+				for (i=0; i<2; i++) msgBody = tHeader.readFromBuffer(msgBody);
+
+				if (pszFrom)
+				{
+					ezxml_t xmli;
+					if (xmli = ezxml_parse_str(msgBody, strlen(msgBody)))
+					{
+						if (!strcmp(xmli->name, "user"))
+						{
+							ezxml_t xmlstatus = ezxml_get(xmli, "s", 0, "Status", -1);
+							/* FIXME: MSGR\DEL: Instance of user with given EPID disconnected, not 
+							 * sure if this implies that contact is offline now... */
+							if (xmlstatus || !strcmp(data.typeId, "MSGR\\DEL"))
+							{
+								// These capabilities seem to be something different than in previous MSNP versions?
+								//ezxml_t xmlcaps = ezxml_get(xmli, "sep", 0, "Capabilities", -1);
+								ezxml_t usertile = ezxml_get(xmli, "s", 1, "UserTileLocation", -1);
+								MSN_ProcessNLN(ezxml_txt(xmlstatus), pszFrom, NULL, NULL, usertile?usertile->txt:NULL);
+							}
+							MSN_ProcessStatusMessage(xmli, pszFrom);
+						}
+						ezxml_free(xmli);
+					}				
+				}
+			}
+			else if (!strcmp(data.typeId, "MSGR\\THREAD")) {
+				MimeHeaders tHeader;
+				char *msgBody = tHeader.readFromBuffer(info->mData);
+				ezxml_t xmli;
+
+				if (xmli = ezxml_parse_str(msgBody, strlen(msgBody)))
+				{
+					MSN_ChatStart(xmli);
+					ezxml_free(xmli);
+				}				
+			}
+		}
+		break;
+
+	case ' TUP':	//******** MSNP21+: PUT notifications
+	case ' GNP':	//******** MSNP21+: PNG reply
+		{
+			union {
+				char* tWords[2];
+				struct { char *typeId, *strMsgBytes; } data;
+			};
+
+			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2)
+				goto LBL_InvalidCommand;
+
+			MimeHeaders tHeader;
+			HReadBuffer buf(info, 0);
+			char* msgBody = tHeader.readFromBuffer((char*)buf.surelyRead(atol(data.strMsgBytes)));
+
+			if (tHeader["Set-Registration"]) replaceStr(msnRegistration,tHeader["Set-Registration"]);
+			if (cmdString[1]=='N') { // PNG
+				if (ezxml_t xmli = ezxml_parse_str(msgBody, strlen(msgBody))) {
+					if (ezxml_t wait = ezxml_child(xmli, "wait")) {
+						msnPingTimeout = atoi(ezxml_txt(wait));
+						if (msnPingTimeout && hKeepAliveThreadEvt != NULL)
+							SetEvent(hKeepAliveThreadEvt);
+					}
+					ezxml_free(xmli);
+				}				
+			} else { // PUT
+				ezxml_t xmli;
+				if (*msgBody && (xmli = ezxml_parse_str(msgBody, strlen(msgBody)))) {
+					if (!strcmp(xmli->name, "presence-response")) {
+						ezxml_t user, from;
+						if ((user = ezxml_child(xmli, "user")) && (from = ezxml_child(xmli, "from"))) {
+							if (ezxml_t xmlstatus = ezxml_get(user, "s", 0, "Status", -1)) {
+								ezxml_t usertile = ezxml_get(user, "s", 1, "UserTileLocation", -1);
+								MSN_ProcessNLN(ezxml_txt(xmlstatus), from->txt, NULL, NULL, usertile?usertile->txt:NULL);
+							} else {
+								int oldMode = m_iStatus;
+								m_iStatus = m_iDesiredStatus;
+								ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldMode, m_iStatus);
+							}
+							MSN_ProcessStatusMessage(user, from->txt);
+						}
+					}
+					ezxml_free(xmli);
+				}				
+			}
+		}
+		break;
+
+	case ' GDS':   // SDG:  MSNP21+ Messaging
+		MSN_ReceiveMessage(info, cmdString, params);
+		break;
+
+	case ' RFX':    //******** XFR: sections 7.4 Referral, 8.1 Referral to Switchboard
+		{
+			union {
+				char* tWords[2];
+				struct { char *typeId, *strMsgBytes; } data;
+			};
+
+			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2)
+				goto LBL_InvalidCommand;
+
+			MimeHeaders tHeader;
+			HReadBuffer buf(info, 0);
+			char* msgBody = tHeader.readFromBuffer((char*)buf.surelyRead(atol(data.strMsgBytes)));
+			if (!strcmp(data.typeId, "CON")) {
+				ezxml_t xmlxfr = ezxml_parse_str(msgBody, strlen(msgBody));
+				ezxml_t xmltgt = ezxml_child(xmlxfr, "target");
+				if (xmltgt)
+				{
+					ThreadData* newThread = new ThreadData;
+					strcpy(newThread->mServer, xmltgt->txt);
+					strcpy(newThread->mState, ezxml_txt(ezxml_child(xmlxfr, "state")));
+					newThread->mType = SERVER_NOTIFICATION;
+					newThread->mTrid = info->mTrid;
+					newThread->mIsMainThread = true;
+					info->mIsMainThread = false;
+
+					debugLogA("Switching to notification server '%s'...", xmltgt->txt);
+					newThread->startThread(&CMsnProto::MSNServerThread, this);
+					ezxml_free(xmlxfr);
+					return 1;  //kill the old thread
+				}
+				ezxml_free(xmlxfr);
+			}
+		}
+		break;
+
+	default:
+		debugLogA("Unrecognised message: %s", cmdString);
+		break;
+	}
+
+	return 0;
+}
+
+
+#ifdef OBSOLETE
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Starts a file sending thread
+
+void MSN_ConnectionProc(HANDLE hNewConnection, DWORD /* dwRemoteIP */, void* extra)
+{
+	CMsnProto *proto = (CMsnProto*)extra;
+
+	proto->debugLogA("File transfer connection accepted");
+
+	NETLIBCONNINFO connInfo = { sizeof(connInfo) };
+	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hNewConnection, (LPARAM)&connInfo);
+
+	ThreadData* T = proto->MSN_GetThreadByPort(connInfo.wPort);
+	if (T != NULL && T->s == NULL) {
+		T->s = hNewConnection;
+		ReleaseSemaphore(T->hWaitEvent, 1, NULL);
+	}
+	else {
+		proto->debugLogA("There's no registered file transfers for incoming port #%u, connection closed", connInfo.wPort);
+		Netlib_CloseHandle(hNewConnection);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Processes various invitations
+
+void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, char* nick)
+{
+	MimeHeaders tFileInfo;
+	tFileInfo.readFromBuffer(msgBody);
+
+	const char* Appname = tFileInfo["Application-Name"];
+	const char* AppGUID = tFileInfo["Application-GUID"];
+	const char* Invcommand = tFileInfo["Invitation-Command"];
+	const char* Invcookie = tFileInfo["Invitation-Cookie"];
+	const char* Appfile = tFileInfo["Application-File"];
+	const char* Appfilesize = tFileInfo["Application-FileSize"];
+	const char* IPAddress = tFileInfo["IP-Address"];
+	const char* IPAddressInt = tFileInfo["IP-Address-Internal"];
+	const char* Port = tFileInfo["Port"];
+	const char* PortXInt = tFileInfo["PortX-Internal"];
+	const char* AuthCookie = tFileInfo["AuthCookie"];
+	const char* SessionID = tFileInfo["Session-ID"];
+	const char* SessionProtocol = tFileInfo["Session-Protocol"];
+	//	const char* Connectivity = tFileInfo["Connectivity"];
+
+	if (AppGUID != NULL) {
+		if (!strcmp(AppGUID, "{02D3C01F-BF30-4825-A83A-DE7AF41648AA}")) {
+			MSN_ShowPopup(info->getContactHandle(),
+				TranslateT("Contact tried to open an audio conference (not currently supported)"), MSN_ALLOW_MSGBOX);
+			return;
+		}
+	}
+
+	if (Invcommand && (strcmp(Invcommand, "CANCEL") == 0)) {
+		delete info->mMsnFtp;
+		info->mMsnFtp = NULL;
+	}
+
+	if (Appname != NULL && Appfile != NULL && Appfilesize != NULL)  // receive first
+	{
+		filetransfer* ft = info->mMsnFtp = new filetransfer(this);
+
+		ft->std.hContact = MSN_HContactFromEmail(email, nick, true, true);
+		mir_free(ft->std.tszCurrentFile);
+		ft->std.tszCurrentFile = mir_utf8decodeT(Appfile);
+		ft->std.totalBytes = ft->std.currentFileSize = _atoi64(Appfilesize);
+		ft->std.totalFiles = 1;
+		ft->szInvcookie = mir_strdup(Invcookie);
+		ft->p2p_dest = mir_strdup(email);
+
+		TCHAR tComment[40];
+		mir_sntprintf(tComment, SIZEOF(tComment), TranslateT("%I64u bytes"), ft->std.currentFileSize);
+
+		PROTORECVFILET pre = { 0 };
+		pre.flags = PREF_TCHAR;
+		pre.fileCount = 1;
+		pre.timestamp = time(NULL);
+		pre.tszDescription = tComment;
+		pre.ptszFiles = &ft->std.tszCurrentFile;
+		pre.lParam = (LPARAM)ft;
+		ProtoChainRecvFile(ft->std.hContact, &pre);
+		return;
+	}
+
+	// receive Second
+	if (IPAddress != NULL && Port != NULL && AuthCookie != NULL) {
+		ThreadData* newThread = new ThreadData;
+
+		if (inet_addr(IPAddress) != MyConnection.extIP || !IPAddressInt)
+			mir_snprintf(newThread->mServer, SIZEOF(newThread->mServer), "%s:%s", IPAddress, Port);
+		else
+			mir_snprintf(newThread->mServer, SIZEOF(newThread->mServer), "%s:%u", IPAddressInt, atol(PortXInt) ^ 0x3141);
+
+		newThread->mType = SERVER_FILETRANS;
+
+		if (info->mMsnFtp == NULL) {
+			ThreadData* otherThread = MSN_GetOtherContactThread(info);
+			if (otherThread) {
+				info->mMsnFtp = otherThread->mMsnFtp;
+				otherThread->mMsnFtp = NULL;
+			}
+		}
+
+		newThread->mMsnFtp = info->mMsnFtp; info->mMsnFtp = NULL;
+		strcpy(newThread->mCookie, AuthCookie);
+
+		newThread->startThread(&CMsnProto::MSNServerThread, this);
+		return;
+	}
+
+	// send 1
+	if (Invcommand != NULL && Invcookie != NULL && Port == NULL && AuthCookie == NULL && SessionID == NULL) { 
+		msnftp_startFileSend(info, Invcommand, Invcookie);
+		return;
+	}
+
+	// netmeeting send 1
+	if (Appname == NULL && SessionID != NULL && SessionProtocol != NULL) {
+		if (!_stricmp(Invcommand, "ACCEPT")) {
+			ShellExecuteA(NULL, "open", "conf.exe", NULL, NULL, SW_SHOW);
+			Sleep(3000);
+
+			info->sendPacketPayload("MSG", "N",
+ 				"MIME-Version: 1.0\r\n"
+				"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+				"Invitation-Command: ACCEPT\r\n"
+				"Invitation-Cookie: %s\r\n"
+				"Session-ID: {1A879604-D1B8-11D7-9066-0003FF431510}\r\n"
+				"Launch-Application: TRUE\r\n"
+				"IP-Address: %s\r\n\r\n",
+				Invcookie, MyConnection.GetMyExtIPStr());
+		}
+		return;
+	}
+
+	// netmeeting receive 1
+	if (Appname != NULL && !_stricmp(Appname, "NetMeeting")) {
+		TCHAR text[512], *tszEmail = mir_a2t(email);
+		mir_sntprintf(text, SIZEOF(text), TranslateT("Accept NetMeeting request from %s?"), tszEmail);
+		mir_free(tszEmail);
+
+		if (MessageBox(NULL, text, TranslateT("MSN Protocol"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+			info->sendPacketPayload("MSG", "N",
+				"MIME-Version: 1.0\r\n"
+				"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+				"Invitation-Command: ACCEPT\r\n"
+				"Invitation-Cookie: %s\r\n"
+				"Session-ID: {A2ED5ACF-F784-4B47-A7D4-997CD8F643CC}\r\n"
+				"Session-Protocol: SM1\r\n"
+				"Launch-Application: TRUE\r\n"
+				"Request-Data: IP-Address:\r\n"
+				"IP-Address: %s\r\n\r\n",
+				Invcookie, MyConnection.GetMyExtIPStr());
+		}
+		else {
+			info->sendPacketPayload("MSG", "N",
+				"MIME-Version: 1.0\r\n"
+				"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+				"Invitation-Command: CANCEL\r\n"
+				"Invitation-Cookie: %s\r\n"
+				"Cancel-Code: REJECT\r\n\r\n",
+				Invcookie);
+		}
+		return;
+	}
+
+	if (IPAddress != NULL && Port == NULL && SessionID != NULL && SessionProtocol == NULL) { // netmeeting receive 2
+		char ipaddr[256];
+		mir_snprintf(ipaddr, SIZEOF(ipaddr), "callto://%s", IPAddress);
+		ShellExecuteA(NULL, "open", ipaddr, NULL, NULL, SW_SHOW);
+	}
+}
+
+void CMsnProto::MSN_ProcessRemove(char* buf, size_t len)
+{
+	ezxml_t xmli = ezxml_parse_str(buf, len);
+	ezxml_t dom  = ezxml_child(xmli, "d");
+	while (dom != NULL) {
+		const char* szDom = ezxml_attr(dom, "n");
+		ezxml_t cont = ezxml_child(dom, "c");
+		while (cont != NULL) {
+			const char* szCont = ezxml_attr(cont, "n");
+			int listId = atol(ezxml_attr(cont, "l"));
+
+			char szEmail[128];
+			mir_snprintf(szEmail, SIZEOF(szEmail), "%s@%s", szCont, szDom);
+			Lists_Remove(listId, szEmail);
+
+			MsnContact* msc = Lists_Get(szEmail);
+			if (msc == NULL || (msc->list & (LIST_RL | LIST_FL | LIST_LL)) == 0) {
+				if (msc->hContact && _stricmp(szEmail, MyOptions.szEmail)) {
+					CallService(MS_DB_CONTACT_DELETE, (WPARAM)msc->hContact, 0);
+					msc->hContact = NULL;
+				}
+			}
+
+			cont = ezxml_next(cont);
+		}
+		dom = ezxml_next(dom);
+	}
+	ezxml_free(xmli);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Processes custom smiley messages
+
+void CMsnProto::MSN_CustomSmiley(const char* msgBody, char* email, char* nick, int iSmileyType)
+{
+	MCONTACT hContact = MSN_HContactFromEmail(email, nick, true, true);
+
+	char smileyList[500] = "";
+
+	const char *tok1 = msgBody, *tok2;
+	char *smlp = smileyList;
+	char lastsml[50];
+
+	unsigned iCount = 0;
+	bool parseSmiley = true;
+
+	for (;;) {
+		tok2 = strchr(tok1, '\t');
+		if (tok2 == NULL) break;
+
+		size_t sz = tok2 - tok1;
+		if (parseSmiley) {
+			sz = min(sz, sizeof(lastsml)-1);
+			memcpy(lastsml, tok1, sz);
+			lastsml[sz] = 0;
+
+			memcpy(smlp, tok1, sz); smlp += sz;
+			*(smlp++) = '\n'; *smlp = 0;
+			++iCount;
+		}
+		else {
+			filetransfer* ft = new filetransfer(this);
+			ft->std.hContact = hContact;
+
+			ft->p2p_object = (char*)mir_alloc(sz + 1);
+			memcpy(ft->p2p_object, tok1, sz);
+			ft->p2p_object[sz] = 0;
+
+			size_t slen = strlen(lastsml);
+			ptrA buf(mir_base64_encode((PBYTE)lastsml, (unsigned)slen));
+			ptrA smileyName(mir_urlEncode(buf));
+
+			TCHAR path[MAX_PATH];
+			MSN_GetCustomSmileyFileName(hContact, path, SIZEOF(path), smileyName, iSmileyType);
+			ft->std.tszCurrentFile = mir_tstrdup(path);
+
+			if (p2p_IsDlFileOk(ft))
+				delete ft;
+			else {
+				debugLogA("Custom Smiley p2p invite for object : %s", ft->p2p_object);
+				p2p_invite(iSmileyType, ft, email);
+				Sleep(3000);
+			}
+		}
+		parseSmiley = !parseSmiley;
+		tok1 = tok2 + 1;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Process user addition
+
+void CMsnProto::MSN_ProcessAdd(char* buf, size_t len)
+{
+	if (buf == NULL) return;
+
+	ezxml_t xmli = ezxml_parse_str(buf, len);
+	ezxml_t dom  = ezxml_child(xmli, "d");
+	while (dom != NULL) {
+		const char* szDom = ezxml_attr(dom, "n");
+		ezxml_t cont = ezxml_child(dom, "c");
+		while (cont != NULL) {
+			const char* szCont = ezxml_attr(cont, "n");
+			const char* szNick = ezxml_attr(cont, "f");
+			int listId = atol(ezxml_attr(cont, "l"));
+			int netId = atol(ezxml_attr(cont, "t"));
+
+			char szEmail[128];
+			mir_snprintf(szEmail, SIZEOF(szEmail), "%s@%s", szCont, szDom);
+
+			UrlDecode((char*)szNick);
+
+			if (listId == LIST_FL) {
+				MCONTACT hContact = MSN_HContactFromEmail(szEmail, szNick, true, false);
+				MSN_SetContactDb(hContact, szEmail);
+			}
+
+			if (listId == LIST_RL)
+				MSN_SharingFindMembership(true);
+			else
+				MSN_AddUser(NULL, szEmail, netId, listId);
+
+			MsnContact* msc = Lists_Get(szEmail);
+			if (msc == NULL) {
+				Lists_Add(listId, netId, szEmail);
+				msc = Lists_Get(szEmail);
+			}
+
+			if (listId == LIST_RL) {
+				if ((msc->list & (LIST_AL | LIST_BL)) == 0) {
+					MSN_AddAuthRequest(szEmail, szNick, msc->invite);
+					msc->netId = netId;
+				}
+				else MSN_AddUser(NULL, szEmail, netId, LIST_PL + LIST_REMOVE);
+			}
+
+			cont = ezxml_next(cont);
+		}
+		dom = ezxml_next(dom);
+	}
+	ezxml_free(xmli);
+}
+
+void CMsnProto::MSN_ProcessPage(char* buf, unsigned len)
+{
+	if (buf == NULL) return;
+	ezxml_t xmlnot = ezxml_parse_str(buf, len);
+
+	ezxml_t xmlbdy = ezxml_get(xmlnot, "MSG", 0, "BODY", -1);
+	const char* szMsg = ezxml_txt(ezxml_child(xmlbdy, "TEXT"));
+	const char* szTel = ezxml_attr(ezxml_child(xmlnot, "FROM"), "name");
+
+	if (szTel && *szMsg) {
+		PROTORECVEVENT pre = { 0 };
+		pre.szMessage = (char*)szMsg;
+		pre.flags = PREF_UTF /*+ ((isRtl) ? PREF_RTL : 0)*/;
+		pre.timestamp = time(NULL);
+		ProtoChainRecvMsg(MSN_HContactFromEmail(szTel, szTel, true, true), &pre);
+	}
+	ezxml_free(xmlnot);
+}
+
+
+void CMsnProto::MSN_InitSB(ThreadData* info, const char* szEmail)
+{
+	MsnContact *cont = Lists_Get(szEmail);
+
+	if (cont->netId == NETID_MSN)
+		info->sendCaps();
+
+	bool typing = false;
+
+	for (int i = 3; --i;) {
+		MsgQueueEntry E;
+		while (MsgQueue_GetNext(szEmail, E)) {
+			if (E.msgType == 'X') ;
+			else if (E.msgType == 2571)
+				typing = E.flags != 0;
+			else if (E.msgSize == 0) {
+				info->sendMessage(E.msgType, NULL, 1, E.message, E.flags);
+				ProtoBroadcastAck(cont->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)E.seq, 0);
+			}
+			else {
+				if (E.msgType == 'D' && !info->mBridgeInit) { //&& strchr(data.flags, ':'))  {
+					info->mBridgeInit = true;
+
+//					P2PV2_Header hdrdata(E.message);
+//					P2PV2_Header tHdr;
+//					tHdr.mID = hdrdata.mID;
+//					p2p_sendMsg(info, E.wlid, 0, tHdr, NULL, 0);
+				}
+				info->sendRawMessage(E.msgType, E.message, E.msgSize);
+			}
+
+			mir_free(E.message);
+			mir_free(E.wlid);
+
+			if (E.ft != NULL)
+				info->mMsnFtp = E.ft;
+		}
+		mir_free(info->mInitialContactWLID); info->mInitialContactWLID = NULL;
+	}
+
+	if (typing)
+		MSN_StartStopTyping(info, true);
+
+	if (getByte("EnableDeliveryPopup", 0))
+		MSN_ShowPopup(cont->hContact, info->mCaller ?
+			TranslateT("Chat session established by my request") :
+			TranslateT("Chat session established by contact request"), 0);
+
+	PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai), cont->hContact };
+	GetAvatarInfo(GAIF_FORCE, (LPARAM)&ai);
+}
+
+int CMsnProto::MSN_HandleCommands(ThreadData* info, char* cmdString)
+{
+	char* params = "";
+	int trid = -1;
+
+	if (cmdString[3]) {
+		if (isdigit((BYTE)cmdString[4])) {
+			trid = strtol(cmdString + 4, &params, 10);
+			switch (*params) {
+			case ' ':	case '\0':	case '\t':	case '\n':
+				while (*params == ' ' || *params == '\t')
+					params++;
+				break;
+
+			default:
+				params = cmdString + 4;
+			}
+		}
+		else params = cmdString + 4;
+	}
+
+	switch((*(PDWORD)cmdString & 0x00FFFFFF) | 0x20000000) {
+	case ' KCA':    //********* ACK: section 8.7 Instant Messages
+		ReleaseSemaphore(info->hWaitEvent, 1, NULL);
+
+		if (info->mJoinedContactsWLID.getCount() > 0 && MyOptions.SlowSend)
+			ProtoBroadcastAck(info->getContactHandle(), ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)trid, 0);
+		break;
+
+	case ' YQF':	//********* FQY: Find Yahoo User
+		char* tWords[1];
+		if (sttDivideWords(params, 1, tWords) != 1)
+			debugLogA("Invalid %.3s command, ignoring", cmdString);
+		else {
+			size_t len = atol(tWords[0]);
+			MSN_ProcessYFind((char*)HReadBuffer(info, 0).surelyRead(len), len);
+		}
+		break;
+
+	case ' LDA':	//********* ADL: Add to the list
+		{
+			char* tWords[1];
+			if (sttDivideWords(params, 1, tWords) != 1) {
+LBL_InvalidCommand:
+				debugLogA("Invalid %.3s command, ignoring", cmdString);
+				break;
+			}
+
+			if (strcmp(tWords[0], "OK") != 0) {
+				size_t len = atol(tWords[0]);
+				MSN_ProcessAdd((char*)HReadBuffer(info, 0).surelyRead(len), len);
+			}
+		}
+		break;
+
+	case ' SBS':
+		break;
+
+	case ' SNA':    //********* ANS: section 8.4 Getting Invited to a Switchboard Session
+		break;
+
+	case ' PRP':
+		break;
+
+	case ' PLB':    //********* BLP: section 7.6 List Retrieval And Property Management
+		break;
+
+	case ' EYB':   //********* BYE: section 8.5 Session Participant Changes
+		{
+			union {
+				char* tWords[2];
+				// modified for chat, orginally param2 = junk
+				// param 2: quit due to idle = "1", normal quit = nothing
+				struct { char *userEmail, *isIdle; } data;
+			};
+
+			sttDivideWords(params, 2, tWords);
+			UrlDecode(data.userEmail);
+
+			if (strchr(data.userEmail, ';')) {
+				if (info->mJoinedContactsWLID.getCount() == 1)
+					p2p_clearThreadSessions((MCONTACT)info->mJoinedContactsWLID[0], info->mType);
+				info->contactLeft(data.userEmail);
+				break;
+			}
+
+			MCONTACT hContact = MSN_HContactFromEmail(data.userEmail);
+
+			if (getByte("EnableSessionPopup", 0))
+				MSN_ShowPopup(hContact, TranslateT("Contact left channel"), 0);
+
+			// modified for chat
+			{
+				GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_QUIT };
+				GCEVENT gce = { sizeof(gce), &gcd };
+				gce.dwFlags = GCEF_ADDTOLOG;
+				gce.ptszNick = GetContactNameT(hContact);
+				gce.ptszUID = mir_a2t(data.userEmail);
+				gce.time = time(NULL);
+				gce.bIsMe = FALSE;
+				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+				mir_free((void*)gce.ptszUID);
+			}
+
+			int personleft = info->contactLeft(data.userEmail);
+
+			int temp_status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+			if (temp_status == ID_STATUS_INVISIBLE && MSN_GetThreadByContact(data.userEmail) == NULL)
+				setWord(hContact, "Status", ID_STATUS_OFFLINE);
+
+			// see if the session is quit due to idleness
+			if (info->mChatID[0] && personleft == 1) {
+				if (!strcmp(data.isIdle, "1")) {
+					GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_INFORMATION };
+					GCEVENT gce = { sizeof(gce), &gcd };
+					gce.dwFlags = GCEF_ADDTOLOG;
+					gce.bIsMe = FALSE;
+					gce.time = time(NULL);
+					gce.ptszText = TranslateT("This conversation has been inactive, participants will be removed.");
+					CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+					gce.ptszText = TranslateT("To resume the conversation, please quit this session and start a new chat session.");
+					CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+				}
+				else {
+					if (!Miranda_Terminated() && MessageBox(NULL,
+						TranslateT("There is only 1 person left in the chat, do you want to switch back to standard message window?"),
+						TranslateT("MSN Chat"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+						// kill chat dlg and open srmm dialog
+						MSN_KillChatSession(info->mChatID);
+
+						// open up srmm dialog when quit while 1 person left
+						MCONTACT hContact = info->getContactHandle();
+						if (hContact) CallServiceSync(MS_MSG_SENDMESSAGE, hContact, 0);
+					}
+				}
+			}
+			// this is not in chat session, quit the session when everyone left
+			else if (info->mJoinedContactsWLID.getCount() < 1)
+				return 1;
+
+		}
+		break;
+
+	case ' LAC':    //********* CAL: section 8.3 Inviting Users to a Switchboard Session
+		break;
+
+	case ' GHC':    //********* CHG: section 7.7 Client States
+		{
+			int oldStatus = m_iStatus;
+			int newStatus = MSNStatusToMiranda(params);
+			if (oldStatus <= ID_STATUS_OFFLINE) {
+				isConnectSuccess = true;
+				int count = -1;
+				for (;;) {
+					MsnContact *msc = Lists_GetNext(count);
+					if (msc == NULL) break;
+
+					if (msc->netId == NETID_MOB)
+						setWord(msc->hContact, "Status", ID_STATUS_ONTHEPHONE);
+				}
+			}
+			if (newStatus != ID_STATUS_IDLE) {
+				m_iStatus = newStatus;
+				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, newStatus);
+				debugLogA("Status change acknowledged: %s", params);
+				MSN_RemoveEmptyGroups();
+			}
+			if (newStatus == ID_STATUS_OFFLINE) return 1;
+		}
+		break;
+	case ' LHC':    //********* CHL: Query from Server on MSNP7
+		{
+			char* authChallengeInfo;
+			if (sttDivideWords(params, 1, &authChallengeInfo) != 1)
+				goto LBL_InvalidCommand;
+
+			char dgst[64];
+			MSN_MakeDigest(authChallengeInfo, dgst);
+			info->sendPacket("QRY", "%s 32\r\n%s", msnProductID, dgst);
+		}
+		break;
+
+	case ' RVC':    //********* CVR: MSNP8
+		break;
+
+	case ' NLF':    //********* FLN: section 7.9 Notification Messages
+		{
+			union {
+				char* tWords[2];
+				struct { char *userEmail, *netId; } data;
+			};
+
+			int tArgs = sttDivideWords(params, 2, tWords);
+			if (tArgs < 2)
+				goto LBL_InvalidCommand;
+
+			MCONTACT hContact = MSN_HContactFromEmail(data.userEmail);
+			if (hContact != NULL) {
+				setWord(hContact, "Status", MSN_GetThreadByContact(data.userEmail) ? ID_STATUS_INVISIBLE : ID_STATUS_OFFLINE);
+				setDword(hContact, "IdleTS", 0);
+				ForkThread(&CMsnProto::MsgQueue_AllClearThread, mir_strdup(data.userEmail));
+			}
+		}
+		break;
+
 	case ' NLI':
 	case ' NLN':    //********* ILN/NLN: section 7.9 Notification Messages
 		{
@@ -1672,7 +1880,7 @@ LBL_InvalidCommand:
 			MSN_ProcessNLN(data.userStatus, data.wlid, data.userNick, data.objid, data.cmdstring);
 		}
 		break;
-	case ' ORI':    /********* IRO: section 8.4 Getting Invited to a Switchboard Session
+	case ' ORI':    //******** IRO: section 8.4 Getting Invited to a Switchboard Session
 		{
 			union {
 				char* tWords[5];
@@ -1709,7 +1917,7 @@ LBL_InvalidCommand:
 		}
 		break;*/
 
-	case ' IOJ':    /********* JOI: section 8.5 Session Participant Changes
+	case ' IOJ':    //******** JOI: section 8.5 Session Participant Changes
 		{
 			union {
 				char* tWords[3];
@@ -1832,78 +2040,6 @@ LBL_InvalidCommand:
 		debugLogA("Message send failed (trid=%d)", trid);
 		break;
 
-	case ' YFN':   //********* NFY: MSNP21+ Notifications
-		{
-			union {
-				char* tWords[2];
-				struct { char *typeId, *strMsgBytes; } data;
-			};
-
-			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2)
-				goto LBL_InvalidCommand;
-
-			HReadBuffer buf(info, 0);
-			char* msgBody = (char*)buf.surelyRead(atol(data.strMsgBytes));
-			if (msgBody == NULL) break;
-			if (!strcmp(data.typeId, "MSGR\\HOTMAIL")) {
-				char szParam[128];
-				mir_snprintf(szParam, sizeof(szParam), "%s %s", data.typeId, data.strMsgBytes);
-				MSN_ReceiveMessage(info, cmdString, szParam);
-				break;
-			} else if (!strcmp(data.typeId, "MSGR\\ABCH")) {
-				MimeHeaders tHeader;
-				msgBody = tHeader.readFromBuffer(msgBody);
-				MSN_ProcessNotificationMessage(msgBody, strlen(msgBody));
-				break;
-			}
-
-			if (!strcmp(data.typeId, "MSGR\\PUT") || !strcmp(data.typeId, "MSGR\\DEL")) {
-				MimeHeaders tHeader;
-
-				int i;
-				for (i=0; i<2; i++) msgBody = tHeader.readFromBuffer(msgBody);
-				char *pszTo = NULL, *pszToNet;
-				if (tHeader["To"]) parseWLID(NEWSTR_ALLOCA(tHeader["To"]), &pszToNet, &pszTo, NULL);
-				const char *pszFrom =  tHeader["From"];
-				for (i=0; i<2; i++) msgBody = tHeader.readFromBuffer(msgBody);
-
-				if (pszFrom)
-				{
-					ezxml_t xmli;
-					if (xmli = ezxml_parse_str(msgBody, strlen(msgBody)))
-					{
-						if (!strcmp(xmli->name, "user"))
-						{
-							ezxml_t xmlstatus = ezxml_get(xmli, "s", 0, "Status", -1);
-							/* FIXME: MSGR\DEL: Instance of user with given EPID disconnected, not 
-							 * sure if this implies that contact is offline now... */
-							if (xmlstatus || !strcmp(data.typeId, "MSGR\\DEL"))
-							{
-								// These capabilities seem to be something different than in previous MSNP versions?
-								//ezxml_t xmlcaps = ezxml_get(xmli, "sep", 0, "Capabilities", -1);
-								ezxml_t usertile = ezxml_get(xmli, "s", 1, "UserTileLocation", -1);
-								MSN_ProcessNLN(ezxml_txt(xmlstatus), pszFrom, NULL, NULL, usertile?usertile->txt:NULL);
-							}
-							MSN_ProcessStatusMessage(xmli, pszFrom);
-						}
-						ezxml_free(xmli);
-					}				
-				}
-			}
-			else if (!strcmp(data.typeId, "MSGR\\THREAD")) {
-				MimeHeaders tHeader;
-				char *msgBody = tHeader.readFromBuffer(info->mData);
-				ezxml_t xmli;
-
-				if (xmli = ezxml_parse_str(msgBody, strlen(msgBody)))
-				{
-					MSN_ChatStart(xmli);
-					ezxml_free(xmli);
-				}				
-			}
-		}
-		break;
-
 	case ' TON':   //********* NOT: notification message
 		MSN_ProcessNotificationMessage((char*)HReadBuffer(info, 0).surelyRead(trid), trid);
 		break;
@@ -1926,54 +2062,6 @@ LBL_InvalidCommand:
 			break;
 
 		return 1;
-
-	case ' TUP':	//******** MSNP21+: PUT notifications
-	case ' GNP':	//******** MSNP21+: PNG reply
-		{
-			union {
-				char* tWords[2];
-				struct { char *typeId, *strMsgBytes; } data;
-			};
-
-			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2)
-				goto LBL_InvalidCommand;
-
-			MimeHeaders tHeader;
-			HReadBuffer buf(info, 0);
-			char* msgBody = tHeader.readFromBuffer((char*)buf.surelyRead(atol(data.strMsgBytes)));
-
-			if (tHeader["Set-Registration"]) replaceStr(msnRegistration,tHeader["Set-Registration"]);
-			if (cmdString[1]=='N') { // PNG
-				if (ezxml_t xmli = ezxml_parse_str(msgBody, strlen(msgBody))) {
-					if (ezxml_t wait = ezxml_child(xmli, "wait")) {
-						msnPingTimeout = atoi(ezxml_txt(wait));
-						if (msnPingTimeout && hKeepAliveThreadEvt != NULL)
-							SetEvent(hKeepAliveThreadEvt);
-					}
-					ezxml_free(xmli);
-				}				
-			} else { // PUT
-				ezxml_t xmli;
-				if (*msgBody && (xmli = ezxml_parse_str(msgBody, strlen(msgBody)))) {
-					if (!strcmp(xmli->name, "presence-response")) {
-						ezxml_t user, from;
-						if ((user = ezxml_child(xmli, "user")) && (from = ezxml_child(xmli, "from"))) {
-							if (ezxml_t xmlstatus = ezxml_get(user, "s", 0, "Status", -1)) {
-								ezxml_t usertile = ezxml_get(user, "s", 1, "UserTileLocation", -1);
-								MSN_ProcessNLN(ezxml_txt(xmlstatus), from->txt, NULL, NULL, usertile?usertile->txt:NULL);
-							} else {
-								int oldMode = m_iStatus;
-								m_iStatus = m_iDesiredStatus;
-								ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldMode, m_iStatus);
-							}
-							MSN_ProcessStatusMessage(user, from->txt);
-						}
-					}
-					ezxml_free(xmli);
-				}				
-			}
-		}
-		break;
 
 	case ' YRQ':   //********* QRY:
 		break;
@@ -2032,10 +2120,6 @@ LBL_InvalidCommand:
 			debugLogA("Opening caller's switchboard server '%s'...", data.newServer);
 			newThread->startThread(&CMsnProto::MSNServerThread, this);
 		}
-		break;
-
-	case ' GDS':   // SDG:  MSNP21+ Messaging
-		MSN_ReceiveMessage(info, cmdString, params);
 		break;
 
 	case ' XBU':   // UBX : MSNP11+ User Status Message
@@ -2214,36 +2298,52 @@ LBL_InvalidCommand:
 	case ' RFX':    //******** XFR: sections 7.4 Referral, 8.1 Referral to Switchboard
 		{
 			union {
-				char* tWords[2];
-				struct { char *typeId, *strMsgBytes; } data;
+				char* tWords[7];
+				struct { char *type, *newServer, *security, *authChallengeInfo,
+								*type2, *srcUrl, *genGateway; } data;
 			};
 
-			if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2)
+			int numWords = sttDivideWords(params, 7, tWords);
+			if (numWords < 3)
 				goto LBL_InvalidCommand;
 
-			MimeHeaders tHeader;
-			HReadBuffer buf(info, 0);
-			char* msgBody = tHeader.readFromBuffer((char*)buf.surelyRead(atol(data.strMsgBytes)));
-			if (!strcmp(data.typeId, "CON")) {
-				ezxml_t xmlxfr = ezxml_parse_str(msgBody, strlen(msgBody));
-				ezxml_t xmltgt = ezxml_child(xmlxfr, "target");
-				if (xmltgt)
-				{
-					ThreadData* newThread = new ThreadData;
-					strcpy(newThread->mServer, xmltgt->txt);
-					strcpy(newThread->mState, ezxml_txt(ezxml_child(xmlxfr, "state")));
-					newThread->mType = SERVER_NOTIFICATION;
-					newThread->mTrid = info->mTrid;
-					newThread->mIsMainThread = true;
-					info->mIsMainThread = false;
+			if (!strcmp(data.type, "NS")) {  //notification server
+				UrlDecode(data.newServer);
+				ThreadData* newThread = new ThreadData;
+				strcpy(newThread->mServer, data.newServer);
+				newThread->mType = SERVER_NOTIFICATION;
+				newThread->mTrid = info->mTrid;
+				newThread->mIsMainThread = true;
+				usingGateway |= (*data.security == 'G');
+				info->mIsMainThread = false;
 
-					debugLogA("Switching to notification server '%s'...", xmltgt->txt);
-					newThread->startThread(&CMsnProto::MSNServerThread, this);
-					ezxml_free(xmlxfr);
-					return 1;  //kill the old thread
-				}
-				ezxml_free(xmlxfr);
+				debugLogA("Switching to notification server '%s'...", data.newServer);
+				newThread->startThread(&CMsnProto::MSNServerThread, this);
+				return 1;  //kill the old thread
 			}
+
+			if (!strcmp(data.type, "SB")) {  //switchboard server
+				UrlDecode(data.newServer);
+
+				if (numWords < 4)
+					goto LBL_InvalidCommand;
+
+				if (strcmp(data.security, "CKI")) {
+					debugLogA("Unknown XFR SB security package '%s'", data.security);
+					break;
+				}
+
+				ThreadData* newThread = new ThreadData;
+				strcpy(newThread->mServer, data.newServer);
+				newThread->gatewayType = data.genGateway && atol(data.genGateway) != 0;
+				newThread->mType = SERVER_SWITCHBOARD;
+				newThread->mCaller = 1;
+				strcpy(newThread->mCookie, data.authChallengeInfo);
+
+				debugLogA("Opening switchboard server '%s'...", data.newServer);
+				newThread->startThread(&CMsnProto::MSNServerThread, this);
+			}
+			else debugLogA("Unknown referral server: %s", data.type);
 		}
 		break;
 
@@ -2254,3 +2354,4 @@ LBL_InvalidCommand:
 
 	return 0;
 }
+#endif

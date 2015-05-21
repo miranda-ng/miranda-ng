@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "msn_global.h"
 #include "msn_proto.h"
+#ifdef OBSOLETE
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // add file session to a list
@@ -271,3 +272,4 @@ void CMsnProto::P2pSessions_Uninit(void)
 	m_arSessions.destroy();
 	m_arDirect.destroy();
 }
+#endif

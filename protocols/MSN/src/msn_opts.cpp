@@ -413,8 +413,10 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			}
 			else proto->delSetting("YourHost");
 
+#ifdef OBSOLETE
 			if (gethst != gethst2)
 				proto->ForkThread(&CMsnProto::MSNConnDetectThread, NULL);
+#endif
 
 			if (reconnectRequired && proto->msnLoggedIn)
 				MessageBox(hwndDlg, TranslateT("The changes you have made require you to reconnect to the MSN Messenger network before they take effect"),

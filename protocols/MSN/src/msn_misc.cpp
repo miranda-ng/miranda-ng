@@ -391,7 +391,9 @@ void CMsnProto::MSN_GoOffline(void)
 		MSN_EnableMenuItems(false);
 
 	MSN_FreeGroups();
+#ifdef OBSOLETE
 	MsgQueue_Clear();
+#endif
 	clearCachedMsg();
 
 	if (!Miranda_Terminated()) {
@@ -431,7 +433,7 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 	CMStringA buf;
 
 	if ((parFlags & MSG_DISABLE_HDR) == 0) {
-		/*
+
 		char  tFontName[100], tFontStyle[3];
 		DWORD tFontColor;
 
@@ -465,12 +467,11 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 			tFontStyle[0] = 0;
 		}
 
+#ifdef OBSOLETE
 		if (parFlags & MSG_OFFLINE)
-			off += mir_snprintf((buf + off), (SIZEOF(buf) - off), "Dest-Agent: client\r\n");
+			off += mir_snprintf((buf + off), (SIZEOF(buf) - off), "Dest-Agent: client\r\n"); 
+#endif
 
-		buf.AppendFormat("X-MMS-IM-Format: FN=%s; EF=%s; CO=%x; CS=0; PF=31%s\r\n\r\n",
-			tFontName, tFontStyle, tFontColor, (parFlags & MSG_RTL) ? ";RL=1" : "");
-		*/
 		char *pszNick=proto->MyOptions.szEmail;
 		DBVARIANT dbv;
 		time_t cur_time;
@@ -489,12 +490,15 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 		"Message-Type: %s\r\n"
 		"IM-Display-Name: %s\r\n"
 		"Content-Type: %s\r\n"
-		"Content-Length: %d\r\n\r\n%s",
+		"Content-Length: %d\r\n"
+		"X-MMS-IM-Format: FN=%s; EF=%s; CO=%x; CS=0; PF=31%s\r\n\r\n%s",
 		msgid,
 		(parFlags & MSG_CONTACT)?"RichText/Contacts":"Text",
 		pszNick,
 		(parFlags & MSG_CONTACT)?"application/user+xml\r\nSkype-Age: 18":"Text/plain; charset=UTF-8",
-		strlen(parMsg), parMsg);
+		strlen(parMsg), 
+		tFontName, tFontStyle, tFontColor, (parFlags & MSG_RTL) ? ";RL=1" : "",
+		parMsg);
 
 		if (pszNick!=proto->MyOptions.szEmail) db_free(&dbv);
 		parMsg = buf;
@@ -511,18 +515,19 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 		netId == NETID_SKYPE?netId:proto->MyOptions.netId, proto->GetMyUsername(netId), proto->MyOptions.szMachineGuid,
 		parMsg);
 
-	/*
+#ifdef OBSOLETE
 	if (netId == NETID_YAHOO || netId == NETID_MOB || (parFlags & MSG_OFFLINE))
 		seq = sendPacket("UUM", "%s %d %c %d\r\n%s%s", email, netId, msgType,
 		strlen(parMsg) + off, buf, parMsg);
 	else
 		seq = sendPacket("MSG", "%c %d\r\n%s%s", msgType,
 		strlen(parMsg) + off, buf, parMsg);
-	*/
+#endif
 
 	return seq;
 }
 
+#ifdef OBSOLETE
 void ThreadData::sendCaps(void)
 {
 	char mversion[100], capMsg[1000];
@@ -535,6 +540,7 @@ void ThreadData::sendCaps(void)
 
 	sendMessage('U', NULL, 1, capMsg, MSG_DISABLE_HDR);
 }
+#endif
 
 void ThreadData::sendTerminate(void)
 {
@@ -606,8 +612,9 @@ void CMsnProto::MSN_SendStatusMessage(const char* msg)
 		return;
 
 	MSN_SetServerStatus(m_iDesiredStatus);
-	/* FIXME: Currently not implemented, shuold be set on status change anyway 
+	/* FIXME: Currently not implemented, should be set on status change anyway  */
 
+#ifdef OBSOLETE
 	char* msgEnc = HtmlEncode(msg ? msg : "");
 
 	size_t sz;
@@ -675,7 +682,8 @@ void CMsnProto::MSN_SendStatusMessage(const char* msg)
 		replaceStr(msnPreviousUUX, szMsg);
 		msnNsThread->sendPacket("UUX", "%d\r\n%s", sz, szMsg);
 		mStatusMsgTS = clock();
-	} */
+	}
+#endif
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -777,7 +785,7 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 		unsigned myFlagsExEx = capexex_SupportsMissedConversations | capexex_SupportsShortCircuit;
 
 		char szMsg[2048];
-		/*
+#ifdef OBSOLETE
 		if (m_iStatus < ID_STATUS_ONLINE) {
 			int sz = mir_snprintf(szMsg, SIZEOF(szMsg),
 				"<EndpointData><Capabilities>%u:%u</Capabilities></EndpointData>", myFlags, myFlagsEx);
@@ -792,7 +800,7 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 				db_free(&dbv);
 			}
 		}
-		*/
+#endif
 
 		char *szPlace;
 		DBVARIANT dbv;
@@ -838,7 +846,7 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 
 
 		// TODO: Send, MSN_SendStatusMessage anpassen.
-		/*
+#ifdef OBSOLETE
 		int sz = mir_snprintf(szMsg, SIZEOF(szMsg),
 			"<PrivateEndpointData>"
 			"<EpName>%s</EpName>"
@@ -848,10 +856,10 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 			"</PrivateEndpointData>",
 			szPlace, newStatus == ID_STATUS_IDLE ? "true" : "false", szStatusName);
 		msnNsThread->sendPacket("UUX", "%d\r\n%s", sz, szMsg);
-		*/
+#endif
 		mir_free(szPlace);
 
-		/*
+#ifdef OBSOLETE
 		if (newStatus != ID_STATUS_IDLE) {
 			char** msgptr = GetStatusMsgLoc(newStatus);
 			if (msgptr != NULL)
@@ -859,10 +867,12 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 		}
 
 		msnNsThread->sendPacket("CHG", "%s %u:%u %s", szStatusName, myFlags, myFlagsEx, msnObject.pszVal ? msnObject.pszVal : "0");
-		*/
+#endif
 		db_free(&msnObject);
 	}
-	//else msnNsThread->sendPacket("CHG", szStatusName);
+#ifdef OBSOLETE
+	else msnNsThread->sendPacket("CHG", szStatusName);
+#endif
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1091,7 +1101,7 @@ void CMsnProto::MSN_ShowPopup(const MCONTACT hContact, const TCHAR* msg, int fla
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // filetransfer class members
-
+#ifdef OBSOLETE
 filetransfer::filetransfer(CMsnProto* prt)
 {
 	memset(this, 0, sizeof(filetransfer));
@@ -1266,6 +1276,9 @@ void directconnection::xNonceToBin(UUID* nonce)
 	p[len - 2] = 0;
 	UuidFromStringA((BYTE*)p, nonce);
 }
+#else
+filetransfer::~filetransfer(void) { }
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // TWinErrorCode class

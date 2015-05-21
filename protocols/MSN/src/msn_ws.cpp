@@ -66,6 +66,7 @@ bool ThreadData::isTimeout(void)
 
 		if (mJoinedContactsWLID.getCount() == 0 || termPending)
 			res = true;
+#ifdef OBSOLETE
 		else if (proto->p2p_getThreadSession(hContact, mType) != NULL)
 			res = false;
 		else if (mType == SERVER_SWITCHBOARD) {
@@ -76,6 +77,7 @@ bool ThreadData::isTimeout(void)
 					res = false;
 			}
 		}
+#endif
 		else
 			res = true;
 	}
@@ -86,6 +88,7 @@ bool ThreadData::isTimeout(void)
 		proto->debugLogA("Dropping the idle %s due to inactivity", sbsess ? "switchboard" : "p2p");
 		if (!sbsess || termPending) return true;
 
+#ifdef OBSOLETE
 		if (proto->getByte("EnableSessionPopup", 0)) {
 			MCONTACT hContact = NULL;
 			if (mJoinedContactsWLID.getCount())
@@ -99,6 +102,7 @@ bool ThreadData::isTimeout(void)
 
 		sendTerminate();
 		resetTimeout(true);
+#endif
 	}
 	else
 		resetTimeout();

@@ -44,7 +44,9 @@ void __cdecl CMsnProto::msn_keepAliveThread(void*)
 				msnPingTimeout = 20;
 				keepFlag = keepFlag && msnNsThread->sendPacket("PNG", "CON 0");
 			}
+#ifdef OBSOLETE
 			p2p_clearDormantSessions();
+#endif
 			if (hHttpsConnection && (clock() - mHttpsTS) > 60 * CLOCKS_PER_SEC) {
 				HANDLE hConn = hHttpsConnection;
 				hHttpsConnection = NULL;
@@ -198,11 +200,14 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 
 		info->mBytesInData += recvResult;
 
+#ifdef OBSOLETE
 		if (info->mCaller == 1 && info->mType == SERVER_FILETRANS) {
 			if (MSN_HandleMSNFTP(info, info->mData))
 				break;
 		}
-		else {
+		else 
+#endif
+		{
 			for (;;) {
 				char* peol = strchr(info->mData, '\r');
 				if (peol == NULL)
@@ -241,9 +246,11 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 						info->sendTerminate();
 					}
 				}
+#ifdef OBSOLETE
 				else
 					if (MSN_HandleMSNFTP(info, msg))
 						goto LBL_Exit;
+#endif
 			}
 		}
 
@@ -276,7 +283,9 @@ LBL_Exit:
 			if (info->s == NULL)
 				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
 			else {
+#ifdef OBSOLETE
 				p2p_cancelAllSessions();
+#endif
 				MSN_CloseConnections();
 			}
 
@@ -377,6 +386,7 @@ GCThreadData* CMsnProto::MSN_GetThreadByChatId(const TCHAR* chatId)
 	return NULL;
 }
 
+#ifdef OBSOLETE
 ThreadData* CMsnProto::MSN_GetP2PThreadByContact(const char *wlid)
 {
 	mir_cslock lck(m_csThreads);
@@ -424,7 +434,6 @@ void CMsnProto::MSN_StartP2PTransferByContact(const char* wlid)
 		}
 	}
 }
-
 
 ThreadData* CMsnProto::MSN_GetOtherContactThread(ThreadData* thread)
 {
@@ -478,7 +487,6 @@ ThreadData* CMsnProto::MSN_StartSB(const char* wlid, bool& isOffline)
 }
 
 
-
 int CMsnProto::MSN_GetActiveThreads(ThreadData** parResult)
 {
 	int tCount = 0;
@@ -492,6 +500,7 @@ int CMsnProto::MSN_GetActiveThreads(ThreadData** parResult)
 
 	return tCount;
 }
+#endif
 
 ThreadData* CMsnProto::MSN_GetThreadByConnection(HANDLE s)
 {
@@ -506,6 +515,7 @@ ThreadData* CMsnProto::MSN_GetThreadByConnection(HANDLE s)
 	return NULL;
 }
 
+#ifdef OBSOLETE
 ThreadData* CMsnProto::MSN_GetThreadByPort(WORD wPort)
 {
 	mir_cslock lck(m_csThreads);
@@ -518,6 +528,7 @@ ThreadData* CMsnProto::MSN_GetThreadByPort(WORD wPort)
 
 	return NULL;
 }
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // class ThreadData members
@@ -533,8 +544,6 @@ ThreadData::ThreadData()
 
 ThreadData::~ThreadData()
 {
-	int i;
-
 	if (s != NULL) {
 		proto->debugLogA("Closing connection handle %08X", s);
 		Netlib_CloseHandle(s);
@@ -555,8 +564,9 @@ ThreadData::~ThreadData()
 	if (mTimerId != 0)
 		KillTimer(NULL, mTimerId);
 
+#ifdef OBSOLETE
 	if (mType == SERVER_SWITCHBOARD) {
-		for (i = 0; i < mJoinedContactsWLID.getCount(); ++i) {
+		for (int i = 0; i < mJoinedContactsWLID.getCount(); ++i) {
 			const char* wlid = mJoinedContactsWLID[i];
 			MCONTACT hContact = proto->MSN_HContactFromEmail(wlid);
 			int temp_status = proto->getWord(hContact, "Status", ID_STATUS_OFFLINE);
@@ -564,12 +574,15 @@ ThreadData::~ThreadData()
 				proto->setWord(hContact, "Status", ID_STATUS_OFFLINE);
 		}
 	}
+#endif
 
 	mJoinedContactsWLID.destroy();
 	mJoinedIdentContactsWLID.destroy();
 
-	const char* wlid = NEWSTR_ALLOCA(mInitialContactWLID);
 	mir_free(mInitialContactWLID); mInitialContactWLID = NULL;
+
+#ifdef OBSOLETE
+	const char* wlid = NEWSTR_ALLOCA(mInitialContactWLID);
 
 	if (proto && mType == SERVER_P2P_DIRECT)
 		proto->p2p_clearDormantSessions();
@@ -579,6 +592,7 @@ ThreadData::~ThreadData()
 		proto->MSN_GetUnconnectedThread(wlid) == NULL) {
 		proto->MsgQueue_Clear(wlid, true);
 	}
+#endif
 
 	mir_free(mData);
 }

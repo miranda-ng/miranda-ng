@@ -378,6 +378,7 @@ enum TInfoType
 };
 
 
+
 struct filetransfer
 {
 	filetransfer(CMsnProto* prt);
