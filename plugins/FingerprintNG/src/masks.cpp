@@ -751,7 +751,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	//#########################################################################################################################################################################
 	{ "client_on_Win32", _T("|*Win*|* WM *|wmagent*|*Vista*"), LPGENT("Windows overlay"), IDI_PLATFORM_WIN, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_iOS", _T("|*ipad*|*iphone*|*iOS*"), LPGENT("iOS overlay (iPhone/iPad)"), IDI_PLATFORM_IOS, OVERLAYS_PLATFORM_CASE },
-	{ "client_on_Mac", _T("|^*smack*|* Mac *|*mac*"), LPGENT("MacOS overlay"), IDI_PLATFORM_MAC, OVERLAYS_PLATFORM_CASE },
+	{ "client_on_Mac", _T("|^*smack*|* Mac *|*mac*|*OSX*"), LPGENT("MacOS overlay"), IDI_PLATFORM_MAC, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_Linux", _T("*Linux*"), LPGENT("Linux overlay"), IDI_PLATFORM_LINUX, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_Flash", _T("|*Flash*|*Web*ICQ*"), LPGENT("Flash overlay"), IDI_PLATFORM_FLASH, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_Java", _T("|*Java*|jagent*|ICQ2Go!*"), LPGENT("Java overlay"), IDI_PLATFORM_JAVA, OVERLAYS_PLATFORM_CASE },
