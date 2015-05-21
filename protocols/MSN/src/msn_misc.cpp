@@ -433,44 +433,56 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 	CMStringA buf;
 
 	if ((parFlags & MSG_DISABLE_HDR) == 0) {
-
-		char  tFontName[100], tFontStyle[3];
+		char  tFontName[100], tFontStyle[3], *pszMsgType, *pszContType;
 		DWORD tFontColor;
 
-		strcpy(tFontName, "Arial");
+		if (parFlags & MSG_CONTACT) {
+			pszMsgType = "RichText/Contacts";
+			pszContType = "application/user+xml\r\nSkype-Age: 18";
+			*tFontName = 0;
+		} else if (parFlags & MSG_NUDGE) {
+			pszMsgType = "Nudge";
+			pszContType = "text/x-msnmsgr-datacast";
+			*tFontName = 0;
+		} else {
+			pszMsgType = "Text";
+			pszContType = "Text/plain; charset=UTF-8";
 
-		if (proto->getByte("SendFontInfo", 1)) {
-			char* p;
+			strcpy(tFontName, "Arial");
 
-			DBVARIANT dbv;
-			if (!db_get_s(NULL, "SRMsg", "Font0", &dbv)) {
-				for (p = dbv.pszVal; *p; p++)
-					if (BYTE(*p) >= 128 || *p < 32)
-						break;
+			if (proto->getByte("SendFontInfo", 1)) {
+				char* p;
 
-				if (*p == 0) {
-					strncpy_s(tFontName, sizeof(tFontName), ptrA(mir_urlEncode(dbv.pszVal)), _TRUNCATE);
-					db_free(&dbv);
+				DBVARIANT dbv;
+				if (!db_get_s(NULL, "SRMsg", "Font0", &dbv)) {
+					for (p = dbv.pszVal; *p; p++)
+						if (BYTE(*p) >= 128 || *p < 32)
+							break;
+
+					if (*p == 0) {
+						strncpy_s(tFontName, sizeof(tFontName), ptrA(mir_urlEncode(dbv.pszVal)), _TRUNCATE);
+						db_free(&dbv);
+					}
 				}
+
+				int  tStyle = db_get_b(NULL, "SRMsg", "Font0Sty", 0);
+				p = tFontStyle;
+				if (tStyle & 1) *p++ = 'B';
+				if (tStyle & 2) *p++ = 'I';
+				*p = 0;
+
+				tFontColor = db_get_dw(NULL, "SRMsg", "Font0Col", 0);
+			}
+			else {
+				tFontColor = 0;
+				tFontStyle[0] = 0;
 			}
 
-			int  tStyle = db_get_b(NULL, "SRMsg", "Font0Sty", 0);
-			p = tFontStyle;
-			if (tStyle & 1) *p++ = 'B';
-			if (tStyle & 2) *p++ = 'I';
-			*p = 0;
-
-			tFontColor = db_get_dw(NULL, "SRMsg", "Font0Col", 0);
-		}
-		else {
-			tFontColor = 0;
-			tFontStyle[0] = 0;
-		}
-
 #ifdef OBSOLETE
-		if (parFlags & MSG_OFFLINE)
-			off += mir_snprintf((buf + off), (SIZEOF(buf) - off), "Dest-Agent: client\r\n"); 
+			if (parFlags & MSG_OFFLINE)
+				off += mir_snprintf((buf + off), (SIZEOF(buf) - off), "Dest-Agent: client\r\n"); 
 #endif
+		}
 
 		char *pszNick=proto->MyOptions.szEmail;
 		DBVARIANT dbv;
@@ -490,15 +502,16 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 		"Message-Type: %s\r\n"
 		"IM-Display-Name: %s\r\n"
 		"Content-Type: %s\r\n"
-		"Content-Length: %d\r\n"
-		"X-MMS-IM-Format: FN=%s; EF=%s; CO=%x; CS=0; PF=31%s\r\n\r\n%s",
+		"Content-Length: %d\r\n",
 		msgid,
-		(parFlags & MSG_CONTACT)?"RichText/Contacts":"Text",
+		pszMsgType,
 		pszNick,
-		(parFlags & MSG_CONTACT)?"application/user+xml\r\nSkype-Age: 18":"Text/plain; charset=UTF-8",
-		strlen(parMsg), 
-		tFontName, tFontStyle, tFontColor, (parFlags & MSG_RTL) ? ";RL=1" : "",
-		parMsg);
+		pszContType,
+		strlen(parMsg));
+
+		if (*tFontName) buf.AppendFormat("X-MMS-IM-Format: FN=%s; EF=%s; CO=%x; CS=0; PF=31%s\r\n",
+			tFontName, tFontStyle, tFontColor, (parFlags & MSG_RTL) ? ";RL=1" : "");
+		buf.AppendFormat("\r\n%s", parMsg);
 
 		if (pszNick!=proto->MyOptions.szEmail) db_free(&dbv);
 		parMsg = buf;

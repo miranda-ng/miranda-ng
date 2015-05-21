@@ -346,19 +346,22 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		}
 	}
 	else if (!_strnicmp(tContentType, "text/x-msnmsgr-datacast", 23)) {
-		if (info->mJoinedContactsWLID.getCount()) {
+		//if (info->mJoinedContactsWLID.getCount()) {
 			MCONTACT tContact;
 
-			if (info->mChatID[0]) {
+			if (mChatID[0]) {
 				GC_INFO gci = { 0 };
 				gci.Flags = GCF_HCONTACT;
 				gci.pszModule = m_szModuleName;
-				gci.pszID = info->mChatID;
+				gci.pszID = mChatID;
 				CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci);
 				tContact = gci.hContact;
 			}
-			else tContact = info->getContactHandle();
+			else tContact = MSN_HContactFromEmail(email, nick, true, true);
+			if (!strcmp(tHeader["Message-Type"], "Nudge"))
+				NotifyEventHooks(hMSNNudge, (WPARAM)tContact, 0);
 
+#ifdef OBSOLETE
 			MimeHeaders tFileInfo;
 			tFileInfo.readFromBuffer(msgBody);
 
@@ -377,6 +380,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 				}
 			}
 		}
+#endif
 	}
 	else if (!_strnicmp(tContentType, "text/x-msmsgsemailnotification", 30))
 		sttNotificationMessage(msgBody, false);

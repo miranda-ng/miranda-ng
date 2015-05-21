@@ -530,6 +530,7 @@ bool p2p_IsDlFileOk(filetransfer* ft);
 #define MSG_RTL              4
 #define MSG_OFFLINE          8
 #define MSG_CONTACT			16
+#define MSG_NUDGE			32
 
 struct CMsnProto;
 typedef void (__cdecl CMsnProto::*MsnThreadFunc)(void*);
