@@ -105,24 +105,8 @@ void __fastcall safe_delete(void** p)
 // преобразуем текст из чистого UTF8 в формат миранды
 LPSTR utf8_to_miranda(LPCSTR szUtfMsg, DWORD& flags)
 {
-	LPSTR szNewMsg;
-	if (iCoreVersion < 0x00060000) {
-		flags &= ~(PREF_UTF | PREF_UNICODE);
-		LPWSTR wszMsg = exp->utf8decode(szUtfMsg);
-		LPSTR szMsg = mir_u2a(wszMsg);
-		flags |= PREF_UNICODE;
-		int olen = (int)wcslen((LPWSTR)wszMsg) + 1;
-		int nlen = olen*(sizeof(WCHAR) + 1);
-		szNewMsg = (LPSTR)mir_alloc(nlen);
-		memcpy(szNewMsg, szMsg, olen);
-		memcpy(szNewMsg + olen, wszMsg, olen*sizeof(WCHAR));
-		mir_free(szMsg);
-	}
-	else {
-		flags &= ~PREF_UNICODE;	flags |= PREF_UTF;
-		szNewMsg = (LPSTR)mir_strdup(szUtfMsg);
-	}
-	return szNewMsg;
+	flags &= ~PREF_UNICODE;	flags |= PREF_UTF;
+	return mir_strdup(szUtfMsg);
 }
 
 // преобразуем текст из формата миранды в чистый UTF8
