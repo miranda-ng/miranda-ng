@@ -30,7 +30,10 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 		return;
 
 	//"publicInfo":{"capabilities":"","typ":"11","skypeNameVersion":"0/7.1.0.105//","nodeInfo":"","version":"24"}
+	//"privateInfo": {"epname": "Skype"}
 	JSONNODE *publicInfo = json_get(node, "publicInfo");
+	JSONNODE *privateInfo = json_get(node, "privateInfo");
+	CMStringA MirVer = "";
 	if (publicInfo != NULL)
 	{
 		ptrA skypeNameVersion(mir_t2a(ptrT(json_as_string(json_get(publicInfo, "skypeNameVersion")))));
@@ -39,7 +42,6 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 		if (typ != NULL)
 		{
 			int iTyp = atoi(typ);
-			CMStringA MirVer = "";
 			switch (iTyp)
 			{
 			case 17:
@@ -84,11 +86,19 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 			if (iTyp == 125)
 				MirVer.AppendFormat(" %s", version);
 			else
-				MirVer.AppendFormat(" %s", ParseUrl(skypeNameVersion, "/"));
-
-			db_set_s(hContact, m_szModuleName, "MirVer", MirVer);
+				MirVer.AppendFormat(" %s", ParseUrl(skypeNameVersion, "/"));	
 		}
 	}
+	if (privateInfo != NULL)
+	{
+		ptrA epname(mir_t2a(ptrT(json_as_string(json_get(privateInfo, "epname")))));
+		if (epname != NULL)
+		{
+			MirVer.AppendFormat(" [%s]", epname);
+		}
+	}
+
+	db_set_s(hContact, m_szModuleName, "MirVer", MirVer);
 }
 
 void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node)
@@ -142,7 +152,7 @@ void CSkypeProto::ProcessNewMessageRes(JSONNODE *node)
 
 void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)
 {
-	JSONNODE *lastMessage = json_get(node, "lastMessage");
+	/*JSONNODE *lastMessage = json_get(node, "lastMessage");
 	JSONNODE *properties = json_get(node, "properties");
 
 	ptrA convLink(mir_t2a(json_as_string(json_get(lastMessage, "conversationLink"))));
@@ -172,7 +182,7 @@ void CSkypeProto::ProcessConversationUpdateRes(JSONNODE *node)
 				//SetSrmmReadStatus(hContact);
 			}
 		}
-	}
+	}*/
 }
 
 void CSkypeProto::ProcessThreadUpdateRes(JSONNODE *node)

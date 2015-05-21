@@ -222,7 +222,7 @@ public:
 		: Url(*this, url), Headers(*this)
 	{
 		cbSize = sizeof(NETLIBHTTPREQUEST);
-		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
+		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
 		requestType = type;
 	}
 
@@ -230,7 +230,7 @@ public:
 		: Url(*this, urlFormat, (va_start(formatArgs, urlFormat), formatArgs)), Headers(*this)
 	{
 		cbSize = sizeof(NETLIBHTTPREQUEST);
-		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
+		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
 		requestType = type;
 		va_end(formatArgs);
 	}
