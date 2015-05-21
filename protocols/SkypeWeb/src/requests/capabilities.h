@@ -29,17 +29,10 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
 
-		short bitness = 32;
 
 		char compName[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD size = SIZEOF(compName);
 		GetComputerNameA(compName, &size);
-
-#ifdef _WIN64
-		bitness = 64;
-#endif
-
-		CMStringA verString(::FORMAT, "%s x%d", g_szMirVer, bitness);
 
 		JSONNODE *node = json_new(5);
 		JSONNODE *privateInfo = json_new(5);
@@ -58,7 +51,7 @@ public:
 		json_push_back(publicInfo, json_new_i("typ", 125));
 		json_push_back(publicInfo, json_new_a("skypeNameVersion", "Miranda NG Skype"));
 		json_push_back(publicInfo, json_new_a("nodeInfo", "xx"));
-		json_push_back(publicInfo, json_new_a("version", verString.GetBuffer()));
+		json_push_back(publicInfo, json_new_a("version", g_szMirVer));
 
 		json_push_back(node, privateInfo);
 		json_push_back(node, publicInfo);
