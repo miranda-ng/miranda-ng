@@ -42,7 +42,7 @@ BOOL _isregex(TCHAR* strSearch)
 	regex = mir_tstrdup(strSearch);
 	if (regex == NULL)
 		goto err_out;
-	rc = pcre16_exec(re, NULL, regex, _tcslen(regex), 0, 0, ovector, 9);
+	rc = pcre16_exec(re, NULL, regex, (int)_tcslen(regex), 0, 0, ovector, 9);
 	if (rc == 3)
 		ret = TRUE;
 	mir_free(regex);
@@ -73,7 +73,7 @@ BOOL _isvalidregex(TCHAR* strSearch)
 		pcre16_free(re);
 		return FALSE;
 	}
-	rc = pcre16_exec(re, NULL, regex, _tcslen(regex), 0, 0, ovector, 9);
+	rc = pcre16_exec(re, NULL, regex, (int)_tcslen(regex), 0, 0, ovector, 9);
 	pcre16_free(re);
 	if (rc != 3)
 		goto err_out;
@@ -121,7 +121,7 @@ BOOL _regmatch(TCHAR* str, TCHAR* strSearch)
 		pcre16_free(re);
 		return FALSE;
 	}
-	rc = pcre16_exec(re, NULL, regex, _tcslen(regex), 0, 0, ovector, 9);
+	rc = pcre16_exec(re, NULL, regex, (int)_tcslen(regex), 0, 0, ovector, 9);
 	pcre16_free(re);
 	if (rc != 3)
 		goto err_out; // [TODO] and log some error (better check for valid regex on options save)
@@ -143,7 +143,7 @@ BOOL _regmatch(TCHAR* str, TCHAR* strSearch)
 	re = pcre16_compile(regexp, opts, &error, &erroroffs, NULL);
 	if (re == NULL)
 		goto err_out;
-	rc = pcre16_exec(re, NULL, data, _tcslen(data), 0, 0, NULL, 0);
+	rc = pcre16_exec(re, NULL, data, (int)_tcslen(data), 0, 0, NULL, 0);
 	pcre16_free(re);
 	if (rc >= 0)
 		ret = TRUE;
@@ -175,7 +175,7 @@ int get_response_id(const TCHAR* strvar)
 		pcre16_free(re);
 		return 0;
 	}
-	rc = pcre16_exec(re, NULL, _strvar, _tcslen(_strvar), 0, 0, ovector, 9);
+	rc = pcre16_exec(re, NULL, _strvar, (int)_tcslen(_strvar), 0, 0, ovector, 9);
 	pcre16_free(re);
 	if (rc < 0) {
 		ret = -1;
@@ -390,7 +390,7 @@ TCHAR* ReplaceVarsNum(TCHAR *dst, unsigned int len, int num)
 			mir_free(dstcopy);
 			goto err_out;
 		}
-		rc = pcre16_exec(re, NULL, _str, _tcslen(_str), 0, 0, ovector, 9);
+		rc = pcre16_exec(re, NULL, _str, (int)_tcslen(_str), 0, 0, ovector, 9);
 		if (rc < 0) {
 			ret = -1;
 		} else if (rc == 3) {

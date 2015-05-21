@@ -207,7 +207,7 @@ BOOL GetDataFromMessage(LPSTR lpszMessage,size_t dwMessageSize,DWORD *pdwEventTy
 			LPSTR lpsz = (LPSTR)strstr(lpszMessage+10, "\r\n");
 			if (lpsz) {
 				if (lpwszPhone && dwPhoneSize) {
-					dwPhoneSizeRet = MultiByteToWideChar(CP_UTF8,0,(lpszMessage+10),min((size_t)(lpsz-(lpszMessage+10)),dwPhoneSize),lpwszPhone,dwPhoneSize);
+					dwPhoneSizeRet = MultiByteToWideChar(CP_UTF8,0,(lpszMessage+10),(int)min((size_t)(lpsz-(lpszMessage+10)),dwPhoneSize),lpwszPhone,(int)dwPhoneSize);
 					dwPhoneSizeRet = CopyNumberW(lpwszPhone, lpwszPhone, dwPhoneSizeRet);
 				}
 			}
@@ -219,7 +219,7 @@ BOOL GetDataFromMessage(LPSTR lpszMessage,size_t dwMessageSize,DWORD *pdwEventTy
 			LPSTR lpsz = (LPSTR)strstr(lpszMessage+23, "\r\n");
 			if (lpsz) {
 				if (lpwszPhone && dwPhoneSize) {
-					dwPhoneSizeRet = MultiByteToWideChar(CP_UTF8,0,(lpszMessage+23),min((size_t)(lpsz-(lpszMessage+23)),dwPhoneSize),lpwszPhone,dwPhoneSize);
+					dwPhoneSizeRet = MultiByteToWideChar(CP_UTF8,0,(lpszMessage+23),(int)min((size_t)(lpsz-(lpszMessage+23)),dwPhoneSize),lpwszPhone,(int)dwPhoneSize);
 					dwPhoneSizeRet = CopyNumberW(lpwszPhone, lpwszPhone, dwPhoneSizeRet);
 				}
 

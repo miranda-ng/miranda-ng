@@ -76,7 +76,7 @@ int MsgAck(WPARAM, LPARAM lParam)
 				dbei.flags = DBEF_UTF | DBEF_SENT;
 				dbei.szModule = (char*)ack->szModule;
 				dbei.timestamp = time(NULL);
-				dbei.cbBlob = mir_strlen(pszUtf) + 1;
+				dbei.cbBlob = (int)mir_strlen(pszUtf) + 1;
 				dbei.pBlob = (PBYTE)(char*)pszUtf;
 				db_event_add(ack->hContact, &dbei);
 			}
