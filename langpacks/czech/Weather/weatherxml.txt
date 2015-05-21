@@ -398,3 +398,11 @@ déšť / vítr
 mrznoucí déšť / větrno
 [Clear / Wind]
 jasno / vítr
+[Am Rain]
+déšť (dop.)
+[Showers / Wind Late]
+přeháňky / později vítr
+[Rain / Wind]
+déšť / vítr
+[Light Rain / Windy]
+slabý déšť / větrno

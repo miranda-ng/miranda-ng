@@ -200,3 +200,7 @@
 [Rain / Wind]
 [Freezing Rain / Windy]
 [Clear / Wind]
+[Am Rain]
+[Showers / Wind Late]
+[Rain / Wind]
+[Light Rain / Windy]
