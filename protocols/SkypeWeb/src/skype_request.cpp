@@ -45,7 +45,9 @@ public:
 
 static void SkypeHttpResponse(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	((SkypeResponseDelegate*)arg)->Invoke(response);
+	SkypeResponseDelegate *delegate = (SkypeResponseDelegate*)arg;
+	delegate->Invoke(response);
+	delete delegate;
 }
 
 void CSkypeProto::PushRequest(HttpRequest *request)
