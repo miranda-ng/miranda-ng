@@ -39,8 +39,10 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	m_arGroups(10, CompareId),
 	m_arThreads(10, PtrKeySortT),
 	m_arGCThreads(10, PtrKeySortT),
+#ifdef OBSOLETE
 	m_arSessions(10, PtrKeySortT),
 	m_arDirect(10, PtrKeySortT),
+#endif
 	lsMessageQueue(1),
 	lsAvatarQueue(1),
 	msgCache(5, CompareId)
@@ -52,7 +54,6 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	db_set_resident(m_szModuleName, "MobileAllowed");
 
 	// Protocol services and events...
-	hMSNNudge = CreateProtoEvent("/Nudge");
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CMsnProto::SvcCreateAccMgrUI);
 
@@ -65,11 +66,16 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	CreateProtoService(PS_SETMYAVATART, &CMsnProto::SetAvatar);
 	CreateProtoService(PS_GETAVATARCAPS, &CMsnProto::GetAvatarCaps);
 
+	CreateProtoService(PS_SETMYNICKNAME, &CMsnProto::SetNickName);
+#ifdef OBSOLETE
 	CreateProtoService(PS_GET_LISTENINGTO, &CMsnProto::GetCurrentMedia);
 	CreateProtoService(PS_SET_LISTENINGTO, &CMsnProto::SetCurrentMedia);
 
-	CreateProtoService(PS_SETMYNICKNAME, &CMsnProto::SetNickName);
+	hMSNNudge = CreateProtoEvent("/Nudge");
 	CreateProtoService(PS_SEND_NUDGE, &CMsnProto::SendNudge);
+
+	MsgQueue_Init();
+#endif
 
 	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CMsnProto::GetUnreadEmailCount);
 
@@ -111,7 +117,6 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	mir_snprintf(alertsoundname, 64, "%s:Alerts", m_szModuleName);
 	SkinAddNewSoundExT(alertsoundname, m_tszUserName, LPGENT("Live Alert"));
 
-	MsgQueue_Init();
 	AvatarQueue_Init();
 	InitCustomFolders();
 
@@ -149,14 +154,15 @@ CMsnProto::~CMsnProto()
 {
 	MsnRemoveMainMenus();
 
-	DestroyHookableEvent(hMSNNudge);
-
 	MSN_FreeGroups();
 	Threads_Uninit();
-	MsgQueue_Uninit();
 	AvatarQueue_Uninit();
 	Lists_Uninit();
+#ifdef OBSOLETE
+	DestroyHookableEvent(hMSNNudge);
 	P2pSessions_Uninit();
+	MsgQueue_Uninit();
+#endif
 	CachedMsg_Uninit();
 
 	Netlib_CloseHandle(m_hNetlibUser);
@@ -424,10 +430,12 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 	case 1:
 		if (strstr(email, "@yahoo.com") == NULL)
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
+#ifdef OBSOLETE
 		else {
 			msnSearchId = arg;
 			MSN_FindYahooUser(email);
 		}
+#endif
 		break;
 
 	default:
@@ -454,6 +462,7 @@ HANDLE __cdecl CMsnProto::SearchByEmail(const PROTOCHAR* email)
 	return SearchBasic(email);
 }
 
+#ifdef OBSOLETE
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnFileAllow - starts the file transfer
 
@@ -596,6 +605,7 @@ int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 
 	return 0;
 }
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnGetAwayMsg - reads the current status message for a user
@@ -715,6 +725,7 @@ int CMsnProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 }
 
 
+#ifdef OBSOLETE
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendFile - initiates a file transfer
 
@@ -761,6 +772,7 @@ HANDLE __cdecl CMsnProto::SendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHA
 	ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_SENTREQUEST, sft, 0);
 	return sft;
 }
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendMessage - sends the message to a server
@@ -865,9 +877,13 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 		else {
 			const char msgType = MyOptions.SlowSend ? 'A' : 'N';
 			bool isOffline;
-			ThreadData* thread; // = MSN_StartSB(tEmail, isOffline);
+			ThreadData* thread;
+#ifdef OBSOLETE
+			thread = MSN_StartSB(tEmail, isOffline);
+#else
 			/* MSNP24 doesn't have a switchboard anymore */
 			thread = NULL; isOffline = true;
+#endif
 
 			if (thread == NULL) {
 				if (isOffline) {
@@ -881,6 +897,7 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 						ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
 					}
 				}
+#ifdef OBSOLETE
 				else
 					seq = MsgQueue_Add(tEmail, msgType, msg, 0, 0, rtlFlag);
 			}
@@ -888,6 +905,7 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 				seq = thread->sendMessage(msgType, tEmail, netId, msg, rtlFlag);
 				if (!MyOptions.SlowSend)
 					ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, NULL, this));
+#endif
 			}
 		}
 		break;
@@ -983,8 +1001,10 @@ int __cdecl CMsnProto::SetStatus(int iNewStatus)
 			return 0;
 		}
 
+#ifdef OBSOLETE
 		m_arSessions.destroy();
 		m_arDirect.destroy();
+#endif
 
 		usingGateway = false;
 
@@ -1018,7 +1038,7 @@ int __cdecl CMsnProto::UserIsTyping(MCONTACT hContact, int type)
 	bool typing = type == PROTOTYPE_SELFTYPING_ON;
 
 	int netId = Lists_GetNetId(tEmail);
-	/*
+#ifdef OBSOLETE
 	switch (netId) {
 	case NETID_UNKNOWN:
 	case NETID_MSN:
@@ -1042,7 +1062,7 @@ int __cdecl CMsnProto::UserIsTyping(MCONTACT hContact, int type)
 	default:
 		break;
 	}
-	*/
+#endif
 	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 		MSN_SendTyping(msnNsThread, tEmail, netId, typing);
 

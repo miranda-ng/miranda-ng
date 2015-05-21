@@ -40,10 +40,12 @@ struct CMsnProto : public PROTO<CMsnProto>
 	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage);
 
+#ifdef OBSOLETE
 	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath);
 	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
 	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason);
 	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename);
+#endif
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 
@@ -53,7 +55,9 @@ struct CMsnProto : public PROTO<CMsnProto>
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
 
+#ifdef OBSOLETE
 	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles);
+#endif
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
 
@@ -100,7 +104,9 @@ struct CMsnProto : public PROTO<CMsnProto>
 	int  __cdecl OnContactDoubleClicked(WPARAM wParam,LPARAM lParam);
 	int  __cdecl OnDbSettingChanged(WPARAM wParam,LPARAM lParam);
 	int  __cdecl OnUserInfoInit(WPARAM wParam,LPARAM lParam);
+#ifdef OBSOLETE
 	int  __cdecl OnWindowEvent(WPARAM wParam, LPARAM lParam);
+#endif
 	int  __cdecl OnWindowPopup(WPARAM wParam, LPARAM lParam);
 
 	//====| Data |========================================================================
@@ -129,8 +135,10 @@ struct CMsnProto : public PROTO<CMsnProto>
 	LIST<GCThreadData> m_arGCThreads;
 
 	mir_cs m_csSessions;
+#ifdef OBSOLETE
 	OBJLIST<filetransfer> m_arSessions;
 	OBJLIST<directconnection> m_arDirect;
+#endif
 
 	mir_cs csMsgQueue;
 	int msgQueueSeq;
@@ -330,6 +338,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// MSN P2P session support
 
+#ifdef OBSOLETE
 	void  p2p_clearDormantSessions(void);
 	void  p2p_cancelAllSessions(void);
 	void  p2p_redirectSessions(const char* wlid);
@@ -401,6 +410,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	int  MSN_HandleMSNFTP(ThreadData *info, char *cmdString);
 
 	void __cdecl msnftp_sendFileThread(void* arg);
+#endif
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	//	MSN Chat support

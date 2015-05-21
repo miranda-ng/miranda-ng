@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "msn_global.h"
 #include "msn_proto.h"
+#ifdef OBSOLETE
 
 void CMsnProto::msnftp_sendAcceptReject(filetransfer *ft, bool acc)
 {
@@ -365,3 +366,4 @@ void CMsnProto::msnftp_startFileSend(ThreadData* info, const char* Invcommand, c
 	}
 	else delete ft;
 }
+#endif

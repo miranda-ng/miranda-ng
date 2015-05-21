@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_global.h"
 #include "msn_proto.h"
 #include <netfw.h>
+#ifdef OBSOLETE
 
 #ifndef CLSID_NetFwMgr
 #define MDEF_CLSID(name, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \
@@ -467,3 +468,4 @@ void MyConnectionType::CalculateWeight(void)
 	else if (udpConType == conFirewall) weight = 2;
 	else if (udpConType == conISALike) weight = 3;
 }
+#endif

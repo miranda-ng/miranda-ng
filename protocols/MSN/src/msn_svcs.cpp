@@ -133,6 +133,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 			pushAvatarRequest(AI->hContact, dbv.pszVal);
 			db_free(&dbv);
 		}
+#ifdef OBSOLETE
 		else if (p2p_getAvatarSession(AI->hContact) == NULL) {
 			filetransfer* ft = new filetransfer(this);
 			ft->std.hContact = AI->hContact;
@@ -143,6 +144,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 			p2p_invite(MSN_APPID_AVATAR, ft, NULL);
 		}
+#endif
 
 		return GAIR_WAITFOR;
 	}
@@ -238,6 +240,7 @@ INT_PTR CMsnProto::SetNickName(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+#ifdef OBSOLETE
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendNudge - Sending a nudge
 
@@ -366,6 +369,7 @@ INT_PTR CMsnProto::SetCurrentMedia(WPARAM, LPARAM lParam)
 
 	return 0;
 }
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnContactDeleted - called when a contact is deleted from list
@@ -515,6 +519,7 @@ int CMsnProto::OnIdleChanged(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+#ifdef OBSOLETE
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnWindowEvent - creates session on window open
 
@@ -544,6 +549,7 @@ int CMsnProto::OnWindowEvent(WPARAM, LPARAM lParam)
 	}
 	return 0;
 }
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnWindowEvent - creates session on window open

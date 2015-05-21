@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "msn_global.h"
 #include "msn_proto.h"
+#ifdef OBSOLETE
 
 int ThreadData::contactJoined(const char* email)
 {
@@ -46,8 +47,10 @@ int ThreadData::contactLeft(const char* email)
 
 	return mJoinedContactsWLID.getCount();
 }
+#endif
 
 MCONTACT ThreadData::getContactHandle(void)
 {
 	return mJoinedContactsWLID.getCount() ? proto->MSN_HContactFromEmail(mJoinedContactsWLID[0]) : NULL;
 }
+

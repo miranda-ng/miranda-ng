@@ -133,6 +133,7 @@ int CMsnProto::Lists_GetNetId(const char* email)
 	return p ? p->netId : NETID_UNKNOWN;
 }
 
+#ifdef OBSOLETE
 unsigned CMsnProto::p2p_getMsgId(const char* wlid, int inc)
 {
 	mir_cslock lck(m_csLists);
@@ -152,6 +153,7 @@ unsigned CMsnProto::p2p_getPktNum(const char* wlid)
 	MsnPlace *p = Lists_GetPlace(wlid);
 	return p ? p->p2pPktNum++ : 0;
 }
+#endif
 
 int CMsnProto::Lists_Add(int list, int netId, const char* email, MCONTACT hContact, const char* nick, const char* invite)
 {

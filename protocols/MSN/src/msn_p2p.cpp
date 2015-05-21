@@ -34,6 +34,7 @@ static const char sttP2PheaderV2[] =
 	"P2P-Src: %s;%s\r\n\r\n";
 
 const char sttVoidUid[] = "{00000000-0000-0000-0000-000000000000}";
+#ifdef OBSOLETE
 static const char szUbnCall[] = "{F13B5C79-0126-458F-A29D-747C79C56530}";
 
 static const char p2pV2Caps[] = { 0x01, 0x0C, 0x00, 0x02, 0x00, 0x00, 0x00, 0x0E, 0x00, 0x00, 0x0F, 0x01, 0x00, 0x00 };
@@ -2329,3 +2330,4 @@ char* P2P_Header::createMsg(char *buf, const char* wlid, CMsnProto *ppro)
 	memcpy(buf, &mSessionID, 48);
 	return buf + 48;
 }
+#endif
