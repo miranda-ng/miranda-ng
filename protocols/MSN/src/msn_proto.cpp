@@ -71,11 +71,11 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	CreateProtoService(PS_GET_LISTENINGTO, &CMsnProto::GetCurrentMedia);
 	CreateProtoService(PS_SET_LISTENINGTO, &CMsnProto::SetCurrentMedia);
 
-	hMSNNudge = CreateProtoEvent("/Nudge");
-	CreateProtoService(PS_SEND_NUDGE, &CMsnProto::SendNudge);
-
 	MsgQueue_Init();
 #endif
+
+	hMSNNudge = CreateProtoEvent("/Nudge");
+	CreateProtoService(PS_SEND_NUDGE, &CMsnProto::SendNudge);
 
 	CreateProtoService(PS_GETUNREADEMAILCOUNT, &CMsnProto::GetUnreadEmailCount);
 

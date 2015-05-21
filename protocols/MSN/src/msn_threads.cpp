@@ -264,6 +264,7 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 
 LBL_Exit:
 	if (info->mIsMainThread) {
+		/*
 		if (!isConnectSuccess && !usingGateway && m_iDesiredStatus != ID_STATUS_OFFLINE) {
 			msnNsThread = NULL;
 			usingGateway = true;
@@ -274,7 +275,7 @@ LBL_Exit:
 
 			newThread->startThread(&CMsnProto::MSNServerThread, this);
 		}
-		else {
+		else*/ {
 			if (hKeepAliveThreadEvt) {
 				msnPingTimeout *= -1;
 				SetEvent(hKeepAliveThreadEvt);

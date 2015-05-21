@@ -240,7 +240,6 @@ INT_PTR CMsnProto::SetNickName(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-#ifdef OBSOLETE
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendNudge - Sending a nudge
 
@@ -251,11 +250,12 @@ INT_PTR CMsnProto::SendNudge(WPARAM hContact, LPARAM)
 	char tEmail[MSN_MAX_EMAIL_LEN];
 	if (MSN_IsMeByContact(hContact, tEmail)) return 0;
 
+	int netId = Lists_GetNetId(tEmail);
+
+#ifdef OBSOLETE
 	static const char nudgemsg[] =
 		"Content-Type: text/x-msnmsgr-datacast\r\n\r\n"
 		"ID: 1\r\n\r\n";
-
-	int netId = Lists_GetNetId(tEmail);
 
 	switch (netId) {
 	case NETID_UNKNOWN:
@@ -284,9 +284,13 @@ INT_PTR CMsnProto::SendNudge(WPARAM hContact, LPARAM)
 	default:
 		break;
 	}
+#else
+	msnNsThread->sendMessage('3', tEmail, netId, "", MSG_NUDGE);
+#endif
 	return 0;
 }
 
+#ifdef OBSOLETE
 /////////////////////////////////////////////////////////////////////////////////////////
 //	GetCurrentMedia - get current media
 
