@@ -30,7 +30,6 @@ int CSkypeProto::OnReceiveMessage(const char *messageId, const char *url, time_t
 		return 0;
 
 	PROTORECVEVENT recv = { 0 };
-	recv.flags = PREF_UTF;
 	recv.timestamp = timestamp;
 	recv.szMessage = content;
 	recv.lParam = emoteOffset;
@@ -68,7 +67,7 @@ struct SendMessageParam
 };
 
 // outcoming message flow
-int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessage)
+int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 {
 	if (!IsOnline())
 	{
@@ -80,22 +79,14 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessa
 	param->hContact = hContact;
 	param->hMessage = time(NULL);
 
-	ptrA message;
-	if (flags & PREF_UNICODE)
-		message = mir_utf8encodeW((wchar_t*)&szMessage[mir_strlen(szMessage) + 1]);
-	else if (flags & PREF_UTF)
-		message = mir_strdup(szMessage);
-	else
-		message = mir_utf8encode(szMessage);
-
 	ptrA username(getStringA(hContact, "Skypename"));
 
 	debugLogA(__FUNCTION__ " clientmsgid = %d", param->hMessage);
 
-	if (strncmp(message, "/me ", 4) == 0)
-		SendRequest(new SendActionRequest(RegToken, SelfSkypeName, param->hMessage, &message[4], Server), &CSkypeProto::OnMessageSent, param);
+	if (strncmp(szMessage, "/me ", 4) == 0)
+		SendRequest(new SendActionRequest(RegToken, SelfSkypeName, param->hMessage, &szMessage[4], Server), &CSkypeProto::OnMessageSent, param);
 	else
-		SendRequest(new SendMessageRequest(RegToken, username, param->hMessage, message, Server), &CSkypeProto::OnMessageSent, param);
+		SendRequest(new SendMessageRequest(RegToken, username, param->hMessage, szMessage, Server), &CSkypeProto::OnMessageSent, param);
 
 	return param->hMessage;
 }

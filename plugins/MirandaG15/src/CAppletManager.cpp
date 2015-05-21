@@ -629,27 +629,6 @@ void CAppletManager::HandleEvent(CEvent *pEvent)
 	}
 }
 
-bool CAppletManager::IsUtfSendAvailable(MCONTACT hContact) {
-	char* szProto = GetContactProto(hContact);
-	if ( szProto == NULL )
-		return FALSE;
-
-	return ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDUTF ) ? TRUE : FALSE;
-}
-
-//************************************************************************
-// returns the contacts message service name
-//************************************************************************
-char *CAppletManager::GetMessageServiceName(MCONTACT hContact,bool bIsUnicode)
-{
-	char *szProto = GetContactProto(hContact);
-		
-	if(szProto == NULL)
-		return NULL;
-
-	return PSS_MESSAGE;
-}
-
 //************************************************************************
 // updates all pending message jobs
 //************************************************************************
@@ -710,16 +689,12 @@ void CAppletManager::FinishMessageJob(SMessageJob *pJob)
 				DBEVENTINFO dbei = { 0 };
 				dbei.cbSize = sizeof(dbei);
 				dbei.eventType = EVENTTYPE_MESSAGE;
-				dbei.flags = DBEF_SENT;		
+				dbei.flags = DBEF_SENT | DBEF_UTF;		
 				dbei.szModule = szProto;
 				dbei.timestamp = time(NULL);
 				// Check if protocoll is valid
 				if(dbei.szModule == NULL)
 					return;
-
-				if(pJob->dwFlags & PREF_UTF) {
-					dbei.flags |= DBEF_UTF;
-				}	
 
 				dbei.cbBlob = pJob->iBufferSize;
 				dbei.pBlob = (PBYTE) pJob->pcBuffer;
@@ -834,43 +809,16 @@ MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact,tstring strMessage
 	}
 	else
 	{
-		DWORD pref = 0;
-		bool bIsUnicode = false;
-		if(CAppletManager::IsUtfSendAvailable(pJob->hContact)) {
-			pref = PREF_UTF;
-			char* szMsgUtf = NULL;
-			szMsgUtf = mir_utf8encodeW( strMessage.c_str());
+		char* szMsgUtf = mir_utf8encodeW(strMessage.c_str());
 
-			pJob->iBufferSize = (int)strlen(szMsgUtf)+1;
-			pJob->pcBuffer = (char *)malloc(pJob->iBufferSize);
-			pJob->dwFlags = PREF_UTF;
+		pJob->iBufferSize = (int)strlen(szMsgUtf)+1;
+		pJob->pcBuffer = (char *)malloc(pJob->iBufferSize);
+		pJob->dwFlags = 0;
 
-			memcpy(pJob->pcBuffer,szMsgUtf,pJob->iBufferSize);
-			mir_free(szMsgUtf);
-		} else {
-			bIsUnicode = !IsUnicodeAscii(strMessage.c_str(),mir_tstrlen(strMessage.c_str()));
-			if(bIsUnicode) {
-				pref = PREF_UNICODE;
-				pJob->iBufferSize = bufSize * (sizeof(TCHAR) + 1);
-			} else {
-				pJob->iBufferSize = bufSize;
-			}
-			pJob->pcBuffer = (char *)malloc(pJob->iBufferSize);
-			memcpy(pJob->pcBuffer,strAscii.c_str(),bufSize);
+		memcpy(pJob->pcBuffer,szMsgUtf,pJob->iBufferSize);
+		mir_free(szMsgUtf);
 
-			if(bIsUnicode) {
-				memcpy(&pJob->pcBuffer[bufSize],strMessage.c_str(),bufSize*sizeof(TCHAR));
-			}
-		}
-		char *szService = CAppletManager::GetMessageServiceName(pJob->hContact,bIsUnicode);
-
-		if(szService == NULL)
-		{
-			free(pJob->pcBuffer);
-			pJob->pcBuffer = NULL;
-			return NULL;
-		}
-		pJob->hEvent = (MEVENT)CallContactService(pJob->hContact, szService , pref, (LPARAM)pJob->pcBuffer );
+		pJob->hEvent = (MEVENT)CallContactService(pJob->hContact, PSS_MESSAGE, 0, (LPARAM)pJob->pcBuffer );
 		CAppletManager::GetInstance()->AddMessageJob(pJob);
 	}
 

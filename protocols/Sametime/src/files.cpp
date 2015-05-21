@@ -10,8 +10,8 @@ CSametimeProto* getProtoFromMwFileTransfer(mwFileTransfer* ft)
 }
 
 /** an incoming file transfer has been offered */
-void mwFileTransfer_offered(mwFileTransfer* ft) {
-
+void mwFileTransfer_offered(mwFileTransfer* ft)
+{
 	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
 	proto->debugLog(_T("mwFileTransfer_offered() start"));
 
@@ -39,7 +39,7 @@ void mwFileTransfer_offered(mwFileTransfer* ft) {
 		_tcsncpy_s(descriptionT, filenameT, _TRUNCATE);
 
 	PROTORECVFILET pre = {0};
-	pre.flags = PREF_TCHAR;
+	pre.dwFlags = PRFF_TCHAR;
 	pre.fileCount = 1;
 	pre.timestamp = time(NULL);
 	pre.tszDescription = descriptionT;

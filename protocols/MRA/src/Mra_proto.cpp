@@ -1781,8 +1781,8 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 					if (m_heNudgeReceived)
 						NotifyEventHooks(m_heNudgeReceived, hContact, NULL);
 					else {
-						pre.flags = PREF_UNICODE;
-						pre.szMessage = (LPSTR)TranslateTS(MRA_ALARM_MESSAGE);
+						ptrA szMsg(mir_utf8encodeT(TranslateTS(MRA_ALARM_MESSAGE)));
+						pre.szMessage = szMsg;
 						ProtoChainRecvMsg(hContact, &pre);
 					}
 				}
@@ -1797,7 +1797,6 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 						// some plugins can change pre.szMessage pointer and we failed to free it
 						ptrA lpszMessageUTF(mir_utf8encodeW(wszMessage));
 						pre.szMessage = lpszMessageUTF;
-						pre.flags = PREF_UTF;
 						ProtoChainRecvMsg(hContact, &pre);
 					}
 

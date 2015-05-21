@@ -210,7 +210,7 @@ private:
 
 	// messages
 	int OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre);
-	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
+	int OnSendMessage(MCONTACT hContact, const char *message);
 
 	static void OnFriendMessage(Tox *tox, uint32_t friendNumber, TOX_MESSAGE_TYPE type, const uint8_t *message, size_t length, void *arg);
 	static void OnReadReceipt(Tox *tox, uint32_t friendNumber, uint32_t messageId, void *arg);

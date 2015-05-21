@@ -149,25 +149,11 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 			return;
 		}
 
-		int mirandaSendModeFlag = getMirandaSendModeFlag(targetHandleSzProto);
+		ptrA msgBuffer(mir_utf8encodeW(args->userActionSelection));
+		std::size_t bufSize = strlen(msgBuffer) + 1;
 
-		char* msgBuffer = NULL;
-		std::size_t bufSize = 0;
-
-		if (mirandaSendModeFlag == PREF_UTF){
-			msgBuffer = mir_utf8encodeW(args->userActionSelection);
-			bufSize = strlen(msgBuffer) + 1;
-		} else if (mirandaSendModeFlag == PREF_UNICODE){
-			msgBuffer = mir_t2a(args->userActionSelection);
-			bufSize = strlen(msgBuffer) + 1;
-			size_t bufSizeT = (wcslen(args->userActionSelection) + 1) * sizeof(wchar_t);
-			msgBuffer = (char*)mir_realloc(msgBuffer, bufSizeT + bufSize);
-			memcpy((wchar_t*)&msgBuffer[bufSize], args->userActionSelection, bufSizeT);
-			bufSize += bufSizeT;
-		}
-
-		logger->log_p(L"SMTC: mirandaSendModeFlag = [%d]  bufSize = [%d]", mirandaSendModeFlag, bufSize);
-		HANDLE hProcess = sendMessageMiranda((MCONTACT)args->targetHandle, mirandaSendModeFlag, msgBuffer);
+		logger->log_p(L"SMTC: bufSize = [%d]", bufSize);
+		HANDLE hProcess = sendMessageMiranda((MCONTACT)args->targetHandle, msgBuffer);
 		logger->log_p(L"SMTC: hProcess = [" SCNuPTR L"]", hProcess);
 
 		MIRFOXACKDATA* myMfAck = NULL;
@@ -204,40 +190,38 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 		if (mirandaContact){
 			contactNameW = mirandaContact->contactNameW.c_str();
 			MirandaAccount* mirandaAccount = mirandaContact->mirandaAccountPtr;
-			if (mirandaAccount){
+			if (mirandaAccount)
 				tszAccountName = mirandaAccount->tszAccountName;
-			}
 		}
 		if(myMfAck != NULL && myMfAck->result == ACKRESULT_SUCCESS){
-			addMessageToDB((MCONTACT)args->targetHandle, mirandaSendModeFlag, msgBuffer, bufSize, targetHandleSzProto);
+			addMessageToDB((MCONTACT)args->targetHandle, msgBuffer, bufSize, targetHandleSzProto);
 			if (mode == MFENUM_SMM_ONLY_SEND){
 				//show notyfication popup (only in SMM_ONLY_SEND mode)
 				wchar_t* buffer = new wchar_t[1024 * sizeof(wchar_t)];
-				if (contactNameW != NULL && tszAccountName != NULL){
+				if (contactNameW != NULL && tszAccountName != NULL)
 					mir_sntprintf(buffer, 1024, TranslateT("Message sent to %s (%s)"), contactNameW, tszAccountName);
-				} else {
+				else
 					mir_sntprintf(buffer, 1024, TranslateT("Message sent"));
-				}
 
-				if(ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
+				if(ServiceExists(MS_POPUP_ADDPOPUPCLASS))
 					ShowClassPopupT("MirFox_Notify", _T("MirFox"), buffer);
-				} else {
+				else
 					PUShowMessageT(buffer, SM_NOTIFY);
-				}
 
 				delete[] buffer;
-			} else if (mode == MFENUM_SMM_SEND_AND_SHOW_MW){
+			}
+			else if (mode == MFENUM_SMM_SEND_AND_SHOW_MW){
 				//notify hook to open window
 				if (args->mirfoxDataPtr != NULL && args->mirfoxDataPtr->hhook_EventOpenMW != NULL){
 					OnHookOpenMvStruct* onHookOpenMv = new(OnHookOpenMvStruct);
 					onHookOpenMv->targetHandle = args->targetHandle;
 					onHookOpenMv->msgBuffer = NULL;
 					NotifyEventHooks(args->mirfoxDataPtr->hhook_EventOpenMW, (WPARAM)onHookOpenMv, 0);
-				} else {
-					logger->log(L"SMTC: ERROR1 args->mirfoxDataPtr == NULL || args->mirfoxDataPtr->hhook_EventOpenMW == NULL");
 				}
+				else logger->log(L"SMTC: ERROR1 args->mirfoxDataPtr == NULL || args->mirfoxDataPtr->hhook_EventOpenMW == NULL");
 			}
-		} else {
+		}
+		else {
 			//error - show error popup
 			wchar_t* buffer = new wchar_t[1024 * sizeof(wchar_t)];
 			if (myMfAck != NULL){
@@ -281,9 +265,8 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 		EnterCriticalSection(&ackMapCs);
 		ackMap.erase(hProcess);
 		LeaveCriticalSection(&ackMapCs);
-
-		mir_free(msgBuffer);
-	} else if (mode == MFENUM_SMM_ONLY_SHOW_MW){
+	}
+	else if (mode == MFENUM_SMM_ONLY_SHOW_MW) {
 		//notify hook to open window
 		if (args->mirfoxDataPtr != NULL && args->mirfoxDataPtr->hhook_EventOpenMW != NULL){
 
@@ -295,32 +278,22 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 			msgBuffer->append(L"\r\n");
 			onHookOpenMv->msgBuffer = msgBuffer;
 			NotifyEventHooks(args->mirfoxDataPtr->hhook_EventOpenMW, (WPARAM)onHookOpenMv, 0);
-		} else {
-			logger->log(L"SMTC: ERROR1 args->mirfoxDataPtr == NULL || args->mirfoxDataPtr->hhook_EventOpenMW == NULL");
 		}
+		else logger->log(L"SMTC: ERROR1 args->mirfoxDataPtr == NULL || args->mirfoxDataPtr->hhook_EventOpenMW == NULL");
 	}
 }
 
-int MirandaUtils::getMirandaSendModeFlag(char* targetHandleSzProto)
+HANDLE MirandaUtils::sendMessageMiranda(MCONTACT hContact, char *msgBuffer)
 {
-	if (CallProtoService(targetHandleSzProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDUTF){
-		return PREF_UTF;
-	} else {
-		return PREF_UNICODE;
-	}
+	return (HANDLE)CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)msgBuffer);
 }
 
-HANDLE MirandaUtils::sendMessageMiranda(MCONTACT hContact, int mirandaSendModeFlag, char* msgBuffer)
-{
-	return (HANDLE)CallContactService(hContact, PSS_MESSAGE, (WPARAM)mirandaSendModeFlag, (LPARAM)msgBuffer);
-}
-
-void MirandaUtils::addMessageToDB(MCONTACT hContact, int mirandaSendModeFlag, char* msgBuffer, std::size_t bufSize, char* targetHandleSzProto)
+void MirandaUtils::addMessageToDB(MCONTACT hContact, char* msgBuffer, std::size_t bufSize, char* targetHandleSzProto)
 {
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.flags = DBEF_SENT | ((mirandaSendModeFlag&PREF_UTF)==PREF_UTF ? DBEF_UTF : 0);
+	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.szModule = targetHandleSzProto;
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.cbBlob = (DWORD)bufSize;

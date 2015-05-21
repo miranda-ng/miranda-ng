@@ -70,7 +70,6 @@ void  TSAPI HandleMenuEntryFromhContact(MCONTACT iSelection);
  * gneric msgwindow functions(creation, container management etc.)
  */
 
-BOOL  TSAPI IsUtfSendAvailable(MCONTACT hContact);
 HWND  TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, int isSend,
 	const char *pszInitialText, BOOL bActivateTAb, BOOL bPopupContainer, BOOL bWantPopup, MEVENT hdbEvent);
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);

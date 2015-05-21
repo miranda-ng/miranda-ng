@@ -294,7 +294,6 @@ static int onShutdown(WPARAM, LPARAM)
 	DestroyHookableEvent(g_hEvent[1]);
 
 	freeContactList();
-	free_rtfconv();
 
 	DeinitNetlib();
 	return 0;
@@ -343,8 +342,6 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 		msgbox1(0, sim107, MODULENAME, MB_OK | MB_ICONSTOP);
 		return 1;
 	}
-
-	load_rtfconv();
 
 	// register plugin module
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };

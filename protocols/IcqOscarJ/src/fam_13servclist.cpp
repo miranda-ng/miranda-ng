@@ -1390,22 +1390,16 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, size_t wLen)
 		nReasonLen = (int)mir_strlen(szReason);
 
 		char *temp = (char*)_alloca(nReasonLen + 2);
-		if (!IsUSASCII(szReason, nReasonLen) && UTF8_IsValid(szReason) && utf8_decode_static(szReason, temp, nReasonLen + 1))
-			pre.flags |= PREF_UTF;
+		if (!IsUSASCII(szReason, nReasonLen) && UTF8_IsValid(szReason))
+			utf8_decode_static(szReason, temp, nReasonLen + 1);
 	}
 
 	// Read nick name from DB
 	char *szNick = NULL;
-	if (dwUin) {
-		DBVARIANT dbv = { 0 };
-		if (pre.flags & PREF_UTF)
-			szNick = getSettingStringUtf(hContact, "Nick", NULL);
-		else if (!getString(hContact, "Nick", &dbv)) {
-			szNick = null_strdup(dbv.pszVal);
-			db_free(&dbv);
-		}
-	}
-	else szNick = null_strdup(szUid);
+	if (dwUin)
+		szNick = getSettingStringUtf(hContact, "Nick", NULL);
+	else
+		szNick = null_strdup(szUid);
 
 	size_t nNickLen = mir_strlen(szNick);
 

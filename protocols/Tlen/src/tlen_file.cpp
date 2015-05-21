@@ -592,7 +592,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 				if (szFilename[0] != '\0' && ft->iqId != NULL) {
 					TCHAR* filenameT = mir_utf8decodeT((char*)szFilename);
 					PROTORECVFILET pre = {0};
-					pre.flags = PREF_TCHAR;
+					pre.dwFlags = PRFF_TCHAR;
 					pre.fileCount = 1;
 					pre.timestamp = time(NULL);
 					pre.tszDescription = filenameT;

@@ -280,7 +280,7 @@ DWORD_PTR __cdecl CAimProto::GetCaps(int type, MCONTACT)
 
 	case PFLAGNUM_4:
 		return PF4_SUPPORTTYPING | PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_FORCEADDED |
-			PF4_SUPPORTIDLE | PF4_AVATARS | PF4_IMSENDUTF | PF4_IMSENDOFFLINE;
+			PF4_SUPPORTIDLE | PF4_AVATARS | PF4_IMSENDOFFLINE;
 
 	case PFLAGNUM_5:
 		return PF2_ONTHEPHONE;
@@ -454,7 +454,7 @@ void __cdecl CAimProto::msg_ack_success(void* param)
 }
 
 
-int __cdecl CAimProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
+int __cdecl CAimProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 {
 	if (pszSrc == NULL) return 0;
 
@@ -475,31 +475,13 @@ int __cdecl CAimProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 		ForkThread(&CAimProto::msg_ack_success, msg_ack);
 	}
 
-	char* msg;
-	if (flags & PREF_UNICODE)
-	{
-		const char* p = strchr(pszSrc, '\0');
-		if (p != pszSrc)
-		{
-			while (*(++p) == '\0');
-		}
-		msg = mir_utf8encodeW((wchar_t*)p);
-	}
-	else if (flags & PREF_UTF)
-		msg = mir_strdup(pszSrc);
-	else
-		msg = mir_utf8encode(pszSrc);
-
-	char* smsg = html_encode(msg);
-	mir_free(msg);
-
+	char *smsg = html_encode(pszSrc), *msg;
 	if (getByte(AIM_KEY_FO, 1))
 	{
 		msg = bbcodes_to_html(smsg);
 		mir_free(smsg);
 	}
-	else
-		msg = smsg;
+	else msg = smsg;
 
 	bool blast = getBool(hContact, AIM_KEY_BLS, false);
 	int res = aim_send_message(hServerConn, seqno, sn, msg, false, blast);

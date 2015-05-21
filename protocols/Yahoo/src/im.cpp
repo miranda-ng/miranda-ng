@@ -105,8 +105,6 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	Set_Protocol(hContact, protocol);
 
 	PROTORECVEVENT pre = { 0 };
-	pre.flags = (utf8) ? PREF_UTF : 0;
-
 	if (tm) {
 		MEVENT hEvent = db_event_last(hContact);
 
@@ -171,29 +169,21 @@ void __cdecl CYahooProto::im_sendackfail_longmsg(void *hContact)
 		(LPARAM)Translate("Message is too long: Yahoo messages are limited by 800 UTF8 chars"));
 }
 
-int __cdecl CYahooProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
+int __cdecl CYahooProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 {
 	if (!m_bLoggedIn) {/* don't send message if we not connected! */
 		ForkThread(&CYahooProto::im_sendackfail, (void*)hContact);
 		return 1;
 	}
 
-	ptrA msg;
-	if (flags & PREF_UNICODE) /* convert to utf8 */
-		msg = mir_utf8encodeW((wchar_t*)&pszSrc[mir_strlen(pszSrc) + 1]);
-	else if (flags & PREF_UTF)
-		msg = mir_strdup(pszSrc);
-	else
-		msg = mir_utf8encode(pszSrc);
-
-	if (mir_strlen(msg) > 800) {
+	if (mir_strlen(pszSrc) > 800) {
 		ForkThread(&CYahooProto::im_sendackfail_longmsg, (void*)hContact);
 		return 1;
 	}
 
 	DBVARIANT dbv;
 	if (!getString(hContact, YAHOO_LOGINID, &dbv)) {
-		send_msg(dbv.pszVal, getWord(hContact, "yprotoid", 0), msg, 1);
+		send_msg(dbv.pszVal, getWord(hContact, "yprotoid", 0), pszSrc, 1);
 
 		ForkThread(&CYahooProto::im_sendacksuccess, (void*)hContact);
 

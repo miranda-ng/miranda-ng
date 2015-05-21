@@ -1277,7 +1277,6 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 			CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hMsgContact, 0);
 			{
 				PROTORECVEVENT pre = { 0 };
-				pre.flags = PREF_UTF;
 				pre.timestamp = (is_offline) ? offline_timestamp : (DWORD)time(0);
 				pre.szMessage = msg_buf;
 				ProtoChainRecvMsg(hMsgContact, &pre);
@@ -1342,8 +1341,8 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 
 				TCHAR* filenameT = mir_utf8decodeT(filename);
 
-				PROTORECVFILET pre = {0};
-				pre.flags = PREF_TCHAR;
+				PROTORECVFILET pre = { 0 };
+				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
 				pre.tszDescription = mir_utf8decodeT(msg_buf);

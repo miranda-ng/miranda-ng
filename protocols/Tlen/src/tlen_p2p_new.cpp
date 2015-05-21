@@ -259,8 +259,8 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 						item->ft = ft;
 						mir_snprintf(fileInfo, SIZEOF(fileInfo), "%s file(s), %s bytes", c, s);
 						TCHAR* filenameT = mir_utf8decodeT((char*)fileInfo);
-						PROTORECVFILET pre = {0};
-						pre.flags = PREF_TCHAR;
+						PROTORECVFILET pre = { 0 };
+						pre.dwFlags = PRFF_TCHAR;
 						pre.fileCount = 1;
 						pre.timestamp = time(NULL);
 						pre.tszDescription = filenameT;

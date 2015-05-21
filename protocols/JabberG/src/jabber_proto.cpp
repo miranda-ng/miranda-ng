@@ -574,7 +574,7 @@ DWORD_PTR __cdecl CJabberProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_3:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_FREECHAT;
 	case PFLAGNUM_4:
-		return PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDUTF | PF4_FORCEADDED;
+		return PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_FORCEADDED;
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)Translate("JID");
 	case PFLAG_UNIQUEIDSETTING:
@@ -956,7 +956,7 @@ void __cdecl CJabberProto::SendMessageAckThread(void* param)
 static char PGP_PROLOG[] = "-----BEGIN PGP MESSAGE-----\r\n\r\n";
 static char PGP_EPILOG[] = "\r\n-----END PGP MESSAGE-----\r\n";
 
-int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
+int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 {
 	TCHAR szClientJid[JABBER_MAX_JID_LEN];
 	if (!m_bJabberOnline || !GetClientJID(hContact, szClientJid, SIZEOF(szClientJid))) {
@@ -965,9 +965,7 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int flags, const char* pszS
 		return 1;
 	}
 
-	TCHAR *msg;
 	int  isEncrypted, id = SerialNext();
-
 	if (!strncmp(pszSrc, PGP_PROLOG, strlen(PGP_PROLOG))) {
 		const char *szEnd = strstr(pszSrc, PGP_EPILOG);
 		char *tempstring = (char*)alloca(strlen(pszSrc) + 1);
@@ -976,17 +974,11 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int flags, const char* pszS
 		tempstring[nStrippedLength] = 0;
 		pszSrc = tempstring;
 		isEncrypted = 1;
-		flags &= ~PREF_UNICODE;
 	}
 	else isEncrypted = 0;
 
-	if (flags & PREF_UTF)
-		mir_utf8decode(NEWSTR_ALLOCA(pszSrc), &msg);
-	else if (flags & PREF_UNICODE)
-		msg = mir_u2t((wchar_t*)&pszSrc[strlen(pszSrc) + 1]);
-	else
-		msg = mir_a2t(pszSrc);
-
+	TCHAR *msg;
+	mir_utf8decode(NEWSTR_ALLOCA(pszSrc), &msg);
 	if (msg == NULL)
 		return 0;
 

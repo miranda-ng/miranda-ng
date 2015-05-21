@@ -628,7 +628,6 @@ void TwitterProto::UpdateMessages(bool pre_read)
 			MCONTACT hContact = AddToClientList(i->username.c_str(), "");
 
 			PROTORECVEVENT recv = { 0 };
-			recv.flags = PREF_UTF;
 			if (pre_read)
 				recv.flags |= PREF_CREATEREAD;
 			recv.szMessage = const_cast<char*>(i->status.text.c_str());

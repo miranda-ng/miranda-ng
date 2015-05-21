@@ -705,7 +705,6 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage* pmsg)
 
 			PROTORECVEVENT pre = { 0 };
 			pre.timestamp = (DWORD)time(NULL);
-			pre.flags = PREF_UTF;
 			pre.szMessage = mir_utf8encodeW(mess.c_str());
 			setTString(hContact, "User", pmsg->prefix.sUser.c_str());
 			setTString(hContact, "Host", pmsg->prefix.sHost.c_str());
@@ -1162,7 +1161,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 						TCHAR* tszTemp = (TCHAR*)sFile.c_str();
 
 						PROTORECVFILET pre = { 0 };
-						pre.flags = PREF_TCHAR;
+						pre.dwFlags = PRFF_TCHAR;
 						pre.timestamp = (DWORD)time(NULL);
 						pre.fileCount = 1;
 						pre.ptszFiles = &tszTemp;
@@ -2284,7 +2283,7 @@ void CIrcProto::OnIrcDisconnected()
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)Temp, ID_STATUS_OFFLINE);
 
-	CMString sDisconn = _T("\0035\002");
+	CMString sDisconn = _T("\035\002");
 	sDisconn += TranslateT("*Disconnected*");
 	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, sDisconn.c_str(), NULL, NULL, NULL, true, false);
 

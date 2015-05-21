@@ -63,7 +63,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	void InitMessaging();
 	void DeinitMessaging();
 	void SendTyping(MCONTACT hContact, bool typing);
-	HANDLE SendMessageToUser(MCONTACT hContact, char* msg_utf8);
+	HANDLE SendMessageToUser(MCONTACT hContact, const char *szMsg);
 	void CloseIm(MCONTACT hContact);
 
 	// userlist.cpp

@@ -22,7 +22,6 @@ struct SendMessageParam
 	MCONTACT hContact;
 	HANDLE hMessage;
 	const char *msg;
-	int flags;
 };
 
 struct STEAM_SEARCH_RESULT

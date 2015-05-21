@@ -272,7 +272,7 @@ DWORD_PTR CMraProto::GetCaps(int type, MCONTACT)
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_FREECHAT | PF2_ONTHEPHONE;
 
 	case PFLAGNUM_4:
-		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDUTF;
+		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS;
 
 	case PFLAGNUM_5:
 		return PF2_ONTHEPHONE;
@@ -385,7 +385,7 @@ HANDLE CMraProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles)
 	return (HANDLE)iRet;
 }
 
-int CMraProto::SendMsg(MCONTACT hContact, int flags, const char *lpszMessage)
+int CMraProto::SendMsg(MCONTACT hContact, int, const char *lpszMessage)
 {
 	if (!m_bLoggedIn) {
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.");
@@ -393,15 +393,7 @@ int CMraProto::SendMsg(MCONTACT hContact, int flags, const char *lpszMessage)
 	}
 
 	DWORD dwFlags = 0;
-	CMStringW wszMessage;
-
-	if (flags & PREF_UNICODE)
-		wszMessage = (LPWSTR)(lpszMessage + mir_strlen(lpszMessage) + 1);
-	else if (flags & PREF_UTF)
-		wszMessage = ptrW(mir_utf8decodeT(lpszMessage));
-	else
-		wszMessage = ptrW(mir_a2t(lpszMessage));
-
+	CMStringW wszMessage(ptrW(mir_utf8decodeT(lpszMessage)));
 	if (wszMessage.IsEmpty()) {
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"Cant allocate buffer for convert to unicode.");
 		return 0;

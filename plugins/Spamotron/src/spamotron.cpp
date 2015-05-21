@@ -56,7 +56,6 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	POPUPDATAT ppdp = {0};
 	DBTIMETOSTRING tts = {0};
 	char protoOption[256] = {0};
-	char *response, *tmp, *challenge;
 	int buflen = MAX_BUFFER_LENGTH;
 	TCHAR buf[MAX_BUFFER_LENGTH];
 	TCHAR *message = NULL, *challengeW = NULL, *tmpW = NULL;
@@ -174,11 +173,8 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 					db_unset(hContact, "CList", "NotOnList");
 				db_unset(hContact, "CList", "Delete");
 				if (_getOptB("ReplyOnSuccess", defaultReplyOnSuccess) && (_getCOptB(hContact, "MsgSent", 0))) {
-					tmp = mir_u2a(_getOptS(buf, buflen, "SuccessResponse", defaultSuccessResponse));
-					response = mir_utf8encode(tmp);
-					mir_free(tmp);
-					CallContactService(hContact, PSS_MESSAGE, PREF_UTF,	(LPARAM)response);
-					mir_free(response);
+					ptrA response(mir_utf8encodeT(_getOptS(buf, buflen, "SuccessResponse", defaultSuccessResponse)));
+					CallContactService(hContact, PSS_MESSAGE, 0, response);
 				}
 				return 0;
 			}
@@ -243,11 +239,8 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		db_unset(hContact, "CList", "Delete");
 		db_unset(hContact, "CList", "ResponseNum");
 		if (_getOptB("ReplyOnSuccess", defaultReplyOnSuccess)) {
-			tmp = mir_u2a(_getOptS(buf, buflen, "SuccessResponse", defaultSuccessResponse));
-			response = mir_utf8encode(tmp);
-			mir_free(tmp);
-			CallContactService(hContact, PSS_MESSAGE, PREF_UTF,	(LPARAM)response);
-			mir_free(response);
+			ptrA response(mir_utf8encodeT(_getOptS(buf, buflen, "SuccessResponse", defaultSuccessResponse)));
+			CallContactService(hContact, PSS_MESSAGE, 0,	response);
 		}
 		_notify(hContact, POPUP_APPROVED, TranslateT("Contact %s approved."), NULL);
 
@@ -368,76 +361,58 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 
 	challengeW = (TCHAR *)malloc(maxmsglen*sizeof(TCHAR));
 	tmpW = (TCHAR *)malloc(maxmsglen*sizeof(TCHAR));
-	switch (_getOptB("Mode", defaultMode))
-	{
-		case SPAMOTRON_MODE_PLAIN:
-			if (dbei->eventType == EVENTTYPE_AUTHREQUEST)
-				_getOptS(challengeW, maxmsglen, "AuthChallenge", defaultAuthChallenge);
-			else
-				_getOptS(challengeW, maxmsglen, "Challenge", defaultChallenge);
-			ReplaceVars(challengeW, maxmsglen);
-			tmp = mir_u2a(challengeW);
-			challenge = mir_utf8encode(tmp);
-			mir_free(tmp);
-			CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)challenge);
-			mir_free(challenge);
-			_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending plain challenge to %s."), message);
-			break;
+	switch (_getOptB("Mode", defaultMode)) {
+	case SPAMOTRON_MODE_PLAIN:
+		if (dbei->eventType == EVENTTYPE_AUTHREQUEST)
+			_getOptS(challengeW, maxmsglen, "AuthChallenge", defaultAuthChallenge);
+		else
+			_getOptS(challengeW, maxmsglen, "Challenge", defaultChallenge);
+		ReplaceVars(challengeW, maxmsglen);
+		CallContactService(hContact, PSS_MESSAGE, 0, ptrA(mir_utf8encodeT(challengeW)));
+		_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending plain challenge to %s."), message);
+		break;
 		
-		case SPAMOTRON_MODE_ROTATE:
-			if (dbei->eventType == EVENTTYPE_AUTHREQUEST)
-				_getOptS(challengeW, maxmsglen, "AuthChallenge", defaultAuthChallenge);
-			else
-				_getOptS(challengeW, maxmsglen, "Challenge", defaultChallenge);
-			_getOptS(buf, buflen, "Response", defaultResponse);
-			if (_getCOptD(hContact, "ResponseNum", 0) >= (unsigned int)(get_response_num(buf)-1)) {
-				_setCOptD(hContact, "ResponseNum", -1);
-			}
-			_setCOptD(hContact, "ResponseNum", _getCOptD(hContact, "ResponseNum", -1) + 1);
-			ReplaceVarsNum(challengeW, maxmsglen, _getCOptD(hContact, "ResponseNum", 0));
+	case SPAMOTRON_MODE_ROTATE:
+		if (dbei->eventType == EVENTTYPE_AUTHREQUEST)
+			_getOptS(challengeW, maxmsglen, "AuthChallenge", defaultAuthChallenge);
+		else
+			_getOptS(challengeW, maxmsglen, "Challenge", defaultChallenge);
+		_getOptS(buf, buflen, "Response", defaultResponse);
+		if (_getCOptD(hContact, "ResponseNum", 0) >= (unsigned int)(get_response_num(buf)-1))
+			_setCOptD(hContact, "ResponseNum", -1);
 
-			tmp = mir_u2a(challengeW);
-			challenge = mir_utf8encode(tmp);
-			mir_free(tmp);
-			CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)challenge);
-			mir_free(challenge);
-			_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending round-robin challenge to %s."), message);
-			break;
+		_setCOptD(hContact, "ResponseNum", _getCOptD(hContact, "ResponseNum", -1) + 1);
+		ReplaceVarsNum(challengeW, maxmsglen, _getCOptD(hContact, "ResponseNum", 0));
+		CallContactService(hContact, PSS_MESSAGE, 0, ptrA(mir_utf8encodeT(challengeW)));
+		_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending round-robin challenge to %s."), message);
+		break;
 
-		case SPAMOTRON_MODE_RANDOM:
-			if (dbei->eventType == EVENTTYPE_AUTHREQUEST)
-				_getOptS(challengeW, maxmsglen, "AuthChallenge", defaultAuthChallenge);
-			else
-				_getOptS(challengeW, maxmsglen, "Challenge", defaultChallenge);
-			_getOptS(buf, buflen, "Response", defaultResponse);
-			srand(time(NULL));
-			_setCOptD(hContact, "ResponseNum", rand() % get_response_num(buf));
-			ReplaceVarsNum(challengeW, maxmsglen, _getCOptD(hContact, "ResponseNum", 0));
-			tmp = mir_u2a(challengeW);
-			challenge = mir_utf8encode(tmp);
-			mir_free(tmp);
-			CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)challenge);
-			mir_free(challenge);
-			_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending random challenge to %s."), message);
-			break;
+	case SPAMOTRON_MODE_RANDOM:
+		if (dbei->eventType == EVENTTYPE_AUTHREQUEST)
+			_getOptS(challengeW, maxmsglen, "AuthChallenge", defaultAuthChallenge);
+		else
+			_getOptS(challengeW, maxmsglen, "Challenge", defaultChallenge);
+		_getOptS(buf, buflen, "Response", defaultResponse);
+		srand(time(NULL));
+		_setCOptD(hContact, "ResponseNum", rand() % get_response_num(buf));
+		ReplaceVarsNum(challengeW, maxmsglen, _getCOptD(hContact, "ResponseNum", 0));
+		CallContactService(hContact, PSS_MESSAGE, 0, ptrA(mir_utf8encodeT(challengeW)));
+		_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending random challenge to %s."), message);
+		break;
 
-		case SPAMOTRON_MODE_MATH:
-			a = (rand() % 10) + 1;
-			b = (rand() % 10) + 1;
-			mir_sntprintf(mexpr, SIZEOF(mexpr), _T("%d + %d"), a, b);
-			if (dbei->eventType == EVENTTYPE_AUTHREQUEST)
-				_getOptS(challengeW, maxmsglen, "AuthChallengeMath", defaultAuthChallengeMath);
-			else
-				_getOptS(challengeW, maxmsglen, "ChallengeMath", defaultChallengeMath);
-			ReplaceVar(challengeW, maxmsglen, _T("%mathexpr%"), mexpr);
-			_setCOptD(hContact, "ResponseMath", a + b);
-			tmp = mir_u2a(challengeW);
-			challenge = mir_utf8encode(tmp);
-			mir_free(tmp);
-			CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)challenge);
-			mir_free(challenge);
-			_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending math expression challenge to %s."), message);
-			break;
+	case SPAMOTRON_MODE_MATH:
+		a = (rand() % 10) + 1;
+		b = (rand() % 10) + 1;
+		mir_sntprintf(mexpr, SIZEOF(mexpr), _T("%d + %d"), a, b);
+		if (dbei->eventType == EVENTTYPE_AUTHREQUEST)
+			_getOptS(challengeW, maxmsglen, "AuthChallengeMath", defaultAuthChallengeMath);
+		else
+			_getOptS(challengeW, maxmsglen, "ChallengeMath", defaultChallengeMath);
+		ReplaceVar(challengeW, maxmsglen, _T("%mathexpr%"), mexpr);
+		_setCOptD(hContact, "ResponseMath", a + b);
+		CallContactService(hContact, PSS_MESSAGE, 0, ptrA(mir_utf8encodeT(challengeW)));
+		_notify(hContact, POPUP_CHALLENGE, TranslateT("Sending math expression challenge to %s."), message);
+		break;
 	}
 	free(challengeW);
 	free(tmpW);

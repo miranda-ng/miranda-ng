@@ -780,7 +780,6 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 
 			if (messages[i]->isIncoming && messages[i]->isUnread && messages[i]->type == MESSAGE) {
 				PROTORECVEVENT recv = { 0 };
-				recv.flags = PREF_UTF;
 				recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
 				recv.timestamp = messages[i]->time;
 				ProtoChainRecvMsg(hContact, &recv);

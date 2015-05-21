@@ -1376,7 +1376,6 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 		msgTime = now;
 
 	PROTORECVEVENT recv = { 0 };
-	recv.flags = PREF_UTF;
 	recv.timestamp = (DWORD)msgTime;
 	recv.szMessage = buf;
 	recv.lParam = (LPARAM)((pFromResource != NULL && m_options.EnableRemoteControl) ? pFromResource->m_tszResourceName : 0);

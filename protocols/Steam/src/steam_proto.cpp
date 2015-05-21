@@ -202,7 +202,7 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT)
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH | PF2_FREECHAT;
 	case PFLAGNUM_4:
-		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED | PF4_IMSENDUTF | PF4_SUPPORTIDLE | PF4_SUPPORTTYPING;// | PF4_IMSENDOFFLINE;
+		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTIDLE | PF4_SUPPORTTYPING;// | PF4_IMSENDOFFLINE;
 	case PFLAGNUM_5:
 		return PF2_HEAVYDND | PF2_OUTTOLUNCH | PF2_FREECHAT;
 	case PFLAG_UNIQUEIDTEXT:
@@ -240,7 +240,7 @@ int __cdecl CSteamProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 	return (INT_PTR)AddDBEvent(hContact, EVENTTYPE_MESSAGE, pre->timestamp, DBEF_UTF, lstrlenA(pre->szMessage), (BYTE*)pre->szMessage);
 }
 
-int __cdecl CSteamProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
+int __cdecl CSteamProto::SendMsg(MCONTACT hContact, int, const char *msg)
 {
 	UINT hMessage = InterlockedIncrement(&hMessageProcess);
 
@@ -248,10 +248,7 @@ int __cdecl CSteamProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	param->hContact = hContact;
 	param->hMessage = (HANDLE)hMessage;
 	param->msg = msg;
-	param->flags = flags;
-
 	ForkThread(&CSteamProto::SendMsgThread, (void*)param);
-
 	return hMessage;
 }
 
@@ -266,14 +263,12 @@ void __cdecl CSteamProto::SendMsgThread(void *arg)
 		return;
 	}
 
-	CMStringA message = (param->flags & PREF_UNICODE) ? ptrA(mir_utf8encode(param->msg)) : param->msg; // TODO: mir_utf8encode check taken from FacebookRM, is it needed? Usually we get PREF_UTF8 flag instead.
-
 	ptrA token(getStringA("TokenSecret"));
 	ptrA umqid(getStringA("UMQID"));
 	ptrA steamId(getStringA(param->hContact, "SteamID"));
 
 	PushRequest(
-		new SteamWebApi::SendMessageRequest(token, umqid, steamId, message),
+		new SteamWebApi::SendMessageRequest(token, umqid, steamId, param->msg),
 		&CSteamProto::OnMessageSent,
 		param,
 		ARG_MIR_FREE);

@@ -295,9 +295,10 @@ void CToxProto::OnAvInvite(void*, int32_t callId, void *arg)
 	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = time(NULL);
 	recv.lParam = callId;
-	recv.flags = PREF_UTF;
 	recv.szMessage = mir_utf8encodeT(message);
 	ProtoChainRecv(hContact, PSR_AUDIO, hContact, (LPARAM)&recv);
+
+	mir_free(recv.szMessage);
 }
 
 // save event to db

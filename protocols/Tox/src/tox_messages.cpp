@@ -18,17 +18,14 @@ void CToxProto::OnFriendMessage(Tox*, uint32_t friendNumber, TOX_MESSAGE_TYPE ty
 		length -= 3;
 		mir_strncpy(rawMessage, (const char*)&message[4], length);
 	}
-	else
-		mir_strncpy(rawMessage, (const char*)message, length + 1);
+	else mir_strncpy(rawMessage, (const char*)message, length + 1);
 	rawMessage[length] = 0;
 
 	PROTORECVEVENT recv = { 0 };
-	recv.flags = PREF_UTF;
+	recv.flags = 0;
 	recv.timestamp = time(NULL);
 	recv.szMessage = rawMessage;
-	recv.lParam = type == TOX_MESSAGE_TYPE_NORMAL
-		? EVENTTYPE_MESSAGE : DB_EVENT_ACTION;
-
+	recv.lParam = type == TOX_MESSAGE_TYPE_NORMAL ? EVENTTYPE_MESSAGE : DB_EVENT_ACTION;
 	ProtoChainRecvMsg(hContact, &recv);
 
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
@@ -55,24 +52,16 @@ int CToxProto::OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre)
 /* MESSAGE SENDING */
 
 // outcoming message flow
-int CToxProto::OnSendMessage(MCONTACT hContact, int flags, const char *szMessage)
+int CToxProto::OnSendMessage(MCONTACT hContact, const char *szMessage)
 {
 	int32_t friendNumber = GetToxFriendNumber(hContact);
 	if (friendNumber == UINT32_MAX)
 		return 0;
 
-	ptrA message;
-	if (flags & PREF_UNICODE)
-		message = mir_utf8encodeW((wchar_t*)&szMessage[mir_strlen(szMessage) + 1]);
-	else //if (flags & PREF_UTF)
-		message = mir_strdup(szMessage);
-	//else
-		//message = mir_utf8encode(szMessage);
-
-	size_t msgLen = mir_strlen(message);
-	uint8_t *msg = (uint8_t*)(char*)message;
+	size_t msgLen = mir_strlen(szMessage);
+	uint8_t *msg = (uint8_t*)szMessage;
 	TOX_MESSAGE_TYPE type = TOX_MESSAGE_TYPE_NORMAL;
-	if (strncmp(message, "/me ", 4) == 0)
+	if (strncmp(szMessage, "/me ", 4) == 0)
 	{
 		msg += 4; msgLen -= 4;
 		type = TOX_MESSAGE_TYPE_ACTION;

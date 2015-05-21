@@ -361,7 +361,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 				ft->std.totalBytes = ft->std.currentFileSize = filesize;
 
 				PROTORECVFILET pre = { 0 };
-				pre.flags = PREF_TCHAR;
+				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
 				pre.ptszFiles = (TCHAR**)&filename;

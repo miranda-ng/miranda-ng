@@ -244,7 +244,6 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 							pre.timestamp = (DWORD)time(NULL);
 							pre.szMessage = (char *)isr;
 							pre.lParam = cnt;
-							pre.flags = PREF_TCHAR;
 							ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
 							for (cnt=0; cnt<pre.lParam; cnt++) {
 								mir_free(isr[cnt]->email);
@@ -299,7 +298,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 					PROTORECVEVENT pre = { 0 };
 					pre.szMessage = (char*)msgBody;
-					pre.flags = PREF_UTF + (isRtl ? PREF_RTL : 0);
+					pre.flags = (isRtl ? PREF_RTL : 0);
 					pre.timestamp = (DWORD)time(NULL);
 					pre.lParam = 0;
 					ProtoChainRecvMsg(hContact, &pre);
@@ -1067,7 +1066,6 @@ LBL_InvalidCommand:
 								if (!sentMsg) {
 									PROTORECVEVENT pre = { 0 };
 									pre.szMessage = (char*)message;
-									pre.flags = PREF_UTF;
 									pre.timestamp = (DWORD)ts;
 									ProtoChainRecvMsg(hContact, &pre);
 								}
@@ -1349,7 +1347,7 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 		mir_sntprintf(tComment, SIZEOF(tComment), TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
 		PROTORECVFILET pre = { 0 };
-		pre.flags = PREF_TCHAR;
+		pre.dwFlags = PRFF_TCHAR;
 		pre.fileCount = 1;
 		pre.timestamp = time(NULL);
 		pre.tszDescription = tComment;

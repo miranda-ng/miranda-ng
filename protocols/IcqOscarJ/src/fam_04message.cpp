@@ -302,9 +302,8 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, size_t wLen, DWORD dwUin, char
 								SAFE_FREE(&szMsg);
 								szMsg = szUtfMsg;
 							}
-							pre.flags = PREF_UTF;
 						}
-						if (!bMsgPartUnicode && pre.flags == PREF_UTF) { // convert message part to utf-8 and append
+						if (!bMsgPartUnicode) { // convert message part to utf-8 and append
 							char *szUtfPart = ansi_to_utf8_codepage((char*)szMsgPart, getWord(hContact, "CodePage", m_wAnsiCodepage));
 
 							SAFE_FREE(&szMsgPart);
@@ -327,7 +326,6 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, size_t wLen, DWORD dwUin, char
 						if (usMsg) {
 							SAFE_FREE(&szMsg);
 							szMsg = usMsg;
-							pre.flags = PREF_UTF;
 						}
 					}
 
@@ -1053,7 +1051,6 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, size_t wLen, DWORD dwUin, c
 				pre.timestamp = (DWORD)time(NULL);
 				pre.szMessage = (char *)contacts;
 				pre.lParam = nContacts;
-				pre.flags = PREF_TCHAR;
 				ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
 			}
 
@@ -1414,7 +1411,7 @@ void packPluginTypeId(icq_packet *packet, int nTypeID)
 }
 
 
-void CIcqProto::handleStatusMsgReply(const char *szPrefix, MCONTACT hContact, DWORD dwUin, WORD wVersion, int bMsgType, WORD wCookie, const char *szMsg)
+void CIcqProto::handleStatusMsgReply(const char *szPrefix, MCONTACT hContact, DWORD dwUin, int bMsgType, WORD wCookie, const char *szMsg)
 {
 	if (hContact == INVALID_CONTACT_ID) {
 		debugLogA("%sIgnoring status message from unknown contact %u", szPrefix, dwUin);
@@ -1429,10 +1426,6 @@ void CIcqProto::handleStatusMsgReply(const char *szPrefix, MCONTACT hContact, DW
 
 	// it is probably UTF-8 status reply
 	PROTORECVEVENT pre = { 0 };
-	if (wVersion >= 9)
-		if (UTF8_IsValid(szMsg))
-			pre.flags |= PREF_UTF;
-
 	pre.szMessage = (char*)szMsg;
 	pre.timestamp = time(NULL);
 	pre.lParam = wCookie;
@@ -1440,7 +1433,7 @@ void CIcqProto::handleStatusMsgReply(const char *szPrefix, MCONTACT hContact, DW
 }
 
 
-HANDLE CIcqProto::handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, WORD wVersion, int type, PBYTE buf, BYTE bFlags)
+HANDLE CIcqProto::handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, int type, PBYTE buf, BYTE bFlags)
 {
 	if (bFlags == 3) {
 		MCONTACT hCookieContact;
@@ -1463,7 +1456,7 @@ HANDLE CIcqProto::handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, WORD 
 		}
 		ReleaseCookie(wCookie);
 
-		handleStatusMsgReply("handleMessageAck: ", hContact, dwUin, wVersion, type, wCookie, (char*)buf);
+		handleStatusMsgReply("handleMessageAck: ", hContact, dwUin, type, wCookie, (char*)buf);
 	}
 	else // Should not happen
 		debugLogA("%sIgnored type %u ack message (this should not happen)", "handleMessageAck: ", type);
@@ -1504,7 +1497,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 	}
 
 	if (wAckType == 2) {
-		handleMessageAck(dwUin, szUID, wCookie, wVersion, type, (LPBYTE)pMsg, (BYTE)flags);
+		handleMessageAck(dwUin, szUID, wCookie, type, (LPBYTE)pMsg, (BYTE)flags);
 		return;
 	}
 
@@ -1552,10 +1545,6 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 						usMsg[dwExtraLen] = '\0';
 						SAFE_FREE(&szMsg);
 						szMsg = (char*)make_utf8_string(usMsg);
-
-						if (!IsUnicodeAscii(usMsg, dwExtraLen))
-							pre.flags = PREF_UTF; // only mark real non-ascii messages as unicode
-
 						bDoubleMsg = 1;
 					}
 				}
@@ -1568,7 +1557,6 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 
 				while ((dwGuidLen >= 38) && (dwDataLen >= dwGuidLen)) {
 					if (!strncmp(pMsg, CAP_UTF8MSGS, 38)) { // Found UTF8 cap, convert message to ansi
-						pre.flags = PREF_UTF;
 						break;
 					}
 					else if (!strncmp(pMsg, CAP_RTFMSGS, 38)) { // Found RichText cap
@@ -1583,14 +1571,13 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			}
 
 			hContact = HContactFromUIN(dwUin, &bAdded);
-			sendMessageTypesAck(hContact, pre.flags & PREF_UTF, pAckParams);
+			sendMessageTypesAck(hContact, true, pAckParams);
 
 			if (!pre.flags && !IsUSASCII(szMsg, mir_strlen(szMsg))) { // message is Ansi and contains national characters, create Unicode part by codepage
 				char *usMsg = convertMsgToUserSpecificUtf(hContact, szMsg);
 				if (usMsg) {
 					SAFE_FREE(&szMsg);
 					szMsg = (char*)usMsg;
-					pre.flags = PREF_UTF;
 				}
 			}
 
@@ -1625,9 +1612,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			PROTORECVEVENT pre = { 0 };
 			pre.timestamp = dwTimestamp;
 			pre.szMessage = (char *)szBlob;
-			pre.flags = PREF_UTF;
 			ProtoChainRecvMsg(hContact, &pre);
-
 			SAFE_FREE(&szBlob);
 		}
 		break;
@@ -1719,7 +1704,6 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 					pre.timestamp = dwTimestamp;
 					pre.szMessage = (char *)isrList;
 					pre.lParam = nContacts;
-					pre.flags = PREF_TCHAR;
 					ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
 				}
 
@@ -2025,7 +2009,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, size_t wLen)
 	}
 
 	if (bFlags == 3)     // A status message reply
-		handleStatusMsgReply("SNAC(4.B) ", hContact, dwUin, wVersion, bMsgType, dwCookie, (char*)(buf + 2));
+		handleStatusMsgReply("SNAC(4.B) ", hContact, dwUin, bMsgType, dwCookie, (char*)(buf + 2));
 	else {
 		// An ack of some kind
 		int ackType;
@@ -2111,7 +2095,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, size_t wLen)
 						if (dwDataLen > 0)
 							memcpy(szMsg, buf, dwDataLen);
 						szMsg[dwDataLen] = '\0';
-						handleStatusMsgReply("SNAC(4.B) ", hContact, dwUin, wVersion, pCookieData->nAckType, dwCookie, szMsg);
+						handleStatusMsgReply("SNAC(4.B) ", hContact, dwUin, pCookieData->nAckType, dwCookie, szMsg);
 
 						ReleaseCookie(dwCookie);
 						return;
@@ -2167,7 +2151,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, size_t wLen)
 						szMsg[dwDataLen] = '\0';
 						szMsg = EliminateHtml(szMsg, dwDataLen);
 
-						handleStatusMsgReply("SNAC(4.B) ", hContact, dwUin, wVersion, pCookieData->nAckType, (WORD)dwCookie, szMsg);
+						handleStatusMsgReply("SNAC(4.B) ", hContact, dwUin, pCookieData->nAckType, (WORD)dwCookie, szMsg);
 
 						SAFE_FREE(&szMsg);
 

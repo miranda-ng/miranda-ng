@@ -460,7 +460,7 @@ DWORD_PTR __cdecl CIrcProto::GetCaps(int type, MCONTACT)
 		return PF2_SHORTAWAY;
 
 	case PFLAGNUM_4:
-		return PF4_NOAUTHDENYREASON | PF4_NOCUSTOMAUTH | PF4_IMSENDUTF;
+		return PF4_NOAUTHDENYREASON | PF4_NOCUSTOMAUTH;
 
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)Translate("Nickname");
@@ -678,7 +678,7 @@ void __cdecl CIrcProto::AckMessageSuccess(void *info)
 	delete param;
 }
 
-int __cdecl CIrcProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
+int __cdecl CIrcProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 {
 	BYTE bDcc = getByte(hContact, "DCC", 0);
 	WORD wStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
@@ -686,6 +686,7 @@ int __cdecl CIrcProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 		ForkThread(&CIrcProto::AckMessageFailDcc, (void*)hContact);
 		return 0;
 	}
+	
 	if (!bDcc && (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)) {
 		ForkThread(&CIrcProto::AckMessageFail, (void*)hContact);
 		return 0;
@@ -694,20 +695,7 @@ int __cdecl CIrcProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 	int codepage = getCodepage();
 
 	TCHAR *result;
-	if (flags & PREF_UNICODE) {
-		const char* p = strchr(pszSrc, '\0');
-		if (p != pszSrc) {
-			while (*(++p) == '\0')
-				;
-			result = mir_u2t_cp((wchar_t*)p, codepage);
-		}
-		else result = mir_a2t_cp(pszSrc, codepage);
-	}
-	else if (flags & PREF_UTF)
-		mir_utf8decode(NEWSTR_ALLOCA(pszSrc), &result);
-	else
-		result = mir_a2t_cp(pszSrc, codepage);
-
+	mir_utf8decode(NEWSTR_ALLOCA(pszSrc), &result);
 	PostIrcMessageWnd(NULL, hContact, result);
 	mir_free(result);
 

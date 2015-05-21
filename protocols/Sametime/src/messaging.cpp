@@ -84,7 +84,6 @@ void mwIm_conversation_recv(mwConversation* conv, mwImSendType type, gconstpoint
 	PROTORECVEVENT pre = { 0 };
 	time_t t = time(NULL);
 	pre.timestamp = t;
-	pre.flags = PREF_UTF;
 	pre.szMessage = (char*)msg;
 	ProtoChainRecvMsg(hContact, &pre);
 }
@@ -113,7 +112,7 @@ mwImHandler mwIm_handler = {
 	NULL
 };
 
-HANDLE CSametimeProto::SendMessageToUser(MCONTACT hContact, char* msg_utf8)
+HANDLE CSametimeProto::SendMessageToUser(MCONTACT hContact, const char *szMsg)
 {
 	debugLog(_T("CSametimeProto::SendMessageToUser()  hContact=[%x]"), hContact);
 
@@ -128,12 +127,12 @@ HANDLE CSametimeProto::SendMessageToUser(MCONTACT hContact, char* msg_utf8)
 			if (!mwConversation_isOpen(conv)) {
 				debugLog(_T("CSametimeProto::SendMessageToUser()  mwConversation_isOpen"));
 				mir_cslock lck(q_cs);
-				contact_message_queue[hContact].push(msg_utf8);
+				contact_message_queue[hContact].push(szMsg);
 				mwConversation_open(conv);
 			}
 			else {
 				debugLog(_T("CSametimeProto::SendMessageToUser()  !mwConversation_isOpen"));
-				mwConversation_send(conv, mwImSend_PLAIN, (gconstpointer)msg_utf8);
+				mwConversation_send(conv, mwImSend_PLAIN, szMsg);
 			}
 
 			free(id_block.user);

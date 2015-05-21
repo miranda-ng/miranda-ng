@@ -586,11 +586,9 @@ MCONTACT CIcqProto::AddToListByUID(const char *szUID, DWORD dwFlags)
 
 void CIcqProto::ICQAddRecvEvent(MCONTACT hContact, WORD wType, PROTORECVEVENT* pre, size_t cbBlob, PBYTE pBlob, DWORD flags)
 {
+	flags |= DBEF_UTF;
 	if (pre->flags & PREF_CREATEREAD)
 		flags |= DBEF_READ;
-
-	if (pre->flags & PREF_UTF)
-		flags |= DBEF_UTF;
 
 	if (hContact && db_get_b(hContact, "CList", "Hidden", 0)) {
 		// if the contact was hidden, add to client-list if not in server-list authed

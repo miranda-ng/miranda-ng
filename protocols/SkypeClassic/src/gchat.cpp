@@ -621,11 +621,11 @@ int GCEventHook(WPARAM,LPARAM lParam) {
 			// remove the ending linebreak
 			for (pEnd = &gch->ptszText[_tcslen(gch->ptszText) - 1];
 				 *pEnd==_T('\r') || *pEnd==_T('\n'); pEnd--) *pEnd=0;
-    // Send message to the chat-contact    
+			// Send message to the chat-contact    
 			if (ccs.hContact = find_chat(gch->pDest->ptszID)) {
 				// If PREF_UTF is supported, just convert it to UTF8 and pass the buffer to PSS_MESSAGE
 				ccs.lParam = (LPARAM)make_utf8_string(gch->ptszText);
-				ccs.wParam = PREF_UTF;
+				ccs.wParam = 0;
 				CallProtoService (SKYPE_PROTONAME, PSS_MESSAGE, 0, (LPARAM)&ccs);
 				free ((void*)ccs.lParam);
 			}

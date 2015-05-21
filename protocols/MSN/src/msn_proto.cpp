@@ -659,8 +659,7 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT)
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 
 	case PFLAGNUM_4:
-		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_SUPPORTIDLE | PF4_IMSENDUTF |
-			PF4_IMSENDOFFLINE | PF4_NOAUTHDENYREASON;
+		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_SUPPORTIDLE | PF4_IMSENDOFFLINE | PF4_NOAUTHDENYREASON;
 
 	case PFLAGNUM_5:
 		return PF2_ONTHEPHONE;
@@ -824,19 +823,8 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 	}
 
 	char *msg = (char*)pszSrc;
-	if (msg == NULL) return 0;
-
-	if (flags & PREF_UNICODE) {
-		char* p = strchr(msg, '\0');
-		if (p != msg) {
-			while (*(++p) == '\0') {}
-			msg = mir_utf8encodeW((wchar_t*)p);
-		}
-		else
-			msg = mir_strdup(msg);
-	}
-	else
-		msg = (flags & PREF_UTF) ? mir_strdup(msg) : mir_utf8encode(msg);
+	if (msg == NULL)
+		return 0;
 
 	int rtlFlag = (flags & PREF_RTL) ? MSG_RTL : 0;
 
@@ -911,7 +899,6 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 		break;
 	}
 
-	mir_free(msg);
 	return seq;
 }
 

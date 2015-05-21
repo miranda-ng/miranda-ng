@@ -146,7 +146,7 @@ int CheckDate(MCONTACT hContact)
 void SendPounce(TCHAR *text, MCONTACT hContact)
 {
 	ptrA pszUtf(mir_utf8encodeT(text));
-	if (HANDLE hSendId = (HANDLE)CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)pszUtf)) 
+	if (HANDLE hSendId = (HANDLE)CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)pszUtf)) 
 		WindowList_Add(hWindowList, (HWND)hSendId, hContact);
 }
 

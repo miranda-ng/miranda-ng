@@ -133,7 +133,7 @@ extern "C" {
 		DEBUGOUT_T("OTR_GUI_INJECT_MESSAGE\n");
 		MCONTACT hContact = (MCONTACT)opdata;
 		if (db_get_w(hContact, protocol, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-			CallContactService(hContact, PSS_MESSAGE, PREF_UTF | PREF_BYPASS_OTR, (LPARAM)message);
+			CallContactService(hContact, PSS_MESSAGE, PREF_BYPASS_OTR, (LPARAM)message);
 	}
 
 	/* When the list of ConnContexts changes (including a change in

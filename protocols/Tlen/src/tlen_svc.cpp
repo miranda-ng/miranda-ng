@@ -601,7 +601,7 @@ INT_PTR TlenProtocol::SendAlert(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int TlenProtocol::SendMsg(MCONTACT hContact, int flags, const char* msgRAW)
+int TlenProtocol::SendMsg(MCONTACT hContact, int, const char* msgRAW)
 {
 	DBVARIANT dbv;
 	if (!isOnline || db_get(hContact, m_szModuleName, "jid", &dbv)) {
@@ -609,30 +609,21 @@ int TlenProtocol::SendMsg(MCONTACT hContact, int flags, const char* msgRAW)
 		return 2;
 	}
 
-	char* msg;
-	if (flags & PREF_UNICODE)
-		msg = mir_u2a((wchar_t*)&msgRAW[strlen(msgRAW) + 1]);
-	else if (flags & PREF_UTF)
-		msg = mir_utf8decodeA(msgRAW);
-	else
-		msg = mir_strdup(msgRAW);
-
 	TLEN_LIST_ITEM *item;
 	char msgType[16];
 
-
 	int id = TlenSerialNext(this);
 
-	if (!strcmp(msg, "<alert>")) {
+	if (!strcmp(msgRAW, "<alert>")) {
 		TlenSend(this, "<m tp='a' to='%s'/>", dbv.pszVal);
 		forkthread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
 	}
-	else if (!strcmp(msg, "<image>")) {
+	else if (!strcmp(msgRAW, "<image>")) {
 		TlenSend(this, "<message to='%s' type='%s' crc='%x' idt='%d'/>", dbv.pszVal, "pic", 0x757f044, id);
 		forkthread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
 	}
 	else {
-		char *msgEnc=TlenTextEncode(msg);
+		char *msgEnc = TlenTextEncode(msgRAW);
 		if (msgEnc != NULL) {
 			if (TlenListExist(this, LIST_CHATROOM, dbv.pszVal) && strchr(dbv.pszVal, '/') == NULL)
 				strcpy(msgType, "groupchat");
@@ -660,7 +651,6 @@ int TlenProtocol::SendMsg(MCONTACT hContact, int flags, const char* msgRAW)
 		mir_free(msgEnc);
 	}
 
-	mir_free(msg);
 	db_free(&dbv);
 	return id;
 }

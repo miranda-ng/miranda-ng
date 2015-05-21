@@ -863,11 +863,12 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 		mir_sntprintf(image_msg, SIZEOF(image_msg), _T("[img]%s[/img]"), szPath);
 
 		PROTORECVEVENT pre = {0};
-		pre.flags = PREF_TCHAR;
 		pre.timestamp = time(NULL);
-		pre.tszMessage = image_msg;
+		pre.szMessage = mir_utf8encodeT(image_msg);
 		ProtoChainRecvMsg(hContact, &pre);
 		debugLog(_T("img_displayasmsg(): Image saved to %s."), szPath);
+
+		mir_free(pre.szMessage);
 	}
 	else
 	{

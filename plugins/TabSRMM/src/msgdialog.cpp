@@ -72,15 +72,6 @@ static void _clrMsgFilter(LPARAM lParam)
 	m->wParam = 0;
 }
 
-BOOL TSAPI IsUtfSendAvailable(MCONTACT hContact)
-{
-	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
-		return FALSE;
-
-	return (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDUTF) ? TRUE : FALSE;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // show a modified context menu for the richedit control(s)
 // @param dat			message window data
@@ -2422,8 +2413,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (job->hSendId == 0 && job->hContact == 0)
 						break;
 
-					job->hSendId = (HANDLE)CallContactService(job->hContact, PSS_MESSAGE,
-						(dat->sendMode & SMODE_FORCEANSI) ? (job->dwFlags & ~PREF_UNICODE) : job->dwFlags, (LPARAM)job->szSendBuffer);
+					job->hSendId = (HANDLE)CallContactService(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)job->szSendBuffer);
 					resent++;
 				}
 
@@ -2671,23 +2661,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (decoded.IsEmpty())
 					break;
 
-				char *utfResult = NULL;
 				if (final_sendformat)
 					DoRtfToTags(dat, decoded, SIZEOF(rtfDefColors), rtfDefColors);
 				decoded.TrimRight();
 				int bufSize = WideCharToMultiByte(dat->codePage, 0, decoded, -1, dat->sendBuffer, 0, 0, 0);
 
-				size_t memRequired = 0;
 				int flags = 0;
-				if (!IsUtfSendAvailable(dat->hContact)) {
-					flags |= PREF_UNICODE;
-					memRequired = bufSize + (mir_wstrlen(decoded) + 1) * sizeof(WCHAR);
-				}
-				else {
-					flags |= PREF_UTF;
-					utfResult = mir_utf8encodeT(decoded);
-					memRequired = strlen(utfResult) + 1;
-				}
+				char *utfResult = mir_utf8encodeT(decoded);
+				size_t memRequired = strlen(utfResult) + 1;
 
 				// try to detect RTL
 				HWND hwndEdit = GetDlgItem(hwndDlg, IDC_MESSAGE);
@@ -2711,15 +2692,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					dat->sendBuffer = (char *)mir_realloc(dat->sendBuffer, memRequired);
 					dat->iSendBufferSize = memRequired;
 				}
-				if (utfResult) {
-					memcpy(dat->sendBuffer, utfResult, memRequired);
-					mir_free(utfResult);
-				}
-				else {
-					WideCharToMultiByte(dat->codePage, 0, decoded, -1, dat->sendBuffer, bufSize, 0, 0);
-					if (flags & PREF_UNICODE)
-						memcpy(&dat->sendBuffer[bufSize], decoded, (mir_wstrlen(decoded) + 1) * sizeof(WCHAR));
-				}
+
+				memcpy(dat->sendBuffer, utfResult, memRequired);
+				mir_free(utfResult);
 
 				if (memRequired == 0 || dat->sendBuffer[0] == 0)
 					break;

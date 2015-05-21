@@ -155,7 +155,7 @@ DWORD_PTR GGPROTO::GetCaps(int type, MCONTACT hContact)
 		case PFLAGNUM_3:
 			return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_FREECHAT | PF2_INVISIBLE;
 		case PFLAGNUM_4:
-			return PF4_NOCUSTOMAUTH | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDOFFLINE | PF4_IMSENDUTF;
+			return PF4_NOCUSTOMAUTH | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDOFFLINE;
 		case PFLAGNUM_5:
 			return PF2_LONGAWAY;
 		case PFLAG_UNIQUEIDTEXT:
@@ -567,25 +567,17 @@ void __cdecl GGPROTO::sendackthread(void *ack)
 	mir_free(ack);
 }
 
-int GGPROTO::SendMsg(MCONTACT hContact, int flags, const char *msg)
+int GGPROTO::SendMsg(MCONTACT hContact, int, const char *msg)
 {
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
 	if (!isonline() || !uin)
 		return 0;
 
-	char* msg_utf8;
-	if (flags & PREF_UNICODE)
-		msg_utf8 = mir_utf8encodeW((wchar_t*)&msg[ strlen( msg )+1 ] );
-	else if (flags & PREF_UTF)
-		msg_utf8 = mir_strdup(msg);
-	else
-		msg_utf8 = mir_utf8encode(msg);
-
-	if (!msg_utf8)
+	if (!msg)
 		return 0;
 
 	gg_EnterCriticalSection(&sess_mutex, "SendMsg", 53, "sess_mutex", 1);
-	int seq = gg_send_message(sess, GG_CLASS_CHAT, uin, (BYTE*)msg_utf8);
+	int seq = gg_send_message(sess, GG_CLASS_CHAT, uin, (BYTE*)msg);
 	gg_LeaveCriticalSection(&sess_mutex, "SendMsg", 53, 1, "sess_mutex", 1);
 	if (!getByte(GG_KEY_MSGACK, GG_KEYDEF_MSGACK))
 	{
@@ -601,7 +593,6 @@ int GGPROTO::SendMsg(MCONTACT hContact, int flags, const char *msg)
 			ForkThread(&GGPROTO::sendackthread, ack);
 		}
 	}
-	mir_free(msg_utf8);
 	return seq;
 }
 

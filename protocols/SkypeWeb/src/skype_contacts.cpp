@@ -151,7 +151,6 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 				delSetting(hContact, "Auth");
 
 				PROTORECVEVENT pre = { 0 };
-				pre.flags = PREF_UTF;
 				pre.timestamp = time(NULL);
 				pre.lParam = (DWORD)(sizeof(DWORD) * 2 + mir_strlen(skypename) + reason.GetLength() + 5);
 

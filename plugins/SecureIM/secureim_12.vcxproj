@@ -203,7 +203,6 @@
     <ClInclude Include="src\options.h" />
     <ClInclude Include="src\popupOptions.h" />
     <ClInclude Include="src\resource.h" />
-    <ClInclude Include="src\rtfconv.h" />
     <ClInclude Include="src\secureim.h" />
     <ClInclude Include="src\splitmsg.h" />
     <ClInclude Include="src\svcs_clist.h" />
@@ -233,7 +232,6 @@
     <ClCompile Include="src\mmi.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\popupOptions.cpp" />
-    <ClCompile Include="src\rtfconv.cpp" />
     <ClCompile Include="src\splitmsg.cpp" />
     <ClCompile Include="src\commonheaders.cpp" />
     <ClCompile Include="src\svcs_clist.cpp" />

@@ -58,11 +58,9 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 		return;
 	}
 
-	int ReplyLen = (ad->Reply.GetLen() + 1) * (sizeof(char)+sizeof(WCHAR));
-	PBYTE pBuf = (PBYTE)_alloca(ReplyLen);
-	memcpy(pBuf, _T2A(ad->Reply), ad->Reply.GetLen() + 1);
-	memcpy(pBuf + ad->Reply.GetLen() + 1, ad->Reply, (ad->Reply.GetLen() + 1) * sizeof(WCHAR));
-	CallContactService(ad->hContact, ServiceExists(CString(szProto) + PSS_MESSAGE "W") ? (PSS_MESSAGE "W") : PSS_MESSAGE, PREF_UNICODE, (LPARAM)pBuf);
+	ptrA pszReply(mir_utf8encodeT(ad->Reply));
+	int ReplyLen = (int)mir_strlen(pszReply);
+	CallContactService(ad->hContact, PSS_MESSAGE, 0, (LPARAM)pszReply);
 
 	if (g_AutoreplyOptPage.GetDBValueCopy(IDC_REPLYDLG_LOGREPLY)) { // store in the history
 		DBEVENTINFO dbeo = { 0 };
@@ -73,7 +71,7 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 		dbeo.timestamp = time(NULL);
 
 		dbeo.cbBlob = ReplyLen;
-		dbeo.pBlob = pBuf;
+		dbeo.pBlob = (PBYTE)(char*)pszReply;
 
 		SleepEx(1000, true); // delay before sending the reply, as we need it to be later than the message we're replying to (without this delay, srmm puts the messages in a wrong order)
 		db_event_add(ad->hContact, &dbeo);

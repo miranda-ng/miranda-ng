@@ -208,9 +208,9 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return res;
 	}
 
-	int __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg)
+	int __cdecl SendMsg(MCONTACT hContact, const char* msg)
 	{
-		CCSDATA ccs = { hContact, PSS_MESSAGE, flags, (LPARAM)msg };
+		CCSDATA ccs = { hContact, PSS_MESSAGE, 0, (LPARAM)msg };
 		return (int)ProtoCallService(m_szModuleName, PSS_MESSAGE, 0, (LPARAM)&ccs);
 	}
 
