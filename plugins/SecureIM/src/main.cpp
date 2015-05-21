@@ -338,8 +338,6 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	if (bIsComCtl6)	iBmpDepth = ILC_COLOR32 | ILC_MASK;  // 32-bit images are supported
 	else		iBmpDepth = ILC_COLOR24 | ILC_MASK;
 
-	iCoreVersion = CallService(MS_SYSTEM_GETVERSION, 0, 0);
-
 	// load crypo++ dll
 	if (!loadlib()) {
 		msgbox1(0, sim107, MODULENAME, MB_OK | MB_ICONSTOP);
