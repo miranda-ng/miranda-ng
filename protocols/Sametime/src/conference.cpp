@@ -354,7 +354,7 @@ int CSametimeProto::GcEventHook(WPARAM wParam, LPARAM lParam) {
 	conferences = conf = mwServiceConference_getConferences(service_conference);
 	for (;conf;conf = conf->next) {
 		TCHAR* tszConfId = mir_utf8decodeT(mwConference_getName((mwConference*)conf->data));
-		if (_tcscmp(gch->pDest->ptszID, tszConfId) == 0) {
+		if (mir_tstrcmp(gch->pDest->ptszID, tszConfId) == 0) {
 			
 			switch(gch->pDest->iType) {
 			case GC_USER_MESSAGE:

@@ -84,7 +84,7 @@ void FacebookProto::ProcessBuddyList(void*)
 				fbu->handle = AddToContactList(fbu, CONTACT_FRIEND);
 
 			ptrT client(getTStringA(fbu->handle, "MirVer"));
-			if (!client || _tcscmp(client, fbu->getMirVer()))
+			if (!client || mir_tstrcmp(client, fbu->getMirVer()))
 				setTString(fbu->handle, "MirVer", fbu->getMirVer());
 
 			if (getDword(fbu->handle, "IdleTS", 0) != fbu->last_active) {

@@ -207,49 +207,49 @@ size_t GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Siz
 		Token[TokenIndex] = 0;
 
 		// Что получили в аккумуляторе?
-		if (!_tcscmp(Token, _T("d")))
+		if (!mir_tstrcmp(Token, _T("d")))
 		{
 			q = Duration / (60 * 60 * 24);
 			mir_sntprintf(Token, SIZEOF(Token), _T("%d"), q);
 			Duration -= q * 60 * 60 * 24;
 		}
 		else
-		if (!_tcscmp(Token, _T("h")))
+		if (!mir_tstrcmp(Token, _T("h")))
 		{
 			q = Duration / (60 * 60);
 			mir_sntprintf(Token, SIZEOF(Token), _T("%d"), q);
 			Duration -= q * 60 * 60;
 		}
 		else
-		if (!_tcscmp(Token, _T("hh")))
+		if (!mir_tstrcmp(Token, _T("hh")))
 		{
 			q = Duration / (60 * 60);
 			mir_sntprintf(Token, SIZEOF(Token), _T("%02d"), q);
 			Duration -= q * 60 * 60;
 		}
 		else
-		if (!_tcscmp(Token, _T("m")))
+		if (!mir_tstrcmp(Token, _T("m")))
 		{
 			q = Duration / 60;
 			mir_sntprintf(Token, SIZEOF(Token), _T("%d"), q);
 			Duration -= q * 60;
 		}
 		else
-		if (!_tcscmp(Token, _T("mm")))
+		if (!mir_tstrcmp(Token, _T("mm")))
 		{
 			q = Duration / 60;
 			mir_sntprintf(Token, SIZEOF(Token), _T("%02d"), q);
 			Duration -= q * 60;
 		}
 		else
-		if (!_tcscmp(Token, _T("s")))
+		if (!mir_tstrcmp(Token, _T("s")))
 		{
 			q = Duration;
 			mir_sntprintf(Token, SIZEOF(Token), _T("%d"), q);
 			Duration -= q;
 		}
 		else
-		if (!_tcscmp(Token, _T("ss")))
+		if (!mir_tstrcmp(Token, _T("ss")))
 		{
 			q = Duration;
 			mir_sntprintf(Token, SIZEOF(Token), _T("%02d"), q);

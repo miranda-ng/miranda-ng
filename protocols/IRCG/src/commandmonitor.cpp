@@ -495,7 +495,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage* pmsg)
 				if (strchr(sUserModes.c_str(), (char)*p1)) {
 					CMString sStatus = ModeToStatus(*p1);
 					if ((int)pmsg->parameters.getCount() > iParametercount) {
-						if (!_tcscmp(pmsg->parameters[2].c_str(), m_info.sNick.c_str())) {
+						if (!mir_tstrcmp(pmsg->parameters[2].c_str(), m_info.sNick.c_str())) {
 							char cModeBit = -1;
 							CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, pmsg->parameters[0].c_str(), NULL, NULL, NULL, NULL, NULL, false, false, 0);
 							switch (*p1) {
@@ -1810,7 +1810,7 @@ static void __stdcall sttShowNickWnd(void* param)
 bool CIrcProto::OnIrc_NICK_ERR(const CIrcMessage* pmsg)
 {
 	if (pmsg->m_bIncoming) {
-		if (nickflag && ((m_alternativeNick[0] != 0)) && (pmsg->parameters.getCount() > 2 && _tcscmp(pmsg->parameters[1].c_str(), m_alternativeNick))) {
+		if (nickflag && ((m_alternativeNick[0] != 0)) && (pmsg->parameters.getCount() > 2 && mir_tstrcmp(pmsg->parameters[1].c_str(), m_alternativeNick))) {
 			TCHAR m[200];
 			mir_sntprintf(m, SIZEOF(m), _T("NICK %s"), m_alternativeNick);
 			if (IsConnected())

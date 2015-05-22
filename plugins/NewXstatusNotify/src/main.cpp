@@ -202,7 +202,7 @@ TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt)
 				break;
 
 			case 'o':
-				if (n->oldstatusmsg == NULL || n->oldstatusmsg[0] == _T('\0') || _tcscmp(n->oldstatusmsg, TranslateT("<no status message>")) == 0)
+				if (n->oldstatusmsg == NULL || n->oldstatusmsg[0] == _T('\0') || mir_tstrcmp(n->oldstatusmsg, TranslateT("<no status message>")) == 0)
 					res.Append(TranslateT("<no status message>"));
 				else
 					AddCR(res, n->oldstatusmsg);

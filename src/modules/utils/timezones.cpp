@@ -150,7 +150,7 @@ static HANDLE timeapiGetInfoByName(LPCTSTR tszName, DWORD dwFlags)
 	if (tszName == NULL)
 		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? NULL : &myInfo.myTZ;
 
-	if (_tcscmp(myInfo.myTZ.tszName, tszName) == 0)
+	if (mir_tstrcmp(myInfo.myTZ.tszName, tszName) == 0)
 		return (dwFlags & TZF_DIFONLY) ? NULL : &myInfo.myTZ;
 
 	MIM_TIMEZONE tzsearch;

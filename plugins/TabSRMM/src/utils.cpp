@@ -321,7 +321,7 @@ TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat)
 			break;
 		}
 		case 'c': {
-			TCHAR	*c = (!_tcscmp(dat->pContainer->szName, _T("default")) ? TranslateT("Default container") : dat->pContainer->szName);
+			TCHAR	*c = (!mir_tstrcmp(dat->pContainer->szName, _T("default")) ? TranslateT("Default container") : dat->pContainer->szName);
 			title.insert(tempmark + 2, c);
 			title.erase(tempmark, 2);
 			curpos = tempmark + mir_tstrlen(c);

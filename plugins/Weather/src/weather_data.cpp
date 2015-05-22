@@ -162,7 +162,7 @@ void EraseAllInfo()
 		// get the handle of the default station
 		if (opt.DefStn == NULL) {
 			if ( !db_get_ts(hContact,WEATHERPROTONAME, "ID",&dbv)) {
-				if ( !_tcscmp(dbv.ptszVal, opt.Default))
+				if ( !mir_tstrcmp(dbv.ptszVal, opt.Default))
 					opt.DefStn = hContact;
 				db_free(&dbv);
 			}
@@ -195,11 +195,11 @@ void ConvertDataValue(WIDATAITEM *UpdateData, TCHAR *Data)
 	TCHAR str[MAX_DATA_LEN];
 
 	// convert the unit
-	if ( _tcscmp(Data, TranslateT("<Error>")) && _tcscmp(Data, NODATA) && _tcscmp(Data, TranslateTS(NODATA))) {
+	if ( mir_tstrcmp(Data, TranslateT("<Error>")) && mir_tstrcmp(Data, NODATA) && mir_tstrcmp(Data, TranslateTS(NODATA))) {
 		// temperature
-		if ( !_tcscmp(UpdateData->Name, _T("Temperature")) || !_tcscmp(UpdateData->Name, _T("High")) || 
-			!_tcscmp(UpdateData->Name, _T("Low")) || !_tcscmp(UpdateData->Name, _T("Feel")) || 
-			!_tcscmp(UpdateData->Name, _T("Dewpoint")) ||
+		if ( !mir_tstrcmp(UpdateData->Name, _T("Temperature")) || !mir_tstrcmp(UpdateData->Name, _T("High")) || 
+			!mir_tstrcmp(UpdateData->Name, _T("Low")) || !mir_tstrcmp(UpdateData->Name, _T("Feel")) || 
+			!mir_tstrcmp(UpdateData->Name, _T("Dewpoint")) ||
 			!_tcsicmp(UpdateData->Unit, _T("C")) || !_tcsicmp(UpdateData->Unit, _T("F")) || 
 			!_tcsicmp(UpdateData->Unit, _T("K")))
 		{
@@ -207,7 +207,7 @@ void ConvertDataValue(WIDATAITEM *UpdateData, TCHAR *Data)
 			_tcscpy(Data, str);
 		}
 		// pressure
-		else if ( !_tcscmp(UpdateData->Name, _T("Pressure")) || !_tcsicmp(UpdateData->Unit, _T("HPA")) || 
+		else if ( !mir_tstrcmp(UpdateData->Name, _T("Pressure")) || !_tcsicmp(UpdateData->Unit, _T("HPA")) || 
 			!_tcsicmp(UpdateData->Unit, _T("KPA")) || !_tcsicmp(UpdateData->Unit, _T("MB")) ||
 			!_tcsicmp(UpdateData->Unit, _T("TORR")) || !_tcsicmp(UpdateData->Unit, _T("IN")) || 
 			!_tcsicmp(UpdateData->Unit, _T("MM")))
@@ -216,7 +216,7 @@ void ConvertDataValue(WIDATAITEM *UpdateData, TCHAR *Data)
 			_tcscpy(Data, str);
 		}
 		// speed
-		else if ( !_tcscmp(UpdateData->Name, _T("Wind Speed")) || !_tcsicmp(UpdateData->Unit, _T("KM/H")) || 
+		else if ( !mir_tstrcmp(UpdateData->Name, _T("Wind Speed")) || !_tcsicmp(UpdateData->Unit, _T("KM/H")) || 
 			!_tcsicmp(UpdateData->Unit, _T("M/S")) || !_tcsicmp(UpdateData->Unit, _T("MPH")) || 
 			!_tcsicmp(UpdateData->Unit, _T("KNOTS")))
 		{
@@ -224,14 +224,14 @@ void ConvertDataValue(WIDATAITEM *UpdateData, TCHAR *Data)
 			_tcscpy(Data, str);
 		}
 		// visibility
-		else if ( !_tcscmp(UpdateData->Name, _T("Visibility")) || !_tcsicmp(UpdateData->Unit, _T("KM")) || 
+		else if ( !mir_tstrcmp(UpdateData->Name, _T("Visibility")) || !_tcsicmp(UpdateData->Unit, _T("KM")) || 
 			!_tcsicmp(UpdateData->Unit, _T("MILES")))
 		{
 			GetDist(Data, UpdateData->Unit, str);
 			_tcscpy(Data, str);
 		}
 		// elevation
-		else if ( !_tcscmp(UpdateData->Name, _T("Elevation")) || !_tcsicmp(UpdateData->Unit, _T("FT")) || 
+		else if ( !mir_tstrcmp(UpdateData->Name, _T("Elevation")) || !_tcsicmp(UpdateData->Unit, _T("FT")) || 
 			!_tcsicmp(UpdateData->Unit, _T("M")))
 		{
 			GetElev(Data, UpdateData->Unit, str);
@@ -336,7 +336,7 @@ void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szData)
 			++startloc;
 			// prevent crashes if the string go over maximun length -> generate an error
 			if (respos >= MAX_DATA_LEN) {
-				if (opt.ShowWarnings && UpdateData->Name[0] != 0 && _tcscmp(UpdateData->Name, _T("Ignore"))) {
+				if (opt.ShowWarnings && UpdateData->Name[0] != 0 && mir_tstrcmp(UpdateData->Name, _T("Ignore"))) {
 					mir_sntprintf(Data, MAX_DATA_LEN, TranslateT("Error when obtaining data: %s"), UpdateData->Name);
 					WPShowMessage(Data, SM_WARNING);
 				}

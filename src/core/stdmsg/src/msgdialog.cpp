@@ -105,7 +105,7 @@ static void AddToFileList(TCHAR ***pppFiles, int *totalCount, const TCHAR* szFil
 		HANDLE hFind = FindFirstFile(szPath, &fd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				if (!_tcscmp(fd.cFileName, _T(".")) || !_tcscmp(fd.cFileName, _T(".."))) continue;
+				if (!mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T(".."))) continue;
 				mir_sntprintf(szPath, SIZEOF(szPath), _T("%s\\%s"), szFilename, fd.cFileName);
 				AddToFileList(pppFiles, totalCount, szPath);
 			}
@@ -1095,7 +1095,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			TCHAR oldtitle[256];
 			GetWindowText(hwndDlg, oldtitle, SIZEOF(oldtitle));
-			if (_tcscmp(newtitle, oldtitle)) { //swt() flickers even if the title hasn't actually changed
+			if (mir_tstrcmp(newtitle, oldtitle)) { //swt() flickers even if the title hasn't actually changed
 				SetWindowText(hwndDlg, newtitle);
 				SendMessage(hwndDlg, WM_SIZE, 0, 0);
 			}

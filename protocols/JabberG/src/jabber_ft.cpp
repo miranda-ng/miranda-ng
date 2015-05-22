@@ -140,7 +140,7 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo)
 				if ((xNode = xmlGetChildByTag(featureNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS)) != NULL) {
 					if ((fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("stream-method"))) != NULL) {
 						if ((valueNode = xmlGetChild(fieldNode , "value")) != NULL && xmlGetText(valueNode) != NULL) {
-							if ((bDirect || bProxy) && !_tcscmp(xmlGetText(valueNode), JABBER_FEAT_BYTESTREAMS)) {
+							if ((bDirect || bProxy) && !mir_tstrcmp(xmlGetText(valueNode), JABBER_FEAT_BYTESTREAMS)) {
 								// Start Bytestream session
 								JABBER_BYTE_TRANSFER *jbt = new JABBER_BYTE_TRANSFER;
 								memset(jbt, 0, sizeof(JABBER_BYTE_TRANSFER));
@@ -154,7 +154,7 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo)
 								ft->jbt = jbt;
 								ForkThread((MyThreadFunc)&CJabberProto::ByteSendThread, jbt);
 							}
-							else if (!_tcscmp(xmlGetText(valueNode), JABBER_FEAT_IBB)) {
+							else if (!mir_tstrcmp(xmlGetText(valueNode), JABBER_FEAT_IBB)) {
 								JABBER_IBB_TRANSFER *jibb = (JABBER_IBB_TRANSFER *) mir_alloc(sizeof (JABBER_IBB_TRANSFER));
 								memset(jibb, 0, sizeof(JABBER_IBB_TRANSFER));
 								jibb->srcJID = mir_tstrdup(pInfo->m_szTo);
@@ -301,7 +301,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 
 	if (!iqNode ||
 		  (from = xmlGetAttrValue(iqNode, _T("from"))) == NULL ||
-		  (str = xmlGetAttrValue(iqNode,  _T("type"))) == NULL || _tcscmp(str, _T("set")) ||
+		  (str = xmlGetAttrValue(iqNode,  _T("type"))) == NULL || mir_tstrcmp(str, _T("set")) ||
 		  (siNode = xmlGetChildByTag(iqNode, "si", "xmlns", JABBER_FEAT_SI)) == NULL)
 		return;
 
@@ -328,7 +328,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 
 					if (!mir_tstrcmp(xmlGetName(optionNode), _T("option"))) {
 						if ((n = xmlGetChild(optionNode , "value")) != NULL && xmlGetText(n)) {
-							if (!_tcscmp(xmlGetText(n), JABBER_FEAT_BYTESTREAMS)) {
+							if (!mir_tstrcmp(xmlGetText(n), JABBER_FEAT_BYTESTREAMS)) {
 								ftType = FT_BYTESTREAM;
 								break;
 			}	}	}	}	}
@@ -342,7 +342,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 
 					if (!mir_tstrcmp(xmlGetName(optionNode), _T("option"))) {
 						if ((n = xmlGetChild(optionNode , "value")) != NULL && xmlGetText(n)) {
-							if (!_tcscmp(xmlGetText(n), JABBER_FEAT_IBB)) {
+							if (!mir_tstrcmp(xmlGetText(n), JABBER_FEAT_IBB)) {
 								ftType = FT_IBB;
 								break;
 			}	}	}	}	}

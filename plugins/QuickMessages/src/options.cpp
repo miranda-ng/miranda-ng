@@ -775,7 +775,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					hwndEdit=NULL;
 					if (!mir_tstrlen(szLabel)) break;
 					if (bd = (ButtonData*)tvi.lParam){
-						if (!_tcscmp(szLabel,_T("---"))) {
+						if (!mir_tstrcmp(szLabel,_T("---"))) {
 							if(TreeView_GetChild(hMenuTree,tvi.hItem))
 								break;
 							else{
@@ -1044,7 +1044,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				bd->dwOPPos=TreeView_GetCount(hMenuTree)-1;
 				bd->pszOpName=mir_tstrlen(namebuff)?mir_tstrdup(namebuff):mir_tstrdup(TranslateT("New Menu Entry"));
 				bd->pszOpValue=mir_tstrdup(bd->pszOpName);
-				bd->fEntryOpType=!_tcscmp(namebuff,_T("---"))?QMF_EX_SEPARATOR:0;
+				bd->fEntryOpType=!mir_tstrcmp(namebuff,_T("---"))?QMF_EX_SEPARATOR:0;
 				bd->dwOPFlags=QMF_NEW;
 				bd->pszName=NULL;
 				bd->pszValue=NULL;

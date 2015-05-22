@@ -57,12 +57,12 @@ int CFolderItem::IsEqual(const CFolderItem *other)
 
 int CFolderItem::IsEqual(const char *section, const TCHAR *name)
 {
-	return !_tcscmp(m_tszUserName, name) && !mir_strcmp(m_szSection, section);
+	return !mir_tstrcmp(m_tszUserName, name) && !mir_strcmp(m_szSection, section);
 }
 
 int CFolderItem::IsEqualTranslated(const char *trSection, const TCHAR *trName)
 {
-	return !_tcscmp(TranslateTS(m_tszUserName), trName) && !mir_strcmp(Translate(m_szSection), trSection);
+	return !mir_tstrcmp(TranslateTS(m_tszUserName), trName) && !mir_strcmp(Translate(m_szSection), trSection);
 }
 
 int CFolderItem::operator ==(const CFolderItem *other)
@@ -101,7 +101,7 @@ int CFolderItem::FolderDeleteOldDirectory(int showFolder)
 	if (!m_tszOldFormat)
 		return FOLDER_SUCCESS;
 
-	if (!_tcscmp(m_tszFormat, m_tszOldFormat)) //format wasn't changed
+	if (!mir_tstrcmp(m_tszFormat, m_tszOldFormat)) //format wasn't changed
 		return FOLDER_SUCCESS;
 
 	TCHAR buffer[MAX_FOLDER_SIZE];

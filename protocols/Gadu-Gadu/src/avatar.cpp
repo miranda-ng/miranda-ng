@@ -88,7 +88,7 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 		if (hXml != NULL) {
 			HXML node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar"), 0);
 			const TCHAR *blank = (node != NULL) ? xi.getAttrValue(node, _T("blank")) : NULL;
-			if (blank != NULL && _tcscmp(blank, _T("1"))) {
+			if (blank != NULL && mir_tstrcmp(blank, _T("1"))) {
 				node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/timestamp"), 0);
 				*avatarts = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 				node = xi.getChildByPath(hXml, _T("users/user/avatars/avatar/bigavatar"), 0); //new gg convention
@@ -112,7 +112,7 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 				ptrT respJSON_blank(json_as_string(json_get(respJSONavatar, "_blank")));
 				ptrT respJSONoriginBigAvatar(json_as_string(json_get(respJSONavatar, "originBigAvatar")));
 				ptrT respJSONtimestamp(json_as_string(json_get(respJSONavatar, "timestamp")));
-				if (respJSON_blank && _tcscmp(respJSON_blank, TEXT("1")) && respJSONoriginBigAvatar && respJSONtimestamp){
+				if (respJSON_blank && mir_tstrcmp(respJSON_blank, TEXT("1")) && respJSONoriginBigAvatar && respJSONtimestamp){
 					*avatarurl = mir_t2a(respJSONoriginBigAvatar);
 					*avatarts = mir_t2a(respJSONtimestamp);
 				}

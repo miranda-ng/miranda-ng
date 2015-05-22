@@ -53,7 +53,7 @@ struct PluginListItemData
 
 static int sttSortPlugins(const PluginListItemData *p1, const PluginListItemData *p2)
 {
-	return _tcscmp(p1->fileName, p2->fileName);
+	return mir_tstrcmp(p1->fileName, p2->fileName);
 }
 
 static LIST<PluginListItemData> arPluginList(10, sttSortPlugins);
@@ -299,7 +299,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 static int CALLBACK SortPlugins(WPARAM i1, LPARAM i2, LPARAM)
 {
 	PluginListItemData *p1 = (PluginListItemData*)i1, *p2 = (PluginListItemData*)i2;
-	return _tcscmp(p1->fileName, p2->fileName);
+	return mir_tstrcmp(p1->fileName, p2->fileName);
 }
 
 static TCHAR *latin2t(const char *p)

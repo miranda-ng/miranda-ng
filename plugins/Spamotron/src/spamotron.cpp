@@ -305,7 +305,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	// Completely reject if duplicate incoming message found
 	if (_getOptD("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay) > 0 &&
 		_getCOptD(hContact, "SameMsgCount", 0) >= _getOptD("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay) &&
-		_tcscmp(message, _getCOptS(buf, buflen, hContact, "LastInMsg", _T(""))) == 0) {
+		mir_tstrcmp(message, _getCOptS(buf, buflen, hContact, "LastInMsg", _T(""))) == 0) {
 			_notify(hContact, POPUP_BLOCKED, TranslateT("Message from %s rejected because it reached a maximum for same responses per day."), message);
 			if (bayesEnabled)
 				queue_message(hContact, dbei->timestamp, message);
@@ -438,7 +438,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 
 	// Save Last Msg and update SameMsgCount
 	if (message != NULL) {
-		if (_tcscmp(_getCOptS(buf, buflen, hContact, "LastInMsg", _T("")), message) == 0)
+		if (mir_tstrcmp(_getCOptS(buf, buflen, hContact, "LastInMsg", _T("")), message) == 0)
 			_setCOptD(hContact, "SameMsgCount", 1+_getCOptD(hContact, "SameMsgCount", 0));
 		else 
 			_setCOptD(hContact, "SameMsgCount", 1);

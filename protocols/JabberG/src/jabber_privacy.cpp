@@ -77,7 +77,7 @@ void CJabberProto::OnIqResultPrivacyList(HXML iqNode, CJabberIqInfo*)
 	if (type == NULL)
 		return;
 
-	if ( _tcscmp(type, _T("result")))
+	if ( mir_tstrcmp(type, _T("result")))
 		return;
 
 	HXML query = xmlGetChild(iqNode , "query");
@@ -185,7 +185,7 @@ void CJabberProto::OnIqResultPrivacyListActive(HXML iqNode, CJabberIqInfo *pInfo
 
 	CMString szText;
 
-	if (!_tcscmp(type, _T("result"))) {
+	if (!mir_tstrcmp(type, _T("result"))) {
 		mir_cslock lck(m_privacyListManager.m_cs);
 		if (pList) {
 			m_privacyListManager.SetActiveListName(pList->GetListName());
@@ -222,7 +222,7 @@ void CJabberProto::OnIqResultPrivacyListDefault(HXML iqNode, CJabberIqInfo *pInf
 	szText[0] = 0;
 	{
 		mir_cslock lck(m_privacyListManager.m_cs);
-		if (!_tcscmp(type, _T("result"))) {
+		if (!mir_tstrcmp(type, _T("result"))) {
 			CPrivacyList *pList = (CPrivacyList *)pInfo->GetUserData();
 			if (pList) {
 				m_privacyListManager.SetDefaultListName(pList->GetListName());
@@ -1870,8 +1870,8 @@ void CJabberDlgPrivacyLists::btnRemoveList_OnClick(CCtrlButton *)
 	CPrivacyList *pList = GetSelectedList(m_hwnd);
 	if (pList) {
 		TCHAR *szListName = pList->GetListName();
-		if ((m_proto->m_privacyListManager.GetActiveListName() && !_tcscmp(szListName, m_proto->m_privacyListManager.GetActiveListName())) ||
-			 (m_proto->m_privacyListManager.GetDefaultListName() && !_tcscmp(szListName, m_proto->m_privacyListManager.GetDefaultListName())))
+		if ((m_proto->m_privacyListManager.GetActiveListName() && !mir_tstrcmp(szListName, m_proto->m_privacyListManager.GetActiveListName())) ||
+			 (m_proto->m_privacyListManager.GetDefaultListName() && !mir_tstrcmp(szListName, m_proto->m_privacyListManager.GetDefaultListName())))
 		{
 			lck.unlock();
 			MessageBox(m_hwnd, TranslateT("Can't remove active or default list"), TranslateT("Sorry"), MB_OK | MB_ICONSTOP);

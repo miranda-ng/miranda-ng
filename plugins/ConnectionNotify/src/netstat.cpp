@@ -126,8 +126,8 @@ void deleteConnectionsTable(struct CONNECTION *head)
 struct CONNECTION *searchConnection(struct CONNECTION *head, TCHAR *intIp, TCHAR *extIp, int intPort, int extPort, int state)
 {
 	for (struct CONNECTION *cur = head; cur != NULL; cur = cur->next) {
-		if (_tcscmp(cur->strIntIp, intIp) == 0 &&
-			_tcscmp(cur->strExtIp, extIp) == 0 &&
+		if (mir_tstrcmp(cur->strIntIp, intIp) == 0 &&
+			mir_tstrcmp(cur->strExtIp, extIp) == 0 &&
 			cur->intExtPort == extPort &&
 			cur->intIntPort == intPort &&
 			cur->state == state)

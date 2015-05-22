@@ -119,7 +119,7 @@ tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact){
 	return tstrFormat;
 }
 
-// case-insensitive _tcscmp
+// case-insensitive mir_tstrcmp
 //by nullbie as i remember...
 #define NEWTSTR_MALLOC(A) (A==NULL) ? NULL : _tcscpy((TCHAR*)mir_alloc(sizeof(TCHAR)*(mir_tstrlen(A)+1)),A)
 const int Stricmp(const TCHAR *str, const TCHAR *substr)
@@ -132,7 +132,7 @@ const int Stricmp(const TCHAR *str, const TCHAR *substr)
 	CharUpperBuff(str_up, mir_tstrlen(str_up));
 	CharUpperBuff(substr_up, mir_tstrlen(substr_up));
 
-	i = _tcscmp(str_up, substr_up);
+	i = mir_tstrcmp(str_up, substr_up);
 
 	mir_free(str_up);
 	mir_free(substr_up);

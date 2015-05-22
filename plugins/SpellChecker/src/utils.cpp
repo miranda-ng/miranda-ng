@@ -1593,7 +1593,7 @@ BOOL lstreq(TCHAR *a, TCHAR *b, size_t len)
 	if (len >= 0)
 		ret = !_tcsncmp(a, b, len);
 	else
-		ret = !_tcscmp(a, b);
+		ret = !mir_tstrcmp(a, b);
 	free(a);
 	free(b);
 	return ret;

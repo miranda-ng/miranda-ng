@@ -120,7 +120,7 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 		mir_sntprintf(tszFinalName, SIZEOF(tszFinalName), _T("%s%s"), tszFolder, fd.cFileName);
 
 		GetPrivateProfileString(_T("Global"), _T("Name"), _T("None"), szBuf, SIZEOF(szBuf), tszFinalName);
-		if (!_tcscmp(szBuf, _T("None"))) {
+		if (!mir_tstrcmp(szBuf, _T("None"))) {
 			fd.cFileName[mir_tstrlen(fd.cFileName) - 4] = 0;
 			_tcsncpy_s(szBuf, fd.cFileName, _TRUNCATE);
 		}

@@ -49,7 +49,7 @@ PLUGININFOEX pluginInfo = {
 // Protocol instances
 static int compare_protos(const FacebookProto *p1, const FacebookProto *p2)
 {
-	return _tcscmp(p1->m_tszUserName, p2->m_tszUserName);
+	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
 OBJLIST<FacebookProto> g_Instances(1, compare_protos);

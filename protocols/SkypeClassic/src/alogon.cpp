@@ -30,7 +30,7 @@ static HWND findWindow(HWND parent, const TCHAR* childClassName)
 	// Get child window
 	// This window is not combo box or edit box
 	HWND wnd = GetWindow(parent, GW_CHILD);
-	while (wnd != NULL && _tcscmp(getClassName(wnd), childClassName) != 0)
+	while (wnd != NULL && mir_tstrcmp(getClassName(wnd), childClassName) != 0)
 		wnd = GetWindow(wnd, GW_HWNDNEXT);
 
 	return wnd;
@@ -42,8 +42,8 @@ static BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
 	GetWindowThreadProcessId(hWnd, &dwPID);
 	if (lParam != 0 && dwPID != (DWORD)lParam) return TRUE;
 	const TCHAR *lpszClassName = getClassName(hWnd);
-	if (_tcscmp(lpszClassName, _T("tSkMainForm.UnicodeClass")) == 0 ||
-		_tcscmp(lpszClassName, _T("TLoginForm.UnicodeClass")) == 0)
+	if (mir_tstrcmp(lpszClassName, _T("tSkMainForm.UnicodeClass")) == 0 ||
+		mir_tstrcmp(lpszClassName, _T("TLoginForm.UnicodeClass")) == 0)
 	{
 		HWND loginControl = GetWindow(hWnd, GW_CHILD);
 
@@ -55,7 +55,7 @@ static BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
 		LOG(("TLoginControl = %S", getClassName(loginControl)));
 
 		// Check for login control
-		if (_tcscmp(getClassName(loginControl), _T("TLoginControl")) == 0)
+		if (mir_tstrcmp(getClassName(loginControl), _T("TLoginControl")) == 0)
 		{
 			// Find user name window
 			HWND userName = findWindow(loginControl, _T("TNavigableTntComboBox.UnicodeClass"));

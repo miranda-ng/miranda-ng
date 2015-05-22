@@ -339,7 +339,7 @@ INT_PTR GGPROTO::setmyavatar(WPARAM wParam, LPARAM lParam)
 
 	TCHAR szMyFilename[MAX_PATH];
 	getAvatarFilename(NULL, szMyFilename, SIZEOF(szMyFilename));
-	if ( _tcscmp(szFilename, szMyFilename) && !CopyFile(szFilename, szMyFilename, FALSE)) {
+	if ( mir_tstrcmp(szFilename, szMyFilename) && !CopyFile(szFilename, szMyFilename, FALSE)) {
 		debugLogA("setmyavatar(): Failed to set user avatar. File with type %d could not be created/overwritten.", iAvType);
 		return -1;
 	}

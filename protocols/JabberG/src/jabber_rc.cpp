@@ -71,7 +71,7 @@ BOOL CJabberAdhocManager::HandleItemsRequest(HXML, CJabberIqInfo *pInfo, const T
 	if (!szNode || !m_pProto->m_options.EnableRemoteControl || !m_pProto->IsRcRequestAllowedByACL(pInfo))
 		return FALSE;
 
-	if (!_tcscmp(szNode, JABBER_FEAT_COMMANDS)) {
+	if (!mir_tstrcmp(szNode, JABBER_FEAT_COMMANDS)) {
 		XmlNodeIq iq(_T("result"), pInfo);
 		HXML resultQuery = iq << XQUERY(JABBER_FEAT_DISCO_ITEMS) << XATTR(_T("node"), JABBER_FEAT_COMMANDS);
 		{
@@ -102,7 +102,7 @@ BOOL CJabberAdhocManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, const TC
 		return FALSE;
 
 	// FIXME: same code twice
-	if (!_tcscmp(szNode, JABBER_FEAT_COMMANDS)) {
+	if (!mir_tstrcmp(szNode, JABBER_FEAT_COMMANDS)) {
 		XmlNodeIq iq(_T("result"), pInfo);
 		HXML resultQuery = iq << XQUERY(JABBER_FEAT_DISCO_INFO) << XATTR(_T("node"), JABBER_FEAT_COMMANDS);
 		resultQuery << XCHILD(_T("identity")) << XATTR(_T("name"), _T("Ad-hoc commands"))
@@ -346,13 +346,13 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhoc
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		int status;
-		if (!_tcscmp(ptszValue, _T("away"))) status = ID_STATUS_AWAY;
-		else if (!_tcscmp(ptszValue, _T("xa"))) status = ID_STATUS_NA;
-		else if (!_tcscmp(ptszValue, _T("dnd"))) status = ID_STATUS_DND;
-		else if (!_tcscmp(ptszValue, _T("chat"))) status = ID_STATUS_FREECHAT;
-		else if (!_tcscmp(ptszValue, _T("online"))) status = ID_STATUS_ONLINE;
-		else if (!_tcscmp(ptszValue, _T("invisible"))) status = ID_STATUS_INVISIBLE;
-		else if (!_tcscmp(ptszValue, _T("offline"))) status = ID_STATUS_OFFLINE;
+		if (!mir_tstrcmp(ptszValue, _T("away"))) status = ID_STATUS_AWAY;
+		else if (!mir_tstrcmp(ptszValue, _T("xa"))) status = ID_STATUS_NA;
+		else if (!mir_tstrcmp(ptszValue, _T("dnd"))) status = ID_STATUS_DND;
+		else if (!mir_tstrcmp(ptszValue, _T("chat"))) status = ID_STATUS_FREECHAT;
+		else if (!mir_tstrcmp(ptszValue, _T("online"))) status = ID_STATUS_ONLINE;
+		else if (!mir_tstrcmp(ptszValue, _T("invisible"))) status = ID_STATUS_INVISIBLE;
+		else if (!mir_tstrcmp(ptszValue, _T("offline"))) status = ID_STATUS_OFFLINE;
 		else
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
@@ -763,7 +763,7 @@ int CJabberProto::AdhocLeaveGroupchatsHandler(HXML, CJabberIqInfo *pInfo, CJabbe
 		if (fieldNode) {
 			for (i=0; i < xmlGetChildCount(fieldNode); i++) {
 				HXML valueNode = xmlGetChild(fieldNode, i);
-				if (valueNode && xmlGetName(valueNode) && xmlGetText(valueNode) && !_tcscmp(xmlGetName(valueNode), _T("value"))) {
+				if (valueNode && xmlGetName(valueNode) && xmlGetText(valueNode) && !mir_tstrcmp(xmlGetName(valueNode), _T("value"))) {
 					JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, xmlGetText(valueNode));
 					if (item)
 						GcQuit(item, 0, NULL);

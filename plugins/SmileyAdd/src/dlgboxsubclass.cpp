@@ -150,24 +150,24 @@ public:
 		TCHAR szClassName[32] = _T("");
 
 		GetClassName(hwnd, szClassName, SIZEOF(szClassName));
-		if (_tcscmp(szClassName, _T("#32770")))
+		if (mir_tstrcmp(szClassName, _T("#32770")))
 			return false;  
 
 		if ((REdit = GetDlgItem(hwnd, MI_IDC_LOG)) != NULL) {
 			GetClassName(REdit, szClassName, SIZEOF(szClassName));
-			if (_tcscmp(szClassName, _T("RichEdit20A")) != 0 && 
-				 _tcscmp(szClassName, _T("RichEdit20W")) != 0 &&
-				 _tcscmp(szClassName, _T("RICHEDIT50W")) != 0)
+			if (mir_tstrcmp(szClassName, _T("RichEdit20A")) != 0 && 
+				 mir_tstrcmp(szClassName, _T("RichEdit20W")) != 0 &&
+				 mir_tstrcmp(szClassName, _T("RICHEDIT50W")) != 0)
 				return false; 
 		}
 		else return false; 
 
 		if ((MEdit = GetDlgItem(hwnd, MI_IDC_MESSAGE)) != NULL) {
 			GetClassName(MEdit, szClassName, SIZEOF(szClassName));
-			if (_tcscmp(szClassName, _T("Edit")) != 0 &&  
-				 _tcscmp(szClassName, _T("RichEdit20A")) != 0 && 
-				 _tcscmp(szClassName, _T("RichEdit20W")) != 0 &&
-				 _tcscmp(szClassName, _T("RICHEDIT50W")) != 0)
+			if (mir_tstrcmp(szClassName, _T("Edit")) != 0 &&  
+				 mir_tstrcmp(szClassName, _T("RichEdit20A")) != 0 && 
+				 mir_tstrcmp(szClassName, _T("RichEdit20W")) != 0 &&
+				 mir_tstrcmp(szClassName, _T("RICHEDIT50W")) != 0)
 				return false; 
 		}
 		else return false;

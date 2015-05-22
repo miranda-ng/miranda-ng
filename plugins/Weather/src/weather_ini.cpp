@@ -53,7 +53,7 @@ WIDATA* GetWIData(TCHAR *pszServ)
 	// loop through the list to find matching internal name
 	for (WIDATALIST *Item = WIHead;Item != NULL;Item = Item->next)
 		// if internal name found, return the data
-		if ( _tcscmp(Item->Data.InternalName, pszServ) == 0)
+		if ( mir_tstrcmp(Item->Data.InternalName, pszServ) == 0)
 			return &Item->Data;
 		
 	// return NULL when no match found

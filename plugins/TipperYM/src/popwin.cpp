@@ -1219,7 +1219,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (pwd->rows[i].swzValue && pwd->rows[i].swzValue[0]) {
 					if (!bStatusMsg && opt.bGetNewStatusMsg) {
-						if (!_tcscmp(pwd->rows[i].swzValue, _T("%sys:status_msg%")))
+						if (!mir_tstrcmp(pwd->rows[i].swzValue, _T("%sys:status_msg%")))
 							bStatusMsg = true;
 					}
 

@@ -456,7 +456,7 @@ protected:
 
 		for (int i=0; g_LanguageCodes[i].szCode; i++) {
 			int iItem = m_cbLocale.AddString(TranslateTS(g_LanguageCodes[i].szDescription), (LPARAM)g_LanguageCodes[i].szCode);
-			if (!_tcscmp(m_proto->m_tszSelectedLang, g_LanguageCodes[i].szCode))
+			if (!mir_tstrcmp(m_proto->m_tszSelectedLang, g_LanguageCodes[i].szCode))
 				m_cbLocale.SetCurSel(iItem);
 		}
 

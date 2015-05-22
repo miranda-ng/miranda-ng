@@ -169,7 +169,7 @@ protected:
 	{
 		CJabberAdhocSession* pSession = m_pSessions;
 		while (pSession) {
-			if (!_tcscmp(pSession->GetSessionId(), szSession))
+			if (!mir_tstrcmp(pSession->GetSessionId(), szSession))
 				return pSession;
 			pSession = pSession->GetNext();
 		}
@@ -192,7 +192,7 @@ protected:
 	{
 		CJabberAdhocNode* pNode = m_pNodes;
 		while (pNode) {
-			if (!_tcscmp(pNode->GetNode(), szNode))
+			if (!mir_tstrcmp(pNode->GetNode(), szNode))
 				return pNode;
 			pNode = pNode->GetNext();
 		}

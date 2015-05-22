@@ -254,17 +254,17 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 {
 	bool recv = false;
 
-	if (!_tcscmp(swzRawSpec, _T("uid")))
+	if (!mir_tstrcmp(swzRawSpec, _T("uid")))
 		return Uid(hContact, 0, buff, bufflen);
 
-	if (!_tcscmp(swzRawSpec, _T("proto"))) {
+	if (!mir_tstrcmp(swzRawSpec, _T("proto"))) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto) {
 			a2t(szProto, buff, bufflen);
 			return true;
 		}
 	}
-	else if (!_tcscmp(swzRawSpec, _T("account"))) {
+	else if (!mir_tstrcmp(swzRawSpec, _T("account"))) {
 		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, hContact, 0);
 		if ((INT_PTR)szProto == CALLSERVICE_NOTFOUND) {
 			return GetSysSubstText(hContact, _T("proto"), buff, bufflen);
@@ -279,15 +279,15 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 				return GetSysSubstText(hContact, _T("proto"), buff, bufflen);
 		}
 	}
-	else if (!_tcscmp(swzRawSpec, _T("time"))) {
+	else if (!mir_tstrcmp(swzRawSpec, _T("time"))) {
 		if (tmi.printDateTime && !tmi.printDateTimeByContact(hContact, _T("t"), buff, bufflen, TZF_KNOWNONLY))
 			return true;
 	}
-	else if (!_tcscmp(swzRawSpec, _T("uidname"))) {
+	else if (!mir_tstrcmp(swzRawSpec, _T("uidname"))) {
 		char *szProto = GetContactProto(hContact);
 		return UidName(szProto, buff, bufflen);
 	}
-	else if (!_tcscmp(swzRawSpec, _T("status_msg"))) {
+	else if (!mir_tstrcmp(swzRawSpec, _T("status_msg"))) {
 		TCHAR *swzMsg = GetStatusMessageText(hContact);
 		if (swzMsg) {
 			_tcsncpy(buff, swzMsg, bufflen);
@@ -295,7 +295,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 			return true;
 		}
 	}
-	else if ((recv = !_tcscmp(swzRawSpec, _T("last_msg"))) || !_tcscmp(swzRawSpec, _T("last_msg_out"))) {
+	else if ((recv = !mir_tstrcmp(swzRawSpec, _T("last_msg"))) || !mir_tstrcmp(swzRawSpec, _T("last_msg_out"))) {
 		TCHAR *swzMsg = GetLastMessageText(hContact, recv);
 		if (swzMsg) {
 			_tcsncpy(buff, swzMsg, bufflen);
@@ -303,7 +303,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 			return true;
 		}
 	}
-	else if (!_tcscmp(swzRawSpec, _T("meta_subname"))) {
+	else if (!mir_tstrcmp(swzRawSpec, _T("meta_subname"))) {
 		// get contact list name of active subcontact
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		if (!hSubContact)
@@ -313,32 +313,32 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 		if (swzNick) _tcsncpy(buff, swzNick, bufflen);
 		return true;
 	}
-	else if (!_tcscmp(swzRawSpec, _T("meta_subuid"))) {
+	else if (!mir_tstrcmp(swzRawSpec, _T("meta_subuid"))) {
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		if (!hSubContact || (INT_PTR)hSubContact == CALLSERVICE_NOTFOUND)
 			return false;
 		return Uid(hSubContact, 0, buff, bufflen);
 	}
-	else if (!_tcscmp(swzRawSpec, _T("meta_subproto"))) {
+	else if (!mir_tstrcmp(swzRawSpec, _T("meta_subproto"))) {
 		// get protocol of active subcontact
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		if (!hSubContact || (INT_PTR)hSubContact == CALLSERVICE_NOTFOUND)
 			return false;
 		return GetSysSubstText(hSubContact, _T("account"), buff, bufflen);
 	}
-	else if ((recv = !_tcscmp(swzRawSpec, _T("last_msg_time"))) || !_tcscmp(swzRawSpec, _T("last_msg_out_time"))) {
+	else if ((recv = !mir_tstrcmp(swzRawSpec, _T("last_msg_time"))) || !mir_tstrcmp(swzRawSpec, _T("last_msg_out_time"))) {
 		DWORD ts = LastMessageTimestamp(hContact, recv);
 		if (ts == 0) return false;
 		FormatTimestamp(ts, "t", buff, bufflen);
 		return true;
 	}
-	else if ((recv = !_tcscmp(swzRawSpec, _T("last_msg_date"))) || !_tcscmp(swzRawSpec, _T("last_msg_out_date"))) {
+	else if ((recv = !mir_tstrcmp(swzRawSpec, _T("last_msg_date"))) || !mir_tstrcmp(swzRawSpec, _T("last_msg_out_date"))) {
 		DWORD ts = LastMessageTimestamp(hContact, recv);
 		if (ts == 0) return false;
 		FormatTimestamp(ts, "d", buff, bufflen);
 		return true;
 	}
-	else if ((recv = !_tcscmp(swzRawSpec, _T("last_msg_reltime"))) || !_tcscmp(swzRawSpec, _T("last_msg_out_reltime"))) {
+	else if ((recv = !mir_tstrcmp(swzRawSpec, _T("last_msg_reltime"))) || !mir_tstrcmp(swzRawSpec, _T("last_msg_out_reltime"))) {
 		DWORD ts = LastMessageTimestamp(hContact, recv);
 		if (ts == 0) return false;
 		DWORD t = (DWORD)time(0);
@@ -351,7 +351,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 		else mir_sntprintf(buff, bufflen, TranslateT("%dm"), m);
 		return true;
 	}
-	else if (!_tcscmp(swzRawSpec, _T("msg_count_all")) || !_tcscmp(swzRawSpec, _T("msg_count_out")) || !_tcscmp(swzRawSpec, _T("msg_count_in"))) {
+	else if (!mir_tstrcmp(swzRawSpec, _T("msg_count_all")) || !mir_tstrcmp(swzRawSpec, _T("msg_count_out")) || !mir_tstrcmp(swzRawSpec, _T("msg_count_in"))) {
 		DWORD dwCountOut, dwCountIn;
 		DWORD dwMetaCountOut = 0, dwMetaCountIn = 0;
 		DWORD dwLastTs, dwNewTs, dwRecountTs;
@@ -409,9 +409,9 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 			dwMetaCountIn += dwCountIn;
 		}
 
-		if (!_tcscmp(swzRawSpec, _T("msg_count_out")))
+		if (!mir_tstrcmp(swzRawSpec, _T("msg_count_out")))
 			mir_sntprintf(buff, bufflen, _T("%d"), dwMetaCountOut);
-		else if (!_tcscmp(swzRawSpec, _T("msg_count_in")))
+		else if (!mir_tstrcmp(swzRawSpec, _T("msg_count_in")))
 			mir_sntprintf(buff, bufflen, _T("%d"), dwMetaCountIn);
 		else
 			mir_sntprintf(buff, bufflen, _T("%d"), dwMetaCountOut + dwMetaCountIn);
@@ -572,7 +572,7 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 						// see if we can find the bSubst
 						DSListNode *ds_node = opt.dsList;
 						while (ds_node) {
-							if (_tcscmp(ds_node->ds.swzName, p) == 0)
+							if (mir_tstrcmp(ds_node->ds.swzName, p) == 0)
 								break;
 
 							ds_node = ds_node->next;
@@ -605,7 +605,7 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 					// see if we can find the bSubst
 					DSListNode *ds_node = opt.dsList;
 					while (ds_node) {
-						if (_tcscmp(ds_node->ds.swzName, swzVName) == 0)
+						if (mir_tstrcmp(ds_node->ds.swzName, swzVName) == 0)
 							break;
 
 						ds_node = ds_node->next;

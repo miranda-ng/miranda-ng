@@ -106,7 +106,7 @@ static TCHAR *parseFixeol(ARGUMENTSINFO *ai)
 		return NULL;
 
 	TCHAR *cur = ai->targv[1];
-	while (_tcscmp(cur, _T("\r\n")) && *cur != '\n' && *cur != 0)
+	while (mir_tstrcmp(cur, _T("\r\n")) && *cur != '\n' && *cur != 0)
 		cur++;
 
 	if (*cur == '\0')
@@ -500,7 +500,7 @@ static TCHAR *parseStrcmp(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return NULL;
 
-	if (_tcscmp(ai->targv[1], ai->targv[2]))
+	if (mir_tstrcmp(ai->targv[1], ai->targv[2]))
 		ai->flags |= AIF_FALSE;
 
 	return mir_tstrdup(_T(""));
@@ -513,7 +513,7 @@ static TCHAR *parseStrmcmp(ARGUMENTSINFO *ai)
 
 	ai->flags |= AIF_FALSE;
 	for (unsigned i = 2; i < ai->argc; i++) {
-		if (!_tcscmp(ai->targv[1], ai->targv[i])) {
+		if (!mir_tstrcmp(ai->targv[1], ai->targv[i])) {
 			ai->flags &= ~AIF_FALSE;
 			break;
 		}
@@ -625,7 +625,7 @@ static TCHAR *parseSwitch(ARGUMENTSINFO *ai)
 		return NULL;
 
 	for (unsigned i = 2; i < ai->argc; i += 2)
-	if (!_tcscmp(ai->targv[1], ai->targv[i]))
+	if (!mir_tstrcmp(ai->targv[1], ai->targv[i]))
 		return mir_tstrdup(ai->targv[i + 1]);
 
 	return NULL;

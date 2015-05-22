@@ -55,15 +55,15 @@ int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS *ft, const PROTOCHAR *s, TCHAR
 {
 	if (ft->flags & PFTS_UTF) {
 		TCHAR *ts = Utf8DecodeW((char*)s);
-		int res = _tcscmp(ts, r);
+		int res = mir_tstrcmp(ts, r);
 		mir_free(ts);
 		return res;
 	}
 	if (ft->flags & PFTS_UNICODE)
-		return _tcscmp(s, r);
+		return mir_tstrcmp(s, r);
 
 	TCHAR *ts = mir_a2t((char*)s);
-	int res = _tcscmp(ts, r);
+	int res = mir_tstrcmp(ts, r);
 	mir_free(ts);
 	return res;
 }
@@ -606,7 +606,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					mir_sntprintf(str, SIZEOF(str), _T("%s/%s"), szSizeDone, szSizeTotal);
 					str2[0] = 0;
 					GetDlgItemText(hwndDlg, IDC_ALLTRANSFERRED, str2, SIZEOF(str2));
-					if (_tcscmp(str, str2))
+					if (mir_tstrcmp(str, str2))
 						SetDlgItemText(hwndDlg, IDC_ALLTRANSFERRED, str);
 				}
 				break;

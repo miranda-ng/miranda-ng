@@ -151,7 +151,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		TranslateDialogDefault(hwndDlg);
 		SetWindowText(hwndDlg, TranslateT("Container options"));
 		TCHAR szNewTitle[128];
-		mir_sntprintf(szNewTitle, SIZEOF(szNewTitle), _T("%s"), !_tcscmp(pContainer->szName, _T("default")) ?
+		mir_sntprintf(szNewTitle, SIZEOF(szNewTitle), _T("%s"), !mir_tstrcmp(pContainer->szName, _T("default")) ?
 			TranslateT("Default container") : pContainer->szName);
 		SetDlgItemText(hwndDlg, IDC_HEADERBAR, szNewTitle);
 		Utils::enableDlgControl(hwndDlg, IDC_O_HIDETITLE, !CSkin::m_frameSkins);
@@ -334,7 +334,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				szFilename[MAX_PATH - 1] = 0;
 				PathToAbsoluteT(szFilename, szFinalThemeFile, M.getDataPath());
 
-				if (_tcscmp(szFilename, pContainer->szRelThemeFile))
+				if (mir_tstrcmp(szFilename, pContainer->szRelThemeFile))
 					pContainer->fPrivateThemeChanged = TRUE;
 
 				if (PathFileExists(szFinalThemeFile))

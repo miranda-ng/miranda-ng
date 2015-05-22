@@ -1791,7 +1791,7 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hCo
 	_tcsncpy(pContainer->szName, name, CONTAINER_NAMELEN + 1);
 	AppendToContainerList(pContainer);
 
-	if (M.GetByte("limittabs", 0) && !_tcscmp(name, _T("default")))
+	if (M.GetByte("limittabs", 0) && !mir_tstrcmp(name, _T("default")))
 		iTemp |= CNT_CREATEFLAG_CLONED;
 
 	// save container name to the db
@@ -2143,7 +2143,7 @@ HMENU TSAPI BuildContainerMenu()
 			break;
 
 		if (_tcsncmp(tszName, _T("**mir_free**"), CONTAINER_NAMELEN))
-			AppendMenu(hMenu, MF_STRING, IDM_CONTAINERMENU + i, !_tcscmp(tszName, _T("default")) ? TranslateT("Default container") : tszName);
+			AppendMenu(hMenu, MF_STRING, IDM_CONTAINERMENU + i, !mir_tstrcmp(tszName, _T("default")) ? TranslateT("Default container") : tszName);
 		i++;
 	}
 

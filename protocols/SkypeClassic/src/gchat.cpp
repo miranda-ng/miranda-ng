@@ -42,7 +42,7 @@ static CRITICAL_SECTION m_GCMutex;
 */
 gchat_contacts *GetChat(const TCHAR *szChatId) {
 	for (int i=0;i<chatcount;i++)
-		if (!_tcscmp(chats[i].szChatName, szChatId))
+		if (!mir_tstrcmp(chats[i].szChatName, szChatId))
 			return &chats[i];
 
 	gchat_contacts *pchats = (gchat_contacts *)realloc(chats, sizeof(gchat_contacts)*(++chatcount));
@@ -62,7 +62,7 @@ gchat_contacts *GetChat(const TCHAR *szChatId) {
  */
 void RemChat(TCHAR *szChatId) {
 	for (int i=0;i<chatcount;i++)
-		if (!_tcscmp(chats[i].szChatName, szChatId)) {
+		if (!mir_tstrcmp(chats[i].szChatName, szChatId)) {
 			if (chats[i].szChatName) free(chats[i].szChatName);
 			if (chats[i].mJoinedContacts) free(chats[i].mJoinedContacts);
 			if (i<--chatcount) memmove(&chats[i], &chats[i+1], (chatcount-i)*sizeof(gchat_contacts));
@@ -83,7 +83,7 @@ void RemChat(TCHAR *szChatId) {
  */
 static int ExistsChatContact(gchat_contacts *gc, const TCHAR *who) {
 	for (int i=0;i<gc->mJoinedCount;i++)
-		if (_tcscmp(gc->mJoinedContacts[i].who, who)==0)
+		if (mir_tstrcmp(gc->mJoinedContacts[i].who, who)==0)
 			return i;
 	return -1;
 }
@@ -153,7 +153,7 @@ void RemChatContact(gchat_contacts *gc, const TCHAR *who) {
 	if (!gc)
 		return;
 	for (int i=0;i<gc->mJoinedCount;i++)
-		if (_tcscmp(gc->mJoinedContacts[i].who, who)==0) {
+		if (mir_tstrcmp(gc->mJoinedContacts[i].who, who)==0) {
 			if (i<--gc->mJoinedCount) 
 				memmove(&gc->mJoinedContacts[i], &gc->mJoinedContacts[i+1], (gc->mJoinedCount-i)*sizeof(gchat_contact));
 			if (gc->mJoinedCount) gc->mJoinedContacts = (gchat_contact*)realloc(gc->mJoinedContacts, sizeof(gchat_contact)*gc->mJoinedCount);
@@ -168,7 +168,7 @@ MCONTACT find_chat(LPCTSTR chatname) {
 		{
 			DBVARIANT dbv;
 			if (!db_get_ts(hContact, SKYPE_PROTONAME, "ChatRoomID", &dbv)) {
-				int tCompareResult = _tcscmp(dbv.ptszVal, chatname);
+				int tCompareResult = mir_tstrcmp(dbv.ptszVal, chatname);
 				db_free(&dbv);
 				if (!tCompareResult)
 					return hContact; // already there, return handle
@@ -768,7 +768,7 @@ int __cdecl  GCMenuHook(WPARAM,LPARAM lParam) {
 					else {
 						TCHAR *szChatRole;
 						if (szChatRole = SkypeGetT ("CHAT", gcmi->pszID, "MYROLE")) {
-							if (_tcscmp(szChatRole, _T("MASTER")) && _tcscmp(szChatRole, _T("CREATOR")))
+							if (mir_tstrcmp(szChatRole, _T("MASTER")) && mir_tstrcmp(szChatRole, _T("CREATOR")))
 								Item_nicklist[2].bDisabled = TRUE;
 							free (szChatRole);
 						}

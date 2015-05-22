@@ -264,7 +264,7 @@ int lstreq(TCHAR *a, TCHAR *b, size_t len = -1)
 	if (len > 0)
 		ret = _tcsncmp(a, b, len);
 	else
-		ret = _tcscmp(a, b);
+		ret = mir_tstrcmp(a, b);
 	free(a);
 	free(b);
 	return ret;

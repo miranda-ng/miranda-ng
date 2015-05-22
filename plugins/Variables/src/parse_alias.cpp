@@ -37,7 +37,7 @@ static ALIASREGISTER *searchAliasRegister(TCHAR *szAlias)
 
 	mir_cslock lck(csAliasRegister);
 	for (int i = 0; i < arAliases.getCount(); i++)
-	if (!_tcscmp(arAliases[i]->szAlias, szAlias))
+	if (!mir_tstrcmp(arAliases[i]->szAlias, szAlias))
 		return arAliases[i];
 
 	return NULL;
@@ -95,7 +95,7 @@ static int addToAliasRegister(TCHAR *szAlias, unsigned int argc, TCHAR** argv, T
 	mir_cslock lck(csAliasRegister);
 	for (int i = 0; i < arAliases.getCount(); i++) {
 		ALIASREGISTER *p = arAliases[i];
-		if (_tcscmp(p->szAlias, szAlias))
+		if (mir_tstrcmp(p->szAlias, szAlias))
 			continue;
 
 		mir_free(p->szTranslation);

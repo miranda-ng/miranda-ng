@@ -580,7 +580,7 @@ public:
 			WS_CHILD|WS_VISIBLE|WS_TABSTOP|BS_AUTOCHECKBOX|BS_MULTILINE,
 			0, 0, 0, 0,
 			m_parent->GetHwnd(), (HMENU)m_id, hInst, NULL);
-		if (m_field->GetValue() && !_tcscmp(m_field->GetValue(), _T("1")))
+		if (m_field->GetValue() && !mir_tstrcmp(m_field->GetValue(), _T("1")))
 			SendMessage(m_hwnd, BM_SETCHECK, 1, 0);
 	}
 

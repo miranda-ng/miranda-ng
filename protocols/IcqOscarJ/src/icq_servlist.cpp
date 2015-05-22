@@ -1385,7 +1385,7 @@ int CIcqProto::getCListGroupExists(const char *szGroup)
 				break;
 
 			// we have found the group
-			if (!_tcscmp(tszGroup, tszGroupName))
+			if (!mir_tstrcmp(tszGroup, tszGroupName))
 				return i;
 		}
 

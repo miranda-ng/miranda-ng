@@ -249,7 +249,7 @@ static UINT MyCountriesCount = 0;
 * @param	p1				- (LPIDSTRLIST) first item to compare
 * @param	p2				- (LPIDSTRLIST) second item to compare
 *
-* returns -1, 0, 1			according to the comparison result of _tcscmp.
+* returns -1, 0, 1			according to the comparison result of mir_tstrcmp.
 **/
 
 static int __cdecl ListSortProc(const LPIDSTRLIST p1, const LPIDSTRLIST p2)

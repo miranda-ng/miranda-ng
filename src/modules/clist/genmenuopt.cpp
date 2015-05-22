@@ -110,7 +110,7 @@ class CGenMenuOptionsPage : public CDlgBase
 				runtimepos += 100;
 			}
 
-			if (iod->name && !_tcscmp(iod->name, STR_SEPARATOR) && tvi.iImage)
+			if (iod->name && !mir_tstrcmp(iod->name, STR_SEPARATOR) && tvi.iImage)
 				runtimepos += SEPARATORPOSITIONINTERVAL;
 
 			tvi.hItem = m_menuItems.GetNextSibling(tvi.hItem);

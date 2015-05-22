@@ -61,7 +61,7 @@ void CJabberProto::IqResultProxyDiscovery(HXML iqNode, CJabberIqInfo *pInfo)
 		HXML queryNode = xmlGetChild(iqNode , "query");
 		if (queryNode) {
 			const TCHAR *queryXmlns = xmlGetAttrValue(queryNode, _T("xmlns"));
-			if (queryXmlns && !_tcscmp(queryXmlns, JABBER_FEAT_BYTESTREAMS)) {
+			if (queryXmlns && !mir_tstrcmp(queryXmlns, JABBER_FEAT_BYTESTREAMS)) {
 				HXML streamHostNode = xmlGetChild(queryNode , "streamhost");
 				if (streamHostNode) {
 					const TCHAR *streamJid = xmlGetAttrValue(streamHostNode, _T("jid"));
@@ -257,7 +257,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 		return;
 	}
 
-	if (jbt->bProxyDiscovered && !_tcscmp(jbt->szProxyJid, jbt->szStreamhostUsed)) {
+	if (jbt->bProxyDiscovered && !mir_tstrcmp(jbt->szProxyJid, jbt->szStreamhostUsed)) {
 		// jabber proxy used
 		if (bDirect) {
 			SetEvent(jbt->hSendEvent);
@@ -299,7 +299,7 @@ void CJabberProto::ByteInitiateResult(HXML iqNode, CJabberIqInfo *pInfo)
 		HXML queryNode = xmlGetChild(iqNode , "query");
 		if (queryNode) {
 			const TCHAR *queryXmlns = xmlGetAttrValue(queryNode, _T("xmlns"));
-			if (queryXmlns && !_tcscmp(queryXmlns, JABBER_FEAT_BYTESTREAMS)) {
+			if (queryXmlns && !mir_tstrcmp(queryXmlns, JABBER_FEAT_BYTESTREAMS)) {
 				HXML streamHostNode = xmlGetChild(queryNode ,  "streamhost-used");
 				if (streamHostNode) {
 					const TCHAR *streamJid = xmlGetAttrValue(streamHostNode, _T("jid"));

@@ -106,7 +106,7 @@ static int ChangesNotSaved(HWND hWnd, PFolderItem item)
 
 	TCHAR buffer[MAX_FOLDER_SIZE];
 	GetEditText(hWnd, buffer, MAX_FOLDER_SIZE);
-	return _tcscmp(item->GetFormat(), buffer) != 0;
+	return mir_tstrcmp(item->GetFormat(), buffer) != 0;
 }
 
 static void CheckForChanges(HWND hWnd, int bNeedConfirmation = 1)

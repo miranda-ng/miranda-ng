@@ -478,7 +478,7 @@ BOOL CJabberProto::OnSiRequest(HXML node, CJabberIqInfo *pInfo)
 {
 	const TCHAR *szProfile = xmlGetAttrValue(pInfo->GetChildNode(), _T("profile"));
 
-	if (szProfile && !_tcscmp(szProfile, JABBER_FEAT_SI_FT))
+	if (szProfile && !mir_tstrcmp(szProfile, JABBER_FEAT_SI_FT))
 		FtHandleSiRequest(node);
 	else {
 		XmlNodeIq iq(_T("error"), pInfo);
@@ -512,7 +512,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 		pDelimiter = _tcschr(szTo, _T('/'));
 		if (pDelimiter) *pDelimiter = 0;
 
-		BOOL bRetVal = _tcscmp(szFrom, szTo) == 0;
+		BOOL bRetVal = mir_tstrcmp(szFrom, szTo) == 0;
 
 		mir_free(szFrom);
 		mir_free(szTo);
@@ -534,7 +534,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 		if (!itemNode)
 			break;
 
-		if (_tcscmp(xmlGetName(itemNode), _T("item")) != 0)
+		if (mir_tstrcmp(xmlGetName(itemNode), _T("item")) != 0)
 			continue;
 		if ((jid = xmlGetAttrValue(itemNode, _T("jid"))) == NULL)
 			continue;
@@ -542,7 +542,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 			continue;
 
 		// we will not add new account when subscription=remove
-		if (!_tcscmp(str, _T("to")) || !_tcscmp(str, _T("both")) || !_tcscmp(str, _T("from")) || !_tcscmp(str, _T("none"))) {
+		if (!mir_tstrcmp(str, _T("to")) || !mir_tstrcmp(str, _T("both")) || !mir_tstrcmp(str, _T("from")) || !mir_tstrcmp(str, _T("none"))) {
 			const TCHAR *name = xmlGetAttrValue(itemNode, _T("name"));
 			ptrT nick((name != NULL) ? mir_tstrdup(name) : JabberNickFromJID(jid));
 			if (nick != NULL) {
@@ -562,7 +562,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 					if (name != NULL) {
 						ptrT tszNick(getTStringA(hContact, "Nick"));
 						if (tszNick != NULL) {
-							if (_tcscmp(nick, tszNick) != 0)
+							if (mir_tstrcmp(nick, tszNick) != 0)
 								db_set_ts(hContact, "CList", "MyHandle", nick);
 							else
 								db_unset(hContact, "CList", "MyHandle");
@@ -583,15 +583,15 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 		}
 
 		if ((item = ListGetItemPtr(LIST_ROSTER, jid)) != NULL) {
-			if (!_tcscmp(str, _T("both"))) item->subscription = SUB_BOTH;
-			else if (!_tcscmp(str, _T("to"))) item->subscription = SUB_TO;
-			else if (!_tcscmp(str, _T("from"))) item->subscription = SUB_FROM;
+			if (!mir_tstrcmp(str, _T("both"))) item->subscription = SUB_BOTH;
+			else if (!mir_tstrcmp(str, _T("to"))) item->subscription = SUB_TO;
+			else if (!mir_tstrcmp(str, _T("from"))) item->subscription = SUB_FROM;
 			else item->subscription = SUB_NONE;
 			debugLog(_T("Roster push for jid=%s, set subscription to %s"), jid, str);
 			// subscription = remove is to remove from roster list
 			// but we will just set the contact to offline and not actually
 			// remove, so that history will be retained.
-			if (!_tcscmp(str, _T("remove"))) {
+			if (!mir_tstrcmp(str, _T("remove"))) {
 				if ((hContact = HContactFromJID(jid)) != NULL) {
 					SetContactOfflineStatus(hContact);
 					ListRemove(LIST_ROSTER, jid);

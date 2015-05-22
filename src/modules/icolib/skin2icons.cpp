@@ -43,7 +43,7 @@ mir_cs csIconList;
 
 static int sttCompareSections(const SectionItem* p1, const SectionItem* p2)
 {
-	return _tcscmp(p1->name, p2->name);
+	return mir_tstrcmp(p1->name, p2->name);
 }
 
 LIST<SectionItem> sectionList(20, sttCompareSections);

@@ -620,7 +620,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 			item = ListGetItemPtr(LIST_ROSTER, jid);
 
 		if (item == NULL) {
-			bool bHasResource = _tcscmp(jid, szBareJid) != 0;
+			bool bHasResource = mir_tstrcmp(jid, szBareJid) != 0;
 			JABBER_LIST_ITEM *tmpItem = NULL;
 			if (bHasResource && (tmpItem = ListGetItemPtr(LIST_CHATROOM, szBareJid))) {
 				pResourceStatus him(tmpItem->findResource(szBareJid+mir_tstrlen(szBareJid)+1));
@@ -651,7 +651,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 						m_ThreadInfo->send(iq4);
 					}
 
-					if (!_tcscmp(tmp, jid)) {
+					if (!mir_tstrcmp(tmp, jid)) {
 						XmlNodeIq iq3(AddIQ(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM));
 						iq3 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
 						m_ThreadInfo->send(iq3);

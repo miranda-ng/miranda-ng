@@ -124,7 +124,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 	}
 
 	for (i=0; i < groups.getCount(); i++) {
-		bool checked = szContactGroup && !_tcscmp(szContactGroup, groups[i].name);
+		bool checked = szContactGroup && !mir_tstrcmp(szContactGroup, groups[i].name);
 		AddGroupItem(hMoveToGroupItem, groups[i].name, ++pos, groups[i].position, checked);
 	}
 

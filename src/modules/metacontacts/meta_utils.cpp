@@ -464,7 +464,7 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 	}
 	else if (options.clist_contact_name == CNNT_DISPLAYNAME) {
 		TCHAR *name = cli.pfnGetContactDisplayName(hContact, 0);
-		if (name && _tcscmp(name, TranslateT("(Unknown contact)")) != 0) {
+		if (name && mir_tstrcmp(name, TranslateT("(Unknown contact)")) != 0) {
 			db_set_ts(ccMeta->contactID, META_PROTO, "Nick", name);
 			return 0;
 		}

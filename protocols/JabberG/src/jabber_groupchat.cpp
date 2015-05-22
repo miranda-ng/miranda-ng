@@ -837,7 +837,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 	const TCHAR *nick = cnick ? cnick : (r && r->m_tszNick ? r->m_tszNick : resource);
 
 	// process custom nick change
-	if (cnick && r && r->m_tszNick && _tcscmp(cnick, r->m_tszNick))
+	if (cnick && r && r->m_tszNick && mir_tstrcmp(cnick, r->m_tszNick))
 		r->m_tszNick = mir_tstrdup(cnick);
 
 	HXML xNode = xmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_MUC_USER);
@@ -846,7 +846,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 	const TCHAR *type = xmlGetAttrValue(node, _T("type"));
 
 	// entering room or a usual room presence
-	if (type == NULL || !_tcscmp(type, _T("available"))) {
+	if (type == NULL || !mir_tstrcmp(type, _T("available"))) {
 		if (ptrT(JabberNickFromJID(from)) == NULL)
 			return;
 
@@ -857,10 +857,10 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		int status = ID_STATUS_ONLINE;
 		LPCTSTR ptszShow = xmlGetText(xmlGetChild(node, "show"));
 		if (ptszShow) {
-			if (!_tcscmp(ptszShow, _T("away"))) status = ID_STATUS_AWAY;
-			else if (!_tcscmp(ptszShow, _T("xa"))) status = ID_STATUS_NA;
-			else if (!_tcscmp(ptszShow, _T("dnd"))) status = ID_STATUS_DND;
-			else if (!_tcscmp(ptszShow, _T("chat"))) status = ID_STATUS_FREECHAT;
+			if (!mir_tstrcmp(ptszShow, _T("away"))) status = ID_STATUS_AWAY;
+			else if (!mir_tstrcmp(ptszShow, _T("xa"))) status = ID_STATUS_NA;
+			else if (!mir_tstrcmp(ptszShow, _T("dnd"))) status = ID_STATUS_DND;
+			else if (!mir_tstrcmp(ptszShow, _T("chat"))) status = ID_STATUS_FREECHAT;
 		}
 
 		LPCTSTR str = xmlGetText(xmlGetChild(node, "status"));
@@ -885,16 +885,16 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 				JABBER_GC_ROLE role = r->m_role;
 
 				if ((str = xmlGetAttrValue(itemNode, _T("affiliation"))) != NULL) {
-					if (!_tcscmp(str, _T("owner")))       affiliation = AFFILIATION_OWNER;
-					else if (!_tcscmp(str, _T("admin")))       affiliation = AFFILIATION_ADMIN;
-					else if (!_tcscmp(str, _T("member")))      affiliation = AFFILIATION_MEMBER;
-					else if (!_tcscmp(str, _T("none")))	     affiliation = AFFILIATION_NONE;
-					else if (!_tcscmp(str, _T("outcast")))     affiliation = AFFILIATION_OUTCAST;
+					if (!mir_tstrcmp(str, _T("owner")))       affiliation = AFFILIATION_OWNER;
+					else if (!mir_tstrcmp(str, _T("admin")))       affiliation = AFFILIATION_ADMIN;
+					else if (!mir_tstrcmp(str, _T("member")))      affiliation = AFFILIATION_MEMBER;
+					else if (!mir_tstrcmp(str, _T("none")))	     affiliation = AFFILIATION_NONE;
+					else if (!mir_tstrcmp(str, _T("outcast")))     affiliation = AFFILIATION_OUTCAST;
 				}
 				if ((str = xmlGetAttrValue(itemNode, _T("role"))) != NULL) {
-					if (!_tcscmp(str, _T("moderator")))   role = ROLE_MODERATOR;
-					else if (!_tcscmp(str, _T("participant"))) role = ROLE_PARTICIPANT;
-					else if (!_tcscmp(str, _T("visitor")))     role = ROLE_VISITOR;
+					if (!mir_tstrcmp(str, _T("moderator")))   role = ROLE_MODERATOR;
+					else if (!mir_tstrcmp(str, _T("participant"))) role = ROLE_PARTICIPANT;
+					else if (!mir_tstrcmp(str, _T("visitor")))     role = ROLE_VISITOR;
 					else                                        role = ROLE_NONE;
 				}
 
@@ -940,7 +940,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		// Check <created/>
 		if (bRoomCreated) {
 			HXML n = xmlGetChild(node, "created");
-			if (n != NULL && (str = xmlGetAttrValue(n, _T("xmlns"))) != NULL && !_tcscmp(str, JABBER_FEAT_MUC_OWNER))
+			if (n != NULL && (str = xmlGetAttrValue(n, _T("xmlns"))) != NULL && !mir_tstrcmp(str, JABBER_FEAT_MUC_OWNER))
 				// A new room just created by me
 				// Request room config
 				m_ThreadInfo->send(
@@ -950,7 +950,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 	}
 
 	// leaving room
-	else if (!_tcscmp(type, _T("unavailable"))) {
+	else if (!mir_tstrcmp(type, _T("unavailable"))) {
 		const TCHAR *str = 0;
 		if (xNode != NULL && item->nick != NULL) {
 			HXML reasonNode = xmlGetChild(itemNode, "reason");
@@ -998,7 +998,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 	}
 
 	// processing room errors
-	else if (!_tcscmp(type, _T("error"))) {
+	else if (!mir_tstrcmp(type, _T("error"))) {
 		int errorCode = 0;
 		HXML errorNode = xmlGetChild(node, "error");
 		ptrT str(JabberErrorMsg(errorNode, &errorCode));

@@ -65,7 +65,7 @@ typedef struct TComboEx
 
 static int compareProc(LPCVOID cbi1, LPCVOID cbi2)
 {
-	return _tcscmp(((LPCBEXITEMINTERN)cbi1)->szCat, ((LPCBEXITEMINTERN)cbi2)->szCat);
+	return mir_tstrcmp(((LPCBEXITEMINTERN)cbi1)->szCat, ((LPCBEXITEMINTERN)cbi2)->szCat);
 }
 
 static int CheckPhoneSyntax(LPTSTR pszSrc, LPTSTR szNumber, WORD cchNumber, int& errorPos)
@@ -209,7 +209,7 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 							*(pszAdd + 1) != '.' &&
 							(pszDot = _tcschr(pszAdd, '.')) &&
 							*(pszDot + 1) &&
-							_tcscmp(szText, cbi->pszVal)));
+							mir_tstrcmp(szText, cbi->pszVal)));
 					}
 				}
 				break;
@@ -863,7 +863,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 					SendMessage(hDlgDetails, PSM_GETCONTACT, NULL, (LPARAM)&hContact);
 					if ((cbex->pItems[cbex->iSelectedItem].wFlags & CTRLF_CHANGED) && !(hContact && (cbex->pItems[cbex->iSelectedItem].wFlags & CTRLF_HASCUSTOM))) return 0;
 							
-					if (*szVal == 0 || !cbex->pItems[cbex->iSelectedItem].pszVal || _tcscmp(szVal, cbex->pItems[cbex->iSelectedItem].pszVal)) {
+					if (*szVal == 0 || !cbex->pItems[cbex->iSelectedItem].pszVal || mir_tstrcmp(szVal, cbex->pItems[cbex->iSelectedItem].pszVal)) {
 						cbex->pItems[cbex->iSelectedItem].wFlags |= CTRLF_CHANGED;
 						cbex->pItems[cbex->iSelectedItem].wFlags |= (hContact ? CTRLF_HASCUSTOM : CTRLF_HASPROTO);
 						cbex->bIsChanged = TRUE;

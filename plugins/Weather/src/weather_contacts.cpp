@@ -184,7 +184,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		if ( !db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_ID, dbv.ptszVal);
 			// check if the station is a default station
-			CheckDlgButton(hwndDlg, IDC_DEFA, _tcscmp(dbv.ptszVal, opt.Default) != 0 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DEFA, mir_tstrcmp(dbv.ptszVal, opt.Default) != 0 ? BST_CHECKED : BST_UNCHECKED);
 			db_free(&dbv);
 		}
 		if ( !db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
@@ -437,7 +437,7 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 	// exit this function if it is not default station
 	DBVARIANT dbv;
 	if (!db_get_ts(wParam, WEATHERPROTONAME, "ID", &dbv)) {
-		if ( _tcscmp(dbv.ptszVal, opt.Default)) {
+		if ( mir_tstrcmp(dbv.ptszVal, opt.Default)) {
 			db_free(&dbv);
 			return 0;
 		}
@@ -451,7 +451,7 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 		if ( !db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
 			// if the station is not a default station, set it as the new default station
 			// this is the first weather station encountered from the search
-			if ( _tcscmp(opt.Default, dbv.ptszVal)) {
+			if ( mir_tstrcmp(opt.Default, dbv.ptszVal)) {
 				_tcsncpy(opt.Default, dbv.ptszVal, SIZEOF(opt.Default) - 1);
 				opt.DefStn = hContact;
 				db_free(&dbv);

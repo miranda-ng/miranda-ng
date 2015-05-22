@@ -82,7 +82,7 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 				LPCTSTR szTagName = xmlGetName(child);
 				LPCTSTR szXmlns = xmlGetAttrValue(child, _T("xmlns"));
 
-				if ((!pInfo.m_szXmlns || (szXmlns && !_tcscmp(pInfo.m_szXmlns, szXmlns))) && (!pInfo.m_szTag || !_tcscmp(pInfo.m_szTag, szTagName))) {
+				if ((!pInfo.m_szXmlns || (szXmlns && !mir_tstrcmp(pInfo.m_szXmlns, szXmlns))) && (!pInfo.m_szTag || !mir_tstrcmp(pInfo.m_szTag, szTagName))) {
 					// node suits handler criteria, call the handler
 					messageInfo.m_hChildNode = child;
 					messageInfo.m_szChildTagName = szTagName;

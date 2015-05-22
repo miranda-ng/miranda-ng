@@ -346,7 +346,7 @@ MCONTACT find_contactT(TCHAR *name)
 		if (db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
 		{
 			if (db_get_ts(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) continue;
-			tCompareResult = _tcscmp(dbv.ptszVal, name);
+			tCompareResult = mir_tstrcmp(dbv.ptszVal, name);
 			db_free(&dbv);
 			if (tCompareResult) continue;
 			return hContact; // already there, return handle
