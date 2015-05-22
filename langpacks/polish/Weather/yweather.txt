@@ -2,10 +2,16 @@
 ;  File: yweather.ini
 ;  Module: weather
 ;============================================================
+[ENE]
+wschodnio-północny wschód
+[ESE]
+wschodnio-południowy wschód
+[E]
+wschód
+[East]
+Wschód
 [Feel]
 Odczuwalna
-[Forecast Day 1]
-Prognoza na 1 dzień
 [Forecast Day 1 Condition]
 Prognoza dzień 1 - Warunki
 [Forecast Day 1 Date]
@@ -16,87 +22,81 @@ Prognoza dzień 1 - Dzień tyg.
 Prognoza dzień 1 - Temperatura maksymalna
 [Forecast Day 1 Low]
 Prognoza dzień 1 - Temperatura minimalna
-[Heat Index]
-Wskaźnik upałów
-[Wind Direction]
-Kierunek wiatru
-[Wind Speed]
-Prędkość wiatru
-[Wind Direction Degrees]
-Kierunek wiatru w stopniach
-[Mon]
-pon.
-[Tue]
-wt.
-[Wed]
-śr.
-[Thu]
-czw.
+[Forecast Day 1]
+Prognoza na 1 dzień
 [Fri]
 piąt.
+[Heat Index]
+Wskaźnik upałów
+[Mon]
+pon.
+[Mostly Clear]
+W większości przejrzyście
+[Mostly Cloudy]
+W większości pochmurnie
+[Mostly Sunny]
+W większości słonecznie
+[NE]
+północny wschód
+[NNE]
+północno-północny wschód
+[NNW]
+północno-północny zachód
+[NW]
+północny zachód
+[N]
+północ
+[North]
+Północ
+[Northeast]
+Północny wschód
+[Northwest]
+Północny zachód
+[Partly Cloudy]
+Częściowe zachmurzenie
+[Partly Sunny]
+Małe zachmurzenie
+[SE]
+południowy wschód
+[SSE]
+południowo-południowy wschód
+[SSW]
+południowo-południowy zachód
+[SW]
+południowy zachód
+[S]
+południe
 [Sat]
 sob.
+[Scattered Clouds]
+Mało chmur
+[South]
+Południe
+[Southeast]
+Południowy wschód
+[Southwest]
+Południowy zachód
 [Sun]
 niedz.
 [Sunny]
 Słonecznie
-[Partly Sunny]
-Małe zachmurzenie
-[Mostly Sunny]
-W większości słonecznie
-[Partly Cloudy]
-Częściowe zachmurzenie
-[Mostly Cloudy]
-W większości pochmurnie
-[Mostly Clear]
-W większości przejrzyście
-[N]
-północ
-[W]
-zachód
-[S]
-południe
-[E]
-wschód
-[NW]
-północny zachód
-[NE]
-północny wschód
-[SW]
-południowy zachód
-[SE]
-południowy wschód
-[NNW]
-północno-północny zachód
-[NNE]
-północno-północny wschód
-[SSW]
-południowo-południowy zachód
-[SSE]
-południowo-południowy wschód
-[ENE]
-wschodnio-północny wschód
-[WSW]
-zachodnio-południowy zachód
+[Thu]
+czw.
+[Tue]
+wt.
 [WNW]
 zachodnio-północny zachód
-[ESE]
-wschodnio-południowy wschód
-[Scattered Clouds]
-Mało chmur
-[North]
-Północ
-[East]
-Wschód
-[South]
-Południe
+[WSW]
+zachodnio-południowy zachód
+[W]
+zachód
+[Wed]
+śr.
 [West]
 Zachód
-[Northwest]
-Północny zachód
-[Northeast]
-Północny wschód
-[Southwest]
-Południowy zachód
-[Southeast]
-Południowy wschód
+[Wind Direction Degrees]
+Kierunek wiatru w stopniach
+[Wind Direction]
+Kierunek wiatru
+[Wind Speed]
+Prędkość wiatru

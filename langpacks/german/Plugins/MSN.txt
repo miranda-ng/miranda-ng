@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.11.1.2
-;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
+;  Version: 0.12.1.1
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Microsoft Netzwerk (MSN) Protokollunterstützung für Miranda NG:
@@ -60,10 +60,12 @@ Jemand führt Sie in seiner/ihrer Serverliste
 Aktualisieren
 [Hotmail]
 Hotmail
-[Disable Popup notifications]
-Popup-Benachrichtigungen deaktivieren
-[Disable Tray notifications]
-Tray-Benachrichtigungen deaktivieren
+[Enable Popup notifications]
+Aktiviere Popup-Benachrichtigung
+[Enable Contact List notifications]
+
+[Enable Tray notifications]
+
 [Ignore new messages not in Inbox folder]
 Neue Nachrichten außerhalb des Posteingangs ignorieren
 [Other]
@@ -74,8 +76,6 @@ Fehler durch Popups anzeigen
 Popup 'Chatsitzung eingeleitet' aktivieren
 [Enable 'Contact left channel' popup]
 Popup 'Benutzer hat Channel verlassen' aktivieren
-[Disable Contact List notifications]
-Kontaktlisten-Benachrichtigungen deaktivieren
 [Set Nickname]
 Nickname setzen
 [Cancel]
@@ -117,10 +117,6 @@ Hinzufügen
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Chat #
-[Me]
-Ich
-[Others]
-Sonstiges
 [&Invite user...]
 Kontakt e&inladen...
 [&Leave chat session]
@@ -129,7 +125,15 @@ Chat ver&lassen
 Kontaktprofil
 [User &history]
 Verlauf des Kontakts
+[&Kick user]
+Benutzer &kicken
+[&Op user]
+
+[&Deop user]
+
 ;file \protocols\MSN\src\msn_commands.cpp
+[MSN Alert]
+MSN Alert
 [Contact tried to open an audio conference (not currently supported)]
 Kontakt versucht eine Audiokonferenz zu starten (zzt. nicht unterstützt)
 [%I64u bytes]
@@ -138,8 +142,6 @@ Kontakt versucht eine Audiokonferenz zu starten (zzt. nicht unterstützt)
 NetMeeting-Anfrage von %s akzeptieren?
 [MSN Protocol]
 MSN-Protokoll
-[MSN Alert]
-MSN Alert
 [Chat session established by my request]
 Die Chatsitzung wurde durch mich eingeleitet
 [Chat session established by contact request]
@@ -154,6 +156,8 @@ Um die Konversation fortzusetzen, beenden Sie diese Sitzung und starten Sie eine
 Es befindet sich nur noch eine Person im Multi-Chat, wollen Sie wieder zum normalen Nachrichtenfenster wechseln?
 [MSN Chat]
 MSN-Chat
+[Others]
+Sonstiges
 [Message delivery failed]
 Nachrichtenübertragung fehlgeschlagen
 ;file \protocols\MSN\src\msn_errors.cpp

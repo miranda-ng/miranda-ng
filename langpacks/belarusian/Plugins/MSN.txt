@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.11.1.2
-;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
+;  Version: 0.12.1.1
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Падтрымка пратаколу Microsoft Network (MSN).
@@ -56,10 +56,12 @@
 Абнавіць
 [Hotmail]
 Пошта
-[Disable Popup notifications]
-Адключыць абвесткі ўсплывальнымі вокнамі
-[Disable Tray notifications]
-Адключыць абвесткі ў трэі
+[Enable Popup notifications]
+Уключыць абвесткі ўсплывальнымі вокнамі
+[Enable Contact List notifications]
+Уключыць абвесткі ў спісе кантактаў
+[Enable Tray notifications]
+Уключыць абвесткі ў трэі
 [Ignore new messages not in Inbox folder]
 Ігнараваць новыя лісты не з "Уваходных"
 [Other]
@@ -70,8 +72,6 @@
 Усплывальнае вакно 'Чат сесія ўсталявана'
 [Enable 'Contact left channel' popup]
 Усплывальнае вакно 'Кантакт пакінуў канал'
-[Disable Contact List notifications]
-Адключыць абвесткі ў спісе кантактаў
 [Set Nickname]
 Мянушка
 [Cancel]
@@ -111,10 +111,6 @@
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Чат #
-[Me]
-Я
-[Others]
-Іншае
 [&Invite user...]
 Запрасіць кантакт...
 [&Leave chat session]
@@ -124,6 +120,8 @@
 [User &history]
 Гісторыя кантакта
 ;file \protocols\MSN\src\msn_commands.cpp
+[MSN Alert]
+Абвестка MSN
 [Contact tried to open an audio conference (not currently supported)]
 Кантакт спрабаваў адкрыць аўдыёканферэнцыю (не падтрымліваецца)
 [%I64u bytes]
@@ -132,8 +130,6 @@
 Прымеце запыт NetMeeting ад  %s?
 [MSN Protocol]
 Пратакол MSN
-[MSN Alert]
-Абвестка MSN
 [Chat session established by my request]
 Сесія ўсталявана па маім запыце
 [Chat session established by contact request]
@@ -148,6 +144,8 @@
 У чаце застаўся толькі адзін чалавек, вярнуцца да вакна дыялогу?
 [MSN Chat]
 MSN Чат
+[Others]
+Іншае
 [Message delivery failed]
 Дастаўка паведамлення не атрымалася
 ;file \protocols\MSN\src\msn_errors.cpp

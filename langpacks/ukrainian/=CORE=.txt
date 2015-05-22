@@ -51,6 +51,8 @@
 Виберіть інший пріоритет показу імен (замість показу ніків):
 [Miranda NG profile manager]
 Менеджер профілів
+[Manage your Miranda NG profile]
+Виберіть aбо створіть профіль користувача
 [&Run]
 &Запуск
 [&Exit]
@@ -337,8 +339,8 @@
 Стандартний
 [Set]
 Вказати
-[Disable icons]
-Вимкнути значки
+[Enable icons]
+Увімкнути значки
 [Show accounts in the following order,\ndrag to choose another order:]
 Облікові записи буде показано в наступному порядку.\nПеретягуйте щоб змінити:
 [Account order and visibility]
@@ -2175,8 +2177,6 @@ Miranda не може відкрити цей профіль
 Створено
 [Modified]
 Змінено
-[Manage your Miranda NG profile]
-Виберіть aбо створіть профіль користувача
 [My profiles]
 Мої профілі
 [New profile]

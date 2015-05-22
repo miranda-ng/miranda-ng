@@ -201,22 +201,22 @@ History++ для історії вікон
 Повний екран
 [Debug]
 Налагодження
-[No overwrite]
-Немає дії
-[Send message]
-Надіслати
 [Quick reply]
 Швидка відповідь
+[Send message]
+Надіслати
 [User details]
 Про користувача
 [Contact menu]
 Меню контакту
-[Dismiss popup]
-Закрити вікно
 [Pin popup]
 Закріпити
+[Dismiss popup]
+Закрити вікно
 [Copy to clipboard]
 Копіювати в буфер обміну
+[No overwrite]
+Немає дії
 [Action]
 Дія
 [The Jabberwocky]

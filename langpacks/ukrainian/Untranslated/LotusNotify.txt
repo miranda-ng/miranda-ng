@@ -1,1 +1,2 @@
 ﻿[Filter messages contain below strings in:]
+[Keep connection on error]

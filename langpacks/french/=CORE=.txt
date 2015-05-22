@@ -52,6 +52,8 @@ Options d'affichage des contacts
 Au lieu d'afficher les contacts par leur surnom,\nglisser pour choisir un autre ordre :
 [Miranda NG profile manager]
 Gestionnaire de profil Miranda NG
+[Manage your Miranda NG profile]
+Gérez votre profil Miranda NG
 [&Run]
 &Lancer
 [&Exit]
@@ -340,8 +342,8 @@ Service :
 Défaut
 [Set]
 OK
-[Disable icons]
-Désactiver les icônes
+[Enable icons]
+Activer les icônes
 [Show accounts in the following order,\ndrag to choose another order:]
 Afficher les comptes dans cet ordre,\ncliquer/glisser pour choisir un autre ordre
 [Account order and visibility]
@@ -2177,6 +2179,7 @@ Lire le message
 &Déplacer vers le groupe
 [<Root group>]
 <sans groupe>
+;file \src\modules\clist\protocolorder.cpp
 ;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda tente de mettre à jour la structure de votre profil.\nIl ne peut pas déplacer le profil %s vers le nouvel emplacement %s\nCar un profil avec ce nom existe déjà. Veuillez résoudre le problème manuellement.
@@ -2253,8 +2256,6 @@ Taille
 Créée
 [Modified]
 
-[Manage your Miranda NG profile]
-Gérez votre profil Miranda NG
 [My profiles]
 Mes profils
 [New profile]

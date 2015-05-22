@@ -368,26 +368,16 @@ proměnlivé bouřky / vítr
 sněžení s mrznoucím deštěm
 [T-Storms Early]
 k ránu bouřky
-[T-Storms Late]
-později bouřky
 [Am T-Storms]
 bouřky (dop.)
 [Fog Late]
 později mlha
-[Partly Cloudy / Wind]
-částečně oblačno / vítr
-[Rain / Snow Late]
-déšť / později sněžení
-[Am Rain / Snow]
-déšť (dop.) / sněžení
 [Rain Early]
 k ránu déšť
 [AM Rain]
 déšť (dop.)
 [Pm Rain]
 déšť (odp.)
-[Am Snow]
-sněžení (dop.)
 [Pm Snow]
 sněžení (odp.)
 [Pm Showers / Wind]
@@ -402,7 +392,5 @@ jasno / vítr
 déšť (dop.)
 [Showers / Wind Late]
 přeháňky / později vítr
-[Rain / Wind]
-déšť / vítr
 [Light Rain / Windy]
 slabý déšť / větrno

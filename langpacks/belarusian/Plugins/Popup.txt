@@ -201,22 +201,22 @@ History++ для гісторыі вокнаў
 [Debug]
 Адладка
 ;file \plugins\Popup\src\actions.cpp
-[No overwrite]
-няма дзеяння
-[Send message]
-Адправіць
 [Quick reply]
 Хуткі адказ
+[Send message]
+Адправіць
 [User details]
 Інфармацыя пра кантакт
 [Contact menu]
 Меню кантакту
-[Dismiss popup]
-Зачыніць вакно
 [Pin popup]
 Замацаваць
+[Dismiss popup]
+Зачыніць вакно
 [Copy to clipboard]
 Капіяваць у буфер абмену
+[No overwrite]
+няма дзеяння
 [Action]
 Дзеянне
 ;file \plugins\Popup\src\config.cpp

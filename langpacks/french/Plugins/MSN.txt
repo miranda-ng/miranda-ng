@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.11.1.2
-;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
+;  Version: 0.12.1.1
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Support du protocole Microsoft Network (MSN) pour Miranda NG.
@@ -60,9 +60,11 @@ Vous êtes dans la liste de ce contact
 Actualiser
 [Hotmail]
 
-[Disable Popup notifications]
+[Enable Popup notifications]
+Activer les notifications par popup
+[Enable Contact List notifications]
 
-[Disable Tray notifications]
+[Enable Tray notifications]
 
 [Ignore new messages not in Inbox folder]
 
@@ -74,8 +76,6 @@ Autre
 Activer le popup "La connexion au salon est établie"
 [Enable 'Contact left channel' popup]
 Activer le popup "Le contact a quitter le salon"
-[Disable Contact List notifications]
-
 [Set Nickname]
 
 [Cancel]
@@ -117,10 +117,6 @@ Ajouter
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 
-[Me]
-
-[Others]
-Autres
 [&Invite user...]
 &Inviter l'utilisateur...
 [&Leave chat session]
@@ -129,7 +125,15 @@ Autres
 &Détails du contact
 [User &history]
 
+[&Kick user]
+
+[&Op user]
+
+[&Deop user]
+
 ;file \protocols\MSN\src\msn_commands.cpp
+[MSN Alert]
+Alerte MSN
 [Contact tried to open an audio conference (not currently supported)]
 Le contact vous a envoyé une invitation à une conférence audio (actuellement non supportée)
 [%I64u bytes]
@@ -138,8 +142,6 @@ Le contact vous a envoyé une invitation à une conférence audio (actuellement 
 
 [MSN Protocol]
 Protocole MSN
-[MSN Alert]
-Alerte MSN
 [Chat session established by my request]
 Connexion au chat établie sur ma demande
 [Chat session established by contact request]
@@ -154,6 +156,8 @@ Pour reprendre la conversation, fermer cette session et commencer un nouveau cha
 Il n'y a plus qu'une personne dans le chat, voulez-vous revenir à la fenêtre de message standard ?
 [MSN Chat]
 
+[Others]
+Autres
 [Message delivery failed]
 Échec d'envoi du message.
 ;file \protocols\MSN\src\msn_errors.cpp

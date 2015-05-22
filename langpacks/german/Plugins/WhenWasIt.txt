@@ -203,10 +203,6 @@ Er/Sie
 Beginne Kontaktdetails auf neusten Stand zu bringen
 [Done refreshing user details]
 Kontaktdetails wurden auf den neusten Stand gebracht
-[Could not create worker thread. Error#%d - threadID %d]
-Konnte Arbeitsthread nicht erzeugen. Fehler#%d - Thread-ID %d
-[Error]
-Fehler
 [Birthdays files]
 Geburtstags-Dateien
 [Please select a file to import birthdays from...]
@@ -225,6 +221,8 @@ Exportiere Geburtstage in Datei: %s
 Export der Geburtstage abgeschlossen
 [Could not open file to import birthdays]
 Konnte Datei für den Geburtstagsimport nicht öffnen
+[Error]
+Fehler
 [Warning]
 Warnung
 [Could not open file to export birthdays]

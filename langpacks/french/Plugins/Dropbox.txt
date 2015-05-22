@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.11.0.3
-;  Authors: unsane
+;  Version: 0.12.0.4
+;  Authors: Miranda NG Team
 ;============================================================
 [Allows you to transfer files via Dropbox.]
 
@@ -37,9 +37,9 @@ Envoyer automatiquement l'URL au contact
 ;file \plugins\Dropbox\src\dropbox.cpp
 [in process...]
 
-[you have been authorized]
-
 [server does not respond]
+
+[you have been authorized]
 
 ;file \plugins\Dropbox\src\dropbox_commands.cpp
 [Dropbox supports the following commands:]
@@ -60,24 +60,22 @@ Envoyer automatiquement l'URL au contact
 
 [is deleted]
 
-;file \plugins\Dropbox\src\dropbox_dialogs.cpp
+;file \plugins\Dropbox\src\dropbox_events.cpp
+[Send files to Dropbox]
+
+;file \plugins\Dropbox\src\dropbox_icons.cpp
+[Protocol icon]
+
+;file \plugins\Dropbox\src\dropbox_menus.cpp
+;file \plugins\Dropbox\src\dropbox_options.cpp
 [you are already authorized]
 
 [you are not authorized yet]
 
-;file \plugins\Dropbox\src\dropbox_events.cpp
-[Send files to Dropbox]
-
 [Network]
 Réseau
-;file \plugins\Dropbox\src\dropbox_icons.cpp
-[Protocols]
-Protocoles
-[Protocol icon]
+[Dropbox]
 
-;file \plugins\Dropbox\src\dropbox_menus.cpp
 ;file \plugins\Dropbox\src\dropbox_services.cpp
-[Unknown command "%s".\nUse "/help" for more info.]
-
 ["%s" is not valid.\nUse "/help" for more info.]
 

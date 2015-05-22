@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.11.1.2
-;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
+;  Version: 0.12.1.1
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Zapewnia obsługę protokołu Microsoft Network (MSN).
@@ -60,10 +60,12 @@ Ktoś dodał cię do swojej listy na serwerze
 Odśwież
 [Hotmail]
 Hotmail
-[Disable Popup notifications]
-Wyłącz powiadomienia
-[Disable Tray notifications]
-Wyłącz powiadomienia w zasobniku
+[Enable Popup notifications]
+Włącz powiadomienia
+[Enable Contact List notifications]
+Włącz powiadomienia listy kontaktów
+[Enable Tray notifications]
+Włącz powiadomienia w zasobniku
 [Ignore new messages not in Inbox folder]
 Ignoruj nowe wiadomości nie będące w skrzynce odbiorczej
 [Other]
@@ -74,8 +76,6 @@ Wyświetlaj błędy za pomocą popupów
 Włącz popup "nawiązano sesję czatu"
 [Enable 'Contact left channel' popup]
 Włącz popup "kontakt opuścił kanał"
-[Disable Contact List notifications]
-Wyłącz powiadomienia listy kontaktów
 [Set Nickname]
 Edytuj nick
 [Cancel]
@@ -117,10 +117,6 @@ Dodaj
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Czat #
-[Me]
-Ja
-[Others]
-Inne
 [&Invite user...]
 &Zaproś użytkownika...
 [&Leave chat session]
@@ -129,7 +125,15 @@ Inne
 &Dane kontaktu
 [User &history]
 &Historia użytkownika
+[&Kick user]
+&Wyrzuć użytkownika
+[&Op user]
+
+[&Deop user]
+
 ;file \protocols\MSN\src\msn_commands.cpp
+[MSN Alert]
+Alert MSN
 [Contact tried to open an audio conference (not currently supported)]
 Kontakt chciał otworzyć audio konferencję (obecnie niewspierane)
 [%I64u bytes]
@@ -138,8 +142,6 @@ Kontakt chciał otworzyć audio konferencję (obecnie niewspierane)
 Przyjąć wywołanie NetMeeting od %s?
 [MSN Protocol]
 Protokół MSN
-[MSN Alert]
-Alert MSN
 [Chat session established by my request]
 Nawiązano sesję czatu z twojej prośby
 [Chat session established by contact request]
@@ -154,6 +156,8 @@ Aby przywrócić rozmowę, zamknij tę sesję i rozpocznij nową sesję czatu.
 Została tylko 1 osoba na czacie. Chcesz się przełączyć do standardowego okna rozmowy?
 [MSN Chat]
 Czat MSN
+[Others]
+Inne
 [Message delivery failed]
 Nie udało się dostarczyć wiadomości
 ;file \protocols\MSN\src\msn_errors.cpp

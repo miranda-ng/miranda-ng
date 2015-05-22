@@ -2,112 +2,72 @@
 ;  File: weatherxml.ini
 ;  Module: weather
 ;============================================================
-[Fair]
-heiter
-[Mostly Sunny]
-überwiegend sonnig
-[Light Thunderstorm Rain]
-Leichte Gewitterregen
-[Thunderstorm Rain]
-Gewitterregen
-[N/a]
-n.v.
-[Thunderstorm]
-Gewitter
-[Overcast]
-trüb
-[Fog]
-Nebel
-[Mist]
-Nebelschleier
-[Light Rain]
-Leichter Regen
-[Light Showers Rain]
-Leichte Regenschauer
-[Showers Rain]
-Regenschauer
-[Shallow Fog]
-Seichter Nebel
-[Snow]
-Schnee
-[Partly Sunny]
-Teils sonnig
-[Partly Cloudy]
-Teils wolkig
-[Mostly Cloudy]
-Meist wolkig
-[Mostly Clear]
-Meist klar
-[Showers]
-Schauer
-[Sunny]
-sonnig
-[Light Rain Shower]
-leichter Schauer
-[rising]
-steigend
-[steady]
-gleichbleibend
-[falling]
-fallend
-[Moderate]
-mäßig
-[N]
-N
-[W]
-W
-[S]
-S
-[E]
-O
-[NW]
-NW
-[NE]
-NE
-[SW]
-SW
-[SE]
-SO
-[NNW]
-NNW
-[NNE]
-NNO
-[SSW]
-SSW
-[SSE]
-SSO
+[AM Rain]
+
+[Am Clouds / Pm Sun]
+vormittags wolkig, nachmittags Sonne
+[Am Light Rain]
+vormittags leichter Regen
+[Am Rain / Snow Showers]
+vormittags Regen-/Schneeschauer
+[Am Rain / Snow]
+
+[Am Rain]
+
+[Am Showers / Wind]
+vormittags Schauer/Wind
+[Am Showers]
+vormittags Schauer
+[Am Snow Showers / Wind]
+vormittags Schneeschauer / Wind
+[Am Snow Showers]
+vormittags Schneeschauer
+[Am Snow]
+
+[Am T-Storms]
+
+[Clear / Wind]
+
+[Clouds Early / Clearing Late]
+anfangs bewölkt, später aufklarend
+[Cloudy / Wind]
+bewölkt/windig
+[Cloudy / Windy]
+
+[Cloudy And Windy]
+wolkig/windig
+[Cloudy]
+Wolkig
+[Drifting Snow]
+Schneetreiben
 [ENE]
 ONO
-[WSW]
-WSW
-[WNW]
-WNW
 [ESE]
 OSO
-[New Moon]
-Neumond
-[Last Quarter]
-letztes Viertel
-[First Quarter]
-erstes Viertel
-[Full Moon]
-Vollmond
-[Waning Crescent]
-abnehmend
-[Waning Gibbous]
-abnehmender Mond
-[Waxing Crescent]
-zunehmend
-[Waxing Gibbous]
-zunehmender Mond
-[Night]
-Nachts
+[E]
+O
+[Fair And Windy]
+heiter/windig
+[Fair]
+heiter
 [Feel]
 gefühlt
-[Forecast Update]
-Vorhersage aktualisiert
-[Forecast Update VAR]
-Forcast Update VAR
+[Few Showers / Wind]
+geringe Schauer/Wind
+[Few Showers]
+geringe Schauer
+[Few Snow Showers]
+wenige Schneeschauer
+[First Quarter]
+erstes Viertel
+[Fog / Windy]
+
+[Fog And Windy]
+Nebel/windig
+[Fog Late]
+
+[Fog]
+Nebel
 [Forecast Day 0]
 Vorhersage Tag 0
 [Forecast Day 1]
@@ -128,273 +88,309 @@ Vorhersage Tag 7
 Vorhersage Tag 8
 [Forecast Day 9]
 Vorhersage Tag 9
-[N/A%]
-n.v.%
-[Heat Index]
-gefühlte Temperatur
-[Latitude]
-Breitengrad
-[Longitude]
-Längengrad
-[Local Time]
-Lokale Zeit
-[Moon]
-Mondphase
-[Observatory]
-Station
-[Pressure Tendency]
-Luftdrucktendenz
-[Update VAR]
-Update VAR
-[UV]
-UV
-[UV Index]
-UV-Index
-[UVI]
-UVI
-[Wind Direction]
-Windrichtung
-[Wind Direction DEG]
-Windrichtung (Grad)
-[Wind Speed]
-Windgeschwindigkeit
-[WindDir]
-Windrichtung
-[Cloudy]
-Wolkig
-[Scattered Snow Showers]
-vereinzelt Schneeschauer
-[Few Snow Showers]
-wenige Schneeschauer
-[Snow Shower]
-Schneeschauer
-[Am Snow Showers]
-vormittags Schneeschauer
-[Light Snow]
-leichter Schneefall
-[Drifting Snow]
-Schneetreiben
-[Pm Snow Showers]
-nachmittags Schneeschauer
-[Am Clouds / Pm Sun]
-vormittags wolkig, nachmittags Sonne
-[Snow Shower / Wind]
-Schneeschauer/Wind
-[Cloudy / Wind]
-bewölkt/windig
-[Heavy Snow And Windy]
-Starker Schneefall und windig
-[Snow / Wind]
-Schnee / Wind
-[Snow Showers Early]
-anfangs Schneeschauer
-[Am Snow Showers / Wind]
-vormittags Schneeschauer / Wind
-[Light Snow And Windy]
-Leichter Schneefall und windig
-[Snow Showers / Wind Early]
-Schneeschauer / Wind früh
-[Partly Cloudy And Windy]
-teils wolkig/windig
-[Mostly Cloudy And Windy]
-überwiegend wolkig/windig
-[Rain / Snow / Wind]
-Schneeregen / Wind
-[Rain / Snow]
-Schneeregen
-[Clouds Early / Clearing Late]
-anfangs bewölkt, später aufklarend
-[Snow Showers Late]
-später Schneeschauer
-[Rain / Snow Showers]
-Regen-/Schneeschauer
-[Showers Late]
-später Schauer
-[Scattered Showers]
-vereinzelt Schauer
-[Am Showers]
-vormittags Schauer
-[Am Rain / Snow Showers]
-vormittags Regen-/Schneeschauer
-[Few Showers]
-geringe Schauer
-[Few Showers / Wind]
-geringe Schauer/Wind
-[Pm Light Rain]
-nachmittags leichter Regen
-[Mostly Cloudy / Wind]
-Meist wolkig/windig
-[Rain]
-Regen
-[Light Rain Shower And Windy]
-Leichter Regenschauer und windig
-[Am Showers / Wind]
-vormittags Schauer/Wind
-[Isolated T-Storms]
-örtlich Gewitter
-[Showers Early]
-anfangs Schauer
-[T-Storm]
-Gewitter
-[Rain / Snow Showers Late]
-später Regen-/Schneeschauer
-[Pm Showers]
-nachmittags Schauer
-[Snow To Rain]
-In Regen übergehender Schnee
-[Light Snow Shower]
-leichte Schneeschauer
-[Fair And Windy]
-heiter/windig
-[Pm T-Storms]
-nachmittags Gewitter
-[Scattered T-Storms]
-vereinzelt Gewitter
-[Light Rain Late]
-später leichter Regen
-[Am Light Rain]
-vormittags leichter Regen
-[Jun]
-Jun
-[T-Storms]
-Gewitter
-[Rain / Thunder]
-Regen/Donner
-[Thunder In The Vicinity]
-Gewitter in der Umgebung
-[Light Rain With Thunder]
-Leichter Regen mit Donner
-[Light Rain Early]
-anfangs leichter Regen
-[Light Rain / Wind]
-leichter Regen/windig
-[Light Drizzle]
-leichter Niesel
+[Forecast Update VAR]
+Forcast Update VAR
+[Forecast Update]
+Vorhersage aktualisiert
+[Freezing Rain / Windy]
+
+[Full Moon]
+Vollmond
 [Haze]
 Dunst
-[Smoke]
-Smog
-[Rain To Snow]
-in Schnee übergehender Regen
-[Rain And Snow]
-Schneeregen
-[Rain / Snow Showers Early]
-anfangs Regen-/Schneeschauer
-[Heavy Snow Shower]
-Schwerer Schneeschauer
-[Showers / Wind]
-Schauer/windig
-[Snow Shower And Windy]
-Schneeschauer/windig
-[Light Snow Shower And Windy]
-leichter Schneeschauer/windig
-[Light Rain And Windy]
-leicher Regen und windig
-[Sleet]
-Graupel
-[Sleet And Windy]
-Graupel/windig
-[Cloudy And Windy]
-wolkig/windig
-[Light Drizzle And Windy]
-leichter Niesel/windig
-[Light Drizzle And Fog]
-leichter Niesel/Nebel
-[Fog And Windy]
-Nebel/windig
-[Light Snow Early]
-anfangs leichter Schneefall
-[Heavy Snow]
-starker Schneefall
-[Snow Early]
-anfangs Schneefall
-[Light Snow Late]
-später leichter Schneefall
-[Snow And Sleet]
-Schnee und Graupel
-[Pm Rain / Wind]
-
-[Rain / Wind Early]
-
-[Rain / Freezing Rain / Wind]
-
-[Snow / Wind Early]
-
-[Sunny / Wind]
+[Heat Index]
+gefühlte Temperatur
+[Heavy Rain / Wind]
 
 [Heavy Rain]
 
-[Rain Late]
+[Heavy Snow And Windy]
+Starker Schneefall und windig
+[Heavy Snow Shower]
+Schwerer Schneeschauer
+[Heavy Snow]
+starker Schneefall
+[Isolated T-Storms / Wind]
 
-[Light Rain / Wind Early]
-
-[Heavy Rain / Wind]
-
-[Cloudy / Windy]
-
-[Wintry Mix / Wind]
-
-[Rain Shower]
+[Isolated T-Storms]
+örtlich Gewitter
+[Jun]
+Jun
+[Last Quarter]
+letztes Viertel
+[Latitude]
+Breitengrad
+[Light Drizzle And Fog]
+leichter Niesel/Nebel
+[Light Drizzle And Windy]
+leichter Niesel/windig
+[Light Drizzle]
+leichter Niesel
+[Light Freezing Rain / Fog]
 
 [Light Freezing Rain / Windy]
 
-[Light Freezing Rain / Fog]
+[Light Rain / Wind Early]
 
-[Snow / Windy]
+[Light Rain / Wind]
+leichter Regen/windig
+[Light Rain / Windy]
 
-[Fog / Windy]
+[Light Rain And Windy]
+leicher Regen und windig
+[Light Rain Early]
+anfangs leichter Regen
+[Light Rain Late]
+später leichter Regen
+[Light Rain Shower And Windy]
+Leichter Regenschauer und windig
+[Light Rain Shower]
+leichter Schauer
+[Light Rain With Thunder]
+Leichter Regen mit Donner
+[Light Rain]
+Leichter Regen
+[Light Showers Rain]
+Leichte Regenschauer
+[Light Snow And Windy]
+Leichter Schneefall und windig
+[Light Snow Early]
+anfangs leichter Schneefall
+[Light Snow Late]
+später leichter Schneefall
+[Light Snow Shower And Windy]
+leichter Schneeschauer/windig
+[Light Snow Shower]
+leichte Schneeschauer
+[Light Snow]
+leichter Schneefall
+[Light Thunderstorm Rain]
+Leichte Gewitterregen
+[Local Time]
+Lokale Zeit
+[Longitude]
+Längengrad
+[Mist]
+Nebelschleier
+[Moderate]
+mäßig
+[Moon]
+Mondphase
+[Mostly Clear]
+Meist klar
+[Mostly Cloudy / Wind]
+Meist wolkig/windig
+[Mostly Cloudy And Windy]
+überwiegend wolkig/windig
+[Mostly Cloudy]
+Meist wolkig
+[Mostly Sunny / Wind]
+
+[Mostly Sunny]
+überwiegend sonnig
+[N/A%]
+n.v.%
+[N/a]
+n.v.
+[NE]
+NE
+[NNE]
+NNO
+[NNW]
+NNW
+[NW]
+NW
+[N]
+N
+[New Moon]
+Neumond
+[Night]
+Nachts
+[Observatory]
+Station
+[Overcast]
+trüb
+[Partly Cloudy / Wind]
 
 [Partly Cloudy / Windy]
 
-[Sunny / Windy]
+[Partly Cloudy And Windy]
+teils wolkig/windig
+[Partly Cloudy]
+Teils wolkig
+[Partly Sunny]
+Teils sonnig
+[Pm Light Rain]
+nachmittags leichter Regen
+[Pm Rain / Wind]
 
-[Am Snow]
+[Pm Rain]
 
+[Pm Showers / Wind]
+
+[Pm Showers]
+nachmittags Schauer
+[Pm Snow Showers]
+nachmittags Schneeschauer
+[Pm Snow]
+
+[Pm T-Storms]
+nachmittags Gewitter
+[Pressure Tendency]
+Luftdrucktendenz
+[Rain / Freezing Rain / Wind]
+
+[Rain / Snow / Wind]
+Schneeregen / Wind
 [Rain / Snow Late]
 
-[Am Rain / Snow]
+[Rain / Snow Showers Early]
+anfangs Regen-/Schneeschauer
+[Rain / Snow Showers Late]
+später Regen-/Schneeschauer
+[Rain / Snow Showers]
+Regen-/Schneeschauer
+[Rain / Snow]
+Schneeregen
+[Rain / Thunder]
+Regen/Donner
+[Rain / Wind Early]
 
-[Partly Cloudy / Wind]
+[Rain / Wind]
 
-[Mostly Sunny / Wind]
+[Rain And Snow]
+Schneeregen
+[Rain Early]
 
-[Isolated T-Storms / Wind]
+[Rain Late]
 
-[T-Storms Late]
+[Rain Shower]
 
+[Rain To Snow]
+in Schnee übergehender Regen
+[Rain]
+Regen
+[SE]
+SO
+[SSE]
+SSO
+[SSW]
+SSW
+[SW]
+SW
+[S]
+S
+[Scattered Showers]
+vereinzelt Schauer
+[Scattered Snow Showers]
+vereinzelt Schneeschauer
 [Scattered T-Storms / Wind]
 
+[Scattered T-Storms]
+vereinzelt Gewitter
+[Shallow Fog]
+Seichter Nebel
+[Showers / Wind Late]
+
+[Showers / Wind]
+Schauer/windig
+[Showers Early]
+anfangs Schauer
+[Showers Late]
+später Schauer
+[Showers Rain]
+Regenschauer
+[Showers]
+Schauer
+[Sleet And Windy]
+Graupel/windig
+[Sleet]
+Graupel
+[Smoke]
+Smog
+[Snow / Wind Early]
+
+[Snow / Wind]
+Schnee / Wind
+[Snow / Windy]
+
+[Snow And Sleet]
+Schnee und Graupel
+[Snow Early]
+anfangs Schneefall
+[Snow Shower / Wind]
+Schneeschauer/Wind
+[Snow Shower And Windy]
+Schneeschauer/windig
+[Snow Shower]
+Schneeschauer
+[Snow Showers / Wind Early]
+Schneeschauer / Wind früh
+[Snow Showers Early]
+anfangs Schneeschauer
+[Snow Showers Late]
+später Schneeschauer
+[Snow To Rain]
+In Regen übergehender Schnee
 [Snow To Wintry Mix]
 
+[Snow]
+Schnee
+[Sunny / Wind]
+
+[Sunny / Windy]
+
+[Sunny]
+sonnig
+[T-Storm]
+Gewitter
 [T-Storms Early]
 
 [T-Storms Late]
 
-[Am T-Storms]
+[T-Storms]
+Gewitter
+[Thunder In The Vicinity]
+Gewitter in der Umgebung
+[Thunderstorm Rain]
+Gewitterregen
+[Thunderstorm]
+Gewitter
+[UV Index]
+UV-Index
+[UVI]
+UVI
+[UV]
+UV
+[Update VAR]
+Update VAR
+[WNW]
+WNW
+[WSW]
+WSW
+[W]
+W
+[Waning Crescent]
+abnehmend
+[Waning Gibbous]
+abnehmender Mond
+[Waxing Crescent]
+zunehmend
+[Waxing Gibbous]
+zunehmender Mond
+[Wind Direction DEG]
+Windrichtung (Grad)
+[Wind Direction]
+Windrichtung
+[Wind Speed]
+Windgeschwindigkeit
+[WindDir]
+Windrichtung
+[Wintry Mix / Wind]
 
-[Fog Late]
-
-[Partly Cloudy / Wind]
-
-[Rain / Snow Late]
-
-[Am Rain / Snow]
-
-[Rain Early]
-
-[AM Rain]
-
-[Pm Rain]
-
-[Am Snow]
-
-[Pm Snow]
-
-[Pm Showers / Wind]
-
-[Rain / Wind]
-
-[Freezing Rain / Windy]
-
-[Clear / Wind]
-
+[falling]
+fallend
+[rising]
+steigend
+[steady]
+gleichbleibend

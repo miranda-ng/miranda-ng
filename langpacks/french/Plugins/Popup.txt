@@ -203,22 +203,24 @@ Toujours (en priorité)
 [Debug]
 
 ;file \plugins\Popup\src\actions.cpp
-[No overwrite]
+[Quick reply]
 
 [Send message]
-
-[Quick reply]
 
 [User details]
 Détails du contact
 [Contact menu]
 Menu Contact
-[Dismiss popup]
-
+[Add permanently]
+Ajouter ce contact
 [Pin popup]
 Verrouiller le popup
+[Dismiss popup]
+
 [Copy to clipboard]
 Copier dans le Presse-Papiers
+[No overwrite]
+
 [Action]
 
 ;file \plugins\Popup\src\config.cpp

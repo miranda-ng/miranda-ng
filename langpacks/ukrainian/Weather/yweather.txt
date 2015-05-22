@@ -2,10 +2,16 @@
 ;  File: yweather.ini
 ;  Module: weather
 ;============================================================
+[ENE]
+С-Пн-С
+[ESE]
+С-Пд-С
+[E]
+С
+[East]
+Схід
 [Feel]
 Відчуття
-[Forecast Day 1]
-Прогноз: День 1
 [Forecast Day 1 Condition]
 Прогноз: День 1 Умови
 [Forecast Day 1 Date]
@@ -16,87 +22,81 @@
 Прогноз: День 1 Макс
 [Forecast Day 1 Low]
 Прогноз: День 1 Мін
-[Heat Index]
-Індекс спеки
-[Wind Direction]
-Вітер: напрям
-[Wind Speed]
-Вітер: швидкість
-[Wind Direction Degrees]
-Вітер: напрям (град)
-[Mon]
-ПН
-[Tue]
-ВТ
-[Wed]
-СР
-[Thu]
-ЧТ
+[Forecast Day 1]
+Прогноз: День 1
 [Fri]
 ПТ
+[Heat Index]
+Індекс спеки
+[Mon]
+ПН
+[Mostly Clear]
+Переважно ясно
+[Mostly Cloudy]
+Переважно хмарно
+[Mostly Sunny]
+Переважно сонячно
+[NE]
+Пн-С
+[NNE]
+Пн-Пн-С
+[NNW]
+Пн-Пн-З
+[NW]
+Пн-З
+[N]
+Пн
+[North]
+Північ
+[Northeast]
+Північно-схід
+[Northwest]
+Північно-захід
+[Partly Cloudy]
+Місцями хмарно
+[Partly Sunny]
+Місцями сонячно
+[SE]
+Пд-С
+[SSE]
+Пд-Пд-С
+[SSW]
+Пд-Пд-З
+[SW]
+Пд-З
+[S]
+Пд
 [Sat]
 СБ
+[Scattered Clouds]
+Змінна хмарність
+[South]
+Південь
+[Southeast]
+Південно-схід
+[Southwest]
+Південно-захід
 [Sun]
 НД
 [Sunny]
 Сонячно
-[Partly Sunny]
-Місцями сонячно
-[Mostly Sunny]
-Переважно сонячно
-[Partly Cloudy]
-Місцями хмарно
-[Mostly Cloudy]
-Переважно хмарно
-[Mostly Clear]
-Переважно ясно
-[N]
-Пн
-[W]
-З
-[S]
-Пд
-[E]
-С
-[NW]
-Пн-З
-[NE]
-Пн-С
-[SW]
-Пд-З
-[SE]
-Пд-С
-[NNW]
-Пн-Пн-З
-[NNE]
-Пн-Пн-С
-[SSW]
-Пд-Пд-З
-[SSE]
-Пд-Пд-С
-[ENE]
-С-Пн-С
-[WSW]
-З-Пд-З
+[Thu]
+ЧТ
+[Tue]
+ВТ
 [WNW]
 З-Пн-З
-[ESE]
-С-Пд-С
-[Scattered Clouds]
-Змінна хмарність
-[North]
-Північ
-[East]
-Схід
-[South]
-Південь
+[WSW]
+З-Пд-З
+[W]
+З
+[Wed]
+СР
 [West]
 Захід
-[Northwest]
-Північно-захід
-[Northeast]
-Північно-схід
-[Southwest]
-Південно-захід
-[Southeast]
-Південно-схід
+[Wind Direction Degrees]
+Вітер: напрям (град)
+[Wind Direction]
+Вітер: напрям
+[Wind Speed]
+Вітер: швидкість
