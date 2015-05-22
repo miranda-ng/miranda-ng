@@ -232,7 +232,7 @@ static int ModernSkinButtonToggleDBValue(char * ValueDBSection, char *ValueTypeD
 		switch (ValueTypeDef[0]) {
 		case 's':
 			Value = db_get_sa(NULL, section, key);
-			if (!Value || (Value && mir_strcmpi(Value, val2)))
+			if (!Value || (Value && !mir_strcmpi(Value, val2)))
 				Value = mir_strdup(val);
 			else
 				Value = mir_strdup(val2);
