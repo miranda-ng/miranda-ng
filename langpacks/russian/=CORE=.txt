@@ -51,6 +51,8 @@
 Вместо показа псевдонимов,\nвыберите перетаскиванием другой приоритет показа имён:
 [Miranda NG profile manager]
 Менеджер профилей Miranda NG
+[Manage your Miranda NG profile]
+Управление профилями пользователя
 [&Run]
 &Запустить
 [&Exit]
@@ -339,8 +341,8 @@ Cлужба:
 По умолчанию
 [Set]
 Выбрать
-[Disable icons]
-Отключить значки
+[Enable icons]
+Включить значки
 [Show accounts in the following order,\ndrag to choose another order:]
 Порядок отображения учётных записей.\nПеретаскивайте для изменения:
 [Account order and visibility]
@@ -2177,8 +2179,6 @@ Miranda NG не может открыть этот профиль
 Создан
 [Modified]
 Изменён
-[Manage your Miranda NG profile]
-Управление профилями пользователя
 [My profiles]
 Мои профили
 [New profile]

@@ -28,6 +28,7 @@
 [Contact display options]
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 [Miranda NG profile manager]
+[Manage your Miranda NG profile]
 [&Run]
 [&Exit]
 [Start in service mode with]
@@ -172,7 +173,7 @@
 [Service:]
 [Default]
 [Set]
-[Disable icons]
+[Enable icons]
 [Show accounts in the following order,\ndrag to choose another order:]
 [Account order and visibility]
 [Note: Miranda NG will have to be restarted for changes to take effect.]
@@ -1125,6 +1126,7 @@
 ;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 [<Root group>]
+;file \src\modules\clist\protocolorder.cpp
 ;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
@@ -1165,7 +1167,6 @@
 [Size]
 [Created]
 [Modified]
-[Manage your Miranda NG profile]
 [My profiles]
 [New profile]
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp

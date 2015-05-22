@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.11.1.2
-;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
+;  Version: 0.12.1.1
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 ;file \protocols\MSN\res\msn.rc
@@ -33,14 +33,14 @@
 [Somebody included you in his/her server list]
 [Refresh]
 [Hotmail]
-[Disable Popup notifications]
-[Disable Tray notifications]
+[Enable Popup notifications]
+[Enable Contact List notifications]
+[Enable Tray notifications]
 [Ignore new messages not in Inbox folder]
 [Other]
 [Display errors using popups]
 [Enable 'Chat Session Established' popup]
 [Enable 'Contact left channel' popup]
-[Disable Contact List notifications]
 [Set Nickname]
 [Cancel]
 [Mobile Device (used for SMS)]
@@ -62,18 +62,19 @@
 [Add]
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
-[Me]
-[Others]
 [&Invite user...]
 [&Leave chat session]
 [User &details]
 [User &history]
+[&Kick user]
+[&Op user]
+[&Deop user]
 ;file \protocols\MSN\src\msn_commands.cpp
+[MSN Alert]
 [Contact tried to open an audio conference (not currently supported)]
 [%I64u bytes]
 [Accept NetMeeting request from %s?]
 [MSN Protocol]
-[MSN Alert]
 [Chat session established by my request]
 [Chat session established by contact request]
 [Contact left channel]
@@ -81,6 +82,7 @@
 [To resume the conversation, please quit this session and start a new chat session.]
 [There is only 1 person left in the chat, do you want to switch back to standard message window?]
 [MSN Chat]
+[Others]
 [Message delivery failed]
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]

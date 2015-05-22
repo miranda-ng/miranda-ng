@@ -36,6 +36,7 @@
 [Offline status mean:]
 [To / CopyTo]
 [autoregister]
+[Keep connection on error]
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 [Lotus Notes Client not detected. Check plugin configuration description on install.txt]
