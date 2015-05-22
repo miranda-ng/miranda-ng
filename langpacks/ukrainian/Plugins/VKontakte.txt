@@ -275,6 +275,8 @@
 Посилання
 [Image]
 Зображення
+[Gift]
+Подарунок
 [Unsupported or unknown attachment type: %s]
 Цей тип вкладень не підтримується: %s
 [(Unknown contact)]

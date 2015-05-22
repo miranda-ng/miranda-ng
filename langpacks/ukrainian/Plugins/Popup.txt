@@ -209,6 +209,8 @@ History++ для історії вікон
 Про користувача
 [Contact menu]
 Меню контакту
+[Add permanently]
+Додати до списку
 [Pin popup]
 Закріпити
 [Dismiss popup]
