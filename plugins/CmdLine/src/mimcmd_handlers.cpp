@@ -1544,7 +1544,7 @@ void AddHistoryEvent(DBEVENTINFO *dbEvent, char *contact, PReply reply)
 		SetEvent(heServerBufferFull);
 
 		Sleep(750);
-		strcpy(reply->message, "\n");
+		mir_strcpy(reply->message, "\n");
 	}
 	mir_free(message);
 }
@@ -1739,8 +1739,8 @@ void HandleSetNicknameCommand(PCommand command, TArgument *argv, int argc, PRepl
 	if (argc == 4)
 	{
 		char protocol[512], nickname[512];
-		strcpy(protocol, argv[2]);
-		strcpy(nickname, argv[3]);
+		mir_strcpy(protocol, argv[2]);
+		mir_strcpy(nickname, argv[3]);
 
 		int res = CallProtoService(protocol, PS_SETMYNICKNAME, SMNN_TCHAR, (LPARAM) nickname);
 

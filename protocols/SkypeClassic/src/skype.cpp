@@ -2179,8 +2179,8 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 			}
 			if (!strncmp(szSkypeMsg, "PROTOCOL ", 9)) {
 				if ((protocol = (char)atoi(szSkypeMsg + 9)) >= 3) {
-					strcpy(cmdMessage, "CHATMESSAGE");
-					strcpy(cmdPartner, "FROM");
+					mir_strcpy(cmdMessage, "CHATMESSAGE");
+					mir_strcpy(cmdPartner, "FROM");
 				}
 				bProtocolSet = TRUE;
 
@@ -2434,7 +2434,7 @@ void RetrieveUserAvatar(void *param)
 		{
 			// Get filename
 			FoldersGetCustomPath(hProtocolAvatarsFolder, AvatarFile, sizeof(AvatarFile), DefaultAvatarsFolder);
-			if (!*AvatarFile) strcpy(AvatarFile, DefaultAvatarsFolder);
+			if (!*AvatarFile) mir_strcpy(AvatarFile, DefaultAvatarsFolder);
 			mir_snprintf(AvatarTmpFile, SIZEOF(AvatarTmpFile), "AVATAR 1 %s\\%s_tmp.jpg", AvatarFile, dbv.pszVal);
 			pszTempFile = AvatarTmpFile + 9;
 			mir_snprintf(AvatarFile, SIZEOF(AvatarFile), "%s\\%s.jpg", AvatarFile, dbv.pszVal);
@@ -2544,7 +2544,7 @@ INT_PTR SkypeGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 		// Return the avatar
 		AI->format = PA_FORMAT_JPEG;
-		strcpy(AI->filename, AvatarFile);
+		mir_strcpy(AI->filename, AvatarFile);
 		return GAIR_SUCCESS;
 	}
 }
@@ -2726,7 +2726,7 @@ INT_PTR SkypeSendMessage(WPARAM, LPARAM lParam) {
 
 		if (psendarg) {
 			psendarg->hContact = ccs->hContact;
-			strcpy(psendarg->szId, szId);
+			mir_strcpy(psendarg->szId, szId);
 			pthread_create(MessageSendWatchThread, psendarg);
 		}
 		else

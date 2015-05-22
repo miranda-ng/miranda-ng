@@ -280,12 +280,12 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 
 				if (bot)
 				{
-					strcpy(client,CLIENT_BOT);
+					mir_strcpy(client,CLIENT_BOT);
 					bot_user=1;
 				}
 				if (wireless)
 				{
-					strcpy(client,CLIENT_SMS);
+					mir_strcpy(client,CLIENT_SMS);
 					wireless_user=1;
 				}
 				else if (away)
@@ -356,31 +356,31 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 					}
 					else if (memcmp(cap, "Kopete ICQ", 10) == 0)
 					{
-						strcpy(client,CLIENT_KOPETE);
+						mir_strcpy(client,CLIENT_KOPETE);
 					}
 					else if (memcmp(&cap[7], "QIP", 3) == 0)
 					{
-						strcpy(client,CLIENT_QIP);
+						mir_strcpy(client,CLIENT_QIP);
 					}
 					else if (memcmp(cap, "mICQ", 4) == 0)
 					{
-						strcpy(client,CLIENT_MICQ);
+						mir_strcpy(client,CLIENT_MICQ);
 					}
 					else if (cap_cmp(cap, AIM_CAP_IM2) == 0)
 					{
-						strcpy(client,CLIENT_IM2);
+						mir_strcpy(client,CLIENT_IM2);
 					}
 					else if (memcmp(cap, "SIM client", 10) == 0)
 					{
-						strcpy(client,CLIENT_SIM);
+						mir_strcpy(client,CLIENT_SIM);
 					}
 					else if (memcmp(cap+4, "naim", 4) == 0)
 					{
-						strcpy(client,CLIENT_NAIM);
+						mir_strcpy(client,CLIENT_NAIM);
 					}
 					else if (memcmp(cap, "digsby", 6) == 0)
 					{
-						strcpy(client,CLIENT_DIGSBY);
+						mir_strcpy(client,CLIENT_DIGSBY);
 					}
 					mir_free(cap);
 				}
@@ -432,7 +432,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 						O1ff=1;
 					if (cap==0x1323)
 					{
-						strcpy(client,CLIENT_GPRS);
+						mir_strcpy(client,CLIENT_GPRS);
 						hiptop_user=1;
 					}
 					if (cap==0x1341)
@@ -455,52 +455,52 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 						l34e=1;
 				}
 				if (f002&&f003&&f004&&f005)
-					strcpy(client,CLIENT_TRILLIAN_PRO);
+					mir_strcpy(client,CLIENT_TRILLIAN_PRO);
 				else if ((f004&&f005&&f007&&f008) || (f004&&f005&&O104&&O105))
-					strcpy(client,CLIENT_ICHAT);
+					mir_strcpy(client,CLIENT_ICHAT);
 				else if (f003&f004&f005)
-					strcpy(client,CLIENT_TRILLIAN);
+					mir_strcpy(client,CLIENT_TRILLIAN);
 				else if (l343&&O1ff&&tlv.len()==4)
-					strcpy(client,CLIENT_TRILLIAN_ASTRA);
+					mir_strcpy(client,CLIENT_TRILLIAN_ASTRA);
 				else if (l343&&tlv.len()==2)
-					strcpy(client,CLIENT_AIMTOC);
+					mir_strcpy(client,CLIENT_AIMTOC);
 				else if (l343&&l345&&l346&&tlv.len()==6)
-					strcpy(client,CLIENT_GAIM);
+					mir_strcpy(client,CLIENT_GAIM);
 				else if (l343&&l345&&l346&&l34e&&tlv.len()==8)
-					strcpy(client,CLIENT_PURPLE);
+					mir_strcpy(client,CLIENT_PURPLE);
 				else if (l343&&l345&&l346&&l349&&l34e&&tlv.len()==10)
-					strcpy(client,CLIENT_PURPLE);
+					mir_strcpy(client,CLIENT_PURPLE);
 				else if (l343&&l345&&l34e&&tlv.len()==6)
-					strcpy(client,CLIENT_ADIUM);
+					mir_strcpy(client,CLIENT_ADIUM);
 				else if (l343&&l346&&l34e&&tlv.len()==6)
-					strcpy(client,CLIENT_TERRAIM);
+					mir_strcpy(client,CLIENT_TERRAIM);
 				else if (tlv.len()==0 && getWord(hContact, AIM_KEY_ST,0)!=ID_STATUS_ONTHEPHONE)
-					strcpy(client,CLIENT_AIMEXPRESS5);	
+					mir_strcpy(client,CLIENT_AIMEXPRESS5);	
 				else if (l34b&&l343&&O1ff&&l345&&l346&&tlv.len()==10)
-					strcpy(client,CLIENT_AIMEXPRESS6);	
+					mir_strcpy(client,CLIENT_AIMEXPRESS6);	
 				else if (l34b&&l341&&l343&&O1ff&&l345&&l346&&l347)
-					strcpy(client,CLIENT_AIM5);
+					mir_strcpy(client,CLIENT_AIM5);
 				else if (l34b&&l341&&l343&&l345&l346&&l347&&l348)
-					strcpy(client,CLIENT_AIM4);
+					mir_strcpy(client,CLIENT_AIM4);
 				else if (O1ff&&l343&&O107&&l341&&O104&&O105&&O101&&l346)
 				{
 					if (O10d)
-						strcpy(client,CLIENT_AIM6_9);
+						mir_strcpy(client,CLIENT_AIM6_9);
 					else if (O10c)
-						strcpy(client,CLIENT_AIM6_8);
+						mir_strcpy(client,CLIENT_AIM6_8);
 					else if (O10a)
-						strcpy(client,CLIENT_AIM6_5);
+						mir_strcpy(client,CLIENT_AIM6_5);
 					else
-						strcpy(client,CLIENT_AIM_TRITON);
+						mir_strcpy(client,CLIENT_AIM_TRITON);
 				}
 				else if (O1ff&&l343&&l341&&O104&&O105&&O101&&l346)
-					strcpy(client,CLIENT_AIM7_0);
+					mir_strcpy(client,CLIENT_AIM7_0);
 				else if (l346&&l34e&&tlv.len()==4)
-					strcpy(client,CLIENT_MEEBO);
+					mir_strcpy(client,CLIENT_MEEBO);
 				else if (l34e&&tlv.len()==2)
-					strcpy(client,CLIENT_BEEJIVE);
+					mir_strcpy(client,CLIENT_BEEJIVE);
 				else if (l34e&&l343&&tlv.len()==4)
-					strcpy(client,CLIENT_BEEJIVE);
+					mir_strcpy(client,CLIENT_BEEJIVE);
 
 				//	setByte(hContact, AIM_KEY_US, utf8);
 			}

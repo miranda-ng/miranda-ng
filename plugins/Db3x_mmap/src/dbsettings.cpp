@@ -104,7 +104,7 @@ LBL_Seek:
 			}
 			else {
 				dbv->pszVal = (char*)mir_alloc(mir_strlen(pCachedValue->pszVal) + 1);
-				strcpy(dbv->pszVal, pCachedValue->pszVal);
+				mir_strcpy(dbv->pszVal, pCachedValue->pszVal);
 			}
 		}
 		else memcpy(dbv, pCachedValue, sizeof(DBVARIANT));
@@ -409,7 +409,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 				return 1;
 
 			dbcwNotif.value.pszVal = (char*)alloca(mir_strlen(val) + 1);
-			strcpy(dbcwNotif.value.pszVal, val);
+			mir_strcpy(dbcwNotif.value.pszVal, val);
 			mir_free(val);
 			dbcwNotif.value.type = DBVT_UTF8;
 		}

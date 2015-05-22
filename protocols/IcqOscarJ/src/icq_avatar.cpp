@@ -528,7 +528,7 @@ int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, 
 	uid_str szUidData;
 	char *pszUid = NULL;
 	if (!dwUin && szUid) { // create a copy in local writable buffer
-		strcpy(szUidData, szUid);
+		mir_strcpy(szUidData, szUid);
 		pszUid = szUidData;
 	}
 
@@ -585,7 +585,7 @@ int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, 
 	ar->hContact = hContact;
 	ar->dwUin = dwUin;
 	if (!dwUin)
-		strcpy(ar->szUid, szUid);
+		mir_strcpy(ar->szUid, szUid);
 	ar->hash = (BYTE*)SAFE_MALLOC(hashlen);
 	if (!ar->hash) { // alloc failed
 		delete ar;

@@ -418,7 +418,7 @@ void LoadSkinItemToCache(TExtraCache *cEntry)
 		if (cEntry->status_item == NULL)
 			cEntry->status_item = reinterpret_cast<StatusItems_t *>(malloc(sizeof(StatusItems_t)));
 		memset(cEntry->status_item, 0, sizeof(StatusItems_t));
-		strcpy(cEntry->status_item->szName, "{--CONTACT--}"); // mark as "per contact" item
+		mir_strcpy(cEntry->status_item->szName, "{--CONTACT--}"); // mark as "per contact" item
 		cEntry->status_item->IGNORED = 0;
 
 		cEntry->status_item->TEXTCOLOR = cfg::getDword(hContact, "EXTBK", "TEXT", RGB(20, 20, 20));

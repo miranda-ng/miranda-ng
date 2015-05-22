@@ -509,7 +509,7 @@ void LoadMsgLogBitmaps(void)
 		char *szDest = pLogIconBmpBits[i] + rtfHeaderSize;
 		bin2hex(&bih, sizeof(bih), szDest); szDest += sizeof(bih) * 2;
 		bin2hex(pBmpBits, widthBytes * bih.biHeight, szDest); szDest += widthBytes * bih.biHeight * 2;
-		strcpy(szDest, "}");
+		mir_strcpy(szDest, "}");
 
 		logIconBmpSize[i] = size_t(szDest - pLogIconBmpBits[i]) + 1;
 	}

@@ -148,7 +148,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ppro->setDword(UNIQUEIDSETTING, GetDlgItemInt(hwndDlg, IDC_ICQNUM, NULL, FALSE));
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, SIZEOF(ppro->m_szPassword));
 			if (mir_strlen(str)) {
-				strcpy(ppro->m_szPassword, str);
+				mir_strcpy(ppro->m_szPassword, str);
 				ppro->m_bRememberPwd = true;
 			}
 			else ppro->m_bRememberPwd = ppro->getByte("RememberPass", 0);

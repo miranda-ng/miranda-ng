@@ -152,7 +152,7 @@ void GGPROTO::requestAvatarTransfer(MCONTACT hContact, char *szAvatarURL)
 	if (avatar_transfers.getIndex((GGGETAVATARDATA*)&hContact) == -1) {
 		GGGETAVATARDATA *data = (GGGETAVATARDATA*)mir_alloc(sizeof(GGGETAVATARDATA) + mir_strlen(szAvatarURL)+1);
 		data->hContact = hContact;
-		data->szAvatarURL = strcpy((char*)(data+1), szAvatarURL);
+		data->szAvatarURL = mir_strcpy((char*)(data+1), szAvatarURL);
 		avatar_transfers.insert(data);
 	}
 	gg_LeaveCriticalSection(&avatar_mutex, "requestAvatarTransfer", 1, 1, "avatar_mutex", 1);

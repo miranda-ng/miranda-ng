@@ -108,7 +108,7 @@ char * contactDir_Proto_Add(contactDir * cd, char * proto)
 	if ( List_GetIndex(&cd->protoNameCache, proto, &index) ) szCache = cd->protoNameCache.items[index];
 	else {
 		szCache = HeapAlloc(hCacheHeap, HEAP_NO_SERIALIZE, mir_strlen(proto)+1);
-		strcpy(szCache, proto);
+		mir_strcpy(szCache, proto);
 		List_Insert(&cd->protoNameCache, szCache, index);
 	}
 	return szCache;

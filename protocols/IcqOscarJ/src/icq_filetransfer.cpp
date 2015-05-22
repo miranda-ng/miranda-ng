@@ -375,7 +375,7 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, size_t wL
 			}
 
 			char *szFullPath = (char*)SAFE_MALLOC(mir_strlen(dc->ft->szSavePath) + mir_strlen(dc->ft->szThisSubdir) + mir_strlen(dc->ft->szThisFile) + 3);
-			strcpy(szFullPath, dc->ft->szSavePath);
+			mir_strcpy(szFullPath, dc->ft->szSavePath);
 			NormalizeBackslash(szFullPath);
 			strcat(szFullPath, dc->ft->szThisSubdir);
 			NormalizeBackslash(szFullPath);

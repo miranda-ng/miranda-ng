@@ -207,7 +207,7 @@ int CIcqProto::ShowPopupMsg(MCONTACT hContact, const char *szTitle, const char *
 		POPUPDATAT ppd = { 0 };
 		LPCTSTR rsIcon;
 		char szPrefix[32], szSetting[32];
-		strcpy(szPrefix, "Popups");
+		mir_strcpy(szPrefix, "Popups");
 
 		switch(bType) {
 		case LOG_NOTE:
@@ -262,15 +262,15 @@ int CIcqProto::ShowPopupMsg(MCONTACT hContact, const char *szTitle, const char *
 				ppd.colorBack = NULL;
 			}
 			else {
-				strcpy(szSetting, szPrefix);
+				mir_strcpy(szSetting, szPrefix);
 				strcat(szSetting, "TextColor");
 				ppd.colorText = getDword(szSetting, ppd.colorText);
-				strcpy(szSetting, szPrefix);
+				mir_strcpy(szSetting, szPrefix);
 				strcat(szSetting, "BackColor");
 				ppd.colorBack = getDword(szSetting, ppd.colorBack);
 			}
 		}
-		strcpy(szSetting, szPrefix);
+		mir_strcpy(szSetting, szPrefix);
 		strcat(szSetting, "Timeout");
 		ppd.iSeconds = getDword(szSetting, ppd.iSeconds);
 

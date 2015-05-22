@@ -19,7 +19,7 @@ void CDropbox::SendFileChunkedFirst(const char *data, int length, char *uploadId
 	if (root)
 	{
 		JSONNODE *node = json_get(root, "upload_id");
-		strcpy(uploadId, mir_u2a(json_as_string(node)));
+		mir_strcpy(uploadId, mir_u2a(json_as_string(node)));
 
 		node = json_get(root, "offset");
 		offset = json_as_int(node);

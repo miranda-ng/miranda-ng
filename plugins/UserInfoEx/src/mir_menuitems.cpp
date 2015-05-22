@@ -320,7 +320,7 @@ void RebuildGroup()
 
 	// create service name main (prevent to generate {(Null)/Ex-/Import Group} in db) and set pointer to end it
 	char text[200];
-	strcpy(text, "UserInfo");
+	mir_strcpy(text, "UserInfo");
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = text;
@@ -417,7 +417,7 @@ void RebuildSubGroup()
 
 	// create service name main (prevent to generate {(Null)/Ex-/Import Group} in db) and set pointer to end it
 	char text[200];
-	strcpy(text, "UserInfo");
+	mir_strcpy(text, "UserInfo");
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = text;
@@ -464,7 +464,7 @@ void RebuildSubGroup()
 	{	mi.hParentMenu = mhExIm;
 
 		// Export
-		strcpy(tDest, "/ExportGroup");		//mi.pszService
+		mir_strcpy(tDest, "/ExportGroup");		//mi.pszService
 		if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
 		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Export") : LPGEN("&Export group");
 		mi.position = 1050200;
@@ -474,7 +474,7 @@ void RebuildSubGroup()
 		hMenuItem[item++] = Menu_AddSubGroupMenuItem(&gmp, &mi);
 
 		// Import
-		strcpy(tDest, "/ImportGroup");		//mi.pszService
+		mir_strcpy(tDest, "/ImportGroup");		//mi.pszService
 		if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
 		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Import") : LPGEN("&Import group");
 		mi.position = 1050300;
@@ -547,7 +547,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 
 		// create service name main (account module name) and set pointer to end it
 		char text[ 200 ];
-		strcpy( text, pcli->menuProtos[i].szProto);
+		mir_strcpy( text, pcli->menuProtos[i].szProto);
 	
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.pszService = text;
@@ -593,7 +593,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			mi.hParentMenu = mhExIm;
 
 			// Export
-			strcpy(tDest, "/ExportAccount");		//mi.pszService
+			mir_strcpy(tDest, "/ExportAccount");		//mi.pszService
 			if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
 			mi.pszName = LPGEN("&Export xml");
 			mi.position = 50200;
@@ -601,7 +601,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
 
 			// Import
-			strcpy(tDest, "/ImportAccount");		//mi.pszService
+			mir_strcpy(tDest, "/ImportAccount");		//mi.pszService
 			if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
 			mi.pszName = LPGEN("&Import xml");
 			mi.position = 50300;

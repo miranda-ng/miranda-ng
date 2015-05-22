@@ -473,7 +473,7 @@ HYAMNMAIL WINAPI CreateNewDeleteQueueFcn(HYAMNMAIL From)
 				Browser=Browser->Next;
 			}
 			Browser->ID=new char[mir_strlen(From->ID)+1];
-			strcpy(Browser->ID,From->ID);
+			mir_strcpy(Browser->ID,From->ID);
 			Browser->Number=From->Number;
 			Browser->Flags=From->Flags;
 		}

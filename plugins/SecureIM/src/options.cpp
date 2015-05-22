@@ -75,7 +75,7 @@ void LV_GetItemTextA(HWND hwnd, WPARAM wparam, int iSubItem, LPSTR text, int cch
 	lvi.pszText = text;
 	SNDMSG(hwnd, LVM_GETITEMTEXTW, wparam, (LPARAM)&lvi);
 	lvi.pszText = mir_u2a((LPWSTR)text);
-	strcpy(text, lvi.pszText);
+	mir_strcpy(text, lvi.pszText);
 	mir_free(lvi.pszText);
 }
 

@@ -300,7 +300,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 					} else {
 						// a directory was selected
 						pNotify->lpOFN->Flags &= ~OFN_FILEMUSTEXIST;
-						strcpy(pNotify->lpOFN->lpstrFile, pszShareDirStr);
+						mir_strcpy(pNotify->lpOFN->lpstrFile, pszShareDirStr);
 						CommDlg_OpenSave_SetControlText(hWndFileDlg, edt1, pszShareDirStr);
 						EnableWindow(hFileName, FALSE);
 						EnableWindow(GetDlgItem(hDlg, IDC_MAX_DOWNLOADS), FALSE);
@@ -341,7 +341,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 						SetDlgItemText(hDlg, IDC_SHARE_NAME, szSelection);
 					}
 
-					strcpy(pstShare->pszSrvPath, szSelection);
+					mir_strcpy(pstShare->pszSrvPath, szSelection);
 
 					return false;
 				}
@@ -444,7 +444,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare) {
 	char szInitialDir[MAX_PATH];
 	if (ofn.lpstrFile[mir_strlen(ofn.lpstrFile)-1] == '\\') {
 		ofn.lpstrInitialDir = szInitialDir;
-		strcpy(szInitialDir, ofn.lpstrFile);
+		mir_strcpy(szInitialDir, ofn.lpstrFile);
 		*ofn.lpstrFile = '\0';
 	}
 
@@ -602,7 +602,7 @@ void UpdateStatisticView(HWND hwndDlg, bool bRefressUsersOnly = false) {
 			if (pclCurUser->dwTotalSize) {
 				mir_snprintf(szTmp, SIZEOF(szTmp), "%d %%", (pclCurUser->dwCurrentDL * 100) / pclCurUser->dwTotalSize);
 			} else {
-				strcpy(szTmp, "? %%");
+				mir_strcpy(szTmp, "? %%");
 			}
 			sItem.iSubItem = 3;
 			sItem.pszText = szTmp;
@@ -918,7 +918,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 								HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, sLink.size() + 1);
 								// Lock the handle and copy the text to the buffer.
 								char * lptstrCopy = (char *)GlobalLock(hglbCopy);
-								strcpy(lptstrCopy, sLink.c_str());
+								mir_strcpy(lptstrCopy, sLink.c_str());
 								GlobalUnlock(hglbCopy);
 
 								// Place the handle on the clipboard.

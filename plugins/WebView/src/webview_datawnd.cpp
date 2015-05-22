@@ -76,7 +76,7 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					startposition = 0;
 				}
 
-				strcpy(Searchstr, NewSearchstr);
+				mir_strcpy(Searchstr, NewSearchstr);
 
 				if (!(startposition > mir_strlen(buff)))
 					location = (strstr(buff + startposition, NewSearchstr)) - buff;

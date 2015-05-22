@@ -709,7 +709,7 @@ INT_PTR SkypeCall(WPARAM wParam, LPARAM lParam) {
 	} else {
 		if (db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) return -1;
 		msg=(char *)malloc(mir_strlen(dbv.pszVal)+6);
-		strcpy(msg, "CALL ");
+		mir_strcpy(msg, "CALL ");
 		strcat(msg, dbv.pszVal);
 		res=SkypeSend(msg);
 	}
@@ -747,7 +747,7 @@ INT_PTR SkypeCallHangup(WPARAM wParam, LPARAM lParam)
 	//} else {
 	//	if (db_get(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) return -1;
 	//	msg=(char *)malloc(mir_strlen(dbv.pszVal)+6);
-	//	strcpy(msg, "CALL ");
+	//	mir_strcpy(msg, "CALL ");
 	//	strcat(msg, dbv.pszVal);
 	//	res=SkypeSend(msg);
 		return res;
@@ -864,7 +864,7 @@ static INT_PTR CALLBACK DialDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					}
 					if (!db_set_s(hContact, SKYPE_PROTONAME, "SkypeOutNr", number)) {
 						msg=(char *)malloc(mir_strlen(number)+6);
-						strcpy(msg, "CALL ");
+						mir_strcpy(msg, "CALL ");
 						strcat(msg, number);
 						if (SkypeSend(msg) || (ptr=SkypeRcv("ERROR", 500))) {
 							db_unset(hContact, SKYPE_PROTONAME, "SkypeOutNr");
@@ -1165,7 +1165,7 @@ INT_PTR SkypeSetAvatar(WPARAM wParam, LPARAM lParam) {
 		return -2;
 	
 	FoldersGetCustomPath(hProtocolAvatarsFolder, AvatarFile, sizeof(AvatarFile), DefaultAvatarsFolder);
-	if (!*AvatarFile) strcpy (AvatarFile, DefaultAvatarsFolder);
+	if (!*AvatarFile) mir_strcpy (AvatarFile, DefaultAvatarsFolder);
 	mir_snprintf(AvatarFile, SIZEOF(AvatarFile), "%s\\%s avatar.%s", AvatarFile, SKYPE_PROTONAME, ext);
 
 	// Backup old file

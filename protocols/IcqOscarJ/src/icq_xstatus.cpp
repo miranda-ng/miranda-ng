@@ -994,7 +994,7 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM hContact, LPARAM lParam)
 				char *text = (char*)nameXStatus[status-1];
 				MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, text, -1, pData->pwszName, MAX_PATH);
 			}
-			else strcpy(pData->pszName, (char*)nameXStatus[status-1]);
+			else mir_strcpy(pData->pszName, (char*)nameXStatus[status-1]);
 		}
 		else { // moods does not support status title
 			if (!m_bXStatusEnabled) return 1;
@@ -1010,10 +1010,10 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM hContact, LPARAM lParam)
 			else {
 				DBVARIANT dbv;
 				if ( !getString(hContact, DBSETTING_XSTATUS_NAME, &dbv) && dbv.pszVal) {
-					strcpy(pData->pszName, dbv.pszVal);
+					mir_strcpy(pData->pszName, dbv.pszVal);
 					db_free(&dbv);
 				}
-				else strcpy(pData->pszName, "");
+				else mir_strcpy(pData->pszName, "");
 			}
 		}
 	}
@@ -1031,9 +1031,9 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM hContact, LPARAM lParam)
 			DBVARIANT dbv = {0};
 
 			if (!getString(hContact, CheckContactCapabilities(hContact, CAPF_STATUS_MOOD) ? DBSETTING_STATUS_NOTE : DBSETTING_XSTATUS_MSG, &dbv) && dbv.pszVal)
-				strcpy(pData->pszMessage, dbv.pszVal);
+				mir_strcpy(pData->pszMessage, dbv.pszVal);
 			else
-				strcpy(pData->pszMessage, "");
+				mir_strcpy(pData->pszMessage, "");
 
 			db_free(&dbv);
 		}

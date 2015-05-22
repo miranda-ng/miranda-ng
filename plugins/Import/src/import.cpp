@@ -373,7 +373,7 @@ static INT_PTR CALLBACK AccountsMatcherProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 static char* newStr(const char *s)
 {
-	return (s == NULL) ? NULL : strcpy(new char[mir_strlen(s) + 1], s);
+	return (s == NULL) ? NULL : mir_strcpy(new char[mir_strlen(s) + 1], s);
 }
 
 static bool FindDestAccount(const char *szProto)

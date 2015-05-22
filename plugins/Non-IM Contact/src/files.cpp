@@ -49,8 +49,8 @@ int Openfile(char *outputFile, int saveOpen) //0=save, 1=open
 	int r;
 	char title[16];
 	if (saveOpen)
-		strcpy(title, "Open file");
-	else strcpy(title, "Save to file");
+		mir_strcpy(title, "Open file");
+	else mir_strcpy(title, "Save to file");
 
 	OPENFILENAMEA ofn = { sizeof(ofn) };
 	ofn.lpstrFile = filename;
@@ -173,7 +173,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				char text[512], url[512], fn[10] = "fn0", szFileName[MAX_PATH], temp[512];
 				int i, timer;
 				GetDlgItemTextA(hwnd, IDC_URL, text, SIZEOF(text));
-				strcpy(url, text);
+				mir_strcpy(url, text);
 				if (!InternetDownloadFile(text)) {
 					for (i = 0;; i++) {
 						mir_snprintf(fn, SIZEOF(fn), "fn%d", i);

@@ -601,13 +601,13 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 	*((PDWORD)pCurBlob) = (DWORD)hContact;
 	pCurBlob += sizeof(DWORD); // hContact(DWORD)
 
-	strcpy((char*)pCurBlob, szNick); 
+	mir_strcpy((char*)pCurBlob, szNick); 
 	pCurBlob += mir_strlen(szNick) + 1;
 
-	strcpy((char*)pCurBlob, szFirstName);
+	mir_strcpy((char*)pCurBlob, szFirstName);
 	pCurBlob += mir_strlen(szFirstName) + 1;
 
-	strcpy((char*)pCurBlob, szLastName);
+	mir_strcpy((char*)pCurBlob, szLastName);
 	pCurBlob += mir_strlen(szLastName) + 1;
 	
 	*pCurBlob = '\0';	//email

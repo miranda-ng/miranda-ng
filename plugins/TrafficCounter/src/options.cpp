@@ -193,7 +193,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if ((options[i].dwFlag & OPTTREE_INVISIBLE) && !options[i].szSettingName)
 			{
 				options[i].szSettingName = (char*)mir_alloc(1 + mir_strlen(ProtoList[j].name));
-				strcpy(options[i].szSettingName, ProtoList[j].name);
+				mir_strcpy(options[i].szSettingName, ProtoList[j].name);
 				size_t l = 20 + mir_tstrlen(ProtoList[j].tszAccountName);
 				options[i].szOptionName = (TCHAR*)mir_alloc(sizeof(TCHAR) * l);
 				mir_sntprintf(options[i].szOptionName, l, _T("Visible accounts/%s"), ProtoList[j].tszAccountName);
@@ -249,7 +249,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		// Настройки видимости протоколов
 		for (i = 0; i < NumberOfAccounts; i++) {
 			char buffer[32];
-			strcpy(buffer, ProtoList[i].name);
+			mir_strcpy(buffer, ProtoList[i].name);
 			OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, ProtoList[i].Visible, buffer);
 		}
 		OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.ShowOverall, "ShowOverall");
@@ -304,7 +304,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			for (i = 0; i < NumberOfAccounts; i++)
 			{
 				char buffer[32];
-				strcpy(buffer, ProtoList[i].name);
+				mir_strcpy(buffer, ProtoList[i].name);
 				ProtoList[i].Visible = (BYTE)OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, buffer);
 			}
 			unOptions.ShowOverall = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowOverall");

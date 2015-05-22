@@ -257,7 +257,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 		return 0;
 
 	char text[200];
-	strcpy(text, m_szModuleName);
+	mir_strcpy(text, m_szModuleName);
 	char *tDest = text + mir_strlen(text);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -271,7 +271,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	// TODO: Disable this menu item when offline
 	// "Send Tweet..."
 	CreateProtoService("/Tweet", &TwitterProto::OnTweet);
-	strcpy(tDest, "/Tweet");
+	mir_strcpy(tDest, "/Tweet");
 	mi.ptszName = LPGENT("Send Tweet...");
 	mi.popupPosition = 200001;
 	mi.icolibItem = GetIconHandle("tweet");

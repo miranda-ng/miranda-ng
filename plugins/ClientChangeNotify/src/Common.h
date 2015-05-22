@@ -115,7 +115,7 @@ static __inline CString LogMessage(const char *Format, ...)
 {
 	va_list va;
 	char szText[8096];
-	strcpy(szText, LOG_PREFIX);
+	mir_strcpy(szText, LOG_PREFIX);
 	va_start(va, Format);
 	mir_vsnprintf(szText + (lengthof(LOG_PREFIX) - 1), sizeof(szText) - (lengthof(LOG_PREFIX) - 1), Format, va);
 	va_end(va);

@@ -71,7 +71,7 @@ extern "C" __declspec(dllexport) int Load()
     GetModuleFileName(hInstance, fileName, MAX_PATH);
     FindClose(FindFirstFile(fileName, &findData));
     findData.cFileName[mir_strlen(findData.cFileName) - 4] = 0;
-    strcpy(protoName, findData.cFileName);
+    mir_strcpy(protoName, findData.cFileName);
 
     CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 

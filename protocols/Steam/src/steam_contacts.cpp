@@ -637,15 +637,15 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 		pCurBlob += sizeof(DWORD);
 		*((PDWORD)pCurBlob) = (DWORD)hContact;
 		pCurBlob += sizeof(DWORD);
-		strcpy((char*)pCurBlob, nickName);
+		mir_strcpy((char*)pCurBlob, nickName);
 		pCurBlob += mir_strlen(nickName) + 1;
-		strcpy((char*)pCurBlob, firstName);
+		mir_strcpy((char*)pCurBlob, firstName);
 		pCurBlob += mir_strlen(firstName) + 1;
-		strcpy((char*)pCurBlob, lastName);
+		mir_strcpy((char*)pCurBlob, lastName);
 		pCurBlob += mir_strlen(lastName) + 1;
-		strcpy((char*)pCurBlob, steamId);
+		mir_strcpy((char*)pCurBlob, steamId);
 		pCurBlob += mir_strlen(steamId) + 1;
-		strcpy((char*)pCurBlob, reason);
+		mir_strcpy((char*)pCurBlob, reason);
 
 		AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), DBEF_UTF, cbBlob, pBlob);
 	}

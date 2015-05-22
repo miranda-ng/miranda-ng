@@ -59,7 +59,7 @@ LPSTR combineMessage(pUinKey ptr, LPSTR szMsg)
 		memset(pm->message, 0, sizeof(LPSTR)*part_all);
 	}
 	pm->message[part_num] = new char[mir_strlen(szMsg)];
-	strcpy(pm->message[part_num], szMsg + 8);
+	mir_strcpy(pm->message[part_num], szMsg + 8);
 
 	Sent_NetLog("combine: save part: %s", pm->message[part_num]);
 

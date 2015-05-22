@@ -191,7 +191,7 @@ void addMsg2Queue(pUinKey ptr, WPARAM wParam, LPSTR szMsg)
 
 void getContactNameA(MCONTACT hContact, LPSTR szName)
 {
-	strcpy(szName, (LPCSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
+	mir_strcpy(szName, (LPCSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
 }
 
 void getContactName(MCONTACT hContact, LPSTR szName)
@@ -220,7 +220,7 @@ void getContactUinA(MCONTACT hContact, LPSTR szUIN)
 		else
 			sprintf(szUIN, "%s [%s]", dbv_uniqueid.pszVal, ptr->name); //!!!!!!!!!!!
 	}
-	else strcpy(szUIN, " == =  unknown   == =");
+	else mir_strcpy(szUIN, " == =  unknown   == =");
 
 	db_free(&dbv_uniqueid);
 }

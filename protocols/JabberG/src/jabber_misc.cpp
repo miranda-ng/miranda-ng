@@ -87,10 +87,10 @@ void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 	PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 	*((PDWORD)pCurBlob) = 0; pCurBlob += sizeof(DWORD);
 	*((PDWORD)pCurBlob) = (DWORD)hContact; pCurBlob += sizeof(DWORD);
-	strcpy((char*)pCurBlob, szNick); pCurBlob += mir_strlen(szNick)+1;
+	mir_strcpy((char*)pCurBlob, szNick); pCurBlob += mir_strlen(szNick)+1;
 	*pCurBlob = '\0'; pCurBlob++;		//firstName
 	*pCurBlob = '\0'; pCurBlob++;		//lastName
-	strcpy((char*)pCurBlob, szJid); pCurBlob += mir_strlen(szJid)+1;
+	mir_strcpy((char*)pCurBlob, szJid); pCurBlob += mir_strlen(szJid)+1;
 	*pCurBlob = '\0';					//reason
 
 	db_event_add(NULL, &dbei);

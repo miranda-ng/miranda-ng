@@ -500,7 +500,7 @@ void RemoveNotOnListSettings()
 	DBVARIANT dbv;
 	char protoName[256] = {0};
 	MCONTACT hContact = db_find_first();
-	strcpy(protoName, "proto_");
+	mir_strcpy(protoName, "proto_");
 	while (hContact != NULL) {
 		if (db_get_s(hContact, "Protocol", "p", &dbv) == 0) {
 			strcat(protoName, dbv.pszVal);

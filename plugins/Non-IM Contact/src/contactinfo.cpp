@@ -340,7 +340,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					CallService(MS_IGNORE_IGNORE, (WPARAM)hContact2, IGNOREEVENT_USERONLINE);
 					db_set_s(hContact2, MODNAME, "Nick", Translate("New Non-IM Contact"));
 					// blank dbVar2 so the replaceing doesnt crash..
-					strcpy(dbVar2, "");
+					mir_strcpy(dbVar2, "");
 					// copy the name (dbVar1 is the name)
 					for (i = 0; i <= k; i++)
 						copyReplaceString(dbVar1, dbVar2, oldString[i], newString[i]);
@@ -348,7 +348,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					db_set_s(hContact2, MODNAME, "Name", dbVar2);
 					// copy the ProgramString
 					if (db_get_static(hContact1, MODNAME, "ProgramString", dbVar1, SIZEOF(dbVar1))) {
-						strcpy(dbVar2, "");
+						mir_strcpy(dbVar2, "");
 						for (i = 0; i <= k; i++)
 							copyReplaceString(dbVar1, dbVar2, oldString[i], newString[i]);
 
@@ -356,7 +356,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 					// copy the ProgramParamString
 					if (db_get_static(hContact1, MODNAME, "ProgramParamString", dbVar1, SIZEOF(dbVar1))) {
-						strcpy(dbVar2, "");
+						mir_strcpy(dbVar2, "");
 						for (i = 0; i <= k; i++)
 							copyReplaceString(dbVar1, dbVar2, oldString[i], newString[i]);
 
@@ -364,7 +364,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 					// copy the group
 					if (db_get_static(hContact1, "CList", "Group", dbVar1, SIZEOF(dbVar1))) {
-						strcpy(dbVar2, "");
+						mir_strcpy(dbVar2, "");
 						for (i = 0; i <= k; i++)
 							copyReplaceString(dbVar1, dbVar2, oldString[i], newString[i]);
 
@@ -372,7 +372,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 					// copy the ToolTip
 					if (db_get_static(hContact1, MODNAME, "ToolTip", dbVar1, SIZEOF(dbVar1))) {
-						strcpy(dbVar2, "");
+						mir_strcpy(dbVar2, "");
 						for (i = 0; i <= k; i++)
 							copyReplaceString(dbVar1, dbVar2, oldString[i], newString[i]);
 
@@ -529,7 +529,7 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 		}
 		else if (!strncmp(line, "ToolTip=", mir_strlen("ToolTip="))) {
 			i = (int)mir_strlen("ToolTip=");
-			strcpy(tooltip, &line[i]);
+			mir_strcpy(tooltip, &line[i]);
 			fgets(line, 2000, file);
 			while (!strstr(line, "</tooltip>\r\n")) {
 				strcat(tooltip, line);
@@ -616,8 +616,8 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 			if (usetimer && timer) {
 				char tmp[64], tmp2[8];
 				if (minutes)
-					strcpy(tmp2, "Minutes");
-				else strcpy(tmp2, "Seconds");
+					mir_strcpy(tmp2, "Minutes");
+				else mir_strcpy(tmp2, "Seconds");
 				mir_snprintf(tmp, SIZEOF(tmp), "UseTimer: Yes\r\nTimer: %d %s", timer, tmp2);
 				char *msgtemp = (char*)realloc(msg, mir_strlen(msg) + mir_strlen(tmp) + 1);
 				if (msgtemp) {

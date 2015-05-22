@@ -48,7 +48,7 @@ static WhatsAppProto* GetInstanceByHContact(MCONTACT hContact)
 int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 {
 	char text[200];
-	strcpy(text, m_szModuleName);
+	mir_strcpy(text, m_szModuleName);
 	char *tDest = text + mir_strlen(text);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -73,7 +73,7 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 	mi.position = 201001;
 
 	CreateProtoService("/CreateGroup", &WhatsAppProto::OnCreateGroup);
-	strcpy(tDest, "/CreateGroup");
+	mir_strcpy(tDest, "/CreateGroup");
 	mi.hParentMenu = hRoot;
 	mi.pszName = LPGEN("Create group");
 	mi.icolibItem = GetIconHandle("createGroup");

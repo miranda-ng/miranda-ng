@@ -397,7 +397,7 @@ void ICQTransfer::resume(int action, const char *newName)
         T("[   ] rename file\n");
         delete [] fileName;
         fileName = new char[mir_strlen(newName) + 1];
-        strcpy(fileName, newName);
+        mir_strcpy(fileName, newName);
         files[current] = fileName;
 
         openFile();

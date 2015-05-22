@@ -1187,7 +1187,7 @@ bool isGPGValid()
 	return is_valid && gpg_exists;
 }
 
-#define NEWTSTR_MALLOC(A) (A==NULL)?NULL:strcpy((char*)mir_alloc(sizeof(char)*(mir_strlen(A)+1)),A)
+#define NEWTSTR_MALLOC(A) (A==NULL)?NULL:mir_strcpy((char*)mir_alloc(sizeof(char)*(mir_strlen(A)+1)),A)
 
 const bool StriStr(const char *str, const char *substr)
 {
@@ -1782,7 +1782,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 							string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 							string::size_type s2 = output.find(":", s);
 							tmp2 = (char*)mir_alloc((output.substr(s,s2-s).length()+1) * sizeof(char));
-							strcpy(tmp2, output.substr(s,s2-s).c_str());
+							mir_strcpy(tmp2, output.substr(s,s2-s).c_str());
 							mir_utf8decode(tmp2, 0);
 							db_set_s(hContact, szGPGModuleName, "KeyID", tmp2);
 							mir_free(tmp2);
@@ -1801,7 +1801,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 							if(s2 != string::npos)
 							{
 								tmp2 = (char*)mir_alloc((output.substr(s,s2-s-1).length()+1) * sizeof(char));
-								strcpy(tmp2, output.substr(s,s2-s-1).c_str());
+								mir_strcpy(tmp2, output.substr(s,s2-s-1).c_str());
 								mir_utf8decode(tmp2, 0);
 								if(hContact)
 								{
@@ -1816,7 +1816,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 								if(output[s] == ')')
 								{
 									tmp2 = (char*)mir_alloc((output.substr(s2,s-s2).length()+1) * sizeof(char));
-									strcpy(tmp2, output.substr(s2,s-s2).c_str());
+									mir_strcpy(tmp2, output.substr(s2,s-s2).c_str());
 									mir_utf8decode(tmp2, 0);
 									if(hContact)
 										db_set_s(hContact, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
@@ -1824,7 +1824,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 									s+=3;
 									s2 = output.find(">", s);
 									tmp2 = (char*)mir_alloc((output.substr(s,s2-s).length()+1) * sizeof(char));
-									strcpy(tmp2, output.substr(s,s2-s).c_str());
+									mir_strcpy(tmp2, output.substr(s,s2-s).c_str());
 									mir_utf8decode(tmp2, 0);
 									if(hContact)
 										db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
@@ -1833,7 +1833,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 								else
 								{
 									tmp2 = (char*)mir_alloc((output.substr(s2,s-s2).length()+1) * sizeof(char));
-									strcpy(tmp2, output.substr(s2,s-s2).c_str());
+									mir_strcpy(tmp2, output.substr(s2,s-s2).c_str());
 									mir_utf8decode(tmp2, 0);
 									if(hContact)
 										db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());

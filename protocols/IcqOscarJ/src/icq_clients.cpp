@@ -57,7 +57,7 @@ static char* MirandaVersionToStringEx(char* szStr, int bUnicode, const char* szP
 	if (!v) // this is not Miranda
 		return NULL;
 
-	strcpy(szStr, "Miranda IM ");
+	mir_strcpy(szStr, "Miranda IM ");
 
 	if (!m && v == 1)
 		verToStr(szStr, 0x80010200);
@@ -272,7 +272,7 @@ const char* CIcqProto::detectUserClient(
 	else if (dwFT1 == 0x66666666 && dwFT3 == 0x66666666) {
 		// http://darkjimm.ucoz.ru/
 		if (dwFT2 == 0x10000) {
-			strcpy(szClientBuf, "D[i]Chat v.");
+			mir_strcpy(szClientBuf, "D[i]Chat v.");
 			strcat(szClientBuf, "0.1a");
 		}
 		else {
@@ -471,7 +471,7 @@ const char* CIcqProto::detectUserClient(
 		else if (MatchCapability(caps, wLen, &capQipMobile))
 			szClient = "QIP Mobile (Java)";
 		else if (MatchCapability(caps, wLen, &capQipInfium)) {
-			strcpy(szClientBuf, "QIP Infium");
+			mir_strcpy(szClientBuf, "QIP Infium");
 			if (dwFT1) {
 				mir_snprintf(ver, SIZEOF(ver), " (%d)", dwFT1);
 				strcat(szClientBuf, ver);
@@ -482,7 +482,7 @@ const char* CIcqProto::detectUserClient(
 			szClient = szClientBuf;
 		}
 		else if (MatchCapability(caps, wLen, &capQip2010, 12)) {
-			strcpy(szClientBuf, "QIP 2010");
+			mir_strcpy(szClientBuf, "QIP 2010");
 			if (dwFT1) {
 				mir_snprintf(ver, SIZEOF(ver), " (%d)", dwFT1);
 				strcat(szClientBuf, ver);
@@ -491,7 +491,7 @@ const char* CIcqProto::detectUserClient(
 			szClient = szClientBuf;
 		}
 		else if (MatchCapability(caps, wLen, &capQip2012, 12)) {
-			strcpy(szClientBuf, "QIP 2012");
+			mir_strcpy(szClientBuf, "QIP 2012");
 			if (dwFT1) {
 				mir_snprintf(ver, SIZEOF(ver), " (%d)", dwFT1);
 				strcat(szClientBuf, ver);
@@ -501,7 +501,7 @@ const char* CIcqProto::detectUserClient(
 		}
 		else if (capId = MatchCapability(caps, wLen, &capQip, 0xE)) {
 			if (dwFT3 == 0x0F)
-				strcpy(ver, "2005");
+				mir_strcpy(ver, "2005");
 			else
 				null_strcpy(ver, (char*)(*capId) + 11, 5);
 
@@ -513,18 +513,18 @@ const char* CIcqProto::detectUserClient(
 			szClient = szClientBuf;
 		}
 		else if (capId = MatchCapability(caps, wLen, &capmChat, 0xA)) {
-			strcpy(szClientBuf, "mChat ");
+			mir_strcpy(szClientBuf, "mChat ");
 			strncat(szClientBuf, (char*)(*capId) + 0xA, 6);
 			szClient = szClientBuf;
 		}
 		else if (capId = MatchCapability(caps, wLen, &capJimm, 5)) {
-			strcpy(szClientBuf, "Jimm ");
+			mir_strcpy(szClientBuf, "Jimm ");
 			strncat(szClientBuf, (char*)(*capId) + 5, 11);
 			szClient = szClientBuf;
 		}
 		// http://corepager.net.ru/index/0-2
 		else if (capId = MatchCapability(caps, wLen, &capCorePager, 0xA)) {
-			strcpy(szClientBuf, "CORE Pager");
+			mir_strcpy(szClientBuf, "CORE Pager");
 			if (dwFT2 == 0x0FFFF0011 && dwFT3 == 0x1100FFFF && (dwFT1 >> 0x18)) {
 				char ver[16];
 
@@ -537,7 +537,7 @@ const char* CIcqProto::detectUserClient(
 		}
 		// http://darkjimm.ucoz.ru/
 		else if (capId = MatchCapability(caps, wLen, &capDiChat, 9)) {
-			strcpy(szClientBuf, "D[i]Chat");
+			mir_strcpy(szClientBuf, "D[i]Chat");
 			strncat(szClientBuf, (char*)(*capId) + 8, 8);
 			szClient = szClientBuf;
 		}
@@ -568,31 +568,31 @@ const char* CIcqProto::detectUserClient(
 			if (ver1 < 30)
 				makeClientVersion(szClientBuf, "MIP ", ver1, ver2, ver3, ver4);
 			else {
-				strcpy(szClientBuf, "MIP ");
+				mir_strcpy(szClientBuf, "MIP ");
 				strncat(szClientBuf, (char*)(*capId) + 11, 5);
 			}
 			szClient = szClientBuf;
 		}
 		//http://mip.rufon.net - new signature
 		else if (capId = MatchCapability(caps, wLen, &capMipClient, 0x04)) {
-			strcpy(szClientBuf, "MIP ");
+			mir_strcpy(szClientBuf, "MIP ");
 			strncat(szClientBuf, (char*)(*capId) + 4, 12);
 			szClient = szClientBuf;
 		}
 		else if (capId = MatchCapability(caps, wLen, &capVmIcq, 0x06)) {
-			strcpy(szClientBuf, "VmICQ");
+			mir_strcpy(szClientBuf, "VmICQ");
 			strncat(szClientBuf, (char*)(*capId) + 5, 11);
 			szClient = szClientBuf;
 		}
 		// http://www.smape.com/smaper
 		else if (capId = MatchCapability(caps, wLen, &capSmapeR, 0x07)) {
-			strcpy(szClientBuf, "SmapeR");
+			mir_strcpy(szClientBuf, "SmapeR");
 			strncat(szClientBuf, (char*)(*capId) + 6, 10);
 			szClient = szClientBuf;
 		}
 		// http://yapp.ru
 		else if (capId = MatchCapability(caps, wLen, &capYapp, 0x04)) {
-			strcpy(szClientBuf, "Yapp! v");
+			mir_strcpy(szClientBuf, "Yapp! v");
 			strncat(szClientBuf, (char*)(*capId) + 8, 5);
 			szClient = szClientBuf;
 		}
@@ -639,7 +639,7 @@ const char* CIcqProto::detectUserClient(
 		}
 		// http://www.barobin.com/bayanICQ.html
 		else if (capId = MatchCapability(caps, wLen, &capBayan, 8)) {
-			strcpy(szClientBuf, "bayanICQ ");
+			mir_strcpy(szClientBuf, "bayanICQ ");
 			strncat(szClientBuf, (char*)(*capId) + 8, 5);
 			szClient = szClientBuf;
 		}
@@ -730,21 +730,21 @@ const char* CIcqProto::detectUserClient(
 							// capable of tZers ?
 							if (MatchCapability(caps, wLen, &capIcqLiteNew) && MatchShortCapability(caps, wLen, &capStatusTextAware) &&
 								MatchShortCapability(caps, wLen, &capAimLiveVideo) && MatchShortCapability(caps, wLen, &capAimLiveAudio)) {
-								strcpy(szClientBuf, "ICQ 7");
+								mir_strcpy(szClientBuf, "ICQ 7");
 							}
 							else if (MatchCapability(caps, wLen, &capFakeHtml)) {
 								if (MatchShortCapability(caps, wLen, &capAimLiveVideo) && MatchShortCapability(caps, wLen, &capAimLiveAudio)) {
-									strcpy(szClientBuf, "ICQ 6");
+									mir_strcpy(szClientBuf, "ICQ 6");
 									*bClientId = CLID_ICQ6;
 								}
 								else if (CheckContactCapabilities(hContact, CAPF_RTF) && !CheckContactCapabilities(hContact, CAPF_CONTACTS) && MatchShortCapability(caps, wLen, &capIcqDevils)) {
-									strcpy(szClientBuf, "Qnext v4"); // finally handles SRV_RELAY correctly
+									mir_strcpy(szClientBuf, "Qnext v4"); // finally handles SRV_RELAY correctly
 									*bClientId = CLID_ALTERNATIVE;
 								}
 							}
-							else strcpy(szClientBuf, "icq5.1");
+							else mir_strcpy(szClientBuf, "icq5.1");
 						}
-						else strcpy(szClientBuf, "icq5");
+						else mir_strcpy(szClientBuf, "icq5");
 
 						if (MatchCapability(caps, wLen, &capRambler))
 							strcat(szClientBuf, " (Rambler)");
@@ -947,7 +947,7 @@ const char* CIcqProto::detectUserClient(
 
 			// make sure client string is not constant
 			if (szClient != szClientBuf) {
-				strcpy(szClientBuf, szClient);
+				mir_strcpy(szClientBuf, szClient);
 				szClient = szClientBuf;
 			}
 
@@ -990,7 +990,7 @@ const char* CIcqProto::detectUserClient(
 
 		if (szExtra) {
 			if (szClient != szClientBuf) {
-				strcpy(szClientBuf, szClient);
+				mir_strcpy(szClientBuf, szClient);
 				szClient = szClientBuf;
 			}
 			strcat(szClientBuf, szExtra);

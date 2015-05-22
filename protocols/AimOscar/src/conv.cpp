@@ -99,7 +99,7 @@ void  html_decode(char* str)
 					char *t1 = mir_utf8encodeW(t);
 					if (t1 && *t1)
 					{
-						strcpy(q, t1);
+						mir_strcpy(q, t1);
 						q += mir_strlen(t1) - 1;
 					}
 					mir_free(t1);
@@ -112,30 +112,30 @@ void  html_decode(char* str)
 		}
 		else if ( *p == '<' )
 		{
-			if      ( !strnicmp( p, "<p>",  3 )) { strcpy(q, "\r\n\r\n"); q += 3; p += 2; }
-			else if ( !strnicmp( p, "</p>", 4 )) { strcpy(q, "\r\n\r\n"); q += 3; p += 3; }
-			else if ( !strnicmp( p, "<br>", 4 )) { strcpy(q, "\r\n"); ++q; p += 3; }
-			else if ( !strnicmp( p, "<br />", 6 )) { strcpy(q, "\r\n"); ++q; p += 5; }
-			else if ( !strnicmp( p, "<hr>", 4 )) { strcpy(q, "\r\n"); ++q; p += 3; }
-			else if ( !strnicmp( p, "<hr />", 6 )) { strcpy(q, "\r\n"); ++q; p += 5; }
+			if      ( !strnicmp( p, "<p>",  3 )) { mir_strcpy(q, "\r\n\r\n"); q += 3; p += 2; }
+			else if ( !strnicmp( p, "</p>", 4 )) { mir_strcpy(q, "\r\n\r\n"); q += 3; p += 3; }
+			else if ( !strnicmp( p, "<br>", 4 )) { mir_strcpy(q, "\r\n"); ++q; p += 3; }
+			else if ( !strnicmp( p, "<br />", 6 )) { mir_strcpy(q, "\r\n"); ++q; p += 5; }
+			else if ( !strnicmp( p, "<hr>", 4 )) { mir_strcpy(q, "\r\n"); ++q; p += 3; }
+			else if ( !strnicmp( p, "<hr />", 6 )) { mir_strcpy(q, "\r\n"); ++q; p += 5; }
 /*			
-			else if ( !strnicmp( p, "<b>",  3 )) { strcpy(q, "[b]");  q += 2; p += 2; }
-			else if ( !strnicmp( p, "</b>", 4 )) { strcpy(q, "[/b]"); q += 3; p += 3; }
-			else if ( !strnicmp( p, "<u>",  3 )) { strcpy(q, "[u]");  q += 2; p += 2; }
-			else if ( !strnicmp( p, "</u>", 4 )) { strcpy(q, "[/u]"); q += 3; p += 3; }
-			else if ( !strnicmp( p, "<i>",  3 )) { strcpy(q, "[i]");  q += 2; p += 2; }
-			else if ( !strnicmp( p, "</i>", 4 )) { strcpy(q, "[/i]"); q += 3; p += 3; }
-			else if ( !strnicmp( p, "<s>",  3 )) { strcpy(q, "[s]");  q += 2; p += 2; }
-			else if ( !strnicmp( p, "</s>", 4 )) { strcpy(q, "[/s]"); q += 3; p += 3; }
+			else if ( !strnicmp( p, "<b>",  3 )) { mir_strcpy(q, "[b]");  q += 2; p += 2; }
+			else if ( !strnicmp( p, "</b>", 4 )) { mir_strcpy(q, "[/b]"); q += 3; p += 3; }
+			else if ( !strnicmp( p, "<u>",  3 )) { mir_strcpy(q, "[u]");  q += 2; p += 2; }
+			else if ( !strnicmp( p, "</u>", 4 )) { mir_strcpy(q, "[/u]"); q += 3; p += 3; }
+			else if ( !strnicmp( p, "<i>",  3 )) { mir_strcpy(q, "[i]");  q += 2; p += 2; }
+			else if ( !strnicmp( p, "</i>", 4 )) { mir_strcpy(q, "[/i]"); q += 3; p += 3; }
+			else if ( !strnicmp( p, "<s>",  3 )) { mir_strcpy(q, "[s]");  q += 2; p += 2; }
+			else if ( !strnicmp( p, "</s>", 4 )) { mir_strcpy(q, "[/s]"); q += 3; p += 3; }
 			else if ( !strnicmp( p, "<a href", 7 )) { 
-				strcpy(q, "[url"); q += 4; p += 7;
+				mir_strcpy(q, "[url"); q += 4; p += 7;
 				while (*p != '>' && *p) *(q++) = *(p++);
 				*q = ']'; --p;
 			}
 			else if ( !strnicmp( p, "<font", 5 )) {
 				char *l = strchr(p, '>');
 
-				strcpy(q, "[url"); q += 4; p += 7;
+				mir_strcpy(q, "[url"); q += 4; p += 7;
 				while (*p != '>' && *p) *(q++) = *(p++);
 				*q = ']'; --p;
 			}
@@ -175,7 +175,7 @@ char* html_encode(const char* str)
 	}
 
 	s = (char*)mir_alloc(c + 27); 
-	strcpy(s, "<HTML><BODY>");
+	mir_strcpy(s, "<HTML><BODY>");
 	for ( p=str,q=s+12; *p!='\0'; p++ ) 
 	{
 		switch ( *p ) 
@@ -190,7 +190,7 @@ char* html_encode(const char* str)
 		default: *q = *p; ++q; break;
 		}
 	}
-	strcpy(q, "</BODY></HTML>");
+	mir_strcpy(q, "</BODY></HTML>");
 
 	return s;
 }
@@ -657,14 +657,14 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 			Bold=isBold;
 			if (isBold)
 			{
-				strcpy(&buf[pos],"<b>");
+				mir_strcpy(&buf[pos],"<b>");
 				pos+=3;
 			}
 			else
 			{
 				if (start!=0)
 				{
-					strcpy(&buf[pos],"</b>");
+					mir_strcpy(&buf[pos],"</b>");
 					pos+=4;	
 				}
 			}
@@ -674,14 +674,14 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 			Italic=isItalic;
 			if (isItalic)
 			{
-				strcpy(&buf[pos],"<i>");
+				mir_strcpy(&buf[pos],"<i>");
 				pos+=3;
 			}
 			else
 			{
 				if (start!=0)
 				{
-					strcpy(&buf[pos],"</i>");
+					mir_strcpy(&buf[pos],"</i>");
 					pos+=4;	
 				}
 			}
@@ -691,14 +691,14 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 			Underline=isUnderline;
 			if (isUnderline)
 			{
-				strcpy(&buf[pos],"<u>");
+				mir_strcpy(&buf[pos],"<u>");
 				pos+=3;
 			}
 			else
 			{
 				if (start!=0)
 				{
-					strcpy(&buf[pos],"</u>");
+					mir_strcpy(&buf[pos],"</u>");
 					pos+=4;	
 				}
 			}
@@ -708,23 +708,23 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 			Size=isSize;
 			Color=isColor;
 			BackColor=isBackColor;
-			strcpy(Face,cfOld.szFaceName);
+			mir_strcpy(Face,cfOld.szFaceName);
 			if (start!=0)
 			{
-				strcpy(&buf[pos],"</font>");
+				mir_strcpy(&buf[pos],"</font>");
 				pos+=7;
 			}
-			strcpy(&buf[pos],"<font");
+			mir_strcpy(&buf[pos],"<font");
 			pos+=5;
-			strcpy(&buf[pos],"	face=\"");
+			mir_strcpy(&buf[pos],"	face=\"");
 			pos+=7;
-			strcpy(&buf[pos],Face);
+			mir_strcpy(&buf[pos],Face);
 			pos+=mir_strlen(Face);
-			strcpy(&buf[pos],"\"");
+			mir_strcpy(&buf[pos],"\"");
 			pos++;
 			if (!(cfOld.dwEffects & CFE_AUTOBACKCOLOR))
 			{
-				strcpy(&buf[pos]," back=#");
+				mir_strcpy(&buf[pos]," back=#");
 				pos+=6;
 				char chBackColor[7];
 				_itoa((_htonl(BackColor)>>8),chBackColor,16);
@@ -735,12 +735,12 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 					for(int i=0;i<6;i++)
 						chBackColor[i]='0';
 				}
-				strcpy(&buf[pos],chBackColor);
+				mir_strcpy(&buf[pos],chBackColor);
 				pos+=6;
 			}
 			if (!(cfOld.dwEffects & CFE_AUTOCOLOR))
 			{
-				strcpy(&buf[pos]," color=#");
+				mir_strcpy(&buf[pos]," color=#");
 				pos+=8;
 				char chColor[7];
 				_itoa((_htonl(Color)>>8),chColor,16);
@@ -751,28 +751,28 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 					for(int i=0;i<6;i++)
 						chColor[i]='0';
 				}
-				strcpy(&buf[pos],chColor);
+				mir_strcpy(&buf[pos],chColor);
 				pos+=6;
 			}
-			strcpy(&buf[pos]," size=");
+			mir_strcpy(&buf[pos]," size=");
 			pos+=6;
 			char chSize[2];
 			_itoa(Size,chSize,10);
-			strcpy(&buf[pos],chSize);
+			mir_strcpy(&buf[pos],chSize);
 			pos++;
 
-			strcpy(&buf[pos],">");
+			mir_strcpy(&buf[pos],">");
 			pos++;
 		}
 		if (text[0]=='\r')
 		{
-			strcpy(&buf[pos],"<br>");
+			mir_strcpy(&buf[pos],"<br>");
 			pos+=4;
 		}
 		else
 		{
 			T2Utf txt(text);
-			strcpy(&buf[pos], txt);
+			mir_strcpy(&buf[pos], txt);
 			pos += mir_strlen(txt);
 		}
 		start++;
@@ -780,20 +780,20 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 	}
 	if (Bold)
 	{
-		strcpy(&buf[pos],"</b>");
+		mir_strcpy(&buf[pos],"</b>");
 		pos+=4;	
 	}
 	if (Italic)
 	{
-		strcpy(&buf[pos],"</i>");
+		mir_strcpy(&buf[pos],"</i>");
 		pos+=4;	
 	}
 	if (Underline)
 	{
-		strcpy(&buf[pos],"</u>");
+		mir_strcpy(&buf[pos],"</u>");
 		pos+=4;	
 	}
-	strcpy(&buf[pos],"</font>");
+	mir_strcpy(&buf[pos],"</font>");
 	pos+=7;
 
 	SendDlgItemMessage(hwndDlg, DlgItem, EM_SETSEL, oldstart, oldend);

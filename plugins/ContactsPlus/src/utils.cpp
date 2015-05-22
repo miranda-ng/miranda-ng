@@ -44,7 +44,7 @@ void __fastcall strcpynull(char *str1, const char *str2)
 	if (!str2)
 		str2 = "";
 
-	strcpy(str1, str2);
+	mir_strcpy(str1, str2);
 }
 
 char* __fastcall null_strdup(const char *string)

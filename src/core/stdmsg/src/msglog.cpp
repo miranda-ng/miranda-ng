@@ -85,7 +85,7 @@ static int AppendToBufferWithRTF(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 	}
 
 	d = buffer + cbBufferEnd;
-	strcpy(d, "{\\uc1 ");
+	mir_strcpy(d, "{\\uc1 ");
 	d += 6;
 
 	for (; *line; line++, textCharsCount++) {
@@ -482,8 +482,8 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 		SendMessage(hwndLog, EM_EXSETSEL, 0, (LPARAM)& sel);
 	}
 
-	strcpy(szSep2, fAppend ? "\\par\\sl0" : "\\sl1000");
-	strcpy(szSep2_RTL, fAppend ? "\\rtlpar\\rtlmark\\par\\sl1000" : "\\sl1000");
+	mir_strcpy(szSep2, fAppend ? "\\par\\sl0" : "\\sl1000");
+	mir_strcpy(szSep2_RTL, fAppend ? "\\rtlpar\\rtlmark\\par\\sl1000" : "\\sl1000");
 
 	SendMessage(hwndLog, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)& stream);
 	if (bottomScroll) {
@@ -545,7 +545,7 @@ void LoadMsgLogIcons(void)
 		char *szDest = pLogIconBmpBits[i] + rtfHeaderSize;
 		bin2hex(&bih, sizeof(bih), szDest); szDest += sizeof(bih) * 2;
 		bin2hex(pBmpBits, widthBytes * bih.biHeight, szDest); szDest += widthBytes * bih.biHeight * 2;
-		strcpy(szDest, "}");
+		mir_strcpy(szDest, "}");
 
 		logIconBmpSize[i] = size_t(szDest - pLogIconBmpBits[i]) + 1;
 	}

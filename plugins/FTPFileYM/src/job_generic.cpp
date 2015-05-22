@@ -34,7 +34,7 @@ GenericJob::GenericJob(GenericJob *job)
 { 
 	_tcscpy(this->stzFilePath, job->stzFilePath);
 	_tcscpy(this->stzFileName, job->stzFileName);
-	strcpy(this->szSafeFileName, job->szSafeFileName);
+	mir_strcpy(this->szSafeFileName, job->szSafeFileName);
 }
 
 GenericJob::~GenericJob()

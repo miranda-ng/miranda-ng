@@ -996,7 +996,7 @@ void CMsnProto::p2p_sendFeedStart(filetransfer* ft)
 	if (ft->std.flags & PFTS_SENDING) {
 		ThreadData* newThread = new ThreadData;
 		newThread->mType = SERVER_FILETRANS;
-		strcpy(newThread->mCookie, ft->p2p_callID);
+		mir_strcpy(newThread->mCookie, ft->p2p_callID);
 		newThread->mInitialContactWLID = mir_strdup(ft->p2p_dest);
 		newThread->startThread(&CMsnProto::p2p_sendFeedThread, this);
 	}

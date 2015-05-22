@@ -112,7 +112,7 @@ char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmet
 	}
 
 	res = (char *)mir_alloc(size);
-	strcpy(res, httpmethod);
+	mir_strcpy(res, httpmethod);
 	strcat(res, "&");
 	strcat(res, urlenc);
 	mir_free(urlenc);
@@ -195,7 +195,7 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 		ptrA csenc( oauth_uri_escape(consumer_secret));
 		ptrA tsenc( oauth_uri_escape(token_secret));
 		ptrA key((char *)mir_alloc(mir_strlen(csenc) + mir_strlen(tsenc) + 2));
-		strcpy(key, csenc);
+		mir_strcpy(key, csenc);
 		strcat(key, "&");
 		strcat(key, tsenc);
 
@@ -208,7 +208,7 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 		ptrA tsenc( oauth_uri_escape(token_secret));
 
 		sign = (char *)mir_alloc(mir_strlen(csenc) + mir_strlen(tsenc) + 2);
-		strcpy(sign, csenc);
+		mir_strcpy(sign, csenc);
 		strcat(sign, "&");
 		strcat(sign, tsenc);
 	}
@@ -227,7 +227,7 @@ char *oauth_generate_nonce()
 
 	int strSizeB = int(mir_strlen(timestamp) + sizeof(randnum));
 	ptrA str((char *)mir_calloc(strSizeB + 1));
-	strcpy(str, timestamp);
+	mir_strcpy(str, timestamp);
 	strncat(str, randnum, sizeof(randnum));
 
 	BYTE digest[16];
@@ -273,7 +273,7 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 	}
 
 	res = (char *)mir_alloc(size);
-	strcpy(res, "OAuth ");
+	mir_strcpy(res, "OAuth ");
 
 	for (i = 0; i < oauth_parameters.getCount(); i++) {
 		OAUTHPARAMETER *p = oauth_parameters[i];
@@ -299,7 +299,7 @@ int GGPROTO::oauth_receivetoken()
 
 	// 1. Obtaining an Unauthorized Request Token
 	debugLogA("oauth_receivetoken(): Obtaining an Unauthorized Request Token...");
-	strcpy(szUrl, "http://api.gadu-gadu.pl/request_token");
+	mir_strcpy(szUrl, "http://api.gadu-gadu.pl/request_token");
 	str = oauth_auth_header("POST", szUrl, HMACSHA1, uin, password, NULL, NULL);
 
 	NETLIBHTTPHEADER httpHeaders[3];
@@ -356,7 +356,7 @@ int GGPROTO::oauth_receivetoken()
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11;
 	req.headersCount = 3;
 	req.headers = httpHeaders;
-	strcpy(szUrl, "https://login.gadu-gadu.pl/authorize");
+	mir_strcpy(szUrl, "https://login.gadu-gadu.pl/authorize");
 	httpHeaders[1].szName  = "Content-Type";
 	httpHeaders[1].szValue = "application/x-www-form-urlencoded";
 	req.pData = str;
@@ -368,7 +368,7 @@ int GGPROTO::oauth_receivetoken()
 
 	// 3. Obtaining an Access Token
 	debugLogA("oauth_receivetoken(): Obtaining an Access Token...");
-	strcpy(szUrl, "http://api.gadu-gadu.pl/access_token");
+	mir_strcpy(szUrl, "http://api.gadu-gadu.pl/access_token");
 	mir_free(str);
 	str = oauth_auth_header("POST", szUrl, HMACSHA1, uin, password, token, token_secret);
 	mir_free(token);

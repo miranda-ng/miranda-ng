@@ -382,7 +382,7 @@ static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates)
 		tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_IMAGE | TVIF_STATE | TVIF_SELECTEDIMAGE;
 		tvi.item.stateMask = TVIS_SELECTED | TVIS_STATEIMAGEMASK;
 		if (i == 0) {
-			strcpy(protoName, Translate("Default"));
+			mir_strcpy(protoName, Translate("Default"));
 		}
 		else {
 			CallProtoService(proto->getProtocolName(), PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
@@ -1506,7 +1506,7 @@ void Options::init()
 		proto->setSRMMFlags(db_get_dw(NULL, ieviewModuleName, dbsName, 16128));
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_BACKGROUND);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strcpy(tmpPath, dbv.pszVal);
+			mir_strcpy(tmpPath, dbv.pszVal);
 			if (strncmp(tmpPath, "http://", 7))
 				PathToAbsolute(dbv.pszVal, tmpPath);
 
@@ -1515,7 +1515,7 @@ void Options::init()
 		}
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_CSS);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strcpy(tmpPath, dbv.pszVal);
+			mir_strcpy(tmpPath, dbv.pszVal);
 			if (strncmp(tmpPath, "http://", 7))
 				PathToAbsolute(dbv.pszVal, tmpPath);
 
@@ -1524,7 +1524,7 @@ void Options::init()
 		}
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_TEMPLATE);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strcpy(tmpPath, dbv.pszVal);
+			mir_strcpy(tmpPath, dbv.pszVal);
 			PathToAbsolute(dbv.pszVal, tmpPath);
 			proto->setSRMMTemplateFilename(tmpPath);
 			db_free(&dbv);
@@ -1539,7 +1539,7 @@ void Options::init()
 		proto->setChatFlags(db_get_dw(NULL, ieviewModuleName, dbsName, 16128));
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_BACKGROUND);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strcpy(tmpPath, dbv.pszVal);
+			mir_strcpy(tmpPath, dbv.pszVal);
 			if (strncmp(tmpPath, "http://", 7))
 				PathToAbsolute(dbv.pszVal, tmpPath);
 
@@ -1548,7 +1548,7 @@ void Options::init()
 		}
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_CSS);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strcpy(tmpPath, dbv.pszVal);
+			mir_strcpy(tmpPath, dbv.pszVal);
 			if (strncmp(tmpPath, "http://", 7))
 				PathToAbsolute(dbv.pszVal, tmpPath);
 
@@ -1557,7 +1557,7 @@ void Options::init()
 		}
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_TEMPLATE);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strcpy(tmpPath, dbv.pszVal);
+			mir_strcpy(tmpPath, dbv.pszVal);
 			PathToAbsolute(dbv.pszVal, tmpPath);
 			proto->setChatTemplateFilename(tmpPath);
 			db_free(&dbv);
@@ -1572,7 +1572,7 @@ void Options::init()
 		proto->setHistoryFlags(db_get_dw(NULL, ieviewModuleName, dbsName, 16128));
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_BACKGROUND);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strcpy(tmpPath, dbv.pszVal);
+			mir_strcpy(tmpPath, dbv.pszVal);
 			if (strncmp(tmpPath, "http://", 7))
 				PathToAbsolute(dbv.pszVal, tmpPath);
 
@@ -1581,7 +1581,7 @@ void Options::init()
 		}
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_CSS);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strcpy(tmpPath, dbv.pszVal);
+			mir_strcpy(tmpPath, dbv.pszVal);
 			if (strncmp(tmpPath, "http://", 7))
 				PathToAbsolute(dbv.pszVal, tmpPath);
 
@@ -1590,7 +1590,7 @@ void Options::init()
 		}
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_TEMPLATE);
 		if (!db_get(NULL, ieviewModuleName, dbsName, &dbv)) {
-			strcpy(tmpPath, dbv.pszVal);
+			mir_strcpy(tmpPath, dbv.pszVal);
 			PathToAbsolute(dbv.pszVal, tmpPath);
 			proto->setHistoryTemplateFilename(tmpPath);
 			db_free(&dbv);
@@ -1691,17 +1691,17 @@ void Options::saveProtocolSettings()
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_FLAGS);
 		db_set_dw(NULL, ieviewModuleName, dbsName, proto->getSRMMFlags());
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_BACKGROUND);
-		strcpy(tmpPath, proto->getSRMMBackgroundFilename());
+		mir_strcpy(tmpPath, proto->getSRMMBackgroundFilename());
 		PathToRelative(proto->getSRMMBackgroundFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_CSS);
-		strcpy(tmpPath, proto->getSRMMCssFilename());
+		mir_strcpy(tmpPath, proto->getSRMMCssFilename());
 		PathToRelative(proto->getSRMMCssFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_TEMPLATE);
-		strcpy(tmpPath, proto->getSRMMTemplateFilename());
+		mir_strcpy(tmpPath, proto->getSRMMTemplateFilename());
 		PathToRelative(proto->getSRMMTemplateFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
@@ -1713,17 +1713,17 @@ void Options::saveProtocolSettings()
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_FLAGS);
 		db_set_dw(NULL, ieviewModuleName, dbsName, proto->getChatFlags());
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_BACKGROUND);
-		strcpy(tmpPath, proto->getChatBackgroundFilename());
+		mir_strcpy(tmpPath, proto->getChatBackgroundFilename());
 		PathToRelative(proto->getChatBackgroundFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_CSS);
-		strcpy(tmpPath, proto->getChatCssFilename());
+		mir_strcpy(tmpPath, proto->getChatCssFilename());
 		PathToRelative(proto->getChatCssFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_TEMPLATE);
-		strcpy(tmpPath, proto->getChatTemplateFilename());
+		mir_strcpy(tmpPath, proto->getChatTemplateFilename());
 		PathToRelative(proto->getChatTemplateFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
@@ -1735,17 +1735,17 @@ void Options::saveProtocolSettings()
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_FLAGS);
 		db_set_dw(NULL, ieviewModuleName, dbsName, proto->getHistoryFlags());
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_BACKGROUND);
-		strcpy(tmpPath, proto->getHistoryBackgroundFilename());
+		mir_strcpy(tmpPath, proto->getHistoryBackgroundFilename());
 		PathToRelative(proto->getHistoryBackgroundFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_CSS);
-		strcpy(tmpPath, proto->getHistoryCssFilename());
+		mir_strcpy(tmpPath, proto->getHistoryCssFilename());
 		PathToRelative(proto->getHistoryCssFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_TEMPLATE);
-		strcpy(tmpPath, proto->getHistoryTemplateFilename());
+		mir_strcpy(tmpPath, proto->getHistoryTemplateFilename());
 		PathToRelative(proto->getHistoryTemplateFilename(), tmpPath);
 		db_set_s(NULL, ieviewModuleName, dbsName, tmpPath);
 	}

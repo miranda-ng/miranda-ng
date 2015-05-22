@@ -118,7 +118,7 @@ void RemoveFromOptions(int id);
 char *AS(char *str, const char *setting, char *addstr)
 {
 	if (str != NULL) {
-		strcpy(str, setting);
+		mir_strcpy(str, setting);
 		strcat(str, addstr);
 	}
 	return str;

@@ -435,7 +435,7 @@ void TlenLogMessage(TlenProtocol *proto, MCONTACT hContact, DWORD flags, const c
 {
 	int size = (int)mir_strlen(message) + 2;
 	char *localMessage = (char *)mir_alloc(size);
-	strcpy(localMessage, message);
+	mir_strcpy(localMessage, message);
 	localMessage[size - 1] = '\0';
 	TlenDBAddEvent(proto, hContact, EVENTTYPE_MESSAGE, flags, (PBYTE)message, (DWORD)size);
 	mir_free(localMessage);

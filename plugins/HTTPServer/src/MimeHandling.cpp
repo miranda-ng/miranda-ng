@@ -15,7 +15,7 @@ int bInitMimeHandling() {
 	ExtensionListCell *pExtCell = NULL;
 	char szBuf[10000];
 
-	strcpy(szBuf, szPluginPath);
+	mir_strcpy(szBuf, szPluginPath);
 	strcat(szBuf, szMimeTypeConfigFile);
 	mimeDB = fopen(szBuf, "r");
 
@@ -40,7 +40,7 @@ int bInitMimeHandling() {
 				/*create and fill a cell*/
 				pDBCell = (ContentType*)malloc(sizeof(ContentType));
 				pDBCell->mimeType = (char*)malloc(mir_strlen(tok) + 1);
-				strcpy(pDBCell->mimeType, tok);
+				mir_strcpy(pDBCell->mimeType, tok);
 				pDBCell->extList = NULL;
 				pDBCell->next = NULL;
 				/* looking for extensions */
@@ -49,7 +49,7 @@ int bInitMimeHandling() {
 					/*create and fill a cell*/
 					pExtCell = (ExtensionListCell*)malloc(sizeof(ExtensionListCell));
 					pExtCell->ext = (char*)malloc(mir_strlen(tok) + 1);
-					strcpy(pExtCell->ext, tok);
+					mir_strcpy(pExtCell->ext, tok);
 					pExtCell->next = NULL;
 					/*link*/
 					if (pDBCell->extList == NULL) {

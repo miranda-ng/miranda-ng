@@ -121,7 +121,7 @@ char* MDatabaseCache::InsertCachedSetting(const char* szName, int cbLen)
 {
 	char* newValue = (char*)HeapAlloc(m_hCacheHeap, 0, cbLen);
 	*newValue++ = 0;
-	strcpy(newValue, szName);
+	mir_strcpy(newValue, szName);
 	m_lSettings.insert(newValue);
 	return newValue;
 }
@@ -131,9 +131,9 @@ char* MDatabaseCache::GetCachedSetting(const char *szModuleName, const char *szS
 	char szFullName[512];
 	const char *szKey;
 	if (szModuleName != NULL) {
-		strcpy(szFullName, szModuleName);
+		mir_strcpy(szFullName, szModuleName);
 		szFullName[moduleNameLen] = '/';
-		strcpy(szFullName + moduleNameLen + 1, szSettingName);
+		mir_strcpy(szFullName + moduleNameLen + 1, szSettingName);
 		szKey = szFullName;
 	}
 	else szKey = szSettingName;
@@ -160,7 +160,7 @@ void MDatabaseCache::SetCachedVariant(DBVARIANT* s /* new */, DBVARIANT* d /* ca
 			d->pszVal = (char*)HeapReAlloc(m_hCacheHeap, 0, szSave, mir_strlen(s->pszVal) + 1);
 		else
 			d->pszVal = (char*)HeapAlloc(m_hCacheHeap, 0, mir_strlen(s->pszVal) + 1);
-		strcpy(d->pszVal, s->pszVal);
+		mir_strcpy(d->pszVal, s->pszVal);
 	}
 	else if (szSave != NULL)
 		HeapFree(m_hCacheHeap, 0, szSave);

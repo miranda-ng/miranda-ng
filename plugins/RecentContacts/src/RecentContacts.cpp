@@ -147,7 +147,7 @@ void wSetData(char **Data, const char *Value)
 {
 	if (Value[0] != 0) {
 		char *newData = (char*)mir_alloc(mir_strlen(Value)+3);
-		strcpy(newData, Value);
+		mir_strcpy(newData, Value);
 		*Data = newData;
 	}
 	else *Data = "";

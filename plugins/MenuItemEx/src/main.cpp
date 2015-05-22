@@ -344,7 +344,7 @@ void getIP(MCONTACT hContact, LPSTR szProto, LPSTR szIP)
 		mir_snprintf(szmIP, SIZEOF(szmIP), "External IP: %d.%d.%d.%d\r\n", mIP >> 24, (mIP >> 16) & 0xFF, (mIP >> 8) & 0xFF, mIP & 0xFF);
 	if (rIP)
 		mir_snprintf(szrIP, SIZEOF(szrIP), "Internal IP: %d.%d.%d.%d\r\n", rIP >> 24, (rIP >> 16) & 0xFF, (rIP >> 8) & 0xFF, rIP & 0xFF);
-	strcpy(szIP, szrIP);
+	mir_strcpy(szIP, szrIP);
 	strcat(szIP, szmIP);
 }
 

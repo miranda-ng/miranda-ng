@@ -76,7 +76,7 @@ BOOL CheckPath(char*ppath, char*pathwildcard = NULL)
 					if (GetFileAttributesA(temp) != 0xFFFFFFFF) { //exe vorhanden???? unt hint?
 						//gefundenes in path kopieren
 						FindClose(fHandle);
-						strcpy(ppath, temp);
+						mir_strcpy(ppath, temp);
 						return TRUE;
 					}
 				}
@@ -242,7 +242,7 @@ void Scan4Games(LPVOID lparam)
 		mir_forkthread(ShowSearchDialog, &hwnd);
 	}
 
-	strcpy(inipath, XFireGetFoldersPath("IniFile"));
+	mir_strcpy(inipath, XFireGetFoldersPath("IniFile"));
 	strcat(inipath, "xfire_games.ini");
 
 	//erstmal db säubern
@@ -278,7 +278,7 @@ void Scan4Games(LPVOID lparam)
 
 			//Registryschlüssel auslesen und pfad auf exe prüfen
 			xfire_GetPrivateProfileString(temp, "LauncherDirKey", "", ret, 255, inipath);
-			strcpy(ret2, ret);
+			mir_strcpy(ret2, ret);
 
 			//ersten part des registry schlüssel raustrennen
 			pos = strchr(ret2, '\\');
@@ -342,7 +342,7 @@ void Scan4Games(LPVOID lparam)
 									pos2 = path;
 									pos2++;
 
-									strcpy(path, pos2);
+									mir_strcpy(path, pos2);
 								}
 
 								//mögliche weitere anführungszeichen entfernen
@@ -362,7 +362,7 @@ void Scan4Games(LPVOID lparam)
 							if (xfire_GetPrivateProfileString(temp, "InstallHint", "", ret2, 255, inipath))
 							{
 								char pathtemp[XFIRE_MAX_STATIC_STRING_LEN];
-								strcpy(pathtemp, path);
+								mir_strcpy(pathtemp, path);
 								strcat(pathtemp, ret2);
 
 								if (CheckPath(pathtemp))
@@ -370,7 +370,7 @@ void Scan4Games(LPVOID lparam)
 									if (xfire_GetPrivateProfileString(temp, "DetectExe", "", ret, 255, inipath))
 									{
 										cutforlaunch = path + mir_strlen(path);
-										strcpy(pathtemp, path);
+										mir_strcpy(pathtemp, path);
 
 										//wenn backslash bei detectexe, dann diesen skippen (eveonline bug)
 										if (ret[0] == '\\')
@@ -384,7 +384,7 @@ void Scan4Games(LPVOID lparam)
 
 										if (CheckPath(pathtemp))
 										{
-											strcpy(path, pathtemp);
+											mir_strcpy(path, pathtemp);
 										}
 										else
 										{
@@ -487,7 +487,7 @@ void Scan4Games(LPVOID lparam)
 													path[i2] = tolower(path[i2]);
 
 												char* mpathtemp = new char[mir_strlen(path) + 1];
-												strcpy(mpathtemp, path);
+												mir_strcpy(mpathtemp, path);
 												newgame->mpath.push_back(mpathtemp);
 											}
 										}
@@ -506,7 +506,7 @@ void Scan4Games(LPVOID lparam)
 
 								//pfad aufbereiten
 								char launchpath[XFIRE_MAX_STATIC_STRING_LEN] = "";
-								strcpy(launchpath, path);
+								mir_strcpy(launchpath, path);
 								//letzten backslash entfernen
 								if (launchpath[mir_strlen(launchpath) - 1] == '\\') launchpath[mir_strlen(launchpath) - 1] = 0;
 
@@ -617,7 +617,7 @@ void Scan4Games(LPVOID lparam)
 
 					//pfad aufbereiten
 					char launchpath[XFIRE_MAX_STATIC_STRING_LEN] = "";
-					strcpy(launchpath, ret2);
+					mir_strcpy(launchpath, ret2);
 					if (strrchr(launchpath, '\\') != 0)
 					{
 						*(strrchr(launchpath, '\\')) = 0;

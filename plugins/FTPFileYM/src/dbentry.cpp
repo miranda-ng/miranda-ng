@@ -28,7 +28,7 @@ DBEntry::DBEntry(DBEntry *entry)
 {
 	this->fileID = entry->fileID;
 	this->iFtpNum = entry->iFtpNum;
-	strcpy(this->szFileName, entry->szFileName);
+	mir_strcpy(this->szFileName, entry->szFileName);
 }
 
 DBEntry *DBEntry::getFirts()
@@ -52,7 +52,7 @@ DBEntry *DBEntry::getNext(DBEntry *entry)
 			{
 				entry->fileID = entryID;
 				entry->iFtpNum = ftpNum;
-				strcpy(entry->szFileName, szValue);
+				mir_strcpy(entry->szFileName, szValue);
 				entry->deleteTS = DB::getDwordF(0, MODULE_FILES, "DeleteTS%d", entryID, 0);
 				entryID++;
 				return entry;
@@ -95,7 +95,7 @@ DBEntry *DBEntry::get(int fileID)
 		{
 			entry->fileID = fileID;
 			entry->iFtpNum = ftpNum;
-			strcpy(entry->szFileName, szValue);
+			mir_strcpy(entry->szFileName, szValue);
 			entry->deleteTS = DB::getDwordF(0, MODULE_FILES, "DeleteTS%d", fileID, 0);
 			return entry;
 		}

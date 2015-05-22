@@ -844,7 +844,7 @@ INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM)
 
 		if (!mir_strcmp(g_MyAvatars[i].szProtoname, proto)) {
 			LPVOID lpParam = (void *)malloc(mir_strlen(g_MyAvatars[i].szProtoname) + 2);
-			strcpy((char *)lpParam, g_MyAvatars[i].szProtoname);
+			mir_strcpy((char *)lpParam, g_MyAvatars[i].szProtoname);
 			mir_forkthread(ReloadMyAvatar, lpParam);
 			return 0;
 		}

@@ -190,7 +190,7 @@ int ChangeInfoData::SaveSettingsToDb(HWND hwndDlg)
 					ret = 0;
 					break;
 				}
-				strcpy(ppro->m_szPassword, (char*)sid.value);
+				mir_strcpy(ppro->m_szPassword, (char*)sid.value);
 			}
 			else {
 				if (*(char*)sid.value)

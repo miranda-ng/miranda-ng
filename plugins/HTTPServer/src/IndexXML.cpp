@@ -35,8 +35,8 @@ static void ReplaceSign(char* pszSrc, int MaxLength, const char pszReplace,
 		strncpy(szBuffer, pszSrc, SIZEOF(szBuffer)-1);
 
 		do {
-			strcpy(szBuffer + (pszSign - pszSrc), pszNew);
-			strcpy(szBuffer + (pszSign - pszSrc) + mir_strlen(pszNew), pszSign + 1);
+			mir_strcpy(szBuffer + (pszSign - pszSrc), pszNew);
+			mir_strcpy(szBuffer + (pszSign - pszSrc) + mir_strlen(pszNew), pszSign + 1);
 			*pszSign = ' ';
 
 		} while (pszSign = strchr(pszSrc, pszReplace));
@@ -133,7 +133,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 		    (mir_strcmp(fdFindFileData.cFileName, "..") || mir_strcmp(pszSrvPath, "/"))) { // hide .. in root
 			pszBuffer = szBuffer;
 
-			strcpy(szFileName, fdFindFileData.cFileName);
+			mir_strcpy(szFileName, fdFindFileData.cFileName);
 			ReplaceSign(szFileName, MAX_PATH, '&', "&amp;");
 
 			if (fdFindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
@@ -185,7 +185,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 		    !strncmp(pclCur->st.pszSrvPath, pszSrvPath, mir_strlen(pszSrvPath))) {
 			pszBuffer = szBuffer;
 
-			strcpy(szFileName, &pclCur->st.pszSrvPath[mir_strlen(pszSrvPath)]);
+			mir_strcpy(szFileName, &pclCur->st.pszSrvPath[mir_strlen(pszSrvPath)]);
 			ReplaceSign(szFileName, MAX_PATH, '&', "&amp;");
 
 			if (pclCur->bIsDirectory()) {

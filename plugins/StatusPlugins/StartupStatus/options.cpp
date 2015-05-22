@@ -83,10 +83,10 @@ static char* GetCMDLArguments(TSettingsList& protoSettings)
 
 	for (int i=0; i < protoSettings.getCount(); i++ ) {
 		*pnt++ = '/';
-		strcpy(pnt, protoSettings[i].szName);
+		mir_strcpy(pnt, protoSettings[i].szName);
 		pnt += mir_strlen(protoSettings[i].szName);
 		*pnt++ = '=';
-		strcpy(pnt, GetStatusDesc(protoSettings[i].status));
+		mir_strcpy(pnt, GetStatusDesc(protoSettings[i].status));
 		pnt += mir_strlen(GetStatusDesc(protoSettings[i].status));
 		if (i != protoSettings.getCount()-1) {
 			*pnt++ = ' ';
@@ -100,7 +100,7 @@ static char* GetCMDLArguments(TSettingsList& protoSettings)
 		*pnt++ = '\0';
 		cmdl = ( char* )realloc(cmdl, mir_strlen(cmdl) + 12);
 		pnt = cmdl + mir_strlen(cmdl);
-		strcpy(pnt, "/showdialog");
+		mir_strcpy(pnt, "/showdialog");
 		pnt += 11;
 		*pnt = '\0';
 	}
@@ -946,7 +946,7 @@ static int DeleteSetting(const char *szSetting,LPARAM lParam)
 {
 	char** settings = (char**)*(char ***)lParam;
 	settings[settingIndex] = ( char* )malloc(mir_strlen(szSetting)+1);
-	strcpy(settings[settingIndex], szSetting);
+	mir_strcpy(settings[settingIndex], szSetting);
 	settingIndex += 1;
 
 	return 0;

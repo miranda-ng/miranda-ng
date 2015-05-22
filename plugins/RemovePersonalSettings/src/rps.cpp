@@ -145,17 +145,17 @@ extern "C" int __declspec(dllexport) Load()
 
 	// Set vars
 	strcat(gMirandaDir, "\\");
-	strcpy(gIniFile, gMirandaDir);
+	mir_strcpy(gIniFile, gMirandaDir);
 
 	// Store last pos
 	strTmp = &gIniFile[mir_strlen(gIniFile)];
 
 	// Lets try fist name
-	strcpy(strTmp, INI_FILE_NAME);
+	mir_strcpy(strTmp, INI_FILE_NAME);
 
 	if (_access(gIniFile, 4) != 0) {
 		// Not found, lets try the other aproach
-		strcpy(strTmp, "plugins\\" INI_FILE_NAME);
+		mir_strcpy(strTmp, "plugins\\" INI_FILE_NAME);
 
 		if (_access(gIniFile, 4) != 0) {
 			// Not found :(
@@ -567,7 +567,7 @@ void DeleteFileOrFolder(const char *name)
 
 			do {
 				if (mir_strcmp(findData.cFileName, ".") && mir_strcmp(findData.cFileName, "..")) {
-					strcpy(strTmp, findData.cFileName);
+					mir_strcpy(strTmp, findData.cFileName);
 					DeleteFileOrFolder(tmp);
 				}
 			}
@@ -641,7 +641,7 @@ int EnumProc(const char *szName, LPARAM lParam)
 
 	// Add to the struct
 	if (len > 0 && len < sizeof(dms->buffer) - dms->pos - 2) {
-		strcpy(&dms->buffer[dms->pos], szName);
+		mir_strcpy(&dms->buffer[dms->pos], szName);
 		dms->pos += len + 1;
 	}
 

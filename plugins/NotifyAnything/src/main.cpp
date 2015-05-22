@@ -935,7 +935,7 @@ void __cdecl udptcpThreadFunc(void *useUdp)
 		DWORD ec = WSAGetLastError();
 
 		char buf[4096];
-		strcpy(buf, Translate("N/A: Failed to format error message"));
+		mir_strcpy(buf, Translate("N/A: Failed to format error message"));
 
 		DWORD fm = FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 			NULL, ec, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, 4096, NULL);

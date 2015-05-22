@@ -163,7 +163,7 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 
 		default:
 			pstr = str;
-			strcpy(str, "???");
+			mir_strcpy(str, "???");
 			break;
 		}
 	}

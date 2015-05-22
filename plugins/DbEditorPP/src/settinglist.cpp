@@ -566,8 +566,8 @@ void EditLabel(HWND hwnd2List, int item, int subitem)
 	}
 
 	data->hContact = info->hContact;
-	strcpy(data->module, info->module);
-	strcpy(data->setting, setting);
+	mir_strcpy(data->module, info->module);
+	mir_strcpy(data->setting, setting);
 	data->item = item;
 	data->subitem = subitem;
 	data->hwnd = hwnd2List;

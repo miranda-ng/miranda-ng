@@ -472,14 +472,14 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 								hFile = CreateFile(szTempfile, GENERIC_READ ,
 								    FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-								strcpy(szRealPath, "a.xml"); // restore .xml for mime type
+								mir_strcpy(szRealPath, "a.xml"); // restore .xml for mime type
 							} else if ((indexCreationMode == INDEX_CREATION_HTML ||
 							    indexCreationMode == INDEX_CREATION_DETECT) &&
 							    bCreateIndexHTML(pszRealPath, szTempfile, pszSrvPath, dwRemoteIP)) {
 								hFile = CreateFile(szTempfile, GENERIC_READ,
 								    FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-								strcpy(szRealPath, "a.html"); // restore .html for mime type
+								mir_strcpy(szRealPath, "a.html"); // restore .html for mime type
 							} else {
 								continue;
 							}
@@ -504,7 +504,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 				}
 			}
 
-			strcpy(this->szCurrentDLSrvPath, pszSrvPath);
+			mir_strcpy(this->szCurrentDLSrvPath, pszSrvPath);
 
 			DWORD nDataSize = GetFileSize(hFile, NULL);
 			dwTotalSize = nDataSize;

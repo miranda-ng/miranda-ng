@@ -751,7 +751,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 					char text[100];
 					if (hContact != NULL) {
 						if (nEmail == 0)
-							strcpy(text, "e-mail");
+							mir_strcpy(text, "e-mail");
 						else
 							mir_snprintf(text, SIZEOF(text), "e-mail%d", nEmail - 1);
 					}

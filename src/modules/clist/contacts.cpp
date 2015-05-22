@@ -194,7 +194,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam)
 					size_t len = mir_strlen(dbv.pszVal) + mir_strlen(dbv2.pszVal) + 2;
 					char* buf = (char*)mir_alloc(len);
 					if (buf != NULL)
-						strcat(strcat(strcpy(buf, dbv.pszVal), " "), dbv2.pszVal);
+						strcat(strcat(mir_strcpy(buf, dbv.pszVal), " "), dbv2.pszVal);
 					ci->pszVal = (TCHAR*)buf;
 				}
 				db_free(&dbv);
@@ -319,7 +319,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam)
 							size_t len = mir_strlen(dbv.pszVal) + mir_strlen(dbv2.pszVal) + 2;
 							char* buf = (char*)mir_alloc(len);
 							if (buf != NULL)
-								strcat(strcat(strcpy(buf, dbv.pszVal), " "), dbv2.pszVal);
+								strcat(strcat(mir_strcpy(buf, dbv.pszVal), " "), dbv2.pszVal);
 							ci->pszVal = (TCHAR*)buf;
 						}
 

@@ -113,20 +113,20 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 
 	if (usingGateway) {
 		if (info->mServer[0] == 0)
-			strcpy(info->mServer, MSN_DEFAULT_LOGIN_SERVER);
+			mir_strcpy(info->mServer, MSN_DEFAULT_LOGIN_SERVER);
 		else if (info->mIsMainThread)
-			strcpy(info->mGatewayIP, info->mServer);
+			mir_strcpy(info->mGatewayIP, info->mServer);
 
 		if (info->gatewayType)
-			strcpy(info->mGatewayIP, info->mServer);
+			mir_strcpy(info->mGatewayIP, info->mServer);
 		else {
 			if (info->mGatewayIP[0] == 0 && db_get_static(NULL, m_szModuleName, "GatewayServer", info->mGatewayIP, sizeof(info->mGatewayIP)))
-				strcpy(info->mGatewayIP, MSN_DEFAULT_GATEWAY);
+				mir_strcpy(info->mGatewayIP, MSN_DEFAULT_GATEWAY);
 		}
 	}
 	else {
 		if (info->mServer[0] == 0 && db_get_static(NULL, m_szModuleName, "DirectServer", info->mServer, sizeof(info->mServer)))
-			strcpy(info->mServer, MSN_DEFAULT_LOGIN_SERVER);
+			mir_strcpy(info->mServer, MSN_DEFAULT_LOGIN_SERVER);
 	}
 
 	NETLIBOPENCONNECTION tConn = { 0 };
@@ -644,13 +644,13 @@ void ThreadData::processSessionData(const char* xMsgr, const char* xHost)
 	if (tDelim2 != NULL)
 		*tDelim2 = '\0';
 	if (xHost)
-		strcpy(tGateIP, xHost);
+		mir_strcpy(tGateIP, xHost);
 	else if (!sscanf(tDelim, "GW-IP=%s", tGateIP))
 		return;
 
-	strcpy(mGatewayIP, tGateIP);
-	if (gatewayType) strcpy(mServer, tGateIP);
-	strcpy(mSessionID, tSessionID);
+	mir_strcpy(mGatewayIP, tGateIP);
+	if (gatewayType) mir_strcpy(mServer, tGateIP);
+	mir_strcpy(mSessionID, tSessionID);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

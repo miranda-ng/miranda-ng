@@ -148,7 +148,7 @@ void mwFileTransfer_closed(mwFileTransfer* ft, guint32 code)
 		if (code != mwFileTransfer_SUCCESS || !mwFileTransfer_isDone(ft)) {
 			if (!ftcd->sending) {
 				char fn[MAX_PATH];
-				if (ftcd->save_path) strcpy(fn, ftcd->save_path);
+				if (ftcd->save_path) mir_strcpy(fn, ftcd->save_path);
 				else fn[0] = 0;
 				strcat(fn, mwFileTransfer_getFileName(ft));
 
@@ -373,7 +373,7 @@ HANDLE CSametimeProto::AcceptFileTransfer(MCONTACT hContact, HANDLE hFt, char* s
 	if (fn) fn++;
 
 	if (ftcd->save_path)
-		strcpy(fp, ftcd->save_path);
+		mir_strcpy(fp, ftcd->save_path);
 	else
 		fp[0] = 0;
 

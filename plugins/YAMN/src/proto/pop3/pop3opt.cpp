@@ -1042,25 +1042,25 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 					if (NULL != ActualAccount->Name)
 						delete[] ActualAccount->Name;
 					ActualAccount->Name = new char[ mir_strlen(Text)+1];
-					strcpy(ActualAccount->Name,Text);
+					mir_strcpy(ActualAccount->Name,Text);
 				        
 					GetDlgItemTextA(hDlg,IDC_EDITSERVER,Text,SIZEOF(Text));
 					if (NULL != ActualAccount->Server->Name)
 						delete[] ActualAccount->Server->Name;
 					ActualAccount->Server->Name=new char[ mir_strlen(Text)+1];
-					strcpy(ActualAccount->Server->Name,Text);
+					mir_strcpy(ActualAccount->Server->Name,Text);
 				        
 					GetDlgItemTextA(hDlg,IDC_EDITLOGIN,Text,SIZEOF(Text));
 					if (NULL != ActualAccount->Server->Login)
 						delete[] ActualAccount->Server->Login;
 					ActualAccount->Server->Login=new char[ mir_strlen(Text)+1];
-					strcpy(ActualAccount->Server->Login,Text);
+					mir_strcpy(ActualAccount->Server->Login,Text);
 				        
 					GetDlgItemTextA(hDlg,IDC_EDITPASS,Text,SIZEOF(Text));
 					if (NULL != ActualAccount->Server->Passwd)
 						delete[] ActualAccount->Server->Passwd;
 					ActualAccount->Server->Passwd=new char[ mir_strlen(Text)+1];
-					strcpy(ActualAccount->Server->Passwd,Text);
+					mir_strcpy(ActualAccount->Server->Passwd,Text);
 				        
 					GetDlgItemTextW(hDlg,IDC_EDITAPP,TextW,SIZEOF(TextW));
 					if (NULL != ActualAccount->NewMailN.App)

@@ -499,7 +499,7 @@ BOOL Xfire_base::getIniPath(char*path) {
 	//kein ziel abbruch
 	if (!path)
 		return FALSE;
-	strcpy(path, XFireGetFoldersPath("IniFile"));
+	mir_strcpy(path, XFireGetFoldersPath("IniFile"));
 	strcat_s(path, MAX_PATH, "xfire_games.ini");
 	return TRUE;
 }
@@ -508,7 +508,7 @@ BOOL Xfire_base::getIconPath(char*path) {
 	//kein ziel abbruch
 	if (!path)
 		return FALSE;
-	strcpy(path, XFireGetFoldersPath("IconsFile"));
+	mir_strcpy(path, XFireGetFoldersPath("IconsFile"));
 	return TRUE;
 }
 

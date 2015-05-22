@@ -404,7 +404,7 @@ public:
 		_popupButtons[0].lchIcon = Skin_GetIcon(ICO_BTN_DOWNARROW);
 		_popupButtons[0].wParam = MAKEWORD(IDSKIP, BN_CLICKED);
 		_popupButtons[0].lParam = NULL;
-		strcpy(_popupButtons[0].lpzTitle, MODNAME"/Hide");
+		mir_strcpy(_popupButtons[0].lpzTitle, MODNAME"/Hide");
 
 		// cancel button
 		_popupButtons[1].cbSize = sizeof(POPUPACTION);
@@ -412,7 +412,7 @@ public:
 		_popupButtons[1].lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
 		_popupButtons[1].wParam = MAKEWORD(IDCANCEL, BN_CLICKED);
 		_popupButtons[1].lParam = NULL;
-		strcpy(_popupButtons[1].lpzTitle, MODNAME"/Cancel");
+		mir_strcpy(_popupButtons[1].lpzTitle, MODNAME"/Cancel");
 	}
 
 	/**

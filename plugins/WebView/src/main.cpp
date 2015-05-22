@@ -50,35 +50,35 @@ void InitServices()
 {
 	char SvcFunc[100];
 
-	strcpy(SvcFunc, MODULENAME);
+	mir_strcpy(SvcFunc, MODULENAME);
 	strcat(SvcFunc, PS_GETCAPS);
 	CreateServiceFunction(SvcFunc, GetCaps);
 
-	strcpy(SvcFunc, MODULENAME);
+	mir_strcpy(SvcFunc, MODULENAME);
 	strcat(SvcFunc, PS_GETNAME);
 	CreateServiceFunction(SvcFunc, GetName);
 
-	strcpy(SvcFunc, MODULENAME);
+	mir_strcpy(SvcFunc, MODULENAME);
 	strcat(SvcFunc, PS_LOADICON);
 	CreateServiceFunction(SvcFunc, BPLoadIcon);
 
-	strcpy(SvcFunc, MODULENAME);
+	mir_strcpy(SvcFunc, MODULENAME);
 	strcat(SvcFunc, PS_SETSTATUS);
 	CreateServiceFunction(SvcFunc, SetStatus);
 
-	strcpy(SvcFunc, MODULENAME);
+	mir_strcpy(SvcFunc, MODULENAME);
 	strcat(SvcFunc, PS_GETSTATUS);
 	CreateServiceFunction(SvcFunc, GetStatus);
 	// 
-	strcpy(SvcFunc, MODULENAME);
+	mir_strcpy(SvcFunc, MODULENAME);
 	strcat(SvcFunc, PS_BASICSEARCH);
 	CreateServiceFunction(SvcFunc, BasicSearch);
 
-	strcpy(SvcFunc, MODULENAME);
+	mir_strcpy(SvcFunc, MODULENAME);
 	strcat(SvcFunc, PS_ADDTOLIST);
 	CreateServiceFunction(SvcFunc, AddToList);
 
-	strcpy(SvcFunc, MODULENAME);
+	mir_strcpy(SvcFunc, MODULENAME);
 	strcat(SvcFunc, PSS_GETINFO);
 	CreateServiceFunction(SvcFunc, GetInfo);
 }

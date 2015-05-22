@@ -333,7 +333,7 @@ void CMsnProto::msnftp_startFileSend(ThreadData* info, const char* Invcommand, c
 
 	const PIN_ADDR addr = (PIN_ADDR)he->h_addr_list[0];
 	if (addr)
-		strcpy(hostname, inet_ntoa(*addr));
+		mir_strcpy(hostname, inet_ntoa(*addr));
 	else
 		hostname[0] = 0;
 

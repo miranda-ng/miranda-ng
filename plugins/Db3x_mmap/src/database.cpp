@@ -133,7 +133,7 @@ char* printVariant(DBVARIANT* p)
 	case DBVT_DWORD:	 mir_snprintf(boo, SIZEOF(boo), "dword: %d", p->dVal ); break;
 	case DBVT_UTF8:
 	case DBVT_ASCIIZ:  mir_snprintf(boo, SIZEOF(boo), "string: '%s'", p->pszVal); break;
-	case DBVT_DELETED: strcpy(boo, "deleted"); break;
+	case DBVT_DELETED: mir_strcpy(boo, "deleted"); break;
 	default:				 mir_snprintf(boo, SIZEOF(boo), "crap: %d", p->type ); break;
 	}
 	return boo;

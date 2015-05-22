@@ -175,7 +175,7 @@ void GGPROTO::parsecontacts(char *contacts)
 			{
 				strPhone = (char*)malloc((n - p) + 5);
 				strncpy(strPhone, p, (n - p));
-				strcpy((strPhone + (n - p)), " SMS"); // Add SMS postfix
+				mir_strcpy((strPhone + (n - p)), " SMS"); // Add SMS postfix
 			}
 			p = (n + 1);
 		}

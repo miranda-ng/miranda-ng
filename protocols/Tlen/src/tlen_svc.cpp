@@ -626,11 +626,11 @@ int TlenProtocol::SendMsg(MCONTACT hContact, int, const char* msgRAW)
 		char *msgEnc = TlenTextEncode(msgRAW);
 		if (msgEnc != NULL) {
 			if (TlenListExist(this, LIST_CHATROOM, dbv.pszVal) && strchr(dbv.pszVal, '/') == NULL)
-				strcpy(msgType, "groupchat");
+				mir_strcpy(msgType, "groupchat");
 			else if (db_get_b(hContact, m_szModuleName, "bChat", FALSE))
-				strcpy(msgType, "privchat");
+				mir_strcpy(msgType, "privchat");
 			else
-				strcpy(msgType, "chat");
+				mir_strcpy(msgType, "chat");
 
 			if (!mir_strcmp(msgType, "groupchat") || db_get_b(NULL, m_szModuleName, "MsgAck", FALSE) == FALSE) {
 				if (!mir_strcmp(msgType, "groupchat"))

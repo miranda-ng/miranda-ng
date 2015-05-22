@@ -299,7 +299,7 @@ void popupWatchedVar(MCONTACT hContact, const char* module, const char* setting)
 		else
 			mir_snprintf(lpzContactName, SIZEOF(lpzContactName), nick_unknown);
 	}
-	else strcpy(lpzContactName, Translate("Settings"));
+	else mir_strcpy(lpzContactName, Translate("Settings"));
 
 	// 2nd line
 	DBVARIANT dbv;
