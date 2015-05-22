@@ -80,7 +80,7 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 				command = text.substr(1);
 			}
 
-			if (!stricmp(command.c_str(), "new"))
+			if (!mir_strcmpi(command.c_str(), "new"))
 			{
 				facy.spy_mode_ = false;
 				facy.question_.clear();
@@ -88,12 +88,12 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 				ForkThread(&OmegleProto::NewChatWorker, NULL);
 				break;
 			}
-			else if (!stricmp(command.c_str(), "quit"))
+			else if (!mir_strcmpi(command.c_str(), "quit"))
 			{
 				ForkThread(&OmegleProto::StopChatWorker, NULL);
 				break;
 			}
-			else if (!stricmp(command.c_str(), "spy"))
+			else if (!mir_strcmpi(command.c_str(), "spy"))
 			{
 				facy.spy_mode_ = true;
 				facy.question_.clear();
@@ -101,7 +101,7 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 				ForkThread(&OmegleProto::NewChatWorker, NULL);
 				break;
 			}
-			else if (!stricmp(command.c_str(), "ask"))
+			else if (!mir_strcmpi(command.c_str(), "ask"))
 			{						
 				if (params.empty()) {
 					// Load last question
@@ -134,7 +134,7 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 				ForkThread(&OmegleProto::NewChatWorker, NULL);
 				break;
 			}
-			else if (!stricmp(command.c_str(), "asl"))
+			else if (!mir_strcmpi(command.c_str(), "asl"))
 			{
 				DBVARIANT dbv;
 				if ( !getU8String( OMEGLE_KEY_ASL,&dbv )) {
@@ -147,7 +147,7 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 					break;
 				}
 			}
-			else if (!stricmp(command.c_str(), "help"))
+			else if (!mir_strcmpi(command.c_str(), "help"))
 			{
 				UpdateChat(NULL, TranslateT("There are three different modes of chatting:\
 \n1) Standard mode\t - You chat with random stranger privately\
@@ -155,7 +155,7 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 \n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\
 \n\nSend '/commands' for available commands."), false);
 			}
-			else if (!stricmp(command.c_str(), "commands"))
+			else if (!mir_strcmpi(command.c_str(), "commands"))
 			{
 				UpdateChat(NULL, TranslateT("You can use different commands:\
 \n/help\t - show info about chat modes\

@@ -42,7 +42,7 @@ struct AccountMap
 };
 
 static int CompareAccs(const AccountMap *p1, const AccountMap *p2)
-{	return stricmp(p1->szSrcAcc, p2->szSrcAcc);
+{	return mir_strcmpi(p1->szSrcAcc, p2->szSrcAcc);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1013,7 +1013,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int CompareModules(const char *p1, const char *p2)
-{	return stricmp(p1, p2);
+{	return mir_strcmpi(p1, p2);
 }
 
 void MirandaImport(HWND hdlg)

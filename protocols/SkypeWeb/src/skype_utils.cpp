@@ -394,7 +394,7 @@ char *CSkypeProto::RemoveHtml(const char *text)
 				bool found = false;
 				for (int j = 0; j < SIZEOF(htmlEntities); j++)
 				{
-					if (!stricmp(entity.c_str(), htmlEntities[j].entity))
+					if (!mir_strcmpi(entity.c_str(), htmlEntities[j].entity))
 					{
 						new_string += htmlEntities[j].symbol;
 						found = true;

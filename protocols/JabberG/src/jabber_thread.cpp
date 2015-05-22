@@ -899,8 +899,8 @@ void CJabberProto::OnProcessProceed(HXML node, ThreadData *info)
 		debugLogA("Starting TLS...");
 
 		char* gtlk = strstr(info->conn.manualHost, "google.com");
-		bool isHosted = gtlk && !gtlk[10] && stricmp(info->conn.server, "gmail.com") &&
-			stricmp(info->conn.server, "googlemail.com");
+		bool isHosted = gtlk && !gtlk[10] && mir_strcmpi(info->conn.server, "gmail.com") &&
+			mir_strcmpi(info->conn.server, "googlemail.com");
 
 		NETLIBSSL ssl = { 0 };
 		ssl.cbSize = sizeof(ssl);

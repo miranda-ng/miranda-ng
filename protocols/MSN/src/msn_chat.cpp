@@ -130,7 +130,7 @@ void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 		if (pszCreator && !mir_strcmp(mri, pszCreator)) info->mCreator = gcu;
 		char* szEmail, *szNet;
 		parseWLID(NEWSTR_ALLOCA(mri), &szNet, &szEmail, NULL);
-		if (!stricmp(szEmail, GetMyUsername(atoi(szNet))))
+		if (!mir_strcmpi(szEmail, GetMyUsername(atoi(szNet))))
 			info->mMe = gcu;
 		gcu->btag = 1;
 	}
@@ -248,7 +248,7 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const TCHAR *mChatID)
 				}
 				char* szEmail, *szNet;
 				parseWLID(NEWSTR_ALLOCA(pszTarget), &szNet, &szEmail, NULL);
-				gce.bIsMe = !stricmp(szEmail, GetMyUsername(atoi(szNet)));
+				gce.bIsMe = !mir_strcmpi(szEmail, GetMyUsername(atoi(szNet)));
 				gce.ptszUID = mir_a2t(pszTarget);
 				MCONTACT hContTarget = MSN_HContactFromEmail(pszTarget);
 				gce.ptszNick =GetContactNameT(hContTarget);
