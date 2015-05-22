@@ -2,10 +2,16 @@
 ;  File: yweather.ini
 ;  Module: weather
 ;============================================================
+[ENE]
+ВСВ
+[ESE]
+ВЮВ
+[E]
+В
+[East]
+Восток
 [Feel]
 Ощущение
-[Forecast Day 1]
-Прогноз: День 1
 [Forecast Day 1 Condition]
 Прогноз: День 1 Условия
 [Forecast Day 1 Date]
@@ -16,87 +22,81 @@
 Прогноз: День 1 Макс
 [Forecast Day 1 Low]
 Прогноз: День 1 Мин
-[Heat Index]
-Индекс жары
-[Wind Direction]
-Ветер: направление
-[Wind Speed]
-Ветер: скорость
-[Wind Direction Degrees]
-Ветер: направление (град)
-[Mon]
-ПН
-[Tue]
-ВТ
-[Wed]
-СР
-[Thu]
-ЧТ
+[Forecast Day 1]
+Прогноз: День 1
 [Fri]
 ПТ
+[Heat Index]
+Индекс жары
+[Mon]
+ПН
+[Mostly Clear]
+Преимущественно ясно
+[Mostly Cloudy]
+Преимущественно облачно
+[Mostly Sunny]
+Преимущественно солнечно
+[NE]
+СВ
+[NNE]
+ССВ
+[NNW]
+ССЗ
+[NW]
+СЗ
+[N]
+С
+[North]
+Север
+[Northeast]
+Северо-восток
+[Northwest]
+Северо-запад
+[Partly Cloudy]
+Местами облачно
+[Partly Sunny]
+Местами солнечно
+[SE]
+ЮВ
+[SSE]
+ЮЮВ
+[SSW]
+ЮЮЗ
+[SW]
+ЮЗ
+[S]
+Ю
 [Sat]
 СБ
+[Scattered Clouds]
+Переменная облачность
+[South]
+Юг
+[Southeast]
+Юго-восток
+[Southwest]
+Юго-запад
 [Sun]
 ВС
 [Sunny]
 Солнечно
-[Partly Sunny]
-Местами солнечно
-[Mostly Sunny]
-Преимущественно солнечно
-[Partly Cloudy]
-Местами облачно
-[Mostly Cloudy]
-Преимущественно облачно
-[Mostly Clear]
-Преимущественно ясно
-[N]
-С
-[W]
-З
-[S]
-Ю
-[E]
-В
-[NW]
-СЗ
-[NE]
-СВ
-[SW]
-ЮЗ
-[SE]
-ЮВ
-[NNW]
-ССЗ
-[NNE]
-ССВ
-[SSW]
-ЮЮЗ
-[SSE]
-ЮЮВ
-[ENE]
-ВСВ
-[WSW]
-ЗЮЗ
+[Thu]
+ЧТ
+[Tue]
+ВТ
 [WNW]
 ЗСЗ
-[ESE]
-ВЮВ
-[Scattered Clouds]
-Переменная облачность
-[North]
-Север
-[East]
-Восток
-[South]
-Юг
+[WSW]
+ЗЮЗ
+[W]
+З
+[Wed]
+СР
 [West]
 Запад
-[Northwest]
-Северо-запад
-[Northeast]
-Северо-восток
-[Southwest]
-Юго-запад
-[Southeast]
-Юго-восток
+[Wind Direction Degrees]
+Ветер: направление (град)
+[Wind Direction]
+Ветер: направление
+[Wind Speed]
+Ветер: скорость
