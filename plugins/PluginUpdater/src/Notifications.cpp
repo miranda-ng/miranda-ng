@@ -139,11 +139,3 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 	if (Number == POPUP_TYPE_ERROR)
 		MessageBox(0, ptszText, ptszTitle, MB_ICONINFORMATION);
 }
-
-int ImageList_AddIconFromIconLib(HIMAGELIST hIml, int i)
-{
-	HICON icon = Skin_GetIconByHandle(iconList[i].hIcolib);
-	int res = ImageList_AddIcon(hIml, icon);
-	Skin_ReleaseIcon(icon);
-	return res;
-}
