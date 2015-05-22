@@ -113,7 +113,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 				TCHAR *p = _tcschr(tszFileName, L'.'); *p = 0;
 
 				TCHAR link[MAX_PATH];
-				mir_sntprintf(link, SIZEOF(link), _T("http://miranda-ng.org/p/%s"), tszFileName);
+				mir_sntprintf(link, SIZEOF(link), PLUGIN_INFO_URL, tszFileName);
 				CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM) link);
 			}
 		}
@@ -133,6 +133,14 @@ static int ListDlg_Resize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 		return RD_ANCHORX_CENTRE;
 	}
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP | RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+}
+
+int ImageList_AddIconFromIconLib(HIMAGELIST hIml, int i)
+{
+	HICON icon = Skin_GetIconByHandle(iconList[i].hIcolib);
+	int res = ImageList_AddIcon(hIml, icon);
+	Skin_ReleaseIcon(icon);
+	return res;
 }
 
 INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)

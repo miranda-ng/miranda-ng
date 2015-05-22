@@ -160,8 +160,13 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
 		SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
+#if MIRANDA_VER >= 0x0A00
 		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(iconList[0].hIcolib));
 		SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(iconList[0].hIcolib, 1));
+#else
+		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon("check_update"));
+		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon("check_update",1));
+#endif
 		{
 			OSVERSIONINFO osver = { sizeof(osver) };
 			if (GetVersionEx(&osver) && osver.dwMajorVersion >= 6)

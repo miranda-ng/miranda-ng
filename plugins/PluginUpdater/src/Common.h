@@ -107,6 +107,7 @@ extern struct PlugOptions
 #define DEFAULT_UPDATE_URL                "http://miranda-ng.org/distr/stable/x%platform%"
 #define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x%platform%"
 #define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.org/distr/pdb_x%platform%"
+#define PLUGIN_INFO_URL	_T("http://miranda-ng.org/p/%s")
 
 #define UPDATE_MODE_CUSTOM			0
 #define UPDATE_MODE_STABLE			1
@@ -136,8 +137,9 @@ extern HINSTANCE hInst;
 extern TCHAR tszRoot[MAX_PATH], tszTempPath[MAX_PATH];
 extern aPopups PopupsList[POPUPS];
 extern HANDLE hPipe, hNetlibUser;
+#if MIRANDA_VER >= 0x0A00
 extern IconItemT iconList[];
-
+#endif
 void UninitCheck(void);
 void UninitListNew(void);
 
@@ -211,8 +213,6 @@ void  __stdcall RestartMe(void*);
 void  __stdcall OpenPluginOptions(void*);
 void  CheckUpdateOnStartup();
 void  InitTimer(void *type);
-
-int  ImageList_AddIconFromIconLib(HIMAGELIST hIml, int i);
 
 bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath,bool ch);
 void strdel(TCHAR *parBuffer, int len);
