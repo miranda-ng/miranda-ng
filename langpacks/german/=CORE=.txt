@@ -52,6 +52,8 @@ Namensanzeige in der Kontaktliste
 Festlegen, welcher Name eines Kontakts in der Kontaktliste angezeigt werden soll:
 [Miranda NG profile manager]
 Miranda-NG-Profilmanager
+[Manage your Miranda NG profile]
+Verwalten Sie Ihre Miranda-NG-Profile
 [&Run]
 Ausfüh&ren
 [&Exit]
@@ -340,8 +342,8 @@ Dienst:
 Standard
 [Set]
 Setzen
-[Disable icons]
-Icons deaktivieren
+[Enable icons]
+
 [Show accounts in the following order,\ndrag to choose another order:]
 Zeige Konten in folgender Reihenfolge, Elemente sind verschiebbar
 [Account order and visibility]
@@ -2177,6 +2179,7 @@ Logeinstellungen öffnen
 Verschiebe in &Gruppe
 [<Root group>]
 <Hauptgruppe>
+;file \src\modules\clist\protocolorder.cpp
 ;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht an den neuen Ort %s verschieben\nweil ein anderen Profil mit diesem Namen schon existiert. Bitte lösen Sie den Konflikt manuell.
@@ -2253,8 +2256,6 @@ Größe
 Erstellt
 [Modified]
 Geändert
-[Manage your Miranda NG profile]
-Verwalten Sie Ihre Miranda-NG-Profile
 [My profiles]
 Meine Profile
 [New profile]

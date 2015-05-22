@@ -2,88 +2,12 @@
 ;  File: wundergrnd_intl.ini
 ;  Module: weather
 ;============================================================
-[Light Rain Showers]
-Ідзе слабы дождж
-[Thunderstorms And Rain]
-Дождж з навальніцай
-[Light Thunderstorm]
-Невялікая навальніца
-[Light Drizzle Mist]
-Лёгкая смуга, імжа
-[Light Showers Rain Mist]
-Слабыя дажджы, смуга
-[Mostly Sunny]
-Пераважна сонечна
-[Light Thunderstorm Rain]
-Невялікая навальніца з дажджом
-[Thunderstorm Rain]
-Дождж з навальніцай
-[N/a]
-Н/д
-[Thunderstorm]
-Навальніца
-[Overcast]
-Суцэльная воблачнасць
-[Fog]
-Смуга
-[Patches Fog]
-Смуга жмутамі
-[Mist]
-Смуга
-[Light Rain]
-Слабы дождж
-[Light Showers Rain]
-Слабыя дажджы
-[Light Showers Snow]
-Лёгкі снегапад
-[Showers Rain]
-Ліўневыя дажджы
-[Shallow Fog]
-Нізкая смуга
-[Snow]
-Снег
-[Partly Sunny]
-Месцамі сонечна
-[Partly Cloudy]
-Месцамі хмарна
-[Mostly Cloudy]
-Пераважна хмарна
-[Mostly Clear]
-Пераважна ясна
-[Rising]
-Расце
-[Steady]
-Не зм.
-[Stable]
-Не зм.
-[Falling]
-Валіцца
-[Var]
-Зменны
-[New Moon]
-Маладзік
-[Last Quarter]
-апошняя чвэрць Месяца
-[First Quarter]
-Першая чвэрць Месяца
-[Full Moon]
-Поўня
-[Waning Crescent]
-Зыходзячы Месяц
-[Waning Gibbous]
-Зыходзячы Месяц
-[Waxing Crescent]
-Надыходзячы Месяц
-[Waxing Gibbous]
-Надыходзячы Месяц
-[of the Moon is Illuminated]
-асветлена
-[Latitude]
-Шырата
-[Longitude]
-Даўгата
-[Day Length]
-Працягласць дня
+[Alert]
+Увага
+[Blowing Snow]
+Завея
+[Chance Of A Thunderstorm 20% Chance Of Precipitation]
+Магчымая навальніца, 20% верагоднасць ападкаў
 [Chance Of Rain 20% Chance Of Precipitation]
 Магчымы дождж, 20% верагоднасць ападкаў
 [Chance Of Rain 30% Chance Of Precipitation]
@@ -98,40 +22,6 @@
 Магчымы дождж, 70% верагоднасць ападкаў
 [Chance Of Rain 80% Chance Of Precipitation]
 Магчымы дождж, 80% верагоднасць ападкаў
-[Rain 50% Chance Of Precipitation]
-Дождж, 50% верагоднасць ападкаў
-[Rain 60% Chance Of Precipitation]
-Дождж, 60% верагоднасць ападкаў
-[Rain 70% Chance Of Precipitation]
-Дождж, 70% верагоднасць ападкаў
-[Rain 80% Chance Of Precipitation]
-Дождж, 80% верагоднасць ападкаў
-[Rain 90% Chance Of Precipitation]
-Дождж, 90% верагоднасць ападкаў
-[Rain 100% Chance Of Precipitation]
-Дождж, 100% верагоднасць ападкаў
-[T-Storms 100% Chance Of Precipitation]
-Навальніца, 100% верагоднасць ападкаў
-[T-Storms 90% Chance Of Precipitation]
-Навальніца, 90% верагоднасць ападкаў
-[T-Storms 80% Chance Of Precipitation]
-Навальніца, 80% верагоднасць ападкаў
-[T-Storms 70% Chance Of Precipitation]
-Навальніца, 70% верагоднасць ападкаў
-[T-Storms 60% Chance Of Precipitation]
-Навальніца, 60% верагоднасць ападкаў
-[T-Storms 40% Chance Of Precipitation]
-Навальніца, 40% верагоднасць ападкаў
-[Chance Of T-Storms 60% Chance Of Precipitation]
-Магчымыя навальніцы, 60% верагоднасць ападкаў
-[Chance Of T-Storms 50% Chance Of Precipitation]
-Магчымыя навальніцы, 50% верагоднасць ападкаў
-[Chance Of T-Storms 40% Chance Of Precipitation]
-Магчымыя навальніцы, 40% верагоднасць ападкаў
-[Chance Of T-Storms 30% Chance Of Precipitation]
-Магчымыя навальніцы, 30% верагоднасць ападкаў
-[Chance Of T-Storms 20% Chance Of Precipitation]
-Магчымыя навальніцы, 20% верагоднасць ападкаў
 [Chance Of Snow 20% Chance Of Precipitation]
 Магчымы снег, 20% верагоднасць ападкаў
 [Chance Of Snow 30% Chance Of Precipitation]
@@ -140,6 +30,58 @@
 Магчымы снег, 40% верагоднасць ападкаў
 [Chance Of Snow 50% Chance Of Precipitation]
 Магчымы снег, 50% верагоднасць ападкаў
+[Chance Of Snow 60% Chance Of Precipitation]
+Магчымы снег, 60% верагоднасць ападкаў
+[Chance Of Snow 70% Chance Of Precipitation]
+Магчымы снег, 70% верагоднасць ападкаў
+[Chance Of Snow 80% Chance Of Precipitation]
+Магчымы снег, 80% верагоднасць ападкаў
+[Chance Of T-Storms 20% Chance Of Precipitation]
+Магчымыя навальніцы, 20% верагоднасць ападкаў
+[Chance Of T-Storms 30% Chance Of Precipitation]
+Магчымыя навальніцы, 30% верагоднасць ападкаў
+[Chance Of T-Storms 40% Chance Of Precipitation]
+Магчымыя навальніцы, 40% верагоднасць ападкаў
+[Chance Of T-Storms 50% Chance Of Precipitation]
+Магчымыя навальніцы, 50% верагоднасць ападкаў
+[Chance Of T-Storms 60% Chance Of Precipitation]
+Магчымыя навальніцы, 60% верагоднасць ападкаў
+[Chance Of T-Storms 70% Chance Of Precipitation]
+Магчымы навальніцы, 70% верагоднасць ападкаў
+[Chance Of T-Storms 80% Chance Of Precipitation]
+Т-навальніцы, 80% верагоднасць ападкаў
+[Chance Of T-Storms 90% Chance Of Precipitation]
+Т-навальніцы, 90% верагоднасць ападкаў
+[Chance Rain 40% Chance Of Precipitation]
+Магчымы дождж, 40% верагоднасць ападкаў
+[Chance Rain 50% Chance Of Precipitation]
+Магчымы дождж, 50% верагоднасць ападкаў
+[Chance Rain 80% Chance Of Precipitation]
+Магчымы дождж, 80% верагоднасць ападкаў
+[Chance Rain 90% Chance Of Precipitation]
+Дождж 90% верагоднасць ападкаў
+[Clear]
+Ясна
+[Day Length Diff]
+Змена працягласці дня
+[Day Length]
+Працягласць дня
+[Drizzle Fog]
+Дождж, смуга
+[Drizzle Mist]
+Імжа, смуга
+[East]
+Усход
+[Elevation]
+Вышыня над узроўнем мора
+[Falling]
+Валіцца
+[Feel]
+Тэмпература з улікам ветра
+[First Quarter]
+Першая чвэрць Месяца
+[Fog]
+Смуга
 [Forecast Day 1 Condition]
 Прагноз: Дзень 1 Умовы
 [Forecast Day 1 Day]
@@ -210,307 +152,365 @@
 Прагноз: Дзень 5 тэкст
 [Forecast Day 5]
 Прагноз: Дзень 5
-[Wind Direction]
-Вецер: кірунак
-[Wind Speed]
-Вецер: хуткасць
-[Wind Direction DEG]
-Вецер: кірунак (град)
-[Max]
-Дзень
-[Min]
-Ноч
-[Moon]
-Месяц
-[UV Index]
-Індэкс УХ
-[Scattered Clouds]
-Зменная воблачнасць
-[North]
-Поўнач
-[East]
-Усход
-[South]
-Поўдзень
-[West]
-Захад
-[Northwest]
-Паўночны захад
-[Northeast]
-Паўночны ўсход
-[Southwest]
-Паўднёвы захад
-[Southeast]
-Паўднёвы ўсход
-[Monday]
-Панядзелак
-[Tuesday]
-Аўторак
-[Wednesday]
-Серада
-[Thursday]
-Чацвер
-[Friday]
-Пятніца
-[Saturday]
-Субота
-[Sunday]
-Нядзеля
-[Rain]
-Дождж
-[Light Drizzle]
-Лёгкая смуга
-[Light Rain Mist]
-Слабыя дажджы, смуга
-[Light Snow]
-Слабы снег
-[Light Showers Snow Rain]
-Дождж са снегам
-[Light Snow Showers]
-Дождж са снегам
-[Light Freezing Drizzle Mist]
-Слабая імга, смуга
+[Freezing Drizzle Mist]
+Імга, смуга
 [Freezing Drizzle]
 Імга
+[Freezing Fog]
+Смуга
+[Freezing Rain Mist]
+Дождж з адукацыяй наледзі, смуга
 [Freezing Rain]
 Дождж з адукацыяй галалёду
-[Light Snow Mist]
-Слабы снег са смугой
-[Snow Rain]
-Снег з дажджом
-[Light Ice Pellets]
-Невялікі ледзяны дождж
-[Drizzle Mist]
-Імжа, смуга
-[Light Fog]
-Слабая смуга
-[Showers Snow]
-Дождж са снегам
-[Heavy Showers Snow]
-Моцны дождж са снегам
-[Light Snow Grains Mist]
-Слабы снег шматкамі, смуга
-[Light Showers Snow Mist]
-Слабы снег з дажджом, смуга
+[Friday]
+Пятніца
+[Full Moon]
+Поўня
+[Haze]
+Смуга
+[Heat Index]
+Індэкс спякоты
+[Heavy Blowing Snow]
+Завея
+[Heavy Fog]
+Густая смуга
+[Heavy Rain Showers]
+Праліўны дождж
+[Heavy Showers Snow Blowing Snow]
+Моцны дождж са снегам, завея
 [Heavy Showers Snow Heavy Blowing Snow]
 Моцны снегапад, завея
-[Light Showers Snow Low Drifting Snow]
-Слабы снег, замець
-[Snow Blowing Snow]
-Снег, завея
-[Snow Freezing Rain]
-Снег з дажджом
-[Showers Snow Rain]
-Снег з дажджом
+[Heavy Showers Snow Mist]
+Моцны снег, смуга
+[Heavy Showers Snow]
+Моцны дождж са снегам
+[Heavy Snow Showers]
+Моцны снегапад
 [Heavy Snow]
 Моцны снегапад
-[Light Snow Shallow Fog]
-Слабы снег, нізкая смуга
-[Showers Snow Blowing Snow]
-Моцны снег, завея
-[Blowing Snow]
-Завея
+[Heavy Thunderstorm Rain]
+Моцныя навальніцы, дождж
 [Ice Crystals Mist]
 Шаць, смуга
+[Ice Pellets 70% Chance Of Precipitation]
+Лядовыя крупы, 70% верагоднасць ападкаў
+[Ice Pellets]
+Снег з адукацыяй лёду
+[Last Quarter]
+апошняя чвэрць Месяца
+[Latitude]
+Шырата
+[Light Blowing Snow]
+Завея
+[Light Drizzle Fog]
+Слабая імга, смуга
+[Light Drizzle Mist]
+Лёгкая смуга, імжа
+[Light Drizzle]
+Лёгкая смуга
+[Light Fog]
+Слабая смуга
+[Light Freezing Drizzle Light Snow Grains Mist]
+Слабая намаразь, невялікі снег, смуга
+[Light Freezing Drizzle Light Snow]
+Слабая імга, слабы снег
+[Light Freezing Drizzle Mist]
+Слабая імга, смуга
 [Light Freezing Drizzle Snow]
 Слабая імжа, снег
-[Light Snow Low Drifting Snow]
-Невялікі снег, снежная замець
-[Low Drifting Snow]
-Снежная замець
+[Light Freezing Drizzle]
+Слабая імга
+[Light Freezing Rain Light Showers Snow Mist]
+Слабы ледзяны дождж, снег, смуга
+[Light Freezing Rain Light Showers Snow]
+Слабы ледзяны дождж, слабы снег
+[Light Freezing Rain Light Snow]
+Слабы ледзяны дождж, снег
 [Light Freezing Rain Mist]
 Слабы ледзяны дождж, смуга
 [Light Freezing Rain]
 Слабы ледзяны дождж
+[Light Ice Pellets Mist]
+Снег з адукацыяй лёду, смуга
+[Light Ice Pellets]
+Невялікі ледзяны дождж
+[Light Low Drifting Snow]
+Слабы снег, замець
+[Light Rain Fog]
+Слабы дождж, смуга
+[Light Rain Mist]
+Слабыя дажджы, смуга
+[Light Rain Showers]
+Ідзе слабы дождж
+[Light Rain Snow Mist]
+Слабы дождж са снегам, смуга
+[Light Rain Snow]
+Слабы дождж са снегам
+[Light Rain]
+Слабы дождж
+[Light Showers Rain Mist]
+Слабыя дажджы, смуга
+[Light Showers Rain Snow Mist]
+Дождж са снегам, смуга
+[Light Showers Rain Snow]
+Дождж са снегам
+[Light Showers Rain]
+Слабыя дажджы
+[Light Showers Showers Rain]
+Моцны дождж
+[Light Showers Snow Blowing Snow]
+Снег, завея
 [Light Showers Snow Light Blowing Snow]
 Моцны снег з дажджом
-[Showers Snow Heavy Blowing Snow]
-Завея з дажджом
+[Light Showers Snow Low Drifting Snow]
+Слабы снег, замець
+[Light Showers Snow Mist]
+Слабы снег з дажджом, смуга
+[Light Showers Snow Rain Mist]
+Снег з дажджом, смуга
+[Light Showers Snow Rain]
+Дождж са снегам
+[Light Showers Snow]
+Лёгкі снегапад
+[Light Snow 30% Chance Of Precipitation]
+Слабы снег, 30% верагоднасць ападкаў
 [Light Snow Blowing Snow]
 Завея
+[Light Snow Grains Mist]
+Слабы снег шматкамі, смуга
+[Light Snow Grains]
+Невялікі снег
 [Light Snow Light Blowing Snow]
 Слабы снег, завея
 [Light Snow Low Drifting Snow Mist]
 Слабы снег, снежная замець, смуга
-[Freezing Fog]
-Смуга
-[Light Showers Snow Blowing Snow]
-Снег, завея
-[Freezing Drizzle Mist]
-Імга, смуга
-[Light Freezing Drizzle]
-Слабая імга
-[Freezing Rain Mist]
-Дождж з адукацыяй наледзі, смуга
-[Showers Snow Mist]
-Снегапад, смуга
-[Heavy Showers Snow Blowing Snow]
-Моцны дождж са снегам, завея
-[Light Freezing Rain Light Showers Snow]
-Слабы ледзяны дождж, слабы снег
-[Light Freezing Drizzle Light Snow]
-Слабая імга, слабы снег
-[Heavy Fog]
-Густая смуга
-[Rain Mist]
-Дождж, смуга
-[Light Showers Showers Rain]
-Моцны дождж
-[Showers Showers Rain]
-Моцны дождж
-[Heavy Thunderstorm Rain]
-Моцныя навальніцы, дождж
-[Smoke]
-Дым
-[Haze]
-Смуга
-[Light Snow Grains]
-Невялікі снег
-[Light Rain Snow]
-Слабы дождж са снегам
-[Snow Mist]
-Снег са смугой
-[Light Rain Snow Mist]
-Слабы дождж са снегам, смуга
-[Light Showers Snow Rain Mist]
-Снег з дажджом, смуга
-[Heavy Blowing Snow]
-Завея
-[Snow 50% Chance Of Precipitation]
-Снег, 50% верагоднасць ападкаў
-[Drizzle Fog]
-Дождж, смуга
+[Light Snow Low Drifting Snow]
+Невялікі снег, снежная замець
+[Light Snow Mist]
+Слабы снег са смугой
+[Light Snow Rain]
+Невялікі снег з дажджом
+[Light Snow Shallow Fog]
+Слабы снег, нізкая смуга
+[Light Snow Showers]
+Дождж са снегам
+[Light Snow]
+Слабы снег
+[Light Thunderstorm Rain]
+Невялікая навальніца з дажджом
+[Light Thunderstorm]
+Невялікая навальніца
 [Local Time]
 Мясцовы час
+[Longitude]
+Даўгата
+[Low Drifting Snow Mist]
+Слабая завея, смуга
+[Low Drifting Snow]
+Снежная замець
+[Max]
+Дзень
+[Min]
+Ноч
+[Mist]
+Смуга
+[Monday]
+Панядзелак
+[Moon]
+Месяц
 [Moonrise]
 Месяц: узыход
 [Moonset]
 Месяц: заход
-[Pressure Change]
-Ціск: змена
-[Heavy Showers Snow Mist]
-Моцны снег, смуга
-[Light Freezing Rain Light Showers Snow Mist]
-Слабы ледзяны дождж, снег, смуга
-[Light Drizzle Fog]
-Слабая імга, смуга
-[Snow Rain Mist]
-Снег з дажджом, смуга
-[Snow Heavy Blowing Snow]
-Моцны снег, завея
-[Low Drifting Snow Mist]
-Слабая завея, смуга
-[Light Freezing Drizzle Light Snow Grains Mist]
-Слабая намаразь, невялікі снег, смуга
-[Light Ice Pellets Mist]
-Снег з адукацыяй лёду, смуга
-[Ice Pellets]
-Снег з адукацыяй лёду
-[Rain Fog]
-Дождж, смуга
-[Showers Snow Low Drifting Snow]
-Моцны снегапад, снежная замець
-[Light Freezing Rain Light Snow]
-Слабы ледзяны дождж, снег
-[Day Length Diff]
-Змена працягласці дня
-[Elevation]
-Вышыня над узроўнем мора
-[Feel]
-Тэмпература з улікам ветра
-[Alert]
-Увага
-[longer]
-даўжэй
-[Heat Index]
-Індэкс спякоты
-[Visible Light Length]
-Працягласць светлага часу
-[Wind Gust]
-Вецер: парывы
-[Showers Rain Snow]
-Моцны дождж, снег
-[Clear]
-Ясна
-[shorter]
-карацей
-[T-Storms 50% Chance Of Precipitation]
-Навальніца, 50% верагоднасць ападкаў
-[Light Showers Rain Snow]
-Дождж са снегам
-[Light Showers Rain Snow Mist]
-Дождж са снегам, смуга
-[Snow Grains]
-Снег
-[Heavy Snow Showers]
-Моцны снегапад
-[Chance Of A Thunderstorm 20% Chance Of Precipitation]
-Магчымая навальніца, 20% верагоднасць ападкаў
-[Rain 20% Chance Of Precipitation]
-Дождж, 20% верагоднасць ападкаў
-[Chance Of Snow 70% Chance Of Precipitation]
-Магчымы снег, 70% верагоднасць ападкаў
-[Chance Of Snow 80% Chance Of Precipitation]
-Магчымы снег, 80% верагоднасць ападкаў
-[Light Rain Fog]
-Слабы дождж, смуга
-[Snow 90% Chance Of Precipitation]
-Снег, 90% верагоднасць ападкаў
-[Snow 20% Chance Of Precipitation]
-Снег, 20% верагоднасць ападкаў
-[Chance Rain 80% Chance Of Precipitation]
-Магчымы дождж, 80% верагоднасць ападкаў
-[Heavy Rain Showers]
-Праліўны дождж
-[Rain 40% Chance Of Precipitation]
-Дождж, 40% верагоднасць ападкаў
-[Chance Rain 40% Chance Of Precipitation]
-Магчымы дождж, 40% верагоднасць ападкаў
-[Chance Of Snow 60% Chance Of Precipitation]
-Магчымы снег, 60% верагоднасць ападкаў
-[Chance Rain 50% Chance Of Precipitation]
-Магчымы дождж, 50% верагоднасць ападкаў
-[Snow 40% Chance Of Precipitation]
-Снег, 40% верагоднасць ападкаў
-[Snow 80% Chance Of Precipitation]
-Снег, 80% верагоднасць ападкаў
-[Snow 70% Chance Of Precipitation]
-Снег, 70% верагоднасць ападкаў
-[Light Blowing Snow]
-Завея
-[Snow Freezing Rain Mist]
-Снег з дажджом, смуга
+[Mostly Clear]
+Пераважна ясна
+[Mostly Cloudy]
+Пераважна хмарна
+[Mostly Sunny]
+Пераважна сонечна
+[N/a]
+Н/д
+[New Moon]
+Маладзік
+[North]
+Поўнач
+[Northeast]
+Паўночны ўсход
+[Northwest]
+Паўночны захад
+[Overcast]
+Суцэльная воблачнасць
+[Partly Cloudy]
+Месцамі хмарна
+[Partly Sunny]
+Месцамі сонечна
 [Patches Fog Mist]
 Месцамі туман, смуга
-[Snow 60% Chance Of Precipitation]
-Снег, 60% верагоднасць ападкаў
-[Light Low Drifting Snow]
-Слабы снег, замець
+[Patches Fog]
+Смуга жмутамі
+[Pressure Change]
+Ціск: змена
+[Rain 100% Chance Of Precipitation]
+Дождж, 100% верагоднасць ападкаў
+[Rain 20% Chance Of Precipitation]
+Дождж, 20% верагоднасць ападкаў
+[Rain 40% Chance Of Precipitation]
+Дождж, 40% верагоднасць ападкаў
+[Rain 50% Chance Of Precipitation]
+Дождж, 50% верагоднасць ападкаў
+[Rain 60% Chance Of Precipitation]
+Дождж, 60% верагоднасць ападкаў
+[Rain 70% Chance Of Precipitation]
+Дождж, 70% верагоднасць ападкаў
+[Rain 80% Chance Of Precipitation]
+Дождж, 80% верагоднасць ападкаў
+[Rain 90% Chance Of Precipitation]
+Дождж, 90% верагоднасць ападкаў
+[Rain Fog]
+Дождж, смуга
+[Rain Mist]
+Дождж, смуга
+[Rain]
+Дождж
+[Rising]
+Расце
+[Saturday]
+Субота
+[Scattered Clouds]
+Зменная воблачнасць
+[Shallow Fog]
+Нізкая смуга
+[Showers Rain Snow]
+Моцны дождж, снег
+[Showers Rain]
+Ліўневыя дажджы
+[Showers Showers Rain]
+Моцны дождж
+[Showers Snow Blowing Snow]
+Моцны снег, завея
+[Showers Snow Heavy Blowing Snow]
+Завея з дажджом
+[Showers Snow Low Drifting Snow]
+Моцны снегапад, снежная замець
+[Showers Snow Mist]
+Снегапад, смуга
+[Showers Snow Rain]
+Снег з дажджом
+[Showers Snow]
+Дождж са снегам
+[Smoke]
+Дым
+[Snow 20% Chance Of Precipitation]
+Снег, 20% верагоднасць ападкаў
 [Snow 30% Chance Of Precipitation]
 Снег 30% верагоднасць ападкаў
-[Light Snow Rain]
-Невялікі снег з дажджом
-[Chance Rain 90% Chance Of Precipitation]
-Дождж 90% верагоднасць ападкаў
-[Chance Of T-Storms 70% Chance Of Precipitation]
-Магчымы навальніцы, 70% верагоднасць ападкаў
-[T-Storms 30% Chance Of Precipitation]
-T-навальніцы, 30% верагоднасць ападкаў
-[Chance Of T-Storms 90% Chance Of Precipitation]
-Т-навальніцы, 90% верагоднасць ападкаў
-[Chance Of T-Storms 80% Chance Of Precipitation]
-Т-навальніцы, 80% верагоднасць ападкаў
-[Snow Showers 70% Chance Of Precipitation]
-Снег, 70% верагоднасць ападкаў
-[Snow Showers 60% Chance Of Precipitation]
-Снег, 60% верагоднасць ападкаў
-[Snow Showers 50% Chance Of Precipitation]
-Снег, 50% верагоднасць ападкаў
-[Snow Showers 40% Chance Of Precipitation]
+[Snow 40% Chance Of Precipitation]
 Снег, 40% верагоднасць ападкаў
+[Snow 50% Chance Of Precipitation]
+Снег, 50% верагоднасць ападкаў
+[Snow 60% Chance Of Precipitation]
+Снег, 60% верагоднасць ападкаў
+[Snow 70% Chance Of Precipitation]
+Снег, 70% верагоднасць ападкаў
+[Snow 80% Chance Of Precipitation]
+Снег, 80% верагоднасць ападкаў
+[Snow 90% Chance Of Precipitation]
+Снег, 90% верагоднасць ападкаў
+[Snow Blowing Snow]
+Снег, завея
+[Snow Freezing Rain Mist]
+Снег з дажджом, смуга
+[Snow Freezing Rain]
+Снег з дажджом
+[Snow Grains]
+Снег
+[Snow Heavy Blowing Snow]
+Моцны снег, завея
+[Snow Mist]
+Снег са смугой
+[Snow Rain Mist]
+Снег з дажджом, смуга
+[Snow Rain]
+Снег з дажджом
 [Snow Showers 30% Chance Of Precipitation]
 Снег, 30% верагоднасць ападкаў
-[Light Snow 30% Chance Of Precipitation]
-Слабы снег, 30% верагоднасць ападкаў
-[Ice Pellets 70% Chance Of Precipitation]
-Лядовыя крупы, 70% верагоднасць ападкаў
+[Snow Showers 40% Chance Of Precipitation]
+Снег, 40% верагоднасць ападкаў
+[Snow Showers 50% Chance Of Precipitation]
+Снег, 50% верагоднасць ападкаў
+[Snow Showers 60% Chance Of Precipitation]
+Снег, 60% верагоднасць ападкаў
+[Snow Showers 70% Chance Of Precipitation]
+Снег, 70% верагоднасць ападкаў
+[Snow]
+Снег
+[South]
+Поўдзень
+[Southeast]
+Паўднёвы ўсход
+[Southwest]
+Паўднёвы захад
+[Stable]
+Не зм.
+[Steady]
+Не зм.
+[Sunday]
+Нядзеля
+[T-Storms 100% Chance Of Precipitation]
+Навальніца, 100% верагоднасць ападкаў
+[T-Storms 30% Chance Of Precipitation]
+T-навальніцы, 30% верагоднасць ападкаў
+[T-Storms 40% Chance Of Precipitation]
+Навальніца, 40% верагоднасць ападкаў
+[T-Storms 50% Chance Of Precipitation]
+Навальніца, 50% верагоднасць ападкаў
+[T-Storms 60% Chance Of Precipitation]
+Навальніца, 60% верагоднасць ападкаў
+[T-Storms 70% Chance Of Precipitation]
+Навальніца, 70% верагоднасць ападкаў
+[T-Storms 80% Chance Of Precipitation]
+Навальніца, 80% верагоднасць ападкаў
+[T-Storms 90% Chance Of Precipitation]
+Навальніца, 90% верагоднасць ападкаў
+[Thunderstorm Rain]
+Дождж з навальніцай
+[Thunderstorm]
+Навальніца
+[Thunderstorms And Rain]
+Дождж з навальніцай
+[Thursday]
+Чацвер
+[Tuesday]
+Аўторак
+[UV Index]
+Індэкс УХ
+[Var]
+Зменны
+[Visible Light Length]
+Працягласць светлага часу
+[Waning Crescent]
+Зыходзячы Месяц
+[Waning Gibbous]
+Зыходзячы Месяц
+[Waxing Crescent]
+Надыходзячы Месяц
+[Waxing Gibbous]
+Надыходзячы Месяц
+[Wednesday]
+Серада
+[West]
+Захад
+[Wind Direction DEG]
+Вецер: кірунак (град)
+[Wind Direction]
+Вецер: кірунак
+[Wind Gust]
+Вецер: парывы
+[Wind Speed]
+Вецер: хуткасць
+[longer]
+даўжэй
+[of the Moon is Illuminated]
+асветлена
+[shorter]
+карацей

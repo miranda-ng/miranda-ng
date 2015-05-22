@@ -203,22 +203,24 @@ Funkcja pełnoekranowa
 [Debug]
 Analizuj
 ;file \plugins\Popup\src\actions.cpp
-[No overwrite]
-Bez nadpisywania
-[Send message]
-Wyślij wiadomość
 [Quick reply]
 Szybka odpowiedź
+[Send message]
+Wyślij wiadomość
 [User details]
 Dane kontaktu
 [Contact menu]
 Menu kontaktu
-[Dismiss popup]
-Odrzuć popup
+[Add permanently]
+Dodaj na stałe
 [Pin popup]
 Przypnij popup
+[Dismiss popup]
+Odrzuć popup
 [Copy to clipboard]
 Kopiuj do schowka
+[No overwrite]
+Bez nadpisywania
 [Action]
 Akcja
 ;file \plugins\Popup\src\config.cpp

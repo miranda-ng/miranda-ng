@@ -203,10 +203,6 @@
 Пачатак абнаўлення інфармацыі пра кантакты
 [Done refreshing user details]
 Абнаўленне інфармацыі пра кантакты завершана
-[Could not create worker thread. Error#%d - threadID %d]
-Не ўдалося стварыць працоўны струмень. Error#%d - threadID %d
-[Error]
-Памылка
 [Birthdays files]
 Файлы дзён нараджэнняў
 [Please select a file to import birthdays from...]
@@ -225,6 +221,8 @@
 Экспарт завершаны
 [Could not open file to import birthdays]
 Не атрымалася адкрыць файл імпарту дзён нараджэння
+[Error]
+Памылка
 [Warning]
 Увага
 [Could not open file to export birthdays]

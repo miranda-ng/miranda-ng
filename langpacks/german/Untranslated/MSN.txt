@@ -1,0 +1,4 @@
+﻿[Enable Contact List notifications]
+[Enable Tray notifications]
+[&Op user]
+[&Deop user]

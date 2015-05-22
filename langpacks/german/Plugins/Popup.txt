@@ -203,22 +203,24 @@ Vollbildschirm-Modus
 [Debug]
 Debug
 ;file \plugins\Popup\src\actions.cpp
-[No overwrite]
-Nicht überschreiben
-[Send message]
-Nachricht senden
 [Quick reply]
 Schnellantwort
+[Send message]
+Nachricht senden
 [User details]
 Kontaktprofil
 [Contact menu]
 Kontaktmenü
-[Dismiss popup]
-Popup schließen
+[Add permanently]
+Dauerhaft hinzufügen
 [Pin popup]
 Popup anheften
+[Dismiss popup]
+Popup schließen
 [Copy to clipboard]
 In Zwischenablage kopieren
+[No overwrite]
+Nicht überschreiben
 [Action]
 Aktion
 ;file \plugins\Popup\src\config.cpp

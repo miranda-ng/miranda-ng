@@ -2,120 +2,12 @@
 ;  File: wundergrnd_intl.ini
 ;  Module: weather
 ;============================================================
-[Light Rain Showers]
-Слабкий дощ
-[Thunderstorms And Rain]
-Дощ з грозою
-[Light Thunderstorm]
-Невелика гроза
-[Light Drizzle Mist]
-Слабка мряка, серпанок
-[Light Showers Rain Mist]
-Слабкі дощі, серпанок
-[Mostly Sunny]
-Переважно сонячно
-[Light Thunderstorm Rain]
-Невелика гроза з дощем
-[Thunderstorm Rain]
-Дощ з грозою
-[N/a]
-Н/д
-[Thunderstorm]
-Гроза
-[Overcast]
-Суцільна хмарність
-[Fog]
-Туман
-[Patches Fog]
-Туман клаптями
-[Mist]
-Мряка
-[Light Rain]
-Слабкий дощ
-[Light Showers Rain]
-Слабкі дощі
-[Light Showers Snow]
-Слабкий снігопад
-[Showers Rain]
-Зливові дощі
-[Shallow Fog]
-Низький туман
-[Snow]
-Сніг
-[Partly Sunny]
-Місцями сонячно
-[Partly Cloudy]
-Місцями хмарно
-[Mostly Cloudy]
-Переважно хмарно
-[Mostly Clear]
-Переважно ясно
-[Rising]
-Зростає
-[Steady]
-Не змін.
-[Stable]
-Не змін.
-[Falling]
-Падає
-[Var]
-Змінний
-[N]
-Пн
-[W]
-З
-[S]
-Пд
-[E]
-С
-[NW]
-Пн-З
-[NE]
-Пн-С
-[SW]
-Пд-З
-[SE]
-Пд-С
-[NNW]
-Пн-Пн-З
-[NNE]
-Пн-Пн-С
-[SSW]
-Пд-Пд-З
-[SSE]
-Пд-Пд-С
-[ENE]
-С-Пн-С
-[WSW]
-З-Пд-З
-[WNW]
-Зах-Пів-Зах
-[ESE]
-С-Пд-С
-[New Moon]
-Молодий Місяць
-[Last Quarter]
-Остання чверть Місяця
-[First Quarter]
-Перша чверть Місяця
-[Full Moon]
-Повний Місяць
-[Waning Crescent]
-Щербатий Місяць
-[Waning Gibbous]
-Щербатий Місяць
-[Waxing Crescent]
-Зростаючий Місяць
-[Waxing Gibbous]
-Зростаючий Місяць
-[of the Moon is Illuminated]
-освітлено
-[Latitude]
-Широта
-[Longitude]
-Довгота
-[Day Length]
-Тривалість дня
+[Alert]
+Попередження
+[Blowing Snow]
+Завірюха
+[Chance Of A Thunderstorm 20% Chance Of Precipitation]
+Можлива гроза, 20% імовірність опадів
 [Chance Of Rain 20% Chance Of Precipitation]
 Можливий дощ, 20% імовірність опадів
 [Chance Of Rain 30% Chance Of Precipitation]
@@ -130,40 +22,6 @@
 Можлива гроза, 70% імовірність опадів
 [Chance Of Rain 80% Chance Of Precipitation]
 Можлива гроза, 80% імовірність опадів
-[Rain 50% Chance Of Precipitation]
-Дощ, 50% імовірність опадів
-[Rain 60% Chance Of Precipitation]
-Дощ, 60% імовірність опадів
-[Rain 70% Chance Of Precipitation]
-Дощ, 70% імовірність опадів
-[Rain 80% Chance Of Precipitation]
-Дощ, 80% імовірність опадів
-[Rain 90% Chance Of Precipitation]
-Дощ, 90% імовірність опадів
-[Rain 100% Chance Of Precipitation]
-Дощ, 100% імовірність опадів
-[T-Storms 100% Chance Of Precipitation]
-Гроза, 100% імовірність опадів
-[T-Storms 90% Chance Of Precipitation]
-Гроза, 90% імовірність опадів
-[T-Storms 80% Chance Of Precipitation]
-Гроза, 80% імовірність опадів
-[T-Storms 70% Chance Of Precipitation]
-Гроза, 70% імовірність опадів
-[T-Storms 60% Chance Of Precipitation]
-Гроза, 60% імовірність опадів
-[T-Storms 40% Chance Of Precipitation]
-Гроза, 40% імовірність опадів
-[Chance Of T-Storms 60% Chance Of Precipitation]
-Можливі грози, 60% імовірність опадів
-[Chance Of T-Storms 50% Chance Of Precipitation]
-Можливі грози, 50% імовірність опадів
-[Chance Of T-Storms 40% Chance Of Precipitation]
-Можливі грози, 40% імовірність опадів
-[Chance Of T-Storms 30% Chance Of Precipitation]
-Можливі грози, 30% імовірність опадів
-[Chance Of T-Storms 20% Chance Of Precipitation]
-Можливі грози, 20% імовірність опадів
 [Chance Of Snow 20% Chance Of Precipitation]
 Можливий сніг, 20% імовірність опадів
 [Chance Of Snow 30% Chance Of Precipitation]
@@ -172,6 +30,68 @@
 Можливий сніг, 40% імовірність опадів
 [Chance Of Snow 50% Chance Of Precipitation]
 Можливий сніг, 50% імовірність опадів
+[Chance Of Snow 60% Chance Of Precipitation]
+Можливий сніг, 60% імовірність опадів
+[Chance Of Snow 70% Chance Of Precipitation]
+Можливий сніг, 70% імовірність опадів
+[Chance Of Snow 80% Chance Of Precipitation]
+Можливий сніг, 80% імовірність опадів
+[Chance Of T-Storms 20% Chance Of Precipitation]
+Можливі грози, 20% імовірність опадів
+[Chance Of T-Storms 30% Chance Of Precipitation]
+Можливі грози, 30% імовірність опадів
+[Chance Of T-Storms 40% Chance Of Precipitation]
+Можливі грози, 40% імовірність опадів
+[Chance Of T-Storms 50% Chance Of Precipitation]
+Можливі грози, 50% імовірність опадів
+[Chance Of T-Storms 60% Chance Of Precipitation]
+Можливі грози, 60% імовірність опадів
+[Chance Of T-Storms 70% Chance Of Precipitation]
+Можлива гроза, 70% імовірність опадів
+[Chance Of T-Storms 80% Chance Of Precipitation]
+Можлива гроза, 80% імовірність опадів
+[Chance Of T-Storms 90% Chance Of Precipitation]
+Можлива гроза, 90% імовірність опадів
+[Chance Rain 40% Chance Of Precipitation]
+Можливий дощ, 40% імовірність опадів
+[Chance Rain 50% Chance Of Precipitation]
+Можливий дощ, 50% імовірність опадів
+[Chance Rain 80% Chance Of Precipitation]
+Можливий дощ, 80% імовірність опадів
+[Chance Rain 90% Chance Of Precipitation]
+Можливий дощ, 90% імовірність опадів
+[Clear]
+Ясно
+[Cloudy]
+Хмарно
+[Day Length Diff]
+Зміна тривалості дня
+[Day Length]
+Тривалість дня
+[Drizzle Fog]
+Мряка, туман
+[Drizzle Mist]
+Мряка, серпанок
+[Drizzle]
+Мряка
+[ENE]
+С-Пн-С
+[ESE]
+С-Пд-С
+[E]
+С
+[East]
+Схід
+[Elevation]
+Висота над рівнем моря
+[Falling]
+Падає
+[Feel]
+Температура з урахуванням вітру
+[First Quarter]
+Перша чверть Місяця
+[Fog]
+Туман
 [Forecast Day 1 Condition]
 Прогноз: День 1 Умови
 [Forecast Day 1 Day]
@@ -242,333 +162,413 @@
 Прогноз: День 5 Текст
 [Forecast Day 5]
 Прогноз: День 5
-[Wind Direction]
-Вітер: напрям
-[Wind Speed]
-Вітер: швидкість
-[Wind Direction DEG]
-Вітер: напрям (град)
-[Max]
-День
-[Min]
-Ніч
-[Moon]
-Місяць
-[UV Index]
-Індекс УФ
-[Scattered Clouds]
-Змінна хмарність
-[North]
-Північ
-[East]
-Схід
-[South]
-Південь
-[West]
-Захід
-[Northwest]
-Північно-захід
-[Northeast]
-Північно-схід
-[Southwest]
-Південно-захід
-[Southeast]
-Південно-схід
-[Monday]
-Понеділок
-[Tuesday]
-Вівторок
-[Wednesday]
-Середа
-[Thursday]
-Четвер
-[Friday]
-П'ятниця
-[Saturday]
-Субота
-[Sunday]
-Неділя
-[Rain]
-Дощ
-[Light Drizzle]
-Слабка мряка
-[Light Rain Mist]
-Слабкі дощі, серпанок
-[Light Snow]
-Слабкий сніг
-[Light Showers Snow Rain]
-Дощ зі снігом
-[Light Snow Showers]
-Дощ зі снігом
-[Light Freezing Drizzle Mist]
-Слабка мряка, серпанок
-[Freezing Drizzle]
-Мряка
-[Freezing Rain]
-Дощ з утворенням ожеледі
-[Light Snow Mist]
-Слабкий сніг з серпанком
-[Snow Rain]
-Сніг з дощем
-[Light Ice Pellets]
-Невеликий крижаний дощ
-[Drizzle Mist]
-Мряка, серпанок
-[Light Fog]
-Слабкий туман
-[Showers Snow]
-Дощ зі снігом
-[Heavy Showers Snow]
-Сильний дощ зі снігом
-[Light Snow Grains Mist]
-Слабкий сніг пластівцями, серпанок
-[Light Showers Snow Mist]
-Слабкий сніг з дощем, серпанок
-[Heavy Showers Snow Heavy Blowing Snow]
-Сильний снігопад, хуртовина
-[Light Showers Snow Low Drifting Snow]
-Слабкий сніг, поземок
-[Snow Blowing Snow]
-Сніг, завірюха
-[Snow Freezing Rain]
-Сніг з дощем
-[Showers Snow Rain]
-Сніг з дощем
-[Heavy Snow]
-Сильний снігопад
-[Light Snow Shallow Fog]
-Слабкий сніг, низький туман
-[Showers Snow Blowing Snow]
-Сильний сніг, хуртовина
-[Blowing Snow]
-Завірюха
-[Ice Crystals Mist]
-Іній, серпанок
-[Light Freezing Drizzle Snow]
-Слабка мряка, сніг
-[Light Snow Low Drifting Snow]
-Невеликий сніг, снігова поземка
-[Low Drifting Snow]
-Снігова поземка
-[Light Freezing Rain Mist]
-Слабкий крижаний дощ, серпанок
-[Light Freezing Rain]
-Слабкий крижаний дощ
-[Light Showers Snow Light Blowing Snow]
-Сильний сніг з дощем
-[Showers Snow Heavy Blowing Snow]
-Завірюха з дощем
-[Light Snow Blowing Snow]
-Завірюха
-[Light Snow Light Blowing Snow]
-Слабкий сніг, завірюха
-[Light Snow Low Drifting Snow Mist]
-Слабкий сніг, снігова поземка, серпанок
-[Freezing Fog]
-Туман
-[Light Showers Snow Blowing Snow]
-Сніг, завірюха
 [Freezing Drizzle Mist]
 Мряка, серпанок
-[Light Freezing Drizzle]
-Слабка мряка
+[Freezing Drizzle]
+Мряка
+[Freezing Fog]
+Туман
 [Freezing Rain Mist]
 Дощ з утворенням ожеледі, серпанок
-[Showers Snow Mist]
-Снігопад, серпанок
-[Heavy Showers Snow Blowing Snow]
-Сильний дощ зі снігом, хуртовина
-[Light Freezing Rain Light Showers Snow]
-Слабкий крижаний дощ, слабкий сніг
-[Light Freezing Drizzle Light Snow]
-Слабка мряка, слабкий сніг
-[Heavy Fog]
-Густий туман
-[Rain Mist]
-Дощ, серпанок
-[Light Showers Showers Rain]
-Сильний дощ
-[Showers Showers Rain]
-Сильний дощ
-[Heavy Thunderstorm Rain]
-Сильні грози, дощ
-[Smoke]
-Дим
+[Freezing Rain]
+Дощ з утворенням ожеледі
+[Friday]
+П'ятниця
+[Full Moon]
+Повний Місяць
 [Haze]
 Серпанок
-[Light Snow Grains]
-Невеликий сніг
-[Light Rain Snow]
-Слабкий дощ з снігом
-[Snow Mist]
-Сніг з серпанком
-[Light Rain Snow Mist]
-Слабкий дощ зі снігом, серпанок
-[Light Showers Snow Rain Mist]
-Сніг з дощем, серпанок
-[Heavy Blowing Snow]
-Завірюха
-[Snow 50% Chance Of Precipitation]
-Сніг, 50% імовірність опадів
-[Drizzle Fog]
-Мряка, туман
-[Local Time]
-Місцевий час
-[Moonrise]
-Місяць: схід
-[Moonset]
-Місяць: захід
-[Pressure Change]
-Тиск: зміна
-[Heavy Showers Snow Mist]
-Сильний сніг, серпанок
-[Light Freezing Rain Light Showers Snow Mist]
-Слабкий крижаний дощ, сніг, серпанок
-[Light Drizzle Fog]
-Слабка мряка, туман
-[Snow Rain Mist]
-Сніг з дощем, серпанок
-[Snow Heavy Blowing Snow]
-Сильний сніг, хуртовина
-[Low Drifting Snow Mist]
-Слабка хуртовина, серпанок
-[Light Freezing Drizzle Light Snow Grains Mist]
-Слабка паморозь, невеликий сніг, серпанок
-[Light Ice Pellets Mist]
-Сніг з утворенням льоду, серпанок
-[Ice Pellets]
-Сніг з утворенням льоду
-[Rain Fog]
-Дощ, туман
-[Showers Snow Low Drifting Snow]
-Сильний снігопад, снігова поземка
-[Light Freezing Rain Light Snow]
-Слабкий крижаний дощ, сніг
-[Day Length Diff]
-Зміна тривалості дня
-[Elevation]
-Висота над рівнем моря
-[Feel]
-Температура з урахуванням вітру
-[Alert]
-Попередження
-[longer]
-довше
 [Heat Index]
 Індекс спеки
-[Visible Light Length]
-Тривалість світлого часу
-[Wind Gust]
-Вітер: пориви
-[Showers Rain Snow]
-Сильний дощ, сніг
-[Clear]
-Ясно
-[shorter]
-коротше
-[T-Storms 50% Chance Of Precipitation]
-Гроза, 50% імовірність опадів
-[Light Showers Rain Snow]
-Дощ зі снігом
-[Light Showers Rain Snow Mist]
-Дощ зі снігом, серпанок
-[Snow Grains]
-Сніг
-[Heavy Snow Showers]
-Сильний снігопад
-[Chance Of A Thunderstorm 20% Chance Of Precipitation]
-Можлива гроза, 20% імовірність опадів
-[Rain 20% Chance Of Precipitation]
-Дощ, 20% імовірність опадів
-[Chance Of Snow 70% Chance Of Precipitation]
-Можливий сніг, 70% імовірність опадів
-[Chance Of Snow 80% Chance Of Precipitation]
-Можливий сніг, 80% імовірність опадів
-[Light Rain Fog]
-Слабкий дощ, туман
-[Snow 90% Chance Of Precipitation]
-Сніг, 90% імовірність опадів
-[Snow 20% Chance Of Precipitation]
-Сніг, 20% імовірність опадів
-[Chance Rain 80% Chance Of Precipitation]
-Можливий дощ, 80% імовірність опадів
+[Heavy Blowing Snow]
+Завірюха
+[Heavy Fog]
+Густий туман
 [Heavy Rain Showers]
 Проливний дощ
-[Rain 40% Chance Of Precipitation]
-Дощ, 40% імовірність опадів
-[Chance Rain 40% Chance Of Precipitation]
-Можливий дощ, 40% імовірність опадів
-[Chance Of Snow 60% Chance Of Precipitation]
-Можливий сніг, 60% імовірність опадів
-[Chance Rain 50% Chance Of Precipitation]
-Можливий дощ, 50% імовірність опадів
-[Snow 40% Chance Of Precipitation]
-Сніг, 40% імовірність опадів
-[Snow 80% Chance Of Precipitation]
-Сніг, 80% імовірність опадів
-[Snow 70% Chance Of Precipitation]
-Сніг, 70% імовірність опадів
-[Light Blowing Snow]
-Завірюха
-[Snow Freezing Rain Mist]
-Сніг з дощем, серпанок
-[Patches Fog Mist]
-Місцями туман, серпанок
-[Snow 60% Chance Of Precipitation]
-Сніг, 60% імовірність опадів
-[Light Low Drifting Snow]
-Слабкий сніг, поземок
-[Snow 30% Chance Of Precipitation]
-Сніг, 30% імовірність опадів
-[Light Snow Rain]
-Невеликий сніг, дощ
-[Chance Rain 90% Chance Of Precipitation]
-Можливий дощ, 90% імовірність опадів
-[Chance Of T-Storms 70% Chance Of Precipitation]
-Можлива гроза, 70% імовірність опадів
-[T-Storms 30% Chance Of Precipitation]
-Гроза, 30% імовірність опадів
-[Chance Of T-Storms 90% Chance Of Precipitation]
-Можлива гроза, 90% імовірність опадів
-[Chance Of T-Storms 80% Chance Of Precipitation]
-Можлива гроза, 80% імовірність опадів
-[Ice Pellets 90% Chance Of Precipitation]
-Сніг з утворенням льоду, 90% імовірність опадів
-[Snow Showers 70% Chance Of Precipitation]
-Сніг, 70% імовірність опадів
-[Snow Showers 60% Chance Of Precipitation]
-Сніг, 60% імовірність опадів
-[Snow Showers 50% Chance Of Precipitation]
-Сніг, 50% імовірність опадів
-[Snow Showers 40% Chance Of Precipitation]
-Сніг, 40% імовірність опадів
-[Snow Showers 30% Chance Of Precipitation]
-Сніг, 30% імовірність опадів
-[Light Snow 30% Chance Of Precipitation]
-Слабкий сніг, 30% імовірність опадів
-[Ice Pellets 70% Chance Of Precipitation]
-Сніг з утворенням льоду, 70% імовірність опадів
+[Heavy Showers Snow Blowing Snow]
+Сильний дощ зі снігом, хуртовина
+[Heavy Showers Snow Heavy Blowing Snow]
+Сильний снігопад, хуртовина
+[Heavy Showers Snow Mist]
+Сильний сніг, серпанок
+[Heavy Showers Snow]
+Сильний дощ зі снігом
+[Heavy Snow Showers]
+Сильний снігопад
+[Heavy Snow]
+Сильний снігопад
+[Heavy Thunderstorm Rain]
+Сильні грози, дощ
+[Ice Crystals Mist]
+Іній, серпанок
 [Ice Pellets 30% Chance Of Precipitation]
 Сніг з утворенням льоду, 30% імовірність опадів
 [Ice Pellets 40% Chance Of Precipitation]
 Сніг з утворенням льоду, 40% імовірність опадів
-[Ice Pellets 80% Chance Of Precipitation]
-Сніг з утворенням льоду, 80% імовірність опадів
-[Cloudy]
-Хмарно
-[Light Snow Freezing Fog]
-Слабкий сніг, туман
-[Drizzle]
-Мряка
-[Snow Showers 80% Chance Of Precipitation]
-Сніг, 80% імовірність опадів
-[Snow 100% Chance Of Precipitation]
-Сніг, 100% імовірність опадів
 [Ice Pellets 50% Chance Of Precipitation]
 Сніг з утворенням льоду, 50% імовірність опадів
 [Ice Pellets 60% Chance Of Precipitation]
 Сніг з утворенням льоду, 60% імовірність опадів
+[Ice Pellets 70% Chance Of Precipitation]
+Сніг з утворенням льоду, 70% імовірність опадів
+[Ice Pellets 80% Chance Of Precipitation]
+Сніг з утворенням льоду, 80% імовірність опадів
+[Ice Pellets 90% Chance Of Precipitation]
+Сніг з утворенням льоду, 90% імовірність опадів
+[Ice Pellets]
+Сніг з утворенням льоду
+[Last Quarter]
+Остання чверть Місяця
+[Latitude]
+Широта
+[Light Blowing Snow]
+Завірюха
+[Light Drizzle Fog]
+Слабка мряка, туман
 [Light Drizzle Mist Patches Fog]
 Слабка мряка, серпанок, туман клаптями
+[Light Drizzle Mist]
+Слабка мряка, серпанок
+[Light Drizzle]
+Слабка мряка
+[Light Fog]
+Слабкий туман
+[Light Freezing Drizzle Light Snow Grains Mist]
+Слабка паморозь, невеликий сніг, серпанок
+[Light Freezing Drizzle Light Snow]
+Слабка мряка, слабкий сніг
+[Light Freezing Drizzle Mist]
+Слабка мряка, серпанок
+[Light Freezing Drizzle Snow]
+Слабка мряка, сніг
+[Light Freezing Drizzle]
+Слабка мряка
+[Light Freezing Rain Light Showers Snow Mist]
+Слабкий крижаний дощ, сніг, серпанок
+[Light Freezing Rain Light Showers Snow]
+Слабкий крижаний дощ, слабкий сніг
+[Light Freezing Rain Light Snow]
+Слабкий крижаний дощ, сніг
+[Light Freezing Rain Mist]
+Слабкий крижаний дощ, серпанок
+[Light Freezing Rain]
+Слабкий крижаний дощ
+[Light Ice Pellets Mist]
+Сніг з утворенням льоду, серпанок
+[Light Ice Pellets]
+Невеликий крижаний дощ
+[Light Low Drifting Snow]
+Слабкий сніг, поземок
+[Light Rain Fog]
+Слабкий дощ, туман
+[Light Rain Mist]
+Слабкі дощі, серпанок
+[Light Rain Showers]
+Слабкий дощ
+[Light Rain Snow Mist]
+Слабкий дощ зі снігом, серпанок
+[Light Rain Snow]
+Слабкий дощ з снігом
+[Light Rain]
+Слабкий дощ
+[Light Showers Rain Mist]
+Слабкі дощі, серпанок
+[Light Showers Rain Snow Mist]
+Дощ зі снігом, серпанок
+[Light Showers Rain Snow]
+Дощ зі снігом
+[Light Showers Rain]
+Слабкі дощі
+[Light Showers Showers Rain]
+Сильний дощ
+[Light Showers Snow Blowing Snow]
+Сніг, завірюха
+[Light Showers Snow Light Blowing Snow]
+Сильний сніг з дощем
+[Light Showers Snow Low Drifting Snow]
+Слабкий сніг, поземок
+[Light Showers Snow Mist]
+Слабкий сніг з дощем, серпанок
+[Light Showers Snow Rain Mist]
+Сніг з дощем, серпанок
+[Light Showers Snow Rain]
+Дощ зі снігом
+[Light Showers Snow]
+Слабкий снігопад
+[Light Snow 30% Chance Of Precipitation]
+Слабкий сніг, 30% імовірність опадів
+[Light Snow Blowing Snow]
+Завірюха
+[Light Snow Freezing Fog]
+Слабкий сніг, туман
+[Light Snow Grains Mist]
+Слабкий сніг пластівцями, серпанок
+[Light Snow Grains]
+Невеликий сніг
+[Light Snow Light Blowing Snow]
+Слабкий сніг, завірюха
+[Light Snow Low Drifting Snow Mist]
+Слабкий сніг, снігова поземка, серпанок
+[Light Snow Low Drifting Snow]
+Невеликий сніг, снігова поземка
+[Light Snow Mist]
+Слабкий сніг з серпанком
+[Light Snow Rain]
+Невеликий сніг, дощ
+[Light Snow Shallow Fog]
+Слабкий сніг, низький туман
+[Light Snow Showers]
+Дощ зі снігом
+[Light Snow]
+Слабкий сніг
+[Light Thunderstorm Rain]
+Невелика гроза з дощем
+[Light Thunderstorm]
+Невелика гроза
+[Local Time]
+Місцевий час
+[Longitude]
+Довгота
+[Low Drifting Snow Mist]
+Слабка хуртовина, серпанок
+[Low Drifting Snow]
+Снігова поземка
+[Max]
+День
+[Min]
+Ніч
+[Mist]
+Мряка
+[Monday]
+Понеділок
+[Moon]
+Місяць
+[Moonrise]
+Місяць: схід
+[Moonset]
+Місяць: захід
+[Mostly Clear]
+Переважно ясно
+[Mostly Cloudy]
+Переважно хмарно
+[Mostly Sunny]
+Переважно сонячно
+[N/a]
+Н/д
+[NE]
+Пн-С
+[NNE]
+Пн-Пн-С
+[NNW]
+Пн-Пн-З
+[NW]
+Пн-З
+[N]
+Пн
+[New Moon]
+Молодий Місяць
+[North]
+Північ
+[Northeast]
+Північно-схід
+[Northwest]
+Північно-захід
+[Overcast]
+Суцільна хмарність
 [Partial Fog]
 Місцями туман
+[Partly Cloudy]
+Місцями хмарно
+[Partly Sunny]
+Місцями сонячно
+[Patches Fog Mist]
+Місцями туман, серпанок
+[Patches Fog]
+Туман клаптями
+[Pressure Change]
+Тиск: зміна
+[Rain 100% Chance Of Precipitation]
+Дощ, 100% імовірність опадів
+[Rain 20% Chance Of Precipitation]
+Дощ, 20% імовірність опадів
+[Rain 40% Chance Of Precipitation]
+Дощ, 40% імовірність опадів
+[Rain 50% Chance Of Precipitation]
+Дощ, 50% імовірність опадів
+[Rain 60% Chance Of Precipitation]
+Дощ, 60% імовірність опадів
+[Rain 70% Chance Of Precipitation]
+Дощ, 70% імовірність опадів
+[Rain 80% Chance Of Precipitation]
+Дощ, 80% імовірність опадів
+[Rain 90% Chance Of Precipitation]
+Дощ, 90% імовірність опадів
+[Rain Fog]
+Дощ, туман
+[Rain Mist]
+Дощ, серпанок
+[Rain]
+Дощ
+[Rising]
+Зростає
+[SE]
+Пд-С
+[SSE]
+Пд-Пд-С
+[SSW]
+Пд-Пд-З
+[SW]
+Пд-З
+[S]
+Пд
+[Saturday]
+Субота
+[Scattered Clouds]
+Змінна хмарність
+[Shallow Fog]
+Низький туман
+[Showers Rain Snow]
+Сильний дощ, сніг
+[Showers Rain]
+Зливові дощі
+[Showers Showers Rain]
+Сильний дощ
+[Showers Snow Blowing Snow]
+Сильний сніг, хуртовина
+[Showers Snow Heavy Blowing Snow]
+Завірюха з дощем
+[Showers Snow Low Drifting Snow]
+Сильний снігопад, снігова поземка
+[Showers Snow Mist]
+Снігопад, серпанок
+[Showers Snow Rain]
+Сніг з дощем
+[Showers Snow]
+Дощ зі снігом
+[Smoke]
+Дим
+[Snow 100% Chance Of Precipitation]
+Сніг, 100% імовірність опадів
+[Snow 20% Chance Of Precipitation]
+Сніг, 20% імовірність опадів
+[Snow 30% Chance Of Precipitation]
+Сніг, 30% імовірність опадів
+[Snow 40% Chance Of Precipitation]
+Сніг, 40% імовірність опадів
+[Snow 50% Chance Of Precipitation]
+Сніг, 50% імовірність опадів
+[Snow 60% Chance Of Precipitation]
+Сніг, 60% імовірність опадів
+[Snow 70% Chance Of Precipitation]
+Сніг, 70% імовірність опадів
+[Snow 80% Chance Of Precipitation]
+Сніг, 80% імовірність опадів
+[Snow 90% Chance Of Precipitation]
+Сніг, 90% імовірність опадів
+[Snow Blowing Snow]
+Сніг, завірюха
+[Snow Freezing Rain Mist]
+Сніг з дощем, серпанок
+[Snow Freezing Rain]
+Сніг з дощем
+[Snow Grains]
+Сніг
+[Snow Heavy Blowing Snow]
+Сильний сніг, хуртовина
+[Snow Mist]
+Сніг з серпанком
+[Snow Rain Mist]
+Сніг з дощем, серпанок
+[Snow Rain]
+Сніг з дощем
+[Snow Showers 30% Chance Of Precipitation]
+Сніг, 30% імовірність опадів
+[Snow Showers 40% Chance Of Precipitation]
+Сніг, 40% імовірність опадів
+[Snow Showers 50% Chance Of Precipitation]
+Сніг, 50% імовірність опадів
+[Snow Showers 60% Chance Of Precipitation]
+Сніг, 60% імовірність опадів
+[Snow Showers 70% Chance Of Precipitation]
+Сніг, 70% імовірність опадів
+[Snow Showers 80% Chance Of Precipitation]
+Сніг, 80% імовірність опадів
+[Snow]
+Сніг
+[South]
+Південь
+[Southeast]
+Південно-схід
+[Southwest]
+Південно-захід
+[Stable]
+Не змін.
+[Steady]
+Не змін.
+[Sunday]
+Неділя
+[T-Storms 100% Chance Of Precipitation]
+Гроза, 100% імовірність опадів
+[T-Storms 30% Chance Of Precipitation]
+Гроза, 30% імовірність опадів
+[T-Storms 40% Chance Of Precipitation]
+Гроза, 40% імовірність опадів
+[T-Storms 50% Chance Of Precipitation]
+Гроза, 50% імовірність опадів
+[T-Storms 60% Chance Of Precipitation]
+Гроза, 60% імовірність опадів
+[T-Storms 70% Chance Of Precipitation]
+Гроза, 70% імовірність опадів
+[T-Storms 80% Chance Of Precipitation]
+Гроза, 80% імовірність опадів
+[T-Storms 90% Chance Of Precipitation]
+Гроза, 90% імовірність опадів
+[Thunderstorm Rain]
+Дощ з грозою
+[Thunderstorm]
+Гроза
+[Thunderstorms And Rain]
+Дощ з грозою
+[Thursday]
+Четвер
+[Tuesday]
+Вівторок
+[UV Index]
+Індекс УФ
+[Var]
+Змінний
+[Visible Light Length]
+Тривалість світлого часу
+[WNW]
+Зах-Пів-Зах
+[WSW]
+З-Пд-З
+[W]
+З
+[Waning Crescent]
+Щербатий Місяць
+[Waning Gibbous]
+Щербатий Місяць
+[Waxing Crescent]
+Зростаючий Місяць
+[Waxing Gibbous]
+Зростаючий Місяць
+[Wednesday]
+Середа
+[West]
+Захід
+[Wind Direction DEG]
+Вітер: напрям (град)
+[Wind Direction]
+Вітер: напрям
+[Wind Gust]
+Вітер: пориви
+[Wind Speed]
+Вітер: швидкість
+[longer]
+довше
+[of the Moon is Illuminated]
+освітлено
+[shorter]
+коротше

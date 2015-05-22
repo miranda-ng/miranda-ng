@@ -2,10 +2,16 @@
 ;  File: yweather.ini
 ;  Module: weather
 ;============================================================
+[ENE]
+ONO
+[ESE]
+OSO
+[E]
+O
+[East]
+Ost
 [Feel]
 gefühlt
-[Forecast Day 1]
-Vorhersage Tag 1
 [Forecast Day 1 Condition]
 Vorhersage Tag 1 Bedingungen
 [Forecast Day 1 Date]
@@ -16,87 +22,81 @@ Vorhersage Tag 1 Tag
 Vorhersage Tag 1 Höchstwerte
 [Forecast Day 1 Low]
 Vorhersage Tag 1 Tiefstwerte
-[Heat Index]
-gefühlte Temperatur
-[Wind Direction]
-Windrichtung
-[Wind Speed]
-Windgeschwindigkeit
-[Wind Direction Degrees]
-Windrichtung Grad
-[Mon]
-Mo
-[Tue]
-Di
-[Wed]
-Mi
-[Thu]
-Do
+[Forecast Day 1]
+Vorhersage Tag 1
 [Fri]
 Fr
+[Heat Index]
+gefühlte Temperatur
+[Mon]
+Mo
+[Mostly Clear]
+überwiegend klar
+[Mostly Cloudy]
+überwiegend bewölkt
+[Mostly Sunny]
+überwiegend sonnig
+[NE]
+NE
+[NNE]
+NNO
+[NNW]
+NNW
+[NW]
+NW
+[N]
+N
+[North]
+Nord
+[Northeast]
+Nordost
+[Northwest]
+Nordwest
+[Partly Cloudy]
+teils bewölkt
+[Partly Sunny]
+teils sonnig
+[SE]
+SO
+[SSE]
+SSO
+[SSW]
+SSW
+[SW]
+SW
+[S]
+S
 [Sat]
 Sa
+[Scattered Clouds]
+Vereinzelte Wolken
+[South]
+Süd
+[Southeast]
+Südost
+[Southwest]
+Südwest
 [Sun]
 So
 [Sunny]
 sonnig
-[Partly Sunny]
-teils sonnig
-[Mostly Sunny]
-überwiegend sonnig
-[Partly Cloudy]
-teils bewölkt
-[Mostly Cloudy]
-überwiegend bewölkt
-[Mostly Clear]
-überwiegend klar
-[N]
-N
-[W]
-W
-[S]
-S
-[E]
-O
-[NW]
-NW
-[NE]
-NE
-[SW]
-SW
-[SE]
-SO
-[NNW]
-NNW
-[NNE]
-NNO
-[SSW]
-SSW
-[SSE]
-SSO
-[ENE]
-ONO
-[WSW]
-WSW
+[Thu]
+Do
+[Tue]
+Di
 [WNW]
 WNW
-[ESE]
-OSO
-[Scattered Clouds]
-Vereinzelte Wolken
-[North]
-Nord
-[East]
-Ost
-[South]
-Süd
+[WSW]
+WSW
+[W]
+W
+[Wed]
+Mi
 [West]
 West
-[Northwest]
-Nordwest
-[Northeast]
-Nordost
-[Southwest]
-Südwest
-[Southeast]
-Südost
+[Wind Direction Degrees]
+Windrichtung Grad
+[Wind Direction]
+Windrichtung
+[Wind Speed]
+Windgeschwindigkeit

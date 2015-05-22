@@ -66,6 +66,8 @@ Status niepołączony gdy:
 Do/Kopia do
 [autoregister]
 Zarejestruj
+[Keep connection on error]
+
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 Załadowanie wymaganych funkcji API biblioteki Lotus nie powiodło się.

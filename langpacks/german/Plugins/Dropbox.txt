@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.11.0.3
-;  Authors: unsane
+;  Version: 0.12.0.4
+;  Authors: Miranda NG Team
 ;============================================================
 [Allows you to transfer files via Dropbox.]
 Stellt eine Möglichkeit bereit, Dateien in Ihre Dropbox hochzuladen.
@@ -37,10 +37,10 @@ Downloadlink in Zwischenablage kopieren
 ;file \plugins\Dropbox\src\dropbox.cpp
 [in process...]
 In Arbeit...
-[you have been authorized]
-Sie wurden autorisiert
 [server does not respond]
 Server antwortet nicht
+[you have been authorized]
+Sie wurden autorisiert
 ;file \plugins\Dropbox\src\dropbox_commands.cpp
 [Dropbox supports the following commands:]
 Dropbox unterstützt die folgenden Befehle:
@@ -60,24 +60,22 @@ Befehl "%s" hat ungültige Parameter.\nVerwenden Sie "/help" für weitere inform
 ist nicht gelöscht
 [is deleted]
 ist gelöscht
-;file \plugins\Dropbox\src\dropbox_dialogs.cpp
+;file \plugins\Dropbox\src\dropbox_events.cpp
+[Send files to Dropbox]
+Dateien an Dropbox senden
+;file \plugins\Dropbox\src\dropbox_icons.cpp
+[Protocol icon]
+Protokollicon
+;file \plugins\Dropbox\src\dropbox_menus.cpp
+;file \plugins\Dropbox\src\dropbox_options.cpp
 [you are already authorized]
 Sie sind bereits autorisiert.
 [you are not authorized yet]
 Sie sind noch nicht autorisiert.
-;file \plugins\Dropbox\src\dropbox_events.cpp
-[Send files to Dropbox]
-Dateien an Dropbox senden
 [Network]
 Netzwerk
-;file \plugins\Dropbox\src\dropbox_icons.cpp
-[Protocols]
-Protokolle
-[Protocol icon]
-Protokollicon
-;file \plugins\Dropbox\src\dropbox_menus.cpp
+[Dropbox]
+Dropbox
 ;file \plugins\Dropbox\src\dropbox_services.cpp
-[Unknown command "%s".\nUse "/help" for more info.]
-Ungültiger Befehl "%s".\nVerwenden Sie "/help" für weitere Informationen.
 ["%s" is not valid.\nUse "/help" for more info.]
 "%s" ist ungültig.\nVerwenden Sie "/help" für weitere Informationen.

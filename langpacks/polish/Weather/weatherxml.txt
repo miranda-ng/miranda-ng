@@ -2,112 +2,72 @@
 ;  File: weatherxml.ini
 ;  Module: weather
 ;============================================================
-[Fair]
-Jasno
-[Mostly Sunny]
-W większości słonecznie
-[Light Thunderstorm Rain]
-Lekka burza z opadami
-[Thunderstorm Rain]
-Burza z opadami
-[N/a]
-Niedostępny
-[Thunderstorm]
-Burza
-[Overcast]
+[AM Rain]
+Deszcz przed południem
+[Am Clouds / Pm Sun]
+Rano chmury, popołudniu słońce
+[Am Light Rain]
+Rano delikatne opady
+[Am Rain / Snow Showers]
+Rano Deszcz/Przelotne opady śniegu
+[Am Rain / Snow]
+Przed południem Deszcz / Śnieg
+[Am Rain]
+Deszcz przed południem
+[Am Showers / Wind]
+Rano przelotne opady/Wiatr
+[Am Showers]
+Rano opady deszczu
+[Am Snow Showers / Wind]
+Rano przelotne opady śniegu/Wiatr
+[Am Snow Showers]
+Przelotne opady śniegu rano
+[Am Snow]
+Do południa śnieg
+[Am T-Storms]
+Przed Południem Burze
+[Clear / Wind]
+Pogodnie / Wiatr
+[Clouds Early / Clearing Late]
+Wcześnie chmury/Późno rozjaśnienie
+[Cloudy / Wind]
+Pochmurno/Wiatr
+[Cloudy / Windy]
+Pochmurnie / Wietrznie
+[Cloudy And Windy]
+Pochmurno i wietrznie
+[Cloudy]
 Pochmurno
-[Fog]
-Mgła
-[Mist]
-Mgła
-[Light Rain]
-Lekki deszcz
-[Light Showers Rain]
-Lekkie przelotne opady deszczu
-[Showers Rain]
-Przelotne opady deszczu
-[Shallow Fog]
-Cienka warstwa mgły
-[Snow]
-Śnieg
-[Partly Sunny]
-Małe zachmurzenie
-[Partly Cloudy]
-Częściowe zachmurzenie
-[Mostly Cloudy]
-W większości pochmurnie
-[Mostly Clear]
-W większości przejrzyście
-[Showers]
-Przelotny deszcz
-[Sunny]
-Słonecznie
-[Light Rain Shower]
-Lekki, przelotny deszcz
-[rising]
-Wschodzące
-[steady]
-Stały
-[falling]
-padający
-[Moderate]
-umiarkowany
-[N]
-północ
-[W]
-zachód
-[S]
-południe
-[E]
-wschód
-[NW]
-północny zachód
-[NE]
-północny wschód
-[SW]
-południowy zachód
-[SE]
-południowy wschód
-[NNW]
-północno-północny zachód
-[NNE]
-północno-północny wschód
-[SSW]
-południowo-południowy zachód
-[SSE]
-południowo-południowy wschód
+[Drifting Snow]
+Śnieżyca
 [ENE]
 wschodnio-północny wschód
-[WSW]
-zachodnio-południowy zachód
-[WNW]
-zachodnio-północny zachód
 [ESE]
 wschodnio-południowy wschód
-[New Moon]
-Nów
-[Last Quarter]
-Ostatnia kwadra
-[First Quarter]
-Pierwsza kwadra
-[Full Moon]
-Pełnia
-[Waning Crescent]
-Po ostatniej kwadrze
-[Waning Gibbous]
-Przed ostatnią kwadrą
-[Waxing Crescent]
-Przed pierwszą kwadrą
-[Waxing Gibbous]
-Przed pełnią
-[Night]
-Noc
+[E]
+wschód
+[Fair And Windy]
+Jasno i wietrznie
+[Fair]
+Jasno
 [Feel]
 Odczuwalna
-[Forecast Update]
-Aktualizacja prognozy
-[Forecast Update VAR]
-Zmienna aktualizacji prognozy
+[Few Showers / Wind]
+Nieliczne przelotne opady/Wiatr
+[Few Showers]
+Nieliczne, przelotne opady
+[Few Snow Showers]
+nieliczne, przelotne opady śniegu
+[First Quarter]
+Pierwsza kwadra
+[Fog / Windy]
+Mgła / Wietrznie
+[Fog And Windy]
+Mgła oraz wietrznie
+[Fog Late]
+Mgła Późno
+[Fog]
+Mgła
 [Forecast Day 0]
 Prognoza dzień 0
 [Forecast Day 1]
@@ -128,273 +88,309 @@ Prognoza dzień 7
 Prognoza dzień 8
 [Forecast Day 9]
 Prognoza dzień 9
-[N/A%]
-Niedostępny
-[Heat Index]
-Wskaźnik upałów
-[Latitude]
-Szerokość geograficzna
-[Longitude]
-Długość geograficzna
-[Local Time]
-Czas lokalny
-[Moon]
-Księżyc
-[Observatory]
-Obserwatorium
-[Pressure Tendency]
-Tendencja
-[Update VAR]
-Zmienna aktualizacji
-[UV]
-UV
-[UV Index]
-Index UV
-[UVI]
-UVI
-[Wind Direction]
-Kierunek wiatru
-[Wind Direction DEG]
-Kierunek wiatru DEG
-[Wind Speed]
-Prędkość wiatru
-[WindDir]
-Kierunek wiatru
-[Cloudy]
-Pochmurno
-[Scattered Snow Showers]
-rozproszone, przelotne opady śniegu
-[Few Snow Showers]
-nieliczne, przelotne opady śniegu
-[Snow Shower]
-Przelotne opady śniegu
-[Am Snow Showers]
-Przelotne opady śniegu rano
-[Light Snow]
-Lekkie opady śniegu
-[Drifting Snow]
-Śnieżyca
-[Pm Snow Showers]
-Przelotne opady śniegu popołudniu
-[Am Clouds / Pm Sun]
-Rano chmury, popołudniu słońce
-[Snow Shower / Wind]
-Przelotne opady śniegu/Wiatr
-[Cloudy / Wind]
-Pochmurno/Wiatr
-[Heavy Snow And Windy]
-Duże opady śniegu oraz wietrznie
-[Snow / Wind]
-Śnieg/Wiatr
-[Snow Showers Early]
-Wcześnie przelotne opady śniegu
-[Am Snow Showers / Wind]
-Rano przelotne opady śniegu/Wiatr
-[Light Snow And Windy]
-Lekki śnieżek i wietrznie
-[Snow Showers / Wind Early]
-Przelotne opady śniegu/Wiatr wcześnie
-[Partly Cloudy And Windy]
-Częściowe zachmurzenie oraz wiatr
-[Mostly Cloudy And Windy]
-Przeważnie pochmurno i wietrznie
-[Rain / Snow / Wind]
-Deszcz/Śnieg/Wiatr
-[Rain / Snow]
-Deszcz/Śnieg
-[Clouds Early / Clearing Late]
-Wcześnie chmury/Późno rozjaśnienie
-[Snow Showers Late]
-Późno przelotne opady śniegu
-[Rain / Snow Showers]
-Deszcz/Przelotne opady śniegu
-[Showers Late]
-Późno przelotne opady
-[Scattered Showers]
-Rozsiane opady deszczu
-[Am Showers]
-Rano opady deszczu
-[Am Rain / Snow Showers]
-Rano Deszcz/Przelotne opady śniegu
-[Few Showers]
-Nieliczne, przelotne opady
-[Few Showers / Wind]
-Nieliczne przelotne opady/Wiatr
-[Pm Light Rain]
-Popołudniu delikatne opady
-[Mostly Cloudy / Wind]
-Przeważnie pochmurno/Wiatr
-[Rain]
-Deszcz
-[Light Rain Shower And Windy]
-Delikatne opady oraz wietrznie
-[Am Showers / Wind]
-Rano przelotne opady/Wiatr
-[Isolated T-Storms]
-Lokalne burze z piorunami
-[Showers Early]
-Wcześnie przelotne opady
-[T-Storm]
-Burza z piorunami
-[Rain / Snow Showers Late]
-Deszcz/Przelotne opady śniegu późno
-[Pm Showers]
-Popołudniu przelotne opady deszczu
-[Snow To Rain]
-Śnieg przechodzący w deszcz
-[Light Snow Shower]
-Delikatne opady śniegu
-[Fair And Windy]
-Jasno i wietrznie
-[Pm T-Storms]
-Popołudniu burze z piorunami
-[Scattered T-Storms]
-Rozsiane burze z piorunami
-[Light Rain Late]
-Późno delikatne opady
-[Am Light Rain]
-Rano delikatne opady
-[Jun]
-Cze.
-[T-Storms]
-Burze z piorunami
-[Rain / Thunder]
-Deszcz/Wyładowania atmosferyczne
-[Thunder In The Vicinity]
-Wyładowania atmosferyczne w okolicy
-[Light Rain With Thunder]
-Delikatne opady z wyładowaniami atmosferycznymi
-[Light Rain Early]
-Wcześnie delikatne opady
-[Light Rain / Wind]
-Delikatne opady/Wiatr
-[Light Drizzle]
-Lekka mżawka
+[Forecast Update VAR]
+Zmienna aktualizacji prognozy
+[Forecast Update]
+Aktualizacja prognozy
+[Freezing Rain / Windy]
+Deszcz marznący / Wietrznie
+[Full Moon]
+Pełnia
 [Haze]
 Mgiełka
-[Smoke]
-Dymy
-[Rain To Snow]
-Deszcz przechodzący w śnieg
-[Rain And Snow]
-Śnieg z deszczem
-[Rain / Snow Showers Early]
-Wcześnie deszcz/Przelotne opady śniegu
-[Heavy Snow Shower]
-Intensywne opady śniegu
-[Showers / Wind]
-Przelotne opady/Wiatr
-[Snow Shower And Windy]
-Przelotne opady śniegu oraz wietrznie
-[Light Snow Shower And Windy]
-Delikatne opady śniegu oraz wietrznie
-[Light Rain And Windy]
-Delikatne opady deszczu oraz wietrznie
-[Sleet]
-deszcz ze śniegiem
-[Sleet And Windy]
-deszcz ze śniegiem i wietrznie
-[Cloudy And Windy]
-Pochmurno i wietrznie
-[Light Drizzle And Windy]
-Delikatna mżawka oraz wietrznie
-[Light Drizzle And Fog]
-Delikatna mżawka oraz mgła
-[Fog And Windy]
-Mgła oraz wietrznie
-[Light Snow Early]
-Wcześnie delikatne opady śniegu
-[Heavy Snow]
-Ciężkie opady śniegu
-[Snow Early]
-Wcześnie opady śniegu
-[Light Snow Late]
-Późno delikatne opady śniegu
-[Snow And Sleet]
-Deszcz ze śniegiem i śnieg
-[Pm Rain / Wind]
-popołudniu Deszcz / Wiatr
-[Rain / Wind Early]
-Deszcz/Wiatr Wcześnie
-[Rain / Freezing Rain / Wind]
-Deszcz / Deszcz Marznący / Wiatr
-[Snow / Wind Early]
-Śnieg / Wiatr wcześnie
-[Sunny / Wind]
-Słonecznie / Wiatr
-[Heavy Rain]
-Mocny Deszcz
-[Rain Late]
-Deszcz Późno
-[Light Rain / Wind Early]
-Deszczyk / Wiatr wcześnie
+[Heat Index]
+Wskaźnik upałów
 [Heavy Rain / Wind]
 Mocny Deszcz / Wiatr
-[Cloudy / Windy]
-Pochmurnie / Wietrznie
-[Wintry Mix / Wind]
-Deszcz ze śniegiem / Wiatr
-[Rain Shower]
-Ulewa
-[Light Freezing Rain / Windy]
-Delikatny Marznący Deszcz / Wietrznie
-[Light Freezing Rain / Fog]
-Delikatny Marznący Deszcz / Mgła
-[Snow / Windy]
-Śnieg / Wietrznie
-[Fog / Windy]
-Mgła / Wietrznie
-[Partly Cloudy / Windy]
-Częściowe Zachmurzenie / Wietrznie
-[Sunny / Windy]
-Słonecznie / Wietrznie
-[Am Snow]
-Do południa śnieg
-[Rain / Snow Late]
-Deszcz / Śnieg Późno
-[Am Rain / Snow]
-Przed południem Deszcz / Śnieg
-[Partly Cloudy / Wind]
-Częściowe Zachmurzenie /Wiatr
-[Mostly Sunny / Wind]
-Przewaga Słońca / Wiatr
+[Heavy Rain]
+Mocny Deszcz
+[Heavy Snow And Windy]
+Duże opady śniegu oraz wietrznie
+[Heavy Snow Shower]
+Intensywne opady śniegu
+[Heavy Snow]
+Ciężkie opady śniegu
 [Isolated T-Storms / Wind]
 Izolowane Burze / Wiatr
-[T-Storms Late]
-Izolowane Burze Późno
+[Isolated T-Storms]
+Lokalne burze z piorunami
+[Jun]
+Cze.
+[Last Quarter]
+Ostatnia kwadra
+[Latitude]
+Szerokość geograficzna
+[Light Drizzle And Fog]
+Delikatna mżawka oraz mgła
+[Light Drizzle And Windy]
+Delikatna mżawka oraz wietrznie
+[Light Drizzle]
+Lekka mżawka
+[Light Freezing Rain / Fog]
+Delikatny Marznący Deszcz / Mgła
+[Light Freezing Rain / Windy]
+Delikatny Marznący Deszcz / Wietrznie
+[Light Rain / Wind Early]
+Deszczyk / Wiatr wcześnie
+[Light Rain / Wind]
+Delikatne opady/Wiatr
+[Light Rain / Windy]
+
+[Light Rain And Windy]
+Delikatne opady deszczu oraz wietrznie
+[Light Rain Early]
+Wcześnie delikatne opady
+[Light Rain Late]
+Późno delikatne opady
+[Light Rain Shower And Windy]
+Delikatne opady oraz wietrznie
+[Light Rain Shower]
+Lekki, przelotny deszcz
+[Light Rain With Thunder]
+Delikatne opady z wyładowaniami atmosferycznymi
+[Light Rain]
+Lekki deszcz
+[Light Showers Rain]
+Lekkie przelotne opady deszczu
+[Light Snow And Windy]
+Lekki śnieżek i wietrznie
+[Light Snow Early]
+Wcześnie delikatne opady śniegu
+[Light Snow Late]
+Późno delikatne opady śniegu
+[Light Snow Shower And Windy]
+Delikatne opady śniegu oraz wietrznie
+[Light Snow Shower]
+Delikatne opady śniegu
+[Light Snow]
+Lekkie opady śniegu
+[Light Thunderstorm Rain]
+Lekka burza z opadami
+[Local Time]
+Czas lokalny
+[Longitude]
+Długość geograficzna
+[Mist]
+Mgła
+[Moderate]
+umiarkowany
+[Moon]
+Księżyc
+[Mostly Clear]
+W większości przejrzyście
+[Mostly Cloudy / Wind]
+Przeważnie pochmurno/Wiatr
+[Mostly Cloudy And Windy]
+Przeważnie pochmurno i wietrznie
+[Mostly Cloudy]
+W większości pochmurnie
+[Mostly Sunny / Wind]
+Przewaga Słońca / Wiatr
+[Mostly Sunny]
+W większości słonecznie
+[N/A%]
+Niedostępny
+[N/a]
+Niedostępny
+[NE]
+północny wschód
+[NNE]
+północno-północny wschód
+[NNW]
+północno-północny zachód
+[NW]
+północny zachód
+[N]
+północ
+[New Moon]
+Nów
+[Night]
+Noc
+[Observatory]
+Obserwatorium
+[Overcast]
+Pochmurno
+[Partly Cloudy / Wind]
+Częściowe Zachmurzenie /Wiatr
+[Partly Cloudy / Windy]
+Częściowe Zachmurzenie / Wietrznie
+[Partly Cloudy And Windy]
+Częściowe zachmurzenie oraz wiatr
+[Partly Cloudy]
+Częściowe zachmurzenie
+[Partly Sunny]
+Małe zachmurzenie
+[Pm Light Rain]
+Popołudniu delikatne opady
+[Pm Rain / Wind]
+popołudniu Deszcz / Wiatr
+[Pm Rain]
+Deszcz popołudniu
+[Pm Showers / Wind]
+Ulewy / Wiatr Popołudniu
+[Pm Showers]
+Popołudniu przelotne opady deszczu
+[Pm Snow Showers]
+Przelotne opady śniegu popołudniu
+[Pm Snow]
+Śnieg popołudniu
+[Pm T-Storms]
+Popołudniu burze z piorunami
+[Pressure Tendency]
+Tendencja
+[Rain / Freezing Rain / Wind]
+Deszcz / Deszcz Marznący / Wiatr
+[Rain / Snow / Wind]
+Deszcz/Śnieg/Wiatr
+[Rain / Snow Late]
+Deszcz / Śnieg Późno
+[Rain / Snow Showers Early]
+Wcześnie deszcz/Przelotne opady śniegu
+[Rain / Snow Showers Late]
+Deszcz/Przelotne opady śniegu późno
+[Rain / Snow Showers]
+Deszcz/Przelotne opady śniegu
+[Rain / Snow]
+Deszcz/Śnieg
+[Rain / Thunder]
+Deszcz/Wyładowania atmosferyczne
+[Rain / Wind Early]
+Deszcz/Wiatr Wcześnie
+[Rain / Wind]
+Deszcz/Wiatr
+[Rain And Snow]
+Śnieg z deszczem
+[Rain Early]
+Deszcz Wcześnie
+[Rain Late]
+Deszcz Późno
+[Rain Shower]
+Ulewa
+[Rain To Snow]
+Deszcz przechodzący w śnieg
+[Rain]
+Deszcz
+[SE]
+południowy wschód
+[SSE]
+południowo-południowy wschód
+[SSW]
+południowo-południowy zachód
+[SW]
+południowy zachód
+[S]
+południe
+[Scattered Showers]
+Rozsiane opady deszczu
+[Scattered Snow Showers]
+rozproszone, przelotne opady śniegu
 [Scattered T-Storms / Wind]
 Rozsiane Burze / Wiatr
+[Scattered T-Storms]
+Rozsiane burze z piorunami
+[Shallow Fog]
+Cienka warstwa mgły
+[Showers / Wind Late]
+
+[Showers / Wind]
+Przelotne opady/Wiatr
+[Showers Early]
+Wcześnie przelotne opady
+[Showers Late]
+Późno przelotne opady
+[Showers Rain]
+Przelotne opady deszczu
+[Showers]
+Przelotny deszcz
+[Sleet And Windy]
+deszcz ze śniegiem i wietrznie
+[Sleet]
+deszcz ze śniegiem
+[Smoke]
+Dymy
+[Snow / Wind Early]
+Śnieg / Wiatr wcześnie
+[Snow / Wind]
+Śnieg/Wiatr
+[Snow / Windy]
+Śnieg / Wietrznie
+[Snow And Sleet]
+Deszcz ze śniegiem i śnieg
+[Snow Early]
+Wcześnie opady śniegu
+[Snow Shower / Wind]
+Przelotne opady śniegu/Wiatr
+[Snow Shower And Windy]
+Przelotne opady śniegu oraz wietrznie
+[Snow Shower]
+Przelotne opady śniegu
+[Snow Showers / Wind Early]
+Przelotne opady śniegu/Wiatr wcześnie
+[Snow Showers Early]
+Wcześnie przelotne opady śniegu
+[Snow Showers Late]
+Późno przelotne opady śniegu
+[Snow To Rain]
+Śnieg przechodzący w deszcz
 [Snow To Wintry Mix]
 Śnieg przechodzący w deszcz ze śniegiem
+[Snow]
+Śnieg
+[Sunny / Wind]
+Słonecznie / Wiatr
+[Sunny / Windy]
+Słonecznie / Wietrznie
+[Sunny]
+Słonecznie
+[T-Storm]
+Burza z piorunami
 [T-Storms Early]
 Burze Wcześnie
 [T-Storms Late]
 Izolowane Burze Późno
-[Am T-Storms]
-Przed Południem Burze
-[Fog Late]
-Mgła Późno
-[Partly Cloudy / Wind]
-Częściowe Zachmurzenie /Wiatr
-[Rain / Snow Late]
-Deszcz / Śnieg Późno
-[Am Rain / Snow]
-Przed południem Deszcz / Śnieg
-[Rain Early]
-Deszcz Wcześnie
-[AM Rain]
-Deszcz przed południem
-[Pm Rain]
-Deszcz popołudniu
-[Am Snow]
-Do południa śnieg
-[Pm Snow]
-Śnieg popołudniu
-[Pm Showers / Wind]
-Ulewy / Wiatr Popołudniu
-[Rain / Wind]
-Deszcz/Wiatr
-[Freezing Rain / Windy]
-Deszcz marznący / Wietrznie
-[Clear / Wind]
-Pogodnie / Wiatr
+[T-Storms]
+Burze z piorunami
+[Thunder In The Vicinity]
+Wyładowania atmosferyczne w okolicy
+[Thunderstorm Rain]
+Burza z opadami
+[Thunderstorm]
+Burza
+[UV Index]
+Index UV
+[UVI]
+UVI
+[UV]
+UV
+[Update VAR]
+Zmienna aktualizacji
+[WNW]
+zachodnio-północny zachód
+[WSW]
+zachodnio-południowy zachód
+[W]
+zachód
+[Waning Crescent]
+Po ostatniej kwadrze
+[Waning Gibbous]
+Przed ostatnią kwadrą
+[Waxing Crescent]
+Przed pierwszą kwadrą
+[Waxing Gibbous]
+Przed pełnią
+[Wind Direction DEG]
+Kierunek wiatru DEG
+[Wind Direction]
+Kierunek wiatru
+[Wind Speed]
+Prędkość wiatru
+[WindDir]
+Kierunek wiatru
+[Wintry Mix / Wind]
+Deszcz ze śniegiem / Wiatr
+[falling]
+padający
+[rising]
+Wschodzące
+[steady]
+Stały

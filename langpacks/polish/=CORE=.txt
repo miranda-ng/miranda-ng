@@ -52,6 +52,8 @@ Opcje wyświetlania kontaktu
 Zamiast wyświetlać kontakty w kolejności ich nicków,\nprzenieś aby wybrać inną kolejność.
 [Miranda NG profile manager]
 Menedżer profili Mirandy NG
+[Manage your Miranda NG profile]
+Zarządzaj profilem Miranda NG
 [&Run]
 &Uruchom
 [&Exit]
@@ -340,8 +342,8 @@ Usługa:
 Domyślny
 [Set]
 Ustaw
-[Disable icons]
-Wyłącz ikony
+[Enable icons]
+Włącz ikony
 [Show accounts in the following order,\ndrag to choose another order:]
 Pokaż konta według kolejności\n(przeciągnij aby ją zmienić):
 [Account order and visibility]
@@ -2177,6 +2179,7 @@ Otwórz okno szukania użytkowników
 &Przenieś do grupy
 [<Root group>]
 <Grupa główna>
+;file \src\modules\clist\protocolorder.cpp
 ;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda próbuje zaktualizować strukturę twojego profilu.\nNie można przenieść profilu %s do nowej lokalizacji %s\nProfil z taką nazwą już istnieje. Proszę rozwiązać ten problem ręcznie.
@@ -2253,8 +2256,6 @@ Rozmiar
 Utworzono
 [Modified]
 Zmodyfikowano
-[Manage your Miranda NG profile]
-Zarządzaj profilem Miranda NG
 [My profiles]
 Moje profile
 [New profile]

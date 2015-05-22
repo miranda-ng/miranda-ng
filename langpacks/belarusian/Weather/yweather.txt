@@ -2,10 +2,10 @@
 ;  File: yweather.ini
 ;  Module: weather
 ;============================================================
+[East]
+Усход
 [Feel]
 Адчуванне
-[Forecast Day 1]
-Прагноз: Дзень 1
 [Forecast Day 1 Condition]
 Прагноз: Дзень 1 Умовы
 [Forecast Day 1 Date]
@@ -16,55 +16,55 @@
 Прагноз: Дзень 1 Макс
 [Forecast Day 1 Low]
 Прагноз: Дзень 1 Мін
-[Heat Index]
-Індэкс спякоты
-[Wind Direction]
-Вецер: кірунак
-[Wind Speed]
-Вецер: хуткасць
-[Wind Direction Degrees]
-Вецер: кірунак (град)
-[Mon]
-ПН
-[Tue]
-АЎТ
-[Wed]
-СР
-[Thu]
-ЧЦ
+[Forecast Day 1]
+Прагноз: Дзень 1
 [Fri]
 ПТ
+[Heat Index]
+Індэкс спякоты
+[Mon]
+ПН
+[Mostly Clear]
+Пераважна ясна
+[Mostly Cloudy]
+Пераважна хмарна
+[Mostly Sunny]
+Пераважна сонечна
+[North]
+Поўнач
+[Northeast]
+Паўночны ўсход
+[Northwest]
+Паўночны захад
+[Partly Cloudy]
+Месцамі хмарна
+[Partly Sunny]
+Месцамі сонечна
 [Sat]
 СБ
+[Scattered Clouds]
+Зменная воблачнасць
+[South]
+Поўдзень
+[Southeast]
+Паўднёвы ўсход
+[Southwest]
+Паўднёвы захад
 [Sun]
 НД
 [Sunny]
 Сонечна
-[Partly Sunny]
-Месцамі сонечна
-[Mostly Sunny]
-Пераважна сонечна
-[Partly Cloudy]
-Месцамі хмарна
-[Mostly Cloudy]
-Пераважна хмарна
-[Mostly Clear]
-Пераважна ясна
-[Scattered Clouds]
-Зменная воблачнасць
-[North]
-Поўнач
-[East]
-Усход
-[South]
-Поўдзень
+[Thu]
+ЧЦ
+[Tue]
+АЎТ
+[Wed]
+СР
 [West]
 Захад
-[Northwest]
-Паўночны захад
-[Northeast]
-Паўночны ўсход
-[Southwest]
-Паўднёвы захад
-[Southeast]
-Паўднёвы ўсход
+[Wind Direction Degrees]
+Вецер: кірунак (град)
+[Wind Direction]
+Вецер: кірунак
+[Wind Speed]
+Вецер: хуткасць

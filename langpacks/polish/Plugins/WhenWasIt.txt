@@ -203,10 +203,6 @@ On/Ona
 Rozpoczęcie odświeżania danych kontaktu
 [Done refreshing user details]
 Ukończono odświeżanie danych kontaktu
-[Could not create worker thread. Error#%d - threadID %d]
-Nie udało się utworzyć wątku roboczego. Error#%d - threadID %d
-[Error]
-Błąd
 [Birthdays files]
 Urodzinowe pliki
 [Please select a file to import birthdays from...]
@@ -225,6 +221,8 @@ Eksportowanie urodzin do pliku: %s
 Eksportowanie urodzin zakończone
 [Could not open file to import birthdays]
 Nie udało się otworzyć pliku, z którego mają zostać zaimportowane urodziny
+[Error]
+Błąd
 [Warning]
 Ostrzeżenie
 [Could not open file to export birthdays]

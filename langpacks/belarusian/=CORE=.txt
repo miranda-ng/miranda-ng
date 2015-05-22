@@ -52,6 +52,8 @@
 Замест паказу мянушак,\nабярыце іншы прыярытэт паказу імёнаў:
 [Miranda NG profile manager]
 Мэнэджар профіляў Miranda
+[Manage your Miranda NG profile]
+Кіраванне профілямі Miranda NG
 [&Run]
 Выканаць
 [&Exit]
@@ -340,8 +342,8 @@ Cлужба:
 Змаўчанні
 [Set]
 Абраць
-[Disable icons]
-Адключыць абразкі
+[Enable icons]
+Уключыць абразкі
 [Show accounts in the following order,\ndrag to choose another order:]
 Паслядоўнасць адлюстравання контаў.\nПерацягвайце для змены:
 [Account order and visibility]
@@ -2161,6 +2163,7 @@ xСтатус
 Перасунуць у
 [<Root group>]
 <Каранёвы гурт>
+;file \src\modules\clist\protocolorder.cpp
 ;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Міранда спрабуе абнавіць профіль структуры.\nНемагчыма перамясціць профіль %s на новае месца %s,\nбо профіль з такой назвай ужо існуе. Калі ласка, вырашыце праблему ўручную.
@@ -2231,8 +2234,6 @@ Miranda NG не можа адкрыць гэты профіль
 Створаны
 [Modified]
 Зменены
-[Manage your Miranda NG profile]
-Кіраванне профілямі Miranda NG
 [My profiles]
 Мае профілі
 [New profile]

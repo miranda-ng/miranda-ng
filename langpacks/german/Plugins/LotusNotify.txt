@@ -66,6 +66,8 @@ Offline-Status bedeutet:
 An / Kopiere An
 [autoregister]
 Registrierung
+[Keep connection on error]
+
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 Konnte nicht alle benötigten Lotus-API-Funktionen laden.
