@@ -2,12 +2,18 @@
 ;  File: weatherxml.ini
 ;  Module: weather
 ;============================================================
+[AM Rain]
+Дождь в первой половине дня
 [Am Clouds / Pm Sun]
 Облачно в первой половине дня / Солнечно во второй половине дня
 [Am Light Rain]
 Слабый дождь в первой половине дня
 [Am Rain / Snow Showers]
 Дождь в первой половине дня / снегопад
+[Am Rain / Snow]
+Дождь в первой половине дня / снег
+[Am Rain]
+Дождь в первой половине дня
 [Am Showers / Wind]
 Дождь во второй половине дня / ветер
 [Am Showers]
@@ -16,12 +22,18 @@
 Снегопад в первой половине дня / Ветер
 [Am Snow Showers]
 Снегопад в первой половине дня
+[Am Snow]
+Снег в первой половине дня
+[Am T-Storms]
+Грозы в первой половине дня
 [Clear / Wind]
 Ясно / ветер
 [Clouds Early / Clearing Late]
 С утра облачно / ясно во второй половине дня
 [Cloudy / Wind]
 Облачно / Ветер
+[Cloudy / Windy]
+Облачно / ветрено
 [Cloudy And Windy]
 Облачно и ветер
 [Cloudy]
@@ -48,8 +60,12 @@
 Слабый снег
 [First Quarter]
 Первая четверть Луны
+[Fog / Windy]
+Туман / ветрено
 [Fog And Windy]
 Туман и ветер
+[Fog Late]
+Туман  во второй половине дня
 [Fog]
 Туман
 [Forecast Day 0]
@@ -84,12 +100,18 @@
 Мгла
 [Heat Index]
 Индекс жары
+[Heavy Rain / Wind]
+Проливной дождь / ветер
+[Heavy Rain]
+Проливной дождь
 [Heavy Snow And Windy]
 Сильный снег и ветрено
 [Heavy Snow Shower]
 Сильный снегопад
 [Heavy Snow]
 Сильный снегопад
+[Isolated T-Storms / Wind]
+Местами грозы / ветер
 [Isolated T-Storms]
 Местами грозы
 [Jun]
@@ -104,8 +126,16 @@
 Лёгкая морось и ветер
 [Light Drizzle]
 Лёгкая морось
+[Light Freezing Rain / Fog]
+Слабый ледяной дождь / туман
+[Light Freezing Rain / Windy]
+Слабый ледяной дождь / ветрено
+[Light Rain / Wind Early]
+Слабый дождь / ветер в первой половине дня
 [Light Rain / Wind]
 Слабый дождь / ветер
+[Light Rain / Windy]
+Слабый дождь / ветрено
 [Light Rain And Windy]
 Слабый дождь и ветер
 [Light Rain Early]
@@ -154,6 +184,8 @@
 Преимущественно облачно и ветрено
 [Mostly Cloudy]
 Преимущественно облачно
+[Mostly Sunny / Wind]
+Преимущественно солнечно / ветер
 [Mostly Sunny]
 Преимущественно солнечно
 [N/A%]
@@ -178,6 +210,10 @@
 Источник данных
 [Overcast]
 Сплошная облачность
+[Partly Cloudy / Wind]
+Местами облачно / ветер
+[Partly Cloudy / Windy]
+Местами облачно / ветрено
 [Partly Cloudy And Windy]
 Местами облачно и ветрено
 [Partly Cloudy]
@@ -186,16 +222,28 @@
 Местами солнечно
 [Pm Light Rain]
 Слабый дождь во второй половине дня
+[Pm Rain / Wind]
+Дождь во второй половине дня / ветер
+[Pm Rain]
+Дождь во второй половине дня
+[Pm Showers / Wind]
+Ливень во второй половине дня / ветер
 [Pm Showers]
 Дождь во второй половине дня
 [Pm Snow Showers]
 Снегопад во второй половине дня
+[Pm Snow]
+Снег во второй половине дня
 [Pm T-Storms]
 Грозы во второй половине дня
 [Pressure Tendency]
 Давление: тенденция
+[Rain / Freezing Rain / Wind]
+Дождь / ледяной дождь / ветер
 [Rain / Snow / Wind]
 Дождь / снег / ветер
+[Rain / Snow Late]
+Дождь / снег во второй половине дня
 [Rain / Snow Showers Early]
 Дождь / рано утром снег
 [Rain / Snow Showers Late]
@@ -206,10 +254,18 @@
 Дождь / снег
 [Rain / Thunder]
 Дождь / гром
+[Rain / Wind Early]
+Дождь / ветер в первой половине дня
 [Rain / Wind]
 Дождь / ветер
 [Rain And Snow]
 Дождь со снегом
+[Rain Early]
+Дождь с утра
+[Rain Late]
+Дождь во второй половине дня
+[Rain Shower]
+Дождь
 [Rain To Snow]
 Дождь со снегом
 [Rain]
@@ -228,10 +284,14 @@
 Местами дожди
 [Scattered Snow Showers]
 Местами снегопад
+[Scattered T-Storms / Wind]
+Местами грозы / ветер
 [Scattered T-Storms]
 Местами грозы
 [Shallow Fog]
 Низкий туман
+[Showers / Wind Late]
+Ливень / ветер во второй половине дня
 [Showers / Wind]
 Дожди / ветер
 [Showers Early]
@@ -248,8 +308,12 @@
 Дождь со снегом
 [Smoke]
 Дым
+[Snow / Wind Early]
+Снег / ветер в первой половине дня
 [Snow / Wind]
 Снег / Ветер
+[Snow / Windy]
+Снег / ветрено
 [Snow And Sleet]
 Дождь со снегом
 [Snow Early]
@@ -270,10 +334,18 @@
 Снег с дождём
 [Snow]
 Снег
+[Sunny / Wind]
+Солнечно / ветер
+[Sunny / Windy]
+Солнечно / ветрено
 [Sunny]
 Солнечно
 [T-Storm]
 Гроза
+[T-Storms Early]
+Грозы в первой половине дня
+[T-Storms Late]
+Грозы во второй половине дня
 [T-Storms]
 Грозы
 [Thunder In The Vicinity]
