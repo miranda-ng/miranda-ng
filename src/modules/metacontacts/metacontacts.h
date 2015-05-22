@@ -92,15 +92,13 @@ struct MetaOptions
 	int menu_contact_label;
 	int menu_function;
 	int clist_contact_name;
-	int days_history;
 	int set_status_from_offline_delay;
 };
 
 extern MetaOptions options;
 
 int Meta_OptInit(WPARAM wParam, LPARAM lParam);
-int Meta_WriteOptions(MetaOptions *opt);
-int Meta_ReadOptions(MetaOptions *opt);
+int Meta_ReadOptions();
 
 // API function headers
 void CreateApiServices();

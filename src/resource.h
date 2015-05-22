@@ -403,7 +403,6 @@
 #define IDC_RAD_NICK                    1419
 #define IDC_RAD_NAME                    1420
 #define IDC_CHK_LOCKHANDLE              1421
-#define IDC_ED_DAYS                     1427
 #define IDC_PROG                        1433
 #define IDC_STSIMPLERIGHT               1440
 #define IDC_NETLIBUSERS                 1443
