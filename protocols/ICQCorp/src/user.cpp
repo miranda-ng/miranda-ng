@@ -144,7 +144,7 @@ int icqUserInfoInitialise(WPARAM wParam, LPARAM lParam)
     char *proto;
 
     proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, lParam, 0);
-    if ((proto == NULL || strcmp(proto, protoName)) && lParam) return 0;
+    if ((proto == NULL || mir_strcmp(proto, protoName)) && lParam) return 0;
 
     odp.position = -1900000000;
     odp.pszTitle = Translate(protoName);

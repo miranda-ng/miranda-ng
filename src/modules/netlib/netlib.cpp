@@ -36,7 +36,7 @@ typedef BOOL (WINAPI *tGetProductInfo)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
 static int CompareNetlibUser(const NetlibUser* p1, const NetlibUser* p2)
 {
-	return strcmp(p1->user.szSettingsModule, p2->user.szSettingsModule);
+	return mir_strcmp(p1->user.szSettingsModule, p2->user.szSettingsModule);
 }
 
 LIST<NetlibUser> netlibUser(5, CompareNetlibUser);

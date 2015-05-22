@@ -217,8 +217,8 @@ static int CountFiles( char *szItem )
 			if ( fd.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY )
 			{
 				// Skip parent directories
-				if (( 0 != strcmp( fd.cFileName, "." )) &&
-					 ( 0 != strcmp( fd.cFileName, ".." )) )
+				if (( 0 != mir_strcmp( fd.cFileName, "." )) &&
+					 ( 0 != mir_strcmp( fd.cFileName, ".." )) )
 				{
 					char szDirName[MAX_PATH];
 					strncpy( szDirName, szItem, MAX_PATH - 1);
@@ -259,8 +259,8 @@ static void SaveFiles( char *szItem, char **ppFiles, int *pnCount )
 			if ( fd.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY )
 			{
 				// Skip parent directories
-				if (( 0 != strcmp( fd.cFileName, "." )) &&
-					 ( 0 != strcmp( fd.cFileName, ".." )) )
+				if (( 0 != mir_strcmp( fd.cFileName, "." )) &&
+					 ( 0 != mir_strcmp( fd.cFileName, ".." )) )
 				{
 					char szDirName[MAX_PATH];
 					strncpy( szDirName, szItem, MAX_PATH - 1);

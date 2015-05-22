@@ -299,7 +299,7 @@ void SkypeSend(char *szMsg) {
 	   LOG(("SkypeSend: DAMN! No Skype window handle! :("));
 	   return;
    }
-   if (strcmp(szMsg, "PING")) {LOG(("> %s", szMsg));}
+   if (mir_strcmp(szMsg, "PING")) {LOG(("> %s", szMsg));}
    CopyData.dwData=0; 
    CopyData.lpData=szMsg; 
    CopyData.cbData=strlen(szMsg)+1;
@@ -379,7 +379,7 @@ void ServerThread(char *dummy) {
 			switch (command) {
 #ifdef USE_AUTHENTICATION
 			case 0x01: // Compare hash
-				if (password && !strcmp(password, buf)) Authenticated=TRUE;
+				if (password && !mir_strcmp(password, buf)) Authenticated=TRUE;
 				else Authenticated=FALSE;
 				if (Authenticated) {
 					OUTPUT("User authenticated succesfully.");
@@ -439,12 +439,12 @@ LONG APIENTRY WndProc(HWND hWnd, UINT message, UINT wParam, LONG lParam)
 			CopyData=(PCOPYDATASTRUCT)lParam;
 			szSkypeMsg=strdup(CopyData->lpData);
 			ReplyMessage(1);
-			if (!strcmp(szSkypeMsg, "PONG")) {
+			if (!mir_strcmp(szSkypeMsg, "PONG")) {
 				WatchDog=1;
 				break;
 			} // Hide PING-PONG
 			LOG(("< %s", szSkypeMsg));
-			if (!strcmp(szSkypeMsg, "USERSTATUS LOGGEDOUT")) {
+			if (!mir_strcmp(szSkypeMsg, "USERSTATUS LOGGEDOUT")) {
 				OUTPUT("Skype shut down gracefully. I'll leave too, bye.. :)");
 				bail_out(1);
 			}

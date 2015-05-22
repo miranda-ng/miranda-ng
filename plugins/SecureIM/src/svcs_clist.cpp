@@ -3,7 +3,7 @@
 int __cdecl onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (!hContact || strcmp(cws->szSetting, "Status")) return 0;
+	if (!hContact || mir_strcmp(cws->szSetting, "Status")) return 0;
 
 	pUinKey ptr = getUinKey(hContact);
 	int stat = getContactStatus(hContact);

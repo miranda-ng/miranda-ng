@@ -433,7 +433,7 @@ TCHAR* GetIcqXStatus(MCONTACT hContact, char *szProto, char *szValue, TCHAR *buf
 	int statusID = db_get_b(hContact, szProto, "XStatusId", -1);
 	if (statusID != -1) {
 		if (!db_get_ts(hContact, szProto, szValue, &dbv)) {
-			if ((strcmp(szValue, "XStatusName") == 0) && dbv.ptszVal[0] == 0)
+			if ((mir_strcmp(szValue, "XStatusName") == 0) && dbv.ptszVal[0] == 0)
 				GetDefaultXstatusName(statusID, szProto, buff, bufflen);
 			else
 				_tcsncpy(buff, dbv.ptszVal, bufflen);

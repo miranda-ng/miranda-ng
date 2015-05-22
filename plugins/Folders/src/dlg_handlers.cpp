@@ -60,7 +60,7 @@ static void LoadRegisteredFolderItems(HWND hWnd)
 
 	for (int i = 0; i < lstRegisteredFolders.getCount(); i++) {
 		CFolderItem &item = lstRegisteredFolders[i];
-		if (!strcmp(szSection, item.GetSection())) {
+		if (!mir_strcmp(szSection, item.GetSection())) {
 			idx = SendMessage(hwndItems, LB_ADDSTRING, 0, (LPARAM)TranslateTS(item.GetUserName()));
 			SendMessage(hwndItems, LB_SETITEMDATA, idx, (LPARAM)&item);
 		}

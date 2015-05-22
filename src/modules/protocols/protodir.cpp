@@ -75,10 +75,10 @@ int contactCacheCompare(void * a, void * b)
 	contactEntry * y = (contactEntry *) b;
 	int rc=0;
 	// same protocol?
-	rc = strcmp(x->proto, y->proto);
+	rc = mir_strcmp(x->proto, y->proto);
 	if ( rc  ==  0 ) {
 		// same id? id's might be missing
-		if ( x->id && y->id ) rc = strcmp(x->id, y->id);
+		if ( x->id && y->id ) rc = mir_strcmp(x->id, y->id);
 	}
 	return rc;
 }
@@ -96,7 +96,7 @@ int protoCacheCompare(void * a, void * b)
 // keeps a list of protocol names
 int protoNameCacheCompare(void * a, void * b)
 {
-	return strcmp( (char *)a, (char*)b );
+	return mir_strcmp( (char *)a, (char*)b );
 }
 
 // cache the protocol string so that its not allocated per contact but shared

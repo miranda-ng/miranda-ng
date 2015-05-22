@@ -351,7 +351,7 @@ MCONTACT __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEV
 		return NULL;
 	if (db_event_get(hDbEvent, &dbei))
 		return NULL;
-	if (strcmp(dbei.szModule, m_szModuleName))
+	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return NULL;
 
 /*
@@ -392,7 +392,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 		return 1;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return 1;
-	if (strcmp(dbei.szModule, m_szModuleName))
+	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return 1;
 
 	char *nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);
@@ -446,7 +446,7 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return 1;
 
-	if (strcmp(dbei.szModule, m_szModuleName))
+	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return 1;
 
 	char *nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);

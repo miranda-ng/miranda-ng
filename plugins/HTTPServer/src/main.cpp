@@ -486,7 +486,7 @@ static INT_PTR nGetShare(WPARAM /*wParam*/, LPARAM lParam) {
 	STFileShareInfo * pclShare = (STFileShareInfo*)lParam;
 	CLFileShareNode * pclCur = pclFirstNode;
 	while (pclCur) {
-		if (strcmp(pclCur->st.pszSrvPath, pclShare->pszSrvPath) == 0) {
+		if (mir_strcmp(pclCur->st.pszSrvPath, pclShare->pszSrvPath) == 0) {
 			if (pclShare->dwMaxRealPath <= mir_strlen(pclCur->st.pszRealPath) + 1)
 				return 1003;
 			strcpy(pclShare->pszRealPath, pclCur->st.pszRealPath);

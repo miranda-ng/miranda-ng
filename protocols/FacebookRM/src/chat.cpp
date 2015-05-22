@@ -39,7 +39,7 @@ void FacebookProto::UpdateChat(const TCHAR *tchat_id, const char *id, const char
 	gce.ptszText = ttext;
 	gce.time = timestamp ? timestamp : ::time(NULL);
 	if (id != NULL)
-		gce.bIsMe = !strcmp(id, facy.self_.user_id.c_str());
+		gce.bIsMe = !mir_strcmp(id, facy.self_.user_id.c_str());
 	gce.dwFlags |= GCEF_ADDTOLOG;
 	if (is_old) {
 		gce.dwFlags |= GCEF_NOTNOTIFY;
@@ -67,7 +67,7 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
 
-	if (strcmp(hook->pDest->pszModule, m_szModuleName))
+	if (mir_strcmp(hook->pDest->pszModule, m_szModuleName))
 		return 0;
 
 	// Ignore for special chatrooms
@@ -177,7 +177,7 @@ void FacebookProto::AddChatContact(const TCHAR *tchat_id, const char *id, const 
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
 	gce.time = ::time(NULL);
-	gce.bIsMe = !strcmp(id, facy.self_.user_id.c_str());
+	gce.bIsMe = !mir_strcmp(id, facy.self_.user_id.c_str());
 
 	if (gce.bIsMe) {
 		gce.ptszStatus = TranslateT("Myself");
@@ -197,7 +197,7 @@ void FacebookProto::AddChatContact(const TCHAR *tchat_id, const char *id, const 
 void FacebookProto::RemoveChatContact(const TCHAR *tchat_id, const char *id, const char *name)
 {
 	// We dont want to remove our self-contact from chat. Ever.
-	if (!strcmp(id, facy.self_.user_id.c_str()))
+	if (!mir_strcmp(id, facy.self_.user_id.c_str()))
 		return;
 
 	ptrT tnick(mir_a2t_cp(name, CP_UTF8));

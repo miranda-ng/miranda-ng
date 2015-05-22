@@ -173,7 +173,7 @@ static int ProcessProtoAck(WPARAM wParam, LPARAM lParam)
 	for (int i = 0; i < autoAwaySettings.getCount(); i++) {
 		TAAAProtoSetting &p = autoAwaySettings[i];
 		log_debugA("chk: %s", p.szName);
-		if (!strcmp(p.szName, ack->szModule)) {
+		if (!mir_strcmp(p.szName, ack->szModule)) {
 			log_debugA("ack->szModule: %s p.statusChanged: %d", ack->szModule, p.statusChanged);
 			if (!p.statusChanged)
 				p.mStatus = TRUE;

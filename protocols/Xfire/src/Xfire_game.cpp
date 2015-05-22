@@ -202,7 +202,7 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 		this->strtolowerT(fpath);
 
 		if (this->wildcmp(_A2T(this->path), fpath))
-			//if (strcmp(this->path,fpath)==0)
+			//if (mir_strcmp(this->path,fpath)==0)
 		{
 			//pfad stimmt überein, commandline prüfen
 			if (checkCommandLine(op, this->mustcontain, this->notcontain))

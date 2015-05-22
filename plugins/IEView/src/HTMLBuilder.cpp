@@ -127,7 +127,7 @@ char* HTMLBuilder::getRealProto(MCONTACT hContact)
 		return NULL;
 
 	char *szProto = mir_strdup(GetContactProto(hContact));
-	if (szProto != NULL && !strcmp(szProto, META_PROTO)) {
+	if (szProto != NULL && !mir_strcmp(szProto, META_PROTO)) {
 		hContact = db_mc_getMostOnline(hContact);
 		if (hContact != NULL)
 			replaceStr(szProto, GetContactProto(hContact));
@@ -137,7 +137,7 @@ char* HTMLBuilder::getRealProto(MCONTACT hContact)
 
 char* HTMLBuilder::getRealProto(MCONTACT hContact, const char *szProto)
 {
-	if (szProto != NULL && !strcmp(szProto, META_PROTO)) {
+	if (szProto != NULL && !mir_strcmp(szProto, META_PROTO)) {
 		hContact = db_mc_getMostOnline(hContact);
 		if (hContact != NULL)
 			return mir_strdup(GetContactProto(hContact));
@@ -148,7 +148,7 @@ char* HTMLBuilder::getRealProto(MCONTACT hContact, const char *szProto)
 MCONTACT HTMLBuilder::getRealContact(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
-	if (szProto != NULL && !strcmp(szProto, META_PROTO))
+	if (szProto != NULL && !mir_strcmp(szProto, META_PROTO))
 		hContact = db_mc_getMostOnline(hContact);
 	return hContact;
 }

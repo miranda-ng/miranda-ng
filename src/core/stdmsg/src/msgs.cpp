@@ -198,14 +198,14 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (cws->szModule == NULL)
 		return 0;
 
-	if (!strcmp(cws->szModule, "CList"))
+	if (!mir_strcmp(cws->szModule, "CList"))
 		WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATETITLE, (WPARAM)cws, 0);
 	else if (hContact) {
-		if (cws->szSetting && !strcmp(cws->szSetting, "Timezone"))
+		if (cws->szSetting && !mir_strcmp(cws->szSetting, "Timezone"))
 			WindowList_Broadcast(g_dat.hMessageWindowList, DM_NEWTIMEZONE, (WPARAM)cws, 0);
 		else {
 			char *szProto = GetContactProto(hContact);
-			if (szProto && !strcmp(cws->szModule, szProto))
+			if (szProto && !mir_strcmp(cws->szModule, szProto))
 				WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATETITLE, (WPARAM)cws, 0);
 		}
 	}

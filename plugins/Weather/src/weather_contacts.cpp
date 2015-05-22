@@ -477,5 +477,5 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 BOOL IsMyContact(MCONTACT hContact)
 {
 	const char* szProto = GetContactProto(hContact);
-	return szProto != NULL && strcmp(WEATHERPROTONAME, szProto) == 0;
+	return szProto != NULL && mir_strcmp(WEATHERPROTONAME, szProto) == 0;
 }

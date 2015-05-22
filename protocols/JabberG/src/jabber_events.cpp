@@ -162,14 +162,14 @@ int __cdecl CJabberProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
-	if (strcmp(cws->szModule, "CList"))
+	if (mir_strcmp(cws->szModule, "CList"))
 		return 0;
 
-	if (!strcmp(cws->szSetting, "Group"))
+	if (!mir_strcmp(cws->szSetting, "Group"))
 		OnRenameGroup(cws, hContact);
-	else if (!strcmp(cws->szSetting, "MyHandle"))
+	else if (!mir_strcmp(cws->szSetting, "MyHandle"))
 		OnRenameContact(cws, hContact);
-	else if (!strcmp(cws->szSetting, "NotOnList"))
+	else if (!mir_strcmp(cws->szSetting, "NotOnList"))
 		OnAddContactForever(cws, hContact);
 
 	return 0;

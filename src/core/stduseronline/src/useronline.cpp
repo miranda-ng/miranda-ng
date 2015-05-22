@@ -34,7 +34,7 @@ static bool Proto_IsAccountEnabled(PROTOACCOUNT *pa)
 static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (hContact == NULL || strcmp(cws->szSetting, "Status"))
+	if (hContact == NULL || mir_strcmp(cws->szSetting, "Status"))
 		return 0;
 
 	int newStatus = cws->value.wVal;

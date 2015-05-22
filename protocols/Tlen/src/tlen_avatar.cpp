@@ -141,7 +141,7 @@ int TlenProcessAvatarNode(TlenProtocol *proto, XmlNode *avatarNode, TLEN_LIST_IT
 	}
 	if (md5 != NULL) {
 		/* check contact's avatar hash - md5 */
-		if (oldHash == NULL || strcmp(oldHash, md5)) {
+		if (oldHash == NULL || mir_strcmp(oldHash, md5)) {
 			if (item != NULL) {
 				item->newAvatarDownloading = TRUE;
 			}

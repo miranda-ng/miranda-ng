@@ -96,14 +96,14 @@ PCommand GetCommand(char *command)
 	
 	for (i = 0; i < cKnownCommands; i++)
 	{
-		if (strcmp(knownCommands[i].command, lower) == 0)
+		if (mir_strcmp(knownCommands[i].command, lower) == 0)
 		{
 			return &knownCommands[i];
 		}
 	}
 	
 	//allow more parameters to trigger the help command - /h -h /? --help
-	if ((strcmp(lower, "/h") == 0) || (strcmp(lower, "-h") == 0) || (strcmp(lower, "/?") == 0) || (strcmp(lower, "--help") == 0))
+	if ((mir_strcmp(lower, "/h") == 0) || (mir_strcmp(lower, "-h") == 0) || (mir_strcmp(lower, "/?") == 0) || (mir_strcmp(lower, "--help") == 0))
 	{
 		for (i = 0; i < cKnownCommands; i++)
 		{

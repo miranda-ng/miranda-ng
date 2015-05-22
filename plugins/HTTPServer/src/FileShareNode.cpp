@@ -299,7 +299,7 @@ bool CLFileShareNode::bAddUser(CLShareUser * pclUser) {
 			// iterate through its users
 			CLShareUser * pclCur = pclShare->pclCurrentUsers;
 			while (pclCur) {
-				//strcmp(pclCur->szCurrentDLSrvPath, pclUser->szCurrentDLSrvPath) == 0) // same file
+				//mir_strcmp(pclCur->szCurrentDLSrvPath, pclUser->szCurrentDLSrvPath) == 0) // same file
 				if (memcmp(&pclCur->stAddr, &pclUser->stAddr, sizeof(in_addr)) == 0)  // same IP
 					nUserConnectionCount++;
 

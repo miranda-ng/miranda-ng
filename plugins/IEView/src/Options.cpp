@@ -1489,7 +1489,7 @@ void Options::init()
 			proto = new ProtocolSettings("_default_");
 			proto->setSRMMEnable(true);
 		}
-		else if (strcmp(pProtos[i - 1]->szModuleName, META_PROTO)) {
+		else if (mir_strcmp(pProtos[i - 1]->szModuleName, META_PROTO)) {
 			if ((CallProtoService(pProtos[i - 1]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) == 0)
 				continue;
 

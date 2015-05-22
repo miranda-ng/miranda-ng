@@ -92,7 +92,7 @@ int CDropbox::OnSrmmWindowOpened(WPARAM, LPARAM lParam)
 int CDropbox::OnTabSrmmButtonPressed(WPARAM, LPARAM lParam)
 {
 	CustomButtonClickData *cbc = (CustomButtonClickData *)lParam;
-	if (!strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == BBB_ID_FILE_SEND && cbc->hContact)
+	if (!mir_strcmp(cbc->pszModule, MODULE) && cbc->dwButtonId == BBB_ID_FILE_SEND && cbc->hContact)
 	{
 		hTransferContact = cbc->hContact;
 		hTransferWindow = (HWND)CallService(MS_FILE_SENDFILE, GetDefaultContact(), 0);
@@ -150,7 +150,7 @@ int CDropbox::OnProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
 
-	if (!strcmp(ack->szModule, MODULE))
+	if (!mir_strcmp(ack->szModule, MODULE))
 		return 0; // don't rebroadcast our own acks
 
 	if (ack->type == ACKTYPE_STATUS)

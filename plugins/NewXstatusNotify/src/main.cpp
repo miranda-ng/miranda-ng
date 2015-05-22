@@ -379,7 +379,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 	char *szProto = GetContactProto(hContact);
 	WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 
-	if (!strcmp(szProto, META_PROTO)) { //this contact is Meta
+	if (!mir_strcmp(szProto, META_PROTO)) { //this contact is Meta
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		char *szSubProto = GetContactProto(hSubContact);
 		if (szSubProto == NULL)
@@ -479,7 +479,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		return 0;
 
 	char *szProto = GetContactProto(hContact);
-	if (strcmp(cws->szModule, szProto))
+	if (mir_strcmp(cws->szModule, szProto))
 		return 0;
 
 	// we don't want to be notified if new chatroom comes online
@@ -576,10 +576,10 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	}
 
 	if (strstr(cws->szSetting, "XStatus")) {
-		if (strcmp(cws->szModule, szProto))
+		if (mir_strcmp(cws->szModule, szProto))
 			return 0;
 
-		if (strcmp(cws->szSetting, "XStatusName") == 0) {
+		if (mir_strcmp(cws->szSetting, "XStatusName") == 0) {
 			smi.compare = CompareStatusMsg(&smi, cws, "LastXStatusName");
 			if (smi.compare == COMPARE_SAME) {
 				replaceStrT(smi.newstatusmsg, 0);
@@ -594,7 +594,7 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			xsc = NewXSC(hContact, szProto, TYPE_ICQ_XSTATUS, smi.compare, smi.newstatusmsg, NULL);
 			ExtraStatusChanged(xsc);
 		}
-		else if (!strcmp(cws->szSetting, "XStatusMsg")) {
+		else if (!mir_strcmp(cws->szSetting, "XStatusMsg")) {
 			smi.compare = CompareStatusMsg(&smi, cws, "LastXStatusMsg");
 			if (smi.compare == COMPARE_SAME) {
 				replaceStrT(smi.newstatusmsg, 0);
@@ -790,11 +790,11 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (ProcessExtraStatus(cws, hContact))
 			return 0;
 
-	if (!strcmp(cws->szSetting, "Status"))
+	if (!mir_strcmp(cws->szSetting, "Status"))
 		if (ProcessStatus(cws, hContact))
 			return 0;
 
-	if (!strcmp(cws->szModule, "CList") && !strcmp(cws->szSetting, "StatusMsg"))
+	if (!mir_strcmp(cws->szModule, "CList") && !mir_strcmp(cws->szSetting, "StatusMsg"))
 		if (ProcessStatusMessage(cws, hContact))
 			return 0;
 

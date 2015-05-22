@@ -223,7 +223,7 @@ BOOL checkProtocol(char *szProto)
 		return FALSE;
 
 	for (int i=0; i < ProtoList.protoCount; i++)
-		if (ProtoList.protoInfo[i].szProto && !strcmp(ProtoList.protoInfo[i].szProto, szProto))
+		if (ProtoList.protoInfo[i].szProto && !mir_strcmp(ProtoList.protoInfo[i].szProto, szProto))
 			return ProtoList.protoInfo[i].enabled;
 
 	return FALSE;
@@ -233,7 +233,7 @@ BOOL metaCheckProtocol(char *szProto, MCONTACT hContact, WORD eventType)
 {
 	MCONTACT hSubContact=NULL;
 
-	if (bMetaProtoEnabled && szProto && !strcmp(META_PROTO, szProto))
+	if (bMetaProtoEnabled && szProto && !mir_strcmp(META_PROTO, szProto))
 		if (hSubContact = db_mc_getMostOnline(hContact))
 			szProto = GetContactProto(hSubContact);
 
@@ -378,7 +378,7 @@ BOOL checkXstatus(char *szProto)
 		return checkGlobalXstatus();
 
 	for (int i=0; i < ProtoList.protoCount; i++)
-		if (ProtoList.protoInfo[i].szProto && !strcmp(ProtoList.protoInfo[i].szProto, szProto)) {
+		if (ProtoList.protoInfo[i].szProto && !mir_strcmp(ProtoList.protoInfo[i].szProto, szProto)) {
 			if (!ProtoList.protoInfo[i].xstatus.count) return TRUE;
 
 			// Retrieve xstatus for protocol
@@ -670,7 +670,7 @@ void createProtocolList(void)
 		else {
 			strcpy(ProtoList.protoInfo[i].szProto, proto[i]->szModuleName);
 			ProtoList.protoInfo[i].enabled = FALSE;
-			if (!strcmp(proto[i]->szModuleName, META_PROTO))
+			if (!mir_strcmp(proto[i]->szModuleName, META_PROTO))
 				ProtoList.protoInfo[i].visible = FALSE;
 			else {
 				ProtoList.protoInfo[i].visible = TRUE;

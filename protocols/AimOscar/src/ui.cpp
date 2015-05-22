@@ -694,7 +694,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			GetDlgItemTextA(hwndDlg, IDC_FNAME, name, SIZEOF(name));
 			if (mir_strlen(trim_str(name)) > 0 && !ppro->getString(AIM_KEY_SN, &dbv))
 			{
-				if (strcmp(name, dbv.pszVal))
+				if (mir_strcmp(name, dbv.pszVal))
 					ppro->aim_admin_format_name(ppro->hAdminConn,ppro->admin_seqno,name);
 				db_free(&dbv);
 			}
@@ -703,7 +703,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			GetDlgItemTextA(hwndDlg, IDC_CEMAIL, email, SIZEOF(email));
 			if (mir_strlen(trim_str(email)) > 1 && !ppro->getString(AIM_KEY_EM, &dbv)) // Must be greater than 1 or a SNAC error is thrown.
 			{
-				if (strcmp(email, dbv.pszVal))
+				if (mir_strcmp(email, dbv.pszVal))
 					ppro->aim_admin_change_email(ppro->hAdminConn,ppro->admin_seqno,email);
 				db_free(&dbv);
 			}
@@ -719,7 +719,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				// AOL only requires that you send the current password and a (single) new password.
 				// Let's allow the client to type (two) new passwords incase they make a mistake so we
 				// can handle any input error locally.
-				if (strcmp(npw1,npw2) == 0)
+				if (mir_strcmp(npw1,npw2) == 0)
 				{
 					ppro->aim_admin_change_password(ppro->hAdminConn,ppro->admin_seqno,cpw,npw1);
 				}
@@ -891,7 +891,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				//HN
 				GetDlgItemTextA(hwndDlg, IDC_HN, str, SIZEOF(str));
-				if (str[0] != 0 && strcmp(str, AIM_DEFAULT_SERVER))
+				if (str[0] != 0 && mir_strcmp(str, AIM_DEFAULT_SERVER))
 					ppro->setString(AIM_KEY_HN, str);
 				else
 					ppro->delSetting(AIM_KEY_HN);

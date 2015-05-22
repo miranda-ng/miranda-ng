@@ -132,7 +132,7 @@ int TlenProtocol::UserInfoInit(WPARAM wParam, LPARAM lParam)
 
 	MCONTACT hContact = (MCONTACT) lParam;
 	char *szProto = GetContactProto(hContact);
-	if ((szProto != NULL && !strcmp(szProto, m_szModuleName)) || !lParam) {
+	if ((szProto != NULL && !mir_strcmp(szProto, m_szModuleName)) || !lParam) {
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.hInstance = hInst;
 		odp.flags = ODPF_TCHAR;

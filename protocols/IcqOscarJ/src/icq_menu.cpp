@@ -32,7 +32,7 @@ HANDLE   g_hContactMenuSvc[6];
 
 static int sttCompareProtocols(const CIcqProto *p1, const CIcqProto *p2)
 {
-	return strcmp(p1->m_szModuleName, p2->m_szModuleName);
+	return mir_strcmp(p1->m_szModuleName, p2->m_szModuleName);
 }
 
 LIST<CIcqProto> g_Instances(1, sttCompareProtocols);
@@ -44,7 +44,7 @@ static CIcqProto* IcqGetInstanceByHContact(MCONTACT hContact)
 		return NULL;
 
 	for (int i = 0; i < g_Instances.getCount(); i++)
-		if (!strcmp(szProto, g_Instances[i]->m_szModuleName))
+		if (!mir_strcmp(szProto, g_Instances[i]->m_szModuleName))
 			return g_Instances[i];
 
 	return NULL;

@@ -219,7 +219,7 @@ void checkStringForcompare(char *str)
 			Y = strtok(NULL, ",\")");
 			j = Y - &copyOfStr[i] + (int)mir_strlen(Y) + 1;
 			if (A && B && X && Y) {
-				if (!strcmp(A, B))
+				if (!mir_strcmp(A, B))
 					strcat(newStr, X);
 				else strcat(newStr, Y);
 			}
@@ -613,7 +613,7 @@ void WriteSetting(MCONTACT hContact, char* module1, char* setting1, char* module
 			break;
 		}
 		// strip the tab and new lines from all except the tooltip
-		if (!error && strcmp(setting1, "ToolTip")) stripWhiteSpace(newString);
+		if (!error && mir_strcmp(setting1, "ToolTip")) stripWhiteSpace(newString);
 		db_set_s(hContact, module2, setting2, newString);
 	}
 	else db_set_s(hContact, module2, setting2, "");

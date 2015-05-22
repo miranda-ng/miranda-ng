@@ -116,7 +116,7 @@ MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 		return NULL;
 	if (db_event_get(hDbEvent, &dbei))
 		return NULL;
-	if (strcmp(dbei.szModule, m_szModuleName))
+	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return NULL;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return NULL;

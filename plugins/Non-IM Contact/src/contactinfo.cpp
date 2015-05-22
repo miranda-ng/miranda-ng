@@ -494,9 +494,9 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 		return 1;
 
 	while (fgets(line, 2000, file)) {
-		if (!strcmp(line, "\r\n\0"))
+		if (!mir_strcmp(line, "\r\n\0"))
 			continue;
-		if (!strcmp(line, "[Non-IM Contact]\r\n"))
+		if (!mir_strcmp(line, "[Non-IM Contact]\r\n"))
 			contactDone = 0;
 		else if (!strncmp(line, "Name=", mir_strlen("Name="))) {
 			i = (int)mir_strlen("Name="); j = 0;
@@ -554,7 +554,7 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 			i = (int)mir_strlen("Minutes=");
 			sscanf(&line[i], "%d", &minutes);
 		}
-		else if (contactDone && !strcmp(line, "[/Non-IM Contact]\r\n")) {
+		else if (contactDone && !mir_strcmp(line, "[/Non-IM Contact]\r\n")) {
 			if (!name) continue;
 			size_t size = mir_strlen(name) + mir_strlen("Do you want to import this Non-IM Contact?\r\n\r\nName: \r\n") + 1;
 			char *msg = (char*)malloc(size);

@@ -223,7 +223,7 @@ int __cdecl  PrebuildContactMenu(WPARAM wParam, LPARAM) {
 	DBVARIANT dbv;
 	BOOL callAvailable = FALSE;
 	BOOL hangupAvailable = FALSE;
-	if (!strcmp(szProto, SKYPE_PROTONAME)) {
+	if (!mir_strcmp(szProto, SKYPE_PROTONAME)) {
 		if (!db_get(hContact, SKYPE_PROTONAME, "CallId", &dbv)) {
 			if (db_get_b(hContact, SKYPE_PROTONAME, "OnHold", 0))
 				mi = ResumeCallItem(); else mi = HoldCallItem();
@@ -306,7 +306,7 @@ int ClistDblClick(WPARAM wParam, LPARAM lParam) {
 char *szProto;
 
 szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, wParam, 0 );
-if (szProto!=NULL && !strcmp(szProto, SKYPE_PROTONAME) &&
+if (szProto!=NULL && !mir_strcmp(szProto, SKYPE_PROTONAME) &&
 db_get_w((HANDLE)wParam, SKYPE_PROTONAME, "Status", ID_STATUS_OFFLINE)==ID_STATUS_ONTHEPHONE) {
 SkypeCall(wParam, 0);
 }
@@ -326,7 +326,7 @@ MCONTACT find_contact(char *name)
 		if (db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
 		{
 			if (db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) continue;
-			tCompareResult = strcmp(dbv.pszVal, name);
+			tCompareResult = mir_strcmp(dbv.pszVal, name);
 			db_free(&dbv);
 			if (tCompareResult) continue;
 			return hContact; // already there, return handle
@@ -402,7 +402,7 @@ void logoff_contacts(BOOL bCleanup) {
 	LOG(("logoff_contacts: Logging off contacts."));
 	for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
-		if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME))
+		if (szProto != NULL && !mir_strcmp(szProto, SKYPE_PROTONAME))
 		{
 			if (db_get_w(hContact, SKYPE_PROTONAME, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 				db_set_w(hContact, SKYPE_PROTONAME, "Status", ID_STATUS_OFFLINE);

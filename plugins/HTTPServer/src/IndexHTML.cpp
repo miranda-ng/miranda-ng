@@ -93,19 +93,19 @@ bool LoadIndexHTMLTemplate() {
 				*pszDestBuf = '#';
 
 				// signs below 32 are not used anyway
-				if (!strcmp(pszKeywordBegin, "End"))              *pszDestBuf = SY_END;
-				else if (!strcmp(pszKeywordBegin, "ForDirectoriesDo")) *pszDestBuf = SY_FOR_DIRS;
-				else if (!strcmp(pszKeywordBegin, "DirectoryUrl"))     *pszDestBuf = SY_DIR_URL;
-				else if (!strcmp(pszKeywordBegin, "DirectoryName"))    *pszDestBuf = SY_DIR_NAME;
-				else if (!strcmp(pszKeywordBegin, "ForFilesDo"))       *pszDestBuf = SY_FOR_FILES;
-				else if (!strcmp(pszKeywordBegin, "FileUrl"))          *pszDestBuf = SY_FILE_URL;
-				else if (!strcmp(pszKeywordBegin, "FileName"))         *pszDestBuf = SY_FILE_NAME;
-				else if (!strcmp(pszKeywordBegin, "FileSize"))         *pszDestBuf = SY_FILE_SIZE;
-				else if (!strcmp(pszKeywordBegin, "FileCreated"))      *pszDestBuf = SY_FILE_CREATE_TIME;
-				else if (!strcmp(pszKeywordBegin, "FileModified"))     *pszDestBuf = SY_FILE_MODIFY_TIME;
-				else if (!strcmp(pszKeywordBegin, "IsEven"))           *pszDestBuf = SY_IS_EVEN;
-				else if (!strcmp(pszKeywordBegin, "IsOdd"))            *pszDestBuf = SY_IS_ODD;
-				else if (!strcmp(pszKeywordBegin, "IsFileType"))       *pszDestBuf = SY_IS_FILE_TYPE;
+				if (!mir_strcmp(pszKeywordBegin, "End"))              *pszDestBuf = SY_END;
+				else if (!mir_strcmp(pszKeywordBegin, "ForDirectoriesDo")) *pszDestBuf = SY_FOR_DIRS;
+				else if (!mir_strcmp(pszKeywordBegin, "DirectoryUrl"))     *pszDestBuf = SY_DIR_URL;
+				else if (!mir_strcmp(pszKeywordBegin, "DirectoryName"))    *pszDestBuf = SY_DIR_NAME;
+				else if (!mir_strcmp(pszKeywordBegin, "ForFilesDo"))       *pszDestBuf = SY_FOR_FILES;
+				else if (!mir_strcmp(pszKeywordBegin, "FileUrl"))          *pszDestBuf = SY_FILE_URL;
+				else if (!mir_strcmp(pszKeywordBegin, "FileName"))         *pszDestBuf = SY_FILE_NAME;
+				else if (!mir_strcmp(pszKeywordBegin, "FileSize"))         *pszDestBuf = SY_FILE_SIZE;
+				else if (!mir_strcmp(pszKeywordBegin, "FileCreated"))      *pszDestBuf = SY_FILE_CREATE_TIME;
+				else if (!mir_strcmp(pszKeywordBegin, "FileModified"))     *pszDestBuf = SY_FILE_MODIFY_TIME;
+				else if (!mir_strcmp(pszKeywordBegin, "IsEven"))           *pszDestBuf = SY_IS_EVEN;
+				else if (!mir_strcmp(pszKeywordBegin, "IsOdd"))            *pszDestBuf = SY_IS_ODD;
+				else if (!mir_strcmp(pszKeywordBegin, "IsFileType"))       *pszDestBuf = SY_IS_FILE_TYPE;
 				else {
 					LogEvent("Error in index template", "Unknown Tag");
 					// unknown tag
@@ -355,9 +355,9 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 					}
 				}
 
-				while (!strcmp(fdFindFileData.cFileName, ".") ||
+				while (!mir_strcmp(fdFindFileData.cFileName, ".") ||
 				    !strncmp(fdFindFileData.cFileName, "@", 1) ||
-				    (!strcmp(fdFindFileData.cFileName, "..") && !strcmp(pszSrvPath, "/")) || // hide .. in root
+				    (!mir_strcmp(fdFindFileData.cFileName, "..") && !mir_strcmp(pszSrvPath, "/")) || // hide .. in root
 				    ((*pszPos == 19) == ((fdFindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0))) {
 					if (!FindNextFile(hFind, &fdFindFileData)) {
 						FindClose(hFind);

@@ -192,7 +192,7 @@ hide_all:
 		return 0;
 	}
 	
-	if(proto && strcmp(proto, META_PROTO) == 0) {
+	if(proto && mir_strcmp(proto, META_PROTO) == 0) {
 		// make menu act as per most online subcontact
 		hContact = db_mc_getMostOnline(hContact);
 		if (!hContact)

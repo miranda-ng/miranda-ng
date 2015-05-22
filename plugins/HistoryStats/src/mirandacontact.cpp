@@ -41,7 +41,7 @@ void MirandaContact::fetchSlot(int i)
 
 void MirandaContact::stripMetaID(DBEVENTINFO& dbe)
 {
-	if (strcmp(dbe.szModule,META_PROTO)==0) {
+	if (mir_strcmp(dbe.szModule,META_PROTO)==0) {
 		char* pTextBegin = reinterpret_cast<char*>(dbe.pBlob);
 
 		if (dbe.cbBlob >= 6 && !pTextBegin[dbe.cbBlob - 1]) {

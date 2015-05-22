@@ -150,8 +150,8 @@ BOOL is_token_valid(char *token)
 		return FALSE;
 
 	// skip "www", "com", "org", etc.
-	if (!strcmp(token, "www") || !strcmp(token, "com") || !strcmp(token, "org") || !strcmp(token, "edu") ||
-		!strcmp(token, "net") || !strcmp(token, "biz") || !strcmp(token, "http") || !strcmp(token, "ftp"))
+	if (!mir_strcmp(token, "www") || !mir_strcmp(token, "com") || !mir_strcmp(token, "org") || !mir_strcmp(token, "edu") ||
+		!mir_strcmp(token, "net") || !mir_strcmp(token, "biz") || !mir_strcmp(token, "http") || !mir_strcmp(token, "ftp"))
 		return FALSE;
 
 	return TRUE;

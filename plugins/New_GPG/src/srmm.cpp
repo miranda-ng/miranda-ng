@@ -44,7 +44,7 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 	else if(db_mc_isSub(hContact))
 		hMeta = db_mc_getMeta(hContact);
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if(strcmp(sicd->szModule, szGPGModuleName)) 
+	if(mir_strcmp(sicd->szModule, szGPGModuleName)) 
 		return 0; // not our event
 	
 	BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);

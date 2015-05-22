@@ -252,7 +252,7 @@ void WINAPI SynchroMessagesFcn(HACCOUNT Account,HYAMNMAIL *OldQueue,HYAMNMAIL *R
 			if (Parser->ID==NULL)						//simply ignore the message, that has not filled its ID
 				continue;
 
-			if (0==strcmp(Parser->ID,Finder->ID))		//search for equal message in new queue
+			if (0==mir_strcmp(Parser->ID,Finder->ID))		//search for equal message in new queue
 				break;
 		}
 		if (Parser != NULL)								//found equal message in new queue

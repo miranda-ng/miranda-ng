@@ -105,7 +105,7 @@ PRESETITEM *GetPresetItemByName(char *szName)
 {
 	for (int i = 0; presetItems[i].szID; i++)
 	{
-		if (strcmp(presetItems[i].szID, szName) == 0)
+		if (mir_strcmp(presetItems[i].szID, szName) == 0)
 			return &presetItems[i];
 	}
 
@@ -117,7 +117,7 @@ PRESETSUBST *GetPresetSubstByName(char *szName)
 	if (!szName) return NULL;
 	for (int i = 0; presetSubsts[i].szID; i++)
 	{
-		if (strcmp(presetSubsts[i].szID, szName) == 0)
+		if (mir_strcmp(presetSubsts[i].szID, szName) == 0)
 			return &presetSubsts[i];
 	}
 

@@ -369,13 +369,13 @@ static int contactSettingChanged(WPARAM hContact, LPARAM lParam)
 			continue;
 
 		char *uid = (char*)CallProtoService(szProto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
-		if (((!strcmp(dbw->szSetting, "Nick")) && (cce[i].flags & CI_NICK)) ||
-			 ((!strcmp(dbw->szSetting, "FirstName")) && (cce[i].flags & CI_FIRSTNAME)) ||
-			 ((!strcmp(dbw->szSetting, "LastName")) && (cce[i].flags & CI_LASTNAME)) ||
-			 ((!strcmp(dbw->szSetting, "e-mail")) && (cce[i].flags & CI_EMAIL)) ||
-			 ((!strcmp(dbw->szSetting, "MyHandle")) && (cce[i].flags & CI_LISTNAME)) ||
+		if (((!mir_strcmp(dbw->szSetting, "Nick")) && (cce[i].flags & CI_NICK)) ||
+			 ((!mir_strcmp(dbw->szSetting, "FirstName")) && (cce[i].flags & CI_FIRSTNAME)) ||
+			 ((!mir_strcmp(dbw->szSetting, "LastName")) && (cce[i].flags & CI_LASTNAME)) ||
+			 ((!mir_strcmp(dbw->szSetting, "e-mail")) && (cce[i].flags & CI_EMAIL)) ||
+			 ((!mir_strcmp(dbw->szSetting, "MyHandle")) && (cce[i].flags & CI_LISTNAME)) ||
 			 (cce[i].flags & CI_CNFINFO) != 0 || // lazy; always invalidate CNF info cache entries
-			 (( ((INT_PTR)uid != CALLSERVICE_NOTFOUND) && (uid != NULL)) && (!strcmp(dbw->szSetting, uid)) && (cce[i].flags & CI_UNIQUEID)))
+			 (( ((INT_PTR)uid != CALLSERVICE_NOTFOUND) && (uid != NULL)) && (!mir_strcmp(dbw->szSetting, uid)) && (cce[i].flags & CI_UNIQUEID)))
 		{
 			/* remove from cache */
 			mir_free(cce[i].tszContact);

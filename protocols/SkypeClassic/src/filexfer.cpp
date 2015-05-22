@@ -215,10 +215,10 @@ BOOL FXHandleRecv(PROTORECVEVENT *pre, MCONTACT hContact)
 	for (char *pszMsgNum = strtok(pszXferIDs, ", "); pszMsgNum; pszMsgNum = strtok(NULL, ", ")) {
 		char *pszStatus = SkypeGetErrID("FILETRANSFER", pszMsgNum, "STATUS");
 		if (pszStatus) {
-			if (!strcmp(pszStatus, "NEW") || !strcmp(pszStatus, "PLACEHOLDER")) {
+			if (!mir_strcmp(pszStatus, "NEW") || !mir_strcmp(pszStatus, "PLACEHOLDER")) {
 				char *pszType = SkypeGetErr("FILETRANSFER", pszMsgNum, "TYPE");
 				if (pszType) {
-					if (!strcmp(pszType, "INCOMING")) {
+					if (!mir_strcmp(pszType, "INCOMING")) {
 						char *pszFN = SkypeGetErr("FILETRANSFER", pszMsgNum, "FILENAME");
 						if (pszFN) {
 							cbNewSize = cbMsg + mir_strlen(pszFN) + 2;
@@ -284,15 +284,15 @@ void FXHandleMessageThread(ft_args *pargs)
 	}
 
 	if (pargs->bStatus) {
-		if (!strcmp(pargs->szArg, "CONNECTING"))
+		if (!mir_strcmp(pargs->szArg, "CONNECTING"))
 			ProtoBroadcastAck(SKYPE_PROTONAME, hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)dwChat, 0);
 		else if (!strncmp(pargs->szArg, "TRANSFERRING", 12))
 			ProtoBroadcastAck(SKYPE_PROTONAME, hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dwChat, 0);
-		else if (!strcmp(pargs->szArg, "FAILED"))
+		else if (!mir_strcmp(pargs->szArg, "FAILED"))
 			ProtoBroadcastAck(SKYPE_PROTONAME, hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)dwChat, 0);
-		else if (!strcmp(pargs->szArg, "CANCELLED"))
+		else if (!mir_strcmp(pargs->szArg, "CANCELLED"))
 			ProtoBroadcastAck(SKYPE_PROTONAME, hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)dwChat, 0);
-		else if (!strcmp(pargs->szArg, "COMPLETED")) {
+		else if (!mir_strcmp(pargs->szArg, "COMPLETED")) {
 			// Check if all transfers from this message are completed.
 			char *pszMsgNum, *pszStatus;
 			BOOL bAllComplete = TRUE;
@@ -300,7 +300,7 @@ void FXHandleMessageThread(ft_args *pargs)
 			if (pszXferIDs) {
 				for (pszMsgNum = strtok(pszXferIDs, ", "); pszMsgNum; pszMsgNum = strtok(NULL, ", ")) {
 					if (pszStatus = SkypeGetErrID("FILETRANSFER", pszMsgNum, "STATUS")) {
-						if (strcmp(pszStatus, "COMPLETED")) bAllComplete = FALSE;
+						if (mir_strcmp(pszStatus, "COMPLETED")) bAllComplete = FALSE;
 						free(pszStatus);
 						if (!bAllComplete) break;
 					}
@@ -324,7 +324,7 @@ void FXHandleMessageThread(ft_args *pargs)
 		if (pszXferIDs) {
 			for (pszMsgNum = strtok(pszXferIDs, ", "), i = 0; pszMsgNum; pszMsgNum = strtok(NULL, ", "), i++) {
 				DWORD dwTransferred;
-				BOOL bIsCurFil = strcmp(pargs->szNum, pszMsgNum) == 0;
+				BOOL bIsCurFil = mir_strcmp(pargs->szNum, pszMsgNum) == 0;
 
 				if (bIsCurFil)
 					pfts.currentFileNumber = i;

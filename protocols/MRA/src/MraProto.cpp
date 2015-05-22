@@ -166,7 +166,7 @@ MCONTACT CMraProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) != -1) {
 		dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
 		if (db_event_get(hDbEvent, &dbei) == 0 &&
-			 !strcmp(dbei.szModule, m_szModuleName) &&
+			 !mir_strcmp(dbei.szModule, m_szModuleName) &&
 			 (dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_CONTACTS))
 		{
 			char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
@@ -192,7 +192,7 @@ int CMraProto::Authorize(MEVENT hDBEvent)
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
 	if (db_event_get(hDBEvent, &dbei))           return 1;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return 1;
-	if (strcmp(dbei.szModule, m_szModuleName))   return 1;
+	if (mir_strcmp(dbei.szModule, m_szModuleName))   return 1;
 
 	LPSTR lpszNick = (LPSTR)(dbei.pBlob + sizeof(DWORD) * 2);
 	LPSTR lpszFirstName = lpszNick + mir_strlen(lpszNick) + 1;
@@ -212,7 +212,7 @@ int CMraProto::AuthDeny(MEVENT hDBEvent, const TCHAR* szReason)
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
 	if (db_event_get(hDBEvent, &dbei))           return 1;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return 1;
-	if (strcmp(dbei.szModule, m_szModuleName))   return 1;
+	if (mir_strcmp(dbei.szModule, m_szModuleName))   return 1;
 
 	LPSTR lpszNick = (LPSTR)(dbei.pBlob + sizeof(DWORD) * 2);
 	LPSTR lpszFirstName = lpszNick + mir_strlen(lpszNick) + 1;

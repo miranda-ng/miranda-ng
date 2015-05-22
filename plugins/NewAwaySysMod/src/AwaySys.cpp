@@ -122,7 +122,7 @@ int StatusMsgReq(WPARAM wParam, LPARAM lParam, CString &szProto)
 		if (db_get_dw(hContact, szCurProto, "UIN", 0) == lParam) {
 			szFoundProto = szCurProto;
 			hFoundContact = hContact;
-			if (!strcmp(szCurProto, szProto))
+			if (!mir_strcmp(szCurProto, szProto))
 				break;
 		}
 	}
@@ -353,7 +353,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 static int DBSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (hContact != NULL && !strcmp(cws->szSetting, "Status"))
+	if (hContact != NULL && !mir_strcmp(cws->szSetting, "Status"))
 		db_set_w(hContact, "UserOnline", "OldStatus", cws->value.wVal);
 	
 	return 0;

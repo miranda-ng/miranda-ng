@@ -34,7 +34,7 @@ INT_PTR NudgeShowMenu(WPARAM wParam, LPARAM lParam)
 	bool bEnabled = false;
 	for (int i = 0; i < arNudges.getCount(); i++) {
 		CNudgeElement &p = arNudges[i];
-		if (!strcmp((char*)wParam, p.ProtocolName)) {
+		if (!mir_strcmp((char*)wParam, p.ProtocolName)) {
 			bEnabled = (GlobalNudge.useByProtocol) ? p.enabled : DefaultNudge.enabled;
 			break;
 		}
@@ -54,7 +54,7 @@ INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 		if (GlobalNudge.useByProtocol) {
 			for (int i = 0; i < arNudges.getCount(); i++) {
 				CNudgeElement &p = arNudges[i];
-				if (!strcmp(protoName, p.ProtocolName))
+				if (!mir_strcmp(protoName, p.ProtocolName))
 					Nudge_ShowPopup(&p, hContact, msg);
 			}
 		}
@@ -68,7 +68,7 @@ INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 	if (GlobalNudge.useByProtocol) {
 		for (int i = 0; i < arNudges.getCount(); i++) {
 			CNudgeElement &p = arNudges[i];
-			if (!strcmp(protoName, p.ProtocolName))
+			if (!mir_strcmp(protoName, p.ProtocolName))
 				if (p.showStatus)
 					Nudge_SentStatus(&p, hContact);
 		}
@@ -105,7 +105,7 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 	if (GlobalNudge.useByProtocol) {
 		for (int i = 0; i < arNudges.getCount(); i++) {
 			CNudgeElement &p = arNudges[i];
-			if (!strcmp(protoName, p.ProtocolName)) {
+			if (!mir_strcmp(protoName, p.ProtocolName)) {
 
 				if (p.enabled) {
 					if (p.useIgnoreSettings && CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE))
@@ -240,7 +240,7 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
 
-	if (!strcmp(cbcd->pszModule, "Nudge"))
+	if (!mir_strcmp(cbcd->pszModule, "Nudge"))
 		NudgeSend(wParam, 0);
 
 	return 0;

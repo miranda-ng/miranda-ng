@@ -415,7 +415,7 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam)
 		hwnd = SM_FindWindowByContact(wParam);
 
 	if (hwnd != NULL) {
-		if (!strcmp(SRMMMOD, sicd->szModule)) {
+		if (!mir_strcmp(SRMMMOD, sicd->szModule)) {
 			if (sicd->dwId == 0 && g_dat.hMenuANSIEncoding) {
 				if (sicd->flags & MBCF_RIGHTBUTTON) {
 					int codePage = (int) SendMessage(hwnd, DM_GETCODEPAGE, 0, 0);

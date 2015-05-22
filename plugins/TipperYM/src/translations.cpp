@@ -206,7 +206,7 @@ TCHAR *WordToCountry(MCONTACT hContact, const char *szModuleName, const char *sz
 	WORD cid = (WORD)db_get_w(hContact, szModuleName, szSettingName, (WORD)-1);
 	if (cid != (WORD)-1 && ServiceExists(MS_UTILS_GETCOUNTRYBYNUMBER) && (szCountryName = (char *)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, cid, 0)) != 0)
 	{
-		if (strcmp(szCountryName, "Unknown") == 0)
+		if (mir_strcmp(szCountryName, "Unknown") == 0)
 			return 0;
 		a2t(szCountryName, buff, bufflen);
 		buff[bufflen - 1] = 0;

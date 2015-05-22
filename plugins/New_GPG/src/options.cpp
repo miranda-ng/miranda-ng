@@ -217,7 +217,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			  for(MCONTACT hcnttmp = db_find_first(); hcnttmp != NULL; hcnttmp = db_find_next(hcnttmp)) {
 				  if(hcnttmp != hContact) {
 					  char *tmp2 = UniGetContactSettingUtf(hcnttmp, szGPGModuleName, "KeyID", "");
-					  if(!strcmp(tmp, tmp2)) {
+					  if(!mir_strcmp(tmp, tmp2)) {
 						  mir_free(tmp2);
 						  keep = true;
 						  break;

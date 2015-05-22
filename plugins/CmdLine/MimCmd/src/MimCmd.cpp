@@ -77,7 +77,7 @@ void ShowVersion()
 int main(int argc, char *argv[])
 {
 	int error = 0;
-	if ((argc == 2) && (strcmp(argv[1], "-v") == 0))
+	if ((argc == 2) && (mir_strcmp(argv[1], "-v") == 0))
 	{
 		ShowVersion();
 

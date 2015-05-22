@@ -161,7 +161,7 @@ MCONTACT __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, MEV
 		return 0;
 	}
 
-	if ( strcmp(dbei.szModule, m_szModuleName)) {
+	if ( mir_strcmp(dbei.szModule, m_szModuleName)) {
 		debugLogA("[YahooAddToListByEvent] ERROR: Not Yahoo protocol.");
 		return 0;
 	}
@@ -197,7 +197,7 @@ int CYahooProto::Authorize(MEVENT hdbe)
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return 1;
 
-	if ( strcmp(dbei.szModule, m_szModuleName))
+	if ( mir_strcmp(dbei.szModule, m_szModuleName))
 		return 1;
 
 	/* Need to remove the buddy from our Miranda Lists */
@@ -240,7 +240,7 @@ int CYahooProto::AuthDeny(MEVENT hdbe, const TCHAR *reason)
 		return 1;
 	}
 
-	if (strcmp( dbei.szModule, m_szModuleName)) {
+	if (mir_strcmp( dbei.szModule, m_szModuleName)) {
 		debugLogA("YahooAuthDeny - wrong module?");
 		return 1;
 	}
@@ -610,7 +610,7 @@ int __cdecl CYahooProto::UserIsTyping(MCONTACT hContact, int type)
 		return 0;
 
 	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL || strcmp(szProto, m_szModuleName))
+	if (szProto == NULL || mir_strcmp(szProto, m_szModuleName))
 		return 0;
 
 	DBVARIANT dbv;

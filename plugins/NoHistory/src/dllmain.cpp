@@ -211,7 +211,7 @@ int IconPressed(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (sicd->flags & MBCF_RIGHTBUTTON) return 0; // ignore right-clicks
-	if (strcmp(sicd->szModule, MODULE) != 0) return 0; // not our event
+	if (mir_strcmp(sicd->szModule, MODULE) != 0) return 0; // not our event
 
 	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);

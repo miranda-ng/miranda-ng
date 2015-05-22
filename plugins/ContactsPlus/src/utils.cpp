@@ -36,7 +36,7 @@ int __fastcall strcmpnull(const char *str1, const char *str2)
 {
 	if (!str1 || !str2) return 1;
 
-	return strcmp(str1, str2);
+	return mir_strcmp(str1, str2);
 }
 
 void __fastcall strcpynull(char *str1, const char *str2)

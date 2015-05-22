@@ -1495,7 +1495,7 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 				s = (dbv1.type == DBVT_ASCIIZ);
 				d = (dbv2.type == DBVT_ASCIIZ);
 				if (s && d) {
-					s = strcmp(dbv1.pszVal, dbv2.pszVal);
+					s = mir_strcmp(dbv1.pszVal, dbv2.pszVal);
 					d = 0;
 				}
 				db_free(&dbv1);
@@ -1512,7 +1512,7 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 			if(!db_get_s(p2->hContact, MODULENAME, "gpg", &dbv2)) {
 				d = (dbv2.type == DBVT_ASCIIZ);
 				if (s && d) {
-					s = strcmp(dbv1.pszVal, dbv2.pszVal);
+					s = mir_strcmp(dbv1.pszVal, dbv2.pszVal);
 					d = 0;
 				}
 				db_free(&dbv1);

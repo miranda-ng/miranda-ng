@@ -304,7 +304,7 @@ int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
 		char szAvatarHashdOld[41] = "";
 		db_get_static(NULL, m_szModuleName, "AvatarHash", szAvatarHashdOld, sizeof(szAvatarHashdOld));
 		char *szAvatarHash = arrayToHex(sha1d, sizeof(sha1d));
-		if (strcmp(szAvatarHashdOld, szAvatarHash)) {
+		if (mir_strcmp(szAvatarHashdOld, szAvatarHash)) {
 			setString("PictObject", szEncodedBuffer);
 			setString("AvatarHash", szAvatarHash);
 		}
@@ -690,7 +690,7 @@ void CMsnProto::MSN_SendStatusMessage(const char* msg)
 	}
 	mir_free(msgEnc);
 
-	if (msnPreviousUUX == NULL || strcmp(msnPreviousUUX, szMsg)) {
+	if (msnPreviousUUX == NULL || mir_strcmp(msnPreviousUUX, szMsg)) {
 		replaceStr(msnPreviousUUX, szMsg);
 		msnNsThread->sendPacket("UUX", "%d\r\n%s", sz, szMsg);
 		mStatusMsgTS = clock();
@@ -1336,7 +1336,7 @@ char* TWinErrorCode::getText()
 bool CMsnProto::MSN_IsMyContact(MCONTACT hContact)
 {
 	const char* szProto = GetContactProto(hContact);
-	return szProto != NULL && strcmp(m_szModuleName, szProto) == 0;
+	return szProto != NULL && mir_strcmp(m_szModuleName, szProto) == 0;
 }
 
 bool CMsnProto::MSN_IsMeByContact(MCONTACT hContact, char* szEmail)

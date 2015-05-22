@@ -196,9 +196,9 @@ int CMraProto::MraDbSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	// это наш контакт, он не временный (есть в списке на сервере) и его обновление разрешено
 	if (IsContactMra(hContact) && !db_get_b(hContact, "CList", "NotOnList", 0) && getDword(hContact, "HooksLocked", FALSE) == FALSE) {
-		if (!strcmp(cws->szModule, "CList")) {
+		if (!mir_strcmp(cws->szModule, "CList")) {
 			// MyHandle setting
-			if (!strcmp(cws->szSetting, "MyHandle")) {
+			if (!mir_strcmp(cws->szSetting, "MyHandle")) {
 				// always store custom nick
 				CMStringW wszNick;
 				if (cws->value.type == DBVT_DELETED) {
@@ -222,7 +222,7 @@ int CMraProto::MraDbSettingChanged(WPARAM hContact, LPARAM lParam)
 				}
 			}
 			// Group setting
-			else if (!strcmp(cws->szSetting, "Group")) {
+			else if (!mir_strcmp(cws->szSetting, "Group")) {
 				CMStringW wszGroup;
 				// manage group on server
 				switch (cws->value.type) {
@@ -243,7 +243,7 @@ int CMraProto::MraDbSettingChanged(WPARAM hContact, LPARAM lParam)
 				}
 			}
 			// NotOnList setting. Has a temporary contact just been added permanently?
-			else if (!strcmp(cws->szSetting, "NotOnList")) {
+			else if (!mir_strcmp(cws->szSetting, "NotOnList")) {
 				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0)) {
 					CMStringW wszAuthMessage;
 					if (!mraGetStringW(NULL, "AuthMessage", wszAuthMessage))
@@ -259,7 +259,7 @@ int CMraProto::MraDbSettingChanged(WPARAM hContact, LPARAM lParam)
 				}
 			}
 			// Hidden setting
-			else if (!strcmp(cws->szSetting, "Hidden")) {
+			else if (!mir_strcmp(cws->szSetting, "Hidden")) {
 				DWORD dwContactFlag = GetContactFlags(hContact);
 				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
 					dwContactFlag &= ~CONTACT_FLAG_SHADOW;
@@ -270,8 +270,8 @@ int CMraProto::MraDbSettingChanged(WPARAM hContact, LPARAM lParam)
 			}
 		}
 		// Ignore section
-		else if (!strcmp(cws->szModule, "Ignore")) {
-			if (!strcmp(cws->szSetting, "Mask1")) {
+		else if (!mir_strcmp(cws->szModule, "Ignore")) {
+			if (!mir_strcmp(cws->szSetting, "Mask1")) {
 				DWORD dwContactFlag = GetContactFlags(hContact);
 				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_DWORD && cws->value.dVal&IGNOREEVENT_MESSAGE) == 0)
 					dwContactFlag &= ~CONTACT_FLAG_IGNORE;
@@ -282,8 +282,8 @@ int CMraProto::MraDbSettingChanged(WPARAM hContact, LPARAM lParam)
 			}
 		}
 		// User info section
-		else if (!strcmp(cws->szModule, "UserInfo")) {
-			if (!strcmp(cws->szSetting, "MyPhone0") || !strcmp(cws->szSetting, "MyPhone1") || !strcmp(cws->szSetting, "MyPhone2"))
+		else if (!mir_strcmp(cws->szModule, "UserInfo")) {
+			if (!mir_strcmp(cws->szSetting, "MyPhone0") || !mir_strcmp(cws->szSetting, "MyPhone1") || !mir_strcmp(cws->szSetting, "MyPhone2"))
 				MraModifyContact(hContact);
 		}
 	}

@@ -35,7 +35,7 @@ OBJLIST<SERVER_INFO> g_servers( 20, CompareServers );
 
 static int sttCompareProtocols(const CIrcProto *p1, const CIrcProto *p2)
 {
-	return strcmp(p1->m_szModuleName, p2->m_szModuleName);
+	return mir_strcmp(p1->m_szModuleName, p2->m_szModuleName);
 }
 
 LIST<CIrcProto> g_Instances(1, sttCompareProtocols);

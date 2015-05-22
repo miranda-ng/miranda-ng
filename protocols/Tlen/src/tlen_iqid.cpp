@@ -35,7 +35,7 @@ void TlenIqResultAuth(TlenProtocol *proto, XmlNode *iqNode)
 	if (type == NULL)
 		return;
 
-	if (!strcmp(type, "result")) {
+	if (!mir_strcmp(type, "result")) {
 		DBVARIANT dbv;
 
 		if (db_get(NULL, proto->m_szModuleName, "Nick", &dbv))
@@ -50,7 +50,7 @@ void TlenIqResultAuth(TlenProtocol *proto, XmlNode *iqNode)
 		TlenSend(proto, "<iq to='tcfg' type='get' id='TcfgGetAfterLoggedIn'></iq>");
 	}
 	// What to do if password error? etc...
-	else if (!strcmp(type, "error")) {
+	else if (!mir_strcmp(type, "error")) {
 		char text[128];
 
 		TlenSend(proto, "</s>");
@@ -69,13 +69,13 @@ void TlenResultSetRoster(TlenProtocol *proto, XmlNode *queryNode) {
 
 	for (int i=0; i<queryNode->numChild; i++) {
 		XmlNode *itemNode = queryNode->child[i];
-		if (!strcmp(itemNode->name, "item")) {
+		if (!mir_strcmp(itemNode->name, "item")) {
 			char *jid=TlenXmlGetAttrValue(itemNode, "jid");
 			if (jid != NULL) {
 				char *str = TlenXmlGetAttrValue(itemNode, "subscription");
 				if (str == NULL)
 					continue;
-				else if (!strcmp(str, "remove")) {
+				else if (!mir_strcmp(str, "remove")) {
 					if ((hContact = TlenHContactFromJID(proto, jid)) != NULL) {
 						if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 							db_set_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
@@ -84,11 +84,11 @@ void TlenResultSetRoster(TlenProtocol *proto, XmlNode *queryNode) {
 				} else {
 					TLEN_LIST_ITEM *item = TlenListAdd(proto, LIST_ROSTER, jid);
 					if (item != NULL) {
-						if (!strcmp(str, "both"))
+						if (!mir_strcmp(str, "both"))
 							item->subscription = SUB_BOTH;
-						else if (!strcmp(str, "to"))
+						else if (!mir_strcmp(str, "to"))
 							item->subscription = SUB_TO;
-						else if (!strcmp(str, "from"))
+						else if (!mir_strcmp(str, "from"))
 							item->subscription = SUB_FROM;
 						else
 							item->subscription = SUB_NONE;
@@ -113,7 +113,7 @@ void TlenResultSetRoster(TlenProtocol *proto, XmlNode *queryNode) {
 								Clist_CreateGroup(0, _A2T(item->group));
 								// Don't set group again if already correct, or Miranda may show wrong group count in some case
 								if (!db_get(hContact, "CList", "Group", &dbv)) {
-									if (strcmp(dbv.pszVal, item->group))
+									if (mir_strcmp(dbv.pszVal, item->group))
 										db_set_s(hContact, "CList", "Group", item->group);
 									db_free(&dbv);
 								} else
@@ -139,9 +139,9 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 	XmlNode *queryNode=TlenXmlGetChild(iqNode, "query");
 	if (queryNode == NULL) return;
 
-	if (!strcmp(type, "result")) {
+	if (!mir_strcmp(type, "result")) {
 		char *str = TlenXmlGetAttrValue(queryNode, "xmlns");
-		if (str != NULL && !strcmp(str, "jabber:iq:roster")) {
+		if (str != NULL && !mir_strcmp(str, "jabber:iq:roster")) {
 			DBVARIANT dbv;
 			XmlNode *itemNode, *groupNode;
 			TLEN_SUBSCRIPTION sub;
@@ -151,14 +151,14 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 
 			for (i=0; i<queryNode->numChild; i++) {
 				itemNode = queryNode->child[i];
-				if (!strcmp(itemNode->name, "item")) {
+				if (!mir_strcmp(itemNode->name, "item")) {
 					str = TlenXmlGetAttrValue(itemNode, "subscription");
 					if (str == NULL) sub = SUB_NONE;
-					else if (!strcmp(str, "both")) sub = SUB_BOTH;
-					else if (!strcmp(str, "to")) sub = SUB_TO;
-					else if (!strcmp(str, "from")) sub = SUB_FROM;
+					else if (!mir_strcmp(str, "both")) sub = SUB_BOTH;
+					else if (!mir_strcmp(str, "to")) sub = SUB_TO;
+					else if (!mir_strcmp(str, "from")) sub = SUB_FROM;
 					else sub = SUB_NONE;
-					//if (str != NULL && (!strcmp(str, "to") || !strcmp(str, "both"))) {
+					//if (str != NULL && (!mir_strcmp(str, "to") || !mir_strcmp(str, "both"))) {
 					if ((jid=TlenXmlGetAttrValue(itemNode, "jid")) != NULL) {
 						if ((name=TlenXmlGetAttrValue(itemNode, "name")) != NULL)
 							nick = TlenTextDecode(name);
@@ -183,7 +183,7 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 								Clist_CreateGroup(0, _A2T(item->group));
 								// Don't set group again if already correct, or Miranda may show wrong group count in some case
 								if (!db_get(hContact, "CList", "Group", &dbv)) {
-									if (strcmp(dbv.pszVal, item->group))
+									if (mir_strcmp(dbv.pszVal, item->group))
 										db_set_s(hContact, "CList", "Group", item->group);
 									db_free(&dbv);
 								}
@@ -247,7 +247,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 	char *type=TlenXmlGetAttrValue(iqNode, "type");
 	if (type == NULL) return;
 
-	if (!strcmp(type, "result")) {
+	if (!mir_strcmp(type, "result")) {
 		DBVARIANT dbv;
 
 		XmlNode *queryNode=TlenXmlGetChild(iqNode, "query");
@@ -265,7 +265,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 			db_free(&dbv);
 			if ((hContact=TlenHContactFromJID(proto, text)) == NULL) {
 				if (db_get(NULL, proto->m_szModuleName, "LoginName", &dbv)) return;
-				if (strcmp(dbv.pszVal, jid)) {
+				if (mir_strcmp(dbv.pszVal, jid)) {
 					db_free(&dbv);
 					return;
 				}
@@ -279,7 +279,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 		for (int i=0; i<itemNode->numChild; i++) {
 			XmlNode *n = itemNode->child[i];
 			if (n == NULL || n->name == NULL) continue;
-			if (!strcmp(n->name, "first")) {
+			if (!mir_strcmp(n->name, "first")) {
 				if (n->text != NULL) {
 					hasFirst = true;
 					nText = TlenTextDecode(n->text);
@@ -287,7 +287,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 					mir_free(nText);
 				}
 			}
-			else if (!strcmp(n->name, "last")) {
+			else if (!mir_strcmp(n->name, "last")) {
 				if (n->text != NULL) {
 					hasLast = true;
 					nText = TlenTextDecode(n->text);
@@ -295,7 +295,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 					mir_free(nText);
 				}
 			}
-			else if (!strcmp(n->name, "nick")) {
+			else if (!mir_strcmp(n->name, "nick")) {
 				if (n->text != NULL) {
 					hasNick = true;
 					nText = TlenTextDecode(n->text);
@@ -303,7 +303,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 					mir_free(nText);
 				}
 			}
-			else if (!strcmp(n->name, "email")) {
+			else if (!mir_strcmp(n->name, "email")) {
 				if (n->text != NULL) {
 					hasEmail = true;
 					nText = TlenTextDecode(n->text);
@@ -311,7 +311,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 					mir_free(nText);
 				}
 			}
-			else if (!strcmp(n->name, "c")) {
+			else if (!mir_strcmp(n->name, "c")) {
 				if (n->text != NULL) {
 					hasCity = true;
 					nText = TlenTextDecode(n->text);
@@ -319,20 +319,20 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 					mir_free(nText);
 				}
 			}
-			else if (!strcmp(n->name, "b")) {
+			else if (!mir_strcmp(n->name, "b")) {
 				if (n->text != NULL) {
 					WORD nAge = atoi(n->text);
 					hasAge = true;
 					db_set_w(hContact, proto->m_szModuleName, "Age", nAge);
 				}
 			}
-			else if (!strcmp(n->name, "s")) {
+			else if (!mir_strcmp(n->name, "s")) {
 				if (n->text != NULL && n->text[1] == '\0' && (n->text[0] == '1' || n->text[0] == '2')) {
 					hasGender = true;
 					db_set_b(hContact, proto->m_szModuleName, "Gender", (BYTE) (n->text[0] == '1'?'M':'F'));
 				}
 			}
-			else if (!strcmp(n->name, "e")) {
+			else if (!mir_strcmp(n->name, "e")) {
 				if (n->text != NULL) {
 					hasSchool = true;
 					nText = TlenTextDecode(n->text);
@@ -340,27 +340,27 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 					mir_free(nText);
 				}
 			}
-			else if (!strcmp(n->name, "j")) {
+			else if (!mir_strcmp(n->name, "j")) {
 				if (n->text != NULL) {
 					hasOccupation = true;
 					WORD nOccupation = atoi(n->text);
 					db_set_w(hContact, proto->m_szModuleName, "Occupation", nOccupation);
 				}
 			}
-			else if (!strcmp(n->name, "r")) {
+			else if (!mir_strcmp(n->name, "r")) {
 				if (n->text != NULL) {
 					WORD nLookFor = atoi(n->text);
 					hasLookFor = true;
 					db_set_w(hContact, proto->m_szModuleName, "LookingFor", nLookFor);
 				}
 			}
-			else if (!strcmp(n->name, "g")) { // voice chat enabled
+			else if (!mir_strcmp(n->name, "g")) { // voice chat enabled
 				if (n->text != NULL) {
 					BYTE bVoice = atoi(n->text);
 					db_set_w(hContact, proto->m_szModuleName, "VoiceChat", bVoice);
 				}
 			}
-			else if (!strcmp(n->name, "v")) { // status visibility
+			else if (!mir_strcmp(n->name, "v")) { // status visibility
 				if (n->text != NULL) {
 					BYTE bPublic = atoi(n->text);
 					db_set_w(hContact, proto->m_szModuleName, "PublicStatus", bPublic);
@@ -409,14 +409,14 @@ void TlenIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 		return;
 	int id = atoi(str+mir_strlen(TLEN_IQID));
 
-	if (!strcmp(type, "result")) {
+	if (!mir_strcmp(type, "result")) {
 		if ((queryNode=TlenXmlGetChild(iqNode, "query")) == NULL) return;
 		if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 			jsr.hdr.cbSize = sizeof(TLEN_SEARCH_RESULT);
 			jsr.hdr.flags = PSR_TCHAR;
 			for (i=0; i<queryNode->numChild; i++) {
 				itemNode = queryNode->child[i];
-				if (!strcmp(itemNode->name, "item")) {
+				if (!mir_strcmp(itemNode->name, "item")) {
 					if ((jid=TlenXmlGetAttrValue(itemNode, "jid")) != NULL) {
 						if (strchr(jid, '@') != NULL) {
 							strncpy_s(jsr.jid, jid, _TRUNCATE);
@@ -495,7 +495,7 @@ void TlenIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 		if (!found) {
 			ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) id, 0);
 		}
-	} else if (!strcmp(type, "error")) {
+	} else if (!mir_strcmp(type, "error")) {
 		// ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE) id, 0);
 		// There is no ACKRESULT_FAILED for ACKTYPE_SEARCH :) look at findadd.c
 		// So we will just send a SUCCESS
@@ -523,7 +523,7 @@ void TlenIqResultTcfg(TlenProtocol *proto, XmlNode *iqNode)
 
 	char *type=TlenXmlGetAttrValue(iqNode, "type");
 	if (type == NULL) return;
-	if (!strcmp(type, "result")) {
+	if (!mir_strcmp(type, "result")) {
 		if ((queryNode=TlenXmlGetChild(iqNode, "query")) == NULL) return;
 		if ((miniMailNode=TlenXmlGetChild(queryNode, "mini-mail")) == NULL) return;
 		if ((node=TlenXmlGetChild(miniMailNode, "base")) != NULL) {

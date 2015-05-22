@@ -762,15 +762,15 @@ static int GetIconPackVersion(HMODULE hDLL)
 
 	if (LoadStringA(hDLL, IDS_IDENTIFY, szIDString, sizeof(szIDString)) == 0)
 		version = 0;
-	else if (!strcmp(szIDString, "__tabSRMM_ICONPACK 1.0__"))
+	else if (!mir_strcmp(szIDString, "__tabSRMM_ICONPACK 1.0__"))
 		version = 1;
-	else if (!strcmp(szIDString, "__tabSRMM_ICONPACK 2.0__"))
+	else if (!mir_strcmp(szIDString, "__tabSRMM_ICONPACK 2.0__"))
 		version = 2;
-	else if (!strcmp(szIDString, "__tabSRMM_ICONPACK 3.0__"))
+	else if (!mir_strcmp(szIDString, "__tabSRMM_ICONPACK 3.0__"))
 		version = 3;
-	else if (!strcmp(szIDString, "__tabSRMM_ICONPACK 3.5__"))
+	else if (!mir_strcmp(szIDString, "__tabSRMM_ICONPACK 3.5__"))
 		version = 4;
-	else if (!strcmp(szIDString, "__tabSRMM_ICONPACK 5.0__"))
+	else if (!mir_strcmp(szIDString, "__tabSRMM_ICONPACK 5.0__"))
 		version = 5;
 
 	if (version < 5)

@@ -351,7 +351,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 			if ((!show_all && opts.hide_subcontacts) || opts.group_append)
 				hMeta = db_mc_getMeta(hContact);
 		}
-		else if (!strcmp(META_PROTO, pszProto))
+		else if (!mir_strcmp(META_PROTO, pszProto))
 			continue;
 
 		if (!show_all)

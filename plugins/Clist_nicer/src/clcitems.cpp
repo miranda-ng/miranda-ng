@@ -111,7 +111,7 @@ int AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
 	p->xStatus = cfg::getByte(hContact, p->proto, "XStatusId", 0);
 
 	if (p->proto)
-		p->bIsMeta = !strcmp(p->proto, META_PROTO);
+		p->bIsMeta = !mir_strcmp(p->proto, META_PROTO);
 	else
 		p->bIsMeta = FALSE;
 	if (p->bIsMeta && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {

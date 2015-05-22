@@ -85,7 +85,7 @@ static LIST<IconSourceItem> iconSourceList(20, sttCompareIconSourceItems);
 
 static int sttCompareIcons(const IcolibItem* p1, const IcolibItem* p2)
 {
-	return strcmp(p1->name, p2->name);
+	return mir_strcmp(p1->name, p2->name);
 }
 
 LIST<IcolibItem> iconList(20, sttCompareIcons);

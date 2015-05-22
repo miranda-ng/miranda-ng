@@ -40,7 +40,7 @@ TServiceListItem;
 
 static int CompareServiceItems(const TServiceListItem* p1, const TServiceListItem* p2)
 {
-	return strcmp(p1->name, p2->name);
+	return mir_strcmp(p1->name, p2->name);
 }
 
 static LIST<TServiceListItem> serviceItems(10, CompareServiceItems);
@@ -52,7 +52,7 @@ static int CompareProtos(const PROTOCOLDESCRIPTOR *p1, const PROTOCOLDESCRIPTOR 
 	if (p1->type != p2->type)
 		return p1->type - p2->type;
 
-	return strcmp(p1->szName, p2->szName);
+	return mir_strcmp(p1->szName, p2->szName);
 }
 
 LIST<PROTOCOLDESCRIPTOR> filters(10, CompareProtos);
@@ -513,7 +513,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 		}
 	}
 
-	if (!strcmp(szService, PS_ADDTOLIST)) {
+	if (!mir_strcmp(szService, PS_ADDTOLIST)) {
 		PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
 		if (!(psr->flags & PSR_UNICODE)) {
 			PROTOSEARCHRESULT *psra = (PROTOSEARCHRESULT*)mir_alloc(psr->cbSize);

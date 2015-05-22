@@ -81,7 +81,7 @@ static BOOL PollProtocolCanHaveAvatar(const char *szProto)
 {
 	int pCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 	int status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-	return (pCaps & PF4_AVATARS) && strcmp(META_PROTO, szProto) &&
+	return (pCaps & PF4_AVATARS) && mir_strcmp(META_PROTO, szProto) &&
 		((status > ID_STATUS_OFFLINE && status != ID_STATUS_INVISIBLE) || Proto_IsFetchingWhenProtoNotVisibleAllowed(szProto));
 }
 

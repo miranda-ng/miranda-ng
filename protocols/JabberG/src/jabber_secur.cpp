@@ -35,11 +35,11 @@ TNtlmAuth::TNtlmAuth(ThreadData *info, const char* mechanism, const TCHAR *hostn
 	szHostName = hostname;
 
 	const TCHAR *szProvider;
-	if (!strcmp(mechanism, "GSS-SPNEGO"))
+	if (!mir_strcmp(mechanism, "GSS-SPNEGO"))
 		szProvider = _T("Negotiate");
-	else if (!strcmp(mechanism, "GSSAPI"))
+	else if (!mir_strcmp(mechanism, "GSSAPI"))
 		szProvider = _T("GSSAPI");
-	else if (!strcmp(mechanism, "NTLM"))
+	else if (!mir_strcmp(mechanism, "NTLM"))
 		szProvider = _T("NTLM");
 	else {
 LBL_Invalid:
@@ -49,8 +49,8 @@ LBL_Invalid:
 	}
 
 	TCHAR szSpn[1024] = _T("");
-	if (strcmp(mechanism, "NTLM"))
-		if (!getSpn(szSpn, SIZEOF(szSpn)) && !strcmp(mechanism, "GSSAPI"))
+	if (mir_strcmp(mechanism, "NTLM"))
+		if (!getSpn(szSpn, SIZEOF(szSpn)) && !mir_strcmp(mechanism, "GSSAPI"))
 			goto LBL_Invalid;
 
 	if ((hProvider = Netlib_InitSecurityProvider2(szProvider, szSpn)) == NULL)

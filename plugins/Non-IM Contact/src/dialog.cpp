@@ -139,7 +139,7 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 					GetDlgItemTextA(hwnd, IDC_STRING, tmp, SIZEOF(tmp));
 					if (tmp[mir_strlen(tmp) - 1] == '(') {
 						for (i = 0; i < VARS; i++) {
-							if (!strcmp(braceList[i].var, &tmp[mir_strlen(tmp) - mir_strlen(braceList[i].var)])) {
+							if (!mir_strcmp(braceList[i].var, &tmp[mir_strlen(tmp) - mir_strlen(braceList[i].var)])) {
 								for (j = 0; j < MAX_BRACES; j++) {
 									if (!braceOrder[j]) {
 										braceOrder[j] = i;

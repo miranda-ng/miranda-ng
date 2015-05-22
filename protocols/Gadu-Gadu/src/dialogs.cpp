@@ -194,7 +194,7 @@ void GGPROTO::checknewuser(uin_t uin, const char* passwd)
 		db_free(&dbv);
 	}
 
-	if (uin > 0 && mir_strlen(passwd) > 0 && (uin != olduin || strcmp(oldpasswd, passwd)))
+	if (uin > 0 && mir_strlen(passwd) > 0 && (uin != olduin || mir_strcmp(oldpasswd, passwd)))
 		check_first_conn = 1;
 }
 
@@ -928,7 +928,7 @@ int GGPROTO::details_init(WPARAM wParam, LPARAM lParam)
 		char* szProto = GetContactProto(hContact);
 		if (szProto == NULL)
 			return 0;
-		if (strcmp(szProto, m_szModuleName) || isChatRoom(hContact))
+		if (mir_strcmp(szProto, m_szModuleName) || isChatRoom(hContact))
 			return 0;
 		pszTemplate = MAKEINTRESOURCEA(IDD_INFO_GG);
 	}

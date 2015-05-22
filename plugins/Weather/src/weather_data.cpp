@@ -448,7 +448,7 @@ void DBDataManage(MCONTACT hContact, WORD Mode, WPARAM wParam, LPARAM lParam)
 
 			case WDBM_DETAILDISPLAY:
 				// skip the "WeatherInfo" variable
-				if (!strcmp(szSetting, "WeatherInfo") || !strcmp(szSetting, "Ignore") || szSetting[0] == '#')
+				if (!mir_strcmp(szSetting, "WeatherInfo") || !mir_strcmp(szSetting, "Ignore") || szSetting[0] == '#')
 					continue;
 
 				HWND hList = GetDlgItem((HWND)wParam, IDC_DATALIST);

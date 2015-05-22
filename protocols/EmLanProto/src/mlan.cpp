@@ -289,7 +289,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 				}
 				else
 				{
-					if (pak.strName && strcmp(pak.strName, cont->m_nick) != 0)
+					if (pak.strName && mir_strcmp(pak.strName, cont->m_nick) != 0)
 					{
 						delete[] cont->m_nick;
 						int nlen = (int)mir_strlen(pak.strName);
@@ -520,7 +520,7 @@ void CMLan::SearchExt(TDataHolder* hold)
 	TContact* cont = m_pRootContact;
 	while (cont)
 	{
-		if (strcmp(hold->msg, cont->m_nick) == 0 || strcmp(hold->msg, "*") == 0)
+		if (mir_strcmp(hold->msg, cont->m_nick) == 0 || mir_strcmp(hold->msg, "*") == 0)
 		{
 			char buf[MAX_HOSTNAME_LEN];
 			mir_tstrcpy(buf, cont->m_nick);

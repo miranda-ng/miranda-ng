@@ -158,7 +158,7 @@ int __cdecl CYahooProto::OnSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if ( !strcmp(cws->szSetting, "ApparentMode")) {
+	if ( !mir_strcmp(cws->szSetting, "ApparentMode")) {
 		debugLogA("DB Setting changed.  YAHOO user's visible setting changed.");
 
 		DBVARIANT dbv;
@@ -177,7 +177,7 @@ bool CYahooProto::IsMyContact(MCONTACT hContact)
 		return false;
 
 	char* szProto = GetContactProto(hContact);
-	return szProto && !strcmp(szProto, m_szModuleName);
+	return szProto && !mir_strcmp(szProto, m_szModuleName);
 }
 
 extern PLUGININFOEX pluginInfo;

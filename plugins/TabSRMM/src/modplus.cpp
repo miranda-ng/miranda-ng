@@ -66,7 +66,7 @@ static int RegisterCustomButton(WPARAM, LPARAM)
 static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
-	if (strcmp(cbcd->pszModule, "Tabmodplus") || cbcd->dwButtonId != 1)
+	if (mir_strcmp(cbcd->pszModule, "Tabmodplus") || cbcd->dwButtonId != 1)
 		return 0;
 
 	BBButton bbd = { sizeof(bbd) };

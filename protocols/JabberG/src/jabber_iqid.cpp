@@ -193,7 +193,7 @@ void CJabberProto::OnLoggedIn()
 	QueryPrivacyLists(m_ThreadInfo);
 
 	ptrA szServerName(getStringA("LastLoggedServer"));
-	if (szServerName == NULL || strcmp(m_ThreadInfo->conn.server, szServerName))
+	if (szServerName == NULL || mir_strcmp(m_ThreadInfo->conn.server, szServerName))
 		SendGetVcard(m_szJabberJID);
 
 	setString("LastLoggedServer", m_ThreadInfo->conn.server);

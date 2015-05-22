@@ -117,9 +117,9 @@ int CAimProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 
-	if (strcmp(cws->szModule, MOD_KEY_CL) == 0 && state == 1 && hContact)
+	if (mir_strcmp(cws->szModule, MOD_KEY_CL) == 0 && state == 1 && hContact)
 	{
-		if (strcmp(cws->szSetting, AIM_KEY_NL) == 0)
+		if (mir_strcmp(cws->szSetting, AIM_KEY_NL) == 0)
 		{
 			if (cws->value.type == DBVT_DELETED)
 			{
@@ -133,7 +133,7 @@ int CAimProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 					add_contact_to_group(hContact, AIM_DEFAULT_GROUP);
 			}
 		}
-		else if (strcmp(cws->szSetting, "MyHandle") == 0)
+		else if (mir_strcmp(cws->szSetting, "MyHandle") == 0)
 		{
 			char* name;
 			switch (cws->value.type)

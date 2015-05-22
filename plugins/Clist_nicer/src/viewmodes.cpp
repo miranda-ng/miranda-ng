@@ -663,7 +663,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SSM", 246, szBuf);
 							db_unset(NULL, CLVM_MODULE, szSetting);
 							db_unset(NULL, CLVM_MODULE, szBuf);
-							if (!strcmp(cfg::dat.current_viewmode, szBuf) && mir_strlen(szBuf) == mir_strlen(cfg::dat.current_viewmode)) {
+							if (!mir_strcmp(cfg::dat.current_viewmode, szBuf) && mir_strlen(szBuf) == mir_strlen(cfg::dat.current_viewmode)) {
 								cfg::dat.bFilterEffective = 0;
 								pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 								SetWindowTextA(hwndSelector, Translate("No view mode"));

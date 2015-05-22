@@ -566,7 +566,7 @@ void DeleteFileOrFolder(const char *name)
 			}
 
 			do {
-				if (strcmp(findData.cFileName, ".") && strcmp(findData.cFileName, "..")) {
+				if (mir_strcmp(findData.cFileName, ".") && mir_strcmp(findData.cFileName, "..")) {
 					strcpy(strTmp, findData.cFileName);
 					DeleteFileOrFolder(tmp);
 				}
@@ -586,7 +586,7 @@ void DeleteFileOrFolder(const char *name)
 		HANDLE hwnd = FindFirstFileA(tmp, &findData);
 		if (hwnd != INVALID_HANDLE_VALUE) {
 			do {
-				if (strcmp(findData.cFileName, ".") && strcmp(findData.cFileName, "..")) {
+				if (mir_strcmp(findData.cFileName, ".") && mir_strcmp(findData.cFileName, "..")) {
 					mir_snprintf(tmp, SIZEOF(tmp), "%s\\%s", name, findData.cFileName);
 					DeleteFileOrFolder(tmp);
 				}
@@ -629,7 +629,7 @@ int EnumProc(const char *szName, LPARAM lParam)
 	if (dms->filter != NULL && dms->lenFilterMinusOne > 0) {
 		if (len >= dms->lenFilterMinusOne) {
 			if (dms->filter[0] == '*') {
-				if (strcmp(&dms->filter[1], &szName[len - dms->lenFilterMinusOne]) != 0)
+				if (mir_strcmp(&dms->filter[1], &szName[len - dms->lenFilterMinusOne]) != 0)
 					return 0;
 			}
 			else { // if (dms->filter[dms->lenFilterMinusOne] == '*')

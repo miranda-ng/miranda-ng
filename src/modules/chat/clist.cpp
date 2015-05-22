@@ -89,7 +89,7 @@ BOOL SetAllOffline(BOOL bHide, const char *pszModule)
 		char *szProto = GetContactProto(hContact);
 		if (!ci.MM_FindModule(szProto))
 			continue;
-		if (pszModule && strcmp(pszModule, szProto))
+		if (pszModule && mir_strcmp(pszModule, szProto))
 			continue;
 		int i = db_get_b(hContact, szProto, "ChatRoom", 0);
 		if (i != 0) {

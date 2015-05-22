@@ -67,7 +67,7 @@ struct StatusIconMain : public MZeroedObject
 
 static int CompareIcons(const StatusIconMain *p1, const StatusIconMain *p2)
 {
-	int res = strcmp(p1->sid.szModule, p2->sid.szModule);
+	int res = mir_strcmp(p1->sid.szModule, p2->sid.szModule);
 	if (res)
 		return res;
 	

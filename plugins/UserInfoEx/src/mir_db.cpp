@@ -732,7 +732,7 @@ int CEnumList::CompareProc(LPCSTR p1, LPCSTR p2)
 {
 	if (p1) {
 		if (p2)
-			return strcmp(p1, p2);
+			return mir_strcmp(p1, p2);
 
 		return 1;
 	}

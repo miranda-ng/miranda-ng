@@ -31,7 +31,7 @@ MCONTACT CToxProto::GetContactFromAuthEvent(MEVENT hEvent)
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return INVALID_CONTACT_ID;
 
-	if (strcmp(dbei.szModule, m_szModuleName) != 0)
+	if (mir_strcmp(dbei.szModule, m_szModuleName) != 0)
 		return INVALID_CONTACT_ID;
 
 	return DbGetAuthEventContact(&dbei);
@@ -402,7 +402,7 @@ int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 
 	MCONTACT hContact = lParam;
 	char *szProto = GetContactProto(hContact);
-	if (szProto != NULL && !strcmp(szProto, m_szModuleName))
+	if (szProto != NULL && !mir_strcmp(szProto, m_szModuleName))
 	{
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 		odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;

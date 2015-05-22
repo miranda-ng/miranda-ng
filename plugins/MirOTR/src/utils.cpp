@@ -11,9 +11,9 @@ MCONTACT find_contact(const char* userid, const char* protocol)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		const char *proto = GetContactProto(hContact);
-		if(proto && strcmp(proto, protocol) == 0) {
+		if(proto && mir_strcmp(proto, protocol) == 0) {
 			char *name = contact_get_id(hContact);
-			if(name && strcmp(name, userid) == 0) {
+			if(name && mir_strcmp(name, userid) == 0) {
 				mir_free(name);
 				return hContact;
 			}

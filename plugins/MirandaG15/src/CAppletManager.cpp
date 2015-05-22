@@ -1505,7 +1505,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 
-	if ((wParam == 0) || (strcmp(cws->szSetting,"Status") != NULL))
+	if ((wParam == 0) || (mir_strcmp(cws->szSetting,"Status") != NULL))
 		return 0;
 
 

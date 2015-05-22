@@ -418,7 +418,7 @@ void SetDBButtonStates(MCONTACT hPassedContact)
 			DBVARIANT dbv = {0};
 
 			if (!cfg::getString(hFinalContact, szModule, szSetting, &dbv)) {
-				result = !strcmp((char *)buttonItem->bValuePush, dbv.pszVal);
+				result = !mir_strcmp((char *)buttonItem->bValuePush, dbv.pszVal);
 				db_free(&dbv);
 			}
 		}

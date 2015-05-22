@@ -111,7 +111,7 @@ static INT_PTR icqAuthAllow(WPARAM wParam, LPARAM lParam)
     dbei.pBlob = (PBYTE)&uin;
     if (CallService(MS_DB_EVENT_GET, wParam, (LPARAM)&dbei)) return 1;
     if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return 1;
-    if (strcmp(dbei.szModule, ICQOSCPROTONAME)) return 1;
+    if (mir_strcmp(dbei.szModule, ICQOSCPROTONAME)) return 1;
     if (uin <= 1) return 1;
     icq_sendAuthGrantedServ(uin);
 */    

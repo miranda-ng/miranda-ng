@@ -1160,13 +1160,13 @@ BYTE CVCardFileVCF::Import()
 		}
 		switch (*szEnt) {
 			case 'A':
-				if (!strcmp(szEnt, "ABOUT")) {
+				if (!mir_strcmp(szEnt, "ABOUT")) {
 					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_ABOUT);
 					continue;
 				}
-				if (!strcmp(szEnt, "ADR")) {
+				if (!mir_strcmp(szEnt, "ADR")) {
 					if (!pszParam) continue;
-					if (!strcmp(pszParam, "HOME")) {
+					if (!mir_strcmp(pszParam, "HOME")) {
 						_clVal.GetTokenFirst(';', NULL);
 						_clVal.GetTokenNext(';', NULL);
 						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_STREET, ';');
@@ -1176,7 +1176,7 @@ BYTE CVCardFileVCF::Import()
 						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COUNTRY, ';');
 						continue;
 					}
-					if (!strcmp(pszParam, "WORK")) {
+					if (!mir_strcmp(pszParam, "WORK")) {
 						_clVal.GetTokenFirst(';', NULL);
 						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_OFFICE, ';');
 						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_STREET, ';');
@@ -1186,7 +1186,7 @@ BYTE CVCardFileVCF::Import()
 						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_COUNTRY, ';');
 						continue;
 					}
-					if (!strcmp(pszParam, "POSTAL")) {
+					if (!mir_strcmp(pszParam, "POSTAL")) {
 						_clVal.GetTokenFirst(';', NULL);
 						_clVal.GetTokenNext(';', NULL);
 						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_ORIGIN_STREET, ';');
@@ -1199,7 +1199,7 @@ BYTE CVCardFileVCF::Import()
 				continue;
 
 			case 'B':
-				if (!strcmp(szEnt, "BDAY")) {
+				if (!mir_strcmp(szEnt, "BDAY")) {
 					if (_clVal.GetLength() == 8) {
 						CHAR buf[5];
 
@@ -1217,7 +1217,7 @@ BYTE CVCardFileVCF::Import()
 				continue;
 
 			case 'E':
-				if (!strcmp(szEnt, "EMAIL")) {
+				if (!mir_strcmp(szEnt, "EMAIL")) {
 					if (!pszParam || !strstr(pszParam, "intERNET"))
 						continue;
 					if (strstr(pszParam, "PREF")) {
@@ -1236,7 +1236,7 @@ BYTE CVCardFileVCF::Import()
 				continue;
 			/*
 			case 'I':
-				if (!strcmp(szEnt, "IM")) {
+				if (!mir_strcmp(szEnt, "IM")) {
 					LPSTR	pszModule, pszSetting;
 
 					if (pszParam && (pszModule = strtok(pszParam, DELIM)) && (pszSetting = strtok(NULL, DELIM)))
@@ -1245,7 +1245,7 @@ BYTE CVCardFileVCF::Import()
 				continue;
 			*/
 			case 'N':
-				if (!strcmp(szEnt, "N")) {
+				if (!mir_strcmp(szEnt, "N")) {
 					_clVal.DBWriteTokenFirst(_hContact, USERINFO, SET_CONTACT_LASTNAME, ';');
 					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_FIRSTNAME, ';');
 					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_SECONDNAME, ';');
@@ -1253,58 +1253,58 @@ BYTE CVCardFileVCF::Import()
 					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_PREFIX, ';');
 					continue;
 				}
-				if (!strcmp(szEnt, "NICKNAME")) {
+				if (!mir_strcmp(szEnt, "NICKNAME")) {
 					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_NICK);
 					continue;
 				}
-				if (!strcmp(szEnt, "NOTE")) {
+				if (!mir_strcmp(szEnt, "NOTE")) {
 					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_MYNOTES);
 				}
 				continue;
 
 			case 'O':
-				if (!strcmp(szEnt, "ORG")) {
+				if (!mir_strcmp(szEnt, "ORG")) {
 					_clVal.DBWriteTokenFirst(_hContact, USERINFO, SET_CONTACT_COMPANY, ';');
 					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_DEPARTMENT, ';');
 				}
 				continue;
 
 			case 'R':
-				if (!strcmp(szEnt, "ROLE")) {
+				if (!mir_strcmp(szEnt, "ROLE")) {
 					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_OCCUPATION);
 				}
 				continue;
 
 			case 'T':
-				if (!strcmp(szEnt, "TITLE")) {
+				if (!mir_strcmp(szEnt, "TITLE")) {
 					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_POSITION);
 					continue;
 				}
-				if (!strcmp(szEnt, "TEL")) {
+				if (!mir_strcmp(szEnt, "TEL")) {
 
 					if (!pszParam) continue;
 					
-					if (!strcmp(pszParam, "HOME;VOICE")) {
+					if (!mir_strcmp(pszParam, "HOME;VOICE")) {
 						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_PHONE);
 						continue;
 					}
-					if (!strcmp(pszParam, "HOME;FAX")) {
+					if (!mir_strcmp(pszParam, "HOME;FAX")) {
 						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_FAX);
 						continue;
 					}
-					if (!strcmp(pszParam, "CELL;VOICE")) {
+					if (!mir_strcmp(pszParam, "CELL;VOICE")) {
 						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_CELLULAR);
 						continue;
 					}
-					if (!strcmp(pszParam, "WORK;VOICE")) {
+					if (!mir_strcmp(pszParam, "WORK;VOICE")) {
 						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_PHONE);
 						continue;
 					}
-					if (!strcmp(pszParam, "WORK;FAX")) {
+					if (!mir_strcmp(pszParam, "WORK;FAX")) {
 						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_FAX);
 						continue;
 					}
-					if (!strcmp(pszParam, "PAGER;VOICE")) {
+					if (!mir_strcmp(pszParam, "PAGER;VOICE")) {
 						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_CELLULAR);
 						continue;
 					}
@@ -1312,25 +1312,25 @@ BYTE CVCardFileVCF::Import()
 				continue;
 		
 			case 'U':
-				if (!strcmp(szEnt, "URL")) {
+				if (!mir_strcmp(szEnt, "URL")) {
 
 					if (!pszParam) continue;
 
-					if (!strcmp(pszParam, "HOME")) {
+					if (!mir_strcmp(pszParam, "HOME")) {
 						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_HOMEPAGE);
 						continue;
 					}
-					if (!strcmp(pszParam, "WORK")) {
+					if (!mir_strcmp(pszParam, "WORK")) {
 						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_HOMEPAGE);
 					}
 				}
 				continue;
 
 			case 'X':
-				if (!strcmp(szEnt, "X-WAB-GENDER")) {
-					if (!strcmp(_clVal.GetBuffer(), "1"))
+				if (!mir_strcmp(szEnt, "X-WAB-GENDER")) {
+					if (!mir_strcmp(_clVal.GetBuffer(), "1"))
 						db_set_b(_hContact, USERINFO, SET_CONTACT_GENDER, 'F');
-					else if (!strcmp(_clVal.GetBuffer(), "2"))
+					else if (!mir_strcmp(_clVal.GetBuffer(), "2"))
 						db_set_b(_hContact, USERINFO, SET_CONTACT_GENDER, 'M');
 				}
 				continue;

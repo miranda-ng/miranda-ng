@@ -37,7 +37,7 @@ int CDb3Mmap::CheckProto(DBCachedContact *cc, const char *proto)
 		cc->szProto = m_cache->GetCachedSetting(NULL, protobuf, 0, (int)mir_strlen(protobuf));
 	}
 
-	return !strcmp(cc->szProto, proto);
+	return !mir_strcmp(cc->szProto, proto);
 }
 
 STDMETHODIMP_(LONG) CDb3Mmap::GetContactCount(void)

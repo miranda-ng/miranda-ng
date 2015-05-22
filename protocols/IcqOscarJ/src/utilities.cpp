@@ -581,11 +581,11 @@ char* strUID(DWORD dwUIN, char *pszUID)
 }
 
 
-/* a strcmp() that likes NULL */
+/* a mir_strcmp() that likes NULL */
 int __fastcall strcmpnull(const char *str1, const char *str2)
 {
 	if (str1 && str2)
-		return strcmp(str1, str2);
+		return mir_strcmp(str1, str2);
 
 	if (!str1 && !str2)
 		return 0;

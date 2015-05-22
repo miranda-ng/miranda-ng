@@ -527,7 +527,7 @@ static int ProfileList_AddItemlistFromDB(
 						continue;
 					break;
 				case DBVT_ASCIIZ:
-					if (strcmp(dbvCat.pszVal, idList[j].pszText)) 
+					if (mir_strcmp(dbvCat.pszVal, idList[j].pszText)) 
 						continue;
 					break;
 				}

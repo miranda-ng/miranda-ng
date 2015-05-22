@@ -25,7 +25,7 @@ bool UpdateListFlag = FALSE;
 bool IsMyContact(MCONTACT hContact)
 {
 	const char *szProto = GetContactProto(hContact);
-	return szProto != NULL && strcmp(MODULE, szProto) == 0;
+	return szProto != NULL && mir_strcmp(MODULE, szProto) == 0;
 }
 
 void NetlibInit()

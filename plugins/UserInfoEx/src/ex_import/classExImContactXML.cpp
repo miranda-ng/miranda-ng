@@ -498,7 +498,7 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 	MIR_FREE(_pszUIDKey);
 
 	// is contact a metacontact
-	if (_pszAMPro && !strcmp(_pszAMPro, META_PROTO)) {
+	if (_pszAMPro && !mir_strcmp(_pszAMPro, META_PROTO)) {
 		TiXmlElement *xSub;
 		proto(META_PROTO);
 

@@ -322,7 +322,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 			PROTOACCOUNT **pppDesc;
 			ProtoEnumAccounts(&num_protocols, &pppDesc);
 			for (int i = 0; i < num_protocols; i++) {
-				if (!strcmp(pppDesc[i]->szModuleName, META_PROTO))
+				if (!mir_strcmp(pppDesc[i]->szModuleName, META_PROTO))
 					continue;
 				if ((CallProtoService(pppDesc[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) == 0)
 					continue;
@@ -504,7 +504,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				const char *proto = GetContactProto(hContact);
 				if (proto && db_get_b(hContact, proto, "ChatRoom", 0) == 0 && CallService(MS_PROTO_ISPROTOONCONTACT, hContact, (LPARAM)MODULENAME) // ignore chatrooms
-					&& strcmp(proto, META_PROTO) != 0) // and MetaContacts
+					&& mir_strcmp(proto, META_PROTO) != 0) // and MetaContacts
 				{
 					lvI.iItem = 0;
 					lvI.iSubItem = 0;

@@ -59,7 +59,7 @@ void TwitterProto::UpdateChat(const twitter_user &update)
 int TwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
-	if (strcmp(hook->pDest->pszModule, m_szModuleName))
+	if (mir_strcmp(hook->pDest->pszModule, m_szModuleName))
 		return 0;
 
 	switch (hook->pDest->iType) {

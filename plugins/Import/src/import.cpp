@@ -93,7 +93,7 @@ static bool CompareDb(DBVARIANT &dbv1, DBVARIANT &dbv2)
 
 		case DBVT_ASCIIZ:
 		case DBVT_UTF8:
-			return 0 == strcmp(dbv1.pszVal, dbv2.pszVal);
+			return 0 == mir_strcmp(dbv1.pszVal, dbv2.pszVal);
 		}
 	}
 	return false;
@@ -383,7 +383,7 @@ static bool FindDestAccount(const char *szProto)
 		if (pam.pa == NULL)
 			continue;
 
-		if (!strcmp(pam.pa->szModuleName, szProto))
+		if (!mir_strcmp(pam.pa->szModuleName, szProto))
 			return true;
 	}
 
@@ -929,7 +929,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 			if (hDst == NULL) {
 				bSkipAll = true;
 				for (int i = 0; i < protoCount; i++) {
-					if (!strcmp(dbei.szModule, protocol[i]->szModuleName)) {
+					if (!mir_strcmp(dbei.szModule, protocol[i]->szModuleName)) {
 						bSkipAll = false;
 						break;
 					}

@@ -156,7 +156,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 	SortedList* sl=NULL;
 	int state=0;
 
-	if(strcmp(cbcd->pszModule,PLGNAME)) return 0;
+	if(mir_strcmp(cbcd->pszModule,PLGNAME)) return 0;
 
 	if (!ButtonsList[cbcd->dwButtonId]) return 1;
 

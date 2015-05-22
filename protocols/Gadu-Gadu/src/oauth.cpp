@@ -46,8 +46,8 @@ typedef enum
 
 static int paramsortFunc(const OAUTHPARAMETER *p1, const OAUTHPARAMETER *p2)
 {
-	int res = strcmp(p1->name, p2->name);
-	return res != 0 ? res : strcmp(p1->value, p2->value);
+	int res = mir_strcmp(p1->name, p2->name);
+	return res != 0 ? res : mir_strcmp(p1->value, p2->value);
 }
 
 // see RFC 3986 for details
@@ -106,7 +106,7 @@ char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmet
 
 	for (i = 0; i < params.getCount(); i++) {
 		p = params[i];
-		if (!strcmp(p->name, "oauth_signature")) continue;
+		if (!mir_strcmp(p->name, "oauth_signature")) continue;
 		if (i > 0) size += 3;
 		size += (int)mir_strlen(p->name) + (int)mir_strlen(p->value) + 3;
 	}
@@ -120,7 +120,7 @@ char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmet
 
 	for (i = 0; i < params.getCount(); i++) {
 		p = params[i];
-		if (!strcmp(p->name, "oauth_signature")) continue;
+		if (!mir_strcmp(p->name, "oauth_signature")) continue;
 		if (i > 0) strcat(res, "%26");
 		strcat(res, p->name);
 		strcat(res, "%3D");
@@ -139,7 +139,7 @@ char *oauth_getparam(LIST<OAUTHPARAMETER> &params, const char *name)
 
 	for (i = 0; i < params.getCount(); i++) {
 		p = params[i];
-		if (!strcmp(p->name, name))
+		if (!mir_strcmp(p->name, name))
 			return p->value;
 	}
 
@@ -155,7 +155,7 @@ void oauth_setparam(LIST<OAUTHPARAMETER> &params, const char *name, const char *
 
 	for (i = 0; i < params.getCount(); i++) {
 		p = params[i];
-		if (!strcmp(p->name, name)) {
+		if (!mir_strcmp(p->name, name)) {
 			mir_free(p->value);
 			p->value = oauth_uri_escape(value);
 			return;
@@ -190,7 +190,7 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 	signmethod = oauth_getparam(params, "oauth_signature_method");
 	if (signmethod == NULL) return -1;
 
-	if (!strcmp(signmethod, "HMAC-SHA1")) {
+	if (!mir_strcmp(signmethod, "HMAC-SHA1")) {
 		ptrA text( oauth_generate_signature(params, httpmethod, url));
 		ptrA csenc( oauth_uri_escape(consumer_secret));
 		ptrA tsenc( oauth_uri_escape(token_secret));

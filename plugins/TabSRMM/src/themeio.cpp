@@ -144,7 +144,7 @@ static void TSAPI LoadLogfontFromINI(int i, char *szKey, LOGFONTA *lf, COLORREF 
 		 * filter out font attributes from the message input area font
 		 * (can be disabled by db tweak)
 		 */
-		if (!strcmp(szKey, "Font16") && M.GetByte("inputFontFix", 1) == 1) {
+		if (!mir_strcmp(szKey, "Font16") && M.GetByte("inputFontFix", 1) == 1) {
 			lf->lfWeight = FW_NORMAL;
 			lf->lfItalic = 0;
 			lf->lfUnderline = 0;
@@ -391,7 +391,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 
 				GetPrivateProfileStringA("Templates", TemplateNames[i], "[undef]", szTemplateBuffer, TEMPLATE_LENGTH * 3, szIniFilename);
 
-				if (strcmp(szTemplateBuffer, "[undef]")) {
+				if (mir_strcmp(szTemplateBuffer, "[undef]")) {
 					if (dat == 0)
 						db_set_utf(NULL, TEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
 					decoded = mir_utf8decodeW(szTemplateBuffer);
@@ -404,7 +404,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 
 				GetPrivateProfileStringA("RTLTemplates", TemplateNames[i], "[undef]", szTemplateBuffer, TEMPLATE_LENGTH * 3, szIniFilename);
 
-				if (strcmp(szTemplateBuffer, "[undef]")) {
+				if (mir_strcmp(szTemplateBuffer, "[undef]")) {
 					if (dat == 0)
 						db_set_utf(NULL, RTLTEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
 					decoded = mir_utf8decodeW(szTemplateBuffer);

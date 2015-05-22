@@ -218,7 +218,7 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, SIZEOF(str), "Font%d", i);
-		if ((i == 17 && !strcmp(szMod, CHATFONT_MODULE)) || ((i == 20 || i == 21) && !strcmp(szMod, FONTMODULE))) {
+		if ((i == 17 && !mir_strcmp(szMod, CHATFONT_MODULE)) || ((i == 20 || i == 21) && !mir_strcmp(szMod, FONTMODULE))) {
 			lf->lfCharSet = SYMBOL_CHARSET;
 			_tcsncpy_s(lf->lfFaceName, _T("Webdings"), _TRUNCATE);
 		}

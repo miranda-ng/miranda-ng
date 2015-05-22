@@ -1163,7 +1163,7 @@ void ICQ::updateContactList()
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-        if (proto && !strcmp(proto, protoName))
+        if (proto && !mir_strcmp(proto, protoName))
         {
             if ((u = getUserByContact(hContact)) == NULL)
             {

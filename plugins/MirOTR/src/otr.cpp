@@ -249,7 +249,7 @@ extern "C" {
 			proto = GetContactProto((MCONTACT)opdata);
 		// ugly wokaround for ICQ. ICQ protocol reports more than 7k, but in SMP this is too long.
 		// possibly ICQ doesn't allow single words without spaces to become longer than ~2340?
-		if (strcmp("ICQ", proto) == 0 || strncmp("ICQ_", proto, 4) == 0)
+		if (mir_strcmp("ICQ", proto) == 0 || strncmp("ICQ_", proto, 4) == 0)
 			return 2340;
 		return CallProtoService(proto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, (LPARAM)opdata);
 	}

@@ -257,19 +257,19 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 		TrimString(Line);
 
 		// make sure it is a valid weather protocol ini file
-		if ( !strcmp(Line, "[Weather 0.3.x Update Data]"))
+		if ( !mir_strcmp(Line, "[Weather 0.3.x Update Data]"))
 			Data->InternalVer = 1;
-		else if ( !strcmp(Line, "[Weather 0.3.x Update Data 1.1]"))
+		else if ( !mir_strcmp(Line, "[Weather 0.3.x Update Data 1.1]"))
 			Data->InternalVer = 2;
-		else if ( !strcmp(Line, "[Weather 0.3.x Update Data 1.1a]"))
+		else if ( !mir_strcmp(Line, "[Weather 0.3.x Update Data 1.1a]"))
 			Data->InternalVer = 3;
-		else if ( !strcmp(Line, "[Weather 0.3.x Update Data 1.2]"))
+		else if ( !mir_strcmp(Line, "[Weather 0.3.x Update Data 1.2]"))
 			Data->InternalVer = 4;
-		else if ( !strcmp(Line, "[Weather 0.3.x Update Data 1.3]"))
+		else if ( !mir_strcmp(Line, "[Weather 0.3.x Update Data 1.3]"))
 			Data->InternalVer = 5;
-		else if ( !strcmp(Line, "[Weather 0.3.x Update Data 1.4]"))
+		else if ( !mir_strcmp(Line, "[Weather 0.3.x Update Data 1.4]"))
 			Data->InternalVer = 6;
-		else if ( !strcmp(Line, "[Weather 0.3.x Update Data 1.5]"))
+		else if ( !mir_strcmp(Line, "[Weather 0.3.x Update Data 1.5]"))
 			Data->InternalVer = 7;
 		else
 		{

@@ -520,7 +520,7 @@ INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM lParam)
 ProtocolInfo *GetProtoInfo(char *proto)
 {
 	for (unsigned int i = 1; i < proto_items.size(); i++)
-		if (strcmp(proto, proto_items[i].proto) == 0)
+		if (mir_strcmp(proto, proto_items[i].proto) == 0)
 			return &proto_items[i];
 
 	return NULL;
@@ -947,11 +947,11 @@ int SettingChanged(WPARAM hContact,LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (strcmp(cws->szSetting, "ListeningTo") != 0)
+	if (mir_strcmp(cws->szSetting, "ListeningTo") != 0)
 		return 0;
 
 	char *proto = GetContactProto(hContact);
-	if (proto == NULL || strcmp(cws->szModule, proto) != 0)
+	if (proto == NULL || mir_strcmp(cws->szModule, proto) != 0)
 		return 0;
 
 	if (cws->value.type == DBVT_DELETED || cws->value.ptszVal == NULL || cws->value.ptszVal[0] == 0)

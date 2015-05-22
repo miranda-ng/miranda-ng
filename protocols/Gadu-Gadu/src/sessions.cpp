@@ -185,7 +185,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 	case HM_PROTOACK:
 		{
 			ACKDATA* ack = (ACKDATA*)lParam;
-			if (!strcmp(ack->szModule, gg->m_szModuleName) && !ack->hContact && ack->type == ACKTYPE_STATUS
+			if (!mir_strcmp(ack->szModule, gg->m_szModuleName) && !ack->hContact && ack->type == ACKTYPE_STATUS
 				&& ack->result == ACKRESULT_SUCCESS	&& (ack->lParam == ID_STATUS_OFFLINE
 				|| (ack->hProcess == (HANDLE)ID_STATUS_CONNECTING && ack->lParam != ID_STATUS_OFFLINE
 				&& !ListView_GetItemCount(GetDlgItem(hwndDlg, IDC_SESSIONS)))))

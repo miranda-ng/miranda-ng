@@ -657,7 +657,7 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 		CEvent evt;
 		MTime now;
 		now.GetLocalTime();
-		if (!strcmp(pdbcws->szModule, SvcReminderGetMyBirthdayModule())) {
+		if (!mir_strcmp(pdbcws->szModule, SvcReminderGetMyBirthdayModule())) {
 			WORD LastAnswer = IDNONE;
 			CheckContact(hContact, now, evt, FALSE, &LastAnswer);
 		}

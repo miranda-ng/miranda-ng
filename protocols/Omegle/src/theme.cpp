@@ -40,7 +40,7 @@ HANDLE GetIconHandle(const char* name)
 {
 	for(size_t i=0; i<SIZEOF(icons); i++)
 	{
-		if(strcmp(icons[i].szName, name) == 0)
+		if(mir_strcmp(icons[i].szName, name) == 0)
 			return hIconLibItem[i];
 	}
 	return 0;

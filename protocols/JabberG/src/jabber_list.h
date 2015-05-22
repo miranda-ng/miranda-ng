@@ -220,7 +220,7 @@ struct JABBER_HTTP_AVATARS
 	~JABBER_HTTP_AVATARS() { mir_free(Url); }
 
 	static int compare(const JABBER_HTTP_AVATARS *p1, const JABBER_HTTP_AVATARS *p2)
-	{ return strcmp(p1->Url, p2->Url); }
+	{ return mir_strcmp(p1->Url, p2->Url); }
 };
 
 #endif

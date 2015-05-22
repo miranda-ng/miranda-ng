@@ -378,20 +378,20 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 	HWND hwnd = M.FindWindow(hContact);
 
 	if (hwnd == 0 && hContact != 0) {     // we are not interested in this event if there is no open message window/tab
-		if (!strcmp(setting, "Status") || !strcmp(setting, "MyHandle") || !strcmp(setting, "Nick") || !strcmp(cws->szModule, SRMSGMOD_T)) {
+		if (!mir_strcmp(setting, "Status") || !mir_strcmp(setting, "MyHandle") || !mir_strcmp(setting, "Nick") || !mir_strcmp(cws->szModule, SRMSGMOD_T)) {
 			c = CContactCache::getContactCache(hContact);
 			if (c) {
 				fChanged = c->updateStatus();
-				if (strcmp(setting, "Status"))
+				if (mir_strcmp(setting, "Status"))
 					c->updateNick();
-				if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
+				if (!mir_strcmp(setting, "isFavorite") || !mir_strcmp(setting, "isRecent"))
 					c->updateFavorite();
 			}
 		}
 		return 0;
 	}
 
-	if (hContact == 0 && !strcmp("Nick", setting)) {
+	if (hContact == 0 && !mir_strcmp("Nick", setting)) {
 		M.BroadcastMessage(DM_OWNNICKCHANGED, 0, (LPARAM)cws->szModule);
 		return 0;
 	}
@@ -400,8 +400,8 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 		c = CContactCache::getContactCache(hContact);
 		if (c) {
 			szProto = c->getProto();
-			if (!strcmp(cws->szModule, SRMSGMOD_T)) {					// catch own relevant settings
-				if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
+			if (!mir_strcmp(cws->szModule, SRMSGMOD_T)) {					// catch own relevant settings
+				if (!mir_strcmp(setting, "isFavorite") || !mir_strcmp(setting, "isRecent"))
 					c->updateFavorite();
 			}
 		}
@@ -426,9 +426,9 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 				c->updateUIN();
 			}
 		}
-		else if (!strcmp(setting, "MirVer"))
+		else if (!mir_strcmp(setting, "MirVer"))
 			PostMessage(hwnd, DM_CLIENTCHANGED, 0, 0);
-		else if (!strcmp(setting, "display_uid")) {
+		else if (!mir_strcmp(setting, "display_uid")) {
 			if (c)
 				c->updateUIN();
 			PostMessage(hwnd, DM_UPDATEUIN, 0, 0);

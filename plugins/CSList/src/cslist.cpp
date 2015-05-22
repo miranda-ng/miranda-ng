@@ -212,7 +212,7 @@ INT_PTR showList(WPARAM, LPARAM, LPARAM param)
 	char* szProto = (char*)param;
 	for (int i = 0; i < arWindows.getCount(); i++) {
 		CSWindow *p = arWindows[i];
-		if (!strcmp(szProto, p->m_protoName)) {
+		if (!mir_strcmp(szProto, p->m_protoName)) {
 			ShowWindow(p->m_handle, SW_SHOW);
 			SetForegroundWindow(p->m_handle);
 			return 1;

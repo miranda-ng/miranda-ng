@@ -169,13 +169,13 @@ static int SettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	bool isProto = (strcmp(cws->szModule, proto) == 0);
-	if (isProto && strcmp(cws->szSetting, "ApparentMode") == 0) {
+	bool isProto = (mir_strcmp(cws->szModule, proto) == 0);
+	if (isProto && mir_strcmp(cws->szSetting, "ApparentMode") == 0) {
 		SetVisibility(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.wVal, true);
 		return 0;
 	}
 
-	if (strcmp(cws->szSetting, "Gender") == 0 && (isProto || strcmp(cws->szModule, "UserInfo") == 0)) {
+	if (mir_strcmp(cws->szSetting, "Gender") == 0 && (isProto || mir_strcmp(cws->szModule, "UserInfo") == 0)) {
 		SetGender(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal, true);
 		return 0;
 	}
@@ -188,9 +188,9 @@ static int SettingChanged(WPARAM hContact, LPARAM lParam)
 				break;
 			if (p.db[j] == NULL && !isProto)
 				continue;
-			if (p.db[j] != NULL && strcmp(cws->szModule, p.db[j]))
+			if (p.db[j] != NULL && mir_strcmp(cws->szModule, p.db[j]))
 				continue;
-			if (strcmp(cws->szSetting, p.db[j + 1]))
+			if (mir_strcmp(cws->szSetting, p.db[j + 1]))
 				continue;
 
 			bool show = (cws->value.type != DBVT_DELETED && !IsEmpty(cws->value.pszVal));
@@ -245,7 +245,7 @@ struct ProtoInfo
 };
 
 static int CompareProtos(const ProtoInfo *p1, const ProtoInfo *p2)
-{	return strcmp(p1->proto, p2->proto);
+{	return mir_strcmp(p1->proto, p2->proto);
 }
 
 OBJLIST<ProtoInfo> arProtos(10, CompareProtos);

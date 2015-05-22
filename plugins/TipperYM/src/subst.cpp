@@ -217,7 +217,7 @@ TCHAR* GetStatusMessageText(MCONTACT hContact)
 
 	char *szProto = GetContactProto(hContact);
 	if (szProto) {
-		if (!strcmp(szProto, META_PROTO))
+		if (!mir_strcmp(szProto, META_PROTO))
 			hContact = db_mc_getMostOnline(hContact);
 		else {
 			WORD wStatus = (int)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
@@ -360,7 +360,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 		MCONTACT hTmpContact = hContact;
 
 		char *szProto = GetContactProto(hContact);
-		if (szProto && !strcmp(szProto, META_PROTO)) {
+		if (szProto && !mir_strcmp(szProto, META_PROTO)) {
 			iNumber = db_mc_getSubCount(hContact);
 			hTmpContact = db_mc_getSub(hContact, 0);
 		}

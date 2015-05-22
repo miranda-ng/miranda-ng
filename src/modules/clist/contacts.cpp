@@ -42,7 +42,7 @@ BYTE nameOrder[NAMEORDERCOUNT];
 
 static int GetDatabaseString(CONTACTINFO *ci, const char* setting, DBVARIANT* dbv)
 {
-	if (strcmp(ci->szProto, "CList") && CallProtoService(ci->szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC) {
+	if (mir_strcmp(ci->szProto, "CList") && CallProtoService(ci->szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC) {
 		DBCONTACTGETSETTING cgs = { ci->szProto, setting, dbv };
 		dbv->type = (ci->dwFlag & CNF_UNICODE) ? DBVT_WCHAR : DBVT_ASCIIZ;
 

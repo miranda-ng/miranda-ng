@@ -346,7 +346,7 @@ INT_PTR ContactMenuCheckService(WPARAM wParam, LPARAM)
 
 	if (cmep->pszContactOwner != NULL) {
 		if (bcp->szProto == NULL) return FALSE;
-		if (strcmp(cmep->pszContactOwner, bcp->szProto)) return FALSE;
+		if (mir_strcmp(cmep->pszContactOwner, bcp->szProto)) return FALSE;
 	}
 
 	TMO_MenuItem mi;

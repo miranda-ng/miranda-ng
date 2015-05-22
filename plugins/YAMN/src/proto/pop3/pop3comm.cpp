@@ -286,7 +286,7 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 		Finder->hContact = NULL;
 		for (MCONTACT hContact = db_find_first(YAMN_DBMODULE); hContact; hContact = db_find_next(hContact, YAMN_DBMODULE)) {
 			if (!db_get_s(hContact, YAMN_DBMODULE, "Id", &dbv)) {
-				if (strcmp(dbv.pszVal, Finder->Name) == 0) {
+				if (mir_strcmp(dbv.pszVal, Finder->Name) == 0) {
 					Finder->hContact = hContact;
 					db_set_w(Finder->hContact, YAMN_DBMODULE, "Status", ID_STATUS_ONLINE);
 					db_set_s(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
@@ -711,7 +711,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 			if (MsgQueuePtr->Flags&YAMN_MSG_BODYREQUESTED) {
 				HYAMNMAIL NewMsgsPtr = NULL;
 				for (NewMsgsPtr = (HYAMNMAIL)NewMails; NewMsgsPtr != NULL; NewMsgsPtr = NewMsgsPtr->Next) {
-					if (!strcmp(MsgQueuePtr->ID, NewMsgsPtr->ID)) {
+					if (!mir_strcmp(MsgQueuePtr->ID, NewMsgsPtr->ID)) {
 						TCHAR accstatus[512];
 						mir_sntprintf(accstatus, SIZEOF(accstatus), TranslateT("Reading body %s"), NewMsgsPtr->ID);
 						SetAccountStatus(ActualAccount, accstatus);

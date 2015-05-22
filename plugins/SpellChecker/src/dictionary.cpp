@@ -533,7 +533,7 @@ public:
 		const char *dic_enc = hunspell->get_dic_encoding();
 
 		TCHAR *hwordchars;
-		if (strcmp(dic_enc, "UTF-8") == 0) {
+		if (mir_strcmp(dic_enc, "UTF-8") == 0) {
 			codePage = CP_UTF8;
 
 

@@ -154,7 +154,7 @@ void Xfire_gamelist::createStartmenu()
 			Xfire_game* game = (Xfire_game*)gamelist.at(sorttemp[i - 1]);
 			Xfire_game* game2 = (Xfire_game*)gamelist.at(sorttemp[i]);
 			//sortieren
-			if (strcmp(game->name, game2->name) > 0)
+			if (mir_strcmp(game->name, game2->name) > 0)
 			{
 				int tempi = sorttemp[i - 1];
 				sorttemp[i - 1] = sorttemp[i];

@@ -188,7 +188,7 @@ void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
 		item = TlenListGetItemPtr(proto, LIST_PICTURE, idt);
 	}
 	if (item != NULL) {
-		if (!strcmp(from, "ps")) {
+		if (!mir_strcmp(from, "ps")) {
 			char *st = TlenXmlGetAttrValue(node, "st");
 			if (st != NULL) {
 				item->ft->iqId = mir_strdup(st);
@@ -198,12 +198,12 @@ void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
 					item->ft->hFileEvent = NULL;
 				}
 			}
-		} else if (!strcmp(item->ft->jid, fromRaw)) {
+		} else if (!mir_strcmp(item->ft->jid, fromRaw)) {
 			if (crc_c != NULL) {
-				if (!strcmp(crc_c, "n")) {
+				if (!mir_strcmp(crc_c, "n")) {
 					/* crc_c = n, picture transfer accepted */
 					TlenPsPost(proto, item);
-				} else if (!strcmp(crc_c, "f")) {
+				} else if (!mir_strcmp(crc_c, "f")) {
 					/* crc_c = f, picture cached, no need to transfer again */
 					LogPictureMessage(proto, item->ft->jid, item->ft->files[0], TRUE);
 					TlenP2PFreeFileTransfer(item->ft);

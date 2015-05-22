@@ -148,7 +148,7 @@ static BOOL ExportSettings(HWND hwndDlg, const TCHAR *filename, OBJLIST<FontInte
 		FontInternal& F = flist[i];
 
 		mir_snprintf(buff, SIZEOF(buff), "\n[%s]", F.dbSettingsGroup);
-		if (strcmp(buff, header) != 0) {
+		if (mir_strcmp(buff, header) != 0) {
 			strncpy(header, buff, SIZEOF(header));
 			WriteLine(out, buff);
 		}
@@ -194,7 +194,7 @@ static BOOL ExportSettings(HWND hwndDlg, const TCHAR *filename, OBJLIST<FontInte
 		ColourInternal& C = clist[i];
 
 		mir_snprintf(buff, SIZEOF(buff), "\n[%s]", C.dbSettingsGroup);
-		if (strcmp(buff, header) != 0) {
+		if (mir_strcmp(buff, header) != 0) {
 			strncpy_s(header, buff, _TRUNCATE);
 			WriteLine(out, buff);
 		}
@@ -206,7 +206,7 @@ static BOOL ExportSettings(HWND hwndDlg, const TCHAR *filename, OBJLIST<FontInte
 		EffectInternal& E = elist[i];
 
 		mir_snprintf(buff, SIZEOF(buff), "\n[%s]", E.dbSettingsGroup);
-		if (strcmp(buff, header) != 0) {
+		if (mir_strcmp(buff, header) != 0) {
 			strncpy_s(header, buff, _TRUNCATE);
 			WriteLine(out, buff);
 		}

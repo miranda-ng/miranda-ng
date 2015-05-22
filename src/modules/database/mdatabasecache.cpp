@@ -26,12 +26,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int stringCompare(const char *p1, const char *p2)
 {
-	return strcmp(p1, p2);
+	return mir_strcmp(p1, p2);
 }
 
 static int compareGlobals(const DBCachedGlobalValue *p1, const DBCachedGlobalValue *p2)
 {
-	return strcmp(p1->name, p2->name);
+	return mir_strcmp(p1->name, p2->name);
 }
 
 MDatabaseCache::MDatabaseCache(size_t _size) :
@@ -138,7 +138,7 @@ char* MDatabaseCache::GetCachedSetting(const char *szModuleName, const char *szS
 	}
 	else szKey = szSettingName;
 
-	if (m_lastSetting && !strcmp(szKey, m_lastSetting))
+	if (m_lastSetting && !mir_strcmp(szKey, m_lastSetting))
 		return m_lastSetting;
 
 	int index = m_lSettings.getIndex((char*)szKey);

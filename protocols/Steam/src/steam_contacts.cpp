@@ -72,7 +72,7 @@ MCONTACT CSteamProto::GetContactFromAuthEvent(MEVENT hEvent)
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return INVALID_CONTACT_ID;
 
-	if (strcmp(dbei.szModule, m_szModuleName) != 0)
+	if (mir_strcmp(dbei.szModule, m_szModuleName) != 0)
 		return INVALID_CONTACT_ID;
 
 	return DbGetAuthEventContact(&dbei);

@@ -15,7 +15,7 @@ int __cdecl onIconPressed(WPARAM hContact, LPARAM lParam)
 		hContact = db_mc_getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if (strcmp(sicd->szModule, MODULENAME) != 0 || !isSecureProtocol(hContact))
+	if (mir_strcmp(sicd->szModule, MODULENAME) != 0 || !isSecureProtocol(hContact))
 		return 0; // not our event
 
 	if (!isContactPGP(hContact) && !isContactGPG(hContact) && !isChatRoom(hContact)) {

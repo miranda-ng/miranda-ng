@@ -111,7 +111,7 @@ struct CYahooProto : public PROTO<CYahooProto>
 		  free(name); y_list_free(members); }
 
 		static int compare(const ChatRoom* c1, const ChatRoom* c2)
-		{ return strcmp(c1->name, c2->name); }
+		{ return mir_strcmp(c1->name, c2->name); }
 	};
 
 	OBJLIST <ChatRoom> m_chatrooms;

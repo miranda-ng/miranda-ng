@@ -98,8 +98,8 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	char path[MAX_PATH];
 	if (db_get_static(NULL, m_szModuleName, "LoginServer", path, sizeof(path)) == 0 &&
-		(strcmp(path, MSN_DEFAULT_LOGIN_SERVER) == 0 ||
-		strcmp(path, MSN_DEFAULT_GATEWAY) == 0))
+		(mir_strcmp(path, MSN_DEFAULT_LOGIN_SERVER) == 0 ||
+		mir_strcmp(path, MSN_DEFAULT_GATEWAY) == 0))
 		delSetting("LoginServer");
 
 	if (MyOptions.SlowSend) {
@@ -267,7 +267,7 @@ MCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int, MEVENT hDbEvent)
 
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
 	if (db_event_get(hDbEvent, &dbei)) return NULL;
-	if (strcmp(dbei.szModule, m_szModuleName)) return NULL;
+	if (mir_strcmp(dbei.szModule, m_szModuleName)) return NULL;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return NULL;
 
 	char* nick = (char *)(dbei.pBlob + sizeof(DWORD) * 2);
@@ -331,7 +331,7 @@ int CMsnProto::Authorize(MEVENT hDbEvent)
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return 1;
 
-	if (strcmp(dbei.szModule, m_szModuleName))
+	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return 1;
 
 	char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
@@ -369,7 +369,7 @@ int CMsnProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return 1;
 
-	if (strcmp(dbei.szModule, m_szModuleName))
+	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return 1;
 
 	char* nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);

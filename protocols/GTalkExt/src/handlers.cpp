@@ -441,7 +441,7 @@ static void sttCreateInstance(LPCSTR szModuleName)
 		return;
 
 	ptrA host(db_get_sa(NULL, szModuleName, "ManualHost"));
-	if (host == NULL || strcmp(host, "talk.google.com"))
+	if (host == NULL || mir_strcmp(host, "talk.google.com"))
 		return;
 
 	GoogleTalkAcc *gta = new GoogleTalkAcc();

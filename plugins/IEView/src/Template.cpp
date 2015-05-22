@@ -113,7 +113,7 @@ Template* Template::getNext()
 
 bool Template::equals(const char *name)
 {
-	if (!strcmp(name, this->name))
+	if (!mir_strcmp(name, this->name))
 		return true;
 
 	return false;
@@ -252,7 +252,7 @@ TemplateMap* TemplateMap::add(const char *id, const char *filename)
 {
 	TemplateMap *map;
 	for (map = mapList; map != NULL; map = map->next) {
-		if (!strcmp(map->name, id)) {
+		if (!mir_strcmp(map->name, id)) {
 			map->clear();
 			map->setFilename(filename);
 			return map;
@@ -425,7 +425,7 @@ Template* TemplateMap::getTemplate(const char *text)
 Template* TemplateMap::getTemplate(const char *proto, const char *text)
 {
 	for (TemplateMap *ptr = mapList; ptr != NULL; ptr = ptr->next)
-		if (!strcmp(ptr->name, proto))
+		if (!mir_strcmp(ptr->name, proto))
 			return ptr->getTemplate(text);
 
 	return NULL;
@@ -434,7 +434,7 @@ Template* TemplateMap::getTemplate(const char *proto, const char *text)
 TemplateMap* TemplateMap::getTemplateMap(const char *proto)
 {
 	for (TemplateMap *ptr = mapList; ptr != NULL; ptr = ptr->next)
-		if (!strcmp(ptr->name, proto))
+		if (!mir_strcmp(ptr->name, proto))
 			return ptr;
 
 	return NULL;

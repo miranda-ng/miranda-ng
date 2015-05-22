@@ -143,7 +143,7 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 
 		pstatus = 0;
 		for (j = 0; j < protoList->getCount(); j++)
-			if (!strcmp(protos[i]->szModuleName, ps[j]->szName))
+			if (!mir_strcmp(protos[i]->szModuleName, ps[j]->szName))
 				pstatus = GetActualStatus(ps[j]);
 
 		if (pstatus == 0)

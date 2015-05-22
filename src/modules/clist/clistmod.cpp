@@ -166,7 +166,7 @@ int fnIconFromStatusMode(const char *szProto, int status, MCONTACT)
 	if (szProto == NULL)
 		return index + 1;
 	for (i=0; i < protoIconIndex.getCount(); i++) {
-		if (strcmp(szProto, protoIconIndex[i].szProto) == 0)
+		if (mir_strcmp(szProto, protoIconIndex[i].szProto) == 0)
 			return protoIconIndex[i].iIconBase + index;
 	}
 	return 1;
@@ -199,7 +199,7 @@ static void AddProtoIconIndex(PROTOACCOUNT *pa)
 static void RemoveProtoIconIndex(PROTOACCOUNT *pa)
 {
 	for (int i=0; i < protoIconIndex.getCount(); i++)
-		if (strcmp(protoIconIndex[i].szProto, pa->szModuleName) == 0) {
+		if (mir_strcmp(protoIconIndex[i].szProto, pa->szModuleName) == 0) {
 			protoIconIndex.remove(i);
 			break;
 		}
@@ -438,7 +438,7 @@ static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 			return 2 * (statusa == ID_STATUS_OFFLINE) - 1;
 		}
 		/* both are online, now check protocols */
-		rc = strcmp(SAFESTRING(szProto1), SAFESTRING(szProto2));        /* strcmp() doesn't like NULL so feed in "" as needed */
+		rc = mir_strcmp(SAFESTRING(szProto1), SAFESTRING(szProto2));        /* mir_strcmp() doesn't like NULL so feed in "" as needed */
 		if (rc != 0 && (szProto1 != NULL && szProto2 != NULL))
 			return rc;
 		/* protocols are the same, order by display name */

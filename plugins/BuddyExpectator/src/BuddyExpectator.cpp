@@ -467,7 +467,7 @@ int onExtraImageApplying(WPARAM hContact, LPARAM)
 int SettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *inf = (DBCONTACTWRITESETTING*)lParam;
-	if (hContact == NULL || inf->value.type == DBVT_DELETED || strcmp(inf->szSetting, "Status") != 0)
+	if (hContact == NULL || inf->value.type == DBVT_DELETED || mir_strcmp(inf->szSetting, "Status") != 0)
 		return 0;
 
 	if (db_get_b(hContact, "CList", "NotOnList", 0) == 1)

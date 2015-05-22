@@ -2982,7 +2982,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case DM_MYAVATARCHANGED:
 	{
 		const char *szProto = dat->cache->getActiveProto();
-		if (!strcmp((char *)wParam, szProto) && mir_strlen(szProto) == mir_strlen((char *)wParam))
+		if (!mir_strcmp((char *)wParam, szProto) && mir_strlen(szProto) == mir_strlen((char *)wParam))
 			LoadOwnAvatar(dat);
 	}
 	break;

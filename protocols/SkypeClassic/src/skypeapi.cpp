@@ -353,7 +353,7 @@ static int __sendMsg(char *szMsg) {
    LOG(("> %s", szMsg));
 
    // Fake PING-PONG, as PING-PONG is not supported by Skype2Socket
-   if ((UseSockets || bIsImoproxy) && !strcmp(szMsg, "PING")) {
+   if ((UseSockets || bIsImoproxy) && !mir_strcmp(szMsg, "PING")) {
 	 CopyData.dwData=0; 
 	 CopyData.lpData="PONG"; 
 	 CopyData.cbData=5;
@@ -536,7 +536,7 @@ char *SkypeRcvMsg(char *what, time_t st, MCONTACT hContact, DWORD maxwait)
 						pMsg++;
 						if (strncmp (pMsg, "STATUS ", 7) == 0) {
 							pMsg+=7;
-							if (strcmp (pMsg, "SENDING") == 0) {
+							if (mir_strcmp (pMsg, "SENDING") == 0) {
 								// Remove dat shit
 								struct MsgQueue *ptr_=ptr->l.tqe_next;
 
@@ -544,9 +544,9 @@ char *SkypeRcvMsg(char *what, time_t st, MCONTACT hContact, DWORD maxwait)
 								ptr=ptr_;
 								continue;
 							}
-							bProcess = (strcmp (pMsg, "SENT") == 0 || strcmp (pMsg, "QUEUED") == 0 ||
-								strcmp (pMsg, "FAILED") == 0 || strcmp (pMsg, "IGNORED") == 0 ||
-								strcmp (pMsg, "SENDING") == 0);
+							bProcess = (mir_strcmp (pMsg, "SENT") == 0 || mir_strcmp (pMsg, "QUEUED") == 0 ||
+								mir_strcmp (pMsg, "FAILED") == 0 || mir_strcmp (pMsg, "IGNORED") == 0 ||
+								mir_strcmp (pMsg, "SENDING") == 0);
 						}
 					}
 				}
@@ -907,7 +907,7 @@ static INT_PTR CALLBACK CallstatDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				// Check, if another call is in progress
 				for (hContact=db_find_first();hContact != NULL;hContact=db_find_next(hContact)) {
 					char *szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, hContact, 0 );
-					if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME) && hContact != (MCONTACT)lParam &&
+					if (szProto != NULL && !mir_strcmp(szProto, SKYPE_PROTONAME) && hContact != (MCONTACT)lParam &&
 						db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0 &&
 						!db_get_s(hContact, SKYPE_PROTONAME, "CallId", &dbv2)) 
 					{
@@ -1319,10 +1319,10 @@ void SkypeFlush(void) {
  *		    0 - Nothing found
  */
 int SkypeStatusToMiranda(char *s) {
-	if (!strcmp("SKYPEOUT", s))
+	if (!mir_strcmp("SKYPEOUT", s))
 		return db_get_dw(NULL, SKYPE_PROTONAME, "SkypeOutStatusMode", ID_STATUS_ONTHEPHONE);
 	for(int i=0; status_codes[i].szStat; i++)
-		if (!strcmp(status_codes[i].szStat, s))
+		if (!mir_strcmp(status_codes[i].szStat, s))
 			return status_codes[i].id;
 	return 0;
 }
@@ -1583,7 +1583,7 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 				return -1;
 			}
 
-			if (strcmp (ptr+11, "CONNECTING"))
+			if (mir_strcmp (ptr+11, "CONNECTING"))
 			{
 				free (ptr);
 				break;

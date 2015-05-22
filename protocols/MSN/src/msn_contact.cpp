@@ -61,7 +61,7 @@ MCONTACT CMsnProto::MSN_HContactFromChatID(const char* wlid)
 		if (isChatRoom(hContact) != 0) {
 			DBVARIANT dbv;
 			if (getString(hContact, "ChatRoomID", &dbv) == 0) {
-				if (strcmp(dbv.pszVal, wlid) == 0) {
+				if (mir_strcmp(dbv.pszVal, wlid) == 0) {
 					db_free(&dbv);
 					return hContact;
 				}
@@ -172,7 +172,7 @@ bool CMsnProto::MSN_AddUser(MCONTACT hContact, const char* email, int netId, int
 		}
 		else {
 			DBVARIANT dbv = { 0 };
-			if (!strcmp(email, MyOptions.szEmail))
+			if (!mir_strcmp(email, MyOptions.szEmail))
 				getStringUtf("Nick", &dbv);
 
 			unsigned res1 = MSN_ABContactAdd(email, dbv.pszVal, netId, msg, false);
