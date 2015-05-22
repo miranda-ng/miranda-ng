@@ -2708,7 +2708,7 @@ LABEL_SHOWWINDOW:
 									SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_GETTEXTRANGE, 0, (LPARAM)&tr2);
 									if (!_istspace(*tr2.lpstrText))
 										*tszTmp++ = _T(' ');
-									_tcscpy(tszTmp, tr.lpstrText);
+									mir_tstrcpy(tszTmp, tr.lpstrText);
 								}
 								else // in the beginning of the message window
 									mir_sntprintf(tszAppeal, bufSize, tszAplTmpl, tr.lpstrText);

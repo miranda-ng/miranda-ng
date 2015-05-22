@@ -961,7 +961,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (buf[0] && OpenClipboard(hwndDlg)) {
 				EmptyClipboard();
 				HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, mir_tstrlen(buf) * sizeof(TCHAR)+1);
-				_tcscpy((TCHAR*)GlobalLock(hData), buf);
+				mir_tstrcpy((TCHAR*)GlobalLock(hData), buf);
 				GlobalUnlock(hData);
 				SetClipboardData(CF_UNICODETEXT, hData);
 				CloseClipboard();
@@ -1613,7 +1613,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							if (OpenClipboard(hwndDlg)) {
 								EmptyClipboard();
 								HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (mir_tstrlen(tr.lpstrText) + 1) * sizeof(TCHAR));
-								_tcscpy((TCHAR*)GlobalLock(hData), tr.lpstrText);
+								mir_tstrcpy((TCHAR*)GlobalLock(hData), tr.lpstrText);
 								GlobalUnlock(hData);
 								SetClipboardData(CF_UNICODETEXT, hData);
 								CloseClipboard();

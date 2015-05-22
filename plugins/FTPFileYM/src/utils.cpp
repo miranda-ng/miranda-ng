@@ -63,7 +63,7 @@ TCHAR *Utils::getTextFragment(TCHAR *stzText, size_t length, TCHAR *buff)
 {
 	if (mir_tstrlen(stzText) > length)
 	{
-		_tcscpy(buff, stzText);
+		mir_tstrcpy(buff, stzText);
 		buff[length - 1] = 0;
 		_tcscat(buff, _T("..."));
 		return buff;
@@ -211,7 +211,7 @@ bool Utils::setFileNameDlgA(char *nameBuff)
 {
 	TCHAR buff[64];
 	TCHAR *tmp = mir_a2t(nameBuff);
-	_tcscpy(buff, tmp);
+	mir_tstrcpy(buff, tmp);
 	FREE(tmp);
 
 	bool res = setFileNameDlg(buff);

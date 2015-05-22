@@ -156,7 +156,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 
 	DBVARIANT dbv;
 	if(!db_get_ts(NULL,THIS_MODULE,"message_format",&dbv)) {
-		_tcscpy(buf, dbv.ptszVal);
+		mir_tstrcpy(buf, dbv.ptszVal);
 		db_free(&dbv);
 	}
 

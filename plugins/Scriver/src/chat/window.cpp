@@ -277,7 +277,7 @@ LBL_SkipEnd:
 			ptrT szReplace;
 			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
 				szReplace = (TCHAR*)mir_alloc((mir_tstrlen(pszName) + 4) * sizeof(TCHAR));
-				_tcscpy(szReplace, pszName);
+				mir_tstrcpy(szReplace, pszName);
 				_tcscat(szReplace, _T(": "));
 				pszName = szReplace;
 			}

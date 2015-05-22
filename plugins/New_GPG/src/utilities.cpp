@@ -63,7 +63,7 @@ void GetFilePath(TCHAR *WindowTittle, char *szSetting, TCHAR *szExt, TCHAR *szEx
 	ofn.lpstrTitle=TranslateW(WindowTittle);
 	_tcsncpy(filter,TranslateW(szExtDesc), SIZEOF(filter)-1);
 	pfilter=filter+mir_tstrlen(filter)+1;
-	_tcscpy(pfilter, szExt);
+	mir_tstrcpy(pfilter, szExt);
 	pfilter[mir_tstrlen(pfilter)+1] = '\0';
 	pfilter[mir_tstrlen(pfilter)+2] = '\0';
 	ofn.lpstrFilter=filter;
@@ -88,13 +88,13 @@ TCHAR *GetFilePath(TCHAR *WindowTittle, TCHAR *szExt, TCHAR *szExtDesc, bool sav
 	ofn.lStructSize=CDSIZEOF_STRUCT(OPENFILENAME,lpTemplateName);
 	ofn.Flags=OFN_EXPLORER;
 	ofn.lpstrTitle=TranslateW(WindowTittle);
-	_tcscpy(filter,TranslateW(szExtDesc));
+	mir_tstrcpy(filter,TranslateW(szExtDesc));
 	pfilter=filter+mir_tstrlen(filter)+1;
-	_tcscpy(pfilter, szExt);
+	mir_tstrcpy(pfilter, szExt);
 	pfilter[mir_tstrlen(pfilter)+1] = '\0';
 	pfilter[mir_tstrlen(pfilter)+2] = '\0';
 	ofn.lpstrFilter=filter;
-	_tcscpy(str, _T(""));
+	mir_tstrcpy(str, _T(""));
 	if(mir_tstrlen(str)< 2)
 		str[0] = '\0';
 	ofn.lpstrFile=str;
@@ -1135,7 +1135,7 @@ bool isGPGValid()
 		mir_free(mir_path);
 		//mir_realloc(path, (mir_tstrlen(path)+64)*sizeof(TCHAR));
 		TCHAR *gpg_path = (TCHAR*)mir_alloc(sizeof(TCHAR)*MAX_PATH);
-		_tcscpy(gpg_path, tmp);
+		mir_tstrcpy(gpg_path, tmp);
 		_tcscat(gpg_path, _T("\\GnuPG\\gpg.exe"));
 		mir_free(tmp);
 		tmp = NULL;
@@ -1143,7 +1143,7 @@ bool isGPGValid()
 		if(boost::filesystem::exists(p) && boost::filesystem::is_regular_file(p))
 		{
 			gpg_exists = true;
-			_tcscpy(path, _T("GnuPG\\gpg.exe"));
+			mir_tstrcpy(path, _T("GnuPG\\gpg.exe"));
 		}
 		mir_free(gpg_path);
 		tmp = mir_tstrdup(path);

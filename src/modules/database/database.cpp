@@ -76,7 +76,7 @@ int getProfilePath(TCHAR *buf, size_t cch)
 	GetPrivateProfileString(_T("Database"), _T("ProfileDir"), _T(""), profiledir, SIZEOF(profiledir), mirandabootini);
 
 	if (profiledir[0] == 0)
-		_tcscpy(profiledir, _T("%miranda_path%\\Profiles"));
+		mir_tstrcpy(profiledir, _T("%miranda_path%\\Profiles"));
 
 	size_t len = PathToAbsoluteT( VARST(profiledir), buf);
 

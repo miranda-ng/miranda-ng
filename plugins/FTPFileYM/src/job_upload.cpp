@@ -62,8 +62,8 @@ void UploadJob::addToUploadDlg()
 {
 	for (UINT i = 0; i < this->files.size(); i++) {
 		UploadJob *jobCopy = new UploadJob(this);
-		_tcscpy(jobCopy->stzFilePath, this->files[i]);
-		_tcscpy(jobCopy->stzFileName, Utils::getFileNameFromPath(jobCopy->stzFilePath));
+		mir_tstrcpy(jobCopy->stzFilePath, this->files[i]);
+		mir_tstrcpy(jobCopy->stzFileName, Utils::getFileNameFromPath(jobCopy->stzFilePath));
 		Utils::makeSafeString(jobCopy->stzFileName, jobCopy->szSafeFileName);
 
 		UploadDialog::Tab *newTab = new UploadDialog::Tab(jobCopy);

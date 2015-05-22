@@ -53,7 +53,7 @@ BOOL CopyTextToClipboard(LPTSTR ptszText)
 
 	EmptyClipboard(); 
 	HGLOBAL hCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_tstrlen(ptszText) + 1)*sizeof(TCHAR));
-	_tcscpy((TCHAR*)GlobalLock(hCopy), ptszText);
+	mir_tstrcpy((TCHAR*)GlobalLock(hCopy), ptszText);
 	GlobalUnlock(hCopy);
 	SetClipboardData(CF_UNICODETEXT, hCopy);
 	CloseClipboard();
@@ -139,7 +139,7 @@ LPTSTR GetLayoutString(HKL hklLayout)
 LPTSTR ChangeTextCase(LPCTSTR ptszInText)
 {
 	LPTSTR ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
-	_tcscpy(ptszOutText, ptszInText);
+	mir_tstrcpy(ptszOutText, ptszInText);
 
 	for (DWORD i = 0; i < mir_tstrlen(ptszInText); i++) {
 		CharUpperBuff(&ptszOutText[i], 1);
@@ -152,7 +152,7 @@ LPTSTR ChangeTextCase(LPCTSTR ptszInText)
 LPTSTR ChangeTextLayout(LPCTSTR ptszInText, HKL hklCurLay, HKL hklToLay, BOOL TwoWay)
 {
 	LPTSTR ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
-	_tcscpy(ptszOutText, ptszInText);
+	mir_tstrcpy(ptszOutText, ptszInText);
 
 	if (hklCurLay == NULL || hklToLay == NULL)
 		return ptszOutText;
@@ -377,7 +377,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 					ptrT ptszTemp((LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR)));
 					_tcsncpy(ptszTemp, &ptszInText[crTemp.cpMin], crTemp.cpMax - crTemp.cpMin);
 					ptszTemp[crTemp.cpMax - crTemp.cpMin] = 0;
-					_tcscpy(ptszInText, ptszTemp);
+					mir_tstrcpy(ptszInText, ptszTemp);
 
 					if (mir_tstrlen(ptszInText) == 0) {
 						SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
@@ -446,7 +446,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		//-------------------------------Покажем попапы------------------------------------------ 			
 		if (moOptions.ShowPopup) {
 			LPTSTR ptszPopupText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
-			_tcscpy(ptszPopupText, ptszMBox);
+			mir_tstrcpy(ptszPopupText, ptszMBox);
 
 			POPUPDATAT_V2 pdtData = { 0 };
 			pdtData.cbSize = sizeof(pdtData);

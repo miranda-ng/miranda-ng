@@ -217,9 +217,9 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					TextColour = TextClr;
 				}
 				ppd.lchContact = NULL;
-				_tcscpy(ppd.lptzContactName, _T(MODULENAME));
+				mir_tstrcpy(ppd.lptzContactName, _T(MODULENAME));
 				ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
-				_tcscpy(ppd.lptzText, TranslateT("This is a preview popup."));
+				mir_tstrcpy(ppd.lptzText, TranslateT("This is a preview popup."));
 				ppd.colorBack = BGColour;
 				ppd.colorText = TextColour;
 				ppd.PluginWindowProc = NULL;

@@ -150,11 +150,11 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						lvi.iItem = ListView_InsertItem(hList, &lvi);
 
 						if (!db_get_ts(hContact, MODULE, StatusList[Index(i)].lpzSkinSoundName, &dbv)) {
-							_tcscpy(buff, dbv.ptszVal);
+							mir_tstrcpy(buff, dbv.ptszVal);
 							db_free(&dbv);
 						}
 						else
-							_tcscpy(buff, TranslateT(DEFAULT_SOUND));
+							mir_tstrcpy(buff, TranslateT(DEFAULT_SOUND));
 
 						ListView_SetItemText(hList, lvi.iItem, 1, buff);
 					}

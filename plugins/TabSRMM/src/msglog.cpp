@@ -354,9 +354,9 @@ static TCHAR* Template_MakeRelativeDate(HANDLE hTimeZone, time_t check, TCHAR co
 	const TCHAR *szFormat;
 
 	if ((code == (TCHAR)'R' || code == (TCHAR)'r') && check >= today)
-		_tcscpy(szResult, szToday);
+		mir_tstrcpy(szResult, szToday);
 	else if ((code == (TCHAR)'R' || code == (TCHAR)'r') && check > (today - 86400))
-		_tcscpy(szResult, szYesterday);
+		mir_tstrcpy(szResult, szYesterday);
 	else {
 		if (code == 'D' || code == 'R')
 			szFormat = _T("D");

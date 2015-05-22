@@ -88,11 +88,11 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 
 	// quit if the value obtained is N/A or not a number
 	if ( !mir_tstrcmp(tempchar, NODATA) || !mir_tstrcmp(tempchar, _T("N/A"))) {
-		_tcscpy(str, tempchar);
+		mir_tstrcpy(str, tempchar);
 		return;
 	}
 	if ( !is_number(tempchar)) {
-		_tcscpy(str, NODATA);
+		mir_tstrcpy(str, NODATA);
 		return;
 	}
 
@@ -138,7 +138,7 @@ void GetPressure(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 	// if it end up with 0, then it's not a number, return the original string and quit
 	output = _ttof(tempchar);
 	if (output == 0) {
-		_tcscpy(str, tempchar); 
+		mir_tstrcpy(str, tempchar); 
 		return;
 	}
 
@@ -175,7 +175,7 @@ void GetPressure(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 		mir_sntprintf(str, MAX_DATA_LEN, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("mm"));
 		break;
 	default:
-		_tcscpy(str, tempchar); 
+		mir_tstrcpy(str, tempchar); 
 		break;
 
 	}
@@ -244,7 +244,7 @@ void GetDist(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 	// if it end up with 0, then it's not a number, return the original string and quit
 	output = _ttof(tempchar);
 	if (output == 0) {
-		_tcscpy(str, tempchar);
+		mir_tstrcpy(str, tempchar);
 		return;
 	}
 
@@ -265,7 +265,7 @@ void GetDist(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 		mir_sntprintf(str, MAX_DATA_LEN, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("miles"));
 		break;
 	default:
-		_tcscpy(str, tempchar);
+		mir_tstrcpy(str, tempchar);
 		break;
 	}
 }
@@ -284,7 +284,7 @@ void GetElev(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 	// if it end up with 0, then it's not a number, return the original string and quit
 	output = _ttof(tempchar);
 	if (output == 0) {
-		_tcscpy(str, tempchar);
+		mir_tstrcpy(str, tempchar);
 		return;
 	}
 
@@ -305,7 +305,7 @@ void GetElev(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 		mir_sntprintf(str, MAX_DATA_LEN, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("m"));
 		break;
 	default:
-		_tcscpy(str, tempchar);
+		mir_tstrcpy(str, tempchar);
 		break;
 	}
 }
@@ -594,7 +594,7 @@ void GetSvc(TCHAR *pszID)
 void GetID(TCHAR *pszID) 
 {
 	TCHAR *chop = _tcsstr(pszID, _T("/"));
-	if (chop != NULL)	_tcscpy(pszID, chop+1);
+	if (chop != NULL)	mir_tstrcpy(pszID, chop+1);
 	else				pszID[0] = 0;
 }
 

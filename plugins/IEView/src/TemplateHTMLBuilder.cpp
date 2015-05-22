@@ -68,7 +68,7 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 			else {
 				if (result == NULL) {
 					/* relative -> absolute */
-					_tcscpy(tmpPath, dbv.ptszVal);
+					mir_tstrcpy(tmpPath, dbv.ptszVal);
 					if (_tcsncmp(tmpPath, _T("http://"), 7))
 						PathToAbsoluteT(dbv.ptszVal, tmpPath);
 

@@ -81,7 +81,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		MSN_GetAvatarFileName(NULL, filename, SIZEOF(filename), NULL);
 		AI->format = ProtoGetAvatarFormat(filename);
 		if (AI->format != PA_FORMAT_UNKNOWN)
-			_tcscpy(AI->filename, filename);
+			mir_tstrcpy(AI->filename, filename);
 		return AI->format == PA_FORMAT_UNKNOWN ? GAIR_NOAVATAR : GAIR_SUCCESS;
 	}
 
@@ -113,7 +113,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 				mir_free(szAvatarHash);
 			}
 		}
-		_tcscpy(AI->filename, filename);
+		mir_tstrcpy(AI->filename, filename);
 		return GAIR_SUCCESS;
 	}
 

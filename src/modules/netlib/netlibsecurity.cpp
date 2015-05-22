@@ -294,7 +294,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 
 						_tcsncpy(newLogin, domainName, domainLen);
 						newLogin[domainLen] = '\\';
-						_tcscpy(newLogin + domainLen + 1, login);
+						mir_tstrcpy(newLogin + domainLen + 1, login);
 
 						char* szChl = NtlmCreateResponseFromChallenge(hSecurity, NULL, newLogin, psw, http, complete);
 						mir_free(szChl);

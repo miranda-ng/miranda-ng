@@ -42,8 +42,8 @@ static TCHAR *getFullWinampTitleText()
 		mir_free(szWinText);
 		return NULL;
 	}
-	_tcscpy(szTitle, szWinText);
-	_tcscpy(szTitle + mir_tstrlen(szTitle), szWinText);
+	mir_tstrcpy(szTitle, szWinText);
+	mir_tstrcpy(szTitle + mir_tstrlen(szTitle), szWinText);
 	mir_free(szWinText);
 
 	return szTitle;

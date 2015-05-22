@@ -290,7 +290,7 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 
 	if (db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
 		POPUPDATAT pd = {0};
-		_tcscpy(pd.lptzContactName, lParam == SM_WARNING ? _T("Warning") : _T("Notification"));
+		mir_tstrcpy(pd.lptzContactName, lParam == SM_WARNING ? _T("Warning") : _T("Notification"));
 		pd.lchIcon = LoadIcon(0, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
 		_tcsncpy(pd.lptzText, _A2T((char *)wParam), MAX_SECONDLINE); pd.lptzText[MAX_SECONDLINE-1] = 0;
 		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, 0);

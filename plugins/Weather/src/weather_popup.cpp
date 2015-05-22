@@ -95,8 +95,8 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 		// setup the popup
 		ppd.lchIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(OIC_BANG), IMAGE_ICON, 
 			GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_SHARED);
-		_tcscpy(ppd.lptzContactName, str1);
-		_tcscpy(ppd.lptzText, str2);
+		mir_tstrcpy(ppd.lptzContactName, str1);
+		mir_tstrcpy(ppd.lptzText, str2);
 		ppd.colorBack = (opt.UseWinColors)?GetSysColor(COLOR_BTNFACE):opt.BGColour;
 		ppd.colorText = (opt.UseWinColors)?GetSysColor(COLOR_WINDOWTEXT):opt.TextColour;
 		ppd.iSeconds = opt.pDelay;

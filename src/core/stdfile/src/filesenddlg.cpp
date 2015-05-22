@@ -111,7 +111,7 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const TCHAR *buf)
 			// Add path to filename and copy into array
 			memcpy(dat->files[nTemp], buf, (fileOffset - 1)*sizeof(TCHAR));
 			dat->files[nTemp][fileOffset - 1] = '\\';
-			_tcscpy(dat->files[nTemp] + fileOffset - (buf[fileOffset - 2] == '\\' ? 1 : 0), pBuf);
+			mir_tstrcpy(dat->files[nTemp] + fileOffset - (buf[fileOffset - 2] == '\\' ? 1 : 0), pBuf);
 
 			// Move pointers to next file...
 			pBuf += cbFileNameLen + 1;

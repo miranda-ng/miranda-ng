@@ -220,7 +220,7 @@ int TrafficCounterModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 	else //defaults here
 	{
-		_tcscpy(Traffic_CounterFormat, _T("{I4}\x0D\x0A\x0A\
+		mir_tstrcpy(Traffic_CounterFormat, _T("{I4}\x0D\x0A\x0A\
 {R65}?tc_GetTraffic(%extratext%,now,sent,d)\x0D\x0A\x0A\
 {R115}?tc_GetTraffic(%extratext%,now,received,d)\x0D\x0A\x0A\
 {R165}?tc_GetTraffic(%extratext%,total,both,d)\x0D\x0A\x0A\
@@ -238,7 +238,7 @@ int TrafficCounterModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 	else //defaults here
 	{
-		_tcscpy(Traffic_TooltipFormat, _T("Traffic Counter"));
+		mir_tstrcpy(Traffic_TooltipFormat, _T("Traffic Counter"));
 	}
 
 	Traffic_AdditionSpace = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, 0);
@@ -248,8 +248,8 @@ int TrafficCounterModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	//register traffic font
 	TrafficFontID.cbSize = sizeof(FontIDT);
-	_tcscpy(TrafficFontID.group, LPGENT("Traffic counter"));
-	_tcscpy(TrafficFontID.name, LPGENT("Font"));
+	mir_tstrcpy(TrafficFontID.group, LPGENT("Traffic counter"));
+	mir_tstrcpy(TrafficFontID.name, LPGENT("Font"));
 	mir_strcpy(TrafficFontID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
 	mir_strcpy(TrafficFontID.prefix, "Font");
 	TrafficFontID.flags = FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
@@ -257,14 +257,14 @@ int TrafficCounterModulesLoaded(WPARAM wParam, LPARAM lParam)
 	TrafficFontID.deffontsettings.colour = GetSysColor(COLOR_BTNTEXT);
 	TrafficFontID.deffontsettings.size = 12;
 	TrafficFontID.deffontsettings.style = 0;
-	_tcscpy(TrafficFontID.deffontsettings.szFace, _T("Arial"));
+	mir_tstrcpy(TrafficFontID.deffontsettings.szFace, _T("Arial"));
 	TrafficFontID.order = 0;
 	FontRegisterT(&TrafficFontID);
 
 	// Регистрируем цвет фона
 	TrafficBackgroundColorID.cbSize = sizeof(ColourIDT);
-	_tcscpy(TrafficBackgroundColorID.group, LPGENT("Traffic counter"));
-	_tcscpy(TrafficBackgroundColorID.name, LPGENT("Font"));
+	mir_tstrcpy(TrafficBackgroundColorID.group, LPGENT("Traffic counter"));
+	mir_tstrcpy(TrafficBackgroundColorID.name, LPGENT("Font"));
 	mir_strcpy(TrafficBackgroundColorID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
 	mir_strcpy(TrafficBackgroundColorID.setting, "FontBkColor");
 	TrafficBackgroundColorID.defcolour = GetSysColor(COLOR_BTNFACE);
@@ -1181,7 +1181,7 @@ void CreateProtocolList(void)
 		ProtoList[i].name = (char*)mir_alloc(mir_strlen(acc[i]->szModuleName) + 1);
 		mir_strcpy(ProtoList[i].name, acc[i]->szModuleName);
 		ProtoList[i].tszAccountName = (TCHAR*)mir_alloc(sizeof(TCHAR) * (1 + mir_tstrlen(acc[i]->tszAccountName)));
-		_tcscpy(ProtoList[i].tszAccountName, acc[i]->tszAccountName);
+		mir_tstrcpy(ProtoList[i].tszAccountName, acc[i]->tszAccountName);
 		//
 		ProtoList[i].Flags = db_get_b(NULL, ProtoList[i].name, SETTINGS_PROTO_FLAGS, 3);
 		ProtoList[i].CurrentRecvTraffic = 

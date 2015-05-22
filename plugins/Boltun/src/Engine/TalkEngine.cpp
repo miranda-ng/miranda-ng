@@ -274,7 +274,7 @@ tstring TalkBot::AllReplies(const tstring &incomingMessage, ContactData *contact
 TalkBot::MessageInfo* TalkBot::Reply(MCONTACT contact, tstring incomingMessage, bool saveChoice)
 {
 	TCHAR* str = new TCHAR[incomingMessage.length() + 1];
-	_tcscpy(str, incomingMessage.c_str());
+	mir_tstrcpy(str, incomingMessage.c_str());
 	CharLower(str);
 	incomingMessage = str;
 	delete[] str;

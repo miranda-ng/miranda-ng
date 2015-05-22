@@ -929,7 +929,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			TCHAR protoInfoLine[512], protoInfo[MAX_SECONDLINE];
 			memset(protoInfoLine, '\0', sizeof(protoInfoLine));
 			memset(protoInfo, '\0', sizeof(protoInfo));
-			_tcscpy(protoInfo, _T("\r\n"));
+			mir_tstrcpy(protoInfo, _T("\r\n"));
 			for (int i = 0; i < connectionSettings.getCount(); i++) {
 				if (mir_tstrlen(ps[i]->tszAccName) > 0 && mir_strlen(ps[i]->szName) > 0) {
 					if (db_get_b(NULL, MODULENAME, SETTING_PUSHOWEXTRA, TRUE)) {

@@ -96,7 +96,7 @@ void ResetDataItem(WIDATAITEM *Item, const TCHAR *name)
 {
 	TCHAR str[] = _T("ID Search - Station Name");
 	Item->Name = ( TCHAR* )mir_alloc( sizeof(str));
-	_tcscpy(Item->Name, str);
+	mir_tstrcpy(Item->Name, str);
 	Item->Start = _T("");
 	Item->End = _T("");
 	Item->Unit = _T("");

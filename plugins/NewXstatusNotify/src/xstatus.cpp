@@ -80,13 +80,13 @@ TCHAR* GetStatusTypeAsString(int type, TCHAR *buff)
 {
 	switch (type) {
 	case TYPE_JABBER_MOOD:
-		_tcscpy(buff, TranslateT("Mood")); return buff;
+		mir_tstrcpy(buff, TranslateT("Mood")); return buff;
 	case TYPE_JABBER_ACTIVITY:
-		_tcscpy(buff, TranslateT("Activity")); return buff;
+		mir_tstrcpy(buff, TranslateT("Activity")); return buff;
 	case TYPE_ICQ_XSTATUS:
-		_tcscpy(buff, TranslateT("xStatus")); return buff;
+		mir_tstrcpy(buff, TranslateT("xStatus")); return buff;
 	default:
-		_tcscpy(buff, TranslateT("<unknown>")); return buff;
+		mir_tstrcpy(buff, TranslateT("<unknown>")); return buff;
 	}
 }
 

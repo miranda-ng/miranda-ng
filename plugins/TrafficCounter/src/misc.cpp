@@ -164,7 +164,7 @@ size_t GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, size_t Size)
 
 	if (Size && Buffer)
 	{
-		_tcscpy(Buffer, Res);
+		mir_tstrcpy(Buffer, Res);
 		l = mir_tstrlen(Buffer);
 	}
 	else

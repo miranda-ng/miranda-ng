@@ -159,7 +159,7 @@ void FindAdd(HWND hdlg, TCHAR *szProfileDir, TCHAR *szPrefix)
 
 TCHAR *addstring(TCHAR *str, TCHAR *add)
 {
-	_tcscpy(str, add);
+	mir_tstrcpy(str, add);
 	return str + mir_tstrlen(add) + 1;
 }
 
@@ -203,7 +203,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			TCHAR szMirandaProfiles[MAX_PATH];
 			DWORD cbData = SIZEOF(szMirandaPath);
 
-			_tcscpy(szMirandaProfiles, szMirandaPath);
+			mir_tstrcpy(szMirandaProfiles, szMirandaPath);
 			_tcscat(szMirandaProfiles, _T("\\Profiles"));
 			GetProfileDirectory(szMirandaPath, szProfileDir, SIZEOF(szProfileDir));
 

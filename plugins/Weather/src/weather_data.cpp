@@ -204,7 +204,7 @@ void ConvertDataValue(WIDATAITEM *UpdateData, TCHAR *Data)
 			!mir_tstrcmpi(UpdateData->Unit, _T("K")))
 		{
 			GetTemp(Data, UpdateData->Unit, str);
-			_tcscpy(Data, str);
+			mir_tstrcpy(Data, str);
 		}
 		// pressure
 		else if ( !mir_tstrcmp(UpdateData->Name, _T("Pressure")) || !mir_tstrcmpi(UpdateData->Unit, _T("HPA")) || 
@@ -213,7 +213,7 @@ void ConvertDataValue(WIDATAITEM *UpdateData, TCHAR *Data)
 			!mir_tstrcmpi(UpdateData->Unit, _T("MM")))
 		{
 			GetPressure(Data, UpdateData->Unit, str);
-			_tcscpy(Data, str);
+			mir_tstrcpy(Data, str);
 		}
 		// speed
 		else if ( !mir_tstrcmp(UpdateData->Name, _T("Wind Speed")) || !mir_tstrcmpi(UpdateData->Unit, _T("KM/H")) || 
@@ -221,21 +221,21 @@ void ConvertDataValue(WIDATAITEM *UpdateData, TCHAR *Data)
 			!mir_tstrcmpi(UpdateData->Unit, _T("KNOTS")))
 		{
 			GetSpeed(Data, UpdateData->Unit, str);
-			_tcscpy(Data, str);
+			mir_tstrcpy(Data, str);
 		}
 		// visibility
 		else if ( !mir_tstrcmp(UpdateData->Name, _T("Visibility")) || !mir_tstrcmpi(UpdateData->Unit, _T("KM")) || 
 			!mir_tstrcmpi(UpdateData->Unit, _T("MILES")))
 		{
 			GetDist(Data, UpdateData->Unit, str);
-			_tcscpy(Data, str);
+			mir_tstrcpy(Data, str);
 		}
 		// elevation
 		else if ( !mir_tstrcmp(UpdateData->Name, _T("Elevation")) || !mir_tstrcmpi(UpdateData->Unit, _T("FT")) || 
 			!mir_tstrcmpi(UpdateData->Unit, _T("M")))
 		{
 			GetElev(Data, UpdateData->Unit, str);
-			_tcscpy(Data, str);
+			mir_tstrcpy(Data, str);
 		}
 		// converting case for condition to the upper+lower format
 		else if ( !mir_tstrcmpi(UpdateData->Unit, _T("COND")))

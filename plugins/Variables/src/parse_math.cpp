@@ -61,7 +61,7 @@ static TCHAR *parseHex(ARGUMENTSINFO *ai)
 		return NULL;
 
 	memset(res, 0, ((zeros + mir_tstrlen(szVal) + 3) * sizeof(TCHAR)));
-	_tcscpy(res, _T("0x"));
+	mir_tstrcpy(res, _T("0x"));
 	for (i = 0; i < zeros; i++)
 		*(res + 2 + i) = '0';
 

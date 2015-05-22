@@ -290,7 +290,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					_tcsncpy(filter, TranslateT("All files"),SIZEOF(filter)-1);
 					_tcscat(filter, _T(" (*)"));
 					pfilter = filter + mir_tstrlen(filter) + 1;
-					_tcscpy(pfilter, _T("*"));
+					mir_tstrcpy(pfilter, _T("*"));
 					pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 					*pfilter = '\0';
 					ofn.lpstrFilter = filter;

@@ -1927,7 +1927,7 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 	if (tempdirlen <= 0 || tempdirlen >= MAX_PATH - mir_tstrlen(mirandatempdir) - mir_tstrlen(filenametemplate) - 2) // -2 is because %Y takes 4 symbols
 		filename[0] = 0;					// prompt for a new name
 	else {
-		_tcscpy(filename + tempdirlen, mirandatempdir);
+		mir_tstrcpy(filename + tempdirlen, mirandatempdir);
 		if ((GetFileAttributes(filename) == INVALID_FILE_ATTRIBUTES || ((GetFileAttributes(filename) & FILE_ATTRIBUTE_DIRECTORY) == 0)) && CreateDirectory(filename, NULL) == 0)
 			filename[0] = 0;
 		else {

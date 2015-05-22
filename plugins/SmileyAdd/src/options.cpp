@@ -533,15 +533,15 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 	ofn.hwndOwner = m_hwndDialog;
 
 	TCHAR filter[512], *pfilter;
-	_tcscpy(filter, TranslateT("Smiley packs"));
+	mir_tstrcpy(filter, TranslateT("Smiley packs"));
 	mir_tstrcat(filter, _T(" (*.msl;*.asl;*.xep)"));
 	pfilter = filter + mir_tstrlen(filter) + 1;
-	_tcscpy(pfilter, _T("*.msl;*.asl;*.xep"));
+	mir_tstrcpy(pfilter, _T("*.msl;*.asl;*.xep"));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-	_tcscpy(pfilter, TranslateT("All files"));
+	mir_tstrcpy(pfilter, TranslateT("All files"));
 	mir_tstrcat(pfilter, _T(" (*.*)"));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-	_tcscpy(pfilter, _T("*.*"));
+	mir_tstrcpy(pfilter, _T("*.*"));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 	*pfilter = '\0';  
 	ofn.lpstrFilter = filter;

@@ -380,7 +380,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			const size_t fileNameSize = 5000;
 			TCHAR *filename = new TCHAR[fileNameSize];
 			TCHAR *fullname = GetFullName(Config.MindFileName);
-			_tcscpy(filename, fullname);
+			mir_tstrcpy(filename, fullname);
 			if (fullname != Config.MindFileName)
 				delete[] fullname;
 

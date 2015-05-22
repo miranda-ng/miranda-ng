@@ -280,13 +280,13 @@ LBL_FatalError:
 		if (m_options.HostNameAsResource) {
 			DWORD dwCompNameLen = SIZEOF(info.resource) - 1;
 			if (!GetComputerName(info.resource, &dwCompNameLen))
-				_tcscpy(info.resource, _T("Miranda"));
+				mir_tstrcpy(info.resource, _T("Miranda"));
 		}
 		else {
 			if ((tszValue = getTStringA("Resource")) != NULL)
 				_tcsncpy_s(info.resource, tszValue, _TRUNCATE);
 			else
-				_tcscpy(info.resource, _T("Miranda"));
+				mir_tstrcpy(info.resource, _T("Miranda"));
 		}
 
 		TCHAR jidStr[512];
@@ -1266,7 +1266,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 			if (ptszUrl != NULL && *ptszUrl) {
 				size_t cbLen = (szMessage ? mir_tstrlen(szMessage) : 0) + mir_tstrlen(ptszUrl) + 32;
 				TCHAR *szTmp = (TCHAR *)alloca(sizeof(TCHAR)* cbLen);
-				_tcscpy(szTmp, ptszUrl);
+				mir_tstrcpy(szTmp, ptszUrl);
 				if (szMessage) {
 					_tcscat(szTmp, _T("\r\n"));
 					_tcscat(szTmp, szMessage);

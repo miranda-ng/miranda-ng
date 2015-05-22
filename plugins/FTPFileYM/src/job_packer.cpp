@@ -36,29 +36,29 @@ void PackerJob::getZipFilePath()
 
 	if (this->files.size() == 1)
 	{
-		_tcscpy(stzFileName, Utils::getFileNameFromPath(this->files[0]));
+		mir_tstrcpy(stzFileName, Utils::getFileNameFromPath(this->files[0]));
 		pch = _tcsrchr(stzFileName, '.');
 		if (pch) *pch = 0;
 	}
 	else
 	{
-		_tcscpy(buff, this->files[0]);
+		mir_tstrcpy(buff, this->files[0]);
 		pch = _tcsrchr(buff, '\\');
 		if (pch) 
 		{
 			*pch = 0;
 			pch = _tcsrchr(buff, '\\');
-			if (pch) _tcscpy(stzFileName, pch + 1);
+			if (pch) mir_tstrcpy(stzFileName, pch + 1);
 		}
 	}
 
 	if (stzFileName[0] == '\0')
-		_tcscpy(stzFileName, _T("archive"));
+		mir_tstrcpy(stzFileName, _T("archive"));
 
 	GetTempPath(SIZEOF(buff), buff);
 
 	mir_sntprintf(this->stzFilePath, SIZEOF(this->stzFilePath), _T("%s%s.zip"), buff, stzFileName);
-	_tcscpy(this->stzFileName, Utils::getFileNameFromPath(this->stzFilePath));
+	mir_tstrcpy(this->stzFileName, Utils::getFileNameFromPath(this->stzFilePath));
 
 	if (opt.bSetZipName)
 		Utils::setFileNameDlg(this->stzFileName);

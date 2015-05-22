@@ -170,8 +170,8 @@ static TCHAR *parseInsert(ARGUMENTSINFO *ai)
 
 	memset(res, 0, ((mir_tstrlen(ai->targv[1]) + mir_tstrlen(ai->targv[2]) + 1) * sizeof(TCHAR)));
 	_tcsncpy(res, ai->targv[1], pos);
-	_tcscpy(res + pos, ai->targv[2]);
-	_tcscpy(res + pos + mir_tstrlen(ai->targv[2]), ai->targv[1] + pos);
+	mir_tstrcpy(res + pos, ai->targv[2]);
+	mir_tstrcpy(res + pos + mir_tstrlen(ai->targv[2]), ai->targv[1] + pos);
 	return res;
 }
 
@@ -302,7 +302,7 @@ static TCHAR *parsePadright(ARGUMENTSINFO *ai)
 		return NULL;
 
 	memset(res, 0, ((addcount + mir_tstrlen(ai->targv[1]) + 1) * sizeof(TCHAR)));
-	_tcscpy(res, ai->targv[1]);
+	mir_tstrcpy(res, ai->targv[1]);
 	TCHAR *cur = res + mir_tstrlen(ai->targv[1]);
 	for (unsigned int i = 0; i < addcount; i++)
 		*cur++ = padchar;
@@ -459,7 +459,7 @@ static TCHAR *parseScroll(ARGUMENTSINFO *ai)
 		return NULL;
 
 	memset(res, 0, ((2 * mir_tstrlen(ai->targv[1]) + 1) * sizeof(TCHAR)));
-	_tcscpy(res, ai->targv[1]);
+	mir_tstrcpy(res, ai->targv[1]);
 	_tcscat(res, ai->targv[1]);
 	memmove(res, res + move, (mir_tstrlen(res + move) + 1)*sizeof(TCHAR));
 	*(res + display) = 0;

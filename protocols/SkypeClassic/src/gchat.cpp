@@ -139,8 +139,8 @@ static int AddChatContact(gchat_contacts *gc, char *who, TCHAR *pszRole)
 		if ((gc->mJoinedContacts=(gchat_contact*)realloc(gc->mJoinedContacts, (gc->mJoinedCount+1)*sizeof(gchat_contact))))
 		{
 			gc->mJoinedContacts[i=gc->mJoinedCount].hContact=hContact;
-			_tcscpy (gc->mJoinedContacts[i].szRole, gce.ptszStatus);
-			_tcscpy (gc->mJoinedContacts[i].who, twho);
+			mir_tstrcpy (gc->mJoinedContacts[i].szRole, gce.ptszStatus);
+			mir_tstrcpy (gc->mJoinedContacts[i].who, twho);
 			gc->mJoinedCount++;
 		}
 	}
@@ -674,7 +674,7 @@ int GCEventHook(WPARAM,LPARAM lParam) {
 				TCHAR *ptr, buf[MAX_BUF];
 
 				ptr = SkypeGetT ("CHAT", (TCHAR*)gch->pDest->ptszID, "TOPIC");
-				_tcscpy(buf, ptr);
+				mir_tstrcpy(buf, ptr);
 				free(ptr);
 				if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_INPUTBOX), NULL, InputBoxDlgProc, (LPARAM)&buf))
 					SetChatTopic(gch->pDest->ptszID, buf, TRUE);

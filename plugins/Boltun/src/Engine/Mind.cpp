@@ -134,7 +134,7 @@ void Mind::Load(tstring filename)
 			format(st);
 			count = st.length();
 			c = co = new TCHAR[count + 1];
-			_tcscpy(c, st.c_str());
+			mir_tstrcpy(c, st.c_str());
 			size_t pos = 0;
 			while (pos < count && _istspace(*c))
 			{
@@ -259,7 +259,7 @@ void Mind::Load(tstring filename)
 					tstring sc(c);
 					int count1 = (int)s1.length();
 					TCHAR *c = new TCHAR[count1 + 1];
-					_tcscpy(c, s1.c_str());
+					mir_tstrcpy(c, s1.c_str());
 					CharLower(c);
 					s1 = c;
 					delete c;

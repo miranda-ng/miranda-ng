@@ -92,7 +92,7 @@ void DeleteJob::run()
 		else if (manDlg != NULL && this->treeItem)
 		{
 			TCHAR *error = mir_a2t(szError);
-			_tcscpy(this->treeItem->stzToolTip, error);
+			mir_tstrcpy(this->treeItem->stzToolTip, error);
 			this->treeItem->setState(Manager::TreeItem::_ERROR());
 			FREE(error);
 		}				

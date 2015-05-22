@@ -296,7 +296,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  {
 					  wstring str = name;
 					  wstring::size_type p = str.find(_T("("))-1;
-					  _tcscpy(name, str.substr(0, p).c_str());
+					  mir_tstrcpy(name, str.substr(0, p).c_str());
 				  }
 			  }
 			  string out;
@@ -863,15 +863,15 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			mir_free(mir_path);
 			mir_realloc(path, (mir_tstrlen(path)+128)*sizeof(TCHAR));
 			TCHAR *gpg_path = (TCHAR*)mir_alloc(sizeof(TCHAR) * MAX_PATH), *gpg_lang_path = (TCHAR*)mir_alloc(sizeof(TCHAR) * MAX_PATH);
-			_tcscpy(gpg_path, tmp);
+			mir_tstrcpy(gpg_path, tmp);
 			_tcscat(gpg_path, _T("\\GnuPG\\gpg.exe"));
-			_tcscpy(gpg_lang_path, tmp);
+			mir_tstrcpy(gpg_lang_path, tmp);
 			_tcscat(gpg_lang_path, _T("\\GnuPG\\gnupg.nls\\en@quot.mo"));
 			mir_free(tmp);
 			if(boost::filesystem::exists(gpg_path))
 			{
 				gpg_exists = true;
-				_tcscpy(path, _T("GnuPG\\gpg.exe"));
+				mir_tstrcpy(path, _T("GnuPG\\gpg.exe"));
 			}
 			if(boost::filesystem::exists(gpg_lang_path))
 				lang_exists = true;

@@ -262,7 +262,7 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 			cont.type = 1;
 
 			TCHAR* pathcpy = mir_tstrdup(ft->std.tszCurrentFile);
-			_tcscpy(_tcsrchr(pathcpy, '.') + 1, ext);
+			mir_tstrcpy(_tcsrchr(pathcpy, '.') + 1, ext);
 			_trename(ft->std.tszCurrentFile, pathcpy);
 
 			cont.path = pathcpy;

@@ -94,19 +94,19 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 		_ltot(dwUin, pszDest + tPathLen, 10);
 	else if (szUid) {
 		TCHAR* p = mir_a2t(szUid);
-		_tcscpy(pszDest + tPathLen, p);
+		mir_tstrcpy(pszDest + tPathLen, p);
 		mir_free(p);
 	}
 	else {
 		TCHAR szBuf[MAX_PATH];
 		if (CallService(MS_DB_GETPROFILENAMET, MAX_PATH, (LPARAM)szBuf))
-			_tcscpy(pszDest + tPathLen, _T("avatar"));
+			mir_tstrcpy(pszDest + tPathLen, _T("avatar"));
 		else {
 			TCHAR *szLastDot = _tcsrchr(szBuf, '.');
 			if (szLastDot)
 				szLastDot[0] = '\0';
 
-			_tcscpy(pszDest + tPathLen, szBuf);
+			mir_tstrcpy(pszDest + tPathLen, szBuf);
 			_tcscat(pszDest + tPathLen, _T("_avt"));
 		}
 	}

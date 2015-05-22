@@ -692,7 +692,7 @@ BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 			size_t len = mir_tstrlen(gce->ptszNick) + 1;
 			TCHAR *tmp = (TCHAR*)_alloca(sizeof(TCHAR)*(len + 1));
 			*tmp = GetIndicator(si, gce->ptszNick, 0);
-			_tcscpy(tmp + 1, gce->ptszNick);
+			mir_tstrcpy(tmp + 1, gce->ptszNick);
 			evTmp.ptszNick = tmp;
 		}
 	}

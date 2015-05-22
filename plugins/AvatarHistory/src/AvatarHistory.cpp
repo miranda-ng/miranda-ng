@@ -342,7 +342,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_AVATARHISTORY_GET_CACHED_AVATAR, GetCachedAvatar);
 
 	if (CallService(MS_DB_GETPROFILEPATHT, MAX_PATH, (LPARAM)profilePath) != 0)
-		_tcscpy(profilePath, _T(".")); // Failed, use current dir
+		mir_tstrcpy(profilePath, _T(".")); // Failed, use current dir
 
 	SkinAddNewSoundExT("avatar_changed",LPGENT("Avatar History"),LPGENT("Contact changed avatar"));
 	SkinAddNewSoundExT("avatar_removed",LPGENT("Avatar History"),LPGENT("Contact removed avatar"));

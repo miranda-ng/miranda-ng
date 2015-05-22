@@ -112,7 +112,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cf.cbSize = sizeof(cf);
 				cf.yHeight=12*20;
 				cf.dwMask=CFM_SIZE|CFM_FACE;
-				_tcscpy(cf.szFaceName, TEXT("Arial"));
+				mir_tstrcpy(cf.szFaceName, TEXT("Arial"));
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 			}
 			else

@@ -78,7 +78,7 @@ int UpdateWeather(MCONTACT hContact)
 	WEATHERINFO winfo = LoadWeatherInfo(hContact);
 
 	// translate weather condition
-	_tcscpy(winfo.cond, TranslateTS(winfo.cond));
+	mir_tstrcpy(winfo.cond, TranslateTS(winfo.cond));
 
 	// compare the old condition and determine if the weather had changed
 	if (opt.UpdateOnlyConditionChanged) {	// consider condition change
