@@ -2207,12 +2207,12 @@ void ICQ::addUrl(ICQUser *u, char *m, unsigned short theCmd, unsigned short theS
     CCSDATA ccs;
     PROTORECVEVENT pre;
 
-    messageLen = lstrlen(m);
+    messageLen = mir_tstrlen(m);
     for (i=0; i<messageLen; i++) if (m[i] == (char)0xFE) m[i] = 0;
 
     url = new char[messageLen + 1];
-    lstrcpy(url, m + lstrlen(m) + 1);
-    lstrcpy(url + lstrlen(url) + 1, m);
+    lstrcpy(url, m + mir_tstrlen(m) + 1);
+    lstrcpy(url + mir_tstrlen(url) + 1, m);
 
     ccs.hContact = u->hContact;
     ccs.szProtoService = PSR_URL;

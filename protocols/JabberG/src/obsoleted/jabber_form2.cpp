@@ -777,7 +777,7 @@ public:
 		CreateLabel();
 		int i, length = 1;
 		for (i = 0; i < m_field->GetValueCount(); ++i)
-			length += lstrlen(m_field->GetValue(i)) + 2;
+			length += mir_tstrlen(m_field->GetValue(i)) + 2;
 
 		TCHAR *str = (TCHAR *)mir_alloc(sizeof(TCHAR) * length);
 		*str = 0;
