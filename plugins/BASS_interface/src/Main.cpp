@@ -98,7 +98,7 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 
 	if (doPlay) {
 		BASS_StreamFree(sndSSnd[sndNSnd]);
-		sndSSnd[sndNSnd] = BASS_StreamCreateFileW(FALSE, ptszFile, 0, 0, BASS_STREAM_AUTOFREE);
+		sndSSnd[sndNSnd] = BASS_StreamCreateFile(FALSE, ptszFile, 0, 0, BASS_STREAM_AUTOFREE);
 		BASS_ChannelPlay(sndSSnd[sndNSnd], FALSE);
 		sndNSnd = (sndNSnd + 1) % sndLimSnd;
 	}
