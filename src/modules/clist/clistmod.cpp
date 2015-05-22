@@ -464,7 +464,7 @@ static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 	nameb = cli.pfnGetContactDisplayName(b, 0);
 
 	//otherwise just compare names
-	return _tcsicmp(namea, nameb);
+	return mir_tstrcmpi(namea, nameb);
 }
 
 /***************************************************************************************/

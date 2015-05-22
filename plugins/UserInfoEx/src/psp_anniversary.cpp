@@ -85,7 +85,7 @@ static INT_PTR CALLBACK DlgProc_AnniversaryEditor(HWND hDlg, UINT uMsg, WPARAM w
 				break;
 			}
 
-			if (_tcsicmp(pszText, pDlgEditAnniv->Description())) {
+			if (mir_tstrcmpi(pszText, pDlgEditAnniv->Description())) {
 				pDlgEditAnniv->Description(pszText);
 				pDlgEditAnniv->SetFlags(MAnnivDate::MADF_HASCUSTOM | MAnnivDate::MADF_CHANGED);
 			}

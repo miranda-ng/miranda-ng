@@ -627,7 +627,7 @@ BOOL Xfire_base::getPidByProcessName(TCHAR *name, DWORD *pid) {
 	while (Process32Next(hSnapShot, processInfo) != FALSE)
 	{
 		if (processInfo->th32ProcessID != 0) {
-			if (_tcsicmp(processInfo->szExeFile, name) == 0)
+			if (mir_tstrcmpi(processInfo->szExeFile, name) == 0)
 			{
 				*pid = processInfo->th32ProcessID;
 				CloseHandle(hSnapShot);

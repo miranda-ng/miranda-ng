@@ -46,12 +46,12 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 			DBVARIANT dbv;
 			// check ID to see if the contact already exist in the database
 			if ( !db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
-				if ( !_tcsicmp(psr->email, dbv.ptszVal)) {
+				if ( !mir_tstrcmpi(psr->email, dbv.ptszVal)) {
 					// remove the flag for not on list and hidden, thus make the contact visible
 					// and add them on the list
 					if (db_get_b(hContact, "CList", "NotOnList", 1)) {
 						db_unset(hContact, "CList", "NotOnList");
-						db_unset(hContact, "CList", "Hidden");						
+						db_unset(hContact, "CList", "Hidden");
 					}
 					db_free(&dbv);
 					// contact is added, function quitting
@@ -322,13 +322,13 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 			// for single result
 			if (sData->Single.Available && (search != NULL || !sData->Multiple.Available)) { // single result
 				// if station ID appears first in the downloaded data
-				if ( !_tcsicmp(sData->Single.First, _T("ID"))) {
+				if ( !mir_tstrcmpi(sData->Single.First, _T("ID"))) {
 					GetDataValue(&sData->Single.ID, str, &szInfo);
 					mir_sntprintf(sID, SIZEOF(sID), _T("%s/%s"), svc, str);
 					GetDataValue(&sData->Single.Name, Name, &szInfo);
 				}
 				// if station name appears first in the downloaded data
-				else if ( !_tcsicmp(sData->Single.First, _T("NAME"))) {
+				else if ( !mir_tstrcmpi(sData->Single.First, _T("NAME"))) {
 					GetDataValue(&sData->Single.Name, Name, &szInfo);
 					GetDataValue(&sData->Single.ID, str, &szInfo);
 					mir_sntprintf(sID, SIZEOF(sID), _T("%s/%s"), svc, str);
@@ -363,13 +363,13 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 				// search for the next occurrence of the string
 				while (true) {
 					// if station ID appears first in the downloaded data
-					if ( !_tcsicmp(sData->Multiple.First, _T("ID"))) {
+					if ( !mir_tstrcmpi(sData->Multiple.First, _T("ID"))) {
 						GetDataValue(&sData->Multiple.ID, str, &szInfo);
 						mir_sntprintf(sID, SIZEOF(sID), _T("%s/%s"), svc, str);
 						GetDataValue(&sData->Multiple.Name, Name, &szInfo);
 					}
 					// if station name appears first in the downloaded data
-					else if ( !_tcsicmp(sData->Multiple.First, _T("NAME"))) {
+					else if ( !mir_tstrcmpi(sData->Multiple.First, _T("NAME"))) {
 						GetDataValue(&sData->Multiple.Name, Name, &szInfo);
 						GetDataValue(&sData->Multiple.ID, str, &szInfo);
 						mir_sntprintf(sID, SIZEOF(sID), _T("%s/%s"), svc, str);

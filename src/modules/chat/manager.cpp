@@ -177,7 +177,7 @@ static BOOL SM_SetOffline(const TCHAR *pszID, const char *pszModule)
 		return FALSE;
 
 	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
-		if ((pszID && _tcsicmp(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
+		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 		
 		ci.UM_RemoveAll(&si->pUsers);
@@ -198,7 +198,7 @@ static BOOL SM_SetStatusEx(const TCHAR *pszID, const char *pszModule, const TCHA
 		return FALSE;
 
 	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
-		if ((pszID && _tcsicmp(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
+		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
 		ci.UM_SetStatusEx(si->pUsers, pszText, flags);
@@ -310,7 +310,7 @@ static BOOL SM_RemoveUser(const TCHAR *pszID, const char *pszModule, const TCHAR
 		return FALSE;
 
 	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
-		if ((pszID && _tcsicmp(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
+		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
 		USERINFO *ui = ci.UM_FindUser(si->pUsers, pszUID);
@@ -403,7 +403,7 @@ static LRESULT SM_SendMessage(const TCHAR *pszID, const char *pszModule, UINT ms
 		return 0;
 
 	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
-		if ((pszID && _tcsicmp(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
+		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
 		if (si->hWnd) {
@@ -450,7 +450,7 @@ static BOOL SM_SetStatus(const TCHAR *pszID, const char *pszModule, int wStatus)
 		return FALSE;
 
 	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
-		if ((pszID && _tcsicmp(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
+		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
 		si->wStatus = wStatus;
@@ -476,7 +476,7 @@ static BOOL SM_SendUserMessage(const TCHAR *pszID, const char *pszModule, const 
 		return FALSE;
 
 	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
-		if ((pszID && _tcsicmp(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
+		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
 		if (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS)
@@ -493,7 +493,7 @@ static BOOL SM_ChangeUID(const TCHAR *pszID, const char *pszModule, const TCHAR 
 		return FALSE;
 
 	for (SESSION_INFO *si = ci.wndList; si != NULL; si = si->next) {
-		if ((pszID && _tcsicmp(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
+		if ((pszID && mir_tstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
 		USERINFO* ui = ci.UM_FindUser(si->pUsers, pszUID);

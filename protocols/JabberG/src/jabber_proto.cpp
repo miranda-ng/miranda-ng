@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma warning(disable:4355)
 
 static int compareTransports(const TCHAR *p1, const TCHAR *p2)
-{	return _tcsicmp(p1, p2);
+{	return mir_tstrcmpi(p1, p2);
 }
 
 static int compareListItems(const JABBER_LIST_ITEM *p1, const JABBER_LIST_ITEM *p2)
@@ -719,7 +719,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 			szServer = getTStringA(NULL, "LoginServer");
 			if (szServer == NULL)
 				szServer = mir_tstrdup(_T("jabber.org"));
-			else if (numericjid && !_tcsicmp(szServer, _T("S.ms"))) {
+			else if (numericjid && !mir_tstrcmpi(szServer, _T("S.ms"))) {
 				mir_free(szServer);
 				szServer = mir_tstrdup(_T("sms"));
 			}

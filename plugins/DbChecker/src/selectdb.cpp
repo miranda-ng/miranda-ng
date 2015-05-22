@@ -95,7 +95,7 @@ static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
 	lvi.iSubItem = 0;
 	for (lvi.iItem = ListView_GetItemCount(hwndList) - 1; lvi.iItem >= 0; lvi.iItem--) {
 		ListView_GetItem(hwndList, &lvi);
-		if (!_tcsicmp((TCHAR*)lvi.lParam, filename))
+		if (!mir_tstrcmpi((TCHAR*)lvi.lParam, filename))
 			return lvi.iItem;
 	}
 
@@ -117,7 +117,7 @@ static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
 	mir_sntprintf(szName, SIZEOF(szName), _T("%s%s"), dir, pName);
 
 	TCHAR *pDot = _tcsrchr(szName, '.');
-	if (pDot != NULL && !_tcsicmp(pDot, _T(".dat")))
+	if (pDot != NULL && !mir_tstrcmpi(pDot, _T(".dat")))
 		*pDot = 0;
 
 	lvi.iItem = 0;

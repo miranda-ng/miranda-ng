@@ -1208,7 +1208,7 @@ void CSkin::LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON &hIcon)
 	GetPrivateProfileString(szSection, name, _T("none"), buffer, 250, m_tszFileName);
 	buffer[500] = 0;
 
-	if (_tcsicmp(buffer, _T("none"))) {
+	if (mir_tstrcmpi(buffer, _T("none"))) {
 		TCHAR szDrive[MAX_PATH], szDir[MAX_PATH], szImagePath[MAX_PATH];
 
 		_tsplitpath(m_tszFileName, szDrive, szDir, NULL, NULL);
@@ -1303,7 +1303,7 @@ void CSkin::ReadImageItem(const TCHAR *itemname)
 
 	TCHAR *szImageFileName = tmpItem.Read(m_tszFileName);
 
-	if (!_tcsicmp(itemname, _T("$glyphs")) && szImageFileName != 0) {		// the glyph item MUST have a valid image
+	if (!mir_tstrcmpi(itemname, _T("$glyphs")) && szImageFileName != 0) {		// the glyph item MUST have a valid image
 		tmpItem.Create(szImageFileName);
 		if (tmpItem.getHbm()) {
 			m_glyphItem = tmpItem;
@@ -1321,7 +1321,7 @@ void CSkin::ReadImageItem(const TCHAR *itemname)
 		if (!mir_tstrcmp(buffer, _T("None")))
 			break;
 		for (int i = 0; i <= ID_EXTBK_LAST; i++) {
-			if (!_tcsicmp(SkinItems[i].szName[0] == '{' ? &SkinItems[i].szName[3] : SkinItems[i].szName, buffer)) {
+			if (!mir_tstrcmpi(SkinItems[i].szName[0] == '{' ? &SkinItems[i].szName[3] : SkinItems[i].szName, buffer)) {
 				if (!(tmpItem.getFlags() & IMAGE_GLYPH)) {
 					if (szImageFileName)
 						tmpItem.Create(szImageFileName);
@@ -1416,7 +1416,7 @@ void CSkin::Load(void)
 			continue;
 		}
 		for (i = 0; i <= ID_EXTBK_LAST; i++) {
-			if (!_tcsicmp(&p[1], SkinItems[i].szName[0] == '{' ? &SkinItems[i].szName[3] : SkinItems[i].szName)) {
+			if (!mir_tstrcmpi(&p[1], SkinItems[i].szName[0] == '{' ? &SkinItems[i].szName[3] : SkinItems[i].szName)) {
 				ReadItem(i, p);
 				break;
 			}

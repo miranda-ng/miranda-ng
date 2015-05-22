@@ -124,7 +124,7 @@ class CTzMgr : public LIST<CTimeZone>
 	static int sortFunc(const CTimeZone *tz1, const CTimeZone *tz2)
 	{
 		// DO NOT USE mir_tcsicmp here as it does only return TRUE or FALSE!!!
-		return _tcsicmp(tz1->ptszName, tz2->ptszName);
+		return mir_tstrcmpi(tz1->ptszName, tz2->ptszName);
 	}
 
 	/**

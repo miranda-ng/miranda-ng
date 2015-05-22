@@ -340,7 +340,7 @@ MCONTACT GetContactFromID(TCHAR *szID, char *szProto)
 		tmp = (char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0);
 		STRNCPY(dispName, tmp, sizeof(dispName));
 
-		if ((szHandle) && ((_tcsicmp(szHandle, szID) == 0) || (_tcsicmp(dispName, szID) == 0)) && ((szProto == NULL) || (_stricmp(szProto, cProtocol) == 0)))
+		if ((szHandle) && ((mir_tstrcmpi(szHandle, szID) == 0) || (mir_tstrcmpi(dispName, szID) == 0)) && ((szProto == NULL) || (_stricmp(szProto, cProtocol) == 0)))
 			found = 1;
 
 		free(szHandle);

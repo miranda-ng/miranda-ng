@@ -104,11 +104,11 @@ void CJabberProto::OnIqResultPrivacyList(HXML iqNode, CJabberIqInfo*)
 		const TCHAR *itemType = xmlGetAttrValue(item, _T("type"));
 		PrivacyListRuleType nItemType = Else;
 		if (itemType) {
-			if (!_tcsicmp(itemType, _T("jid")))
+			if (!mir_tstrcmpi(itemType, _T("jid")))
 				nItemType = Jid;
-			else if (!_tcsicmp(itemType, _T("group")))
+			else if (!mir_tstrcmpi(itemType, _T("group")))
 				nItemType = Group;
-			else if (!_tcsicmp(itemType, _T("subscription")))
+			else if (!mir_tstrcmpi(itemType, _T("subscription")))
 				nItemType = Subscription;
 		}
 
@@ -116,7 +116,7 @@ void CJabberProto::OnIqResultPrivacyList(HXML iqNode, CJabberIqInfo*)
 
 		const TCHAR *itemAction = xmlGetAttrValue(item, _T("action"));
 		BOOL bAllow = TRUE;
-		if (itemAction && !_tcsicmp(itemAction, _T("deny")))
+		if (itemAction && !mir_tstrcmpi(itemAction, _T("deny")))
 			bAllow = FALSE;
 
 		const TCHAR *itemOrder = xmlGetAttrValue(item, _T("order"));

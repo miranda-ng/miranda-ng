@@ -993,7 +993,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 	if (hasFn && !hasNick) {
 		ptrT nick(getTStringA(hContact, "Nick"));
 		ptrT jidNick(JabberNickFromJID(jid));
-		if (!nick || (jidNick && !_tcsicmp(nick, jidNick)))
+		if (!nick || (jidNick && !mir_tstrcmpi(nick, jidNick)))
 			setTString(hContact, "Nick", ptrT(getTStringA(hContact, "FullName")));
 	}
 	if (!hasFn)

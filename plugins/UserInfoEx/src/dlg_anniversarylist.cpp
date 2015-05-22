@@ -769,7 +769,7 @@ class CAnnivList
 					// add anniversaries
 					if (_filter.bFilterIndex != FILTER_BIRTHDAY && (!_filter.pszProto || !_strcmpi(pszProto, _filter.pszProto))) 
 						for (i = 0; !ad.DBGetAnniversaryDate(hContact, i); i++)
-							if (!_filter.pszAnniv || !_tcsicmp(_filter.pszAnniv, ad.Description()))
+							if (!_filter.pszAnniv || !mir_tstrcmpi(_filter.pszAnniv, ad.Description()))
 								AddRow(hContact, pszProto, ad, mtNow, wDaysBefore);
 				}
 			}

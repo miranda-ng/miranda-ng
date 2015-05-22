@@ -158,7 +158,7 @@ static DWORD_PTR ConvertServiceParam(MCONTACT hContact, const TCHAR *param)
 	DWORD_PTR ret;
 	if (param == NULL)
 		ret = 0;
-	else if (_tcsicmp(_T("hContact"), param) == 0)
+	else if (mir_tstrcmpi(_T("hContact"), param) == 0)
 		ret = (DWORD_PTR)hContact;
 	else if (_istdigit(*param))
 		ret = _ttoi(param);

@@ -196,7 +196,7 @@ bool LoadWIData(bool dial)
 			chop = _tcsrchr(FileName, '\\');
 			chop[1] = '\0';
 			_tcsncat(FileName, fd.cFileName, SIZEOF(FileName) - mir_tstrlen(FileName));
-			if ( _tcsicmp(fd.cFileName, _T("SAMPLE_INI.INI"))) {
+			if ( mir_tstrcmpi(fd.cFileName, _T("SAMPLE_INI.INI"))) {
 				WIDATA Data;
 				LoadStationData(FileName, fd.cFileName, &Data);
 				if (Data.Enabled)

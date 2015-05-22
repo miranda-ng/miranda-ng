@@ -130,7 +130,7 @@ int fnCompareContacts(const ClcContact* c1, const ClcContact* c2)
 	nameb = cli.pfnGetContactDisplayName(b, 0);
 
 	//otherwise just compare names
-	return _tcsicmp(namea, nameb);
+	return mir_tstrcmpi(namea, nameb);
 }
 
 void fnSortContacts(void)

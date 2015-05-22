@@ -542,7 +542,7 @@ static TCHAR *parseStricmp(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return NULL;
 
-	if (_tcsicmp(ai->targv[1], ai->targv[2]))
+	if (mir_tstrcmpi(ai->targv[1], ai->targv[2]))
 		ai->flags |= AIF_FALSE;
 
 	return mir_tstrdup(_T(""));

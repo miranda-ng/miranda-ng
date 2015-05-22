@@ -185,7 +185,7 @@ MCONTACT GetContactFromID(TCHAR *szID, char *szProto)
 		char *m_szProto = GetContactProto(hContact);
 		TCHAR *szHandle = GetContactID(hContact, szProto);
 		if (szHandle) {
-			bool found = (!_tcsicmp(szHandle, szID) && !_stricmp(szProto, m_szProto));
+			bool found = (!mir_tstrcmpi(szHandle, szID) && !_stricmp(szProto, m_szProto));
 			free(szHandle);
 			if (found)
 				return hContact;

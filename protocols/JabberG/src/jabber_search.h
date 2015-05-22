@@ -271,5 +271,5 @@ public:
 
 inline int TCharKeyCmp(TCHAR* a, TCHAR* b)
 {
-	return (int)(_tcsicmp(a,b));
+	return (int)(mir_tstrcmpi(a,b));
 }

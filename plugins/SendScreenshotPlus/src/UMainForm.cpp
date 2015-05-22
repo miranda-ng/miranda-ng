@@ -1061,7 +1061,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	//TCHAR* pszFormat = (TCHAR*)ComboBox_GetItemData(hwndCombo, ComboBox_GetCurSel(hwndCombo));
 	TCHAR pszFormat[6];
 	ComboBox_GetText(hwndCombo, pszFormat, 6);
-	if(ret && (_tcsicmp (pszFormat,_T("png")) != 0)) {
+	if(ret && (mir_tstrcmpi (pszFormat,_T("png")) != 0)) {
 
 			fif = FIP->FI_GetFIFFromFilenameU(ret);
 			dib_new = FIP->FI_LoadU(fif, ret,0);

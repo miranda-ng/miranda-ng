@@ -160,7 +160,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo*)
 				if (!chNode)
 					break;
 
-				if (!_tcsicmp(xmlGetName(chNode), _T("instructions")) && xmlGetText(chNode))
+				if (!mir_tstrcmpi(xmlGetName(chNode), _T("instructions")) && xmlGetText(chNode))
 					SetDlgItemText(searchHandleDlg,IDC_INSTRUCTIONS,TranslateTS(xmlGetText(chNode)));
 				else if (xmlGetName(chNode)) {
 					Data *MyData=(Data*)malloc(sizeof(Data));
@@ -259,7 +259,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 			TCHAR* var = ListOfFields[j];
 			TCHAR* value = pmUserData->operator [](var);
 			Results.pszFields[j] = value ? value : (TCHAR *)_T(" ");
-			if (!_tcsicmp(var,_T("jid")) && value)
+			if (!mir_tstrcmpi(var,_T("jid")) && value)
 				_tcsncpy_s(Results.jsr.jid, value, _TRUNCATE);
 		}
 		{
@@ -273,7 +273,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 				nick = pmUserData->operator [](nickfields[k++]);
 			}
 			if (nick) {
-				if (_tcsicmp(nick, Results.jsr.jid)) {
+				if (mir_tstrcmpi(nick, Results.jsr.jid)) {
 					mir_sntprintf(buff, SIZEOF(buff), _T("%s (%s)"), nick, Results.jsr.jid);
 				} else {
 					_tcsncpy_s(buff, nick, _TRUNCATE);
@@ -493,7 +493,7 @@ void CJabberProto::SearchDeleteFromRecent(const TCHAR *szAddr, BOOL deleteLastFr
 		char key[30];
 		mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", i);
 		ptrT szValue( getTStringA(key));
-		if (szValue == NULL || _tcsicmp(szAddr, szValue))
+		if (szValue == NULL || mir_tstrcmpi(szAddr, szValue))
 			continue;
 
 		for (int j=i; j < 10; j++) {
@@ -707,7 +707,7 @@ HWND __cdecl CJabberProto::CreateExtendedSearchUI(HWND parent)
 {
 	if (parent && hInst) {
 		ptrT szServer( getTStringA("LoginServer"));
-		if (szServer == NULL || _tcsicmp(szServer, _T("S.ms")))
+		if (szServer == NULL || mir_tstrcmpi(szServer, _T("S.ms")))
 			return CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SEARCHUSER), parent, JabberSearchAdvancedDlgProc, (LPARAM)this);
 	}
 

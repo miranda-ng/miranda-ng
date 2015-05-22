@@ -187,7 +187,7 @@ int CALLBACK PopupsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
 	ListView_GetItemText(params.hList, (int) lParam1, params.column, text1, SIZEOF(text1));
 	ListView_GetItemText(params.hList, (int) lParam2, params.column, text2, SIZEOF(text2));
 	
-	res = _tcsicmp(text1, text2);
+	res = mir_tstrcmpi(text1, text2);
 	
 	res = (params.column == lastColumn) ? -res : res; //do reverse search on second click on same column
 	

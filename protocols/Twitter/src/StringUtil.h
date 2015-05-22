@@ -42,7 +42,7 @@ inline std::wstring UTF8ToWide(const std::string& str)
 
 inline bool Compare(const tstring& one, const tstring& two, bool caseSensitive)
 {
-	return caseSensitive ? (one == two) : (_tcsicmp(one.c_str(), two.c_str()) == 0);
+	return caseSensitive ? (one == two) : (mir_tstrcmpi(one.c_str(), two.c_str()) == 0);
 }
 
 #endif//_STRINGUTIL_H_INCLUDED_

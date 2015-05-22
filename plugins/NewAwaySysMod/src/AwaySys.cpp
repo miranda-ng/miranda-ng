@@ -537,7 +537,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		TreeCtrl->DBToMem(CString(MOD_NAME));
 
 		for (int i = 0; i < TreeCtrl->Value.GetSize(); i++) {
-			if (!(TreeCtrl->Value[i].Flags & TIF_GROUP) && !_tcsicmp(TreeCtrl->Value[i].Title, ai->targv[1])) {
+			if (!(TreeCtrl->Value[i].Flags & TIF_GROUP) && !mir_tstrcmpi(TreeCtrl->Value[i].Title, ai->targv[1])) {
 				Result = TreeCtrl->Value[i].User_Str1;
 				break;
 			}

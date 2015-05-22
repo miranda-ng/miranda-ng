@@ -435,7 +435,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 		*(szSecondParam++) = 0;
 
 	// no command or message command
-	if (!szCommand || (szCommand && !_tcsicmp(szCommand, _T("message")))) {
+	if (!szCommand || (szCommand && !mir_tstrcmpi(szCommand, _T("message")))) {
 		// message
 		if (!ServiceExists(MS_MSG_SENDMESSAGEW))
 			return 1;
@@ -462,7 +462,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 		return 0;
 	}
 	
-	if (!_tcsicmp(szCommand, _T("roster"))) {
+	if (!mir_tstrcmpi(szCommand, _T("roster"))) {
 		if (!HContactFromJID(szJid)) {
 			JABBER_SEARCH_RESULT jsr = { 0 };
 			jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
@@ -481,19 +481,19 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	}
 	
 	// chat join invitation
-	if (!_tcsicmp(szCommand, _T("join"))) {
+	if (!mir_tstrcmpi(szCommand, _T("join"))) {
 		GroupchatJoinRoomByJid(NULL, szJid);
 		return 0;
 	}
 	
 	// service discovery request
-	if (!_tcsicmp(szCommand, _T("disco"))) {
+	if (!mir_tstrcmpi(szCommand, _T("disco"))) {
 		OnMenuHandleServiceDiscovery(0, (LPARAM)szJid);
 		return 0;
 	}
 	
 	// ad-hoc commands
-	if (!_tcsicmp(szCommand, _T("command"))) {
+	if (!mir_tstrcmpi(szCommand, _T("command"))) {
 		if (szSecondParam) {
 			if (!_tcsnicmp(szSecondParam, _T("node="), 5)) {
 				szSecondParam += 5;
@@ -508,7 +508,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	}
 	
 	// send file
-	if (!_tcsicmp(szCommand, _T("sendfile"))) {
+	if (!mir_tstrcmpi(szCommand, _T("sendfile"))) {
 		MCONTACT hContact = HContactFromJID(szJid, TRUE);
 		if (hContact == NULL)
 			hContact = DBCreateContact(szJid, szJid, TRUE, TRUE);

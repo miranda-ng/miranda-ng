@@ -152,7 +152,7 @@ int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 		TCHAR szText2[100];
 		ListView_GetItemText(hList, (int)lParam1, sortCol, szText1, SIZEOF(szText1));
 		ListView_GetItemText(hList, (int)lParam2, sortCol, szText2, SIZEOF(szText2));
-		return _tcsicmp(szText1, szText2)*sortMultiplier;
+		return mir_tstrcmpi(szText1, szText2)*sortMultiplier;
 	}
 	return 0;
 }
