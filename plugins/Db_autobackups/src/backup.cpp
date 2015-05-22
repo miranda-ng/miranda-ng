@@ -241,7 +241,7 @@ int Backup(TCHAR *backup_filename)
 	}
 	else {
 		_tcsncpy_s(dest_file, backup_filename, _TRUNCATE);
-		if (!_tcscmp(_tcsrchr(backup_filename, _T('.')), _T(".zip")))
+		if (!mir_tstrcmp(_tcsrchr(backup_filename, _T('.')), _T(".zip")))
 			bZip = true;
 	}
 	if (!options.disable_popups)

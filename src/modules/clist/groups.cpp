@@ -53,7 +53,7 @@ static int GroupNameExists(const TCHAR *name, int skipGroup)
 		if (grpName == NULL)
 			break;
 
-		if (!_tcscmp((TCHAR*)grpName+1, name))
+		if (!mir_tstrcmp((TCHAR*)grpName+1, name))
 			return i+1;
 	}
 	return 0;
@@ -210,7 +210,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 		if (db_get_ts(hContact, "CList", "Group", &dbv))
 			continue;
 
-		if (_tcscmp(dbv.ptszVal, name))
+		if (mir_tstrcmp(dbv.ptszVal, name))
 		{
 			db_free(&dbv);
 			continue;

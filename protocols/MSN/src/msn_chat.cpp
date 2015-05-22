@@ -581,7 +581,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 		case 40:
 			{
 				const TCHAR *pszRole = MSN_GCGetRole(MSN_GetThreadByChatId(gch->pDest->ptszID), _T2A(gch->ptszUID));
-				MSN_Promoteuser(gch, (pszRole && !_tcscmp(pszRole, _T("admin")))?"user":"admin");
+				MSN_Promoteuser(gch, (pszRole && !mir_tstrcmp(pszRole, _T("admin")))?"user":"admin");
 				break;
 			}
 		case 110:

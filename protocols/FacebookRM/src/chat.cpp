@@ -71,7 +71,7 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 		return 0;
 
 	// Ignore for special chatrooms
-	if (!_tcscmp(hook->pDest->ptszID, _T(FACEBOOK_NOTIFICATIONS_CHATROOM)))
+	if (!mir_tstrcmp(hook->pDest->ptszID, _T(FACEBOOK_NOTIFICATIONS_CHATROOM)))
 		return 0;
 
 	switch (hook->pDest->iType)
@@ -397,7 +397,7 @@ bool FacebookProto::IsSpecialChatRoom(MCONTACT hContact) {
 		return false;
 
 	ptrT idT(getTStringA(hContact, "ChatRoomID"));
-	return idT && !_tcscmp(idT, _T(FACEBOOK_NOTIFICATIONS_CHATROOM));
+	return idT && !mir_tstrcmp(idT, _T(FACEBOOK_NOTIFICATIONS_CHATROOM));
 }
 
 void FacebookProto::PrepareNotificationsChatRoom() {

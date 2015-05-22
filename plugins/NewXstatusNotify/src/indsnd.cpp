@@ -33,7 +33,7 @@ void PreviewSound(HWND hList)
 	int hlpStatus = lvi.lParam;
 
 	ListView_GetItemText(hList, lvi.iItem, 1, buff, SIZEOF(buff));
-	if (!_tcscmp(buff, TranslateT(DEFAULT_SOUND))) {
+	if (!mir_tstrcmp(buff, TranslateT(DEFAULT_SOUND))) {
 		if (hlpStatus < ID_STATUS_MIN)
 			SkinPlaySound(StatusListEx[hlpStatus].lpzSkinSoundName);
 		else
@@ -239,7 +239,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				ListView_GetItem(hList, &lvi);
 				ListView_GetItemText(hList, lvi.iItem, 1, buff, SIZEOF(buff));
 
-				if (!_tcscmp(buff, TranslateT(DEFAULT_SOUND))) {
+				if (!mir_tstrcmp(buff, TranslateT(DEFAULT_SOUND))) {
 					if (lvi.lParam < ID_STATUS_MIN)
 						db_unset(hContact, MODULE, StatusListEx[lvi.lParam].lpzSkinSoundName);
 					else

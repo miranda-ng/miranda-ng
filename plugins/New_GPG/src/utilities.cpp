@@ -2096,7 +2096,7 @@ static INT_PTR CALLBACK DlgProcChangePasswd(HWND hwndDlg, UINT msg, WPARAM wPara
 			  old_pass = toUTF8(buf);
 			  bool old_pass_match = false;
 			  TCHAR *pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
-			  if(!_tcscmp(pass,buf))
+			  if(!mir_tstrcmp(pass,buf))
 				  old_pass_match = true;
 			  mir_free(pass);
 			  if(!old_pass_match)
@@ -2107,7 +2107,7 @@ static INT_PTR CALLBACK DlgProcChangePasswd(HWND hwndDlg, UINT msg, WPARAM wPara
 					  dbsetting += toUTF8(key_id_global);
 					  dbsetting += "_Password";
 					  pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
-					  if(!_tcscmp(pass,buf))
+					  if(!mir_tstrcmp(pass,buf))
 						  old_pass_match = true;
 					  mir_free(pass);
 				  }

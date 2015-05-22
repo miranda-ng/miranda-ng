@@ -46,7 +46,7 @@ PLUGININFOEX pluginInfo = {
 
 static int compare_protos(const TwitterProto *p1, const TwitterProto *p2)
 {
-	return _tcscmp(p1->m_tszUserName, p2->m_tszUserName);
+	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
 OBJLIST<TwitterProto> g_Instances(1, compare_protos);

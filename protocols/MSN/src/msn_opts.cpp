@@ -249,7 +249,7 @@ LBL_Continue:
 
 			GetDlgItemText(hwndDlg, IDC_HANDLE2, screenStr, SIZEOF(screenStr));
 			if (!proto->getTString("Nick", &dbv)) {
-				if (_tcscmp(dbv.ptszVal, screenStr))
+				if (mir_tstrcmp(dbv.ptszVal, screenStr))
 					proto->MSN_SendNickname(screenStr);
 				db_free(&dbv);
 			}

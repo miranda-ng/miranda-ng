@@ -644,7 +644,7 @@ int CMraProto::OnGroupChanged(WPARAM hContact, LPARAM lParam)
 		MraGroupItem *pGrp = NULL;
 		for (int i = 0; i < m_groups.getCount(); i++) {
 			MraGroupItem &p = m_groups[i];
-			if (!_tcscmp(p.m_name, cgc->pszOldName)) {
+			if (!mir_tstrcmp(p.m_name, cgc->pszOldName)) {
 				pGrp = &p;
 				break;
 			}

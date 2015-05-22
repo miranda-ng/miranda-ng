@@ -42,7 +42,7 @@ static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *
 
 	do {
 		// find all subfolders except "." and ".."
-		if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !_tcscmp(fd.cFileName, _T(".")) || !_tcscmp(fd.cFileName, _T("..")))
+		if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T("..")))
 			continue;
 
 		// skip the current profile too

@@ -347,14 +347,14 @@ static int CALLBACK compareTokenHelp(LPARAM lParam1, LPARAM lParam2, LPARAM lPar
 	if (cat1 == NULL || cat2 == NULL)
 		return 0;
 
-	int res = _tcscmp(cat1, cat2);
+	int res = mir_tstrcmp(cat1, cat2);
 	if (res != 0)
 		return res;
 
 	if (tr1->tszTokenString == NULL || tr2->tszTokenString == NULL)
 		return 0;
 
-	return _tcscmp(tr1->tszTokenString, tr2->tszTokenString);
+	return mir_tstrcmp(tr1->tszTokenString, tr2->tszTokenString);
 }
 
 static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -387,14 +387,14 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM wPar
 					continue;
 
 				else if (hdd != NULL) {
-					if (!_tcscmp(tr->tszTokenString, SUBJECT)) {
+					if (!mir_tstrcmp(tr->tszTokenString, SUBJECT)) {
 						if (hdd->vhs->flags&VHF_HIDESUBJECTTOKEN)
 							continue;
 
 						if (hdd->vhs->szSubjectDesc != NULL)
 							tszHelpDesc = mir_a2t(hdd->vhs->szSubjectDesc);
 					}
-					if (!_tcscmp(tr->tszTokenString, MIR_EXTRATEXT)) {
+					if (!mir_tstrcmp(tr->tszTokenString, MIR_EXTRATEXT)) {
 						if (hdd->vhs->flags & VHF_HIDEEXTRATEXTTOKEN)
 							continue;
 
@@ -719,7 +719,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				TCHAR *newString = variables_parsedup(string, extraText, (MCONTACT)SendMessage(GetParent(hwndDlg), VARM_GETSUBJECT, 0, 0));
 				if (newString != NULL) {
 					TCHAR *oldString = Hlp_GetDlgItemText(hwndDlg, IDC_RESULT);
-					if (oldString == NULL || _tcscmp(oldString, newString))
+					if (oldString == NULL || mir_tstrcmp(oldString, newString))
 						SetDlgItemText(hwndDlg, IDC_RESULT, newString);
 
 					mir_free(newString);

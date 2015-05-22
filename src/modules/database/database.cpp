@@ -248,7 +248,7 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
 				// make sure the first hit is actually a *.dat file
-				if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !_tcscmp(ffd.cFileName, _T(".")) || !_tcscmp(ffd.cFileName, _T("..")))
+				if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !mir_tstrcmp(ffd.cFileName, _T(".")) || !mir_tstrcmp(ffd.cFileName, _T("..")))
 					continue;
 
 				TCHAR newProfile[MAX_PATH];
@@ -342,7 +342,7 @@ char* makeFileName(const TCHAR* tszOriginalName)
 	char *szResult = NULL;
 	char *szFileName = mir_t2a(tszOriginalName);
 	TCHAR *tszFileName = mir_a2t(szFileName);
-	if (_tcscmp(tszOriginalName, tszFileName)) {
+	if (mir_tstrcmp(tszOriginalName, tszFileName)) {
 		TCHAR tszProfile[MAX_PATH];
 		if (GetShortPathName(tszOriginalName, tszProfile, MAX_PATH) != 0)
 			szResult = mir_t2a(tszProfile);

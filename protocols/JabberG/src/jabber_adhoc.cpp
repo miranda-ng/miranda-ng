@@ -143,7 +143,7 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, HXML iqNode, Jabbe
 {
 	int nodeIdx = 0;
 	const TCHAR * type = xmlGetAttrValue(iqNode, _T("type"));
-	if (!type || !_tcscmp(type, _T("error"))) {
+	if (!type || !mir_tstrcmp(type, _T("error"))) {
 		// error occurred here
 		TCHAR buff[255];
 		const TCHAR *code = NULL;
@@ -157,7 +157,7 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, HXML iqNode, Jabbe
 		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Error %s %s"), (code) ? code : _T(""), (description) ? description : _T(""));
 		JabberFormSetInstruction(hwndDlg, buff);
 	}
-	else if (!_tcscmp(type, _T("result"))) {
+	else if (!mir_tstrcmp(type, _T("result"))) {
 		BOOL validResponse = FALSE;
 		EnumChildWindows(GetDlgItem(hwndDlg, IDC_FRAME), sttDeleteChildWindowsProc, 0);
 		dat->CurrentHeight = 0;
@@ -167,7 +167,7 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, HXML iqNode, Jabbe
 		if (queryNode) {
 			const TCHAR *xmlns = xmlGetAttrValue(queryNode, _T("xmlns"));
 			const TCHAR *node = xmlGetAttrValue(queryNode, _T("node"));
-			if (xmlns && node && !_tcscmp(xmlns, JABBER_FEAT_DISCO_ITEMS) && !_tcscmp(node, JABBER_FEAT_COMMANDS))
+			if (xmlns && node && !mir_tstrcmp(xmlns, JABBER_FEAT_DISCO_ITEMS) && !mir_tstrcmp(node, JABBER_FEAT_COMMANDS))
 				validResponse = TRUE;
 		}
 		if (queryNode && xmlGetChild(queryNode, 0) && validResponse) {
@@ -264,7 +264,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, HXML workNode, JabberA
 			EnableDlgItem(hwndDlg, IDC_SUBMIT, TRUE);
 		}
 
-		if (!status || _tcscmp(status, _T("executing"))) {
+		if (!status || mir_tstrcmp(status, _T("executing"))) {
 			ShowDlgItem(hwndDlg, IDC_SUBMIT, SW_HIDE);
 			SetDlgItemText(hwndDlg, IDCANCEL, TranslateT("Done"));
 		}

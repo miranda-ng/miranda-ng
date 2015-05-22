@@ -310,7 +310,7 @@ TCHAR* __stdcall JabberErrorMsg(HXML errorNode, int* pErrorCode)
 			HXML c = xmlGetChild(errorNode, i);
 			if (c == NULL) break;
 			const TCHAR *attr = xmlGetAttrValue(c, _T("xmlns"));
-			if (attr && !_tcscmp(attr, _T("urn:ietf:params:xml:ns:xmpp-stanzas"))) {
+			if (attr && !mir_tstrcmp(attr, _T("urn:ietf:params:xml:ns:xmpp-stanzas"))) {
 				str = xmlGetName(c);
 				break;
 			}
@@ -617,10 +617,10 @@ TCHAR* __stdcall JabberStripJid(const TCHAR *jid, TCHAR *dest, size_t destLen)
 LPCTSTR __stdcall JabberGetPictureType(HXML node, const char *picBuf)
 {
 	if (LPCTSTR ptszType = xmlGetText(xmlGetChild(node, "TYPE")))
-		if (!_tcscmp(ptszType, _T("image/jpeg")) ||
-			 !_tcscmp(ptszType, _T("image/png")) ||
-			 !_tcscmp(ptszType, _T("image/gif")) ||
-			 !_tcscmp(ptszType, _T("image/bmp")))
+		if (!mir_tstrcmp(ptszType, _T("image/jpeg")) ||
+			 !mir_tstrcmp(ptszType, _T("image/png")) ||
+			 !mir_tstrcmp(ptszType, _T("image/gif")) ||
+			 !mir_tstrcmp(ptszType, _T("image/bmp")))
 			return ptszType;
 
 	switch (ProtoGetBufferFormat(picBuf)) {
@@ -914,7 +914,7 @@ bool CJabberProto::IsMyOwnJID(LPCTSTR szJID)
 	if (pDelimiter)
 		*pDelimiter = 0;
 
-	return _tcscmp(szFrom, szTo) == 0;
+	return mir_tstrcmp(szFrom, szTo) == 0;
 }
 
 void __cdecl CJabberProto::LoadHttpAvatars(void* param)

@@ -2910,7 +2910,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case DM_CONTAINERSELECTED:
 	{
 		TCHAR *szNewName = (TCHAR*)lParam;
-		if (!_tcscmp(szNewName, TranslateT("Default container")))
+		if (!mir_tstrcmp(szNewName, TranslateT("Default container")))
 			szNewName = CGlobals::m_default_container_name;
 
 		int iOldItems = TabCtrl_GetItemCount(hwndTab);

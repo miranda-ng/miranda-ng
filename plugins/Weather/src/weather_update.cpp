@@ -152,7 +152,7 @@ int UpdateWeather(MCONTACT hContact)
 	db_set_b(hContact, WEATHERPROTONAME, "IsUpdated", TRUE);
 
 	// save info for default weather condition
-	if ( !_tcscmp(winfo.id, opt.Default) && !opt.NoProtoCondition) {
+	if ( !mir_tstrcmp(winfo.id, opt.Default) && !opt.NoProtoCondition) {
 		// save current condition for default station to be displayed after the update
 		old_status = status;
 		status = winfo.status;
@@ -457,7 +457,7 @@ int GetWeatherData(MCONTACT hContact)
 				// if it is a normal item with start= and end=, then parse through the downloaded string
 				// to get a data value.
 				GetDataValue(&Item->Item, DataValue, &szInfo);
-				if ( _tcscmp(Item->Item.Name, _T("Condition")) && _tcsicmp(Item->Item.Unit, _T("Cond")))
+				if ( mir_tstrcmp(Item->Item.Name, _T("Condition")) && _tcsicmp(Item->Item.Unit, _T("Cond")))
 					_tcsncpy(DataValue, TranslateTS(DataValue), MAX_DATA_LEN - 1);
 				break;
 
@@ -540,17 +540,17 @@ int GetWeatherData(MCONTACT hContact)
 			}	}
 
 			// don't store data if it is not available
-			if ((DataValue[0] != 0 && _tcscmp(DataValue, NODATA) && 
-				_tcscmp(DataValue, TranslateTS(NODATA)) && _tcscmp(Item->Item.Name, _T("Ignore"))) ||
-				( !_tcscmp(Item->Item.Name, _T("Alert")) && i == 0)) 
+			if ((DataValue[0] != 0 && mir_tstrcmp(DataValue, NODATA) && 
+				mir_tstrcmp(DataValue, TranslateTS(NODATA)) && mir_tstrcmp(Item->Item.Name, _T("Ignore"))) ||
+				( !mir_tstrcmp(Item->Item.Name, _T("Alert")) && i == 0)) 
 			{
 				// temporary workaround for mToolTip to show feel-like temperature
-				if ( !_tcscmp(Item->Item.Name, _T("Feel")))
+				if ( !mir_tstrcmp(Item->Item.Name, _T("Feel")))
 					db_set_ts(hContact, WEATHERCONDITION, "Heat Index", DataValue);
 				GetStationID(hContact, Svc, SIZEOF(Svc));
-				if ( !_tcscmp(Svc, opt.Default))
+				if ( !mir_tstrcmp(Svc, opt.Default))
 					db_set_ts(NULL, DEFCURRENTWEATHER, _T2A(Item->Item.Name), DataValue);
-				if ( !_tcscmp(Item->Item.Name, _T("Condition"))) {
+				if ( !mir_tstrcmp(Item->Item.Name, _T("Condition"))) {
 					TCHAR buf[128], *cbuf;
 					mir_sntprintf(buf, SIZEOF(buf), _T("#%s Weather"), DataValue);
 					cbuf = TranslateTS(buf);

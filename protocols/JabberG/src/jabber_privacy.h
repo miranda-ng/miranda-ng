@@ -369,7 +369,7 @@ public:
 	{
 		CPrivacyList *pList = m_pLists;
 		while (pList) {
-			if (!_tcscmp(pList->GetListName(), szListName))
+			if (!mir_tstrcmp(pList->GetListName(), szListName))
 				return pList;
 			pList = pList->GetNext();
 		}

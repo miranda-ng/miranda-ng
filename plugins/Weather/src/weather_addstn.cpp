@@ -272,7 +272,7 @@ int IDSearchProc(TCHAR *sID, const int searchId, WIIDSEARCH *sData, TCHAR *svc, 
 int IDSearch(TCHAR *sID, const int searchId) 
 {
 	// for a normal ID search (ID != #)
-	if ( _tcscmp(sID, _T("#"))) {
+	if ( mir_tstrcmp(sID, _T("#"))) {
 		WIDATALIST *Item = WIHead;
 
 		// search every weather service using the search station ID

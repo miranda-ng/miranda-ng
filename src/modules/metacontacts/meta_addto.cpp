@@ -60,7 +60,7 @@ static int FillList(HWND list, BOOL sort)
 			for (pos = 0; pos < i; pos++) {
 				TCHAR buff[1024];
 				SendMessage(list, LB_GETTEXT, pos, (LPARAM)buff);
-				if (_tcscmp(buff, swzContactDisplayName) > 0)
+				if (mir_tstrcmp(buff, swzContactDisplayName) > 0)
 					break;
 			}
 		}

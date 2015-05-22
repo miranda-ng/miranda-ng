@@ -131,7 +131,7 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 			{
 				lvi.iItem = i;
 				_getMOptS(pName, 200*sizeof(TCHAR), pd[i]->szName, "AM_BaseProto", _T(""));
-				if (_tcscmp(pName, _T("ICQ")) != 0)
+				if (mir_tstrcmp(pName, _T("ICQ")) != 0)
 					continue;
 				lvi.pszText = mir_a2u(pd[i]->szName);
 				ListView_InsertItem(hProtocolsList, &lvi);

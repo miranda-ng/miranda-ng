@@ -587,7 +587,7 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							TCHAR buff[256];
 							SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETLBTEXT, sel, (LPARAM)buff);
 							for (int i = 0; presetItems[i].szID; i++) {
-								if (_tcscmp(buff, TranslateTS(presetItems[i].swzName)) == 0) {
+								if (mir_tstrcmp(buff, TranslateTS(presetItems[i].swzName)) == 0) {
 									if (presetItems[i].szNeededSubst[0])
 										EndDialog(hwndDlg, IDPRESETITEM + i);
 									else
@@ -623,7 +623,7 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						TCHAR buff[256];
 						SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETLBTEXT, sel, (LPARAM)buff);
 						for (int i = 0; presetItems[i].szID; i++) {
-							if (_tcscmp(buff, TranslateTS(presetItems[i].swzName)) == 0) {
+							if (mir_tstrcmp(buff, TranslateTS(presetItems[i].swzName)) == 0) {
 								SetDlgItemText(hwndDlg, IDC_ED_LABEL, TranslateTS(presetItems[i].swzLabel));
 								SetDlgItemText(hwndDlg, IDC_ED_VALUE, presetItems[i].swzValue);
 								break;

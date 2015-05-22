@@ -106,7 +106,7 @@ GGGC* GGPROTO::gc_lookup(const TCHAR *id)
 	for(l = chats; l; l = l->next)
 	{
 		chat = (GGGC *)l->data;
-		if (chat && !_tcscmp(chat->id, id))
+		if (chat && !mir_tstrcmp(chat->id, id))
 			return chat;
 	}
 
@@ -142,7 +142,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 			MCONTACT hNext = db_find_next(hContact);
 			DBVARIANT dbv;
 			if (!getTString(hContact, "ChatRoomID", &dbv)) {
-				if (dbv.ptszVal && !_tcscmp(gch->pDest->ptszID, dbv.ptszVal))
+				if (dbv.ptszVal && !mir_tstrcmp(gch->pDest->ptszID, dbv.ptszVal))
 					CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 				db_free(&dbv);
 			}

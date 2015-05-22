@@ -49,7 +49,7 @@ void CJabberProto::OnIqResultGetMuc(HXML iqNode, CJabberIqInfo*)
 	if (from == NULL)
 		return;
 
-	if (!_tcscmp(type, _T("result"))) {
+	if (!mir_tstrcmp(type, _T("result"))) {
 		HXML queryNode = xmlGetChild(iqNode , _T("query"));
 		if (queryNode != NULL) {
 			LPCTSTR str = xmlGetAttrValue(queryNode, _T("xmlns"));

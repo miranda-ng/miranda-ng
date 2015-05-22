@@ -33,7 +33,7 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 	}
 	else
 	{
-		if(!_tcscmp(ptszHelpFile, _T("")))
+		if(!mir_tstrcmp(ptszHelpFile, _T("")))
 		{
 			_tcscpy(pszDirName, _T("%miranda_path%\\Plugins"));
 			_tcscpy(pszFileName, _T("UserGuide.chm"));

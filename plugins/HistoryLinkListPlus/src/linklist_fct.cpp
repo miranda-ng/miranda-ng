@@ -409,7 +409,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 			{
 				LPCTSTR type;
 
-				if ( _tcscmp(actualElement->date, lastDate) != 0 )
+				if ( mir_tstrcmp(actualElement->date, lastDate) != 0 )
 				{
 					memset(&cf, 0, sizeof(cf));
 					cf.cbSize = sizeof(cf);

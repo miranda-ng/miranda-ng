@@ -156,7 +156,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		}
 	}
 	else if(!gbRegexMatch)
-		answered = gbCaseInsensitive?(!Stricmp(message.c_str(), (variables_parse(gbAnswer, hContact).c_str()))):( !_tcscmp(message.c_str(), (variables_parse(gbAnswer, hContact).c_str())));
+		answered = gbCaseInsensitive?(!Stricmp(message.c_str(), (variables_parse(gbAnswer, hContact).c_str()))):( !mir_tstrcmp(message.c_str(), (variables_parse(gbAnswer, hContact).c_str())));
 	else
 	{
 		if(gbCaseInsensitive)

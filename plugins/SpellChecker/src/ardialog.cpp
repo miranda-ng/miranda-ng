@@ -233,7 +233,7 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			else if (replace[0] == 0)
 				MessageBox(hwndDlg, TranslateT("The correction can't be empty!"), TranslateT("Wrong Correction"), MB_OK | MB_ICONERROR);
 
-			else if (_tcscmp(find, replace) == 0)
+			else if (mir_tstrcmp(find, replace) == 0)
 				MessageBox(hwndDlg, TranslateT("The correction can't be equal to the wrong word!"), TranslateT("Wrong Correction"), MB_OK | MB_ICONERROR);
 
 			else {

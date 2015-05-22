@@ -307,13 +307,13 @@ void GetInternetExplorerVersion(CMString &buffer)
 	if (ieVersion[0] == 0) {
 		if (iVer[0] == 0)
 			buffer.Append(TEXT("<not installed>"));
-		else if (_tcscmp(iVer, TEXT("100")) == 0)
+		else if (mir_tstrcmp(iVer, TEXT("100")) == 0)
 			buffer.Append(TEXT("1.0"));
-		else if (_tcscmp(iVer, TEXT("101")) == 0)
+		else if (mir_tstrcmp(iVer, TEXT("101")) == 0)
 			buffer.Append(TEXT("NT"));
-		else if (_tcscmp(iVer, TEXT("102")) == 0)
+		else if (mir_tstrcmp(iVer, TEXT("102")) == 0)
 			buffer.Append(TEXT("2.0"));
-		else if (_tcscmp(iVer, TEXT("103")) == 0)
+		else if (mir_tstrcmp(iVer, TEXT("103")) == 0)
 			buffer.Append(TEXT("3.0"));
 	}
 	else buffer.Append(ieVersion);

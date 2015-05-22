@@ -638,7 +638,7 @@ void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
 
 	LPCTSTR moodType = NULL, moodText = NULL;
 	for (int i=0; n = xmlGetChild(moodNode, i); i++) {
-		if (!_tcscmp(xmlGetName(n), _T("text")))
+		if (!mir_tstrcmp(xmlGetName(n), _T("text")))
 			moodText = xmlGetText(n);
 		else
 			moodType = xmlGetName(n);

@@ -226,7 +226,7 @@ void MoreVarList(void)
 		{
 			// the custom variable is defined as "%[<variable name>]"
 			// ignore the "hi" item and hidden items
-			if ( _tcscmp(WItem->Item.Name, _T("Ignore")) && WItem->Item.Name[0] != '#') {
+			if ( mir_tstrcmp(WItem->Item.Name, _T("Ignore")) && WItem->Item.Name[0] != '#') {
 				mir_sntprintf(tempstr, SIZEOF(tempstr), _T("%c[%s]"), '%', WItem->Item.Name);
 				TCHAR* find = _tcsstr(str, tempstr);
 				// if the custom variable does not exist in the list, add it to the list

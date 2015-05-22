@@ -372,13 +372,13 @@ const TCHAR *policy_to_string(OtrlPolicy policy) {
 }
 
 OtrlPolicy policy_from_string(const TCHAR *polstring) {
-	if (_tcscmp(polstring, TranslateT(LANG_POLICY_NEVER)) == 0)
+	if (mir_tstrcmp(polstring, TranslateT(LANG_POLICY_NEVER)) == 0)
 		return OTRL_POLICY_NEVER;
-	else if (_tcscmp(polstring, TranslateT(LANG_POLICY_OPP)) == 0)
+	else if (mir_tstrcmp(polstring, TranslateT(LANG_POLICY_OPP)) == 0)
 		return OTRL_POLICY_OPPORTUNISTIC;
-	else if (_tcscmp(polstring, TranslateT(LANG_POLICY_MANUAL)) == 0)
+	else if (mir_tstrcmp(polstring, TranslateT(LANG_POLICY_MANUAL)) == 0)
 		return OTRL_POLICY_MANUAL_MOD;
-	else if (_tcscmp(polstring, TranslateT(LANG_POLICY_ALWAYS)) == 0)
+	else if (mir_tstrcmp(polstring, TranslateT(LANG_POLICY_ALWAYS)) == 0)
 		return OTRL_POLICY_ALWAYS;
 	else 
 		return CONTACT_DEFAULT_POLICY;

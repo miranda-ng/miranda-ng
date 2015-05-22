@@ -420,21 +420,21 @@ static TCHAR* parseProtoInfo(ARGUMENTSINFO *ai)
 	TCHAR *tszRes = NULL;
 	ptrA szProto(mir_t2a(ai->targv[1]));
 
-	if (!_tcscmp(ai->targv[2], _T(STR_PINAME)))
+	if (!mir_tstrcmp(ai->targv[2], _T(STR_PINAME)))
 		tszRes = Hlp_GetProtocolName(szProto);
-	else if (!_tcscmp(ai->targv[2], _T(STR_PIUIDTEXT))) {
+	else if (!mir_tstrcmp(ai->targv[2], _T(STR_PIUIDTEXT))) {
 		if (!ProtoServiceExists(szProto, PS_GETCAPS))
 			return NULL;
 
 		szRes = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDTEXT, 0);
 	}
-	else if (!_tcscmp(ai->targv[2], _T(STR_PIUIDSETTING))) {
+	else if (!mir_tstrcmp(ai->targv[2], _T(STR_PIUIDSETTING))) {
 		if (!ProtoServiceExists(szProto, PS_GETCAPS))
 			return NULL;
 
 		szRes = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
 	}
-	else if (!_tcscmp(ai->targv[2], _T(STR_PINICK))) {
+	else if (!mir_tstrcmp(ai->targv[2], _T(STR_PINICK))) {
 		CONTACTINFO ci;
 		ci.cbSize = sizeof(CONTACTINFO);
 		ci.dwFlag = CNF_DISPLAY | CNF_UNICODE;

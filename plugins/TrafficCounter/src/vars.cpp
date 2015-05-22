@@ -30,7 +30,7 @@ static TCHAR* GetTraffic(ARGUMENTSINFO *ai)
 
 	if (ai->argc != 5) return NULL;
 
-	if (!_tcscmp(ai->targv[1], _T("overall")))
+	if (!mir_tstrcmp(ai->targv[1], _T("overall")))
 	{
 		tmpsn = OverallInfo.CurrentSentTraffic;
 		tmprn = OverallInfo.CurrentRecvTraffic;
@@ -38,7 +38,7 @@ static TCHAR* GetTraffic(ARGUMENTSINFO *ai)
 		tmprt = OverallInfo.TotalRecvTraffic;
 	}
 	else
-	if (!_tcscmp(ai->targv[1], _T("summary")))
+	if (!mir_tstrcmp(ai->targv[1], _T("summary")))
 	{
 		for (ed = 0; ed < NumberOfAccounts; ed++)
 			if (ProtoList[ed].Visible)
@@ -55,7 +55,7 @@ static TCHAR* GetTraffic(ARGUMENTSINFO *ai)
 		{
 			if (!ProtoList[ed].name) continue;
 			TCHAR *buf = mir_a2t(ProtoList[ed].name);
-			if (!_tcscmp(buf, ai->targv[1]))
+			if (!mir_tstrcmp(buf, ai->targv[1]))
 			{
 				tmpsn = ProtoList[ed].CurrentSentTraffic;
 				tmprn = ProtoList[ed].CurrentRecvTraffic;
@@ -68,34 +68,34 @@ static TCHAR* GetTraffic(ARGUMENTSINFO *ai)
 		if (tmp != 0xAA) return NULL;
 	}
 
-	if (!_tcscmp(ai->targv[2], _T("now")))
+	if (!mir_tstrcmp(ai->targv[2], _T("now")))
 	{
-		if (!_tcscmp(ai->targv[3], _T("sent"))) tmp = tmpsn;
+		if (!mir_tstrcmp(ai->targv[3], _T("sent"))) tmp = tmpsn;
 		else
-		if (!_tcscmp(ai->targv[3], _T("received"))) tmp = tmprn;
+		if (!mir_tstrcmp(ai->targv[3], _T("received"))) tmp = tmprn;
 		else
-		if (!_tcscmp(ai->targv[3], _T("both"))) tmp = tmprn + tmpsn;
+		if (!mir_tstrcmp(ai->targv[3], _T("both"))) tmp = tmprn + tmpsn;
 		else return NULL;
 	}
 	else
-	if (!_tcscmp(ai->targv[2], _T("total")))
+	if (!mir_tstrcmp(ai->targv[2], _T("total")))
 	{
-		if (!_tcscmp(ai->targv[3], _T("sent"))) tmp = tmpst;
+		if (!mir_tstrcmp(ai->targv[3], _T("sent"))) tmp = tmpst;
 		else
-		if (!_tcscmp(ai->targv[3], _T("received"))) tmp = tmprt;
+		if (!mir_tstrcmp(ai->targv[3], _T("received"))) tmp = tmprt;
 		else
-		if (!_tcscmp(ai->targv[3], _T("both"))) tmp = tmprt + tmpst;
+		if (!mir_tstrcmp(ai->targv[3], _T("both"))) tmp = tmprt + tmpst;
 		else return NULL;
 	}
 	else return NULL;
 
-	if (!_tcscmp(ai->targv[4], _T("b"))) ed = 0;
+	if (!mir_tstrcmp(ai->targv[4], _T("b"))) ed = 0;
 	else
-	if (!_tcscmp(ai->targv[4], _T("k"))) ed = 1;
+	if (!mir_tstrcmp(ai->targv[4], _T("k"))) ed = 1;
 	else
-	if (!_tcscmp(ai->targv[4], _T("m"))) ed = 2;
+	if (!mir_tstrcmp(ai->targv[4], _T("m"))) ed = 2;
 	else
-	if (!_tcscmp(ai->targv[4], _T("d"))) ed = 3;
+	if (!mir_tstrcmp(ai->targv[4], _T("d"))) ed = 3;
 	else return NULL;
 
 	// Получаем форматированную строку и возвращаем указатель на неё.
@@ -123,24 +123,24 @@ static TCHAR* GetTime(ARGUMENTSINFO *ai)
 		TCHAR *buf;
 		if (!ProtoList[ed].name) continue;
 		buf = mir_a2t(ProtoList[ed].name);
-		if (!_tcscmp(buf, ai->targv[1]))
+		if (!mir_tstrcmp(buf, ai->targv[1]))
 		{
 			flag = 0xAA;
-			if (!_tcscmp(ai->targv[2], _T("now")))
+			if (!mir_tstrcmp(ai->targv[2], _T("now")))
 				Duration = ProtoList[ed].Session.Timer;
-			else if (!_tcscmp(ai->targv[2], _T("total")))
+			else if (!mir_tstrcmp(ai->targv[2], _T("total")))
 				Duration = ProtoList[ed].Total.Timer;
 			else flag = 0;
 			break;
 		}
 		mir_free(buf);
 	}
-	if ( (flag != 0xAA) && !_tcscmp(ai->targv[1], _T("summary")) )
+	if ( (flag != 0xAA) && !mir_tstrcmp(ai->targv[1], _T("summary")) )
 	{
 		flag = 0xAA;
-		if (!_tcscmp(ai->targv[2], _T("now")))
+		if (!mir_tstrcmp(ai->targv[2], _T("now")))
 			Duration = OverallInfo.Session.Timer;
-		else if (!_tcscmp(ai->targv[2], _T("total")))
+		else if (!mir_tstrcmp(ai->targv[2], _T("total")))
 			Duration = OverallInfo.Total.Timer;
 		else flag = 0;
 	}

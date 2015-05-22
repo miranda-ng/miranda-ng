@@ -347,7 +347,7 @@ static INT_PTR sttRegisterColourWorker(ColourIDW *colour_id, int hLangpack)
 
 	for (int i = 0; i < colour_id_list.getCount(); i++) {
 		ColourInternal& C = colour_id_list[i];
-		if (!_tcscmp(C.group, colour_id->group) && !_tcscmp(C.name, colour_id->name))
+		if (!mir_tstrcmp(C.group, colour_id->group) && !mir_tstrcmp(C.name, colour_id->name))
 			return 1;
 	}
 
@@ -379,7 +379,7 @@ static INT_PTR sttGetColourWorker(ColourIDW *colour_id)
 {
 	for (int i = 0; i < colour_id_list.getCount(); i++) {
 		ColourInternal& C = colour_id_list[i];
-		if (!_tcscmp(C.group, colour_id->group) && !_tcscmp(C.name, colour_id->name))
+		if (!mir_tstrcmp(C.group, colour_id->group) && !mir_tstrcmp(C.name, colour_id->name))
 			return db_get_dw(NULL, C.dbSettingsGroup, C.setting, C.defcolour);
 	}
 
@@ -433,7 +433,7 @@ static INT_PTR sttRegisterEffectWorker(EffectIDW *effect_id, int hLangpack)
 
 	for (int i = 0; i < effect_id_list.getCount(); i++) {
 		EffectInternal& E = effect_id_list[i];
-		if (!_tcscmp(E.group, effect_id->group) && !_tcscmp(E.name, effect_id->name))
+		if (!mir_tstrcmp(E.group, effect_id->group) && !mir_tstrcmp(E.name, effect_id->name))
 			return 1;
 	}
 

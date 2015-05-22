@@ -1760,7 +1760,7 @@ void TSAPI GetMyNick(TWindowData *dat)
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
 			if (mir_tstrlen((TCHAR*)ci.pszVal) == 0 ||
-				!_tcscmp((TCHAR*)ci.pszVal, TranslateT("'(Unknown contact)'"))) {
+				!mir_tstrcmp((TCHAR*)ci.pszVal, TranslateT("'(Unknown contact)'"))) {
 				_tcsncpy_s(dat->szMyNickname, (dat->myUin[0] ? dat->myUin : TranslateT("'(Unknown contact)'")), _TRUNCATE);
 			}
 			else {

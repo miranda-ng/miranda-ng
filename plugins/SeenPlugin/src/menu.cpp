@@ -54,7 +54,7 @@ int BuildContactMenu(WPARAM wparam, LPARAM)
 		}
 		else cmi.ptszName = ParseString(DEFAULT_MENUSTAMP, (MCONTACT)wparam, 0);
 
-		if (!_tcscmp(cmi.ptszName, TranslateT("<unknown>"))) {
+		if (!mir_tstrcmp(cmi.ptszName, TranslateT("<unknown>"))) {
 			if (IsWatchedProtocol(szProto))
 				cmi.flags |= CMIF_GRAYED;
 			else

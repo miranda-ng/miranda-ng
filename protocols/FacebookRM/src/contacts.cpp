@@ -98,7 +98,7 @@ MCONTACT FacebookProto::ChatIDToHContact(const std::tstring &chat_id)
 			continue;
 
 		ptrT id(getTStringA(hContact, "ChatRoomID"));
-		if (id && !_tcscmp(id, chat_id.c_str())) {
+		if (id && !mir_tstrcmp(id, chat_id.c_str())) {
 			facy.chat_id_to_hcontact.insert(std::make_pair(chat_id, hContact));
 			return hContact;
 		}

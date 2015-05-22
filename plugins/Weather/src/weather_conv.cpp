@@ -87,7 +87,7 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 		memmove(&tempchar[1], &tempchar[2], sizeof(TCHAR)*(mir_tstrlen(&tempchar[2])+1));
 
 	// quit if the value obtained is N/A or not a number
-	if ( !_tcscmp(tempchar, NODATA) || !_tcscmp(tempchar, _T("N/A"))) {
+	if ( !mir_tstrcmp(tempchar, NODATA) || !mir_tstrcmp(tempchar, _T("N/A"))) {
 		_tcscpy(str, tempchar);
 		return;
 	}
@@ -400,7 +400,7 @@ WORD GetIcon(const TCHAR* cond, WIDATA *Data)
 				return statusValue[i];
 			// loop until the translation string exists (ie, the translated string is differ from original)
 		} 
-			while (_tcscmp(TranslateTS(LangPackStr), LangPackStr));
+			while (mir_tstrcmp(TranslateTS(LangPackStr), LangPackStr));
 	}
 
 	return NA;
@@ -536,7 +536,7 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 			case 's': _tcscat(str, w->id); break;
 			case 't': _tcscat(str, w->temp); break;
 			case 'u':
-				if (_tcscmp(w->update, NODATA))	_tcscat(str, w->update);
+				if (mir_tstrcmp(w->update, NODATA))	_tcscat(str, w->update);
 				else	_tcscat(str, TranslateT("<unknown time>"));
 				break;
 			case 'v': _tcscat(str, w->vis); break;

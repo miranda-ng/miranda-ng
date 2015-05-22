@@ -120,7 +120,7 @@ bool CContactCache::updateNick()
 	if (m_Valid) {
 		TCHAR	*tszNick = pcli->pfnGetContactDisplayName(getActiveContact(), 0);
 		if (tszNick)
-			fChanged = (_tcscmp(m_szNick, tszNick) ? true : false);
+			fChanged = (mir_tstrcmp(m_szNick, tszNick) ? true : false);
 		_tcsncpy_s(m_szNick, (tszNick ? tszNick : _T("<undef>")), _TRUNCATE);
 	}
 	return fChanged;

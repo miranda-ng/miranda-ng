@@ -517,7 +517,7 @@ __inline static int variables_skin_helpbutton(HWND hwndDlg, UINT uIDButton) {
 		hIcon = (HICON)CallService(MS_VARS_GETSKINITEM, 0, (LPARAM)VSI_HELPICON);
 
 	GetClassName(GetDlgItem(hwndDlg, uIDButton), tszClass, SIZEOF(tszClass));
-	if (!_tcscmp(tszClass, _T("Button"))) {
+	if (!mir_tstrcmp(tszClass, _T("Button"))) {
 		if (hIcon != NULL) {
 			SetWindowLongPtr(GetDlgItem(hwndDlg, uIDButton), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, uIDButton), GWL_STYLE)|BS_ICON);
 			SendMessage(GetDlgItem(hwndDlg, uIDButton), BM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)hIcon);
@@ -527,7 +527,7 @@ __inline static int variables_skin_helpbutton(HWND hwndDlg, UINT uIDButton) {
 			SetDlgItemText(hwndDlg, uIDButton, _T("V"));
 		}
 	}
-	else if (!_tcscmp(tszClass, MIRANDABUTTONCLASS)) {
+	else if (!mir_tstrcmp(tszClass, MIRANDABUTTONCLASS)) {
 		if (hIcon != NULL) {
 			char *szTipInfo = NULL;
 

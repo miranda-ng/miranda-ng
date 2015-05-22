@@ -174,7 +174,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			ppro->setTString("Login", str);
 
 			GetDlgItemText(hwndDlg, IDC_GROUPNAME, str, SIZEOF(str));
-			if (_tcscmp(ppro->getGroup(), str)) {
+			if (mir_tstrcmp(ppro->getGroup(), str)) {
 				ppro->setGroup(str);
 				ppro->setTString("ProtoGroup", str);
 			}

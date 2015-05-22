@@ -989,7 +989,7 @@ static int FindMenuItem(HMENU h, LPTSTR lpszName)
 	{
 		if ( GetMenuString(h, i, s, 128, MF_BYPOSITION) )
 		{
-			if ( !_tcscmp(s, lpszName) )
+			if ( !mir_tstrcmp(s, lpszName) )
 			{
 				return (int)i;
 			}

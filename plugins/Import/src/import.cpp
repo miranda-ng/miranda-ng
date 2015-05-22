@@ -411,7 +411,7 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto,
 		if (pa->bOldProto || pa->bIsVirtual || pa->bDynDisabled)
 			return pa;
 
-		if (ptszName && !_tcscmp(pa->tszAccountName, ptszName))
+		if (ptszName && !mir_tstrcmp(pa->tszAccountName, ptszName))
 			return pa;
 
 		char *pszUniqueSetting = (char*)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);

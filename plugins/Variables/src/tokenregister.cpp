@@ -122,7 +122,7 @@ INT_PTR registerToken(WPARAM wParam, LPARAM lParam)
 
 	memcpy(&tre->tr, newVr, newVr->cbSize);
 	tre->nameHash = hash;
-	if (!_tcscmp(newVr->tszTokenString, _T("alias")))
+	if (!mir_tstrcmp(newVr->tszTokenString, _T("alias")))
 		log_debugA("alias");
 
 	if (!(newVr->flags & TRF_PARSEFUNC) && newVr->szService != NULL)

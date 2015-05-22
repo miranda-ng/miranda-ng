@@ -466,13 +466,13 @@ static TCHAR *parseRegistryValue(ARGUMENTSINFO *ai)
 
 	*cur = 0;
 	HKEY hKey;
-	if (!_tcscmp(key, _T("HKEY_CLASSES_ROOT")))
+	if (!mir_tstrcmp(key, _T("HKEY_CLASSES_ROOT")))
 		hKey = HKEY_CLASSES_ROOT;
-	else if (!_tcscmp(key, _T("HKEY_CURRENT_USER")))
+	else if (!mir_tstrcmp(key, _T("HKEY_CURRENT_USER")))
 		hKey = HKEY_CURRENT_USER;
-	else if (!_tcscmp(key, _T("HKEY_LOCAL_MACHINE")))
+	else if (!mir_tstrcmp(key, _T("HKEY_LOCAL_MACHINE")))
 		hKey = HKEY_LOCAL_MACHINE;
-	else if (!_tcscmp(key, _T("HKEY_USERS")))
+	else if (!mir_tstrcmp(key, _T("HKEY_USERS")))
 		hKey = HKEY_USERS;
 	else {
 		mir_free(key);

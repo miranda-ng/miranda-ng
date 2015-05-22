@@ -208,7 +208,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			}
 
 			GetDlgItemText(hwndDlg, IDC_USERPASS2, buf, SIZEOF(buf));
-			if (_tcscmp(buf2, buf)) {
+			if (mir_tstrcmp(buf2, buf)) {
 				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Passwords do not match!"));
 				goto LBL_Error;
 			}

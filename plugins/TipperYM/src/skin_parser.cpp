@@ -34,7 +34,7 @@ int RefreshSkinList(HWND hwndDlg)
 	HANDLE hFind = FindFirstFile(_T("*.*"), &ffd);
 	while (hFind != INVALID_HANDLE_VALUE)
 	{
-		if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && _tcscmp(_T("."), ffd.cFileName) && _tcscmp(_T(".."), ffd.cFileName)) 
+		if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && mir_tstrcmp(_T("."), ffd.cFileName) && mir_tstrcmp(_T(".."), ffd.cFileName)) 
 		{
 			SetCurrentDirectory(ffd.cFileName);
 			WIN32_FIND_DATA ffd2;
@@ -362,34 +362,34 @@ void ParseSkinFile(TCHAR *szSkinName, bool bStartup, bool bOnlyPreview)
 			{
 				if (buff[0] == '[') 
 				{
-					if (!_tcscmp(_T("[about]"), buff)) 
+					if (!mir_tstrcmp(_T("[about]"), buff)) 
 					{
 						ParseAboutPart(fp, buff, szSkinName);
 						continue;
 					} 
-					else if (!_tcscmp(_T("[other]"), buff)) 
+					else if (!mir_tstrcmp(_T("[other]"), buff)) 
 					{
 						ParseOtherPart(fp, buff);
 						continue;
 					} 
 					else if (!bOnlyPreview) 
 					{
-						if (!_tcscmp(_T("[background]"), buff))
+						if (!mir_tstrcmp(_T("[background]"), buff))
 						{
 							ParseImagePart(fp, buff, SKIN_ITEM_BG);
 							continue;
 						} 
-						else if (!_tcscmp(_T("[sidebar]"), buff)) 
+						else if (!mir_tstrcmp(_T("[sidebar]"), buff)) 
 						{
 							ParseImagePart(fp, buff, SKIN_ITEM_SIDEBAR);
 							continue;
 						}
-						else if (!bStartup && opt.bLoadFonts && !_tcscmp(_T("[fonts]"), buff))
+						else if (!bStartup && opt.bLoadFonts && !mir_tstrcmp(_T("[fonts]"), buff))
 						{
 							ParseFontPart(fp, buff);
 							continue;
 						} 
-						else if (!bStartup && opt.bLoadProportions && !_tcscmp(_T("[appearance]"), buff))
+						else if (!bStartup && opt.bLoadProportions && !mir_tstrcmp(_T("[appearance]"), buff))
 						{
 							ParseAppearancePart(fp, buff);
 							continue;

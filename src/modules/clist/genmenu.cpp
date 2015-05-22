@@ -697,7 +697,7 @@ PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 int FindRoot(PMO_IntMenuItem pimi, void* param)
 {
 	if (pimi->mi.pszName != NULL)
-		if (pimi->submenu.first && !_tcscmp(pimi->mi.ptszName, (TCHAR*)param))
+		if (pimi->submenu.first && !mir_tstrcmp(pimi->mi.ptszName, (TCHAR*)param))
 			return TRUE;
 
 	return FALSE;

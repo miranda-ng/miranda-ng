@@ -31,7 +31,7 @@ int StartOTR(MCONTACT hContact) {
 		LCID langid = Langpack_GetDefaultLocale();
 		if(langid != 0x0409/*US*/ && langid != 0x1009/*CA*/ && langid != 0x0809/*GB*/){ // non english
 			const TCHAR* translated=TranslateTS(MIROTR_PROTO_HELLO_MSG);
-			if(_tcscmp(MIROTR_PROTO_HELLO_MSG,translated)){
+			if(mir_tstrcmp(MIROTR_PROTO_HELLO_MSG,translated)){
 				*msgoff++ = '\n';
 				for(const TCHAR* c=nick; *c && msgoff<msgend; *msgoff++=*c++);
 				for(const TCHAR* c=translated; *c && msgoff<msgend; *msgoff++=*c++);

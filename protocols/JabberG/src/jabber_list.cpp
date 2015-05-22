@@ -221,7 +221,7 @@ pResourceStatus JABBER_LIST_ITEM::findResource(const TCHAR *resourceName) const
 
 	for (int i=0; i < arResources.getCount(); i++) {
 		JABBER_RESOURCE_STATUS *r = arResources[i];
-		if (!_tcscmp(r->m_tszResourceName, resourceName))
+		if (!mir_tstrcmp(r->m_tszResourceName, resourceName))
 			return r;
 	}
 

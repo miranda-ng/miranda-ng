@@ -102,7 +102,7 @@ INT_PTR CALLBACK StatusModesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				|(IsDlgButtonChecked(hwnd, IDC_CHECK9)<<8)
 				|(IsDlgButtonChecked(hwnd, IDC_CHECK10)<<9);
 
-			if (!_tcscmp(type, _T("Any"))) {
+			if (!mir_tstrcmp(type, _T("Any"))) {
 				if (LOWORD(wParam) == IDOK)
 					db_set_w(wi->hContact, modname, "SendIfMyStatusIsFLAG", flag);
 				wi->SendIfMy = 0;
@@ -590,7 +590,7 @@ INT_PTR CALLBACK PounceSentDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			{
 				TCHAR text[2048];
 				GetDlgItemText(hwnd, IDOK, text, SIZEOF(text));
-				if (!_tcscmp(text, TranslateT("Retry"))) {
+				if (!mir_tstrcmp(text, TranslateT("Retry"))) {
 					GetDlgItemText(hwnd, IDC_MESSAGE, text, SIZEOF(text));
 					SendPounce(text, hContact);
 				}

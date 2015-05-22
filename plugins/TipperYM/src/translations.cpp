@@ -39,7 +39,7 @@ void AddTranslation(DBVTranslation *newTrans)
 	char szSetting[256];
 	mir_snprintf(szSetting, sizeof(szSetting),"Trans_%s",szName);
 
-	if (_tcscmp(newTrans->swzName, _T("[No translation]")) == 0) 
+	if (mir_tstrcmp(newTrans->swzName, _T("[No translation]")) == 0) 
 	{
 		translations[iTransFuncsCount - 1].id = 0;
 	} 

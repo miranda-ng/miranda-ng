@@ -111,7 +111,7 @@ void CJabberProto::OnIqResultCapsDiscoInfoSI(HXML, CJabberIqInfo *pInfo)
 		HXML xform;
 		for (int i = 1; (xform = xmlGetNthChild(query, _T("x"), i)) != NULL; i++) {
 			TCHAR *szFormTypeValue = XPath(xform, _T("field[@var='FORM_TYPE']/value"));
-			if (szFormTypeValue && !_tcscmp(szFormTypeValue, _T("urn:xmpp:dataforms:softwareinfo"))) {
+			if (szFormTypeValue && !mir_tstrcmp(szFormTypeValue, _T("urn:xmpp:dataforms:softwareinfo"))) {
 				TCHAR *szTmp = XPath(xform, _T("field[@var='os']/value"));
 				if (szTmp)
 					r->m_tszOs = mir_tstrdup(szTmp);
@@ -148,7 +148,7 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo *pInfo)
 				continue;
 
 			for (int j = 0; g_JabberFeatCapPairs[j].szFeature; j++) {
-				if (!_tcscmp(g_JabberFeatCapPairs[j].szFeature, featureName)) {
+				if (!mir_tstrcmp(g_JabberFeatCapPairs[j].szFeature, featureName)) {
 					jcbCaps |= g_JabberFeatCapPairs[j].jcbCap;
 					break;
 				}
@@ -349,17 +349,17 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const TCHAR *jid, BOOL appen
 		JabberCapsBits jcbMainCaps = m_clientCapsManager.GetClientCaps(r->m_tszSoftware, r->m_tszSoftwareVersion);
 		if (jcbMainCaps == JABBER_RESOURCE_CAPS_ERROR) {
 			// Bombus hack:
-			if (!_tcscmp(r->m_tszSoftware, _T("Bombus")) || !_tcscmp(r->m_tszSoftware, _T("BombusMod"))) {
+			if (!mir_tstrcmp(r->m_tszSoftware, _T("Bombus")) || !mir_tstrcmp(r->m_tszSoftware, _T("BombusMod"))) {
 				jcbMainCaps = JABBER_CAPS_SI | JABBER_CAPS_SI_FT | JABBER_CAPS_IBB | JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY | JABBER_CAPS_DATA_FORMS | JABBER_CAPS_LAST_ACTIVITY | JABBER_CAPS_VERSION | JABBER_CAPS_COMMANDS | JABBER_CAPS_VCARD_TEMP;
 				m_clientCapsManager.SetClientCaps(r->m_tszSoftware, r->m_tszSoftwareVersion, jcbMainCaps);
 			}
 			// Neos hack:
-			else if (!_tcscmp(r->m_tszSoftware, _T("neos"))) {
+			else if (!mir_tstrcmp(r->m_tszSoftware, _T("neos"))) {
 				jcbMainCaps = JABBER_CAPS_OOB | JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY | JABBER_CAPS_LAST_ACTIVITY | JABBER_CAPS_VERSION;
 				m_clientCapsManager.SetClientCaps(r->m_tszSoftware, r->m_tszSoftwareVersion, jcbMainCaps);
 			}
 			// sim hack:
-			else if (!_tcscmp(r->m_tszSoftware, _T("sim"))) {
+			else if (!mir_tstrcmp(r->m_tszSoftware, _T("sim"))) {
 				jcbMainCaps = JABBER_CAPS_OOB | JABBER_CAPS_VERSION | JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY;
 				m_clientCapsManager.SetClientCaps(r->m_tszSoftware, r->m_tszSoftwareVersion, jcbMainCaps);
 			}
@@ -437,7 +437,7 @@ CJabberClientPartialCaps* CJabberClientCaps::FindByVersion(const TCHAR *szVer)
 
 	CJabberClientPartialCaps *pCaps = m_pCaps;
 	while (pCaps) {
-		if (!_tcscmp(szVer, pCaps->GetVersion()))
+		if (!mir_tstrcmp(szVer, pCaps->GetVersion()))
 			break;
 		pCaps = pCaps->GetNext();
 	}
@@ -536,7 +536,7 @@ CJabberClientCaps * CJabberClientCapsManager::FindClient(const TCHAR *szNode)
 
 	CJabberClientCaps *pClient = m_pClients;
 	while (pClient) {
-		if (!_tcscmp(szNode, pClient->GetNode()))
+		if (!mir_tstrcmp(szNode, pClient->GetNode()))
 			break;
 		pClient = pClient->GetNext();
 	}
@@ -616,7 +616,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 
 			TCHAR szExtCap[ 512 ];
 			mir_sntprintf(szExtCap, SIZEOF(szExtCap), _T("%s#%s"), JABBER_CAPS_MIRANDA_NODE, g_JabberFeatCapPairsExt[i].szFeature);
-			if (!_tcscmp(szNode, szExtCap)) {
+			if (!mir_tstrcmp(szNode, szExtCap)) {
 				jcb = g_JabberFeatCapPairsExt[i].jcbCap;
 				break;
 			}
@@ -626,7 +626,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 		for (i=0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++) {
 			TCHAR szExtCap[ 512 ];
 			mir_sntprintf(szExtCap, SIZEOF(szExtCap), _T("%s#%s"), JABBER_CAPS_MIRANDA_NODE, ppro->m_lstJabberFeatCapPairsDynamic[i]->szExt);
-			if (!_tcscmp(szNode, szExtCap)) {
+			if (!mir_tstrcmp(szNode, szExtCap)) {
 				jcb = ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
 				break;
 			}

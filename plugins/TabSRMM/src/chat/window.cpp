@@ -3214,7 +3214,7 @@ LABEL_SHOWWINDOW:
 	case DM_CONTAINERSELECTED:
 		{
 			TCHAR *szNewName = (TCHAR*)lParam;
-			if (!_tcscmp(szNewName, TranslateT("Default container")))
+			if (!mir_tstrcmp(szNewName, TranslateT("Default container")))
 				szNewName = CGlobals::m_default_container_name;
 			int iOldItems = TabCtrl_GetItemCount(hwndTab);
 			if (!_tcsncmp(dat->pContainer->szName, szNewName, CONTAINER_NAMELEN))

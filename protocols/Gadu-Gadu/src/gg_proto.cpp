@@ -692,7 +692,7 @@ int GGPROTO::SetAwayMsg(int iStatus, const PROTOCHAR *newMsg)
 	}
 
 	// Check if we change status here somehow
-	if (*msgPtr && newMsg && !_tcscmp(*msgPtr, newMsg)
+	if (*msgPtr && newMsg && !mir_tstrcmp(*msgPtr, newMsg)
 		|| !*msgPtr && (!newMsg || !*newMsg))
 	{
 		if (status == m_iDesiredStatus && m_iDesiredStatus == m_iStatus)

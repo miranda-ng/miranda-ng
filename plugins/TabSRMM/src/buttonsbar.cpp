@@ -376,7 +376,7 @@ static int SaveTree(HWND hToolBarTree)
 		while (tvi.hItem != NULL) {
 			TreeView_GetItem(hToolBarTree, &tvi);
 
-			if (_tcscmp(tvi.pszText, MIDDLE_SEPARATOR) == 0) {
+			if (mir_tstrcmp(tvi.pszText, MIDDLE_SEPARATOR) == 0) {
 				RSide = true;
 				count = TreeView_GetCount(hToolBarTree) * 10 - count;
 				tvi.hItem = TreeView_GetNextSibling(hToolBarTree, tvi.hItem);
@@ -715,7 +715,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					tvi.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_PARAM;
 					TreeView_GetItem(hToolBarTree, &tvi);
 
-					if (tvi.lParam == 0 || !TreeView_GetCheckState(hToolBarTree, tvi.hItem) || !_tcscmp(tvi.pszText, MIDDLE_SEPARATOR))
+					if (tvi.lParam == 0 || !TreeView_GetCheckState(hToolBarTree, tvi.hItem) || !mir_tstrcmp(tvi.pszText, MIDDLE_SEPARATOR))
 						break;
 
 					CustomButtonData *cbd = (CustomButtonData*)tvi.lParam;
@@ -743,7 +743,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					tvi.hItem = hti;
 					TreeView_GetItem(hToolBarTree, &tvi);
 
-					if (!TreeView_GetCheckState(hToolBarTree, tvi.hItem) || !_tcscmp(tvi.pszText, MIDDLE_SEPARATOR)) {
+					if (!TreeView_GetCheckState(hToolBarTree, tvi.hItem) || !mir_tstrcmp(tvi.pszText, MIDDLE_SEPARATOR)) {
 						Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, false);
 						Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, false);
 						Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, false);
