@@ -237,7 +237,7 @@ HANDLE __cdecl CSteamProto::SearchBasic(const TCHAR* id)
 
 int __cdecl CSteamProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
-	return (INT_PTR)AddDBEvent(hContact, EVENTTYPE_MESSAGE, pre->timestamp, DBEF_UTF, lstrlenA(pre->szMessage), (BYTE*)pre->szMessage);
+	return (INT_PTR)AddDBEvent(hContact, EVENTTYPE_MESSAGE, pre->timestamp, DBEF_UTF, mir_strlen(pre->szMessage), (BYTE*)pre->szMessage);
 }
 
 int __cdecl CSteamProto::SendMsg(MCONTACT hContact, int, const char *msg)

@@ -20,7 +20,7 @@ void logA(const char *format, ...)
 
 UINT murmur_hash(const char *str)
 {
-	size_t len = lstrlenA(str);
+	size_t len = mir_strlen(str);
 
 	// 'm' and 'r' are mixing constants generated offline.
 	// They're not really 'magic', they just happen to work well.

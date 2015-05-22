@@ -370,7 +370,7 @@ static void BuildMenus(TEnumData *lParam)
 				// since it maybe Miranda\Blah\Blah and we have created the first node
 				// which maybe Miranda, thus giving the wrong hash
 				// since "Miranda" can be a group of it's own and a full path
-				q->cchGroup = lstrlenA(Token);
+				q->cchGroup = mir_strlen(Token);
 				q->szGroup = (LPSTR)HeapAlloc(hDllHeap, 0, q->cchGroup + 1);
 				lstrcpyA(q->szGroup, Token);
 				q->dwItems = 0;
@@ -862,7 +862,7 @@ HRESULT TShellExt::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESU
 				GetTextExtentPoint32A(dwi->hDC, psd->szText, psd->cch, &tS);
 				dwi->rcItem.left += tS.cx + 8;
 				SetTextColor(dwi->hDC, GetSysColor(COLOR_GRAYTEXT));
-				DrawTextA(dwi->hDC, psd->szProfile, lstrlenA(psd->szProfile), &dwi->rcItem, DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
+				DrawTextA(dwi->hDC, psd->szProfile, mir_strlen(psd->szProfile), &dwi->rcItem, DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
 			}
 		}
 		else {
@@ -908,7 +908,7 @@ HRESULT TShellExt::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESU
 		dx += tS.cx;
 		// main menu item?
 		if (psd->szProfile != NULL) {
-			GetTextExtentPoint32A(hMemDC, psd->szProfile, lstrlenA(psd->szProfile), &tS);
+			GetTextExtentPoint32A(hMemDC, psd->szProfile, mir_strlen(psd->szProfile), &tS);
 			dx += tS.cx;
 		}
 		// store it

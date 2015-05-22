@@ -259,7 +259,7 @@ static __inline char *Netlib_UrlDecode(char *str)
 				MoveMemory(psz,&psz[1],2);
 				psz[2]=0;
 				*psz=(char)strtol(psz,NULL,16);
-				MoveMemory(&psz[1],&psz[3],lstrlenA(&psz[3])+1);
+				MoveMemory(&psz[1],&psz[3],mir_strlen(&psz[3])+1);
 				break;
 		}
 	return str;

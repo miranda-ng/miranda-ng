@@ -628,7 +628,7 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 		mir_snprintf(reason, SIZEOF(reason), Translate("%s has added you to his or her Friend List"), nickName);
 
 		// blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), sid(ASCIIZ), reason(ASCIIZ)
-		DWORD cbBlob = (DWORD)(sizeof(DWORD)* 2 + lstrlenA(nickName) + lstrlenA(firstName) + lstrlenA(lastName) + lstrlenA(steamId) + lstrlenA(reason) + 5);
+		DWORD cbBlob = (DWORD)(sizeof(DWORD)* 2 + mir_strlen(nickName) + mir_strlen(firstName) + mir_strlen(lastName) + mir_strlen(steamId) + mir_strlen(reason) + 5);
 
 		PBYTE pBlob, pCurBlob;
 		pCurBlob = pBlob = (PBYTE)mir_alloc(cbBlob);
@@ -638,13 +638,13 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 		*((PDWORD)pCurBlob) = (DWORD)hContact;
 		pCurBlob += sizeof(DWORD);
 		strcpy((char*)pCurBlob, nickName);
-		pCurBlob += lstrlenA(nickName) + 1;
+		pCurBlob += mir_strlen(nickName) + 1;
 		strcpy((char*)pCurBlob, firstName);
-		pCurBlob += lstrlenA(firstName) + 1;
+		pCurBlob += mir_strlen(firstName) + 1;
 		strcpy((char*)pCurBlob, lastName);
-		pCurBlob += lstrlenA(lastName) + 1;
+		pCurBlob += mir_strlen(lastName) + 1;
 		strcpy((char*)pCurBlob, steamId);
-		pCurBlob += lstrlenA(steamId) + 1;
+		pCurBlob += mir_strlen(steamId) + 1;
 		strcpy((char*)pCurBlob, reason);
 
 		AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), DBEF_UTF, cbBlob, pBlob);
