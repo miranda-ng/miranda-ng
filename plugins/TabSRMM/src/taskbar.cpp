@@ -900,7 +900,7 @@ void CThumbMUC::renderContent()
 			else {
 				mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("Server window"));
 				CSkin::RenderText(m_hdc, m_dat->hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
-				if (mi->tszIdleMsg[0] && _tcslen(mi->tszIdleMsg) > 2) {
+				if (mi->tszIdleMsg[0] && mir_tstrlen(mi->tszIdleMsg) > 2) {
 					m_rcIcon.top += m_sz.cy;
 					CSkin::RenderText(m_hdc, m_dat->hTheme, &mi->tszIdleMsg[2], &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
 				}

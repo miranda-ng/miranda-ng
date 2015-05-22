@@ -87,7 +87,7 @@ void CAimProto::ShowPopup(const char* msg, int flags, char* url)
 	{	
 		if (flags & MAIL_POPUP)
 		{
-			size_t len = _tcslen(ppd.lptzText);
+			size_t len = mir_tstrlen(ppd.lptzText);
 			mir_sntprintf(&ppd.lptzText[len], SIZEOF(ppd.lptzText) - len, _T(" %s"), TranslateT("Open mail account?"));
 			if (MessageBox(NULL, ppd.lptzText, ppd.lptzContactName, MB_YESNO | MB_ICONINFORMATION) == IDYES)
 				ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOW);

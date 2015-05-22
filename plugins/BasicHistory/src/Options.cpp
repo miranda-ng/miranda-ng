@@ -806,24 +806,24 @@ bool OpenFileDlg(HWND hwndDlg, HWND hwndEdit, const TCHAR* defName, const TCHAR*
 	_tcscpy_s(extUpper, ext);
 	extUpper[0] = std::toupper(ext[0], loc);
 	mir_sntprintf(filter, SIZEOF(filter), TranslateT("%s Files (*.%s)"), extUpper, ext);
-	size_t len = _tcslen(filter) + 1;
+	size_t len = mir_tstrlen(filter) + 1;
 	mir_sntprintf(filter + len, SIZEOF(filter) - len, _T("*.%s"), ext);
-	len += _tcslen(filter + len) + 1;
+	len += mir_tstrlen(filter + len) + 1;
 	_tcscpy_s(filter + len, 1024 - len, TranslateT("All Files (*.*)"));
-	len += _tcslen(filter + len) + 1;
+	len += mir_tstrlen(filter + len) + 1;
 	_tcscpy_s(filter + len, 1024 - len, _T("*.*"));
-	len += _tcslen(filter + len) + 1;
+	len += mir_tstrlen(filter + len) + 1;
 	filter[len] = 0;
 	TCHAR stzFilePath[1024];
 
 	Edit_GetText(hwndEdit, stzFilePath, 1023);
 	if (stzFilePath[0] == 0) {
 		_tcscpy_s(stzFilePath, defName);
-		len = _tcslen(stzFilePath) + 1;
+		len = mir_tstrlen(stzFilePath) + 1;
 		stzFilePath[len] = 0;
 	}
 	else {
-		len = _tcslen(stzFilePath) + 1;
+		len = mir_tstrlen(stzFilePath) + 1;
 		stzFilePath[len] = 0;
 	}
 

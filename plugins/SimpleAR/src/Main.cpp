@@ -209,12 +209,12 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 							return FALSE;
 						}
 
-						msgLen += (int)_tcslen(dbv.ptszVal);
+						msgLen += (int)mir_tstrlen(dbv.ptszVal);
 						if (!db_get_ts(NULL,protocolname,KEY_HEADING,&dbvHead))
 						{
 							ptszTemp = dbvHead.ptszVal;
 							ptszTemp.Replace(_T("%user%"), dbvNick.ptszVal);
-							msgLen += (int)(_tcslen(ptszTemp));
+							msgLen += (int)(mir_tstrlen(ptszTemp));
 						}
 						ptszTemp2 = (TCHAR*)mir_alloc(sizeof(TCHAR) * (msgLen+5));
 						mir_sntprintf(ptszTemp2, msgLen+5, _T("%s\r\n\r\n%s"), ptszTemp.c_str(), dbv.ptszVal);

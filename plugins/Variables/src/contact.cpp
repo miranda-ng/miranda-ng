@@ -91,7 +91,7 @@ static HANDLE hContactSettingChangedHook;
 */
 BYTE getContactInfoType(TCHAR* type)
 {
-	if (type == NULL || _tcslen(type) == 0 )
+	if (type == NULL || mir_tstrlen(type) == 0 )
 		return 0;
 
 	for (int i=0; i < SIZEOF(builtinCnfs); i++ )
@@ -206,7 +206,7 @@ int getContactFromString(CONTACTSINFO *ci)
 		tszContact = NEWTSTR_ALLOCA(tmp);
 		mir_free(tmp);
 	}
-	if ((tszContact == NULL) || (_tcslen(tszContact) == 0))
+	if ((tszContact == NULL) || (mir_tstrlen(tszContact) == 0))
 		return -1;
 
 	ci->hContacts = NULL;
@@ -234,12 +234,12 @@ int getContactFromString(CONTACTSINFO *ci)
 		BOOL bMatch = FALSE;
 
 		// <_HANDLE_:hContact>
-		size_t size = _tcslen(_T(PROTOID_HANDLE)) + 36;
+		size_t size = mir_tstrlen(_T(PROTOID_HANDLE)) + 36;
 		szFind = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
 		if (szFind != NULL)
 		{
 			mir_sntprintf(szFind, size, _T("<%s:%p>"), _T(PROTOID_HANDLE), hContact);
-			if (!_tcsncmp(tszContact, szFind, _tcslen(tszContact)))
+			if (!_tcsncmp(tszContact, szFind, mir_tstrlen(tszContact)))
 				bMatch = TRUE;
 
 			mir_free(szFind);
@@ -255,12 +255,12 @@ int getContactFromString(CONTACTSINFO *ci)
 			TCHAR *cInfo = getContactInfoT(CNF_UNIQUEID, hContact);
 			if (cInfo)
 			{
-				size_t size = _tcslen(cInfo) + mir_strlen(szProto) + 4;
+				size_t size = mir_tstrlen(cInfo) + mir_strlen(szProto) + 4;
 				szFind = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
 				if (szFind != NULL) {
 					mir_sntprintf(szFind, size, _T("<%S:%s>"), szProto, cInfo);
 					mir_free(cInfo);
-					if (!_tcsncmp(tszContact, szFind, _tcslen(tszContact)))
+					if (!_tcsncmp(tszContact, szFind, mir_tstrlen(tszContact)))
 						bMatch = TRUE;
 					mir_free(szFind);
 				}
@@ -416,7 +416,7 @@ TCHAR* encodeContactToString(MCONTACT hContact)
 	if (szProto == NULL || tszUniqueId == NULL)
 		return NULL;
 
-	size_t size = _tcslen(tszUniqueId) + mir_strlen(szProto) + 4;
+	size_t size = mir_tstrlen(tszUniqueId) + mir_strlen(szProto) + 4;
 	TCHAR *tszResult = (TCHAR *)mir_calloc(size * sizeof(TCHAR));
 	if (tszResult)
 		mir_sntprintf(tszResult, size, _T("<%S:%s>"), szProto, tszUniqueId);

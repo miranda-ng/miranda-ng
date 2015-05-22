@@ -270,7 +270,7 @@ BOOL FindTeamSpeak(DWORD*pid, int*vid) {
 	while (Process32Next(hSnapShot, processInfo) != FALSE)
 	{
 		if (processInfo->th32ProcessID != 0) {
-			int size = _tcslen(processInfo->szExeFile);
+			int size = mir_tstrlen(processInfo->szExeFile);
 
 			if (size == 13)
 			{

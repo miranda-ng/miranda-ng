@@ -1043,7 +1043,7 @@ static void MeasureColorPresetMenuItem(HWND hdlg, LPMEASUREITEMSTRUCT lpMeasureI
 	HDC hdc = GetDC(hdlg);
 	LPTSTR lpsz = TranslateTS(clrPresets->szName);
 	SIZE sz;
-	GetTextExtentPoint32(hdc, lpsz, (int)_tcslen(lpsz), &sz);
+	GetTextExtentPoint32(hdc, lpsz, (int)mir_tstrlen(lpsz), &sz);
 	ReleaseDC(hdlg, hdc);
 
 	lpMeasureItem->itemWidth = 50 + sz.cx;

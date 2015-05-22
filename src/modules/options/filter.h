@@ -36,7 +36,7 @@ void	GetDialogStrings(int enableKeywordFiltering, const PageHash key, TCHAR *plu
 
 _inline TCHAR *_tcslwr_locale(TCHAR *buf)
 {
-	LCMapString(Langpack_GetDefaultLocale() , LCMAP_LOWERCASE, buf, (int)_tcslen(buf), buf, (int)_tcslen(buf));
+	LCMapString(Langpack_GetDefaultLocale() , LCMAP_LOWERCASE, buf, (int)mir_tstrlen(buf), buf, (int)mir_tstrlen(buf));
 	return buf;
 }
 

@@ -28,7 +28,7 @@ __inline void AddRow(PopupWindowData *pwd, TCHAR *swzLabel, TCHAR *swzValue, cha
 	pwd->rows = pRows;								
 	pwd->rows[pwd->iRowCount].swzLabel = swzLabel ? mir_tstrdup(swzLabel) : NULL;
 	pwd->rows[pwd->iRowCount].swzValue = swzValue ? mir_tstrdup(swzValue) : NULL;
-	pwd->rows[pwd->iRowCount].spi = bParseSmileys ? Smileys_PreParse(swzValue, (int)_tcslen(swzValue), szProto) : NULL;
+	pwd->rows[pwd->iRowCount].spi = bParseSmileys ? Smileys_PreParse(swzValue, (int)mir_tstrlen(swzValue), szProto) : NULL;
 	pwd->rows[pwd->iRowCount].bValueNewline = bNewline;
 	pwd->rows[pwd->iRowCount].bLineAbove = bLineAbove;
 	pwd->rows[pwd->iRowCount].bIsTitle = bIsTitle;
@@ -76,7 +76,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						_tcscpy(pwd->swzTitle, pa->tszAccountName);
 				}
 
-				if (_tcslen(pwd->swzTitle) == 0)
+				if (mir_tstrlen(pwd->swzTitle) == 0)
 					a2t(pwd->clcit.szProto, pwd->swzTitle, TITLE_TEXT_LEN);
 
 				if (CallService(MS_PROTO_ISACCOUNTLOCKED, 0, (LPARAM)pwd->clcit.szProto))
@@ -225,7 +225,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 				else {
 					TCHAR buff[2048], *swzText = pwd->clcit.swzText;
-					size_t iBuffPos, i = 0, iSize = _tcslen(pwd->clcit.swzText);
+					size_t iBuffPos, i = 0, iSize = mir_tstrlen(pwd->clcit.swzText);
 					bool bTopMessage = false;
 
 					while (i < iSize && swzText[i] != _T('<')) {
@@ -772,7 +772,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			for (int i = 0; i < pwd->iRowCount; i++) {
 				if (pwd->rows[i].swzValue) {
 					TCHAR buff[128];
-					int iLen = (int)_tcslen(pwd->rows[i].swzValue);
+					int iLen = (int)mir_tstrlen(pwd->rows[i].swzValue);
 					if (iLen) {
 						if (iLen > MAX_VALUE_LEN) {
 							_tcsncpy(buff, pwd->rows[i].swzValue, MAX_VALUE_LEN);
@@ -1066,7 +1066,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 						pwd->rows[pwd->iRowCount].swzLabel = mir_tstrdup(buff_label);
 						pwd->rows[pwd->iRowCount].swzValue = mir_tstrdup(buff);
-						pwd->rows[pwd->iRowCount].spi = Smileys_PreParse(buff, (int)_tcslen(buff), szProto);
+						pwd->rows[pwd->iRowCount].spi = Smileys_PreParse(buff, (int)mir_tstrlen(buff), szProto);
 						pwd->rows[pwd->iRowCount].bValueNewline = node->di.bValueNewline;
 						pwd->rows[pwd->iRowCount].bLineAbove = node->di.bLineAbove;
 						pwd->iRowCount++;
@@ -1183,7 +1183,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					else if (hFontLabels)
 						SelectObject(hdc, (HGDIOBJ)hFontLabels);
 
-					GetTextExtentPoint32(hdc, pwd->rows[i].swzLabel, (int)_tcslen(pwd->rows[i].swzLabel), &sz);
+					GetTextExtentPoint32(hdc, pwd->rows[i].swzLabel, (int)mir_tstrlen(pwd->rows[i].swzLabel), &sz);
 					if (sz.cx > pwd->iLabelWidth)
 						pwd->iLabelWidth = sz.cx;
 				}
@@ -1198,7 +1198,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					SelectObject(hdc, (HGDIOBJ)hFontLabels);
 
 				if (pwd->rows[i].swzLabel && pwd->rows[i].swzLabel[0])
-					GetTextExtentPoint32(hdc, pwd->rows[i].swzLabel, (int)_tcslen(pwd->rows[i].swzLabel), &sz);
+					GetTextExtentPoint32(hdc, pwd->rows[i].swzLabel, (int)mir_tstrlen(pwd->rows[i].swzLabel), &sz);
 				else
 					sz.cy = sz.cx = 0;
 

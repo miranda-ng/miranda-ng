@@ -195,7 +195,7 @@ char *t2utf(const TCHAR *ts)
 TCHAR *myfgets(TCHAR *Buf, int MaxCount, FILE *File)
 {
 	_fgetts(Buf, MaxCount, File);
-	for (size_t i = _tcslen(Buf) - 1; ; i--)
+	for (size_t i = mir_tstrlen(Buf) - 1; ; i--)
 	{
 		if (Buf[i] == '\n' || Buf[i] == ' ')
 			Buf[i] = 0;

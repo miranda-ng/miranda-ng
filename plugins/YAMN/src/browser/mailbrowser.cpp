@@ -1618,9 +1618,9 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 						if ((nReturnCmd == 1) && (ListView_GetItemState(hList, courRow, LVIS_SELECTED) == 0)) continue;
 						ListView_GetItemText(hList, courRow, 0, headname, SIZEOF(headname));
 						ListView_GetItemText(hList, courRow, 1, headvalue, SIZEOF(headvalue));
-						size_t headnamelen = _tcslen(headname);
+						size_t headnamelen = mir_tstrlen(headname);
 						if (headnamelen) sizeNeeded += 1 + headnamelen;
-						sizeNeeded += 3 + _tcslen(headvalue);
+						sizeNeeded += 3 + mir_tstrlen(headvalue);
 					}
 					if (sizeNeeded && OpenClipboard(hDlg)) {
 						EmptyClipboard();
@@ -1631,7 +1631,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 							if ((nReturnCmd == 1) && (ListView_GetItemState(hList, courRow, LVIS_SELECTED) == 0)) continue;
 							ListView_GetItemText(hList, courRow, 0, headname, SIZEOF(headname));
 							ListView_GetItemText(hList, courRow, 1, headvalue, SIZEOF(headvalue));
-							if (_tcslen(headname)) courPos += mir_sntprintf(&buff[courPos], sizeNeeded + 1, _T("%s:\t%s\r\n"), headname, headvalue);
+							if (mir_tstrlen(headname)) courPos += mir_sntprintf(&buff[courPos], sizeNeeded + 1, _T("%s:\t%s\r\n"), headname, headvalue);
 							else courPos += mir_sntprintf(&buff[courPos], sizeNeeded + 1, _T("\t%s\r\n"), headvalue);
 						}
 						GlobalUnlock(hData);
@@ -2405,7 +2405,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 						ListView_GetItemText(hList, courRow, 1, subject, SIZEOF(subject));
 						ListView_GetItemText(hList, courRow, 2, size, SIZEOF(size));
 						ListView_GetItemText(hList, courRow, 3, date, SIZEOF(date));
-						sizeNeeded += 5 + _tcslen(from) + _tcslen(subject) + _tcslen(size) + _tcslen(date);
+						sizeNeeded += 5 + mir_tstrlen(from) + mir_tstrlen(subject) + mir_tstrlen(size) + mir_tstrlen(date);
 					}
 					if (sizeNeeded && OpenClipboard(hDlg)) {
 						EmptyClipboard();

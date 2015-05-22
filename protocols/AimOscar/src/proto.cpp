@@ -338,7 +338,7 @@ HANDLE __cdecl CAimProto::SearchBasic(const PROTOCHAR* szId)
 HANDLE __cdecl CAimProto::SearchByEmail(const PROTOCHAR* email)
 {
 	// Maximum email size should really be 320, but the char string is limited to 255.
-	if (state != 1 || email == NULL || _tcslen(email) >= 254)
+	if (state != 1 || email == NULL || mir_tstrlen(email) >= 254)
 		return NULL;
 
 	char* szEmail = mir_t2a(email);

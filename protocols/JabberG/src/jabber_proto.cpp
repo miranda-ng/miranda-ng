@@ -471,7 +471,7 @@ HANDLE __cdecl CJabberProto::FileAllow(MCONTACT /*hContact*/, HANDLE hTransfer, 
 
 	filetransfer *ft = (filetransfer*)hTransfer;
 	ft->std.tszWorkingDir = mir_tstrdup(szPath);
-	size_t len = _tcslen(ft->std.tszWorkingDir)-1;
+	size_t len = mir_tstrlen(ft->std.tszWorkingDir)-1;
 	if (ft->std.tszWorkingDir[len] == '/' || ft->std.tszWorkingDir[len] == '\\')
 		ft->std.tszWorkingDir[len] = 0;
 
@@ -623,7 +623,7 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 			bool bHasResource = _tcscmp(jid, szBareJid) != 0;
 			JABBER_LIST_ITEM *tmpItem = NULL;
 			if (bHasResource && (tmpItem = ListGetItemPtr(LIST_CHATROOM, szBareJid))) {
-				pResourceStatus him(tmpItem->findResource(szBareJid+_tcslen(szBareJid)+1));
+				pResourceStatus him(tmpItem->findResource(szBareJid+mir_tstrlen(szBareJid)+1));
 				if (him) {
 					item = ListAdd(LIST_VCARD_TEMP, jid);
 					ListAddResource(LIST_VCARD_TEMP, jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
@@ -1143,7 +1143,7 @@ void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 					JABBER_RESOURCE_STATUS *r = item->arResources[i];
 					if (r->m_tszStatusMessage) {
 						msgCount++;
-						len += (_tcslen(r->m_tszResourceName) + _tcslen(r->m_tszStatusMessage) + 8);
+						len += (mir_tstrlen(r->m_tszResourceName) + mir_tstrlen(r->m_tszStatusMessage) + 8);
 					}
 				}
 

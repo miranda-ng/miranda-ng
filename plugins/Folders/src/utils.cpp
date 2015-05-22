@@ -184,7 +184,7 @@ int GetStringFromDatabase(char *szSettingName, const wchar_t *szError, TCHAR *sz
 	size_t len;
 	DBVARIANT dbv;
 	if (db_get_ws(NULL, ModuleName, szSettingName, &dbv) == 0) {
-		size_t tmp = _tcslen(dbv.ptszVal);
+		size_t tmp = mir_tstrlen(dbv.ptszVal);
 		len = (tmp < size - 1) ? tmp : size - 1;
 		_tcsncpy(szResult, dbv.ptszVal, len);
 		szResult[len] = '\0';
@@ -192,7 +192,7 @@ int GetStringFromDatabase(char *szSettingName, const wchar_t *szError, TCHAR *sz
 		return 0;
 	}
 
-	size_t tmp = _tcslen(szError);
+	size_t tmp = mir_tstrlen(szError);
 	len = (tmp < size - 1) ? tmp : size - 1;
 	_tcsncpy(szResult, szError, len);
 	szResult[len] = '\0';

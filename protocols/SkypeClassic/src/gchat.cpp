@@ -613,13 +613,13 @@ int GCEventHook(WPARAM,LPARAM lParam) {
 		break;
 	}
 	case GC_USER_MESSAGE:
-		if(gch->ptszText && _tcslen(gch->ptszText) > 0) {
+		if(gch->ptszText && mir_tstrlen(gch->ptszText) > 0) {
 			DBVARIANT dbv, dbv2;
 			CCSDATA ccs = {0};
 			TCHAR *pEnd;
 
 			// remove the ending linebreak
-			for (pEnd = &gch->ptszText[_tcslen(gch->ptszText) - 1];
+			for (pEnd = &gch->ptszText[mir_tstrlen(gch->ptszText) - 1];
 				 *pEnd==_T('\r') || *pEnd==_T('\n'); pEnd--) *pEnd=0;
 			// Send message to the chat-contact    
 			if (ccs.hContact = find_chat(gch->pDest->ptszID)) {
@@ -633,7 +633,7 @@ int GCEventHook(WPARAM,LPARAM lParam) {
 			// Add our line to the chatlog	
 			GCDEST gcd = { gch->pDest->pszModule, gch->pDest->ptszID, 0 };
 			GCEVENT gce = { sizeof(gce), &gcd };
-			if ( _tcsncmp(gch->ptszText, _T("/me "), 4)==0 && _tcslen(gch->ptszText)>4) {
+			if ( _tcsncmp(gch->ptszText, _T("/me "), 4)==0 && mir_tstrlen(gch->ptszText)>4) {
 				gce.ptszText = gch->ptszText+4;
 				gcd.iType = GC_EVENT_ACTION;
 			}

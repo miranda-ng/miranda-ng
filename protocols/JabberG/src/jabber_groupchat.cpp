@@ -1080,7 +1080,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 
 		if (resource == NULL)
 			gcd.iType = GC_EVENT_INFORMATION;
-		else if (_tcsncmp(msgText, _T("/me "), 4) == 0 && _tcslen(msgText) > 4) {
+		else if (_tcsncmp(msgText, _T("/me "), 4) == 0 && mir_tstrlen(msgText) > 4) {
 			msgText += 4;
 			gcd.iType = GC_EVENT_ACTION;
 		}

@@ -122,7 +122,7 @@ static TCHAR *GetWinampSong(void)
 
 	if (pstr < szTitle + (iTitleLen / 2))
 	{
-		memmove(szTitle, pstr + 9, _tcslen(pstr + 9) * sizeof(TCHAR));
+		memmove(szTitle, pstr + 9, mir_tstrlen(pstr + 9) * sizeof(TCHAR));
 		pstr = _tcsstr(pstr + 1, _T(" - Winamp"));
 		if (pstr == NULL)
 		{

@@ -861,7 +861,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SetCurrentDirectoryA(mir_path);
 			tmp = mir_a2t(mir_path);
 			mir_free(mir_path);
-			mir_realloc(path, (_tcslen(path)+128)*sizeof(TCHAR));
+			mir_realloc(path, (mir_tstrlen(path)+128)*sizeof(TCHAR));
 			TCHAR *gpg_path = (TCHAR*)mir_alloc(sizeof(TCHAR) * MAX_PATH), *gpg_lang_path = (TCHAR*)mir_alloc(sizeof(TCHAR) * MAX_PATH);
 			_tcscpy(gpg_path, tmp);
 			_tcscat(gpg_path, _T("\\GnuPG\\gpg.exe"));
@@ -1052,8 +1052,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		  }
 		  db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 		  GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, SIZEOF(tmp));
-		  while(tmp[_tcslen(tmp)-1] == '\\')
-			  tmp[_tcslen(tmp)-1] = '\0';
+		  while(tmp[mir_tstrlen(tmp)-1] == '\\')
+			  tmp[mir_tstrlen(tmp)-1] = '\0';
 		  if(!tmp[0])
 		  {
 			  MessageBox(0, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
@@ -1130,8 +1130,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			}
 			db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 			GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, SIZEOF(tmp));
-			while(tmp[_tcslen(tmp)-1] == '\\')
-				tmp[_tcslen(tmp)-1] = '\0';
+			while(tmp[mir_tstrlen(tmp)-1] == '\\')
+				tmp[mir_tstrlen(tmp)-1] = '\0';
 			if(!tmp[0])
 			{
 				MessageBox(0, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
@@ -1371,7 +1371,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 			  { //data sanity checks
 				  TCHAR *tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*5);
 				  GetDlgItemText(hwndDlg, IDC_KEY_TYPE, tmp, 5);
-				  if(_tcslen(tmp) < 3)
+				  if(mir_tstrlen(tmp) < 3)
 				  {
 					  mir_free(tmp); tmp = NULL;
 					  MessageBox(0, TranslateT("You must set encryption algorithm first"), TranslateT("Error"), MB_OK);
@@ -1390,7 +1390,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 				  }
 				  tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*12);
 				  GetDlgItemText(hwndDlg, IDC_KEY_EXPIRE_DATE, tmp, 11);
-				  if(_tcslen(tmp) != 10 && tmp[0] != '0')
+				  if(mir_tstrlen(tmp) != 10 && tmp[0] != '0')
 				  {
 					  MessageBox(0, TranslateT("Invalid date"), TranslateT("Error"), MB_OK);
 					  mir_free(tmp);
@@ -1399,7 +1399,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 				  mir_free(tmp);
 				  tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*128);
 				  GetDlgItemText(hwndDlg, IDC_KEY_REAL_NAME, tmp, 127);
-				  if(_tcslen(tmp) < 5)
+				  if(mir_tstrlen(tmp) < 5)
 				  {
 					  MessageBox(0, TranslateT("Name must contain at least 5 characters"), TranslateT("Error"), MB_OK);
 					  mir_free(tmp);
@@ -1414,7 +1414,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 				  mir_free(tmp);
 				  tmp = (TCHAR*)mir_alloc(sizeof(TCHAR)*128);
 				  GetDlgItemText(hwndDlg, IDC_KEY_EMAIL, tmp, 128);
-				  if((_tcslen(tmp)) < 5 || (!_tcschr(tmp, _T('@'))) || (!_tcschr(tmp, _T('.'))))
+				  if((mir_tstrlen(tmp)) < 5 || (!_tcschr(tmp, _T('@'))) || (!_tcschr(tmp, _T('.'))))
 				  {
 					  MessageBox(0, TranslateT("Invalid Email"), TranslateT("Error"), MB_OK);
 					  mir_free(tmp);

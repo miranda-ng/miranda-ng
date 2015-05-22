@@ -206,7 +206,7 @@ void ParseFontPart(FILE *fp, TCHAR *buff)
 					{
 						if (GetSettingName(buff, "", szSetting, sizeof(szSetting) - 1)) 
 						{
-							if (_tcslen(pch) > 32)
+							if (mir_tstrlen(pch) > 32)
 								pch[32] = 0;
 
 							db_set_ts(0, MODULE, szSetting, pch);

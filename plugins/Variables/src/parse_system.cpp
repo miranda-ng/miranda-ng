@@ -51,10 +51,10 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return NULL;
 
-	if (_tcslen(ai->targv[1]) == 0)
+	if (mir_tstrlen(ai->targv[1]) == 0)
 		szCounter = mir_tstrdup(_T("\\Processor(_Total)\\% Processor Time"));
 	else {
-		int size = (int)_tcslen(ai->targv[1]) + 32;
+		int size = (int)mir_tstrlen(ai->targv[1]) + 32;
 		szCounter = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
 		if (szCounter == NULL)
 			return NULL;
@@ -116,7 +116,7 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai)
 static TCHAR *parseCurrentDate(ARGUMENTSINFO *ai)
 {
 	TCHAR *szFormat;
-	if (ai->argc == 1 || (ai->argc > 1 && _tcslen(ai->targv[1]) == 0))
+	if (ai->argc == 1 || (ai->argc > 1 && mir_tstrlen(ai->targv[1]) == 0))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[1];
@@ -137,7 +137,7 @@ static TCHAR *parseCurrentDate(ARGUMENTSINFO *ai)
 static TCHAR *parseCurrentTime(ARGUMENTSINFO *ai)
 {
 	TCHAR *szFormat;
-	if (ai->argc == 1 || (ai->argc > 1) && (_tcslen(ai->targv[1]) == 0))
+	if (ai->argc == 1 || (ai->argc > 1) && (mir_tstrlen(ai->targv[1]) == 0))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[1];
@@ -168,13 +168,13 @@ static TCHAR *parseDirectory(ARGUMENTSINFO *ai)
 		return mir_tstrdup(ai->targv[1]);
 
 	size_t bi, ei;
-	for (ei = 0; ei < _tcslen(ai->targv[1]); ei++) {
+	for (ei = 0; ei < mir_tstrlen(ai->targv[1]); ei++) {
 		if (ai->targv[1][ei] == '\\')
 			depth--;
 		if (!depth)
 			break;
 	}
-	if (ei >= _tcslen(ai->targv[1]))
+	if (ei >= mir_tstrlen(ai->targv[1]))
 		return ai->targv[1];
 
 	for (bi = ei - 1; bi > 0; bi--)
@@ -203,7 +203,7 @@ static TCHAR *parseDirectory2(ARGUMENTSINFO *ai)
 	if (depth <= 0)
 		return NULL;
 
-	TCHAR *ecur = ai->targv[1] + _tcslen(ai->targv[1]);
+	TCHAR *ecur = ai->targv[1] + mir_tstrlen(ai->targv[1]);
 	while (depth > 0) {
 		while ((*ecur != '\\') && (ecur > ai->targv[1]))
 			ecur--;
@@ -226,17 +226,17 @@ static int getTime(TCHAR *szTime, struct tm *date)
 {
 	// do some extra checks here
 	TCHAR *cur = szTime;
-	if (cur >= szTime + _tcslen(szTime))
+	if (cur >= szTime + mir_tstrlen(szTime))
 		return -1;
 
 	date->tm_mon = _tcstoul(cur, &cur, 10) - 1;
 	cur++;
-	if (cur >= szTime + _tcslen(szTime))
+	if (cur >= szTime + mir_tstrlen(szTime))
 		return -1;
 
 	date->tm_mday = _tcstoul(cur, &cur, 10);
 	cur++;
-	if (cur >= szTime + _tcslen(szTime))
+	if (cur >= szTime + mir_tstrlen(szTime))
 		return -1;
 
 	date->tm_year = _tcstoul(cur, &cur, 10);
@@ -247,17 +247,17 @@ static int getTime(TCHAR *szTime, struct tm *date)
 
 	date->tm_year = date->tm_year < 38 ? date->tm_year + 100 : date->tm_year;
 	cur++;
-	if (cur >= szTime + _tcslen(szTime))
+	if (cur >= szTime + mir_tstrlen(szTime))
 		return -1;
 
 	date->tm_hour = _tcstoul(cur, &cur, 10);
 	cur++;
-	if (cur >= szTime + _tcslen(szTime))
+	if (cur >= szTime + mir_tstrlen(szTime))
 		return -1;
 
 	date->tm_min = _tcstoul(cur, &cur, 10);
 	cur++;
-	if (cur >= szTime + _tcslen(szTime))
+	if (cur >= szTime + mir_tstrlen(szTime))
 		return -1;
 
 	date->tm_sec = _tcstoul(cur, &cur, 10);
@@ -386,11 +386,11 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai)
 		if (*ai->targv[4] == 'd')
 			bFiles = FALSE;
 	}
-	if (tszFirst[_tcslen(tszFirst) - 1] == '\\')
-		_tcsncat(tszFirst, tszFilter, SIZEOF(tszFirst) - _tcslen(tszFirst) - 1);
+	if (tszFirst[mir_tstrlen(tszFirst) - 1] == '\\')
+		_tcsncat(tszFirst, tszFilter, SIZEOF(tszFirst) - mir_tstrlen(tszFirst) - 1);
 	else {
-		_tcsncat(tszFirst, _T("\\"), SIZEOF(tszFirst) - _tcslen(tszFirst) - 1);
-		_tcsncat(tszFirst, tszFilter, SIZEOF(tszFirst) - _tcslen(tszFirst) - 1);
+		_tcsncat(tszFirst, _T("\\"), SIZEOF(tszFirst) - mir_tstrlen(tszFirst) - 1);
+		_tcsncat(tszFirst, tszFilter, SIZEOF(tszFirst) - mir_tstrlen(tszFirst) - 1);
 	}
 
 	WIN32_FIND_DATA ffd;
@@ -399,17 +399,17 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 	if (((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
-		tszRes = (TCHAR*)mir_alloc((_tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
+		tszRes = (TCHAR*)mir_alloc((mir_tstrlen(ffd.cFileName) + mir_tstrlen(tszSeperator) + 1)*sizeof(TCHAR));
 		_tcscpy(tszRes, ffd.cFileName);
 	}
 	while (FindNextFile(hFind, &ffd) != 0) {
 		if (((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
 			if (tszRes != NULL) {
 				_tcscat(tszRes, tszSeperator);
-				tszRes = (TCHAR*)mir_realloc(tszRes, (_tcslen(tszRes) + _tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
+				tszRes = (TCHAR*)mir_realloc(tszRes, (mir_tstrlen(tszRes) + mir_tstrlen(ffd.cFileName) + mir_tstrlen(tszSeperator) + 1)*sizeof(TCHAR));
 			}
 			else {
-				tszRes = (TCHAR*)mir_alloc((_tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
+				tszRes = (TCHAR*)mir_alloc((mir_tstrlen(ffd.cFileName) + mir_tstrlen(tszSeperator) + 1)*sizeof(TCHAR));
 				_tcscpy(tszRes, _T(""));
 			}
 			_tcscat(tszRes, ffd.cFileName);
@@ -530,7 +530,7 @@ static TCHAR *parseTimestamp2Date(ARGUMENTSINFO *ai)
 	if (timestamp == 0)
 		return NULL;
 
-	if ((ai->argc == 2) || ((ai->argc > 2) && (_tcslen(ai->targv[2]) == 0)))
+	if ((ai->argc == 2) || ((ai->argc > 2) && (mir_tstrlen(ai->targv[2]) == 0)))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[2];
@@ -562,7 +562,7 @@ static TCHAR *parseTimestamp2Time(ARGUMENTSINFO *ai)
 		return NULL;
 
 	TCHAR *szFormat;
-	if ((ai->argc == 2) || ((ai->argc > 2) && (_tcslen(ai->targv[2]) == 0)))
+	if ((ai->argc == 2) || ((ai->argc > 2) && (mir_tstrlen(ai->targv[2]) == 0)))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[2];
@@ -859,7 +859,7 @@ static TCHAR *parseClipboard(ARGUMENTSINFO *ai)
 			HANDLE hData = GetClipboardData(CF_UNICODETEXT);
 			if (hData != NULL) {
 				TCHAR *tszText = (TCHAR*)GlobalLock(hData);
-				size_t len = _tcslen(tszText);
+				size_t len = mir_tstrlen(tszText);
 				res = (TCHAR*)mir_alloc((len + 1) * sizeof(TCHAR));
 				_tcscpy(res, tszText);
 				res[len] = 0;

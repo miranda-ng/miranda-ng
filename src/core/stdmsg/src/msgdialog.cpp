@@ -55,7 +55,7 @@ static void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 
 static int RTL_Detect(const TCHAR *ptszText)
 {
-	int iLen = (int)_tcslen(ptszText);
+	int iLen = (int)mir_tstrlen(ptszText);
 	WORD *infoTypeC2 = (WORD*)alloca(sizeof(WORD)* (iLen + 2));
 	GetStringTypeEx(LOCALE_USER_DEFAULT, CT_CTYPE2, ptszText, iLen, infoTypeC2);
 
@@ -965,7 +965,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			if (buf[0] && OpenClipboard(hwndDlg)) {
 				EmptyClipboard();
-				HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, _tcslen(buf) * sizeof(TCHAR)+1);
+				HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, mir_tstrlen(buf) * sizeof(TCHAR)+1);
 				_tcscpy((TCHAR*)GlobalLock(hData), buf);
 				GlobalUnlock(hData);
 				SetClipboardData(CF_UNICODETEXT, hData);
@@ -1617,7 +1617,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						case IDM_COPYLINK:
 							if (OpenClipboard(hwndDlg)) {
 								EmptyClipboard();
-								HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (_tcslen(tr.lpstrText) + 1) * sizeof(TCHAR));
+								HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (mir_tstrlen(tr.lpstrText) + 1) * sizeof(TCHAR));
 								_tcscpy((TCHAR*)GlobalLock(hData), tr.lpstrText);
 								GlobalUnlock(hData);
 								SetClipboardData(CF_UNICODETEXT, hData);

@@ -116,7 +116,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 		CharLower(wordsearch);
 
 		for (j = 0; j < SIZEOF(hyperlinkPrefixes); j ++) {
-			if (!_tcsncmp(wordsearch, hyperlinkPrefixes[j], _tcslen(hyperlinkPrefixes[j]))) {
+			if (!_tcsncmp(wordsearch, hyperlinkPrefixes[j], mir_tstrlen(hyperlinkPrefixes[j]))) {
 				isLink = 1;
 				break;
 			}
@@ -803,7 +803,7 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart,  LPCTSTR searchString, siz
 		{
 			(*elementCount)++;
 
-			tempLen = _tcslen(actualElement->link);
+			tempLen = mir_tstrlen(actualElement->link);
 			if (*maxLen < tempLen)
 				*maxLen = tempLen;
 		}

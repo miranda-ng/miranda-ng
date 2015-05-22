@@ -131,7 +131,7 @@ void WICondListAdd(char *str, WICONDLIST *List)
 {
 	WICONDITEM *newItem = (WICONDITEM*)mir_alloc(sizeof(WICONDITEM));
 	wSetData(&newItem->Item, str);
-	CharLowerBuff(newItem->Item, (DWORD)_tcslen( newItem->Item ));
+	CharLowerBuff(newItem->Item, (DWORD)mir_tstrlen( newItem->Item ));
 	newItem->Next = NULL;
 	if (List->Tail == NULL)	List->Head = newItem;
 	else List->Tail->Next = newItem;
@@ -327,7 +327,7 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 
 		// initialize the linked list for update items
 		Data->UpdateDataCount = 0;
-		Data->MemUsed = sizeof(WIDATA) + sizeof(WIDATALIST) + (_tcslen(pszShortFile) + _tcslen(pszFile) + 20)*sizeof( TCHAR );
+		Data->MemUsed = sizeof(WIDATA) + sizeof(WIDATALIST) + (mir_tstrlen(pszShortFile) + mir_tstrlen(pszFile) + 20)*sizeof( TCHAR );
 		Data->UpdateData = NULL;
 		Data->UpdateDataTail = NULL;
 
@@ -453,7 +453,7 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 				else if ( !_stricmp(ValName, "HIDDEN")) {
 					if ( !_stricmp(Value, "TRUE")) {
 						TCHAR *nm = Data->UpdateDataTail->Item.Name;
-						size_t len = _tcslen(nm) + 1;
+						size_t len = mir_tstrlen(nm) + 1;
 
 						Data->UpdateDataTail->Item.Name = nm = ( TCHAR* )mir_realloc(nm, sizeof(TCHAR)*(len + 3));
 						memmove(nm + 1, nm, len*sizeof( TCHAR ));

@@ -52,7 +52,7 @@ INT_PTR ExpandPath(TCHAR *szResult, TCHAR *format, int size)
 
 	mir_free(input);
 
-	return _tcslen(szResult);
+	return mir_tstrlen(szResult);
 }
 
 INT_PTR RegisterPathService(WPARAM, LPARAM lParam)
@@ -82,7 +82,7 @@ INT_PTR GetPathSizeService(WPARAM wParam, LPARAM lParam)
 	if (lstRegisteredFolders.getIndex(p) != -1) {
 		TCHAR tmp[MAX_FOLDER_SIZE];
 		p->Expand(tmp, SIZEOF(tmp));
-		len = _tcslen(tmp);
+		len = mir_tstrlen(tmp);
 	}
 	else len = 0;
 

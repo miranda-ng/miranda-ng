@@ -120,7 +120,7 @@ static int lastColumn = -1; //last sort column
 
 int MatchesFilterCS(const TCHAR *filter, const PopupHistoryData *popupItem) //case sensitive
 {
-	if (_tcslen(filter) <= 0)	{ return 1;	} //if no filter is set then the popup item matches the filter
+	if (mir_tstrlen(filter) <= 0)	{ return 1;	} //if no filter is set then the popup item matches the filter
 	int match = 0;
 	
 	match = (_tcsstr(popupItem->messageT, filter)) ? 1 : match; //check message part
@@ -149,7 +149,7 @@ __inline void ConvertCase(TCHAR *dest, const TCHAR *source, size_t size)
 
 int MatchesFilterCI(const TCHAR *filterS, const PopupHistoryData *popupItem)
 {
-	if (_tcslen(filterS) <= 0)	{ return 1;	} //if no filter is set then the popup item matches the filter
+	if (mir_tstrlen(filterS) <= 0)	{ return 1;	} //if no filter is set then the popup item matches the filter
 	int match = 0;
 	const int BUFFER_SIZE = 1024;
 	TCHAR buffer[BUFFER_SIZE];
@@ -489,7 +489,7 @@ void CopyPopupDataToClipboard(HWND hList, int selection)
 			if (found)
 			{
 				EmptyClipboard();
-				int len = (int)_tcslen(buffer);
+				int len = (int)mir_tstrlen(buffer);
 				
 				HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, (len + 2) * sizeof(TCHAR));
 				clipboard = (TCHAR *) GlobalLock(hData);

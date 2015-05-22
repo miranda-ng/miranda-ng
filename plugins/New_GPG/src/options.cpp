@@ -135,7 +135,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				tmp2 = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", "");
 				tmp = mir_a2t(tmp2);
 				mir_free(tmp2);
-				ListView_SetItemText(hwndList, iRow, 1, (_tcslen(tmp) > 1)?tmp:_T("not set"));
+				ListView_SetItemText(hwndList, iRow, 1, (mir_tstrlen(tmp) > 1)?tmp:_T("not set"));
 				mir_free(tmp);
 				char *tmp2 = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyMainName", "");
 				if(!toUTF16(tmp2).empty())
@@ -143,7 +143,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else
 					tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyMainName", _T(""));
 				mir_free(tmp2);
-				ListView_SetItemText(hwndList, iRow, 2, (_tcslen(tmp) > 1)?tmp:_T("not set"));
+				ListView_SetItemText(hwndList, iRow, 2, (mir_tstrlen(tmp) > 1)?tmp:_T("not set"));
 				mir_free(tmp);
 				tmp2 = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyMainEmail", "");
 				if(!toUTF16(tmp2).empty())
@@ -151,7 +151,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else
 					tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyMainEmail", _T(""));
 				mir_free(tmp2);
-				ListView_SetItemText(hwndList, iRow, 3, (_tcslen(tmp) > 1)?tmp:_T("not set"));
+				ListView_SetItemText(hwndList, iRow, 3, (mir_tstrlen(tmp) > 1)?tmp:_T("not set"));
 				mir_free(tmp);
 				if(db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0))
 					ListView_SetCheckState(hwndList, iRow, 1);
@@ -166,7 +166,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}			
 		}
 		tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szLogFilePath", _T(""));
-		SetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, (_tcslen(tmp) > 1)?tmp:_T("c:\\GPGdebug.log"));
+		SetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, (mir_tstrlen(tmp) > 1)?tmp:_T("c:\\GPGdebug.log"));
 		mir_free(tmp);
 		CheckStateLoadDB(hwndDlg, IDC_DEBUG_LOG, "bDebugLog", 0);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_JABBER_API), bIsMiranda09);
@@ -571,8 +571,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		  GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, SIZEOF(tmp));
 		  db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 		  GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, SIZEOF(tmp));
-		  while(tmp[_tcslen(tmp)-1] == '\\')
-			  tmp[_tcslen(tmp)-1] = '\0';
+		  while(tmp[mir_tstrlen(tmp)-1] == '\\')
+			  tmp[mir_tstrlen(tmp)-1] = '\0';
 		  db_set_ts(NULL, szGPGModuleName, "szHomePath", tmp);
           return TRUE;
         }
@@ -638,22 +638,22 @@ static INT_PTR CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				GetDlgItemText(hwndDlg, IDC_IN_OPEN_TAG, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, szGPGModuleName, "szInOpenTag", tmp);
 				mir_free(inopentag);
-				inopentag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (_tcslen(tmp)+1));
+				inopentag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (mir_tstrlen(tmp)+1));
 				_tcscpy(inopentag, tmp);
 				GetDlgItemText(hwndDlg, IDC_IN_CLOSE_TAG, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, szGPGModuleName, "szInCloseTag", tmp);
 				mir_free(inclosetag);
-				inclosetag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (_tcslen(tmp)+1));
+				inclosetag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (mir_tstrlen(tmp)+1));
 				_tcscpy(inclosetag, tmp);
 				GetDlgItemText(hwndDlg, IDC_OUT_OPEN_TAG, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, szGPGModuleName, "szOutOpenTag", tmp);
 				mir_free(outopentag);
-				outopentag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (_tcslen(tmp)+1));
+				outopentag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (mir_tstrlen(tmp)+1));
 				_tcscpy(outopentag, tmp);
 				GetDlgItemText(hwndDlg, IDC_OUT_CLOSE_TAG, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, szGPGModuleName, "szOutCloseTag", tmp);
 				mir_free(outclosetag);
-				outclosetag = (TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(tmp)+1));
+				outclosetag = (TCHAR*)mir_alloc(sizeof(TCHAR)*(mir_tstrlen(tmp)+1));
 				_tcscpy(outclosetag, tmp);
 			}
           return TRUE;
@@ -855,16 +855,16 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					ws1 = 0;
 					if(((ws2 = key_buf.find(_T("-----END PGP PUBLIC KEY BLOCK-----"))) != wstring::npos) && ((ws1 = key_buf.find(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----"))) != wstring::npos))
 					{
-						begin = (TCHAR*)mir_alloc(sizeof(TCHAR) * (_tcslen(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----")) + 1));
+						begin = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----")) + 1));
 						_tcscpy(begin, _T("-----BEGIN PGP PUBLIC KEY BLOCK-----"));
-						end = (TCHAR*)mir_alloc(sizeof( TCHAR) * (_tcslen(_T("-----END PGP PUBLIC KEY BLOCK-----")) + 1));
+						end = (TCHAR*)mir_alloc(sizeof( TCHAR) * (mir_tstrlen(_T("-----END PGP PUBLIC KEY BLOCK-----")) + 1));
 						_tcscpy(end, _T("-----END PGP PUBLIC KEY BLOCK-----"));
 					}
 					else if(((ws2 = key_buf.find(_T("-----END PGP PRIVATE KEY BLOCK-----"))) != wstring::npos) && ((ws1 = key_buf.find(_T("-----BEGIN PGP PRIVATE KEY BLOCK-----"))) != wstring::npos))
 					{
-						begin = (TCHAR*)mir_alloc(sizeof(TCHAR) * (_tcslen(_T("-----BEGIN PGP PRIVATE KEY BLOCK-----")) + 1));
+						begin = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(_T("-----BEGIN PGP PRIVATE KEY BLOCK-----")) + 1));
 						_tcscpy(begin, _T("-----BEGIN PGP PRIVATE KEY BLOCK-----"));
-						end = (TCHAR*)mir_alloc(sizeof(TCHAR) * (_tcslen(_T("-----END PGP PRIVATE KEY BLOCK-----")) + 1));
+						end = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(_T("-----END PGP PRIVATE KEY BLOCK-----")) + 1));
 						_tcscpy(end, _T("-----END PGP PRIVATE KEY BLOCK-----"));
 					}
 					else
@@ -872,7 +872,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 						MessageBox(0, TranslateT("This is not public or private key"), _T("INFO"), MB_OK);
 						break;
 					}
-					ws2 += _tcslen(end);
+					ws2 += mir_tstrlen(end);
 					bool allsubcontacts = false;
 					{
 						if(db_mc_isMeta(hContact))
@@ -1252,7 +1252,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 						MessageBox(0, TranslateT("There is no public or private key."), TranslateT("Info"), MB_OK);
 						break;
 					}
-					ws2 += _tcslen(_T("-----END PGP PUBLIC KEY BLOCK-----"));
+					ws2 += mir_tstrlen(_T("-----END PGP PUBLIC KEY BLOCK-----"));
 					SetDlgItemText(hwndDlg, IDC_PUBLIC_KEY_EDIT, key_buf.substr(ws1,ws2-ws1).c_str());
 					key_buf.clear();
 				}

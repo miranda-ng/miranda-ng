@@ -57,7 +57,7 @@ void __fastcall Prepare(KN_FP_MASK* mask, bool bEnable)
 	if (!mask->szMask || !bEnable)
 		return;
 
-	size_t iMaskLen = _tcslen(mask->szMask) + 1;
+	size_t iMaskLen = mir_tstrlen(mask->szMask) + 1;
 	LPTSTR pszNewMask = (LPTSTR)HeapAlloc(hHeap, HEAP_NO_SERIALIZE, iMaskLen * sizeof(TCHAR));
 	_tcscpy_s(pszNewMask, iMaskLen, mask->szMask);
 	_tcsupr_s(pszNewMask, iMaskLen);

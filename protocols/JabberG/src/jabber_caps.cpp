@@ -671,7 +671,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 				mir_tstrncpy(szOsBuffer, _T(""), SIZEOF(szOsBuffer));
 			else {
 				TCHAR *szOsWindows = _T("Microsoft Windows");
-				size_t nOsWindowsLength = _tcslen(szOsWindows);
+				size_t nOsWindowsLength = mir_tstrlen(szOsWindows);
 				if (!_tcsnicmp(szOsBuffer, szOsWindows, nOsWindowsLength))
 					os += nOsWindowsLength + 1;
 			}

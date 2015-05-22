@@ -61,7 +61,7 @@ TCHAR *Utils::getFileNameFromPath(TCHAR *stzPath)
 
 TCHAR *Utils::getTextFragment(TCHAR *stzText, size_t length, TCHAR *buff)
 {
-	if (_tcslen(stzText) > length)
+	if (mir_tstrlen(stzText) > length)
 	{
 		_tcscpy(buff, stzText);
 		buff[length - 1] = 0;
@@ -171,7 +171,7 @@ INT_PTR CALLBACK Utils::DlgProcSetFileName(HWND hwndDlg, UINT msg, WPARAM wParam
 			if (GetDlgCtrlID((HWND)wParam) != IDC_NAME)
 			{
 				SetFocus(GetDlgItem(hwndDlg, IDC_NAME));
-				SendDlgItemMessage(hwndDlg, IDC_NAME, EM_SETSEL, 0, _tcslen(fileName) - 4);
+				SendDlgItemMessage(hwndDlg, IDC_NAME, EM_SETSEL, 0, mir_tstrlen(fileName) - 4);
 				return FALSE;
 			}
 

@@ -305,7 +305,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 		// Include service pack (if any) and build number.
 
-		if (_tcslen(osvi.szCSDVersion) > 0) {
+		if (mir_tstrlen(osvi.szCSDVersion) > 0) {
 			StringCchCat(pszOS, BUFSIZE, TEXT(" "));
 			StringCchCat(pszOS, BUFSIZE, osvi.szCSDVersion);
 		}

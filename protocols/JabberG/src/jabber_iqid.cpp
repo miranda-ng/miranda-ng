@@ -403,8 +403,8 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 			TCHAR *szPos = NULL;
 			while (szPos = _tcsstr(item->group, szGroupDelimeter)) {
 				*szPos = 0;
-				szPos += _tcslen(szGroupDelimeter);
-				TCHAR *szNewGroup = (TCHAR *)mir_alloc(sizeof(TCHAR) * (_tcslen(item->group) + _tcslen(szPos) + 2));
+				szPos += mir_tstrlen(szGroupDelimeter);
+				TCHAR *szNewGroup = (TCHAR *)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(item->group) + mir_tstrlen(szPos) + 2));
 				_tcscpy(szNewGroup, item->group);
 				_tcscat(szNewGroup, _T("\\"));
 				_tcscat(szNewGroup, szPos);
@@ -680,7 +680,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 		return;
 	}
 
-	size_t len = _tcslen(m_szJabberJID);
+	size_t len = mir_tstrlen(m_szJabberJID);
 	if (!_tcsnicmp(jid, m_szJabberJID, len) && (jid[len] == '/' || jid[len] == '\0')) {
 		hContact = NULL;
 		debugLogA("Vcard for myself");

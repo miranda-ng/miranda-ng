@@ -67,11 +67,11 @@ void UpdateEngine()
 
 TCHAR* GetFullName(const TCHAR* filename)
 {
-	size_t flen = _tcslen(filename);
+	size_t flen = mir_tstrlen(filename);
 	TCHAR* fullname = const_cast<TCHAR*>(filename);
 	if (!_tcschr(filename, _T(':')))
 	{
-		size_t plen = _tcslen(path);
+		size_t plen = mir_tstrlen(path);
 		fullname = new TCHAR[plen + flen + 1];
 		fullname[0] = NULL;
 		_tcscat(fullname, path);
@@ -390,8 +390,8 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 			TCHAR* mind = TranslateTS(MIND_FILE_DESC);
 			TCHAR* anyfile = TranslateTS(ALL_FILES_DESC);
-			size_t l = _tcslen(MIND_DIALOG_FILTER)
-				+ _tcslen(mind) + _tcslen(anyfile);
+			size_t l = mir_tstrlen(MIND_DIALOG_FILTER)
+				+ mir_tstrlen(mind) + mir_tstrlen(anyfile);
 			TCHAR *filt = new TCHAR[l];
 			mir_sntprintf(filt, l, MIND_DIALOG_FILTER, mind, anyfile);
 			for (size_t i = 0; i < l; i++)

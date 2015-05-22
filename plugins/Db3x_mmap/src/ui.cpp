@@ -202,7 +202,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		case IDOK:
 			TCHAR buf2[100];
 			GetDlgItemText(hwndDlg, IDC_USERPASS1, buf2, SIZEOF(buf2));
-			if (_tcslen(buf2) < 3) {
+			if (mir_tstrlen(buf2) < 3) {
 				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Password is too short!"));
 				goto LBL_Error;
 			}

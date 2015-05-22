@@ -405,7 +405,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 
 	// Fetch search data
 	GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, SIZEOF(text));
-	if (_tcslen(text))
+	if (mir_tstrlen(text))
 	{
 		char *firstName_utf8 = mir_utf8encodeT(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstName_utf8);
@@ -415,7 +415,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	/* 1 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_LASTNAME, text, SIZEOF(text));
-	if (_tcslen(text))
+	if (mir_tstrlen(text))
 	{
 		char *lastName_utf8 = mir_utf8encodeT(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastName_utf8);
@@ -425,7 +425,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	/* 2 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_NICKNAME, text, SIZEOF(text));
-	if (_tcslen(text))
+	if (mir_tstrlen(text))
 	{
 		char *nickName_utf8 = mir_utf8encodeT(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nickName_utf8);
@@ -435,7 +435,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	/* 3 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_CITY, text, SIZEOF(text));
-	if (_tcslen(text))
+	if (mir_tstrlen(text))
 	{
 		char *city_utf8 = mir_utf8encodeT(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_CITY, city_utf8);
@@ -445,7 +445,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	/* 4 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_AGEFROM, text, SIZEOF(text));
-	if (_tcslen(text))
+	if (mir_tstrlen(text))
 	{
 		int yearTo = _tstoi(text);
 		int yearFrom;

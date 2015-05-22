@@ -41,7 +41,7 @@ unsigned long int hashlittle(void *key, size_t length, unsigned long int initval
 
 static DWORD NameHashFunction(TCHAR *tszStr)
 {
-	return (DWORD)hashlittle(tszStr, _tcslen(tszStr)*sizeof(TCHAR), 0);
+	return (DWORD)hashlittle(tszStr, mir_tstrlen(tszStr)*sizeof(TCHAR), 0);
 }
 
 static TokenRegisterEntry* FindTokenRegisterByName(TCHAR *name)

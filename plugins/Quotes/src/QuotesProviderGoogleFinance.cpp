@@ -89,7 +89,7 @@ namespace
 	tstring get_company_id(const tstring& rsHTML)
 	{
 		static LPCTSTR pszVarName = _T("setCompanyId(");
-		static size_t cVarNameLength = _tcslen(pszVarName);
+		static size_t cVarNameLength = mir_tstrlen(pszVarName);
 
 		tstring sResult;
 		tstring::size_type n = rsHTML.find(pszVarName);
@@ -116,7 +116,7 @@ namespace
 	tstring get_company_name(const tstring& rsHTML)
 	{
 		static LPCTSTR pszVarName = _T("var _companyName = ");
-		static size_t cVarNameLength = _tcslen(pszVarName);
+		static size_t cVarNameLength = mir_tstrlen(pszVarName);
 
 		tstring s = get_var_value(rsHTML, pszVarName, cVarNameLength);
 		if (s.size() > 0 && _T('\'') == s[0])

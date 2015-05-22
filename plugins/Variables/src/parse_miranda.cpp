@@ -35,34 +35,34 @@ static TCHAR* parseCodeToStatus(ARGUMENTSINFO *ai)
 static int getContactInfoFlags(TCHAR *tszDesc)
 {
 	int flags = 0;
-	for (TCHAR *cur = tszDesc; (cur < (tszDesc + _tcslen(tszDesc))); cur++) {
-		if (!_tcsnicmp(cur, STR_PROTOID, _tcslen(STR_PROTOID))) {
+	for (TCHAR *cur = tszDesc; (cur < (tszDesc + mir_tstrlen(tszDesc))); cur++) {
+		if (!_tcsnicmp(cur, STR_PROTOID, mir_tstrlen(STR_PROTOID))) {
 			flags |= CI_PROTOID;
-			cur += _tcslen(STR_PROTOID) - 1;
+			cur += mir_tstrlen(STR_PROTOID) - 1;
 		}
-		else if (!_tcsnicmp(cur, STR_NICK, _tcslen(STR_NICK))) {
+		else if (!_tcsnicmp(cur, STR_NICK, mir_tstrlen(STR_NICK))) {
 			flags |= CI_NICK;
-			cur += _tcslen(STR_NICK) - 1;
+			cur += mir_tstrlen(STR_NICK) - 1;
 		}
-		else if (!_tcsnicmp(cur, STR_FIRSTNAME, _tcslen(STR_FIRSTNAME))) {
+		else if (!_tcsnicmp(cur, STR_FIRSTNAME, mir_tstrlen(STR_FIRSTNAME))) {
 			flags |= CI_FIRSTNAME;
-			cur += _tcslen(STR_FIRSTNAME) - 1;
+			cur += mir_tstrlen(STR_FIRSTNAME) - 1;
 		}
-		else if (!_tcsnicmp(cur, STR_LASTNAME, _tcslen(STR_LASTNAME))) {
+		else if (!_tcsnicmp(cur, STR_LASTNAME, mir_tstrlen(STR_LASTNAME))) {
 			flags |= CI_LASTNAME;
-			cur += _tcslen(STR_LASTNAME) - 1;
+			cur += mir_tstrlen(STR_LASTNAME) - 1;
 		}
-		else if (!_tcsnicmp(cur, STR_DISPLAY, _tcslen(STR_DISPLAY))) {
+		else if (!_tcsnicmp(cur, STR_DISPLAY, mir_tstrlen(STR_DISPLAY))) {
 			flags |= CI_LISTNAME;
-			cur += _tcslen(STR_DISPLAY) - 1;
+			cur += mir_tstrlen(STR_DISPLAY) - 1;
 		}
-		else if (!_tcsnicmp(cur, STR_EMAIL, _tcslen(STR_EMAIL))) {
+		else if (!_tcsnicmp(cur, STR_EMAIL, mir_tstrlen(STR_EMAIL))) {
 			flags |= CI_EMAIL;
-			cur += _tcslen(STR_EMAIL) - 1;
+			cur += mir_tstrlen(STR_EMAIL) - 1;
 		}
-		else if (!_tcsnicmp(cur, STR_UNIQUEID, _tcslen(STR_UNIQUEID))) {
+		else if (!_tcsnicmp(cur, STR_UNIQUEID, mir_tstrlen(STR_UNIQUEID))) {
 			flags |= CI_UNIQUEID;
-			cur += _tcslen(STR_UNIQUEID) - 1;
+			cur += mir_tstrlen(STR_UNIQUEID) - 1;
 		}
 	}
 	if (flags == 0) {
@@ -210,7 +210,7 @@ static TCHAR* parseDBSetting(ARGUMENTSINFO *ai)
 		return NULL;
 
 	MCONTACT hContact = NULL;
-	if (_tcslen(ai->targv[1]) > 0) {
+	if (mir_tstrlen(ai->targv[1]) > 0) {
 		CONTACTSINFO ci = { 0 };
 		ci.cbSize = sizeof(ci);
 		ci.tszContact = ai->targv[1];
@@ -236,7 +236,7 @@ static TCHAR* parseDBSetting(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	TCHAR *szDefaultValue = ((ai->argc > 4 && _tcslen(ai->targv[4]) > 0) ? mir_tstrdup(ai->targv[4]) : NULL);
+	TCHAR *szDefaultValue = ((ai->argc > 4 && mir_tstrlen(ai->targv[4]) > 0) ? mir_tstrdup(ai->targv[4]) : NULL);
 	TCHAR *res = getDBSetting(hContact, szModule, szSetting, szDefaultValue);
 	mir_free(szDefaultValue);
 	mir_free(szSetting);
@@ -265,7 +265,7 @@ static TCHAR* parseLastSeenDate(ARGUMENTSINFO *ai)
 	}
 
 	TCHAR *szFormat;
-	if (ai->argc == 2 || (ai->argc > 2 && _tcslen(ai->targv[2]) == 0))
+	if (ai->argc == 2 || (ai->argc > 2 && mir_tstrlen(ai->targv[2]) == 0))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[2];
@@ -319,7 +319,7 @@ static TCHAR* parseLastSeenTime(ARGUMENTSINFO *ai)
 	}
 
 	TCHAR *szFormat;
-	if (ai->argc == 2 || (ai->argc > 2 && _tcslen(ai->targv[2]) == 0))
+	if (ai->argc == 2 || (ai->argc > 2 && mir_tstrlen(ai->targv[2]) == 0))
 		szFormat = NULL;
 	else
 		szFormat = ai->targv[2];
@@ -402,7 +402,7 @@ static TCHAR* parseMyStatus(ARGUMENTSINFO *ai)
 		return NULL;
 
 	int status;
-	if (ai->argc == 1 || _tcslen(ai->targv[1]) == 0)
+	if (ai->argc == 1 || mir_tstrlen(ai->targv[1]) == 0)
 		status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 	else
 		status = CallProtoService(_T2A(ai->targv[1]), PS_GETSTATUS, 0, 0);
@@ -475,7 +475,7 @@ static TCHAR* parseSpecialContact(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL)
 		return NULL;
 
-	size_t size = mir_strlen(szProto) + _tcslen(szUniqueID) + 4;
+	size_t size = mir_strlen(szProto) + mir_tstrlen(szUniqueID) + 4;
 	TCHAR *res = (TCHAR*)mir_alloc(size * sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;

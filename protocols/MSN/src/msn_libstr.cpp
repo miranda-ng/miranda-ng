@@ -304,7 +304,7 @@ TCHAR* EscapeChatTags(const TCHAR* pszText)
 	if (nChars == 0)
 		return mir_tstrdup(pszText);
 
-	TCHAR *pszNewText = (TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(pszText) + 1 + nChars));
+	TCHAR *pszNewText = (TCHAR*)mir_alloc(sizeof(TCHAR)*(mir_tstrlen(pszText) + 1 + nChars));
 	if (pszNewText == NULL)
 		return mir_tstrdup(pszText);
 

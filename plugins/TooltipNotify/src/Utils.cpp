@@ -15,7 +15,7 @@ BOOL IsNt50()
 
 void TruncateWithDots(TCHAR* szString, size_t iNewLen)
 {
-	size_t iOrigLen = _tcslen(szString);
+	size_t iOrigLen = mir_tstrlen(szString);
 	if (iNewLen < iOrigLen) {
 		TCHAR* p = szString+iNewLen;
 		*p = _T('\0');

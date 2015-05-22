@@ -164,7 +164,7 @@ void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTA
 		mir_sntprintf(title, SIZEOF(title), _T("%s Message"), _T(MODULENAME));
 
 		if(line1 && line2) {
-			int size = int(_tcslen(line1) + _tcslen(line2) + 3);
+			int size = int(mir_tstrlen(line1) + mir_tstrlen(line2) + 3);
 			TCHAR *message = new TCHAR[size]; // newline and null terminator
 			mir_sntprintf(message, size, _T("%s\r\n%s"), line1, line2);
 			MessageBox( NULL, message, title, MB_OK | MB_ICONINFORMATION );
@@ -217,7 +217,7 @@ void ShowWarning(TCHAR *msg) {
 	switch(disp) {
 		case ED_POP:
 			{
-				int size = int(_tcslen(msg) + 515);
+				int size = int(mir_tstrlen(msg) + 515);
 				message = new TCHAR[size]; // newline and null terminator
 				mir_sntprintf(message, size, _T("%s\r\n%s"), buffer, msg);
 				PUShowMessageT(message, SM_WARNING);
@@ -264,7 +264,7 @@ void ShowError(TCHAR *msg) {
 	switch(disp) {
 		case ED_POP:
 			{
-				int size = int(_tcslen(msg) + 515);
+				int size = int(mir_tstrlen(msg) + 515);
 				message = new TCHAR[size]; // newline and null terminator
 				mir_sntprintf(message, size, _T("%s\r\n%s"), buffer, msg);
 				PUShowMessageT(message, SM_WARNING);

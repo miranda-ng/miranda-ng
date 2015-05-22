@@ -1016,17 +1016,17 @@ void CJabberDlgPrivacyLists::ShowAdvancedList(CPrivacyList *pList)
 			if (dwPackets & JABBER_PL_RULE_TYPE_MESSAGE)
 				_tcscat(szPackets, _T("messages"));
 			if (dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_IN) {
-				if (_tcslen(szPackets))
+				if (mir_tstrlen(szPackets))
 					_tcscat(szPackets, _T(", "));
 				_tcscat(szPackets, _T("presence-in"));
 			}
 			if (dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_OUT) {
-				if (_tcslen(szPackets))
+				if (mir_tstrlen(szPackets))
 					_tcscat(szPackets, _T(", "));
 				_tcscat(szPackets, _T("presence-out"));
 			}
 			if (dwPackets & JABBER_PL_RULE_TYPE_IQ) {
-				if (_tcslen(szPackets))
+				if (mir_tstrlen(szPackets))
 					_tcscat(szPackets, _T(", "));
 				_tcscat(szPackets, _T("queries"));
 			}
@@ -1837,7 +1837,7 @@ void CJabberDlgPrivacyLists::btnAddList_OnClick(CCtrlButton*)
 	// FIXME: line length is hard coded in dialog procedure
 	CJabberDlgPrivacyAddList dlgPrivacyAddList(m_proto, m_hwnd);
 	int nRetVal = dlgPrivacyAddList.DoModal();
-	if (nRetVal && _tcslen(dlgPrivacyAddList.szLine)) {
+	if (nRetVal && mir_tstrlen(dlgPrivacyAddList.szLine)) {
 		mir_cslockfull lck(m_proto->m_privacyListManager.m_cs);
 	
 		CPrivacyList *pList = m_proto->m_privacyListManager.FindList(dlgPrivacyAddList.szLine);

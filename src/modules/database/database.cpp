@@ -66,7 +66,7 @@ bool IsInsideRootDir(TCHAR* profiledir, bool exact)
 	if (exact)
 		return _tcsicmp(profiledir, pfd) == 0;
 
-	return _tcsnicmp(profiledir, pfd, _tcslen(pfd)) == 0;
+	return _tcsnicmp(profiledir, pfd, mir_tstrlen(pfd)) == 0;
 }
 
 // returns 1 if the profile path was returned, without trailing slash
@@ -89,7 +89,7 @@ int getProfilePath(TCHAR *buf, size_t cch)
 // returns 1 if *.dat spec is matched
 int isValidProfileName(const TCHAR *name)
 {
-	size_t len = _tcslen(name) - 4;
+	size_t len = mir_tstrlen(name) - 4;
 	return len > 0 && _tcsicmp(&name[len], _T(".dat")) == 0;
 }
 

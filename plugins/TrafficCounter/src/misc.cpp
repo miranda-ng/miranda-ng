@@ -66,9 +66,9 @@ WORD GetRowItems(TCHAR *InputString, RowItemInfo **RowItemsList)
 		else
 		{
 			// Выделяем память под строку.
-			(*RowItemsList)[c].String = (TCHAR*)mir_alloc(sizeof(TCHAR) * _tcslen(end));
+			(*RowItemsList)[c].String = (TCHAR*)mir_alloc(sizeof(TCHAR) * mir_tstrlen(end));
 			// Копируем строку.
-			_tcsncpy((*RowItemsList)[c].String, end + 1, _tcslen(end));
+			_tcsncpy((*RowItemsList)[c].String, end + 1, mir_tstrlen(end));
 		}
 
 		c++;
@@ -156,7 +156,7 @@ size_t GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, size_t Size)
 	mir_sntprintf(Str1, SIZEOF(Str1), _T("%d.%d"), Value / Divider, Value % Divider);
 	size_t l = GetNumberFormat(LOCALE_USER_DEFAULT, 0, Str1, &nf, NULL, 0);
 	if (!l) return 0;
-	l += _tcslen(szUnit) + 1;
+	l += mir_tstrlen(szUnit) + 1;
 	Res = (TCHAR*)malloc(l * sizeof(TCHAR));
 	if (!Res) return 0;
 	GetNumberFormat(LOCALE_USER_DEFAULT, 0, Str1, &nf, Res, l);
@@ -165,11 +165,11 @@ size_t GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, size_t Size)
 	if (Size && Buffer)
 	{
 		_tcscpy(Buffer, Res);
-		l = _tcslen(Buffer);
+		l = mir_tstrlen(Buffer);
 	}
 	else
 	{
-		l = _tcslen(Res) + 1;
+		l = mir_tstrlen(Res) + 1;
 	}
 
 	free(Res);
@@ -257,7 +257,7 @@ size_t GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Siz
 		}
 
 		// Добавим памяти, если нужно.
-		Length = _tcslen(Res) + _tcslen(Token) + 1;
+		Length = mir_tstrlen(Res) + mir_tstrlen(Token) + 1;
 		Res = (TCHAR*)realloc(Res, Length * sizeof(TCHAR));
 		_tcscat(Res, Token);
 	}
@@ -265,11 +265,11 @@ size_t GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Siz
 	if (Size && Buffer)
 	{
 		_tcsncpy(Buffer, Res, Size);
-		Length = _tcslen(Buffer);
+		Length = mir_tstrlen(Buffer);
 	}
 	else
 	{
-		Length = _tcslen(Res) + 1;
+		Length = mir_tstrlen(Res) + 1;
 	}
 
 	free(Res);

@@ -177,7 +177,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 				EmptyClipboard();
 
-				dataLen = (_tcslen(link) + 1) * sizeof(TCHAR);
+				dataLen = (mir_tstrlen(link) + 1) * sizeof(TCHAR);
 				hData = GlobalAlloc(GMEM_MOVEABLE, dataLen);
 				_tcscpy_s((LPTSTR)GlobalLock(hData), dataLen / 2, link);
 				GlobalUnlock(hData);

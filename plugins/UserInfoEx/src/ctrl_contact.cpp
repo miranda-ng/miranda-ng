@@ -1463,7 +1463,7 @@ int CtrlContactWriteMyItemsToDB(
 	if (!hContact && !(pszModule = pszProto)) return 1;
 	
 	pszOther = TranslateT("Other");
-	ccOther = _tcslen(pszOther);
+	ccOther = mir_tstrlen(pszOther);
 	cbi.wMask = CBEXIM_CAT|CBEXIM_VAL|CBEXIM_FLAGS;
 	cbi.pszCat = szCat;
 	cbi.ccCat = MAX_CAT;

@@ -920,8 +920,8 @@ TCHAR *CTooltipNotify::MakeTooltipString(MCONTACT hContact, int iStatus, TCHAR *
 	mir_sntprintf(szString, iBufSize - 1, szFormatString, wszProto, _T(": "), szContactName);
 
 
-	TruncateWithDots(szString, iBufSize-1-_tcslen(szStatus)-_tcslen(szIs)-2); // 2 spaces around szIs
-	mir_sntprintf(szString + _tcslen(szString), iBufSize - 1 - _tcslen(szString), _T(" %s %s"), szIs, szStatus);
+	TruncateWithDots(szString, iBufSize-1-mir_tstrlen(szStatus)-mir_tstrlen(szIs)-2); // 2 spaces around szIs
+	mir_sntprintf(szString + mir_tstrlen(szString), iBufSize - 1 - mir_tstrlen(szString), _T(" %s %s"), szIs, szStatus);
 
 	return szString;
 }

@@ -502,7 +502,7 @@ HANDLE __cdecl CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const PROTOCHAR*
 		ft->std.tszWorkingDir = mir_tstrdup(szCurrDir);
 	}
 	else {
-		size_t len = _tcslen(ft->std.tszWorkingDir) - 1;
+		size_t len = mir_tstrlen(ft->std.tszWorkingDir) - 1;
 		if (ft->std.tszWorkingDir[len] == '\\')
 			ft->std.tszWorkingDir[len] = 0;
 	}

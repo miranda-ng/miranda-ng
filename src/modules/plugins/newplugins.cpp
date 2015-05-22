@@ -671,7 +671,7 @@ int LoadDefaultServiceModePlugin()
 	if (param == NULL || *param == 0)
 		return SERVICE_CONTINUE;
 
-	size_t cbLen = _tcslen(param);
+	size_t cbLen = mir_tstrlen(param);
 	for (int i = 0; i < servicePlugins.getCount(); i++) {
 		pluginEntry *p = servicePlugins[i];
 		if (!_tcsnicmp(p->pluginname, param, cbLen)) {

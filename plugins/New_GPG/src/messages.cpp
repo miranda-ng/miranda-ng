@@ -72,7 +72,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 				debuglog<<std::string(time_str()+": info: received encrypted message from: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 			}
 			boost::algorithm::erase_all(str, "\r");
-			s2 += _tcslen(_T("-----END PGP MESSAGE-----"));
+			s2 += mir_tstrlen(_T("-----END PGP MESSAGE-----"));
 			char *tmp = mir_t2a(str.substr(s1,s2-s1).c_str());
 			TCHAR *tmp2 = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 			wstring path = tmp2;
@@ -372,7 +372,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		{
 			if(bDebugLog)
 				debuglog<<std::string(time_str()+": info(autoexchange): found pubkey block:"+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-			s2 += _tcslen(_T("-----END PGP PUBLIC KEY BLOCK-----"));
+			s2 += mir_tstrlen(_T("-----END PGP PUBLIC KEY BLOCK-----"));
 			db_set_ts(ccs->hContact, szGPGModuleName, "GPGPubKey", str.substr(s1,s2-s1).c_str());
 			{ //gpg execute block
 				std::vector<wstring> cmd;
@@ -499,11 +499,11 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 			void ShowNewKeyDialog();
 			if(((s2 = str.find(_T("-----END PGP PUBLIC KEY BLOCK-----"))) != wstring::npos) && ((s1 = str.find(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----"))) != wstring::npos))
 			{
-				s2 += _tcslen(_T("-----END PGP PUBLIC KEY BLOCK-----"));
+				s2 += mir_tstrlen(_T("-----END PGP PUBLIC KEY BLOCK-----"));
 			}
 			else if(((s2 = str.find(_T("-----BEGIN PGP PRIVATE KEY BLOCK-----"))) != wstring::npos) && ((s1 = str.find(_T("-----END PGP PRIVATE KEY BLOCK-----"))) != wstring::npos))
 			{
-				s2 += _tcslen(_T("-----END PGP PRIVATE KEY BLOCK-----"));
+				s2 += mir_tstrlen(_T("-----END PGP PRIVATE KEY BLOCK-----"));
 			}
 			new_key.append(str.substr(s1,s2-s1));
 			//new_key_hcnt_mutex.lock();
@@ -976,7 +976,7 @@ static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam
 					}
 					if(password)
 						mir_free(password);
-					password = (TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(tmp)+1));
+					password = (TCHAR*)mir_alloc(sizeof(TCHAR)*(mir_tstrlen(tmp)+1));
 					_tcscpy(password, tmp);
 				}
 				mir_free(tmp);

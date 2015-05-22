@@ -89,7 +89,7 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 	for (len = 0, p = tmplt; *p; p++, len++) {
 		if (*p == '%') {
 			for (i = 0; i < SIZEOF(titleTokenNames); i++) {
-				int tnlen = (int)_tcslen(titleTokenNames[i]);
+				int tnlen = (int)mir_tstrlen(titleTokenNames[i]);
 				if (!_tcsncmp(p, titleTokenNames[i], tnlen)) {
 					len += tokenLen[i] - 1;
 					p += tnlen - 1;

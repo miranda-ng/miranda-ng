@@ -533,7 +533,7 @@ void CSAMWindow::checkFieldLimit(WORD action, WORD item)
 
 		GetDlgItemText(m_handle, item, ptszInputText, limit + 8);
 
-		if (_tcslen(ptszInputText) > limit)
+		if (mir_tstrlen(ptszInputText) > limit)
 		{
 			TCHAR tszPopupTip[MAX_PATH];
 			EDITBALLOONTIP ebt = { 0 };

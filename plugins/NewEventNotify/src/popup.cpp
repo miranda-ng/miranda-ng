@@ -182,7 +182,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 				// utf-8 in blob
 				comment1 = mir_utf8decodeT((char*)dbei->pBlob);
 			}
-			else if (dbei->cbBlob == (_tcslen((TCHAR *)dbei->pBlob)+1)*(sizeof(TCHAR)+1)) {
+			else if (dbei->cbBlob == (mir_tstrlen((TCHAR *)dbei->pBlob)+1)*(sizeof(TCHAR)+1)) {
 				// wchar in blob (the old hack)
 				comment1 = mir_tstrdup((TCHAR*)dbei->pBlob);
 			}
@@ -342,7 +342,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 				// utf-8 in blob
 				comment1 = mir_utf8decodeT((char*)dbei->pBlob);
 			}
-			else if (dbei->cbBlob == (_tcslen((TCHAR *)dbei->pBlob)+1)*(sizeof(TCHAR)+1)) {
+			else if (dbei->cbBlob == (mir_tstrlen((TCHAR *)dbei->pBlob)+1)*(sizeof(TCHAR)+1)) {
 				// wchar in blob (the old hack)
 				comment1 = mir_tstrdup((TCHAR*)dbei->pBlob);
 			}
@@ -359,7 +359,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 				// utf-8 in blob
 				comment1 = mir_utf8decodeT((char*)dbei->pBlob);
 			}
-			else if (dbei->cbBlob == (_tcslen((TCHAR *)dbei->pBlob)+1)*(sizeof(TCHAR)+1)) {
+			else if (dbei->cbBlob == (mir_tstrlen((TCHAR *)dbei->pBlob)+1)*(sizeof(TCHAR)+1)) {
 				// wchar in blob (the old hack)
 				comment1 = mir_tstrdup((TCHAR*)dbei->pBlob);
 			}

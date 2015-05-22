@@ -55,12 +55,12 @@ static TCHAR *parseHex(ARGUMENTSINFO *ai)
 	int val = ttoi(ai->targv[1]);
 	int padding = ttoi(ai->targv[2]);
 	mir_sntprintf(szVal, SIZEOF(szVal), _T("%x"), val);
-	unsigned int zeros = max(padding - (signed int)_tcslen(szVal), 0);
-	TCHAR *res = (TCHAR*)mir_alloc((zeros + _tcslen(szVal) + 3)*sizeof(TCHAR));
+	unsigned int zeros = max(padding - (signed int)mir_tstrlen(szVal), 0);
+	TCHAR *res = (TCHAR*)mir_alloc((zeros + mir_tstrlen(szVal) + 3)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
-	memset(res, 0, ((zeros + _tcslen(szVal) + 3) * sizeof(TCHAR)));
+	memset(res, 0, ((zeros + mir_tstrlen(szVal) + 3) * sizeof(TCHAR)));
 	_tcscpy(res, _T("0x"));
 	for (i = 0; i < zeros; i++)
 		*(res + 2 + i) = '0';
@@ -140,14 +140,14 @@ static TCHAR *parseNum(ARGUMENTSINFO *ai)
 	if (szVal == NULL)
 		return NULL;
 
-	unsigned zeros = max(padding - (signed int)_tcslen(szVal), 0);
-	TCHAR *res = (TCHAR*)mir_alloc((zeros + _tcslen(szVal) + 1)*sizeof(TCHAR));
+	unsigned zeros = max(padding - (signed int)mir_tstrlen(szVal), 0);
+	TCHAR *res = (TCHAR*)mir_alloc((zeros + mir_tstrlen(szVal) + 1)*sizeof(TCHAR));
 	if (res == NULL) {
 		mir_free(szVal);
 		return NULL;
 	}
 
-	memset(res, 0, ((zeros + _tcslen(szVal) + 1) * sizeof(TCHAR)));
+	memset(res, 0, ((zeros + mir_tstrlen(szVal) + 1) * sizeof(TCHAR)));
 	TCHAR *cur = res;
 	for (unsigned i = 0; i < zeros; i++)
 		*cur++ = '0';

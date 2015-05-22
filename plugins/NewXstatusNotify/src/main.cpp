@@ -687,7 +687,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	if (bEnablePopup && db_get_b(hContact, MODULE, "EnablePopups", 1) && !opt.TempDisabled) {
 		// cut message if needed
 		TCHAR *copyText = NULL;
-		if (opt.PSMsgTruncate && (opt.PSMsgLen > 0) && smi.newstatusmsg && (_tcslen(smi.newstatusmsg) > opt.PSMsgLen)) {
+		if (opt.PSMsgTruncate && (opt.PSMsgLen > 0) && smi.newstatusmsg && (mir_tstrlen(smi.newstatusmsg) > opt.PSMsgLen)) {
 			TCHAR buff[MAX_TEXT_LEN + 3];
 			copyText = mir_tstrdup(smi.newstatusmsg);
 			_tcsncpy(buff, smi.newstatusmsg, opt.PSMsgLen);

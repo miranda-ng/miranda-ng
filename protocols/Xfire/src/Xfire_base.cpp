@@ -40,7 +40,7 @@ void Xfire_base::strtolowerT(TCHAR*str)
 		return;
 
 	//lowercase it :)
-	for (unsigned int i = 0; i < (int)_tcslen(str); i++)
+	for (unsigned int i = 0; i < (int)mir_tstrlen(str); i++)
 	{
 		str[i] = tolower(str[i]);
 	}

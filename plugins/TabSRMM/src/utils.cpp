@@ -473,8 +473,8 @@ TCHAR* Utils::GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen)
 	TCHAR *p = 0, cSaved;
 	bool	 fEllipsis = false;
 
-	if (_tcslen(szText) <= iMaxLen) {
-		uRequired = _tcslen(szText) + 4;
+	if (mir_tstrlen(szText) <= iMaxLen) {
+		uRequired = mir_tstrlen(szText) + 4;
 		cSaved = 0;
 	}
 	else {

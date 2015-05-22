@@ -58,7 +58,7 @@ inline TCHAR* GetString(char* key, const TCHAR* def)
 
 inline const TCHAR* SetString(char* key, const TCHAR* value)
 {
-	size_t len = _tcslen(value) + 1;
+	size_t len = mir_tstrlen(value) + 1;
 	TCHAR* val = new TCHAR[len];
 	_tcscpy_s(val, len, value);
 	db_set_ts(NULL, BOLTUN_KEY, key, val);

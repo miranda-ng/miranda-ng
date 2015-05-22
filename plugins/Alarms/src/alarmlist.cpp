@@ -326,7 +326,7 @@ void SaveAlarms() {
 		mir_snprintf(buff, SIZEOF(buff), "ActionFlags%d", index);
 		db_set_dw(0, MODULE, buff, i->action);
 		if (i->action & AAF_COMMAND) {
-			if (_tcslen(i->szCommand)) {
+			if (mir_tstrlen(i->szCommand)) {
 				mir_snprintf(buff, SIZEOF(buff), "ActionCommand%d", index);
 				db_set_ts(0, MODULE, buff, i->szCommand);
 				if (mir_tstrlen(i->szCommandParams)) {

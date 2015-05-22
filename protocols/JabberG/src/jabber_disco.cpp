@@ -456,7 +456,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 	}
 	else {
 		sttBrowseMode = SD_BROWSE_NORMAL;
-		CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(szJid, _tcslen(szNode) ? szNode : NULL, NULL);
+		CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(szJid, mir_tstrlen(szNode) ? szNode : NULL, NULL);
 		SendBothRequests(pNode, NULL);
 	}
 	lck.unlock();

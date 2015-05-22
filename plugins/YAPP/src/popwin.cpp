@@ -584,7 +584,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (options.time_layout != PT_NONE) {
 				SIZE size_t;
 				if (hFontTime) SelectObject(hdc, (HGDIOBJ)hFontTime);
-				GetTextExtentPoint32(hdc, pwd->tbuff, (int)_tcslen(pwd->tbuff), &size_t);
+				GetTextExtentPoint32(hdc, pwd->tbuff, (int)mir_tstrlen(pwd->tbuff), &size_t);
 				pwd->time_height = size_t.cy;
 				pwd->time_width = size_t.cx;
 			}
@@ -592,7 +592,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			// titlebar height
 			if (hFontFirstLine) SelectObject(hdc, (HGDIOBJ)hFontFirstLine);
 			TCHAR *title = mir_u2t(pd->pwzTitle);
-			GetTextExtentPoint32(hdc, title, (int)_tcslen(title), &size);
+			GetTextExtentPoint32(hdc, title, (int)mir_tstrlen(title), &size);
 			mir_free(title);
 			pwd->tb_height = size.cy;
 			if (options.time_layout == PT_LEFT || options.time_layout == PT_RIGHT) {

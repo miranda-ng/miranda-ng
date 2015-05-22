@@ -116,14 +116,14 @@ CKeeper::CKeeper( LPTSTR szSender, LPTSTR szSubject, LPSTR szEntryID)
 	m_nSizeEntryID    = 0    ;
  
 	if (NULL != szSender) {
-		m_nSizeSender = (UINT)_tcslen(szSender)+1;
+		m_nSizeSender = (UINT)mir_tstrlen(szSender)+1;
 		m_szSender = new TCHAR[ m_nSizeSender ];
 		memset(m_szSender, 0, m_nSizeSender * sizeof(TCHAR));
 		_tcscpy(m_szSender, szSender);
 	}
 	
 	if (NULL != szSubject) {
-		m_nSizeSubject = (UINT)_tcslen(szSubject) +1;
+		m_nSizeSubject = (UINT)mir_tstrlen(szSubject) +1;
 		m_szSubject = new TCHAR[m_nSizeSubject];
 		memset(m_szSubject, 0, m_nSizeSubject * sizeof(TCHAR));
 		_tcscpy(m_szSubject, szSubject);
@@ -392,7 +392,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 	short nSizeOfTCHAR = sizeof( TCHAR );
 
 	if (m_szUsername == NULL && NULL != szUsername) {
-		nSize = (UINT)_tcslen(szUsername);
+		nSize = (UINT)mir_tstrlen(szUsername);
 		if (nSize > 0) {	
 			nSize++;
 			m_szUsername = new TCHAR[nSize];
@@ -402,7 +402,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 	}	
 	
 	if (m_szPassword == NULL && NULL != szPassword) {
-		nSize = (UINT)_tcslen(szPassword);
+		nSize = (UINT)mir_tstrlen(szPassword);
 		if (nSize > 0) {	
 			nSize++;
 			m_szPassword = new TCHAR[nSize];
@@ -412,7 +412,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 	}
 
 	if (m_szExchangeServer == NULL && NULL != szExchangeServer) {
-		nSize = (UINT)_tcslen(szExchangeServer);
+		nSize = (UINT)mir_tstrlen(szExchangeServer);
 		if (nSize > 0) {	
 			nSize++;
 			m_szExchangeServer = new TCHAR[nSize];
@@ -562,7 +562,7 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 	
 	if (FAILED(hr))
 		return hr;
-	nSize = _tcslen(m_szUsername);
+	nSize = mir_tstrlen(m_szUsername);
 	szUniqName = (TCHAR*)mir_alloc(sizeof(TCHAR) * (nSize + 4));
 	if (szUniqName != NULL) {
 		memcpy(szUniqName, _T("="), sizeof(TCHAR));
@@ -867,7 +867,7 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR )
 
 			if ( NULL != szTheEnd )
 			{
-				szRegValue[ _tcslen(szRegValue) - _tcslen(szTheEnd) +5 ]  = _T('\0');
+				szRegValue[ mir_tstrlen(szRegValue) - mir_tstrlen(szTheEnd) +5 ]  = _T('\0');
 				_tcscat( szRegValue, _T(" /recycle") );
 				STARTUPINFO         si;
 				PROCESS_INFORMATION pi;

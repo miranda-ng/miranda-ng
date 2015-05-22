@@ -180,7 +180,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				TCHAR *pszQuote = _tcschr(str + 1, '"');
 				if (pszQuote)
 					*pszQuote = 0;
-				memmove(str, str + 1, (_tcslen(str) * sizeof(TCHAR)));
+				memmove(str, str + 1, (mir_tstrlen(str) * sizeof(TCHAR)));
 			}
 			else {
 				TCHAR *pszSpace = _tcschr(str, ' ');

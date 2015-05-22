@@ -392,7 +392,7 @@ LBL_FatalError:
 	// User may change status to OFFLINE while we are connecting above
 	if (m_iDesiredStatus != ID_STATUS_OFFLINE || info.bIsReg) {
 		if (!info.bIsReg) {
-			size_t len = _tcslen(info.conn.username) + mir_strlen(info.conn.server) + 1;
+			size_t len = mir_tstrlen(info.conn.username) + mir_strlen(info.conn.server) + 1;
 			m_szJabberJID = (TCHAR*)mir_alloc(sizeof(TCHAR)*(len + 1));
 			mir_sntprintf(m_szJabberJID, len + 1, _T("%s@%S"), info.conn.username, info.conn.server);
 			m_bSendKeepAlive = m_options.KeepAlive != 0;
@@ -1066,7 +1066,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 
 	LPCTSTR ptszSubject = xmlGetText(xmlGetChild(node, "subject"));
 	if (ptszSubject && *ptszSubject) {
-		size_t cbLen = (szMessage ? _tcslen(szMessage) : 0) + _tcslen(ptszSubject) + 128;
+		size_t cbLen = (szMessage ? mir_tstrlen(szMessage) : 0) + mir_tstrlen(ptszSubject) + 128;
 		TCHAR *szTmp = (TCHAR *)alloca(sizeof(TCHAR) * cbLen);
 		szTmp[0] = 0;
 		if (szMessage)
@@ -1084,7 +1084,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 		if (addressNode) {
 			const TCHAR *szJid = xmlGetAttrValue(addressNode, _T("jid"));
 			if (szJid) {
-				size_t cbLen = _tcslen(szMessage) + 1000;
+				size_t cbLen = mir_tstrlen(szMessage) + 1000;
 				TCHAR *p = (TCHAR*)alloca(sizeof(TCHAR) * cbLen);
 				mir_sntprintf(p, cbLen, TranslateT("Message redirected from: %s\r\n%s"), from, szMessage);
 				szMessage = p;
@@ -1204,7 +1204,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 
 			TCHAR *prolog = _T("-----BEGIN PGP MESSAGE-----\r\n\r\n");
 			TCHAR *epilog = _T("\r\n-----END PGP MESSAGE-----\r\n");
-			size_t len = _tcslen(prolog) + _tcslen(ptszText) + _tcslen(epilog) + 3;
+			size_t len = mir_tstrlen(prolog) + mir_tstrlen(ptszText) + mir_tstrlen(epilog) + 3;
 			TCHAR *tempstring = (TCHAR*)_alloca(sizeof(TCHAR)*len);
 			mir_sntprintf(tempstring, len, _T("%s%s%s"), prolog, ptszText, epilog);
 			szMessage = tempstring;
@@ -1265,7 +1265,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 		else if (!_tcscmp(ptszXmlns, JABBER_FEAT_OOB2)) {
 			LPCTSTR ptszUrl = xmlGetText(xmlGetChild(xNode, "url"));
 			if (ptszUrl != NULL && *ptszUrl) {
-				size_t cbLen = (szMessage ? _tcslen(szMessage) : 0) + _tcslen(ptszUrl) + 32;
+				size_t cbLen = (szMessage ? mir_tstrlen(szMessage) : 0) + mir_tstrlen(ptszUrl) + 32;
 				TCHAR *szTmp = (TCHAR *)alloca(sizeof(TCHAR)* cbLen);
 				_tcscpy(szTmp, ptszUrl);
 				if (szMessage) {

@@ -227,10 +227,10 @@ TCHAR *gg_img_getfilter(TCHAR *szFilter, int nSize)
 
 	// Make up filter
 	_tcsncpy(pFilter, szFilterName, nSize);
-	pFilter += _tcslen(pFilter) + 1;
+	pFilter += mir_tstrlen(pFilter) + 1;
 	if (pFilter >= szFilter + nSize) return NULL;
 	_tcsncpy(pFilter, szFilterMask, nSize - (pFilter - szFilter));
-	pFilter += _tcslen(pFilter) + 1;
+	pFilter += mir_tstrlen(pFilter) + 1;
 	if (pFilter >= szFilter + nSize) return NULL;
 	*pFilter = 0;
 
@@ -787,7 +787,7 @@ TCHAR *gg_img_hasextension(TCHAR *filename)
 		TCHAR *imgtype = _tcsrchr(filename, '.');
 		if (imgtype != NULL)
 		{
-			size_t len = _tcslen(imgtype);
+			size_t len = mir_tstrlen(imgtype);
 			imgtype++;
 			if (len == 4 && (_tcsicmp(imgtype, _T("bmp")) == 0 ||
 							 _tcsicmp(imgtype, _T("gif")) == 0 ||
@@ -818,7 +818,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 	}
 	else {
 		_tcscpy(szPath, path);
-		tPathLen = _tcslen(szPath);
+		tPathLen = mir_tstrlen(szPath);
 	}
 
 	if ( _taccess(szPath, 0)){
@@ -835,7 +835,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 
 	mir_sntprintf(szPath + tPathLen, MAX_PATH - tPathLen, _T("\\%s"), dat->lpszFileName);
 	if ((pImgext = gg_img_hasextension(szPath)) == NULL)
-		pImgext = szPath + _tcslen(szPath);
+		pImgext = szPath + mir_tstrlen(szPath);
 	_tcsncpy_s(imgext, pImgext, _TRUNCATE);
 	for (i = 1; ; ++i)
 	{

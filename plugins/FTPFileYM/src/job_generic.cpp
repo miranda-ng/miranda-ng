@@ -79,7 +79,7 @@ void GenericJob::getFilesFromOpenDialog()
 {
 	TCHAR stzFile[MAX_PATH];
 
-	size_t length = _tcslen(this->stzFilePath);
+	size_t length = mir_tstrlen(this->stzFilePath);
 	if (this->stzFilePath[0] && this->stzFilePath[length+1]) // multiple files
 	{
 		TCHAR *ptr = this->stzFilePath + length + 1;
@@ -87,7 +87,7 @@ void GenericJob::getFilesFromOpenDialog()
 		{
 			mir_sntprintf(stzFile, SIZEOF(stzFile), _T("%s\\%s"), this->stzFilePath, ptr);
 			this->addFile(stzFile);
-			ptr += _tcslen(ptr) + 1;
+			ptr += mir_tstrlen(ptr) + 1;
 		}
 	} 
 	else
