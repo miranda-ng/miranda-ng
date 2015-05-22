@@ -516,7 +516,7 @@ int RegisterButtonByParce(char * ObjectName, char * Params)
 		char Type[250] = { 0 };
 
 		DWORD alingnto;
-		int a = ((int)mir_strcmpi(buf, "Switch")) * 2;
+		int a = ((int)!mir_strcmpi(buf, "Switch")) * 2;
 
 		GetParamN(Params, pServiceName, SIZEOF(pServiceName), 1, ',', 0);
 		// if (a) GetParamN(Params,pStatusServiceName, sizeof(pStatusServiceName),a+1,',',0);
@@ -561,9 +561,9 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 		char buf[250];
 		obj.szObjectID = mir_strdup(ObjectName);
 		GetParamN(Params, buf, SIZEOF(buf), 0, ',', 0);
-		if (mir_strcmpi(buf, "Glyph"))
+		if (!mir_strcmpi(buf, "Glyph"))
 			obj.bType = OT_GLYPHOBJECT;
-		else if (mir_strcmpi(buf, "Font"))
+		else if (!mir_strcmpi(buf, "Font"))
 			obj.bType = OT_FONTOBJECT;
 
 		switch (obj.bType) {
@@ -571,8 +571,8 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 		{
 			GLYPHOBJECT gl = { 0 };
 			GetParamN(Params, buf, SIZEOF(buf), 1, ',', 0);
-			if (mir_strcmpi(buf, "Solid")) {
-				//Solid
+			if (!mir_strcmpi(buf, "Solid")) {
+				// Solid
 				gl.Style = ST_BRUSH;
 				int r = atoi(GetParamN(Params, buf, SIZEOF(buf), 2, ',', 0));
 				int g = atoi(GetParamN(Params, buf, SIZEOF(buf), 3, ',', 0));
@@ -580,8 +580,8 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 				gl.dwAlpha = atoi(GetParamN(Params, buf, SIZEOF(buf), 5, ',', 0));
 				gl.dwColor = RGB(r, g, b);
 			}
-			else if (mir_strcmpi(buf, "Image")) {
-				//Image
+			else if (!mir_strcmpi(buf, "Image")) {
+				// Image
 				gl.Style = ST_IMAGE;
 				gl.szFileName = mir_strdup(GetParamN(Params, buf, SIZEOF(buf), 2, ',', 0));
 				gl.dwLeft = atoi(GetParamN(Params, buf, SIZEOF(buf), 4, ',', 0));
@@ -590,12 +590,12 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 				gl.dwBottom = atoi(GetParamN(Params, buf, SIZEOF(buf), 7, ',', 0));
 				gl.dwAlpha = atoi(GetParamN(Params, buf, SIZEOF(buf), 8, ',', 0));
 				GetParamN(Params, buf, SIZEOF(buf), 3, ',', 0);
-				if (mir_strcmpi(buf, "TileBoth")) gl.FitMode = FM_TILE_BOTH;
-				else if (mir_strcmpi(buf, "TileVert")) gl.FitMode = FM_TILE_VERT;
-				else if (mir_strcmpi(buf, "TileHorz")) gl.FitMode = FM_TILE_HORZ;
+				if (!mir_strcmpi(buf, "TileBoth")) gl.FitMode = FM_TILE_BOTH;
+				else if (!mir_strcmpi(buf, "TileVert")) gl.FitMode = FM_TILE_VERT;
+				else if (!mir_strcmpi(buf, "TileHorz")) gl.FitMode = FM_TILE_HORZ;
 				else gl.FitMode = 0;
 			}
-			else if (mir_strcmpi(buf, "Fragment")) {
+			else if (!mir_strcmpi(buf, "Fragment")) {
 				//Image
 				gl.Style = ST_FRAGMENT;
 				gl.szFileName = mir_strdup(GetParamN(Params, buf, SIZEOF(buf), 2, ',', 0));
@@ -611,9 +611,9 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 				gl.dwBottom = atoi(GetParamN(Params, buf, SIZEOF(buf), 11, ',', 0));
 				gl.dwAlpha = atoi(GetParamN(Params, buf, SIZEOF(buf), 12, ',', 0));
 				GetParamN(Params, buf, SIZEOF(buf), 7, ',', 0);
-				if (mir_strcmpi(buf, "TileBoth")) gl.FitMode = FM_TILE_BOTH;
-				else if (mir_strcmpi(buf, "TileVert")) gl.FitMode = FM_TILE_VERT;
-				else if (mir_strcmpi(buf, "TileHorz")) gl.FitMode = FM_TILE_HORZ;
+				if (!mir_strcmpi(buf, "TileBoth")) gl.FitMode = FM_TILE_BOTH;
+				else if (!mir_strcmpi(buf, "TileVert")) gl.FitMode = FM_TILE_VERT;
+				else if (!mir_strcmpi(buf, "TileHorz")) gl.FitMode = FM_TILE_HORZ;
 				else gl.FitMode = 0;
 			}
 			else {

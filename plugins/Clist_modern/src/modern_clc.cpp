@@ -1750,7 +1750,7 @@ int ClcDoProtoAck(MCONTACT, ACKDATA *ack)
 			if (ack->hContact) {
 				char *val = db_get_sa(ack->hContact, "CList", "StatusMsg");
 				if (val) {
-					if (!mir_strcmpi(val, ""))
+					if (mir_strcmpi(val, ""))
 						db_set_s(ack->hContact, "CList", "StatusMsg", "");
 					else
 						gtaRenewText(ack->hContact);
