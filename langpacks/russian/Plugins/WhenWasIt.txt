@@ -197,10 +197,6 @@
 Начало обновления информации о пользователях
 [Done refreshing user details]
 Обновление информации о пользователях завершено
-[Could not create worker thread. Error#%d - threadID %d]
-Не удалось создать рабочий поток. Ошибка #%d - threadID %d
-[Error]
-Ошибка
 [Birthdays files]
 Файлы дней рождений
 [Please select a file to import birthdays from...]
@@ -219,6 +215,8 @@
 Экспорт завершен
 [Could not open file to import birthdays]
 Невозможно открыть файл для импорта дней рождения
+[Error]
+Ошибка
 [Warning]
 Предупреждение
 [Could not open file to export birthdays]

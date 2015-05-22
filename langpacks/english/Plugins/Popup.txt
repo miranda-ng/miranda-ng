@@ -105,14 +105,15 @@
 [Fullscreen mode]
 [Debug]
 ;file \plugins\Popup\src\actions.cpp
-[No overwrite]
-[Send message]
 [Quick reply]
+[Send message]
 [User details]
 [Contact menu]
-[Dismiss popup]
+[Add permanently]
 [Pin popup]
+[Dismiss popup]
 [Copy to clipboard]
+[No overwrite]
 [Action]
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]

@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.11.1.2
-;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
+;  Version: 0.12.1.1
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Поддержка протокола Microsoft Network (MSN) в Miranda NG.
@@ -53,10 +53,12 @@
 Вы в списке контакта на сервере
 [Refresh]
 Обновить
-[Disable Popup notifications]
-Отключить уведомление всплывающими окнами
-[Disable Tray notifications]
-Отключить уведомления в трее
+[Enable Popup notifications]
+Включить уведомления всплывающими окнами
+[Enable Contact List notifications]
+Включить уведомления в списке контактов
+[Enable Tray notifications]
+Включить уведомления в трее
 [Ignore new messages not in Inbox folder]
 Игнорировать новые письма не из "Входящих"
 [Other]
@@ -67,8 +69,6 @@
 Всплывающее окно 'Чат сессия установлена'
 [Enable 'Contact left channel' popup]
 Всплывающее окно 'Контакт покинул канал'
-[Disable Contact List notifications]
-Отключить уведомления в списке контактов
 [Set Nickname]
 Ввод ника
 [Cancel]
@@ -107,10 +107,6 @@
 Добавить
 [Chat #]
 Чат #
-[Me]
-Я
-[Others]
-Другое
 [&Invite user...]
 П&ригласить пользователя...
 [&Leave chat session]
@@ -119,6 +115,14 @@
 &Информация
 [User &history]
 &История пользователя
+[&Kick user]
+&Выгнать пользователя
+[&Op user]
+&Сделать пользователя админом
+[&Deop user]
+&Снять с пользователя админ права
+[MSN Alert]
+MSN уведомление
 [Contact tried to open an audio conference (not currently supported)]
 Контакт пытался открыть аудиоконференцию (не поддерживается)
 [%I64u bytes]
@@ -127,8 +131,6 @@
 Принять запрос NetMeeting от %s?
 [MSN Protocol]
 Протокол MSN
-[MSN Alert]
-MSN уведомление
 [Chat session established by my request]
 Сессия установлена по моему запросу
 [Chat session established by contact request]
@@ -143,6 +145,8 @@ MSN уведомление
 В чате остался только один человек, вернуться к обычному окну сообщений?
 [MSN Chat]
 MSN Чат
+[Others]
+Другое
 [Message delivery failed]
 Доставка сообщения не удалась
 [User not online]

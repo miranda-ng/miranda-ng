@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.11.0.3
-;  Authors: unsane
+;  Version: 0.12.0.4
+;  Authors: Miranda NG Team
 ;============================================================
 [Allows you to transfer files via Dropbox.]
 Загрузка и пересылка файлов с помощью Dropbox.
@@ -35,10 +35,10 @@
 Копировать ссылку в буфер обмена
 [in process...]
 в процессе...
-[you have been authorized]
-авторизация прошла успешно
 [server does not respond]
 сервер не отвечает
+[you have been authorized]
+авторизация прошла успешно
 [Dropbox supports the following commands:]
 Доступны следующие команды:
 [shows all files in folder "dir" ("dir" can be omitted for root folder)]
@@ -57,19 +57,15 @@
 не удалён
 [is deleted]
 удалён
+[Send files to Dropbox]
+Файл через Dropbox
+[Protocol icon]
+Значок протокола
 [you are already authorized]
 вы уже авторизованы
 [you are not authorized yet]
 вы ещё не авторизованы
-[Send files to Dropbox]
-Файл через Dropbox
 [Network]
 Сеть
-[Protocols]
-Протоколы
-[Protocol icon]
-Значок протокола
-[Unknown command "%s".\nUse "/help" for more info.]
-Неизвестная команда "%s".\nИспользуйте "/help" для получения справки.
 ["%s" is not valid.\nUse "/help" for more info.]
 "%s" не действительна.\nИспользуйте "/help" для получения справки.
