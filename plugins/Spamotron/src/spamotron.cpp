@@ -194,7 +194,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 					bCorrectResponse = TRUE;
 			} else {
 				if (_tcsstr_cc(message, buf, _getOptB("ResponseCC", defaultResponseCC)) &&
-					(_tcslen(message) == _tcslen(buf)))
+					(mir_tstrlen(message) == mir_tstrlen(buf)))
 					bCorrectResponse = TRUE;
 			}
 			break;
@@ -211,7 +211,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 					}
 				} else {
 					if (_tcsstr_cc(message, buf, _getOptB("ResponseCC", defaultResponseCC)) &&
-						(_tcslen(message) == _tcslen(buf))) {
+						(mir_tstrlen(message) == mir_tstrlen(buf))) {
 						bCorrectResponse = TRUE;
 						break;
 					}
@@ -223,7 +223,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			if (message == NULL)
 				break;
 			_itot(_getCOptD(hContact, "ResponseMath", -1), buf, 10);
-			if (_tcsstr(message, buf) && (_tcslen(buf) == _tcslen(message))) {
+			if (_tcsstr(message, buf) && (mir_tstrlen(buf) == mir_tstrlen(message))) {
 				bCorrectResponse = TRUE;
 			}
 			break;

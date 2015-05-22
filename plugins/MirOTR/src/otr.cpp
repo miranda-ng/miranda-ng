@@ -180,7 +180,7 @@ extern "C" {
 			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
 		}
 		if (context->protocol_version < MIROTR_PROTO_LATEST){
-			size_t remaining = _tcslen(buff);
+			size_t remaining = mir_tstrlen(buff);
 			TCHAR *offset = buff + remaining;
 			remaining = SIZEOF(buff) - remaining;
 			mir_sntprintf(offset, remaining, TranslateT("\nusing older protocol version %i"), context->protocol_version);

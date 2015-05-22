@@ -52,7 +52,7 @@ static int FillList(HWND list, BOOL sort)
 		// get contact display name from clist
 		TCHAR *swzContactDisplayName = cli.pfnGetContactDisplayName(hMetaUser, 0);
 		// don't insert huge strings that we have to compare with later
-		if (_tcslen(swzContactDisplayName) > 1023)
+		if (mir_tstrlen(swzContactDisplayName) > 1023)
 			swzContactDisplayName[1024] = 0;
 
 		int pos = -1;

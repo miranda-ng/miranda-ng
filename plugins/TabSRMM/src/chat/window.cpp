@@ -451,7 +451,7 @@ static bool TabAutoComplete(HWND hwnd, MESSAGESUBDATA *dat, SESSION_INFO *si)
 		start -= 2;
 
 	if (dat->szSearchResult != NULL) {
-		int cbResult = (int)_tcslen(dat->szSearchResult);
+		int cbResult = (int)mir_tstrlen(dat->szSearchResult);
 		if (start >= cbResult && !_tcsncicmp(dat->szSearchResult, pszText + start - cbResult, cbResult)) {
 			start -= cbResult;
 			goto LBL_SkipEnd;

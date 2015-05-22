@@ -365,7 +365,7 @@ TCHAR* getMenuEntry(int buttonnum, int entrynum, BYTE mode)
 	}
 
 	if (!db_get_ts(NULL, PLGNAME, szMEntry, &dbv)) {
-		if (_tcslen(dbv.ptszVal))
+		if (mir_tstrlen(dbv.ptszVal))
 			buffer = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -463,7 +463,7 @@ TCHAR* ParseString(MCONTACT hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* pt
 			break;
 		case 'P':
 			ptszName = mir_a2u(GetContactProto(hContact));
-			NameLenght = (int)_tcslen(ptszName);
+			NameLenght = (int)mir_tstrlen(ptszName);
 			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
 			if (!p) {
 				mir_free(ptszName);
@@ -488,7 +488,7 @@ TCHAR* ParseString(MCONTACT hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* pt
 
 		case 'n':
 			ptszName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
-			NameLenght = (int)_tcslen(ptszName);
+			NameLenght = (int)mir_tstrlen(ptszName);
 			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
 			if (!p)
 				break;
@@ -516,7 +516,7 @@ TCHAR* ParseString(MCONTACT hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* pt
 
 			if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
 				break;
-			NameLenght = (int)_tcslen(ci.pszVal);
+			NameLenght = (int)mir_tstrlen(ci.pszVal);
 			ptszName = ci.pszVal;
 			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
 			if (!p) {
@@ -548,7 +548,7 @@ TCHAR* ParseString(MCONTACT hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* pt
 
 			if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
 				break;
-			NameLenght = (int)_tcslen(ci.pszVal);
+			NameLenght = (int)mir_tstrlen(ci.pszVal);
 			ptszName = ci.pszVal;
 			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
 			if (!p) {

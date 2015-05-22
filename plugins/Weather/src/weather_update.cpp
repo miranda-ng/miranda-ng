@@ -487,14 +487,14 @@ int GetWeatherData(MCONTACT hContact)
 						case '[':  // variable, add the value to the result string
 							hasvar = TRUE;
 							if ( !DBGetData(hContact, _T2A(str2), &dbv)) {
-								_tcsncat(DataValue, dbv.ptszVal, SIZEOF(DataValue) - _tcslen(DataValue));
+								_tcsncat(DataValue, dbv.ptszVal, SIZEOF(DataValue) - mir_tstrlen(DataValue));
 								DataValue[SIZEOF(DataValue)-1] = 0;
 								db_free(&dbv);
 							}
 							break;
 
 						case'\"': // constant, add it to the result string
-							_tcsncat(DataValue, TranslateTS(str2), SIZEOF(DataValue) - _tcslen(DataValue));
+							_tcsncat(DataValue, TranslateTS(str2), SIZEOF(DataValue) - mir_tstrlen(DataValue));
 							DataValue[SIZEOF(DataValue)-1] = 0;
 							break;
 						}
@@ -527,7 +527,7 @@ int GetWeatherData(MCONTACT hContact)
 						break;	// exit if break string is not found
 					}
 					*end = '\0';
-					end += _tcslen(Item->Item.Break);
+					end += mir_tstrlen(Item->Item.Break);
 					while (end[0] == ' ')
 						end++;		// remove extra space
 
@@ -557,7 +557,7 @@ int GetWeatherData(MCONTACT hContact)
 					if (cbuf[0] == '#')
 						cbuf = TranslateTS(DataValue);
 					db_set_ts(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), cbuf);
-					CharLowerBuff(DataValue, (DWORD)_tcslen(DataValue));
+					CharLowerBuff(DataValue, (DWORD)mir_tstrlen(DataValue));
 					cond = GetIcon(DataValue, Data);
 				}
 				else if ( _tcsicmp(Item->Item.Unit, _T("Cond")) == 0) {

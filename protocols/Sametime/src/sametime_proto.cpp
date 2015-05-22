@@ -170,7 +170,7 @@ int CSametimeProto::GetInfo(MCONTACT hContact, int infoType)
 
 HANDLE CSametimeProto::SearchBasic(const PROTOCHAR* id)
 {
-	debugLog(_T("CSametimeProto::SearchBasic()  id:len=[%d]"), id == NULL ? -1 : _tcslen(id));
+	debugLog(_T("CSametimeProto::SearchBasic()  id:len=[%d]"), id == NULL ? -1 : mir_tstrlen(id));
 	char* id_utf8 = mir_utf8encodeT(id);
 	int ret = SearchForUser(id_utf8, FALSE);
 	mir_free(id_utf8);
@@ -183,7 +183,7 @@ HWND CSametimeProto::SearchAdvanced(HWND owner)
 	TCHAR buf[512];
 	int ret = 0;
 	if (GetDlgItemText(owner, IDC_EDIT1, buf, SIZEOF(buf))) {
-		debugLog(_T("CSametimeProto::SearchAdvanced()  buf:len=[%d]"), buf == NULL ? -1 : _tcslen(buf));
+		debugLog(_T("CSametimeProto::SearchAdvanced()  buf:len=[%d]"), buf == NULL ? -1 : mir_tstrlen(buf));
 		char* buf_utf8 = mir_utf8encodeT(buf);
 		ret = SearchForUser(buf_utf8, TRUE);
 		mir_free(buf_utf8);
@@ -303,7 +303,7 @@ int CSametimeProto::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt
 
 int CSametimeProto::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
 {
-	debugLog(_T("CSametimeProto::SetAwayMsg()  iStatus=[%d], msg:len=[%d]"), iStatus, msg == NULL ? -1 : _tcslen(msg));
+	debugLog(_T("CSametimeProto::SetAwayMsg()  iStatus=[%d], msg:len=[%d]"), iStatus, msg == NULL ? -1 : mir_tstrlen(msg));
 	SetSessionAwayMessage(iStatus, msg);
 	return 0;
 }

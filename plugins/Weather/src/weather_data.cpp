@@ -252,7 +252,7 @@ void ConvertDataValue(WIDATAITEM *UpdateData, TCHAR *Data)
 		}
 		// truncating strings for day/month to 2 or 3 characters
 		else if ( !_tcsicmp(UpdateData->Unit, _T("DAY")) || !_tcsicmp(UpdateData->Unit, _T("MONTH")))
-			if (opt.dUnit > 1 && _tcslen(Data) > opt.dUnit)
+			if (opt.dUnit > 1 && mir_tstrlen(Data) > opt.dUnit)
 				Data[opt.dUnit] = '\0';
 	}
 }
@@ -280,7 +280,7 @@ void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szData)
 		start = _tcsstr(szInfo, UpdateData->Start);
 		if (start != NULL) {
 			// set the starting location for getting data
-			start += _tcslen(UpdateData->Start);
+			start += mir_tstrlen(UpdateData->Start);
 			szInfo = start;
 		}
 	}
@@ -295,7 +295,7 @@ void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szData)
 		// set the ending location
 		startloc = 0;
 		endloc = end - szInfo;
-		end += _tcslen(UpdateData->End);
+		end += mir_tstrlen(UpdateData->End);
 		last = '\n';
 	}
 	

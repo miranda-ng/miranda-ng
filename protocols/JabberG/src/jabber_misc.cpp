@@ -119,14 +119,14 @@ MCONTACT CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL
 		*q = '/';
 
 	// We can't use JabberHContactFromJID() here because of the stripResource option
-	size_t len = _tcslen(s);
+	size_t len = mir_tstrlen(s);
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		ptrT jid( getTStringA(hContact, "jid"));
 		if (jid == NULL)
 			continue;
 
 		TCHAR *p = jid;
-		if (p && _tcslen(p) >= len && (p[len]=='\0'||p[len]=='/') && !_tcsnicmp(p, s, len))
+		if (p && mir_tstrlen(p) >= len && (p[len]=='\0'||p[len]=='/') && !_tcsnicmp(p, s, len))
 			return hContact;
 	}
 

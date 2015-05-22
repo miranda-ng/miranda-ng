@@ -29,7 +29,7 @@ void _OutputDebugString(TCHAR* lpOutputString, ...)
 			TCHAR* s = va_arg(argptr, TCHAR *);
 			mir_sntprintf(OutMsg, SIZEOF(OutMsg), format, s);
 			_tcsncpy(format, OutMsg, _countof(OutMsg));
-			j = (int)_tcslen(format);
+			j = (int)mir_tstrlen(format);
 			_tcscat(format, _T(" "));
 			break;
 		}
@@ -39,7 +39,7 @@ void _OutputDebugString(TCHAR* lpOutputString, ...)
 			char c = (char)va_arg(argptr, int);
 			mir_sntprintf(OutMsg, SIZEOF(OutMsg), format, c);
 			_tcsncpy(format, OutMsg, _countof(OutMsg));
-			j = (int)_tcslen(format);
+			j = (int)mir_tstrlen(format);
 			_tcscat(format, _T(" "));
 			break;
 		}
@@ -49,7 +49,7 @@ void _OutputDebugString(TCHAR* lpOutputString, ...)
 			int d = va_arg(argptr, int);
 			mir_sntprintf(OutMsg, SIZEOF(OutMsg), format, d);
 			_tcsncpy(format, OutMsg, _countof(OutMsg));
-			j = (int)_tcslen(format);
+			j = (int)mir_tstrlen(format);
 			_tcscat(format, _T(" "));
 			break;
 		}

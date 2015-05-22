@@ -257,7 +257,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	// Idle
 	if (r->m_dwIdleStartTime > 0) {
 		mir_tstrncpy(buf, _tctime(&r->m_dwIdleStartTime), SIZEOF(buf));
-		size_t len = _tcslen(buf);
+		size_t len = mir_tstrlen(buf);
 		if (len > 0)
 			buf[len-1] = 0;
 	}
@@ -366,7 +366,7 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	JABBER_RESOURCE_STATUS *r = item->getTemp();
 	if (r->m_dwIdleStartTime > 0) {
 		mir_tstrncpy(buf, _tctime(&r->m_dwIdleStartTime), SIZEOF(buf));
-		size_t len = _tcslen(buf);
+		size_t len = mir_tstrlen(buf);
 		if (len > 0)
 			buf[len-1] = 0;
 	}

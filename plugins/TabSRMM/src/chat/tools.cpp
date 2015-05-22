@@ -689,7 +689,7 @@ BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 	if (gce->ptszNick != NULL) {
 		dwMask |= CMUCHighlight::MATCH_NICKNAME;
 		if (si && g_Settings.bLogClassicIndicators) {
-			size_t len = _tcslen(gce->ptszNick) + 1;
+			size_t len = mir_tstrlen(gce->ptszNick) + 1;
 			TCHAR *tmp = (TCHAR*)_alloca(sizeof(TCHAR)*(len + 1));
 			*tmp = GetIndicator(si, gce->ptszNick, 0);
 			_tcscpy(tmp + 1, gce->ptszNick);

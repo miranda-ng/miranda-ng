@@ -62,7 +62,7 @@ void AddTreeViewNodes(HWND hWndDlg, PageHash key, HTREEITEM root)
 		item.cchTextMax = SIZEOF(title);
 
 		if (TreeView_GetItem(hWndDlg, &item))
-			if (_tcslen(title) > 0)
+			if (mir_tstrlen(title) > 0)
 				AddFilterString(key, title);
 
 		HTREEITEM child = root;
@@ -79,7 +79,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 {
 	TCHAR title[2048];
 	GetWindowText(hWndDlg, title, SIZEOF(title));
-	if (_tcslen(title) > 0)
+	if (mir_tstrlen(title) > 0)
 		AddFilterString(key, title);
 
 	TCHAR szClass[64];
@@ -99,7 +99,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 				int res = ListBox_GetText(hWndDlg, i, title);
 				if (res != LB_ERR) {
 					title[SIZEOF(title) - 1] = 0;
-					if (_tcslen(title) > 0)
+					if (mir_tstrlen(title) > 0)
 						AddFilterString(key, title);
 				}
 			}
@@ -113,7 +113,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 			title[0] = 0; //safety
 			ListView_GetItemText(hWndDlg, i, 0, title, SIZEOF(title));
 
-			if (_tcslen(title) > 0)
+			if (mir_tstrlen(title) > 0)
 				AddFilterString(key, title);
 		}
 		return;
@@ -128,7 +128,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 				if (res != CB_ERR) {
 					title[SIZEOF(title) - 1] = 0;
 
-					if (_tcslen(title) > 0)
+					if (mir_tstrlen(title) > 0)
 						AddFilterString(key, title);
 				}
 			}

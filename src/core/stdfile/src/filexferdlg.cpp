@@ -102,8 +102,8 @@ static void __cdecl RunVirusScannerThread(struct virusscanthreadstartinfo *info)
 			TCHAR *pszReplace = _tcsstr(dbv.ptszVal, _T("%f"));
 			TCHAR szCmdLine[768];
 			if (pszReplace) {
-				if (info->szFile[_tcslen(info->szFile) - 1] == '\\')
-					info->szFile[_tcslen(info->szFile) - 1] = '\0';
+				if (info->szFile[mir_tstrlen(info->szFile) - 1] == '\\')
+					info->szFile[mir_tstrlen(info->szFile) - 1] = '\0';
 				*pszReplace = 0;
 				mir_sntprintf(szCmdLine, SIZEOF(szCmdLine), _T("%s\"%s\"%s"), dbv.ptszVal, info->szFile, pszReplace + 2);
 			} else
@@ -414,7 +414,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						pszFilename++;
 
 					if (pszFilename) {
-						size_t cbFileNameLen = _tcslen(pszFilename);
+						size_t cbFileNameLen = mir_tstrlen(pszFilename);
 
 						pszNewFileName = (TCHAR*)mir_alloc(cbFileNameLen * 2 * sizeof(TCHAR));
 						TCHAR *p = pszNewFileName;

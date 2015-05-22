@@ -189,7 +189,7 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 
 	// cut message if needed
 	TCHAR *copyText = NULL;
-	if (opt.PXMsgTruncate && (opt.PXMsgLen > 0) && xsc->stzText && (_tcslen(xsc->stzText) > opt.PXMsgLen)) {
+	if (opt.PXMsgTruncate && (opt.PXMsgLen > 0) && xsc->stzText && (mir_tstrlen(xsc->stzText) > opt.PXMsgLen)) {
 		TCHAR buff[MAX_TEXT_LEN + 3];
 		copyText = mir_tstrdup(xsc->stzText);
 		_tcsncpy(buff, xsc->stzText, opt.PXMsgLen);

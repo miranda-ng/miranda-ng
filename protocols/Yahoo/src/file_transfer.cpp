@@ -733,7 +733,7 @@ HANDLE __cdecl CYahooProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const
 	//LOG(LOG_INFO, "[%s] Requesting file from %s", ft->cookie, ft->user);
 	ft->pfts.tszWorkingDir = _tcsdup( szPath );
 
-	size_t len = _tcslen(ft->pfts.tszWorkingDir) - 1;
+	size_t len = mir_tstrlen(ft->pfts.tszWorkingDir) - 1;
 	if (ft->pfts.tszWorkingDir[len] == '\\')
 		ft->pfts.tszWorkingDir[len] = 0;
 		

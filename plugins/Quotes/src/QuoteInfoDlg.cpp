@@ -77,7 +77,7 @@ namespace
 				TCHAR szTime[50];
 				if (0 == _tctime_s(szTime, 50, &nFetchTime))
 				{
-					szTime[::_tcslen(szTime) - 1] = _T('\0');
+					szTime[::mir_tstrlen(szTime) - 1] = _T('\0');
 					::SetDlgItemText(hdlg, IDC_EDIT_RATE_FETCH_TIME, szTime);
 				}
 			}

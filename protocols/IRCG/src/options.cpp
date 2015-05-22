@@ -62,7 +62,7 @@ void CIrcProto::ReadSettings(TDbSetting* sets, int count)
 		case DBVT_TCHAR:
 			if (!getTString(p->name, &dbv)) {
 				if (p->size != -1) {
-					size_t len = min(p->size - 1, _tcslen(dbv.ptszVal));
+					size_t len = min(p->size - 1, mir_tstrlen(dbv.ptszVal));
 					memcpy(ptr, dbv.pszVal, len*sizeof(TCHAR));
 					*(TCHAR*)&ptr[len*sizeof(TCHAR)] = 0;
 				}

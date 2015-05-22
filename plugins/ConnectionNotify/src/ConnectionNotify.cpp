@@ -75,11 +75,11 @@ BOOL strrep(TCHAR *src, TCHAR *needle, TCHAR *newstring)
 	_tcsncpy_s(begining, src, pos);
 	begining[pos] = 0;
 
-	pos = pos + _tcslen(needle);
+	pos = pos + mir_tstrlen(needle);
 	_tcsncpy_s(tail, src + pos, _TRUNCATE);
 	begining[pos] = 0;
 
-	pos = mir_sntprintf(src, _tcslen(src), _T("%s%s%s"), begining, newstring, tail);
+	pos = mir_sntprintf(src, mir_tstrlen(src), _T("%s%s%s"), begining, newstring, tail);
 	return TRUE;
 }
 

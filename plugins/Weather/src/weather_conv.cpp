@@ -84,7 +84,7 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 
 	TrimString(tempchar);
 	if (tempchar[0] == '-' && tempchar[1] == ' ')
-		memmove(&tempchar[1], &tempchar[2], sizeof(TCHAR)*(_tcslen(&tempchar[2])+1));
+		memmove(&tempchar[1], &tempchar[2], sizeof(TCHAR)*(mir_tstrlen(&tempchar[2])+1));
 
 	// quit if the value obtained is N/A or not a number
 	if ( !_tcscmp(tempchar, NODATA) || !_tcscmp(tempchar, _T("N/A"))) {
@@ -395,7 +395,7 @@ WORD GetIcon(const TCHAR* cond, WIDATA *Data)
 			// using the format _T("# Weather <condition name> <counter> #"
 			mir_sntprintf(LangPackStr, SIZEOF(LangPackStr), _T("# Weather %s %i #"), statusStr[i], j);
 			_tcsncpy_s(LangPackStr1, TranslateTS(LangPackStr), _TRUNCATE);
-			CharLowerBuff(LangPackStr1, (DWORD)_tcslen(LangPackStr1));
+			CharLowerBuff(LangPackStr1, (DWORD)mir_tstrlen(LangPackStr1));
 			if (_tcsstr(cond, LangPackStr1) != NULL)
 				return statusValue[i];
 			// loop until the translation string exists (ie, the translated string is differ from original)
@@ -414,7 +414,7 @@ void CaseConv(TCHAR *str)
 	TCHAR *pstr;
 	BOOL nextUp = TRUE;
 
-	CharLowerBuff(str, (DWORD)_tcslen(str));
+	CharLowerBuff(str, (DWORD)mir_tstrlen(str));
 	for(pstr = str; *pstr; pstr++) {
 		if (*pstr == ' ' || *pstr == '-')
 			nextUp = TRUE;
@@ -499,7 +499,7 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 	str[0] = 0;
 
 	// looking character by character
-	for (i=0; i < _tcslen(dis); i++) {
+	for (i=0; i < mir_tstrlen(dis); i++) {
 		// for the escape characters
 		if (dis[i] == '\\') {
 			i++;
@@ -547,7 +547,7 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 				i++;
 				name[0] = 0;
 				// read the entire variable name
-				while (dis[i] != ']' && i < _tcslen(dis)) {
+				while (dis[i] != ']' && i < mir_tstrlen(dis)) {
 					mir_snprintf(temp, SIZEOF(temp), "%c", dis[i++]);
 					strcat(name, temp);
 				}

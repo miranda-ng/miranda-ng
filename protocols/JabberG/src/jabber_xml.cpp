@@ -246,7 +246,7 @@ HXML __fastcall xmlGetNthChild(HXML hXml, LPCTSTR tag, int nth)
 {
 	int i, num;
 
-	if (!hXml || tag == NULL || _tcslen(tag) <= 0 || nth < 1)
+	if (!hXml || tag == NULL || mir_tstrlen(tag) <= 0 || nth < 1)
 		return NULL;
 
 	num = 1;

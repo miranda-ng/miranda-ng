@@ -289,9 +289,9 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
 					_tcsncpy(filter, TranslateT("All files"),SIZEOF(filter)-1);
 					_tcscat(filter, _T(" (*)"));
-					pfilter = filter + _tcslen(filter) + 1;
+					pfilter = filter + mir_tstrlen(filter) + 1;
 					_tcscpy(pfilter, _T("*"));
-					pfilter = pfilter + _tcslen(pfilter) + 1;
+					pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 					*pfilter = '\0';
 					ofn.lpstrFilter = filter;
 					ofn.lpstrFile = str;

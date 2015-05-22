@@ -7,7 +7,7 @@ TCHAR *_tcstolower(TCHAR *dst)
 	if (dst == NULL)
 		return NULL;
 	
-	SIZE_T dst_len = _tcslen(dst);
+	SIZE_T dst_len = mir_tstrlen(dst);
 	for (SIZE_T i = 0; i < dst_len; i ++)
 		dst[i] = _totlower(dst[i]);
 	return dst;
@@ -18,7 +18,7 @@ TCHAR *_tcstoupper(TCHAR *dst)
 	if (dst == NULL)
 		return NULL;
 	
-	SIZE_T dst_len = _tcslen(dst);
+	SIZE_T dst_len = mir_tstrlen(dst);
 	for (SIZE_T i = 0; i < dst_len; i ++)
 		dst[i] = _totupper(dst[i]);
 	return dst;
@@ -42,7 +42,7 @@ BOOL _isregex(TCHAR* strSearch)
 	regex = mir_tstrdup(strSearch);
 	if (regex == NULL)
 		goto err_out;
-	rc = pcre16_exec(re, NULL, regex, (int)_tcslen(regex), 0, 0, ovector, 9);
+	rc = pcre16_exec(re, NULL, regex, (int)mir_tstrlen(regex), 0, 0, ovector, 9);
 	if (rc == 3)
 		ret = TRUE;
 	mir_free(regex);
@@ -73,7 +73,7 @@ BOOL _isvalidregex(TCHAR* strSearch)
 		pcre16_free(re);
 		return FALSE;
 	}
-	rc = pcre16_exec(re, NULL, regex, (int)_tcslen(regex), 0, 0, ovector, 9);
+	rc = pcre16_exec(re, NULL, regex, (int)mir_tstrlen(regex), 0, 0, ovector, 9);
 	pcre16_free(re);
 	if (rc != 3)
 		goto err_out;
@@ -121,7 +121,7 @@ BOOL _regmatch(TCHAR* str, TCHAR* strSearch)
 		pcre16_free(re);
 		return FALSE;
 	}
-	rc = pcre16_exec(re, NULL, regex, (int)_tcslen(regex), 0, 0, ovector, 9);
+	rc = pcre16_exec(re, NULL, regex, (int)mir_tstrlen(regex), 0, 0, ovector, 9);
 	pcre16_free(re);
 	if (rc != 3)
 		goto err_out; // [TODO] and log some error (better check for valid regex on options save)
@@ -143,7 +143,7 @@ BOOL _regmatch(TCHAR* str, TCHAR* strSearch)
 	re = pcre16_compile(regexp, opts, &error, &erroroffs, NULL);
 	if (re == NULL)
 		goto err_out;
-	rc = pcre16_exec(re, NULL, data, (int)_tcslen(data), 0, 0, NULL, 0);
+	rc = pcre16_exec(re, NULL, data, (int)mir_tstrlen(data), 0, 0, NULL, 0);
 	pcre16_free(re);
 	if (rc >= 0)
 		ret = TRUE;
@@ -175,7 +175,7 @@ int get_response_id(const TCHAR* strvar)
 		pcre16_free(re);
 		return 0;
 	}
-	rc = pcre16_exec(re, NULL, _strvar, (int)_tcslen(_strvar), 0, 0, ovector, 9);
+	rc = pcre16_exec(re, NULL, _strvar, (int)mir_tstrlen(_strvar), 0, 0, ovector, 9);
 	pcre16_free(re);
 	if (rc < 0) {
 		ret = -1;
@@ -274,10 +274,10 @@ BOOL Contains(TCHAR* dst, TCHAR* src) // Checks for occurence of substring from 
 	if (tdst == NULL)
 		goto err_out;
 	tdst = _tcstoupper(tdst);
-	dst_len = _tcslen(tdst);
+	dst_len = mir_tstrlen(tdst);
 	token = _tcstok(tsrc, _T(","));
 	while (token) {
-		token_end = (token + _tcslen(token));
+		token_end = (token + mir_tstrlen(token));
 		while (!_tcsncmp(token, _T(" "), 1)) { /* Skeep spaces at start. */
 			token ++;
 		}
@@ -329,9 +329,9 @@ TCHAR* ReplaceVar(TCHAR *dst, unsigned int len, const TCHAR *var, const TCHAR *r
 
 	if (dst == NULL || var == NULL || rvar == NULL)
 		return NULL;
-	dst_len = _tcslen(dst);
-	var_len = _tcslen(var);
-	rvar_len = _tcslen(rvar);
+	dst_len = mir_tstrlen(dst);
+	var_len = mir_tstrlen(var);
+	rvar_len = mir_tstrlen(rvar);
 	var_start = _tcsstr(dst, var);
 	while (var_start) {
 		if (len < (dst_len + rvar_len - var_len + 1))
@@ -390,7 +390,7 @@ TCHAR* ReplaceVarsNum(TCHAR *dst, unsigned int len, int num)
 			mir_free(dstcopy);
 			goto err_out;
 		}
-		rc = pcre16_exec(re, NULL, _str, (int)_tcslen(_str), 0, 0, ovector, 9);
+		rc = pcre16_exec(re, NULL, _str, (int)mir_tstrlen(_str), 0, 0, ovector, 9);
 		if (rc < 0) {
 			ret = -1;
 		} else if (rc == 3) {

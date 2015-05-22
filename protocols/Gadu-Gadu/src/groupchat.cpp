@@ -170,7 +170,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		gce.ptszNick = nickT;
 
 		// Get rid of CRLF at back
-		int lc = (int)_tcslen(gch->ptszText) - 1;
+		int lc = (int)mir_tstrlen(gch->ptszText) - 1;
 		while(lc >= 0 && (gch->ptszText[lc] == '\n' || gch->ptszText[lc] == '\r'))
 			gch->ptszText[lc --] = 0;
 
@@ -316,7 +316,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 	gcwindow.ptszStatusbarText = status;
 
 	// Here we put nice new hash sign
-	TCHAR *name = (TCHAR*)calloc(_tcslen(gcwindow.ptszName) + 2, sizeof(TCHAR));
+	TCHAR *name = (TCHAR*)calloc(mir_tstrlen(gcwindow.ptszName) + 2, sizeof(TCHAR));
 	*name = '#'; _tcscpy(name + 1, gcwindow.ptszName);
 	gcwindow.ptszName = name;
 

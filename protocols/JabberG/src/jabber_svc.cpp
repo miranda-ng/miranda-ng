@@ -347,7 +347,7 @@ static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tsz
 		out.AppendFormat(_T("<b>%s</b>\t%s"), TranslateTS(tszTitle), tszValue);
 	else {
 		TCHAR *p = TranslateTS(tszTitle);
-		out.AppendFormat(_T("%s%s\t%s"), p, _tcslen(p) <= 7 ? _T("\t") : _T(""), tszValue);
+		out.AppendFormat(_T("%s%s\t%s"), p, mir_tstrlen(p) <= 7 ? _T("\t") : _T(""), tszValue);
 	}
 }
 

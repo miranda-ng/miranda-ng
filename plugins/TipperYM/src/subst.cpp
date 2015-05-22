@@ -85,7 +85,7 @@ void StripBBCodesInPlace(TCHAR *swzText)
 		return;
 
 	size_t iRead = 0, iWrite = 0;
-	size_t iLen = _tcslen(swzText);
+	size_t iLen = mir_tstrlen(swzText);
 
 	while(iRead <= iLen) { // copy terminating null too
 		while (iRead <= iLen && swzText[iRead] != '[') {
@@ -225,7 +225,7 @@ TCHAR* GetStatusMessageText(MCONTACT hContact)
 				return NULL;
 
 			if (!db_get_ts(hContact, MODULE, "TempStatusMsg", &dbv)) {
-				if (_tcslen(dbv.ptszVal) != 0)
+				if (mir_tstrlen(dbv.ptszVal) != 0)
 					swzMsg = mir_tstrdup(dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -237,7 +237,7 @@ TCHAR* GetStatusMessageText(MCONTACT hContact)
 					return NULL;
 
 			if (!db_get_ts(hContact, "CList", "StatusMsg", &dbv)) {
-				if (_tcslen(dbv.ptszVal) != 0)
+				if (mir_tstrlen(dbv.ptszVal) != 0)
 					swzMsg = mir_tstrdup(dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -480,7 +480,7 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 	// pass to variables plugin if available
 	TCHAR *swzVarSrc = (parseTipperVarsFirst ? mir_tstrdup(swzSource) : variables_parsedup((TCHAR *)swzSource, 0, hContact));
 
-	size_t iSourceLen = _tcslen(swzVarSrc);
+	size_t iSourceLen = mir_tstrlen(swzVarSrc);
 	size_t si = 0, di = 0, v = 0;
 
 	TCHAR swzVName[LABEL_LEN], swzRep[VALUE_LEN], swzAlt[VALUE_LEN];
@@ -558,13 +558,13 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 				if (p) {
 					*p = 0; // clip swzAlt from swzVName
 					p++;
-					if (_tcslen(p) > 4 && _tcsncmp(p, _T("raw:"), 4) == 0) { // raw db substitution
+					if (mir_tstrlen(p) > 4 && _tcsncmp(p, _T("raw:"), 4) == 0) { // raw db substitution
 						char raw_spec[LABEL_LEN];
 						p += 4;
 						t2a(p, raw_spec, LABEL_LEN);
 						GetRawSubstText(hContact, raw_spec, swzAlt, VALUE_LEN);
 					}
-					else if (_tcslen(p) > 4 && _tcsncmp(p, _T("sys:"), 4) == 0) { // 'system' substitution
+					else if (mir_tstrlen(p) > 4 && _tcsncmp(p, _T("sys:"), 4) == 0) { // 'system' substitution
 						p += 4;
 						GetSysSubstText(hContact, p, swzAlt, VALUE_LEN);
 					}
@@ -586,7 +586,7 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 						}
 					}
 					swzAlt[VALUE_LEN - 1] = 0;
-					if (_tcslen(swzAlt) != 0)
+					if (mir_tstrlen(swzAlt) != 0)
 						bAltSubst = true;
 				}
 
@@ -618,12 +618,12 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 				}
 
 				if (bSubst) {
-					size_t rep_len = _tcslen(swzRep);
+					size_t rep_len = mir_tstrlen(swzRep);
 					_tcsncpy(&swzDest[di], swzRep, min(rep_len, iDestLen - di));
 					di += rep_len - 1; // -1 because we inc at bottom of loop
 				}
 				else if (bAltSubst) {
-					size_t alt_len = _tcslen(swzAlt);
+					size_t alt_len = mir_tstrlen(swzAlt);
 					_tcsncpy(&swzDest[di], swzAlt, min(alt_len, iDestLen - di));
 					di += alt_len - 1; // -1 because we inc at bottom of loop
 				}
@@ -680,7 +680,7 @@ bool GetValueText(MCONTACT hContact, const DISPLAYITEM &di, TCHAR *buff, size_t 
 void TruncateString(TCHAR *swzText)
 {
 	if (swzText && opt.iLimitCharCount > 3) {
-		if ((int)_tcslen(swzText) > opt.iLimitCharCount) {
+		if ((int)mir_tstrlen(swzText) > opt.iLimitCharCount) {
 			swzText[opt.iLimitCharCount - 3] = 0;
 			_tcscat(swzText, _T("..."));
 		}
@@ -731,7 +731,7 @@ TCHAR *GetProtoExtraStatusTitle(char *szProto)
 		return NULL;
 
 	if (!db_get_ts(0, szProto, "XStatusName", &dbv)) {
-		if (_tcslen(dbv.ptszVal) != 0)
+		if (mir_tstrlen(dbv.ptszVal) != 0)
 			swzText = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -756,7 +756,7 @@ TCHAR *GetProtoExtraStatusMessage(char *szProto)
 	TCHAR *swzText = NULL;
 	DBVARIANT dbv;
 	if (!db_get_ts(0, szProto, "XStatusMsg", &dbv)) {
-		if (_tcslen(dbv.ptszVal) != 0)
+		if (mir_tstrlen(dbv.ptszVal) != 0)
 			swzText = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 
@@ -794,7 +794,7 @@ TCHAR *GetListeningTo(char *szProto)
 		return NULL;
 
 	if (!db_get_ts(0, szProto, "ListeningTo", &dbv)) {
-		if (_tcslen(dbv.ptszVal) != 0)
+		if (mir_tstrlen(dbv.ptszVal) != 0)
 			swzText = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -816,7 +816,7 @@ TCHAR *GetJabberAdvStatusText(char *szProto, const char *szSlot, const char *szV
 	char szSetting[128];
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", szProto, szSlot, szValue);
 	if (!db_get_ts(0, "AdvStatus", szSetting, &dbv)) {
-		if (_tcslen(dbv.ptszVal) != 0)
+		if (mir_tstrlen(dbv.ptszVal) != 0)
 			swzText = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}

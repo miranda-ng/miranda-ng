@@ -230,7 +230,7 @@ void GetISO8061Time(SYSTEMTIME *stLocal, LPTSTR lpszString, DWORD dwSize)
 
 	if (clsdates) {
 		GetDateFormat(LOCALE_INVARIANT, 0, stLocal, TEXT("d MMM yyyy"), lpszString, dwSize);
-		int dlen = (int)_tcslen(lpszString);
+		int dlen = (int)mir_tstrlen(lpszString);
 		GetTimeFormat(LOCALE_INVARIANT, 0, stLocal, TEXT(" H:mm:ss"), lpszString + dlen, dwSize - dlen);
 	}
 	else {

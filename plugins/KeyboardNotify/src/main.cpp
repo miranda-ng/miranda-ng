@@ -692,7 +692,7 @@ void createEventPrefix(TCHAR *prefixName, size_t maxLen)
 
 	while (str = _tcschr(profileName, _T('\\')))
 		*str = _T('/');
-	if ((len = _tcslen(profileName)) <= maxLen)
+	if ((len = mir_tstrlen(profileName)) <= maxLen)
 		_tcsncpy_s(prefixName, maxLen, profileName, _TRUNCATE);
 	else {
 		str = profileName + len - maxLen / 2;

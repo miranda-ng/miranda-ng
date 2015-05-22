@@ -26,7 +26,7 @@ static int vrCount = 0;
 
 static int addToVariablesRegister(TCHAR *szName, TCHAR *szText)
 {
-	if ((szName == NULL) || (szText == NULL) || (_tcslen(szName) <= 0))
+	if ((szName == NULL) || (szText == NULL) || (mir_tstrlen(szName) <= 0))
 		return -1;
 
 	mir_cslock lck(csVarRegister);
@@ -50,7 +50,7 @@ static int addToVariablesRegister(TCHAR *szName, TCHAR *szText)
 
 static TCHAR *searchVariableRegister(TCHAR *szName)
 {
-	if ((szName == NULL) || (_tcslen(szName) <= 0))
+	if ((szName == NULL) || (mir_tstrlen(szName) <= 0))
 		return NULL;
 
 	mir_cslock lck(csVarRegister);

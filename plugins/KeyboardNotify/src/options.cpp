@@ -873,13 +873,13 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ofn.hInstance = NULL;
 				_tcscpy(filter, TranslateT("Keyboard Notify Theme"));
 				wcscat(filter, _T(" (*.knt)"));
-				pfilter = filter + _tcslen(filter) + 1;
+				pfilter = filter + mir_tstrlen(filter) + 1;
 				_tcscpy(pfilter, _T("*.knt"));
-				pfilter = pfilter + _tcslen(pfilter) + 1;
+				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 				_tcscpy(pfilter, TranslateT("All Files"));
-				pfilter = pfilter + _tcslen(pfilter) + 1;
+				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 				_tcscpy(pfilter, _T("*.*"));
-				pfilter = pfilter + _tcslen(pfilter) + 1;
+				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 				*pfilter = _T('\0');  
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = path;
@@ -901,13 +901,13 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ofn.hInstance = NULL;
 				_tcscpy(filter, TranslateT("Keyboard Notify Theme"));
 				wcscat(filter, _T(" (*.knt)"));
-				pfilter = filter + _tcslen(filter) + 1;
+				pfilter = filter + mir_tstrlen(filter) + 1;
 				_tcscpy(pfilter, _T("*.knt"));
-				pfilter = pfilter + _tcslen(pfilter) + 1;
+				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 				_tcscpy(pfilter, TranslateT("All Files"));
-				pfilter = pfilter + _tcslen(pfilter) + 1;
+				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 				_tcscpy(pfilter, _T("*.*"));
-				pfilter = pfilter + _tcslen(pfilter) + 1;
+				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 				*pfilter = _T('\0');  
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = path;
@@ -1038,7 +1038,7 @@ void importThemes(const TCHAR *filename, BOOL overrideExisting)
 		for (str=buffer; *str && isspace(*str); str++); //ltrim
 		if (!*str || *str == ';') //empty line or comment
 			continue;
-		for (i=_tcslen(str)-1; isspace(str[i]); str[i--]='\0'); //rtrim
+		for (i=mir_tstrlen(str)-1; isspace(str[i]); str[i--]='\0'); //rtrim
 		switch (status) {
 			case 0:
 				if (i > 1 && str[0] == '[' && str[i] == ']') {
@@ -1166,7 +1166,7 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						TCHAR szFileNameAux[MAX_PATH+1];
 
 						SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETLBTEXT, (WPARAM)i, (LPARAM)szFileNameAux);
-						ProcessListAux.szFileName[i] = (TCHAR *)malloc((_tcslen(szFileNameAux) + 1)*sizeof(TCHAR));
+						ProcessListAux.szFileName[i] = (TCHAR *)malloc((mir_tstrlen(szFileNameAux) + 1)*sizeof(TCHAR));
 						if (ProcessListAux.szFileName[i])
 							_tcscpy(ProcessListAux.szFileName[i], szFileNameAux);
 					}
@@ -1193,7 +1193,7 @@ void createProcessListAux(void)
 			if (!ProcessList.szFileName[i])
 				ProcessListAux.szFileName[i] = NULL;
 			else {
-				ProcessListAux.szFileName[i] = (TCHAR *)malloc((_tcslen(ProcessList.szFileName[i]) + 1)*sizeof(TCHAR));
+				ProcessListAux.szFileName[i] = (TCHAR *)malloc((mir_tstrlen(ProcessList.szFileName[i]) + 1)*sizeof(TCHAR));
 				if (ProcessListAux.szFileName[i])
 					_tcscpy(ProcessListAux.szFileName[i], ProcessList.szFileName[i]);
 			}

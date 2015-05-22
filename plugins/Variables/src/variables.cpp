@@ -161,7 +161,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 	pargv = argv = NULL;
 	//fi->pCount = 0;
 	memcpy(&afi, fi, sizeof(afi));
-	for (pos = 0; pos < _tcslen(string); pos++) {
+	for (pos = 0; pos < mir_tstrlen(string); pos++) {
 		// string may move in memory, iterate by remembering the position in the string
 		cur = string+pos;
 		// mir_free memory from last iteration, this way we can bail out at any time in the loop
@@ -175,46 +175,46 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		pargv = argv = NULL;
 		// new round
 		if (*cur == DONTPARSE_CHAR) {
-			memmove(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
+			memmove(cur, cur+1, (mir_tstrlen(cur+1)+1)*sizeof(TCHAR));
 			if (*cur == DONTPARSE_CHAR)
 				continue;
 
 			while ( (*cur != DONTPARSE_CHAR) && (*cur != 0))
 				cur++;
 
-			memmove(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
+			memmove(cur, cur+1, (mir_tstrlen(cur+1)+1)*sizeof(TCHAR));
 			pos = cur-string-1;
 			continue;
 		}
 		// remove end of lines
 		else if ((!_tcsncmp(cur, _T("\r\n"), 2)) && (gParseOpts.bStripEOL)) {
-			memmove(cur, cur+2, (_tcslen(cur+2)+1)*sizeof(TCHAR));
+			memmove(cur, cur+2, (mir_tstrlen(cur+2)+1)*sizeof(TCHAR));
 			pos = cur-string-1;
 			continue;
 		}
 		else if ((*cur == '\n' && gParseOpts.bStripEOL) || (*cur == ' ' && gParseOpts.bStripWS)) {
-			memmove(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
+			memmove(cur, cur+1, (mir_tstrlen(cur+1)+1)*sizeof(TCHAR));
 			pos = cur - string - 1;
 			continue;
 		}
 		// remove comments
-		else if (!_tcsncmp(cur, _T(COMMENT_STRING), _tcslen(_T(COMMENT_STRING)))) {
+		else if (!_tcsncmp(cur, _T(COMMENT_STRING), mir_tstrlen(_T(COMMENT_STRING)))) {
 			scur = cur;
 			while ( _tcsncmp(cur, _T("\r\n"), 2) && *cur != '\n' && *cur != 0)
 				cur++;
 
 			if (*cur == 0) {
 				*scur = 0;
-				string = (TCHAR*)mir_realloc(string, (_tcslen(string)+1)*sizeof(TCHAR));
+				string = (TCHAR*)mir_realloc(string, (mir_tstrlen(string)+1)*sizeof(TCHAR));
 				continue;
 			}
-			memmove(scur, cur, (_tcslen(cur)+1)*sizeof(TCHAR));
+			memmove(scur, cur, (mir_tstrlen(cur)+1)*sizeof(TCHAR));
 			pos = scur-string-1;
 			continue;
 		}
 		else if ((*cur != FIELD_CHAR) && (*cur != FUNC_CHAR) && (*cur != FUNC_ONCE_CHAR)) {
 			if (gParseOpts.bStripAll) {
-				memmove(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
+				memmove(cur, cur+1, (mir_tstrlen(cur+1)+1)*sizeof(TCHAR));
 				pos = cur - string - 1;
 			}
 			continue;
@@ -255,7 +255,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		}
 		scur = cur; // store this pointer for later use
 		if (*cur == FIELD_CHAR) {
- 			size_t len = _tcslen(tr != NULL ? tr->tszTokenString : fi->tszaTemporaryVars[tmpVarPos]);
+ 			size_t len = mir_tstrlen(tr != NULL ? tr->tszTokenString : fi->tszaTemporaryVars[tmpVarPos]);
 			cur++;
  			if (*(cur + len) != FIELD_CHAR) { // the next char after the token should be %
 				fi->eCount++;
@@ -266,7 +266,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		else if ((*cur == FUNC_CHAR) || (*cur == FUNC_ONCE_CHAR)) {
 			TCHAR *argcur;
 
-			cur += _tcslen(tr->tszTokenString)+1;
+			cur += mir_tstrlen(tr->tszTokenString)+1;
 			argcur = getArguments(cur, &argv, &argc);
 			if ((argcur == cur) || (argcur == NULL)) {
 				fi->eCount++;
@@ -339,8 +339,8 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			}
 		}*/
 
-		size_t parsedTokenLen = _tcslen(parsedToken);
-		size_t initStrLen = _tcslen(string);
+		size_t parsedTokenLen = mir_tstrlen(parsedToken);
+		size_t initStrLen = mir_tstrlen(string);
 		size_t tokenLen = cur-scur;
 		scurPos = scur-string;
 		curPos = cur-string;
@@ -354,10 +354,10 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		}
 		scur = string+scurPos;
 		cur = string+curPos;
-		memmove(scur + parsedTokenLen, cur, (_tcslen(cur)+1)*sizeof(TCHAR));
+		memmove(scur + parsedTokenLen, cur, (mir_tstrlen(cur)+1)*sizeof(TCHAR));
 		memcpy(scur, parsedToken, parsedTokenLen*sizeof(TCHAR));
 		{
-			size_t len = _tcslen(string);
+			size_t len = mir_tstrlen(string);
 			string = (TCHAR*)mir_realloc(string, (len+1)*sizeof(TCHAR));
 		}
 		if (( ai.flags & AIF_DONTPARSE ) || tmpVarPos >= 0)
@@ -375,7 +375,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		mir_free(argv[i]);
 	mir_free(argv);
 
-	return (TCHAR*)mir_realloc(string, (_tcslen(string)+1)*sizeof(TCHAR));
+	return (TCHAR*)mir_realloc(string, (mir_tstrlen(string)+1)*sizeof(TCHAR));
 }
 
 /*

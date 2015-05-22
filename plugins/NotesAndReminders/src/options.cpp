@@ -302,7 +302,7 @@ static void TrimString(TCHAR *s)
 		return;
 
 	TCHAR *start = s;
-	UINT n = UINT(_tcslen(s) - 1);
+	UINT n = UINT(mir_tstrlen(s) - 1);
 
 	TCHAR *end = s + n;
 

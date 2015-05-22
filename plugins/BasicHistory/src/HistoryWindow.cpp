@@ -1488,7 +1488,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 			}
 
 			tmi.printTimeStamp(NULL, data.timestamp, formatDate, str, MAXSELECTSTR, 0);
-			*strLen = (unsigned int)_tcslen(str) * sizeof(TCHAR);
+			*strLen = (unsigned int)mir_tstrlen(str) * sizeof(TCHAR);
 			TextSelection->SetStart(MAXLONG);
 			TextSelection->GetFont(&TextFont);
 			SetFontFromOptions(TextFont, caps, lastMe ? Options::OutTimestamp : Options::InTimestamp);
@@ -1501,7 +1501,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 					mir_sntprintf(str, MAXSELECTSTR, _T("%s\n"), myName);
 				else
 					mir_sntprintf(str, MAXSELECTSTR, _T("%s\n"), contactName);
-				*strLen = (unsigned int)_tcslen(str) * sizeof(TCHAR);
+				*strLen = (unsigned int)mir_tstrlen(str) * sizeof(TCHAR);
 				TextSelection->SetStart(MAXLONG);
 				TextSelection->GetFont(&TextFont);
 				SetFontFromOptions(TextFont, caps, lastMe ? Options::OutName : Options::InName);

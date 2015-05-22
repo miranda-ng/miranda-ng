@@ -314,7 +314,7 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 	}
 	else args = NULL;
 
-	size_t len = _tcslen(tr->tszTokenString) + (args!=NULL?mir_strlen(args):0) + 3;
+	size_t len = mir_tstrlen(tr->tszTokenString) + (args!=NULL?mir_strlen(args):0) + 3;
 	TCHAR *desc = (TCHAR*)mir_calloc(len * sizeof(TCHAR));
 	if (desc == NULL) {
 		mir_free(helpText);
@@ -484,7 +484,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM wPar
 			if (tr == NULL)
 				break;
 
-			size_t len = _tcslen(tr->tszTokenString) + 2;
+			size_t len = mir_tstrlen(tr->tszTokenString) + 2;
 			TCHAR *tokenString = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 			if (tokenString == NULL)
 				break;

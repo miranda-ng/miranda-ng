@@ -342,7 +342,7 @@ HMODULE Utils::loadSystemLibrary(const TCHAR* szFilename, bool useGetHandle)
 			throw(CRTException("Error while loading system library", szFilename));
 
 		sysPathName[MAX_PATH - 1] = 0;
-		if (_tcslen(sysPathName) + _tcslen(szFilename) >= MAX_PATH)
+		if (mir_tstrlen(sysPathName) + mir_tstrlen(szFilename) >= MAX_PATH)
 			throw(CRTException("Error while loading system library", szFilename));
 
 		mir_tstrcat(sysPathName, szFilename);

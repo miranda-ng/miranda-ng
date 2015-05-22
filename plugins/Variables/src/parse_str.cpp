@@ -84,9 +84,9 @@ static TCHAR *parseEolToCrlf(ARGUMENTSINFO *ai)
 
 		log_debug(cur);
 		int loc = cur - res;
-		res = (TCHAR*)mir_realloc(res, (_tcslen(res) + 2)*sizeof(TCHAR));
+		res = (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + 2)*sizeof(TCHAR));
 		cur = res + loc;
-		memmove(cur + 2, cur + 1, (_tcslen(cur + 1) + 1)*sizeof(TCHAR));
+		memmove(cur + 2, cur + 1, (mir_tstrlen(cur + 1) + 1)*sizeof(TCHAR));
 		memcpy(cur, _T("\r\n"), 2 * sizeof(TCHAR));
 		cur += 2;
 	}
@@ -113,7 +113,7 @@ static TCHAR *parseFixeol(ARGUMENTSINFO *ai)
 		return mir_tstrdup(ai->targv[1]);
 
 	cur--;
-	TCHAR *res = (TCHAR*)mir_alloc((cur - ai->targv[1] + _tcslen(szReplacement) + 1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((cur - ai->targv[1] + mir_tstrlen(szReplacement) + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return res;
 
@@ -133,26 +133,26 @@ static TCHAR *parseFixeol2(ARGUMENTSINFO *ai)
 	}
 
 	TCHAR *res = mir_tstrdup(ai->targv[1]);
-	for (size_t pos = 0; pos < _tcslen(res); pos++) {
+	for (size_t pos = 0; pos < mir_tstrlen(res); pos++) {
 		TCHAR *cur = res + pos;
 		TCHAR *szEol = NULL;
-		if (!_tcsncmp(cur, _T("\r\n"), _tcslen(_T("\r\n"))))
+		if (!_tcsncmp(cur, _T("\r\n"), mir_tstrlen(_T("\r\n"))))
 			szEol = _T("\r\n");
 
 		if (*cur == '\n')
 			szEol = _T("\n");
 
 		if (szEol != NULL) {
-			if (_tcslen(szReplacement) > _tcslen(szEol)) {
-				res = (TCHAR*)mir_realloc(res, (_tcslen(res) + _tcslen(szReplacement) - _tcslen(szEol) + 1)*sizeof(TCHAR));
+			if (mir_tstrlen(szReplacement) > mir_tstrlen(szEol)) {
+				res = (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + mir_tstrlen(szReplacement) - mir_tstrlen(szEol) + 1)*sizeof(TCHAR));
 				cur = res + pos;
 			}
-			memmove(cur + _tcslen(szReplacement), cur + _tcslen(szEol), (_tcslen(cur + _tcslen(szEol)) + 1)*sizeof(TCHAR));
-			memcpy(cur, szReplacement, _tcslen(szReplacement)*sizeof(TCHAR));
-			pos += _tcslen(szReplacement) - 1;
+			memmove(cur + mir_tstrlen(szReplacement), cur + mir_tstrlen(szEol), (mir_tstrlen(cur + mir_tstrlen(szEol)) + 1)*sizeof(TCHAR));
+			memcpy(cur, szReplacement, mir_tstrlen(szReplacement)*sizeof(TCHAR));
+			pos += mir_tstrlen(szReplacement) - 1;
 		}
 	}
-	return (TCHAR*)mir_realloc(res, (_tcslen(res) + 1)*sizeof(TCHAR));
+	return (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + 1)*sizeof(TCHAR));
 }
 
 static TCHAR *parseInsert(ARGUMENTSINFO *ai)
@@ -161,17 +161,17 @@ static TCHAR *parseInsert(ARGUMENTSINFO *ai)
 		return NULL;
 
 	unsigned int pos = ttoi(ai->targv[3]);
-	if (pos > _tcslen(ai->targv[1]))
+	if (pos > mir_tstrlen(ai->targv[1]))
 		return NULL;
 
-	TCHAR *res = (TCHAR*)mir_alloc((_tcslen(ai->targv[1]) + _tcslen(ai->targv[2]) + 1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((mir_tstrlen(ai->targv[1]) + mir_tstrlen(ai->targv[2]) + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
-	memset(res, 0, ((_tcslen(ai->targv[1]) + _tcslen(ai->targv[2]) + 1) * sizeof(TCHAR)));
+	memset(res, 0, ((mir_tstrlen(ai->targv[1]) + mir_tstrlen(ai->targv[2]) + 1) * sizeof(TCHAR)));
 	_tcsncpy(res, ai->targv[1], pos);
 	_tcscpy(res + pos, ai->targv[2]);
-	_tcscpy(res + pos + _tcslen(ai->targv[2]), ai->targv[1] + pos);
+	_tcscpy(res + pos + mir_tstrlen(ai->targv[2]), ai->targv[1] + pos);
 	return res;
 }
 
@@ -184,7 +184,7 @@ static TCHAR *parseLeft(ARGUMENTSINFO *ai)
 	if (len < 0)
 		return NULL;
 
-	len = min(len, (signed int)_tcslen(ai->targv[1]));
+	len = min(len, (signed int)mir_tstrlen(ai->targv[1]));
 	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
@@ -199,7 +199,7 @@ static TCHAR *parseLen(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return NULL;
 
-	return itot((int)_tcslen(ai->targv[1]));
+	return itot((int)mir_tstrlen(ai->targv[1]));
 }
 
 static TCHAR *parseLineCount(ARGUMENTSINFO *ai)
@@ -209,7 +209,7 @@ static TCHAR *parseLineCount(ARGUMENTSINFO *ai)
 
 	int count = 1;
 	TCHAR *cur = ai->targv[1];
-	while (cur < (ai->targv[1] + _tcslen(ai->targv[1]))) {
+	while (cur < (ai->targv[1] + mir_tstrlen(ai->targv[1]))) {
 		if (!_tcsncmp(cur, _T("\r\n"), 2)) {
 			count++;
 			cur++;
@@ -242,7 +242,7 @@ static TCHAR *parseLongest(ARGUMENTSINFO *ai)
 
 	unsigned int iLong = 1;
 	for (unsigned int i = 2; i < ai->argc; i++)
-	if (_tcslen(ai->targv[i]) > _tcslen(ai->targv[iLong]))
+	if (mir_tstrlen(ai->targv[i]) > mir_tstrlen(ai->targv[iLong]))
 		iLong = i;
 
 	return mir_tstrdup(ai->targv[iLong]);
@@ -269,12 +269,12 @@ static TCHAR *parsePad(ARGUMENTSINFO *ai)
 	if (padding < 0)
 		return NULL;
 
-	unsigned int addcount = max(padding - (signed int)_tcslen(ai->targv[1]), 0);
-	TCHAR *res = (TCHAR*)mir_alloc((addcount + _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
+	unsigned int addcount = max(padding - (signed int)mir_tstrlen(ai->targv[1]), 0);
+	TCHAR *res = (TCHAR*)mir_alloc((addcount + mir_tstrlen(ai->targv[1]) + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
-	memset(res, 0, ((addcount + _tcslen(ai->targv[1]) + 1) * sizeof(TCHAR)));
+	memset(res, 0, ((addcount + mir_tstrlen(ai->targv[1]) + 1) * sizeof(TCHAR)));
 	TCHAR *cur = res;
 	for (unsigned int i = 0; i < addcount; i++)
 		*cur++ = padchar;
@@ -296,14 +296,14 @@ static TCHAR *parsePadright(ARGUMENTSINFO *ai)
 	if (padding < 0)
 		return NULL;
 
-	unsigned int addcount = max(padding - (signed int)_tcslen(ai->targv[1]), 0);
-	TCHAR *res = (TCHAR*)mir_alloc((addcount + _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
+	unsigned int addcount = max(padding - (signed int)mir_tstrlen(ai->targv[1]), 0);
+	TCHAR *res = (TCHAR*)mir_alloc((addcount + mir_tstrlen(ai->targv[1]) + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
-	memset(res, 0, ((addcount + _tcslen(ai->targv[1]) + 1) * sizeof(TCHAR)));
+	memset(res, 0, ((addcount + mir_tstrlen(ai->targv[1]) + 1) * sizeof(TCHAR)));
 	_tcscpy(res, ai->targv[1]);
-	TCHAR *cur = res + _tcslen(ai->targv[1]);
+	TCHAR *cur = res + mir_tstrlen(ai->targv[1]);
 	for (unsigned int i = 0; i < addcount; i++)
 		*cur++ = padchar;
 
@@ -323,7 +323,7 @@ static TCHAR *parsePadcut(ARGUMENTSINFO *ai)
 	if (padding < 0)
 		return NULL;
 
-	int addcount = max(padding - (signed int)_tcslen(ai->targv[1]), 0);
+	int addcount = max(padding - (signed int)mir_tstrlen(ai->targv[1]), 0);
 	TCHAR *res = (TCHAR*)mir_alloc((padding + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
@@ -352,7 +352,7 @@ static TCHAR *parsePadcutright(ARGUMENTSINFO *ai)
 	if (padding < 0)
 		return NULL;
 
-	int addcount = max(padding - (signed int)_tcslen(ai->targv[1]), 0);
+	int addcount = max(padding - (signed int)mir_tstrlen(ai->targv[1]), 0);
 	TCHAR *res = (TCHAR*)mir_alloc((padding + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
@@ -377,11 +377,11 @@ static TCHAR *parseRepeat(ARGUMENTSINFO *ai)
 	if (count < 0)
 		return NULL;
 
-	TCHAR *res = (TCHAR*)mir_alloc((count * _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((count * mir_tstrlen(ai->targv[1]) + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
-	memset(res, 0, ((count * _tcslen(ai->targv[1]) + 1) * sizeof(TCHAR)));
+	memset(res, 0, ((count * mir_tstrlen(ai->targv[1]) + 1) * sizeof(TCHAR)));
 	for (int i = 0; i < count; i++)
 		_tcscat(res, ai->targv[1]);
 
@@ -398,22 +398,22 @@ static TCHAR *parseReplace(ARGUMENTSINFO *ai)
 	size_t pos = 0;
 	TCHAR *res = mir_tstrdup(ai->targv[1]);
 	for (size_t i = 2; i < ai->argc; i += 2) {
-		if (_tcslen(ai->targv[i]) == 0)
+		if (mir_tstrlen(ai->targv[i]) == 0)
 			continue;
 
-		for (pos = 0; pos<_tcslen(res); pos++) {
+		for (pos = 0; pos<mir_tstrlen(res); pos++) {
 			cur = res + pos;
-			if (!_tcsncmp(cur, ai->targv[i], _tcslen(ai->targv[i]))) {
-				if (_tcslen(ai->targv[i + 1]) > _tcslen(ai->targv[i])) {
-					res = (TCHAR*)mir_realloc(res, (_tcslen(res) + _tcslen(ai->targv[i + 1]) - _tcslen(ai->targv[i]) + 1)*sizeof(TCHAR));
+			if (!_tcsncmp(cur, ai->targv[i], mir_tstrlen(ai->targv[i]))) {
+				if (mir_tstrlen(ai->targv[i + 1]) > mir_tstrlen(ai->targv[i])) {
+					res = (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + mir_tstrlen(ai->targv[i + 1]) - mir_tstrlen(ai->targv[i]) + 1)*sizeof(TCHAR));
 					cur = res + pos;
 				}
-				memmove(cur + _tcslen(ai->targv[i + 1]), cur + _tcslen(ai->targv[i]), (_tcslen(cur + _tcslen(ai->targv[i])) + 1)*sizeof(TCHAR));
-				memcpy(cur, ai->targv[i + 1], _tcslen(ai->targv[i + 1])*sizeof(TCHAR));
-				pos += _tcslen(ai->targv[i + 1]) - 1;
+				memmove(cur + mir_tstrlen(ai->targv[i + 1]), cur + mir_tstrlen(ai->targv[i]), (mir_tstrlen(cur + mir_tstrlen(ai->targv[i])) + 1)*sizeof(TCHAR));
+				memcpy(cur, ai->targv[i + 1], mir_tstrlen(ai->targv[i + 1])*sizeof(TCHAR));
+				pos += mir_tstrlen(ai->targv[i + 1]) - 1;
 			}
 		}
-		res = (TCHAR*)mir_realloc(res, (_tcslen(res) + 1)*sizeof(TCHAR));
+		res = (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + 1)*sizeof(TCHAR));
 	}
 
 	return res;
@@ -428,13 +428,13 @@ static TCHAR *parseRight(ARGUMENTSINFO *ai)
 	if (len < 0)
 		return NULL;
 
-	len = min(len, (signed int)_tcslen(ai->targv[1]));
+	len = min(len, (signed int)mir_tstrlen(ai->targv[1]));
 	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
 	memset(res, 0, ((len + 1)*sizeof(TCHAR)));
-	_tcsncpy(res, ai->targv[1] + _tcslen(ai->targv[1]) - len, len);
+	_tcsncpy(res, ai->targv[1] + mir_tstrlen(ai->targv[1]) - len, len);
 	return res;
 }
 
@@ -446,24 +446,24 @@ static TCHAR *parseScroll(ARGUMENTSINFO *ai)
 	if (ai->argc != 4)
 		return NULL;
 
-	if (_tcslen(ai->targv[1]) == 0)
+	if (mir_tstrlen(ai->targv[1]) == 0)
 		return mir_tstrdup(ai->targv[1]);
 
-	size_t move = ttoi(ai->targv[3]) % _tcslen(ai->targv[1]);
+	size_t move = ttoi(ai->targv[3]) % mir_tstrlen(ai->targv[1]);
 	size_t display = ttoi(ai->targv[2]);
-	if (display > _tcslen(ai->targv[1]))
-		display = (unsigned)_tcslen(ai->targv[1]);
+	if (display > mir_tstrlen(ai->targv[1]))
+		display = (unsigned)mir_tstrlen(ai->targv[1]);
 
-	TCHAR *res = (TCHAR*)mir_alloc((2 * _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((2 * mir_tstrlen(ai->targv[1]) + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
-	memset(res, 0, ((2 * _tcslen(ai->targv[1]) + 1) * sizeof(TCHAR)));
+	memset(res, 0, ((2 * mir_tstrlen(ai->targv[1]) + 1) * sizeof(TCHAR)));
 	_tcscpy(res, ai->targv[1]);
 	_tcscat(res, ai->targv[1]);
-	memmove(res, res + move, (_tcslen(res + move) + 1)*sizeof(TCHAR));
+	memmove(res, res + move, (mir_tstrlen(res + move) + 1)*sizeof(TCHAR));
 	*(res + display) = 0;
-	res = (TCHAR*)mir_realloc(res, (_tcslen(res) + 1)*sizeof(TCHAR));
+	res = (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + 1)*sizeof(TCHAR));
 
 	return res;
 }
@@ -475,7 +475,7 @@ static TCHAR *parseShortest(ARGUMENTSINFO *ai)
 
 	int iShort = 1;
 	for (unsigned i = 2; i < ai->argc; i++)
-	if (_tcslen(ai->targv[i]) < _tcslen(ai->targv[iShort]))
+	if (mir_tstrlen(ai->targv[i]) < mir_tstrlen(ai->targv[iShort]))
 		iShort = i;
 
 	return mir_tstrdup(ai->targv[iShort]);
@@ -594,9 +594,9 @@ static TCHAR *parseSubstr(ARGUMENTSINFO *ai)
 
 	int to, from = max(ttoi(ai->targv[2]) - 1, 0);
 	if (ai->argc > 3)
-		to = min(ttoi(ai->targv[3]), (int)_tcslen(ai->targv[1]));
+		to = min(ttoi(ai->targv[3]), (int)mir_tstrlen(ai->targv[1]));
 	else
-		to = (int)_tcslen(ai->targv[1]);
+		to = (int)mir_tstrlen(ai->targv[1]);
 
 	if (to < from)
 		return NULL;
@@ -640,7 +640,7 @@ static TCHAR *parseTrim(ARGUMENTSINFO *ai)
 	while (*scur == ' ')
 		scur++;
 
-	TCHAR *ecur = ai->targv[1] + _tcslen(ai->targv[1]) - 1;
+	TCHAR *ecur = ai->targv[1] + mir_tstrlen(ai->targv[1]) - 1;
 	while ((*ecur == ' ') && (ecur > ai->targv[1]))
 		ecur--;
 
@@ -660,7 +660,7 @@ static TCHAR *parseTrim(ARGUMENTSINFO *ai)
 static TCHAR *parseTab(ARGUMENTSINFO *ai)
 {
 	int count = 1;
-	if ((ai->argc == 2) && (_tcslen(ai->targv[1]) > 0))
+	if ((ai->argc == 2) && (mir_tstrlen(ai->targv[1]) > 0))
 		count = ttoi(ai->targv[1]);
 
 	if (count < 0)
@@ -701,7 +701,7 @@ static TCHAR *getNthWord(TCHAR *szString, int w)
 		scur++;
 
 	count++;
-	while ((count < w) && (scur < szString + _tcslen(szString))) {
+	while ((count < w) && (scur < szString + mir_tstrlen(szString))) {
 		if (*scur == ' ') {
 			while (*scur == ' ')
 				scur++;
@@ -735,7 +735,7 @@ static TCHAR *parseWord(ARGUMENTSINFO *ai)
 	TCHAR *res = NULL;
 	int to, from = ttoi(ai->targv[2]);
 	if (ai->argc == 4) {
-		if (_tcslen(ai->targv[3]) > 0)
+		if (mir_tstrlen(ai->targv[3]) > 0)
 			to = ttoi(ai->targv[3]);
 		else
 			to = 100000; // rework
@@ -751,7 +751,7 @@ static TCHAR *parseWord(ARGUMENTSINFO *ai)
 			return res;
 
 		if (res != NULL) {
-			TCHAR *pres = (TCHAR*)mir_realloc(res, (_tcslen(res) + _tcslen(szWord) + 2)*sizeof(TCHAR));
+			TCHAR *pres = (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + mir_tstrlen(szWord) + 2)*sizeof(TCHAR));
 			if (pres != NULL) {
 				res = pres;
 				_tcscat(res, _T(" "));

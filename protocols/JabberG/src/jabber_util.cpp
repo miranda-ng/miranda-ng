@@ -75,7 +75,7 @@ MCONTACT CJabberProto::HContactFromJID(const TCHAR *jid, BOOL bStripResource)
 					if (bIsChat)
 						result = mir_tstrcmpi(jid, dbJid);  // for chat room we have to have full contact matched
 					else if (TRUE)
-						result = _tcsnicmp(jid, dbJid, _tcslen(dbJid));
+						result = _tcsnicmp(jid, dbJid, mir_tstrlen(dbJid));
 					else
 						result = JabberCompareJids(jid, dbJid);
 				}

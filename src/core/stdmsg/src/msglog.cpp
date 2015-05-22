@@ -78,7 +78,7 @@ static int AppendToBufferWithRTF(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 	if (line == NULL)
 		return 0;
 
-	size_t lineLen = _tcslen(line) * 9 + 8;
+	size_t lineLen = mir_tstrlen(line) * 9 + 8;
 	if (cbBufferEnd + lineLen > cbBufferAlloced) {
 		cbBufferAlloced += lineLen + 1024 - lineLen % 1024;
 		buffer = (char*)mir_realloc(buffer, cbBufferAlloced);
@@ -110,7 +110,7 @@ static int AppendToBufferWithRTF(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 			int i, found = 0;
 			for (i = 0; i < SIZEOF(bbcodes); ++i) {
 				if (line[1] == bbcodes[i][1]) {
-					size_t lenb = _tcslen(bbcodes[i]);
+					size_t lenb = mir_tstrlen(bbcodes[i]);
 					if (!_tcsnicmp(line, bbcodes[i], lenb)) {
 						size_t len = mir_strlen(bbcodefmt[i]);
 						memcpy(d, bbcodefmt[i], len);

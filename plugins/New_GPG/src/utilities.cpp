@@ -62,15 +62,15 @@ void GetFilePath(TCHAR *WindowTittle, char *szSetting, TCHAR *szExt, TCHAR *szEx
 	ofn.Flags=OFN_EXPLORER;
 	ofn.lpstrTitle=TranslateW(WindowTittle);
 	_tcsncpy(filter,TranslateW(szExtDesc), SIZEOF(filter)-1);
-	pfilter=filter+_tcslen(filter)+1;
+	pfilter=filter+mir_tstrlen(filter)+1;
 	_tcscpy(pfilter, szExt);
-	pfilter[_tcslen(pfilter)+1] = '\0';
-	pfilter[_tcslen(pfilter)+2] = '\0';
+	pfilter[mir_tstrlen(pfilter)+1] = '\0';
+	pfilter[mir_tstrlen(pfilter)+2] = '\0';
 	ofn.lpstrFilter=filter;
 	tmp = UniGetContactSettingUtf(0, szGPGModuleName, szSetting, _T(""));
 	_tcsncpy(str, tmp, SIZEOF(str)-1);
 	mir_free(tmp);
-	if(_tcslen(str)< 2)
+	if(mir_tstrlen(str)< 2)
 		str[0] = '\0';
 	ofn.lpstrFile=str;
 	ofn.nMaxFile=_MAX_PATH;
@@ -89,13 +89,13 @@ TCHAR *GetFilePath(TCHAR *WindowTittle, TCHAR *szExt, TCHAR *szExtDesc, bool sav
 	ofn.Flags=OFN_EXPLORER;
 	ofn.lpstrTitle=TranslateW(WindowTittle);
 	_tcscpy(filter,TranslateW(szExtDesc));
-	pfilter=filter+_tcslen(filter)+1;
+	pfilter=filter+mir_tstrlen(filter)+1;
 	_tcscpy(pfilter, szExt);
-	pfilter[_tcslen(pfilter)+1] = '\0';
-	pfilter[_tcslen(pfilter)+2] = '\0';
+	pfilter[mir_tstrlen(pfilter)+1] = '\0';
+	pfilter[mir_tstrlen(pfilter)+2] = '\0';
 	ofn.lpstrFilter=filter;
 	_tcscpy(str, _T(""));
-	if(_tcslen(str)< 2)
+	if(mir_tstrlen(str)< 2)
 		str[0] = '\0';
 	ofn.lpstrFile=str;
 	ofn.nMaxFile=_MAX_PATH;
@@ -336,7 +336,7 @@ int onProtoAck(WPARAM w, LPARAM l)
 						cmd.push_back(L"-o");
 						wstring file = filename;
 						wstring::size_type p1 = file.rfind(_T(".gpg"));
-						file.erase(p1, _tcslen(_T(".gpg")));
+						file.erase(p1, mir_tstrlen(_T(".gpg")));
 						if(boost::filesystem::exists(file))
 						{
 							if(MessageBox(0, TranslateT("Target file exists, do you want to replace it?"), TranslateT("Warning"), MB_YESNO) == IDNO)
@@ -354,16 +354,16 @@ int onProtoAck(WPARAM w, LPARAM l)
 								dbsetting += keyid;
 								dbsetting += "_Password";
 								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
-								if(_tcslen(pass) > 0 && bDebugLog)
+								if(mir_tstrlen(pass) > 0 && bDebugLog)
 									debuglog<<std::string(time_str()+": info: found password in database for key ID: "+keyid+", trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" with password");
 							}
 							else
 							{
 								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
-								if(_tcslen(pass) > 0 && bDebugLog)
+								if(mir_tstrlen(pass) > 0 && bDebugLog)
 									debuglog<<std::string(time_str()+": info: found password for all keys in database, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" with password");
 							}
-							if(_tcslen(pass) > 0)
+							if(mir_tstrlen(pass) > 0)
 							{
 								cmd.push_back(L"--passphrase");
 								cmd.push_back(pass);
@@ -483,8 +483,8 @@ std::wstring encrypt_file(MCONTACT hContact, TCHAR *filename)
 		name = filename;
 	else
 		name++;
-	TCHAR *file_out =  new TCHAR [_tcslen(name) + _tcslen(_T(".gpg")) + 1];
-	mir_sntprintf(file_out, _tcslen(name) + _tcslen(_T(".gpg")) + 1, _T("%s.gpg"), name);
+	TCHAR *file_out =  new TCHAR [mir_tstrlen(name) + mir_tstrlen(_T(".gpg")) + 1];
+	mir_sntprintf(file_out, mir_tstrlen(name) + mir_tstrlen(_T(".gpg")) + 1, _T("%s.gpg"), name);
 	cmd.push_back(szKeyid);
 	if(db_get_b(hcnt, szGPGModuleName, "bAlwaysTrust", 0))
 	{
@@ -723,7 +723,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 			{
 				wstring data = str;
 				xi.setText(local_node, _T("This message is encrypted."));
-				wstring::size_type p1 = data.find(_T("-----BEGIN PGP MESSAGE-----")) + _tcslen(_T("-----BEGIN PGP MESSAGE-----"));
+				wstring::size_type p1 = data.find(_T("-----BEGIN PGP MESSAGE-----")) + mir_tstrlen(_T("-----BEGIN PGP MESSAGE-----"));
 				while(data.find(_T("Version: "), p1) != wstring::npos)
 				{
 					p1 = data.find(_T("Version: "), p1);
@@ -859,7 +859,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 					}
 					if(data.find(_T("-----BEGIN PGP SIGNATURE-----")) != wstring::npos && data.find(_T("-----END PGP SIGNATURE-----")) != wstring::npos)
 					{
-						wstring::size_type p1 = data.find(_T("-----BEGIN PGP SIGNATURE-----")) + _tcslen(_T("-----BEGIN PGP SIGNATURE-----"));
+						wstring::size_type p1 = data.find(_T("-----BEGIN PGP SIGNATURE-----")) + mir_tstrlen(_T("-----BEGIN PGP SIGNATURE-----"));
 						if(data.find(_T("Version: "), p1) != wstring::npos)
 						{
 							p1 = data.find(_T("Version: "), p1);
@@ -1091,7 +1091,7 @@ bool isContactSecured(MCONTACT hContact)
 bool isContactHaveKey(MCONTACT hContact)
 {
 	TCHAR *key = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
-	if(_tcslen(key) > 0)
+	if(mir_tstrlen(key) > 0)
 	{
 		mir_free(key);
 		return true;
@@ -1133,7 +1133,7 @@ bool isGPGValid()
 		SetCurrentDirectoryW(mir_path);
 		tmp = mir_tstrdup(mir_path);
 		mir_free(mir_path);
-		//mir_realloc(path, (_tcslen(path)+64)*sizeof(TCHAR));
+		//mir_realloc(path, (mir_tstrlen(path)+64)*sizeof(TCHAR));
 		TCHAR *gpg_path = (TCHAR*)mir_alloc(sizeof(TCHAR)*MAX_PATH);
 		_tcscpy(gpg_path, tmp);
 		_tcscat(gpg_path, _T("\\GnuPG\\gpg.exe"));

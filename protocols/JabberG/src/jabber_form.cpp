@@ -485,7 +485,7 @@ void JabberFormCreateUI(HWND hwndStatic, HXML xNode, int *formHeight, BOOL bComp
 					if (!v)
 						break;
 					if (xmlGetName(v) && !mir_tstrcmp(xmlGetName(v), _T("value")) && xmlGetText(v))
-						size += _tcslen(xmlGetText(v)) + 2;
+						size += mir_tstrlen(xmlGetText(v)) + 2;
 				}
 				valueStr = (TCHAR*)mir_alloc(sizeof(TCHAR)*size);
 				valueStr[0] = '\0';

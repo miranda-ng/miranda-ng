@@ -1480,15 +1480,15 @@ void checkEnvPath(TCHAR *path)
 	cur = _tgetenv(_T("PATH"));
 	_tcslwr(cur);
 	found = _tcsstr(cur,path);
-	len = (int)_tcslen(path);
+	len = (int)mir_tstrlen(path);
 	if(found != NULL && (found[len] == ';' || found[len] == 0 || (found[len] == '\\' && (found[len+1] == ';' || found[len+1] == 0)))) {
 		return;
 	}
 
-	assert(_tcslen(path) + _tcslen(cur) + 1 < SIZEOF(nowy));
+	assert(mir_tstrlen(path) + mir_tstrlen(cur) + 1 < SIZEOF(nowy));
 	_tcsncpy_s(nowy, _T("PATH="), _TRUNCATE);
 	_tcscat_s(nowy, cur);
-	if(cur[_tcslen(cur)-1]!=';')
+	if(cur[mir_tstrlen(cur)-1]!=';')
 		_tcscat_s(nowy, _T(";"));
 	_tcscat_s(nowy, path);
 	_tcscat_s(nowy, _T(";"));
@@ -1521,7 +1521,7 @@ static int modulesloaded(WPARAM, LPARAM)
 	GetLotusPath(path, sizeof(path));
 	checkEnvPath(path);
 	_tcscat_s(path, _countof(path), _T("nnotes.dll"));
-	assert(_tcslen(path)>0);
+	assert(mir_tstrlen(path)>0);
 
 	log_p(L"Loading dll: %s", path);
 

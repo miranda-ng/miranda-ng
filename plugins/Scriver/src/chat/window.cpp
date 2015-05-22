@@ -221,7 +221,7 @@ static void TabAutoComplete(HWND hwnd, MESSAGESUBDATA *dat, SESSION_INFO *si)
 		start -= 2;
 
 	if (dat->szSearchResult != NULL) {
-		int cbResult = (int)_tcslen(dat->szSearchResult);
+		int cbResult = (int)mir_tstrlen(dat->szSearchResult);
 		if (start >= cbResult && !_tcsncicmp(dat->szSearchResult, pszText + start - cbResult, cbResult)) {
 			start -= cbResult;
 			goto LBL_SkipEnd;
@@ -276,7 +276,7 @@ LBL_SkipEnd:
 		if (end != start) {
 			ptrT szReplace;
 			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
-				szReplace = (TCHAR*)mir_alloc((_tcslen(pszName) + 4) * sizeof(TCHAR));
+				szReplace = (TCHAR*)mir_alloc((mir_tstrlen(pszName) + 4) * sizeof(TCHAR));
 				_tcscpy(szReplace, pszName);
 				_tcscat(szReplace, _T(": "));
 				pszName = szReplace;

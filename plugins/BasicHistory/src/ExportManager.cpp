@@ -42,15 +42,15 @@ std::wstring GetFile(const TCHAR* ext, HWND hwnd, bool open)
 	_tcscpy_s(extUpper, ext);
 	extUpper[0] = std::toupper(ext[0], loc);
 	mir_sntprintf(filter, SIZEOF(filter), TranslateT("%s Files (*.%s)"), extUpper, ext);
-	size_t len = _tcslen(filter) + 1;
+	size_t len = mir_tstrlen(filter) + 1;
 	mir_sntprintf(filter + len, SIZEOF(filter) - len, _T("*.%s"), ext);
-	len += _tcslen(filter + len);
+	len += mir_tstrlen(filter + len);
 	filter[++len] = 0;
 	TCHAR stzFilePath[1024];
 	_tcscpy_s(stzFilePath, TranslateT("History"));
 	_tcscat_s(stzFilePath, _T("."));
 	_tcscat_s(stzFilePath, ext);
-	len = _tcslen(stzFilePath) + 1;
+	len = mir_tstrlen(stzFilePath) + 1;
 	stzFilePath[len] = 0;
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = sizeof(ofn);

@@ -37,13 +37,13 @@ static TCHAR *getFullWinampTitleText()
 		mir_free(szWinText);
 		return NULL;
 	}
-	TCHAR *szTitle = (TCHAR*)mir_alloc((2 * _tcslen(szWinText) + 1)*sizeof(TCHAR));
+	TCHAR *szTitle = (TCHAR*)mir_alloc((2 * mir_tstrlen(szWinText) + 1)*sizeof(TCHAR));
 	if (szTitle == NULL) {
 		mir_free(szWinText);
 		return NULL;
 	}
 	_tcscpy(szTitle, szWinText);
-	_tcscpy(szTitle + _tcslen(szTitle), szWinText);
+	_tcscpy(szTitle + mir_tstrlen(szTitle), szWinText);
 	mir_free(szWinText);
 
 	return szTitle;
@@ -61,7 +61,7 @@ static TCHAR *parseWinampSong(ARGUMENTSINFO *ai)
 
 	TCHAR *scur = _tcschr(szTitle, '.');
 	TCHAR *cur;
-	if ((scur == NULL) || ((cur = _tcsstr(scur, _T(" - Winamp"))) == NULL) || (scur >= cur) || (scur > (szTitle + _tcslen(szTitle) - 2)) || (cur > (szTitle + _tcslen(szTitle)))) {
+	if ((scur == NULL) || ((cur = _tcsstr(scur, _T(" - Winamp"))) == NULL) || (scur >= cur) || (scur > (szTitle + mir_tstrlen(szTitle) - 2)) || (cur > (szTitle + mir_tstrlen(szTitle)))) {
 		mir_free(szTitle);
 		return NULL;
 	}

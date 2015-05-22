@@ -31,7 +31,7 @@ LPTSTR GeTStringFromStreamData(EditStreamData *esd)
 	LPTSTR ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
 	LPTSTR ptszTemp = (TCHAR*)esd->pbBuff;
 	
-	for (i = k = 0; i < _tcslen(ptszTemp); i++) {
+	for (i = k = 0; i < mir_tstrlen(ptszTemp); i++) {
 		if ((ptszTemp[i] == 0x0A) || (ptszTemp[i] == 0x2028))
 			ptszOutText[k++] = 0x0D;
 		else if (ptszTemp[i] == 0x0D) {
@@ -52,7 +52,7 @@ BOOL CopyTextToClipboard(LPTSTR ptszText)
 		return FALSE;
 
 	EmptyClipboard(); 
-	HGLOBAL hCopy = GlobalAlloc(GMEM_MOVEABLE, (_tcslen(ptszText) + 1)*sizeof(TCHAR));
+	HGLOBAL hCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_tstrlen(ptszText) + 1)*sizeof(TCHAR));
 	_tcscpy((TCHAR*)GlobalLock(hCopy), ptszText);
 	GlobalUnlock(hCopy);
 	SetClipboardData(CF_UNICODETEXT, hCopy);
@@ -97,7 +97,7 @@ LPTSTR GenerateLayoutString(HKL hklLayout)
 	ptszTemp[0] = 0;
 
 	DWORD i;
-	for (i = 0; i < _tcslen(ptszKeybEng); i++) {
+	for (i = 0; i < mir_tstrlen(ptszKeybEng); i++) {
 		SHORT shVirtualKey = VkKeyScanEx(ptszKeybEng[i], hklEng);
 		UINT iScanCode = MapVirtualKeyEx(shVirtualKey & 0x00FF, 0, hklEng);
 
@@ -141,7 +141,7 @@ LPTSTR ChangeTextCase(LPCTSTR ptszInText)
 	LPTSTR ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
 	_tcscpy(ptszOutText, ptszInText);
 
-	for (DWORD i = 0; i < _tcslen(ptszInText); i++) {
+	for (DWORD i = 0; i < mir_tstrlen(ptszInText); i++) {
 		CharUpperBuff(&ptszOutText[i], 1);
 		if (ptszOutText[i] == ptszInText[i])
 			CharLowerBuff(&ptszOutText[i], 1);
@@ -162,20 +162,20 @@ LPTSTR ChangeTextLayout(LPCTSTR ptszInText, HKL hklCurLay, HKL hklToLay, BOOL Tw
 	if (ptszKeybCur == 0 || ptszKeybNext == 0)
 		return ptszOutText;
 
-	for (DWORD i = 0; i < _tcslen(ptszInText); i++) {
+	for (DWORD i = 0; i < mir_tstrlen(ptszInText); i++) {
 		BOOL Found = FALSE;
-		for (DWORD j = 0; j < _tcslen(ptszKeybCur) && !Found; j++)
+		for (DWORD j = 0; j < mir_tstrlen(ptszKeybCur) && !Found; j++)
 		if (ptszKeybCur[j] == ptszInText[i]) {
 			Found = TRUE;
-			if (_tcslen(ptszKeybNext) >= j)
+			if (mir_tstrlen(ptszKeybNext) >= j)
 				ptszOutText[i] = ptszKeybNext[j];
 		}
 
 		if (TwoWay && !Found)
-		for (DWORD j = 0; j < _tcslen(ptszKeybNext) && !Found; j++)
+		for (DWORD j = 0; j < mir_tstrlen(ptszKeybNext) && !Found; j++)
 		if (ptszKeybNext[j] == ptszInText[i]) {
 			Found = TRUE;
-			if (_tcslen(ptszKeybCur) >= j)
+			if (mir_tstrlen(ptszKeybCur) >= j)
 				ptszOutText[i] = ptszKeybCur[j];
 		}
 	}
@@ -188,7 +188,7 @@ HKL GetLayoutOfText(LPCTSTR ptszInText)
 	LPTSTR ptszKeybBuff = ptszLayStrings[0];
 	DWORD dwMaxSymbols = 0, dwTemp = 0;
 
-	for (DWORD j = 0; j < _tcslen(ptszInText); j++)
+	for (DWORD j = 0; j < mir_tstrlen(ptszInText); j++)
 		if (_tcschr(ptszKeybBuff, ptszInText[j]) != NULL)
 			++dwMaxSymbols;
 
@@ -196,7 +196,7 @@ HKL GetLayoutOfText(LPCTSTR ptszInText)
 		ptszKeybBuff = ptszLayStrings[i];
 		DWORD dwCountSymbols = 0;
 			
-		for (DWORD j = 0; j<_tcslen(ptszInText); j++)
+		for (DWORD j = 0; j<mir_tstrlen(ptszInText); j++)
 			if (_tcschr(ptszKeybBuff, ptszInText[j]) != NULL)
 				++dwCountSymbols;
 		
@@ -339,7 +339,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 
 				if (!IsBadStringPtr(ptszInText, MaxTextSize) && (iRes > 0)) {
 					crTemp.cpMin = 0;
-					crTemp.cpMax = (int)_tcslen(ptszInText);
+					crTemp.cpMax = (int)mir_tstrlen(ptszInText);
 				}
 				else {
 					SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
@@ -351,7 +351,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			// Получаем текущее слово
 			if (CurrentWord) {
 				for (dwStartWord = crSelection.cpMin; (dwStartWord > 0) && (_tcschr(ptszSeparators, ptszInText[dwStartWord - 1]) == NULL); dwStartWord--);
-				for (dwEndWord = crSelection.cpMin; (dwEndWord < (_tcslen(ptszInText))) && (_tcschr(ptszSeparators, ptszInText[dwEndWord]) == NULL); dwEndWord++);
+				for (dwEndWord = crSelection.cpMin; (dwEndWord < (mir_tstrlen(ptszInText))) && (_tcschr(ptszSeparators, ptszInText[dwEndWord]) == NULL); dwEndWord++);
 
 				crTemp.cpMin = dwStartWord;
 				crTemp.cpMax = dwEndWord;
@@ -379,7 +379,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 					ptszTemp[crTemp.cpMax - crTemp.cpMin] = 0;
 					_tcscpy(ptszInText, ptszTemp);
 
-					if (_tcslen(ptszInText) == 0) {
+					if (mir_tstrlen(ptszInText) == 0) {
 						SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
 						SendMessage(hTextWnd, WM_SETREDRAW, TRUE, 0);
 						InvalidateRect(hTextWnd, NULL, FALSE);
@@ -416,7 +416,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			else {
 				for (i = 0; i < bLayNum; i++)
 					if (hklLayouts[i] != hklCurLay) {
-						if (_tcslen(ptszMBox) != 0)
+						if (mir_tstrlen(ptszMBox) != 0)
 							_tcscat(ptszMBox, _T("\n\n"));
 						ptrT ptszTemp(GetShortNameOfLayout(hklLayouts[i]));
 						_tcscat(ptszMBox, ptszTemp);

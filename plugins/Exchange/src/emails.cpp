@@ -69,7 +69,7 @@ int CExchangeServer::Connect(int bForceConnect)
 		GetStringFromDatabase("Server", _T(""), server, _countof(server));
 
 		int port = db_get_dw(NULL, ModuleName, "Port", EXCHANGE_PORT);
-		if (_tcslen(server) > 0) //only connect if there's a server to connect to
+		if (mir_tstrlen(server) > 0) //only connect if there's a server to connect to
 			return DoConnect(user, password, server, port);			
 
 		_popupUtil(TranslateT("Server is not configured..."));

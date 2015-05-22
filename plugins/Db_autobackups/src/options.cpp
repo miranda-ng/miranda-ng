@@ -45,7 +45,7 @@ int LoadOptions(void)
 		if (!db_get_ts(0, "AutoBackups", "Folder", &dbv)) {
 			TCHAR *tmp = Utils_ReplaceVarsT(dbv.ptszVal);
 
-			if (_tcslen(tmp) >= 2 && tmp[1] == ':')
+			if (mir_tstrlen(tmp) >= 2 && tmp[1] == ':')
 				_tcsncpy_s(options.folder, dbv.ptszVal, _TRUNCATE);
 			else
 				mir_sntprintf(options.folder, SIZEOF(options.folder), _T("%s\\%s"), profilePath, dbv.ptszVal);
@@ -77,8 +77,8 @@ int SaveOptions(void)
 	db_set_b(0, "AutoBackups", "PeriodType", (BYTE)options.period_type);
 
 	mir_sntprintf(prof_dir, SIZEOF(prof_dir), _T("%s\\"), profilePath);
-	size_t prof_len = _tcslen(prof_dir);
-	size_t opt_len = _tcslen(options.folder);
+	size_t prof_len = mir_tstrlen(prof_dir);
+	size_t opt_len = mir_tstrlen(options.folder);
 
 	if (opt_len > prof_len && _tcsncmp(options.folder, prof_dir, prof_len) == 0) {
 		db_set_ts(0, "AutoBackups", "Folder", (options.folder + prof_len));
@@ -87,7 +87,7 @@ int SaveOptions(void)
 		db_set_ts(0, "AutoBackups", "Folder", options.folder);
 
 	TCHAR *tmp = Utils_ReplaceVarsT(options.folder);
-	if (_tcslen(tmp) < 2 || tmp[1] != ':') {
+	if (mir_tstrlen(tmp) < 2 || tmp[1] != ':') {
 		_tcsncpy_s(prof_dir, options.folder, _TRUNCATE);
 		mir_sntprintf(options.folder, SIZEOF(options.folder), _T("%s\\%s"), profilePath, prof_dir);
 	}
@@ -343,7 +343,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				BOOL folder_ok = TRUE;
 				TCHAR *tmp = Utils_ReplaceVarsT(folder_buff);
 
-				if (_tcslen(tmp) >= 2 && tmp[1] == ':')
+				if (mir_tstrlen(tmp) >= 2 && tmp[1] == ':')
 					_tcsncpy_s(backupfolder, tmp, _TRUNCATE);
 				else
 					mir_sntprintf(backupfolder, SIZEOF(backupfolder), _T("%s\\%s"), profilePath, tmp);

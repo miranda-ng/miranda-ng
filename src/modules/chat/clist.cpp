@@ -207,7 +207,7 @@ BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, TCHAR* fm
 {
 	TCHAR szBuf[4096];
 
-	if (!fmt || !fmt[0] || _tcslen(fmt) > 2000)
+	if (!fmt || !fmt[0] || mir_tstrlen(fmt) > 2000)
 		return FALSE;
 
 	va_list marker;

@@ -125,9 +125,9 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 
 	TCHAR *displaytext = (TCHAR*)lParam;
-	if ((_tcslen(displaytext) == MAX_SECONDLINE) ||  (_tcslen(displaytext) > MAX_SECONDLINE))
+	if ((mir_tstrlen(displaytext) == MAX_SECONDLINE) ||  (mir_tstrlen(displaytext) > MAX_SECONDLINE))
 		mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), displaytext);
-	else if (_tcslen(displaytext) < MAX_SECONDLINE)
+	else if (mir_tstrlen(displaytext) < MAX_SECONDLINE)
 		mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), displaytext);
 
 	if ( db_get_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, 0)) {

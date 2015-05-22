@@ -45,7 +45,7 @@ static ALIASREGISTER *searchAliasRegister(TCHAR *szAlias)
 
 static TCHAR *replaceArguments(TCHAR *res, TCHAR *tArg, TCHAR *rArg)
 {
-	if (_tcslen(tArg) == 0)
+	if (mir_tstrlen(tArg) == 0)
 		return res;
 
 	unsigned int cur = 0, ecur = 0;
@@ -55,14 +55,14 @@ static TCHAR *replaceArguments(TCHAR *res, TCHAR *tArg, TCHAR *rArg)
 			while ((*(res + ecur) != ')') && (*(res + ecur) != ','))
 				ecur++;
 
-			if (((signed int)_tcslen(tArg) == (ecur - cur)) && (!_tcsncmp(tArg, res + cur, _tcslen(tArg)))) {
-				if (_tcslen(rArg) > _tcslen(tArg)) {
-					res = (TCHAR*)mir_realloc(res, (_tcslen(res) + (_tcslen(rArg) - _tcslen(tArg)) + 1)*sizeof(TCHAR));
+			if (((signed int)mir_tstrlen(tArg) == (ecur - cur)) && (!_tcsncmp(tArg, res + cur, mir_tstrlen(tArg)))) {
+				if (mir_tstrlen(rArg) > mir_tstrlen(tArg)) {
+					res = (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + (mir_tstrlen(rArg) - mir_tstrlen(tArg)) + 1)*sizeof(TCHAR));
 					if (res == NULL)
 						return NULL;
 				}
-				memmove(res + ecur + (_tcslen(rArg) - _tcslen(tArg)), res + ecur, (_tcslen(res + ecur) + 1)*sizeof(TCHAR));
-				_tcsncpy(res + cur, rArg, _tcslen(rArg));
+				memmove(res + ecur + (mir_tstrlen(rArg) - mir_tstrlen(tArg)), res + ecur, (mir_tstrlen(res + ecur) + 1)*sizeof(TCHAR));
+				_tcsncpy(res + cur, rArg, mir_tstrlen(rArg));
 			}
 		}
 		cur++;
@@ -89,7 +89,7 @@ static TCHAR *parseTranslateAlias(ARGUMENTSINFO *ai)
 
 static int addToAliasRegister(TCHAR *szAlias, unsigned int argc, TCHAR** argv, TCHAR *szTranslation)
 {
-	if (szAlias == NULL || szTranslation == NULL || _tcslen(szAlias) == 0)
+	if (szAlias == NULL || szTranslation == NULL || mir_tstrlen(szAlias) == 0)
 		return -1;
 
 	mir_cslock lck(csAliasRegister);
@@ -156,9 +156,9 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai)
 	TCHAR *szArgs = NULL;
 	for (int i = 0; i < argc; i++) {
 		if (i == 0)
-			szArgs = (TCHAR*)mir_calloc((_tcslen(argv[i]) + 2)*sizeof(TCHAR));
+			szArgs = (TCHAR*)mir_calloc((mir_tstrlen(argv[i]) + 2)*sizeof(TCHAR));
 		else
-			szArgs = (TCHAR*)mir_realloc(szArgs, (_tcslen(szArgs) + _tcslen(argv[i]) + 2)*sizeof(TCHAR));
+			szArgs = (TCHAR*)mir_realloc(szArgs, (mir_tstrlen(szArgs) + mir_tstrlen(argv[i]) + 2)*sizeof(TCHAR));
 
 		_tcscat(szArgs, argv[i]);
 		if (i != argc - 1)

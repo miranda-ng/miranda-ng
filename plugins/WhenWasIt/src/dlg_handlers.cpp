@@ -124,7 +124,7 @@ SIZE GetControlTextSize(HWND hCtrl)
 	TCHAR buffer[maxSize];
 	SIZE size;
 	GetWindowText(hCtrl, buffer, SIZEOF(buffer));
-	GetTextExtentPoint32(hDC, buffer, (int)_tcslen(buffer), &size);
+	GetTextExtentPoint32(hDC, buffer, (int)mir_tstrlen(buffer), &size);
 	SelectObject(hDC, oldFont);
 	ReleaseDC(hCtrl, hDC);
 	return size;
@@ -144,7 +144,7 @@ int EnlargeControl(HWND hCtrl, HWND hGroup, SIZE oldSize)
 TCHAR *strtrim(TCHAR *str)
 {
 	size_t i = 0;
-	size_t len = _tcslen(str);
+	size_t len = mir_tstrlen(str);
 	while ((i < len) && (str[i] == _T(' '))) { i++; }
 	if (i) {
 		memmove(str, str + i, len - i + 1);

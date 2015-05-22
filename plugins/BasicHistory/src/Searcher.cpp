@@ -75,7 +75,7 @@ bool Searcher::CompareStr(std::wstring str, TCHAR *strFind)
 		return str.find(strFind) < str.length();
 
 	size_t findid = str.find(strFind);
-	size_t findLen = _tcslen(strFind);
+	size_t findLen = mir_tstrlen(strFind);
 	while(findid < str.length()) {
 		if ((findid == 0 || std::isspace(str[findid - 1], loc) || std::ispunct(str[findid - 1], loc)) &&
 			(findid + findLen >= str.length() || std::isspace(str[findid + findLen], loc) || std::ispunct(str[findid + findLen], loc)))
@@ -111,7 +111,7 @@ void Searcher::Find()
 	}
 	if (!matchCase) {
 		std::locale loc;
-		std::transform(str, str + _tcslen(str), str, std::bind2nd(std::ptr_fun(mytoupper), &loc));
+		std::transform(str, str + mir_tstrlen(str), str, std::bind2nd(std::ptr_fun(mytoupper), &loc));
 	}
 	
 	bool findBack1 = findBack ^ !searchForInMes;

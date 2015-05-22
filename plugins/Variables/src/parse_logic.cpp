@@ -150,7 +150,7 @@ static TCHAR *parseIflonger(ARGUMENTSINFO *ai)
 	if (tszFirst == NULL || tszSecond == NULL)
 		return NULL;
 
-	if (_tcslen(tszFirst) > _tcslen(tszSecond))
+	if (mir_tstrlen(tszFirst) > mir_tstrlen(tszSecond))
 		return mir_tstrdup(ai->targv[3]);
 
 	return mir_tstrdup(ai->targv[4]);
@@ -180,13 +180,13 @@ static TCHAR *parseFor(ARGUMENTSINFO *ai)
 		TCHAR *parsed = formatString(&fi);
 		if (parsed != NULL) {
 			if (res == NULL) {
-				res = (TCHAR*)mir_alloc(_tcslen(parsed) + 1 * sizeof(TCHAR));
+				res = (TCHAR*)mir_alloc(mir_tstrlen(parsed) + 1 * sizeof(TCHAR));
 				if (res == NULL) {
 					mir_free(parsed);
 					return NULL;
 				}
 			}
-			else res = (TCHAR*)mir_realloc(res, (_tcslen(res) + _tcslen(parsed) + 1)*sizeof(TCHAR));
+			else res = (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + mir_tstrlen(parsed) + 1)*sizeof(TCHAR));
 
 			_tcscat(res, parsed);
 			mir_free(parsed);
@@ -228,7 +228,7 @@ static TCHAR *parseLonger(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return NULL;
 
-	if (_tcslen(ai->targv[1]) <= _tcslen(ai->targv[2]))
+	if (mir_tstrlen(ai->targv[1]) <= mir_tstrlen(ai->targv[2]))
 		ai->flags |= AIF_FALSE;
 
 	return mir_tstrdup(_T(""));

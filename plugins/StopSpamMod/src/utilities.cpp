@@ -121,7 +121,7 @@ tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact){
 
 // case-insensitive _tcscmp
 //by nullbie as i remember...
-#define NEWTSTR_MALLOC(A) (A==NULL) ? NULL : _tcscpy((TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(A)+1)),A)
+#define NEWTSTR_MALLOC(A) (A==NULL) ? NULL : _tcscpy((TCHAR*)mir_alloc(sizeof(TCHAR)*(mir_tstrlen(A)+1)),A)
 const int Stricmp(const TCHAR *str, const TCHAR *substr)
 {
 	int i = 0;
@@ -187,7 +187,7 @@ BOOL IsUrlContains(TCHAR * Str)
 		L".tv"
 	};
 
-	if(Str && _tcslen(Str)>0) {
+	if(Str && mir_tstrlen(Str)>0) {
 		TCHAR *StrLower = NEWTSTR_MALLOC(Str);
 		CharLowerBuff(StrLower, mir_tstrlen(StrLower));
 		for (int i=0; i<CountUrl; i++)

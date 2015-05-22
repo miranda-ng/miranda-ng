@@ -277,7 +277,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 #define AddItem(x)							\
 		mmi.wID++;							\
 		mmi.dwTypeData = TranslateT(x);		\
-		mmi.cch = ( UINT )_tcslen(mmi.dwTypeData);	\
+		mmi.cch = ( UINT )mir_tstrlen(mmi.dwTypeData);	\
 		InsertMenuItem(hMenu, mmi.wID, FALSE, &mmi);
 
 					AddItem(LPGEN("5 mins"));
