@@ -266,34 +266,32 @@ INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	case WM_COMMAND: 
 		switch ( HIWORD( wParam )) {
-			case BN_CLICKED: 
-				{
-				ConnContext *context = (ConnContext *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				switch ( LOWORD( wParam )) {	
-					case IDOK:
-						{
-						SMPInitUpdateDialog(context, true);
-						
-						int len = SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, WM_GETTEXTLENGTH, 0, 0);
-						TCHAR *answer = new TCHAR[len+1];
-						GetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, answer, len+1);
-						char *ans = mir_utf8encodeT(answer);
-						delete[] answer;
+		case BN_CLICKED: 
+			ConnContext *context = (ConnContext *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+			switch ( LOWORD( wParam )) {	
+			case IDOK:
+				SMPInitUpdateDialog(context, true);
+				{						
+					int len = SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, WM_GETTEXTLENGTH, 0, 0);
+					TCHAR *answer = new TCHAR[len+1];
+					GetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, answer, len+1);
 
-						otr_continue_smp(context, (const unsigned char *)ans, mir_strlen(ans));
-						mir_free(ans);
-						SetWindowLongPtr(hwndDlg, GWLP_USERDATA, NULL);
-						DestroyWindow(hwndDlg);
-						}break;
-					case IDCANCEL:
-						smp_for_contact.erase(context->app_data);
-						DestroyWindow(hwndDlg);
-						break;
+					T2Utf ans(answer);
+					otr_continue_smp(context, (const unsigned char *)ans, mir_strlen(ans));
+					delete[] answer;
+
+					SetWindowLongPtr(hwndDlg, GWLP_USERDATA, NULL);
+					DestroyWindow(hwndDlg);
 				}
-				}
+				break;
+
+			case IDCANCEL:
+				smp_for_contact.erase(context->app_data);
+				DestroyWindow(hwndDlg);
+				break;
+			}
 		}
 		break;
-
 	}
 
 	return FALSE;
@@ -429,19 +427,17 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 									int len = SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD1, WM_GETTEXTLENGTH, 0, 0);
 									TCHAR *question = new TCHAR[len+1];
 									GetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD1, question, len+1);
-									char *quest = mir_utf8encodeT(question);
+									T2Utf quest(question);
 									delete question;
 
 									len = SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, WM_GETTEXTLENGTH, 0, 0);
 									TCHAR *answer = new TCHAR[len+1];
 									GetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, answer, len+1);
-									char *ans = mir_utf8encodeT(answer);
+									T2Utf ans(answer);
 									delete answer;
 
 									SMPInitUpdateDialog(context, false);
 									otr_start_smp(context, quest, (const unsigned char*)ans, mir_strlen(ans));
-									mir_free(quest);
-									mir_free(ans);
 									}
 
 								}else if (_tcsncmp(msg, TranslateT(LANG_SMPTYPE_PASSWORD), 255)==0) {
@@ -453,12 +449,11 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 									int len = SendDlgItemMessage(hwndDlg, IDC_EDT_SMP_FIELD2, WM_GETTEXTLENGTH, 0, 0);
 									TCHAR *answer = new TCHAR[len+1];
 									GetDlgItemText(hwndDlg, IDC_EDT_SMP_FIELD2, answer, len+1);
-									char *ans = mir_utf8encodeT(answer);
+									T2Utf ans(answer);
 									delete[] answer;
 
 									SMPInitUpdateDialog(context, false);
 									otr_start_smp(context, NULL, (const unsigned char*)ans, mir_strlen(ans));
-									mir_free(ans);
 									}
 
 								}else break;

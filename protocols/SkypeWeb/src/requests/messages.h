@@ -34,7 +34,7 @@ public:
 		json_push_back(node, json_new_a("contenttype", "text"));
 		json_push_back(node, json_new_a("content", message));
 
-		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
+		T2Utf data(ptrT(json_write(node)));
 		Body << VALUE(data);
 
 		json_delete(node);
@@ -62,7 +62,7 @@ public:
 		json_push_back(node, json_new_a("content", content));
 		json_push_back(node, json_new_i("skypeemoteoffset", (int)(mir_strlen(username) + 1)));
 
-		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
+		T2Utf data(ptrT(json_write(node)));
 		Body << VALUE(data);
 
 		json_delete(node);
@@ -88,7 +88,7 @@ public:
 		json_push_back(node, json_new_a("contenttype", "text"));
 		json_push_back(node, json_new_a("content", ""));
 
-		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
+		T2Utf data(ptrT(json_write(node)));
 		Body << VALUE(data);
 
 		json_delete(node);

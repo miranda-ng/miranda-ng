@@ -75,20 +75,15 @@ int SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char *szProto)
 	if (RTL_Detect(szMsg))
 		flags |= PREF_RTL;
 
-	char *sendBuffer = mir_utf8encodeT(szMsg);
-	if (!sendBuffer || !sendBuffer[0]) {
-		mir_free(sendBuffer);
-		return NULL;
-	}
-
-	if (sendBuffer == NULL)
+	T2Utf sendBuffer(szMsg);
+	if (!mir_strlen(sendBuffer))
 		return NULL;
 
 	if (db_mc_isMeta(hContact))
 		hContact = db_mc_getSrmmSub(hContact);
 
 	int sendId = CallContactService(hContact, PSS_MESSAGE, flags, (LPARAM)sendBuffer);
-	msgQueue_add(hContact, sendId, sendBuffer, flags);
+	msgQueue_add(hContact, sendId, sendBuffer.detach(), flags);
 	return sendId;
 }
 

@@ -83,7 +83,7 @@ static bool NotifyTyping(MCONTACT hContact)
 
 static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 {
-	ptrA msg(mir_utf8encodeT(info->Answer.c_str()));
+	T2Utf msg(info->Answer.c_str());
 	size_t bufsize = mir_strlen(msg);
 
 	CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)msg);
@@ -100,8 +100,6 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 	db_event_add(hContact, &dbei);
 	bot->AnswerGiven(hContact, *info);
 	delete info;
-
-	delete[] msg;
 
 	mir_cslock lck(typingContactsLock);
 	typingContacts.erase(hContact);

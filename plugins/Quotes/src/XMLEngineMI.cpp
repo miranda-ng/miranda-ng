@@ -114,13 +114,7 @@ namespace
 
 			safe_string<TCHAR> ss(xi.toString(m_hXML, NULL));
 			if (ss.m_p)
-			{
-				mir_safe_string<char> mss(mir_utf8encodeT(ss.m_p));
-				if (mss.m_p)
-				{
-					o << mss.m_p;
-				}
-			}
+				o << (char*)T2Utf(ss.m_p);
 		}
 
 	private:

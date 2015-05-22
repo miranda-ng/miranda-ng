@@ -87,11 +87,7 @@ void LogToFile(TCHAR *stzText)
 {
 	FILE *fp = _tfopen(opt.LogFilePath, _T("a+b, ccs=UTF-8"));
 	if (fp) {
-		char *encodedText = mir_utf8encodeT(stzText);
-		if (encodedText) {
-			fprintf(fp, encodedText);
-			mir_free(encodedText);
-		}
+		fprintf(fp, T2Utf(stzText));
 		fclose(fp);
 	}
 }

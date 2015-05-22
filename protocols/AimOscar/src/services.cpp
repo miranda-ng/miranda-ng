@@ -204,34 +204,26 @@ int CAimProto::OnGroupChange(WPARAM hContact,LPARAM lParam)
 
 	if (hContact == NULL) {
 		if (grpchg->pszNewName == NULL && grpchg->pszOldName != NULL) {
-			char* szOldName = mir_utf8encodeT(grpchg->pszOldName);
+			T2Utf szOldName(grpchg->pszOldName);
 			unsigned short group_id = group_list.find_id(szOldName);
 			if (group_id) {
 				aim_delete_contact(hServerConn, seqno, szOldName, 0, group_id, 1, false);
 				group_list.remove_by_id(group_id);
 				update_server_group("", 0);
 			}
-			mir_free(szOldName);
 		}
 		else if (grpchg->pszNewName != NULL && grpchg->pszOldName != NULL) {
-			char* szOldName = mir_utf8encodeT(grpchg->pszOldName);
-			unsigned short group_id = group_list.find_id(szOldName);
-			if (group_id) {
-				char* szNewName = mir_utf8encodeT(grpchg->pszNewName);
-				update_server_group(szNewName, group_id);
-				mir_free(szNewName);
-			}
-			mir_free(szOldName);
+			unsigned short group_id = group_list.find_id(T2Utf(grpchg->pszOldName));
+			if (group_id)
+				update_server_group(T2Utf(grpchg->pszNewName), group_id);
 		}
 	}
 	else {
 		if (is_my_contact(hContact) && getBuddyId(hContact, 1) && !db_get_b(hContact, MOD_KEY_CL, AIM_KEY_NL, 0)) {
-			if (grpchg->pszNewName) {
-				char* szNewName = mir_utf8encodeT(grpchg->pszNewName);
-				add_contact_to_group(hContact, szNewName);
-				mir_free(szNewName);
-			}
-			else add_contact_to_group(hContact, AIM_DEFAULT_GROUP);
+			if (grpchg->pszNewName)
+				add_contact_to_group(hContact, T2Utf(grpchg->pszNewName));
+			else
+				add_contact_to_group(hContact, AIM_DEFAULT_GROUP);
 		}
 	}
 	return 0;

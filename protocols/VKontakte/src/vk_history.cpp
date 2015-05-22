@@ -216,6 +216,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			ptszBody = mir_tstrdup(CMString(ptszBody) + tszAttachmentDescr);
 		}
 
+		T2Utf pszBody(ptszBody);
 		MCONTACT hContact = FindUser(uid, true);
 		PROTORECVEVENT recv = { 0 };
 		if (isRead)
@@ -223,14 +224,13 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		if (isOut)
 			recv.flags |= PREF_SENT;
 		recv.timestamp = datetime;
-		recv.szMessage = mir_utf8encodeT(ptszBody);
+		recv.szMessage = pszBody;
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;
 		recv.cbCustomDataSize = (int)mir_strlen(szMid);
 		ProtoChainRecvMsg(hContact, &recv);
 
 		count++;
-		mir_free((char*)recv.szMessage);
 	}
 	setDword(param->hContact, "lastmsgid", iLastMsgId);
 

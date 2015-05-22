@@ -384,7 +384,7 @@ void SearchWord(TCHAR * word, int engine)
 {
 	char szURL[4096];
 	if (word && word[0]) {
-		ptrA wordUTF(mir_utf8encodeT(word));
+		T2Utf wordUTF(word);
 		ptrA wordURL(mir_urlEncode(wordUTF));
 		switch (engine) {
 		case SEARCHENGINE_WIKIPEDIA:

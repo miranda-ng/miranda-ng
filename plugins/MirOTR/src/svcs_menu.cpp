@@ -39,9 +39,9 @@ int StartOTR(MCONTACT hContact) {
 		}
 		*msgoff='\0';
 		mir_free(nick);
-		char* msg_utf8 = mir_utf8encodeT(msg);
+		
+		T2Utf msg_utf8(msg);
 		otr_gui_inject_message((void*)hContact, proto, proto, uname, msg_utf8 ? msg_utf8 : MIROTR_PROTO_HELLO);
-		mir_free(msg_utf8);
 	}
 	#endif
 	mir_free(uname);

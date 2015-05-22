@@ -804,8 +804,8 @@ HANDLE __cdecl CJabberProto::SearchByName(const TCHAR *nick, const TCHAR *firstN
 
 int __cdecl CJabberProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
 {
-	ptrA szResUtf(mir_utf8encodeT((LPCTSTR)evt->lParam));
-	evt->pCustomData = szResUtf;
+	T2Utf szResUtf((LPCTSTR)evt->lParam);
+	evt->pCustomData = (char*)szResUtf;
 	evt->cbCustomDataSize = (DWORD)mir_strlen(szResUtf);
 	Proto_RecvMessage(hContact, evt);
 	return 0;

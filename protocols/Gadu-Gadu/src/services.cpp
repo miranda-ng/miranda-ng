@@ -105,16 +105,14 @@ int GGPROTO::refreshstatus(int status)
 		gg_EnterCriticalSection(&modemsg_mutex, "refreshstatus", 69, "modemsg_mutex", 1);
 		szMsg = getstatusmsg(status);
 		gg_LeaveCriticalSection(&modemsg_mutex, "refreshstatus", 69, 1, "modemsg_mutex", 1);
-		char *szMsg_utf8 = mir_utf8encodeT(szMsg);
-		if (szMsg_utf8)
-		{
+		T2Utf szMsg_utf8(szMsg);
+		if (szMsg_utf8) {
 			debugLogA("refreshstatus(): Setting status and away message.");
 			gg_EnterCriticalSection(&sess_mutex, "refreshstatus", 70, "sess_mutex", 1);
 			gg_change_status_descr(sess, status_m2gg(status, szMsg_utf8 != NULL), szMsg_utf8);
 			gg_LeaveCriticalSection(&sess_mutex, "refreshstatus", 70, 1, "sess_mutex", 1);
 		}
-		else
-		{
+		else {
 			debugLogA("refreshstatus(): Setting just status.");
 			gg_EnterCriticalSection(&sess_mutex, "refreshstatus", 71, "sess_mutex", 1);
 			gg_change_status(sess, status_m2gg(status, 0));
@@ -123,7 +121,6 @@ int GGPROTO::refreshstatus(int status)
 		// Change status of the contact with our own UIN (if got yourself added to the contact list)
 		changecontactstatus( getDword(GG_KEY_UIN, 0), status_m2gg(status, szMsg != NULL), szMsg, 0, 0, 0, 0);
 		broadcastnewstatus(status);
-		mir_free(szMsg_utf8);
 	}
 
 	return TRUE;

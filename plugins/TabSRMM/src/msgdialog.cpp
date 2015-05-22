@@ -609,7 +609,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		if (OpenClipboard(hwnd)) {
 			HANDLE hClip = GetClipboardData(CF_TEXT);
 			if (hClip) {
-				if (mir_strlen((char*)hClip) > mwdat->nMax) {
+				if ((int)mir_strlen((char*)hClip) > mwdat->nMax) {
 					TCHAR szBuffer[512];
 					if (M.GetByte("autosplit", 0))
 						mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), mwdat->nMax - 10);
@@ -2667,34 +2667,36 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				int bufSize = WideCharToMultiByte(dat->codePage, 0, decoded, -1, dat->sendBuffer, 0, 0, 0);
 
 				int flags = 0;
-				char *utfResult = mir_utf8encodeT(decoded);
-				size_t memRequired = mir_strlen(utfResult) + 1;
+				size_t memRequired;
+				{
+					T2Utf utfResult(decoded);
+					memRequired = mir_strlen(utfResult) + 1;
 
-				// try to detect RTL
-				HWND hwndEdit = GetDlgItem(hwndDlg, IDC_MESSAGE);
-				SendMessage(hwndEdit, WM_SETREDRAW, FALSE, 0);
+					// try to detect RTL
+					HWND hwndEdit = GetDlgItem(hwndDlg, IDC_MESSAGE);
+					SendMessage(hwndEdit, WM_SETREDRAW, FALSE, 0);
 
-				PARAFORMAT2 pf2;
-				memset(&pf2, 0, sizeof(PARAFORMAT2));
-				pf2.cbSize = sizeof(pf2);
-				pf2.dwMask = PFM_RTLPARA;
-				SendMessage(hwndEdit, EM_SETSEL, 0, -1);
-				SendMessage(hwndEdit, EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
-				if (pf2.wEffects & PFE_RTLPARA)
-					if (SendQueue::RTL_Detect(decoded))
-						flags |= PREF_RTL;
+					PARAFORMAT2 pf2;
+					memset(&pf2, 0, sizeof(PARAFORMAT2));
+					pf2.cbSize = sizeof(pf2);
+					pf2.dwMask = PFM_RTLPARA;
+					SendMessage(hwndEdit, EM_SETSEL, 0, -1);
+					SendMessage(hwndEdit, EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
+					if (pf2.wEffects & PFE_RTLPARA)
+						if (SendQueue::RTL_Detect(decoded))
+							flags |= PREF_RTL;
 
-				SendMessage(hwndEdit, WM_SETREDRAW, TRUE, 0);
-				SendMessage(hwndEdit, EM_SETSEL, -1, -1);
-				InvalidateRect(hwndEdit, NULL, FALSE);
+					SendMessage(hwndEdit, WM_SETREDRAW, TRUE, 0);
+					SendMessage(hwndEdit, EM_SETSEL, -1, -1);
+					InvalidateRect(hwndEdit, NULL, FALSE);
 
-				if (memRequired > dat->iSendBufferSize) {
-					dat->sendBuffer = (char *)mir_realloc(dat->sendBuffer, memRequired);
-					dat->iSendBufferSize = memRequired;
+					if (memRequired > dat->iSendBufferSize) {
+						dat->sendBuffer = (char *)mir_realloc(dat->sendBuffer, memRequired);
+						dat->iSendBufferSize = memRequired;
+					}
+
+					memcpy(dat->sendBuffer, (char*)utfResult, memRequired);
 				}
-
-				memcpy(dat->sendBuffer, utfResult, memRequired);
-				mir_free(utfResult);
 
 				if (memRequired == 0 || dat->sendBuffer[0] == 0)
 					break;

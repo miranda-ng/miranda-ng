@@ -195,14 +195,13 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 							if ((NULL == pszStatusMsg) || (CALLSERVICE_NOTFOUND == reinterpret_cast<int>(pszStatusMsg)))
 								pszStatusMsg = reinterpret_cast<TCHAR*>(CallService(MS_AWAYMSG_GETSTATUSMSGT,(WPARAM)ms.m_nMirandaStatus,0));
 
-							if (pszStatusMsg && reinterpret_cast<int>(pszStatusMsg) != CALLSERVICE_NOTFOUND) {
-								char* pMsg = mir_utf8encodeT(pszStatusMsg);
+							if (pszStatusMsg && reinterpret_cast<LPARAM>(pszStatusMsg) != CALLSERVICE_NOTFOUND) {
+								T2Utf pMsg(pszStatusMsg);
 								mir_free(pszStatusMsg);
 
 								const char szSkypeCmdSetStatusMsg[] = "SET PROFILE MOOD_TEXT ";
 								::strncpy_s(szSkypeCmd,szSkypeCmdSetStatusMsg,sizeof(szSkypeCmdSetStatusMsg)/sizeof(szSkypeCmdSetStatusMsg[0]));
 								::strncat_s(szSkypeCmd, pMsg, SIZEOF(szSkypeCmd) - mir_strlen(szSkypeCmd));
-								mir_free(pMsg);
 										
 								DWORD cLength = static_cast<DWORD>(mir_strlen(szSkypeCmd));
 

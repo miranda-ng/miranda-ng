@@ -75,10 +75,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 		CMString buffer;
 		PrintVersionInfo(buffer, (unsigned int)lParam | VI_FLAG_PRNVAR);
 
-		char* bufu = mir_utf8encodeT(buffer.c_str());
-		WriteUtfFile(hDumpFile, bufu);
-		mir_free(bufu);
-
+		WriteUtfFile(hDumpFile, T2Utf(buffer.c_str()));
 		CloseHandle(hDumpFile);
 
 		ShowMessage(3, TranslateT("Version Info stored into file %s"), path);

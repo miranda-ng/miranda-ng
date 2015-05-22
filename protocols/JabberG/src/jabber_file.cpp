@@ -277,7 +277,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 			else
 				p = ft->std.ptszFiles[i];
 
-			char *pFileName = mir_urlEncode(ptrA(mir_utf8encodeT(p)));
+			ptrA pFileName(mir_urlEncode(T2Utf(p)));
 			if (pFileName != NULL) {
 				ft->szId = JabberId2string(SerialNext());
 
@@ -289,8 +289,6 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 
 				char szAddr[256];
 				mir_snprintf(szAddr, SIZEOF(szAddr), "http://%s:%d/%s", myAddr, nlb.wPort, pFileName);
-
-				mir_free(pFileName);
 
 				size_t len = mir_tstrlen(ptszResource) + mir_tstrlen(ft->jid) + 2;
 				TCHAR *fulljid = (TCHAR *)alloca(sizeof(TCHAR) * len);

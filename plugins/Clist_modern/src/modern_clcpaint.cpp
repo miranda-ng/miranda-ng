@@ -642,28 +642,21 @@ MODERNMASK *CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 	_itoa(index, buf, BUF2SIZE);
 	AddParam(mpModernMask, HASH[hi_Index], buf, 0);
 	{
-		TCHAR *b2 = mir_tstrdup(Drawing->szText);
-		int i, m = (int)mir_tstrlen(b2);
-		for (i = 0; i < m; i++)
+		TCHAR *b2 = NEWTSTR_ALLOCA(Drawing->szText);
+		for (int i = 0; b2[i] != 0; i++)
 			if (b2[i] == _T(','))
 				b2[i] = _T('.');
 
-		char* b3 = mir_utf8encodeT(b2);
-		AddParam(mpModernMask, HASH[hi_Name], b3, 0);
-		mir_free(b3);
-		mir_free(b2);
+		AddParam(mpModernMask, HASH[hi_Name], T2Utf(b2), 0);
 	}
 
 	if (group->parent) {
-		TCHAR *b2 = mir_tstrdup(group->parent->cl.items[0]->szText);
-		int i, m = (int)mir_tstrlen(b2);
-		for (i = 0; i < m; i++)
-			if (b2[i] == _T(',')) b2[i] = _T('.');
+		TCHAR *b2 = NEWTSTR_ALLOCA(group->parent->cl.items[0]->szText);
+		for (int i = 0; b2[i] != 0; i++)
+			if (b2[i] == _T(','))
+				b2[i] = _T('.');
 
-		char * b3 = mir_utf8encodeT(b2);
-		AddParam(mpModernMask, HASH[hi_Group], b3, 0);
-		mir_free(b3);
-		mir_free(b2);
+		AddParam(mpModernMask, HASH[hi_Group], T2Utf(b2), 0);
 	}
 	return mpModernMask;
 }

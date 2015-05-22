@@ -236,7 +236,7 @@ int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
 	mir_sha1_ctx sha1ctx;
 	BYTE sha1c[MIR_SHA1_HASH_SIZE], sha1d[MIR_SHA1_HASH_SIZE];
 
-	char *szFname = mir_utf8encodeT(sztFname);
+	T2Utf szFname(sztFname);
 
 	mir_sha1_init(&sha1ctx);
 	mir_sha1_append(&sha1ctx, (BYTE*)pData, (int)cbLen);
@@ -281,7 +281,6 @@ int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
 
 	char* szBuffer = ezxml_toxml(xmlp, false);
 	ezxml_free(xmlp);
-	mir_free(szFname);
 	ptrA szEncodedBuffer(mir_urlEncode(szBuffer));
 	free(szBuffer);
 

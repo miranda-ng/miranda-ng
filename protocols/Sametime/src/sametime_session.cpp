@@ -319,7 +319,7 @@ void CSametimeProto::SetSessionAwayMessage(int status, const PROTOCHAR* msgT)
 {
 	debugLog(_T("SetSessionAwayMessage() status=[%d], msgT:len=[%d]"), status, msgT == NULL ? -1 : mir_tstrlen(msgT));
 
-	ptrA msg(mir_utf8encodeT(msgT));
+	T2Utf msg(msgT);
 	if (status == ID_STATUS_ONLINE)
 		replaceStr(AwayMessages.szOnline, msg);
 	else if (status == ID_STATUS_AWAY)
@@ -540,9 +540,8 @@ void CSametimeProto::DeinitAwayMsg()
 void SendAnnouncement(SendAnnouncementFunc_arg* arg)
 {
 	CSametimeProto* proto = arg->proto;
-	char* utfs = mir_utf8encodeT(arg->msg);
-	if (proto->session && arg->recipients) mwSession_sendAnnounce(proto->session, false, utfs, arg->recipients);
-	mir_free(utfs);
+	if (proto->session && arg->recipients)
+		mwSession_sendAnnounce(proto->session, false, T2Utf(arg->msg), arg->recipients);
 }
 
 INT_PTR CSametimeProto::SessionAnnounce(WPARAM wParam, LPARAM lParam)

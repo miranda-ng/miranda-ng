@@ -436,7 +436,7 @@ int CMsnProto::OnGroupChange(WPARAM hContact, LPARAM lParam)
 	}
 	else {
 		if (MSN_IsMyContact(hContact))
-			MSN_MoveContactToGroup(hContact, ptrA(mir_utf8encodeT(grpchg->pszNewName)));
+			MSN_MoveContactToGroup(hContact, T2Utf(grpchg->pszNewName));
 	}
 	return 0;
 }

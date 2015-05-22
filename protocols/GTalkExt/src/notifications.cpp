@@ -190,7 +190,7 @@ MCONTACT SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTST
 
 static MEVENT AddCListNotification(MCONTACT hContact, LPCSTR acc, POPUPDATAT *data, LPCTSTR url)
 {
-	mir_ptr<char> szUrl(mir_utf8encodeT(url)), szText(mir_utf8encodeT(data->lptzText));
+	T2Utf szUrl(url), szText(data->lptzText);
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = (LPSTR)acc;

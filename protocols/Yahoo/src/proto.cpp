@@ -248,10 +248,10 @@ int CYahooProto::AuthDeny(MEVENT hdbe, const TCHAR *reason)
 	/* Need to remove the buddy from our Miranda Lists */
 	MCONTACT hContact = DbGetAuthEventContact(&dbei);
 	if (hContact != NULL) {
-		ptrA who( getStringA(hContact, YAHOO_LOGINID));
+		ptrA who(getStringA(hContact, YAHOO_LOGINID));
 		if (who) {
-			ptrA myid( getStringA(hContact, "MyIdentity"));
-			ptrA u_reason( mir_utf8encodeT(reason));
+			ptrA myid(getStringA(hContact, "MyIdentity"));
+			T2Utf u_reason(reason);
 
 			debugLogA("Rejecting buddy:%s msg: %s", who, u_reason);
 			reject(myid, who, getWord(hContact, "yprotoid", 0), u_reason);

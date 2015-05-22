@@ -376,7 +376,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 			UnEscapeChatTags(buf);
 			AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh)
 				<< INT_PARAM("chat_id", cc->m_chatid) 
-				<< CHAR_PARAM("message", mir_utf8encodeT(buf))
+				<< CHAR_PARAM("message", T2Utf(buf))
 				<< VER_API;
 			pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			Push(pReq);

@@ -107,14 +107,13 @@ void TwitterProto::DoSearch(void *p)
 
 	bool found = false;
 	try {
-		char *p = mir_utf8encodeT(query->query.c_str());
+		T2Utf p(query->query.c_str());
 
 		mir_cslock s(twitter_lock_);
 		if (query->by_email)
-			found = twit_.get_info_by_email(p, &info);
+			found = twit_.get_info_by_email(p.str(), &info);
 		else
-			found = twit_.get_info(p, &info);
-		mir_free(p);
+			found = twit_.get_info(p.str(), &info);
 	}
 	catch (const std::exception &e) {
 		ShowPopup((std::string("While searching for contacts, an error occurred: ") + e.what()).c_str());

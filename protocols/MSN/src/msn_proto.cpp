@@ -295,16 +295,13 @@ int __cdecl CMsnProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 			db_get_static(hContact, m_szModuleName, "e-mail", email, sizeof(email)))
 			return 1;
 
-		char* szMsg = mir_utf8encodeT(szMessage);
-
 		int netId = strncmp(email, "tel:", 4) == 0 ? NETID_MOB : (strncmp(email, "live:", 5) == 0 ? NETID_SKYPE : NETID_MSN);
-		if (MSN_AddUser(hContact, email, netId, LIST_FL, szMsg)) {
+		if (MSN_AddUser(hContact, email, netId, LIST_FL, T2Utf(szMessage))) {
 			MSN_AddUser(hContact, email, netId, LIST_PL + LIST_REMOVE);
 			MSN_AddUser(hContact, email, netId, LIST_BL + LIST_REMOVE);
 			MSN_AddUser(hContact, email, netId, LIST_AL);
 		}
 		MSN_SetContactDb(hContact, email);
-		mir_free(szMsg);
 
 		if (MSN_IsMeByContact(hContact)) displayEmailCount(hContact);
 		return 0;
@@ -400,7 +397,7 @@ int CMsnProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 {
 	const TCHAR* emailT = (TCHAR*)arg;
-	char *email = mir_utf8encodeT(emailT);
+	T2Utf email(emailT);
 
 	if (Lists_IsInList(LIST_FL, email)) {
 		MSN_ShowPopup(emailT, TranslateT("Contact already in your contact list"), MSN_ALLOW_MSGBOX, NULL);
@@ -442,7 +439,6 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
 		break;
 	}
-	mir_free(email);
 	mir_free(arg);
 }
 

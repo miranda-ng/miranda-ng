@@ -73,11 +73,11 @@ void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 	MCONTACT hContact = DBCreateContact(jid, nick, TRUE, TRUE);
 	delSetting(hContact, "Hidden");
 
-	char* szJid = mir_utf8encodeT(jid);
-	char* szNick = mir_utf8encodeT(nick);
+	T2Utf szJid(jid);
+	T2Utf szNick(nick);
 
-	//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
-	//blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), email(ASCIIZ), ""(ASCIIZ)
+	// blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
+	// blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), email(ASCIIZ), ""(ASCIIZ)
 	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = (DWORD)time(NULL);
@@ -95,9 +95,6 @@ void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 
 	db_event_add(NULL, &dbei);
 	debugLogA("Setup DBAUTHREQUEST with nick='%s' jid='%s'", szNick, szJid);
-
-	mir_free(szJid);
-	mir_free(szNick);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

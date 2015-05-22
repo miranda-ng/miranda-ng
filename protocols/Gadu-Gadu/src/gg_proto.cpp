@@ -277,13 +277,9 @@ HANDLE GGPROTO::SearchBasic(const PROTOCHAR *id)
 		return (HANDLE)1;
 	}
 
-	char *id_utf8 = mir_utf8encodeT(id);
-
 	// Add uin and search it
-	gg_pubdir50_add(req, GG_PUBDIR50_UIN, id_utf8);
+	gg_pubdir50_add(req, GG_PUBDIR50_UIN, T2Utf(id));
 	gg_pubdir50_seq_set(req, GG_SEQ_SEARCH);
-
-	mir_free(id_utf8);
 
 	gg_EnterCriticalSection(&sess_mutex, "SearchBasic", 50, "sess_mutex", 1);
 	if (!gg_pubdir50(sess, req))
@@ -330,28 +326,25 @@ HANDLE GGPROTO::SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, 
 	// Add nick,firstName,lastName and search it
 	if (nick)
 	{
-		char *nick_utf8 = mir_utf8encodeT(nick);
+		T2Utf nick_utf8(nick);
 		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nick_utf8);
 		strncat(data, nick_utf8, sizeof(data) - mir_strlen(data));
-		mir_free(nick_utf8);
 	}
 	strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	if (firstName)
 	{
-		char *firstName_utf8 = mir_utf8encodeT(firstName);
+		T2Utf firstName_utf8(firstName);
 		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstName_utf8);
 		strncat(data, firstName_utf8, sizeof(data) - mir_strlen(data));
-		mir_free(firstName_utf8);
 	}
 	strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	if (lastName)
 	{
-		char *lastName_utf8 = mir_utf8encodeT(lastName);
+		T2Utf lastName_utf8(lastName);
 		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastName_utf8);
 		strncat(data, lastName_utf8, sizeof(data) - mir_strlen(data));
-		mir_free(lastName_utf8);
 	}
 	strncat(data, ".", sizeof(data) - mir_strlen(data));
 
@@ -407,40 +400,36 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, SIZEOF(text));
 	if (mir_tstrlen(text))
 	{
-		char *firstName_utf8 = mir_utf8encodeT(text);
+		T2Utf firstName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstName_utf8);
 		strncat(data, firstName_utf8, sizeof(data) - mir_strlen(data));
-		mir_free(firstName_utf8);
 	}
 	/* 1 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_LASTNAME, text, SIZEOF(text));
 	if (mir_tstrlen(text))
 	{
-		char *lastName_utf8 = mir_utf8encodeT(text);
+		T2Utf lastName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastName_utf8);
 		strncat(data, lastName_utf8, sizeof(data) - mir_strlen(data));
-		mir_free(lastName_utf8);
 	}
 	/* 2 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_NICKNAME, text, SIZEOF(text));
 	if (mir_tstrlen(text))
 	{
-		char *nickName_utf8 = mir_utf8encodeT(text);
+		T2Utf nickName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nickName_utf8);
 		strncat(data, nickName_utf8, sizeof(data) - mir_strlen(data));
-		mir_free(nickName_utf8);
 	}
 	/* 3 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_CITY, text, SIZEOF(text));
 	if (mir_tstrlen(text))
 	{
-		char *city_utf8 = mir_utf8encodeT(text);
+		T2Utf city_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_CITY, city_utf8);
 		strncat(data, city_utf8, sizeof(data) - mir_strlen(data));
-		mir_free(city_utf8);
 	}
 	/* 4 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
@@ -468,10 +457,9 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 			yearFrom = ay - yearFrom;
 		mir_sntprintf(text, SIZEOF(text), _T("%d %d"), yearFrom, yearTo);
 
-		char *age_utf8 = mir_utf8encodeT(text);
+		T2Utf age_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, age_utf8);
 		strncat(data, age_utf8, sizeof(data) - mir_strlen(data));
-		mir_free(age_utf8);
 	}
 	/* 5 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 

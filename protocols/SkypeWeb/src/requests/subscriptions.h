@@ -42,7 +42,7 @@ public:
 		json_push_back(interestedResources, json_new_a(NULL, "/v1/threads/ALL"));
 		json_push_back(node, interestedResources);
 
-		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
+		T2Utf data(ptrT(json_write(node)));
 
 		Body << VALUE(data);
 

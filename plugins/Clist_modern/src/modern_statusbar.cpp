@@ -814,12 +814,10 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 							char protoF[sizeof(g_CluiData.protoFilter)];
 							mir_snprintf(protoF, SIZEOF(protoF), "%s|", accs[i]->szModuleName);
 							if (strstri(g_CluiData.protoFilter, protoF)) {
-								char * temp = mir_utf8encodeT(accs[i]->tszAccountName);
 								if (!first)
 									mir_strncat(filterName, "; ", SIZEOF(filterName) - mir_strlen(filterName));
-								mir_strncat(filterName, temp, SIZEOF(filterName) - mir_strlen(filterName));
+								mir_strncat(filterName, T2Utf(accs[i]->tszAccountName), SIZEOF(filterName) - mir_strlen(filterName));
 								first = false;
-								mir_free(temp);
 							}
 						}
 

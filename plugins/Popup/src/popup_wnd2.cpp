@@ -860,8 +860,8 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			}
 
 			{
-				ptrA buf(mir_utf8encodeT(msg));
-				CallContactService(dat->hContact, PSS_MESSAGE, 0, (LPARAM)buf);
+				T2Utf buf(msg);
+				CallContactService(dat->hContact, PSS_MESSAGE, 0, buf);
 				AddMessageToDB(dat->hContact, buf);
 			}
 			// fall through

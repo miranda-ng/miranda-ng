@@ -401,12 +401,11 @@ namespace
 							}
 							else if (0 == quotes_stricmp(g_pszXmlTypeUtf8, sType.c_str()))
 							{
-								dbs.value.pszVal = mir_utf8encodeT(sValue.c_str());
+								T2Utf szValue(sValue.c_str());
+								dbs.value.pszVal = szValue;
 								dbs.value.type = DBVT_UTF8;
 								if (set_contact_settings(hContact, dbs))
 									++cCreatedRecords;
-
-								mir_free(dbs.value.pszVal);
 							}
 							else if (0 == quotes_stricmp(g_pszXmlTypeWchar, sType.c_str()))
 							{

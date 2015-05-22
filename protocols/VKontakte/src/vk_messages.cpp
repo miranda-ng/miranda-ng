@@ -253,8 +253,9 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		else if (m_bUserForceOnlineOnActivity)
 			SetInvisible(hContact);
 
+		T2Utf pszBody(ptszBody);
 		recv.timestamp = m_bUseLocalTime ? time(NULL) : datetime;
-		recv.szMessage = mir_utf8encodeT(ptszBody);
+		recv.szMessage = pszBody;
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;
 		recv.cbCustomDataSize = (int)mir_strlen(szMid);
@@ -270,8 +271,6 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			if (!isOut)
 				m_incIds.insert((HANDLE)mid);
 		}
-
-		mir_free((char*)recv.szMessage);
 	}
 
 	if (!mids.IsEmpty())

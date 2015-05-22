@@ -605,7 +605,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	else
 		text.Format(TranslateT("changed status from %s to %s."), szOldStatus, szNewStatus);
 
-	ptrA szMsg(mir_utf8encodeT(text));
+	T2Utf szMsg(text);
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.pBlob = (PBYTE)(char*)szMsg;
 	dbei.cbBlob = (int)mir_strlen(szMsg) + 1;

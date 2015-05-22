@@ -288,14 +288,14 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode, CJabberIqInfo*)
 		if (!tszBody || !tszSecs)
 			continue;
 
-		ptrA szEventText( mir_utf8encodeT(tszBody));
+		T2Utf szEventText(tszBody);
 
 		DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.szModule = m_szModuleName;
 		dbei.cbBlob = (DWORD)mir_strlen(szEventText);
 		dbei.flags = DBEF_READ + DBEF_UTF + from;
-		dbei.pBlob = (PBYTE)(char*)szEventText;
+		dbei.pBlob = szEventText;
 		dbei.timestamp = tmStart + _ttol(tszSecs) - timezone;
 		if (!IsDuplicateEvent(hContact, dbei))
 			db_event_add(hContact, &dbei);

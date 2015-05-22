@@ -59,38 +59,38 @@ int MsgAck(WPARAM, LPARAM lParam)
 { 
 	ACKDATA *ack=(ACKDATA*)lParam; 
 
-    if (ack && ack->cbSize==sizeof(ACKDATA) 
-        && ack->type==ACKTYPE_MESSAGE 
-        && ack->hProcess==(HANDLE)WindowList_Find(hWindowList,ack->hContact)) { 
-		if (db_get_b(NULL, modname, "ShowDeliveryMessages", 1))
-			CreateMessageAcknowlegedWindow(ack->hContact,ack->result == ACKRESULT_SUCCESS);
-		if (ack->result == ACKRESULT_SUCCESS) {
-			// wrtie it to the DB
-			DBEVENTINFO dbei = { 0 };
-			DBVARIANT dbv;
-			int reuse = db_get_b(ack->hContact,modname, "Reuse", 0);
-			if ( !db_get_ts(ack->hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
-				ptrA pszUtf( mir_utf8encodeT(dbv.ptszVal));
-				dbei.cbSize = sizeof(dbei);
-				dbei.eventType = EVENTTYPE_MESSAGE;
-				dbei.flags = DBEF_UTF | DBEF_SENT;
-				dbei.szModule = (char*)ack->szModule;
-				dbei.timestamp = time(NULL);
-				dbei.cbBlob = (int)mir_strlen(pszUtf) + 1;
-				dbei.pBlob = (PBYTE)(char*)pszUtf;
-				db_event_add(ack->hContact, &dbei);
+	if (ack && ack->cbSize == sizeof(ACKDATA) && ack->type == ACKTYPE_MESSAGE) {
+		if (ack->hProcess == (HANDLE)WindowList_Find(hWindowList,ack->hContact)) { 
+			if (db_get_b(NULL, modname, "ShowDeliveryMessages", 1))
+				CreateMessageAcknowlegedWindow(ack->hContact,ack->result == ACKRESULT_SUCCESS);
+			if (ack->result == ACKRESULT_SUCCESS) {
+				// wrtie it to the DB
+				DBEVENTINFO dbei = { 0 };
+				DBVARIANT dbv;
+				int reuse = db_get_b(ack->hContact,modname, "Reuse", 0);
+				if (!db_get_ts(ack->hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
+					T2Utf pszUtf(dbv.ptszVal);
+					dbei.cbSize = sizeof(dbei);
+					dbei.eventType = EVENTTYPE_MESSAGE;
+					dbei.flags = DBEF_UTF | DBEF_SENT;
+					dbei.szModule = (char*)ack->szModule;
+					dbei.timestamp = time(NULL);
+					dbei.cbBlob = (int)mir_strlen(pszUtf) + 1;
+					dbei.pBlob = (PBYTE)(char*)pszUtf;
+					db_event_add(ack->hContact, &dbei);
+				}
+				// check to reuse
+				if (reuse > 1)
+					db_set_b(ack->hContact, modname, "Reuse", (BYTE)(reuse-1));
+				else {
+					db_set_b(ack->hContact,modname, "Reuse", 0);
+					db_set_ws(ack->hContact, modname, "PounceMsg", _T(""));
+				}
 			}
-			// check to reuse
-			if (reuse > 1)
-				db_set_b(ack->hContact, modname, "Reuse", (BYTE)(reuse-1));
-			else {
-				db_set_b(ack->hContact,modname, "Reuse", 0);
-				db_set_ws(ack->hContact, modname, "PounceMsg", _T(""));
-			}
+			WindowList_Remove(hWindowList,(HWND)ack->hProcess);
 		}
-		WindowList_Remove(hWindowList,(HWND)ack->hProcess);
-   } 
-   return 0; 
+	} 
+	return 0; 
 } 
 
 int BuddyPounceOptInit(WPARAM wParam, LPARAM)
@@ -145,8 +145,7 @@ int CheckDate(MCONTACT hContact)
 
 void SendPounce(TCHAR *text, MCONTACT hContact)
 {
-	ptrA pszUtf(mir_utf8encodeT(text));
-	if (HANDLE hSendId = (HANDLE)CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)pszUtf)) 
+	if (HANDLE hSendId = (HANDLE)CallContactService(hContact, PSS_MESSAGE, 0, T2Utf(text))) 
 		WindowList_Add(hWindowList, (HWND)hSendId, hContact);
 }
 

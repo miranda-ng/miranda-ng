@@ -1293,9 +1293,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			str->insert(pos, L"\\line ");
 		}
 
-		char *utf8 = mir_utf8encodeT(str->c_str());
-		::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)utf8);
-		mir_free(utf8);
+		::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETTEXTEX, (WPARAM)&stx, T2Utf(str->c_str()));
 		delete str;
 
 		::SetDlgItemTextW(hwnd, IDC_CAPTION, m_szTitle);

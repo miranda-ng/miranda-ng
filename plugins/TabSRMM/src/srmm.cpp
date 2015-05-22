@@ -125,15 +125,8 @@ int _DebugTraceW(const wchar_t *fmt, ...)
 		mir_snprintf(szLogFileName, SIZEOF(szLogFileName), "%s\\%s", szDataPath, "tabsrmm_debug.log");
 		f = fopen(szLogFileName, "a+");
 		if (f) {
-			char *szDebug = mir_utf8encodeT(debug);
 			fputs(tszTime, f);
-			if (szDebug != NULL) {
-				fputs(szDebug, f);
-				mir_free(szDebug);
-			}
-			else {
-				fputs("mir_utf8encodeT() fail in _DebugTraceW()", f);
-			}
+			fputs(T2Utf(debug), f);
 			fputs("\n", f);
 			fclose(f);
 		}

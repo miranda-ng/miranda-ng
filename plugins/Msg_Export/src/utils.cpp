@@ -456,7 +456,7 @@ static bool bWriteTextToFile(HANDLE hFile, const TCHAR *pszSrc, bool bUtf8File, 
 		return bWriteToFile(hFile, pszAstr, -1);
 	}
 
-	ptrA pszUtf8(mir_utf8encodeT(pszSrc));
+	T2Utf pszUtf8(pszSrc);
 	return bWriteToFile(hFile, pszUtf8, -1);
 }
 

@@ -40,10 +40,8 @@ public:
 
 		JSONNODE *node = json_new(5);
 		json_push_back(node, json_new_a("sr", sr));
-		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
 
-		Body << VALUE(data);
-
+		Body << VALUE(T2Utf(ptrT(json_write(node))));
 		json_delete(node);
 	}
 	//{"sr":"AUKRNgA8_eKV0Ibsx037Gbd8GVrsDg8zLQRt1pH8sCyIAile3gtoWmlq2x1yZ_VNZ3tf","issuer":"edf","sp":"connect","st":"1430236511619","se":"1430318082619","sig":"nYczCdlBENCxoAFLy7lPkGELVV1w5TcUnpSUE2G7GLA"}
@@ -85,7 +83,7 @@ public:
 		json_push_back(transports, TROUTER);
 		json_push_back(node, transports);
 
-		ptrA data(mir_utf8encodeT(ptrT(json_write(node))));
+		T2Utf data(ptrT(json_write(node)));
 
 		Body << VALUE(data);
 

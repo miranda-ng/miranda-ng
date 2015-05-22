@@ -48,7 +48,7 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 	_tsplitpath(FileName, DRIVE, DIR, FNAME, EXT);
 	
 	CMStringA fn;
-	ptrA pszFNAME(mir_utf8encodeT(FNAME)), pszEXT(mir_utf8encodeT(EXT));
+	T2Utf pszFNAME(FNAME), pszEXT(EXT);
 	fn.AppendFormat("%s%s", pszFNAME, pszEXT);
 	fname = mir_strdup(fn.GetBuffer());
 

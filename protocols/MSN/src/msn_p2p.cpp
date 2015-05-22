@@ -249,9 +249,7 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 			setString(ft->std.hContact, "PictSavedContext", ft->p2p_object);
 			ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
 
-			char *filename = mir_utf8encodeT(AI.filename);
-			debugLogA("Avatar for contact %08x saved to file '%s'", AI.hContact, filename);
-			mir_free(filename);
+			debugLogA("Avatar for contact %08x saved to file '%s'", AI.hContact, T2Utf(AI.filename));
 		}
 		break;
 

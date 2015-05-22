@@ -299,16 +299,16 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			status->user_id = data->walls[wall_id]->user_id;
 			status->isPage = data->walls[wall_id]->isPage;
 			status->privacy = privacy_types[privacy_id].id;
-			status->place = ptrA(mir_utf8encodeT(placeT));
+			status->place = T2Utf(placeT);
 			status->url = _T2A(urlT);
 
 			HWND hwndList = GetDlgItem(hwnd, IDC_CCLIST);
 			GetSelectedContacts(data->proto, NULL, hwndList, &status->users);
 
-			ptrA narrow(mir_utf8encodeT(mindMessageT));
+			T2Utf narrow(mindMessageT);
 			status->text = narrow;
 
-			if (status->user_id == data->proto->facy.self_.user_id && data->proto->last_status_msg_ != (char *)narrow)
+			if (status->user_id == data->proto->facy.self_.user_id && data->proto->last_status_msg_ != (char*)narrow)
 				data->proto->last_status_msg_ = narrow;
 
 			data->proto->ForkThread(&FacebookProto::SetAwayMsgWorker, status);

@@ -476,7 +476,7 @@ void Nudge_ShowPopup(CNudgeElement *n, MCONTACT hContact, TCHAR * Message)
 
 void Nudge_SentStatus(CNudgeElement *n, MCONTACT hContact)
 {
-	char *buff = mir_utf8encodeT(n->senText);
+	T2Utf buff(n->senText);
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = MODULENAME;
@@ -486,12 +486,11 @@ void Nudge_SentStatus(CNudgeElement *n, MCONTACT hContact)
 	dbei.cbBlob = (DWORD)mir_strlen(buff) + 1;
 	dbei.pBlob = (PBYTE)buff;
 	db_event_add(hContact, &dbei);
-	mir_free(buff);
 }
 
 void Nudge_ShowStatus(CNudgeElement *n, MCONTACT hContact, DWORD timestamp)
 {
-	char *buff = mir_utf8encodeT(n->recText);
+	T2Utf buff(n->recText);
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = MODULENAME;
@@ -501,7 +500,6 @@ void Nudge_ShowStatus(CNudgeElement *n, MCONTACT hContact, DWORD timestamp)
 	dbei.cbBlob = (DWORD)mir_strlen(buff) + 1;
 	dbei.pBlob = (PBYTE)buff;
 	db_event_add(hContact, &dbei);
-	mir_free(buff);
 }
 
 void Nudge_AddAccount(PROTOACCOUNT *proto)

@@ -294,7 +294,7 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 	if (opt.XLogToDB) {
 		db_set_ws(xsc->hContact, MODULE, DB_LASTLOG, stzLogText);
 
-		ptrA blob(mir_utf8encodeT(stzLogText));
+		T2Utf blob(stzLogText);
 
 		DBEVENTINFO dbei = { 0 };
 		dbei.cbSize = sizeof(dbei);
