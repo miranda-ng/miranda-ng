@@ -265,27 +265,26 @@ void CSkypeProto::UpdateProfileLastName(JSONNODE *root, MCONTACT hContact)
 
 void CSkypeProto::UpdateProfileDisplayName(JSONNODE *root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "displayname");
-	if (node == NULL)
-		node = json_get(root, "username");
-	CMString displayname = ptrT(json_as_string(node));
-	if (!displayname.IsEmpty() && displayname != "null")
-		setTString(hContact, "Nick", displayname);
-	else{
-		ptrT firstname(getTStringA(hContact, "FirstName"));
-		ptrT lastname(getTStringA(hContact, "LastName"));
-		if (firstname) {
-			CMString nick = firstname;
-			if (lastname)
-				nick.AppendFormat(_T(" %s"), lastname);
-			setTString(hContact, "Nick", nick);
-		}
-		else if (lastname)
-			setTString(hContact, "Nick", lastname);
+	ptrT firstname(getTStringA(hContact, "FirstName"));
+	ptrT lastname(getTStringA(hContact, "LastName"));
+	if (firstname) {
+		CMString nick = firstname;
+		if (lastname)
+			nick.AppendFormat(_T(" %s"), lastname);
+		setTString(hContact, "Nick", nick);
+	}
+	else if (lastname)
+		setTString(hContact, "Nick", lastname);
+	else {
+		JSONNODE *node = json_get(root, "displayname");
+		if (node == NULL)
+			node = json_get(root, "username");
+		CMString displayname = ptrT(json_as_string(node));
+		if (!displayname.IsEmpty() && displayname != "null")
+			setTString(hContact, "Nick", displayname);
 		else
 			delSetting(hContact, "Nick");
 	}
-
 }
 
 void CSkypeProto::UpdateProfileGender(JSONNODE *root, MCONTACT hContact)
