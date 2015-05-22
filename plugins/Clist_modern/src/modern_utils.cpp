@@ -35,19 +35,6 @@ char * strdupn(const char * src, int len)
 	return p;
 }
 
-DWORD exceptFunction(LPEXCEPTION_POINTERS EP)
-{
-	char buf[4096];
-	mir_snprintf(buf, SIZEOF(buf), "\r\nExceptCode: %x\r\nExceptFlags: %x\r\nExceptAddress: %p\r\n",
-		EP->ExceptionRecord->ExceptionCode,
-		EP->ExceptionRecord->ExceptionFlags,
-		EP->ExceptionRecord->ExceptionAddress);
-
-	TRACE(buf);
-	MessageBoxA(0, buf, "clist_mw Exception", 0);
-	return EXCEPTION_EXECUTE_HANDLER;
-}
-
 #ifdef _DEBUG
 #undef DeleteObject
 #endif

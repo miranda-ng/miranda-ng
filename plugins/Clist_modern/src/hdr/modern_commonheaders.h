@@ -138,7 +138,6 @@ extern TCHAR SkinsFolder[MAX_PATH];
 #define SCF_BOTTOM  6
 
 char* __cdecl strstri(char *a, const char *b);
-DWORD exceptFunction(LPEXCEPTION_POINTERS EP);
 
 //  Register of plugin's user
 //
