@@ -110,8 +110,6 @@ void CSkypeProto::OnLoginSuccess()
 	Server = getStringA("Server") != NULL ? getStringA("Server") : SKYPE_ENDPOINTS_HOST;
 	SendRequest(new CreateEndpointRequest(TokenSecret, Server), &CSkypeProto::OnEndpointCreated);
 	PushRequest(new GetProfileRequest(TokenSecret), &CSkypeProto::LoadProfile);
-	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
-	PushRequest(new GetContactListRequest(TokenSecret), &CSkypeProto::LoadContactList);
 
 	if (!m_timer)
 		SkypeSetTimer(this);
@@ -216,7 +214,8 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
 
-	//SyncHistory();
+	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
+	PushRequest(new GetContactListRequest(TokenSecret), &CSkypeProto::LoadContactList);
 
 	SendRequest(new LoadChatsRequest(RegToken, Server), &CSkypeProto::OnLoadChats);
 	if (getBool("AutoSync", true))

@@ -104,7 +104,7 @@ INT_PTR CSkypeProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 	if (::_taccess(AI->filename, 0) == 0 && !getBool(AI->hContact, "NeedNewAvatar", 0))
 		return GAIR_SUCCESS;
 
-	if (m_hPollingThread) {
+	if (IsOnline()) {
 		PushRequest(new GetAvatarRequest(szUrl), &CSkypeProto::OnReceiveAvatar, (void*)AI->hContact);
 		debugLogA("Requested to read an avatar from '%s'", szUrl);
 		return GAIR_WAITFOR;
