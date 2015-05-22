@@ -66,15 +66,15 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 								break;
 
 							case DBVT_ASCIIZ:
-								_tcscpy(uid, _A2T(dbvuid.pszVal));
+								mir_tstrcpy(uid, _A2T(dbvuid.pszVal));
 								break;
 
 							case DBVT_UTF8:
-								_tcscpy(uid, ptrT(mir_utf8decodeT(dbvuid.pszVal)));
+								mir_tstrcpy(uid, ptrT(mir_utf8decodeT(dbvuid.pszVal)));
 								break;
 
 							default:
-								_tcscpy(uid, TranslateT("(Unknown contact)"));
+								mir_tstrcpy(uid, TranslateT("(Unknown contact)"));
 							}
 
 							TCHAR *nick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);

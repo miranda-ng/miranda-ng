@@ -332,7 +332,7 @@ void CMsnProto::MSN_GetCustomSmileyFileName(MCONTACT hContact, TCHAR* pszDest, s
 		mir_free(tmpPath);
 	}
 	else {
-		_tcscpy(pszDest, path);
+		mir_tstrcpy(pszDest, path);
 		tPathLen = mir_tstrlen(pszDest);
 	}
 

@@ -382,7 +382,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 				DWORD exitcode;
 				{
 					ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-					_tcscpy(tmp2, ptmp);
+					mir_tstrcpy(tmp2, ptmp);
 					mir_free(ptmp);
 					_tcscat(tmp2, _T("\\"));
 					TCHAR *tmp3 = mir_a2t(get_random(5).c_str());
@@ -977,7 +977,7 @@ static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam
 					if(password)
 						mir_free(password);
 					password = (TCHAR*)mir_alloc(sizeof(TCHAR)*(mir_tstrlen(tmp)+1));
-					_tcscpy(password, tmp);
+					mir_tstrcpy(password, tmp);
 				}
 				mir_free(tmp);
 				mir_free(inkeyid);

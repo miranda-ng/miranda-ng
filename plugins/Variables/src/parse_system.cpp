@@ -400,7 +400,7 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai)
 	}
 	if (((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
 		tszRes = (TCHAR*)mir_alloc((mir_tstrlen(ffd.cFileName) + mir_tstrlen(tszSeperator) + 1)*sizeof(TCHAR));
-		_tcscpy(tszRes, ffd.cFileName);
+		mir_tstrcpy(tszRes, ffd.cFileName);
 	}
 	while (FindNextFile(hFind, &ffd) != 0) {
 		if (((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
@@ -410,7 +410,7 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai)
 			}
 			else {
 				tszRes = (TCHAR*)mir_alloc((mir_tstrlen(ffd.cFileName) + mir_tstrlen(tszSeperator) + 1)*sizeof(TCHAR));
-				_tcscpy(tszRes, _T(""));
+				mir_tstrcpy(tszRes, _T(""));
 			}
 			_tcscat(tszRes, ffd.cFileName);
 		}
@@ -861,7 +861,7 @@ static TCHAR *parseClipboard(ARGUMENTSINFO *ai)
 				TCHAR *tszText = (TCHAR*)GlobalLock(hData);
 				size_t len = mir_tstrlen(tszText);
 				res = (TCHAR*)mir_alloc((len + 1) * sizeof(TCHAR));
-				_tcscpy(res, tszText);
+				mir_tstrcpy(res, tszText);
 				res[len] = 0;
 				GlobalUnlock(hData);
 			}

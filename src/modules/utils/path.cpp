@@ -195,7 +195,7 @@ static __forceinline char *GetPathVarX(char *, int code)
 static __forceinline int _xcscmp(const TCHAR *s1, const TCHAR *s2) { return mir_tstrcmp(s1, s2); }
 static __forceinline int _xcsncmp(const TCHAR *s1, const TCHAR *s2, size_t n) { return _tcsncmp(s1, s2, n); }
 static __forceinline size_t _xcslen(const TCHAR *s1) { return mir_tstrlen(s1); }
-static __forceinline TCHAR *_xcscpy(TCHAR *s1, const TCHAR *s2) { return _tcscpy(s1, s2); }
+static __forceinline TCHAR *_xcscpy(TCHAR *s1, const TCHAR *s2) { return mir_tstrcpy(s1, s2); }
 static __forceinline TCHAR *_xcsncpy(TCHAR *s1, const TCHAR *s2, size_t n) { return _tcsncpy(s1, s2, n); }
 static __forceinline TCHAR *_xstrselect(TCHAR *, char *s1, TCHAR *s2) { return s2; }
 static __forceinline TCHAR *_itox(TCHAR *, int a) { return _itot(a, (TCHAR *)mir_alloc(sizeof(TCHAR)*20), 10); }

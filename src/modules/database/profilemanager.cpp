@@ -246,7 +246,7 @@ class CChooseProfileDlg : public CDlgBase
 		bool bFileLocked = true;
 
 		TCHAR *p = _tcsrchr(profile, '.');
-		_tcscpy(sizeBuf, _T("0 KB"));
+		mir_tstrcpy(sizeBuf, _T("0 KB"));
 		if (p != NULL) *p = 0;
 
 		LVITEM item = { 0 };
@@ -258,11 +258,11 @@ class CChooseProfileDlg : public CDlgBase
 		if (_tstat(tszFullPath, &statbuf) == 0) {
 			if (statbuf.st_size > 1000000) {
 				mir_sntprintf(sizeBuf, SIZEOF(sizeBuf), _T("%.3lf"), (double)statbuf.st_size / 1048576.0);
-				_tcscpy(sizeBuf + 5, _T(" MB"));
+				mir_tstrcpy(sizeBuf + 5, _T(" MB"));
 			}
 			else {
 				mir_sntprintf(sizeBuf, SIZEOF(sizeBuf), _T("%.3lf"), (double)statbuf.st_size / 1024.0);
-				_tcscpy(sizeBuf + 5, _T(" KB"));
+				mir_tstrcpy(sizeBuf + 5, _T(" KB"));
 			}
 			bFileLocked = !fileExist(tszFullPath);
 		}

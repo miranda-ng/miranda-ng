@@ -166,7 +166,7 @@ static BYTE MsgDlgGetFontDefaultCharset(const TCHAR* szFont)
 	LOGFONT lf = {0};
 	int found = 0;
 
-	_tcscpy(lf.lfFaceName, szFont);
+	mir_tstrcpy(lf.lfFaceName, szFont);
 	lf.lfCharSet = MsgDlgGetCPDefaultCharset();
 
 	// check if the font supports specified charset

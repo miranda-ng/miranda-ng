@@ -73,7 +73,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (ServiceExists(MS_PROTO_GETACCOUNT)) {
 					PROTOACCOUNT *pa = ProtoGetAccount(pwd->clcit.szProto);
 					if (pa)
-						_tcscpy(pwd->swzTitle, pa->tszAccountName);
+						mir_tstrcpy(pwd->swzTitle, pa->tszAccountName);
 				}
 
 				if (mir_tstrlen(pwd->swzTitle) == 0)
@@ -779,7 +779,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							buff[MAX_VALUE_LEN] = 0;
 							_tcscat(buff, _T("..."));
 						}
-						else _tcscpy(buff, pwd->rows[i].swzValue);
+						else mir_tstrcpy(buff, pwd->rows[i].swzValue);
 
 						AppendMenu(hMenu, MF_STRING, i + 1, buff);  // first id = 1, because no select have id = 0
 						SetMenuItemBitmaps(hMenu, i + 1, MF_BYCOMMAND, hbmpItem, hbmpItem);
@@ -852,7 +852,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						}
 					}
 					// single row
-					else _tcscpy(pchData, pwd->rows[iSelItem - 1].swzValue);
+					else mir_tstrcpy(pchData, pwd->rows[iSelItem - 1].swzValue);
 
 					GlobalUnlock(hClipboardData);
 					SetClipboardData(CF_UNICODETEXT, hClipboardData);
@@ -1499,7 +1499,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			else buff[0] = 0;
 
 			TCHAR swzProto[256];
-			_tcscpy(swzProto, pa->tszAccountName);
+			mir_tstrcpy(swzProto, pa->tszAccountName);
 			if (dwItems & TRAYTIP_LOCKSTATUS)
 				if (CallService(MS_PROTO_ISACCOUNTLOCKED, 0, (LPARAM)pa->szModuleName))
 					mir_sntprintf(swzProto, SIZEOF(swzProto), TranslateT("%s (locked)"), pa->tszAccountName);
@@ -1634,7 +1634,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 								mir_sntprintf(swzName, SIZEOF(swzName), _T("%s (%s)"), swzNick, swzProto);
 								mir_free(swzProto);
 							}
-							else _tcscpy(swzName, swzNick);
+							else mir_tstrcpy(swzName, swzNick);
 
 							AddRow(pwd, swzName, swzStatus, NULL, false, false, false);
 						}
@@ -1667,7 +1667,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (!pchBold || pchBold != pwd->clcit.swzText) {
 				TCHAR swzText[256];
-				_tcscpy(swzText, pwd->clcit.swzText);
+				mir_tstrcpy(swzText, pwd->clcit.swzText);
 				if (pchBr) swzText[pchBr - pwd->clcit.swzText] = 0;
 				AddRow(pwd, swzText, _T(""), NULL, false, true, false, true, LoadSkinnedIcon(SKINICON_OTHER_FILLEDBLOB));
 			}

@@ -128,10 +128,10 @@ void loadDBSettings(plgsettings *ps)
 	
 	DBVARIANT dbv;
 	if (!db_get_ts( NULL, THIS_MODULE, "message_format", &dbv )) {
-		_tcscpy(ps->msgformat, dbv.ptszVal);
+		mir_tstrcpy(ps->msgformat, dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else _tcscpy(ps->msgformat, DEFAULT_MESSAGEFORMAT);
+	else mir_tstrcpy(ps->msgformat, DEFAULT_MESSAGEFORMAT);
 
 	ps->announce=db_get_dw(NULL,THIS_MODULE,"announce", DEFAULT_ANNOUNCE);
 
@@ -150,11 +150,11 @@ void loadDBSettings(plgsettings *ps)
 	ps->lf.lfPitchAndFamily=db_get_b(NULL,THIS_MODULE, "fntPitchAndFamily", DEFAULT_FNT_PITCHANDFAM);
 	
 	if(!db_get_ts(NULL,THIS_MODULE,"fntFaceName",&dbv)) {
-		_tcscpy(ps->lf.lfFaceName, dbv.ptszVal);
+		mir_tstrcpy(ps->lf.lfFaceName, dbv.ptszVal);
 		db_free(&dbv);
 	}
 	else
-		_tcscpy(ps->lf.lfFaceName, DEFAULT_FNT_FACENAME);
+		mir_tstrcpy(ps->lf.lfFaceName, DEFAULT_FNT_FACENAME);
 }
 
 void saveDBSettings(plgsettings *ps)

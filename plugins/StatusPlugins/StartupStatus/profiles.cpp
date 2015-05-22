@@ -194,7 +194,7 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 			if (!db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) { // reload from db
 				pce[i].msg = ( TCHAR* )realloc(pce[i].msg, sizeof(TCHAR)*(mir_tstrlen(dbv.ptszVal)+1));
 				if (pce[i].msg != NULL) {
-					_tcscpy(pce[i].msg, dbv.ptszVal);
+					mir_tstrcpy(pce[i].msg, dbv.ptszVal);
 				}
 				db_free(&dbv);
 			}

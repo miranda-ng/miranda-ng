@@ -28,22 +28,22 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 	
 	if (ptszHelpFile==0)
 	{
-			_tcscpy(pszDirName, _T("%miranda_path%\\Plugins"));
-			_tcscpy(pszFileName, _T("UserGuide.chm"));			
+			mir_tstrcpy(pszDirName, _T("%miranda_path%\\Plugins"));
+			mir_tstrcpy(pszFileName, _T("UserGuide.chm"));			
 	}
 	else
 	{
 		if(!mir_tstrcmp(ptszHelpFile, _T("")))
 		{
-			_tcscpy(pszDirName, _T("%miranda_path%\\Plugins"));
-			_tcscpy(pszFileName, _T("UserGuide.chm"));
+			mir_tstrcpy(pszDirName, _T("%miranda_path%\\Plugins"));
+			mir_tstrcpy(pszFileName, _T("UserGuide.chm"));
 		}
 		else 
 		{
 			LPTSTR pszDivider = _tcsrchr(ptszHelpFile, '\\');
 			if (pszDivider == NULL)
 			{	
-				_tcscpy(pszDirName, _T(""));
+				mir_tstrcpy(pszDirName, _T(""));
 				_tcsncpy(pszFileName, ptszHelpFile, mir_tstrlen(ptszHelpFile));
 			}
 			else

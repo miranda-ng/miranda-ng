@@ -639,22 +639,22 @@ static INT_PTR CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				db_set_ts(NULL, szGPGModuleName, "szInOpenTag", tmp);
 				mir_free(inopentag);
 				inopentag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (mir_tstrlen(tmp)+1));
-				_tcscpy(inopentag, tmp);
+				mir_tstrcpy(inopentag, tmp);
 				GetDlgItemText(hwndDlg, IDC_IN_CLOSE_TAG, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, szGPGModuleName, "szInCloseTag", tmp);
 				mir_free(inclosetag);
 				inclosetag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (mir_tstrlen(tmp)+1));
-				_tcscpy(inclosetag, tmp);
+				mir_tstrcpy(inclosetag, tmp);
 				GetDlgItemText(hwndDlg, IDC_OUT_OPEN_TAG, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, szGPGModuleName, "szOutOpenTag", tmp);
 				mir_free(outopentag);
 				outopentag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (mir_tstrlen(tmp)+1));
-				_tcscpy(outopentag, tmp);
+				mir_tstrcpy(outopentag, tmp);
 				GetDlgItemText(hwndDlg, IDC_OUT_CLOSE_TAG, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, szGPGModuleName, "szOutCloseTag", tmp);
 				mir_free(outclosetag);
 				outclosetag = (TCHAR*)mir_alloc(sizeof(TCHAR)*(mir_tstrlen(tmp)+1));
-				_tcscpy(outclosetag, tmp);
+				mir_tstrcpy(outclosetag, tmp);
 			}
           return TRUE;
         }
@@ -856,16 +856,16 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					if(((ws2 = key_buf.find(_T("-----END PGP PUBLIC KEY BLOCK-----"))) != wstring::npos) && ((ws1 = key_buf.find(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----"))) != wstring::npos))
 					{
 						begin = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(_T("-----BEGIN PGP PUBLIC KEY BLOCK-----")) + 1));
-						_tcscpy(begin, _T("-----BEGIN PGP PUBLIC KEY BLOCK-----"));
+						mir_tstrcpy(begin, _T("-----BEGIN PGP PUBLIC KEY BLOCK-----"));
 						end = (TCHAR*)mir_alloc(sizeof( TCHAR) * (mir_tstrlen(_T("-----END PGP PUBLIC KEY BLOCK-----")) + 1));
-						_tcscpy(end, _T("-----END PGP PUBLIC KEY BLOCK-----"));
+						mir_tstrcpy(end, _T("-----END PGP PUBLIC KEY BLOCK-----"));
 					}
 					else if(((ws2 = key_buf.find(_T("-----END PGP PRIVATE KEY BLOCK-----"))) != wstring::npos) && ((ws1 = key_buf.find(_T("-----BEGIN PGP PRIVATE KEY BLOCK-----"))) != wstring::npos))
 					{
 						begin = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(_T("-----BEGIN PGP PRIVATE KEY BLOCK-----")) + 1));
-						_tcscpy(begin, _T("-----BEGIN PGP PRIVATE KEY BLOCK-----"));
+						mir_tstrcpy(begin, _T("-----BEGIN PGP PRIVATE KEY BLOCK-----"));
 						end = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(_T("-----END PGP PRIVATE KEY BLOCK-----")) + 1));
-						_tcscpy(end, _T("-----END PGP PRIVATE KEY BLOCK-----"));
+						mir_tstrcpy(end, _T("-----END PGP PRIVATE KEY BLOCK-----"));
 					}
 					else
 					{
@@ -893,7 +893,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 						else db_set_ts(hContact, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1,ws2-ws1).c_str());
 					}
 					tmp = (TCHAR*)mir_alloc(sizeof( TCHAR) * (key_buf.length()+1));
-					_tcscpy(tmp, key_buf.substr(ws1,ws2-ws1).c_str());
+					mir_tstrcpy(tmp, key_buf.substr(ws1,ws2-ws1).c_str());
 					{ //gpg execute block
 						std::vector<wstring> cmd;
 						TCHAR tmp2[MAX_PATH] = {0};

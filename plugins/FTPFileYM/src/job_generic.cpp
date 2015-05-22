@@ -32,8 +32,8 @@ GenericJob::GenericJob(MCONTACT _hContact, int _iFtpNum, EMode _mode) :
 GenericJob::GenericJob(GenericJob *job)
 :hContact(job->hContact),iFtpNum(job->iFtpNum),mode(job->mode),status(job->status),ftp(job->ftp),tab(job->tab)
 { 
-	_tcscpy(this->stzFilePath, job->stzFilePath);
-	_tcscpy(this->stzFileName, job->stzFileName);
+	mir_tstrcpy(this->stzFilePath, job->stzFilePath);
+	mir_tstrcpy(this->stzFileName, job->stzFileName);
 	mir_strcpy(this->szSafeFileName, job->szSafeFileName);
 }
 

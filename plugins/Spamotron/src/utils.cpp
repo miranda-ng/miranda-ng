@@ -223,7 +223,7 @@ TCHAR* get_response(TCHAR* dst, unsigned int dstlen, int num)
 	tmp = _tcstok(src, _T("\r\n"));
 	while (tmp) {
 		if (i == num) {
-			_tcscpy(dst, tmp);
+			mir_tstrcpy(dst, tmp);
 			mir_free(src);
 			return dst;
 		}

@@ -122,15 +122,15 @@ static HANDLE LoadXStatusIconLibrary(TCHAR *path, const TCHAR *sub)
 	TCHAR* p = _tcsrchr(path, '\\');
 	HANDLE hLib;
 
-	_tcscpy(p, sub);
+	mir_tstrcpy(p, sub);
 	_tcscat(p, _T("\\xstatus_ICQ.dll"));
 	if (hLib = LoadLibrary(path))
 		return hLib;
-	_tcscpy(p, sub);
+	mir_tstrcpy(p, sub);
 	_tcscat(p, _T("\\xstatus_icons.dll"));
 	if (hLib = LoadLibrary(path))
 		return hLib;
-	_tcscpy(p, _T("\\"));
+	mir_tstrcpy(p, _T("\\"));
 	return hLib;
 }
 

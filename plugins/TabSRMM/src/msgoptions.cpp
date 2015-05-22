@@ -129,7 +129,7 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 		if ((lr = SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)szBuf)) != CB_ERR) {
 			TCHAR *idata = (TCHAR*)mir_alloc((mir_tstrlen(tszRel) + 1) * sizeof(TCHAR));
 
-			_tcscpy(idata, tszRel);
+			mir_tstrcpy(idata, tszRel);
 			SendMessage(hwndCombobox, CB_SETITEMDATA, lr, (LPARAM)idata);
 		}
 	}

@@ -125,7 +125,7 @@ void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 			info->mJoinedContacts.insert(gcu);
 			strncpy(gcu->WLID, mri, sizeof(gcu->WLID));
 		}
-		_tcscpy(gcu->role, _A2T(role));
+		mir_tstrcpy(gcu->role, _A2T(role));
 
 		if (pszCreator && !mir_strcmp(mri, pszCreator)) info->mCreator = gcu;
 		char* szEmail, *szNet;

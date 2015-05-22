@@ -559,7 +559,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 	if (!szResult)
 		return NULL;
 
-	_tcscpy(szResult, (Result != NULL) ? Result : _T(""));
+	mir_tstrcpy(szResult, (Result != NULL) ? Result : _T(""));
 	return (INT_PTR)szResult;
 }
 

@@ -716,7 +716,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						if (db_get_ts(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), &dbv))
 							str[0] = _T('\0');
 						else {
-							_tcscpy(str, dbv.ptszVal);
+							mir_tstrcpy(str, dbv.ptszVal);
 							db_free(&dbv);
 						}
 					SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETITEMDATA, (WPARAM)index, (LPARAM)str);
@@ -871,14 +871,14 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
-				_tcscpy(filter, TranslateT("Keyboard Notify Theme"));
+				mir_tstrcpy(filter, TranslateT("Keyboard Notify Theme"));
 				wcscat(filter, _T(" (*.knt)"));
 				pfilter = filter + mir_tstrlen(filter) + 1;
-				_tcscpy(pfilter, _T("*.knt"));
+				mir_tstrcpy(pfilter, _T("*.knt"));
 				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-				_tcscpy(pfilter, TranslateT("All Files"));
+				mir_tstrcpy(pfilter, TranslateT("All Files"));
 				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-				_tcscpy(pfilter, _T("*.*"));
+				mir_tstrcpy(pfilter, _T("*.*"));
 				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 				*pfilter = _T('\0');  
 				ofn.lpstrFilter = filter;
@@ -899,14 +899,14 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
-				_tcscpy(filter, TranslateT("Keyboard Notify Theme"));
+				mir_tstrcpy(filter, TranslateT("Keyboard Notify Theme"));
 				wcscat(filter, _T(" (*.knt)"));
 				pfilter = filter + mir_tstrlen(filter) + 1;
-				_tcscpy(pfilter, _T("*.knt"));
+				mir_tstrcpy(pfilter, _T("*.knt"));
 				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-				_tcscpy(pfilter, TranslateT("All Files"));
+				mir_tstrcpy(pfilter, TranslateT("All Files"));
 				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
-				_tcscpy(pfilter, _T("*.*"));
+				mir_tstrcpy(pfilter, _T("*.*"));
 				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 				*pfilter = _T('\0');  
 				ofn.lpstrFilter = filter;
@@ -936,7 +936,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					switch (((LPNMHDR)lParam)->code) {
 					case PSN_APPLY:
 						if (!db_get_ts(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", wCustomTheme), &dbv))
-							_tcscpy(theme, dbv.ptszVal);
+							mir_tstrcpy(theme, dbv.ptszVal);
 						else
 							theme[0] = _T('\0');
 
@@ -1043,7 +1043,7 @@ void importThemes(const TCHAR *filename, BOOL overrideExisting)
 			case 0:
 				if (i > 1 && str[0] == '[' && str[i] == ']') {
 					status = 1;
-					_tcscpy(theme, str+1);
+					mir_tstrcpy(theme, str+1);
 					theme[i-1] = '\0';
 				}
 				break;
@@ -1067,13 +1067,13 @@ void writeThemeToCombo(const TCHAR *theme, const TCHAR *custom, BOOL overrideExi
 		item = SendDlgItemMessage(hwndTheme, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
 		str = (TCHAR *)malloc((MAX_PATH+1)*sizeof(TCHAR));
 		if (str)
-			_tcscpy(str, custom);
+			mir_tstrcpy(str, custom);
 		SendDlgItemMessage(hwndTheme, IDC_THEME, CB_SETITEMDATA, (WPARAM)item, (LPARAM)str);
 	} else
 		if (overrideExisting) {
 			str = (TCHAR *)SendDlgItemMessage(hwndTheme, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 			if (str)
-				_tcscpy(str, custom);
+				mir_tstrcpy(str, custom);
 		}
 }
 
@@ -1168,7 +1168,7 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETLBTEXT, (WPARAM)i, (LPARAM)szFileNameAux);
 						ProcessListAux.szFileName[i] = (TCHAR *)malloc((mir_tstrlen(szFileNameAux) + 1)*sizeof(TCHAR));
 						if (ProcessListAux.szFileName[i])
-							_tcscpy(ProcessListAux.szFileName[i], szFileNameAux);
+							mir_tstrcpy(ProcessListAux.szFileName[i], szFileNameAux);
 					}
 	
 			case IDC_CANCELPGM:
@@ -1195,7 +1195,7 @@ void createProcessListAux(void)
 			else {
 				ProcessListAux.szFileName[i] = (TCHAR *)malloc((mir_tstrlen(ProcessList.szFileName[i]) + 1)*sizeof(TCHAR));
 				if (ProcessListAux.szFileName[i])
-					_tcscpy(ProcessListAux.szFileName[i], ProcessList.szFileName[i]);
+					mir_tstrcpy(ProcessListAux.szFileName[i], ProcessList.szFileName[i]);
 			}
 
 }

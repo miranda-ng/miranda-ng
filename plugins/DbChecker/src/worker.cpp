@@ -42,14 +42,14 @@ static void Finalize(time_t& ts)
 
 	if (opts.bBackup) {
 		TCHAR dbPath[MAX_PATH], dbFile[MAX_PATH];
-		_tcscpy(dbPath, opts.filename);
+		mir_tstrcpy(dbPath, opts.filename);
 		TCHAR* str2 = _tcsrchr(dbPath, '\\');
 		if (str2 != NULL) {
-			_tcscpy(dbFile, str2 + 1);
+			mir_tstrcpy(dbFile, str2 + 1);
 			*str2 = 0;
 		}
 		else {
-			_tcscpy(dbFile, dbPath);
+			mir_tstrcpy(dbFile, dbPath);
 			dbPath[0] = 0;
 		}
 		for (int i = 1;; i++) {
@@ -79,14 +79,14 @@ void __cdecl WorkerThread(void *)
 
 	AddToStatus(STATUS_MESSAGE, TranslateT("Database worker thread activated"));
 
-	_tcscpy(opts.workingFilename, opts.filename);
+	mir_tstrcpy(opts.workingFilename, opts.filename);
 
 	if (opts.bCheckOnly) {
-		_tcscpy(opts.outputFilename, TranslateT("<check only>"));
+		mir_tstrcpy(opts.outputFilename, TranslateT("<check only>"));
 		opts.hOutFile = INVALID_HANDLE_VALUE;
 	}
 	else {
-		_tcscpy(opts.outputFilename, opts.filename);
+		mir_tstrcpy(opts.outputFilename, opts.filename);
 		*_tcsrchr(opts.outputFilename, '.') = 0;
 		_tcscat(opts.outputFilename, TranslateT(" (Output).dat"));
 		opts.hOutFile = CreateFile(opts.outputFilename, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_FLAG_SEQUENTIAL_SCAN, NULL);

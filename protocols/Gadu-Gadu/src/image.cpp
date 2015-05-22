@@ -817,7 +817,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 		mir_free(tmpPath);
 	}
 	else {
-		_tcscpy(szPath, path);
+		mir_tstrcpy(szPath, path);
 		tPathLen = mir_tstrlen(szPath);
 	}
 
@@ -1024,7 +1024,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 			if (*szImgType) {
 				dat->lpszFileName = (TCHAR*)calloc(sizeof(TCHAR), mir_tstrlen(tmpFileName) + mir_tstrlen(szImgType) + 1);
 				if (dat->lpszFileName != NULL) {
-					_tcscpy(dat->lpszFileName, tmpFileName);
+					mir_tstrcpy(dat->lpszFileName, tmpFileName);
 					_tcscat(dat->lpszFileName, szImgType);
 				}
 			}

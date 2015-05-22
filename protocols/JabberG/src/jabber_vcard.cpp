@@ -291,13 +291,13 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		dat->ppro->GetAvatarFileName(NULL, szAvatarFileName, SIZEOF(szAvatarFileName));
 		if (_taccess(szAvatarFileName, 0) == 0) {
 			if (GetTempPath(SIZEOF(szTempPath), szTempPath) <= 0)
-				_tcscpy(szTempPath, _T(".\\"));
+				mir_tstrcpy(szTempPath, _T(".\\"));
 			if (GetTempFileName(szTempPath, _T("jab"), 0, szTempFileName) > 0) {
 				dat->ppro->debugLog(_T("Temp file = %s"), szTempFileName);
 				if (CopyFile(szAvatarFileName, szTempFileName, FALSE) == TRUE) {
 					if ((dat->hBitmap = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)szTempFileName)) != NULL) {
 						FIP->FI_Premultiply(dat->hBitmap);
-						_tcscpy(dat->ppro->m_szPhotoFileName, szTempFileName);
+						mir_tstrcpy(dat->ppro->m_szPhotoFileName, szTempFileName);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 					}
 					else DeleteFile(szTempFileName);
@@ -357,7 +357,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					break;
 				}
 				if (GetTempPath(SIZEOF(szTempPath), szTempPath) <= 0)
-					_tcscpy(szTempPath, _T(".\\"));
+					mir_tstrcpy(szTempPath, _T(".\\"));
 				if (GetTempFileName(szTempPath, _T("jab"), 0, szTempFileName) > 0) {
 					dat->ppro->debugLog(_T("Temp file = %s"), szTempFileName);
 					if (CopyFile(szFileName, szTempFileName, FALSE) == TRUE) {
@@ -369,7 +369,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							}
 
 							dat->hBitmap = hNewBitmap;
-							_tcscpy(dat->ppro->m_szPhotoFileName, szTempFileName);
+							mir_tstrcpy(dat->ppro->m_szPhotoFileName, szTempFileName);
 							dat->ppro->m_bPhotoChanged = TRUE;
 							EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 							InvalidateRect(hwndDlg, NULL, TRUE);

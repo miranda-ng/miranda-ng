@@ -51,7 +51,7 @@ bool LoadMessageFont(LOGFONT *lf, COLORREF *colour)
 
 		DBVARIANT dbv;
 		if (db_get_ts(NULL, "SRMM", str, &dbv))
-			_tcscpy(lf->lfFaceName, _T("Arial"));
+			mir_tstrcpy(lf->lfFaceName, _T("Arial"));
 		else {
 			mir_tstrncpy(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
 			db_free(&dbv);

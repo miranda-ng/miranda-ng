@@ -525,7 +525,7 @@ void InitTimeZones(void)
 				tz->tzi.DaylightDate = tzi.DaylightDate;
 				tz->tzi.DaylightBias = tzi.DaylightBias;
 
-				_tcscpy(tz->tszName, tszName);
+				mir_tstrcpy(tz->tszName, tszName);
 				tz->hash = mir_hashstrT(tszName);
 				tz->offset = INT_MIN;
 

@@ -32,11 +32,11 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 					break;
 
 				case DBVT_ASCIIZ:
-					_tcscpy(uid, _A2T(dbvuid.pszVal));
+					mir_tstrcpy(uid, _A2T(dbvuid.pszVal));
 					break;
 
 				case DBVT_UTF8:
-					_tcscpy(uid, ptrT(mir_utf8decodeT(dbvuid.pszVal)));
+					mir_tstrcpy(uid, ptrT(mir_utf8decodeT(dbvuid.pszVal)));
 					break;
 				}
 

@@ -405,7 +405,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 				*szPos = 0;
 				szPos += mir_tstrlen(szGroupDelimeter);
 				TCHAR *szNewGroup = (TCHAR *)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(item->group) + mir_tstrlen(szPos) + 2));
-				_tcscpy(szNewGroup, item->group);
+				mir_tstrcpy(szNewGroup, item->group);
 				_tcscat(szNewGroup, _T("\\"));
 				_tcscat(szNewGroup, szPos);
 				mir_free(item->group);

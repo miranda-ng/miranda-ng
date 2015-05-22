@@ -233,8 +233,8 @@ void ReportError(const TCHAR* errmsg)
 	static const TCHAR title[] = _T("Miranda SmileyAdd");
 
 	POPUPDATAT pd = {0};
-	_tcscpy(pd.lpwzContactName, title);
-	_tcscpy(pd.lpwzText, errmsg);
+	mir_tstrcpy(pd.lpwzContactName, title);
+	mir_tstrcpy(pd.lpwzText, errmsg);
 	pd.iSeconds = -1;
 	if (PUAddPopupT(&pd) == CALLSERVICE_NOTFOUND)
 		MessageBox(NULL, errmsg, title, MB_OK | MB_ICONWARNING | MB_TOPMOST);

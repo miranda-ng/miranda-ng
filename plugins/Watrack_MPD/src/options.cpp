@@ -52,10 +52,10 @@ static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			gbPort = (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE);
 			GetDlgItemText(hwndDlg, IDC_SERVER, szText, SIZEOF(szText));
 			db_set_ts(NULL, szModuleName, "Server", szText);
-			_tcscpy(gbHost, szText);
+			mir_tstrcpy(gbHost, szText);
 			GetDlgItemText(hwndDlg, IDC_PASSWORD, szText, SIZEOF(szText));
 			db_set_ts(NULL, szModuleName, "Password", szText);
-			_tcscpy(gbPassword, szText);
+			mir_tstrcpy(gbPassword, szText);
           return TRUE;
         }
       }

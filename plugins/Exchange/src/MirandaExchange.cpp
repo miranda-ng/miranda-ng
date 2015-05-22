@@ -119,14 +119,14 @@ CKeeper::CKeeper( LPTSTR szSender, LPTSTR szSubject, LPSTR szEntryID)
 		m_nSizeSender = (UINT)mir_tstrlen(szSender)+1;
 		m_szSender = new TCHAR[ m_nSizeSender ];
 		memset(m_szSender, 0, m_nSizeSender * sizeof(TCHAR));
-		_tcscpy(m_szSender, szSender);
+		mir_tstrcpy(m_szSender, szSender);
 	}
 	
 	if (NULL != szSubject) {
 		m_nSizeSubject = (UINT)mir_tstrlen(szSubject) +1;
 		m_szSubject = new TCHAR[m_nSizeSubject];
 		memset(m_szSubject, 0, m_nSizeSubject * sizeof(TCHAR));
-		_tcscpy(m_szSubject, szSubject);
+		mir_tstrcpy(m_szSubject, szSubject);
 	}
 	
 	if (NULL != szEntryID) {
@@ -397,7 +397,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 			nSize++;
 			m_szUsername = new TCHAR[nSize];
 			memset ( m_szUsername, 0, nSize * nSizeOfTCHAR );
-			_tcscpy( m_szUsername, szUsername );
+			mir_tstrcpy( m_szUsername, szUsername );
 		}
 	}	
 	
@@ -407,7 +407,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 			nSize++;
 			m_szPassword = new TCHAR[nSize];
 			memset(m_szPassword, 0, nSize * nSizeOfTCHAR);
-			_tcscpy(m_szPassword, szPassword);
+			mir_tstrcpy(m_szPassword, szPassword);
 		}
 	}
 
@@ -417,7 +417,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 			nSize++;
 			m_szExchangeServer = new TCHAR[nSize];
 			memset(m_szExchangeServer, 0, nSize * nSizeOfTCHAR);
-			_tcscpy(m_szExchangeServer, szExchangeServer);
+			mir_tstrcpy(m_szExchangeServer, szExchangeServer);
 		}
 	}
 	

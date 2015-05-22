@@ -427,8 +427,8 @@ int ReloadColors(WPARAM, LPARAM)
 {
 	ColourIDT colourid = { 0 };
 	colourid.cbSize = sizeof(colourid);
-	_tcscpy(colourid.group, _T(ModuleName));
-	_tcscpy(colourid.name, LPGENT("Frame background"));
+	mir_tstrcpy(colourid.group, _T(ModuleName));
+	mir_tstrcpy(colourid.name, LPGENT("Frame background"));
 	clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, 0);
 
 	if (hBkgBrush)
@@ -476,8 +476,8 @@ void CreateFrame()
 	colourid.cbSize = sizeof(ColourIDT);
 	mir_strcpy(colourid.dbSettingsGroup, ModuleName);
 	mir_strcpy(colourid.setting, "ColorFrame");
-	_tcscpy(colourid.name, LPGENT("Frame background"));
-	_tcscpy(colourid.group, _T(ModuleName));
+	mir_tstrcpy(colourid.name, LPGENT("Frame background"));
+	mir_tstrcpy(colourid.group, _T(ModuleName));
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
 	ColourRegisterT(&colourid);
 

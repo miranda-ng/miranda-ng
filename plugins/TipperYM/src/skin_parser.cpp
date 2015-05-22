@@ -90,7 +90,7 @@ void ParseAboutPart(FILE *fp, TCHAR *buff, TCHAR *szSkinName)
 						TCHAR szImgPath[1024];
 						mir_sntprintf(szImgPath, SIZEOF(szImgPath), _T("%s\\%s\\%s"), SKIN_FOLDER, szSkinName, pch);
 						if (FileExists(szImgPath))
-							_tcscpy(opt.szPreviewFile, szImgPath);
+							mir_tstrcpy(opt.szPreviewFile, szImgPath);
 					}
 				}
 			}

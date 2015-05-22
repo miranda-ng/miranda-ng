@@ -71,7 +71,7 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			CHARFORMAT2 chf;
 			chf.cbSize = sizeof(chf);
 			SendDlgItemMessage(hwndDlg, IDC_VIEWVERSIONINFO, EM_GETCHARFORMAT, SCF_DEFAULT, (LPARAM)&chf);
-			_tcscpy(chf.szFaceName, TEXT("Courier New"));
+			mir_tstrcpy(chf.szFaceName, TEXT("Courier New"));
 			SendDlgItemMessage(hwndDlg, IDC_VIEWVERSIONINFO, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&chf);
 
 			CMString buffer;
@@ -310,7 +310,7 @@ void ShowMessage(int type, const TCHAR* format, ...)
 	va_end(va);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		_tcscpy(pi.lptzContactName, TEXT(PluginName));
+		mir_tstrcpy(pi.lptzContactName, TEXT(PluginName));
 		pi.lchIcon = LoadIconEx(IDI_VI);
 		pi.PluginWindowProc = DlgProcPopup;
 		pi.PluginData = (void*)type;

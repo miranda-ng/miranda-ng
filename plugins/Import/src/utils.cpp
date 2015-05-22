@@ -37,7 +37,7 @@ int CreateGroup(const TCHAR *group, MCONTACT hContact)
 	size_t cbName = mir_tstrlen(group);
 	TCHAR *tszGrpName = (TCHAR*)_alloca((cbName + 2)*sizeof(TCHAR));
 	tszGrpName[0] = 1 | GROUPF_EXPANDED;
-	_tcscpy(tszGrpName + 1, group);
+	mir_tstrcpy(tszGrpName + 1, group);
 
 	// Check for duplicate & find unused id
 	char groupIdStr[11];

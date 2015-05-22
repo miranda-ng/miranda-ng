@@ -185,7 +185,7 @@ static void InitStickyNoteLogFont(STICKYNOTEFONT *pCustomFont, LOGFONT *lf)
 		lf->lfHeight = pCustomFont->size;
 	}
 
-	_tcscpy(lf->lfFaceName, pCustomFont->szFace);
+	mir_tstrcpy(lf->lfFaceName, pCustomFont->szFace);
 
 	lf->lfWidth = lf->lfEscapement = lf->lfOrientation = 0;
 	lf->lfWeight = pCustomFont->style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
@@ -518,7 +518,7 @@ void LoadNotes(BOOL bIsStartup)
 						pCustomFont->size = (char)fsize;
 						pCustomFont->style = (BYTE)fstyle;
 						pCustomFont->charset = (BYTE)fcharset;
-						_tcscpy(pCustomFont->szFace, TVal2);
+						mir_tstrcpy(pCustomFont->szFace, TVal2);
 						pCustomFont->hFont = NULL;
 
 						if ( !CreateStickyNoteFont(pCustomFont, NULL) )
@@ -1559,7 +1559,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 						SN->pCustomFont->size = (char)lf.lfHeight;
 						SN->pCustomFont->style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0) | (lf.lfUnderline ? DBFONTF_UNDERLINE : 0) | (lf.lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
 						SN->pCustomFont->charset = lf.lfCharSet;
-						_tcscpy(SN->pCustomFont->szFace, lf.lfFaceName);
+						mir_tstrcpy(SN->pCustomFont->szFace, lf.lfFaceName);
 
 						if ( !CreateStickyNoteFont(SN->pCustomFont, &lf) )
 						{

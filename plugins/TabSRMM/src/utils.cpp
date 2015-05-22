@@ -456,7 +456,7 @@ const TCHAR* Utils::DoubleAmpersands(TCHAR *pszText)
 		}
 		break;
 	}
-	_tcscpy(pszText, text.c_str());
+	mir_tstrcpy(pszText, text.c_str());
 	return pszText;
 }
 

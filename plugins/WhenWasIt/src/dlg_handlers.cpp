@@ -327,11 +327,11 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 					if (pos) {
 						TCHAR tmp[128];
 						*pos = 0;
-						_tcscpy(tmp, buffer);
+						mir_tstrcpy(tmp, buffer);
 						strtrim(tmp);
 						commonData.popupTimeout = _ttol(tmp);
 
-						_tcscpy(tmp, pos + 1);
+						mir_tstrcpy(tmp, pos + 1);
 						strtrim(tmp);
 						commonData.popupTimeoutToday = _ttol(tmp);
 

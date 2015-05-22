@@ -363,7 +363,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			GetDlgItemText(hwndDlg, IDC_ID, str, SIZEOF(str));
 			db_set_ts(hContact, WEATHERPROTONAME, "ID", str);
 			if ((BYTE)IsDlgButtonChecked(hwndDlg, IDC_DEFA)) {	// if default station is set
-				_tcscpy(opt.Default, str);
+				mir_tstrcpy(opt.Default, str);
 				opt.DefStn = hContact;
 				db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);
 			}

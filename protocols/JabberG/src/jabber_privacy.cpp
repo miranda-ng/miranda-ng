@@ -1011,7 +1011,7 @@ void CJabberDlgPrivacyLists::ShowAdvancedList(CPrivacyList *pList)
 		if (!dwPackets)
 			dwPackets = JABBER_PL_RULE_TYPE_ALL;
 		if (dwPackets == JABBER_PL_RULE_TYPE_ALL)
-			_tcscpy(szPackets, _T("all"));
+			mir_tstrcpy(szPackets, _T("all"));
 		else {
 			if (dwPackets & JABBER_PL_RULE_TYPE_MESSAGE)
 				_tcscat(szPackets, _T("messages"));

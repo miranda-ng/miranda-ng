@@ -315,7 +315,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 
 	// Here we put nice new hash sign
 	TCHAR *name = (TCHAR*)calloc(mir_tstrlen(gcwindow.ptszName) + 2, sizeof(TCHAR));
-	*name = '#'; _tcscpy(name + 1, gcwindow.ptszName);
+	*name = '#'; mir_tstrcpy(name + 1, gcwindow.ptszName);
 	gcwindow.ptszName = name;
 
 	// Create new room
