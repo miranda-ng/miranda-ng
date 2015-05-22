@@ -561,7 +561,7 @@ INT_PTR CALLBACK BirthdaysCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam
 		else
 			res = (value1 != value2);
 	}
-	else res = _tcsicmp(text1, text2);
+	else res = mir_tstrcmpi(text1, text2);
 
 	res = (params.column == lastColumn) ? -res : res;
 	return res;

@@ -46,7 +46,7 @@ static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *
 			continue;
 
 		// skip the current profile too
-		if (mirandaProf != NULL && !_tcsicmp(mirandaProf, fd.cFileName))
+		if (mirandaProf != NULL && !mir_tstrcmpi(mirandaProf, fd.cFileName))
 			continue;
 
 		TCHAR buf[MAX_PATH], profile[MAX_PATH];

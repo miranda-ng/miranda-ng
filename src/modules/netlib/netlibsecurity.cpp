@@ -106,7 +106,7 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 {
 	HANDLE hSecurity = NULL;
 
-	if (_tcsicmp(szProvider, _T("Basic")) == 0) {
+	if (mir_tstrcmpi(szProvider, _T("Basic")) == 0) {
 		NtlmHandleType* hNtlm = (NtlmHandleType*)mir_calloc(sizeof(NtlmHandleType));
 		hNtlm->szProvider = mir_tstrdup(szProvider);
 		SecInvalidateHandle(&hNtlm->hClientContext);
@@ -126,7 +126,7 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 
 	if (g_pSSPI != NULL) {
 		PSecPkgInfo ntlmSecurityPackageInfo;
-		bool isGSSAPI = _tcsicmp(szProvider, _T("GSSAPI")) == 0;
+		bool isGSSAPI = mir_tstrcmpi(szProvider, _T("GSSAPI")) == 0;
 		const TCHAR *szProviderC = isGSSAPI ? _T("Kerberos") : szProvider;
 		SECURITY_STATUS sc = g_pSSPI->QuerySecurityPackageInfo((LPTSTR)szProviderC, &ntlmSecurityPackageInfo);
 		if (sc == SEC_E_OK) {
@@ -251,8 +251,8 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 	char *szOutputToken;
 
 	NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
-	if (_tcsicmp(hNtlm->szProvider, _T("Basic"))) {
-		bool isGSSAPI = _tcsicmp(hNtlm->szProvider, _T("GSSAPI")) == 0;
+	if (mir_tstrcmpi(hNtlm->szProvider, _T("Basic"))) {
+		bool isGSSAPI = mir_tstrcmpi(hNtlm->szProvider, _T("GSSAPI")) == 0;
 		TCHAR *szProvider = isGSSAPI ? _T("Kerberos") : hNtlm->szProvider;
 		bool hasChallenge = szChallenge != NULL && szChallenge[0] != '\0';
 		if (hasChallenge) {

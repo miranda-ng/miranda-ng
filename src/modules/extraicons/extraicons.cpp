@@ -369,7 +369,7 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		// Found one, now merge it
-		if (_tcsicmp(extra->getDescription(), desc)) {
+		if (mir_tstrcmpi(extra->getDescription(), desc)) {
 			CMString newDesc = extra->getDescription();
 			newDesc += _T(" / ");
 			newDesc += desc;

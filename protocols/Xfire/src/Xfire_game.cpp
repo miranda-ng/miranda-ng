@@ -218,7 +218,7 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 			int size = mpath.size();
 			for (int j = 0; j < size; j++)
 			{
-				if (_tcsicmp(_A2T(mpath.at(j)), fpath) == 0)
+				if (mir_tstrcmpi(_A2T(mpath.at(j)), fpath) == 0)
 				{
 					//pfad stimmt überein, commandline prüfen
 					if (checkCommandLine(op, this->mustcontain, this->notcontain))

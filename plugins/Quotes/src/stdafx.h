@@ -79,7 +79,7 @@ inline tstring quotes_a2t(const char* s)
 
 inline int quotes_stricmp(LPCTSTR p1, LPCTSTR p2)
 {
-	return _tcsicmp(p1, p2);
+	return mir_tstrcmpi(p1, p2);
 }
 
 #include "resource.h"

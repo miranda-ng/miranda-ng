@@ -789,12 +789,12 @@ TCHAR *gg_img_hasextension(TCHAR *filename)
 		{
 			size_t len = mir_tstrlen(imgtype);
 			imgtype++;
-			if (len == 4 && (_tcsicmp(imgtype, _T("bmp")) == 0 ||
-							 _tcsicmp(imgtype, _T("gif")) == 0 ||
-							 _tcsicmp(imgtype, _T("jpg")) == 0 ||
-							 _tcsicmp(imgtype, _T("png")) == 0))
+			if (len == 4 && (mir_tstrcmpi(imgtype, _T("bmp")) == 0 ||
+							 mir_tstrcmpi(imgtype, _T("gif")) == 0 ||
+							 mir_tstrcmpi(imgtype, _T("jpg")) == 0 ||
+							 mir_tstrcmpi(imgtype, _T("png")) == 0))
 				return --imgtype;
-			if (len == 5 &&  _tcsicmp(imgtype, _T("jpeg")) == 0)
+			if (len == 5 &&  mir_tstrcmpi(imgtype, _T("jpeg")) == 0)
 				return --imgtype;
 		}
 	}

@@ -447,7 +447,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM wPar
 				}
 				else text = NULL;
 
-				if (text != NULL && (last == NULL || _tcsicmp(last, text))) {
+				if (text != NULL && (last == NULL || mir_tstrcmpi(last, text))) {
 					lvItem.mask = LVIF_TEXT;
 					lvItem.pszText = text;
 					ListView_InsertItem(hList, &lvItem);

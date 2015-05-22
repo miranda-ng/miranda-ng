@@ -729,7 +729,7 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData *info)
 				}
 				else if (!mir_tstrcmp(xmlGetName(c), _T("hostname"))) {
 					const TCHAR *mech = xmlGetAttrValue(c, _T("mechanism"));
-					if (mech && _tcsicmp(mech, _T("GSSAPI")) == 0) {
+					if (mech && mir_tstrcmpi(mech, _T("GSSAPI")) == 0) {
 						m_AuthMechs.m_gssapiHostName = mir_tstrdup(xmlGetText(c));
 					}
 				}
@@ -1035,7 +1035,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 	pResourceStatus pFromResource(ResourceInfoFromJID(from));
 
 	// Message receipts delivery request. Reply here, before a call to HandleMessagePermanent() to make sure message receipts are handled for external plugins too.
-	if ((!type || _tcsicmp(type, _T("error"))) && xmlGetChildByTag(node, "request", "xmlns", JABBER_FEAT_MESSAGE_RECEIPTS)) {
+	if ((!type || mir_tstrcmpi(type, _T("error"))) && xmlGetChildByTag(node, "request", "xmlns", JABBER_FEAT_MESSAGE_RECEIPTS)) {
 		info->send(
 			XmlNode(_T("message")) << XATTR(_T("to"), from) << XATTR(_T("id"), idStr)
 				<< XCHILDNS(_T("received"), JABBER_FEAT_MESSAGE_RECEIPTS) << XATTR(_T("id"), idStr));
@@ -1499,7 +1499,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 	TCHAR szBareOurJid[JABBER_MAX_JID_LEN];
 	JabberStripJid(info->fullJID, szBareOurJid, SIZEOF(szBareOurJid));
 
-	if (!_tcsicmp(szBareFrom, szBareOurJid))
+	if (!mir_tstrcmpi(szBareFrom, szBareOurJid))
 		bSelfPresence = TRUE;
 
 	LPCTSTR type = xmlGetAttrValue(node, _T("type"));
@@ -1509,7 +1509,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 			return;
 
 		if ((hContact = HContactFromJID(from)) == NULL) {
-			if (!_tcsicmp(info->fullJID, from) || (!bSelfPresence && !ListGetItemPtr(LIST_ROSTER, from))) {
+			if (!mir_tstrcmpi(info->fullJID, from) || (!bSelfPresence && !ListGetItemPtr(LIST_ROSTER, from))) {
 				debugLog(_T("SKIP Receive presence online from %s (who is not in my roster and not in list - skiping)"), from);
 				return;
 			}

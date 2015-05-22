@@ -661,7 +661,7 @@ INT_PTR CALLBACK SettingsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
 	ListView_GetItemText(params.hList, lParam1, params.column, text1, SIZEOF(text1));
 	ListView_GetItemText(params.hList, lParam2, params.column, text2, SIZEOF(text2));
 
-	int res = _tcsicmp(text1, text2);
+	int res = mir_tstrcmpi(text1, text2);
 	res = (params.column == lastColumn) ? -res : res;
 	return res;
 }

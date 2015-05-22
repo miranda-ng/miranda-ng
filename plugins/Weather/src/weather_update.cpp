@@ -83,19 +83,19 @@ int UpdateWeather(MCONTACT hContact)
 	// compare the old condition and determine if the weather had changed
 	if (opt.UpdateOnlyConditionChanged) {	// consider condition change
 		if (!db_get_ts(hContact, WEATHERPROTONAME, "LastCondition", &dbv)) {
-			if (_tcsicmp(winfo.cond, dbv.ptszVal))  Ch = TRUE;		// the weather condition is changed
+			if (mir_tstrcmpi(winfo.cond, dbv.ptszVal))  Ch = TRUE;		// the weather condition is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
 		if (!db_get_ts(hContact, WEATHERPROTONAME, "LastTemperature", &dbv)) {
-			if (_tcsicmp(winfo.temp, dbv.ptszVal))  Ch = TRUE;		// the temperature is changed
+			if (mir_tstrcmpi(winfo.temp, dbv.ptszVal))  Ch = TRUE;		// the temperature is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
 	}
 	else {	// consider update time change
 		if (!db_get_ts(hContact, WEATHERPROTONAME, "LastUpdate", &dbv)) {
-			if (_tcsicmp(winfo.update, dbv.ptszVal))  Ch = TRUE;		// the update time is changed
+			if (mir_tstrcmpi(winfo.update, dbv.ptszVal))  Ch = TRUE;		// the update time is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
@@ -459,7 +459,7 @@ int GetWeatherData(MCONTACT hContact)
 				// if it is a normal item with start= and end=, then parse through the downloaded string
 				// to get a data value.
 				GetDataValue(&Item->Item, DataValue, &szInfo);
-				if ( mir_tstrcmp(Item->Item.Name, _T("Condition")) && _tcsicmp(Item->Item.Unit, _T("Cond")))
+				if ( mir_tstrcmp(Item->Item.Name, _T("Condition")) && mir_tstrcmpi(Item->Item.Unit, _T("Cond")))
 					_tcsncpy(DataValue, TranslateTS(DataValue), MAX_DATA_LEN - 1);
 				break;
 
@@ -562,7 +562,7 @@ int GetWeatherData(MCONTACT hContact)
 					CharLowerBuff(DataValue, (DWORD)mir_tstrlen(DataValue));
 					cond = GetIcon(DataValue, Data);
 				}
-				else if ( _tcsicmp(Item->Item.Unit, _T("Cond")) == 0) {
+				else if ( mir_tstrcmpi(Item->Item.Unit, _T("Cond")) == 0) {
 					TCHAR buf[128], *cbuf;
 					mir_sntprintf(buf, SIZEOF(buf), _T("#%s Weather"), DataValue);
 					cbuf = TranslateTS(buf);

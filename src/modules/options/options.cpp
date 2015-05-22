@@ -164,7 +164,7 @@ HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name)
 	tvi.hItem = TreeView_GetRoot(hwndTree);
 	while (tvi.hItem != NULL) {
 		SendMessage(hwndTree, TVM_GETITEM, 0, (LPARAM)&tvi);
-		if (!_tcsicmp(str, name))
+		if (!mir_tstrcmpi(str, name))
 			return tvi.hItem;
 
 		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
@@ -182,7 +182,7 @@ static HTREEITEM FindNamedTreeItemAtChildren(HWND hwndTree, HTREEITEM hItem, con
 	tvi.hItem = TreeView_GetChild(hwndTree, hItem);
 	while (tvi.hItem != NULL) {
 		SendMessage(hwndTree, TVM_GETITEM, 0, (LPARAM)&tvi);
-		if (!_tcsicmp(str, name))
+		if (!mir_tstrcmpi(str, name))
 			return tvi.hItem;
 
 		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);

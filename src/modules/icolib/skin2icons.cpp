@@ -50,7 +50,7 @@ LIST<SectionItem> sectionList(20, sttCompareSections);
 
 static int sttCompareIconSourceFiles(const IconSourceFile* p1, const IconSourceFile* p2)
 {
-	return _tcsicmp(p1->file, p2->file);
+	return mir_tstrcmpi(p1->file, p2->file);
 }
 
 static LIST<IconSourceFile> iconSourceFileList(10, sttCompareIconSourceFiles);

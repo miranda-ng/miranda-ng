@@ -645,12 +645,12 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 				{ LPGENT("&Op user")     , 40, MENU_ITEM, FALSE }
 			};
 			GCThreadData* thread = MSN_GetThreadByChatId(gcmi->pszID);
-			if (thread && thread->mMe && _tcsicmp(thread->mMe->role, _T("admin"))) {
+			if (thread && thread->mMe && mir_tstrcmpi(thread->mMe->role, _T("admin"))) {
 				Items[2].bDisabled = TRUE;
 				Items[3].bDisabled = TRUE;
 			} else {
 				const TCHAR *pszRole = MSN_GCGetRole(thread, email);
-				if (pszRole && !_tcsicmp(pszRole, _T("admin")))
+				if (pszRole && !mir_tstrcmpi(pszRole, _T("admin")))
 					Items[3].pszDesc = LPGENT("&Deop user");
 			}
 			gcmi->nItems = SIZEOF(Items);

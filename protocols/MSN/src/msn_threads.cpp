@@ -380,7 +380,7 @@ GCThreadData* CMsnProto::MSN_GetThreadByChatId(const TCHAR* chatId)
 	mir_cslock lck(m_csThreads);
 	for (int i = 0; i < m_arGCThreads.getCount(); i++) {
 		GCThreadData *T = m_arGCThreads[i];
-		if (_tcsicmp(T->mChatID, chatId) == 0)
+		if (mir_tstrcmpi(T->mChatID, chatId) == 0)
 			return T;
 	}
 

@@ -59,15 +59,15 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 
 		LPCTSTR szType = xmlGetAttrValue(node, _T("type"));
 		if (szType) {
-			if (!_tcsicmp(szType, _T("normal")))
+			if (!mir_tstrcmpi(szType, _T("normal")))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_NORMAL;
-			else if (!_tcsicmp(szType, _T("error")))
+			else if (!mir_tstrcmpi(szType, _T("error")))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_ERROR;
-			else if (!_tcsicmp(szType, _T("chat")))
+			else if (!mir_tstrcmpi(szType, _T("chat")))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_CHAT;
-			else if (!_tcsicmp(szType, _T("groupchat")))
+			else if (!mir_tstrcmpi(szType, _T("groupchat")))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_GROUPCHAT;
-			else if (!_tcsicmp(szType, _T("headline")))
+			else if (!mir_tstrcmpi(szType, _T("headline")))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_HEADLINE;
 			else
 				return false;

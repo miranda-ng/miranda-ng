@@ -178,7 +178,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 		for (int i = 1; i < lr; i++) {
 			TCHAR *idata = (TCHAR*)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
 			if (idata && idata != (TCHAR*)CB_ERR) {
-				if (!_tcsicmp(dbv.ptszVal, idata)) {
+				if (!mir_tstrcmpi(dbv.ptszVal, idata)) {
 					SendMessage(hwndCombobox, CB_SETCURSEL, i, 0);
 					break;
 				}

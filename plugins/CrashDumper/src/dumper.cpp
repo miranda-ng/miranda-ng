@@ -261,7 +261,7 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 			else
 				lsttmppv->next = lst;
 
-			if (_tcsicmp(FindFileData.cFileName, TEXT("weather.dll")) == 0)
+			if (mir_tstrcmpi(FindFileData.cFileName, TEXT("weather.dll")) == 0)
 				flags |= VI_FLAG_WEATHER;
 
 			++count;

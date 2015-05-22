@@ -100,8 +100,8 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 	temp = _ttof(tempchar);
 
 	// convert all to F first
-	if ( !_tcsicmp(unit, _T("C")))		temp = (temp*9/5)+32;
-	else if ( !_tcsicmp(unit, _T("K")))	temp = ((temp-273.15)*9/5)+32;
+	if ( !mir_tstrcmpi(unit, _T("C")))		temp = (temp*9/5)+32;
+	else if ( !mir_tstrcmpi(unit, _T("K")))	temp = ((temp-273.15)*9/5)+32;
 
 	// convert to apporiate unit
 	switch (opt.tUnit) {
@@ -143,17 +143,17 @@ void GetPressure(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 	}
 
 	// convert all to mb first
-	if ( !_tcsicmp(unit, _T("KPA")))
+	if ( !mir_tstrcmpi(unit, _T("KPA")))
 		tempunit = (double)output * 10;
-	else if ( !_tcsicmp(unit, _T("HPA")))
+	else if ( !mir_tstrcmpi(unit, _T("HPA")))
 		tempunit = (double)output;
-	else if ( !_tcsicmp(unit, _T("MB")))
+	else if ( !mir_tstrcmpi(unit, _T("MB")))
 		tempunit = (double)output;
-	else if ( !_tcsicmp(unit, _T("IN")))
+	else if ( !mir_tstrcmpi(unit, _T("IN")))
 		tempunit = (double)output * 33.86388;
-	else if ( !_tcsicmp(unit, _T("MM")))
+	else if ( !mir_tstrcmpi(unit, _T("MM")))
 		tempunit = (double)output * 1.33322;
-	else if ( !_tcsicmp(unit, _T("TORR")))
+	else if ( !mir_tstrcmpi(unit, _T("TORR")))
 		tempunit = (double)output * 1.33322;
 
 	// convert to apporiate unit
@@ -200,13 +200,13 @@ void GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 		return;
 
 	// convert all to m/s first
-	if ( !_tcsicmp(unit, _T("KM/H")))
+	if ( !mir_tstrcmpi(unit, _T("KM/H")))
 		tempunit /= 3.6;
-//	else if ( !_tcsicmp(unit, _T("M/S"))
+//	else if ( !mir_tstrcmpi(unit, _T("M/S"))
 //		tempunit = tempunit;
-	else if ( !_tcsicmp(unit, _T("MPH")))
+	else if ( !mir_tstrcmpi(unit, _T("MPH")))
 		tempunit *= 0.44704;
-	else if ( !_tcsicmp(unit, _T("KNOTS")))
+	else if ( !mir_tstrcmpi(unit, _T("KNOTS")))
 		tempunit *= 0.514444;
 
 	// convert to apporiate unit
@@ -249,9 +249,9 @@ void GetDist(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 	}
 
 	// convert all to km first
-	if ( !_tcsicmp(unit, _T("KM")))
+	if ( !mir_tstrcmpi(unit, _T("KM")))
 		tempunit = (double)output;
-	else if ( !_tcsicmp(unit, _T("MILES")))
+	else if ( !mir_tstrcmpi(unit, _T("MILES")))
 		tempunit = (double)output * 1.609;
 
 	// convert to apporiate unit
@@ -289,9 +289,9 @@ void GetElev(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 	}
 
 	// convert all to m first
-	if ( !_tcsicmp(unit, _T("M")))
+	if ( !mir_tstrcmpi(unit, _T("M")))
 		tempunit = (double)output;
-	else if ( !_tcsicmp(unit, _T("FT")))
+	else if ( !mir_tstrcmpi(unit, _T("FT")))
 		tempunit = (double)output / 3.28;
 
 	// convert to apporiate unit

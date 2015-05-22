@@ -311,9 +311,9 @@ static const ListMessages* GetListMessages(HWND hWnd, DWORD dwFlags)
 	if (!(dwFlags & (TZF_PLF_CB | TZF_PLF_LB))) {
 		TCHAR	tszClassName[128];
 		GetClassName(hWnd, tszClassName, SIZEOF(tszClassName));
-		if (!_tcsicmp(tszClassName, _T("COMBOBOX")))
+		if (!mir_tstrcmpi(tszClassName, _T("COMBOBOX")))
 			dwFlags |= TZF_PLF_CB;
-		else if (!_tcsicmp(tszClassName, _T("LISTBOX")))
+		else if (!mir_tstrcmpi(tszClassName, _T("LISTBOX")))
 			dwFlags |= TZF_PLF_LB;
 	}
 	if (dwFlags & TZF_PLF_CB)
