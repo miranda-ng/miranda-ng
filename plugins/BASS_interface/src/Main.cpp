@@ -3,10 +3,27 @@ Copyright (C) 2010, 2011 tico-tico
 */
 
 #include "stdafx.h"
-#define BASSDEF(f) (WINAPI *f)
+
+#include <delayimp.h>
 #include "bass.h"
 
-#define LOADBASSFUNCTION(f) (*((void**)&f)=(void*)GetProcAddress(hBass,#f))
+#pragma comment(lib, "delayimp.lib")
+#ifdef _WIN64
+	#pragma comment(lib, "src\\bass64.lib")
+#else
+	#pragma comment(lib, "src\\bass.lib")
+#endif
+
+static HINSTANCE hBass = NULL;
+
+FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo)
+{
+	if (dliNotify == dliNotePreLoadLibrary)
+		return (FARPROC)hBass;
+	return NULL;
+}
+
+extern "C" PfnDliHook __pfnDliNotifyHook2 = &delayHook;
 
 HINSTANCE hInst;
 int hLangpack;
@@ -24,8 +41,6 @@ PLUGININFOEX pluginInfo = {
 	// {2F07EA05-05B5-4FF0-875D-C590DA2DDAC1}
 	{ 0x2f07ea05, 0x05b5, 0x4ff0, { 0x87, 0x5d, 0xc5, 0x90, 0xda, 0x2d, 0xda, 0xc1 } }
 };
-
-static HINSTANCE hBass = NULL;
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
@@ -482,46 +497,39 @@ void LoadBassLibrary(TCHAR CurrBassPath[MAX_PATH])
 {
 	hBass = LoadLibrary(CurrBassPath);
 	if (hBass != NULL) {
-		if (LOADBASSFUNCTION(BASS_Init) != NULL && LOADBASSFUNCTION(BASS_SetConfig) != NULL &&
-			LOADBASSFUNCTION(BASS_ChannelPlay) != NULL && LOADBASSFUNCTION(BASS_StreamCreateFile) != NULL &&
-			LOADBASSFUNCTION(BASS_GetVersion) != NULL && LOADBASSFUNCTION(BASS_StreamFree) != NULL &&
-			LOADBASSFUNCTION(BASS_GetDeviceInfo) != NULL && LOADBASSFUNCTION(BASS_Free))
-		{
-			BASS_DEVICEINFO info;
+		newBass = (BASS_SetConfig(BASS_CONFIG_DEV_DEFAULT, TRUE) != 0); // will use new "Default" device
 
-			newBass = (BASS_SetConfig(BASS_CONFIG_DEV_DEFAULT, TRUE) != 0); // will use new "Default" device
+		DBVARIANT dbv = { 0 };
 
-			DBVARIANT dbv = { 0 };
+		BASS_DEVICEINFO info;
+		if (!db_get_ts(NULL, ModuleName, OPT_OUTDEVICE, &dbv))
+			for (int i = 1; BASS_GetDeviceInfo(i, &info); i++)
+				if (!mir_tstrcmp(dbv.ptszVal, _A2T(info.name)))
+					device = i;
 
-			if (!db_get_ts(NULL, ModuleName, OPT_OUTDEVICE, &dbv))
-				for (int i = 1; BASS_GetDeviceInfo(i, &info); i++)
-					if (!mir_tstrcmp(dbv.ptszVal, _A2T(info.name)))
-						device = i;
+		db_free(&dbv);
 
-			db_free(&dbv);
+		sndLimSnd = db_get_b(NULL, ModuleName, OPT_MAXCHAN, MAXCHAN);
+		if (sndLimSnd > MAXCHAN)
+			sndLimSnd = MAXCHAN;
+		TimeWrd1 = db_get_w(NULL, ModuleName, OPT_TIME1, 0);
+		TimeWrd2 = db_get_w(NULL, ModuleName, OPT_TIME2, 0);
+		QuietTime = db_get_b(NULL, ModuleName, OPT_QUIETTIME, 0);
+		EnPreview = db_get_b(NULL, ModuleName, OPT_PREVIEW, 0);
 
-			sndLimSnd = db_get_b(NULL, ModuleName, OPT_MAXCHAN, MAXCHAN);
-			if (sndLimSnd > MAXCHAN)
-				sndLimSnd = MAXCHAN;
-			TimeWrd1 = db_get_w(NULL, ModuleName, OPT_TIME1, 0);
-			TimeWrd2 = db_get_w(NULL, ModuleName, OPT_TIME2, 0);
-			QuietTime = db_get_b(NULL, ModuleName, OPT_QUIETTIME, 0);
-			EnPreview = db_get_b(NULL, ModuleName, OPT_PREVIEW, 0);
+		StatMask = db_get_w(NULL, ModuleName, OPT_STATUS, 0x3ff);
 
-			StatMask = db_get_w(NULL, ModuleName, OPT_STATUS, 0x3ff);
+		ClistHWND = (HWND)CallService("CLUI/GetHwnd", 0, 0);
+		BASS_Init(device, 44100, 0, ClistHWND, NULL);
 
-			ClistHWND = (HWND)CallService("CLUI/GetHwnd", 0, 0);
-			BASS_Init(device, 44100, 0, ClistHWND, NULL);
-
-			Volume = db_get_b(NULL, ModuleName, OPT_VOLUME, 33);
-			BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
-			hPlaySound = HookEvent(ME_SKIN_PLAYINGSOUND, OnPlaySnd);
-			CreateFrame();
-		}
-		else {
-			FreeLibrary(hBass);
-			hBass = NULL;
-		}
+		Volume = db_get_b(NULL, ModuleName, OPT_VOLUME, 33);
+		BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
+		hPlaySound = HookEvent(ME_SKIN_PLAYINGSOUND, OnPlaySnd);
+		CreateFrame();
+	}
+	else {
+		FreeLibrary(hBass);
+		hBass = NULL;
 	}
 }
 

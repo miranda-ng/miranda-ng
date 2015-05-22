@@ -25,4 +25,9 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\common.props" />
   </ImportGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <DelayLoadDLLs>bass.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
 </Project>
