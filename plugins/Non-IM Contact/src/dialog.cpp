@@ -137,9 +137,9 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				int i = 0, j;
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING))) {
 					GetDlgItemTextA(hwnd, IDC_STRING, tmp, SIZEOF(tmp));
-					if (tmp[strlen(tmp) - 1] == '(') {
+					if (tmp[mir_strlen(tmp) - 1] == '(') {
 						for (i = 0; i < VARS; i++) {
-							if (!strcmp(braceList[i].var, &tmp[strlen(tmp) - strlen(braceList[i].var)])) {
+							if (!strcmp(braceList[i].var, &tmp[mir_strlen(tmp) - mir_strlen(braceList[i].var)])) {
 								for (j = 0; j < MAX_BRACES; j++) {
 									if (!braceOrder[j]) {
 										braceOrder[j] = i;
@@ -153,7 +153,7 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 							}
 						}
 					}
-					else if (tmp[strlen(tmp) - 1] == ')') {
+					else if (tmp[mir_strlen(tmp) - 1] == ')') {
 						for (j = 0; j < MAX_BRACES; j++) {
 							if (!braceOrder[j]) {
 								EnableWindow(GetDlgItem(hwnd, braceList[braceOrder[j - 1]].idCtrl), 0);

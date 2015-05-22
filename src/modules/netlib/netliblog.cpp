@@ -337,7 +337,7 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (logOptions.toFile && !logOptions.tszFile.IsEmpty()) {
-		size_t len = strlen(pszMsg);
+		size_t len = mir_strlen(pszMsg);
 		mir_writeLogA(hLogger, "%s%s%s", szHead, pszMsg, pszMsg[len-1] == '\n' ? "" : "\r\n");
 	}
 

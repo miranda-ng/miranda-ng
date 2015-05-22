@@ -103,7 +103,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read enter\n");
 #endif
-		int size = (int)(strlen(ActualAccount->Name) + strlen(Translate(BADCONNECTTITLE)));
+		int size = (int)(mir_strlen(ActualAccount->Name) + mir_strlen(Translate(BADCONNECTTITLE)));
 		TitleStrA = new char[size];
 		mir_snprintf(TitleStrA, size, Translate(BADCONNECTTITLE), ActualAccount->Name);
 

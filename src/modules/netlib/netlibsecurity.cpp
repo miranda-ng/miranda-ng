@@ -383,7 +383,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		char *szLogin = mir_t2a(login);
 		char *szPassw = mir_t2a(psw);
 
-		size_t authLen = strlen(szLogin) + strlen(szPassw) + 5;
+		size_t authLen = mir_strlen(szLogin) + mir_strlen(szPassw) + 5;
 		char *szAuth = (char*)alloca(authLen);
 
 		int len = mir_snprintf(szAuth, authLen, "%s:%s", szLogin, szPassw);
@@ -401,7 +401,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		return szOutputToken;
 
 	ptrA szProvider(mir_t2a(hNtlm->szProvider));
-	size_t resLen = strlen(szOutputToken) + strlen(szProvider) + 10;
+	size_t resLen = mir_strlen(szOutputToken) + mir_strlen(szProvider) + 10;
 	char *result = (char*)mir_alloc(resLen);
 	mir_snprintf(result, resLen, "%s %s", szProvider, szOutputToken);
 	mir_free(szOutputToken);

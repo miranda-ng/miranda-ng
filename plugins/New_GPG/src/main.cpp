@@ -142,7 +142,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 						creation_date = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
 						p2 = out.find("[", p2);
 						p2 = out.find("expires:", p2);
-						p2 += strlen("expires:");
+						p2 += mir_strlen("expires:");
 						if(p2 != std::string::npos)
 						{
 							p2++;
@@ -270,7 +270,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			string keyinfo = Translate("key ID");
 			keyinfo += ": ";
 			char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
-			keyinfo += (strlen(keyid) > 0)?keyid:Translate("not set");
+			keyinfo += (mir_strlen(keyid) > 0)?keyid:Translate("not set");
 			mir_free(keyid);
 			SetDlgItemTextA(hwndDlg, IDC_KEY_ID, keyinfo.c_str());
 		}
@@ -468,7 +468,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			  if(result == pxNotFound)
 				  break;
 			  string::size_type s = out.find("Key fingerprint = ");
-			  s += strlen("Key fingerprint = ");
+			  s += mir_strlen("Key fingerprint = ");
 			  string::size_type s2 = out.find("\n", s);
 			  TCHAR *fp = NULL;
 			  {
@@ -655,7 +655,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					string keyinfo = Translate("key ID");
 					keyinfo += ": ";
 					char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
-					keyinfo += (strlen(keyid) > 0)?keyid:Translate("not set");
+					keyinfo += (mir_strlen(keyid) > 0)?keyid:Translate("not set");
 					mir_free(keyid);
 					SetDlgItemTextA(hwndDlg, IDC_KEY_ID, keyinfo.c_str());
 				}
@@ -666,7 +666,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					std::string acc_str= buf;
 					acc_str += "_KeyID";
 					char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, acc_str.c_str(), "");
-					keyinfo += (strlen(keyid) > 0)?keyid:Translate("not set");
+					keyinfo += (mir_strlen(keyid) > 0)?keyid:Translate("not set");
 					mir_free(keyid);
 					SetDlgItemTextA(hwndDlg, IDC_KEY_ID, keyinfo.c_str());
 				}
@@ -913,7 +913,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			string::size_type p1 = out.find("(GnuPG) ");
 			if(p1 != string::npos)
 			{
-				p1 += strlen("(GnuPG) ");
+				p1 += mir_strlen("(GnuPG) ");
 				if(out[p1] != '1')
 					bad_version = true;
 			}
@@ -974,7 +974,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			  char* p_path = NULL;
 			  if(StriStr(atmp, mir_path))
 			  {
-				  p_path = atmp + strlen(mir_path);
+				  p_path = atmp + mir_strlen(mir_path);
 				  tmp = mir_a2t(p_path);
 				  SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
 			  }
@@ -992,7 +992,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			  char* p_path = NULL;
 			  if(StriStr(atmp, mir_path))
 			  {
-				  p_path = atmp + strlen(mir_path);
+				  p_path = atmp + mir_strlen(mir_path);
 				  tmp = mir_a2t(p_path);
 				  SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
 			  }
@@ -1038,7 +1038,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			  string::size_type p1 = out.find("(GnuPG) ");
 			  if(p1 != string::npos)
 			  {
-				  p1 += strlen("(GnuPG) ");
+				  p1 += mir_strlen("(GnuPG) ");
 				  if(out[p1] != '1')
 					  bad_version = true;
 			  }
@@ -1116,7 +1116,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				string::size_type p1 = out.find("(GnuPG) ");
 				if(p1 != string::npos)
 				{
-					p1 += strlen("(GnuPG) ");
+					p1 += mir_strlen("(GnuPG) ");
 					if(out[p1] != '1')
 						bad_version = true;
 				}
@@ -1747,7 +1747,7 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wPar
 						p2 = p3;
 						p2--;
 						p3++;
-						p3+=strlen("expires: ");
+						p3+=mir_strlen("expires: ");
 						string::size_type p4 = out.find("]", p3);
 						tmp = mir_wstrdup(toUTF16(out.substr(p3,p4-p3)).c_str());
 						ListView_SetItemText(hwndList, iRow, 4, tmp);
@@ -1759,7 +1759,7 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wPar
 					ListView_SetItemText(hwndList, iRow, 3, tmp);
 					mir_free(tmp);
 					p = out.find("uid  ", p);
-					p+= strlen("uid ");
+					p+= mir_strlen("uid ");
 					p2 = out.find("\n", p);
 					p3 = out.substr(p, p2-p).find("<");
 					if(p3 != string::npos)
@@ -1833,7 +1833,7 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wPar
 				  p2 = out.find("-----END PGP PUBLIC KEY BLOCK-----", p1);
 				  if(p2 != std::string::npos)
 				  {
-					  p2 += strlen("-----END PGP PUBLIC KEY BLOCK-----");
+					  p2 += mir_strlen("-----END PGP PUBLIC KEY BLOCK-----");
 					  out = out.substr(p1, p2-p1);
 					  TCHAR *tmp = mir_a2t(out.c_str());
 					  SetWindowText(hPubKeyEdit, tmp);
@@ -2121,7 +2121,7 @@ void InitCheck()
 				if((p != std::string::npos) && (p < p2))
 				{
 					p = out.find("expires:", p);
-					p += strlen("expires:");
+					p += mir_strlen("expires:");
 					p++;
 					p2 = out.find("]", p);
 					TCHAR *expire_date = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
@@ -2188,7 +2188,7 @@ void InitCheck()
 		if((p != std::string::npos) && (p < p2))
 		{
 			p = out.find("expires:", p);
-			p += strlen("expires:");
+			p += mir_strlen("expires:");
 			p++;
 			p2 = out.find("]", p);
 			TCHAR *expire_date = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
@@ -2341,7 +2341,7 @@ void ImportKey()
 						if(hcnt)
 						{
 							char *tmp = NULL;
-							string::size_type s = output.find("gpg: key ") + strlen("gpg: key ");
+							string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 							string::size_type s2 = output.find(":", s);
 							db_set_s(hcnt, szGPGModuleName, "KeyID", output.substr(s,s2-s).c_str());
 							s = output.find("“", s2);
@@ -2413,7 +2413,7 @@ void ImportKey()
 				else
 				{
 					char *tmp = NULL;
-					string::size_type s = output.find("gpg: key ") + strlen("gpg: key ");
+					string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 					string::size_type s2 = output.find(":", s);
 					db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyID", output.substr(s,s2-s).c_str());
 					s = output.find("“", s2);
@@ -2483,7 +2483,7 @@ void ImportKey()
 			else
 			{
 				char *tmp = NULL;
-				string::size_type s = output.find("gpg: key ") + strlen("gpg: key ");
+				string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 				string::size_type s2 = output.find(":", s);
 				db_set_s(hContact, szGPGModuleName, "KeyID", output.substr(s,s2-s).c_str());
 				s = output.find("“", s2);

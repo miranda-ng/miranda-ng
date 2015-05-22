@@ -329,12 +329,12 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		// if the var contains the escape character, this character must be doubled, we don't want it to act as an esacpe char
 		/*for (tcur=parsedToken;*tcur != '\0';tcur++) {
 			if (*tcur == DONTPARSE_CHAR) {//|| (*(var+pos) == ')')) {
-				parsedToken = mir_realloc(parsedToken, strlen(parsedToken) + 2);
+				parsedToken = mir_realloc(parsedToken, mir_strlen(parsedToken) + 2);
 				if (parsedToken == NULL) {
 					fi->err = EMEM;
 					return NULL;
 				}
-				memcpy(tcur+1, tcur, strlen(tcur)+1);
+				memcpy(tcur+1, tcur, mir_strlen(tcur)+1);
 				tcur++;
 			}
 		}*/

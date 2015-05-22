@@ -207,11 +207,11 @@ bool CLFileShareNode::bSetPaths(char * pszSrvPath, char * pszRealPath) {
 	delete [] st.pszSrvPath;
 	delete [] st.pszRealPath;
 
-	st.dwMaxSrvPath = (int)strlen(pszSrvPath) + 1;
+	st.dwMaxSrvPath = (int)mir_strlen(pszSrvPath) + 1;
 	st.pszSrvPath = new char[ st.dwMaxSrvPath ];
 	strcpy(st.pszSrvPath, pszSrvPath);
 
-	int nRealLen = (int)strlen(pszRealPath);
+	int nRealLen = (int)mir_strlen(pszRealPath);
 	if (nRealLen <= 2 || !(pszRealPath[1] == ':' ||
 	    (pszRealPath[0] == '\\' && pszRealPath[1] == '\\'))) {
 		// Relative path

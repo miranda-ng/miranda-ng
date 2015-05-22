@@ -120,7 +120,7 @@ tstring Utf8_Decode(const char *str)
 	if (str == NULL)
 		return strRes;
 
-	len = strlen(str);
+	len = mir_strlen(str);
 
     if ((wszTemp = (WCHAR *) malloc(sizeof(TCHAR) * (len + 2))) == NULL)
 		return strRes;

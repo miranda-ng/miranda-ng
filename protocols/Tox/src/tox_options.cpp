@@ -429,7 +429,7 @@ void CToxOptionsNodeList::OnInitDialog()
 				GetPrivateProfileStringA(section, "PubKey", NULL, value, SIZEOF(value), fileName);
 				m_nodes.SetItem(iItem, 3, mir_a2t(value));
 			}
-			section += strlen(section) + 1;
+			section += mir_strlen(section) + 1;
 		}
 	}
 

@@ -275,7 +275,7 @@ int CSametimeProto::SetSessionStatus(int status)
 		us.desc = AwayMessages.szOnline; us.status = mwStatus_ACTIVE; break;
 	}
 
-	debugLog(_T("SetSessionStatus() mwSession_setUserStatus  us.status=[%d], us.desc:len=[%d]"), us.status, us.desc == NULL ? -1 : strlen(us.desc));
+	debugLog(_T("SetSessionStatus() mwSession_setUserStatus  us.status=[%d], us.desc:len=[%d]"), us.status, us.desc == NULL ? -1 : mir_strlen(us.desc));
 	mwSession_setUserStatus(session, &us);
 
 	return 0;

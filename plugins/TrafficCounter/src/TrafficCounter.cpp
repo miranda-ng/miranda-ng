@@ -1178,7 +1178,7 @@ void CreateProtocolList(void)
 	//
 	for (i = 0; i < NumberOfAccounts; i++)
 	{
-		ProtoList[i].name = (char*)mir_alloc(strlen(acc[i]->szModuleName) + 1);
+		ProtoList[i].name = (char*)mir_alloc(mir_strlen(acc[i]->szModuleName) + 1);
 		strcpy(ProtoList[i].name, acc[i]->szModuleName);
 		ProtoList[i].tszAccountName = (TCHAR*)mir_alloc(sizeof(TCHAR) * (1 + _tcslen(acc[i]->tszAccountName)));
 		_tcscpy(ProtoList[i].tszAccountName, acc[i]->tszAccountName);

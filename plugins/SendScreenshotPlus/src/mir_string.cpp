@@ -36,8 +36,8 @@ void mir_stradd(char* &pszDest, const char* pszSrc)
 	if(!pszDest)
 		pszDest = mir_strdup(pszSrc);
 	else {
-		size_t lenDest  = strlen(pszDest);
-		size_t lenSrc   = strlen(pszSrc);
+		size_t lenDest  = mir_strlen(pszDest);
+		size_t lenSrc   = mir_strlen(pszSrc);
 		size_t lenNew = lenDest + lenSrc + 1;
 		pszDest  = (char *) mir_realloc(pszDest, sizeof(char)* lenNew);
 

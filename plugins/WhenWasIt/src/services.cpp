@@ -333,7 +333,7 @@ int DoExport(TCHAR *fileName)
 			char *szProto = GetContactProto(hContact);
 			TCHAR *szHandle = GetContactID(hContact, szProto);
 
-			if ((szHandle) && (strlen(szProto) > 0))
+			if ((szHandle) && (mir_strlen(szProto) > 0))
 				_ftprintf(fout, _T(BIRTHDAYS_EXPORT_FORMAT), szHandle, szProto, day, month, year);
 
 			if (szHandle)

@@ -95,7 +95,7 @@ BOOL AddToList(TAddArgList& args)
 					szThis = args.szFile;
 					args.szFile = szBuf;
 					int cchThis = args.cch;
-					args.cch = (int)strlen(szBuf) + 1;
+					args.cch = (int)mir_strlen(szBuf) + 1;
 					// recurse
 					BOOL Result = AddToList(args);
 					// restore

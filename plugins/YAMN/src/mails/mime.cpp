@@ -200,7 +200,7 @@ char *ExtractFromContentType(char *ContentType,char *value)
 	while((temp>ContentType) && WS(temp)) temp--;			//now we have to find, if the word "Charset=" is located after ';' like "; Charset="
 	if (*temp != ';' && !ENDLINE(temp) && temp != ContentType)
 		return NULL;
-	finder=finder+strlen(value);						//jump over value string
+	finder=finder+mir_strlen(value);						//jump over value string
 
 	while(WS(finder)) finder++;					//jump over whitespaces
 	temp=finder;
@@ -301,7 +301,7 @@ void ExtractShortHeader(struct CMimeItem *items,struct CShortHeader *head)
 			ToLower(ContentType);
 			if (NULL != (CharSetStr=ExtractFromContentType(ContentType,"charset=")))
 			{
-				head->CP=GetCharsetFromString(CharSetStr,strlen(CharSetStr));
+				head->CP=GetCharsetFromString(CharSetStr,mir_strlen(CharSetStr));
 				delete[] CharSetStr;
 			}
 			delete[] ContentType;
@@ -505,7 +505,7 @@ struct APartDataType
 
 void ParseAPart(APartDataType *data)
 {
-	size_t len = strlen(data->Src);
+	size_t len = mir_strlen(data->Src);
 	try
 	{
 		char *finder=data->Src;
@@ -581,7 +581,7 @@ void ParseAPart(APartDataType *data)
 	{
 		MessageBox(NULL, TranslateT("Translate header error"), _T(""), 0);
 	}
-	if (data->body) data->bodyLen = (int)strlen(data->body);
+	if (data->body) data->bodyLen = (int)mir_strlen(data->body);
 }
 
 //from decode.cpp
@@ -592,7 +592,7 @@ int ConvertStringToUnicode(char *stream,unsigned int cp,WCHAR **out);
 WCHAR *ParseMultipartBody(char *src, char *bond)
 {
 	char *srcback = _strdup(src);
-	size_t sizebond = strlen(bond);
+	size_t sizebond = mir_strlen(bond);
 	int numparts = 1;
 	int i;
 	char *courbond = srcback;
@@ -618,7 +618,7 @@ WCHAR *ParseMultipartBody(char *src, char *bond)
 				char *CharSetStr;
 				if (NULL != (CharSetStr=ExtractFromContentType(partData[i].ContType,"charset=")))
 				{
-					partData[i].CodePage=GetCharsetFromString(CharSetStr,strlen(CharSetStr));
+					partData[i].CodePage=GetCharsetFromString(CharSetStr,mir_strlen(CharSetStr));
 					delete[] CharSetStr;
 				}
 			}
@@ -662,32 +662,32 @@ FailBackRaw:
 		if (i) { // part before first boudary should not have headers
 			char infoline[1024]; size_t linesize = 0;
 			mir_snprintf(infoline, SIZEOF(infoline), "%s %d", Translate("Part"), i);
-			linesize = strlen(infoline);
+			linesize = mir_strlen(infoline);
 			if (partData[i].TransEnc) {
 				mir_snprintf(infoline + linesize, SIZEOF(infoline) - linesize, "; %s", partData[i].TransEnc);
-				linesize = strlen(infoline);
+				linesize = mir_strlen(infoline);
 			}
 			if (partData[i].ContType) {
 				char *CharSetStr=strchr(partData[i].ContType,';');
 				if (CharSetStr) {
 					CharSetStr[0]=0;
 					mir_snprintf(infoline + linesize, SIZEOF(infoline) - linesize, "; %s", partData[i].ContType);
-					linesize = strlen(infoline);
+					linesize = mir_strlen(infoline);
 					partData[i].ContType=CharSetStr+1;
 					if (NULL != (CharSetStr=ExtractFromContentType(partData[i].ContType,"charset="))) {
 						mir_snprintf(infoline + linesize, SIZEOF(infoline) - linesize, "; %s", CharSetStr);
-						linesize = strlen(infoline);
+						linesize = mir_strlen(infoline);
 						delete[] CharSetStr;
 					}
 					if (NULL != (CharSetStr=ExtractFromContentType(partData[i].ContType,"name="))) {
 						mir_snprintf(infoline + linesize, SIZEOF(infoline) - linesize, "; \"%s\"", CharSetStr);
-						linesize = strlen(infoline);
+						linesize = mir_strlen(infoline);
 						delete[] CharSetStr;
 					}
 				}
 				else {
 					mir_snprintf(infoline + linesize, SIZEOF(infoline) - linesize, "; %s", partData[i].ContType);
-					linesize = strlen(infoline);
+					linesize = mir_strlen(infoline);
 				}
 			}
 			mir_snprintf(infoline + linesize, SIZEOF(infoline) - linesize, ".\r\n");

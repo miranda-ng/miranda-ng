@@ -226,7 +226,7 @@ INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					BOOL enable;
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, SIZEOF(pass));
 					GetDlgItemTextA(hwndDlg, IDC_CPASSWORD, cpass, SIZEOF(cpass));
-					enable = strlen(pass) && strlen(cpass) && !strcmp(cpass, pass);
+					enable = mir_strlen(pass) && mir_strlen(cpass) && !strcmp(cpass, pass);
 					if (dat && dat->mode == GG_USERUTIL_REMOVE)
 						EnableWindow(GetDlgItem(hwndDlg, IDOK), IsDlgButtonChecked(hwndDlg, IDC_CONFIRM) ? enable : FALSE);
 					else

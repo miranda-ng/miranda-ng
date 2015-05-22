@@ -71,7 +71,7 @@ bool SmileyCType::CreateTriggerText(char* text)
 {
 	UrlDecode(text);
 
-	int len = (int)strlen(text);
+	int len = (int)mir_strlen(text);
 	if (len == 0) return false;
 
 	unsigned reslen;

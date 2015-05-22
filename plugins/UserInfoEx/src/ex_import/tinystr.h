@@ -82,7 +82,7 @@ class TiXmlString
 	// TiXmlString constructor, based on a string
 	TIXML_EXPLICIT TiXmlString (const char * copy)
 	{
-		init(static_cast<size_type>(strlen(copy)));
+		init(static_cast<size_type>(mir_strlen(copy)));
 		memcpy(start(), copy, length());
 	}
 
@@ -102,7 +102,7 @@ class TiXmlString
 	// = operator
 	TiXmlString& operator = (const char * copy)
 	{
-		return assign(copy, (size_type)strlen(copy));
+		return assign(copy, (size_type)mir_strlen(copy));
 	}
 
 	// = operator
@@ -115,7 +115,7 @@ class TiXmlString
 	// += operator. Maps to append
 	TiXmlString& operator += (const char * suffix)
 	{
-		return append(suffix, static_cast<size_type>(strlen(suffix)));
+		return append(suffix, static_cast<size_type>(mir_strlen(suffix)));
 	}
 
 	// += operator. Maps to append

@@ -99,7 +99,7 @@ public:
 	static void     AddToFileList(TCHAR ***pppFiles, int *totalCount, LPCTSTR szFilename);
 
 	//////////////////////////////////////////////////////////////////////////////////////
-	// safe strlen function - do not overflow the given buffer length
+	// safe mir_strlen function - do not overflow the given buffer length
 	// if the buffer does not contain a valid (zero-terminated) string, it
 	// will return 0.
 	//

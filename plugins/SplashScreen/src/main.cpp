@@ -193,8 +193,8 @@ void SplashMain()
 #ifdef _DEBUG
 						logMessage(_T("Found file"), ffd.cFileName);
 #endif
-						//files = new char[strlen(ffd.cFileName)];
-						//files[filescount] = new char[strlen(ffd.cFileName)];
+						//files = new char[mir_strlen(ffd.cFileName)];
+						//files[filescount] = new char[mir_strlen(ffd.cFileName)];
 						TCHAR ext[5];
 						wmemcpy(ext, ffd.cFileName + (mir_tstrlen(ffd.cFileName) - 4), 5);
 

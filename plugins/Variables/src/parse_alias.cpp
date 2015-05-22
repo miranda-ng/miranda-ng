@@ -168,9 +168,9 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai)
 	if (szArgs != NULL && argc > 0) {
 		szArgsA = mir_t2a(szArgs);
 
-		size_t size = 32 + strlen(szArgsA);
+		size_t size = 32 + mir_strlen(szArgsA);
 		szHelp = (char *)mir_alloc(size);
-		memset(szHelp, '\0', 32 + strlen(szArgsA));
+		memset(szHelp, '\0', 32 + mir_strlen(szArgsA));
 		mir_snprintf(szHelp, size, LPGEN("Alias")"\t(%s)\t"LPGEN("user defined"), szArgsA);
 		res = registerIntToken(alias, parseTranslateAlias, TRF_FUNCTION | TRF_UNPARSEDARGS, szHelp);
 		mir_free(szArgsA);

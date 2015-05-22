@@ -105,7 +105,7 @@ void ClientLoginPacket::hashSha1(const char *string, unsigned char *sha){
         unsigned char temp[1024];
         CSHA1 sha1;
         sha1.Reset();
-        sha1.Update((UINT_8 *)string, strlen(string));
+        sha1.Update((UINT_8 *)string, mir_strlen(string));
         sha1.Final();
         sha1.GetHash(temp);	
 

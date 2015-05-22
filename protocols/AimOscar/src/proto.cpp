@@ -162,8 +162,8 @@ HANDLE __cdecl CAimProto::FileAllow(MCONTACT, HANDLE hTransfer, const PROTOCHAR*
 
 		if (ft->pfts.totalFiles > 1 && ft->file[0])
 		{
-			size_t path_len = strlen(path);
-			size_t len = strlen(ft->file) + 2;
+			size_t path_len = mir_strlen(path);
+			size_t len = mir_strlen(ft->file) + 2;
 
 			path = (char*)mir_realloc(path, path_len + len);
 			mir_snprintf(&path[path_len], len, "%s\\", ft->file);
@@ -305,7 +305,7 @@ void __cdecl CAimProto::basic_search_ack_success(void* p)
 	char *sn = normalize_name((char*)p);
 	if (sn) // normalize it
 	{
-		if (strlen(sn) > 32)
+		if (mir_strlen(sn) > 32)
 		{
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 		}

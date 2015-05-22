@@ -236,7 +236,7 @@ char *myWideCharToMultiByte(const wchar_t *s)
 	return d;
 }
 static inline FILE *xfopen(XMLCSTR filename, XMLCSTR mode) { return fopen(filename, mode); }
-static inline size_t xstrlen(XMLCSTR c)   { return strlen(c); }
+static inline size_t xstrlen(XMLCSTR c)   { return mir_strlen(c); }
 #ifdef __BORLANDC__
 static inline int xstrnicmp(XMLCSTR c1, XMLCSTR c2, int l) { return strnicmp(c1, c2, l);}
 static inline int xstricmp(XMLCSTR c1, XMLCSTR c2) { return stricmp(c1, c2); }
@@ -325,7 +325,7 @@ static inline FILE *xfopen(XMLCSTR filename, XMLCSTR mode)
 }
 #else
 static inline FILE *xfopen(XMLCSTR filename, XMLCSTR mode) { return fopen(filename, mode); }
-static inline int xstrlen(XMLCSTR c)   { return strlen(c); }
+static inline int xstrlen(XMLCSTR c)   { return mir_strlen(c); }
 static inline int xstrnicmp(XMLCSTR c1, XMLCSTR c2, int l) { return strncasecmp(c1, c2, l);}
 static inline int xstrncmp(XMLCSTR c1, XMLCSTR c2, int l) { return strncmp(c1, c2, l);}
 static inline int xstricmp(XMLCSTR c1, XMLCSTR c2) { return strcasecmp(c1, c2); }

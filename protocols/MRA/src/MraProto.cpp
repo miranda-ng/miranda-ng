@@ -170,9 +170,9 @@ MCONTACT CMraProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 			 (dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_CONTACTS))
 		{
 			char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
-			char *firstName = nick + strlen(nick) + 1;
-			char *lastName = firstName + strlen(firstName) + 1;
-			char *email = lastName + strlen(lastName) + 1;
+			char *firstName = nick + mir_strlen(nick) + 1;
+			char *lastName = firstName + mir_strlen(firstName) + 1;
+			char *email = lastName + mir_strlen(lastName) + 1;
 			return AddToListByEmail(_A2T(email), _A2T(nick), _A2T(firstName), _A2T(lastName), 0);
 		}
 	}

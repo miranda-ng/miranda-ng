@@ -26,9 +26,9 @@ int CAimProto::aim_send_connection_packet(HANDLE hServerConn,unsigned short &seq
 int CAimProto::aim_authkey_request(HANDLE hServerConn,unsigned short &seqno)
 {
 	unsigned short offset=0;
-	char* buf=(char*)alloca(SNAC_SIZE+TLV_HEADER_SIZE*3+strlen(username));
+	char* buf=(char*)alloca(SNAC_SIZE+TLV_HEADER_SIZE*3+mir_strlen(username));
 	aim_writesnac(0x17,0x06,offset,buf);
-	aim_writetlv(0x01,(unsigned short)strlen(username),username,offset,buf);
+	aim_writetlv(0x01,(unsigned short)mir_strlen(username),username,offset,buf);
 	aim_writetlv(0x4B,0,0,offset,buf);
 	aim_writetlv(0x5A,0,0,offset,buf);
 	return aim_sendflap(hServerConn,0x02,offset,buf,seqno);
@@ -43,10 +43,10 @@ int CAimProto::aim_auth_request(HANDLE hServerConn,unsigned short &seqno,const c
 	mir_md5_state_t state;
 	
 	mir_md5_init(&state);
-	mir_md5_append(&state,(const BYTE *)password, (int)strlen(password));
+	mir_md5_append(&state,(const BYTE *)password, (int)mir_strlen(password));
 	mir_md5_finish(&state,pass_hash);
 	mir_md5_init(&state);
-	mir_md5_append(&state,(BYTE*)key, (int)strlen(key));
+	mir_md5_append(&state,(BYTE*)key, (int)mir_strlen(key));
 	mir_md5_append(&state,(BYTE*)pass_hash,MD5_HASH_LENGTH);
 	mir_md5_append(&state,(BYTE*)AIM_MD5_STRING, sizeof(AIM_MD5_STRING)-1);
 	mir_md5_finish(&state,auth_hash);
@@ -55,10 +55,10 @@ int CAimProto::aim_auth_request(HANDLE hServerConn,unsigned short &seqno,const c
 	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(mirver), (LPARAM)mirver);
 	int client_id_len = mir_snprintf(client_id, SIZEOF(client_id), "Miranda AIM, version %s", mirver);
 
-	char* buf=(char*)alloca(SNAC_SIZE+TLV_HEADER_SIZE*14+MD5_HASH_LENGTH+strlen(username)+client_id_len+30+strlen(language)+strlen(country));
+	char* buf=(char*)alloca(SNAC_SIZE+TLV_HEADER_SIZE*14+MD5_HASH_LENGTH+mir_strlen(username)+client_id_len+30+mir_strlen(language)+mir_strlen(country));
 
 	aim_writesnac(0x17,0x02,offset,buf);
-	aim_writetlv(0x01,(unsigned short)strlen(username),username,offset,buf);
+	aim_writetlv(0x01,(unsigned short)mir_strlen(username),username,offset,buf);
 	aim_writetlv(0x25,MD5_HASH_LENGTH,(char*)auth_hash,offset,buf);
 	aim_writetlv(0x4C,0,0,offset,buf);//signifies new password hash instead of old method
 	aim_writetlv(0x03,(unsigned short)client_id_len,client_id,offset,buf);
@@ -68,8 +68,8 @@ int CAimProto::aim_auth_request(HANDLE hServerConn,unsigned short &seqno,const c
 	aim_writetlvshort(0x1A,AIM_CLIENT_BUILD_NUMBER,offset,buf);
 	aim_writetlvshort(0x16,AIM_CLIENT_ID_NUMBER,offset,buf);
 	aim_writetlvlong(0x14,AIM_CLIENT_DISTRIBUTION_NUMBER,offset,buf);
-	aim_writetlv(0x0F,(unsigned short)strlen(language),language,offset,buf);
-	aim_writetlv(0x0E,(unsigned short)strlen(country),country,offset,buf);
+	aim_writetlv(0x0F,(unsigned short)mir_strlen(language),language,offset,buf);
+	aim_writetlv(0x0E,(unsigned short)mir_strlen(country),country,offset,buf);
 	aim_writetlvchar(0x4A,getByte(AIM_KEY_FSC, 0) ? 3 : 1,offset,buf);
 //    aim_writetlvchar(0x94,0,offset,buf);
 	if (!getByte(AIM_KEY_DSSL, 0))
@@ -234,7 +234,7 @@ int CAimProto::aim_set_profile(HANDLE hServerConn,unsigned short &seqno, char* a
 {
 	aimString str(amsg);
 	const char *charset = str.isUnicode() ? AIM_MSG_TYPE_UNICODE : AIM_MSG_TYPE;
-	const unsigned short charset_len = (unsigned short)strlen(charset);
+	const unsigned short charset_len = (unsigned short)mir_strlen(charset);
 
 	const char* msg = str.getBuf();
 	const unsigned short msg_len = str.getSize();
@@ -356,7 +356,7 @@ int CAimProto::aim_send_message(HANDLE hServerConn,unsigned short &seqno,const c
 	aim_writegeneric(msg_len,msg,tlv_offset,tlv_buf);                // message text
 	
 	unsigned short offset=0;
-	unsigned short sn_length=(unsigned short)strlen(sn);
+	unsigned short sn_length=(unsigned short)mir_strlen(sn);
 	char* buf= (char*)alloca(SNAC_SIZE+8+3+sn_length+TLV_HEADER_SIZE*3+tlv_offset);
 	
 	aim_writesnac(0x04,0x06,offset,buf,get_random());
@@ -383,7 +383,7 @@ int CAimProto::aim_send_message(HANDLE hServerConn,unsigned short &seqno,const c
 int CAimProto::aim_query_profile(HANDLE hServerConn,unsigned short &seqno,char* sn)
 {
 	unsigned short offset=0;
-	unsigned short sn_length=(unsigned short)strlen(sn);
+	unsigned short sn_length=(unsigned short)mir_strlen(sn);
 	char* buf=(char*)alloca(SNAC_SIZE+5+sn_length);
 	aim_writesnac(0x02,0x15,offset,buf);
 	aim_writelong(0x01,offset,buf);
@@ -396,7 +396,7 @@ int CAimProto::aim_delete_contact(HANDLE hServerConn, unsigned short &seqno, cha
 								  unsigned short group_id, unsigned short list, bool nil)
 {
 	unsigned short offset=0;
-	unsigned short sn_length=(unsigned short)strlen(sn);
+	unsigned short sn_length=(unsigned short)mir_strlen(sn);
 	char* buf=(char*)alloca(SNAC_SIZE+sn_length+10);
 	aim_writesnac(0x13,0x0a,offset,buf, get_random());              // SSI Delete
 	aim_writeshort(sn_length,offset,buf);                           // screen name length
@@ -413,7 +413,7 @@ int CAimProto::aim_add_contact(HANDLE hServerConn, unsigned short &seqno, const 
 							   unsigned short group_id, unsigned short list, char* nick, char* note)
 {
 	unsigned short offset=0;
-	unsigned short sn_length=(unsigned short)strlen(sn);
+	unsigned short sn_length=(unsigned short)mir_strlen(sn);
 	unsigned short nick_length = (unsigned short)mir_strlen(nick);
 	unsigned short note_length = (unsigned short)mir_strlen(note);
 	unsigned short tlv_len = nick || note ? TLV_HEADER_SIZE * 2 + nick_length + note_length : 0;
@@ -439,7 +439,7 @@ int CAimProto::aim_mod_group(HANDLE hServerConn, unsigned short &seqno, const ch
 							 char* members, unsigned short members_length)
 {
 	unsigned short offset=0;
-	unsigned short name_length=(unsigned short)strlen(name);
+	unsigned short name_length=(unsigned short)mir_strlen(name);
 	char* buf=(char*)alloca(SNAC_SIZE+TLV_HEADER_SIZE+name_length+members_length+10);
 	aim_writesnac(0x13,0x09,offset,buf, get_random());              // SSI Edit
 	aim_writeshort(name_length,offset,buf);                         // group name length
@@ -457,7 +457,7 @@ int CAimProto::aim_mod_buddy(HANDLE hServerConn, unsigned short &seqno, const ch
 							 char* nick, char* note)
 {
 	unsigned short offset=0;
-	unsigned short sn_length = (unsigned short)strlen(sn);
+	unsigned short sn_length = (unsigned short)mir_strlen(sn);
 	unsigned short nick_length = (unsigned short)mir_strlen(nick);
 	unsigned short note_length = (unsigned short)mir_strlen(note);
 	unsigned short tlv_len = TLV_HEADER_SIZE * 2 + nick_length + note_length;
@@ -574,7 +574,7 @@ int CAimProto::aim_send_file(HANDLE hServerConn, unsigned short &seqno,
 			aimString dscr(ft->message);
 
 			const char* charset = dscr.isUnicode() ? "unicode-2-0" : "us-ascii";
-			const unsigned short charset_len = (unsigned short)strlen(charset);
+			const unsigned short charset_len = (unsigned short)mir_strlen(charset);
 
 			const char* desc_msg = dscr.getBuf();
 			const unsigned short desc_len = dscr.getSize();
@@ -587,7 +587,7 @@ int CAimProto::aim_send_file(HANDLE hServerConn, unsigned short &seqno,
 		aim_writetlv(0x0f,0,0,frag_offset,msg_frag);                    // request host check
 
 		const char* fname = get_fname(ft->file);
-		const unsigned short fnlen = (unsigned short)strlen(fname);
+		const unsigned short fnlen = (unsigned short)mir_strlen(fname);
 
 		char* fblock = (char*)alloca(9 + fnlen);
 		*(unsigned short*)&fblock[0] = _htons(ft->pfts.totalFiles > 1 ? 2 : 1);     // single file transfer
@@ -608,7 +608,7 @@ int CAimProto::aim_send_file(HANDLE hServerConn, unsigned short &seqno,
 	}
 
 	unsigned short offset=0;
-	unsigned short sn_length=(unsigned short)strlen(ft->sn);
+	unsigned short sn_length=(unsigned short)mir_strlen(ft->sn);
 	char* buf=(char*)alloca(SNAC_SIZE+TLV_HEADER_SIZE*2+12+frag_offset+sn_length);
 	aim_writesnac(0x04,0x06,offset,buf);                                // msg to host
 	aim_writegeneric(8,ft->icbm_cookie,offset,buf);                     // icbm cookie
@@ -637,7 +637,7 @@ int CAimProto::aim_file_ad(HANDLE hServerConn,unsigned short &seqno,char* sn, ch
 //    if (max_ver > 1)
 //        aim_writetlvshort(0x12,2,frag_offset,msg_frag);             // max protocol version
 
-	unsigned short sn_length=(unsigned short)strlen(sn);
+	unsigned short sn_length=(unsigned short)mir_strlen(sn);
 	unsigned short offset=0;
 	char* buf=(char*)alloca(SNAC_SIZE+TLV_HEADER_SIZE+21+frag_offset+sn_length);
 	aim_writesnac(0x04,0x06,offset,buf);                            // msg to host
@@ -654,7 +654,7 @@ int CAimProto::aim_file_ad(HANDLE hServerConn,unsigned short &seqno,char* sn, ch
 int CAimProto::aim_typing_notification(HANDLE hServerConn,unsigned short &seqno,char* sn,unsigned short type)
 {
 	unsigned short offset=0;
-	unsigned short sn_length=(unsigned short)strlen(sn);
+	unsigned short sn_length=(unsigned short)mir_strlen(sn);
 	char* buf= (char*)alloca(SNAC_SIZE+sn_length+13);
 	aim_writesnac(0x04,0x14,offset,buf);
 	aim_writegeneric(8,"\0\0\0\0\0\0\0\0",offset,buf);              // icbm cookie
@@ -699,7 +699,7 @@ int CAimProto::aim_activate_mail(HANDLE hServerConn,unsigned short &seqno)
 int CAimProto::aim_request_avatar(HANDLE hServerConn,unsigned short &seqno, const char* sn, unsigned short bart_type, const char* hash, unsigned short hash_size)
 {
 	unsigned short offset=0;
-	unsigned char sn_length=(unsigned char)strlen(sn);
+	unsigned char sn_length=(unsigned char)mir_strlen(sn);
 	char* buf= (char*)alloca(SNAC_SIZE+sn_length+hash_size+12);
 	aim_writesnac(0x10,0x06,offset,buf);
 	aim_writechar(sn_length,offset,buf);                            // screen name length
@@ -715,7 +715,7 @@ int CAimProto::aim_set_avatar_hash(HANDLE hServerConn, unsigned short &seqno, ch
 	
 	char bart_type_txt[8];
 	ultoa(bart_type, bart_type_txt, 10);
-	unsigned short bart_type_len = (unsigned short)strlen(bart_type_txt);
+	unsigned short bart_type_len = (unsigned short)mir_strlen(bart_type_txt);
 
 	unsigned short req = 0x09;
 	if (id == 0)
@@ -751,7 +751,7 @@ int CAimProto::aim_delete_avatar_hash(HANDLE hServerConn, unsigned short &seqno,
 	
 	char bart_type_txt[8];
 	ultoa(bart_type, bart_type_txt, 10);
-	unsigned short bart_type_len = (unsigned short)strlen(bart_type_txt);
+	unsigned short bart_type_len = (unsigned short)mir_strlen(bart_type_txt);
 
 	char* buf = (char*)alloca(SNAC_SIZE + 20 + bart_type_len);
 	aim_writesnac(0x13,0x0a,offset,buf, get_random());              // SSI Delete
@@ -779,7 +779,7 @@ int CAimProto::aim_upload_avatar(HANDLE hServerConn, unsigned short &seqno, unsi
 int CAimProto::aim_search_by_email(HANDLE hServerConn,unsigned short &seqno, const char* email)
 {
 	unsigned short offset=0;
-	char em_length=(char)strlen(email);
+	char em_length=(char)mir_strlen(email);
 	char* buf= (char*)alloca(SNAC_SIZE+em_length);
 	aim_writesnac(0x0a,0x02,offset,buf);	                        // Email search
 	aim_writegeneric(em_length,email,offset,buf);
@@ -797,7 +797,7 @@ int CAimProto::aim_chatnav_request_limits(HANDLE hServerConn,unsigned short &seq
 int CAimProto::aim_chatnav_create(HANDLE hServerConn,unsigned short &seqno, char* room, unsigned short exchage)
 {
 	//* Join Pseudo Room (Get's the info we need for the real connection)
-	unsigned short room_len = (unsigned short)strlen(room);
+	unsigned short room_len = (unsigned short)mir_strlen(room);
 
 	unsigned short offset=0;
 	char* buf=(char*)alloca(SNAC_SIZE+10+room_len+26);
@@ -818,7 +818,7 @@ int CAimProto::aim_chatnav_create(HANDLE hServerConn,unsigned short &seqno, char
 int CAimProto::aim_chatnav_room_info(HANDLE hServerConn,unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance) 
 { 
 	unsigned short offset=0; 
-	unsigned short chat_cookie_len = (unsigned short)strlen(chat_cookie); 
+	unsigned short chat_cookie_len = (unsigned short)mir_strlen(chat_cookie); 
 	char* buf=(char*)alloca(SNAC_SIZE+7+chat_cookie_len); 
 	aim_writesnac(0x0d,0x04,offset,buf); 
 	aim_writeshort(exchange,offset,buf);                            // Exchange 
@@ -833,7 +833,7 @@ int CAimProto::aim_chat_join_room(HANDLE hServerConn,unsigned short &seqno, char
 								  unsigned short exchange, unsigned short instance, unsigned short id)
 {
 	unsigned short offset=0;
-	unsigned short cookie_len = (unsigned short)strlen(chat_cookie);
+	unsigned short cookie_len = (unsigned short)mir_strlen(chat_cookie);
 	char* buf=(char*)alloca(SNAC_SIZE+TLV_HEADER_SIZE*2+cookie_len+8);
 	aim_writesnac(0x01,0x04,offset,buf,id);
 	aim_writeshort(0x0e,offset,buf);	        			        // Service request for Chat
@@ -856,7 +856,7 @@ int CAimProto::aim_chat_send_message(HANDLE hServerConn, unsigned short &seqno, 
 	aimString str(amsg);
 
 	const char* charset = str.isUnicode() ? "unicode-2-0" : "us-ascii";
-	const unsigned short chrset_len = (unsigned short)strlen(charset);
+	const unsigned short chrset_len = (unsigned short)mir_strlen(charset);
 
 	const char* msg = str.getBuf();
 	const unsigned short msg_len = str.getSize();
@@ -883,9 +883,9 @@ int CAimProto::aim_chat_send_message(HANDLE hServerConn, unsigned short &seqno, 
 int CAimProto::aim_chat_invite(HANDLE hServerConn,unsigned short &seqno, char* chat_cookie, unsigned short exchange, unsigned short instance, char* sn, char* msg)
 {
 	unsigned short offset=0;
-	unsigned short chat_cookie_len = (unsigned short)strlen(chat_cookie);
-	unsigned short sn_len = (unsigned short)strlen(sn);
-	unsigned short msg_len = (unsigned short)strlen(msg);
+	unsigned short chat_cookie_len = (unsigned short)mir_strlen(chat_cookie);
+	unsigned short sn_len = (unsigned short)mir_strlen(sn);
+	unsigned short msg_len = (unsigned short)mir_strlen(msg);
 	char* buf=(char*)alloca(SNAC_SIZE+64+chat_cookie_len+sn_len+msg_len);
 	aim_writesnac(0x04,0x06,offset,buf);
 	aim_writegeneric(8,"\0\0\0\0\0\0\0\0",offset,buf);		    // ICBM Cookie
@@ -917,7 +917,7 @@ int CAimProto::aim_chat_invite(HANDLE hServerConn,unsigned short &seqno, char* c
 int CAimProto::aim_chat_deny(HANDLE hServerConn,unsigned short &seqno,char* sn,char* icbm_cookie)
 {	
 	unsigned short offset=0;
-	unsigned short sn_length=(unsigned short)strlen(sn);
+	unsigned short sn_length=(unsigned short)mir_strlen(sn);
 	char* buf=(char*)alloca(SNAC_SIZE+20+sn_length);
 	aim_writesnac(0x04,0x0b,offset,buf);
 	aim_writegeneric(8,icbm_cookie,offset,buf);             // ICBM Cookie
@@ -945,7 +945,7 @@ int CAimProto::aim_admin_ready(HANDLE hServerConn,unsigned short &seqno)
 int CAimProto::aim_admin_format_name(HANDLE hServerConn,unsigned short &seqno, const char* sn)
 {
 	unsigned short offset=0;
-	unsigned short sn_len = (unsigned short)strlen(sn);
+	unsigned short sn_len = (unsigned short)mir_strlen(sn);
 	char* buf=(char*)alloca(SNAC_SIZE+TLV_HEADER_SIZE+sn_len);
 	aim_writesnac(0x07,0x04,offset,buf);
 	aim_writetlv(0x01,sn_len,sn,offset,buf);
@@ -955,7 +955,7 @@ int CAimProto::aim_admin_format_name(HANDLE hServerConn,unsigned short &seqno, c
 int CAimProto::aim_admin_change_email(HANDLE hServerConn,unsigned short &seqno, const char* email)
 {
 	unsigned short offset=0;
-	unsigned short email_len = (unsigned short)strlen(email);
+	unsigned short email_len = (unsigned short)mir_strlen(email);
 	char* buf=(char*)alloca(SNAC_SIZE+TLV_HEADER_SIZE+email_len);
 	aim_writesnac(0x07,0x04,offset,buf);
 	aim_writetlv(0x11,email_len,email,offset,buf);
@@ -965,8 +965,8 @@ int CAimProto::aim_admin_change_email(HANDLE hServerConn,unsigned short &seqno, 
 int CAimProto::aim_admin_change_password(HANDLE hServerConn,unsigned short &seqno, const char* cur_pw, const char* new_pw)
 {
 	unsigned short offset=0;
-	unsigned short cur_pw_len = (unsigned short)strlen(cur_pw);
-	unsigned short new_pw_len = (unsigned short)strlen(new_pw);
+	unsigned short cur_pw_len = (unsigned short)mir_strlen(cur_pw);
+	unsigned short new_pw_len = (unsigned short)mir_strlen(new_pw);
 	char* buf=(char*)alloca(SNAC_SIZE+2*TLV_HEADER_SIZE+cur_pw_len+new_pw_len);
 	aim_writesnac(0x07,0x04,offset,buf);
 	aim_writetlv(0x02,new_pw_len,new_pw,offset,buf);

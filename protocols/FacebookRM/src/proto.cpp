@@ -880,7 +880,7 @@ std::string FacebookProto::PrepareUrl(std::string url) {
 
 		// Make realtive url
 		if (!isRelativeUrl) {
-			url = url.substr(pos + strlen(FACEBOOK_SERVER_DOMAIN));
+			url = url.substr(pos + mir_strlen(FACEBOOK_SERVER_DOMAIN));
 
 			// Strip eventual port
 			pos = url.find("/");
@@ -1057,7 +1057,7 @@ void FacebookProto::InitHotkeys()
 {
 	char text[200];
 	mir_strncpy(text, m_szModuleName, 100);
-	char *tDest = text + strlen(text);
+	char *tDest = text + mir_strlen(text);
 
 	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.pszName = text;

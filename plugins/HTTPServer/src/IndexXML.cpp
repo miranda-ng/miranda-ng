@@ -36,7 +36,7 @@ static void ReplaceSign(char* pszSrc, int MaxLength, const char pszReplace,
 
 		do {
 			strcpy(szBuffer + (pszSign - pszSrc), pszNew);
-			strcpy(szBuffer + (pszSign - pszSrc) + strlen(pszNew), pszSign + 1);
+			strcpy(szBuffer + (pszSign - pszSrc) + mir_strlen(pszNew), pszSign + 1);
 			*pszSign = ' ';
 
 		} while (pszSign = strchr(pszSrc, pszReplace));
@@ -116,7 +116,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 		strncpy(szBuffer, "index.xsl", BUFFER_SIZE);
 	}
 
-	WriteFile(hFile, szBuffer, (DWORD)strlen(szBuffer), &dwBytesWritten, NULL);
+	WriteFile(hFile, szBuffer, (DWORD)mir_strlen(szBuffer), &dwBytesWritten, NULL);
 
 	WriteFile(hFile, szXmlHeader2, sizeof(szXmlHeader2) - 1, &dwBytesWritten, NULL);
 
@@ -180,16 +180,16 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 	// Add other shared files & directories
 	for (CLFileShareNode * pclCur = pclFirstNode; pclCur ; pclCur = pclCur->pclNext) {
 		if (!((pclCur->st.dwAllowedIP ^ dwRemoteIP) & pclCur->st.dwAllowedMask) &&  // hide inaccessible shares
-		    (size_t)(pclCur->nGetSrvPathLen()) > strlen(pszSrvPath) &&
+		    (size_t)(pclCur->nGetSrvPathLen()) > mir_strlen(pszSrvPath) &&
 		    !strstr(pclCur->st.pszRealPath, "\\@") &&
-		    !strncmp(pclCur->st.pszSrvPath, pszSrvPath, strlen(pszSrvPath))) {
+		    !strncmp(pclCur->st.pszSrvPath, pszSrvPath, mir_strlen(pszSrvPath))) {
 			pszBuffer = szBuffer;
 
-			strcpy(szFileName, &pclCur->st.pszSrvPath[strlen(pszSrvPath)]);
+			strcpy(szFileName, &pclCur->st.pszSrvPath[mir_strlen(pszSrvPath)]);
 			ReplaceSign(szFileName, MAX_PATH, '&', "&amp;");
 
 			if (pclCur->bIsDirectory()) {
-				szFileName[strlen(szFileName)-1] = '\0';
+				szFileName[mir_strlen(szFileName)-1] = '\0';
 				if (!strchr(szFileName, '/')) { // only one level deeper
 					pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
 						"  <item name=\"%s\" isdir=\"true\"/>\r\n", szFileName);
@@ -199,7 +199,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 				}
 			} else {
 				if (!strchr(szFileName, '/') &&   // only one level deeper
-				    strncmp(pszRealPath, pclCur->st.pszRealPath, strlen(pszRealPath))) { // no duplicates
+				    strncmp(pszRealPath, pclCur->st.pszRealPath, mir_strlen(pszRealPath))) { // no duplicates
 					pszExt = strrchr(szFileName, '.');
 
 					if (pszExt != NULL) {

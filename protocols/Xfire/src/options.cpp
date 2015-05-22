@@ -104,7 +104,7 @@ static mytreeitem mytree[] = {
 //funktion zum auslesen aller einträge unter XFireBlock
 static int enumSettingsProc(const char *szSetting, LPARAM lParam)
 {
-	if (strlen(szSetting) > 0)
+	if (mir_strlen(szSetting) > 0)
 	{
 		SendDlgItemMessageA((HWND)lParam, IDC_BLOCKUSER, LB_ADDSTRING, 0, (LPARAM)szSetting);
 	}
@@ -895,7 +895,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		char* buffer;
 
 		EmptyClipboard();
-		clipbuffer = GlobalAlloc(GMEM_DDESHARE, strlen(out)+1);
+		clipbuffer = GlobalAlloc(GMEM_DDESHARE, mir_strlen(out)+1);
 		buffer = (char*)GlobalLock(clipbuffer);
 		strcpy(buffer, LPCSTR(out));
 		GlobalUnlock(clipbuffer);

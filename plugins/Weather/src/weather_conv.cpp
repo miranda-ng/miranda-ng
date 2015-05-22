@@ -432,7 +432,7 @@ void TrimString(char *str)
 {
 	size_t len, start;
 
-	len = strlen(str);
+	len = mir_strlen(str);
 	while(len && (unsigned char)str[len-1] <= ' ') str[--len] = 0;
 	for(start=0; (unsigned char)str[start] <= ' ' && str[start]; start++);
 	memmove(str, str+start, len-start+1);
@@ -458,7 +458,7 @@ void ConvertBackslashes(char *str)
 				case 't': *pstr = '\t'; break;
 				default: *pstr = pstr[1]; break;
 			}
-			memmove(pstr+1, pstr+2, strlen(pstr+2)+1);
+			memmove(pstr+1, pstr+2, mir_strlen(pstr+2)+1);
 }	}	}
 
 // replace spaces with _T("%20"
@@ -467,7 +467,7 @@ void ConvertBackslashes(char *str)
 char *GetSearchStr(char *dis) 
 {
 	char *pstr = dis;
-	size_t len = strlen(dis);
+	size_t len = mir_strlen(dis);
 	while (*pstr != 0)
 	{
 		if (*pstr == ' ')

@@ -182,7 +182,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						char* p = strchr(szFile + 1, '\"');
 						if (p != NULL) {
 							*p = '\0';
-							memmove(szFile, szFile + 1, strlen(szFile));
+							memmove(szFile, szFile + 1, mir_strlen(szFile));
 							tSelectLen += 2;
 							goto LBL_Continue;
 						}
@@ -191,7 +191,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					char* p = strchr(szFile, ' ');
 					if (p != NULL) *p = '\0';
 LBL_Continue:
-					tSelectLen += strlen(szFile);
+					tSelectLen += mir_strlen(szFile);
 
 					OPENFILENAMEA ofn = { 0 };
 					ofn.lStructSize = sizeof(ofn);

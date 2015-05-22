@@ -346,7 +346,7 @@ char *normalize_name(const char *s)
 char* trim_str(char* s)
 {   
 	if (s == NULL) return NULL;
-	size_t len = strlen(s);
+	size_t len = mir_strlen(s);
 
 	while (len)
 	{
@@ -357,7 +357,7 @@ char* trim_str(char* s)
 
 	char* sc = s; 
 	while (isspace(*sc)) ++sc;
-	memcpy(s,sc,strlen(sc)+1);
+	memcpy(s,sc,mir_strlen(sc)+1);
 
 	return s;
 }
@@ -568,9 +568,9 @@ void CAimProto::write_away_message(const char* sn, const char* msg, bool utf)
 		if (utf) _write(fid, "\xEF\xBB\xBF", 3);
 		char* s_msg=process_status_msg(msg, sn);
 		_write(fid, "<h3>", 4);
-		_write(fid, sn, (unsigned)strlen(sn));
+		_write(fid, sn, (unsigned)mir_strlen(sn));
 		_write(fid, "'s Away Message:</h3>", 21);
-		_write(fid, s_msg, (unsigned)strlen(s_msg));
+		_write(fid, s_msg, (unsigned)mir_strlen(s_msg));
 		_close(fid);
 		ShellExecute(NULL, _T("open"), path, NULL, NULL, SW_SHOW);
 		mir_free(path);
@@ -587,9 +587,9 @@ void CAimProto::write_profile(const char* sn, const char* msg, bool utf)
 		if (utf) _write(fid, "\xEF\xBB\xBF", 3);
 		char* s_msg=process_status_msg(msg, sn);
 		_write(fid, "<h3>", 4);
-		_write(fid, sn, (unsigned)strlen(sn));
+		_write(fid, sn, (unsigned)mir_strlen(sn));
 		_write(fid, "'s Profile:</h3>", 16);
-		_write(fid, s_msg, (unsigned)strlen(s_msg));
+		_write(fid, s_msg, (unsigned)mir_strlen(s_msg));
 		_close(fid);
 		ShellExecute(NULL, _T("open"), path, NULL, NULL, SW_SHOW);
 		mir_free(path);
@@ -646,7 +646,7 @@ char* long_ip_to_char_ip(unsigned long host, char* ip)
 	{
 		char store[16];
 		_itoa(bytes[i], store, 10);
-		size_t len = strlen(store);
+		size_t len = mir_strlen(store);
 
 		memcpy(&ip[buf_loc], store, len);
 		buf_loc += len;

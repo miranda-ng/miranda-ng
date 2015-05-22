@@ -194,7 +194,7 @@ void GGPROTO::checknewuser(uin_t uin, const char* passwd)
 		db_free(&dbv);
 	}
 
-	if (uin > 0 && strlen(passwd) > 0 && (uin != olduin || strcmp(oldpasswd, passwd)))
+	if (uin > 0 && mir_strlen(passwd) > 0 && (uin != olduin || strcmp(oldpasswd, passwd)))
 		check_first_conn = 1;
 }
 
@@ -340,7 +340,7 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				GetDlgItemTextA(hwndDlg, IDC_UIN, email, SIZEOF(email));
 				uin = atoi(email);
 				GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, SIZEOF(email));
-				if (!strlen(email))
+				if (!mir_strlen(email))
 					MessageBox(NULL, TranslateT("You need to specify your registration e-mail first."),
 					gg->m_tszUserName, MB_OK | MB_ICONEXCLAMATION);
 				else if (MessageBox(NULL,

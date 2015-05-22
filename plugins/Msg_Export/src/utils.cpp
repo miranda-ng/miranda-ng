@@ -1173,7 +1173,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 							bool bConvertedToUtf8 = false;
 							if (bWriteUTF8Format )// Write UTF-8 format in file ?
 							{
-							int nAnsiLen = strlen((char *) dbei.pBlob)+1;
+							int nAnsiLen = mir_strlen((char *) dbei.pBlob)+1;
 							if (nAnsiLen < (int)dbei.cbBlob )
 							{
 							// Message is also encoded in unicode UTF-16/UCS-2, little endian.

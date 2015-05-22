@@ -62,15 +62,15 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				free(tempbuffer);
 
 				Filter(buff);
-				CharUpperBuffA(buff, (int)strlen(buff));
+				CharUpperBuffA(buff, (int)mir_strlen(buff));
 
 				GetDlgItemTextA(hwndDlg, IDC_FINDWHAT, NewSearchstr, SIZEOF(NewSearchstr));
-				CharUpperBuffA(NewSearchstr, (int)strlen(NewSearchstr));
+				CharUpperBuffA(NewSearchstr, (int)mir_strlen(NewSearchstr));
 
 				OLDstartposition = startposition;
 
 				if ((strstr(Searchstr, NewSearchstr)) != 0)
-					startposition = loc + (int)strlen(Searchstr);
+					startposition = loc + (int)mir_strlen(Searchstr);
 				else {
 					oldloc = 0;
 					startposition = 0;
@@ -78,7 +78,7 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 				strcpy(Searchstr, NewSearchstr);
 
-				if (!(startposition > strlen(buff)))
+				if (!(startposition > mir_strlen(buff)))
 					location = (strstr(buff + startposition, NewSearchstr)) - buff;
 
 				oldloc = loc;
@@ -88,14 +88,14 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					ShowWindow(GetDlgItem(hwndDlg, IDC_SEARCH_COMPLETE), SW_SHOW);
 					loc = (strstr(buff, NewSearchstr)) - buff;
 					startsel = loc;
-					endsel = loc + (int)strlen(NewSearchstr);
+					endsel = loc + (int)mir_strlen(NewSearchstr);
 					oldloc = 0;
 					startposition = 0;
 				}
 				else {
 					ShowWindow(GetDlgItem(hwndDlg, IDC_SEARCH_COMPLETE), SW_HIDE);
 					startsel = loc;
-					endsel = loc + (int)strlen(NewSearchstr);
+					endsel = loc + (int)mir_strlen(NewSearchstr);
 				}
 
 				CHARRANGE sel2 = {startsel, endsel};

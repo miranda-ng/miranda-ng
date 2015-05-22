@@ -662,7 +662,7 @@ void createProtocolList(void)
 	for (int i=0; i < ProtoList.protoCount; i++) {
 		ProtoList.protoInfo[i].xstatus.count = 0;
 		ProtoList.protoInfo[i].xstatus.enabled = NULL;
-		ProtoList.protoInfo[i].szProto = (char *)malloc(strlen(proto[i]->szModuleName) + 1);
+		ProtoList.protoInfo[i].szProto = (char *)malloc(mir_strlen(proto[i]->szModuleName) + 1);
 		if (!ProtoList.protoInfo[i].szProto) {
 			ProtoList.protoInfo[i].enabled = FALSE;
 			ProtoList.protoInfo[i].visible = FALSE;

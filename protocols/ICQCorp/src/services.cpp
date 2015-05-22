@@ -275,7 +275,7 @@ static INT_PTR icqSetAwayMsg(WPARAM wParam, LPARAM lParam)
     if (lParam == NULL) return 0;
 
     if (icq.awayMessage) delete [] icq.awayMessage;
-    icq.awayMessage = new char[strlen((char*)lParam) + 1];
+    icq.awayMessage = new char[mir_strlen((char*)lParam) + 1];
     strcpy(icq.awayMessage, (char*)lParam);
 
 	return 0;
@@ -446,7 +446,7 @@ static INT_PTR icqRecvFile(WPARAM wParam, LPARAM lParam)
 	db_unset(ccs->hContact, "CList", "Hidden");
 
 	szFile = pre->szMessage + sizeof(DWORD);
-	szDesc = szFile + strlen(szFile) + 1;
+	szDesc = szFile + mir_strlen(szFile) + 1;
 
 	ZeroMemory(&dbei, sizeof(dbei));
 	dbei.cbSize = sizeof(dbei);
@@ -454,7 +454,7 @@ static INT_PTR icqRecvFile(WPARAM wParam, LPARAM lParam)
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
 	dbei.eventType = EVENTTYPE_FILE;
-	dbei.cbBlob = sizeof(DWORD)+(DWORD)strlen(szFile) + (DWORD)strlen(szDesc) + 2;
+	dbei.cbBlob = sizeof(DWORD)+(DWORD)mir_strlen(szFile) + (DWORD)mir_strlen(szDesc) + 2;
 	dbei.pBlob = (PBYTE)pre->szMessage;
 	db_event_add(ccs->hContact, &dbei);
 

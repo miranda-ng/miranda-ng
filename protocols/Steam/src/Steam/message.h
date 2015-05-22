@@ -31,7 +31,7 @@ namespace SteamWebApi
 	//			state);
 
 	//		SecureHttpPostRequest request(hConnection, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001");
-	//		request.SetData(data, strlen(data));
+	//		request.SetData(data, mir_strlen(data));
 
 	//		mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
 	//		if (!response)
@@ -56,7 +56,7 @@ namespace SteamWebApi
 	//			ptrA(mir_urlEncode(text)));
 
 	//		SecureHttpPostRequest request(hConnection, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001");
-	//		request.SetData(data, strlen(data));
+	//		request.SetData(data, mir_strlen(data));
 
 	//		mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
 	//		if (!response)
@@ -91,7 +91,7 @@ namespace SteamWebApi
 	//			steamId);
 
 	//		SecureHttpPostRequest request(hConnection, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001");
-	//		request.SetData(data, strlen(data));
+	//		request.SetData(data, mir_strlen(data));
 
 	//		mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
 	//		if (!response)

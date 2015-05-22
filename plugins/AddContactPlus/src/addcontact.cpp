@@ -60,7 +60,7 @@ void AddContactDlgOpts(HWND hdlg, const char* szProto, BOOL bAuthOptsOnly = FALS
 
 	char* szUniqueId = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
 	if (szUniqueId) {
-		size_t cbLen = strlen(szUniqueId) + 2;
+		size_t cbLen = mir_strlen(szUniqueId) + 2;
 		TCHAR* pszUniqueId = (TCHAR*)mir_alloc(cbLen * sizeof(TCHAR));
 		mir_sntprintf(pszUniqueId, cbLen, _T("%S:"), szUniqueId);
 		SetDlgItemText(hdlg, IDC_IDLABEL, pszUniqueId);
@@ -76,7 +76,7 @@ void AddContactDlgOpts(HWND hdlg, const char* szProto, BOOL bAuthOptsOnly = FALS
 			_ultoa(INT_MAX, buffer, 10);
 		else
 			_ultoa(ULONG_MAX, buffer, 10);
-		SendDlgItemMessage(hdlg, IDC_USERID, EM_LIMITTEXT, (WPARAM)strlen(buffer), 0);
+		SendDlgItemMessage(hdlg, IDC_USERID, EM_LIMITTEXT, (WPARAM)mir_strlen(buffer), 0);
 	}
 	else {
 		SetWindowLongPtr(GetDlgItem(hdlg, IDC_USERID), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_USERID), GWL_STYLE) & ~ES_NUMBER);

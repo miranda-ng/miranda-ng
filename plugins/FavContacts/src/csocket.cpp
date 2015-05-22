@@ -10,7 +10,7 @@ int CSocket::Recv(char *buf, int count)
 int CSocket::Send(char *buf, int count)
 {
 	if (count < 0)
-		count = (int)strlen(buf);
+		count = (int)mir_strlen(buf);
 	return send(m_socket, buf, count, 0);
 }
 

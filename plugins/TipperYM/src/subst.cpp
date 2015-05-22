@@ -450,11 +450,11 @@ bool GetSubstText(MCONTACT hContact, const DISPLAYSUBST &ds, TCHAR *buff, int bu
 
 bool GetRawSubstText(MCONTACT hContact, char *szRawSpec, TCHAR *buff, int bufflen)
 {
-	size_t lenght = strlen(szRawSpec);
+	size_t lenght = mir_strlen(szRawSpec);
 	for (size_t i = 0; i < lenght; i++) {
 		if (szRawSpec[i] == '/') {
 			szRawSpec[i] = 0;
-			if (strlen(szRawSpec) == 0) {
+			if (mir_strlen(szRawSpec) == 0) {
 				char *szProto = GetContactProto(hContact);
 				if (szProto) {
 					if (translations[0].transFunc(hContact, szProto, &szRawSpec[i + 1], buff, bufflen) != 0)

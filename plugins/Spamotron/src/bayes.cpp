@@ -16,8 +16,8 @@ int CheckBayes()
 	char bayesdb_tmp[MAX_PATH];
 
 	char* tmp = Utils_ReplaceVars("%miranda_userdata%");
-	if (tmp[strlen(tmp)-1] == '\\')
-		tmp[strlen(tmp)-1] = 0;
+	if (tmp[mir_strlen(tmp)-1] == '\\')
+		tmp[mir_strlen(tmp)-1] = 0;
 	mir_snprintf(bayesdb_tmp, SIZEOF(bayesdb_tmp), "%s\\%s", tmp, BAYESDB_PATH);
 	mir_free(tmp);
 
@@ -49,8 +49,8 @@ int OpenBayes()
 	}
 	else {
 		tmp = Utils_ReplaceVars("%miranda_userdata%");
-		if (tmp[strlen(tmp)-1] == '\\')
-			tmp[strlen(tmp)-1] = 0;
+		if (tmp[mir_strlen(tmp)-1] == '\\')
+			tmp[mir_strlen(tmp)-1] = 0;
 		strcpy(bayesdb_fullpath, tmp);
 		strcat(bayesdb_fullpath, "\\"BAYESDB_PATH);
 		mir_free(tmp);
@@ -81,8 +81,8 @@ int OpenBayes()
 
 #ifdef _DEBUG
 	tmp = Utils_ReplaceVars("%miranda_userdata%");
-	if (tmp[strlen(tmp)-1] == '\\')
-		tmp[strlen(tmp)-1] = 0;
+	if (tmp[mir_strlen(tmp)-1] == '\\')
+		tmp[mir_strlen(tmp)-1] = 0;
 	mir_snprintf(bayesdb_fullpath, SIZEOF(bayesdb_fullpath), "%s\\%s\\%s", tmp, BAYESDB_PATH, BAYESDBG_FILENAME);
 	mir_free(tmp);
 	bayesdb_fullpath_utf8 = mir_utf8encode(bayesdb_fullpath);
@@ -99,7 +99,7 @@ int OpenBayes()
 
 char *tokenhash(const char *token, BYTE *digest)
 {
-	mir_md5_hash((BYTE *)token, (int)strlen(token), digest);
+	mir_md5_hash((BYTE *)token, (int)mir_strlen(token), digest);
 	return (char*)digest;
 }
 
@@ -140,13 +140,13 @@ BOOL is_token_valid(char *token)
 {
 	unsigned int i;
 	// skip digits only tokens
-	for (i = 0; i < strlen(token); i++) {
+	for (i = 0; i < mir_strlen(token); i++) {
 		if ((unsigned char)token[i] >= 48 && (unsigned char)token[i] <= 57)
 			return FALSE;
 	}
 	
 	// skip 1- and 2-character tokens
-	if (strlen(token) < 3)
+	if (mir_strlen(token) < 3)
 		return FALSE;
 
 	// skip "www", "com", "org", etc.
@@ -239,7 +239,7 @@ void queue_message(MCONTACT hContact, DWORD msgtime, TCHAR *message)
 	sqlite3_bind_int(stmt, 1, (DWORD)hContact);
 	sqlite3_bind_int(stmt, 2, msgtime);
 	tmp = mir_u2a(message);
-	sqlite3_bind_text(stmt, 3, tmp, (int)strlen(tmp), NULL);
+	sqlite3_bind_text(stmt, 3, tmp, (int)mir_strlen(tmp), NULL);
 	sqlite3_step(stmt);
 	mir_free(tmp);
 	sqlite3_finalize(stmt);
@@ -353,7 +353,7 @@ void learn(int type, TCHAR *msg)
 
 #ifdef _DEBUG
 		sqlite3_prepare_v2(bayesdbg, sql_select, -1, &stmtdbg, NULL);
-		sqlite3_bind_text(stmtdbg, 1, tok, (int)strlen(tok), NULL);
+		sqlite3_bind_text(stmtdbg, 1, tok, (int)mir_strlen(tok), NULL);
 		if (SQLITE_ROW == sqlite3_step(stmtdbg)) {
 			sqlite3_finalize(stmtdbg);
 			sqlite3_prepare_v2(bayesdbg, sql_update, -1, &stmtdbg, NULL);
@@ -361,7 +361,7 @@ void learn(int type, TCHAR *msg)
 			sqlite3_finalize(stmtdbg);
 			sqlite3_prepare_v2(bayesdbg, sql_insert, -1, &stmtdbg, NULL);
 		}
-		sqlite3_bind_text(stmtdbg, 1, tok, (int)strlen(tok), SQLITE_STATIC);
+		sqlite3_bind_text(stmtdbg, 1, tok, (int)mir_strlen(tok), SQLITE_STATIC);
 		sqlite3_step(stmtdbg);
 		sqlite3_finalize(stmtdbg);
 #endif

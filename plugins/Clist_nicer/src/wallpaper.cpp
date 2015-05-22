@@ -41,7 +41,7 @@ void GetWallpaperPattern()
 	if (hPattern) {DeleteObject(hPattern); hPattern=NULL;}
 	SystemParametersInfo(SPI_GETDESKWALLPAPER,MAX_PATH,wpbuf,NULL);
 
-	if (strlen(wpbuf)>0)
+	if (mir_strlen(wpbuf)>0)
 	{
 		hPattern = (HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)wpbuf);
 	}

@@ -62,7 +62,7 @@ int TlenSend(TlenProtocol *proto, const char *fmt, ...)
 	va_end(vararg);
 
 	proto->debugLogA("SEND:%s", str);
-	size = (int)strlen(str);
+	size = (int)mir_strlen(str);
 	if (proto->threadData != NULL) {
 		if (proto->threadData->useAES) {
 			result = TlenWsSendAES(proto, str, size, &proto->threadData->aes_out_context, proto->threadData->aes_out_iv);
@@ -84,9 +84,9 @@ char *TlenResourceFromJID(const char *jid2)
 	p=strchr(jid, '/');
 	if (p != NULL && p[1] != '\0') {
 		p++;
-		if ((nick=(char *) mir_alloc(1+strlen(jid)-(p-jid))) != NULL) {
-			strncpy(nick, p, strlen(jid)-(p-jid));
-			nick[strlen(jid)-(p-jid)] = '\0';
+		if ((nick=(char *) mir_alloc(1+mir_strlen(jid)-(p-jid))) != NULL) {
+			strncpy(nick, p, mir_strlen(jid)-(p-jid));
+			nick[mir_strlen(jid)-(p-jid)] = '\0';
 		}
 	}
 	else {
@@ -161,7 +161,7 @@ char *TlenSha1(char *str)
 		return NULL;
 
 	mir_sha1_init( &sha );
-	mir_sha1_append( &sha, (BYTE* )str, (int)strlen( str ));
+	mir_sha1_append( &sha, (BYTE* )str, (int)mir_strlen( str ));
 	mir_sha1_finish( &sha, (BYTE* )digest );
 	if ((result=(char *)mir_alloc(41)) == NULL)
 		return NULL;
@@ -215,7 +215,7 @@ char *TlenUrlEncode(const char *str)
 	unsigned char c;
 
 	if (str == NULL) return NULL;
-	res = (char *) mir_alloc(3*strlen(str) + 1);
+	res = (char *) mir_alloc(3*mir_strlen(str) + 1);
 	for (p=(char *)str,q=res; *p != '\0'; p++,q++) {
 		if (*p == ' ') {
 			*q = '+';
@@ -406,8 +406,8 @@ void TlenStringAppend(char **str, int *sizeAlloced, const char *fmt, ...)
 		len = 0;
 	}
 	else {
-		len = (int)strlen(*str);
-		size = *sizeAlloced - (int)strlen(*str);
+		len = (int)mir_strlen(*str);
+		size = *sizeAlloced - (int)mir_strlen(*str);
 	}
 
 	p = *str + len;
@@ -433,7 +433,7 @@ BOOL IsAuthorized(TlenProtocol *proto, const char *jid)
 
 void TlenLogMessage(TlenProtocol *proto, MCONTACT hContact, DWORD flags, const char *message)
 {
-	int size = (int)strlen(message) + 2;
+	int size = (int)mir_strlen(message) + 2;
 	char *localMessage = (char *)mir_alloc(size);
 	strcpy(localMessage, message);
 	localMessage[size - 1] = '\0';

@@ -275,9 +275,9 @@ char* copyReplaceString(char* oldStr, char* newStr, char* findStr, char* replace
 	int i = 0;
 	while (oldStr[i] != '\0') {
 		//	msg(&oldStr[i],"");
-		if (!strncmp(&oldStr[i], findStr, strlen(findStr))) {
+		if (!strncmp(&oldStr[i], findStr, mir_strlen(findStr))) {
 			strcat(newStr, replaceWithStr);
-			i += (int)strlen(findStr);
+			i += (int)mir_strlen(findStr);
 		}
 		else {
 			strncat(newStr, &oldStr[i], 1);
@@ -498,37 +498,37 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 			continue;
 		if (!strcmp(line, "[Non-IM Contact]\r\n"))
 			contactDone = 0;
-		else if (!strncmp(line, "Name=", strlen("Name="))) {
-			i = (int)strlen("Name="); j = 0;
+		else if (!strncmp(line, "Name=", mir_strlen("Name="))) {
+			i = (int)mir_strlen("Name="); j = 0;
 			while (line[i] != '\r' && line[i] != '\n' && line[i] != '\0') {
 				name[j] = line[i++];
 				name[++j] = '\0';
 			}
 			contactDone = 1;
 		}
-		else if (!strncmp(line, "ProgramString=", strlen("ProgramString="))) {
-			i = (int)strlen("ProgramString="); j = 0;
+		else if (!strncmp(line, "ProgramString=", mir_strlen("ProgramString="))) {
+			i = (int)mir_strlen("ProgramString="); j = 0;
 			while (line[i] != '\r' && line[i] != '\n' && line[i] != '\0') {
 				program[j] = line[i++];
 				program[++j] = '\0';
 			}
 		}
-		else if (!strncmp(line, "ProgramParamString=", strlen("ProgramParamString="))) {
-			i = (int)strlen("ProgramParamString="); j = 0;
+		else if (!strncmp(line, "ProgramParamString=", mir_strlen("ProgramParamString="))) {
+			i = (int)mir_strlen("ProgramParamString="); j = 0;
 			while (line[i] != '\r' && line[i] != '\n' && line[i] != '\0') {
 				programparam[j] = line[i++];
 				programparam[++j] = '\0';
 			}
 		}
-		else if (!strncmp(line, "Group=", strlen("Group="))) {
-			i = (int)strlen("Group="); j = 0;
+		else if (!strncmp(line, "Group=", mir_strlen("Group="))) {
+			i = (int)mir_strlen("Group="); j = 0;
 			while (line[i] != '\r' && line[i] != '\n' && line[i] != '\0') {
 				group[j] = line[i++];
 				group[++j] = '\0';
 			}
 		}
-		else if (!strncmp(line, "ToolTip=", strlen("ToolTip="))) {
-			i = (int)strlen("ToolTip=");
+		else if (!strncmp(line, "ToolTip=", mir_strlen("ToolTip="))) {
+			i = (int)mir_strlen("ToolTip=");
 			strcpy(tooltip, &line[i]);
 			fgets(line, 2000, file);
 			while (!strstr(line, "</tooltip>\r\n")) {
@@ -538,47 +538,47 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 			// the line that has the </tooltip>
 			strncat(tooltip, line, SIZEOF(tooltip) - mir_strlen(tooltip));
 		}
-		else if (!strncmp(line, "Icon=", strlen("Icon="))) {
-			i = (int)strlen("Icon=");
+		else if (!strncmp(line, "Icon=", mir_strlen("Icon="))) {
+			i = (int)mir_strlen("Icon=");
 			sscanf(&line[i], "%d", &icon);
 		}
-		else if (!strncmp(line, "UseTimer=", strlen("UseTimer="))) {
-			i = (int)strlen("UseTimer=");
+		else if (!strncmp(line, "UseTimer=", mir_strlen("UseTimer="))) {
+			i = (int)mir_strlen("UseTimer=");
 			sscanf(&line[i], "%d", &usetimer);
 		}
-		else if (!strncmp(line, "Timer=", strlen("Timer="))) {
-			i = (int)strlen("Timer=");
+		else if (!strncmp(line, "Timer=", mir_strlen("Timer="))) {
+			i = (int)mir_strlen("Timer=");
 			sscanf(&line[i], "%d", &timer);
 		}
-		else if (!strncmp(line, "Minutes=", strlen("Minutes="))) {
-			i = (int)strlen("Minutes=");
+		else if (!strncmp(line, "Minutes=", mir_strlen("Minutes="))) {
+			i = (int)mir_strlen("Minutes=");
 			sscanf(&line[i], "%d", &minutes);
 		}
 		else if (contactDone && !strcmp(line, "[/Non-IM Contact]\r\n")) {
 			if (!name) continue;
-			size_t size = strlen(name) + strlen("Do you want to import this Non-IM Contact?\r\n\r\nName: \r\n") + 1;
+			size_t size = mir_strlen(name) + mir_strlen("Do you want to import this Non-IM Contact?\r\n\r\nName: \r\n") + 1;
 			char *msg = (char*)malloc(size);
 			mir_snprintf(msg, size, "Do you want to import this Non-IM Contact?\r\n\r\nName: %s\r\n", name);
 			if (program) {
-				msg = (char*)realloc(msg, strlen(msg) + strlen(program) + strlen("Program: \r\n") + 1);
+				msg = (char*)realloc(msg, mir_strlen(msg) + mir_strlen(program) + mir_strlen("Program: \r\n") + 1);
 				strcat(msg, "Program: ");
 				strcat(msg, program);
 				strcat(msg, "\r\n");
 			}
 			if (programparam) {
-				msg = (char*)realloc(msg, strlen(msg) + strlen(programparam) + strlen("Program Parameters: \r\n") + 1);
+				msg = (char*)realloc(msg, mir_strlen(msg) + mir_strlen(programparam) + mir_strlen("Program Parameters: \r\n") + 1);
 				strcat(msg, "Program Parameters: ");
 				strcat(msg, programparam);
 				strcat(msg, "\r\n");
 			}
 			if (tooltip) {
-				msg = (char*)realloc(msg, strlen(msg) + strlen(tooltip) + strlen("ToolTip: \r\n") + 1);
+				msg = (char*)realloc(msg, mir_strlen(msg) + mir_strlen(tooltip) + mir_strlen("ToolTip: \r\n") + 1);
 				strcat(msg, "ToolTip: ");
 				strcat(msg, tooltip);
 				strcat(msg, "\r\n");
 			}
 			if (group) {
-				msg = (char*)realloc(msg, strlen(msg) + strlen(group) + strlen("Group: \r\n") + 1);
+				msg = (char*)realloc(msg, mir_strlen(msg) + mir_strlen(group) + mir_strlen("Group: \r\n") + 1);
 				strcat(msg, "Group: ");
 				strcat(msg, group);
 				strcat(msg, "\r\n");
@@ -607,7 +607,7 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 					free(msg);
 					continue;
 				}
-				char *msgtemp = (char*)realloc(msg, strlen(msg) + strlen(tmp) + 1);
+				char *msgtemp = (char*)realloc(msg, mir_strlen(msg) + mir_strlen(tmp) + 1);
 				if (msgtemp) {
 					msg = msgtemp;
 					strcat(msg, tmp);
@@ -619,7 +619,7 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 					strcpy(tmp2, "Minutes");
 				else strcpy(tmp2, "Seconds");
 				mir_snprintf(tmp, SIZEOF(tmp), "UseTimer: Yes\r\nTimer: %d %s", timer, tmp2);
-				char *msgtemp = (char*)realloc(msg, strlen(msg) + strlen(tmp) + 1);
+				char *msgtemp = (char*)realloc(msg, mir_strlen(msg) + mir_strlen(tmp) + 1);
 				if (msgtemp) {
 					msg = msgtemp;
 					strcat(msg, tmp);

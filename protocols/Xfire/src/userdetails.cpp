@@ -101,7 +101,7 @@ static int GetIPPortUDetails(MCONTACT hContact, char* feld1, char* feld2)
 	if (OpenClipboard(NULL)) {
 		EmptyClipboard();
 
-		HGLOBAL clipbuffer = GlobalAlloc(GMEM_DDESHARE, strlen(temp) + 1);
+		HGLOBAL clipbuffer = GlobalAlloc(GMEM_DDESHARE, mir_strlen(temp) + 1);
 		char *buffer = (char*)GlobalLock(clipbuffer);
 		strcpy(buffer, LPCSTR(temp));
 		GlobalUnlock(clipbuffer);
@@ -254,7 +254,7 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 					DBVARIANT dbv;
 					if (!db_get(hContact, protocolname, "Username", &dbv))
 					{
-						int usernamesize = strlen(dbv.pszVal) + 1;
+						int usernamesize = mir_strlen(dbv.pszVal) + 1;
 						char* username = new char[usernamesize];
 						if (username)
 						{

@@ -274,7 +274,7 @@ void CMsnProto::MsnInitMainMenu(void)
 {
 	char servicefunction[100];
 	strcpy(servicefunction, m_szModuleName);
-	char* tDest = servicefunction + strlen(servicefunction);
+	char* tDest = servicefunction + mir_strlen(servicefunction);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 
@@ -410,7 +410,7 @@ void MSN_InitContactMenu(void)
 {
 	char servicefunction[100];
 	strcpy(servicefunction, "MSN");
-	char* tDest = servicefunction + strlen(servicefunction);
+	char* tDest = servicefunction + mir_strlen(servicefunction);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = servicefunction;

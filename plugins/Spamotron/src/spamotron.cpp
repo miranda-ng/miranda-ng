@@ -135,7 +135,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	} else if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
 		msgblob = (char *)(dbei->pBlob + sizeof(DWORD) + sizeof(HANDLE));
 		for(a=4;a>0;a--)
-			msgblob += strlen(msgblob)+1;
+			msgblob += mir_strlen(msgblob)+1;
 	}
 
 	if (dbei->flags & DBEF_UTF)
@@ -464,7 +464,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		} else {
 			if (_getOptB("MarkMsgUnreadOnApproval", defaultMarkMsgUnreadOnApproval)) {
 				DBVARIANT _dbv;
-				DWORD dbei_size = 3*sizeof(DWORD) + sizeof(WORD) + dbei->cbBlob + (DWORD)strlen(dbei->szModule)+1;
+				DWORD dbei_size = 3*sizeof(DWORD) + sizeof(WORD) + dbei->cbBlob + (DWORD)mir_strlen(dbei->szModule)+1;
 				PBYTE eventdata = (PBYTE)malloc(dbei_size);
 				PBYTE pos = eventdata;
 				if (eventdata != NULL && dbei->cbBlob > 0) {
@@ -478,9 +478,9 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 					memcpy(pos, &dbei->eventType, sizeof(WORD));
 					memcpy(pos+sizeof(WORD), &dbei->flags, sizeof(DWORD));
 					memcpy(pos+sizeof(WORD)+sizeof(DWORD), &dbei->timestamp, sizeof(DWORD));
-					memcpy(pos+sizeof(WORD)+sizeof(DWORD)*2, dbei->szModule, strlen(dbei->szModule)+1);
-					memcpy(pos+sizeof(WORD)+sizeof(DWORD)*2+strlen(dbei->szModule)+1, &dbei->cbBlob, sizeof(DWORD));
-					memcpy(pos+sizeof(WORD)+sizeof(DWORD)*3+strlen(dbei->szModule)+1, dbei->pBlob, dbei->cbBlob);
+					memcpy(pos+sizeof(WORD)+sizeof(DWORD)*2, dbei->szModule, mir_strlen(dbei->szModule)+1);
+					memcpy(pos+sizeof(WORD)+sizeof(DWORD)*2+mir_strlen(dbei->szModule)+1, &dbei->cbBlob, sizeof(DWORD));
+					memcpy(pos+sizeof(WORD)+sizeof(DWORD)*3+mir_strlen(dbei->szModule)+1, dbei->pBlob, dbei->cbBlob);
 					db_set_blob(hContact, PLUGIN_NAME, "LastMsgEvents", eventdata, (pos - eventdata) + dbei_size);
 					free(eventdata);
 				}

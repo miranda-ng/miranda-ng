@@ -469,7 +469,7 @@ void CJabberInfoFrame::UpdateInfoItem(char *pszName, HANDLE hIcolibIcon, TCHAR *
 void CJabberInfoFrame::ShowInfoItem(char *pszName, bool bShow)
 {
 	bool bUpdate = false;
-	size_t length = strlen(pszName);
+	size_t length = mir_strlen(pszName);
 	for (int i=0; i < m_pItems.getCount(); i++)
 		if ((m_pItems[i].m_bShow != bShow) && !strncmp(m_pItems[i].m_pszName, pszName, length)) {
 			m_pItems[i].m_bShow = bShow;
@@ -484,7 +484,7 @@ void CJabberInfoFrame::ShowInfoItem(char *pszName, bool bShow)
 void CJabberInfoFrame::RemoveInfoItem(char *pszName)
 {
 	bool bUpdate = false;
-	size_t length = strlen(pszName);
+	size_t length = mir_strlen(pszName);
 	for (int i=0; i < m_pItems.getCount(); i++)
 		if (!strncmp(m_pItems[i].m_pszName, pszName, length)) {
 			if (!m_pItems[i].m_bShow) --m_hiddenItemCount;

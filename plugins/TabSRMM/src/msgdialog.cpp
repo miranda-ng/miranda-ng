@@ -2668,7 +2668,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				int flags = 0;
 				char *utfResult = mir_utf8encodeT(decoded);
-				size_t memRequired = strlen(utfResult) + 1;
+				size_t memRequired = mir_strlen(utfResult) + 1;
 
 				// try to detect RTL
 				HWND hwndEdit = GetDlgItem(hwndDlg, IDC_MESSAGE);
@@ -2780,7 +2780,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				TCHAR *szText = (TCHAR*)mir_alloc((dbei.cbBlob + 1) * sizeof(TCHAR));   //URLs are made one char bigger for crlf
 				dbei.pBlob = (BYTE*)szText;
 				db_event_get(hDBEvent, &dbei);
-				int iSize = int(strlen((char*)dbei.pBlob)) + 1;
+				int iSize = int(mir_strlen((char*)dbei.pBlob)) + 1;
 
 				bool bNeedsFree = false;
 				TCHAR *szConverted;

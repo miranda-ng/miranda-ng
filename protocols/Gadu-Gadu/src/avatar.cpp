@@ -137,7 +137,7 @@ char *gg_avatarhash(char *param)
 		return NULL;
 
 	BYTE digest[MIR_SHA1_HASH_SIZE];
-	mir_sha1_hash((BYTE*)param, (int)strlen(param), digest);
+	mir_sha1_hash((BYTE*)param, (int)mir_strlen(param), digest);
 	return bin2hex(digest, sizeof(digest), result);
 }
 
@@ -150,7 +150,7 @@ void GGPROTO::requestAvatarTransfer(MCONTACT hContact, char *szAvatarURL)
 
 	gg_EnterCriticalSection(&avatar_mutex, "requestAvatarTransfer", 1, "avatar_mutex", 1);
 	if (avatar_transfers.getIndex((GGGETAVATARDATA*)&hContact) == -1) {
-		GGGETAVATARDATA *data = (GGGETAVATARDATA*)mir_alloc(sizeof(GGGETAVATARDATA) + strlen(szAvatarURL)+1);
+		GGGETAVATARDATA *data = (GGGETAVATARDATA*)mir_alloc(sizeof(GGGETAVATARDATA) + mir_strlen(szAvatarURL)+1);
 		data->hContact = hContact;
 		data->szAvatarURL = strcpy((char*)(data+1), szAvatarURL);
 		avatar_transfers.insert(data);
@@ -388,11 +388,11 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	mir_free(avatarFile);
 
 	ptrA avatarFileB64Enc(mir_urlEncode(avatarFileB64));
-	size_t avatarFileB64EncLen = strlen(avatarFileB64Enc);
+	size_t avatarFileB64EncLen = mir_strlen(avatarFileB64Enc);
 
 	char dataPrefix[64];
 	mir_snprintf(dataPrefix, SIZEOF(dataPrefix), "uin=%d&photo=", getDword(GG_KEY_UIN, 0));
-	size_t dataPrefixLen = strlen(dataPrefix);
+	size_t dataPrefixLen = mir_strlen(dataPrefix);
 
 	size_t dataLen = dataPrefixLen + avatarFileB64EncLen;
 	char* data = (char*)mir_alloc(dataLen);

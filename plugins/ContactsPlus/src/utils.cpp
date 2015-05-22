@@ -27,7 +27,7 @@
 size_t __fastcall strlennull(const char *string)
 {
 	if (string)
-		return strlen(string);
+		return mir_strlen(string);
 
 	return 0;
 }

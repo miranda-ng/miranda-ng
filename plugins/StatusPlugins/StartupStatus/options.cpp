@@ -79,27 +79,27 @@ static char* GetCMDLArguments(TSettingsList& protoSettings)
 		return NULL;
 
 	char *cmdl, *pnt;
-	pnt = cmdl = ( char* )malloc(strlen(protoSettings[0].szName) + strlen(GetStatusDesc(protoSettings[0].status)) + 4);
+	pnt = cmdl = ( char* )malloc(mir_strlen(protoSettings[0].szName) + mir_strlen(GetStatusDesc(protoSettings[0].status)) + 4);
 
 	for (int i=0; i < protoSettings.getCount(); i++ ) {
 		*pnt++ = '/';
 		strcpy(pnt, protoSettings[i].szName);
-		pnt += strlen(protoSettings[i].szName);
+		pnt += mir_strlen(protoSettings[i].szName);
 		*pnt++ = '=';
 		strcpy(pnt, GetStatusDesc(protoSettings[i].status));
-		pnt += strlen(GetStatusDesc(protoSettings[i].status));
+		pnt += mir_strlen(GetStatusDesc(protoSettings[i].status));
 		if (i != protoSettings.getCount()-1) {
 			*pnt++ = ' ';
 			*pnt++ = '\0';
-			cmdl = ( char* )realloc(cmdl, strlen(cmdl) + strlen(protoSettings[i+1].szName) + strlen(GetStatusDesc(protoSettings[i+1].status)) + 4);
-			pnt = cmdl + strlen(cmdl);
+			cmdl = ( char* )realloc(cmdl, mir_strlen(cmdl) + mir_strlen(protoSettings[i+1].szName) + mir_strlen(GetStatusDesc(protoSettings[i+1].status)) + 4);
+			pnt = cmdl + mir_strlen(cmdl);
 	}	}
 
 	if ( db_get_b( NULL, MODULENAME, SETTING_SHOWDIALOG, FALSE ) == TRUE ) {
 		*pnt++ = ' ';
 		*pnt++ = '\0';
-		cmdl = ( char* )realloc(cmdl, strlen(cmdl) + 12);
-		pnt = cmdl + strlen(cmdl);
+		cmdl = ( char* )realloc(cmdl, mir_strlen(cmdl) + 12);
+		pnt = cmdl + mir_strlen(cmdl);
 		strcpy(pnt, "/showdialog");
 		pnt += 11;
 		*pnt = '\0';
@@ -113,12 +113,12 @@ static char* GetCMDL(TSettingsList& protoSettings)
 	char path[MAX_PATH];
 	GetModuleFileNameA(NULL, path, MAX_PATH);
 
-	char* cmdl = ( char* )malloc(strlen(path) + 4);
-	mir_snprintf(cmdl, strlen(path) + 4, "\"%s\" ", path);
+	char* cmdl = ( char* )malloc(mir_strlen(path) + 4);
+	mir_snprintf(cmdl, mir_strlen(path) + 4, "\"%s\" ", path);
 
 	char* args = GetCMDLArguments(protoSettings);
 	if ( args ) {
-		cmdl = ( char* )realloc(cmdl, strlen(cmdl) + strlen(args) + 1);
+		cmdl = ( char* )realloc(cmdl, mir_strlen(cmdl) + mir_strlen(args) + 1);
 		strcat(cmdl, args);
 		free(args);
 	}
@@ -924,7 +924,7 @@ static int ClearDatabase(char* filter)
 	dbces.pfnEnumProc = DeleteSetting;
 	CallService(MS_DB_CONTACT_ENUMSETTINGS,0,(LPARAM)&dbces);
 	for (i=0; i < settingCount; i++) {
-		if ((filter == NULL) || (!strncmp(filter, settings[i], strlen(filter))))
+		if ((filter == NULL) || (!strncmp(filter, settings[i], mir_strlen(filter))))
 			db_unset(NULL, MODULENAME, settings[i]);
 		free(settings[i]);
 	}
@@ -945,7 +945,7 @@ static int CountSettings(const char *szSetting,LPARAM lParam)
 static int DeleteSetting(const char *szSetting,LPARAM lParam)
 {
 	char** settings = (char**)*(char ***)lParam;
-	settings[settingIndex] = ( char* )malloc(strlen(szSetting)+1);
+	settings[settingIndex] = ( char* )malloc(mir_strlen(szSetting)+1);
 	strcpy(settings[settingIndex], szSetting);
 	settingIndex += 1;
 

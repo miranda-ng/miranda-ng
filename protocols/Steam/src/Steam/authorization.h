@@ -18,7 +18,7 @@ namespace SteamWebApi
 				ptrA(mir_urlEncode(password)),
 				timestamp);
 
-			SetData(data, strlen(data));
+			SetData(data, mir_strlen(data));
 		}
 
 		AuthorizationRequest(const char *username, const char *password, const char *timestamp, const char *guardCode) :
@@ -34,7 +34,7 @@ namespace SteamWebApi
 				guardCode,
 				timestamp);
 
-			SetData(data, strlen(data));
+			SetData(data, mir_strlen(data));
 		}
 
 		AuthorizationRequest(const char *username, const char *password, const char *timestamp, const char *captchaId, const char *captchaText) :
@@ -51,7 +51,7 @@ namespace SteamWebApi
 				ptrA(mir_urlEncode(captchaText)),
 				timestamp);
 
-			SetData(data, strlen(data));
+			SetData(data, mir_strlen(data));
 		}
 	};
 }

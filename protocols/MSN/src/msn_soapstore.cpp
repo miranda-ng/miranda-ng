@@ -60,7 +60,7 @@ ezxml_t CMsnProto::storeSoapHdr(const char* service, const char* scenario, ezxml
 	tbdy = ezxml_add_child(bdy, service, 0);
 	ezxml_set_attr(tbdy, "xmlns", "http://www.msn.com/webservices/storage/2008");
 
-	size_t hdrsz = strlen(service) + sizeof(storeReqHdr) + 20;
+	size_t hdrsz = mir_strlen(service) + sizeof(storeReqHdr) + 20;
 	httphdr = (char*)mir_alloc(hdrsz);
 
 	mir_snprintf(httphdr, hdrsz, storeReqHdr, service);
@@ -123,7 +123,7 @@ bool CMsnProto::MSN_StoreCreateProfile(bool allowRecurse)
 
 	if (tResult != NULL) {
 		if (status == 200) {
-			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			UpdateStoreCacheKey(xmlm);
 			ezxml_t body = getSoapResponse(xmlm, "CreateProfile");
 
@@ -133,7 +133,7 @@ bool CMsnProto::MSN_StoreCreateProfile(bool allowRecurse)
 			ezxml_free(xmlm);
 		}
 		else if (status == 500) {
-			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
 			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
@@ -174,7 +174,7 @@ bool CMsnProto::MSN_StoreShareItem(const char* id, bool allowRecurse)
 	free(szData);
 
 	if (tResult != NULL && status == 500) {
-		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
 		if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 			MSN_GetPassportAuth();
@@ -252,7 +252,7 @@ bool CMsnProto::MSN_StoreGetProfile(bool allowRecurse)
 
 	if (tResult != NULL) {
 		if (status == 200) {
-			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			ezxml_t body = getSoapResponse(xmlm, "GetProfile");
 
 			UpdateStoreHost("GetProfile", body ? storeUrl : NULL);
@@ -290,7 +290,7 @@ bool CMsnProto::MSN_StoreGetProfile(bool allowRecurse)
 			ezxml_free(xmlm);
 		}
 		else if (status == 500 && allowRecurse) {
-			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
 			if (strcmp(szErr, "PassportAuthFail") == 0) {
 				MSN_GetPassportAuth();
@@ -361,7 +361,7 @@ bool CMsnProto::MSN_StoreUpdateProfile(const char* szNick, const char* szStatus,
 			MSN_ABUpdateDynamicItem();
 		}
 		else if (status == 500 && allowRecurse) {
-			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
 			if (strcmp(szErr, "PassportAuthFail") == 0) {
 				MSN_GetPassportAuth();
@@ -419,7 +419,7 @@ bool CMsnProto::MSN_StoreCreateRelationships(bool allowRecurse)
 		UpdateStoreHost("CreateRelationships", storeUrl);
 
 		if (status == 500) {
-			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
 			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
@@ -486,7 +486,7 @@ bool CMsnProto::MSN_StoreDeleteRelationships(bool tile, bool allowRecurse)
 	if (tResult != NULL) {
 		UpdateStoreHost("DeleteRelationships", storeUrl);
 		if (status == 500) {
-			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
 			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
@@ -563,13 +563,13 @@ bool CMsnProto::MSN_StoreCreateDocument(const TCHAR *sztName, const char *szMime
 	if (tResult != NULL) {
 		UpdateStoreHost("CreateDocument", storeUrl);
 		if (status == 200) {
-			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			ezxml_t bdy = getSoapResponse(xmlm, "CreateDocument");
 			strncpy_s(photoid, ezxml_txt(bdy), _TRUNCATE);
 			ezxml_free(xmlm);
 		}
 		else if (status == 500) {
-			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
 			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
@@ -635,7 +635,7 @@ bool CMsnProto::MSN_StoreUpdateDocument(const TCHAR *sztName, const char *szMime
 	if (tResult != NULL) {
 		UpdateStoreHost("UpdateDocument", storeUrl);
 		if (status == 500 && allowRecurse) {
-			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
 			if (strcmp(szErr, "PassportAuthFail") == 0) {
 				MSN_GetPassportAuth();
@@ -715,7 +715,7 @@ bool CMsnProto::MSN_StoreFindDocuments(bool allowRecurse)
 	if (tResult != NULL) {
 		UpdateStoreHost("FindDocuments", storeUrl);
 		if (status == 500) {
-			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
 			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();

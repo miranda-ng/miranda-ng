@@ -214,7 +214,7 @@ INT_PTR CDropbox::ProtoReceiveMessage(WPARAM, LPARAM lParam)
 	dbei.szModule = MODULE;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = (int)strlen(message);
+	dbei.cbBlob = (int)mir_strlen(message);
 	dbei.pBlob = (PBYTE)message;
 	db_event_add(pccsd->hContact, &dbei);
 

@@ -41,7 +41,7 @@ MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, L
 		if (dbei.eventType != EVENTTYPE_MESSAGE && dbei.eventType != SKYPE_DB_EVENT_TYPE_ACTION && dbei.eventType != SKYPE_DB_EVENT_TYPE_CALL_INFO)
 			continue;
 
-		size_t cbLen = strlen((char*)dbei.pBlob);
+		size_t cbLen = mir_strlen((char*)dbei.pBlob);
 		if (memcmp(&dbei.pBlob[cbLen + 1], messageId, messageIdLength) == 0)
 			return hDbEvent;
 

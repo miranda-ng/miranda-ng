@@ -73,7 +73,7 @@ static INT_PTR srvPcharToTchar(WPARAM wParam, LPARAM lParam)
 	if (pszStr == NULL)
 		return NULL;
 
-	int len = (int)strlen(pszStr);
+	int len = (int)mir_strlen(pszStr);
 	TCHAR *result = (TCHAR*)alloca((len+1)*sizeof(TCHAR));
 	MultiByteToWideChar(Langpack_GetDefaultCodePage(), 0, pszStr, -1, result, len);
 	result[len] = 0;

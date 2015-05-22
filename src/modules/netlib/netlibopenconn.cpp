@@ -115,8 +115,8 @@ static int NetlibInitSocks4Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	//	http://www.socks.nec.com/protocol/socks4.protocol and http://www.socks.nec.com/protocol/socks4a.protocol
 	if (!nloc || !nloc->szHost || !nloc->szHost[0]) return 0;
 
-	size_t nHostLen = strlen(nloc->szHost) + 1;
-	size_t nUserLen = nlu->settings.szProxyAuthUser ? strlen(nlu->settings.szProxyAuthUser) + 1 : 1;
+	size_t nHostLen = mir_strlen(nloc->szHost) + 1;
+	size_t nUserLen = nlu->settings.szProxyAuthUser ? mir_strlen(nlu->settings.szProxyAuthUser) + 1 : 1;
 	size_t len = 8 + nUserLen;
 
 	char* pInit = (char*)alloca(len + nHostLen);

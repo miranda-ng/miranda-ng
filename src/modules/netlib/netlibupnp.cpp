@@ -139,7 +139,7 @@ static bool txtParseParam(char* szData, char* presearch,
 
 	cp = strstr(cp1, start);
 	if (cp == NULL) return false;
-	cp += strlen(start);
+	cp += mir_strlen(start);
 	while (*cp == ' ') ++cp;
 
 	cp1 = strstr(cp, finish);
@@ -163,7 +163,7 @@ void parseURL(char* szUrl, char* szHost, unsigned short* sPort, char* szPath)
 	else phost += 3;
 
 	ppath = strchr(phost, '/');
-	if (ppath == NULL) ppath = phost + strlen(phost);
+	if (ppath == NULL) ppath = phost + mir_strlen(phost);
 
 	pport = strchr(phost, ':');
 	if (pport == NULL) pport = ppath;
@@ -452,7 +452,7 @@ retry:
 								acksz += chunkBytes;
 								peol2++;
 
-								memmove(data, peol2, strlen(peol2) + 1);
+								memmove(data, peol2, mir_strlen(peol2) + 1);
 								sz -= peol2 - data;
 
 								// Last chunk, all data received
@@ -535,10 +535,10 @@ static bool getUPnPURLs(char* szUrl, size_t sizeUrl)
 				rpth = rpth ? rpth + 2 : szCtlUrl;
 
 				rpth = strchr(rpth, '/');
-				if (rpth == NULL) rpth = szCtlUrl + strlen(szCtlUrl);
+				if (rpth == NULL) rpth = szCtlUrl + mir_strlen(szCtlUrl);
 			}
 			else {                                                      // relative URI rel_path
-				size_t ctlCLen = strlen(szCtlUrl);
+				size_t ctlCLen = mir_strlen(szCtlUrl);
 				rpth = szCtlUrl + ctlCLen;
 				if (ctlCLen != 0 && *(rpth - 1) != '/')
 					strncpy(rpth++, "/", sizeof(szCtlUrl) - ctlCLen);

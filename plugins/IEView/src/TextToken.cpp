@@ -309,7 +309,7 @@ TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, cons
 	int last_pos = 0;
 	if (spRes != NULL) {
 		for (int i = 0; i < (int)sp.numSmileys; i++) {
-			if (spRes[i].filepath != NULL && strlen((char *)spRes[i].filepath) > 0) {
+			if (spRes[i].filepath != NULL && mir_strlen((char *)spRes[i].filepath) > 0) {
 				if ((int)spRes[i].startChar - last_pos > 0) {
 					TextToken *newToken = new TextToken(TEXT, text + last_pos, spRes[i].startChar - last_pos);
 					if (lastToken == NULL)

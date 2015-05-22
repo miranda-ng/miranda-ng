@@ -165,7 +165,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			CLISTEVENT *cli = (CLISTEVENT *)CallService(MS_CLIST_GETEVENT, (WPARAM)INVALID_HANDLE_VALUE, 0);
 			if (cli != NULL) {
-				if (strncmp(cli->pszService, "SRMsg/TypingMessage", strlen(cli->pszService))) {
+				if (strncmp(cli->pszService, "SRMsg/TypingMessage", mir_strlen(cli->pszService))) {
 					CallService(cli->pszService, 0, (LPARAM)cli);
 					break;
 				}

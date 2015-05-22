@@ -94,7 +94,7 @@ char * striphtml(char *html) {
 	STRIPHTML_DATA data;
 	ekhtml_string_t ekstring;
 
-	ekstring.len = strlen(html);
+	ekstring.len = mir_strlen(html);
 	ekstring.str = html;
 
 	data.buffer.clear();

@@ -32,7 +32,7 @@ wchar_t *a2w(const char *src, int len)
 	wchar_t *wline;
 	int i;
 	if (len < 0) {
-		len = (int)strlen(src);
+		len = (int)mir_strlen(src);
 	}
 	wline = (wchar_t*)mir_alloc(2 * (len + 1));
 	for (i = 0; i < len; i++) {
@@ -363,7 +363,7 @@ char to_hex(char code)
 /* IMPORTANT: be sure to free() the returned string after use */
 char *url_encode(char *str)
 {
-	char *pstr = str, *buf = (char*)mir_alloc(strlen(str) * 3 + 1), *pbuf = buf;
+	char *pstr = str, *buf = (char*)mir_alloc(mir_strlen(str) * 3 + 1), *pbuf = buf;
 	while (*pstr) {
 		if ((48 <= *pstr && *pstr <= 57) ||//0-9
 			(65 <= *pstr && *pstr <= 90) ||//ABC...XYZ

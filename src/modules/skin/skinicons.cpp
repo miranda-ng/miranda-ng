@@ -383,8 +383,8 @@ HICON LoadSkinIcon(int idx, bool big)
 
 static void convertOneProtocol(char *moduleName, char *iconName)
 {
-	char *pm = moduleName + strlen(moduleName);
-	char *pi = iconName + strlen(iconName);
+	char *pm = moduleName + mir_strlen(moduleName);
+	char *pi = iconName + mir_strlen(iconName);
 
 	for (int i=0; i < SIZEOF(statusIcons); i++) {
 		_itoa(statusIcons[i].id, pm, 10);

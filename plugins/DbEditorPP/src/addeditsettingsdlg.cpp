@@ -52,12 +52,12 @@ BOOL convertSetting(MCONTACT hContact, char* module, char* setting, int toType) 
 		case DBVT_ASCIIZ:
 			if (toType == 4) // convert to UNICODE
 			{
-				int len = (int)strlen(dbv.pszVal) + 1;
+				int len = (int)mir_strlen(dbv.pszVal) + 1;
 				WCHAR *wc = (WCHAR*)_alloca(len*sizeof(WCHAR));
 				MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, wc, len);
 				Result = !db_set_ws(hContact, module, setting, wc);
 			}
-			else if (strlen(dbv.pszVal) < 11 && toType != 3) {
+			else if (mir_strlen(dbv.pszVal) < 11 && toType != 3) {
 				int val = atoi(dbv.pszVal);
 				if (val == 0 && dbv.pszVal[0] != '0')
 					break;
@@ -68,7 +68,7 @@ BOOL convertSetting(MCONTACT hContact, char* module, char* setting, int toType) 
 
 		case DBVT_UTF8:
 			if (toType == 3) { // convert to ANSI
-				int len = (int)strlen(dbv.pszVal) + 1;
+				int len = (int)mir_strlen(dbv.pszVal) + 1;
 				char *sz = (char*)_alloca(len * 3);
 				WCHAR *wc = (WCHAR*)_alloca(len*sizeof(WCHAR));
 				MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, len);
@@ -199,7 +199,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			else
 			{
 				char *tmp = (((struct DBsetting*)lParam)->dbv.pszVal);
-				int length = (int)strlen(tmp) + 1;
+				int length = (int)mir_strlen(tmp) + 1;
 				WCHAR *wc = (WCHAR*)_alloca(length*sizeof(WCHAR));
 				MultiByteToWideChar(CP_UTF8, 0, tmp, -1, wc, length);
 				SetDlgItemTextW(hwnd, IDC_STRING, wc);

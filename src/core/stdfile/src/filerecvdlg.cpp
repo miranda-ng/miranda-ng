@@ -244,7 +244,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				ptrT ptszFileName(DbGetEventStringT(&dbei, str));
 				SetDlgItemText(hwndDlg, IDC_FILENAMES, ptszFileName);
 
-				unsigned len = (unsigned)strlen(str) + 1;
+				unsigned len = (unsigned)mir_strlen(str) + 1;
 				if (len + 4 < dbei.cbBlob) {
 					str += len;
 					ptrT ptszDescription(DbGetEventStringT(&dbei, str));

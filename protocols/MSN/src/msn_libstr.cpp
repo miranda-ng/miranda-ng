@@ -63,7 +63,7 @@ bool txtParseParam(const char* szData, const char* presearch, const char* start,
 
 	cp = strstr(cp1, start);
 	if (cp == NULL) return false;
-	cp += strlen(start);
+	cp += mir_strlen(start);
 	while (*cp == ' ') ++cp;
 
 	if (finish) {
@@ -338,7 +338,7 @@ char* getNewUuid(void)
 
 	BYTE *p;
 	UuidToStringA(&id, &p);
-	size_t len = strlen((char*)p) + 3;
+	size_t len = mir_strlen((char*)p) + 3;
 	char *result = (char*)mir_alloc(len);
 	mir_snprintf(result, len, "{%s}", p);
 	_strupr(result);

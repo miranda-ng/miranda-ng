@@ -441,7 +441,7 @@ INT_PTR GGPROTO::export_text(WPARAM wParam, LPARAM lParam)
 	FILE *f = _tfopen(str, _T("w"));
 	if (f) {
 		char *contacts = gg_makecontacts(this, 0);
-		fwrite(contacts, sizeof(char), strlen(contacts), f);
+		fwrite(contacts, sizeof(char), mir_strlen(contacts), f);
 		fclose(f);
 		free(contacts);
 

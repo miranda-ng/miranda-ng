@@ -720,7 +720,7 @@ void SetEditControlText(struct MsgBoxData *data, HWND hwndDlg, int iStatus)
 			mir_snprintf(setting, SIZEOF(setting), "LastMsg");
 
 		if (!db_get(NULL, "SimpleStatusMsg", setting, &dbv)) {
-			if (dbv.pszVal && strlen(dbv.pszVal)) {
+			if (dbv.pszVal && mir_strlen(dbv.pszVal)) {
 				if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2)) {
 					if (dbv2.ptszVal && mir_tstrlen(dbv2.ptszVal)) {
 						SetDlgItemText(hwndDlg, IDC_EDIT1, dbv2.ptszVal);

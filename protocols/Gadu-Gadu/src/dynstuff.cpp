@@ -242,7 +242,7 @@ int string_append_n(string_t s, const char *str, int count)
 	}
 
 	if (count == -1)
-		count = (int)strlen(str);
+		count = (int)mir_strlen(str);
 
 	string_realloc(s, s->len + count);
 
@@ -275,7 +275,7 @@ void string_insert_n(string_t s, int index, const char *str, int count)
 		return;
 
 	if (count == -1)
-		count = (int)strlen(str);
+		count = (int)mir_strlen(str);
 
 	if (index > s->len)
 		index = s->len;
@@ -310,8 +310,8 @@ string_t string_init(const char *value)
 		value = "";
 
 	tmp->str = _strdup(value);
-	tmp->len = (int)strlen(value);
-	tmp->size = (int)strlen(value) + 1;
+	tmp->len = (int)mir_strlen(value);
+	tmp->size = (int)mir_strlen(value) + 1;
 
 	return tmp;
 }

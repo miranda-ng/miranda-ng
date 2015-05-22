@@ -258,7 +258,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM, LPARAM)
 
 	char text[200];
 	strcpy(text, m_szModuleName);
-	char *tDest = text + strlen(text);
+	char *tDest = text + mir_strlen(text);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = text;
@@ -421,9 +421,9 @@ void TwitterProto::SendTweetWorker(void *p)
 		return;
 
 	char *text = static_cast<char*>(p);
-	if (strlen(text) > 140) { // looks like the chat max outgoing msg thing doesn't work, so i'll do it here.
+	if (mir_strlen(text) > 140) { // looks like the chat max outgoing msg thing doesn't work, so i'll do it here.
 		TCHAR errorPopup[280];
-		mir_sntprintf(errorPopup, SIZEOF(errorPopup), _T("Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?"), strlen(text));
+		mir_sntprintf(errorPopup, SIZEOF(errorPopup), _T("Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?"), mir_strlen(text));
 		ShowPopup(errorPopup, 1);
 		return;
 	}

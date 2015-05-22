@@ -454,7 +454,7 @@ int _notify(MCONTACT hContact, BYTE type, TCHAR *message, TCHAR *origmessage)
 	}
 	return 0;
 }
-#define DOT(a) (a[strlen(a)-1] == 46) ? "" : "."
+#define DOT(a) (a[mir_strlen(a)-1] == 46) ? "" : "."
 int LogToSystemHistory(char *message, char *origmessage)
 {
 	char msg[MAX_BUFFER_LENGTH];
@@ -497,9 +497,9 @@ void MarkUnread(MCONTACT hContact)
 			memcpy(&_dbei.flags, pos, sizeof(DWORD)); pos += sizeof(DWORD);
 			memcpy(&_dbei.timestamp, pos, sizeof(DWORD)); pos += sizeof(DWORD);
 
-			_dbei.szModule = (char*)malloc(strlen((const char*)pos)+1);
+			_dbei.szModule = (char*)malloc(mir_strlen((const char*)pos)+1);
 			strcpy(_dbei.szModule, (const char*)pos);
-			pos += strlen((const char*)pos)+1;
+			pos += mir_strlen((const char*)pos)+1;
 
 			memcpy(&_dbei.cbBlob, pos, sizeof(DWORD)); pos += sizeof(DWORD);
 			_dbei.pBlob = (PBYTE)malloc(_dbei.cbBlob);

@@ -311,7 +311,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	char temp[MAX_PATH];
 	GetTempPath(sizeof(temp), temp);
 	GetLongPathName(temp, TEMP, sizeof(TEMP));
-	TEMP_SIZE = (int)strlen(TEMP);
+	TEMP_SIZE = (int)mir_strlen(TEMP);
 	if (TEMP[TEMP_SIZE - 1] == '\\') {
 		TEMP_SIZE--;
 		TEMP[TEMP_SIZE] = '\0';

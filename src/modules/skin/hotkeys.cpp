@@ -218,7 +218,7 @@ static INT_PTR svcHotkeyUnregister(WPARAM, LPARAM lParam)
 	char pszNamePrefix[MAXMODULELABELLENGTH];
 	size_t cbNamePrefix;
 	mir_snprintf(pszNamePrefix, SIZEOF(pszNamePrefix), "%s$", pszName);
-	cbNamePrefix = strlen(pszNamePrefix);
+	cbNamePrefix = mir_strlen(pszNamePrefix);
 
 	for (i=0; i < hotkeys.getCount(); i++)
 	{

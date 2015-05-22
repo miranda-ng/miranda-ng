@@ -34,7 +34,7 @@ static inline size_t __blen(const T *str)
 template<>
 static inline size_t __blen<char>(const char *str)
 {
-	return strlen(str);
+	return mir_strlen(str);
 }
 
 template<>

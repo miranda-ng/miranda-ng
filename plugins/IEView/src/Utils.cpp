@@ -92,7 +92,7 @@ char *Utils::escapeString(const char *a)
 	if (a == NULL)
 		return NULL;
 
-	int i, l, len = (int)strlen(a);
+	int i, l, len = (int)mir_strlen(a);
 	for (i = l = 0; i < len; i++, l++) {
 		if (a[i] == '\\' || a[i] == '\n' || a[i] == '\r' || a[i] == '\"'
 			|| a[i] == '\'' || a[i] == '\b' || a[i] == '\t' || a[i] == '\f') {

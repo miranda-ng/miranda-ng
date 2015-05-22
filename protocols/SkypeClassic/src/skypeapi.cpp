@@ -195,7 +195,7 @@ void rcvThread(char *dummy) {
 			COPYDATASTRUCT CopyData;
 			CopyData.dwData=0; 
 			CopyData.lpData=buf; 
-			CopyData.cbData=(DWORD)strlen(buf)+1;
+			CopyData.cbData=(DWORD)mir_strlen(buf)+1;
 			if (!SendMessage(g_hWnd, WM_COPYDATALOCAL, (WPARAM)hSkypeWnd, (LPARAM)&CopyData))
 			{
 				LOG(("SendMessage failed: %08X", GetLastError()));
@@ -215,7 +215,7 @@ void sendThread(char *dummy) {
 	while (SkypeMsgToSend) {
 		if (WaitForSingleObject(SkypeMsgToSend, INFINITE) != WAIT_OBJECT_0) return;
 		if (!(szMsg = MsgQ_Get(&SkypeSendQueue))) continue;
-		length=(unsigned int)strlen(szMsg);
+		length=(unsigned int)mir_strlen(szMsg);
 
 		if (UseSockets) {
 			mir_cslock lck(SendMutex);
@@ -397,7 +397,7 @@ int SkypeSend(char *szFmt, ...) {
 		{
 		  if (!(pNewBuf = (char*)realloc (m_szSendBuf, m_iBufSize*2)))
 		  {
-			  iLen = strlen (m_szSendBuf);
+			  iLen = mir_strlen (m_szSendBuf);
 			  break;
 		  }
 		  m_szSendBuf = pNewBuf;
@@ -450,23 +450,23 @@ char *SkypeRcvTime(char *what, time_t st, DWORD maxwait) {
 							token=NULL;
 							break;
 						}
-						token+=strlen(token)+1;
+						token+=mir_strlen(token)+1;
 					}
 				}
 
 				//if (j==1) {LOG(("SkypeRcv compare %s (%lu) -- %s (%lu)", ptr->message, ptr->tReceived, what, st));}
 				if ((st == 0 || ptr->tReceived >= st) &&
-					(what==NULL || token || (what[0] && !strncmp(ptr->message, what, strlen(what))) || 
-					(bIsChatMsg = (j==1 && bChatMsg && !strncmp(ptr->message, what+4, strlen(what+4)))) || 
+					(what==NULL || token || (what[0] && !strncmp(ptr->message, what, mir_strlen(what))) || 
+					(bIsChatMsg = (j==1 && bChatMsg && !strncmp(ptr->message, what+4, mir_strlen(what+4)))) || 
 					(j==1 && !strncmp(ptr->message, "ERROR", 5)))) 
 				{
 					msg=MsgQ_RemoveMsg(&SkypeMsgs, ptr);
 					LOG(("<SkypeRcv: %s", msg));
 					if (bIsChatMsg) {
-						char *pmsg = (char*)realloc(msg, strlen(msg)+5);
+						char *pmsg = (char*)realloc(msg, mir_strlen(msg)+5);
 						if (pmsg) {
 							msg = pmsg;
-							memmove (msg+4, msg, strlen(msg)+1);
+							memmove (msg+4, msg, mir_strlen(msg)+1);
 							memcpy (msg, "CHAT", 4);
 						}
 
@@ -500,7 +500,7 @@ char *SkypeRcvMsg(char *what, time_t st, MCONTACT hContact, DWORD maxwait)
 {
 	char *msg, msgid[32]={0}, *pMsg, *pCurMsg;
 	struct MsgQueue *ptr;
-	int iLenWhat = (int)strlen(what);
+	int iLenWhat = (int)mir_strlen(what);
 	DWORD dwWaitStat;
 	BOOL bIsError, bProcess;
 
@@ -522,7 +522,7 @@ char *SkypeRcvMsg(char *what, time_t st, MCONTACT hContact, DWORD maxwait)
 				else if (strncmp (pCurMsg, "ERROR", 5) == 0) bIsError = TRUE;
 			}
 
-			if ((*msgid && strncmp (pCurMsg, msgid, strlen(msgid)) == 0) ||
+			if ((*msgid && strncmp (pCurMsg, msgid, mir_strlen(msgid)) == 0) ||
 				(!*what && ptr->tReceived >= st  && 
 				 (strncmp(pCurMsg, "MESSAGE", 7) == 0 || strncmp(pCurMsg, "CHATMESSAGE", 11) == 0 )
 				) || bIsError || 
@@ -586,7 +586,7 @@ static char *__SkypeGet(char *szID, char *szWhat, char *szWho, char *szProperty)
   time_t st = 0;
 
   st = *szID?0:SkypeTime(NULL);
-  str=(char *)_alloca((len=strlen(szWhat)+strlen(szWho)+strlen(szProperty)+(*szWho?2:1)+(len_id=strlen(szID)))+5);
+  str=(char *)_alloca((len=mir_strlen(szWhat)+mir_strlen(szWho)+mir_strlen(szProperty)+(*szWho?2:1)+(len_id=mir_strlen(szID)))+5);
   sprintf(str, "%sGET %s%s%s %s", szID, szWhat, *szWho?" ":"", szWho, szProperty);
   if (__sendMsg(str)) return NULL;
   if (*szProperty) len++;
@@ -594,7 +594,7 @@ static char *__SkypeGet(char *szID, char *szWhat, char *szWho, char *szProperty)
 	sprintf(str, "%s%s%s%s %s", szID, szWhat, *szWho?" ":"", szWho, szProperty);
 	ptr = SkypeRcvTime(str, st, INFINITE);
   } else ptr = SkypeRcvTime(str+4, st, INFINITE);
-  if (ptr && strncmp (ptr+len_id, "ERROR", 5)) memmove(ptr, ptr+len, strlen(ptr)-len+1);
+  if (ptr && strncmp (ptr+len_id, "ERROR", 5)) memmove(ptr, ptr+len, mir_strlen(ptr)-len+1);
   LOG(("SkypeGet - Request %s -> Answer %s", str, ptr));
   return ptr;
 }
@@ -708,7 +708,7 @@ INT_PTR SkypeCall(WPARAM wParam, LPARAM lParam) {
 		res = -1; // no direct return, because dbv needs to be freed
 	} else {
 		if (db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) return -1;
-		msg=(char *)malloc(strlen(dbv.pszVal)+6);
+		msg=(char *)malloc(mir_strlen(dbv.pszVal)+6);
 		strcpy(msg, "CALL ");
 		strcat(msg, dbv.pszVal);
 		res=SkypeSend(msg);
@@ -737,7 +737,7 @@ INT_PTR SkypeCallHangup(WPARAM wParam, LPARAM lParam)
 	char *msg=0;
 
 	if (!db_get_s(hContact, SKYPE_PROTONAME, "CallId", &dbv)) {
-		msg=(char *)malloc(strlen(dbv.pszVal)+21);
+		msg=(char *)malloc(mir_strlen(dbv.pszVal)+21);
 		sprintf(msg, "SET %s STATUS FINISHED", dbv.pszVal);
 		//sprintf(msg, "ALTER CALL %s HANGUP", dbv.pszVal);
 		int res=SkypeSend(msg);
@@ -746,7 +746,7 @@ INT_PTR SkypeCallHangup(WPARAM wParam, LPARAM lParam)
 #endif
 	//} else {
 	//	if (db_get(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) return -1;
-	//	msg=(char *)malloc(strlen(dbv.pszVal)+6);
+	//	msg=(char *)malloc(mir_strlen(dbv.pszVal)+6);
 	//	strcpy(msg, "CALL ");
 	//	strcat(msg, dbv.pszVal);
 	//	res=SkypeSend(msg);
@@ -763,10 +763,10 @@ INT_PTR SkypeCallHangup(WPARAM wParam, LPARAM lParam)
  * Params : p	- Pointer to the buffer with the number
  */
 static void FixNumber(char *p) {
-	for (unsigned int i=0;i<=strlen(p);i++)
+	for (unsigned int i=0;i<=mir_strlen(p);i++)
 		if ((p[i]<'0' || p[i]>'9')) 
 			if (p[i]) {
-				memmove(p+i, p+i+1, strlen(p+i));
+				memmove(p+i, p+i+1, mir_strlen(p+i));
 				i--;
 			} else break;
 }
@@ -863,7 +863,7 @@ static INT_PTR CALLBACK DialDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 						TempAdded=TRUE;
 					}
 					if (!db_set_s(hContact, SKYPE_PROTONAME, "SkypeOutNr", number)) {
-						msg=(char *)malloc(strlen(number)+6);
+						msg=(char *)malloc(mir_strlen(number)+6);
 						strcpy(msg, "CALL ");
 						strcat(msg, number);
 						if (SkypeSend(msg) || (ptr=SkypeRcv("ERROR", 500))) {
@@ -1152,7 +1152,7 @@ INT_PTR SkypeSetAvatar(WPARAM wParam, LPARAM lParam) {
 	
 	if (filename == NULL)
 		return -1;
-	len = strlen(filename);
+	len = mir_strlen(filename);
 	if (len < 4)
 		return -1;
 
@@ -1374,7 +1374,7 @@ char *GetSkypeErrorMsg(char *str) {
 			case SENDER_NOT_AUTHORIZED: msg=Translate("Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM'"); break;
 			default: msg=Translate("Unknown error");
 		}
-		reason=(char *)malloc(strlen(pos)+strlen(msg)+3);
+		reason=(char *)malloc(mir_strlen(pos)+mir_strlen(msg)+3);
 		sprintf (reason, "%s: %s", pos, msg);
 		return reason;
 	}
@@ -1438,7 +1438,7 @@ void TranslateMirandaRelativePathToAbsolute(LPCSTR cszPath, LPSTR szAbsolutePath
 	*szAbsolutePath = 0;
 	CallService (MS_UTILS_PATHTOABSOLUTE, (WPARAM)(*cszPath ? cszPath : ".\\"), (LPARAM)szAbsolutePath);
 	if(fQuoteSpaces && strchr((LPCSTR)szAbsolutePath, ' ')){
-		memmove (szAbsolutePath+1, szAbsolutePath, strlen(szAbsolutePath)+1);
+		memmove (szAbsolutePath+1, szAbsolutePath, mir_strlen(szAbsolutePath)+1);
 		*szAbsolutePath='"';
 		strcat (szAbsolutePath, "\"");
 	}
@@ -1455,7 +1455,7 @@ static int my_spawnv(const char *cmdname, const char *const *argv, PROCESS_INFOR
 
 	memset (pi, 0, sizeof(PROCESS_INFORMATION));
 	for (i=0; argv[i]; i++)
-		iLen += (int)strlen(argv[i])+1;
+		iLen += (int)mir_strlen(argv[i])+1;
 	if (!(CommandLine = (char*)calloc(1, iLen))) return -1;
 	for (i=0; argv[i]; i++) {
 		if (i) strcat (CommandLine, " ");
@@ -1523,7 +1523,7 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 					OUTPUT(TranslateT("Authentication is not supported/needed for this Skype proxy server. It will be disabled."));
 					db_set_b(NULL, SKYPE_PROTONAME, "RequiresPassword", 0);
 				} else {
-					unsigned int length=(unsigned int)strlen(dbv.pszVal);
+					unsigned int length=(unsigned int)mir_strlen(dbv.pszVal);
 					BOOL res = send(ClientSocket, (char *)&length, sizeof(length), 0)==SOCKET_ERROR
 						|| send(ClientSocket, dbv.pszVal, length, 0)==SOCKET_ERROR
 						|| recv(ClientSocket, (char *)&reply, sizeof(reply), 0)==SOCKET_ERROR;
@@ -1645,7 +1645,7 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 								{
 									int paramSize;
 									TranslateMirandaRelativePathToAbsolute(dbv.pszVal, szAbsolutePath, TRUE);
-									paramSize = (int)strlen(SkypeOptions[i]) + (int)strlen(szAbsolutePath);
+									paramSize = (int)mir_strlen(SkypeOptions[i]) + (int)mir_strlen(szAbsolutePath);
 									pFree = args[j] = (char*)malloc(paramSize + 1);
 									sprintf(args[j],"%s%s",SkypeOptions[i],szAbsolutePath);
 									db_free(&dbv);
@@ -1692,7 +1692,7 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 						}*/
 
 						// if there is no skype installed and no custom command line, then exit .. else it crashes
-						if (args[0] == NULL || strlen(args[0])==0)
+						if (args[0] == NULL || mir_strlen(args[0])==0)
 						{
 							return -1;
 						}

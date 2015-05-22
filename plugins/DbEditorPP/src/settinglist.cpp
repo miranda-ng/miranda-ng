@@ -185,7 +185,7 @@ void additem(HWND hwnd2Settings, MCONTACT hContact, char* module, char* setting,
 				lvi.iImage = 5;
 				ListView_SetItem(hwnd2Settings, &lvi);
 
-				int length = (int)strlen(dbv.pszVal) + 1;
+				int length = (int)mir_strlen(dbv.pszVal) + 1;
 				WCHAR *wc = (WCHAR*)_alloca(length*sizeof(WCHAR));
 				MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, length);
 				ListView_SetItemTextW(hwnd2Settings, index, 1, wc);

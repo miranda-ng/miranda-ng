@@ -12,7 +12,7 @@ namespace SteamWebApi
 			char data[256];
 			mir_snprintf(data, SIZEOF(data), "access_token=%s&ui_mode=web", token);
 
-			SetData(data, strlen(data));
+			SetData(data, mir_strlen(data));
 		}
 	};
 
@@ -25,7 +25,7 @@ namespace SteamWebApi
 			char data[256];
 			mir_snprintf(data, SIZEOF(data), "access_token=%s&umqid=%s", token, umqId);
 
-			SetData(data, strlen(data));
+			SetData(data, mir_strlen(data));
 		}
 	};
 }

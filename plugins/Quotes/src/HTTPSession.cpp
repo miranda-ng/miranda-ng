@@ -134,7 +134,7 @@ namespace
 
 			std::string s = quotes_t2a(rsURL.c_str());
 			const char* psz = s.c_str();//T2CA(rsURL.c_str());
-			m_aURL.insert(m_aURL.begin(), psz, psz + strlen(psz) + 1);
+			m_aURL.insert(m_aURL.begin(), psz, psz + mir_strlen(psz) + 1);
 			return true;
 
 		}

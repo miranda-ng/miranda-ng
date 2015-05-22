@@ -16,7 +16,7 @@ int __cdecl rsa_inject(HANDLE context, LPCSTR msg)
 
 	Sent_NetLog("rsa_inject: '%s'", msg);
 
-	int len = (int)strlen(msg) + 1;
+	int len = (int)mir_strlen(msg) + 1;
 	LPSTR buf = (LPSTR)mir_alloc(LEN_SECU + len);
 	memcpy(buf, SIG_SECU, LEN_SECU);
 	memcpy(buf + LEN_SECU, msg, len);

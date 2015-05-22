@@ -305,7 +305,7 @@ int StatusMsgExists(MCONTACT hContact)
 
 		LPSTR msg = db_get_sa(hContact, (statusMsg[i].module) ? statusMsg[i].module : module, par);
 		if (msg) {
-			if (strlen(msg))
+			if (mir_strlen(msg))
 				ret |= statusMsg[i].flag;
 			mir_free(msg);
 		}
@@ -508,7 +508,7 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 	GetID(hContact, szProto, (LPSTR)&szID, SIZEOF(szID));
 	if (szID[0])  {
 		if (bShowID) {
-			if (bTrimID && (strlen(szID) > MAX_IDLEN)) {
+			if (bTrimID && (mir_strlen(szID) > MAX_IDLEN)) {
 				szID[MAX_IDLEN - 2] = szID[MAX_IDLEN - 1] = szID[MAX_IDLEN] = '.';
 				szID[MAX_IDLEN + 1] = 0;
 			}

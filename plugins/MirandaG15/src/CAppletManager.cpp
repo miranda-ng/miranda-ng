@@ -811,7 +811,7 @@ MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact,tstring strMessage
 	{
 		char* szMsgUtf = mir_utf8encodeW(strMessage.c_str());
 
-		pJob->iBufferSize = (int)strlen(szMsgUtf)+1;
+		pJob->iBufferSize = (int)mir_strlen(szMsgUtf)+1;
 		pJob->pcBuffer = (char *)malloc(pJob->iBufferSize);
 		pJob->dwFlags = 0;
 
@@ -900,7 +900,7 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent, WPARAM hContact, LPARAM hd
 	
 	switch(dbevent.eventType) {
 	case EVENTTYPE_MESSAGE:
-		msglen = (int)strlen((char *) dbevent.pBlob) + 1;
+		msglen = (int)mir_strlen((char *) dbevent.pBlob) + 1;
 		if (dbevent.flags & DBEF_UTF) {
 			pEvent->strValue = Utf8_Decode((char*)dbevent.pBlob);
 		} else if ((int) dbevent.cbBlob == msglen*3){
@@ -1751,14 +1751,14 @@ int CAppletManager::HookSettingChanged(WPARAM hContact,LPARAM lParam)
 		if(!mir_strcmp(dbcws->szSetting,"Nick")) {
 			if (!db_get_ts(Event.hContact, "CList", "MyHandle", &dbv)) {
 				// handle found, ignore this event
-				if(dbv.pszVal && strlen(dbv.pszVal)>0)
+				if(dbv.pszVal && mir_strlen(dbv.pszVal)>0)
 					return 0;
 			}
 			db_free(&dbv);
 		}
 
 		Event.eType = EVENT_CONTACT_NICK;
-		if(dbcws->value.type != DBVT_DELETED && dbcws->value.pszVal && strlen(dbcws->value.pszVal)>0) {
+		if(dbcws->value.type != DBVT_DELETED && dbcws->value.pszVal && mir_strlen(dbcws->value.pszVal)>0) {
 			if(dbcws->value.type == DBVT_UTF8)
 				Event.strValue = Utf8_Decode(dbcws->value.pszVal);
 			else

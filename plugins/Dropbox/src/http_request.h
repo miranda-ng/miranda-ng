@@ -74,7 +74,7 @@ protected:
 			szLogin,
 			szPassword);
 
-		char *ePair = (char *)mir_base64_encode((BYTE*)cPair, (UINT)strlen(cPair));
+		char *ePair = (char *)mir_base64_encode((BYTE*)cPair, (UINT)mir_strlen(cPair));
 
 		char value[128];
 		mir_snprintf(

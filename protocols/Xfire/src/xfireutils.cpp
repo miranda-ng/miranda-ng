@@ -36,9 +36,9 @@ using namespace std;
   }
 
   int XFireUtils::addAttributName(char *packet,int packet_length, char *att){
-    XDEBUG3( "Adding %d chars at position %d\n",strlen(att),packet_length);
-	packet[packet_length] = (char)strlen(att);//set att length
-	memcpy(packet+packet_length+1,att,strlen(att)); //set attname
-	return packet_length+1+strlen(att);
+    XDEBUG3( "Adding %d chars at position %d\n",mir_strlen(att),packet_length);
+	packet[packet_length] = (char)mir_strlen(att);//set att length
+	memcpy(packet+packet_length+1,att,mir_strlen(att)); //set attname
+	return packet_length+1+mir_strlen(att);
   }
 };

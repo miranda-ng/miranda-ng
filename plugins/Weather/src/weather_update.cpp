@@ -195,7 +195,7 @@ int UpdateWeather(MCONTACT hContact)
 			dbei.flags = DBEF_READ|DBEF_UTF;
 			dbei.eventType = EVENTTYPE_MESSAGE;
 			dbei.pBlob = (PBYTE)mir_utf8encodeT(str2);
-			dbei.cbBlob = (DWORD)strlen((char*)dbei.pBlob)+1;
+			dbei.cbBlob = (DWORD)mir_strlen((char*)dbei.pBlob)+1;
 			db_event_add(hContact, &dbei);
 		}
 

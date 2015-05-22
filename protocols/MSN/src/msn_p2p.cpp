@@ -1158,8 +1158,8 @@ void CMsnProto::p2p_InitFileTransfer(
 			if (pictmatch) {
 				UrlDecode(dbv.pszVal);
 
-				ezxml_t xmlcon = ezxml_parse_str((char*)szContext, strlen(szContext));
-				ezxml_t xmldb = ezxml_parse_str(dbv.pszVal, strlen(dbv.pszVal));
+				ezxml_t xmlcon = ezxml_parse_str((char*)szContext, mir_strlen(szContext));
+				ezxml_t xmldb = ezxml_parse_str(dbv.pszVal, mir_strlen(dbv.pszVal));
 
 				const char *szCtBuf = ezxml_attr(xmlcon, "SHA1C");
 				if (szCtBuf) {
@@ -2051,7 +2051,7 @@ void CMsnProto::p2p_invite(unsigned iAppID, filetransfer* ft, const char *wlid)
 			return;
 		}
 
-		ezxml_t xmlo = ezxml_parse_str(NEWSTR_ALLOCA(ft->p2p_object), strlen(ft->p2p_object));
+		ezxml_t xmlo = ezxml_parse_str(NEWSTR_ALLOCA(ft->p2p_object), mir_strlen(ft->p2p_object));
 		ezxml_t xmlr = ezxml_new("msnobj");
 
 		const char* p;
@@ -2080,7 +2080,7 @@ void CMsnProto::p2p_invite(unsigned iAppID, filetransfer* ft, const char *wlid)
 			ezxml_set_attr(xmlr, "SHA1C", p);
 
 		pContext = ezxml_toxml(xmlr, false);
-		cbContext = strlen(pContext) + 1;
+		cbContext = mir_strlen(pContext) + 1;
 
 		ezxml_free(xmlr);
 		ezxml_free(xmlo);

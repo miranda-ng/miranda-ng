@@ -295,16 +295,16 @@ void importSettings(MCONTACT hContact, char *importstring)
 			continue;
 		}
 
-		if (!strncmp(&importstring[i], "SETTINGS:", strlen("SETTINGS:"))) {
+		if (!strncmp(&importstring[i], "SETTINGS:", mir_strlen("SETTINGS:"))) {
 			importstring = strtok(NULL, "\n");
 			continue;
 		}
 
-		if (!strncmp(&importstring[i], "CONTACT:", strlen("CONTACT:"))) {
+		if (!strncmp(&importstring[i], "CONTACT:", mir_strlen("CONTACT:"))) {
 			hContact = INVALID_CONTACT_ID;
 
-			i = i + (int)strlen("CONTACT:");
-			int len = (int)strlen(&importstring[i]);
+			i = i + (int)mir_strlen("CONTACT:");
+			int len = (int)mir_strlen(&importstring[i]);
 
 			if (len > 10) {
 				char uid[256] = "", szUID[256] = "", szProto[512] = "";
@@ -424,7 +424,7 @@ void importSettings(MCONTACT hContact, char *importstring)
 					break;
 				case 'n':
 				case 'N':
-					WriteBlobFromString(hContact, module, setting, (end + 2), (int)strlen((end + 2)));
+					WriteBlobFromString(hContact, module, setting, (end + 2), (int)mir_strlen((end + 2)));
 					break;
 				}
 			}
@@ -565,7 +565,7 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, char* FilePath)
 		while (szFileNames[index]) {
 			strcpy(szFile, szPath);
 			strcat(szFile, &szFileNames[index]);
-			index += (int)strlen(&szFileNames[index]) + 1;
+			index += (int)mir_strlen(&szFileNames[index]) + 1;
 
 			HANDLE hFile = CreateFile(szFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
 			if (hFile != INVALID_HANDLE_VALUE) {

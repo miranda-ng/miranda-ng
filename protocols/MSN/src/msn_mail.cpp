@@ -45,7 +45,7 @@ ezxml_t CMsnProto::oimRecvHdr(const char* service, ezxml_t& tbdy, char*& httphdr
 	tbdy = ezxml_add_child(bdy, service, 0);
 	ezxml_set_attr(tbdy, "xmlns", "http://www.hotmail.msn.com/ws/2004/09/oim/rsi");
 
-	size_t hdrsz = strlen(service) + sizeof(mailReqHdr) + 20;
+	size_t hdrsz = mir_strlen(service) + sizeof(mailReqHdr) + 20;
 	httphdr = (char*)mir_alloc(hdrsz);
 
 	mir_snprintf(httphdr, hdrsz, mailReqHdr, service);
@@ -88,7 +88,7 @@ void CMsnProto::getOIMs(ezxml_t xmli)
 		mir_free(url);
 
 		if (tResult != NULL && status == 200) {
-			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			ezxml_t body = getSoapResponse(xmlm, "GetMessage");
 
 			MimeHeaders mailInfo;
@@ -168,7 +168,7 @@ void CMsnProto::getMetaData(void)
 	mir_free(getReqHdr);
 
 	if (tResult != NULL && status == 200) {
-		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		ezxml_t xmli = ezxml_get(xmlm, "s:Body", 0, "GetMetadataResponse", 0, "MD", -1);
 		if (!xmli)
 			xmli = ezxml_get(xmlm, "soap:Body", 0, "GetMetadataResponse", 0, "MD", -1);
@@ -186,7 +186,7 @@ void CMsnProto::processMailData(char* mailData)
 		getMetaData();
 	}
 	else {
-		ezxml_t xmli = ezxml_parse_str(mailData, strlen(mailData));
+		ezxml_t xmli = ezxml_parse_str(mailData, mir_strlen(mailData));
 
 		ezxml_t toke = ezxml_child(xmli, "E");
 
@@ -357,7 +357,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 
 static void TruncUtf8(char *str, size_t sz)
 {
-	size_t len = strlen(str);
+	size_t len = mir_strlen(str);
 	if (sz > len) sz = len;
 
 	size_t cntl = 0, cnt = 0;

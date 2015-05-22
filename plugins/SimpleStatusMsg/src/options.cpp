@@ -451,7 +451,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							{
 								if (dbv.pszVal)
 								{
-									if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && strlen(dbv.pszVal))
+									if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && mir_strlen(dbv.pszVal))
 									{
 										if ((dbv2.ptszVal) && (mir_tstrlen(dbv2.ptszVal)))
 											SetDlgItemText(hwndDlg, IDC_OPTEDIT1, dbv2.ptszVal);
@@ -606,7 +606,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							{
 								if (dbv.pszVal)
 								{
-									if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && strlen(dbv.pszVal))
+									if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && mir_strlen(dbv.pszVal))
 									{
 										if (dbv2.ptszVal && mir_tstrlen(dbv2.ptszVal))
 											SetDlgItemText(hwndDlg, IDC_OPTEDIT1, dbv2.ptszVal);
@@ -706,7 +706,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						{
 							if (dbv.pszVal)
 							{
-								if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && strlen(dbv.pszVal))
+								if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && mir_strlen(dbv.pszVal))
 								{
 									if (dbv2.ptszVal && mir_tstrlen(dbv2.ptszVal))
 										SetDlgItemText(hwndDlg, IDC_OPTEDIT1, dbv2.ptszVal);
@@ -820,7 +820,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						{
 							if (dbv.pszVal)
 							{
-								if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && strlen(dbv.pszVal))
+								if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && mir_strlen(dbv.pszVal))
 								{
 									if (dbv2.ptszVal && mir_tstrlen(dbv2.ptszVal))
 										SetDlgItemText(hwndDlg, IDC_OPTEDIT1, dbv2.ptszVal);

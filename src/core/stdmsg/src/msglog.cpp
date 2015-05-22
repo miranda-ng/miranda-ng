@@ -112,7 +112,7 @@ static int AppendToBufferWithRTF(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 				if (line[1] == bbcodes[i][1]) {
 					size_t lenb = _tcslen(bbcodes[i]);
 					if (!_tcsnicmp(line, bbcodes[i], lenb)) {
-						size_t len = strlen(bbcodefmt[i]);
+						size_t len = mir_strlen(bbcodefmt[i]);
 						memcpy(d, bbcodefmt[i], len);
 						d += len;
 						line += lenb - 1;
@@ -362,7 +362,7 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT
 	case EVENTTYPE_FILE:
 		{
 			char* filename = (char*)dbei.pBlob + sizeof(DWORD);
-			char* descr = filename + strlen(filename) + 1;
+			char* descr = filename + mir_strlen(filename) + 1;
 			
 			ptrT ptszFileName(DbGetEventStringT(&dbei, filename));
 			AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle(MSGFONTID_NOTICE));

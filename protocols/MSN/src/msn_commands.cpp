@@ -145,7 +145,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 			buf.AppendFormat("Ack-Id: %s\r\n", tHeader["Ack-Id"]);
 			if (msnRegistration) buf.AppendFormat("Registration: %s\r\n", msnRegistration);
 			buf.AppendFormat("\r\n");
-			msnNsThread->sendPacket("ACK", "MSGR %d\r\n%s", strlen(buf), buf);
+			msnNsThread->sendPacket("ACK", "MSGR %d\r\n%s", mir_strlen(buf), buf);
 		}
 		msgBody = tHeader.readFromBuffer(msgBody);
 		if (!(email = NEWSTR_ALLOCA(tHeader["From"]))) return;
@@ -173,7 +173,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		if (tChunks)
 			idx = addCachedMsg(tMsgId, msg, 0, msgBytes, atol(tChunks), true);
 		else
-			idx = addCachedMsg(tMsgId, msgBody, 0, strlen(msgBody), 0, true);
+			idx = addCachedMsg(tMsgId, msgBody, 0, mir_strlen(msgBody), 0, true);
 
 		size_t newsize;
 		if (!getCachedMsg(idx, newbody, newsize)) return;
@@ -214,7 +214,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		MCONTACT hContact = strncmp(email, "19:", 3)?MSN_HContactFromEmail(email, nick, true, true):NULL;
 
 		if (!_stricmp(tHeader["Message-Type"], "RichText/Contacts")) {
-			ezxml_t xmli = ezxml_parse_str(msgBody, strlen(msgBody));
+			ezxml_t xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody));
 			if (xmli) {
 				if (!strcmp(xmli->name, "contacts")) {
 					ezxml_t c;
@@ -275,7 +275,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 			const char* tP4Context = tHeader["P4-Context"];
 			if (tP4Context) {
-				size_t newlen = strlen(msgBody) + strlen(tP4Context) + 4;
+				size_t newlen = mir_strlen(msgBody) + mir_strlen(tP4Context) + 4;
 				char* newMsgBody = (char*)mir_alloc(newlen);
 				mir_snprintf(newMsgBody, newlen, "[%s] %s", tP4Context, msgBody);
 				mir_free(newbody);
@@ -284,7 +284,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 			if (mChatID[0]) {
 				if (!_strnicmp(tHeader["Message-Type"], "ThreadActivity/", 15)) {
-					ezxml_t xmli = ezxml_parse_str(msgBody, strlen(msgBody));
+					ezxml_t xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody));
 					if (xmli) {
 						MSN_GCProcessThreadActivity(xmli, mChatID);
 						ezxml_free(xmli);
@@ -312,7 +312,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 					dbei.flags = DBEF_SENT | DBEF_UTF | (haveWnd ? 0 : DBEF_READ) | (isRtl ? DBEF_RTL : 0);
 					dbei.szModule = m_szModuleName;
 					dbei.timestamp = time(NULL);
-					dbei.cbBlob = (unsigned)strlen(msgBody) + 1;
+					dbei.cbBlob = (unsigned)mir_strlen(msgBody) + 1;
 					dbei.pBlob = (PBYTE)msgBody;
 					db_event_add(hContact, &dbei);
 				}
@@ -680,14 +680,14 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 			size_t lenPart = mir_snprintf(part, SIZEOF(part), "{%d}", i - 4);
 			if (parts[i][0] == '\0' && unknown != NULL)
 				parts[i] = unknown;
-			size_t lenPartsI = strlen(parts[i]);
+			size_t lenPartsI = mir_strlen(parts[i]);
 			for (p = strstr(format, part); p; p = strstr(p + lenPartsI, part)) {
 				if (lenPart < lenPartsI) {
 					int loc = p - format;
-					format = (char *)mir_realloc(format, strlen(format) + (lenPartsI - lenPart) + 1);
+					format = (char *)mir_realloc(format, mir_strlen(format) + (lenPartsI - lenPart) + 1);
 					p = format + loc;
 				}
-				memmove(p + lenPartsI, p + lenPart, strlen(p + lenPart) + 1);
+				memmove(p + lenPartsI, p + lenPart, mir_strlen(p + lenPart) + 1);
 				memmove(p, parts[i], lenPartsI);
 			}
 		}
@@ -827,7 +827,7 @@ LBL_InvalidCommand:
 							"<epid>%.*s</epid></msgr>\r\n", 
 							msnP24Ver, (msnP24Ver>1?"<altVersions><ver>1</ver></altVersions>":""),
 							msnStoreAppId, msnProductVer, 
-							strlen(MyOptions.szMachineGuid)-2, MyOptions.szMachineGuid+1);
+							mir_strlen(MyOptions.szMachineGuid)-2, MyOptions.szMachineGuid+1);
 				bSentBND = true;
 			}
 			else
@@ -859,7 +859,7 @@ LBL_InvalidCommand:
 
 			replaceStr(msnRegistration,tHeader["Set-Registration"]);
 			if (!strcmp(data.typeId, "CON")) {
-				ezxml_t xmlbnd = ezxml_parse_str(msgBody, strlen(msgBody));
+				ezxml_t xmlbnd = ezxml_parse_str(msgBody, mir_strlen(msgBody));
 				ezxml_t xmlbdy = ezxml_child(xmlbnd, "nonce");
 				if (xmlbdy)
 				{
@@ -920,7 +920,7 @@ LBL_InvalidCommand:
 
 			} else {
 				/* Skype username/pass login */
-				ezxml_t xmlcnt = ezxml_parse_str(msgBody, strlen(msgBody));
+				ezxml_t xmlcnt = ezxml_parse_str(msgBody, mir_strlen(msgBody));
 				ezxml_t xmlnonce = ezxml_child(xmlcnt, "nonce");
 				if (xmlnonce) {
 					char szUIC[1024]={0};
@@ -958,7 +958,7 @@ LBL_InvalidCommand:
 			ezxml_t xmli;
 
 			if (tHeader["Set-Registration"]) replaceStr(msnRegistration,tHeader["Set-Registration"]);
-			if (xmli = ezxml_parse_str(msgBody, strlen(msgBody)))
+			if (xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody)))
 			{
 				if (!strcmp(xmli->name, "recentconversations-response"))
 				{
@@ -1027,7 +1027,7 @@ LBL_InvalidCommand:
 									stripHTML(message);
 									HtmlDecode(message);
 								} else if (!strncmp(msgtype->txt, "ThreadActivity/", 15)) {
-									if (ezxml_t xmlact = ezxml_parse_str(content->txt, strlen(content->txt))) {
+									if (ezxml_t xmlact = ezxml_parse_str(content->txt, mir_strlen(content->txt))) {
 										MSN_GCProcessThreadActivity(xmlact, _A2T(id->txt));
 										ezxml_free(xmlact);
 									}
@@ -1046,7 +1046,7 @@ LBL_InvalidCommand:
 								MEVENT hDbEvent;
 								bool bDuplicate = false;
 								DBEVENTINFO dbei = { sizeof(dbei) };
-								DWORD cbBlob = (DWORD)strlen(message);
+								DWORD cbBlob = (DWORD)mir_strlen(message);
 								dbei.cbBlob = cbBlob;
 								BYTE *pszMsgBuf = (BYTE*)mir_calloc(cbBlob);
 								if (pszMsgBuf) {
@@ -1076,7 +1076,7 @@ LBL_InvalidCommand:
 									dbei.flags = DBEF_SENT | DBEF_UTF;
 									dbei.szModule = m_szModuleName;
 									dbei.timestamp = ts;
-									dbei.cbBlob = (unsigned)strlen(message) + 1;
+									dbei.cbBlob = (unsigned)mir_strlen(message) + 1;
 									dbei.pBlob = (PBYTE)message;
 									db_event_add(hContact, &dbei);
 								}
@@ -1122,7 +1122,7 @@ LBL_InvalidCommand:
 			} else if (!strcmp(data.typeId, "MSGR\\ABCH")) {
 				MimeHeaders tHeader;
 				msgBody = tHeader.readFromBuffer(msgBody);
-				MSN_ProcessNotificationMessage(msgBody, strlen(msgBody));
+				MSN_ProcessNotificationMessage(msgBody, mir_strlen(msgBody));
 				break;
 			}
 
@@ -1139,7 +1139,7 @@ LBL_InvalidCommand:
 				if (pszFrom)
 				{
 					ezxml_t xmli;
-					if (xmli = ezxml_parse_str(msgBody, strlen(msgBody)))
+					if (xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody)))
 					{
 						if (!strcmp(xmli->name, "user"))
 						{
@@ -1164,7 +1164,7 @@ LBL_InvalidCommand:
 				char *msgBody = tHeader.readFromBuffer(info->mData);
 				ezxml_t xmli;
 
-				if (xmli = ezxml_parse_str(msgBody, strlen(msgBody)))
+				if (xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody)))
 				{
 					MSN_ChatStart(xmli);
 					ezxml_free(xmli);
@@ -1190,7 +1190,7 @@ LBL_InvalidCommand:
 
 			if (tHeader["Set-Registration"]) replaceStr(msnRegistration,tHeader["Set-Registration"]);
 			if (cmdString[1]=='N') { // PNG
-				if (ezxml_t xmli = ezxml_parse_str(msgBody, strlen(msgBody))) {
+				if (ezxml_t xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody))) {
 					if (ezxml_t wait = ezxml_child(xmli, "wait")) {
 						msnPingTimeout = atoi(ezxml_txt(wait));
 						if (msnPingTimeout && hKeepAliveThreadEvt != NULL)
@@ -1200,7 +1200,7 @@ LBL_InvalidCommand:
 				}				
 			} else { // PUT
 				ezxml_t xmli;
-				if (*msgBody && (xmli = ezxml_parse_str(msgBody, strlen(msgBody)))) {
+				if (*msgBody && (xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody)))) {
 					if (!strcmp(xmli->name, "presence-response")) {
 						ezxml_t user, from;
 						if ((user = ezxml_child(xmli, "user")) && (from = ezxml_child(xmli, "from"))) {
@@ -1239,7 +1239,7 @@ LBL_InvalidCommand:
 			HReadBuffer buf(info, 0);
 			char* msgBody = tHeader.readFromBuffer((char*)buf.surelyRead(atol(data.strMsgBytes)));
 			if (!strcmp(data.typeId, "CON")) {
-				ezxml_t xmlxfr = ezxml_parse_str(msgBody, strlen(msgBody));
+				ezxml_t xmlxfr = ezxml_parse_str(msgBody, mir_strlen(msgBody));
 				ezxml_t xmltgt = ezxml_child(xmlxfr, "target");
 				if (xmltgt)
 				{
@@ -1514,7 +1514,7 @@ void CMsnProto::MSN_CustomSmiley(const char* msgBody, char* email, char* nick, i
 			memcpy(ft->p2p_object, tok1, sz);
 			ft->p2p_object[sz] = 0;
 
-			size_t slen = strlen(lastsml);
+			size_t slen = mir_strlen(lastsml);
 			ptrA buf(mir_base64_encode((PBYTE)lastsml, (unsigned)slen));
 			ptrA smileyName(mir_urlEncode(buf));
 

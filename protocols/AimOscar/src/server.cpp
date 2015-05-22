@@ -1265,7 +1265,7 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 		if (channel == 1) { //Message not file
 			if (auto_response) { //this message must be an autoresponse
 				char* away = mir_utf8encodeT(TranslateT("[Auto-Response]:"));
-				size_t len = strlen(msg_buf) + strlen(away) + 2;
+				size_t len = mir_strlen(msg_buf) + mir_strlen(away) + 2;
 				char* buf = (char*)mir_alloc(len);
 				mir_snprintf(buf, len, "%s %s", away, msg_buf);
 				mir_free(away);
@@ -1292,7 +1292,7 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 					char* s_msg = process_status_msg(*msgptr, sn);
 
 					char* away = mir_utf8encodeT(TranslateT("[Auto-Response]:"));
-					size_t len = strlen(s_msg) + strlen(away) + 2;
+					size_t len = mir_strlen(s_msg) + mir_strlen(away) + 2;
 					char* buf = (char*)alloca(len);
 					mir_snprintf(buf, len, "%s %s", away, s_msg);
 					mir_free(away);

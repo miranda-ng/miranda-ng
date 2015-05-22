@@ -108,7 +108,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 					tox_dns3_kill(dns);
 				}
 			}
-			section += strlen(section) + 1;
+			section += mir_strlen(section) + 1;
 		}
 	}
 

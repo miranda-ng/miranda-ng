@@ -440,11 +440,11 @@ void gg_debughandler(int level, const char *format, va_list ap)
 
    char prefix[6];
    mir_snprintf(prefix, SIZEOF(prefix), "%lu", GetCurrentThreadId());
-   size_t prefixLen = strlen(prefix);
+   size_t prefixLen = mir_strlen(prefix);
    if (prefixLen < PREFIXLEN) memset(prefix + prefixLen, ' ', PREFIXLEN - prefixLen);
    memcpy(szText, prefix, PREFIXLEN);
 
-   mir_vsnprintf(szText + strlen(szText), sizeof(szText) - strlen(szText), szFormat, ap);
+   mir_vsnprintf(szText + mir_strlen(szText), sizeof(szText) - mir_strlen(szText), szFormat, ap);
    CallService(MS_NETLIB_LOG, NULL, (LPARAM)szText);
    free(szFormat);
 }

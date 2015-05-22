@@ -118,9 +118,9 @@ STATUS LNPUBLIC __stdcall EMCallBack (EMRECORD * pData)
 	retPassword = VARARG_GET (pArgs, char *);
 	fileName = VARARG_GET (pArgs, char *);
 	ownerName = VARARG_GET (pArgs, char *);
-	strncpy(retPassword, settingPassword, strlen(settingPassword)); //set our password
-	retPassword[strlen(settingPassword)]='\0';
-	*retLength = (DWORD)strlen(retPassword);//and his length
+	strncpy(retPassword, settingPassword, mir_strlen(settingPassword)); //set our password
+	retPassword[mir_strlen(settingPassword)]='\0';
+	*retLength = (DWORD)mir_strlen(retPassword);//and his length
 	return ERR_BSAFE_EXTERNAL_PASSWORD;
 }
 
@@ -234,7 +234,7 @@ void init_pluginname()
 
     HANDLE hFind = FindFirstFileA(text, &ffd);
     if(hFind != INVALID_HANDLE_VALUE) {
-        strncpy_s(text, SIZEOF(text), ffd.cFileName, strlen(ffd.cFileName));
+        strncpy_s(text, SIZEOF(text), ffd.cFileName, mir_strlen(ffd.cFileName));
         FindClose(hFind);
     }
     // Check if we have relative or full path
@@ -246,13 +246,13 @@ void init_pluginname()
 	if(q = strrchr(p, '.')) {
 		*q = '\0';
 	}
-	if((q = strstr(p, "debug")) && strlen(q) == 5) {
+	if((q = strstr(p, "debug")) && mir_strlen(q) == 5) {
 		*q = '\0';
 	}
 
 	// copy to static variable
-	strncpy_s(PLUGINNAME, SIZEOF(PLUGINNAME), p, strlen(p));
-	assert(strlen(PLUGINNAME)>0);
+	strncpy_s(PLUGINNAME, SIZEOF(PLUGINNAME), p, mir_strlen(p));
+	assert(mir_strlen(PLUGINNAME)>0);
 
 }
 
@@ -271,7 +271,7 @@ BOOL strrep(char *src, char *needle, char *newstring)
 	strncpy_s(begining, _countof(begining), src, pos);
 	begining[pos]='\0';
 
-	pos = pos+(int)strlen(needle);
+	pos = pos+(int)mir_strlen(needle);
 	strncpy_s(tail, _countof(tail), src+pos, SIZEOF(tail));
 	begining[pos]='\0';
 
@@ -329,7 +329,7 @@ void Click(HWND hWnd,BOOL execute)
 	if(settingNewest && (pid->id > settingNewestID) ){
 		db_set_dw(NULL, PLUGINNAME, "LNNewestID", settingNewestID=pid->id);
 	}
-	if(execute && settingCommand && strlen(settingCommand)>0 ) {
+	if(execute && settingCommand && mir_strlen(settingCommand)>0 ) {
 		char tmpcommand[2*MAX_SETTING_STR];
 		char tmpparameters[2*MAX_SETTING_STR];
 		strncpy_s(tmpcommand, SIZEOF(tmpcommand), settingCommand, SIZEOF(tmpcommand));
@@ -399,7 +399,7 @@ BOOL checkNotesIniFile(BOOL bInfo)
 	char tmp[MAXENVVALUE+1], tmp1[MAXENVVALUE+1];
 	(OSGetEnvironmentString1) ("EXTMGR_ADDINS", tmp, MAXENVVALUE);//get current setting
 	strncpy_s(tmp1,_countof(tmp1),tmp,sizeof(tmp1));//copy temporary
-	assert(strlen(tmp1)>0);
+	assert(mir_strlen(tmp1)>0);
 
 	char* PLUGINNAME_lower = _strlwr(mir_strdup(PLUGINNAME));
 
@@ -427,11 +427,11 @@ BOOL checkNotesIniFile(BOOL bInfo)
 
 		if(settingIniAnswer == 1)
 		{
-			if(strlen(tmp) > 0) {
+			if(mir_strlen(tmp) > 0) {
 				strcat_s(tmp, SIZEOF(tmp), ",");
 				strcat_s(tmp, SIZEOF(tmp), PLUGINNAME_lower); //add our plugin to extensions
 			} else {
-				strncpy_s(tmp, SIZEOF(tmp), PLUGINNAME_lower, strlen(PLUGINNAME_lower)); //set our plugin as extension
+				strncpy_s(tmp, SIZEOF(tmp), PLUGINNAME_lower, mir_strlen(PLUGINNAME_lower)); //set our plugin as extension
 			}
 
 			(OSSetEnvironmentVariable1) ("EXTMGR_ADDINS", tmp); //set notes.ini entry
@@ -485,7 +485,7 @@ void showMsg(TCHAR* sender,TCHAR* text, DWORD id, char *strUID)
 	ppd.iSeconds=settingInterval1;
 	//Now the "additional" data.
 	mpd->id = id;
-	strncpy_s(mpd->strNote, SIZEOF(mpd->strNote), strUID, strlen(strUID));
+	strncpy_s(mpd->strNote, SIZEOF(mpd->strNote), strUID, mir_strlen(strUID));
 	//mpd->newStatus = ID_STATUS_ONLINE;
 
 	//Now that the plugin data has been filled, we add it to the PopUpData.
@@ -527,7 +527,7 @@ void ErMsgByLotusCode(STATUS erno)
     WORD text_len;
 
     text_len = (OSLoadString1)(NULLHANDLE, erno, error_text_LMBCS, sizeof(error_text_LMBCS)-1);
-	(OSTranslate1)(OS_TRANSLATE_LMBCS_TO_UNICODE, error_text_LMBCS, (WORD)strlen(error_text_LMBCS), error_text_UNICODEatCHAR, sizeof(error_text_UNICODEatCHAR)-1);
+	(OSTranslate1)(OS_TRANSLATE_LMBCS_TO_UNICODE, error_text_LMBCS, (WORD)mir_strlen(error_text_LMBCS), error_text_UNICODEatCHAR, sizeof(error_text_UNICODEatCHAR)-1);
 	memcpy(error_text_UNICODE, error_text_UNICODEatCHAR, sizeof(error_text_UNICODE));
 
 	ErMsgW(error_text_UNICODE);
@@ -643,7 +643,7 @@ void checkthread(void*)
 	log_p(L"checkthread: Username: %S", UserName);
 
    /* Get the unread list */
-	if(error = (NSFDbGetUnreadNoteTable1) (db_handle,UserName,(WORD) strlen(UserName),TRUE,&hTable)) {
+	if(error = (NSFDbGetUnreadNoteTable1) (db_handle,UserName,(WORD) mir_strlen(UserName),TRUE,&hTable)) {
 		goto errorblock0;
 	}
 	log(L"checkthread: Unread Table got");

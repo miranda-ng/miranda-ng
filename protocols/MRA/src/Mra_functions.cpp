@@ -670,7 +670,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 
 			if (getByte("TrayIconNewMailClkToInbox", MRA_DEFAULT_TRAYICON_NEW_MAIL_CLK_TO_INBOX)) {
 				strncpy(szServiceFunction, m_szModuleName, MAX_PATH);
-				pszServiceFunctionName = szServiceFunction + strlen(m_szModuleName);
+				pszServiceFunctionName = szServiceFunction + mir_strlen(m_szModuleName);
 				memcpy(pszServiceFunctionName, MRA_GOTO_INBOX, sizeof(MRA_GOTO_INBOX));
 				cle.pszService = szServiceFunction;
 			}

@@ -175,7 +175,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			string keyinfo = Translate("Default private key ID");
 			keyinfo += ": ";
 			char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
-			keyinfo += (strlen(keyid) > 0)?keyid:Translate("not set");
+			keyinfo += (mir_strlen(keyid) > 0)?keyid:Translate("not set");
 			mir_free(keyid);
 			SetDlgItemTextA(hwndDlg, IDC_CURRENT_KEY, keyinfo.c_str());
 		}
@@ -507,7 +507,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					  string::size_type p1 = out.find("(GnuPG) ");
 					  if(p1 != string::npos)
 					  {
-						  p1 += strlen("(GnuPG) ");
+						  p1 += mir_strlen("(GnuPG) ");
 						  if(out[p1] != '1')
 							  bad_version = true;
 					  }
@@ -527,7 +527,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			  char* p_path = NULL;
 			  if(StriStr(atmp, mir_path))
 			  {
-				  p_path = atmp + strlen(mir_path);
+				  p_path = atmp + mir_strlen(mir_path);
 				  tmp = mir_a2t(p_path);
 				  SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
 			  }
@@ -545,7 +545,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			  char* p_path = NULL;
 			  if(StriStr(atmp, mir_path))
 			  {
-				  p_path = atmp + strlen(mir_path);
+				  p_path = atmp + mir_strlen(mir_path);
 				  tmp = mir_a2t(p_path);
 				  SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
 			  }
@@ -961,7 +961,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 								break;
 							}
 							char *tmp2;
-							string::size_type s = output.find("gpg: key ") + strlen("gpg: key ");
+							string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 							string::size_type s2 = output.find(":", s);
 							tmp2 = (char*)mir_alloc((output.substr(s,s2-s).length()+1)*sizeof(char));
 							strcpy(tmp2, output.substr(s,s2-s).c_str());

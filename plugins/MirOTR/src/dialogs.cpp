@@ -280,7 +280,7 @@ INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						char *ans = mir_utf8encodeT(answer);
 						delete[] answer;
 
-						otr_continue_smp(context, (const unsigned char *)ans, strlen(ans));
+						otr_continue_smp(context, (const unsigned char *)ans, mir_strlen(ans));
 						mir_free(ans);
 						SetWindowLongPtr(hwndDlg, GWLP_USERDATA, NULL);
 						DestroyWindow(hwndDlg);
@@ -439,7 +439,7 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 									delete answer;
 
 									SMPInitUpdateDialog(context, false);
-									otr_start_smp(context, quest, (const unsigned char*)ans, strlen(ans));
+									otr_start_smp(context, quest, (const unsigned char*)ans, mir_strlen(ans));
 									mir_free(quest);
 									mir_free(ans);
 									}
@@ -457,7 +457,7 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 									delete[] answer;
 
 									SMPInitUpdateDialog(context, false);
-									otr_start_smp(context, NULL, (const unsigned char*)ans, strlen(ans));
+									otr_start_smp(context, NULL, (const unsigned char*)ans, mir_strlen(ans));
 									mir_free(ans);
 									}
 
@@ -613,7 +613,7 @@ void SMPDialogReply(ConnContext *context, const char* question){
 	ShowError(_T("SMP requires user password (NOT IMPL YET)"));
 	otr_abort_smp(context);
 	*/
-	//otr_continue_smp(context, pass, strlen(pass));
+	//otr_continue_smp(context, pass, mir_strlen(pass));
 }
 
 unsigned int CALLBACK verify_context_thread(void *param);

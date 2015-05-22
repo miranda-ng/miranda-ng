@@ -267,7 +267,7 @@ BOOL OpenFileDialog(HWND hwndDlg, OPENFILENAMEA*ofn, char*exe) {
 	//filterstring aufbauen
 	mir_snprintf(szFilter, SIZEOF(szFilter), "%s|%s|%s|*.*|", exename, exename, Translate("All Files"));
 	//umbruch in 0 wandeln
-	unsigned int sizeFilter = strlen(szFilter);
+	unsigned int sizeFilter = mir_strlen(szFilter);
 	for (unsigned int i = 0; i < sizeFilter; i++)
 		if (szFilter[i] == '|') szFilter[i] = 0;
 	//openfiledia vorbereiten
@@ -629,7 +629,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 			//Spielname
 			GetDlgItemTextA(hwndDlg, IDC_ADD_NAME, temp, SIZEOF(temp));
-			if (!strlen(temp))
+			if (!mir_strlen(temp))
 			{
 				if (!editgame) delete newgame;
 				return MessageBox(hwndDlg, TranslateT("Please enter a game name."), TranslateT("XFire Options"), MB_OK | MB_ICONEXCLAMATION);
@@ -644,7 +644,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			//spielid nur setzen/prüfen, wenn kein editgame
 			if (!editgame) {
 				GetDlgItemTextA(hwndDlg, IDC_ADD_ID, temp, SIZEOF(temp));
-				if (!strlen(temp))
+				if (!mir_strlen(temp))
 				{
 					if (!editgame) delete newgame;
 					return MessageBox(hwndDlg, TranslateT("Please enter a game ID."), TranslateT("XFire Options"), MB_OK | MB_ICONEXCLAMATION);
@@ -672,7 +672,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			}
 			//zu sendene spielid
 			GetDlgItemTextA(hwndDlg, IDC_ADD_SENDID, temp, SIZEOF(temp));
-			if (strlen(temp))
+			if (mir_strlen(temp))
 			{
 				//standardmäßig wird bei einem customeintrag keine id versendet
 				int sendid = atoi(temp);
@@ -682,7 +682,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 			//launcher exe
 			GetDlgItemTextA(hwndDlg, IDC_ADD_LAUNCHEREXE, temp, SIZEOF(temp));
-			if (strlen(temp))
+			if (mir_strlen(temp))
 			{
 				//lowercase pfad
 				newgame->strtolower(temp);
@@ -691,7 +691,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			}
 			//detectexe
 			GetDlgItemTextA(hwndDlg, IDC_ADD_DETECTEXE, temp, SIZEOF(temp));
-			if (!strlen(temp))
+			if (!mir_strlen(temp))
 			{
 				if (!editgame) delete newgame;
 				return MessageBox(hwndDlg, TranslateT("Please select a game exe. Note: If you don't select a launcher exe, the game exe will be used in the game start menu."), TranslateT("XFire Options"), MB_OK | MB_ICONEXCLAMATION);
@@ -709,13 +709,13 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			}
 			//mustcontain parameter
 			GetDlgItemTextA(hwndDlg, IDC_ADD_CUSTOMPARAMS, temp, SIZEOF(temp));
-			if (strlen(temp))
+			if (mir_strlen(temp))
 			{
 				newgame->setString(temp, &newgame->mustcontain);
 			}
 			//statusmsg speichern
 			GetDlgItemTextA(hwndDlg, IDC_ADD_STATUSMSG, temp, SIZEOF(temp));
-			if (strlen(temp))
+			if (mir_strlen(temp))
 			{
 				newgame->setString(temp, &newgame->statusmsg);
 				newgame->setstatusmsg = 1;

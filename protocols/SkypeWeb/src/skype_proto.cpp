@@ -122,9 +122,9 @@ MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 		return NULL;
 
 	char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
-	char *firstName = nick + strlen(nick) + 1;
-	char *lastName = firstName + strlen(firstName) + 1;
-	char *skypename = lastName + strlen(lastName) + 1;
+	char *firstName = nick + mir_strlen(nick) + 1;
+	char *lastName = firstName + mir_strlen(firstName) + 1;
+	char *skypename = lastName + mir_strlen(lastName) + 1;
 
 	char *newSkypename = (dbei.flags & DBEF_UTF) ? mir_utf8decodeA(skypename) : skypename;
 	MCONTACT hContact = AddContact(newSkypename);

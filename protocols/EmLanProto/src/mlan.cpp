@@ -282,7 +282,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 					cont->m_addr = from;
 					cont->m_prev = m_pRootContact;
 					cont->m_status = ID_STATUS_OFFLINE;
-					int nlen = (int)strlen(pak.strName);
+					int nlen = (int)mir_strlen(pak.strName);
 					cont->m_nick = new char[nlen + 1];
 					memcpy(cont->m_nick, pak.strName, nlen + 1);
 					m_pRootContact = cont;
@@ -292,7 +292,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 					if (pak.strName && strcmp(pak.strName, cont->m_nick) != 0)
 					{
 						delete[] cont->m_nick;
-						int nlen = (int)strlen(pak.strName);
+						int nlen = (int)mir_strlen(pak.strName);
 						cont->m_nick = new char[nlen + 1];
 						memcpy(cont->m_nick, pak.strName, nlen + 1);
 					}
@@ -1063,14 +1063,14 @@ void CMLan::RecvFile(CCSDATA* ccs)
 	db_unset(ccs->hContact, "CList", "Hidden");
 
 	szFile = pre->szMessage + sizeof(DWORD);
-	szDesc = szFile + strlen(szFile) + 1;
+	szDesc = szFile + mir_strlen(szFile) + 1;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = PROTONAME;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
 	dbei.eventType = EVENTTYPE_FILE;
-	dbei.cbBlob = DWORD(sizeof(DWORD) + strlen(szFile) + strlen(szDesc) + 2);
+	dbei.cbBlob = DWORD(sizeof(DWORD) + mir_strlen(szFile) + mir_strlen(szDesc) + 2);
 	dbei.pBlob = (PBYTE)pre->szMessage;
 	db_event_add(ccs->hContact, &dbei);
 }
@@ -1395,12 +1395,12 @@ void CMLan::OnOutTCPConnection(u_long addr, SOCKET out_socket, LPVOID lpParamete
 		delete[] * pf;
 		*pf = _strdup(name);
 		strcpy((char*)buf + len, filepart);
-		len += (int)strlen(filepart) + 1;
+		len += (int)mir_strlen(filepart) + 1;
 
 		pf++;
 	}
 	strcpy((char*)buf + len, conn->m_szDescription);
-	len += (int)strlen(conn->m_szDescription) + 1;
+	len += (int)mir_strlen(conn->m_szDescription) + 1;
 
 	*((int*)(buf + 1)) = size;
 	*((int*)(buf + 1 + 4)) = filecount;

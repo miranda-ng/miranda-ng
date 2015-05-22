@@ -271,9 +271,9 @@ MCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int, MEVENT hDbEvent)
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return NULL;
 
 	char* nick = (char *)(dbei.pBlob + sizeof(DWORD) * 2);
-	char* firstName = nick + strlen(nick) + 1;
-	char* lastName = firstName + strlen(firstName) + 1;
-	char* email = lastName + strlen(lastName) + 1;
+	char* firstName = nick + mir_strlen(nick) + 1;
+	char* lastName = firstName + mir_strlen(firstName) + 1;
+	char* email = lastName + mir_strlen(lastName) + 1;
 
 	return AddToListByEmail(email, nick, flags);
 }
@@ -335,9 +335,9 @@ int CMsnProto::Authorize(MEVENT hDbEvent)
 		return 1;
 
 	char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
-	char *firstName = nick + strlen(nick) + 1;
-	char *lastName = firstName + strlen(firstName) + 1;
-	char *email = lastName + strlen(lastName) + 1;
+	char *firstName = nick + mir_strlen(nick) + 1;
+	char *lastName = firstName + mir_strlen(firstName) + 1;
+	char *email = lastName + mir_strlen(lastName) + 1;
 
 	MCONTACT hContact = MSN_HContactFromEmail(email, nick, true, 0);
 	int netId = Lists_GetNetId(email);
@@ -373,9 +373,9 @@ int CMsnProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 		return 1;
 
 	char* nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
-	char* firstName = nick + strlen(nick) + 1;
-	char* lastName = firstName + strlen(firstName) + 1;
-	char* email = lastName + strlen(lastName) + 1;
+	char* firstName = nick + mir_strlen(nick) + 1;
+	char* lastName = firstName + mir_strlen(firstName) + 1;
+	char* email = lastName + mir_strlen(lastName) + 1;
 
 	MsnContact* msc = Lists_Get(email);
 	if (msc == NULL) return 0;
@@ -833,7 +833,7 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 
 	switch (netId) {
 	case NETID_MOB:
-		if (strlen(msg) > 133) {
+		if (mir_strlen(msg) > 133) {
 			errMsg = Translate("Message is too long: SMS page limited to 133 UTF8 chars");
 			seq = 999997;
 		}
@@ -845,7 +845,7 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 		break;
 
 	case NETID_YAHOO:
-		if (strlen(msg) > 1202) {
+		if (mir_strlen(msg) > 1202) {
 			seq = 999996;
 			errMsg = Translate("Message is too long: MSN messages are limited by 1202 UTF8 chars");
 			ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
@@ -857,7 +857,7 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 		break;
 
 	default:
-		if (strlen(msg) > 1202) {
+		if (mir_strlen(msg) > 1202) {
 			seq = 999996;
 			errMsg = Translate("Message is too long: MSN messages are limited by 1202 UTF8 chars");
 			ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
@@ -940,7 +940,7 @@ int __cdecl CMsnProto::SetAwayMsg(int status, const TCHAR* msg)
 
 	mir_free(*msgptr);
 	char* buf = *msgptr = mir_utf8encodeT(msg);
-	if (buf && strlen(buf) > 1859) {
+	if (buf && mir_strlen(buf) > 1859) {
 		buf[1859] = 0;
 		const int i = 1858;
 		if (buf[i] & 128) {

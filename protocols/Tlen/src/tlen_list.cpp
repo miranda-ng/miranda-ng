@@ -111,13 +111,13 @@ int TlenListExist(TlenProtocol *proto, TLEN_LIST list, const char *jid)
 	size_t len;
 	char *s, *p;
 	s = GetItemId(list, jid);
-	len = strlen(s);
+	len = mir_strlen(s);
 
 	mir_cslock lck(proto->csLists);
 	for (i=0; i<proto->listsCount; i++)
 		if (proto->lists[i].list == list) {
 			p = proto->lists[i].jid;
-			if (p && strlen(p) >= len && (p[(int)len] == '\0' || p[(int)len] == '/') && !strncmp(p, s, len)) {
+			if (p && mir_strlen(p) >= len && (p[(int)len] == '\0' || p[(int)len] == '/') && !strncmp(p, s, len)) {
 				mir_free(s);
 				return i+1;
 			}
@@ -265,7 +265,7 @@ TLEN_LIST_ITEM *TlenListFindItemPtrById2(TlenProtocol *proto, TLEN_LIST list, co
 	size_t len;
 	char *p;
 
-	len = strlen(id);
+	len = mir_strlen(id);
 
 	mir_cslock lck(proto->csLists);
 	for (i=0; i<proto->listsCount; i++) {

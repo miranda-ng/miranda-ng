@@ -55,7 +55,7 @@ int Log(char *format, ...)
 		}
 
 	va_end(vararg);
-	if (str[strlen(str) - 1] != '\n')
+	if (str[mir_strlen(str) - 1] != '\n')
 		{
 			strcat(str, "\n");
 		}
@@ -141,7 +141,7 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 	if (db_get_s(hContact, szModule, szSettingName, &dbv) == 0)
 		{
 			res = 0;
-			int tmp = (int)strlen(dbv.pszVal);
+			int tmp = (int)mir_strlen(dbv.pszVal);
 			len = (tmp < size - 1) ? tmp : size - 1;
 			strncpy(szResult, dbv.pszVal, len);
 			szResult[len] = '\0';
@@ -151,7 +151,7 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 			res = 1;
 			if (szError)
 				{
-					int tmp = (int)strlen(szError);
+					int tmp = (int)mir_strlen(szError);
 					len = (tmp < size - 1) ? tmp : size - 1;
 					strncpy(szResult, szError, len);
 					szResult[len] = '\0';

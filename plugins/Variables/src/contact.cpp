@@ -255,7 +255,7 @@ int getContactFromString(CONTACTSINFO *ci)
 			TCHAR *cInfo = getContactInfoT(CNF_UNIQUEID, hContact);
 			if (cInfo)
 			{
-				size_t size = _tcslen(cInfo) + strlen(szProto) + 4;
+				size_t size = _tcslen(cInfo) + mir_strlen(szProto) + 4;
 				szFind = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
 				if (szFind != NULL) {
 					mir_sntprintf(szFind, size, _T("<%S:%s>"), szProto, cInfo);
@@ -416,7 +416,7 @@ TCHAR* encodeContactToString(MCONTACT hContact)
 	if (szProto == NULL || tszUniqueId == NULL)
 		return NULL;
 
-	size_t size = _tcslen(tszUniqueId) + strlen(szProto) + 4;
+	size_t size = _tcslen(tszUniqueId) + mir_strlen(szProto) + 4;
 	TCHAR *tszResult = (TCHAR *)mir_calloc(size * sizeof(TCHAR));
 	if (tszResult)
 		mir_sntprintf(tszResult, size, _T("<%S:%s>"), szProto, tszUniqueId);

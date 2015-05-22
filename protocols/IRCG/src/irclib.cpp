@@ -176,7 +176,7 @@ void CIrcProto::SendIrcMessage(const TCHAR* msg, bool bNotify, int codepage)
 	if (this) {
 		char* str = mir_t2a_cp(msg, codepage);
 		rtrim(str);
-		int cbLen = (int)strlen(str);
+		int cbLen = (int)mir_strlen(str);
 		str = (char*)mir_realloc(str, cbLen + 3);
 		strcat(str, "\r\n");
 		NLSend((const BYTE*)str, cbLen + 2);
@@ -293,7 +293,7 @@ int CIrcProto::NLSend(const TCHAR* fmt, ...)
 	va_end(marker);
 
 	char* buf = mir_t2a_cp(szBuf, getCodepage());
-	int result = NLSend((unsigned char*)buf, (int)strlen(buf));
+	int result = NLSend((unsigned char*)buf, (int)mir_strlen(buf));
 	mir_free(buf);
 	return result;
 }

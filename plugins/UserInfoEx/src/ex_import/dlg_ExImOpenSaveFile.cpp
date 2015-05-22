@@ -72,7 +72,7 @@ static void InitAlteredPlacesBar()
 			if (!CallService(MS_DB_GETPROFILEPATH, SIZEOF(szProfilePath), (LPARAM)szProfilePath))
 			{
 				// only add if different from profile path
-				RegSetValueExA(hkPlacesBar, "Place4", 0, REG_SZ, (PBYTE)szProfilePath, (DWORD)strlen(szProfilePath) + 1);
+				RegSetValueExA(hkPlacesBar, "Place4", 0, REG_SZ, (PBYTE)szProfilePath, (DWORD)mir_strlen(szProfilePath) + 1);
 			}
 
 			RegCloseKey(hkPlacesBar);

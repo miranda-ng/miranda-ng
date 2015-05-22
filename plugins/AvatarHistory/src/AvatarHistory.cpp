@@ -218,7 +218,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			dbei.flags = DBEF_READ | DBEF_UTF;
 			dbei.timestamp = (DWORD) time(NULL);
 			dbei.eventType = EVENTTYPE_AVATAR_CHANGE;
-			dbei.cbBlob = (DWORD) strlen(blob) + 1;
+			dbei.cbBlob = (DWORD) mir_strlen(blob) + 1;
 			dbei.pBlob = (PBYTE)(char*)blob;
 			db_event_add(hContact, &dbei);
 		}

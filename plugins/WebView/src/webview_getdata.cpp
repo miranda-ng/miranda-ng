@@ -101,7 +101,7 @@ void GetData(void *param)
 		db_free(&dbv);
 	}
 
-	if (strlen(url) < 3)
+	if (mir_strlen(url) < 3)
 		WErrorPopup(hContact, TranslateT("URL not supplied"));
 
 	NETLIBHTTPREQUEST nlhr = { sizeof(nlhr) };
@@ -194,13 +194,13 @@ void GetData(void *param)
 					memset(&pos, 0, sizeof(pos)); // XXX: looks bad.
 					// end string
 					pos = strstr(truncated2, tempstring2);
-					statposend = pos - truncated2 + (int)strlen(tempstring2);
+					statposend = pos - truncated2 + (int)mir_strlen(tempstring2);
 
 					if (statpos > statposend) {
 						memset(&truncated2, ' ', statpos);
 						memset(&pos, 0, sizeof(pos)); // XXX: looks bad.
 						pos = strstr(truncated2, tempstring2);
-						statposend = pos - truncated2 + (int)strlen(tempstring2);
+						statposend = pos - truncated2 + (int)mir_strlen(tempstring2);
 					}
 					if (statpos < statposend) {
 						memset(&raw, 0, sizeof(raw));
@@ -215,13 +215,13 @@ void GetData(void *param)
 
 						// end string
 						pos = strstr(truncated2, tempstring2);
-						statposend = pos - truncated2 + (int)strlen(tempstring2);
+						statposend = pos - truncated2 + (int)mir_strlen(tempstring2);
 
 						if (statpos > statposend) {
 							memset(&truncated2, ' ', statpos);
 							memset(&pos, 0, sizeof(pos)); // XXX
 							pos = strstr(truncated2, tempstring2);
-							statposend = pos - truncated2 + (int)strlen(tempstring2);
+							statposend = pos - truncated2 + (int)mir_strlen(tempstring2);
 						}
 						dispos = 0;
 
@@ -437,13 +437,13 @@ LBL_Stop:			TCHAR *statusText = TranslateT("Processing data stopped by user.");
 						goto LBL_Stop;
 
 					// removed any excess characters at the end.   
-					if ((truncated[strlen(truncated) - 1] == truncated[strlen(truncated) - 2]) && (truncated[strlen(truncated) - 2] == truncated[strlen(truncated) - 3])) {
+					if ((truncated[mir_strlen(truncated) - 1] == truncated[mir_strlen(truncated) - 2]) && (truncated[mir_strlen(truncated) - 2] == truncated[mir_strlen(truncated) - 3])) {
 						int counterx = 0;
 
 						while (true) {
 							counterx++;
-							if (truncated[strlen(truncated) - counterx] != truncated[strlen(truncated) - 1]) {
-								truncated[(strlen(truncated) - counterx) + 2] = '\0';
+							if (truncated[mir_strlen(truncated) - counterx] != truncated[mir_strlen(truncated) - 1]) {
+								truncated[(mir_strlen(truncated) - counterx) + 2] = '\0';
 								break;
 							}
 						}

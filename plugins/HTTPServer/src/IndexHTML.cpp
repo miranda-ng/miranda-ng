@@ -233,7 +233,7 @@ bool LoadIndexHTMLTemplate() {
 
 		//LogEvent("Template", szDestBuf);
 
-		szIndexHTMLTemplate = new char[strlen(szDestBuf)+1];
+		szIndexHTMLTemplate = new char[mir_strlen(szDestBuf)+1];
 		strcpy(szIndexHTMLTemplate, szDestBuf);
 	}
 

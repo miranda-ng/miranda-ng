@@ -33,7 +33,7 @@ namespace SteamWebApi
 				sessionId,
 				who);
 			
-			SetData(data, strlen(data));
+			SetData(data, mir_strlen(data));
 			AddHeader("Cookie", cookie);
 		}
 	};
@@ -56,7 +56,7 @@ namespace SteamWebApi
 				sessionId,
 				who);
 
-			SetData(data, strlen(data));
+			SetData(data, mir_strlen(data));
 			AddHeader("Cookie", cookie);
 		}
 	};
@@ -79,7 +79,7 @@ namespace SteamWebApi
 				sessionId,
 				who);
 			
-			SetData(data, strlen(data));
+			SetData(data, mir_strlen(data));
 			AddHeader("Cookie", cookie);
 		}
 	};

@@ -123,7 +123,7 @@ bool setup_next_file_send(file_transfer *ft)
 	char* fname = mir_utf8encodeT(file);
 	if (ft->pfts.totalFiles > 1 && ft->file[0])
 	{
-		size_t dlen = strlen(ft->file);
+		size_t dlen = mir_strlen(ft->file);
 		if (strncmp(fname, ft->file, dlen) == 0 && fname[dlen] == '\\')
 		{
 			fnamea = &fname[dlen+1];

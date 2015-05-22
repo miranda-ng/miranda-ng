@@ -227,7 +227,7 @@ int GetCharsetFromString(char *input,size_t size)
 	DebugLog(DecodeFile,"<CodePage>%s</CodePage>",pout);
 #endif
 	for (int i=0;i<CPLENALL;i++) {
-		size_t len = strlen(CodePageNamesAll[i].NameBase);
+		size_t len = mir_strlen(CodePageNamesAll[i].NameBase);
 		if (0==strncmp(pout,CodePageNamesAll[i].NameBase,len)) {
 			if (0==strcmp(pout+len,CodePageNamesAll[i].NameSub)) {
 				delete[] pout;
@@ -527,7 +527,7 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 						finderend=pcodeend+2;
 					if (WS(finderend))	//if string continues and there's some whitespace, add space to string that is to be converted
 					{
-						size_t len=strlen(DecodedResult);
+						size_t len=mir_strlen(DecodedResult);
 						DecodedResult[len]=' ';
 						DecodedResult[len+1]=0;
 						finderend++;

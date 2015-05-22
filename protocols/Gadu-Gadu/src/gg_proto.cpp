@@ -332,28 +332,28 @@ HANDLE GGPROTO::SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, 
 	{
 		char *nick_utf8 = mir_utf8encodeT(nick);
 		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nick_utf8);
-		strncat(data, nick_utf8, sizeof(data) - strlen(data));
+		strncat(data, nick_utf8, sizeof(data) - mir_strlen(data));
 		mir_free(nick_utf8);
 	}
-	strncat(data, ".", sizeof(data) - strlen(data));
+	strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	if (firstName)
 	{
 		char *firstName_utf8 = mir_utf8encodeT(firstName);
 		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstName_utf8);
-		strncat(data, firstName_utf8, sizeof(data) - strlen(data));
+		strncat(data, firstName_utf8, sizeof(data) - mir_strlen(data));
 		mir_free(firstName_utf8);
 	}
-	strncat(data, ".", sizeof(data) - strlen(data));
+	strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	if (lastName)
 	{
 		char *lastName_utf8 = mir_utf8encodeT(lastName);
 		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastName_utf8);
-		strncat(data, lastName_utf8, sizeof(data) - strlen(data));
+		strncat(data, lastName_utf8, sizeof(data) - mir_strlen(data));
 		mir_free(lastName_utf8);
 	}
-	strncat(data, ".", sizeof(data) - strlen(data));
+	strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	// Count crc & check if the data was equal if yes do same search with shift
 	crc = crc_get(data);
@@ -409,40 +409,40 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	{
 		char *firstName_utf8 = mir_utf8encodeT(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstName_utf8);
-		strncat(data, firstName_utf8, sizeof(data) - strlen(data));
+		strncat(data, firstName_utf8, sizeof(data) - mir_strlen(data));
 		mir_free(firstName_utf8);
 	}
-	/* 1 */ strncat(data, ".", sizeof(data) - strlen(data));
+	/* 1 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_LASTNAME, text, SIZEOF(text));
 	if (_tcslen(text))
 	{
 		char *lastName_utf8 = mir_utf8encodeT(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastName_utf8);
-		strncat(data, lastName_utf8, sizeof(data) - strlen(data));
+		strncat(data, lastName_utf8, sizeof(data) - mir_strlen(data));
 		mir_free(lastName_utf8);
 	}
-	/* 2 */ strncat(data, ".", sizeof(data) - strlen(data));
+	/* 2 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_NICKNAME, text, SIZEOF(text));
 	if (_tcslen(text))
 	{
 		char *nickName_utf8 = mir_utf8encodeT(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nickName_utf8);
-		strncat(data, nickName_utf8, sizeof(data) - strlen(data));
+		strncat(data, nickName_utf8, sizeof(data) - mir_strlen(data));
 		mir_free(nickName_utf8);
 	}
-	/* 3 */ strncat(data, ".", sizeof(data) - strlen(data));
+	/* 3 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_CITY, text, SIZEOF(text));
 	if (_tcslen(text))
 	{
 		char *city_utf8 = mir_utf8encodeT(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_CITY, city_utf8);
-		strncat(data, city_utf8, sizeof(data) - strlen(data));
+		strncat(data, city_utf8, sizeof(data) - mir_strlen(data));
 		mir_free(city_utf8);
 	}
-	/* 4 */ strncat(data, ".", sizeof(data) - strlen(data));
+	/* 4 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_AGEFROM, text, SIZEOF(text));
 	if (_tcslen(text))
@@ -470,33 +470,33 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 
 		char *age_utf8 = mir_utf8encodeT(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, age_utf8);
-		strncat(data, age_utf8, sizeof(data) - strlen(data));
+		strncat(data, age_utf8, sizeof(data) - mir_strlen(data));
 		mir_free(age_utf8);
 	}
-	/* 5 */ strncat(data, ".", sizeof(data) - strlen(data));
+	/* 5 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	switch(SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_GETCURSEL, 0, 0))
 	{
 		case 1:
 			gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_FEMALE);
-			strncat(data, GG_PUBDIR50_GENDER_MALE, sizeof(data) - strlen(data));
+			strncat(data, GG_PUBDIR50_GENDER_MALE, sizeof(data) - mir_strlen(data));
 			break;
 		case 2:
 			gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_MALE);
-			strncat(data, GG_PUBDIR50_GENDER_FEMALE, sizeof(data) - strlen(data));
+			strncat(data, GG_PUBDIR50_GENDER_FEMALE, sizeof(data) - mir_strlen(data));
 			break;
 	}
-	/* 6 */ strncat(data, ".", sizeof(data) - strlen(data));
+	/* 6 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	if (IsDlgButtonChecked(hwndDlg, IDC_ONLYCONNECTED))
 	{
 		gg_pubdir50_add(req, GG_PUBDIR50_ACTIVE, GG_PUBDIR50_ACTIVE_TRUE);
-		strncat(data, GG_PUBDIR50_ACTIVE_TRUE, sizeof(data) - strlen(data));
+		strncat(data, GG_PUBDIR50_ACTIVE_TRUE, sizeof(data) - mir_strlen(data));
 	}
-	/* 7 */ strncat(data, ".", sizeof(data) - strlen(data));
+	/* 7 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	// No data entered
-	if (strlen(data) <= 7 || (strlen(data) == 8 && IsDlgButtonChecked(hwndDlg, IDC_ONLYCONNECTED))) return (HWND)0;
+	if (mir_strlen(data) <= 7 || (mir_strlen(data) == 8 && IsDlgButtonChecked(hwndDlg, IDC_ONLYCONNECTED))) return (HWND)0;
 
 	// Count crc & check if the data was equal if yes do same search with shift
 	crc = crc_get(data);

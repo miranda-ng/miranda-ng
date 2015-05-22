@@ -298,7 +298,7 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 
 		DBEVENTINFO dbei = { 0 };
 		dbei.cbSize = sizeof(dbei);
-		dbei.cbBlob = (DWORD)strlen(blob) + 1;
+		dbei.cbBlob = (DWORD)mir_strlen(blob) + 1;
 		dbei.pBlob = (PBYTE)(char*)blob;
 		dbei.eventType = EVENTTYPE_STATUSCHANGE;
 		dbei.flags = DBEF_READ | DBEF_UTF;

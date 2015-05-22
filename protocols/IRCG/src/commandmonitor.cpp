@@ -228,7 +228,7 @@ int CIrcProto::AddOutgoingMessageToDB(MCONTACT hContact, TCHAR* msg)
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.flags = DBEF_SENT + DBEF_UTF;
 	dbei.pBlob = (PBYTE)mir_utf8encodeW(S.c_str());
-	dbei.cbBlob = (DWORD)strlen((char*)dbei.pBlob) + 1;
+	dbei.cbBlob = (DWORD)mir_strlen((char*)dbei.pBlob) + 1;
 	db_event_add(hContact, &dbei);
 	mir_free(dbei.pBlob);
 	return 1;

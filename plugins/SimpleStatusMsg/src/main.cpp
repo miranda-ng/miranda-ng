@@ -70,21 +70,21 @@ void log2file(const char *fmt, ...)
 	SetFilePointer(hFile, 0, 0, FILE_END);
 
 	strncpy(szText, "[\0", SIZEOF(szText));
-	WriteFile(hFile, szText, (DWORD)strlen(szText), &dwBytesWritten, NULL);
+	WriteFile(hFile, szText, (DWORD)mir_strlen(szText), &dwBytesWritten, NULL);
 
 	GetTimeFormatA(LOCALE_USER_DEFAULT, 0, NULL, NULL, szText, SIZEOF(szText));
-	WriteFile(hFile, szText, (DWORD)strlen(szText), &dwBytesWritten, NULL);
+	WriteFile(hFile, szText, (DWORD)mir_strlen(szText), &dwBytesWritten, NULL);
 
 	strncpy(szText, "] \0", SIZEOF(szText));
 
 	va_start(va, fmt);
-	mir_vsnprintf(szText + strlen(szText), SIZEOF(szText) - strlen(szText), fmt, va);
+	mir_vsnprintf(szText + mir_strlen(szText), SIZEOF(szText) - mir_strlen(szText), fmt, va);
 	va_end(va);
 
-	WriteFile(hFile, szText, (DWORD)strlen(szText), &dwBytesWritten, NULL);
+	WriteFile(hFile, szText, (DWORD)mir_strlen(szText), &dwBytesWritten, NULL);
 
 	strncpy(szText, "\n\0", SIZEOF(szText));
-	WriteFile(hFile, szText, (DWORD)strlen(szText), &dwBytesWritten, NULL);
+	WriteFile(hFile, szText, (DWORD)mir_strlen(szText), &dwBytesWritten, NULL);
 
 	CloseHandle(hFile);
 }

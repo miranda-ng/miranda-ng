@@ -1022,7 +1022,7 @@ bool UnzipFiles(const std::wstring& dir, std::wstring& zipFilePath, const std::s
 				}
 			}
 				
-			int sizeC = (int)strlen(bufF);
+			int sizeC = (int)mir_strlen(bufF);
 			int sizeW = MultiByteToWideChar(cp, 0, bufF, sizeC, NULL, 0);
 			fileNameInZip.resize(sizeW);
 			MultiByteToWideChar(cp, 0, bufF, sizeC, (wchar_t*)fileNameInZip.c_str(), sizeW);

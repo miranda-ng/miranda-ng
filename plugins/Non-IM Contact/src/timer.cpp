@@ -27,7 +27,7 @@ void timerFunc(void *di)
 		if (!db_get_static(NULL, MODNAME, fn, text, SIZEOF(text)))
 			break;
 
-		if (!strncmp("http://", text, strlen("http://")) || !strncmp("https://", text, strlen("https://"))) {
+		if (!strncmp("http://", text, mir_strlen("http://")) || !strncmp("https://", text, mir_strlen("https://"))) {
 			mir_snprintf(fn, SIZEOF(fn), "fn%d_timer", i);
 			int timer = db_get_w(NULL, MODNAME, fn, 60);
 			if (timer && !(timerCount % timer)) {

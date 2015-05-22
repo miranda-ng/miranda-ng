@@ -443,7 +443,7 @@ static void BuildMenus(TEnumData *lParam)
 		psd->szProfile = "MRU";
 		psd->fTypes = dtGroup;
 		// the IPC string pointer wont be around forever, must make a copy
-		psd->cch = (int)strlen(lParam->ipch->MRUMenuName);
+		psd->cch = (int)mir_strlen(lParam->ipch->MRUMenuName);
 		psd->szText = (LPSTR)HeapAlloc(hDllHeap, 0, psd->cch + 1);
 		lstrcpynA(psd->szText, lParam->ipch->MRUMenuName, sizeof(lParam->ipch->MRUMenuName) - 1);
 
@@ -480,7 +480,7 @@ static void BuildMenus(TEnumData *lParam)
 	RemoveCheckmarkSpace(hGroupMenu);
 
 	psd = (TMenuDrawInfo*)HeapAlloc(hDllHeap, 0, sizeof(TMenuDrawInfo));
-	psd->cch = (int)strlen(lParam->ipch->MirandaName);
+	psd->cch = (int)mir_strlen(lParam->ipch->MirandaName);
 	psd->szText = (LPSTR)HeapAlloc(hDllHeap, 0, psd->cch + 1);
 	lstrcpynA(psd->szText, lParam->ipch->MirandaName, sizeof(lParam->ipch->MirandaName) - 1);
 	// there may not be a profile name

@@ -23,10 +23,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 char* process_status_msg (const char *str, const char* sn)
 {
 	const char *src = str;
-	size_t size = strlen(src) + 1;
+	size_t size = mir_strlen(src) + 1;
 	char* res = (char*)mir_alloc(size);
 	char* dest = res;
-	size_t len = strlen(sn);
+	size_t len = mir_strlen(sn);
 
 	for (; *src; ++src)
 	{
@@ -77,7 +77,7 @@ char* process_status_msg (const char *str, const char* sn)
 void  html_decode(char* str)
 {
 	char *p, *q;
-//    char *rstr = (char*)mir_alloc(strlen(str)*2);
+//    char *rstr = (char*)mir_alloc(mir_strlen(str)*2);
 
 	if (str == NULL) return;
 
@@ -100,7 +100,7 @@ void  html_decode(char* str)
 					if (t1 && *t1)
 					{
 						strcpy(q, t1);
-						q += strlen(t1) - 1;
+						q += mir_strlen(t1) - 1;
 					}
 					mir_free(t1);
 					p = s;
@@ -214,8 +214,8 @@ char* html_to_bbcodes(char *src)
 		}
 		else
 		{
-			dest=(char*)mir_realloc(dest,strlen(dest)+6);
-			memcpy(&dest[strlen(dest)],"[/b]",5);
+			dest=(char*)mir_realloc(dest,mir_strlen(dest)+6);
+			memcpy(&dest[mir_strlen(dest)],"[/b]",5);
 		}
 	}
 	while ((ptr = strstr(dest, "<I>")) != NULL || (ptr = strstr(dest, "<i>")) != NULL)
@@ -231,8 +231,8 @@ char* html_to_bbcodes(char *src)
 		}
 		else
 		{
-			dest=(char*)mir_realloc(dest,strlen(dest)+6);
-			memcpy(&dest[strlen(dest)],"[/i]",5);
+			dest=(char*)mir_realloc(dest,mir_strlen(dest)+6);
+			memcpy(&dest[mir_strlen(dest)],"[/i]",5);
 		}
 	}
 	while ((ptr = strstr(dest, "<U>")) != NULL || (ptr = strstr(dest, "<u>")) != NULL)
@@ -248,8 +248,8 @@ char* html_to_bbcodes(char *src)
 		}
 		else
 		{
-			dest=(char*)mir_realloc(dest,strlen(dest)+6);
-			memcpy(&dest[strlen(dest)],"[/u]",5);
+			dest=(char*)mir_realloc(dest,mir_strlen(dest)+6);
+			memcpy(&dest[mir_strlen(dest)],"[/u]",5);
 		}
 	}
 	while ((ptr = strstr(dest, "<S>")) != NULL || (ptr = strstr(dest, "<s>")) != NULL)
@@ -265,8 +265,8 @@ char* html_to_bbcodes(char *src)
 		}
 		else
 		{
-			dest=(char*)mir_realloc(dest,strlen(dest)+6);
-			memcpy(&dest[strlen(dest)],"[/s]",5);
+			dest=(char*)mir_realloc(dest,mir_strlen(dest)+6);
+			memcpy(&dest[mir_strlen(dest)],"[/s]",5);
 		}
 	}
 	rptr = dest;
@@ -275,11 +275,11 @@ char* html_to_bbcodes(char *src)
 		char* begin=ptr;
 		ptrl = ptr + 4;
 		memcpy(ptrl,"[url=",5);
-		memmove(ptr, ptrl, strlen(ptrl) + 1);
+		memmove(ptr, ptrl, mir_strlen(ptrl) + 1);
 		if ((ptr = strstr(ptrl,">")))
 		{	
 			ptr-=1;
-			memmove(ptr, ptr+1, strlen(ptr+1) + 1);
+			memmove(ptr, ptr+1, mir_strlen(ptr+1) + 1);
 			*(ptr)=']';
 			ptrl-=1;
 			char* s1 = strstr(ptrl,"</A");
@@ -288,7 +288,7 @@ char* html_to_bbcodes(char *src)
 			{
 				ptr=s1;
 				ptr=strip_tag_within(begin,ptr);
-				memmove(ptr+2, ptr, strlen(ptr) + 1);
+				memmove(ptr+2, ptr, mir_strlen(ptr) + 1);
 				memcpy(ptr,"[/url]",6);
 			}
 			else if (s2&&s2<s1||s2&&!s1)
@@ -296,20 +296,20 @@ char* html_to_bbcodes(char *src)
 				ptr=s2;
 				ptr=strip_tag_within(begin,ptr);
 				int addr=ptr-rptr;
-				dest=(char*)mir_realloc(dest,strlen(dest)+8);
+				dest=(char*)mir_realloc(dest,mir_strlen(dest)+8);
 				rptr=dest;
 				ptr=rptr+addr;
-				memmove(ptr+6, ptr, strlen(ptr) + 1);
+				memmove(ptr+6, ptr, mir_strlen(ptr) + 1);
 				memcpy(ptr,"[/url]",6);
 			}
 			else
 			{
-				strip_tag_within(begin,&dest[strlen(dest)]);
+				strip_tag_within(begin,&dest[mir_strlen(dest)]);
 				//int addr=ptr-rptr;
-				dest=(char*)mir_realloc(dest,strlen(dest)+8);
+				dest=(char*)mir_realloc(dest,mir_strlen(dest)+8);
 				rptr=dest;
 				ptr=dest;
-				memcpy(&ptr[strlen(ptr)],"[/url]",7);
+				memcpy(&ptr[mir_strlen(ptr)],"[/url]",7);
 			}
 		}
 		else
@@ -321,11 +321,11 @@ char* html_to_bbcodes(char *src)
 		char* begin=ptr;
 		ptrl = ptr + 4;
 		memcpy(ptrl,"[url=",5);
-		memmove(ptr, ptrl, strlen(ptrl) + 1);
+		memmove(ptr, ptrl, mir_strlen(ptrl) + 1);
 		if ((ptr = strstr(ptrl,">")))
 		{
 			ptr-=1;
-			memmove(ptr, ptr+1, strlen(ptr+1) + 1);
+			memmove(ptr, ptr+1, mir_strlen(ptr+1) + 1);
 			*(ptr)=']';
 			ptrl-=1;
 			char* s1 = strstr(ptrl,"</a");
@@ -334,7 +334,7 @@ char* html_to_bbcodes(char *src)
 			{
 				ptr=s1;
 				ptr=strip_tag_within(begin,ptr);
-				memmove(ptr+2, ptr, strlen(ptr) + 1);
+				memmove(ptr+2, ptr, mir_strlen(ptr) + 1);
 				memcpy(ptr,"[/url]",6);
 			}
 			else if (s2&&s2<s1||s2&&!s1)
@@ -342,20 +342,20 @@ char* html_to_bbcodes(char *src)
 				ptr=s2;
 				ptr=strip_tag_within(begin,ptr);
 				int addr=ptr-rptr;
-				dest=(char*)mir_realloc(dest,strlen(dest)+8);
+				dest=(char*)mir_realloc(dest,mir_strlen(dest)+8);
 				rptr=dest;
 				ptr=rptr+addr;
-				memmove(ptr+6, ptr, strlen(ptr) + 1);
+				memmove(ptr+6, ptr, mir_strlen(ptr) + 1);
 				memcpy(ptr,"[/url]",6);
 			}
 			else
 			{
-				strip_tag_within(begin,&dest[strlen(dest)]);
+				strip_tag_within(begin,&dest[mir_strlen(dest)]);
 				//int addr=ptr-rptr;
-				dest=(char*)mir_realloc(dest,strlen(dest)+8);
+				dest=(char*)mir_realloc(dest,mir_strlen(dest)+8);
 				rptr=dest;
 				ptr=dest;
-				memcpy(&ptr[strlen(ptr)],"[/url]",7);
+				memcpy(&ptr[mir_strlen(ptr)],"[/url]",7);
 			}
 		}
 		else
@@ -365,15 +365,15 @@ char* html_to_bbcodes(char *src)
 	while (ptr = strstr(rptr, "<FONT COLOR=\""))
 	{
 		int addr=ptr-rptr;
-		dest=(char*)mir_realloc(dest,strlen(dest)+8);
+		dest=(char*)mir_realloc(dest,mir_strlen(dest)+8);
 		rptr=dest;
 		ptr=rptr+addr;
 		ptrl = ptr + 6;
 		memcpy(ptrl,"[color=",7);
-		memmove(ptr, ptrl, strlen(ptrl) + 1);
+		memmove(ptr, ptrl, mir_strlen(ptrl) + 1);
 		if ((ptr = strstr(ptrl, ">")))
 		{
-			memmove(ptrl+7,ptr,strlen(ptr)+1);
+			memmove(ptrl+7,ptr,mir_strlen(ptr)+1);
 			*(ptrl+7)=']';
 			ptr=ptrl+7;
 			char* s1 = strstr(ptr,"</FONT");
@@ -381,19 +381,19 @@ char* html_to_bbcodes(char *src)
 			if (s1&&s1<s2||s1&&!s2)
 			{
 				ptr=s1;
-				memmove(ptr+1, ptr, strlen(ptr) + 1);
+				memmove(ptr+1, ptr, mir_strlen(ptr) + 1);
 				memcpy(ptr,"[/color]",8);
 			}
 			else if (s2&&s2<s1||s2&&!s1)
 			{
 				ptr=s2;
-				memmove(ptr+8, ptr, strlen(ptr) + 1);
+				memmove(ptr+8, ptr, mir_strlen(ptr) + 1);
 				memcpy(ptr,"[/color]",8);
 			}
 			else
 			{
 				ptr=dest;
-				memcpy(&ptr[strlen(ptr)],"[/color]",9);
+				memcpy(&ptr[mir_strlen(ptr)],"[/color]",9);
 			}
 		}
 		else
@@ -403,15 +403,15 @@ char* html_to_bbcodes(char *src)
 	while (ptr = strstr(rptr, "<font color=\""))
 	{
 		int addr=ptr-rptr;
-		dest=(char*)mir_realloc(dest,strlen(dest)+8);
+		dest=(char*)mir_realloc(dest,mir_strlen(dest)+8);
 		rptr=dest;
 		ptr=rptr+addr;
 		ptrl = ptr + 6;
 		memcpy(ptrl,"[color=",7);
-		memmove(ptr, ptrl, strlen(ptrl) + 1);
+		memmove(ptr, ptrl, mir_strlen(ptrl) + 1);
 		if ((ptr = strstr(ptrl, ">")))
 		{
-			memmove(ptrl+7,ptr,strlen(ptr)+1);
+			memmove(ptrl+7,ptr,mir_strlen(ptr)+1);
 			*(ptrl+7)=']';
 			ptr=ptrl+7;
 			char* s1 = strstr(ptr,"</font");
@@ -419,19 +419,19 @@ char* html_to_bbcodes(char *src)
 			if (s1&&s1<s2||s1&&!s2)
 			{
 				ptr=s1;
-				memmove(ptr+1, ptr, strlen(ptr) + 1);
+				memmove(ptr+1, ptr, mir_strlen(ptr) + 1);
 				memcpy(ptr,"[/color]",8);
 			}
 			else if (s2&&s2<s1||s2&&!s1)
 			{
 				ptr=s2;
-				memmove(ptr+8, ptr, strlen(ptr) + 1);
+				memmove(ptr+8, ptr, mir_strlen(ptr) + 1);
 				memcpy(ptr,"[/color]",8);
 			}
 			else
 			{
 				ptr=dest;
-				memcpy(&ptr[strlen(ptr)],"[/color]",9);
+				memcpy(&ptr[mir_strlen(ptr)],"[/color]",9);
 			}
 		}
 		else
@@ -441,23 +441,23 @@ char* html_to_bbcodes(char *src)
 	while ((ptr = strstr(rptr, "<FONT COLOR=")) || (ptr = strstr(rptr, "<font color=")))
 	{
 		int addr=ptr-rptr;
-		dest=(char*)mir_realloc(dest,strlen(dest)+8);
+		dest=(char*)mir_realloc(dest,mir_strlen(dest)+8);
 		rptr=dest;
 		ptr=rptr+addr;
 		ptrl = ptr + 5;
 		memcpy(ptrl,"[color=",7);
-		memmove(ptr, ptrl, strlen(ptrl) + 1);
+		memmove(ptr, ptrl, mir_strlen(ptrl) + 1);
 		if ((ptr = strstr(ptrl, ">")))
 		{
 			*(ptr)=']';
 			if ((ptrl = strstr(ptr, "</FONT")) || (ptrl = strstr(ptr, "</font")))
 			{
-				memmove(ptrl+1, ptrl, strlen(ptrl) + 1);
+				memmove(ptrl+1, ptrl, mir_strlen(ptrl) + 1);
 				memcpy(ptrl,"[/color]",8);
 			}
 			else
 			{
-				memcpy(&dest[strlen(dest)],"[/color]",9);
+				memcpy(&dest[mir_strlen(dest)],"[/color]",9);
 			}
 		}
 		else
@@ -470,12 +470,12 @@ char* html_to_bbcodes(char *src)
 		int addr=ptr-rptr;
 		int len=0;
 		for (len
-		dest=(char*)mir_realloc(dest,strlen(dest)+8);
+		dest=(char*)mir_realloc(dest,mir_strlen(dest)+8);
 		rptr=dest;
 		ptr=rptr+addr;
 		ptrl = ptr + 5;
 		memcpy(ptrl,"[url=",7);
-		memmove(ptr, ptrl, strlen(ptrl) + 1);
+		memmove(ptr, ptrl, mir_strlen(ptrl) + 1);
 	}
 */
 	return dest;
@@ -538,10 +538,10 @@ char* bbcodes_to_html(const char *src)
 	while ((ptr = strstr(rptr, "[color=")))
 	{
 		int addr=ptr-rptr;
-		dest=(char*)mir_realloc(dest,strlen(dest)+8);
+		dest=(char*)mir_realloc(dest,mir_strlen(dest)+8);
 		rptr=dest;
 		ptr=rptr+addr;
-		memmove(ptr+5, ptr, strlen(ptr) + 1);
+		memmove(ptr+5, ptr, mir_strlen(ptr) + 1);
 		memcpy(ptr,"<font ",6);
 		if ((ptr = strstr(ptr,"]")))
 		{
@@ -549,7 +549,7 @@ char* bbcodes_to_html(const char *src)
 			if ((ptr = strstr(ptr,"[/color]")))
 			{
 				memcpy(ptr,"</font>",7);
-				memmove(ptr+7,ptr+8,strlen(ptr+8)+1);
+				memmove(ptr+7,ptr+8,mir_strlen(ptr+8)+1);
 			}
 		}
 		else
@@ -558,10 +558,10 @@ char* bbcodes_to_html(const char *src)
 	while ((ptr = strstr(rptr, "[url=")))
 	{
 		int addr=ptr-rptr;
-		dest=(char*)mir_realloc(dest,strlen(dest)+8);
+		dest=(char*)mir_realloc(dest,mir_strlen(dest)+8);
 		rptr=dest;
 		ptr=rptr+addr;
-		memmove(ptr+3, ptr, strlen(ptr)+1);
+		memmove(ptr+3, ptr, mir_strlen(ptr)+1);
 		memcpy(ptr,"<a href",7);
 		if ((ptr = strstr(ptr, "]")))
 		{
@@ -569,7 +569,7 @@ char* bbcodes_to_html(const char *src)
 			if ((ptr = strstr(ptr, "[/url]")))
 			{
 				memcpy(ptr,"</a>",4);
-				memmove(ptr+4,ptr+6,strlen(ptr+6)+1);
+				memmove(ptr+4,ptr+6,mir_strlen(ptr+6)+1);
 			}
 		}
 		else
@@ -580,7 +580,7 @@ char* bbcodes_to_html(const char *src)
 
 void strip_tag(char* begin, char* end)
 {
-	memmove(begin,end+1,strlen(end+1)+1);
+	memmove(begin,end+1,mir_strlen(end+1)+1);
 }
 
 //strip a tag within a string
@@ -719,7 +719,7 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 			strcpy(&buf[pos],"	face=\"");
 			pos+=7;
 			strcpy(&buf[pos],Face);
-			pos+=strlen(Face);
+			pos+=mir_strlen(Face);
 			strcpy(&buf[pos],"\"");
 			pos++;
 			if (!(cfOld.dwEffects & CFE_AUTOBACKCOLOR))
@@ -728,7 +728,7 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 				pos+=6;
 				char chBackColor[7];
 				_itoa((_htonl(BackColor)>>8),chBackColor,16);
-				size_t len=strlen(chBackColor);
+				size_t len=mir_strlen(chBackColor);
 				if (len<6)
 				{
 					memmove(chBackColor+(6-len),chBackColor,len+1);
@@ -744,7 +744,7 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 				pos+=8;
 				char chColor[7];
 				_itoa((_htonl(Color)>>8),chColor,16);
-				size_t len=strlen(chColor);
+				size_t len=mir_strlen(chColor);
 				if (len<6)
 				{
 					memmove(chColor+(6-len),chColor,len+1);
@@ -773,7 +773,7 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 		{
 			char* txt = mir_utf8encodeT(text);
 			strcpy(&buf[pos], txt);
-			pos += strlen(txt);
+			pos += mir_strlen(txt);
 			mir_free(txt);
 		}
 		start++;
@@ -832,7 +832,7 @@ void string_to_bytes(char* string, char* bytes)
 {
 	char sbyte[3];
 	sbyte[2]='\0';
-	size_t length=strlen(string);
+	size_t length=mir_strlen(string);
 	for (size_t i=0; i<length; i+=2)
 	{
 		sbyte[0]=string[i];
@@ -894,7 +894,7 @@ aimString::aimString(char* str)
 		else
 		{
 			szString = mir_utf8decodeA(str);
-			size = strlen(szString);
+			size = mir_strlen(szString);
 		}
 	}
 }

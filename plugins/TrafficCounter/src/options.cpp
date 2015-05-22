@@ -192,7 +192,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		for (i = j = 0; (j < NumberOfAccounts) && (i < optionCount) ; i++)
 			if ((options[i].dwFlag & OPTTREE_INVISIBLE) && !options[i].szSettingName)
 			{
-				options[i].szSettingName = (char*)mir_alloc(1 + strlen(ProtoList[j].name));
+				options[i].szSettingName = (char*)mir_alloc(1 + mir_strlen(ProtoList[j].name));
 				strcpy(options[i].szSettingName, ProtoList[j].name);
 				size_t l = 20 + _tcslen(ProtoList[j].tszAccountName);
 				options[i].szOptionName = (TCHAR*)mir_alloc(sizeof(TCHAR) * l);

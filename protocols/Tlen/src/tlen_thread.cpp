@@ -635,7 +635,7 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 				if ((bodyNode=TlenXmlGetChild(node, "body")) != NULL) {
 					if (bodyNode->text != NULL) {
 						if ((subjectNode=TlenXmlGetChild(node, "subject")) != NULL && subjectNode->text != NULL && subjectNode->text[0] != '\0') {
-							size_t size = strlen(subjectNode->text)+strlen(bodyNode->text)+5;
+							size_t size = mir_strlen(subjectNode->text)+mir_strlen(bodyNode->text)+5;
 							p = (char *)mir_alloc(size);
 							mir_snprintf(p, size, "%s\r\n%s", subjectNode->text, bodyNode->text);
 							localMessage = TlenTextDecode(p);
@@ -744,8 +744,8 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 
 	id = -1;
 	if ((idStr=TlenXmlGetAttrValue(node, "id")) != NULL) {
-		if (!strncmp(idStr, TLEN_IQID, strlen(TLEN_IQID)))
-			id = atoi(idStr+strlen(TLEN_IQID));
+		if (!strncmp(idStr, TLEN_IQID, mir_strlen(TLEN_IQID)))
+			id = atoi(idStr+mir_strlen(TLEN_IQID));
 	}
 
 	queryNode = TlenXmlGetChild(node, "query");
@@ -1130,7 +1130,7 @@ static void TlenProcessP(XmlNode *node, ThreadData *info)
 		iNode = TlenXmlGetChild(xNode, "i");
 		if (iNode != NULL) {
 			iStr = TlenXmlGetAttrValue(iNode, "i");
-			temp = (char*)mir_alloc(strlen(f)+strlen(iStr)+2);
+			temp = (char*)mir_alloc(mir_strlen(f)+mir_strlen(iStr)+2);
 			strcpy(temp, f);
 			strcat(temp, "/");
 			strcat(temp, iStr);

@@ -110,7 +110,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 	if (ssig == SiG_NONE && ptr->msgSplitted) {
 		Sent_NetLog("onRecvMsg: combine untagged splitted message");
 
-		LPSTR tmp = (LPSTR)mir_alloc(strlen(ptr->msgSplitted) + strlen(szEncMsg) + 1);
+		LPSTR tmp = (LPSTR)mir_alloc(mir_strlen(ptr->msgSplitted) + mir_strlen(szEncMsg) + 1);
 		strcpy(tmp, ptr->msgSplitted);
 		strcat(tmp, szEncMsg);
 		mir_free(ptr->msgSplitted);
@@ -224,7 +224,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			// reinit key exchange user has send an encrypted message and i have no key
 			cpp_reset_context(ptr->cntx);
 
-			ptrA reSend((LPSTR)mir_alloc(strlen(szEncMsg) + LEN_RSND));
+			ptrA reSend((LPSTR)mir_alloc(mir_strlen(szEncMsg) + LEN_RSND));
 			strcpy(reSend, SIG_RSND); // copy resend sig
 			strcat(reSend, szEncMsg); // add mess
 
@@ -772,7 +772,7 @@ INT_PTR __cdecl onSendFile(WPARAM wParam, LPARAM lParam)
 			if (!name) name = file[i];
 			else name++;
 
-			int size = TEMP_SIZE + (int)strlen(name) + 20;
+			int size = TEMP_SIZE + (int)mir_strlen(name) + 20;
 			char *file_out = (char *)mir_alloc(size);
 			mir_snprintf(file_out, size, "%s\\%s.AESHELL(%d)", TEMP, name, file_idx++);
 

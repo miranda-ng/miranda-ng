@@ -274,7 +274,7 @@ void XFireClient::handlingBuddy(MCONTACT handle)
 }
 
 void XFireClient::setNick(char*nnick) {
-	/*if (strlen(nnick)==0)
+	/*if (mir_strlen(nnick)==0)
 		return;*/
 	SendNickChangePacket nick;
 	nick.nick = nnick;
@@ -284,7 +284,7 @@ void XFireClient::setNick(char*nnick) {
 
 void XFireClient::sendmsg(char*usr, char*cmsg) {
 	SendMessagePacket msg;
-	//	if (strlen(cmsg)>255)
+	//	if (mir_strlen(cmsg)>255)
 	//		*(cmsg+255)=0;
 	msg.init(client, usr, cmsg);
 	client->send(&msg);
@@ -845,7 +845,7 @@ INT_PTR UrlCall(WPARAM wparam, LPARAM lparam) {
 							//tempbuffer für die frage and en user
 							char temp[100];
 
-							if (strlen(g) > 25) //zugroße abschneiden
+							if (mir_strlen(g) > 25) //zugroße abschneiden
 								*(g + 25) = 0;
 
 							mir_snprintf(temp, SIZEOF(temp), Translate("Do you really want to add %s to your friend list?"), g);
@@ -1601,10 +1601,10 @@ MCONTACT CList_AddContact(XFireContact xfc, bool InList, bool SetOnline, int cla
 			db_set_b(hContact, "CList", "NotOnList", 1);
 		db_unset(hContact, "CList", "Hidden");
 
-		if (strlen(xfc.nick) > 0) {
+		if (mir_strlen(xfc.nick) > 0) {
 			db_set_utf(hContact, protocolname, "Nick", xfc.nick);
 		}
-		else if (strlen(xfc.username) > 0) {
+		else if (mir_strlen(xfc.username) > 0) {
 			db_set_s(hContact, protocolname, "Nick", xfc.username);
 		}
 
@@ -1624,7 +1624,7 @@ MCONTACT CList_AddContact(XFireContact xfc, bool InList, bool SetOnline, int cla
 			{
 				XFire_SetAvatar* xsa = new XFire_SetAvatar;
 				xsa->hContact = hContact;
-				xsa->username = new char[strlen(xfc.username) + 1];
+				xsa->username = new char[mir_strlen(xfc.username) + 1];
 				strcpy(xsa->username, xfc.username);
 				mir_forkthread(SetAvatar, (LPVOID)xsa);
 			}
@@ -1925,7 +1925,7 @@ static INT_PTR GetIPPort(WPARAM hContact, LPARAM lParam)
 	if (OpenClipboard(NULL)) {
 		EmptyClipboard();
 
-		HGLOBAL clipbuffer = GlobalAlloc(GMEM_DDESHARE, strlen(temp) + 1);
+		HGLOBAL clipbuffer = GlobalAlloc(GMEM_DDESHARE, mir_strlen(temp) + 1);
 		char *buffer = (char*)GlobalLock(clipbuffer);
 		strcpy(buffer, LPCSTR(temp));
 		GlobalUnlock(clipbuffer);
@@ -1953,7 +1953,7 @@ static INT_PTR GetVIPPort(WPARAM hContact, LPARAM lParam)
 	if (OpenClipboard(NULL)) {
 		EmptyClipboard();
 
-		HGLOBAL clipbuffer = GlobalAlloc(GMEM_DDESHARE, strlen(temp) + 1);
+		HGLOBAL clipbuffer = GlobalAlloc(GMEM_DDESHARE, mir_strlen(temp) + 1);
 		char *buffer = (char*)GlobalLock(clipbuffer);
 		strcpy(buffer, LPCSTR(temp));
 		GlobalUnlock(clipbuffer);
@@ -2612,7 +2612,7 @@ if (db_get(entry->hcontact,"ContactPhoto", "File",&dbv))
 {
 XFire_SetAvatar* xsa=new XFire_SetAvatar;
 xsa->hContact=entry->hcontact;
-xsa->username=new char[strlen(entry->username.c_str())+1];
+xsa->username=new char[mir_strlen(entry->username.c_str())+1];
 strcpy(xsa->username,entry->username.c_str());
 
 mir_forkthread(SetAvatar,(LPVOID)xsa);
@@ -2703,7 +2703,7 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 
 			DummyXFireGame *gameob;
 
-			if (strlen(entry->gameinfo.c_str()) > 0)
+			if (mir_strlen(entry->gameinfo.c_str()) > 0)
 				db_set_s(hContact, protocolname, "GameInfo", entry->gameinfo.c_str());
 
 			//beim voicechat foglendes machn
@@ -2790,7 +2790,7 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 					if (entry->lastpopup == NULL)
 					{
 						//größe des popupstrings
-						int size = strlen(temp) + 1;
+						int size = mir_strlen(temp) + 1;
 						//popup darstellen
 						displayPopup(NULL, temp, PLUGIN_TITLE, 0, hicongame);
 						//letzten popup definieren
@@ -2806,7 +2806,7 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 							entry->lastpopup = NULL;
 
 							//größe des popupstrings
-							int size = strlen(temp) + 1;
+							int size = mir_strlen(temp) + 1;
 							//popup darstellen
 							displayPopup(NULL, temp, PLUGIN_TITLE, 0, hicongame);
 							//letzten popup definieren
@@ -3140,7 +3140,7 @@ INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam)
 			strcpy(statusmessage[0], (char*)lParam);
 		}
 		else if (wParam != ID_STATUS_OFFLINE) {
-			if (db_get_b(NULL, protocolname, "nocustomaway", 0) == 0 && strlen((char*)lParam) > 0) {
+			if (db_get_b(NULL, protocolname, "nocustomaway", 0) == 0 && mir_strlen((char*)lParam) > 0) {
 				mir_snprintf(statusmessage[1], SIZEOF(statusmessage[1]), "(AFK) %s", (char*)lParam);
 				//strcpy(statusmessage[1],( char* )lParam);
 			}

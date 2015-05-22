@@ -24,11 +24,11 @@ int readFileIntoArray(int fileNumber, char *FileContents[])
 	// free this array before stringReplacer() returns
 	int i;
 	for (i = 0; fgets(temp, MAX_STRING_LENGTH - 1, file); i++) {
-		if (temp[strlen(temp) - 1] == '\n')
-			temp[strlen(temp) - 1] = '\0';
-		else temp[strlen(temp)] = '\0';
+		if (temp[mir_strlen(temp) - 1] == '\n')
+			temp[mir_strlen(temp) - 1] = '\0';
+		else temp[mir_strlen(temp)] = '\0';
 
-		FileContents[i] = (char*)malloc(strlen(temp) + 1);
+		FileContents[i] = (char*)malloc(mir_strlen(temp) + 1);
 		if (FileContents[i] == NULL) break;
 		strcpy(FileContents[i], temp);
 	}
@@ -49,18 +49,18 @@ int findWordInString(const char* line, const char* string, int* lengthOfWord, in
 	strncpy(OpenDivider, "(\"", sizeof(OpenDivider));
 	strncpy(CloseDivider, "\")", sizeof(CloseDivider));
 	/* get the word we r looking for */
-	if (!strncmp(string, OpenDivider, strlen(OpenDivider))) {
-		for (i = 2; strncmp(&string[i], CloseDivider, strlen(CloseDivider)); i++) {
+	if (!strncmp(string, OpenDivider, mir_strlen(OpenDivider))) {
+		for (i = 2; strncmp(&string[i], CloseDivider, mir_strlen(CloseDivider)); i++) {
 			word[j] = string[i];
 			word[++j] = '\0';
 		}
 	}
 	i = 0;
-	*lengthOfWord = (int)(strlen(word) + strlen(CloseDivider) + strlen(OpenDivider));
+	*lengthOfWord = (int)(mir_strlen(word) + mir_strlen(CloseDivider) + mir_strlen(OpenDivider));
 	/* find the word in the line */
-	while (i < (strlen(line) - strlen(word))) {
-		if (!strncmp(&line[i], word, strlen(word))) {
-			if (!flag) return i + (int)strlen(word); /* the next char after the word */
+	while (i < (mir_strlen(line) - mir_strlen(word))) {
+		if (!strncmp(&line[i], word, mir_strlen(word))) {
+			if (!flag) return i + (int)mir_strlen(word); /* the next char after the word */
 			else return i; /* the char before the word */
 		}
 		i++;
@@ -79,16 +79,16 @@ int findLine(char* FileContents[], const char* string, int linesInFile, int star
 
 	// check if its a number
 	if (i != -1) {
-		*positionInOldString += (int)strlen(_itoa(i, tmp, 10)) - 1;
+		*positionInOldString += (int)mir_strlen(_itoa(i, tmp, 10)) - 1;
 		return i;
 	}
 
 	// lastline
-	if (!strncmp(&string[*positionInOldString], "lastline(", strlen("lastline("))) {
-		*positionInOldString += (int)strlen("lastline(");
+	if (!strncmp(&string[*positionInOldString], "lastline(", mir_strlen("lastline("))) {
+		*positionInOldString += (int)mir_strlen("lastline(");
 		i = getNumber(&string[*positionInOldString]);
 		if (i != -1) {
-			*positionInOldString += (int)strlen(_itoa(i, tmp, 10));
+			*positionInOldString += (int)mir_strlen(_itoa(i, tmp, 10));
 			return linesInFile - (i + 1);
 		}
 
@@ -114,14 +114,14 @@ int findLine(char* FileContents[], const char* string, int linesInFile, int star
 			}
 			i = -1;
 		}
-		*positionInOldString += (int)(strlen(string2Find) + strlen("\"\")"));
+		*positionInOldString += (int)(mir_strlen(string2Find) + mir_strlen("\"\")"));
 		if (i == -1) return i;
 		// allow for a +- after the word to go up or down lines
 		if (string[*positionInOldString] == '+') {
 			*positionInOldString += 1;
 			j = getNumber(&string[*positionInOldString]);
 			if (j != -1) {
-				*positionInOldString += (int)strlen(_itoa(j, tmp, 10)) - 2;
+				*positionInOldString += (int)mir_strlen(_itoa(j, tmp, 10)) - 2;
 				return i + j;
 			}
 		}
@@ -129,7 +129,7 @@ int findLine(char* FileContents[], const char* string, int linesInFile, int star
 			*positionInOldString += 1;
 			j = getNumber(&string[*positionInOldString]);
 			if (j != -1) {
-				*positionInOldString += (int)strlen(_itoa(j, tmp, 10)) - 2;
+				*positionInOldString += (int)mir_strlen(_itoa(j, tmp, 10)) - 2;
 				return i - j;
 			}
 		}
@@ -147,7 +147,7 @@ int findChar(char* FileContents[], const char* string, int linesInFile, int star
 	int i = getNumber(&string[*positionInOldString]);
 	// check if its a number
 	if (i != -1) {
-		*positionInOldString += (int)strlen(_itoa(i, tmp, 10)) - 1;
+		*positionInOldString += (int)mir_strlen(_itoa(i, tmp, 10)) - 1;
 		return i;
 	}
 
@@ -161,22 +161,22 @@ int findChar(char* FileContents[], const char* string, int linesInFile, int star
 			string2Find[++j] = '\0';
 		}
 		// find the word
-		for (j = 0; j < strlen(FileContents[startLine]); j++)
-			if (!strncmp(&FileContents[startLine][j], string2Find, strlen(string2Find)))
+		for (j = 0; j < mir_strlen(FileContents[startLine]); j++)
+			if (!strncmp(&FileContents[startLine][j], string2Find, mir_strlen(string2Find)))
 				break;
 
-		if (j == strlen(FileContents[startLine]))
+		if (j == mir_strlen(FileContents[startLine]))
 			return -1;
 
-		*positionInOldString += (int)strlen(string2Find) + 1;
-		return (startEnd) ? j : j + (int)strlen(string2Find);
+		*positionInOldString += (int)mir_strlen(string2Find) + 1;
+		return (startEnd) ? j : j + (int)mir_strlen(string2Find);
 	}
 
 	// csv(
-	if (!strncmp(&string[*positionInOldString], "csv(", strlen("csv("))) {
+	if (!strncmp(&string[*positionInOldString], "csv(", mir_strlen("csv("))) {
 		char seperator;
 		int j = 0, k = startChar;
-		*positionInOldString += (int)strlen("csv(");
+		*positionInOldString += (int)mir_strlen("csv(");
 		if (!strncmp(&string[*positionInOldString], "tab", 3)) {
 			*positionInOldString += 3;
 			seperator = '\t';
@@ -191,7 +191,7 @@ int findChar(char* FileContents[], const char* string, int linesInFile, int star
 		}
 		i = getNumber(&string[*positionInOldString]);
 		if (i == -1) return -1;
-		*positionInOldString += (int)strlen(_itoa(i, tmp, 10));
+		*positionInOldString += (int)mir_strlen(_itoa(i, tmp, 10));
 		while (j < i) {
 			if (FileContents[startLine][k] == '\0') break;
 			if (FileContents[startLine][k] == seperator)
@@ -207,17 +207,17 @@ int findChar(char* FileContents[], const char* string, int linesInFile, int star
 void checkStringForcompare(char *str)
 {
 	if (!strstr(str, "compare(\"")) return;
-	char *A, *B, *X, *Y, *newStr = (char*)malloc(strlen(str)), *copyOfStr = _strdup(str);
-	unsigned int i, j = 0, s = (int)strlen(str);
+	char *A, *B, *X, *Y, *newStr = (char*)malloc(mir_strlen(str)), *copyOfStr = _strdup(str);
+	unsigned int i, j = 0, s = (int)mir_strlen(str);
 	newStr[0] = '\0';
 	for (i = 0; i < s; i++) {
-		if (!strncmp(&str[i], "compare(\"", strlen("compare(\""))) {
-			i += (int)strlen("compare(\"");
+		if (!strncmp(&str[i], "compare(\"", mir_strlen("compare(\""))) {
+			i += (int)mir_strlen("compare(\"");
 			A = strtok(&copyOfStr[i], "\",\"");
 			B = strtok(NULL, "\",\"");
 			X = strtok(NULL, "\",\"");
 			Y = strtok(NULL, ",\")");
-			j = Y - &copyOfStr[i] + (int)strlen(Y) + 1;
+			j = Y - &copyOfStr[i] + (int)mir_strlen(Y) + 1;
 			if (A && B && X && Y) {
 				if (!strcmp(A, B))
 					strcat(newStr, X);
@@ -237,15 +237,15 @@ void checkStringForcompare(char *str)
 void checkStringForSave(MCONTACT hContact, char* str)
 {
 	if (!strstr(str, "save(\"")) return;
-	char *A, *B, *newStr = (char*)malloc(strlen(str)), *copyOfStr = _strdup(str);
-	unsigned int i, j = 0, s = (int)strlen(str);
+	char *A, *B, *newStr = (char*)malloc(mir_strlen(str)), *copyOfStr = _strdup(str);
+	unsigned int i, j = 0, s = (int)mir_strlen(str);
 	newStr[0] = '\0';
 	for (i = 0; i < s; i++) {
-		if (!strncmp(&str[i], "save(\"", strlen("save(\""))) {
-			i += (int)strlen("save(\"");
+		if (!strncmp(&str[i], "save(\"", mir_strlen("save(\""))) {
+			i += (int)mir_strlen("save(\"");
 			A = strtok(&copyOfStr[i], "\",\"");
 			B = strtok(NULL, ",\")");
-			j = B - &copyOfStr[i] + (int)strlen(B) + 1;
+			j = B - &copyOfStr[i] + (int)mir_strlen(B) + 1;
 			if (A && B)
 				db_set_s(hContact, MODNAME, A, B);
 
@@ -263,14 +263,14 @@ void checkStringForSave(MCONTACT hContact, char* str)
 void checkStringForLoad(MCONTACT hContact, char* str)
 {
 	if (!strstr(str, "load(\"")) return;
-	char *A, *newStr = (char*)malloc(strlen(str)), *copyOfStr = _strdup(str);
-	unsigned int i, j = 0, s = (int)strlen(str);
+	char *A, *newStr = (char*)malloc(mir_strlen(str)), *copyOfStr = _strdup(str);
+	unsigned int i, j = 0, s = (int)mir_strlen(str);
 	newStr[0] = '\0';
 	for (i = 0; i < s; i++) {
-		if (!strncmp(&str[i], "load(\"", strlen("load(\""))) {
-			i += (int)strlen("load(\"");
+		if (!strncmp(&str[i], "load(\"", mir_strlen("load(\""))) {
+			i += (int)mir_strlen("load(\"");
 			A = strtok(&copyOfStr[i], "\")");
-			j = A - &copyOfStr[i] + (int)strlen(A) + 1;
+			j = A - &copyOfStr[i] + (int)mir_strlen(A) + 1;
 			if (A) {
 				DBVARIANT dbv;
 				if (!db_get_s(hContact, MODNAME, A, &dbv)) {
@@ -292,17 +292,17 @@ void checkStringForLoad(MCONTACT hContact, char* str)
 void checkStringForSaveN(char* str)
 {
 	if (!strstr(str, "saveN(\"")) return;
-	char *A, *B, *C, *D, *newStr = (char*)malloc(strlen(str)), *copyOfStr = _strdup(str);
-	unsigned int i, j = 0, s = (int)strlen(str);
+	char *A, *B, *C, *D, *newStr = (char*)malloc(mir_strlen(str)), *copyOfStr = _strdup(str);
+	unsigned int i, j = 0, s = (int)mir_strlen(str);
 	newStr[0] = '\0';
 	for (i = 0; i < s; i++) {
-		if (!strncmp(&str[i], "saveN(\"", strlen("saveN(\""))) {
-			i += (int)strlen("saveN(\"");
+		if (!strncmp(&str[i], "saveN(\"", mir_strlen("saveN(\""))) {
+			i += (int)mir_strlen("saveN(\"");
 			A = strtok(&copyOfStr[i], "\",\"");
 			B = strtok(NULL, ",\"");
 			C = strtok(NULL, ",\"");
 			D = strtok(NULL, ",\")");
-			j = D - &copyOfStr[i] + (int)strlen(D) + 1;
+			j = D - &copyOfStr[i] + (int)mir_strlen(D) + 1;
 			if (A && B && C && D) {
 				switch (D[0]) {
 				case '0':
@@ -337,16 +337,16 @@ void checkStringForSaveN(char* str)
 void checkStringForLoadN(char* str)
 {
 	if (!strstr(str, "loadN(\"")) return;
-	char *newStr = (char*)malloc(strlen(str)), *copyOfStr = _strdup(str), temp[32];
-	unsigned int i, j = 0, s = (int)strlen(str);
+	char *newStr = (char*)malloc(mir_strlen(str)), *copyOfStr = _strdup(str), temp[32];
+	unsigned int i, j = 0, s = (int)mir_strlen(str);
 	newStr[0] = '\0';
 	for (i = 0; i < s; i++) {
-		if (!strncmp(&str[i], "loadN(\"", strlen("loadN(\""))) {
-			i += (int)strlen("loadN(\"");
+		if (!strncmp(&str[i], "loadN(\"", mir_strlen("loadN(\""))) {
+			i += (int)mir_strlen("loadN(\"");
 			char *A = strtok(&copyOfStr[i], "\",\"");
 			char *B = strtok(NULL, ",\")");
 			if (A && B) {
-				j = B - &copyOfStr[i] + (int)strlen(B) + 1;
+				j = B - &copyOfStr[i] + (int)mir_strlen(B) + 1;
 				DBVARIANT dbv;
 				if (!db_get(NULL, A, B, &dbv)) {
 					switch (dbv.type) {
@@ -401,7 +401,7 @@ BOOL GetLastWriteTime(HANDLE hFile, LPSTR lpszString)
 int lastChecked(char *newStr, const char *str)
 {
 	char *szPattern = "lastchecked(file(";
-	size_t cbPattern = strlen(szPattern);
+	size_t cbPattern = mir_strlen(szPattern);
 
 	if (!strncmp(str, szPattern, cbPattern)) {
 		int file;
@@ -427,7 +427,7 @@ int lastChecked(char *newStr, const char *str)
 			CloseHandle(hFile);
 			strcat(newStr, tszFileName);
 			mir_snprintf(tszFileName, SIZEOF(tszFileName), "%s%d))", szPattern, file);
-			return (int)strlen(tszFileName);
+			return (int)mir_strlen(tszFileName);
 		}
 		CloseHandle(hFile);
 	}
@@ -458,10 +458,10 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 	strncpy(newString, "", sizeof(newString));
 	strncpy(var_file, "file(", sizeof(var_file));
 
-	while ((positionInOldString < (int)strlen(oldString)) && (oldString[positionInOldString] != '\0')) {
+	while ((positionInOldString < (int)mir_strlen(oldString)) && (oldString[positionInOldString] != '\0')) {
 		// load the file... must be first
-		if (!strncmp(&oldString[positionInOldString], var_file, strlen(var_file))) {
-			positionInOldString += (int)strlen(var_file);
+		if (!strncmp(&oldString[positionInOldString], var_file, mir_strlen(var_file))) {
+			positionInOldString += (int)mir_strlen(var_file);
 			// check if its a number
 			tempInt = getNumber(&oldString[positionInOldString]);
 			if (tempInt == -1) {
@@ -473,11 +473,11 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 			linesInFile = readFileIntoArray(tempInt, fileContents);
 			if (linesInFile == 0)
 				return ERROR_NO_FILE;
-			positionInOldString += (int)strlen(_itoa(tempInt, tempString, 10)) + 1; // +1 for the closing )
+			positionInOldString += (int)mir_strlen(_itoa(tempInt, tempString, 10)) + 1; // +1 for the closing )
 
 			// wholeline()
-			if (!strncmp(&oldString[positionInOldString], "wholeline(line(", strlen("wholeline(line("))) {
-				positionInOldString += (int)strlen("wholeline(line(");
+			if (!strncmp(&oldString[positionInOldString], "wholeline(line(", mir_strlen("wholeline(line("))) {
+				positionInOldString += (int)mir_strlen("wholeline(line(");
 				tempInt = findLine(fileContents, oldString, linesInFile, startLine, &positionInOldString);
 				if (tempInt == -1 || !fileContents[tempInt])
 					return ERROR_NO_LINE_AFTER_VAR_F;
@@ -485,8 +485,8 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 				positionInOldString += 3; // add 2 for the )) for wholeline(line())
 			}
 
-			if (!strncmp(&oldString[positionInOldString], "start(", strlen("start("))) {
-				positionInOldString += (int)strlen("start(line(");
+			if (!strncmp(&oldString[positionInOldString], "start(", mir_strlen("start("))) {
+				positionInOldString += (int)mir_strlen("start(line(");
 				tempInt = findLine(fileContents, oldString, linesInFile, startLine, &positionInOldString);
 				if (tempInt == -1 || !fileContents[tempInt])
 					return ERROR_NO_LINE_AFTER_VAR_F;
@@ -494,7 +494,7 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 					positionInOldString += 2;
 					startLine = tempInt;
 					if (!endChar)
-						endChar = (int)strlen(fileContents[startLine]);
+						endChar = (int)mir_strlen(fileContents[startLine]);
 					tempInt = findChar(fileContents, oldString, linesInFile, startLine, &positionInOldString, startChar, 0);
 					if (tempInt == -1)
 						return ERROR_NO_LINE_AFTER_VAR_F;
@@ -502,8 +502,8 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 				}
 				positionInOldString += 2; // add 2 for the )) for start(line())
 			}
-			if (!strncmp(&oldString[positionInOldString], "end(", strlen("end("))) {
-				positionInOldString += (int)strlen("end(line(");
+			if (!strncmp(&oldString[positionInOldString], "end(", mir_strlen("end("))) {
+				positionInOldString += (int)mir_strlen("end(line(");
 				tempInt = findLine(fileContents, oldString, linesInFile, startLine, &positionInOldString);
 				if (tempInt == -1 || !fileContents[tempInt])
 					return ERROR_NO_LINE_AFTER_VAR_F;
@@ -539,8 +539,8 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 			}
 		}
 		// filename()
-		else if (!strncmp(&oldString[positionInOldString], "filename(", strlen("filename("))) {
-			positionInOldString += (int)strlen("filename(");
+		else if (!strncmp(&oldString[positionInOldString], "filename(", mir_strlen("filename("))) {
+			positionInOldString += (int)mir_strlen("filename(");
 			tempInt = getNumber(&oldString[positionInOldString]);
 			if (tempInt == -1) {
 				return ERROR_NO_FILE;
@@ -550,11 +550,11 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 				if (db_get_static(NULL, MODNAME, tempString, tempString, SIZEOF(tempString)))
 					strcat(newString, tempString);
 				else return ERROR_NO_FILE;
-				positionInOldString += (int)strlen(_itoa(tempInt, tempString, 10)) + 1;
+				positionInOldString += (int)mir_strlen(_itoa(tempInt, tempString, 10)) + 1;
 			}
 		}
 		// lastchecked(file(X))
-		else if (!strncmp(&oldString[positionInOldString], "lastchecked(file(", strlen("lastchecked(file("))) {
+		else if (!strncmp(&oldString[positionInOldString], "lastchecked(file(", mir_strlen("lastchecked(file("))) {
 			positionInOldString += lastChecked(newString, &oldString[positionInOldString]);
 		}
 		else {

@@ -95,7 +95,7 @@ const char to_chars[]	= "abvgdeezziiklmnoprstufhccwwqyqeuaABVGDEEZZIIKLMNOPRSTUF
 char* Utils::makeSafeString(TCHAR *input, char *output)
 {
 	char *buff = mir_t2a(input);
-	size_t length = strlen(buff);
+	size_t length = mir_strlen(buff);
 
 	for (UINT i = 0; i < length; i++)
 	{
@@ -227,7 +227,7 @@ bool Utils::setFileNameDlgA(char *nameBuff)
 
 void Utils::createFileDownloadLink(char *szUrl, char *fileName, char *buff, int buffSize)
 {
-	if (szUrl[strlen(szUrl) - 1] == '/')
+	if (szUrl[mir_strlen(szUrl) - 1] == '/')
 		mir_snprintf(buff, buffSize, "%s%s", szUrl, fileName);
 	else
 		mir_snprintf(buff, buffSize, "%s/%s", szUrl, fileName);

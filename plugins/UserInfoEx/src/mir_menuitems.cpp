@@ -324,7 +324,7 @@ void RebuildGroup()
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = text;
-	char* tDest = text + strlen(text);
+	char* tDest = text + mir_strlen(text);
 
 	// support new genmenu style
 	mi.flags = CMIF_ROOTHANDLE;
@@ -421,7 +421,7 @@ void RebuildSubGroup()
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = text;
-	char* tDest = text + strlen(text);
+	char* tDest = text + mir_strlen(text);
 
 	// support new genmenu style
 	mi.flags = CMIF_ROOTHANDLE;
@@ -551,7 +551,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 	
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.pszService = text;
-		char* tDest = text + strlen( text );
+		char* tDest = text + mir_strlen( text );
 
 		// support new genmenu style
 		mi.flags = CMIF_ROOTHANDLE;

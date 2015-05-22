@@ -380,13 +380,13 @@ void CodetoSymbol(char *truncated)
 
 				position = stringfrompos - truncated;
 				counter = 0;
-				while (counter != strlen(CharacterCodes[n])) {
+				while (counter != mir_strlen(CharacterCodes[n])) {
 					truncated[position + counter] = ' ';
 					counter++;
 				}
 
 				truncated[(position + counter) - 1] = Characters[n];
-				strncpy(&truncated[position], &truncated[position + strlen(CharacterCodes[n])] - 1, strlen(&truncated[position]) - 1);
+				strncpy(&truncated[position], &truncated[position + mir_strlen(CharacterCodes[n])] - 1, mir_strlen(&truncated[position]) - 1);
 			} // end does character code exist?
 
 			if (recpos == position)
@@ -584,7 +584,7 @@ void EraseBlock(char *truncated)
 	positionStart = 0;
 	positionEnd = 0;
 
-	strncpy(truncated, tempraw, strlen(truncated));
+	strncpy(truncated, tempraw, mir_strlen(truncated));
 	free(tempraw);
 }
 
@@ -625,7 +625,7 @@ void EraseSymbols(char *truncated)
 		recpos = position;
 	}
 
-	strncpy(truncated, tempraw, strlen(truncated));
+	strncpy(truncated, tempraw, mir_strlen(truncated));
 	free(tempraw);
 }
 
@@ -678,7 +678,7 @@ void NumSymbols(char *truncated)
 		recpos = position;
 	}
 
-	strncpy(truncated, tempraw, strlen(truncated));
+	strncpy(truncated, tempraw, mir_strlen(truncated));
 	free(tempraw);
 }
 
@@ -703,7 +703,7 @@ void FastTagFilter(char *truncated)
 		}
 	}
 
-	strncpy(truncated, tempraw, strlen(truncated));
+	strncpy(truncated, tempraw, mir_strlen(truncated));
 	free(tempraw);
 }
 
@@ -745,7 +745,7 @@ void RemoveInvis(char *truncated, int AmountWspcRem)
 				tempraw[counter] = ' ';
 	} // end for
 
-	strncpy(truncated, tempraw, strlen(truncated));
+	strncpy(truncated, tempraw, mir_strlen(truncated));
 	free(tempraw);
 }
 
@@ -760,7 +760,7 @@ void RemoveTabs(char *truncated)
 		if (tempraw[counter] == '\t')
 			tempraw[counter] = ' ';
 
-	strncpy(truncated, tempraw, strlen(truncated));
+	strncpy(truncated, tempraw, mir_strlen(truncated));
 	free(tempraw);
 }
 
@@ -779,7 +779,7 @@ void Removewhitespace(char *truncated)
 				counter2++;
 
 			pos2 = counter2;
-			strncpy(&truncated[pos1], &truncated[pos2], strlen(&truncated[pos1]) - 1);
+			strncpy(&truncated[pos1], &truncated[pos2], mir_strlen(&truncated[pos1]) - 1);
 		} // end if
 	} // end for
 }
@@ -792,7 +792,7 @@ void Filter(char *truncated)
 
 	for (int counter = 0; counter < mir_strlen(tempraw); counter++)
 		if ((tempraw[counter] == '\n') || (tempraw[counter] == '\r') || (tempraw[counter] == '\t'))
-			strncpy(&tempraw[counter], &tempraw[counter + 1], strlen(&tempraw[counter]) - 1);
+			strncpy(&tempraw[counter], &tempraw[counter + 1], mir_strlen(&tempraw[counter]) - 1);
 
-	strncpy(truncated, tempraw, strlen(truncated));
+	strncpy(truncated, tempraw, mir_strlen(truncated));
 }

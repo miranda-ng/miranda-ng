@@ -50,7 +50,7 @@ int CSteamProto::MirandaToSteamState(int status)
 
 int CSteamProto::RsaEncrypt(const char *pszModulus, const char *data, BYTE *encryptedData, DWORD &encryptedSize)
 {
-	DWORD cchModulus = (DWORD)strlen(pszModulus);
+	DWORD cchModulus = (DWORD)mir_strlen(pszModulus);
 	int result = 0;
 	BYTE *pbBuffer = 0;
 	BYTE *pKeyBlob = 0;
@@ -118,7 +118,7 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, const char *data, BYTE *encr
 		goto exit;
 	}
 
-	DWORD dataSize = (DWORD)strlen(data);
+	DWORD dataSize = (DWORD)mir_strlen(data);
 
 	// if data is not allocated just renurn size
 	if (encryptedData == NULL)
