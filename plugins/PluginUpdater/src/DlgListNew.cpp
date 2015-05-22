@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 #include "common.h"
 
 static HWND hwndDialog;
-HANDLE hListThread;
+static HANDLE hListThread;
 
 static void SelectAll(HWND hDlg, bool bEnable)
 {
@@ -143,12 +143,12 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_INITDIALOG:
 		TranslateDialogDefault( hDlg );
 		oldWndProc = (WNDPROC)SetWindowLongPtr(hwndList, GWLP_WNDPROC, (LONG_PTR)PluginListWndProc);
-
-		SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon("plg_list", 1));
-		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon("plg_list"));
+		
+		SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(iconList[2].hIcolib, 1));
+		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(iconList[2].hIcolib));
 		{
 			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 4, 0);
-			ImageList_AddIconFromIconLib(hIml, "info");
+			ImageList_AddIconFromIconLib(hIml, 1);
 			ListView_SetImageList(hwndList, hIml, LVSIL_SMALL);
 
 			OSVERSIONINFO osver = { sizeof(osver) };
@@ -396,7 +396,7 @@ static void GetList(void *)
 	hListThread = NULL;
 }
 
-void DoGetList()
+static void DoGetList()
 {
 	if (hListThread)
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("List loading already started!"), POPUP_TYPE_INFO);
@@ -423,7 +423,7 @@ INT_PTR ShowListCommand(WPARAM,LPARAM)
 
 void InitListNew()
 {
-	CreateServiceFunction(MODNAME"/ShowList", ShowListCommand);
+	CreateServiceFunction(MS_PU_SHOWLIST, ShowListCommand);
 }
 
 void UnloadListNew()

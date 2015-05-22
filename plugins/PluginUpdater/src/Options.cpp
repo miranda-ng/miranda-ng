@@ -51,7 +51,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			int UpdateMode = db_get_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
 			if (UpdateMode == UPDATE_MODE_STABLE)
 				db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_DONTSWITCHTOSTABLE), SW_SHOW);
+			SetDlgItemText(hwndDlg,IDC_STABLE,TranslateT("Stable version (incompatible with current development version)"));
 		}
 
 		switch (GetUpdateMode()) {
@@ -72,7 +72,9 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
 
 				ptrT url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
-				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, (url == NULL) ? ptrT(GetDefaultUrl()) : url);
+				if (url == NULL)
+					url = GetDefaultUrl();
+				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, url);
 		}
 	}
 		return TRUE;
@@ -116,7 +118,9 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
 			{
 				ptrT url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
-				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, (url == NULL) ? ptrT(GetDefaultUrl()) : url);
+				if (url == NULL)
+					url = GetDefaultUrl();
+				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, url);
 			}
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -189,7 +193,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
 				}
 			}
-			break;
 		}
 	}
 	return FALSE;

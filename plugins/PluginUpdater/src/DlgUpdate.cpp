@@ -23,7 +23,7 @@ Boston, MA 02111-1307, USA.
 
 static bool bShowDetails;
 static HWND hwndDialog;
-HANDLE hCheckThread;
+static HANDLE hCheckThread, hTimer;
 
 static void SelectAll(HWND hDlg, bool bEnable)
 {
@@ -160,8 +160,8 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
 		SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
-		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon("check_update"));
-		SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon("check_update", 1));
+		SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(iconList[0].hIcolib));
+		SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(iconList[0].hIcolib, 1));
 		{
 			OSVERSIONINFO osver = { sizeof(osver) };
 			if (GetVersionEx(&osver) && osver.dwMajorVersion >= 6)
@@ -301,9 +301,14 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 				return TRUE;
 
 			case IDC_DETAILS:
-				bShowDetails = !bShowDetails;
-				ResizeVert(hDlg, bShowDetails ? 242 : 60);
-				SetDlgItemText(hDlg, IDC_DETAILS, (bShowDetails ? TranslateT("<< Details") : TranslateT("Details >>")));
+				if (bShowDetails = !bShowDetails) {
+					ResizeVert(hDlg, 242);
+					SetDlgItemText(hDlg, IDC_DETAILS, TranslateT("<< Details"));
+				}
+				else {
+					ResizeVert(hDlg, 60);
+					SetDlgItemText(hDlg, IDC_DETAILS, TranslateT("Details >>"));
+				}
 				break;
 
 			case IDC_SELALL:
@@ -615,7 +620,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 			}
 
 			TCHAR *ptszUrl;
-			int MyCRC = 0;
+			int MyCRC;
 			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
 
 			bool bDeleteOnly = (tszNewName[0] == 0);
@@ -626,19 +631,22 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 				// Not in list? Check for trailing 'W' or 'w'
 				if (item == NULL) {
 					TCHAR *p = _tcsrchr(tszNewName, '.');
-					if (p[-1] != 'w' && p[-1] != 'W')
+					if (p[-1] != 'w' && p[-1] != 'W') {
+						Netlib_LogfT(hNetlibUser, _T("File %s not found on server"), ffd.cFileName);
 						continue;
+					}
 
 					// remove trailing w or W and try again
 					int iPos = int(p - tszNewName) - 1;
 					strdel(p - 1, 1);
-					if ((item = hashes.find((ServListEntry*)&pName)) == NULL)
+					if ((item = hashes.find((ServListEntry*)&pName)) == NULL) {
+						Netlib_LogfT(hNetlibUser, _T("File %s not found on server"), ffd.cFileName);
 						continue;
+					}
 
 					strdel(tszNewName + iPos, 1);
 				}
 
-				ptszUrl = item->m_name;
 				// No need to hash a file if we are forcing a redownload anyway
 				if (!opts.bForceRedownload) {
 					// try to hash the file
@@ -646,8 +654,10 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 					__try {
 						CalculateModuleHash(tszBuf, szMyHash);
 						// hashes are the same, skipping
-						if (strcmp(szMyHash, item->m_szHash) == 0)
+						if (strcmp(szMyHash, item->m_szHash) == 0) {
+							Netlib_LogfT(hNetlibUser, _T("File %s is already up-to-date"), ffd.cFileName);
 							continue;
+						}
 					}
 					__except (EXCEPTION_EXECUTE_HANDLER)
 					{
@@ -655,13 +665,18 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 					}
 				}
 
+				ptszUrl = item->m_name;
 				MyCRC = item->m_crc;
+				Netlib_LogfT(hNetlibUser, _T("Found update for %s"), ffd.cFileName);
 			}
-			else // file was marked for deletion, add it to the list anyway
+			else {
+				// file was marked for deletion, add it to the list anyway
+				Netlib_LogfT(hNetlibUser, _T("File %s marked for deletion"), ffd.cFileName);
 				ptszUrl = _T("");
+				MyCRC = 0;
+			}
 
 			// Yeah, we've got new version.
-			Netlib_LogfT(hNetlibUser, _T("Found update for %s"), tszBuf);
 			FILEINFO *FileInfo = new FILEINFO;
 			// copy the relative old name
 			_tcsncpy(FileInfo->tszOldName, tszBuf + cbBaseLen, SIZEOF(FileInfo->tszOldName));
@@ -736,7 +751,7 @@ static void CheckUpdates(void *)
 	hCheckThread = NULL;
 }
 
-void DoCheck(bool bSilent)
+static void DoCheck(bool bSilent)
 {
 	if (hCheckThread)
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Update checking already started!"), POPUP_TYPE_INFO);
@@ -756,12 +771,14 @@ void DoCheck(bool bSilent)
 
 void UninitCheck()
 {
+	CancelWaitableTimer(hTimer);
+	CloseHandle(hTimer);
 	if (hwndDialog != NULL)
 		DestroyWindow(hwndDialog);
 }
 
 // menu item command
-INT_PTR MenuCommand(WPARAM, LPARAM)
+static INT_PTR MenuCommand(WPARAM, LPARAM)
 {
 	Netlib_LogfT(hNetlibUser, _T("Update started manually!"));
 	DoCheck(false);
@@ -770,7 +787,7 @@ INT_PTR MenuCommand(WPARAM, LPARAM)
 
 void InitCheck()
 {
-	CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
+	CreateServiceFunction(MS_PU_CHECKUPDATES, MenuCommand);
 }
 
 void UnloadCheck()
@@ -792,4 +809,75 @@ void CheckUpdateOnStartup()
 		Netlib_LogfT(hNetlibUser, _T("Update on startup started!"));
 		DoCheck(true);
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void CALLBACK TimerAPCProc(void *, DWORD, DWORD)
+{
+	DoCheck(true);
+}
+
+static LONGLONG PeriodToMilliseconds(const int period, BYTE &periodMeasure)
+{
+	LONGLONG result = period * 1000LL;
+	switch(periodMeasure) {
+	case 1:
+		// day
+		result *= 60 * 60 * 24;
+		break;
+
+	default:
+		// hour
+		if (periodMeasure != 0)
+			periodMeasure = 0;
+		result *= 60 * 60;
+	}
+	return result;
+}
+
+void InitTimer(void *type)
+{
+	if (!opts.bUpdateOnPeriod)
+		return;
+
+	LONGLONG interval;
+
+	switch ((int)type) {
+	case 0: // default, plan next check relative to last check
+		{
+			time_t now = time(NULL);
+			time_t was = db_get_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, 0);
+
+			interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
+			interval -= (now - was) * 1000;
+			if (interval <= 0)
+				interval = 1000; // no last update or too far in the past -> do it now
+		}
+		break;
+
+	case 2: // failed last check, check again in two hours
+		interval = 1000 * 60 * 60 * 2;
+		break;
+
+	default: // options changed, use set interval from now
+		interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
+	}
+
+	FILETIME ft;
+	GetSystemTimeAsFileTime(&ft);
+
+	LARGE_INTEGER li;
+	li.LowPart = ft.dwLowDateTime;
+	li.HighPart = ft.dwHighDateTime;
+	li.QuadPart += interval * 10000LL;
+	SetWaitableTimer(hTimer, &li, 0, TimerAPCProc, NULL, 0);
+
+	// Wait in an alertable state for the timer to go off.
+	SleepEx(INFINITE, TRUE);
+}
+
+void CreateTimer() {
+	hTimer = CreateWaitableTimer(NULL, FALSE, NULL);
+	mir_forkthread(InitTimer, 0);
 }

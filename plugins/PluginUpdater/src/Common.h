@@ -33,7 +33,6 @@ Boston, MA 02111-1307, USA.
 #include <m_skin.h>
 #include <m_langpack.h>
 #include <m_options.h>
-#include <m_database.h>
 #include <m_system_cpp.h>
 #include <m_popup.h>
 #include <m_hotkeys.h>
@@ -48,7 +47,7 @@ Boston, MA 02111-1307, USA.
 #include "resource.h"
 
 #if MIRANDA_VER < 0x0A00
-#include "compat.h"
+#include "Compat\compat.h"
 #endif
 
 #include "Notifications.h"
@@ -85,20 +84,14 @@ struct FILEINFO
 
 typedef OBJLIST<FILEINFO> FILELIST;
 
-struct PopupDataText
-{
-	TCHAR *Title;
-	TCHAR *Text;
-};
-
-struct PlugOptions
+extern struct PlugOptions
 {
 	BYTE bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bForceRedownload, bSilentMode;
 	BOOL bSilent, bDlgDld;
 
 	BYTE bPeriodMeasure;
 	int  Period;
-};
+} opts;
 
 #define DEFAULT_UPDATEONSTARTUP   1
 #define DEFAULT_UPDATEONPERIOD    0
@@ -141,13 +134,9 @@ using namespace std;
 extern HINSTANCE hInst;
 
 extern TCHAR tszRoot[MAX_PATH], tszTempPath[MAX_PATH];
-extern FILEINFO *pFileInfo;
-extern PlugOptions opts;
-extern POPUP_OPTIONS PopupOptions;
 extern aPopups PopupsList[POPUPS];
-extern HANDLE Timer, hPipe, hNetlibUser;
-
-void DoCheck(bool bSilent);
+extern HANDLE hPipe, hNetlibUser;
+extern IconItemT iconList[];
 
 void UninitCheck(void);
 void UninitListNew(void);
@@ -176,7 +165,7 @@ struct ServListEntry
 		m_name( mir_a2t(_name)),
 		m_crc(_crc)
 	{
-		strncpy(m_szHash, _hash, sizeof(m_szHash));
+		strncpy(m_szHash, _hash, sizeof(m_szHash)-1);
 	}
 
 	~ServListEntry()
@@ -187,7 +176,6 @@ struct ServListEntry
 	TCHAR *m_name;
 	DWORD  m_crc;
 	char   m_szHash[32+1];
-	BYTE   m_selected;
 };
 
 typedef OBJLIST<ServListEntry> SERVLIST;
@@ -203,6 +191,7 @@ void  InitEvents();
 void  InitOptions();
 void  InitListNew();
 void  InitCheck();
+void  CreateTimer();
 
 void  UnloadCheck();
 void  UnloadListNew();
@@ -223,11 +212,7 @@ void  __stdcall OpenPluginOptions(void*);
 void  CheckUpdateOnStartup();
 void  InitTimer(void *type);
 
-INT_PTR EmptyFolder(WPARAM,LPARAM);
-
-INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-int  ImageList_AddIconFromIconLib(HIMAGELIST hIml, const char *name);
+int  ImageList_AddIconFromIconLib(HIMAGELIST hIml, int i);
 
 bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath,bool ch);
 void strdel(TCHAR *parBuffer, int len);

@@ -21,12 +21,12 @@ Boston, MA 02111-1307, USA.
 
 //=== Objects =====
 //This one is used to easily tie status id, icon, text...
-typedef struct
+struct aPopups
 {
 	int ID;
 	COLORREF colorBack;
 	COLORREF colorText;
-} aPopups;
+};
 
 #define DEFAULT_POPUP_LCLICK				1
 #define DEFAULT_POPUP_RCLICK				0
@@ -52,12 +52,12 @@ typedef struct
 #define PCA_DONOTHING		1   // do nothing
 
 //===== Options flags
-typedef struct tagMYOPTIONS {
+extern struct POPUP_OPTIONS {
 	BYTE DefColors;
 	BYTE LeftClickAction;
 	BYTE RightClickAction;
 	int Timeout;
-} POPUP_OPTIONS;
+} PopupOptions;
 
 static struct {
 	TCHAR *Text;

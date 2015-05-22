@@ -24,38 +24,19 @@ POPUP_OPTIONS PopupOptions = {0};
 extern DWORD g_mirandaVersion;
 
 /////////////////////////////////////////////////////////////////////////////////////
-// we don't use Icon_Register here because it should work under Miranda IM too
-
-struct
+#if MIRANDA_VER >= 0x0A00
+IconItemT iconList[] =
 {
-	char *szIconName;
-	char *szDescr;
-	int   IconID;
-}
-static iconList[] =
-{
-	{ "check_update", LPGEN("Check for updates"),           IDI_MENU },
-	{ "info",         LPGEN("Plugin info"),                 IDI_INFO },
-	{ "plg_list",     LPGEN("Component list"),              IDI_PLGLIST },
+	{ LPGENT("Check for updates"),"check_update", IDI_MENU },
+	{ LPGENT("Plugin info"), "info", IDI_INFO },
+	{ LPGENT("Component list"),"plg_list", IDI_PLGLIST }
 };
 
 void InitIcoLib()
 {
-	TCHAR destfile[MAX_PATH];
-	GetModuleFileName(hInst, destfile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_TCHAR;
-	sid.ptszDefaultFile = destfile;
-	sid.pszSection = MODULEA;
-
-	for (int i = 0; i < SIZEOF(iconList); i++) {
-		sid.pszName = iconList[i].szIconName;
-		sid.pszDescription = iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].IconID;
-		Skin_AddIcon(&sid);
-	}
+	Icon_RegisterT(hInst,MODULE,iconList, SIZEOF(iconList));
 }
+#endif
 
 void InitNetlib()
 {
@@ -366,72 +347,6 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 	mir_free(nlhr.headers);
 
 	return ret;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-LONGLONG PeriodToMilliseconds(const int period, BYTE &periodMeasure)
-{
-	LONGLONG result = period * 1000LL;
-	switch(periodMeasure) {
-	case 1:
-		// day
-		result *= 60 * 60 * 24;
-		break;
-
-	default:
-		// hour
-		if (periodMeasure != 0)
-			periodMeasure = 0;
-		result *= 60 * 60;
-		break;
-	}
-	return result;
-}
-
-void CALLBACK TimerAPCProc(void *, DWORD, DWORD)
-{
-	DoCheck(true);
-}
-
-void InitTimer(void *type)
-{
-	if (!opts.bUpdateOnPeriod)
-		return;
-
-	LONGLONG interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
-
-	switch ((int)type) {
-	case 0: // default, plan next check relative to last check
-		{
-			time_t now = time(NULL);
-			time_t was = db_get_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, 0);
-
-			interval -= (now - was) * 1000;
-			if (interval <= 0)
-				interval = 1000; // no last update or too far in the past -> do it now
-		}
-		break;
-
-	case 1: // options changed, use set interval from now
-		break;
-
-	case 2: // failed last check, check again in two hours
-		interval = 1000 * 60 * 60 * 2;
-		break;
-	}
-
-	FILETIME ft;
-	GetSystemTimeAsFileTime(&ft);
-
-	LARGE_INTEGER li;
-	li.LowPart = ft.dwLowDateTime;
-	li.HighPart = ft.dwHighDateTime;
-	li.QuadPart += interval * 10000LL;
-	SetWaitableTimer(Timer, &li, 0, TimerAPCProc, NULL, 0);
-
-	// Wait in an alertable state for the timer to go off.
-	SleepEx(INFINITE, TRUE);
 }
 
 void strdel(TCHAR *parBuffer, int len)

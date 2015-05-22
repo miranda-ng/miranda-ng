@@ -88,18 +88,22 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitCheck();
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 400010000;
+#if MIRANDA_VER >= 0x0A00
+	mi.icolibItem = iconList[0].hIcolib;
+#else
 	mi.icolibItem = Skin_GetIconHandle("check_update");
+#endif
 	mi.pszName = LPGEN("Check for updates");
-	mi.pszService = MODNAME"/CheckUpdates";
+	mi.pszService = MS_PU_CHECKUPDATES;
 	Menu_AddMainMenuItem(&mi);
 
 #if MIRANDA_VER >= 0x0A00
 	InitListNew();
 
 	mi.position++;
-	mi.icolibItem = Skin_GetIconHandle("plg_list");
+	mi.icolibItem = iconList[2].hIcolib;
 	mi.pszName = LPGEN("Available components list");
-	mi.pszService = MODNAME"/ShowList";
+	mi.pszService = MS_PU_SHOWLIST;
 	Menu_AddMainMenuItem(&mi);
 
 	InitOptions();
@@ -110,7 +114,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hkd.pszName = "Check for updates";
 	hkd.pszDescription = "Check for updates";
 	hkd.pszSection = "Plugin Updater";
-	hkd.pszService = MODNAME"/CheckUpdates";
+	hkd.pszService = MS_PU_CHECKUPDATES;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;
 	Hotkey_Register(&hkd);
@@ -120,7 +124,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	// add sounds
 	SkinAddNewSoundEx("updatecompleted", LPGEN("Plugin Updater"), LPGEN("Update completed"));
 	SkinAddNewSoundEx("updatefailed", LPGEN("Plugin Updater"), LPGEN("Update failed"));
-	
+
+#if MIRANDA_VER >= 0x0A00
 	// Upgrade old settings
 	if (-1 == db_get_b(0, MODNAME, DB_SETTING_UPDATE_MODE, -1)) {
 		ptrT dbvUpdateURL(db_get_tsa(0, MODNAME, DB_SETTING_UPDATE_URL));
@@ -140,6 +145,7 @@ extern "C" __declspec(dllexport) int Load(void)
 			else db_set_b(0, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_CUSTOM);
 		}
 	}
+#endif
 	return 0;
 }
 
