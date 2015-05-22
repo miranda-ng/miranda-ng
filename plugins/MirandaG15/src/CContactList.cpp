@@ -132,7 +132,7 @@ void CContactList::AddContact(MCONTACT hContact)
 	}
 
 	// Don't add metacontacts as contacts
-	if(!stricmp(szProto,"MetaContacts"))
+	if(!mir_strcmpi(szProto,"MetaContacts"))
 	{
 		if(!CConfig::GetBoolSetting(CLIST_USEGROUPS))
 			strGroup = _T("");
@@ -1010,7 +1010,7 @@ void CContactList::InitializeGroupObjects()
 	{
 		tstring strGroup = GetContactGroupPath(hContact);
 		szProto = GetContactProto(hContact);
-		if(szProto && db_get_b(NULL,"MetaContacts","Enabled",1) && !stricmp(szProto,"MetaContacts"))
+		if(szProto && db_get_b(NULL,"MetaContacts","Enabled",1) && !mir_strcmpi(szProto,"MetaContacts"))
 		{
 			tstring strName = CAppletManager::GetContactDisplayname(hContact);
 			tstring strPath = _T("");

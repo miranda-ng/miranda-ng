@@ -526,7 +526,7 @@ BOOL GetSettingBool(const char *section, const char *key, BOOL defaultValue)
 	if (GetPrivateProfileStringA(section, key, defaultValue ? "true" : "false", tmp, sizeof(tmp), gIniFile) == 0)
 		return defaultValue;
 
-	return stricmp(tmp, "true") == 0;
+	return mir_strcmpi(tmp, "true") == 0;
 }
 
 

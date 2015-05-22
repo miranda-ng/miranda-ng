@@ -95,7 +95,7 @@ MCONTACT TlenHContactFromJID(TlenProtocol *proto, const char *jid)
 			continue;
 
 		if ((p=dbv.pszVal) != NULL) {
-			if (!stricmp(p, jid)) {	// exact match (node@domain/resource)
+			if (!mir_strcmpi(p, jid)) {	// exact match (node@domain/resource)
 				db_free(&dbv);
 				return hContact;
 			}

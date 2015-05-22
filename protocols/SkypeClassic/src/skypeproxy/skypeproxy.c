@@ -510,7 +510,7 @@ int main(int argc, char *argv[]) {
 	if (argc>1) {
 		int i;
 
-		if (!stricmp(argv[1], "-h") || !stricmp(argv[1], "--help") || !stricmp(argv[1], "/?")) {
+		if (!mir_strcmpi(argv[1], "-h") || !mir_strcmpi(argv[1], "--help") || !mir_strcmpi(argv[1], "/?")) {
 			printf("Usage: %s [-i BindIP] [-p BindPort]", argv[0]);
 #ifdef USE_AUTHENTICATION
 			printf(" [-k Password]");
@@ -519,15 +519,15 @@ int main(int argc, char *argv[]) {
 			return EXIT_SUCCESS;
 		}
 		for (i=0;i<argc;i++) {
-			if (!stricmp(argv[i], "-i") && argc>i+1)
+			if (!mir_strcmpi(argv[i], "-i") && argc>i+1)
 				strncpy(BindIP, argv[i+1], sizeof(BindIP));
-			if (!stricmp(argv[i], "-p") && argc>i+1) 
+			if (!mir_strcmpi(argv[i], "-p") && argc>i+1) 
 				if (!(BindPort=atoi(argv[i+1]))) {
 					OUTPUT("ERROR: Cannot convert port to int. bye..");
 					return EXIT_FAILURE;
 				}
 #ifdef USE_AUTHENTICATION
-			if (!stricmp(argv[i], "-k") && argc>i+1)
+			if (!mir_strcmpi(argv[i], "-k") && argc>i+1)
 				password=strdup(argv[i+1]);
 #endif
 		}

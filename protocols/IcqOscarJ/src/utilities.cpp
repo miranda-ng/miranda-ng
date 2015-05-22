@@ -593,7 +593,7 @@ int __fastcall strcmpnull(const char *str1, const char *str2)
 	return 1;
 }
 
-/* a stricmp() that likes NULL */
+/* a mir_strcmpi() that likes NULL */
 int __fastcall stricmpnull(const char *str1, const char *str2)
 {
 	if (str1 && str2)

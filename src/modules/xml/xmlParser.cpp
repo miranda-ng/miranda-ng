@@ -239,7 +239,7 @@ static inline FILE *xfopen(XMLCSTR filename, XMLCSTR mode) { return fopen(filena
 static inline size_t xstrlen(XMLCSTR c)   { return mir_strlen(c); }
 #ifdef __BORLANDC__
 static inline int xstrnicmp(XMLCSTR c1, XMLCSTR c2, int l) { return strnicmp(c1, c2, l);}
-static inline int xstricmp(XMLCSTR c1, XMLCSTR c2) { return stricmp(c1, c2); }
+static inline int xstricmp(XMLCSTR c1, XMLCSTR c2) { return mir_strcmpi(c1, c2); }
 #else
 static inline int xstrnicmp(XMLCSTR c1, XMLCSTR c2, int l) { return _strnicmp(c1, c2, l);}
 static inline int xstricmp(XMLCSTR c1, XMLCSTR c2) { return _stricmp(c1, c2); }

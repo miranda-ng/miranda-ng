@@ -100,12 +100,12 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 	if (sdgMsg) {
 		msgBytes = atol(datas.strMsgBytes);
-		if (stricmp(datas.typeId, "MSGR"))
+		if (mir_strcmpi(datas.typeId, "MSGR"))
 			return;
 	}
 	else if (nfyMsg) {
 		msgBytes = atol(datas.strMsgBytes);
-		if (stricmp(datas.typeId, "MSGR\\HOTMAIL"))
+		if (mir_strcmpi(datas.typeId, "MSGR\\HOTMAIL"))
 			return;
 	}
 	else {
@@ -400,13 +400,13 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 			char *szEmail, *szInst;
 			parseWLID(NEWSTR_ALLOCA(dest), NULL, &szEmail, &szInst);
 
-			if (stricmp(szEmail, MyOptions.szEmail) == 0) {
+			if (mir_strcmpi(szEmail, MyOptions.szEmail) == 0) {
 				const char* src = tHeader["P2P-Src"];
 				if (src == NULL) src = email;
 
 				if (szInst == NULL)
 					p2p_processMsg(info, msgBody, src);
-				else if (stricmp(szInst, MyOptions.szMachineGuidP2P) == 0)
+				else if (mir_strcmpi(szInst, MyOptions.szMachineGuidP2P) == 0)
 					p2p_processMsgV2(info, msgBody, src);
 			}
 		}
@@ -488,7 +488,7 @@ void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *u
 	bool isMe = false;
 	char* szEmail, *szNet;
 	parseWLID(NEWSTR_ALLOCA(wlid), &szNet, &szEmail, NULL);
-	if (!stricmp(szEmail, GetMyUsername(atoi(szNet)))) {
+	if (!mir_strcmpi(szEmail, GetMyUsername(atoi(szNet)))) {
 		if (!*userStatus) return;
 		isMe = true;
 		int newStatus = MSNStatusToMiranda(userStatus);
@@ -549,7 +549,7 @@ void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *u
 			if (hContact != NULL) {
 				char szSavedHash[64] = "";
 				db_get_static(hContact, m_szModuleName, "AvatarSavedHash", szSavedHash, sizeof(szSavedHash));
-				if (stricmp(szSavedHash, pszAvatarHash))
+				if (mir_strcmpi(szSavedHash, pszAvatarHash))
 					pushAvatarRequest(hContact, pszUrl);
 				else {
 					char szSavedContext[64];
@@ -1000,7 +1000,7 @@ LBL_InvalidCommand:
 					if ((id=ezxml_child(xmli, "id"))) 
 					{
 						bool bIsChat = strncmp(id->txt, "19:", 3)==0;
-						bool bHasMore = stricmp(ezxml_txt(ezxml_child(xmli, "hasmore")), "true") == 0;
+						bool bHasMore = mir_strcmpi(ezxml_txt(ezxml_child(xmli, "hasmore")), "true") == 0;
 						ezxml_t syncstate;
 						hContact = MSN_HContactFromEmail(id->txt, NULL, false, false);
 						if (!bHasMore && hContact) db_unset(hContact, m_szModuleName, "syncTS");
@@ -1020,7 +1020,7 @@ LBL_InvalidCommand:
 							ts=IsoToUnixTime(arrtime->txt);
 							parseWLID(NEWSTR_ALLOCA(from->txt), &netId, &email, NULL);
 							message=content->txt;
-							sentMsg = stricmp(email, GetMyUsername(atoi(netId)))==0;
+							sentMsg = mir_strcmpi(email, GetMyUsername(atoi(netId)))==0;
 							if (msgtype) {
 								if (!mir_strcmp(msgtype->txt, "RichText")) {
 									message = NEWSTR_ALLOCA(message);

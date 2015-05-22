@@ -314,7 +314,7 @@ BEGIN
             MENUITEM "?txtfile(file,line)",         ID__VARIABLES_TXTFILEFILELINE
             MENUITEM "?if(condition,true,false)",   ID__VARIABLES_IFCONDITIONTRUEFALSE
             MENUITEM "?mir_strcmp(string1,string2)",    ID__VARIABLES_STRCMPSTRING1STRING2
-            MENUITEM "?stricmp(string1,string2)",   ID__VARIABLES_STRICMPSTRING1STRING2
+            MENUITEM "?mir_strcmpi(string1,string2)",   ID__VARIABLES_STRICMPSTRING1STRING2
             MENUITEM "?cdate(format)",              ID__VARIABLES_CDATEFORMAT
             MENUITEM "?ctime(format)",              ID__VARIABLES_CTIMEFORMAT
             MENUITEM "?replace(sub,string1,string2)", ID__VARIABLES_REPLACESUBSTRING1STRING2
