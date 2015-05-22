@@ -432,7 +432,7 @@ int CIcqProto::servlistPendingFindItem(int nType, MCONTACT hContact, const char 
 		for (int i = 0; i < servlistPendingCount; i++)
 			if (servlistPendingList[i]->nType == nType)
 				if (((nType == ITEM_PENDING_CONTACT) && (servlistPendingList[i]->hContact == hContact)) ||
-					 ((nType == ITEM_PENDING_GROUP) && (!strcmpnull(servlistPendingList[i]->szGroup, pszGroup))))
+					 ((nType == ITEM_PENDING_GROUP) && (!mir_strcmp(servlistPendingList[i]->szGroup, pszGroup))))
 					return i;
 
 	return -1;
@@ -1509,7 +1509,7 @@ static int SrvGroupNamesEnumProc(const char *szSetting, LPARAM lParam)
 	CIcqProto *ppro = (CIcqProto*)params[0];
 	char *szGroupName = ppro->getSettingStringUtf(NULL, params[3], szSetting, NULL);
 
-	if (!strcmpnull(szGroupName, params[2]))
+	if (!mir_strcmp(szGroupName, params[2]))
 		params[1] = szSetting; // do not need the real value, just arbitrary non-NULL
 
 	SAFE_FREE(&szGroupName);
@@ -2139,7 +2139,7 @@ void CIcqProto::servlistRenameGroup(char *szGroup, WORD wGroupId, char *szNewGro
 			szLast[0] = '\0';
 
 		// this group was not changed, nothing to rename
-		if (!strcmpnull(szGroupName, szNewGroupName)) return;
+		if (!mir_strcmp(szGroupName, szNewGroupName)) return;
 
 		szGroupName = szNewGroupName;
 		szNewGroupName = (char*)SAFE_MALLOC(mir_strlen(szGroupName) + 1 + nGroupLevel);
@@ -2268,20 +2268,20 @@ int CIcqProto::ServListDbSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (!icqOnline() || !m_bSsiEnabled || bIsSyncingCL)
 		return 0;
 
-	if (!strcmpnull(cws->szModule, "CList")) {
+	if (!mir_strcmp(cws->szModule, "CList")) {
 		// Has contact been renamed?
-		if (!strcmpnull(cws->szSetting, "MyHandle") && getByte("StoreServerDetails", DEFAULT_SS_STORE))
+		if (!mir_strcmp(cws->szSetting, "MyHandle") && getByte("StoreServerDetails", DEFAULT_SS_STORE))
 			servlistUpdateContact(hContact); // Update contact's details in server-list
 
 		// Has contact been moved to another group?
-		if (!strcmpnull(cws->szSetting, "Group") && getByte("StoreServerDetails", DEFAULT_SS_STORE)) {
+		if (!mir_strcmp(cws->szSetting, "Group") && getByte("StoreServerDetails", DEFAULT_SS_STORE)) {
 			char* szNewGroup = getContactCListGroup(hContact); // Read group from DB
 			SAFE_FREE(&szNewGroup);
 		}
 	}
-	else if (!strcmpnull(cws->szModule, "UserInfo")) {
+	else if (!mir_strcmp(cws->szModule, "UserInfo")) {
 		// Update contact's details in server-list
-		if (!strcmpnull(cws->szSetting, "MyNotes") && getByte("StoreServerDetails", DEFAULT_SS_STORE))
+		if (!mir_strcmp(cws->szSetting, "MyNotes") && getByte("StoreServerDetails", DEFAULT_SS_STORE))
 			servlistUpdateContact(hContact);
 	}
 

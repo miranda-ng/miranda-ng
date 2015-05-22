@@ -810,11 +810,11 @@ void CIcqProto::handleServerCListReply(BYTE *buf, size_t wLen, WORD wFlags, serv
 							szLocalGroup = null_strdup(DEFAULT_SS_GROUP);
 						}
 
-						if (strcmpnull(szActiveSrvGroup, szLocalGroup) &&
+						if (mir_strcmp(szActiveSrvGroup, szLocalGroup) &&
 							 (mir_strlen(szActiveSrvGroup) >= mir_strlen(szLocalGroup) || (szActiveSrvGroup && _strnicmp(szActiveSrvGroup, szLocalGroup, mir_strlen(szLocalGroup))))) { // contact moved to new group or sub-group or not to master group
 							bRegroup = 1;
 						}
-						if (bRegroup && !stricmpnull(DEFAULT_SS_GROUP, szActiveSrvGroup)) /// TODO: invent something more clever for "root" group
+						if (bRegroup && !mir_strcmpi(DEFAULT_SS_GROUP, szActiveSrvGroup)) /// TODO: invent something more clever for "root" group
 						{ // is it the default "General" group ?
 							bRegroup = 0; // if yes, do not move to it - cause it would hide the contact
 						}
@@ -855,7 +855,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, size_t wLen, WORD wFlags, serv
 									char *szOldNick;
 
 									if (szOldNick = getSettingStringUtf(hContact, "CList", "MyHandle", NULL)) {
-										if ((strcmpnull(szOldNick, pszNick)) && (mir_strlen(pszNick) > 0)) { // check if the truncated nick changed, i.e. do not overwrite locally stored longer nick
+										if ((mir_strcmp(szOldNick, pszNick)) && (mir_strlen(pszNick) > 0)) { // check if the truncated nick changed, i.e. do not overwrite locally stored longer nick
 											if (mir_strlen(szOldNick) <= mir_strlen(pszNick) || strncmp(szOldNick, pszNick, null_strcut(szOldNick, MAX_SSI_TLV_NAME_SIZE))) {
 												// Yes, we really do need to delete it first. Otherwise the CLUI nick
 												// cache isn't updated (I'll look into it)
@@ -898,7 +898,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, size_t wLen, WORD wFlags, serv
 									char *szOldComment;
 
 									if (szOldComment = getSettingStringUtf(hContact, "UserInfo", "MyNotes", NULL)) {
-										if ((strcmpnull(szOldComment, pszComment)) && (mir_strlen(pszComment) > 0)) // check if the truncated comment changed, i.e. do not overwrite locally stored longer comment
+										if ((mir_strcmp(szOldComment, pszComment)) && (mir_strlen(pszComment) > 0)) // check if the truncated comment changed, i.e. do not overwrite locally stored longer comment
 											if (mir_strlen(szOldComment) <= mir_strlen(pszComment) || strncmp((char*)szOldComment, (char*)pszComment, null_strcut(szOldComment, MAX_SSI_TLV_COMMENT_SIZE)))
 												db_set_utf(hContact, "UserInfo", "MyNotes", pszComment);
 
@@ -1116,7 +1116,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, size_t wLen, WORD wFlags, serv
 				/* data is TLV(D5) hash */
 				/* we ignore this, just save the id */
 				/* cause we get the hash again after login */
-				if (!strcmpnull(szRecordName, "12")) { // need to handle Photo Item separately
+				if (!mir_strcmp(szRecordName, "12")) { // need to handle Photo Item separately
 					setWord(DBSETTING_SERVLIST_PHOTO, wItemId);
 					debugLogA("SSI %s item recognized", "Photo");
 				}

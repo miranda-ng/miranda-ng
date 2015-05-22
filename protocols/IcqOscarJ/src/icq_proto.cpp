@@ -67,7 +67,7 @@ static int CompareContactsCache(const icq_contacts_cache *p1, const icq_contacts
 	if (p1->dwUin > p2->dwUin)
 		return 1;
 
-	return stricmpnull(p1->szUid, p2->szUid);
+	return mir_strcmpi(p1->szUid, p2->szUid);
 }
 
 CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
@@ -327,7 +327,7 @@ MCONTACT __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, MEVENT hDb
 	if (db_event_get(hDbEvent, &dbei))
 		return 0; // failed to get event
 
-	if (strcmpnull(dbei.szModule, m_szModuleName))
+	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return 0; // this event is not ours
 
 	switch (dbei.eventType) {
@@ -1764,7 +1764,7 @@ int __cdecl CIcqProto::SetAwayMsg(int status, const TCHAR* msg)
 	// Prepare UTF-8 status message
 	char *szNewUtf = tchar_to_utf8(msg);
 
-	if (strcmpnull(szNewUtf, *ppszMsg)) {
+	if (mir_strcmp(szNewUtf, *ppszMsg)) {
 		// Free old message
 		SAFE_FREE(ppszMsg);
 

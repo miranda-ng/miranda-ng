@@ -382,7 +382,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info*)
 
 			szClient = detectUserClient(hContact, nIsICQ, wClass, dwOnlineSince, szCurrentClient, wVersion, dwFT1, dwFT2, dwFT3, dwDirectConnCookie, dwWebPort, capBuf, capLen, &bClientId, szStrBuf);
 			// Check if the client changed, if not do not change
-			if (szCurrentClient && !strcmpnull(szCurrentClient, szClient))
+			if (szCurrentClient && !mir_strcmp(szCurrentClient, szClient))
 				szClient = (const char*)-1;
 			SAFE_FREE(&szCurrentClient);
 		}

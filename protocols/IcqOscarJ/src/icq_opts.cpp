@@ -128,7 +128,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			char szClass[80];
 			GetClassNameA((HWND)lParam, szClass, sizeof(szClass));
 
-			if (stricmpnull(szClass, "EDIT") || HIWORD(wParam) == EN_CHANGE)
+			if (mir_strcmpi(szClass, "EDIT") || HIWORD(wParam) == EN_CHANGE)
 				ShowDlgItem(hwndDlg, IDC_RECONNECTREQD, SW_SHOW);
 		}
 

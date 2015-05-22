@@ -309,8 +309,8 @@ void ChangeInfoData::EndStringEdit(int save)
 				text = GetWindowTextUtf(hwndEdit);
 				EscapesToBinary(text);
 			}
-			if ((si.displayType & LIF_PASSWORD && strcmpnull(text, "                ")) ||
-				 (!(si.displayType & LIF_PASSWORD) && strcmpnull(text, (char*)sid.value) && (mir_strlen(text) + mir_strlen((char*)sid.value)))) {
+			if ((si.displayType & LIF_PASSWORD && mir_strcmp(text, "                ")) ||
+				 (!(si.displayType & LIF_PASSWORD) && mir_strcmp(text, (char*)sid.value) && (mir_strlen(text) + mir_strlen((char*)sid.value)))) {
 				SAFE_FREE((void**)&sid.value);
 				if (mir_strlen(text))
 					sid.value = (LPARAM)text;

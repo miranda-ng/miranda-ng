@@ -46,7 +46,7 @@
 #define MIR_STRCMP				_T("mir_strcmp")
 #define MIR_STRNCMP				_T("strncmp")
 #define MIR_STRMCMP				_T("strmcmp")
-#define MIR_STRICMP				_T("mir_strcmpi")
+#define MIR_STRICMP				_T("stricmp")
 #define MIR_STRNICMP			_T("strnicmp")
 #define MIR_SUBSTR				_T("substr")
 #define MIR_SELECT				_T("select")

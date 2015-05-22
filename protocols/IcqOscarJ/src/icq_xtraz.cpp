@@ -62,7 +62,7 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 			szWork += 10;
 			*szEnd = '\0';
 
-			if (!stricmpnull(szWork, "srvMng") && strstrnull(szNotify, "AwayStat")) {
+			if (!mir_strcmpi(szWork, "srvMng") && strstrnull(szNotify, "AwayStat")) {
 				char *szSender = strstrnull(szNotify, "<senderId>");
 				char *szEndSend = strstrnull(szNotify, "</senderId>");
 
@@ -200,7 +200,7 @@ void CIcqProto::handleXtrazNotifyResponse(MCONTACT hContact, WORD wCookie, char*
 			szNode += 13; //one more than the length of the string to skip ' or " too
 			szWork = szEnd + 1;
 
-			if (!stricmpnull(szNode, "cAwaySrv")) {
+			if (!mir_strcmpi(szNode, "cAwaySrv")) {
 				int bChanged = FALSE;
 
 				*szEnd = ' ';
@@ -223,7 +223,7 @@ void CIcqProto::handleXtrazNotifyResponse(MCONTACT hContact, WORD wCookie, char*
 					szXName = DemangleXml(szNode, mir_strlen(szNode));
 					// check if the name changed
 					szOldXName = getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, NULL);
-					if (strcmpnull(szOldXName, szXName))
+					if (mir_strcmp(szOldXName, szXName))
 						bChanged = TRUE;
 					SAFE_FREE(&szOldXName);
 					db_set_utf(hContact, m_szModuleName, DBSETTING_XSTATUS_NAME, szXName);
@@ -239,7 +239,7 @@ void CIcqProto::handleXtrazNotifyResponse(MCONTACT hContact, WORD wCookie, char*
 					szXMsg = DemangleXml(szNode, mir_strlen(szNode));
 					// check if the decription changed
 					szOldXMsg = getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, NULL);
-					if (strcmpnull(szOldXMsg, szXMsg))
+					if (mir_strcmp(szOldXMsg, szXMsg))
 						bChanged = TRUE;
 					SAFE_FREE(&szOldXMsg);
 					db_set_utf(hContact, m_szModuleName, DBSETTING_XSTATUS_MSG, szXMsg);
@@ -285,7 +285,7 @@ void CIcqProto::handleXtrazInvitation(DWORD dwUin, char* szMsg, BOOL bThruDC)
 		SetContactCapabilities(hContact, CAPF_XTRAZ);
 
 	char *szPluginID = getXmlPidItem(szMsg);
-	if (!strcmpnull(szPluginID, "ICQChatRecv"))  // it is a invitation to multi-user chat
+	if (!mir_strcmp(szPluginID, "ICQChatRecv"))  // it is a invitation to multi-user chat
 		;
 	else 
 		NetLog_Uni(bThruDC, "Error: Unknown plugin \"%s\" in Xtraz message", szPluginID);
@@ -301,7 +301,7 @@ void CIcqProto::handleXtrazData(DWORD dwUin, char* szMsg, BOOL bThruDC)
 		SetContactCapabilities(hContact, CAPF_XTRAZ);
 
 	char *szPluginID = getXmlPidItem(szMsg);
-	if (!strcmpnull(szPluginID, "viewCard")) { // it is a greeting card
+	if (!mir_strcmp(szPluginID, "viewCard")) { // it is a greeting card
 		char *szWork, *szEnd, *szUrl, *szNum;
 
 		szWork = strstrnull(szMsg, "<InD>");

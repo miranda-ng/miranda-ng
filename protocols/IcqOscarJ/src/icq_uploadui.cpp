@@ -287,7 +287,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 		char str[MAX_PATH];
 
 		// Is this an ack we are waiting for?
-		if (strcmpnull(ack->szModule, ppro->m_szModuleName))
+		if (mir_strcmp(ack->szModule, ppro->m_szModuleName))
 			break;
 
 		if (ack->type == ICQACKTYPE_RATEWARNING) { // we are sending tooo fast, slow down the process
