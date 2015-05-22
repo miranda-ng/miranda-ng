@@ -114,3 +114,24 @@ void __stdcall RestartMe(void*)
 	STARTUPINFO si = { sizeof(si) };
 	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////
+// we don't use Icon_Register here because it should work under Miranda IM too
+
+void InitIcoLib()
+{
+	TCHAR destfile[MAX_PATH];
+	GetModuleFileName(hInst, destfile, MAX_PATH);
+
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.flags = SIDF_PATH_TCHAR;
+	sid.ptszDefaultFile = destfile;
+	sid.pszSection = MODULEA;
+
+	for (int i = 0; i < SIZEOF(iconList); i++) {
+		sid.pszName = iconList[i].szIconName;
+		sid.pszDescription = iconList[i].szDescr;
+		sid.iDefaultIndex = -iconList[i].IconID;
+		Skin_AddIcon(&sid);
+	}
+}

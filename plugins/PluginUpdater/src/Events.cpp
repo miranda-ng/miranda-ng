@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
-HANDLE Timer, hPluginUpdaterFolder;
+HANDLE hPluginUpdaterFolder;
 
 int OnFoldersChanged(WPARAM, LPARAM)
 {
@@ -61,17 +61,13 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	CheckUpdateOnStartup();
 
-	Timer = CreateWaitableTimer(NULL, FALSE, NULL);
-	mir_forkthread(InitTimer, 0);
+	CreateTimer();
 
 	return 0;
 }
 
 int OnPreShutdown(WPARAM, LPARAM)
 {
-	CancelWaitableTimer(Timer);
-	CloseHandle(Timer);
-
 	UninitCheck();
 
 #if MIRANDA_VER >= 0x0A00
