@@ -61,7 +61,7 @@ struct NtlmType2packet
 };
 
 static unsigned secCnt = 0, ntlmCnt = 0;
-static HANDLE hSecMutex;
+static mir_cs csSec;
 
 static void ReportSecError(SECURITY_STATUS scRet, int line)
 {
@@ -116,7 +116,7 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 		return hNtlm;
 	}
 
-	WaitForSingleObject(hSecMutex, INFINITE);
+	mir_cslock lck(csSec);
 
 	if (secCnt == 0) {
 		LoadSecurityLibrary();
@@ -143,8 +143,6 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 			ntlmCnt++;
 		}
 	}
-
-	ReleaseMutex(hSecMutex);
 	return hSecurity;
 }
 
@@ -158,24 +156,23 @@ void NetlibDestroySecurityProvider(HANDLE hSecurity)
 	if (hSecurity == NULL)
 		return;
 
-	WaitForSingleObject(hSecMutex, INFINITE);
+	mir_cslock lck(csSec);
 
 	if (ntlmCnt != 0) {
 		NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
-		if (SecIsValidHandle(&hNtlm->hClientContext)) g_pSSPI->DeleteSecurityContext(&hNtlm->hClientContext);
-		if (SecIsValidHandle(&hNtlm->hClientCredential)) g_pSSPI->FreeCredentialsHandle(&hNtlm->hClientCredential);
-		mir_free(hNtlm->szProvider);
-		mir_free(hNtlm->szPrincipal);
+		if (hNtlm != NULL) {
+			if (SecIsValidHandle(&hNtlm->hClientContext)) g_pSSPI->DeleteSecurityContext(&hNtlm->hClientContext);
+			if (SecIsValidHandle(&hNtlm->hClientCredential)) g_pSSPI->FreeCredentialsHandle(&hNtlm->hClientCredential);
+			mir_free(hNtlm->szProvider);
+			mir_free(hNtlm->szPrincipal);
+			mir_free(hNtlm);
+		}
 
 		--ntlmCnt;
-
-		mir_free(hNtlm);
 	}
 
 	if (secCnt && --secCnt == 0)
 		FreeSecurityLibrary();
-
-	ReleaseMutex(hSecMutex);
 }
 
 char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chlsz)
@@ -458,16 +455,9 @@ static INT_PTR NtlmCreateResponseService2(WPARAM wParam, LPARAM lParam)
 
 void NetlibSecurityInit(void)
 {
-	hSecMutex = CreateMutex(NULL, FALSE, NULL);
-
 	CreateServiceFunction(MS_NETLIB_INITSECURITYPROVIDER, InitSecurityProviderService);
 	CreateServiceFunction(MS_NETLIB_INITSECURITYPROVIDER2, InitSecurityProviderService2);
 	CreateServiceFunction(MS_NETLIB_DESTROYSECURITYPROVIDER, DestroySecurityProviderService);
 	CreateServiceFunction(MS_NETLIB_NTLMCREATERESPONSE, NtlmCreateResponseService);
 	CreateServiceFunction(MS_NETLIB_NTLMCREATERESPONSE2, NtlmCreateResponseService2);
-}
-
-void NetlibSecurityDestroy(void)
-{
-	CloseHandle(hSecMutex);
 }
