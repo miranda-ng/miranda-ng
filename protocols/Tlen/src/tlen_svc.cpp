@@ -251,9 +251,9 @@ MCONTACT TlenProtocol::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent
 	}
 
 	char *nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
-	char *firstName = nick + strlen(nick) + 1;
-	char *lastName = firstName + strlen(firstName) + 1;
-	char *jid = lastName + strlen(lastName) + 1;
+	char *firstName = nick + mir_strlen(nick) + 1;
+	char *lastName = firstName + mir_strlen(firstName) + 1;
+	char *jid = lastName + mir_strlen(lastName) + 1;
 
 	MCONTACT hContact = (MCONTACT) AddToListByJID(this, jid, flags);
 	mir_free(dbei.pBlob);
@@ -284,9 +284,9 @@ int TlenProtocol::Authorize(MEVENT hDbEvent)
 	}
 
 	char *nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
-	char *firstName = nick + strlen(nick) + 1;
-	char *lastName = firstName + strlen(firstName) + 1;
-	char *jid = lastName + strlen(lastName) + 1;
+	char *firstName = nick + mir_strlen(nick) + 1;
+	char *lastName = firstName + mir_strlen(firstName) + 1;
+	char *jid = lastName + mir_strlen(lastName) + 1;
 
 	TlenSend(this, "<presence to='%s' type='subscribed'/>", jid);
 
@@ -333,9 +333,9 @@ int TlenProtocol::AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason)
 	}
 
 	char *nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
-	char *firstName = nick + strlen(nick) + 1;
-	char *lastName = firstName + strlen(firstName) + 1;
-	char *jid = lastName + strlen(lastName) + 1;
+	char *firstName = nick + mir_strlen(nick) + 1;
+	char *lastName = firstName + mir_strlen(firstName) + 1;
+	char *jid = lastName + mir_strlen(lastName) + 1;
 
 	TlenSend(this, "<presence to='%s' type='unsubscribed'/>", jid);
 	TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item jid='%s' subscription='remove'/></query></iq>", jid);

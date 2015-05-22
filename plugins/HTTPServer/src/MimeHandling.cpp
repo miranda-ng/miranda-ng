@@ -31,7 +31,7 @@ int bInitMimeHandling() {
 					*tok = '\0';
 				}
 				/* remove trailing \n */
-				int lenght = (int)strlen(line);
+				int lenght = (int)mir_strlen(line);
 				if (lenght > 0 && line[lenght - 1] == '\n')
 					line[lenght - 1] = '\0';
 
@@ -39,7 +39,7 @@ int bInitMimeHandling() {
 				tok = (char*)strtok(line, " \t");
 				/*create and fill a cell*/
 				pDBCell = (ContentType*)malloc(sizeof(ContentType));
-				pDBCell->mimeType = (char*)malloc(strlen(tok) + 1);
+				pDBCell->mimeType = (char*)malloc(mir_strlen(tok) + 1);
 				strcpy(pDBCell->mimeType, tok);
 				pDBCell->extList = NULL;
 				pDBCell->next = NULL;
@@ -48,7 +48,7 @@ int bInitMimeHandling() {
 				while (tok != NULL) {
 					/*create and fill a cell*/
 					pExtCell = (ExtensionListCell*)malloc(sizeof(ExtensionListCell));
-					pExtCell->ext = (char*)malloc(strlen(tok) + 1);
+					pExtCell->ext = (char*)malloc(mir_strlen(tok) + 1);
 					strcpy(pExtCell->ext, tok);
 					pExtCell->next = NULL;
 					/*link*/

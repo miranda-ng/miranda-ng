@@ -170,7 +170,7 @@ char* __stdcall JabberSha1(const char *str, JabberShaStrBuf buf)
 	BYTE digest[MIR_SHA1_HASH_SIZE];
 	mir_sha1_ctx sha;
 	mir_sha1_init(&sha);
-	mir_sha1_append(&sha, (BYTE*)str, (int)strlen(str));
+	mir_sha1_append(&sha, (BYTE*)str, (int)mir_strlen(str));
 	mir_sha1_finish(&sha, digest);
 
 	bin2hex(digest, sizeof(digest), buf);

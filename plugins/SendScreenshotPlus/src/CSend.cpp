@@ -454,7 +454,7 @@ void CSend::Exit(unsigned int Result) {
 const char* CSend::GetHTMLContent(char* str, const char* startTag, const char* endTag) {
 	char* begin=strstr(str,startTag);
 	if(!begin) return NULL;
-	begin+=strlen(startTag)-1;
+	begin+=mir_strlen(startTag)-1;
 	for(; *begin!='>' && *begin; ++begin);
 	if(*begin){
 		char* end=strstr(++begin,endTag);
@@ -673,15 +673,15 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr,int requestType,char* url,HTTP
 		memset(dataPos,'-',2); dataPos+=2;
 		memcpy(dataPos,boundary,sizeof(boundary)); dataPos+=sizeof(boundary);
 		memcpy(dataPos,"\r\nContent-Disposition: form-data; name=\"",40); dataPos+=40;
-		size_t namelen=strlen(iter->name), valuelen;
+		size_t namelen=mir_strlen(iter->name), valuelen;
 		if(!(iter->flags&HTTPFF_INT))
-			valuelen=strlen(iter->value_str);
+			valuelen=mir_strlen(iter->value_str);
 		if(iter->flags&HTTPFF_FILE){
 			const char* filename	=strrchr(iter->value_str,'\\');
 			if(!filename) filename	=strrchr(iter->value_str,'/');
 			if(!filename) filename	=iter->value_str;
 			else ++filename;
-			valuelen=strlen(filename);
+			valuelen=mir_strlen(filename);
 			HTTPFormAppendData(nlhr,&dataMax,&dataPos,NULL,namelen+13+valuelen+17);
 			memcpy(dataPos,iter->name,namelen); dataPos+=namelen;
 			memcpy(dataPos,"\"; filename=\"",13); dataPos+=13;
@@ -702,7 +702,7 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr,int requestType,char* url,HTTP
 				else if(!strcmp(fileext,".tif") || !strcmp(fileext,".tiff"))
 					mime="image/tiff";
 			}
-			HTTPFormAppendData(nlhr,&dataMax,&dataPos,mime,strlen(mime));
+			HTTPFormAppendData(nlhr,&dataMax,&dataPos,mime,mir_strlen(mime));
 			HTTPFormAppendData(nlhr,&dataMax,&dataPos,"\r\n\r\n",4);
 			/// add file content
 			size_t filesize=0;

@@ -46,9 +46,9 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			DWORD uin = *(PDWORD)dbei.pBlob;
 			MCONTACT hContact = DbGetAuthEventContact(&dbei);
 			char* nick = (char*)dbei.pBlob + sizeof(DWORD) * 2;
-			char* first = nick + strlen(nick) + 1;
-			char* last = first + strlen(first) + 1;
-			char* email = last + strlen(last) + 1;
+			char* first = nick + mir_strlen(nick) + 1;
+			char* last = first + mir_strlen(first) + 1;
+			char* email = last + mir_strlen(last) + 1;
 
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
@@ -169,10 +169,10 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			DWORD uin = *(PDWORD)dbei.pBlob;
 			MCONTACT hContact = DbGetAuthEventContact(&dbei);
 			char *nick = (char*)dbei.pBlob + sizeof(DWORD) * 2;
-			char *first = nick + strlen(nick) + 1;
-			char *last = first + strlen(first) + 1;
-			char *email = last + strlen(last) + 1;
-			char *reason = email + strlen(email) + 1;
+			char *first = nick + mir_strlen(nick) + 1;
+			char *last = first + mir_strlen(first) + 1;
+			char *email = last + mir_strlen(last) + 1;
+			char *reason = email + mir_strlen(email) + 1;
 
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));

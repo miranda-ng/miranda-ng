@@ -51,7 +51,7 @@ void do_log(const char *pszFormat, ...) {
 	EnterCriticalSection(&m_WriteFileMutex);
 	time(&lt);
 	ct=ctime(&lt);
-	ct[strlen(ct)-1]=0;
+	ct[mir_strlen(ct)-1]=0;
 	do
 	{
 		va_start(ap, pszFormat);
@@ -61,7 +61,7 @@ void do_log(const char *pszFormat, ...) {
 		{
 		  if (!(pNewBuf = (char*)realloc (m_szLogBuf, m_iBufSize*2)))
 		  {
-			  iLen = strlen (m_szLogBuf);
+			  iLen = mir_strlen (m_szLogBuf);
 			  break;
 		  }
 		  m_szLogBuf = pNewBuf;

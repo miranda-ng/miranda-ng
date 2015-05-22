@@ -163,7 +163,7 @@ int CExchangeServer::IsServerAvailable()
 		// if connected then close smtp connection by sending a quit message
 		bAvailable = 1;
 		char message[] = "quit\n";
-		send(sServer, message, (int)strlen(message), 0); 
+		send(sServer, message, (int)mir_strlen(message), 0); 
 	}
 	res = closesocket(sServer); //close the socket
 	return bAvailable;

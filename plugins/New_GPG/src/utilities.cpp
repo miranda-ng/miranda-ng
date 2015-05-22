@@ -348,7 +348,7 @@ int onProtoAck(WPARAM w, LPARAM l)
 						{ // password
 							TCHAR *pass = NULL;
 							char *keyid = UniGetContactSettingUtf(ack->hContact, szGPGModuleName, "KeyID", "");
-							if(strlen(keyid) > 0)
+							if(mir_strlen(keyid) > 0)
 							{
 								string dbsetting = "szKey_";
 								dbsetting += keyid;
@@ -397,7 +397,7 @@ int onProtoAck(WPARAM w, LPARAM l)
 							{ //save inkey id
 								string::size_type s = out.find(" encrypted with ");
 								s = out.find(" ID ", s);
-								s += strlen(" ID ");
+								s += mir_strlen(" ID ");
 								string::size_type s2 = out.find(",",s);
 								if(db_mc_isMeta(ack->hContact))
 									db_set_s(metaGetMostOnline(ack->hContact), szGPGModuleName, "InKeyID", out.substr(s, s2-s).c_str());
@@ -641,7 +641,7 @@ void HistoryLog(MCONTACT hContact, db_event evt)
 		Event.timestamp = (DWORD)time(NULL);
 	else
 		Event.timestamp = evt.timestamp;
-	Event.cbBlob = (DWORD)strlen((char*)evt.pBlob)+1;
+	Event.cbBlob = (DWORD)mir_strlen((char*)evt.pBlob)+1;
 	Event.pBlob = (PBYTE)_strdup((char*)evt.pBlob);
 	db_event_add(hContact, &Event);
 }
@@ -997,7 +997,7 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 							if(out.find("key ID ") != string::npos)
 							{
 								//need to get hcontact here, i can get jid from hxml, and get handle from jid, maybe exists better way ?
-								string::size_type p1 = out.find("key ID ") + strlen("key ID ");
+								string::size_type p1 = out.find("key ID ") + mir_strlen("key ID ");
 								string::size_type p2 = out.find("\n", p1);
 								if(p1 != string::npos && p2 != string::npos)
 								{
@@ -1187,7 +1187,7 @@ bool isGPGValid()
 	return is_valid && gpg_exists;
 }
 
-#define NEWTSTR_MALLOC(A) (A==NULL)?NULL:strcpy((char*)mir_alloc(sizeof(char)*(strlen(A)+1)),A)
+#define NEWTSTR_MALLOC(A) (A==NULL)?NULL:strcpy((char*)mir_alloc(sizeof(char)*(mir_strlen(A)+1)),A)
 
 const bool StriStr(const char *str, const char *substr)
 {
@@ -1195,8 +1195,8 @@ const bool StriStr(const char *str, const char *substr)
 	char *str_up = NEWTSTR_MALLOC(str);
 	char *substr_up = NEWTSTR_MALLOC(substr);
 
-	CharUpperBuffA(str_up, (DWORD)strlen(str_up));
-	CharUpperBuffA(substr_up, (DWORD)strlen(substr_up));
+	CharUpperBuffA(str_up, (DWORD)mir_strlen(str_up));
+	CharUpperBuffA(substr_up, (DWORD)mir_strlen(substr_up));
 
 	if(strstr (str_up, substr_up))
 		i = true;
@@ -1508,7 +1508,7 @@ void ExportGpGKeysFunc(int type)
 			std::string::size_type p1 = key.find("-----BEGIN PGP PUBLIC KEY BLOCK-----");
 			if(p1 == std::string::npos)
 				continue;
-			p1 += strlen("-----BEGIN PGP PUBLIC KEY BLOCK-----");
+			p1 += mir_strlen("-----BEGIN PGP PUBLIC KEY BLOCK-----");
 			p1 ++;
 			id += '\n';
 			key.insert(p1, id);
@@ -1589,10 +1589,10 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 		{
 			std::string::size_type p1 = 0, p2 = 0;
 			p1 = key.find("Comment: login ");
-			p1 += strlen("Comment: login ");
+			p1 += mir_strlen("Comment: login ");
 			p2 = key.find(" contact_id ");
 			login = key.substr(p1, p2-p1);
-			p2 += strlen(" contact_id ");
+			p2 += mir_strlen(" contact_id ");
 			p1 = key.find("\n", p2);
 			contact_id = key.substr(p2, p1-p2);
 			p1 = key.find("Comment: login ");
@@ -1779,7 +1779,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 								break;
 							}
 							char *tmp2;
-							string::size_type s = output.find("gpg: key ") + strlen("gpg: key ");
+							string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 							string::size_type s2 = output.find(":", s);
 							tmp2 = (char*)mir_alloc((output.substr(s,s2-s).length()+1) * sizeof(char));
 							strcpy(tmp2, output.substr(s,s2-s).c_str());

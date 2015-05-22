@@ -89,13 +89,13 @@ void CMsnProto::MSN_AddAuthRequest(const char *email, const char *nick, const ch
 
 	MCONTACT hContact = MSN_HContactFromEmail(email, nick, true, true);
 
-	int emaillen = (int)strlen(email);
+	int emaillen = (int)mir_strlen(email);
 
 	if (nick == NULL) nick = "";
-	int nicklen = (int)strlen(nick);
+	int nicklen = (int)mir_strlen(nick);
 
 	if (reason == NULL) reason = "";
-	int reasonlen = (int)strlen(reason);
+	int reasonlen = (int)mir_strlen(reason);
 
 	PROTORECVEVENT pre = { 0 };
 	pre.timestamp = (DWORD)time(NULL);
@@ -139,7 +139,7 @@ char* MSN_GetAvatarHash(char* szContext, char** pszUrl)
 
 	char *res = NULL;
 
-	ezxml_t xmli = ezxml_parse_str(NEWSTR_ALLOCA(szContext), strlen(szContext));
+	ezxml_t xmli = ezxml_parse_str(NEWSTR_ALLOCA(szContext), mir_strlen(szContext));
 	const char *szAvatarHash = ezxml_attr(xmli, "SHA1D");
 	if (szAvatarHash != NULL) {
 		unsigned hashLen;
@@ -248,13 +248,13 @@ int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
 	ezxml_t xmlp = ezxml_new("msnobj");
 
 	mir_sha1_append(&sha1ctx, (PBYTE)"Creator", 7);
-	mir_sha1_append(&sha1ctx, (PBYTE)MyOptions.szEmail, (int)strlen(MyOptions.szEmail));
+	mir_sha1_append(&sha1ctx, (PBYTE)MyOptions.szEmail, (int)mir_strlen(MyOptions.szEmail));
 	ezxml_set_attr(xmlp, "Creator", MyOptions.szEmail);
 
 	char szFileSize[20];
 	_ultoa((unsigned)cbLen, szFileSize, 10);
 	mir_sha1_append(&sha1ctx, (PBYTE)"Size", 4);
-	mir_sha1_append(&sha1ctx, (PBYTE)szFileSize, (int)strlen(szFileSize));
+	mir_sha1_append(&sha1ctx, (PBYTE)szFileSize, (int)mir_strlen(szFileSize));
 	ezxml_set_attr(xmlp, "Size", szFileSize);
 
 	mir_sha1_append(&sha1ctx, (PBYTE)"Type", 4);
@@ -262,7 +262,7 @@ int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
 	ezxml_set_attr(xmlp, "Type", "3");
 
 	mir_sha1_append(&sha1ctx, (PBYTE)"Location", 8);
-	mir_sha1_append(&sha1ctx, (PBYTE)szFname, (int)strlen(szFname));
+	mir_sha1_append(&sha1ctx, (PBYTE)szFname, (int)mir_strlen(szFname));
 	ezxml_set_attr(xmlp, "Location", szFname);
 
 	mir_sha1_append(&sha1ctx, (PBYTE)"Friendly", 8);
@@ -270,7 +270,7 @@ int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
 	ezxml_set_attr(xmlp, "Friendly", "AAA=");
 
 	mir_sha1_append(&sha1ctx, (PBYTE)"SHA1D", 5);
-	mir_sha1_append(&sha1ctx, (PBYTE)(char*)szSha1d, (int)strlen(szSha1d));
+	mir_sha1_append(&sha1ctx, (PBYTE)(char*)szSha1d, (int)mir_strlen(szSha1d));
 	ezxml_set_attr(xmlp, "SHA1D", szSha1d);
 
 	mir_sha1_finish(&sha1ctx, sha1c);
@@ -506,7 +506,7 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 		pszMsgType,
 		pszNick,
 		pszContType,
-		strlen(parMsg));
+		mir_strlen(parMsg));
 
 		if (*tFontName) buf.AppendFormat("X-MMS-IM-Format: FN=%s; EF=%s; CO=%x; CS=0; PF=31%s\r\n",
 			tFontName, tFontStyle, tFontColor, (parFlags & MSG_RTL) ? ";RL=1" : "");
@@ -530,10 +530,10 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 #ifdef OBSOLETE
 	if (netId == NETID_YAHOO || netId == NETID_MOB || (parFlags & MSG_OFFLINE))
 		seq = sendPacket("UUM", "%s %d %c %d\r\n%s%s", email, netId, msgType,
-		strlen(parMsg) + off, buf, parMsg);
+		mir_strlen(parMsg) + off, buf, parMsg);
 	else
 		seq = sendPacket("MSG", "%c %d\r\n%s%s", msgType,
-		strlen(parMsg) + off, buf, parMsg);
+		mir_strlen(parMsg) + off, buf, parMsg);
 #endif
 
 	return seq;
@@ -571,7 +571,7 @@ int ThreadData::sendRawMessage(int msgType, const char* data, int datLen)
 		data = "";
 
 	if (datLen == -1)
-		datLen = (int)strlen(data);
+		datLen = (int)mir_strlen(data);
 
 	char* buf = (char*)alloca(datLen + 100);
 
@@ -732,7 +732,7 @@ int ThreadData::sendPacket(const char* cmd, const char* fmt, ...)
 	if (strchr(str, '\r') == NULL)
 		strcat(str, "\r\n");
 
-	int result = send(str, strlen(str));
+	int result = send(str, mir_strlen(str));
 	mir_free(str);
 	return (result > 0) ? thisTrid : -1;
 }
@@ -750,7 +750,7 @@ int ThreadData::sendPacketPayload(const char* cmd, const char *param, const char
 	va_start(vararg, fmt);
 
 	thisTrid = InterlockedIncrement(&mTrid);
-	int regSz = proto->msnRegistration ? (int)strlen(proto->msnRegistration)+16 : 0;
+	int regSz = proto->msnRegistration ? (int)mir_strlen(proto->msnRegistration)+16 : 0;
 	int paramStart = mir_snprintf(str, strsize, "%s %d %s ", cmd, thisTrid, param), strszstart = 0, strSz;
 	while ((strSz = mir_vsnprintf(str + paramStart, strsize - paramStart - regSz - 10, fmt, vararg)) == -1)
 		str = (char*)mir_realloc(str, strsize += 512);
@@ -762,7 +762,7 @@ int ThreadData::sendPacketPayload(const char* cmd, const char *param, const char
 	str[strsize - 3] = 0;
 	va_end(vararg);
 
-	int result = send(str, strlen(str));
+	int result = send(str, mir_strlen(str));
 	mir_free(str);
 	return (result > 0) ? thisTrid : -1;
 }
@@ -1257,7 +1257,7 @@ char* directconnection::calcHashedNonce(UUID* nonce)
 
 	char* p;
 	UuidToStringA((UUID*)&sha, (BYTE**)&p);
-	size_t len = strlen(p) + 3;
+	size_t len = mir_strlen(p) + 3;
 	char* result = (char*)mir_alloc(len);
 	mir_snprintf(result, len, "{%s}", p);
 	_strupr(result);
@@ -1270,7 +1270,7 @@ char* directconnection::mNonceToText(void)
 {
 	char* p;
 	UuidToStringA(mNonce, (BYTE**)&p);
-	size_t len = strlen(p) + 3;
+	size_t len = mir_strlen(p) + 3;
 	char* result = (char*)mir_alloc(len);
 	mir_snprintf(result, len, "{%s}", p);
 	_strupr(result);
@@ -1282,7 +1282,7 @@ char* directconnection::mNonceToText(void)
 
 void directconnection::xNonceToBin(UUID* nonce)
 {
-	size_t len = strlen(xNonce);
+	size_t len = mir_strlen(xNonce);
 	char *p = (char*)alloca(len);
 	strcpy(p, xNonce + 1);
 	p[len - 2] = 0;
@@ -1377,8 +1377,8 @@ void MSN_MakeDigest(const char* chl, char* dgst)
 	DWORD md5hash[4], md5hashOr[4];
 	mir_md5_state_t context;
 	mir_md5_init(&context);
-	mir_md5_append(&context, (BYTE*)chl, (int)strlen(chl));
-	mir_md5_append(&context, (BYTE*)msnProtChallenge, (int)strlen(msnProtChallenge));
+	mir_md5_append(&context, (BYTE*)chl, (int)mir_strlen(chl));
+	mir_md5_append(&context, (BYTE*)msnProtChallenge, (int)mir_strlen(msnProtChallenge));
 	mir_md5_finish(&context, (BYTE*)md5hash);
 
 	memcpy(md5hashOr, md5hash, sizeof(md5hash));
@@ -1389,11 +1389,11 @@ void MSN_MakeDigest(const char* chl, char* dgst)
 
 	char chlString[128];
 	mir_snprintf(chlString, SIZEOF(chlString), "%s%s00000000", chl, msnProductID);
-	chlString[(strlen(chl) + strlen(msnProductID) + 7) & 0xF8] = 0;
+	chlString[(mir_strlen(chl) + mir_strlen(msnProductID) + 7) & 0xF8] = 0;
 
 	LONGLONG high = 0, low = 0;
 	int* chlStringArray = (int*)chlString;
-	for (i = 0; i < strlen(chlString) / 4; i += 2) {
+	for (i = 0; i < mir_strlen(chlString) / 4; i += 2) {
 		LONGLONG temp = chlStringArray[i];
 
 		temp = (0x0E79A9C1 * temp) % 0x7FFFFFFF;

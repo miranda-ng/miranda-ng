@@ -11,7 +11,7 @@ extern size_t decode_html_entities_utf8(char *dest, const char *src, size_t len)
 	the entities in-place
 
 	otherwise, the output will be placed in `dest`, which should point
-	to a buffer big enough to hold `strlen(src) + 1` characters, while
+	to a buffer big enough to hold `mir_strlen(src) + 1` characters, while
 	`src` remains unchanged
 	if `len` is given, `dest` must be at least big enough 
 	to hold `len + 1` characters.

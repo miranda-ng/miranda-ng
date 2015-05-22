@@ -37,9 +37,9 @@ BOOL __cdecl mir_bool_tstrcmpi(const TCHAR *a, const TCHAR *b)
 	return _tcsicmp(a, b) == 0;
 }
 
-#ifdef strlen
+#ifdef mir_strlen
 #undef mir_strcmp
-#undef strlen
+#undef mir_strlen
 #endif
 
 //copy len symbols from string - do not check is it null terminated or len is more then actual

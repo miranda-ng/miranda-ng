@@ -55,7 +55,7 @@ void ReadAvailableGroups()
 	{
 		mir_snprintf(tmp, SIZEOF(tmp), "%d", index);
 		GetStringFromDatabase(NULL, CLIST_GROUPS, tmp, NULL, group, sizeof(group));
-		if (strlen(group) > 0)
+		if (mir_strlen(group) > 0)
 		{
 			availableGroups.Add(_strdup(group + 1));
 			index += 1;
@@ -124,7 +124,7 @@ void CreateGroup(char *group)
 	while ((p = strchr(sub, '\\')))
 	{
 		*p = 0;
-		if (strlen(buffer) > 0)
+		if (mir_strlen(buffer) > 0)
 		{
 			strncat(buffer, "\\", SIZEOF(buffer) - mir_strlen(buffer));
 			strncat(buffer, sub, SIZEOF(buffer) - mir_strlen(buffer));
@@ -144,7 +144,7 @@ void CreateGroup(char *group)
 	
 	if (sub)
 	{
-		if (strlen(buffer) > 0)
+		if (mir_strlen(buffer) > 0)
 		{
 			strncat(buffer, "\\", SIZEOF(buffer) - mir_strlen(buffer));
 			strncat(buffer, sub, SIZEOF(buffer) - mir_strlen(buffer));
@@ -171,7 +171,7 @@ void YahooMoveCallback(MCONTACT hContact, char *unused)
 	char protocol[128] = {0};
 	GetContactProtocol(hContact, protocol, sizeof(protocol));
 	
-	if (strlen(protocol) > 0)
+	if (mir_strlen(protocol) > 0)
 	{
 		char ygroup[128] = {0};
 		

@@ -124,7 +124,7 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 
 	bool  MesExist = false;
 	ptrA  pszTemp(mir_utf8encodeT(message));
-	DWORD cbMemoLen = 10000, cbOrigLen = (DWORD)strlen(pszTemp);
+	DWORD cbMemoLen = 10000, cbOrigLen = (DWORD)mir_strlen(pszTemp);
 	BYTE *pbBuffer = (BYTE*)mir_alloc(cbMemoLen);
 	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
 		olddbei.cbBlob = db_event_getBlobSize(hDbEvent);
@@ -137,7 +137,7 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 		if (stamp > 0 && olddbei.timestamp < (DWORD)stamp)
 			break;
 
-		if ((DWORD)strlen((char*)olddbei.pBlob) == cbOrigLen && !mir_strcmp((char*)olddbei.pBlob, pszTemp)) {
+		if ((DWORD)mir_strlen((char*)olddbei.pBlob) == cbOrigLen && !mir_strcmp((char*)olddbei.pBlob, pszTemp)) {
 			MesExist = true;
 			break;
 		}

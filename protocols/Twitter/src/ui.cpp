@@ -83,7 +83,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			TCHAR tstr[128];
 
 			GetDlgItemTextA(hwndDlg, IDC_SERVER, str, SIZEOF(str) - 1);
-			if (str[strlen(str) - 1] != '/')
+			if (str[mir_strlen(str) - 1] != '/')
 				strncat(str, "/", SIZEOF(str) - mir_strlen(str));
 			db_set_s(0, proto->ModuleName(), TWITTER_KEY_BASEURL, str);
 
@@ -148,7 +148,7 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 	case WM_SETREPLY:
 		char foo[512];
 		mir_snprintf(foo, SIZEOF(foo), "@%s ", (char*)wParam);
-		size_t len = strlen(foo);
+		size_t len = mir_strlen(foo);
 
 		SetDlgItemTextA(hwndDlg, IDC_TWEETMSG, foo);
 		SendDlgItemMessage(hwndDlg, IDC_TWEETMSG, EM_SETSEL, len, len);
@@ -230,7 +230,7 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			db_set_s(0, proto->ModuleName(), TWITTER_KEY_UN, str);
 
 			GetDlgItemTextA(hwndDlg, IDC_BASEURL, str, SIZEOF(str) - 1);
-			if (str[strlen(str) - 1] != '/')
+			if (str[mir_strlen(str) - 1] != '/')
 				strncat(str, "/", SIZEOF(str) - mir_strlen(str));
 			db_set_s(0, proto->ModuleName(), TWITTER_KEY_BASEURL, str);
 

@@ -750,7 +750,7 @@ DWORD WriteStringToFile(HANDLE File, char *Source)
 	DWORD Length, WrittenBytes;
 	char null = 0;
 
-	if ((Source == NULL) || !(Length = (DWORD)strlen(Source))) {
+	if ((Source == NULL) || !(Length = (DWORD)mir_strlen(Source))) {
 		if (!WriteFile(File, &null, 1, &WrittenBytes, NULL)) {
 			CloseHandle(File);
 			return EACC_SYSTEM;

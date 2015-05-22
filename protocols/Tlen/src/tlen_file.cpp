@@ -79,9 +79,9 @@ static void TlenFileReceiveParse(TLEN_FILE_TRANSFER *ft)
 			TlenP2PPacketSend(ft->s, packet);
 			TlenP2PPacketFree(packet);
 
-			fullFileName = (char *) mir_alloc(strlen(ft->szSavePath) + strlen(ft->files[ft->currentFile]) + 2);
+			fullFileName = (char *) mir_alloc(mir_strlen(ft->szSavePath) + mir_strlen(ft->files[ft->currentFile]) + 2);
 			strcpy(fullFileName, ft->szSavePath);
-			if (fullFileName[strlen(fullFileName)-1] != '\\')
+			if (fullFileName[mir_strlen(fullFileName)-1] != '\\')
 				strcat(fullFileName, "\\");
 			strcat(fullFileName, ft->files[ft->currentFile]);
 			ft->fileId = _open(fullFileName, _O_BINARY|_O_WRONLY|_O_CREAT|_O_TRUNC, _S_IREAD|_S_IWRITE);

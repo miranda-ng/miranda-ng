@@ -157,9 +157,9 @@ void MDatabaseCache::SetCachedVariant(DBVARIANT* s /* new */, DBVARIANT* d /* ca
 	memcpy(d, s, sizeof(DBVARIANT));
 	if ((s->type == DBVT_UTF8 || s->type == DBVT_ASCIIZ) && s->pszVal != NULL) {
 		if (szSave != NULL)
-			d->pszVal = (char*)HeapReAlloc(m_hCacheHeap, 0, szSave, strlen(s->pszVal) + 1);
+			d->pszVal = (char*)HeapReAlloc(m_hCacheHeap, 0, szSave, mir_strlen(s->pszVal) + 1);
 		else
-			d->pszVal = (char*)HeapAlloc(m_hCacheHeap, 0, strlen(s->pszVal) + 1);
+			d->pszVal = (char*)HeapAlloc(m_hCacheHeap, 0, mir_strlen(s->pszVal) + 1);
 		strcpy(d->pszVal, s->pszVal);
 	}
 	else if (szSave != NULL)

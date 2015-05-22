@@ -86,7 +86,7 @@ static INT_PTR DbEventTypeGet(WPARAM wParam, LPARAM lParam)
 static TCHAR* getEventString(DBEVENTINFO *dbei, LPSTR &buf)
 {
 	LPSTR in = buf;
-	buf += strlen(buf) + 1;
+	buf += mir_strlen(buf) + 1;
 	return (dbei->flags & DBEF_UTF) ? Utf8DecodeT(in) : mir_a2t(in);
 }
 

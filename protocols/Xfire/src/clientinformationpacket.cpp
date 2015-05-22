@@ -39,17 +39,17 @@ namespace xfirelib {
 	packet[index++] = 0x01;
 	packet[index++] = (char)skins;
 	packet[index++] = 0x00;
-	packet[index++] = strlen("Standard");
+	packet[index++] = mir_strlen("Standard");
 	packet[index++] = 0x00;
 	
-	memcpy(packet+index,"Standard",strlen("Standard"));/*add first skin name*/
-	index += strlen("Standard");
+	memcpy(packet+index,"Standard",mir_strlen("Standard"));/*add first skin name*/
+	index += mir_strlen("Standard");
 	
-	packet[index++] = strlen("XFire");
+	packet[index++] = mir_strlen("XFire");
 	packet[index++] = 0x00;
 	
-	memcpy(packet+index,"XFire",strlen("XFire"));/*add second skin name*/
-	index += strlen("XFire");	
+	memcpy(packet+index,"XFire",mir_strlen("XFire"));/*add second skin name*/
+	index += mir_strlen("XFire");	
 
 	VariableValue val;
 	val.setName( "version" );

@@ -138,7 +138,7 @@ void FillIEViewInfo(IEVIEWEVENTDATA *fillData, DBEVENTINFO dbInfo, PBYTE blob)
 	fillData->bIsMe = (dbInfo.flags & DBEF_SENT);
 	fillData->dwFlags = (dbInfo.flags & DBEF_SENT) ? IEEDF_SENT : 0;
 	fillData->time = dbInfo.timestamp;
-	size_t len = strlen((char *)blob) + 1;
+	size_t len = mir_strlen((char *)blob) + 1;
 	PBYTE pos;
 
 	fillData->pszText = (char *)blob;

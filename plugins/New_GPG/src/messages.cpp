@@ -187,7 +187,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 					{ //save inkey id
 						string::size_type s = out.find(" encrypted with ");
 						s = out.find(" ID ", s);
-						s += strlen(" ID ");
+						s += mir_strlen(" ID ");
 						string::size_type s2 = out.find(",",s);
 						db_set_s(db_mc_isMeta(hContact)?metaGetMostOnline(hContact):hContact, szGPGModuleName, "InKeyID", out.substr(s, s2-s).c_str());
 					}
@@ -420,7 +420,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 				}
 				{
 					char *tmp = NULL;
-					string::size_type s = output.find("gpg: key ") + strlen("gpg: key ");
+					string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 					string::size_type s2 = output.find(":", s);
 					db_set_s(ccs->hContact, szGPGModuleName, "KeyID", output.substr(s,s2-s).c_str());
 					s2+=2;

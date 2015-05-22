@@ -34,7 +34,7 @@ void __cdecl CAimProto::avatar_request_thread(void* param)
 		}
 		char type = getByte(hContact, AIM_KEY_AHT, 1);
 
-		size_t len = (strlen(hash_str) + 1) / 2;
+		size_t len = (mir_strlen(hash_str) + 1) / 2;
 		char* hash = (char*)alloca(len);
 		string_to_bytes(hash_str, hash);
 		debugLogA("Requesting an Avatar: %s (Hash: %s)", sn, hash_str);

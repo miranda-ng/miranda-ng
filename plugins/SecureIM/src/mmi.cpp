@@ -23,8 +23,8 @@ void operator delete[](void *p)
 // ANSIzUCS2z + ANSIzUCS2z = ANSIzUCS2z
 char* m_wwstrcat(LPCSTR strA, LPCSTR strB)
 {
-	int lenA = (int)strlen(strA);
-	int lenB = (int)strlen(strB);
+	int lenA = (int)mir_strlen(strA);
+	int lenB = (int)mir_strlen(strB);
 	LPSTR str = (LPSTR)mir_alloc((lenA + lenB + 1)*(sizeof(WCHAR) + 1));
 	memcpy(str, strA, lenA);
 	memcpy(str + lenA, strB, lenB + 1);
@@ -36,7 +36,7 @@ char* m_wwstrcat(LPCSTR strA, LPCSTR strB)
 // ANSIz + ANSIzUCS2z = ANSIzUCS2z
 char* m_awstrcat(LPCSTR strA, LPCSTR strB)
 {
-	int lenA = (int)strlen(strA);
+	int lenA = (int)mir_strlen(strA);
 	LPSTR tmpA = (LPSTR)mir_alloc((lenA + 1)*(sizeof(WCHAR) + 1));
 	strcpy(tmpA, strA);
 	MultiByteToWideChar(CP_ACP, 0, strA, -1, (LPWSTR)(tmpA + lenA + 1), (lenA + 1)*sizeof(WCHAR));
@@ -48,8 +48,8 @@ char* m_awstrcat(LPCSTR strA, LPCSTR strB)
 // ANSIz + ANSIz = ANSIzUCS2z
 char* m_aastrcat(LPCSTR strA, LPCSTR strB)
 {
-	int lenA = (int)strlen(strA);
-	int lenB = (int)strlen(strB);
+	int lenA = (int)mir_strlen(strA);
+	int lenB = (int)mir_strlen(strB);
 	LPSTR str = (LPSTR)mir_alloc((lenA + lenB + 1)*(sizeof(WCHAR) + 1));
 	strcpy(str, strA);
 	strcat(str, strB);
@@ -63,7 +63,7 @@ LPSTR m_string = NULL;
 char* m_ustrcat(LPCSTR strA, LPCSTR strB)
 {
 	SAFE_FREE(m_string);
-	m_string = (LPSTR)mir_alloc(strlen(strA) + strlen(strB) + 1);
+	m_string = (LPSTR)mir_alloc(mir_strlen(strA) + mir_strlen(strB) + 1);
 	strcpy(m_string, strA); strcat(m_string, strB);
 	return m_string;
 }

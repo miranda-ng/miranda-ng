@@ -350,7 +350,7 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 				
 				if (Line[1] != '/')  {	// if it is not a footer (for old ini)
 					// save the group name
-					Temp = (char *)mir_alloc(strlen(Line)+10);
+					Temp = (char *)mir_alloc(mir_strlen(Line)+10);
 					strncpy(Temp, Line+1, chop-Line-1);
 					Temp[chop-Line-1] = 0;
 					wfree(&Group);
@@ -380,7 +380,7 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 			if (Value == NULL)	continue;
 
 			// get the string before '=' (ValName) and after '=' (Value)
-			ValName = (char *)mir_alloc(strlen(Line)+1);
+			ValName = (char *)mir_alloc(mir_strlen(Line)+1);
 			strncpy(ValName, Line, Value-Line);
 			ValName[Value-Line] = 0;
 			Value++;
@@ -470,7 +470,7 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 				}
 			}
 			// recalculate memory used
-			Data->MemUsed += (strlen(Value) + 10);
+			Data->MemUsed += (mir_strlen(Value) + 10);
 			wfree(&ValName);
 		}
 		// calcualate memory used for the ini and close the file

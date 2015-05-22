@@ -69,7 +69,7 @@ void CheckMailInbox(Account *curAcc)
 		*tail = '\0';
 		mir_strcat(requestBuffer, "&password=");
 		mir_strcat(requestBuffer, curAcc->pass);
-		if (!HttpSendRequestA(hHTTPRequest, contentType, (int)strlen(contentType) + 1, requestBuffer, (int)strlen(requestBuffer) + 1)) {
+		if (!HttpSendRequestA(hHTTPRequest, contentType, (int)mir_strlen(contentType) + 1, requestBuffer, (int)mir_strlen(requestBuffer) + 1)) {
 			mir_strcpy(curAcc->results.content, Translate("Can't send account data!"));
 			goto error_handle;
 		}
@@ -92,8 +92,8 @@ void CheckMailInbox(Account *curAcc)
 	else mir_strcpy(str, "/mail/feed/atom");
 
 	hHTTPRequest = HttpOpenRequest(hHTTPConnection, _T("GET"), _A2T(str), NULL, NULL, NULL, INTERNET_FLAG_SECURE | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD, 0);
-	InternetSetOption(hHTTPRequest, INTERNET_OPTION_USERNAME, _A2T(curAcc->name), (int)strlen(curAcc->name) + 1);
-	InternetSetOption(hHTTPRequest, INTERNET_OPTION_PASSWORD, _A2T(curAcc->pass), (int)strlen(curAcc->pass) + 1);
+	InternetSetOption(hHTTPRequest, INTERNET_OPTION_USERNAME, _A2T(curAcc->name), (int)mir_strlen(curAcc->name) + 1);
+	InternetSetOption(hHTTPRequest, INTERNET_OPTION_PASSWORD, _A2T(curAcc->pass), (int)mir_strlen(curAcc->pass) + 1);
 	if (!HttpSendRequest(hHTTPRequest, NULL, 0, NULL, 0)) {
 		mir_strcat(curAcc->results.content, Translate("Can't get RSS feed!"));
 		goto error_handle;

@@ -51,7 +51,7 @@ void GetLoginStr(char* user, size_t szuser, char* pass)
 		mir_md5_state_t context;
 
 		mir_md5_init(&context);
-		mir_md5_append(&context, (BYTE*)dbv.pszVal, (int)strlen(dbv.pszVal));
+		mir_md5_append(&context, (BYTE*)dbv.pszVal, (int)mir_strlen(dbv.pszVal));
 		mir_md5_finish(&context, hash);
 
 		arrayToHex(hash, sizeof(hash), pass);
@@ -118,7 +118,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 	nlhr.headers[5].szValue = auth;
 
 	nlhr.pData = szReq->buf;
-	nlhr.dataLength = (int)strlen(szReq->buf);
+	nlhr.dataLength = (int)mir_strlen(szReq->buf);
 
 	while (result == 0xBADBAD) {
 		// download the page
@@ -164,11 +164,11 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 							const char* szPref = strstr(szUrl, "://");
 							szPref = szPref ? szPref + 3 : szUrl;
 							szPath = strchr(szPref, '/');
-							rlen = szPath != NULL ? szPath - szUrl : strlen(szUrl);
+							rlen = szPath != NULL ? szPath - szUrl : mir_strlen(szUrl);
 						}
 
 						szRedirUrl = (char*)mir_realloc(szRedirUrl,
-							rlen + strlen(nlhrReply->headers[i].szValue) * 3 + 1);
+							rlen + mir_strlen(nlhrReply->headers[i].szValue) * 3 + 1);
 
 						strncpy(szRedirUrl, szUrl, rlen);
 						strcpy(szRedirUrl + rlen, nlhrReply->headers[i].szValue);

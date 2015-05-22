@@ -125,7 +125,7 @@ BYTE* CStdCrypt::encodeString(const char *src, size_t *cbResultLen)
 		return NULL;
 	}
 
-	return encodeBuffer(src, strlen(src)+1, cbResultLen);
+	return encodeBuffer(src, mir_strlen(src)+1, cbResultLen);
 }
 
 BYTE* CStdCrypt::encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen)

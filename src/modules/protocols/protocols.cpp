@@ -130,7 +130,7 @@ static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
 	dbei.szModule = GetContactProto(ccs->hContact);
 	dbei.timestamp = pre->timestamp;
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = (DWORD)strlen(pre->szMessage) + 1;
+	dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;
 	dbei.pBlob = (PBYTE)pre->szMessage;
 
 	if (pre->cbCustomDataSize != 0) {

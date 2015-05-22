@@ -161,7 +161,7 @@ BYTE CExImContactBase::fromIni(LPSTR& row)
 	LPSTR p1, p2 = NULL;
 	LPSTR pszUIDValue, pszUIDSetting, pszProto = NULL;
 	LPSTR pszBuf = &row[0];
-	size_t cchBuf = strlen(row);
+	size_t cchBuf = mir_strlen(row);
 
 	MIR_FREE(_pszProtoOld);
 	MIR_FREE(_pszProto);
@@ -207,7 +207,7 @@ BYTE CExImContactBase::fromIni(LPSTR& row)
 
 	// create valid nickname
 	_pszNick = mir_strdup(pszBuf);
-	size_t i = strlen(_pszNick)-1;
+	size_t i = mir_strlen(_pszNick)-1;
 	while (i > 0 && (_pszNick[i] == ' ' || _pszNick[i] == '\t')) {
 		_pszNick[i] = 0;
 		i--;

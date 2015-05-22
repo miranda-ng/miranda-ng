@@ -626,7 +626,7 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dbei.flags = DBEF_SENT;
 			dbei.szModule = GetContactProto(dat->hContact);
 			dbei.timestamp = time(NULL);
-			dbei.cbBlob = (DWORD)(strlen(dat->sendBuffer)+strlen(dat->sendBuffer+strlen(dat->sendBuffer)+1)+2);
+			dbei.cbBlob = (DWORD)(mir_strlen(dat->sendBuffer)+mir_strlen(dat->sendBuffer+mir_strlen(dat->sendBuffer)+1)+2);
 			dbei.pBlob = (PBYTE)dat->sendBuffer;
 			db_event_add(dat->hContact, &dbei);
 			KillTimer(hwndDlg, 0);

@@ -38,7 +38,7 @@ static DBEvent* dbePrevEvent = NULL;
 
 void CDb3Mmap::ConvertOldEvent(DBEvent*& dbei)
 {
-	int msglen = (int)strlen((char*)dbei->blob) + 1, msglenW = 0;
+	int msglen = (int)mir_strlen((char*)dbei->blob) + 1, msglenW = 0;
 	if (msglen != (int)dbei->cbBlob) {
 		int count = ((dbei->cbBlob - msglen) / sizeof(WCHAR));
 		WCHAR* p = (WCHAR*)&dbei->blob[msglen];
@@ -59,7 +59,7 @@ void CDb3Mmap::ConvertOldEvent(DBEvent*& dbei)
 		if (utf8str == NULL)
 			return;
 
-		dbei->cbBlob = (DWORD)strlen(utf8str) + 1;
+		dbei->cbBlob = (DWORD)mir_strlen(utf8str) + 1;
 		dbei->flags |= DBEF_UTF;
 		if (offsetof(DBEvent, blob) + dbei->cbBlob > memsize) {
 			memsize = offsetof(DBEvent, blob) + dbei->cbBlob;

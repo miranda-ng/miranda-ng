@@ -68,7 +68,7 @@ void CToxProto::BootstrapNodesFromIni(bool isIPv6)
 					BootstrapNode(address, port, pubKey);
 				}
 			}
-			section += strlen(section) + 1;
+			section += mir_strlen(section) + 1;
 		}
 	}
 }

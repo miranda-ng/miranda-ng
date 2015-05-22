@@ -184,7 +184,7 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
 
 	if (db_get_b(NULL, m_szModuleName, "SavePassword", TRUE) == TRUE)
 		password = db_get_sa(NULL, m_szModuleName, "Password");
-	else if (threadData != NULL && strlen(threadData->password) > 0)
+	else if (threadData != NULL && mir_strlen(threadData->password) > 0)
 		password = mir_strdup(threadData->password);
 
 	memset(&cookie, 0, sizeof(cookie));
@@ -199,7 +199,7 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
 		req.headersCount = 1;
 		req.headers = headers;
 		req.pData = form;
-		req.dataLength = (int)strlen(form);
+		req.dataLength = (int)mir_strlen(form);
 		req.szUrl = "http://poczta.o2.pl/login.html";
 		resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 		if (resp != NULL) {
@@ -212,7 +212,7 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
 							char *end = strstr(resp->headers[i].szValue, ";");
 							start = start + 5;
 							if (end == NULL) {
-								end = resp->headers[i].szValue + strlen(resp->headers[i].szValue);
+								end = resp->headers[i].szValue + mir_strlen(resp->headers[i].szValue);
 							}
 							strncpy(cookie, start, (end - start));
 							break;
@@ -261,7 +261,7 @@ void TlenProtocol::initMenuItems()
 {
 	char text[_MAX_PATH];
 	strncpy_s(text, sizeof(text), m_szModuleName, _TRUNCATE);
-	char *pSvcName = text + strlen(text);
+	char *pSvcName = text + mir_strlen(text);
 
 	CLISTMENUITEM mi = { sizeof(mi) }, clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_FLAGS | CMIF_GRAYED;

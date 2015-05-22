@@ -75,7 +75,7 @@ public:
 	void Module(const char* val)
 	{
 		if (val)
-			strncpy_s(m_szModule,val,strlen(val));
+			strncpy_s(m_szModule,val,mir_strlen(val));
 		else
 			m_szModule[0] = '\0';
 	}
@@ -180,7 +180,7 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 						const char szSkypeCmdSetStatus[] = "SET USERSTATUS ";
 						::strncpy_s(szSkypeCmd,szSkypeCmdSetStatus,sizeof(szSkypeCmdSetStatus)/sizeof(szSkypeCmdSetStatus[0]));
 						::strncat_s(szSkypeCmd, ms.m_pszSkypeStatus, SIZEOF(szSkypeCmd) - mir_strlen(szSkypeCmd));
-						DWORD cLength = static_cast<DWORD>(strlen(szSkypeCmd));
+						DWORD cLength = static_cast<DWORD>(mir_strlen(szSkypeCmd));
 
 						COPYDATASTRUCT oCopyData;
 						oCopyData.dwData=0;
@@ -204,7 +204,7 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 								::strncat_s(szSkypeCmd, pMsg, SIZEOF(szSkypeCmd) - mir_strlen(szSkypeCmd));
 								mir_free(pMsg);
 										
-								DWORD cLength = static_cast<DWORD>(strlen(szSkypeCmd));
+								DWORD cLength = static_cast<DWORD>(mir_strlen(szSkypeCmd));
 
 								oCopyData.dwData=0;
 								oCopyData.lpData = szSkypeCmd;

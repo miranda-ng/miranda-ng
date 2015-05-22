@@ -1763,7 +1763,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 					ptrA lpbBuffer(mir_u2a_cp(wszMessage, MRA_CODE_PAGE));
 					pre.flags = 0;
 					pre.szMessage = (LPSTR)lpbBuffer;
-					pre.lParam = strlen(lpbBuffer);
+					pre.lParam = mir_strlen(lpbBuffer);
 
 					LPSTR lpbBufferCurPos = lpbBuffer;
 					while (TRUE) { // цикл замены ; на 0

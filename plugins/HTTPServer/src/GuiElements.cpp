@@ -63,7 +63,7 @@ string sPageKeyword = szDefaultPageKeyword;
 
 void ReplaceAll(string &sSrc, const char * pszReplace, const string &sNew) {
 	string::size_type nCur = 0;
-	int nRepalceLen = (int)strlen(pszReplace);
+	int nRepalceLen = (int)mir_strlen(pszReplace);
 	while ((nCur = sSrc.find(pszReplace, nCur)) != sSrc.npos) {
 		sSrc.replace(nCur, nRepalceLen, sNew);
 		nCur += sNew.size();
@@ -164,7 +164,7 @@ unsigned long GetExternIP(const char *szURL, const char *szPattern) {
 			if (pszIp == NULL)
 				pszIp = nlreply->pData;
 			else
-				pszIp += strlen(szPattern);
+				pszIp += mir_strlen(szPattern);
 			while ((*pszIp < '0' || *pszIp > '9') && *pszIp)
 				pszIp++;
 
@@ -291,7 +291,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 						// a file was selected
 
 						// only reenable windows / set default values when a folder was selected before
-						if (pstShare->pszSrvPath[strlen(pstShare->pszSrvPath)-1] == '/') {
+						if (pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath)-1] == '/') {
 							pNotify->lpOFN->Flags |= OFN_FILEMUSTEXIST;
 							EnableWindow(hFileName, TRUE);
 							EnableWindow(GetDlgItem(hDlg, IDC_MAX_DOWNLOADS), TRUE);
@@ -319,9 +319,9 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 						if (pszTmp != NULL)
 							*pszTmp = '\0';
 
-						memmove(&szSelection[1], pszFolder, strlen(pszFolder) + 1);
+						memmove(&szSelection[1], pszFolder, mir_strlen(pszFolder) + 1);
 						szSelection[0] = '/';
-						if (szSelection[strlen(szSelection)-1] != '/')
+						if (szSelection[mir_strlen(szSelection)-1] != '/')
 							strcat(szSelection, "/");
 
 						// only write to IDC_SHARE_NAME when a file / other folder was selected before
@@ -352,11 +352,11 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 					char* pszTmp = strstr(pstShare->pszRealPath, pszShareDirStr);
 					if (pszTmp) {
 						*pszTmp = '\0';
-						if (pstShare->pszSrvPath[strlen(pstShare->pszSrvPath)-1] != '/')
+						if (pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath)-1] != '/')
 							strcat(pstShare->pszSrvPath, "/");
 					} else {
-						if (pstShare->pszSrvPath[strlen(pstShare->pszSrvPath)-1] == '/')
-							pstShare->pszSrvPath[strlen(pstShare->pszSrvPath)-1] = '\0';
+						if (pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath)-1] == '/')
+							pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath)-1] = '\0';
 					}
 
 					BOOL bTranslated = false;
@@ -369,7 +369,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 
 					//if( ! (pstShare->dwAllowedIP & pstShare->dwAllowedMask)
 
-					if (!bTranslated || (strlen(pstShare->pszSrvPath) <= 0)) {
+					if (!bTranslated || (mir_strlen(pstShare->pszSrvPath) <= 0)) {
 						SetWindowLongPtr(hDlg, DWLP_MSGRESULT, 1);
 						return true;
 					}
@@ -442,7 +442,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare) {
 	ofn.nMaxFile = pstNewShare->dwMaxRealPath;
 
 	char szInitialDir[MAX_PATH];
-	if (ofn.lpstrFile[strlen(ofn.lpstrFile)-1] == '\\') {
+	if (ofn.lpstrFile[mir_strlen(ofn.lpstrFile)-1] == '\\') {
 		ofn.lpstrInitialDir = szInitialDir;
 		strcpy(szInitialDir, ofn.lpstrFile);
 		*ofn.lpstrFile = '\0';
@@ -476,7 +476,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare) {
 		// terminate it with \0 append to realpath and add the share		
 		char* pszFileNamePos = pstNewShare->pszSrvPath;
 		char* szRealDirectoryEnd = 
-			&pstNewShare->pszRealPath[strlen(pstNewShare->pszRealPath)];
+			&pstNewShare->pszRealPath[mir_strlen(pstNewShare->pszRealPath)];
 
 		*szRealDirectoryEnd = '\\';
 		szRealDirectoryEnd++;

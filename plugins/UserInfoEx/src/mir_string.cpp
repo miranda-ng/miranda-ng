@@ -25,7 +25,7 @@ char* mir_strncat_c(char *pszDest, const char cSrc)
 {
 	size_t size = 2;
 	if (pszDest != NULL)
-		size += strlen(pszDest); //cSrc = 1 + 1 forNULL temination 
+		size += mir_strlen(pszDest); //cSrc = 1 + 1 forNULL temination 
 
 	char *pszRet = (char *)mir_realloc(pszDest, (sizeof(char) * size));
 	if (pszRet == NULL)
@@ -54,7 +54,7 @@ wchar_t* mir_wcsncat_c(wchar_t *pwszDest, const wchar_t wcSrc)
 char* mir_strnerase(char *pszDest, size_t sizeFrom, size_t sizeTo)
 {
 	char *pszReturn = NULL;
-	size_t sizeNew, sizeLen = strlen(pszDest);
+	size_t sizeNew, sizeLen = mir_strlen(pszDest);
 	if (sizeFrom >= 0 && sizeFrom < sizeLen && sizeTo >= 0 && sizeTo <= sizeLen && sizeFrom < sizeTo) {
 		sizeNew = sizeLen - (sizeTo - sizeFrom);
 		size_t sizeCopy = sizeNew - sizeFrom;

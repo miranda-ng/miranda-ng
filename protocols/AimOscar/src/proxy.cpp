@@ -137,7 +137,7 @@ void __cdecl CAimProto::aim_proxy_helper(void* param)
 
 int proxy_initialize_send(HANDLE connection, char* sn, char* cookie)
 {
-	const char sn_length = (char)strlen(sn);
+	const char sn_length = (char)mir_strlen(sn);
 	const int len = sn_length + 21 + TLV_HEADER_SIZE + AIM_CAPS_LENGTH;
 
 	char* buf= (char*)alloca(len);
@@ -155,7 +155,7 @@ int proxy_initialize_send(HANDLE connection, char* sn, char* cookie)
 
 int proxy_initialize_recv(HANDLE connection,char* sn, char* cookie,unsigned short port_check)
 {
-	const char sn_length = (char)strlen(sn);
+	const char sn_length = (char)mir_strlen(sn);
 	const int len = sn_length + 23 + TLV_HEADER_SIZE + AIM_CAPS_LENGTH;
 
 	char* buf= (char*)alloca(len);

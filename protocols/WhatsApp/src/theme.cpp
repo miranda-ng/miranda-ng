@@ -49,7 +49,7 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 {
 	char text[200];
 	strcpy(text, m_szModuleName);
-	char *tDest = text + strlen(text);
+	char *tDest = text + mir_strlen(text);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = text;

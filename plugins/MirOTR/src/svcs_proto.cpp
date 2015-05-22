@@ -137,7 +137,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 		msg_free = mir_free;
 	}
 	if (options.prefix_messages) {
-		size_t len = (strlen(options.prefix)+strlen(newmessage)+1)*sizeof(char);
+		size_t len = (mir_strlen(options.prefix)+mir_strlen(newmessage)+1)*sizeof(char);
 		char* tmp = (char*)mir_alloc( len );
 		strcpy(tmp, options.prefix);
 		strcat(tmp, newmessage);

@@ -97,8 +97,8 @@ void DebugLog(HANDLE File,const char *fmt,...)
 		str=(char *)realloc(str,strsize+=65536);
 	va_end(vararg);
 	EnterCriticalSection(&FileAccessCS);
-	WriteFile(File,tids,(DWORD)strlen(tids),&Written,NULL);
-	WriteFile(File,str,(DWORD)strlen(str),&Written,NULL);
+	WriteFile(File,tids,(DWORD)mir_strlen(tids),&Written,NULL);
+	WriteFile(File,str,(DWORD)mir_strlen(str),&Written,NULL);
 	LeaveCriticalSection(&FileAccessCS);
 	free(str);
 }
@@ -118,7 +118,7 @@ void DebugLogW(HANDLE File,const WCHAR *fmt,...)
 		str=(WCHAR *)realloc(str,(strsize+=65536)*sizeof(WCHAR));
 	va_end(vararg);
 	EnterCriticalSection(&FileAccessCS);
-	WriteFile(File,tids,(DWORD)strlen(tids),&Written,NULL);
+	WriteFile(File,tids,(DWORD)mir_strlen(tids),&Written,NULL);
 	WriteFile(File,str,(DWORD)wcslen(str)*sizeof(WCHAR),&Written,NULL);
 	LeaveCriticalSection(&FileAccessCS);
 	free(str);

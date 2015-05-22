@@ -103,7 +103,7 @@ void CDropbox::RequestAccountInfo()
 			ptrW isocodeW(json_as_string(node));
 			ptrA isocode(mir_u2a(isocodeW));
 
-			if (!strlen(isocode))
+			if (!mir_strlen(isocode))
 				db_unset(hContact, MODULE, "Country");
 			else
 			{

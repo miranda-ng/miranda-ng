@@ -18,7 +18,7 @@ namespace SteamWebApi
 				steamId,
 				cookie);
 
-			SetData(data, strlen(data));
+			SetData(data, mir_strlen(data));
 		}
 	};
 }

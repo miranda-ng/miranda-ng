@@ -92,13 +92,13 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 	// add to miranda
 	if (new_contact) db_set_utf(hContact, m_szModuleName, "stid", id);
 
-	if (name && strlen(name))
+	if (name && mir_strlen(name))
 		db_set_utf(hContact, m_szModuleName, "Name", name);
 
-	if (nick && strlen(nick)) {
+	if (nick && mir_strlen(nick)) {
 		db_set_utf(hContact, m_szModuleName, "Nick", nick);
 	}
-	else if (name && strlen(name)) {
+	else if (name && mir_strlen(name)) {
 		db_set_utf(hContact, m_szModuleName, "Nick", name);
 	}
 	else {
@@ -731,7 +731,7 @@ void mwResolve_handler_details_callback(mwServiceResolve* srvc, guint32 id, guin
 				MCONTACT hContact = proto->FindContactByUserId(((mwResolveMatch*)mri->data)->id);
 				if (hContact) {
 					char* name = ((mwResolveMatch*)mri->data)->name;
-					if (name && strlen(name)) {
+					if (name && mir_strlen(name)) {
 						db_set_utf(hContact, proto->m_szModuleName, "Name", name);
 						db_set_utf(hContact, proto->m_szModuleName, "Nick", name);
 						db_set_utf(hContact, "CList", "MyHandle", name);

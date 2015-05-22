@@ -1606,14 +1606,14 @@ LPSTR LoadKeys(LPCSTR file, BOOL priv)
 	LPSTR keys = (LPSTR)mir_alloc(flen + 1);
 	int i = 0; BOOL b = false;
 	while (fgets(keys + i, 128, f)) {
-		if (!b && strncmp(keys + i, beg, strlen(beg)) == 0)
+		if (!b && strncmp(keys + i, beg, mir_strlen(beg)) == 0)
 			b = true;
-		else if (b && strncmp(keys + i, end, strlen(end)) == 0) {
-			i += (int)strlen(keys + i);
+		else if (b && strncmp(keys + i, end, mir_strlen(end)) == 0) {
+			i += (int)mir_strlen(keys + i);
 			b = false;
 		}
 		if (b)
-			i += (int)strlen(keys + i);
+			i += (int)mir_strlen(keys + i);
 	}
 	*(keys + i) = '\0';
 	fclose(f);
@@ -1642,7 +1642,7 @@ BOOL SaveExportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 	FILE *f = _tfopen(szFile, _T("wb"));
 	if (!f)
 		return FALSE;
-	fwrite(key, strlen(key), 1, f);
+	fwrite(key, mir_strlen(key), 1, f);
 	fclose(f);
 
 	return TRUE;

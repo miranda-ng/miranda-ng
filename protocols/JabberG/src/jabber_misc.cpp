@@ -83,14 +83,14 @@ void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
-	dbei.cbBlob = (DWORD)(sizeof(DWORD)*2 + strlen(szNick) + strlen(szJid) + 5);
+	dbei.cbBlob = (DWORD)(sizeof(DWORD)*2 + mir_strlen(szNick) + mir_strlen(szJid) + 5);
 	PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 	*((PDWORD)pCurBlob) = 0; pCurBlob += sizeof(DWORD);
 	*((PDWORD)pCurBlob) = (DWORD)hContact; pCurBlob += sizeof(DWORD);
-	strcpy((char*)pCurBlob, szNick); pCurBlob += strlen(szNick)+1;
+	strcpy((char*)pCurBlob, szNick); pCurBlob += mir_strlen(szNick)+1;
 	*pCurBlob = '\0'; pCurBlob++;		//firstName
 	*pCurBlob = '\0'; pCurBlob++;		//lastName
-	strcpy((char*)pCurBlob, szJid); pCurBlob += strlen(szJid)+1;
+	strcpy((char*)pCurBlob, szJid); pCurBlob += mir_strlen(szJid)+1;
 	*pCurBlob = '\0';					//reason
 
 	db_event_add(NULL, &dbei);

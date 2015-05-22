@@ -211,7 +211,7 @@ static void ConvertBackslashes(char *str, UINT fileCp)
 			case 'r': *pstr = '\r'; break;
 			default:  *pstr = pstr[1]; break;
 			}
-			memmove(pstr + 1, pstr + 2, strlen(pstr + 2) + 1);
+			memmove(pstr + 1, pstr + 2, mir_strlen(pstr + 2) + 1);
 		}
 	}
 }

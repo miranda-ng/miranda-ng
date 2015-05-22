@@ -963,7 +963,7 @@ int CRijndael::MakeKey(BYTE const* key, char const* chain, int keylength, int bl
 	m_keylength = keylength;
 	m_blockSize = blockSize;
 	//Initialize the chain
-	size_t len = strlen(chain);
+	size_t len = mir_strlen(chain);
 	if (len >= m_blockSize)
 		memcpy(m_chain0, chain, m_blockSize);
 	else {

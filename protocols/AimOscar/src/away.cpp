@@ -49,12 +49,12 @@ int CAimProto::aim_set_away(HANDLE hServerConn, unsigned short &seqno, const cha
 		if (!amsg) return -1;
 		setDword(AIM_KEY_LA, (DWORD)time(NULL));
 		html_msg = html_encode(amsg && amsg[0] ? amsg : DEFAULT_AWAY_MSG);
-		msg_size = strlen(html_msg);
+		msg_size = mir_strlen(html_msg);
 	}
 
 	aimString str(html_msg);
 	const char *charset = str.isUnicode() ? AIM_MSG_TYPE_UNICODE : AIM_MSG_TYPE;
-	const unsigned short charset_len = (unsigned short)strlen(charset);
+	const unsigned short charset_len = (unsigned short)mir_strlen(charset);
 
 	const char* msg = str.getBuf();
 	const unsigned short msg_len = str.getSize();
@@ -108,7 +108,7 @@ int CAimProto::aim_set_statusmsg(HANDLE hServerConn, unsigned short &seqno, cons
 int CAimProto::aim_query_away_message(HANDLE hServerConn, unsigned short &seqno, const char* sn)
 {
 	unsigned short offset = 0;
-	unsigned short sn_length = (unsigned short)strlen(sn);
+	unsigned short sn_length = (unsigned short)mir_strlen(sn);
 	char *buf = (char*)alloca(SNAC_SIZE + 5 + sn_length);
 	aim_writesnac(0x02, 0x15, offset, buf);
 	aim_writegeneric(4, "\0\0\0\x02", offset, buf);

@@ -246,7 +246,7 @@ static TCHAR *getTokenCategory(TOKENREGISTEREX *tr) {
 	while (*cur != 0) {
 		if (*cur == '\t') {
 			*cur = 0;
-			helpText = ( char* )mir_realloc(helpText, strlen(helpText)+1);
+			helpText = ( char* )mir_realloc(helpText, mir_strlen(helpText)+1);
 
 			TCHAR *res = mir_a2t(helpText);
 			mir_free(helpText);
@@ -266,7 +266,7 @@ static TCHAR *getHelpDescription(TOKENREGISTEREX *tr)
 	if (tr == NULL)
 		return NULL;
 
-	char *cur = tr->szHelpText + strlen(tr->szHelpText);
+	char *cur = tr->szHelpText + mir_strlen(tr->szHelpText);
 	while (cur > tr->szHelpText) {
 		if (*cur == '\t') {
 
@@ -314,7 +314,7 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 	}
 	else args = NULL;
 
-	size_t len = _tcslen(tr->tszTokenString) + (args!=NULL?strlen(args):0) + 3;
+	size_t len = _tcslen(tr->tszTokenString) + (args!=NULL?mir_strlen(args):0) + 3;
 	TCHAR *desc = (TCHAR*)mir_calloc(len * sizeof(TCHAR));
 	if (desc == NULL) {
 		mir_free(helpText);

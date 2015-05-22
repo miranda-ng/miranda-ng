@@ -243,8 +243,8 @@ char* CPop3Client::APOP(char* name, char* pw, char* timestamp)
 		throw POP3Error=(DWORD)EPOP3_APOP;
 	mir_md5_state_s ctx;
 	mir_md5_init(&ctx);
-	mir_md5_append(&ctx,(const unsigned char *)timestamp,(unsigned int)strlen(timestamp));
-	mir_md5_append(&ctx,(const unsigned char *)pw,(unsigned int)strlen(pw));
+	mir_md5_append(&ctx,(const unsigned char *)timestamp,(unsigned int)mir_strlen(timestamp));
+	mir_md5_append(&ctx,(const unsigned char *)pw,(unsigned int)mir_strlen(pw));
 	mir_md5_finish(&ctx, digest);
 
 	char hexdigest[40];

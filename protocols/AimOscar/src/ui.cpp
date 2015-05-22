@@ -624,7 +624,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cf.dwEffects=0;
 				char chsize[5] = "";
 				SendDlgItemMessage(hwndDlg, IDC_FONTSIZE, CB_GETLBTEXT, SendDlgItemMessage(hwndDlg, IDC_FONTSIZE, CB_GETCURSEL, 0, 0),(LPARAM)chsize);
-				//strlcpy(cf.szFaceName,size,strlen(size)+1);
+				//strlcpy(cf.szFaceName,size,mir_strlen(size)+1);
 				cf.yHeight=atoi(chsize)*20;
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				SetFocus(GetDlgItem(hwndDlg, IDC_PROFILE));
@@ -692,7 +692,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			char name[64];
 			GetDlgItemTextA(hwndDlg, IDC_FNAME, name, SIZEOF(name));
-			if (strlen(trim_str(name)) > 0 && !ppro->getString(AIM_KEY_SN, &dbv))
+			if (mir_strlen(trim_str(name)) > 0 && !ppro->getString(AIM_KEY_SN, &dbv))
 			{
 				if (strcmp(name, dbv.pszVal))
 					ppro->aim_admin_format_name(ppro->hAdminConn,ppro->admin_seqno,name);
@@ -701,7 +701,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			char email[254];
 			GetDlgItemTextA(hwndDlg, IDC_CEMAIL, email, SIZEOF(email));
-			if (strlen(trim_str(email)) > 1 && !ppro->getString(AIM_KEY_EM, &dbv)) // Must be greater than 1 or a SNAC error is thrown.
+			if (mir_strlen(trim_str(email)) > 1 && !ppro->getString(AIM_KEY_EM, &dbv)) // Must be greater than 1 or a SNAC error is thrown.
 			{
 				if (strcmp(email, dbv.pszVal))
 					ppro->aim_admin_change_email(ppro->hAdminConn,ppro->admin_seqno,email);

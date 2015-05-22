@@ -23,7 +23,7 @@ INT_PTR SkypeRecvFile(WPARAM, LPARAM lParam)
 	if (pre->flags & PREF_CREATEREAD) dbei.flags |= DBEF_READ;
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.cbBlob = sizeof(DWORD);
-	for (nFiles = 0; cbFilename = strlen(&pre->szMessage[dbei.cbBlob]); nFiles++)
+	for (nFiles = 0; cbFilename = mir_strlen(&pre->szMessage[dbei.cbBlob]); nFiles++)
 		dbei.cbBlob += DWORD(cbFilename) + 1;
 	dbei.cbBlob++;
 	dbei.pBlob = (PBYTE)pre->szMessage;
@@ -41,7 +41,7 @@ INT_PTR SkypeRecvFile(WPARAM, LPARAM lParam)
 			pfts->totalFiles = nFiles;
 			if (pfts->pszFiles = (char**)calloc(nFiles + 1, sizeof(char*))) {
 				char *pFN;
-				for (size_t i = 0; cbFilename = strlen(pFN = &pre->szMessage[iOffs]); i++) {
+				for (size_t i = 0; cbFilename = mir_strlen(pFN = &pre->szMessage[iOffs]); i++) {
 					pfts->pszFiles[i] = strdup(pFN);
 					iOffs += cbFilename + 1;
 				}
@@ -76,7 +76,7 @@ INT_PTR SkypeSendFile(WPARAM, LPARAM lParam)
 	size_t iLen = 0;
 	for (nFiles = 0; files[nFiles]; nFiles++) {
 		utfmsg = (char*)make_utf8_string(files[nFiles]);
-		iLen += strlen(utfmsg) + 3;
+		iLen += mir_strlen(utfmsg) + 3;
 		if (pszFile = pszFile ? (char*)realloc(pszFile, iLen) : (char*)calloc(1, iLen)) {
 			if (nFiles > 0) strcat(pszFile, ",");
 			strcat(pszFile, "\"");
@@ -221,7 +221,7 @@ BOOL FXHandleRecv(PROTORECVEVENT *pre, MCONTACT hContact)
 					if (!strcmp(pszType, "INCOMING")) {
 						char *pszFN = SkypeGetErr("FILETRANSFER", pszMsgNum, "FILENAME");
 						if (pszFN) {
-							cbNewSize = cbMsg + strlen(pszFN) + 2;
+							cbNewSize = cbMsg + mir_strlen(pszFN) + 2;
 							if ((pre->szMessage = (char*)realloc(pre->szMessage, cbNewSize))) {
 								memcpy(pre->szMessage + cbMsg, pszFN, cbNewSize - cbMsg - 1);
 								cbMsg = cbNewSize - 1;

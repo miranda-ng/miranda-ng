@@ -129,7 +129,7 @@ bool bOpenLogFile() {
 
 bool bWriteToFile(HANDLE hFile, const char * pszSrc, int nLen = -1) {
 	if (nLen < 0)
-		nLen = (int)strlen(pszSrc);
+		nLen = (int)mir_strlen(pszSrc);
 	DWORD dwBytesWritten;
 	return WriteFile(hFile, pszSrc, nLen, &dwBytesWritten, NULL) && (dwBytesWritten == (DWORD)nLen);
 }
@@ -166,7 +166,7 @@ void LogEvent(const TCHAR * pszTitle, const char * pszLog) {
 	time(&now);
 	int nLen = (int)strftime(szTmp, sizeof(szTmp), "%d-%m-%Y %H:%M:%S -- ", localtime(&now));
 
-	int nLogLen = (int)strlen(pszLog);
+	int nLogLen = (int)mir_strlen(pszLog);
 	while (nLogLen > 0 && (pszLog[nLogLen-1] == '\r' || pszLog[nLogLen-1] == '\n'))
 		nLogLen--;
 
@@ -406,7 +406,7 @@ static INT_PTR nAddChangeRemoveShare(WPARAM wParam, LPARAM lParam) {
 		return 1002;
 
 	CLFileShareListAccess clCritSection;
-	bool bIsDirectory = (pclNew->pszSrvPath[strlen(pclNew->pszSrvPath)-1] == '/');
+	bool bIsDirectory = (pclNew->pszSrvPath[mir_strlen(pclNew->pszSrvPath)-1] == '/');
 
 	CLFileShareNode **pclPrev = &pclFirstNode;
 	CLFileShareNode * pclCur = pclFirstNode;
@@ -487,7 +487,7 @@ static INT_PTR nGetShare(WPARAM /*wParam*/, LPARAM lParam) {
 	CLFileShareNode * pclCur = pclFirstNode;
 	while (pclCur) {
 		if (strcmp(pclCur->st.pszSrvPath, pclShare->pszSrvPath) == 0) {
-			if (pclShare->dwMaxRealPath <= strlen(pclCur->st.pszRealPath) + 1)
+			if (pclShare->dwMaxRealPath <= mir_strlen(pclCur->st.pszRealPath) + 1)
 				return 1003;
 			strcpy(pclShare->pszRealPath, pclCur->st.pszRealPath);
 			pclShare->dwAllowedIP = pclCur->st.dwAllowedIP;
@@ -908,7 +908,7 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 			return 1;
 		}
 
-		nPluginPathLen = (int)strlen(szPluginPath);
+		nPluginPathLen = (int)mir_strlen(szPluginPath);
 
 		sLogFilePath = szPluginPath;
 		sLogFilePath += "HTTPServer.log";

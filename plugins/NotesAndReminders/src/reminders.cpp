@@ -238,7 +238,7 @@ void JustSaveReminders(void)
 	for (TTE = RemindersList, I = 0; TTE; TTE = (TREEELEMENT*)TTE->next, I++)
 	{
 		pReminder = (REMINDERDATA*)TTE->ptrdata;
-		if (pReminder->Reminder && strlen(pReminder->Reminder))
+		if (pReminder->Reminder && mir_strlen(pReminder->Reminder))
 			tmpReminder = pReminder->Reminder;
 		else
 			tmpReminder = NULL;
@@ -246,7 +246,7 @@ void JustSaveReminders(void)
 		if (!tmpReminder)
 			tmpReminder = "";
 
-		Value = (char*)malloc(strlen(tmpReminder) + 512);
+		Value = (char*)malloc(mir_strlen(tmpReminder) + 512);
 
 		if (!Value)
 			continue;
@@ -571,7 +571,7 @@ void GetTriggerTimeString(const ULARGE_INTEGER *When, char *s, UINT strSize, BOO
 
 	if ( GetDateFormat(lc, DATE_LONGDATE, &tm, NULL, s, strSize)) {
 		// append time
-		int n = (int)strlen(s);
+		int n = (int)mir_strlen(s);
 		s[n++] = ' ';
 		s[n] = 0;
 
@@ -2622,13 +2622,13 @@ void Send(char *user, char *host, char *Msg, char *server)
 	sockaddr.sin_port = htons(port);
 	sockaddr.sin_family = AF_INET;
 	if(connect(S,(SOCKADDR*)&sockaddr,sizeof(sockaddr)) == SOCKET_ERROR) return;
-	ch = (char*)malloc(strlen(user) + strlen(host) + 16);
+	ch = (char*)malloc(mir_strlen(user) + mir_strlen(host) + 16);
 	ch = (char*)realloc(ch,sprintf(ch,"rcpt to:%s@%s\r\n",user,host)); //!!!!!!!!!!
 	WS_Send(S,"mail from: \r\n",13);
-	WS_Send(S,ch,(int)strlen(ch));
+	WS_Send(S,ch,(int)mir_strlen(ch));
 	WS_Send(S,"data\r\n",6);
 	WS_Send(S,"From:<REM>\r\n\r\n",14);
-	WS_Send(S,Msg,(int)strlen(Msg));
+	WS_Send(S,Msg,(int)mir_strlen(Msg));
 	WS_Send(S,"\r\n.\r\n",5);
 	WS_Send(S,"quit\r\n",6);
 	SAFE_FREE((void**)&ch);

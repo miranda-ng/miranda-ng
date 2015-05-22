@@ -11,7 +11,7 @@ BYTE Xfire_base::accStringByte(char* str){
 	if (str == NULL)
 		return 0;
 
-	for (unsigned int i = 0; i < (int)strlen(str); i++)
+	for (unsigned int i = 0; i < (int)mir_strlen(str); i++)
 	{
 		temp += str[i];
 	}
@@ -27,7 +27,7 @@ void Xfire_base::strtolower(char*str)
 		return;
 
 	//lowercase it :)
-	for (unsigned int i = 0; i < (int)strlen(str); i++)
+	for (unsigned int i = 0; i < (int)mir_strlen(str); i++)
 	{
 		str[i] = tolower(str[i]);
 	}
@@ -54,7 +54,7 @@ void Xfire_base::strtoupper(char*str)
 		return;
 
 	//lowercase it :)
-	for (unsigned int i = 0; i < (int)strlen(str); i++)
+	for (unsigned int i = 0; i < (int)mir_strlen(str); i++)
 	{
 		str[i] = toupper(str[i]);
 	}
@@ -68,7 +68,7 @@ void Xfire_base::setString(char*from, char**to)
 		return;
 
 	//stringgröße auslesen
-	int size = strlen(from);
+	int size = mir_strlen(from);
 
 	//bestehenden zielpointer leeren
 	if (*to != NULL)
@@ -89,8 +89,8 @@ void Xfire_base::appendString(char*from, char**to)
 		return;
 
 	//stringgröße auslesen
-	int size = strlen(from);
-	int size2 = strlen(*to);
+	int size = mir_strlen(from);
+	int size2 = mir_strlen(*to);
 
 	//temporären pointer anlegen
 	char* append = new char[size + size2 + 1];
@@ -329,8 +329,8 @@ BOOL Xfire_base::inString(char*str, char*search, char**pos) {
 	}
 
 	//ist der gesuchte string größer, wie der string wo gesucht werden soll? dann FALSE zurück
-	unsigned int sizeofsearch = strlen(search);
-	if (sizeofsearch > strlen(str))
+	unsigned int sizeofsearch = mir_strlen(search);
+	if (sizeofsearch > mir_strlen(str))
 	{
 		//poszeiger, falls übergeben, auf NULL setzen
 		if (pos) *pos = NULL;
@@ -389,7 +389,7 @@ void Xfire_base::strreplace(char*search, char*replace, char**data) {
 		//ersetzendes anhängen
 		this->appendString(replace, &newdata);
 		//poszeiger um die größe des zusuchenden strings erhöhen
-		pos += strlen(search);
+		pos += mir_strlen(search);
 		//rest anhängen
 		this->appendString(pos, &newdata);
 		//alten string löschen

@@ -377,7 +377,7 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 					TreeView_GetItem(hwndTreeView, &tvItem);
 					protocol = (char*)tvItem.lParam;
 					if ((BOOL)(tvItem.state >> 12) - 1) {
-						size += (int)strlen(protocol) + 2;
+						size += (int)mir_strlen(protocol) + 2;
 						if (!watchedProtocols.IsEmpty())
 							watchedProtocols.AppendChar(' ');
 						watchedProtocols.Append(protocol);

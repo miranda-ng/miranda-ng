@@ -475,7 +475,7 @@ static TCHAR* parseSpecialContact(ARGUMENTSINFO *ai)
 	if (szUniqueID == NULL)
 		return NULL;
 
-	size_t size = strlen(szProto) + _tcslen(szUniqueID) + 4;
+	size_t size = mir_strlen(szProto) + _tcslen(szUniqueID) + 4;
 	TCHAR *res = (TCHAR*)mir_alloc(size * sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;

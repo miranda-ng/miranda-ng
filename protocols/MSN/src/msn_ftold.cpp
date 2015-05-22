@@ -37,7 +37,7 @@ void CMsnProto::msnftp_sendAcceptReject(filetransfer *ft, bool acc)
 			"Invitation-Cookie: %s\r\n"
 			"Launch-Application: FALSE\r\n"
 			"Request-Data: IP-Address:\r\n\r\n",
-			172 + 4 + strlen(ft->szInvcookie), ft->szInvcookie);
+			172 + 4 + mir_strlen(ft->szInvcookie), ft->szInvcookie);
 	}
 	else {
 		thread->sendPacket("MSG",
@@ -46,7 +46,7 @@ void CMsnProto::msnftp_sendAcceptReject(filetransfer *ft, bool acc)
 			"Invitation-Command: CANCEL\r\n"
 			"Invitation-Cookie: %s\r\n"
 			"Cancel-Code: REJECT\r\n\r\n",
-			172 - 33 + 4 + strlen(ft->szInvcookie), ft->szInvcookie);
+			172 - 33 + 4 + mir_strlen(ft->szInvcookie), ft->szInvcookie);
 	}
 }
 
@@ -181,7 +181,7 @@ LBL_InvalidCommand:
 		}
 		else if (info->mCaller == 2) { //send
 			static const char sttCommand[] = "VER MSNFTP\r\n";
-			info->send(sttCommand, strlen(sttCommand));
+			info->send(sttCommand, mir_strlen(sttCommand));
 		}
 		break;
 
@@ -210,7 +210,7 @@ LBL_Error:
 			if (tIsTransitionFinished) {
 LBL_Success:
 				static const char sttCommand[] = "BYE 16777989\r\n";
-				info->send(sttCommand, strlen(sttCommand));
+				info->send(sttCommand, mir_strlen(sttCommand));
 				return 1;
 			}
 

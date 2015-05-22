@@ -84,7 +84,7 @@ static BYTE showDialogOnStartup = 0;
 static PROTOCOLSETTINGEX* IsValidProtocol(TSettingsList& protoSettings, char* protoName)
 {
 	for (int i = 0; i < protoSettings.getCount(); i++)
-		if (!strncmp(protoSettings[i].szName, protoName, strlen(protoSettings[i].szName)))
+		if (!strncmp(protoSettings[i].szName, protoName, mir_strlen(protoSettings[i].szName)))
 			return &protoSettings[i];
 
 	return NULL;

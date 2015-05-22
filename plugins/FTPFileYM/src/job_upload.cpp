@@ -88,7 +88,7 @@ void UploadJob::autoSend()
 	dbei.flags = DBEF_SENT;
 	dbei.szModule = szProto;
 	dbei.timestamp = (DWORD)time(NULL);
-	dbei.cbBlob = (DWORD)strlen(this->szFileLink) + 1;
+	dbei.cbBlob = (DWORD)mir_strlen(this->szFileLink) + 1;
 	dbei.pBlob = (PBYTE)this->szFileLink;
 	db_event_add(this->hContact, &dbei);
 	CallContactService(this->hContact, PSS_MESSAGE, 0, (LPARAM)this->szFileLink);

@@ -34,7 +34,7 @@ int CDb3Mmap::CheckProto(DBCachedContact *cc, const char *proto)
 		if (GetContactSettingStatic(cc->contactID, "Protocol", "p", &dbv) != 0 || (dbv.type != DBVT_ASCIIZ))
 			return 0;
 
-		cc->szProto = m_cache->GetCachedSetting(NULL, protobuf, 0, (int)strlen(protobuf));
+		cc->szProto = m_cache->GetCachedSetting(NULL, protobuf, 0, (int)mir_strlen(protobuf));
 	}
 
 	return !strcmp(cc->szProto, proto);

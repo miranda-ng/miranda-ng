@@ -37,7 +37,7 @@ void __cdecl GGPROTO::remindpasswordthread(void *param)
 	GGTOKEN token;
 
 	debugLogA("remindpasswordthread(): Started.");
-	if (!rp || !rp->email || !rp->uin || !strlen(rp->email))
+	if (!rp || !rp->email || !rp->uin || !mir_strlen(rp->email))
 	{
 		free(rp);
 #ifdef DEBUGMODE

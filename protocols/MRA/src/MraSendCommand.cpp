@@ -90,7 +90,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 		buf.SetLPSW(_T(""));//***deb possible nick here
 		buf.SetLPSW(lpwszMessage);
 		lpszMessageConverted = mir_base64_encode(buf.Data(), (int)buf.Len());
-		dwMessageConvertedSize = strlen(lpszMessageConverted);
+		dwMessageConvertedSize = mir_strlen(lpszMessageConverted);
 	}
 	// messages with Flash
 	else if (dwFlags & MESSAGE_FLAG_FLASH) {

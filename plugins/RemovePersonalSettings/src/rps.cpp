@@ -148,7 +148,7 @@ extern "C" int __declspec(dllexport) Load()
 	strcpy(gIniFile, gMirandaDir);
 
 	// Store last pos
-	strTmp = &gIniFile[strlen(gIniFile)];
+	strTmp = &gIniFile[mir_strlen(gIniFile)];
 
 	// Lets try fist name
 	strcpy(strTmp, INI_FILE_NAME);
@@ -269,7 +269,7 @@ void RemoveProtocolSettings(const char * protocolName)
 		while(name[0] != '\0') {
 			value = strchr(name, '=');
 			if (value == NULL)
-				value = &name[strlen(name)];
+				value = &name[mir_strlen(name)];
 
 			// Has " ?
 			if (*name == '"' && *(value-1) == '"') {
@@ -282,7 +282,7 @@ void RemoveProtocolSettings(const char * protocolName)
 				DeleteSettingEx(protocolName, name);
 
 			// Get next one
-			name = value + strlen(value) + 1;
+			name = value + mir_strlen(value) + 1;
 		}
 	}
 
@@ -296,7 +296,7 @@ void RemoveProtocolSettings(const char * protocolName)
 		while(name[0] != '\0') {
 			value = strchr(name, '=');
 			if (value == NULL)
-				value = &name[strlen(name)];
+				value = &name[mir_strlen(name)];
 
 			// Has " ?
 			if (*name == '"' && *(value-1) == '"') {
@@ -311,7 +311,7 @@ void RemoveProtocolSettings(const char * protocolName)
 			}
 
 			// Get next one
-			name = value + strlen(value) + 1;
+			name = value + mir_strlen(value) + 1;
 		}
 	}
 }
@@ -349,7 +349,7 @@ void RemoveSettings()
 			while(name[0] != '\0') {
 				value = strchr(name, '=');
 				if (value == NULL)
-					value = &name[strlen(name)];
+					value = &name[mir_strlen(name)];
 
 				// Has " ?
 				if (*name == '"' && *(value-1) == '"') {
@@ -362,7 +362,7 @@ void RemoveSettings()
 					RemoveProtocolSettings(name);
 
 				// Get next one
-				name = value + strlen(value) + 1;
+				name = value + mir_strlen(value) + 1;
 			}
 		}
 	}
@@ -377,7 +377,7 @@ void RemoveSettings()
 		while(name[0] != '\0') {
 			value = strchr(name, '=');
 			if (value == NULL)
-				value = &name[strlen(name)];
+				value = &name[mir_strlen(name)];
 
 			// Has " ?
 			if (*name == '"' && *(value-1) == '"') {
@@ -390,7 +390,7 @@ void RemoveSettings()
 				DeleteSetting(name);
 
 			// Get next one
-			name = value + strlen(value) + 1;
+			name = value + mir_strlen(value) + 1;
 		}
 	}
 }
@@ -407,7 +407,7 @@ void ExecuteServices()
 		while(name[0] != '\0') {
 			value = strchr(name, '=');
 			if (value == NULL)
-				value = &name[strlen(name)];
+				value = &name[mir_strlen(name)];
 
 			// Has " ?
 			if (*name == '"' && *(value-1) == '"') {
@@ -421,7 +421,7 @@ void ExecuteServices()
 					CallService(name,0,0);
 
 			// Get next one
-			name = value + strlen(value) + 1;
+			name = value + mir_strlen(value) + 1;
 		}
 	}
 }
@@ -461,7 +461,7 @@ void RemoveDirectories()
 		while(name[0] != '\0') {
 			value = strchr(name, '=');
 			if (value == NULL)
-				value = &name[strlen(name)];
+				value = &name[mir_strlen(name)];
 
 			// Has " ?
 			if (*name == '"' && *(value-1) == '"') {
@@ -476,7 +476,7 @@ void RemoveDirectories()
 			}
 
 			// Get next one
-			name = value + strlen(value) + 1;
+			name = value + mir_strlen(value) + 1;
 		}
 	}
 }
@@ -493,7 +493,7 @@ void DisablePlugins()
 		while(name[0] != '\0') {
 			value = strchr(name, '=');
 			if (value == NULL)
-				value = &name[strlen(name)];
+				value = &name[mir_strlen(name)];
 
 			// Has " ?
 			if (*name == '"' && *(value-1) == '"') {
@@ -511,7 +511,7 @@ void DisablePlugins()
 			}
 
 			// Get next one
-			name = value + strlen(value) + 1;
+			name = value + mir_strlen(value) + 1;
 		}
 	}
 }
@@ -562,7 +562,7 @@ void DeleteFileOrFolder(const char *name)
 			}
 			else {
 				strcat(tmp, "\\");
-				strTmp = &tmp[strlen(tmp)];
+				strTmp = &tmp[mir_strlen(tmp)];
 			}
 
 			do {
@@ -624,7 +624,7 @@ typedef struct {
 int EnumProc(const char *szName, LPARAM lParam)
 {
 	DeleteModuleStruct *dms = (DeleteModuleStruct *) lParam;
-	size_t len = strlen(szName);
+	size_t len = mir_strlen(szName);
 
 	if (dms->filter != NULL && dms->lenFilterMinusOne > 0) {
 		if (len >= dms->lenFilterMinusOne) {
@@ -660,7 +660,7 @@ void DeleteSettingEx(const char *szModule, const char *szSetting)
 	if (szModule == NULL)
 		return;
 
-	lenModule = strlen(szModule);
+	lenModule = mir_strlen(szModule);
 	if (szModule[0] == '*' || szModule[lenModule-1] == '*') {
 		DeleteModuleStruct dms;
 		memset(&dms, 0, sizeof(dms));
@@ -676,11 +676,11 @@ void DeleteSettingEx(const char *szModule, const char *szSetting)
 			DeleteSettingEx(szModule, szSetting);
 
 			// Get next one
-			szModule += strlen(szModule) + 1;
+			szModule += mir_strlen(szModule) + 1;
 		}
 	}
 	else {
-		size_t lenSetting = szSetting == NULL ? 0 : strlen(szSetting);
+		size_t lenSetting = szSetting == NULL ? 0 : mir_strlen(szSetting);
 		if (szSetting == NULL || szSetting[0] == '*' || szSetting[lenSetting-1] == '*') {
 			DeleteModuleStruct dms;
 			DBCONTACTENUMSETTINGS dbces;
@@ -703,7 +703,7 @@ void DeleteSettingEx(const char *szModule, const char *szSetting)
 				db_unset(NULL, szModule, szSetting);
 
 				// Get next one
-				szSetting += strlen(szSetting) + 1;
+				szSetting += mir_strlen(szSetting) + 1;
 			}
 		}
 		else {

@@ -186,7 +186,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 			const char *errurl;
 			{
 				errurl = NULL;
-				ezxml_t xml = ezxml_parse_str(tResult, strlen(tResult));
+				ezxml_t xml = ezxml_parse_str(tResult, mir_strlen(tResult));
 
 				ezxml_t tokr = ezxml_get(xml, "S:Body", 0,
 					"wst:RequestSecurityTokenResponseCollection", 0,
@@ -389,7 +389,7 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 	derive_key(key2, key1, key1len, (unsigned char*)encdata1, sizeof(encdata1) - 1);
 	derive_key(key3, key1, key1len, (unsigned char*)encdata2, sizeof(encdata2) - 1);
 
-	size_t chllen = strlen(challenge);
+	size_t chllen = mir_strlen(challenge);
 
 	BYTE hash[MIR_SHA1_HASH_SIZE];
 	mir_hmac_sha1(hash, key2, MIR_SHA1_HASH_SIZE + 4, (BYTE*)challenge, chllen);
@@ -576,7 +576,7 @@ static int CopyCookies(NETLIBHTTPREQUEST *nlhrReply, NETLIBHTTPHEADER *hdr)
 			if (*hdr->szValue) strcat (hdr->szValue, "; ");
 			strcat (hdr->szValue, nlhrReply->headers[i].szValue);
 		}
-		else nSize += (int)strlen(nlhrReply->headers[i].szValue) + 2;
+		else nSize += (int)mir_strlen(nlhrReply->headers[i].szValue) + 2;
 	}
 	return nSize;
 }
@@ -618,7 +618,7 @@ bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService
 		ptrA(mir_urlEncode(pszService)), pszRefreshToken);
 	
 	nlhr.pData = (char*)(const char*)post;
-	nlhr.dataLength = (int)strlen(nlhr.pData);
+	nlhr.dataLength = (int)mir_strlen(nlhr.pData);
 	nlhr.szUrl = "https://login.live.com/oauth20_token.srf";
 
 	// Query
@@ -783,7 +783,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 				nlhr.requestType = REQUEST_POST;
 				nlhr.flags &= (~NLHRF_REDIRECT);
 				mHttpsTS = clock();
-				nlhr.dataLength = (int)strlen(post);
+				nlhr.dataLength = (int)mir_strlen(post);
 				nlhr.pData = (char*)(const char*)post;
 				nlhr.nlc = hHttpsConnection;
 				NETLIBHTTPREQUEST *nlhrReply2 = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
@@ -848,7 +848,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 									/* Prepare headers*/
 									nlhr.headers[2].szValue = "application/json";
 									nlhr.pData = "{\"trouterurl\":\"https://\",\"connectionid\":\"a\"}";
-									nlhr.dataLength = (int)strlen(nlhr.pData);
+									nlhr.dataLength = (int)mir_strlen(nlhr.pData);
 									nlhr.szUrl = "https://skypewebexperience.live.com/v1/User/Initialization";
 									nlhr.nlc = hHttpsConnection;
 								

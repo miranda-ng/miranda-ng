@@ -47,7 +47,7 @@ int Log(char *format, ...)
 	}
 
 	va_end(vararg);
-	if (str[strlen(str) - 1] != '\n')
+	if (str[mir_strlen(str) - 1] != '\n')
 	{
 		strcat(str, "\n");
 	}
@@ -248,7 +248,7 @@ SearchResult SearchHistory(MCONTACT contact, MEVENT hFirstEvent, void *searchDat
 			{
 #ifdef _UNICODE
 				wchar_t TEMP[2048];
-				size_t size = strlen((char *)dbEvent.pBlob) + 1;
+				size_t size = mir_strlen((char *)dbEvent.pBlob) + 1;
 				if (size < dbEvent.cbBlob)
 				{
 					search = (wchar_t *)&dbEvent.pBlob[size];

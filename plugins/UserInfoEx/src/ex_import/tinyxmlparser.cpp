@@ -501,7 +501,7 @@ const char* TiXmlBase::GetEntity(const char* p, char* value, int* length, TiXmlE
 	{
 		if (strncmp(entity[i].str, p, entity[i].strLength) == 0)
 		{
-			assert(strlen(entity[i].str) == entity[i].strLength);
+			assert(mir_strlen(entity[i].str) == entity[i].strLength);
 			*value = entity[i].chr;
 			*length = 1;
 			return (p + entity[i].strLength);
@@ -616,7 +616,7 @@ const char* TiXmlBase::ReadText(	const char* p,
 			}
 		}
 	}
-	return p + strlen(endTag);
+	return p + mir_strlen(endTag);
 }
 
 #ifdef TIXML_USE_STL
@@ -1315,7 +1315,7 @@ const char* TiXmlComment::Parse(const char* p, TiXmlParsingData* data, TiXmlEnco
 		document->SetError(TIXML_ERROR_PARSING_COMMENT, p, data, encoding);
 		return 0;
 	}
-	p += strlen(startTag);
+	p += mir_strlen(startTag);
 	p = ReadText(p, &value, false, endTag, false, encoding);
 	return p;
 }
@@ -1467,7 +1467,7 @@ const char* TiXmlText::Parse(const char* p, TiXmlParsingData* data, TiXmlEncodin
 			document->SetError(TIXML_ERROR_PARSING_CDATA, p, data, encoding);
 			return 0;
 		}
-		p += strlen(startTag);
+		p += mir_strlen(startTag);
 
 		// Keep all the white space, ignore the encoding, etc.
 		while (		 p && *p

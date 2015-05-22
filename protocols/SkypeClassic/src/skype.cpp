@@ -222,7 +222,7 @@ int ShowMessage(int iconID, TCHAR *lpzText, int mustShow) {
 		mir_tstrcpy(MessagePopup.lptzText, lpzText);
 
 #ifdef _UNICODE
-		mbstowcs(MessagePopup.lptzContactName, SKYPE_PROTONAME, strlen(SKYPE_PROTONAME) + 1);
+		mbstowcs(MessagePopup.lptzContactName, SKYPE_PROTONAME, mir_strlen(SKYPE_PROTONAME) + 1);
 #else
 		mir_tstrcpy(MessagePopup.lptzContactName, SKYPE_PROTONAME);
 #endif
@@ -242,9 +242,9 @@ int ShowMessage(int iconID, TCHAR *lpzText, int mustShow) {
 int ShowMessageA(int iconID, char *lpzText, int mustShow) {
 	WCHAR *lpwText;
 	int iRet;
-	size_t len = mbstowcs(NULL, lpzText, strlen(lpzText));
+	size_t len = mbstowcs(NULL, lpzText, mir_strlen(lpzText));
 	if (len == -1 || !(lpwText = (WCHAR*)calloc(len + 1, sizeof(WCHAR)))) return -1;
-	mbstowcs(lpwText, lpzText, strlen(lpzText));
+	mbstowcs(lpwText, lpzText, mir_strlen(lpzText));
 	iRet = ShowMessage(iconID, lpwText, mustShow);
 	free(lpwText);
 	return iRet;
@@ -503,12 +503,12 @@ static void QueryUserWaitingAuthorization(char *pszNick, char *pszAuthRq)
 		}
 	}
 
-	pre.lParam = sizeof(DWORD)+sizeof(HANDLE)+strlen(pszNick) + 5;
-	if (firstname) pre.lParam += strlen(firstname);
-	if (lastname) pre.lParam += strlen(lastname);
+	pre.lParam = sizeof(DWORD)+sizeof(HANDLE)+mir_strlen(pszNick) + 5;
+	if (firstname) pre.lParam += mir_strlen(firstname);
+	if (lastname) pre.lParam += mir_strlen(lastname);
 	if (pszAuthRq) authmsg = strdup(pszAuthRq);
 	if (authmsg || ((protocol >= 4 || bIsImoproxy) && (authmsg = SkypeGetID("USER", pszNick, "RECEIVEDAUTHREQUEST"))))
-		pre.lParam += strlen(authmsg);
+		pre.lParam += mir_strlen(authmsg);
 	if (pre.szMessage = pCurBlob = (char *)calloc(1, pre.lParam)) {
 		pCurBlob += sizeof(DWORD); // Not used
 		memcpy(pCurBlob, &hContact, sizeof(HANDLE));	pCurBlob += sizeof(HANDLE);
@@ -644,7 +644,7 @@ void __cdecl SkypeSystemInit(char *dummy) {
 			// against CURRENTUSERHANDLE
 			if (pszUser = SkypeRcv("CURRENTUSERHANDLE", INFINITE))
 			{
-				memmove(pszUser, pszUser + 18, strlen(pszUser + 17));
+				memmove(pszUser, pszUser + 18, mir_strlen(pszUser + 17));
 				if (_stricmp(dbv.pszVal, pszUser))
 				{
 					// Doesn't match, maybe we have a second Skype instance we have to take
@@ -1133,7 +1133,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				__leave; // We failed
 			}
 			free(who);
-			who = (char *)memmove(ptr, pTok, strlen(pTok) + 1);
+			who = (char *)memmove(ptr, pTok, mir_strlen(pTok) + 1);
 			direction = DBEF_SENT;
 		}
 		db_free(&dbv);
@@ -1167,7 +1167,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				__leave;
 		}
 		if (strncmp(ptr, "ERROR", 5)) {
-			msgptr = ptr + strlen(szBuf + 4) + 1;
+			msgptr = ptr + mir_strlen(szBuf + 4) + 1;
 			bHasPartList = strncmp(msgptr, "<partlist ", 10) == 0;
 			if (args.pMsgEntry && args.pMsgEntry->tEdited) {
 				// Mark the message as edited
@@ -1202,7 +1202,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 						mir_free(ci.pszVal);
 					}
 				}
-				newlen = int(strlen(msgptr) + (pszUTFnick ? strlen(pszUTFnick) : 0) + 9);
+				newlen = int(mir_strlen(msgptr) + (pszUTFnick ? mir_strlen(pszUTFnick) : 0) + 9);
 				if (pMsg = (char *)malloc(newlen)) {
 					sprintf(pMsg, "** %s%s%s **", (pszUTFnick ? pszUTFnick : ""), (pszUTFnick ? " " : ""), (char*)msgptr);
 					free(ptr);
@@ -1225,7 +1225,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				msgptr = msg;
 				free(ptr);
 			}
-			msglen = (int)strlen(msgptr) + 1;
+			msglen = (int)mir_strlen(msgptr) + 1;
 		}
 		else {
 			free(ptr);
@@ -1538,7 +1538,7 @@ void RingThread(char *szSkypeMsg) {
 	dbei.szModule = SKYPE_PROTONAME;
 	dbei.timestamp = (DWORD)SkypeTime(NULL);
 	dbei.pBlob = (unsigned char*)Translate("Phone call");
-	dbei.cbBlob = (int)strlen((const char*)dbei.pBlob) + 1;
+	dbei.cbBlob = (int)mir_strlen((const char*)dbei.pBlob) + 1;
 	if (!strncmp(ptr, "INCOMING", 8))
 	{
 		TCHAR *lpzContactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
@@ -1990,7 +1990,7 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 							// Other proerties that can be directly assigned to a DB-Value
 							for (int i = 0; i < sizeof(m_settings) / sizeof(m_settings[0]); i++) {
 								if (!strcmp(ptr, m_settings[i].SkypeSetting)) {
-									char *pszProp = ptr + strlen(m_settings[i].SkypeSetting) + 1;
+									char *pszProp = ptr + mir_strlen(m_settings[i].SkypeSetting) + 1;
 									if (*pszProp)
 										db_set_utf(hContact, SKYPE_PROTONAME, m_settings[i].MirandaSetting, pszProp);
 									else
@@ -2070,7 +2070,7 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 							*ptr = ' ';
 						}
 						else if (strncmp(ptr, " CHATMESSAGES ", 14) == 0) {
-							int iLen=strlen(ptr+14)+1;
+							int iLen=mir_strlen(ptr+14)+1;
 							char *pParam=(char*)calloc(iLen+1, 1);
 							*pParam=TRUE;
 							memcpy(pParam+1, ptr+14, iLen);
@@ -2128,14 +2128,14 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 			if (!strncmp(szSkypeMsg, "MESSAGES", 8) || !strncmp(szSkypeMsg, "CHATMESSAGES", 12)) {
 				char *pMsgs;
 				int iLen;
-				if (strlen(szSkypeMsg) <= (UINT)((pMsgs=strchr(szSkypeMsg, ' ')) - szSkypeMsg + 1))
+				if (mir_strlen(szSkypeMsg) <= (UINT)((pMsgs=strchr(szSkypeMsg, ' ')) - szSkypeMsg + 1))
 				{
 					LOG(("%s %d %s %d", szSkypeMsg, (UINT)(strchr(szSkypeMsg, ' ') - szSkypeMsg + 1),
-						strchr(szSkypeMsg, ' '), strlen(szSkypeMsg)));
+						strchr(szSkypeMsg, ' '), mir_strlen(szSkypeMsg)));
 					break;
 				}
 				LOG(("MessageListProcessingThread launched"));
-				char *pParam=(char*)calloc((iLen=strlen(pMsgs)+1)+1, 1);
+				char *pParam=(char*)calloc((iLen=mir_strlen(pMsgs)+1)+1, 1);
 				memcpy(pParam+1, pMsgs, iLen);
 				pthread_create((pThreadFunc)MessageListProcessingThread, pParam);
 				break;
@@ -2754,7 +2754,7 @@ INT_PTR SkypeRecvMessage(WPARAM, LPARAM lParam)
 		dbei.flags |= DBEF_READ;
 	dbei.flags |= DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = (int)strlen(pre->szMessage) + 1;
+	dbei.cbBlob = (int)mir_strlen(pre->szMessage) + 1;
 	dbei.pBlob = (PBYTE)pre->szMessage;
 	MsgList_Add((DWORD)pre->lParam, db_event_add(ccs->hContact, &dbei));
 	return 0;

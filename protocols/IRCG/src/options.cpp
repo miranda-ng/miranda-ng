@@ -45,7 +45,7 @@ void CIrcProto::ReadSettings(TDbSetting* sets, int count)
 		case DBVT_ASCIIZ:
 			if (!getString(p->name, &dbv)) {
 				if (p->size != -1) {
-					size_t len = min(p->size - 1, strlen(dbv.pszVal));
+					size_t len = min(p->size - 1, mir_strlen(dbv.pszVal));
 					memcpy(ptr, dbv.pszVal, len);
 					ptr[len] = 0;
 				}

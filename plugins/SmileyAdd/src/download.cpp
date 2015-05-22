@@ -93,10 +93,10 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 							const char* szPref = strstr(szUrl, "://");
 							szPref = szPref ? szPref + 3 : szUrl;
 							szPath = strchr(szPref, '/');
-							rlen = szPath != NULL ? szPath - szUrl : strlen(szUrl);
+							rlen = szPath != NULL ? szPath - szUrl : mir_strlen(szUrl);
 						}
 
-						szRedirUrl = (char*)mir_realloc(szRedirUrl, rlen + strlen(nlhrReply->headers[i].szValue)*3 + 1);
+						szRedirUrl = (char*)mir_realloc(szRedirUrl, rlen + mir_strlen(nlhrReply->headers[i].szValue)*3 + 1);
 
 						strncpy(szRedirUrl, szUrl, rlen);
 						strcpy(szRedirUrl+rlen, nlhrReply->headers[i].szValue);

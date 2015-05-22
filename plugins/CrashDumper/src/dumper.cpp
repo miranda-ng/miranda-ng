@@ -49,7 +49,7 @@ void WriteUtfFile(HANDLE hDumpFile, char* bufu)
 
 	static const unsigned char bytemark[] = { 0xEF, 0xBB, 0xBF };
 	WriteFile(hDumpFile, bytemark, 3, &bytes, NULL);
-	WriteFile(hDumpFile, bufu, (DWORD)strlen(bufu), &bytes, NULL);
+	WriteFile(hDumpFile, bufu, (DWORD)mir_strlen(bufu), &bytes, NULL);
 }
 
 

@@ -1235,7 +1235,7 @@ void CJabberProto::_RosterExportToFile(HWND hwndDlg)
 	char *tmp = mir_utf8encodeT(xtmp);
 	xi.freeMem(xtmp);
 
-	fwrite(tmp, 1, strlen(tmp), fp);
+	fwrite(tmp, 1, mir_strlen(tmp), fp);
 	mir_free(tmp);
 	fclose(fp);
 }

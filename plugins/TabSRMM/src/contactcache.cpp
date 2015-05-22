@@ -289,7 +289,7 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM)
 
 	szFromStream = ::Message_GetFromStream(GetDlgItem(m_hwnd, IDC_MESSAGE), SF_RTFNOOBJS | SFF_PLAINRTF | SF_NCRFORNONASCII);
 	if (szFromStream != NULL) {
-		iLength = iStreamLength = (strlen(szFromStream) + 1);
+		iLength = iStreamLength = (mir_strlen(szFromStream) + 1);
 
 		if (iLength > 0 && m_history != NULL) { // XXX: iLength > 1 ?
 			if ((m_iHistoryTop == m_iHistorySize) && oldTop == 0) {         // shift the stack down...

@@ -56,7 +56,7 @@ int Log(char*, ...)
 		}
 
 	va_end(vararg);
-	if (str[strlen(str) - 1] != '\n')
+	if (str[mir_strlen(str) - 1] != '\n')
 		{
 			strcat(str, "\n");
 		}

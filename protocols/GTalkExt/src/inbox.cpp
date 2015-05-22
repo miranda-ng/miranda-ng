@@ -161,7 +161,7 @@ int GetMailboxPwd(LPCSTR acc, LPSTR *pwd, int buffSize)
 	if (db_get_static(NULL, acc, LOGIN_PASS_SETTING_NAME, buff, sizeof(buff)))
 		return 0;
 
-	int result = (int)strlen(buff);
+	int result = (int)mir_strlen(buff);
 
 	if (pwd) {
 		if (buffSize < result + 1)

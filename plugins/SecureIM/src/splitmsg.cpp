@@ -5,7 +5,7 @@ LPSTR splitMsg(LPSTR szMsg, int iLen)
 {
 	Sent_NetLog("split: msg: -----\n%s\n-----\n", szMsg);
 
-	size_t len = strlen(szMsg);
+	size_t len = mir_strlen(szMsg);
 	LPSTR out = (LPSTR)mir_alloc(len * 2);
 	LPSTR buf = out;
 
@@ -58,7 +58,7 @@ LPSTR combineMessage(pUinKey ptr, LPSTR szMsg)
 		pm->message = new LPSTR[part_all];
 		memset(pm->message, 0, sizeof(LPSTR)*part_all);
 	}
-	pm->message[part_num] = new char[strlen(szMsg)];
+	pm->message[part_num] = new char[mir_strlen(szMsg)];
 	strcpy(pm->message[part_num], szMsg + 8);
 
 	Sent_NetLog("combine: save part: %s", pm->message[part_num]);
@@ -66,7 +66,7 @@ LPSTR combineMessage(pUinKey ptr, LPSTR szMsg)
 	int len = 0, i;
 	for (i = 0; i < part_all; i++) {
 		if (pm->message[i] == NULL) break;
-		len += (int)strlen(pm->message[i]);
+		len += (int)mir_strlen(pm->message[i]);
 	}
 	if (i == part_all) { // combine message
 		SAFE_FREE(ptr->tmp);
@@ -93,14 +93,14 @@ LPSTR combineMessage(pUinKey ptr, LPSTR szMsg)
 // отправляет сообщение, если надо то разбивает на части
 int splitMessageSend(pUinKey ptr, LPSTR szMsg)
 {
-	int len = (int)strlen(szMsg);
+	int len = (int)mir_strlen(szMsg);
 	int par = (getContactStatus(ptr->hContact) == ID_STATUS_OFFLINE) ? ptr->proto->split_off : ptr->proto->split_on;
 	if (par && len > par) {
 		int ret;
 		LPSTR msg = splitMsg(szMsg, par);
 		LPSTR buf = msg;
 		while (*buf) {
-			len = (int)strlen(buf);
+			len = (int)mir_strlen(buf);
 			LPSTR tmp = mir_strdup(buf);
 			ret = CallContactService(ptr->hContact, PSS_MESSAGE, (WPARAM)PREF_METANODB, (LPARAM)tmp);
 			mir_free(tmp);

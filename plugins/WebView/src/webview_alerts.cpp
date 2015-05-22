@@ -243,7 +243,7 @@ void SaveToFile(MCONTACT hContact, char *truncated)
 		mir_snprintf(timestring, SIZEOF(timestring), "(%s)%s\n%s,%s\n", MODULENAME, url, temptime1, temptime2);
 
 		fputs(timestring, pfile);
-		fwrite(truncated, strlen(truncated), 1, pfile);
+		fwrite(truncated, mir_strlen(truncated), 1, pfile);
 		fputs("\n\n", pfile);
 		fclose(pfile);
 	}
@@ -443,13 +443,13 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 			if ((pcachefile = _tfopen(newcachepath, _T("w"))) == NULL)
 				WErrorPopup((MCONTACT)contactname, TranslateT("Cannot write to file 1"));
 			else {
-				fwrite(tempraw, strlen(tempraw), 1, pcachefile); //smaller cache
+				fwrite(tempraw, mir_strlen(tempraw), 1, pcachefile); //smaller cache
 				fclose(pcachefile);
 				db_set_ts(hContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
 			}
 			// end write to cache
 
-			if (strncmp(tempraw, cachecompare, strlen(tempraw)) != 0) { //lets try this instead
+			if (strncmp(tempraw, cachecompare, mir_strlen(tempraw)) != 0) { //lets try this instead
 				// play sound?
 				SkinPlaySound("webviewalert");
 				// there was an alert
@@ -533,13 +533,13 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				memset(&alertpos, 0, sizeof(alertpos));
 				//end string
 				alertpos = strstr(tempraw, Alerttempstring2);
-				statalertposend = alertpos - tempraw + (int)strlen(Alerttempstring2);
+				statalertposend = alertpos - tempraw + (int)mir_strlen(Alerttempstring2);
 
 				if (statalertpos > statalertposend) {
 					memset(&tempraw, ' ', statalertpos);
 					memset(&alertpos, 0, sizeof(alertpos));
 					alertpos = strstr(tempraw, Alerttempstring2);
-					statalertposend = alertpos - tempraw + (int)strlen(Alerttempstring2);
+					statalertposend = alertpos - tempraw + (int)mir_strlen(Alerttempstring2);
 				}
 
 				if (statalertpos < statalertposend) {
@@ -551,13 +551,13 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 
 					//end string
 					alertpos = strstr(tempraw, Alerttempstring2);
-					statalertposend = alertpos - tempraw + (int)strlen(Alerttempstring2);
+					statalertposend = alertpos - tempraw + (int)mir_strlen(Alerttempstring2);
 
 					if (statalertpos > statalertposend) {
 						memset(&tempraw, ' ', statalertpos);
 						memset(&alertpos, 0, sizeof(alertpos));
 						alertpos = strstr(tempraw, Alerttempstring2);
-						statalertposend = alertpos - tempraw + (int)strlen(Alerttempstring2);
+						statalertposend = alertpos - tempraw + (int)mir_strlen(Alerttempstring2);
 					}
 					disalertpos = 0;
 
@@ -655,12 +655,12 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				if ((pcachefile = _tfopen(newcachepath, _T("w"))) == NULL)
 					WErrorPopup((MCONTACT)contactname, TranslateT("Cannot write to file 2"));
 				else {
-					fwrite(raw, strlen(raw), 1, pcachefile); //smaller cache
+					fwrite(raw, mir_strlen(raw), 1, pcachefile); //smaller cache
 					db_set_ts(hContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
 					fclose(pcachefile);
 				}
 				// end write to cache
-				if (strncmp(raw, cachecompare, (strlen(raw))) != 0) { //lets try this instead
+				if (strncmp(raw, cachecompare, (mir_strlen(raw))) != 0) { //lets try this instead
 					// play sound?
 					SkinPlaySound("webviewalert");
 					// there was an alert
@@ -760,7 +760,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 			}
 		}
 	}
-	strncpy(truncated, tempraw, strlen(truncated));
+	strncpy(truncated, tempraw, mir_strlen(truncated));
 	return wasAlert;
 }
 

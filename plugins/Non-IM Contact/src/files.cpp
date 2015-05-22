@@ -110,7 +110,7 @@ void readFile(HWND hwnd)
 		return;
 	}
 
-	if (!strncmp("http://", szFileName, strlen("http://")) || !strncmp("https://", szFileName, strlen("https://")))
+	if (!strncmp("http://", szFileName, mir_strlen("http://")) || !strncmp("https://", szFileName, mir_strlen("https://")))
 		mir_snprintf(szFileName, SIZEOF(szFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), fileNumber);
 
 	FILE *filen = fopen(szFileName, "r");
@@ -122,17 +122,17 @@ void readFile(HWND hwnd)
 	SendDlgItemMessage(hwnd, IDC_FILE_CONTENTS, LB_RESETCONTENT, 0, 0);
 	while (lineNumber < (MAXLINES) && (fgets(temp, MAX_STRING_LENGTH, filen))) {
 		if (temp[0] == '\t') temp[0] = ' ';
-		if (temp[strlen(temp) - 1] == '\n' && temp[strlen(temp) - 2] == '\r')
-			temp[strlen(temp) - 2] = '\0';
-		else if (temp[strlen(temp) - 1] == '\n')
-			temp[strlen(temp) - 1] = '\0';
-		else temp[strlen(temp)] = '\0';
+		if (temp[mir_strlen(temp) - 1] == '\n' && temp[mir_strlen(temp) - 2] == '\r')
+			temp[mir_strlen(temp) - 2] = '\0';
+		else if (temp[mir_strlen(temp) - 1] == '\n')
+			temp[mir_strlen(temp) - 1] = '\0';
+		else temp[mir_strlen(temp)] = '\0';
 		mir_snprintf(temp1, SIZEOF(temp1), Translate("line(%-3d) = | %s"), lineNumber, temp);
 		SendDlgItemMessageA(hwnd, IDC_FILE_CONTENTS, LB_ADDSTRING, 0, (LPARAM)temp1);
 		lineNumber++;
 		fileLength++;
-		if ((unsigned int)SendDlgItemMessage(hwnd, IDC_FILE_CONTENTS, LB_GETHORIZONTALEXTENT, 0, 0) <= (strlen(temp1)*db_get_b(NULL, MODNAME, "WidthMultiplier", 5)))
-			SendDlgItemMessage(hwnd, IDC_FILE_CONTENTS, LB_SETHORIZONTALEXTENT, (strlen(temp1)*db_get_b(NULL, MODNAME, "WidthMultiplier", 5)), 0);
+		if ((unsigned int)SendDlgItemMessage(hwnd, IDC_FILE_CONTENTS, LB_GETHORIZONTALEXTENT, 0, 0) <= (mir_strlen(temp1)*db_get_b(NULL, MODNAME, "WidthMultiplier", 5)))
+			SendDlgItemMessage(hwnd, IDC_FILE_CONTENTS, LB_SETHORIZONTALEXTENT, (mir_strlen(temp1)*db_get_b(NULL, MODNAME, "WidthMultiplier", 5)), 0);
 	}
 	fclose(filen);
 }
@@ -150,7 +150,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			mir_snprintf(fn, SIZEOF(fn), "fn%d", i);
 			SendDlgItemMessage(hwnd, IDC_FILE_CONTENTS, LB_RESETCONTENT, 0, 0);
 			if (db_get_static(NULL, MODNAME, fn, string, SIZEOF(string))) {
-				if ((!strncmp("http://", string, strlen("http://"))) || (!strncmp("https://", string, strlen("https://")))) {
+				if ((!strncmp("http://", string, mir_strlen("http://"))) || (!strncmp("https://", string, mir_strlen("https://")))) {
 					SetDlgItemTextA(hwnd, IDC_URL, string);
 					mir_snprintf(fn, SIZEOF(fn), "fn%d_timer", i);
 					SetDlgItemTextA(hwnd, IDC_WWW_TIMER, _itoa(db_get_w(NULL, MODNAME, fn, 60), tmp, 10));
@@ -259,7 +259,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				SetDlgItemTextA(hwnd, IDC_FN, _itoa(index, fn, 10));
 				mir_snprintf(fn, SIZEOF(fn), "fn%d", index);
 				if (db_get_static(NULL, MODNAME, fn, tmp, SIZEOF(tmp))) {
-					if (!strncmp("http://", tmp, strlen("http://")) || !strncmp("https://", tmp, strlen("https://"))) {
+					if (!strncmp("http://", tmp, mir_strlen("http://")) || !strncmp("https://", tmp, mir_strlen("https://"))) {
 						SetDlgItemTextA(hwnd, IDC_URL, tmp);
 						mir_snprintf(fn, SIZEOF(fn), "fn%d_timer", index);
 						SetDlgItemTextA(hwnd, IDC_WWW_TIMER, _itoa(db_get_w(NULL, MODNAME, fn, 60), tmp, 10));
@@ -296,7 +296,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				else timer = 60;
 
 				if (db_get_static(NULL, MODNAME, fn, string, SIZEOF(string)))
-					if (!strncmp("http://", string, strlen("http://")) || !strncmp("https://", string, strlen("https://"))) {
+					if (!strncmp("http://", string, mir_strlen("http://")) || !strncmp("https://", string, mir_strlen("https://"))) {
 						mir_snprintf(fn, SIZEOF(fn), "fn%d_timer", i);
 						db_set_w(NULL, MODNAME, fn, (WORD)timer);
 					}
@@ -318,7 +318,7 @@ char* getMimDir(char* file)
 		*p1 = '\0';
 
 	if (file[0] == '\\')
-		file[strlen(file) - 1] = '\0';
+		file[mir_strlen(file) - 1] = '\0';
 
 	return file;
 }

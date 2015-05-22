@@ -281,7 +281,7 @@ void PasteToWeb::FromClipboard()
 			if (obj != NULL)
 			{
 				LPCSTR cStr = (LPCSTR)GlobalLock(obj);
-				if (strlen(cStr) > str.length())
+				if (mir_strlen(cStr) > str.length())
 				{
 					str = L"";
 					LPWSTR wStr = mir_a2u_cp(cStr, CP_ACP);

@@ -146,7 +146,7 @@ unsigned int hashSettingW_M2(const char * key)
 unsigned int hashSetting_M2(const char * key)
 {
 	if (key == NULL) return 0;
-	const unsigned int len = (unsigned int)strlen((const char*)key);
+	const unsigned int len = (unsigned int)mir_strlen((const char*)key);
 	return hash_M2(key, len);
 }
 

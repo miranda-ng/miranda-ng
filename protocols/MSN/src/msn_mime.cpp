@@ -111,7 +111,7 @@ void MimeHeaders::addBool(const char* name, bool lValue)
 
 char* MimeHeaders::flipStr(const char* src, size_t len, char* dest)
 {
-	if (len == -1) len = strlen(src);
+	if (len == -1) len = mir_strlen(src);
 
 	if (src == dest) {
 		const unsigned b = (unsigned)len-- / 2;
@@ -139,7 +139,7 @@ size_t MimeHeaders::getLength(void)
 	size_t iResult = 0;
 	for (unsigned i = 0; i < mCount; i++) {
 		MimeHeader& H = mVals[i];
-		iResult += strlen(H.name) + strlen(H.value) + 4;
+		iResult += mir_strlen(H.name) + mir_strlen(H.value) + 4;
 	}
 
 	return iResult + (iResult ? 2 : 0);
@@ -219,7 +219,7 @@ const char* MimeHeaders::find(const char* szFieldName)
 			return MH.value;
 	}
 
-	const size_t len = strlen(szFieldName);
+	const size_t len = mir_strlen(szFieldName);
 	char* szFieldNameR = (char*)alloca(len + 1);
 	flipStr(szFieldName, len, szFieldNameR);
 
@@ -400,7 +400,7 @@ static size_t utf8toutf16(char* str, wchar_t* res)
 
 wchar_t* MimeHeaders::decode(const char* val)
 {
-	size_t ssz = strlen(val) * 2 + 1;
+	size_t ssz = mir_strlen(val) * 2 + 1;
 	char* tbuf = (char*)alloca(ssz);
 	memcpy(tbuf, val, ssz);
 

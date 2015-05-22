@@ -580,7 +580,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 				HXML addressesNode = msg << XCHILDNS(_T("addresses"), JABBER_FEAT_EXT_ADDRESSING);
 				TCHAR szOFrom[JABBER_MAX_JID_LEN];
 
-				size_t cbBlob = strlen((LPSTR)dbei.pBlob)+1;
+				size_t cbBlob = mir_strlen((LPSTR)dbei.pBlob)+1;
 				if (cbBlob < dbei.cbBlob) { // rest of message contains a sender's resource
 					ptrT szOResource( mir_utf8decodeT((LPSTR)dbei.pBlob + cbBlob+1));
 					mir_sntprintf(szOFrom, SIZEOF(szOFrom), _T("%s/%s"), tszJid, szOResource);

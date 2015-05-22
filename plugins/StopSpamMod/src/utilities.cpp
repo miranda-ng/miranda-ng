@@ -365,7 +365,7 @@ void HistoryLog(MCONTACT hContact, char *data, int event_type, int flags)
 	Event.eventType = event_type;
 	Event.flags = flags | DBEF_UTF;
 	Event.timestamp = (DWORD)time(NULL);
-	Event.cbBlob = (DWORD)strlen(data)+1;
+	Event.cbBlob = (DWORD)mir_strlen(data)+1;
 	Event.pBlob = (PBYTE)_strdup(data);
 	db_event_add(hContact, &Event);
 }

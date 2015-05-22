@@ -309,7 +309,7 @@ static HANDLE TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	*(PDWORD)(buf+4) = INADDR_ANY;
 	if (sb->useAuth) {
 		strcpy((char*)buf+8, sb->szUser);
-		len = (int)strlen(sb->szUser);
+		len = (int)mir_strlen(sb->szUser);
 	} else {
 		buf[8] = 0;
 		len = 0;
@@ -374,8 +374,8 @@ static HANDLE TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 		int nUserLen, nPassLen;
 		PBYTE pAuthBuf;
 
-		nUserLen = (int)strlen(sb->szUser);
-		nPassLen = (int)strlen(sb->szPassword);
+		nUserLen = (int)mir_strlen(sb->szUser);
+		nPassLen = (int)mir_strlen(sb->szPassword);
 		pAuthBuf = (PBYTE)mir_alloc(3+nUserLen+nPassLen);
 		pAuthBuf[0] = 1;		//auth version
 		pAuthBuf[1] = nUserLen;

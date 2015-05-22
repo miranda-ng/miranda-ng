@@ -84,12 +84,12 @@ int Parser()
 //				ReStart();
 				return 1;
 			}
-			if(strlen(tmp2) > 2)
+			if(mir_strlen(tmp2) > 2)
 			{
 				strcpy(tmp, "password ");
 				strcat(tmp, tmp2);
 				strcat(tmp, "\n");
-				Netlib_Send(ghConnection, tmp, (int)strlen(tmp), 0);
+				Netlib_Send(ghConnection, tmp, (int)mir_strlen(tmp), 0);
 				recvResult = CallService(MS_NETLIB_GETMOREPACKETS,(WPARAM)ghPacketReciever, (LPARAM)&nlpr);
 				if(recvResult == SOCKET_ERROR)
 				{
@@ -99,14 +99,14 @@ int Parser()
 			}
 			mir_free(tmp2);
 		}
-		Netlib_Send(ghConnection, "status\n", (int)strlen("status\n"), 0);
+		Netlib_Send(ghConnection, "status\n", (int)mir_strlen("status\n"), 0);
 		recvResult = CallService(MS_NETLIB_GETMOREPACKETS,(WPARAM)ghPacketReciever, (LPARAM)&nlpr);
 		if(recvResult == SOCKET_ERROR)
 		{
 			mir_forkthread(&ReStart, 0);
 			return 1;
 		}
-		Netlib_Send(ghConnection, "currentsong\n", (int)strlen("currentsong\n"), 0);
+		Netlib_Send(ghConnection, "currentsong\n", (int)mir_strlen("currentsong\n"), 0);
 		recvResult = CallService(MS_NETLIB_GETMOREPACKETS,(WPARAM)ghPacketReciever, (LPARAM)&nlpr);
 		if(recvResult == SOCKET_ERROR)
 		{
@@ -379,22 +379,22 @@ int SendCommand(HWND, int command, int)
 	switch (command)
 	{
 	case WAT_CTRL_PREV:
-		Netlib_Send(ghConnection, "previous\n", (int)strlen("previous\n"), 0);
+		Netlib_Send(ghConnection, "previous\n", (int)mir_strlen("previous\n"), 0);
 		return 0;
 	case WAT_CTRL_PLAY: //add resuming support
 		if(gbState != WAT_PLS_PAUSED)
-			Netlib_Send(ghConnection, "play\n", (int)strlen("play\n"), 0);
+			Netlib_Send(ghConnection, "play\n", (int)mir_strlen("play\n"), 0);
 		else
-			Netlib_Send(ghConnection, "pause 0\n", (int)strlen("pause 0\n"), 0);
+			Netlib_Send(ghConnection, "pause 0\n", (int)mir_strlen("pause 0\n"), 0);
 		return 0;
 	case WAT_CTRL_PAUSE:
-		Netlib_Send(ghConnection, "pause 1\n", (int)strlen("pause 1\n"), 0);
+		Netlib_Send(ghConnection, "pause 1\n", (int)mir_strlen("pause 1\n"), 0);
 		return 0;
 	case WAT_CTRL_STOP:
-		Netlib_Send(ghConnection, "stop\n", (int)strlen("stop\n"), 0);
+		Netlib_Send(ghConnection, "stop\n", (int)mir_strlen("stop\n"), 0);
 		return 0;
 	case WAT_CTRL_NEXT:
-		Netlib_Send(ghConnection, "next\n", (int)strlen("next\n"), 0);
+		Netlib_Send(ghConnection, "next\n", (int)mir_strlen("next\n"), 0);
 		return 0;
 	case WAT_CTRL_VOLDN:
 		return 0;

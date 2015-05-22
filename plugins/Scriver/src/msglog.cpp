@@ -498,7 +498,7 @@ static void AppendWithCustomLinks(EventData *evt, int style, char *&buffer, size
 	int lasttoken = 0;
 	size_t len, laststart = 0;
 	if (isAnsii) {
-		len = strlen(evt->pszText);
+		len = mir_strlen(evt->pszText);
 		wText = mir_a2u(evt->pszText);
 	}
 	else {

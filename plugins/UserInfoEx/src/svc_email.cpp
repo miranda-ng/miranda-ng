@@ -89,7 +89,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 			LPSTR szUrl;
 			INT_PTR len;
 
-			len = mir_strlen(val) + strlen("mailto:");
+			len = mir_strlen(val) + mir_strlen("mailto:");
 
 			szUrl = (LPSTR)_alloca(len + 1);
 

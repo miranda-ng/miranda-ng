@@ -206,7 +206,7 @@ void CJabberProto::xmlStreamInitializeNow(ThreadData *info)
 
 	LPTSTR xmlQuery = xi.toString(n, NULL);
 	char* buf = mir_utf8encodeT(xmlQuery);
-	int bufLen = (int)strlen(buf);
+	int bufLen = (int)mir_strlen(buf);
 	if (bufLen > 2) {
 		strdel(buf + bufLen - 2, 1);
 		bufLen--;
@@ -392,7 +392,7 @@ LBL_FatalError:
 	// User may change status to OFFLINE while we are connecting above
 	if (m_iDesiredStatus != ID_STATUS_OFFLINE || info.bIsReg) {
 		if (!info.bIsReg) {
-			size_t len = _tcslen(info.conn.username) + strlen(info.conn.server) + 1;
+			size_t len = _tcslen(info.conn.username) + mir_strlen(info.conn.server) + 1;
 			m_szJabberJID = (TCHAR*)mir_alloc(sizeof(TCHAR)*(len + 1));
 			mir_sntprintf(m_szJabberJID, len + 1, _T("%s@%S"), info.conn.username, info.conn.server);
 			m_bSendKeepAlive = m_options.KeepAlive != 0;
@@ -1229,8 +1229,8 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 				if (xmlGetChild(xNode, "delivered") != NULL || xmlGetChild(xNode, "offline") != NULL) {
 					int id = -1;
 					if (idNode != NULL && xmlGetText(idNode) != NULL)
-						if (!_tcsncmp(xmlGetText(idNode), _T(JABBER_IQID), strlen(JABBER_IQID)))
-							id = _ttoi((xmlGetText(idNode)) + strlen(JABBER_IQID));
+						if (!_tcsncmp(xmlGetText(idNode), _T(JABBER_IQID), mir_strlen(JABBER_IQID)))
+							id = _ttoi((xmlGetText(idNode)) + mir_strlen(JABBER_IQID));
 
 					if (id != -1)
 						ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id, 0);
@@ -1943,7 +1943,7 @@ int ThreadData::send(char* buffer, int bufsize)
 		return 0;
 
 	if (bufsize == -1)
-		bufsize = (int)strlen(buffer);
+		bufsize = (int)mir_strlen(buffer);
 
 	WaitForSingleObject(iomutex, 6000);
 
@@ -1988,7 +1988,7 @@ int ThreadData::send(HXML node)
 
 
 	char* utfStr = mir_utf8encodeT(str);
-	int result = send(utfStr, (int)strlen(utfStr));
+	int result = send(utfStr, (int)mir_strlen(utfStr));
 	mir_free(utfStr);
 
 	xi.freeMem(str);

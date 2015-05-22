@@ -234,8 +234,8 @@ char* multiReplace(const char* value, const char *find, const char *replace, int
 {
 	char *head, *temp, *string;
 
-	int len = (int)strlen(find);
-	int replen = (int)strlen(replace);
+	int len = (int)mir_strlen(find);
+	int replen = (int)mir_strlen(replace);
 
 	// only should be 1 '=' sign there...
 	if (head = (char*)(cs ? strstr(value, find) : StrStrI(value, find))) {
@@ -244,7 +244,7 @@ char* multiReplace(const char* value, const char *find, const char *replace, int
 		temp[0] = '\0';
 
 		while (head) {
-			temp = (char*)mir_realloc(temp, strlen(temp) + strlen(string) + replen + 1);
+			temp = (char*)mir_realloc(temp, mir_strlen(temp) + mir_strlen(string) + replen + 1);
 			if (!temp) mir_tstrdup(value);
 
 			strncat(temp, string, (head - string));

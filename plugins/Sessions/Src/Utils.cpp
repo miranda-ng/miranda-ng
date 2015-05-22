@@ -42,7 +42,7 @@ void AddSessionMark(MCONTACT hContact, int mode, char bit)
 		ptrA szValue(db_get_sa(hContact, MODNAME, "UserSessionsMarks"));
 		if (szValue) {
 			char *pszBuffer;
-			if (strlen(szValue) < g_ses_count) {
+			if (mir_strlen(szValue) < g_ses_count) {
 				pszBuffer = (char*)mir_alloc(g_ses_count + 1);
 				memset(pszBuffer, 0, (g_ses_count + 1));
 				strcpy(pszBuffer, szValue);
@@ -132,7 +132,7 @@ void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 	if (mode == 0) {
 		ptrA szValue(db_get_sa(hContact, MODNAME, "LastSessionsMarks"));
 		if (szValue) {
-			int len = (int)strlen(szValue);
+			int len = (int)mir_strlen(szValue);
 			if (!len)
 				len = 20;
 
@@ -157,14 +157,14 @@ void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 		ptrA szValue(db_get_sa(hContact, MODNAME, "UserSessionsOrder"));
 		if (szValue) {
 			char *pszBuffer;
-			if (strlen(szValue) < (g_ses_count * 2)) {
+			if (mir_strlen(szValue) < (g_ses_count * 2)) {
 				pszBuffer = (char*)mir_alloc((g_ses_count * 2) + 1);
 				memset(pszBuffer, 0, ((g_ses_count * 2) + 1));
 				strcpy(pszBuffer, szValue);
 			}
 			else pszBuffer = mir_strdup(szValue);
 
-			int len = (int)strlen(pszBuffer);
+			int len = (int)mir_strlen(pszBuffer);
 			len = (len == 0) ? 20 : len + 2;
 			char *temp = (char*)_alloca(len + 1);
 			mir_snprintf(temp, len + 1, "%02u%s", ordernum, szValue);

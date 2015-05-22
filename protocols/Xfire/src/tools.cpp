@@ -65,13 +65,13 @@ BOOL str_replace(char*src, char*find, char*rep)
 
 	if (pos > -1)
 	{
-		char *temp = new char[strlen(src) + strlen(rep) + 1];
+		char *temp = new char[mir_strlen(src) + mir_strlen(rep) + 1];
 
 		strcpy(temp, src);
 		*(temp + pos) = 0;
 
 		strcat(temp, rep);
-		strcat(temp, (src + pos + strlen(find)));
+		strcat(temp, (src + pos + mir_strlen(find)));
 		strcpy(src, temp);
 
 		delete[] temp;
@@ -134,7 +134,7 @@ char*menuitemtext(char*mtext)
 	if (!mtext)
 		return NULL;
 
-	int size = strlen(mtext);
+	int size = mir_strlen(mtext);
 
 	if (!size || size > 255)
 		return mtext;
@@ -739,7 +739,7 @@ char * getItem(char * string, char delim, int count)
 	if (count > 1)
 		item[0] = 0;
 
-	for (unsigned int i = 0; i < strlen(item); i++)
+	for (unsigned int i = 0; i < mir_strlen(item); i++)
 	{
 		item[i] = tolower(item[i]);
 	}
@@ -831,19 +831,19 @@ BOOL checkCommandLine(HANDLE hProcess, char * mustcontain, char * mustnotcontain
 	buffer2[correctsize - 1] = 0;
 
 
-	for (unsigned int i = 0; i < strlen(buffer2); i++)
+	for (unsigned int i = 0; i < mir_strlen(buffer2); i++)
 	{
 		buffer2[i] = tolower(buffer2[i]);
 	}
 
 	//lowercase mustcontain/mustnotcontain
 	if (mustcontain)
-		for (unsigned int i = 0; i < strlen(mustcontain); i++)
+		for (unsigned int i = 0; i < mir_strlen(mustcontain); i++)
 		{
 		mustcontain[i] = tolower(mustcontain[i]);
 		}
 	if (mustnotcontain)
-		for (unsigned int i = 0; i < strlen(mustnotcontain); i++)
+		for (unsigned int i = 0; i < mir_strlen(mustnotcontain); i++)
 		{
 		mustnotcontain[i] = tolower(mustnotcontain[i]);
 		}
@@ -1015,7 +1015,7 @@ unsigned int getfilesize(char*path)
 //funktion soll erst in der userini suchen, danach in der xfire_games.ini
 DWORD xfire_GetPrivateProfileString(__in   LPCSTR lpAppName, __in   LPCSTR lpKeyName, __in   LPCSTR lpDefault, __out  LPSTR lpReturnedString, __in   DWORD nSize, __in   LPCSTR lpFileName) {
 	//xfire_games.ini
-	int size = strlen(lpFileName);
+	int size = mir_strlen(lpFileName);
 	if (size > 15)
 	{
 		char*file = (char*)lpFileName;

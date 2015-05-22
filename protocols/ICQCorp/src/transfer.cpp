@@ -110,7 +110,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 
         if (directoryName[0])
         {
-            char *fullName = new char[strlen(directoryName) + strlen(files[current]) + 2];
+            char *fullName = new char[mir_strlen(directoryName) + mir_strlen(files[current]) + 2];
             sprintf(fullName, "%s\\%s", directoryName, files[current]);
             delete [] files[current];
             files[current] = fullName;
@@ -234,7 +234,7 @@ void ICQTransfer::sendPacket0x02()
     packet << (unsigned char)0x02
            << directory
            << (strrchr(fileName, '\\') + 1)
-           << (directoryName + strlen(path) + 1)
+           << (directoryName + mir_strlen(path) + 1)
            << fileSize
            << fileDate
            << speed;
@@ -396,7 +396,7 @@ void ICQTransfer::resume(int action, const char *newName)
     case FILERESUME_RENAME:
         T("[   ] rename file\n");
         delete [] fileName;
-        fileName = new char[strlen(newName) + 1];
+        fileName = new char[mir_strlen(newName) + 1];
         strcpy(fileName, newName);
         files[current] = fileName;
 

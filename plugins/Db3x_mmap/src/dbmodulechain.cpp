@@ -86,7 +86,7 @@ DWORD CDb3Mmap::GetModuleNameOfs(const char *szName)
 	if (m_bReadOnly)
 		return 0;
 
-	int nameLen = (int)strlen(szName);
+	int nameLen = (int)mir_strlen(szName);
 
 	// need to create the module name
 	DWORD ofsNew = CreateNewSpace(nameLen + offsetof(struct DBModuleName, name));

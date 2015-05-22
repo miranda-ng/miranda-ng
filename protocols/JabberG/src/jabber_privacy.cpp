@@ -2121,7 +2121,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 
 	mir_cslock lck(m_privacyListManager.m_cs);
 
-	char srvFce[MAX_PATH + 64], *svcName = srvFce + strlen(m_szModuleName);
+	char srvFce[MAX_PATH + 64], *svcName = srvFce + mir_strlen(m_szModuleName);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 2000040000;

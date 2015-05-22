@@ -403,7 +403,7 @@ std::string utils::text::source_get_value2(std::string* data, const char *term, 
 
 	start = data->find(term);
 	if (start != std::string::npos) {
-		start += strlen(term);
+		start += mir_strlen(term);
 
 		end = data->find_first_of(endings, start);
 		if (end != std::string::npos) {
@@ -478,7 +478,7 @@ std::string utils::text::rand_string(int len, const char *chars, unsigned int *n
 {
 	std::stringstream out;
 
-	int strLen = (int)strlen(chars);
+	int strLen = (int)mir_strlen(chars);
 	for (int i = 0; i < len; ++i) {
 		out << chars[utils::number::random(0, strLen, number)];
 	}

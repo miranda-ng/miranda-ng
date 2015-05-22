@@ -72,7 +72,7 @@ void CSendHost_Imgur::SendThread(void* obj)
 				mir_free(self->m_URL), self->m_URL=mir_strdup(buf);
 				char* ext=strrchr(self->m_URL,'.');
 				if(ext){
-					size_t thumblen=strlen(self->m_URL)+2;
+					size_t thumblen=mir_strlen(self->m_URL)+2;
 					mir_free(self->m_URLthumb), self->m_URLthumb=(char*)mir_alloc(thumblen);
 					thumblen=ext-self->m_URL;
 					memcpy(self->m_URLthumb,self->m_URL,thumblen);

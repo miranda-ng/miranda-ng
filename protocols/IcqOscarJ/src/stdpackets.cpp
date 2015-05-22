@@ -659,7 +659,7 @@ void CIcqProto::icq_sendSetAimAwayMsgServ(const char *szMsg)
 
 		if (IsUSASCII(szMsg, wMsgLen)) {
 			const char* fmt = "text/x-aolrtf; charset=\"us-ascii\"";
-			size_t fmtlen = strlen(fmt);
+			size_t fmtlen = mir_strlen(fmt);
 
 			serverPacketInit(&packet, 23 + wMsgLen + fmtlen);
 			packFNACHeader(&packet, ICQ_LOCATION_FAMILY, ICQ_LOCATION_SET_USER_INFO, 0, dwCookie);
@@ -669,7 +669,7 @@ void CIcqProto::icq_sendSetAimAwayMsgServ(const char *szMsg)
 		}
 		else {
 			const char* fmt = "text/x-aolrtf; charset=\"unicode-2-0\"";
-			size_t fmtlen = strlen(fmt);
+			size_t fmtlen = mir_strlen(fmt);
 
 			WCHAR *szMsgW = make_unicode_string(szMsg);
 			wMsgLen = mir_wstrlen(szMsgW) * sizeof(WCHAR);

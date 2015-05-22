@@ -99,7 +99,7 @@ void CSteamProto::OnInitStatusMenu()
 {
 	char text[200];
 	mir_strncpy(text, m_szModuleName, 100);
-	char* tDest = text + strlen(text);
+	char* tDest = text + mir_strlen(text);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = text;

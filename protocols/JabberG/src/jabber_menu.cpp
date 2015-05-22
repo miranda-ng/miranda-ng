@@ -434,7 +434,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 	char text[ 256 ];
 	strcpy(text, m_szModuleName);
-	size_t nModuleNameLength = strlen(text);
+	size_t nModuleNameLength = mir_strlen(text);
 	char* tDest = text + nModuleNameLength;
 
 	mi.flags = CMIF_CHILDPOPUP;
@@ -603,7 +603,7 @@ void CJabberProto::MenuInit()
 {
 	char text[200];
 	strncpy(text, m_szModuleName, sizeof(text)-1);
-	char* tDest = text + strlen(text);
+	char* tDest = text + mir_strlen(text);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = text;
@@ -727,7 +727,7 @@ void CJabberProto::MenuInit()
 	m_hMenuPriorityRoot = Menu_AddProtoMenuItem(&mi);
 
 	TCHAR szName[128];
-	char srvFce[MAX_PATH + 64], *svcName = srvFce + strlen(m_szModuleName);
+	char srvFce[MAX_PATH + 64], *svcName = srvFce + mir_strlen(m_szModuleName);
 	mi.pszService = srvFce;
 	mi.ptszName = szName;
 	mi.position = 2000040000;
@@ -826,7 +826,7 @@ void CJabberProto::GlobalMenuInit()
 
 	char text[200];
 	strncpy(text, m_szModuleName, sizeof(text) - 1);
-	char* tDest = text + strlen(text);
+	char* tDest = text + mir_strlen(text);
 
 	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.pszName = text;

@@ -28,8 +28,8 @@ LPSTR InitKeyA(pUinKey ptr, int features)
 	else
 		keysig = (LPSTR)SIG_KEY3;
 
-	int slen = (int)strlen(keysig);
-	int tlen = (int)strlen(pub_text);
+	int slen = (int)mir_strlen(keysig);
+	int tlen = (int)mir_strlen(pub_text);
 
 	LPSTR keyToSend = (LPSTR)mir_alloc(slen + tlen + 1);
 
@@ -106,8 +106,8 @@ LPSTR encrypt(pUinKey ptr, LPCSTR szEncMsg)
 {
 	LPSTR szSig = (LPSTR)(ptr->offlineKey ? SIG_ENOF : SIG_ENON);
 
-	int slen = (int)strlen(szSig);
-	int clen = (int)strlen(szEncMsg);
+	int slen = (int)mir_strlen(szSig);
+	int clen = (int)mir_strlen(szEncMsg);
 
 	LPSTR szMsg = (LPSTR)mir_alloc(clen + slen + 1);
 	memcpy(szMsg, szSig, slen);
@@ -151,7 +151,7 @@ LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg)
 	}
 	else {
 		ptr->decoded = true;
-		int olen = (int)strlen(szOldMsg) + 1;
+		int olen = (int)mir_strlen(szOldMsg) + 1;
 		szNewMsg = (LPSTR)mir_alloc(olen);
 		memcpy(szNewMsg, szOldMsg, olen);
 	}

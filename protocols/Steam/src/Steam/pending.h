@@ -18,7 +18,7 @@ namespace SteamWebApi
 			char data[MAX_PATH];
 			mir_snprintf(data, SIZEOF(data), "sessionID=%s&id=%s&perform=accept&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
 
-			SetData(data, strlen(data));
+			SetData(data, mir_strlen(data));
 			AddHeader("Cookie", cookie);
 		}
 	};
@@ -38,7 +38,7 @@ namespace SteamWebApi
 			char data[MAX_PATH];
 			mir_snprintf(data, SIZEOF(data), "sessionID=%s&id=%s&perform=ignore&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
 
-			SetData(data, strlen(data));
+			SetData(data, mir_strlen(data));
 			AddHeader("Cookie", cookie);
 		}
 	};
@@ -58,7 +58,7 @@ namespace SteamWebApi
 			char data[MAX_PATH];
 			mir_snprintf(data, SIZEOF(data), "sessionID=%s&id=%s&perform=block&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
 
-			SetData(data, strlen(data));
+			SetData(data, mir_strlen(data));
 			AddHeader("Cookie", cookie);
 		}
 	};

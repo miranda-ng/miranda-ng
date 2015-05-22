@@ -109,7 +109,7 @@ FOLDERSDATA;
   wParam - (WPARAM) (int) - handle to registered path
   lParam - (LPARAM) (int *) - pointer to the variable that receives the size of the path
   string (not including the null character). Depending on the flags set when creating the path
-  it will either call strlen() or wcslen() to get the length of the string.
+  it will either call mir_strlen() or wcslen() to get the length of the string.
   Returns the size of the buffer.
   */
 #define MS_FOLDERS_GET_SIZE "Folders/Get/PathSize"

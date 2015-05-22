@@ -109,7 +109,7 @@ Packet &Packet::operator << (unsigned char data)
 
 Packet &Packet::operator << (char *data)
 {
-	unsigned int s = (unsigned int)strlen(data) + 1;
+	unsigned int s = (unsigned int)mir_strlen(data) + 1;
     operator << ((unsigned short)s);
     memcpy(nextData, data, s);
     sizeVal += s;

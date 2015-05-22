@@ -365,9 +365,9 @@ MCONTACT __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEV
 		return NULL;
 
 	char *nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);
-	char *firstName = nick + strlen(nick) + 1;
-	char *lastName = firstName + strlen(firstName) + 1;
-	char *jid = lastName + strlen(lastName) + 1;
+	char *firstName = nick + mir_strlen(nick) + 1;
+	char *lastName = firstName + mir_strlen(firstName) + 1;
+	char *jid = lastName + mir_strlen(lastName) + 1;
 
 	TCHAR *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeT(jid) : mir_a2t(jid);
 	MCONTACT hContact = (MCONTACT)AddToListByJID(newJid, flags);
@@ -396,9 +396,9 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 		return 1;
 
 	char *nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);
-	char *firstName = nick + strlen(nick) + 1;
-	char *lastName = firstName + strlen(firstName) + 1;
-	char *jid = lastName + strlen(lastName) + 1;
+	char *firstName = nick + mir_strlen(nick) + 1;
+	char *lastName = firstName + mir_strlen(firstName) + 1;
+	char *jid = lastName + mir_strlen(lastName) + 1;
 
 	debugLog(_T("Send 'authorization allowed' to %s"), jid);
 
@@ -450,9 +450,9 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 		return 1;
 
 	char *nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);
-	char *firstName = nick + strlen(nick) + 1;
-	char *lastName = firstName + strlen(firstName) + 1;
-	char *jid = lastName + strlen(lastName) + 1;
+	char *firstName = nick + mir_strlen(nick) + 1;
+	char *lastName = firstName + mir_strlen(firstName) + 1;
+	char *jid = lastName + mir_strlen(lastName) + 1;
 
 	debugLogA("Send 'authorization denied' to %s", jid);
 
@@ -966,11 +966,11 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 	}
 
 	int  isEncrypted, id = SerialNext();
-	if (!strncmp(pszSrc, PGP_PROLOG, strlen(PGP_PROLOG))) {
+	if (!strncmp(pszSrc, PGP_PROLOG, mir_strlen(PGP_PROLOG))) {
 		const char *szEnd = strstr(pszSrc, PGP_EPILOG);
-		char *tempstring = (char*)alloca(strlen(pszSrc) + 1);
-		size_t nStrippedLength = strlen(pszSrc) - strlen(PGP_PROLOG) - (szEnd ? strlen(szEnd) : 0);
-		strncpy_s(tempstring, nStrippedLength, pszSrc + strlen(PGP_PROLOG), _TRUNCATE);
+		char *tempstring = (char*)alloca(mir_strlen(pszSrc) + 1);
+		size_t nStrippedLength = mir_strlen(pszSrc) - mir_strlen(PGP_PROLOG) - (szEnd ? mir_strlen(szEnd) : 0);
+		strncpy_s(tempstring, nStrippedLength, pszSrc + mir_strlen(PGP_PROLOG), _TRUNCATE);
 		tempstring[nStrippedLength] = 0;
 		pszSrc = tempstring;
 		isEncrypted = 1;

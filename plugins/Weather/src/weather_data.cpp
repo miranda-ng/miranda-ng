@@ -89,7 +89,7 @@ WEATHERINFO LoadWeatherInfo(MCONTACT hContact)
 int DBGetData(MCONTACT hContact, char *setting, DBVARIANT *dbv) 
 {
 	if ( db_get_ts(hContact, WEATHERCONDITION, setting, dbv)) {
-		size_t len = strlen(setting) + 1;
+		size_t len = mir_strlen(setting) + 1;
 		char *set = (char*)alloca(len + 1);
 		*set = '#';
 		memcpy(set + 1, setting, len);
@@ -371,7 +371,7 @@ void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szData)
 void wSetData(char **Data, const char *Value)
 {
 	if (Value[0] != 0) {
-		char *newData = (char*)mir_alloc(strlen(Value) + 3);
+		char *newData = (char*)mir_alloc(mir_strlen(Value) + 3);
 		strcpy(newData, Value);
 		*Data = newData;
 	}
@@ -398,7 +398,7 @@ void wSetData(WCHAR **Data, const WCHAR *Value)
 // Data = the string occuping the data to be freed
 void wfree(char **Data) 
 {
-	if (*Data && strlen(*Data) > 0)
+	if (*Data && mir_strlen(*Data) > 0)
 		mir_free(*Data);
 	*Data = NULL;
 }

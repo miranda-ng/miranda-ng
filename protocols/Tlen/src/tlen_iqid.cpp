@@ -407,7 +407,7 @@ void TlenIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 	char *str = TlenXmlGetAttrValue(iqNode, "id");
 	if (str == NULL)
 		return;
-	int id = atoi(str+strlen(TLEN_IQID));
+	int id = atoi(str+mir_strlen(TLEN_IQID));
 
 	if (!strcmp(type, "result")) {
 		if ((queryNode=TlenXmlGetChild(iqNode, "query")) == NULL) return;

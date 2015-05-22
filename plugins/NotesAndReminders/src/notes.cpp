@@ -155,7 +155,7 @@ static void InitNoteTitle(STICKYNOTE *TSN)
 			// append time if requested
 			if (g_NoteTitleTime)
 			{
-				int n = (int)strlen(TempStr);
+				int n = (int)mir_strlen(TempStr);
 				TempStr[n++] = ' ';
 				TempStr[n] = 0;
 
@@ -478,7 +478,7 @@ void LoadNotes(BOOL bIsStartup)
 					break;
 
 				case DATATAG_TITLE:
-					if (strlen(TVal) > MAX_TITLE_LEN)
+					if (mir_strlen(TVal) > MAX_TITLE_LEN)
 						TVal[MAX_TITLE_LEN] = 0;
 					note.title = _strdup(TVal);
 					note.CustomTitle = TRUE;
@@ -612,7 +612,7 @@ void LoadNotes(BOOL bIsStartup)
 				if ( strchr(ID, '-') )
 				{
 					// validate format (otherwise create new)
-					if (strlen(ID) < 19 || ID[2] != '-' || ID[5] != '-' || ID[10] != ' ' || ID[13] != ':' || ID[16] != ':')
+					if (mir_strlen(ID) < 19 || ID[2] != '-' || ID[5] != '-' || ID[10] != ' ' || ID[13] != ':' || ID[16] != ':')
 					{
 						ID = NULL;
 					}
@@ -1103,7 +1103,7 @@ static BOOL GetClipboardText_Title(char *pOut, int size)
 			while (*buffer && isspace(*buffer))
 				buffer++;
 
-			size_t n = strlen(buffer);
+			size_t n = mir_strlen(buffer);
 			if (n >= size)
 				n = size-1;
 			memcpy(pOut, buffer, n);
@@ -1116,7 +1116,7 @@ static BOOL GetClipboardText_Title(char *pOut, int size)
 				if (*p == '\r' || *p == '\n')
 				{
 					*p = 0;
-					n = strlen(pOut);
+					n = mir_strlen(pOut);
 					break;
 				}
 				else if (*p == '\t')
@@ -1736,7 +1736,7 @@ char* GetPreviewString(const char *lpsz)
 	while ( iswspace(*lpsz) )
 		lpsz++;
 
-	l = (int)strlen(lpsz);
+	l = (int)mir_strlen(lpsz);
 
 	if (!l)
 		return "";

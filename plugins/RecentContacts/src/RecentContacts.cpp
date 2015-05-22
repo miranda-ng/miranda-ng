@@ -146,7 +146,7 @@ BOOL ShowListMainDlgProc_OpenContactMenu(HWND hDlg, HWND hList, int item, LASTUC
 void wSetData(char **Data, const char *Value)
 {
 	if (Value[0] != 0) {
-		char *newData = (char*)mir_alloc(strlen(Value)+3);
+		char *newData = (char*)mir_alloc(mir_strlen(Value)+3);
 		strcpy(newData, Value);
 		*Data = newData;
 	}
@@ -155,7 +155,7 @@ void wSetData(char **Data, const char *Value)
 
 void wfree(char **Data)
 {
-	if (*Data && strlen(*Data) > 0)	mir_free(*Data);
+	if (*Data && mir_strlen(*Data) > 0)	mir_free(*Data);
 	*Data = NULL;
 }
 

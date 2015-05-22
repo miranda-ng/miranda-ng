@@ -324,7 +324,7 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime,
 		if ((peol = strchr(buffer, '\n')) != NULL)
 			break;
 
-		if ((int)strlen(buffer) < bytesPeeked) {
+		if ((int)mir_strlen(buffer) < bytesPeeked) {
 			SetLastError(ERROR_BAD_FORMAT);
 			return 0;
 		}
@@ -578,10 +578,10 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 						phost = strstr(pszFullUrl, "://");
 						phost = phost ? phost + 3 : pszFullUrl;
 						ppath = strchr(phost, '/');
-						rlen = ppath ? ppath - pszFullUrl : strlen(pszFullUrl);
+						rlen = ppath ? ppath - pszFullUrl : mir_strlen(pszFullUrl);
 					}
 
-					nlc->szNewUrl = (char*)mir_realloc(nlc->szNewUrl, rlen + strlen(tmpUrl) * 3 + 1);
+					nlc->szNewUrl = (char*)mir_realloc(nlc->szNewUrl, rlen + mir_strlen(tmpUrl) * 3 + 1);
 
 					strncpy(nlc->szNewUrl, pszFullUrl, rlen);
 					strcpy(nlc->szNewUrl + rlen, tmpUrl);

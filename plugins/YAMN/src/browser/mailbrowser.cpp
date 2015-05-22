@@ -407,12 +407,12 @@ int UpdateMails(HWND hDlg, HACCOUNT ActualAccount, DWORD nflags, DWORD nnflags)
 
 	if (RunMailBrowser)
 	{
-		size_t len = strlen(ActualAccount->Name) + strlen(Translate(MAILBROWSERTITLE)) + 10;	//+10 chars for numbers
+		size_t len = mir_strlen(ActualAccount->Name) + mir_strlen(Translate(MAILBROWSERTITLE)) + 10;	//+10 chars for numbers
 		char *TitleStrA = new char[len];
 		WCHAR *TitleStrW = new WCHAR[len];
 
 		mir_snprintf(TitleStrA, len, Translate(MAILBROWSERTITLE), ActualAccount->Name, MN.Real.DisplayUC + MN.Virtual.DisplayUC, MN.Real.Display + MN.Virtual.Display);
-		MultiByteToWideChar(CP_ACP, MB_USEGLYPHCHARS, TitleStrA, -1, TitleStrW, (int)strlen(TitleStrA) + 1);
+		MultiByteToWideChar(CP_ACP, MB_USEGLYPHCHARS, TitleStrA, -1, TitleStrW, (int)mir_strlen(TitleStrA) + 1);
 		SetWindowTextW(hDlg, TitleStrW);
 		delete[] TitleStrA;
 		delete[] TitleStrW;
@@ -1088,7 +1088,7 @@ ULONGLONG MimeDateToFileTime(char *datein)
 
 		if (year) {
 			st.wYear = atoi(year);
-			if (strlen(year) < 4)	if (st.wYear < 70)st.wYear += 2000; else st.wYear += 1900;
+			if (mir_strlen(year) < 4)	if (st.wYear < 70)st.wYear += 2000; else st.wYear += 1900;
 		};
 		if (month) for (int i = 0; i < 12; i++) if (strncmp(month, s_MonthNames[i], 3) == 0) { st.wMonth = i + 1; break; }
 		if (day) st.wDay = atoi(day);
@@ -1107,12 +1107,12 @@ ULONGLONG MimeDateToFileTime(char *datein)
 		else { st.wHour = st.wMinute = st.wSecond = 0; }
 
 		if (shift) {
-			if (strlen(shift) < 4) {
+			if (mir_strlen(shift) < 4) {
 				//has only hour
 				wShiftSeconds = (atoi(shift)) * 3600;
 			}
 			else {
-				char *smin = shift + strlen(shift) - 2;
+				char *smin = shift + mir_strlen(shift) - 2;
 				int ismin = atoi(smin);
 				smin[0] = 0;
 				int ishour = atoi(shift);
@@ -1444,12 +1444,12 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 				if (!_strnicmp(contentType, "text", 4)) {
 					if (transEncoding) {
 						if (!_stricmp(transEncoding, "base64")) {
-							int size = (int)strlen(body) * 3 / 4 + 5;
+							int size = (int)mir_strlen(body) * 3 / 4 + 5;
 							localBody = new char[size + 1];
 							DecodeBase64(body, localBody, size);
 						}
 						else if (!_stricmp(transEncoding, "quoted-printable")) {
-							int size = (int)strlen(body) + 2;
+							int size = (int)mir_strlen(body) + 2;
 							localBody = new char[size + 1];
 							DecodeQuotedPrintable(body, localBody, size, FALSE);
 						}

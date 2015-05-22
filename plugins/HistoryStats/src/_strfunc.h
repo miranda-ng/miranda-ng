@@ -18,7 +18,7 @@ namespace ext
 		static int coll(const char* string1, const char* string2) { return strcoll(string1, string2); }
 		static int icoll(const char* string1, const char* string2) { return _stricoll(string1, string2); }
 		static const char* str(const char* string, const char* strSearch) { return strstr(string, strSearch); }
-		static size_t len(const char* string) { return strlen(string); }
+		static size_t len(const char* string) { return mir_strlen(string); }
 		static size_t ftime(char* strDest, size_t maxsize, const char* format, const struct tm* timeptr) { return strftime(strDest, maxsize, format, timeptr); }
 		static int sprintf(char* buffer, const char* format, ...) { va_list args; va_start(args, format); return vsprintf(buffer, format, args); }
 	};

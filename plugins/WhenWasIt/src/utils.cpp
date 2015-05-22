@@ -50,7 +50,7 @@ int Log(char *format, ...)
 		str[tBytes] = 0;
 
 	va_end(vararg);
-	if (str[strlen(str) - 1] != '\n')
+	if (str[mir_strlen(str) - 1] != '\n')
 		strcat(str, "\n");
 	fputs(str, fout);
 	fclose(fout);
@@ -114,7 +114,7 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 	dbv.type = DBVT_ASCIIZ;
 	if (db_get(hContact, szModule, szSettingName, &dbv) == 0) {
 		res = 0;
-		size_t tmp = strlen(dbv.pszVal);
+		size_t tmp = mir_strlen(dbv.pszVal);
 		len = (tmp < size - 1) ? tmp : size - 1;
 		strncpy(szResult, dbv.pszVal, len);
 		szResult[len] = '\0';
@@ -123,7 +123,7 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 	else {
 		res = 1;
 		if (szError) {
-			size_t tmp = strlen(szError);
+			size_t tmp = mir_strlen(szError);
 			len = (tmp < size - 1) ? tmp : size - 1;
 			strncpy(szResult, szError, len);
 			szResult[len] = '\0';

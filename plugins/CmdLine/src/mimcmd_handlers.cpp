@@ -121,13 +121,13 @@ void HandleUnknownParameter(PCommand command, char *param, PReply reply)
 
 int ParseValueParam(char *param, void *&result)
 {
-	if (strlen(param) > 0)
+	if (mir_strlen(param) > 0)
 	{
 		switch (*param)
 		{
 			case 's':
 			{
-				size_t len = strlen(param); //- 1 + 1
+				size_t len = mir_strlen(param); //- 1 + 1
 				result = (char *) malloc(len * sizeof(char));
 				STRNCPY((char *) result, param + 1, len);
 				((char *) result)[len - 1] = 0;
@@ -136,7 +136,7 @@ int ParseValueParam(char *param, void *&result)
 			
 			case 'w':
 			{
-				size_t len = strlen(param);
+				size_t len = mir_strlen(param);
 				result = (WCHAR *) malloc(len * sizeof(WCHAR));
 				char *buffer = (char *) malloc(len * sizeof(WCHAR));
 				STRNCPY(buffer, param + 1, len);
@@ -819,9 +819,9 @@ void HandleCallServiceCommand(PCommand command, TArgument *argv, int argc, PRepl
 
 void ParseMessage(char buffer[512], const char *message) {
 	unsigned int j = 0;
-	for (unsigned int i = 0; i < strlen(message); ++i) {
+	for (unsigned int i = 0; i < mir_strlen(message); ++i) {
 		char c = message[i];
-		if (c == '\\' && i < (strlen(message) - 1) && message[i+1] == 'n') {
+		if (c == '\\' && i < (mir_strlen(message) - 1) && message[i+1] == 'n') {
 			c = '\n';
 			i++;
 		}
@@ -897,7 +897,7 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 							e.flags = DBEF_SENT;
 							
 							e.pBlob = (PBYTE) message;
-							e.cbBlob = (DWORD) strlen((char *) message) + 1;
+							e.cbBlob = (DWORD) mir_strlen((char *) message) + 1;
 						
 							STRNCPY(module, ack->szModule, sizeof(module));
 							e.szModule = module;
@@ -1462,7 +1462,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 						STRNCPY(reply->message, buffer, reply->cMessage);
 					}
 					
-					if (strlen(reply->message) > 4096)
+					if (mir_strlen(reply->message) > 4096)
 					{
 						SetEvent(heServerBufferFull);
 						Sleep(750); //wait a few milliseconds for the event to be processed
@@ -1539,7 +1539,7 @@ void AddHistoryEvent(DBEVENTINFO *dbEvent, char *contact, PReply reply)
 		STRNCPY(reply->message, buffer, reply->cMessage);
 	}
 	
-	if (strlen(reply->message) > (reply->cMessage / 2))
+	if (mir_strlen(reply->message) > (reply->cMessage / 2))
 	{
 		SetEvent(heServerBufferFull);
 

@@ -268,7 +268,7 @@ static const char *named_entities[][2] =
 static int cmp(const void *key, const void *element)
 {
 	return strncmp((const char *)key, *(const char **)element,
-		strlen(*(const char **)element));
+		mir_strlen(*(const char **)element));
 }
 
 static const char *get_named_entity(const char *name)
@@ -346,7 +346,7 @@ static _Bool parse_entity(const char *current, char **to,
 		const char *entity = get_named_entity(&current[1]);
 		if(entity)
 		{
-			size_t len = strlen(entity);
+			size_t len = mir_strlen(entity);
 			memcpy(*to, entity, len);
 
 			*to += len;
@@ -367,7 +367,7 @@ size_t decode_html_entities_utf8(char *dest, const char *src, size_t len)
 	const char *from = src;
 
 	const char *current;
-	if (!len) len = strlen(src);
+	if (!len) len = mir_strlen(src);
 	size_t remain = len;
 	while((current = (const char*)memchr(from, '&', len-(from-src))))
 	{
@@ -417,7 +417,7 @@ char * encode_html_entities_utf8(const char *src) {
 		}
 		pos = strpbrk(start, "&<>\"\r");
 	}
-	if (strlen(start)) buf.append(start);
+	if (mir_strlen(start)) buf.append(start);
 	pos = mir_strdup(buf.c_str());
 	buf.clear();
 	return (char*)pos;

@@ -70,7 +70,7 @@ extern "C" __declspec(dllexport) int Load()
 
     GetModuleFileName(hInstance, fileName, MAX_PATH);
     FindClose(FindFirstFile(fileName, &findData));
-    findData.cFileName[strlen(findData.cFileName) - 4] = 0;
+    findData.cFileName[mir_strlen(findData.cFileName) - 4] = 0;
     strcpy(protoName, findData.cFileName);
 
     CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
@@ -110,8 +110,8 @@ void T(char *format, ...)
         hFile = CreateFile("ICQ Corp.log", GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_ALWAYS, 0, NULL);
         SetFilePointer(hFile, 0, 0, FILE_END);
     }
-    WriteFile(hFile, bufferTime, (DWORD)strlen(bufferTime), &result, NULL);
-	WriteFile(hFile, buffer, (DWORD)strlen(buffer), &result, NULL);
+    WriteFile(hFile, bufferTime, (DWORD)mir_strlen(bufferTime), &result, NULL);
+	WriteFile(hFile, buffer, (DWORD)mir_strlen(buffer), &result, NULL);
 }
 #endif
 

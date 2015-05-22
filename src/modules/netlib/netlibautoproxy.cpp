@@ -299,8 +299,8 @@ static void NetlibIeProxyThread(void *arg)
 		char *proxy = proxyBuffer;
 		DWORD dwProxyLen = sizeof(proxyBuffer);
 
-		if (pInternetGetProxyInfo(param->szUrl, (DWORD)strlen(param->szUrl),
-			param->szHost, (DWORD)strlen(param->szHost), &proxy, &dwProxyLen))
+		if (pInternetGetProxyInfo(param->szUrl, (DWORD)mir_strlen(param->szUrl),
+			param->szHost, (DWORD)mir_strlen(param->szHost), &proxy, &dwProxyLen))
 			param->szProxy = mir_strdup(lrtrim(proxy));
 
 		NetlibLogf(NULL, "Autoproxy got response %s, Param: %s %s", param->szProxy, param->szUrl, param->szHost);
@@ -341,7 +341,7 @@ char* NetlibGetIeProxy(char *szUrl)
 
 		if (ind < 0 || !szProxyHost[ind]) return NULL;
 
-		size_t len = strlen(szHost) + 20;
+		size_t len = mir_strlen(szHost) + 20;
 		res = (char*)mir_alloc(len);
 		mir_snprintf(res, len, "%s %s", ind == 2 ? "SOCKS" : "PROXY", szProxyHost[ind]);
 		return res;
@@ -408,7 +408,7 @@ void NetlibLoadIeProxy(void)
 					szProxyHost[ind] = mir_strdup(szProxy);
 				else
 				{
-					size_t len = strlen(szProxy) + 10;
+					size_t len = mir_strlen(szProxy) + 10;
 					szProxyHost[ind] = (char*)mir_alloc(len);
 					mir_snprintf(szProxyHost[ind], len, "%s:%u", szProxy, ind == 2 ? 1080 : 8080);
 				}

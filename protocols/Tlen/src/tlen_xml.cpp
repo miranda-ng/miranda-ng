@@ -193,7 +193,7 @@ static void TlenXmlParseAttr(XmlNode *node, char *text)
 	char *p;
 	XmlAttr *a;
 
-	if (node == NULL || text == NULL || strlen(text) <= 0)
+	if (node == NULL || text == NULL || mir_strlen(text) <= 0)
 		return;
 
 	for (p=text;;) {
@@ -387,7 +387,7 @@ char *TlenXmlGetAttrValue(XmlNode *node, char *key)
 {
 	int i;
 
-	if (node == NULL || node->numAttr <= 0 || key == NULL || strlen(key) <= 0)
+	if (node == NULL || node->numAttr <= 0 || key == NULL || mir_strlen(key) <= 0)
 		return NULL;
 	for (i=0; i<node->numAttr; i++) {
 		if (node->attr[i]->name && !strcmp(key, node->attr[i]->name))
@@ -405,7 +405,7 @@ XmlNode *TlenXmlGetNthChild(XmlNode *node, char *tag, int nth)
 {
 	int i, num;
 
-	if (node == NULL || node->numChild <= 0 || tag == NULL || strlen(tag) <= 0 || nth < 1)
+	if (node == NULL || node->numChild <= 0 || tag == NULL || mir_strlen(tag) <= 0 || nth < 1)
 		return NULL;
 	num = 1;
 	for (i=0; i<node->numChild; i++) {
@@ -424,7 +424,7 @@ XmlNode *TlenXmlGetChildWithGivenAttrValue(XmlNode *node, char *tag, char *attrK
 	int i;
 	char *str;
 
-	if (node == NULL || node->numChild <= 0 || tag == NULL || strlen(tag) <= 0 || attrKey == NULL || strlen(attrKey) <= 0 || attrValue == NULL || strlen(attrValue) <= 0)
+	if (node == NULL || node->numChild <= 0 || tag == NULL || mir_strlen(tag) <= 0 || attrKey == NULL || mir_strlen(attrKey) <= 0 || attrValue == NULL || mir_strlen(attrValue) <= 0)
 		return NULL;
 	for (i=0; i<node->numChild; i++) {
 		if (node->child[i]->name && !strcmp(tag, node->child[i]->name)) {

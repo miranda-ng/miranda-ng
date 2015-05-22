@@ -64,7 +64,7 @@ ezxml_t CMsnProto::abSoapHdr(const char* service, const char* scenario, ezxml_t&
 		ezxml_set_txt(node, "00000000-0000-0000-0000-000000000000");
 	}
 
-	size_t hdrsz = strlen(service) + sizeof(abReqHdr) + 20;
+	size_t hdrsz = mir_strlen(service) + sizeof(abReqHdr) + 20;
 	httphdr = (char*)mir_alloc(hdrsz);
 
 	mir_snprintf(httphdr, hdrsz, abReqHdr, service);
@@ -161,7 +161,7 @@ bool CMsnProto::MSN_ABAdd(bool allowRecurse)
 	if (tResult != NULL) {
 		UpdateABHost("ABAdd", abUrl);
 
-		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
 			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
@@ -239,7 +239,7 @@ bool CMsnProto::MSN_SharingFindMembership(bool deltas, bool allowRecurse)
 	free(szData);
 
 	if (tResult != NULL) {
-		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		if (status == 200) {
 			UpdateABCacheKey(xmlm, true);
 			ezxml_t body = getSoapResponse(xmlm, "FindMembership");
@@ -425,7 +425,7 @@ bool CMsnProto::MSN_SharingAddDelMember(const char* szEmail, const int listId, c
 
 	if (tResult != NULL) {
 		UpdateABHost(szMethod, abUrl);
-		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		UpdateABCacheKey(xmlm, true);
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
@@ -503,7 +503,7 @@ bool CMsnProto::MSN_SharingMyProfile(bool allowRecurse)
 	mir_free(reqHdr);
 	free(szData);
 
-	ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+	ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 	if (status == 500) {
 		const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
 		if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
@@ -617,7 +617,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 	free(szData);
 
 	if (tResult != NULL) {
-		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		UpdateABCacheKey(xmlm, false);
 
 		if (status == 200) {
@@ -842,7 +842,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 			}
 			if (!msnLoggedIn && msnNsThread) {
 				char *szCircleTicket = ezxml_txt(ezxml_get(body, "CircleResult", 0, "CircleTicket", -1));
-				ptrA szCircleTicketEnc(mir_base64_encode((PBYTE)szCircleTicket, (unsigned)strlen(szCircleTicket)));
+				ptrA szCircleTicketEnc(mir_base64_encode((PBYTE)szCircleTicket, (unsigned)mir_strlen(szCircleTicket)));
 				if (szCircleTicketEnc)
 					msnNsThread->sendPacket("USR", "SHA A %s", szCircleTicketEnc);
 			}
@@ -898,7 +898,7 @@ bool CMsnProto::MSN_ABRefreshClist(void)
 	if (nlhrReply)  {
 		hHttpsConnection = nlhrReply->nlc;
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
-			ezxml_t xmlm = ezxml_parse_str(nlhrReply->pData, strlen(nlhrReply->pData));
+			ezxml_t xmlm = ezxml_parse_str(nlhrReply->pData, mir_strlen(nlhrReply->pData));
 			
 			if (xmlm) {
 				bRet = true;
@@ -1021,7 +1021,7 @@ bool CMsnProto::MSN_ABAddDelContactGroup(const char* szCntId, const char* szGrpI
 
 	if (tResult != NULL) {
 		UpdateABHost(szMethod, abUrl);
-		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		UpdateABCacheKey(xmlm, false);
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
@@ -1082,7 +1082,7 @@ void CMsnProto::MSN_ABAddGroup(const char* szGrpName, bool allowRecurse)
 
 	if (tResult != NULL) {
 		UpdateABHost("ABGroupAdd", abUrl);
-		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		UpdateABCacheKey(xmlm, false);
 		if (status == 200) {
 			ezxml_t body = getSoapResponse(xmlm, "ABGroupAdd");
@@ -1139,7 +1139,7 @@ void CMsnProto::MSN_ABRenameGroup(const char* szGrpName, const char* szGrpId, bo
 
 	if (tResult != NULL) {
 		UpdateABHost("ABGroupUpdate", abUrl);
-		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		UpdateABCacheKey(xmlm, false);
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
@@ -1224,7 +1224,7 @@ bool CMsnProto::MSN_ABAddRemoveContact(const char* szCntId, int netId, bool add,
 
 	if (tResult != NULL) {
 		UpdateABHost("ABContactUpdate", abUrl);
-		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		UpdateABCacheKey(xmlm, false);
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
@@ -1290,7 +1290,7 @@ bool CMsnProto::MSN_ABUpdateProperty(const char* szCntId, const char* propName, 
 
 	if (tResult != NULL) {
 		UpdateABHost("ABContactUpdate", abUrl);
-		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		UpdateABCacheKey(xmlm, false);
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
@@ -1355,7 +1355,7 @@ void CMsnProto::MSN_ABUpdateAttr(const char* szCntId, const char* szAttr, const 
 
 	if (tResult != NULL) {
 		UpdateABHost("ABContactUpdate", abUrl);
-		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		UpdateABCacheKey(xmlm, false);
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
@@ -1478,7 +1478,7 @@ unsigned CMsnProto::MSN_ABContactAdd(const char* szEmail, const char* szNick, in
 	free(szData);
 
 	if (tResult != NULL) {
-		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		UpdateABCacheKey(xmlm, false);
 		if (status == 200) {
 			ezxml_t body = getSoapResponse(xmlm, "ABContactAdd");
@@ -1617,7 +1617,7 @@ void CMsnProto::MSN_ABUpdateDynamicItem(bool allowRecurse)
 
 	if (tResult != NULL) {
 		UpdateABHost("UpdateDynamicItem", abUrl);
-		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
+		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		UpdateABCacheKey(xmlm, false);
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));

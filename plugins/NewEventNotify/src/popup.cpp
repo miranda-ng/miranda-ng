@@ -195,7 +195,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 		// url
 		if (dbei->pBlob) comment2 = mir_a2t((char *)dbei->pBlob);
 		// comment
-		if (dbei->pBlob) comment1 = mir_a2t((char *)dbei->pBlob + strlen((char *)dbei->pBlob) + 1);
+		if (dbei->pBlob) comment1 = mir_a2t((char *)dbei->pBlob + mir_strlen((char *)dbei->pBlob) + 1);
 		commentFix = POPUP_COMMENT_URL;
 		break;
 
@@ -204,7 +204,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 			char *p = (char*)dbei->pBlob + sizeof(DWORD);
 			// filenames
 			comment2 = (dbei->flags & DBEF_UTF) ? mir_utf8decodeT(p) : mir_a2t(p);
-			p += strlen(p) + 1;
+			p += mir_strlen(p) + 1;
 			// description
 			comment1 = (dbei->flags & DBEF_UTF) ? mir_utf8decodeT(p) : mir_a2t(p);
 		}
@@ -224,9 +224,9 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 
 			for (nContacts = 1; ; nContacts++) {
 				// Nick
-				pcBlob += strlen(pcBlob) + 1;
+				pcBlob += mir_strlen(pcBlob) + 1;
 				// UIN
-				pcBlob += strlen(pcBlob) + 1;
+				pcBlob += mir_strlen(pcBlob) + 1;
 				// check for end of contacts
 				if (pcBlob >= pcEnd)
 					break;
@@ -250,18 +250,18 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 			TCHAR szBuf[2048];
 			TCHAR* szNick = NULL;
 			char *pszNick = (char *)dbei->pBlob + 8;
-			char *pszFirst = pszNick + strlen(pszNick) + 1;
-			char *pszLast = pszFirst + strlen(pszFirst) + 1;
-			char *pszEmail = pszLast + strlen(pszLast) + 1;
+			char *pszFirst = pszNick + mir_strlen(pszNick) + 1;
+			char *pszLast = pszFirst + mir_strlen(pszFirst) + 1;
+			char *pszEmail = pszLast + mir_strlen(pszLast) + 1;
 
 			mir_snprintf(szUin, SIZEOF(szUin), "%d", *((DWORD*)dbei->pBlob));
-			if (strlen(pszNick) > 0) {
+			if (mir_strlen(pszNick) > 0) {
 				if (dbei->flags & DBEF_UTF)
 					szNick = mir_utf8decodeT(pszNick);
 				else
 					szNick = mir_a2t(pszNick);
 			}
-			else if (strlen(pszEmail) > 0) {
+			else if (mir_strlen(pszEmail) > 0) {
 				if (dbei->flags & DBEF_UTF)
 					szNick = mir_utf8decodeT(pszEmail);
 				else
@@ -286,18 +286,18 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 			TCHAR szBuf[2048];
 			TCHAR* szNick = NULL;
 			char *pszNick = (char *)dbei->pBlob + 8;
-			char *pszFirst = pszNick + strlen(pszNick) + 1;
-			char *pszLast  = pszFirst + strlen(pszFirst) + 1;
-			char *pszEmail = pszLast + strlen(pszLast) + 1;
+			char *pszFirst = pszNick + mir_strlen(pszNick) + 1;
+			char *pszLast  = pszFirst + mir_strlen(pszFirst) + 1;
+			char *pszEmail = pszLast + mir_strlen(pszLast) + 1;
 
 			mir_snprintf(szUin, SIZEOF(szUin), "%d", *((DWORD*)dbei->pBlob));
-			if (strlen(pszNick) > 0) {
+			if (mir_strlen(pszNick) > 0) {
 				if (dbei->flags & DBEF_UTF)
 					szNick = mir_utf8decodeT(pszNick);
 				else
 					szNick = mir_a2t(pszNick);
 			}
-			else if (strlen(pszEmail) > 0) {
+			else if (mir_strlen(pszEmail) > 0) {
 				if (dbei->flags & DBEF_UTF)
 					szNick = mir_utf8decodeT(pszEmail);
 				else

@@ -325,7 +325,7 @@ int GetValue(MCONTACT hContact, const char *szModule, const char *szSetting, cha
 			_itoa(dbv.wVal, Value, 10);
 			break;
 		case DBVT_UTF8:
-			int len = (int)strlen(dbv.pszVal) + 1;
+			int len = (int)mir_strlen(dbv.pszVal) + 1;
 			char *sz = (char *)_alloca(len * 3);
 			WCHAR *wc = (WCHAR *)_alloca(len * sizeof(WCHAR));
 			MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, len);
@@ -355,14 +355,14 @@ int GetValueW(MCONTACT hContact, const char *szModule, const char *szSetting, WC
 	if (Value && length >= 10 && !GetSetting(hContact, szModule, szSetting, &dbv)) {
 		switch (dbv.type) {
 		case DBVT_UTF8:
-			len = (int)strlen(dbv.pszVal) + 1;
+			len = (int)mir_strlen(dbv.pszVal) + 1;
 			wc = (WCHAR *)_alloca(length * sizeof(WCHAR));
 			MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, len);
 			wcsncpy((WCHAR *)Value, wc, length);
 			break;
 
 		case DBVT_ASCIIZ:
-			len = (int)strlen(dbv.pszVal) + 1;
+			len = (int)mir_strlen(dbv.pszVal) + 1;
 			wc = (WCHAR *)_alloca(len * sizeof(WCHAR));
 			MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, wc, len);
 			wcsncpy((WCHAR *)Value, wc, length);
@@ -478,7 +478,7 @@ WCHAR* GetContactName(MCONTACT hContact, const char *szProto, int unicode)
 					if (unicode)
 						len = (int)wcslen(res);
 					else
-						len = (int)strlen((char *)res);
+						len = (int)mir_strlen((char *)res);
 				}
 				else
 					res[0] = 0;

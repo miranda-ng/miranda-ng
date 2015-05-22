@@ -59,7 +59,7 @@ char *oauth_uri_escape(const char *str)
 
 	if (str == NULL) return mir_strdup("");
 
-	size = (int)strlen(str) + 1;
+	size = (int)mir_strlen(str) + 1;
 	res = (char *)mir_alloc(size);
 
 	while (*str) {
@@ -88,7 +88,7 @@ char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmet
 
 	if (httpmethod == NULL || url == NULL || !params.getCount()) return mir_strdup("");
 
-	urlnorm = (char *)mir_alloc(strlen(url) + 1);
+	urlnorm = (char *)mir_alloc(mir_strlen(url) + 1);
 	while (*url) {
 		if (*url == '?' || *url == '#')	break; // see RFC 3986 section 3
 		urlnorm[ix++] = tolower(*url);
@@ -96,19 +96,19 @@ char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmet
 	}
 	urlnorm[ix] = 0;
 	if ((res = strstr(urlnorm, ":80")) != NULL)
-		memmove(res, res + 3, strlen(res) - 2);
+		memmove(res, res + 3, mir_strlen(res) - 2);
 	else if ((res = strstr(urlnorm, ":443")) != NULL)
-		memmove(res, res + 4, strlen(res) - 3);
+		memmove(res, res + 4, mir_strlen(res) - 3);
 
 	urlenc = oauth_uri_escape(urlnorm);
 	mir_free(urlnorm);
-	size = (int)strlen(httpmethod) + (int)strlen(urlenc) + 1 + 2;
+	size = (int)mir_strlen(httpmethod) + (int)mir_strlen(urlenc) + 1 + 2;
 
 	for (i = 0; i < params.getCount(); i++) {
 		p = params[i];
 		if (!strcmp(p->name, "oauth_signature")) continue;
 		if (i > 0) size += 3;
-		size += (int)strlen(p->name) + (int)strlen(p->value) + 3;
+		size += (int)mir_strlen(p->name) + (int)mir_strlen(p->value) + 3;
 	}
 
 	res = (char *)mir_alloc(size);
@@ -194,20 +194,20 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 		ptrA text( oauth_generate_signature(params, httpmethod, url));
 		ptrA csenc( oauth_uri_escape(consumer_secret));
 		ptrA tsenc( oauth_uri_escape(token_secret));
-		ptrA key((char *)mir_alloc(strlen(csenc) + strlen(tsenc) + 2));
+		ptrA key((char *)mir_alloc(mir_strlen(csenc) + mir_strlen(tsenc) + 2));
 		strcpy(key, csenc);
 		strcat(key, "&");
 		strcat(key, tsenc);
 
 		BYTE digest[MIR_SHA1_HASH_SIZE];
-		mir_hmac_sha1(digest, (BYTE*)(char*)key, strlen(key), (BYTE*)(char*)text, strlen(text));
+		mir_hmac_sha1(digest, (BYTE*)(char*)key, mir_strlen(key), (BYTE*)(char*)text, mir_strlen(text));
 		sign = mir_base64_encode(digest, MIR_SHA1_HASH_SIZE);
 	}
 	else { // PLAINTEXT
 		ptrA csenc( oauth_uri_escape(consumer_secret));
 		ptrA tsenc( oauth_uri_escape(token_secret));
 
-		sign = (char *)mir_alloc(strlen(csenc) + strlen(tsenc) + 2);
+		sign = (char *)mir_alloc(mir_strlen(csenc) + mir_strlen(tsenc) + 2);
 		strcpy(sign, csenc);
 		strcat(sign, "&");
 		strcat(sign, tsenc);
@@ -225,7 +225,7 @@ char *oauth_generate_nonce()
 	mir_snprintf(timestamp, SIZEOF(timestamp), "%ld", time(NULL)); 
 	CallService(MS_UTILS_GETRANDOM, (WPARAM)sizeof(randnum), (LPARAM)randnum);
 
-	int strSizeB = int(strlen(timestamp) + sizeof(randnum));
+	int strSizeB = int(mir_strlen(timestamp) + sizeof(randnum));
 	ptrA str((char *)mir_calloc(strSizeB + 1));
 	strcpy(str, timestamp);
 	strncat(str, randnum, sizeof(randnum));
@@ -269,7 +269,7 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 	for (i = 0; i < oauth_parameters.getCount(); i++) {
 		OAUTHPARAMETER *p = oauth_parameters[i];
 		if (i > 0) size++;
-		size += (int)strlen(p->name) + (int)strlen(p->value) + 3;
+		size += (int)mir_strlen(p->name) + (int)mir_strlen(p->value) + 3;
 	}
 
 	res = (char *)mir_alloc(size);
@@ -360,7 +360,7 @@ int GGPROTO::oauth_receivetoken()
 	httpHeaders[1].szName  = "Content-Type";
 	httpHeaders[1].szValue = "application/x-www-form-urlencoded";
 	req.pData = str;
-	req.dataLength = (int)strlen(str);
+	req.dataLength = (int)mir_strlen(str);
 
 	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if (resp) CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
