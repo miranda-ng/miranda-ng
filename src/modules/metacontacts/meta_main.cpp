@@ -67,7 +67,7 @@ int LoadMetacontacts(void)
 		db_set_dw(hContact, META_PROTO, "IdleTS", 0);
 	}	
 
-	Meta_ReadOptions(&options);
+	Meta_ReadOptions();
 
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = META_FILTER;
