@@ -203,7 +203,6 @@ void NetlibUPnPDestroy(void);
 
 //netlibsecurity.c
 void   NetlibSecurityInit(void);
-void   NetlibSecurityDestroy(void);
 void   NetlibDestroySecurityProvider(HANDLE hSecurity);
 HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrincipal);
 HANDLE NetlibInitSecurityProvider(const char* szProvider, const char* szPrincipal);

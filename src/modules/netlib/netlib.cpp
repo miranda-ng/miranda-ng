@@ -415,7 +415,6 @@ void UnloadNetlibModule(void)
 	if (!bModuleInitialized || hConnectionHeaderMutex == NULL) return;
 
 	NetlibUnloadIeProxy();
-	NetlibSecurityDestroy();
 	NetlibUPnPDestroy();
 	NetlibLogShutdown();
 
