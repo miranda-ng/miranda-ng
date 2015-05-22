@@ -77,7 +77,7 @@ void CSendHost_Imgur::SendThread(void* obj)
 					thumblen=ext-self->m_URL;
 					memcpy(self->m_URLthumb,self->m_URL,thumblen);
 					self->m_URLthumb[thumblen]='m'; // 320x320, see http://api.imgur.com/models/image
-					strcpy(self->m_URLthumb+thumblen+1,self->m_URL+thumblen);
+					mir_strcpy(self->m_URLthumb+thumblen+1,self->m_URL+thumblen);
 				}
 				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)reply);
 				self->svcSendMsgExit(self->m_URL); return;

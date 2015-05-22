@@ -160,7 +160,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 	char* szPassportHost = (char*)mir_alloc(256);
 	if (db_get_static(NULL, m_szModuleName, "MsnPassportHost", szPassportHost, 256))
-		strcpy(szPassportHost, defaultPassportUrl);
+		mir_strcpy(szPassportHost, defaultPassportUrl);
 
 	bool defaultUrlAllow = mir_strcmp(szPassportHost, defaultPassportUrl) != 0;
 	char *tResult = NULL;
@@ -171,7 +171,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 		tResult = getSslResult(&szPassportHost, szAuthInfo, NULL, status);
 		if (tResult == NULL) {
 			if (defaultUrlAllow) {
-				strcpy(szPassportHost, defaultPassportUrl);
+				mir_strcpy(szPassportHost, defaultPassportUrl);
 				defaultUrlAllow = false;
 				continue;
 			}
@@ -253,14 +253,14 @@ int CMsnProto::MSN_GetPassportAuth(void)
 					ezxml_t tokf = ezxml_get(xml, "S:Body", 0, "S:Fault", 0, "S:Detail", -1);
 					ezxml_t tokrdr = ezxml_child(tokf, "psf:redirectUrl");
 					if (tokrdr != NULL) {
-						strcpy(szPassportHost, ezxml_txt(tokrdr));
+						mir_strcpy(szPassportHost, ezxml_txt(tokrdr));
 						debugLogA("Redirected to '%s'", szPassportHost);
 					}
 					else {
 						const char* szFault = ezxml_txt(ezxml_get(tokf, "psf:error", 0, "psf:value", -1));
 						retVal = mir_strcmp(szFault, "0x80048821") == 0 ? 3 : (tokf ? 5 : 7);
 						if (retVal != 3 && defaultUrlAllow) {
-							strcpy(szPassportHost, defaultPassportUrl);
+							mir_strcpy(szPassportHost, defaultPassportUrl);
 							defaultUrlAllow = false;
 							retVal = -1;
 						}
@@ -278,7 +278,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 		default:
 			if (defaultUrlAllow) {
-				strcpy(szPassportHost, defaultPassportUrl);
+				mir_strcpy(szPassportHost, defaultPassportUrl);
 				defaultUrlAllow = false;
 			}
 			else

@@ -109,13 +109,13 @@ void g_MenuInit(void)
 	// Contact menu initialization
 
 	char str[MAXMODULELABELLENGTH], *pszDest = str + 3;
-	strcpy(str, "ICQ");
+	mir_strcpy(str, "ICQ");
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = str;
 
 	// "Request authorization"
-	strcpy(pszDest, MS_REQ_AUTH); CreateServiceFunction(str, IcqMenuHandleRequestAuth );
+	mir_strcpy(pszDest, MS_REQ_AUTH); CreateServiceFunction(str, IcqMenuHandleRequestAuth );
 
 	mi.pszName = LPGEN("Request authorization");
 	mi.position = 1000030000;
@@ -123,7 +123,7 @@ void g_MenuInit(void)
 	g_hContactMenuItems[ICMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	
 	// "Grant authorization"
-	strcpy(pszDest, MS_GRANT_AUTH); CreateServiceFunction(str, IcqMenuHandleGrantAuth);
+	mir_strcpy(pszDest, MS_GRANT_AUTH); CreateServiceFunction(str, IcqMenuHandleGrantAuth);
 
 	mi.pszName = LPGEN("Grant authorization");
 	mi.position = 1000029999;
@@ -131,7 +131,7 @@ void g_MenuInit(void)
 	g_hContactMenuItems[ICMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	
 	// "Revoke authorization"
-	strcpy(pszDest, MS_REVOKE_AUTH); CreateServiceFunction(str, IcqMenuHandleRevokeAuth);
+	mir_strcpy(pszDest, MS_REVOKE_AUTH); CreateServiceFunction(str, IcqMenuHandleRevokeAuth);
 
 	mi.pszName = LPGEN("Revoke authorization");
 	mi.position = 1000029998;
@@ -139,7 +139,7 @@ void g_MenuInit(void)
 	g_hContactMenuItems[ICMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
 	
 	// "Add to server list"
-	strcpy(pszDest, MS_ICQ_ADDSERVCONTACT); CreateServiceFunction(str, IcqMenuHandleAddServContact);
+	mir_strcpy(pszDest, MS_ICQ_ADDSERVCONTACT); CreateServiceFunction(str, IcqMenuHandleAddServContact);
 
 	mi.pszName = LPGEN("Add to server list");
 	mi.position = -2049999999;
@@ -147,7 +147,7 @@ void g_MenuInit(void)
 	g_hContactMenuItems[ICMI_ADD_TO_SERVLIST] = Menu_AddContactMenuItem(&mi);
 	
 	// "Show custom status details"
- 	strcpy(pszDest, MS_XSTATUS_SHOWDETAILS); CreateServiceFunction(str, IcqMenuHandleXStatusDetails);
+ 	mir_strcpy(pszDest, MS_XSTATUS_SHOWDETAILS); CreateServiceFunction(str, IcqMenuHandleXStatusDetails);
 
 	mi.pszName = LPGEN("Show custom status details");
 	mi.position = -2000004999;
@@ -155,7 +155,7 @@ void g_MenuInit(void)
 	g_hContactMenuItems[ICMI_XSTATUS_DETAILS] = Menu_AddContactMenuItem(&mi);
 	
 	// "Open ICQ profile"
-	strcpy(pszDest, MS_OPEN_PROFILE); CreateServiceFunction(str, IcqMenuHandleOpenProfile);
+	mir_strcpy(pszDest, MS_OPEN_PROFILE); CreateServiceFunction(str, IcqMenuHandleOpenProfile);
 
 	mi.pszName = LPGEN("Open ICQ profile");
 	mi.position = 1000029997;

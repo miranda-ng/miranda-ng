@@ -38,7 +38,7 @@ char* m_awstrcat(LPCSTR strA, LPCSTR strB)
 {
 	int lenA = (int)mir_strlen(strA);
 	LPSTR tmpA = (LPSTR)mir_alloc((lenA + 1)*(sizeof(WCHAR) + 1));
-	strcpy(tmpA, strA);
+	mir_strcpy(tmpA, strA);
 	MultiByteToWideChar(CP_ACP, 0, strA, -1, (LPWSTR)(tmpA + lenA + 1), (lenA + 1)*sizeof(WCHAR));
 	LPSTR str = m_wwstrcat(tmpA, strB);
 	mir_free(tmpA);
@@ -51,7 +51,7 @@ char* m_aastrcat(LPCSTR strA, LPCSTR strB)
 	int lenA = (int)mir_strlen(strA);
 	int lenB = (int)mir_strlen(strB);
 	LPSTR str = (LPSTR)mir_alloc((lenA + lenB + 1)*(sizeof(WCHAR) + 1));
-	strcpy(str, strA);
+	mir_strcpy(str, strA);
 	strcat(str, strB);
 	MultiByteToWideChar(CP_ACP, 0, str, -1, (LPWSTR)(str + lenA + lenB + 1), (lenA + lenB + 1)*sizeof(WCHAR));
 	return str;
@@ -64,7 +64,7 @@ char* m_ustrcat(LPCSTR strA, LPCSTR strB)
 {
 	SAFE_FREE(m_string);
 	m_string = (LPSTR)mir_alloc(mir_strlen(strA) + mir_strlen(strB) + 1);
-	strcpy(m_string, strA); strcat(m_string, strB);
+	mir_strcpy(m_string, strA); strcat(m_string, strB);
 	return m_string;
 }
 

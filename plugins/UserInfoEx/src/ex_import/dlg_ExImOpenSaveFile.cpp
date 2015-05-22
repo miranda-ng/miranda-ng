@@ -206,7 +206,7 @@ static void GetInitialDir(LPSTR pszInitialDir)
 	// is some standard path defined
 	if (!db_get_static(0, MODNAME, "vCardPath", szRelative, SIZEOF(szRelative))) {
 		if (!PathToAbsolute(szRelative, pszInitialDir))
-			strcpy(pszInitialDir, szRelative);
+			mir_strcpy(pszInitialDir, szRelative);
 	}
 	else *pszInitialDir = 0;
 }

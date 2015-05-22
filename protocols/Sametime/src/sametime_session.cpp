@@ -118,7 +118,7 @@ void __cdecl SessionStateChange(mwSession* session, mwSessionState state, gpoint
 	case mwSession_LOGIN_REDIR:
 		proto->debugLog(_T("SessionStateChange()  mwSession_LOGIN_REDIR  info=[%s]"), _A2T((char*)info));
 		//options.server_name = str((char*)info);
-		strcpy(proto->options.server_name, (char*)info);
+		mir_strcpy(proto->options.server_name, (char*)info);
 		proto->LogOut();
 		proto->LogIn(proto->login_status, proto->m_hNetlibUser);
 		break;

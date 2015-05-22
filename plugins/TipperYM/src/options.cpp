@@ -30,9 +30,9 @@ extern int IsTrayProto(const TCHAR *swzProto, BOOL bExtendedTip)
 
 	char szSetting[64];
 	if (bExtendedTip)
-		strcpy(szSetting, "TrayProtocolsEx");
+		mir_strcpy(szSetting, "TrayProtocolsEx");
 	else
-		strcpy(szSetting, "TrayProtocols");
+		mir_strcpy(szSetting, "TrayProtocols");
 
 	DBVARIANT dbv;
 	int result = 1;

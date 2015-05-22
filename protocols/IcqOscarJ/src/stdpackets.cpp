@@ -989,7 +989,7 @@ void CIcqProto::icq_sendAwayMsgReplyServExt(DWORD dwUin, char *szUID, DWORD dwMs
 			// convert to HTML 
 			char *mng = MangleXml(pszMsg, mir_strlen(pszMsg));
 			pszMsg = (char*)SAFE_MALLOC(mir_strlen(mng) + 28);
-			strcpy(pszMsg, "<HTML><BODY>"); /// TODO: add support for RTL & user customizable font
+			mir_strcpy(pszMsg, "<HTML><BODY>"); /// TODO: add support for RTL & user customizable font
 			strcat(pszMsg, mng);
 			SAFE_FREE(&mng);
 			strcat(pszMsg, "</BODY></HTML>");

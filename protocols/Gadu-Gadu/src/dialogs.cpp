@@ -190,7 +190,7 @@ void GGPROTO::checknewuser(uin_t uin, const char* passwd)
 	oldpasswd[0] = '\0';
 	if (!getString(GG_KEY_PASSWORD, &dbv))
 	{
-		if (dbv.pszVal) strcpy(oldpasswd, dbv.pszVal);
+		if (dbv.pszVal) mir_strcpy(oldpasswd, dbv.pszVal);
 		db_free(&dbv);
 	}
 

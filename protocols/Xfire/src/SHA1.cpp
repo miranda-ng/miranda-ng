@@ -249,7 +249,7 @@ void CSHA1::ReportHash(char *szReport, unsigned char uReportType)
 			strcat(szReport, szTemp);
 		}
 	}
-	else strcpy(szReport, "Error: Unknown report type!");
+	else mir_strcpy(szReport, "Error: Unknown report type!");
 }
 
 // Get the raw message digest

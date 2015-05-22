@@ -51,9 +51,9 @@ void ShowPasswordDialog(char*pw, char*mynick) {
 		usenick = FALSE;
 
 	char* npw = (char*)DialogBox(hinstance, MAKEINTRESOURCE(IDD_PWDLG), NULL, DlgPWProc);
-	strcpy(pw, npw);
+	mir_strcpy(pw, npw);
 	if (mynick)
 	{
-		strcpy(mynick, (char*)nick);
+		mir_strcpy(mynick, (char*)nick);
 	}
 }

@@ -412,13 +412,13 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	*(DWORD*)dbei.pBlob = 0;
 	BYTE* p = dbei.pBlob + sizeof(DWORD);
 	for (int i = 0; i < pre->fileCount; i++) {
-		strcpy((char*)p, pszFiles[i]);
+		mir_strcpy((char*)p, pszFiles[i]);
 		p += mir_strlen(pszFiles[i]) + 1;
 		if (bUnicode)
 			mir_free(pszFiles[i]);
 	}
 
-	strcpy((char*)p, (szDescr == NULL) ? "" : szDescr);
+	mir_strcpy((char*)p, (szDescr == NULL) ? "" : szDescr);
 	if (bUnicode)
 		mir_free(szDescr);
 

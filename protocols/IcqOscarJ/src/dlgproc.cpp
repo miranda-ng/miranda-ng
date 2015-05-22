@@ -221,7 +221,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				dat->LoadSettingsFromDb(0);
 				{
 					char *pwd = dat->ppro->GetUserPassword(TRUE);
-					strcpy(dat->Password, (pwd) ? pwd : ""); /// FIXME
+					mir_strcpy(dat->Password, (pwd) ? pwd : ""); /// FIXME
 				}
 				break;
 

@@ -50,7 +50,7 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo, MCONTACT hcontact, c
 		db_unset(NULL, protocolname, "MyAvatarFile");
 	}
 
-	strcpy(filename, XFireGetFoldersPath("Avatar"));
+	mir_strcpy(filename, XFireGetFoldersPath("Avatar"));
 
 	switch (buddyinfo->avatarmode) {
 	case 1:

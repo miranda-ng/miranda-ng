@@ -498,7 +498,7 @@ void MarkUnread(MCONTACT hContact)
 			memcpy(&_dbei.timestamp, pos, sizeof(DWORD)); pos += sizeof(DWORD);
 
 			_dbei.szModule = (char*)malloc(mir_strlen((const char*)pos)+1);
-			strcpy(_dbei.szModule, (const char*)pos);
+			mir_strcpy(_dbei.szModule, (const char*)pos);
 			pos += mir_strlen((const char*)pos)+1;
 
 			memcpy(&_dbei.cbBlob, pos, sizeof(DWORD)); pos += sizeof(DWORD);

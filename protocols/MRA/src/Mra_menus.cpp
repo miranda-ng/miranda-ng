@@ -364,7 +364,7 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 	mi.pszService = szServiceFunction;
 
 	for (size_t i = 0; i < dwCount; i++) {
-		strcpy(pszServiceFunctionName, pgdiItems[i].szName);
+		mir_strcpy(pszServiceFunctionName, pgdiItems[i].szName);
 		mi.position = int(lPosition + i);
 		mi.icolibItem = pgdiItems[i].hIcolib;
 		mi.pszName = pgdiItems[i].szDescr;

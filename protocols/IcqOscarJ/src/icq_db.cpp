@@ -73,7 +73,7 @@ int CIcqProto::getContactUid(MCONTACT hContact, DWORD *pdwUin, uid_str *ppszUid)
 
 		case DBVT_ASCIIZ:
 			if (ppszUid && m_bAimEnabled) {
-				strcpy(*ppszUid, dbv.pszVal);
+				mir_strcpy(*ppszUid, dbv.pszVal);
 				iRes = 0;
 			}
 			else debugLogA("AOL screennames not accepted");
@@ -81,7 +81,7 @@ int CIcqProto::getContactUid(MCONTACT hContact, DWORD *pdwUin, uid_str *ppszUid)
 
 		case DBVT_UTF8:
 			if (ppszUid && m_bAimEnabled) {
-				strcpy(*ppszUid, dbv.pszVal);
+				mir_strcpy(*ppszUid, dbv.pszVal);
 				mir_utf8decode(*ppszUid, NULL);
 				iRes = 0;
 			}

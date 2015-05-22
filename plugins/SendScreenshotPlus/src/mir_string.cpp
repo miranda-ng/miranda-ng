@@ -41,7 +41,7 @@ void mir_stradd(char* &pszDest, const char* pszSrc)
 		size_t lenNew = lenDest + lenSrc + 1;
 		pszDest  = (char *) mir_realloc(pszDest, sizeof(char)* lenNew);
 
-		strcpy(pszDest + lenDest, pszSrc);
+		mir_strcpy(pszDest + lenDest, pszSrc);
 		pszDest[lenNew-1] = 0;
 	}
 }

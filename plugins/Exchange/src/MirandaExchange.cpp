@@ -133,7 +133,7 @@ CKeeper::CKeeper( LPTSTR szSender, LPTSTR szSubject, LPSTR szEntryID)
 		m_nSizeEntryID = (UINT)mir_strlen( szEntryID ) +1;
 		m_szEntryID = new char[m_nSizeEntryID];
 		memset(m_szEntryID, 0, m_nSizeEntryID * sizeof(char));
-		strcpy(m_szEntryID, szEntryID );
+		mir_strcpy(m_szEntryID, szEntryID );
 	}
 }
 

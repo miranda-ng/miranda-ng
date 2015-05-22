@@ -205,7 +205,7 @@ LBL_Continue:
 					if (strchr(szFile, ' ') != NULL) {
 						char tmpBuf[MAX_PATH + 2];
 						mir_snprintf(tmpBuf, SIZEOF(tmpBuf), "\"%s\"", szFile);
-						strcpy(szFile, tmpBuf);
+						mir_strcpy(szFile, tmpBuf);
 					}
 
 					SendMessage(tEditField, EM_SETSEL, 0, tSelectLen);
@@ -228,7 +228,7 @@ LBL_Continue:
 			GetDlgItemTextA(hwndDlg, IDC_HANDLE, szEmail, SIZEOF(szEmail));
 			if (mir_strcmp(_strlwr(szEmail), proto->MyOptions.szEmail)) {
 				reconnectRequired = true;
-				strcpy(proto->MyOptions.szEmail, szEmail);
+				mir_strcpy(proto->MyOptions.szEmail, szEmail);
 				proto->setString("e-mail", szEmail);
 				proto->setString("wlid", szEmail);
 				proto->setDword("netId", proto->GetMyNetID());
@@ -553,7 +553,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			GetDlgItemTextA(hwndDlg, IDC_HANDLE, szEmail, SIZEOF(szEmail));
 			if (mir_strcmp(szEmail, proto->MyOptions.szEmail)) {
-				strcpy(proto->MyOptions.szEmail, szEmail);
+				mir_strcpy(proto->MyOptions.szEmail, szEmail);
 				proto->setString("e-mail", szEmail);
 				proto->setString("wlid", szEmail);
 				proto->setDword("netId", proto->GetMyNetID());
@@ -681,10 +681,10 @@ void CMsnProto::LoadOptions(void)
 
 	if (db_get_static(NULL, m_szModuleName, "MachineGuid", MyOptions.szMachineGuid, sizeof(MyOptions.szMachineGuid))) {
 		char* uuid = getNewUuid();
-		strcpy(MyOptions.szMachineGuid, uuid);
+		mir_strcpy(MyOptions.szMachineGuid, uuid);
 		setString("MachineGuid", MyOptions.szMachineGuid);
 		mir_free(uuid);
 	}
-	strcpy(MyOptions.szMachineGuidP2P, MyOptions.szMachineGuid);
+	mir_strcpy(MyOptions.szMachineGuidP2P, MyOptions.szMachineGuid);
 	_strlwr(MyOptions.szMachineGuidP2P);
 }

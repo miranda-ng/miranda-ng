@@ -208,7 +208,7 @@ void ProcessConsoleCommand(PCommand command, char *arguments[], int count, PRepl
 				case WAIT_OBJECT_0 + 1: //close event
 				default:
 				{
-					strcpy(sdCmdLine->reply.message, Translate("Miranda has been closed or an error has occurred while waiting for the result, could not process request."));
+					mir_strcpy(sdCmdLine->reply.message, Translate("Miranda has been closed or an error has occurred while waiting for the result, could not process request."));
 					done = TRUE;
 					
 					break;

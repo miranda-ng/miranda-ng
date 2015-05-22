@@ -86,7 +86,7 @@ int Parser()
 			}
 			if(mir_strlen(tmp2) > 2)
 			{
-				strcpy(tmp, "password ");
+				mir_strcpy(tmp, "password ");
 				strcat(tmp, tmp2);
 				strcat(tmp, "\n");
 				Netlib_Send(ghConnection, tmp, (int)mir_strlen(tmp), 0);

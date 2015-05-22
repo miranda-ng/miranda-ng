@@ -433,7 +433,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	}
 
 	char text[ 256 ];
-	strcpy(text, m_szModuleName);
+	mir_strcpy(text, m_szModuleName);
 	size_t nModuleNameLength = mir_strlen(text);
 	char* tDest = text + nModuleNameLength;
 
@@ -625,7 +625,7 @@ void CJabberProto::MenuInit()
 
 	// "Bookmarks..."
 	CreateProtoService("/Bookmarks", &CJabberProto::OnMenuHandleBookmarks);
-	strcpy(tDest, "/Bookmarks");
+	mir_strcpy(tDest, "/Bookmarks");
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.hParentMenu = hJabberRoot;
 	mi.pszName = LPGEN("Bookmarks");
@@ -635,14 +635,14 @@ void CJabberProto::MenuInit()
 
 	// "Services..."
 	mi.pszName = LPGEN("Services...");
-	strcpy(tDest, "/Services");
+	mir_strcpy(tDest, "/Services");
 	mi.position = 200003;
 	mi.icolibItem = GetIconHandle(IDI_SERVICE_DISCOVERY);
 	HGENMENU hMenuServicesRoot = Menu_AddProtoMenuItem(&mi);
 
 	// "Service Discovery..."
 	CreateProtoService("/ServiceDiscovery", &CJabberProto::OnMenuHandleServiceDiscovery);
-	strcpy(tDest, "/ServiceDiscovery");
+	mir_strcpy(tDest, "/ServiceDiscovery");
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Service Discovery");
 	mi.position = 2000050001;
@@ -651,28 +651,28 @@ void CJabberProto::MenuInit()
 	m_hMenuServiceDiscovery = Menu_AddProtoMenuItem(&mi);
 
 	CreateProtoService("/SD/MyTransports", &CJabberProto::OnMenuHandleServiceDiscoveryMyTransports);
-	strcpy(tDest, "/SD/MyTransports");
+	mir_strcpy(tDest, "/SD/MyTransports");
 	mi.pszName = LPGEN("Registered Transports");
 	mi.position = 2000050003;
 	mi.icolibItem = GetIconHandle(IDI_TRANSPORTL);
 	m_hMenuSDMyTransports = Menu_AddProtoMenuItem(&mi);
 
 	CreateProtoService("/SD/Transports", &CJabberProto::OnMenuHandleServiceDiscoveryTransports);
-	strcpy(tDest, "/SD/Transports");
+	mir_strcpy(tDest, "/SD/Transports");
 	mi.pszName = LPGEN("Local Server Transports");
 	mi.position = 2000050004;
 	mi.icolibItem = GetIconHandle(IDI_TRANSPORT);
 	m_hMenuSDTransports = Menu_AddProtoMenuItem(&mi);
 
 	CreateProtoService("/SD/Conferences", &CJabberProto::OnMenuHandleServiceDiscoveryConferences);
-	strcpy(tDest, "/SD/Conferences");
+	mir_strcpy(tDest, "/SD/Conferences");
 	mi.pszName = LPGEN("Browse chatrooms");
 	mi.position = 2000050005;
 	mi.icolibItem = GetIconHandle(IDI_GROUP);
 	m_hMenuSDConferences = Menu_AddProtoMenuItem(&mi);
 
 	CreateProtoService("/Groupchat", &CJabberProto::OnMenuHandleJoinGroupchat);
-	strcpy(tDest, "/Groupchat");
+	mir_strcpy(tDest, "/Groupchat");
 	mi.pszName = LPGEN("Create/Join group chat");
 	mi.position = 2000050006;
 	mi.icolibItem = GetIconHandle(IDI_GROUP);
@@ -680,7 +680,7 @@ void CJabberProto::MenuInit()
 
 	// "Change Password..."
 	CreateProtoService("/ChangePassword", &CJabberProto::OnMenuHandleChangePassword);
-	strcpy(tDest, "/ChangePassword");
+	mir_strcpy(tDest, "/ChangePassword");
 	mi.pszName = LPGEN("Change Password");
 	mi.position = 2000050007;
 	mi.icolibItem = GetIconHandle(IDI_KEYS);
@@ -688,7 +688,7 @@ void CJabberProto::MenuInit()
 
 	// "Roster editor"
 	CreateProtoService("/RosterEditor", &CJabberProto::OnMenuHandleRosterControl);
-	strcpy(tDest, "/RosterEditor");
+	mir_strcpy(tDest, "/RosterEditor");
 	mi.pszName = LPGEN("Roster editor");
 	mi.position = 2000050009;
 	mi.icolibItem = GetIconHandle(IDI_AGENTS);
@@ -696,14 +696,14 @@ void CJabberProto::MenuInit()
 
 	// "XML Console"
 	CreateProtoService("/XMLConsole", &CJabberProto::OnMenuHandleConsole);
-	strcpy(tDest, "/XMLConsole");
+	mir_strcpy(tDest, "/XMLConsole");
 	mi.pszName = LPGEN("XML Console");
 	mi.position = 2000050010;
 	mi.icolibItem = GetIconHandle(IDI_CONSOLE);
 	Menu_AddProtoMenuItem(&mi);
 
 	CreateProtoService("/Notes", &CJabberProto::OnMenuHandleNotes);
-	strcpy(tDest, "/Notes");
+	mir_strcpy(tDest, "/Notes");
 	mi.pszName = LPGEN("Notes");
 	mi.position = 2000050011;
 	mi.icolibItem = GetIconHandle(IDI_NOTES);
@@ -834,19 +834,19 @@ void CJabberProto::GlobalMenuInit()
 	hkd.ptszSection = m_tszUserName;
 	hkd.dwFlags = HKD_TCHAR;
 
-	strcpy(tDest, "/Groupchat");
+	mir_strcpy(tDest, "/Groupchat");
 	hkd.ptszDescription = LPGENT("Join conference");
 	Hotkey_Register(&hkd);
 
-	strcpy(tDest, "/Bookmarks");
+	mir_strcpy(tDest, "/Bookmarks");
 	hkd.ptszDescription = LPGENT("Open bookmarks");
 	Hotkey_Register(&hkd);
 
-	strcpy(tDest, "/PrivacyLists");
+	mir_strcpy(tDest, "/PrivacyLists");
 	hkd.ptszDescription = LPGENT("Privacy lists");
 	Hotkey_Register(&hkd);
 
-	strcpy(tDest, "/ServiceDiscovery");
+	mir_strcpy(tDest, "/ServiceDiscovery");
 	hkd.ptszDescription = LPGENT("Service discovery");
 	Hotkey_Register(&hkd);
 }

@@ -1442,9 +1442,9 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 				  mir_free(tmp);
 				  char *subkeytype = (char*)mir_alloc(6);
 				  if(strstr(tmp2, "RSA"))
-					  strcpy(subkeytype, "RSA");
+					  mir_strcpy(subkeytype, "RSA");
 				  else if(strstr(tmp2, "DSA")) //this is useless check for now, but it will be required if someone add another key types support
-					  strcpy(subkeytype, "ELG-E");
+					  mir_strcpy(subkeytype, "ELG-E");
 				  f<<tmp2;
 				  mir_free(tmp2);
 				  f<<"\n";
@@ -2366,7 +2366,7 @@ void ImportKey()
 							if(s != string::npos && s2 != string::npos)
 							{
 								tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s,s2-s-(uncommon?1:0)).length()+1));
-								strcpy(tmp, output.substr(s,s2-s-(uncommon?1:0)).c_str());
+								mir_strcpy(tmp, output.substr(s,s2-s-(uncommon?1:0)).c_str());
 								mir_utf8decode(tmp, 0);
 								db_set_s(hcnt, szGPGModuleName, "KeyMainName", tmp);
 								mir_free(tmp);
@@ -2382,7 +2382,7 @@ void ImportKey()
 								if(output[s] == ')')
 								{
 									tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
-									strcpy(tmp, output.substr(s2,s-s2).c_str());
+									mir_strcpy(tmp, output.substr(s2,s-s2).c_str());
 									mir_utf8decode(tmp, 0);
 									db_set_s(hcnt, szGPGModuleName, "KeyComment", tmp);
 									mir_free(tmp);
@@ -2391,7 +2391,7 @@ void ImportKey()
 									if(s != string::npos && s2 != string::npos)
 									{
 										tmp = (char*) mir_alloc(sizeof(char)*(output.substr(s,s2-s).length()+1));
-										strcpy(tmp, output.substr(s,s2-s).c_str());
+										mir_strcpy(tmp, output.substr(s,s2-s).c_str());
 										mir_utf8decode(tmp, 0);
 										db_set_s(hcnt, szGPGModuleName, "KeyMainEmail", tmp);
 										mir_free(tmp);
@@ -2400,7 +2400,7 @@ void ImportKey()
 								else
 								{
 									tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
-									strcpy(tmp, output.substr(s2,s-s2).c_str());
+									mir_strcpy(tmp, output.substr(s2,s-s2).c_str());
 									mir_utf8decode(tmp, 0);
 									db_set_s(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
 									mir_free(tmp);
@@ -2438,7 +2438,7 @@ void ImportKey()
 					if(s != string::npos && s2 != string::npos)
 					{
 						tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s,s2-s-(uncommon?1:0)).length()+1));
-						strcpy(tmp, output.substr(s,s2-s-(uncommon?1:0)).c_str());
+						mir_strcpy(tmp, output.substr(s,s2-s-(uncommon?1:0)).c_str());
 						mir_utf8decode(tmp, 0);
 						db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainName", tmp);
 						mir_free(tmp);
@@ -2453,7 +2453,7 @@ void ImportKey()
 						if(output[s] == ')')
 						{
 							tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
-							strcpy(tmp, output.substr(s2,s-s2).c_str());
+							mir_strcpy(tmp, output.substr(s2,s-s2).c_str());
 							mir_utf8decode(tmp, 0);
 							db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyComment", tmp);
 							mir_free(tmp);
@@ -2462,7 +2462,7 @@ void ImportKey()
 							if(s != string::npos && s2 != string::npos)
 							{
 								tmp = (char*) mir_alloc(sizeof(char)*(output.substr(s,s2-s).length()+1));
-								strcpy(tmp, output.substr(s,s2-s).c_str());
+								mir_strcpy(tmp, output.substr(s,s2-s).c_str());
 								mir_utf8decode(tmp, 0);
 								db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", tmp);
 								mir_free(tmp);
@@ -2471,7 +2471,7 @@ void ImportKey()
 						else
 						{
 							tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
-							strcpy(tmp, output.substr(s2,s-s2).c_str());
+							mir_strcpy(tmp, output.substr(s2,s-s2).c_str());
 							mir_utf8decode(tmp, 0);
 							db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
 							mir_free(tmp);
@@ -2508,7 +2508,7 @@ void ImportKey()
 				if(s != string::npos && s2 != string::npos)
 				{
 					tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s,s2-s-(uncommon?1:0)).length()+1));
-					strcpy(tmp, output.substr(s,s2-s-(uncommon?1:0)).c_str());
+					mir_strcpy(tmp, output.substr(s,s2-s-(uncommon?1:0)).c_str());
 					mir_utf8decode(tmp, 0);
 					db_set_s(hContact, szGPGModuleName, "KeyMainName", tmp);
 					mir_free(tmp);
@@ -2523,7 +2523,7 @@ void ImportKey()
 					if(output[s] == ')')
 					{
 						tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
-						strcpy(tmp, output.substr(s2,s-s2).c_str());
+						mir_strcpy(tmp, output.substr(s2,s-s2).c_str());
 						mir_utf8decode(tmp, 0);
 						db_set_s(hContact, szGPGModuleName, "KeyComment", tmp);
 						mir_free(tmp);
@@ -2532,7 +2532,7 @@ void ImportKey()
 						if(s != string::npos && s2 != string::npos)
 						{
 							tmp = (char*) mir_alloc(sizeof(char)*(output.substr(s,s2-s).length()+1));
-							strcpy(tmp, output.substr(s,s2-s).c_str());
+							mir_strcpy(tmp, output.substr(s,s2-s).c_str());
 							mir_utf8decode(tmp, 0);
 							db_set_s(hContact, szGPGModuleName, "KeyMainEmail", tmp);
 							mir_free(tmp);
@@ -2541,7 +2541,7 @@ void ImportKey()
 					else
 					{
 						tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2,s-s2).length()+1));
-						strcpy(tmp, output.substr(s2,s-s2).c_str());
+						mir_strcpy(tmp, output.substr(s2,s-s2).c_str());
 						mir_utf8decode(tmp, 0);
 						db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
 						mir_free(tmp);

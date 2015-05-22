@@ -110,8 +110,8 @@ static void InitFonts()
 	font_id_firstline.flags = FIDF_ALLOWEFFECTS;
 	_tcscpy(font_id_firstline.group, LPGENT("Popups"));
 	_tcscpy(font_id_firstline.name, LPGENT("First line"));
-	strcpy(font_id_firstline.dbSettingsGroup, MODULE);
-	strcpy(font_id_firstline.prefix, "FontFirst");
+	mir_strcpy(font_id_firstline.dbSettingsGroup, MODULE);
+	mir_strcpy(font_id_firstline.prefix, "FontFirst");
 	_tcscpy(font_id_firstline.backgroundGroup, _T("Popups"));
 	_tcscpy(font_id_firstline.backgroundName, _T("Background"));
 	font_id_firstline.order = 0;
@@ -121,8 +121,8 @@ static void InitFonts()
 	font_id_secondline.flags = FIDF_ALLOWEFFECTS;
 	_tcscpy(font_id_secondline.group, LPGENT("Popups"));
 	_tcscpy(font_id_secondline.name, LPGENT("Second line"));
-	strcpy(font_id_secondline.dbSettingsGroup, MODULE);
-	strcpy(font_id_secondline.prefix, "FontSecond");
+	mir_strcpy(font_id_secondline.dbSettingsGroup, MODULE);
+	mir_strcpy(font_id_secondline.prefix, "FontSecond");
 	_tcscpy(font_id_secondline.backgroundGroup, _T("Popups"));
 	_tcscpy(font_id_secondline.backgroundName, _T("Background"));
 	font_id_secondline.order = 1;
@@ -132,8 +132,8 @@ static void InitFonts()
 	font_id_time.flags = FIDF_ALLOWEFFECTS;
 	_tcscpy(font_id_time.group, LPGENT("Popups"));
 	_tcscpy(font_id_time.name, LPGENT("Time"));
-	strcpy(font_id_time.dbSettingsGroup, MODULE);
-	strcpy(font_id_time.prefix, "FontTime");
+	mir_strcpy(font_id_time.dbSettingsGroup, MODULE);
+	mir_strcpy(font_id_time.prefix, "FontTime");
 	_tcscpy(font_id_time.backgroundGroup, _T("Popups"));
 	_tcscpy(font_id_time.backgroundName, _T("Background"));
 	font_id_time.order = 2;
@@ -142,8 +142,8 @@ static void InitFonts()
 	colour_id_bg.cbSize = sizeof(ColourIDT);
 	_tcscpy(colour_id_bg.group, LPGENT("Popups"));
 	_tcscpy(colour_id_bg.name, LPGENT("Background"));
-	strcpy(colour_id_bg.dbSettingsGroup, MODULE);
-	strcpy(colour_id_bg.setting, "ColourBg");
+	mir_strcpy(colour_id_bg.dbSettingsGroup, MODULE);
+	mir_strcpy(colour_id_bg.setting, "ColourBg");
 	colour_id_bg.defcolour = GetSysColor(COLOR_3DSHADOW);
 	colour_id_bg.order = 0;
 	ColourRegisterT(&colour_id_bg);
@@ -151,8 +151,8 @@ static void InitFonts()
 	colour_id_border.cbSize = sizeof(ColourIDT);
 	_tcscpy(colour_id_border.group, LPGENT("Popups"));
 	_tcscpy(colour_id_border.name, LPGENT("Border"));
-	strcpy(colour_id_border.dbSettingsGroup, MODULE);
-	strcpy(colour_id_border.setting, "ColourBorder");
+	mir_strcpy(colour_id_border.dbSettingsGroup, MODULE);
+	mir_strcpy(colour_id_border.setting, "ColourBorder");
 	colour_id_border.defcolour = RGB(0, 0, 0);
 	colour_id_border.order = 1;
 	ColourRegisterT(&colour_id_border);
@@ -160,8 +160,8 @@ static void InitFonts()
 	colour_id_sidebar.cbSize = sizeof(ColourIDT);
 	_tcscpy(colour_id_sidebar.group, LPGENT("Popups"));
 	_tcscpy(colour_id_sidebar.name, LPGENT("Sidebar"));
-	strcpy(colour_id_sidebar.dbSettingsGroup, MODULE);
-	strcpy(colour_id_sidebar.setting, "ColourSidebar");
+	mir_strcpy(colour_id_sidebar.dbSettingsGroup, MODULE);
+	mir_strcpy(colour_id_sidebar.setting, "ColourSidebar");
 	colour_id_sidebar.defcolour = RGB(128, 128, 128);
 	colour_id_sidebar.order = 2;
 	ColourRegisterT(&colour_id_sidebar);
@@ -169,8 +169,8 @@ static void InitFonts()
 	colour_id_titleunderline.cbSize = sizeof(ColourIDT);
 	_tcscpy(colour_id_titleunderline.group, LPGENT("Popups"));
 	_tcscpy(colour_id_titleunderline.name, LPGENT("Title underline"));
-	strcpy(colour_id_titleunderline.dbSettingsGroup, MODULE);
-	strcpy(colour_id_titleunderline.setting, "ColourTitleUnderline");
+	mir_strcpy(colour_id_titleunderline.dbSettingsGroup, MODULE);
+	mir_strcpy(colour_id_titleunderline.setting, "ColourTitleUnderline");
 	colour_id_titleunderline.defcolour = GetSysColor(COLOR_3DSHADOW);
 	colour_id_titleunderline.order = 3;
 	ColourRegisterT(&colour_id_titleunderline);

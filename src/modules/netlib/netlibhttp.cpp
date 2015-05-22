@@ -584,7 +584,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 					nlc->szNewUrl = (char*)mir_realloc(nlc->szNewUrl, rlen + mir_strlen(tmpUrl) * 3 + 1);
 
 					strncpy(nlc->szNewUrl, pszFullUrl, rlen);
-					strcpy(nlc->szNewUrl + rlen, tmpUrl);
+					mir_strcpy(nlc->szNewUrl + rlen, tmpUrl);
 					pszFullUrl = nlc->szNewUrl;
 					pszUrl = NULL;
 

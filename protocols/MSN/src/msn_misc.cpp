@@ -106,11 +106,11 @@ void CMsnProto::MSN_AddAuthRequest(const char *email, const char *nick, const ch
 
 	*(PDWORD)pCurBlob = 0; pCurBlob += sizeof(DWORD);                // UID
 	*(PDWORD)pCurBlob = (DWORD)hContact; pCurBlob += sizeof(DWORD);  // Contact Handle
-	strcpy(pCurBlob, nick); pCurBlob += nicklen + 1;                 // Nickname
+	mir_strcpy(pCurBlob, nick); pCurBlob += nicklen + 1;                 // Nickname
 	*pCurBlob = '\0'; pCurBlob++;                                    // First Name
 	*pCurBlob = '\0'; pCurBlob++;	                                   // Last Name
-	strcpy(pCurBlob, email); pCurBlob += emaillen + 1;               // E-mail
-	strcpy(pCurBlob, reason);                                        // Reason
+	mir_strcpy(pCurBlob, email); pCurBlob += emaillen + 1;               // E-mail
+	mir_strcpy(pCurBlob, reason);                                        // Reason
 
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 }
@@ -152,7 +152,7 @@ char* MSN_GetAvatarHash(char* szContext, char** pszUrl)
 			for (int i = 0;; i++) {
 				char szSetting[20];
 				if (i == 0)
-					strcpy(szSetting, "Url");
+					mir_strcpy(szSetting, "Url");
 				else
 					mir_snprintf(szSetting, SIZEOF(szSetting), "Url%d", i);
 				pszUrlAttr = ezxml_attr(xmli, szSetting);
@@ -446,7 +446,7 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 			pszMsgType = "Text";
 			pszContType = "Text/plain; charset=UTF-8";
 
-			strcpy(tFontName, "Arial");
+			mir_strcpy(tFontName, "Arial");
 
 			if (proto->getByte("SendFontInfo", 1)) {
 				char* p;
@@ -930,7 +930,7 @@ void CMsnProto::MsnInvokeMyURL(bool ismail, const char* url)
 
 	char passport[256];
 	if (db_get_static(NULL, m_szModuleName, "MsnPassportHost", passport, 256))
-		strcpy(passport, "https://login.live.com/");
+		mir_strcpy(passport, "https://login.live.com/");
 
 	char *p = strchr(passport, '/');
 	if (p && p[1] == '/') p = strchr(p + 2, '/');
@@ -1283,7 +1283,7 @@ void directconnection::xNonceToBin(UUID* nonce)
 {
 	size_t len = mir_strlen(xNonce);
 	char *p = (char*)alloca(len);
-	strcpy(p, xNonce + 1);
+	mir_strcpy(p, xNonce + 1);
 	p[len - 2] = 0;
 	UuidFromStringA((BYTE*)p, nonce);
 }
@@ -1416,7 +1416,7 @@ void MSN_MakeDigest(const char* chl, char* dgst)
 	md5hashOr[3] ^= low;
 
 	char* str = arrayToHex((PBYTE)md5hashOr, sizeof(md5hashOr));
-	strcpy(dgst, str);
+	mir_strcpy(dgst, str);
 	mir_free(str);
 }
 

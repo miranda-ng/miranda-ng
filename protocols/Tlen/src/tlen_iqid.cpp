@@ -505,7 +505,7 @@ void TlenIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 
 
 void GetConfigItem(XmlNode *node, char *dest, BOOL bMethod, int *methodDest) {
-	strcpy(dest, node->text);
+	mir_strcpy(dest, node->text);
 	TlenUrlDecode(dest);
 	if (bMethod) {
 		char *method = TlenXmlGetAttrValue(node, "method");

@@ -276,7 +276,7 @@ static INT_PTR icqSetAwayMsg(WPARAM wParam, LPARAM lParam)
 
     if (icq.awayMessage) delete [] icq.awayMessage;
     icq.awayMessage = new char[mir_strlen((char*)lParam) + 1];
-    strcpy(icq.awayMessage, (char*)lParam);
+    mir_strcpy(icq.awayMessage, (char*)lParam);
 
 	return 0;
 }
@@ -347,7 +347,7 @@ static INT_PTR icqSendFile(WPARAM wParam, LPARAM lParam)
         if (filesCount == 1)
         {
             char *p = strrchr(files[0], '\\');
-            strcpy(filename, p ? p+1 : files[0]);
+            mir_strcpy(filename, p ? p+1 : files[0]);
         }
         else sprintf(filename, filesCount == 1 ? Translate("%d file") : Translate("%d files"), filesCount);
     }
@@ -526,7 +526,7 @@ static int icqModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 char *CreateServiceName(char *serviceName, char *functionName)
 {
-    strcpy(serviceName, protoName);
+    mir_strcpy(serviceName, protoName);
     strcat(serviceName, functionName);
 
     return serviceName;

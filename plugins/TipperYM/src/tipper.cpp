@@ -127,8 +127,8 @@ void InitFonts()
 	colourBg.cbSize = sizeof(ColourIDT);
 	_tcscpy(colourBg.group, LPGENT("Tooltips"));
 	_tcscpy(colourBg.name, LPGENT("Background"));
-	strcpy(colourBg.dbSettingsGroup, MODULE);
-	strcpy(colourBg.setting, "ColourBg");
+	mir_strcpy(colourBg.dbSettingsGroup, MODULE);
+	mir_strcpy(colourBg.setting, "ColourBg");
 	colourBg.defcolour = RGB(219, 219, 219);
 	colourBg.order = 0;
 	ColourRegisterT(&colourBg);
@@ -136,8 +136,8 @@ void InitFonts()
 	colourBorder.cbSize = sizeof(ColourIDT);
 	_tcscpy(colourBorder.group, LPGENT("Tooltips"));
 	_tcscpy(colourBorder.name, LPGENT("Border"));
-	strcpy(colourBorder.dbSettingsGroup, MODULE);
-	strcpy(colourBorder.setting, "BorderCol");
+	mir_strcpy(colourBorder.dbSettingsGroup, MODULE);
+	mir_strcpy(colourBorder.setting, "BorderCol");
 	colourBorder.defcolour = 0;
 	colourBorder.order = 0;
 	ColourRegisterT(&colourBorder);
@@ -145,8 +145,8 @@ void InitFonts()
 	colourAvatarBorder.cbSize = sizeof(ColourIDT);
 	_tcscpy(colourAvatarBorder.group, LPGENT("Tooltips"));
 	_tcscpy(colourAvatarBorder.name, LPGENT("Avatar border"));
-	strcpy(colourAvatarBorder.dbSettingsGroup, MODULE);
-	strcpy(colourAvatarBorder.setting, "AvBorderCol");
+	mir_strcpy(colourAvatarBorder.dbSettingsGroup, MODULE);
+	mir_strcpy(colourAvatarBorder.setting, "AvBorderCol");
 	colourAvatarBorder.defcolour = 0;
 	colourAvatarBorder.order = 0;
 	ColourRegisterT(&colourAvatarBorder);
@@ -154,8 +154,8 @@ void InitFonts()
 	colourDivider.cbSize = sizeof(ColourIDT);
 	_tcscpy(colourDivider.group, LPGENT("Tooltips"));
 	_tcscpy(colourDivider.name, LPGENT("Dividers"));
-	strcpy(colourDivider.dbSettingsGroup, MODULE);
-	strcpy(colourDivider.setting, "DividerCol");
+	mir_strcpy(colourDivider.dbSettingsGroup, MODULE);
+	mir_strcpy(colourDivider.setting, "DividerCol");
 	colourDivider.defcolour = 0;
 	colourDivider.order = 0;
 	ColourRegisterT(&colourDivider);
@@ -163,8 +163,8 @@ void InitFonts()
 	colourSidebar.cbSize = sizeof(ColourIDT);
 	_tcscpy(colourSidebar.group, LPGENT("Tooltips"));
 	_tcscpy(colourSidebar.name, LPGENT("Sidebar"));
-	strcpy(colourSidebar.dbSettingsGroup, MODULE);
-	strcpy(colourSidebar.setting, "SidebarCol");
+	mir_strcpy(colourSidebar.dbSettingsGroup, MODULE);
+	mir_strcpy(colourSidebar.setting, "SidebarCol");
 	colourSidebar.defcolour = RGB(192, 192, 192);
 	colourSidebar.order = 0;
 	ColourRegisterT(&colourSidebar);
@@ -173,8 +173,8 @@ void InitFonts()
 	fontTitle.flags = FIDF_ALLOWEFFECTS;
 	_tcscpy(fontTitle.group, LPGENT("Tooltips"));
 	_tcscpy(fontTitle.name, LPGENT("Title"));
-	strcpy(fontTitle.dbSettingsGroup, MODULE);
-	strcpy(fontTitle.prefix, "FontFirst");
+	mir_strcpy(fontTitle.dbSettingsGroup, MODULE);
+	mir_strcpy(fontTitle.prefix, "FontFirst");
 	_tcscpy(fontTitle.backgroundGroup, LPGENT("Tooltips"));
 	_tcscpy(fontTitle.backgroundName, LPGENT("Background"));
 	fontTitle.order = 0;
@@ -189,8 +189,8 @@ void InitFonts()
 	fontLabels.flags = FIDF_ALLOWEFFECTS;
 	_tcscpy(fontLabels.group, LPGENT("Tooltips"));
 	_tcscpy(fontLabels.name, LPGENT("Labels"));
-	strcpy(fontLabels.dbSettingsGroup, MODULE);
-	strcpy(fontLabels.prefix, "FontLabels");
+	mir_strcpy(fontLabels.dbSettingsGroup, MODULE);
+	mir_strcpy(fontLabels.prefix, "FontLabels");
 	_tcscpy(fontLabels.backgroundGroup, LPGENT("Tooltips"));
 	_tcscpy(fontLabels.backgroundName, LPGENT("Background"));
 	fontLabels.order = 1;
@@ -205,8 +205,8 @@ void InitFonts()
 	fontValues.flags = FIDF_ALLOWEFFECTS;
 	_tcscpy(fontValues.group, LPGENT("Tooltips"));
 	_tcscpy(fontValues.name, LPGENT("Values"));
-	strcpy(fontValues.dbSettingsGroup, MODULE);
-	strcpy(fontValues.prefix, "FontValues");
+	mir_strcpy(fontValues.dbSettingsGroup, MODULE);
+	mir_strcpy(fontValues.prefix, "FontValues");
 	_tcscpy(fontValues.backgroundGroup, LPGENT("Tooltips"));
 	_tcscpy(fontValues.backgroundName, LPGENT("Background"));
 	fontValues.order = 2;
@@ -221,8 +221,8 @@ void InitFonts()
 	fontTrayTitle.flags = FIDF_ALLOWEFFECTS;
 	_tcscpy(fontTrayTitle.group, LPGENT("Tooltips"));
 	_tcscpy(fontTrayTitle.name, LPGENT("Tray title"));
-	strcpy(fontTrayTitle.dbSettingsGroup, MODULE);
-	strcpy(fontTrayTitle.prefix, "FontTrayTitle");
+	mir_strcpy(fontTrayTitle.dbSettingsGroup, MODULE);
+	mir_strcpy(fontTrayTitle.prefix, "FontTrayTitle");
 	_tcscpy(fontTrayTitle.backgroundGroup, LPGENT("Tooltips"));
 	_tcscpy(fontTrayTitle.backgroundName, LPGENT("Background"));
 	fontTrayTitle.order = 0;

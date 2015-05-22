@@ -103,7 +103,7 @@ static int GetIPPortUDetails(MCONTACT hContact, char* feld1, char* feld2)
 
 		HGLOBAL clipbuffer = GlobalAlloc(GMEM_DDESHARE, mir_strlen(temp) + 1);
 		char *buffer = (char*)GlobalLock(clipbuffer);
-		strcpy(buffer, LPCSTR(temp));
+		mir_strcpy(buffer, LPCSTR(temp));
 		GlobalUnlock(clipbuffer);
 
 		SetClipboardData(CF_TEXT, clipbuffer);

@@ -668,7 +668,7 @@ void createProtocolList(void)
 			ProtoList.protoInfo[i].visible = FALSE;
 		}
 		else {
-			strcpy(ProtoList.protoInfo[i].szProto, proto[i]->szModuleName);
+			mir_strcpy(ProtoList.protoInfo[i].szProto, proto[i]->szModuleName);
 			ProtoList.protoInfo[i].enabled = FALSE;
 			if (!mir_strcmp(proto[i]->szModuleName, META_PROTO))
 				ProtoList.protoInfo[i].visible = FALSE;

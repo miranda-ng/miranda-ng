@@ -226,7 +226,7 @@ const char* MimeHeaders::find(const char* szFieldName)
 	for (i = 0; i < mCount; i++) {
 		MimeHeader& MH = mVals[i];
 		if (_stricmp(MH.name, szFieldNameR) == 0 && (MH.flags & 3) == 0) {
-			strcpy((char*)MH.name, szFieldNameR);
+			mir_strcpy((char*)MH.name, szFieldNameR);
 			flipStr(MH.value, -1, (char*)MH.value);
 			return MH.value;
 		}
@@ -434,7 +434,7 @@ wchar_t* MimeHeaders::decode(const char* val)
 		case 'B':
 		{
 			char* dec = (char*)mir_base64_decode(fld, 0);
-			strcpy(fld, dec);
+			mir_strcpy(fld, dec);
 			mir_free(dec);
 			break;
 		}

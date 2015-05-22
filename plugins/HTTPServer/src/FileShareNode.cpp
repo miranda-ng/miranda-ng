@@ -209,7 +209,7 @@ bool CLFileShareNode::bSetPaths(char * pszSrvPath, char * pszRealPath) {
 
 	st.dwMaxSrvPath = (int)mir_strlen(pszSrvPath) + 1;
 	st.pszSrvPath = new char[ st.dwMaxSrvPath ];
-	strcpy(st.pszSrvPath, pszSrvPath);
+	mir_strcpy(st.pszSrvPath, pszSrvPath);
 
 	int nRealLen = (int)mir_strlen(pszRealPath);
 	if (nRealLen <= 2 || !(pszRealPath[1] == ':' ||
@@ -218,14 +218,14 @@ bool CLFileShareNode::bSetPaths(char * pszSrvPath, char * pszRealPath) {
 		// we will prepend plugin path to avoid problems
 		st.dwMaxRealPath = nPluginPathLen  + nRealLen + 1;
 		st.pszRealPath = new char[ st.dwMaxRealPath ];
-		strcpy(st.pszRealPath, szPluginPath);
+		mir_strcpy(st.pszRealPath, szPluginPath);
 		pszOrigRealPath = &st.pszRealPath[nPluginPathLen];
 	} else {
 		st.dwMaxRealPath = nRealLen + 1;
 		st.pszRealPath = new char[ st.dwMaxRealPath ];
 		pszOrigRealPath = st.pszRealPath;
 	}
-	strcpy(pszOrigRealPath, pszRealPath);
+	mir_strcpy(pszOrigRealPath, pszRealPath);
 	return true;
 }
 

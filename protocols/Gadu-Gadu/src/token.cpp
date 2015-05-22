@@ -112,8 +112,8 @@ int GGPROTO::gettoken(GGTOKEN *token)
 	GGTOKENDLGDATA dat = {0};
 
 	// Zero tokens
-	strcpy(token->id, "");
-	strcpy(token->val, "");
+	mir_strcpy(token->id, "");
+	mir_strcpy(token->val, "");
 
 	if (!(h = gg_token(0)) || gg_token_watch_fd(h) || h->state == GG_STATE_ERROR || h->state != GG_STATE_DONE) {
 		TCHAR error[128];

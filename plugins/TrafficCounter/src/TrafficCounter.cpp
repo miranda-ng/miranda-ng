@@ -250,8 +250,8 @@ int TrafficCounterModulesLoaded(WPARAM wParam, LPARAM lParam)
 	TrafficFontID.cbSize = sizeof(FontIDT);
 	_tcscpy(TrafficFontID.group, LPGENT("Traffic counter"));
 	_tcscpy(TrafficFontID.name, LPGENT("Font"));
-	strcpy(TrafficFontID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
-	strcpy(TrafficFontID.prefix, "Font");
+	mir_strcpy(TrafficFontID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
+	mir_strcpy(TrafficFontID.prefix, "Font");
 	TrafficFontID.flags = FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
 	TrafficFontID.deffontsettings.charset = DEFAULT_CHARSET;
 	TrafficFontID.deffontsettings.colour = GetSysColor(COLOR_BTNTEXT);
@@ -265,8 +265,8 @@ int TrafficCounterModulesLoaded(WPARAM wParam, LPARAM lParam)
 	TrafficBackgroundColorID.cbSize = sizeof(ColourIDT);
 	_tcscpy(TrafficBackgroundColorID.group, LPGENT("Traffic counter"));
 	_tcscpy(TrafficBackgroundColorID.name, LPGENT("Font"));
-	strcpy(TrafficBackgroundColorID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
-	strcpy(TrafficBackgroundColorID.setting, "FontBkColor");
+	mir_strcpy(TrafficBackgroundColorID.dbSettingsGroup, TRAFFIC_SETTINGS_GROUP);
+	mir_strcpy(TrafficBackgroundColorID.setting, "FontBkColor");
 	TrafficBackgroundColorID.defcolour = GetSysColor(COLOR_BTNFACE);
 	ColourRegisterT(&TrafficBackgroundColorID);
 
@@ -1179,7 +1179,7 @@ void CreateProtocolList(void)
 	for (i = 0; i < NumberOfAccounts; i++)
 	{
 		ProtoList[i].name = (char*)mir_alloc(mir_strlen(acc[i]->szModuleName) + 1);
-		strcpy(ProtoList[i].name, acc[i]->szModuleName);
+		mir_strcpy(ProtoList[i].name, acc[i]->szModuleName);
 		ProtoList[i].tszAccountName = (TCHAR*)mir_alloc(sizeof(TCHAR) * (1 + mir_tstrlen(acc[i]->tszAccountName)));
 		_tcscpy(ProtoList[i].tszAccountName, acc[i]->tszAccountName);
 		//

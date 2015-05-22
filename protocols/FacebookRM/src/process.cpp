@@ -980,11 +980,11 @@ void FacebookProto::ProcessFriendRequests(void*)
 				PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 				*(PDWORD)pCurBlob = 0; pCurBlob += sizeof(DWORD);                    // UID
 				*(PDWORD)pCurBlob = (DWORD)hContact; pCurBlob += sizeof(DWORD);      // Contact Handle
-				strcpy((char*)pCurBlob, fbu.real_name.data()); pCurBlob += fbu.real_name.length() + 1;	// Nickname
+				mir_strcpy((char*)pCurBlob, fbu.real_name.data()); pCurBlob += fbu.real_name.length() + 1;	// Nickname
 				*pCurBlob = '\0'; pCurBlob++;                                        // First Name
 				*pCurBlob = '\0'; pCurBlob++;                                        // Last Name
-				strcpy((char*)pCurBlob, fbu.user_id.data()); pCurBlob += fbu.user_id.length() + 1;	// E-mail (we use it for string ID)
-				strcpy((char*)pCurBlob, reason.data()); pCurBlob += reason.length() + 1;	// Reason (we use it for info about common friends)
+				mir_strcpy((char*)pCurBlob, fbu.user_id.data()); pCurBlob += fbu.user_id.length() + 1;	// E-mail (we use it for string ID)
+				mir_strcpy((char*)pCurBlob, reason.data()); pCurBlob += reason.length() + 1;	// Reason (we use it for info about common friends)
 
 				db_event_add(0, &dbei);
 			}

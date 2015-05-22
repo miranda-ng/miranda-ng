@@ -107,7 +107,7 @@ char *BinToHex(int size, PBYTE data)
 void HexToBin(char *inData, ULONG &size, LPBYTE &outData)
 {
 	char buffer[32] = {0};
-	strcpy(buffer, "0x");
+	mir_strcpy(buffer, "0x");
 	STRNCPY(buffer + 2, inData, HEX_SIZE);
 	sscanf(buffer, "%x", &size);
 	outData = (unsigned char*)new char[size*2];

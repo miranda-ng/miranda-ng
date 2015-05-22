@@ -34,7 +34,7 @@ UploadJob::UploadJob(MCONTACT _hContact, int _iFtpNum, EMode _mode) :
 UploadJob::UploadJob(UploadJob *job) :
 	GenericJob(job),fp(NULL),uiSent(0),uiTotalSent(0),uiFileSize(0)
 { 
-	strcpy(this->szFileLink, job->szFileLink);
+	mir_strcpy(this->szFileLink, job->szFileLink);
 	for (int i = 0; i < SIZEOF(this->lastSpeed); i++)
 		this->lastSpeed[i] = 0;
 }

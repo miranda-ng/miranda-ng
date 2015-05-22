@@ -98,7 +98,7 @@ static void SetAvatar(TlenProtocol *proto, MCONTACT hContact, TLEN_LIST_ITEM *it
 		mir_free(hash);
 	} else {
 		proto->threadData->avatarFormat = format;
-		strcpy(proto->threadData->avatarHash, md5);
+		mir_strcpy(proto->threadData->avatarHash, md5);
 	}
 	TlenGetAvatarFileName(proto, item, filename, SIZEOF(filename)-1);
 	DeleteFile(filename);
@@ -194,18 +194,18 @@ static char *replaceTokens(const char *base, const char *uri, const char *login,
 		}
 	}
 	result = (char *)mir_alloc(size +1);
-	strcpy(result, base);
+	mir_strcpy(result, base);
 	size = (int)mir_strlen(base);
 	for (i = 0; i < l; ) {
 		if (!strncmp(uri + i, "^login^", 7)) {
-			strcpy(result + size, login);
+			mir_strcpy(result + size, login);
 			size += (int)mir_strlen(login);
 			i += 7;
 		} else if (!strncmp(uri + i, "^type^", 6)) {
 			result[size++] = '0' + type;
 			i += 6;
 		} else if (!strncmp(uri + i, "^token^", 7)) {
-			strcpy(result + size, token);
+			mir_strcpy(result + size, token);
 			size += (int)mir_strlen(token);
 			i += 7;
 		} else if (!strncmp(uri + i, "^access^", 8)) {

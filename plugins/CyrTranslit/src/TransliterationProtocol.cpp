@@ -52,7 +52,7 @@ void TransliterationProtocol::TranslateMessageUTF(WPARAM, LPARAM lParam)
 	mir_free(txtUTFencoded);
 
 	ccs->lParam = reinterpret_cast<LPARAM>(mir_alloc(txtUTF.length()));
-	strcpy(reinterpret_cast<char*>(ccs->lParam), txtUTF.c_str());
+	mir_strcpy(reinterpret_cast<char*>(ccs->lParam), txtUTF.c_str());
 }
 
 //------------------------------------------------------------------------------

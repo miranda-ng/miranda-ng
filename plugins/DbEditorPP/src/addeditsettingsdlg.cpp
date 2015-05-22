@@ -352,7 +352,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					if (IsWindowVisible(GetDlgItem(hwnd, IDC_STRING)) || (saveAsType(hwnd) == 3))
 						memcpy(value, "\0\0", 2);
 					else
-						strcpy(value, "0");
+						mir_strcpy(value, "0");
 
 				// delete the old setting
 				if (mir_strcmp(setting, dbsetting->setting) && dbsetting->setting && (dbsetting->setting)[0] != 0)

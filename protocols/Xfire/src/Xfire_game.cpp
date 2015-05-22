@@ -429,7 +429,7 @@ void Xfire_game::writeToDB(unsigned dbid)
 void Xfire_game::createMenuitem(unsigned int pos, int dbid)
 {
 	char servicefunction[100];
-	strcpy(servicefunction, protocolname);
+	mir_strcpy(servicefunction, protocolname);
 	strcat(servicefunction, "StartGame%d");
 
 	if (dbid < 0)

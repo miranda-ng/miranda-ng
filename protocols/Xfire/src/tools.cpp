@@ -37,7 +37,7 @@ extern HANDLE hNetlib;
 /*char* tohex(unsigned char*buf,int size) {
 	static char buffer[1024*10]="";
 
-	strcpy(buffer,"");
+	mir_strcpy(buffer,"");
 
 	for(int i=0;i<size;i++)
 	{
@@ -67,12 +67,12 @@ BOOL str_replace(char*src, char*find, char*rep)
 	{
 		char *temp = new char[mir_strlen(src) + mir_strlen(rep) + 1];
 
-		strcpy(temp, src);
+		mir_strcpy(temp, src);
 		*(temp + pos) = 0;
 
 		strcat(temp, rep);
 		strcat(temp, (src + pos + mir_strlen(find)));
-		strcpy(src, temp);
+		mir_strcpy(src, temp);
 
 		delete[] temp;
 

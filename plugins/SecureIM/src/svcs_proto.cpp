@@ -111,7 +111,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		Sent_NetLog("onRecvMsg: combine untagged splitted message");
 
 		LPSTR tmp = (LPSTR)mir_alloc(mir_strlen(ptr->msgSplitted) + mir_strlen(szEncMsg) + 1);
-		strcpy(tmp, ptr->msgSplitted);
+		mir_strcpy(tmp, ptr->msgSplitted);
 		strcat(tmp, szEncMsg);
 		mir_free(ptr->msgSplitted);
 		ptr->msgSplitted = szEncMsg = ppre->szMessage = tmp;
@@ -225,7 +225,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			cpp_reset_context(ptr->cntx);
 
 			ptrA reSend((LPSTR)mir_alloc(mir_strlen(szEncMsg) + LEN_RSND));
-			strcpy(reSend, SIG_RSND); // copy resend sig
+			mir_strcpy(reSend, SIG_RSND); // copy resend sig
 			strcat(reSend, szEncMsg); // add mess
 
 			pccsd->wParam |= PREF_METANODB;

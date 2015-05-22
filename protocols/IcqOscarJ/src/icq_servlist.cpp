@@ -1551,7 +1551,7 @@ char* CIcqProto::getServListUniqueGroupName(const char *szGroupName, int bAlloce
 			null_strcut(szGroupNameBase, m_wServerListRecordNameMaxLength - mir_strlen(szUnique) - 1);
 			szNewGroupName = (char*)SAFE_MALLOC(mir_strlen(szUnique) + mir_strlen(szGroupNameBase) + 2);
 			if (szNewGroupName) {
-				strcpy(szNewGroupName, szGroupNameBase);
+				mir_strcpy(szNewGroupName, szGroupNameBase);
 				strcat(szNewGroupName, "~");
 				strcat(szNewGroupName, szUnique);
 			}
@@ -1586,7 +1586,7 @@ int CIcqProto::servlistCreateGroup_gotParentGroup(const char *szGroup, WORD wGro
 
 	szSubGroup = (char*)SAFE_MALLOC(mir_strlen(szGroup) + mir_strlen(szSubGroupName) + 2);
 	if (szSubGroup) {
-		strcpy(szSubGroup, szGroup);
+		mir_strcpy(szSubGroup, szGroup);
 		strcat(szSubGroup, "\\");
 		strcat(szSubGroup, szSubGroupName);
 	}
@@ -1619,7 +1619,7 @@ int CIcqProto::servlistCreateGroup_gotParentGroup(const char *szGroup, WORD wGro
 			for (i = 0; i < wSubGroupLevel; i++)
 				szSubGroupItem[i] = '>';
 
-			strcpy(szSubGroupItem + wSubGroupLevel, szSubGroupName);
+			mir_strcpy(szSubGroupItem + wSubGroupLevel, szSubGroupName);
 			szSubGroupItem[mir_strlen(szSubGroupName) + wSubGroupLevel] = '\0';
 			SAFE_FREE((void**)&szSubGroupName);
 			// check and create unique group name (Miranda does allow more subgroups with the same name!)

@@ -81,7 +81,7 @@ void Utils::copyToClipboard(char *szText)
 			EmptyClipboard();
 			HGLOBAL hClipboardData = GlobalAlloc(GMEM_DDESHARE, 1024);
 			char *pchData = (char *)GlobalLock(hClipboardData);
-			strcpy(pchData, szText);
+			mir_strcpy(pchData, szText);
 			GlobalUnlock(hClipboardData);
 			SetClipboardData(CF_TEXT, hClipboardData);
 			CloseClipboard();
@@ -109,7 +109,7 @@ char* Utils::makeSafeString(TCHAR *input, char *output)
 		}
 	}
 
-	strcpy(output, buff);
+	mir_strcpy(output, buff);
 	FREE(buff);
 
 	return output;
@@ -218,7 +218,7 @@ bool Utils::setFileNameDlgA(char *nameBuff)
 	if (res)
 	{
 		char *p = mir_t2a(buff);
-		strcpy(nameBuff, p);
+		mir_strcpy(nameBuff, p);
 		FREE(p);
 	}
 

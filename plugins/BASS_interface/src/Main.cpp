@@ -474,8 +474,8 @@ void CreateFrame()
 
 	ColourIDT colourid = { 0 };
 	colourid.cbSize = sizeof(ColourIDT);
-	strcpy(colourid.dbSettingsGroup, ModuleName);
-	strcpy(colourid.setting, "ColorFrame");
+	mir_strcpy(colourid.dbSettingsGroup, ModuleName);
+	mir_strcpy(colourid.setting, "ColorFrame");
 	_tcscpy(colourid.name, LPGENT("Frame background"));
 	_tcscpy(colourid.group, _T(ModuleName));
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);

@@ -1572,8 +1572,8 @@ ICQEvent *ICQ::sendUrl(ICQUser *u, char *url)
 	descriptionLen = (unsigned int)mir_strlen(description);
 
     m = new char[nameLen + descriptionLen + 2];
-    strcpy(m, description);
-    strcpy(m + descriptionLen + 1, url);
+    mir_strcpy(m, description);
+    mir_strcpy(m + descriptionLen + 1, url);
     m[descriptionLen] = (char)0xFE;
 
     result = send(u, ICQ_CMDxTCP_URL, "url", m);
@@ -2307,8 +2307,8 @@ void ICQ::addFileReq(ICQUser *u, char *m, char *filename, unsigned long size, un
     szBlob = new char[sizeof(DWORD) + mir_strlen(filename) + mir_strlen(m) + 2];
 
     *(PDWORD)szBlob = (DWORD)transfer;
-    strcpy(szBlob + sizeof(DWORD), filename);
-    strcpy(szBlob + sizeof(DWORD) + mir_strlen(filename) + 1, m);
+    mir_strcpy(szBlob + sizeof(DWORD), filename);
+    mir_strcpy(szBlob + sizeof(DWORD) + mir_strlen(filename) + 1, m);
 
     ccs.hContact = u->hContact;
     ccs.szProtoService = PSR_FILE;

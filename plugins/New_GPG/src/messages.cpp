@@ -263,7 +263,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 						if(bDebugLog)
 							debuglog<<std::string(time_str()+": info: Failed to decrypt GPG encrypted message.");
 						char *tmp = (char*)mir_alloc(sizeof(char)*(str.length()+1));
-						strcpy(tmp, str.c_str());
+						mir_strcpy(tmp, str.c_str());
 						HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 						BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 						db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
@@ -437,7 +437,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					else if(s2 > output.find("<", s))
 						s2 = output.find("<", s);
 					tmp = (char*)mir_alloc(output.substr(s,s2-s-1).length()+1);
-					strcpy(tmp, output.substr(s,s2-s-1).c_str());
+					mir_strcpy(tmp, output.substr(s,s2-s-1).c_str());
 					mir_utf8decode(tmp, 0);
 					db_set_s(ccs->hContact, szGPGModuleName, "KeyMainName", tmp);
 					mir_free(tmp);
@@ -449,14 +449,14 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					if(output[s] == ')')
 					{
 						tmp = (char*)mir_alloc(output.substr(s2,s-s2).length()+1);
-						strcpy(tmp, output.substr(s2,s-s2).c_str());
+						mir_strcpy(tmp, output.substr(s2,s-s2).c_str());
 						mir_utf8decode(tmp, 0);
 						db_set_s(ccs->hContact, szGPGModuleName, "KeyComment", tmp);
 						mir_free(tmp);
 						s+=3;
 						s2 = output.find(">", s);
 						tmp = (char*)mir_alloc(output.substr(s,s2-s).length()+1);
-						strcpy(tmp, output.substr(s,s2-s).c_str());
+						mir_strcpy(tmp, output.substr(s,s2-s).c_str());
 						mir_utf8decode(tmp, 0);
 						db_set_s(ccs->hContact, szGPGModuleName, "KeyMainEmail", tmp);
 						mir_free(tmp);
@@ -464,7 +464,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					else
 					{
 						tmp = (char*)mir_alloc(output.substr(s2,s-s2).length()+1);
-						strcpy(tmp, output.substr(s2,s-s2).c_str());
+						mir_strcpy(tmp, output.substr(s2,s-s2).c_str());
 						mir_utf8decode(tmp, 0);
 						db_set_s(ccs->hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
 						mir_free(tmp);

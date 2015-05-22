@@ -1600,7 +1600,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			char *szDataDescr = ansi_to_utf8(pszMsgField[0]);
 			char *szDataUrl = ansi_to_utf8(pszMsgField[1]);
 			char *szBlob = (char *)SAFE_MALLOC(mir_strlen(szTitle) + mir_strlen(szDataDescr) + mir_strlen(szDataUrl) + 8);
-			strcpy(szBlob, szTitle);
+			mir_strcpy(szBlob, szTitle);
 			strcat(szBlob, " ");
 			strcat(szBlob, szDataDescr); // Description
 			strcat(szBlob, "\r\n");
@@ -1632,11 +1632,11 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			char *szBlob, *pCurBlob = szBlob = (char *)_alloca(pre.lParam);
 			*(DWORD*)pCurBlob = dwUin; pCurBlob += sizeof(DWORD);
 			*(DWORD*)pCurBlob = DWORD(hContact); pCurBlob += sizeof(DWORD);
-			strcpy((char*)pCurBlob, pszMsgField[0]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-			strcpy((char*)pCurBlob, pszMsgField[1]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-			strcpy((char*)pCurBlob, pszMsgField[2]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-			strcpy((char*)pCurBlob, pszMsgField[3]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-			strcpy((char*)pCurBlob, pszMsgField[5]);
+			mir_strcpy((char*)pCurBlob, pszMsgField[0]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+			mir_strcpy((char*)pCurBlob, pszMsgField[1]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+			mir_strcpy((char*)pCurBlob, pszMsgField[2]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+			mir_strcpy((char*)pCurBlob, pszMsgField[3]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+			mir_strcpy((char*)pCurBlob, pszMsgField[5]);
 			pre.szMessage = (char *)szBlob;
 			ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 		}
@@ -1655,10 +1655,10 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			PBYTE pBlob, pCurBlob = pBlob = (PBYTE)_alloca(cbBlob);
 			*(DWORD*)pCurBlob = dwUin; pCurBlob += sizeof(DWORD);
 			*(DWORD*)pCurBlob = DWORD(hContact); pCurBlob += sizeof(DWORD);
-			strcpy((char*)pCurBlob, pszMsgField[0]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-			strcpy((char*)pCurBlob, pszMsgField[1]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-			strcpy((char*)pCurBlob, pszMsgField[2]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-			strcpy((char*)pCurBlob, pszMsgField[3]);
+			mir_strcpy((char*)pCurBlob, pszMsgField[0]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+			mir_strcpy((char*)pCurBlob, pszMsgField[1]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+			mir_strcpy((char*)pCurBlob, pszMsgField[2]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+			mir_strcpy((char*)pCurBlob, pszMsgField[3]);
 			AddEvent(NULL, EVENTTYPE_ADDED, dwTimestamp, 0, cbBlob, pBlob);
 		}
 		break;
@@ -1750,9 +1750,9 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			// blob is: body(ASCIIZ), name(ASCIIZ), email(ASCIIZ)
 			size_t cbBlob = mir_strlen(pszMsgField[0]) + mir_strlen(pszMsgField[3]) + mir_strlen(pszMsgField[5]) + 3;
 			PBYTE pBlob, pCurBlob = pBlob = (PBYTE)_alloca(cbBlob);
-			strcpy((char *)pCurBlob, pszMsgField[5]); pCurBlob += mir_strlen((char *)pCurBlob) + 1;
-			strcpy((char *)pCurBlob, pszMsgField[0]); pCurBlob += mir_strlen((char *)pCurBlob) + 1;
-			strcpy((char *)pCurBlob, pszMsgField[3]);
+			mir_strcpy((char *)pCurBlob, pszMsgField[5]); pCurBlob += mir_strlen((char *)pCurBlob) + 1;
+			mir_strcpy((char *)pCurBlob, pszMsgField[0]); pCurBlob += mir_strlen((char *)pCurBlob) + 1;
+			mir_strcpy((char *)pCurBlob, pszMsgField[3]);
 
 			AddEvent(NULL, ICQEVENTTYPE_WEBPAGER, dwTimestamp, 0, cbBlob, pBlob);
 		}
@@ -1766,9 +1766,9 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			// blob is: body(ASCIIZ), name(ASCIIZ), email(ASCIIZ)
 			size_t cbBlob = mir_strlen(pszMsgField[0]) + mir_strlen(pszMsgField[3]) + mir_strlen(pszMsgField[5]) + 3;
 			PBYTE pBlob, pCurBlob = pBlob = (PBYTE)_alloca(cbBlob);
-			strcpy((char *)pCurBlob, pszMsgField[5]); pCurBlob += mir_strlen((char *)pCurBlob) + 1;
-			strcpy((char *)pCurBlob, pszMsgField[0]); pCurBlob += mir_strlen((char *)pCurBlob) + 1;
-			strcpy((char *)pCurBlob, pszMsgField[3]);
+			mir_strcpy((char *)pCurBlob, pszMsgField[5]); pCurBlob += mir_strlen((char *)pCurBlob) + 1;
+			mir_strcpy((char *)pCurBlob, pszMsgField[0]); pCurBlob += mir_strlen((char *)pCurBlob) + 1;
+			mir_strcpy((char *)pCurBlob, pszMsgField[3]);
 
 			AddEvent(NULL, ICQEVENTTYPE_EMAILEXPRESS, dwTimestamp, 0, cbBlob, pBlob);
 		}

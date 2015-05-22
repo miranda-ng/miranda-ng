@@ -236,13 +236,13 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	mi.hParentMenu = hRoot;
 
 	//CreateProtoService(m_szModuleName,"/Mind",&FacebookProto::OnMind,this);
-	strcpy(tDest, "/Mind");
+	mir_strcpy(tDest, "/Mind");
 	mi.pszName = LPGEN("Share status...");
 	mi.icolibItem = GetIconHandle("mind");
 	m_hStatusMind = Menu_AddProtoMenuItem(&mi);
 
 	//CreateProtoService("/VisitProfile",&FacebookProto::VisitProfile);
-	strcpy(tDest, "/VisitProfile");
+	mir_strcpy(tDest, "/VisitProfile");
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszName = LPGEN("Visit profile");
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
@@ -250,20 +250,20 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	/*m_hStatusMind = */Menu_AddProtoMenuItem(&mi);
 
 	//CreateProtoService("/VisitNotifications", &FacebookProto::VisitNotifications);
-	strcpy(tDest, "/VisitNotifications");
+	mir_strcpy(tDest, "/VisitNotifications");
 	mi.pszName = LPGEN("Visit notifications");
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
 	Menu_AddProtoMenuItem(&mi);
 
 	// Services...
 	mi.pszName = LPGEN("Services...");
-	strcpy(tDest, "/Services");
+	mir_strcpy(tDest, "/Services");
 	mi.flags = CMIF_CHILDPOPUP | (this->isOnline() ? 0 : CMIF_GRAYED);
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_HELP);
 	m_hMenuServicesRoot = Menu_AddProtoMenuItem(&mi);
 
 	CreateProtoService("/RefreshBuddyList", &FacebookProto::RefreshBuddyList);
-	strcpy(tDest, "/RefreshBuddyList");
+	mir_strcpy(tDest, "/RefreshBuddyList");
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Refresh Buddy List");
 	mi.pszPopupName = LPGEN("Services");
@@ -272,7 +272,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	Menu_AddProtoMenuItem(&mi);
 
 	CreateProtoService("/CheckFriendRequests", &FacebookProto::CheckFriendRequests);
-	strcpy(tDest, "/CheckFriendRequests");
+	mir_strcpy(tDest, "/CheckFriendRequests");
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Check Friends Requests");
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
@@ -280,7 +280,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 	Menu_AddProtoMenuItem(&mi);
 
 	CreateProtoService("/CheckNewsfeeds", &FacebookProto::CheckNewsfeeds);
-	strcpy(tDest, "/CheckNewsfeeds");
+	mir_strcpy(tDest, "/CheckNewsfeeds");
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Check Newsfeeds");
 	mi.pszPopupName = LPGEN("Services");

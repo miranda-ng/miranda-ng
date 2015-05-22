@@ -1244,8 +1244,8 @@ LBL_InvalidCommand:
 				if (xmltgt)
 				{
 					ThreadData* newThread = new ThreadData;
-					strcpy(newThread->mServer, xmltgt->txt);
-					strcpy(newThread->mState, ezxml_txt(ezxml_child(xmlxfr, "state")));
+					mir_strcpy(newThread->mServer, xmltgt->txt);
+					mir_strcpy(newThread->mState, ezxml_txt(ezxml_child(xmlxfr, "state")));
 					newThread->mType = SERVER_NOTIFICATION;
 					newThread->mTrid = info->mTrid;
 					newThread->mIsMainThread = true;
@@ -1377,7 +1377,7 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 		}
 
 		newThread->mMsnFtp = info->mMsnFtp; info->mMsnFtp = NULL;
-		strcpy(newThread->mCookie, AuthCookie);
+		mir_strcpy(newThread->mCookie, AuthCookie);
 
 		newThread->startThread(&CMsnProto::MSNServerThread, this);
 		return;
@@ -2110,7 +2110,7 @@ LBL_InvalidCommand:
 			}
 
 			ThreadData* newThread = new ThreadData;
-			strcpy(newThread->mServer, data.newServer);
+			mir_strcpy(newThread->mServer, data.newServer);
 			newThread->gatewayType = atol(data.genGateway) != 0;
 			newThread->mType = SERVER_SWITCHBOARD;
 			newThread->mInitialContactWLID = mir_strdup(data.callerEmail);
@@ -2312,7 +2312,7 @@ LBL_InvalidCommand:
 			if (!mir_strcmp(data.type, "NS")) {  //notification server
 				UrlDecode(data.newServer);
 				ThreadData* newThread = new ThreadData;
-				strcpy(newThread->mServer, data.newServer);
+				mir_strcpy(newThread->mServer, data.newServer);
 				newThread->mType = SERVER_NOTIFICATION;
 				newThread->mTrid = info->mTrid;
 				newThread->mIsMainThread = true;
@@ -2336,11 +2336,11 @@ LBL_InvalidCommand:
 				}
 
 				ThreadData* newThread = new ThreadData;
-				strcpy(newThread->mServer, data.newServer);
+				mir_strcpy(newThread->mServer, data.newServer);
 				newThread->gatewayType = data.genGateway && atol(data.genGateway) != 0;
 				newThread->mType = SERVER_SWITCHBOARD;
 				newThread->mCaller = 1;
-				strcpy(newThread->mCookie, data.authChallengeInfo);
+				mir_strcpy(newThread->mCookie, data.authChallengeInfo);
 
 				debugLogA("Opening switchboard server '%s'...", data.newServer);
 				newThread->startThread(&CMsnProto::MSNServerThread, this);

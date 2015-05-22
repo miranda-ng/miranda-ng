@@ -80,7 +80,7 @@ static void TlenFileReceiveParse(TLEN_FILE_TRANSFER *ft)
 			TlenP2PPacketFree(packet);
 
 			fullFileName = (char *) mir_alloc(mir_strlen(ft->szSavePath) + mir_strlen(ft->files[ft->currentFile]) + 2);
-			strcpy(fullFileName, ft->szSavePath);
+			mir_strcpy(fullFileName, ft->szSavePath);
 			if (fullFileName[mir_strlen(fullFileName)-1] != '\\')
 				strcat(fullFileName, "\\");
 			strcat(fullFileName, ft->files[ft->currentFile]);
@@ -581,7 +581,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 							strncpy(szFilename, p, sizeof(szFilename)-1);
 							mir_free(p);
 						} else {
-							strcpy(szFilename, Translate("1 File"));
+							mir_strcpy(szFilename, Translate("1 File"));
 						}
 					}
 					else if (numFiles > 1) {

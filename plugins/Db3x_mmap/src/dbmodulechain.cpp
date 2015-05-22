@@ -103,7 +103,7 @@ DWORD CDb3Mmap::GetModuleNameOfs(const char *szName)
 
 	// add to cache
 	char *mod = (char*)HeapAlloc(m_hModHeap, 0, nameLen + 1);
-	strcpy(mod, szName);
+	mir_strcpy(mod, szName);
 	AddToList(mod, ofsNew);
 
 	// quit

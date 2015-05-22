@@ -110,7 +110,7 @@ int TlenMUCRecvInvitation(TlenProtocol *proto, const char *roomId, const char *r
 			mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, dbv.pszVal);
 			db_free(&dbv);
 		} else {
-			strcpy(jid, from);
+			mir_strcpy(jid, from);
 		}
 		ignore = !IsAuthorized(proto, jid);
 		ask = TRUE;
@@ -122,7 +122,7 @@ int TlenMUCRecvInvitation(TlenProtocol *proto, const char *roomId, const char *r
 			mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, dbv.pszVal);
 			db_free(&dbv);
 		} else {
-			strcpy(jid, from);
+			mir_strcpy(jid, from);
 		}
 		item = TlenListGetItemPtr(proto, LIST_ROSTER, jid);
 		ask = !IsAuthorized(proto, jid);

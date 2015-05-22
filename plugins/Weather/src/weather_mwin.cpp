@@ -188,7 +188,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					rq.rcDestRect = rc;
 					rq.rcClipRect = rc;
 
-					strcpy(rq.szObjectID, "Main,ID=WeatherFrame");
+					mir_strcpy(rq.szObjectID, "Main,ID=WeatherFrame");
 					CallService(MS_SKIN_DRAWGLYPH, (WPARAM)&rq, 0);
 				}
 
@@ -342,8 +342,8 @@ void InitMwin(void)
 
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(ColourIDT);
-	strcpy(colourid.dbSettingsGroup, WEATHERPROTONAME);
-	strcpy(colourid.setting, "ColorMwinFrame");
+	mir_strcpy(colourid.dbSettingsGroup, WEATHERPROTONAME);
+	mir_strcpy(colourid.setting, "ColorMwinFrame");
 	_tcscpy(colourid.name, LPGENT("Frame Background"));
 	_tcscpy(colourid.group, _T(WEATHERPROTONAME));
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
@@ -352,10 +352,10 @@ void InitMwin(void)
 	FontIDT fontid = {0};
 	fontid.cbSize = sizeof(FontIDT);
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
-	strcpy(fontid.dbSettingsGroup, WEATHERPROTONAME);
+	mir_strcpy(fontid.dbSettingsGroup, WEATHERPROTONAME);
 	_tcscpy(fontid.group, _T(WEATHERPROTONAME));
 	_tcscpy(fontid.name, LPGENT("Frame Font"));
-	strcpy(fontid.prefix, "fnt0");
+	mir_strcpy(fontid.prefix, "fnt0");
 
 	HDC hdc = GetDC(NULL);
 	fontid.deffontsettings.size = -13;
@@ -369,7 +369,7 @@ void InitMwin(void)
 
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	_tcscpy(fontid.name, LPGENT("Frame Title Font"));
-	strcpy(fontid.prefix, "fnt1");
+	mir_strcpy(fontid.prefix, "fnt1");
 	FontRegisterT(&fontid);
 
 	for (MCONTACT hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME))

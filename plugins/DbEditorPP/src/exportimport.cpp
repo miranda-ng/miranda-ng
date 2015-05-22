@@ -348,20 +348,20 @@ void importSettings(MCONTACT hContact, char *importstring)
 		else if (importstring[i] == '[' && !strchr(&importstring[i + 1], '=')) { // get the module
 			if (end = strpbrk(&importstring[i + 1], "]")) {
 				*end = '\0';
-				strcpy(module, &importstring[i + 1]);
+				mir_strcpy(module, &importstring[i + 1]);
 			}
 		}
 		else if (importstring[i] == '-' && importstring[i + 1] == '[' && !strchr(&importstring[i + 2], '=')) { // get the module
 			if (end = strpbrk(&importstring[i + 2], "]")) {
 				*end = '\0';
-				strcpy(module, &importstring[i + 2]);
+				mir_strcpy(module, &importstring[i + 2]);
 				deleteModule(module, hContact, 1);
 			}
 		}
 		else if (strstr(&importstring[i], "=") && module[0]) { // get the setting
 			if (end = strpbrk(&importstring[i + 1], "=")) {
 				*end = '\0';
-				strcpy(setting, &importstring[i]);
+				mir_strcpy(setting, &importstring[i]);
 
 				// get the type
 				type = *(end + 1);
@@ -563,7 +563,7 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, char* FilePath)
 		}
 
 		while (szFileNames[index]) {
-			strcpy(szFile, szPath);
+			mir_strcpy(szFile, szPath);
 			strcat(szFile, &szFileNames[index]);
 			index += (int)mir_strlen(&szFileNames[index]) + 1;
 

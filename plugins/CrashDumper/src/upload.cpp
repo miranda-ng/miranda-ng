@@ -171,7 +171,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 							rlen + mir_strlen(nlhrReply->headers[i].szValue) * 3 + 1);
 
 						strncpy(szRedirUrl, szUrl, rlen);
-						strcpy(szRedirUrl + rlen, nlhrReply->headers[i].szValue);
+						mir_strcpy(szRedirUrl + rlen, nlhrReply->headers[i].szValue);
 
 						nlhr.szUrl = szRedirUrl;
 						break;

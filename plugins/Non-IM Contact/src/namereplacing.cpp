@@ -30,7 +30,7 @@ int readFileIntoArray(int fileNumber, char *FileContents[])
 
 		FileContents[i] = (char*)malloc(mir_strlen(temp) + 1);
 		if (FileContents[i] == NULL) break;
-		strcpy(FileContents[i], temp);
+		mir_strcpy(FileContents[i], temp);
 	}
 	fclose(file);
 	return i;
@@ -228,7 +228,7 @@ void checkStringForcompare(char *str)
 		}
 		else strncat(newStr, &str[i], 1);
 	}
-	strcpy(str, newStr);
+	mir_strcpy(str, newStr);
 	free(newStr);
 	free(copyOfStr);
 }
@@ -254,7 +254,7 @@ void checkStringForSave(MCONTACT hContact, char* str)
 		}
 		else strncat(newStr, &str[i], 1);
 	}
-	strcpy(str, newStr);
+	mir_strcpy(str, newStr);
 	free(newStr);
 	free(copyOfStr);
 }
@@ -283,7 +283,7 @@ void checkStringForLoad(MCONTACT hContact, char* str)
 		}
 		else strncat(newStr, &str[i], 1);
 	}
-	strcpy(str, newStr);
+	mir_strcpy(str, newStr);
 	free(newStr);
 	free(copyOfStr);
 }
@@ -328,7 +328,7 @@ void checkStringForSaveN(char* str)
 		}
 		else strncat(newStr, &str[i], 1);
 	}
-	strcpy(str, newStr);
+	mir_strcpy(str, newStr);
 	free(newStr);
 	free(copyOfStr);
 }
@@ -371,7 +371,7 @@ void checkStringForLoadN(char* str)
 		}
 		else strncat(newStr, &str[i], 1);
 	}
-	strcpy(str, newStr);
+	mir_strcpy(str, newStr);
 	free(newStr);
 	free(copyOfStr);
 }

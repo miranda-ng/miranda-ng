@@ -87,7 +87,7 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 					LVITEM lvI = { 0 };
 
 					char id[1024];
-					strcpy(id, "@U");		// documentation says prepend '@U' to usernames and '@G' to notes group names - but
+					mir_strcpy(id, "@U");		// documentation says prepend '@U' to usernames and '@G' to notes group names - but
 					char *p = id + 2;		// it's wrong - it works for a list of user id's with no prefix - so we'll do both
 
 					// build recipient list
@@ -104,7 +104,7 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 
 							if (!db_get_utf((MCONTACT)lvI.lParam, proto->m_szModuleName, "stid", &dbv)) {
 								safArg->recipients = g_list_prepend(safArg->recipients, _strdup(dbv.pszVal));
-								strcpy(p, dbv.pszVal);
+								mir_strcpy(p, dbv.pszVal);
 								safArg->recipients = g_list_prepend(safArg->recipients, _strdup(id));
 								send_count++;
 								db_free(&dbv);

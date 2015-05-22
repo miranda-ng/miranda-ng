@@ -234,7 +234,7 @@ bool LoadIndexHTMLTemplate() {
 		//LogEvent("Template", szDestBuf);
 
 		szIndexHTMLTemplate = new char[mir_strlen(szDestBuf)+1];
-		strcpy(szIndexHTMLTemplate, szDestBuf);
+		mir_strcpy(szIndexHTMLTemplate, szDestBuf);
 	}
 
 	CloseHandle(hFile);
@@ -329,7 +329,7 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 		strncpy(szName, pszTemp + 1, SIZEOF(szName)-1);
 
 	if (szName[0] == '\0')
-		strcpy(szName, "my Miranda Webserver");
+		mir_strcpy(szName, "my Miranda Webserver");
 
 	do {
 		switch (*pszPos) {
@@ -369,8 +369,8 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 				}
 
 				if (hFind) {
-					strcpy(szName, fdFindFileData.cFileName);
-					strcpy(szURL, fdFindFileData.cFileName);
+					mir_strcpy(szName, fdFindFileData.cFileName);
+					mir_strcpy(szURL, fdFindFileData.cFileName);
 					/*char* pszTmp = szURL;
 					while(pszTmp = strchr(pszTmp, ' '))
 					*pszTmp = '+';*/

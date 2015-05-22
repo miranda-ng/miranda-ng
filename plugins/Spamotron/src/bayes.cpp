@@ -51,7 +51,7 @@ int OpenBayes()
 		tmp = Utils_ReplaceVars("%miranda_userdata%");
 		if (tmp[mir_strlen(tmp)-1] == '\\')
 			tmp[mir_strlen(tmp)-1] = 0;
-		strcpy(bayesdb_fullpath, tmp);
+		mir_strcpy(bayesdb_fullpath, tmp);
 		strcat(bayesdb_fullpath, "\\"BAYESDB_PATH);
 		mir_free(tmp);
 	}

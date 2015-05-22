@@ -34,7 +34,7 @@ INT_PTR doubleClick(WPARAM wParam, LPARAM lParam)
 			editContact(wParam, 0);		// for later when i add a second double click setting
 		else if (db_get_static(wParam, MODNAME, "Program", program, SIZEOF(program)) && mir_strcmp(program, "")) {
 			if (!db_get_static(wParam, MODNAME, "ProgramParams", params, SIZEOF(params)))
-				strcpy(params, "");
+				mir_strcpy(params, "");
 			if (strstr(program, "http://") || strstr(program, "https://"))
 				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)program);
 			else shellEXEerror = (int)ShellExecuteA(NULL, NULL, program, params, NULL, SW_SHOW);  //ignore the warning, its M$'s backwards compatabilty screwup :)

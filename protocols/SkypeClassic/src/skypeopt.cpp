@@ -675,13 +675,13 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 					GetDlgItemTextA(hwndDlg,IDC_COMMANDLINE,szFileName,SIZEOF(szFileName));
 					TranslateMirandaRelativePathToAbsolute(szFileName, szAbsolutePath, FALSE);
-					strcpy (szFileName, szAbsolutePath);
+					mir_strcpy (szFileName, szAbsolutePath);
 
 					BOOL gofnResult = GetOpenFileNameA(&ofn);
 					if (!gofnResult && CommDlgExtendedError() == FNERR_INVALIDFILENAME){
-						strcpy(szFileName, ".\\Skype.exe");
+						mir_strcpy(szFileName, ".\\Skype.exe");
 						TranslateMirandaRelativePathToAbsolute(szFileName, szAbsolutePath, FALSE);
-						strcpy (szFileName, szAbsolutePath);
+						mir_strcpy (szFileName, szAbsolutePath);
 						gofnResult = GetOpenFileNameA(&ofn);
 					}
 

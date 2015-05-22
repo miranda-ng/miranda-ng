@@ -157,9 +157,9 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 		}
 		else {
 			if (dwFlags & SMF_LOG_USELONGDATE)
-				strcpy(format, "D");
+				mir_strcpy(format, "D");
 			else
-				strcpy(format, "d");
+				mir_strcpy(format, "d");
 		}
 	}
 	if (mode == 0 || mode == 2) {

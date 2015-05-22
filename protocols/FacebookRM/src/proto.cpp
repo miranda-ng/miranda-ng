@@ -1064,15 +1064,15 @@ void FacebookProto::InitHotkeys()
 	hkd.ptszSection = m_tszUserName;
 	hkd.dwFlags = HKD_TCHAR;
 
-	strcpy(tDest, "/VisitProfile");
+	mir_strcpy(tDest, "/VisitProfile");
 	hkd.ptszDescription = LPGENT("Visit profile");
 	Hotkey_Register(&hkd);
 
-	strcpy(tDest, "/VisitNotifications");
+	mir_strcpy(tDest, "/VisitNotifications");
 	hkd.ptszDescription = LPGENT("Visit notifications");
 	Hotkey_Register(&hkd);
 
-	strcpy(tDest, "/Mind");
+	mir_strcpy(tDest, "/Mind");
 	hkd.ptszDescription = LPGENT("Show 'Share status' window");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_EXT, 'F');
 	Hotkey_Register(&hkd);

@@ -1394,12 +1394,12 @@ void CMLan::OnOutTCPConnection(u_long addr, SOCKET out_socket, LPVOID lpParamete
 		GetFullPathName(*pf, MAX_PATH, (char*)name, &filepart);
 		delete[] * pf;
 		*pf = _strdup(name);
-		strcpy((char*)buf + len, filepart);
+		mir_strcpy((char*)buf + len, filepart);
 		len += (int)mir_strlen(filepart) + 1;
 
 		pf++;
 	}
-	strcpy((char*)buf + len, conn->m_szDescription);
+	mir_strcpy((char*)buf + len, conn->m_szDescription);
 	len += (int)mir_strlen(conn->m_szDescription) + 1;
 
 	*((int*)(buf + 1)) = size;

@@ -563,7 +563,7 @@ static void TlenProcessIqGetVersion(TlenProtocol *proto, XmlNode *node)
 
 	if ( os == NULL ) os = TlenTextEncode("Windows");
 
-	strcpy(mversion, "Miranda NG ");
+	mir_strcpy(mversion, "Miranda NG ");
 	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof( mversion ) - 11, ( LPARAM )mversion + 11 );
 	strcat(mversion, " (Tlen v.");
 	strcat(mversion, TLEN_VERSION_STRING);
@@ -1131,7 +1131,7 @@ static void TlenProcessP(XmlNode *node, ThreadData *info)
 		if (iNode != NULL) {
 			iStr = TlenXmlGetAttrValue(iNode, "i");
 			temp = (char*)mir_alloc(mir_strlen(f)+mir_strlen(iStr)+2);
-			strcpy(temp, f);
+			mir_strcpy(temp, f);
 			strcat(temp, "/");
 			strcat(temp, iStr);
 			f = TlenTextDecode(temp);

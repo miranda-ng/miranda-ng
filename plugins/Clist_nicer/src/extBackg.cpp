@@ -304,19 +304,19 @@ void LoadExtBkSettingsFromDB()
 
 		p->imageItem = 0;
 		char buffer[255], *pszEnd = buffer + mir_snprintf(buffer, SIZEOF(buffer), "%s_", p->szDBname);
-		strcpy(pszEnd, "IGNORE"); p->IGNORED = (BYTE)cfg::getByte("CLCExt", buffer, p->IGNORED);
-		strcpy(pszEnd, "GRADIENT"); p->GRADIENT = (BYTE)cfg::getDword("CLCExt", buffer, p->GRADIENT);
-		strcpy(pszEnd, "CORNER"); p->CORNER = (BYTE)cfg::getDword("CLCExt", buffer, p->CORNER);
-		strcpy(pszEnd, "COLOR"); p->COLOR = cfg::getDword("CLCExt", buffer, p->COLOR);
-		strcpy(pszEnd, "COLOR2"); p->COLOR2 = cfg::getDword(NULL, "CLCExt", buffer, p->COLOR2);
-		strcpy(pszEnd, "COLOR2_TRANSPARENT"); p->COLOR2_TRANSPARENT = (BYTE)cfg::getByte("CLCExt", buffer, p->COLOR2_TRANSPARENT);
-		strcpy(pszEnd, "TEXTCOLOR"); p->TEXTCOLOR = cfg::getDword("CLCExt", buffer, p->TEXTCOLOR);
-		strcpy(pszEnd, "ALPHA"); p->ALPHA = cfg::getByte("CLCExt", buffer, p->ALPHA);
-		strcpy(pszEnd, "MRGN_LEFT"); p->MARGIN_LEFT = cfg::getByte("CLCExt", buffer, p->MARGIN_LEFT);
-		strcpy(pszEnd, "MRGN_TOP"); p->MARGIN_TOP = cfg::getByte("CLCExt", buffer, p->MARGIN_TOP);
-		strcpy(pszEnd, "MRGN_RIGHT"); p->MARGIN_RIGHT = cfg::getByte("CLCExt", buffer, p->MARGIN_RIGHT);
-		strcpy(pszEnd, "MRGN_BOTTOM"); p->MARGIN_BOTTOM = cfg::getByte("CLCExt", buffer, p->MARGIN_BOTTOM);
-		strcpy(pszEnd, "BDRSTYLE"); p->BORDERSTYLE = cfg::getDword("CLCExt", buffer, p->BORDERSTYLE);
+		mir_strcpy(pszEnd, "IGNORE"); p->IGNORED = (BYTE)cfg::getByte("CLCExt", buffer, p->IGNORED);
+		mir_strcpy(pszEnd, "GRADIENT"); p->GRADIENT = (BYTE)cfg::getDword("CLCExt", buffer, p->GRADIENT);
+		mir_strcpy(pszEnd, "CORNER"); p->CORNER = (BYTE)cfg::getDword("CLCExt", buffer, p->CORNER);
+		mir_strcpy(pszEnd, "COLOR"); p->COLOR = cfg::getDword("CLCExt", buffer, p->COLOR);
+		mir_strcpy(pszEnd, "COLOR2"); p->COLOR2 = cfg::getDword(NULL, "CLCExt", buffer, p->COLOR2);
+		mir_strcpy(pszEnd, "COLOR2_TRANSPARENT"); p->COLOR2_TRANSPARENT = (BYTE)cfg::getByte("CLCExt", buffer, p->COLOR2_TRANSPARENT);
+		mir_strcpy(pszEnd, "TEXTCOLOR"); p->TEXTCOLOR = cfg::getDword("CLCExt", buffer, p->TEXTCOLOR);
+		mir_strcpy(pszEnd, "ALPHA"); p->ALPHA = cfg::getByte("CLCExt", buffer, p->ALPHA);
+		mir_strcpy(pszEnd, "MRGN_LEFT"); p->MARGIN_LEFT = cfg::getByte("CLCExt", buffer, p->MARGIN_LEFT);
+		mir_strcpy(pszEnd, "MRGN_TOP"); p->MARGIN_TOP = cfg::getByte("CLCExt", buffer, p->MARGIN_TOP);
+		mir_strcpy(pszEnd, "MRGN_RIGHT"); p->MARGIN_RIGHT = cfg::getByte("CLCExt", buffer, p->MARGIN_RIGHT);
+		mir_strcpy(pszEnd, "MRGN_BOTTOM"); p->MARGIN_BOTTOM = cfg::getByte("CLCExt", buffer, p->MARGIN_BOTTOM);
+		mir_strcpy(pszEnd, "BDRSTYLE"); p->BORDERSTYLE = cfg::getDword("CLCExt", buffer, p->BORDERSTYLE);
 	}
 
 	if (cfg::dat.bFirstRun) {
@@ -471,19 +471,19 @@ void extbk_export(char *file)
 			continue;
 
 		char *pszEnd = buffer + mir_snprintf(buffer, SIZEOF(buffer), "%s_", p->szDBname);
-		strcpy(pszEnd, "ALPHA"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->ALPHA), sizeof(p->ALPHA), file);
-		strcpy(pszEnd, "COLOR"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR), sizeof(p->COLOR), file);
-		strcpy(pszEnd, "COLOR2"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2), sizeof(p->COLOR2), file);
-		strcpy(pszEnd, "COLOR2_TRANSPARENT"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2_TRANSPARENT), sizeof(p->COLOR2_TRANSPARENT), file);
-		strcpy(pszEnd, "TEXTCOLOR"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->TEXTCOLOR), sizeof(p->TEXTCOLOR), file);
-		strcpy(pszEnd, "CORNER"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->CORNER), sizeof(p->CORNER), file);
-		strcpy(pszEnd, "GRADIENT"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->GRADIENT), sizeof(p->GRADIENT), file);
-		strcpy(pszEnd, "IGNORED"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->IGNORED), sizeof(p->IGNORED), file);
-		strcpy(pszEnd, "MARGIN_BOTTOM"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_BOTTOM), sizeof(p->MARGIN_BOTTOM), file);
-		strcpy(pszEnd, "MARGIN_LEFT"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_LEFT), sizeof(p->MARGIN_LEFT), file);
-		strcpy(pszEnd, "MARGIN_RIGHT"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_RIGHT), sizeof(p->MARGIN_RIGHT), file);
-		strcpy(pszEnd, "MARGIN_TOP"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_TOP), sizeof(p->MARGIN_TOP), file);
-		strcpy(pszEnd, "BORDERSTYLE"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->BORDERSTYLE), sizeof(p->BORDERSTYLE), file);
+		mir_strcpy(pszEnd, "ALPHA"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->ALPHA), sizeof(p->ALPHA), file);
+		mir_strcpy(pszEnd, "COLOR"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR), sizeof(p->COLOR), file);
+		mir_strcpy(pszEnd, "COLOR2"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2), sizeof(p->COLOR2), file);
+		mir_strcpy(pszEnd, "COLOR2_TRANSPARENT"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2_TRANSPARENT), sizeof(p->COLOR2_TRANSPARENT), file);
+		mir_strcpy(pszEnd, "TEXTCOLOR"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->TEXTCOLOR), sizeof(p->TEXTCOLOR), file);
+		mir_strcpy(pszEnd, "CORNER"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->CORNER), sizeof(p->CORNER), file);
+		mir_strcpy(pszEnd, "GRADIENT"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->GRADIENT), sizeof(p->GRADIENT), file);
+		mir_strcpy(pszEnd, "IGNORED"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->IGNORED), sizeof(p->IGNORED), file);
+		mir_strcpy(pszEnd, "MARGIN_BOTTOM"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_BOTTOM), sizeof(p->MARGIN_BOTTOM), file);
+		mir_strcpy(pszEnd, "MARGIN_LEFT"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_LEFT), sizeof(p->MARGIN_LEFT), file);
+		mir_strcpy(pszEnd, "MARGIN_RIGHT"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_RIGHT), sizeof(p->MARGIN_RIGHT), file);
+		mir_strcpy(pszEnd, "MARGIN_TOP"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_TOP), sizeof(p->MARGIN_TOP), file);
+		mir_strcpy(pszEnd, "BORDERSTYLE"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->BORDERSTYLE), sizeof(p->BORDERSTYLE), file);
 	}
 
 	for (n = 0; n <= FONTID_LAST; n++) {
@@ -1067,7 +1067,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 			char szKey[20];
 			BYTE *pValue;
 
-			strcpy(szKey, n == 0 ? "dbonpush" : "dbonrelease");
+			mir_strcpy(szKey, n == 0 ? "dbonpush" : "dbonrelease");
 			pValue = (n == 0 ? tmpItem.bValuePush : tmpItem.bValueRelease);
 
 			GetPrivateProfileStringA(itemName, szKey, "None", szBuffer, 1000, file);

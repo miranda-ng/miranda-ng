@@ -590,10 +590,10 @@ int CreateFrame()
 	FontRegister(&font_id);
 
 	framebk_colour_id.cbSize = sizeof(ColourID);
-	strcpy(framebk_colour_id.dbSettingsGroup, MODULE);
-	strcpy(framebk_colour_id.group, LPGEN("Frames"));
-	strcpy(framebk_colour_id.name, LPGEN("Alarm reminders"));
-	strcpy(framebk_colour_id.setting, "clFrameBack");
+	mir_strcpy(framebk_colour_id.dbSettingsGroup, MODULE);
+	mir_strcpy(framebk_colour_id.group, LPGEN("Frames"));
+	mir_strcpy(framebk_colour_id.name, LPGEN("Alarm reminders"));
+	mir_strcpy(framebk_colour_id.setting, "clFrameBack");
 	framebk_colour_id.defcolour = GetSysColor(COLOR_3DFACE);
 	framebk_colour_id.flags = 0;
 	framebk_colour_id.order = 0;

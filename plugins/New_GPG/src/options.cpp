@@ -964,7 +964,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 							string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 							string::size_type s2 = output.find(":", s);
 							tmp2 = (char*)mir_alloc((output.substr(s,s2-s).length()+1)*sizeof(char));
-							strcpy(tmp2, output.substr(s,s2-s).c_str());
+							mir_strcpy(tmp2, output.substr(s,s2-s).c_str());
 							mir_utf8decode(tmp2, 0);
 							{
 								if(db_mc_isMeta(hContact))
@@ -1012,7 +1012,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 							if(s2 != string::npos && s != string::npos)
 							{
 								tmp2 = (char*)mir_alloc(sizeof(char)*(output.substr(s,s2-s-(uncommon?1:0)).length()+1));
-								strcpy(tmp2, output.substr(s,s2-s-(uncommon?1:0)).c_str());
+								mir_strcpy(tmp2, output.substr(s,s2-s-(uncommon?1:0)).c_str());
 								mir_utf8decode(tmp2, 0);
 								if(hContact)
 								{
@@ -1047,7 +1047,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 									if(output[s] == ')')
 									{
 										tmp2 = (char*)mir_alloc((output.substr(s2,s-s2).length()+1)*sizeof(char));
-										strcpy(tmp2, output.substr(s2,s-s2).c_str());
+										mir_strcpy(tmp2, output.substr(s2,s-s2).c_str());
 										mir_utf8decode(tmp2, 0);
 										if(hContact)
 										{
@@ -1071,7 +1071,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 										s+=3;
 										s2 = output.find(">", s);
 										tmp2 = (char*)mir_alloc((output.substr(s,s2-s).length()+1) * sizeof(char));
-										strcpy(tmp2, output.substr(s,s2-s).c_str());
+										mir_strcpy(tmp2, output.substr(s,s2-s).c_str());
 										mir_utf8decode(tmp2, 0);
 										if(hContact)
 										{
@@ -1100,7 +1100,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 									else
 									{
 										tmp2 = (char*)mir_alloc(output.substr(s2,s-s2).length()+1);
-										strcpy(tmp2, output.substr(s2,s-s2).c_str());
+										mir_strcpy(tmp2, output.substr(s2,s-s2).c_str());
 										mir_utf8decode(tmp2, 0);
 										if(hContact)
 										{

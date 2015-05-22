@@ -107,7 +107,7 @@ INT_PTR CIcqProto::GetInfoSetting(WPARAM hContact, LPARAM lParam)
 				}
 			}
 			else {
-				char *savePtr = dbv.pszVal ? strcpy((char*)_alloca(mir_strlen(dbv.pszVal) + 1), dbv.pszVal) : NULL;
+				char *savePtr = dbv.pszVal ? mir_strcpy((char*)_alloca(mir_strlen(dbv.pszVal) + 1), dbv.pszVal) : NULL;
 				if (!mir_utf8decode(savePtr, &cgs->pValue->pwszVal))
 					rc = 1;
 			}

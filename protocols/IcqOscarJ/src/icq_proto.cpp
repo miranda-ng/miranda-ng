@@ -343,7 +343,7 @@ MCONTACT __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, MEVENT hDb
 						uin = atoi((char*)pbOffset);
 					else {
 						uin = 0;
-						strcpy(uid, (char*)pbOffset);
+						mir_strcpy(uid, (char*)pbOffset);
 					}
 				}
 				pbOffset += mir_strlen(pbOffset) + 1;  // Uin
@@ -880,15 +880,15 @@ int __cdecl CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 	}
 	PBYTE pBlob = (PBYTE)_alloca(cbBlob), pCurBlob;
 	for (i = 0, pCurBlob = pBlob; i < pre->lParam; i++) {
-		strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.nick);
+		mir_strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.nick);
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 		if (isrList[i]->uin) {
 			char szUin[UINMAXLEN];
 			_itoa(isrList[i]->uin, szUin, 10);
-			strcpy((char*)pCurBlob, szUin);
+			mir_strcpy((char*)pCurBlob, szUin);
 		}
 		else // aim contact
-			strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.id);
+			mir_strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.id);
 
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	}
@@ -990,7 +990,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 						if (contacts[i].uin)
 							strUID(contacts[i].uin, szContactUid);
 						else
-							strcpy(szContactUid, contacts[i].uid);
+							mir_strcpy(szContactUid, contacts[i].uid);
 
 						// prepare UID
 						size_t wLen = mir_strlen(szContactUid);
@@ -1087,13 +1087,13 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 						for (i = 0; i < nContacts; i++) {
 							if (contacts[i].uin) {
 								_itoa(contacts[i].uin, szContactUin, 10);
-								strcpy(pBuffer, szContactUin);
+								mir_strcpy(pBuffer, szContactUin);
 							}
 							else
-								strcpy(pBuffer, contacts[i].uid);
+								mir_strcpy(pBuffer, contacts[i].uid);
 							pBuffer += mir_strlen(pBuffer);
 							*pBuffer++ = -2;
-							strcpy(pBuffer, contacts[i].szNick);
+							mir_strcpy(pBuffer, contacts[i].szNick);
 							pBuffer += mir_strlen(pBuffer);
 							*pBuffer++ = -2;
 						}
@@ -1400,9 +1400,9 @@ int __cdecl CIcqProto::SendUrl(MCONTACT hContact, int, const char* url)
 	size_t nDescLen = mir_strlen(szDesc);
 	size_t nBodyLen = nUrlLen + nDescLen + 2;
 	char *szBody = (char *)_alloca(nBodyLen);
-	strcpy(szBody, szDesc);
+	mir_strcpy(szBody, szDesc);
 	szBody[nDescLen] = -2; // Separator
-	strcpy(szBody + nDescLen + 1, url);
+	mir_strcpy(szBody + nDescLen + 1, url);
 
 	if (m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0)) {
 		int iRes = icq_SendDirectMessage(hContact, szBody, nBodyLen, pCookieData, NULL);

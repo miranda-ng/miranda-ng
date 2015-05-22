@@ -134,7 +134,7 @@ TiXmlBase::StringToBuffer::StringToBuffer(const TIXML_STRING& str)
 	buffer = new char[ str.length()+1 ];
 	if (buffer)
 	{
-		strcpy(buffer, str.c_str());
+		mir_strcpy(buffer, str.c_str());
 	}
 }
 
@@ -1092,7 +1092,7 @@ bool TiXmlDocument::GetAsCharBuffer(char* buffer, size_t bufferSize)
 	}
 	else
 	{
-		strcpy(buffer, data.c_str());
+		mir_strcpy(buffer, data.c_str());
 		return true;
 	}
 }

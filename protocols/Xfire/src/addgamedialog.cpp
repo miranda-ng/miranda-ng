@@ -44,7 +44,7 @@ static void FillGameList(LPVOID hwndDlg) {
 		vector<DWORD> dublBuffer;
 		//Cache ist leer, Cache füllen
 
-		strcpy(inipath, XFireGetFoldersPath("IniFile"));
+		mir_strcpy(inipath, XFireGetFoldersPath("IniFile"));
 		strcat_s(inipath, MAX_PATH, "xfire_games.ini");
 
 		//ini soll in den RAM geladen werden, fürs schnellere ausparsen

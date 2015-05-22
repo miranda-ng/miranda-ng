@@ -1743,7 +1743,7 @@ char* GetPreviewString(const char *lpsz)
 
 	if (l <= MaxLen)
 	{
-		strcpy(s, lpsz);
+		mir_strcpy(s, lpsz);
 	}
 	else
 	{

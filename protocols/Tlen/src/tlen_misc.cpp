@@ -64,10 +64,10 @@ void TlenDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick)
 	pBlob = pCurBlob = (PBYTE) mir_alloc(cbBlob);
 	*((PDWORD)pCurBlob) = 0; pCurBlob += sizeof(DWORD);
 	*((PDWORD)pCurBlob) = (DWORD)hContact; pCurBlob += sizeof(DWORD);
-	strcpy((char *) pCurBlob, nick); pCurBlob += mir_strlen(nick)+1;
+	mir_strcpy((char *) pCurBlob, nick); pCurBlob += mir_strlen(nick)+1;
 	*pCurBlob = '\0'; pCurBlob++;		//firstName
 	*pCurBlob = '\0'; pCurBlob++;		//lastName
-	strcpy((char *) pCurBlob, jid); pCurBlob += mir_strlen(jid)+1;
+	mir_strcpy((char *) pCurBlob, jid); pCurBlob += mir_strlen(jid)+1;
 	*pCurBlob = '\0';					//reason
 	TlenDBAddEvent(proto, NULL, EVENTTYPE_AUTHREQUEST, 0, pBlob, cbBlob);
 }

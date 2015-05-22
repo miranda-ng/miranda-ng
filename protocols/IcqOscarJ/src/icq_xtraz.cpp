@@ -317,11 +317,11 @@ void CIcqProto::handleXtrazData(DWORD dwUin, char* szMsg, BOOL bThruDC)
 				szNum = szUrl + 5;
 				szWork = strstrnull(szUrl, ".html");
 				if (szWork) {
-					strcpy(szWork, ".php");
+					mir_strcpy(szWork, ".php");
 					strcat(szWork, szWork + 5);
 				}
 				while (szWork = strstrnull(szUrl, "&amp;"))  // unescape &amp; code
-					strcpy(szWork + 1, szWork + 5);
+					mir_strcpy(szWork + 1, szWork + 5);
 
 				szWork = (char*)SAFE_MALLOC(nDataLen + MAX_PATH);
 				ICQTranslateUtfStatic(LPGEN("Greeting card:"), szWork, MAX_PATH);

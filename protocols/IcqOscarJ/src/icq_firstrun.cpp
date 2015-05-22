@@ -90,7 +90,7 @@ INT_PTR CALLBACK icq_FirstRunDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ppro->setDword(UNIQUEIDSETTING, atoi(str));
 
 			GetDlgItemTextA(hwndDlg, IDC_PW, str, SIZEOF(ppro->m_szPassword));
-			strcpy(ppro->m_szPassword, str);
+			mir_strcpy(ppro->m_szPassword, str);
 			ppro->setString("Password", str);
 			break;
 

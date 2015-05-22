@@ -175,7 +175,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	if (tmpm == NULL)
 		return;
 
-	strcpy(tempBase, "file://");
+	mir_strcpy(tempBase, "file://");
 	strncat(tempBase, tmpm->getFilename(), SIZEOF(tempBase) - mir_strlen(tempBase));
 	char *pathrun = tempBase + mir_strlen(tempBase);
 	while ((*pathrun != '\\' && *pathrun != '/') && (pathrun > tempBase))
@@ -346,7 +346,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 
 	TemplateMap *tmpm = getTemplateMap(protoSettings);
 	if (tmpm != NULL) {
-		strcpy(tempBase, "file://");
+		mir_strcpy(tempBase, "file://");
 		strcat(tempBase, tmpm->getFilename());
 		char* pathrun = tempBase + mir_strlen(tempBase);
 		while ((*pathrun != '\\' && *pathrun != '/') && (pathrun > tempBase)) pathrun--;
