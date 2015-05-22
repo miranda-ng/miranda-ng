@@ -55,6 +55,12 @@
 Оновити
 [Hotmail]
 Пошта
+[Enable Popup notifications]
+Увімкнути сповіщення в спливаючих вікнах
+[Enable Contact List notifications]
+Увімкнути сповіщення в списку контактів
+[Enable Tray notifications]
+Увімкнути сповіщення в треї
 [Ignore new messages not in Inbox folder]
 Ігнорувати нові листи не з "Вхідних"
 [Other]
@@ -111,6 +117,12 @@
 Дані &контакту
 [User &history]
 Історія користувача
+[&Kick user]
+&Вигнати
+[&Op user]
+Зробити користувача &адміном
+[&Deop user]
+&Забрати права адміністратора
 [MSN Alert]
 Сповіщення MSN
 [Contact tried to open an audio conference (not currently supported)]

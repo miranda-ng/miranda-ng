@@ -63,6 +63,8 @@
 Кому / Копія Кому
 [autoregister]
 Автореєстрація
+[Keep connection on error]
+Підтримувати з'єднання
 [Unable to load all required Lotus API functions]
 Не вдається завантажити всі необхідні функцій Lotus API
 [Lotus Notes Client not detected. Check plugin configuration description on install.txt]

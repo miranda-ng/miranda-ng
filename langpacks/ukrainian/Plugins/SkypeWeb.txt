@@ -75,6 +75,8 @@
 Дзвінки
 [Notifications]
 Сповіщення
+[Errors]
+Помилки
 [Edited at]
 Відредаговане о
 [Call started]
@@ -107,6 +109,10 @@
 Вхідний дзвінок
 [Notification icon]
 Сповіщення
+[Error icon]
+Помилка
+[Action icon]
+Дія
 [Protocols]
 Протоколи
 [Request authorization]
@@ -133,3 +139,5 @@
 Неможливо встановити з'єднання для TRouter.
 [Incoming call from %s]
 Вхідний дзвінок від %s
+[Message read: %s]
+Повідомлення прочитане о %s
