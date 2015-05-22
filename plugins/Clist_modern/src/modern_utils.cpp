@@ -23,25 +23,6 @@ char * __cdecl strstri(char *a, const char *b)
 	return NULL;
 }
 
-BOOL __cdecl mir_bool_strcmpi(const char *a, const char *b)
-{
-	if (a == NULL && b == NULL) return 1;
-	if (a == NULL || b == NULL) return _stricmp(a ? a : "", b ? b : "") == 0;
-	return _stricmp(a, b) == 0;
-}
-
-BOOL __cdecl mir_bool_tstrcmpi(const TCHAR *a, const TCHAR *b)
-{
-	if (a == NULL && b == NULL) return 1;
-	if (a == NULL || b == NULL) return _tcsicmp(a ? a : _T(""), b ? b : _T("")) == 0;
-	return _tcsicmp(a, b) == 0;
-}
-
-#ifdef mir_strlen
-#undef mir_strcmp
-#undef mir_strlen
-#endif
-
 //copy len symbols from string - do not check is it null terminated or len is more then actual
 char * strdupn(const char * src, int len)
 {
