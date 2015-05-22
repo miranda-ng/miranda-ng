@@ -45,7 +45,7 @@ void CSteamProto::PollServer(const char *token, const char *umqId, UINT32 messag
 				{
 					const wchar_t *text = message->GetText();
 
-					AddDBEvent(hContact, EVENTTYPE_MESSAGE, time(NULL), DBEF_UTF | DBEF_SENT, lstrlen(text), (BYTE*)mir_utf8encodeW(text));
+					AddDBEvent(hContact, EVENTTYPE_MESSAGE, time(NULL), DBEF_UTF | DBEF_SENT, mir_tstrlen(text), (BYTE*)mir_utf8encodeW(text));
 				}
 			}
 			break;

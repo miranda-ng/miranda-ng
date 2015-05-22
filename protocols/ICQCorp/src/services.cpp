@@ -217,7 +217,7 @@ static INT_PTR icqRecvMessage(WPARAM wParam, LPARAM lParam)
     dbei.timestamp = pre->timestamp;
     dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
     dbei.eventType = EVENTTYPE_MESSAGE;
-    dbei.cbBlob = lstrlen(pre->szMessage) + 1;
+    dbei.cbBlob = mir_tstrlen(pre->szMessage) + 1;
     dbei.pBlob = (PBYTE)pre->szMessage;
 	db_event_add(ccs->hContact, &dbei);
     return 0;
@@ -253,14 +253,14 @@ static INT_PTR icqRecvUrl(WPARAM wParam, LPARAM lParam)
     T("[   ] recieve url\n");
 
     db_unset(ccs->hContact, "CList", "Hidden");
-    pszDescr = pre->szMessage + lstrlen(pre->szMessage) + 1;
+    pszDescr = pre->szMessage + mir_tstrlen(pre->szMessage) + 1;
     ZeroMemory(&dbei, sizeof(dbei));
     dbei.cbSize = sizeof(dbei);
     dbei.szModule = protoName;
     dbei.timestamp = pre->timestamp;
     dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
     dbei.eventType = EVENTTYPE_URL;
-    dbei.cbBlob = lstrlen(pre->szMessage) + lstrlen(pszDescr) + 2;
+    dbei.cbBlob = mir_tstrlen(pre->szMessage) + mir_tstrlen(pszDescr) + 2;
     dbei.pBlob = (PBYTE)pre->szMessage;
 	db_event_add(ccs->hContact, &dbei);
     return 0;
