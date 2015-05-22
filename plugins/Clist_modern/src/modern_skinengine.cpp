@@ -1306,7 +1306,7 @@ static int ske_DrawSkinObject(SKINDRAWREQUEST * preq, GLYPHOBJECT * pobj)
 int ske_AddDescriptorToSkinObjectList(LPSKINOBJECTDESCRIPTOR lpDescr, SKINOBJECTSLIST* Skin)
 {
 	SKINOBJECTSLIST *sk = (Skin ? Skin : &g_SkinObjectList);
-	if (mir_bool_strcmpi(lpDescr->szObjectID, "_HEADER_"))
+	if (mir_strcmpi(lpDescr->szObjectID, "_HEADER_"))
 		return 0;
 	//check if new object allready presents.
 	for (DWORD i = 0; i < sk->dwObjLPAlocated; i++)
@@ -1675,16 +1675,16 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 	if (!_tcschr(tszFileName, '%') && !PathFileExists(tszFileName))
 		return NULL;
 
-	if (mir_bool_tstrcmpi(ext, _T(".tga"))) {
+	if (mir_tstrcmpi(ext, _T(".tga"))) {
 		hBitmap = ske_LoadGlyphImage_TGA(tszFileName);
 		f = 1;
 	}
-	else if (ServiceExists("Image/Png2Dib") && mir_bool_tstrcmpi(ext, _T(".png"))) {
+	else if (ServiceExists("Image/Png2Dib") && mir_tstrcmpi(ext, _T(".png"))) {
 		hBitmap = ske_LoadGlyphImage_Png2Dib(tszFileName);
 		GetObject(hBitmap, sizeof(BITMAP), &bmpInfo);
 		f = (bmpInfo.bmBits != NULL);
 	}
-	else if (!mir_bool_tstrcmpi(ext, _T(".png"))) {
+	else if (!mir_tstrcmpi(ext, _T(".png"))) {
 		hBitmap = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)tszFileName);
 	}
 
@@ -1729,7 +1729,7 @@ HBITMAP ske_LoadGlyphImage(const TCHAR *tszFileName)
 
 	if (pLoadedImages) {
 		for (DWORD i = 0; i < dwLoadedImagesCount; i++) {
-			if (mir_bool_tstrcmpi(pLoadedImages[i].szFileName, szFile)) {
+			if (mir_tstrcmpi(pLoadedImages[i].szFileName, szFile)) {
 				pLoadedImages[i].dwLoadedTimes++;
 				return pLoadedImages[i].hGlyph;
 			}
