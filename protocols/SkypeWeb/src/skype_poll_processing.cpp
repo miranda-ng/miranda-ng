@@ -97,7 +97,6 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 			MirVer.AppendFormat(" [%s]", epname);
 		}
 	}
-
 	db_set_s(hContact, m_szModuleName, "MirVer", MirVer);
 }
 
