@@ -998,7 +998,7 @@ const char* CIcqProto::detectUserClient(
 	}
 
 	// Log the detection result if it has changed or contact just logged on...
-	if (!szCurrentClient || strcmpnull(szCurrentClient, szClient)) {
+	if (!szCurrentClient || mir_strcmp(szCurrentClient, szClient)) {
 		if (bClientDetected)
 			debugLogA("Client identified as %s", szClient);
 		else

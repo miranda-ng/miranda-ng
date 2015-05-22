@@ -32,7 +32,7 @@ int CIcqProto::StringToListItemId(const char *szSetting,int def)
 	int i;
 
 	for(i=0;i<settingCount;i++)
-		if (!strcmpnull(szSetting,setting[i].szDbSetting))
+		if (!mir_strcmp(szSetting,setting[i].szDbSetting))
 			break;
 
 	if (i == settingCount)
@@ -45,7 +45,7 @@ int CIcqProto::StringToListItemId(const char *szSetting,int def)
 		return def;
 
 	for (i=0; list[i].text; i++)
-		if (!strcmpnull(list[i].text, szValue))
+		if (!mir_strcmp(list[i].text, szValue))
 			break;
 
 	SAFE_FREE(&szValue);
@@ -67,7 +67,7 @@ int ChangeInfoData::UploadSettings(void)
 	//password
 	char* tmp = ppro->GetUserPassword(TRUE);
 	if (tmp) {
-		if (mir_strlen(Password) > 0 && strcmpnull(Password, tmp)) {
+		if (mir_strlen(Password) > 0 && mir_strcmp(Password, tmp)) {
 			// update password in user info dialog (still open)
 			strcpy(Password, tmp);
 			// update password in protocol

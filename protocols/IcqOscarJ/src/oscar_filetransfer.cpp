@@ -695,9 +695,9 @@ static char* oftGetFileContainer(oscar_filetransfer* oft, const char** files, in
 
 	// try to find existing container
 	for (i = 0; i < oft->containerCount; i++)
-		if (!strcmpnull(szPathUtf, oft->file_containers[i])) {
-		SAFE_FREE((void**)&szPathUtf);
-		return oft->file_containers[i];
+		if (!mir_strcmp(szPathUtf, oft->file_containers[i])) {
+			SAFE_FREE((void**)&szPathUtf);
+			return oft->file_containers[i];
 		}
 
 	// create new container

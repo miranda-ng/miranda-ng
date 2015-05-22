@@ -499,8 +499,8 @@ MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 		DWORD dwContactUin;
 		uid_str szContactUid;
 		if (!getContactUid(hContact, &dwContactUin, &szContactUid)) {
-			if (!dwContactUin && !stricmpnull(szContactUid, szUid)) {
-				if (strcmpnull(szContactUid, szUid)) // fix case in SN
+			if (!dwContactUin && !mir_strcmpi(szContactUid, szUid)) {
+				if (mir_strcmp(szContactUid, szUid)) // fix case in SN
 					setString(hContact, UNIQUEIDSETTING, szUid);
 
 				return hContact;
@@ -550,7 +550,7 @@ MCONTACT CIcqProto::HContactFromAuthEvent(MEVENT hEvent)
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return INVALID_CONTACT_ID;
 
-	if (strcmpnull(dbei.szModule, m_szModuleName))
+	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return INVALID_CONTACT_ID;
 
 	return DbGetAuthEventContact(&dbei);
@@ -578,31 +578,6 @@ char* strUID(DWORD dwUIN, char *pszUID)
 		_ltoa(dwUIN, pszUID, 10);
 
 	return pszUID;
-}
-
-
-/* a mir_strcmp() that likes NULL */
-int __fastcall strcmpnull(const char *str1, const char *str2)
-{
-	if (str1 && str2)
-		return mir_strcmp(str1, str2);
-
-	if (!str1 && !str2)
-		return 0;
-
-	return 1;
-}
-
-/* a mir_strcmpi() that likes NULL */
-int __fastcall stricmpnull(const char *str1, const char *str2)
-{
-	if (str1 && str2)
-		return _stricmp(str1, str2);
-
-	if (!str1 && !str2)
-		return 0;
-
-	return 1;
 }
 
 char* __fastcall strstrnull(const char *str, const char *substr)
@@ -1085,7 +1060,7 @@ void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 			if (m_bMoodsEnabled && !setStatusMoodData && szCurrentStatusMood)
 				setStatusMoodData = null_strdup(szCurrentStatusMood);
 
-			if (strcmpnull(szCurrentStatusNote, setStatusNoteText) || (m_bMoodsEnabled && strcmpnull(szCurrentStatusMood, setStatusMoodData))) {
+			if (mir_strcmp(szCurrentStatusNote, setStatusNoteText) || (m_bMoodsEnabled && mir_strcmp(szCurrentStatusMood, setStatusMoodData))) {
 				db_set_utf(NULL, m_szModuleName, DBSETTING_STATUS_NOTE, setStatusNoteText);
 				if (m_bMoodsEnabled)
 					setString(DBSETTING_STATUS_MOOD, setStatusMoodData);
@@ -1139,7 +1114,7 @@ int CIcqProto::SetStatusNote(const char *szStatusNote, DWORD dwDelay, int bForce
 	if (!setStatusNoteText && (!m_bMoodsEnabled || !setStatusMoodData)) { // check if the status note was changed and if yes, create thread to change it
 		char *szCurrentStatusNote = getSettingStringUtf(NULL, DBSETTING_STATUS_NOTE, NULL);
 
-		if (strcmpnull(szCurrentStatusNote, szStatusNote)) { // status note was changed
+		if (mir_strcmp(szCurrentStatusNote, szStatusNote)) { // status note was changed
 			// create thread to change status note on existing server connection
 			setStatusNoteText = null_strdup(szStatusNote);
 
@@ -1179,7 +1154,7 @@ int CIcqProto::SetStatusMood(const char *szMoodData, DWORD dwDelay)
 		if (!getString(DBSETTING_STATUS_MOOD, &dbv))
 			szCurrentStatusMood = dbv.pszVal;
 
-		if (strcmpnull(szCurrentStatusMood, szMoodData)) { // status mood was changed
+		if (mir_strcmp(szCurrentStatusMood, szMoodData)) { // status mood was changed
 			// create thread to change status mood on existing server connection
 			setStatusMoodData = null_strdup(szMoodData);
 			if (dwDelay)

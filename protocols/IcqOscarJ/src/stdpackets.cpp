@@ -240,7 +240,7 @@ void CIcqProto::icq_setstatus(WORD wStatus, const char *szStatusNote)
 	size_t wStatusMoodLen = 0, wStatusNoteLen = 0, wSessionDataLen = 0;
 	char *szMoodData = NULL;
 
-	if (szStatusNote && strcmpnull(szCurrentStatusNote, szStatusNote)) { // status note was changed, update now
+	if (szStatusNote && mir_strcmp(szCurrentStatusNote, szStatusNote)) { // status note was changed, update now
 		DBVARIANT dbv = { DBVT_DELETED };
 		if (m_bMoodsEnabled && !getString(DBSETTING_STATUS_MOOD, &dbv))
 			szMoodData = null_strdup(dbv.pszVal);

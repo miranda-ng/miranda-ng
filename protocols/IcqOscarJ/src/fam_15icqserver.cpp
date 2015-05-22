@@ -866,7 +866,7 @@ void CIcqProto::parseDirectoryUserDetailsData(MCONTACT hContact, oscar_tlv_chain
 		char *szClientStatusNote = getSettingStringUtf(hContact, DBSETTING_STATUS_NOTE, NULL);
 		char *szDirectoryStatusNote = cDetails->getString(0x226, 1);
 
-		if (strcmpnull(szClientStatusNote, szDirectoryStatusNote))
+		if (mir_strcmp(szClientStatusNote, szDirectoryStatusNote))
 			SetStatusNote(szClientStatusNote, 1000, TRUE);
 
 		// Release memory

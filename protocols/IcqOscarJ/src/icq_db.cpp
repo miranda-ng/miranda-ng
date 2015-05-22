@@ -186,7 +186,7 @@ int CIcqProto::IsICQContact(MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
 
-	return !strcmpnull(szProto, m_szModuleName);
+	return !mir_strcmp(szProto, m_szModuleName);
 }
 
 MEVENT CIcqProto::AddEvent(MCONTACT hContact, WORD wType, DWORD dwTime, DWORD flags, size_t cbBlob, PBYTE pBlob)

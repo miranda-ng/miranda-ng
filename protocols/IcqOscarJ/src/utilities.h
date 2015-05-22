@@ -65,8 +65,6 @@ char *NickFromHandle(MCONTACT hContact);
 char *NickFromHandleUtf(MCONTACT hContact);
 char *strUID(DWORD dwUIN, char *pszUID);
 
-int __fastcall strcmpnull(const char *str1, const char *str2);
-int __fastcall stricmpnull(const char *str1, const char *str2);
 char* __fastcall strstrnull(const char *str, const char *substr);
 char* __fastcall null_strdup(const char *string);
 char* __fastcall null_strcpy(char *dest, const char *src, size_t maxlen);

@@ -150,7 +150,7 @@ static TCHAR* InitXStatusIconLibrary(TCHAR *buf, size_t buf_size)
 		null_strcpy(buf, path, buf_size - 1);
 
 		char ident[MAX_PATH];
-		if ( LoadStringA(hXStatusIconsDLL, IDS_IDENTIFY, ident, sizeof(ident)) == 0 || strcmpnull(ident, "# Custom Status Icons #"))
+		if ( LoadStringA(hXStatusIconsDLL, IDS_IDENTIFY, ident, sizeof(ident)) == 0 || mir_strcmp(ident, "# Custom Status Icons #"))
 			*buf = 0;
 
 		FreeLibrary(hXStatusIconsDLL);
@@ -419,7 +419,7 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, MCONTACT hContact, B
 
 					if (moodXStatus[i] == -1) continue;
 					mir_snprintf(szMoodId, SIZEOF(szMoodId), "0icqmood%d", moodXStatus[i]);
-					if ( !strcmpnull(szMoodId, szMoodData)) {
+					if (!mir_strcmp(szMoodId, szMoodData)) {
 						BYTE bXStatusId = (BYTE)(i+1);
 						char str[MAX_PATH];
 

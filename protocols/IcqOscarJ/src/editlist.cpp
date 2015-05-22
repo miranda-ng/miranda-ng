@@ -115,8 +115,8 @@ void ChangeInfoData::BeginListEdit(int iItem, RECT *rc, int iSetting, WORD wVKey
 			char str[MAX_PATH];
 			n = ListBoxAddStringUtf(hwndListEdit, list[j].text);
 			SendMessage(hwndListEdit, LB_SETITEMDATA, n, j);
-			if ((si.dbType == DBVT_ASCIIZ && (!strcmpnull((char*)sid.value, list[j].text))
-				|| (si.dbType == DBVT_ASCIIZ && (!strcmpnull((char*)sid.value, ICQTranslateUtfStatic(list[j].text, str, MAX_PATH))))
+			if ((si.dbType == DBVT_ASCIIZ && (!mir_strcmp((char*)sid.value, list[j].text))
+				|| (si.dbType == DBVT_ASCIIZ && (!mir_strcmp((char*)sid.value, ICQTranslateUtfStatic(list[j].text, str, MAX_PATH))))
 				|| ((char*)sid.value == NULL && list[j].code == 0))
 				|| (si.dbType != DBVT_ASCIIZ && sid.value == list[j].code))
 				SendMessage(hwndListEdit, LB_SETCURSEL, n, 0);
@@ -158,7 +158,7 @@ void ChangeInfoData::EndListEdit(int save)
 			if (si.dbType == DBVT_ASCIIZ) {
 				char *szNewValue = pItem.text;
 				if (pItem.code || (si.displayType & LIF_ZEROISVALID)) {
-					sid.changed = strcmpnull(szNewValue, (char*)sid.value);
+					sid.changed = mir_strcmp(szNewValue, (char*)sid.value);
 					SAFE_FREE((void**)&sid.value);
 					sid.value = (LPARAM)null_strdup(szNewValue);
 				}
