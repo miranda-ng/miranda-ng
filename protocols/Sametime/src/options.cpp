@@ -292,14 +292,13 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			TCHAR ws[2048];
-			char* utf;
 
 			GetDlgItemText(hwndDlg, IDC_ED_SNAME, ws, LSTRINGLEN);
-			strcpy(proto->options.server_name, utf = mir_utf8encodeT(ws)); mir_free(utf);
+			strcpy(proto->options.server_name, T2Utf(ws));
 			GetDlgItemText(hwndDlg, IDC_ED_NAME, ws, LSTRINGLEN);
-			strcpy(proto->options.id, utf = mir_utf8encodeT(ws)); mir_free(utf);
+			strcpy(proto->options.id, T2Utf(ws));
 			GetDlgItemText(hwndDlg, IDC_ED_PWORD, ws, LSTRINGLEN);
-			strcpy(proto->options.pword, utf = mir_utf8encodeT(ws)); mir_free(utf);
+			strcpy(proto->options.pword, T2Utf(ws));
 
 			BOOL translated;
 			int port = GetDlgItemInt(hwndDlg, IDC_ED_PORT, &translated, FALSE);

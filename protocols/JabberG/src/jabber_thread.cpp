@@ -205,15 +205,14 @@ void CJabberProto::xmlStreamInitializeNow(ThreadData *info)
 		xmlAddAttr(stream, _T("version"), _T("1.0"));
 
 	LPTSTR xmlQuery = xi.toString(n, NULL);
-	char* buf = mir_utf8encodeT(xmlQuery);
+	T2Utf buf(xmlQuery);
 	int bufLen = (int)mir_strlen(buf);
 	if (bufLen > 2) {
-		strdel(buf + bufLen - 2, 1);
+		strdel((char*)buf + bufLen - 2, 1);
 		bufLen--;
 	}
 
 	info->send(buf, bufLen);
-	mir_free(buf);
 	xi.freeMem(xmlQuery);
 	xi.destroyNode(n);
 }
@@ -1987,9 +1986,8 @@ int ThreadData::send(HXML node)
 	*q = 0;
 
 
-	char* utfStr = mir_utf8encodeT(str);
+	T2Utf utfStr(str);
 	int result = send(utfStr, (int)mir_strlen(utfStr));
-	mir_free(utfStr);
 
 	xi.freeMem(str);
 	return result;

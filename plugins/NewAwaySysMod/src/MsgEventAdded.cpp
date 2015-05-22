@@ -58,7 +58,7 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 		return;
 	}
 
-	ptrA pszReply(mir_utf8encodeT(ad->Reply));
+	T2Utf pszReply(ad->Reply);
 	int ReplyLen = (int)mir_strlen(pszReply);
 	CallContactService(ad->hContact, PSS_MESSAGE, 0, (LPARAM)pszReply);
 

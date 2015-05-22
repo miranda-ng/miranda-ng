@@ -310,7 +310,7 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 
 	// replace spaces with %20
 	char loc[256];
-	ptrA szSearchName( mir_utf8encodeT(name));
+	T2Utf szSearchName(name);
 	mir_snprintf(loc, SIZEOF(loc), sData->SearchURL, ptrA( mir_urlEncode(szSearchName)));
 	if (InternetDownloadFile(loc, NULL, NULL, &szData) == 0) {
 		TCHAR* szInfo = szData;

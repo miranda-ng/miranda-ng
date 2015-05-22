@@ -181,12 +181,10 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 		mir_free(nickT);
 		
-		char* pszText_utf8 = mir_utf8encodeT(gch->ptszText);
+		T2Utf pszText_utf8(gch->ptszText);
 		gg_EnterCriticalSection(&sess_mutex, "gc_event", 57, "sess_mutex", 1);
-		gg_send_message_confer(sess, GG_CLASS_CHAT, chat->recipients_count, chat->recipients, (BYTE*)pszText_utf8);
+		gg_send_message_confer(sess, GG_CLASS_CHAT, chat->recipients_count, chat->recipients, pszText_utf8);
 		gg_LeaveCriticalSection(&sess_mutex, "gc_event", 57, 1, "sess_mutex", 1);
-		mir_free(pszText_utf8);
-		
 		return 1;
 	}
 

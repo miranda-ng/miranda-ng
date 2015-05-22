@@ -316,15 +316,13 @@ void ShowErrorUtf(char* msg) {
 void ShowMessageInline(const MCONTACT hContact, const TCHAR *msg) {
 	TCHAR buff[1024];
 	mir_sntprintf(buff, SIZEOF(buff), _T("%s%s"), TranslateT(LANG_INLINE_PREFIX), msg);
+	T2Utf utf(buff);
 
 	PROTORECVEVENT pre = {0};
 	pre.timestamp = time(0);
-	char *utf = mir_utf8encodeT(buff);
 	pre.szMessage = utf;
 	pre.flags = PREF_BYPASS_OTR;
 	ProtoChainRecvMsg(hContact, &pre);	
-
-	mir_free(utf);
 }
 
 void ShowMessageInlineUtf(const MCONTACT hContact, const char *msg) {

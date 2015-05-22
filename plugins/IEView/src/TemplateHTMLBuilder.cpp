@@ -146,7 +146,7 @@ char *TemplateHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mo
 		}
 	}
 
-	mir_strncpy(szResult, ptrA(mir_utf8encodeT(str)), 500);
+	mir_strncpy(szResult, T2Utf(str), 500);
 	return szResult;
 }
 

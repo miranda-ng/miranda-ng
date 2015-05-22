@@ -34,9 +34,7 @@ void mwServiceConf_on_invited(mwConference* conf, mwLoginInfo* inviter, const ch
 	for (;mem;mem=mem->next) {
 		if (proto->my_login_info && strcmp(proto->my_login_info->login_id, ((mwLoginInfo*)mem->data)->login_id) == 0) {
 			proto->debugLog(_T("mwServiceConf_on_invited() already present"));
-			char* utfs = mir_utf8encodeT(TranslateT("Invitation rejected - already present."));
-			mwConference_reject(conf, 0, utfs);
-			mir_free(utfs);
+			mwConference_reject(conf, 0, T2Utf(TranslateT("Invitation rejected - already present.")));
 			return;
 		}
 	}
@@ -75,14 +73,11 @@ void CSametimeProto::ClearInviteQueue()
 		MCONTACT hContact = FindContactByUserId(idb.user);
 		if (!hContact) {
 			mwSametimeList* user_list = mwSametimeList_new();
-			char* utfs = mir_utf8encodeT(TranslateT("None"));
-			mwSametimeGroup* stgroup = mwSametimeGroup_new(user_list, mwSametimeGroup_NORMAL, utfs);
+			mwSametimeGroup* stgroup = mwSametimeGroup_new(user_list, mwSametimeGroup_NORMAL, T2Utf(TranslateT("None")));
 			mwSametimeUser* stuser = mwSametimeUser_new(stgroup, mwSametimeUser_NORMAL, &idb);
 
 			hContact = AddContact(stuser, (options.add_contacts ? false : true));
 			mwSametimeList_free(user_list);
-			mir_free(utfs);
-
 		}
 
 		bool found = false;
@@ -96,11 +91,8 @@ void CSametimeProto::ClearInviteQueue()
 		}
 		g_list_free(members);
 
-		if (!found) {
-			char* temp = mir_utf8encodeT(TranslateT("Please join this meeting."));
-			mwConference_invite(my_conference, &idb, temp);
-			mir_free(temp);
-		}
+		if (!found)
+			mwConference_invite(my_conference, &idb, T2Utf(TranslateT("Please join this meeting.")));
 
 		invite_queue.pop();
 	}
@@ -209,14 +201,12 @@ void mwServiceConf_on_peer_joined(mwConference* conf, mwLoginInfo *user)
 		idb.community = 0;
 
 		mwSametimeList* user_list = mwSametimeList_new();
-		char* utfs = mir_utf8encodeT(TranslateT("None"));
-		mwSametimeGroup* stgroup = mwSametimeGroup_new(user_list, mwSametimeGroup_NORMAL, utfs);
+		mwSametimeGroup* stgroup = mwSametimeGroup_new(user_list, mwSametimeGroup_NORMAL, T2Utf(TranslateT("None")));
 		mwSametimeUser* stuser = mwSametimeUser_new(stgroup, mwSametimeUser_NORMAL, &idb);
 
 		hContact = proto->AddContact(stuser, (proto->options.add_contacts ? false : true));
 
 		mwSametimeList_free(user_list);
-		mir_free(utfs);
 	}
 
 	ptrT tszConfId(mir_utf8decodeT(mwConference_getName(conf)));
@@ -360,10 +350,7 @@ int CSametimeProto::GcEventHook(WPARAM wParam, LPARAM lParam) {
 			case GC_USER_MESSAGE:
 				{
 					debugLog(_T("CSametimeProto::GcEventHook() GC_USER_MESSAGE"));
-					char* utf_msg;
-					utf_msg = mir_utf8encodeT(gch->ptszText);
-					mwConference_sendText((mwConference*)conf->data, utf_msg);
-					mir_free(utf_msg);
+					mwConference_sendText((mwConference*)conf->data, T2Utf(gch->ptszText));
 				}
 				break;
 			case GC_SESSION_TERMINATE:
@@ -373,9 +360,7 @@ int CSametimeProto::GcEventHook(WPARAM wParam, LPARAM lParam) {
 						CloseMyConference(this);
 					} else {
 						debugLog(_T("CSametimeProto::GcEventHook() GC_SESSION_TERMINATE mwConference_destroy"));
-						char* utfs = mir_utf8encodeT(TranslateT("I'm outa here."));
-						mwConference_destroy((mwConference*)conf->data, 0, utfs);
-						mir_free(utfs);
+						mwConference_destroy((mwConference*)conf->data, 0, T2Utf(TranslateT("I'm outa here.")));
 					}
 				}
 				break;
@@ -435,11 +420,10 @@ INT_PTR CSametimeProto::onMenuCreateChat(WPARAM wParam, LPARAM lParam)
 
 		if (!my_conference) {
 			debugLog(_T("CSametimeProto::onMenuCreateChat() mwConference_open"));
-			char* utfs;
-			my_conference = mwConference_new(service_conference, utfs = mir_utf8encodeT(title));
+			my_conference = mwConference_new(service_conference, T2Utf(title));
 			mwConference_open(my_conference);
-			mir_free(utfs);
-		} else {
+		}
+		else {
 			debugLog(_T("CSametimeProto::onMenuCreateChat() ClearInviteQueue"));
 			ClearInviteQueue();
 		}
@@ -503,12 +487,10 @@ void CSametimeProto::DeinitConference()
 	if (service_conference){
 		conferences = conf = mwServiceConference_getConferences(service_conference);
 		for (;conf;conf = conf->next) {
-			if (my_conference == conf->data) CloseMyConference(this);
-			else {
-				char* utfs = mir_utf8encodeT(TranslateT("I'm outa here."));
-				mwConference_destroy((mwConference*)conf->data, 0, utfs);
-				mir_free(utfs);
-			}
+			if (my_conference == conf->data)
+				CloseMyConference(this);
+			else
+				mwConference_destroy((mwConference*)conf->data, 0, T2Utf(TranslateT("I'm outa here.")));
 		}
 		g_list_free(conferences);
 	}

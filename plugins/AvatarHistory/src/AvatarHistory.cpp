@@ -211,15 +211,15 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		if (ContactEnabled(hContact, "LogToHistory", AVH_DEF_LOGTOHISTORY)) {
 			TCHAR rel_path[MAX_PATH];
 			PathToRelativeT(history_filename, rel_path);
-			ptrA blob( mir_utf8encodeT(rel_path));
+			T2Utf blob(rel_path);
 
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			dbei.szModule = GetContactProto(hContact);
 			dbei.flags = DBEF_READ | DBEF_UTF;
 			dbei.timestamp = (DWORD) time(NULL);
 			dbei.eventType = EVENTTYPE_AVATAR_CHANGE;
-			dbei.cbBlob = (DWORD) mir_strlen(blob) + 1;
-			dbei.pBlob = (PBYTE)(char*)blob;
+			dbei.cbBlob = (DWORD)mir_strlen(blob) + 1;
+			dbei.pBlob = blob;
 			db_event_add(hContact, &dbei);
 		}
 	}

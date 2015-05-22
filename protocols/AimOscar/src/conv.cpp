@@ -771,10 +771,9 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 		}
 		else
 		{
-			char* txt = mir_utf8encodeT(text);
+			T2Utf txt(text);
 			strcpy(&buf[pos], txt);
 			pos += mir_strlen(txt);
-			mir_free(txt);
 		}
 		start++;
 		end++;

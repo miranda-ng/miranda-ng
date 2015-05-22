@@ -177,7 +177,7 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const CHAR_PARAM &param)
 
 AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const TCHAR_PARAM &param)
 {
-	ptrA szValue(mir_utf8encodeT(param.tszValue));
+	T2Utf szValue(param.tszValue);
 	CMStringA &s = pReq->m_szParam;
 	if (!s.IsEmpty())
 		s.AppendChar('&');

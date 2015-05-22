@@ -433,7 +433,7 @@ void SaveState()
 		if (szTempModeName) {
 			SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szTempModeName);
 
-			ptrA szModeName(mir_utf8encodeT(szTempModeName));
+			T2Utf szModeName(szTempModeName);
 
 			DWORD dwGlobalMask = GetMaskForItem(hInfoItem);
 			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
@@ -483,13 +483,7 @@ void SaveState()
 
 static void UpdateFilters()
 {
-	DBVARIANT dbv_pf = { 0 };
-	DBVARIANT dbv_gf = { 0 };
 	char szSetting[128];
-	TCHAR *szTempBuf = NULL;
-	char *szBuf = NULL;
-	int iLen;
-	DWORD statusMask = 0;
 	DWORD dwFlags;
 	DWORD opt;
 	TCHAR szTemp[100];
@@ -497,31 +491,35 @@ static void UpdateFilters()
 	if (clvm_curItem == LB_ERR)
 		return;
 
-	iLen = SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXTLEN, clvm_curItem, 0);
-
+	int iLen = SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXTLEN, clvm_curItem, 0);
 	if (iLen == 0)
 		return;
 
-	szTempBuf = (TCHAR *)mir_alloc((iLen + 1)*sizeof(TCHAR));
+	TCHAR *szTempBuf = (TCHAR*)_alloca((iLen + 1)*sizeof(TCHAR));
 	SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szTempBuf);
 
-	szBuf = mir_utf8encodeT(szTempBuf);
+	T2Utf szBuf(szTempBuf);
 	mir_strncpy(g_szModename, szBuf, SIZEOF(g_szModename));
-	g_szModename[SIZEOF(g_szModename) - 1] = 0;
+
 	mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("Configuring view mode: %s"), szTempBuf);
 	SetDlgItemText(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
+
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_PF", 246, szBuf);
-	if (db_get_s(NULL, CLVM_MODULE, szSetting, &dbv_pf))
-		goto cleanup;
+	ptrA szPF(db_get_sa(NULL, CLVM_MODULE, szSetting));
+	if (szPF == NULL)
+		return;
+
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_GF", 246, szBuf);
-	if (db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv_gf))
-		goto cleanup;
+	ptrT szGF(db_get_tsa(NULL, CLVM_MODULE, szSetting));
+	if (szGF == NULL)
+		return;
+
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_OPT", 246, szBuf);
-	if ((opt = db_get_dw(NULL, CLVM_MODULE, szSetting, -1)) != -1) {
+	if ((opt = db_get_dw(NULL, CLVM_MODULE, szSetting, -1)) != -1)
 		SendDlgItemMessage(clvmHwnd, IDC_AUTOCLEARSPIN, UDM_SETPOS, 0, MAKELONG(LOWORD(opt), 0));
-	}
+	
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SM", 246, szBuf);
-	statusMask = db_get_dw(NULL, CLVM_MODULE, szSetting, 0);
+	DWORD statusMask = db_get_dw(NULL, CLVM_MODULE, szSetting, 0);
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SSM", 246, szBuf);
 	stickyStatusMask = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
 	dwFlags = db_get_dw(NULL, CLVM_MODULE, szBuf, 0);
@@ -540,7 +538,7 @@ static void UpdateFilters()
 			item.iItem = i;
 			SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
 			mir_snprintf(szMask, SIZEOF(szMask), "%s|", szTemp);
-			if (dbv_pf.pszVal && strstr(dbv_pf.pszVal, szMask))
+			if (szPF && strstr(szPF, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else
 			ListView_SetCheckState(hwndList, i, FALSE);
@@ -563,7 +561,7 @@ static void UpdateFilters()
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
 			mir_sntprintf(szMask, SIZEOF(szMask), _T("%s|"), szTemp);
-			if (dbv_gf.ptszVal && _tcsstr(dbv_gf.ptszVal, szMask))
+			if (szGF && _tcsstr(szGF, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else
 			ListView_SetCheckState(hwndList, i, FALSE);
@@ -586,11 +584,7 @@ static void UpdateFilters()
 
 	{
 		int useLastMsg = dwFlags & CLVM_USELASTMSG;
-
 		int useGroupsState = (dwFlags & CLVM_USEGROUPS) ? BST_CHECKED : (dwFlags & CLVM_DONOTUSEGROUPS) ? BST_UNCHECKED : BST_INDETERMINATE;
-
-		DWORD lmdat;
-		BYTE bTmp;
 
 		CheckDlgButton(clvmHwnd, IDC_LASTMSG, useLastMsg ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(clvmHwnd, IDC_USEGROUPS, useGroupsState ? BST_CHECKED : BST_UNCHECKED);
@@ -600,21 +594,16 @@ static void UpdateFilters()
 		EnableWindow(GetDlgItem(clvmHwnd, IDC_LASTMESSAGEUNIT), useLastMsg);
 
 		mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_LM", 246, szBuf);
-		lmdat = db_get_dw(NULL, CLVM_MODULE, szSetting, 0);
+		DWORD lmdat = db_get_dw(NULL, CLVM_MODULE, szSetting, 0);
 
 		SetDlgItemInt(clvmHwnd, IDC_LASTMSGVALUE, LOWORD(lmdat), FALSE);
-		bTmp = LOBYTE(HIWORD(lmdat));
+		BYTE bTmp = LOBYTE(HIWORD(lmdat));
 		SendDlgItemMessage(clvmHwnd, IDC_LASTMESSAGEOP, CB_SETCURSEL, bTmp, 0);
 		bTmp = HIBYTE(HIWORD(lmdat));
 		SendDlgItemMessage(clvmHwnd, IDC_LASTMESSAGEUNIT, CB_SETCURSEL, bTmp, 0);
 	}
 
 	ShowPage(clvmHwnd, 0);
-cleanup:
-	db_free(&dbv_pf);
-	db_free(&dbv_gf);
-	mir_free(szBuf);
-	mir_free(szTempBuf);
 }
 
 void DeleteViewMode(char * szName)
@@ -763,26 +752,16 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (MessageBox(0, TranslateT("Really delete this view mode? This cannot be undone"), TranslateT("Delete a view mode"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 				int iLen = SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETTEXTLEN, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), 0);
 				if (iLen) {
-					//TODO: UNICODE
-					TCHAR *szTempBuf = (TCHAR*)malloc((iLen + 1)*sizeof(TCHAR));
-					char *szBuf = NULL;
-					if (szTempBuf) {
-						SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETTEXT, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), (LPARAM)szTempBuf);
-						szBuf = mir_utf8encodeT(szTempBuf);
-						DeleteViewMode(szBuf);
+					TCHAR *szTempBuf = (TCHAR*)_alloca((iLen + 1)*sizeof(TCHAR));
+					SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETTEXT, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), (LPARAM)szTempBuf);
+					DeleteViewMode(T2Utf(szTempBuf));
 
-						SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_DELETESTRING, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), 0);
-						if (SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, 0, 0) != LB_ERR) {
-							clvm_curItem = 0;
-							UpdateFilters();
-						}
-						else clvm_curItem = -1;
-
-						if (szBuf && szBuf != (char*)szTempBuf) mir_free(szBuf);
-						if (szTempBuf) free(szTempBuf);
-						szTempBuf = NULL;
-						szBuf = NULL;
+					SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_DELETESTRING, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), 0);
+					if (SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_SETCURSEL, 0, 0) != LB_ERR) {
+						clvm_curItem = 0;
+						UpdateFilters();
 					}
+					else clvm_curItem = -1;
 				}
 			}
 			break;
@@ -795,7 +774,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			szBuf[255] = 0;
 
 			if (szBuf[0] != 0) {
-				char *szUTF8Buf = mir_utf8encodeT(szBuf);
+				T2Utf szUTF8Buf(szBuf);
 
 				if (db_get_dw(NULL, CLVM_MODULE, szUTF8Buf, -1) != -1)
 					MessageBox(0, TranslateT("A view mode with this name does already exist"), TranslateT("Duplicate name"), MB_OK);
@@ -811,7 +790,6 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 				}
 				SetDlgItemText(hwndDlg, IDC_NEWVIEMODE, _T(""));
-				mir_free(szUTF8Buf);
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ADDVIEWMODE), FALSE);
 			UpdateFilters();
@@ -1114,7 +1092,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					mii.cch = 256;
 					GetMenuItemInfo(hViewModeMenu, selection, FALSE, &mii);
 
-					ApplyViewMode(ptrA(mir_utf8encodeT(szTemp)));
+					ApplyViewMode(T2Utf(szTemp));
 				}
 			}
 			break;

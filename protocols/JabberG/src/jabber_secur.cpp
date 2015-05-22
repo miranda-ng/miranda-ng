@@ -157,9 +157,8 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 	CallService(MS_UTILS_GETRANDOM, sizeof(digest), (LPARAM)digest);
 	mir_snprintf(cnonce, SIZEOF(cnonce), "%08x%08x%08x%08x", htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
-	ptrA uname(mir_utf8encodeT(info->conn.username)),
-		passw(mir_utf8encodeT(info->conn.password)),
-		serv(mir_utf8encode(info->conn.server));
+	T2Utf uname(info->conn.username), passw(info->conn.password);
+	ptrA  serv(mir_utf8encode(info->conn.server));
 
 	mir_md5_init(&ctx);
 	mir_md5_append(&ctx, (BYTE*)(char*)uname, (int)mir_strlen(uname));
@@ -304,7 +303,7 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 
 char* TScramAuth::getInitialRequest()
 {
-	ptrA uname(mir_utf8encodeT(info->conn.username));
+	T2Utf uname(info->conn.username);
 
 	unsigned char nonce[24];
 	CallService(MS_UTILS_GETRANDOM, sizeof(nonce), (LPARAM)nonce);
@@ -339,7 +338,7 @@ TPlainAuth::~TPlainAuth()
 
 char* TPlainAuth::getInitialRequest()
 {
-	ptrA uname(mir_utf8encodeT(info->conn.username)), passw(mir_utf8encodeT(info->conn.password));
+	T2Utf uname(info->conn.username), passw(info->conn.password);
 
 	size_t size = 2 * mir_strlen(uname) + mir_strlen(passw) + mir_strlen(info->conn.server) + 4;
 	char *toEncode = (char*)alloca(size);

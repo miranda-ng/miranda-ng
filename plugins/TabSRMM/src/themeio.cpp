@@ -225,19 +225,11 @@ void TSAPI WriteThemeToINI(const TCHAR *szIniFilenameT, TWindowData *dat)
 	WritePrivateProfileStringA("Message Log", "ExtraMicroLF", _itoa(M.GetByte("extramicrolf", 0), szBuf, 10), szIniFilename);
 
 	for (i = 0; i <= TMPL_ERRMSG; i++) {
-		char *encoded;
-		if (dat == 0)
-			encoded = mir_utf8encodeT(LTR_Active.szTemplates[i]);
-		else
-			encoded = mir_utf8encodeT(dat->pContainer->ltr_templates->szTemplates[i]);
-		WritePrivateProfileStringA("Templates", TemplateNames[i], encoded, szIniFilename);
-		mir_free(encoded);
-		if (dat == 0)
-			encoded = mir_utf8encodeT(RTL_Active.szTemplates[i]);
-		else
-			encoded = mir_utf8encodeT(dat->pContainer->rtl_templates->szTemplates[i]);
-		WritePrivateProfileStringA("RTLTemplates", TemplateNames[i], encoded, szIniFilename);
-		mir_free(encoded);
+		T2Utf szLTR((dat == 0) ? LTR_Active.szTemplates[i] : dat->pContainer->ltr_templates->szTemplates[i]);
+		WritePrivateProfileStringA("Templates", TemplateNames[i], szLTR, szIniFilename);
+
+		T2Utf szRTL((dat == 0) ? RTL_Active.szTemplates[i] : dat->pContainer->rtl_templates->szTemplates[i]);
+		WritePrivateProfileStringA("RTLTemplates", TemplateNames[i], szRTL, szIniFilename);
 	}
 	for (i = 0; i < CUSTOM_COLORS; i++) {
 		mir_snprintf(szTemp, SIZEOF(szTemp), "cc%d", i + 1);

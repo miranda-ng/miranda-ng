@@ -670,6 +670,33 @@ __forceinline char* mir_utf8decodeA(const char* src)
 	#define mir_utf8encodeT mir_utf8encode
 #endif
 
+class T2Utf
+{
+	char* m_str;
+
+public:
+	__forceinline T2Utf(const TCHAR *str) :
+		m_str(mir_utf8encodeT(str))
+	{}
+
+	__forceinline ~T2Utf()
+	{	mir_free(m_str);
+	}
+
+	__forceinline char* detach()
+	{	char *res = m_str; m_str = NULL;
+		return res;
+	}
+
+	__forceinline char& operator[](int idx) const { return m_str[idx]; }
+	__forceinline operator char*() const {	return m_str; }
+	__forceinline operator unsigned char*() const {	return (unsigned char*)m_str; }
+	__forceinline operator LPARAM() const { return (LPARAM)m_str; }
+	#ifdef _XSTRING_
+		std::string str() const { return std::string(m_str); }
+	#endif
+};
+
 ///////////////////////////////////////////////////////////////////////////////
 // Window subclassing
 

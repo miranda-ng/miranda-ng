@@ -25,7 +25,7 @@ INT_PTR __cdecl WhatsAppProto::OnCreateGroup(WPARAM wParam, LPARAM lParam)
 	es.szModuleName = m_szModuleName;
 	if (EnterString(&es)) {
 		if (isOnline()) {
-			std::string groupName(ptrA(mir_utf8encodeT(es.ptszResult)));
+			std::string groupName(T2Utf(es.ptszResult));
 			m_pConnection->sendCreateGroupChat(groupName);
 		}
 		mir_free(es.ptszResult);
@@ -43,7 +43,7 @@ int WhatsAppProto::onGroupChatEvent(WPARAM wParam, LPARAM lParam)
 	if (mir_strcmp(gch->pDest->pszModule, m_szModuleName))
 		return 0;
 
-	std::string chat_id(ptrA(mir_utf8encodeT(gch->pDest->ptszID)));
+	std::string chat_id(T2Utf(gch->pDest->ptszID));
 	WAChatInfo *pInfo = SafeGetChat(chat_id);
 	if (pInfo == NULL)
 		return 0;
@@ -59,7 +59,7 @@ int WhatsAppProto::onGroupChatEvent(WPARAM wParam, LPARAM lParam)
 
 	case GC_USER_MESSAGE:
 		if (isOnline()) {
-			std::string msg(ptrA(mir_utf8encodeT(gch->ptszText)));
+			std::string msg(T2Utf(gch->ptszText));
 			
 			try {
 				int msgId = GetSerial();
@@ -156,8 +156,8 @@ void WhatsAppProto::EditChatSubject(WAChatInfo *pInfo)
 	es.caption = title;
 	es.szDataPrefix = "setSubject_";
 	if (EnterString(&es)) {
-		ptrA gjid(mir_utf8encodeT(pInfo->tszJid));
-		ptrA gsubject(mir_utf8encodeT(es.ptszResult));
+		T2Utf gjid(pInfo->tszJid);
+		T2Utf gsubject(es.ptszResult);
 		m_pConnection->sendSetNewSubject(std::string(gjid), std::string(gsubject));
 		mir_free(es.ptszResult);
 	}

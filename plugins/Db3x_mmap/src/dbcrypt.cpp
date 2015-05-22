@@ -232,7 +232,7 @@ void CDb3Mmap::SetPassword(LPCTSTR ptszPassword)
 	}
 	else {
 		m_bUsesPassword = true;
-		m_crypto->setPassword(ptrA(mir_utf8encodeT(ptszPassword)));
+		m_crypto->setPassword(T2Utf(ptszPassword));
 	}
 	UpdateMenuItem();
 }

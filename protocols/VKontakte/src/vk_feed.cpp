@@ -54,7 +54,7 @@ void CVkProto::AddFeedEvent(CMString& tszBody, time_t tTime)
 	}
 	
 	MCONTACT hContact = FindUser(VK_FEED_USER, true);
-	ptrA pszBody(mir_utf8encodeT(tszBody));
+	T2Utf pszBody(tszBody);
 
 	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = tTime;

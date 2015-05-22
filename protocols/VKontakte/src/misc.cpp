@@ -463,9 +463,9 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 			CMStringA name = getAttr(pFieldBeg, "name");
 			CMStringA value = getAttr(pFieldBeg, "value");
 			if (name == "email")
-				value = ptrA(mir_utf8encodeT(ptrT(getTStringA("Login"))));
+				value = (char*)T2Utf(ptrT(getTStringA("Login")));
 			else if (name == "pass")
-				value = ptrA(mir_utf8encodeT(ptrT(GetUserStoredPassword())));
+				value = (char*)T2Utf(ptrT(GetUserStoredPassword()));
 			else if (name == "captcha_key") {
 				char *pCaptchaBeg = strstr(pFormBeg, "<img id=\"captcha\"");
 				if (pCaptchaBeg != NULL)
@@ -580,9 +580,9 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 {
 	debugLogA("CVkProto::DBAddAuthRequest");
 		
-	ptrA szNick(mir_utf8encodeT(ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"))));
-	ptrA szFirstName(mir_utf8encodeT(ptrT(db_get_tsa(hContact, m_szModuleName, "FirstName"))));
-	ptrA szLastName(mir_utf8encodeT(ptrT(db_get_tsa(hContact, m_szModuleName, "LastName"))));
+	T2Utf szNick(ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")));
+	T2Utf szFirstName(ptrT(db_get_tsa(hContact, m_szModuleName, "FirstName")));
+	T2Utf szLastName(ptrT(db_get_tsa(hContact, m_szModuleName, "LastName")));
 		
 	//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 	//blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ)

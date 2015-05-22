@@ -30,7 +30,7 @@ void CSkypeProto::SearchBasicThread(void* id)
 		return;
 
 	ptrT idT((TCHAR *)id);
-	ptrA string(mir_urlEncode(ptrA(mir_utf8encodeT(idT))));
+	ptrA string(mir_urlEncode(T2Utf(idT)));
 	SendRequest(new GetSearchRequest(TokenSecret, string), &CSkypeProto::OnSearch);
 }
 

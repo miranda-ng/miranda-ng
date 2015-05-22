@@ -367,7 +367,7 @@ int CJabberProto::ByteSendParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* b
 			mir_free(szInitiatorJid);
 			mir_free(szTargetJid);
 
-			ptrA szAuthString(mir_utf8encodeT(text));
+			T2Utf szAuthString(text);
 			debugLogA("Auth: '%s'", szAuthString);
 
 			JabberShaStrBuf buf;
@@ -516,7 +516,7 @@ int CJabberProto::ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, ch
 			mir_free(szInitiatorJid);
 			mir_free(szTargetJid);
 
-			char* szAuthString = mir_utf8encodeT(text);
+			T2Utf szAuthString(text);
 			debugLogA("Auth: '%s'", szAuthString);
 
 			JabberShaStrBuf buf;
@@ -524,7 +524,6 @@ int CJabberProto::ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, ch
 
 			Netlib_Send(hConn, (char*)data, 47, 0);
 			jbt->state = JBT_CONNECT;
-			mir_free(szAuthString);
 		}
 		else jbt->state = JBT_SOCKSERR;
 		break;
@@ -705,12 +704,13 @@ int CJabberProto::ByteReceiveParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char
 			data[4] = 40;
 
 			TCHAR text[JABBER_MAX_JID_LEN * 2];
-			TCHAR *szInitiatorJid = JabberPrepareJid(jbt->srcJID);
-			TCHAR *szTargetJid = JabberPrepareJid(jbt->dstJID);
-			mir_sntprintf(text, SIZEOF(text), _T("%s%s%s"), jbt->sid, szInitiatorJid, szTargetJid);
-			mir_free(szInitiatorJid);
-			mir_free(szTargetJid);
-			char* szAuthString = mir_utf8encodeT(text);
+			{
+				ptrT szInitiatorJid(JabberPrepareJid(jbt->srcJID));
+				ptrT szTargetJid(JabberPrepareJid(jbt->dstJID));
+				mir_sntprintf(text, SIZEOF(text), _T("%s%s%s"), jbt->sid, szInitiatorJid, szTargetJid);
+			}
+
+			T2Utf szAuthString(text);
 			debugLogA("Auth: '%s'", szAuthString);
 
 			JabberShaStrBuf buf;
@@ -718,7 +718,6 @@ int CJabberProto::ByteReceiveParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char
 
 			Netlib_Send(hConn, (char*)data, 47, 0);
 			jbt->state = JBT_CONNECT;
-			mir_free(szAuthString);
 		}
 		else jbt->state = JBT_SOCKSERR;
 		break;

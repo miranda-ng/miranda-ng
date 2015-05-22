@@ -685,13 +685,7 @@ HANDLE __cdecl CYahooProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescr
 	
 			struct yahoo_file_info *fi = y_new(struct yahoo_file_info,1);
 			
-			/**
-			 * Need to use regular memory allocator/deallocator, since this is how things are build w/ libyahoo2
-			 */
-			char *s = mir_utf8encodeT(ppszFiles[i]);
-			fi->filename = strdup(s);
-			mir_free(s);
-			
+			fi->filename = strdup(T2Utf(ppszFiles[i]));
 			fi->filesize = tFileSize;
 		
 			fs = y_list_append(fs, fi);

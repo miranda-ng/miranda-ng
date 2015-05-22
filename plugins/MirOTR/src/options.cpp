@@ -137,7 +137,7 @@ void ReadPrivkeyFiles()
 
 static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR *prefix; char* prefix_utf;
+	TCHAR *prefix;
 	switch ( msg ) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault( hwndDlg );
@@ -218,16 +218,15 @@ static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			options.end_offline = (TRUE==IsDlgButtonChecked(hwndDlg, IDC_CHK_ENDOFFLINE));
 			options.end_window_close = (TRUE==IsDlgButtonChecked(hwndDlg, IDC_CHK_ENDCLOSE));
 
-			prefix = (TCHAR*)mir_alloc(sizeof(TCHAR)*OPTIONS_PREFIXLEN);
+			prefix = (TCHAR*)_alloca(sizeof(TCHAR)*OPTIONS_PREFIXLEN);
 			GetDlgItemText(hwndDlg, IDC_ED_PREFIX, prefix, OPTIONS_PREFIXLEN);
-			prefix_utf = mir_utf8encodeT(prefix);
-			mir_free(prefix);
-			if(!prefix_utf[0]){
+
+			T2Utf prefix_utf(prefix);
+			if (!mir_strlen(prefix_utf)) {
 				SetDlgItemTextA(hwndDlg, IDC_ED_PREFIX, OPTIONS_DEFAULT_PREFIX);
 				mir_strncpy(options.prefix, OPTIONS_DEFAULT_PREFIX, OPTIONS_PREFIXLEN);
-			} else
-				mir_strncpy(options.prefix, prefix_utf, OPTIONS_PREFIXLEN);
-			mir_free(prefix_utf);
+			}
+			else mir_strncpy(options.prefix, prefix_utf, OPTIONS_PREFIXLEN);
 
 			SaveOptions();
 			return TRUE;

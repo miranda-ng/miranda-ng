@@ -291,14 +291,13 @@ void CToxProto::OnAvInvite(void*, int32_t callId, void *arg)
 
 	TCHAR message[MAX_PATH];
 	mir_sntprintf(message, SIZEOF(message), TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+	T2Utf szMessage(message);
 
 	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = time(NULL);
 	recv.lParam = callId;
-	recv.szMessage = mir_utf8encodeT(message);
+	recv.szMessage = szMessage;
 	ProtoChainRecv(hContact, PSR_AUDIO, hContact, (LPARAM)&recv);
-
-	mir_free(recv.szMessage);
 }
 
 // save event to db

@@ -507,7 +507,7 @@ bool CMsnProto::MSN_StoreCreateDocument(const TCHAR *sztName, const char *szMime
 {
 	char* reqHdr;
 	ezxml_t tbdy;
-	char* szName = mir_utf8encodeT(sztName);
+	T2Utf szName(sztName);
 	ezxml_t xmlp = storeSoapHdr("CreateDocument", "RoamingIdentityChanged", tbdy, reqHdr);
 
 	ezxml_t hndl = ezxml_add_child(tbdy, "parentHandle", 0);
@@ -544,7 +544,6 @@ bool CMsnProto::MSN_StoreCreateDocument(const TCHAR *sztName, const char *szMime
 	char* szData = ezxml_toxml(xmlp, true);
 
 	ezxml_free(xmlp);
-	mir_free(szName);
 
 	unsigned status = 0;
 	char *storeUrl = NULL, *tResult = NULL;
@@ -589,7 +588,7 @@ bool CMsnProto::MSN_StoreCreateDocument(const TCHAR *sztName, const char *szMime
 bool CMsnProto::MSN_StoreUpdateDocument(const TCHAR *sztName, const char *szMimeType, const char *szPicData, bool allowRecurse)
 {
 	char* reqHdr;
-	char* szName = mir_utf8encodeT(sztName);
+	T2Utf szName(sztName);
 	ezxml_t tbdy;
 	ezxml_t xmlp = storeSoapHdr("UpdateDocument", "RoamingIdentityChanged", tbdy, reqHdr);
 
@@ -616,7 +615,6 @@ bool CMsnProto::MSN_StoreUpdateDocument(const TCHAR *sztName, const char *szMime
 	char* szData = ezxml_toxml(xmlp, true);
 
 	ezxml_free(xmlp);
-	mir_free(szName);
 
 	unsigned status = 0;
 	char *storeUrl = NULL, *tResult = NULL;

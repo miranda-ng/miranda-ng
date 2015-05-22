@@ -566,7 +566,7 @@ namespace
 		const tstring& rsFormat)
 	{
 		tstring s = format_rate(pProvider, hContact, rsFormat);
-		ptrA psz(mir_utf8encodeT(s.c_str()));
+		T2Utf psz(s.c_str());
 
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.szModule = QUOTES_PROTOCOL_NAME;

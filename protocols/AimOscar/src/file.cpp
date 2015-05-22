@@ -120,24 +120,22 @@ bool setup_next_file_send(file_transfer *ft)
 	ft->pfts.currentFileProgress = 0;
 
 	char* fnamea;
-	char* fname = mir_utf8encodeT(file);
+	T2Utf fname(file);
 	if (ft->pfts.totalFiles > 1 && ft->file[0])
 	{
 		size_t dlen = mir_strlen(ft->file);
 		if (strncmp(fname, ft->file, dlen) == 0 && fname[dlen] == '\\')
 		{
 			fnamea = &fname[dlen+1];
-			for (char *p = fnamea; *p; ++p) { if (*p == '\\') *p = 1; }
+			for (char *p = fnamea; *p; ++p)
+				if (*p == '\\')
+					*p = 1;
 		}
-		else
-			fnamea = get_fname(fname);
+		else fnamea = get_fname(fname);
 	}
-	else
-		fnamea = get_fname(fname);
+	else fnamea = get_fname(fname);
 
 	send_init_oft2(ft, fnamea);
-
-	mir_free(fname);
 	return true;
 }
 

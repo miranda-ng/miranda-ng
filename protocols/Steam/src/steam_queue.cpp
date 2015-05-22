@@ -36,7 +36,7 @@ void CSteamProto::StartQueue()
 		}
 		else
 		{
-			ptrA username(mir_urlEncode(ptrA(mir_utf8encodeT(getTStringA("Username")))));
+			ptrA username(mir_urlEncode(T2Utf(getTStringA("Username"))));
 			if (username == NULL || username[0] == '\0')
 				return;
 

@@ -27,7 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * Helper function for loading name from database (or use default one specified as parameter), used for title of few notifications.
  */
-std::string getContactName(FacebookProto *proto, MCONTACT hContact, const char *defaultName) {
+std::string getContactName(FacebookProto *proto, MCONTACT hContact, const char *defaultName)
+{
 	std::string name = defaultName;
 
 	DBVARIANT dbv;
@@ -1225,8 +1226,7 @@ void FacebookProto::SearchAckThread(void *targ)
 
 	int count = 0;
 
-	char *arg = mir_utf8encodeT((TCHAR*)targ);
-	std::string search = utils::url::encode(arg);
+	std::string search = utils::url::encode(T2Utf((TCHAR *)targ).str());
 	std::string ssid;
 
 	while (count < 50 && !isOffline())
@@ -1300,15 +1300,13 @@ void FacebookProto::SearchAckThread(void *targ)
 	facy.handle_success("searchAckThread");
 
 	mir_free(targ);
-	mir_free(arg);
 }
 
 void FacebookProto::SearchIdAckThread(void *targ)
 {
 	facy.handle_entry("searchIdAckThread");
 
-	char *arg = mir_utf8encodeT((TCHAR*)targ);
-	std::string search = utils::url::encode(arg) + "?";
+	std::string search = utils::url::encode(T2Utf((TCHAR*)targ).str()) + "?";
 
 	if (!isOffline())
 	{
@@ -1358,5 +1356,4 @@ void FacebookProto::SearchIdAckThread(void *targ)
 	facy.handle_success("searchIdAckThread");
 
 	mir_free(targ);
-	mir_free(arg);
 }

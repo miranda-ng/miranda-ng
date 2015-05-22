@@ -289,11 +289,9 @@ int __cdecl CYahooProto::OnGCEventHook(WPARAM, LPARAM lParam)
 		case GC_USER_MESSAGE:
 			if (gch->ptszText && gch->ptszText[0])
 			{
-				char* msg = mir_utf8encodeT(gch->ptszText);
 				ChatRoom *cm = m_chatrooms.find((ChatRoom*)&room);
 				if (cm)
-					yahoo_conference_message(m_id, NULL, cm->members, room, msg, 1);
-				mir_free(msg);
+					yahoo_conference_message(m_id, NULL, cm->members, room, T2Utf(gch->ptszText), 1);
 			}
 			break;
 
@@ -435,17 +433,13 @@ static void clist_chat_invite_send(MCONTACT hItem, HWND hwndList, YList* &who, c
 
 	if (root && who)
 	{
-		char *msg8 = mir_utf8encodeT(msg);
+		T2Utf msg8(msg);
 		CYahooProto::ChatRoom *cm = ppro->m_chatrooms.find((CYahooProto::ChatRoom*)&room);
-		if (cm)
-		{
+		if (cm) {
 			for (YList *l = who; l; l = l->next)
 				yahoo_conference_addinvite(ppro->m_id, NULL, (char*)l->data, room, cm->members, msg8);
 		}
-		else
-			yahoo_conference_invite(ppro->m_id, NULL, who, room, msg8);
-
-		mir_free(msg8);
+		else yahoo_conference_invite(ppro->m_id, NULL, who, room, msg8);
 
 		for (YList *l = who; l; l = l->next) mir_free(l->data);
 		y_list_free(who);
@@ -630,9 +624,7 @@ INT_PTR CALLBACK ChatRequestDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				{
 					TCHAR msg[1024];
 					GetDlgItemText(hwndDlg, IDC_MSG2, msg, SIZEOF(msg));
-					char *msg8 = mir_utf8encodeT(msg);
-					yahoo_conference_decline(param->ppro->m_id, NULL, cm->members, param->room, msg8);
-					mir_free(msg8);
+					yahoo_conference_decline(param->ppro->m_id, NULL, cm->members, param->room, T2Utf(msg));
 
 					param->ppro->m_chatrooms.remove((CYahooProto::ChatRoom*)&param->room);
 				}

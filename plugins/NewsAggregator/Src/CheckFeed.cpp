@@ -123,7 +123,7 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 	olddbei.cbSize = sizeof(olddbei);
 
 	bool  MesExist = false;
-	ptrA  pszTemp(mir_utf8encodeT(message));
+	T2Utf pszTemp(message);
 	DWORD cbMemoLen = 10000, cbOrigLen = (DWORD)mir_strlen(pszTemp);
 	BYTE *pbBuffer = (BYTE*)mir_alloc(cbMemoLen);
 	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
@@ -148,7 +148,7 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 		if (stamp == 0)
 			stamp = time(NULL);
 
-		ptrA pszMessage(mir_utf8encodeT(message));
+		T2Utf pszMessage(message);
 
 		PROTORECVEVENT recv = { 0 };
 		recv.timestamp = (DWORD)stamp;

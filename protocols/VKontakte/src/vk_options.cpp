@@ -67,7 +67,7 @@ INT_PTR CALLBACK VKAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 			ppro->setTString("Login", str);
 			
 			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
-			ptrA szRawPasswd(mir_utf8encodeT(str));
+			T2Utf szRawPasswd(str);
 			if (szRawPasswd != NULL)
 				ppro->setString("Password", szRawPasswd);
 		}
@@ -180,7 +180,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			}
 			
 			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
-			ptrA szRawPasswd(mir_utf8encodeT(str));
+			T2Utf szRawPasswd(str);
 			if (szRawPasswd != NULL)
 				ppro->setString("Password", szRawPasswd);
 

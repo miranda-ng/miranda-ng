@@ -262,9 +262,8 @@ bool SkipHiddenContact(MCONTACT hContact)
 
 void LogSMsgToDB(STATUSMSGINFO *smi, const TCHAR *tmplt)
 {
-	TCHAR *str = GetStr(smi, tmplt);
-
-	char *blob = mir_utf8encodeT(str);
+	ptrT str(GetStr(smi, tmplt));
+	T2Utf blob(str);
 
 	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
@@ -276,8 +275,6 @@ void LogSMsgToDB(STATUSMSGINFO *smi, const TCHAR *tmplt)
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.szModule = MODULE;
 	MEVENT hDBEvent = db_event_add(smi->hContact, &dbei);
-	mir_free(blob);
-	mir_free(str);
 
 	if (opt.SMsgLogToDB_WinOpen && opt.SMsgLogToDB_Remove) {
 		DBEVENT *dbevent = (DBEVENT *)mir_alloc(sizeof(DBEVENT));
@@ -353,7 +350,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 	if (opt.LogToDB && (!opt.LogToDB_WinOpen || CheckMsgWnd(hContact))) {
 		TCHAR stzStatusText[MAX_SECONDLINE] = { 0 };
 		GetStatusText(hContact, newStatus, oldStatus, stzStatusText);
-		char *blob = mir_utf8encodeT(stzStatusText);
+		T2Utf blob(stzStatusText);
 
 		DBEVENTINFO dbei = { 0 };
 		dbei.cbSize = sizeof(dbei);
@@ -365,7 +362,6 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 		dbei.timestamp = (DWORD)time(NULL);
 		dbei.szModule = MODULE;
 		MEVENT hDBEvent = db_event_add(hContact, &dbei);
-		mir_free(blob);
 
 		if (opt.LogToDB_WinOpen && opt.LogToDB_Remove) {
 			DBEVENT *dbevent = (DBEVENT *)mir_alloc(sizeof(DBEVENT));
@@ -636,11 +632,11 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	if (_stricmp(szProto, "mRadio") == 0 && !cws->value.type == DBVT_DELETED) {
 		TCHAR buf[MAX_PATH];
 		mir_sntprintf(buf, SIZEOF(buf), _T(" (%s)"), TranslateT("connecting"));
-		ptrA pszUtf(mir_utf8encodeT(buf));
+		T2Utf pszUtf(buf);
 		mir_sntprintf(buf, SIZEOF(buf), _T(" (%s)"), TranslateT("aborting"));
-		ptrA pszUtf2(mir_utf8encodeT(buf));
+		T2Utf pszUtf2(buf);
 		mir_sntprintf(buf, SIZEOF(buf), _T(" (%s)"), TranslateT("playing"));
-		ptrA pszUtf3(mir_utf8encodeT(buf));
+		T2Utf pszUtf3(buf);
 		if (_stricmp(cws->value.pszVal, pszUtf) == 0 || _stricmp(cws->value.pszVal, pszUtf2) == 0 || _stricmp(cws->value.pszVal, pszUtf3) == 0)
 			goto skip_notify;
 	}

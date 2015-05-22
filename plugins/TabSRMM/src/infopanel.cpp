@@ -1326,10 +1326,7 @@ CTip::CTip(const HWND hwndParent, const MCONTACT hContact, const TCHAR *pszText,
 	::SendMessage(m_hRich, WM_SETFONT, (WPARAM)CInfoPanel::m_ipConfig.hFonts[IPFONTID_STATUS], 0);
 
 	m_hContact = hContact;
-	if (pszText)
-		m_pszText = mir_utf8encodeT(pszText);
-	else
-		m_pszText = 0;
+	m_pszText = mir_utf8encodeT(pszText);
 	m_panel = panel;
 	m_hwndParent = hwndParent;
 	mir_subclassWindow(m_hRich, RichEditProc);

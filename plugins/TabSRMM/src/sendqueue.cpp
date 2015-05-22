@@ -681,7 +681,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 		else
 			szNote = TranslateT("The send later feature is not available on this protocol.");
 
-		char *utfText = mir_utf8encodeT(szNote);
+		T2Utf utfText(szNote);
 		DBEVENTINFO dbei;
 		dbei.cbSize = sizeof(dbei);
 		dbei.eventType = EVENTTYPE_MESSAGE;
@@ -689,7 +689,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 		dbei.szModule = GetContactProto(dat->hContact);
 		dbei.timestamp = time(NULL);
 		dbei.cbBlob = (int)mir_strlen(utfText) + 1;
-		dbei.pBlob = (PBYTE)utfText;
+		dbei.pBlob = (PBYTE)(char*)utfText;
 		StreamInEvents(dat->hwnd, 0, 1, 1, &dbei);
 		if (dat->hDbEventFirst == NULL)
 			SendMessage(dat->hwnd, DM_REMAKELOG, 0, 0);
@@ -700,7 +700,6 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 		SendDlgItemMessage(dat->hwnd, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
 		SendDlgItemMessage(dat->hwnd, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_TCHAR);
 		dat->dwFlags &= ~MWF_SAVEBTN_SAV;
-		mir_free(utfText);
 
 		if (!fAvail)
 			return 0;
@@ -720,7 +719,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 		}
 		else mir_sntprintf(tszHeader, SIZEOF(tszHeader), _T("M%d|"), time(0));
 
-		char *utf_header = mir_utf8encodeT(tszHeader);
+		T2Utf utf_header(tszHeader);
 		size_t required = mir_strlen(utf_header) + mir_strlen(job->szSendBuffer) + 10;
 		char *tszMsg = reinterpret_cast<char *>(mir_alloc(required));
 
@@ -732,7 +731,6 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 			mir_snprintf(tszMsg, required, "%s%s", utf_header, job->szSendBuffer);
 			sendLater->addJob(tszMsg, hContact);
 		}
-		mir_free(utf_header);
 		mir_free(tszMsg);
 
 		if (fIsSendLater) {

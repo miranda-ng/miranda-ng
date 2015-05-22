@@ -832,32 +832,20 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			req = gg_pubdir50_new(GG_PUBDIR50_WRITE);
 
 			GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, SIZEOF(text));
-			if (mir_tstrlen(text)){
-				char* text_utf8 = mir_utf8encodeT(text);
-				gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, text_utf8);
-				mir_free(text_utf8);
-			}
+			if (mir_tstrlen(text))
+				gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, T2Utf(text));
 
 			GetDlgItemText(hwndDlg, IDC_LASTNAME, text, SIZEOF(text));
-			if (mir_tstrlen(text)){
-				char* text_utf8 = mir_utf8encodeT(text);
-				gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, text_utf8);
-				mir_free(text_utf8);
-			}
+			if (mir_tstrlen(text))
+				gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, T2Utf(text));
 
 			GetDlgItemText(hwndDlg, IDC_NICKNAME, text, SIZEOF(text));
-			if (mir_tstrlen(text)){
-				char* text_utf8 = mir_utf8encodeT(text);
-				gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, text_utf8);
-				mir_free(text_utf8);
-			}
+			if (mir_tstrlen(text))
+				gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, T2Utf(text));
 
 			GetDlgItemText(hwndDlg, IDC_CITY, text, SIZEOF(text));
-			if (mir_tstrlen(text)){
-				char* text_utf8 = mir_utf8encodeT(text);
-				gg_pubdir50_add(req, GG_PUBDIR50_CITY, text_utf8);
-				mir_free(text_utf8);
-			}
+			if (mir_tstrlen(text))
+				gg_pubdir50_add(req, GG_PUBDIR50_CITY, T2Utf(text));
 
 			// Gadu-Gadu Female <-> Male
 			switch(SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_GETCURSEL, 0, 0)) {
@@ -872,25 +860,16 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			}
 
 			GetDlgItemText(hwndDlg, IDC_BIRTHYEAR, text, SIZEOF(text));
-			if (mir_tstrlen(text)){
-				char* text_utf8 = mir_utf8encodeT(text);
-				gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, text_utf8);
-				mir_free(text_utf8);
-			}
+			if (mir_tstrlen(text))
+				gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, T2Utf(text));
 
 			GetDlgItemText(hwndDlg, IDC_FAMILYNAME, text, SIZEOF(text));
-			if (mir_tstrlen(text)){
-				char* text_utf8 = mir_utf8encodeT(text);
-				gg_pubdir50_add(req, GG_PUBDIR50_FAMILYNAME, text_utf8);
-				mir_free(text_utf8);
-			}
+			if (mir_tstrlen(text))
+				gg_pubdir50_add(req, GG_PUBDIR50_FAMILYNAME, T2Utf(text));
 
 			GetDlgItemText(hwndDlg, IDC_CITYORIGIN, text, SIZEOF(text));
-			if (mir_tstrlen(text)){
-				char* text_utf8 = mir_utf8encodeT(text);
-				gg_pubdir50_add(req, GG_PUBDIR50_FAMILYCITY, text_utf8);
-				mir_free(text_utf8);
-			}
+			if (mir_tstrlen(text))
+				gg_pubdir50_add(req, GG_PUBDIR50_FAMILYCITY, T2Utf(text));
 
 			// Run update
 			gg_pubdir50_seq_set(req, GG_SEQ_CHINFO);

@@ -125,7 +125,7 @@ bool CDb3Mmap::EnterPassword(const BYTE *pKey, const size_t keyLen)
 		if (IDOK != DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), 0, sttEnterPassword, (LPARAM)&param))
 			return false;
 
-		m_crypto->setPassword(ptrA(mir_utf8encodeT(param.newPass)));
+		m_crypto->setPassword(T2Utf(param.newPass));
 		if (m_crypto->setKey(pKey, keyLen)) {
 			m_bUsesPassword = true;
 			SecureZeroMemory(&param, sizeof(param));
@@ -143,8 +143,7 @@ static bool CheckOldPassword(HWND hwndDlg, CDb3Mmap *db)
 	if (db->usesPassword()) {
 		TCHAR buf[100];
 		GetDlgItemText(hwndDlg, IDC_OLDPASS, buf, SIZEOF(buf));
-		ptrA oldPass(mir_utf8encodeT(buf));
-		if (!db->m_crypto->checkPassword(oldPass)) {
+		if (!db->m_crypto->checkPassword(T2Utf(buf))) {
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Wrong old password entered!"));
 			return false;
 		}

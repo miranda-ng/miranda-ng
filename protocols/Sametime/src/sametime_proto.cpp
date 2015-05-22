@@ -171,24 +171,18 @@ int CSametimeProto::GetInfo(MCONTACT hContact, int infoType)
 HANDLE CSametimeProto::SearchBasic(const PROTOCHAR* id)
 {
 	debugLog(_T("CSametimeProto::SearchBasic()  id:len=[%d]"), id == NULL ? -1 : mir_tstrlen(id));
-	char* id_utf8 = mir_utf8encodeT(id);
-	int ret = SearchForUser(id_utf8, FALSE);
-	mir_free(id_utf8);
-	return (HANDLE)ret;
+	return (HANDLE)SearchForUser(T2Utf(id), FALSE);
 	///TODO - add timeout (like at GGPROTO::searchthread)
 }
 
 HWND CSametimeProto::SearchAdvanced(HWND owner)
 {
 	TCHAR buf[512];
-	int ret = 0;
 	if (GetDlgItemText(owner, IDC_EDIT1, buf, SIZEOF(buf))) {
 		debugLog(_T("CSametimeProto::SearchAdvanced()  buf:len=[%d]"), buf == NULL ? -1 : mir_tstrlen(buf));
-		char* buf_utf8 = mir_utf8encodeT(buf);
-		ret = SearchForUser(buf_utf8, TRUE);
-		mir_free(buf_utf8);
+		return (HWND)SearchForUser(T2Utf(buf), TRUE);
 	}
-	return (HWND)ret;
+	return NULL;
 }
 
 HWND CSametimeProto::CreateExtendedSearchUI(HWND owner)

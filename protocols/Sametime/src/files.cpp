@@ -297,17 +297,10 @@ HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, PROTOCHAR** files, con
 				TCHAR *fn = _tcsrchr(files[i], '\\');
 				if (fn)
 					fn++;
-
-				char* pszDesc_utf8 = mir_utf8encodeT(ptszDesc);
-				char* pszFile_utf8;
-				if (fn)
-					pszFile_utf8 = mir_utf8encodeT(fn);
 				else
-					pszFile_utf8 = mir_utf8encodeT(files[i]);
+					fn = files[i];
 
-				ft = mwFileTransfer_new(service_files, &idb, pszDesc_utf8, pszFile_utf8, filesize);
-				mir_free(pszFile_utf8);
-				mir_free(pszDesc_utf8);
+				ft = mwFileTransfer_new(service_files, &idb, T2Utf(ptszDesc), T2Utf(fn), filesize);
 
 				ftcd = new FileTransferClientData;
 				memset((void*)ftcd, 0, sizeof(FileTransferClientData));

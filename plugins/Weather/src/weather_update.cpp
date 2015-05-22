@@ -189,13 +189,15 @@ int UpdateWeather(MCONTACT hContact)
 			// internal log using history
 			GetDisplay(&winfo, opt.hText, str2);
 
+			T2Utf szMessage(str2);
+
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			dbei.szModule = WEATHERPROTONAME;
 			dbei.timestamp = (DWORD)time(NULL);
-			dbei.flags = DBEF_READ|DBEF_UTF;
+			dbei.flags = DBEF_READ | DBEF_UTF;
 			dbei.eventType = EVENTTYPE_MESSAGE;
-			dbei.pBlob = (PBYTE)mir_utf8encodeT(str2);
-			dbei.cbBlob = (DWORD)mir_strlen((char*)dbei.pBlob)+1;
+			dbei.pBlob = szMessage;
+			dbei.cbBlob = (DWORD)mir_strlen(szMessage)+1;
 			db_event_add(hContact, &dbei);
 		}
 

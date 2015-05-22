@@ -168,7 +168,7 @@ int CSkypeProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage)
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new AddContactRequest(token, skypename, ptrA(mir_utf8encodeT(szMessage))));
+	PushRequest(new AddContactRequest(token, skypename, T2Utf(szMessage)));
 	return 0;
 }
 
