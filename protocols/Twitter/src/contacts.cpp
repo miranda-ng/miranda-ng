@@ -197,7 +197,7 @@ int TwitterProto::OnContactDeleted(WPARAM hContact, LPARAM)
 bool TwitterProto::IsMyContact(MCONTACT hContact, bool include_chat)
 {
 	char *proto = GetContactProto(hContact);
-	if (proto && strcmp(m_szModuleName, proto) == 0) {
+	if (proto && mir_strcmp(m_szModuleName, proto) == 0) {
 		if (include_chat)
 			return true;
 		return !isChatRoom(hContact);
@@ -213,7 +213,7 @@ MCONTACT TwitterProto::UsernameToHContact(const char *name)
 
 		DBVARIANT dbv;
 		if (!db_get_s(hContact, m_szModuleName, TWITTER_KEY_UN, &dbv)) {
-			if (strcmp(name, dbv.pszVal) == 0) {
+			if (mir_strcmp(name, dbv.pszVal) == 0) {
 				db_free(&dbv);
 				return hContact;
 			}

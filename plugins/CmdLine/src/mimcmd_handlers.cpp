@@ -40,7 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 __inline static int matches(char *command, char *lower)
 {
-	return ((strcmp(lower, command) == 0) || (strcmp(lower, Translate(command)) == 0));
+	return ((mir_strcmp(lower, command) == 0) || (mir_strcmp(lower, Translate(command)) == 0));
 }
 
 int Get2StateValue(char *state)
@@ -49,19 +49,19 @@ int Get2StateValue(char *state)
 	STRNCPY(lower, state, sizeof(lower));
 	_strlwr(lower);
 	
-	//if ((strcmp(lower, "enable") == 0) || (strcmp(lower, "show") == 0) || (strcmp(lower, "on") == 0))
+	//if ((mir_strcmp(lower, "enable") == 0) || (mir_strcmp(lower, "show") == 0) || (mir_strcmp(lower, "on") == 0))
 	if ((matches("enable", lower)) || (matches("show", lower)) || (matches("on", lower)))
 	{
 		return STATE_ON;
 	}
 	
-	//if ((strcmp(lower, "disable") == 0) || (strcmp(lower, "hide") == 0) || (strcmp(lower, "off") == 0))
+	//if ((mir_strcmp(lower, "disable") == 0) || (mir_strcmp(lower, "hide") == 0) || (mir_strcmp(lower, "off") == 0))
 	if ((matches("disable", lower)) || (matches("hide", lower)) || (matches("off", lower)))
 	{
 		return STATE_OFF;
 	}
 	
-	//if (strcmp(lower, "toggle") == 0)
+	//if (mir_strcmp(lower, "toggle") == 0)
 	if (matches("toggle", lower))
 	{
 		return STATE_TOGGLE;
@@ -190,25 +190,25 @@ int ParseStatusParam(char *status)
 	char *lower = NEWSTR_ALLOCA(status);
 	_strlwr(lower);
 
-	if ( !strcmp(lower, "offline"))
+	if ( !mir_strcmp(lower, "offline"))
 		return ID_STATUS_OFFLINE;
-	else if ( !strcmp(lower, "online"))
+	else if ( !mir_strcmp(lower, "online"))
 		return ID_STATUS_ONLINE;
-	else if ( !strcmp(lower, "away"))
+	else if ( !mir_strcmp(lower, "away"))
 		return ID_STATUS_AWAY;
-	else if ( !strcmp(lower, "dnd"))
+	else if ( !mir_strcmp(lower, "dnd"))
 		return ID_STATUS_DND;
-	else if ( !strcmp(lower, "na"))
+	else if ( !mir_strcmp(lower, "na"))
 		return ID_STATUS_NA;
-	else if ( !strcmp(lower, "occupied"))
+	else if ( !mir_strcmp(lower, "occupied"))
 		return ID_STATUS_OCCUPIED;
-	else if ( !strcmp(lower, "freechat"))
+	else if ( !mir_strcmp(lower, "freechat"))
 		return ID_STATUS_FREECHAT;
-	else if ( !strcmp(lower, "invisible"))
+	else if ( !mir_strcmp(lower, "invisible"))
 		return ID_STATUS_INVISIBLE;
-	else if ( !strcmp(lower, "onthephone"))
+	else if ( !mir_strcmp(lower, "onthephone"))
 		return ID_STATUS_ONTHEPHONE;
-	else if ( !strcmp(lower, "outtolunch"))
+	else if ( !mir_strcmp(lower, "outtolunch"))
 		return ID_STATUS_OUTTOLUNCH;
 	else
 		return 0;	
@@ -673,7 +673,7 @@ void HandleQuitCommand(PCommand command, TArgument *argv, int argc, PReply reply
 			STRNCPY(lower, argv[2], sizeof(lower));
 			_strlwr(lower);
 			
-			if (strcmp(lower, "wait") == 0)
+			if (mir_strcmp(lower, "wait") == 0)
 			{
 				CallService("CloseAction", 0, 0);
 				
@@ -714,7 +714,7 @@ void HandleExchangeCommand(PCommand command, TArgument *argv, int argc, PReply r
 			char lower[128];
 			STRNCPY(lower, argv[2], sizeof(lower));
 			_strlwr(lower);
-			if (strcmp(lower, "check") == 0)
+			if (mir_strcmp(lower, "check") == 0)
 			{
 				INT_PTR ret = CallService(MS_EXCHANGE_CHECKEMAIL, 0, 0);
 				if (ret != CALLSERVICE_NOTFOUND)
@@ -748,7 +748,7 @@ void HandleYAMNCommand(PCommand command, TArgument *argv, int argc, PReply reply
 			char lower[128];
 			STRNCPY(lower, argv[2], sizeof(lower));
 			_strlwr(lower);
-			if (strcmp(lower, "check") == 0)
+			if (mir_strcmp(lower, "check") == 0)
 			{
 				if (ServiceExists(MS_YAMN_FORCECHECK))
 				{
@@ -987,7 +987,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 		STRNCPY(dbcmd, argv[2], sizeof(dbcmd));
 		dbcmd[sizeof(dbcmd) - 1] = 0;
 		_strlwr(dbcmd);
-		if (strcmp(dbcmd, "delete") == 0)
+		if (mir_strcmp(dbcmd, "delete") == 0)
 		{
 			if (argc == 5)
 			{
@@ -1003,7 +1003,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 				HandleWrongParametersCount(command, reply);
 			}
 		}
-		else if (strcmp(dbcmd, "set") == 0)
+		else if (mir_strcmp(dbcmd, "set") == 0)
 		{
 			if (argc == 6)
 			{
@@ -1058,7 +1058,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 				HandleWrongParametersCount(command, reply);
 			}
 		}
-		else if (strcmp(dbcmd, "get") == 0)
+		else if (mir_strcmp(dbcmd, "get") == 0)
 		{
 			if (argc == 5)
 			{
@@ -1108,19 +1108,19 @@ int ParseProxyType(char *type)
 	lower[sizeof(lower) - 1] = 0;
 	_strlwr(lower);
 	
-	if (strcmp(lower, "socks4") == 0)
+	if (mir_strcmp(lower, "socks4") == 0)
 	{
 		return PROXY_SOCKS4;
 	}
-	else if (strcmp(lower, "socks5") == 0)
+	else if (mir_strcmp(lower, "socks5") == 0)
 	{
 		return PROXY_SOCKS5;
 	}
-	else if (strcmp(lower, "http") == 0)
+	else if (mir_strcmp(lower, "http") == 0)
 	{
 		return PROXY_HTTP;
 	}
-	else if (strcmp(lower, "https") == 0)
+	else if (mir_strcmp(lower, "https") == 0)
 	{
 		return PROXY_HTTPS;
 	}
@@ -1168,7 +1168,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 	char buffer[1024];
 
 
-	if (strcmp(proxycmd, "status") == 0)
+	if (mir_strcmp(proxycmd, "status") == 0)
 	{//status command
 		switch (argc)
 		{
@@ -1232,7 +1232,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 				return;
 		}
 	}
-	else if (strcmp(proxycmd, "server") == 0)
+	else if (mir_strcmp(proxycmd, "server") == 0)
 	{
 		switch (argc)
 		{
@@ -1312,7 +1312,7 @@ void HandleProxyCommand(PCommand command, TArgument *argv, int argc, PReply repl
 		ProtoEnumAccounts(&count, &accounts);
 		
 		int i;
-		int global = (strcmp(protocol, "GLOBAL") == 0);
+		int global = (mir_strcmp(protocol, "GLOBAL") == 0);
 
 		reply->message[0] = 0;
 
@@ -1330,7 +1330,7 @@ void HandleProxyCommand(PCommand command, TArgument *argv, int argc, PReply repl
 			if (accounts[i]->bIsEnabled)
 			{
 				match = accounts[i]->szModuleName;
-				if ((global) || (strcmp(protocol, match) == 0))
+				if ((global) || (mir_strcmp(protocol, match) == 0))
 				{
 					HandleProtocolProxyCommand(command, argv, argc, reply, match, match);
 					found = 1;

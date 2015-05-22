@@ -154,7 +154,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		msgBody = tHeader.readFromBuffer(msgBody);
 		msgBody = tHeader.readFromBuffer(msgBody);
 		nick = NEWSTR_ALLOCA(tHeader["IM-Display-Name"]);
-		if (!strcmp(tHeader["Message-Type"], "RichText")) {
+		if (!mir_strcmp(tHeader["Message-Type"], "RichText")) {
 			msgBody = NEWSTR_ALLOCA(msgBody);
 			stripHTML(msgBody);
 			HtmlDecode(msgBody);
@@ -216,7 +216,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		if (!_stricmp(tHeader["Message-Type"], "RichText/Contacts")) {
 			ezxml_t xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody));
 			if (xmli) {
-				if (!strcmp(xmli->name, "contacts")) {
+				if (!mir_strcmp(xmli->name, "contacts")) {
 					ezxml_t c;
 					int cnt;
 					PROTOSEARCHRESULT **isr;
@@ -357,7 +357,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 				tContact = gci.hContact;
 			}
 			else tContact = MSN_HContactFromEmail(email, nick, true, true);
-			if (!strcmp(tHeader["Message-Type"], "Nudge"))
+			if (!mir_strcmp(tHeader["Message-Type"], "Nudge"))
 				NotifyEventHooks(hMSNNudge, (WPARAM)tContact, 0);
 
 #ifdef OBSOLETE
@@ -536,7 +536,7 @@ void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *u
 		}
 
 		char *pszUrl, *pszAvatarHash;
-		if (cmdstring && *cmdstring && strcmp(cmdstring, "0") &&
+		if (cmdstring && *cmdstring && mir_strcmp(cmdstring, "0") &&
 			(pszAvatarHash = MSN_GetAvatarHash(cmdstring, &pszUrl))) 
 		{
 			setString(hContact, "PictContext", cmdstring);
@@ -554,7 +554,7 @@ void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *u
 				else {
 					char szSavedContext[64];
 					int result = db_get_static(hContact, m_szModuleName, "PictSavedContext", szSavedContext, sizeof(szSavedContext));
-					if (result || strcmp(szSavedContext, cmdstring))
+					if (result || mir_strcmp(szSavedContext, cmdstring))
 						pushAvatarRequest(hContact, pszUrl);
 				}
 			}
@@ -588,11 +588,11 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 
 	for (ezxml_t s = ezxml_child(xmli, "s"); s; s = s->next) {
 		const char *n = ezxml_attr(s, "n");
-		if (!strcmp(n, "SKP")) {
+		if (!mir_strcmp(n, "SKP")) {
 			szStatMsg = ezxml_txt(ezxml_child(s, "Mood"));
 			if (*szStatMsg) db_set_utf(hContact, "CList", "StatusMsg", szStatMsg);
 			else if (!bHasPSM) db_unset(hContact, "CList", "StatusMsg");
-		} else if (!strcmp(n, "PE")) {
+		} else if (!mir_strcmp(n, "PE")) {
 			szStatMsg = ezxml_txt(ezxml_child(s, "PSM"));
 			if (*szStatMsg) {
 				stripBBCode((char*)szStatMsg);
@@ -607,7 +607,7 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 	// Add endpoints
 	for (ezxml_t endp = ezxml_child(xmli, "sep"); endp; endp = ezxml_next(endp)) {
 		const char *n = ezxml_attr(endp, "n");
-		if (!strcmp(n, "IM")) {
+		if (!mir_strcmp(n, "IM")) {
 			const char *id = ezxml_attr(endp, "epid");
 			const char *caps = ezxml_txt(ezxml_child(endp, "Capabilities"));
 			char* end = NULL;
@@ -736,7 +736,7 @@ void CMsnProto::MSN_ProcessNotificationMessage(char* buf, size_t len)
 	if (buf == NULL) return;
 	ezxml_t xmlnot = ezxml_parse_str(buf, len);
 
-	if (strcmp(ezxml_attr(xmlnot, "siteid"), "0") == 0) {
+	if (mir_strcmp(ezxml_attr(xmlnot, "siteid"), "0") == 0) {
 		ezxml_free(xmlnot);
 		return;
 	}
@@ -858,7 +858,7 @@ LBL_InvalidCommand:
 			char* msgBody = tHeader.readFromBuffer((char*)buf.surelyRead(atol(data.strMsgBytes)));
 
 			replaceStr(msnRegistration,tHeader["Set-Registration"]);
-			if (!strcmp(data.typeId, "CON")) {
+			if (!mir_strcmp(data.typeId, "CON")) {
 				ezxml_t xmlbnd = ezxml_parse_str(msgBody, mir_strlen(msgBody));
 				ezxml_t xmlbdy = ezxml_child(xmlbnd, "nonce");
 				if (xmlbdy)
@@ -886,7 +886,7 @@ LBL_InvalidCommand:
 
 			HReadBuffer buf(info, 0);
 			char* msgBody = (char*)buf.surelyRead(atol(data.strMsgBytes));
-			if (strcmp(data.typeId, "CON")) break;
+			if (mir_strcmp(data.typeId, "CON")) break;
 
 			if (MyOptions.netId!=NETID_SKYPE) {
 				/* MSN account login */
@@ -960,7 +960,7 @@ LBL_InvalidCommand:
 			if (tHeader["Set-Registration"]) replaceStr(msnRegistration,tHeader["Set-Registration"]);
 			if (xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody)))
 			{
-				if (!strcmp(xmli->name, "recentconversations-response"))
+				if (!mir_strcmp(xmli->name, "recentconversations-response"))
 				{
 					for (ezxml_t conv = ezxml_get(xmli, "conversations", 0, "conversation", -1); conv != NULL; conv = ezxml_next(conv)) {
 						ezxml_t id;
@@ -993,7 +993,7 @@ LBL_InvalidCommand:
 						}
 					}
 				}
-				else if (!strcmp(xmli->name, "messagesbyconversation-response")) {
+				else if (!mir_strcmp(xmli->name, "messagesbyconversation-response")) {
 					ezxml_t id;
 					MCONTACT hContact;
 
@@ -1022,7 +1022,7 @@ LBL_InvalidCommand:
 							message=content->txt;
 							sentMsg = stricmp(email, GetMyUsername(atoi(netId)))==0;
 							if (msgtype) {
-								if (!strcmp(msgtype->txt, "RichText")) {
+								if (!mir_strcmp(msgtype->txt, "RichText")) {
 									message = NEWSTR_ALLOCA(message);
 									stripHTML(message);
 									HtmlDecode(message);
@@ -1032,7 +1032,7 @@ LBL_InvalidCommand:
 										ezxml_free(xmlact);
 									}
 									continue;
-								} else if (strcmp(msgtype->txt, "Text")) continue;
+								} else if (mir_strcmp(msgtype->txt, "Text")) continue;
 								/* TODO: Implement i.e. RichText/Files for announcement of file transfers */
 							}
 
@@ -1091,7 +1091,7 @@ LBL_InvalidCommand:
 						msgs.destroy();
 					}
 				}
-				else if (!strcmp(xmli->name, "threads-response")) {
+				else if (!mir_strcmp(xmli->name, "threads-response")) {
 					for (ezxml_t thread = ezxml_get(xmli, "threads", 0, "thread", -1); thread != NULL; thread = ezxml_next(thread))
 						MSN_ChatStart(thread);
 				}
@@ -1114,19 +1114,19 @@ LBL_InvalidCommand:
 			HReadBuffer buf(info, 0);
 			char* msgBody = (char*)buf.surelyRead(atol(data.strMsgBytes));
 			if (msgBody == NULL) break;
-			if (!strcmp(data.typeId, "MSGR\\HOTMAIL")) {
+			if (!mir_strcmp(data.typeId, "MSGR\\HOTMAIL")) {
 				char szParam[128];
 				mir_snprintf(szParam, sizeof(szParam), "%s %s", data.typeId, data.strMsgBytes);
 				MSN_ReceiveMessage(info, cmdString, szParam);
 				break;
-			} else if (!strcmp(data.typeId, "MSGR\\ABCH")) {
+			} else if (!mir_strcmp(data.typeId, "MSGR\\ABCH")) {
 				MimeHeaders tHeader;
 				msgBody = tHeader.readFromBuffer(msgBody);
 				MSN_ProcessNotificationMessage(msgBody, mir_strlen(msgBody));
 				break;
 			}
 
-			if (!strcmp(data.typeId, "MSGR\\PUT") || !strcmp(data.typeId, "MSGR\\DEL")) {
+			if (!mir_strcmp(data.typeId, "MSGR\\PUT") || !mir_strcmp(data.typeId, "MSGR\\DEL")) {
 				MimeHeaders tHeader;
 
 				int i;
@@ -1141,12 +1141,12 @@ LBL_InvalidCommand:
 					ezxml_t xmli;
 					if (xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody)))
 					{
-						if (!strcmp(xmli->name, "user"))
+						if (!mir_strcmp(xmli->name, "user"))
 						{
 							ezxml_t xmlstatus = ezxml_get(xmli, "s", 0, "Status", -1);
 							/* FIXME: MSGR\DEL: Instance of user with given EPID disconnected, not 
 							 * sure if this implies that contact is offline now... */
-							if (xmlstatus || !strcmp(data.typeId, "MSGR\\DEL"))
+							if (xmlstatus || !mir_strcmp(data.typeId, "MSGR\\DEL"))
 							{
 								// These capabilities seem to be something different than in previous MSNP versions?
 								//ezxml_t xmlcaps = ezxml_get(xmli, "sep", 0, "Capabilities", -1);
@@ -1159,7 +1159,7 @@ LBL_InvalidCommand:
 					}				
 				}
 			}
-			else if (!strcmp(data.typeId, "MSGR\\THREAD")) {
+			else if (!mir_strcmp(data.typeId, "MSGR\\THREAD")) {
 				MimeHeaders tHeader;
 				char *msgBody = tHeader.readFromBuffer(info->mData);
 				ezxml_t xmli;
@@ -1201,7 +1201,7 @@ LBL_InvalidCommand:
 			} else { // PUT
 				ezxml_t xmli;
 				if (*msgBody && (xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody)))) {
-					if (!strcmp(xmli->name, "presence-response")) {
+					if (!mir_strcmp(xmli->name, "presence-response")) {
 						ezxml_t user, from;
 						if ((user = ezxml_child(xmli, "user")) && (from = ezxml_child(xmli, "from"))) {
 							if (ezxml_t xmlstatus = ezxml_get(user, "s", 0, "Status", -1)) {
@@ -1238,7 +1238,7 @@ LBL_InvalidCommand:
 			MimeHeaders tHeader;
 			HReadBuffer buf(info, 0);
 			char* msgBody = tHeader.readFromBuffer((char*)buf.surelyRead(atol(data.strMsgBytes)));
-			if (!strcmp(data.typeId, "CON")) {
+			if (!mir_strcmp(data.typeId, "CON")) {
 				ezxml_t xmlxfr = ezxml_parse_str(msgBody, mir_strlen(msgBody));
 				ezxml_t xmltgt = ezxml_child(xmlxfr, "target");
 				if (xmltgt)
@@ -1319,14 +1319,14 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 	//	const char* Connectivity = tFileInfo["Connectivity"];
 
 	if (AppGUID != NULL) {
-		if (!strcmp(AppGUID, "{02D3C01F-BF30-4825-A83A-DE7AF41648AA}")) {
+		if (!mir_strcmp(AppGUID, "{02D3C01F-BF30-4825-A83A-DE7AF41648AA}")) {
 			MSN_ShowPopup(info->getContactHandle(),
 				TranslateT("Contact tried to open an audio conference (not currently supported)"), MSN_ALLOW_MSGBOX);
 			return;
 		}
 	}
 
-	if (Invcommand && (strcmp(Invcommand, "CANCEL") == 0)) {
+	if (Invcommand && (mir_strcmp(Invcommand, "CANCEL") == 0)) {
 		delete info->mMsnFtp;
 		info->mMsnFtp = NULL;
 	}
@@ -1709,7 +1709,7 @@ LBL_InvalidCommand:
 				break;
 			}
 
-			if (strcmp(tWords[0], "OK") != 0) {
+			if (mir_strcmp(tWords[0], "OK") != 0) {
 				size_t len = atol(tWords[0]);
 				MSN_ProcessAdd((char*)HReadBuffer(info, 0).surelyRead(len), len);
 			}
@@ -1773,7 +1773,7 @@ LBL_InvalidCommand:
 
 			// see if the session is quit due to idleness
 			if (info->mChatID[0] && personleft == 1) {
-				if (!strcmp(data.isIdle, "1")) {
+				if (!mir_strcmp(data.isIdle, "1")) {
 					GCDEST gcd = { m_szModuleName, info->mChatID, GC_EVENT_INFORMATION };
 					GCEVENT gce = { sizeof(gce), &gcd };
 					gce.dwFlags = GCEF_ADDTOLOG;
@@ -1899,7 +1899,7 @@ LBL_InvalidCommand:
 				UrlDecode(data.userNick);
 				MCONTACT hContact = MSN_HContactFromEmail(data.userEmail, data.userNick, true, true);
 
-				if (tNumTokens == 5 && strcmp(data.flags, "0:0")) {
+				if (tNumTokens == 5 && mir_strcmp(data.flags, "0:0")) {
 					MsnContact *cont = Lists_Get(data.userEmail);
 					if (cont) {
 						char* end = NULL;
@@ -1913,7 +1913,7 @@ LBL_InvalidCommand:
 					setWord(hContact, "Status", ID_STATUS_INVISIBLE);
 
 				// only start the chat session after all the IRO messages has been recieved
-				if (info->mJoinedContactsWLID.getCount() > 1 && !strcmp(data.strThisContact, data.totalContacts))
+				if (info->mJoinedContactsWLID.getCount() > 1 && !mir_strcmp(data.strThisContact, data.totalContacts))
 					MSN_ChatStart(info);
 			}
 		}
@@ -1963,7 +1963,7 @@ LBL_InvalidCommand:
 					return 1;
 				}
 
-				if (strcmp(wlid, "chat") == 0) {
+				if (mir_strcmp(wlid, "chat") == 0) {
 					MsgQueueEntry E;
 					MsgQueue_GetNext(wlid, E);
 
@@ -2080,7 +2080,7 @@ LBL_InvalidCommand:
 			if (sttDivideWords(params, 1, tWords) != 1)
 				goto LBL_InvalidCommand;
 
-			if (strcmp(tWords[0], "OK") != 0) {
+			if (mir_strcmp(tWords[0], "OK") != 0) {
 				size_t len = atol(tWords[0]);
 				MSN_ProcessRemove((char*)HReadBuffer(info, 0).surelyRead(len), len);
 			}
@@ -2104,7 +2104,7 @@ LBL_InvalidCommand:
 			stripBBCode(data.callerNick);
 			stripColorCode(data.callerNick);
 
-			if (strcmp(data.security, "CKI")) {
+			if (mir_strcmp(data.security, "CKI")) {
 				debugLogA("Unknown security package in RNG command: %s", data.security);
 				break;
 			}
@@ -2212,7 +2212,7 @@ LBL_InvalidCommand:
 
 			UrlDecode(data.userHandle); UrlDecode(data.friendlyName);
 
-			if (strcmp(data.status, "OK")) {
+			if (mir_strcmp(data.status, "OK")) {
 				debugLogA("Unknown status to USR command (SB): '%s'", data.status);
 				break;
 			}
@@ -2228,7 +2228,7 @@ LBL_InvalidCommand:
 			if (sttDivideWords(params, 4, tWords) != 4)
 				goto LBL_InvalidCommand;
 
-			if (!strcmp(data.security, "SSO")) {
+			if (!mir_strcmp(data.security, "SSO")) {
 				if (MSN_GetPassportAuth()) {
 					m_iDesiredStatus = ID_STATUS_OFFLINE;
 					return 1;
@@ -2241,7 +2241,7 @@ LBL_InvalidCommand:
 				ForkThread(&CMsnProto::msn_keepAliveThread, NULL);
 				ForkThread(&CMsnProto::MSNConnDetectThread, NULL);
 			}
-			else if (!strcmp(data.security, "OK")) {
+			else if (!mir_strcmp(data.security, "OK")) {
 			}
 			else {
 				debugLogA("Unknown security package '%s'", data.security);
@@ -2309,7 +2309,7 @@ LBL_InvalidCommand:
 			if (numWords < 3)
 				goto LBL_InvalidCommand;
 
-			if (!strcmp(data.type, "NS")) {  //notification server
+			if (!mir_strcmp(data.type, "NS")) {  //notification server
 				UrlDecode(data.newServer);
 				ThreadData* newThread = new ThreadData;
 				strcpy(newThread->mServer, data.newServer);
@@ -2324,13 +2324,13 @@ LBL_InvalidCommand:
 				return 1;  //kill the old thread
 			}
 
-			if (!strcmp(data.type, "SB")) {  //switchboard server
+			if (!mir_strcmp(data.type, "SB")) {  //switchboard server
 				UrlDecode(data.newServer);
 
 				if (numWords < 4)
 					goto LBL_InvalidCommand;
 
-				if (strcmp(data.security, "CKI")) {
+				if (mir_strcmp(data.security, "CKI")) {
 					debugLogA("Unknown XFR SB security package '%s'", data.security);
 					break;
 				}

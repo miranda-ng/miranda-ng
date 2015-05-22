@@ -6,7 +6,7 @@ MCONTACT CSametimeProto::FindContactByUserId(const char* id)
 	DBVARIANT dbv;
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
-			if (dbv.pszVal && strcmp(id, dbv.pszVal) == 0) {
+			if (dbv.pszVal && mir_strcmp(id, dbv.pszVal) == 0) {
 				db_free(&dbv);
 				return hContact;
 			}
@@ -20,7 +20,7 @@ bool CSametimeProto::GetAwareIdFromContact(MCONTACT hContact, mwAwareIdBlock* id
 {
 	char *proto = GetContactProto(hContact);
 	DBVARIANT dbv;
-	if (proto && !strcmp(m_szModuleName, proto)) {
+	if (proto && !mir_strcmp(m_szModuleName, proto)) {
 		if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
 			if (dbv.pszVal) {
 				id_block->type = mwAware_USER;
@@ -42,10 +42,10 @@ void CSametimeProto::SetContactGroup(MCONTACT hContact, const char* name)
 
 void CSametimeProto::AddGroup(const char* name, bool expanded)
 {
-	if (name && strcmp(name, "MetaContacts Hidden Group") == 0)
+	if (name && mir_strcmp(name, "MetaContacts Hidden Group") == 0)
 		return;
 
-	if (name && strcmp(name, Translate("None")) == 0)
+	if (name && mir_strcmp(name, Translate("None")) == 0)
 		return;
 
 	ptrT ptszGroup(mir_utf8decodeT(name));
@@ -182,7 +182,7 @@ void CSametimeProto::ImportContactsFromList(mwSametimeList* user_list, bool temp
 		for (; ul; ul = ul->next) {
 			stuser = (mwSametimeUser*)ul->data;
 			MCONTACT hContact = AddContact(stuser, temporary);
-			if (hContact && group_alias && strcmp(group_alias, Translate("None")) != 0 && strcmp(group_alias, "MetaContacts Hidden Group") != 0) {
+			if (hContact && group_alias && mir_strcmp(group_alias, Translate("None")) != 0 && mir_strcmp(group_alias, "MetaContacts Hidden Group") != 0) {
 				SetContactGroup(hContact, group_alias);
 				// mark contact as belonging to dynamic group
 			}
@@ -439,7 +439,7 @@ void mwResolve_handler_dyngroup_callback(mwServiceResolve* srvc, guint32 id, gui
 				const char* group_name = mwSametimeGroup_getName(stgroup);
 				const char* group_alias = mwSametimeGroup_getAlias(stgroup);
 				if (!group_alias) group_alias = group_name;
-				if (hContact && group_alias && strcmp(group_alias, Translate("None")) && strcmp(group_alias, "MetaContacts Hidden Group")) {
+				if (hContact && group_alias && mir_strcmp(group_alias, Translate("None")) && mir_strcmp(group_alias, "MetaContacts Hidden Group")) {
 					proto->SetContactGroup(hContact, group_alias);
 				}
 			}
@@ -468,7 +468,7 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 	DBVARIANT dbv;
 
 	// update self - necessary for some servers
-	if (aware->online && !db_get_utf(0, proto->m_szModuleName, "stid", &dbv) && strcmp(aware->id.user, dbv.pszVal) == 0) {
+	if (aware->online && !db_get_utf(0, proto->m_szModuleName, "stid", &dbv) && mir_strcmp(aware->id.user, dbv.pszVal) == 0) {
 		int new_status = ID_STATUS_OFFLINE;
 
 		switch (aware->status.status) {
@@ -499,7 +499,7 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 		db_free(&dbv);
 	}
 
-	if (aware->group && (!group || strcmp(aware->group, group) || !hContact)) {
+	if (aware->group && (!group || mir_strcmp(aware->group, group) || !hContact)) {
 		// dynamic group member we're not already aware of
 		// resolve server alias to user id via resolver
 		mwSametimeList* user_list = mwSametimeList_new();
@@ -603,7 +603,7 @@ void CSametimeProto::UserListCreate()
 	GList *gl = 0;
 
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 0 /*&&  proto && !strcmp( PROTO, proto)*/) {
+		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 0 /*&&  proto && !mir_strcmp( PROTO, proto)*/) {
 			if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
 				if (dbv.pszVal) {
 					if (GetAwareIdFromContact(hContact, &id_block)) {

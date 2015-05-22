@@ -286,8 +286,8 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 					char pszFileName[MAX_PATH];
 					GetWindowText(hFileName, pszFileName, SIZEOF(pszFileName));
 
-					if (strcmp(pstShare->pszSrvPath, szSelection) &&
-					    strcmp(pszFileName, pszShareDirStr)) {
+					if (mir_strcmp(pstShare->pszSrvPath, szSelection) &&
+					    mir_strcmp(pszFileName, pszShareDirStr)) {
 						// a file was selected
 
 						// only reenable windows / set default values when a folder was selected before
@@ -325,7 +325,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 							strcat(szSelection, "/");
 
 						// only write to IDC_SHARE_NAME when a file / other folder was selected before
-						if (!strcmp(szSelection, pstShare->pszSrvPath))
+						if (!mir_strcmp(szSelection, pstShare->pszSrvPath))
 							return false;
 					}
 

@@ -278,7 +278,7 @@ int Meta_HandleACK(WPARAM, LPARAM lParam)
 	if (cc == NULL)
 		return 0;
 
-	if (!strcmp(ack->szModule, META_PROTO))
+	if (!mir_strcmp(ack->szModule, META_PROTO))
 		return 0; // don't rebroadcast our own acks
 
 	// if it's for something we don't support, ignore
@@ -346,19 +346,19 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 	if (contact_number == -1)
 		return 0; // exit - db corruption
 
-	if (!strcmp(dcws->szSetting, "IP")) {
+	if (!mir_strcmp(dcws->szSetting, "IP")) {
 		if (dcws->value.type == DBVT_DWORD)
 			db_set_dw(ccMeta->contactID, META_PROTO, "IP", dcws->value.dVal);
 		else
 			db_unset(ccMeta->contactID, META_PROTO, "IP");
 	}
-	else if (!strcmp(dcws->szSetting, "RealIP")) {
+	else if (!mir_strcmp(dcws->szSetting, "RealIP")) {
 		if (dcws->value.type == DBVT_DWORD)
 			db_set_dw(ccMeta->contactID, META_PROTO, "RealIP", dcws->value.dVal);
 		else
 			db_unset(ccMeta->contactID, META_PROTO, "RealIP");
 	}
-	else if (!strcmp(dcws->szSetting, "ListeningTo")) {
+	else if (!mir_strcmp(dcws->szSetting, "ListeningTo")) {
 		switch (dcws->value.type) {
 		case DBVT_ASCIIZ:
 			db_set_s(ccMeta->contactID, META_PROTO, "ListeningTo", dcws->value.pszVal);
@@ -374,7 +374,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 			break;
 		}
 	}
-	else if (!strcmp(dcws->szSetting, "Nick") && dcws->value.type != DBVT_DELETED) {
+	else if (!mir_strcmp(dcws->szSetting, "Nick") && dcws->value.type != DBVT_DELETED) {
 		// subcontact nick has changed - update metacontact
 		mir_snprintf(buffer, SIZEOF(buffer), "Nick%d", contact_number);
 		db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
@@ -389,19 +389,19 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		MCONTACT hMostOnline = Meta_GetMostOnline(ccMeta);
 		Meta_CopyContactNick(ccMeta, hMostOnline);
 	}
-	else if (!strcmp(dcws->szSetting, "IdleTS")) {
+	else if (!mir_strcmp(dcws->szSetting, "IdleTS")) {
 		if (dcws->value.type == DBVT_DWORD)
 			db_set_dw(ccMeta->contactID, META_PROTO, "IdleTS", dcws->value.dVal);
 		else if (dcws->value.type == DBVT_DELETED)
 			db_set_dw(ccMeta->contactID, META_PROTO, "IdleTS", 0);
 	}
-	else if (!strcmp(dcws->szSetting, "LogonTS")) {
+	else if (!mir_strcmp(dcws->szSetting, "LogonTS")) {
 		if (dcws->value.type == DBVT_DWORD)
 			db_set_dw(ccMeta->contactID, META_PROTO, "LogonTS", dcws->value.dVal);
 		else if (dcws->value.type == DBVT_DELETED)
 			db_set_dw(ccMeta->contactID, META_PROTO, "LogonTS", 0);
 	}
-	else if (!strcmp(dcws->szModule, "CList") && !strcmp(dcws->szSetting, "MyHandle")) {
+	else if (!mir_strcmp(dcws->szModule, "CList") && !mir_strcmp(dcws->szSetting, "MyHandle")) {
 		if (dcws->value.type == DBVT_DELETED) {
 			char *proto = GetContactProto(hContact);
 			mir_snprintf(buffer, SIZEOF(buffer), "CListName%d", contact_number);
@@ -423,7 +423,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		Meta_CopyContactNick(ccMeta, Meta_GetMostOnline(ccMeta));
 	}
 	// subcontact changing status
-	else if (!strcmp(dcws->szSetting, "Status") && dcws->value.type != DBVT_DELETED) {
+	else if (!mir_strcmp(dcws->szSetting, "Status") && dcws->value.type != DBVT_DELETED) {
 		// update subcontact status setting
 		mir_snprintf(buffer, SIZEOF(buffer), "Status%d", contact_number);
 		db_set_w(ccMeta->contactID, META_PROTO, buffer, dcws->value.wVal);

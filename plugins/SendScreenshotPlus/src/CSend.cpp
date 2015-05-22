@@ -527,7 +527,7 @@ int JSON_Get_(const char* json, size_t jsonlen, const char* variable, const char
 		if(c+2>=jsonend || *++c!=':') break;
 		/// read data
 		++c;
-		if(!strcmp(var,needle)){
+		if(!mir_strcmp(var,needle)){
 			int datalen=JSON_ParseData_(&c,jsonend-c,value);
 			if(!datalen)
 				return 0;
@@ -691,15 +691,15 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr,int requestType,char* url,HTTP
 			const char* mime="application/octet-stream";
 			const char* fileext=strrchr(filename,'.');
 			if(fileext){
-				if(!strcmp(fileext,".jpg") || !strcmp(fileext,".jpeg") || !strcmp(fileext,".jpe"))
+				if(!mir_strcmp(fileext,".jpg") || !mir_strcmp(fileext,".jpeg") || !mir_strcmp(fileext,".jpe"))
 					mime="image/jpeg";
-				else if(!strcmp(fileext,".bmp"))
+				else if(!mir_strcmp(fileext,".bmp"))
 					mime="image/bmp";
-				else if(!strcmp(fileext,".png"))
+				else if(!mir_strcmp(fileext,".png"))
 					mime="image/png";
-				else if(!strcmp(fileext,".gif"))
+				else if(!mir_strcmp(fileext,".gif"))
 					mime="image/gif";
-				else if(!strcmp(fileext,".tif") || !strcmp(fileext,".tiff"))
+				else if(!mir_strcmp(fileext,".tif") || !mir_strcmp(fileext,".tiff"))
 					mime="image/tiff";
 			}
 			HTTPFormAppendData(nlhr,&dataMax,&dataPos,mime,mir_strlen(mime));

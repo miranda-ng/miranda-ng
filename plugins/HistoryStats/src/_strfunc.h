@@ -13,7 +13,7 @@ namespace ext
 	{
 	public:
 		static const char* chr(const char* string, char c) { return strchr(string, c); }
-		static int cmp(const char* string1, const char* string2) { return strcmp(string1, string2); }
+		static int cmp(const char* string1, const char* string2) { return mir_strcmp(string1, string2); }
 		static int icmp(const char* string1, const char* string2) { return _stricmp(string1, string2); }
 		static int coll(const char* string1, const char* string2) { return strcoll(string1, string2); }
 		static int icoll(const char* string1, const char* string2) { return _stricoll(string1, string2); }

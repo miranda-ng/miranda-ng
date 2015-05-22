@@ -631,7 +631,7 @@ MCONTACT CVkProto::MContactFromDbEvent(MEVENT hDbEvent)
 
 	if (db_event_get(hDbEvent, &dbei))
 		return INVALID_CONTACT_ID;
-	if (dbei.eventType != EVENTTYPE_AUTHREQUEST || strcmp(dbei.szModule, m_szModuleName))
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST || mir_strcmp(dbei.szModule, m_szModuleName))
 		return INVALID_CONTACT_ID;
 
 	MCONTACT hContact = DbGetAuthEventContact(&dbei);
@@ -775,12 +775,12 @@ int CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (hContact != NULL)
 		return 0;
 
-	if (strcmp(cws->szModule, "ListeningTo"))
+	if (mir_strcmp(cws->szModule, "ListeningTo"))
 		return 0;
 	
 	CMStringA szListeningTo(m_szModuleName);
 	szListeningTo += "Enabled";
-	if (!strcmp(cws->szSetting, szListeningTo.GetBuffer())) {
+	if (!mir_strcmp(cws->szSetting, szListeningTo.GetBuffer())) {
 		MusicSendMetod iOldMusicSendMetod = (MusicSendMetod)getByte("OldMusicSendMetod", sendBroadcastAndStatus);
 		
 		if (cws->value.bVal == 0)

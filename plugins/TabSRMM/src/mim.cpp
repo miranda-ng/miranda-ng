@@ -492,7 +492,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		bAllowAutoCreate = true;
 	else {
 		char *szProto = GetContactProto(hContact);
-		if (szProto && !strcmp(szProto, META_PROTO))
+		if (szProto && !mir_strcmp(szProto, META_PROTO))
 			szProto = GetContactProto(db_mc_getSrmmSub(hContact));
 
 		if (szProto) {

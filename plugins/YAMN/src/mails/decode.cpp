@@ -229,7 +229,7 @@ int GetCharsetFromString(char *input,size_t size)
 	for (int i=0;i<CPLENALL;i++) {
 		size_t len = mir_strlen(CodePageNamesAll[i].NameBase);
 		if (0==strncmp(pout,CodePageNamesAll[i].NameBase,len)) {
-			if (0==strcmp(pout+len,CodePageNamesAll[i].NameSub)) {
+			if (0==mir_strcmp(pout+len,CodePageNamesAll[i].NameSub)) {
 				delete[] pout;
 				return CodePageNamesAll[i].CP;
 			}

@@ -178,7 +178,7 @@ static INT_PTR CB_GetButtonState(WPARAM wParam, LPARAM lParam)
 	bbdi->bbbFlags = 0;
 	for (int i = 0; i < LButtonsList.getCount(); i++) {
 		CustomButtonData *cbd = LButtonsList[i];
-		if (!strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
+		if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
 			realbutton = true;
 			tempCID = cbd->m_dwButtonCID;
 		}
@@ -186,7 +186,7 @@ static INT_PTR CB_GetButtonState(WPARAM wParam, LPARAM lParam)
 	if (!realbutton)
 		for (int i = 0; i < RButtonsList.getCount(); i++) {
 			CustomButtonData* cbd = RButtonsList[i];
-			if (!strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
+			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
 				realbutton = true;
 				tempCID = cbd->m_dwButtonCID;
 			}
@@ -214,7 +214,7 @@ static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam)
 	BBButton *bbdi = (BBButton *)lParam;
 	for (int i = 0; i < LButtonsList.getCount(); i++) {
 		CustomButtonData *cbd = LButtonsList[i];
-		if (!strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
+		if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
 			realbutton = true;
 			tempCID = cbd->m_dwButtonCID;
 		}
@@ -222,7 +222,7 @@ static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam)
 	if (!realbutton)
 		for (int i = 0; i < RButtonsList.getCount(); i++) {
 			CustomButtonData* cbd = RButtonsList[i];
-			if (!strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
+			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
 				realbutton = true;
 				tempCID = cbd->m_dwButtonCID;
 			}
@@ -262,7 +262,7 @@ static INT_PTR CB_RemoveButton(WPARAM, LPARAM lParam)
 
 		for (int i = LButtonsList.getCount() - 1; i >= 0; i--) {
 			CustomButtonData *cbd = LButtonsList[i];
-			if (!strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && cbd->m_dwButtonOrigID == bbdi->dwButtonID) {
+			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && cbd->m_dwButtonOrigID == bbdi->dwButtonID) {
 				tempCID = cbd->m_dwButtonCID;
 				dwFlags = cbd->m_bLSided ? BBBF_ISLSIDEBUTTON : BBBF_ISRSIDEBUTTON;
 				LButtonsList.remove(i);
@@ -272,7 +272,7 @@ static INT_PTR CB_RemoveButton(WPARAM, LPARAM lParam)
 		if (!tempCID) {
 			for (int i = RButtonsList.getCount() - 1; i >= 0; i--) {
 				CustomButtonData *cbd = RButtonsList[i];
-				if (!strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && cbd->m_dwButtonOrigID == bbdi->dwButtonID) {
+				if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && cbd->m_dwButtonOrigID == bbdi->dwButtonID) {
 					tempCID = cbd->m_dwButtonCID;
 					dwFlags = cbd->m_bLSided ? BBBF_ISLSIDEBUTTON : BBBF_ISRSIDEBUTTON;
 					RButtonsList.remove(i);
@@ -299,7 +299,7 @@ static INT_PTR CB_ModifyButton(WPARAM, LPARAM lParam)
 
 		for (int i = 0; i < LButtonsList.getCount(); i++) {
 			cbd = LButtonsList[i];
-			if (!strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
+			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
 				bFound = true;
 				break;
 			}
@@ -308,7 +308,7 @@ static INT_PTR CB_ModifyButton(WPARAM, LPARAM lParam)
 		if (!bFound) {
 			for (int i = 0; i < RButtonsList.getCount(); i++) {
 				cbd = RButtonsList[i];
-				if (!strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
+				if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonOrigID == bbdi->dwButtonID)) {
 					bFound = true;
 					break;
 				}
@@ -403,13 +403,13 @@ static int SaveTree(HWND hToolBarTree)
 					cbd->m_bIMButton = false;
 					cbd->m_bChatButton = false;
 
-					if (cbd->m_bSeparator && !strcmp(cbd->m_pszModuleName, "Tabsrmm_sep"))
+					if (cbd->m_bSeparator && !mir_strcmp(cbd->m_pszModuleName, "Tabsrmm_sep"))
 						cbd->m_opFlags = BBSF_NTBDESTRUCT;
 				}
 				else {
 					if (!cbd->m_bIMButton && !cbd->m_bChatButton)
 						cbd->m_bIMButton = true;
-					if (cbd->m_bSeparator && !strcmp(cbd->m_pszModuleName, "Tabsrmm_sep")) {
+					if (cbd->m_bSeparator && !mir_strcmp(cbd->m_pszModuleName, "Tabsrmm_sep")) {
 						cbd->m_bHidden = 0;
 						cbd->m_opFlags &= ~BBSF_NTBDESTRUCT;
 						++loc_sepcout;

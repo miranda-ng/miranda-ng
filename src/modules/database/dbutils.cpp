@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int CompareEventTypes(const DBEVENTTYPEDESCR *p1, const DBEVENTTYPEDESCR *p2)
 {
-	int result = strcmp(p1->module, p2->module);
+	int result = mir_strcmp(p1->module, p2->module);
 	if (result)
 		return result;
 

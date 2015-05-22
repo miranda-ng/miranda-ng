@@ -41,7 +41,7 @@ struct Icon
 
 static int SortFunc(const Icon *p1, const Icon *p2)
 {
-	return strcmp(p1->name, p2->name);
+	return mir_strcmp(p1->name, p2->name);
 }
 
 static OBJLIST<Icon> usedIcons(50, SortFunc);

@@ -934,7 +934,7 @@ void TSAPI DM_SetDBButtonStates(HWND hwndChild, TWindowData *dat)
 		case DBVT_ASCIIZ:
 			ptrA szValue(db_get_sa(hFinalContact, szModule, szSetting));
 			if (szValue)
-				result = !strcmp((char*)buttonItem->bValuePush, szValue);
+				result = !mir_strcmp((char*)buttonItem->bValuePush, szValue);
 			break;
 		}
 		SendMessage(hWnd, BM_SETCHECK, result, 0);
@@ -1846,7 +1846,7 @@ void DrawStatusIcons(TWindowData *dat, HDC hDC, const RECT &rc, int gap)
 
 	int nIcon = 0;
 	while (StatusIconData *si = Srmm_GetNthIcon(dat->hContact, nIcon++)) {
-		if (!strcmp(si->szModule, MSG_ICON_MODULE)) {
+		if (!mir_strcmp(si->szModule, MSG_ICON_MODULE)) {
 			if (si->dwId == MSG_ICON_SOUND) {
 				DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_SOUNDS],
 					cx_icon, cy_icon, 0, NULL, DI_NORMAL);
@@ -1900,7 +1900,7 @@ void CheckStatusIconClick(TWindowData *dat, POINT pt, const RECT &rc, int gap, i
 	if (si == NULL)
 		return;
 
-	if (!strcmp(si->szModule, MSG_ICON_MODULE)) {
+	if (!mir_strcmp(si->szModule, MSG_ICON_MODULE)) {
 		if (si->dwId == MSG_ICON_SOUND && code != NM_RCLICK) {
 			if (GetKeyState(VK_SHIFT) & 0x8000) {
 				for (TContainerData *p = pFirstContainer; p; p = p->pNext) {

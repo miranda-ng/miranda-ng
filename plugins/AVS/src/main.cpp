@@ -202,7 +202,7 @@ static int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (hContact == 0)
-		if (!strcmp(cws->szSetting, "AvatarFile") || !strcmp(cws->szSetting, "PictObject") || !strcmp(cws->szSetting, "AvatarHash") || !strcmp(cws->szSetting, "AvatarSaved"))
+		if (!mir_strcmp(cws->szSetting, "AvatarFile") || !mir_strcmp(cws->szSetting, "PictObject") || !mir_strcmp(cws->szSetting, "AvatarHash") || !mir_strcmp(cws->szSetting, "AvatarSaved"))
 			ReportMyAvatarChanged((WPARAM)cws->szModule, 0);
 
 	return 0;

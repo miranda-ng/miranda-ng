@@ -124,8 +124,8 @@ INT_PTR CSendHTTPServer::MyCallService(const char *name, WPARAM wParam, LPARAM l
 / *
 	CContactMapping::iterator Contact(_CContactMapping.end());
 	if ( wParam == m_hContact && (
-		(strcmp(name, MS_MSG_SENDMESSAGE)== 0) ||
-		(strcmp(name, "SRMsg/LaunchMessageWindow")== 0) ))
+		(mir_strcmp(name, MS_MSG_SENDMESSAGE)== 0) ||
+		(mir_strcmp(name, "SRMsg/LaunchMessageWindow")== 0) ))
 	{
 		m_URL= mir_strdup((char*)lParam);
 		return 0;

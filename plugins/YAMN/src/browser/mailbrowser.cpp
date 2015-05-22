@@ -1214,7 +1214,7 @@ int CALLBACK ListViewCompareProc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSo
 				str2 = Header2.From;
 			else str2 = Header2.FromNick;
 
-			nResult = strcmp(str1, str2);
+			nResult = mir_strcmp(str1, str2);
 
 			if (bFrom) nResult = -nResult;
 			break;
@@ -1227,7 +1227,7 @@ int CALLBACK ListViewCompareProc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSo
 				str2 = " ";
 			else str2 = Header2.Subject;
 
-			nResult = strcmp(str1, str2);
+			nResult = mir_strcmp(str1, str2);
 
 			if (bSub) nResult = -nResult;
 			break;
@@ -1258,7 +1258,7 @@ int CALLBACK ListViewCompareProc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSo
 			if (Header2.Subject == NULL) str2 = " ";
 			else str2 = Header2.Subject;
 
-			nResult = strcmp(str1, str2);
+			nResult = mir_strcmp(str1, str2);
 			break;
 		}
 		//MessageBox(NULL,str1,str2,0);
@@ -1390,7 +1390,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 				Subj = new WCHAR[wcslen(str2) + 1];
 				wcscpy(Subj, str2);
 			}
-			//if (!hasBody) if (!strcmp(Header->name,"Body")) hasBody = true;
+			//if (!hasBody) if (!mir_strcmp(Header->name,"Body")) hasBody = true;
 			int count = 0; WCHAR **split = 0;
 			int ofs = 0;
 			while (str2[ofs]) {

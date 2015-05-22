@@ -876,7 +876,7 @@ static int ActivityCheck(LPCTSTR szFirstNode, LPCTSTR szSecondNode)
 	int i = 0, nFirst = -1, nSecond = -1;
 	while (g_arrActivities[i].szFirst || g_arrActivities[i].szSecond) {
 		// check first node
-		if (g_arrActivities[i].szFirst && !strcmp(s1, g_arrActivities[i].szFirst)) {
+		if (g_arrActivities[i].szFirst && !mir_strcmp(s1, g_arrActivities[i].szFirst)) {
 			// first part found
 			nFirst = i;
 			if (!s2) {
@@ -885,7 +885,7 @@ static int ActivityCheck(LPCTSTR szFirstNode, LPCTSTR szSecondNode)
 			}
 			i++; // move to next
 			while (g_arrActivities[i].szSecond) {
-				if (!strcmp(g_arrActivities[i].szSecond, s2)) {
+				if (!mir_strcmp(g_arrActivities[i].szSecond, s2)) {
 					nSecond = i;
 					break;
 				}

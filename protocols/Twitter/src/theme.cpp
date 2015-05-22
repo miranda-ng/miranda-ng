@@ -43,7 +43,7 @@ void InitIcons(void)
 HANDLE GetIconHandle(const char* name)
 {
 	for (size_t i = 0; i < SIZEOF(icons); i++)
-		if (strcmp(icons[i].szName, name) == 0)
+		if (mir_strcmp(icons[i].szName, name) == 0)
 			return hIconLibItem[i];
 
 	return 0;
@@ -61,7 +61,7 @@ static TwitterProto * GetInstanceByHContact(MCONTACT hContact)
 		return 0;
 
 	for (int i = 0; i < g_Instances.getCount(); i++)
-		if (!strcmp(proto, g_Instances[i].m_szModuleName))
+		if (!mir_strcmp(proto, g_Instances[i].m_szModuleName))
 			return &g_Instances[i];
 
 	return 0;

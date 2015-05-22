@@ -14,7 +14,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 
 	char *proto = GetContactProto(ccs->hContact);
-	if(proto && strcmp(proto, META_PROTO) == 0) // bypass for metacontacts
+	if(proto && mir_strcmp(proto, META_PROTO) == 0) // bypass for metacontacts
 		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 	
 	if (!proto || !ccs->hContact)
@@ -89,7 +89,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 	char *proto = GetContactProto(ccs->hContact);
 	if (!proto || !ccs->hContact)
 		return 1; //error
-	else if(proto && strcmp(proto, META_PROTO) == 0) // bypass for metacontacts
+	else if(proto && mir_strcmp(proto, META_PROTO) == 0) // bypass for metacontacts
 		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
 
 	char *oldmessage = pre->szMessage;

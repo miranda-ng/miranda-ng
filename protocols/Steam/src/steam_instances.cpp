@@ -38,7 +38,7 @@ CSteamProto* CSteamProto::GetContactProtoInstance(MCONTACT hContact)
 		return NULL;
 
 	for (int i = 0; i < InstanceList.getCount(); i++)
-		if (!strcmp(proto, InstanceList[i]->m_szModuleName))
+		if (!mir_strcmp(proto, InstanceList[i]->m_szModuleName))
 			return InstanceList[i];
 
 	return NULL;

@@ -521,7 +521,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 			FileTimeToUnixTime(&stFileTime, &ltime);
 			strftime(szFileTime, sizeof(szFileTime), "%a, %d %b %Y %H:%M:%S GMT", gmtime(&ltime));
 			
-			if (apszParam[eIfModifiedSince] && strcmp(apszParam[eIfModifiedSince], szFileTime) == 0) {
+			if (apszParam[eIfModifiedSince] && mir_strcmp(apszParam[eIfModifiedSince], szFileTime) == 0) {
 				SendError(304, "Not Modified" );
 				return true;
 			}

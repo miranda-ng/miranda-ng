@@ -185,7 +185,7 @@ HICON CJabberProto::LoadIconEx(const char* name, bool big)
 	if (HICON result = g_LoadIconEx(name, big))
 		return result;
 
-	if (!strcmp(name, "main"))
+	if (!mir_strcmp(name, "main"))
 		return Skin_GetIconByHandle(m_hProtoIcon, big);
 
 	return NULL;

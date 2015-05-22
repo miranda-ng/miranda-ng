@@ -1052,7 +1052,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 
 				TCHAR buf[128] = _T("");
-				if (strcmp(dat->szProto, META_PROTO)) {
+				if (mir_strcmp(dat->szProto, META_PROTO)) {
 					CONTACTINFO ci = { 0 };
 					ci.cbSize = sizeof(ci);
 					ci.hContact = dat->hContact;
@@ -1082,7 +1082,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message session"));
 					
 				DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)wParam;
-				if (!cws || (!strcmp(cws->szModule, dat->szProto) && !strcmp(cws->szSetting, "Status"))) {
+				if (!cws || (!mir_strcmp(cws->szModule, dat->szProto) && !mir_strcmp(cws->szSetting, "Status"))) {
 					InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOCOL), NULL, TRUE);
 					if (statusIcon)
 						SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);

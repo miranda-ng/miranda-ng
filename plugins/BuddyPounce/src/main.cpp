@@ -155,7 +155,7 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 
 	char *szProto = GetContactProto(hContact);
-	if(hContact == NULL || strcmp(cws->szSetting,"Status")) return 0;
+	if(hContact == NULL || mir_strcmp(cws->szSetting,"Status")) return 0;
 	if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) {
 		int newStatus = cws->value.wVal;
 		int oldStatus = db_get_w(hContact,"UserOnline","OldStatus",ID_STATUS_OFFLINE);

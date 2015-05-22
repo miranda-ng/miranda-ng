@@ -72,7 +72,7 @@ void CMsnProto::MSN_DeleteServerGroup(LPCSTR szId)
 
 		char szGroupID[100];
 		if (!db_get_static(msc->hContact, m_szModuleName, "GroupID", szGroupID, sizeof(szGroupID))) {
-			if (strcmp(szGroupID, szId) == 0)
+			if (mir_strcmp(szGroupID, szId) == 0)
 				delSetting(msc->hContact, "GroupID");
 		}
 	}
@@ -109,7 +109,7 @@ LPCSTR CMsnProto::MSN_GetGroupByName(const char* pName)
 {
 	for (int i = 0; i < m_arGroups.getCount(); i++) {
 		const ServerGroupItem* p = m_arGroups[i];
-		if (strcmp(p->name, pName) == 0)
+		if (mir_strcmp(p->name, pName) == 0)
 			return p->id;
 	}
 
@@ -221,7 +221,7 @@ void CMsnProto::MSN_UploadServerGroups(char* group)
 		DBVARIANT dbv;
 		if (!db_get_utf(msc->hContact, "CList", "Group", &dbv)) {
 			char szGroupID[100];
-			if (group == NULL || (strcmp(group, dbv.pszVal) == 0 &&
+			if (group == NULL || (mir_strcmp(group, dbv.pszVal) == 0 &&
 				db_get_static(msc->hContact, m_szModuleName, "GroupID", szGroupID, sizeof(szGroupID)) != 0)) {
 				MSN_MoveContactToGroup(msc->hContact, dbv.pszVal);
 			}
@@ -254,7 +254,7 @@ void CMsnProto::MSN_SyncContactToServerGroup(MCONTACT hContact, const char* szCo
 
 		const char* szGrpNameById = MSN_GetGroupById(szGrpId);
 
-		if (szGrpNameById && (strcmp(szGrpNameById, szGrpName) == 0 ||
+		if (szGrpNameById && (mir_strcmp(szGrpNameById, szGrpName) == 0 ||
 			(cgrp == NULL && szGrpIdF == NULL)))
 			szGrpIdF = szGrpId;
 		else
@@ -264,7 +264,7 @@ void CMsnProto::MSN_SyncContactToServerGroup(MCONTACT hContact, const char* szCo
 	if (szGrpIdF != NULL) {
 		setString(hContact, "GroupID", szGrpIdF);
 		const char* szGrpNameById = MSN_GetGroupById(szGrpIdF);
-		if (strcmp(szGrpNameById, szGrpName))
+		if (mir_strcmp(szGrpNameById, szGrpName))
 			db_set_utf(hContact, "CList", "Group", szGrpNameById);
 	}
 	else {
@@ -349,7 +349,7 @@ void CMsnProto::msn_storeProfileThread(void* param)
 	char** msgptr = GetStatusMsgLoc(m_iStatus);
 	char *szStatus = msgptr ? *msgptr : NULL;
 
-	if (param || (msnLastStatusMsg != szStatus && (msnLastStatusMsg && szStatus && strcmp(msnLastStatusMsg, szStatus))))
+	if (param || (msnLastStatusMsg != szStatus && (msnLastStatusMsg && szStatus && mir_strcmp(msnLastStatusMsg, szStatus))))
 		if (MSN_StoreUpdateProfile(szNick, szStatus, false))
 			MSN_ABUpdateDynamicItem();
 

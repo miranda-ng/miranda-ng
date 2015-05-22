@@ -31,7 +31,7 @@ DBSignature dbSignatureSD = { "Miranda ICQ SD", 0x1A };
 
 static int ModCompare(const ModuleName *mn1, const ModuleName *mn2)
 {
-	return strcmp(mn1->name, mn2->name);
+	return mir_strcmp(mn1->name, mn2->name);
 }
 
 static int OfsCompare(const ModuleName *mn1, const ModuleName *mn2)
@@ -41,7 +41,7 @@ static int OfsCompare(const ModuleName *mn1, const ModuleName *mn2)
 
 static int stringCompare2(const char *p1, const char *p2)
 {
-	return strcmp(p1, p2);
+	return mir_strcmp(p1, p2);
 }
 
 CDb3Mmap::CDb3Mmap(const TCHAR *tszFileName, int iMode) :

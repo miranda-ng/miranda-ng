@@ -305,7 +305,7 @@ Generates a for-loop; w will be initialized, x specifies the condition
 on which y will be executed and z will be shown.
 
 Example:
-!for(!puts(i,0),!not(!strcmp(!get(i),3)),!puts(i,!add(!get(i),1)),i=!get(i)!crlf())
+!for(!puts(i,0),!not(!mir_strcmp(!get(i),3)),!puts(i,!add(!get(i),1)),i=!get(i)!crlf())
 
 --- Notes ---
 
@@ -343,7 +343,7 @@ Example:
 # get the number of contacts with the display name "Marley"
 !puts(count,!ccount(`Marley`,display))
 # loop through these contacts, for each of them, show the e-mail address
-!for(!puts(n,0),!not(!strcmp(!get(n),!get(count))),!puts(n,!add(!get(n),1)),!cinfo(!contact(`Marley`,`display`,!add(!get(n),1)),email))
+!for(!puts(n,0),!not(!mir_strcmp(!get(n),!get(count))),!puts(n,!add(!get(n),1)),!cinfo(!contact(`Marley`,`display`,!add(!get(n),1)),email))
 
 In case the z argument is used, y can be any property of the cinfo
 function. Z can be 'r' to get a random contact.

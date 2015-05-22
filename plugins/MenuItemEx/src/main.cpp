@@ -694,7 +694,7 @@ INT_PTR onChangeProto(WPARAM wparam, LPARAM lparam)
 {
 	MCONTACT hContact = (MCONTACT)wparam, hContactNew;
 	char* szProto = GetContactProto(hContact);
-	if (!strcmp(szProto, (char*)lparam))
+	if (!mir_strcmp(szProto, (char*)lparam))
 		return 0;
 
 	if (CTRL_IS_PRESSED) {
@@ -815,7 +815,7 @@ int BuildMenu(WPARAM wparam, LPARAM)
 
 	if (pa && (bShowAll || (flags & VF_PROTO))) {
 		for (int i = 0; i < protoCount; i++) {
-			if ((!accs[i]->bIsEnabled) || (strcmp(pa->szProtoName, accs[i]->szProtoName)))
+			if ((!accs[i]->bIsEnabled) || (mir_strcmp(pa->szProtoName, accs[i]->szProtoName)))
 				hide = 1;
 			else {
 				hide = 0;
@@ -900,7 +900,7 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
 
-	if (!strcmp(cbcd->pszModule, MODULENAME) && cbcd->dwButtonId == 0)
+	if (!mir_strcmp(cbcd->pszModule, MODULENAME) && cbcd->dwButtonId == 0)
 		onRecvFiles(wParam, 0);
 
 	return 0;

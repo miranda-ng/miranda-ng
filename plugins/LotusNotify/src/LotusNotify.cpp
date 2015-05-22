@@ -621,7 +621,7 @@ void checkthread(void*)
 	log_p(L"checkthread: OSPathNetConstruct: %S", fullpath);
 
 	if (error = (NSFDbOpen1) (fullpath, &db_handle)) {
-		if(strcmp(settingServerSec, "") != 0) {
+		if(mir_strcmp(settingServerSec, "") != 0) {
 			if (error = (OSPathNetConstruct1)(NULL, settingServerSec, settingDatabase, fullpath)) {
 				goto errorblock;
 			} else {

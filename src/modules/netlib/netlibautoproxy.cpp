@@ -324,7 +324,7 @@ char* NetlibGetIeProxy(char *szUrl)
 	{
 		for (int i=0; i < proxyBypass.getCount(); i++)
 		{
-			if (strcmp(proxyBypass[i], "<local>") == 0)
+			if (mir_strcmp(proxyBypass[i], "<local>") == 0)
 			{
 				if (strchr(szHost, '.') == NULL) return NULL;
 			}

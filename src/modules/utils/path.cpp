@@ -105,7 +105,7 @@ TCHAR *GetContactID(MCONTACT hContact)
 
 #define XSTR(target, s) _xstrselect(target, s, _T(s))
 
-static __forceinline int _xcscmp(const char *s1, const char *s2) { return strcmp(s1, s2); }
+static __forceinline int _xcscmp(const char *s1, const char *s2) { return mir_strcmp(s1, s2); }
 static __forceinline int _xcsncmp(const char *s1, const char *s2, size_t n) { return strncmp(s1, s2, n); }
 static __forceinline size_t _xcslen(const char *s1) { return mir_strlen(s1); }
 static __forceinline char *_xcscpy(char *s1, const char *s2) { return strcpy(s1, s2); }

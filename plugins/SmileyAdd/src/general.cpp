@@ -225,7 +225,7 @@ MCONTACT DecodeMetaContact(MCONTACT hContact)
 
 bool IsSmileyProto(char* proto)
 {
-	return proto && strcmp(proto, META_PROTO) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & (PF1_IM | PF1_CHAT));
+	return proto && mir_strcmp(proto, META_PROTO) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & (PF1_IM | PF1_CHAT));
 }
 
 void ReportError(const TCHAR* errmsg)

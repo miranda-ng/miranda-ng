@@ -164,10 +164,10 @@ LBL_InvalidCommand:
 			break;
 		}
 
-		if (strcmp(protocol1, "MSNFTP") != 0) {
+		if (mir_strcmp(protocol1, "MSNFTP") != 0) {
 			int tempInt;
 			int tFieldCount = sscanf(params, "%d %6s", &tempInt, protocol1);
-			if (tFieldCount != 2 || strcmp(protocol1, "MSNFTP") != 0) {
+			if (tFieldCount != 2 || mir_strcmp(protocol1, "MSNFTP") != 0) {
 				debugLogA("Another side requested the unknown protocol (%s), closing thread", params);
 				return 1;
 			}

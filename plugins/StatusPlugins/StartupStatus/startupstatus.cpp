@@ -214,7 +214,7 @@ static int ProcessProtoAck(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	for (int i = 0; i < startupSettings.getCount(); i++) {
-		if (!strcmp(ack->szModule, startupSettings[i].szName)) {
+		if (!mir_strcmp(ack->szModule, startupSettings[i].szName)) {
 			startupSettings[i].szName = "";
 			log_debugA("StartupStatus: %s overridden by ME_PROTO_ACK, status will not be set", ack->szModule);
 		}
@@ -238,7 +238,7 @@ static int StatusChange(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		for (int i = 0; i < startupSettings.getCount(); i++) {
-			if (!strcmp(startupSettings[i].szName, szProto)) {
+			if (!mir_strcmp(startupSettings[i].szName, szProto)) {
 				startupSettings[i].szName = "";
 				log_debugA("StartupStatus: %s overridden by ME_CLIST_STATUSMODECHANGE, status will not be set", szProto);
 			}
@@ -264,7 +264,7 @@ static int CSStatusChangeEx(WPARAM wParam, LPARAM lParam)
 				if (ps[i]->szName == NULL || startupSettings[j].szName == NULL)
 					continue;
 
-				if (!strcmp(ps[i]->szName, startupSettings[j].szName)) {
+				if (!mir_strcmp(ps[i]->szName, startupSettings[j].szName)) {
 					log_debugA("StartupStatus: %s overridden by MS_CS_SETSTATUSEX, status will not be set", ps[i]->szName);
 					// use a hack to disable this proto
 					startupSettings[j].szName = "";

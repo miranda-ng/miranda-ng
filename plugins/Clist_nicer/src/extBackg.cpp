@@ -262,7 +262,7 @@ StatusItems_t *GetProtocolStatusItem(const char *szProto)
 
 	for (int i = SIZEOF(_StatusItems); i < arStatusItems.getCount(); i++) {
 		StatusItems_t *p = arStatusItems[i];
-		if (!strcmp(p->szName[0] == '{' ? p->szName+3 : p->szName, szProto))
+		if (!mir_strcmp(p->szName[0] == '{' ? p->szName+3 : p->szName, szProto))
 			return p;
 	}
 	return NULL;
@@ -686,7 +686,7 @@ static void ReadItem(StatusItems_t *this_item, char *szItem, char *file)
 	GetPrivateProfileStringA(szItem, "BasedOn", "None", buffer, 400, file);
 
 
-	if (strcmp(buffer, "None")) {
+	if (mir_strcmp(buffer, "None")) {
 		for (int i = 0; i < arStatusItems.getCount(); i++) {
 			StatusItems_t *p = arStatusItems[i];
 			if (!_stricmp(p->szName[0] == '{' ? p->szName+3 : p->szName, buffer)) {
@@ -759,7 +759,7 @@ void IMG_ReadItem(const char *itemname, const char *szFileName)
 
 	memset(&tmpItem, 0, sizeof(ImageItem));
 	GetPrivateProfileStringA(itemname, "Glyph", "None", buffer, 500, szFileName);
-	if (strcmp(buffer, "None")) {
+	if (mir_strcmp(buffer, "None")) {
 		sscanf(buffer, "%d,%d,%d,%d", &tmpItem.glyphMetrics[0], &tmpItem.glyphMetrics[1],
 			&tmpItem.glyphMetrics[2], &tmpItem.glyphMetrics[3]);
 		if (tmpItem.glyphMetrics[2] > tmpItem.glyphMetrics[0] && tmpItem.glyphMetrics[3] > tmpItem.glyphMetrics[1]) {
@@ -770,7 +770,7 @@ void IMG_ReadItem(const char *itemname, const char *szFileName)
 		}
 	}
 	GetPrivateProfileStringA(itemname, "Image", "None", buffer, 500, szFileName);
-	if (strcmp(buffer, "None")) {
+	if (mir_strcmp(buffer, "None")) {
 
 done_with_glyph:
 
@@ -805,7 +805,7 @@ done_with_glyph:
 			}
 		}
 		GetPrivateProfileStringA(itemname, "Fillcolor", "None", buffer, 500, szFileName);
-		if (strcmp(buffer, "None")) {
+		if (mir_strcmp(buffer, "None")) {
 			COLORREF fillColor = HexStringToLong(buffer);
 			tmpItem.fillBrush = CreateSolidBrush(fillColor);
 			tmpItem.dwFlags |= IMAGE_FILLSOLID;
@@ -855,9 +855,9 @@ done_with_glyph:
 		for (n = 0; ; n++) {
 			mir_snprintf(szItemNr, SIZEOF(szItemNr), "Item%d", n);
 			GetPrivateProfileStringA(itemname, szItemNr, "None", buffer, 500, szFileName);
-			if (!strcmp(buffer, "None"))
+			if (!mir_strcmp(buffer, "None"))
 				break;
-			if (!strcmp(buffer, "CLUI")) {
+			if (!mir_strcmp(buffer, "CLUI")) {
 				if (!(tmpItem.dwFlags & IMAGE_GLYPH))
 					IMG_CreateItem(&tmpItem, szFinalName, hdc);
 				if (tmpItem.hbm || tmpItem.dwFlags & IMAGE_GLYPH) {
@@ -1128,7 +1128,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 	}
 
 	GetPrivateProfileStringA(itemName, "Tip", "None", szBuffer, 1000, file);
-	if (strcmp(szBuffer, "None")) {
+	if (mir_strcmp(szBuffer, "None")) {
 		MultiByteToWideChar(cfg::dat.langPackCP, 0, szBuffer, -1, tmpItem.szTip, 256);
 		tmpItem.szTip[255] = 0;
 	}
@@ -1287,7 +1287,7 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 
 				int j;
 				for (j = 0; j < i - 1; j++) {
-					if (!strcmp(szProto, items[j].szName) && !strcmp(UIN, items[j].szDBname) &&
+					if (!mir_strcmp(szProto, items[j].szName) && !mir_strcmp(UIN, items[j].szDBname) &&
 							mir_strlen(szProto) == mir_strlen(items[j].szName) && mir_strlen(UIN) == mir_strlen(items[j].szDBname)) {
 						cfg::writeDword(hContact, "EXTBK", "TEXT", items[j].TEXTCOLOR);
 						cfg::writeDword(hContact, "EXTBK", "COLOR1", items[j].COLOR);

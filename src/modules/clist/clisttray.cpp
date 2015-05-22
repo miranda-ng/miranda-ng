@@ -695,7 +695,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 						for (int j = 0; j < accounts.getCount(); j++) {
 							int k = cli.pfnGetAccountIndexByPos(j);
 							if (k >= 0) {
-								if (!strcmp(cli.trayIcon[i].szProto, accounts[k]->szModuleName)) {
+								if (!mir_strcmp(cli.trayIcon[i].szProto, accounts[k]->szModuleName)) {
 									HMENU hm = GetSubMenu(hMenu, ind);
 									if (hm) hMenu = hm;
 									break;
@@ -799,7 +799,7 @@ int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
 	if (msn->szProto) {
 		for (int j = 0; j < cli.trayIconCount; j++) {
 			if (cli.trayIcon[j].szProto != NULL) {
-				if (!strcmp(msn->szProto, cli.trayIcon[j].szProto)) {
+				if (!mir_strcmp(msn->szProto, cli.trayIcon[j].szProto)) {
 					iconId = cli.trayIcon[j].id;
 					break;
 				}

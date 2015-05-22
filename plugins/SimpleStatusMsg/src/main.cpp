@@ -974,7 +974,7 @@ INT_PTR ShowStatusMessageDialog(WPARAM wParam, LPARAM lParam)
 		if (!accounts->pa[i]->bIsVisible)
 			continue;
 
-		if (!strcmp(accounts->pa[i]->szModuleName, (char *)lParam))
+		if (!mir_strcmp(accounts->pa[i]->szModuleName, (char *)lParam))
 		{
 			box_data->m_szProto = accounts->pa[i]->szModuleName;
 			box_data->m_iStatusModes = CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0);
@@ -1011,7 +1011,7 @@ static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 
 	// TODO this could be done better
 	BOOL bOnStartup = FALSE, bGlobalStartupStatus = TRUE;
-	if (szProto && !strcmp(szProto, "SimpleStatusMsgGlobalStartupStatus")) {
+	if (szProto && !mir_strcmp(szProto, "SimpleStatusMsgGlobalStartupStatus")) {
 		szProto = NULL;
 		bOnStartup = TRUE;
 	}
@@ -1743,7 +1743,7 @@ static int OnAccListChanged(WPARAM wParam, LPARAM lParam)
 		if (!IsAccountEnabled(accounts->pa[i]))
 			continue;
 
-		if (!strcmp(accounts->pa[i]->szProtoName, "ICQ"))
+		if (!mir_strcmp(accounts->pa[i]->szProtoName, "ICQ"))
 			HookProtoEvent(accounts->pa[i]->szModuleName, ME_ICQ_STATUSMSGREQ, OnICQStatusMsgRequest);
 
 		accounts->statusFlags |= (CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0));

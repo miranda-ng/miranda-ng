@@ -194,7 +194,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			return 0;
 
 		_ASSERT(szProto);
-		if (!strcmp(szProto, META_PROTO)) // workaround for metacontacts
+		if (!mir_strcmp(szProto, META_PROTO)) // workaround for metacontacts
 			return 0;
 
 		sd.MirVer = db_get_s(hContact, szProto, DB_MIRVER, _T(""));

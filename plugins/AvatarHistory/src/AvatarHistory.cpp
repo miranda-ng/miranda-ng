@@ -111,7 +111,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 	if (proto == NULL)
 		return 0;
 
-	if (strcmp(META_PROTO, proto) == 0)
+	if (mir_strcmp(META_PROTO, proto) == 0)
 		return 0;
 
 	DBVARIANT dbvOldHash = {0};

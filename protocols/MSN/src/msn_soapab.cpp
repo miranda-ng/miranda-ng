@@ -59,7 +59,7 @@ ezxml_t CMsnProto::abSoapHdr(const char* service, const char* scenario, ezxml_t&
 	tbdy = ezxml_add_child(bdy, service, 0);
 	ezxml_set_attr(tbdy, "xmlns", "http://www.msn.com/webservices/AddressBook");
 
-	if (strstr(service, "Member") == NULL && strcmp(service, "ABAdd") != 0 && strcmp(service, "ABFindContactsPaged")) {
+	if (strstr(service, "Member") == NULL && mir_strcmp(service, "ABAdd") != 0 && mir_strcmp(service, "ABFindContactsPaged")) {
 		ezxml_t node = ezxml_add_child(tbdy, "abId", 0);
 		ezxml_set_txt(node, "00000000-0000-0000-0000-000000000000");
 	}
@@ -106,7 +106,7 @@ void CMsnProto::UpdateABHost(const char* service, const char* url)
 void CMsnProto::UpdateABCacheKey(ezxml_t bdy, bool isSharing)
 {
 	ezxml_t hdr = ezxml_get(bdy, "soap:Header", 0, "ServiceHeader", -1);
-	bool changed = strcmp(ezxml_txt(ezxml_child(hdr, "CacheKeyChanged")), "true") == 0;
+	bool changed = mir_strcmp(ezxml_txt(ezxml_child(hdr, "CacheKeyChanged")), "true") == 0;
 	if (changed)
 		replaceStr(isSharing ? sharingCacheKey : abCacheKey, ezxml_txt(ezxml_child(hdr, "CacheKey")));
 }
@@ -164,7 +164,7 @@ bool CMsnProto::MSN_ABAdd(bool allowRecurse)
 		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
-			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
+			if (mir_strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
 				status = MSN_ABAdd(false) ? 200 : 500;
 			}
@@ -260,42 +260,42 @@ bool CMsnProto::MSN_SharingFindMembership(bool deltas, bool allowRecurse)
 			for (ezxml_t mems = ezxml_get(svcs, "Memberships", 0, "Membership", -1); mems != NULL; mems = ezxml_next(mems)) {
 				const char* szRole = ezxml_txt(ezxml_child(mems, "MemberRole"));
 
-				int lstId = ((strcmp(szRole, "Allow") == 0) ? LIST_AL : ((strcmp(szRole, "Block") == 0) ? LIST_BL : 
-					((strcmp(szRole, "Reverse") == 0) ? LIST_RL : ((strcmp(szRole, "Pending") == 0) ? LIST_PL : 0))));
+				int lstId = ((mir_strcmp(szRole, "Allow") == 0) ? LIST_AL : ((mir_strcmp(szRole, "Block") == 0) ? LIST_BL : 
+					((mir_strcmp(szRole, "Reverse") == 0) ? LIST_RL : ((mir_strcmp(szRole, "Pending") == 0) ? LIST_PL : 0))));
 
 				for (ezxml_t memb = ezxml_get(mems, "Members", 0, "Member", -1); memb != NULL; memb = ezxml_next(memb)) {
-					bool deleted = strcmp(ezxml_txt(ezxml_child(memb, "Deleted")), "true") == 0;
+					bool deleted = mir_strcmp(ezxml_txt(ezxml_child(memb, "Deleted")), "true") == 0;
 					const char *szType = ezxml_txt(ezxml_child(memb, "Type"));
 					const char *szInvite = NULL, *szEmail = NULL, *szNick = NULL;
 					char email[128];
 					int netId;
 
-					if (strcmp(szType, "Passport") == 0) {
+					if (mir_strcmp(szType, "Passport") == 0) {
 						netId = NETID_MSN;
 						szEmail = ezxml_txt(ezxml_child(memb, "PassportName"));
 						szNick = ezxml_txt(ezxml_child(memb, "DisplayName")); if (!szNick[0]) szNick = NULL;
 						ezxml_t anot = ezxml_get(memb, "Annotations", 0, "Annotation", -1);
 						while (anot != NULL) {
-							if (strcmp(ezxml_txt(ezxml_child(anot, "Name")), "MSN.IM.InviteMessage") == 0)
+							if (mir_strcmp(ezxml_txt(ezxml_child(anot, "Name")), "MSN.IM.InviteMessage") == 0)
 								szInvite = ezxml_txt(ezxml_child(anot, "Value"));
 
 							anot = ezxml_next(anot);
 						}
 					}
-					else if (strcmp(szType, "Phone") == 0) {
+					else if (mir_strcmp(szType, "Phone") == 0) {
 						netId = NETID_MOB;
 						mir_snprintf(email, SIZEOF(email), "tel:%s", ezxml_txt(ezxml_child(memb, "PhoneNumber")));
 						szEmail = email;
 					}
-					else if (strcmp(szType, "Email") == 0) {
+					else if (mir_strcmp(szType, "Email") == 0) {
 						szEmail = ezxml_txt(ezxml_child(memb, "Email"));
 						szNick = ezxml_txt(ezxml_child(memb, "DisplayName")); if (!szNick[0]) szNick = NULL;
 						netId = strstr(szEmail, "@yahoo.com") ? NETID_YAHOO : NETID_LCS;
 						ezxml_t anot = ezxml_get(memb, "Annotations", 0, "Annotation", -1);
 						while (anot != NULL) {
-							if (strcmp(ezxml_txt(ezxml_child(anot, "Name")), "MSN.IM.BuddyType") == 0)
+							if (mir_strcmp(ezxml_txt(ezxml_child(anot, "Name")), "MSN.IM.BuddyType") == 0)
 								netId = atol(ezxml_txt(ezxml_child(anot, "Value")));
-							else if (strcmp(ezxml_txt(ezxml_child(anot, "Name")), "MSN.IM.InviteMessage") == 0)
+							else if (mir_strcmp(ezxml_txt(ezxml_child(anot, "Name")), "MSN.IM.InviteMessage") == 0)
 								szInvite = ezxml_txt(ezxml_child(anot, "Value"));
 
 							anot = ezxml_next(anot);
@@ -312,11 +312,11 @@ bool CMsnProto::MSN_SharingFindMembership(bool deltas, bool allowRecurse)
 		}
 		else if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
-			if (strcmp(szErr, "ABDoesNotExist") == 0) {
+			if (mir_strcmp(szErr, "ABDoesNotExist") == 0) {
 				MSN_ABAdd();
 				status = 200;
 			}
-			else if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
+			else if (mir_strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
 				status = MSN_SharingFindMembership(deltas, false) ? 200 : 500;
 			}
@@ -394,7 +394,7 @@ bool CMsnProto::MSN_SharingAddDelMember(const char* szEmail, const int listId, c
 	ezxml_set_txt(node, szEmail);
 
 	char buf[64];
-	if ((netId == NETID_LCS || netId == NETID_YAHOO) && strcmp(szMethod, "DeleteMember") != 0) {
+	if ((netId == NETID_LCS || netId == NETID_YAHOO) && mir_strcmp(szMethod, "DeleteMember") != 0) {
 		node = ezxml_add_child(memb, "Annotations", 0);
 		ezxml_t anot = ezxml_add_child(node, "Annotation", 0);
 		node = ezxml_add_child(anot, "Name", 0);
@@ -429,7 +429,7 @@ bool CMsnProto::MSN_SharingAddDelMember(const char* szEmail, const int listId, c
 		UpdateABCacheKey(xmlm, true);
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
-			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
+			if (mir_strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
 				status = MSN_SharingAddDelMember(szEmail, listId, netId, szMethod, false) ? 200 : 500;
 			}
@@ -506,7 +506,7 @@ bool CMsnProto::MSN_SharingMyProfile(bool allowRecurse)
 	ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 	if (status == 500) {
 		const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
-		if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
+		if (mir_strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 			MSN_GetPassportAuth();
 			MSN_SharingMyProfile(false);
 		}
@@ -554,7 +554,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 	}
 
 	const char *szGroups, *szContacts, *szLastChangeStr;
-	if (strcmp(szMethod, "ABFindContactsPaged")) {
+	if (mir_strcmp(szMethod, "ABFindContactsPaged")) {
 		ezxml_t node = ezxml_add_child(tbdy, "abView", 0);
 		ezxml_set_txt(node, "Full");
 		node = ezxml_add_child(tbdy, "deltasOnly", 0);
@@ -625,7 +625,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 			UpdateABHost(szMethod, body ? abUrl : NULL);
 
 			ezxml_t ab = ezxml_child(body, "Ab");
-			if (strcmp(szMethod, "ABFindByContacts")) {
+			if (mir_strcmp(szMethod, "ABFindByContacts")) {
 				const char* szLastChange = ezxml_txt(ezxml_child(ab, szLastChangeStr));
 				if (szLastChange[0])
 					setString("ABFullLastChange", szLastChange);
@@ -655,25 +655,25 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 				ezxml_t contInf = ezxml_child(cont, "contactInfo");
 				const char* szType = ezxml_txt(ezxml_child(contInf, "contactType"));
 
-				if (strcmp(szType, "Me") != 0) {
+				if (mir_strcmp(szType, "Me") != 0) {
 					char email[128];
 
 					const char* szEmail = ezxml_txt(ezxml_child(contInf, "passportName"));
 					const char* szMsgUsr = ezxml_txt(ezxml_child(contInf, "isMessengerUser"));
 
 					int netId = NETID_UNKNOWN;
-					if (strcmp(szMsgUsr, "true") == 0) netId = NETID_MSN;
+					if (mir_strcmp(szMsgUsr, "true") == 0) netId = NETID_MSN;
 
 					if (szEmail[0] == '\0') {
 						ezxml_t eml = ezxml_get(contInf, "emails", 0, "ContactEmail", -1);
 						while (eml != NULL) {
 							szMsgUsr = ezxml_txt(ezxml_child(eml, "isMessengerEnabled"));
-							if (strcmp(szMsgUsr, "true") == 0) {
+							if (mir_strcmp(szMsgUsr, "true") == 0) {
 								szEmail = ezxml_txt(ezxml_child(eml, "email"));
 								const char* szCntType = ezxml_txt(ezxml_child(eml, "contactEmailType"));
-								if (strcmp(szCntType, "Messenger2") == 0)
+								if (mir_strcmp(szCntType, "Messenger2") == 0)
 									netId = NETID_YAHOO;
-								else if (strcmp(szCntType, "Messenger3") == 0)
+								else if (mir_strcmp(szCntType, "Messenger3") == 0)
 									netId = NETID_LCS;
 								break;
 							}
@@ -684,7 +684,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 							ezxml_t phn = ezxml_get(contInf, "phones", 0, "ContactPhone", -1);
 							while (phn != NULL) {
 								szMsgUsr = ezxml_txt(ezxml_child(phn, "isMessengerEnabled"));
-								if (strcmp(szMsgUsr, "true") == 0) {
+								if (mir_strcmp(szMsgUsr, "true") == 0) {
 									szEmail = ezxml_txt(ezxml_child(phn, "number"));
 									mir_snprintf(email, SIZEOF(email), "tel:%s", szEmail);
 									szEmail = email;
@@ -714,11 +714,11 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 					const char* szNick = NULL;
 					ezxml_t anot = ezxml_get(contInf, "annotations", 0, "Annotation", -1);
 					while (anot != NULL) {
-						if (strcmp(ezxml_txt(ezxml_child(anot, "Name")), "AB.NickName") == 0) {
+						if (mir_strcmp(ezxml_txt(ezxml_child(anot, "Name")), "AB.NickName") == 0) {
 							szNick = ezxml_txt(ezxml_child(anot, "Value"));
 							db_set_utf(hContact, "CList", "MyHandle", szNick);
 						}
-						if (strcmp(ezxml_txt(ezxml_child(anot, "Name")), "AB.JobTitle") == 0) {
+						if (mir_strcmp(ezxml_txt(ezxml_child(anot, "Name")), "AB.JobTitle") == 0) {
 							const char *szTmp = ezxml_txt(ezxml_child(anot, "Value"));
 							SetAbParam(hContact, "CompanyPosition", szTmp);
 						}
@@ -746,10 +746,10 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 					SetAbParam(hContact, "CID", szTmp);
 
 					szTmp = ezxml_txt(ezxml_child(contInf, "IsNotMobileVisible"));
-					setByte(hContact, "MobileAllowed", strcmp(szTmp, "true") != 0);
+					setByte(hContact, "MobileAllowed", mir_strcmp(szTmp, "true") != 0);
 
 					szTmp = ezxml_txt(ezxml_child(contInf, "isMobileIMEnabled"));
-					setByte(hContact, "MobileEnabled", strcmp(szTmp, "true") == 0);
+					setByte(hContact, "MobileEnabled", mir_strcmp(szTmp, "true") == 0);
 
 					szTmp = ezxml_txt(ezxml_child(contInf, "firstName"));
 					SetAbParam(hContact, "FirstName", szTmp);
@@ -774,9 +774,9 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 						const char* szCntType = ezxml_txt(ezxml_child(loc, "contactLocationType"));
 
 						int locid = -1;
-						if (strcmp(szCntType, "ContactLocationPersonal") == 0)
+						if (mir_strcmp(szCntType, "ContactLocationPersonal") == 0)
 							locid = 0;
-						else if (strcmp(szCntType, "ContactLocationBusiness") == 0)
+						else if (mir_strcmp(szCntType, "ContactLocationBusiness") == 0)
 							locid = 1;
 
 						if (locid >= 0) {
@@ -799,7 +799,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 					ezxml_t web = ezxml_get(contInf, "webSites", 0, "ContactWebSite", -1);
 					while (web != NULL) {
 						const char* szCntType = ezxml_txt(ezxml_child(web, "contactWebSiteType"));
-						if (strcmp(szCntType, "ContactWebSiteBusiness") == 0) {
+						if (mir_strcmp(szCntType, "ContactWebSiteBusiness") == 0) {
 							szTmp = ezxml_txt(ezxml_child(web, "webURL"));
 							SetAbParam(hContact, "CompanyHomepage", szTmp);
 						}
@@ -810,10 +810,10 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 					const char *szTmp;
 
 					szTmp = ezxml_txt(ezxml_child(contInf, "isMobileIMEnabled"));
-					setByte("MobileEnabled", strcmp(szTmp, "true") == 0);
+					setByte("MobileEnabled", mir_strcmp(szTmp, "true") == 0);
 
 					szTmp = ezxml_txt(ezxml_child(contInf, "IsNotMobileVisible"));
-					setByte("MobileAllowed", strcmp(szTmp, "true") != 0);
+					setByte("MobileAllowed", mir_strcmp(szTmp, "true") != 0);
 
 					szTmp = ezxml_txt(ezxml_child(contInf, "firstName"));
 					setStringUtf(NULL, "FirstName", szTmp);
@@ -823,7 +823,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 
 					ezxml_t anot = ezxml_get(contInf, "annotations", 0, "Annotation", -1);
 					while (anot != NULL) {
-						if (strcmp(ezxml_txt(ezxml_child(anot, "Name")), "MSN.IM.BLP") == 0)
+						if (mir_strcmp(ezxml_txt(ezxml_child(anot, "Name")), "MSN.IM.BLP") == 0)
 							msnOtherContactsBlocked = !atol(ezxml_txt(ezxml_child(anot, "Value")));
 
 						anot = ezxml_next(anot);
@@ -831,7 +831,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 
 					ezxml_t nil = ezxml_get(contInf, "NetworkInfoList", 0, "NetworkInfo", -1);
 					while (nil != NULL) {
-						if (strcmp(ezxml_txt(ezxml_child(nil, "SourceId")), "SKYPE") == 0) {
+						if (mir_strcmp(ezxml_txt(ezxml_child(nil, "SourceId")), "SKYPE") == 0) {
 							const char *pszPartner = ezxml_txt(ezxml_child(nil, "DomainTag"));
 							if (*pszPartner) setString("SkypePartner", pszPartner);
 						}
@@ -850,11 +850,11 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 		}
 		else if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
-			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
+			if (mir_strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
 				status = MSN_ABFind(szMethod, szGuid, deltas, false) ? 200 : 500;
 			}
-			else if (strcmp(szErr, "FullSyncRequired") == 0 && deltas) {
+			else if (mir_strcmp(szErr, "FullSyncRequired") == 0 && deltas) {
 				status = MSN_ABFind(szMethod, szGuid, false, false) ? 200 : 500;
 			}
 		}
@@ -906,18 +906,18 @@ bool CMsnProto::MSN_ABRefreshClist(void)
 
 				for (ezxml_t pers = ezxml_get(abinf, "persons", 0, "Person", -1); pers != NULL; pers = ezxml_next(pers)) {
 					const char *cid = ezxml_txt(ezxml_child(pers, "cid"));
-					if (mycid && !strcmp(cid, mycid)) continue;
+					if (mycid && !mir_strcmp(cid, mycid)) continue;
 
 					for (ezxml_t cont = ezxml_get(pers, "contacts", 0, "Contact", -1); cont != NULL; cont = ezxml_next(cont)) {
 						int netId;
 						const char* szEmail;
 
 						const char *src = ezxml_txt(ezxml_child(cont, "sourceId"));
-						if (!strcmp(src, "WL")) {
+						if (!mir_strcmp(src, "WL")) {
 							netId = NETID_MSN;
 							szEmail = ezxml_txt(ezxml_child(cont, "domainTag"));
 						}
-						else if (!strcmp(src, "SKYPE")) {
+						else if (!mir_strcmp(src, "SKYPE")) {
 							netId = NETID_SKYPE;
 							szEmail = ezxml_txt(ezxml_child(cont, "objectId"));
 						}
@@ -1025,7 +1025,7 @@ bool CMsnProto::MSN_ABAddDelContactGroup(const char* szCntId, const char* szGrpI
 		UpdateABCacheKey(xmlm, false);
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
-			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
+			if (mir_strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
 				status = MSN_ABAddDelContactGroup(szCntId, szGrpId, szMethod, false) ? 200 : 500;
 			}
@@ -1091,7 +1091,7 @@ void CMsnProto::MSN_ABAddGroup(const char* szGrpName, bool allowRecurse)
 		}
 		else if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
-			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
+			if (mir_strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
 				MSN_ABAddGroup(szGrpName, false);
 			}
@@ -1143,7 +1143,7 @@ void CMsnProto::MSN_ABRenameGroup(const char* szGrpName, const char* szGrpId, bo
 		UpdateABCacheKey(xmlm, false);
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
-			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
+			if (mir_strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
 				MSN_ABRenameGroup(szGrpName, szGrpId, false);
 			}
@@ -1228,7 +1228,7 @@ bool CMsnProto::MSN_ABAddRemoveContact(const char* szCntId, int netId, bool add,
 		UpdateABCacheKey(xmlm, false);
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
-			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
+			if (mir_strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
 				if (MSN_ABAddRemoveContact(szCntId, netId, add, false))
 					status = 200;
@@ -1294,7 +1294,7 @@ bool CMsnProto::MSN_ABUpdateProperty(const char* szCntId, const char* propName, 
 		UpdateABCacheKey(xmlm, false);
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
-			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
+			if (mir_strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
 				if (MSN_ABUpdateProperty(szCntId, propName, propValue, false))
 					status = 200;
@@ -1359,7 +1359,7 @@ void CMsnProto::MSN_ABUpdateAttr(const char* szCntId, const char* szAttr, const 
 		UpdateABCacheKey(xmlm, false);
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
-			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
+			if (mir_strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
 				MSN_ABUpdateAttr(szCntId, szAttr, szValue, false);
 			}
@@ -1497,15 +1497,15 @@ unsigned CMsnProto::MSN_ABContactAdd(const char* szEmail, const char* szNick, in
 		else if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
 
-			if (strcmp(szErr, "InvalidPassportUser") == 0)
+			if (mir_strcmp(szErr, "InvalidPassportUser") == 0)
 				status = 1;
-			else if (strcmp(szErr, "FederatedQueryFailure") == 0)
+			else if (mir_strcmp(szErr, "FederatedQueryFailure") == 0)
 				status = 4;
-			else if (strcmp(szErr, "EmailDomainIsFederated") == 0)
+			else if (mir_strcmp(szErr, "EmailDomainIsFederated") == 0)
 				status = 2;
-			else if (strcmp(szErr, "BadEmailArgument") == 0)
+			else if (mir_strcmp(szErr, "BadEmailArgument") == 0)
 				status = 4;
-			else if (strcmp(szErr, "ContactAlreadyExists") == 0) {
+			else if (mir_strcmp(szErr, "ContactAlreadyExists") == 0) {
 				status = 3;
 
 				ezxml_t node = getSoapFault(xmlm, false);
@@ -1523,7 +1523,7 @@ unsigned CMsnProto::MSN_ABContactAdd(const char* szEmail, const char* szNick, in
 					setString(hContact, "ID", szContId);
 				}
 			}
-			else if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
+			else if (mir_strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
 				status = MSN_ABContactAdd(szEmail, szNick, netId, NULL, search, retry, false);
 			}
@@ -1621,7 +1621,7 @@ void CMsnProto::MSN_ABUpdateDynamicItem(bool allowRecurse)
 		UpdateABCacheKey(xmlm, false);
 		if (status == 500) {
 			const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
-			if (strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
+			if (mir_strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
 				MSN_GetPassportAuth();
 				MSN_ABUpdateDynamicItem(false);
 			}

@@ -39,9 +39,9 @@ static int isSelf(TlenProtocol *proto, const char *roomID, const char *nick)
 	item = TlenListGetItemPtr(proto, LIST_CHATROOM, roomID);
 	if (item != NULL) {
 		if (item->nick == NULL) {
-			if (!strcmp(nick, proto->threadData->username)) result = 1;
+			if (!mir_strcmp(nick, proto->threadData->username)) result = 1;
 		} else if (nick[0] == '~') {
-			if (!strcmp(nick+1, item->nick)) {
+			if (!mir_strcmp(nick+1, item->nick)) {
 				result = 1;
 			}
 		}
@@ -72,7 +72,7 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 	if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 		mir_snprintf(jid, SIZEOF(jid), "%s@%s", id, dbv.pszVal);
 		db_free(&dbv);
-		if (((hContact=TlenHContactFromJID(proto, jid)) != NULL) || !strcmp(id, proto->threadData->username)) {
+		if (((hContact=TlenHContactFromJID(proto, jid)) != NULL) || !mir_strcmp(id, proto->threadData->username)) {
 			CONTACTINFO ci = { sizeof(ci) };
 			ci.hContact = hContact;
 			ci.szProto = (char *)proto->m_szModuleName;

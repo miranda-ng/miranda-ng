@@ -269,7 +269,7 @@ void Scan4Games(LPVOID lparam)
 		if (gpps != NULL) xfire_GetPrivateProfileString(temp, "SoftwareType", "", entrytype, 100, inipath);
 
 		//kein eintrag? voicechat? musiapplicationen? schon in der gameliste?
-		if (gpps != NULL && strcmp(entrytype, "Music") != 0 && strcmp(entrytype, "VoiceChat") != 0 && !xgamelist.Gameinlist(i)) //was gefunden und noch nicht eintragen?
+		if (gpps != NULL && mir_strcmp(entrytype, "Music") != 0 && mir_strcmp(entrytype, "VoiceChat") != 0 && !xgamelist.Gameinlist(i)) //was gefunden und noch nicht eintragen?
 		{
 			BOOL MatchExe = FALSE;
 			//MatchExe Games in der automatischen Suche skippen

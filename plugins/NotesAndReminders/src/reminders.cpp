@@ -193,7 +193,7 @@ static void RemoveReminderSystemEvent(REMINDERDATA *p)
 				break;
 
 			if ((ULONG)pev->lParam == p->uid && !pev->hContact
-				&& pev->pszService && !strcmp(pev->pszService, MODULENAME"/OpenTriggeredReminder"))
+				&& pev->pszService && !mir_strcmp(pev->pszService, MODULENAME"/OpenTriggeredReminder"))
 			{
 				if ( !CallService(MS_CLIST_REMOVEEVENT,(WPARAM)pev->hContact,(LPARAM)pev->hDbEvent) )
 				{

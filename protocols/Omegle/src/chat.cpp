@@ -51,7 +51,7 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
 
-	if(strcmp(hook->pDest->pszModule,m_szModuleName))
+	if(mir_strcmp(hook->pDest->pszModule,m_szModuleName))
 		return 0;
 
 	switch(hook->pDest->iType)
@@ -364,7 +364,7 @@ MCONTACT OmegleProto::GetChatHandle()
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) > 0) {
 			ptrA id = db_get_sa(hContact, m_szModuleName, "ChatRoomId");
-			if (id != NULL && !strcmp(id, m_szModuleName))
+			if (id != NULL && !mir_strcmp(id, m_szModuleName))
 				return hContact;
 		}
 	}

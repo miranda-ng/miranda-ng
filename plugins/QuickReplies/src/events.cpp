@@ -82,7 +82,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
 
 	mir_snprintf(buttonName, SIZEOF(buttonName), MODULE" %x", iNumber + 1);
-	if (strcmp(cbcd->pszModule, buttonName))
+	if (mir_strcmp(cbcd->pszModule, buttonName))
 		return 0;
 
 	if (cbcd->dwButtonId != iNumber)

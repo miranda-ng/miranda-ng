@@ -322,7 +322,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			  {
 				  char buf[64];
 				  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, SIZEOF(buf));
-				  if(!strcmp(buf, Translate("Default")))
+				  if(!mir_strcmp(buf, Translate("Default")))
 				  {
 					  db_set_s(NULL, szGPGModuleName, "GPGPubKey", out.c_str());
 					  db_set_ts(NULL, szGPGModuleName, "KeyMainName", name);
@@ -340,7 +340,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					  acc_str += "_KeyID";
 					  db_set_ts(NULL, szGPGModuleName, acc_str.c_str(), fp);
 				  }
-				  if(!strcmp(buf, Translate("Default")))
+				  if(!mir_strcmp(buf, Translate("Default")))
 				  {
 					  wstring keyinfo = TranslateT("Default private key ID");
 					  keyinfo += _T(": ");
@@ -497,7 +497,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		  {
 			  char buf[64];
 			  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, SIZEOF(buf));
-			  if(!strcmp(buf, Translate("Default")))
+			  if(!mir_strcmp(buf, Translate("Default")))
 			  {
 				  db_unset(NULL, szGPGModuleName, "GPGPubKey");
 				  db_unset(NULL, szGPGModuleName, "KeyID");
@@ -625,7 +625,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  {
 					  char buf[64];
 					  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, SIZEOF(buf));
-					  if(!strcmp(buf, Translate("Default")))
+					  if(!mir_strcmp(buf, Translate("Default")))
 					  {
 						  db_set_s(NULL, szGPGModuleName, "GPGPubKey", out.c_str());
 						  db_set_ts(NULL, szGPGModuleName, "KeyID", fp);
@@ -650,7 +650,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			{
 				char buf[64];
 				GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, SIZEOF(buf));
-				if(!strcmp(buf, Translate("Default")))
+				if(!mir_strcmp(buf, Translate("Default")))
 				{
 					string keyinfo = Translate("key ID");
 					keyinfo += ": ";

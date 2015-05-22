@@ -165,13 +165,13 @@ char* XFireGetFoldersPath(char * pathtype)
 {// Get XFire folder path
 	static char path[1024]; path[0] = 0;
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)){
-		if (!strcmp(pathtype, "Avatar")){
+		if (!mir_strcmp(pathtype, "Avatar")){
 			FoldersGetCustomPath(XFireAvatarFolder, path, 1024, "");
 		}
-		if (!strcmp(pathtype, "IniFile")){
+		if (!mir_strcmp(pathtype, "IniFile")){
 			FoldersGetCustomPath(XFireWorkingFolder, path, 1024, "");
 		}
-		if (!strcmp(pathtype, "IconsFile")){
+		if (!mir_strcmp(pathtype, "IconsFile")){
 			FoldersGetCustomPath(XFireIconFolder, path, 1024, "");
 		}
 		strcat(path, "\\");
@@ -198,7 +198,7 @@ char* XFireGetFoldersPath(char * pathtype)
 		strcat(BaseFolder, "XFire");
 		strcat(BaseFolder, "\\");
 		/*******BASE********/
-		if (!strcmp(pathtype, "Avatar")){
+		if (!mir_strcmp(pathtype, "Avatar")){
 			strcat(BaseFolder, "Avatars");
 			strcat(BaseFolder, "\\");
 		}

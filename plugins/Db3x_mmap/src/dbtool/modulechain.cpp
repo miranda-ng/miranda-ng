@@ -91,7 +91,7 @@ int CDb3Mmap::WorkModuleChain(int firstTime)
 			// check duplicated modulenames
 			int i, n = 0;
 			for (i = iCurrentModName + 1; i < modChainCount; i++)
-				if (!strcmp(modChain[i].name, modChain[iCurrentModName].name)) {
+				if (!mir_strcmp(modChain[i].name, modChain[iCurrentModName].name)) {
 					modChain[i].ofsNew = modChain[iCurrentModName].ofsNew;
 					n++;
 				}

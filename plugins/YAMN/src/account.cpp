@@ -1006,7 +1006,7 @@ INT_PTR FindAccountByNameSvc(WPARAM wParam, LPARAM lParam)
 	DebugLog(SynchroFile,"FindAccountByName:AccountBrowserSO-read enter\n");
 #endif
 	for (Finder = Plugin->FirstAccount; Finder != NULL; Finder = Finder->Next)
-		if ((Finder->Name != NULL) && (0 == strcmp(SearchedAccount, Finder->Name)))
+		if ((Finder->Name != NULL) && (0 == mir_strcmp(SearchedAccount, Finder->Name)))
 			break;
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"FindAccountByName:AccountBrowserSO-read done\n");

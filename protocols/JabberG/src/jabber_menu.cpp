@@ -80,7 +80,7 @@ static CJabberProto* JabberGetInstanceByHContact(MCONTACT hContact)
 		return NULL;
 
 	for (int i=0; i < g_Instances.getCount(); i++)
-		if (!strcmp(szProto, g_Instances[i]->m_szModuleName))
+		if (!mir_strcmp(szProto, g_Instances[i]->m_szModuleName))
 			return g_Instances[i];
 
 	return NULL;

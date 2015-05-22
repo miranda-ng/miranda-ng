@@ -80,7 +80,7 @@ int CToxProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 	{
 		return 1;
 	}
-	else if (strcmp(gch->pDest->pszModule, this->m_szModuleName) != 0)
+	else if (mir_strcmp(gch->pDest->pszModule, this->m_szModuleName) != 0)
 	{
 		return 0;
 	}

@@ -93,7 +93,7 @@ static CIrcProto* IrcGetInstanceByHContact(MCONTACT hContact)
 		return NULL;
 
 	for (int i = 0; i < g_Instances.getCount(); i++)
-		if (!strcmp(szProto, g_Instances[i]->m_szModuleName))
+		if (!mir_strcmp(szProto, g_Instances[i]->m_szModuleName))
 			return g_Instances[i];
 
 	return NULL;
@@ -975,13 +975,13 @@ int __cdecl CIrcProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
-	if (strcmp(cws->szModule, "CList"))
+	if (mir_strcmp(cws->szModule, "CList"))
 		return 0;
 
 	if (cws->value.type != DBVT_DELETED && !(cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
 		return 0;
 
-	if (!strcmp(cws->szSetting, "NotOnList")) {
+	if (!mir_strcmp(cws->szSetting, "NotOnList")) {
 		DBVARIANT dbv;
 		if (!getTString(hContact, "Nick", &dbv)) {
 			if (getByte("MirVerAutoRequest", 1))

@@ -99,7 +99,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (AI->format != PA_FORMAT_UNKNOWN) {
 		bool needupdate = true;
 		if (getString(AI->hContact, "PictSavedContext", &dbv) == 0) {
-			needupdate = strcmp(dbv.pszVal, szContext) != 0;
+			needupdate = mir_strcmp(dbv.pszVal, szContext) != 0;
 			db_free(&dbv);
 		}
 
@@ -453,8 +453,8 @@ int CMsnProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (hContact == NULL) {
-		if (MyOptions.SlowSend && strcmp(cws->szSetting, "MessageTimeout") == 0 &&
-			(strcmp(cws->szModule, "SRMM") == 0 || strcmp(cws->szModule, "SRMsg") == 0)) {
+		if (MyOptions.SlowSend && mir_strcmp(cws->szSetting, "MessageTimeout") == 0 &&
+			(mir_strcmp(cws->szModule, "SRMM") == 0 || mir_strcmp(cws->szModule, "SRMsg") == 0)) {
 			if (cws->value.dVal < 60000)
 				MessageBox(NULL, TranslateT("MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value."),
 				TranslateT("MSN Protocol"), MB_OK | MB_ICONINFORMATION);
@@ -462,7 +462,7 @@ int CMsnProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	if (!strcmp(cws->szSetting, "ApparentMode")) {
+	if (!mir_strcmp(cws->szSetting, "ApparentMode")) {
 		char tEmail[MSN_MAX_EMAIL_LEN];
 		if (!db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail)) ||
 			!db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail))) {
@@ -479,7 +479,7 @@ int CMsnProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 	}
 
-	if (!strcmp(cws->szSetting, "MyHandle") && !strcmp(cws->szModule, "CList")) {
+	if (!mir_strcmp(cws->szSetting, "MyHandle") && !mir_strcmp(cws->szModule, "CList")) {
 		bool isMe = MSN_IsMeByContact(hContact);
 		if (!isMe || !nickChg) {
 			char szContactID[100];

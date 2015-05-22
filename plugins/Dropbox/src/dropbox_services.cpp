@@ -181,7 +181,7 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 
 		for (int i = 0; i < SIZEOF(commands); i++)
 		{
-			if (!strcmp(szMessage+1, commands[i].szCommand))
+			if (!mir_strcmp(szMessage+1, commands[i].szCommand))
 			{
 				ULONG messageId = InterlockedIncrement(&hMessageProcess);
 

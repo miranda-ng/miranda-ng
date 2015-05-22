@@ -109,10 +109,10 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 {
 	if (hContact && pdbcws && pdbcws->szSetting && 
 			((pdbcws->value.type & DBVTF_VARIABLELENGTH) || (pdbcws->value.type == DBVT_DELETED)) &&
-			(!strcmp(pdbcws->szSetting, SET_CONTACT_PHONE) ||
-			 !strcmp(pdbcws->szSetting, SET_CONTACT_CELLULAR) ||
-			 !strcmp(pdbcws->szSetting, SET_CONTACT_COMPANY_PHONE) ||
-			 !strcmp(pdbcws->szSetting, SET_CONTACT_COMPANY_CELLULAR) ||
+			(!mir_strcmp(pdbcws->szSetting, SET_CONTACT_PHONE) ||
+			 !mir_strcmp(pdbcws->szSetting, SET_CONTACT_CELLULAR) ||
+			 !mir_strcmp(pdbcws->szSetting, SET_CONTACT_COMPANY_PHONE) ||
+			 !mir_strcmp(pdbcws->szSetting, SET_CONTACT_COMPANY_CELLULAR) ||
 			 !strncmp(pdbcws->szSetting, "MyPhone0", 8)))
 		OnCListApplyIcons(hContact, 0);
 

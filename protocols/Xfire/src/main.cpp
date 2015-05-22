@@ -829,7 +829,7 @@ INT_PTR UrlCall(WPARAM wparam, LPARAM lparam) {
 				//abschneiden
 				*q = 0;
 				//ein addfriend url request?
-				if (strcmp("add_friend", type) == 0)
+				if (mir_strcmp("add_friend", type) == 0)
 				{
 					q++;
 					//nach = suchen
@@ -840,7 +840,7 @@ INT_PTR UrlCall(WPARAM wparam, LPARAM lparam) {
 						*g = 0;
 						g++;
 						//user parameter?
-						if (strcmp("user", q) == 0)
+						if (mir_strcmp("user", q) == 0)
 						{
 							//tempbuffer für die frage and en user
 							char temp[100];
@@ -2800,7 +2800,7 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 					}
 					else
 					{
-						if (strcmp(entry->lastpopup, temp) != 0)
+						if (mir_strcmp(entry->lastpopup, temp) != 0)
 						{
 							delete[] entry->lastpopup;
 							entry->lastpopup = NULL;

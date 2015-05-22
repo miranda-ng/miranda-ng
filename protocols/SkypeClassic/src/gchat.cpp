@@ -184,7 +184,7 @@ MCONTACT find_chatA(char *chatname) {
 		{
 			DBVARIANT dbv;
 			if (!db_get_s(hContact, SKYPE_PROTONAME, "ChatRoomID", &dbv)) {
-				int tCompareResult = strcmp(dbv.pszVal, chatname);
+				int tCompareResult = mir_strcmp(dbv.pszVal, chatname);
 				db_free(&dbv);
 				if (!tCompareResult)
 					return hContact; // already there, return handle
@@ -225,7 +225,7 @@ int  __cdecl AddMembers(char *szSkypeMsg) {
 					break;
 				}
 				if (!(who = SkypeGet ("CHATMEMBER", token, "IDENTITY"))) continue;
-				if (strcmp(who, dbv2.pszVal)) {
+				if (mir_strcmp(who, dbv2.pszVal)) {
 					TCHAR *ptszRole = NULL;
 
 					char *pszRole = SkypeGet("CHATMEMBER", token, "ROLE");
@@ -256,7 +256,7 @@ int  __cdecl AddMembers(char *szSkypeMsg) {
 					iRet = -1;
 					break;
 				}
-				if (strcmp(who, dbv2.pszVal)) {
+				if (mir_strcmp(who, dbv2.pszVal)) {
 					i=AddChatContact(gc, who, NULL);
 					BYTE *pcontactmask;
 					if (i<0 || !(pcontactmask= (BYTE *) realloc(contactmask, gc->mJoinedCount))) {

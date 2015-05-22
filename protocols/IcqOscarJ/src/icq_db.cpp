@@ -174,7 +174,7 @@ void CIcqProto::setStatusMsgVar(MCONTACT hContact, char* szStatusMsg, bool isAns
 			db_free(&dbv);
 		}
 
-		if (!oldStatusMsg || strcmp(oldStatusMsg, szStatusMsg))
+		if (!oldStatusMsg || mir_strcmp(oldStatusMsg, szStatusMsg))
 			db_set_utf(hContact, "CList", "StatusMsg", szStatusMsg);
 		SAFE_FREE(&oldStatusMsg);
 		if (isAnsi) SAFE_FREE(&szStatusMsg);

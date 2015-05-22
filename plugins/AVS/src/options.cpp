@@ -164,7 +164,7 @@ static void SetProtoPic(char *szProto)
 			if (mir_strlen(p.szProtoname) == 0)
 				break;
 
-			if (!strcmp(p.szProtoname, szProto) && mir_strlen(p.szProtoname) == mir_strlen(szProto)) {
+			if (!mir_strcmp(p.szProtoname, szProto) && mir_strlen(p.szProtoname) == mir_strlen(szProto)) {
 				if (p.hbmPic != 0)
 					DeleteObject(p.hbmPic);
 				memset(&p, 0, sizeof(avatarCacheEntry));

@@ -584,7 +584,7 @@ int array_contains(char **array, const char *string, int casesensitive)
 		return 0;
 
 	for (i = 0; array[i]; i++) {
-		if (casesensitive && !strcmp(array[i], string))
+		if (casesensitive && !mir_strcmp(array[i], string))
 			return 1;
 		if (!casesensitive && !strcasecmp(array[i], string))
 			return 1;

@@ -80,49 +80,49 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 	if (hContact == NULL) {
-		if (!strcmp(cws->szModule, "CListGroups"))
+		if (!mir_strcmp(cws->szModule, "CListGroups"))
 			cli.pfnClcBroadcast(INTM_GROUPSCHANGED, hContact, lParam);
 		return 0;
 	}
 
-	if (!strcmp(cws->szModule, "CList")) {
-		if (!strcmp(cws->szSetting, "MyHandle")) {
+	if (!mir_strcmp(cws->szModule, "CList")) {
+		if (!mir_strcmp(cws->szSetting, "MyHandle")) {
 			cli.pfnInvalidateDisplayNameCacheEntry(hContact);
 			cli.pfnClcBroadcast(INTM_NAMECHANGED, hContact, lParam);
 		}
-		else if (!strcmp(cws->szSetting, "Group"))
+		else if (!mir_strcmp(cws->szSetting, "Group"))
 			cli.pfnClcBroadcast(INTM_GROUPCHANGED, hContact, lParam);
-		else if (!strcmp(cws->szSetting, "Hidden"))
+		else if (!mir_strcmp(cws->szSetting, "Hidden"))
 			cli.pfnClcBroadcast(INTM_HIDDENCHANGED, hContact, lParam);
-		else if (!strcmp(cws->szSetting, "NotOnList"))
+		else if (!mir_strcmp(cws->szSetting, "NotOnList"))
 			cli.pfnClcBroadcast(INTM_NOTONLISTCHANGED, hContact, lParam);
-		else if (!strcmp(cws->szSetting, "Status"))
+		else if (!mir_strcmp(cws->szSetting, "Status"))
 			cli.pfnClcBroadcast(INTM_INVALIDATE, 0, 0);
-		else if (!strcmp(cws->szSetting, "NameOrder"))
+		else if (!mir_strcmp(cws->szSetting, "NameOrder"))
 			cli.pfnClcBroadcast(INTM_NAMEORDERCHANGED, 0, 0);
 	}
 	else {
 		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL) {
-			if (!strcmp(cws->szModule, "Protocol") && !strcmp(cws->szSetting, "p"))
+			if (!mir_strcmp(cws->szModule, "Protocol") && !mir_strcmp(cws->szSetting, "p"))
 				cli.pfnClcBroadcast(INTM_PROTOCHANGED, hContact, lParam);
 
 			// something is being written to a protocol module
-			if (!strcmp(szProto, cws->szModule)) {
+			if (!mir_strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
 				char *id = (char *) CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-				if ((INT_PTR)id != CALLSERVICE_NOTFOUND && id != NULL && !strcmp(id, cws->szSetting))
+				if ((INT_PTR)id != CALLSERVICE_NOTFOUND && id != NULL && !mir_strcmp(id, cws->szSetting))
 					cli.pfnClcBroadcast(INTM_PROTOCHANGED, hContact, lParam);
 			}
 		}
-		if (szProto == NULL || strcmp(szProto, cws->szModule))
+		if (szProto == NULL || mir_strcmp(szProto, cws->szModule))
 			return 0;
-		if (!strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName") || !strcmp(cws->szSetting, "e-mail")
-			 ||  !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "UIN"))
+		if (!mir_strcmp(cws->szSetting, "Nick") || !mir_strcmp(cws->szSetting, "FirstName") || !mir_strcmp(cws->szSetting, "e-mail")
+			 ||  !mir_strcmp(cws->szSetting, "LastName") || !mir_strcmp(cws->szSetting, "UIN"))
 			cli.pfnClcBroadcast(INTM_NAMECHANGED, hContact, lParam);
-		else if (!strcmp(cws->szSetting, "ApparentMode"))
+		else if (!mir_strcmp(cws->szSetting, "ApparentMode"))
 			cli.pfnClcBroadcast(INTM_APPARENTMODECHANGED, hContact, lParam);
-		else if (!strcmp(cws->szSetting, "IdleTS"))
+		else if (!mir_strcmp(cws->szSetting, "IdleTS"))
 			cli.pfnClcBroadcast(INTM_IDLECHANGED, hContact, lParam);
 	}
 	return 0;

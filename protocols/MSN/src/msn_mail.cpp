@@ -182,7 +182,7 @@ void CMsnProto::getMetaData(void)
 
 void CMsnProto::processMailData(char* mailData)
 {
-	if (strcmp(mailData, "too-large") == 0) {
+	if (mir_strcmp(mailData, "too-large") == 0) {
 		getMetaData();
 	}
 	else {
@@ -232,13 +232,13 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 
 	if (MsgDelta != NULL) {
 		int iDelta = atol(MsgDelta);
-		if (SrcFolder && strcmp(SrcFolder, "ACTIVE") == 0)
+		if (SrcFolder && mir_strcmp(SrcFolder, "ACTIVE") == 0)
 			mUnreadMessages -= iDelta;
-		else if (DestFolder && strcmp(DestFolder, "ACTIVE") == 0)
+		else if (DestFolder && mir_strcmp(DestFolder, "ACTIVE") == 0)
 			mUnreadMessages += iDelta;
-		if (SrcFolder && strcmp(SrcFolder, "HM_BuLkMail_") == 0)
+		if (SrcFolder && mir_strcmp(SrcFolder, "HM_BuLkMail_") == 0)
 			mUnreadJunkEmails -= iDelta;
-		else if (DestFolder && strcmp(DestFolder, "HM_BuLkMail_") == 0)
+		else if (DestFolder && mir_strcmp(DestFolder, "HM_BuLkMail_") == 0)
 			mUnreadJunkEmails += iDelta;
 
 		if (mUnreadJunkEmails < 0) mUnreadJunkEmails = 0;
@@ -247,8 +247,8 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 
 	if (From != NULL && Subject != NULL && Fromaddr != NULL) {
 		if (DestFolder != NULL && SrcFolder == NULL) {
-			mUnreadMessages += strcmp(DestFolder, "ACTIVE") == 0;
-			mUnreadJunkEmails += strcmp(DestFolder, "HM_BuLkMail_") == 0;
+			mUnreadMessages += mir_strcmp(DestFolder, "ACTIVE") == 0;
+			mUnreadJunkEmails += mir_strcmp(DestFolder, "HM_BuLkMail_") == 0;
 		}
 
 		wchar_t* mimeFromW = tFileInfo.decode(From);

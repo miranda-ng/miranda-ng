@@ -137,7 +137,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	if (::_taccess(AI->filename, 0) == 0) {
 		ptrA szSavedHash( getStringA(AI->hContact, "AvatarSaved"));
-		if (szSavedHash != NULL && !strcmp(szSavedHash, szHashValue)) {
+		if (szSavedHash != NULL && !mir_strcmp(szSavedHash, szHashValue)) {
 			debugLogA("Avatar is Ok: %s == %s", szSavedHash, szHashValue);
 			return GAIR_SUCCESS;
 		}

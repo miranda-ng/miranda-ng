@@ -133,7 +133,7 @@ bool AddContactDlgAccounts(HWND hdlg, AddDialogParam *acs)
 		DestroyIcon(hIcon);
 		cbei.lParam = (LPARAM)pAccounts[i]->szModuleName;
 		SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_INSERTITEM, 0, (LPARAM)&cbei);
-		if (cbei.lParam && !strcmp(acs->proto, pAccounts[i]->szModuleName))
+		if (cbei.lParam && !mir_strcmp(acs->proto, pAccounts[i]->szModuleName))
 			iIndex = cbei.iItem;
 		cbei.iItem++;
 	}

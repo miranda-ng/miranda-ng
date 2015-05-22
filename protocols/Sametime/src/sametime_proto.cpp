@@ -238,7 +238,7 @@ int CSametimeProto::SendMsg(MCONTACT hContact, int, const char* msg)
 	char *proto = GetContactProto(hContact);
 	int ret;
 
-	if (!proto || strcmp(proto, m_szModuleName) != 0 || db_get_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
+	if (!proto || mir_strcmp(proto, m_szModuleName) != 0 || db_get_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
 		TFakeAckParams* tfap = (TFakeAckParams*)mir_alloc(sizeof(TFakeAckParams));
 		tfap->proto = this;
 		tfap->hContact = hContact;

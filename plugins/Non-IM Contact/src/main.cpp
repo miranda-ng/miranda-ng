@@ -29,10 +29,10 @@ INT_PTR doubleClick(WPARAM wParam, LPARAM lParam)
 	char program[MAX_PATH], params[MAX_PATH];
 	int shellEXEerror = 0;
 	char* proto = GetContactProto(wParam);
-	if (proto && !strcmp(proto, MODNAME)) {
+	if (proto && !mir_strcmp(proto, MODNAME)) {
 		if (GetKeyState(VK_CONTROL) & 0x8000) // ctrl is pressed
 			editContact(wParam, 0);		// for later when i add a second double click setting
-		else if (db_get_static(wParam, MODNAME, "Program", program, SIZEOF(program)) && strcmp(program, "")) {
+		else if (db_get_static(wParam, MODNAME, "Program", program, SIZEOF(program)) && mir_strcmp(program, "")) {
 			if (!db_get_static(wParam, MODNAME, "ProgramParams", params, SIZEOF(params)))
 				strcpy(params, "");
 			if (strstr(program, "http://") || strstr(program, "https://"))

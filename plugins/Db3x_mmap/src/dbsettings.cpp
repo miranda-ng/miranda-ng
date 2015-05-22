@@ -31,14 +31,14 @@ DBCachedContact* AddToCachedContactList(MCONTACT contactID, int index);
 BOOL CDb3Mmap::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
 {
 	if (!_strnicmp(szSetting, "password", 8))      return true;
-	if (!strcmp(szSetting, "NLProxyAuthPassword")) return true;
-	if (!strcmp(szSetting, "LNPassword"))          return true;
-	if (!strcmp(szSetting, "FileProxyPassword"))   return true;
-	if (!strcmp(szSetting, "TokenSecret"))         return true;
+	if (!mir_strcmp(szSetting, "NLProxyAuthPassword")) return true;
+	if (!mir_strcmp(szSetting, "LNPassword"))          return true;
+	if (!mir_strcmp(szSetting, "FileProxyPassword"))   return true;
+	if (!mir_strcmp(szSetting, "TokenSecret"))         return true;
 
-	if (!strcmp(szModule, "SecureIM")) {
-		if (!strcmp(szSetting, "pgp"))              return true;
-		if (!strcmp(szSetting, "pgpPrivKey"))       return true;
+	if (!mir_strcmp(szModule, "SecureIM")) {
+		if (!mir_strcmp(szSetting, "pgp"))              return true;
+		if (!mir_strcmp(szSetting, "pgpPrivKey"))       return true;
 	}
 	return false;
 }
@@ -47,10 +47,10 @@ BOOL CDb3Mmap::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
 
 static bool ValidLookupName(LPCSTR szModule, LPCSTR szSetting)
 {
-	if (!strcmp(szModule, META_PROTO))
-		return strcmp(szSetting, "IsSubcontact") && strcmp(szSetting, "ParentMetaID");
+	if (!mir_strcmp(szModule, META_PROTO))
+		return mir_strcmp(szSetting, "IsSubcontact") && mir_strcmp(szSetting, "ParentMetaID");
 
-	if (!strcmp(szModule, "Ignore"))
+	if (!mir_strcmp(szModule, "Ignore"))
 		return false;
 
 	return true;
@@ -478,7 +478,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 				case DBVT_WORD:   bIsIdentical = pCachedValue->wVal == dbcwWork.value.wVal;  break;
 				case DBVT_DWORD:  bIsIdentical = pCachedValue->dVal == dbcwWork.value.dVal;  break;
 				case DBVT_UTF8:
-				case DBVT_ASCIIZ: bIsIdentical = strcmp(pCachedValue->pszVal, dbcwWork.value.pszVal) == 0; break;
+				case DBVT_ASCIIZ: bIsIdentical = mir_strcmp(pCachedValue->pszVal, dbcwWork.value.pszVal) == 0; break;
 				}
 				if (bIsIdentical)
 					return 0;

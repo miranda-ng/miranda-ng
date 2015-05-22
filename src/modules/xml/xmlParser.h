@@ -384,8 +384,8 @@ public:
 	void deleteNodeContent();
 	/**< \note The XMLNode instances that are referring to the part of the subtree that has been deleted CANNOT be used anymore!!. Unexpected results will occur if you continue using them. */
 	void deleteAttribute(int i=0);                   ///< Delete the ith attribute of the current XMLNode
-	void deleteAttribute(XMLCSTR lpszName);          ///< Delete the attribute with the given name (the "strcmp" function is used to find the right attribute)
-	void deleteAttribute(XMLAttribute *anAttribute); ///< Delete the attribute with the name "anAttribute->lpszName" (the "strcmp" function is used to find the right attribute)
+	void deleteAttribute(XMLCSTR lpszName);          ///< Delete the attribute with the given name (the "mir_strcmp" function is used to find the right attribute)
+	void deleteAttribute(XMLAttribute *anAttribute); ///< Delete the attribute with the name "anAttribute->lpszName" (the "mir_strcmp" function is used to find the right attribute)
 	void deleteText(int i=0);                        ///< Delete the Ith text content of the current XMLNode
 	void deleteText(XMLCSTR lpszValue);              ///< Delete the text content "lpszValue" inside the current XMLNode (direct "pointer-to-pointer" comparison is used to find the right text)
 	void deleteClear(int i=0);                       ///< Delete the Ith clear tag inside the current XMLNode

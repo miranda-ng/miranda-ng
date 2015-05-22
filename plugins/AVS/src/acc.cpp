@@ -432,7 +432,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 	case AVATAR_SETPROTOCOL:
 		szProto = (lParam == NULL) ? "" : (char*)lParam;
-		if (data->hContact != 0 || strcmp(szProto, data->proto)) {
+		if (data->hContact != 0 || mir_strcmp(szProto, data->proto)) {
 			DestroyAnimation(data);
 
 			data->hContact = NULL;
@@ -540,7 +540,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case DM_MYAVATARCHANGED:
-		if (data->hContact == NULL && strcmp(data->proto, (char*)wParam) == 0) {
+		if (data->hContact == NULL && mir_strcmp(data->proto, (char*)wParam) == 0) {
 			DestroyAnimation(data);
 			StartAnimation(data);
 

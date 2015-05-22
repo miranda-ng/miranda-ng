@@ -70,7 +70,7 @@ class COptions
 
 	OBJLIST<PrevStatus> m_aProtocol2Status;
 	static int CompareStatuses(const PrevStatus *p1, const PrevStatus *p2)
-	{	return strcmp(p1->szProto, p2->szProto);
+	{	return mir_strcmp(p1->szProto, p2->szProto);
 	}
 
 public:

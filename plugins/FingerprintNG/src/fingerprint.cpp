@@ -322,7 +322,7 @@ static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay, short *over
 
 void __fastcall GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
 {
-	if (strcmp(szMirVer, "?") == 0) {
+	if (mir_strcmp(szMirVer, "?") == 0) {
 		*base = UNKNOWN_MASK_NUMBER;
 		*overlay = -1;
 		*overlay2 = -1;
@@ -887,7 +887,7 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (cws && cws->szSetting && !strcmp(cws->szSetting, "MirVer")) {
+	if (cws && cws->szSetting && !mir_strcmp(cws->szSetting, "MirVer")) {
 		switch (cws->value.type) {
 		case DBVT_UTF8:
 			ApplyFingerprintImage(hContact, ptrT(mir_utf8decodeT(cws->value.pszVal)));

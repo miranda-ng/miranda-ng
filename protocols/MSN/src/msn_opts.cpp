@@ -226,7 +226,7 @@ LBL_Continue:
 			CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 			GetDlgItemTextA(hwndDlg, IDC_HANDLE, szEmail, SIZEOF(szEmail));
-			if (strcmp(_strlwr(szEmail), proto->MyOptions.szEmail)) {
+			if (mir_strcmp(_strlwr(szEmail), proto->MyOptions.szEmail)) {
 				reconnectRequired = true;
 				strcpy(proto->MyOptions.szEmail, szEmail);
 				proto->setString("e-mail", szEmail);
@@ -236,7 +236,7 @@ LBL_Continue:
 
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, SIZEOF(password));
 			if (!proto->getString("Password", &dbv)) {
-				if (strcmp(password, dbv.pszVal)) {
+				if (mir_strcmp(password, dbv.pszVal)) {
 					reconnectRequired = true;
 					proto->setString("Password", password);
 				}
@@ -382,13 +382,13 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 			GetDlgItemTextA(hwndDlg, IDC_DIRECTSERVER, str, SIZEOF(str));
-			if (strcmp(str, MSN_DEFAULT_LOGIN_SERVER))
+			if (mir_strcmp(str, MSN_DEFAULT_LOGIN_SERVER))
 				proto->setString("DirectServer", str);
 			else
 				proto->delSetting("DirectServer");
 
 			GetDlgItemTextA(hwndDlg, IDC_GATEWAYSERVER, str, SIZEOF(str));
-			if (strcmp(str, MSN_DEFAULT_GATEWAY))
+			if (mir_strcmp(str, MSN_DEFAULT_GATEWAY))
 				proto->setString("GatewayServer", str);
 			else
 				proto->delSetting("GatewayServer");
@@ -552,7 +552,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 			GetDlgItemTextA(hwndDlg, IDC_HANDLE, szEmail, SIZEOF(szEmail));
-			if (strcmp(szEmail, proto->MyOptions.szEmail)) {
+			if (mir_strcmp(szEmail, proto->MyOptions.szEmail)) {
 				strcpy(proto->MyOptions.szEmail, szEmail);
 				proto->setString("e-mail", szEmail);
 				proto->setString("wlid", szEmail);
@@ -561,7 +561,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, SIZEOF(password));
 			if (!proto->getString("Password", &dbv)) {
-				if (strcmp(password, dbv.pszVal))
+				if (mir_strcmp(password, dbv.pszVal))
 					proto->setString("Password", password);
 				db_free(&dbv);
 			}

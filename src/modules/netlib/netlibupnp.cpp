@@ -628,7 +628,7 @@ static void discoverUPnP(void)
 
 					parseURL(szUrl, szHostNew, NULL, NULL);
 					parseURL(szCtlUrl, szHostExist, NULL, NULL);
-					if (strcmp(szHostNew, szHostExist) == 0) {
+					if (mir_strcmp(szHostNew, szHostExist) == 0) {
 						gatewayFound = true;
 						break;
 					}
@@ -782,10 +782,10 @@ void NetlibUPnPCleanup(void*)
 			if (httpTransact(szCtlUrl, szData, 4096, "GetGenericPortMappingEntry", ControlAction) != 200)
 				break;
 
-			if (!txtParseParam(szData, "<NewPortMappingDescription", ">", "<", buf, sizeof(buf)) || strcmp(buf, "Miranda") != 0)
+			if (!txtParseParam(szData, "<NewPortMappingDescription", ">", "<", buf, sizeof(buf)) || mir_strcmp(buf, "Miranda") != 0)
 				continue;
 
-			if (!txtParseParam(szData, "<NewInternalClient", ">", "<", buf, sizeof(buf)) || strcmp(buf, lip) != 0)
+			if (!txtParseParam(szData, "<NewInternalClient", ">", "<", buf, sizeof(buf)) || mir_strcmp(buf, lip) != 0)
 				continue;
 
 			if (txtParseParam(szData, "<NewExternalPort", ">", "<", buf, sizeof(buf))) {

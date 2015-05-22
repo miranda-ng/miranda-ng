@@ -233,7 +233,7 @@ MCONTACT TlenProtocol::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent
 		mir_free(dbei.pBlob);
 		return NULL;
 	}
-	if (strcmp(dbei.szModule, m_szModuleName)) {
+	if (mir_strcmp(dbei.szModule, m_szModuleName)) {
 		mir_free(dbei.pBlob);
 		return NULL;
 	}
@@ -278,7 +278,7 @@ int TlenProtocol::Authorize(MEVENT hDbEvent)
 		mir_free(dbei.pBlob);
 		return 1;
 	}
-	if (strcmp(dbei.szModule, m_szModuleName)) {
+	if (mir_strcmp(dbei.szModule, m_szModuleName)) {
 		mir_free(dbei.pBlob);
 		return 1;
 	}
@@ -327,7 +327,7 @@ int TlenProtocol::AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason)
 		mir_free(dbei.pBlob);
 		return 1;
 	}
-	if (strcmp(dbei.szModule, m_szModuleName)) {
+	if (mir_strcmp(dbei.szModule, m_szModuleName)) {
 		mir_free(dbei.pBlob);
 		return 1;
 	}
@@ -449,7 +449,7 @@ int TlenProtocol::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
 	}
 
 	if ((*szMsg == NULL && newModeMsg == NULL) ||
-		(*szMsg != NULL && newModeMsg != NULL && !strcmp(*szMsg, newModeMsg))) {
+		(*szMsg != NULL && newModeMsg != NULL && !mir_strcmp(*szMsg, newModeMsg))) {
 		// Message is the same, no update needed
 		if (newModeMsg != NULL) mir_free(newModeMsg);
 	}
@@ -572,7 +572,7 @@ static void __cdecl TlenGetAwayMsgThread(void *ptr)
 				item->statusMessage==NULL ? (LPARAM)NULL : (LPARAM)(TCHAR*)_A2T(item->statusMessage));
 		} else {
 			ptrA ownJid(db_get_sa(NULL, data->proto->m_szModuleName, "jid"));
-			if (!strcmp(ownJid, dbv.pszVal)){
+			if (!mir_strcmp(ownJid, dbv.pszVal)){
 				DBVARIANT dbv2;
 				if (!db_get_s(data->hContact, "CList", "StatusMsg", &dbv2, DBVT_TCHAR)){
 					data->proto->ProtoBroadcastAck(data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv2.ptszVal);
@@ -614,11 +614,11 @@ int TlenProtocol::SendMsg(MCONTACT hContact, int, const char* msgRAW)
 
 	int id = TlenSerialNext(this);
 
-	if (!strcmp(msgRAW, "<alert>")) {
+	if (!mir_strcmp(msgRAW, "<alert>")) {
 		TlenSend(this, "<m tp='a' to='%s'/>", dbv.pszVal);
 		forkthread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
 	}
-	else if (!strcmp(msgRAW, "<image>")) {
+	else if (!mir_strcmp(msgRAW, "<image>")) {
 		TlenSend(this, "<message to='%s' type='%s' crc='%x' idt='%d'/>", dbv.pszVal, "pic", 0x757f044, id);
 		forkthread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
 	}
@@ -632,10 +632,10 @@ int TlenProtocol::SendMsg(MCONTACT hContact, int, const char* msgRAW)
 			else
 				strcpy(msgType, "chat");
 
-			if (!strcmp(msgType, "groupchat") || db_get_b(NULL, m_szModuleName, "MsgAck", FALSE) == FALSE) {
-				if (!strcmp(msgType, "groupchat"))
+			if (!mir_strcmp(msgType, "groupchat") || db_get_b(NULL, m_szModuleName, "MsgAck", FALSE) == FALSE) {
+				if (!mir_strcmp(msgType, "groupchat"))
 					TlenSend(this, "<message to='%s' type='%s'><body>%s</body></message>", dbv.pszVal, msgType, msgEnc);
-				else if (!strcmp(msgType, "privchat"))
+				else if (!mir_strcmp(msgType, "privchat"))
 					TlenSend(this, "<m to='%s'><b n='6' s='10' f='0' c='000000'>%s</b></m>", dbv.pszVal, msgEnc);
 				else
 					TlenSend(this, "<message to='%s' type='%s' id='"TLEN_IQID"%d'><body>%s</body><x xmlns='jabber:x:event'><composing/></x></message>", dbv.pszVal, msgType, id, msgEnc);
@@ -875,15 +875,15 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (hContact == NULL) return 0;
 	if (!isConnected) return 0;
 
-	if (!strcmp(cws->szModule, "CList")) {
+	if (!mir_strcmp(cws->szModule, "CList")) {
 		DBVARIANT dbv;
 		TLEN_LIST_ITEM *item;
 		char *nick, *jid, *group;
 
 		char *szProto = GetContactProto(hContact);
-		if (szProto == NULL || strcmp(szProto, m_szModuleName)) return 0;
+		if (szProto == NULL || mir_strcmp(szProto, m_szModuleName)) return 0;
 		// A contact's group is changed
-		if (!strcmp(cws->szSetting, "Group")) {
+		if (!mir_strcmp(cws->szSetting, "Group")) {
 			if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 				if ((item=TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL) {
 					db_free(&dbv);
@@ -905,7 +905,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 						}
 						else if (cws->value.pszVal != NULL) {
 							char *newGroup = settingToChar(cws);
-							if (item->group == NULL || strcmp(newGroup, item->group)) {
+							if (item->group == NULL || mir_strcmp(newGroup, item->group)) {
 								debugLogA("Group set to %s", newGroup);
 								if ((group=TlenGroupEncode(newGroup)) != NULL) {
 									TlenSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' jid='%s'><group>%s</group></item></query></iq>", nick, item->jid, group);
@@ -923,12 +923,12 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 			}
 		}
 		// A contact is renamed
-		else if (!strcmp(cws->szSetting, "MyHandle")) {
+		else if (!mir_strcmp(cws->szSetting, "MyHandle")) {
 			char *newNick;
 
 //			hContact = (MCONTACT) wParam;
 //			szProto = GetContactProto(hContact);
-//			if (szProto == NULL || strcmp(szProto, proto->m_szModuleName)) return 0;
+//			if (szProto == NULL || mir_strcmp(szProto, proto->m_szModuleName)) return 0;
 
 			if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 				jid = dbv.pszVal;
@@ -941,7 +941,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 						newNick = NULL;
 					}
 					// Note: we need to compare with item->nick to prevent infinite loop
-					if (newNick != NULL && (item->nick == NULL || (item->nick != NULL && strcmp(item->nick, newNick)))) {
+					if (newNick != NULL && (item->nick == NULL || (item->nick != NULL && mir_strcmp(item->nick, newNick)))) {
 						if ((nick=TlenTextEncode(newNick)) != NULL) {
 							debugLogA("Nick set to %s", newNick);
 							if (item->group != NULL && (group=TlenGroupEncode(item->group)) != NULL) {
@@ -959,7 +959,7 @@ int TlenProtocol::TlenDbSettingChanged(WPARAM wParam, LPARAM lParam)
 			}
 		}
 		// A temporary contact has been added permanently
-		else if (!strcmp(cws->szSetting, "NotOnList")) {
+		else if (!mir_strcmp(cws->szSetting, "NotOnList")) {
 			char *jid, *nick, *pGroup;
 
 			if (cws->value.type==DBVT_DELETED || (cws->value.type==DBVT_BYTE && cws->value.bVal==0)) {
@@ -1006,7 +1006,7 @@ int TlenProtocol::TlenContactDeleted(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	char *szProto = GetContactProto(wParam);
-	if (szProto == NULL || strcmp(szProto, m_szModuleName))
+	if (szProto == NULL || mir_strcmp(szProto, m_szModuleName))
 		return 0;
 
 	DBVARIANT dbv;

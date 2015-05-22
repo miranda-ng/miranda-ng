@@ -616,7 +616,7 @@ int FacebookProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 int FacebookProto::OnPreCreateEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEvent *evt = (MessageWindowEvent *)lParam;
-	if (strcmp(GetContactProto(evt->hContact), m_szModuleName))
+	if (mir_strcmp(GetContactProto(evt->hContact), m_szModuleName))
 		return 0;
 
 	std::map<int, time_t>::iterator it = facy.messages_timestamp.find(evt->seq);
@@ -854,7 +854,7 @@ MCONTACT FacebookProto::HContactFromAuthEvent(MEVENT hEvent)
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return INVALID_CONTACT_ID;
 
-	if (strcmp(dbei.szModule, m_szModuleName))
+	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return INVALID_CONTACT_ID;
 
 	return DbGetAuthEventContact(&dbei);

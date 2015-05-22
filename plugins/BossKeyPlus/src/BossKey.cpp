@@ -589,7 +589,7 @@ static int TabsrmmButtonPressed(WPARAM, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
 
-	if (!strcmp(cbcd->pszModule, MOD_NAME))
+	if (!mir_strcmp(cbcd->pszModule, MOD_NAME))
 		BossKeyHideMiranda(0, 0);
 
 	return 0;

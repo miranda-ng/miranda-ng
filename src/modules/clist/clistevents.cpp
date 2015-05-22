@@ -365,10 +365,10 @@ static int RemoveEventsForContact(WPARAM wParam, LPARAM)
 static int CListEventSettingsChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (hContact == NULL && cws && cws->szModule && cws->szSetting && strcmp(cws->szModule, "CList") == 0) {
-		if (strcmp(cws->szSetting, "DisableTrayFlash") == 0)
+	if (hContact == NULL && cws && cws->szModule && cws->szSetting && mir_strcmp(cws->szModule, "CList") == 0) {
+		if (mir_strcmp(cws->szSetting, "DisableTrayFlash") == 0)
 			disableTrayFlash = (int)cws->value.bVal;
-		else if (strcmp(cws->szSetting, "NoIconBlink") == 0)
+		else if (mir_strcmp(cws->szSetting, "NoIconBlink") == 0)
 			disableIconFlash = (int)cws->value.bVal;
 	}
 	return 0;

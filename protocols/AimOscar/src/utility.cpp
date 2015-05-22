@@ -160,7 +160,7 @@ unsigned short CAimProto::get_default_port(void)
 bool CAimProto::is_my_contact(MCONTACT hContact)
 {
 	const char* szProto = GetContactProto(hContact);
-	return szProto != NULL && strcmp(m_szModuleName, szProto) == 0;
+	return szProto != NULL && mir_strcmp(m_szModuleName, szProto) == 0;
 }
 
 MCONTACT CAimProto::find_chat_contact(const char* room)
@@ -168,7 +168,7 @@ MCONTACT CAimProto::find_chat_contact(const char* room)
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
 		if (!getString(hContact, "ChatRoomID", &dbv)) {
-			bool found = !strcmp(room, dbv.pszVal); 
+			bool found = !mir_strcmp(room, dbv.pszVal); 
 			db_free(&dbv);
 			if (found)
 				return hContact; 
@@ -184,7 +184,7 @@ MCONTACT CAimProto::contact_from_sn(const char* sn, bool addIfNeeded, bool tempo
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
 		if (!getString(hContact, AIM_KEY_SN, &dbv)) {
-			bool found = !strcmp(norm_sn, dbv.pszVal); 
+			bool found = !mir_strcmp(norm_sn, dbv.pszVal); 
 			db_free(&dbv);
 			if (found)
 				return hContact; 
@@ -239,7 +239,7 @@ void CAimProto::add_contact_to_group(MCONTACT hContact, const char* new_group)
 	unsigned short old_group_id = getGroupId(hContact, 1);	
 	char* old_group = group_list.find_name(old_group_id);
 
-	if (old_group && strcmp(new_group, old_group) == 0)
+	if (old_group && mir_strcmp(new_group, old_group) == 0)
 		return;
    
 	DBVARIANT dbv;
@@ -260,7 +260,7 @@ void CAimProto::add_contact_to_group(MCONTACT hContact, const char* new_group)
 		debugLogA("Contact %u not on list.", hContact);
 
 	setGroupId(hContact, 1, new_group_id);
-	if (new_group && strcmp(new_group, AIM_DEFAULT_GROUP))
+	if (new_group && mir_strcmp(new_group, AIM_DEFAULT_GROUP))
 		db_set_utf(hContact, MOD_KEY_CL, OTH_KEY_GP, new_group);
 	else
 		db_unset(hContact, MOD_KEY_CL, OTH_KEY_GP);
@@ -364,7 +364,7 @@ char* trim_str(char* s)
 
 void create_group(const char *group)
 {
-	if (strcmp(group, AIM_DEFAULT_GROUP) == 0) return;
+	if (mir_strcmp(group, AIM_DEFAULT_GROUP) == 0) return;
 
 	TCHAR* szGroupName = mir_utf8decodeT(group);
 	Clist_CreateGroup(0, szGroupName);

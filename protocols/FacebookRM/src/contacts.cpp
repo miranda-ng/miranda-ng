@@ -27,7 +27,7 @@ void updateStringUtf(FacebookProto *proto, MCONTACT hContact, const char *key, c
 
 	DBVARIANT dbv;
 	if (!proto->getStringUtf(hContact, key, &dbv)) {
-		update_required = strcmp(dbv.pszVal, value.c_str()) != 0;
+		update_required = mir_strcmp(dbv.pszVal, value.c_str()) != 0;
 		db_free(&dbv);
 	}
 
@@ -67,7 +67,7 @@ void FacebookProto::SaveName(MCONTACT hContact, const facebook_user *fbu)
 bool FacebookProto::IsMyContact(MCONTACT hContact, bool include_chat)
 {
 	const char *proto = GetContactProto(hContact);
-	if (proto && !strcmp(m_szModuleName, proto)) {
+	if (proto && !mir_strcmp(m_szModuleName, proto)) {
 		if (include_chat)
 			return true;
 		return !isChatRoom(hContact);
@@ -130,7 +130,7 @@ MCONTACT FacebookProto::ContactIDToHContact(const std::string &user_id)
 			continue;
 
 		ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
-		if (id && !strcmp(id, user_id.c_str())) {
+		if (id && !mir_strcmp(id, user_id.c_str())) {
 			facy.user_id_to_hcontact.insert(std::make_pair(user_id, hContact));
 			return hContact;
 		}
@@ -158,7 +158,7 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 			continue;
 
 		ptrA tid(getStringA(hContact, FACEBOOK_KEY_TID));
-		if (tid && !strcmp(tid, thread_id.c_str())) {
+		if (tid && !mir_strcmp(tid, thread_id.c_str())) {
 			ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 			std::string user_id = (id ? id : "");
 			if (!user_id.empty()) {
@@ -235,7 +235,7 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 {
 	for (std::map<std::string, std::string>::iterator it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
 		if (it->second.empty()) {
-			if (!strcmp(it->first.c_str(), facy.self_.user_id.c_str()))
+			if (!mir_strcmp(it->first.c_str(), facy.self_.user_id.c_str()))
 				it->second = facy.self_.real_name;
 			else {
 				MCONTACT hContact = ContactIDToHContact(it->first.c_str());

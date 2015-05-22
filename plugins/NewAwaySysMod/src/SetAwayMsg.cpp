@@ -879,7 +879,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 					PROTOACCOUNT * acc = ProtoGetAccount(p->szModuleName);
 					hItem = CList->AddInfo(TCString(_T("* ")) + acc->tszAccountName + _T(" *"), CLC_ROOT, hItem, (LPARAM)p->szModuleName, LoadSkinnedProtoIcon(p->szModuleName, g_ProtoStates[p->szModuleName].Status));
-					if (dat->szProtocol && !strcmp(p->szModuleName, dat->szProtocol))
+					if (dat->szProtocol && !mir_strcmp(p->szModuleName, dat->szProtocol))
 						hSelItem = hItem;
 				}
 			}

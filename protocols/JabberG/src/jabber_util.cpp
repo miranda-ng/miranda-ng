@@ -679,7 +679,7 @@ TStringPairs::~TStringPairs()
 const char* TStringPairs::operator[](const char* key) const
 {
 	for (int i = 0; i < numElems; i++)
-		if (!strcmp(elems[i].name, key))
+		if (!mir_strcmp(elems[i].name, key))
 			return elems[i].value;
 
 	return "";

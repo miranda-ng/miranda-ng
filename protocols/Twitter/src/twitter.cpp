@@ -381,7 +381,7 @@ static char *month_names[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", 
 int parse_month(const char *m)
 {
 	for (int i = 0; i < 12; i++)
-		if (strcmp(month_names[i], m) == 0)
+		if (mir_strcmp(month_names[i], m) == 0)
 			return i;
 
 	return -1;

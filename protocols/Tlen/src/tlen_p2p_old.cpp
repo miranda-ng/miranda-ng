@@ -203,7 +203,7 @@ TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, HAND
 		item = TlenListGetItemPtrFromIndex(proto, i);
 		if (item != NULL) {
 			mir_snprintf(str, SIZEOF(str), "%d", iqId);
-			if (!strcmp(item->ft->iqId, str)) {
+			if (!mir_strcmp(item->ft->iqId, str)) {
 				char *hash, *nick;
 				int j;
 				nick = TlenNickFromJID(item->ft->jid);

@@ -43,18 +43,18 @@ int OnSettingChanging(WPARAM hContact, LPARAM lParam)
 	if (hContact != 0 || dbcws == NULL)
 		return 0;
 
-	if (!strcmp(dbcws->szModule, "CList")) {
-		if (!strcmp(dbcws->szSetting, "HideOffline"))
+	if (!mir_strcmp(dbcws->szModule, "CList")) {
+		if (!mir_strcmp(dbcws->szSetting, "HideOffline"))
 			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_OFFLINE].hButton, dbcws->value.bVal ? 0 : TTBST_PUSHED);
-		else if (!strcmp(dbcws->szSetting, "UseGroups"))
+		else if (!mir_strcmp(dbcws->szSetting, "UseGroups"))
 			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_GROUPS].hButton, dbcws->value.bVal ? TTBST_PUSHED : 0);
 	}
-	else if (!strcmp(dbcws->szModule, "Skin")) {
-		if (!strcmp(dbcws->szSetting, "UseSound"))
+	else if (!mir_strcmp(dbcws->szModule, "Skin")) {
+		if (!mir_strcmp(dbcws->szSetting, "UseSound"))
 			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_SOUNDS].hButton, dbcws->value.bVal ? TTBST_PUSHED : 0);
 	}
-	else if (!strcmp(dbcws->szModule, "MetaContacts")) {
-		if (!strcmp(dbcws->szSetting, "Enabled"))
+	else if (!mir_strcmp(dbcws->szModule, "MetaContacts")) {
+		if (!mir_strcmp(dbcws->szSetting, "Enabled"))
 			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_META].hButton, dbcws->value.bVal ? TTBST_PUSHED : 0);
 	}
 

@@ -157,7 +157,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 				// get the url for the new location and save it to szInfo
 				// look for the reply header "Location"
 				for (i = 0; i < nlhrReply->headersCount; i++) {
-					if (!strcmp(nlhrReply->headers[i].szName, "Location")) {
+					if (!mir_strcmp(nlhrReply->headers[i].szName, "Location")) {
 						size_t rlen = 0;
 						if (nlhrReply->headers[i].szValue[0] == '/') {
 							const char* szPath;
@@ -250,5 +250,5 @@ bool ProcessVIHash(bool store)
 	if (VIHash == NULL)
 		return false;
 
-	return strcmp(hashstr, VIHash) == 0;
+	return mir_strcmp(hashstr, VIHash) == 0;
 }

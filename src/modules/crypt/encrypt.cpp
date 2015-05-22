@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int CompareFunc(const CRYPTO_PROVIDER *p1, const CRYPTO_PROVIDER *p2)
 {
-	return strcmp(p1->pszName, p2->pszName);
+	return mir_strcmp(p1->pszName, p2->pszName);
 }
 
 static LIST<CRYPTO_PROVIDER> arProviders(5, CompareFunc);

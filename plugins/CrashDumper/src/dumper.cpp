@@ -139,8 +139,8 @@ void GetLinkedModulesInfo(TCHAR *moduleName, CMString &buffer)
 			ULONG* funcAddr = (ULONG*)ImageRvaToVa(nthdrs, dllAddr, exportData->AddressOfNames, NULL);
 			for (unsigned i = 0; i < exportData->NumberOfNames && !found; ++i) {
 				char* funcName = (char*)ImageRvaToVa(nthdrs, dllAddr, funcAddr[i], NULL);
-				found = strcmp(funcName, "MirandaPluginInfoEx") == 0 || strcmp(funcName, "MirandaPluginInfo") == 0;
-				if (strcmp(funcName, "DatabasePluginInfo") == 0) {
+				found = mir_strcmp(funcName, "MirandaPluginInfoEx") == 0 || mir_strcmp(funcName, "MirandaPluginInfo") == 0;
+				if (mir_strcmp(funcName, "DatabasePluginInfo") == 0) {
 					buffer.Append(TEXT("    This dll is a Miranda database plugin, another database is active right now\r\n"));
 					found = true;
 				}
@@ -319,7 +319,7 @@ static void GetProtocolStrings(CMString& buffer)
 
 	for (j = 0; j < accCount; j++) {
 		for (i = 0; i < protoCountMy; i++)
-			if (!strcmp(protoListMy[i], accList[j]->szProtoName))
+			if (!mir_strcmp(protoListMy[i], accList[j]->szProtoName))
 				break;
 
 		if (i == protoCountMy)
@@ -331,7 +331,7 @@ static void GetProtocolStrings(CMString& buffer)
 
 	for (j = 0; j < accCount; j++)
 		for (i = 0; i < protoCountMy; i++)
-			if (!strcmp(protoListMy[i], accList[j]->szProtoName)) {
+			if (!mir_strcmp(protoListMy[i], accList[j]->szProtoName)) {
 				protos[i].nloaded = accList[j]->bDynDisabled != 0;
 				if (IsAccountEnabled(accList[j]))
 					++protos[i].countse;

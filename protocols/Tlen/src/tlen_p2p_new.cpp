@@ -243,7 +243,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 			e = TlenXmlGetAttrValue(fs, "e");
 			id = TlenXmlGetAttrValue(fs, "i");
 			if (e != NULL) {
-				if (!strcmp(e, "1")) {
+				if (!mir_strcmp(e, "1")) {
 					TLEN_FILE_TRANSFER * ft = (TLEN_FILE_TRANSFER *) mir_alloc(sizeof(TLEN_FILE_TRANSFER));
 					memset(ft, 0, sizeof(TLEN_FILE_TRANSFER));
 					char *c = TlenXmlGetAttrValue(fs, "c");
@@ -270,11 +270,11 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 						ProtoChainRecvFile(ft->hContact, &pre);
 						mir_free(filenameT);
 					}
-				} else if (!strcmp(e, "3")) {
+				} else if (!mir_strcmp(e, "3")) {
 					/* transfer error */
-				} else if (!strcmp(e, "4")) {
+				} else if (!mir_strcmp(e, "4")) {
 					/* transfer denied */
-				} else if (!strcmp(e, "5")) {
+				} else if (!mir_strcmp(e, "5")) {
 					/* transfer accepted */
 					if ((item=TlenListGetItemPtr(info->proto, LIST_FILE, id)) != NULL) {
 						item->id2 = mir_strdup("84273372");
@@ -290,7 +290,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 			char *s = TlenXmlGetAttrValue(dcng, "s");
 			char *id2 = TlenXmlGetAttrValue(dcng, "i");
 			char *id = TlenXmlGetAttrValue(dcng, "mi");
-			if (!strcmp(s, "1")) {
+			if (!mir_strcmp(s, "1")) {
 				/* Keys */
 				/* s - step */
 				/* i - id of the file */
@@ -301,7 +301,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 				char *v = TlenXmlGetAttrValue(dcng, "v"); // v - ???
 				char *ck = TlenXmlGetAttrValue(dcng, "ck"); // ck - aes key
 				char *iv = TlenXmlGetAttrValue(dcng, "iv"); // iv - aes initial vector
-				if (!strcmp(n, "file_send")) {
+				if (!mir_strcmp(n, "file_send")) {
 					if ((item=TlenListGetItemPtr(info->proto, LIST_FILE, id)) != NULL) {
 						item->id2 = mir_strdup(id2);
 						item->ft->id2 = mir_strdup(id2);
@@ -310,7 +310,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 							item->ft->jid, item->ft->localName, item->ft->wLocalPort, item->ft->localName, item->ft->wLocalPort, item->ft->id2);
 					}
 				}
-			}  else if (!strcmp(s, "2")) {
+			}  else if (!mir_strcmp(s, "2")) {
 				info->proto->debugLogA("step = 2");
 				info->proto->debugLogA("%s",from);
 				info->proto->debugLogA("%s",id2);
@@ -324,7 +324,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 					forkthread((void (__cdecl *)(void*))TlenNewFileReceiveThread, 0, item->ft);
 					forkthread((void (__cdecl *)(void*))TlenNewFileSendThread, 0, item->ft);
 				}
-			} else if (!strcmp(s, "4")) {
+			} else if (!mir_strcmp(s, "4")) {
 				/* IP and port */
 				if ((item=TlenListFindItemPtrById2(info->proto, LIST_FILE, id2)) != NULL) {
 					info->proto->debugLogA("step = 4");

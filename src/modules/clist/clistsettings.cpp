@@ -220,14 +220,14 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	DBVARIANT dbv;
 	dbv.pszVal = NULL;
 	if (!db_get(hContact, "Protocol", "p", &dbv)) {
-		if (!strcmp(cws->szModule, dbv.pszVal)) {
+		if (!mir_strcmp(cws->szModule, dbv.pszVal)) {
 			cli.pfnInvalidateDisplayNameCacheEntry(hContact);
-			if (!strcmp(cws->szSetting, "UIN") || !strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName")
-				 || !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "e-mail"))
+			if (!mir_strcmp(cws->szSetting, "UIN") || !mir_strcmp(cws->szSetting, "Nick") || !mir_strcmp(cws->szSetting, "FirstName")
+				 || !mir_strcmp(cws->szSetting, "LastName") || !mir_strcmp(cws->szSetting, "e-mail"))
 			{
 				CallService(MS_CLUI_CONTACTRENAMED, hContact, 0);
 			}
-			else if (!strcmp(cws->szSetting, "Status")) {
+			else if (!mir_strcmp(cws->szSetting, "Status")) {
 				if (!db_get_b(hContact, "CList", "Hidden", 0)) {
 					if (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)) {
 						// User's state is changing, and we are hideOffline-ing
@@ -250,8 +250,8 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 	}
 
-	if (!strcmp(cws->szModule, "CList")) {
-		if (!strcmp(cws->szSetting, "Hidden")) {
+	if (!mir_strcmp(cws->szModule, "CList")) {
+		if (!mir_strcmp(cws->szSetting, "Hidden")) {
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
 				char *szProto = GetContactProto(hContact);
 				cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(szProto, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact), 1);
@@ -259,12 +259,12 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			else
 				CallService(MS_CLUI_CONTACTDELETED, hContact, 0);
 		}
-		if (!strcmp(cws->szSetting, "MyHandle"))
+		if (!mir_strcmp(cws->szSetting, "MyHandle"))
 			cli.pfnInvalidateDisplayNameCacheEntry(hContact);
 	}
 
-	if (!strcmp(cws->szModule, "Protocol")) {
-		if (!strcmp(cws->szSetting, "p")) {
+	if (!mir_strcmp(cws->szModule, "Protocol")) {
+		if (!mir_strcmp(cws->szSetting, "p")) {
 			char *szProto;
 			if (cws->value.type == DBVT_DELETED)
 				szProto = NULL;

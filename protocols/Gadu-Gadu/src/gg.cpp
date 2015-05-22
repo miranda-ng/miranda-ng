@@ -203,7 +203,7 @@ static GGPROTO* gg_getprotoinstance(MCONTACT hContact)
       return NULL;
 
    for (int i=0; i < g_Instances.getCount(); i++)
-      if (strcmp(szProto, g_Instances[i]->m_szModuleName) == 0)
+      if (mir_strcmp(szProto, g_Instances[i]->m_szModuleName) == 0)
          return g_Instances[i];
 
    return NULL;

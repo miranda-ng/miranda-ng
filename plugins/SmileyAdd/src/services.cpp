@@ -441,7 +441,7 @@ int DbSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (cws->value.type == DBVT_DELETED)
 		return 0; 
 
-	if (strcmp(cws->szSetting, "Transport") == 0) {
+	if (mir_strcmp(cws->szSetting, "Transport") == 0) {
 		CMString catname(_T("Standard"));
 		SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(catname);
 		if (smc != NULL)

@@ -230,7 +230,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 	ptrA AvatarSavedHash( getStringA(pai->hContact, GG_KEY_AVATARHASH));
 	if (AvatarHash != NULL && AvatarSavedHash != NULL) {
 		getAvatarFilename(pai->hContact, pai->filename, SIZEOF(pai->filename));
-		if (!strcmp(AvatarHash, AvatarSavedHash)) {
+		if (!mir_strcmp(AvatarHash, AvatarSavedHash)) {
 			if (_taccess(pai->filename, 0) == 0){
 				debugLogA("getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash unchanged. return GAIR_SUCCESS", uin);
 				return GAIR_SUCCESS;

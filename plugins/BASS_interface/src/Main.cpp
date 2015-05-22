@@ -572,8 +572,8 @@ int OnSettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
-	if (!strcmp(dbcws->szModule, "Skin")) {
-		if (!strcmp(dbcws->szSetting, "UseSound")) {
+	if (!mir_strcmp(dbcws->szModule, "Skin")) {
+		if (!mir_strcmp(dbcws->szSetting, "UseSound")) {
 			EnableFrameIcon(dbcws->value.bVal != 0);
 			return 0;
 		}

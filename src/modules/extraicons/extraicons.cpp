@@ -122,7 +122,7 @@ BaseExtraIcon* GetExtraIconByName(const char *name)
 {
 	for (int i=0; i < registeredExtraIcons.getCount(); i++) {
 		BaseExtraIcon *extra = registeredExtraIcons[i];
-		if (strcmp(name, extra->getName()) == 0)
+		if (mir_strcmp(name, extra->getName()) == 0)
 			return extra;
 	}
 	return NULL;

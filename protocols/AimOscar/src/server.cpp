@@ -659,13 +659,13 @@ void CAimProto::process_ssi_list(SNAC &snac, int &offset)
 						bool ok = false;
 						DBVARIANT dbv;
 						if (!db_get_utf(hContact, MOD_KEY_CL, OTH_KEY_GP, &dbv) && dbv.pszVal[0]) {
-							ok = strcmp(group, dbv.pszVal) == 0;
+							ok = mir_strcmp(group, dbv.pszVal) == 0;
 							db_free(&dbv);
 						}
-						else ok = strcmp(group, AIM_DEFAULT_GROUP) == 0;
+						else ok = mir_strcmp(group, AIM_DEFAULT_GROUP) == 0;
 
 						if (!ok) {
-							if (strcmp(group, AIM_DEFAULT_GROUP))
+							if (mir_strcmp(group, AIM_DEFAULT_GROUP))
 								db_set_utf(hContact, MOD_KEY_CL, OTH_KEY_GP, group);
 							else
 								db_unset(hContact, MOD_KEY_CL, OTH_KEY_GP);
@@ -1181,7 +1181,7 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 						}
 						else if (tlv.cmp(0x2712)) {
 							char* enc = tlv.dup();
-							utf_fname = strcmp(enc, "utf-8") == 0;
+							utf_fname = mir_strcmp(enc, "utf-8") == 0;
 							mir_free(enc);
 						}
 						else if (tlv.cmp(0x2713)) {
@@ -1204,7 +1204,7 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 						}
 						else if (tlv.cmp(0x000d)) {
 							char* enc = tlv.dup();
-							unicode_descr = strcmp(enc, "unicode-2-0") == 0;
+							unicode_descr = mir_strcmp(enc, "unicode-2-0") == 0;
 							mir_free(enc);
 						}
 						i += TLV_HEADER_SIZE + tlv.len();

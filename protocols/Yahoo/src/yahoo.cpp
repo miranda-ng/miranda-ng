@@ -771,10 +771,10 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 
 	hContact = add_buddy(who, nick, protocol, PALF_TEMPORARY);
 
-	if (strcmp(nick, who) != 0)
+	if (mir_strcmp(nick, who) != 0)
 		SetStringUtf(hContact, "Nick", nick);
 
-	if (strcmp(myid, m_yahoo_id))
+	if (mir_strcmp(myid, m_yahoo_id))
 		setString(hContact, "MyIdentity", myid);
 	else
 		delSetting(hContact, "MyIdentity");

@@ -9,7 +9,7 @@ int SVC_IconPressed(WPARAM hContact, LPARAM lParam)
 	if(sicd->cbSize < sizeof(StatusIconClickData))
 		return 0;
 
-	if(strcmp(sicd->szModule, MODULENAME) == 0) {
+	if(mir_strcmp(sicd->szModule, MODULENAME) == 0) {
 		char *proto = GetContactProto(hContact);
 		if(proto && db_get_b(hContact, proto, "ChatRoom", 0))
 			return 0;
@@ -95,7 +95,7 @@ int SVC_ButtonsBarLoaded(WPARAM, LPARAM)
 int SVC_ButtonsBarPressed(WPARAM w, LPARAM l)
 {
 	CustomButtonClickData* cbcd = (CustomButtonClickData *)l;
-	if (cbcd->cbSize == sizeof(CustomButtonClickData) && cbcd->dwButtonId == 0 && strcmp(cbcd->pszModule, MODULENAME)==0) {
+	if (cbcd->cbSize == sizeof(CustomButtonClickData) && cbcd->dwButtonId == 0 && mir_strcmp(cbcd->pszModule, MODULENAME)==0) {
 		MCONTACT hContact = (MCONTACT)w;
 	
 		char *proto = GetContactProto(hContact);

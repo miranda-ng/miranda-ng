@@ -165,7 +165,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										BYTE GroupExist = 0;
 										do {
 											group_name = (char *)CallService(MS_CLIST_GROUPGETNAME, (WPARAM)hGroup, 0);
-											if (group_name != NULL && !strcmp(group_name, _T2A(utfgroup))) {
+											if (group_name != NULL && !mir_strcmp(group_name, _T2A(utfgroup))) {
 												GroupExist = 1;
 												break;
 											}

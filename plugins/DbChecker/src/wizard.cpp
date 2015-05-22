@@ -32,11 +32,11 @@ static BOOL CALLBACK MyControlsEnumChildren(HWND hwnd, LPARAM)
 	int makeBold = 0;
 
 	GetClassNameA(hwnd, szClass, sizeof(szClass));
-	if (!strcmp(szClass, "Static")) {
+	if (!mir_strcmp(szClass, "Static")) {
 		if (((style & SS_TYPEMASK) == SS_LEFT || (style & SS_TYPEMASK) == SS_CENTER || (style & SS_TYPEMASK) == SS_RIGHT) && exstyle & WS_EX_CLIENTEDGE)
 			makeBold = 1;
 	}
-	else if (!strcmp(szClass, "Button")) {
+	else if (!mir_strcmp(szClass, "Button")) {
 		if (exstyle&WS_EX_CLIENTEDGE)
 			makeBold = 1;
 	}
@@ -72,7 +72,7 @@ int DoMyControlProcessing(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam,
 		if ((GetWindowLongPtr((HWND)lParam, GWL_STYLE) & 0xFFFF) == 0) {
 			char szText[256];
 			GetWindowTextA((HWND)lParam, szText, SIZEOF(szText));
-			if (!strcmp(szText, "whiterect")) {
+			if (!mir_strcmp(szText, "whiterect")) {
 				SetTextColor((HDC)wParam, RGB(255, 255, 255));
 				SetBkColor((HDC)wParam, RGB(255, 255, 255));
 				SetBkMode((HDC)wParam, OPAQUE);

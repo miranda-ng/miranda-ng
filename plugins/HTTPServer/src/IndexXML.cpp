@@ -128,9 +128,9 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 
 	// Find files and directories
 	do {
-		if (strcmp(fdFindFileData.cFileName, ".") &&
+		if (mir_strcmp(fdFindFileData.cFileName, ".") &&
 		    strncmp(fdFindFileData.cFileName, "@", 1) &&
-		    (strcmp(fdFindFileData.cFileName, "..") || strcmp(pszSrvPath, "/"))) { // hide .. in root
+		    (mir_strcmp(fdFindFileData.cFileName, "..") || mir_strcmp(pszSrvPath, "/"))) { // hide .. in root
 			pszBuffer = szBuffer;
 
 			strcpy(szFileName, fdFindFileData.cFileName);

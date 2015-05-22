@@ -197,7 +197,7 @@ static INT_PTR Proto_IsProtoOnContact(WPARAM wParam, LPARAM lParam)
 			return -1;
 
 	for (int i = 0; i < filters.getCount(); i++)
-		if (!strcmp(szProto, filters[i]->szName))
+		if (!mir_strcmp(szProto, filters[i]->szName))
 			return i + 1;
 
 	return 0;

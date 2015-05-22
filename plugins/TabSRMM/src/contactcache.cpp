@@ -457,7 +457,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 
 	MCONTACT hContact = getActiveContact();
 
-	if (szKey == 0 || (szKey && !strcmp("StatusMsg", szKey))) {
+	if (szKey == 0 || (szKey && !mir_strcmp("StatusMsg", szKey))) {
 		if (m_szStatusMsg)
 			mir_free(m_szStatusMsg);
 		m_szStatusMsg = 0;
@@ -465,7 +465,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		if (szStatus != 0)
 			m_szStatusMsg = (mir_tstrlen(szStatus) > 0 ? getNormalizedStatusMsg(szStatus) : 0);
 	}
-	if (szKey == 0 || (szKey && !strcmp("ListeningTo", szKey))) {
+	if (szKey == 0 || (szKey && !mir_strcmp("ListeningTo", szKey))) {
 		if (m_ListeningInfo)
 			mir_free(m_ListeningInfo);
 		m_ListeningInfo = 0;
@@ -473,7 +473,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		if (szListeningTo != 0 && *szListeningTo)
 			m_ListeningInfo = szListeningTo.detouch();
 	}
-	if (szKey == 0 || (szKey && !strcmp("XStatusMsg", szKey))) {
+	if (szKey == 0 || (szKey && !mir_strcmp("XStatusMsg", szKey))) {
 		if (m_xStatusMsg)
 			mir_free(m_xStatusMsg);
 		m_xStatusMsg = 0;

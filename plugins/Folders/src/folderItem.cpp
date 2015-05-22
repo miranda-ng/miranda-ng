@@ -57,12 +57,12 @@ int CFolderItem::IsEqual(const CFolderItem *other)
 
 int CFolderItem::IsEqual(const char *section, const TCHAR *name)
 {
-	return !_tcscmp(m_tszUserName, name) && !strcmp(m_szSection, section);
+	return !_tcscmp(m_tszUserName, name) && !mir_strcmp(m_szSection, section);
 }
 
 int CFolderItem::IsEqualTranslated(const char *trSection, const TCHAR *trName)
 {
-	return !_tcscmp(TranslateTS(m_tszUserName), trName) && !strcmp(Translate(m_szSection), trSection);
+	return !_tcscmp(TranslateTS(m_tszUserName), trName) && !mir_strcmp(Translate(m_szSection), trSection);
 }
 
 int CFolderItem::operator ==(const CFolderItem *other)

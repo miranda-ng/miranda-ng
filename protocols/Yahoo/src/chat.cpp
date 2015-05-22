@@ -63,7 +63,7 @@ void ext_yahoo_got_conf_invite(int id, const char *me, const char *who, const ch
 	CYahooProto::ChatRoom *cm = ppro->m_chatrooms.find((CYahooProto::ChatRoom*)&room);
 	if (!cm)
 	{
-		if (strcmp(who, me))
+		if (mir_strcmp(who, me))
 		{
 			cm = new CYahooProto::ChatRoom(room, members);
 			ppro->m_chatrooms.insert(cm);
@@ -109,7 +109,7 @@ void ext_yahoo_conf_userjoin(int id, const char *me, const char *who, const char
 	if (!cm) return;
 	for (YList *l = cm->members; l; l = l->next)
 	{
-		if (!strcmp(who, (char*)l->data))
+		if (!mir_strcmp(who, (char*)l->data))
 			return;
 	}
 
@@ -127,7 +127,7 @@ void ext_yahoo_conf_userleave(int id, const char *me, const char *who, const cha
 
 	for (YList *l = cm->members; l; l = l->next)
 	{
-		if (strcmp((char*)l->data, who) == 0)
+		if (mir_strcmp((char*)l->data, who) == 0)
 		{
 			free(l->data);
 			y_list_remove_link(cm->members, l);
@@ -268,7 +268,7 @@ int __cdecl CYahooProto::OnGCEventHook(WPARAM, LPARAM lParam)
 	GCHOOK *gch = (GCHOOK*) lParam;
 	if (!gch) return 1;
 
-	if (strcmp(gch->pDest->pszModule, m_szModuleName)) return 0;
+	if (mir_strcmp(gch->pDest->pszModule, m_szModuleName)) return 0;
 
 	char* room = mir_t2a(gch->pDest->ptszID);
 	char* who = mir_t2a(gch->ptszUID);

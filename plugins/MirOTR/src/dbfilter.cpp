@@ -60,7 +60,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 	if (db_get_b(hContact, proto, "ChatRoom", 0) == 1)
 		return 0;
 	
-	if(strcmp(proto, META_PROTO) == 0) {
+	if(mir_strcmp(proto, META_PROTO) == 0) {
 		hContact = db_mc_getMostOnline(hContact);
 		if (!hContact) return 0;
 		proto = GetContactProto(hContact);
@@ -278,7 +278,7 @@ int StatusModeChange(WPARAM wParam, LPARAM lParam) {
 	
 		ConnContext *context = otr_user_state->context_root;
 		while(context) {
-			if(context->msgstate == OTRL_MSGSTATE_ENCRYPTED && (proto == 0 || strcmp(proto, context->protocol) == 0)) {
+			if(context->msgstate == OTRL_MSGSTATE_ENCRYPTED && (proto == 0 || mir_strcmp(proto, context->protocol) == 0)) {
 				hContact = (MCONTACT)context->app_data;
 				
 				if(hContact) {
@@ -298,7 +298,7 @@ int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (!options.end_offline)
 		return 0;
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
-	if (!lParam || strcmp(cws->szSetting, "Status") != 0) return 0;
+	if (!lParam || mir_strcmp(cws->szSetting, "Status") != 0) return 0;
 	int status=0;
 	switch (cws->value.type){
 		case DBVT_WORD:

@@ -357,7 +357,7 @@ int TrafficRecv(WPARAM wParam,LPARAM lParam)
 		
 	if (nln->result > 0)
 		for (i = 0; i < NumberOfAccounts; i++)
-			if (!strcmp(ProtoList[i].name, nlu->szSettingsModule)) 
+			if (!mir_strcmp(ProtoList[i].name, nlu->szSettingsModule)) 
 				InterlockedExchangeAdd(&ProtoList[i].AllStatistics[ProtoList[i].NumberOfRecords-1].Incoming, nln->result);
 	return 0;
 }
@@ -370,7 +370,7 @@ int TrafficSend(WPARAM wParam,LPARAM lParam)
 	
 	if (nln->result > 0)
 		for (i = 0; i < NumberOfAccounts; i++)
-			if (!strcmp(ProtoList[i].name, nlu->szSettingsModule))
+			if (!mir_strcmp(ProtoList[i].name, nlu->szSettingsModule))
 				InterlockedExchangeAdd(&ProtoList[i].AllStatistics[ProtoList[i].NumberOfRecords-1].Outgoing, nln->result);
 	return 0;
 }
@@ -1225,7 +1225,7 @@ int ProtocolAckHook(WPARAM wParam,LPARAM lParam)
 			for (i = 0; i < NumberOfAccounts; i++)
 			{
 				if (!ProtoList[i].name) continue;
-				if (!strcmp(ProtoList[i].name, pAck->szModule))
+				if (!mir_strcmp(ProtoList[i].name, pAck->szModule))
 				{
 					ProtocolIsOffLine(i);
 					break;
@@ -1237,7 +1237,7 @@ int ProtocolAckHook(WPARAM wParam,LPARAM lParam)
 			if ((pAck->lParam >= ID_STATUS_ONLINE) && (pAck->lParam <= ID_STATUS_OUTTOLUNCH))
 			{
 				for (i = 0; i < NumberOfAccounts; i++)
-					if (!strcmp(ProtoList[i].name, pAck->szModule))
+					if (!mir_strcmp(ProtoList[i].name, pAck->szModule))
 					{
 						ProtocolIsOnLine(i);
 						break;
@@ -1313,7 +1313,7 @@ int OnAccountsListChange(WPARAM wParam, LPARAM lParam)
 		case PRAC_CHANGED:
 		case PRAC_CHECKED:
 			for (i = 0; i < NumberOfAccounts; i++)
-				if (!strcmp(acc->szModuleName, ProtoList[i].name))
+				if (!mir_strcmp(acc->szModuleName, ProtoList[i].name))
 					ProtoList[i].Enabled = acc->bIsEnabled;
 			break;
 	}
