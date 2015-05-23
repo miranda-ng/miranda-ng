@@ -979,7 +979,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 						_tcsncpy_s(wBuf, TranslateT("Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior"), _TRUNCATE);
 				}
 				else if (sid->tszTooltip)
-					mir_tstrncpy(wBuf, sid->tszTooltip, SIZEOF(wBuf));
+					_tcsncpy(wBuf, sid->tszTooltip, SIZEOF(wBuf));
 
 				if (wBuf[0]) {
 					CallService("mToolTip/ShowTipW", (WPARAM)wBuf, (LPARAM)&ti);

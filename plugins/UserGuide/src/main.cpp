@@ -44,13 +44,13 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 			if (pszDivider == NULL)
 			{	
 				mir_tstrcpy(pszDirName, _T(""));
-				mir_tstrncpy(pszFileName, ptszHelpFile, mir_tstrlen(ptszHelpFile));
+				_tcsncpy(pszFileName, ptszHelpFile, mir_tstrlen(ptszHelpFile));
 			}
 			else
 			{
-				mir_tstrncpy(pszFileName, pszDivider + 1, mir_tstrlen(ptszHelpFile) - mir_tstrlen(pszDivider) - 1);
+				_tcsncpy(pszFileName, pszDivider + 1, mir_tstrlen(ptszHelpFile) - mir_tstrlen(pszDivider) - 1);
 				pszFileName[mir_tstrlen(ptszHelpFile) - mir_tstrlen(pszDivider) - 1] = 0;
-				mir_tstrncpy(pszDirName, ptszHelpFile, pszDivider - ptszHelpFile);
+				_tcsncpy(pszDirName, ptszHelpFile, pszDivider - ptszHelpFile);
 				pszDirName[pszDivider - ptszHelpFile] = 0;
 			}
 		}

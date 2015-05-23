@@ -538,7 +538,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 			if(uin) {
 				if( ProtoServiceExists(proto, PS_ICQ_CHECKCAPABILITY)) {
 					ICQ_CUSTOMCAP cap = {0};
-					mir_strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps));
+					strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps));
 					if(ProtoCallService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)ccs->hContact, (LPARAM)&cap)) {
 						CallContactService(ccs->hContact, PSS_MESSAGE, 0, (LPARAM)"-----PGP KEY REQUEST-----");
 						return 0;
@@ -835,7 +835,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 					if(bDebugLog)
 						debuglog<<std::string(time_str()+": info(autoexchange, icq): checking for autoexchange icq capability, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 					ICQ_CUSTOMCAP cap = {0};
-					mir_strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps));
+					strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps));
 					if( ProtoCallService(proto, PS_ICQ_CHECKCAPABILITY, hContact, (LPARAM)&cap)) {
 						if(bDebugLog)
 							debuglog<<std::string(time_str()+": info(autoexchange, icq): sending key requiest, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
@@ -917,7 +917,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 	if(!(dbei->flags & DBEF_SENT) && db_mc_isMeta((MCONTACT)w))
 	{
 		char tmp[29];
-		mir_strncpy(tmp, (char*)dbei->pBlob, 27);
+		strncpy(tmp, (char*)dbei->pBlob, 27);
 		tmp[28] = '\0';
 		if(strstr(tmp, "-----BEGIN PGP MESSAGE-----"))
 		{

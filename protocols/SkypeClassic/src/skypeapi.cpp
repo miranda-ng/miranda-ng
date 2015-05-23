@@ -518,7 +518,7 @@ char *SkypeRcvMsg(char *what, time_t st, MCONTACT hContact, DWORD maxwait)
 				// isn't using the ID anymore, so we have to save the ID as new identifier for message recognition
 				pCurMsg+=iLenWhat;
 				if ((pMsg = strchr (pCurMsg, ' ')) && (pMsg=strchr (pMsg+1, ' ')))
-					mir_strncpy (msgid, pCurMsg, pMsg-pCurMsg);
+					strncpy (msgid, pCurMsg, pMsg-pCurMsg);
 				else if (strncmp (pCurMsg, "ERROR", 5) == 0) bIsError = TRUE;
 			}
 
@@ -1171,7 +1171,7 @@ INT_PTR SkypeSetAvatar(WPARAM wParam, LPARAM lParam) {
 	// Backup old file
 	if (hasOldAvatar)
 	{
-		mir_strncpy(OldAvatarFile, dbv.pszVal, sizeof(OldAvatarFile)-4);
+		strncpy(OldAvatarFile, dbv.pszVal, sizeof(OldAvatarFile)-4);
 		OldAvatarFile[sizeof(OldAvatarFile)-5] = '\0';
 		mir_strcat(OldAvatarFile, "_old");
 		DeleteFileA(OldAvatarFile);

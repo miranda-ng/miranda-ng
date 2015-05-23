@@ -100,7 +100,7 @@ bool CMsnProto::p2p_createListener(filetransfer* ft, directconnection *dc, MimeH
 	newThread->mCaller = 3;
 	newThread->mIncomingBoundPort = sb;
 	newThread->mIncomingPort = nlb.wPort;
-	mir_strncpy(newThread->mCookie, dc->callId, sizeof(newThread->mCookie));
+	strncpy(newThread->mCookie, dc->callId, sizeof(newThread->mCookie));
 	newThread->mInitialContactWLID = mir_strdup(ft->p2p_dest);
 
 	newThread->startThread(&CMsnProto::p2p_filePassiveThread, this);

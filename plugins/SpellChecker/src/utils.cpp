@@ -908,7 +908,7 @@ int AddContactTextBox(MCONTACT hContact, HWND hwnd, char *name, BOOL srmm, HWND 
 
 		dlg->hContact = hContact;
 		dlg->hwnd = hwnd;
-		mir_strncpy(dlg->name, name, sizeof(dlg->name));
+		strncpy(dlg->name, name, sizeof(dlg->name));
 		dlg->enabled = db_get_b(dlg->hContact, MODULE_NAME, dlg->name, 1);
 		dlg->srmm = srmm;
 

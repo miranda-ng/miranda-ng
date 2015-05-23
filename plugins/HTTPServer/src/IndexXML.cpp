@@ -32,7 +32,7 @@ static void ReplaceSign(char* pszSrc, int MaxLength, const char pszReplace,
 	char* pszSign = strchr(pszSrc, pszReplace);
 
 	if (pszSign) {
-		mir_strncpy(szBuffer, pszSrc, SIZEOF(szBuffer)-1);
+		strncpy(szBuffer, pszSrc, SIZEOF(szBuffer)-1);
 
 		do {
 			mir_strcpy(szBuffer + (pszSign - pszSrc), pszNew);
@@ -41,7 +41,7 @@ static void ReplaceSign(char* pszSrc, int MaxLength, const char pszReplace,
 
 		} while (pszSign = strchr(pszSrc, pszReplace));
 
-		mir_strncpy(pszSrc, szBuffer, MaxLength);
+		strncpy(pszSrc, szBuffer, MaxLength);
 
 		pszSrc[MaxLength-1] = '\0';
 	}
@@ -64,7 +64,7 @@ static void ReplaceSign(char* pszSrc, int MaxLength, const char pszReplace,
 bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, 
 										 const char * pszSrvPath, DWORD dwRemoteIP) {
 	char szMask[MAX_PATH+1];
-	mir_strncpy(szMask, pszRealPath, MAX_PATH);
+	strncpy(szMask, pszRealPath, MAX_PATH);
 	mir_strncat(szMask, "*", SIZEOF(szMask) - mir_strlen(szMask));
 
 	WIN32_FIND_DATAA fdFindFileData;
@@ -89,20 +89,20 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 	DWORD dwBytesWritten = 0;
 
 	// Generate Dirname
-	mir_strncpy(szBuffer, pszSrvPath, BUFFER_SIZE);
+	strncpy(szBuffer, pszSrvPath, BUFFER_SIZE);
 	char* pszTemp = strrchr(szBuffer, '/');
 	if (pszTemp)
 		*pszTemp = '\0';
 
 	pszTemp = strrchr(szBuffer, '/');
 	if (pszTemp)
-		mir_strncpy(szFileName, pszTemp + 1, MAX_PATH);
+		strncpy(szFileName, pszTemp + 1, MAX_PATH);
 
 	// Write Header
 	WriteFile(hFile, szXmlHeader1, sizeof(szXmlHeader1) - 1, &dwBytesWritten, NULL);
 
 	// check if a index.xsl exists in the same directory otherwise use the global
-	mir_strncpy(szMask, pszRealPath, MAX_PATH);
+	strncpy(szMask, pszRealPath, MAX_PATH);
 	mir_strncat(szMask, "index.xsl", SIZEOF(szMask) - mir_strlen(szMask));
 
 	HANDLE hFileExists = CreateFile(szMask, GENERIC_READ, 
@@ -110,10 +110,10 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 		FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (hFileExists == INVALID_HANDLE_VALUE) {
-		mir_strncpy(szBuffer, "/index.xsl", BUFFER_SIZE);
+		strncpy(szBuffer, "/index.xsl", BUFFER_SIZE);
 	} else {
 		CloseHandle(hFileExists);
-		mir_strncpy(szBuffer, "index.xsl", BUFFER_SIZE);
+		strncpy(szBuffer, "index.xsl", BUFFER_SIZE);
 	}
 
 	WriteFile(hFile, szBuffer, (DWORD)mir_strlen(szBuffer), &dwBytesWritten, NULL);

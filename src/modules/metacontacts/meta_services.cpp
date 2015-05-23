@@ -83,7 +83,7 @@ INT_PTR Meta_GetName(WPARAM wParam, LPARAM lParam)
 {
 	char *name = (char *)Translate(META_PROTO);
 	size_t size = min(mir_strlen(name), wParam - 1);	// copy only the first size bytes.
-	if (mir_strncpy((char *)lParam, name, size) == NULL)
+	if (strncpy((char *)lParam, name, size) == NULL)
 		return 1;
 	((char *)lParam)[size] = '\0';
 	return 0;
@@ -243,7 +243,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam, LPARAM lParam)
 		tfap->hContact = ccs->hContact;
 		tfap->hEvent = hEvent;
 		tfap->id = 10;
-		mir_strncpy(tfap->msg, Translate("No online contacts found."), SIZEOF(tfap->msg) - 1);
+		strncpy(tfap->msg, Translate("No online contacts found."), SIZEOF(tfap->msg) - 1);
 
 		CloseHandle(mir_forkthread(sttFakeAckFail, (void*)tfap));
 		SetEvent(hEvent);

@@ -287,7 +287,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 					ofn.hwndOwner = hwndDlg;
 					ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
-					mir_tstrncpy(filter, TranslateT("All files"),SIZEOF(filter)-1);
+					_tcsncpy(filter, TranslateT("All files"),SIZEOF(filter)-1);
 					mir_tstrcat(filter, _T(" (*)"));
 					pfilter = filter + mir_tstrlen(filter) + 1;
 					mir_tstrcpy(pfilter, _T("*"));

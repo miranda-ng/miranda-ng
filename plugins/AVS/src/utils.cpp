@@ -149,7 +149,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 	ace->bmHeight = 0;
 	ace->bmWidth = 0;
 	ace->lpDIBSection = NULL;
-	mir_tstrncpy(ace->szFilename, tszFilename, MAX_PATH);
+	_tcsncpy(ace->szFilename, tszFilename, MAX_PATH);
 	ace->szFilename[MAX_PATH - 1] = 0;
 	if (ace->hbmPic == 0)
 		return -1;

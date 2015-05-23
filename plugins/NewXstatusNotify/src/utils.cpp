@@ -45,12 +45,12 @@ int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSe
 {
 	DBVARIANT dbv;
 	if (!db_get_ts(hContact, szModule, szSetting, &dbv)) {
-		mir_tstrncpy(setting, dbv.ptszVal, size);
+		_tcsncpy(setting, dbv.ptszVal, size);
 		db_free(&dbv);
 		return 0;
 	}
 
-	mir_tstrncpy(setting, defaultValue, size);
+	_tcsncpy(setting, defaultValue, size);
 	return 1;
 }
 

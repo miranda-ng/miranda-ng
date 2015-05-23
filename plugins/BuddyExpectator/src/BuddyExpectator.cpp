@@ -267,8 +267,8 @@ void ReturnNotify(MCONTACT hContact, TCHAR *message)
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
-		mir_tstrncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME);
-		mir_tstrncpy(ppd.lptzText, message, MAX_SECONDLINE);
+		_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME);
+		_tcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
 		if (!options.iUsePopupColors) {
 			ppd.colorBack = options.iPopupColorBack;
 			ppd.colorText = options.iPopupColorFore;
@@ -305,8 +305,8 @@ void GoneNotify(MCONTACT hContact, TCHAR *message)
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
-		mir_tstrncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME);
-		mir_tstrncpy(ppd.lptzText, message, MAX_SECONDLINE);
+		_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME);
+		_tcsncpy(ppd.lptzText, message, MAX_SECONDLINE);
 		if (!options.iUsePopupColors) {
 			ppd.colorBack = options.iPopupColorBack;
 			ppd.colorText = options.iPopupColorFore;
@@ -495,8 +495,8 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 
 			ppd.lchContact = hContact;
 			ppd.lchIcon = Skin_GetIcon("enabled_icon");
-			mir_tstrncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME);
-			mir_tstrncpy(ppd.lptzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
+			_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME);
+			_tcsncpy(ppd.lptzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
 			if (!options.iUsePopupColors) {
 				ppd.colorBack = options.iPopupColorBack;
 				ppd.colorText = options.iPopupColorFore;

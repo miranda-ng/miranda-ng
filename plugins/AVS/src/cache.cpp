@@ -129,7 +129,7 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node, AVATARCACHEENTRY *ace)
 			cacn.cbSize = sizeof(CONTACTAVATARCHANGEDNOTIFICATION);
 			cacn.hContact = hContact;
 			cacn.format = node->pa_format;
-			mir_tstrncpy(cacn.filename, node->szFilename, MAX_PATH);
+			_tcsncpy(cacn.filename, node->szFilename, MAX_PATH);
 			cacn.filename[MAX_PATH - 1] = 0;
 
 			// Get hash

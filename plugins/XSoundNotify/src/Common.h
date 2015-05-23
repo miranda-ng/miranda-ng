@@ -31,7 +31,7 @@ struct XSN_Data
 	__forceinline XSN_Data(MCONTACT _aContact, TCHAR *_path, BYTE _ignore) :
 		hContact(_aContact)
 	{
-		mir_tstrncpy(path, _path, SIZEOF(path));
+		_tcsncpy(path, _path, SIZEOF(path));
 		ignore = _ignore;
 	}
 };

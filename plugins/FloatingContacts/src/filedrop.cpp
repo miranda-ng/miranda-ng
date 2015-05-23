@@ -221,7 +221,7 @@ static int CountFiles( char *szItem )
 					 ( 0 != mir_strcmp( fd.cFileName, ".." )) )
 				{
 					char szDirName[MAX_PATH];
-					mir_strncpy( szDirName, szItem, MAX_PATH - 1);
+					strncpy( szDirName, szItem, MAX_PATH - 1);
 
 					if ( NULL != strstr( szItem, "*.*" ))
 					{
@@ -263,7 +263,7 @@ static void SaveFiles( char *szItem, char **ppFiles, int *pnCount )
 					 ( 0 != mir_strcmp( fd.cFileName, ".." )) )
 				{
 					char szDirName[MAX_PATH];
-					mir_strncpy( szDirName, szItem, MAX_PATH - 1);
+					strncpy( szDirName, szItem, MAX_PATH - 1);
 
 					if ( NULL != strstr( szItem, "*.*" ))
 					{
@@ -284,7 +284,7 @@ static void SaveFiles( char *szItem, char **ppFiles, int *pnCount )
 				size_t nSize = sizeof(char) * ( mir_strlen( szItem ) + mir_strlen( fd.cFileName ) + sizeof( char ));
 				char  *szFile = (char*) malloc( nSize ) ;
 				
-				mir_strncpy( szFile, szItem, nSize - 1); 
+				strncpy( szFile, szItem, nSize - 1); 
 				
 				if ( NULL != strstr( szFile, "*.*" ))
 				{

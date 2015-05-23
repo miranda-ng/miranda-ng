@@ -41,7 +41,7 @@ static TCHAR *parseUrlEnc(ARGUMENTSINFO *ai)
 		char hex[8];
 		memmove(res + cur + 3, res + cur + 1, mir_strlen(res + cur + 1) + 1);
 		mir_snprintf(hex, SIZEOF(hex), "%%%x", *(res + cur));
-		mir_strncpy(res + cur, hex, mir_strlen(hex));
+		strncpy(res + cur, hex, mir_strlen(hex));
 		cur += mir_strlen(hex);
 	}
 
@@ -64,7 +64,7 @@ static TCHAR *parseUrlDec(ARGUMENTSINFO *ai)
 		if ((*(res + cur) == '%') && (mir_strlen(res + cur) >= 3)) {
 			char hex[8];
 			memset(hex, '\0', sizeof(hex));
-			mir_strncpy(hex, res + cur + 1, 2);
+			strncpy(hex, res + cur + 1, 2);
 			*(res + cur) = (char)strtol(hex, NULL, 16);
 			memmove(res + cur + 1, res + cur + 3, mir_strlen(res + cur + 3) + 1);
 		}

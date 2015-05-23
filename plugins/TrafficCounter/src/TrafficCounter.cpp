@@ -455,10 +455,10 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 		rq.hDC = hdc;
 		rq.rcDestRect = rect;
 		rq.rcClipRect = rect;  
-		mir_strncpy(rq.szObjectID, "Main,ID=EventArea", sizeof(rq.szObjectID));
+		strncpy(rq.szObjectID, "Main,ID=EventArea", sizeof(rq.szObjectID));
 		if (CallService(MS_SKIN_DRAWGLYPH, (WPARAM)&rq, 0))
 		{
-			mir_strncpy(rq.szObjectID, "Main,ID=StatusBar", sizeof(rq.szObjectID));
+			strncpy(rq.szObjectID, "Main,ID=StatusBar", sizeof(rq.szObjectID));
 			CallService(MS_SKIN_DRAWGLYPH, (WPARAM)&rq, 0);
 		}
 	}
@@ -1136,7 +1136,7 @@ void NotifyOnSend(void)
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.lchContact = NULL;
 	ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-	mir_tstrncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
+	_tcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
 	//
 	mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), TranslateT("%d kilobytes sent"),
 		notify_send_size = OverallInfo.CurrentSentTraffic >> 10);
@@ -1155,7 +1155,7 @@ void NotifyOnRecv(void)
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.lchContact = NULL;
 	ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-	mir_tstrncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"),MAX_CONTACTNAME);
+	_tcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"),MAX_CONTACTNAME);
 	//
 	mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), TranslateT("%d kilobytes received"),
 		notify_recv_size = OverallInfo.CurrentRecvTraffic >> 10);

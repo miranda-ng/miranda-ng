@@ -237,7 +237,7 @@ void NetlibGetConnectionInfo(NetlibConnection* nlc, NETLIBCONNINFO *connInfo)
 		connInfo->dwIpv4 = sin.si_family == AF_INET ? htonl(sin.Ipv4.sin_addr.s_addr) : 0;
 
 		char *szTmp = NetlibAddressToString(&sin);
-		mir_strncpy(connInfo->szIpPort, szTmp, sizeof(connInfo->szIpPort));
+		strncpy(connInfo->szIpPort, szTmp, sizeof(connInfo->szIpPort));
 		connInfo->szIpPort[sizeof(connInfo->szIpPort) - 1] = 0;
 		mir_free(szTmp);
 	}

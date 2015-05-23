@@ -39,7 +39,7 @@ INT_PTR ExpandPath(TCHAR *szResult, TCHAR *format, int size)
 		input = mir_tstrdup(format);
 
 	TCHAR *core_result = Utils_ReplaceVarsT(input);
-	mir_tstrncpy(szResult, core_result, size);
+	_tcsncpy(szResult, core_result, size);
 
 	mir_free(core_result);
 
@@ -109,7 +109,7 @@ INT_PTR GetPathService(WPARAM wParam, LPARAM lParam)
 
 	TCHAR buf[MAX_FOLDER_SIZE];
 	p->Expand(buf, SIZEOF(buf));
-	mir_strncpy(data->szPath, _T2A(buf), data->nMaxPathSize);
+	strncpy(data->szPath, _T2A(buf), data->nMaxPathSize);
 	return 0;
 }
 

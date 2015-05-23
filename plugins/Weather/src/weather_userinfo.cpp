@@ -336,7 +336,7 @@ void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 	winfo = LoadWeatherInfo(hContact);
 	// check if data exist.  If not, display error message box
 	if ( !(BOOL)db_get_b(hContact, WEATHERPROTONAME, "IsUpdated", FALSE))
-		mir_tstrncpy(str, WEATHER_NO_INFO, SIZEOF(str) - 1);
+		_tcsncpy(str, WEATHER_NO_INFO, SIZEOF(str) - 1);
 	else
 		// set the display text and show the message box
 		GetDisplay(&winfo, opt.bText, str);

@@ -85,7 +85,7 @@ char *TlenResourceFromJID(const char *jid2)
 	if (p != NULL && p[1] != '\0') {
 		p++;
 		if ((nick=(char *) mir_alloc(1+mir_strlen(jid)-(p-jid))) != NULL) {
-			mir_strncpy(nick, p, mir_strlen(jid)-(p-jid));
+			strncpy(nick, p, mir_strlen(jid)-(p-jid));
 			nick[mir_strlen(jid)-(p-jid)] = '\0';
 		}
 	}
@@ -107,7 +107,7 @@ char *TlenNickFromJID(const char *jid2)
 		p = strchr(jid, '/');
 	if (p != NULL) {
 		if ((nick=(char *) mir_alloc((p-jid)+1)) != NULL) {
-			mir_strncpy(nick, jid, p-jid);
+			strncpy(nick, jid, p-jid);
 			nick[p-jid] = '\0';
 		}
 	}
@@ -128,7 +128,7 @@ char *TlenLoginFromJID(const char *jid2)
 	p = strchr(jid, '/');
 	if (p != NULL) {
 		if ((nick=(char *) mir_alloc((p-jid)+1)) != NULL) {
-			mir_strncpy(nick, jid, p-jid);
+			strncpy(nick, jid, p-jid);
 			nick[p-jid] = '\0';
 		}
 	}

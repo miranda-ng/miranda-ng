@@ -40,7 +40,7 @@ static HGENMENU hContactMenu = 0;
 static void GetMessageDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
 {
 	TCHAR *msg = DbGetEventTextT(dbei, CP_ACP);
-	mir_tstrncpy(buf, msg ? msg : TranslateT("Invalid message"), cbBuf);
+	_tcsncpy(buf, msg ? msg : TranslateT("Invalid message"), cbBuf);
 	buf[ cbBuf-1 ] = 0;
 	mir_free(msg);
 }
@@ -125,7 +125,7 @@ static void GetObjectSummary(DBEVENTINFO *dbei, TCHAR* str, int cbStr)
 		return;
 	}
 
-	mir_tstrncpy(str, (const TCHAR*)pszSrc, cbStr);
+	_tcsncpy(str, (const TCHAR*)pszSrc, cbStr);
 	str[cbStr-1] = 0;
 	mir_free(pszTmp);
 }

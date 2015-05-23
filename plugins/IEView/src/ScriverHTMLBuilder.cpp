@@ -144,13 +144,13 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 		today = mktime(&tm_today);
 
 		if (dwFlags & SMF_LOG_USERELATIVEDATE && check >= today) {
-			mir_strncpy(szResult, Translate("Today"), SIZEOF(szResult)-1);
+			strncpy(szResult, Translate("Today"), SIZEOF(szResult)-1);
 			if (mode == 0) {
 				mir_strcat(szResult, ",");
 			}
 		}
 		else if (dwFlags & SMF_LOG_USERELATIVEDATE && check > (today - 86400)) {
-			mir_strncpy(szResult, Translate("Yesterday"), SIZEOF(szResult)-1);
+			strncpy(szResult, Translate("Yesterday"), SIZEOF(szResult)-1);
 			if (mode == 0) {
 				mir_strcat(szResult, ",");
 			}

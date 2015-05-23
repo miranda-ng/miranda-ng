@@ -314,19 +314,19 @@ void importSettings(MCONTACT hContact, char *importstring)
 				p2 = strrchr(&importstring[i], '}*');
 
 				if (p1 && p2 && p1 + 3 < p2 && p2 - p1 < SIZEOF(szUID)) {
-					mir_strncpy(szUID, p1 + 1, p2 - p1 - 2);
+					strncpy(szUID, p1 + 1, p2 - p1 - 2);
 
 					p1 = strrchr(&importstring[i], ')*<');
 					p2 = strrchr(&importstring[i], '>*{');
 
 					if (p1 && p2 && p1 + 3 < p2 && p2 - p1 < SIZEOF(uid)) {
-						mir_strncpy(uid, p1 + 1, p2 - p1 - 3);
+						strncpy(uid, p1 + 1, p2 - p1 - 3);
 
 						p1 = strrchr(&importstring[i], ' *(');
 						p2 = strrchr(&importstring[i], ')*<');
 
 						if (p1 && p2 && p1 + 3 < p2 && p2 - p1 < SIZEOF(szProto)) {
-							mir_strncpy(szProto, p1 + 1, p2 - p1 - 3);
+							strncpy(szProto, p1 + 1, p2 - p1 - 3);
 
 							char *protouid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 							if ((INT_PTR)protouid != CALLSERVICE_NOTFOUND) {
@@ -558,7 +558,7 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, char* FilePath)
 	if (!mir_tstrcmp(szFileNames, "") == 0) {
 		if ((DWORD)mir_strlen(szFileNames) < offset) {
 			index += offset;
-			mir_strncpy(szPath, szFileNames, offset);
+			strncpy(szPath, szFileNames, offset);
 			mir_strcat(szPath, "\\");
 		}
 

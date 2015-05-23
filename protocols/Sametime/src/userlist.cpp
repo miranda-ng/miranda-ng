@@ -673,10 +673,10 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 	if (advanced == TRUE) {
 		// send column names
 		mcsr.psr.cbSize = 0;
-		mir_tstrncpy(mcsr.pszFields[0], TranslateT("ID"), 512);
-		mir_tstrncpy(mcsr.pszFields[1], TranslateT("Name"), 512);
-		mir_tstrncpy(mcsr.pszFields[2], TranslateT("Description"), 512);
-		mir_tstrncpy(mcsr.pszFields[3], TranslateT("Group?"), 512);
+		_tcsncpy(mcsr.pszFields[0], TranslateT("ID"), 512);
+		_tcsncpy(mcsr.pszFields[1], TranslateT("Name"), 512);
+		_tcsncpy(mcsr.pszFields[2], TranslateT("Description"), 512);
+		_tcsncpy(mcsr.pszFields[3], TranslateT("Group?"), 512);
 		proto->ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, (HANDLE)id, (LPARAM)&mcsr);
 	}
 
@@ -687,11 +687,11 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 		for (; ri; ri = ri->next) {
 			mri = ((mwResolveResult *)ri->data)->matches;
 			for (; mri; mri = mri->next) {
-				mir_strncpy(mcsr.psr.stid, ((mwResolveMatch *)mri->data)->id, 256);
+				strncpy(mcsr.psr.stid, ((mwResolveMatch *)mri->data)->id, 256);
 				mcsr.psr.stid[255] = 0;
 				MultiByteToWideChar(CP_UTF8, 0, mcsr.psr.stid, -1, mcsr.pszFields[0], 512);
 
-				mir_strncpy(mcsr.psr.name, ((mwResolveMatch *)mri->data)->name, 256);
+				strncpy(mcsr.psr.name, ((mwResolveMatch *)mri->data)->name, 256);
 				mcsr.psr.name[255] = 0;
 				MultiByteToWideChar(CP_UTF8, 0, mcsr.psr.name, -1, mcsr.pszFields[1], 512);
 
@@ -702,7 +702,7 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 
 				mcsr.psr.group = (((mwResolveMatch *)mri->data)->type == mwResolveMatch_GROUP);
 				//MultiByteToWideChar(CP_UTF8, 0, mcsr.psr.name, -1, mcsr.pszFields[1], 512);
-				mir_tstrncpy(mcsr.pszFields[3], mcsr.psr.group ? TranslateT("True") : TranslateT("False"), 512);
+				_tcsncpy(mcsr.pszFields[3], mcsr.psr.group ? TranslateT("True") : TranslateT("False"), 512);
 
 				if (advanced == TRUE)
 					proto->ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, (HANDLE)id, (LPARAM)&mcsr);

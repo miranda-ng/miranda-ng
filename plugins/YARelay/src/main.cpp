@@ -205,7 +205,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 	char *szBuf = szUtfMsg.str;
 	for (int i=0; i < iPartCount; i++, szBuf += cbPortion) {
 		char *szMsgPart = (char*)mir_alloc(cbPortion+1);
-		mir_strncpy(szMsgPart, szBuf, cbPortion);
+		strncpy(szMsgPart, szBuf, cbPortion);
 		szMsgPart[cbPortion] = 0;
 
 		HANDLE hMsgProc = (HANDLE)CallContactService(hForwardTo, PSS_MESSAGE, 0, (LPARAM)szMsgPart);
@@ -241,10 +241,10 @@ extern "C" int __declspec(dllexport) Load()
 
 	TCHAR *szForwardTemplate = db_get_tsa(NULL, "yaRelay", "ForwardTemplate");
 	if (szForwardTemplate){
-		mir_tstrncpy(tszForwardTemplate, szForwardTemplate, SIZEOF(tszForwardTemplate));
+		_tcsncpy(tszForwardTemplate, szForwardTemplate, SIZEOF(tszForwardTemplate));
 		mir_free(szForwardTemplate);
 	}
-	else mir_tstrncpy(tszForwardTemplate, _T("%u: %m"), MAXTEMPLATESIZE-1);
+	else _tcsncpy(tszForwardTemplate, _T("%u: %m"), MAXTEMPLATESIZE-1);
 
 	iSplit          = db_get_dw(NULL, "yaRelay", "Split", 0);
 	iSplitMaxSize   = db_get_dw(NULL, "yaRelay", "SplitMaxSize", 100);

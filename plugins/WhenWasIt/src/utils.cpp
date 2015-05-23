@@ -94,14 +94,14 @@ void HexToBin(char *inData, ULONG &size, LPBYTE &outData)
 {
 	char buffer[32] = { 0 };
 	mir_strcpy(buffer, "0x");
-	mir_strncpy(buffer + 2, inData, HEX_SIZE);
+	strncpy(buffer + 2, inData, HEX_SIZE);
 	sscanf(buffer, "%x", &size);
 	outData = (unsigned char*)new char[size * 2];
 
 	char *tmp = inData + HEX_SIZE;
 	buffer[4] = '\0'; //mark the end of the string
 	for (UINT i = 0; i < size; i++) {
-		mir_strncpy(buffer + 2, &tmp[i * 2], 2);
+		strncpy(buffer + 2, &tmp[i * 2], 2);
 		sscanf(buffer, "%x", &outData[i]);
 	}
 }
@@ -116,7 +116,7 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 		res = 0;
 		size_t tmp = mir_strlen(dbv.pszVal);
 		len = (tmp < size - 1) ? tmp : size - 1;
-		mir_strncpy(szResult, dbv.pszVal, len);
+		strncpy(szResult, dbv.pszVal, len);
 		szResult[len] = '\0';
 		mir_free(dbv.pszVal);
 	}
@@ -125,7 +125,7 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 		if (szError) {
 			size_t tmp = mir_strlen(szError);
 			len = (tmp < size - 1) ? tmp : size - 1;
-			mir_strncpy(szResult, szError, len);
+			strncpy(szResult, szError, len);
 			szResult[len] = '\0';
 		}
 		else szResult[0] = '\0';

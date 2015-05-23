@@ -247,7 +247,7 @@ int string_append_n(string_t s, const char *str, int count)
 	string_realloc(s, s->len + count);
 
 	s->str[s->len + count] = 0;
-	mir_strncpy(s->str + s->len, str, count);
+	strncpy(s->str + s->len, str, count);
 
 	s->len += count;
 
@@ -480,7 +480,7 @@ char **array_make(const char *string, const char *sep, int max, int trim, int qu
 		} else {
 			for (q = p, len = 0; *q && (last || !strchr(sep, *q)); q++, len++);
 			token = (char*)calloc(1, len + 1);
-			mir_strncpy(token, p, len);
+			strncpy(token, p, len);
 			token[len] = 0;
 			p = q;
 		}

@@ -42,14 +42,14 @@ struct CONNECTION *GetConnectionsTable()
 			IpAddr.S_un.S_addr = (ULONG)pTcpTable->table[i].dwLocalAddr;
 			//_snprintf(newConn->strIntIp,_countof(newConn->strIntIp),"%d.%d.%d.%d",IpAddr.S_un.S_un_b.s_b1,IpAddr.S_un.S_un_b.s_b2,IpAddr.S_un.S_un_b.s_b3,IpAddr.S_un.S_un_b.s_b4);
 			TCHAR *strIntIp = mir_a2t(inet_ntoa(IpAddr));
-			mir_tstrncpy(newConn->strIntIp, strIntIp, SIZEOF(newConn->strIntIp) - 1);
+			_tcsncpy(newConn->strIntIp, strIntIp, SIZEOF(newConn->strIntIp) - 1);
 			mir_free(strIntIp);
 		}
 
 		if (pTcpTable->table[i].dwRemoteAddr) {
 			IpAddr.S_un.S_addr = (u_long)pTcpTable->table[i].dwRemoteAddr;
 			TCHAR *strExtIp = mir_a2t(inet_ntoa(IpAddr));
-			mir_tstrncpy(newConn->strExtIp, strExtIp, SIZEOF(newConn->strExtIp) - 1);
+			_tcsncpy(newConn->strExtIp, strExtIp, SIZEOF(newConn->strExtIp) - 1);
 			mir_free(strExtIp);
 		}
 		newConn->state = pTcpTable->table[i].dwState;

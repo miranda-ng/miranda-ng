@@ -132,7 +132,7 @@ int GGPROTO::gettoken(GGTOKEN *token)
 	}
 
 	// Return token id
-	mir_strncpy(dat.id, t->tokenid, sizeof(dat.id));
+	strncpy(dat.id, t->tokenid, sizeof(dat.id));
 	dat.width = t->width;
 	dat.height = t->height;
 
@@ -154,8 +154,8 @@ int GGPROTO::gettoken(GGTOKEN *token)
 		return FALSE;
 
 	// Fillup patterns
-	mir_strncpy(token->id, dat.id, sizeof(token->id));
-	mir_strncpy(token->val, dat.val, sizeof(token->val));
+	strncpy(token->id, dat.id, sizeof(token->id));
+	strncpy(token->val, dat.val, sizeof(token->val));
 
 	return TRUE;
 }

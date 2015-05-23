@@ -436,7 +436,7 @@ void gg_debughandler(int level, const char *format, va_list ap)
    char *nl = strrchr(szFormat, '\n');
    if (nl) *nl = 0;
 
-   mir_strncpy(szText + PREFIXLEN, "[libgadu] \0", sizeof(szText) - PREFIXLEN);
+   strncpy(szText + PREFIXLEN, "[libgadu] \0", sizeof(szText) - PREFIXLEN);
 
    char prefix[6];
    mir_snprintf(prefix, SIZEOF(prefix), "%lu", GetCurrentThreadId());

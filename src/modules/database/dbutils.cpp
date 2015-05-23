@@ -282,7 +282,7 @@ static INT_PTR GetProfilePath(WPARAM wParam, LPARAM lParam)
 		return 1;
 
 	char *dst = (char*)lParam;
-	mir_strncpy(dst, _T2A(g_profileDir), wParam);
+	strncpy(dst, _T2A(g_profileDir), wParam);
 	dst[wParam-1] = 0;
 	return 0;
 }
@@ -295,7 +295,7 @@ static INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 	char *dst = (char*)lParam;
 
 	char *tmp = makeFileName(g_profileName);
-	mir_strncpy(dst, tmp, wParam);
+	strncpy(dst, tmp, wParam);
 	mir_free(tmp);
 
 	dst[wParam-1] = 0;

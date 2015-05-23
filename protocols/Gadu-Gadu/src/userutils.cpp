@@ -126,7 +126,7 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 
 	if (!gg->getString(GG_KEY_EMAIL, &dbv_email)) 
 	{
-		mir_strncpy(email, dbv_email.pszVal, sizeof(email));
+		strncpy(email, dbv_email.pszVal, sizeof(email));
 		db_free(&dbv_email);
 	}
 

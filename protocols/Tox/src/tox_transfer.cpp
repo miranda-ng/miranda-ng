@@ -201,7 +201,7 @@ HANDLE CToxProto::OnSendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR **pp
 	TCHAR *fileName = _tcsrchr(ppszFiles[0], '\\') + 1;
 	size_t fileDirLength = fileName - ppszFiles[0];
 	TCHAR *fileDir = (TCHAR*)mir_alloc(sizeof(TCHAR)*(fileDirLength + 1));
-	mir_tstrncpy(fileDir, ppszFiles[0], fileDirLength);
+	_tcsncpy(fileDir, ppszFiles[0], fileDirLength);
 	fileDir[fileDirLength] = '\0';
 
 	_fseeki64(hFile, 0, SEEK_END);

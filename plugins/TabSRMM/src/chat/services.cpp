@@ -168,7 +168,7 @@ void ShowRoom(SESSION_INFO *si, WPARAM, BOOL)
 	if (pContainer == NULL) {
 		GetContainerNameForContact(si->hContact, szName, CONTAINER_NAMELEN);
 		if (!g_Settings.bOpenInDefault && !mir_tstrcmp(szName, _T("default")))
-			mir_tstrncpy(szName, _T("Chat Rooms"), CONTAINER_NAMELEN);
+			_tcsncpy(szName, _T("Chat Rooms"), CONTAINER_NAMELEN);
 		szName[CONTAINER_NAMELEN] = 0;
 		pContainer = FindContainerByName(szName);
 	}

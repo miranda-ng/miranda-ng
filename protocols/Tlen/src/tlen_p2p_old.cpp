@@ -334,7 +334,7 @@ static HANDLE TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 		return NULL;
 	}
 	in.S_un.S_addr = *(PDWORD)(buf+4);
-	mir_strncpy(sb->szHost, inet_ntoa(in), sizeof(sb->szHost)-1);
+	strncpy(sb->szHost, inet_ntoa(in), sizeof(sb->szHost)-1);
 	sb->wPort = htons(*(PWORD)(buf+2));
 	ft->s = s;
 	forkthread((void (__cdecl *)(void*))TlenFileBindSocks4Thread, 0, ft);
@@ -463,11 +463,11 @@ HANDLE TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 			if (db_get_b(NULL, proto->m_szModuleName, "FileProxyAuth", FALSE)) {
 				sb.useAuth = TRUE;
 				if (!db_get_s(NULL, proto->m_szModuleName, "FileProxyUsername", &dbv)) {
-					mir_strncpy(sb.szUser, dbv.pszVal, sizeof(sb.szUser)-1);
+					strncpy(sb.szUser, dbv.pszVal, sizeof(sb.szUser)-1);
 					db_free(&dbv);
 				}
 				if (!db_get_s(NULL, proto->m_szModuleName, "FileProxyPassword", &dbv)) {
-					mir_strncpy(sb.szPassword, dbv.pszVal, sizeof(sb.szPassword)-1);
+					strncpy(sb.szPassword, dbv.pszVal, sizeof(sb.szPassword)-1);
 					db_free(&dbv);
 				}
 			}

@@ -532,7 +532,7 @@ static int PopupUpdateT(MCONTACT hContact, MEVENT hEvent)
 	TCHAR lpzText[MAX_SECONDLINE];
 	int i, available = MAX_SECONDLINE - 1;
 	if (pdata->pluginOptions->bShowHeaders) {
-		mir_tstrncpy(lpzText, szHeader, MAX_SECONDLINE);
+		_tcsncpy(lpzText, szHeader, MAX_SECONDLINE);
 		available -= (int)mir_tstrlen(szHeader);
 	}
 	else lpzText[0] = 0;
@@ -622,12 +622,12 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 		_tcsncpy_s(pud.lptzText, szPreview, _TRUNCATE);
 		mir_free(szPreview);
 	}
-	else mir_tstrncpy(pud.lptzText, _T(" "), MAX_SECONDLINE);
+	else _tcsncpy(pud.lptzText, _T(" "), MAX_SECONDLINE);
 
 	pdata->eventData = (EVENT_DATAT *)mir_alloc(NR_MERGED * sizeof(EVENT_DATAT));
 	pdata->eventData[0].hEvent = hEvent;
 	pdata->eventData[0].timestamp = dbe.timestamp;
-	mir_tstrncpy(pdata->eventData[0].tszText, pud.lptzText, MAX_SECONDLINE);
+	_tcsncpy(pdata->eventData[0].tszText, pud.lptzText, MAX_SECONDLINE);
 	pdata->eventData[0].tszText[MAX_SECONDLINE - 1] = 0;
 	pdata->nrEventsAlloced = NR_MERGED;
 	pdata->nrMerged = 1;

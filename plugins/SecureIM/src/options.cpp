@@ -1400,14 +1400,14 @@ void setListViewIcon(HWND hLV, UINT iItem, pUinKey ptr)
 void setListViewMode(HWND hLV, UINT iItem, UINT iMode)
 {
 	char tmp[256];
-	mir_strncpy(tmp, Translate(sim231[iMode]), sizeof(tmp)-1);
+	strncpy(tmp, Translate(sim231[iMode]), sizeof(tmp)-1);
 	LV_SetItemTextA(hLV, iItem, 2, tmp);
 }
 
 void setListViewStatus(HWND hLV, UINT iItem, UINT iStatus)
 {
 	char tmp[128];
-	mir_strncpy(tmp, Translate(sim232[iStatus]), sizeof(tmp)-1);
+	strncpy(tmp, Translate(sim232[iStatus]), sizeof(tmp)-1);
 	LV_SetItemTextA(hLV, iItem, 3, tmp);
 }
 
@@ -1421,7 +1421,7 @@ UINT getListViewPSK(HWND hLV, UINT iItem)
 void setListViewPSK(HWND hLV, UINT iItem, UINT iStatus)
 {
 	char str[128];
-	mir_strncpy(str, (iStatus) ? Translate(sim206) : "-", sizeof(str)-1);
+	strncpy(str, (iStatus) ? Translate(sim206) : "-", sizeof(str)-1);
 	LV_SetItemTextA(hLV, iItem, 4, str);
 }
 
@@ -1435,7 +1435,7 @@ UINT getListViewPUB(HWND hLV, UINT iItem)
 void setListViewPUB(HWND hLV, UINT iItem, UINT iStatus)
 {
 	char str[128];
-	mir_strncpy(str, (iStatus) ? Translate(sim233) : "-", sizeof(str)-1);
+	strncpy(str, (iStatus) ? Translate(sim233) : "-", sizeof(str)-1);
 	LV_SetItemTextA(hLV, iItem, 4, str);
 
 	LPSTR sha = NULL;

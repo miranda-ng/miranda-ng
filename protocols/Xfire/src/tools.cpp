@@ -211,7 +211,7 @@ char* GetLaunchPath(char*launch)
 	if (launch == NULL)
 		return temp;
 
-	mir_strncpy(temp, launch, XFIRE_MAX_STATIC_STRING_LEN -1);
+	strncpy(temp, launch, XFIRE_MAX_STATIC_STRING_LEN -1);
 
 	while (*p != 0 && *f != 0)
 	{

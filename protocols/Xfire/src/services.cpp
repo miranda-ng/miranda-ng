@@ -58,7 +58,7 @@ INT_PTR GetMyAvatar(WPARAM wparam, LPARAM lparam) {
 
 	if (!db_get(NULL, protocolname, "MyAvatarFile", &dbv))
 	{
-		mir_strncpy((char*)wparam, dbv.pszVal, (int)lparam);
+		strncpy((char*)wparam, dbv.pszVal, (int)lparam);
 		db_free(&dbv);
 		return 0;
 	}

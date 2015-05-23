@@ -553,7 +553,7 @@ void DeleteFileOrFolder(const char *name)
 		WIN32_FIND_DATAA findData;
 		HANDLE hwnd = FindFirstFileA(name, &findData);
 		if (hwnd != INVALID_HANDLE_VALUE) {
-			mir_strncpy(tmp, name, sizeof(tmp)-1);
+			strncpy(tmp, name, sizeof(tmp)-1);
 			strTmp = strrchr(tmp,'\\');
 
 			if(strTmp != NULL) {

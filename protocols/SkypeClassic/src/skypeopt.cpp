@@ -611,12 +611,12 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					db_set_b (NULL, SKYPE_PROTONAME, "secondary", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SECONDARY)));
 
 					GetDlgItemTextA(hwndDlg,IDC_COMMANDLINE,text,SIZEOF(text));
-					mir_strncpy(szRelativePath, text, sizeof(szRelativePath)-1);
+					strncpy(szRelativePath, text, sizeof(szRelativePath)-1);
 					CallService (MS_UTILS_PATHTORELATIVE, (WPARAM)text, (LPARAM)szRelativePath);
 					db_set_s(NULL, SKYPE_PROTONAME, "CommandLine", szRelativePath);
 
 					GetDlgItemTextA(hwndDlg,IDC_DATAPATH,text,SIZEOF(text));
-					mir_strncpy(szRelativePath, text, sizeof(szRelativePath)-1);
+					strncpy(szRelativePath, text, sizeof(szRelativePath)-1);
 					CallService (MS_UTILS_PATHTORELATIVE, (WPARAM)text, (LPARAM)szRelativePath);
 					db_set_s(NULL, SKYPE_PROTONAME, "datapath", szRelativePath);
                    

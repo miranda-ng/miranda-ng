@@ -117,7 +117,7 @@ static void patchDir(TCHAR *str, size_t strSize)
 
 	TCHAR *result = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)str, (LPARAM)&dat);
 	if (result) {
-		mir_tstrncpy(str, result, strSize);
+		_tcsncpy(str, result, strSize);
 		mir_free(result);
 	}
 
@@ -158,7 +158,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOO
 		dat.hContact = hContact;
 		TCHAR *result = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)tszTemp, (LPARAM)&dat);
 		if (result) {
-			mir_tstrncpy(tszTemp, result, SIZEOF(tszTemp));
+			_tcsncpy(tszTemp, result, SIZEOF(tszTemp));
 			mir_free(result);
 			for (int i = 0; i < (SIZEOF(rvaVarsToReplace) - 1); i++)
 				mir_free(rvaVarsToReplace[i].lptzValue);
