@@ -215,8 +215,8 @@ void ShowPopup(char* szText, TCHAR* tszText, MCONTACT hContact)
 
 	ppd.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 	ppd.lchContact = hContact;
-	_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME - 1);
-	_tcsncpy(ppd.lptzText, text, MAX_SECONDLINE - 1);
+	mir_tstrncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME - 1);
+	mir_tstrncpy(ppd.lptzText, text, MAX_SECONDLINE - 1);
 	ppd.iSeconds = -1;
 
 	PUAddPopupT(&ppd);

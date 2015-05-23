@@ -1063,8 +1063,8 @@ static void TlenMailPopup(TlenProtocol *proto, char *title, char *emailInfo)
 
 	POPUPDATAT ppd = { 0 };
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_MAIL));
-	_tcsncpy(ppd.lptzContactName, _A2T(title), MAX_CONTACTNAME -1);
-	_tcsncpy(ppd.lptzText, _A2T(emailInfo), MAX_SECONDLINE - 1);
+	mir_tstrncpy(ppd.lptzContactName, _A2T(title), MAX_CONTACTNAME -1);
+	mir_tstrncpy(ppd.lptzText, _A2T(emailInfo), MAX_SECONDLINE - 1);
 	ppd.colorBack = db_get_dw(NULL, proto->m_szModuleName, "MailPopupBack", 0);
 	ppd.colorText = db_get_dw(NULL, proto->m_szModuleName, "MailPopupText", 0);
 	BYTE delayMode = db_get_b(NULL, proto->m_szModuleName, "MailPopupDelayMode", 0);

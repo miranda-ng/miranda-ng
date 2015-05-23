@@ -292,7 +292,7 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 		POPUPDATAT pd = {0};
 		mir_tstrcpy(pd.lptzContactName, lParam == SM_WARNING ? _T("Warning") : _T("Notification"));
 		pd.lchIcon = LoadIcon(0, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
-		_tcsncpy(pd.lptzText, _A2T((char *)wParam), MAX_SECONDLINE); pd.lptzText[MAX_SECONDLINE-1] = 0;
+		mir_tstrncpy(pd.lptzText, _A2T((char *)wParam), MAX_SECONDLINE); pd.lptzText[MAX_SECONDLINE-1] = 0;
 		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, 0);
 	}
 	return 0;

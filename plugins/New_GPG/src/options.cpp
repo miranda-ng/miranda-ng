@@ -903,7 +903,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 						{
 							MCONTACT hcnt = db_mc_tryMeta(hContact);
 							ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-							_tcsncpy(tmp2, ptmp, MAX_PATH-1);
+							mir_tstrncpy(tmp2, ptmp, MAX_PATH-1);
 							mir_free(ptmp);
 							mir_tstrncat(tmp2, _T("\\"), SIZEOF(tmp2) - mir_tstrlen(tmp2));
 							mir_tstrncat(tmp2, _T("temporary_exported.asc"), SIZEOF(tmp2) - mir_tstrlen(tmp2));

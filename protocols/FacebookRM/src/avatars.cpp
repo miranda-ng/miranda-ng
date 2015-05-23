@@ -223,7 +223,7 @@ INT_PTR FacebookProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai) };
 	switch (GetAvatarInfo(0, (LPARAM)&ai)) {
 	case GAIR_SUCCESS:
-		_tcsncpy(buf, ai.filename, size);
+		mir_tstrncpy(buf, ai.filename, size);
 		buf[size - 1] = 0;
 		return 0;
 

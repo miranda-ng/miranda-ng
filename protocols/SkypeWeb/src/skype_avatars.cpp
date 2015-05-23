@@ -99,7 +99,7 @@ INT_PTR CSkypeProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 
 	TCHAR tszFileName[MAX_PATH];
 	GetAvatarFileName(AI->hContact, tszFileName, SIZEOF(tszFileName));
-	_tcsncpy(AI->filename, tszFileName, SIZEOF(AI->filename));
+	mir_tstrncpy(AI->filename, tszFileName, SIZEOF(AI->filename));
 
 	if (::_taccess(AI->filename, 0) == 0 && !getBool(AI->hContact, "NeedNewAvatar", 0))
 		return GAIR_SUCCESS;
@@ -118,7 +118,7 @@ INT_PTR CSkypeProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR path[MAX_PATH];
 	GetAvatarFileName(NULL, path, SIZEOF(path));
-	_tcsncpy((TCHAR*)wParam, path, (int)lParam);
+	mir_tstrncpy((TCHAR*)wParam, path, (int)lParam);
 	return 0;
 }
 

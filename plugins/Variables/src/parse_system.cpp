@@ -182,7 +182,7 @@ static TCHAR *parseDirectory(ARGUMENTSINFO *ai)
 		break;
 
 	TCHAR *res = (TCHAR*)mir_alloc((ei - bi + 1) * sizeof(TCHAR));
-	_tcsncpy(res, ai->targv[1] + bi, ei - bi);
+	mir_tstrncpy(res, ai->targv[1] + bi, ei - bi);
 	res[ei - bi] = 0;
 	return res;
 }
@@ -218,7 +218,7 @@ static TCHAR *parseDirectory2(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	_tcsncpy(res, ai->targv[1], (ecur - ai->targv[1]) + 1);
+	mir_tstrncpy(res, ai->targv[1], (ecur - ai->targv[1]) + 1);
 	return res;
 }
 
@@ -371,7 +371,7 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai)
 	tszRes = NULL;
 
 	if (ai->argc > 1)
-		_tcsncpy(tszFirst, ai->targv[1], SIZEOF(tszFirst) - 1);
+		mir_tstrncpy(tszFirst, ai->targv[1], SIZEOF(tszFirst) - 1);
 
 	if (ai->argc > 2)
 		tszFilter = ai->targv[2];

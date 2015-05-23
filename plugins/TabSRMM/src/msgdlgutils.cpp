@@ -989,11 +989,11 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 					TCHAR tmp[10];
 
 					if (p[3] != ' ' && p[3] != '\\') {
-						_tcsncpy(tmp, p + 2, 3);
+						mir_tstrncpy(tmp, p + 2, 3);
 						tmp[3] = 0;
 					}
 					else {
-						_tcsncpy(tmp, p + 2, 2);
+						mir_tstrncpy(tmp, p + 2, 2);
 						tmp[2] = 0;
 					}
 

@@ -490,12 +490,12 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, U
 
 	// if hContact is NULL, && hEvent is NULL then popup is only Test
 	if ((hContact == NULL) && (hEvent == NULL)) {
-		_tcsncpy(pudw.lptzContactName, TranslateT("Plugin Test"), MAX_CONTACTNAME);
-		_tcsncpy(pudw.lptzText, TranslateTS(sampleEvent), MAX_SECONDLINE);
+		mir_tstrncpy(pudw.lptzContactName, TranslateT("Plugin Test"), MAX_CONTACTNAME);
+		mir_tstrncpy(pudw.lptzText, TranslateTS(sampleEvent), MAX_SECONDLINE);
 	}
 	else { // get the needed event data
-		_tcsncpy(pudw.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME);
-		_tcsncpy(pudw.lptzText, ptrT(GetEventPreview(&dbe)), MAX_SECONDLINE);
+		mir_tstrncpy(pudw.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), MAX_CONTACTNAME);
+		mir_tstrncpy(pudw.lptzText, ptrT(GetEventPreview(&dbe)), MAX_SECONDLINE);
 	}
 
 	PopupCount++;
@@ -573,7 +573,7 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 			TCHAR timestamp[MAX_DATASIZE];
 			TCHAR formatTime[MAX_DATASIZE];
 			if (pdata->pluginOptions->bShowDate)
-				_tcsncpy(formatTime, _T("%Y.%m.%d"), SIZEOF(formatTime));
+				mir_tstrncpy(formatTime, _T("%Y.%m.%d"), SIZEOF(formatTime));
 			else if (pdata->pluginOptions->bShowTime)
 				mir_tstrncat(formatTime, _T(" %H:%M"), SIZEOF(formatTime) - mir_tstrlen(formatTime));
 			time_t localTime = dbe.timestamp;

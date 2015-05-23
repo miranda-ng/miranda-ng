@@ -184,7 +184,7 @@ bool LoadWIData(bool dial)
 		return false;
 	*chop = '\0';
 	mir_tstrncat(szSearchPath, _T("\\Plugins\\Weather\\*.ini"), SIZEOF(szSearchPath) - mir_tstrlen(szSearchPath));
-	_tcsncpy(FileName, szSearchPath, MAX_PATH - 1);
+	mir_tstrncpy(FileName, szSearchPath, MAX_PATH - 1);
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(szSearchPath, &fd);

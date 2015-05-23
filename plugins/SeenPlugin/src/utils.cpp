@@ -266,7 +266,7 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 
 		case 'G':
 			if (!db_get_ts(hcontact, "CList", "Group", &dbv)) {
-				_tcsncpy(szdbsetting, dbv.ptszVal, SIZEOF(szdbsetting));
+				mir_tstrncpy(szdbsetting, dbv.ptszVal, SIZEOF(szdbsetting));
 				db_free(&dbv);
 				charPtr = szdbsetting;
 				goto LBL_charPtr;
@@ -287,7 +287,7 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 					_ltot(ci.dVal, szdbsetting, 10);
 					break;
 				case CNFT_ASCIIZ:
-					_tcsncpy(szdbsetting, ci.pszVal, SIZEOF(szdbsetting));
+					mir_tstrncpy(szdbsetting, ci.pszVal, SIZEOF(szdbsetting));
 					break;
 				}
 			}
@@ -297,7 +297,7 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 
 		case 's':
 			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "StatusTriger" : courProtoName, 0)) {
-				_tcsncpy(szdbsetting, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(isetting | 0x8000), GSMDF_TCHAR), SIZEOF(szdbsetting));
+				mir_tstrncpy(szdbsetting, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(isetting | 0x8000), GSMDF_TCHAR), SIZEOF(szdbsetting));
 				if (!(isetting & 0x8000)) {
 					mir_tstrncat(szdbsetting, _T("/"), SIZEOF(szdbsetting) - mir_tstrlen(szdbsetting));
 					mir_tstrncat(szdbsetting, TranslateT("Idle"), SIZEOF(szdbsetting) - mir_tstrlen(szdbsetting));
@@ -317,7 +317,7 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 
 		case 'o':
 			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "OldStatus" : courProtoName, 0)) {
-				_tcsncpy(szdbsetting, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)isetting, GSMDF_TCHAR), SIZEOF(szdbsetting));
+				mir_tstrncpy(szdbsetting, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)isetting, GSMDF_TCHAR), SIZEOF(szdbsetting));
 				if (includeIdle && hcontact && db_get_b(hcontact, S_MOD, "OldIdle", 0)) {
 					mir_tstrncat(szdbsetting, _T("/"), SIZEOF(szdbsetting) - mir_tstrlen(szdbsetting));
 					mir_tstrncat(szdbsetting, TranslateT("Idle"), SIZEOF(szdbsetting) - mir_tstrlen(szdbsetting));
@@ -333,7 +333,7 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 				if (db_get_ts(hcontact, ci.szProto, *p == 'i' ? "Resource" : "System", &dbv))
 					goto LBL_noData;
 
-				_tcsncpy(szdbsetting, dbv.ptszVal, SIZEOF(szdbsetting));
+				mir_tstrncpy(szdbsetting, dbv.ptszVal, SIZEOF(szdbsetting));
 				db_free(&dbv);
 				charPtr = szdbsetting;
 			}
@@ -343,13 +343,13 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 					goto LBL_noData;
 
 				ia.S_un.S_addr = htonl(dwsetting);
-				_tcsncpy(szdbsetting, _A2T(inet_ntoa(ia)), SIZEOF(szdbsetting));
+				mir_tstrncpy(szdbsetting, _A2T(inet_ntoa(ia)), SIZEOF(szdbsetting));
 				charPtr = szdbsetting;
 			}
 			goto LBL_charPtr;
 
 		case 'P':
-			_tcsncpy(szdbsetting, ci.szProto ? _A2T(ci.szProto) : (wantempty ? _T("") : _T("ProtoUnknown")), SIZEOF(szdbsetting));
+			mir_tstrncpy(szdbsetting, ci.szProto ? _A2T(ci.szProto) : (wantempty ? _T("") : _T("ProtoUnknown")), SIZEOF(szdbsetting));
 			charPtr = szdbsetting;
 			goto LBL_charPtr;
 
@@ -359,7 +359,7 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 
 		case 'C': // Get Client Info
 			if (!db_get_ts(hcontact, ci.szProto, "MirVer", &dbv)) {
-				_tcsncpy(szdbsetting, dbv.ptszVal, SIZEOF(szdbsetting));
+				mir_tstrncpy(szdbsetting, dbv.ptszVal, SIZEOF(szdbsetting));
 				db_free(&dbv);
 			}
 			else goto LBL_noData;
@@ -374,7 +374,7 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 		{
 			PROTOACCOUNT *pa = ProtoGetAccount(ci.szProto);
 			if (!pa) goto LBL_noData;
-			_tcsncpy(szdbsetting, pa->tszAccountName, SIZEOF(szdbsetting));
+			mir_tstrncpy(szdbsetting, pa->tszAccountName, SIZEOF(szdbsetting));
 			charPtr = szdbsetting;
 			goto LBL_charPtr;
 		}
@@ -496,16 +496,16 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	ppd.lchIcon = LoadSkinnedProtoIcon(lpzProto, newStatus);
 
 	if (!db_get_ts(NULL, S_MOD, "PopupStamp", &dbv)) {
-		_tcsncpy(ppd.lptzContactName, ParseString(dbv.ptszVal, hcontact, 0), MAX_CONTACTNAME);
+		mir_tstrncpy(ppd.lptzContactName, ParseString(dbv.ptszVal, hcontact, 0), MAX_CONTACTNAME);
 		db_free(&dbv);
 	}
-	else _tcsncpy(ppd.lptzContactName, ParseString(DEFAULT_POPUPSTAMP, hcontact, 0), MAX_CONTACTNAME);
+	else mir_tstrncpy(ppd.lptzContactName, ParseString(DEFAULT_POPUPSTAMP, hcontact, 0), MAX_CONTACTNAME);
 
 	if (!db_get_ts(NULL, S_MOD, "PopupStampText", &dbv)) {
-		_tcsncpy(ppd.lptzText, ParseString(dbv.ptszVal, hcontact, 0), MAX_SECONDLINE);
+		mir_tstrncpy(ppd.lptzText, ParseString(dbv.ptszVal, hcontact, 0), MAX_SECONDLINE);
 		db_free(&dbv);
 	}
-	else _tcsncpy(ppd.lptzText, ParseString(DEFAULT_POPUPSTAMPTEXT, hcontact, 0), MAX_SECONDLINE);
+	else mir_tstrncpy(ppd.lptzText, ParseString(DEFAULT_POPUPSTAMPTEXT, hcontact, 0), MAX_SECONDLINE);
 	ppd.PluginWindowProc = PopupDlgProc;
 	PUAddPopupT(&ppd);
 }
@@ -750,10 +750,10 @@ TCHAR* any_to_IdleNotidleUnknown(MCONTACT hContact, const char *module_name, con
 {
 	short int r = isDbZero(hContact, module_name, setting_name);
 	if (r == -1) {
-		_tcsncpy(buff, TranslateT("Unknown"), bufflen);
+		mir_tstrncpy(buff, TranslateT("Unknown"), bufflen);
 	}
 	else {
-		_tcsncpy(buff, r ? TranslateT("Not Idle") : TranslateT("Idle"), bufflen);
+		mir_tstrncpy(buff, r ? TranslateT("Not Idle") : TranslateT("Idle"), bufflen);
 	};
 	buff[bufflen - 1] = 0;
 	return buff;
@@ -763,7 +763,7 @@ TCHAR* any_to_Idle(MCONTACT hContact, const char *module_name, const char *setti
 {
 	if (isDbZero(hContact, module_name, setting_name) == 0) { //DB setting is NOT zero and exists
 		buff[0] = L'/';
-		_tcsncpy(&buff[1], TranslateT("Idle"), bufflen - 1);
+		mir_tstrncpy(&buff[1], TranslateT("Idle"), bufflen - 1);
 	}
 	else buff[0] = 0;
 	buff[bufflen - 1] = 0;

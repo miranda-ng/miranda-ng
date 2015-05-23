@@ -1788,7 +1788,7 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hCo
 	TContainerData *pContainer = (TContainerData*)mir_calloc(sizeof(TContainerData));
 	if (pContainer == NULL)
 		return NULL;
-	_tcsncpy(pContainer->szName, name, CONTAINER_NAMELEN + 1);
+	mir_tstrncpy(pContainer->szName, name, CONTAINER_NAMELEN + 1);
 	AppendToContainerList(pContainer);
 
 	if (M.GetByte("limittabs", 0) && !mir_tstrcmp(name, _T("default")))

@@ -199,8 +199,8 @@ TCHAR* limitText(TCHAR *text, int limit)
 	size_t len = mir_tstrlen(text);
 	if (len > g_dat.limitNamesLength) {
 		TCHAR *ptszTemp = (TCHAR*)mir_alloc(sizeof(TCHAR) * (limit + 4));
-		_tcsncpy(ptszTemp, text, limit + 1);
-		_tcsncpy(ptszTemp + limit, _T("..."), 4);
+		mir_tstrncpy(ptszTemp, text, limit + 1);
+		mir_tstrncpy(ptszTemp + limit, _T("..."), 4);
 		return ptszTemp;
 	}
 	return text;

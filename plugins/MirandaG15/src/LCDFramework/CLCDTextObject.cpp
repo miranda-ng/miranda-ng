@@ -110,7 +110,7 @@ void CLCDTextObject::SetFontFaceName(tstring strFontName)
     memset(&lf, 0, sizeof(lf));
     GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
-    _tcsncpy(lf.lfFaceName, strFontName.c_str(), LF_FACESIZE);
+    mir_tstrncpy(lf.lfFaceName, strFontName.c_str(), LF_FACESIZE);
 
     SetFont(lf);
 }

@@ -49,8 +49,8 @@ void CreateDefaultItems()
 	for (int i = 0; defaultItemList[i].szName; i++) {
 		if (defaultItemList[i].szName[0] == '-') {
 			DIListNode *di_node = (DIListNode *)mir_alloc(sizeof(DIListNode));
-			_tcsncpy(di_node->di.swzLabel, _T(""), LABEL_LEN);
-			_tcsncpy(di_node->di.swzValue, _T(""), VALUE_LEN);
+			mir_tstrncpy(di_node->di.swzLabel, _T(""), LABEL_LEN);
+			mir_tstrncpy(di_node->di.swzValue, _T(""), VALUE_LEN);
 			di_node->di.bLineAbove = true;
 			di_node->di.bIsVisible = true;
 			di_node->di.bParseTipperVarsFirst = false;
@@ -67,7 +67,7 @@ void CreateDefaultItems()
 				if (subst == NULL) continue;
 
 				DSListNode *ds_node = (DSListNode *)mir_alloc(sizeof(DSListNode));
-				_tcsncpy(ds_node->ds.swzName, subst->swzName, LABEL_LEN);
+				mir_tstrncpy(ds_node->ds.swzName, subst->swzName, LABEL_LEN);
 				ds_node->ds.type = subst->type;
 				mir_strncpy(ds_node->ds.szSettingName, subst->szSettingName, SETTING_NAME_LEN);
 				ds_node->ds.iTranslateFuncId = subst->iTranslateFuncId;
@@ -77,8 +77,8 @@ void CreateDefaultItems()
 			}
 
 			DIListNode *di_node = (DIListNode *)mir_alloc(sizeof(DIListNode));
-			_tcsncpy(di_node->di.swzLabel, TranslateTS(item->swzLabel), LABEL_LEN);
-			_tcsncpy(di_node->di.swzValue, item->swzValue, VALUE_LEN);
+			mir_tstrncpy(di_node->di.swzLabel, TranslateTS(item->swzLabel), LABEL_LEN);
+			mir_tstrncpy(di_node->di.swzValue, item->swzValue, VALUE_LEN);
 			di_node->di.bLineAbove = false;
 			di_node->di.bValueNewline = defaultItemList[i].bValueNewline;
 			di_node->di.bIsVisible = true;
@@ -100,7 +100,7 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 	if (db_get_ts(0, MODULE_ITEMS, setting, &dbv))
 		return false;
 
-	_tcsncpy(ds->swzName, dbv.ptszVal, SIZEOF(ds->swzName));
+	mir_tstrncpy(ds->swzName, dbv.ptszVal, SIZEOF(ds->swzName));
 	ds->swzName[SIZEOF(ds->swzName) - 1] = 0;
 	db_free(&dbv);
 
@@ -161,14 +161,14 @@ bool LoadDI(DISPLAYITEM *di, int index)
 	if (db_get_ts(0, MODULE_ITEMS, setting, &dbv))
 		return false;
 
-	_tcsncpy(di->swzLabel, dbv.ptszVal, SIZEOF(di->swzLabel));
+	mir_tstrncpy(di->swzLabel, dbv.ptszVal, SIZEOF(di->swzLabel));
 	di->swzLabel[SIZEOF(di->swzLabel) - 1] = 0;
 	db_free(&dbv);
 
 	mir_snprintf(setting, SIZEOF(setting), "DIValue%d", index);
 	di->swzValue[0] = 0;
 	if (!db_get_ts(0, MODULE_ITEMS, setting, &dbv)) {
-		_tcsncpy(di->swzValue, dbv.ptszVal, SIZEOF(di->swzValue));
+		mir_tstrncpy(di->swzValue, dbv.ptszVal, SIZEOF(di->swzValue));
 		di->swzValue[SIZEOF(di->swzValue) - 1] = 0;
 		db_free(&dbv);
 	}
@@ -411,8 +411,8 @@ void LoadOptions()
 			di_node = opt.diList;
 		}
 
-		_tcsncpy(di_node->di.swzLabel, _T("Last message: (%sys:last_msg_reltime% ago)"), LABEL_LEN);
-		_tcsncpy(di_node->di.swzValue, _T("%sys:last_msg%"), VALUE_LEN);
+		mir_tstrncpy(di_node->di.swzLabel, _T("Last message: (%sys:last_msg_reltime% ago)"), LABEL_LEN);
+		mir_tstrncpy(di_node->di.swzValue, _T("%sys:last_msg%"), VALUE_LEN);
 		di_node->di.bLineAbove = di_node->di.bValueNewline = true;
 		di_node->next = 0;
 		opt.iDiCount++;
@@ -436,8 +436,8 @@ void LoadOptions()
 			di_node = opt.diList;
 		}
 
-		_tcsncpy(di_node->di.swzLabel, _T("Status message:"), LABEL_LEN);
-		_tcsncpy(di_node->di.swzValue, _T("%sys:status_msg%"), VALUE_LEN);
+		mir_tstrncpy(di_node->di.swzLabel, _T("Status message:"), LABEL_LEN);
+		mir_tstrncpy(di_node->di.swzValue, _T("%sys:status_msg%"), VALUE_LEN);
 		di_node->di.bLineAbove = di_node->di.bValueNewline = true;
 		di_node->next = 0;
 		opt.iDiCount++;
@@ -516,7 +516,7 @@ void LoadOptions()
 	}
 	else if (opt.skinMode == SM_IMAGE) {
 		if (!db_get_ts(NULL, MODULE, "SkinName", &dbv)) {
-			_tcsncpy(opt.szSkinName, dbv.ptszVal, SIZEOF(opt.szSkinName) - 1);
+			mir_tstrncpy(opt.szSkinName, dbv.ptszVal, SIZEOF(opt.szSkinName) - 1);
 			db_free(&dbv);
 		}
 	}
@@ -907,7 +907,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 									memset(ds_value, 0, sizeof(DSListNode));
 									ds_value->next = NULL;
 									ds_value->ds.type = subst->type;
-									_tcsncpy(ds_value->ds.swzName, subst->swzName, LABEL_LEN - 1);
+									mir_tstrncpy(ds_value->ds.swzName, subst->swzName, LABEL_LEN - 1);
 
 									if (ds_value->ds.type == DVT_DB && subst->szModuleName)
 										mir_strncpy(ds_value->ds.szModuleName, subst->szModuleName, MODULE_NAME_LEN - 1);

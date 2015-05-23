@@ -314,7 +314,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					db_unset(pwd->hContact, MODULE, "TempStatusMsg");
 
 				TCHAR *swzNick = pcli->pfnGetContactDisplayName(pwd->hContact, 0);
-				_tcsncpy(pwd->swzTitle, swzNick, TITLE_TEXT_LEN);
+				mir_tstrncpy(pwd->swzTitle, swzNick, TITLE_TEXT_LEN);
 
 				char *szProto = GetContactProto(pwd->hContact);
 				pwd->spiTitle = Smileys_PreParse(pwd->swzTitle, -1, szProto);
@@ -775,7 +775,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					int iLen = (int)mir_tstrlen(pwd->rows[i].swzValue);
 					if (iLen) {
 						if (iLen > MAX_VALUE_LEN) {
-							_tcsncpy(buff, pwd->rows[i].swzValue, MAX_VALUE_LEN);
+							mir_tstrncpy(buff, pwd->rows[i].swzValue, MAX_VALUE_LEN);
 							buff[MAX_VALUE_LEN] = 0;
 							mir_tstrcat(buff, _T("..."));
 						}

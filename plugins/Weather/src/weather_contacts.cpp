@@ -293,15 +293,15 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			ofn.lpstrFile = str;
 			ofn.nMaxFile = SIZEOF(str);
 			// set filters
-			_tcsncpy(filter, TranslateT("Text Files"), SIZEOF(filter) - 1);
+			mir_tstrncpy(filter, TranslateT("Text Files"), SIZEOF(filter) - 1);
 			mir_tstrncat(filter, _T(" (*.txt)"), SIZEOF(filter) - mir_tstrlen(filter));
 			pfilter = filter + mir_tstrlen(filter)+1;
-			_tcsncpy(pfilter, _T("*.txt"), SIZEOF(filter) - 1);
+			mir_tstrncpy(pfilter, _T("*.txt"), SIZEOF(filter) - 1);
 			pfilter = pfilter + mir_tstrlen(pfilter)+1;
-			_tcsncpy(pfilter, TranslateT("All Files"), SIZEOF(filter) - 1);
+			mir_tstrncpy(pfilter, TranslateT("All Files"), SIZEOF(filter) - 1);
 			mir_tstrncat(pfilter, _T(" (*.*)"), SIZEOF(filter) - mir_tstrlen(filter));
 			pfilter = pfilter + mir_tstrlen(pfilter)+1;
-			_tcsncpy(pfilter, _T("*.*"), SIZEOF(filter) - 1);
+			mir_tstrncpy(pfilter, _T("*.*"), SIZEOF(filter) - 1);
 			pfilter = pfilter + mir_tstrlen(pfilter)+1;
 			*pfilter = '\0';
 			ofn.lpstrFilter = filter;
@@ -452,7 +452,7 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 			// if the station is not a default station, set it as the new default station
 			// this is the first weather station encountered from the search
 			if ( mir_tstrcmp(opt.Default, dbv.ptszVal)) {
-				_tcsncpy(opt.Default, dbv.ptszVal, SIZEOF(opt.Default) - 1);
+				mir_tstrncpy(opt.Default, dbv.ptszVal, SIZEOF(opt.Default) - 1);
 				opt.DefStn = hContact;
 				db_free(&dbv);
 				if ( !db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {

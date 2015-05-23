@@ -460,7 +460,7 @@ int GetWeatherData(MCONTACT hContact)
 				// to get a data value.
 				GetDataValue(&Item->Item, DataValue, &szInfo);
 				if ( mir_tstrcmp(Item->Item.Name, _T("Condition")) && mir_tstrcmpi(Item->Item.Unit, _T("Cond")))
-					_tcsncpy(DataValue, TranslateTS(DataValue), MAX_DATA_LEN - 1);
+					mir_tstrncpy(DataValue, TranslateTS(DataValue), MAX_DATA_LEN - 1);
 				break;
 
 			case WID_SET: 
@@ -482,7 +482,7 @@ int GetWeatherData(MCONTACT hContact)
 							chop = _tcschr(str, '\0');   
 
 						stl = min(sizeof(str2)-1, (unsigned)(chop-str-2));
-						_tcsncpy(str2, str+1, stl);
+						mir_tstrncpy(str2, str+1, stl);
 						str2[stl] = 0;
 
 						switch(str[0]) {
@@ -513,7 +513,7 @@ int GetWeatherData(MCONTACT hContact)
 					// for the "Break Data=" operation
 					DBVARIANT dbv;
 					if ( !DBGetData(hContact, _T2A(Item->Item.Start), &dbv)) {
-						_tcsncpy(DataValue, dbv.ptszVal, SIZEOF(DataValue));
+						mir_tstrncpy(DataValue, dbv.ptszVal, SIZEOF(DataValue));
 						DataValue[SIZEOF(DataValue)-1] = 0;
 						db_free(&dbv);
 					}

@@ -301,7 +301,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				ptszInText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
 				iRes = GetWindowText(hTextWnd, ptszTemp, MaxTextSize);
 				if (!IsBadStringPtr(ptszInText, MaxTextSize) && (iRes > 0)) {
-					_tcsncpy(ptszInText, &ptszTemp[crSelection.cpMin], crSelection.cpMax - crSelection.cpMin);
+					mir_tstrncpy(ptszInText, &ptszTemp[crSelection.cpMin], crSelection.cpMax - crSelection.cpMin);
 					ptszInText[crSelection.cpMax - crSelection.cpMin] = 0;
 				}
 				else {
@@ -375,7 +375,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 
 				if (WindowType == WTYPE_Edit) {
 					ptrT ptszTemp((LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR)));
-					_tcsncpy(ptszTemp, &ptszInText[crTemp.cpMin], crTemp.cpMax - crTemp.cpMin);
+					mir_tstrncpy(ptszTemp, &ptszInText[crTemp.cpMin], crTemp.cpMax - crTemp.cpMin);
 					ptszTemp[crTemp.cpMax - crTemp.cpMin] = 0;
 					mir_tstrcpy(ptszInText, ptszTemp);
 
@@ -450,8 +450,8 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 
 			POPUPDATAT_V2 pdtData = { 0 };
 			pdtData.cbSize = sizeof(pdtData);
-			_tcsncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
-			_tcsncpy(pdtData.lptzText, ptszPopupText, MAX_SECONDLINE);
+			mir_tstrncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
+			mir_tstrncpy(pdtData.lptzText, ptszPopupText, MAX_SECONDLINE);
 
 			switch (poOptions.bColourType) {
 			case PPC_POPUP:

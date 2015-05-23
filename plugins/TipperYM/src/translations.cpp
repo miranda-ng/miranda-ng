@@ -174,9 +174,9 @@ TCHAR *ByteToYesNo(MCONTACT hContact, const char *szModuleName, const char *szSe
 		if (dbv.type == DBVT_BYTE)
 		{
 			if (dbv.bVal != 0)
-				_tcsncpy(buff, _T("Yes"), bufflen);
+				mir_tstrncpy(buff, _T("Yes"), bufflen);
 			else
-				_tcsncpy(buff, _T("No"), bufflen);
+				mir_tstrncpy(buff, _T("No"), bufflen);
 			buff[bufflen - 1] = 0;
 			db_free(&dbv);
 			return buff;
@@ -190,9 +190,9 @@ TCHAR *ByteToGender(MCONTACT hContact, const char *szModuleName, const char *szS
 {
 	BYTE val = (BYTE)db_get_b(hContact, szModuleName, szSettingName, 0);
 	if (val == 'F')
-		_tcsncpy(buff, TranslateT("Female"), bufflen);
+		mir_tstrncpy(buff, TranslateT("Female"), bufflen);
 	else if (val == 'M')
-		_tcsncpy(buff, TranslateT("Male"), bufflen);
+		mir_tstrncpy(buff, TranslateT("Male"), bufflen);
 	else
 		return 0;
 
@@ -588,7 +588,7 @@ TCHAR *EmptyXStatusToDefaultName(MCONTACT hContact, const char *szModuleName, co
 	{ 
 		if (!db_get_ts(hContact, szModuleName, szSettingName, &dbv))
 		{
-			_tcsncpy(buff, TranslateTS(dbv.ptszVal), bufflen);
+			mir_tstrncpy(buff, TranslateTS(dbv.ptszVal), bufflen);
 			buff[bufflen - 1] = 0;
 			return buff;
 		}
@@ -609,7 +609,7 @@ TCHAR *EmptyXStatusToDefaultName(MCONTACT hContact, const char *szModuleName, co
 		if (CallProtoService(szModuleName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus))
 		   return 0;
 		
-		_tcsncpy(buff, TranslateTS(szDefaultName), bufflen);
+		mir_tstrncpy(buff, TranslateTS(szDefaultName), bufflen);
 		buff[bufflen - 1] = 0;
 		return buff;
 	} 

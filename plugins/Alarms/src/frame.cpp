@@ -153,7 +153,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				if (len > 511) len = 511;
 				while(len > 0 && textSize.cx > (dis->rcItem.right - dis->rcItem.left) - (GetSystemMetrics(SM_CXSMICON) + 4) - timeSize.cx - 2 - 4) {
 					len--;
-					_tcsncpy(titlebuff, alarm.szTitle, len);
+					mir_tstrncpy(titlebuff, alarm.szTitle, len);
 					titlebuff[len] = 0;
 					mir_tstrcat(titlebuff, _T("..."));
 					GetTextExtentPoint32(dis->hDC,titlebuff,(int)mir_tstrlen(titlebuff),&textSize);

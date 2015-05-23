@@ -172,7 +172,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	TCHAR Cnick[200], *Oldnick;
-	_tcsncpy(Cnick, url, SIZEOF(Cnick));
+	mir_tstrncpy(Cnick, url, SIZEOF(Cnick));
 	if ((Oldnick = _tcsstr(Cnick, _T("://"))) != 0)
 		Oldnick += 3;
 	else 
@@ -380,7 +380,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 	//Convert url into a name for contact
 	TCHAR Cnick[255];
 	if (psr->nick != NULL)
-		_tcsncpy(Cnick, psr->nick, SIZEOF(Cnick));
+		mir_tstrncpy(Cnick, psr->nick, SIZEOF(Cnick));
 	else
 		Cnick[0] = 0;
 

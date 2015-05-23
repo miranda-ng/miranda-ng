@@ -92,7 +92,7 @@ TCHAR* getArguments(TCHAR *string, TCHAR ***aargv, int *aargc)
 				}
 
 				memset(argv[argc], '\0', (cur-(scur+1)+1)*sizeof(TCHAR));
-				_tcsncpy(argv[argc], scur+1, cur-(scur+1));
+				mir_tstrncpy(argv[argc], scur+1, cur-(scur+1));
 			}
 			else argv[argc] = mir_tstrdup(_T(""));
 
@@ -233,7 +233,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			return NULL;
 		}
 		memset(token, '\0', (tcur-scur+1)*sizeof(TCHAR));
-		_tcsncpy(token, cur+1, tcur-scur);
+		mir_tstrncpy(token, cur+1, tcur-scur);
 		// cur points to FIELD_CHAR or FUNC_CHAR
  		tmpVarPos = -1;
  		tr = NULL;

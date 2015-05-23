@@ -118,7 +118,7 @@ static TCHAR *parseFixeol(ARGUMENTSINFO *ai)
 		return res;
 
 	memset(res, 0, (((cur - ai->targv[1]) + 1) * sizeof(TCHAR)));
-	_tcsncpy(res, ai->targv[1], cur - ai->targv[1]);
+	mir_tstrncpy(res, ai->targv[1], cur - ai->targv[1]);
 	mir_tstrcat(res, szReplacement);
 	return res;
 }
@@ -169,7 +169,7 @@ static TCHAR *parseInsert(ARGUMENTSINFO *ai)
 		return NULL;
 
 	memset(res, 0, ((mir_tstrlen(ai->targv[1]) + mir_tstrlen(ai->targv[2]) + 1) * sizeof(TCHAR)));
-	_tcsncpy(res, ai->targv[1], pos);
+	mir_tstrncpy(res, ai->targv[1], pos);
 	mir_tstrcpy(res + pos, ai->targv[2]);
 	mir_tstrcpy(res + pos + mir_tstrlen(ai->targv[2]), ai->targv[1] + pos);
 	return res;
@@ -190,7 +190,7 @@ static TCHAR *parseLeft(ARGUMENTSINFO *ai)
 		return NULL;
 
 	memset(res, 0, ((len + 1) * sizeof(TCHAR)));
-	_tcsncpy(res, ai->targv[1], len);
+	mir_tstrncpy(res, ai->targv[1], len);
 	return res;
 }
 
@@ -334,7 +334,7 @@ static TCHAR *parsePadcut(ARGUMENTSINFO *ai)
 		*cur++ = padchar;
 
 	if (padding > addcount)
-		_tcsncpy(res + addcount, ai->targv[1], padding - addcount);
+		mir_tstrncpy(res + addcount, ai->targv[1], padding - addcount);
 
 	return res;
 }
@@ -363,7 +363,7 @@ static TCHAR *parsePadcutright(ARGUMENTSINFO *ai)
 		*cur++ = padchar;
 
 	if (padding > addcount)
-		_tcsncpy(res, ai->targv[1], padding - addcount);
+		mir_tstrncpy(res, ai->targv[1], padding - addcount);
 
 	return res;
 }
@@ -434,7 +434,7 @@ static TCHAR *parseRight(ARGUMENTSINFO *ai)
 		return NULL;
 
 	memset(res, 0, ((len + 1)*sizeof(TCHAR)));
-	_tcsncpy(res, ai->targv[1] + mir_tstrlen(ai->targv[1]) - len, len);
+	mir_tstrncpy(res, ai->targv[1] + mir_tstrlen(ai->targv[1]) - len, len);
 	return res;
 }
 
@@ -603,7 +603,7 @@ static TCHAR *parseSubstr(ARGUMENTSINFO *ai)
 
 	TCHAR *res = (TCHAR*)mir_alloc((to - from + 1)*sizeof(TCHAR));
 	memset(res, 0, ((to - from + 1) * sizeof(TCHAR)));
-	_tcsncpy(res, ai->targv[1] + from, to - from);
+	mir_tstrncpy(res, ai->targv[1] + from, to - from);
 	return res;
 }
 
@@ -652,7 +652,7 @@ static TCHAR *parseTrim(ARGUMENTSINFO *ai)
 		return NULL;
 
 	memset(res, 0, ((ecur - scur + 2) * sizeof(TCHAR)));
-	_tcsncpy(res, scur, ecur - scur + 1);
+	mir_tstrncpy(res, scur, ecur - scur + 1);
 
 	return res;
 }
@@ -723,7 +723,7 @@ static TCHAR *getNthWord(TCHAR *szString, int w)
 		return NULL;
 
 	memset(res, 0, ((ecur - scur + 1) * sizeof(TCHAR)));
-	_tcsncpy(res, scur, ecur - scur);
+	mir_tstrncpy(res, scur, ecur - scur);
 	return res;
 }
 

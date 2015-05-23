@@ -143,7 +143,7 @@ int MatchesFilterCS(const TCHAR *filter, const PopupHistoryData *popupItem) //ca
 
 __inline void ConvertCase(TCHAR *dest, const TCHAR *source, size_t size)
 {
-	_tcsncpy(dest, source, size);
+	mir_tstrncpy(dest, source, size);
 	_tcslwr(dest);
 }
 
@@ -493,7 +493,7 @@ void CopyPopupDataToClipboard(HWND hList, int selection)
 				
 				HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, (len + 2) * sizeof(TCHAR));
 				clipboard = (TCHAR *) GlobalLock(hData);
-				_tcsncpy(clipboard, buffer, len);
+				mir_tstrncpy(clipboard, buffer, len);
 				clipboard[len] = _T('\0');
 				GlobalUnlock(hData);
 				if (!SetClipboardData(textType, hData))

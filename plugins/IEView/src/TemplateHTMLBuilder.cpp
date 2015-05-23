@@ -137,9 +137,9 @@ char *TemplateHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mo
 		tm_today.tm_hour = tm_today.tm_min = tm_today.tm_sec = 0;
 		today = mktime(&tm_today);
 		if (dwFlags & Options::LOG_RELATIVE_DATE && check >= today)
-			_tcsncpy(str, TranslateT("Today"), SIZEOF(str));
+			mir_tstrncpy(str, TranslateT("Today"), SIZEOF(str));
 		else if (dwFlags & Options::LOG_RELATIVE_DATE && check > (today - 86400))
-			_tcsncpy(str, TranslateT("Yesterday"), SIZEOF(str));
+			mir_tstrncpy(str, TranslateT("Yesterday"), SIZEOF(str));
 		else {
 			dbtts.szFormat = (dwFlags & Options::LOG_LONG_DATE) ? _T("D") : _T("d");
 			CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, check, (LPARAM)& dbtts);

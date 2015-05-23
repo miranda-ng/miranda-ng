@@ -35,8 +35,8 @@ void PopupNotifyNoBirthdays()
 	FillPopupData(pd, -1);
 	pd.lchIcon = GetDTBIcon(-1);
 
-	_tcsncpy(pd.lptzContactName, TranslateT("WhenWasIt"), MAX_CONTACTNAME - 1);
-	_tcsncpy(pd.lptzText, TranslateT("No upcoming birthdays."), MAX_SECONDLINE - 1);
+	mir_tstrncpy(pd.lptzContactName, TranslateT("WhenWasIt"), MAX_CONTACTNAME - 1);
+	mir_tstrncpy(pd.lptzText, TranslateT("No upcoming birthdays."), MAX_SECONDLINE - 1);
 	PUAddPopupT(&pd);
 }
 

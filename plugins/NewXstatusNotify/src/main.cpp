@@ -289,18 +289,18 @@ void GetStatusText(MCONTACT hContact, WORD newStatus, WORD oldStatus, TCHAR *stz
 	if (opt.UseAlternativeText) {
 		switch (GetGender(hContact)) {
 		case GENDER_MALE:
-			_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzMStatusText, MAX_STATUSTEXT);
+			mir_tstrncpy(stzStatusText, StatusList[Index(newStatus)].lpzMStatusText, MAX_STATUSTEXT);
 			break;
 		case GENDER_FEMALE:
-			_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzFStatusText, MAX_STATUSTEXT);
+			mir_tstrncpy(stzStatusText, StatusList[Index(newStatus)].lpzFStatusText, MAX_STATUSTEXT);
 			break;
 		case GENDER_UNSPECIFIED:
-			_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzUStatusText, MAX_STATUSTEXT);
+			mir_tstrncpy(stzStatusText, StatusList[Index(newStatus)].lpzUStatusText, MAX_STATUSTEXT);
 			break;
 		}
 	}
 	else
-		_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzStandardText, MAX_STATUSTEXT);
+		mir_tstrncpy(stzStatusText, StatusList[Index(newStatus)].lpzStandardText, MAX_STATUSTEXT);
 
 	if (opt.ShowPreviousStatus) {
 		TCHAR buff[MAX_STATUSTEXT];
@@ -328,7 +328,7 @@ void PlayChangeSound(MCONTACT hContact, const char *name)
 		DBVARIANT dbv;
 		TCHAR stzSoundFile[MAX_PATH] = { 0 };
 		if (!db_get_ts(hContact, MODULE, name, &dbv)) {
-			_tcsncpy(stzSoundFile, dbv.ptszVal, SIZEOF(stzSoundFile)-1);
+			mir_tstrncpy(stzSoundFile, dbv.ptszVal, SIZEOF(stzSoundFile)-1);
 			db_free(&dbv);
 		}
 
@@ -686,7 +686,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		if (opt.PSMsgTruncate && (opt.PSMsgLen > 0) && smi.newstatusmsg && (mir_tstrlen(smi.newstatusmsg) > opt.PSMsgLen)) {
 			TCHAR buff[MAX_TEXT_LEN + 3];
 			copyText = mir_tstrdup(smi.newstatusmsg);
-			_tcsncpy(buff, smi.newstatusmsg, opt.PSMsgLen);
+			mir_tstrncpy(buff, smi.newstatusmsg, opt.PSMsgLen);
 			buff[opt.PSMsgLen] = 0;
 			mir_tstrcat(buff, _T("..."));
 			replaceStrT(smi.newstatusmsg, buff);

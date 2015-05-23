@@ -67,7 +67,7 @@ LPTSTR ExtractJid(LPCTSTR jidWithRes)
 
 	size_t l = size_t(p - jidWithRes);
 	LPTSTR result = (LPTSTR)mir_alloc((l + 1) * sizeof(TCHAR));
-	_tcsncpy(result, jidWithRes, l);
+	mir_tstrncpy(result, jidWithRes, l);
 	result[l] = 0;
 	return result;
 }

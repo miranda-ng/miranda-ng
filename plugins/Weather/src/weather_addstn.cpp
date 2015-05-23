@@ -71,7 +71,7 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 
 	// set contact info and settings
 	TCHAR svc[256];
-	_tcsncpy(svc, psr->email, SIZEOF(svc)); svc[SIZEOF(svc)-1] = 0;
+	mir_tstrncpy(svc, psr->email, SIZEOF(svc)); svc[SIZEOF(svc)-1] = 0;
 	GetSvc(svc);
 	// set settings by obtaining the default for the service 
 	if (psr->lastName[0] != 0) {
@@ -156,7 +156,7 @@ static void __cdecl BasicSearchTimerProc(LPVOID hWnd)
 INT_PTR WeatherBasicSearch(WPARAM wParam, LPARAM lParam) 
 {
 	if (searchId != -1) return 0;   //only one search at a time
-	_tcsncpy(sID, ( TCHAR* )lParam, SIZEOF(sID));
+	mir_tstrncpy(sID, ( TCHAR* )lParam, SIZEOF(sID));
 	sID[SIZEOF(sID)-1] = 0;
 	searchId = 1;
 	// create a thread for the ID search
@@ -250,7 +250,7 @@ int IDSearchProc(TCHAR *sID, const int searchId, WIIDSEARCH *sData, TCHAR *svc, 
 	}
 
 	// give no station name but only ID if the search is unavailable
-	else _tcsncpy(str, TranslateT("<Enter station name here>"), MAX_DATA_LEN - 1);
+	else mir_tstrncpy(str, TranslateT("<Enter station name here>"), MAX_DATA_LEN - 1);
 	mir_sntprintf(newID, SIZEOF(newID), _T("%s/%s"), svc, sID);
 
 	// set the search result and broadcast it
@@ -344,7 +344,7 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 				
 				// if can't get the name, use the search string as name
 				if (Name[0] == 0)
-					_tcsncpy(Name, name, SIZEOF(Name));
+					mir_tstrncpy(Name, name, SIZEOF(Name));
 
 				// set the data and broadcast it
 				PROTOSEARCHRESULT psr = { sizeof(psr) };
@@ -383,7 +383,7 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 
 					// if can't get the name, use the search string as name
 					if (Name[0] == 0)	
-						_tcsncpy(Name, name, SIZEOF(Name));
+						mir_tstrncpy(Name, name, SIZEOF(Name));
 
 					PROTOSEARCHRESULT psr = { sizeof(psr) };
 					psr.flags = PSR_TCHAR;

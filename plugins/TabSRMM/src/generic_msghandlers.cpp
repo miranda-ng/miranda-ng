@@ -1780,7 +1780,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 	if (dat->idle != dwOldIdle || lParam != 0) {
 		if (item.mask & TCIF_TEXT) {
 			item.pszText = newtitle;
-			_tcsncpy(dat->newtitle, newtitle, SIZEOF(dat->newtitle));
+			mir_tstrncpy(dat->newtitle, newtitle, SIZEOF(dat->newtitle));
 			dat->newtitle[127] = 0;
 			if (dat->pWnd)
 				dat->pWnd->updateTitle(dat->cache->getNick());
