@@ -1,7 +1,7 @@
 #include "commonheaders.h"
 
-LIST<SupPro> arProto(10, LIST<SupPro>::FTSortFunc(HandleKeySortT));
-LIST<UinKey> arClist(100, LIST<UinKey>::FTSortFunc(NumericKeySortT));
+LIST<SupPro> arProto(10, HandleKeySortT);
+LIST<UinKey> arClist(100, NumericKeySortT);
 
 void loadSupportedProtocols()
 {

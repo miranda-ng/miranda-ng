@@ -739,7 +739,7 @@ int CEnumList::CompareProc(LPCSTR p1, LPCSTR p2)
 	return 0;
 }
 
-CEnumList::CEnumList()	: LIST<CHAR>(50, (FTSortFunc)CEnumList::CompareProc)
+CEnumList::CEnumList()	: LIST<CHAR>(50, CEnumList::CompareProc)
 {
 }
 
