@@ -637,7 +637,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 				if (item == NULL) {
 					TCHAR *p = _tcsrchr(tszNewName, '.');
 					if (p[-1] != 'w' && p[-1] != 'W') {
-						Netlib_LogfT(hNetlibUser, _T("File %s not found on server"), ffd.cFileName);
+						Netlib_LogfT(hNetlibUser, _T("File %s: Not found on server, skipping"), ffd.cFileName);
 						continue;
 					}
 
@@ -645,7 +645,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 					int iPos = int(p - tszNewName) - 1;
 					strdel(p - 1, 1);
 					if ((item = hashes.find((ServListEntry*)&pName)) == NULL) {
-						Netlib_LogfT(hNetlibUser, _T("File %s not found on server"), ffd.cFileName);
+						Netlib_LogfT(hNetlibUser, _T("File %s: Not found on server, skipping"), ffd.cFileName);
 						continue;
 					}
 
@@ -660,23 +660,26 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 						CalculateModuleHash(tszBuf, szMyHash);
 						// hashes are the same, skipping
 						if (strcmp(szMyHash, item->m_szHash) == 0) {
-							Netlib_LogfT(hNetlibUser, _T("File %s is already up-to-date"), ffd.cFileName);
+							Netlib_LogfT(hNetlibUser, _T("File %s: Already up-to-date, skipping"), ffd.cFileName);
 							continue;
 						}
+						else
+							Netlib_LogfT(hNetlibUser, _T("File %s: Update available"), ffd.cFileName);
 					}
 					__except (EXCEPTION_EXECUTE_HANDLER)
 					{
 						// smth went wrong, reload a file from scratch
 					}
 				}
+				else
+					Netlib_LogfT(hNetlibUser, _T("File %s: Forcing redownload"), ffd.cFileName);
 
 				ptszUrl = item->m_name;
 				MyCRC = item->m_crc;
-				Netlib_LogfT(hNetlibUser, _T("Found update for %s"), ffd.cFileName);
 			}
 			else {
 				// file was marked for deletion, add it to the list anyway
-				Netlib_LogfT(hNetlibUser, _T("File %s marked for deletion"), ffd.cFileName);
+				Netlib_LogfT(hNetlibUser, _T("File %s: Marked for deletion"), ffd.cFileName);
 				ptszUrl = _T("");
 				MyCRC = 0;
 			}
