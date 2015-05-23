@@ -584,8 +584,7 @@ void CIcqProto::setUserInfo()
 #ifdef DBG_CAPMTN
 	wAdditionalData += 16;
 #endif
-	if (m_bUtfEnabled)
-		wAdditionalData += 16;
+	wAdditionalData += 16; // unicode
 #ifdef DBG_NEWCAPS
 	wAdditionalData += 16;
 #endif
@@ -634,8 +633,7 @@ void CIcqProto::setUserInfo()
 	packShortCapability(&packet, 0x1349);  // AIM_CAPS_ICQSERVERRELAY
 
 	// Broadcasts the capability to receive UTF8 encoded messages
-	if (m_bUtfEnabled)
-		packShortCapability(&packet, 0x134E);  // CAP_UTF8MSGS
+	packShortCapability(&packet, 0x134E);  // CAP_UTF8MSGS
 
 #ifdef DBG_NEWCAPS
 	// Tells server we understand to new format of caps

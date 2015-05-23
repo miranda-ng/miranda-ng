@@ -331,7 +331,6 @@ static BOOL CALLBACK FillCpCombo(LPSTR str)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static const UINT icqUnicodeControls[] = { IDC_UTFALL, IDC_UTFSTATIC, IDC_UTFCODEPAGE };
 static const UINT icqDCMsgControls[] = { IDC_DCPASSIVE };
 static const UINT icqXStatusControls[] = { IDC_XSTATUSAUTO };
 static const UINT icqCustomStatusControls[] = { IDC_XSTATUSRESET };
@@ -348,13 +347,9 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		ppro = (CIcqProto*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		{
-			BYTE byData = ppro->getByte("UtfEnabled", DEFAULT_UTF_ENABLED);
-			CheckDlgButton(hwndDlg, IDC_UTFENABLE, byData ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_UTFALL, byData == 2 ? BST_CHECKED : BST_UNCHECKED);
-			icq_EnableMultipleControls(hwndDlg, icqUnicodeControls, SIZEOF(icqUnicodeControls), byData ? TRUE : FALSE);
 			LoadDBCheckState(ppro, hwndDlg, IDC_TEMPVISIBLE, "TempVisListEnabled", DEFAULT_TEMPVIS_ENABLED);
 			LoadDBCheckState(ppro, hwndDlg, IDC_SLOWSEND, "SlowSend", DEFAULT_SLOWSEND);
-			byData = ppro->getByte("DirectMessaging", DEFAULT_DCMSG_ENABLED);
+			BOOL byData = ppro->getByte("DirectMessaging", DEFAULT_DCMSG_ENABLED);
 			CheckDlgButton(hwndDlg, IDC_DCENABLE, byData ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_DCPASSIVE, byData == 1 ? BST_CHECKED : BST_UNCHECKED);
 			icq_EnableMultipleControls(hwndDlg, icqDCMsgControls, SIZEOF(icqDCMsgControls), byData ? TRUE : FALSE);
@@ -389,10 +384,6 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDC_UTFENABLE:
-			icq_EnableMultipleControls(hwndDlg, icqUnicodeControls, SIZEOF(icqUnicodeControls), IsDlgButtonChecked(hwndDlg, IDC_UTFENABLE));
-			OptDlgChanged(hwndDlg);
-			break;
 		case IDC_UTFCODEPAGE:
 			if (HIWORD(wParam) == CBN_SELCHANGE)
 				OptDlgChanged(hwndDlg);
@@ -414,16 +405,10 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			if (IsDlgButtonChecked(hwndDlg, IDC_UTFENABLE))
-				ppro->m_bUtfEnabled = IsDlgButtonChecked(hwndDlg, IDC_UTFALL) ? 2 : 1;
-			else
-				ppro->m_bUtfEnabled = 0;
-			{
-				int i = SendDlgItemMessage(hwndDlg, IDC_UTFCODEPAGE, CB_GETCURSEL, 0, 0);
-				ppro->m_wAnsiCodepage = (WORD)SendDlgItemMessage(hwndDlg, IDC_UTFCODEPAGE, CB_GETITEMDATA, (WPARAM)i, 0);
-				ppro->setWord("AnsiCodePage", ppro->m_wAnsiCodepage);
-			}
-			ppro->setByte("UtfEnabled", ppro->m_bUtfEnabled);
+			int i = SendDlgItemMessage(hwndDlg, IDC_UTFCODEPAGE, CB_GETCURSEL, 0, 0);
+			ppro->m_wAnsiCodepage = (WORD)SendDlgItemMessage(hwndDlg, IDC_UTFCODEPAGE, CB_GETITEMDATA, (WPARAM)i, 0);
+			ppro->setWord("AnsiCodePage", ppro->m_wAnsiCodepage);
+
 			ppro->m_bTempVisListEnabled = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TEMPVISIBLE);
 			ppro->setByte("TempVisListEnabled", ppro->m_bTempVisListEnabled);
 			StoreDBCheckState(ppro, hwndDlg, IDC_SLOWSEND, "SlowSend");

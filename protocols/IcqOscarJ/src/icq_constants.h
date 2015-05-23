@@ -64,7 +64,6 @@
 #define DEFAULT_LEGACY_FIX          0
 #define DEFAULT_KEEPALIVE_ENABLED   1
 #define DEFAULT_AIM_ENABLED         1
-#define DEFAULT_UTF_ENABLED         2 // everything unicode is default
 #define DEFAULT_ANSI_CODEPAGE       CP_ACP
 #define DEFAULT_DCMSG_ENABLED       1 // passive dc messaging is default
 #define DEFAULT_TEMPVIS_ENABLED     1 // temporary visible is enabled by default

@@ -147,7 +147,6 @@ struct CIcqProto : public PROTO<CIcqProto>
 	BYTE m_bSecureConnection;
 	BYTE m_bLegacyFix;
 	BYTE m_bAimEnabled;
-	BYTE m_bUtfEnabled;
 	WORD m_wAnsiCodepage;
 	BYTE m_bDCMsgEnabled;
 	BYTE m_bTempVisListEnabled;

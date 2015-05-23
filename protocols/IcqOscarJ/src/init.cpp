@@ -170,7 +170,6 @@ void CIcqProto::UpdateGlobalSettings()
 	m_bSecureLogin = getByte("SecureLogin", DEFAULT_SECURE_LOGIN);
 	m_bLegacyFix = getByte("LegacyFix", DEFAULT_LEGACY_FIX);
 	m_bAimEnabled = getByte("AimEnabled", DEFAULT_AIM_ENABLED);
-	m_bUtfEnabled = getByte("UtfEnabled", DEFAULT_UTF_ENABLED);
 	m_wAnsiCodepage = getWord("AnsiCodePage", DEFAULT_ANSI_CODEPAGE);
 	m_bDCMsgEnabled = getByte("DirectMessaging", DEFAULT_DCMSG_ENABLED);
 	m_bTempVisListEnabled = getByte("TempVisListEnabled", DEFAULT_TEMPVIS_ENABLED);
