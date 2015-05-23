@@ -38,12 +38,6 @@ void CToxOptionsMain::OnInitDialog()
 		ShowWindow(m_profileExport.GetHwnd(), TRUE);
 	}
 
-	if (m_proto->IsOnline())
-	{
-		EnableWindow(m_nickname.GetHwnd(), TRUE);
-		EnableWindow(m_password.GetHwnd(), TRUE);
-	}
-
 	SendMessage(m_toxAddress.GetHwnd(), EM_LIMITTEXT, TOX_ADDRESS_SIZE * 2, 0);
 	SendMessage(m_nickname.GetHwnd(), EM_LIMITTEXT, TOX_MAX_NAME_LENGTH, 0);
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 32, 0);
@@ -164,15 +158,11 @@ void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 	ofn.lpstrInitialDir = _T("%HOMEPATH%");
 
 	if (!GetSaveFileName(&ofn))
-	{
 		return;
-	}
 
 	std::tstring defaultProfilePath = m_proto->GetToxProfilePath();
 	if (mir_tstrcmpi(profilePath, defaultProfilePath.c_str()) != 0)
-	{
 		CopyFile(defaultProfilePath.c_str(), profilePath, FALSE);
-	}
 }
 
 void CToxOptionsMain::OnApply()
