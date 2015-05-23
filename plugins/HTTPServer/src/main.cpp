@@ -900,7 +900,7 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 			MessageBox(NULL, _T("Failed to retrieve plugin path."), MSG_BOX_TITEL, MB_OK);
 			return 1;
 		}
-		_tcsncat(szPluginPath, _T("\\HTTPServer\\"), SIZEOF(szPluginPath) - mir_tstrlen(szPluginPath));
+		mir_tstrncat(szPluginPath, _T("\\HTTPServer\\"), SIZEOF(szPluginPath) - mir_tstrlen(szPluginPath));
 		int err = CreateDirectoryTree(szPluginPath);
 		if((err != 0) && (err != ERROR_ALREADY_EXISTS))
 		{

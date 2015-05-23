@@ -60,9 +60,9 @@ int UpdateWeather(MCONTACT hContact)
 			// show warnings by popup
 			mir_sntprintf(str, SIZEOF(str) - 105,
 				TranslateT("Unable to retrieve weather information for %s"), dbv.ptszVal);
-			_tcsncat(str, _T("\n"), SIZEOF(str) - mir_tstrlen(str));
+			mir_tstrncat(str, _T("\n"), SIZEOF(str) - mir_tstrlen(str));
 			TCHAR *tszError = GetError(code);
-			_tcsncat(str, tszError, SIZEOF(str) - mir_tstrlen(str));
+			mir_tstrncat(str, tszError, SIZEOF(str) - mir_tstrlen(str));
 			WPShowMessage(str, SM_WARNING);
 			mir_free(tszError);
 		}
@@ -489,14 +489,14 @@ int GetWeatherData(MCONTACT hContact)
 						case '[':  // variable, add the value to the result string
 							hasvar = TRUE;
 							if ( !DBGetData(hContact, _T2A(str2), &dbv)) {
-								_tcsncat(DataValue, dbv.ptszVal, SIZEOF(DataValue) - mir_tstrlen(DataValue));
+								mir_tstrncat(DataValue, dbv.ptszVal, SIZEOF(DataValue) - mir_tstrlen(DataValue));
 								DataValue[SIZEOF(DataValue)-1] = 0;
 								db_free(&dbv);
 							}
 							break;
 
 						case'\"': // constant, add it to the result string
-							_tcsncat(DataValue, TranslateTS(str2), SIZEOF(DataValue) - mir_tstrlen(DataValue));
+							mir_tstrncat(DataValue, TranslateTS(str2), SIZEOF(DataValue) - mir_tstrlen(DataValue));
 							DataValue[SIZEOF(DataValue)-1] = 0;
 							break;
 						}

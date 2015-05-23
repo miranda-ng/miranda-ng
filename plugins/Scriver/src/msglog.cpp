@@ -429,7 +429,7 @@ TCHAR* TimestampToString(DWORD dwFlags, time_t check, int mode)
 	}
 	if (format[0] != '\0') {
 		tmi.printTimeStamp(NULL, check, format, str, SIZEOF(str), 0);
-		_tcsncat(szResult, str, SIZEOF(szResult) - mir_tstrlen(szResult));
+		mir_tstrncat(szResult, str, SIZEOF(szResult) - mir_tstrlen(szResult));
 	}
 	return szResult;
 }

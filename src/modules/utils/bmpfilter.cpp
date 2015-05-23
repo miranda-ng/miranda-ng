@@ -189,37 +189,37 @@ static INT_PTR BmpFilterGetStringsW(WPARAM wParam, LPARAM lParam)
 	TCHAR *filter = (TCHAR*)lParam, *pfilter;
 
 	mir_tstrncpy(filter, TranslateT("All bitmaps"), bytesLeft); bytesLeft -= mir_tstrlen(filter);
-	_tcsncat(filter, _T(" (*.bmp;*.jpg;*.gif;*.png)"), bytesLeft);
+	mir_tstrncat(filter, _T(" (*.bmp;*.jpg;*.gif;*.png)"), bytesLeft);
 	pfilter = filter + mir_tstrlen(filter) + 1; bytesLeft = wParam - (pfilter - filter);
 	mir_tstrncpy(pfilter, _T("*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG"), bytesLeft);
 	pfilter += mir_tstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
 
 	mir_tstrncpy(pfilter, TranslateT("Windows bitmaps"), bytesLeft); bytesLeft -= mir_tstrlen(pfilter);
-	_tcsncat(pfilter, _T(" (*.bmp;*.rle)"), bytesLeft);
+	mir_tstrncat(pfilter, _T(" (*.bmp;*.rle)"), bytesLeft);
 	pfilter += mir_tstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
 	mir_tstrncpy(pfilter, _T("*.BMP;*.RLE"), bytesLeft);
 	pfilter += mir_tstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
 
 	mir_tstrncpy(pfilter, TranslateT("JPEG bitmaps"), bytesLeft); bytesLeft -= mir_tstrlen(pfilter);
-	_tcsncat(pfilter, _T(" (*.jpg;*.jpeg)"), bytesLeft);
+	mir_tstrncat(pfilter, _T(" (*.jpg;*.jpeg)"), bytesLeft);
 	pfilter += mir_tstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
 	mir_tstrncpy(pfilter, _T("*.JPG;*.JPEG"), bytesLeft);
 	pfilter += mir_tstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
 
 	mir_tstrncpy(pfilter, TranslateT("GIF bitmaps"), bytesLeft); bytesLeft -= mir_tstrlen(pfilter);
-	_tcsncat(pfilter, _T(" (*.gif)"), bytesLeft);
+	mir_tstrncat(pfilter, _T(" (*.gif)"), bytesLeft);
 	pfilter += mir_tstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
 	mir_tstrncpy(pfilter, _T("*.GIF"), bytesLeft);
 	pfilter += mir_tstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
 
 	mir_tstrncpy(pfilter, TranslateT("PNG bitmaps"), bytesLeft); bytesLeft -= mir_tstrlen(pfilter);
-	_tcsncat(pfilter, _T(" (*.png)"), bytesLeft);
+	mir_tstrncat(pfilter, _T(" (*.png)"), bytesLeft);
 	pfilter += mir_tstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
 	mir_tstrncpy(pfilter, _T("*.PNG"), bytesLeft);
 	pfilter += mir_tstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
 
 	mir_tstrncpy(pfilter, TranslateT("All files"), bytesLeft); bytesLeft -= mir_tstrlen(pfilter);
-	_tcsncat(pfilter, _T(" (*)"), bytesLeft);
+	mir_tstrncat(pfilter, _T(" (*)"), bytesLeft);
 	pfilter += mir_tstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
 	mir_tstrncpy(pfilter, _T("*"), bytesLeft);
 	pfilter += mir_tstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);

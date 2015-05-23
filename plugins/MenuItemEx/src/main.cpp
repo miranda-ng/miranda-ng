@@ -638,11 +638,11 @@ INT_PTR onCopyStatusMsg(WPARAM wparam, LPARAM lparam)
 		if (msg) {
 			if (_tcsclen(msg)) {
 				if (flags & VF_SMNAME) {
-					_tcsncat(buffer, TranslateTS(statusMsg[i].fullName), (SIZEOF(buffer) - _tcsclen(buffer) - 1));
-					_tcsncat(buffer, _T(": "), (SIZEOF(buffer) - _tcsclen(buffer) - 1));
+					mir_tstrncat(buffer, TranslateTS(statusMsg[i].fullName), (SIZEOF(buffer) - _tcsclen(buffer) - 1));
+					mir_tstrncat(buffer, _T(": "), (SIZEOF(buffer) - _tcsclen(buffer) - 1));
 				}
-				_tcsncat(buffer, msg, (SIZEOF(buffer) - _tcsclen(buffer) - 1));
-				_tcsncat(buffer, _T("\r\n"), (SIZEOF(buffer) - _tcsclen(buffer) - 1));
+				mir_tstrncat(buffer, msg, (SIZEOF(buffer) - _tcsclen(buffer) - 1));
+				mir_tstrncat(buffer, _T("\r\n"), (SIZEOF(buffer) - _tcsclen(buffer) - 1));
 			}
 			mir_free(msg);
 		}

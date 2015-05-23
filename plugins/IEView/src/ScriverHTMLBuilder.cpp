@@ -171,7 +171,7 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 	if (format[0] != '\0') {
 		//		CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, check, (LPARAM) & dbtts);
 		CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM)& dbtts);
-		//_tcsncat(szResult, str, 500);
+		//mir_tstrncat(szResult, str, 500);
 		mir_strncat(szResult, str, SIZEOF(szResult) - mir_strlen(szResult));
 	}
 	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
