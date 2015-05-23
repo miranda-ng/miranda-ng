@@ -19,7 +19,7 @@
 [Am Showers]
 Дождь в первой половине дня
 [Am Snow Showers / Wind]
-Снегопад в первой половине дня / Ветер
+Снегопад в первой половине дня / ветер
 [Am Snow Showers]
 Снегопад в первой половине дня
 [Am Snow]
@@ -31,7 +31,7 @@
 [Clouds Early / Clearing Late]
 С утра облачно / ясно во второй половине дня
 [Cloudy / Wind]
-Облачно / Ветер
+Облачно / ветер
 [Cloudy / Windy]
 Облачно / ветрено
 [Cloudy And Windy]
@@ -53,7 +53,7 @@
 [Feel]
 Ощущение
 [Few Showers / Wind]
-Слабый дождь / Ветер
+Слабый дождь / ветер
 [Few Showers]
 Слабый дождь
 [Few Snow Showers]
@@ -65,7 +65,7 @@
 [Fog And Windy]
 Туман и ветер
 [Fog Late]
-Туман  во второй половине дня
+Туман во второй половине дня
 [Fog]
 Туман
 [Forecast Day 0]
@@ -179,7 +179,7 @@
 [Mostly Clear]
 Преимущественно ясно
 [Mostly Cloudy / Wind]
-Преимущественно облачно / Ветер
+Преимущественно облачно / ветер
 [Mostly Cloudy And Windy]
 Преимущественно облачно и ветрено
 [Mostly Cloudy]
@@ -247,9 +247,9 @@
 [Rain / Snow Showers Early]
 Дождь / рано утром снег
 [Rain / Snow Showers Late]
-Дождь / Снег во второй половине дня
+Дождь / снег во второй половине дня
 [Rain / Snow Showers]
-Дождь / Снегопад
+Дождь / снегопад
 [Rain / Snow]
 Дождь / снег
 [Rain / Thunder]
@@ -311,7 +311,7 @@
 [Snow / Wind Early]
 Снег / ветер в первой половине дня
 [Snow / Wind]
-Снег / Ветер
+Снег / ветер
 [Snow / Windy]
 Снег / ветрено
 [Snow And Sleet]
@@ -319,19 +319,21 @@
 [Snow Early]
 Снег в первой половине дня
 [Snow Shower / Wind]
-Снегопад / Ветер
+Снегопад / ветер
 [Snow Shower And Windy]
 Снег и ветер
 [Snow Shower]
 Снегопад
 [Snow Showers / Wind Early]
-Снегопад / Ветер с утра
+Снегопад / ветер с утра
 [Snow Showers Early]
 Снегопад с утра
 [Snow Showers Late]
 Снегопад во второй половине дня
 [Snow To Rain]
 Снег с дождём
+[Snow To Wintry Mix]
+Снег, переходящий в снег с дождем
 [Snow]
 Снег
 [Sunny / Wind]
@@ -384,6 +386,8 @@
 Ветер: скорость
 [WindDir]
 Ветер: направление (сторона)
+[Wintry Mix / Wind]
+Снег с дождем / ветер
 [falling]
 Падает
 [rising]

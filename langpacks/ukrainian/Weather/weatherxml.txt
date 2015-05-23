@@ -2,28 +2,40 @@
 ;  File: weatherxml.ini
 ;  Module: weather
 ;============================================================
+[AM Rain]
+Дощ у першій половині дня
 [Am Clouds / Pm Sun]
 Хмарно в першій половині дня / Сонячно в другій половині дня
 [Am Light Rain]
 Слабкий дощ у першій половині дня
 [Am Rain / Snow Showers]
-Дощ у першій половині дня / Снігопад
+Дощ у першій половині дня / снігопад
+[Am Rain / Snow]
+Дощ у першій половині дня / сніг
+[Am Rain]
+Дощ у першій половині дня
 [Am Showers / Wind]
-Дощ у другій половині дня / Вітер
+Дощ у другій половині дня / вітер
 [Am Showers]
 Дощ у першій половині дня
 [Am Snow Showers / Wind]
-Снігопад у першій половині дня / Вітер
+Снігопад у першій половині дня / вітер
 [Am Snow Showers]
 Снігопад у першій половині дня
+[Am Snow]
+Сніг у першій половині дня
+[Am T-Storms]
+Грози в першій половині дня
 [Clear / Wind]
-Ясно / Вітер
+Ясно / вітер
 [Clouds Early / Clearing Late]
 Зранку хмарно / Ясно в другій половині дня
 [Cloudy / Wind]
-Хмарно / Вітер
+Хмарно / вітер
+[Cloudy / Windy]
+Хмарно / вітряно
 [Cloudy And Windy]
-Хмарно вітер
+Хмарно і вітер
 [Cloudy]
 Хмарно
 [Drifting Snow]
@@ -41,15 +53,19 @@
 [Feel]
 Відчуття
 [Few Showers / Wind]
-Слабкий дощ / Вітер
+Слабкий дощ / вітер
 [Few Showers]
 Слабкий дощ
 [Few Snow Showers]
 Слабкий сніг
 [First Quarter]
 Перша чверть Місяця
+[Fog / Windy]
+Туман / вітер
 [Fog And Windy]
 Туман і вітер
+[Fog Late]
+Туман у другій половині дня
 [Fog]
 Туман
 [Forecast Day 0]
@@ -76,18 +92,26 @@
 Оновлення прогнозу VAR
 [Forecast Update]
 Оновлення прогнозу
+[Freezing Rain / Windy]
+Крижаний дощ / вітряно
 [Full Moon]
 Повний Місяць
 [Haze]
 Імла
 [Heat Index]
 Індекс спеки
+[Heavy Rain / Wind]
+Проливний дощ / вітер
+[Heavy Rain]
+Проливний дощ
 [Heavy Snow And Windy]
 Сильний сніг і вітряно
 [Heavy Snow Shower]
 Сильний снігопад
 [Heavy Snow]
 Сильний снігопад
+[Isolated T-Storms / Wind]
+Місцями грози / вітер
 [Isolated T-Storms]
 Місцями грози
 [Jun]
@@ -102,8 +126,16 @@
 Слабка мряка і вітер
 [Light Drizzle]
 Слабка мряка
+[Light Freezing Rain / Fog]
+Слабкий крижаний дощ / туман
+[Light Freezing Rain / Windy]
+Слабкий крижаний дощ / вітер
+[Light Rain / Wind Early]
+Слабкий дощ / вітер у першій половині дня
 [Light Rain / Wind]
 Слабкий дощ / вітер
+[Light Rain / Windy]
+Слабкий дощ / вітряно
 [Light Rain And Windy]
 Слабкий дощ і вітер
 [Light Rain Early]
@@ -147,11 +179,13 @@
 [Mostly Clear]
 Переважно ясно
 [Mostly Cloudy / Wind]
-Переважно хмарно / Вітер
+Переважно хмарно / вітер
 [Mostly Cloudy And Windy]
 Переважно хмарно і вітряно
 [Mostly Cloudy]
 Переважно хмарно
+[Mostly Sunny / Wind]
+Переважно сонячно / вітер
 [Mostly Sunny]
 Переважно сонячно
 [N/A%]
@@ -176,6 +210,10 @@
 Джерело даних
 [Overcast]
 Суцільна хмарність
+[Partly Cloudy / Wind]
+Місцями хмарно / вітер
+[Partly Cloudy / Windy]
+Місцями хмарно / вітряно
 [Partly Cloudy And Windy]
 Місцями хмарно і вітряно
 [Partly Cloudy]
@@ -184,30 +222,50 @@
 Місцями сонячно
 [Pm Light Rain]
 Слабкий дощ у другій половині дня
+[Pm Rain / Wind]
+Дощ у другій половині дня / вітер
+[Pm Rain]
+Дощ у другій половині дня
+[Pm Showers / Wind]
+Зливи у другій половині дня / вітер
 [Pm Showers]
 Дощ у другій половині дня
 [Pm Snow Showers]
 Снігопад у другій половині дня
+[Pm Snow]
+Сніг у другій половині дня / вітер
 [Pm T-Storms]
 Грози в другій половині дня
 [Pressure Tendency]
 Тиск: тенденція
+[Rain / Freezing Rain / Wind]
+Дощ / крижаний дощ / вітер
 [Rain / Snow / Wind]
-Дощ / Сніг / Вітер
+Дощ / сніг / вітер
+[Rain / Snow Late]
+Дощ / сніг у другій половині дня
 [Rain / Snow Showers Early]
-Дощ / Рано вранці сніг
+Дощ / сніг зранку
 [Rain / Snow Showers Late]
-Дощ / Сніг у другій половині дня
+Дощ / сніг у другій половині дня
 [Rain / Snow Showers]
-Дощ / Сніг
+Дощ / снігопад
 [Rain / Snow]
-Дощ / Сніг
+Дощ / сніг
 [Rain / Thunder]
-Дощ / Грім
+Дощ / грім
+[Rain / Wind Early]
+Дощ / вітер у першій половині дня
 [Rain / Wind]
-Дощ / Вітер
+Дощ / вітер
 [Rain And Snow]
 Дощ зі снігом
+[Rain Early]
+Дощ у першій половині дня
+[Rain Late]
+Дощ у другій половині дня
+[Rain Shower]
+Дощ
 [Rain To Snow]
 Дощ зі снігом
 [Rain]
@@ -226,14 +284,18 @@
 Місцями дощі
 [Scattered Snow Showers]
 Місцями снігопад
+[Scattered T-Storms / Wind]
+Місцями грози / вітер
 [Scattered T-Storms]
 Місцями грози
 [Shallow Fog]
 Низький туман
+[Showers / Wind Late]
+Зливи / вітер у другій половині дня
 [Showers / Wind]
-Дощі / Вітер
+Дощі / вітер
 [Showers Early]
-З ранку дощі
+Зранку дощі
 [Showers Late]
 Дощ у другій половині дня
 [Showers Rain]
@@ -246,32 +308,46 @@
 Дощ зі снігом
 [Smoke]
 Туман
+[Snow / Wind Early]
+Сніг / вітер у першій половині дня
 [Snow / Wind]
-Сніг / Вітер
+Сніг / вітер
+[Snow / Windy]
+Сніг / вітер
 [Snow And Sleet]
 Дощ зі снігом
 [Snow Early]
 Сніг у першій половині дня
 [Snow Shower / Wind]
-Снігопад / Вітер
+Снігопад / вітер
 [Snow Shower And Windy]
 Сніг і вітер
 [Snow Shower]
 Снігопад
 [Snow Showers / Wind Early]
-Снігопад / Вітер з ранку
+Снігопад / вітер зранку
 [Snow Showers Early]
-Снігопад з ранку
+Снігопад зранку
 [Snow Showers Late]
 Снігопад у другій половині дня
 [Snow To Rain]
 Сніг з дощем
+[Snow To Wintry Mix]
+Сніг з переходом у дощ
 [Snow]
 Сніг
+[Sunny / Wind]
+Сонячно / вітер
+[Sunny / Windy]
+Сонячно / вітряно
 [Sunny]
 Сонячно
 [T-Storm]
 Гроза
+[T-Storms Early]
+Грози в першій половині дня
+[T-Storms Late]
+Грози в другій половині дня
 [T-Storms]
 Грози
 [Thunder In The Vicinity]
@@ -310,6 +386,8 @@
 Вітер: швидкість
 [WindDir]
 Вітер: напрямок (бік)
+[Wintry Mix / Wind]
+Сніг з дощем / вітер
 [falling]
 Падає
 [rising]
