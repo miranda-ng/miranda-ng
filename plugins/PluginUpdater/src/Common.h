@@ -167,7 +167,7 @@ struct ServListEntry
 		m_name( mir_a2t(_name)),
 		m_crc(_crc)
 	{
-		strncpy(m_szHash, _hash, sizeof(m_szHash)-1);
+		strncpy(m_szHash, _hash, sizeof(m_szHash));
 	}
 
 	~ServListEntry()
