@@ -160,9 +160,9 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai)
 		else
 			szArgs = (TCHAR*)mir_realloc(szArgs, (mir_tstrlen(szArgs) + mir_tstrlen(argv[i]) + 2)*sizeof(TCHAR));
 
-		_tcscat(szArgs, argv[i]);
+		mir_tstrcat(szArgs, argv[i]);
 		if (i != argc - 1)
-			_tcscat(szArgs, _T(","));
+			mir_tstrcat(szArgs, _T(","));
 	}
 	int res;
 	if (szArgs != NULL && argc > 0) {

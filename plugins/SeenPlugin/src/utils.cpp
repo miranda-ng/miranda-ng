@@ -161,7 +161,7 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 
 	SYSTEMTIME st;
 	if (!isSeen(hcontact, &st)) {
-		_tcscat(sztemp, TranslateT("<never seen>"));
+		mir_tstrcat(sztemp, TranslateT("<never seen>"));
 		return sztemp;
 	}
 

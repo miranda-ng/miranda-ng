@@ -219,7 +219,7 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 		TCHAR* newPounce = (TCHAR*)mir_alloc(mir_tstrlen(dbv.ptszVal) + mir_tstrlen(message) + 1);
 		if (!newPounce) return 1;
 		mir_tstrcpy(newPounce, dbv.ptszVal);
-		_tcscat(newPounce, message);
+		mir_tstrcat(newPounce, message);
 		db_set_ws(hContact, modname, "PounceMsg", newPounce);
 		mir_free(newPounce);
 		db_free(&dbv);

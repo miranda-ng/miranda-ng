@@ -433,7 +433,7 @@ static TCHAR* ShortenPreview(DBEVENTINFO* dbe)
 	}
 	if (fAddEllipsis) {
 		buf = (TCHAR*)mir_realloc(buf, (mir_tstrlen(buf) + 5) * sizeof(TCHAR));
-		_tcscat(buf, _T("..."));
+		mir_tstrcat(buf, _T("..."));
 	}
 	return buf;
 }

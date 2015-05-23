@@ -70,7 +70,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 				srand((unsigned)time(NULL));
 				TCHAR ranStr[7];
 				_itot((int)10000 *rand() / (RAND_MAX + 1.0), ranStr, 10);
-				_tcscat(nick, ranStr); 
+				mir_tstrcat(nick, ranStr); 
 			}  
 
 			if ( _tcschr(nick, '(') == 0) {
@@ -427,7 +427,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 		
 		TCHAR ranStr[10];
 		_itot((int) 10000 *rand() / (RAND_MAX + 1.0), ranStr, 10);
-		_tcscat(Newnick, ranStr);
+		mir_tstrcat(Newnick, ranStr);
 	}
 	//end convert
 

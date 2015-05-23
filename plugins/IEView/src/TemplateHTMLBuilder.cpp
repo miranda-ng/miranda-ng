@@ -199,7 +199,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	TCHAR *szNoAvatarPathTmp = _tcsrchr(szNoAvatarPath, '\\');
 	if (szNoAvatarPathTmp != NULL)
 		*szNoAvatarPathTmp = 0;
-	_tcscat(szNoAvatarPath, _T("\\noavatar.png"));
+	mir_tstrcat(szNoAvatarPath, _T("\\noavatar.png"));
 	if (_taccess(szNoAvatarPath, 0) == -1)
 		mir_snprintf(tempStr, SIZEOF(tempStr), "%snoavatar.jpg", tempBase);
 	else
@@ -373,7 +373,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	TCHAR *szNoAvatarPathTmp = _tcsrchr(szNoAvatarPath, '\\');
 	if (szNoAvatarPathTmp != NULL)
 		*szNoAvatarPathTmp = 0;
-	_tcscat(szNoAvatarPath, _T("\\noavatar.png"));
+	mir_tstrcat(szNoAvatarPath, _T("\\noavatar.png"));
 	if (_taccess(szNoAvatarPath, 0) == -1)
 		mir_snprintf(tempStr, SIZEOF(tempStr), "%snoavatar.jpg", tempBase);
 	else

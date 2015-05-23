@@ -74,8 +74,8 @@ TCHAR* GetFullName(const TCHAR* filename)
 		size_t plen = mir_tstrlen(path);
 		fullname = new TCHAR[plen + flen + 1];
 		fullname[0] = NULL;
-		_tcscat(fullname, path);
-		_tcscat(fullname, filename);
+		mir_tstrcat(fullname, path);
+		mir_tstrcat(fullname, filename);
 	}
 	return fullname;
 }

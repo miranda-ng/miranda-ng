@@ -119,7 +119,7 @@ static TCHAR *parseFixeol(ARGUMENTSINFO *ai)
 
 	memset(res, 0, (((cur - ai->targv[1]) + 1) * sizeof(TCHAR)));
 	_tcsncpy(res, ai->targv[1], cur - ai->targv[1]);
-	_tcscat(res, szReplacement);
+	mir_tstrcat(res, szReplacement);
 	return res;
 }
 
@@ -279,7 +279,7 @@ static TCHAR *parsePad(ARGUMENTSINFO *ai)
 	for (unsigned int i = 0; i < addcount; i++)
 		*cur++ = padchar;
 
-	_tcscat(res, ai->targv[1]);
+	mir_tstrcat(res, ai->targv[1]);
 	return res;
 }
 
@@ -383,7 +383,7 @@ static TCHAR *parseRepeat(ARGUMENTSINFO *ai)
 
 	memset(res, 0, ((count * mir_tstrlen(ai->targv[1]) + 1) * sizeof(TCHAR)));
 	for (int i = 0; i < count; i++)
-		_tcscat(res, ai->targv[1]);
+		mir_tstrcat(res, ai->targv[1]);
 
 	return res;
 }
@@ -460,7 +460,7 @@ static TCHAR *parseScroll(ARGUMENTSINFO *ai)
 
 	memset(res, 0, ((2 * mir_tstrlen(ai->targv[1]) + 1) * sizeof(TCHAR)));
 	mir_tstrcpy(res, ai->targv[1]);
-	_tcscat(res, ai->targv[1]);
+	mir_tstrcat(res, ai->targv[1]);
 	memmove(res, res + move, (mir_tstrlen(res + move) + 1)*sizeof(TCHAR));
 	*(res + display) = 0;
 	res = (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + 1)*sizeof(TCHAR));
@@ -754,8 +754,8 @@ static TCHAR *parseWord(ARGUMENTSINFO *ai)
 			TCHAR *pres = (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + mir_tstrlen(szWord) + 2)*sizeof(TCHAR));
 			if (pres != NULL) {
 				res = pres;
-				_tcscat(res, _T(" "));
-				_tcscat(res, szWord);
+				mir_tstrcat(res, _T(" "));
+				mir_tstrcat(res, szWord);
 			}
 			mir_free(szWord);
 		}

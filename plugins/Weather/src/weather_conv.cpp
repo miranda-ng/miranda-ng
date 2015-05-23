@@ -505,10 +505,10 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 			i++;
 			chr = dis[i];
 			switch (chr) {
-				case '%': _tcscat(str, _T("%")); break;
-				case 't': _tcscat(str, _T("\t")); break;
-				case 'n': _tcscat(str, _T("\r\n")); break;
-				case '\\': _tcscat(str, _T("\\")); break;
+				case '%': mir_tstrcat(str, _T("%")); break;
+				case 't': mir_tstrcat(str, _T("\t")); break;
+				case 'n': mir_tstrcat(str, _T("\r\n")); break;
+				case '\\': mir_tstrcat(str, _T("\\")); break;
 			}	
 		}
 
@@ -520,29 +520,29 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 			// turn capitalized characters to small case
 			if (chr < 'a' && chr != '[' && chr != '%') chr = (char)((int)chr + 32);
 			switch (chr) {
-			case 'c': _tcscat(str, w->cond); break;
+			case 'c': mir_tstrcat(str, w->cond); break;
 			case 'd':	// get the current date
 				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, lpzDate, SIZEOF(lpzDate));
-				_tcscat(str, lpzDate); break;
-			case 'e': _tcscat(str, w->dewpoint); break;
-			case 'f': _tcscat(str, w->feel); break;
-			case 'h': _tcscat(str, w->high); break;
-			case 'i': _tcscat(str, w->winddir); break;
-			case 'l': _tcscat(str, w->low); break;
-			case 'm': _tcscat(str, w->humid); break;
-			case 'n': _tcscat(str, w->city); break;
-			case 'p': _tcscat(str, w->pressure); break;
-			case 'r': _tcscat(str, w->sunrise); break;
-			case 's': _tcscat(str, w->id); break;
-			case 't': _tcscat(str, w->temp); break;
+				mir_tstrcat(str, lpzDate); break;
+			case 'e': mir_tstrcat(str, w->dewpoint); break;
+			case 'f': mir_tstrcat(str, w->feel); break;
+			case 'h': mir_tstrcat(str, w->high); break;
+			case 'i': mir_tstrcat(str, w->winddir); break;
+			case 'l': mir_tstrcat(str, w->low); break;
+			case 'm': mir_tstrcat(str, w->humid); break;
+			case 'n': mir_tstrcat(str, w->city); break;
+			case 'p': mir_tstrcat(str, w->pressure); break;
+			case 'r': mir_tstrcat(str, w->sunrise); break;
+			case 's': mir_tstrcat(str, w->id); break;
+			case 't': mir_tstrcat(str, w->temp); break;
 			case 'u':
-				if (mir_tstrcmp(w->update, NODATA))	_tcscat(str, w->update);
-				else	_tcscat(str, TranslateT("<unknown time>"));
+				if (mir_tstrcmp(w->update, NODATA))	mir_tstrcat(str, w->update);
+				else	mir_tstrcat(str, TranslateT("<unknown time>"));
 				break;
-			case 'v': _tcscat(str, w->vis); break;
-			case 'w': _tcscat(str, w->wind); break;
-			case 'y': _tcscat(str, w->sunset); break;
-			case '%': _tcscat(str, _T("%")); break;
+			case 'v': mir_tstrcat(str, w->vis); break;
+			case 'w': mir_tstrcat(str, w->wind); break;
+			case 'y': mir_tstrcat(str, w->sunset); break;
+			case '%': mir_tstrcat(str, _T("%")); break;
 			case '[':	// custom variables 
 				i++;
 				name[0] = 0;
@@ -554,7 +554,7 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 				// access the database to get its value
 				if ( !db_get_ts(w->hContact, WEATHERCONDITION, name, &dbv)) {
 					if (dbv.ptszVal != TranslateTS(NODATA) && dbv.ptszVal != TranslateT("<Error>"))	
-						_tcscat(str, dbv.ptszVal);
+						mir_tstrcat(str, dbv.ptszVal);
 					db_free(&dbv);
 				}
 				break;
@@ -563,7 +563,7 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 		// if the character is not a variable, write the original character to the new string
 		else {
 			mir_sntprintf(lpzDate, SIZEOF(lpzDate), _T("%c"), dis[i]);
-			_tcscat(str, lpzDate);
+			mir_tstrcat(str, lpzDate);
 	}	}
 
 	return str;

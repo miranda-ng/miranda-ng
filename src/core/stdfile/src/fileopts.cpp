@@ -191,7 +191,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (_tcschr(str, ' ') != NULL) {
 				memmove(str + 1, str, ((SIZEOF(str) - 2) * sizeof(TCHAR)));
 				str[0] = '"';
-				_tcscat(str, _T("\""));
+				mir_tstrcat(str, _T("\""));
 			}
 			SetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str);
 			break;

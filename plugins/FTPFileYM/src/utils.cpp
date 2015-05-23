@@ -65,7 +65,7 @@ TCHAR *Utils::getTextFragment(TCHAR *stzText, size_t length, TCHAR *buff)
 	{
 		mir_tstrcpy(buff, stzText);
 		buff[length - 1] = 0;
-		_tcscat(buff, _T("..."));
+		mir_tstrcat(buff, _T("..."));
 		return buff;
 	}
 

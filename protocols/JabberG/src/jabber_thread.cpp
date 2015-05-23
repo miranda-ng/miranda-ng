@@ -1069,11 +1069,11 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 		TCHAR *szTmp = (TCHAR *)alloca(sizeof(TCHAR) * cbLen);
 		szTmp[0] = 0;
 		if (szMessage)
-			_tcscat(szTmp, _T("Subject: "));
-		_tcscat(szTmp, ptszSubject);
+			mir_tstrcat(szTmp, _T("Subject: "));
+		mir_tstrcat(szTmp, ptszSubject);
 		if (szMessage) {
-			_tcscat(szTmp, _T("\r\n"));
-			_tcscat(szTmp, szMessage);
+			mir_tstrcat(szTmp, _T("\r\n"));
+			mir_tstrcat(szTmp, szMessage);
 		}
 		szMessage = szTmp;
 	}
@@ -1268,8 +1268,8 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 				TCHAR *szTmp = (TCHAR *)alloca(sizeof(TCHAR)* cbLen);
 				mir_tstrcpy(szTmp, ptszUrl);
 				if (szMessage) {
-					_tcscat(szTmp, _T("\r\n"));
-					_tcscat(szTmp, szMessage);
+					mir_tstrcat(szTmp, _T("\r\n"));
+					mir_tstrcat(szTmp, szMessage);
 				}
 				szMessage = szTmp;
 			}

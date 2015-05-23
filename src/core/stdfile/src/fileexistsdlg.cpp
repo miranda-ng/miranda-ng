@@ -288,7 +288,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					ofn.hwndOwner = hwndDlg;
 					ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
 					_tcsncpy(filter, TranslateT("All files"),SIZEOF(filter)-1);
-					_tcscat(filter, _T(" (*)"));
+					mir_tstrcat(filter, _T(" (*)"));
 					pfilter = filter + mir_tstrlen(filter) + 1;
 					mir_tstrcpy(pfilter, _T("*"));
 					pfilter = pfilter + mir_tstrlen(pfilter) + 1;

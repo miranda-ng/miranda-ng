@@ -55,7 +55,7 @@ static void GetUrlDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
 	buf[ len ] = 0;
 
 	if (len < cbBuf-3)
-		_tcscat(buf, _T("\r\n"));
+		mir_tstrcat(buf, _T("\r\n"));
 }
 
 static void GetFileDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
@@ -68,7 +68,7 @@ static void GetFileDescription(DBEVENTINFO *dbei, TCHAR* buf, int cbBuf)
 	buf[ len ] = 0;
 
 	if (len < cbBuf-3)
-		_tcscat(buf, _T("\r\n"));
+		mir_tstrcat(buf, _T("\r\n"));
 }
 
 static void GetObjectDescription(DBEVENTINFO *dbei, TCHAR* str, int cbStr)

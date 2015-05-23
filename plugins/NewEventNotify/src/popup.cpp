@@ -272,7 +272,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 
 			if (szNick) {
 				mir_tstrcpy(szBuf, szNick);
-				_tcscat(szBuf, TranslateT(" added you to the contact list"));
+				mir_tstrcat(szBuf, TranslateT(" added you to the contact list"));
 				mir_free(szNick);
 				comment1 = mir_tstrdup(szBuf);
 			}
@@ -308,7 +308,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 
 			if (szNick) {
 				mir_tstrcpy(szBuf, szNick);
-				_tcscat(szBuf, TranslateT(" requested authorization"));
+				mir_tstrcat(szBuf, TranslateT(" requested authorization"));
 				mir_free(szNick);
 				comment1 = mir_tstrdup(szBuf);
 			}

@@ -1025,7 +1025,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 				dat->lpszFileName = (TCHAR*)calloc(sizeof(TCHAR), mir_tstrlen(tmpFileName) + mir_tstrlen(szImgType) + 1);
 				if (dat->lpszFileName != NULL) {
 					mir_tstrcpy(dat->lpszFileName, tmpFileName);
-					_tcscat(dat->lpszFileName, szImgType);
+					mir_tstrcat(dat->lpszFileName, szImgType);
 				}
 			}
 		}

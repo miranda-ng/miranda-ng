@@ -536,7 +536,7 @@ void LoadBassLibrary(TCHAR CurrBassPath[MAX_PATH])
 int OnFoldersChanged(WPARAM, LPARAM)
 {
 	FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, _T(""));
-	_tcscat(CurrBassPath, _T("\\bass.dll"));
+	mir_tstrcat(CurrBassPath, _T("\\bass.dll"));
 
 	if (hBass != NULL) {
 		BASS_Free();
@@ -553,7 +553,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 {
 	if (hBASSFolder = FoldersRegisterCustomPathT(LPGEN("Bass Interface"), LPGEN("Bass library"), PLUGINS_PATHT _T("\\Bass"))) {
 		FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, _T(""));
-		_tcscat(CurrBassPath, _T("\\bass.dll"));
+		mir_tstrcat(CurrBassPath, _T("\\bass.dll"));
 	}
 	else {
 		DBVARIANT dbv;

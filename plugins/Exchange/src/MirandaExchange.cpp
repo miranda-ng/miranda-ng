@@ -868,7 +868,7 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR )
 			if ( NULL != szTheEnd )
 			{
 				szRegValue[ mir_tstrlen(szRegValue) - mir_tstrlen(szTheEnd) +5 ]  = _T('\0');
-				_tcscat( szRegValue, _T(" /recycle") );
+				mir_tstrcat( szRegValue, _T(" /recycle") );
 				STARTUPINFO         si;
 				PROCESS_INFORMATION pi;
 				

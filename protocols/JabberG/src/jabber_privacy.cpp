@@ -1014,21 +1014,21 @@ void CJabberDlgPrivacyLists::ShowAdvancedList(CPrivacyList *pList)
 			mir_tstrcpy(szPackets, _T("all"));
 		else {
 			if (dwPackets & JABBER_PL_RULE_TYPE_MESSAGE)
-				_tcscat(szPackets, _T("messages"));
+				mir_tstrcat(szPackets, _T("messages"));
 			if (dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_IN) {
 				if (mir_tstrlen(szPackets))
-					_tcscat(szPackets, _T(", "));
-				_tcscat(szPackets, _T("presence-in"));
+					mir_tstrcat(szPackets, _T(", "));
+				mir_tstrcat(szPackets, _T("presence-in"));
 			}
 			if (dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_OUT) {
 				if (mir_tstrlen(szPackets))
-					_tcscat(szPackets, _T(", "));
-				_tcscat(szPackets, _T("presence-out"));
+					mir_tstrcat(szPackets, _T(", "));
+				mir_tstrcat(szPackets, _T("presence-out"));
 			}
 			if (dwPackets & JABBER_PL_RULE_TYPE_IQ) {
 				if (mir_tstrlen(szPackets))
-					_tcscat(szPackets, _T(", "));
-				_tcscat(szPackets, _T("queries"));
+					mir_tstrcat(szPackets, _T(", "));
+				mir_tstrcat(szPackets, _T("queries"));
 			}
 		}
 
