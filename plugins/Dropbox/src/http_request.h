@@ -121,9 +121,8 @@ protected:
 			mir_free(pData);
 
 		dataLength = (int)size;
-		pData = (char*)mir_alloc(size + 1);
+		pData = (char*)mir_alloc(size);
 		memcpy(pData, data, size);
-		pData[size] = 0;
 	}
 
 public:

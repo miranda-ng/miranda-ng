@@ -82,9 +82,9 @@ private:
 	void RequestAccountInfo();
 
 	// transfers
-	void SendFile(const char *path, const char *data, int length);
-	void SendFileChunkedFirst(const char *data, int length, char *uploadId, size_t &offset);
-	void SendFileChunkedNext(const char *data, int length, const char *uploadId, size_t &offset);
+	void SendFile(const char *path, const char *data, size_t size);
+	void SendFileChunkedFirst(const char *data, size_t size, char *uploadId, size_t &offset);
+	void SendFileChunkedNext(const char *data, size_t size, const char *uploadId, size_t &offset);
 	void SendFileChunkedLast(const char *path, const char *uploadId);
 
 	void CreateFolder(const char *encodedPath);

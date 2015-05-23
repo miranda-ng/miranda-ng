@@ -18,9 +18,9 @@ void CDropbox::InitializeMenus()
 	CLISTMENUITEM mi = { 0 };
 	mi.cbSize = sizeof(CLISTMENUITEM);
 	mi.pszService = MODULE"/SendFilesToDropbox";
-	mi.pszName = LPGEN("Send files to Dropbox");
+	mi.pszName = LPGEN("Upload files to Dropbox");
 	mi.position = -2000020000 + CMI_SEND_FILES;
-	mi.icolibItem = GetIconHandle(IDI_DROPBOX);
+	mi.icolibItem = GetIconHandleByName("upload");
 	contactMenuItems[CMI_SEND_FILES] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunctionObj(mi.pszService, SendFilesToDropboxCommand, this);
 }

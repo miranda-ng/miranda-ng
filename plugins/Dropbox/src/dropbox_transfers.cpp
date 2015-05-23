@@ -1,18 +1,18 @@
 #include "stdafx.h"
 
-void CDropbox::SendFile(const char *path, const char *data, int length)
+void CDropbox::SendFile(const char *path, const char *data, size_t size)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	ptrA encodedPath(mir_utf8encode(path));
-	UploadFileRequest request(token, encodedPath, data, length);
+	UploadFileRequest request(token, encodedPath, data, size);
 	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(hNetlibConnection));
 	HandleHttpResponseError(response);
 }
 
-void CDropbox::SendFileChunkedFirst(const char *data, int length, char *uploadId, size_t &offset)
+void CDropbox::SendFileChunkedFirst(const char *data, size_t size, char *uploadId, size_t &offset)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	UploadFileChunkRequest request(token, data, length);
+	UploadFileChunkRequest request(token, data, size);
 	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(hNetlibConnection));
 	HandleHttpResponseError(response);
 	JSONROOT root(response->pData);
@@ -26,10 +26,10 @@ void CDropbox::SendFileChunkedFirst(const char *data, int length, char *uploadId
 	}
 }
 
-void CDropbox::SendFileChunkedNext(const char *data, int length, const char *uploadId, size_t &offset)
+void CDropbox::SendFileChunkedNext(const char *data, size_t size, const char *uploadId, size_t &offset)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
-	UploadFileChunkRequest request(token, uploadId, offset, data, length);
+	UploadFileChunkRequest request(token, uploadId, offset, data, size);
 	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(hNetlibConnection));
 	HandleHttpResponseError(response);
 	JSONROOT root(response->pData);
@@ -131,12 +131,8 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 			ftp->pfts.currentFileProgress = 0;
 			ftp->pfts.tszCurrentFile = _tcsrchr(ftp->pfts.ptszFiles[i], '\\') + 1;
 
-			ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
-
-			//
 			size_t offset = 0;
 			char uploadId[32];
-
 			int chunkSize = DROPBOX_FILE_CHUNK_SIZE / 4;
 			if (fileSize < 1024 * 1024)
 				chunkSize = DROPBOX_FILE_CHUNK_SIZE / 20;
@@ -152,14 +148,14 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 				if (ftp->isTerminated)
 					throw TransferException("Transfer was terminated");
 
-				int count = (int)fread(data, sizeof(char), chunkSize, hFile);
+				size_t size = fread(data, sizeof(char), chunkSize, hFile);
 
 				try
 				{
 					if (offset == 0)
-						instance->SendFileChunkedFirst(data, count, uploadId, offset);
+						instance->SendFileChunkedFirst(data, size, uploadId, offset);
 					else
-						instance->SendFileChunkedNext(data, count, uploadId, offset);
+						instance->SendFileChunkedNext(data, size, uploadId, offset);
 				}
 				catch (TransferException)
 				{
@@ -168,13 +164,16 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 					throw;
 				}
 
-				ftp->pfts.currentFileProgress += count;
-				ftp->pfts.totalProgress += count;
+				ftp->pfts.currentFileProgress += size;
+				ftp->pfts.totalProgress += size;
 
 				ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
 			}
 			mir_free(data);
 			fclose(hFile);
+
+			if (ftp->pfts.currentFileProgress < ftp->pfts.currentFileSize)
+				throw TransferException("Transfer was terminated");
 
 			ptrA utf8_fileName(mir_utf8encodeW(fileName));
 

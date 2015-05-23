@@ -4,34 +4,31 @@
 class UploadFileRequest : public HttpRequest
 {
 public:
-	UploadFileRequest(const char *token, const char *fileName, const char *data, int length, const char *root = "auto") :
+	UploadFileRequest(const char *token, const char *fileName, const char *data, size_t size, const char *root = "auto") :
 		HttpRequest(REQUEST_PUT, FORMAT, DROPBOX_APICONTENT_URL "/files_put/%s/%s", root, fileName)
 	{
 		AddBearerAuthHeader(token);
-		pData = (char*)data;
-		dataLength = length;
+		SetData(data, size);
 	}
 };
 
 class UploadFileChunkRequest : public HttpRequest
 {
 public:
-	UploadFileChunkRequest(const char *token, const char *data, int length) :
+	UploadFileChunkRequest(const char *token, const char *data, size_t size) :
 		HttpRequest(REQUEST_PUT, DROPBOX_APICONTENT_URL "/chunked_upload")
 	{
 		AddBearerAuthHeader(token);
 		AddHeader("Content-Type", "application/octet-stream");
-		pData = (char*)data;
-		dataLength = length;
+		SetData(data, size);
 	}
 
-	UploadFileChunkRequest(const char *token, const char *uploadId, size_t offset, const char *data, int length) :
+	UploadFileChunkRequest(const char *token, const char *uploadId, size_t offset, const char *data, size_t size) :
 		HttpRequest(REQUEST_PUT, FORMAT, DROPBOX_APICONTENT_URL "/chunked_upload?upload_id=%s&offset=%i", uploadId, offset)
 	{
 		AddBearerAuthHeader(token);
 		AddHeader("Content-Type", "application/octet-stream");
-		pData = (char*)data;
-		dataLength = length;
+		SetData(data, size);
 	}
 
 	UploadFileChunkRequest(const char *token, const char *uploadId, const char *path, const char *root = "auto") :
