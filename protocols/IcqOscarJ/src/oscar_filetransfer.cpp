@@ -499,13 +499,19 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 				mir_strcpy(szBlob + sizeof(DWORD), pszFileName);
 				mir_strcpy(szBlob + sizeof(DWORD) + mir_strlen(pszFileName) + 1, pszDescription);
 
+				TCHAR* ptszFileName = mir_utf8decodeT(pszFileName);
+
 				PROTORECVFILET pre = { 0 };
+				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.szDescription = pszDescription;
-				pre.pszFiles = &pszFileName;
+				pre.tszDescription = mir_utf8decodeT(pszDescription);
+				pre.ptszFiles = &ptszFileName;
 				pre.lParam = (LPARAM)ft;
 				ProtoChainRecvFile(hContact, &pre);
+
+				mir_free(pre.tszDescription);
+				mir_free(ptszFileName);
 			}
 			else if (wAckType == 2) { // First attempt failed, reverse requested
 				oscar_filetransfer *ft = FindOscarTransfer(hContact, dwID1, dwID2);
