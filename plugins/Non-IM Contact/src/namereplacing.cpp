@@ -220,8 +220,8 @@ void checkStringForcompare(char *str)
 			j = Y - &copyOfStr[i] + (int)mir_strlen(Y) + 1;
 			if (A && B && X && Y) {
 				if (!mir_strcmp(A, B))
-					strcat(newStr, X);
-				else strcat(newStr, Y);
+					mir_strcat(newStr, X);
+				else mir_strcat(newStr, Y);
 			}
 			else strncat(newStr, &str[i], j);
 			i += j;
@@ -274,7 +274,7 @@ void checkStringForLoad(MCONTACT hContact, char* str)
 			if (A) {
 				DBVARIANT dbv;
 				if (!db_get_s(hContact, MODNAME, A, &dbv)) {
-					strcat(newStr, dbv.pszVal);
+					mir_strcat(newStr, dbv.pszVal);
 					db_free(&dbv);
 				}
 			}
@@ -351,16 +351,16 @@ void checkStringForLoadN(char* str)
 				if (!db_get(NULL, A, B, &dbv)) {
 					switch (dbv.type) {
 					case DBVT_BYTE:
-						strcat(newStr, _itoa(dbv.bVal, temp, 10));
+						mir_strcat(newStr, _itoa(dbv.bVal, temp, 10));
 						break;
 					case DBVT_WORD:
-						strcat(newStr, _itoa(dbv.wVal, temp, 10));
+						mir_strcat(newStr, _itoa(dbv.wVal, temp, 10));
 						break;
 					case DBVT_DWORD:
-						strcat(newStr, _itoa(dbv.dVal, temp, 10));
+						mir_strcat(newStr, _itoa(dbv.dVal, temp, 10));
 						break;
 					case DBVT_ASCIIZ:
-						strcat(newStr, dbv.pszVal);
+						mir_strcat(newStr, dbv.pszVal);
 						break;
 					}
 					db_free(&dbv);
@@ -425,7 +425,7 @@ int lastChecked(char *newStr, const char *str)
 
 		if (GetLastWriteTime(hFile, tszFileName)) {
 			CloseHandle(hFile);
-			strcat(newStr, tszFileName);
+			mir_strcat(newStr, tszFileName);
 			mir_snprintf(tszFileName, SIZEOF(tszFileName), "%s%d))", szPattern, file);
 			return (int)mir_strlen(tszFileName);
 		}
@@ -520,7 +520,7 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 			if (!strstr(oldString, "start(")) startLine = endLine;
 			if (!strstr(oldString, "end(")) endLine = startLine;
 			// after all the options copy the line across and add 2 to positionInOldString for the file(print(....))
-			if (wholeLine >= 0) strcat(newString, fileContents[wholeLine]);
+			if (wholeLine >= 0) mir_strcat(newString, fileContents[wholeLine]);
 			else {
 				// only copying from 1 line
 				if (startLine == endLine)
@@ -528,10 +528,10 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 				else {
 					int i;
 					// copy the whole first line from startChar
-					strcat(newString, &fileContents[startLine][startChar]);
+					mir_strcat(newString, &fileContents[startLine][startChar]);
 					// copy the middle lines across
 					for (i = (startLine + 1); i < endLine; i++) {
-						strcat(newString, fileContents[i]);
+						mir_strcat(newString, fileContents[i]);
 					}
 					// copy the last line untill endChar
 					strncat(newString, fileContents[endLine], endChar);
@@ -548,7 +548,7 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 			else {
 				mir_snprintf(tempString, SIZEOF(tempString), "fn%d", tempInt);
 				if (db_get_static(NULL, MODNAME, tempString, tempString, SIZEOF(tempString)))
-					strcat(newString, tempString);
+					mir_strcat(newString, tempString);
 				else return ERROR_NO_FILE;
 				positionInOldString += (int)mir_strlen(_itoa(tempInt, tempString, 10)) + 1;
 			}

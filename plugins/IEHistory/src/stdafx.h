@@ -61,7 +61,7 @@ static FILE* fopen_s2(const char* file,const char* mode){
 	return ret;
 }
 #define fopen fopen_s2
-#define strcat strcat_s
+#define mir_strcat strcat_s
 #define _vsnprintf _vsnprintf_s
 #define snprintf _snprintf_s
 #define snwprintf _snwprintf_s

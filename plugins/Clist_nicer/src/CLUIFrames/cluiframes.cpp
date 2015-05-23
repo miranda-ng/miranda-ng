@@ -404,7 +404,7 @@ char __forceinline *AS(char *str, const char *setting, char *addstr)
 {
 	if (str != NULL) {
 		mir_strcpy(str, setting);
-		strcat(str, addstr);
+		mir_strcat(str, addstr);
 	}
 	return str;
 }

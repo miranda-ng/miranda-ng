@@ -16,7 +16,7 @@ int bInitMimeHandling() {
 	char szBuf[10000];
 
 	mir_strcpy(szBuf, szPluginPath);
-	strcat(szBuf, szMimeTypeConfigFile);
+	mir_strcat(szBuf, szMimeTypeConfigFile);
 	mimeDB = fopen(szBuf, "r");
 
 	if (mimeDB != NULL) {

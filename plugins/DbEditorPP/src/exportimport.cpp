@@ -92,7 +92,7 @@ void exportModule(MCONTACT hContact, char *module, FILE *file)
 				for (int j = 0; j < dbv.cpbVal; j++) {
 					char tmp[16];
 					mir_snprintf(tmp, SIZEOF(tmp), "%02X ", (BYTE)dbv.pbVal[j]);
-					strcat(data, tmp);
+					mir_strcat(data, tmp);
 				}
 				fprintf(file, "\n%s=n%s", setting->name, data);
 				mir_free(data);
@@ -559,12 +559,12 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, char* FilePath)
 		if ((DWORD)mir_strlen(szFileNames) < offset) {
 			index += offset;
 			strncpy(szPath, szFileNames, offset);
-			strcat(szPath, "\\");
+			mir_strcat(szPath, "\\");
 		}
 
 		while (szFileNames[index]) {
 			mir_strcpy(szFile, szPath);
-			strcat(szFile, &szFileNames[index]);
+			mir_strcat(szFile, &szFileNames[index]);
 			index += (int)mir_strlen(&szFileNames[index]) + 1;
 
 			HANDLE hFile = CreateFile(szFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);

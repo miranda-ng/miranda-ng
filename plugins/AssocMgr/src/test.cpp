@@ -367,7 +367,7 @@ static int IcqFilesModulesLoaded(WPARAM wParam,LPARAM lParam)
 	char szService[MAX_PATH+32];
 	UNREFERENCED_PARAMETER(wParam);
 	UNREFERENCED_PARAMETER(lParam);
-	strcat(mir_strcpy(szService,gpszICQProtoName),"OpenFile");
+	mir_strcat(mir_strcpy(szService,gpszICQProtoName),"OpenFile");
 	/* .icq files are not used, just by the ProtoLink plugin */
     //AssocMgr_AddNewFileTypeT(".icq","application/x-icq",TranslateT("ICQ link shortcut"),TranslateT("&Add to contact list..."),hInst,IDI_ICQ,szService,FTDF_BROWSERAUTOOPEN|FTDF_ISTEXT|FTDF_ISSHORTCUT|FTDF_DEFAULTDISABLED);
     AssocMgr_AddNewFileTypeT(".uin","application/x-icq",TranslateT("ICQ link shortcut"),TranslateT("&Add to contact list..."),hInst,IDI_ICQ,szService,FTDF_BROWSERAUTOOPEN|FTDF_ISTEXT|FTDF_ISSHORTCUT);
@@ -377,7 +377,7 @@ static int IcqFilesModulesLoaded(WPARAM wParam,LPARAM lParam)
 void InitIcqFiles(void)
 {
 	char szService[MAX_PATH+32];
-	strcat(mir_strcpy(szService,gpszICQProtoName),"OpenFile");
+	mir_strcat(mir_strcpy(szService,gpszICQProtoName),"OpenFile");
     hServiceOpenFile=CreateServiceFunction(szService,IcqOpenFile);
     hHookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,IcqFilesModulesLoaded);
 }

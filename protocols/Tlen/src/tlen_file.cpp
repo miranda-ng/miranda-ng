@@ -82,8 +82,8 @@ static void TlenFileReceiveParse(TLEN_FILE_TRANSFER *ft)
 			fullFileName = (char *) mir_alloc(mir_strlen(ft->szSavePath) + mir_strlen(ft->files[ft->currentFile]) + 2);
 			mir_strcpy(fullFileName, ft->szSavePath);
 			if (fullFileName[mir_strlen(fullFileName)-1] != '\\')
-				strcat(fullFileName, "\\");
-			strcat(fullFileName, ft->files[ft->currentFile]);
+				mir_strcat(fullFileName, "\\");
+			mir_strcat(fullFileName, ft->files[ft->currentFile]);
 			ft->fileId = _open(fullFileName, _O_BINARY|_O_WRONLY|_O_CREAT|_O_TRUNC, _S_IREAD|_S_IWRITE);
 			ft->fileReceivedBytes = 0;
 			ft->fileTotalSize = ft->filesSize[ft->currentFile];

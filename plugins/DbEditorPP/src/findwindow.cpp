@@ -249,11 +249,11 @@ char* multiReplace(const char* value, const char *find, const char *replace, int
 
 			strncat(temp, string, (head - string));
 			string = head + len;
-			strcat(temp, replace);
+			mir_strcat(temp, replace);
 
 			head = (cs ? strstr(string, find) : StrStrI(string, find));
 		}
-		strcat(temp, string);
+		mir_strcat(temp, string);
 
 		return temp;
 	}

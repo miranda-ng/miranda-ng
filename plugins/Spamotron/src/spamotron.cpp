@@ -85,8 +85,8 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	/*** Check for conditional and unconditional approval ***/
 
 	// Pass-through if protocol is not enabled
-	strcat(protoOption, "proto_");
-	strcat(protoOption, dbei->szModule);
+	mir_strcat(protoOption, "proto_");
+	mir_strcat(protoOption, dbei->szModule);
 	if (_getOptB(protoOption, 0) == 0) // Protocol is not handled by Spam-o-tron
 		return 0;
 
@@ -503,7 +503,7 @@ void RemoveNotOnListSettings()
 	mir_strcpy(protoName, "proto_");
 	while (hContact != NULL) {
 		if (db_get_s(hContact, "Protocol", "p", &dbv) == 0) {
-			strcat(protoName, dbv.pszVal);
+			mir_strcat(protoName, dbv.pszVal);
 			if (_getOptB(protoName, 0) != 0) {
 				if (db_get_b(hContact, "CList", "Delete", 0) == 1) {
 					db_unset(hContact, "CList", "NotOnList");

@@ -990,9 +990,9 @@ void CIcqProto::icq_sendAwayMsgReplyServExt(DWORD dwUin, char *szUID, DWORD dwMs
 			char *mng = MangleXml(pszMsg, mir_strlen(pszMsg));
 			pszMsg = (char*)SAFE_MALLOC(mir_strlen(mng) + 28);
 			mir_strcpy(pszMsg, "<HTML><BODY>"); /// TODO: add support for RTL & user customizable font
-			strcat(pszMsg, mng);
+			mir_strcat(pszMsg, mng);
 			SAFE_FREE(&mng);
-			strcat(pszMsg, "</BODY></HTML>");
+			mir_strcat(pszMsg, "</BODY></HTML>");
 
 			// limit msg len to max snac size - we get disconnected if exceeded /// FIXME: correct HTML cutting
 			size_t wMsgLen = mir_strlen(pszMsg);

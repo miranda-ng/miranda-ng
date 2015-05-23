@@ -549,7 +549,7 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 				// read the entire variable name
 				while (dis[i] != ']' && i < mir_tstrlen(dis)) {
 					mir_snprintf(temp, SIZEOF(temp), "%c", dis[i++]);
-					strcat(name, temp);
+					mir_strcat(name, temp);
 				}
 				// access the database to get its value
 				if ( !db_get_ts(w->hContact, WEATHERCONDITION, name, &dbv)) {

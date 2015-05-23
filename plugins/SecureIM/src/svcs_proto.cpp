@@ -112,7 +112,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 		LPSTR tmp = (LPSTR)mir_alloc(mir_strlen(ptr->msgSplitted) + mir_strlen(szEncMsg) + 1);
 		mir_strcpy(tmp, ptr->msgSplitted);
-		strcat(tmp, szEncMsg);
+		mir_strcat(tmp, szEncMsg);
 		mir_free(ptr->msgSplitted);
 		ptr->msgSplitted = szEncMsg = ppre->szMessage = tmp;
 		ssig = getSecureSig(tmp, &szEncMsg);
@@ -226,7 +226,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 			ptrA reSend((LPSTR)mir_alloc(mir_strlen(szEncMsg) + LEN_RSND));
 			mir_strcpy(reSend, SIG_RSND); // copy resend sig
-			strcat(reSend, szEncMsg); // add mess
+			mir_strcat(reSend, szEncMsg); // add mess
 
 			pccsd->wParam |= PREF_METANODB;
 			pccsd->lParam = (LPARAM)reSend; // reSend Message to reemit

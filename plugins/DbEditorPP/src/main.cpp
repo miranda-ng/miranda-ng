@@ -487,7 +487,7 @@ WCHAR* GetContactName(MCONTACT hContact, const char *szProto, int unicode)
 					if (unicode)
 						wcscat(res, L" ");
 					else
-						strcat((char*)res, " ");
+						mir_strcat((char*)res, " ");
 
 					len++;
 				}

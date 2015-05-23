@@ -1092,7 +1092,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	char CurProfileF[MAX_PATH] = "";
 	char CurProfile[MAX_PATH] = "";
 	CallService(MS_DB_GETPROFILEPATH, (WPARAM)MAX_PATH, (LPARAM)AvatarsFolder);
-	strcat(AvatarsFolder, "\\");
+	mir_strcat(AvatarsFolder, "\\");
 	CallService(MS_DB_GETPROFILENAME, (WPARAM)MAX_PATH, (LPARAM)CurProfileF);
 
 	int i;
@@ -1103,15 +1103,15 @@ extern "C" __declspec(dllexport) int  Load(void)
 		}
 	}
 	memcpy(CurProfile, CurProfileF, i);
-	strcat(AvatarsFolder, CurProfile);
-	strcat(AvatarsFolder, "\\");
-	strcat(AvatarsFolder, "XFire");
+	mir_strcat(AvatarsFolder, CurProfile);
+	mir_strcat(AvatarsFolder, "\\");
+	mir_strcat(AvatarsFolder, "XFire");
 
 	XFireWorkingFolder = FoldersRegisterCustomPath(protocolname, "Working Folder", AvatarsFolder);
 	if (!(XFireIconFolder = FoldersRegisterCustomPath(protocolname, "Game Icon Folder", AvatarsFolder)))
 		CreateDirectoryA(AvatarsFolder, NULL);
 
-	strcat(AvatarsFolder, "\\Avatars");
+	mir_strcat(AvatarsFolder, "\\Avatars");
 	if (!(XFireAvatarFolder = FoldersRegisterCustomPath(protocolname, "Avatars", AvatarsFolder)))
 		CreateDirectoryA(AvatarsFolder, NULL);
 
@@ -1124,7 +1124,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	//gotoprofilemenüpunkt
 	mir_strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "GotoProfile");
+	mir_strcat(servicefunction, "GotoProfile");
 	CreateServiceFunction(servicefunction, GotoProfile);
 	mi.pszService = servicefunction;
 	mi.position = 500090000;
@@ -1135,7 +1135,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	//gotoxfireclansitemenüpunkt
 	mir_strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "GotoXFireClanSite");
+	mir_strcat(servicefunction, "GotoXFireClanSite");
 	CreateServiceFunction(servicefunction, GotoXFireClanSite);
 	mi.pszService = servicefunction;
 	mi.position = 500090000;
@@ -1146,7 +1146,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	//kopiermenüpunkt
 	mir_strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "GetIPPort");
+	mir_strcat(servicefunction, "GetIPPort");
 	CreateServiceFunction(servicefunction, GetIPPort);
 	mi.pszService = servicefunction;
 	mi.position = 500090000;
@@ -1157,7 +1157,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	//kopiermenüpunkt
 	mir_strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "VoiceIPPort");
+	mir_strcat(servicefunction, "VoiceIPPort");
 	CreateServiceFunction(servicefunction, GetVIPPort);
 	mi.pszService = servicefunction;
 	mi.position = 500090000;
@@ -1168,7 +1168,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	//joinmenüpunkt
 	mir_strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "JoinGame");
+	mir_strcat(servicefunction, "JoinGame");
 	CreateServiceFunction(servicefunction, JoinGame);
 	mi.pszService = servicefunction;
 	mi.position = 500090000;
@@ -1179,7 +1179,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	//joinmenüpunkt
 	mir_strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "StartThisGame");
+	mir_strcat(servicefunction, "StartThisGame");
 	CreateServiceFunction(servicefunction, StartThisGame);
 	mi.pszService = servicefunction;
 	mi.position = 500090000;
@@ -1190,7 +1190,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	//remove friend
 	mir_strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "RemoveFriend");
+	mir_strcat(servicefunction, "RemoveFriend");
 	CreateServiceFunction(servicefunction, RemoveFriend);
 	mi.pszService = servicefunction;
 	mi.position = 2000070000;
@@ -1201,7 +1201,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	//block user
 	mir_strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "BlockFriend");
+	mir_strcat(servicefunction, "BlockFriend");
 	CreateServiceFunction(servicefunction, BlockFriend);
 	mi.pszService = servicefunction;
 	mi.position = 2000070000;
@@ -1212,7 +1212,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	//my fire profile
 	mir_strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "GotoProfile2");
+	mir_strcat(servicefunction, "GotoProfile2");
 	CreateServiceFunction(servicefunction, GotoProfile2);
 	mi.pszService = servicefunction;
 	mi.position = 500090000;
@@ -1223,7 +1223,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	//my activity protocol
 	mir_strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "GotoProfileAct");
+	mir_strcat(servicefunction, "GotoProfileAct");
 	CreateServiceFunction(servicefunction, GotoProfileAct);
 	mi.pszService = servicefunction;
 	mi.position = 500090000;
@@ -1234,7 +1234,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	//rescan my games
 	mir_strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "ReScanMyGames");
+	mir_strcat(servicefunction, "ReScanMyGames");
 	CreateServiceFunction(servicefunction, ReScanMyGames);
 	mi.pszService = servicefunction;
 	mi.position = 500090000;
@@ -1244,7 +1244,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	Menu_AddMainMenuItem(&mi);
 
 	mir_strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "SetNick");
+	mir_strcat(servicefunction, "SetNick");
 	CreateServiceFunction(servicefunction, SetNickDlg);
 	mi.pszService = servicefunction;
 	mi.position = 500090000;
@@ -1876,7 +1876,7 @@ BOOL GetAvatar(char* username, XFireAvatar* av)
 					{
 						char filename[512];
 						mir_strcpy(filename, XFireGetFoldersPath("Avatar"));
-						strcat(filename, username);
+						mir_strcat(filename, username);
 
 						pos++;
 						//gif?!?!
@@ -1885,12 +1885,12 @@ BOOL GetAvatar(char* username, XFireAvatar* av)
 							*(pos + 2) == 'f')
 						{
 							av->type = PA_FORMAT_GIF;
-							strcat(filename, ".gif");
+							mir_strcat(filename, ".gif");
 						}
 						else//dann kanns nur jpg sein
 						{
 							av->type = PA_FORMAT_JPEG;
-							strcat(filename, ".jpg");
+							mir_strcat(filename, ".jpg");
 						}
 
 						//verusch das bild runterladen

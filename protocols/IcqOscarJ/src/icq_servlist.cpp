@@ -1484,8 +1484,8 @@ char *CIcqProto::getServListGroupCListPath(WORD wGroupId)
 
 				/// FIXME: properly handle ~N suffixes
 				szParentGroup = (char*)SAFE_REALLOC(szParentGroup, mir_strlen(szGroup) + mir_strlen(szParentGroup) + 2);
-				strcat(szParentGroup, "\\");
-				strcat(szParentGroup, (char*)szGroup + nGroupLevel);
+				mir_strcat(szParentGroup, "\\");
+				mir_strcat(szParentGroup, (char*)szGroup + nGroupLevel);
 
 				SAFE_FREE((void**)&szGroup);
 				szGroup = szParentGroup;
@@ -1552,8 +1552,8 @@ char* CIcqProto::getServListUniqueGroupName(const char *szGroupName, int bAlloce
 			szNewGroupName = (char*)SAFE_MALLOC(mir_strlen(szUnique) + mir_strlen(szGroupNameBase) + 2);
 			if (szNewGroupName) {
 				mir_strcpy(szNewGroupName, szGroupNameBase);
-				strcat(szNewGroupName, "~");
-				strcat(szNewGroupName, szUnique);
+				mir_strcat(szNewGroupName, "~");
+				mir_strcat(szNewGroupName, szUnique);
 			}
 		}
 	}
@@ -1587,8 +1587,8 @@ int CIcqProto::servlistCreateGroup_gotParentGroup(const char *szGroup, WORD wGro
 	szSubGroup = (char*)SAFE_MALLOC(mir_strlen(szGroup) + mir_strlen(szSubGroupName) + 2);
 	if (szSubGroup) {
 		mir_strcpy(szSubGroup, szGroup);
-		strcat(szSubGroup, "\\");
-		strcat(szSubGroup, szSubGroupName);
+		mir_strcat(szSubGroup, "\\");
+		mir_strcat(szSubGroup, szSubGroupName);
 	}
 
 	if (nResult == PENDING_RESULT_SUCCESS) // if we got an id count level
@@ -2148,7 +2148,7 @@ void CIcqProto::servlistRenameGroup(char *szGroup, WORD wGroupId, char *szNewGro
 		for (i = 0; i < nGroupLevel; i++) { // create level prefix
 			szNewGroupName[i] = '>';
 		}
-		strcat(szNewGroupName, szGroupName);
+		mir_strcat(szNewGroupName, szGroupName);
 	}
 	else // simple groups do not require any conversion
 		szNewGroupName = null_strdup(szNewGroup);

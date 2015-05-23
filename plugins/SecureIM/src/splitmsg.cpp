@@ -72,7 +72,7 @@ LPSTR combineMessage(pUinKey ptr, LPSTR szMsg)
 		SAFE_FREE(ptr->tmp);
 		ptr->tmp = (LPSTR)mir_alloc(len + 1); *(ptr->tmp) = '\0';
 		for (i = 0; i < part_all; i++) {
-			strcat(ptr->tmp, pm->message[i]);
+			mir_strcat(ptr->tmp, pm->message[i]);
 			delete pm->message[i];
 		}
 		delete pm->message;

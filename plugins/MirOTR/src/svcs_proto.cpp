@@ -140,7 +140,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 		size_t len = (mir_strlen(options.prefix)+mir_strlen(newmessage)+1)*sizeof(char);
 		char* tmp = (char*)mir_alloc( len );
 		mir_strcpy(tmp, options.prefix);
-		strcat(tmp, newmessage);
+		mir_strcat(tmp, newmessage);
 		msg_free(newmessage);
 		newmessage = tmp;
 		msg_free = mir_free;

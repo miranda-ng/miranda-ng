@@ -144,7 +144,7 @@ extern "C" int __declspec(dllexport) Load()
 		*strTmp = '\0';
 
 	// Set vars
-	strcat(gMirandaDir, "\\");
+	mir_strcat(gMirandaDir, "\\");
 	mir_strcpy(gIniFile, gMirandaDir);
 
 	// Store last pos
@@ -561,7 +561,7 @@ void DeleteFileOrFolder(const char *name)
 				*strTmp = '\0';
 			}
 			else {
-				strcat(tmp, "\\");
+				mir_strcat(tmp, "\\");
 				strTmp = &tmp[mir_strlen(tmp)];
 			}
 

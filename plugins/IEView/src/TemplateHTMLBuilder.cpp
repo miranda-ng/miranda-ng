@@ -347,7 +347,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	TemplateMap *tmpm = getTemplateMap(protoSettings);
 	if (tmpm != NULL) {
 		mir_strcpy(tempBase, "file://");
-		strcat(tempBase, tmpm->getFilename());
+		mir_strcat(tempBase, tmpm->getFilename());
 		char* pathrun = tempBase + mir_strlen(tempBase);
 		while ((*pathrun != '\\' && *pathrun != '/') && (pathrun > tempBase)) pathrun--;
 		pathrun++;

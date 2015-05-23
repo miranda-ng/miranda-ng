@@ -123,7 +123,7 @@ void additem(HWND hwnd2Settings, MCONTACT hContact, char* module, char* setting,
 			for (int j = 0; j < dbv.cpbVal; j++) {
 				char tmp[16];
 				mir_snprintf(tmp, SIZEOF(tmp), "%02X ", (BYTE)dbv.pbVal[j]);
-				strcat(data, tmp);
+				mir_strcat(data, tmp);
 			}
 			lvi.iImage = 0;
 			ListView_SetItem(hwnd2Settings, &lvi);
@@ -625,7 +625,7 @@ void EditLabel(HWND hwnd2List, int item, int subitem)
 
 			for (j = 0; j < dbv.cpbVal; j++) {
 				mir_snprintf(tmp, SIZEOF(tmp), "%02X ", (BYTE)dbv.pbVal[j]);
-				strcat(data, tmp);
+				mir_strcat(data, tmp);
 			}
 
 			info->hwnd2Edit = CreateWindow("EDIT", data, WS_BORDER | WS_VISIBLE | WS_CHILD | WS_VSCROLL | ES_MULTILINE, rc.left, rc.top, (int)((rc.right - rc.left)*1.5), (rc.bottom - rc.top) * 3, hwnd2List, 0, hInst, 0);

@@ -526,8 +526,8 @@ char* CIcqProto::buildUinList(int subtype, size_t wMaxLen, MCONTACT *hContactRes
 					return szList;
 				}
 
-				strcat(szList, szLen);
-				strcat(szList, szUID);
+				mir_strcat(szList, szLen);
+				mir_strcat(szList, szUID);
 			}
 		}
 

@@ -1299,7 +1299,7 @@ void ApplyProtoSettings(HWND hDlg)
 		p->inspecting = ListView_GetCheckState(hLV, i);
 		char tmp[128];
 		mir_snprintf(tmp, SIZEOF(tmp), "%s:%d:%d:%d;", p->name, p->inspecting, p->tsplit_on, p->tsplit_off);
-		strcat(szNames, tmp);
+		mir_strcat(szNames, tmp);
 		p->split_on = p->tsplit_on;
 		p->split_off = p->tsplit_off;
 		i = ListView_GetNextItem(hLV, i, LVNI_ALL);

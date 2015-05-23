@@ -243,7 +243,7 @@ void Scan4Games(LPVOID lparam)
 	}
 
 	mir_strcpy(inipath, XFireGetFoldersPath("IniFile"));
-	strcat(inipath, "xfire_games.ini");
+	mir_strcat(inipath, "xfire_games.ini");
 
 	//erstmal db säubern
 	xgamelist.clearDatabase();
@@ -329,9 +329,9 @@ void Scan4Games(LPVOID lparam)
 							if (xfire_GetPrivateProfileString(temp, "LauncherDirAppend", "", ret2, 255, inipath))
 							{
 								if (*(path + mir_strlen(path) - 1) == '\\'&&*(ret2) == '\\')
-									strcat(path, (ret2 + 1));
+									mir_strcat(path, (ret2 + 1));
 								else
-									strcat(path, ret2);
+									mir_strcat(path, ret2);
 							}
 
 							if (xfire_GetPrivateProfileString(temp, "LauncherDirTruncAt", "", ret2, 255, inipath))
@@ -355,7 +355,7 @@ void Scan4Games(LPVOID lparam)
 							}
 
 							if (*(path + mir_strlen(path) - 1) != '\\')
-								strcat(path, "\\");
+								mir_strcat(path, "\\");
 
 
 							//dateiname auslesen
@@ -363,7 +363,7 @@ void Scan4Games(LPVOID lparam)
 							{
 								char pathtemp[XFIRE_MAX_STATIC_STRING_LEN];
 								mir_strcpy(pathtemp, path);
-								strcat(pathtemp, ret2);
+								mir_strcat(pathtemp, ret2);
 
 								if (CheckPath(pathtemp))
 								{
@@ -375,11 +375,11 @@ void Scan4Games(LPVOID lparam)
 										//wenn backslash bei detectexe, dann diesen skippen (eveonline bug)
 										if (ret[0] == '\\')
 										{
-											strcat(pathtemp, (char*)&ret[1]);
+											mir_strcat(pathtemp, (char*)&ret[1]);
 										}
 										else
 										{
-											strcat(pathtemp, ret);
+											mir_strcat(pathtemp, ret);
 										}
 
 										if (CheckPath(pathtemp))
@@ -394,7 +394,7 @@ void Scan4Games(LPVOID lparam)
 									else if (xfire_GetPrivateProfileString(temp, "LauncherExe", "", ret2, 255, inipath))
 									{
 										cutforlaunch = path + mir_strlen(path);
-										strcat(path, ret2);
+										mir_strcat(path, ret2);
 									}
 								}
 								else
@@ -405,7 +405,7 @@ void Scan4Games(LPVOID lparam)
 							else if (xfire_GetPrivateProfileString(temp, "DetectExe[0]", "", ret2, 255, inipath))
 							{
 								cutforlaunch = path + mir_strlen(path);
-								strcat(path, ret2);
+								mir_strcat(path, ret2);
 								multiexe = TRUE;
 								if (!CheckPath(path, path_r))
 								{
@@ -419,11 +419,11 @@ void Scan4Games(LPVOID lparam)
 								//wenn backslash bei detectexe, dann diesen skippen (eveonline bug)
 								if (ret2[0] == '\\')
 								{
-									strcat(path, (char*)&ret2[1]);
+									mir_strcat(path, (char*)&ret2[1]);
 								}
 								else
 								{
-									strcat(path, ret2);
+									mir_strcat(path, ret2);
 								}
 
 								if (!CheckPath(path, path_r))
@@ -434,7 +434,7 @@ void Scan4Games(LPVOID lparam)
 							else if (xfire_GetPrivateProfileString(temp, "LauncherExe", "", ret2, 255, inipath))
 							{
 								cutforlaunch = path + mir_strlen(path);
-								strcat(path, ret2);
+								mir_strcat(path, ret2);
 							}
 
 
@@ -476,7 +476,7 @@ void Scan4Games(LPVOID lparam)
 												pos++;
 												*pos = 0;
 											}
-											strcat(path, ret2);
+											mir_strcat(path, ret2);
 											if (!CheckPath(path))
 											{
 												*(path) = 0;
@@ -510,7 +510,7 @@ void Scan4Games(LPVOID lparam)
 								//letzten backslash entfernen
 								if (launchpath[mir_strlen(launchpath) - 1] == '\\') launchpath[mir_strlen(launchpath) - 1] = 0;
 
-								strcat(path, ret2);
+								mir_strcat(path, ret2);
 
 								newgame->setString(path, &newgame->launchparams);
 								newgame->appendString(" ", &newgame->launchparams);
@@ -566,10 +566,10 @@ void Scan4Games(LPVOID lparam)
 
 								newgame->setNameandIcon();
 
-								strcat(gamelist, gamename);
-								strcat(gamelist, ", ");
+								mir_strcat(gamelist, gamename);
+								mir_strcat(gamelist, ", ");
 								if (foundgames % 2 == 1)
-									strcat(gamelist, "\r\n");
+									mir_strcat(gamelist, "\r\n");
 
 								xgamelist.Addgame(newgame);
 
@@ -589,8 +589,8 @@ void Scan4Games(LPVOID lparam)
 			{
 				if (xfire_GetPrivateProfileString(temp, "LauncherExe", "", ret, 255, inipath))
 				{
-					strcat(ret2, "\\");
-					strcat(ret2, ret);
+					mir_strcat(ret2, "\\");
+					mir_strcat(ret2, ret);
 				}
 
 				str_replace(ret2, "%WINDIR%", getenv("WINDIR"));
@@ -668,10 +668,10 @@ void Scan4Games(LPVOID lparam)
 
 					newgame->setNameandIcon();
 
-					strcat(gamelist, gamename);
-					strcat(gamelist, ", ");
+					mir_strcat(gamelist, gamename);
+					mir_strcat(gamelist, ", ");
 					if (foundgames % 2 == 1)
-						strcat(gamelist, "\r\n");
+						mir_strcat(gamelist, "\r\n");
 
 					xgamelist.Addgame(newgame);
 

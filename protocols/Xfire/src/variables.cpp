@@ -174,7 +174,7 @@ char* XFireGetFoldersPath(char * pathtype)
 		if (!mir_strcmp(pathtype, "IconsFile")){
 			FoldersGetCustomPath(XFireIconFolder, path, 1024, "");
 		}
-		strcat(path, "\\");
+		mir_strcat(path, "\\");
 		return path;
 	}
 	else {
@@ -183,7 +183,7 @@ char* XFireGetFoldersPath(char * pathtype)
 		char CurProfileF[MAX_PATH] = "";
 		char CurProfile[MAX_PATH] = "";
 		CallService(MS_DB_GETPROFILEPATH, (WPARAM)MAX_PATH, (LPARAM)BaseFolder);
-		strcat(BaseFolder, "\\");
+		mir_strcat(BaseFolder, "\\");
 		CallService(MS_DB_GETPROFILENAME, (WPARAM)MAX_PATH, (LPARAM)CurProfileF);
 		int i;
 		for (i = MAX_PATH - 1; i > 5; i--){
@@ -193,16 +193,16 @@ char* XFireGetFoldersPath(char * pathtype)
 			}
 		}
 		memcpy(CurProfile, CurProfileF, i);
-		strcat(BaseFolder, CurProfile);
-		strcat(BaseFolder, "\\");
-		strcat(BaseFolder, "XFire");
-		strcat(BaseFolder, "\\");
+		mir_strcat(BaseFolder, CurProfile);
+		mir_strcat(BaseFolder, "\\");
+		mir_strcat(BaseFolder, "XFire");
+		mir_strcat(BaseFolder, "\\");
 		/*******BASE********/
 		if (!mir_strcmp(pathtype, "Avatar")){
-			strcat(BaseFolder, "Avatars");
-			strcat(BaseFolder, "\\");
+			mir_strcat(BaseFolder, "Avatars");
+			mir_strcat(BaseFolder, "\\");
 		}
-		strcat(path, BaseFolder);
+		mir_strcat(path, BaseFolder);
 	}
 	return path;
 }

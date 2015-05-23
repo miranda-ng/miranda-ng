@@ -106,8 +106,8 @@ void NotifyUser(Account *curAcc)
 			mir_strcpy(ppd.lpzContactName, curAcc->results.content);
 			resultLink *prst = curAcc->results.next;
 			for (int i = 0; i < 5 && i < newMails; i++) {
-				strcat(ppd.lpzText, prst->content);
-				strcat(ppd.lpzText, "\n");
+				mir_strcat(ppd.lpzText, prst->content);
+				mir_strcat(ppd.lpzText, "\n");
 				prst = prst->next;
 			}
 			ppd.colorBack = opt.popupBgColor;

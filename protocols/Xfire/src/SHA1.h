@@ -27,7 +27,7 @@
 
 #include <stdio.h>  // Needed for file access
 #include <memory.h> // Needed for memset and memcpy
-#include <string.h> // Needed for strcat and mir_strcpy
+#include <string.h> // Needed for mir_strcat and mir_strcpy
 #include <iostream>
 
 #include <stdlib.h>

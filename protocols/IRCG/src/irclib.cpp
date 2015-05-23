@@ -178,7 +178,7 @@ void CIrcProto::SendIrcMessage(const TCHAR* msg, bool bNotify, int codepage)
 		rtrim(str);
 		int cbLen = (int)mir_strlen(str);
 		str = (char*)mir_realloc(str, cbLen + 3);
-		strcat(str, "\r\n");
+		mir_strcat(str, "\r\n");
 		NLSend((const BYTE*)str, cbLen + 2);
 		mir_free(str);
 

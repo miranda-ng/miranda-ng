@@ -230,7 +230,7 @@ bool bReadConfigurationFile() {
 
 	char szBuf[1000];
 	mir_strcpy(szBuf, szPluginPath);
-	strcat(szBuf, szConfigFile);
+	mir_strcat(szBuf, szConfigFile);
 	HANDLE hFile = CreateFile(szBuf, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 
 		NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
@@ -330,7 +330,7 @@ bool bWriteConfigurationFile() {
 	CLFileShareListAccess clCritSection;
 	char szBuf[1000];
 	mir_strcpy(szBuf, szPluginPath);
-	strcat(szBuf, szConfigFile);
+	mir_strcat(szBuf, szConfigFile);
 	HANDLE hFile = CreateFile(szBuf, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) {
 		TCHAR temp[200];

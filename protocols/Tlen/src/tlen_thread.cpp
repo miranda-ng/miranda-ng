@@ -565,9 +565,9 @@ static void TlenProcessIqGetVersion(TlenProtocol *proto, XmlNode *node)
 
 	mir_strcpy(mversion, "Miranda NG ");
 	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof( mversion ) - 11, ( LPARAM )mversion + 11 );
-	strcat(mversion, " (Tlen v.");
-	strcat(mversion, TLEN_VERSION_STRING);
-	strcat(mversion, ")");
+	mir_strcat(mversion, " (Tlen v.");
+	mir_strcat(mversion, TLEN_VERSION_STRING);
+	mir_strcat(mversion, ")");
 	mver = TlenTextEncode( mversion );
 	TlenSend( proto, "<message to='%s' type='iq'><iq type='result'><query xmlns='jabber:iq:version'><name>%s</name><version>%s</version><os>%s</os></query></iq></message>", from, mver?mver:"", version?version:"", os?os:"" );
 	if (!item->versionRequested) {
@@ -1132,8 +1132,8 @@ static void TlenProcessP(XmlNode *node, ThreadData *info)
 			iStr = TlenXmlGetAttrValue(iNode, "i");
 			temp = (char*)mir_alloc(mir_strlen(f)+mir_strlen(iStr)+2);
 			mir_strcpy(temp, f);
-			strcat(temp, "/");
-			strcat(temp, iStr);
+			mir_strcat(temp, "/");
+			mir_strcat(temp, iStr);
 			f = TlenTextDecode(temp);
 			mir_free(temp);
 			node = iNode;

@@ -301,7 +301,7 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	switch (logOptions.timeFormat) {
 	case TIMEFORMAT_HHMMSS:
 		GetTimeFormatA(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, NULL, NULL, szTime, SIZEOF(szTime));
-		strcat(szTime, " ");
+		mir_strcat(szTime, " ");
 		break;
 
 	case TIMEFORMAT_MILLISECONDS:

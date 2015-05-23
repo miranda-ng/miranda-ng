@@ -54,8 +54,8 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo, MCONTACT hcontact, c
 
 	switch (buddyinfo->avatarmode) {
 	case 1:
-		strcat(filename, username);
-		strcat(filename, ".gif");
+		mir_strcat(filename, username);
+		mir_strcat(filename, ".gif");
 		type = PA_FORMAT_GIF;
 
 		mir_snprintf(temp, SIZEOF(temp), "/xfire/xf/images/avatars/gallery/default/%03d.gif", buddyinfo->avatarid);
@@ -63,8 +63,8 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo, MCONTACT hcontact, c
 		dl = GetWWWContent("media.xfire.com", temp, filename, FALSE);
 		break;
 	case 2:
-		strcat(filename, username);
-		strcat(filename, ".jpg");
+		mir_strcat(filename, username);
+		mir_strcat(filename, ".jpg");
 		type = PA_FORMAT_JPEG;
 
 		mir_snprintf(temp, SIZEOF(temp), "/avatar/100/%s.jpg?%d", username, buddyinfo->avatarid);
@@ -73,7 +73,7 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo, MCONTACT hcontact, c
 		break;
 	case 3:
 		type = PA_FORMAT_GIF;
-		strcat(filename, "xfire.gif");
+		mir_strcat(filename, "xfire.gif");
 
 		mir_snprintf(temp, SIZEOF(temp), "/xfire/xf/images/avatars/gallery/default/xfire.gif", buddyinfo->avatarid);
 

@@ -386,8 +386,8 @@ static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates)
 		}
 		else {
 			CallProtoService(proto->getProtocolName(), PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
-			//			strcat(protoName, " ");
-			//		strcat(protoName, Translate("protocol"));
+			//			mir_strcat(protoName, " ");
+			//		mir_strcat(protoName, Translate("protocol"));
 		}
 		tvi.item.pszText = mir_a2t(protoName);
 		tvi.item.lParam = (LPARAM)proto;

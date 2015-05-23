@@ -263,7 +263,7 @@ void NormalizeBackslash(char* path)
 {
 	size_t len = mir_strlen(path);
 	if (len && path[len-1] != '\\')
-		strcat(path, "\\");
+		mir_strcat(path, "\\");
 }
 
 /* a file transfer looks like this:
@@ -377,10 +377,10 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, size_t wL
 			char *szFullPath = (char*)SAFE_MALLOC(mir_strlen(dc->ft->szSavePath) + mir_strlen(dc->ft->szThisSubdir) + mir_strlen(dc->ft->szThisFile) + 3);
 			mir_strcpy(szFullPath, dc->ft->szSavePath);
 			NormalizeBackslash(szFullPath);
-			strcat(szFullPath, dc->ft->szThisSubdir);
+			mir_strcat(szFullPath, dc->ft->szThisSubdir);
 			NormalizeBackslash(szFullPath);
 			//			_chdir(szFullPath); // set current dir - not very useful
-			strcat(szFullPath, dc->ft->szThisFile);
+			mir_strcat(szFullPath, dc->ft->szThisFile);
 			// we joined the full path to dest file
 			SAFE_FREE(&dc->ft->szThisFile);
 			dc->ft->szThisFile = szFullPath;

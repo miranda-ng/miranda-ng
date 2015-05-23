@@ -276,7 +276,7 @@ char* copyReplaceString(char* oldStr, char* newStr, char* findStr, char* replace
 	while (oldStr[i] != '\0') {
 		//	msg(&oldStr[i],"");
 		if (!strncmp(&oldStr[i], findStr, mir_strlen(findStr))) {
-			strcat(newStr, replaceWithStr);
+			mir_strcat(newStr, replaceWithStr);
 			i += (int)mir_strlen(findStr);
 		}
 		else {
@@ -532,7 +532,7 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 			mir_strcpy(tooltip, &line[i]);
 			fgets(line, 2000, file);
 			while (!strstr(line, "</tooltip>\r\n")) {
-				strcat(tooltip, line);
+				mir_strcat(tooltip, line);
 				fgets(line, 2000, file);
 			}
 			// the line that has the </tooltip>
@@ -561,27 +561,27 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 			mir_snprintf(msg, size, "Do you want to import this Non-IM Contact?\r\n\r\nName: %s\r\n", name);
 			if (program) {
 				msg = (char*)realloc(msg, mir_strlen(msg) + mir_strlen(program) + mir_strlen("Program: \r\n") + 1);
-				strcat(msg, "Program: ");
-				strcat(msg, program);
-				strcat(msg, "\r\n");
+				mir_strcat(msg, "Program: ");
+				mir_strcat(msg, program);
+				mir_strcat(msg, "\r\n");
 			}
 			if (programparam) {
 				msg = (char*)realloc(msg, mir_strlen(msg) + mir_strlen(programparam) + mir_strlen("Program Parameters: \r\n") + 1);
-				strcat(msg, "Program Parameters: ");
-				strcat(msg, programparam);
-				strcat(msg, "\r\n");
+				mir_strcat(msg, "Program Parameters: ");
+				mir_strcat(msg, programparam);
+				mir_strcat(msg, "\r\n");
 			}
 			if (tooltip) {
 				msg = (char*)realloc(msg, mir_strlen(msg) + mir_strlen(tooltip) + mir_strlen("ToolTip: \r\n") + 1);
-				strcat(msg, "ToolTip: ");
-				strcat(msg, tooltip);
-				strcat(msg, "\r\n");
+				mir_strcat(msg, "ToolTip: ");
+				mir_strcat(msg, tooltip);
+				mir_strcat(msg, "\r\n");
 			}
 			if (group) {
 				msg = (char*)realloc(msg, mir_strlen(msg) + mir_strlen(group) + mir_strlen("Group: \r\n") + 1);
-				strcat(msg, "Group: ");
-				strcat(msg, group);
-				strcat(msg, "\r\n");
+				mir_strcat(msg, "Group: ");
+				mir_strcat(msg, group);
+				mir_strcat(msg, "\r\n");
 			}
 			if (icon) {
 				char tmp[64];
@@ -610,7 +610,7 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 				char *msgtemp = (char*)realloc(msg, mir_strlen(msg) + mir_strlen(tmp) + 1);
 				if (msgtemp) {
 					msg = msgtemp;
-					strcat(msg, tmp);
+					mir_strcat(msg, tmp);
 				}
 			}
 			if (usetimer && timer) {
@@ -622,7 +622,7 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 				char *msgtemp = (char*)realloc(msg, mir_strlen(msg) + mir_strlen(tmp) + 1);
 				if (msgtemp) {
 					msg = msgtemp;
-					strcat(msg, tmp);
+					mir_strcat(msg, tmp);
 				}
 			}
 

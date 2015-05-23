@@ -115,13 +115,13 @@ bool CMsnProto::p2p_createListener(filetransfer* ft, directconnection *dc, MimeH
 	NETLIBIPLIST* ihaddr = (NETLIBIPLIST*)CallService(MS_NETLIB_GETMYIP, 1, 0);
 	for (unsigned i = 0; i < ihaddr->cbNum; ++i) {
 		if (strchr(ihaddr->szIp[i], ':')) {
-			if (i6++ != 0) strcat(szIpv6, " ");
-			strcat(szIpv6, ihaddr->szIp[i]);
+			if (i6++ != 0) mir_strcat(szIpv6, " ");
+			mir_strcat(szIpv6, ihaddr->szIp[i]);
 		}
 		else {
-			if (i4++ != 0) strcat(szIpv4, " ");
+			if (i4++ != 0) mir_strcat(szIpv4, " ");
 			ipInt |= (mir_strcmp(ihaddr->szIp[i], szExtIp) == 0);
-			strcat(szIpv4, ihaddr->szIp[i]);
+			mir_strcat(szIpv4, ihaddr->szIp[i]);
 		}
 	}
 	mir_free(ihaddr);
