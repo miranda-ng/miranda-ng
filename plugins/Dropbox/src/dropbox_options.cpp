@@ -58,7 +58,7 @@ int CDropbox::OnOptionsInitialized(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.ptszGroup = LPGENT("Network");
 
-	odp.ptszTab = LPGENT("Dropbox");
+	odp.ptszTab = _T("Dropbox");
 	odp.pDialog = CDropboxOptionsMain::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 
