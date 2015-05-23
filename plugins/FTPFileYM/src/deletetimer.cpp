@@ -53,7 +53,7 @@ void DeleteTimer::stop()
 
 void CALLBACK DeleteTimer::AutoDeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) 
 {
-	Lock *lock = new Lock(DBEntry::mutexDB);
+	mir_cslock lock(DBEntry::mutexDB);
 
 	DBEntry *entry = DBEntry::getFirts();
 	while (entry != NULL)
@@ -66,6 +66,4 @@ void CALLBACK DeleteTimer::AutoDeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR id
 
 		entry = DBEntry::getNext(entry);
 	}
-
-	delete lock;
 }

@@ -41,7 +41,7 @@ private:
 	double lastSpeed[10];
 	double avgSpeed;
 
-	static Mutex mutexJobCount;
+	static mir_cs mutexJobCount;
 	static int iRunningJobCount;
 
 	char *getChmodString();

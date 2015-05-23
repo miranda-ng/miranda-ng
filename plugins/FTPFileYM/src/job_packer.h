@@ -33,7 +33,7 @@ private:
 	time_t lastUpdateTick;
 
 	static Event jobDone;
-	static Mutex mutexJobCount;
+	static mir_cs mutexJobCount;
 	static int iRunningJobCount;
 
 	static void waitingThread(void *arg); 

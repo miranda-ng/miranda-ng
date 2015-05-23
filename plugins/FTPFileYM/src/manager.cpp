@@ -120,7 +120,7 @@ void Manager::fillTree()
 	tvi.item.stateMask = TVIS_STATEIMAGEMASK;
 	tvi.item.state = TreeItem::_UNCHECKED();
 
-	Lock *lock = new Lock(DBEntry::mutexDB);
+	mir_cslock lock(DBEntry::mutexDB);
 
 	DBEntry *entry = DBEntry::getFirts();
 	while (entry != NULL)
@@ -136,8 +136,6 @@ void Manager::fillTree()
 
 		entry = DBEntry::getNext(entry);
 	}
-
-	delete lock;
 }
 
 int Manager::indexOf(HTREEITEM handle)
