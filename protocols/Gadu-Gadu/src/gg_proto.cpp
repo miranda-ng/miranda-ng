@@ -328,25 +328,25 @@ HANDLE GGPROTO::SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, 
 	{
 		T2Utf nick_utf8(nick);
 		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nick_utf8);
-		strncat(data, nick_utf8, sizeof(data) - mir_strlen(data));
+		mir_strncat(data, nick_utf8, sizeof(data) - mir_strlen(data));
 	}
-	strncat(data, ".", sizeof(data) - mir_strlen(data));
+	mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	if (firstName)
 	{
 		T2Utf firstName_utf8(firstName);
 		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstName_utf8);
-		strncat(data, firstName_utf8, sizeof(data) - mir_strlen(data));
+		mir_strncat(data, firstName_utf8, sizeof(data) - mir_strlen(data));
 	}
-	strncat(data, ".", sizeof(data) - mir_strlen(data));
+	mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	if (lastName)
 	{
 		T2Utf lastName_utf8(lastName);
 		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastName_utf8);
-		strncat(data, lastName_utf8, sizeof(data) - mir_strlen(data));
+		mir_strncat(data, lastName_utf8, sizeof(data) - mir_strlen(data));
 	}
-	strncat(data, ".", sizeof(data) - mir_strlen(data));
+	mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	// Count crc & check if the data was equal if yes do same search with shift
 	crc = crc_get(data);
@@ -402,36 +402,36 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	{
 		T2Utf firstName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstName_utf8);
-		strncat(data, firstName_utf8, sizeof(data) - mir_strlen(data));
+		mir_strncat(data, firstName_utf8, sizeof(data) - mir_strlen(data));
 	}
-	/* 1 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
+	/* 1 */ mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_LASTNAME, text, SIZEOF(text));
 	if (mir_tstrlen(text))
 	{
 		T2Utf lastName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastName_utf8);
-		strncat(data, lastName_utf8, sizeof(data) - mir_strlen(data));
+		mir_strncat(data, lastName_utf8, sizeof(data) - mir_strlen(data));
 	}
-	/* 2 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
+	/* 2 */ mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_NICKNAME, text, SIZEOF(text));
 	if (mir_tstrlen(text))
 	{
 		T2Utf nickName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nickName_utf8);
-		strncat(data, nickName_utf8, sizeof(data) - mir_strlen(data));
+		mir_strncat(data, nickName_utf8, sizeof(data) - mir_strlen(data));
 	}
-	/* 3 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
+	/* 3 */ mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_CITY, text, SIZEOF(text));
 	if (mir_tstrlen(text))
 	{
 		T2Utf city_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_CITY, city_utf8);
-		strncat(data, city_utf8, sizeof(data) - mir_strlen(data));
+		mir_strncat(data, city_utf8, sizeof(data) - mir_strlen(data));
 	}
-	/* 4 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
+	/* 4 */ mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	GetDlgItemText(hwndDlg, IDC_AGEFROM, text, SIZEOF(text));
 	if (mir_tstrlen(text))
@@ -459,29 +459,29 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 
 		T2Utf age_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, age_utf8);
-		strncat(data, age_utf8, sizeof(data) - mir_strlen(data));
+		mir_strncat(data, age_utf8, sizeof(data) - mir_strlen(data));
 	}
-	/* 5 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
+	/* 5 */ mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	switch(SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_GETCURSEL, 0, 0))
 	{
 		case 1:
 			gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_FEMALE);
-			strncat(data, GG_PUBDIR50_GENDER_MALE, sizeof(data) - mir_strlen(data));
+			mir_strncat(data, GG_PUBDIR50_GENDER_MALE, sizeof(data) - mir_strlen(data));
 			break;
 		case 2:
 			gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_MALE);
-			strncat(data, GG_PUBDIR50_GENDER_FEMALE, sizeof(data) - mir_strlen(data));
+			mir_strncat(data, GG_PUBDIR50_GENDER_FEMALE, sizeof(data) - mir_strlen(data));
 			break;
 	}
-	/* 6 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
+	/* 6 */ mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	if (IsDlgButtonChecked(hwndDlg, IDC_ONLYCONNECTED))
 	{
 		gg_pubdir50_add(req, GG_PUBDIR50_ACTIVE, GG_PUBDIR50_ACTIVE_TRUE);
-		strncat(data, GG_PUBDIR50_ACTIVE_TRUE, sizeof(data) - mir_strlen(data));
+		mir_strncat(data, GG_PUBDIR50_ACTIVE_TRUE, sizeof(data) - mir_strlen(data));
 	}
-	/* 7 */ strncat(data, ".", sizeof(data) - mir_strlen(data));
+	/* 7 */ mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
 
 	// No data entered
 	if (mir_strlen(data) <= 7 || (mir_strlen(data) == 8 && IsDlgButtonChecked(hwndDlg, IDC_ONLYCONNECTED))) return (HWND)0;

@@ -253,14 +253,14 @@ void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply rep
 					INT_PTR status = CallProtoService(accounts[i]->szModuleName, PS_GETSTATUS, 0, 0);
 					PrettyStatusMode(status, pn, sizeof(pn));
 
-					strncat(perAccountStatus, "\n", cPerAccountStatus - mir_strlen(perAccountStatus));
+					mir_strncat(perAccountStatus, "\n", cPerAccountStatus - mir_strlen(perAccountStatus));
 
 					char *account = mir_u2a((wchar_t *) accounts[i]->tszAccountName);
-					strncat(perAccountStatus, account, cPerAccountStatus - mir_strlen(perAccountStatus));
+					mir_strncat(perAccountStatus, account, cPerAccountStatus - mir_strlen(perAccountStatus));
 					mir_free(account);
 
-					strncat(perAccountStatus, ": ", cPerAccountStatus - mir_strlen(perAccountStatus));
-					strncat(perAccountStatus, pn, cPerAccountStatus - mir_strlen(perAccountStatus));
+					mir_strncat(perAccountStatus, ": ", cPerAccountStatus - mir_strlen(perAccountStatus));
+					mir_strncat(perAccountStatus, pn, cPerAccountStatus - mir_strlen(perAccountStatus));
 				}
 			}
 
@@ -391,8 +391,8 @@ void HandleAwayMsgCommand(PCommand command, TArgument *argv, int argc, PReply re
 					
 					if (i != 0)
 					{
-						strncat(reply->message, "\n", reply->cMessage - mir_strlen(reply->message));
-						strncat(reply->message, buffer, reply->cMessage - mir_strlen(reply->message));
+						mir_strncat(reply->message, "\n", reply->cMessage - mir_strlen(reply->message));
+						mir_strncat(reply->message, buffer, reply->cMessage - mir_strlen(reply->message));
 					}
 					else{
 						STRNCPY(reply->message, buffer, reply->cMessage);
@@ -918,8 +918,8 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 				STRNCPY(reply->message, buffer, reply->cMessage);
 			}
 			else {
-				strncat(reply->message, "\n", reply->cMessage - mir_strlen(reply->message));
-				strncat(reply->message, buffer, reply->cMessage - mir_strlen(reply->message));
+				mir_strncat(reply->message, "\n", reply->cMessage - mir_strlen(reply->message));
+				mir_strncat(reply->message, buffer, reply->cMessage - mir_strlen(reply->message));
 			}
 		}
 	}
@@ -1287,8 +1287,8 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 	
 	if (reply->message[0] != 0)
 	{
-		strncat(reply->message, "\n", reply->cMessage - mir_strlen(reply->message));
-		strncat(reply->message, buffer, reply->cMessage - mir_strlen(reply->message));
+		mir_strncat(reply->message, "\n", reply->cMessage - mir_strlen(reply->message));
+		mir_strncat(reply->message, buffer, reply->cMessage - mir_strlen(reply->message));
 		reply->message[reply->cMessage - 1] = 0;
 	}
 	else{
@@ -1455,8 +1455,8 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 					mir_snprintf(buffer, SIZEOF(buffer), "%s:[%s]:%s (%08d)", contact, id, protocol, hContact);
 					if (count)
 					{
-						strncat(reply->message, "\n", reply->cMessage - mir_strlen(reply->message));
-						strncat(reply->message, buffer, reply->cMessage - mir_strlen(reply->message));
+						mir_strncat(reply->message, "\n", reply->cMessage - mir_strlen(reply->message));
+						mir_strncat(reply->message, buffer, reply->cMessage - mir_strlen(reply->message));
 					}
 					else{
 						STRNCPY(reply->message, buffer, reply->cMessage);
@@ -1532,8 +1532,8 @@ void AddHistoryEvent(DBEVENTINFO *dbEvent, char *contact, PReply reply)
 	
 	if (reply->message[0] != 0)
 	{
-		strncat(reply->message, "\n", reply->cMessage - mir_strlen(reply->message));
-		strncat(reply->message, buffer, reply->cMessage - mir_strlen(reply->message));
+		mir_strncat(reply->message, "\n", reply->cMessage - mir_strlen(reply->message));
+		mir_strncat(reply->message, buffer, reply->cMessage - mir_strlen(reply->message));
 	}
 	else{
 		STRNCPY(reply->message, buffer, reply->cMessage);
@@ -1586,8 +1586,8 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 							mir_snprintf(buffer, SIZEOF(buffer), Translate("%s:%s - %d unread events."), contact, protocol, count);
 
 							if (contacts > 0) {
-								strncat(reply->message, "\n", reply->cMessage - mir_strlen(reply->message));
-								strncat(reply->message, buffer, reply->cMessage - mir_strlen(reply->message));
+								mir_strncat(reply->message, "\n", reply->cMessage - mir_strlen(reply->message));
+								mir_strncat(reply->message, buffer, reply->cMessage - mir_strlen(reply->message));
 							}
 							else STRNCPY(reply->message, buffer, reply->cMessage);
 

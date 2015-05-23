@@ -63,7 +63,7 @@ bool LoadIndexHTMLTemplate() {
 	char* pszDestBuf = szDestBuf;
 
 	strncpy(pszBuf, szPluginPath, SIZEOF(szBuf)-1);
-	strncat(pszBuf, szIndexHTMLTemplateFile, SIZEOF(szBuf) - mir_strlen(szBuf));
+	mir_strncat(pszBuf, szIndexHTMLTemplateFile, SIZEOF(szBuf) - mir_strlen(szBuf));
 
 	HANDLE hFile = CreateFile(pszBuf, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
 	    NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -284,7 +284,7 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 	// check if directory exists
 	char szMask[MAX_PATH];
 	strncpy(szMask, pszRealPath, MAX_PATH- 1);
-	strncat(szMask, "*", SIZEOF(szMask) - mir_strlen(szMask));
+	mir_strncat(szMask, "*", SIZEOF(szMask) - mir_strlen(szMask));
 
 	WIN32_FIND_DATAA fdFindFileData;
 	HANDLE hFind = FindFirstFile(szMask, &fdFindFileData);

@@ -228,7 +228,7 @@ char *oauth_generate_nonce()
 	int strSizeB = int(mir_strlen(timestamp) + sizeof(randnum));
 	ptrA str((char *)mir_calloc(strSizeB + 1));
 	mir_strcpy(str, timestamp);
-	strncat(str, randnum, sizeof(randnum));
+	mir_strncat(str, randnum, sizeof(randnum));
 
 	BYTE digest[16];
 	mir_md5_hash((BYTE*)(char*)str, strSizeB, digest);

@@ -270,7 +270,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								PROTOFILETRANSFERSTATUS pfts;
 								local_dcc->tick = tick;
 								strncpy(filename, local_dcc->folder, sizeof(filename));
-								strncat(filename, (char*)local_dcc->file_info.filename, sizeof(filename) - mir_strlen(filename));
+								mir_strncat(filename, (char*)local_dcc->file_info.filename, sizeof(filename) - mir_strlen(filename));
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (MCONTACT)local_dcc->contact;
@@ -301,7 +301,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							{
 								PROTOFILETRANSFERSTATUS pfts;
 								strncpy(filename, local_dcc->folder, sizeof(filename));
-								strncat(filename, (char*)local_dcc->file_info.filename, sizeof(filename) - mir_strlen(filename));
+								mir_strncat(filename, (char*)local_dcc->file_info.filename, sizeof(filename) - mir_strlen(filename));
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (MCONTACT)local_dcc->contact;
@@ -500,7 +500,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								PROTOFILETRANSFERSTATUS pfts;
 								local_dcc7->tick = tick;
 								strncpy(filename, local_dcc7->folder, sizeof(filename));
-								strncat(filename, (char*)local_dcc7->filename, sizeof(filename) - mir_strlen(filename));
+								mir_strncat(filename, (char*)local_dcc7->filename, sizeof(filename) - mir_strlen(filename));
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (MCONTACT)local_dcc7->contact;
@@ -531,7 +531,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							{
 								PROTOFILETRANSFERSTATUS pfts;
 								strncpy(filename, local_dcc7->folder, sizeof(filename));
-								strncat(filename, (char*)local_dcc7->filename, sizeof(filename) - mir_strlen(filename));
+								mir_strncat(filename, (char*)local_dcc7->filename, sizeof(filename) - mir_strlen(filename));
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (MCONTACT)local_dcc7->contact;
@@ -667,7 +667,7 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 	struct gg_dcc *dcc = (struct gg_dcc *) hTransfer;
 	char fileName[MAX_PATH], *path = mir_t2a(szPath);
 	strncpy(fileName, path, sizeof(fileName));
-	strncat(fileName, (char*)dcc->file_info.filename, sizeof(fileName) - mir_strlen(fileName));
+	mir_strncat(fileName, (char*)dcc->file_info.filename, sizeof(fileName) - mir_strlen(fileName));
 	dcc->folder = _strdup((char *) path);
 	dcc->tick = 0;
 	mir_free(path);
@@ -709,7 +709,7 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 	char fileName[MAX_PATH], *path = mir_t2a(szPath);
 	int iFtRemoveRes;
 	strncpy(fileName, path, sizeof(fileName));
-	strncat(fileName, (char*)dcc7->filename, sizeof(fileName) - mir_strlen(fileName));
+	mir_strncat(fileName, (char*)dcc7->filename, sizeof(fileName) - mir_strlen(fileName));
 	dcc7->folder = _strdup((char *) path);
 	dcc7->tick = 0;
 	mir_free(path);

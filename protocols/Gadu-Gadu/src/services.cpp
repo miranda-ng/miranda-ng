@@ -43,7 +43,7 @@ char *gg_status2db(int status, const char *suffix)
 		default: return NULL;
 	}
 	strncpy(str, prefix, sizeof(str));
-	strncat(str, suffix, sizeof(str) - mir_strlen(str));
+	mir_strncat(str, suffix, sizeof(str) - mir_strlen(str));
 	return str;
 }
 

@@ -84,7 +84,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			GetDlgItemTextA(hwndDlg, IDC_SERVER, str, SIZEOF(str) - 1);
 			if (str[mir_strlen(str) - 1] != '/')
-				strncat(str, "/", SIZEOF(str) - mir_strlen(str));
+				mir_strncat(str, "/", SIZEOF(str) - mir_strlen(str));
 			db_set_s(0, proto->ModuleName(), TWITTER_KEY_BASEURL, str);
 
 			GetDlgItemText(hwndDlg, IDC_GROUP, tstr, SIZEOF(tstr));
@@ -231,7 +231,7 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			GetDlgItemTextA(hwndDlg, IDC_BASEURL, str, SIZEOF(str) - 1);
 			if (str[mir_strlen(str) - 1] != '/')
-				strncat(str, "/", SIZEOF(str) - mir_strlen(str));
+				mir_strncat(str, "/", SIZEOF(str) - mir_strlen(str));
 			db_set_s(0, proto->ModuleName(), TWITTER_KEY_BASEURL, str);
 
 			db_set_b(0, proto->ModuleName(), TWITTER_KEY_CHATFEED, IsDlgButtonChecked(hwndDlg, IDC_CHATFEED) != 0);
