@@ -105,11 +105,11 @@ TCHAR *GetContactID(MCONTACT hContact)
 
 #define XSTR(target, s) _xstrselect(target, s, _T(s))
 
-static __forceinline int _xcscmp(const char *s1, const char *s2) { return mir_strcmp(s1, s2); }
+static __forceinline int _xcscmp(const char *s1, const char *s2) { return strcmp(s1, s2); }
 static __forceinline int _xcsncmp(const char *s1, const char *s2, size_t n) { return strncmp(s1, s2, n); }
-static __forceinline size_t _xcslen(const char *s1) { return mir_strlen(s1); }
-static __forceinline char *_xcscpy(char *s1, const char *s2) { return mir_strcpy(s1, s2); }
-static __forceinline char *_xcsncpy(char *s1, const char *s2, size_t n) { return mir_strncpy(s1, s2, n); }
+static __forceinline size_t _xcslen(const char *s1) { return strlen(s1); }
+static __forceinline char *_xcscpy(char *s1, const char *s2) { return strcpy(s1, s2); }
+static __forceinline char *_xcsncpy(char *s1, const char *s2, size_t n) { return strncpy(s1, s2, n); }
 static __forceinline char *_xstrselect(char *, char *s1, TCHAR *s2) { return s1; }
 static __forceinline char *_itox(char *, int a) { return itoa(a, (char *)mir_alloc(sizeof(char)*20), 10); }
 static __forceinline char *mir_a2x(char *, char *s) { return mir_strdup(s); }
@@ -192,11 +192,11 @@ static __forceinline char *GetPathVarX(char *, int code)
 	return makeFileName(szFullPath);
 }
 
-static __forceinline int _xcscmp(const TCHAR *s1, const TCHAR *s2) { return mir_tstrcmp(s1, s2); }
+static __forceinline int _xcscmp(const TCHAR *s1, const TCHAR *s2) { return _tcscmp(s1, s2); }
 static __forceinline int _xcsncmp(const TCHAR *s1, const TCHAR *s2, size_t n) { return _tcsncmp(s1, s2, n); }
-static __forceinline size_t _xcslen(const TCHAR *s1) { return mir_tstrlen(s1); }
-static __forceinline TCHAR *_xcscpy(TCHAR *s1, const TCHAR *s2) { return mir_tstrcpy(s1, s2); }
-static __forceinline TCHAR *_xcsncpy(TCHAR *s1, const TCHAR *s2, size_t n) { return mir_tstrncpy(s1, s2, n); }
+static __forceinline size_t _xcslen(const TCHAR *s1) { return _tcslen(s1); }
+static __forceinline TCHAR *_xcscpy(TCHAR *s1, const TCHAR *s2) { return _tcscpy(s1, s2); }
+static __forceinline TCHAR *_xcsncpy(TCHAR *s1, const TCHAR *s2, size_t n) { return _tcsncpy(s1, s2, n); }
 static __forceinline TCHAR *_xstrselect(TCHAR *, char *s1, TCHAR *s2) { return s2; }
 static __forceinline TCHAR *_itox(TCHAR *, int a) { return _itot(a, (TCHAR *)mir_alloc(sizeof(TCHAR)*20), 10); }
 static __forceinline TCHAR *mir_a2x(TCHAR *, char *s) { return mir_a2t(s); }
