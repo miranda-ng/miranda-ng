@@ -381,8 +381,10 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = GetContactProto(ccs->hContact);
 	dbei.timestamp = pre->timestamp;
-	dbei.flags = DBEF_UTF | (pre->dwFlags & PREF_CREATEREAD) ? DBEF_READ : 0;
 	dbei.eventType = EVENTTYPE_FILE;
+	dbei.flags = DBEF_UTF;
+	if (pre->dwFlags & PREF_CREATEREAD)
+		dbei.flags |= DBEF_READ;
 
 	bool bUnicode = (pre->dwFlags & PRFF_UNICODE) == PRFF_UNICODE;
 
