@@ -113,7 +113,7 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
 	{
 		pMes = (PCWPRETSTRUCT)lParam; // Get message details
 		if (!hMirandaWnd)
-			hMirandaWnd = FindWindow(_T("Miranda"), NULL);
+			hMirandaWnd = (HWND) CallService(MS_CLUI_GETHWND,0,0);//FindWindow(_T("Miranda"), NULL);
 
 		if (pMes->hwnd == hMirandaWnd)
 		{
