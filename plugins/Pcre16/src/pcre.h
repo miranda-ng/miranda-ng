@@ -42,9 +42,9 @@ POSSIBILITY OF SUCH DAMAGE.
 /* The current PCRE version information. */
 
 #define PCRE_MAJOR          8
-#define PCRE_MINOR          35
-#define PCRE_PRERELEASE     
-#define PCRE_DATE           2014-04-04
+#define PCRE_MINOR          36
+#define PCRE_PRERELEASE     -RC1
+#define PCRE_DATE           2014-04-21
 
 /* When an application links to a PCRE DLL in Windows, the symbols that are
 imported have to be identified as such. When building PCRE, the appropriate
@@ -343,7 +343,7 @@ typedef struct real_pcre32_jit_stack pcre32_jit_stack;
 a 16 bit wide signed data type. Otherwise it can be a dummy data type since
 pcre16 functions are not implemented. There is a check for this in pcre_internal.h. */
 #ifndef PCRE_UCHAR16
-#define PCRE_UCHAR16 wchar_t
+#define PCRE_UCHAR16 unsigned short
 #endif
 
 #ifndef PCRE_SPTR16
