@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.3
+;  Version: 0.11.3.4
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -46,8 +46,6 @@
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
 [Messaging]
-[Enable unicode messaging support]
-[Send all messages in unicode if possible]
 [Use this codepage for Ansi <-> Unicode translation:]
 [Make me temporarily visible to contacts I send message to]
 [Notify me when a message delivery has failed]
