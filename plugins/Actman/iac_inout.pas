@@ -44,7 +44,7 @@ const
 
 const // V2
   ACF2_TXT_FILE = $00000001;
-  
+
 type
   tInOutAction = class(tBaseAction)
   private
@@ -269,20 +269,17 @@ begin
     if hContact=0 then exit;
 
     p:=GetContactProtoAcc(hContact);
-    cp:=DBReadDWord(hContact,'Tab_SRMsg','ANSIcodepage',MirandaCP);
     if DBReadByte(hContact,p,'ChatRoom',0)<>1 then
     begin
-      i:=WideToCombo(last,blob,cp);
-//          if CallContactService(hContact,PSS_MESSAGEW,0,TLPARAM(blob))=
-//             ACKRESULT_FAILED then
-      CallContactService(hContact,PSS_MESSAGE,PREF_UNICODE,tlparam(blob));
+      WidetoUTF8(last,blob);
+      CallContactService(hContact,PSS_MESSAGE,0,tlparam(blob));
       dbei.cbSize   :=sizeof(dbei);
-      dbei.cbBlob   :=i;
+      dbei.cbBlob   :=StrLen(blob);
       dbei.pBlob    :=pByte(blob);
       dbei.eventType:=EVENTTYPE_MESSAGE;
       dbei.timestamp:=GetCurrentTime;
       dbei.szModule :=p;
-      dbei.flags    :=DBEF_SENT;
+      dbei.flags    :=DBEF_SENT or DBEF_UTF;
       db_event_add(hContact, @dbei);
       mFreeMem(blob);
     end
@@ -576,7 +573,7 @@ begin
           CheckDlgButton(Dialog,IDC_FLAG_MESSAGE,BST_CHECKED);
 
           if (flags and ACF_TEXTSEND)<>0 then CheckDlgButton(Dialog,IDC_TEXT_SEND,BST_CHECKED);
-          
+
           SetSet(Dialog,2);
         end;
       end;

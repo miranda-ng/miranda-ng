@@ -182,9 +182,7 @@ const
   // for PSR_MESSAGE
 
   PREF_CREATEREAD =  1; // create the database event with the 'read' flag set
-  PREF_UNICODE    =  2;
   PREF_RTL        =  4; // 0.5+ addition: support for right-to-left messages
-  PREF_UTF        =  8; // message is in utf-8 (0.7.0+)
   PREF_SENT       = 16; // message will be created with the DBEF_SENT flag
 
   // for PS_FILERESUME
