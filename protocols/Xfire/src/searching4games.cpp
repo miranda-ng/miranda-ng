@@ -69,9 +69,9 @@ BOOL CheckPath(char*ppath, char*pathwildcard = NULL)
 
 					strncpy(temp, ppath,XFIRE_MAX_STATIC_STRING_LEN-1);
 					*(temp + mir_strlen(temp) - 1) = 0;
-					strncat(temp, wfd.cFileName, SIZEOF(temp) - mir_strlen(temp));
-					strncat(temp, "\\", SIZEOF(temp) - mir_strlen(temp));
-					strncat(temp, pos, SIZEOF(temp) - mir_strlen(temp));
+					mir_strncat(temp, wfd.cFileName, SIZEOF(temp) - mir_strlen(temp));
+					mir_strncat(temp, "\\", SIZEOF(temp) - mir_strlen(temp));
+					mir_strncat(temp, pos, SIZEOF(temp) - mir_strlen(temp));
 
 					if (GetFileAttributesA(temp) != 0xFFFFFFFF) { //exe vorhanden???? unt hint?
 						//gefundenes in path kopieren

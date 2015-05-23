@@ -247,7 +247,7 @@ char* multiReplace(const char* value, const char *find, const char *replace, int
 			temp = (char*)mir_realloc(temp, mir_strlen(temp) + mir_strlen(string) + replen + 1);
 			if (!temp) mir_tstrdup(value);
 
-			strncat(temp, string, (head - string));
+			mir_strncat(temp, string, (head - string));
 			string = head + len;
 			mir_strcat(temp, replace);
 

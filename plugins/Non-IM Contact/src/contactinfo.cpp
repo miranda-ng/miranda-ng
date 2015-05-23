@@ -280,7 +280,7 @@ char* copyReplaceString(char* oldStr, char* newStr, char* findStr, char* replace
 			i += (int)mir_strlen(findStr);
 		}
 		else {
-			strncat(newStr, &oldStr[i], 1);
+			mir_strncat(newStr, &oldStr[i], 1);
 			i++;
 		}
 	}
@@ -536,7 +536,7 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 				fgets(line, 2000, file);
 			}
 			// the line that has the </tooltip>
-			strncat(tooltip, line, SIZEOF(tooltip) - mir_strlen(tooltip));
+			mir_strncat(tooltip, line, SIZEOF(tooltip) - mir_strlen(tooltip));
 		}
 		else if (!strncmp(line, "Icon=", mir_strlen("Icon="))) {
 			i = (int)mir_strlen("Icon=");

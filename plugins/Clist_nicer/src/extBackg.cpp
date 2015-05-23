@@ -290,7 +290,7 @@ void LoadExtBkSettingsFromDB()
 		mir_snprintf(p->szDBname, SIZEOF(p->szDBname), "EXBK_%s", accs[i]->szModuleName);
 		if (i == 0) {
 			mir_strncpy(p->szName, "{-}", SIZEOF(p->szName));
-			strncat(p->szName, accs[i]->szModuleName, SIZEOF(p->szName) - mir_strlen(p->szName));
+			mir_strncat(p->szName, accs[i]->szModuleName, SIZEOF(p->szName) - mir_strlen(p->szName));
 		}
 		else mir_strncpy(p->szName, accs[i]->szModuleName, SIZEOF(p->szName));
 		p->statusID = ID_EXTBK_LAST;

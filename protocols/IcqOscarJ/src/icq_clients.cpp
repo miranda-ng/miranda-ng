@@ -514,12 +514,12 @@ const char* CIcqProto::detectUserClient(
 		}
 		else if (capId = MatchCapability(caps, wLen, &capmChat, 0xA)) {
 			mir_strcpy(szClientBuf, "mChat ");
-			strncat(szClientBuf, (char*)(*capId) + 0xA, 6);
+			mir_strncat(szClientBuf, (char*)(*capId) + 0xA, 6);
 			szClient = szClientBuf;
 		}
 		else if (capId = MatchCapability(caps, wLen, &capJimm, 5)) {
 			mir_strcpy(szClientBuf, "Jimm ");
-			strncat(szClientBuf, (char*)(*capId) + 5, 11);
+			mir_strncat(szClientBuf, (char*)(*capId) + 5, 11);
 			szClient = szClientBuf;
 		}
 		// http://corepager.net.ru/index/0-2
@@ -538,7 +538,7 @@ const char* CIcqProto::detectUserClient(
 		// http://darkjimm.ucoz.ru/
 		else if (capId = MatchCapability(caps, wLen, &capDiChat, 9)) {
 			mir_strcpy(szClientBuf, "D[i]Chat");
-			strncat(szClientBuf, (char*)(*capId) + 8, 8);
+			mir_strncat(szClientBuf, (char*)(*capId) + 8, 8);
 			szClient = szClientBuf;
 		}
 		else if (MatchCapability(caps, wLen, &capMacIcq))
@@ -569,31 +569,31 @@ const char* CIcqProto::detectUserClient(
 				makeClientVersion(szClientBuf, "MIP ", ver1, ver2, ver3, ver4);
 			else {
 				mir_strcpy(szClientBuf, "MIP ");
-				strncat(szClientBuf, (char*)(*capId) + 11, 5);
+				mir_strncat(szClientBuf, (char*)(*capId) + 11, 5);
 			}
 			szClient = szClientBuf;
 		}
 		//http://mip.rufon.net - new signature
 		else if (capId = MatchCapability(caps, wLen, &capMipClient, 0x04)) {
 			mir_strcpy(szClientBuf, "MIP ");
-			strncat(szClientBuf, (char*)(*capId) + 4, 12);
+			mir_strncat(szClientBuf, (char*)(*capId) + 4, 12);
 			szClient = szClientBuf;
 		}
 		else if (capId = MatchCapability(caps, wLen, &capVmIcq, 0x06)) {
 			mir_strcpy(szClientBuf, "VmICQ");
-			strncat(szClientBuf, (char*)(*capId) + 5, 11);
+			mir_strncat(szClientBuf, (char*)(*capId) + 5, 11);
 			szClient = szClientBuf;
 		}
 		// http://www.smape.com/smaper
 		else if (capId = MatchCapability(caps, wLen, &capSmapeR, 0x07)) {
 			mir_strcpy(szClientBuf, "SmapeR");
-			strncat(szClientBuf, (char*)(*capId) + 6, 10);
+			mir_strncat(szClientBuf, (char*)(*capId) + 6, 10);
 			szClient = szClientBuf;
 		}
 		// http://yapp.ru
 		else if (capId = MatchCapability(caps, wLen, &capYapp, 0x04)) {
 			mir_strcpy(szClientBuf, "Yapp! v");
-			strncat(szClientBuf, (char*)(*capId) + 8, 5);
+			mir_strncat(szClientBuf, (char*)(*capId) + 8, 5);
 			szClient = szClientBuf;
 		}
 		// http://www.dibsby.com (newer builds)
@@ -640,7 +640,7 @@ const char* CIcqProto::detectUserClient(
 		// http://www.barobin.com/bayanICQ.html
 		else if (capId = MatchCapability(caps, wLen, &capBayan, 8)) {
 			mir_strcpy(szClientBuf, "bayanICQ ");
-			strncat(szClientBuf, (char*)(*capId) + 8, 5);
+			mir_strncat(szClientBuf, (char*)(*capId) + 8, 5);
 			szClient = szClientBuf;
 		}
 		else if (capId = MatchCapability(caps, wLen, &capJabberJIT, 0x04))

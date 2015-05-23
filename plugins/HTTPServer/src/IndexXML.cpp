@@ -65,7 +65,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 										 const char * pszSrvPath, DWORD dwRemoteIP) {
 	char szMask[MAX_PATH+1];
 	strncpy(szMask, pszRealPath, MAX_PATH);
-	strncat(szMask, "*", SIZEOF(szMask) - mir_strlen(szMask));
+	mir_strncat(szMask, "*", SIZEOF(szMask) - mir_strlen(szMask));
 
 	WIN32_FIND_DATAA fdFindFileData;
 	HANDLE hFind = FindFirstFile(szMask, &fdFindFileData);
@@ -103,7 +103,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 
 	// check if a index.xsl exists in the same directory otherwise use the global
 	strncpy(szMask, pszRealPath, MAX_PATH);
-	strncat(szMask, "index.xsl", SIZEOF(szMask) - mir_strlen(szMask));
+	mir_strncat(szMask, "index.xsl", SIZEOF(szMask) - mir_strlen(szMask));
 
 	HANDLE hFileExists = CreateFile(szMask, GENERIC_READ, 
 		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 

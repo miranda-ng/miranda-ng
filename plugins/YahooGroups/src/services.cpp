@@ -126,8 +126,8 @@ void CreateGroup(char *group)
 		*p = 0;
 		if (mir_strlen(buffer) > 0)
 		{
-			strncat(buffer, "\\", SIZEOF(buffer) - mir_strlen(buffer));
-			strncat(buffer, sub, SIZEOF(buffer) - mir_strlen(buffer));
+			mir_strncat(buffer, "\\", SIZEOF(buffer) - mir_strlen(buffer));
+			mir_strncat(buffer, sub, SIZEOF(buffer) - mir_strlen(buffer));
 		}
 		else{
 			strncpy_s(buffer, sub, _TRUNCATE);
@@ -146,8 +146,8 @@ void CreateGroup(char *group)
 	{
 		if (mir_strlen(buffer) > 0)
 		{
-			strncat(buffer, "\\", SIZEOF(buffer) - mir_strlen(buffer));
-			strncat(buffer, sub, SIZEOF(buffer) - mir_strlen(buffer));
+			mir_strncat(buffer, "\\", SIZEOF(buffer) - mir_strlen(buffer));
+			mir_strncat(buffer, sub, SIZEOF(buffer) - mir_strlen(buffer));
 		}
 		else{
 			strncpy_s(buffer, sub, _TRUNCATE);

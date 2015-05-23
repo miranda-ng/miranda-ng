@@ -223,10 +223,10 @@ void checkStringForcompare(char *str)
 					mir_strcat(newStr, X);
 				else mir_strcat(newStr, Y);
 			}
-			else strncat(newStr, &str[i], j);
+			else mir_strncat(newStr, &str[i], j);
 			i += j;
 		}
-		else strncat(newStr, &str[i], 1);
+		else mir_strncat(newStr, &str[i], 1);
 	}
 	mir_strcpy(str, newStr);
 	free(newStr);
@@ -249,10 +249,10 @@ void checkStringForSave(MCONTACT hContact, char* str)
 			if (A && B)
 				db_set_s(hContact, MODNAME, A, B);
 
-			else strncat(newStr, &str[i], j);
+			else mir_strncat(newStr, &str[i], j);
 			i += j;
 		}
-		else strncat(newStr, &str[i], 1);
+		else mir_strncat(newStr, &str[i], 1);
 	}
 	mir_strcpy(str, newStr);
 	free(newStr);
@@ -278,10 +278,10 @@ void checkStringForLoad(MCONTACT hContact, char* str)
 					db_free(&dbv);
 				}
 			}
-			else strncat(newStr, &str[i], j);
+			else mir_strncat(newStr, &str[i], j);
 			i += j;
 		}
-		else strncat(newStr, &str[i], 1);
+		else mir_strncat(newStr, &str[i], 1);
 	}
 	mir_strcpy(str, newStr);
 	free(newStr);
@@ -323,10 +323,10 @@ void checkStringForSaveN(char* str)
 					break;
 				}
 			}
-			else strncat(newStr, &str[i], j);
+			else mir_strncat(newStr, &str[i], j);
 			i += j;
 		}
-		else strncat(newStr, &str[i], 1);
+		else mir_strncat(newStr, &str[i], 1);
 	}
 	mir_strcpy(str, newStr);
 	free(newStr);
@@ -366,10 +366,10 @@ void checkStringForLoadN(char* str)
 					db_free(&dbv);
 				}
 			}
-			else strncat(newStr, &str[i], i);
+			else mir_strncat(newStr, &str[i], i);
 			i += j;
 		}
-		else strncat(newStr, &str[i], 1);
+		else mir_strncat(newStr, &str[i], 1);
 	}
 	mir_strcpy(str, newStr);
 	free(newStr);
@@ -524,7 +524,7 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 			else {
 				// only copying from 1 line
 				if (startLine == endLine)
-					strncat(newString, &fileContents[startLine][startChar], endChar - startChar);
+					mir_strncat(newString, &fileContents[startLine][startChar], endChar - startChar);
 				else {
 					int i;
 					// copy the whole first line from startChar
@@ -534,7 +534,7 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 						mir_strcat(newString, fileContents[i]);
 					}
 					// copy the last line untill endChar
-					strncat(newString, fileContents[endLine], endChar);
+					mir_strncat(newString, fileContents[endLine], endChar);
 				}
 			}
 		}
@@ -558,7 +558,7 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 			positionInOldString += lastChecked(newString, &oldString[positionInOldString]);
 		}
 		else {
-			strncat(newString, &oldString[positionInOldString], 1);
+			mir_strncat(newString, &oldString[positionInOldString], 1);
 			positionInOldString++;
 		}
 	}

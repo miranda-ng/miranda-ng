@@ -209,10 +209,10 @@ __inline static INT_PTR FoldersGetCustomPathEx(HANDLE hFolderEntry, char *path, 
 	}
 
 	if (path[0] != '\0')
-		strncat(path, "\\", size - mir_strlen(path));
+		mir_strncat(path, "\\", size - mir_strlen(path));
 
 	if (fileName)
-		strncat(path, fileName, size - mir_strlen(path));
+		mir_strncat(path, fileName, size - mir_strlen(path));
 
 	return res;
 }

@@ -141,11 +141,11 @@ void HandleHelpCommand(PCommand helpCommand, char *argv[], int argc, PReply repl
 		
 		for (int i = 0; i < cKnownCommands - 1; i++)
 		{
-			strncat(reply->message, knownCommands[i].command, SIZEOF(reply->message) - mir_strlen(reply->message));
-			strncat(reply->message, ", ", SIZEOF(reply->message) - mir_strlen(reply->message));
+			mir_strncat(reply->message, knownCommands[i].command, SIZEOF(reply->message) - mir_strlen(reply->message));
+			mir_strncat(reply->message, ", ", SIZEOF(reply->message) - mir_strlen(reply->message));
 		}
-		strncat(reply->message, knownCommands[cKnownCommands - 1].command, SIZEOF(reply->message) - mir_strlen(reply->message));
-		strncat(reply->message, ".", SIZEOF(reply->message) - mir_strlen(reply->message));
+		mir_strncat(reply->message, knownCommands[cKnownCommands - 1].command, SIZEOF(reply->message) - mir_strlen(reply->message));
+		mir_strncat(reply->message, ".", SIZEOF(reply->message) - mir_strlen(reply->message));
 	}
 }
 
