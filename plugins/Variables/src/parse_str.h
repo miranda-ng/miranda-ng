@@ -43,7 +43,7 @@
 #define MIR_STRCHR				_T("strchr")
 #define MIR_STRRCHR				_T("strrchr")
 #define MIR_STRSTR				_T("strstr")
-#define MIR_STRCMP				_T("mir_strcmp")
+#define MIR_STRCMP				_T("strcmp")
 #define MIR_STRNCMP				_T("strncmp")
 #define MIR_STRMCMP				_T("strmcmp")
 #define MIR_STRICMP				_T("stricmp")
