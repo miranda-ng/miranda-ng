@@ -687,11 +687,11 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 		for (; ri; ri = ri->next) {
 			mri = ((mwResolveResult *)ri->data)->matches;
 			for (; mri; mri = mri->next) {
-				strncpy(mcsr.psr.stid, ((mwResolveMatch *)mri->data)->id, 256);
+				mir_strncpy(mcsr.psr.stid, ((mwResolveMatch *)mri->data)->id, 256);
 				mcsr.psr.stid[255] = 0;
 				MultiByteToWideChar(CP_UTF8, 0, mcsr.psr.stid, -1, mcsr.pszFields[0], 512);
 
-				strncpy(mcsr.psr.name, ((mwResolveMatch *)mri->data)->name, 256);
+				mir_strncpy(mcsr.psr.name, ((mwResolveMatch *)mri->data)->name, 256);
 				mcsr.psr.name[255] = 0;
 				MultiByteToWideChar(CP_UTF8, 0, mcsr.psr.name, -1, mcsr.pszFields[1], 512);
 

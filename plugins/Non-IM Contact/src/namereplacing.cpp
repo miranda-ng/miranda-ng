@@ -46,8 +46,8 @@ int findWordInString(const char* line, const char* string, int* lengthOfWord, in
 {
 	unsigned int i, j = 0;
 	char word[64] = "", OpenDivider[8], CloseDivider[8];
-	strncpy(OpenDivider, "(\"", sizeof(OpenDivider));
-	strncpy(CloseDivider, "\")", sizeof(CloseDivider));
+	mir_strncpy(OpenDivider, "(\"", sizeof(OpenDivider));
+	mir_strncpy(CloseDivider, "\")", sizeof(CloseDivider));
 	/* get the word we r looking for */
 	if (!strncmp(string, OpenDivider, mir_strlen(OpenDivider))) {
 		for (i = 2; strncmp(&string[i], CloseDivider, mir_strlen(CloseDivider)); i++) {
@@ -455,8 +455,8 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 	char *fileContents[MAXLINES] = { NULL }, tempString[MAX_STRING_LENGTH];
 
 	//	setup the variable names
-	strncpy(newString, "", sizeof(newString));
-	strncpy(var_file, "file(", sizeof(var_file));
+	mir_strncpy(newString, "", sizeof(newString));
+	mir_strncpy(var_file, "file(", sizeof(var_file));
 
 	while ((positionInOldString < (int)mir_strlen(oldString)) && (oldString[positionInOldString] != '\0')) {
 		// load the file... must be first

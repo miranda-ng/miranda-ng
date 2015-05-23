@@ -363,7 +363,7 @@ static INT_PTR GetMirandaVersionText(WPARAM wParam, LPARAM lParam)
 
 	UINT blockSize;
 	VerQueryValue(pVerInfo, _T("\\StringFileInfo\\000004b0\\ProductVersion"), (LPVOID*)&productVersion, &blockSize);
-	strncpy((char*)lParam, _T2A(productVersion), wParam);
+	mir_strncpy((char*)lParam, _T2A(productVersion), wParam);
 #if defined(_WIN64)
 	strcat_s((char*)lParam, wParam, " x64");
 #endif

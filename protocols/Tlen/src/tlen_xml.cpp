@@ -126,18 +126,18 @@ int TlenXmlParse(XmlState *xmlState, char *buffer, int datalen)
 				}
 				else {
 					if (*(p+1) == '/') {	// closing tag
-						strncpy(tag, p+2, r-(p+2));
+						mir_strncpy(tag, p+2, r-(p+2));
 						tag[r-(p+2)] = '\0';
 						elemType = ELEM_CLOSE;
 					}
 					else {
 						if (*(r-1) == '/') {	// single open/close tag
-							strncpy(tag, p+1, r-(p+1)-1);
+							mir_strncpy(tag, p+1, r-(p+1)-1);
 							tag[r-(p+1)-1] = '\0';
 							elemType = ELEM_OPENCLOSE;
 						}
 						else {
-							strncpy(tag, p+1, r-(p+1));
+							mir_strncpy(tag, p+1, r-(p+1));
 							tag[r-(p+1)] = '\0';
 							elemType = ELEM_OPEN;
 						}
@@ -147,7 +147,7 @@ int TlenXmlParse(XmlState *xmlState, char *buffer, int datalen)
 //						TlenLog("ATTR_MAX_LEN too small, ignore current tag");
 					}
 					else {
-						strncpy(attr, r, q-r);
+						mir_strncpy(attr, r, q-r);
 						if ((q-r)>0 && attr[q-r-1] == '/') {
 							attr[q-r-1] = '\0';
 							elemType = ELEM_OPENCLOSE;
@@ -171,7 +171,7 @@ int TlenXmlParse(XmlState *xmlState, char *buffer, int datalen)
 			for (q=p+1; q<eob && *q != '<'; q++);
 			if (q < eob) {	// found starting bracket of the next element
 				str = (char *) mir_alloc(q-p+1);
-				strncpy(str, p, q-p);
+				mir_strncpy(str, p, q-p);
 				str[q-p] = '\0';
 				TlenXmlProcessElem(xmlState, ELEM_TEXT, str, NULL);
 				mir_free(str);
@@ -220,7 +220,7 @@ static void TlenXmlParseAttr(XmlNode *node, char *text)
 
 		if (*p == '\0') {
 			a->name = (char *) mir_alloc(klen+1);
-			strncpy(a->name, kstart, klen);
+			mir_strncpy(a->name, kstart, klen);
 			a->name[klen] = '\0';
 			a->value = mir_strdup("");
 			break;
@@ -228,7 +228,7 @@ static void TlenXmlParseAttr(XmlNode *node, char *text)
 
 		if (*p != '=') {
 			a->name = (char *) mir_alloc(klen+1);
-			strncpy(a->name, kstart, klen);
+			mir_strncpy(a->name, kstart, klen);
 			a->name[klen] = '\0';
 			a->value = mir_strdup("");
 			continue;
@@ -242,7 +242,7 @@ static void TlenXmlParseAttr(XmlNode *node, char *text)
 
 		if (*p == '\0') {
 			a->name = (char *) mir_alloc(klen+1);
-			strncpy(a->name, kstart, klen);
+			mir_strncpy(a->name, kstart, klen);
 			a->name[klen] = '\0';
 			a->value = mir_strdup("");
 			break;
@@ -263,10 +263,10 @@ static void TlenXmlParseAttr(XmlNode *node, char *text)
 		}
 
 		a->name = (char *) mir_alloc(klen+1);
-		strncpy(a->name, kstart, klen);
+		mir_strncpy(a->name, kstart, klen);
 		a->name[klen] = '\0';
 		a->value = (char *) mir_alloc(vlen+1);
-		strncpy(a->value, vstart, vlen);
+		mir_strncpy(a->value, vstart, vlen);
 		a->value[vlen] = '\0';
 	}
 }

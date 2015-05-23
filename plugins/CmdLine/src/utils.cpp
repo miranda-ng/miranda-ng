@@ -134,7 +134,7 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 			res = 0;
 			size_t tmp = mir_strlen(dbv.pszVal);
 			len = (tmp < size - 1) ? tmp : size - 1;
-			strncpy(szResult, dbv.pszVal, len);
+			mir_strncpy(szResult, dbv.pszVal, len);
 			szResult[len] = '\0';
 			mir_free(dbv.pszVal);
 		}
@@ -144,7 +144,7 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 				{
 					size_t tmp = mir_strlen(szError);
 					len = (tmp < size - 1) ? tmp : size - 1;
-					strncpy(szResult, szError, len);
+					mir_strncpy(szResult, szError, len);
 					szResult[len] = '\0';
 				}
 				else{
@@ -440,7 +440,7 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 
 inline char *STRNCPY(char *output, const char *input, size_t size)
 {
-	char *res = strncpy(output, input, size);
+	char *res = mir_strncpy(output, input, size);
 	output[size - 1] = 0;
 
 	return res;

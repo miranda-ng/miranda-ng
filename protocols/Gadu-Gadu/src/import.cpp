@@ -119,7 +119,7 @@ char *strndup(char *str, int c)
 {
 	char *ret = (char*)malloc(c + 1);
 	ret[c] = 0;
-	strncpy(ret, str, c);
+	mir_strncpy(ret, str, c);
 	return ret;
 }
 
@@ -174,7 +174,7 @@ void GGPROTO::parsecontacts(char *contacts)
 			if (n && n != p)
 			{
 				strPhone = (char*)malloc((n - p) + 5);
-				strncpy(strPhone, p, (n - p));
+				mir_strncpy(strPhone, p, (n - p));
 				mir_strcpy((strPhone + (n - p)), " SMS"); // Add SMS postfix
 			}
 			p = (n + 1);

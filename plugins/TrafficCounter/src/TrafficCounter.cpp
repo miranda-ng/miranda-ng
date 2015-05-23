@@ -455,10 +455,10 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 		rq.hDC = hdc;
 		rq.rcDestRect = rect;
 		rq.rcClipRect = rect;  
-		strncpy(rq.szObjectID, "Main,ID=EventArea", sizeof(rq.szObjectID));
+		mir_strncpy(rq.szObjectID, "Main,ID=EventArea", sizeof(rq.szObjectID));
 		if (CallService(MS_SKIN_DRAWGLYPH, (WPARAM)&rq, 0))
 		{
-			strncpy(rq.szObjectID, "Main,ID=StatusBar", sizeof(rq.szObjectID));
+			mir_strncpy(rq.szObjectID, "Main,ID=StatusBar", sizeof(rq.szObjectID));
 			CallService(MS_SKIN_DRAWGLYPH, (WPARAM)&rq, 0);
 		}
 	}

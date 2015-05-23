@@ -86,7 +86,7 @@ BOOL CALLBACK LoadedModulesFind64(LPCSTR ModuleName, DWORD64 ModuleBase, ULONG M
 
 	if ((DWORD)(data->Offset - ModuleBase) < ModuleSize) {
 		const size_t len = SIZEOF(data->pModule->ModuleName);
-		strncpy(data->pModule->ModuleName, ModuleName, len);
+		mir_strncpy(data->pModule->ModuleName, ModuleName, len);
 		data->pModule->ModuleName[len - 1] = 0;
 
 		data->pModule->BaseOfImage = ModuleBase;

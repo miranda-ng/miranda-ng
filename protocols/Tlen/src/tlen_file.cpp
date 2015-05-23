@@ -578,7 +578,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 					if (numFiles == 1) {
 						if ((p=TlenXmlGetAttrValue(node, "n")) != NULL) {
 							p = TlenTextDecode(p);
-							strncpy(szFilename, p, sizeof(szFilename)-1);
+							mir_strncpy(szFilename, p, sizeof(szFilename)-1);
 							mir_free(p);
 						} else {
 							mir_strcpy(szFilename, Translate("1 File"));

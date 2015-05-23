@@ -44,7 +44,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 */
 INT_PTR CSametimeProto::GetName(WPARAM wParam, LPARAM lParam)
 {
-	strncpy((char*)lParam, m_szModuleName, wParam);
+	mir_strncpy((char*)lParam, m_szModuleName, wParam);
 	return 0;
 }
 

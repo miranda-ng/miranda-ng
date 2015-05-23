@@ -278,7 +278,7 @@ int CMraProto::MraRebuildContactMenu(WPARAM hContact, LPARAM)
 int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 {
 	CHAR szServiceFunction[MAX_PATH * 2], *pszServiceFunctionName, szValueName[MAX_PATH];
-	strncpy(szServiceFunction, m_szModuleName, sizeof(szServiceFunction));
+	mir_strncpy(szServiceFunction, m_szModuleName, sizeof(szServiceFunction));
 	pszServiceFunctionName = szServiceFunction + mir_strlen(m_szModuleName);
 
 	TCHAR szItem[MAX_PATH + 64];
@@ -326,7 +326,7 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 		return NULL;
 
 	char szServiceFunction[MAX_PATH];
-	strncpy(szServiceFunction, m_szModuleName, sizeof(szServiceFunction));
+	mir_strncpy(szServiceFunction, m_szModuleName, sizeof(szServiceFunction));
 	char *pszServiceFunctionName = szServiceFunction + mir_strlen(m_szModuleName);
 
 	CLISTMENUITEM mi = { sizeof(mi) };

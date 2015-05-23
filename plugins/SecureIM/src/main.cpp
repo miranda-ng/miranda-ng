@@ -130,11 +130,11 @@ static int onModulesLoaded(WPARAM, LPARAM)
 			else {
 				LPSTR tmp = db_get_sa(0, MODULENAME, "pgpPubRing");
 				if (tmp) {
-					strncpy(PubRingPath, tmp, sizeof(PubRingPath));
+					mir_strncpy(PubRingPath, tmp, sizeof(PubRingPath));
 					mir_free(tmp);
 				}
 				if (tmp = db_get_sa(0, MODULENAME, "pgpSecRing")) {
-					strncpy(SecRingPath, tmp, sizeof(SecRingPath));
+					mir_strncpy(SecRingPath, tmp, sizeof(SecRingPath));
 					mir_free(tmp);
 				}
 				if (PubRingPath[0] && SecRingPath[0]) {
@@ -163,11 +163,11 @@ static int onModulesLoaded(WPARAM, LPARAM)
 
 		LPSTR tmp = db_get_sa(0, MODULENAME, "gpgExec");
 		if (tmp) {
-			strncpy(gpgexec, tmp, sizeof(gpgexec)-1);
+			mir_strncpy(gpgexec, tmp, sizeof(gpgexec)-1);
 			mir_free(tmp);
 		}
 		if (tmp = db_get_sa(0, MODULENAME, "gpgHome")) {
-			strncpy(gpghome, tmp, sizeof(gpghome)-1);
+			mir_strncpy(gpghome, tmp, sizeof(gpghome)-1);
 			mir_free(tmp);
 		}
 

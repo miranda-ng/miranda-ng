@@ -865,7 +865,7 @@ int __cdecl onProtoAck(WPARAM wParam, LPARAM lParam)
 						LPSTR p = strrchr(file_out, '.');
 						LPSTR x = strrchr(file_out, '\\');
 						if (p > x) {
-							strncpy(buf, p, sizeof(buf)-1);
+							mir_strncpy(buf, p, sizeof(buf)-1);
 							pos = p;
 						}
 						for (int i = 1; i < 10000; i++) {

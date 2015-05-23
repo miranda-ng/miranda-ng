@@ -2246,8 +2246,8 @@ void InitCheck()
 		ICQ_CUSTOMCAP cap;
 		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
 		cap.hIcon = 0;
-		strncpy(cap.name, "GPG Key AutoExchange", MAX_CAPNAME);
-		strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps));
+		mir_strncpy(cap.name, "GPG Key AutoExchange", MAX_CAPNAME);
+		mir_strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps));
 
 		for(int i = 0; i < count; i++)
 			if( ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))
@@ -2261,8 +2261,8 @@ void InitCheck()
 		ICQ_CUSTOMCAP cap;
 		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
 		cap.hIcon = 0;
-		strncpy(cap.name, "GPG Encrypted FileTransfers", MAX_CAPNAME);
-		strncpy(cap.caps, "GPGFileTransfer", sizeof(cap.caps));
+		mir_strncpy(cap.name, "GPG Encrypted FileTransfers", MAX_CAPNAME);
+		mir_strncpy(cap.caps, "GPGFileTransfer", sizeof(cap.caps));
 
 		for(int i = 0; i < count; i++)
 			if( ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))

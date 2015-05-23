@@ -90,7 +90,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 
 		newmsg = (char*)mir_alloc(alloclen);
 		memset(newmsg, 0, alloclen+datalen);
-		strncpy(newmsg, options.prefix, prefixlen);
+		mir_strncpy(newmsg, options.prefix, prefixlen);
 		mir_strncat(newmsg, msg, alloclen - mir_strlen(newmsg));
 		// append additional data
 		if (datalen) {
@@ -129,7 +129,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 			
 			newmsg = (char*)mir_alloc(alloclen+datalen);
 			memset(newmsg, 0, alloclen+datalen);
-			strncpy(newmsg, prefix, prefixlen);
+			mir_strncpy(newmsg, prefix, prefixlen);
 			mir_strncat(newmsg, msg, alloclen + datalen - mir_strlen(newmsg));
 			wchar_t *p = (wchar_t*) newmsg + (msglen + prefixlen + 1);
 			wcsncpy(p, prefixw, prefixlenw);
@@ -157,7 +157,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 
 			newmsg = (char*)mir_alloc(alloclen+datalen);
 			memset(newmsg, 0, alloclen+datalen);
-			strncpy(newmsg, prefix, prefixlen);
+			mir_strncpy(newmsg, prefix, prefixlen);
 			mir_strncat(newmsg, msg, msglen - mir_strlen(newmsg));
 			mir_free(prefix);
 			// append additional data

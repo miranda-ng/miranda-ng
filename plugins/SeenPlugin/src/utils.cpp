@@ -642,7 +642,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 			if (p == NULL) {
 				p = (logthread_info*)mir_calloc(sizeof(logthread_info));
 				p->hContact = hContact;
-				strncpy(p->sProtoName, cws->szModule, MAXMODULELABELLENGTH);
+				mir_strncpy(p->sProtoName, cws->szModule, MAXMODULELABELLENGTH);
 				arContacts.insert(p);
 				mir_forkthread(waitThread, p);
 			}
@@ -697,7 +697,7 @@ int ModeChange(WPARAM wparam, LPARAM lparam)
 		db_set_dw(NULL, "UserOnline", ack->szModule, GetTickCount());
 		if (!Miranda_Terminated() && IsWatchedProtocol(ack->szModule)) {
 			logthread_info *info = (logthread_info *)malloc(sizeof(logthread_info));
-			strncpy(info->sProtoName, courProtoName, MAXMODULELABELLENGTH);
+			mir_strncpy(info->sProtoName, courProtoName, MAXMODULELABELLENGTH);
 			info->hContact = 0;
 			info->currStatus = 0;
 

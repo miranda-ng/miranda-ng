@@ -92,7 +92,7 @@ using namespace std;
 	  struct sockaddr_in sa;
 	  int iLen = sizeof(sa);
       getsockname(socket->m_sock, (SOCKADDR*)&sa, &iLen);
-	  strncpy(this->localaddr,inet_ntoa(sa.sin_addr), sizeof(this->localaddr)-1);
+	  mir_strncpy(this->localaddr,inet_ntoa(sa.sin_addr), sizeof(this->localaddr)-1);
 	  this->llocaladdr=inet_addr(this->localaddr);
 
       packetReader->setSocket(socket);

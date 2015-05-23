@@ -170,7 +170,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 						szRedirUrl = (char*)mir_realloc(szRedirUrl,
 							rlen + mir_strlen(nlhrReply->headers[i].szValue) * 3 + 1);
 
-						strncpy(szRedirUrl, szUrl, rlen);
+						mir_strncpy(szRedirUrl, szUrl, rlen);
 						mir_strcpy(szRedirUrl + rlen, nlhrReply->headers[i].szValue);
 
 						nlhr.szUrl = szRedirUrl;

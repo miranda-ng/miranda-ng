@@ -351,7 +351,7 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 				if (Line[1] != '/')  {	// if it is not a footer (for old ini)
 					// save the group name
 					Temp = (char *)mir_alloc(mir_strlen(Line)+10);
-					strncpy(Temp, Line+1, chop-Line-1);
+					mir_strncpy(Temp, Line+1, chop-Line-1);
 					Temp[chop-Line-1] = 0;
 					wfree(&Group);
 					wSetData(&Group, Temp);
@@ -381,7 +381,7 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 
 			// get the string before '=' (ValName) and after '=' (Value)
 			ValName = (char *)mir_alloc(mir_strlen(Line)+1);
-			strncpy(ValName, Line, Value-Line);
+			mir_strncpy(ValName, Line, Value-Line);
 			ValName[Value-Line] = 0;
 			Value++;
 			ConvertBackslashes(Value);

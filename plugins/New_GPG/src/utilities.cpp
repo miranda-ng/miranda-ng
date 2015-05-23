@@ -544,7 +544,7 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 			if( ProtoServiceExists(proto, PS_ICQ_CHECKCAPABILITY)) {
 				supported_proto = true;
 				ICQ_CUSTOMCAP cap = {0};
-				strncpy(cap.caps, "GPGFileTransfer",sizeof(cap.caps));
+				mir_strncpy(cap.caps, "GPGFileTransfer",sizeof(cap.caps));
 				if( ProtoCallService(proto, PS_ICQ_CHECKCAPABILITY, (WPARAM)ccs->hContact, (LPARAM)&cap))
 					cap_found = true;
 			}

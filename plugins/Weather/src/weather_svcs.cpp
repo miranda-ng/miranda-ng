@@ -90,7 +90,7 @@ INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM lParam)
 // protocol service function to get weather protocol name
 INT_PTR WeatherGetName(WPARAM wParam,LPARAM lParam)
 {
-	strncpy((char*)lParam,WEATHERPROTOTEXT,wParam-1);
+	mir_strncpy((char*)lParam,WEATHERPROTOTEXT,wParam-1);
 	*((char*)lParam + wParam-1) = 0;
 	return 0;
 }

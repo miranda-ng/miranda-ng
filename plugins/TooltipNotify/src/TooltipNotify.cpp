@@ -74,7 +74,7 @@ void CTooltipNotify::RegisterFonts()
 {
 	FontIDT fontId = { sizeof(fontId) };
 	_tcsncpy(fontId.group, FONTSERV_GROUP, SIZEOF(fontId.group)-1);
-	strncpy(fontId.dbSettingsGroup, MODULENAME, SIZEOF(fontId.dbSettingsGroup)-1);
+	mir_strncpy(fontId.dbSettingsGroup, MODULENAME, SIZEOF(fontId.dbSettingsGroup)-1);
 	fontId.flags = FIDF_DEFAULTVALID;
 	fontId.deffontsettings.colour = DEF_SETTING_TXTCOLOR;
 	fontId.deffontsettings.size = -MulDiv(DEF_SETTING_FONT_SIZE, DEF_LOGPIXELSY, 72);
@@ -86,19 +86,19 @@ void CTooltipNotify::RegisterFonts()
 
 	ColourIDT colorId = { sizeof(colorId) };
 	_tcsncpy(colorId.group, FONTSERV_GROUP, SIZEOF(colorId.group)-1);
-	strncpy(colorId.dbSettingsGroup, MODULENAME, SIZEOF(colorId.dbSettingsGroup)-1);
+	mir_strncpy(colorId.dbSettingsGroup, MODULENAME, SIZEOF(colorId.dbSettingsGroup)-1);
 	colorId.flags = 0;
 	colorId.defcolour = DEF_SETTING_BGCOLOR;
 	colorId.order = 0;
 
 	for (int i=0; i<SIZEOF(s_fontTable); i++) {
 		_tcsncpy(fontId.name, s_fontTable[i].name, SIZEOF(fontId.name)-1);
-		strncpy(fontId.prefix, s_fontTable[i].fontPrefix, SIZEOF(fontId.prefix)-1);
+		mir_strncpy(fontId.prefix, s_fontTable[i].fontPrefix, SIZEOF(fontId.prefix)-1);
 		_tcsncpy(fontId.backgroundName, s_fontTable[i].name, SIZEOF(fontId.backgroundName)-1);
 		::FontRegisterT(&fontId);
 
 		_tcsncpy(colorId.name, s_fontTable[i].name, SIZEOF(colorId.name)-1);
-		strncpy(colorId.setting, s_fontTable[i].clrPrefix, SIZEOF(colorId.setting)-1);
+		mir_strncpy(colorId.setting, s_fontTable[i].clrPrefix, SIZEOF(colorId.setting)-1);
 		::ColourRegisterT(&colorId);
 	}
 }

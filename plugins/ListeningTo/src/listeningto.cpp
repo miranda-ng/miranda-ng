@@ -217,7 +217,7 @@ void RegisterProtocol(char *proto, TCHAR *account)
 	size_t id = proto_items.size();
 	proto_items.resize(id+1);
 
-	strncpy(proto_items[id].proto, proto, SIZEOF(proto_items[id].proto));
+	mir_strncpy(proto_items[id].proto, proto, SIZEOF(proto_items[id].proto));
 	proto_items[id].proto[SIZEOF(proto_items[id].proto)-1] = 0;
 
 	mir_tstrncpy(proto_items[id].account, account, SIZEOF(proto_items[id].account));

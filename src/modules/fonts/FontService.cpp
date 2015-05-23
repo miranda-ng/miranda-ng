@@ -90,22 +90,22 @@ int LoadFontserviceModule(void)
 
 	// create generic fonts
 	FontIDT fontid = { sizeof(fontid) };
-	strncpy(fontid.dbSettingsGroup, "Fonts", sizeof(fontid.dbSettingsGroup));
+	mir_strncpy(fontid.dbSettingsGroup, "Fonts", sizeof(fontid.dbSettingsGroup));
 	_tcsncpy_s(fontid.group, LPGENT("General"), _TRUNCATE);
 
 	_tcsncpy_s(fontid.name, LPGENT("Headers"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSHEADER;
-	strncpy(fontid.prefix, "Header", SIZEOF(fontid.prefix));
+	mir_strncpy(fontid.prefix, "Header", SIZEOF(fontid.prefix));
 	FontRegisterT(&fontid);
 
 	_tcsncpy_s(fontid.name, LPGENT("Generic text"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSGENERAL;
-	strncpy(fontid.prefix, "Generic", SIZEOF(fontid.prefix));
+	mir_strncpy(fontid.prefix, "Generic", SIZEOF(fontid.prefix));
 	FontRegisterT(&fontid);
 
 	_tcsncpy_s(fontid.name, LPGENT("Small text"), _TRUNCATE);
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSSMALL;
-	strncpy(fontid.prefix, "Small", SIZEOF(fontid.prefix));
+	mir_strncpy(fontid.prefix, "Small", SIZEOF(fontid.prefix));
 	FontRegisterT(&fontid);
 
 	// do last for silly dyna plugin

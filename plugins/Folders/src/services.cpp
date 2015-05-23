@@ -109,7 +109,7 @@ INT_PTR GetPathService(WPARAM wParam, LPARAM lParam)
 
 	TCHAR buf[MAX_FOLDER_SIZE];
 	p->Expand(buf, SIZEOF(buf));
-	strncpy(data->szPath, _T2A(buf), data->nMaxPathSize);
+	mir_strncpy(data->szPath, _T2A(buf), data->nMaxPathSize);
 	return 0;
 }
 

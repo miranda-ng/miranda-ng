@@ -363,15 +363,15 @@ void CSametimeProto::LoadOptions()
 	DBVARIANT dbv;
 
 	if (!db_get_utf(0, m_szModuleName, "ServerName", &dbv)) {
-		strncpy(options.server_name, dbv.pszVal, LSTRINGLEN);
+		mir_strncpy(options.server_name, dbv.pszVal, LSTRINGLEN);
 		db_free(&dbv);
 	}
 	if (!db_get_utf(0, m_szModuleName, "stid", &dbv)) {
-		strncpy(options.id, dbv.pszVal, LSTRINGLEN);
+		mir_strncpy(options.id, dbv.pszVal, LSTRINGLEN);
 		db_free(&dbv);
 	}
 	if (!db_get_utf(0, m_szModuleName, "Password", &dbv)) {
-		strncpy(options.pword, dbv.pszVal, LSTRINGLEN);
+		mir_strncpy(options.pword, dbv.pszVal, LSTRINGLEN);
 		db_free(&dbv);
 	}
 

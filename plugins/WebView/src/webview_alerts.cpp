@@ -272,7 +272,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 	memset(&tempraw, 0, sizeof(tempraw));
 	memset(&raw, 0, sizeof(raw));
 
-	strncpy(tempraw, truncated, SIZEOF(tempraw));
+	mir_strncpy(tempraw, truncated, SIZEOF(tempraw));
 
 	memset(&alertstring, 0, sizeof(alertstring));
 	memset(&Alerttempstring, 0, sizeof(Alerttempstring));
@@ -562,7 +562,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					disalertpos = 0;
 
 					//write selected data to string
-					strncpy(raw, &tempraw[statalertpos], (statalertposend - statalertpos));
+					mir_strncpy(raw, &tempraw[statalertpos], (statalertposend - statalertpos));
 					raw[(statalertposend - statalertpos)] = '\0';
 				}
 			} // end putting data into string
@@ -760,7 +760,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 			}
 		}
 	}
-	strncpy(truncated, tempraw, mir_strlen(truncated));
+	mir_strncpy(truncated, tempraw, mir_strlen(truncated));
 	return wasAlert;
 }
 

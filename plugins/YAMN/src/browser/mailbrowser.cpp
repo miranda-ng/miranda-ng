@@ -1073,7 +1073,7 @@ ULONGLONG MimeDateToFileTime(char *datein)
 	if (datein) {
 		char tmp[64];
 		while (datein[0] == ' ')  datein++; // eat leading spaces
-		strncpy(tmp, datein, 63); tmp[63] = 0;
+		mir_strncpy(tmp, datein, 63); tmp[63] = 0;
 		if (atoi(tmp)) { // Parseable integer on DayOfWeek field? Buggy mime date.
 			day = tmp;
 		}

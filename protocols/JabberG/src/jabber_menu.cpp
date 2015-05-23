@@ -602,7 +602,7 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM hContact, LPARAM)
 void CJabberProto::MenuInit()
 {
 	char text[200];
-	strncpy(text, m_szModuleName, sizeof(text)-1);
+	mir_strncpy(text, m_szModuleName, sizeof(text)-1);
 	char* tDest = text + mir_strlen(text);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -825,7 +825,7 @@ void CJabberProto::GlobalMenuInit()
 	// Hotkeys
 
 	char text[200];
-	strncpy(text, m_szModuleName, sizeof(text) - 1);
+	mir_strncpy(text, m_szModuleName, sizeof(text) - 1);
 	char* tDest = text + mir_strlen(text);
 
 	HOTKEYDESC hkd = { sizeof(hkd) };

@@ -817,7 +817,7 @@ TCHAR* CImageItem::Read(const TCHAR *szFilename)
 	GetPrivateProfileString(m_szName, _T("Image"), _T("None"), buffer, 500, szFilename);
 	if (mir_tstrcmp(buffer, _T("None")) || m_dwFlags & IMAGE_GLYPH) {
 		szFinalName = new TCHAR[MAX_PATH];
-		//strncpy(m_szName, &m_szName[1], sizeof(m_szName));
+		//mir_strncpy(m_szName, &m_szName[1], sizeof(m_szName));
 		//m_szName[sizeof(m_szName) - 1] = 0;
 		_tsplitpath(szFilename, szDrive, szPath, NULL, NULL);
 		mir_sntprintf(szFinalName, MAX_PATH, _T("%s\\%s%s"), szDrive, szPath, buffer);

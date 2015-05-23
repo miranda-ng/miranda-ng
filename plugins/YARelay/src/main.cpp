@@ -205,7 +205,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 	char *szBuf = szUtfMsg.str;
 	for (int i=0; i < iPartCount; i++, szBuf += cbPortion) {
 		char *szMsgPart = (char*)mir_alloc(cbPortion+1);
-		strncpy(szMsgPart, szBuf, cbPortion);
+		mir_strncpy(szMsgPart, szBuf, cbPortion);
 		szMsgPart[cbPortion] = 0;
 
 		HANDLE hMsgProc = (HANDLE)CallContactService(hForwardTo, PSS_MESSAGE, 0, (LPARAM)szMsgPart);

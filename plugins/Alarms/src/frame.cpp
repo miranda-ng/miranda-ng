@@ -582,10 +582,10 @@ int CreateFrame()
 	SendMessage(hwnd_plugin, WMU_INITIALIZE, 0, 0);
 
 	font_id.cbSize = sizeof(font_id);
-	strncpy(font_id.group, LPGEN("Frames"), sizeof(font_id.group));
-	strncpy(font_id.name, LPGEN("Alarm reminders"), sizeof(font_id.name));
-	strncpy(font_id.dbSettingsGroup, MODULE, sizeof(font_id.dbSettingsGroup));
-	strncpy(font_id.prefix, "Font", sizeof(font_id.prefix));
+	mir_strncpy(font_id.group, LPGEN("Frames"), sizeof(font_id.group));
+	mir_strncpy(font_id.name, LPGEN("Alarm reminders"), sizeof(font_id.name));
+	mir_strncpy(font_id.dbSettingsGroup, MODULE, sizeof(font_id.dbSettingsGroup));
+	mir_strncpy(font_id.prefix, "Font", sizeof(font_id.prefix));
 	font_id.order = 0;
 	FontRegister(&font_id);
 

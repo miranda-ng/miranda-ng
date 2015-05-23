@@ -258,7 +258,7 @@ int DBGetContactSettingStringStatic(MCONTACT hContact, char *szModule, char *szS
 {
 	DBVARIANT dbv;
 	if (!db_get(hContact, szModule, szSetting, &dbv)) {
-		strncpy(value, dbv.pszVal, maxLength);
+		mir_strncpy(value, dbv.pszVal, maxLength);
 		db_free(&dbv);
 		return 1;
 	}
@@ -313,7 +313,7 @@ int GetValue(MCONTACT hContact, const char *szModule, const char *szSetting, cha
 	if (Value && length >= 10 && !GetSetting(hContact, szModule, szSetting, &dbv)) {
 		switch (dbv.type) {
 		case DBVT_ASCIIZ:
-			strncpy(Value, dbv.pszVal, length);
+			mir_strncpy(Value, dbv.pszVal, length);
 			break;
 		case DBVT_DWORD:
 			_itoa(dbv.dVal, Value, 10);
@@ -330,7 +330,7 @@ int GetValue(MCONTACT hContact, const char *szModule, const char *szSetting, cha
 			WCHAR *wc = (WCHAR *)_alloca(len * sizeof(WCHAR));
 			MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, len);
 			WideCharToMultiByte(CP_ACP, 0, wc, -1, sz, len, NULL, NULL);
-			strncpy(Value, sz, length);
+			mir_strncpy(Value, sz, length);
 			break;
 		}
 

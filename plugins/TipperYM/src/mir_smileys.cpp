@@ -314,11 +314,11 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 
 	char smileyProto[64];
 	if (protocol == NULL)
-		strncpy(smileyProto, "tipper", sizeof(smileyProto) - 1);
+		mir_strncpy(smileyProto, "tipper", sizeof(smileyProto) - 1);
 	else if (mir_strcmp(protocol, META_PROTO) == 0)
-		strncpy(smileyProto, "tipper", sizeof(smileyProto) - 1);
+		mir_strncpy(smileyProto, "tipper", sizeof(smileyProto) - 1);
 	else
-		strncpy(smileyProto, protocol, sizeof(smileyProto) - 1);
+		mir_strncpy(smileyProto, protocol, sizeof(smileyProto) - 1);
 
 	// Parse it!
 	SMADD_BATCHPARSE2 sp = { 0 };
