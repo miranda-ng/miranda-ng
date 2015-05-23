@@ -87,7 +87,7 @@ int AddDebugLogMessageA(const char* fmt, ...)
 #ifdef MODULENAME
 	mir_snprintf(szFinal, SIZEOF(szFinal), "%s: %s", MODULENAME, szText);
 #else
-	strncpy(szFinal, szText, SIZEOF(szFinal));
+	mir_strncpy(szFinal, szText, SIZEOF(szFinal));
 #endif
 	res = WriteToDebugLogA(szFinal);
 

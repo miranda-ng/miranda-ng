@@ -225,7 +225,7 @@ void GetData(void *param)
 						}
 						dispos = 0;
 
-						strncpy(raw, &truncated2[statpos], MallocSize);
+						mir_strncpy(raw, &truncated2[statpos], MallocSize);
 						raw[MallocSize] = '\0';
 
 						trunccount = 0;
@@ -334,7 +334,7 @@ void GetData(void *param)
 
 				eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
 				if (eventIndex == 2) {
-					strncpy(buff, truncated, SIZEOF(buff));
+					mir_strncpy(buff, truncated, SIZEOF(buff));
 					Filter(buff);
 
 					if (!db_get_s(hContact, MODULENAME, ALRT_S_STRING_KEY, &dbv)) {

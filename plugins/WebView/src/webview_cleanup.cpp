@@ -386,7 +386,7 @@ void CodetoSymbol(char *truncated)
 				}
 
 				truncated[(position + counter) - 1] = Characters[n];
-				strncpy(&truncated[position], &truncated[position + mir_strlen(CharacterCodes[n])] - 1, mir_strlen(&truncated[position]) - 1);
+				mir_strncpy(&truncated[position], &truncated[position + mir_strlen(CharacterCodes[n])] - 1, mir_strlen(&truncated[position]) - 1);
 			} // end does character code exist?
 
 			if (recpos == position)
@@ -407,7 +407,7 @@ void EraseBlock(char *truncated)
 
 	char* tempraw = (char*)malloc(MAXSIZE1);
 	if (truncated)
-		strncpy(tempraw, truncated, MAXSIZE1);
+		mir_strncpy(tempraw, truncated, MAXSIZE1);
 
 	// ///////////////////////////
 
@@ -584,7 +584,7 @@ void EraseBlock(char *truncated)
 	positionStart = 0;
 	positionEnd = 0;
 
-	strncpy(truncated, tempraw, mir_strlen(truncated));
+	mir_strncpy(truncated, tempraw, mir_strlen(truncated));
 	free(tempraw);
 }
 
@@ -597,7 +597,7 @@ void EraseSymbols(char *truncated)
 
 	char *tempraw = (char*)malloc(MAXSIZE1);
 	if (truncated)
-		strncpy(tempraw, truncated, MAXSIZE1);
+		mir_strncpy(tempraw, truncated, MAXSIZE1);
 
 	// //////
 	while (true) {
@@ -625,7 +625,7 @@ void EraseSymbols(char *truncated)
 		recpos = position;
 	}
 
-	strncpy(truncated, tempraw, mir_strlen(truncated));
+	mir_strncpy(truncated, tempraw, mir_strlen(truncated));
 	free(tempraw);
 }
 
@@ -640,7 +640,7 @@ void NumSymbols(char *truncated)
 
 	char *tempraw = (char*)malloc(MAXSIZE1);
 	if (truncated)
-		strncpy(tempraw, truncated, MAXSIZE1);
+		mir_strncpy(tempraw, truncated, MAXSIZE1);
 
 	while (true) {
 		Sleep(1); // avoid 100% CPU
@@ -678,7 +678,7 @@ void NumSymbols(char *truncated)
 		recpos = position;
 	}
 
-	strncpy(truncated, tempraw, mir_strlen(truncated));
+	mir_strncpy(truncated, tempraw, mir_strlen(truncated));
 	free(tempraw);
 }
 
@@ -687,7 +687,7 @@ void FastTagFilter(char *truncated)
 {
 	char *tempraw = (char*)malloc(MAXSIZE1);
 	if (truncated)
-		strncpy(tempraw, truncated, MAXSIZE1);
+		mir_strncpy(tempraw, truncated, MAXSIZE1);
 
 	for (int counter = 0; counter < mir_strlen(tempraw); counter++) {
 		if (tempraw[counter] == '<') {
@@ -703,7 +703,7 @@ void FastTagFilter(char *truncated)
 		}
 	}
 
-	strncpy(truncated, tempraw, mir_strlen(truncated));
+	mir_strncpy(truncated, tempraw, mir_strlen(truncated));
 	free(tempraw);
 }
 
@@ -715,7 +715,7 @@ void RemoveInvis(char *truncated, int AmountWspcRem)
 
 	char *tempraw = (char*)malloc(MAXSIZE1);
 	if (truncated)
-		strncpy(tempraw, truncated, MAXSIZE1);
+		mir_strncpy(tempraw, truncated, MAXSIZE1);
 
 	switch (AmountWspcRem) {
 	case 1:
@@ -745,7 +745,7 @@ void RemoveInvis(char *truncated, int AmountWspcRem)
 				tempraw[counter] = ' ';
 	} // end for
 
-	strncpy(truncated, tempraw, mir_strlen(truncated));
+	mir_strncpy(truncated, tempraw, mir_strlen(truncated));
 	free(tempraw);
 }
 
@@ -754,13 +754,13 @@ void RemoveTabs(char *truncated)
 {
 	char *tempraw = (char*)malloc(MAXSIZE1);
 	if (truncated)
-		strncpy(tempraw, truncated, MAXSIZE1);
+		mir_strncpy(tempraw, truncated, MAXSIZE1);
 
 	for (int counter = 0; counter < mir_strlen(tempraw); counter++) 
 		if (tempraw[counter] == '\t')
 			tempraw[counter] = ' ';
 
-	strncpy(truncated, tempraw, mir_strlen(truncated));
+	mir_strncpy(truncated, tempraw, mir_strlen(truncated));
 	free(tempraw);
 }
 
@@ -779,7 +779,7 @@ void Removewhitespace(char *truncated)
 				counter2++;
 
 			pos2 = counter2;
-			strncpy(&truncated[pos1], &truncated[pos2], mir_strlen(&truncated[pos1]) - 1);
+			mir_strncpy(&truncated[pos1], &truncated[pos2], mir_strlen(&truncated[pos1]) - 1);
 		} // end if
 	} // end for
 }
@@ -788,11 +788,11 @@ void Removewhitespace(char *truncated)
 void Filter(char *truncated)
 {
 	char tempraw[MAXSIZE1];
-	strncpy(tempraw, truncated, SIZEOF(tempraw));
+	mir_strncpy(tempraw, truncated, SIZEOF(tempraw));
 
 	for (int counter = 0; counter < mir_strlen(tempraw); counter++)
 		if ((tempraw[counter] == '\n') || (tempraw[counter] == '\r') || (tempraw[counter] == '\t'))
-			strncpy(&tempraw[counter], &tempraw[counter + 1], mir_strlen(&tempraw[counter]) - 1);
+			mir_strncpy(&tempraw[counter], &tempraw[counter + 1], mir_strlen(&tempraw[counter]) - 1);
 
-	strncpy(truncated, tempraw, mir_strlen(truncated));
+	mir_strncpy(truncated, tempraw, mir_strlen(truncated));
 }

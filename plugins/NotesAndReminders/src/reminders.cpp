@@ -801,7 +801,7 @@ BOOL CheckRemindersAndStart(void)
 					char* S2 = strchr(g_RemindSMS, '@');
 					char* S1 = (char*)malloc(S2 - g_RemindSMS);
 
-					strncpy(S1, g_RemindSMS, S2 - g_RemindSMS);
+					mir_strncpy(S1, g_RemindSMS, S2 - g_RemindSMS);
 					S1[S2 - g_RemindSMS]= 0x0;
 					S2++;
 					Send(S1, S2, pReminder->Reminder ? pReminder->Reminder : "", NULL);

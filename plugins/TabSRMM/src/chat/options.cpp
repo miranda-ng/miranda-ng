@@ -494,13 +494,13 @@ void RegisterFontServiceFonts()
 	fid.cbSize = sizeof(FontIDT);
 	cid.cbSize = sizeof(ColourIDT);
 
-	strncpy(fid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
+	mir_strncpy(fid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 
 	for (int i = 0; i < SIZEOF(IM_fontOptionsList); i++) {
 		fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
 		LoadMsgDlgFont(FONTSECTION_IM, i, &lf, &fontOptionsList[i].colour, FONTMODULE);
 		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i);
-		strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
+		mir_strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
 		fid.order = i;
 		_tcsncpy(fid.name, fontOptionsList[i].szDescr, SIZEOF(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].colour;
@@ -563,7 +563,7 @@ void RegisterFontServiceFonts()
 	for (int i = 0; i < IPFONTCOUNT; i++) {
 		LoadMsgDlgFont(FONTSECTION_IP, i + 100, &lf, &fontOptionsList[i].colour, FONTMODULE);
 		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i + 100);
-		strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
+		mir_strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
 		fid.order = i + 100;
 		_tcsncpy(fid.name, fontOptionsList[i].szDescr, SIZEOF(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].colour;
@@ -582,12 +582,12 @@ void RegisterFontServiceFonts()
 	}
 
 	_tcsncpy(cid.group, LPGENT("Message Sessions")_T("/")LPGENT("Group chats"), SIZEOF(cid.group));
-	strncpy(cid.dbSettingsGroup, CHAT_MODULE, SIZEOF(cid.dbSettingsGroup));
+	mir_strncpy(cid.dbSettingsGroup, CHAT_MODULE, SIZEOF(cid.dbSettingsGroup));
 	for (int i = 0; i <= 7; i++) {
 		mir_snprintf(szTemp, SIZEOF(szTemp), "NickColor%d", i);
 		_tcsncpy(cid.name, chatcolorsnames[i], SIZEOF(cid.name));
 		cid.order = i + 1;
-		strncpy(cid.setting, szTemp, SIZEOF(cid.setting));
+		mir_strncpy(cid.setting, szTemp, SIZEOF(cid.setting));
 		switch (i) {
 		case 5:
 			cid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
@@ -613,14 +613,14 @@ void RegisterFontServiceFonts()
 	ColourRegisterT(&cid);
 
 	// static colors (info panel, tool bar background etc...)
-	strncpy(fid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
-	strncpy(cid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
+	mir_strncpy(fid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
+	mir_strncpy(cid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 
 	for (int i = 0; i < SIZEOF(_clrs); i++) {
 		cid.order = _clrs[i].order;
 		_tcsncpy(cid.group, _clrs[i].tszGroup, SIZEOF(fid.group));
 		_tcsncpy(cid.name, _clrs[i].tszName, SIZEOF(cid.name));
-		strncpy(cid.setting, _clrs[i].szSetting, SIZEOF(cid.setting));
+		mir_strncpy(cid.setting, _clrs[i].szSetting, SIZEOF(cid.setting));
 		if (_clrs[i].def & 0xff000000)
 			cid.defcolour = GetSysColor(_clrs[i].def & 0x000000ff);
 		else
@@ -628,14 +628,14 @@ void RegisterFontServiceFonts()
 		ColourRegisterT(&cid);
 	}
 
-	strncpy(cid.dbSettingsGroup, SRMSGMOD_T, SIZEOF(fid.dbSettingsGroup));
+	mir_strncpy(cid.dbSettingsGroup, SRMSGMOD_T, SIZEOF(fid.dbSettingsGroup));
 
 	// text and background colors for tabs
 	for (int i = 0; i < SIZEOF(_tabclrs); i++) {
 		cid.order = _tabclrs[i].order;
 		_tcsncpy(cid.group, _tabclrs[i].tszGroup, SIZEOF(fid.group));
 		_tcsncpy(cid.name, _tabclrs[i].tszName, SIZEOF(cid.name));
-		strncpy(cid.setting, _tabclrs[i].szSetting, SIZEOF(cid.setting));
+		mir_strncpy(cid.setting, _tabclrs[i].szSetting, SIZEOF(cid.setting));
 		if (_tabclrs[i].def & 0xff000000)
 			cid.defcolour = GetSysColor(_tabclrs[i].def & 0x000000ff);
 		else

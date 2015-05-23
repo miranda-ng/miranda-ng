@@ -411,6 +411,6 @@ time_t MsnTSToUnixtime(const char *pszTS)
 	char szTS[16];
 
 	if (!*pszTS) return time(NULL);
-	strncpy(szTS, pszTS, 10);
+	mir_strncpy(szTS, pszTS, 10);
 	return (time_t)atoi(szTS);
 }

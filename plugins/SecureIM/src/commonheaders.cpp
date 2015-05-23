@@ -28,7 +28,7 @@ LPSTR myDBGetStringDecode(MCONTACT hContact, const char *szModule, const char *s
 	if (!val) return NULL;
 	size_t len = mir_strlen(val) + 64;
 	char *buf = (LPSTR)mir_alloc(len);
-	strncpy(buf, val, len); mir_free(val);
+	mir_strncpy(buf, val, len); mir_free(val);
 	return buf;
 }
 
@@ -36,7 +36,7 @@ int myDBWriteStringEncode(MCONTACT hContact, const char *szModule, const char *s
 {
 	int len = (int)mir_strlen(val) + 64;
 	char *buf = (LPSTR)alloca(len);
-	strncpy(buf, val, len);
+	mir_strncpy(buf, val, len);
 	int ret = db_set_s(hContact, szModule, szSetting, buf);
 	return ret;
 }

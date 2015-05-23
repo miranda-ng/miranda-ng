@@ -47,7 +47,7 @@ static INT_PTR icqGetCaps(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR icqGetName(WPARAM wParam, LPARAM lParam)
 {
-    strncpy((char*)lParam, Translate(protoName), wParam);
+    mir_strncpy((char*)lParam, Translate(protoName), wParam);
     return 0;
 }
 

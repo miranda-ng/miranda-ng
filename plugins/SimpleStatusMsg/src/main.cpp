@@ -69,13 +69,13 @@ void log2file(const char *fmt, ...)
 	HANDLE hFile = CreateFileA("simplestatusmsg.log", GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	SetFilePointer(hFile, 0, 0, FILE_END);
 
-	strncpy(szText, "[\0", SIZEOF(szText));
+	mir_strncpy(szText, "[\0", SIZEOF(szText));
 	WriteFile(hFile, szText, (DWORD)mir_strlen(szText), &dwBytesWritten, NULL);
 
 	GetTimeFormatA(LOCALE_USER_DEFAULT, 0, NULL, NULL, szText, SIZEOF(szText));
 	WriteFile(hFile, szText, (DWORD)mir_strlen(szText), &dwBytesWritten, NULL);
 
-	strncpy(szText, "] \0", SIZEOF(szText));
+	mir_strncpy(szText, "] \0", SIZEOF(szText));
 
 	va_start(va, fmt);
 	mir_vsnprintf(szText + mir_strlen(szText), SIZEOF(szText) - mir_strlen(szText), fmt, va);
@@ -83,7 +83,7 @@ void log2file(const char *fmt, ...)
 
 	WriteFile(hFile, szText, (DWORD)mir_strlen(szText), &dwBytesWritten, NULL);
 
-	strncpy(szText, "\n\0", SIZEOF(szText));
+	mir_strncpy(szText, "\n\0", SIZEOF(szText));
 	WriteFile(hFile, szText, (DWORD)mir_strlen(szText), &dwBytesWritten, NULL);
 
 	CloseHandle(hFile);

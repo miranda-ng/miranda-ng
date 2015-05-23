@@ -62,7 +62,7 @@ bool LoadIndexHTMLTemplate() {
 	char  szDestBuf[10000];
 	char* pszDestBuf = szDestBuf;
 
-	strncpy(pszBuf, szPluginPath, SIZEOF(szBuf)-1);
+	mir_strncpy(pszBuf, szPluginPath, SIZEOF(szBuf)-1);
 	mir_strncat(pszBuf, szIndexHTMLTemplateFile, SIZEOF(szBuf) - mir_strlen(szBuf));
 
 	HANDLE hFile = CreateFile(pszBuf, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -139,7 +139,7 @@ bool LoadIndexHTMLTemplate() {
 					do {
 						if (*pszBuf == ',') {
 							*pszBuf = ':';
-							strncpy(pszDestBuf, pszParameterBegin, MAX_PARAM_LENGTH);
+							mir_strncpy(pszDestBuf, pszParameterBegin, MAX_PARAM_LENGTH);
 							pszDestBuf += MAX_PARAM_LENGTH;
 
 							pszParameterBegin = pszBuf + 1;
@@ -152,7 +152,7 @@ bool LoadIndexHTMLTemplate() {
 						break;
 
 					*pszBuf = ':';
-					strncpy(pszDestBuf, pszParameterBegin, MAX_PARAM_LENGTH);
+					mir_strncpy(pszDestBuf, pszParameterBegin, MAX_PARAM_LENGTH);
 					pszDestBuf += MAX_PARAM_LENGTH;
 
 					*pcParamCount = iParamCount;
@@ -283,7 +283,7 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 
 	// check if directory exists
 	char szMask[MAX_PATH];
-	strncpy(szMask, pszRealPath, MAX_PATH- 1);
+	mir_strncpy(szMask, pszRealPath, MAX_PATH- 1);
 	mir_strncat(szMask, "*", SIZEOF(szMask) - mir_strlen(szMask));
 
 	WIN32_FIND_DATAA fdFindFileData;
@@ -319,14 +319,14 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 	bool  bEvenOdd = 0;
 	bool  bKnownFileType = false;
 
-	strncpy(szBuffer, pszSrvPath, SIZEOF(szBuffer)-1);
+	mir_strncpy(szBuffer, pszSrvPath, SIZEOF(szBuffer)-1);
 	char* pszTemp = strrchr(szBuffer, '/');
 	if (pszTemp)
 		*pszTemp = '\0';
 
 	pszTemp = strrchr(szBuffer, '/');
 	if (pszTemp)
-		strncpy(szName, pszTemp + 1, SIZEOF(szName)-1);
+		mir_strncpy(szName, pszTemp + 1, SIZEOF(szName)-1);
 
 	if (szName[0] == '\0')
 		mir_strcpy(szName, "my Miranda Webserver");
@@ -470,7 +470,7 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 					} else {
 						for (byte i = 0; i < iParamCount; i++) {
 							char szParam[MAX_PARAM_LENGTH+1];
-							strncpy(szParam, pszParam, MAX_PARAM_LENGTH);
+							mir_strncpy(szParam, pszParam, MAX_PARAM_LENGTH);
 							szParam[MAX_PARAM_LENGTH] = '\0';
 							char* pszTmp = strchr(szParam, ':');
 							if (pszTmp)

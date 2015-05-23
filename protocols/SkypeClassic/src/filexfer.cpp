@@ -366,7 +366,7 @@ BOOL FXHandleMessage(const char *pszMsg)
 	if (!pTok)
 		return FALSE;
 
-	strncpy(args.szNum, pszMsg, pTok - pszMsg);
+	mir_strncpy(args.szNum, pszMsg, pTok - pszMsg);
 	pszMsg = pTok + 1;
 	if (!(pTok = strchr(pszMsg, ' '))) return FALSE;
 	pTok++;
@@ -374,7 +374,7 @@ BOOL FXHandleMessage(const char *pszMsg)
 		return FALSE;
 	ft_args *pargs = (ft_args*)malloc(sizeof(args));
 	if (!pargs) return TRUE;
-	strncpy(args.szArg, pTok, sizeof(args.szArg));
+	mir_strncpy(args.szArg, pTok, sizeof(args.szArg));
 	memcpy(pargs, &args, sizeof(args));
 	pthread_create((pThreadFunc)FXHandleMessageThread, pargs);
 	return TRUE;

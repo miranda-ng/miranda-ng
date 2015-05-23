@@ -628,7 +628,7 @@ void RegHotkey(MCONTACT hContact, HWND hwnd)
 
 	DBVARIANT dbv;
 	if (db_get_s(hContact, MODULE, "Hotkey", &dbv)) return;
-	strncpy(szBuf, dbv.pszVal, MAX_PATH - 1);
+	mir_strncpy(szBuf, dbv.pszVal, MAX_PATH - 1);
 	db_free( &dbv );
 
 	if (szBuf[0] !=  '\0') {

@@ -802,7 +802,7 @@ static void CheckContinueslyFunction(void *)
 					while ((*end != ' ') && (*end != '\0'))
 						end++;
 					memset(host, '\0', sizeof(host));
-					strncpy(host, start, end - start);
+					mir_strncpy(host, start, end - start);
 					hostent = gethostbyname(host);
 					if (hostent != NULL) {
 						addr = (DWORD *)(*hostent->h_addr_list);

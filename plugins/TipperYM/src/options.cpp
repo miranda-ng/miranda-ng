@@ -69,7 +69,7 @@ void CreateDefaultItems()
 				DSListNode *ds_node = (DSListNode *)mir_alloc(sizeof(DSListNode));
 				_tcsncpy(ds_node->ds.swzName, subst->swzName, LABEL_LEN);
 				ds_node->ds.type = subst->type;
-				strncpy(ds_node->ds.szSettingName, subst->szSettingName, SETTING_NAME_LEN);
+				mir_strncpy(ds_node->ds.szSettingName, subst->szSettingName, SETTING_NAME_LEN);
 				ds_node->ds.iTranslateFuncId = subst->iTranslateFuncId;
 				ds_node->next = opt.dsList;
 				opt.dsList = ds_node;
@@ -110,7 +110,7 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 	mir_snprintf(setting, SIZEOF(setting), "Module%d", index);
 	ds->szModuleName[0] = 0;
 	if (!db_get(0, MODULE_ITEMS, setting, &dbv)) {
-		strncpy(ds->szModuleName, dbv.pszVal, MODULE_NAME_LEN);
+		mir_strncpy(ds->szModuleName, dbv.pszVal, MODULE_NAME_LEN);
 		ds->szModuleName[MODULE_NAME_LEN - 1] = 0;
 		db_free(&dbv);
 	}
@@ -118,7 +118,7 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 	mir_snprintf(setting, SIZEOF(setting), "Setting%d", index);
 	ds->szSettingName[0] = 0;
 	if (!db_get(0, MODULE_ITEMS, setting, &dbv)) {
-		strncpy(ds->szSettingName, dbv.pszVal, SETTING_NAME_LEN);
+		mir_strncpy(ds->szSettingName, dbv.pszVal, SETTING_NAME_LEN);
 		ds->szSettingName[SETTING_NAME_LEN - 1] = 0;
 		db_free(&dbv);
 	}
@@ -910,10 +910,10 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 									_tcsncpy(ds_value->ds.swzName, subst->swzName, LABEL_LEN - 1);
 
 									if (ds_value->ds.type == DVT_DB && subst->szModuleName)
-										strncpy(ds_value->ds.szModuleName, subst->szModuleName, MODULE_NAME_LEN - 1);
+										mir_strncpy(ds_value->ds.szModuleName, subst->szModuleName, MODULE_NAME_LEN - 1);
 
 									if (subst->szSettingName)
-										strncpy(ds_value->ds.szSettingName, subst->szSettingName, SETTING_NAME_LEN - 1);
+										mir_strncpy(ds_value->ds.szSettingName, subst->szSettingName, SETTING_NAME_LEN - 1);
 
 									ds_value->ds.iTranslateFuncId = subst->iTranslateFuncId;
 

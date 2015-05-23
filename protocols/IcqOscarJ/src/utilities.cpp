@@ -612,7 +612,7 @@ char* __fastcall null_strcpy(char *dest, const char *src, size_t maxlen)
 		return NULL;
 
 	if (src && src[0]) {
-		strncpy(dest, src, maxlen);
+		mir_strncpy(dest, src, maxlen);
 		dest[maxlen] = '\0';
 	}
 	else

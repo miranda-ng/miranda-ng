@@ -34,7 +34,7 @@ static int GetProtocolP(MCONTACT hContact, char *szBuf, int cbLen)
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
 	if (cc && cc->szProto != NULL) {
-		strncpy(szBuf, cc->szProto, cbLen);
+		mir_strncpy(szBuf, cc->szProto, cbLen);
 		szBuf[cbLen - 1] = 0;
 		return 0;
 	}

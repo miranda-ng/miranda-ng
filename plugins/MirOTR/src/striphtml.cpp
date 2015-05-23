@@ -9,7 +9,7 @@ void starttag_cb (void *cbdata, ekhtml_string_t *tag, ekhtml_attr_t *attrs) {
 				case 'A':
 					for(ekhtml_attr_t *attr=attrs; attr; attr=attr->next) {
 						if (_strnicmp(attr->name.str, "href", attr->name.len)==0) {
-							data->stack.push(strncpy((char*)mir_calloc(attr->val.len+1), attr->val.str, attr->val.len));
+							data->stack.push(mir_strncpy((char*)mir_calloc(attr->val.len+1), attr->val.str, attr->val.len));
 							break;
 						}
 					}

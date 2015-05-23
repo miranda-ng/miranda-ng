@@ -301,7 +301,7 @@ int StatusMsgExists(MCONTACT hContact)
 		if (statusMsg[i].flag & 8)
 			mir_snprintf(par, SIZEOF(par), "%s/%s", module, statusMsg[i].name);
 		else
-			strncpy(par, statusMsg[i].name, SIZEOF(par)-1);
+			mir_strncpy(par, statusMsg[i].name, SIZEOF(par)-1);
 
 		LPSTR msg = db_get_sa(hContact, (statusMsg[i].module) ? statusMsg[i].module : module, par);
 		if (msg) {
@@ -607,7 +607,7 @@ INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 			mir_snprintf(buffer, SIZEOF(buffer), "%s: %s", szProto, szID);
 	}
 	else
-		strncpy(buffer, szID, SIZEOF(buffer)-1);
+		mir_strncpy(buffer, szID, SIZEOF(buffer)-1);
 
 	CopyToClipboard((HWND)lparam, buffer, 0);
 	if (CTRL_IS_PRESSED && bPopupService)
@@ -632,7 +632,7 @@ INT_PTR onCopyStatusMsg(WPARAM wparam, LPARAM lparam)
 		if (statusMsg[i].flag & 8)
 			mir_snprintf(par, SIZEOF(par), "%s/%s", module, statusMsg[i].name);
 		else
-			strncpy(par, statusMsg[i].name, SIZEOF(par) - 1);
+			mir_strncpy(par, statusMsg[i].name, SIZEOF(par) - 1);
 
 		LPTSTR msg = db_get_tsa(hContact, (statusMsg[i].module) ? statusMsg[i].module : module, par);
 		if (msg) {

@@ -23,7 +23,7 @@ char* Varxfiregame(ARGUMENTSINFO *ai)
 		DBVARIANT dbv3;
 		if (!db_get(ai->fi->hContact, protocolname, "RGame", &dbv3))
 		{
-			strncpy(temp, dbv3.pszVal, 255);
+			mir_strncpy(temp, dbv3.pszVal, 255);
 			db_free(&dbv3);
 			return mir_strdup(temp);
 		}

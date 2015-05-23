@@ -109,7 +109,7 @@ static __forceinline int _xcscmp(const char *s1, const char *s2) { return mir_st
 static __forceinline int _xcsncmp(const char *s1, const char *s2, size_t n) { return strncmp(s1, s2, n); }
 static __forceinline size_t _xcslen(const char *s1) { return mir_strlen(s1); }
 static __forceinline char *_xcscpy(char *s1, const char *s2) { return mir_strcpy(s1, s2); }
-static __forceinline char *_xcsncpy(char *s1, const char *s2, size_t n) { return strncpy(s1, s2, n); }
+static __forceinline char *_xcsncpy(char *s1, const char *s2, size_t n) { return mir_strncpy(s1, s2, n); }
 static __forceinline char *_xstrselect(char *, char *s1, TCHAR *s2) { return s1; }
 static __forceinline char *_itox(char *, int a) { return itoa(a, (char *)mir_alloc(sizeof(char)*20), 10); }
 static __forceinline char *mir_a2x(char *, char *s) { return mir_strdup(s); }

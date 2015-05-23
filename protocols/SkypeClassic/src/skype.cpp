@@ -1387,7 +1387,7 @@ void MessageListProcessingThread(char *str) {
 	// Frst we need to sort the message timestamps
 	for ((token = strtok_r(str+1, ", ", &nextoken)); token; token = strtok_r(NULL, ", ", &nextoken)) {
 		if (args = (fetchmsg_arg*)calloc(1, sizeof(fetchmsg_arg) + sizeof(DWORD))) {
-			strncpy(args->msgnum, token, sizeof(args->msgnum)-1);
+			mir_strncpy(args->msgnum, token, sizeof(args->msgnum)-1);
 			args->getstatus = TRUE;
 			args->bIsRead = *str;
 			args->bDontMarkSeen = *str;
@@ -2163,7 +2163,7 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 						// If new message is available, fetch it
 						ptr[0] = 0;
 						if (!(args = (fetchmsg_arg *)calloc(1, sizeof(*args)))) break;
-						strncpy(args->msgnum, pMsgNum, sizeof(args->msgnum)-1);
+						mir_strncpy(args->msgnum, pMsgNum, sizeof(args->msgnum)-1);
 						args->getstatus = FALSE;
 						//args->bIsRead = strncmp(ptr+8, "READ", 4) == 0;
 						pthread_create((pThreadFunc)FetchMessageThreadSync, args);
@@ -2467,7 +2467,7 @@ void RetrieveUserAvatar(void *param)
 							// Got it
 							MoveFileExA(pszTempFile, AvatarFile, MOVEFILE_REPLACE_EXISTING);
 							AI.format = PA_FORMAT_JPEG;
-							strncpy(AI.filename, AvatarFile,SIZEOF(AI.filename)-1);
+							mir_strncpy(AI.filename, AvatarFile,SIZEOF(AI.filename)-1);
 							ack.hProcess = (HANDLE)&AI;
 						}
 

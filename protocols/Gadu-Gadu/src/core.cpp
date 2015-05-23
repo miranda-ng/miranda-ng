@@ -207,7 +207,7 @@ int gg_decodehosts(char *var, GGHOST *hosts, int max)
 
 			// Insert new item
 			hosts[hp].hostname[127] = 0;
-			strncpy(hosts[hp].hostname, hostname, 127);
+			mir_strncpy(hosts[hp].hostname, hostname, 127);
 			hosts[hp].port = portname ? atoi(portname) : 443;
 			hp ++;
 

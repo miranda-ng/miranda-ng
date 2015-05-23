@@ -447,7 +447,7 @@ void UpdateFilters()
 
 	szBuf = (char *)malloc(iLen + 1);
 	SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szBuf);
-	strncpy(g_szModename, szBuf, sizeof(g_szModename));
+	mir_strncpy(g_szModename, szBuf, sizeof(g_szModename));
 	g_szModename[sizeof(g_szModename) - 1] = 0;
 	mir_snprintf(szTemp, SIZEOF(szTemp), Translate("Current view mode: %s"), g_szModename);
 	SetDlgItemTextA(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
@@ -1051,7 +1051,7 @@ void ApplyViewMode(const char *name)
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_PF", 246, name);
 	if (!cfg::getString(NULL, CLVM_MODULE, szSetting, &dbv)) {
 		if (mir_strlen(dbv.pszVal) >= 2) {
-			strncpy(cfg::dat.protoFilter, dbv.pszVal, sizeof(cfg::dat.protoFilter));
+			mir_strncpy(cfg::dat.protoFilter, dbv.pszVal, sizeof(cfg::dat.protoFilter));
 			cfg::dat.protoFilter[sizeof(cfg::dat.protoFilter) - 1] = 0;
 			cfg::dat.bFilterEffective |= CLVM_FILTER_PROTOS;
 		}
@@ -1084,11 +1084,11 @@ void ApplyViewMode(const char *name)
 		DWORD timerexpire;
 		mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_OPT", 246, name);
 		timerexpire = LOWORD(cfg::getDword(CLVM_MODULE, szSetting, 0));
-		strncpy(cfg::dat.old_viewmode, cfg::dat.current_viewmode, 256);
+		mir_strncpy(cfg::dat.old_viewmode, cfg::dat.current_viewmode, 256);
 		cfg::dat.old_viewmode[255] = 0;
 		SetTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE, timerexpire * 1000, NULL);
 	}
-	strncpy(cfg::dat.current_viewmode, name, 256);
+	mir_strncpy(cfg::dat.current_viewmode, name, 256);
 	cfg::dat.current_viewmode[255] = 0;
 
 	if (cfg::dat.filterFlags & CLVM_USELASTMSG) {

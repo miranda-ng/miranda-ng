@@ -149,7 +149,7 @@ static BOOL ExportSettings(HWND hwndDlg, const TCHAR *filename, OBJLIST<FontInte
 
 		mir_snprintf(buff, SIZEOF(buff), "\n[%s]", F.dbSettingsGroup);
 		if (mir_strcmp(buff, header) != 0) {
-			strncpy(header, buff, SIZEOF(header));
+			mir_strncpy(header, buff, SIZEOF(header));
 			WriteLine(out, buff);
 		}
 

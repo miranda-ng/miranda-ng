@@ -50,7 +50,7 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 	_tcsncpy(info->mChatID, _A2T(pszID), SIZEOF(info->mChatID));
 	parseWLID(NEWSTR_ALLOCA(pszID), &szNet, &szEmail, NULL);
 	info->netId = atoi(szNet);
-	strncpy(info->szEmail, szEmail, sizeof(info->szEmail));
+	mir_strncpy(info->szEmail, szEmail, sizeof(info->szEmail));
 
 	TCHAR szName[512];
 	InterlockedIncrement(&m_chatID);
@@ -123,7 +123,7 @@ void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 		if (!gcu) {
 			gcu = new GCUserItem;
 			info->mJoinedContacts.insert(gcu);
-			strncpy(gcu->WLID, mri, sizeof(gcu->WLID));
+			mir_strncpy(gcu->WLID, mri, sizeof(gcu->WLID));
 		}
 		mir_tstrcpy(gcu->role, _A2T(role));
 

@@ -1016,7 +1016,7 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 					db_free(&dbv);
 				}
 				else {
-					strncpy(jid, from, SIZEOF(jid) - 1);
+					mir_strncpy(jid, from, SIZEOF(jid) - 1);
 				}
 				ignore = !IsAuthorized(proto, jid);
 				ask = true;
@@ -1029,7 +1029,7 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 					db_free(&dbv);
 				}
 				else {
-					strncpy(jid, from, SIZEOF(jid) - 1);
+					mir_strncpy(jid, from, SIZEOF(jid) - 1);
 				}
 				ask = !IsAuthorized(proto, jid);
 				ignore = false;

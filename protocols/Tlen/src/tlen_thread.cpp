@@ -130,7 +130,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 
 	DBVARIANT dbv;
 	if (!db_get(NULL, info->proto->m_szModuleName, "LoginName", &dbv)) {
-		strncpy(info->username, dbv.pszVal, sizeof(info->username));
+		mir_strncpy(info->username, dbv.pszVal, sizeof(info->username));
 		info->username[sizeof(info->username)-1] = '\0';
 		_strlwr(info->username);
 		db_set_s(NULL, info->proto->m_szModuleName, "LoginName", info->username);
@@ -143,7 +143,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 
 	if (loginErr == 0) {
 		if (!db_get(NULL, info->proto->m_szModuleName, "LoginServer", &dbv)) {
-			strncpy(info->server, dbv.pszVal, sizeof(info->server));
+			mir_strncpy(info->server, dbv.pszVal, sizeof(info->server));
 			info->server[sizeof(info->server)-1] = '\0';
 			_strlwr(info->server);
 			db_set_s(NULL, info->proto->m_szModuleName, "LoginServer", info->server);
@@ -168,7 +168,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 			CloseHandle(hEventPasswdDlg);
 			
 			if (onlinePassword[0] != (char) -1) {
-				strncpy(info->password, onlinePassword, sizeof(info->password));
+				mir_strncpy(info->password, onlinePassword, sizeof(info->password));
 				info->password[sizeof(info->password)-1] = '\0';
 			}
 			else {
@@ -178,7 +178,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 		}
 		else {
 			if (!db_get(NULL, info->proto->m_szModuleName, "Password", &dbv)) {
-				strncpy(info->password, dbv.pszVal, sizeof(info->password));
+				mir_strncpy(info->password, dbv.pszVal, sizeof(info->password));
 				info->password[sizeof(info->password)-1] = '\0';
 				db_free(&dbv);
 			}
@@ -211,7 +211,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 	db_set_s(NULL, info->proto->m_szModuleName, "jid", jidStr);
 
 	if (!db_get(NULL, info->proto->m_szModuleName, "ManualHost", &dbv)) {
-		strncpy(info->manualHost, dbv.pszVal, sizeof(info->manualHost));
+		mir_strncpy(info->manualHost, dbv.pszVal, sizeof(info->manualHost));
 		info->manualHost[sizeof(info->manualHost)-1] = '\0';
 		db_free(&dbv);
 	}
@@ -227,7 +227,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 
 
 	if (!db_get(NULL, info->proto->m_szModuleName, "AvatarHash", &dbv)) {
-		strncpy(info->proto->threadData->avatarHash, dbv.pszVal, sizeof(info->proto->threadData->avatarHash)-1);
+		mir_strncpy(info->proto->threadData->avatarHash, dbv.pszVal, sizeof(info->proto->threadData->avatarHash)-1);
 		db_free(&dbv);
 	}
 	info->avatarFormat = db_get_dw(NULL, info->proto->m_szModuleName, "AvatarFormat", PA_FORMAT_UNKNOWN);
@@ -587,7 +587,7 @@ static void TlenProcessAvatar(XmlNode* node, ThreadData *info)
 	XmlNode *aNode = TlenXmlGetChild(node, "a");
 	if (tokenNode != NULL) {
 		char *token = tokenNode->text;
-		strncpy(info->avatarToken, token, sizeof(info->avatarToken)-1);
+		mir_strncpy(info->avatarToken, token, sizeof(info->avatarToken)-1);
 	}
 	if (aNode != NULL) {
 		if (TlenProcessAvatarNode(info->proto, node, NULL)) {

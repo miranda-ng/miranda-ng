@@ -286,30 +286,30 @@ static void OnLoadSettings()
 static void RegisterFonts()
 {
 	ColourIDT colourid = { sizeof(colourid) };
-	strncpy(colourid.dbSettingsGroup, CHAT_MODULE, sizeof(colourid.dbSettingsGroup));
+	mir_strncpy(colourid.dbSettingsGroup, CHAT_MODULE, sizeof(colourid.dbSettingsGroup));
 	_tcsncpy(colourid.group, LPGENT("Chat module"), SIZEOF(colourid.group));
 
-	strncpy(colourid.setting, "ColorLogBG", SIZEOF(colourid.setting));
+	mir_strncpy(colourid.setting, "ColorLogBG", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Group chat log background"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
 
-	strncpy(colourid.setting, "ColorMessageBG", SIZEOF(colourid.setting));
+	mir_strncpy(colourid.setting, "ColorMessageBG", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Message background"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
 
-	strncpy(colourid.setting, "ColorNicklistBG", SIZEOF(colourid.setting));
+	mir_strncpy(colourid.setting, "ColorNicklistBG", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Nick list background"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
 
-	strncpy(colourid.setting, "ColorNicklistLines", SIZEOF(colourid.setting));
+	mir_strncpy(colourid.setting, "ColorNicklistLines", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Nick list lines"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_INACTIVEBORDER);
 	ColourRegisterT(&colourid);
 
-	strncpy(colourid.setting, "ColorNicklistSelectedBG", SIZEOF(colourid.setting));
+	mir_strncpy(colourid.setting, "ColorNicklistSelectedBG", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Nick list background (selected)"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
 	ColourRegisterT(&colourid);

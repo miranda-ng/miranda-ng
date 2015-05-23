@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 inline char *STRNCPY(char *output, const char *input, size_t size)
 {
-	char *res = strncpy(output, input, size);
+	char *res = mir_strncpy(output, input, size);
 	output[size - 1] = 0;
 	
 	return res;

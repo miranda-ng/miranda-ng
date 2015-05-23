@@ -108,14 +108,14 @@ void RegisterFontServiceFonts()
 	FontIDT fid = { sizeof(fid) };
 	_tcsncpy_s(fid.group, LPGENT("Messaging"), _TRUNCATE);
 	_tcsncpy_s(fid.backgroundGroup, LPGENT("Messaging"), _TRUNCATE);
-	strncpy(fid.dbSettingsGroup, SRMMMOD, SIZEOF(fid.dbSettingsGroup));
+	mir_strncpy(fid.dbSettingsGroup, SRMMMOD, SIZEOF(fid.dbSettingsGroup));
 	fid.flags = FIDF_DEFAULTVALID | FIDF_DEFAULTVALID;
 	for (int i = 0; i < SIZEOF(fontOptionsList); i++) {
 		fid.order = i;
 
 		char szTemp[100];
 		mir_snprintf(szTemp, SIZEOF(szTemp), "SRMFont%d", i);
-		strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
+		mir_strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
 		_tcsncpy(fid.name, fontOptionsList[i].szDescr, SIZEOF(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].defColour;
 		fid.deffontsettings.size = fontOptionsList[i].defSize;
@@ -128,7 +128,7 @@ void RegisterFontServiceFonts()
 
 	ColourIDT cid = { sizeof(cid) };
 	_tcsncpy_s(cid.group, LPGENT("Messaging"), _TRUNCATE);
-	strncpy(cid.dbSettingsGroup, SRMMMOD, SIZEOF(fid.dbSettingsGroup));
+	mir_strncpy(cid.dbSettingsGroup, SRMMMOD, SIZEOF(fid.dbSettingsGroup));
 	cid.flags = 0;
 	for (int i = 0; i < SIZEOF(colourOptionsList); i++) {
 		cid.order = i;
@@ -138,7 +138,7 @@ void RegisterFontServiceFonts()
 		else
 			cid.defcolour = colourOptionsList[i].defColour;
 
-		strncpy(cid.setting, colourOptionsList[i].szSettingName, SIZEOF(cid.setting));
+		mir_strncpy(cid.setting, colourOptionsList[i].szSettingName, SIZEOF(cid.setting));
 		ColourRegisterT(&cid);
 	}
 }

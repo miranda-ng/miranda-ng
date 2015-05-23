@@ -325,14 +325,14 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 
 	CSendLaterJob *job = new CSendLaterJob;
 
-	strncpy(job->szId, szSetting, 20);
+	mir_strncpy(job->szId, szSetting, 20);
 	job->szId[19] = 0;
 	job->hContact = hContact;
 	job->created = atol(&szSetting[1]);
 
 	size_t iLen = mir_strlen(szOrig_Utf);
 	job->sendBuffer = reinterpret_cast<char *>(mir_alloc(iLen + 1));
-	strncpy(job->sendBuffer, szOrig_Utf, iLen);
+	mir_strncpy(job->sendBuffer, szOrig_Utf, iLen);
 	job->sendBuffer[iLen] = 0;
 
 	// construct conventional send buffer
@@ -345,7 +345,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 
 	job->pBuf = (PBYTE)mir_calloc(required);
 
-	strncpy((char*)job->pBuf, szAnsi, iLen);
+	mir_strncpy((char*)job->pBuf, szAnsi, iLen);
 	job->pBuf[iLen] = 0;
 	if (szWchar)
 		wcsncpy((wchar_t*)&job->pBuf[iLen + 1], szWchar, mir_wstrlen(szWchar));

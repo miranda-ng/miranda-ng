@@ -520,7 +520,7 @@ int main(int argc, char *argv[]) {
 		}
 		for (i=0;i<argc;i++) {
 			if (!mir_strcmpi(argv[i], "-i") && argc>i+1)
-				strncpy(BindIP, argv[i+1], sizeof(BindIP));
+				mir_strncpy(BindIP, argv[i+1], sizeof(BindIP));
 			if (!mir_strcmpi(argv[i], "-p") && argc>i+1) 
 				if (!(BindPort=atoi(argv[i+1]))) {
 					OUTPUT("ERROR: Cannot convert port to int. bye..");
