@@ -514,9 +514,9 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (lpmis->CtlID != IDC_ROOM)
 				break;
 
-			lpmis->itemHeight = 2*sttTextLineHeight;
+			lpmis->itemHeight = 2 * sttTextLineHeight;
 			if (lpmis->itemID == -1)
-				lpmis->itemHeight = sttTextLineHeight-1;
+				lpmis->itemHeight = sttTextLineHeight - 1;
 
 		}
 		break;
@@ -541,9 +541,9 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				clLine1 = GetSysColor(COLOR_WINDOWTEXT);
 			}
 			COLORREF clLine2 = RGB(
-					GetRValue(clLine1) * 0.66 + GetRValue(clBack) * 0.34,
-					GetGValue(clLine1) * 0.66 + GetGValue(clBack) * 0.34,
-					GetBValue(clLine1) * 0.66 + GetBValue(clBack) * 0.34);
+				GetRValue(clLine1) * 0.66 + GetRValue(clBack) * 0.34,
+				GetGValue(clLine1) * 0.66 + GetGValue(clBack) * 0.34,
+				GetBValue(clLine1) * 0.66 + GetBValue(clBack) * 0.34);
 
 			SetBkMode(lpdis->hDC, TRANSPARENT);
 
@@ -551,7 +551,7 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			rc.bottom -= (rc.bottom - rc.top) / 2;
 			rc.left += 20;
 			SetTextColor(lpdis->hDC, clLine1);
-			DrawText(lpdis->hDC, info->line1, -1, &rc, DT_LEFT|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_WORD_ELLIPSIS);
+			DrawText(lpdis->hDC, info->line1, -1, &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS);
 
 			rc = lpdis->rcItem;
 			rc.top += (rc.bottom - rc.top) / 2;
@@ -621,9 +621,9 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 					else
 						sttRoomListAppend(GetDlgItem(m_hwnd, IDC_ROOM), RoomInfo::ROOM_FAIL,
-							TranslateT("Jabber Error"),
-							TranslateT("Please specify group chat directory first."),
-							_T(""));
+						TranslateT("Jabber Error"),
+						TranslateT("Please specify group chat directory first."),
+						_T(""));
 				}
 				break;
 			}
@@ -666,7 +666,10 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 							SetDlgItemText(m_hwnd, IDC_ROOM, room);
 							SetDlgItemText(m_hwnd, IDC_NICK, item->nick);
 							SetDlgItemText(m_hwnd, IDC_PASSWORD, item->password);
-			}	}	}	}
+						}
+					}
+				}
+			}
 			break;
 
 		case IDC_RECENT1:
