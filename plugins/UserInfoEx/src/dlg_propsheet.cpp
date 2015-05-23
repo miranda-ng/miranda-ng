@@ -64,8 +64,8 @@ static HANDLE ghDetailsInitEvent = NULL;
 
 static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-CPsHdr::CPsHdr() :
-_ignore(10, (LIST<TCHAR>::FTSortFunc)mir_tstrcmp)
+CPsHdr::CPsHdr()
+	: _ignore(10, _tcscmp)
 {
 	_dwSize = sizeof(*this);
 	_hContact = NULL;
