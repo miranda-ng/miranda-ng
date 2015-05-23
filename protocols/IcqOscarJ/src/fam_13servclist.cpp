@@ -1388,10 +1388,6 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, size_t wLen)
 		memcpy(szReason, buf, wReasonLen);
 		szReason[wReasonLen] = '\0';
 		nReasonLen = (int)mir_strlen(szReason);
-
-		char *temp = (char*)_alloca(nReasonLen + 2);
-		if (!IsUSASCII(szReason, nReasonLen) && UTF8_IsValid(szReason))
-			utf8_decode_static(szReason, temp, nReasonLen + 1);
 	}
 
 	// Read nick name from DB

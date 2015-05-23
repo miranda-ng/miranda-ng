@@ -241,6 +241,7 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, size_t wLen, DWORD dwUin, char
 				// different encodings (just like the new format of Offline Messages).
 				DWORD dwRecvTime;
 				char* szMsg = NULL;
+				bool bUtf8 = false;
 				PROTORECVEVENT pre = { 0 };
 
 				int bAdded;
@@ -249,27 +250,23 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, size_t wLen, DWORD dwUin, char
 				WORD wMsgPart = 1;
 				while (oscar_tlv *pMessageTLV = pChain->getTLV(0x0101, wMsgPart)) { // Loop thru all message parts
 					if (pMessageTLV->wLen > 4) {
-						WORD wMsgLen;
-						BYTE *pMsgBuf;
-						WORD wEncoding;
-						WORD wCodePage;
 						char *szMsgPart = NULL;
-						int bMsgPartUnicode = FALSE;
+						bool bMsgPartUnicode = false;
 
 						// The message begins with a encoding specification
 						// The first WORD is believed to have the following meaning:
 						//  0x00: US-ASCII
 						//  0x02: Unicode UCS-2 Big Endian encoding
 						//  0x03: local 8bit encoding
-						pMsgBuf = pMessageTLV->pData;
+						BYTE *pMsgBuf = pMessageTLV->pData;
+						WORD wEncoding, wCodePage;
 						unpackWord(&pMsgBuf, &wEncoding);
 						unpackWord(&pMsgBuf, &wCodePage);
 
-						wMsgLen = pMessageTLV->wLen - 4;
+						WORD wMsgLen = pMessageTLV->wLen - 4;
 						debugLogA("Message (format 1) - Part %d: Encoding is 0x%X, page is 0x%X", wMsgPart, wEncoding, wCodePage);
 
 						switch (wEncoding) {
-
 						case 2: // UCS-2
 							{
 								WCHAR *usMsgPart = (WCHAR*)SAFE_MALLOC(wMsgLen + 2);
@@ -279,7 +276,7 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, size_t wLen, DWORD dwUin, char
 
 								szMsgPart = make_utf8_string(usMsgPart);
 								if (!IsUSASCII(szMsgPart, mir_strlen(szMsgPart)))
-									bMsgPartUnicode = TRUE;
+									bMsgPartUnicode = true;
 								SAFE_FREE(&usMsgPart);
 							}
 							break;
@@ -291,21 +288,21 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, size_t wLen, DWORD dwUin, char
 							szMsgPart = (char*)SAFE_MALLOC(wMsgLen + 1);
 							memcpy(szMsgPart, pMsgBuf, wMsgLen);
 							szMsgPart[wMsgLen] = '\0';
-
 							break;
 						}
+
 						// Check if the new part is compatible with the message
-						if (!pre.flags && bMsgPartUnicode) { // make the resulting message utf-8 encoded - need to append utf-8 encoded part
+						if (!bUtf8 && bMsgPartUnicode) { // make the resulting message utf-8 encoded - need to append utf-8 encoded part
 							if (szMsg) { // not necessary to convert - appending first part, only set flags
 								char *szUtfMsg = ansi_to_utf8_codepage(szMsg, getWord(hContact, "CodePage", m_wAnsiCodepage));
 
 								SAFE_FREE(&szMsg);
 								szMsg = szUtfMsg;
 							}
+							bUtf8 = true;
 						}
-						if (!bMsgPartUnicode) { // convert message part to utf-8 and append
+						if (!bMsgPartUnicode && bUtf8) { // convert message part to utf-8 and append
 							char *szUtfPart = ansi_to_utf8_codepage((char*)szMsgPart, getWord(hContact, "CodePage", m_wAnsiCodepage));
-
 							SAFE_FREE(&szMsgPart);
 							szMsgPart = szUtfPart;
 						}
@@ -321,11 +318,12 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, size_t wLen, DWORD dwUin, char
 					if (_strnicmp(szMsg, "<html>", 6) == 0) // strip HTML formating from AIM message
 						szMsg = EliminateHtml(szMsg, mir_strlen(szMsg));
 
-					if (!pre.flags && !IsUSASCII(szMsg, mir_strlen(szMsg))) { // message is Ansi and contains national characters, create Unicode part by codepage
+					if (!bUtf8 && !IsUSASCII(szMsg, mir_strlen(szMsg))) { // message is Ansi and contains national characters, create Unicode part by codepage
 						char *usMsg = convertMsgToUserSpecificUtf(hContact, szMsg);
 						if (usMsg) {
 							SAFE_FREE(&szMsg);
 							szMsg = usMsg;
+							bUtf8 = true;
 						}
 					}
 
@@ -1529,6 +1527,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 	case MTYPE_PLAIN:    /* plain message */
 		{
 			PROTORECVEVENT pre = { 0 };
+			bool bUtf8 = false;
 
 			// Check if this message is marked as UTF8 encoded
 			if (dwDataLen > 12) {
@@ -1545,6 +1544,10 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 						usMsg[dwExtraLen] = '\0';
 						SAFE_FREE(&szMsg);
 						szMsg = (char*)make_utf8_string(usMsg);
+
+						if (!IsUnicodeAscii(usMsg, dwExtraLen))
+							bUtf8 = true; // only mark real non-ascii messages as unicode
+
 						bDoubleMsg = 1;
 					}
 				}
@@ -1557,6 +1560,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 
 				while ((dwGuidLen >= 38) && (dwDataLen >= dwGuidLen)) {
 					if (!strncmp(pMsg, CAP_UTF8MSGS, 38)) { // Found UTF8 cap, convert message to ansi
+						bUtf8 = true;
 						break;
 					}
 					else if (!strncmp(pMsg, CAP_RTFMSGS, 38)) { // Found RichText cap
@@ -1571,9 +1575,9 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			}
 
 			hContact = HContactFromUIN(dwUin, &bAdded);
-			sendMessageTypesAck(hContact, true, pAckParams);
+			sendMessageTypesAck(hContact, bUtf8, pAckParams);
 
-			if (!pre.flags && !IsUSASCII(szMsg, mir_strlen(szMsg))) { // message is Ansi and contains national characters, create Unicode part by codepage
+			if (!bUtf8 && !IsUSASCII(szMsg, mir_strlen(szMsg))) { // message is Ansi and contains national characters, create Unicode part by codepage
 				char *usMsg = convertMsgToUserSpecificUtf(hContact, szMsg);
 				if (usMsg) {
 					SAFE_FREE(&szMsg);
