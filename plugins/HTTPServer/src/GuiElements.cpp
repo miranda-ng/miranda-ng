@@ -322,7 +322,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 						memmove(&szSelection[1], pszFolder, mir_strlen(pszFolder) + 1);
 						szSelection[0] = '/';
 						if (szSelection[mir_strlen(szSelection)-1] != '/')
-							strcat(szSelection, "/");
+							mir_strcat(szSelection, "/");
 
 						// only write to IDC_SHARE_NAME when a file / other folder was selected before
 						if (!mir_strcmp(szSelection, pstShare->pszSrvPath))
@@ -353,7 +353,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 					if (pszTmp) {
 						*pszTmp = '\0';
 						if (pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath)-1] != '/')
-							strcat(pstShare->pszSrvPath, "/");
+							mir_strcat(pstShare->pszSrvPath, "/");
 					} else {
 						if (pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath)-1] == '/')
 							pstShare->pszSrvPath[mir_strlen(pstShare->pszSrvPath)-1] = '\0';

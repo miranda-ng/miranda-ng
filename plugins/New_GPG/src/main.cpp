@@ -933,7 +933,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				mir_free(tmp);
 				char *mir_path = (char*)mir_alloc(sizeof(char) * MAX_PATH);
 				PathToAbsolute("\\", mir_path);
-				strcat(mir_path, "\\gpg");
+				mir_strcat(mir_path, "\\gpg");
 				if(_access(mir_path, 0) != -1)
 				{
 					tmp = mir_wstrdup(toUTF16(mir_path).c_str());

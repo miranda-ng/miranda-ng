@@ -309,7 +309,7 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, size_t wLen, DWORD dwUin, char
 						// Append the new message part
 						szMsg = (char*)SAFE_REALLOC(szMsg, mir_strlen(szMsg) + mir_strlen(szMsgPart) + 1);
 
-						strcat(szMsg, szMsgPart);
+						mir_strcat(szMsg, szMsgPart);
 						SAFE_FREE(&szMsgPart);
 					}
 					wMsgPart++;
@@ -1605,10 +1605,10 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			char *szDataUrl = ansi_to_utf8(pszMsgField[1]);
 			char *szBlob = (char *)SAFE_MALLOC(mir_strlen(szTitle) + mir_strlen(szDataDescr) + mir_strlen(szDataUrl) + 8);
 			mir_strcpy(szBlob, szTitle);
-			strcat(szBlob, " ");
-			strcat(szBlob, szDataDescr); // Description
-			strcat(szBlob, "\r\n");
-			strcat(szBlob, szDataUrl); // URL
+			mir_strcat(szBlob, " ");
+			mir_strcat(szBlob, szDataDescr); // Description
+			mir_strcat(szBlob, "\r\n");
+			mir_strcat(szBlob, szDataUrl); // URL
 			SAFE_FREE(&szTitle);
 			SAFE_FREE(&szDataDescr);
 			SAFE_FREE(&szDataUrl);

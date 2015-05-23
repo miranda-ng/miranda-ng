@@ -178,12 +178,12 @@ char* TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isG
 		if (dwFlags & MWF_LOG_USERELATIVEDATES && check >= today) {
 			dbtts.szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? (char *)"s" : (char *)"t";
 			mir_strcpy(szResult, Translate("Today"));
-			strcat(szResult, ", ");
+			mir_strcat(szResult, ", ");
 		}
 		else if (dwFlags & MWF_LOG_USERELATIVEDATES && check > (today - 86400)) {
 			dbtts.szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? (char *)"s" : (char *)"t";
 			mir_strcpy(szResult, Translate("Yesterday"));
-			strcat(szResult, ", ");
+			mir_strcat(szResult, ", ");
 		}
 		else {
 			if (dwFlags & MWF_LOG_LONGDATES)

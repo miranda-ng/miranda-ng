@@ -57,7 +57,7 @@ int Log(char *format, ...)
 	va_end(vararg);
 	if (str[mir_strlen(str) - 1] != '\n')
 		{
-			strcat(str, "\n");
+			mir_strcat(str, "\n");
 		}
 	fputs(str, fout);
 	fclose(fout);

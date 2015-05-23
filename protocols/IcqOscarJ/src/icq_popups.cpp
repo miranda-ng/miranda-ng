@@ -214,35 +214,35 @@ int CIcqProto::ShowPopupMsg(MCONTACT hContact, const char *szTitle, const char *
 			rsIcon = MAKEINTRESOURCE(IDI_INFORMATION);
 			ppd.colorBack = DEFAULT_LOG0_BACK_COLORS;
 			ppd.colorText = DEFAULT_LOG0_TEXT_COLORS;
-			strcat(szPrefix, "0");
+			mir_strcat(szPrefix, "0");
 			break;
 
 		case LOG_WARNING:
 			rsIcon = MAKEINTRESOURCE(IDI_WARNING);
 			ppd.colorBack = DEFAULT_LOG1_BACK_COLORS;
 			ppd.colorText = DEFAULT_LOG1_TEXT_COLORS;
-			strcat(szPrefix, "1");
+			mir_strcat(szPrefix, "1");
 			break;
 
 		case LOG_ERROR:
 			rsIcon = MAKEINTRESOURCE(IDI_ERROR);
 			ppd.colorBack = DEFAULT_LOG2_BACK_COLORS;
 			ppd.colorText = DEFAULT_LOG2_TEXT_COLORS;
-			strcat(szPrefix, "2");
+			mir_strcat(szPrefix, "2");
 			break;
 
 		case LOG_FATAL:
 			rsIcon = MAKEINTRESOURCE(IDI_ERROR);
 			ppd.colorBack = DEFAULT_LOG3_BACK_COLORS;
 			ppd.colorText = DEFAULT_LOG3_TEXT_COLORS;
-			strcat(szPrefix, "3");
+			mir_strcat(szPrefix, "3");
 			break;
 
 		case POPTYPE_SPAM:
 			rsIcon = MAKEINTRESOURCE(IDI_WARNING);
 			ppd.colorBack = DEFAULT_SPAM_BACK_COLORS;
 			ppd.colorText = DEFAULT_SPAM_TEXT_COLORS;
-			strcat(szPrefix, "Spam");
+			mir_strcat(szPrefix, "Spam");
 			break;
 		default:
 			return -1;
@@ -263,15 +263,15 @@ int CIcqProto::ShowPopupMsg(MCONTACT hContact, const char *szTitle, const char *
 			}
 			else {
 				mir_strcpy(szSetting, szPrefix);
-				strcat(szSetting, "TextColor");
+				mir_strcat(szSetting, "TextColor");
 				ppd.colorText = getDword(szSetting, ppd.colorText);
 				mir_strcpy(szSetting, szPrefix);
-				strcat(szSetting, "BackColor");
+				mir_strcat(szSetting, "BackColor");
 				ppd.colorBack = getDword(szSetting, ppd.colorBack);
 			}
 		}
 		mir_strcpy(szSetting, szPrefix);
-		strcat(szSetting, "Timeout");
+		mir_strcat(szSetting, "Timeout");
 		ppd.iSeconds = getDword(szSetting, ppd.iSeconds);
 
 		char str[4096];

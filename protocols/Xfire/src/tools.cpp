@@ -70,8 +70,8 @@ BOOL str_replace(char*src, char*find, char*rep)
 		mir_strcpy(temp, src);
 		*(temp + pos) = 0;
 
-		strcat(temp, rep);
-		strcat(temp, (src + pos + mir_strlen(find)));
+		mir_strcat(temp, rep);
+		mir_strcat(temp, (src + pos + mir_strlen(find)));
 		mir_strcpy(src, temp);
 
 		delete[] temp;
@@ -995,8 +995,8 @@ BOOL GetWWWContent2(char*address, char*filename, BOOL dontoverwrite, char**tobuf
 //eigener www downloader, da winet exceptions erzeugt
 BOOL GetWWWContent(char*host, char* request, char*filename, BOOL dontoverwrite) {
 	char add[1024] = "http://";
-	strcat(add, host);
-	strcat(add, request);
+	mir_strcat(add, host);
+	mir_strcat(add, request);
 
 	return GetWWWContent2(add, filename, dontoverwrite);
 }

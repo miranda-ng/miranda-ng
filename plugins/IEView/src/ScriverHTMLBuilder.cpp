@@ -146,13 +146,13 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 		if (dwFlags & SMF_LOG_USERELATIVEDATE && check >= today) {
 			strncpy(szResult, Translate("Today"), SIZEOF(szResult)-1);
 			if (mode == 0) {
-				strcat(szResult, ",");
+				mir_strcat(szResult, ",");
 			}
 		}
 		else if (dwFlags & SMF_LOG_USERELATIVEDATE && check > (today - 86400)) {
 			strncpy(szResult, Translate("Yesterday"), SIZEOF(szResult)-1);
 			if (mode == 0) {
-				strcat(szResult, ",");
+				mir_strcat(szResult, ",");
 			}
 		}
 		else {
@@ -164,9 +164,9 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 	}
 	if (mode == 0 || mode == 2) {
 		if (mode == 0 && (dwFlags & SMF_LOG_SHOWDATE)) {
-			strcat(format, " ");
+			mir_strcat(format, " ");
 		}
-		strcat(format, (dwFlags & SMF_LOG_SHOWSECONDS) ? "s" : "t");
+		mir_strcat(format, (dwFlags & SMF_LOG_SHOWSECONDS) ? "s" : "t");
 	}
 	if (format[0] != '\0') {
 		//		CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, check, (LPARAM) & dbtts);

@@ -579,7 +579,7 @@ static INT_PTR CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		TranslateDialogDefault(hwndDlg);
 
 		mir_strcpy(inipath, XFireGetFoldersPath("IniFile"));
-		strcat(inipath, "xfire_games.ini");
+		mir_strcat(inipath, "xfire_games.ini");
 
 		FILE * f = fopen(inipath, "r");
 		if (f != NULL)
@@ -595,7 +595,7 @@ static INT_PTR CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 
 		mir_strcpy(inipath, XFireGetFoldersPath("IconsFile"));
-		strcat(inipath, "icons.dll");
+		mir_strcat(inipath, "icons.dll");
 
 		f = fopen(inipath, "r");
 		if (f != NULL)

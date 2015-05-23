@@ -30,7 +30,7 @@ int CheckBayes()
 	else
 		strncpy_s(bayesdb_fullpath, bayesdb_tmp, _TRUNCATE);
 
-	strcat(bayesdb_fullpath, "\\"BAYESDB_FILENAME);
+	mir_strcat(bayesdb_fullpath, "\\"BAYESDB_FILENAME);
 	if (_access(bayesdb_fullpath,0) == 0)
 		return 1;
 	
@@ -52,13 +52,13 @@ int OpenBayes()
 		if (tmp[mir_strlen(tmp)-1] == '\\')
 			tmp[mir_strlen(tmp)-1] = 0;
 		mir_strcpy(bayesdb_fullpath, tmp);
-		strcat(bayesdb_fullpath, "\\"BAYESDB_PATH);
+		mir_strcat(bayesdb_fullpath, "\\"BAYESDB_PATH);
 		mir_free(tmp);
 	}
 
 	CallService(MS_UTILS_CREATEDIRTREE, 0, (LPARAM)bayesdb_fullpath);
 
-	strcat(bayesdb_fullpath, "\\"BAYESDB_FILENAME);
+	mir_strcat(bayesdb_fullpath, "\\"BAYESDB_FILENAME);
 	bayesdb_fullpath_utf8 = mir_utf8encode(bayesdb_fullpath);
 	
 	if (sqlite3_open(bayesdb_fullpath_utf8, &bayesdb) == SQLITE_OK)

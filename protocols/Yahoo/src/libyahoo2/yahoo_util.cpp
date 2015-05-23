@@ -50,7 +50,7 @@ char * y_string_append(char * string, char * append)
 		FREE(string);
 	}
 
-	strcat(new_string, append);
+	mir_strcat(new_string, append);
 
 	return new_string;
 }

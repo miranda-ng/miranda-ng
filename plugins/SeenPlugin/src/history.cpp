@@ -27,8 +27,8 @@ char* BuildSetting(int historyLast)
 	static char setting[15];
 	static char sztemp[15];
 	*setting = '\0';
-	strcat(setting, "History_");
-	strcat(setting, _itoa(historyLast, sztemp, 10));
+	mir_strcat(setting, "History_");
+	mir_strcat(setting, _itoa(historyLast, sztemp, 10));
 	return setting;
 }
 

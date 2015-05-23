@@ -230,23 +230,23 @@ void CSHA1::ReportHash(char *szReport, unsigned char uReportType)
 	if (uReportType == REPORT_HEX)
 	{
 		mir_snprintf(szTemp, SIZEOF(szTemp), "%02X", m_digest[0]);
-		strcat(szReport, szTemp);
+		mir_strcat(szReport, szTemp);
 
 		for(i = 1; i < 20; i++)
 		{
 			mir_snprintf(szTemp, SIZEOF(szTemp), " %02X", m_digest[i]);
-			strcat(szReport, szTemp);
+			mir_strcat(szReport, szTemp);
 		}
 	}
 	else if (uReportType == REPORT_DIGIT)
 	{
 		mir_snprintf(szTemp, SIZEOF(szTemp), "%u", m_digest[0]);
-		strcat(szReport, szTemp);
+		mir_strcat(szReport, szTemp);
 
 		for(i = 1; i < 20; i++)
 		{
 			mir_snprintf(szTemp, SIZEOF(szTemp), " %u", m_digest[i]);
-			strcat(szReport, szTemp);
+			mir_strcat(szReport, szTemp);
 		}
 	}
 	else mir_strcpy(szReport, "Error: Unknown report type!");

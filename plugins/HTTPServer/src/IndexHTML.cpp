@@ -376,7 +376,7 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 					*pszTmp = '+';*/
 
 					if (*pszPos == SY_FOR_DIRS) { // For Directories
-						strcat(szURL, "/");
+						mir_strcat(szURL, "/");
 					} else { // For Files
 						iFileSize = fdFindFileData.nFileSizeLow;
 						ftFileCreateTime = fdFindFileData.ftCreationTime;

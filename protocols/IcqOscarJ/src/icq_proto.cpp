@@ -1317,7 +1317,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 			mng = (char*)SAFE_REALLOC(mng, len + 28);
 			memmove(mng + 12, mng, len + 1);
 			memcpy(mng, "<HTML><BODY>", 12);
-			strcat(mng, "</BODY></HTML>");
+			mir_strcat(mng, "</BODY></HTML>");
 			puszText = mng;
 			bNeedFreeU = 1;
 		}

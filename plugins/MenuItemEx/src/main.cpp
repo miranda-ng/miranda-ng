@@ -345,7 +345,7 @@ void getIP(MCONTACT hContact, LPSTR szProto, LPSTR szIP)
 	if (rIP)
 		mir_snprintf(szrIP, SIZEOF(szrIP), "Internal IP: %d.%d.%d.%d\r\n", rIP >> 24, (rIP >> 16) & 0xFF, (rIP >> 8) & 0xFF, rIP & 0xFF);
 	mir_strcpy(szIP, szrIP);
-	strcat(szIP, szmIP);
+	mir_strcat(szIP, szmIP);
 }
 
 LPTSTR getMirVer(MCONTACT hContact)

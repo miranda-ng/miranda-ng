@@ -48,7 +48,7 @@ int ConnectToMiranda()
 {
 	char pluginPath[1024];
 	GetMirandaFolder(pluginPath, sizeof(pluginPath));
-	strcat(pluginPath, "\\plugins\\cmdline.dll");
+	mir_strcat(pluginPath, "\\plugins\\cmdline.dll");
 
 	ListCommands = NULL;
 

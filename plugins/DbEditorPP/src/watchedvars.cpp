@@ -93,7 +93,7 @@ void addwatchtolist(HWND hwnd2list, struct DBsetting *lParam)
 		{
 			char tmp[16];
 			mir_snprintf(tmp, SIZEOF(tmp), "%02X ", (BYTE)dbv->pbVal[j]);
-			strcat(data, tmp);
+			mir_strcat(data, tmp);
 		}
 		ListView_SetItemText(hwnd2list, index, 4, data);
 		ListView_SetItemText(hwnd2list, index, 3, "BLOB");

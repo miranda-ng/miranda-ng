@@ -78,10 +78,10 @@ INT_PTR SkypeSendFile(WPARAM, LPARAM lParam)
 		utfmsg = (char*)make_utf8_string(files[nFiles]);
 		iLen += mir_strlen(utfmsg) + 3;
 		if (pszFile = pszFile ? (char*)realloc(pszFile, iLen) : (char*)calloc(1, iLen)) {
-			if (nFiles > 0) strcat(pszFile, ",");
-			strcat(pszFile, "\"");
-			strcat(pszFile, utfmsg);
-			strcat(pszFile, "\"");
+			if (nFiles > 0) mir_strcat(pszFile, ",");
+			mir_strcat(pszFile, "\"");
+			mir_strcat(pszFile, utfmsg);
+			mir_strcat(pszFile, "\"");
 		}
 		free(utfmsg);
 	}

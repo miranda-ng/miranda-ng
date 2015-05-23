@@ -609,7 +609,7 @@ static int DBLoadFrameSettingsAtPos(int pos, int Frameid)
 
 	_itoa(pos, sadd, 10);
 
-	//db_set_s(0, CLUIFrameModule,strcat("Name",sadd),Frames[Frameid].name);
+	//db_set_s(0, CLUIFrameModule,mir_strcat("Name",sadd),Frames[Frameid].name);
 	//bool
 	g_pfwFrames[Frameid].collapsed = db_get_b(0, CLUIFrameModule, AS(buf, "Collapse", sadd), g_pfwFrames[Frameid].collapsed);
 

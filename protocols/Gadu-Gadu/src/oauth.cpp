@@ -113,18 +113,18 @@ char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmet
 
 	res = (char *)mir_alloc(size);
 	mir_strcpy(res, httpmethod);
-	strcat(res, "&");
-	strcat(res, urlenc);
+	mir_strcat(res, "&");
+	mir_strcat(res, urlenc);
 	mir_free(urlenc);
-	strcat(res, "&");
+	mir_strcat(res, "&");
 
 	for (i = 0; i < params.getCount(); i++) {
 		p = params[i];
 		if (!mir_strcmp(p->name, "oauth_signature")) continue;
-		if (i > 0) strcat(res, "%26");
-		strcat(res, p->name);
-		strcat(res, "%3D");
-		strcat(res, p->value);
+		if (i > 0) mir_strcat(res, "%26");
+		mir_strcat(res, p->name);
+		mir_strcat(res, "%3D");
+		mir_strcat(res, p->value);
 	}
 
 	return res;
@@ -196,8 +196,8 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 		ptrA tsenc( oauth_uri_escape(token_secret));
 		ptrA key((char *)mir_alloc(mir_strlen(csenc) + mir_strlen(tsenc) + 2));
 		mir_strcpy(key, csenc);
-		strcat(key, "&");
-		strcat(key, tsenc);
+		mir_strcat(key, "&");
+		mir_strcat(key, tsenc);
 
 		BYTE digest[MIR_SHA1_HASH_SIZE];
 		mir_hmac_sha1(digest, (BYTE*)(char*)key, mir_strlen(key), (BYTE*)(char*)text, mir_strlen(text));
@@ -209,8 +209,8 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 
 		sign = (char *)mir_alloc(mir_strlen(csenc) + mir_strlen(tsenc) + 2);
 		mir_strcpy(sign, csenc);
-		strcat(sign, "&");
-		strcat(sign, tsenc);
+		mir_strcat(sign, "&");
+		mir_strcat(sign, tsenc);
 	}
 
 	oauth_setparam(params, "oauth_signature", sign);
@@ -277,11 +277,11 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 
 	for (i = 0; i < oauth_parameters.getCount(); i++) {
 		OAUTHPARAMETER *p = oauth_parameters[i];
-		if (i > 0) strcat(res, ",");
-		strcat(res, p->name);
-		strcat(res, "=\"");
-		strcat(res, p->value);
-		strcat(res, "\"");
+		if (i > 0) mir_strcat(res, ",");
+		mir_strcat(res, p->name);
+		mir_strcat(res, "=\"");
+		mir_strcat(res, p->value);
+		mir_strcat(res, "\"");
 	}
 
 	oauth_freeparams(oauth_parameters);

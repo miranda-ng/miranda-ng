@@ -119,7 +119,7 @@ static char* GetCMDL(TSettingsList& protoSettings)
 	char* args = GetCMDLArguments(protoSettings);
 	if ( args ) {
 		cmdl = ( char* )realloc(cmdl, mir_strlen(cmdl) + mir_strlen(args) + 1);
-		strcat(cmdl, args);
+		mir_strcat(cmdl, args);
 		free(args);
 	}
 	return cmdl;

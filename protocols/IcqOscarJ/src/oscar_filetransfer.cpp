@@ -873,7 +873,7 @@ HANDLE CIcqProto::oftFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR 
 	if (ft->szThisPath) { // Append Directory name to the save path, when transfering a directory
 		ft->szSavePath = (char*)SAFE_REALLOC(ft->szSavePath, mir_strlen(ft->szSavePath) + mir_strlen(ft->szThisPath) + 4);
 		NormalizeBackslash(ft->szSavePath);
-		strcat(ft->szSavePath, ft->szThisPath);
+		mir_strcat(ft->szSavePath, ft->szThisPath);
 		NormalizeBackslash(ft->szSavePath);
 	}
 
@@ -1755,13 +1755,13 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 		char *szFullPath = (char*)SAFE_MALLOC(mir_strlen(ft->szSavePath) + mir_strlen(ft->szThisPath) + mir_strlen(ft->szThisFile) + 3);
 		mir_strcpy(szFullPath, ft->szSavePath);
 		NormalizeBackslash(szFullPath);
-		strcat(szFullPath, ft->szThisPath);
+		mir_strcat(szFullPath, ft->szThisPath);
 		NormalizeBackslash(szFullPath);
 		// make sure the dest dir exists
 		if (MakeDirUtf(szFullPath))
 			NetLog_Direct("Failed to create destination directory!");
 
-		strcat(szFullPath, ft->szThisFile);
+		mir_strcat(szFullPath, ft->szThisFile);
 		// we joined the full path to dest file
 		SAFE_FREE(&ft->szThisFile);
 		ft->szThisFile = szFullPath;
@@ -2040,7 +2040,7 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 	char *pszThisFileName = (char*)SAFE_MALLOC(mir_strlen(ft->szThisFile) + mir_strlen(szThisContainer) + 4);
 	mir_strcpy(pszThisFileName, szThisContainer);
 	NormalizeBackslash(pszThisFileName);
-	strcat(pszThisFileName, ExtractFileName(ft->szThisFile));
+	mir_strcat(pszThisFileName, ExtractFileName(ft->szThisFile));
 	
 	// convert backslashes to dir markings
 	for (size_t i = 0; i < mir_strlen(pszThisFileName); i++)

@@ -113,7 +113,7 @@ void ClientLoginPacket::hashSha1(const char *string, unsigned char *sha){
 	char szTemp[16]; 
 	for(int i = 0 ; i < 20 ; i++) { 
 	  mir_snprintf(szTemp, SIZEOF(szTemp), "%02x", temp[i]); 
-	  strcat(result,szTemp); 
+	  mir_strcat(result,szTemp); 
 	}
 	memcpy(sha,result,40);
 	sha[40] = 0x00;

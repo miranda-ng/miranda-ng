@@ -901,7 +901,7 @@ void DoAutoDetect(HWND dlg)
 		return;
 	}
 
-	strcat(basePath,"\\Skype\\");
+	mir_strcat(basePath,"\\Skype\\");
 	sprintf (fileName, "%s\\shared.xml", basePath);
 
 	if (f1 = ezxml_parse_file(fileName))

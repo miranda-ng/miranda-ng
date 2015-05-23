@@ -230,7 +230,7 @@ static int CountFiles( char *szItem )
 					}
 					
 					++nCount;
-					strcat( szDirName, "\\*.*" );
+					mir_strcat( szDirName, "\\*.*" );
 					nCount += CountFiles( szDirName );
 				}
 			}
@@ -274,7 +274,7 @@ static void SaveFiles( char *szItem, char **ppFiles, int *pnCount )
 					ppFiles[ *pnCount ] = _strdup( szDirName );
 					++( *pnCount );
 
-					strcat( szDirName, "\\*.*" );
+					mir_strcat( szDirName, "\\*.*" );
 					SaveFiles( szDirName, ppFiles, pnCount );
 					
 				}

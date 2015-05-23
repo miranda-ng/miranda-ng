@@ -710,7 +710,7 @@ INT_PTR SkypeCall(WPARAM wParam, LPARAM lParam) {
 		if (db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) return -1;
 		msg=(char *)malloc(mir_strlen(dbv.pszVal)+6);
 		mir_strcpy(msg, "CALL ");
-		strcat(msg, dbv.pszVal);
+		mir_strcat(msg, dbv.pszVal);
 		res=SkypeSend(msg);
 	}
 	db_free(&dbv);
@@ -748,7 +748,7 @@ INT_PTR SkypeCallHangup(WPARAM wParam, LPARAM lParam)
 	//	if (db_get(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) return -1;
 	//	msg=(char *)malloc(mir_strlen(dbv.pszVal)+6);
 	//	mir_strcpy(msg, "CALL ");
-	//	strcat(msg, dbv.pszVal);
+	//	mir_strcat(msg, dbv.pszVal);
 	//	res=SkypeSend(msg);
 		return res;
 	}
@@ -865,7 +865,7 @@ static INT_PTR CALLBACK DialDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					if (!db_set_s(hContact, SKYPE_PROTONAME, "SkypeOutNr", number)) {
 						msg=(char *)malloc(mir_strlen(number)+6);
 						mir_strcpy(msg, "CALL ");
-						strcat(msg, number);
+						mir_strcat(msg, number);
 						if (SkypeSend(msg) || (ptr=SkypeRcv("ERROR", 500))) {
 							db_unset(hContact, SKYPE_PROTONAME, "SkypeOutNr");
 							if (ptr) {
@@ -1173,7 +1173,7 @@ INT_PTR SkypeSetAvatar(WPARAM wParam, LPARAM lParam) {
 	{
 		strncpy(OldAvatarFile, dbv.pszVal, sizeof(OldAvatarFile)-4);
 		OldAvatarFile[sizeof(OldAvatarFile)-5] = '\0';
-		strcat(OldAvatarFile, "_old");
+		mir_strcat(OldAvatarFile, "_old");
 		DeleteFileA(OldAvatarFile);
 		if (!MoveFileA(dbv.pszVal, OldAvatarFile))
 		{
@@ -1440,7 +1440,7 @@ void TranslateMirandaRelativePathToAbsolute(LPCSTR cszPath, LPSTR szAbsolutePath
 	if(fQuoteSpaces && strchr((LPCSTR)szAbsolutePath, ' ')){
 		memmove (szAbsolutePath+1, szAbsolutePath, mir_strlen(szAbsolutePath)+1);
 		*szAbsolutePath='"';
-		strcat (szAbsolutePath, "\"");
+		mir_strcat (szAbsolutePath, "\"");
 	}
 
 	TRACEA(szAbsolutePath);
@@ -1458,8 +1458,8 @@ static int my_spawnv(const char *cmdname, const char *const *argv, PROCESS_INFOR
 		iLen += (int)mir_strlen(argv[i])+1;
 	if (!(CommandLine = (char*)calloc(1, iLen))) return -1;
 	for (i=0; argv[i]; i++) {
-		if (i) strcat (CommandLine, " ");
-		strcat (CommandLine, argv[i]);
+		if (i) mir_strcat (CommandLine, " ");
+		mir_strcat (CommandLine, argv[i]);
 	}
 	si.cb = sizeof(si);
 

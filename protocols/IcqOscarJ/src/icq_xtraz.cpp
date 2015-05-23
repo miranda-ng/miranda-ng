@@ -318,15 +318,15 @@ void CIcqProto::handleXtrazData(DWORD dwUin, char* szMsg, BOOL bThruDC)
 				szWork = strstrnull(szUrl, ".html");
 				if (szWork) {
 					mir_strcpy(szWork, ".php");
-					strcat(szWork, szWork + 5);
+					mir_strcat(szWork, szWork + 5);
 				}
 				while (szWork = strstrnull(szUrl, "&amp;"))  // unescape &amp; code
 					mir_strcpy(szWork + 1, szWork + 5);
 
 				szWork = (char*)SAFE_MALLOC(nDataLen + MAX_PATH);
 				ICQTranslateUtfStatic(LPGEN("Greeting card:"), szWork, MAX_PATH);
-				strcat(szWork, "\r\nhttp://www.icq.com/friendship/pages/view_page_");
-				strcat(szWork, szNum);
+				mir_strcat(szWork, "\r\nhttp://www.icq.com/friendship/pages/view_page_");
+				mir_strcat(szWork, szNum);
 
 				// Create message to notify user
 				PROTORECVEVENT pre = { 0 };

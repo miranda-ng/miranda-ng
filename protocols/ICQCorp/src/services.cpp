@@ -527,7 +527,7 @@ static int icqModulesLoaded(WPARAM wParam, LPARAM lParam)
 char *CreateServiceName(char *serviceName, char *functionName)
 {
     mir_strcpy(serviceName, protoName);
-    strcat(serviceName, functionName);
+    mir_strcat(serviceName, functionName);
 
     return serviceName;
 }

@@ -430,7 +430,7 @@ void Xfire_game::createMenuitem(unsigned int pos, int dbid)
 {
 	char servicefunction[100];
 	mir_strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "StartGame%d");
+	mir_strcat(servicefunction, "StartGame%d");
 
 	if (dbid < 0)
 		dbid = pos;

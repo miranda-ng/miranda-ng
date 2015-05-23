@@ -573,8 +573,8 @@ static int CopyCookies(NETLIBHTTPREQUEST *nlhrReply, NETLIBHTTPHEADER *hdr)
 			continue;
 		if (p=strchr(nlhrReply->headers[i].szValue, ';')) *p=0;
 		if (hdr) {
-			if (*hdr->szValue) strcat (hdr->szValue, "; ");
-			strcat (hdr->szValue, nlhrReply->headers[i].szValue);
+			if (*hdr->szValue) mir_strcat (hdr->szValue, "; ");
+			mir_strcat (hdr->szValue, nlhrReply->headers[i].szValue);
 		}
 		else nSize += (int)mir_strlen(nlhrReply->headers[i].szValue) + 2;
 	}

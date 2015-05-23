@@ -729,7 +729,7 @@ int ThreadData::sendPacket(const char* cmd, const char* fmt, ...)
 	}
 
 	if (strchr(str, '\r') == NULL)
-		strcat(str, "\r\n");
+		mir_strcat(str, "\r\n");
 
 	int result = send(str, mir_strlen(str));
 	mir_free(str);

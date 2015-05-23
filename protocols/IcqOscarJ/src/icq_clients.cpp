@@ -47,9 +47,9 @@ static void verToStr(char *szStr, int v)
 {
 	char szVer[64];
 	makeClientVersion(szVer, "", (v >> 24) & 0x7F, (v >> 16) & 0xFF, (v >> 8) & 0xFF, v & 0xFF);
-	strcat(szStr, szVer);
+	mir_strcat(szStr, szVer);
 	if (v & 0x80000000)
-		strcat(szStr, " alpha");
+		mir_strcat(szStr, " alpha");
 }
 
 static char* MirandaVersionToStringEx(char* szStr, int bUnicode, const char* szPlug, int v, int m)
@@ -66,16 +66,16 @@ static char* MirandaVersionToStringEx(char* szStr, int bUnicode, const char* szP
 	else {
 		if (m) {
 			verToStr(szStr, m);
-			strcat(szStr, " ");
+			mir_strcat(szStr, " ");
 		}
 		if (bUnicode)
-			strcat(szStr, "Unicode ");
+			mir_strcat(szStr, "Unicode ");
 
-		strcat(szStr, "(");
-		strcat(szStr, szPlug);
-		strcat(szStr, " v");
+		mir_strcat(szStr, "(");
+		mir_strcat(szStr, szPlug);
+		mir_strcat(szStr, " v");
 		verToStr(szStr, v);
-		strcat(szStr, ")");
+		mir_strcat(szStr, ")");
 	}
 
 	return szStr;
@@ -90,7 +90,7 @@ char* MirandaModToString(char* szStr, capstr* capId, int bUnicode, const char* s
 
 	char *szClient = MirandaVersionToStringEx(szStr, bUnicode, szModName, iver, mver);
 	if (scode == 0x5AFEC0DE)
-		strcat(szClient, " + SecureIM");
+		mir_strcat(szClient, " + SecureIM");
 
 	return szClient;
 }
@@ -227,7 +227,7 @@ const char* CIcqProto::detectUserClient(
 
 		szClient = makeClientVersion(szClientBuf, cliLicqVer, ver / 1000, (ver / 10) % 100, ver % 10, 0);
 		if (dwFT1 & 0x00800000)
-			strcat(szClientBuf, "/SSL");
+			mir_strcat(szClientBuf, "/SSL");
 	}
 	else if (dwFT1 == 0xffffff8f)
 		szClient = "StrICQ";
@@ -273,16 +273,16 @@ const char* CIcqProto::detectUserClient(
 		// http://darkjimm.ucoz.ru/
 		if (dwFT2 == 0x10000) {
 			mir_strcpy(szClientBuf, "D[i]Chat v.");
-			strcat(szClientBuf, "0.1a");
+			mir_strcat(szClientBuf, "0.1a");
 		}
 		else {
 			makeClientVersion(szClientBuf, "D[i]Chat v.", (dwFT2 >> 8) & 0x0F, (dwFT2 >> 4) & 0x0F, 0, 0);
 			if ((dwFT2 & 0x0F) == 1)
-				strcat(szClientBuf, " alpha");
+				mir_strcat(szClientBuf, " alpha");
 			else if ((dwFT2 & 0x0F) == 2)
-				strcat(szClientBuf, " beta");
+				mir_strcat(szClientBuf, " beta");
 			else if ((dwFT2 & 0x0F) == 3)
-				strcat(szClientBuf, " final");
+				mir_strcat(szClientBuf, " final");
 		}
 		szClient = szClientBuf;
 	}
@@ -310,16 +310,16 @@ const char* CIcqProto::detectUserClient(
 
 			if (MatchCapability(caps, wLen, &capIcqJs7, 0x4)) {
 				// detect mod
-				strcat(szClientBuf, " (s7 & sss)");
+				mir_strcat(szClientBuf, " (s7 & sss)");
 				if (MatchCapability(caps, wLen, &capIcqJs7, 0xE))
-					strcat(szClientBuf, " + SecureIM");
+					mir_strcat(szClientBuf, " + SecureIM");
 			}
 			else if ((dwFT1 & 0x7FFFFFFF) == 0x7FFFFFFF) {
 				if (MatchCapability(caps, wLen, &capMimMobile))
-					strcat(szClientBuf, " (Mobile)");
+					mir_strcat(szClientBuf, " (Mobile)");
 
 				if (dwFT3 == 0x5AFEC0DE)
-					strcat(szClientBuf, " + SecureIM");
+					mir_strcat(szClientBuf, " + SecureIM");
 			}
 			*bClientId = CLID_MIRANDA;
 			bMirandaIM = TRUE;
@@ -332,7 +332,7 @@ const char* CIcqProto::detectUserClient(
 
 			szClient = szClientBuf;
 			if ((dwFT1 & 0x7FFFFFFF) == 0x7FFFFFFF && dwFT3 == 0x5AFEC0DE)
-				strcat(szClientBuf, " + SecureIM");
+				mir_strcat(szClientBuf, " + SecureIM");
 
 			*bClientId = CLID_MIRANDA;
 			bMirandaIM = TRUE;
@@ -395,9 +395,9 @@ const char* CIcqProto::detectUserClient(
 
 			szClient = makeClientVersion(szClientBuf, "SIM ", ver1, ver2, ver3, ver4 & 0x0F);
 			if (ver4 & 0x80)
-				strcat(szClientBuf, "/Win32");
+				mir_strcat(szClientBuf, "/Win32");
 			else if (ver4 & 0x40)
-				strcat(szClientBuf, "/MacOS X");
+				mir_strcat(szClientBuf, "/MacOS X");
 		}
 		else if (capId = MatchCapability(caps, wLen, &capLicq, 0xC)) {
 			unsigned ver1 = (*capId)[0xC];
@@ -406,7 +406,7 @@ const char* CIcqProto::detectUserClient(
 
 			szClient = makeClientVersion(szClientBuf, cliLicqVer, ver1, ver2, ver3, 0);
 			if ((*capId)[0xF])
-				strcat(szClientBuf, "/SSL");
+				mir_strcat(szClientBuf, "/SSL");
 		}
 		else if (capId = MatchCapability(caps, wLen, &capKopete, 0xC)) {
 			unsigned ver1 = (*capId)[0xC];
@@ -424,11 +424,11 @@ const char* CIcqProto::detectUserClient(
 
 			szClient = makeClientVersion(szClientBuf, "climm ", ver1, ver2, ver3, ver4);
 			if ((ver1 & 0x80) == 0x80)
-				strcat(szClientBuf, " alpha");
+				mir_strcat(szClientBuf, " alpha");
 			if (dwFT3 == 0x02000020)
-				strcat(szClientBuf, "/Win32");
+				mir_strcat(szClientBuf, "/Win32");
 			else if (dwFT3 == 0x03000800)
-				strcat(szClientBuf, "/MacOS X");
+				mir_strcat(szClientBuf, "/MacOS X");
 		}
 		else if (capId = MatchCapability(caps, wLen, &capmIcq, 0xC)) {
 			unsigned ver1 = (*capId)[0xC];
@@ -438,7 +438,7 @@ const char* CIcqProto::detectUserClient(
 
 			szClient = makeClientVersion(szClientBuf, "mICQ ", ver1, ver2, ver3, ver4);
 			if ((ver1 & 0x80) == 0x80)
-				strcat(szClientBuf, " alpha");
+				mir_strcat(szClientBuf, " alpha");
 		}
 		// IM2 v2 provides also Aim Icon cap
 		else if (MatchCapability(caps, wLen, &capIm2))
@@ -474,10 +474,10 @@ const char* CIcqProto::detectUserClient(
 			mir_strcpy(szClientBuf, "QIP Infium");
 			if (dwFT1) {
 				mir_snprintf(ver, SIZEOF(ver), " (%d)", dwFT1);
-				strcat(szClientBuf, ver);
+				mir_strcat(szClientBuf, ver);
 			}
 			if (dwFT2 == 0x0B)
-				strcat(szClientBuf, " Beta");
+				mir_strcat(szClientBuf, " Beta");
 
 			szClient = szClientBuf;
 		}
@@ -485,7 +485,7 @@ const char* CIcqProto::detectUserClient(
 			mir_strcpy(szClientBuf, "QIP 2010");
 			if (dwFT1) {
 				mir_snprintf(ver, SIZEOF(ver), " (%d)", dwFT1);
-				strcat(szClientBuf, ver);
+				mir_strcat(szClientBuf, ver);
 			}
 
 			szClient = szClientBuf;
@@ -494,7 +494,7 @@ const char* CIcqProto::detectUserClient(
 			mir_strcpy(szClientBuf, "QIP 2012");
 			if (dwFT1) {
 				mir_snprintf(ver, SIZEOF(ver), " (%d)", dwFT1);
-				strcat(szClientBuf, ver);
+				mir_strcat(szClientBuf, ver);
 			}
 
 			szClient = szClientBuf;
@@ -508,7 +508,7 @@ const char* CIcqProto::detectUserClient(
 			mir_snprintf(szClientBuf, 64, cliQip, ver);
 			if (dwFT1 && dwFT2 == 0x0E) {
 				mir_snprintf(ver, SIZEOF(ver), " (%d%d%d%d)", dwFT1 >> 0x18, (dwFT1 >> 0x10) & 0xFF, (dwFT1 >> 0x08) & 0xFF, dwFT1 & 0xFF);
-				strcat(szClientBuf, ver);
+				mir_strcat(szClientBuf, ver);
 			}
 			szClient = szClientBuf;
 		}
@@ -530,8 +530,8 @@ const char* CIcqProto::detectUserClient(
 
 				mir_snprintf(ver, SIZEOF(ver), " %d.%d", dwFT1 >> 0x18, (dwFT1 >> 0x10) & 0xFF);
 				if ((dwFT1 & 0xFF) == 0x0B)
-					strcat(ver, " Beta");
-				strcat(szClientBuf, ver);
+					mir_strcat(ver, " Beta");
+				mir_strcat(szClientBuf, ver);
 			}
 			szClient = szClientBuf;
 		}
@@ -625,13 +625,13 @@ const char* CIcqProto::detectUserClient(
 
 				switch ((*capId)[0x5]) {
 				case 'l':
-					strcat(szClientBuf, "/Linux");
+					mir_strcat(szClientBuf, "/Linux");
 					break;
 				case 'w':
-					strcat(szClientBuf, "/Win32");
+					mir_strcat(szClientBuf, "/Win32");
 					break;
 				case 'm':
-					strcat(szClientBuf, "/MacOS X");
+					mir_strcat(szClientBuf, "/MacOS X");
 					break;
 				}
 			}
@@ -747,11 +747,11 @@ const char* CIcqProto::detectUserClient(
 						else mir_strcpy(szClientBuf, "icq5");
 
 						if (MatchCapability(caps, wLen, &capRambler))
-							strcat(szClientBuf, " (Rambler)");
+							mir_strcat(szClientBuf, " (Rambler)");
 						else if (MatchCapability(caps, wLen, &capAbv))
-							strcat(szClientBuf, " (Abv)");
+							mir_strcat(szClientBuf, " (Abv)");
 						else if (MatchCapability(caps, wLen, &capNetvigator))
-							strcat(szClientBuf, " (Netvigator)");
+							mir_strcat(szClientBuf, " (Netvigator)");
 
 						szClient = szClientBuf;
 					}
@@ -885,9 +885,9 @@ const char* CIcqProto::detectUserClient(
 				szClient = makeClientVersion(szClientBuf, "SIM ", ver1, ver2, ver3, 0);
 
 				if ((*capId)[0xF] & 0x80)
-					strcat(szClientBuf, "/Win32");
+					mir_strcat(szClientBuf, "/Win32");
 				else if ((*capId)[0xF] & 0x40)
-					strcat(szClientBuf, "/MacOS X");
+					mir_strcat(szClientBuf, "/MacOS X");
 			}
 			else if (capId = MatchCapability(caps, wLen, &capKopete, 0xC)) {
 				unsigned ver1 = (*capId)[0xC];
@@ -951,7 +951,7 @@ const char* CIcqProto::detectUserClient(
 				szClient = szClientBuf;
 			}
 
-			strcat(szClientBuf, szPack);
+			mir_strcat(szClientBuf, szPack);
 		}
 	}
 
@@ -993,7 +993,7 @@ const char* CIcqProto::detectUserClient(
 				mir_strcpy(szClientBuf, szClient);
 				szClient = szClientBuf;
 			}
-			strcat(szClientBuf, szExtra);
+			mir_strcat(szClientBuf, szExtra);
 		}
 	}
 
