@@ -135,7 +135,7 @@ Deszczyk / Wiatr wcześnie
 [Light Rain / Wind]
 Delikatne opady/Wiatr
 [Light Rain / Windy]
-
+Delikatny Deszcz / Wietrznie
 [Light Rain And Windy]
 Delikatne opady deszczu oraz wietrznie
 [Light Rain Early]
@@ -291,7 +291,7 @@ Rozsiane burze z piorunami
 [Shallow Fog]
 Cienka warstwa mgły
 [Showers / Wind Late]
-
+Ulewy / Wiatr Późno
 [Showers / Wind]
 Przelotne opady/Wiatr
 [Showers Early]

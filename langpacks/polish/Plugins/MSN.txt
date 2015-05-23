@@ -128,9 +128,9 @@ Czat #
 [&Kick user]
 &Wyrzuć użytkownika
 [&Op user]
-
+&Mianuj opem
 [&Deop user]
-
+&zdejmij opa
 ;file \protocols\MSN\src\msn_commands.cpp
 [MSN Alert]
 Alert MSN

@@ -67,7 +67,7 @@ Do/Kopia do
 [autoregister]
 Zarejestruj
 [Keep connection on error]
-
+Utrzymuj połączenie po wystąpieniu błędu
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 Załadowanie wymaganych funkcji API biblioteki Lotus nie powiodło się.

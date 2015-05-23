@@ -1,2 +1,0 @@
-﻿[&Op user]
-[&Deop user]
