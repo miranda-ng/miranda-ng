@@ -29,7 +29,6 @@ typedef struct {
 	TCHAR *m_fileName;
 	DWORD  m_zipCrc;
 	char   m_hash[32+1];
-	BYTE   m_selected;
 }
 	PU_HASH_ITEM;
 
