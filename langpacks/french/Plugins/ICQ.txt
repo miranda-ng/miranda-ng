@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.3
+;  Version: 0.11.3.4
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -86,10 +86,6 @@ Vous ne pouvez (dés)activer le support serveur de la liste de contacts lorsque 
 * Ces options ont d'importants effets secondaires ou messages qui peuvent ne pas être documentés dans l'aide.
 [Messaging]
 Envoi de message
-[Enable unicode messaging support]
-Activer le support des messages unicode
-[Send all messages in unicode if possible]
-Envoyer tous les messages en unicode si possible
 [Use this codepage for Ansi <-> Unicode translation:]
 Traduire de Ansi vers Unicode avec l'encodage :
 [Make me temporarily visible to contacts I send message to]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.3
+;  Version: 0.11.3.4
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -85,10 +85,6 @@
 Примітка: налаштування, позначені зірочкою, мають побічні ефекти, які можуть бути не задокументовані в довідці.
 [Messaging]
 Повідомлення
-[Enable unicode messaging support]
-Увімкнути підтримку Unicode
-[Send all messages in unicode if possible]
-Надсилати в Unicode (якщо можливо)
 [Use this codepage for Ansi <-> Unicode translation:]
 Перекодування ANSI <-> Unicode:
 [Make me temporarily visible to contacts I send message to]

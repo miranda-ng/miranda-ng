@@ -203,10 +203,6 @@ Anniversaire - %s
 Début du rafraîchissement
 [Done refreshing user details]
 Rafraîchissement terminé
-[Could not create worker thread. Error#%d - threadID %d]
-
-[Error]
-Erreur
 [Birthdays files]
 
 [Please select a file to import birthdays from...]
@@ -225,6 +221,8 @@ Tous les fichiers
 
 [Could not open file to import birthdays]
 
+[Error]
+Erreur
 [Warning]
 Avertissement
 [Could not open file to export birthdays]
