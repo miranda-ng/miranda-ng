@@ -61,7 +61,7 @@ INT_PTR SilenceConnection(WPARAM wParam, LPARAM lParam);
 #define SS_IS_OFF Translate("Silence At Startup is OFF")
 #define TTBNAME Translate("Toggle Silence At Startup")
 #define NOTICE TranslateT(MENU_NAME)
-#define NEEDTTBMOD TranslateT("You have to install TopToolBar to use this option.")
+#define NEEDTTBMOD TranslateT("You have to install \"TopToolBar\" to use this option.")
 #define NEEDPOPUP TranslateT("You have to install \"YAPP\" or \"Popup+\" to use this option.")
 
 static IconItem iconList[] = {
