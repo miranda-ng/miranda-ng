@@ -197,7 +197,7 @@ void RebuildMain()
 			mi.position = 500050000;
 			mi.popupPosition = 500050000;
 			mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
-			mi.pszName = LPGEN(MODULELONGNAME);
+			mi.pszName = MODULELONGNAME;
 			mhRoot = Menu_AddMainMenuItem(&mi);
 			hMenuItem[item++] = mhRoot;
 			mhExIm = mhRoot;

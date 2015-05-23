@@ -1042,7 +1042,7 @@ static int OnInitOptions(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 95400;
 	odp.hInstance = ghInst;
-	odp.pszTitle = LPGEN(MODULELONGNAME);
+	odp.pszTitle = MODULELONGNAME;
 	odp.pszGroup = LPGEN("Contacts");
 
 	// Common page
@@ -1075,7 +1075,7 @@ static int OnInitOptions(WPARAM wParam, LPARAM lParam)
 
 	// Popups page
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		odp.pszTitle = LPGEN(MODULELONGNAME);
+		odp.pszTitle = MODULELONGNAME;
 		odp.pszGroup = LPGEN("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
 		odp.pfnDlgProc = DlgProc_Popups;
