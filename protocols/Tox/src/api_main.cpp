@@ -12,9 +12,9 @@ void tox_options_free(struct Tox_Options *options)
 	CreateFunction<void(*)(struct Tox_Options*)>(__FUNCTION__)(options);
 }
 
-Tox *tox_new(const struct Tox_Options *options, const uint8_t *data, size_t length, TOX_ERR_NEW *error)
+Tox *tox_new(const struct Tox_Options *options, TOX_ERR_NEW *error)
 {
-	return CreateFunction<Tox*(*)(const struct Tox_Options*, const uint8_t*, size_t, TOX_ERR_NEW*)>(__FUNCTION__)(options, data, length, error);
+	return CreateFunction<Tox*(*)(const struct Tox_Options*, TOX_ERR_NEW*)>(__FUNCTION__)(options, error);
 }
 
 void tox_kill(Tox *tox)

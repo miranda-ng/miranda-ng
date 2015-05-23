@@ -16,7 +16,7 @@ std::tstring CToxProto::GetToxProfilePath(const TCHAR *accountName)
 	return profilePath;
 }
 
-bool CToxProto::LoadToxProfile(const Tox_Options *options)
+bool CToxProto::LoadToxProfile(Tox_Options *options)
 {
 	debugLogA(__FUNCTION__": loading tox profile");
 
@@ -78,8 +78,15 @@ bool CToxProto::LoadToxProfile(const Tox_Options *options)
 		size -= TOX_PASS_ENCRYPTION_EXTRA_LENGTH;
 	}
 
+	if (data)
+	{
+		options->savedata_data = data;
+		options->savedata_length = size;
+		options->savedata_type = TOX_SAVEDATA_TYPE_TOX_SAVE;
+	}
+	
 	TOX_ERR_NEW initError;
-	tox = tox_new(options, data, size, &initError);
+	tox = tox_new(options, &initError);
 	if (initError != TOX_ERR_NEW_OK)
 	{
 		debugLogA(__FUNCTION__": failed to load tox profile (%d)", initError);
@@ -146,8 +153,8 @@ INT_PTR CToxProto::OnCopyToxID(WPARAM, LPARAM)
 }
 
 CToxPasswordEditor::CToxPasswordEditor(CToxProto *proto) :
-CToxDlgBase(proto, IDD_PASSWORD, false), ok(this, IDOK),
-password(this, IDC_PASSWORD), savePermanently(this, IDC_SAVEPERMANENTLY)
+	CToxDlgBase(proto, IDD_PASSWORD, false), ok(this, IDOK),
+	password(this, IDC_PASSWORD), savePermanently(this, IDC_SAVEPERMANENTLY)
 {
 	ok.OnClick = Callback(this, &CToxPasswordEditor::OnOk);
 }

@@ -74,16 +74,16 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 		HANDLE hProfile = CreateFile(profilePath.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hProfile == NULL)
 		{
-			// TODO: warh error
+			m_proto->debugLogA(__FUNCTION__": failed to create tox profile");
 			return;
 		}
 		CloseHandle(hProfile);
 
 		TOX_ERR_NEW initError;
-		m_proto->tox = tox_new(NULL, NULL, 0, &initError);
+		m_proto->tox = tox_new(NULL, &initError);
 		if (initError != TOX_ERR_NEW_OK)
 		{
-			// TODO: warh error
+			m_proto->debugLogA(__FUNCTION__": failed to load tox profile (%d)", initError);
 			return;
 		}
 	}
