@@ -272,7 +272,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 		else if (szProto) {
 			PROTOACCOUNT *pa = ProtoGetAccount(szProto);
 			if (pa && pa->tszAccountName) {
-				_tcsncpy(buff, pa->tszAccountName, bufflen);
+				mir_tstrncpy(buff, pa->tszAccountName, bufflen);
 				return true;
 			}
 			else
@@ -290,7 +290,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 	else if (!mir_tstrcmp(swzRawSpec, _T("status_msg"))) {
 		TCHAR *swzMsg = GetStatusMessageText(hContact);
 		if (swzMsg) {
-			_tcsncpy(buff, swzMsg, bufflen);
+			mir_tstrncpy(buff, swzMsg, bufflen);
 			mir_free(swzMsg);
 			return true;
 		}
@@ -298,7 +298,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 	else if ((recv = !mir_tstrcmp(swzRawSpec, _T("last_msg"))) || !mir_tstrcmp(swzRawSpec, _T("last_msg_out"))) {
 		TCHAR *swzMsg = GetLastMessageText(hContact, recv);
 		if (swzMsg) {
-			_tcsncpy(buff, swzMsg, bufflen);
+			mir_tstrncpy(buff, swzMsg, bufflen);
 			mir_free(swzMsg);
 			return true;
 		}
@@ -310,7 +310,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 			return false;
 		
 		TCHAR *swzNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hSubContact, GCDNF_TCHAR);
-		if (swzNick) _tcsncpy(buff, swzNick, bufflen);
+		if (swzNick) mir_tstrncpy(buff, swzNick, bufflen);
 		return true;
 	}
 	else if (!mir_tstrcmp(swzRawSpec, _T("meta_subuid"))) {
@@ -581,7 +581,7 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 						if (ds_node)
 							GetSubstText(hContact, ds_node->ds, swzAlt, VALUE_LEN);
 						else {
-							_tcsncpy(swzAlt, p, VALUE_LEN);
+							mir_tstrncpy(swzAlt, p, VALUE_LEN);
 							bAltSubst = true;
 						}
 					}
@@ -619,12 +619,12 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 
 				if (bSubst) {
 					size_t rep_len = mir_tstrlen(swzRep);
-					_tcsncpy(&swzDest[di], swzRep, min(rep_len, iDestLen - di));
+					mir_tstrncpy(&swzDest[di], swzRep, min(rep_len, iDestLen - di));
 					di += rep_len - 1; // -1 because we inc at bottom of loop
 				}
 				else if (bAltSubst) {
 					size_t alt_len = mir_tstrlen(swzAlt);
-					_tcsncpy(&swzDest[di], swzAlt, min(alt_len, iDestLen - di));
+					mir_tstrncpy(&swzDest[di], swzAlt, min(alt_len, iDestLen - di));
 					di += alt_len - 1; // -1 because we inc at bottom of loop
 				}
 				else goto empty; // empty value
@@ -643,7 +643,7 @@ bool ApplySubst(MCONTACT hContact, const TCHAR *swzSource, bool parseTipperVarsF
 
 	if (parseTipperVarsFirst) {
 		swzVarSrc = variables_parsedup(swzDest, 0, hContact);
-		_tcsncpy(swzDest, swzVarSrc, iDestLen);
+		mir_tstrncpy(swzDest, swzVarSrc, iDestLen);
 		mir_free(swzVarSrc);
 	}
 

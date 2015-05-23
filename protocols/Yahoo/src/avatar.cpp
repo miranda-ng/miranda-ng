@@ -246,7 +246,7 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 	AI.cbSize = sizeof AI;
 	AI.format = PA_FORMAT_PNG;
 	AI.hContact = hContact;
-	_tcsncpy(AI.filename, buf, SIZEOF(AI.filename)-1);
+	mir_tstrncpy(AI.filename, buf, SIZEOF(AI.filename)-1);
 
 	if (error)
 		setDword(hContact, "PictCK", 0);

@@ -152,7 +152,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 	logmsg("HookedNewEvent2");
 
 	TCHAR buf[512];
-	_tcsncpy(buf, DEFAULT_MESSAGEFORMAT,SIZEOF(buf));
+	mir_tstrncpy(buf, DEFAULT_MESSAGEFORMAT,SIZEOF(buf));
 
 	DBVARIANT dbv;
 	if(!db_get_ts(NULL,THIS_MODULE,"message_format",&dbv)) {

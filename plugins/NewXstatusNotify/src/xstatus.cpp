@@ -192,7 +192,7 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 	if (opt.PXMsgTruncate && (opt.PXMsgLen > 0) && xsc->stzText && (mir_tstrlen(xsc->stzText) > opt.PXMsgLen)) {
 		TCHAR buff[MAX_TEXT_LEN + 3];
 		copyText = mir_tstrdup(xsc->stzText);
-		_tcsncpy(buff, xsc->stzText, opt.PXMsgLen);
+		mir_tstrncpy(buff, xsc->stzText, opt.PXMsgLen);
 		buff[opt.PXMsgLen] = 0;
 		mir_tstrcat(buff, _T("..."));
 		replaceStrT(xsc->stzText, buff);
@@ -436,7 +436,7 @@ TCHAR* GetIcqXStatus(MCONTACT hContact, char *szProto, char *szValue, TCHAR *buf
 			if ((mir_strcmp(szValue, "XStatusName") == 0) && dbv.ptszVal[0] == 0)
 				GetDefaultXstatusName(statusID, szProto, buff, bufflen);
 			else
-				_tcsncpy(buff, dbv.ptszVal, bufflen);
+				mir_tstrncpy(buff, dbv.ptszVal, bufflen);
 
 			buff[bufflen - 1] = 0;
 			db_free(&dbv);
@@ -454,7 +454,7 @@ TCHAR* GetJabberAdvStatusText(MCONTACT hContact, char *szProto, char *szSlot, ch
 
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", szProto, szSlot, szValue);
 	if (!db_get_ts(hContact, "AdvStatus", szSetting, &dbv)) {
-		_tcsncpy(buff, dbv.ptszVal, bufflen);
+		mir_tstrncpy(buff, dbv.ptszVal, bufflen);
 		buff[bufflen - 1] = 0;
 		db_free(&dbv);
 	}

@@ -39,7 +39,7 @@ INT_PTR ExpandPath(TCHAR *szResult, TCHAR *format, int size)
 		input = mir_tstrdup(format);
 
 	TCHAR *core_result = Utils_ReplaceVarsT(input);
-	_tcsncpy(szResult, core_result, size);
+	mir_tstrncpy(szResult, core_result, size);
 
 	mir_free(core_result);
 

@@ -342,7 +342,7 @@ TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat)
 				DBVARIANT dbv = { 0 };
 
 				if (!db_get_ts(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
-					_tcsncpy(szTemp, dbv.ptszVal, 500);
+					mir_tstrncpy(szTemp, dbv.ptszVal, 500);
 					szTemp[500] = 0;
 					db_free(&dbv);
 					title.insert(tempmark + 2, szTemp);
@@ -363,7 +363,7 @@ TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat)
 				DBVARIANT dbv = { 0 };
 
 				if (!db_get_ts(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
-					_tcsncpy(szTemp, dbv.ptszVal, 500);
+					mir_tstrncpy(szTemp, dbv.ptszVal, 500);
 					szTemp[500] = 0;
 					db_free(&dbv);
 					title.insert(tempmark + 2, szTemp);

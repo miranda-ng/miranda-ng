@@ -336,24 +336,24 @@ INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
 
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-	_tcsncpy(filter, TranslateT("Text files"), SIZEOF(filter));
+	mir_tstrncpy(filter, TranslateT("Text files"), SIZEOF(filter));
 	mir_tstrncat(filter, _T(" (*.txt)"), SIZEOF(filter) - mir_tstrlen(filter));
 	pfilter = filter + mir_tstrlen(filter) + 1;
 	if (pfilter >= filter + SIZEOF(filter))
 		return 0;
 
-	_tcsncpy(pfilter, _T("*.TXT"), SIZEOF(filter) - (pfilter - filter));
+	mir_tstrncpy(pfilter, _T("*.TXT"), SIZEOF(filter) - (pfilter - filter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 	if (pfilter >= filter + SIZEOF(filter))
 		return 0;
-	_tcsncpy(pfilter, TranslateT("All Files"), SIZEOF(filter) - (pfilter - filter));
+	mir_tstrncpy(pfilter, TranslateT("All Files"), SIZEOF(filter) - (pfilter - filter));
 	mir_tstrncat(pfilter, _T(" (*)"), SIZEOF(filter) - (pfilter - filter) - mir_tstrlen(pfilter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 
 	if (pfilter >= filter + SIZEOF(filter))
 		return 0;
 
-	_tcsncpy(pfilter, _T("*"), SIZEOF(filter) - (pfilter - filter));
+	mir_tstrncpy(pfilter, _T("*"), SIZEOF(filter) - (pfilter - filter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 	if (pfilter >= filter + SIZEOF(filter))
 		return 0;
@@ -403,25 +403,25 @@ INT_PTR GGPROTO::export_text(WPARAM wParam, LPARAM lParam)
 	OPENFILENAME ofn = {0};
 	TCHAR filter[512], *pfilter;
 
-	_tcsncpy(str, TranslateT("contacts"), SIZEOF(str));
+	mir_tstrncpy(str, TranslateT("contacts"), SIZEOF(str));
 	mir_tstrncat(str, _T(".txt"), SIZEOF(str) - mir_tstrlen(str));
 
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-	_tcsncpy(filter, TranslateT("Text files"), SIZEOF(filter));
+	mir_tstrncpy(filter, TranslateT("Text files"), SIZEOF(filter));
 	mir_tstrncat(filter, _T(" (*.txt)"), SIZEOF(filter) - mir_tstrlen(filter));
 	pfilter = filter + mir_tstrlen(filter) + 1;
 	if (pfilter >= filter + SIZEOF(filter))
 		return 0;
-	_tcsncpy(pfilter, _T("*.TXT"), SIZEOF(filter) - (pfilter - filter));
+	mir_tstrncpy(pfilter, _T("*.TXT"), SIZEOF(filter) - (pfilter - filter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 	if (pfilter >= filter + SIZEOF(filter))
 		return 0;
-	_tcsncpy(pfilter, TranslateT("All Files"), SIZEOF(filter) - (pfilter - filter));
+	mir_tstrncpy(pfilter, TranslateT("All Files"), SIZEOF(filter) - (pfilter - filter));
 	mir_tstrncat(pfilter, _T(" (*)"), SIZEOF(filter) - (pfilter - filter) - mir_tstrlen(pfilter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 	if (pfilter >= filter + SIZEOF(filter))
 		return 0;
-	_tcsncpy(pfilter, _T("*"), SIZEOF(filter) - (pfilter - filter));
+	mir_tstrncpy(pfilter, _T("*"), SIZEOF(filter) - (pfilter - filter));
 	pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 	if (pfilter >= filter + SIZEOF(filter))
 		return 0;

@@ -95,15 +95,15 @@ char *BinToHex(int size, PBYTE data)
 void HexToBin(TCHAR *inData, ULONG &size, LPBYTE &outData)
 {
 	TCHAR buffer[32] = {0};
-	_tcsncpy(buffer, _T("0x"),_countof(_T("0x")));
-	_tcsncpy(buffer + 2, inData, HEX_SIZE);
+	mir_tstrncpy(buffer, _T("0x"),_countof(_T("0x")));
+	mir_tstrncpy(buffer + 2, inData, HEX_SIZE);
 	_stscanf(buffer, _T("%x"), &size);
 	outData = (unsigned char*)new char[size*2];
 
 	TCHAR *tmp = inData + HEX_SIZE;
 	buffer[4] = '\0'; //mark the end of the string
 	for (UINT i = 0; i < size; i++) {
-		_tcsncpy(buffer + 2, &tmp[i * 2], 2);
+		mir_tstrncpy(buffer + 2, &tmp[i * 2], 2);
 		_stscanf(buffer, _T("%x"), &outData[i]);
 	}
 }
@@ -118,7 +118,7 @@ int GetStringFromDatabase(char *szSettingName, TCHAR *szError, TCHAR *szResult, 
 		res = 0;
 		int tmp = mir_tstrlen(dbv.ptszVal);
 		len = (tmp < size - 1) ? tmp : size - 1;
-		_tcsncpy(szResult, dbv.ptszVal, len);
+		mir_tstrncpy(szResult, dbv.ptszVal, len);
 		szResult[len] = '\0';
 		mir_free(dbv.ptszVal);
 	}
@@ -126,7 +126,7 @@ int GetStringFromDatabase(char *szSettingName, TCHAR *szError, TCHAR *szResult, 
 		res = 1;
 		int tmp = mir_tstrlen(szError);
 		len = (tmp < size - 1) ? tmp : size - 1;
-		_tcsncpy(szResult, szError, len);
+		mir_tstrncpy(szResult, szError, len);
 		szResult[len] = '\0';
 	}
 	return res;
@@ -225,7 +225,7 @@ void _popupUtil(TCHAR* szMsg)
 {
 	POPUPDATAT ppd = {0};
 	ppd.lchIcon = hiMailIcon;
-	_tcsncpy(ppd.lptzContactName, _T("Exchange notifier"), MAX_CONTACTNAME-1);
-	_tcsncpy(ppd.lptzText, szMsg,MAX_SECONDLINE-1);
+	mir_tstrncpy(ppd.lptzContactName, _T("Exchange notifier"), MAX_CONTACTNAME-1);
+	mir_tstrncpy(ppd.lptzText, szMsg,MAX_SECONDLINE-1);
 	PUAddPopupT(&ppd); //show a popup to tell the user what we're doing.
 }

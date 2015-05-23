@@ -155,7 +155,7 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 
 	TCHAR* buf = (TCHAR*)lParam;
 	if (count == 0) {
-		_tcsncpy(buf, TranslateT("default"), 128-1);
+		mir_tstrncpy(buf, TranslateT("default"), 128-1);
 		return 0;
 	}
 
@@ -165,7 +165,7 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 	if ( db_get_ts(NULL, MODULENAME, setting, &dbv))
 		return -1;
 
-	_tcsncpy(buf, dbv.ptszVal, 128-1); buf[127] = 0;
+	mir_tstrncpy(buf, dbv.ptszVal, 128-1); buf[127] = 0;
 	db_free(&dbv);
 	return 0;
 }

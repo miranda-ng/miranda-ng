@@ -50,35 +50,35 @@ WEATHERINFO LoadWeatherInfo(MCONTACT hContact)
 	GetStationID(hContact, winfo.id, SIZEOF(winfo.id));
 
 	if (DBGetStaticString(hContact, WEATHERPROTONAME, "Nick", winfo.city, SIZEOF(winfo.city)))
-		_tcsncpy(winfo.city, NODATA, SIZEOF(winfo.city) - 1);
+		mir_tstrncpy(winfo.city, NODATA, SIZEOF(winfo.city) - 1);
 	if (DBGetStaticString(hContact, WEATHERCONDITION, "Update", winfo.update, SIZEOF(winfo.update)))
-		_tcsncpy(winfo.update, NODATA, SIZEOF(winfo.update) - 1);
+		mir_tstrncpy(winfo.update, NODATA, SIZEOF(winfo.update) - 1);
 	if (DBGetStaticString(hContact, WEATHERCONDITION, "Condition", winfo.cond, SIZEOF(winfo.cond)))
-		_tcsncpy(winfo.cond, NODATA, SIZEOF(winfo.cond) - 1);
+		mir_tstrncpy(winfo.cond, NODATA, SIZEOF(winfo.cond) - 1);
 	if (DBGetStaticString(hContact, WEATHERCONDITION, "Temperature", winfo.temp, SIZEOF(winfo.temp)))
-		_tcsncpy(winfo.temp, NODATA, SIZEOF(winfo.temp) - 1);
+		mir_tstrncpy(winfo.temp, NODATA, SIZEOF(winfo.temp) - 1);
 	if (DBGetStaticString(hContact, WEATHERCONDITION, "High", winfo.high, SIZEOF(winfo.high)))
-		_tcsncpy(winfo.high, NODATA, SIZEOF(winfo.high) - 1);
+		mir_tstrncpy(winfo.high, NODATA, SIZEOF(winfo.high) - 1);
 	if (DBGetStaticString(hContact, WEATHERCONDITION, "Low", winfo.low, SIZEOF(winfo.low)))
-		_tcsncpy(winfo.low, NODATA, SIZEOF(winfo.low) - 1);
+		mir_tstrncpy(winfo.low, NODATA, SIZEOF(winfo.low) - 1);
 	if (DBGetStaticString(hContact, WEATHERCONDITION, "Sunset", winfo.sunset, SIZEOF(winfo.sunset)))
-		_tcsncpy(winfo.sunset, NODATA, SIZEOF(winfo.sunset) - 1);
+		mir_tstrncpy(winfo.sunset, NODATA, SIZEOF(winfo.sunset) - 1);
 	if (DBGetStaticString(hContact, WEATHERCONDITION, "Sunrise", winfo.sunrise, SIZEOF(winfo.sunrise)))
-		_tcsncpy(winfo.sunrise, NODATA, SIZEOF(winfo.sunrise) - 1);
+		mir_tstrncpy(winfo.sunrise, NODATA, SIZEOF(winfo.sunrise) - 1);
 	if (DBGetStaticString(hContact, WEATHERCONDITION, "Wind Speed", winfo.wind, SIZEOF(winfo.wind)))
-		_tcsncpy(winfo.wind, NODATA, SIZEOF(winfo.wind) - 1);
+		mir_tstrncpy(winfo.wind, NODATA, SIZEOF(winfo.wind) - 1);
 	if (DBGetStaticString(hContact, WEATHERCONDITION, "Wind Direction", winfo.winddir, SIZEOF(winfo.winddir)))
-		_tcsncpy(winfo.winddir, NODATA, SIZEOF(winfo.winddir) - 1);
+		mir_tstrncpy(winfo.winddir, NODATA, SIZEOF(winfo.winddir) - 1);
 	if (DBGetStaticString(hContact, WEATHERCONDITION, "Dewpoint", winfo.dewpoint, SIZEOF(winfo.dewpoint)))
-		_tcsncpy(winfo.dewpoint, NODATA, SIZEOF(winfo.dewpoint) - 1);
+		mir_tstrncpy(winfo.dewpoint, NODATA, SIZEOF(winfo.dewpoint) - 1);
 	if (DBGetStaticString(hContact, WEATHERCONDITION, "Pressure", winfo.pressure, SIZEOF(winfo.pressure)))
-		_tcsncpy(winfo.pressure, NODATA, SIZEOF(winfo.pressure) - 1);
+		mir_tstrncpy(winfo.pressure, NODATA, SIZEOF(winfo.pressure) - 1);
 	if (DBGetStaticString(hContact, WEATHERCONDITION, "Visibility", winfo.vis, SIZEOF(winfo.vis)))
-		_tcsncpy(winfo.vis, NODATA, SIZEOF(winfo.vis) - 1);
+		mir_tstrncpy(winfo.vis, NODATA, SIZEOF(winfo.vis) - 1);
 	if (DBGetStaticString(hContact, WEATHERCONDITION, "Humidity", winfo.humid, SIZEOF(winfo.humid)))
-		_tcsncpy(winfo.humid, NODATA, SIZEOF(winfo.humid) - 1);
+		mir_tstrncpy(winfo.humid, NODATA, SIZEOF(winfo.humid) - 1);
 	if (DBGetStaticString(hContact, WEATHERCONDITION, "Feel", winfo.feel, SIZEOF(winfo.feel)))
-		_tcsncpy(winfo.feel, NODATA, SIZEOF(winfo.feel) - 1);
+		mir_tstrncpy(winfo.feel, NODATA, SIZEOF(winfo.feel) - 1);
 
 	winfo.status = (WORD)db_get_w(hContact, WEATHERPROTONAME, "StatusIcon", ID_STATUS_OFFLINE);
 	return winfo;
@@ -106,7 +106,7 @@ int DBGetStaticString(MCONTACT hContact, const char *szModule, const char *value
 	if ( db_get_ts( hContact, szModule, valueName, &dbv ))
 		return 1;
 
-	_tcsncpy( dest, dbv.ptszVal, dest_len );
+	mir_tstrncpy( dest, dbv.ptszVal, dest_len );
 	dest[ dest_len-1 ] = 0;
 	db_free( &dbv );
 	return 0;
@@ -176,7 +176,7 @@ void EraseAllInfo()
 	// in case where the default station is missing
 	if (opt.DefStn == NULL && ContactCount != 0) {
 		if ( !db_get_ts(LastContact, WEATHERPROTONAME, "ID", &dbv)) {
-			_tcsncpy(opt.Default, dbv.ptszVal, SIZEOF(opt.Default) - 1);
+			mir_tstrncpy(opt.Default, dbv.ptszVal, SIZEOF(opt.Default) - 1);
 			db_free(&dbv);
 		}
 		opt.DefStn = LastContact;
@@ -340,7 +340,7 @@ void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szData)
 					mir_sntprintf(Data, MAX_DATA_LEN, TranslateT("Error when obtaining data: %s"), UpdateData->Name);
 					WPShowMessage(Data, SM_WARNING);
 				}
-				_tcsncpy(Data, TranslateT("<Error>"), MAX_DATA_LEN);
+				mir_tstrncpy(Data, TranslateT("<Error>"), MAX_DATA_LEN);
 				last = ' ';
 				respos = MAX_DATA_LEN - 1;
 				break;

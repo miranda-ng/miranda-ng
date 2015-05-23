@@ -108,7 +108,7 @@ int AddDebugLogMessage(const TCHAR* fmt, ...)
 #ifdef MODULENAME
 	mir_sntprintf(tszFinal, SIZEOF(tszFinal), _T("%s: %s"), MODULENAME, tszText);
 #else
-	_tcsncpy(tszFinal, tszText, SIZEOF(tszFinal));
+	mir_tstrncpy(tszFinal, tszText, SIZEOF(tszFinal));
 #endif
 
 

@@ -79,8 +79,8 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 		TCHAR str1[512], str2[512];
 
 		// get the 2 strings
-		_tcsncpy(str1, tszMsg, SIZEOF(str1) - 1);
-		_tcsncpy(str2, tszMsg, SIZEOF(str2) - 1);
+		mir_tstrncpy(str1, tszMsg, SIZEOF(str1) - 1);
+		mir_tstrncpy(str2, tszMsg, SIZEOF(str2) - 1);
 		TCHAR *chop = _tcschr(str1, 255);
 		if (chop != NULL)
 			*chop = '\0';
@@ -88,7 +88,7 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 			str1[0] = 0;
 		chop = _tcschr(str2, 255);
 		if (chop != NULL)
-			_tcsncpy(str2, chop+1, SIZEOF(str2) - 1);
+			mir_tstrncpy(str2, chop+1, SIZEOF(str2) - 1);
 		else
 			str2[0] = 0;
 
@@ -396,7 +396,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_VAR3:
 			// display variable list
-			_tcsncpy(str, _T("                                                            \n"),SIZEOF(str) - 1);		// to make the message box wider
+			mir_tstrncpy(str, _T("                                                            \n"),SIZEOF(str) - 1);		// to make the message box wider
 			mir_tstrncat(str, VAR_LIST_POPUP, SIZEOF(str) - mir_tstrlen(str));
 			mir_tstrncat(str, _T("\n"), SIZEOF(str) - mir_tstrlen(str));
 			mir_tstrncat(str, CUSTOM_VARS, SIZEOF(str) - mir_tstrlen(str));

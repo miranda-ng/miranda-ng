@@ -757,7 +757,7 @@ ThumbInfo *ThumbList::AddThumb(HWND hwnd, TCHAR *ptszName, MCONTACT hContact)
 		return NULL;
 
 	ThumbInfo *pThumb = new ThumbInfo;
-	_tcsncpy( pThumb->ptszName, ptszName, USERNAME_LEN - 1);
+	mir_tstrncpy( pThumb->ptszName, ptszName, USERNAME_LEN - 1);
 	pThumb->hContact = hContact;
 	pThumb->hwnd = hwnd;
 

@@ -61,14 +61,14 @@ void GetFilePath(TCHAR *WindowTittle, char *szSetting, TCHAR *szExt, TCHAR *szEx
 	ofn.lStructSize=CDSIZEOF_STRUCT(OPENFILENAME,lpTemplateName);
 	ofn.Flags=OFN_EXPLORER;
 	ofn.lpstrTitle=TranslateW(WindowTittle);
-	_tcsncpy(filter,TranslateW(szExtDesc), SIZEOF(filter)-1);
+	mir_tstrncpy(filter,TranslateW(szExtDesc), SIZEOF(filter)-1);
 	pfilter=filter+mir_tstrlen(filter)+1;
 	mir_tstrcpy(pfilter, szExt);
 	pfilter[mir_tstrlen(pfilter)+1] = '\0';
 	pfilter[mir_tstrlen(pfilter)+2] = '\0';
 	ofn.lpstrFilter=filter;
 	tmp = UniGetContactSettingUtf(0, szGPGModuleName, szSetting, _T(""));
-	_tcsncpy(str, tmp, SIZEOF(str)-1);
+	mir_tstrncpy(str, tmp, SIZEOF(str)-1);
 	mir_free(tmp);
 	if(mir_tstrlen(str)< 2)
 		str[0] = '\0';
@@ -1859,7 +1859,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 			DWORD exitcode;
 			{
 				ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-				_tcsncpy(tmp2, ptmp, MAX_PATH-1);
+				mir_tstrncpy(tmp2, ptmp, MAX_PATH-1);
 				mir_free(ptmp);
 				mir_tstrncat(tmp2, _T("\\"), SIZEOF(tmp2) - mir_tstrlen(tmp2));
 				mir_tstrncat(tmp2, _T("temporary_exported.asc"), SIZEOF(tmp2) - mir_tstrlen(tmp2));

@@ -82,7 +82,7 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 
 		DBVARIANT dbv;
 		if (db_get_ts(NULL, SRMMMOD, str, &dbv))
-			_tcsncpy(lf->lfFaceName, fontOptionsList[i].szDefFace, SIZEOF(lf->lfFaceName)-1);
+			mir_tstrncpy(lf->lfFaceName, fontOptionsList[i].szDefFace, SIZEOF(lf->lfFaceName)-1);
 		else {
 			mir_tstrncpy(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
 			db_free(&dbv);

@@ -241,10 +241,10 @@ extern "C" int __declspec(dllexport) Load()
 
 	TCHAR *szForwardTemplate = db_get_tsa(NULL, "yaRelay", "ForwardTemplate");
 	if (szForwardTemplate){
-		_tcsncpy(tszForwardTemplate, szForwardTemplate, SIZEOF(tszForwardTemplate));
+		mir_tstrncpy(tszForwardTemplate, szForwardTemplate, SIZEOF(tszForwardTemplate));
 		mir_free(szForwardTemplate);
 	}
-	else _tcsncpy(tszForwardTemplate, _T("%u: %m"), MAXTEMPLATESIZE-1);
+	else mir_tstrncpy(tszForwardTemplate, _T("%u: %m"), MAXTEMPLATESIZE-1);
 
 	iSplit          = db_get_dw(NULL, "yaRelay", "Split", 0);
 	iSplitMaxSize   = db_get_dw(NULL, "yaRelay", "SplitMaxSize", 100);

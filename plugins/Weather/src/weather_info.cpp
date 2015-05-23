@@ -216,7 +216,7 @@ void MoreVarList(void)
 	TCHAR str[10240], tempstr[1024];
 
 	// heading
-	_tcsncpy(str, VARS_LIST, SIZEOF(str) - 1);
+	mir_tstrncpy(str, VARS_LIST, SIZEOF(str) - 1);
 	mir_tstrncat(str, _T("\n\n"), SIZEOF(str) - mir_tstrlen(str));
 	// loop through all weather services to find custom variables
 	for (WIDATALIST *Item = WIHead;Item != NULL;Item = Item->next) 

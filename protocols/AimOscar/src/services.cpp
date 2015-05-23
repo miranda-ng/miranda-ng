@@ -413,7 +413,7 @@ INT_PTR CAimProto::GetAvatar(WPARAM wParam, LPARAM lParam)
 	PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai) };
 	if (GetAvatarInfo(0, (LPARAM)&ai) == GAIR_SUCCESS)
 	{
-		_tcsncpy(buf, ai.filename, size);
+		mir_tstrncpy(buf, ai.filename, size);
 		buf[size-1] = 0;
 		return 0;
 	}

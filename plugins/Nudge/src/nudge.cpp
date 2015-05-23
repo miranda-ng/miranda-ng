@@ -82,19 +82,19 @@ void CNudgeElement::Load(void)
 
 	mir_snprintf(SectionName,SIZEOF(SectionName),"%s-recText", ProtocolName);
 	if (!db_get_ts(NULL, MODULENAME, SectionName, &dbv)) {
-		_tcsncpy(this->recText, dbv.ptszVal, TEXT_LEN);
+		mir_tstrncpy(this->recText, dbv.ptszVal, TEXT_LEN);
 		if (_tcsclen(this->recText) < 1)
-			_tcsncpy(this->recText, TranslateT("You received a nudge"), TEXT_LEN);
+			mir_tstrncpy(this->recText, TranslateT("You received a nudge"), TEXT_LEN);
 		db_free(&dbv);
 	}
-	else _tcsncpy(this->recText, TranslateT("You received a nudge"), TEXT_LEN);
+	else mir_tstrncpy(this->recText, TranslateT("You received a nudge"), TEXT_LEN);
 
 	mir_snprintf(SectionName, SIZEOF(SectionName), "%s-senText", ProtocolName);
 	if (!db_get_ts(NULL, MODULENAME, SectionName, &dbv)) {
-		_tcsncpy(this->senText, dbv.ptszVal, TEXT_LEN);
+		mir_tstrncpy(this->senText, dbv.ptszVal, TEXT_LEN);
 		if (_tcsclen(this->senText) < 1)
-			_tcsncpy(this->senText, TranslateT("You sent a nudge"), TEXT_LEN);
+			mir_tstrncpy(this->senText, TranslateT("You sent a nudge"), TEXT_LEN);
 		db_free(&dbv);
 	}
-	else _tcsncpy(this->senText, TranslateT("You sent a nudge"), TEXT_LEN);
+	else mir_tstrncpy(this->senText, TranslateT("You sent a nudge"), TEXT_LEN);
 }

@@ -489,8 +489,8 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 int showMessage(const popup_t &msg)
 {
 	POPUPDATAT ppd = { 0 };
-	_tcsncpy(ppd.lptzText, strip(msg.message).c_str(), MAX_SECONDLINE);
-	_tcsncpy(ppd.lptzContactName, msg.contact.c_str(), MAX_CONTACTNAME);
+	mir_tstrncpy(ppd.lptzText, strip(msg.message).c_str(), MAX_SECONDLINE);
+	mir_tstrncpy(ppd.lptzContactName, msg.contact.c_str(), MAX_CONTACTNAME);
 	ppd.colorBack = msg.background;
 	ppd.colorText = msg.foreground;
 	ppd.lchIcon = getIcon(msg.icon);

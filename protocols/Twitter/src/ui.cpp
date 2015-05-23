@@ -331,8 +331,8 @@ namespace popup_options
 
 		// Pick a random quote
 		int q = rand() % SIZEOF(quotes);
-		_tcsncpy(popup.lptzContactName, quotes[q].name, MAX_CONTACTNAME);
-		_tcsncpy(popup.lptzText, quotes[q].text, MAX_SECONDLINE);
+		mir_tstrncpy(popup.lptzContactName, quotes[q].name, MAX_CONTACTNAME);
+		mir_tstrncpy(popup.lptzText, quotes[q].text, MAX_SECONDLINE);
 
 		popup.lchContact = hContact;
 		popup.iSeconds = get_timeout(hwndDlg);

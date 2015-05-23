@@ -180,8 +180,8 @@ void ShowPopupMessage(TCHAR *title, TCHAR *message, HANDLE icon)
 {
 	POPUPDATAT pd = { 0 };
 	pd.lchIcon = Skin_GetIconByHandle(icon);
-	_tcsncpy(pd.lptzContactName, title, MAX_CONTACTNAME - 1);
-	_tcsncpy(pd.lptzText, message, MAX_SECONDLINE - 1);
+	mir_tstrncpy(pd.lptzContactName, title, MAX_CONTACTNAME - 1);
+	mir_tstrncpy(pd.lptzText, message, MAX_SECONDLINE - 1);
 	pd.colorText = commonData.foreground;
 	pd.colorBack = commonData.background;
 	PUAddPopupT(&pd);

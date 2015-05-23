@@ -502,54 +502,54 @@ void RegisterFontServiceFonts()
 		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i);
 		mir_strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
 		fid.order = i;
-		_tcsncpy(fid.name, fontOptionsList[i].szDescr, SIZEOF(fid.name));
+		mir_tstrncpy(fid.name, fontOptionsList[i].szDescr, SIZEOF(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].colour;
 		fid.deffontsettings.size = (char)lf.lfHeight;
 		fid.deffontsettings.style = (lf.lfWeight >= FW_BOLD ? FONTF_BOLD : 0) | (lf.lfItalic ? FONTF_ITALIC : 0);
 		fid.deffontsettings.charset = lf.lfCharSet;
 		fid.flags = fid.flags & ~FIDF_CLASSMASK | (fid.deffontsettings.style&FONTF_BOLD ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL);
-		_tcsncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
-		_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), SIZEOF(fid.backgroundGroup));
-		_tcsncpy(fid.group, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), SIZEOF(fid.group));
+		mir_tstrncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
+		mir_tstrncpy(fid.backgroundGroup, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), SIZEOF(fid.backgroundGroup));
+		mir_tstrncpy(fid.group, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), SIZEOF(fid.group));
 		switch (i) {
 		case MSGFONTID_MYMSG:
 		case 1:
 		case MSGFONTID_MYNAME:
 		case MSGFONTID_MYTIME:
 		case 21:
-			_tcsncpy(fid.backgroundName, LPGENT("Outgoing background"), SIZEOF(fid.backgroundName));
+			mir_tstrncpy(fid.backgroundName, LPGENT("Outgoing background"), SIZEOF(fid.backgroundName));
 			break;
 		case 8:
 		case 9:
 		case 12:
 		case 13:
-			_tcsncpy(fid.backgroundName, LPGENT("Outgoing background(old)"), SIZEOF(fid.backgroundName));
+			mir_tstrncpy(fid.backgroundName, LPGENT("Outgoing background(old)"), SIZEOF(fid.backgroundName));
 			break;
 		case 10:
 		case 11:
 		case 14:
 		case 15:
-			_tcsncpy(fid.backgroundName, LPGENT("Incoming background(old)"), SIZEOF(fid.backgroundName));
+			mir_tstrncpy(fid.backgroundName, LPGENT("Incoming background(old)"), SIZEOF(fid.backgroundName));
 			break;
 		case MSGFONTID_MESSAGEAREA:
-			_tcsncpy(fid.group, LPGENT("Message Sessions"), SIZEOF(fid.group));
-			_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions"), SIZEOF(fid.backgroundGroup));
-			_tcsncpy(fid.backgroundName, LPGENT("Input area background"), SIZEOF(fid.backgroundName));
+			mir_tstrncpy(fid.group, LPGENT("Message Sessions"), SIZEOF(fid.group));
+			mir_tstrncpy(fid.backgroundGroup, LPGENT("Message Sessions"), SIZEOF(fid.backgroundGroup));
+			mir_tstrncpy(fid.backgroundName, LPGENT("Input area background"), SIZEOF(fid.backgroundName));
 			fid.flags |= FIDF_DISABLESTYLES;
 			fid.flags &= ~FIDF_ALLOWEFFECTS;
 			break;
 		case 17:
-			_tcsncpy(fid.backgroundName, LPGENT("Status background"), SIZEOF(fid.backgroundName));
+			mir_tstrncpy(fid.backgroundName, LPGENT("Status background"), SIZEOF(fid.backgroundName));
 			break;
 		case 18:
-			_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions"), SIZEOF(fid.backgroundGroup));
-			_tcsncpy(fid.backgroundName, LPGENT("Log background"), SIZEOF(fid.backgroundName));
+			mir_tstrncpy(fid.backgroundGroup, LPGENT("Message Sessions"), SIZEOF(fid.backgroundGroup));
+			mir_tstrncpy(fid.backgroundName, LPGENT("Log background"), SIZEOF(fid.backgroundName));
 			break;
 		case 19:
-			_tcsncpy(fid.backgroundName, _T(""), SIZEOF(fid.backgroundName));
+			mir_tstrncpy(fid.backgroundName, _T(""), SIZEOF(fid.backgroundName));
 			break;
 		default:
-			_tcsncpy(fid.backgroundName, LPGENT("Incoming background"), SIZEOF(fid.backgroundName));
+			mir_tstrncpy(fid.backgroundName, LPGENT("Incoming background"), SIZEOF(fid.backgroundName));
 			break;
 		}
 		FontRegisterT(&fid);
@@ -557,35 +557,35 @@ void RegisterFontServiceFonts()
 
 	fontOptionsList = IP_fontOptionsList;
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
-	_tcsncpy(fid.group, LPGENT("Message Sessions")_T("/")LPGENT("Info Panel"), SIZEOF(fid.group));
-	_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions")_T("/")LPGENT("Info Panel"), SIZEOF(fid.backgroundGroup));
-	_tcsncpy(fid.backgroundName, LPGENT("Fields background"), SIZEOF(fid.backgroundName));
+	mir_tstrncpy(fid.group, LPGENT("Message Sessions")_T("/")LPGENT("Info Panel"), SIZEOF(fid.group));
+	mir_tstrncpy(fid.backgroundGroup, LPGENT("Message Sessions")_T("/")LPGENT("Info Panel"), SIZEOF(fid.backgroundGroup));
+	mir_tstrncpy(fid.backgroundName, LPGENT("Fields background"), SIZEOF(fid.backgroundName));
 	for (int i = 0; i < IPFONTCOUNT; i++) {
 		LoadMsgDlgFont(FONTSECTION_IP, i + 100, &lf, &fontOptionsList[i].colour, FONTMODULE);
 		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i + 100);
 		mir_strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
 		fid.order = i + 100;
-		_tcsncpy(fid.name, fontOptionsList[i].szDescr, SIZEOF(fid.name));
+		mir_tstrncpy(fid.name, fontOptionsList[i].szDescr, SIZEOF(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].colour;
 		fid.deffontsettings.size = (char)lf.lfHeight;
 		fid.deffontsettings.style = (lf.lfWeight >= FW_BOLD ? FONTF_BOLD : 0) | (lf.lfItalic ? FONTF_ITALIC : 0);
 		fid.deffontsettings.charset = lf.lfCharSet;
 		fid.flags = fid.flags & ~FIDF_CLASSMASK | (fid.deffontsettings.style&FONTF_BOLD ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL);
 		fid.deffontsettings.charset = lf.lfCharSet;
-		_tcsncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
+		mir_tstrncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
 		if (i == IPFONTCOUNT - 1) {
-			_tcsncpy(fid.backgroundGroup, _T(""), SIZEOF(fid.backgroundGroup));
-			_tcsncpy(fid.backgroundName, _T(""), SIZEOF(fid.backgroundName));
-			_tcsncpy(fid.group, LPGENT("Message Sessions"), SIZEOF(fid.group));
+			mir_tstrncpy(fid.backgroundGroup, _T(""), SIZEOF(fid.backgroundGroup));
+			mir_tstrncpy(fid.backgroundName, _T(""), SIZEOF(fid.backgroundName));
+			mir_tstrncpy(fid.group, LPGENT("Message Sessions"), SIZEOF(fid.group));
 		}
 		FontRegisterT(&fid);
 	}
 
-	_tcsncpy(cid.group, LPGENT("Message Sessions")_T("/")LPGENT("Group chats"), SIZEOF(cid.group));
+	mir_tstrncpy(cid.group, LPGENT("Message Sessions")_T("/")LPGENT("Group chats"), SIZEOF(cid.group));
 	mir_strncpy(cid.dbSettingsGroup, CHAT_MODULE, SIZEOF(cid.dbSettingsGroup));
 	for (int i = 0; i <= 7; i++) {
 		mir_snprintf(szTemp, SIZEOF(szTemp), "NickColor%d", i);
-		_tcsncpy(cid.name, chatcolorsnames[i], SIZEOF(cid.name));
+		mir_tstrncpy(cid.name, chatcolorsnames[i], SIZEOF(cid.name));
 		cid.order = i + 1;
 		mir_strncpy(cid.setting, szTemp, SIZEOF(cid.setting));
 		switch (i) {
@@ -618,8 +618,8 @@ void RegisterFontServiceFonts()
 
 	for (int i = 0; i < SIZEOF(_clrs); i++) {
 		cid.order = _clrs[i].order;
-		_tcsncpy(cid.group, _clrs[i].tszGroup, SIZEOF(fid.group));
-		_tcsncpy(cid.name, _clrs[i].tszName, SIZEOF(cid.name));
+		mir_tstrncpy(cid.group, _clrs[i].tszGroup, SIZEOF(fid.group));
+		mir_tstrncpy(cid.name, _clrs[i].tszName, SIZEOF(cid.name));
 		mir_strncpy(cid.setting, _clrs[i].szSetting, SIZEOF(cid.setting));
 		if (_clrs[i].def & 0xff000000)
 			cid.defcolour = GetSysColor(_clrs[i].def & 0x000000ff);
@@ -633,8 +633,8 @@ void RegisterFontServiceFonts()
 	// text and background colors for tabs
 	for (int i = 0; i < SIZEOF(_tabclrs); i++) {
 		cid.order = _tabclrs[i].order;
-		_tcsncpy(cid.group, _tabclrs[i].tszGroup, SIZEOF(fid.group));
-		_tcsncpy(cid.name, _tabclrs[i].tszName, SIZEOF(cid.name));
+		mir_tstrncpy(cid.group, _tabclrs[i].tszGroup, SIZEOF(fid.group));
+		mir_tstrncpy(cid.name, _tabclrs[i].tszName, SIZEOF(cid.name));
 		mir_strncpy(cid.setting, _tabclrs[i].szSetting, SIZEOF(cid.setting));
 		if (_tabclrs[i].def & 0xff000000)
 			cid.defcolour = GetSysColor(_tabclrs[i].def & 0x000000ff);

@@ -7,9 +7,9 @@ TCHAR* _getCOptS(TCHAR *buf, unsigned int buflen, MCONTACT hContact, const char*
 	DBVARIANT dbv = {0};
 	_tcsnset(buf, 0, buflen);
 	if (db_get_ts(hContact, PLUGIN_NAME, option, &dbv) != 0)
-		_tcsncpy(buf, def, min(buflen, mir_tstrlen(def)+1));
+		mir_tstrncpy(buf, def, min(buflen, mir_tstrlen(def)+1));
 	else if (dbv.type == DBVT_TCHAR) {
-		_tcsncpy(buf, dbv.ptszVal, min(buflen, mir_tstrlen(dbv.ptszVal)+1));
+		mir_tstrncpy(buf, dbv.ptszVal, min(buflen, mir_tstrlen(dbv.ptszVal)+1));
 	}
 	db_free(&dbv);
 	return buf;
@@ -20,12 +20,12 @@ TCHAR* _getMOptS(TCHAR *buf, unsigned int buflen, const char* module, const char
 	DBVARIANT dbv = {0};
 	_tcsnset(buf, 0, buflen);
 	if (db_get_s(NULL, module, option, &dbv) != 0)
-		_tcsncpy(buf, def, min(buflen, mir_tstrlen(def)+1));
+		mir_tstrncpy(buf, def, min(buflen, mir_tstrlen(def)+1));
 	else if (dbv.type == DBVT_TCHAR) {
-		_tcsncpy(buf, dbv.ptszVal, min(buflen, mir_tstrlen(dbv.ptszVal)+1));
+		mir_tstrncpy(buf, dbv.ptszVal, min(buflen, mir_tstrlen(dbv.ptszVal)+1));
 	} else {
 		tmp = mir_a2u(dbv.pszVal);
-		_tcsncpy(buf, tmp, min(buflen, mir_tstrlen(tmp)+1));
+		mir_tstrncpy(buf, tmp, min(buflen, mir_tstrlen(tmp)+1));
 		mir_free(tmp);
 	}
 	db_free(&dbv);

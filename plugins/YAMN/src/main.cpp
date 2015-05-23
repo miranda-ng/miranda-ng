@@ -78,7 +78,7 @@ static void GetProfileDirectory(TCHAR *szPath, int cbPath)
 		_T("") };
 	SHFileOperation(&file_op);
 
-	_tcsncpy(szPath, ptszNewPath, cbPath);
+	mir_tstrncpy(szPath, ptszNewPath, cbPath);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

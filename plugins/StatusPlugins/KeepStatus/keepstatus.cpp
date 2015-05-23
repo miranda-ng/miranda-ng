@@ -980,8 +980,8 @@ static INT_PTR ShowPopup(TCHAR *msg, HICON hIcon)
 {
 	POPUPDATAT ppd = { 0 };
 	ppd.lchIcon = hIcon;
-	_tcsncpy(ppd.lptzContactName, TranslateT("KeepStatus"), MAX_CONTACTNAME);
-	_tcsncpy(ppd.lptzText, msg, MAX_SECONDLINE);
+	mir_tstrncpy(ppd.lptzContactName, TranslateT("KeepStatus"), MAX_CONTACTNAME);
+	mir_tstrncpy(ppd.lptzText, msg, MAX_SECONDLINE);
 	if (db_get_b(NULL, MODULENAME, SETTING_POPUP_USEWINCOLORS, 0)) {
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);

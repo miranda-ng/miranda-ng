@@ -37,7 +37,7 @@ void SetupInfobar(InfobarWindowData* idat)
 	cf2.cbSize = sizeof(cf2);
 	cf2.crTextColor = colour;
 	cf2.bCharSet = lf.lfCharSet;
-	_tcsncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
+	mir_tstrncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
 	cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
 	cf2.wWeight = (WORD)lf.lfWeight;
 	cf2.bPitchAndFamily = lf.lfPitchAndFamily;
@@ -51,7 +51,7 @@ void SetupInfobar(InfobarWindowData* idat)
 	cf2.cbSize = sizeof(cf2);
 	cf2.crTextColor = colour;
 	cf2.bCharSet = lf.lfCharSet;
-	_tcsncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
+	mir_tstrncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
 	cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
 	cf2.wWeight = (WORD)lf.lfWeight;
 	cf2.bPitchAndFamily = lf.lfPitchAndFamily;

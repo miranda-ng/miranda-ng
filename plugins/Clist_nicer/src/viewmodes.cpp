@@ -1060,7 +1060,7 @@ void ApplyViewMode(const char *name)
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_GF", 246, name);
 	if (!cfg::getTString(NULL, CLVM_MODULE, szSetting, &dbv)) {
 		if (mir_tstrlen(dbv.ptszVal) >= 2) {
-			_tcsncpy(cfg::dat.groupFilter, dbv.ptszVal, SIZEOF(cfg::dat.groupFilter));
+			mir_tstrncpy(cfg::dat.groupFilter, dbv.ptszVal, SIZEOF(cfg::dat.groupFilter));
 			cfg::dat.groupFilter[SIZEOF(cfg::dat.groupFilter) - 1] = 0;
 			cfg::dat.bFilterEffective |= CLVM_FILTER_GROUPS;
 		}

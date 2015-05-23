@@ -133,8 +133,8 @@ void TSAPI CacheLogFonts()
 	}
 	mir_snprintf(rtfFontsGlobal[MSGDLGFONTCOUNT], SIZEOF(rtfFontsGlobal[MSGDLGFONTCOUNT]), "\\f%u\\cf%u\\b%d\\i%d\\fs%u", MSGDLGFONTCOUNT, MSGDLGFONTCOUNT, 0, 0, 0);
 
-	_tcsncpy(szToday, TranslateT("Today"), 20);
-	_tcsncpy(szYesterday, TranslateT("Yesterday"), 20);
+	mir_tstrncpy(szToday, TranslateT("Today"), 20);
+	mir_tstrncpy(szYesterday, TranslateT("Yesterday"), 20);
 	szToday[19] = szYesterday[19] = 0;
 
 	// cache/create the info panel fonts
