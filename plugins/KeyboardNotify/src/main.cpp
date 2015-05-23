@@ -697,7 +697,7 @@ void createEventPrefix(TCHAR *prefixName, size_t maxLen)
 	else {
 		str = profileName + len - maxLen / 2;
 		_tcsncpy_s(prefixName, (maxLen / 2), profileName, _TRUNCATE);
-		_tcscat(prefixName, str);
+		mir_tstrcat(prefixName, str);
 	}
 }
 

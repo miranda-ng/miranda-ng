@@ -495,8 +495,8 @@ void JabberFormCreateUI(HWND hwndStatic, HXML xNode, int *formHeight, BOOL bComp
 						break;
 					if (xmlGetName(v) && !mir_tstrcmp(xmlGetName(v), _T("value")) && xmlGetText(v)) {
 						if (valueStr[0])
-							_tcscat(valueStr, _T("\r\n"));
-						_tcscat(valueStr, xmlGetText(v));
+							mir_tstrcat(valueStr, _T("\r\n"));
+						mir_tstrcat(valueStr, xmlGetText(v));
 					}
 				}
 			}

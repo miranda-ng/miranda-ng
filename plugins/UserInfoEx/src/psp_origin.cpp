@@ -94,7 +94,7 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 									mt.UTCToLocal();
 									mt.DateFormatLong(szTime, SIZEOF(szTime));
 									
-									_tcscat(szTime, _T(" - "));
+									mir_tstrcat(szTime, _T(" - "));
 									ptr = szTime + mir_tstrlen(szTime);
 									mt.TimeFormat(ptr, SIZEOF(szTime) - (ptr - szTime));
 									SetDlgItemText(hDlg, TXT_DATEADDED, szTime);

@@ -65,7 +65,7 @@ static TCHAR *parseHex(ARGUMENTSINFO *ai)
 	for (i = 0; i < zeros; i++)
 		*(res + 2 + i) = '0';
 
-	_tcscat(res, szVal);
+	mir_tstrcat(res, szVal);
 	return res;
 }
 
@@ -152,7 +152,7 @@ static TCHAR *parseNum(ARGUMENTSINFO *ai)
 	for (unsigned i = 0; i < zeros; i++)
 		*cur++ = '0';
 
-	_tcscat(res, szVal);
+	mir_tstrcat(res, szVal);
 	mir_free(szVal);
 
 	return res;

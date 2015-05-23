@@ -405,14 +405,14 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai)
 	while (FindNextFile(hFind, &ffd) != 0) {
 		if (((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
 			if (tszRes != NULL) {
-				_tcscat(tszRes, tszSeperator);
+				mir_tstrcat(tszRes, tszSeperator);
 				tszRes = (TCHAR*)mir_realloc(tszRes, (mir_tstrlen(tszRes) + mir_tstrlen(ffd.cFileName) + mir_tstrlen(tszSeperator) + 1)*sizeof(TCHAR));
 			}
 			else {
 				tszRes = (TCHAR*)mir_alloc((mir_tstrlen(ffd.cFileName) + mir_tstrlen(tszSeperator) + 1)*sizeof(TCHAR));
 				mir_tstrcpy(tszRes, _T(""));
 			}
-			_tcscat(tszRes, ffd.cFileName);
+			mir_tstrcat(tszRes, ffd.cFileName);
 		}
 	}
 	FindClose(hFind);

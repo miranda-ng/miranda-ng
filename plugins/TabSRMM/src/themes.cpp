@@ -1673,7 +1673,7 @@ void CSkin::setupAeroSkins()
 	TCHAR	tszFilename[MAX_PATH], tszBasePath[MAX_PATH];
 	_tcsncpy_s(tszBasePath, M.getDataPath(), _TRUNCATE);
 	if (tszBasePath[mir_tstrlen(tszBasePath) - 1] != '\\')
-		_tcscat(tszBasePath, _T("\\"));
+		mir_tstrcat(tszBasePath, _T("\\"));
 
 	// load unknown avatar..
 	if (0 == PluginConfig.g_hbmUnknown) {
@@ -2444,7 +2444,7 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 	TCHAR tszBasePath[MAX_PATH];
 	_tcsncpy_s(tszBasePath, M.getDataPath(), _TRUNCATE);
 	if (tszBasePath[mir_tstrlen(tszBasePath) - 1] != '\\')
-		_tcscat(tszBasePath, _T("\\"));
+		mir_tstrcat(tszBasePath, _T("\\"));
 
 	CreateDirectoryTreeT(tszBasePath);
 

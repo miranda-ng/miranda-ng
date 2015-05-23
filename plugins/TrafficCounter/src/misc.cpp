@@ -160,7 +160,7 @@ size_t GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, size_t Size)
 	Res = (TCHAR*)malloc(l * sizeof(TCHAR));
 	if (!Res) return 0;
 	GetNumberFormat(LOCALE_USER_DEFAULT, 0, Str1, &nf, Res, l);
-	_tcscat(Res, szUnit);
+	mir_tstrcat(Res, szUnit);
 
 	if (Size && Buffer)
 	{
@@ -259,7 +259,7 @@ size_t GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Siz
 		// Добавим памяти, если нужно.
 		Length = mir_tstrlen(Res) + mir_tstrlen(Token) + 1;
 		Res = (TCHAR*)realloc(Res, Length * sizeof(TCHAR));
-		_tcscat(Res, Token);
+		mir_tstrcat(Res, Token);
 	}
 
 	if (Size && Buffer)

@@ -188,7 +188,7 @@ static TCHAR *parseFor(ARGUMENTSINFO *ai)
 			}
 			else res = (TCHAR*)mir_realloc(res, (mir_tstrlen(res) + mir_tstrlen(parsed) + 1)*sizeof(TCHAR));
 
-			_tcscat(res, parsed);
+			mir_tstrcat(res, parsed);
 			mir_free(parsed);
 		}
 		fi.tszFormat = ai->targv[3];

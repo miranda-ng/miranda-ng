@@ -1152,13 +1152,13 @@ void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 				for (int i = 0; i < item->arResources.getCount(); i++) {
 					JABBER_RESOURCE_STATUS *r = item->arResources[i];
 					if (r->m_tszStatusMessage) {
-						if (str[0] != '\0') _tcscat(str, _T("\r\n"));
+						if (str[0] != '\0') mir_tstrcat(str, _T("\r\n"));
 						if (msgCount > 1) {
-							_tcscat(str, _T("("));
-							_tcscat(str, r->m_tszResourceName);
-							_tcscat(str, _T("): "));
+							mir_tstrcat(str, _T("("));
+							mir_tstrcat(str, r->m_tszResourceName);
+							mir_tstrcat(str, _T("): "));
 						}
-						_tcscat(str, r->m_tszStatusMessage);
+						mir_tstrcat(str, r->m_tszStatusMessage);
 					}
 				}
 

@@ -155,7 +155,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					len--;
 					_tcsncpy(titlebuff, alarm.szTitle, len);
 					titlebuff[len] = 0;
-					_tcscat(titlebuff, _T("..."));
+					mir_tstrcat(titlebuff, _T("..."));
 					GetTextExtentPoint32(dis->hDC,titlebuff,(int)mir_tstrlen(titlebuff),&textSize);
 				}
 				TextOut(dis->hDC,dis->rcItem.left + 16 + 4,(dis->rcItem.top + dis->rcItem.bottom - textSize.cy)>>1,titlebuff,(int)mir_tstrlen(titlebuff));

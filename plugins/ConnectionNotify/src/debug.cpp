@@ -30,7 +30,7 @@ void _OutputDebugString(TCHAR* lpOutputString, ...)
 			mir_sntprintf(OutMsg, SIZEOF(OutMsg), format, s);
 			_tcsncpy(format, OutMsg, _countof(OutMsg));
 			j = (int)mir_tstrlen(format);
-			_tcscat(format, _T(" "));
+			mir_tstrcat(format, _T(" "));
 			break;
 		}
 		// character
@@ -40,7 +40,7 @@ void _OutputDebugString(TCHAR* lpOutputString, ...)
 			mir_sntprintf(OutMsg, SIZEOF(OutMsg), format, c);
 			_tcsncpy(format, OutMsg, _countof(OutMsg));
 			j = (int)mir_tstrlen(format);
-			_tcscat(format, _T(" "));
+			mir_tstrcat(format, _T(" "));
 			break;
 		}
 		// integer
@@ -50,13 +50,13 @@ void _OutputDebugString(TCHAR* lpOutputString, ...)
 			mir_sntprintf(OutMsg, SIZEOF(OutMsg), format, d);
 			_tcsncpy(format, OutMsg, _countof(OutMsg));
 			j = (int)mir_tstrlen(format);
-			_tcscat(format, _T(" "));
+			mir_tstrcat(format, _T(" "));
 			break;
 		}
 		}
 		format[j + 1] = '\0';
 	}
-	_tcscat(format, _T("\n"));
+	mir_tstrcat(format, _T("\n"));
 	OutputDebugString(format);
 
 	va_end(argptr);

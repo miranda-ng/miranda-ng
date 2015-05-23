@@ -63,7 +63,7 @@ static void GetProfileDirectory(TCHAR *szPath, int cbPath)
 {
 	TCHAR tszOldPath[MAX_PATH];
 	CallService(MS_DB_GETPROFILEPATHT, SIZEOF(tszOldPath), (LPARAM)tszOldPath);
-	_tcscat(tszOldPath, _T("\\*.book"));
+	mir_tstrcat(tszOldPath, _T("\\*.book"));
 
 	VARST ptszNewPath( _T("%miranda_userdata%"));
 
@@ -125,8 +125,8 @@ BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
 		}
 		#ifdef _DEBUG
 		if (!found) {
-			_tcscat(unknownCP, info.CodePageName);
-			_tcscat(unknownCP, _T("\n"));
+			mir_tstrcat(unknownCP, info.CodePageName);
+			mir_tstrcat(unknownCP, _T("\n"));
 		}
 		#endif
 	}

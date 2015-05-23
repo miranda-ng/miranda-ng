@@ -305,7 +305,7 @@ void GetStatusText(MCONTACT hContact, WORD newStatus, WORD oldStatus, TCHAR *stz
 	if (opt.ShowPreviousStatus) {
 		TCHAR buff[MAX_STATUSTEXT];
 		mir_sntprintf(buff, SIZEOF(buff), TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(oldStatus)].lpzStandardText);
-		_tcscat(_tcscat(stzStatusText, _T(" ")), buff);
+		mir_tstrcat(mir_tstrcat(stzStatusText, _T(" ")), buff);
 	}
 }
 
@@ -688,7 +688,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			copyText = mir_tstrdup(smi.newstatusmsg);
 			_tcsncpy(buff, smi.newstatusmsg, opt.PSMsgLen);
 			buff[opt.PSMsgLen] = 0;
-			_tcscat(buff, _T("..."));
+			mir_tstrcat(buff, _T("..."));
 			replaceStrT(smi.newstatusmsg, buff);
 		}
 

@@ -384,12 +384,12 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 					mir_tstrcpy(tmp2, ptmp);
 					mir_free(ptmp);
-					_tcscat(tmp2, _T("\\"));
+					mir_tstrcat(tmp2, _T("\\"));
 					TCHAR *tmp3 = mir_a2t(get_random(5).c_str());
-					_tcscat(tmp2, tmp3);
-					_tcscat(tmp2, _T(".asc"));
+					mir_tstrcat(tmp2, tmp3);
+					mir_tstrcat(tmp2, _T(".asc"));
 					mir_free(tmp3);
-					//_tcscat(tmp2, _T("temporary_exported.asc"));
+					//mir_tstrcat(tmp2, _T("temporary_exported.asc"));
 					boost::filesystem::remove(tmp2);
 					wfstream f(tmp2, std::ios::out);
 					while(!f.is_open())

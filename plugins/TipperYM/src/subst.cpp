@@ -682,7 +682,7 @@ void TruncateString(TCHAR *swzText)
 	if (swzText && opt.iLimitCharCount > 3) {
 		if ((int)mir_tstrlen(swzText) > opt.iLimitCharCount) {
 			swzText[opt.iLimitCharCount - 3] = 0;
-			_tcscat(swzText, _T("..."));
+			mir_tstrcat(swzText, _T("..."));
 		}
 	}
 }

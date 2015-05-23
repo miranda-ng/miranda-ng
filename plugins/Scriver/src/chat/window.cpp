@@ -278,7 +278,7 @@ LBL_SkipEnd:
 			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
 				szReplace = (TCHAR*)mir_alloc((mir_tstrlen(pszName) + 4) * sizeof(TCHAR));
 				mir_tstrcpy(szReplace, pszName);
-				_tcscat(szReplace, _T(": "));
+				mir_tstrcat(szReplace, _T(": "));
 				pszName = szReplace;
 			}
 			SendMessage(hwnd, EM_SETSEL, start, end);
@@ -971,7 +971,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 				MessageBeep(MB_OK);
 				break;
 			}
-			_tcscat(si->szSearch, szNew);
+			mir_tstrcat(si->szSearch, szNew);
 		}
 		if (si->szSearch[0]) {
 			// iterate over the (sorted) list of nicknames and search for the

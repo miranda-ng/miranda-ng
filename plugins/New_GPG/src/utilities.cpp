@@ -1136,7 +1136,7 @@ bool isGPGValid()
 		//mir_realloc(path, (mir_tstrlen(path)+64)*sizeof(TCHAR));
 		TCHAR *gpg_path = (TCHAR*)mir_alloc(sizeof(TCHAR)*MAX_PATH);
 		mir_tstrcpy(gpg_path, tmp);
-		_tcscat(gpg_path, _T("\\GnuPG\\gpg.exe"));
+		mir_tstrcat(gpg_path, _T("\\GnuPG\\gpg.exe"));
 		mir_free(tmp);
 		tmp = NULL;
 		p = boost::filesystem::path(gpg_path);

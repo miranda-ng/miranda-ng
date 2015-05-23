@@ -2042,8 +2042,8 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				while (item.hItem != NULL) {
 					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), &item);
 					if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2) {
-						_tcscat(swzProtos, buff);
-						_tcscat(swzProtos, _T(" "));
+						mir_tstrcat(swzProtos, buff);
+						mir_tstrcat(swzProtos, _T(" "));
 					}
 
 					item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), item.hItem);
@@ -2057,8 +2057,8 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				while (item.hItem != NULL) {
 					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), &item);
 					if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2) {
-						_tcscat(swzProtos, buff);
-						_tcscat(swzProtos, _T(" "));
+						mir_tstrcat(swzProtos, buff);
+						mir_tstrcat(swzProtos, _T(" "));
 					}
 
 					item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), item.hItem);

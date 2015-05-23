@@ -417,12 +417,12 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				for (i = 0; i < bLayNum; i++)
 					if (hklLayouts[i] != hklCurLay) {
 						if (mir_tstrlen(ptszMBox) != 0)
-							_tcscat(ptszMBox, _T("\n\n"));
+							mir_tstrcat(ptszMBox, _T("\n\n"));
 						ptrT ptszTemp(GetShortNameOfLayout(hklLayouts[i]));
-						_tcscat(ptszMBox, ptszTemp);
-						_tcscat(ptszMBox, _T(":\n"));
+						mir_tstrcat(ptszMBox, ptszTemp);
+						mir_tstrcat(ptszMBox, _T(":\n"));
 						ptrT ptszOutText(ChangeTextLayout(ptszInText, hklCurLay, hklLayouts[i], FALSE));
-						_tcscat(ptszMBox, ptszOutText);
+						mir_tstrcat(ptszMBox, ptszOutText);
 					}
 			}
 		}

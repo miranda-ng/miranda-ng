@@ -255,7 +255,7 @@ INT_PTR ExportBirthdaysService(WPARAM wParam, LPARAM lParam)
 		TCHAR buffer[2048];
 		TCHAR *fn = _tcsrchr(fileName, _T('\\')) + 1;
 		if (!_tcschr(fn, _T('.')))
-			_tcscat(fileName, _T(BIRTHDAY_EXTENSION));
+			mir_tstrcat(fileName, _T(BIRTHDAY_EXTENSION));
 
 		mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Exporting birthdays to file: %s"), fileName);
 		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hExportBirthdays);

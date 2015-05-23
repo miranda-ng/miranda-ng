@@ -832,7 +832,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				MessageBeep(MB_OK);
 				break;
 			}
-			_tcscat(dat->szQuickSearch, szNew);
+			mir_tstrcat(dat->szQuickSearch, szNew);
 		}
 
 		if (dat->filterSearch)

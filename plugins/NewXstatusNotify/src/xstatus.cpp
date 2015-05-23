@@ -194,7 +194,7 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 		copyText = mir_tstrdup(xsc->stzText);
 		_tcsncpy(buff, xsc->stzText, opt.PXMsgLen);
 		buff[opt.PXMsgLen] = 0;
-		_tcscat(buff, _T("..."));
+		mir_tstrcat(buff, _T("..."));
 		replaceStrT(xsc->stzText, buff);
 	}
 

@@ -100,7 +100,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				// uid info
 				TCHAR swzUid[256], swzUidName[256];
 				if (Uid(0, pwd->clcit.szProto, swzUid, 256) && UidName(pwd->clcit.szProto, swzUidName, 253)) {
-					_tcscat(swzUidName, _T(": "));
+					mir_tstrcat(swzUidName, _T(": "));
 					AddRow(pwd, swzUidName, swzUid, NULL, false, false, false);
 				}
 
@@ -777,7 +777,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						if (iLen > MAX_VALUE_LEN) {
 							_tcsncpy(buff, pwd->rows[i].swzValue, MAX_VALUE_LEN);
 							buff[MAX_VALUE_LEN] = 0;
-							_tcscat(buff, _T("..."));
+							mir_tstrcat(buff, _T("..."));
 						}
 						else mir_tstrcpy(buff, pwd->rows[i].swzValue);
 
@@ -829,25 +829,25 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						for (int i = 0; i < pwd->iRowCount; i++) {
 							if ((pwd->rows[i].swzLabel && pwd->rows[i].swzLabel[0]) || (pwd->rows[i].swzValue && pwd->rows[i].swzValue[0])) {
 								if (pwd->rows[i].swzLabel && pwd->rows[i].swzLabel[0]) {
-									_tcscat(pchData, pwd->rows[i].swzLabel);
-									_tcscat(pchData, _T(" "));
+									mir_tstrcat(pchData, pwd->rows[i].swzLabel);
+									mir_tstrcat(pchData, _T(" "));
 								}
-								else _tcscat(pchData, TranslateT("<No Label>: "));
+								else mir_tstrcat(pchData, TranslateT("<No Label>: "));
 
 								if (pwd->rows[i].swzValue && pwd->rows[i].swzValue[0])
-									_tcscat(pchData, pwd->rows[i].swzValue);
+									mir_tstrcat(pchData, pwd->rows[i].swzValue);
 								else
-									_tcscat(pchData, TranslateT("<No Value>"));
+									mir_tstrcat(pchData, TranslateT("<No Value>"));
 
-								_tcscat(pchData, _T("\r\n"));
+								mir_tstrcat(pchData, _T("\r\n"));
 							}
 						}
 					}
 					else if (iSelItem == COPYMENU_ALLITEMS) { // copy all items		
 						for (int i = 0; i < pwd->iRowCount; i++) {
 							if (pwd->rows[i].swzValue && pwd->rows[i].swzValue[0]) {
-								_tcscat(pchData, pwd->rows[i].swzValue);
-								_tcscat(pchData, _T("\r\n"));
+								mir_tstrcat(pchData, pwd->rows[i].swzValue);
+								mir_tstrcat(pchData, _T("\r\n"));
 							}
 						}
 					}

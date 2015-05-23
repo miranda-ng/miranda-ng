@@ -1465,7 +1465,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 				TCHAR szNew[2];
 				szNew[0] = (TCHAR)wParam;
 				szNew[1] = '\0';
-				_tcscat(si->szSearch, szNew);
+				mir_tstrcat(si->szSearch, szNew);
 			}
 			if (si->szSearch[0]) {
 				// iterate over the (sorted) list of nicknames and search for the

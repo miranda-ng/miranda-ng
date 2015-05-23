@@ -107,7 +107,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 				szLastDot[0] = '\0';
 
 			mir_tstrcpy(pszDest + tPathLen, szBuf);
-			_tcscat(pszDest + tPathLen, _T("_avt"));
+			mir_tstrcat(pszDest + tPathLen, _T("_avt"));
 		}
 	}
 }
@@ -115,7 +115,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 void AddAvatarExt(int dwFormat, TCHAR *pszDest)
 {
 	const TCHAR *ext = ProtoGetAvatarExtension(dwFormat);
-	_tcscat(pszDest, (*ext == 0) ? _T(".dat") : ext);
+	mir_tstrcat(pszDest, (*ext == 0) ? _T(".dat") : ext);
 }
 
 #define MD5_BLOCK_SIZE 1024*1024 /* use 1MB blocks */

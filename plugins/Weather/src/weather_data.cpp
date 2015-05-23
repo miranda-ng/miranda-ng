@@ -243,12 +243,12 @@ void ConvertDataValue(WIDATAITEM *UpdateData, TCHAR *Data)
 		// degree sign
 		else if ( !mir_tstrcmpi(UpdateData->Unit, _T("DEG")))
 		{
-			if ( !opt.DoNotAppendUnit) _tcscat(Data, opt.DegreeSign);
+			if ( !opt.DoNotAppendUnit) mir_tstrcat(Data, opt.DegreeSign);
 		}
 		// percent sign
 		else if ( !mir_tstrcmpi(UpdateData->Unit, _T("%")))
 		{
-			if ( !opt.DoNotAppendUnit) _tcscat(Data, _T("%"));
+			if ( !opt.DoNotAppendUnit) mir_tstrcat(Data, _T("%"));
 		}
 		// truncating strings for day/month to 2 or 3 characters
 		else if ( !mir_tstrcmpi(UpdateData->Unit, _T("DAY")) || !mir_tstrcmpi(UpdateData->Unit, _T("MONTH")))

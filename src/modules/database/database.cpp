@@ -139,12 +139,12 @@ static void loadProfileByShortName(const TCHAR* src, TCHAR *szProfile, size_t cc
 
 	TCHAR *p = _tcsrchr(buf, '\\'); if (p) ++p; else p = buf;
 	if (!isValidProfileName(buf) && *p)
-		_tcscat(buf, _T(".dat"));
+		mir_tstrcat(buf, _T(".dat"));
 
 	TCHAR profileName[MAX_PATH], newProfileDir[MAX_PATH];
 	_tcsncpy_s(profileName, p, _TRUNCATE);
 	if (!isValidProfileName(profileName) && *p)
-		_tcscat(profileName, _T(".dat"));
+		mir_tstrcat(profileName, _T(".dat"));
 
 	_tcsncpy_s(profileName, p, _TRUNCATE);
 	p = _tcsrchr(profileName, '.'); if (p) *p = 0;

@@ -204,7 +204,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			DWORD cbData = SIZEOF(szMirandaPath);
 
 			mir_tstrcpy(szMirandaProfiles, szMirandaPath);
-			_tcscat(szMirandaProfiles, _T("\\Profiles"));
+			mir_tstrcat(szMirandaProfiles, _T("\\Profiles"));
 			GetProfileDirectory(szMirandaPath, szProfileDir, SIZEOF(szProfileDir));
 
 			// search in profile dir (using ini file)
