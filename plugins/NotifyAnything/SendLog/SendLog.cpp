@@ -9,7 +9,7 @@ void implementation(int argc, char **argv, bool console);
 int main(int argc, char **argv)
 try
 {
-	if (argc == 2 && !mir_strcmp("/?", argv[1])) {
+	if (argc == 2 && !strcmp("/?", argv[1])) {
 		std::cout << "\n"
 			"Syntax: sendlog [-T] [-H host] [-P port] [-p prefix]\n"
 			"\tSends each input line as a separate message, with optional prefix.\n"

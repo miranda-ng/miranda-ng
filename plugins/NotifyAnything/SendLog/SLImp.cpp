@@ -16,19 +16,19 @@ void implementation(int argc, char **argv, bool console)
 	bool tcp = false;
 	const char *target = "127.0.0.1";
 
-	if (argc >= 2 && !mir_strcmp("-T", argv[1])) {
+	if (argc >= 2 && !strcmp("-T", argv[1])) {
 		tcp = true;
 		argc -= 1;
 		argv += 1;
 	}
 
-	if (argc >= 3 && !mir_strcmp("-H", argv[1])) {
+	if (argc >= 3 && !strcmp("-H", argv[1])) {
 		target = argv[2];
 		argc -= 2;
 		argv += 2;
 	}
 
-	if (argc >= 3 && !mir_strcmp("-P", argv[1])) {
+	if (argc >= 3 && !strcmp("-P", argv[1])) {
 		port = atoi(argv[2]);
 		argc -= 2;
 		argv += 2;
@@ -69,7 +69,7 @@ void implementation(int argc, char **argv, bool console)
 	if (connect(sock, (const SOCKADDR *) &to, sizeof to))
 		throw (DWORD) WSAGetLastError();
 
-	if (console && (argc == 1 || argc == 3 && !mir_strcmp("-p", argv[1]))) {
+	if (console && (argc == 1 || argc == 3 && !strcmp("-p", argv[1]))) {
 		std::string prefix;
 		if (argc == 3)
 			prefix = argv[2];
