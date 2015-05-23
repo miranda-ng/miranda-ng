@@ -231,7 +231,6 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 		if (json_empty(lastMessage))
 			continue;
 
-		char *clientMsgId = mir_t2a(json_as_string(json_get(lastMessage, "clientmessageid")));
 		char *conversationLink = mir_t2a(json_as_string(json_get(lastMessage, "conversationLink")));
 		time_t composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "composetime")))));
 
@@ -244,7 +243,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 			if (hContact == NULL)
 				continue;
 
-			if (/*GetLastMessageTime(hContact) < composeTime || */db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) < composeTime)
+			if (db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) < composeTime)
 			{
 				PushRequest(new GetHistoryRequest(RegToken, skypename, 100, false, 0, Server), &CSkypeProto::OnGetServerHistory);
 				HistorySynced = true;

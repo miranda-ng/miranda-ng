@@ -92,7 +92,7 @@ void CSkypeProto::ProcessEndpointPresenceRes(JSONNODE *node)
 	if (privateInfo != NULL)
 	{
 		ptrA epname(mir_t2a(ptrT(json_as_string(json_get(privateInfo, "epname")))));
-		if (epname != NULL)
+		if (epname != NULL && *epname)
 		{
 			MirVer.AppendFormat(" [%s]", epname);
 		}
