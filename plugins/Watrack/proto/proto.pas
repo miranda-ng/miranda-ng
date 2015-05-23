@@ -217,7 +217,6 @@ var
   data:PByte;
   dataSize:int;
   encodedStr:PAnsiChar;
-//  pos_artist,pos_title,pos_album:PwideChar;
   pos_template:pWideChar;
   curpos:pWideChar;
   encbuf:pWideChar;
@@ -310,17 +309,16 @@ begin
           if (HistMask and hmOutInfo)<>0 then
             AddEvent(ccs^.hContact,EVENTTYPE_WAT_ANSWER,DBEF_SENT,data,dataSize);
           CallContactService(ccs^.hContact,PSS_MESSAGE,0,tlparam(encbuf));
+          mFreeMem(encbuf);
         end
         else
         begin
-          i:=WideToCombo(textpos,encbuf,UserCP);
+          WideToUTF8(textpos,encodedStr);
           if (HistMask and hmOutInfo)<>0 then
-            AddEvent(ccs^.hContact,EVENTTYPE_WAT_MESSAGE,DBEF_SENT,encbuf,i);
-//          if CallContactService(ccs^.hContact,PSS_MESSAGEW,PREF_UNICODE,tlparam(encbuf))=
-//             ACKRESULT_FAILED then
-            CallContactService(ccs^.hContact,PSS_MESSAGE,PREF_UNICODE,tlparam(encbuf));
+            AddEvent(ccs^.hContact,EVENTTYPE_WAT_MESSAGE,DBEF_SENT or DBEF_UTF,encodedStr,StrLen(encodedStr));
+          CallContactService(ccs^.hContact,PSS_MESSAGE,0,tlparam(encodedStr));
+          mFreeMem(encodedStr);
         end;
-        mFreeMem(encbuf);
       end;
     end
     else
