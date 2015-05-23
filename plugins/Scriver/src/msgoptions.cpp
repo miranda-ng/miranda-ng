@@ -108,37 +108,37 @@ void RegisterFontServiceFonts()
 	FontIDT fid = { sizeof(fid) };
 	_tcsncpy_s(fid.group, LPGENT("Messaging"), _TRUNCATE);
 	_tcsncpy_s(fid.backgroundGroup, LPGENT("Messaging"), _TRUNCATE);
-	mir_strncpy(fid.dbSettingsGroup, SRMMMOD, SIZEOF(fid.dbSettingsGroup));
+	strncpy(fid.dbSettingsGroup, SRMMMOD, SIZEOF(fid.dbSettingsGroup));
 	fid.flags = FIDF_DEFAULTVALID | FIDF_DEFAULTVALID;
 	for (int i = 0; i < SIZEOF(fontOptionsList); i++) {
 		fid.order = i;
 
 		char szTemp[100];
 		mir_snprintf(szTemp, SIZEOF(szTemp), "SRMFont%d", i);
-		mir_strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
-		mir_tstrncpy(fid.name, fontOptionsList[i].szDescr, SIZEOF(fid.name));
+		strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
+		_tcsncpy(fid.name, fontOptionsList[i].szDescr, SIZEOF(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].defColour;
 		fid.deffontsettings.size = fontOptionsList[i].defSize;
 		fid.deffontsettings.style = fontOptionsList[i].defStyle;
 		fid.deffontsettings.charset = DEFAULT_CHARSET;
-		mir_tstrncpy(fid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fid.deffontsettings.szFace));
-		mir_tstrncpy(fid.backgroundName, fontOptionsList[i].szBkgName, SIZEOF(fid.backgroundName));
+		_tcsncpy(fid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fid.deffontsettings.szFace));
+		_tcsncpy(fid.backgroundName, fontOptionsList[i].szBkgName, SIZEOF(fid.backgroundName));
 		FontRegisterT(&fid);
 	}
 
 	ColourIDT cid = { sizeof(cid) };
 	_tcsncpy_s(cid.group, LPGENT("Messaging"), _TRUNCATE);
-	mir_strncpy(cid.dbSettingsGroup, SRMMMOD, SIZEOF(fid.dbSettingsGroup));
+	strncpy(cid.dbSettingsGroup, SRMMMOD, SIZEOF(fid.dbSettingsGroup));
 	cid.flags = 0;
 	for (int i = 0; i < SIZEOF(colourOptionsList); i++) {
 		cid.order = i;
-		mir_tstrncpy(cid.name, colourOptionsList[i].szName, SIZEOF(cid.name));
+		_tcsncpy(cid.name, colourOptionsList[i].szName, SIZEOF(cid.name));
 		if (colourOptionsList[i].systemColor != -1)
 			cid.defcolour = GetSysColor(colourOptionsList[i].systemColor);
 		else
 			cid.defcolour = colourOptionsList[i].defColour;
 
-		mir_strncpy(cid.setting, colourOptionsList[i].szSettingName, SIZEOF(cid.setting));
+		strncpy(cid.setting, colourOptionsList[i].szSettingName, SIZEOF(cid.setting));
 		ColourRegisterT(&cid);
 	}
 }
@@ -192,7 +192,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 		if (tszFace == NULL)
 			mir_tstrcpy(lf->lfFaceName, fontOptionsList[i].szDefFace);
 		else
-			mir_tstrncpy(lf->lfFaceName, tszFace, SIZEOF(lf->lfFaceName));
+			_tcsncpy(lf->lfFaceName, tszFace, SIZEOF(lf->lfFaceName));
 
 		mir_snprintf(str, SIZEOF(str), "%s%dSet", "SRMFont", i);
 		lf->lfCharSet = db_get_b(NULL, SRMMMOD, str, DEFAULT_CHARSET);

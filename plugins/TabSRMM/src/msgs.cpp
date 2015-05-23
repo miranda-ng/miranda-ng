@@ -787,7 +787,7 @@ static int TSAPI SetupIconLibConfig()
 	int j = 2, version = 0;
 
 	TCHAR szFilename[MAX_PATH];
-	mir_tstrncpy(szFilename, _T("icons\\tabsrmm_icons.dll"), MAX_PATH);
+	_tcsncpy(szFilename, _T("icons\\tabsrmm_icons.dll"), MAX_PATH);
 	g_hIconDLL = LoadLibrary(szFilename);
 	if (g_hIconDLL == 0) {
 		CWarning::show(CWarning::WARN_ICONPACKMISSING, CWarning::CWF_NOALLOWHIDE | MB_ICONERROR | MB_OK);
@@ -824,7 +824,7 @@ static int TSAPI SetupIconLibConfig()
 	sid.iDefaultIndex = -IDI_CLOCK;
 	Skin_AddIcon(&sid);
 
-	mir_tstrncpy(szFilename, _T("plugins\\tabsrmm.dll"), MAX_PATH);
+	_tcsncpy(szFilename, _T("plugins\\tabsrmm.dll"), MAX_PATH);
 
 	sid.pszName = "tabSRMM_overlay_disabled";
 	sid.pszDescription = LPGEN("Feature disabled (used as overlay)");

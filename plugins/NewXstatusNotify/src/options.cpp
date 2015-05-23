@@ -381,13 +381,13 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			{
 				TCHAR str[MAX_SECONDLINE] = { 0 };
 				for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
-					mir_tstrncpy(str, _T(""), SIZEOF(str));
+					_tcsncpy(str, _T(""), SIZEOF(str));
 
 					if (opt.ShowStatus) {
 						if (opt.UseAlternativeText == 1)
-							mir_tstrncpy(str, StatusList[Index(i)].lpzUStatusText, SIZEOF(str));
+							_tcsncpy(str, StatusList[Index(i)].lpzUStatusText, SIZEOF(str));
 						else
-							mir_tstrncpy(str, StatusList[Index(i)].lpzStandardText, SIZEOF(str));
+							_tcsncpy(str, StatusList[Index(i)].lpzStandardText, SIZEOF(str));
 
 						if (opt.ShowPreviousStatus) {
 							TCHAR buff[MAX_STATUSTEXT];
@@ -405,9 +405,9 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 					ShowChangePopup(NULL, LoadSkinnedProtoIcon(NULL, i), i, str);
 				}
-				mir_tstrncpy(str, TranslateT("This is extra status"), SIZEOF(str));
+				_tcsncpy(str, TranslateT("This is extra status"), SIZEOF(str));
 				ShowChangePopup(NULL, LoadSkinnedProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_EXTRASTATUS, str);
-				mir_tstrncpy(str, TranslateT("This is status message"), SIZEOF(str));
+				_tcsncpy(str, TranslateT("This is status message"), SIZEOF(str));
 				ShowChangePopup(NULL, LoadSkinnedProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_STATUSMSG, str);
 
 				return FALSE;
@@ -731,17 +731,17 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				char protoname[MAX_PATH] = { 0 };
 				mir_snprintf(protoname, SIZEOF(protoname), "%s_TPopupSMsgChanged", protos[i]->szModuleName);
 				if (db_get_ts(NULL, MODULE, protoname, &dbVar))
-					mir_tstrncpy(prototemplate->ProtoTemplateMsg, DEFAULT_POPUP_SMSGCHANGED, SIZEOF(prototemplate->ProtoTemplateMsg));
+					_tcsncpy(prototemplate->ProtoTemplateMsg, DEFAULT_POPUP_SMSGCHANGED, SIZEOF(prototemplate->ProtoTemplateMsg));
 				else {
-					mir_tstrncpy(prototemplate->ProtoTemplateMsg, dbVar.ptszVal, SIZEOF(prototemplate->ProtoTemplateMsg));
+					_tcsncpy(prototemplate->ProtoTemplateMsg, dbVar.ptszVal, SIZEOF(prototemplate->ProtoTemplateMsg));
 					db_free(&dbVar);
 				}
 
 				mir_snprintf(protoname, SIZEOF(protoname), "%s_TPopupSMsgRemoved", protos[i]->szModuleName);
 				if (db_get_ts(NULL, MODULE, protoname, &dbVar))
-					mir_tstrncpy(prototemplate->ProtoTemplateRemoved, DEFAULT_POPUP_SMSGREMOVED, SIZEOF(prototemplate->ProtoTemplateRemoved));
+					_tcsncpy(prototemplate->ProtoTemplateRemoved, DEFAULT_POPUP_SMSGREMOVED, SIZEOF(prototemplate->ProtoTemplateRemoved));
 				else {
-					mir_tstrncpy(prototemplate->ProtoTemplateRemoved, dbVar.ptszVal, SIZEOF(prototemplate->ProtoTemplateRemoved));
+					_tcsncpy(prototemplate->ProtoTemplateRemoved, dbVar.ptszVal, SIZEOF(prototemplate->ProtoTemplateRemoved));
 					db_free(&dbVar);
 				}
 

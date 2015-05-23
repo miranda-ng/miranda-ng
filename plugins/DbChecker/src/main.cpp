@@ -73,7 +73,7 @@ static INT_PTR CheckProfile(WPARAM wParam, LPARAM lParam)
 	bLaunchMiranda = lParam != 0;
 	bAutoExit = lParam == 2;
 	bServiceMode = false;
-	mir_tstrncpy(opts.filename, (TCHAR*)wParam, SIZEOF(opts.filename));
+	_tcsncpy(opts.filename, (TCHAR*)wParam, SIZEOF(opts.filename));
 	return DialogBox(hInst, MAKEINTRESOURCE(IDD_WIZARD), NULL, WizardDlgProc);
 }
 

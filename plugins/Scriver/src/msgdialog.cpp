@@ -1107,7 +1107,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
 		cf2.crTextColor = colour;
 		cf2.bCharSet = lf.lfCharSet;
-		mir_tstrncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
+		_tcsncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
 		cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
 		cf2.wWeight = (WORD)lf.lfWeight;
 		cf2.bPitchAndFamily = lf.lfPitchAndFamily;

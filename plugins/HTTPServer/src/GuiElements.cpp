@@ -493,7 +493,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare) {
 					*(end - (start - (pstNewShare->pszSrvPath+1)) ) = '\0';
 					
 					int realPathLen = szRealDirectoryEnd - pstNewShare->pszRealPath;
-					mir_strncpy(szRealDirectoryEnd, pstNewShare->pszSrvPath+1, 
+					strncpy(szRealDirectoryEnd, pstNewShare->pszSrvPath+1, 
 						pstNewShare->dwMaxRealPath - realPathLen - 1);
 					pstNewShare->pszRealPath[pstNewShare->dwMaxRealPath] = '\0';
 
@@ -792,7 +792,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 				szServPath[0] = '/';
 				char* fileName = strrchr(szDropedFile, '\\');
 				if (fileName)
-					mir_strncpy(&szServPath[1], fileName+1, MAX_PATH-2);
+					strncpy(&szServPath[1], fileName+1, MAX_PATH-2);
 
 				if (CallService(MS_HTTP_ADD_CHANGE_REMOVE, 0, (LPARAM)&stNewShare)) {
 					MessageBox(NULL, TranslateT("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
@@ -1429,8 +1429,8 @@ void ShowPopupWindow(const char * pszName, const char * pszText, COLORREF ColorB
 	POPUPDATAT *pclData = new POPUPDATAT;
 	memset(pclData, 0, sizeof(POPUPDATAT));
 	pclData->lchIcon = LoadIcon(hInstance,  MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
-	mir_strncpy(pclData->lpzContactName, pszName, sizeof(pclData->lpzContactName) - 1);   // -1 so that there aways will be a null termination !!
-	mir_strncpy(pclData->lpzText, pszText, sizeof(pclData->lpzText) - 1);
+	strncpy(pclData->lpzContactName, pszName, sizeof(pclData->lpzContactName) - 1);   // -1 so that there aways will be a null termination !!
+	strncpy(pclData->lpzText, pszText, sizeof(pclData->lpzText) - 1);
 	pclData->colorBack = ColorBack;
 	//ppd.colorText = colorText;
 	pclData->PluginWindowProc = PopupWindowProc;

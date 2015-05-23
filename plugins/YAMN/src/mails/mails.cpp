@@ -438,7 +438,7 @@ void WINAPI TranslateHeaderFcn(char *stream,int len,struct CMimeItem **head)
 						if (NULL==(Item->Next=new struct CMimeItem))	break; // Cant create new item?!
 						Item=Item->Next;
 						Item->Next=NULL;//just in case;
-						Item->name=new char[5]; mir_strncpy(Item->name,"Body",5);
+						Item->name=new char[5]; strncpy(Item->name,"Body",5);
 						Item->value=new char [prev2-prev1];
 						mir_strncpy(Item->value,prev1,prev2-prev1-1);
 					}

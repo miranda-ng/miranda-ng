@@ -226,10 +226,10 @@ TCHAR *gg_img_getfilter(TCHAR *szFilter, int nSize)
 	szFilterMask = _T("*.bmp;*.gif;*.jpeg;*.jpg;*.png");
 
 	// Make up filter
-	mir_tstrncpy(pFilter, szFilterName, nSize);
+	_tcsncpy(pFilter, szFilterName, nSize);
 	pFilter += mir_tstrlen(pFilter) + 1;
 	if (pFilter >= szFilter + nSize) return NULL;
-	mir_tstrncpy(pFilter, szFilterMask, nSize - (pFilter - szFilter));
+	_tcsncpy(pFilter, szFilterMask, nSize - (pFilter - szFilter));
 	pFilter += mir_tstrlen(pFilter) + 1;
 	if (pFilter >= szFilter + nSize) return NULL;
 	*pFilter = 0;
@@ -251,7 +251,7 @@ int gg_img_saveimage(HWND hwnd, GGIMAGEENTRY *dat)
 	gg_img_getfilter(szFilter, SIZEOF(szFilter));
 
 	TCHAR szFileName[MAX_PATH];
-	mir_tstrncpy(szFileName, dat->lpszFileName, SIZEOF(szFileName));
+	_tcsncpy(szFileName, dat->lpszFileName, SIZEOF(szFileName));
 
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;

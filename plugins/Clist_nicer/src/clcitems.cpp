@@ -265,7 +265,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 			size_t iLen = mir_tstrlen(dbv.ptszVal);
 			p->bStatusMsgValid = STATUSMSG_XSTATUSNAME;
 			p->statusMsg = (TCHAR *)realloc(p->statusMsg, (iLen + 2) * sizeof(TCHAR));
-			mir_tstrncpy(p->statusMsg, dbv.ptszVal, iLen + 1);
+			_tcsncpy(p->statusMsg, dbv.ptszVal, iLen + 1);
 		}
 		else {
 			int xStatus;
@@ -282,7 +282,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 				if (!CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, hContact, (LPARAM)&cst)) {
 					TCHAR *szwXstatusName = TranslateTS(xStatusName);
 					p->statusMsg = (TCHAR *)realloc(p->statusMsg, (mir_tstrlen(szwXstatusName) + 2) * sizeof(TCHAR));
-					mir_tstrncpy(p->statusMsg, szwXstatusName, mir_tstrlen(szwXstatusName) + 1);
+					_tcsncpy(p->statusMsg, szwXstatusName, mir_tstrlen(szwXstatusName) + 1);
 					p->bStatusMsgValid = STATUSMSG_XSTATUSNAME;
 				}
 			}

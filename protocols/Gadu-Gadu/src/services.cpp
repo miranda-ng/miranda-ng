@@ -42,7 +42,7 @@ char *gg_status2db(int status, const char *suffix)
 		case ID_STATUS_OUTTOLUNCH:	prefix = "Otl"; break;
 		default: return NULL;
 	}
-	mir_strncpy(str, prefix, sizeof(str));
+	strncpy(str, prefix, sizeof(str));
 	mir_strncat(str, suffix, sizeof(str) - mir_strlen(str));
 	return str;
 }

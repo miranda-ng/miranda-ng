@@ -230,9 +230,9 @@ void RegisterFontServiceFonts()
 	FontIDT fontid = {0};
 	fontid.cbSize = sizeof(FontIDT);
 
-    mir_tstrncpy(fontid.group, _T(SECTIONNAME), SIZEOF(fontid.group));
-    mir_tstrncpy(fontid.backgroundGroup, _T(SECTIONNAME), SIZEOF(fontid.backgroundGroup) );
-	mir_strncpy(fontid.dbSettingsGroup, MODULENAME, SIZEOF(fontid.dbSettingsGroup));
+    _tcsncpy(fontid.group, _T(SECTIONNAME), SIZEOF(fontid.group));
+    _tcsncpy(fontid.backgroundGroup, _T(SECTIONNAME), SIZEOF(fontid.backgroundGroup) );
+	strncpy(fontid.dbSettingsGroup, MODULENAME, SIZEOF(fontid.dbSettingsGroup));
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
 
 	HDC hDC = GetDC(NULL);
@@ -243,8 +243,8 @@ void RegisterFontServiceFonts()
 	{
 		fontid.order = i;
 		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i);
-		mir_strncpy(fontid.prefix, szTemp, SIZEOF(fontid.prefix));
-		mir_tstrncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
+		strncpy(fontid.prefix, szTemp, SIZEOF(fontid.prefix));
+		_tcsncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
 		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
 
 		fontid.deffontsettings.size = (char)-MulDiv(fontOptionsList[i].defSize, nFontScale, 72);
@@ -252,8 +252,8 @@ void RegisterFontServiceFonts()
 
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		fontid.deffontsettings.charset = MsgDlgGetFontDefaultCharset(fontOptionsList[i].szDefFace);
-		mir_tstrncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fontid.deffontsettings.szFace));
-		mir_tstrncpy(fontid.backgroundName, fontOptionsList[i].szBkgName, SIZEOF(fontid.backgroundName));
+		_tcsncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fontid.deffontsettings.szFace));
+		_tcsncpy(fontid.backgroundName, fontOptionsList[i].szBkgName, SIZEOF(fontid.backgroundName));
 
 		FontRegisterT(&fontid);
 	}
@@ -261,16 +261,16 @@ void RegisterFontServiceFonts()
 	ColourIDT colorid = {0};
 	colorid.cbSize = sizeof(ColourIDT);
 
-	mir_tstrncpy(colorid.group, _T(SECTIONNAME), SIZEOF(colorid.group));
-	mir_strncpy(colorid.dbSettingsGroup, MODULENAME, SIZEOF(fontid.dbSettingsGroup));
+	_tcsncpy(colorid.group, _T(SECTIONNAME), SIZEOF(colorid.group));
+	strncpy(colorid.dbSettingsGroup, MODULENAME, SIZEOF(fontid.dbSettingsGroup));
 	colorid.flags = 0;
 
 	for (int i = 0; i < SIZEOF(colourOptionsList); i++)
 	{
 		colorid.order = i;
-		mir_tstrncpy(colorid.name, colourOptionsList[i].szName, SIZEOF(colorid.name));
+		_tcsncpy(colorid.name, colourOptionsList[i].szName, SIZEOF(colorid.name));
 		colorid.defcolour = colourOptionsList[i].defColour;
-		mir_strncpy(colorid.setting, colourOptionsList[i].szSettingName, SIZEOF(colorid.setting));
+		strncpy(colorid.setting, colourOptionsList[i].szSettingName, SIZEOF(colorid.setting));
 
 		ColourRegisterT(&colorid);
 	}
@@ -284,8 +284,8 @@ void LoadNRFont(int i, LOGFONT *lf, COLORREF *colour)
     FontIDT fontid = {0};
 
     fontid.cbSize = sizeof(fontid);
-    mir_tstrncpy(fontid.group, LPGENT(SECTIONNAME), SIZEOF(fontid.group));
-    mir_tstrncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
+    _tcsncpy(fontid.group, LPGENT(SECTIONNAME), SIZEOF(fontid.group));
+    _tcsncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
 
     COLORREF col = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)lf);
 

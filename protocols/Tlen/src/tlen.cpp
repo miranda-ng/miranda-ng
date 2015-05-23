@@ -214,7 +214,7 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
 							if (end == NULL) {
 								end = resp->headers[i].szValue + mir_strlen(resp->headers[i].szValue);
 							}
-							mir_strncpy(cookie, start, (end - start));
+							strncpy(cookie, start, (end - start));
 							break;
 						}
 					}

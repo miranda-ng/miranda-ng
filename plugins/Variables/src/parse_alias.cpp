@@ -62,7 +62,7 @@ static TCHAR *replaceArguments(TCHAR *res, TCHAR *tArg, TCHAR *rArg)
 						return NULL;
 				}
 				memmove(res + ecur + (mir_tstrlen(rArg) - mir_tstrlen(tArg)), res + ecur, (mir_tstrlen(res + ecur) + 1)*sizeof(TCHAR));
-				mir_tstrncpy(res + cur, rArg, mir_tstrlen(rArg));
+				_tcsncpy(res + cur, rArg, mir_tstrlen(rArg));
 			}
 		}
 		cur++;

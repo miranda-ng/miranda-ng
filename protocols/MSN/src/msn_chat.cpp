@@ -47,14 +47,14 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 {
 	char *szNet, *szEmail;
 
-	mir_tstrncpy(info->mChatID, _A2T(pszID), SIZEOF(info->mChatID));
+	_tcsncpy(info->mChatID, _A2T(pszID), SIZEOF(info->mChatID));
 	parseWLID(NEWSTR_ALLOCA(pszID), &szNet, &szEmail, NULL);
 	info->netId = atoi(szNet);
-	mir_strncpy(info->szEmail, szEmail, sizeof(info->szEmail));
+	strncpy(info->szEmail, szEmail, sizeof(info->szEmail));
 
 	TCHAR szName[512];
 	InterlockedIncrement(&m_chatID);
-	if (*pszTopic) mir_tstrncpy(szName, _A2T(pszTopic), SIZEOF(szName));
+	if (*pszTopic) _tcsncpy(szName, _A2T(pszTopic), SIZEOF(szName));
 	else mir_sntprintf(szName, SIZEOF(szName), _T("%s %s%d"),
 		m_tszUserName, TranslateT("Chat #"), m_chatID);
 
@@ -123,7 +123,7 @@ void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 		if (!gcu) {
 			gcu = new GCUserItem;
 			info->mJoinedContacts.insert(gcu);
-			mir_strncpy(gcu->WLID, mri, sizeof(gcu->WLID));
+			strncpy(gcu->WLID, mri, sizeof(gcu->WLID));
 		}
 		mir_tstrcpy(gcu->role, _A2T(role));
 

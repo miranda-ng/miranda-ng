@@ -55,7 +55,7 @@ DWORD_PTR TlenProtocol::GetCaps(int type, MCONTACT hContact)
 
 INT_PTR TlenProtocol::GetName(WPARAM wParam, LPARAM lParam)
 {
-	mir_strncpy((char*)lParam, m_szModuleName, wParam);
+	strncpy((char*)lParam, m_szModuleName, wParam);
 	return 0;
 }
 

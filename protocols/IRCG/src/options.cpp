@@ -1218,7 +1218,7 @@ CAddIgnoreDlg::CAddIgnoreDlg(CIrcProto* _pro, const TCHAR* mask, CIgnorePrefsDlg
 	if (mask == NULL)
 		szOldMask[0] = 0;
 	else
-		mir_tstrncpy(szOldMask, mask, SIZEOF(szOldMask));
+		_tcsncpy(szOldMask, mask, SIZEOF(szOldMask));
 
 	m_Ok.OnClick = Callback(this, &CAddIgnoreDlg::OnOk);
 }

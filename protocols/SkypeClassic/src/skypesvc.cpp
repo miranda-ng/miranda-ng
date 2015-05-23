@@ -147,7 +147,7 @@ INT_PTR SkypeGetName(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam)
 	{
-		mir_strncpy((char *)lParam, SKYPE_PROTONAME, wParam);
+		strncpy((char *)lParam, SKYPE_PROTONAME, wParam);
 		return 0; // Success
 	}
 	return 1; // Failure

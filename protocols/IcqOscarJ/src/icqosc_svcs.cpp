@@ -391,7 +391,7 @@ INT_PTR CIcqProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 	TCHAR *tszFile = GetOwnAvatarFileName();
 	if (tszFile && !_taccess(tszFile, 0)) {
-		mir_tstrncpy((TCHAR*)wParam, tszFile, (int)lParam);
+		_tcsncpy((TCHAR*)wParam, tszFile, (int)lParam);
 		SAFE_FREE(&tszFile);
 		return 0;
 	}

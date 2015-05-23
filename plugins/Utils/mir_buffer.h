@@ -70,7 +70,7 @@ static void __bcopy(D *dest, const O *orig, size_t len)
 template<>
 static void __bcopy(char *dest, const char *orig, size_t len)
 {
-	mir_strncpy(dest, orig, len);
+	strncpy(dest, orig, len);
 }
 
 template<>

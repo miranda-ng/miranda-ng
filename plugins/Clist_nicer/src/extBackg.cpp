@@ -774,7 +774,7 @@ void IMG_ReadItem(const char *itemname, const char *szFileName)
 
 done_with_glyph:
 
-		mir_strncpy(tmpItem.szName, &itemname[1], sizeof(tmpItem.szName));
+		strncpy(tmpItem.szName, &itemname[1], sizeof(tmpItem.szName));
 		tmpItem.szName[sizeof(tmpItem.szName) - 1] = 0;
 		_splitpath(szFileName, szDrive, szPath, NULL, NULL);
 		mir_snprintf(szFinalName, SIZEOF(szFinalName), "%s\\%s\\%s", szDrive, szPath, buffer);

@@ -413,7 +413,7 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 
 	case WM_REFRESH_CONTACT:
 		if (pThumb) {
-			mir_tstrncpy( pThumb->ptszName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)pThumb->hContact, (LPARAM)GCDNF_TCHAR ), USERNAME_LEN - 1);
+			_tcsncpy( pThumb->ptszName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)pThumb->hContact, (LPARAM)GCDNF_TCHAR ), USERNAME_LEN - 1);
 			pThumb->RefreshContactStatus((int)lParam);
 			pThumb->ResizeThumb();
 		}
@@ -628,7 +628,7 @@ void RegHotkey(MCONTACT hContact, HWND hwnd)
 
 	DBVARIANT dbv;
 	if (db_get_s(hContact, MODULE, "Hotkey", &dbv)) return;
-	mir_strncpy(szBuf, dbv.pszVal, MAX_PATH - 1);
+	strncpy(szBuf, dbv.pszVal, MAX_PATH - 1);
 	db_free( &dbv );
 
 	if (szBuf[0] !=  '\0') {

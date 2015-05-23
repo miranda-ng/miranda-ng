@@ -2833,7 +2833,7 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 							GameServerQuery_query gsqq = { 0 };
 							gsqq.port = gameob->port;
 							gsqq.xfiregameid = entry->game;
-							mir_strncpy(gsqq.ip, temp, SIZEOF(gsqq.ip)-1);
+							strncpy(gsqq.ip, temp, SIZEOF(gsqq.ip)-1);
 							CallService("GameServerQuery/Query", (WPARAM)entry, (LPARAM)&gsqq);
 							}
 					}
@@ -3395,7 +3395,7 @@ INT_PTR GetAvatarInfo(WPARAM wParam, LPARAM lParam) {
 	DBVARIANT dbv;
 	if (!db_get(pai->hContact, "ContactPhoto", "File", &dbv))
 	{
-		mir_strncpy(pai->filename, dbv.pszVal, sizeof(pai->filename)-1);
+		strncpy(pai->filename, dbv.pszVal, sizeof(pai->filename)-1);
 		db_free(&dbv);
 	}
 	else

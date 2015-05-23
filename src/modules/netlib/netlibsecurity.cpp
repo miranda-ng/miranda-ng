@@ -292,7 +292,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 						size_t newLoginLen = mir_tstrlen(login) + domainLen + 1;
 						TCHAR *newLogin = (TCHAR*)alloca(newLoginLen * sizeof(TCHAR));
 
-						mir_tstrncpy(newLogin, domainName, domainLen);
+						_tcsncpy(newLogin, domainName, domainLen);
 						newLogin[domainLen] = '\\';
 						mir_tstrcpy(newLogin + domainLen + 1, login);
 

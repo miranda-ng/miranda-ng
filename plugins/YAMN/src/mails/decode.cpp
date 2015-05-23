@@ -495,7 +495,7 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 						finderend--;
 					}
 					char *oneWordEncoded = new char[finderend-finder+1];
-					mir_strncpy(oneWordEncoded,finder,finderend-finder);
+					strncpy(oneWordEncoded,finder,finderend-finder);
 					oneWordEncoded[finderend-finder]=0;
 					switch(Encoding)
 					{

@@ -2050,7 +2050,7 @@ void InitCheck()
 		if(!home_dir_access || !temp_access || !gpg_valid)
 		{
 			TCHAR buf[4096];
-			mir_tstrncpy(buf, gpg_valid?TranslateT("GPG binary is set and valid (this is good).\n"):TranslateT("GPG binary unset or invalid (plugin will not work).\n"), SIZEOF(buf));
+			_tcsncpy(buf, gpg_valid?TranslateT("GPG binary is set and valid (this is good).\n"):TranslateT("GPG binary unset or invalid (plugin will not work).\n"), SIZEOF(buf));
 			mir_tstrncat(buf, home_dir_access?TranslateT("Home dir write access granted (this is good).\n"):TranslateT("Home dir has no write access (plugin most probably will not work).\n"), SIZEOF(buf) - mir_tstrlen(buf));
 			mir_tstrncat(buf, temp_access?TranslateT("Temp dir write access granted (this is good).\n"):TranslateT("Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work)."), SIZEOF(buf) - mir_tstrlen(buf));
 			if(!gpg_valid)
@@ -2246,8 +2246,8 @@ void InitCheck()
 		ICQ_CUSTOMCAP cap;
 		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
 		cap.hIcon = 0;
-		mir_strncpy(cap.name, "GPG Key AutoExchange", MAX_CAPNAME);
-		mir_strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps));
+		strncpy(cap.name, "GPG Key AutoExchange", MAX_CAPNAME);
+		strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps));
 
 		for(int i = 0; i < count; i++)
 			if( ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))
@@ -2261,8 +2261,8 @@ void InitCheck()
 		ICQ_CUSTOMCAP cap;
 		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
 		cap.hIcon = 0;
-		mir_strncpy(cap.name, "GPG Encrypted FileTransfers", MAX_CAPNAME);
-		mir_strncpy(cap.caps, "GPGFileTransfer", sizeof(cap.caps));
+		strncpy(cap.name, "GPG Encrypted FileTransfers", MAX_CAPNAME);
+		strncpy(cap.caps, "GPGFileTransfer", sizeof(cap.caps));
 
 		for(int i = 0; i < count; i++)
 			if( ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))
@@ -2302,7 +2302,7 @@ void ImportKey()
 		DWORD exitcode;
 		{
 			ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-			mir_tstrncpy(tmp2, ptmp, MAX_PATH-1);
+			_tcsncpy(tmp2, ptmp, MAX_PATH-1);
 			mir_free(ptmp);
 			mir_tstrncat(tmp2, _T("\\"), SIZEOF(tmp2) - mir_tstrlen(tmp2));
 			mir_tstrncat(tmp2, _T("temporary_exported.asc"), SIZEOF(tmp2) - mir_tstrlen(tmp2));

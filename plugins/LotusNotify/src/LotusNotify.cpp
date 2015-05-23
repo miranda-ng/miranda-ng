@@ -118,7 +118,7 @@ STATUS LNPUBLIC __stdcall EMCallBack (EMRECORD * pData)
 	retPassword = VARARG_GET (pArgs, char *);
 	fileName = VARARG_GET (pArgs, char *);
 	ownerName = VARARG_GET (pArgs, char *);
-	mir_strncpy(retPassword, settingPassword, mir_strlen(settingPassword)); //set our password
+	strncpy(retPassword, settingPassword, mir_strlen(settingPassword)); //set our password
 	retPassword[mir_strlen(settingPassword)]='\0';
 	*retLength = (DWORD)mir_strlen(retPassword);//and his length
 	return ERR_BSAFE_EXTERNAL_PASSWORD;
@@ -1394,7 +1394,7 @@ INT_PTR GetCaps(WPARAM wParam, LPARAM lParam)
 //gives  name to protocol module
 INT_PTR GetName(WPARAM wParam, LPARAM lParam)
 {
-	mir_strncpy((char*)lParam, PLUGINNAME, wParam);
+	strncpy((char*)lParam, PLUGINNAME, wParam);
 	return 0;
 }
 

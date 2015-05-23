@@ -60,7 +60,7 @@ WORD GetRowItems(TCHAR *InputString, RowItemInfo **RowItemsList)
 			// Выделяем память под строку.
 			(*RowItemsList)[c].String = (TCHAR*)mir_alloc(sizeof(TCHAR) * (begin - end));
 			// Копируем строку.
-			mir_tstrncpy((*RowItemsList)[c].String, end + 1, begin - end - 1);
+			_tcsncpy((*RowItemsList)[c].String, end + 1, begin - end - 1);
 			(*RowItemsList)[c].String[begin - end - 1] = 0;
 		}
 		else
@@ -68,7 +68,7 @@ WORD GetRowItems(TCHAR *InputString, RowItemInfo **RowItemsList)
 			// Выделяем память под строку.
 			(*RowItemsList)[c].String = (TCHAR*)mir_alloc(sizeof(TCHAR) * mir_tstrlen(end));
 			// Копируем строку.
-			mir_tstrncpy((*RowItemsList)[c].String, end + 1, mir_tstrlen(end));
+			_tcsncpy((*RowItemsList)[c].String, end + 1, mir_tstrlen(end));
 		}
 
 		c++;
@@ -264,7 +264,7 @@ size_t GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Siz
 
 	if (Size && Buffer)
 	{
-		mir_tstrncpy(Buffer, Res, Size);
+		_tcsncpy(Buffer, Res, Size);
 		Length = mir_tstrlen(Buffer);
 	}
 	else

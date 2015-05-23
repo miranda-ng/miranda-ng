@@ -81,7 +81,7 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 
 	TCHAR tszFileName[MAX_PATH];
 	GetAvatarFileName(AI->hContact, tszFileName, SIZEOF(tszFileName));
-	mir_tstrncpy(AI->filename, tszFileName, SIZEOF(AI->filename));
+	_tcsncpy(AI->filename, tszFileName, SIZEOF(AI->filename));
 
 	AI->format = ProtoGetAvatarFormat(AI->filename);
 
@@ -117,7 +117,7 @@ INT_PTR CVkProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 	TCHAR* buf = (TCHAR*)wParam;
 	int size = (int)lParam;
 	
-	mir_tstrncpy(buf, AI.filename, size);
+	_tcsncpy(buf, AI.filename, size);
 	buf[size - 1] = 0;
 
 	return 0;

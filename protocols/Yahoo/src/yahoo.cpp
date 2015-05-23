@@ -289,7 +289,7 @@ const char* CYahooProto::find_buddy( const char *yahoo_id)
 		if (GetStringUtf(hContact, "Nick", &dbv))
 			return NULL;
 
-		mir_strncpy(nick, dbv.pszVal, sizeof(nick)-1);
+		strncpy(nick, dbv.pszVal, sizeof(nick)-1);
 		db_free(&dbv);
 		return nick;
 	}

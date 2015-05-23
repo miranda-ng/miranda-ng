@@ -147,7 +147,7 @@ static bool txtParseParam(char* szData, char* presearch,
 	while (*(cp1-1) == ' ' && cp1 > cp) --cp1;
 
 	len = min((size_t)(cp1 - cp), size-1);
-	mir_strncpy(param, cp, len);
+	strncpy(param, cp, len);
 	param[len] = 0;
 
 	return true;
@@ -171,7 +171,7 @@ void parseURL(char* szUrl, char* szHost, unsigned short* sPort, char* szPath)
 	if (szHost != NULL) {
 		sz = pport - phost + 1;
 		if (sz > 256) sz = 256;
-		mir_strncpy(szHost, phost, sz);
+		strncpy(szHost, phost, sz);
 		szHost[sz - 1] = 0;
 	}
 
@@ -185,7 +185,7 @@ void parseURL(char* szUrl, char* szHost, unsigned short* sPort, char* szPath)
 	}
 
 	if (szPath != NULL) {
-		mir_strncpy(szPath, ppath, 256);
+		strncpy(szPath, ppath, 256);
 		szPath[255] = 0;
 	}
 }
@@ -514,7 +514,7 @@ static bool getUPnPURLs(char* szUrl, size_t sizeUrl)
 		size_t ctlLen;
 
 		txtParseParam(szData, NULL, "<URLBase>", "</URLBase>", szTemp, sizeof(szTemp));
-		mir_strncpy(szCtlUrl, szTemp[0] ? szTemp : szUrl, sizeof(szCtlUrl));
+		strncpy(szCtlUrl, szTemp[0] ? szTemp : szUrl, sizeof(szCtlUrl));
 		szCtlUrl[sizeof(szCtlUrl) - 1] = 0;
 
 		mir_snprintf(szTemp, SIZEOF(szTemp), search_device, szDev);
@@ -541,11 +541,11 @@ static bool getUPnPURLs(char* szUrl, size_t sizeUrl)
 				size_t ctlCLen = mir_strlen(szCtlUrl);
 				rpth = szCtlUrl + ctlCLen;
 				if (ctlCLen != 0 && *(rpth - 1) != '/')
-					mir_strncpy(rpth++, "/", sizeof(szCtlUrl) - ctlCLen);
+					strncpy(rpth++, "/", sizeof(szCtlUrl) - ctlCLen);
 			}
 
 			ctlLen = sizeof(szCtlUrl) - (rpth - szCtlUrl);
-			mir_strncpy(rpth, szUrl, ctlLen);
+			strncpy(rpth, szUrl, ctlLen);
 			szCtlUrl[sizeof(szCtlUrl) - 1] = 0;
 		}
 		else {

@@ -384,7 +384,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			if (!db_get_s(NULL, MOD_NAME, "password", &dbVar)) {
 				g_fPassRequested = true;
 
-				mir_strncpy(g_password, dbVar.pszVal, MAXPASSLEN);
+				strncpy(g_password, dbVar.pszVal, MAXPASSLEN);
 				db_free(&dbVar);
 
 				int res = DialogBox(g_hInstance, (MAKEINTRESOURCE(IDD_PASSDIALOGNEW)), GetForegroundWindow(), DlgStdInProc);

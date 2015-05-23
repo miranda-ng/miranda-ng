@@ -354,8 +354,8 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 
 				POPUPDATAT_V2 pdtData = { 0 };
 				pdtData.cbSize = sizeof(pdtData);
-				mir_tstrncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
-				mir_tstrncpy(pdtData.lptzText, _T("Ghbdtn? rfr ltkf&"), MAX_SECONDLINE);
+				_tcsncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
+				_tcsncpy(pdtData.lptzText, _T("Ghbdtn? rfr ltkf&"), MAX_SECONDLINE);
 
 				switch(poOptionsTemp.bColourType) {
 				case PPC_POPUP:

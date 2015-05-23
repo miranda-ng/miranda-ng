@@ -128,7 +128,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_RESETCONTENT, 0, 0);
 						for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
 							if (!_tcsncmp(p->szName, szName, CONTAINER_NAMELEN) && mir_tstrlen(p->szName) == mir_tstrlen(szName)) {
-								mir_tstrncpy(p->szName, szNewName, CONTAINER_NAMELEN);
+								_tcsncpy(p->szName, szNewName, CONTAINER_NAMELEN);
 								SendMessage(p->hwnd, DM_CONFIGURECONTAINER, 0, 0);
 							}
 						}

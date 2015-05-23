@@ -137,7 +137,7 @@ void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 				len = 20;
 
 			char *temp2 = (char*)_alloca(len - 1);
-			mir_strncpy(temp2, szValue, len - 2);
+			strncpy(temp2, szValue, len - 2);
 			temp2[len - 2] = '\0';
 
 			char *temp = (char*)_alloca(len + 1);

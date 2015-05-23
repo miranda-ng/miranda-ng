@@ -105,7 +105,7 @@ static void LoadSaveSkype(SkypeProfile *pstProf, BOOL bSet)
 				if (astSettings[i].cType == sizeof(char)) {
 					char *pBuf;
 					if (utf8_decode (ptr, &pBuf) != -1) {
-						mir_strncpy ((char*)astSettings[i].lpDest, pBuf, astSettings[i].iSize);
+						strncpy ((char*)astSettings[i].lpDest, pBuf, astSettings[i].iSize);
 						free (pBuf);
 					}
 				} else {

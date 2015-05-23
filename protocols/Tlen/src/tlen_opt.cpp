@@ -602,8 +602,8 @@ static void MailPopupPreview(DWORD colorBack, DWORD colorText, TCHAR *title, TCH
 	HICON hIcon = GetIcolibIcon(IDI_MAIL);
 	ppd.lchIcon = CopyIcon(hIcon);
 	ReleaseIcolibIcon(hIcon);
-	mir_tstrncpy(ppd.lptzContactName, title, MAX_CONTACTNAME-1);
-	mir_tstrncpy(ppd.lptzText, emailInfo,MAX_SECONDLINE-1);
+	_tcsncpy(ppd.lptzContactName, title, MAX_CONTACTNAME-1);
+	_tcsncpy(ppd.lptzText, emailInfo,MAX_SECONDLINE-1);
 	ppd.colorBack = colorBack;
 	ppd.colorText = colorText;
 	ppd.iSeconds = delay;
