@@ -157,6 +157,8 @@
 часа(ов)
 [days]
 дней
+[Stable version (incompatible with current development version)]
+Стабильная версия (несовместима с версией в разработке)
 [Test]
 Тест
 [Services]
