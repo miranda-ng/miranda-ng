@@ -47,8 +47,6 @@
 Заданная пользователем версия
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Некоторые компоненты были обновлены.\nПрименение обновлений произойдёт после перезапуска программы.
-[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
-Переключение на стабильную версию невозможно из-за несовместимости с версией в разработке!
 [Notifications]
 Уведомления
 [Restart]

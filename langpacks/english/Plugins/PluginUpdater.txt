@@ -27,7 +27,6 @@
 [Development version with debug symbols]
 [Custom version]
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
 [Notifications]
 [Restart]
 [Errors]
@@ -89,6 +88,7 @@
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 [days]
+[Stable version (incompatible with current development version)]
 [Test]
 [Services]
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
@@ -100,3 +100,4 @@
 [Plugin info]
 [Plugin Updater HTTP connection]
 [An error occurred while checking for new updates.]
+;file \plugins\PluginUpdater\src\Compat\compat.h
