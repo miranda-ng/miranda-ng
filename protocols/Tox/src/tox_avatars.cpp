@@ -66,34 +66,37 @@ void CToxProto::SetToxAvatar(std::tstring path)
 
 	db_set_blob(NULL, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, (void*)hash, TOX_HASH_LENGTH);
 
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+	if (IsOnline())
 	{
-		if (GetContactStatus(hContact) == ID_STATUS_OFFLINE)
-			continue;
-
-		int32_t friendNumber = GetToxFriendNumber(hContact);
-		if (friendNumber == UINT32_MAX)
+		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 		{
-			mir_free(data);
-			debugLogA(__FUNCTION__": failed to set new avatar");
-			return;
-		}
+			if (GetContactStatus(hContact) == ID_STATUS_OFFLINE)
+				continue;
 
-		TOX_ERR_FILE_SEND error;
-		uint32_t fileNumber = tox_file_send(tox, friendNumber, TOX_FILE_KIND_AVATAR, length, hash, NULL, 0, &error);
-		if (error != TOX_ERR_FILE_SEND_OK)
-		{
-			mir_free(data);
-			debugLogA(__FUNCTION__": failed to set new avatar");
-			return;
-		}
+			int32_t friendNumber = GetToxFriendNumber(hContact);
+			if (friendNumber == UINT32_MAX)
+			{
+				mir_free(data);
+				debugLogA(__FUNCTION__": failed to set new avatar");
+				return;
+			}
 
-		AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, NULL, length);
-		transfer->pfts.flags |= PFTS_SENDING;
-		memcpy(transfer->hash, hash, TOX_HASH_LENGTH);
-		transfer->pfts.hContact = hContact;
-		transfer->hFile = _tfopen(path.c_str(), L"rb");
-		transfers.Add(transfer);
+			TOX_ERR_FILE_SEND error;
+			uint32_t fileNumber = tox_file_send(tox, friendNumber, TOX_FILE_KIND_AVATAR, length, hash, NULL, 0, &error);
+			if (error != TOX_ERR_FILE_SEND_OK)
+			{
+				mir_free(data);
+				debugLogA(__FUNCTION__": failed to set new avatar");
+				return;
+			}
+
+			AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, NULL, length);
+			transfer->pfts.flags |= PFTS_SENDING;
+			memcpy(transfer->hash, hash, TOX_HASH_LENGTH);
+			transfer->pfts.hContact = hContact;
+			transfer->hFile = _tfopen(path.c_str(), L"rb");
+			transfers.Add(transfer);
+		}
 	}
 
 	mir_free(data);
@@ -157,8 +160,7 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 			return 0;
 		}
 
-		if (IsOnline())
-			SetToxAvatar(avatarPath);
+		SetToxAvatar(avatarPath);
 
 		return 0;
 	}
