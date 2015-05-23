@@ -638,7 +638,7 @@ retry:
 							_tcsncpy_s(strFmt2, pcli->pfnGetStatusModeDescription( status_gg2m(atoi(__status)), 0), _TRUNCATE);
 							if (__city) {
 								mir_sntprintf(strFmt1, SIZEOF(strFmt1), _T(", %s %s"), TranslateT("City:"), __city);
-								_tcsncat(strFmt2, strFmt1, SIZEOF(strFmt2) - mir_tstrlen(strFmt2));
+								mir_tstrncat(strFmt2, strFmt1, SIZEOF(strFmt2) - mir_tstrlen(strFmt2));
 							}
 							if (__birthyear) {
 								time_t t = time(NULL);
@@ -647,7 +647,7 @@ retry:
 
 								if (br < (lt->tm_year + 1900) && br > 1900) {
 									mir_sntprintf(strFmt1, SIZEOF(strFmt1), _T(", %s %d"), TranslateT("Age:"), (lt->tm_year + 1900) - br);
-									_tcsncat(strFmt2, strFmt1, SIZEOF(strFmt2) - mir_tstrlen(strFmt2));
+									mir_tstrncat(strFmt2, strFmt1, SIZEOF(strFmt2) - mir_tstrlen(strFmt2));
 								}
 							}
 

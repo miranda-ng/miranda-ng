@@ -387,10 +387,10 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai)
 			bFiles = FALSE;
 	}
 	if (tszFirst[mir_tstrlen(tszFirst) - 1] == '\\')
-		_tcsncat(tszFirst, tszFilter, SIZEOF(tszFirst) - mir_tstrlen(tszFirst) - 1);
+		mir_tstrncat(tszFirst, tszFilter, SIZEOF(tszFirst) - mir_tstrlen(tszFirst) - 1);
 	else {
-		_tcsncat(tszFirst, _T("\\"), SIZEOF(tszFirst) - mir_tstrlen(tszFirst) - 1);
-		_tcsncat(tszFirst, tszFilter, SIZEOF(tszFirst) - mir_tstrlen(tszFirst) - 1);
+		mir_tstrncat(tszFirst, _T("\\"), SIZEOF(tszFirst) - mir_tstrlen(tszFirst) - 1);
+		mir_tstrncat(tszFirst, tszFilter, SIZEOF(tszFirst) - mir_tstrlen(tszFirst) - 1);
 	}
 
 	WIN32_FIND_DATA ffd;

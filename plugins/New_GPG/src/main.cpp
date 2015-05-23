@@ -2051,10 +2051,10 @@ void InitCheck()
 		{
 			TCHAR buf[4096];
 			_tcsncpy(buf, gpg_valid?TranslateT("GPG binary is set and valid (this is good).\n"):TranslateT("GPG binary unset or invalid (plugin will not work).\n"), SIZEOF(buf));
-			_tcsncat(buf, home_dir_access?TranslateT("Home dir write access granted (this is good).\n"):TranslateT("Home dir has no write access (plugin most probably will not work).\n"), SIZEOF(buf) - mir_tstrlen(buf));
-			_tcsncat(buf, temp_access?TranslateT("Temp dir write access granted (this is good).\n"):TranslateT("Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work)."), SIZEOF(buf) - mir_tstrlen(buf));
+			mir_tstrncat(buf, home_dir_access?TranslateT("Home dir write access granted (this is good).\n"):TranslateT("Home dir has no write access (plugin most probably will not work).\n"), SIZEOF(buf) - mir_tstrlen(buf));
+			mir_tstrncat(buf, temp_access?TranslateT("Temp dir write access granted (this is good).\n"):TranslateT("Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work)."), SIZEOF(buf) - mir_tstrlen(buf));
 			if(!gpg_valid)
-				_tcsncat(buf, TranslateT("\nGPG will be disabled until you solve these problems"), SIZEOF(buf) - mir_tstrlen(buf));
+				mir_tstrncat(buf, TranslateT("\nGPG will be disabled until you solve these problems"), SIZEOF(buf) - mir_tstrlen(buf));
 			MessageBox(0, buf, TranslateT("GPG plugin problems"), MB_OK);
 		}
 		if(!gpg_valid)
@@ -2304,8 +2304,8 @@ void ImportKey()
 			ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 			_tcsncpy(tmp2, ptmp, MAX_PATH-1);
 			mir_free(ptmp);
-			_tcsncat(tmp2, _T("\\"), SIZEOF(tmp2) - mir_tstrlen(tmp2));
-			_tcsncat(tmp2, _T("temporary_exported.asc"), SIZEOF(tmp2) - mir_tstrlen(tmp2));
+			mir_tstrncat(tmp2, _T("\\"), SIZEOF(tmp2) - mir_tstrlen(tmp2));
+			mir_tstrncat(tmp2, _T("temporary_exported.asc"), SIZEOF(tmp2) - mir_tstrlen(tmp2));
 			boost::filesystem::remove(tmp2);
 			wfstream f(tmp2, std::ios::out);
 			if(db_mc_isMeta(hContact))

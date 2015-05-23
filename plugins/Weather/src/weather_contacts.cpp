@@ -294,12 +294,12 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			ofn.nMaxFile = SIZEOF(str);
 			// set filters
 			_tcsncpy(filter, TranslateT("Text Files"), SIZEOF(filter) - 1);
-			_tcsncat(filter, _T(" (*.txt)"), SIZEOF(filter) - mir_tstrlen(filter));
+			mir_tstrncat(filter, _T(" (*.txt)"), SIZEOF(filter) - mir_tstrlen(filter));
 			pfilter = filter + mir_tstrlen(filter)+1;
 			_tcsncpy(pfilter, _T("*.txt"), SIZEOF(filter) - 1);
 			pfilter = pfilter + mir_tstrlen(pfilter)+1;
 			_tcsncpy(pfilter, TranslateT("All Files"), SIZEOF(filter) - 1);
-			_tcsncat(pfilter, _T(" (*.*)"), SIZEOF(filter) - mir_tstrlen(filter));
+			mir_tstrncat(pfilter, _T(" (*.*)"), SIZEOF(filter) - mir_tstrlen(filter));
 			pfilter = pfilter + mir_tstrlen(pfilter)+1;
 			_tcsncpy(pfilter, _T("*.*"), SIZEOF(filter) - 1);
 			pfilter = pfilter + mir_tstrlen(pfilter)+1;

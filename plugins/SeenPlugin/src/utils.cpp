@@ -299,8 +299,8 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "StatusTriger" : courProtoName, 0)) {
 				_tcsncpy(szdbsetting, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(isetting | 0x8000), GSMDF_TCHAR), SIZEOF(szdbsetting));
 				if (!(isetting & 0x8000)) {
-					_tcsncat(szdbsetting, _T("/"), SIZEOF(szdbsetting) - mir_tstrlen(szdbsetting));
-					_tcsncat(szdbsetting, TranslateT("Idle"), SIZEOF(szdbsetting) - mir_tstrlen(szdbsetting));
+					mir_tstrncat(szdbsetting, _T("/"), SIZEOF(szdbsetting) - mir_tstrlen(szdbsetting));
+					mir_tstrncat(szdbsetting, TranslateT("Idle"), SIZEOF(szdbsetting) - mir_tstrlen(szdbsetting));
 				}
 				charPtr = szdbsetting;
 				goto LBL_charPtr;
@@ -319,8 +319,8 @@ TCHAR *ParseString(TCHAR *szstring, MCONTACT hcontact, BYTE isfile)
 			if (isetting = db_get_w(hcontact, S_MOD, hcontact ? "OldStatus" : courProtoName, 0)) {
 				_tcsncpy(szdbsetting, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)isetting, GSMDF_TCHAR), SIZEOF(szdbsetting));
 				if (includeIdle && hcontact && db_get_b(hcontact, S_MOD, "OldIdle", 0)) {
-					_tcsncat(szdbsetting, _T("/"), SIZEOF(szdbsetting) - mir_tstrlen(szdbsetting));
-					_tcsncat(szdbsetting, TranslateT("Idle"), SIZEOF(szdbsetting) - mir_tstrlen(szdbsetting));
+					mir_tstrncat(szdbsetting, _T("/"), SIZEOF(szdbsetting) - mir_tstrlen(szdbsetting));
+					mir_tstrncat(szdbsetting, TranslateT("Idle"), SIZEOF(szdbsetting) - mir_tstrlen(szdbsetting));
 				}
 				charPtr = szdbsetting;
 				goto LBL_charPtr;
