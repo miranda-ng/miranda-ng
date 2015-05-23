@@ -293,8 +293,8 @@ INT_PTR CIcqProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	if (wParam == AF_MAXSIZE) {
 		POINT *size = (POINT*)lParam;
 		if (size) {
-			size->x = 600;
-			size->y = 600;
+			size->x = 64;
+			size->y = 64;
 		}
 		return 0;
 	}
