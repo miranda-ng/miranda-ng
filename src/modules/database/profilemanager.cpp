@@ -383,7 +383,7 @@ class CChooseProfileDlg : public CDlgBase
 			_tcsncpy_s(m_pd->ptszProfile, MAX_PATH, tmpPath, _TRUNCATE);
 
 		if (uMsg == NM_DBLCLK)
-			EndDialog(GetParent(m_hwnd), 1);
+			EndDialog(GetParent(m_hwndParent), 1);
 	}
 
 	void ExecuteMenu(LPARAM lParam)
@@ -426,7 +426,7 @@ class CChooseProfileDlg : public CDlgBase
 		int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, lvht.pt.x, lvht.pt.y, 0, m_hwnd, NULL);
 		switch (index) {
 		case 1:
-			SendMessage(GetParent(m_hwnd), WM_COMMAND, IDOK, 0);
+			SendMessage(GetParent(m_hwndParent), WM_COMMAND, IDOK, 0);
 			break;
 
 		case 2:
