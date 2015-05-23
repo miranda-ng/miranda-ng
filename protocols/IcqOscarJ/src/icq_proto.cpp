@@ -1270,10 +1270,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 	WORD wRecipientStatus = getContactStatus(hContact);
 
 	BOOL plain_ascii = IsUSASCII(puszText, mir_strlen(puszText));
-
-	BOOL oldAnsi = plain_ascii || !m_bUtfEnabled ||
-		!CheckContactCapabilities(hContact, CAPF_UTF) ||
-		!getByte(hContact, "UnicodeSend", 1);
+	BOOL oldAnsi = plain_ascii || !CheckContactCapabilities(hContact, CAPF_UTF) || !getByte(hContact, "UnicodeSend", 1);
 
 	if (m_bTempVisListEnabled && m_iStatus == ID_STATUS_INVISIBLE)
 		makeContactTemporaryVisible(hContact);  // make us temporarily visible to contact

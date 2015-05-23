@@ -8,7 +8,6 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include "winres.h"
-#include "..\src\version.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -53,7 +52,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "&Send",IDOK,34,74,50,14
     PUSHBUTTON      "&Cancel",IDCANCEL,98,74,50,14
-    EDITTEXT        IDC_EDITAUTH,7,7,172,59,ES_AUTOVSCROLL | ES_WANTRETURN | ES_MULTILINE
+    EDITTEXT        IDC_EDITAUTH,7,7,172,59,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN
 END
 
 IDD_LOGINPW DIALOGEX 0, 0, 157, 87
@@ -127,37 +126,34 @@ BEGIN
     CTEXT           "Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.",IDC_STATIC,10,212,290,16
 END
 
-IDD_OPT_ICQFEATURES DIALOGEX 0, 0, 310, 234
+IDD_OPT_ICQFEATURES DIALOGEX 0, 0, 310, 200
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Messaging",IDC_STATIC,4,0,302,94
-    CONTROL         "Enable unicode messaging support",IDC_UTFENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,12,288,10
-    CONTROL         "Send all messages in unicode if possible",IDC_UTFALL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,24,288,10
-    RTEXT           "Use this codepage for Ansi <-> Unicode translation:",IDC_UTFSTATIC,12,38,174,10
-    COMBOBOX        IDC_UTFCODEPAGE,190,36,107,51,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Messaging",IDC_STATIC,4,0,302,56
+    RTEXT           "Use this codepage for Ansi <-> Unicode translation:",IDC_UTFSTATIC,12,14,174,10
+    COMBOBOX        IDC_UTFCODEPAGE,190,12,107,51,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Make me temporarily visible to contacts I send message to",IDC_TEMPVISIBLE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,53,288,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,29,288,10
     CONTROL         "Notify me when a message delivery has failed",IDC_SLOWSEND,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,65,288,10
-    GROUPBOX        "Peer-to-peer Messaging",IDC_STATIC,4,95,302,41
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,41,288,10
+    GROUPBOX        "Peer-to-peer Messaging",IDC_STATIC,4,59,302,41
     CONTROL         "Enable peer-to-peer message connections",IDC_DCENABLE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,107,288,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,72,288,10
     CONTROL         "Passive mode (i.e., do not initiate new connections)",IDC_DCPASSIVE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,119,288,10
-    GROUPBOX        "Extra Features",IDC_STATIC,4,137,302,93
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,84,288,10
+    GROUPBOX        "Extra Features",IDC_STATIC,4,103,302,93
     CONTROL         "Enable Custom status support for xtraz",IDC_XSTATUSENABLE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,149,288,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,115,288,10
     CONTROL         "Enable Custom status support for moods",IDC_MOODSENABLE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,161,288,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,127,288,10
     CONTROL         "Reset Custom status on status change",IDC_XSTATUSRESET,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,175,288,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,140,288,10
     CONTROL         "Auto-retrieve Custom status details",IDC_XSTATUSAUTO,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,187,288,10
-    CONTROL         "Block known Spam Bots",IDC_KILLSPAMBOTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,201,288,10
-    CONTROL         "Enable AIM contacts support",IDC_AIMENABLE,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,12,215,288,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,153,288,10
+    CONTROL         "Block known Spam Bots",IDC_KILLSPAMBOTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,166,288,10
+    CONTROL         "Enable AIM contacts support",IDC_AIMENABLE,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,12,180,288,10
 END
 
 IDD_OPT_ICQPRIVACY DIALOGEX 0, 0, 310, 234
@@ -523,7 +519,6 @@ END
 2 TEXTINCLUDE 
 BEGIN
     "#include ""winres.h""\0"
-    "#include ""..\\src\\version.h""\0"
 END
 
 3 TEXTINCLUDE 
@@ -533,45 +528,6 @@ BEGIN
 END
 
 #endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION __FILEVERSION_STRING
- PRODUCTVERSION __FILEVERSION_STRING
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x4L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "000004e4"
-        BEGIN
-            VALUE "Comments", "Licensed under the terms of the GNU General Public License"
-            VALUE "FileDescription", "ICQ protocol plugin for Miranda NG, enhanced"
-            VALUE "FileVersion", __VERSION_STRING
-            VALUE "InternalName", "ICQJ protocol plugin for Miranda NG"
-            VALUE "LegalCopyright", "Copyright (C) 2000-2010 Joe Kucera, Angeli-Ka, Bio, Martin Öberg, Richard Hughes, Jon Keating"
-            VALUE "OriginalFilename", "ICQ.dll"
-            VALUE "ProductName", "ICQ Protocol Support"
-            VALUE "ProductVersion", __VERSION_STRING
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x0, 1252
-    END
-END
 
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
