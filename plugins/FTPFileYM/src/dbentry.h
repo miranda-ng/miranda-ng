@@ -34,7 +34,7 @@ public:
 	char szFileName[256];
 	DWORD deleteTS;
 
-	static Mutex mutexDB;
+	static mir_cs mutexDB;
 
 	DBEntry();
 	DBEntry(DBEntry *entry);

@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 UploadDialog *UploadDialog::instance = NULL;
 UploadDialog *uDlg = NULL;
 
-Mutex UploadDialog::mutexTabs;
+mir_cs UploadDialog::mutexTabs;
 
 extern Options &opt;
 
@@ -67,7 +67,11 @@ void UploadDialog::show()
 }
 
 UploadDialog::Tab::Tab(GenericJob *Job)
-:job(Job),bOptCloseDlg(opt.bCloseDlg),bOptCopyLink(opt.bCopyLink),bOptAutosend(opt.bAutosend),iOptAutoDelete(-1) 
+	: job(Job),
+	bOptCloseDlg(opt.bCloseDlg),
+	bOptCopyLink(opt.bCopyLink),
+	bOptAutosend(opt.bAutosend),
+	iOptAutoDelete(-1) 
 { 
 	if (opt.bAutoDelete)
 		this->iOptAutoDelete = Utils::getDeleteTimeMin();
@@ -81,20 +85,19 @@ UploadDialog::Tab::Tab(GenericJob *Job)
 	tab.mask = TCIF_TEXT;
 	tab.pszText = Utils::getTextFragment(job->stzFileName, 20, buff);
 	TabCtrl_InsertItem(uDlg->hwndTabs, uDlg->tabs.size(), &tab);
-
-	Lock *lock = new Lock(mutexTabs);
-	uDlg->tabs.push_back(this);
-	delete lock;
-
+	{
+		mir_cslock lock(mutexTabs);
+		uDlg->tabs.push_back(this);
+	}
 	this->select();
 }
 
 UploadDialog::Tab::~Tab()
 { 
-	Lock *lock = new Lock(mutexTabs);
-	TabCtrl_DeleteItem(uDlg->hwndTabs, this->index());
-	uDlg->tabs.erase(uDlg->tabs.begin() + this->index());
-	delete lock;
+	{	mir_cslock lock(mutexTabs);
+		TabCtrl_DeleteItem(uDlg->hwndTabs, this->index());
+		uDlg->tabs.erase(uDlg->tabs.begin() + this->index());
+	}
 
 	if (this->job->isCompleted())
 		delete this->job;
@@ -119,11 +122,10 @@ int UploadDialog::Tab::index()
 void UploadDialog::Tab::select()
 { 
 	TabCtrl_SetCurSel(uDlg->hwndTabs, this->index());
-
-	Lock *lock = new Lock(mutexTabs);
-	uDlg->activeTab = this->index();
-	delete lock;
-
+	{
+		mir_cslock lock(mutexTabs);
+		uDlg->activeTab = this->index();
+	}
 	this->job->refreshTab(true);
 	InvalidateRect(uDlg->hwnd, NULL, TRUE);
 }

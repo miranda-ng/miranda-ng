@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "common.h"
 
 Event PackerJob::jobDone;
-Mutex PackerJob::mutexJobCount;
+mir_cs PackerJob::mutexJobCount;
 int PackerJob::iRunningJobCount = 0;
 
 extern UploadDialog *uDlg;
@@ -79,23 +79,23 @@ void PackerJob::waitingThread(void *arg)
 
 	while(!Miranda_Terminated())
 	{
-		Lock *lock = new Lock(mutexJobCount);
+		mir_cslockfull lock(mutexJobCount);
 		if (iRunningJobCount < MAX_RUNNING_JOBS)
 		{
 			iRunningJobCount++;
-			delete lock;
+			lock.unlock();
 			job->pack();
 			delete job;
 
-			Lock *lock = new Lock(mutexJobCount);
+			lock.lock();
 			iRunningJobCount--;
-			delete lock;
+			lock.unlock();
 
 			jobDone.release();
 			return;
 		}
 
-		delete lock;	
+		lock.unlock();
 		jobDone.wait();
 		job->status = GenericJob::STATUS_WAITING;
 	}

@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "job_delete.h"
 
 Event DeleteJob::jobDone;
-Mutex DeleteJob::mutexJobCount;
+mir_cs DeleteJob::mutexJobCount;
 int DeleteJob::iRunningJobCount = 0;
 
 extern ServerList &ftpList;
@@ -41,23 +41,23 @@ void DeleteJob::waitingThread(void *arg)
 
 	while(!Miranda_Terminated())
 	{
-		Lock *lock = new Lock(mutexJobCount);
+		mir_cslockfull lock(mutexJobCount);
 		if (iRunningJobCount < MAX_RUNNING_JOBS)
 		{
 			iRunningJobCount++;
-			delete lock;
+			lock.unlock();
 			job->run();
 			delete job;
 
-			Lock *lock = new Lock(mutexJobCount);
+			lock.lock();
 			iRunningJobCount--;
-			delete lock;
+			lock.unlock();
 
 			jobDone.release();
 			return;
 		}
 
-		delete lock;
+		lock.unlock();
 		jobDone.wait();
 	}
 

@@ -31,7 +31,7 @@ private:
 	ServerList::FTP *ftp;
 	char buff[256];
 
-	static Mutex mutexJobCount;
+	static mir_cs mutexJobCount;
 	static int iRunningJobCount;
 
 	char *getDelFileString();

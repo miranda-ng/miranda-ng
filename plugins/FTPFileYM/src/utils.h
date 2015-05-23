@@ -43,29 +43,3 @@ public:
 	static bool setFileNameDlg(TCHAR *nameBuff);
 	static bool setFileNameDlgA(char *nameBuff);
 };
-
-class Mutex
-{
-	friend class Lock;
-
-private:
-	void Acquire() { EnterCriticalSection (&_critSection); }
-	void Release() { LeaveCriticalSection (&_critSection); }
-
-	CRITICAL_SECTION _critSection;
-
-public:
-	Mutex() { InitializeCriticalSection (&_critSection); }
-	~Mutex() { DeleteCriticalSection (&_critSection); }
-};
-
-class Lock
-{
-private:
-	Mutex &_mutex;
-
-public:
-	Lock (Mutex &mutex): _mutex(mutex) { _mutex.Acquire(); }
-	~Lock () {_mutex.Release(); }
-};
-

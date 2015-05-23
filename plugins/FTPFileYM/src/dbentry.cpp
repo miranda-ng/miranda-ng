@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "common.h"
 
 int DBEntry::entryID;
-Mutex DBEntry::mutexDB;
+mir_cs DBEntry::mutexDB;
 
 DBEntry::DBEntry()
 { }
@@ -113,20 +113,17 @@ void DBEntry::remove(int fileID)
 
 bool DBEntry::entryExists(GenericJob *job)
 {
-	Lock *lock = new Lock(mutexDB);
+	mir_cslock lock(mutexDB);
 
 	DBEntry *entry = getFirts();
 	while (entry != NULL)
 	{
 		if (entry->iFtpNum == job->iFtpNum && !strcmp(entry->szFileName, job->szSafeFileName))
-		{
-			delete lock;
 			return true;
-		}
+
 		entry = getNext(entry);
 	}
 
-	delete lock;
 	return false;
 }
 
@@ -135,7 +132,7 @@ void DBEntry::add(GenericJob *job)
 	if (entryExists(job)) 
 		return;
 
-	Lock *lock = new Lock(mutexDB);
+	mir_cslock lock(mutexDB);
 	int id = db_get_dw(0, MODULE_FILES, "NextFileID", 0);
 	DB::setByteF(0, MODULE_FILES, "Ftp%d", id, job->iFtpNum);
 	DB::setAStringF(0, MODULE_FILES, "Filename%d", id, job->szSafeFileName);
@@ -149,8 +146,6 @@ void DBEntry::add(GenericJob *job)
 	
 	db_set_dw(0, MODULE_FILES, "NextFileID", id + 1);
 	job->fileID = id;
-
-	delete lock;	
 }
 
 void DBEntry::setDeleteTS(GenericJob *job)
@@ -161,8 +156,5 @@ void DBEntry::setDeleteTS(GenericJob *job)
 		deleteTS += (job->tab->iOptAutoDelete * 60);
 		DB::setDwordF(0, MODULE_FILES, "DeleteTS%d", job->fileID, deleteTS);
 	}
-	else
-	{
-		DB::deleteSettingF(0, MODULE_FILES, "DeleteTS%d", job->fileID);
-	}
+	else DB::deleteSettingF(0, MODULE_FILES, "DeleteTS%d", job->fileID);
 }

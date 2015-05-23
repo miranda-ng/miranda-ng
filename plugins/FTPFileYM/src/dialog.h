@@ -32,7 +32,7 @@ class UploadDialog
 
 private:
 	static UploadDialog *instance;
-	static Mutex mutexTabs;
+	static mir_cs mutexTabs;
 	TCHAR stzToolTipText[1024];
 
 	UploadDialog();
