@@ -55,7 +55,6 @@
 [She]
 [He/She]
 [%s\n%s just turned %d.]
-[Could not create worker thread. Error#%d - threadID %d]
 [Birthdays files]
 [Please select a file to import birthdays from...]
 [Importing birthdays from file: %s]

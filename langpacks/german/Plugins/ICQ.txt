@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.3
+;  Version: 0.11.3.4
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -86,10 +86,6 @@ Aktivieren/Deaktivieren der Serverkontaktliste nur möglich, wenn keine ICQ-Netz
 (*) Diese Einstellungen wirken sich auch auf bereits bestehende Kontakte und das Profil aus. Sie müssen aber aktiviert sein, um ein Avatar auf den Server zu laden.
 [Messaging]
 Nachrichten
-[Enable unicode messaging support]
-Unicode für Nachrichten aktivieren
-[Send all messages in unicode if possible]
-Alle Nachrichten in Unicode senden, wenn möglich
 [Use this codepage for Ansi <-> Unicode translation:]
 Verwende diese Codetabelle für ANSI <-> Unicode:
 [Make me temporarily visible to contacts I send message to]
