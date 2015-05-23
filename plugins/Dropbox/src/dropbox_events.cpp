@@ -29,8 +29,8 @@ int CDropbox::OnModulesLoaded(WPARAM, LPARAM)
 		bbd.pszModuleName = MODULE;
 
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON;
-		bbd.ptszTooltip = TranslateT("Send files to Dropbox");
-		bbd.hIcon = GetIconHandle(IDI_DROPBOX);
+		bbd.ptszTooltip = TranslateT("Upload files to Dropbox");
+		bbd.hIcon = GetIconHandleByName("upload");
 		bbd.dwButtonID = BBB_ID_FILE_SEND;
 		bbd.dwDefPos = 100 + bbd.dwButtonID;
 		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
