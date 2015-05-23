@@ -28,7 +28,7 @@ TCluiData cfg::dat = {0};
 ClcData* cfg::clcdat = 0;
 
 static mir_cs cachecs;
-LIST<TExtraCache> cfg::arCache(100, LIST<TExtraCache>::FTSortFunc(NumericKeySortT));
+LIST<TExtraCache> cfg::arCache(100, NumericKeySortT);
 
 bool cfg::shutDown = false;
 

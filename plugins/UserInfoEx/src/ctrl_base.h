@@ -206,7 +206,7 @@ class CCtrlList : public LIST<CBaseCtrl>
 {
 	HWND	_hOwnerDlg;
 
-	static INT_PTR sortFunc(CBaseCtrl *tz1, CBaseCtrl *tz2);
+	static int sortFunc(const CBaseCtrl *tz1, const CBaseCtrl *tz2);
 
 	CCtrlList(HWND hOwnerDlg);
 	~CCtrlList();

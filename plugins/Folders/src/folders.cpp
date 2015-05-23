@@ -24,7 +24,7 @@ char ModuleName[] = "Folders";
 HINSTANCE hInstance;
 int hLangpack;
 
-OBJLIST<CFolderItem> lstRegisteredFolders(10, OBJLIST<CFolderItem>::FTSortFunc(PtrKeySortT));
+OBJLIST<CFolderItem> lstRegisteredFolders(10, PtrKeySortT);
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),

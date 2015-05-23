@@ -31,7 +31,7 @@ struct MSubclassData
 	}
 };
 
-static LIST<MSubclassData> arSubclass(10, LIST<MSubclassData>::FTSortFunc(HandleKeySortT));
+static LIST<MSubclassData> arSubclass(10, HandleKeySortT);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

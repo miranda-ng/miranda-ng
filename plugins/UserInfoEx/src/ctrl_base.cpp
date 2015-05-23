@@ -155,7 +155,7 @@ CCtrlList* CCtrlList::CreateObj(HWND hOwnerDlg)
  *
  *
  **/
-INT_PTR CCtrlList::sortFunc(CBaseCtrl *p1, CBaseCtrl *p2)
+int CCtrlList::sortFunc(const CBaseCtrl *p1, const CBaseCtrl *p2)
 {
 	return p1->_idCtrl - p2->_idCtrl;
 }
@@ -164,8 +164,8 @@ INT_PTR CCtrlList::sortFunc(CBaseCtrl *p1, CBaseCtrl *p2)
  *
  *
  **/
-CCtrlList::CCtrlList(HWND hOwnerDlg)
-: LIST<CBaseCtrl>(10, (FTSortFunc) CCtrlList::sortFunc)
+CCtrlList::CCtrlList(HWND hOwnerDlg) :
+	LIST<CBaseCtrl>(10, &CCtrlList::sortFunc)
 {
 	_hOwnerDlg = hOwnerDlg; 
 	SetUserData(_hOwnerDlg, this);

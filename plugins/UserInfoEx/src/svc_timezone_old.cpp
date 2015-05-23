@@ -95,7 +95,7 @@ class CTzBias : public LIST<CTimeZone>
 		return (result || !tz1->ptszDisplay || !tz2->ptszDisplay) ? result : mir_tstrcmpi(tz1->ptszDisplay, tz2->ptszDisplay);
 	}
 public:
-	CTzBias() : LIST<CTimeZone>(50, (FTSortFunc) CTzBias::sortFunc)
+	CTzBias() : LIST<CTimeZone>(50, &CTzBias::sortFunc)
 	{
 	}
 
@@ -145,7 +145,7 @@ public:
 	const CTzBias& Bias;
 
 	CTzMgr() 
-		:LIST<CTimeZone>(50, (FTSortFunc) CTzMgr::sortFunc),
+		:LIST<CTimeZone>(50, CTzMgr::sortFunc),
 		_bias(), Bias(_bias)
 	{
 	}
