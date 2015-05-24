@@ -84,6 +84,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Skype", "..\protocols
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Tox", "..\protocols\Tox\proto_tox\Proto_Tox.vcxproj", "{129A4E61-E476-45E8-BD50-5E03BA80E9AD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MinecraftDynmap", "..\protocols\MinecraftDynmap\proto_minecraftdynmap\minecraftdynmap_icons.vcxproj", "{178045D7-C0F4-4931-9F40-AB1B2A175092}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -420,6 +422,14 @@ Global
 		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Release|Win32.Build.0 = Release|Win32
 		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Release|x64.ActiveCfg = Release|x64
 		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Release|x64.Build.0 = Release|x64
+		{178045D7-C0F4-4931-9F40-AB1B2A175092}.Debug|Win32.ActiveCfg = Debug|Win32
+		{178045D7-C0F4-4931-9F40-AB1B2A175092}.Debug|Win32.Build.0 = Debug|Win32
+		{178045D7-C0F4-4931-9F40-AB1B2A175092}.Debug|x64.ActiveCfg = Debug|x64
+		{178045D7-C0F4-4931-9F40-AB1B2A175092}.Debug|x64.Build.0 = Debug|x64
+		{178045D7-C0F4-4931-9F40-AB1B2A175092}.Release|Win32.ActiveCfg = Release|Win32
+		{178045D7-C0F4-4931-9F40-AB1B2A175092}.Release|Win32.Build.0 = Release|Win32
+		{178045D7-C0F4-4931-9F40-AB1B2A175092}.Release|x64.ActiveCfg = Release|x64
+		{178045D7-C0F4-4931-9F40-AB1B2A175092}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

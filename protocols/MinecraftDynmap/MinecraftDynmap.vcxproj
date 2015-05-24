@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D5E2FEC1-B29A-476C-BD41-469FE282EE0F}</ProjectGuid>
+    <ProjectGuid>{B4327D10-ACDC-4C12-9555-749DD49A7BB0}</ProjectGuid>
     <ProjectName>MinecraftDynmap</ProjectName>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
