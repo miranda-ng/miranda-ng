@@ -340,7 +340,7 @@ void CMirfoxMiranda::msgQueueThread(void* threadArg)
 							strcpy_s(accountSzModuleName, mnSize, mirandaAccountsIter->szModuleName);
 							actionThreadArgPtr->accountSzModuleName = accountSzModuleName;
 
-							std::size_t uasSize = wcslen(userActionSelection) + 1;
+							std::size_t uasSize = mir_wstrlen(userActionSelection) + 1;
 							actionThreadArgPtr->userActionSelection = new wchar_t[uasSize];
 							memset(actionThreadArgPtr->userActionSelection, 0, uasSize * sizeof(wchar_t));
 							wcsncpy_s(actionThreadArgPtr->userActionSelection, uasSize, userActionSelection, uasSize - 1);
@@ -368,7 +368,7 @@ void CMirfoxMiranda::msgQueueThread(void* threadArg)
 						actionThreadArgPtr->accountSzModuleName = mirfoxDataPtr->getAccountSzModuleNameById(targetHandle);
 					}
 
-					std::size_t uasSize = wcslen(userActionSelection) + 1;
+					std::size_t uasSize = mir_wstrlen(userActionSelection) + 1;
 					actionThreadArgPtr->userActionSelection = new wchar_t[uasSize];
 					memset(actionThreadArgPtr->userActionSelection, 0, uasSize * sizeof(wchar_t));
 					wcsncpy_s(actionThreadArgPtr->userActionSelection, uasSize, userActionSelection, uasSize - 1);

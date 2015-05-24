@@ -33,9 +33,9 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 				if (ActualAccount->BadConnectN.App != NULL) {
 					WCHAR *Command;
 					if (ActualAccount->BadConnectN.AppParam != NULL)
-						Command = new WCHAR[wcslen(ActualAccount->BadConnectN.App) + wcslen(ActualAccount->BadConnectN.AppParam) + 6];
+						Command = new WCHAR[mir_wstrlen(ActualAccount->BadConnectN.App) + mir_wstrlen(ActualAccount->BadConnectN.AppParam) + 6];
 					else
-						Command = new WCHAR[wcslen(ActualAccount->BadConnectN.App) + 6];
+						Command = new WCHAR[mir_wstrlen(ActualAccount->BadConnectN.App) + 6];
 
 					if (Command != NULL) {
 						mir_wstrcpy(Command, L"\"");

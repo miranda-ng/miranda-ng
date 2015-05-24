@@ -442,7 +442,7 @@ void TrimString(WCHAR *str)
 {
 	size_t len, start;
 
-	len = wcslen(str);
+	len = mir_wstrlen(str);
 	while(len && (unsigned char)str[len-1] <= ' ') str[--len] = 0;
 	for(start=0; (unsigned char)str[start] <= ' ' && str[start]; start++);
 	memmove(str, str+start, (len-start+1)*sizeof(WCHAR));

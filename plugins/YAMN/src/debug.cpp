@@ -119,7 +119,7 @@ void DebugLogW(HANDLE File,const WCHAR *fmt,...)
 	va_end(vararg);
 	EnterCriticalSection(&FileAccessCS);
 	WriteFile(File,tids,(DWORD)mir_strlen(tids),&Written,NULL);
-	WriteFile(File,str,(DWORD)wcslen(str)*sizeof(WCHAR),&Written,NULL);
+	WriteFile(File,str,(DWORD)mir_wstrlen(str)*sizeof(WCHAR),&Written,NULL);
 	LeaveCriticalSection(&FileAccessCS);
 	free(str);
 }

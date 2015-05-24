@@ -7,7 +7,7 @@ DWORD pop_start_x, pop_start_y;
 int global_mouse_in = 0;
 
 void trimW(wchar_t *str) {
-	int len = (int)wcslen(str), pos;
+	int len = (int)mir_wstrlen(str), pos;
 	// trim whitespace (e.g. from OTR detection)
 	for (pos = len - 1; pos >= 0; pos--) {
 		if (str[pos] == L' ' || str[pos] == L'\t' || str[pos] == L'\r' || str[pos] == L'\n') str[pos] = 0;

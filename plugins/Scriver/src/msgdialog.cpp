@@ -55,7 +55,7 @@ static TCHAR* GetIEViewSelection(SrmmWindowData *dat)
 
 static TCHAR* GetQuotedTextW(TCHAR *text)
 {
-	size_t i, j, l = wcslen(text);
+	size_t i, j, l = mir_wstrlen(text);
 	int newLine = 1;
 	int wasCR = 0;
 	for (i = j = 0; i < l; i++) {

@@ -136,7 +136,7 @@ unsigned int __fastcall hash_M2(const void * key, unsigned int len)
 unsigned int hashSettingW_M2(const char * key)
 {
 	if (key == NULL) return 0;
-	const unsigned int len = (unsigned int)wcslen((const wchar_t*)key);
+	const unsigned int len = (unsigned int)mir_wstrlen((const wchar_t*)key);
 	char* buf = (char*)alloca(len + 1);
 	for (unsigned i = 0; i <= len ; ++i)
 		buf[i] = key[i << 1];
@@ -153,7 +153,7 @@ unsigned int hashSetting_M2(const char * key)
 unsigned int hashSetting_M2(const wchar_t * key)
 {
 	if (key == NULL) return 0;
-	const unsigned int len = (unsigned int)wcslen((const wchar_t*)key);
+	const unsigned int len = (unsigned int)mir_wstrlen((const wchar_t*)key);
 	return hash_M2(key, len * sizeof(wchar_t));
 }
 

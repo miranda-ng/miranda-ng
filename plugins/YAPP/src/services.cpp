@@ -10,7 +10,7 @@ void StripBBCodesInPlace(wchar_t *text)
 		return;
 
 	int read = 0, write = 0;
-	int len = (int)wcslen(text);
+	int len = (int)mir_wstrlen(text);
 
 	while(read <= len) { // copy terminating null too
 		while(read <= len && text[read] != L'[') {

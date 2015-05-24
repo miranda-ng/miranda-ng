@@ -184,7 +184,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam)
 			if (!GetDatabaseString(ci, "LastName", &dbv2)) {
 				ci->type = CNFT_ASCIIZ;
 				if (ci->dwFlag & CNF_UNICODE) {
-					size_t len = wcslen(dbv.pwszVal) + wcslen(dbv2.pwszVal) + 2;
+					size_t len = mir_wstrlen(dbv.pwszVal) + mir_wstrlen(dbv2.pwszVal) + 2;
 					WCHAR* buf = (WCHAR*)mir_alloc(sizeof(WCHAR)*len);
 					if (buf != NULL)
 						wcscat(wcscat(wcscpy(buf, dbv.pwszVal), L" "), dbv2.pwszVal);
@@ -309,7 +309,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam)
 						ci->type = CNFT_ASCIIZ;
 
 						if (ci->dwFlag & CNF_UNICODE) {
-							size_t len = wcslen(dbv.pwszVal) + wcslen(dbv2.pwszVal) + 2;
+							size_t len = mir_wstrlen(dbv.pwszVal) + mir_wstrlen(dbv2.pwszVal) + 2;
 							WCHAR* buf = (WCHAR*)mir_alloc(sizeof(WCHAR)*len);
 							if (buf != NULL)
 								wcscat(wcscat(wcscpy(buf, dbv.pwszVal), L" "), dbv2.pwszVal);

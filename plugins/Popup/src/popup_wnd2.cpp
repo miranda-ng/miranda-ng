@@ -854,7 +854,7 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		case VK_RETURN:
 			TCHAR msg[2048];
 			GetWindowText(hwnd, msg, SIZEOF(msg));
-			if (wcslen(msg) == 0) {
+			if (mir_wstrlen(msg) == 0) {
 				DestroyWindow(hwnd);
 				return 0;
 			}

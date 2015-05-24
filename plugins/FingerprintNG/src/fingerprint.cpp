@@ -216,7 +216,7 @@ BOOL __fastcall WildCompareW(LPWSTR wszName, LPWSTR wszMask)
 		return wildcmpw(wszName, wszMask);
 
 	size_t s = 1, e = 1;
-	LPWSTR wszTemp = (LPWSTR)_alloca(wcslen(wszMask) * sizeof(WCHAR) + sizeof(WCHAR));
+	LPWSTR wszTemp = (LPWSTR)_alloca(mir_wstrlen(wszMask) * sizeof(WCHAR) + sizeof(WCHAR));
 	BOOL bExcept;
 
 	while (wszMask[e] != L'\0')

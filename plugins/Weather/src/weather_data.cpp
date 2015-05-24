@@ -405,7 +405,7 @@ void wfree(char **Data)
 
 void wfree(WCHAR **Data) 
 {
-	if (*Data && wcslen(*Data) > 0)
+	if (*Data && mir_wstrlen(*Data) > 0)
 		mir_free(*Data);
 	*Data = NULL;
 }

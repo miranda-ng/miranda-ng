@@ -1000,7 +1000,7 @@ HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename)
 		return 0;
 
 	sysPathName[MAX_PATH - 1] = 0;
-	if (wcslen(sysPathName) + wcslen(szFilename) >= MAX_PATH)
+	if (mir_wstrlen(sysPathName) + mir_wstrlen(szFilename) >= MAX_PATH)
 		return 0;
 
 	mir_wstrcat(sysPathName, szFilename);
@@ -1187,7 +1187,7 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 				*/
 				_s = TranslateTS(warnings[uId]);
 
-				if (wcslen(_s) < 3 || 0 == wcschr(_s, '|'))
+				if (mir_wstrlen(_s) < 3 || 0 == wcschr(_s, '|'))
 					_s = TranslateTS(warnings[uId]);
 			}
 		}
@@ -1195,7 +1195,7 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 			return -1;
 	}
 
-	if ((wcslen(_s) > 3) && ((separator_pos = wcschr(_s, '|')) != 0)) {
+	if ((mir_wstrlen(_s) > 3) && ((separator_pos = wcschr(_s, '|')) != 0)) {
 		if (uId >= 0) {
 			mask = getMask();
 			val = ((__int64)1L) << uId;
@@ -1203,7 +1203,7 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 		else mask = val = 0;
 
 		if (0 == (mask & val) || dwFlags & CWF_NOALLOWHIDE) {
-			wchar_t *s = reinterpret_cast<wchar_t *>(mir_alloc((wcslen(_s) + 1) * 2));
+			wchar_t *s = reinterpret_cast<wchar_t *>(mir_alloc((mir_wstrlen(_s) + 1) * 2));
 			wcscpy(s, _s);
 			separator_pos = wcschr(s, '|');
 

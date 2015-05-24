@@ -804,7 +804,7 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 void wcs_htons(wchar_t * ch)
 {
 	if (ch == NULL) return;
-	for(size_t i=0;i<wcslen(ch);i++)
+	for(size_t i=0;i<mir_wstrlen(ch);i++)
 		ch[i]=_htons(ch[i]);
 }
 
@@ -888,7 +888,7 @@ aimString::aimString(char* str)
 		{
 			wszString = mir_utf8decodeW(str);
 			wcs_htons(wszString);
-			size = wcslen(wszString) * sizeof(wchar_t);
+			size = mir_wstrlen(wszString) * sizeof(wchar_t);
 		}
 		else
 		{

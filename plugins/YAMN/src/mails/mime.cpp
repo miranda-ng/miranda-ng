@@ -652,7 +652,7 @@ WCHAR *ParseMultipartBody(char *src, char *bond)
 FailBackRaw:
 				ConvertStringToUnicode(partData[i].body,partData[i].CodePage,&partData[i].wBody);
 			}
-			resultSize += wcslen(partData[i].wBody);
+			resultSize += mir_wstrlen(partData[i].wBody);
 		}// if (partData[i].body)
 		resultSize += 100+4+3; //cr+nl+100+ 3*bullet
 	}
@@ -696,7 +696,7 @@ FailBackRaw:
 				dest[destpos] = dest[destpos+1] = dest[destpos+2] = 0x2022; // bullet;
 				destpos += 3;
 				ConvertStringToUnicode(infoline,CP_ACP,&temp);
-				size_t wsize = wcslen(temp);
+				size_t wsize = mir_wstrlen(temp);
 				wcscpy(&dest[destpos],temp);
 				destpos += wsize;
 				delete[] temp;
@@ -704,7 +704,7 @@ FailBackRaw:
 		} // if (i)
 
 		if (partData[i].wBody) {
-			size_t wsize = wcslen(partData[i].wBody);
+			size_t wsize = mir_wstrlen(partData[i].wBody);
 			wcscpy(&dest[destpos],partData[i].wBody);
 			destpos += wsize;
 			delete[] partData[i].wBody;

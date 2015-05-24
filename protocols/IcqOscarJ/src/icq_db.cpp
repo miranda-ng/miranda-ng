@@ -149,7 +149,7 @@ void CIcqProto::setStatusMsgVar(MCONTACT hContact, char* szStatusMsg, bool isAns
 		if (isAnsi) {
 			char *szStatusNote = getSettingStringUtf(hContact, DBSETTING_STATUS_NOTE, "");
 			wchar_t *szStatusNoteW = make_unicode_string(szStatusNote);
-			int len = (int)wcslen(szStatusNoteW) * 3 + 1;
+			int len = (int)mir_wstrlen(szStatusNoteW) * 3 + 1;
 			char *szStatusNoteAnsi = (char*)alloca(len);
 			WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS, szStatusNoteW, -1, szStatusNoteAnsi, len, NULL, NULL);
 			bool notmatch = false;

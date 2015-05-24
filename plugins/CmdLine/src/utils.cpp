@@ -168,7 +168,7 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 				MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, szResult, (int) count);
 			}
 			else{
-				size_t tmp = wcslen(dbv.pwszVal);
+				size_t tmp = mir_wstrlen(dbv.pwszVal);
 				len = (tmp < count - 1) ? tmp : count - 1;
 				wcsncpy(szResult, dbv.pwszVal, len);
 				szResult[len] = L'\0';
@@ -179,7 +179,7 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 			res = 1;
 			if (szError)
 				{
-					size_t tmp = wcslen(szError);
+					size_t tmp = mir_wstrlen(szError);
 					len = (tmp < count - 1) ? tmp : count - 1;
 					wcsncpy(szResult, szError, len);
 					szResult[len] = L'\0';

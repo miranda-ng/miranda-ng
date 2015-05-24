@@ -761,7 +761,7 @@ void checkthread(void*)
 		memset(msgFrom, 0, sizeof(msgFrom));
 		memset(msgSubject, 0, sizeof(msgSubject));
 
-		if(wcslen(field_from_UNICODE) < 512 && wcslen(field_from_UNICODE) > 3 && wcsstr(field_from_UNICODE, L"CN=") == field_from_UNICODE)
+		if(mir_wstrlen(field_from_UNICODE) < 512 && mir_wstrlen(field_from_UNICODE) > 3 && wcsstr(field_from_UNICODE, L"CN=") == field_from_UNICODE)
 			_tcsncpy_s(msgFrom, &(field_from_UNICODE[3]), wcscspn(field_from_UNICODE, L"/")-3 );
 		else
 			_tcsncpy_s(msgFrom, field_from_UNICODE, _TRUNCATE);
@@ -782,10 +782,10 @@ void checkthread(void*)
 		//do not put private user data into log
 		log_p(L"checkthread: MAIL INFO (sizes): date=[%S], from=[%d], to=[%d], cc=[%d], sub=[%d], attSize=[%d]"
 			,field_date
-			,wcslen(field_from_UNICODE)
-			,wcslen(field_to_UNICODE)
-			,wcslen(field_copy_UNICODE)
-			,wcslen(field_subject_UNICODE)
+			,mir_wstrlen(field_from_UNICODE)
+			,mir_wstrlen(field_to_UNICODE)
+			,mir_wstrlen(field_copy_UNICODE)
+			,mir_wstrlen(field_subject_UNICODE)
 			,attSize
 		);
 		#endif

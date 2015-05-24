@@ -88,9 +88,9 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM lParam)
 			if (ActualAccount->NewMailN.App != NULL) {
 				WCHAR *Command;
 				if (ActualAccount->NewMailN.AppParam != NULL)
-					Command = new WCHAR[wcslen(ActualAccount->NewMailN.App)+wcslen(ActualAccount->NewMailN.AppParam)+6];
+					Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App)+mir_wstrlen(ActualAccount->NewMailN.AppParam)+6];
 				else
-					Command = new WCHAR[wcslen(ActualAccount->NewMailN.App)+6];
+					Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App)+6];
 					
 				if (Command != NULL) {
 					mir_wstrcpy(Command, L"\"");

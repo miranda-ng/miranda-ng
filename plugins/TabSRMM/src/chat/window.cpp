@@ -495,7 +495,7 @@ LBL_SkipEnd:
 		if (end != start) {
 			ptrT szReplace;
 			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
-				szReplace = (TCHAR*)mir_alloc((wcslen(pszName) + 4) * sizeof(TCHAR));
+				szReplace = (TCHAR*)mir_alloc((mir_wstrlen(pszName) + 4) * sizeof(TCHAR));
 				wcscpy(szReplace, pszName);
 				wcscat(szReplace, L": ");
 				pszName = szReplace;

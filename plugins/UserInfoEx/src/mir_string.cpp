@@ -40,7 +40,7 @@ wchar_t* mir_wcsncat_c(wchar_t *pwszDest, const wchar_t wcSrc)
 {
 	size_t size = 2;
 	if (pwszDest != NULL)
-		size += wcslen(pwszDest); //cSrc = 1 + 1 forNULL temination 
+		size += mir_wstrlen(pwszDest); //cSrc = 1 + 1 forNULL temination 
 
 	wchar_t *pwszRet = (wchar_t *)mir_realloc(pwszDest, (sizeof(wchar_t) * size));
 	if (pwszRet == NULL)
