@@ -214,8 +214,8 @@ static INT_PTR serviceBmpFilterResizeBitmap(WPARAM wParam,LPARAM lParam)
 	ResizeBitmap *info = (ResizeBitmap *) wParam;
 
 	if (info == NULL || info->size != sizeof(ResizeBitmap)
-		|| info->hBmp == NULL || info->max_width <= 0
-		|| info->max_height <= 0
+		|| info->hBmp == NULL
+		|| info->max_width < 0 || info->max_height < 0
 		|| (info->fit & ~RESIZEBITMAP_FLAG_DONT_GROW) < RESIZEBITMAP_STRETCH
 		|| (info->fit & ~RESIZEBITMAP_FLAG_DONT_GROW) > RESIZEBITMAP_MAKE_SQUARE)
 		return 0;
@@ -225,8 +225,8 @@ static INT_PTR serviceBmpFilterResizeBitmap(WPARAM wParam,LPARAM lParam)
 	// Calc final size
 	GetObject(info->hBmp, sizeof(bminfo), &bminfo);
 
-	width = info->max_width;
-	height = info->max_height;
+	width = info->max_width == 0 ? bminfo.bmWidth : info->max_width;
+	height = info->max_height == 0 ? bminfo.bmHeight : info->max_height;
 
 	xOrig = 0;
 	yOrig = 0;
