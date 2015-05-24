@@ -49,7 +49,7 @@ char *StrDelete(char *source, size_t index, size_t count)
 
 wchar_t *StrDelete(wchar_t *source, size_t index, size_t count)
 {
-	size_t len = wcslen(source);
+	size_t len = mir_wstrlen(source);
 	count = (count + index > len) ? len - index : count;
 	for (size_t i = index; i + count <= len; i++)
 		source[i] = source[i + count];
@@ -73,8 +73,8 @@ char *StrInsert(char *source, size_t index, const char *what)
 
 wchar_t *StrInsert(wchar_t *source, size_t index, const wchar_t *what)
 {
-	size_t whatLen = wcslen(what);
-	size_t sourceLen = wcslen(source);
+	size_t whatLen = mir_wstrlen(what);
+	size_t sourceLen = mir_wstrlen(source);
 	size_t i;
 	for (i = sourceLen; i >= index; i--)
 		source[i + whatLen] = source[i];
@@ -107,8 +107,8 @@ char *StrReplace(char *source, const char *what, const char *withWhat)
 
 wchar_t *StrReplace(wchar_t *source, const wchar_t *what, const wchar_t *withWhat)
 {
-	size_t whatLen = wcslen(what);
-	size_t withWhatLen = wcslen(withWhat);
+	size_t whatLen = mir_wstrlen(what);
+	size_t withWhatLen = mir_wstrlen(withWhat);
 
 	wchar_t *pos;
 	while ((pos = wcsstr(source, what))) {
@@ -143,12 +143,12 @@ char *StrTrim(char *szText, const char *szTrimChars)
 
 wchar_t *StrTrim(wchar_t *szText, const wchar_t *szTrimChars)
 {
-	size_t i = wcslen(szText) - 1;
+	size_t i = mir_wstrlen(szText) - 1;
 	while (wcschr(szTrimChars, szText[i]))
 		szText[i--] = '\0';
 
 	i = 0;
-	while ((i < wcslen(szText)) && (wcschr(szTrimChars, szText[i])))
+	while ((i < mir_wstrlen(szText)) && (wcschr(szTrimChars, szText[i])))
 		i++;
 
 	if (i)

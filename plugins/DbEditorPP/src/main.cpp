@@ -476,7 +476,7 @@ WCHAR* GetContactName(MCONTACT hContact, const char *szProto, int unicode)
 
 				if (r = GetDatabaseString(hContact, proto, "FirstName", res, SIZEOF(res), unicode)) {
 					if (unicode)
-						len = (int)wcslen(res);
+						len = (int)mir_wstrlen(res);
 					else
 						len = (int)mir_strlen((char *)res);
 				}

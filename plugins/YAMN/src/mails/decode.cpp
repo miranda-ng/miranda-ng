@@ -410,7 +410,7 @@ int ConvertStringToUnicode(char *stream,unsigned int cp,WCHAR **out)
 		streamlen=MultiByteToWideChar(cp,MB_USEGLYPHCHARS,stream,-1,NULL,0);
 
 	if (*out != NULL)
-		outlen=wcslen(*out);
+		outlen=mir_wstrlen(*out);
 	else
 		outlen=0;
 	temp=new WCHAR[streamlen+outlen+1];
@@ -452,7 +452,7 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 	WCHAR *tempstore=0;
 	if (!ConvertStringToUnicode(stream,cp,&tempstore))return;
 
-	size_t tempstoreLength = wcslen(tempstore);
+	size_t tempstoreLength = mir_wstrlen(tempstore);
 	
 	size_t outind = 0;
 	while(*start != 0) {
@@ -534,7 +534,7 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 					}
 					WCHAR *oneWord=0;
 					if (ConvertStringToUnicode(DecodedResult,cp,&oneWord)) {
-						size_t len = wcslen(oneWord);
+						size_t len = mir_wstrlen(oneWord);
 						memcpy(&tempstore[outind],oneWord,len*sizeof(WCHAR));
 						outind += len;
 					}

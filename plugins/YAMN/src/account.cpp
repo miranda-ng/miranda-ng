@@ -768,7 +768,7 @@ DWORD WriteStringToFileW(HANDLE File, WCHAR *Source)
 	DWORD Length, WrittenBytes;
 	WCHAR null = (WCHAR)0;
 
-	if ((Source == NULL) || !(Length = (DWORD)wcslen(Source)))
+	if ((Source == NULL) || !(Length = (DWORD)mir_wstrlen(Source)))
 	{
 		if (!WriteFile(File, &null, sizeof(WCHAR), &WrittenBytes, NULL))
 		{

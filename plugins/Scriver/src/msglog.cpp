@@ -254,7 +254,7 @@ static void freeEvent(EventData *evt)
 static int AppendUnicodeOrAnsiiToBufferL(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const WCHAR *line, size_t maxLen, BOOL isAnsii)
 {
 	if (maxLen == -1)
-		maxLen = wcslen(line);
+		maxLen = mir_wstrlen(line);
 	
 	const WCHAR *maxLine = line + maxLen;
 	size_t lineLen = maxLen*9 + 8;
@@ -503,7 +503,7 @@ static void AppendWithCustomLinks(EventData *evt, int style, char *&buffer, size
 	}
 	else {
 		wText = evt->pszTextW;
-		len = (int)wcslen(evt->pszTextW);
+		len = (int)mir_wstrlen(evt->pszTextW);
 	}
 	for (size_t j = 0; j < len; j++) {
 		int newtoken = 0;

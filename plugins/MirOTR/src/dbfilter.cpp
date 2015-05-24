@@ -111,12 +111,12 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 			// yes, unicode
 			wchar_t* msgw = (wchar_t *)&msg[msglen];
 			wchar_t *prefixw = mir_utf8decodeW(options.prefix);
-			int prefixlenw = (int)wcslen(prefixw);
+			int prefixlenw = (int)mir_wstrlen(prefixw);
 			if (wcsncmp(msgw, prefixw, prefixlenw) == 0) {
 				mir_free(prefixw);
 				return 0;
 			}
-			int msglenw = (int)wcslen(msgw);
+			int msglenw = (int)mir_wstrlen(msgw);
 
 			char *prefix = mir_utf8decodeA(options.prefix);
 			int prefixlen = (int)mir_strlen(prefix);

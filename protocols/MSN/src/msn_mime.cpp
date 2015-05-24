@@ -394,7 +394,7 @@ static size_t utf8toutf16(char* str, wchar_t* res)
 	if (dec == NULL) dec = mir_a2u(str);
 	wcscpy(res, dec);
 	mir_free(dec);
-	return wcslen(res);
+	return mir_wstrlen(res);
 }
 
 

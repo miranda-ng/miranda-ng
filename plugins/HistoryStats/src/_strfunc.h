@@ -33,7 +33,7 @@ namespace ext
 		static int coll(const WCHAR* string1, const WCHAR* string2) { return wcscoll(string1, string2); }
 		static int icoll(const WCHAR* string1, const WCHAR* string2) { return _wcsicoll(string1, string2); }
 		static const WCHAR* str(const WCHAR* string, const WCHAR* strSearch) { return wcsstr(string, strSearch); }
-		static size_t len(const WCHAR* string) { return wcslen(string); }
+		static size_t len(const WCHAR* string) { return mir_wstrlen(string); }
 		static size_t ftime(WCHAR* strDest, size_t maxsize, const WCHAR* format, const struct tm* timeptr) { return wcsftime(strDest, maxsize, format, timeptr); }
 		static int sprintf(WCHAR* buffer, const WCHAR* format, ...) { va_list args; va_start(args, format); return vswprintf(buffer, format, args); }
 	};

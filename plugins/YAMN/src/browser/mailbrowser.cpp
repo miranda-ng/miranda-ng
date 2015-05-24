@@ -555,7 +555,7 @@ int AddNewMailsToListView(HWND hListView, HACCOUNT ActualAccount, struct CMailNu
 			Extracted = TRUE;
 
 			if ((UnicodeHeader.From != NULL) && (UnicodeHeader.FromNick != NULL)) {
-				size_t size = wcslen(UnicodeHeader.From) + wcslen(UnicodeHeader.FromNick) + 4;
+				size_t size = mir_wstrlen(UnicodeHeader.From) + mir_wstrlen(UnicodeHeader.FromNick) + 4;
 				FromStr = new WCHAR[size];
 				mir_sntprintf(FromStr, size, L"%s <%s>", UnicodeHeader.FromNick, UnicodeHeader.From);
 				FromStrNew = TRUE;
@@ -758,9 +758,9 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 			{
 				WCHAR *Command;
 				if (ActualAccount->NewMailN.AppParam != NULL)
-					Command = new WCHAR[wcslen(ActualAccount->NewMailN.App) + wcslen(ActualAccount->NewMailN.AppParam) + 6];
+					Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App) + mir_wstrlen(ActualAccount->NewMailN.AppParam) + 6];
 				else
-					Command = new WCHAR[wcslen(ActualAccount->NewMailN.App) + 6];
+					Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App) + 6];
 
 				if (Command != NULL)
 				{
@@ -1383,11 +1383,11 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			ConvertCodedStringToUnicode(Header->value, &str2, MailParam->mail->MailData->CP, 1);
 			if (!str2) { str2 = (WCHAR *)str_nul; }// the header value may be NULL
 			if (!From) if (!_stricmp(Header->name, "From")) {
-				From = new WCHAR[wcslen(str2) + 1];
+				From = new WCHAR[mir_wstrlen(str2) + 1];
 				wcscpy(From, str2);
 			}
 			if (!Subj) if (!_stricmp(Header->name, "Subject")) {
-				Subj = new WCHAR[wcslen(str2) + 1];
+				Subj = new WCHAR[mir_wstrlen(str2) + 1];
 				wcscpy(Subj, str2);
 			}
 			//if (!hasBody) if (!mir_strcmp(Header->name,"Body")) hasBody = true;
@@ -1488,7 +1488,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		ShowWindow(GetDlgItem(hDlg, IDC_SPLITTER), (MailParam->mail->Flags & YAMN_MSG_BODYRECEIVED) ? SW_SHOW : SW_HIDE);
 		ShowWindow(hEdit, (MailParam->mail->Flags & YAMN_MSG_BODYRECEIVED) ? SW_SHOW : SW_HIDE);
 		WCHAR *title = 0;
-		size_t size = (From ? wcslen(From) : 0) + (Subj ? wcslen(Subj) : 0) + 4;
+		size_t size = (From ? mir_wstrlen(From) : 0) + (Subj ? mir_wstrlen(Subj) : 0) + 4;
 		title = new WCHAR[size];
 		if (From && Subj)
 			mir_sntprintf(title, size, L"%s (%s)", Subj, From);
@@ -1741,7 +1741,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		SendDlgItemMessageW(hDlg, IDC_LISTMAILS, LVM_INSERTCOLUMNW, (WPARAM)2, (LPARAM)&lvc2);
 		SendDlgItemMessageW(hDlg, IDC_LISTMAILS, LVM_INSERTCOLUMNW, (WPARAM)3, (LPARAM)&lvc3);
 
-		if ((ActualAccount->NewMailN.App != NULL) && (wcslen(ActualAccount->NewMailN.App)))
+		if ((ActualAccount->NewMailN.App != NULL) && (mir_wstrlen(ActualAccount->NewMailN.App)))
 			EnableWindow(GetDlgItem(hDlg, IDC_BTNAPP), TRUE);
 		else
 			EnableWindow(GetDlgItem(hDlg, IDC_BTNAPP), FALSE);
@@ -2084,9 +2084,9 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 				{
 					WCHAR *Command;
 					if (ActualAccount->NewMailN.AppParam != NULL)
-						Command = new WCHAR[wcslen(ActualAccount->NewMailN.App) + wcslen(ActualAccount->NewMailN.AppParam) + 6];
+						Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App) + mir_wstrlen(ActualAccount->NewMailN.AppParam) + 6];
 					else
-						Command = new WCHAR[wcslen(ActualAccount->NewMailN.App) + 6];
+						Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App) + 6];
 
 					if (Command != NULL)
 					{

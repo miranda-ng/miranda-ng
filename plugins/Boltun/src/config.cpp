@@ -42,14 +42,14 @@ inline TCHAR* GetString(char* key, const TCHAR* def)
 	TCHAR* val;
 	if (!db_get_ts(NULL, BOLTUN_KEY, key, &dbv))
 	{
-		size_t len = wcslen(dbv.ptszVal) + 1;
+		size_t len = mir_wstrlen(dbv.ptszVal) + 1;
 		val = new TCHAR[len];
 		_tcscpy_s(val, len, dbv.ptszVal);
 		db_free(&dbv);
 	}
 	else
 	{
-		size_t len = wcslen(def) + 1;
+		size_t len = mir_wstrlen(def) + 1;
 		val = new TCHAR[len];
 		_tcscpy_s(val, len, def);
 	}

@@ -54,8 +54,8 @@ void mir_wstradd(wchar_t* &pszDest, const wchar_t* pszSrc)
 	if(!pszDest)
 		pszDest = mir_wstrdup(pszSrc);
 	else {
-		size_t lenDest  = wcslen(pszDest);
-		size_t lenSrc   = wcslen(pszSrc);
+		size_t lenDest  = mir_wstrlen(pszDest);
+		size_t lenSrc   = mir_wstrlen(pszSrc);
 		size_t lenNew = lenDest + lenSrc + 1;
 		pszDest  = (wchar_t *) mir_realloc(pszDest, sizeof(wchar_t)*lenNew);
 

@@ -969,11 +969,11 @@ INT_PTR SetNewSong(WPARAM wParam,LPARAM lParam)
 
 	if (lParam == LISTENINGTO_ANSI) {
 		CharToWchar data((char *) wParam);
-		((GenericPlayer *) players[GENERIC])->NewData(data, wcslen(data));
+		((GenericPlayer *) players[GENERIC])->NewData(data, mir_wstrlen(data));
 	}
 	else {
 		WCHAR *data = (WCHAR *) wParam;
-		((GenericPlayer *) players[GENERIC])->NewData(data, wcslen(data));
+		((GenericPlayer *) players[GENERIC])->NewData(data, mir_wstrlen(data));
 	}
 
 	return 0;

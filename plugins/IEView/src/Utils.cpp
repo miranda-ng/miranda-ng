@@ -32,8 +32,8 @@ const wchar_t *Utils::getBaseDir()
 wchar_t* Utils::toAbsolute(wchar_t* relative)
 {
 	const wchar_t* bdir = getBaseDir();
-	long len = (int)wcslen(bdir);
-	long tlen = len + (int)wcslen(relative);
+	long len = (int)mir_wstrlen(bdir);
+	long tlen = len + (int)mir_wstrlen(relative);
 	wchar_t* result = (wchar_t*)mir_alloc(sizeof(wchar_t)*(tlen + 1));
 	if (result) {
 		wcscpy(result, bdir);
