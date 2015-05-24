@@ -6,6 +6,8 @@ for /F %%i in ('svnversion build.no') do set Revision=%%i
 
 REM Fix building not-svn repository (e.g., Git mirror)
 if "%Revision:~0,11%" == "Unversioned" (set Revision=0)
+REM Fix building when svnversion tool is not installed
+if "%Revision%" == "" (set Revision=0)
 
 for /F "tokens=1,2,3 delims= " %%i in (build.no) do call :WriteVer %%i %%j %%k %Revision%
 goto :eof
