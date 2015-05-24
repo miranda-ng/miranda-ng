@@ -89,8 +89,6 @@ using namespace std;
  * UserInfoEx plugin includes and macros
  ***********************************************************************************************************/
 
-#pragma intrinsic(memcmp, memcpy, memset, mir_strcmp, mir_strlen)
-
 #ifndef MIR_OK
 #define MIR_OK		0		// success value of a miranda service function
 #define MIR_FAIL	1		// general failure value of a miranda service function
