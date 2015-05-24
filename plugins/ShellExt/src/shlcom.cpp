@@ -95,7 +95,7 @@ BOOL AddToList(TAddArgList& args)
 					szThis = args.szFile;
 					args.szFile = szBuf;
 					int cchThis = args.cch;
-					args.cch = (int)mir_strlen(szBuf) + 1;
+					args.cch = (int)strlen(szBuf) + 1;
 					// recurse
 					BOOL Result = AddToList(args);
 					// restore
@@ -310,9 +310,9 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 			if (bGroupMode) {
 				rc = db_get_s(pContacts[i].hContact, "CList", "Group", &dbv);
 				if (!rc)
-					n = mir_strlen(dbv.pszVal) + 1;
+					n = lstrlenA(dbv.pszVal) + 1;
 			}
-			int cch = mir_strlen(szContact) + 1;
+			int cch = lstrlenA(szContact) + 1;
 			TSlotIPC *pct = ipcAlloc(ipch, cch + 1 + n);
 			if (pct == NULL) {
 				db_free(&dbv);
@@ -444,7 +444,7 @@ void __stdcall ipcService(ULONG_PTR dwParam)
 				_itoa(iSlot, szGroupStr, 10);
 				if ( db_get_s(0, "CListGroups", szGroupStr, &dbv) != 0)
 					break;
-				pct = ipcAlloc(pMMT, mir_strlen(dbv.pszVal + 1) + 1);
+				pct = ipcAlloc(pMMT, lstrlenA(dbv.pszVal + 1) + 1);
 				// first byte has flags, need null term
 				if (pct != NULL) {
 					if (pMMT->GroupsBegin == NULL)
