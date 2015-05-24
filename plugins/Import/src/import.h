@@ -105,6 +105,6 @@ extern int nImportOptions;
 extern TCHAR importFile[];
 extern time_t dwSinceDate;
 
-HICON  GetIcon(int iIconId);
+HICON  GetIcon(int iIconId, int size = 0);
 HANDLE GetIconHandle(int iIconId);
 void   RegisterIcons(void);
