@@ -232,10 +232,10 @@ __inline static INT_PTR FoldersGetCustomPathExW(HANDLE hFolderEntry, wchar_t *pa
 	}
 
 	if (pathW[0] != '\0')
-		wcsncat(pathW, L"\\", size - mir_wstrlen(pathW));
+		mir_wstrncat(pathW, L"\\", size - mir_wstrlen(pathW));
 
 	if (fileNameW)
-		wcsncat(pathW, fileNameW, size - mir_wstrlen(pathW));
+		mir_wstrncat(pathW, fileNameW, size - mir_wstrlen(pathW));
 
 	return res;
 }

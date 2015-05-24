@@ -479,18 +479,18 @@ wchar_t *TextToken::htmlEncode(const wchar_t *str)
 	wchar_t *output = new wchar_t[c + 1];
 	for (out = output, ptr = str; *ptr != '\0'; ptr++) {
 		if (*ptr == ' ' && wasSpace) {
-			wcscpy(out, L"&nbsp;");
+			mir_wstrcpy(out, L"&nbsp;");
 			out += 6;
 		}
 		else {
 			wasSpace = false;
 			switch (*ptr) {
-			case '\n': wcscpy(out, L"<br>"); out += 4; break;
+			case '\n': mir_wstrcpy(out, L"<br>"); out += 4; break;
 			case '\r': break;
-			case '&': wcscpy(out, L"&amp;"); out += 5; break;
-			case '>': wcscpy(out, L"&gt;"); out += 4; break;
-			case '<': wcscpy(out, L"&lt;"); out += 4; break;
-			case '"': wcscpy(out, L"&quot;"); out += 6; break;
+			case '&': mir_wstrcpy(out, L"&amp;"); out += 5; break;
+			case '>': mir_wstrcpy(out, L"&gt;"); out += 4; break;
+			case '<': mir_wstrcpy(out, L"&lt;"); out += 4; break;
+			case '"': mir_wstrcpy(out, L"&quot;"); out += 6; break;
 			case ' ': wasSpace = true;
 			default: *out = *ptr; out++;
 			}

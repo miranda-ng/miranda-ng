@@ -364,7 +364,7 @@ BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID& clsidEncoder) {
 		if(pImageCodecInfo){
 			Gdiplus::GetImageEncoders(uiNum,uiSize,pImageCodecInfo);
 			for( UINT i=0; i<uiNum; ++i){
-				if(!wcscmp(pImageCodecInfo[i].MimeType,wchMimeType)){
+				if(!mir_wstrcmp(pImageCodecInfo[i].MimeType,wchMimeType)){
 					clsidEncoder=pImageCodecInfo[i].Clsid;
 					bOk=TRUE;
 				}

@@ -305,7 +305,7 @@ static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 
 	if (db_get_b(0, "Popup", "ModuleIsEnabled", 1)) {
 		POPUPDATAW pd = {0};
-		wcscpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
+		mir_wstrcpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
 		pd.lchIcon = LoadIcon(0, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
 		wcsncpy(pd.lpwzText, (wchar_t *)wParam, MAX_SECONDLINE);
 		CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, 0);

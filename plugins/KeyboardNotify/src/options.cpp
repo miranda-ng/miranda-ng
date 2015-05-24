@@ -787,7 +787,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 					if (str) {
 						GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, customAux, SIZEOF(customAux));
-						if (wcscmp(str, customAux))
+						if (mir_wstrcmp(str, customAux))
 							EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), TRUE);
 						else
 							EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
@@ -872,7 +872,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
 				mir_tstrcpy(filter, TranslateT("Keyboard Notify Theme"));
-				wcscat(filter, _T(" (*.knt)"));
+				mir_wstrcat(filter, _T(" (*.knt)"));
 				pfilter = filter + mir_tstrlen(filter) + 1;
 				mir_tstrcpy(pfilter, _T("*.knt"));
 				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
@@ -900,7 +900,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
 				mir_tstrcpy(filter, TranslateT("Keyboard Notify Theme"));
-				wcscat(filter, _T(" (*.knt)"));
+				mir_wstrcat(filter, _T(" (*.knt)"));
 				pfilter = filter + mir_tstrlen(filter) + 1;
 				mir_tstrcpy(pfilter, _T("*.knt"));
 				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
@@ -953,7 +953,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							else
 								db_set_ts(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), _T(""));
 
-							if (!wcscmp(theme, themeAux))
+							if (!mir_wstrcmp(theme, themeAux))
 								wCustomTheme = i;
 
 							// Here we will update the theme combo on the Flashing tab: horrible but can't imagine a better way right now

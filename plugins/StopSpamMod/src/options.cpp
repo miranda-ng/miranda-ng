@@ -306,7 +306,7 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				static tstring NewGroupName, CurrentGroupName;
 				NewGroupName = GetDlgItemString(hwnd, ID_SPECIALGROUPNAME);
 				CurrentGroupName = gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", _T("0"));
-				if (wcscmp(CurrentGroupName.c_str(), NewGroupName.c_str()) != 0) {
+				if (mir_wstrcmp(CurrentGroupName.c_str(), NewGroupName.c_str()) != 0) {
 					bool GroupExist = Clist_GroupExists(NewGroupName.c_str()) != NULL;
 					db_set_ws(NULL,pluginName, "SpammersGroup", NewGroupName.c_str());
 					gbSpammersGroup = DBGetContactSettingStringPAN(NULL,pluginName,"SpammersGroup", _T("Spammers"));
@@ -331,7 +331,7 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				static tstring NewAGroupName, CurrentAGroupName;
 				NewAGroupName = GetDlgItemString(hwnd, IDC_AUTOADDGROUP);
 				CurrentAGroupName = gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", _T("0"));
-				if (wcscmp(CurrentAGroupName.c_str(), NewAGroupName.c_str()) != 0) {
+				if (mir_wstrcmp(CurrentAGroupName.c_str(), NewAGroupName.c_str()) != 0) {
 					bool GroupExist = Clist_GroupExists(NewAGroupName.c_str()) != NULL;
 					db_set_ws(NULL,pluginName, "AutoAuthGroup", NewAGroupName.c_str());
 					gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL,pluginName,"AutoAuthGroup", _T("Not Spammers"));

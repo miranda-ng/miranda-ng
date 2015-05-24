@@ -59,7 +59,7 @@ void mir_wstradd(wchar_t* &pszDest, const wchar_t* pszSrc)
 		size_t lenNew = lenDest + lenSrc + 1;
 		pszDest  = (wchar_t *) mir_realloc(pszDest, sizeof(wchar_t)*lenNew);
 
-		wcscpy(pszDest + lenDest, pszSrc);
+		mir_wstrcpy(pszDest + lenDest, pszSrc);
 		pszDest[lenNew-1] = 0;
 	}
 }

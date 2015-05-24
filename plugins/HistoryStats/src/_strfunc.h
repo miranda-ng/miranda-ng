@@ -28,7 +28,7 @@ namespace ext
 	{
 	public:
 		static const WCHAR* chr(const WCHAR* string, WCHAR c) { return wcschr(string, c); }
-		static int cmp(const WCHAR* string1, const WCHAR* string2) { return wcscmp(string1, string2); }
+		static int cmp(const WCHAR* string1, const WCHAR* string2) { return mir_wstrcmp(string1, string2); }
 		static int icmp(const WCHAR* string1, const WCHAR* string2) { return _wcsicmp(string1, string2); }
 		static int coll(const WCHAR* string1, const WCHAR* string2) { return wcscoll(string1, string2); }
 		static int icoll(const WCHAR* string1, const WCHAR* string2) { return _wcsicoll(string1, string2); }

@@ -496,8 +496,8 @@ LBL_SkipEnd:
 			ptrT szReplace;
 			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
 				szReplace = (TCHAR*)mir_alloc((mir_wstrlen(pszName) + 4) * sizeof(TCHAR));
-				wcscpy(szReplace, pszName);
-				wcscat(szReplace, L": ");
+				mir_wstrcpy(szReplace, pszName);
+				mir_wstrcat(szReplace, L": ");
 				pszName = szReplace;
 			}
 			SendMessage(hwnd, EM_SETSEL, start, end);

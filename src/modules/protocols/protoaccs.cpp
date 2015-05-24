@@ -394,7 +394,7 @@ static INT_PTR stub43(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 	p->format = tmp.format;
 
 	wchar_t filename[MAX_PATH];
-	wcscpy(filename, tmp.filename);
+	mir_wstrcpy(filename, tmp.filename);
 	GetShortPathNameW(tmp.filename, filename, SIZEOF(filename));
 
 	WideCharToMultiByte(CP_ACP, 0, filename, -1, p->filename, MAX_PATH, 0, 0);
@@ -407,7 +407,7 @@ static INT_PTR stub44(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 	int result = CallProtoServiceInt(NULL, ppi->m_szModuleName, PS_GETMYAVATARW, WPARAM(buf), lParam);
 	if (result == 0) {
 		wchar_t* filename = (wchar_t*)_alloca(sizeof(wchar_t) * (lParam + 1));
-		wcscpy(filename, buf);
+		mir_wstrcpy(filename, buf);
 		GetShortPathNameW(buf, filename, lParam + 1);
 
 		WideCharToMultiByte(CP_ACP, 0, filename, -1, (char*)wParam, lParam, 0, 0);

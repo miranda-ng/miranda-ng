@@ -343,7 +343,7 @@ void __fastcall GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay, sh
 
 void __fastcall GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
 {
-	if (wcscmp(wszMirVer, L"?") == 0)
+	if (mir_wstrcmp(wszMirVer, L"?") == 0)
 	{
 		*base = UNKNOWN_MASK_NUMBER;
 		*overlay = -1;
@@ -787,7 +787,7 @@ static INT_PTR ServiceGetClientDescrW(WPARAM wParam, LPARAM)
 		return 0;
 
 	LPWSTR wszMirVerUp = NEWWSTR_ALLOCA(wszMirVer); _wcsupr(wszMirVerUp);
-	if (wcscmp(wszMirVerUp, L"?") == 0)
+	if (mir_wstrcmp(wszMirVerUp, L"?") == 0)
 		return (INT_PTR)def_kn_fp_mask[UNKNOWN_MASK_NUMBER].szClientDescription;
 
 	for (int index = 0; index < DEFAULT_KN_FP_MASK_COUNT; index++)

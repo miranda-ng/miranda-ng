@@ -67,7 +67,7 @@ int doContacts(HWND hwnd2Tree, HTREEITEM contactsRoot, ModuleSettingLL *modlist,
 					mir_snwprintf(nick, SIZEOF(nick), L"%s (%s) %s", GetContactName(hContact, szProto, 1), protoW, L"(UNLOADED)");
 			}
 			else
-				wcscpy(nick, nick_unknownW);
+				mir_wstrcpy(nick, nick_unknownW);
 		}
 		else {
 			tvi.item.iSelectedImage = (tvi.item.iImage = icon); //GetProtoIcon(szProto, 7));

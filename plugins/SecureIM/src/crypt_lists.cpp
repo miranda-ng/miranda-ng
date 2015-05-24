@@ -196,7 +196,7 @@ void getContactNameA(MCONTACT hContact, LPSTR szName)
 
 void getContactName(MCONTACT hContact, LPSTR szName)
 {
-	wcscpy((LPWSTR)szName, (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GSMDF_UNICODE));
+	mir_wstrcpy((LPWSTR)szName, (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GSMDF_UNICODE));
 }
 
 void getContactUinA(MCONTACT hContact, LPSTR szUIN)
@@ -230,7 +230,7 @@ void getContactUin(MCONTACT hContact, LPSTR szUIN)
 	getContactUinA(hContact, szUIN);
 	if (*szUIN) {
 		LPWSTR tmp = mir_a2u(szUIN);
-		wcscpy((LPWSTR)szUIN, tmp);
+		mir_wstrcpy((LPWSTR)szUIN, tmp);
 		mir_free(tmp);
 	}
 }

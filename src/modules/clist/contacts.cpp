@@ -187,7 +187,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam)
 					size_t len = mir_wstrlen(dbv.pwszVal) + mir_wstrlen(dbv2.pwszVal) + 2;
 					WCHAR* buf = (WCHAR*)mir_alloc(sizeof(WCHAR)*len);
 					if (buf != NULL)
-						wcscat(wcscat(wcscpy(buf, dbv.pwszVal), L" "), dbv2.pwszVal);
+						mir_wstrcat(mir_wstrcat(mir_wstrcpy(buf, dbv.pwszVal), L" "), dbv2.pwszVal);
 					ci->pszVal = (TCHAR*)buf;
 				}
 				else {
@@ -312,7 +312,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam)
 							size_t len = mir_wstrlen(dbv.pwszVal) + mir_wstrlen(dbv2.pwszVal) + 2;
 							WCHAR* buf = (WCHAR*)mir_alloc(sizeof(WCHAR)*len);
 							if (buf != NULL)
-								wcscat(wcscat(wcscpy(buf, dbv.pwszVal), L" "), dbv2.pwszVal);
+								mir_wstrcat(mir_wstrcat(mir_wstrcpy(buf, dbv.pwszVal), L" "), dbv2.pwszVal);
 							ci->pszVal = (TCHAR*)buf;
 						}
 						else {
