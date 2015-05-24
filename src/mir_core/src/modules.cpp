@@ -74,7 +74,7 @@ typedef struct
 
 // other static variables
 static BOOL bServiceMode = FALSE;
-static CRITICAL_SECTION csHooks, csServices;
+static mir_cs csHooks, csServices;
 static DWORD  mainThreadId;
 static int    hookId = 1;
 
@@ -645,9 +645,6 @@ MIR_CORE_DLL(HINSTANCE) GetInstByAddress(void* codePtr)
 
 int InitialiseModularEngine(void)
 {
-	InitializeCriticalSection(&csHooks);
-	InitializeCriticalSection(&csServices);
-
 	mainThreadId = GetCurrentThreadId();
 	return 0;
 }
@@ -655,8 +652,5 @@ int InitialiseModularEngine(void)
 void DestroyModularEngine(void)
 {
 	DestroyHooks();
-	DeleteCriticalSection(&csHooks);
-
 	DestroyServices();
-	DeleteCriticalSection(&csServices);
 }
