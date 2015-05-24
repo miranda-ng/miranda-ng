@@ -984,7 +984,7 @@ void Utils::sanitizeFilename(wchar_t* tszFilename)
 void Utils::ensureTralingBackslash(wchar_t *szPathname)
 {
 	if (szPathname[mir_wstrlen(szPathname) - 1] != '\\')
-		wcscat(szPathname, L"\\");
+		mir_wstrcat(szPathname, L"\\");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1204,7 +1204,7 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 
 		if (0 == (mask & val) || dwFlags & CWF_NOALLOWHIDE) {
 			wchar_t *s = reinterpret_cast<wchar_t *>(mir_alloc((mir_wstrlen(_s) + 1) * 2));
-			wcscpy(s, _s);
+			mir_wstrcpy(s, _s);
 			separator_pos = wcschr(s, '|');
 
 			if (separator_pos) {

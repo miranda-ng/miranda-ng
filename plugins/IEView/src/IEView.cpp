@@ -652,7 +652,7 @@ STDMETHODIMP IEView::GetSecuritySite(IInternetSecurityMgrSite **)
 
 STDMETHODIMP IEView::MapUrlToZone(LPCWSTR pwszUrl, DWORD *pdwZone, DWORD)
 {
-	if (pdwZone != NULL && pwszUrl != NULL && !wcscmp(pwszUrl, L"about:blank")) {
+	if (pdwZone != NULL && pwszUrl != NULL && !mir_wstrcmp(pwszUrl, L"about:blank")) {
 		*pdwZone = URLZONE_LOCAL_MACHINE;
 		return S_OK;
 	}
@@ -667,7 +667,7 @@ STDMETHODIMP IEView::GetSecurityId(LPCWSTR, BYTE *, DWORD *, DWORD_PTR)
 STDMETHODIMP IEView::ProcessUrlAction(LPCWSTR pwszUrl, DWORD dwAction, BYTE *pPolicy, DWORD cbPolicy, BYTE *, DWORD, DWORD, DWORD)
 {
 	DWORD dwPolicy = URLPOLICY_ALLOW;
-	if (pwszUrl != NULL && !wcscmp(pwszUrl, L"about:blank")) {
+	if (pwszUrl != NULL && !mir_wstrcmp(pwszUrl, L"about:blank")) {
 		if (dwAction <= URLACTION_ACTIVEX_MAX && dwAction >= URLACTION_ACTIVEX_MIN) {
 			//dwPolicy = URLPOLICY_DISALLOW;
 			//dwPolicy = URLPOLICY_ALLOW;

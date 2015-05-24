@@ -70,7 +70,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					else
 						mir_snwprintf(nick, SIZEOF(nick), L"%s (%s) %s", GetContactName(hContact, szProto, 1), protoW, L"(UNLOADED)");
 				}
-				else wcscpy(nick, nick_unknownW);
+				else mir_wstrcpy(nick, nick_unknownW);
 			}
 			else {
 				if (Order)

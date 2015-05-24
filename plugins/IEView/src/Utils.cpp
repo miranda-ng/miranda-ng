@@ -36,8 +36,8 @@ wchar_t* Utils::toAbsolute(wchar_t* relative)
 	long tlen = len + (int)mir_wstrlen(relative);
 	wchar_t* result = (wchar_t*)mir_alloc(sizeof(wchar_t)*(tlen + 1));
 	if (result) {
-		wcscpy(result, bdir);
-		wcscpy(result + len, relative);
+		mir_wstrcpy(result, bdir);
+		mir_wstrcpy(result + len, relative);
 	}
 	return result;
 }

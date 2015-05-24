@@ -1384,11 +1384,11 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			if (!str2) { str2 = (WCHAR *)str_nul; }// the header value may be NULL
 			if (!From) if (!_stricmp(Header->name, "From")) {
 				From = new WCHAR[mir_wstrlen(str2) + 1];
-				wcscpy(From, str2);
+				mir_wstrcpy(From, str2);
 			}
 			if (!Subj) if (!_stricmp(Header->name, "Subject")) {
 				Subj = new WCHAR[mir_wstrlen(str2) + 1];
-				wcscpy(Subj, str2);
+				mir_wstrcpy(Subj, str2);
 			}
 			//if (!hasBody) if (!mir_strcmp(Header->name,"Body")) hasBody = true;
 			int count = 0; WCHAR **split = 0;

@@ -1003,7 +1003,7 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM hContact, LPARAM lParam)
 				char *str = getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, "");
 				WCHAR *wstr = make_unicode_string(str);
 
-				wcscpy(pData->pwszName, wstr);
+				mir_wstrcpy(pData->pwszName, wstr);
 				SAFE_FREE(&str);
 				SAFE_FREE(&wstr);
 			}
@@ -1023,7 +1023,7 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM hContact, LPARAM lParam)
 			char *str = getSettingStringUtf(hContact, CheckContactCapabilities(hContact, CAPF_STATUS_MOOD) ? DBSETTING_STATUS_NOTE : DBSETTING_XSTATUS_MSG, "");
 			WCHAR *wstr = make_unicode_string(str);
 
-			wcscpy(pData->pwszMessage, wstr);
+			mir_wstrcpy(pData->pwszMessage, wstr);
 			SAFE_FREE(&str);
 			SAFE_FREE(&wstr);
 		}

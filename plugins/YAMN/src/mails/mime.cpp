@@ -697,7 +697,7 @@ FailBackRaw:
 				destpos += 3;
 				ConvertStringToUnicode(infoline,CP_ACP,&temp);
 				size_t wsize = mir_wstrlen(temp);
-				wcscpy(&dest[destpos],temp);
+				mir_wstrcpy(&dest[destpos],temp);
 				destpos += wsize;
 				delete[] temp;
 			}
@@ -705,7 +705,7 @@ FailBackRaw:
 
 		if (partData[i].wBody) {
 			size_t wsize = mir_wstrlen(partData[i].wBody);
-			wcscpy(&dest[destpos],partData[i].wBody);
+			mir_wstrcpy(&dest[destpos],partData[i].wBody);
 			destpos += wsize;
 			delete[] partData[i].wBody;
 		}

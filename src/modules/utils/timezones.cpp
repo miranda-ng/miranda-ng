@@ -480,7 +480,7 @@ extern "C" __declspec(dllexport) void RecalculateTime(void)
 			tz.offset = INT_MIN;
 
 		if (!found) {
-			if (!wcscmp(tz.tzi.StandardName, myInfo.myTZ.tzi.StandardName) || !wcscmp(tz.tzi.DaylightName, myInfo.myTZ.tzi.DaylightName)) {
+			if (!mir_wstrcmp(tz.tzi.StandardName, myInfo.myTZ.tzi.StandardName) || !mir_wstrcmp(tz.tzi.DaylightName, myInfo.myTZ.tzi.DaylightName)) {
 				_tcsncpy_s(myInfo.myTZ.tszName, tz.tszName, _TRUNCATE);
 				found = true;
 			}

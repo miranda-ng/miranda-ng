@@ -133,7 +133,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 			mir_strncat(newmsg, msg, alloclen + datalen - mir_strlen(newmsg));
 			wchar_t *p = (wchar_t*) newmsg + (msglen + prefixlen + 1);
 			wcsncpy(p, prefixw, prefixlenw);
-			wcsncat(p, msgw, msglenw - mir_wstrlen(p));
+			mir_wstrncat(p, msgw, msglenw - mir_wstrlen(p));
 			mir_free(prefix);
 			mir_free(prefixw);
 			// append additional data

@@ -83,7 +83,7 @@ void DeleteCListGroupsByName(TCHAR* szGroupName)
 
 	TCHAR *szGroup;
 	for (int i=1; (szGroup = pcli->pfnGetGroupName(i, NULL)) != NULL; i++)
-		if( !wcscmp(szGroupName, szGroup))
+		if( !mir_wstrcmp(szGroupName, szGroup))
 			CallService(MS_CLIST_GROUPDELETE, i, 0);
 
 	if(ConfirmDelete)

@@ -200,7 +200,7 @@ void useExternSequence(TCHAR *extStr)
 	static FLASHING_SEQUENCE Extern = {0};
 
 	TCHAR externStr[MAX_PATH+1];
-	wcscpy(externStr, extStr);
+	mir_wstrcpy(externStr, extStr);
 
 	Extern = str2FS(normalizeCustomString(externStr));
 
@@ -215,7 +215,7 @@ TCHAR *normalizeCustomString(TCHAR *customStr)
 	BOOL used[4];
 	TCHAR strAux[MAX_PATH+1], *str;
 
-	for (wcscpy(str=strAux, customStr); *str; str++) {
+	for (mir_wstrcpy(str=strAux, customStr); *str; str++) {
 		switch (*str) {
 		case _T('['):
 			if (status == 0) {

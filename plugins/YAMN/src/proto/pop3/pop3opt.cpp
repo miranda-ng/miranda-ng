@@ -1066,13 +1066,13 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 					if (NULL != ActualAccount->NewMailN.App)
 						delete[] ActualAccount->NewMailN.App;
 					ActualAccount->NewMailN.App=new WCHAR[mir_wstrlen(TextW)+1];
-					wcscpy(ActualAccount->NewMailN.App,TextW);
+					mir_wstrcpy(ActualAccount->NewMailN.App,TextW);
 				        
 					GetDlgItemTextW(hDlg,IDC_EDITAPPPARAM,TextW,SIZEOF(TextW));
 					if (NULL != ActualAccount->NewMailN.AppParam)
 						delete[] ActualAccount->NewMailN.AppParam;
 					ActualAccount->NewMailN.AppParam=new WCHAR[mir_wstrlen(TextW)+1];
-					wcscpy(ActualAccount->NewMailN.AppParam,TextW);
+					mir_wstrcpy(ActualAccount->NewMailN.AppParam,TextW);
 				        
 					ActualAccount->Server->Port=Port;
 					ActualAccount->Interval=Interval*60;
