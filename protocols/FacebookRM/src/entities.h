@@ -71,11 +71,11 @@ struct facebook_user
 
 struct facebook_chatroom
 {	
-	std::tstring thread_id;
+	std::string thread_id;
 	std::tstring chat_name;
 	std::map<std::string, std::string> participants;
 
-	facebook_chatroom(std::tstring thread_id) : thread_id(thread_id) {}
+	facebook_chatroom(std::string thread_id) : thread_id(thread_id) {}
 };
 
 struct facebook_message

@@ -75,7 +75,7 @@ bool FacebookProto::IsMyContact(MCONTACT hContact, bool include_chat)
 	return false;
 }
 
-MCONTACT FacebookProto::ChatIDToHContact(const std::tstring &chat_id)
+MCONTACT FacebookProto::ChatIDToHContact(const std::string &chat_id)
 {
 	if (chat_id.empty()) {
 		debugLogA("!!! Calling ChatIDToContactID() with empty chat_id");
@@ -83,7 +83,7 @@ MCONTACT FacebookProto::ChatIDToHContact(const std::tstring &chat_id)
 	}
 
 	// First check cache
-	std::map<std::tstring, MCONTACT>::iterator it = facy.chat_id_to_hcontact.find(chat_id);
+	auto it = facy.chat_id_to_hcontact.find(chat_id);
 	if (it != facy.chat_id_to_hcontact.end()) {
 		// Check if contact is still valid
 		if (CallService(MS_DB_CONTACT_IS, (WPARAM)it->second, 0) == 1)
@@ -97,8 +97,8 @@ MCONTACT FacebookProto::ChatIDToHContact(const std::tstring &chat_id)
 		if (!IsMyContact(hContact, true))
 			continue;
 
-		ptrT id(getTStringA(hContact, "ChatRoomID"));
-		if (id && !mir_tstrcmp(id, chat_id.c_str())) {
+		ptrA id(getStringA(hContact, "ChatRoomID"));
+		if (id && !mir_strcmp(id, chat_id.c_str())) {
 			facy.chat_id_to_hcontact.insert(std::make_pair(chat_id, hContact));
 			return hContact;
 		}
@@ -269,7 +269,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
 
-	std::string thread_id = utils::url::encode(std::string(_T2A(fbc->thread_id.c_str())));
+	std::string thread_id = utils::url::encode(fbc->thread_id);
 
 	// request info about thread
 	data += "&threads[thread_ids][0]=" + thread_id;
@@ -319,7 +319,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 			// If there are no participants to create a name from, use just thread_id
 			if (fbc->chat_name.empty())
-				fbc->chat_name = fbc->thread_id; // TODO: is this needed? Isn't it showed automatically as id if there is no name?
+				fbc->chat_name = std::tstring(_A2T(fbc->thread_id.c_str())); // TODO: is this needed? Isn't it showed automatically as id if there is no name?
 		}
 
 		//ReceiveMessages(messages, true); // don't let it fall into infinite cycle, solve it somehow...
@@ -668,9 +668,9 @@ int FacebookProto::OnContactDeleted(WPARAM wParam, LPARAM)
 		facy.thread_id_to_user_id.erase(std::string(tid));
 
 	if (isChatRoom(hContact)) {
-		ptrT chat_id(getTStringA(hContact, "ChatRoomID"));
+		ptrA chat_id(getStringA(hContact, "ChatRoomID"));
 		if (chat_id)
-			facy.chat_id_to_hcontact.erase(std::tstring(chat_id));
+			facy.chat_id_to_hcontact.erase(std::string(chat_id));
 	}
 
 	// Cancel friendship (with confirmation)
