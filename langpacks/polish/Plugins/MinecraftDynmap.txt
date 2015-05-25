@@ -6,24 +6,29 @@
 ;  Authors: Robert Pösel
 ;============================================================
 [Minecraft Dynmap support for Miranda NG.]
-Поддержка чатов Minecraft Dynmap в Miranda NG.
+
+;file \protocols\MinecraftDynmap\res\resource.rc
 [Server:]
-Сервер:
+Serwer:
 [Visible name:]
-Видимое имя:
+Widoczna nazwa:
+;file \protocols\MinecraftDynmap\src\chat.cpp
 [Server]
-Сервер
+Serwer
 [You]
-Вы
+Ty
+;file \protocols\MinecraftDynmap\src\communication.cpp
 [Message was not sent. Probably you are sending them too fast or chat is disabled completely.]
-Не удалось отправить сообщение. Вероятно, вы отправляете сообщения слишком часто, либо чат полностью отключён
+
 [Set server address to connect.]
-Для подключения необходимо указать адрес сервера.
+
+;file \protocols\MinecraftDynmap\src\dialogs.cpp
 [Protocol Icon]
-Значок протокола
+Ikona protokołu
+;file \protocols\MinecraftDynmap\src\proto.cpp
 [%s server connection]
-%s подключение к серверу
+Połączenie %s
 [Unable to get Netlib connection for Minecraft Dynmap.]
-Невозможно создать подключение Netlib для Minecraft Dynmap.
+
 [Visible name]
-Видимое имя
+Widoczna nazwa

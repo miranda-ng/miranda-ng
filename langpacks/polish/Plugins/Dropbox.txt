@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.12.0.4
+;  Version: 0.12.0.5
 ;  Authors: Miranda NG Team
 ;============================================================
 [Allows you to transfer files via Dropbox.]
@@ -61,11 +61,13 @@ nie jest usunięty
 [is deleted]
 jest usunięty
 ;file \plugins\Dropbox\src\dropbox_events.cpp
-[Send files to Dropbox]
+[Upload files to Dropbox]
 Wyślij pliki do Dropbox'a
 ;file \plugins\Dropbox\src\dropbox_icons.cpp
 [Protocol icon]
 Ikona protokołu
+[Upload file(s)]
+Wyślij plik(i)
 ;file \plugins\Dropbox\src\dropbox_menus.cpp
 ;file \plugins\Dropbox\src\dropbox_options.cpp
 [you are already authorized]
@@ -74,8 +76,6 @@ jesteś już zautoryzowany
 nie jesteś jeszcze zautoryzowany
 [Network]
 Protokoły
-[Dropbox]
-Dropbox
 ;file \plugins\Dropbox\src\dropbox_services.cpp
 ["%s" is not valid.\nUse "/help" for more info.]
 "%s" nie jest ważny.\nUżyj "/help" po więcej informacji.

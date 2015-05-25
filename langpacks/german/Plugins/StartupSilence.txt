@@ -74,7 +74,7 @@ Ruhe beim Start ist AN
 Ruhe beim Start ist AUS
 [Toggle Silence At Startup]
 Ruhe beim Start umschalten
-[You have to install TopToolBar to use this option.]
+[You have to install "TopToolBar" to use this option.]
 Sie müssen das TopToolBar-Plugin installieren, um diese Einstellung zu verwenden.
 [You have to install "YAPP" or "Popup+" to use this option.]
 Sie müssen "YAPP" oder "Popup+" installieren um diese Einstellung zu verwenden.
