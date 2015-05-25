@@ -16,8 +16,8 @@
 [Message was not sent. Probably you are sending them too fast or chat is disabled completely.]
 [Set server address to connect.]
 ;file \protocols\MinecraftDynmap\src\dialogs.cpp
-[Protocol Icon]
+[Protocol icon]
 ;file \protocols\MinecraftDynmap\src\proto.cpp
 [%s server connection]
-[Unable to get Netlib connection for Minecraft Dynmap.]
+[Unable to get Netlib connection for Minecraft Dynmap]
 [Visible name]

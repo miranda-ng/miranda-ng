@@ -19,11 +19,9 @@
 Не удалось отправить сообщение. Скорее всего, вы отправляете сообщения слишком часто, либо чат полностью отключён.
 [Set server address to connect.]
 Для подключения необходимо указать адрес сервера.
-[Protocol Icon]
+[Protocol icon]
 Значок протокола
 [%s server connection]
 %s подключение к серверу
-[Unable to get Netlib connection for Minecraft Dynmap.]
-Невозможно создать подключение Netlib для Minecraft Dynmap.
 [Visible name]
 Видимое имя
