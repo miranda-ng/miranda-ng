@@ -131,8 +131,9 @@ void CSkypeProto::ProcessUserPresenceRes(JSONNODE *node)
 		}
 		else
 		{
-			MCONTACT hContact = AddContact(skypename, true);
-			SetContactStatus(hContact, SkypeToMirandaStatus(status));
+			MCONTACT hContact = FindContact(skypename);
+			if (hContact != NULL)
+				SetContactStatus(hContact, SkypeToMirandaStatus(status));
 		}
 	}
 }
