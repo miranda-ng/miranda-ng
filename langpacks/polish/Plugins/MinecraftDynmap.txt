@@ -23,12 +23,12 @@ Wiadomość nie została wysłana. Prawdopodobnie wysyłasz je zbyt szybko lub c
 [Set server address to connect.]
 Ustaw adres serwera, z którym chcesz się połączyć.
 ;file \protocols\MinecraftDynmap\src\dialogs.cpp
-[Protocol Icon]
+[Protocol icon]
 Ikona protokołu
 ;file \protocols\MinecraftDynmap\src\proto.cpp
 [%s server connection]
 Połączenie %s
-[Unable to get Netlib connection for Minecraft Dynmap.]
-Nie udało się uzyskać połączenia Netlib dla Minecraft Dynmap.
+[Unable to get Netlib connection for Minecraft Dynmap]
+Nie udało się uzyskać połączenia Netlib dla Minecraft Dynmap
 [Visible name]
 Widoczna nazwa
