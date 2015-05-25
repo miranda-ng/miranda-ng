@@ -619,7 +619,7 @@ void facebook_client::clear_notifications()
 {
 	ScopedLock s(notifications_lock_);
 
-	for (std::map<std::string, facebook_notification*>::iterator it = notifications.begin(); it != notifications.end();) {
+	for (auto it = notifications.begin(); it != notifications.end();) {
 		if (it->second->hWndPopup != NULL)
 			PUDeletePopup(it->second->hWndPopup); // close popup
 
@@ -632,7 +632,7 @@ void facebook_client::clear_notifications()
 
 void facebook_client::clear_chatrooms()
 {
-	for (std::map<std::tstring, facebook_chatroom*>::iterator it = chat_rooms.begin(); it != chat_rooms.end();) {
+	for (auto it = chat_rooms.begin(); it != chat_rooms.end();) {
 		delete it->second;
 		it = chat_rooms.erase(it);
 	}
@@ -645,9 +645,8 @@ void facebook_client::clear_chatrooms()
 void facebook_client::clear_readers()
 {
 	for (std::map<MCONTACT, time_t>::iterator it = readers.begin(); it != readers.end();) {
-		if (parent->isChatRoom(it->first)) {
+		if (parent->isChatRoom(it->first))
 			parent->delSetting(it->first, FACEBOOK_KEY_MESSAGE_READERS);
-		}
 
 		parent->delSetting(it->first, FACEBOOK_KEY_MESSAGE_READ);
 		it = readers.erase(it);

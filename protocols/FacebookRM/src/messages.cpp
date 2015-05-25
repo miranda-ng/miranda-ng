@@ -80,7 +80,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 	// replace %% back to %, because chat automatically does this to sent messages
 	utils::text::replace_all(&data->msg, "%%", "%");
 
-	MCONTACT hContact = ChatIDToHContact(std::tstring(_A2T(data->chat_id.c_str())));
+	MCONTACT hContact = ChatIDToHContact(data->chat_id);
 	if (hContact) {
 		ptrA tid_(getStringA(hContact, FACEBOOK_KEY_TID));
 		std::string tid;
@@ -103,9 +103,9 @@ void FacebookProto::SendChatMsgWorker(void *p)
 
 		if (!tid.empty()) {
 			if (facy.send_message(0, hContact, data->msg, &err_message) == SEND_MESSAGE_OK)
-				UpdateChat(_A2T(data->chat_id.c_str()), facy.self_.user_id.c_str(), facy.self_.real_name.c_str(), data->msg.c_str());
+				UpdateChat(data->chat_id.c_str(), facy.self_.user_id.c_str(), facy.self_.real_name.c_str(), data->msg.c_str());
 			else
-				UpdateChat(_A2T(data->chat_id.c_str()), NULL, NULL, err_message.c_str());
+				UpdateChat(data->chat_id.c_str(), NULL, NULL, err_message.c_str());
 		}
 	}
 

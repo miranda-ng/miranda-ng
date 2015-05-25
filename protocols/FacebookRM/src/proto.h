@@ -191,7 +191,7 @@ public:
 	// Contacts handling
 	bool		IsMyContact(MCONTACT, bool include_chat = false);
 	MCONTACT	ContactIDToHContact(const std::string&);
-	MCONTACT	ChatIDToHContact(const std::tstring&);
+	MCONTACT	ChatIDToHContact(const std::string&);
 	std::string	ThreadIDToContactID(const std::string&);
 	void		LoadContactInfo(facebook_user* fbu);
 	MCONTACT	AddToContactList(facebook_user*, ContactType type, bool force_add = false, bool add_temporarily = false);
@@ -201,13 +201,13 @@ public:
 	void		StopTyping(MCONTACT hContact);
 
 	// Chats handling
- 	void AddChat(const TCHAR *id, const TCHAR *name);
-	void UpdateChat(const TCHAR *chat_id, const char *id, const char *name, const char *message, DWORD timestamp = 0, bool is_old = false);
+	void AddChat(const char *chat_id, const TCHAR *name);
+	void UpdateChat(const char *chat_id, const char *id, const char *name, const char *message, DWORD timestamp = 0, bool is_old = false);
 	void RenameChat(const char *chat_id, const char *name);
-	bool IsChatContact(const TCHAR *chat_id, const char *id);
-	void AddChatContact(const TCHAR *chat_id, const char *id, const char *name);
-	void RemoveChatContact(const TCHAR *chat_id, const char *id, const char *name);
-	char *GetChatUsers(const TCHAR *chat_id);
+	bool IsChatContact(const char *chat_id, const char *id);
+	void AddChatContact(const char *chat_id, const char *id, const char *name);
+	void RemoveChatContact(const char *chat_id, const char *id, const char *name);
+	char *GetChatUsers(const char *chat_id);
 	void ReceiveMessages(std::vector<facebook_message*> messages, bool check_duplicates = false);
 	void LoadChatInfo(facebook_chatroom* fbc);
 	void LoadParticipantsNames(facebook_chatroom *fbc);

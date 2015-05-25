@@ -631,7 +631,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 		for (std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
 
 			MCONTACT hContact = messages[i]->isChat
-				? ChatIDToHContact(std::tstring(_A2T(messages[i]->thread_id.c_str())))
+				? ChatIDToHContact(messages[i]->thread_id)
 				: ContactIDToHContact(messages[i]->user_id);
 
 			if (hContact == NULL)
@@ -676,9 +676,9 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			debugLogA("  < Got chat message ID: %s", messages[i]->message_id.c_str());
 
 			facebook_chatroom *fbc;
-			std::tstring tthread_id = _A2T(messages[i]->thread_id.c_str());
+			std::string tthread_id = messages[i]->thread_id.c_str();
 
-			std::map<std::tstring, facebook_chatroom*>::iterator it = facy.chat_rooms.find(tthread_id);
+			auto it = facy.chat_rooms.find(tthread_id);
 			if (it != facy.chat_rooms.end()) {
 				fbc = it->second;
 			}
@@ -698,12 +698,12 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			MCONTACT hChatContact = NULL;
 			// RM TODO: better use check if chatroom exists/is in db/is online... no?
 			// like: if (ChatIDToHContact(tthread_id) == NULL) {
-			ptrA users(GetChatUsers(tthread_id.c_str()));
+			ptrA users(GetChatUsers(fbc->thread_id.c_str()));
 			if (users == NULL) {
 				AddChat(fbc->thread_id.c_str(), fbc->chat_name.c_str());
 				hChatContact = ChatIDToHContact(fbc->thread_id);
 				// Set thread id (TID) for later
-				setTString(hChatContact, FACEBOOK_KEY_TID, fbc->thread_id.c_str());
+				setString(hChatContact, FACEBOOK_KEY_TID, fbc->thread_id.c_str());
 
 				for (std::map<std::string, std::string>::iterator jt = fbc->participants.begin(); jt != fbc->participants.end(); ++jt) {
 					AddChatContact(fbc->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
@@ -737,7 +737,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 
 			// TODO: support also system messages (rename chat, user quit, etc.)! (here? or it is somewhere else?
 			// ... we must add some new "type" field into facebook_message structure and use it also for Pokes and similar)
-			UpdateChat(tthread_id.c_str(), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), messages[i]->time);
+			UpdateChat(fbc->thread_id.c_str(), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), messages[i]->time);
 
 			// Automatically mark message as read because chatroom doesn't support onRead event (yet)
 			hChatContacts->insert(hChatContact); // std::set checks duplicates at insert automatically
