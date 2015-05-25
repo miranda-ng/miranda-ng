@@ -1239,3 +1239,5 @@ Proto_RegisterModule @1074 NONAME
 ?type@JSONNode@@QEBAEXZ @1242 NONAME
 ?write@JSONNode@@QEAA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ @1243 NONAME
 ?write_formatted@JSONNode@@QEAA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ @1244 NONAME
+?isnull@JSONNode@@QEBA_NXZ @1245 NONAME
+??7JSONNode@@QEBA_NXZ @1246 NONAME

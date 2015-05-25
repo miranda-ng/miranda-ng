@@ -93,6 +93,7 @@ public:
 
 	json_index_t size(void) const;
 	bool empty(void) const;
+	bool isnull(void) const;
 	void clear(void);
 	unsigned char type(void) const;
 
@@ -135,6 +136,7 @@ public:
 		JSONNode & at_nocase(const json_string & name_t);
 		const JSONNode & at_nocase(const json_string & name_t) const;
 	#endif
+	bool operator!() const;
 	JSONNode & operator[](const json_char *name_t);
 	const JSONNode & operator[](const json_char *name_t) const;
 	#ifdef JSON_LIBRARY
@@ -504,11 +506,23 @@ inline void JSONNode::clear(void){
 		internal -> Children.clear();
 	}
 }
-inline unsigned char JSONNode::type(void) const {
+inline unsigned char JSONNode::type(void) const
+{
 	JSON_CHECK_INTERNAL();
-	return internal -> type();
+	return internal->type();
 }
-inline const json_char* JSONNode::name(void) const {
+inline bool JSONNode::isnull(void) const
+{
+	JSON_CHECK_INTERNAL();
+	return internal->type() == JSON_NULL;
+}
+inline bool JSONNode::operator!() const
+{
+	JSON_CHECK_INTERNAL();
+	return internal->type() == JSON_NULL;
+}
+inline const json_char* JSONNode::name(void) const
+{
 	JSON_CHECK_INTERNAL();
 	return internal -> name();
 }

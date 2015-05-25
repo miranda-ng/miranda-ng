@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "JSONNode.h"
 #include "JSONWorker.h"
-#include <stdexcept>  //some methods throw exceptions
+
 #ifdef JSON_MEMORY_MANAGE
 	auto_expand StringHandler;
 	auto_expand_node NodeHandler;
