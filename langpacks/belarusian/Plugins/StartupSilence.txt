@@ -58,7 +58,7 @@
 Ціхі запуск выключаны
 [Toggle Silence At Startup]
 Ціхі запуск Укл/Выкл
-[You have to install TopToolBar to use this option.]
+[You have to install "TopToolBar" to use this option.]
 Для выкарыстання гэтай функцыі неабходны усталяваны TopToolBar плагін.
 [You have to install "YAPP" or "Popup+" to use this option.]
 Для выкарыстання гэтай функцыі неабходны усталяваны \"YAPP\" ці \"Popup+\" плагін усплывальных вокнаў.

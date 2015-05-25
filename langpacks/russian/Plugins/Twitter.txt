@@ -81,6 +81,8 @@ URL:
 Всплывающие окна
 [%s server connection]
 %s подключение к серверу
+[Unable to get Netlib connection for Twitter]
+Невозможно создать подключение Netlib для Twitter
 [%s avatar connection]
 %s подключение аватаров
 [%s Protocol]

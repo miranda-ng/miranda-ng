@@ -71,7 +71,7 @@
 Тихий запуск вимкнено
 [Toggle Silence At Startup]
 Тихий запуск увімк./вимк.
-[You have to install TopToolBar to use this option.]
+[You have to install "TopToolBar" to use this option.]
 Для використання цієї функції потрібно встановити плагін TopToolBar
 [You have to install "YAPP" or "Popup+" to use this option.]
 Для використання цієї функції потрібно встановити плагін спливаючих вікон: \"YAPP\" або \"Popup+\"

@@ -57,8 +57,12 @@
 не удалён
 [is deleted]
 удалён
+[Upload files to Dropbox]
+Файл через Dropbox
 [Protocol icon]
 Значок протокола
+[Upload file(s)]
+Загрузить файл(ы)
 [you are already authorized]
 вы уже авторизованы
 [you are not authorized yet]

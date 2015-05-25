@@ -240,7 +240,7 @@ Facebook потребовал чистки компьютера и плагин 
 [%s server connection]
 %s подключение к серверу
 [Unable to get Netlib connection for Facebook]
-Не удается установить соединение с Facebook
+Невозможно создать подключение Netlib для Facebook
 [Video call]
 Видеовызов
 [Facebook ID must be numeric value.]
