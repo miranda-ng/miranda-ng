@@ -48,10 +48,10 @@ struct WindowData
 
 static void RemoveProtoPic(const char *szProto)
 {
-	db_unset(NULL, PPICT_MODULE, szProto);
-
 	if (szProto == NULL)
 		return;
+
+	db_unset(NULL, PPICT_MODULE, szProto);
 
 	if (!mir_strcmp(AVS_DEFAULT, szProto)) {
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
@@ -60,7 +60,7 @@ static void RemoveProtoPic(const char *szProto)
 				continue;
 
 			p.clear();
-			CreateAvatarInCache(0, &p, (char*)p.szProtoname);
+			CreateAvatarInCache(0, &p, (char *)p.szProtoname);
 			NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
 		}
 		return;
@@ -71,7 +71,7 @@ static void RemoveProtoPic(const char *szProto)
 		mir_strncpy(szProtoname, szProto, mir_strlen(szProto) - mir_strlen("accounts"));
 		mir_strcpy(szProtoname, strrchr(szProtoname, ' ') + 1);
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
-			protoPicCacheEntry& p = g_ProtoPictures[i];
+			protoPicCacheEntry &p = g_ProtoPictures[i];
 
 			if (p.szProtoname == NULL)
 				continue;
@@ -81,7 +81,7 @@ static void RemoveProtoPic(const char *szProto)
 
 			if (!mir_strcmp(p.szProtoname, szProto) || !mir_strcmp(pdescr->szProtoName, szProtoname)) {
 				p.clear();
-				CreateAvatarInCache(0, &p, (char*)p.szProtoname);
+				CreateAvatarInCache(0, &p, (char *)p.szProtoname);
 				NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
 			}
 		}
@@ -89,7 +89,7 @@ static void RemoveProtoPic(const char *szProto)
 	}
 
 	for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
-		protoPicCacheEntry& p = g_ProtoPictures[i];
+		protoPicCacheEntry &p = g_ProtoPictures[i];
 		if (!mir_strcmp(p.szProtoname, szProto)) {
 			p.clear();
 			NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
@@ -283,7 +283,7 @@ static char* GetProtoFromList(HWND hwndDlg, int iItem)
 	if (!ListView_GetItem(GetDlgItem(hwndDlg, IDC_PROTOCOLS), &item))
 		return NULL;
 
-	protoPicCacheEntry *pce = (protoPicCacheEntry*)item.lParam;
+	protoPicCacheEntry *pce = (protoPicCacheEntry *)item.lParam;
 	return (pce == NULL) ? NULL : pce->szProtoname;
 }
 
@@ -314,7 +314,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 				int newItem = ListView_InsertItem(hwndList, &item);
 				if (newItem >= 0)
 					ListView_SetCheckState(hwndList, newItem,
-					db_get_b(NULL, AVS_MODULE, g_ProtoPictures[i].szProtoname, 1) ? TRUE : FALSE);
+						db_get_b(NULL, AVS_MODULE, g_ProtoPictures[i].szProtoname, 1) ? TRUE : FALSE);
 			}
 			ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
 			ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
@@ -329,7 +329,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 		case IDC_SETPROTOPIC:
 		case IDC_REMOVEPROTOPIC:
 			int iItem = ListView_GetSelectionMark(hwndList);
-			char* szProto = GetProtoFromList(hwndDlg, iItem);
+			char *szProto = GetProtoFromList(hwndDlg, iItem);
 			if (szProto) {
 				if (LOWORD(wParam) == IDC_SETPROTOPIC)
 					SetProtoPic(szProto);
