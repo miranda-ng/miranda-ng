@@ -57,6 +57,8 @@
 не видалений
 [is deleted]
 видалений
+[Upload files to Dropbox]
+Файл через Dropbox
 [Protocol icon]
 Значок протоколу
 [you are already authorized]
