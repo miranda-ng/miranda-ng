@@ -79,7 +79,8 @@
 	for argument checking and throwing exceptions if needed.
 */
 
-class JSONNode {
+class MIR_CORE_EXPORT JSONNode
+{
 public: 
 	explicit JSONNode(char mytype = JSON_NODE);
 	#define DECLARE_CTOR(type) JSONNode(const json_string & name_t, type value_t)
@@ -87,6 +88,8 @@ public:
 
 	JSONNode(const JSONNode & orig);
 	~JSONNode(void);
+
+	static JSONNode parse(const json_char *str);
 
 	json_index_t size(void) const;
 	bool empty(void) const;
@@ -126,14 +129,14 @@ public:
 	JSONNode & operator[](json_index_t pos);
 	const JSONNode & operator[](json_index_t pos) const;
 
-	JSONNode & at(const json_string & name_t);
-	const JSONNode & at(const json_string & name_t) const;
+	JSONNode & at(const json_char *name_t);
+	const JSONNode & at(const json_char *name_t) const;
 	#ifdef JSON_CASE_INSENSITIVE_FUNCTIONS
 		JSONNode & at_nocase(const json_string & name_t);
 		const JSONNode & at_nocase(const json_string & name_t) const;
 	#endif
-	JSONNode & operator[](const json_string & name_t);
-	const JSONNode & operator[](const json_string & name_t) const;
+	JSONNode & operator[](const json_char *name_t);
+	const JSONNode & operator[](const json_char *name_t) const;
 	#ifdef JSON_LIBRARY
 		void push_back(JSONNode *node);
 	#else
@@ -208,8 +211,8 @@ public:
 			struct const_iterator {
 				inline const_iterator& operator ++(void){ ++it; return *this; }
 				inline const_iterator& operator --(void){ --it; return *this; }
-				inline const_iterator& operator +=(long i){ it += i; return *this; }
-				inline const_iterator& operator -=(long i){ it -= i; return *this; }
+				inline const_iterator& operator +=(size_t i) { it += i; return *this; }
+				inline const_iterator& operator -=(size_t i) { it -= i; return *this; }
 				inline const_iterator operator ++(int){
 					const_iterator result(*this);
 					++it;
@@ -220,12 +223,12 @@ public:
 					--it;
 					return result;
 				}
-				inline const_iterator operator +(long i) const {
+				inline const_iterator operator +(size_t i) const {
 					const_iterator result(*this);
 					result.it += i;
 					return result;
 				}
-				inline const_iterator operator -(long i) const {
+				inline const_iterator operator -(size_t i) const {
 					const_iterator result(*this);
 					result.it -= i;
 					return result;
@@ -251,8 +254,8 @@ public:
 			struct reverse_iterator {
 				inline reverse_iterator& operator ++(void){ --it; return *this; }
 				inline reverse_iterator& operator --(void){ ++it; return *this; }
-				inline reverse_iterator& operator +=(long i){ it -= i; return *this; }
-				inline reverse_iterator& operator -=(long i){ it += i; return *this; }
+				inline reverse_iterator& operator +=(size_t i){ it -= i; return *this; }
+				inline reverse_iterator& operator -=(size_t i) { it += i; return *this; }
 				inline reverse_iterator operator ++(int){
 					reverse_iterator result(*this);
 					--it;
@@ -263,12 +266,12 @@ public:
 					++it;
 					return result;
 				}
-				inline reverse_iterator operator +(long i) const {
+				inline reverse_iterator operator +(size_t i) const {
 					reverse_iterator result(*this);
 					result.it -= i;
 					return result;
 				}
-				inline reverse_iterator operator -(long i) const {
+				inline reverse_iterator operator -(size_t i) const {
 					reverse_iterator result(*this);
 					result.it += i;
 					return result;
@@ -294,8 +297,8 @@ public:
 			struct reverse_const_iterator {
 				inline reverse_const_iterator& operator ++(void){ --it; return *this; }
 				inline reverse_const_iterator& operator --(void){ ++it; return *this; }
-				inline reverse_const_iterator& operator +=(long i){ it -= i; return *this; }
-				inline reverse_const_iterator& operator -=(long i){ it += i; return *this; }
+				inline reverse_const_iterator& operator +=(size_t i){ it -= i; return *this; }
+				inline reverse_const_iterator& operator -=(size_t i){ it += i; return *this; }
 				inline reverse_const_iterator operator ++(int){
 					reverse_const_iterator result(*this);
 					--it;
@@ -306,12 +309,12 @@ public:
 					++it;
 					return result;
 				}
-				inline reverse_const_iterator operator +(long i) const {
+				inline reverse_const_iterator operator +(size_t i) const {
 					reverse_const_iterator result(*this);
 					result.it -= i;
 					return result;
 				}
-				inline reverse_const_iterator operator -(long i) const {
+				inline reverse_const_iterator operator -(size_t i) const {
 					reverse_const_iterator result(*this);
 					result.it += i;
 					return result;
@@ -552,14 +555,11 @@ inline bool JSONNode::as_bool(void) const {
 		return JSONBase64::json_decode64(as_string());
 	}
 #endif
-inline JSONNode & JSONNode::operator[](const json_string & name_t){
-	JSON_CHECK_INTERNAL();
-	makeUniqueInternal();
-	return *(*(internal -> at(name_t)));
+inline JSONNode & JSONNode::operator[](const json_char *name_t) {
+	return at(name_t);
 }
-inline const JSONNode & JSONNode::operator[](const json_string & name_t) const {
-	JSON_CHECK_INTERNAL();
-	return *(*(internal -> at(name_t)));
+inline const JSONNode & JSONNode::operator[](const json_char *name_t) const {
+	return at(name_t);
 }
 #ifdef JSON_LIBRARY
 inline void JSONNode::push_back(JSONNode * child){

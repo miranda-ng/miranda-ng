@@ -31,7 +31,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifdef __cplusplus
 
-typedef void JSONNODE;
+#include "../src/mir_core/src/json/JSONNode.h"
+typedef JSONNode JSONNODE;
 
 extern "C"
 {
