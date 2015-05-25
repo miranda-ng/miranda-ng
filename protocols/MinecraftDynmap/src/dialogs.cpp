@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 extern HINSTANCE g_hInstance;
 
 static IconItem icons[] = {
-	{ "proto", LPGEN("Protocol Icon"), IDI_PROTO },
+	{ "proto", LPGEN("Protocol icon"), IDI_PROTO },
 };
 
 static HANDLE hIconLibItem[SIZEOF(icons)];
