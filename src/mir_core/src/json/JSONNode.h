@@ -136,7 +136,7 @@ public:
 		JSONNode & at_nocase(const json_string & name_t);
 		const JSONNode & at_nocase(const json_string & name_t) const;
 	#endif
-	bool operator!() const;
+	operator bool() const;
 	JSONNode & operator[](const json_char *name_t);
 	const JSONNode & operator[](const json_char *name_t) const;
 	#ifdef JSON_LIBRARY
@@ -516,7 +516,7 @@ inline bool JSONNode::isnull(void) const
 	JSON_CHECK_INTERNAL();
 	return internal->type() == JSON_NULL;
 }
-inline bool JSONNode::operator!() const
+inline JSONNode::operator bool() const
 {
 	JSON_CHECK_INTERNAL();
 	return internal->type() == JSON_NULL;
