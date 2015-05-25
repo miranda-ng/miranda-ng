@@ -26,6 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "JSONWorker.h"
 
+extern JSONNode nullNode;
+
 #ifdef JSON_VALIDATE
 JSONNode JSONWorker::validate(const json_string & json){
 	JSONNode res = parse(json);
@@ -91,7 +93,7 @@ JSONNode JSONWorker::parse(const json_string & json){
 	}
 
 	JSON_FAIL(JSON_TEXT("Not JSON!"));
-	throw std::invalid_argument(EMPTY_STRING2);
+	return nullNode;
 }
 
 #define QUOTECASE()\
