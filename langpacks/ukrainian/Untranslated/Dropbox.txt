@@ -1,2 +1,1 @@
-﻿[Upload files to Dropbox]
-[Upload file(s)]
+﻿[Upload file(s)]
