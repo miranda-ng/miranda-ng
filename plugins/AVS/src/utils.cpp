@@ -280,7 +280,7 @@ void protoPicCacheEntry::clear()
 	if (hbmPic != 0)
 		DeleteObject(hbmPic);
 
-	memset(this, 0, sizeof(protoPicCacheEntry));
+	memset(this, 0, sizeof(avatarCacheEntry));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
