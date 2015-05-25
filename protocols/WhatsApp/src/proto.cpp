@@ -267,24 +267,24 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 
 	debugLogA("Server response: %s", pnlhr->pData);
 
-	JSONROOT resp(pnlhr->pData);
-	if (resp == NULL) {
+	JSONNode resp = JSONNode::parse(pnlhr->pData);
+	if (!resp) {
 		NotifyEvent(ptszTitle, TranslateT("Registration failed. Invalid server response."), NULL, WHATSAPP_EVENT_CLIENT);
 		return false;
 	}
 
 	// Status = fail
-	JSONNODE *val = json_get(resp, "status");
-	if (!mir_tstrcmp(ptrT(json_as_string(val)), _T("fail"))) {
-		JSONNODE *tmpVal = json_get(resp, "reason");
-		if (!mir_tstrcmp(ptrT(json_as_string(tmpVal)), _T("stale")))
+	std::string status = resp["status"].as_string();
+	if (status == "fail") {
+		std::string reason = resp["reason"].as_string();
+		if (reason == "stale")
 			NotifyEvent(ptszTitle, TranslateT("Registration failed due to stale code. Please request a new code"), NULL, WHATSAPP_EVENT_CLIENT);
 		else
 			NotifyEvent(ptszTitle, TranslateT("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
 
-		tmpVal = json_get(resp, "retry_after");
-		if (tmpVal != NULL) {
-			CMString tmp(FORMAT, TranslateT("Please try again in %i seconds"), json_as_int(tmpVal));
+		const JSONNode &tmpVal = resp["retry_after"];
+		if (tmpVal) {
+			CMString tmp(FORMAT, TranslateT("Please try again in %i seconds"), tmpVal.as_int());
 			NotifyEvent(ptszTitle, tmp, NULL, WHATSAPP_EVENT_OTHER);
 		}
 		return false;
@@ -292,19 +292,19 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 
 	//  Request code
 	if (state == REG_STATE_REQ_CODE) {
-		val = json_get(resp, "pw");
-		if (val != NULL)
-			ret = _T2A(ptrT(json_as_string(val)));
-		else if (!mir_tstrcmp(ptrT(json_as_string(val)), _T("sent")))
+		std::string pw = resp["pw"].as_string();
+		if (!pw.empty())
+			ret = pw;
+		else if (status == "sent")
 			NotifyEvent(ptszTitle, TranslateT("Registration code has been sent to your phone."), NULL, WHATSAPP_EVENT_OTHER);
 		return true;
 	}
 
 	// Register
 	if (state == REG_STATE_REG_CODE) {
-		val = json_get(resp, "pw");
-		if (val != NULL) {
-			ret = _T2A(ptrT(json_as_string(val)));
+		std::string pw = resp["pw"].as_string();
+		if (!pw.empty()) {
+			ret = pw;
 			return true;
 		}
 		NotifyEvent(ptszTitle, TranslateT("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);

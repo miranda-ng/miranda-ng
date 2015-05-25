@@ -74,27 +74,22 @@ std::vector<twitter_user> twitter::get_friends()
 	if (resp.code != 200)
 		throw bad_response();
 
-	JSONNODE *root = json_parse(resp.data.c_str());
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(resp.data.c_str());
+	if (!root)
 		throw std::exception("unable to parse response");
 
-	JSONNODE *nodes = json_as_array(root);
-	for (int i = 0;; i++) {
-		JSONNODE *pNode = json_at(nodes, i);
-		if (pNode == NULL)
-			break;
-
+	for (auto it = root.begin(); it != root.end(); ++it) {
 		twitter_user user;
-		user.username = json_as_pstring(json_get(pNode, "screen_name"));
-		user.real_name = json_as_pstring(json_get(pNode, "name"));
-		user.profile_image_url = json_as_pstring(json_get(pNode, "profile_image_url"));
+		user.username = (*it)["screen_name"].as_string();
+		user.real_name = (*it)["name"].as_string();
+		user.profile_image_url = (*it)["profile_image_url"].as_string();
 
-		JSONNODE *pStatus = json_get(pNode, "status");
-		if (pStatus != NULL) {
-			user.status.text = json_as_pstring(json_get(pStatus, "text"));
-			user.status.id = str2int(json_as_pstring(json_get(pStatus, "id")));
+		const JSONNode &pStatus = (*it)["status"];
+		if (pStatus) {
+			user.status.text = pStatus["text"].as_string();
+			user.status.id = str2int(pStatus["id"].as_string());
 
-			std::string timestr = json_as_pstring(json_get(pStatus, "created_at"));
+			std::string timestr = pStatus["created_at"].as_string();
 			user.status.time = parse_time(timestr);
 		}
 
@@ -115,16 +110,16 @@ bool twitter::get_info(const std::string &name, twitter_user *info)
 	if (resp.code != 200)
 		throw bad_response();
 
-	JSONNODE *root = json_parse(resp.data.c_str());
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(resp.data.c_str());
+	if (!root)
 		return false;
 
-	if (json_get(root, "error") != NULL)
+	if (root.at("error"))
 		return false;
 
-	info->username = json_as_pstring(json_get(root, "screen_name"));
-	info->real_name = json_as_pstring(json_get(root, "name"));
-	info->profile_image_url = json_as_pstring(json_get(root, "profile_image_url"));
+	info->username = root["screen_name"].as_string();
+	info->real_name = root["name"].as_string();
+	info->profile_image_url = root["profile_image_url"].as_string();
 	return true;
 }
 
@@ -139,16 +134,16 @@ bool twitter::get_info_by_email(const std::string &email, twitter_user *info)
 	if (resp.code != 200)
 		throw bad_response();
 
-	JSONNODE *root = json_parse(resp.data.c_str());
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(resp.data.c_str());
+	if (!root)
 		return false;
 
-	if (json_get(root, "error") != NULL)
+	if (root["error"] != NULL)
 		return false;
 
-	info->username = json_as_pstring(json_get(root, "screen_name"));
-	info->real_name = json_as_pstring(json_get(root, "name"));
-	info->profile_image_url = json_as_pstring(json_get(root, "profile_image_url"));
+	info->username = root["screen_name"].as_string();
+	info->real_name = root["name"].as_string();
+	info->profile_image_url = root["profile_image_url"].as_string();
 	return true;
 }
 
@@ -160,19 +155,19 @@ twitter_user twitter::add_friend(const std::string &name)
 	if (resp.code != 200)
 		throw bad_response();
 
-	JSONNODE *root = json_parse(resp.data.c_str());
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(resp.data.c_str());
+	if (!root)
 		throw std::exception("unable to parse response");
 
 	twitter_user ret;
-	ret.username = json_as_pstring(json_get(root, "screen_name"));
-	ret.real_name = json_as_pstring(json_get(root, "name"));
-	ret.profile_image_url = json_as_pstring(json_get(root, "profile_image_url"));
+	ret.username = root["screen_name"].as_string();
+	ret.real_name = root["name"].as_string();
+	ret.profile_image_url = root["profile_image_url"].as_string();
 
-	JSONNODE *pStatus = json_get(root, "status");
-	if (pStatus != NULL) {
-		ret.status.text = json_as_pstring(json_get(pStatus, "text"));
-		ret.status.id = str2int(json_as_pstring(json_get(pStatus, "id")));
+	JSONNode &pStatus = root["status"];
+	if (pStatus) {
+		ret.status.text = pStatus["text"].as_string();
+		ret.status.id = str2int(pStatus["id"].as_string());
 	}
 
 	return ret;
@@ -218,33 +213,28 @@ std::vector<twitter_user> twitter::get_statuses(int count, twitter_id id)
 	if (resp.code != 200)
 		throw bad_response();
 
-	JSONNODE *root = json_parse(resp.data.c_str());
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(resp.data.c_str());
+	if (!root)
 		throw std::exception("unable to parse response");
 
-	JSONNODE *pNodes = json_as_array(root);
-	for (int i = 0;; i++) {
-		JSONNODE *pNode = json_at(pNodes, i);
-		if (pNode == NULL)
-			break;
-
-		JSONNODE *pUser = json_get(pNode, "user");
+	const JSONNode &pNodes = root.as_array();
+	for (auto it = pNodes.begin(); it != pNodes.end(); ++it) {
+		const JSONNode &pUser = (*it)["user"];
 
 		twitter_user u;
-		u.username = json_as_pstring(json_get(pUser, "screen_name"));
-		u.profile_image_url = json_as_pstring(json_get(pUser, "profile_image_url"));
+		u.username = pUser["screen_name"].as_string();
+		u.profile_image_url = pUser["profile_image_url"].as_string();
 
 		// the tweet will be truncated unless we take action.  i hate you twitter API
-		JSONNODE *pStatus = json_get(pNode, "retweeted_status");
-		if (pStatus != NULL) {
+		const JSONNode &pStatus = (*it)["retweeted_status"];
+		if (pStatus) {
 			// here we grab the "retweeted_status" um.. section?  it's in here that all the info we need is
 			// at this point the user will get no tweets and an error popup if the tweet happens to be exactly 140 chars, start with
 			// "RT @", end in " ...", and notactually be a real retweet.  it's possible but unlikely, wish i knew how to get
 			// the retweet_count variable to work :(
-			JSONNODE *pUser2 = json_get(pStatus, "user");
-
-			std::string retweeteesName = json_as_pstring(json_get(pUser2, "screen_name")); // the user that is being retweeted
-			std::string retweetText = json_as_pstring(json_get(pUser2, "text")); // their tweet in all it's untruncated glory
+			const JSONNode &pUser2 = pStatus["user"];
+			std::string retweeteesName = pUser2["screen_name"].as_string(); // the user that is being retweeted
+			std::string retweetText = pUser2["text"].as_string(); // their tweet in all it's untruncated glory
 
 			// fix "&amp;" in the tweets :(
 			for (size_t pos = 0; (pos = retweetText.find("&amp;", pos)) != std::string::npos; pos++)
@@ -254,7 +244,7 @@ std::vector<twitter_user> twitter::get_statuses(int count, twitter_id id)
 		}
 		else {
 			// if it's not truncated, then the twitter API returns the native RT correctly anyway,        
-			std::string rawText = json_as_pstring(json_get(pNode, "text"));
+			std::string rawText = (*it)["text"].as_string();
 			// ok here i'm trying some way to fix all the "&amp;" things that are showing up
 			// i dunno why it's happening, so i'll just find and replace each occurance :/
 			for (size_t pos = 0; (pos = rawText.find("&amp;", pos)) != std::string::npos; pos++)
@@ -263,8 +253,8 @@ std::vector<twitter_user> twitter::get_statuses(int count, twitter_id id)
 			u.status.text = rawText;
 		}
 
-		u.status.id = str2int(json_as_pstring(json_get(pNode, "id")));
-		std::string timestr = json_as_pstring(json_get(pNode, "created_at"));
+		u.status.id = str2int((*it)["id"].as_string());
+		std::string timestr = (*it)["created_at"].as_string();
 		u.status.time = parse_time(timestr);
 
 		statuses.push_back(u);
@@ -286,22 +276,18 @@ std::vector<twitter_user> twitter::get_direct(twitter_id id)
 	if (resp.code != 200)
 		throw bad_response();
 
-	JSONNODE *root = json_parse(resp.data.c_str());
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(resp.data.c_str());
+	if (!root)
 		throw std::exception("unable to parse response");
 
-	JSONNODE *pNodes = json_as_array(root);
-	for (int i = 0;; i++) {
-		JSONNODE *pNode = json_at(pNodes, i);
-		if (pNode == NULL)
-			break;
-
+	const JSONNode &pNodes = root.as_array();
+	for (auto it = pNodes.begin(); it != pNodes.end(); ++it) {
 		twitter_user u;
-		u.username = json_as_pstring(json_get(pNode, "sender_screen_name"));
+		u.username = (*it)["sender_screen_name"].as_string();
 
-		u.status.text = json_as_pstring(json_get(pNode, "text"));
-		u.status.id = str2int(json_as_pstring(json_get(pNode, "id")));
-		std::string timestr = json_as_pstring(json_get(pNode, "created_at"));
+		u.status.text = (*it)["text"].as_string();
+		u.status.id = str2int((*it)["id"].as_string());
+		std::string timestr = (*it)["created_at"].as_string();
 		u.status.time = parse_time(timestr);
 		messages.push_back(u);
 	}
