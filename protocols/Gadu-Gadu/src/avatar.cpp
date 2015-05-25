@@ -104,17 +104,17 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 	} else if (strncmp(resp->pData, "{\"result\":", 10) == 0){
 
 		//if this url returns json data (11.2013 gg convention)
-		JSONROOT respJSON(resp->pData);
-		if (respJSON != NULL) {
-			JSONNODE* respJSONavatars = json_get(json_get(json_get(json_get(respJSON, "result"), "users"), "user"), "avatars");
-			if (respJSONavatars != NULL) {
-				JSONNODE *respJSONavatar = json_at(respJSONavatars, 0);
-				ptrT respJSON_blank(json_as_string(json_get(respJSONavatar, "_blank")));
-				ptrT respJSONoriginBigAvatar(json_as_string(json_get(respJSONavatar, "originBigAvatar")));
-				ptrT respJSONtimestamp(json_as_string(json_get(respJSONavatar, "timestamp")));
-				if (respJSON_blank && mir_tstrcmp(respJSON_blank, TEXT("1")) && respJSONoriginBigAvatar && respJSONtimestamp){
-					*avatarurl = mir_t2a(respJSONoriginBigAvatar);
-					*avatarts = mir_t2a(respJSONtimestamp);
+		JSONNode root = JSONNode::parse(resp->pData);
+		if (root) {
+			const JSONNode &respJSONavatars = root["result"].at("users").at("user").at("avatars");
+			if (respJSONavatars) {
+				const JSONNode &respJSONavatar = *respJSONavatars.begin();
+				std::string respJSON_blank = respJSONavatar["_blank"].as_string();
+				std::string respJSONoriginBigAvatar = respJSONavatar["originBigAvatar"].as_string();
+				std::string respJSONtimestamp = respJSONavatar["timestamp"].as_string();
+				if (respJSON_blank == "1" && !respJSONoriginBigAvatar.empty() && !respJSONtimestamp.empty()) {
+					*avatarurl = mir_strdup(respJSONoriginBigAvatar.c_str());
+					*avatarts = mir_strdup(respJSONtimestamp.c_str());
 				}
 			}
 		}

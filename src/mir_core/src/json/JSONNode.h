@@ -519,7 +519,7 @@ inline bool JSONNode::isnull(void) const
 inline JSONNode::operator bool() const
 {
 	JSON_CHECK_INTERNAL();
-	return internal->type() == JSON_NULL;
+	return internal->type() != JSON_NULL;
 }
 inline const json_char* JSONNode::name(void) const
 {
