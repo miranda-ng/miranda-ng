@@ -10,7 +10,7 @@
  *  JSON_LIBRARY must be declared if libjson is compiled as a static or dynamic 
  *  library.  This exposes a C-style interface, but none of the inner workings of libjson
  */
-#define JSON_LIBRARY
+//#define JSON_LIBRARY
 
 /*
  *  JSON_DEBUG is used to perform extra error checking.  Because libjson usually 
@@ -81,7 +81,7 @@
  *  pool.  With this option turned on, the default behavior is still done internally unless
  *  a callback is registered.  So you can have this option on and mot use it.
  */
-#define JSON_MEMORY_CALLBACKS
+//#define JSON_MEMORY_CALLBACKS
 
 /*
  *  JSON_MEMORY_MANAGE is used to create functionality to automatically track and clean
@@ -117,7 +117,7 @@
  *  JSON_ITERATORS turns on all of libjson's iterating functionality.  This would usually
  *  only be turned off while compiling for use with C
  */
-//#define JSON_ITERATORS
+#define JSON_ITERATORS
 
 /*
  *  JSON_WRITER turns on libjson's writing capabilties.  Without this libjson can only

@@ -49,6 +49,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	static const json_char * EMPTY_CSTRING = JSON_TEXT("");
 #endif
 
+extern JSONNode nullNode;
+
 inline TCHAR* toCString(const json_string & str)
 {
 	return mir_utf8decodeT( str.c_str());
@@ -83,6 +85,11 @@ MIR_CORE_DLL(void) json_delete(JSONNODE *node){
 		NodeHandler.clear();
 	}
 #endif
+
+JSONNode JSONNode::parse(const json_char *str)
+{
+	return JSONWorker::parse(str);
+}
 
 MIR_CORE_DLL(JSONNODE*) json_parse(const json_char *json){
 	JSON_ASSERT_SAFE(json, JSON_TEXT("null ptr to json_parse"), return 0;);
@@ -397,19 +404,15 @@ MIR_CORE_DLL(void) json_reserve(JSONNODE *node, json_index_t siz){
 
 MIR_CORE_DLL(JSONNODE*) json_at(JSONNODE *node, json_index_t pos){
 	JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_at"), return 0;);
-	try {
-		return &((JSONNode*)node) -> at(pos);
-	} catch (std::out_of_range){}
-	return 0;
+	JSONNode &res = ((JSONNode*)node) -> at(pos);
+	return (&res == &nullNode) ? NULL : &res;
 }
 
 MIR_CORE_DLL(JSONNODE*) json_get(JSONNODE *node, const json_char *name){
 	JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_get"), return 0;);
 	JSON_ASSERT_SAFE(name, JSON_TEXT("null node to json_get.  Did you mean to use json_at?"), return 0;);
-	try {
-		return &((JSONNode*)node) -> at(name);
-	} catch (std::out_of_range){}
-	return 0;
+	JSONNode &res = ((JSONNode*)node)->at(name);
+	return (&res == &nullNode) ? NULL : &res;
 }
 
 #ifdef JSON_CASE_INSENSITIVE_FUNCTIONS
@@ -435,18 +438,18 @@ MIR_CORE_DLL(void) json_push_back(JSONNODE *node, JSONNODE *node2){
 	#ifdef JSON_MEMORY_MANAGE
 		NodeHandler.remove(node2);
 	#endif
-	((JSONNode*)node) -> push_back((JSONNode*)node2);
+	((JSONNode*)node) -> push_back(*(JSONNode*)node2);
 }
 
 MIR_CORE_DLL(JSONNODE*) json_pop_back_at(JSONNODE *node, json_index_t pos){
 	JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_pop_back_i"), return 0;);
-	return MANAGER_INSERT(((JSONNode*)node) -> pop_back(pos));
+	return MANAGER_INSERT(&((JSONNode*)node) -> pop_back(pos));
 }
 
 MIR_CORE_DLL(JSONNODE*) json_pop_back(JSONNODE *node, const json_char *name){
 	JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_pop_back"), return 0;);
 	JSON_ASSERT_SAFE(name, JSON_TEXT("null name to json_pop_back.  Did you mean to use json_pop_back_at?"), return 0;);
-	return MANAGER_INSERT(((JSONNode*)node) -> pop_back(name));
+	return MANAGER_INSERT(&((JSONNode*)node) -> pop_back(name));
 }
 
 //comparison

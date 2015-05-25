@@ -109,6 +109,9 @@
     <ClCompile Include="src\ui_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\json\JSONIterators.cpp">
+      <Filter>Source Files\json</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\m_core.h">

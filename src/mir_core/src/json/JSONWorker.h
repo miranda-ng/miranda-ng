@@ -3,7 +3,8 @@
 
 #include "JSONNode.h"
 
-class JSONWorker {
+class MIR_CORE_EXPORT JSONWorker
+{
 public:
 	static JSONNode parse(const json_string & json);
 	#ifdef JSON_VALIDATE

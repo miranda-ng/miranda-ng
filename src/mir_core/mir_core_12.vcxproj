@@ -52,6 +52,9 @@
     <ClCompile Include="src\json\JSONDebug.cpp">
       <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\json\JSONIterators.cpp">
+      <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="src\json\JSONMemory.cpp">
       <PrecompiledHeaderFile>../commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
