@@ -140,40 +140,40 @@ void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *)
 	switch (evt)
 	{
 	case 100: //incoming call
-	{
-		ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "convoCallId")))));
-		if (uid != NULL)
 		{
-			MCONTACT hContact = AddContact(_T2A(uid), true);
+			ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "convoCallId")))));
+			if (uid != NULL)
+			{
+				MCONTACT hContact = AddContact(_T2A(uid), true);
 
-			MEVENT hEvent = AddCallToDb(hContact, time(NULL), DBEF_READ, callId, _T2A(gp));
-			SkinPlaySound("skype_inc_call");
+				MEVENT hEvent = AddCallToDb(hContact, time(NULL), DBEF_READ, callId, _T2A(gp));
+				SkinPlaySound("skype_inc_call");
 
-			CLISTEVENT cle = { sizeof(cle) };
-			cle.flags |= CLEF_TCHAR;
-			cle.hContact = hContact;
-			cle.hDbEvent = hEvent;
-			cle.lParam = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
-			cle.hIcon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
+				CLISTEVENT cle = { sizeof(cle) };
+				cle.flags |= CLEF_TCHAR;
+				cle.hContact = hContact;
+				cle.hDbEvent = hEvent;
+				cle.lParam = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
+				cle.hIcon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
 
-			CMStringA service(FORMAT, "%s/IncomingCallCLE", GetContactProto(hContact));
-			cle.pszService = service.GetBuffer();
+				CMStringA service(FORMAT, "%s/IncomingCallCLE", GetContactProto(hContact));
+				cle.pszService = service.GetBuffer();
 
-			CMString tooltip(FORMAT, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
-			cle.ptszTooltip = tooltip.GetBuffer();
+				CMString tooltip(FORMAT, TranslateT("Incoming call from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+				cle.ptszTooltip = tooltip.GetBuffer();
 
-			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
+				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 
-			ShowNotification(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Incoming call"), 0, hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL);
+				ShowNotification(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Incoming call"), 0, hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL);
+			}
+			break;
 		}
-		break;
-	}
 	case 104: //call canceled: callerId=""; conversationId=NULL; callId=call id
-	{
-		ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "callId")))));
-		SkinPlaySound("skype_call_canceled");
-		break;
-	}
+		{
+			ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "callId")))));
+			SkinPlaySound("skype_call_canceled");
+			break;
+		}
 	}
 }
 
@@ -201,17 +201,14 @@ void CSkypeProto::TRouterThread(void*)
 			if (response->pData)
 			{
 				char *json = strstr(response->pData, "{");
-				if (json == NULL)
+				if (json != NULL)
 				{
-					CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
-					delete request;
-					continue;
+					JSONROOT  root(json);
+					ptrA szBody(mir_t2a(ptrT(json_as_string(json_get(root, "body")))));
+					JSONNODE *headers = json_get(root, "headers");
+					JSONNODE *body = json_parse(szBody);
+					OnTrouterEvent(body, headers);
 				}
-				JSONROOT  root(json);
-				ptrA szBody(mir_t2a(ptrT(json_as_string(json_get(root, "body")))));
-				JSONNODE *headers = json_get(root, "headers");
-				JSONNODE *body = json_parse(szBody);
-				OnTrouterEvent(body, headers);
 			}
 		}
 		else
@@ -221,6 +218,7 @@ void CSkypeProto::TRouterThread(void*)
 			delete request;
 			break;
 		}
+		m_TrouterConnection = response->nlc;
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 		delete request;
 	}
