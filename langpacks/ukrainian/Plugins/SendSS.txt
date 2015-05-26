@@ -90,7 +90,7 @@
 [The specified attachment could not be opened]
 Вкладення неможливо відкрити
 [The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
-Тип одержувача не MAPI_TO, MAPI_CC, або MAPI_BCC
+Тип одержувача не MAPI_TO, MAPI_CC або MAPI_BCC
 [One or more unspecified errors occurred]
 Одна чи декілька невизначених помилок
 [There was insufficient memory to proceed]

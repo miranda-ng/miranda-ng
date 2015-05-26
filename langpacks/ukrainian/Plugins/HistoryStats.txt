@@ -880,7 +880,7 @@ HistoryStats - Підтвердження
 [Already existing file]
 Наявні файл(и)
 [HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again.]
-Процес створення статистики вже запущений. Будь ласка, дочекайтеся його завершення, або скасуйте і спробуйте знову.
+Процес створення статистики вже запущений. Будь ласка, дочекайтеся його завершення або скасуйте і спробуйте знову.
 [month3:Jan]
 month3:Січ
 [monthF:January]
