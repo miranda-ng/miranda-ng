@@ -96,8 +96,11 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 	mir_sntprintf(descr, SIZEOF(descr), TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
-	if (m_hNetlibUser == NULL)
-		MessageBox(NULL, TranslateT("Unable to get Netlib connection for Facebook"), m_tszUserName, MB_OK);
+	if (m_hNetlibUser == NULL) {
+		TCHAR error[200];
+		mir_sntprintf(error, SIZEOF(error), TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
+		MessageBox(NULL, error, _T("Miranda NG"), MB_OK | MB_ICONERROR);
+	}
 
 	facy.set_handle(m_hNetlibUser);
 
