@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma once
 
 #ifndef M_STRING_H__
+#define M_STRING_H__
 
 #include <stdio.h>
 #include <string.h>

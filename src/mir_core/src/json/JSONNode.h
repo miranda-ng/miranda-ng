@@ -114,7 +114,9 @@ public:
 	#endif
 
 	json_string as_string(void) const;
+#if defined(M_STRING_H__)
 	CMString as_mstring(void) const;
+#endif
 	long as_int(void) const;
 	double as_float(void) const;
 	bool as_bool(void) const;
@@ -554,11 +556,13 @@ inline json_string JSONNode::as_string(void) const
 	JSON_CHECK_INTERNAL();
 	return internal -> as_string();
 }
+#if defined(M_STRING_H__)
 inline CMString JSONNode::as_mstring(void) const
 {
 	JSON_CHECK_INTERNAL();
 	return internal->as_mstring();
 }
+#endif
 inline long JSONNode::as_int(void) const
 {
 	JSON_CHECK_INTERNAL();
