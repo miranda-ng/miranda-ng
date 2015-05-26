@@ -61,6 +61,8 @@
 Файл через Dropbox
 [Protocol icon]
 Значок протоколу
+[Upload file(s)]
+Завантажити файл(и)
 [you are already authorized]
 ви вже авторизовані
 [you are not authorized yet]

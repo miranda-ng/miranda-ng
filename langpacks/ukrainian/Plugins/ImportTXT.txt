@@ -52,7 +52,7 @@
 [This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
 Цей майстер допоможе вам імпортувати повідомлення з деяких інших клієнтів і плагінів Miranda NG, збережені в текстових файлах.
 [Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.]
-Клацніть "Далі", щоб вибрати інформацію для імпортування, або "Скасувати", щоб вийти з цього майстра.
+Натисніть "Далі", щоб вибрати інформацію для імпортування, або "Скасувати", щоб вийти з цього майстра.
 [Choose type of imported files:]
 Виберіть тип файлів, що імпортуються:
 [Select files or the whole directory for import:]
