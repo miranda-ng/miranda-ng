@@ -345,7 +345,7 @@ class CChooseProfileDlg : public CDlgBase
 		m_profileList.DeleteItem(item.iItem);
 	}
 
-	void CheckRun(int uMsg)
+	void CheckRun()
 	{
 		m_btnOk.Enable(m_profileList.GetSelectedCount() == 1);
 
@@ -381,9 +381,6 @@ class CChooseProfileDlg : public CDlgBase
 			mir_sntprintf(m_pd->ptszProfile, MAX_PATH, _T("%s\\%s\\%s.dat"), m_pd->ptszProfileDir, profile, profile);
 		else
 			_tcsncpy_s(m_pd->ptszProfile, MAX_PATH, tmpPath, _TRUNCATE);
-
-		if (uMsg == NM_DBLCLK)
-			EndDialog(GetParent(m_hwndParent), 1);
 	}
 
 	void ExecuteMenu(LPARAM lParam)
@@ -448,7 +445,12 @@ public:
 		m_btnOk(_btn),
 		m_pd(_pd),
 		m_profileList(this, IDC_PROFILELIST)
-	{}
+	{
+		m_profileList.OnItemChanged = Callback(this, &CChooseProfileDlg::list_OnItemChanged);
+		m_profileList.OnKeyDown = Callback(this, &CChooseProfileDlg::list_OnKeyDown);
+		m_profileList.OnGetInfoTip = Callback(this, &CChooseProfileDlg::list_OnGetTip);
+		m_profileList.OnDoubleClick = Callback(this, &CChooseProfileDlg::list_OnDblClick);
+	}
 
 	virtual void OnInitDialog()
 	{
@@ -494,6 +496,35 @@ public:
 		FindCloseChangeNotification(m_hFileNotify);
 	}
 
+	void list_OnItemChanged(CCtrlListView::TEventInfo*)
+	{
+		CheckRun();
+	}
+
+	void list_OnKeyDown(CCtrlListView::TEventInfo *evt)
+	{
+		if (evt->nmlvkey->wVKey == VK_DELETE)
+			DeleteProfile(m_profileList.GetNextItem(-1, LVNI_SELECTED | LVNI_ALL));
+	}
+
+	void list_OnGetTip(CCtrlListView::TEventInfo *evt)
+	{
+		if (auto pTip = evt->nmlvit) {
+			TCHAR profilename[MAX_PATH], tszFullPath[MAX_PATH];
+			struct _stat statbuf;
+			m_profileList.GetItemText(pTip->iItem, 0, profilename, SIZEOF(profilename));
+			mir_sntprintf(tszFullPath, SIZEOF(tszFullPath), _T("%s\\%s\\%s.dat"), m_pd->ptszProfileDir, profilename, profilename);
+			_tstat(tszFullPath, &statbuf);
+			mir_sntprintf(pTip->pszText, pTip->cchTextMax, _T("%s\n%s: %s\n%s: %s"), tszFullPath, TranslateT("Created"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_ctime))), TranslateT("Modified"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_mtime))));
+		}
+	}
+
+	void list_OnDblClick(CCtrlListView::TEventInfo *evt)
+	{
+		CheckRun();
+		EndDialog(GetParent(m_hwndParent), 1);
+	}
+
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		switch (msg) {
@@ -514,47 +545,11 @@ public:
 
 		case WM_SHOWWINDOW:
 			if (wParam)
-				CheckRun(0);
+				CheckRun();
 			break;
 
 		case WM_CONTEXTMENU:
 			ExecuteMenu(lParam);
-			break;
-
-		case WM_NOTIFY:
-			LPNMHDR hdr = (LPNMHDR)lParam;
-			if (hdr == NULL)
-				break;
-
-			if (hdr->idFrom == 0) {
-				CheckRun(0);
-				break;
-			}
-
-			if (hdr->idFrom == IDC_PROFILELIST) {
-				switch (hdr->code) {
-				case LVN_ITEMCHANGED:
-				case NM_DBLCLK:
-					CheckRun(hdr->code);
-					return TRUE;
-
-				case LVN_KEYDOWN:
-					if (((LPNMLVKEYDOWN)lParam)->wVKey == VK_DELETE)
-						DeleteProfile(m_profileList.GetNextItem(-1, LVNI_SELECTED | LVNI_ALL));
-					break;
-
-				case LVN_GETINFOTIP:
-					NMLVGETINFOTIP *pInfoTip = (NMLVGETINFOTIP *)lParam;
-					if (pInfoTip != NULL) {
-						TCHAR profilename[MAX_PATH], tszFullPath[MAX_PATH];
-						struct _stat statbuf;
-						m_profileList.GetItemText(pInfoTip->iItem, 0, profilename, SIZEOF(profilename));
-						mir_sntprintf(tszFullPath, SIZEOF(tszFullPath), _T("%s\\%s\\%s.dat"), m_pd->ptszProfileDir, profilename, profilename);
-						_tstat(tszFullPath, &statbuf);
-						mir_sntprintf(pInfoTip->pszText, pInfoTip->cchTextMax, _T("%s\n%s: %s\n%s: %s"), tszFullPath, TranslateT("Created"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_ctime))), TranslateT("Modified"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_mtime))));
-					}
-				}
-			}
 			break;
 		}
 
