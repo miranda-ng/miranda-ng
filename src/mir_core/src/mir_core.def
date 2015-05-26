@@ -1241,3 +1241,4 @@ Proto_RegisterModule @1074 NONAME
 ?write_formatted@JSONNode@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ @1244 NONAME
 ?isnull@JSONNode@@QBE_NXZ @1245 NONAME
 ??BJSONNode@@QBE_NXZ @1246 NONAME
+?as_mstring@JSONNode@@QBE?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@XZ @1247 NONAME

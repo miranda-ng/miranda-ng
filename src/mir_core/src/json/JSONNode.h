@@ -114,6 +114,7 @@ public:
 	#endif
 
 	json_string as_string(void) const;
+	CMString as_mstring(void) const;
 	long as_int(void) const;
 	double as_float(void) const;
 	bool as_bool(void) const;
@@ -479,19 +480,23 @@ inline JSONNode::JSONNode(char mytype) : internal(internalJSONNode::newInternal(
 				(mytype == JSON_NODE), JSON_TEXT("Not a proper JSON type"));
 	incAllocCount();
 }
-inline JSONNode::JSONNode(const JSONNode & orig): internal(orig.internal -> incRef()) {
+inline JSONNode::JSONNode(const JSONNode & orig): internal(orig.internal -> incRef())
+{
 	incAllocCount();
 }
 //this allows a temp node to simply transfer its contents, even with ref counting off
-inline JSONNode::JSONNode(bool, JSONNode & orig): internal(orig.internal){
+inline JSONNode::JSONNode(bool, JSONNode & orig): internal(orig.internal)
+{
 	orig.internal = 0;
 	incAllocCount();
 }
-inline JSONNode::~JSONNode(void){
+inline JSONNode::~JSONNode(void)
+{
 	if (internal) decRef();
 	decAllocCount();
 }
-inline json_index_t JSONNode::size(void) const {
+inline json_index_t JSONNode::size(void) const
+{
 	JSON_CHECK_INTERNAL();
 	return internal -> size();
 }
@@ -526,13 +531,15 @@ inline const json_char* JSONNode::name(void) const
 	JSON_CHECK_INTERNAL();
 	return internal -> name();
 }
-inline void JSONNode::set_name(const json_string & newname){
+inline void JSONNode::set_name(const json_string & newname)
+{
 	JSON_CHECK_INTERNAL();
 	makeUniqueInternal();
 	internal -> setname(newname);
 }
 #ifdef JSON_COMMENTS
-	inline void JSONNode::set_comment(const json_string & newname){
+	inline void JSONNode::set_comment(const json_string & newname)
+	{
 		JSON_CHECK_INTERNAL();
 		makeUniqueInternal();
 		internal -> setcomment(newname);
@@ -542,11 +549,18 @@ inline void JSONNode::set_name(const json_string & newname){
 		return internal -> getcomment();
 	}
 #endif
-inline json_string JSONNode::as_string(void) const {
+inline json_string JSONNode::as_string(void) const
+{
 	JSON_CHECK_INTERNAL();
 	return internal -> as_string();
 }
-inline long JSONNode::as_int(void) const {
+inline CMString JSONNode::as_mstring(void) const
+{
+	JSON_CHECK_INTERNAL();
+	return internal->as_mstring();
+}
+inline long JSONNode::as_int(void) const
+{
 	JSON_CHECK_INTERNAL();
 	return internal -> as_int();
 }
@@ -569,10 +583,12 @@ inline bool JSONNode::as_bool(void) const {
 		return JSONBase64::json_decode64(as_string());
 	}
 #endif
-inline JSONNode & JSONNode::operator[](const json_char *name_t) {
+inline JSONNode & JSONNode::operator[](const json_char *name_t)
+{
 	return at(name_t);
 }
-inline const JSONNode & JSONNode::operator[](const json_char *name_t) const {
+inline const JSONNode & JSONNode::operator[](const json_char *name_t) const
+{
 	return at(name_t);
 }
 #ifdef JSON_LIBRARY

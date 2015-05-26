@@ -88,6 +88,7 @@ public:
 		json_string getcomment(void) const;
 	#endif
 	json_string as_string(void) const;
+	CMString as_mstring(void) const;
 	long as_int(void) const;
 	json_number as_float(void) const;
 	bool as_bool(void) const;
@@ -286,6 +287,11 @@ inline void internalJSONNode::setname(const json_string & newname){
 inline json_string internalJSONNode::as_string(void) const {
 	Fetch();
 	return _string;
+}
+
+inline CMString internalJSONNode::as_mstring(void) const {
+	Fetch();
+	return CMString(ptrT(mir_utf8decodeT(_string.c_str())));
 }
 
 inline long internalJSONNode::as_int(void) const {
