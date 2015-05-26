@@ -1171,10 +1171,10 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 	tm_today.tm_hour = tm_today.tm_min = tm_today.tm_sec = 0;
 	today = mktime(&tm_today);
 
-	if (dat->hwndIEView != 0) {
+	if (dat->hwndIEView != NULL || dat->hwndHPP != NULL) {
 		IEVIEWEVENT event = { sizeof(event) };
 		event.cbSize = sizeof(IEVIEWEVENT);
-		event.hwnd = dat->hwndIEView;
+		event.hwnd = (dat->hwndIEView != NULL) ? dat->hwndIEView : dat->hwndHPP;
 		event.hContact = dat->hContact;
 		event.dwFlags = (dat->dwFlags & MWF_LOG_RTL) ? IEEF_RTL : 0;
 		if (dat->sendMode & SMODE_FORCEANSI) {
@@ -1203,6 +1203,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 			evData.pszText = (char*)dbei_s->pBlob;
 			evData.time = dbei_s->timestamp;
 			event.eventData = &evData;
+			event.codepage = CP_UTF8;
 		}
 		else {
 			event.iType = IEE_LOG_DB_EVENTS;
@@ -1212,35 +1213,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 		event.pszProto = dat->szProto;
 		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
 		DM_ScrollToBottom(dat, 0, 0);
-		if (fAppend)
-			dat->hDbEventLast = hDbEventFirst;
-		else
-			dat->hDbEventLast = db_event_last(dat->hContact);
-		return;
-	}
-
-	if (dat->hwndHPP != 0) {
-		IEVIEWEVENT event = { sizeof(event) };
-		event.hwnd = dat->hwndHPP;
-		event.hContact = dat->hContact;
-		event.dwFlags = (dat->dwFlags & MWF_LOG_RTL) ? IEEF_RTL : 0;
-		if (dat->sendMode & SMODE_FORCEANSI) {
-			event.dwFlags |= IEEF_NO_UNICODE;
-			event.codepage = dat->codePage;
-		}
-		else event.codepage = 0;
-
-		if (!fAppend) {
-			event.iType = IEE_CLEAR_LOG;
-			CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
-		}
-		event.iType = IEE_LOG_DB_EVENTS;
-		event.hDbEventFirst = hDbEventFirst;
-		event.count = count;
-		CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
-
-		DM_ScrollToBottom(dat, 0, 0);
-		if (fAppend)
+		if (fAppend && hDbEventFirst)
 			dat->hDbEventLast = hDbEventFirst;
 		else
 			dat->hDbEventLast = db_event_last(dat->hContact);
