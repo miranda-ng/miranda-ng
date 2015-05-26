@@ -1,7 +1,6 @@
 #ifndef INTERNAL_JSONNODE_H
 #define INTERNAL_JSONNODE_H
 
-#include "JSONDebug.h"
 #include "JSONChildren.h"
 #include "JSONMemory.h"
 #ifdef JSON_DEBUG

@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "JSONChildren.h"
 #include "JSONNode.h"
+#include "JSONNode.inl"
 
 void jsonChildren::inc(void){
 	if (mysize == mycapacity){  //it's full
