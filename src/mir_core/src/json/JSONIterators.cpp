@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\commonheaders.h"
 
 #include "JSONNode.h"
+#include "JSONNode.inl"
 
 #ifdef JSON_ITERATORS
 	#ifdef JSON_REF_COUNT

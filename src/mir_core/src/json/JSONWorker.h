@@ -1,8 +1,6 @@
 #ifndef JSON_WORKER_H
 #define JSON_WORKER_H
 
-#include "JSONNode.h"
-
 class MIR_CORE_EXPORT JSONWorker
 {
 public:

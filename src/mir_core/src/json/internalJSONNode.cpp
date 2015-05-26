@@ -25,9 +25,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\commonheaders.h"
 #include <m_json.h>
 
-#include "internalJSONNode.h"
 #include "NumberToString.h"  //So that I can convert numbers into strings
-#include "JSONNode.h"  //To fill in the foreward declaration
+#include "JSONNode.h" 
+#include "JSONNode.inl"
+#include "internalJSONNode.h"
 #include "JSONWorker.h"  //For fetching and parsing and such
 
 /*

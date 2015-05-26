@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "JSONMemory.h"
 #include "JSONNode.h"
+#include "JSONNode.inl"
 
 #ifdef JSON_MEMORY_MANAGE
 	void auto_expand::purge(void){
