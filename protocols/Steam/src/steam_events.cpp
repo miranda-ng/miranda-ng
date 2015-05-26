@@ -14,6 +14,8 @@ int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
+	requestQueue = new RequestQueue(m_hNetlibUser);
+
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CSteamProto::PrebuildContactMenu);
 
 	return 0;
@@ -21,7 +23,7 @@ int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 
 int CSteamProto::OnPreShutdown(WPARAM, LPARAM)
 {
-	//SetStatus(ID_STATUS_OFFLINE);
+	delete requestQueue;
 
 	Netlib_CloseHandle(this->m_hNetlibUser);
 	this->m_hNetlibUser = NULL;

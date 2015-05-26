@@ -127,10 +127,10 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 					ptrA token(getStringA("TokenSecret"));
 
 					PushRequest(
-						new SteamWebApi::GetUserSummariesRequest(token, steamId),
+						new GetUserSummariesRequest(token, steamId),
 						&CSteamProto::OnAuthRequested,
 						mir_strdup(steamId),
-						ARG_MIR_FREE);
+						MirFreeArg);
 				}
 				break;
 
@@ -157,7 +157,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 		ptrA token(getStringA("TokenSecret"));
 
 		PushRequest(
-			new SteamWebApi::GetUserSummariesRequest(token, steamIds.c_str()),
+			new GetUserSummariesRequest(token, steamIds.c_str()),
 			&CSteamProto::OnGotUserSummaries);
 	}
 }
@@ -170,12 +170,12 @@ void CSteamProto::PollingThread(void*)
 	ptrA umqId(getStringA("UMQID"));
 	UINT32 messageId = getDword("MessageID", 0);
 
-	//SteamWebApi::PollApi::PollResult pollResult;
+	//PollApi::PollResult pollResult;
 	int errors = 0;
 	bool breaked = false;
 	while (!isTerminated && !breaked && errors < POLLING_ERRORS_LIMIT)
 	{
-		SteamWebApi::PollRequest *request = new SteamWebApi::PollRequest(token, umqId, messageId, IdleSeconds());
+		PollRequest *request = new PollRequest(token, umqId, messageId, IdleSeconds());
 		//request->nlc = m_pollingConnection;
 		NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 		delete request;

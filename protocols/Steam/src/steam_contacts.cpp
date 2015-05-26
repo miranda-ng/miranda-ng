@@ -354,7 +354,7 @@ void CSteamProto::ProcessContact(std::map<std::string, JSONNODE*>::iterator *it,
 	}
 }
 
-void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *)
+void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
 		return;
@@ -434,12 +434,12 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *)
 		ptrA token(getStringA("TokenSecret"));
 
 		PushRequest(
-			new SteamWebApi::GetUserSummariesRequest(token, steamIds.c_str()),
+			new GetUserSummariesRequest(token, steamIds.c_str()),
 			&CSteamProto::OnGotUserSummaries);
 	}
 }
 
-void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response, void *)
+void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
 		return;
@@ -483,7 +483,7 @@ void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response, void *)
 	}
 }
 
-void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *)
+void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
 		return;
@@ -759,9 +759,9 @@ void CSteamProto::OnSearchByNameStarted(const NETLIBHTTPREQUEST *, void *)
 //
 //	ptrA token(getStringA("TokenSecret"));
 //
-//	SteamWebApi::SearchApi::SearchResult searchResult;
-//	debugLogA("CSteamProto::SearchByNameThread: call SteamWebApi::SearchApi::Search");
-//	SteamWebApi::SearchApi::Search(m_hNetlibUser, token, keywords, &searchResult);
+//	SearchApi::SearchResult searchResult;
+//	debugLogA("CSteamProto::SearchByNameThread: call SearchApi::Search");
+//	SearchApi::Search(m_hNetlibUser, token, keywords, &searchResult);
 //
 //	if (!searchResult.IsSuccess())
 //	{
@@ -772,16 +772,16 @@ void CSteamProto::OnSearchByNameStarted(const NETLIBHTTPREQUEST *, void *)
 //	CMStringA steamIds;
 //	for (int i = 0; i < searchResult.GetItemCount(); i++)
 //	{
-//		const SteamWebApi::SearchApi::SearchItem *item = searchResult.GetAt(i);
+//		const SearchApi::SearchItem *item = searchResult.GetAt(i);
 //		if (steamIds.IsEmpty())
 //			steamIds.Append(item->GetSteamId());
 //		else
 //			steamIds.AppendFormat(",%s", item->GetSteamId());
 //	}
 //
-//	SteamWebApi::FriendApi::Summaries summarues;
-//	debugLogA("CSteamProto::SearchByNameThread: call SteamWebApi::FriendApi::LoadSummaries");
-//	SteamWebApi::FriendApi::LoadSummaries(m_hNetlibUser, token, steamIds, &summarues);
+//	FriendApi::Summaries summarues;
+//	debugLogA("CSteamProto::SearchByNameThread: call FriendApi::LoadSummaries");
+//	FriendApi::LoadSummaries(m_hNetlibUser, token, steamIds, &summarues);
 //
 //	if (!summarues.IsSuccess())
 //	{
@@ -791,7 +791,7 @@ void CSteamProto::OnSearchByNameStarted(const NETLIBHTTPREQUEST *, void *)
 //
 //	for (size_t i = 0; i < summarues.GetItemCount(); i++)
 //	{
-//		const SteamWebApi::FriendApi::Summary *contact = summarues.GetAt(i);
+//		const FriendApi::Summary *contact = summarues.GetAt(i);
 //
 //		STEAM_SEARCH_RESULT ssr = { 0 };
 //		ssr.hdr.cbSize = sizeof(STEAM_SEARCH_RESULT);

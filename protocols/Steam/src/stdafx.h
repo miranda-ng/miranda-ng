@@ -50,9 +50,25 @@ extern HINSTANCE g_hInstance;
 
 extern HANDLE hExtraXStatus;
 
-#include "Steam\steam.h"
+#define STEAM_API_URL "https://api.steampowered.com"
+#define STEAM_WEB_URL "https://steamcommunity.com"
 
 #include "steam_dialogs.h"
+#include "http_request.h"
+#include "request_queue.h"
+#include "api\authorization.h"
+#include "api\authorization.h"
+#include "api\avatar.h"
+#include "api\captcha.h"
+#include "api\friend.h"
+#include "api\friend_list.h"
+#include "api\login.h"
+#include "api\message.h"
+#include "api\pending.h"
+#include "api\poll.h"
+#include "api\rsa_key.h"
+#include "api\search.h"
+#include "api\session.h"
 #include "steam_proto.h"
 
 #endif //_COMMON_H_

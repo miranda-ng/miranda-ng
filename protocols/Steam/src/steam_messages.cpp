@@ -8,9 +8,9 @@
 //	ptrA umqId(getStringA("UMQID"));
 //	ptrA steamId(getStringA(hContact, "SteamID"));
 //
-//	SteamWebApi::MessageApi::SendResult sendResult;
-//	debugLogA("CSteamProto::SendTypingThread: call SteamWebApi::PollApi::SteamWebApi::MessageApi::SendMessage");
-//	SteamWebApi::MessageApi::SendTyping(m_hNetlibUser, token, umqId, steamId, &sendResult);
+//	MessageApi::SendResult sendResult;
+//	debugLogA("CSteamProto::SendTypingThread: call PollApi::MessageApi::SendMessage");
+//	MessageApi::SendTyping(m_hNetlibUser, token, umqId, steamId, &sendResult);
 //}
 
 void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
@@ -46,4 +46,11 @@ void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 		status,
 		param->hMessage,
 		(LPARAM) errorA);
+}
+
+void CSteamProto::MessageParamFree(void *arg)
+{
+	SendMessageParam *param = (SendMessageParam*)arg;
+	mir_free(param->message);
+	mir_free(param);
 }
