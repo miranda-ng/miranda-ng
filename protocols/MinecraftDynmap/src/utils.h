@@ -27,17 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define setU8String(setting, value)       db_set_utf(NULL, m_szModuleName, setting, value)
 
 // HTTP constants and object
-#define HTTP_CODE_OK					200
-#define HTTP_CODE_MOVED_PERMANENTLY		301
-#define HTTP_CODE_FOUND					302
-#define HTTP_CODE_FORBIDDEN				403
-#define HTTP_CODE_NOT_FOUND				404
-#define HTTP_CODE_REQUEST_TIMEOUT		408
-#define HTTP_CODE_INTERNAL_SERVER_ERROR	500
-#define HTTP_CODE_NOT_IMPLEMENTED		501
-#define HTTP_CODE_BAD_GATEWAY			502
-#define HTTP_CODE_SERVICE_UNAVAILABLE   503
-
 #define HTTP_CODE_FAKE_DISCONNECTED 0
 #define HTTP_CODE_FAKE_ERROR        1
 

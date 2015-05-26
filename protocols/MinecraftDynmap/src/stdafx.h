@@ -57,6 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_hotkeys.h>
 #include <m_message.h>
 #include <m_json.h>
+#include <m_http.h>
 
 #include "version.h"
 
