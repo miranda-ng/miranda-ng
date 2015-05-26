@@ -89,7 +89,7 @@ public:
 	void   handleError(TWindowData *dat, const int iEntry) const;
 	int    addTo(TWindowData *dat, size_t iLen, int dwFlags);
 	int    sendQueued(TWindowData *dat, const int iEntry);
-	size_t getSendLength(const int iEntry, const int sendMode);
+	size_t getSendLength(const int iEntry);
 	void   checkQueue(const TWindowData *dat) const;
 	void   logError(const TWindowData *dat, int iSendJobIndex, const TCHAR *szErrMsg) const;
 	void   recallFailed(const TWindowData *dat, int iEntry) const;

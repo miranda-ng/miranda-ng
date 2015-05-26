@@ -956,7 +956,7 @@ struct TABSRMM_SessionInfo {
  * encryption status bar indicator
  */
 
-#define MSG_ICON_MODULE "\x01TabSrmm"
+#define MSG_ICON_MODULE " TabSrmm"
 
 #define MSG_ICON_SESSION 0
 #define MSG_ICON_UTN     1

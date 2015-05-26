@@ -207,7 +207,7 @@ static void DoSplitSendA(LPVOID param)
 /////////////////////////////////////////////////////////////////////////////////////////
 // return effective length of the message in bytes (utf-8 encoded)
 
-size_t SendQueue::getSendLength(const int iEntry, int sendMode)
+size_t SendQueue::getSendLength(const int iEntry)
 {
 	SendJob &p = m_jobs[iEntry];
 	p.iSendLength = mir_strlen(p.szSendBuffer);
@@ -230,7 +230,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		m_jobs[iEntry].hContact = ccActive->getActiveContact();
 		m_jobs[iEntry].hOwnerWnd = hwndDlg;
 
-		size_t iSendLength = getSendLength(iEntry, dat->sendMode);
+		size_t iSendLength = getSendLength(iEntry);
 
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
@@ -276,7 +276,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 	if (M.GetByte("autosplit", 0) && !(dat->sendMode & SMODE_SENDLATER)) {
 		// determine send buffer length
 		BOOL fSplit = FALSE;
-		if (getSendLength(iEntry, dat->sendMode) >= dat->nMax)
+		if (getSendLength(iEntry) >= dat->nMax)
 			fSplit = true;
 
 		if (!fSplit)
@@ -301,7 +301,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		if (dat->sendMode & SMODE_SENDLATER) {
 			TCHAR	tszError[256];
 
-			size_t iSendLength = getSendLength(iEntry, dat->sendMode);
+			size_t iSendLength = getSendLength(iEntry);
 			if (iSendLength >= dat->nMax) {
 				mir_sntprintf(tszError, SIZEOF(tszError), TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->nMax);
 				SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
