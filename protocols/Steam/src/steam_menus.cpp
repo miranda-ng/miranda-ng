@@ -33,10 +33,10 @@ int CSteamProto::BlockCommand(WPARAM hContact, LPARAM)
 	char *who = getStringA(hContact, "SteamID");
 
 	PushRequest(
-		new SteamWebApi::BlockFriendRequest(token, sessionId, steamId, who),
+		new BlockFriendRequest(token, sessionId, steamId, who),
 		&CSteamProto::OnFriendBlocked,
 		who,
-		ARG_MIR_FREE);
+		MirFreeArg);
 
 	return 0;
 }
@@ -57,7 +57,7 @@ INT_PTR CSteamProto::OpenBlockListCommand(WPARAM, LPARAM)
 	ptrA steamId(getStringA("SteamID"));
 
 	PushRequest(
-		new SteamWebApi::GetFriendListRequest(token, steamId, "ignoredfriend"),
+		new GetFriendListRequest(token, steamId, "ignoredfriend"),
 		&CSteamProto::OnGotBlockList);
 
 	return 0;

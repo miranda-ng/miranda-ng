@@ -3,12 +3,9 @@
 CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	PROTO<CSteamProto>(protoName, userName),
 	hAuthProcess(1),
-	hMessageProcess(1),
-	requestsQueue(1)
+	hMessageProcess(1)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CSteamProto::OnAccountManagerInit);
-
-	InitQueue();
 
 	m_idleTS = 0;
 	isTerminated = false;
@@ -68,10 +65,9 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 
 CSteamProto::~CSteamProto()
 {
-	UninitQueue();
 }
 
-MCONTACT __cdecl CSteamProto::AddToList(int, PROTOSEARCHRESULT* psr)
+MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT* psr)
 {
 	MCONTACT hContact = NULL;
 	ptrA steamId(mir_u2a(psr->id));
@@ -85,7 +81,7 @@ MCONTACT __cdecl CSteamProto::AddToList(int, PROTOSEARCHRESULT* psr)
 			ptrA token(getStringA("TokenSecret"));
 
 			PushRequest(
-				new SteamWebApi::GetUserSummariesRequest(token, steamId),
+				new GetUserSummariesRequest(token, steamId),
 				&CSteamProto::OnGotUserSummaries);
 		}
 	}
@@ -99,7 +95,7 @@ MCONTACT __cdecl CSteamProto::AddToList(int, PROTOSEARCHRESULT* psr)
 	return hContact;
 }
 
-int __cdecl CSteamProto::Authorize(MEVENT hDbEvent)
+int CSteamProto::Authorize(MEVENT hDbEvent)
 {
 	if (IsOnline() && hDbEvent)
 	{
@@ -115,10 +111,9 @@ int __cdecl CSteamProto::Authorize(MEVENT hDbEvent)
 		char *who = getStringA(hContact, "SteamID");
 
 		PushRequest(
-			new SteamWebApi::ApprovePendingRequest(token, sessionId, steamId, who),
+			new ApprovePendingRequest(token, sessionId, steamId, who),
 			&CSteamProto::OnPendingApproved,
-			who,
-			ARG_MIR_FREE);
+			who, MirFreeArg);
 
 		return 0;
 	}
@@ -126,7 +121,7 @@ int __cdecl CSteamProto::Authorize(MEVENT hDbEvent)
 	return 1;
 }
 
-int __cdecl CSteamProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
+int CSteamProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 {
 	if (IsOnline() && hDbEvent)
 	{
@@ -142,10 +137,9 @@ int __cdecl CSteamProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 		char *who = getStringA(hContact, "SteamID");
 
 		PushRequest(
-			new SteamWebApi::IgnorePendingRequest(token, sessionId, steamId, who),
+			new IgnorePendingRequest(token, sessionId, steamId, who),
 			&CSteamProto::OnPendingIgnoreded,
-			who,
-			ARG_MIR_FREE);
+			who, MirFreeArg);
 
 		return 0;
 	}
@@ -153,7 +147,7 @@ int __cdecl CSteamProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 	return 1;
 }
 
-int __cdecl CSteamProto::AuthRequest(MCONTACT hContact, const TCHAR*)
+int CSteamProto::AuthRequest(MCONTACT hContact, const TCHAR*)
 {
 	if (IsOnline() && hContact)
 	{
@@ -182,10 +176,9 @@ int __cdecl CSteamProto::AuthRequest(MCONTACT hContact, const TCHAR*)
 		*/
 
 		PushRequest(
-			new SteamWebApi::AddFriendRequest(token, sessionId, steamId, who),
+			new AddFriendRequest(token, sessionId, steamId, who),
 			&CSteamProto::OnFriendAdded,
-			param,
-			ARG_MIR_FREE);
+			param);
 
 		return hAuth;
 	}
@@ -193,7 +186,7 @@ int __cdecl CSteamProto::AuthRequest(MCONTACT hContact, const TCHAR*)
 	return 1;
 }
 
-DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT)
+DWORD_PTR CSteamProto:: GetCaps(int type, MCONTACT)
 {
 	switch(type)
 	{
@@ -216,7 +209,7 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT)
 	}
 }
 
-HANDLE __cdecl CSteamProto::SearchBasic(const TCHAR* id)
+HANDLE CSteamProto::SearchBasic(const TCHAR* id)
 {
 	if (!this->IsOnline())
 		return 0;
@@ -227,51 +220,43 @@ HANDLE __cdecl CSteamProto::SearchBasic(const TCHAR* id)
 	ptrA steamId(mir_t2a(id));
 
 	PushRequest(
-		new SteamWebApi::GetUserSummariesRequest(token, steamId),
+		new GetUserSummariesRequest(token, steamId),
 		&CSteamProto::OnSearchByIdEnded,
 		mir_tstrdup(id),
-		ARG_MIR_FREE);
+		MirFreeArg);
 
 	return (HANDLE)STEAM_SEARCH_BYID;
 }
 
-int __cdecl CSteamProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
+int CSteamProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	return (INT_PTR)AddDBEvent(hContact, EVENTTYPE_MESSAGE, pre->timestamp, DBEF_UTF, mir_strlen(pre->szMessage), (BYTE*)pre->szMessage);
 }
 
-int __cdecl CSteamProto::SendMsg(MCONTACT hContact, int, const char *msg)
+int CSteamProto::SendMsg(MCONTACT hContact, int flags, const char *message)
 {
+	if (!IsOnline())
+	{
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("You cannot send messages when you are offline."));
+		return 0;
+	}
+
 	UINT hMessage = InterlockedIncrement(&hMessageProcess);
 
 	SendMessageParam *param = (SendMessageParam*)mir_calloc(sizeof(SendMessageParam));
 	param->hContact = hContact;
 	param->hMessage = (HANDLE)hMessage;
-	param->msg = msg;
-	ForkThread(&CSteamProto::SendMsgThread, (void*)param);
-	return hMessage;
-}
-
-void __cdecl CSteamProto::SendMsgThread(void *arg)
-{
-	SendMessageParam *param = (SendMessageParam*)arg;
-
-	if (!IsOnline())
-	{
-		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hMessage, (LPARAM)Translate("You cannot send messages when you are offline."));
-		mir_free(param);
-		return;
-	}
+	param->message = mir_strdup(message);
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA umqid(getStringA("UMQID"));
-	ptrA steamId(getStringA(param->hContact, "SteamID"));
-
+	ptrA steamId(getStringA(hContact, "SteamID"));
 	PushRequest(
-		new SteamWebApi::SendMessageRequest(token, umqid, steamId, param->msg),
+		new SendMessageRequest(token, umqid, steamId, message),
 		&CSteamProto::OnMessageSent,
-		param,
-		ARG_MIR_FREE);
+		param, MessageParamFree);
+
+	return hMessage;
 }
 
 int CSteamProto::SetStatus(int new_status)
@@ -311,7 +296,11 @@ int CSteamProto::SetStatus(int new_status)
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-		StopQueue();
+		ptrA token(getStringA("TokenSecret"));
+		ptrA umqid(getStringA("UMQID"));
+		SendRequest(new LogoffRequest(token, umqid));
+
+		requestQueue->Stop();
 
 		if (!Miranda_Terminated())
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
@@ -321,7 +310,29 @@ int CSteamProto::SetStatus(int new_status)
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-		StartQueue();
+		requestQueue->Start();
+
+		ptrA token(getStringA("TokenSecret"));
+		if (mir_strlen(token) > 0)
+		{
+			PushRequest(
+				new LogonRequest(token),
+				&CSteamProto::OnLoggedOn);
+		}
+		else
+		{
+			ptrA username(mir_urlEncode(ptrA(mir_utf8encodeT(getTStringA("Username")))));
+			if (username == NULL || username[0] == '\0')
+			{
+				m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
+				return 0;
+			}
+
+			PushRequest(
+				new RsaKeyRequest(username),
+				&CSteamProto::OnGotRsaKey);
+		}
 	}
 	else
 	{
@@ -334,7 +345,8 @@ int CSteamProto::SetStatus(int new_status)
 
 int __cdecl CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
-	switch (eventType) {
+	switch (eventType)
+	{
 	case EV_PROTO_ONLOAD:
 		return this->OnModulesLoaded(wParam, lParam);
 
@@ -359,10 +371,9 @@ int __cdecl CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 				return 0;
 
 			PushRequest(
-				new SteamWebApi::RemoveFriendRequest(token, sessionId, steamId, who),
+				new RemoveFriendRequest(token, sessionId, steamId, who),
 				&CSteamProto::OnFriendRemoved,
-				(void*)hContact,
-				ARG_NO_FREE);
+				(void*)hContact);
 		}
 		return 0;
 

@@ -79,10 +79,9 @@ INT_PTR CSteamProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		if (needLoad)
 		{
 			PushRequest(
-				new SteamWebApi::GetAvatarRequest(avatarUrl),
+				new GetAvatarRequest(avatarUrl),
 				&CSteamProto::OnGotAvatar,
-				(void*)pai->hContact,
-				ARG_NO_FREE);
+				(void*)pai->hContact);
 
 			return GAIR_WAITFOR;
 		}

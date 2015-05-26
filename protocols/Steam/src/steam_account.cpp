@@ -14,7 +14,7 @@ bool CSteamProto::IsMe(const char *steamId)
 	return false;
 }
 
-void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *)
+void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
 		return;
@@ -69,13 +69,14 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *)
 	ptrA username(mir_utf8encodeW(getWStringA("Username")));
 
 	PushRequest(
-		new SteamWebApi::AuthorizationRequest(username, base64RsaEncryptedPassword, timestamp),
+		new AuthorizationRequest(username, base64RsaEncryptedPassword, timestamp),
 		&CSteamProto::OnAuthorization);
 }
 
-void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *)
+void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL) {
+	if (response == NULL)
+	{
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
@@ -109,16 +110,14 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *)
 
 			CSteamGuardDialog guardDialog(this, emailDomain);
 			if (!guardDialog.DoModal())
-			{
 				return;
-			}
 
 			ptrA username(mir_utf8encodeW(getWStringA("Username")));
 			ptrA password(getStringA("EncryptedPassword"));
 			ptrA timestamp(getStringA("RsaTimestamp"));
 
 			PushRequest(
-				new SteamWebApi::AuthorizationRequest(username, password, timestamp, guardDialog.GetGuardCode()),
+				new AuthorizationRequest(username, password, timestamp, guardDialog.GetGuardCode()),
 				&CSteamProto::OnAuthorization);
 			return;
 		}
@@ -129,7 +128,7 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *)
 			node = json_get(root, "captcha_gid");
 			ptrA captchaId(mir_u2a(ptrT(json_as_string(node))));
 
-			SteamWebApi::GetCaptchaRequest *request = new SteamWebApi::GetCaptchaRequest(captchaId);
+			GetCaptchaRequest *request = new GetCaptchaRequest(captchaId);
 			NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 			delete request;
 
@@ -146,7 +145,7 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *)
 			ptrA timestamp(getStringA("RsaTimestamp"));
 
 			PushRequest(
-				new SteamWebApi::AuthorizationRequest(username, password, timestamp, captchaId, captchaDialog.GetCaptchaText()),
+				new AuthorizationRequest(username, password, timestamp, captchaId, captchaDialog.GetCaptchaText()),
 				&CSteamProto::OnAuthorization);
 			return;
 		}
@@ -185,15 +184,15 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *)
 	delSetting("EncryptedPassword");
 
 	PushRequest(
-		new SteamWebApi::GetSessionRequest(token, steamId, cookie),
+		new GetSessionRequest(token, steamId, cookie),
 		&CSteamProto::OnGotSession);
 
 	PushRequest(
-		new SteamWebApi::LogonRequest(token),
+		new LogonRequest(token),
 		&CSteamProto::OnLoggedOn);
 }
 
-void CSteamProto::OnGotSession(const NETLIBHTTPREQUEST *response, void *)
+void CSteamProto::OnGotSession(const NETLIBHTTPREQUEST *response)
 {
 	if(response == NULL)
 		return;
@@ -224,7 +223,7 @@ void CSteamProto::HandleTokenExpired()
 	SetStatus(ID_STATUS_OFFLINE);
 }
 
-void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *)
+void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
 	{
@@ -255,7 +254,7 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *)
 	ptrA steamId(getStringA("SteamID"));
 
 	PushRequest(
-		new SteamWebApi::GetFriendListRequest(token, steamId),
+		new GetFriendListRequest(token, steamId),
 		&CSteamProto::OnGotFriendList);
 
 	// start polling thread

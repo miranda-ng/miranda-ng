@@ -26,7 +26,7 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\common.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClInclude Include="src\Steam\*.h" />
+    <ClInclude Include="src\api\*.h" />
     <None Include="res\*.ico" />
 </ItemGroup>
   <ItemDefinitionGroup>
