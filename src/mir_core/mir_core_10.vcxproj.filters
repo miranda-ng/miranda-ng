@@ -167,5 +167,8 @@
     <None Include="..\..\include\m_string.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="src\json\JSONNode.inl">
+      <Filter>Source Files\json</Filter>
+    </None>
   </ItemGroup>
 </Project>

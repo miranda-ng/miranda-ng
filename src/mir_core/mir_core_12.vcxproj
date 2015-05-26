@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\m_string.inl" />
+    <None Include="src\json\JSONNode.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>mir_core</ProjectName>
