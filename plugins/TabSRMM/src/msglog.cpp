@@ -1172,9 +1172,19 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 	today = mktime(&tm_today);
 
 	if (dat->hwndIEView != NULL || dat->hwndHPP != NULL) {
-		IEVIEWEVENT event = { sizeof(event) };
+		const char *pszService;
+		IEVIEWEVENT event = { 0 };
 		event.cbSize = sizeof(IEVIEWEVENT);
-		event.hwnd = (dat->hwndIEView != NULL) ? dat->hwndIEView : dat->hwndHPP;
+		if (dat->hwndIEView != NULL) {
+			event.pszProto = dat->szProto;
+			event.hwnd = dat->hwndIEView;
+			pszService = MS_IEVIEW_EVENT;
+		}
+		else {
+			event.hwnd = dat->hwndHPP;
+			pszService = MS_HPP_EG_EVENT;
+		}
+
 		event.hContact = dat->hContact;
 		event.dwFlags = (dat->dwFlags & MWF_LOG_RTL) ? IEEF_RTL : 0;
 		if (dat->sendMode & SMODE_FORCEANSI) {
@@ -1185,7 +1195,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 
 		if (!fAppend) {
 			event.iType = IEE_CLEAR_LOG;
-			CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
+			CallService(pszService, 0, (LPARAM)&event);
 		}
 
 		IEVIEWEVENTDATA evData = { 0 };
@@ -1210,8 +1220,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 			event.hDbEventFirst = hDbEventFirst;
 		}
 		event.count = count;
-		event.pszProto = dat->szProto;
-		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
+		CallService(pszService, 0, (LPARAM)&event);
 		DM_ScrollToBottom(dat, 0, 0);
 		if (fAppend && hDbEventFirst)
 			dat->hDbEventLast = hDbEventFirst;
