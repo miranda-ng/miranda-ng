@@ -1187,8 +1187,27 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 			event.iType = IEE_CLEAR_LOG;
 			CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
 		}
-		event.iType = IEE_LOG_DB_EVENTS;
-		event.hDbEventFirst = hDbEventFirst;
+
+		IEVIEWEVENTDATA evData = { 0 };
+		if (dbei_s != NULL && hDbEventFirst == 0) {
+			event.iType = IEE_LOG_MEM_EVENTS;
+
+			evData.cbSize = sizeof(evData);
+			evData.dwFlags = IEEDF_SENT;
+			switch (dbei_s->eventType) {
+				case EVENTTYPE_STATUSCHANGE: evData.iType = IEED_EVENT_STATUSCHANGE; break;
+				case EVENTTYPE_FILE: evData.iType = IEED_EVENT_FILE; break;
+				case EVENTTYPE_ERRMSG: evData.iType = IEED_EVENT_ERRMSG; break;
+				default: evData.iType = IEED_EVENT_MESSAGE; break;
+			}
+			evData.pszText = (char*)dbei_s->pBlob;
+			evData.time = dbei_s->timestamp;
+			event.eventData = &evData;
+		}
+		else {
+			event.iType = IEE_LOG_DB_EVENTS;
+			event.hDbEventFirst = hDbEventFirst;
+		}
 		event.count = count;
 		event.pszProto = dat->szProto;
 		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
