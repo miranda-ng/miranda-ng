@@ -30,7 +30,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 	}
 
-	char *tmpencode = NULL;
+	ptrA tmpencode;
 	ConnContext *context = otrl_context_find_miranda(otr_user_state, ccs->hContact);
 	if (db_get_b(ccs->hContact, MODULENAME, "HTMLConv", 0) && otr_context_get_trust(context) >= TRUST_UNVERIFIED) {
 		tmpencode = encode_html_entities_utf8(oldmessage);
