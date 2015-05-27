@@ -35,20 +35,6 @@
 #define UPREF_ACTION_REMAKELOG 2
 #define UPREF_ACTION_SWITCHLOGVIEWER 4
 
-static HWND hCpCombo;
-
-static BOOL CALLBACK FillCpCombo(LPCTSTR str)
-{
-	int i;
-	UINT cp = _ttoi(str);
-	for (i = 0; cpTable[i].cpName != NULL && cpTable[i].cpId != cp; i++);
-	if (cpTable[i].cpName != NULL) {
-		LRESULT iIndex = SendMessage(hCpCombo, CB_ADDSTRING, -1, (LPARAM)TranslateTS(cpTable[i].cpName));
-		SendMessage(hCpCombo, CB_SETITEMDATA, (WPARAM)iIndex, cpTable[i].cpId);
-	}
-	return TRUE;
-}
-
 static int have_ieview = 0, have_hpp = 0;
 
 static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -132,18 +118,6 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			Utils::enableDlgControl(hwndDlg, IDC_TRIM, maxhist != 0);
 			CheckDlgButton(hwndDlg, IDC_ALWAYSTRIM2, maxhist != 0 ? BST_CHECKED : BST_UNCHECKED);
 
-			hCpCombo = GetDlgItem(hwndDlg, IDC_CODEPAGES);
-			DWORD sCodePage = M.GetDword(hContact, "ANSIcodepage", 0);
-			EnumSystemCodePages((CODEPAGE_ENUMPROC)FillCpCombo, CP_INSTALLED);
-			SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_INSERTSTRING, 0, (LPARAM)TranslateT("Use default codepage"));
-			if (sCodePage == 0)
-				SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_SETCURSEL, 0, 0);
-			else {
-				for (int i = 0; i < SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETCOUNT, 0, 0); i++)
-					if (SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETITEMDATA, i, 0) == (LRESULT)sCodePage)
-						SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_SETCURSEL, i, 0);
-			}
-			CheckDlgButton(hwndDlg, IDC_FORCEANSI, M.GetByte(hContact, "forceansi", 0) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_IGNORETIMEOUTS, M.GetByte(hContact, "no_ack", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 			ShowWindow(hwndDlg, SW_SHOW);
@@ -207,20 +181,6 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					db_set_dw(hContact, SRMSGMOD_T, "sendformat", iIndex == 2 ? -1 : 1);
 			}
 
-			iIndex = SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETCURSEL, 0, 0);
-			DWORD	newCodePage = (DWORD)SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETITEMDATA, iIndex, 0);
-			if (newCodePage != sCodePage) {
-				db_set_dw(hContact, SRMSGMOD_T, "ANSIcodepage", newCodePage);
-				if (hWnd && dat) {
-					dat->codePage = newCodePage;
-					SendMessage(hWnd, DM_UPDATETITLE, 0, 1);
-				}
-			}
-			if ((IsDlgButtonChecked(hwndDlg, IDC_FORCEANSI) ? 1 : 0) != M.GetByte(hContact, "forceansi", 0)) {
-				db_set_b(hContact, SRMSGMOD_T, "forceansi", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FORCEANSI) ? 1 : 0));
-				if (hWnd && dat)
-					dat->sendMode = IsDlgButtonChecked(hwndDlg, IDC_FORCEANSI) ? dat->sendMode | SMODE_FORCEANSI : dat->sendMode & ~SMODE_FORCEANSI;
-			}
 			if (IsDlgButtonChecked(hwndDlg, IDC_ISFAVORITE)) {
 				if (!M.GetByte(hContact, "isFavorite", 0))
 					AddContactToFavorites(hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuFavorites);

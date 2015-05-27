@@ -421,7 +421,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 		dat->cache->updateStats(TSessionStats::SET_LAST_RCV, mir_strlen((char *)dbei.pBlob));
 
 	TCHAR *formatted = NULL;
-	TCHAR *msg = DbGetEventTextT(&dbei, dat->codePage);
+	TCHAR *msg = DbGetEventTextT(&dbei, CP_UTF8);
 	if (!msg) {
 		mir_free(dbei.pBlob);
 		return NULL;
@@ -1175,6 +1175,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 		const char *pszService;
 		IEVIEWEVENT event = { 0 };
 		event.cbSize = sizeof(IEVIEWEVENT);
+		event.hContact = dat->hContact;
 		if (dat->hwndIEView != NULL) {
 			event.pszProto = dat->szProto;
 			event.hwnd = dat->hwndIEView;
@@ -1185,13 +1186,8 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 			pszService = MS_HPP_EG_EVENT;
 		}
 
-		event.hContact = dat->hContact;
-		event.dwFlags = (dat->dwFlags & MWF_LOG_RTL) ? IEEF_RTL : 0;
-		if (dat->sendMode & SMODE_FORCEANSI) {
-			event.dwFlags |= IEEF_NO_UNICODE;
-			event.codepage = dat->codePage;
-		}
-		else event.codepage = 0;
+		if (dat->dwFlags & MWF_LOG_RTL)
+			event.dwFlags = IEEF_RTL;
 
 		if (!fAppend) {
 			event.iType = IEE_CLEAR_LOG;
@@ -1319,25 +1315,4 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 	InvalidateRect(hwndrtf, NULL, FALSE);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_QUOTE), dat->hDbEventLast != NULL);
 	mir_free(streamData.buffer);
-}
-
-// NLS functions (for unicode version only) encoding stuff..
-static BOOL CALLBACK LangAddCallback(LPTSTR str)
-{
-	UINT cp = _ttoi(str);
-	for (int i = 0; i < SIZEOF(cpTable); i++)
-		if (cpTable[i].cpId == cp) {
-			AppendMenu(PluginConfig.g_hMenuEncoding, MF_STRING, cp, TranslateTS(cpTable[i].cpName));
-			break;
-		}
-
-	return TRUE;
-}
-
-void TSAPI BuildCodePageList()
-{
-	PluginConfig.g_hMenuEncoding = CreateMenu();
-	AppendMenu(PluginConfig.g_hMenuEncoding, MF_STRING, 500, TranslateT("Use default codepage"));
-	AppendMenuA(PluginConfig.g_hMenuEncoding, MF_SEPARATOR, 0, 0);
-	EnumSystemCodePages(LangAddCallback, CP_INSTALLED);
 }

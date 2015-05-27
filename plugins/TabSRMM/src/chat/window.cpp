@@ -1780,7 +1780,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				SetTimer(hwndDlg, TIMERID_TYPE, 1000, NULL);
 			}
 
-			dat->codePage = M.GetDword(dat->hContact, "ANSIcodepage", CP_ACP);
 			dat->Panel->getVisibility();
 			dat->Panel->Configure();
 			M.AddWindow(hwndDlg, dat->hContact);
@@ -2544,15 +2543,7 @@ LABEL_SHOWWINDOW:
 
 					HMENU hMenu = 0;
 					UINT uID = CreateGCMenu(hwndDlg, &hMenu, 1, pt, si, NULL, pszWord);
-					if ((uID > 800 && uID < 1400) || uID == CP_UTF8 || uID == 20866) {
-						dat->codePage = uID;
-						db_set_dw(dat->hContact, SRMSGMOD_T, "ANSIcodepage", dat->codePage);
-					}
-					else if (uID == 500) {
-						dat->codePage = CP_ACP;
-						db_unset(dat->hContact, SRMSGMOD_T, "ANSIcodepage");
-					}
-					else switch (uID) {
+					switch (uID) {
 					case 0:
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 						break;

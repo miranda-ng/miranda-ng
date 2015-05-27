@@ -368,8 +368,6 @@ int SplitmsgShutdown(void)
 	DestroyMenu(PluginConfig.g_hMenuContext);
 	if (PluginConfig.g_hMenuContainer)
 		DestroyMenu(PluginConfig.g_hMenuContainer);
-	if (PluginConfig.g_hMenuEncoding)
-		DestroyMenu(PluginConfig.g_hMenuEncoding);
 
 	UnloadIcons();
 	FreeTabConfig();
@@ -981,8 +979,6 @@ int LoadSendRecvMessageModule(void)
 
 	db_set_b(0, TEMPLATES_MODULE, "setup", 2);
 	LoadDefaultTemplates();
-
-	BuildCodePageList();
 	return 0;
 }
 

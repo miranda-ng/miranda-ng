@@ -82,7 +82,6 @@ static void _clrMsgFilter(LPARAM lParam)
 static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 {
 	CHARRANGE sel, all = { 0, -1 };
-	int  oldCodepage = dat->codePage;
 	HWND hwndDlg = dat->hwnd;
 
 	HMENU hSubMenu, hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
@@ -105,16 +104,7 @@ static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 	}
 
 	if (idFrom == IDC_LOG)  {
-		InsertMenuA(hSubMenu, 6/*5*/, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
-		InsertMenu(hSubMenu, 7/*6*/, MF_BYPOSITION | MF_POPUP, (UINT_PTR)PluginConfig.g_hMenuEncoding, TranslateT("Character encoding"));
-		for (int i = 0; i < GetMenuItemCount(PluginConfig.g_hMenuEncoding); i++)
-			CheckMenuItem(PluginConfig.g_hMenuEncoding, i, MF_BYPOSITION | MF_UNCHECKED);
-
-		if (dat->codePage == CP_ACP)
-			CheckMenuItem(PluginConfig.g_hMenuEncoding, 0, MF_BYPOSITION | MF_CHECKED);
-		else
-			CheckMenuItem(PluginConfig.g_hMenuEncoding, dat->codePage, MF_BYCOMMAND | MF_CHECKED);
-
+		InsertMenuA(hSubMenu, 6, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
 		CheckMenuItem(hSubMenu, ID_LOG_FREEZELOG, MF_BYCOMMAND | (dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED ? MF_CHECKED : MF_UNCHECKED));
 	}
 
@@ -141,64 +131,51 @@ static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 		NotifyEventHooks(PluginConfig.m_event_MsgPopup, 0, (LPARAM)&mwpd);
 	}
 
-	if (((iSelection > 800 && iSelection < 1400) || iSelection == 20866) && idFrom == IDC_LOG) {
-		dat->codePage = iSelection;
-		db_set_dw(dat->hContact, SRMSGMOD_T, "ANSIcodepage", dat->codePage);
+	switch (iSelection) {
+	case IDM_COPY:
+		SendMessage(hwndFrom, WM_COPY, 0, 0);
+		break;
+	case IDM_CUT:
+		SendMessage(hwndFrom, WM_CUT, 0, 0);
+		break;
+	case IDM_PASTE:
+	case IDM_PASTEFORMATTED:
+		if (idFrom == IDC_MESSAGE)
+			SendMessage(hwndFrom, EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_UNICODETEXT : 0, 0);
+		break;
+	case IDM_COPYALL:
+		SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
+		SendMessage(hwndFrom, WM_COPY, 0, 0);
+		SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&sel);
+		break;
+	case IDM_QUOTE:
+		SendMessage(hwndDlg, WM_COMMAND, IDC_QUOTE, 0);
+		break;
+	case IDM_SELECTALL:
+		SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
+		break;
+	case IDM_CLEAR:
+		ClearLog(dat);
+		break;
+	case ID_LOG_FREEZELOG:
+		SendDlgItemMessage(hwndDlg, IDC_LOG, WM_KEYDOWN, VK_F12, 0);
+		break;
+	case ID_EDITOR_SHOWMESSAGELENGTHINDICATOR:
+		PluginConfig.m_visualMessageSizeIndicator = !PluginConfig.m_visualMessageSizeIndicator;
+		db_set_b(0, SRMSGMOD_T, "msgsizebar", (BYTE)PluginConfig.m_visualMessageSizeIndicator);
+		M.BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 0);
+		SendMessage(hwndDlg, WM_SIZE, 0, 0);
+		if (dat->pContainer->hwndStatus)
+			RedrawWindow(dat->pContainer->hwndStatus, 0, 0, RDW_INVALIDATE | RDW_UPDATENOW);
+		break;
+	case ID_EDITOR_PASTEANDSENDIMMEDIATELY:
+		HandlePasteAndSend(dat);
+		break;
 	}
-	else if (iSelection == 500 && idFrom == IDC_LOG) {
-		dat->codePage = CP_ACP;
-		db_unset(dat->hContact, SRMSGMOD_T, "ANSIcodepage");
-	}
-	else {
-		switch (iSelection) {
-		case IDM_COPY:
-			SendMessage(hwndFrom, WM_COPY, 0, 0);
-			break;
-		case IDM_CUT:
-			SendMessage(hwndFrom, WM_CUT, 0, 0);
-			break;
-		case IDM_PASTE:
-		case IDM_PASTEFORMATTED:
-			if (idFrom == IDC_MESSAGE)
-				SendMessage(hwndFrom, EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_UNICODETEXT : 0, 0);
-			break;
-		case IDM_COPYALL:
-			SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
-			SendMessage(hwndFrom, WM_COPY, 0, 0);
-			SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&sel);
-			break;
-		case IDM_QUOTE:
-			SendMessage(hwndDlg, WM_COMMAND, IDC_QUOTE, 0);
-			break;
-		case IDM_SELECTALL:
-			SendMessage(hwndFrom, EM_EXSETSEL, 0, (LPARAM)&all);
-			break;
-		case IDM_CLEAR:
-			ClearLog(dat);
-			break;
-		case ID_LOG_FREEZELOG:
-			SendDlgItemMessage(hwndDlg, IDC_LOG, WM_KEYDOWN, VK_F12, 0);
-			break;
-		case ID_EDITOR_SHOWMESSAGELENGTHINDICATOR:
-			PluginConfig.m_visualMessageSizeIndicator = !PluginConfig.m_visualMessageSizeIndicator;
-			db_set_b(0, SRMSGMOD_T, "msgsizebar", (BYTE)PluginConfig.m_visualMessageSizeIndicator);
-			M.BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 0);
-			SendMessage(hwndDlg, WM_SIZE, 0, 0);
-			if (dat->pContainer->hwndStatus)
-				RedrawWindow(dat->pContainer->hwndStatus, 0, 0, RDW_INVALIDATE | RDW_UPDATENOW);
-			break;
-		case ID_EDITOR_PASTEANDSENDIMMEDIATELY:
-			HandlePasteAndSend(dat);
-			break;
-		}
-	}
+
 	if (idFrom == IDC_LOG)
 		RemoveMenu(hSubMenu, 7, MF_BYPOSITION);
 	DestroyMenu(hMenu);
-	if (dat->codePage != (UINT)oldCodepage) {
-		SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
-		SendMessage(hwndDlg, DM_UPDATETITLE, 0, 1);
-	}
 }
 
 static void ResizeIeView(const TWindowData *dat)
@@ -1202,8 +1179,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->cache->setWindowData(hwndDlg, dat);
 			M.AddWindow(hwndDlg, dat->hContact);
 			BroadCastContainer(m_pContainer, DM_REFRESHTABINDEX, 0, 0);
-			dat->pWnd = 0;
-			dat->sbCustom = 0;
 			CProxyWindow::add(dat);
 			dat->szProto = const_cast<char *>(dat->cache->getProto());
 			dat->bIsMeta = dat->cache->isMeta();
@@ -1230,7 +1205,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			mir_subclassWindow(dat->hwndPanelPicParent, CInfoPanel::avatarParentSubclass);
 
 			dat->bShowUIElements = (m_pContainer->dwFlags & CNT_HIDETOOLBAR) == 0;
-			dat->sendMode |= M.GetByte(dat->hContact, "forceansi", 0) ? SMODE_FORCEANSI : 0;
 			dat->sendMode |= dat->hContact == 0 ? SMODE_MULTIPLE : 0;
 			dat->sendMode |= M.GetByte(dat->hContact, "no_ack", 0) ? SMODE_NOACK : 0;
 
@@ -1274,10 +1248,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->bIsAutosizingInput = IsAutoSplitEnabled(dat);
 			dat->iInputAreaHeight = -1;
 			SetMessageLog(dat);
-			if (dat->hContact) {
-				dat->codePage = M.GetDword(dat->hContact, "ANSIcodepage", CP_ACP);
+			if (dat->hContact)
 				dat->Panel->loadHeight();
-			}
 
 			dat->bShowAvatar = GetAvatarVisibility(hwndDlg, dat);
 

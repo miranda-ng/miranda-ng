@@ -334,7 +334,6 @@
 #define IDC_TABBORDERSPINOUTERBOTTOM    1265
 #define IDC_TEXTFORMATTING              1266
 #define IDC_AVATARMODE                  1267
-#define IDC_CODEPAGES                   1268
 #define IDC_OWNAVATARMODE               1268
 #define IDC_EMPTYLINEFIX                1272
 #define IDC_SPLITTERSTATICEDGES         1273
@@ -434,7 +433,6 @@
 #define IDC_COLOR3                      1368
 #define IDC_COLOR4                      1369
 #define IDC_COLOR5                      1370
-#define IDC_FORCEANSI                   1371
 #define IDC_TEMPLOVERRIDE               1372
 #define IDC_IGNORETIMEOUTS              1372
 #define IDC_RTLTEMPLOVERRIDE            1373
@@ -691,7 +689,6 @@
 #define ID_SENDMENU_SENDDEFAULT         40135
 #define ID_SENDMENU_SENDTOMULTIPLEUSERS 40136
 #define ID_SENDMENU_SENDTOCONTAINER     40137
-#define ID_SENDMENU_FORCEANSISEND       40138
 #define ID_VIEW_VERTICALMAXIMIZE        40143
 #define ID_SENDMENU_SENDLATER           40144
 #define ID_PROTOMENU_SPLITTER           40145
