@@ -213,6 +213,13 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		(!_strnicmp(tContentType, "application/user+xml", 10) && tHeader["Message-Type"] && !strncmp(tHeader["Message-Type"], "RichText", 8))) {
 		MCONTACT hContact = strncmp(email, "19:", 3)?MSN_HContactFromEmail(email, nick, true, true):NULL;
 
+		if (!_stricmp(tHeader["Message-Type"], "RichText/UriObject")) {
+			ezxml_t xmli = ezxml_parse_str(msgBody, strlen(msgBody));
+			if (xmli) {
+				MSN_ProcessURIObject(hContact, xmli);
+				ezxml_free(xmli);
+			}
+		} else
 		if (!_stricmp(tHeader["Message-Type"], "RichText/Contacts")) {
 			ezxml_t xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody));
 			if (xmli) {
@@ -359,27 +366,11 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 			else tContact = MSN_HContactFromEmail(email, nick, true, true);
 			if (!mir_strcmp(tHeader["Message-Type"], "Nudge"))
 				NotifyEventHooks(hMSNNudge, (WPARAM)tContact, 0);
-
-#ifdef OBSOLETE
-			MimeHeaders tFileInfo;
-			tFileInfo.readFromBuffer(msgBody);
-
-			const char* id = tFileInfo["ID"];
-			if (id != NULL) {
-				switch (atol(id)) {
-				case 1:  // Nudge
-					NotifyEventHooks(hMSNNudge, (WPARAM)tContact, 0);
-					break;
-
-				case 2: // Wink
-					break;
-
-				case 4: // Action Message
-					break;
-				}
-			}
-		}
-#endif
+			/* Other msg types: 
+			 * Wink
+			 * Voice
+			 * Data
+			 */
 	}
 	else if (!_strnicmp(tContentType, "text/x-msmsgsemailnotification", 30))
 		sttNotificationMessage(msgBody, false);
@@ -419,6 +410,101 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 	mir_free(mChatID);
 	mir_free(newbody);
+}
+
+void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
+{
+	const char *pszSkypeToken;
+
+	if ((pszSkypeToken=GetSkypeToken(true)) && xmli) {
+		/* FIXME: As soon as core has functions to POST images in a conversation AND gives the possibility to supply a
+			* callback for fetching thta image, this may be possible, but currently due to required Auth-Header, this
+			* is not possible and we just send an incoming file transfer 
+		const char *thumb = ezxml_attr(xmli, "url_thumbnail");
+		if (thumb && ServiceExists("IEVIEW/NewWindow")) {
+			// Supply callback to detch thumb with auth-header and embed [img] BB-code?
+		}
+		*/
+		char *uri = (char*)ezxml_attr(xmli, "uri");
+		if (uri) {
+			// First get HTTP header of file to get content length
+			unsigned __int64  fileSize = 0;
+			NETLIBHTTPHEADER nlbhHeaders[2] = { 0 };
+			nlbhHeaders[0].szName = "User-Agent";		nlbhHeaders[0].szValue = (LPSTR)MSN_USER_AGENT;
+			nlbhHeaders[1].szName = "Authorization";	nlbhHeaders[1].szValue = (char*)pszSkypeToken;
+
+			NETLIBHTTPREQUEST nlhr = { 0 }, *nlhrReply;
+			nlhr.cbSize = sizeof(nlhr);
+			nlhr.requestType = REQUEST_GET;
+			nlhr.flags = NLHRF_GENERATEHOST | NLHRF_PERSISTENT | NLHRF_SMARTAUTHHEADER;
+			nlhr.szUrl = uri;
+			nlhr.headers = (NETLIBHTTPHEADER*)&nlbhHeaders;
+			nlhr.headersCount = SIZEOF(nlbhHeaders);
+			nlhr.nlc = hHttpsConnection;
+
+			mHttpsTS = clock();
+			nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+			mHttpsTS = clock();
+			if (nlhrReply) {
+				hHttpsConnection = nlhrReply->nlc;
+				if (nlhrReply->resultCode == 200) {
+					char *pLength, *pEnd;
+					
+					if ((pLength = strstr(nlhrReply->pData, "\"contents\":")) && (pLength = strstr(pLength, "\"imgpsh\"")) &&
+						(pLength = strstr(pLength, "\"length\":")) && (pEnd = strchr(pLength+9, ','))) {
+							pLength+=9;
+							*pEnd = 0;
+							fileSize=_atoi64(pLength);
+					}
+				}
+
+				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+			}  else hHttpsConnection = NULL;
+
+			if (fileSize) {
+				filetransfer* ft = new filetransfer(this);
+				char *pszFile;
+				ezxml_t originalName, desc;
+
+				ft->std.hContact = hContact;
+				ft->tType = SERVER_HTTP;
+				ft->p2p_appID = MSN_APPID_FILE;
+				mir_free(ft->std.tszCurrentFile);
+				if (!((originalName = ezxml_child(xmli, "OriginalName")) && (pszFile = (char*)ezxml_attr(originalName, "v")))) {
+					if ((originalName = ezxml_child(xmli, "meta")))
+						pszFile = (char*)ezxml_attr(originalName, "originalName");
+				}
+				ft->std.tszCurrentFile = mir_utf8decodeT(pszFile);
+				ft->std.totalBytes = ft->std.currentFileSize = fileSize;
+				ft->std.totalFiles = 1;
+				ft->szInvcookie = (char*)mir_calloc(strlen(uri)+16);
+				sprintf(ft->szInvcookie, "%s/content/imgpsh", uri);
+
+				TCHAR tComment[40];
+				mir_sntprintf(tComment, SIZEOF(tComment), TranslateT("%I64u bytes"), ft->std.currentFileSize);
+
+				PROTORECVFILET pre = { 0 };
+				pre.dwFlags = PRFF_TCHAR;
+				pre.fileCount = 1;
+				pre.timestamp = time(NULL);
+				pre.tszDescription = (desc = ezxml_child(xmli, "Description"))?mir_utf8decodeT(desc->txt):tComment;
+				pre.ptszFiles = &ft->std.tszCurrentFile;
+				pre.lParam = (LPARAM)ft;
+				ProtoChainRecvFile(ft->std.hContact, &pre);
+				if (desc) mir_free(pre.tszDescription);
+			} else uri=NULL;
+		}
+
+		if (uri == NULL) {
+			// Fallback: Just filter out the link and post it as a message
+			CallService(MS_PROTO_CONTACTISTYPING, WPARAM(hContact), 0);
+
+			PROTORECVEVENT pre = { 0 };
+			pre.szMessage = (char*)ezxml_txt(xmli);
+			pre.timestamp = (DWORD)time(NULL);
+			ProtoChainRecvMsg(hContact, &pre);
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1032,8 +1118,12 @@ LBL_InvalidCommand:
 										ezxml_free(xmlact);
 									}
 									continue;
-								} else if (mir_strcmp(msgtype->txt, "Text")) continue;
-								/* TODO: Implement i.e. RichText/Files for announcement of file transfers */
+								} else if (!mir_strcmp(msgtype->txt, "RichText/UriObject")) {
+									if (ezxml_t xmlact = ezxml_parse_str(content->txt, mir_strlen(content->txt))) {
+										MSN_ProcessURIObject(hContact, xmlact);
+										ezxml_free(xmlact);
+									}
+								} else if (mir_strcmp(msgtype->txt, "Text")) continue;								/* TODO: Implement i.e. RichText/Files for announcement of file transfers */
 							}
 
 							if (bIsChat) {

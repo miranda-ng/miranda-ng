@@ -1112,7 +1112,6 @@ void CMsnProto::MSN_ShowPopup(const MCONTACT hContact, const TCHAR* msg, int fla
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // filetransfer class members
-#ifdef OBSOLETE
 filetransfer::filetransfer(CMsnProto* prt)
 {
 	memset(this, 0, sizeof(filetransfer));
@@ -1122,6 +1121,7 @@ filetransfer::filetransfer(CMsnProto* prt)
 	proto = prt;
 
 	hLockHandle = CreateMutex(NULL, FALSE, NULL);
+	hResumeEvt = CreateEvent(NULL, FALSE, FALSE, NULL);
 }
 
 filetransfer::~filetransfer(void)
@@ -1131,11 +1131,14 @@ filetransfer::~filetransfer(void)
 
 	WaitForSingleObject(hLockHandle, 2000);
 	CloseHandle(hLockHandle);
+	CloseHandle(hResumeEvt);
 
 	if (fileId != -1) {
 		_close(fileId);
-		if (p2p_appID != MSN_APPID_FILE && !(std.flags & PFTS_SENDING))
+#ifdef OBSOLETE
+		if (tType != SERVER_HTTP && p2p_appID != MSN_APPID_FILE && !(std.flags & PFTS_SENDING))
 			proto->p2p_pictureTransferFailed(this);
+#endif
 	}
 
 	if (!bCompleted && p2p_appID == MSN_APPID_FILE) {
@@ -1176,7 +1179,10 @@ void filetransfer::complete(void)
 
 int filetransfer::create(void)
 {
-	fileId = _topen(std.tszCurrentFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
+	int flags = _O_BINARY | _O_CREAT | _O_WRONLY | _O_APPEND;
+
+	if (std.currentFileProgress == 0) flags |= _O_TRUNC;
+	fileId = _topen(std.tszCurrentFile, flags, _S_IREAD | _S_IWRITE);
 
 	if (fileId == -1)
 		proto->MSN_ShowError("Cannot create file '%s' during a file transfer", std.tszCurrentFile);
@@ -1225,6 +1231,7 @@ int filetransfer::openNext(void)
 	return fileId;
 }
 
+#ifdef OBSOLETE
 directconnection::directconnection(const char* CallID, const char* Wlid)
 {
 	memset(this, 0, sizeof(directconnection));
@@ -1287,8 +1294,6 @@ void directconnection::xNonceToBin(UUID* nonce)
 	p[len - 2] = 0;
 	UuidFromStringA((BYTE*)p, nonce);
 }
-#else
-filetransfer::~filetransfer(void) { }
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////

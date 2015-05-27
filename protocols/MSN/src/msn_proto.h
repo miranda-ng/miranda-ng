@@ -40,12 +40,10 @@ struct CMsnProto : public PROTO<CMsnProto>
 	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage);
 
-#ifdef OBSOLETE
 	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath);
 	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
 	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason);
 	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename);
-#endif
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 
@@ -118,7 +116,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	char *authContactToken;
 	char *authStorageToken;
 	char *hotSecretToken, *hotAuthToken;
-	char *authUser, *authUIC, *authCookies, *authSSLToken, *authAccessToken;
+	char *authUser, *authUIC, *authCookies, *authSSLToken, *authAccessToken, *authRefreshToken, *authSkypeComToken, *authSkypeToken;
 	int  authMethod;
 	time_t authTokenExpiretime;
 	bool bSentBND;
@@ -222,6 +220,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	void        MSN_ProcessRemove(char* buf, size_t len);
 	void        MSN_ProcessAdd(char* buf, size_t len);
 	void        MSN_ProcessYFind(char* buf, size_t len);
+	void		MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli);
 	void        MSN_CustomSmiley(const char* msgBody, char* email, char* nick, int iSmileyType);
 	void        MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, char* nick);
 	void        MSN_SetMirVer(MCONTACT hContact, DWORD dwValue, bool always);
@@ -498,6 +497,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	CMStringA HotmailLogin(const char* url);
 	void	    FreeAuthTokens(void);
 	int       GetMyNetID(void);
+	const char *GetSkypeToken(bool bAsAuthHeader);
 	LPCSTR    GetMyUsername(int netId);
 
 	/////////////////////////////////////////////////////////////////////////////////////////

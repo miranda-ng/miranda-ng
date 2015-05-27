@@ -458,9 +458,33 @@ HANDLE __cdecl CMsnProto::SearchByEmail(const PROTOCHAR* email)
 	return SearchBasic(email);
 }
 
-#ifdef OBSOLETE
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnFileAllow - starts the file transfer
+
+// stolen from netlibhttp.cpp
+static void MyNetlibConnFromUrl(const char* szUrl, NETLIBOPENCONNECTION &nloc)
+{
+	bool secur =_strnicmp(szUrl, "https", 5) == 0;
+	const char* phost = strstr(szUrl, "://");
+
+	char* szHost = mir_strdup(phost ? phost + 3 : szUrl);
+
+	char* ppath = strchr(szHost, '/');
+	if (ppath) *ppath = '\0';
+
+	memset(&nloc, 0, sizeof(nloc));
+	nloc.cbSize = sizeof(nloc);
+	nloc.szHost = szHost;
+
+	char* pcolon = strrchr(szHost, ':');
+	if (pcolon) {
+		*pcolon = '\0';
+		nloc.wPort = (WORD)strtol(pcolon+1, NULL, 10);
+	}
+	else nloc.wPort = secur ? 443 : 80;
+	nloc.flags = (secur ? NLOCF_SSL : 0);
+}
+
 
 void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 {
@@ -470,27 +494,92 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 	mir_sntprintf(filefull, SIZEOF(filefull), _T("%s\\%s"), ft->std.tszWorkingDir, ft->std.tszCurrentFile);
 	replaceStrT(ft->std.tszCurrentFile, filefull);
 
+	ResetEvent(ft->hResumeEvt);
 	if (ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, ft, (LPARAM)&ft->std))
-		return;
+		WaitForSingleObject(ft->hResumeEvt, INFINITE);
 
-	bool fcrt = ft->create() != -1;
+	ft->create();
 
-	if (ft->p2p_appID != 0) {
-		if (fcrt)
-			p2p_sendFeedStart(ft);
-		p2p_sendStatus(ft, fcrt ? 200 : 603);
+#ifdef OBSOLETE
+	if (ft->tType != SERVER_HTTP) {
+		if (ft->p2p_appID != 0) {
+			if (fcrt)
+				p2p_sendFeedStart(ft);
+			p2p_sendStatus(ft, fcrt ? 200 : 603);
+		}
+		else msnftp_sendAcceptReject(ft, fcrt);
 	}
-	else msnftp_sendAcceptReject(ft, fcrt);
+#endif
 
 	ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
+
+	if (ft->tType == SERVER_HTTP) {
+		const char *pszSkypeToken;
+
+		if (ft->fileId != -1 && (pszSkypeToken=GetSkypeToken(true))) {
+			NETLIBHTTPHEADER nlbhHeaders[3] = { 0 };
+			NETLIBHTTPREQUEST nlhr = { 0 }, *nlhrReply;
+			char szRange[32];
+
+			nlbhHeaders[0].szName = "User-Agent";		nlbhHeaders[0].szValue = (LPSTR)MSN_USER_AGENT;
+			nlbhHeaders[1].szName = "Authorization";	nlbhHeaders[1].szValue = (char*)pszSkypeToken;
+			nlhr.headersCount = 2;
+			if (ft->std.currentFileProgress) {
+				mir_snprintf(szRange, sizeof(szRange), "bytes=%I64d-", ft->std.currentFileProgress);
+				nlbhHeaders[2].szName = "Range";
+				nlbhHeaders[2].szValue = szRange;
+				nlhr.headersCount++;
+			}
+
+			nlhr.cbSize = sizeof(nlhr);
+			nlhr.requestType = REQUEST_GET;
+			nlhr.flags = NLHRF_GENERATEHOST | NLHRF_SMARTREMOVEHOST | NLHRF_SMARTAUTHHEADER | NLHRF_HTTP11;
+			nlhr.szUrl = ft->szInvcookie;
+			nlhr.headers = (NETLIBHTTPHEADER*)&nlbhHeaders;
+
+			NETLIBOPENCONNECTION nloc = { 0 };
+			MyNetlibConnFromUrl(nlhr.szUrl, nloc);
+			nloc.flags |= NLOCF_HTTP;
+			if (nloc.flags & NLOCF_SSL) nlhr.flags |= NLHRF_SSL;
+			HANDLE nlc = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
+
+			if (nlc && CallService(MS_NETLIB_SENDHTTPREQUEST, (WPARAM)nlc, (LPARAM)&nlhr) != SOCKET_ERROR &&
+				(nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_RECVHTTPHEADERS, (WPARAM)nlc, 0))) 
+			{
+					if (nlhrReply->resultCode == 200 || nlhrReply->resultCode == 206) {
+						INT_PTR dw;
+						char buf[1024];
+
+						ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, ft, 0);
+						while (!ft->bCanceled && ft->std.currentFileProgress < ft->std.currentFileSize &&
+							(dw = Netlib_Recv(nlc, buf, sizeof(buf), MSG_NODUMP))>0 && dw!=SOCKET_ERROR) 
+						{
+							_write(ft->fileId, buf, dw);
+							ft->std.totalProgress += dw;
+							ft->std.currentFileProgress += dw;
+							ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+						}
+						if (ft->std.currentFileProgress == ft->std.currentFileSize) ft->std.currentFileNumber++;
+
+					}
+					CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+			}
+			Netlib_CloseHandle(nlc);
+			mir_free((char*)nloc.szHost);
+			if (ft->std.currentFileNumber >= ft->std.totalFiles) ft->complete();
+		}
+		delete ft;
+	}
 }
 
 HANDLE __cdecl CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const PROTOCHAR* szPath)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
-	if (!msnLoggedIn || !p2p_sessionRegistered(ft))
+#ifdef OBSOLETE
+	if (ft->tType != SERVER_HTTP && (!msnLoggedIn || !p2p_sessionRegistered(ft)))
 		return 0;
+#endif
 
 	if ((ft->std.tszWorkingDir = mir_tstrdup(szPath)) == NULL) {
 		TCHAR szCurrDir[MAX_PATH];
@@ -515,26 +604,31 @@ int __cdecl CMsnProto::FileCancel(MCONTACT, HANDLE hTransfer)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
-	if (!msnLoggedIn || !p2p_sessionRegistered(ft))
-		return 0;
-
-	if (!(ft->std.flags & PFTS_SENDING) && ft->fileId == -1) {
-		if (ft->p2p_appID != 0)
-			p2p_sendStatus(ft, 603);
-		else
-			msnftp_sendAcceptReject(ft, false);
-	}
+	if (ft->tType == SERVER_HTTP) ft->bCanceled = true;
+#ifdef OBSOLETE
 	else {
-		ft->bCanceled = true;
-		if (ft->p2p_appID != 0) {
-			p2p_sendCancel(ft);
-			if (!(ft->std.flags & PFTS_SENDING) && ft->p2p_isV2)
-				p2p_sessionComplete(ft);
-		}
-	}
+		if (!msnLoggedIn || !p2p_sessionRegistered(ft))
+			return 0;
 
-	ft->std.ptszFiles = NULL;
-	ft->std.totalFiles = 0;
+		if (!(ft->std.flags & PFTS_SENDING) && ft->fileId == -1) {
+			if (ft->p2p_appID != 0)
+				p2p_sendStatus(ft, 603);
+			else
+				msnftp_sendAcceptReject(ft, false);
+		}
+		else {
+			ft->bCanceled = true;
+			if (ft->p2p_appID != 0) {
+				p2p_sendCancel(ft);
+				if (!(ft->std.flags & PFTS_SENDING) && ft->p2p_isV2)
+					p2p_sessionComplete(ft);
+			}
+		}
+
+		ft->std.ptszFiles = NULL;
+		ft->std.totalFiles = 0;
+	}
+#endif
 	return 0;
 }
 
@@ -545,20 +639,25 @@ int __cdecl CMsnProto::FileDeny(MCONTACT, HANDLE hTransfer, const PROTOCHAR* /*s
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
-	if (!msnLoggedIn || !p2p_sessionRegistered(ft))
-		return 1;
-
-	if (!(ft->std.flags & PFTS_SENDING) && ft->fileId == -1) {
-		if (ft->p2p_appID != 0)
-			p2p_sendStatus(ft, 603);
-		else
-			msnftp_sendAcceptReject(ft, false);
-	}
+	if (ft->tType == SERVER_HTTP) delete ft;
+#ifdef OBSOLETE
 	else {
-		ft->bCanceled = true;
-		if (ft->p2p_appID != 0)
-			p2p_sendCancel(ft);
+		if (!msnLoggedIn || !p2p_sessionRegistered(ft))
+			return 1;
+
+		if (!(ft->std.flags & PFTS_SENDING) && ft->fileId == -1) {
+			if (ft->p2p_appID != 0)
+				p2p_sendStatus(ft, 603);
+			else
+				msnftp_sendAcceptReject(ft, false);
+		}
+		else {
+			ft->bCanceled = true;
+			if (ft->p2p_appID != 0)
+				p2p_sendCancel(ft);
+		}
 	}
+#endif
 
 	return 0;
 }
@@ -570,38 +669,63 @@ int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
-	if (!msnLoggedIn || !p2p_sessionRegistered(ft))
-		return 1;
-
-	switch (*action) {
-	case FILERESUME_SKIP:
-		if (ft->p2p_appID != 0)
-			p2p_sendStatus(ft, 603);
-		else
-			msnftp_sendAcceptReject(ft, false);
-		break;
-
-	case FILERESUME_RENAME:
-		replaceStrT(ft->std.tszCurrentFile, *szFilename);
-
-	default:
-		bool fcrt = ft->create() != -1;
-		if (ft->p2p_appID != 0) {
-			if (fcrt)
-				p2p_sendFeedStart(ft);
-
-			p2p_sendStatus(ft, fcrt ? 200 : 603);
+	if (ft->tType == SERVER_HTTP) {
+		switch (*action) {
+			case FILERESUME_SKIP:
+				ft->close();
+				ft->bCanceled = true;
+				break;
+			case FILERESUME_RENAME:
+				replaceStrT(ft->std.tszCurrentFile, *szFilename);
+				break;
+			case FILERESUME_OVERWRITE:
+				ft->std.currentFileProgress = 0;
+				break;
+			case FILERESUME_RESUME:
+				{
+					struct _stati64 statbuf;
+					_tstati64(ft->std.tszCurrentFile, &statbuf);
+					ft->std.currentFileProgress = statbuf.st_size;
+				}
+				break;
 		}
-		else
-			msnftp_sendAcceptReject(ft, fcrt);
-
-		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
-		break;
+		SetEvent(ft->hResumeEvt);
 	}
+#ifdef OBSOLETE
+	else {
+		if (!msnLoggedIn || !p2p_sessionRegistered(ft))
+			return 1;
+
+		switch (*action) {
+		case FILERESUME_SKIP:
+			if (ft->p2p_appID != 0)
+				p2p_sendStatus(ft, 603);
+			else
+				msnftp_sendAcceptReject(ft, false);
+			break;
+
+		case FILERESUME_RENAME:
+			replaceStrT(ft->std.tszCurrentFile, *szFilename);
+
+		default:
+			bool fcrt = ft->create() != -1;
+			if (ft->p2p_appID != 0) {
+				if (fcrt)
+					p2p_sendFeedStart(ft);
+
+				p2p_sendStatus(ft, fcrt ? 200 : 603);
+			}
+			else
+				msnftp_sendAcceptReject(ft, fcrt);
+
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
+			break;
+		}
+	}
+#endif
 
 	return 0;
 }
-#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnGetAwayMsg - reads the current status message for a user
@@ -646,7 +770,7 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH |
 			PF1_ADDSEARCHRES | PF1_CHAT | PF1_CONTACT | 
-			/*PF1_FILESEND | PF1_FILERECV | */PF1_URLRECV | PF1_VISLIST | PF1_MODEMSG;
+			/*PF1_FILESEND |*/ PF1_FILERECV | PF1_URLRECV | PF1_VISLIST | PF1_MODEMSG;
 
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE;

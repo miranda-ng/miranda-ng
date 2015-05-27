@@ -692,6 +692,18 @@ void CMsnProto::LoadAuthTokensDB(void)
 		replaceStr(authStorageToken, dbv.pszVal);
 		db_free(&dbv);
 	}
+	if (getString("authRefreshToken", &dbv) == 0) {
+		replaceStr(authRefreshToken, dbv.pszVal);
+		db_free(&dbv);
+	}
+	if (getString("authSkypeComToken", &dbv) == 0) {
+		replaceStr(authSkypeComToken, dbv.pszVal);
+		db_free(&dbv);
+	}
+	if (getString("authSkypeToken", &dbv) == 0) {
+		replaceStr(authSkypeToken, dbv.pszVal);
+		db_free(&dbv);
+	}
 }
 
 void CMsnProto::SaveAuthTokensDB(void)
@@ -703,6 +715,7 @@ void CMsnProto::SaveAuthTokensDB(void)
 	setString("authUIC", authUIC);
 	setString("authCookies", authCookies);
 	setString("authStrToken", authStrToken);
+	setString("authRefreshToken", authRefreshToken);
 }
 
 // -1 - Error on login sequence 
@@ -815,6 +828,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 									*pEnd = 0;
 									pRefreshToken+=14;
 								}
+								replaceStr(authRefreshToken, pRefreshToken);
 
 								/* Extract expire time */
 								time(&authTokenExpiretime);
@@ -841,6 +855,8 @@ int CMsnProto::MSN_AuthOAuth(void)
 										authMethod=retVal=1;
 									}
 								}
+								mir_free(authSkypeComToken); authSkypeComToken = NULL;
+								mir_free(authSkypeToken); authSkypeToken = NULL;
 
 
 								/* If you need Skypewebexperience login, as i.e. skylogin.dll is not available, we do this here */
@@ -920,6 +936,74 @@ const char *CMsnProto::GetMyUsername(int netId)
 	return MyOptions.szEmail;
 }
 
+const char *CMsnProto::GetSkypeToken(bool bAsAuthHeader)
+{
+	char szToken[1024];
+
+	// Ensure that token isn't expired
+	MSN_AuthOAuth();
+
+	// No token available, fetch it
+	if (!authSkypeToken) {
+		// Get skype.com OAuth token needed to acquire skype_token
+		if (!authSkypeComToken) {
+			if (RefreshOAuth(authRefreshToken, "service::skype.com::MBI_SSL", szToken))
+				replaceStr(authSkypeComToken, szToken);
+			else return NULL;
+		}
+
+		// Get skype_token
+		NETLIBHTTPREQUEST nlhr = { 0 };
+		NETLIBHTTPREQUEST *nlhrReply;
+		NETLIBHTTPHEADER headers[1];
+		char szPOST[2048];
+
+		nlhr.cbSize = sizeof(nlhr);
+		nlhr.requestType = REQUEST_POST;
+		nlhr.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_PERSISTENT | NLHRF_REDIRECT;
+		nlhr.nlc = hHttpsConnection;
+		nlhr.headersCount = SIZEOF(headers);
+		nlhr.headers = headers;
+		nlhr.headers[0].szName = "User-Agent";
+		nlhr.headers[0].szValue = (char*)MSN_USER_AGENT;
+		nlhr.szUrl = "https://api.skype.com/rps/skypetoken";
+		mir_snprintf(szPOST, sizeof(szPOST), "scopes=client&clientVersion=%s&access_token=%s&partner=999", 
+			msnProductVer, authSkypeComToken);
+		nlhr.dataLength = (int)strlen(szPOST);
+		nlhr.pData = (char*)(const char*)szPOST;
+
+
+		mHttpsTS = clock();
+		nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+		mHttpsTS = clock();
+
+		if (nlhrReply)  {
+			hHttpsConnection = nlhrReply->nlc;
+
+			if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
+				char *pSkypeToken, *pEnd;
+
+				if ((pSkypeToken = strstr(nlhrReply->pData, "\"skypetoken\":\"")) && 
+					(pEnd=strchr(pSkypeToken+15, '"')))
+				{
+					*pEnd = 0;
+					pSkypeToken+=14;
+					mir_snprintf (szToken, sizeof(szToken), "skype_token %s", pSkypeToken);
+					replaceStr(authSkypeToken, szToken);
+					setString("authSkypeToken", authSkypeToken);
+				}
+
+			}
+			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+		} else hHttpsConnection = NULL;
+	}
+	if (!bAsAuthHeader && authSkypeToken) {
+		char *pszRet = strchr(authSkypeToken, ' ');
+		if (pszRet) return pszRet+1;
+	}
+	return authSkypeToken;
+}
+
 void CMsnProto::FreeAuthTokens(void)
 {
 	mir_free(pAuthToken);
@@ -933,7 +1017,10 @@ void CMsnProto::FreeAuthTokens(void)
 	mir_free(authUIC);
 	mir_free(authCookies);
 	mir_free(authSSLToken);
+	mir_free(authSkypeComToken);
+	mir_free(authSkypeToken);
 	mir_free(authUser);
 	mir_free(authAccessToken);
+	mir_free(authRefreshToken);
 	free(hotAuthToken);
 }

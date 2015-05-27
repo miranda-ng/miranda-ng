@@ -374,7 +374,8 @@ enum TInfoType
 	SERVER_NOTIFICATION,
 	SERVER_SWITCHBOARD,
 	SERVER_FILETRANS,
-	SERVER_P2P_DIRECT
+	SERVER_P2P_DIRECT,
+	SERVER_HTTP
 };
 
 
@@ -400,6 +401,7 @@ struct filetransfer
 	int			fileId;			// handle of file being transferring (r/w)
 
 	HANDLE		hLockHandle;
+	HANDLE		hResumeEvt;
 
 	ThreadData  *info;
 	TInfoType	tType;
