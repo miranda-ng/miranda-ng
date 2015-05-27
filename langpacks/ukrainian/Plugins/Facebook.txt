@@ -241,8 +241,8 @@
 Контакт видалений зі списку на сервері.
 [%s server connection]
 З'єднання з сервером %s
-[Unable to get Netlib connection for Facebook]
-Не вдається встановити з'єднання з Facebook
+[Unable to initialize Netlib for %s.]
+Не вдається встановити з'єднання Netlib для %s.
 [Video call]
 Відеовиклик
 [Facebook ID must be numeric value.]

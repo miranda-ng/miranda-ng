@@ -23,7 +23,7 @@
 Значок протоколу
 [%s server connection]
 З'єднання з сервером %s
-[Unable to get Netlib connection for Minecraft Dynmap]
-Не вдається встановити з'єднання для Minecraft Dynmap
+[Unable to initialize Netlib for %s.]
+Не вдається встановити з'єднання Netlib для %s.
 [Visible name]
 Видиме ім'я

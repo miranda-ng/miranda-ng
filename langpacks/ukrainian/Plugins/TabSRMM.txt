@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.10
+;  Version: 3.4.0.11
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -241,10 +241,6 @@
 Метод відправки форматування
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
 Зміна надсилання інформації про формат тексту. "Вимкнути" - відключає форматування для цього контакту.
-[ANSI codepage]
-Кодова сторінка ANSI
-[Codepage for ANSI encoding/decoding when sending or receiving non-Unicode messages.]
-Кодова сторінка ANSI для перекодування не Юнікод повідомлень.
 [Info panel mode]
 Режим інфо-панелі
 [Show avatar in message window]
@@ -253,8 +249,6 @@
 Власний роздільник
 [Contact is a favorite contact]
 Контакт знаходиться в обраних
-[Force ANSI send / receive]
-Прийом/відправка завжди в ANSI
 [Ignore sending timeouts]
 Ігнорувати таймаут відправлення
 [Load only actual history]
@@ -753,8 +747,6 @@ Esc закриває сесію (інакше - згортає)
 Надіслати всьому &контейнеру
 [Send &later]
 Надіслати &пізніше
-[Force &ANSI]
-Примусово ANSI
 [Send unsafe (ignore timeouts)]
 Відправляти небезпечно (без таймаутів)
 [Send nudge]
@@ -1197,8 +1189,6 @@ TabSRMM: Набирає
 Не додавати цей контакт до списку
 [Expand or collapse the side bar]
 Розгорнути або згорнути бічну панель
-[Character encoding]
-Кодування
 [Contact not on list. You may add it...]
 Контакт не в списку. Ви можете додати його...
 [A message failed to send successfully.]
@@ -1319,8 +1309,6 @@ TabSRMM: Набирає
 Сьогодні
 [Yesterday]
 Вчора
-[Use default codepage]
-Кодування за замовчанням
 [<no skin>]
 <без скіна>
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all.]

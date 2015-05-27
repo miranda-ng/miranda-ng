@@ -81,12 +81,12 @@ URL:
 Спливаючі вікна
 [%s server connection]
 З'єднання з сервером %s
-[Unable to get Netlib connection for Twitter]
-Не вдається встановити з'єднання з Twitter
+[Unable to initialize Netlib for %s.]
+Не вдається встановити з'єднання Netlib для %s.
 [%s avatar connection]
 З'єднання аватарів %s
-[Unable to get avatar Netlib connection for Twitter]
-Не вдається встановити з'єднання для аватарів Twitter
+[Twitter (avatars)]
+Twitter (аватари)
 [%s Protocol]
 Протокол %s
 [Twitter Icon]
