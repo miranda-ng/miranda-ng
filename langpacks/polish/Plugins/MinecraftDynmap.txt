@@ -28,7 +28,7 @@ Ikona protokołu
 ;file \protocols\MinecraftDynmap\src\proto.cpp
 [%s server connection]
 Połączenie %s
-[Unable to get Netlib connection for Minecraft Dynmap]
-Nie udało się uzyskać połączenia Netlib dla Minecraft Dynmap
+[Unable to initialize Netlib for %s.]
+Nie udało się zainicjować połączenia Netlib dla %s.
 [Visible name]
 Widoczna nazwa

@@ -104,8 +104,8 @@ Wiadomość odebrana: %s przez %s
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 Połączenie %s
-[Unable to get Netlib connection for WhatsApp]
-Nie udało się uzyskać połączenia Netlib dla WhatsApp
+[Unable to initialize Netlib for %s.]
+Nie udało się zainicjować połączenia Netlib dla %s.
 [Network connection error.]
 Błąd połączenia sieciowego.
 [Registration failed. Invalid server response.]
