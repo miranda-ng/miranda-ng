@@ -117,53 +117,26 @@ entry_found:
 
 #define SPLIT_WORD_CUTOFF 20
 
-static int SendChunkW(WCHAR *chunk, MCONTACT hContact, DWORD dwFlags)
-{
-	size_t wLen = mir_wstrlen(chunk);
-	size_t memRequired = (wLen + 1) * sizeof(WCHAR);
-	DWORD	codePage = db_get_dw(hContact, SRMSGMOD_T, "ANSIcodepage", CP_ACP);
-
-	int mbcsSize = WideCharToMultiByte(codePage, 0, chunk, -1, NULL, 0, 0, 0);
-	memRequired += mbcsSize;
-
-	ptrA pBuf((char*)mir_alloc(memRequired));
-	WideCharToMultiByte(codePage, 0, chunk, -1, pBuf, mbcsSize, 0, 0);
-	memcpy(&pBuf[mbcsSize], chunk, (wLen + 1) * sizeof(WCHAR));
-	return CallContactService(hContact, PSS_MESSAGE, dwFlags, (LPARAM)pBuf);
-}
-
-static int SendChunkA(char *chunk, MCONTACT hContact, char *szSvc, DWORD dwFlags)
-{
-	return(CallContactService(hContact, szSvc, dwFlags, (LPARAM)chunk));
-}
-
 static void DoSplitSendA(LPVOID param)
 {
 	SendJob *job = sendQueue->getJobByIndex((int)param);
-	int      id;
-	BOOL     fFirstSend = FALSE;
-	char    *szBegin, *szTemp, *szSaved, savedChar;
-	int      iCur = 0, iSavedCur = 0, i;
-	BOOL     fSplitting = TRUE;
-	MCONTACT hContact = job->hContact;
-	DWORD    dwFlags = job->dwFlags;
-	int      chunkSize = job->chunkSize;
 
 	size_t iLen = mir_strlen(job->szSendBuffer);
-	szTemp = (char *)mir_alloc(iLen + 1);
+	ptrA   szBegin((char*)mir_alloc(iLen + 1));
+	char  *szTemp = szBegin;
 	memcpy(szTemp, job->szSendBuffer, iLen + 1);
-	szBegin = szTemp;
 
+	bool fFirstSend = false, fSplitting = true;
+	int iCur = 0;
 	do {
-		iCur += chunkSize;
+		iCur += job->chunkSize;
 		if (iCur > iLen)
 			fSplitting = FALSE;
 
 		if (fSplitting) {
-			i = 0;
-			szSaved = &szBegin[iCur];
-			iSavedCur = iCur;
-			while (iCur) {
+			char *szSaved = &szBegin[iCur];
+			int iSavedCur = iCur;
+			for (int i = 0; iCur; i++, iCur--) {
 				if (szBegin[iCur] == ' ') {
 					szSaved = &szBegin[iCur];
 					break;
@@ -173,12 +146,11 @@ static void DoSplitSendA(LPVOID param)
 					szSaved = &szBegin[iCur];
 					break;
 				}
-				i++;
-				iCur--;
 			}
-			savedChar = *szSaved;
+
+			char savedChar = *szSaved;
 			*szSaved = 0;
-			id = SendChunkA(szTemp, hContact, PSS_MESSAGE, dwFlags);
+			int id = CallContactService(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)szTemp);
 			if (!fFirstSend) {
 				job->hSendId = (HANDLE)id;
 				fFirstSend = TRUE;
@@ -192,7 +164,7 @@ static void DoSplitSendA(LPVOID param)
 			}
 		}
 		else {
-			id = SendChunkA(szTemp, hContact, PSS_MESSAGE, dwFlags);
+			int id = CallContactService(job->hContact, PSS_MESSAGE, job->dwFlags, (LPARAM)szTemp);
 			if (!fFirstSend) {
 				job->hSendId = (HANDLE)id;
 				fFirstSend = TRUE;
@@ -200,8 +172,8 @@ static void DoSplitSendA(LPVOID param)
 			}
 		}
 		Sleep(500L);
-	} while (fSplitting);
-	mir_free(szBegin);
+	}
+		while (fSplitting);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -414,7 +386,6 @@ void SendQueue::EnableSending(const TWindowData *dat, const int iMode)
 void SendQueue::showErrorControls(TWindowData *dat, const int showCmd) const
 {
 	UINT	myerrorControls[] = { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER };
-	int		i;
 	HWND	hwndDlg = dat->hwnd;
 
 	if (showCmd) {
@@ -430,10 +401,9 @@ void SendQueue::showErrorControls(TWindowData *dat, const int showCmd) const
 		dat->hTabIcon = dat->hTabStatusIcon;
 	}
 
-	for (i = 0; i < 5; i++) {
+	for (int i = 0; i < 5; i++)
 		if (IsWindow(GetDlgItem(hwndDlg, myerrorControls[i])))
 			Utils::showDlgControl(hwndDlg, myerrorControls[i], showCmd ? SW_SHOW : SW_HIDE);
-	}
 
 	SendMessage(hwndDlg, WM_SIZE, 0, 0);
 	DM_ScrollToBottom(dat, 0, 1);
