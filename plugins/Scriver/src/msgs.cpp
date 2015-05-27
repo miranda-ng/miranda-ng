@@ -410,35 +410,15 @@ void ChangeStatusIcons()
 int StatusIconPressed(WPARAM wParam, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *) lParam;
+	if (mir_strcmp(SRMMMOD, sicd->szModule))
+		return 0;
+
 	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam);
 	if (hwnd == NULL)
 		hwnd = SM_FindWindowByContact(wParam);
 
-	if (hwnd != NULL) {
-		if (!mir_strcmp(SRMMMOD, sicd->szModule)) {
-			if (sicd->dwId == 0 && g_dat.hMenuANSIEncoding) {
-				if (sicd->flags & MBCF_RIGHTBUTTON) {
-					int codePage = (int) SendMessage(hwnd, DM_GETCODEPAGE, 0, 0);
-					if (codePage != 1200) {
-						for (int i = 0; i < GetMenuItemCount(g_dat.hMenuANSIEncoding); i++)
-							CheckMenuItem (g_dat.hMenuANSIEncoding, i, MF_BYPOSITION | MF_UNCHECKED);
-
-						if (codePage == CP_ACP)
-							CheckMenuItem(g_dat.hMenuANSIEncoding, 0, MF_BYPOSITION | MF_CHECKED);
-						else
-							CheckMenuItem(g_dat.hMenuANSIEncoding, codePage, MF_BYCOMMAND | MF_CHECKED);
-
-						int iSel = TrackPopupMenu(g_dat.hMenuANSIEncoding, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, GetParent(hwnd), NULL);
-						if (iSel >= 500) {
-							if (iSel == 500) iSel = CP_ACP;
-							SendMessage(hwnd, DM_SETCODEPAGE, 0, iSel);
-						}
-					}
-				}
-			}
-			else SendMessage(hwnd, DM_SWITCHTYPING, 0, 0);
-		}
-	}
+	if (hwnd != NULL)
+		SendMessage(hwnd, DM_SWITCHTYPING, 0, 0);
 	return 0;
 }
 

@@ -101,13 +101,9 @@ struct NewMessageWindowLParam
 	int flags;
 };
 
-#define CWDF_RTF_INPUT 1
-
 struct CommonWindowData
 {
 	ParentWindowData *parent;
-	int codePage;
-	DWORD flags;
 	HWND hwndLog;
 	int minLogBoxHeight, minEditBoxHeight;
 	TCmdList *cmdList, *cmdListCurrent;

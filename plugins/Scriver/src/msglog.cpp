@@ -66,7 +66,6 @@ struct EventData
 	};
 	DWORD	time;
 	DWORD	eventType;
-	int   codePage;
 	BOOL  custom;
 	EventData *next;
 };
@@ -182,7 +181,6 @@ EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEven
 
 	evt->time = dbei.timestamp;
 	evt->pszNick = NULL;
-	evt->codePage = dat->codePage;
 
 	if (evt->dwFlags & IEEDF_SENT)
 		evt->pszNickT = GetNickname(NULL, dat->szProto);
@@ -196,7 +194,7 @@ EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEven
 		if (*descr != 0)
 			evt->pszText2T = DbGetEventStringT(&dbei, descr);
 	}
-	else evt->pszTextT = DbGetEventTextT(&dbei, dat->codePage);
+	else evt->pszTextT = DbGetEventTextT(&dbei, CP_UTF8);
 
 	if (!(dat->flags & SMF_RTL) && RTL_Detect(evt->pszTextT))
 		evt->dwFlags |= IEEDF_RTL;
@@ -212,7 +210,6 @@ static EventData* GetTestEvent(DWORD flags)
 	evt->dwFlags = IEEDF_READ | flags;
 	evt->dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
 	evt->time = time(NULL);
-	evt->codePage = CP_ACP;
 	return evt;
 }
 
@@ -821,7 +818,6 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 		evt.dwFlags = ((dat->flags & SMF_RTL) ? IEEF_RTL : 0);
 		evt.hwnd = dat->hwndLog;
 		evt.hContact = dat->hContact;
-		evt.codepage = dat->codePage;
 		evt.pszProto = dat->szProto;
 		if (!fAppend) {
 			evt.iType = IEE_CLEAR_LOG;
@@ -849,7 +845,7 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 	streamData.hDbEventLast = dat->hDbEventLast;
 	streamData.dlgDat = dat;
 	streamData.eventsToInsert = count;
-	streamData.isFirst = fAppend ? GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), dat->codePage, FALSE) == 0 : 1;
+	streamData.isFirst = fAppend ? GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), CP_ACP, FALSE) == 0 : 1;
 	streamData.gdat = &g_dat;
 	stream.pfnCallback = LogStreamInEvents;
 	stream.dwCookie = (DWORD_PTR)& streamData;
@@ -859,14 +855,14 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
 		gtxl.codepage = 1200;
 		fi.chrg.cpMin = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
-		sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), dat->codePage, FALSE);
+		sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), 1200, FALSE);
 		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
 	}
 	else {
 		SendDlgItemMessage(hwndDlg, IDC_LOG, WM_SETREDRAW, FALSE, 0);
 		SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
 		sel.cpMin = 0;
-		sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), dat->codePage, FALSE);
+		sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), 1200, FALSE);
 		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
 		fi.chrg.cpMin = 0;
 		dat->isMixed = 0;
@@ -896,7 +892,7 @@ void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smre);
 	}
 
-	int len = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), dat->codePage, FALSE);
+	int len = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), 1200, FALSE);
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETSEL, len - 1, len - 1);
 
 	if (!fAppend)

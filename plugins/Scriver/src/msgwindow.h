@@ -50,8 +50,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DM_SETPARENT	 	 (WM_USER+0x203)
 #define DM_ACTIVATE			 (WM_USER+0x206)
 #define DM_GETCONTEXTMENU    (WM_USER+0x207)
-#define DM_GETCODEPAGE		 (WM_USER+0x208)
-#define DM_SETCODEPAGE		 (WM_USER+0x209)
 #define DM_SETFOCUS			 (WM_USER+0x20A)
 #define DM_CLISTSETTINGSCHANGED   (WM_USER+0x20B)
 
