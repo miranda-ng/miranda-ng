@@ -44,7 +44,7 @@ protected:
 	void OnClose();
 
 public:
-	CSteamGuardDialog(CSteamProto *proto, char *domain);
+	CSteamGuardDialog(CSteamProto *proto, const char *domain);
 
 	const char *GetGuardCode();
 };

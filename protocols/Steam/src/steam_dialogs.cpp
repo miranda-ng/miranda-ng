@@ -37,7 +37,7 @@ void CSteamPasswordEditor::OnClose()
 
 /////////////////////////////////////////////////////////////////////////////////
 
-CSteamGuardDialog::CSteamGuardDialog(CSteamProto *proto, char *domain) :
+CSteamGuardDialog::CSteamGuardDialog(CSteamProto *proto, const char *domain) :
 	CSuper(proto, IDD_GUARD, false), m_ok(this, IDOK),
 	m_text(this, IDC_TEXT), m_link(this, IDC_GETDOMAIN, domain)
 {

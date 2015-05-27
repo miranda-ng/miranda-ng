@@ -139,6 +139,8 @@ protected:
 	void OnGotRsaKey(const NETLIBHTTPREQUEST *response);
 	
 	void OnAuthorization(const NETLIBHTTPREQUEST *response);
+	void OnAuthorizationError(const JSONNode &node);
+	void OnAuthorizationSuccess(const JSONNode &node);
 	void OnGotSession(const NETLIBHTTPREQUEST *response);
 
 	void OnLoggedOn(const NETLIBHTTPREQUEST *response);
@@ -233,8 +235,8 @@ protected:
 
 	MEVENT AddDBEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 
-	static void CSteamProto::ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
-	static void CSteamProto::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
+	static void CSteamProto::ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
+	static void CSteamProto::ShowNotification(const TCHAR *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 
 	// helpers
 	inline int IdleSeconds() {
