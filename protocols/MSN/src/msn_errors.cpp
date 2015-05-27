@@ -28,6 +28,39 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 	int errorCode, packetID = -1;
 	sscanf(cmdString, "%d %d", &errorCode, &packetID);
 
+	char* params = "";
+	int trid = -1;
+
+	if (cmdString[3]) {
+		if (isdigit((BYTE)cmdString[4])) {
+			trid = strtol(cmdString + 4, &params, 10);
+			switch (*params) {
+			case ' ':	case '\0':	case '\t':	case '\n':
+				while (*params == ' ' || *params == '\t')
+					params++;
+				break;
+
+			default:
+				params = cmdString + 4;
+			}
+		}
+		else params = cmdString + 4;
+	}
+
+	union {
+		char* tWords[2];
+		struct { char *typeId, *strMsgBytes; } data;
+	};
+
+	if (sttDivideWords(params, SIZEOF(tWords), tWords) < 2) {
+		debugLogA("Invalid %.3s command, ignoring", cmdString);
+		return 0;
+	}
+
+	HReadBuffer buf(info, 0);
+	char* msgBody = (char*)buf.surelyRead(atol(data.strMsgBytes));
+
+
 	debugLogA("Server error:%s", cmdString);
 
 	switch (errorCode) {
