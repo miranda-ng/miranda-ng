@@ -46,7 +46,6 @@ static ToolbarButton toolbarButtons[] = {
 static TCHAR* GetIEViewSelection(SrmmWindowData *dat)
 {
 	IEVIEWEVENT evt = { sizeof(evt) };
-	evt.codepage = dat->codePage;
 	evt.hwnd = dat->hwndLog;
 	evt.hContact = dat->hContact;
 	evt.iType = IEE_GET_SELECTION;
@@ -80,7 +79,7 @@ static TCHAR* GetQuotedTextW(TCHAR *text)
 		}
 	}
 	j += 3;
-	
+
 	TCHAR *out = (TCHAR*)mir_alloc(sizeof(TCHAR)* j);
 	newLine = 1;
 	wasCR = 0;
@@ -115,16 +114,6 @@ static TCHAR* GetQuotedTextW(TCHAR *text)
 	out[j++] = '\n';
 	out[j++] = '\0';
 	return out;
-}
-
-static void saveDraftMessage(HWND hwnd, MCONTACT hContact, int codepage)
-{
-	char *textBuffer = GetRichTextEncoded(hwnd, codepage);
-	if (textBuffer != NULL) {
-		g_dat.draftList = tcmdlist_append2(g_dat.draftList, hContact, textBuffer);
-		mir_free(textBuffer);
-	}
-	else g_dat.draftList = tcmdlist_remove2(g_dat.draftList, hContact);
 }
 
 void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
@@ -177,12 +166,12 @@ static void AddToFileList(TCHAR ***pppFiles, int *totalCount, const TCHAR* szFil
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
 		TCHAR szPath[MAX_PATH];
-		mir_sntprintf(szPath, SIZEOF(szPath), _T("%s\\*"),szFilename);
+		mir_sntprintf(szPath, SIZEOF(szPath), _T("%s\\*"), szFilename);
 		HANDLE hFind = FindFirstFile(szPath, &fd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
 				if (!mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T(".."))) continue;
-				mir_sntprintf(szPath, SIZEOF(szPath),_T("%s\\%s"), szFilename, fd.cFileName);
+				mir_sntprintf(szPath, SIZEOF(szPath), _T("%s\\%s"), szFilename, fd.cFileName);
 				AddToFileList(pppFiles, totalCount, szPath);
 			} while (FindNextFile(hFind, &fd));
 			FindClose(hFind);
@@ -219,7 +208,7 @@ static void SetDialogToType(HWND hwndDlg)
 
 	ShowWindow(GetDlgItem(hwndDlg, IDC_SPLITTER), SW_SHOW);
 	UpdateReadChars(hwndDlg, dat);
-	EnableWindow(GetDlgItem(hwndDlg, IDOK), GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), dat->codePage, FALSE) ? TRUE : FALSE);
+	EnableWindow(GetDlgItem(hwndDlg, IDOK), GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), 1200, FALSE) ? TRUE : FALSE);
 	SendMessage(hwndDlg, DM_CLISTSETTINGSCHANGED, 0, 0);
 	SendMessage(hwndDlg, WM_SIZE, 0, 0);
 }
@@ -565,7 +554,7 @@ static void UpdateReadChars(HWND hwndDlg, SrmmWindowData *dat)
 {
 	if (dat->parent->hwndActive == hwndDlg) {
 		TCHAR szText[256];
-		int len = GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), dat->codePage, FALSE);
+		int len = GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), 1200, FALSE);
 
 		StatusBarData sbd;
 		sbd.iItem = 1;
@@ -682,6 +671,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	PARAFORMAT2 pf2;
 	CHARFORMAT2 cf2;
 	LPNMHDR pNmhdr;
+	HCURSOR hCur;
 
 	static HMENU hToolbarMenu;
 
@@ -760,7 +750,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				else
 					SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG), GWL_EXSTYLE) & ~WS_EX_LEFTSCROLLBAR);
 			}
-			dat->codePage = db_get_w(dat->hContact, SRMMMOD, "CodePage", (WORD)CP_ACP);
 			dat->ace = NULL;
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_MESSAGE), &minEditInit);
 			dat->minEditBoxHeight = minEditInit.bottom - minEditInit.top;
@@ -778,9 +767,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
 			}
 			else if (g_dat.flags & SMF_SAVEDRAFTS) {
-				TCmdList *draft = tcmdlist_get2(g_dat.draftList, dat->hContact);
-				if (draft != NULL)
-					len = SetRichTextEncoded(GetDlgItem(hwndDlg, IDC_MESSAGE), draft->szCmd);
+				ptrT ptszSavedMsg(db_get_tsa(dat->hContact, "SRMM", "SavedMsg"));
+				if (ptszSavedMsg)
+					len = SetRichText(GetDlgItem(hwndDlg, IDC_MESSAGE), ptszSavedMsg);
 				PostMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETSEL, len, len);
 			}
 
@@ -1151,15 +1140,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		SetDialogToType(hwndDlg);
 		break;
 
-	case DM_GETCODEPAGE:
-		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, dat->codePage);
-		return TRUE;
-
-	case DM_SETCODEPAGE:
-		dat->codePage = (int)lParam;
-		SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
-		break;
-
 	case DM_SWITCHTYPING:
 		if (IsTypingNotificationSupported(dat)) {
 			StatusIconData sid = { sizeof(sid) };
@@ -1423,7 +1403,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			evt.dwFlags = ((dat->flags & SMF_RTL) ? IEEF_RTL : 0);
 			evt.hwnd = dat->hwndLog;
 			evt.hContact = dat->hContact;
-			evt.codepage = dat->codePage;
 			evt.pszProto = dat->szProto;
 			CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt);
 		}
@@ -1477,7 +1456,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			item->hContact = dat->hContact;
 			item->proto = mir_strdup(dat->szProto);
 			item->flags = msi->flags;
-			item->codepage = dat->codePage;
 			item->sendBufferSize = msi->sendBufferSize;
 			item->sendBuffer = mir_strndup(msi->sendBuffer, msi->sendBufferSize);
 			SendSendQueueItem(item);
@@ -1597,7 +1575,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				break;
 
 		case IDOK:
-			//this is a 'send' button
+			// this is a 'send' button
 			if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDOK)))
 				break;
 
@@ -1617,7 +1595,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				GETTEXTEX gt = { 0 };
 				gt.flags = GT_USECRLF;
 				gt.cb = bufSize;
-				gt.codepage = 1200;
+				gt.codepage = 1200; // Unicode
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETTEXTEX, (WPARAM)&gt, ptszUnicode);
 				if (RTL_Detect(ptszUnicode))
 					msi.flags |= PREF_RTL;
@@ -1751,7 +1729,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		case IDC_MESSAGE:
 			if (HIWORD(wParam) == EN_CHANGE) {
-				int len = GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), dat->codePage, FALSE);
+				int len = GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), 1200, FALSE);
 				dat->cmdListCurrent = NULL;
 				UpdateReadChars(hwndDlg, dat);
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), len != 0);
@@ -1775,44 +1753,43 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case IDC_LOG:
 			switch (pNmhdr->code) {
 			case EN_MSGFILTER:
-			{
-				int result = InputAreaShortcuts(GetDlgItem(hwndDlg, IDC_MESSAGE), ((MSGFILTER *)lParam)->msg, ((MSGFILTER *)lParam)->wParam, ((MSGFILTER *)lParam)->lParam, dat);
-				if (result != -1) {
-					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
+				{
+					int result = InputAreaShortcuts(GetDlgItem(hwndDlg, IDC_MESSAGE), ((MSGFILTER *)lParam)->msg, ((MSGFILTER *)lParam)->wParam, ((MSGFILTER *)lParam)->lParam, dat);
+					if (result != -1) {
+						SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
+						return TRUE;
+					}
+				}
+
+				switch (((MSGFILTER *)lParam)->msg) {
+				case WM_CHAR:
+					if (!(GetKeyState(VK_CONTROL) & 0x8000)) {
+						SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
+						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, ((MSGFILTER *)lParam)->msg, ((MSGFILTER *)lParam)->wParam, ((MSGFILTER *)lParam)->lParam);
+						SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
+					}
 					return TRUE;
-				}
-			}
-			switch (((MSGFILTER *)lParam)->msg) {
-			case WM_CHAR:
-				if (!(GetKeyState(VK_CONTROL) & 0x8000)) {
-					SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
-					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, ((MSGFILTER *)lParam)->msg, ((MSGFILTER *)lParam)->wParam, ((MSGFILTER *)lParam)->lParam);
-					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
-				}
-				return TRUE;
-			case WM_LBUTTONDOWN:
-			{
-				HCURSOR hCur = GetCursor();
-				if (hCur == LoadCursor(NULL, IDC_SIZENS) || hCur == LoadCursor(NULL, IDC_SIZEWE)
-					|| hCur == LoadCursor(NULL, IDC_SIZENESW) || hCur == LoadCursor(NULL, IDC_SIZENWSE)) {
+
+				case WM_LBUTTONDOWN:
+					hCur = GetCursor();
+					if (hCur == LoadCursor(NULL, IDC_SIZENS) || hCur == LoadCursor(NULL, IDC_SIZEWE) || hCur == LoadCursor(NULL, IDC_SIZENESW) || hCur == LoadCursor(NULL, IDC_SIZENWSE)) {
+						SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
+						return TRUE;
+					}
+					break;
+
+				case WM_MOUSEMOVE:
+					hCur = GetCursor();
+					if (hCur == LoadCursor(NULL, IDC_SIZENS) || hCur == LoadCursor(NULL, IDC_SIZEWE) || hCur == LoadCursor(NULL, IDC_SIZENESW) || hCur == LoadCursor(NULL, IDC_SIZENWSE))
+						SetCursor(LoadCursor(NULL, IDC_ARROW));
+					break;
+
+				case WM_RBUTTONUP:
 					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
 					return TRUE;
 				}
 				break;
-			}
-			case WM_MOUSEMOVE:
-			{
-				HCURSOR hCur = GetCursor();
-				if (hCur == LoadCursor(NULL, IDC_SIZENS) || hCur == LoadCursor(NULL, IDC_SIZEWE)
-					|| hCur == LoadCursor(NULL, IDC_SIZENESW) || hCur == LoadCursor(NULL, IDC_SIZENWSE))
-					SetCursor(LoadCursor(NULL, IDC_ARROW));
-				break;
-			}
-			case WM_RBUTTONUP:
-				SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
-				return TRUE;
-			}
-			break;
+
 			case EN_LINK:
 				switch (((ENLINK *)lParam)->msg) {
 				case WM_SETCURSOR:
@@ -1830,6 +1807,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				}
 			}
 			break;
+
 		case IDC_MESSAGE:
 			switch (((NMHDR *)lParam)->code) {
 			case EN_MSGFILTER:
@@ -1871,10 +1849,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		dat->statusIcon = NULL;
 		dat->statusIconOverlay = NULL;
 		ReleaseSendQueueItems(hwndDlg);
-		if (g_dat.flags & SMF_SAVEDRAFTS)
-			saveDraftMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), dat->hContact, dat->codePage);
-		else
-			g_dat.draftList = tcmdlist_remove2(g_dat.draftList, dat->hContact);
+		if (g_dat.flags & SMF_SAVEDRAFTS) {
+			ptrA szText(GetRichTextUtf(GetDlgItem(hwndDlg, IDC_MESSAGE)));
+			if (szText)
+				db_set_utf(dat->hContact, "SRMM", "SavedMsg", szText);
+		}
 
 		tcmdlist_free(dat->cmdList);
 		WindowList_Remove(g_dat.hMessageWindowList, hwndDlg);
@@ -1884,7 +1863,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			DeleteObject(hFont);
 
 		db_set_b(dat->hContact, SRMMMOD, "UseRTL", (BYTE)((dat->flags & SMF_RTL) ? 1 : 0));
-		db_set_w(dat->hContact, SRMMMOD, "CodePage", (WORD)dat->codePage);
 		if (dat->hContact && (g_dat.flags & SMF_DELTEMP))
 			if (db_get_b(dat->hContact, "CList", "NotOnList", 0))
 				CallService(MS_DB_CONTACT_DELETE, dat->hContact, 0);

@@ -90,10 +90,8 @@ struct GlobalMessageData
 	DWORD limitNamesLength;
 	int activeAlpha;
 	int inactiveAlpha;
-	HMENU hMenuANSIEncoding;
 	int tabIconListUsageSize;
 	ImageListUsageEntry *tabIconListUsage;
-	TCmdList *draftList;
 	int smileyAddInstalled;
 	int popupInstalled;
 	int ieviewInstalled;

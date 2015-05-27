@@ -53,11 +53,6 @@ static void OnAddLog(SESSION_INFO *si, int isOk)
 		SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
 }
 
-static void OnCreateSession(SESSION_INFO *si, MODULEINFO*)
-{
-	si->flags = CWDF_RTF_INPUT;
-}
-
 static void OnDblClickSession(SESSION_INFO *si)
 {
 	PostMessage(si->hWnd, GC_CLOSEWINDOW, 0, 0);
@@ -171,7 +166,6 @@ int Chat_Load()
 
 	pci->OnAddLog = OnAddLog;
 
-	pci->OnCreateSession = OnCreateSession;
 	pci->OnRemoveSession = OnRemoveSession;
 	pci->OnRenameSession = OnRenameSession;
 	pci->OnReplaceSession = OnReplaceSession;

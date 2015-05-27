@@ -94,53 +94,28 @@ int GetRichTextLength(HWND hwnd, int codepage, BOOL inBytes)
 	return (int)SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 }
 
-
-TCHAR *GetRichText(HWND hwnd, int codepage)
+char* GetRichTextUtf(HWND hwnd)
 {
+	int textBufferSize = GetRichTextLength(hwnd, CP_UTF8, TRUE);
+	if (textBufferSize == 0)
+		return NULL;
+		
+	textBufferSize++;
+	char *textBuffer = (char*)mir_alloc(textBufferSize);
+
 	GETTEXTEX  gt = { 0 };
-	TCHAR *textBuffer = NULL;
-	int textBufferSize;
-	codepage = 1200;
-	textBufferSize = GetRichTextLength(hwnd, codepage, TRUE);
-	if (textBufferSize > 0) {
-		textBufferSize += sizeof(TCHAR);
-		textBuffer = (TCHAR*)mir_alloc(textBufferSize);
-		gt.cb = textBufferSize;
-		gt.flags = GT_USECRLF;
-		gt.codepage = codepage;
-		SendMessage(hwnd, EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)textBuffer);
-	}
+	gt.cb = textBufferSize;
+	gt.flags = GT_USECRLF;
+	gt.codepage = CP_UTF8;
+	SendMessage(hwnd, EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)textBuffer);
 	return textBuffer;
 }
 
-char *GetRichTextEncoded(HWND hwnd, int codepage)
+int SetRichText(HWND hwnd, const TCHAR *text)
 {
-	TCHAR *textBuffer = GetRichText(hwnd, codepage);
-	char *textUtf = NULL;
-	if (textBuffer != NULL) {
-		textUtf = mir_utf8encodeW(textBuffer);
-		mir_free(textBuffer);
-	}
-	return textUtf;
-}
-
-int SetRichTextEncoded(HWND hwnd, const char *text)
-{
-	TCHAR *textToSet;
-	SETTEXTEX  st;
+	SETTEXTEX st;
 	st.flags = ST_DEFAULT;
 	st.codepage = 1200;
-	textToSet = mir_utf8decodeW(text);
-	SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)textToSet);
-	mir_free(textToSet);
-	return GetRichTextLength(hwnd, st.codepage, FALSE);
-}
-
-int SetRichTextRTF(HWND hwnd, const char *text)
-{
-	SETTEXTEX  st;
-	st.flags = ST_DEFAULT;
-	st.codepage = CP_ACP;
 	SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)text);
 	return GetRichTextLength(hwnd, st.codepage, FALSE);
 }
@@ -158,7 +133,7 @@ static DWORD CALLBACK RichTextStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, 
 		dwRead = cb;
 	}
 	else {
-		char  *p = (char*)mir_alloc(dwRead + cb + 1);
+		char *p = (char*)mir_alloc(dwRead + cb + 1);
 		memcpy(p, *ppText, dwRead);
 		memcpy(p + dwRead, pbBuff, cb);
 		p[dwRead + cb] = 0;
@@ -213,8 +188,8 @@ TCHAR* GetRichTextWord(HWND hwnd, POINTL *ptl)
 	if (pszWord == NULL) {
 		iCharIndex = SendMessage(hwnd, EM_CHARFROMPOS, 0, (LPARAM)ptl);
 		if (iCharIndex >= 0) {
-			start = SendMessage(hwnd, EM_FINDWORDBREAK, WB_LEFT, iCharIndex);//-iChars;
-			end = SendMessage(hwnd, EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);//-iChars;
+			start = SendMessage(hwnd, EM_FINDWORDBREAK, WB_LEFT, iCharIndex); //-iChars;
+			end = SendMessage(hwnd, EM_FINDWORDBREAK, WB_RIGHT, iCharIndex); //-iChars;
 			if (end - start > 0) {
 				TEXTRANGE tr;
 				CHARRANGE cr;

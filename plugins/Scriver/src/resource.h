@@ -19,8 +19,6 @@
 #define IDI_SEND                        123
 #define IDI_SMILEY                      125
 #define IDI_TYPING                      126
-#define IDI_UNICODEON                   127
-#define IDI_UNICODEOFF                  128
 #define IDI_TIMESTAMP                   129
 #define IDI_QUOTE                       130
 #define IDI_INCOMING                    132

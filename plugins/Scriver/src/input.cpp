@@ -210,16 +210,10 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, Common
 							cmdListNew = tcmdlist_last(windowData->cmdList);
 						}
 						if (cmdListNew != NULL) {
-							char *textBuffer;
-							if (windowData->flags & CWDF_RTF_INPUT)
-								textBuffer = GetRichTextRTF(hwnd);
-							else
-								textBuffer = GetRichTextEncoded(hwnd, windowData->codePage);
-
-							if (textBuffer != NULL) {
+							char *textBuffer = GetRichTextUtf(hwnd);
+							if (textBuffer != NULL)
+								// takes textBuffer to a queue, no leak here
 								windowData->cmdList = tcmdlist_append(windowData->cmdList, textBuffer, 20, TRUE);
-								mir_free(textBuffer);
-							}
 						}
 					}
 					else if (windowData->cmdListCurrent->prev != NULL)
@@ -234,12 +228,9 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, Common
 					}
 				}
 				if (cmdListNew != NULL) {
-					int iLen;
 					SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
-					if (windowData->flags & CWDF_RTF_INPUT)
-						iLen = SetRichTextRTF(hwnd, cmdListNew->szCmd);
-					else
-						iLen = SetRichTextEncoded(hwnd, cmdListNew->szCmd);
+
+					int iLen = SetRichText(hwnd, ptrT(mir_utf8decodeT(cmdListNew->szCmd)));
 
 					SendMessage(hwnd, EM_SCROLLCARET, 0, 0);
 					SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);

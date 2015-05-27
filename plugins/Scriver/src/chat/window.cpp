@@ -1108,7 +1108,6 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				iee.iType = IEE_CLEAR_LOG;
 				iee.hwnd = si->hwndLog;
 				iee.hContact = si->hContact;
-				iee.codepage = si->codePage;
 				iee.pszProto = si->pszModule;
 				CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&iee);
 			}
@@ -1223,15 +1222,6 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			sid.szModule = SRMMMOD;
 			Srmm_ModifyIcon(si->hContact, &sid);
 		}
-		break;
-
-	case DM_GETCODEPAGE:
-		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, si->codePage);
-		return TRUE;
-
-	case DM_SETCODEPAGE:
-		si->codePage = (int)lParam;
-		SendMessage(hwndDlg, GC_REDRAWLOG2, 0, 0);
 		break;
 
 	case DM_SWITCHINFOBAR:
@@ -1703,7 +1693,7 @@ LABEL_SHOWWINDOW:
 
 		case IDOK:
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDOK))) {
-				ptrA pszRtf(GetRichTextRTF(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE)));
+				char *pszRtf = GetRichTextRTF(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 				if (pszRtf == NULL)
 					break;
 
@@ -1717,6 +1707,7 @@ LABEL_SHOWWINDOW:
 					cmdListNew = tcmdlist_last(si->cmdList);
 				}
 
+				// takes pszRtf to a queue, no leak here
 				si->cmdList = tcmdlist_append(si->cmdList, pszRtf, 20, FALSE);
 
 				CMString ptszText(ptrT(mir_utf8decodeT(pszRtf)));
@@ -1753,7 +1744,7 @@ LABEL_SHOWWINDOW:
 		case IDC_CHAT_MESSAGE:
 			if (HIWORD(wParam) == EN_CHANGE) {
 				si->cmdListCurrent = NULL;
-				EnableWindow(GetDlgItem(hwndDlg, IDOK), GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), si->codePage, FALSE) != 0);
+				EnableWindow(GetDlgItem(hwndDlg, IDOK), GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), 1200, FALSE) != 0);
 			}
 			break;
 

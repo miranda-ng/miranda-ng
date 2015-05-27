@@ -20,23 +20,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_CMDLIST_H
 #define SRMM_CMDLIST_H
 
-
-typedef struct _TCmdList {
-	struct _TCmdList *next;
-	struct _TCmdList *prev;
+struct TCmdList
+{
 	MCONTACT hContact;
 	char *szCmd;
-	BOOL   temporary;
-} TCmdList;
+	BOOL temporary;
+	TCmdList *next, *prev;
+};
 
-TCmdList *tcmdlist_append(TCmdList *list, const char *data, int maxSize, BOOL temporary);
-TCmdList *tcmdlist_remove(TCmdList *list, TCmdList *n);
-TCmdList *tcmdlist_remove_first(TCmdList *list);
-TCmdList *tcmdlist_append2(TCmdList *list, MCONTACT hContact, const char *data);
-TCmdList *tcmdlist_remove2(TCmdList *list, MCONTACT hContact);
-TCmdList *tcmdlist_get2(TCmdList *list, MCONTACT hContact);
+TCmdList* tcmdlist_append(TCmdList *list, char *data, int maxSize, BOOL temporary);
+TCmdList* tcmdlist_remove(TCmdList *list, TCmdList *n);
+TCmdList* tcmdlist_remove_first(TCmdList *list);
+TCmdList* tcmdlist_last(TCmdList *list);
+
 int tcmdlist_len(TCmdList *list);
-TCmdList *tcmdlist_last(TCmdList *list);
-void tcmdlist_free(TCmdList * list);
+void tcmdlist_free(TCmdList *list);
 
 #endif
