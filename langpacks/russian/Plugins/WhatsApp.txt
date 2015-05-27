@@ -97,6 +97,8 @@
 Сообщение принято в: %s пользователем %s
 [%s server connection]
 %s подключение к серверу
+[Unable to initialize Netlib for %s.]
+Невозможно создать подключение Netlib для %s.
 [Network connection error.]
 Ошибка соединения.
 [Registration failed. Invalid server response.]

@@ -239,6 +239,8 @@ Facebook потребовал чистки компьютера и плагин 
 Контакта больше нет в списке на сервере.
 [%s server connection]
 %s подключение к серверу
+[Unable to initialize Netlib for %s.]
+Невозможно создать подключение Netlib для %s.
 [Video call]
 Видеовызов
 [Facebook ID must be numeric value.]
