@@ -123,12 +123,12 @@
 Зробити користувача &адміном
 [&Deop user]
 &Забрати права адміністратора
+[%I64u bytes]
+%I64u байт
 [MSN Alert]
 Сповіщення MSN
 [Contact tried to open an audio conference (not currently supported)]
 Контакт намагався відкрити аудіоконференцію (не підтримується)
-[%I64u bytes]
-%I64u байт
 [Accept NetMeeting request from %s?]
 Прийняти запит NetMeeting від %s?
 [MSN Protocol]

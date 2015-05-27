@@ -101,8 +101,8 @@ Omegle - чудовий спосіб знайти нових друзів!
 Ви говорите однією мовою.
 [%s server connection]
 З'єднання з сервером %s
-[Unable to get Netlib connection for Omegle]
-Не вдається встановити з'єднання з Omegle
+[Unable to initialize Netlib for %s.]
+Не вдається встановити з'єднання Netlib для %s.
 [Stranger typing]
 Незнайомець набирає
 [Stranger stopped typing]

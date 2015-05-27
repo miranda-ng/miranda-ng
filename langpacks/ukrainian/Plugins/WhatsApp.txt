@@ -97,8 +97,8 @@ SMS-повідомлення з реєстраційним кодом буде �
 Повідомлення отримане о: %s користувачем %s
 [%s server connection]
 З'єднання з сервером %s
-[Unable to get Netlib connection for WhatsApp]
-Не вдається встановити з'єднання для WhatsApp
+[Unable to initialize Netlib for %s.]
+Не вдається встановити з'єднання Netlib для %s.
 [Network connection error.]
 Помилка з'єднання.
 [Registration failed. Invalid server response.]

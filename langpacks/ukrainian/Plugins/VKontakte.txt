@@ -102,7 +102,7 @@
 [Invisible interval timeout (min):]
 Інтервал переходу в "Невидимий" (хв):
 [Use non-standard urlEncode for sent messages (less traffic)]
-Нестандартный urlEncode для повідомлень (економія трафіку)
+Нестандартний urlEncode для повідомлень (економія трафіку)
 [When I ban user...]
 При блокуванні користувача...
 [Report abuse]
