@@ -59,7 +59,7 @@
 [You both speak the same language.]
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
-[Unable to get Netlib connection for Omegle]
+[Unable to initialize Netlib for %s.]
 [Stranger typing]
 [Stranger stopped typing]
 [Changing stranger]

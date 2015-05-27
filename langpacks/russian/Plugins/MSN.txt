@@ -121,12 +121,12 @@
 &Сделать пользователя админом
 [&Deop user]
 &Снять с пользователя админ права
+[%I64u bytes]
+%I64u байт
 [MSN Alert]
 MSN уведомление
 [Contact tried to open an audio conference (not currently supported)]
 Контакт пытался открыть аудиоконференцию (не поддерживается)
-[%I64u bytes]
-%I64u байт
 [Accept NetMeeting request from %s?]
 Принять запрос NetMeeting от %s?
 [MSN Protocol]

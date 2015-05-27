@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.10
+;  Version: 3.4.0.11
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -243,10 +243,6 @@
 Метод отправки форматирования
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
 Смена отправки информации о формате текста. "Выключить" - отключает форматирование для этого контакта.
-[ANSI codepage]
-Кодовая страница ANSI
-[Codepage for ANSI encoding/decoding when sending or receiving non-Unicode messages.]
-Кодовая страница ANSI для перекодирования не-Юникод сообщений.
 [Info panel mode]
 Режим инфо панели
 [Show avatar in message window]
@@ -255,8 +251,6 @@
 Собственный разделитель
 [Contact is a favorite contact]
 Контакт находится в избранном
-[Force ANSI send / receive]
-Приём/отправка всегда в ANSI
 [Ignore sending timeouts]
 Игнорировать таймаут отправки
 [Load only actual history]
@@ -755,8 +749,6 @@ Esc закрывает сессию (иначе - сворачивает)
 Отправить всему &контейнеру
 [Send &later]
 Отправить &позже
-[Force &ANSI]
-Принудительно &ANSI
 [Send unsafe (ignore timeouts)]
 Отправлять небезопасно (без таймаутов)
 [Send nudge]
@@ -1199,8 +1191,6 @@ TabSRMM: набирает
 Не добавлять этот контакт в список
 [Expand or collapse the side bar]
 Развернуть или свернуть боковую панель
-[Character encoding]
-Кодировка
 [Contact not on list. You may add it...]
 Контакт не в списке. Вы можете добавить его...
 [A message failed to send successfully.]
@@ -1321,8 +1311,6 @@ TabSRMM: набирает
 Сегодня
 [Yesterday]
 Вчера
-[Use default codepage]
-Кодировка по умолчанию
 [<no skin>]
 <без скина>
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all.]

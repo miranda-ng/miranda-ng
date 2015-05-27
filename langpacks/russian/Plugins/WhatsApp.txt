@@ -97,8 +97,6 @@
 Сообщение принято в: %s пользователем %s
 [%s server connection]
 %s подключение к серверу
-[Unable to get Netlib connection for WhatsApp]
-Невозможно создать подключение Netlib для WhatsApp
 [Network connection error.]
 Ошибка соединения.
 [Registration failed. Invalid server response.]

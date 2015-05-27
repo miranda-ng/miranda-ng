@@ -48,10 +48,9 @@
 [Basic]
 [Popups]
 [%s server connection]
-[Unable to get Netlib connection for Twitter]
-[Twitter]
+[Unable to initialize Netlib for %s.]
 [%s avatar connection]
-[Unable to get avatar Netlib connection for Twitter]
+[Twitter (avatars)]
 [%s Protocol]
 ;file \protocols\Twitter\src\theme.cpp
 [Twitter Icon]
