@@ -400,9 +400,10 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 		switch (selection) {
 		case ID_MESSAGELOGSETTINGS_GLOBAL:
 		{
-			OPENOPTIONSDIALOG	ood = { sizeof(ood) };
-			ood.pszPage = "Message Sessions";
-			db_set_b(0, SRMSGMOD_T, "opage", 3);			// force 3th tab to appear
+			OPENOPTIONSDIALOG ood = { sizeof(ood) };
+			ood.pszPage = "Message sessions";
+			ood.pszGroup = NULL;
+			ood.pszTab = "Message log";
 			Options_Open(&ood);
 		}
 		return 1;
