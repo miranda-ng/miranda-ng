@@ -81,8 +81,12 @@ URL:
 Всплывающие окна
 [%s server connection]
 %s подключение к серверу
+[Unable to initialize Netlib for %s.]
+Невозможно создать подключение Netlib для %s.
 [%s avatar connection]
 %s подключение аватаров
+[Twitter (avatars)]
+Twitter (аватары)
 [%s Protocol]
 Протокол %s
 [Twitter Icon]

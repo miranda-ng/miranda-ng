@@ -1,4 +1,2 @@
 ﻿[Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection.]
 [You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your Twitter account in the Miranda account options]
-[Unable to initialize Netlib for %s.]
-[Twitter (avatars)]
