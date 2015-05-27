@@ -88,14 +88,12 @@ Podstawowe
 Popupy
 [%s server connection]
 Połączenie %s
-[Unable to get Netlib connection for Twitter]
-Nie udało się uzyskać połączenia Netlib dla Twittera
-[Twitter]
-Twitter
+[Unable to initialize Netlib for %s.]
+Nie udało się zainicjować połączenia Netlib dla %s.
 [%s avatar connection]
 Połączenie awatarów %s
-[Unable to get avatar Netlib connection for Twitter]
-Nie udało się uzyskać połączenia Netlib awatara dla Twittera
+[Twitter (avatars)]
+Twitter (awatary_
 [%s Protocol]
 Protokół %s
 ;file \protocols\Twitter\src\theme.cpp

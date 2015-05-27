@@ -132,12 +132,12 @@ Czat #
 [&Deop user]
 &zdejmij opa
 ;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
+%I64u bajtów
 [MSN Alert]
 Alert MSN
 [Contact tried to open an audio conference (not currently supported)]
 Kontakt chciał otworzyć audio konferencję (obecnie niewspierane)
-[%I64u bytes]
-%I64u bajtów
 [Accept NetMeeting request from %s?]
 Przyjąć wywołanie NetMeeting od %s?
 [MSN Protocol]

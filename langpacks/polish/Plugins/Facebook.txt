@@ -257,8 +257,8 @@ Kontakt nie jest już na liście serwera.
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 Połączenie %s
-[Unable to get Netlib connection for Facebook]
-Nie można uzyskać połączenia Netlib Facebook
+[Unable to initialize Netlib for %s.]
+Nie udało się zainicjować połączenia Netlib dla %s.
 [Video call]
 Rozmowa video
 [Facebook ID must be numeric value.]

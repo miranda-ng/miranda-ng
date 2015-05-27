@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.10
+;  Version: 3.4.0.11
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -246,10 +246,6 @@ Wybierz sposób wyświetlania dziennika wiadomości. Te ustawiania mogą zostać
 Wyślij metodę formatowania tekstu
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
 Tutaj możesz nadpisać globalne ustawienie formatowania tekstu. Użyj "Wyłącz wymuszanie", aby nigdy nie wysyłać informacji o formatowaniu dla tego kontaktu.
-[ANSI codepage]
-Strona kodowa ANSI
-[Codepage for ANSI encoding/decoding when sending or receiving non-Unicode messages.]
-Strona kodowa dla kodowania/dekodowania ANSI podczas wysyłania lub otrzymywania wiadomości o kodowaniu innym niż Unicode
 [Info panel mode]
 Tryb panela informacyjnego
 [Show avatar in message window]
@@ -258,8 +254,6 @@ Pokaż awatar w oknie rozmowy
 Użyj prywatnej pozycji separatora
 [Contact is a favorite contact]
 Kontakt jest jednym z ulubionych
-[Force ANSI send / receive]
-Wymuś wysyłanie/odbieranie ANSI
 [Ignore sending timeouts]
 Ignoruj limity czasu wysyłania
 [Load only actual history]
@@ -758,8 +752,6 @@ Wyślij do &wielu użytkowników
 Wyślij do &kontenera
 [Send &later]
 Wyślij &później
-[Force &ANSI]
-Wymuś &ANSI
 [Send unsafe (ignore timeouts)]
 Wyślij niebezpiecznie (ignorując przekroczenie czasu oczekiwania)
 [Send nudge]
@@ -1214,8 +1206,6 @@ Dodaj ten kontakt na stałe do listy kontaktów
 Nie dodawaj tego kontaktu na stałe
 [Expand or collapse the side bar]
 Rozwiń lub zwiń pasek boczny
-[Character encoding]
-Kodowanie znaków
 [Contact not on list. You may add it...]
 Kontakt spoza listy. Jeśli chcesz dodać...
 [A message failed to send successfully.]
@@ -1338,8 +1328,6 @@ Grudzień
 Dzisiaj
 [Yesterday]
 Wczoraj
-[Use default codepage]
-Użyj domyślnej strony kodowej
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
 <brak skórki>

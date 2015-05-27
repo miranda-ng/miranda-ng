@@ -107,8 +107,8 @@ Oboje mówicie w tym samym języku.
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 Połączenie %s
-[Unable to get Netlib connection for Omegle]
-Nie udało się uzyskać połączenia Netlib dla Omegle
+[Unable to initialize Netlib for %s.]
+Nie udało się zainicjować połączenia Netlib dla %s.
 [Stranger typing]
 Obcy pisze
 [Stranger stopped typing]
