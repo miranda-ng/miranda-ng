@@ -159,9 +159,7 @@ BEGIN
     GROUPBOX        "Send text formatting method",IDC_STATIC,4,45,310,33
     COMBOBOX        IDC_TEXTFORMATTING,8,57,128,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "You can override the global setting for text formatting here. Use ""Force off"" to never send formatting info for this contact.",IDC_STATIC,143,52,164,24
-    GROUPBOX        "ANSI codepage",IDC_STATIC,4,82,310,32
-    COMBOBOX        IDC_CODEPAGES,8,94,128,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Codepage for ANSI encoding/decoding when sending or receiving non-Unicode messages.",IDC_STATIC,143,87,164,24
+
     GROUPBOX        "Other options",IDC_STATIC,4,118,310,142
     LTEXT           "Info panel mode",IDC_STATIC,12,128,128,8
     COMBOBOX        IDC_INFOPANEL,9,138,130,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
@@ -170,7 +168,6 @@ BEGIN
     CONTROL         "Use private splitter position",IDC_PRIVATESPLITTER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,187,296,12
     CONTROL         "Contact is a favorite contact",IDC_ISFAVORITE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,199,297,12
-    CONTROL         "Force ANSI send / receive",IDC_FORCEANSI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,145,142,164,12
     CONTROL         "Ignore sending timeouts",IDC_IGNORETIMEOUTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,145,154,164,12
     CONTROL         "Load only actual history",IDC_LOADONLYACTUAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,145,166,164,12
     CONTROL         "Always trim message log to",IDC_ALWAYSTRIM2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,214,163,12
@@ -783,7 +780,6 @@ BEGIN
         MENUITEM "Send to &container",          ID_SENDMENU_SENDTOCONTAINER
         MENUITEM "Send &later",                 ID_SENDMENU_SENDLATER
         MENUITEM SEPARATOR
-        MENUITEM "Force &ANSI",                 ID_SENDMENU_FORCEANSISEND
         MENUITEM "Send unsafe (ignore timeouts)", ID_SENDMENU_SENDWITHOUTTIMEOUTS
         MENUITEM SEPARATOR
         MENUITEM "Send nudge",                  ID_SENDMENU_SENDNUDGE

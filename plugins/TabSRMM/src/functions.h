@@ -93,7 +93,6 @@ void  TSAPI DeleteContainer(int iIndex);
 void  TSAPI RenameContainer(int iIndex, const TCHAR *newName);
 int   TSAPI GetContainerNameForContact(MCONTACT hContact, TCHAR *szName, int iNameLen);
 HMENU TSAPI BuildContainerMenu();
-void  TSAPI BuildCodePageList();
 void  TSAPI PreTranslateDates();
 void  TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT mode, bool fForceResize);
 void  TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WPARAM wParam, LPARAM lParam, BYTE iType = 0);

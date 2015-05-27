@@ -268,11 +268,6 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 
 	dat->nMax = dat->cache->getMaxMessageLength(); // refresh length info
 
-	if (dat->sendMode & SMODE_FORCEANSI && db_get_b(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 1))
-		db_set_b(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 0);
-	else if (!(dat->sendMode & SMODE_FORCEANSI) && !db_get_b(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 0))
-		db_set_b(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 1);
-
 	if (M.GetByte("autosplit", 0) && !(dat->sendMode & SMODE_SENDLATER)) {
 		// determine send buffer length
 		BOOL fSplit = FALSE;

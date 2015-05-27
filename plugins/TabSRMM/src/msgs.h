@@ -88,7 +88,6 @@
 #define SMODE_DEFAULT 0
 #define SMODE_MULTIPLE 1
 #define SMODE_CONTAINER 2
-#define SMODE_FORCEANSI 4
 #define SMODE_SENDLATER 8
 #define SMODE_NOACK 16
 
@@ -280,7 +279,6 @@ struct TWindowData
 	bool     bShowAvatar, bShowInfoAvatar, bShowSmileys, bShowUIElements;
 	bool     bUseOffset;
 	bool     bIsHistory, bIsMeta, bNotOnList;
-	UINT     codePage;
 	HICON    hSmileyIcon;
 	int      iLastEventType;
 	time_t   lastEventTime;

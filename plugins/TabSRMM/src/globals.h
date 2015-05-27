@@ -75,7 +75,7 @@ public:
 	HICON       g_IconMsgEvent, g_IconTypingEvent, g_IconFileEvent, g_IconSend;
 	HICON       g_IconMsgEventBig, g_IconTypingEventBig;
 	HICON       g_IconGroupOpen, g_IconGroupClose, g_IconChecked, g_IconUnchecked;
-	HMENU       g_hMenuContext, g_hMenuContainer, g_hMenuEncoding, g_hMenuTrayUnread;
+	HMENU       g_hMenuContext, g_hMenuContainer, g_hMenuTrayUnread;
 	HMENU       g_hMenuFavorites, g_hMenuRecent, g_hMenuTrayContext;
 	HICON       g_buttonBarIcons[NR_BUTTONBARICONS];
 	HICON       g_sideBarIcons[NR_SIDEBARICONS];
