@@ -330,7 +330,7 @@ int CSteamProto::SetStatus(int new_status)
 			}
 
 			PushRequest(
-				new RsaKeyRequest(username),
+				new GetRsaKeyRequest(username),
 				&CSteamProto::OnGotRsaKey);
 		}
 	}

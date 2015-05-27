@@ -4,55 +4,27 @@
 class AuthorizationRequest : public HttpRequest
 {
 public:
-	AuthorizationRequest(const char *username, const char *password, const char *timestamp) :
-		HttpRequest(REQUEST_POST, STEAM_WEB_URL "/mobilelogin/dologin")
+	AuthorizationRequest(const char *username, const char *password, const char *timestamp, const char *twofactorcode, const char *guardCode, const char *guardId = "", const char *captchaId = "-1", const char *captchaText = "") :
+		HttpRequest(REQUEST_POST, STEAM_WEB_URL "/mobilelogin/dologin/")
 	{
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
 
-		char data[1024];
-		mir_snprintf(data, SIZEOF(data),
-			"username=%s&password=%s&oauth_client_id=3638BFB1&oauth_scope=read_profile write_profile read_client write_client&captchagid=-1&rsatimestamp=%s",
-			ptrA(mir_urlEncode(username)),
+		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+		AddHeader("Referer", STEAM_WEB_URL "/mobilelogin/dologin?oauth_client_id=3638BFB1&oauth_scope=read_profile%20write_profile%20read_client%20write_client");
+
+		CMStringA data(CMStringDataFormat::FORMAT,
+			"password=%s&username=%s&twofactorcode=%s&emailauth=%s&loginfriendlyname=%s&oauth_client_id=3638BFB1&captchagid=%s&captcha_text=%s&emailsteamid=%s&rsatimestamp=%s&rememberlogin=false&donotcache=%lld",
 			ptrA(mir_urlEncode(password)),
-			timestamp);
-
-		SetData(data, strlen(data));
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
-	}
-
-	AuthorizationRequest(const char *username, const char *password, const char *timestamp, const char *guardCode) :
-		HttpRequest(REQUEST_POST, STEAM_WEB_URL "/mobilelogin/dologin")
-	{
-		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
-
-		char data[1024];
-		mir_snprintf(data, SIZEOF(data),
-			"username=%s&password=%s&emailauth=%s&loginfriendlyname=MirandaNG&oauth_client_id=3638BFB1&oauth_scope=read_profile write_profile read_client write_client&captchagid=-1&rsatimestamp=%s",
 			ptrA(mir_urlEncode(username)),
-			ptrA(mir_urlEncode(password)),
+			twofactorcode,
 			guardCode,
-			timestamp);
-
-		SetData(data, strlen(data));
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
-	}
-
-	AuthorizationRequest(const char *username, const char *password, const char *timestamp, const char *captchaId, const char *captchaText) :
-		HttpRequest(REQUEST_POST, STEAM_WEB_URL "/mobilelogin/dologin")
-	{
-		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
-
-		char data[1024];
-		mir_snprintf(data, SIZEOF(data),
-			"username=%s&password=%s&emailauth=&captchagid=%s&captcha_text=%s&oauth_client_id=3638BFB1&oauth_scope=read_profile write_profile read_client write_client&rsatimestamp=%s",
-			ptrA(mir_urlEncode(username)),
-			ptrA(mir_urlEncode(password)),
+			"Miranda%20NG",
 			captchaId,
 			ptrA(mir_urlEncode(captchaText)),
-			timestamp);
-
-		SetData(data, strlen(data));
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+			guardId,
+			timestamp,
+			time(NULL));
+		SetData(data.GetBuffer(), data.GetLength());
 	}
 };
 
