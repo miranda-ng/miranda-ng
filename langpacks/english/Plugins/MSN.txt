@@ -70,9 +70,9 @@
 [&Op user]
 [&Deop user]
 ;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
 [MSN Alert]
 [Contact tried to open an audio conference (not currently supported)]
-[%I64u bytes]
 [Accept NetMeeting request from %s?]
 [MSN Protocol]
 [Chat session established by my request]

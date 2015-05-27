@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.10
+;  Version: 3.4.0.11
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -127,13 +127,10 @@
 [Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
 [Send text formatting method]
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
-[ANSI codepage]
-[Codepage for ANSI encoding/decoding when sending or receiving non-Unicode messages.]
 [Info panel mode]
 [Show avatar in message window]
 [Use private splitter position]
 [Contact is a favorite contact]
-[Force ANSI send / receive]
 [Ignore sending timeouts]
 [Load only actual history]
 [Always trim message log to]
@@ -383,7 +380,6 @@
 [Send to &multiple users]
 [Send to &container]
 [Send &later]
-[Force &ANSI]
 [Send unsafe (ignore timeouts)]
 [Send nudge]
 [Splitter position]
@@ -617,7 +613,6 @@
 [Add this contact permanently to your contact list]
 [Do not add this contact permanently]
 [Expand or collapse the side bar]
-[Character encoding]
 [Contact not on list. You may add it...]
 [A message failed to send successfully.]
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -680,7 +675,6 @@
 [December]
 [Today]
 [Yesterday]
-[Use default codepage]
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all.]

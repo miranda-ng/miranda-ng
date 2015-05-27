@@ -58,7 +58,7 @@
 [Message received: %s by %s]
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
-[Unable to get Netlib connection for WhatsApp]
+[Unable to initialize Netlib for %s.]
 [Network connection error.]
 [Registration failed. Invalid server response.]
 [Registration failed due to stale code. Please request a new code]
