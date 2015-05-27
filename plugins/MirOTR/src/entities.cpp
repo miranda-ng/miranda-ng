@@ -391,10 +391,14 @@ size_t decode_html_entities_utf8(char *dest, const char *src, size_t len)
 	return (size_t)(to - dest);
 }
 
-char * encode_html_entities_utf8(const char *src) {
-	const char *pos, *start=src;
+char* encode_html_entities_utf8(const char *src)
+{
+	const char *pos = strpbrk(src, "&<>\"\r");
+	if (!pos)
+		return NULL;
+
+	const char *start = src;
 	std::string buf;
-	if (! (pos = strpbrk(start, "&<>\"\r")) ) return NULL;
 	while (pos) {
 		buf.append(start, pos-start);
 		start = pos+1;
@@ -417,8 +421,8 @@ char * encode_html_entities_utf8(const char *src) {
 		}
 		pos = strpbrk(start, "&<>\"\r");
 	}
-	if (mir_strlen(start)) buf.append(start);
-	pos = mir_strdup(buf.c_str());
-	buf.clear();
-	return (char*)pos;
+	if (mir_strlen(start))
+		buf.append(start);
+
+	return mir_strndup(buf.c_str(), buf.size());
 }
