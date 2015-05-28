@@ -175,21 +175,22 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			break;
 
 		case IDOK:
-			char str2replace[MAX_STRING_LENGTH], replacedString[MAX_STRING_LENGTH];
+			CMStringA replacedString;
+			char str2replace[MAX_STRING_LENGTH];
 			int error;
 			if (GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING))) {
 				GetDlgItemTextA(hwnd, IDC_STRING, str2replace, SIZEOF(str2replace));
 				switch (stringReplacer(str2replace, replacedString, NULL)) {
 				case ERROR_NO_LINE_AFTER_VAR_F:
-					mir_snprintf(replacedString, SIZEOF(replacedString), "ERROR: no %s", "%line or %wholeline or %lastline after %fn");
+					replacedString.Format("ERROR: no %s", "%line or %wholeline or %lastline after %fn");
 					error = 1;
 					break;
 				case ERROR_LINE_NOT_READ:
-					mir_snprintf(replacedString, SIZEOF(replacedString), "ERROR: file couldnt be opened ");
+					replacedString.Format("ERROR: file couldnt be opened ");
 					error = 1;
 					break;
 				case ERROR_NO_FILE:
-					mir_snprintf(replacedString, SIZEOF(replacedString), "ERROR: no file specified in settings");
+					replacedString.Format("ERROR: no file specified in settings");
 					error = 1;
 					break;
 				default:

@@ -280,7 +280,7 @@ char* copyReplaceString(char* oldStr, char* newStr, char* findStr, char* replace
 			i += (int)mir_strlen(findStr);
 		}
 		else {
-			mir_strncat(newStr, &oldStr[i], 1);
+			strncat(newStr, &oldStr[i], 1);
 			i++;
 		}
 	}
@@ -482,7 +482,7 @@ void ExportContact(MCONTACT hContact)
 INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact;
-	char name[256] = "", program[256] = "", programparam[256] = "", group[256] = "", tooltip[3000] = "", line[2001] = "";
+	char name[256] = "", program[256] = "", programparam[256] = "", group[256] = "", line[2001] = "";
 	int icon = 40072, usetimer = 0, minutes = 1, timer = 0;
 	char fn[MAX_PATH];
 	int i, j, contactDone = 0;
@@ -492,6 +492,8 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 	FILE *file = fopen(fn, "r");
 	if (!file)
 		return 1;
+
+	CMStringA tooltip;
 
 	while (fgets(line, 2000, file)) {
 		if (!mir_strcmp(line, "\r\n\0"))
@@ -529,14 +531,14 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 		}
 		else if (!strncmp(line, "ToolTip=", mir_strlen("ToolTip="))) {
 			i = (int)mir_strlen("ToolTip=");
-			mir_strcpy(tooltip, &line[i]);
+			tooltip = &line[i];
 			fgets(line, 2000, file);
 			while (!strstr(line, "</tooltip>\r\n")) {
-				mir_strcat(tooltip, line);
+				tooltip.Append(line);
 				fgets(line, 2000, file);
 			}
 			// the line that has the </tooltip>
-			mir_strncat(tooltip, line, SIZEOF(tooltip) - mir_strlen(tooltip));
+			tooltip.Append(line);
 		}
 		else if (!strncmp(line, "Icon=", mir_strlen("Icon="))) {
 			i = (int)mir_strlen("Icon=");
@@ -656,8 +658,8 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 			program[0] = '\0';
 			programparam[0] = '\0';
 			group[0] = '\0';
-			tooltip[0] = '\0';
 			line[0] = '\0';
+			tooltip.Empty();
 			icon = 40072;
 			usetimer = 0;
 			minutes = 1;
