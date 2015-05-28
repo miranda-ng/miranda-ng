@@ -1,5 +1,7 @@
 #pragma once
 
+#define LANG_INLINE_PREFIX	            "[OTR INFO] "
+
 #define LANG_START_OTR						LPGEN("Start OTR")
 #define LANG_STOP_OTR						LPGEN("Stop OTR")
 
@@ -33,7 +35,6 @@
 #define LANG_ENCRYPTION_ERROR				LPGEN("OTR could not encrypt when sending message")
 
 #define LANG_OTR_INFO						LPGEN("OTR Information")
-#define LANG_INLINE_PREFIX					LPGEN("[OTR INFO] ")
 
 #define LANG_FINGERPRINT_VERIFIED			LPGEN("OTR encrypted session with '%s' is now using a VERIFIED fingerprint")
 #define LANG_FINGERPRINT_NOT_VERIFIED		LPGEN("OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint")
