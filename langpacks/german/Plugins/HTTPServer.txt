@@ -69,7 +69,7 @@ HTML erstellen (Kompatibilität)
 [Create XML]
 XML erstellen
 [Notifications]
-Benachrichtigung
+Benachrichtigungen
 [Total connection limit]
 max. Verbindungen gesamt
 [Connections per user limit]

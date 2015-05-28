@@ -642,9 +642,9 @@ Soll Kontakt '%s' aus Metakontakt '%s' entfernt und zu '%s' hinzugefügt werden?
 [Changing metacontacts (moving)]
 Ändere Metakontakte (Verschiebe)
 [Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from http://wiki.miranda-ng.org/Download]
-
+CList Modern erfordert AVS-Plugin. Installieren Sie es über den PluginUpdater oder laden Sie es von http://wiki.miranda-ng.org/Download herunter.
 [Error loading plugin]
-
+Fehler beim Laden des Plugins
 [Skins]
 Skins
 [Modern contact list]

@@ -1,7 +1,5 @@
 ﻿[Can request advanced processing of message stanzas]
 [Supports generic publish-subscribe functionality]
-[Invite Users to\n%s]
-[Group chat invitation to\n%s]
 [One or more addresses for communication related to abusive traffic]
 [One or more addresses for customer feedback]
 [One or more addresses for communication related to sales and marketing]

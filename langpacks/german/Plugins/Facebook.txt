@@ -128,7 +128,7 @@ Benutzer&details
 Kontakt&verlauf
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
-Loginfehler: %s
+Anmeldefehler: %s
 [Unknown error]
 Unbekannter Fehler
 [Login error: Invalid request.]
@@ -140,15 +140,15 @@ Anmeldefehler: Ihr Konto ist vorrübergehend gesperrt. Sie müssen dieses Gerät
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
 Anmeldefehler: Captcha-Code wird benötigt. Sie müssen dieses Gerät in Ihrem Webbrowser bestätigen.
 [Facebook required computer cleaning and plugin correctly skipped it. Please report this to the plugin developer!]
-
+Facebook erforderte Computerbereinigung und das Plugin hat diese korrekt übersprungen. Bitte melden Sie dies dem Pluginentwickler!
 [Login error, probably bad login credentials.]
-Loginfehler, wahrscheinlich falsche Anmeldeinformationen.
+Anmeldefehler, wahrscheinlich falsche Anmeldeinformationen.
 [Could not load communication token. You should report this and wait for plugin update.]
 Konnte Verbindungstoken nicht laden. Sie sollten dies melden und auf ein Update des Plugins warten.
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
 Konnte nicht alle benötigten Daten laden. Plugin kann immer noch funktionieren, Sie sollten dies aber melden und auf ein Update des Plugins warten.
 [Contact doesn't have required data in database.]
-
+Kontakt hat die benötigten Daten nicht in der Datenbank.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Eine Bestätigung zum Nachrichtenversand zu anderen Clients wird benötigt.\nÖffnen Sie die Facebook-Seite und senden Sie dem Kontakt die Nachricht erneut!
 [User cancel captcha challenge.]
@@ -258,7 +258,7 @@ Kontakt ist nicht mehr in Ihrer Server-Liste.
 [%s server connection]
 %s Serververbindung
 [Unable to initialize Netlib for %s.]
-
+Kann Netlib-Verbindung für %s nicht initialisieren.
 [Video call]
 Videoanruf
 [Facebook ID must be numeric value.]

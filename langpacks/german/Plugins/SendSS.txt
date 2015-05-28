@@ -19,7 +19,7 @@ Abbrechen
 [Send screenshot to <unknown>]
 Sende Screenshot an <unbekannt>
 [Take a screenshot and send it to a contact]
-
+Screenshot aufnehmen und an einen Kontakt senden
 [Ti&med capture]
 Verzögerte Aufnah&me
 [Time (secs):]
@@ -230,7 +230,7 @@ Danksagung
 [Drag&Drop the target on the desired window.]
 Quellfenster mit Drag&Drop auswählen
 [Send screenshot to %s]
-
+Screenshot an %s senden
 [Window]
 Fenster
 [Desktop]

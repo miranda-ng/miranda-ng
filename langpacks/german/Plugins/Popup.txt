@@ -135,7 +135,7 @@ Mittelklick:
 [Right button]
 Rechtsklick:
 [Notifications]
-Benachrichtigung
+Benachrichtigungen
 [General options]
 Allgemeine Einstellungen
 [Enable this notification]

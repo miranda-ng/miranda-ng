@@ -108,7 +108,7 @@ Sie sprechen beide die selbe Sprache.
 [%s server connection]
 %s Serververbindung
 [Unable to initialize Netlib for %s.]
-
+Kann Netlib-Verbindung für %s nicht initialisieren.
 [Stranger typing]
 Fremder tippt
 [Stranger stopped typing]

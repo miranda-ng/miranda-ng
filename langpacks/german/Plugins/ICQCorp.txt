@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG Team, Eugene Tarasenko
 ;============================================================
 [ICQ corporate protocol support for Miranda NG.]
-
+Unterstützung für das ICQ-Corporate-Protokoll in Miranda NG.
 ;file \protocols\ICQCorp\res\resource.rc
 [UIN:]
 UIN:
@@ -17,17 +17,17 @@ Interne IP:
 [Port:]
 Port:
 [ICQ Version:]
-
+ICQ-Version:
 [Miranda Version:]
-
+Miranda-Version:
 [Ping:]
-
+Ping:
 [ICQ Corp]
-
+ICQ Corp
 [Login Server:]
 Loginserver:
 [ICQ#:]
-
+ICQ#:
 [Password:]
 Passwort:
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
@@ -37,16 +37,16 @@ Sie müssen Sich erneut mit dem Netzwerk verbinden
 Netzwerk
 ;file \protocols\ICQCorp\src\protocol.cpp
 [ICQ Corporate plugin used only WinSock v2.2 or later.]
-
+ICQ-Corporate-Plugin verwendet nur WinSock v2.2 oder neuer.
 [You need specify ICQ Corporate login server.]
-
+Sie müssen einen ICQ-Corporate-Anmeldeserver angeben.
 [Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to M->Options->ICQCorp and try again.]
-
+Ihre ICQ-Corp-Nummer und -Passwortkombination wurden vom ICQ-Corporate-Server abgelehnt. Bitte gehen Sie zu Einstellungen->ICQCorp und versuchen Sie es nochmal.
 ;file \protocols\ICQCorp\src\services.cpp
 [ICQ number:]
 ICQ-Nummer:
 [%d file]
-
+%d Datei
 [%d files]
 %d Dateien
 [%d directory]

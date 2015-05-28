@@ -6,11 +6,11 @@
 ;  Authors: ZERO_BiT
 ;============================================================
 [Adds Miranda NG icon into Alt-Tab switch dialog even if Miranda's main window has style other Title bar.]
-
+Fügt das Miranda-NG-Icon in den Alt-Tab-Dialog, selbst wenn das Miranda-Hauptfenster einen anderen Stil als Titelleiste hat.
 ;file \plugins\ZeroSwitch\src\ZeroSwitch.cpp
 [Plugin works under Windows XP only]
-
+Plugin funktioniert nur unter Windows XP.
 [ZeroSwitch plugin failed]
-
+ZeroSwitch Plugin fehlgeschlagen
 [Oops, we've got a big hook error here :(]
-
+Oh, Fehler bei Hook.

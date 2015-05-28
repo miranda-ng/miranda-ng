@@ -1,3 +1,0 @@
-﻿[Facebook required computer cleaning and plugin correctly skipped it. Please report this to the plugin developer!]
-[Contact doesn't have required data in database.]
-[Unable to initialize Netlib for %s.]

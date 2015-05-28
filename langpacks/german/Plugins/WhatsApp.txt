@@ -105,7 +105,7 @@ Nachricht empfangen: %s von %s
 [%s server connection]
 %s Serververbindung
 [Unable to initialize Netlib for %s.]
-
+Kann Netlib-Verbindung für %s nicht initialisieren.
 [Network connection error.]
 Netzwerkverbindungsfehler.
 [Registration failed. Invalid server response.]

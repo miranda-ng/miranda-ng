@@ -42,7 +42,7 @@ Passwort speichern
 Passwort eingeben um fortzufahren.
 ;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
-
+Skype-Link-Protokoll
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
 [Admin]
 Administrator
@@ -53,42 +53,42 @@ Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kan
 [Warning]
 Warnung
 [&Invite user...]
-
+Kontakt e&inladen...
 [&Leave chat session]
-
+Chatsitzung ver&lassen
 [&Change topic]
-
+Thema &ändern
 [Kick &user]
-
+Ben&utzer kicken
 [Set &role]
-
+&Rolle setzen
 [&Admin]
-
+&Administrator
 [&User]
-
+Ben&utzer
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
 [Are you sure?]
 Sind Sie sich sicher?
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [Incoming call]
-
+Eingehender Anruf
 [Action]
 Aktion
 [Call information.]
-
+Anrufinformation.
 [Calls]
-
+Aufrufe
 [Notifications]
-
+Benachrichtigungen
 [Errors]
-
+Fehler
 ;file \protocols\SkypeWeb\src\skype_history_sync.cpp
 [Edited at]
 Bearbeitet um
 [Call started]
-
+Anruf begonnen
 [Call ended]
-
+Anruf beendet
 [Duration]
 Dauer
 [File transfer]
@@ -100,26 +100,26 @@ Größe
 [bytes]
 Bytes
 [Image]
-
+Bild
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Protokollicon
 [Create new chat icon]
-
+"Neuen Chat erstellen"-Icon
 [Sync history icon]
-
+"Verlauf synchronisieren"-Icon
 [Block user icon]
-
+"Benutzer blockieren"-Icon
 [Unblock user icon]
-
+"Blockierung aufheben"-Icon
 [Incoming call icon]
-
+"Eingehender Anruf"-Icon
 [Notification icon]
-
+Benachrichtigungsicon
 [Error icon]
-
+Fehlericon
 [Action icon]
-
+Aktionsicon
 [Protocols]
 Protokolle
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
@@ -143,12 +143,12 @@ Netzwerk
 [%s connection]
 %s-Verbindung
 [Incoming call sound]
-
+Eingehender-Anruf-Klang
 [Incoming call canceled sound]
-
+Eingehender-Anruf-Abgebrochen-Klang
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
 [Failed establish a TRouter connection.]
-
+Aufbau einer TRouter-Verbindung fehlgeschlagen.
 [Incoming call from %s]
 Eingehender Anruf von %s
 ;file \protocols\SkypeWeb\src\skype_utils.cpp

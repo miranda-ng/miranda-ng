@@ -1,4 +1,0 @@
-﻿[Minecraft Dynmap support for Miranda NG.]
-[Message was not sent. Probably you are sending them too fast or chat is disabled completely.]
-[Set server address to connect.]
-[Unable to initialize Netlib for %s.]

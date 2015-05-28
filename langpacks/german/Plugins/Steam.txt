@@ -43,7 +43,7 @@ Passwort eingeben um fortzufahren.
 Steam-Spiel
 ;file \protocols\Steam\src\steam_account.cpp
 [Connection token expired. Please login again.]
-
+Verbindungstoken abgelaufen. Bitte melden Sie sich nochmal an.
 ;file \protocols\Steam\src\steam_contacts.cpp
 [Looking to play]
 Auf der Suche nach einem Spiel

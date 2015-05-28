@@ -21,7 +21,7 @@ Version:
 [Preview]
 Vorschau
 [Use per protocol global smiley packs]
-
+Smileypacks per Protokoll setzen
 [Display]
 Anzeige
 [Replace only smileys surrounded by spaces]
@@ -101,7 +101,7 @@ Das verwendete Smileypack ist fehlerhaft und muss korrigiert werden.\nDetails fi
 [Smiley #%u in file %s for smiley pack %s not found.]
 Smiley #%u in Datei %s für Smileypack %s nicht gefunden.
 [%s global smiley pack]
-
+%s globales Smileypack
 [Standard]
 Standard
 [Regular expression "%s" in smiley pack "%s" could produce "empty matches".]

@@ -165,7 +165,7 @@ Stunden
 [days]
 Tage
 [Stable version (incompatible with current development version)]
-
+Stabile Version (inkompatibel mit aktueller Entwicklungsversion)
 [Test]
 Testen
 [Services]

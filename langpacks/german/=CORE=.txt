@@ -343,7 +343,7 @@ Standard
 [Set]
 Setzen
 [Enable icons]
-
+Icons aktivieren
 [Show accounts in the following order,\ndrag to choose another order:]
 Zeige Konten in folgender Reihenfolge, Elemente sind verschiebbar
 [Account order and visibility]

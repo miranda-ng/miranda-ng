@@ -679,7 +679,7 @@ JID für diesen Raum kopieren
 [Real &JID: %s]
 Echte &JID: %s
 [Invite Users to\n%s]
-
+Benutzer einladen in\n%s
 [%s (not on roster)]
 %s (nicht in der Kontaktliste)
 [%s from\n%s]
@@ -798,7 +798,7 @@ Nicknamen in <%s> ändern
 [has set the subject to:]
 hat den Betreff geändert auf:
 [Group chat invitation to\n%s]
-
+Gruppenchateinladung in\n%s
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]
 Statusicons
