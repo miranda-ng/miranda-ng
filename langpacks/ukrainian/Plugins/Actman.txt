@@ -354,7 +354,7 @@ YAPP або Popup
 [4 bytes]
 4 байти
 [8 bytes]
-8 байтів
+8 байт
 [Byte]
 Байт
 [Word]
