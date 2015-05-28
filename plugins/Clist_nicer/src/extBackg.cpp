@@ -288,11 +288,10 @@ void LoadExtBkSettingsFromDB()
 		ID_EXTBK_LAST++;
 
 		mir_snprintf(p->szDBname, SIZEOF(p->szDBname), "EXBK_%s", accs[i]->szModuleName);
-		if (i == 0) {
-			mir_strncpy(p->szName, "{-}", SIZEOF(p->szName));
-			mir_strncat(p->szName, accs[i]->szModuleName, SIZEOF(p->szName) - mir_strlen(p->szName));
-		}
-		else mir_strncpy(p->szName, accs[i]->szModuleName, SIZEOF(p->szName));
+		if (i == 0)
+			mir_snprintf(p->szName, SIZEOF(p->szName), "{-}%s", accs[i]->szModuleName);
+		else
+			strncpy_s(p->szName, accs[i]->szModuleName, _TRUNCATE);
 		p->statusID = ID_EXTBK_LAST;
 		arStatusItems.insert(p);
 	}
