@@ -384,7 +384,7 @@ struct CVkProto : public PROTO<CVkProto>
 	bool CheckMid(LIST<void> &lList, int guid);
 		
 	JSONNode& CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNode &root);	
-	bool CheckJsonResult(AsyncHttpRequest *pReq, JSONNode &Node);
+	bool CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &Node);
 
 	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
@@ -410,7 +410,7 @@ struct CVkProto : public PROTO<CVkProto>
 	CMString SetBBCString(TCHAR *tszString, BBCSupport iBBC, VKBBCType bbcType, TCHAR *tszAddString = NULL);
 	CMString& ClearFormatNick(CMString& tszText);
 
-	CMString GetAttachmentDescr(const JSONNode jnAttachments, BBCSupport iBBC = bbcNo);
+	CMString GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC = bbcNo);
 	CMString GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC = bbcNo);
 
 	void SetInvisible(MCONTACT hContact);

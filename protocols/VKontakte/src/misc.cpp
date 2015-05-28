@@ -314,7 +314,7 @@ JSONNode& CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST 
 	return root["response"];
 }
 
-bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, JSONNode &jnNode)
+bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 {
 	debugLogA("CVkProto::CheckJsonResult");
 	if (!jnNode)
@@ -952,7 +952,7 @@ CMString& CVkProto::ClearFormatNick(CMString& tszText)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMString CVkProto::GetAttachmentDescr(const JSONNode jnAttachments, BBCSupport iBBC)
+CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC)
 {
 	debugLogA("CVkProto::GetAttachmentDescr");
 	CMString res;
@@ -965,7 +965,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode jnAttachments, BBCSupport i
 	res.AppendChar('\n');
 	
 	for (auto it = jnAttachments.begin(); it != jnAttachments.end(); ++it) {
-		const JSONNode jnAttach = (*it);
+		const JSONNode &jnAttach = (*it);
 
 		res.AppendChar('\t');
 		CMString tszType(jnAttach["type"].as_mstring());

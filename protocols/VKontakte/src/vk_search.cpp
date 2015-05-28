@@ -113,7 +113,7 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		return;
 	}
 
-	const JSONNode jnItems = jnResponse["items"].isnull() ? jnResponse : jnResponse["items"];
+	const JSONNode &jnItems = jnResponse["items"].isnull() ? jnResponse : jnResponse["items"];
 	for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
 		const JSONNode &jnRecord = (*it);
 		if (!jnRecord)
