@@ -33,9 +33,9 @@ HANDLE CVkProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName,
 {
 	PROTOSEARCHBYNAME * psr = new (PROTOSEARCHBYNAME);
 
-	psr->pszFirstName = mir_wstrdup(firstName);
-	psr->pszLastName = mir_wstrdup(lastName);
-	psr->pszNick = mir_wstrdup(nick);
+	psr->pszFirstName = mir_tstrdup(firstName);
+	psr->pszLastName = mir_tstrdup(lastName);
+	psr->pszNick = mir_tstrdup(nick);
 
 	ForkThread(&CVkProto::SearchThread, (void *)psr);
 	return (HANDLE)1;
@@ -100,9 +100,9 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		return;
 	}
 
-	JSONROOT pRoot;
-	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	if (pResponse == NULL) {
+	JSONNode jnRoot;
+	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
+	if (!jnResponse) {
 		if (pParam) {
 			mir_free(pParam->pszFirstName);
 			mir_free(pParam->pszLastName);
@@ -113,41 +113,34 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		return;
 	}
 
-	int iCount = json_as_int(json_get(pResponse, "count"));
-	JSONNODE *pItems = json_get(pResponse, "items");
-	if (!pItems) {
-		pItems = pResponse;
-		iCount = 1;
-	} 
-
-	for (int i = 0; i<iCount; i++) {
-		JSONNODE *pRecord = json_at(pItems, i);
-		if (pRecord == NULL)
+	const JSONNode jnItems = jnResponse["items"].isnull() ? jnResponse : jnResponse["items"];
+	for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
+		const JSONNode &jnRecord = (*it);
+		if (!jnRecord)
 			break;
 		
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
 
-		ptrT pId(json_as_string(json_get(pRecord, "id")));
-		ptrT pFirstName(json_as_string(json_get(pRecord, "first_name")));
-		ptrT pLastName(json_as_string(json_get(pRecord, "last_name")));
-		ptrT pNick(json_as_string(json_get(pRecord, "nickname")));
-		ptrT pDomain(json_as_string(json_get(pRecord, "domain")));
+		CMString Id;
+		Id.AppendFormat(_T("%d"), jnRecord["id"].as_int());
+		CMString FirstName(jnRecord["first_name"].as_mstring());
+		CMString LastName(jnRecord["last_name"].as_mstring());
+		CMString Nick(jnRecord["nickname"].as_mstring());
+		CMString Domain(jnRecord["domain"].as_mstring());
 
-		psr.id = mir_wstrdup(pId);
-		psr.firstName = mir_wstrdup(pFirstName);
-		psr.lastName = mir_wstrdup(pLastName);
-		psr.nick = mir_wstrdup(pNick);
-		if (!psr.nick || !psr.nick[0])
-			psr.nick = mir_wstrdup(pDomain);
+		psr.id = mir_tstrdup(Id.GetBuffer());
+		psr.firstName = mir_tstrdup(FirstName.GetBuffer());
+		psr.lastName = mir_tstrdup(LastName.GetBuffer());
+		psr.nick = Nick.IsEmpty() ? mir_tstrdup(Domain.GetBuffer()) : mir_tstrdup(Nick.GetBuffer());
 		
 		bool filter = true;
 		if (pParam) {
-			if (psr.firstName&&pParam->pszFirstName)
+			if (psr.firstName && pParam->pszFirstName)
 				filter = tlstrstr(psr.firstName, pParam->pszFirstName) && filter;
-			if (psr.lastName&&pParam->pszLastName)
+			if (psr.lastName && pParam->pszLastName)
 				filter = tlstrstr(psr.lastName, pParam->pszLastName) && filter;
-			if (psr.nick&&pParam->pszNick)
+			if (psr.nick && pParam->pszNick)
 				filter = tlstrstr(psr.nick, pParam->pszNick) && filter;
 		}
 
@@ -172,40 +165,40 @@ void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		return;
 	}
 
-	JSONROOT pRoot;
-	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	if (pResponse == NULL) {
+	JSONNode jnRoot;
+	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
+	if (!jnResponse) {
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;
 	}
 
-	JSONNODE *pItems = json_get(pResponse, "found");
-	if (!pItems) {
+	const JSONNode &jnItems = jnResponse["found"];
+	if (!jnItems) {
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;
 	}
 	
-	for (int i = 0;; i++) {
-		JSONNODE *pRecord = json_at(pItems, i);
-		if (pRecord == NULL)
+	for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
+		const JSONNode &jnRecord = (*it);
+		if (!jnRecord)
 			break;
 
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
+		
+		CMString Id;
+		Id.AppendFormat(_T("%d"), jnRecord["id"].as_int());
+		CMString FirstName(jnRecord["first_name"].as_mstring());
+		CMString LastName(jnRecord["last_name"].as_mstring());
+		CMString Nick(jnRecord["nickname"].as_mstring());
+		CMString Email(jnRecord["contact"].as_mstring());
 
-		ptrT pId(json_as_string(json_get(pRecord, "id")));
-		ptrT pFirstName(json_as_string(json_get(pRecord, "first_name")));
-		ptrT pLastName(json_as_string(json_get(pRecord, "last_name")));
-		ptrT pNick(json_as_string(json_get(pRecord, "nickname")));
-		ptrT pEmail(json_as_string(json_get(pRecord, "contact")));
 
-		psr.id = mir_wstrdup(pId);
-		psr.firstName = mir_wstrdup(pFirstName);
-		psr.lastName = mir_wstrdup(pLastName);
-		psr.nick = mir_wstrdup(pNick);
-		psr.email = mir_wstrdup(pEmail);
-		if (!psr.nick || !psr.nick[0])
-				psr.nick = psr.email;
+		psr.id = mir_tstrdup(Id.GetBuffer());
+		psr.firstName = mir_tstrdup(FirstName.GetBuffer());
+		psr.lastName = mir_tstrdup(LastName.GetBuffer());
+		psr.nick = Nick.IsEmpty() ? mir_tstrdup(Email.GetBuffer()) : mir_tstrdup(Nick.GetBuffer());
+		psr.email = mir_tstrdup(Email.GetBuffer());
 			
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 	}

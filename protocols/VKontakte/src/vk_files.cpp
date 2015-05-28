@@ -165,14 +165,14 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		return;
 	}
 
-	JSONROOT pRoot;
-	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	if (pResponse == NULL) {
+	JSONNode jnRoot;
+	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
+	if (!jnResponse) {
 		SendFileFiled(fup);
 		return;
 	}
 
-	CMStringA uri = json_as_CMString(json_get(pResponse, "upload_url"));
+	CMStringA uri = jnResponse["upload_url"].as_mstring();
 	if (uri.IsEmpty()) {
 		SendFileFiled(fup);
 		return;
@@ -261,18 +261,18 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		return;
 	}
 
-	JSONROOT pRoot;
-	CheckJsonResponse(pReq, reply, pRoot);
+	JSONNode jnRoot;
+	CheckJsonResponse(pReq, reply, jnRoot);
 
-	ptrT server(json_as_string(json_get(pRoot, "server")));
-	ptrT hash(json_as_string(json_get(pRoot, "hash")));
+	CMString server(jnRoot["server"].as_mstring());
+	CMString hash(jnRoot["hash"].as_mstring());
 	CMString upload;
 
 	AsyncHttpRequest *pUploadReq;
 
 	switch (fup->GetType()) {
 	case CVkFileUploadParam::typeImg:
-		upload = json_as_CMString(json_get(pRoot, "photo"));
+		upload = jnRoot["photo"].as_mstring();
 		if (upload == _T("[]")) {
 			SendFileFiled(fup, _T("NotUpload Photo"));
 			return;
@@ -284,7 +284,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			<< VER_API;
 		break;
 	case CVkFileUploadParam::typeAudio:
-		upload = json_as_CMString(json_get(pRoot, "audio"));
+		upload = jnRoot["audio"].as_mstring();
 		if (upload == _T("[]")) {
 			SendFileFiled(fup, _T("NotUpload Audio"));
 			return;
@@ -296,7 +296,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			<< VER_API;
 		break;
 	case CVkFileUploadParam::typeDoc:
-		upload = json_as_CMString(json_get(pRoot, "file"));
+		upload = jnRoot["file"].as_mstring();		
 		if (upload.IsEmpty()) {
 			SendFileFiled(fup, _T("NotUpload Doc"));
 			return;
@@ -329,15 +329,15 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		return;
 	}
 
-	JSONROOT pRoot;
-	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	if (pResponse == NULL) {
+	JSONNode jnRoot;
+	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
+	if (!jnResponse) {
 		SendFileFiled(fup);
 		return;
 	}
 
-	int id = json_as_int(json_get(fup->GetType() == CVkFileUploadParam::typeAudio ? pResponse : json_at(pResponse, 0), "id"));
-	int owner_id = json_as_int(json_get(fup->GetType() == CVkFileUploadParam::typeAudio ? pResponse : json_at(pResponse, 0), "owner_id"));
+	int id = fup->GetType() == CVkFileUploadParam::typeAudio ? jnResponse["id"].as_int() : (*jnResponse.begin())["id"].as_int();
+	int owner_id = fup->GetType() == CVkFileUploadParam::typeAudio ? jnResponse["owner_id"].as_int() : (*jnResponse.begin())["owner_id"].as_int(); 	
 	if ((id == 0) || (owner_id == 0)) {
 		SendFileFiled(fup);
 		return;

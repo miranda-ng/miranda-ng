@@ -169,54 +169,51 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 	if (reply->resultCode != 200)
 		return;
 
-	JSONROOT pRoot;
-	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	if (pResponse == NULL)
+	JSONNode jnRoot;
+	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
+	if (!jnResponse)
 		return;
 
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
-	int iCount = json_as_int(json_get(pResponse, "count"));
-	int iTime = json_as_int(json_get(pResponse, "datetime"));
-	JSONNODE *pMsgs = json_get(pResponse, "items");
+	int iTime = jnResponse["datetime"].as_int(); 
+	const JSONNode &jnMsgs = jnResponse["items"];
+
 	int iLastMsgId = getDword(param->hContact, "lastmsgid", -1);
-	int iIndex = iCount;
 	int count = 0;
 
-	for (iIndex = (iCount - 1); iIndex >= 0; iIndex--) {
-		JSONNODE *pMsg = json_at(pMsgs, iIndex);
-		if (pMsg == NULL)
-			continue;
+	for (auto it = jnMsgs.rbegin(); it != jnMsgs.rend(); ++it) {
+		const JSONNode &jnMsg = (*it);
 
-		int mid = json_as_int(json_get(pMsg, "id"));
+		int mid = jnMsg["id"].as_int();
 		if (iLastMsgId < mid) 
 			iLastMsgId = mid;	
 
 		char szMid[40];
 		_itoa(mid, szMid, 10);
 
-		ptrT ptszBody(json_as_string(json_get(pMsg, "body")));
-		int datetime = json_as_int(json_get(pMsg, "date"));
-		int isOut = json_as_int(json_get(pMsg, "out"));
-		int isRead = json_as_int(json_get(pMsg, "read_state"));
-		int uid = json_as_int(json_get(pMsg, "user_id"));
-
-		JSONNODE *pFwdMessages = json_get(pMsg, "fwd_messages");
-		if (pFwdMessages != NULL){
-			CMString tszFwdMessages = GetFwdMessages(pFwdMessages, m_iBBCForAttachments);
-			if (!IsEmpty(ptszBody))
+		CMString tszBody(jnMsg["body"].as_mstring());
+		int datetime = jnMsg["date"].as_int();
+		int isOut = jnMsg["out"].as_int();
+		int isRead = jnMsg["read_state"].as_int(); 
+		int uid = jnMsg["user_id"].as_int(); 
+		
+		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
+		if (!jnFwdMessages.isnull()){
+			CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, m_iBBCForAttachments);
+			if (!tszBody.IsEmpty())
 				tszFwdMessages = _T("\n") + tszFwdMessages;
-			ptszBody = mir_tstrdup(CMString(ptszBody) + tszFwdMessages);
+			tszBody += tszFwdMessages;
 		}
-
-		JSONNODE *pAttachments = json_get(pMsg, "attachments");
-		if (pAttachments != NULL){
-			CMString tszAttachmentDescr = GetAttachmentDescr(pAttachments, m_iBBCForAttachments);
-			if (!IsEmpty(ptszBody))
+		
+		const JSONNode &jnAttachments = jnMsg["attachments"];
+		if (!jnAttachments.isnull()){
+			CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_iBBCForAttachments);
+			if (!tszBody.IsEmpty())
 				tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
-			ptszBody = mir_tstrdup(CMString(ptszBody) + tszAttachmentDescr);
+			tszBody += tszAttachmentDescr;
 		}
 
-		T2Utf pszBody(ptszBody);
+		T2Utf pszBody(tszBody.GetBuffer());
 		MCONTACT hContact = FindUser(uid, true);
 		PROTORECVEVENT recv = { 0 };
 		if (isRead)
@@ -234,8 +231,8 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 	}
 	setDword(param->hContact, "lastmsgid", iLastMsgId);
 
-	int once = json_as_int(json_get(pResponse, "once"));
-	int iRCount = json_as_int(json_get(pResponse, "rcount"));
+	int once = jnResponse["once"].as_int();
+	int iRCount = jnResponse["rcount"].as_int();
 	if (count == iRCount && once == 0)
 		GetServerHistory(param->hContact, param->iCount + count, iRCount, iTime, param->iMsgID);
 

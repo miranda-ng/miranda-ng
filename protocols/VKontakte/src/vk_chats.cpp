@@ -26,7 +26,9 @@ enum
 
 static LPCTSTR sttStatuses[] = { LPGENT("Participants"), LPGENT("Owners") };
 
-CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
+extern JSONNode nullNode;
+
+CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 {
 	debugLog(_T("CVkProto::AppendChat"));
 	if (id == 0)
@@ -41,11 +43,11 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	if (c != NULL)
 		return c;
 
-	ptrT ptszTitle;
+	CMString tszTitle;
 	c = new CVkChatInfo(id);
-	if (pDlg != NULL) {
-		ptszTitle = json_as_string(json_get(pDlg, "title"));
-		c->m_tszTopic = mir_tstrdup((ptszTitle != NULL) ? ptszTitle : _T(""));
+	if (!jnDlg.isnull()) {
+		tszTitle = jnDlg["title"].as_mstring();
+		c->m_tszTopic = mir_tstrdup(!tszTitle.IsEmpty() ? tszTitle.GetBuffer() : _T(""));
 	}
 
 	CMString sid; 
@@ -55,7 +57,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	GCSESSION gcw = { sizeof(gcw) };
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = ptszTitle;
+	gcw.ptszName = tszTitle.GetBuffer();
 	gcw.ptszID = sid;
 	CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw);
 
@@ -66,7 +68,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci);
 	c->m_hContact = gci.hContact;
 
-	setTString(gci.hContact, "Nick", ptszTitle);
+	setTString(gci.hContact, "Nick", tszTitle);
 	m_chats.insert(c);
 
 	GCDEST gcd = { m_szModuleName, sid, GC_EVENT_ADDGROUP };
@@ -79,7 +81,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	setDword(gci.hContact, "vk_chat_id", id);
 	db_unset(gci.hContact, m_szModuleName, "off");
 
-	if (json_as_int(json_get(pDlg, "left")) == 1) {
+	if (jnDlg["left"].as_int() == 1) {
 		setByte(gci.hContact, "off", 1);
 		m_chats.remove(c);
 		return NULL;
@@ -124,20 +126,20 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	if (reply->resultCode != 200)
 		return;
 
-	JSONROOT pRoot;
-	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	if (pResponse == NULL)
+	JSONNode jnRoot;
+	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
+	if (!jnResponse)
 		return;
 
 	CVkChatInfo *cc = (CVkChatInfo*)pReq->pUserInfo;
 	if (m_chats.indexOf(cc) == -1)
 		return;
 
-	JSONNODE *info = json_get(pResponse, "info");
-	if (info != NULL) {
-		ptrT tszTitle(json_as_string(json_get(info, "title")));
-		if (mir_tstrcmp(tszTitle, cc->m_tszTopic)) {
-			cc->m_tszTopic = mir_tstrdup(tszTitle);
+	const JSONNode &jnInfo = jnResponse["info"];
+	if (!jnInfo.isnull()) {
+		CMString tszTitle(jnInfo["title"].as_mstring());
+		if (tszTitle == cc->m_tszTopic) {
+			cc->m_tszTopic = mir_tstrdup(tszTitle.GetBuffer());
 			setTString(cc->m_hContact, "Nick", tszTitle);
 
 			GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_CHANGESESSIONAME };
@@ -145,25 +147,25 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			gce.ptszText = tszTitle;
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 		}
-		if ((json_as_int(json_get(info, "left")) == 1) || (json_as_int(json_get(info, "kicked")) == 1)) {
+		if (jnInfo["left"].as_int() == 1 || jnInfo["kicked"].as_int() == 1) {
 			setByte(cc->m_hContact, "kicked", (int)true);
 			LeaveChat(cc->m_chatid);
 			return;
 		}
-		cc->m_admin_id = json_as_int(json_get(info, "admin_id"));	
+		cc->m_admin_id = jnInfo["admin_id"].as_int();
 	}
 
-	JSONNODE *users = json_get(pResponse, "users");
-	if (users != NULL) {
+	const JSONNode &jnUsers = jnResponse["users"];
+	if (!jnUsers.isnull()) {
 		for (int i = 0; i < cc->m_users.getCount(); i++)
 			cc->m_users[i].m_bDel = true;
 
-		for (int i = 0;; i++) {
-			JSONNODE *pUser = json_at(users, i);
-			if (pUser == NULL)
+		for (auto it = jnUsers.begin(); it != jnUsers.end(); ++it) {
+			const JSONNode &jnUser = (*it);
+			if (!jnUser)
 				break;
 
-			int uid = json_as_int(json_get(pUser, "id"));
+			int uid = jnUser["id"].as_int();
 			TCHAR tszId[20];
 			_itot(uid, tszId, 10);
 
@@ -173,13 +175,14 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				cc->m_users.insert(cu = new CVkChatUser(uid));
 				bNew = true;
 			}
-			else bNew = cu->m_bUnknown;
+			else 
+				bNew = cu->m_bUnknown;
 			cu->m_bDel = false;
 
-			ptrT fName(json_as_string(json_get(pUser, "first_name")));
-			ptrT lName(json_as_string(json_get(pUser, "last_name")));
-			CMString tszNick = CMString(fName).Trim() + _T(" ") + CMString(lName).Trim();
-			cu->m_tszNick = mir_tstrdup(tszNick);
+			CMString fName(jnUser["first_name"].as_mstring());
+			CMString lName(jnUser["last_name"].as_mstring());
+			CMString tszNick = fName.Trim() + _T(" ") + lName.Trim();
+			cu->m_tszNick = mir_tstrdup(tszNick.GetBuffer());
 			cu->m_bUnknown = false;
 			
 			if (bNew) {
@@ -211,17 +214,17 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 	}
 
-	JSONNODE *msgs = json_get(pResponse, "msgs");
-	if (msgs != NULL) {
-		int numMessages = json_as_int(json_get(msgs, "count"));
-		msgs = json_get(msgs, "items");
-		if (msgs != NULL) {
-			for (int i = 0; i < numMessages; i++) {
-				JSONNODE *pMsg = json_at(msgs, i);
-				if (pMsg == NULL)
+	const JSONNode &jnMsgs = jnResponse["msgs"];
+	if (!jnMsgs.isnull()) {
+		
+		const JSONNode &jnItems = jnMsgs["items"];
+		if (!jnItems.isnull()) {
+			for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
+				const JSONNode &jnMsg = (*it);
+				if (!jnMsg)
 					break;
 
-				AppendChatMessage(cc->m_chatid, pMsg, true);
+				AppendChatMessage(cc->m_chatid, jnMsg, true);
 			}
 			cc->m_bHistoryRead = true;
 		}
@@ -236,41 +239,41 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
+void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 {
 	debugLogA("CVkProto::AppendChatMessage");
-	CVkChatInfo *cc = AppendChat(id, NULL);
+	CVkChatInfo *cc = AppendChat(id, nullNode);
 	if (cc == NULL)
 		return;
 
-	int mid = json_as_int(json_get(pMsg, "id"));
-	int uid = json_as_int(json_get(pMsg, "user_id"));
+	int mid = jnMsg["id"].as_int();
+	int uid = jnMsg["user_id"].as_int();
 
-	int msgTime = json_as_int(json_get(pMsg, "date"));
+	int msgTime = jnMsg["date"].as_int();
 	time_t now = time(NULL);
 	if (!msgTime || msgTime > now)
 		msgTime = now;
 
-	ptrT ptszBody(json_as_string(json_get(pMsg, "body")));
+	CMString tszBody(jnMsg["body"].as_mstring());
 	
-	JSONNODE *pFwdMessages = json_get(pMsg, "fwd_messages");
-	if (pFwdMessages != NULL){
-		CMString tszFwdMessages = GetFwdMessages(pFwdMessages, m_iBBCForAttachments);
-		if (!IsEmpty(ptszBody))
+	const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
+	if (!jnFwdMessages.isnull()){
+		CMString tszFwdMessages = GetFwdMessages(jnFwdMessages, m_iBBCForAttachments);
+		if (!tszBody.IsEmpty())
 			tszFwdMessages = _T("\n") + tszFwdMessages;
-		ptszBody = mir_tstrdup(CMString(ptszBody) + tszFwdMessages);
+		tszBody += tszFwdMessages;
 	}
 
-	JSONNODE *pAttachments = json_get(pMsg, "attachments");
-	if (pAttachments != NULL){
-		CMString tszAttachmentDescr = GetAttachmentDescr(pAttachments, m_iBBCForAttachments);
-		if (!IsEmpty(ptszBody))
+	const JSONNode &jnAttachments = jnMsg["attachments"];
+	if (!jnAttachments.isnull()){
+		CMString tszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_iBBCForAttachments);
+		if (!tszBody.IsEmpty())
 			tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
-		ptszBody = mir_tstrdup(CMString(ptszBody) + tszAttachmentDescr);
+		tszBody +=  tszAttachmentDescr;
 	}
 
 	if (cc->m_bHistoryRead)
-		AppendChatMessage(cc, uid, msgTime, ptszBody, bIsHistory);
+		AppendChatMessage(cc, uid, msgTime, tszBody.GetBuffer(), bIsHistory);
 	else {
 		CVkChatMessage *cm = cc->m_msgs.find((CVkChatMessage *)&mid);
 		if (cm == NULL)
@@ -278,7 +281,7 @@ void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 
 		cm->m_uid = uid;
 		cm->m_date = msgTime;
-		cm->m_tszBody = ptszBody.detouch();
+		cm->m_tszBody = mir_tstrdup(tszBody.GetBuffer());
 		cm->m_bHistory = bIsHistory;
 	}
 }
@@ -411,8 +414,8 @@ void CVkProto::OnSendChatMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnSendChatMsg %d", reply->resultCode);
 	if (reply->resultCode == 200) {
-		JSONROOT pRoot;
-		CheckJsonResponse(pReq, reply, pRoot);
+		JSONNode jnRoot;
+		CheckJsonResponse(pReq, reply, jnRoot);
 	}
 }
 
@@ -579,7 +582,7 @@ void CVkProto::LeaveChat(int chat_id, bool close_window, bool delete_chat)
 	m_chats.remove(cc);
 }
 
-void CVkProto::KickFromChat(int chat_id, int user_id, JSONNODE* pMsg)
+void CVkProto::KickFromChat(int chat_id, int user_id, const JSONNode &jnMsg)
 {
 	debugLogA("CVkProto::KickFromChat (%d)", user_id);
 
@@ -596,7 +599,7 @@ void CVkProto::KickFromChat(int chat_id, int user_id, JSONNODE* pMsg)
 		return;
 
 	MCONTACT hContact = FindUser(user_id, false);
-	CMString msg = json_as_CMString(json_get(pMsg, "body"));
+	CMString msg(jnMsg["body"].as_mstring());
 	if (msg.IsEmpty()) {
 		msg = TranslateT("You've been kicked by ");
 		if (hContact != NULL)
@@ -604,7 +607,8 @@ void CVkProto::KickFromChat(int chat_id, int user_id, JSONNODE* pMsg)
 		else
 			msg += TranslateT("(Unknown contact)");
 	}
-	else AppendChatMessage(chat_id, pMsg, false);
+	else 
+		AppendChatMessage(chat_id, jnMsg, false);
 
 	MsgPopup(hContact, msg, TranslateT("Chat"));
 	setByte(cc->m_hContact, "kicked", 1);
@@ -839,12 +843,12 @@ void CVkProto::OnCreateNewChat(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	if (reply->resultCode != 200)
 		return;
 
-	JSONROOT pRoot;
-	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	if (pResponse == NULL)
+	JSONNode jnRoot;
+	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
+	if (!jnResponse)
 		return;
 
-	int chat_id = json_as_int(pResponse);
-	if (chat_id != NULL)
-		AppendChat(chat_id, NULL);
+	int chat_id = jnResponse.as_int();
+	if (chat_id != 0)
+		AppendChat(chat_id, nullNode);
 }

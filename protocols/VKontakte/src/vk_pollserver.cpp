@@ -33,14 +33,18 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	if (reply->resultCode != 200)
 		return;
 
-	JSONROOT pRoot;
-	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	if (pResponse == NULL)
+	JSONNode jnRoot;
+	JSONNode jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
+	if (!jnResponse)
 		return;
 
-	m_pollingTs = mir_t2a(ptrT(json_as_string(json_get(pResponse, "ts"))));
-	m_pollingKey = mir_t2a(ptrT(json_as_string(json_get(pResponse, "key"))));
-	m_pollingServer = mir_t2a(ptrT(json_as_string(json_get(pResponse, "server"))));
+	char ts[32];
+	itoa(jnResponse["ts"].as_int(), ts, 10);
+
+	m_pollingTs = mir_strdup(ts);
+	m_pollingKey = mir_t2a(jnResponse["key"].as_mstring().GetBuffer());
+	m_pollingServer = mir_t2a(jnResponse["server"].as_mstring().GetBuffer());
+
 	if (!m_hPollingThread) {
 		debugLogA("CVkProto::OnReceivePollingInfo m_hPollingThread is NULL");
 		debugLogA("CVkProto::OnReceivePollingInfo m_pollingTs = \'%s' m_pollingKey = \'%s\' m_pollingServer = \'%s\'",
@@ -62,20 +66,21 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		debugLogA("CVkProto::OnReceivePollingInfo m_hPollingThread is not NULL");
 }
 
-void CVkProto::PollUpdates(JSONNODE *pUpdates)
+void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 {
 	debugLogA("CVkProto::PollUpdates");
 	CMStringA mids;
 	int msgid, uid, flags, platform;
 	MCONTACT hContact;
 
-	JSONNODE *pChild;
-	for (int i = 0; (pChild = json_at(pUpdates, i)) != NULL; i++) {
-		switch (json_as_int(json_at(pChild, 0))) {
+	
+	for (auto it = jnUpdates.begin(); it != jnUpdates.end(); ++it) {
+		const JSONNode &jnChild = (*it).as_array();
+		switch (jnChild[json_index_t(0)].as_int()) {
 		case VKPOLL_MSG_DELFLAGS:
-			msgid = json_as_int(json_at(pChild, 1));
-			flags = json_as_int(json_at(pChild, 2));
-			uid = json_as_int(json_at(pChild, 3));
+			msgid = jnChild[1].as_int();
+			flags = jnChild[2].as_int();
+			uid = jnChild[3].as_int();
 			hContact = FindUser(uid);
 
 			if (hContact != NULL && (flags & VKFLAG_MSGUNREAD) && !CheckMid(m_incIds, msgid)) {
@@ -87,10 +92,10 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 			break;
 
 		case VKPOLL_MSG_ADDED: // new message
-			msgid = json_as_int(json_at(pChild, 1));
+			msgid = jnChild[1].as_int();
 
 			// skip outgoing messages sent from a client
-			flags = json_as_int(json_at(pChild, 2));
+			flags = jnChild[2].as_int();
 			if (flags & VKFLAG_MSGOUTBOX && !(flags & VKFLAG_MSGCHAT))
 				if (CheckMid(m_sendIds, msgid))
 					break;
@@ -101,7 +106,7 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 			break;
 
 		case VKPOLL_READ_ALL_OUT:
-			uid = json_as_int(json_at(pChild, 1));
+			uid = jnChild[1].as_int();
 			hContact = FindUser(uid);
 			if (hContact != NULL) {
 				setDword(hContact, "LastMsgReadTime", time(NULL));
@@ -112,16 +117,16 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 			break;
 
 		case VKPOLL_USR_ONLINE:
-			uid = -json_as_int(json_at(pChild, 1));
+			uid = -jnChild[1].as_int();
 			if ((hContact = FindUser(uid)) != NULL) {
 				setWord(hContact, "Status", ID_STATUS_ONLINE);
-				platform = json_as_int(json_at(pChild, 2));
+				platform = jnChild[2].as_int();
 				SetMirVer(hContact, platform);
 			}
 			break;
 
 		case VKPOLL_USR_OFFLINE:
-			uid = -json_as_int(json_at(pChild, 1));
+			uid = -jnChild[1].as_int();
 			if ((hContact = FindUser(uid)) != NULL) {
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 				db_unset(hContact, m_szModuleName, "ListeningTo");
@@ -130,7 +135,7 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 			break;
 
 		case VKPOLL_USR_UTN:
-			uid = json_as_int(json_at(pChild, 1));
+			uid = jnChild[1].as_int();
 			hContact = FindUser(uid);
 			if (hContact != NULL) {
 				ForkThread(&CVkProto::ContactTypingThread, (void *)hContact);
@@ -140,7 +145,7 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 			break;
 
 		case VKPOLL_CHAT_CHANGED:
-			int chat_id = json_as_int(json_at(pChild, 1));
+			int chat_id = jnChild[1].as_int();
 			CVkChatInfo *cc = m_chats.find((CVkChatInfo*)&chat_id);
 			if (cc)
 				RetrieveChatInfo(cc);
@@ -194,18 +199,20 @@ int CVkProto::PollServer()
 
 	int retVal = 0;
 	if (reply->resultCode == 200) {
-		JSONROOT pRoot(reply->pData);
-		JSONNODE *pFailed = json_get(pRoot, "failed");
-		if (pFailed != NULL && json_as_int(pFailed) > 1) {
+		JSONNode jnRoot = JSONNode::parse(reply->pData);
+		const JSONNode &jnFailed = jnRoot["failed"];
+		if (!jnFailed.isnull() && jnFailed.as_int() > 1) {
 			RetrievePollingInfo();
 			retVal = -1;
 			debugLogA("Polling key expired, restarting polling thread");
 		}
-		else if (CheckJsonResult(NULL, pRoot)) {
-			m_pollingTs = mir_t2a(ptrT(json_as_string(json_get(pRoot, "ts"))));
-			JSONNODE *pUpdates = json_get(pRoot, "updates");
-			if (pUpdates != NULL)
-				PollUpdates(pUpdates);
+		else if (CheckJsonResult(NULL, jnRoot)) {
+			char ts[32];
+			itoa(jnRoot["ts"].as_int(), ts, 10);
+			m_pollingTs = mir_strdup(ts);
+			const JSONNode &jnUpdates = jnRoot["updates"];
+			if (!jnUpdates.isnull())
+				PollUpdates(jnUpdates);
 			retVal = 1;
 		}
 	}

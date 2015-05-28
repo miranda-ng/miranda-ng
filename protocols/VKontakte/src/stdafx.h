@@ -43,6 +43,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_icolib.h>
 #include <m_idle.h>
 #include <m_imgsrvc.h>
+#include <m_string.h>
 #include <m_json.h>
 #include <m_langpack.h>
 #include <m_message.h>
@@ -52,7 +53,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_protosvc.h>
 #include <m_protoint.h>
 #include <m_skin.h>
-#include <m_string.h>
 #include <m_timezones.h>
 #include <m_toptoolbar.h>
 #include <m_userinfo.h>
