@@ -67,7 +67,7 @@ Użyj nie&standardowych kolorów
 [Use &Windows colors]
 Użyj kolorów &Windows
 [Use defa&ult colors]
-
+&Używaj domyślnych kolorów
 [Preview]
 Podgląd
 [Click action]
