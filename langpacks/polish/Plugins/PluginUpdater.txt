@@ -66,8 +66,8 @@ Kolory
 Użyj nie&standardowych kolorów
 [Use &Windows colors]
 Użyj kolorów &Windows
-[Use Pop&up colors]
-Użyj kolorów Pop&up
+[Use defa&ult colors]
+
 [Preview]
 Podgląd
 [Click action]

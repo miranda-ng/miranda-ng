@@ -60,8 +60,6 @@
 Наладзіць колеры
 [Use &Windows colors]
 Колеры Windows
-[Use Pop&up colors]
-Колеры Pop&up
 [Preview]
 Прагляд
 [Click action]

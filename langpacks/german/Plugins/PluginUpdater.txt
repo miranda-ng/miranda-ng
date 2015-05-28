@@ -66,8 +66,8 @@ Farben
 Eigene Farben verwenden
 [Use &Windows colors]
 &Windows-Farben verwenden
-[Use Pop&up colors]
-Pop&up-Farben verwenden
+[Use defa&ult colors]
+
 [Preview]
 Vorschau
 [Click action]
