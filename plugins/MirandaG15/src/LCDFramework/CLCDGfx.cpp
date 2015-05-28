@@ -302,7 +302,7 @@ void CLCDGfx::DrawText(int nX, int nY, LPCTSTR sText)
 	dtp.cbSize = sizeof(DRAWTEXTPARAMS);
 
 	RECT rBounds = {nX,nY,GetClipWidth(),GetClipHeight()};
-	DrawTextEx(m_hDC,(LPTSTR)sText,mir_tstrlen(sText),&rBounds,(DT_LEFT | DT_NOPREFIX),&dtp);
+	DrawTextEx(m_hDC, (LPTSTR)sText, (int)mir_tstrlen(sText), &rBounds, (DT_LEFT | DT_NOPREFIX), &dtp);
 
 	// restores
 	SetMapMode(m_hDC, nOldMapMode);
@@ -323,7 +323,7 @@ void CLCDGfx::DrawText(int nX,int nY,int nWidth,tstring strText)
 	int *piWidths = new int[strText.length()];
 	int iMaxChars = 0;
 
-	GetTextExtentExPoint(GetHDC(),strText.c_str(),strText.length(),nWidth,&iMaxChars,piWidths,&sizeLine);
+	GetTextExtentExPoint(GetHDC(), strText.c_str(), (int)strText.length(), nWidth, &iMaxChars, piWidths, &sizeLine);
 
 	if(iMaxChars < strText.length()) {
 		for(iMaxChars--;iMaxChars>0;iMaxChars--)
@@ -671,7 +671,7 @@ void CLCDGfx::Cache()
 					{
 						if(m_LMovingPixels.size() > 0 && iTransitionPixels > 0)
 						{
-							pSource = m_LMovingPixels[GetRandomInt(0,m_LMovingPixels.size()-1)];		
+							pSource = m_LMovingPixels[GetRandomInt(0, (int)m_LMovingPixels.size()-1)];		
 							pPixel->Destination = pSource->Destination;
 						}
 						else
@@ -705,7 +705,7 @@ void CLCDGfx::Cache()
 
 			if(!bRandom)
 			{
-				pSource = m_LMovingPixels[GetRandomInt(0,m_LMovingPixels.size()-1)];	
+				pSource = m_LMovingPixels[GetRandomInt(0, (int)m_LMovingPixels.size()-1)];	
 				pPixel->Start = pSource->Start;
 			}
 			else

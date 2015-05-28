@@ -91,7 +91,7 @@ bool CLCDTextLog::Draw(CLCDGfx *pGfx)
 			int iLine =  (m_iPosition + iLinesDrawn) - iPosition;
 			for(;iLinesDrawn < iLineCount && iLine < pEntry->iLines;iLine++)
 			{
-				DrawTextEx(pGfx->GetHDC(), (LPTSTR)pEntry->vLines[iLine].c_str(), pEntry->vLines[iLine].size(), &rBoundary, m_iTextFormat, &m_dtp);
+				DrawTextEx(pGfx->GetHDC(), (LPTSTR)pEntry->vLines[iLine].c_str(), (int)pEntry->vLines[iLine].size(), &rBoundary, m_iTextFormat, &m_dtp);
 				rBoundary.top += m_iFontHeight;
 				rBoundary.bottom += m_iFontHeight;
 				iLinesDrawn++;
@@ -297,7 +297,7 @@ void CLCDTextLog::WrapMessage(CLogEntry *pEntry)
 	if(NULL == hDC)
 		return;
 
-	int iLen = strString.size();
+	int iLen = (int)strString.size();
 	int i = 0;
 	tstring strLine = _T("");
 	tstring strWord = _T("");
@@ -316,7 +316,7 @@ void CLCDTextLog::WrapMessage(CLogEntry *pEntry)
 	{
 		while(i<iLen)
 		{
-			GetTextExtentExPoint(hDC,szString+i,strString.length()-i,GetWidth(),&iMaxChars,piExtents,&sizeLine);
+			GetTextExtentExPoint(hDC, szString+i, (int)strString.length()-i, GetWidth(), &iMaxChars, piExtents, &sizeLine);
 		
 			// filter out spaces or line breaks at the beginning of a new line
 			if(strString[i] == '\n' || strString[i] == ' ')
@@ -325,14 +325,14 @@ void CLCDTextLog::WrapMessage(CLogEntry *pEntry)
 			pos = strString.rfind(_T("\n"),i+iMaxChars);
 			// check for linebreaks
 			if(pos != tstring::npos && pos != i && pos >= i && pos != i+iMaxChars)
-				iMaxChars = 1 + pos - i;
+				iMaxChars = 1 + (int)pos - i;
 			// if the string doesnt fit, try to wrap the last word to the next line
 			else if(iMaxChars < iLen - i || sizeLine.cx >= GetWidth())
 			{
 				// find the last space in the line ( substract -1 from offset to ignore spaces as last chars )
 				pos = strString.rfind(_T(" "),i + iMaxChars -1 );
-				if(pos != tstring::npos && pos != i && pos >= i & pos != i+iMaxChars)
-					iMaxChars = 1 + pos - i;
+				if(pos != tstring::npos && pos != i && pos >= i && pos != i+iMaxChars)
+					iMaxChars = 1 + (int)pos - i;
 			}
 			pEntry->vLines.push_back(strString.substr(i,iMaxChars));
 			i += iMaxChars;
@@ -375,7 +375,7 @@ void CLCDTextLog::WrapMessage(CLogEntry *pEntry)
 	*/
 	DeleteObject(hDC);
 
-	pEntry->iLines = pEntry->vLines.size();
+	pEntry->iLines = (int)pEntry->vLines.size();
 }	
 
 //************************************************************************

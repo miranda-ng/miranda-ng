@@ -63,7 +63,7 @@ void CLCDInput::SetScrollbar(CLCDBar *pScrollbar)
 	if(m_pScrollbar)
 	{
 		m_pScrollbar->SetSliderSize(m_iLineCount);
-		m_pScrollbar->SetRange(0,m_vLineOffsets.size());
+		m_pScrollbar->SetRange(0, (int)m_vLineOffsets.size());
 		m_pScrollbar->ScrollTo(m_iLinePosition);
 	}
 }
@@ -84,7 +84,7 @@ bool CLCDInput::Update()
 	if(!CLCDTextObject::Update())
 		return false;
 	
-	if(m_lBlinkTimer + 500 <= GetTickCount())
+	if(m_lBlinkTimer + 500 <= (long)GetTickCount())
 	{
 		m_bShowMarker = !m_bShowMarker;
 		m_lBlinkTimer = GetTickCount();
@@ -119,8 +119,7 @@ bool CLCDInput::Draw(CLCDGfx *pGfx)
 			if(m_bShowSymbols && m_vLineOffsets[iLine+1].bLineBreak)
 				pGfx->DrawFilledRect(m_vLineOffsets[iLine].iWidth+1,rBoundary.top+m_iFontHeight/3,m_iFontHeight/3,m_iFontHeight/3);
 		}
-		else
-			iLen = m_strText.length() - m_vLineOffsets[iLine].iOffset;
+		else iLen = (int)m_strText.length() - m_vLineOffsets[iLine].iOffset;
 		
 		// Draw the text
 		pcOffset = (TCHAR*)m_strText.c_str() + m_vLineOffsets[iLine].iOffset;
@@ -174,7 +173,7 @@ void CLCDInput::ShowSymbols(bool bShow)
 //************************************************************************
 void CLCDInput::SetBreakKeys(int iKeys)
 {
-	m_iBreakKeys = iKeys;
+	m_iBreakKeys = iKeys != 0;
 }
 
 //************************************************************************
@@ -221,7 +220,7 @@ void CLCDInput::OnFontChanged()
 
 	m_Marker[0].iLine = 0;
 	m_Marker[0].iPosition = 0;
-	m_Marker[0].iPosition = m_strText.length();
+	m_Marker[0].iPosition = (int)m_strText.length();
 	
 	// Delete all offsets and recalculate them
 	m_vLineOffsets.clear();
@@ -293,7 +292,7 @@ LRESULT CLCDInput::ProcessKeyEvent(int Code, WPARAM wParam, LPARAM lParam)
 		KBDLLHOOKSTRUCT *key = (KBDLLHOOKSTRUCT *)(lParam);
 	
 		bool bKeyDown = !(key->flags & LLKHF_UP);
-		bool bToggled = (m_acKeyboardState[key->vkCode] & 0x0F);
+		bool bToggled = (m_acKeyboardState[key->vkCode] & 0x0F) != 0;
 		if(bKeyDown)
 			bToggled = !bToggled;
 		m_acKeyboardState[key->vkCode] = (bKeyDown?0x80:0x00) | (bToggled?0x01:0x00);
@@ -363,11 +362,10 @@ LRESULT CLCDInput::ProcessKeyEvent(int Code, WPARAM wParam, LPARAM lParam)
 			else if(key->vkCode == VK_END)
 			{
 				if(m_vLineOffsets.size()-1 == m_Marker[0].iLine)
-					res = m_strText.length() - m_Marker[0].iPosition;
+					res = (int)m_strText.length() - m_Marker[0].iPosition;
 				else
-				{
 					res = (m_vLineOffsets[m_Marker[0].iLine+1].iOffset - 1 - m_vLineOffsets[m_Marker[0].iLine+1].bLineBreak) -m_Marker[0].iPosition;
-				}
+
 				scroll = 1;
 			}
 			else if(key->vkCode == VK_UP)
@@ -396,7 +394,7 @@ LRESULT CLCDInput::ProcessKeyEvent(int Code, WPARAM wParam, LPARAM lParam)
 
 				if(key->vkCode == VK_RETURN)
 				{
-					bool bCtrlDown = (bool)(m_acKeyboardState[VK_CONTROL] & 0x80);
+					bool bCtrlDown = (m_acKeyboardState[VK_CONTROL] & 0x80) != 0;
 					if( bCtrlDown != (m_iBreakKeys == KEYS_RETURN))
 					{
 						DeactivateInput();
@@ -491,7 +489,7 @@ void CLCDInput::MoveMarker(int iDir,int iMove,bool bShift)
 			if(m_Marker[0].iLine < m_vLineOffsets.size() -1)
 				iLen = m_vLineOffsets[m_Marker[0].iLine+1].iOffset - m_vLineOffsets[m_Marker[0].iLine].iOffset;
 			else
-				iLen = m_strText.length() - m_vLineOffsets[m_Marker[0].iLine].iOffset;
+				iLen = (int)m_strText.length() - m_vLineOffsets[m_Marker[0].iLine].iOffset;
 			
 			HDC hDC = CreateCompatibleDC(NULL);
 			if(NULL == hDC)
@@ -549,7 +547,7 @@ void CLCDInput::MoveMarker(int iDir,int iMove,bool bShift)
 			if(m_Marker[i].iPosition < 0)
 				m_Marker[i].iPosition = 0;
 			else if(m_Marker[i].iPosition > m_strText.length()  )
-				m_Marker[i].iPosition = m_strText.length();
+				m_Marker[i].iPosition = (int)m_strText.length();
 		}
 		if(m_Marker[0].iPosition > 0 && m_strText[m_Marker[0].iPosition-1] == '\r')
 			m_Marker[0].iPosition+= (iDir == MARKER_HORIZONTAL && iMove>0)?1:-1;
@@ -608,7 +606,7 @@ void CLCDInput::UpdateOffsets(int iModified)
 	m_Marker[0].iXWidth = 1;
 	
 	// Initialize variables
-	int iLen = m_strText.length();
+	int iLen = (int)m_strText.length();
 	int *piWidths = new int[iLen];
 	TCHAR *pszText = (TCHAR*)m_strText.c_str();
 	tstring::size_type pos = 0;
@@ -621,7 +619,7 @@ void CLCDInput::UpdateOffsets(int iModified)
 
 	int iLine = -1;
 	// Find the first line to update
-	for(int i=m_vLineOffsets.size()-1;i>=0;i--)
+	for(int i = (int)m_vLineOffsets.size()-1; i >= 0; i--)
 		if(m_vLineOffsets[i].iOffset <= m_Marker[0].iPosition)
 		{
 			iLine = i;
@@ -661,8 +659,8 @@ void CLCDInput::UpdateOffsets(int iModified)
 			// check for linebreaks
 			if(pos != tstring::npos && pos >= iChar && pos <= iChar + iMaxChars)
 			{
-				iWordOffset = pos + 1;
-				iMaxChars = pos - iChar;
+				iWordOffset = (int)pos + 1;
+				iMaxChars = (int)pos - iChar;
 			}
 			// if the string doesnt fit, try to wrap the last word to the next line
 			else
@@ -670,7 +668,7 @@ void CLCDInput::UpdateOffsets(int iModified)
 				// find the last space in the line
 				pos = m_strText.rfind(_T(" "),iChar + iMaxChars);
 				if(pos != tstring::npos && pos >= iChar)
-					iWordOffset = pos +1;
+					iWordOffset = (int)pos +1;
 				else
 					iWordOffset = iChar+iMaxChars;
 			}
@@ -783,7 +781,7 @@ finished:
 	DeleteObject(hDC);
 	
 	if(m_pScrollbar)
-		m_pScrollbar->SetRange(0,m_vLineOffsets.size()-1);
+		m_pScrollbar->SetRange(0, (int)m_vLineOffsets.size()-1);
 }
 
 //************************************************************************
@@ -792,7 +790,7 @@ finished:
 void CLCDInput::UpdateMarker()
 {
 	// Adjust the markers propertys
-	for(int i=m_vLineOffsets.size()-1;i>= 0;i--)
+	for(int i = (int)m_vLineOffsets.size()-1;i>= 0;i--)
 		if(m_Marker[0].iPosition >= m_vLineOffsets[i].iOffset)
 		{
 			if(m_Marker[0].iPosition == m_vLineOffsets[i].iOffset)
@@ -835,7 +833,7 @@ void CLCDInput::ScrollToMarker()
 	}
 
 	if(m_iLinePosition > m_vLineOffsets.size()-1)
-		m_iLinePosition = m_vLineOffsets.size() -1;
+		m_iLinePosition = (int)m_vLineOffsets.size() -1;
 	if(m_iLinePosition < 0)
 		m_iLinePosition = 0;
 
@@ -848,7 +846,7 @@ void CLCDInput::ScrollToMarker()
 //************************************************************************
 int CLCDInput::GetLineCount()
 {
-	return m_vLineOffsets.size();
+	return (int)m_vLineOffsets.size();
 }
 
 //************************************************************************

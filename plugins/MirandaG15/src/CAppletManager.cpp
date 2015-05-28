@@ -775,7 +775,6 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact,bool bEnable)
 MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact,tstring strMessage)
 {
 	tstring strAscii = _A2T(toNarrowString(strMessage).c_str());
-	int bufSize = mir_tstrlen(strAscii.c_str())+1;
 	SMessageJob *pJob = new SMessageJob();
 	pJob->dwTimestamp = GetTickCount();
 	pJob->hContact = hContact;
