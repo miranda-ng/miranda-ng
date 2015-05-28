@@ -42,22 +42,6 @@ int CSkypeProto::OnReceiveMessage(const char *messageId, const char *url, time_t
 	return ProtoChainRecvMsg(hContact, &recv);
 }
 
-// writing message/even into db
-int CSkypeProto::SaveMessageToDb(MCONTACT hContact, PROTORECVEVENT *pre)
-{
-	//return Proto_RecvMessage(hContact, pre);
-	if (pre->szMessage == NULL)
-		return NULL;
-
-	int flags = DBEF_UTF;
-	if ((pre->flags & PREF_CREATEREAD) == PREF_CREATEREAD)
-		flags |= DBEF_READ;
-	if ((pre->flags & PREF_SENT) == PREF_SENT)
-		flags |= DBEF_SENT;
-
-	return AddMessageToDb(hContact, pre->timestamp, flags, (char*)pre->pCustomData, pre->szMessage, pre->lParam);
-}
-
 /* MESSAGE SENDING */
 
 struct SendMessageParam

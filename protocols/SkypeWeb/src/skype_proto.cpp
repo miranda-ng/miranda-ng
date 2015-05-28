@@ -180,11 +180,6 @@ int CSkypeProto::GetInfo(MCONTACT hContact, int)
 	return 0;
 }
 
-int CSkypeProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
-{
-	return SaveMessageToDb(hContact, pre);
-}
-
 int CSkypeProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 {
 	return OnSendMessage(hContact, flags, msg);

@@ -63,7 +63,6 @@ public:
 
 	virtual	HANDLE    __cdecl SearchBasic(const PROTOCHAR* id);
 
-	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 
 	virtual	int       __cdecl SetStatus(int iNewStatus);
@@ -245,7 +244,6 @@ private:
 	MEVENT AddCallToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *callId, const char *gp);
 	MEVENT AddCallInfoToDb(MCONTACT hContact, DWORD timestamp, DWORD flags, const char *messageId, char *content);
 	int OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset = 0, bool isRead = false);
-	int SaveMessageToDb(MCONTACT hContact, PROTORECVEVENT *pre);
 
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
 	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
