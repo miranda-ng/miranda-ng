@@ -1368,14 +1368,13 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_BROWSE) {
-			TCHAR str[MAX_PATH];
-			TCHAR filter[512];
+			TCHAR str[MAX_PATH], filter[512];
+			BmpFilterGetStrings(filter, SIZEOF(filter));
+			GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
 
 			OPENFILENAME ofn = { 0 };
-			GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner = hwndDlg;
-			CallService(MS_UTILS_GETBITMAPFILTERSTRINGST, SIZEOF(filter), (LPARAM)filter);
 			ofn.lpstrFilter = filter;
 			ofn.lpstrFile = str;
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;

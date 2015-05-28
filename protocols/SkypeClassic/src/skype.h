@@ -145,7 +145,7 @@ time_t SkypeTime(time_t *timer);
 void MessageSendWatchThread(void*);
 int OkToExit(WPARAM wParam, LPARAM lParam);
 int MirandaExit(WPARAM wParam, LPARAM lParam);
-int __stdcall EnterBitmapFileName( char* szDest );
+int __stdcall EnterBitmapFileName(TCHAR *szDest);
 void CleanupNicknames(char *dummy);
 int InitVSApi();
 int FreeVSApi();

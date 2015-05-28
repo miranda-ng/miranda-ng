@@ -334,7 +334,7 @@ static char* CreateRTFHeader(TWindowData *dat)
 {
 	CMStringA str;
 	Build_RTF_Header(str, dat);
-	return str.Detouch();
+	return str.Detach();
 }
 
 static void AppendTimeStamp(TCHAR *szFinalTimestamp, int isSent, CMStringA &str, int skipFont, TWindowData *dat, int iFontIDOffset)
@@ -970,7 +970,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 
 	dat->iLastEventType = MAKELONG((dbei.flags & (DBEF_SENT | DBEF_READ | DBEF_RTL)), dbei.eventType);
 	dat->lastEventTime = dbei.timestamp;
-	return str.Detouch();
+	return str.Detach();
 }
 
 static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)

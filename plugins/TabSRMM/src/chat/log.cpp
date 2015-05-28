@@ -693,7 +693,7 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 	}
 	str.AppendFormat("\\fi-%u\\li%u", iIndent, iIndent);
 
-	return str.Detouch();
+	return str.Detach();
 }
 
 static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
@@ -824,7 +824,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 		str.Append("\\par}");
 	else
 		str.Append("}");
-	return str.Detouch();
+	return str.Detach();
 }
 
 static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)

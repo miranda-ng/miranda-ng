@@ -55,7 +55,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 		szUniqueID = mir_tstrdup(tszID);
 	}
 
-	return CMString(FORMAT, _T("<%S:%s>"), szProto, szUniqueID).Detouch();
+	return CMString(FORMAT, _T("<%S:%s>"), szProto, szUniqueID).Detach();
 }
 
 static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
@@ -95,7 +95,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 		szUniqueID = mir_tstrdup(tszID);
 	}
 
-	return CMString(FORMAT, _T("<%S:%s>"), szProto, szUniqueID).Detouch();
+	return CMString(FORMAT, _T("<%S:%s>"), szProto, szUniqueID).Detach();
 }
 
 static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
@@ -135,7 +135,7 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 		szUniqueID = mir_tstrdup(tszID);
 	}
 
-	return CMString(FORMAT, _T("<%S:%s>"), szProto, szUniqueID).Detouch();
+	return CMString(FORMAT, _T("<%S:%s>"), szProto, szUniqueID).Detach();
 }
 
 void registerMetaContactsTokens()

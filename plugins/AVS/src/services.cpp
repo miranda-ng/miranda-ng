@@ -127,12 +127,10 @@ static INT_PTR avSetAvatar(MCONTACT hContact, TCHAR *tszPath)
 	int is_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
 	if (tszPath == NULL) {
-		OPENFILENAME ofn = { 0 };
 		TCHAR filter[256];
+		BmpFilterGetStrings(filter, SIZEOF(filter));
 
-		filter[0] = '\0';
-		CallService(MS_UTILS_GETBITMAPFILTERSTRINGST, SIZEOF(filter), (LPARAM)filter);
-
+		OPENFILENAME ofn = { 0 };
 		ofn.lStructSize = sizeof(ofn);
 		ofn.hwndOwner = 0;
 		ofn.lpstrFile = FileName;
@@ -257,7 +255,7 @@ static int InternalRemoveMyAvatar(char *protocol)
 
 static void FilterGetStrings(CMString &filter, BOOL xml, BOOL swf)
 {
-	filter.AppendFormat(_T("%s (*.bmp;*.jpg;*.gif;*.png"), TranslateT("All Files"));
+	filter.AppendFormat(_T("%s (*.bmp;*.jpg;*.gif;*.png"), TranslateT("All files"));
 	if (swf) filter.Append(_T(";*.swf"));
 	if (xml) filter.Append(_T(";*.xml"));
 
@@ -266,16 +264,16 @@ static void FilterGetStrings(CMString &filter, BOOL xml, BOOL swf)
 	if (xml) filter.Append(_T(";*.XML"));
 	filter.AppendChar(0);
 
-	filter.AppendFormat(_T("%s (*.bmp;*.rle)%c*.BMP;*.RLE%c"), TranslateT("Windows Bitmaps"), 0, 0);
-	filter.AppendFormat(_T("%s (*.jpg;*.jpeg)%c*.JPG;*.JPEG%c"), TranslateT("JPEG Bitmaps"), 0, 0);
-	filter.AppendFormat(_T("%s (*.gif)%c*.GIF%c"), TranslateT("GIF Bitmaps"), 0, 0);
-	filter.AppendFormat(_T("%s (*.png)%c*.PNG%c"), TranslateT("PNG Bitmaps"), 0, 0);
+	filter.AppendFormat(_T("%s (*.bmp;*.rle)%c*.BMP;*.RLE%c"), TranslateT("Windows bitmaps"), 0, 0);
+	filter.AppendFormat(_T("%s (*.jpg;*.jpeg)%c*.JPG;*.JPEG%c"), TranslateT("JPEG bitmaps"), 0, 0);
+	filter.AppendFormat(_T("%s (*.gif)%c*.GIF%c"), TranslateT("GIF bitmaps"), 0, 0);
+	filter.AppendFormat(_T("%s (*.png)%c*.PNG%c"), TranslateT("PNG bitmaps"), 0, 0);
 
 	if (swf)
-		filter.AppendFormat(_T("%s (*.swf)%c*.SWF%c"), TranslateT("Flash Animations"), 0, 0);
+		filter.AppendFormat(_T("%s (*.swf)%c*.SWF%c"), TranslateT("Flash animations"), 0, 0);
 
 	if (xml)
-		filter.AppendFormat(_T("%s (*.xml)%c*.XML%c"), TranslateT("XML Files"), 0, 0);
+		filter.AppendFormat(_T("%s (*.xml)%c*.XML%c"), TranslateT("XML files"), 0, 0);
 
 	filter.AppendChar(0);
 }

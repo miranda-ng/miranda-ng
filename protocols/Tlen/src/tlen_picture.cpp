@@ -258,21 +258,21 @@ BOOL SendPicture(TlenProtocol *proto, MCONTACT hContact) {
 	DBVARIANT dbv;
 	if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 		char *jid = dbv.pszVal;
-		char szFilter[512];
-		char *szFileName = (char*) mir_alloc(_MAX_PATH);
-		OPENFILENAMEA ofn = {0};
-		CallService(MS_UTILS_GETBITMAPFILTERSTRINGS, ( WPARAM ) sizeof( szFilter ), ( LPARAM )szFilter );
+		
+		TCHAR tszFilter[512], tszFileName[MAX_PATH];
+		BmpFilterGetStrings(tszFilter, SIZEOF(tszFilter));
+		tszFileName[0] = '\0';
+
+		OPENFILENAME ofn = {0};
 		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-		ofn.hwndOwner = NULL;
-		ofn.lpstrFilter = szFilter;
+		ofn.lpstrFilter = tszFilter;
 		ofn.lpstrCustomFilter = NULL;
-		ofn.lpstrFile = szFileName;
+		ofn.lpstrFile = tszFileName;
 		ofn.nMaxFile = _MAX_PATH;
 		ofn.Flags = OFN_FILEMUSTEXIST;
-		szFileName[0] = '\0';
-		if ( GetOpenFileNameA( &ofn )) {
+		if (GetOpenFileName(&ofn)) {
 			long size;
-			FILE* fp = fopen( szFileName, "rb" );
+			FILE* fp = _tfopen(tszFileName, _T("rb"));
 			if (fp) {
 				fseek(fp, 0, SEEK_END);
 				size = ftell(fp);
@@ -284,6 +284,7 @@ BOOL SendPicture(TlenProtocol *proto, MCONTACT hContact) {
 					char idStr[10];
 					char fileBuffer[2048];
 					int id = TlenSerialNext(proto);
+					T2Utf szFileName(tszFileName);
 					mir_snprintf(idStr, SIZEOF(idStr), "%d", id);
 					item = TlenListAdd(proto, LIST_PICTURE, idStr);
 					item->ft = TlenFileCreateFT(proto, jid);

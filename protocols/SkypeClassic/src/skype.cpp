@@ -2907,21 +2907,21 @@ void CleanupNicknames(char *) {
 /////////////////////////////////////////////////////////////////////////////////////////
 // EnterBitmapFileName - enters a bitmap filename
 
-int __stdcall EnterBitmapFileName(char* szDest)
+int __stdcall EnterBitmapFileName(TCHAR *szDest)
 {
-	char szFilter[512];
-	OPENFILENAMEA ofn = { 0 };
-	*szDest = 0;
+	TCHAR szFilter[512];
+	BmpFilterGetStrings(szFilter, SIZEOF(szFilter));
 
-	CallService(MS_UTILS_GETBITMAPFILTERSTRINGS, sizeof szFilter, (LPARAM)szFilter);
+	*szDest = 0;
+	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.lpstrFilter = szFilter;
 	ofn.lpstrFile = szDest;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.nMaxFileTitle = MAX_PATH;
-	ofn.lpstrDefExt = "bmp";
-	if (!GetOpenFileNameA(&ofn))
+	ofn.lpstrDefExt = _T("bmp");
+	if (!GetOpenFileName(&ofn))
 		return 1;
 
 	return ERROR_SUCCESS;

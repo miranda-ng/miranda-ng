@@ -244,24 +244,22 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 		case IDC_BROWSE:
 			{
-				char str[MAX_PATH];
-				OPENFILENAMEA ofn = {0};
-				char filter[512];
+				TCHAR str[MAX_PATH], filter[512];
+				GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
+				BmpFilterGetStrings(filter, SIZEOF(filter));
 
-				GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
-				ofn.lStructSize = sizeof(OPENFILENAMEA);
+				OPENFILENAME ofn = {0};
+				ofn.lStructSize = sizeof(ofn);
 				ofn.hwndOwner = hwndDlg;
-				ofn.hInstance = NULL;
-				CallService(MS_UTILS_GETBITMAPFILTERSTRINGS, sizeof(filter), (LPARAM)filter);
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = str;
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
 				ofn.nMaxFile = SIZEOF(str);
 				ofn.nMaxFileTitle = MAX_PATH;
-				ofn.lpstrDefExt = "bmp";
-				if (!GetOpenFileNameA(&ofn))
+				ofn.lpstrDefExt = _T("bmp");
+				if (!GetOpenFileName(&ofn))
 					return FALSE;
-				SetDlgItemTextA(hwndDlg, IDC_FILENAME, str);
+				SetDlgItemText(hwndDlg, IDC_FILENAME, str);
 			}
 			break;
 
