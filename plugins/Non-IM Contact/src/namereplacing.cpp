@@ -204,14 +204,14 @@ int findChar(char* FileContents[], const char* string, int linesInFile, int star
 }
 
 // do the compare("A","B","X","Y")
-void checkStringForcompare(char *str)
+void checkStringForcompare(CMStringA &str)
 {
 	if (!strstr(str, "compare(\"")) return;
-	char *A, *B, *X, *Y, *newStr = (char*)malloc(mir_strlen(str)), *copyOfStr = _strdup(str);
-	unsigned int i, j = 0, s = (int)mir_strlen(str);
-	newStr[0] = '\0';
+	char *A, *B, *X, *Y, *copyOfStr = NEWSTR_ALLOCA(str.c_str());
+	CMStringA tmp;
+	unsigned int i, j = 0, s = str.GetLength();
 	for (i = 0; i < s; i++) {
-		if (!strncmp(&str[i], "compare(\"", mir_strlen("compare(\""))) {
+		if (!strncmp(str.c_str()+i, "compare(\"", mir_strlen("compare(\""))) {
 			i += (int)mir_strlen("compare(\"");
 			A = strtok(&copyOfStr[i], "\",\"");
 			B = strtok(NULL, "\",\"");
@@ -220,28 +220,27 @@ void checkStringForcompare(char *str)
 			j = Y - &copyOfStr[i] + (int)mir_strlen(Y) + 1;
 			if (A && B && X && Y) {
 				if (!mir_strcmp(A, B))
-					mir_strcat(newStr, X);
-				else mir_strcat(newStr, Y);
+					tmp.Append(X);
+				else
+					tmp.Append(Y);
 			}
-			else mir_strncat(newStr, &str[i], j);
+			else tmp.Append(str.c_str()+i, j);
 			i += j;
 		}
-		else mir_strncat(newStr, &str[i], 1);
+		else tmp.AppendChar(copyOfStr[i]);
 	}
-	mir_strcpy(str, newStr);
-	free(newStr);
-	free(copyOfStr);
+	str = tmp;
 }
 
 // do save("A","B") A is DBVar name, B is value
-void checkStringForSave(MCONTACT hContact, char* str)
+void checkStringForSave(MCONTACT hContact, CMStringA &str)
 {
 	if (!strstr(str, "save(\"")) return;
-	char *A, *B, *newStr = (char*)malloc(mir_strlen(str)), *copyOfStr = _strdup(str);
-	unsigned int i, j = 0, s = (int)mir_strlen(str);
-	newStr[0] = '\0';
+	char *A, *B, *copyOfStr = NEWSTR_ALLOCA(str.c_str());
+	unsigned int i, j = 0, s = str.GetLength();
+	CMStringA tmp;
 	for (i = 0; i < s; i++) {
-		if (!strncmp(&str[i], "save(\"", mir_strlen("save(\""))) {
+		if (!strncmp(str.c_str()+i, "save(\"", mir_strlen("save(\""))) {
 			i += (int)mir_strlen("save(\"");
 			A = strtok(&copyOfStr[i], "\",\"");
 			B = strtok(NULL, ",\")");
@@ -249,54 +248,50 @@ void checkStringForSave(MCONTACT hContact, char* str)
 			if (A && B)
 				db_set_s(hContact, MODNAME, A, B);
 
-			else mir_strncat(newStr, &str[i], j);
+			else tmp.Append(str.c_str()+i, j);
 			i += j;
 		}
-		else mir_strncat(newStr, &str[i], 1);
+		else tmp.AppendChar(copyOfStr[i]);
 	}
-	mir_strcpy(str, newStr);
-	free(newStr);
-	free(copyOfStr);
+	str = tmp;
 }
 
 // do load("A") A is DBVar name
-void checkStringForLoad(MCONTACT hContact, char* str)
+void checkStringForLoad(MCONTACT hContact, CMStringA &str)
 {
 	if (!strstr(str, "load(\"")) return;
-	char *A, *newStr = (char*)malloc(mir_strlen(str)), *copyOfStr = _strdup(str);
-	unsigned int i, j = 0, s = (int)mir_strlen(str);
-	newStr[0] = '\0';
+	char *A, *copyOfStr = NEWSTR_ALLOCA(str.c_str());
+	unsigned int i, j = 0, s = str.GetLength();
+	CMStringA tmp;
 	for (i = 0; i < s; i++) {
-		if (!strncmp(&str[i], "load(\"", mir_strlen("load(\""))) {
+		if (!strncmp(str.c_str()+i, "load(\"", mir_strlen("load(\""))) {
 			i += (int)mir_strlen("load(\"");
 			A = strtok(&copyOfStr[i], "\")");
 			j = A - &copyOfStr[i] + (int)mir_strlen(A) + 1;
 			if (A) {
 				DBVARIANT dbv;
 				if (!db_get_s(hContact, MODNAME, A, &dbv)) {
-					mir_strcat(newStr, dbv.pszVal);
+					tmp.Append(dbv.pszVal);
 					db_free(&dbv);
 				}
 			}
-			else mir_strncat(newStr, &str[i], j);
+			else tmp.Append(str.c_str()+i, j);
 			i += j;
 		}
-		else mir_strncat(newStr, &str[i], 1);
+		else tmp.AppendChar(copyOfStr[i]);
 	}
-	mir_strcpy(str, newStr);
-	free(newStr);
-	free(copyOfStr);
+	str = tmp;
 }
 
 // do saveN("A","B","C","D") A is module, B is setting, c is value, D is type 0/b 1/w 2/d 3/s
-void checkStringForSaveN(char* str)
+void checkStringForSaveN(CMStringA &str)
 {
 	if (!strstr(str, "saveN(\"")) return;
-	char *A, *B, *C, *D, *newStr = (char*)malloc(mir_strlen(str)), *copyOfStr = _strdup(str);
-	unsigned int i, j = 0, s = (int)mir_strlen(str);
-	newStr[0] = '\0';
+	char *A, *B, *C, *D, *copyOfStr = NEWSTR_ALLOCA(str.c_str());
+	unsigned int i, j = 0, s = str.GetLength();
+	CMStringA tmp;
 	for (i = 0; i < s; i++) {
-		if (!strncmp(&str[i], "saveN(\"", mir_strlen("saveN(\""))) {
+		if (!strncmp(str.c_str()+i, "saveN(\"", mir_strlen("saveN(\""))) {
 			i += (int)mir_strlen("saveN(\"");
 			A = strtok(&copyOfStr[i], "\",\"");
 			B = strtok(NULL, ",\"");
@@ -323,25 +318,23 @@ void checkStringForSaveN(char* str)
 					break;
 				}
 			}
-			else mir_strncat(newStr, &str[i], j);
+			else tmp.Append(str.c_str()+i, j);
 			i += j;
 		}
-		else mir_strncat(newStr, &str[i], 1);
+		else tmp.AppendChar(copyOfStr[i]);
 	}
-	mir_strcpy(str, newStr);
-	free(newStr);
-	free(copyOfStr);
+	str = tmp;
 }
 
 // do loadN("A","B") A is module, B is setting
-void checkStringForLoadN(char* str)
+void checkStringForLoadN(CMStringA &str)
 {
 	if (!strstr(str, "loadN(\"")) return;
-	char *newStr = (char*)malloc(mir_strlen(str)), *copyOfStr = _strdup(str), temp[32];
-	unsigned int i, j = 0, s = (int)mir_strlen(str);
-	newStr[0] = '\0';
+	char *copyOfStr = NEWSTR_ALLOCA(str.c_str()), temp[32];
+	unsigned int i, j = 0, s = str.GetLength();
+	CMStringA tmp;
 	for (i = 0; i < s; i++) {
-		if (!strncmp(&str[i], "loadN(\"", mir_strlen("loadN(\""))) {
+		if (!strncmp(str.c_str()+i, "loadN(\"", mir_strlen("loadN(\""))) {
 			i += (int)mir_strlen("loadN(\"");
 			char *A = strtok(&copyOfStr[i], "\",\"");
 			char *B = strtok(NULL, ",\")");
@@ -351,29 +344,27 @@ void checkStringForLoadN(char* str)
 				if (!db_get(NULL, A, B, &dbv)) {
 					switch (dbv.type) {
 					case DBVT_BYTE:
-						mir_strcat(newStr, _itoa(dbv.bVal, temp, 10));
+						tmp.Append(_itoa(dbv.bVal, temp, 10));
 						break;
 					case DBVT_WORD:
-						mir_strcat(newStr, _itoa(dbv.wVal, temp, 10));
+						tmp.Append(_itoa(dbv.wVal, temp, 10));
 						break;
 					case DBVT_DWORD:
-						mir_strcat(newStr, _itoa(dbv.dVal, temp, 10));
+						tmp.Append(_itoa(dbv.dVal, temp, 10));
 						break;
 					case DBVT_ASCIIZ:
-						mir_strcat(newStr, dbv.pszVal);
+						tmp.Append(dbv.pszVal);
 						break;
 					}
 					db_free(&dbv);
 				}
 			}
-			else mir_strncat(newStr, &str[i], i);
+			else tmp.Append(str.c_str()+i, i);
 			i += j;
 		}
-		else mir_strncat(newStr, &str[i], 1);
+		else tmp.AppendChar(copyOfStr[i]);
 	}
-	mir_strcpy(str, newStr);
-	free(newStr);
-	free(copyOfStr);
+	str = tmp;
 }
 
 BOOL GetLastWriteTime(HANDLE hFile, LPSTR lpszString)
@@ -398,7 +389,7 @@ BOOL GetLastWriteTime(HANDLE hFile, LPSTR lpszString)
 }
 
 // do lastchecked(file(X)) returns amount of chars to add to str pointer
-int lastChecked(char *newStr, const char *str)
+int lastChecked(CMStringA &szNewStr, const char *str)
 {
 	char *szPattern = "lastchecked(file(";
 	size_t cbPattern = mir_strlen(szPattern);
@@ -425,7 +416,7 @@ int lastChecked(char *newStr, const char *str)
 
 		if (GetLastWriteTime(hFile, tszFileName)) {
 			CloseHandle(hFile);
-			mir_strcat(newStr, tszFileName);
+			szNewStr.Append(tszFileName);
 			mir_snprintf(tszFileName, SIZEOF(tszFileName), "%s%d))", szPattern, file);
 			return (int)mir_strlen(tszFileName);
 		}
@@ -446,7 +437,7 @@ void checkIcon(MCONTACT hContact, char* string)
 	}
 }
 
-int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
+int stringReplacer(const char *oldString, CMStringA &szNewString, MCONTACT hContact)
 {
 	char var_file[8];
 	int tempInt;
@@ -455,7 +446,7 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 	char *fileContents[MAXLINES] = { NULL }, tempString[MAX_STRING_LENGTH];
 
 	//	setup the variable names
-	strncpy(newString, "", sizeof(newString));
+	szNewString.Empty();
 	strncpy(var_file, "file(", sizeof(var_file));
 
 	while ((positionInOldString < (int)mir_strlen(oldString)) && (oldString[positionInOldString] != '\0')) {
@@ -502,6 +493,7 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 				}
 				positionInOldString += 2; // add 2 for the )) for start(line())
 			}
+			
 			if (!strncmp(&oldString[positionInOldString], "end(", mir_strlen("end("))) {
 				positionInOldString += (int)mir_strlen("end(line(");
 				tempInt = findLine(fileContents, oldString, linesInFile, startLine, &positionInOldString);
@@ -519,22 +511,24 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 			// check for both start() and end() otherwise, only copying 1 line
 			if (!strstr(oldString, "start(")) startLine = endLine;
 			if (!strstr(oldString, "end(")) endLine = startLine;
+			
 			// after all the options copy the line across and add 2 to positionInOldString for the file(print(....))
-			if (wholeLine >= 0) mir_strcat(newString, fileContents[wholeLine]);
+			if (wholeLine >= 0)
+				szNewString.Append(fileContents[wholeLine]);
 			else {
 				// only copying from 1 line
 				if (startLine == endLine)
-					mir_strncat(newString, &fileContents[startLine][startChar], endChar - startChar);
+					szNewString.Append(&fileContents[startLine][startChar], endChar - startChar);
 				else {
-					int i;
 					// copy the whole first line from startChar
-					mir_strcat(newString, &fileContents[startLine][startChar]);
+					szNewString.Append(&fileContents[startLine][startChar]);
+
 					// copy the middle lines across
-					for (i = (startLine + 1); i < endLine; i++) {
-						mir_strcat(newString, fileContents[i]);
-					}
+					for (int i = (startLine + 1); i < endLine; i++)
+						szNewString.Append(fileContents[i]);
+
 					// copy the last line untill endChar
-					mir_strncat(newString, fileContents[endLine], endChar);
+					szNewString.Append(fileContents[endLine], endChar);
 				}
 			}
 		}
@@ -548,17 +542,17 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 			else {
 				mir_snprintf(tempString, SIZEOF(tempString), "fn%d", tempInt);
 				if (db_get_static(NULL, MODNAME, tempString, tempString, SIZEOF(tempString)))
-					mir_strcat(newString, tempString);
+					szNewString.Append(tempString);
 				else return ERROR_NO_FILE;
 				positionInOldString += (int)mir_strlen(_itoa(tempInt, tempString, 10)) + 1;
 			}
 		}
 		// lastchecked(file(X))
 		else if (!strncmp(&oldString[positionInOldString], "lastchecked(file(", mir_strlen("lastchecked(file("))) {
-			positionInOldString += lastChecked(newString, &oldString[positionInOldString]);
+			positionInOldString += lastChecked(szNewString, &oldString[positionInOldString]);
 		}
 		else {
-			mir_strncat(newString, &oldString[positionInOldString], 1);
+			szNewString.Append(&oldString[positionInOldString], 1);
 			positionInOldString++;
 		}
 	}
@@ -566,46 +560,36 @@ int stringReplacer(const char* oldString, char* newString, MCONTACT hContact)
 	for (tempInt = 0; (fileContents[tempInt] != NULL) && (tempInt < MAXLINES); tempInt++)
 		free(fileContents[tempInt]);
 
-
-
 	// check for load("A","B")
-	checkStringForLoad(hContact, newString);
+	checkStringForLoad(hContact, szNewString);
 	// and loadN(...)
-	checkStringForLoadN(newString);
+	checkStringForLoadN(szNewString);
 	// check for compare("A","B","X","Y")
-	checkStringForcompare(newString);
+	checkStringForcompare(szNewString);
 	// check for save("A","B")
-	checkStringForSave(hContact, newString);
+	checkStringForSave(hContact, szNewString);
 	// and saveN(...)
-	checkStringForSaveN(newString);
+	checkStringForSaveN(szNewString);
 	return 1;
 }
 
-void stripWhiteSpace(char* string)
-{
-	int i = 0;
-	while (string[i] != '\0') {
-		if ((string[i] == '\t') || (string[i] == '\r') || (string[i] == '\n'))
-			string[i] = ' ';
-		i++;
-	}
-}
 void WriteSetting(MCONTACT hContact, char* module1, char* setting1, char* module2, char* setting2)
 {
-	char text[MAX_STRING_LENGTH], newString[MAX_STRING_LENGTH];
+	CMStringA newString;
+	char text[MAX_STRING_LENGTH];
 	int error = 0, status = GetLCStatus(0, 0);
 	if (db_get_static(hContact, module1, setting1, text, SIZEOF(text))) {
 		switch (stringReplacer(text, newString, hContact)) {
 		case ERROR_NO_LINE_AFTER_VAR_F:
-			mir_snprintf(newString, SIZEOF(newString), Translate("%s - ERROR: no line specified or line not found (in %s)"), text, setting1);
+			newString.Format(Translate("%s - ERROR: no line specified or line not found (in %s)"), text, setting1);
 			error = 1;
 			break;
 		case ERROR_LINE_NOT_READ:
-			mir_snprintf(newString, SIZEOF(newString), Translate("%s - ERROR: file couldn't be opened (in %s)"), text, setting1);
+			newString.Format(Translate("%s - ERROR: file couldn't be opened (in %s)"), text, setting1);
 			error = 1;
 			break;
 		case ERROR_NO_FILE:
-			mir_snprintf(newString, SIZEOF(newString), Translate("%s - ERROR: no file specified in settings (in %s)"), text, setting1);
+			newString.Format(Translate("%s - ERROR: no file specified in settings (in %s)"), text, setting1);
 			error = 1;
 			break;
 		default:
@@ -613,7 +597,8 @@ void WriteSetting(MCONTACT hContact, char* module1, char* setting1, char* module
 			break;
 		}
 		// strip the tab and new lines from all except the tooltip
-		if (!error && mir_strcmp(setting1, "ToolTip")) stripWhiteSpace(newString);
+		if (!error && mir_strcmp(setting1, "ToolTip"))
+			newString.TrimRight();
 		db_set_s(hContact, module2, setting2, newString);
 	}
 	else db_set_s(hContact, module2, setting2, "");
