@@ -1088,7 +1088,7 @@ UIN, E-mail и т.д.
 [Show character count]
 Показывать счётчик символов
 [Show warning when message has not been received after]
-Сообщать, если сообщение не удалось отправить в течение
+Сообщать, если сообщение не удалось отправить за
 [Support CTRL+Up/Down in message area to show previously sent messages]
 Показывать старые сообщения при нажатии Ctrl+Вверх/Вниз
 [Delete temporary contacts when closing message window]
