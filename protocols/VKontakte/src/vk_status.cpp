@@ -153,16 +153,16 @@ void CVkProto::OnReceiveStatus(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	debugLogA("CVkProto::OnReceiveStatus %d", reply->resultCode);
 	if (reply->resultCode != 200)
 		return;
-	JSONROOT pRoot;
-	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	if (pResponse == NULL)
+	JSONNode jnRoot;
+	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
+	if (!jnResponse)
 		return;
 
-	JSONNODE *pAudio = json_get(pResponse, "audio");
-	if (pAudio == NULL) {
-		ptrT ptszStatusText(json_as_string(json_get(pResponse, "text")));
-		if (ptszStatusText[0] != TCHAR(9835))
-			setTString("OldStatusMsg", ptszStatusText);
+	const JSONNode &jnAudio = jnResponse["audio"];
+	if (jnAudio.isnull()) {
+		CMString tszStatusText(jnResponse["text"].as_mstring());
+		if (tszStatusText.GetBuffer()[0] != TCHAR(9835))
+			setTString("OldStatusMsg", tszStatusText);
 	}
 }
 
@@ -184,13 +184,13 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 		return;
 
 	CMString code;
-	ptrT ptszOldStatusMsg(db_get_tsa(0, m_szModuleName, "OldStatusMsg"));
+	CMString tszOldStatusMsg(db_get_tsa(0, m_szModuleName, "OldStatusMsg"));
 	if (StatusMsg.IsEmpty()) {
 		if (m_iMusicSendMetod == sendBroadcastOnly)
 			code = "API.audio.setBroadcast();return null;";
 		else {
 			CMString codeformat("API.status.set({text:\"%s\"});return null;");
-			code.AppendFormat(codeformat, ptszOldStatusMsg);
+			code.AppendFormat(codeformat, tszOldStatusMsg);
 		}
 		m_bSetBroadcast = false;
 	}

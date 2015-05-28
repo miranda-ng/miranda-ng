@@ -141,19 +141,20 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 /////////////////////////////////////////////////////////////////////////////////////////
 // fill a request from JSON
 
-bool CVkProto::ApplyCaptcha(AsyncHttpRequest *pReq, JSONNODE *pErrorNode)
+bool CVkProto::ApplyCaptcha(AsyncHttpRequest *pReq, const JSONNode &jnErrorNode)
 {
 	debugLogA("CVkProto::ApplyCaptcha");
 	if (!IsOnline())
 		return false;
 	
-	char *szUrl = NEWSTR_ALLOCA(_T2A(json_as_string(json_get(pErrorNode, "captcha_img"))));
-	char *szSid = NEWSTR_ALLOCA(_T2A(json_as_string(json_get(pErrorNode, "captcha_sid"))));
-	if (szUrl == NULL || szSid == NULL)
+	CMStringA szUrl(jnErrorNode["captcha_img"].as_mstring());
+	CMStringA szSid(jnErrorNode["captcha_sid"].as_mstring());
+
+	if (szUrl.IsEmpty() || szSid.IsEmpty())
 		return false;
 
 	CMStringA userReply;
-	if (!RunCaptchaForm(szUrl, userReply))
+	if (!RunCaptchaForm(szUrl.GetBuffer(), userReply))
 		return false;
 
 	pReq << CHAR_PARAM("captcha_sid", szSid) << CHAR_PARAM("captcha_key", userReply.GetString());

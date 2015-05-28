@@ -352,14 +352,14 @@ struct CVkProto : public PROTO<CVkProto>
 	void AddFeedEvent(CMString& tszBody, time_t tTime);
 	
 	CVkUserInfo* GetVkUserInfo(LONG iUserId, OBJLIST<CVkUserInfo> &vkUsers);
-	void CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, JSONNODE *pResponse);	
+	void CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNode &jnResponse);	
 		
-	CVKNewsItem* GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost = false);
+	CVKNewsItem* GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost = false);
 
-	CVKNewsItem* GetVkGroupInvates(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers);
-	CVKNewsItem* GetVkNotificationsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers);
-	CMString GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
-	CVKNewsItem* GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TCHAR *ptszReplyText = NULL, TCHAR *ptszReplyLink = NULL);
+	CVKNewsItem* GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers);
+	CVKNewsItem* GetVkNotificationsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo> &vkUsers);
+	CMString GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
+	CVKNewsItem* GetVkParent(const JSONNode &jnParent, VKObjType vkParentType, TCHAR *ptszReplyText = NULL, TCHAR *ptszReplyLink = NULL);
 	
 	void RetrieveUnreadNews(time_t tLastNewsTime);
 	void OnReceiveUnreadNews(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -382,9 +382,10 @@ struct CVkProto : public PROTO<CVkProto>
 	MCONTACT FindChat(LONG dwUserid);
 
 	bool CheckMid(LIST<void> &lList, int guid);
+		
+	JSONNode& CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNode &root);	
+	bool CheckJsonResult(AsyncHttpRequest *pReq, JSONNode &Node);
 
-	JSONNODE* CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONROOT&);
-	bool CheckJsonResult(AsyncHttpRequest *pReq, JSONNODE*);
 	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	bool AutoFillForm(char*, CMStringA&, CMStringA&);
@@ -405,12 +406,12 @@ struct CVkProto : public PROTO<CVkProto>
 	char* GetStickerId(const char* Msg, int& stickerid);
 
 	CMString SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent);
-	CMString GetVkPhotoItem(JSONNODE *pPhotoItem, BBCSupport iBBC);
+	CMString GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC);
 	CMString SetBBCString(TCHAR *tszString, BBCSupport iBBC, VKBBCType bbcType, TCHAR *tszAddString = NULL);
 	CMString& ClearFormatNick(CMString& tszText);
 
-	CMString GetAttachmentDescr(JSONNODE*, BBCSupport iBBC = bbcNo);
-	CMString GetFwdMessages(JSONNODE *pMessages, BBCSupport iBBC = bbcNo);
+	CMString GetAttachmentDescr(const JSONNode jnAttachments, BBCSupport iBBC = bbcNo);
+	CMString GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC = bbcNo);
 
 	void SetInvisible(MCONTACT hContact);
 
@@ -421,7 +422,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void OnReceiveStatus(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveStatusMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-	MCONTACT SetContactInfo(JSONNODE* Item, bool flag = false, bool self = false);
+	MCONTACT SetContactInfo(const JSONNode &jnItem, bool flag = false, bool self = false);
 	void RetrieveMyInfo(void);
 	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void RetrieveUserInfo(LONG userId);
@@ -450,7 +451,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void __cdecl PollingThread(void*);
 	int PollServer();
-	void PollUpdates(JSONNODE*);
+	void PollUpdates(const JSONNode&);
 	void OnReceivePolling(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void OnReceiveAuthRequest(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -535,7 +536,7 @@ private:
 	AsyncHttpRequest* Push(AsyncHttpRequest*, int iTimeout = 10000);
 
 	bool RunCaptchaForm(LPCSTR szUrl, CMStringA&);
-	bool ApplyCaptcha(AsyncHttpRequest *pReq, JSONNODE*);
+	bool ApplyCaptcha(AsyncHttpRequest *pReq, const JSONNode&);
 
 	void ConnectionFailed(int iReason);
 	void OnLoggedIn();
@@ -613,8 +614,8 @@ private:
 	ptrT	m_defaultGroup;
 
 	ptrA
-		m_pollingServer, 
-		m_pollingKey, 
+		m_pollingServer,
+		m_pollingKey,
 		m_pollingTs,
 		m_szAccessToken;
 
@@ -635,8 +636,8 @@ private:
 	static INT_PTR CALLBACK OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	OBJLIST<CVkChatInfo> m_chats;
-	CVkChatInfo* AppendChat(int id, JSONNODE *pNode);
-	void AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory);
+	CVkChatInfo* AppendChat(int id, const JSONNode &jnNode);
+	void AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory);
 	void AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory);
 	void RetrieveChatInfo(CVkChatInfo*);
 	void OnReceiveChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -645,7 +646,7 @@ private:
 	void OnChatDestroy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	int __cdecl OnChatEvent(WPARAM, LPARAM);
 	int __cdecl OnGcMenuHook(WPARAM, LPARAM);
-	void KickFromChat(int chat_id, int user_id, JSONNODE* pMsg);
+	void KickFromChat(int chat_id, int user_id, const JSONNode &jnMsg);
 	void LeaveChat(int chat_id, bool close_window = true, bool delete_chat = false);
 	INT_PTR __cdecl OnLeaveChat(WPARAM, LPARAM);
 	INT_PTR __cdecl OnJoinChat(WPARAM, LPARAM);

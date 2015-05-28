@@ -538,10 +538,10 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	debugLogA("CVkProto::OnReceiveAuthRequest %d", reply->resultCode);
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
 	if (reply->resultCode == 200) {
-		JSONROOT pRoot;
-		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-		if (pResponse != NULL) {
-			int iRet = json_as_int(pResponse);
+		JSONNode jnRoot;
+		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
+		if (!jnResponse.isnull()) {
+			int iRet = jnResponse.as_int();
 			setByte(param->hContact, "Auth", 0);
 			if (iRet == 2) {
 				CMString msg,			
