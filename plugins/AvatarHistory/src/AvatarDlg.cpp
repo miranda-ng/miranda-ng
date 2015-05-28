@@ -537,15 +537,14 @@ static INT_PTR ShowDialogSvc(WPARAM wParam, LPARAM lParam)
 
 int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
 {
-	TCHAR filter[MAX_PATH];
-	TCHAR file[MAX_PATH];
-	OPENFILENAME ofn;
-	memset(&ofn, 0, sizeof(OPENFILENAME));
-	ofn.lStructSize = sizeof(OPENFILENAME);
+	TCHAR filter[MAX_PATH], file[MAX_PATH];
+	BmpFilterGetStrings(filter, SIZEOF(filter));
+
+	OPENFILENAME ofn = { 0 };
+	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = hwnd;
 	ofn.hInstance = hInst;
 
-	CallService(MS_UTILS_GETBITMAPFILTERSTRINGST, MAX_PATH, (LPARAM)filter);
 	ofn.lpstrFilter = filter;
 	
 	ofn.nFilterIndex = 1;

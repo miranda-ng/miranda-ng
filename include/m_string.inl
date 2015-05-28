@@ -1376,22 +1376,6 @@ typename CMStringT<BaseType, StringTraits>::PCXSTR CMStringT<BaseType, StringTra
 	return GetString();
 }
 
-// OLE BSTR support
-
-// allocate a BSTR containing a copy of the string
-template< typename BaseType, class StringTraits >
-BSTR CMStringT<BaseType, StringTraits>::AllocSysString() const
-{
-	return StringTraits::AllocSysString(this->GetString(), this->GetLength());
-}
-
-template< typename BaseType, class StringTraits >
-BSTR CMStringT<BaseType, StringTraits>::SetSysString(BSTR* pbstr) const
-{
-	StringTraits::ReAllocSysString(this->GetString(), pbstr, this->GetLength());
-	return *pbstr;
-}
-
 // Set the string to the value of environment variable 'pszVar'
 template< typename BaseType, class StringTraits >
 BOOL CMStringT<BaseType, StringTraits>::GetEnvironmentVariable(PCXSTR pszVar)
@@ -1413,7 +1397,7 @@ BOOL CMStringT<BaseType, StringTraits>::GetEnvironmentVariable(PCXSTR pszVar)
 
 // Set the string to the value of environment variable 'pszVar'
 template< typename BaseType, class StringTraits >
-typename CMStringT<BaseType, StringTraits>::PXSTR CMStringT<BaseType, StringTraits>::Detouch() const
+typename CMStringT<BaseType, StringTraits>::PXSTR CMStringT<BaseType, StringTraits>::Detach() const
 {
 	return StringTraits::MirCopy(CMStringT<BaseType, StringTraits>::GetString(), GetLength());
 }

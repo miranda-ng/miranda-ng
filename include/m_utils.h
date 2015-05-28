@@ -33,7 +33,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdio.h>
 
 #if !defined(M_SYSTEM_H__)
-#include "m_system.h"
+#include <m_system.h>
+#endif
+
+#if !defined(M_STRING_H__)
+#include <m_string.h>
 #endif
 
 //this entire module is v0.1.0.1+
@@ -136,14 +140,17 @@ struct CountryListEntry {
 
 /******************************* Window lists *******************************/
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // allocates a window list
 // wParam = lParam = 0 (unused)
 // returns a handle to the new window list
+
 #define MS_UTILS_ALLOCWINDOWLIST "Utils/AllocWindowList"
 __forceinline HANDLE WindowList_Create(void)
 {	return (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // destroys a window list
 // wParam = (HANDLE) window list handle
 // lParam = 0 (unused)
@@ -153,10 +160,12 @@ __forceinline HANDLE WindowList_Destroy(HANDLE hList)
 {	return (HANDLE)CallService(MS_UTILS_DESTROYWINDOWLIST, (WPARAM)hList, 0);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // adds a window to the specified window list
 // wParam = 0
 // lParam = (LPARAM)(WINDOWLISTENTRY*)&wle
 // returns 0 on success, nonzero on failure
+
 typedef struct {
 	HANDLE hList;
 	HWND hwnd;
@@ -169,29 +178,35 @@ __forceinline INT_PTR WindowList_Add(HANDLE hList, HWND hwnd, MCONTACT hContact)
 	return CallService(MS_UTILS_ADDTOWINDOWLIST, 0, (LPARAM)&wle);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // removes a window from the specified window list
 // wParam = (WPARAM)(HANDLE)hList
 // lParam = (LPARAM)(HWND)hwnd
 // returns 0 on success, nonzero on failure
+
 #define MS_UTILS_REMOVEFROMWINDOWLIST "Utils/RemoveFromWindowList"
 __forceinline INT_PTR WindowList_Remove(HANDLE hList, HWND hwnd) {
 	return CallService(MS_UTILS_REMOVEFROMWINDOWLIST, (WPARAM)hList, (LPARAM)hwnd);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // finds a window given the hContact
 // wParam = (WPARAM)(HANDLE)hList
 // lParam = (MCONTACT)hContact
 // returns the window handle on success, or NULL on failure
+
 #define MS_UTILS_FINDWINDOWINLIST "Utils/FindWindowInList"
 __forceinline HWND WindowList_Find(HANDLE hList, MCONTACT hContact) {
 	return (HWND)CallService(MS_UTILS_FINDWINDOWINLIST, (WPARAM)hList, hContact);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // sends a message to all windows in a list using SendMessage
 // wParam = (WPARAM)(HANDLE)hList
 // lParam = (LPARAM)(MSG*)&msg
 // returns 0 on success, nonzero on failure
 // Only msg.message, msg.wParam and msg.lParam are used
+
 #define MS_UTILS_BROADCASTTOWINDOWLIST "Utils/BroadcastToWindowList"
 __forceinline INT_PTR WindowList_Broadcast(HANDLE hList, UINT message, WPARAM wParam, LPARAM lParam) {
 	MSG msg;
@@ -199,11 +214,13 @@ __forceinline INT_PTR WindowList_Broadcast(HANDLE hList, UINT message, WPARAM wP
 	return CallService(MS_UTILS_BROADCASTTOWINDOWLIST, (WPARAM)hList, (LPARAM)&msg);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // sends a message to all windows in a list using PostMessage
 // wParam = (WPARAM)(HANDLE)hList
 // lParam = (LPARAM)(MSG*)&msg
 // returns 0 on success, nonzero on failure
 // Only msg.message, msg.wParam and msg.lParam are used
+
 #define MS_UTILS_BROADCASTTOWINDOWLIST_ASYNC "Utils/BroadcastToWindowListAsync"
 
 __forceinline INT_PTR WindowList_BroadcastAsync(HANDLE hList, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -219,10 +236,13 @@ __forceinline INT_PTR WindowList_BroadcastAsync(HANDLE hList, UINT message, WPAR
 //the control will obey the SS_LEFT (0), SS_CENTER (1), and SS_RIGHT (2) styles
 //the control will send STN_CLICKED via WM_COMMAND when the link itself is clicked
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Use this in a SendMessage to set the color of the url when control is enabled
 // wParam = DWORD color
 // lParam = not used
 #define HLK_SETENABLECOLOUR	 (WM_USER+101) // added in 0.3.1
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Use this in a SendMessage to set the color of the url when control is disabled
 // wParam = DWORD color
 // lParam = not used
@@ -230,10 +250,11 @@ __forceinline INT_PTR WindowList_BroadcastAsync(HANDLE hList, UINT message, WPAR
 
 /***************************** Window Position Saving ***************************/
 
-//saves the position of a window in the database   v0.1.1.0+
-//wParam = 0
-//lParam = (LPARAM)(SAVEWINDOWPOS*)&swp
-//returns 0 on success, nonzero on failure
+/////////////////////////////////////////////////////////////////////////////////////////
+// saves the position of a window in the database   v0.1.1.0+
+// wParam = 0
+// lParam = (LPARAM)(SAVEWINDOWPOS*)&swp
+// returns 0 on success, nonzero on failure
 typedef struct {
 	HWND hwnd;
 	MCONTACT hContact;
@@ -247,14 +268,15 @@ __forceinline INT_PTR Utils_SaveWindowPosition(HWND hwnd, MCONTACT hContact, con
 	return CallService(MS_UTILS_SAVEWINDOWPOSITION, 0, (LPARAM)&swp);
 }
 
-//restores the position of a window from the database	 v0.1.1.0+
-//wParam = flags
-//lParam = (LPARAM)(SAVEWINDOWPOS*)&swp
-//returns 0 on success, nonzero on failure
-//if no position was found in the database, the function returns 1 and does
-//nothing
-//the NoSize version won't use stored size information: the window is left the
-//same size.
+/////////////////////////////////////////////////////////////////////////////////////////
+// restores the position of a window from the database	 v0.1.1.0+
+// wParam = flags
+// lParam = (LPARAM)(SAVEWINDOWPOS*)&swp
+// returns 0 on success, nonzero on failure
+// if no position was found in the database, the function returns 1 and does
+// nothing
+// the NoSize version won't use stored size information: the window is left the same size.
+
 #define RWPF_NOSIZE 	1  //don't use stored size info: leave dialog same size
 #define RWPF_NOMOVE 	2  //don't use stored position
 #define RWPF_NOACTIVATE 4  //show but don't activate v0.3.3.0+
@@ -275,10 +297,12 @@ __forceinline INT_PTR Utils_RestoreWindowPositionNoMove(HWND hwnd, MCONTACT hCon
 	return Utils_RestoreWindowPositionEx(hwnd, RWPF_NOMOVE, hContact, szModule, szNamePrefix);
 }
 
-//Moves a RECT inside screen if it is outside.It works with multiple monitors	 v0.9.0.4+
-//wParam = RECT *
-//lParam = 0
-//returns <0 on error, 0 if not changed the rect, 1 if changed the rect
+/////////////////////////////////////////////////////////////////////////////////////////
+// Moves a RECT inside screen if it is outside.It works with multiple monitors	 v0.9.0.4+
+// wParam = RECT *
+// lParam = 0
+// returns <0 on error, 0 if not changed the rect, 1 if changed the rect
+
 #define MS_UTILS_ASSERTINSIDESCREEN	"Utils/AssertInsideScreen"
 __forceinline INT_PTR Utils_AssertInsideScreen(RECT *rc) {
 	return CallService(MS_UTILS_ASSERTINSIDESCREEN, (WPARAM)rc, 0);
@@ -296,70 +320,101 @@ __forceinline INT_PTR Utils_AssertInsideScreen(RECT *rc) {
 
 /***************************** Bitmap Filter (0.1.2.1+) *************************/
 
-//Loads a bitmap								v0.1.2.1+
-//wParam = 0
-//lParam = (LPARAM)(const char*)filename
-//returns HBITMAP on success, NULL on failure
-//This function uses OleLoadPicturePath() so supports BMP, JPEG and GIF. It may
-//support PNG on future versions of Windows (or XP for that matter)
-//For speed, if the file extension is .bmp or .rle it'll use LoadImage() so as
-//to avoid the big lag loading OLE.
-//Remember to DeleteObject() when you're done
-#define MS_UTILS_LOADBITMAP   "Utils/LoadBitmap"
+/////////////////////////////////////////////////////////////////////////////////////////
+// Loads a bitmap								v0.1.2.1+
+// wParam = 0
+// lParam = (LPARAM)(const char*)filename
+// returns HBITMAP on success, NULL on failure
+// This function uses OleLoadPicturePath() so supports BMP, JPEG and GIF. It may
+// support PNG on future versions of Windows (or XP for that matter)
+// For speed, if the file extension is .bmp or .rle it'll use LoadImage() so as
+// to avoid the big lag loading OLE.
+// Remember to DeleteObject() when you're done
+
+#define MS_UTILS_LOADBITMAP "Utils/LoadBitmap"
+#define MS_UTILS_LOADBITMAPW "Utils/LoadBitmapW"
 
 #ifdef _UNICODE
-	#define MS_UTILS_LOADBITMAPW  "Utils/LoadBitmapW"
 	#define MS_UTILS_LOADBITMAPT MS_UTILS_LOADBITMAPW
 #else
 	#define MS_UTILS_LOADBITMAPT MS_UTILS_LOADBITMAP
 #endif
 
-//Gets the filter strings for use in the open file dialog	   v0.1.2.1+
-//wParam = cbLengthOfBuffer
-//lParam = (LPARAM)(char*)pszBuffer
-//Returns 0 on success, nonzero on failure
-//See the MSDN under OPENFILENAME.lpstrFilter for the formatting
-//An 'All Bitmaps' item is always first and 'All Files' is last.
-//The returned string is already translated.
-#define MS_UTILS_GETBITMAPFILTERSTRINGS  "Utils/GetBitmapFilterStrings"
+/////////////////////////////////////////////////////////////////////////////////////////
+// Gets the filter strings for use in the open file dialog
+// See the MSDN under OPENFILENAME.lpstrFilter for the formatting
+// An 'All Bitmaps' item is always first and 'All Files' is last.
+// The returned string is already translated.
 
-//Saves a path to a relative path (from the miranda directory)
-//Only saves as a relative path if the file is in the miranda directory (or
-//sub directory)
-//wParam = (WPARAM)(char*)pszPath
-//lParam = (LPARAM)(char*)pszNewPath
-//pszPath is the path to convert and pszNewPath is the buffer that
-//the new path is copied too.  pszNewPath MUST be of the size MAX_PATH.
-//Returns numbers of chars copied.
-//Unicode version is available since 0.6.2
+EXTERN_C MIR_CORE_DLL(void) BmpFilterGetStrings(TCHAR *dest, size_t destLen);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Saves a path to a relative path (from the miranda directory)
+// Only saves as a relative path if the file is in the miranda directory (or
+// sub directory)
+// wParam = (WPARAM)(char*)pszPath
+// lParam = (LPARAM)(char*)pszNewPath
+// pszPath is the path to convert and pszNewPath is the buffer that
+// the new path is copied too.  pszNewPath MUST be of the size MAX_PATH.
+// Returns numbers of chars copied.
+// Unicode version is available since 0.6.2
+
 #define MS_UTILS_PATHTORELATIVE "Utils/PathToRelative"
+#define MS_UTILS_PATHTORELATIVEW "Utils/PathToRelativeW"
 
-//Saves a path to a absolute path (from the miranda directory)
-//wParam = (WPARAM)(char*)pszPath
-//lParam = (LPARAM)(char*)pszNewPath
-//pszPath is the path to convert and pszNewPath is the buffer that
-//the new path is copied too.  pszNewPath MUST be of the size MAX_PATH.
-//Returns numbers of chars copied.
-//Unicode version is available since 0.6.2
+#ifdef _UNICODE
+	#define MS_UTILS_PATHTORELATIVET MS_UTILS_PATHTORELATIVEW
+#else
+	#define MS_UTILS_PATHTORELATIVET MS_UTILS_PATHTORELATIVE
+#endif
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Saves a path to a absolute path (from the miranda directory)
+// wParam = (WPARAM)(char*)pszPath
+// lParam = (LPARAM)(char*)pszNewPath
+// pszPath is the path to convert and pszNewPath is the buffer that
+// the new path is copied too.  pszNewPath MUST be of the size MAX_PATH.
+// Returns numbers of chars copied.
+// Unicode version is available since 0.6.2
+
 #define MS_UTILS_PATHTOABSOLUTE "Utils/PathToAbsolute"
+#define MS_UTILS_PATHTOABSOLUTEW "Utils/PathToAbsoluteW"
 
-//Creates a directory tree (even more than one directories levels are missing) 0.7.0+
-//wParam = 0 (unused)
-//lParam = (LPARAM)(char*)pszPath - directory to be created
-//Returns 0 on success error code otherwise
-//Unicode version is available since 0.7.0
+#ifdef _UNICODE
+	#define MS_UTILS_PATHTOABSOLUTET MS_UTILS_PATHTOABSOLUTEW
+#else
+	#define MS_UTILS_PATHTOABSOLUTET MS_UTILS_PATHTOABSOLUTE
+#endif
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Creates a directory tree (even more than one directories levels are missing) 0.7.0+
+// wParam = 0 (unused)
+// lParam = (LPARAM)(char*)pszPath - directory to be created
+// Returns 0 on success error code otherwise
+// Unicode version is available since 0.7.0
+
 #define MS_UTILS_CREATEDIRTREE "Utils/CreateDirTree"
+#define MS_UTILS_CREATEDIRTREEW "Utils/CreateDirTreeW"
 
+#ifdef _UNICODE
+	#define MS_UTILS_CREATEDIRTREET MS_UTILS_CREATEDIRTREEW
+#else
+	#define MS_UTILS_CREATEDIRTREET MS_UTILS_CREATEDIRTREE
+#endif
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Generates Random number of any length
-//wParam = size - length of the random number to generate
-//lParam = (LPARAM)(char*)pszArray - pointer to array to fill with random number
-//Always returns 0
+// wParam = size - length of the random number to generate
+// lParam = (LPARAM)(char*)pszArray - pointer to array to fill with random number
+// Always returns 0
+
 #define MS_UTILS_GETRANDOM "Utils/GetRandom"
 
-//Replace variables in text
-//wParam = (char*/TCHAR*/WCHAR*)string (depends on RVF_UNICODE/RVF_TCHAR flag)
-//lParam = (REPLACEVARSDATA *) data about variables, item with key = 0 terminates the list
-//returns new string, use mir_free to destroy
+/////////////////////////////////////////////////////////////////////////////////////////
+// Replace variables in text
+// wParam = (char*/TCHAR*/WCHAR*)string (depends on RVF_UNICODE/RVF_TCHAR flag)
+// lParam = (REPLACEVARSDATA *) data about variables, item with key = 0 terminates the list
+// returns new string, use mir_free to destroy
 
 // variables known by the core:
 // ----------------------------
@@ -452,23 +507,6 @@ __forceinline TCHAR* Utils_ReplaceVarsT(const TCHAR *szData) {
 	};
 #endif
 
-#ifdef _UNICODE
-	#define MS_UTILS_PATHTORELATIVEW         "Utils/PathToRelativeW"
-	#define MS_UTILS_PATHTOABSOLUTEW         "Utils/PathToAbsoluteW"
-	#define MS_UTILS_CREATEDIRTREEW          "Utils/CreateDirTreeW"
-	#define MS_UTILS_GETBITMAPFILTERSTRINGSW "Utils/GetBitmapFilterStringsW"
-
-	#define MS_UTILS_PATHTORELATIVET         MS_UTILS_PATHTORELATIVEW
-	#define MS_UTILS_PATHTOABSOLUTET         MS_UTILS_PATHTOABSOLUTEW
-	#define MS_UTILS_CREATEDIRTREET          MS_UTILS_CREATEDIRTREEW
-	#define MS_UTILS_GETBITMAPFILTERSTRINGST MS_UTILS_GETBITMAPFILTERSTRINGSW
-#else
-	#define MS_UTILS_PATHTORELATIVET         MS_UTILS_PATHTORELATIVE
-	#define MS_UTILS_PATHTOABSOLUTET         MS_UTILS_PATHTOABSOLUTE
-	#define MS_UTILS_CREATEDIRTREET          MS_UTILS_CREATEDIRTREE
-	#define MS_UTILS_GETBITMAPFILTERSTRINGST MS_UTILS_GETBITMAPFILTERSTRINGS
-#endif
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // one field form
 
@@ -493,10 +531,12 @@ typedef struct
 }
 ENTER_STRING;
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // enters one string
 // wParam = 0 (unused)
 // lParam = ENTER_STRING* (form description)
 // returns TRUE on pressing OK or FALSE if Cancel was pressed
+
 #define MS_UTILS_ENTERSTRING "Utils/EnterString"
 
 __forceinline BOOL EnterString(ENTER_STRING *pForm)

@@ -372,8 +372,6 @@ mir_wstrcmpi                  @280
 ??Y?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QAEAAV0@PBD@Z @370 NONAME
 ??Y?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QAEAAV0@PB_W@Z @371 NONAME
 ??Y?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QAEAAV0@_W@Z @372 NONAME
-?AllocSysString@?$CMStringT@DV?$ChTraitsCRT@D@@@@QBEPA_WXZ @373 NONAME
-?AllocSysString@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QBEPA_WXZ @374 NONAME
 ?Append@?$CMSimpleStringT@D@@QAEXABV1@@Z @375 NONAME
 ?Append@?$CMSimpleStringT@D@@QAEXPBD@Z @376 NONAME
 ?Append@?$CMSimpleStringT@D@@QAEXPBDH@Z @377 NONAME
@@ -500,8 +498,6 @@ mir_wstrcmpi                  @280
 ?SetString@?$CMSimpleStringT@D@@QAEXPBDH@Z @498 NONAME
 ?SetString@?$CMSimpleStringT@_W@@QAEXPB_W@Z @499 NONAME
 ?SetString@?$CMSimpleStringT@_W@@QAEXPB_WH@Z @500 NONAME
-?SetSysString@?$CMStringT@DV?$ChTraitsCRT@D@@@@QBEPA_WPAPA_W@Z @501 NONAME
-?SetSysString@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QBEPA_WPAPA_W@Z @502 NONAME
 ?SpanExcluding@?$CMStringT@DV?$ChTraitsCRT@D@@@@QBE?AV1@PBD@Z @503 NONAME
 ?SpanExcluding@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QBE?AV1@PB_W@Z @504 NONAME
 ?SpanIncluding@?$CMStringT@DV?$ChTraitsCRT@D@@@@QBE?AV1@PBD@Z @505 NONAME
@@ -731,8 +727,8 @@ mir_wstrcmpi                  @280
 ?DeleteItem@CCtrlTreeView@@QAEXPAU_TREEITEM@@@Z @731 NONAME
 ?DeleteString@CCtrlCombo@@QAEXH@Z @732 NONAME
 ?DeleteString@CCtrlListBox@@QAEXH@Z @733 NONAME
-?Detouch@?$CMStringT@DV?$ChTraitsCRT@D@@@@QBEPADXZ @734 NONAME
-?Detouch@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QBEPA_WXZ @735 NONAME
+?Detach@?$CMStringT@DV?$ChTraitsCRT@D@@@@QBEPADXZ @734 NONAME
+?Detach@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QBEPA_WXZ @735 NONAME
 ?Disable@CCtrlBase@@QAEXXZ @736 NONAME
 ?DlgProc@CDlgBase@@MAEHIIJ@Z @737 NONAME
 ?DlgProc@CProtoIntDlgBase@@MAEHIIJ@Z @738 NONAME
@@ -1242,3 +1238,4 @@ Proto_RegisterModule @1074 NONAME
 ?isnull@JSONNode@@QBE_NXZ @1245 NONAME
 ??BJSONNode@@QBE_NXZ @1246 NONAME
 ?as_mstring@JSONNode@@QBE?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@XZ @1247 NONAME
+BmpFilterGetStrings @1248

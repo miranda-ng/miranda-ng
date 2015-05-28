@@ -334,24 +334,23 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		}
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_BROWSE) {
-			char str[MAX_PATH];
-			OPENFILENAMEA ofn = { 0 };
-			char filter[512];
+			TCHAR str[MAX_PATH], filter[512];
+			GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
 
-			GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
+			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner = hwndDlg;
 			ofn.hInstance = NULL;
-			CallService(MS_UTILS_GETBITMAPFILTERSTRINGS, SIZEOF(filter), (LPARAM) filter);
+			BmpFilterGetStrings(filter, SIZEOF(filter));
 			ofn.lpstrFilter = filter;
 			ofn.lpstrFile = str;
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
 			ofn.nMaxFile = SIZEOF(str);
 			ofn.nMaxFileTitle = MAX_PATH;
-			ofn.lpstrDefExt = "bmp";
-			if (!GetOpenFileNameA(&ofn))
+			ofn.lpstrDefExt = _T("bmp");
+			if (!GetOpenFileName(&ofn))
 				break;
-			SetDlgItemTextA(hwndDlg, IDC_FILENAME, str);
+			SetDlgItemText(hwndDlg, IDC_FILENAME, str);
 		}
 		else if (LOWORD(wParam) == IDC_FILENAME && HIWORD(wParam) != EN_CHANGE)
 			break;

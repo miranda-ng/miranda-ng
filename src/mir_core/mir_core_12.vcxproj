@@ -28,6 +28,7 @@
     <ClInclude Include="..\..\include\m_string.h" />
     <ClInclude Include="..\..\include\m_system.h" />
     <ClInclude Include="..\..\include\m_system_cpp.h" />
+    <ClInclude Include="..\..\include\m_utils.h" />
     <ClInclude Include="src\commonheaders.h" />
     <ClInclude Include="src\json\internalJSONNode.h" />
     <ClInclude Include="src\json\JSONChildren.h" />
@@ -40,6 +41,7 @@
     <ClInclude Include="src\miranda.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\bitmaps.cpp" />
     <ClCompile Include="src\cmdline.cpp" />
     <ClCompile Include="src\http.cpp" />
     <ClCompile Include="src\icons.cpp" />

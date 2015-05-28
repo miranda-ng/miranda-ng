@@ -99,13 +99,10 @@ static void RemoveProtoPic(const char *szProto)
 
 static void SetProtoPic(char *szProto)
 {
-	TCHAR FileName[MAX_PATH];
+	TCHAR FileName[MAX_PATH], filter[256];
+	BmpFilterGetStrings(filter, SIZEOF(filter));
+
 	OPENFILENAME ofn = { 0 };
-	TCHAR filter[256];
-
-	filter[0] = '\0';
-	CallService(MS_UTILS_GETBITMAPFILTERSTRINGST, SIZEOF(filter), (LPARAM)filter);
-
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.lpstrFilter = filter;
 	ofn.hwndOwner = 0;

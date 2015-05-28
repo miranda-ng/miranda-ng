@@ -165,10 +165,8 @@ void WhatsAppProto::EditChatSubject(WAChatInfo *pInfo)
 
 void WhatsAppProto::SetChatAvatar(WAChatInfo *pInfo)
 {
-	TCHAR tszFileName[MAX_PATH]; tszFileName[0] = '\0';
-
-	TCHAR filter[256]; filter[0] = '\0';
-	CallService(MS_UTILS_GETBITMAPFILTERSTRINGST, SIZEOF(filter), (LPARAM)filter);
+	TCHAR tszFileName[MAX_PATH], filter[256];
+	BmpFilterGetStrings(filter, SIZEOF(filter));
 
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;

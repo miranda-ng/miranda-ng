@@ -37,6 +37,7 @@
     <ClInclude Include="src\miranda.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\bitmaps.cpp" />
     <ClCompile Include="src\cmdline.cpp" />
     <ClCompile Include="src\http.cpp" />
     <ClCompile Include="src\icons.cpp" />

@@ -780,18 +780,17 @@ INT_PTR CALLBACK AvatarDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 		if ( HIWORD( wParam ) == BN_CLICKED ) {
 			switch( LOWORD( wParam )) {
 			case IDC_SETAVATAR:
-			{
-				char szFileName[ MAX_PATH ];
-				if ( EnterBitmapFileName( szFileName ) != ERROR_SUCCESS )
+				TCHAR szFileName[ MAX_PATH ];
+				if (EnterBitmapFileName(szFileName) != ERROR_SUCCESS)
 					return FALSE;
 
-				hAvatar = ( HBITMAP )CallService( MS_UTILS_LOADBITMAP, 0, ( LPARAM )szFileName);
-				if ( hAvatar != NULL ){
-					SendDlgItemMessage(hwndDlg, IDC_AVATAR, STM_SETIMAGE, IMAGE_BITMAP, (WPARAM)hAvatar );
+				hAvatar = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)szFileName);
+				if (hAvatar != NULL){
+					SendDlgItemMessage(hwndDlg, IDC_AVATAR, STM_SETIMAGE, IMAGE_BITMAP, (WPARAM)hAvatar);
 					CallService(SKYPE_SETAVATAR, 0, ( LPARAM )szFileName);
 				}
 				break;
-			}
+
 			case IDC_DELETEAVATAR:
 				if ( hAvatar != NULL ) {
 					DeleteObject( hAvatar );

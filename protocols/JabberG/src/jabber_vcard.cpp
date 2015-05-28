@@ -333,10 +333,8 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			break;
 
 		case IDC_LOAD:
-			TCHAR szFilter[512];
-			TCHAR szFileName[MAX_PATH];
-
-			CallService(MS_UTILS_GETBITMAPFILTERSTRINGST, SIZEOF(szFilter), (LPARAM)szFilter);
+			TCHAR szFilter[512], szFileName[MAX_PATH];
+			BmpFilterGetStrings(szFilter, SIZEOF(szFilter));
 
 			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = sizeof(ofn);

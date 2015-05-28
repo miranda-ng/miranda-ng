@@ -372,8 +372,6 @@ mir_wstrcmpi                  @280
 ??Y?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@PEBD@Z @370 NONAME
 ??Y?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@PEB_W@Z @371 NONAME
 ??Y?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@_W@Z @372 NONAME
-?AllocSysString@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAPEA_WXZ @373 NONAME
-?AllocSysString@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAPEA_WXZ @374 NONAME
 ?Append@?$CMSimpleStringT@D@@QEAAXAEBV1@@Z @375 NONAME
 ?Append@?$CMSimpleStringT@D@@QEAAXPEBD@Z @376 NONAME
 ?Append@?$CMSimpleStringT@D@@QEAAXPEBDH@Z @377 NONAME
@@ -500,8 +498,6 @@ mir_wstrcmpi                  @280
 ?SetString@?$CMSimpleStringT@D@@QEAAXPEBDH@Z @498 NONAME
 ?SetString@?$CMSimpleStringT@_W@@QEAAXPEB_W@Z @499 NONAME
 ?SetString@?$CMSimpleStringT@_W@@QEAAXPEB_WH@Z @500 NONAME
-?SetSysString@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAPEA_WPEAPEA_W@Z @501 NONAME
-?SetSysString@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAPEA_WPEAPEA_W@Z @502 NONAME
 ?SpanExcluding@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBA?AV1@PEBD@Z @503 NONAME
 ?SpanExcluding@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBA?AV1@PEB_W@Z @504 NONAME
 ?SpanIncluding@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBA?AV1@PEBD@Z @505 NONAME
@@ -731,8 +727,8 @@ mir_wstrcmpi                  @280
 ?DeleteItem@CCtrlTreeView@@QEAAXPEAU_TREEITEM@@@Z @731 NONAME
 ?DeleteString@CCtrlCombo@@QEAAXH@Z @732 NONAME
 ?DeleteString@CCtrlListBox@@QEAAXH@Z @733 NONAME
-?Detouch@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAPEADXZ @734 NONAME
-?Detouch@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAPEA_WXZ @735 NONAME
+?Detach@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAPEADXZ @734 NONAME
+?Detach@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAPEA_WXZ @735 NONAME
 ?Disable@CCtrlBase@@QEAAXXZ @736 NONAME
 ?DlgProc@CDlgBase@@MEAA_JI_K_J@Z @737 NONAME
 ?DlgProc@CProtoIntDlgBase@@MEAA_JI_K_J@Z @738 NONAME
@@ -1242,3 +1238,4 @@ Proto_RegisterModule @1074 NONAME
 ?isnull@JSONNode@@QEBA_NXZ @1245 NONAME
 ??BJSONNode@@QEBA_NXZ @1246 NONAME
 ?as_mstring@JSONNode@@QEBA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@XZ @1247 NONAME
+BmpFilterGetStrings @1248
