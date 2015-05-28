@@ -87,7 +87,7 @@ int GetNextGroupIndex()
 	return index - 1;
 }
 
-void AddNewGroup(char *newGroup)
+void AddNewGroup(const char *newGroup)
 {
 	int index = GetNextGroupIndex();
 	
@@ -119,44 +119,29 @@ void CreateGroup(char *group)
 {
 	char *p = group;
 	char *sub = group;
-	char buffer[1024] = {0};
-	
+
+	CMStringA buf;
 	while ((p = strchr(sub, '\\')))
 	{
 		*p = 0;
-		if (mir_strlen(buffer) > 0)
-		{
-			mir_strncat(buffer, "\\", SIZEOF(buffer) - mir_strlen(buffer));
-			mir_strncat(buffer, sub, SIZEOF(buffer) - mir_strlen(buffer));
-		}
-		else{
-			strncpy_s(buffer, sub, _TRUNCATE);
-		}
+		if (!buf.IsEmpty())
+			buf.AppendChar('\\');
+		buf.Append(sub);
 		
-		if (!availableGroups.Contains(buffer))
-		{
-			AddNewGroup(buffer);
-		}
+		if (!availableGroups.Contains(buf))
+			AddNewGroup(buf);
 		
 		*p++ = '\\';
 		sub = p;
 	}
 	
-	if (sub)
-	{
-		if (mir_strlen(buffer) > 0)
-		{
-			mir_strncat(buffer, "\\", SIZEOF(buffer) - mir_strlen(buffer));
-			mir_strncat(buffer, sub, SIZEOF(buffer) - mir_strlen(buffer));
-		}
-		else{
-			strncpy_s(buffer, sub, _TRUNCATE);
-		}
+	if (sub) {
+		if (!buf.IsEmpty())
+			buf.AppendChar('\\');
+		buf.Append(sub);
 		
-		if (!availableGroups.Contains(buffer))
-		{
-			AddNewGroup(buffer);
-		}
+		if (!availableGroups.Contains(buf))
+			AddNewGroup(buf);
 	}
 }
 

@@ -42,8 +42,8 @@ class CGroupsList
 		
 		int Count();
 		
-		int Contains(char *group);
-		int Index(char *group);
+		int Contains(const char *group);
+		int Index(const char *group);
 		
 		char *operator [](int index);
 };
