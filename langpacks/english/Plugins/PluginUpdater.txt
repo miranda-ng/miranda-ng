@@ -36,7 +36,7 @@
 [Colors]
 [Use cus&tom colors]
 [Use &Windows colors]
-[Use Pop&up colors]
+[Use defa&ult colors]
 [Preview]
 [Click action]
 [On left click]
