@@ -11,8 +11,9 @@ public:
 
 		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 
-		CMStringA data(CMStringDataFormat::FORMAT, "username=%s&donotcache=%lld", ptrA(mir_urlEncode(username)), time(NULL));
-		SetData(data.GetBuffer(), data.GetLength());
+		CMStringA data;
+		data.AppendFormat("username=%s&donotcache=%lld", ptrA(mir_urlEncode(username)), time(NULL));
+		SetData(data, data.GetLength());
 	}
 };
 
