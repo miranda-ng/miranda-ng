@@ -35,7 +35,6 @@ typedef char TArgument[ARGUMENT_SIZE];
 struct TReply{
 	int code;
 	char message[REPLY_SIZE];
-	static const int cMessage = REPLY_SIZE;
 };
 
 typedef TReply *PReply;

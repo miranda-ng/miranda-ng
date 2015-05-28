@@ -119,55 +119,47 @@ PCommand GetCommand(char *command)
 
 void HandleHelpCommand(PCommand helpCommand, char *argv[], int argc, PReply reply)
 {
-	const int size = REPLY_SIZE;
-	if (argc >= 3)
-	{
+	CMStringA szReply;
+	
+	if (argc >= 3) {
 		PCommand command = GetCommand(argv[2]);
 		
-		if (command)
-		{
+		if (command) {
 			reply->code = MIMRES_SUCCESS;
-			STRNCPY(reply->message, Translate(command->help), size);
+			szReply.Append(Translate(command->help));
 		}
-		else{
+		else {
 			reply->code = MIMRES_NOTFOUND;
-			mir_snprintf(reply->message, size, Translate("No help for '%s'."), argv[2]);
-			reply->message[size -1 ] = 0;
+			szReply.AppendFormat(Translate("No help for '%s'."), argv[2]);
 		}
 	}
-	else{
+	else {
 		reply->code = MIMRES_SUCCESS;
-		STRNCPY(reply->message, Translate("Available commands: "), size);
+		szReply.Append(Translate("Available commands: "));
 		
-		for (int i = 0; i < cKnownCommands - 1; i++)
-		{
-			mir_strncat(reply->message, knownCommands[i].command, SIZEOF(reply->message) - mir_strlen(reply->message));
-			mir_strncat(reply->message, ", ", SIZEOF(reply->message) - mir_strlen(reply->message));
+		for (int i = 0; i < cKnownCommands - 1; i++) {
+			szReply.Append(knownCommands[i].command);
+			szReply.Append(", ");
 		}
-		mir_strncat(reply->message, knownCommands[cKnownCommands - 1].command, SIZEOF(reply->message) - mir_strlen(reply->message));
-		mir_strncat(reply->message, ".", SIZEOF(reply->message) - mir_strlen(reply->message));
+		szReply.Append(knownCommands[cKnownCommands-1].command);
+		szReply.AppendChar('.');
 	}
+	strncpy_s(reply->message, szReply, _TRUNCATE);
 }
 
 PReply ParseCommand(char *argv[], int argc)
 {
 	PCommand command = GetCommand(argv[1]);
-	if (command)
-	{
-		PReply reply = &sdCmdLine->reply;
-		if (command->ID == MIMCMD_HELP)
-		{
-			HandleHelpCommand(command, argv, argc, reply);
-		}
-		else{
-			ProcessConsoleCommand(command, argv, argc, reply);
-		}
-		
-		return reply;
-	}
-	else{
+	if (!command)
 		return NULL;
-	}
+
+	PReply reply = &sdCmdLine->reply;
+	if (command->ID == MIMCMD_HELP)
+		HandleHelpCommand(command, argv, argc, reply);
+	else
+		ProcessConsoleCommand(command, argv, argc, reply);
+		
+	return reply;
 }
 
 void FillSharedDataStruct(PCommand command, char *arguments[], int count)

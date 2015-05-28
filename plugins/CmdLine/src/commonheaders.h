@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <windows.h>
 #include <malloc.h>
 #include <time.h>
+#include <stdlib.h>
 
 #include "newpluginapi.h"
 #include "m_database.h"
@@ -37,6 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_popup.h"
 #include "m_message.h"
 #include "m_ignore.h"
+#include "m_string.h"
 
 #include "m_crashdumper.h"
 #include "m_statusplugins.h"
