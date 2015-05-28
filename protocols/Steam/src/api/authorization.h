@@ -12,8 +12,8 @@ public:
 		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 		AddHeader("Referer", STEAM_WEB_URL "/mobilelogin/dologin?oauth_client_id=3638BFB1&oauth_scope=read_profile%20write_profile%20read_client%20write_client");
 
-		CMStringA data(CMStringDataFormat::FORMAT,
-			"password=%s&username=%s&twofactorcode=%s&emailauth=%s&loginfriendlyname=%s&oauth_client_id=3638BFB1&captchagid=%s&captcha_text=%s&emailsteamid=%s&rsatimestamp=%s&rememberlogin=false&donotcache=%lld",
+		CMStringA data;
+		data.AppendFormat("password=%s&username=%s&twofactorcode=%s&emailauth=%s&loginfriendlyname=%s&oauth_client_id=3638BFB1&captchagid=%s&captcha_text=%s&emailsteamid=%s&rsatimestamp=%s&rememberlogin=false&donotcache=%lld",
 			ptrA(mir_urlEncode(password)),
 			ptrA(mir_urlEncode(username)),
 			twofactorcode,
@@ -24,7 +24,7 @@ public:
 			guardId,
 			timestamp,
 			time(NULL));
-		SetData(data.GetBuffer(), data.GetLength());
+		SetData(data, data.GetLength());
 	}
 };
 
