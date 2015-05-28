@@ -4,7 +4,7 @@ extern tstring toLower(const tstring &i_str);
 extern std::wstring toWideString( const char* pStr , int len=-1 ) ; 
 inline std::wstring toWideString( const std::string& str )
 {
-    return toWideString(str.c_str(),str.length()) ;
+    return toWideString(str.c_str(), (int)str.length()) ;
 }
 inline std::wstring toWideString( const wchar_t* pStr , int len=-1 )
 {
@@ -17,7 +17,7 @@ inline std::wstring toWideString( const std::wstring& str )
 extern std::string toNarrowString( const wchar_t* pStr , int len=-1 ) ; 
 inline std::string toNarrowString( const std::wstring& str )
 {
-    return toNarrowString(str.c_str(),str.length()) ;
+    return toNarrowString(str.c_str(), (int)str.length()) ;
 }
 inline std::string toNarrowString( const char* pStr , int len=-1 )
 {

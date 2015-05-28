@@ -70,7 +70,7 @@ bool CLCDLabel::Draw(CLCDGfx *pGfx)
 	vector<tstring>::iterator iter = m_vLines.begin();
 	while(!m_vLines.empty() && iter != m_vLines.end())
 	{
-		DrawTextEx(pGfx->GetHDC(), (LPTSTR)(*iter).c_str(), (*iter).length(), &rBoundary, m_iTextFormat, &m_dtp);
+		DrawTextEx(pGfx->GetHDC(), (LPTSTR)(*iter).c_str(), (int)(*iter).length(), &rBoundary, m_iTextFormat, &m_dtp);
 		rBoundary.top += m_iFontHeight;
 		iter++;
 	}
@@ -118,7 +118,7 @@ void CLCDLabel::SetWordWrap(bool bEnable)
 //************************************************************************
 void CLCDLabel::UpdateCutOffIndex()
 {
-	int iLen = m_strText.length();
+	int iLen = (int)m_strText.length();
 	
 	m_vLines.clear();
 
@@ -158,7 +158,7 @@ void CLCDLabel::UpdateCutOffIndex()
 
 		while(i<iLen && m_vLines.size() < iAvailableLines)
 		{
-			GetTextExtentExPoint(hDC,szString+i,m_strText.length()-i,GetWidth(),&iMaxChars,piExtents,&sizeLine);
+			GetTextExtentExPoint(hDC, szString+i, (int)m_strText.length()-i, GetWidth(), &iMaxChars, piExtents, &sizeLine);
 			
 			// filter out spaces or line breaks at the beginning of a new line
 			if(m_strText[i] == '\n' || m_strText[i] == ' ')
@@ -167,14 +167,14 @@ void CLCDLabel::UpdateCutOffIndex()
 			pos = m_strText.find(_T("\n"),i);
 			// check for linebreaks
 			if(pos != tstring::npos && pos != i && pos >= i && pos != i+iMaxChars)
-				iMaxChars = 1 + pos - i;
+				iMaxChars = 1 + (int)pos - i;
 			// if the string doesnt fit, try to wrap the last word to the next line
 			else if(iMaxChars < iLen - i || sizeLine.cx >= GetWidth())
 			{
 				// find the last space in the line ( substract -1 from offset to ignore spaces as last chars )
 				pos = m_strText.rfind(_T(" "),i + iMaxChars -1 );
 				if(pos != tstring::npos && pos != i && pos >= i && pos != i+iMaxChars)
-					iMaxChars = 1 + pos - i;
+					iMaxChars = 1 + (int)pos - i;
 			}
 
 			if(m_vLines.size() == iAvailableLines-1)
@@ -195,7 +195,7 @@ void CLCDLabel::UpdateCutOffIndex()
 	int *piWidths = new int[(*--m_vLines.end()).length()];
 	int iMaxChars = 0;
 
-	GetTextExtentExPoint(hDC,(*--m_vLines.end()).c_str(),(*--m_vLines.end()).length(),iWidth,&iMaxChars,piWidths,&sizeLine);
+	GetTextExtentExPoint(hDC,(*--m_vLines.end()).c_str(),(int)(*--m_vLines.end()).length(),iWidth,&iMaxChars,piWidths,&sizeLine);
 	
 	if(iMaxChars < (*--m_vLines.end()).length())
 	{
