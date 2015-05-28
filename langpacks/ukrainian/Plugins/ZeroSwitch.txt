@@ -6,6 +6,6 @@
 ;  Authors: ZERO_BiT
 ;============================================================
 [Adds Miranda NG icon into Alt-Tab switch dialog even if Miranda's main window has style other Title bar.]
-Добавляет значок Miranda NG в диалог переключения между окнами, вызываемый по Alt+Tab.
+Додає значок Miranda NG в діалог перемикання між вікнами, що викликається по Alt+Tab.
 [Plugin works under Windows XP only]
-Плагин работает лишь в Windows XP
+Плагін працює тільки у Windows XP
