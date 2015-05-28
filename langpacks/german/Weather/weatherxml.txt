@@ -3,7 +3,7 @@
 ;  Module: weather
 ;============================================================
 [AM Rain]
-
+Vormittags Regen
 [Am Clouds / Pm Sun]
 vormittags wolkig, nachmittags Sonne
 [Am Light Rain]
@@ -11,9 +11,9 @@ vormittags leichter Regen
 [Am Rain / Snow Showers]
 vormittags Regen-/Schneeschauer
 [Am Rain / Snow]
-
+Vormittags Regen/Schnee
 [Am Rain]
-
+Vormittags Regen
 [Am Showers / Wind]
 vormittags Schauer/Wind
 [Am Showers]
@@ -23,17 +23,17 @@ vormittags Schneeschauer / Wind
 [Am Snow Showers]
 vormittags Schneeschauer
 [Am Snow]
-
+Vormittags Schnee
 [Am T-Storms]
-
+Vormittags Gewitter
 [Clear / Wind]
-
+Klar/Wind
 [Clouds Early / Clearing Late]
 anfangs bewölkt, später aufklarend
 [Cloudy / Wind]
 bewölkt/windig
 [Cloudy / Windy]
-
+Wolkig/Windig
 [Cloudy And Windy]
 wolkig/windig
 [Cloudy]
@@ -61,11 +61,11 @@ wenige Schneeschauer
 [First Quarter]
 erstes Viertel
 [Fog / Windy]
-
+Nebel/windig
 [Fog And Windy]
 Nebel/windig
 [Fog Late]
-
+Später Nebel
 [Fog]
 Nebel
 [Forecast Day 0]
@@ -93,7 +93,7 @@ Forcast Update VAR
 [Forecast Update]
 Vorhersage aktualisiert
 [Freezing Rain / Windy]
-
+Gefrierender Regen/windig
 [Full Moon]
 Vollmond
 [Haze]
@@ -101,9 +101,9 @@ Dunst
 [Heat Index]
 gefühlte Temperatur
 [Heavy Rain / Wind]
-
+Schwerer Regen / Wind
 [Heavy Rain]
-
+Schwerer Regen
 [Heavy Snow And Windy]
 Starker Schneefall und windig
 [Heavy Snow Shower]
@@ -111,7 +111,7 @@ Schwerer Schneeschauer
 [Heavy Snow]
 starker Schneefall
 [Isolated T-Storms / Wind]
-
+Isolierte Gewitter/Wind
 [Isolated T-Storms]
 örtlich Gewitter
 [Jun]
@@ -127,15 +127,15 @@ leichter Niesel/windig
 [Light Drizzle]
 leichter Niesel
 [Light Freezing Rain / Fog]
-
+Leicht gefrierender Regen/Nebel
 [Light Freezing Rain / Windy]
-
+Leicht gefrierender Regen/Windig
 [Light Rain / Wind Early]
-
+Leichter Regen/Früher Wind
 [Light Rain / Wind]
 leichter Regen/windig
 [Light Rain / Windy]
-
+Leichter Regen/windig
 [Light Rain And Windy]
 leicher Regen und windig
 [Light Rain Early]
@@ -185,7 +185,7 @@ Meist wolkig/windig
 [Mostly Cloudy]
 Meist wolkig
 [Mostly Sunny / Wind]
-
+Meist sonnig/Wind
 [Mostly Sunny]
 überwiegend sonnig
 [N/A%]
@@ -211,9 +211,9 @@ Station
 [Overcast]
 trüb
 [Partly Cloudy / Wind]
-
+Teilweise wolkig/Wind
 [Partly Cloudy / Windy]
-
+Teilweise wolkig/Wind
 [Partly Cloudy And Windy]
 teils wolkig/windig
 [Partly Cloudy]
@@ -223,27 +223,27 @@ Teils sonnig
 [Pm Light Rain]
 nachmittags leichter Regen
 [Pm Rain / Wind]
-
+Nachmittags Regen / Wind
 [Pm Rain]
-
+Regen/Früher Wind
 [Pm Showers / Wind]
-
+Regen/Hagel/Wind
 [Pm Showers]
 nachmittags Schauer
 [Pm Snow Showers]
 nachmittags Schneeschauer
 [Pm Snow]
-
+Schnee/Früher Wind
 [Pm T-Storms]
 nachmittags Gewitter
 [Pressure Tendency]
 Luftdrucktendenz
 [Rain / Freezing Rain / Wind]
-
+Regen / Gefrierender Regen / Wind
 [Rain / Snow / Wind]
 Schneeregen / Wind
 [Rain / Snow Late]
-
+Schwerer Regen
 [Rain / Snow Showers Early]
 anfangs Regen-/Schneeschauer
 [Rain / Snow Showers Late]
@@ -255,17 +255,17 @@ Schneeregen
 [Rain / Thunder]
 Regen/Donner
 [Rain / Wind Early]
-
+Später Regen
 [Rain / Wind]
-
+Leichter Regen/früher Wind
 [Rain And Snow]
 Schneeregen
 [Rain Early]
-
+Schwerer Regen/Wind
 [Rain Late]
-
+Wilkig/windig
 [Rain Shower]
-
+Regenschauer
 [Rain To Snow]
 in Schnee übergehender Regen
 [Rain]
@@ -285,13 +285,13 @@ vereinzelt Schauer
 [Scattered Snow Showers]
 vereinzelt Schneeschauer
 [Scattered T-Storms / Wind]
-
+Leichter Hagel/windig
 [Scattered T-Storms]
 vereinzelt Gewitter
 [Shallow Fog]
 Seichter Nebel
 [Showers / Wind Late]
-
+Leichter Hagel/Nebel
 [Showers / Wind]
 Schauer/windig
 [Showers Early]
@@ -309,11 +309,11 @@ Graupel
 [Smoke]
 Smog
 [Snow / Wind Early]
-
+Schnee / Früher Wind
 [Snow / Wind]
 Schnee / Wind
 [Snow / Windy]
-
+Schnee/windig
 [Snow And Sleet]
 Schnee und Graupel
 [Snow Early]
@@ -333,21 +333,21 @@ später Schneeschauer
 [Snow To Rain]
 In Regen übergehender Schnee
 [Snow To Wintry Mix]
-
+Nebel/windig
 [Snow]
 Schnee
 [Sunny / Wind]
-
+Teilweise wolkig/windig
 [Sunny / Windy]
-
+Sonnig/windig
 [Sunny]
 sonnig
 [T-Storm]
 Gewitter
 [T-Storms Early]
-
+Frühe Gewitter
 [T-Storms Late]
-
+Späte Gewitter
 [T-Storms]
 Gewitter
 [Thunder In The Vicinity]
@@ -387,7 +387,7 @@ Windgeschwindigkeit
 [WindDir]
 Windrichtung
 [Wintry Mix / Wind]
-
+Winterlich/Wind
 [falling]
 fallend
 [rising]

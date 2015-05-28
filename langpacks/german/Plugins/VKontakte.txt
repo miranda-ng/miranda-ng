@@ -278,7 +278,7 @@ Link
 [Image]
 Bild
 [Gift]
-
+Geschenk
 [Unsupported or unknown attachment type: %s]
 Nicht unterstützter oder unbekannter Anhangtyp: %s
 [(Unknown contact)]

@@ -956,7 +956,7 @@ Tab- und Umschaltleiste
 [Choose your options for the tabbed user interface. Not all options can be applied to open windows. You may need to close and re-open them.]
 Wählen Sie Ihre Optionen für das getabbte Interface. Nicht alle Optionen können für die geöffneten Fenster übernommen werden. Sie müssen das Fenster schließen und erneut öffnen.
 [Notifications]
-Benachrichtigung
+Benachrichtigungen
 [Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window.]
 Wählen Sie, wann Sie Ereignisbenachrichtigungen (Popups) für dieses Fenster sehen wollen. Die Einstellungen gelten für alle Registerkarten in diesem Fenster.
 [Flashing]

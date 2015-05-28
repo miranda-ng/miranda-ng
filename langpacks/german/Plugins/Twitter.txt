@@ -89,11 +89,11 @@ Popups
 [%s server connection]
 %s Serververbindung
 [Unable to initialize Netlib for %s.]
-
+Kann Netlib-Verbindung für %s nicht initialisieren.
 [%s avatar connection]
 %s Avatarverbindung
 [Twitter (avatars)]
-
+Twitter (Avatare)
 [%s Protocol]
 %s-Protokoll
 ;file \protocols\Twitter\src\theme.cpp

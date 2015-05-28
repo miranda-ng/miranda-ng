@@ -77,29 +77,29 @@ E&inladen
 [&Cancel]
 Abbre&chen
 [Call]
-
+Anrufen
 [End]
-
+Ende
 [Incoming call]
-
+Eingehender Anruf
 [Answer]
-
+Antworten
 [Reject]
-
+Ablehnen
 [From:]
-
+Von:
 [Date:]
-
+Datum:
 [&User menu]
-
+&Kontaktmenü
 [User &details]
-
+Kontakt&profil
 [&History]
-
+&Verlauf
 [Outgoing call]
-
+Ausgehender Anruf
 [To:]
-
+An:
 ;file \protocols\Tox\src\tox_chatrooms.cpp
 [Groupchat]
 Gruppenchat
@@ -112,13 +112,13 @@ Aktion
 [Protocol icon]
 Protokollicon
 [Audio call]
-
+Audioanruf
 [Audio ring]
-
+Audioklingeln
 [Audio start]
-
+Audioanfang
 [Audio end]
-
+Audioende
 [Protocols]
 Protokolle
 ;file \protocols\Tox\src\tox_menus.cpp
@@ -130,19 +130,19 @@ Autorisierung gewähren
 [Incoming call from %s]
 Eingehender Anruf von %s
 [Outgoing call to %s]
-
+Ausgehender Anruf an %s
 [Unable to find input audio device]
-
+Konnte kein Audioeingabegerät finden
 [Video call is unsupported]
-
+Videoanruf wird nicht unterstützt
 [Call canceled]
-
+Anruf abgebrochen
 [Unable to find output audio device]
-
+Konnte kein Audioausgabegerät finden
 [Call started]
-
+Anruf begonnen
 [Call ended]
-
+Anruf beendet
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s-Verbindung
@@ -154,7 +154,7 @@ Alle Dateien
 [Select tox profile]
 Tox-Profil auswählen
 [Save tox profile]
-
+Tox-Profil speichern
 [Add node]
 Knoten hinzufügen
 [Change node]

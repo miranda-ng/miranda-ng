@@ -1,2 +1,0 @@
-﻿[Take a screenshot and send it to a contact]
-[Send screenshot to %s]

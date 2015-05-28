@@ -6,12 +6,12 @@
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
-Microsoft Netzwerk (MSN) Protokollunterstützung für Miranda NG:
+Microsoft Netzwerk (MSN) Protokollunterstützung für Miranda NG.
 ;file \protocols\MSN\res\msn.rc
 [MSN]
 MSN
 [Live ID:]
-Live ID:
+Live-ID:
 [Password:]
 Passwort:
 [Nickname:]
@@ -61,11 +61,11 @@ Aktualisieren
 [Hotmail]
 Hotmail
 [Enable Popup notifications]
-Aktiviere Popup-Benachrichtigung
+Popup-Benachrichtigungen aktivieren
 [Enable Contact List notifications]
-
+Kontaktlisten-Benachrichtigungen aktivieren
 [Enable Tray notifications]
-
+Tray-Benachrichtigungen aktivieren
 [Ignore new messages not in Inbox folder]
 Neue Nachrichten außerhalb des Posteingangs ignorieren
 [Other]
@@ -107,7 +107,7 @@ Kontakt blockieren
 [Invite Contact To Chat]
 Kontakt zu Chat einladen
 [Live ID]
-Live ID
+Live-ID
 [&Invite]
 E&inladen
 [&Cancel]
@@ -124,13 +124,13 @@ Chat ver&lassen
 [User &details]
 Kontaktprofil
 [User &history]
-Verlauf des Kontakts
+Kontakt&verlauf
 [&Kick user]
 Benutzer &kicken
 [&Op user]
-
+Benutzer &Op geben
 [&Deop user]
-
+Benutzer Op &entziehen
 ;file \protocols\MSN\src\msn_commands.cpp
 [%I64u bytes]
 %I64u Bytes
@@ -157,7 +157,7 @@ Es befindet sich nur noch eine Person im Multi-Chat, wollen Sie wieder zum norma
 [MSN Chat]
 MSN-Chat
 [Others]
-Sonstiges
+Andere
 [Message delivery failed]
 Nachrichtenübertragung fehlgeschlagen
 ;file \protocols\MSN\src\msn_errors.cpp
@@ -261,7 +261,7 @@ Verbindung
 [Server list]
 Serverliste
 [Notifications]
-Benachrichtigung
+Benachrichtigungen
 ;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (not currently supported)]
 Kontakt versucht Informationen über die von ihm verwendete Webcam zu senden (zzt. nicht unterstützt)
