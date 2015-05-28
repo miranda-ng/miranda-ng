@@ -1196,10 +1196,14 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 
 		IEVIEWEVENTDATA evData = { 0 };
 		if (dbei_s != NULL && hDbEventFirst == 0) {
-			event.iType = IEE_LOG_MEM_EVENTS;
-
 			evData.cbSize = sizeof(evData);
-			evData.dwFlags = IEEDF_SENT;
+			event.iType = IEE_LOG_MEM_EVENTS;
+			if (dbei_s->flags & DBEF_SENT)
+				evData.dwFlags = IEEDF_SENT;
+			else {
+				evData.dwFlags = IEEDF_UNICODE_NICK;
+				evData.ptszNick = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+			}
 			switch (dbei_s->eventType) {
 				case EVENTTYPE_STATUSCHANGE: evData.iType = IEED_EVENT_STATUSCHANGE; break;
 				case EVENTTYPE_FILE: evData.iType = IEED_EVENT_FILE; break;
