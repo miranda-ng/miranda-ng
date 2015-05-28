@@ -2,16 +2,16 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.11.0.3
-;  Authors: unsane
+;  Version: 0.12.0.5
+;  Authors: Miranda NG Team
 ;============================================================
 ;file \plugins\Dropbox\res\resource.rc
 ;file \plugins\Dropbox\src\dropbox.cpp
 ;file \plugins\Dropbox\src\dropbox_commands.cpp
-;file \plugins\Dropbox\src\dropbox_dialogs.cpp
 ;file \plugins\Dropbox\src\dropbox_events.cpp
-[Network]
-Сеціва
 ;file \plugins\Dropbox\src\dropbox_icons.cpp
 ;file \plugins\Dropbox\src\dropbox_menus.cpp
+;file \plugins\Dropbox\src\dropbox_options.cpp
+[Network]
+Сеціва
 ;file \plugins\Dropbox\src\dropbox_services.cpp

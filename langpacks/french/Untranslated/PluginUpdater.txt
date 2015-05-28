@@ -1,6 +1,5 @@
 ﻿[Silent mode]
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
 [Restart]
 [Info messages]
 [For "Restart" popup setting is always infinity]
@@ -17,5 +16,6 @@
 [Would you like to restart it now?]
 [Close popup]
 [Do nothing]
+[Stable version (incompatible with current development version)]
 [Update completed]
 [Update failed]

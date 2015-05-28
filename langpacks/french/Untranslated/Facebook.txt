@@ -69,7 +69,7 @@
 [User sent %s:]
 [User sent an unsupported attachment. Open your browser to see it.]
 [Contact is back on server-list.]
-[Unable to get Netlib connection for Facebook]
+[Unable to initialize Netlib for %s.]
 [Video call]
 [Facebook ID must be numeric value.]
 [Own wall]

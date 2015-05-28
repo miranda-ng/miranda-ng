@@ -11,3 +11,5 @@ History synchronisation
 Request for friendship was cancelled.
 [Error occurred when canceling friendship request.]
 Error occurred when cancelling friendship request.
+[Unable to initialize Netlib for %s.]
+Unable to initialise Netlib for %s.

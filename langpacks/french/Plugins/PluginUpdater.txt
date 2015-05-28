@@ -48,8 +48,6 @@ Version de développement avec les symboles de debug
 Version personnalisée
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 
-[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
-
 [Notifications]
 Notifications
 [Restart]
@@ -166,6 +164,8 @@ Vérification des mises à jour en cours!
 heures
 [days]
 jours
+[Stable version (incompatible with current development version)]
+
 [Test]
 Test
 [Services]
@@ -186,3 +186,4 @@ Informations sur le plugin
 Connection HTTP du plugin de mise à jour
 [An error occurred while checking for new updates.]
 Une erreur est survenue lors de la vérification des mises à jour.
+;file \plugins\PluginUpdater\src\Compat\compat.h

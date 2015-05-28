@@ -86,14 +86,10 @@ URL:
 Усплывальныя вокны
 [%s server connection]
 Далучэнне да сервера %s
-[Unable to get Netlib connection for Twitter]
-Не атрымалася атрымаць Netlib злучэнне для Twitter
-[Twitter]
-Twitter
+[Unable to initialize Netlib for %s.]
+Немагчыма стварыць злучэнне Netlib для %s.
 [%s avatar connection]
 далучэнне аватараў %s
-[Unable to get avatar Netlib connection for Twitter]
-Не атрымалася атрымаць Netlib злучэнне для аватараў Twitter
 [%s Protocol]
 %s Конт
 ;file \protocols\Twitter\src\theme.cpp

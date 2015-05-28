@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.10
+;  Version: 3.4.0.11
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -246,10 +246,6 @@ Sélectionner comment afficher l'historique récent. Peut-être ignoré s'il man
 Méthode d'envoi du texte formaté
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
 Vous pouvez forcer ici les paramètres globaux de formatage. Utilisez "Force Off" pour ne jamais envoyer d'info de formatage à ce contact.
-[ANSI codepage]
-Page de code ANSI
-[Codepage for ANSI encoding/decoding when sending or receiving non-Unicode messages.]
-Page de code Ansi pour encoder/décoder les messages reçus ou envoyés au format non-Unicode.
 [Info panel mode]
 Mode fenêtre d'infos
 [Show avatar in message window]
@@ -258,8 +254,6 @@ Mode fenêtre d'infos
 Position personnalisée du diviseur
 [Contact is a favorite contact]
 Ce contact est dans les favoris
-[Force ANSI send / receive]
-Forcer l'envoi / réception Ansi
 [Ignore sending timeouts]
 Ignorer l'envoi de timeouts
 [Load only actual history]
@@ -758,8 +752,6 @@ Envoyer à &plusieurs contacts
 Envoyer aux contacts du &conteneur
 [Send &later]
 &Différer l'envoi
-[Force &ANSI]
-Envoyer en &Ansi
 [Send unsafe (ignore timeouts)]
 Envoi incertain (ignorer les délais)
 [Send nudge]
@@ -1214,8 +1206,6 @@ Ajouter ce contact à votre liste
 Ne pas ajouter ce contact
 [Expand or collapse the side bar]
 
-[Character encoding]
-Page de code
 [Contact not on list. You may add it...]
 
 [A message failed to send successfully.]
@@ -1338,8 +1328,6 @@ Coréen (Johab)
 
 [Yesterday]
 
-[Use default codepage]
-Utilisez la page de code par défaut
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
 

@@ -5,30 +5,10 @@
 ;  Version: 0.0.0.1
 ;  Authors: Robert Pösel
 ;============================================================
-[Minecraft Dynmap support for Miranda NG.]
-
 ;file \protocols\MinecraftDynmap\res\resource.rc
-[Server:]
-Server:
-[Visible name:]
-Sichtbarer Name:
 ;file \protocols\MinecraftDynmap\src\chat.cpp
-[Server]
-Server
-[You]
-Sie
 ;file \protocols\MinecraftDynmap\src\communication.cpp
-[Message was not sent. Probably you are sending them too fast or chat is disabled completely.]
-
-[Set server address to connect.]
-
 ;file \protocols\MinecraftDynmap\src\dialogs.cpp
-[Protocol icon]
-Protokoll-Icon
 ;file \protocols\MinecraftDynmap\src\proto.cpp
-[%s server connection]
-%s Serververbindung
 [Unable to initialize Netlib for %s.]
-
-[Visible name]
-Sichtbarer Name
+Немагчыма стварыць злучэнне Netlib для %s.

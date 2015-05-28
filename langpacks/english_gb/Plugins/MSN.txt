@@ -7,3 +7,5 @@
 ;============================================================
 [Send message font color/size info inside messages]
 Send message font colour/size info inside messages
+[Unable to initialize Netlib for %s.]
+Unable to initialise Netlib for %s.

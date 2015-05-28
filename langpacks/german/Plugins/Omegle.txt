@@ -107,8 +107,8 @@ Sie sprechen beide die selbe Sprache.
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 %s Serververbindung
-[Unable to get Netlib connection for Omegle]
-Kann Netlib-Verbingung für Omegle nicht herstellen
+[Unable to initialize Netlib for %s.]
+
 [Stranger typing]
 Fremder tippt
 [Stranger stopped typing]

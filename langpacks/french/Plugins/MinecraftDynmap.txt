@@ -23,12 +23,12 @@ Serveur
 [Set server address to connect.]
 
 ;file \protocols\MinecraftDynmap\src\dialogs.cpp
-[Protocol Icon]
+[Protocol icon]
 
 ;file \protocols\MinecraftDynmap\src\proto.cpp
 [%s server connection]
 %s serveur connexion
-[Unable to get Netlib connection for Minecraft Dynmap.]
+[Unable to initialize Netlib for %s.]
 
 [Visible name]
 

@@ -2,111 +2,71 @@
 ;  File: weatherxml.ini
 ;  Module: weather
 ;============================================================
-[Fair]
+[AM Rain]
 
-[Mostly Sunny]
+[Am Clouds / Pm Sun]
 
-[Light Thunderstorm Rain]
+[Am Light Rain]
 
-[Thunderstorm Rain]
+[Am Rain / Snow Showers]
 
-[N/a]
+[Am Rain / Snow]
 
-[Thunderstorm]
+[Am Rain]
 
-[Overcast]
+[Am Showers / Wind]
 
-[Fog]
+[Am Showers]
 
-[Mist]
+[Am Snow Showers / Wind]
 
-[Light Rain]
+[Am Snow Showers]
 
-[Light Showers Rain]
+[Am Snow]
 
-[Showers Rain]
+[Am T-Storms]
 
-[Shallow Fog]
+[Clear / Wind]
 
-[Snow]
+[Clouds Early / Clearing Late]
 
-[Partly Sunny]
+[Cloudy / Wind]
 
-[Partly Cloudy]
+[Cloudy / Windy]
 
-[Mostly Cloudy]
+[Cloudy And Windy]
 
-[Mostly Clear]
+[Cloudy]
 
-[Showers]
-
-[Sunny]
-
-[Light Rain Shower]
-
-[rising]
-
-[steady]
-
-[falling]
-
-[Moderate]
-
-[N]
-
-[W]
-
-[S]
-
-[E]
-
-[NW]
-
-[NE]
-
-[SW]
-
-[SE]
-
-[NNW]
-
-[NNE]
-
-[SSW]
-
-[SSE]
+[Drifting Snow]
 
 [ENE]
 
-[WSW]
-
-[WNW]
-
 [ESE]
 
-[New Moon]
+[E]
 
-[Last Quarter]
+[Fair And Windy]
 
-[First Quarter]
-
-[Full Moon]
-
-[Waning Crescent]
-
-[Waning Gibbous]
-
-[Waxing Crescent]
-
-[Waxing Gibbous]
-
-[Night]
+[Fair]
 
 [Feel]
 
-[Forecast Update]
+[Few Showers / Wind]
 
-[Forecast Update VAR]
+[Few Showers]
+
+[Few Snow Showers]
+
+[First Quarter]
+
+[Fog / Windy]
+
+[Fog And Windy]
+
+[Fog Late]
+
+[Fog]
 
 [Forecast Day 0]
 
@@ -128,273 +88,309 @@
 
 [Forecast Day 9]
 
-[N/A%]
+[Forecast Update VAR]
 
-[Heat Index]
+[Forecast Update]
 
-[Latitude]
+[Freezing Rain / Windy]
 
-[Longitude]
-
-[Local Time]
-
-[Moon]
-
-[Observatory]
-
-[Pressure Tendency]
-
-[Update VAR]
-
-[UV]
-
-[UV Index]
-
-[UVI]
-
-[Wind Direction]
-
-[Wind Direction DEG]
-
-[Wind Speed]
-
-[WindDir]
-
-[Cloudy]
-
-[Scattered Snow Showers]
-
-[Few Snow Showers]
-
-[Snow Shower]
-
-[Am Snow Showers]
-
-[Light Snow]
-
-[Drifting Snow]
-
-[Pm Snow Showers]
-
-[Am Clouds / Pm Sun]
-
-[Snow Shower / Wind]
-
-[Cloudy / Wind]
-
-[Heavy Snow And Windy]
-
-[Snow / Wind]
-
-[Snow Showers Early]
-
-[Am Snow Showers / Wind]
-
-[Light Snow And Windy]
-
-[Snow Showers / Wind Early]
-
-[Partly Cloudy And Windy]
-
-[Mostly Cloudy And Windy]
-
-[Rain / Snow / Wind]
-
-[Rain / Snow]
-
-[Clouds Early / Clearing Late]
-
-[Snow Showers Late]
-
-[Rain / Snow Showers]
-
-[Showers Late]
-
-[Scattered Showers]
-
-[Am Showers]
-
-[Am Rain / Snow Showers]
-
-[Few Showers]
-
-[Few Showers / Wind]
-
-[Pm Light Rain]
-
-[Mostly Cloudy / Wind]
-
-[Rain]
-
-[Light Rain Shower And Windy]
-
-[Am Showers / Wind]
-
-[Isolated T-Storms]
-
-[Showers Early]
-
-[T-Storm]
-
-[Rain / Snow Showers Late]
-
-[Pm Showers]
-
-[Snow To Rain]
-
-[Light Snow Shower]
-
-[Fair And Windy]
-
-[Pm T-Storms]
-
-[Scattered T-Storms]
-
-[Light Rain Late]
-
-[Am Light Rain]
-
-[Jun]
-
-[T-Storms]
-
-[Rain / Thunder]
-
-[Thunder In The Vicinity]
-
-[Light Rain With Thunder]
-
-[Light Rain Early]
-
-[Light Rain / Wind]
-
-[Light Drizzle]
+[Full Moon]
 
 [Haze]
 
-[Smoke]
-
-[Rain To Snow]
-
-[Rain And Snow]
-
-[Rain / Snow Showers Early]
-
-[Heavy Snow Shower]
-
-[Showers / Wind]
-
-[Snow Shower And Windy]
-
-[Light Snow Shower And Windy]
-
-[Light Rain And Windy]
-
-[Sleet]
-
-[Sleet And Windy]
-
-[Cloudy And Windy]
-
-[Light Drizzle And Windy]
-
-[Light Drizzle And Fog]
-
-[Fog And Windy]
-
-[Light Snow Early]
-
-[Heavy Snow]
-
-[Snow Early]
-
-[Light Snow Late]
-
-[Snow And Sleet]
-
-[Pm Rain / Wind]
-
-[Rain / Wind Early]
-
-[Rain / Freezing Rain / Wind]
-
-[Snow / Wind Early]
-
-[Sunny / Wind]
-
-[Heavy Rain]
-
-[Rain Late]
-
-[Light Rain / Wind Early]
+[Heat Index]
 
 [Heavy Rain / Wind]
 
-[Cloudy / Windy]
+[Heavy Rain]
 
-[Wintry Mix / Wind]
+[Heavy Snow And Windy]
 
-[Rain Shower]
+[Heavy Snow Shower]
 
-[Light Freezing Rain / Windy]
-
-[Light Freezing Rain / Fog]
-
-[Snow / Windy]
-
-[Fog / Windy]
-
-[Partly Cloudy / Windy]
-
-[Sunny / Windy]
-
-[Am Snow]
-
-[Rain / Snow Late]
-
-[Am Rain / Snow]
-
-[Partly Cloudy / Wind]
-
-[Mostly Sunny / Wind]
+[Heavy Snow]
 
 [Isolated T-Storms / Wind]
 
-[T-Storms Late]
+[Isolated T-Storms]
+
+[Jun]
+
+[Last Quarter]
+
+[Latitude]
+
+[Light Drizzle And Fog]
+
+[Light Drizzle And Windy]
+
+[Light Drizzle]
+
+[Light Freezing Rain / Fog]
+
+[Light Freezing Rain / Windy]
+
+[Light Rain / Wind Early]
+
+[Light Rain / Wind]
+
+[Light Rain / Windy]
+
+[Light Rain And Windy]
+
+[Light Rain Early]
+
+[Light Rain Late]
+
+[Light Rain Shower And Windy]
+
+[Light Rain Shower]
+
+[Light Rain With Thunder]
+
+[Light Rain]
+
+[Light Showers Rain]
+
+[Light Snow And Windy]
+
+[Light Snow Early]
+
+[Light Snow Late]
+
+[Light Snow Shower And Windy]
+
+[Light Snow Shower]
+
+[Light Snow]
+
+[Light Thunderstorm Rain]
+
+[Local Time]
+
+[Longitude]
+
+[Mist]
+
+[Moderate]
+
+[Moon]
+
+[Mostly Clear]
+
+[Mostly Cloudy / Wind]
+
+[Mostly Cloudy And Windy]
+
+[Mostly Cloudy]
+
+[Mostly Sunny / Wind]
+
+[Mostly Sunny]
+
+[N/A%]
+
+[N/a]
+
+[NE]
+
+[NNE]
+
+[NNW]
+
+[NW]
+
+[N]
+
+[New Moon]
+
+[Night]
+
+[Observatory]
+
+[Overcast]
+
+[Partly Cloudy / Wind]
+
+[Partly Cloudy / Windy]
+
+[Partly Cloudy And Windy]
+
+[Partly Cloudy]
+
+[Partly Sunny]
+
+[Pm Light Rain]
+
+[Pm Rain / Wind]
+
+[Pm Rain]
+
+[Pm Showers / Wind]
+
+[Pm Showers]
+
+[Pm Snow Showers]
+
+[Pm Snow]
+
+[Pm T-Storms]
+
+[Pressure Tendency]
+
+[Rain / Freezing Rain / Wind]
+
+[Rain / Snow / Wind]
+
+[Rain / Snow Late]
+
+[Rain / Snow Showers Early]
+
+[Rain / Snow Showers Late]
+
+[Rain / Snow Showers]
+
+[Rain / Snow]
+
+[Rain / Thunder]
+
+[Rain / Wind Early]
+
+[Rain / Wind]
+
+[Rain And Snow]
+
+[Rain Early]
+
+[Rain Late]
+
+[Rain Shower]
+
+[Rain To Snow]
+
+[Rain]
+
+[SE]
+
+[SSE]
+
+[SSW]
+
+[SW]
+
+[S]
+
+[Scattered Showers]
+
+[Scattered Snow Showers]
 
 [Scattered T-Storms / Wind]
 
+[Scattered T-Storms]
+
+[Shallow Fog]
+
+[Showers / Wind Late]
+
+[Showers / Wind]
+
+[Showers Early]
+
+[Showers Late]
+
+[Showers Rain]
+
+[Showers]
+
+[Sleet And Windy]
+
+[Sleet]
+
+[Smoke]
+
+[Snow / Wind Early]
+
+[Snow / Wind]
+
+[Snow / Windy]
+
+[Snow And Sleet]
+
+[Snow Early]
+
+[Snow Shower / Wind]
+
+[Snow Shower And Windy]
+
+[Snow Shower]
+
+[Snow Showers / Wind Early]
+
+[Snow Showers Early]
+
+[Snow Showers Late]
+
+[Snow To Rain]
+
 [Snow To Wintry Mix]
+
+[Snow]
+
+[Sunny / Wind]
+
+[Sunny / Windy]
+
+[Sunny]
+
+[T-Storm]
 
 [T-Storms Early]
 
 [T-Storms Late]
 
-[Am T-Storms]
+[T-Storms]
 
-[Fog Late]
+[Thunder In The Vicinity]
 
-[Partly Cloudy / Wind]
+[Thunderstorm Rain]
 
-[Rain / Snow Late]
+[Thunderstorm]
 
-[Am Rain / Snow]
+[UV Index]
 
-[Rain Early]
+[UVI]
 
-[AM Rain]
+[UV]
 
-[Pm Rain]
+[Update VAR]
 
-[Am Snow]
+[WNW]
 
-[Pm Snow]
+[WSW]
 
-[Pm Showers / Wind]
+[W]
 
-[Rain / Wind]
+[Waning Crescent]
 
-[Freezing Rain / Windy]
+[Waning Gibbous]
 
-[Clear / Wind]
+[Waxing Crescent]
+
+[Waxing Gibbous]
+
+[Wind Direction DEG]
+
+[Wind Direction]
+
+[Wind Speed]
+
+[WindDir]
+
+[Wintry Mix / Wind]
+
+[falling]
+
+[rising]
+
+[steady]
 

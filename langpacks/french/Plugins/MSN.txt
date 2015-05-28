@@ -132,12 +132,12 @@ Ajouter
 [&Deop user]
 
 ;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
+
 [MSN Alert]
 Alerte MSN
 [Contact tried to open an audio conference (not currently supported)]
 Le contact vous a envoyé une invitation à une conférence audio (actuellement non supportée)
-[%I64u bytes]
-
 [Accept NetMeeting request from %s?]
 
 [MSN Protocol]

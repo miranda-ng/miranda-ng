@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.8
+;  Version: 0.2.11.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -257,7 +257,7 @@ Le contact n'est plus sur la liste du serveur.
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s serveur connexion
-[Unable to get Netlib connection for Facebook]
+[Unable to initialize Netlib for %s.]
 
 [Video call]
 

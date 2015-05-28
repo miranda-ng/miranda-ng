@@ -48,8 +48,8 @@
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
-[Unable to get Netlib connection for WhatsApp]
-Немагчыма стварыць далучэнне Netlib для WhatsApp
+[Unable to initialize Netlib for %s.]
+Немагчыма стварыць злучэнне Netlib для %s.
 [Network connection error.]
 Памылка далучэння
 ;file \protocols\WhatsApp\src\theme.cpp

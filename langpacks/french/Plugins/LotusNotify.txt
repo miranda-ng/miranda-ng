@@ -66,6 +66,8 @@ Passe :
 
 [autoregister]
 
+[Keep connection on error]
+
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 
