@@ -2,6 +2,7 @@
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 [Restart]
 [Info messages]
+[Use defa&ult colors]
 [For "Restart" popup setting is always infinity]
 [Failed!]
 [Skipped.]

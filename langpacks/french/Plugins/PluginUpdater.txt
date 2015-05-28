@@ -66,8 +66,8 @@ Couleurs
 Utiliser des couleurs &personnalisées
 [Use &Windows colors]
 Utiliser les couleurs &Windows
-[Use Pop&up colors]
-Utiliser les couleurs des Pop&up
+[Use defa&ult colors]
+
 [Preview]
 Aperçu
 [Click action]
