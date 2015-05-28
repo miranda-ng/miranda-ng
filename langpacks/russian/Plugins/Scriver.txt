@@ -30,7 +30,7 @@
 [Delete temporary contacts on closing]
 При включении удалять временные контакты
 [Show warning when message has not been received after]
-Сообщать, если сообщение не удалось отправить в течение
+Сообщать, если сообщение не удалось отправить за
 [seconds]
 секунд
 [Tabs]
