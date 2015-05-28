@@ -86,12 +86,12 @@ int CGroupsList::Count()
 	return count;
 }
 
-int CGroupsList::Contains(char *group)
+int CGroupsList::Contains(const char *group)
 {
 	return (Index(group) >= 0);
 }
 
-int CGroupsList::Index(char *group)
+int CGroupsList::Index(const char *group)
 {
 	int i;
 	for (i = 0; i < count; i++)
