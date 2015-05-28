@@ -13,11 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Нейтральный (по умолчанию) resources
+// Neutral (Default) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
 LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
-#pragma code_page(1251)
+#pragma code_page(1250)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -35,12 +35,12 @@ IDI_CALL                ICON                    "Icons\\call.ico"
 IDI_NOTIFY              ICON                    "Icons\\notify.ico"
 IDI_ACTION_ME           ICON                    "Icons\\me.ico"
 IDI_ERRORICON           ICON                    "Icons\\error.ico"
-#endif    // Нейтральный (по умолчанию) resources
+#endif    // Neutral (Default) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -128,12 +128,12 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Русский (Россия) resources
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Английский resources
+// English resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
@@ -149,12 +149,12 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Skypename:",IDC_STATIC,0,2,49,12
-    EDITTEXT        IDC_SKYPENAME,49,0,135,12,ES_AUTOHSCROLL
-    LTEXT           "Password:",IDC_STATIC,0,18,49,12
-    EDITTEXT        IDC_PASSWORD,49,16,135,12,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "Default group:",IDC_STATIC,0,34,49,12
-    EDITTEXT        IDC_GROUP,49,32,135,12,ES_AUTOHSCROLL
+    LTEXT           "Skypename:",IDC_STATIC,0,2,58,12
+    EDITTEXT        IDC_SKYPENAME,60,0,124,12,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,0,18,58,12
+    EDITTEXT        IDC_PASSWORD,60,16,124,12,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Default group:",IDC_STATIC,0,34,58,12
+    EDITTEXT        IDC_GROUP,60,32,124,12,ES_AUTOHSCROLL
 END
 
 IDD_OPTIONS_MAIN DIALOGEX 0, 0, 310, 230
@@ -201,6 +201,7 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_ACCOUNT_MANAGER, DIALOG
     BEGIN
+        VERTGUIDE, 60
     END
 
     IDD_OPTIONS_MAIN, DIALOG
@@ -218,7 +219,7 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Английский resources
+#endif    // English resources
 /////////////////////////////////////////////////////////////////////////////
 
 
