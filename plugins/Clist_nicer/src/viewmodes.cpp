@@ -321,9 +321,9 @@ void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szPr
 // saves the state of the filter definitions for the current item
 void SaveState()
 {
-	TCHAR newGroupFilter[2048] = _T("|");
-	char newProtoFilter[2048] = "|";
-	int i, iLen;
+	CMString newGroupFilter(_T("|"));
+	CMStringA newProtoFilter("|");
+	int i;
 	HWND hwndList;
 	char *szModeName = NULL;
 	DWORD statusMask = 0;
@@ -345,9 +345,9 @@ void SaveState()
 				item.cchTextMax = SIZEOF(szTemp);
 				item.iItem = i;
 				SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
-				mir_strncat(newProtoFilter, szTemp, SIZEOF(newProtoFilter) - mir_strlen(newProtoFilter));
-				mir_strncat(newProtoFilter, "|", SIZEOF(newProtoFilter) - mir_strlen(newProtoFilter));
-				newProtoFilter[2047] = 0;
+				
+				newProtoFilter.Append(szTemp);
+				newProtoFilter.AppendChar('|');
 			}
 		}
 	}
@@ -367,9 +367,9 @@ void SaveState()
 				item.cchTextMax = SIZEOF(szTemp);
 				item.iItem = i;
 				SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
-				mir_tstrncat(newGroupFilter, szTemp, SIZEOF(newGroupFilter) - mir_tstrlen(newGroupFilter));
-				mir_tstrncat(newGroupFilter, _T("|"), SIZEOF(newGroupFilter) - mir_tstrlen(newGroupFilter));
-				newGroupFilter[2047] = 0;
+
+				newGroupFilter.Append(szTemp);
+				newGroupFilter.AppendChar('|');
 			}
 		}
 	}
@@ -378,7 +378,7 @@ void SaveState()
 		if (ListView_GetCheckState(hwndList, i - ID_STATUS_OFFLINE))
 			statusMask |= (1 << (i - ID_STATUS_OFFLINE));
 
-	iLen = SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXTLEN, clvm_curItem, 0);
+	int iLen = SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXTLEN, clvm_curItem, 0);
 	if (iLen) {
 		unsigned int stickies = 0;
 		DWORD dwGlobalMask, dwLocalMask;
