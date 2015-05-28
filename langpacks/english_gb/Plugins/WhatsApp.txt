@@ -1,11 +1,9 @@
-﻿#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
+﻿#muuid {4f1ff7fa-4d75-44b9-93b0-2ced2e4f9e3e}
 ;============================================================
-;  File: Omegle.dll
-;  Plugin: Omegle protocol
-;  Version: 0.1.2.3
-;  Authors: Robert Pösel
+;  File: WhatsApp.dll
+;  Plugin: WhatsApp protocol
+;  Version: 0.1.2.14
+;  Authors: Uli Hecht
 ;============================================================
-[Connecting canceled.]
-Connecting cancelled.
 [Unable to initialize Netlib for %s.]
 Unable to initialise Netlib for %s.

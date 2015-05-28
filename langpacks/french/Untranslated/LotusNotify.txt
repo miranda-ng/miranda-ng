@@ -24,6 +24,7 @@
 [Offline status mean:]
 [To / CopyTo]
 [autoregister]
+[Keep connection on error]
 [Unable to load all required Lotus API functions]
 [Lotus Notes Client not detected. Check plugin configuration description on install.txt]
 [Unable to initialize Notes.]

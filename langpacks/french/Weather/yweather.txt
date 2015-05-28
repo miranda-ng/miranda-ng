@@ -2,9 +2,15 @@
 ;  File: yweather.ini
 ;  Module: weather
 ;============================================================
-[Feel]
+[ENE]
 
-[Forecast Day 1]
+[ESE]
+
+[E]
+
+[East]
+
+[Feel]
 
 [Forecast Day 1 Condition]
 
@@ -16,87 +22,81 @@
 
 [Forecast Day 1 Low]
 
-[Heat Index]
-
-[Wind Direction]
-
-[Wind Speed]
-
-[Wind Direction Degrees]
-
-[Mon]
-
-[Tue]
-
-[Wed]
-
-[Thu]
+[Forecast Day 1]
 
 [Fri]
 
+[Heat Index]
+
+[Mon]
+
+[Mostly Clear]
+
+[Mostly Cloudy]
+
+[Mostly Sunny]
+
+[NE]
+
+[NNE]
+
+[NNW]
+
+[NW]
+
+[N]
+
+[North]
+
+[Northeast]
+
+[Northwest]
+
+[Partly Cloudy]
+
+[Partly Sunny]
+
+[SE]
+
+[SSE]
+
+[SSW]
+
+[SW]
+
+[S]
+
 [Sat]
+
+[Scattered Clouds]
+
+[South]
+
+[Southeast]
+
+[Southwest]
 
 [Sun]
 
 [Sunny]
 
-[Partly Sunny]
+[Thu]
 
-[Mostly Sunny]
-
-[Partly Cloudy]
-
-[Mostly Cloudy]
-
-[Mostly Clear]
-
-[N]
-
-[W]
-
-[S]
-
-[E]
-
-[NW]
-
-[NE]
-
-[SW]
-
-[SE]
-
-[NNW]
-
-[NNE]
-
-[SSW]
-
-[SSE]
-
-[ENE]
-
-[WSW]
+[Tue]
 
 [WNW]
 
-[ESE]
+[WSW]
 
-[Scattered Clouds]
+[W]
 
-[North]
-
-[East]
-
-[South]
+[Wed]
 
 [West]
 
-[Northwest]
+[Wind Direction Degrees]
 
-[Northeast]
+[Wind Direction]
 
-[Southwest]
-
-[Southeast]
+[Wind Speed]
 

@@ -39,7 +39,7 @@
 [Random]
 [Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
 [You both speak the same language.]
-[Unable to get Netlib connection for Omegle]
+[Unable to initialize Netlib for %s.]
 [Stranger typing]
 [Stranger stopped typing]
 [Changing stranger]

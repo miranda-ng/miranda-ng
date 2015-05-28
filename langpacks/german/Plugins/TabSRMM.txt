@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.10
+;  Version: 3.4.0.11
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -246,10 +246,6 @@ Hier können Sie die Darstellungsart des Verlaufes festlegen, falls mehrere Plug
 Formatierungsinformationen senden
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
 Die globale Einstellung kann hier überschrieben werden. "Niemals" unterbindet Textformatierung.
-[ANSI codepage]
-ANSI-Zeichenkonvertierung
-[Codepage for ANSI encoding/decoding when sending or receiving non-Unicode messages.]
-Codetabelle zur ANSI-Kodierung gesendeter und empfangener Nicht-Unicode-Nachrichten.
 [Info panel mode]
 Infobereichsmodus
 [Show avatar in message window]
@@ -258,8 +254,6 @@ Avatar im Nachrichtenfenster anzeigen
 Private Splitterposition verwenden
 [Contact is a favorite contact]
 Kontakt in der Liste der Favoriten
-[Force ANSI send / receive]
-Nur ANSI senden und empfangen
 [Ignore sending timeouts]
 Zeitüberschreitungen ignorieren
 [Load only actual history]
@@ -758,8 +752,6 @@ An &mehrere Kontakte senden
 An den &Container senden
 [Send &later]
 S&päter senden
-[Force &ANSI]
-&ANSI erzwingen
 [Send unsafe (ignore timeouts)]
 Unsicher senden (Zeitüberschreitungen ignorieren)
 [Send nudge]
@@ -1214,8 +1206,6 @@ Kontakt dauerhaft zur Kontaktliste hinzufügen
 Kontakt nicht zur Kontaktliste hinzufügen
 [Expand or collapse the side bar]
 Seitenleiste aus- oder einklappen
-[Character encoding]
-Zeichenkodierung
 [Contact not on list. You may add it...]
 Kontakt ist nicht in Ihrer Liste. Sie können ihn hinzufügen...
 [A message failed to send successfully.]
@@ -1338,8 +1328,6 @@ Dezember
 Heute
 [Yesterday]
 Gestern
-[Use default codepage]
-Standardkodierung verwenden
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
 <kein Skin>

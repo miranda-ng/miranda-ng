@@ -32,7 +32,7 @@
 [Please correctly specify your registration code received by SMS]
 [Changes will be applied after protocol restart]
 [Message received: %s by %s]
-[Unable to get Netlib connection for WhatsApp]
+[Unable to initialize Netlib for %s.]
 [Network connection error.]
 [Registration failed. Invalid server response.]
 [Registration failed due to stale code. Please request a new code]

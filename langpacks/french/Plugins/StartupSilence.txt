@@ -74,7 +74,7 @@ pendant
 
 [Toggle Silence At Startup]
 
-[You have to install TopToolBar to use this option.]
+[You have to install "TopToolBar" to use this option.]
 
 [You have to install "YAPP" or "Popup+" to use this option.]
 

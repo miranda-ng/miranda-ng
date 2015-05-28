@@ -104,7 +104,7 @@ Compte
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 %s serveur connexion
-[Unable to get Netlib connection for WhatsApp]
+[Unable to initialize Netlib for %s.]
 
 [Network connection error.]
 

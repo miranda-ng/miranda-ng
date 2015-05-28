@@ -132,12 +132,12 @@ Benutzer &kicken
 [&Deop user]
 
 ;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
+%I64u Bytes
 [MSN Alert]
 MSN Alert
 [Contact tried to open an audio conference (not currently supported)]
 Kontakt versucht eine Audiokonferenz zu starten (zzt. nicht unterstützt)
-[%I64u bytes]
-%I64u Bytes
 [Accept NetMeeting request from %s?]
 NetMeeting-Anfrage von %s akzeptieren?
 [MSN Protocol]
