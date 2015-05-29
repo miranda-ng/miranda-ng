@@ -36,7 +36,7 @@ public:
 
 		JSONNode privateInfo(JSON_NODE);
 		privateInfo.set_name("privateInfo");
-		privateInfo.push_back(JSONNode("epname", T2Utf(compName)));
+		privateInfo.push_back(JSONNode("epname", (char*)T2Utf(compName)));
 
 		JSONNode publicInfo(JSON_NODE);
 		publicInfo.set_name("publicInfo");
