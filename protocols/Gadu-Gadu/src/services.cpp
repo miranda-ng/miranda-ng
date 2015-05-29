@@ -27,23 +27,22 @@
 char *gg_status2db(int status, const char *suffix)
 {
 	char *prefix;
-	static char str[64];
-
 	switch(status) {
-		case ID_STATUS_AWAY:		prefix = "Away"; break;
-		case ID_STATUS_NA:			prefix = "Na"; break;
-		case ID_STATUS_DND:			prefix = "Dnd"; break;
-		case ID_STATUS_OCCUPIED:	prefix = "Occupied"; break;
-		case ID_STATUS_FREECHAT:	prefix = "FreeChat"; break;
-		case ID_STATUS_ONLINE:		prefix = "On"; break;
-		case ID_STATUS_OFFLINE:		prefix = "Off"; break;
-		case ID_STATUS_INVISIBLE:	prefix = "Inv"; break;
-		case ID_STATUS_ONTHEPHONE:	prefix = "Otp"; break;
-		case ID_STATUS_OUTTOLUNCH:	prefix = "Otl"; break;
+		case ID_STATUS_AWAY:       prefix = "Away"; break;
+		case ID_STATUS_NA:         prefix = "Na"; break;
+		case ID_STATUS_DND:        prefix = "Dnd"; break;
+		case ID_STATUS_OCCUPIED:   prefix = "Occupied"; break;
+		case ID_STATUS_FREECHAT:   prefix = "FreeChat"; break;
+		case ID_STATUS_ONLINE:     prefix = "On"; break;
+		case ID_STATUS_OFFLINE:    prefix = "Off"; break;
+		case ID_STATUS_INVISIBLE:  prefix = "Inv"; break;
+		case ID_STATUS_ONTHEPHONE: prefix = "Otp"; break;
+		case ID_STATUS_OUTTOLUNCH: prefix = "Otl"; break;
 		default: return NULL;
 	}
-	strncpy(str, prefix, sizeof(str));
-	mir_strncat(str, suffix, sizeof(str) - mir_strlen(str));
+
+	static char str[64];
+	mir_snprintf(str, _countof(str), "%s%s", prefix, suffix);
 	return str;
 }
 
