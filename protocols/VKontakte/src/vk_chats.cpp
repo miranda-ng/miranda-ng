@@ -47,7 +47,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	c = new CVkChatInfo(id);
 	if (!jnDlg.isnull()) {
 		tszTitle = jnDlg["title"].as_mstring();
-		c->m_tszTopic = mir_tstrdup(!tszTitle.IsEmpty() ? tszTitle.GetBuffer() : _T(""));
+		c->m_tszTopic = mir_tstrdup(!tszTitle.IsEmpty() ? tszTitle : _T(""));
 	}
 
 	CMString sid; 
@@ -57,7 +57,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	GCSESSION gcw = { sizeof(gcw) };
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = tszTitle.GetBuffer();
+	gcw.ptszName = tszTitle;
 	gcw.ptszID = sid;
 	CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw);
 
@@ -139,7 +139,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	if (!jnInfo.isnull()) {
 		CMString tszTitle(jnInfo["title"].as_mstring());
 		if (tszTitle == cc->m_tszTopic) {
-			cc->m_tszTopic = mir_tstrdup(tszTitle.GetBuffer());
+			cc->m_tszTopic = mir_tstrdup(tszTitle);
 			setTString(cc->m_hContact, "Nick", tszTitle);
 
 			GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_CHANGESESSIONAME };
@@ -182,7 +182,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			CMString fName(jnUser["first_name"].as_mstring());
 			CMString lName(jnUser["last_name"].as_mstring());
 			CMString tszNick = fName.Trim() + _T(" ") + lName.Trim();
-			cu->m_tszNick = mir_tstrdup(tszNick.GetBuffer());
+			cu->m_tszNick = mir_tstrdup(tszNick);
 			cu->m_bUnknown = false;
 			
 			if (bNew) {
@@ -273,7 +273,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 	}
 
 	if (cc->m_bHistoryRead)
-		AppendChatMessage(cc, uid, msgTime, tszBody.GetBuffer(), bIsHistory);
+		AppendChatMessage(cc, uid, msgTime, tszBody, bIsHistory);
 	else {
 		CVkChatMessage *cm = cc->m_msgs.find((CVkChatMessage *)&mid);
 		if (cm == NULL)
@@ -281,7 +281,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, bool bIsHistory)
 
 		cm->m_uid = uid;
 		cm->m_date = msgTime;
-		cm->m_tszBody = mir_tstrdup(tszBody.GetBuffer());
+		cm->m_tszBody = mir_tstrdup(tszBody);
 		cm->m_bHistory = bIsHistory;
 	}
 }

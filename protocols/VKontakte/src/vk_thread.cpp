@@ -141,7 +141,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 				pReq->AddHeader("Referer", m_prevUrl);
 				pReq->Redirect(reply);
 				if (!pReq->m_szUrl.IsEmpty()) {
-					if (pReq->m_szUrl.GetBuffer()[0] == '/')
+					if (pReq->m_szUrl[0] == '/')
 						pReq->m_szUrl = VK_LOGIN_DOMAIN + pReq->m_szUrl;
 					ApplyCookies(pReq);
 					m_prevUrl = pReq->m_szUrl;
@@ -182,7 +182,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	pReq->m_szParam = szBody;
 	pReq->m_szUrl = szAction;
 	if (!pReq->m_szUrl.IsEmpty()) 
-		if (pReq->m_szUrl.GetBuffer()[0] == '/')
+		if (pReq->m_szUrl[0] == '/')
 			pReq->m_szUrl = VK_LOGIN_DOMAIN + pReq->m_szUrl;
 	m_prevUrl = pReq->m_szUrl;
 	pReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
@@ -258,14 +258,14 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 
 	tszValue = jnItem["first_name"].as_mstring();
 	if (!tszValue.IsEmpty()) {
-		setTString(hContact, "FirstName", tszValue.GetBuffer());
+		setTString(hContact, "FirstName", tszValue);
 		tszNick.Append(tszValue);
 		tszNick.AppendChar(' ');
 	}
 
 	tszValue = jnItem["last_name"].as_mstring();
 	if (!tszValue.IsEmpty()) {
-		setTString(hContact, "LastName", tszValue.GetBuffer());
+		setTString(hContact, "LastName", tszValue);
 		tszNick.Append(tszValue);
 	}
 
@@ -279,7 +279,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	tszValue = jnItem["bdate"].as_mstring();
 	if (!tszValue.IsEmpty()) {
 		int d, m, y, iReadCount;
-		iReadCount = _stscanf(tszValue.GetBuffer(), _T("%d.%d.%d"), &d, &m, &y);
+		iReadCount = _stscanf(tszValue, _T("%d.%d.%d"), &d, &m, &y);
 		if (iReadCount > 1) {
 			if (iReadCount == 3)
 				setWord(hContact, "BirthYear", y);
@@ -317,24 +317,24 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 
 	tszValue = jnItem["mobile_phone"].as_mstring();
 	if (!tszValue.IsEmpty())
-		setTString(hContact, "Cellular", tszValue.GetBuffer());
+		setTString(hContact, "Cellular", tszValue);
 	
 	tszValue = jnItem["home_phone"].as_mstring();
 	if (!tszValue.IsEmpty())
-		setTString(hContact, "Phone", tszValue.GetBuffer());
+		setTString(hContact, "Phone", tszValue);
 
 	tszValue = jnItem["status"].as_mstring();
 	CMString tszOldStatus(ptrT(db_get_tsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg")));
 	if (tszValue != tszOldStatus) {
-		db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", tszValue.GetBuffer());
+		db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", tszValue);
 		db_unset(hContact, m_szModuleName, "AudioUrl");
 		const JSONNode &jnAudio = jnItem["status_audio"];
 		if (!jnAudio.isnull()) {
-			db_set_ts(hContact, m_szModuleName, "ListeningTo", tszValue.GetBuffer());
+			db_set_ts(hContact, m_szModuleName, "ListeningTo", tszValue);
 			tszValue = jnAudio["url"].as_mstring();
-			db_set_ts(hContact, m_szModuleName, "AudioUrl", tszValue.GetBuffer());
+			db_set_ts(hContact, m_szModuleName, "AudioUrl", tszValue);
 		}
-		else if (tszValue.GetBuffer()[0] == TCHAR(9835) && tszValue.GetLength() > 2)
+		else if (tszValue[0] == TCHAR(9835) && tszValue.GetLength() > 2)
 			db_set_ts(hContact, m_szModuleName, "ListeningTo", &(tszValue.GetBuffer())[2]);
 		else
 			db_unset(hContact, m_szModuleName, "ListeningTo");
@@ -343,14 +343,14 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 	tszValue = jnItem["about"].as_mstring();
 
 	if (!tszValue.IsEmpty())
-		setTString(hContact, "About", tszValue.GetBuffer());
+		setTString(hContact, "About", tszValue);
 
 	tszValue = jnItem["domain"].as_mstring();
 	if (!tszValue.IsEmpty()) {
-		setTString(hContact, "domain", tszValue.GetBuffer());
+		setTString(hContact, "domain", tszValue);
 		CMString tszUrl("https://vk.com/");
 		tszUrl.Append(tszValue);
-		setTString(hContact, "Homepage", tszUrl.GetBuffer());
+		setTString(hContact, "Homepage", tszUrl);
 	}
 
 	return hContact;
@@ -366,7 +366,7 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 	userIDs.AppendFormat(_T("%i"), userID);
 			
 	code.AppendFormat(_T("var userIDs=\"%s\";return{\"freeoffline\":0,\"users\":API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"})};"), 
-		userIDs.GetBuffer(), CMString(fieldsName).GetBuffer());
+		userIDs, CMString(fieldsName));
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
 		<< TCHAR_PARAM("code", code)
 		<< VER_API);
@@ -400,7 +400,7 @@ void CVkProto::RetrieveUsersInfo(bool flag)
 	else
 		codeformat += CMString("var res=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});"
 			"return{\"freeoffline\":0,\"users\":res};");
-	code.AppendFormat(codeformat, userIDs.GetBuffer(), CMString(flag ? "online,status" : fieldsName).GetBuffer());
+	code.AppendFormat(codeformat, userIDs, CMString(flag ? "online,status" : fieldsName));
 
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
 		<< TCHAR_PARAM("code", code)
@@ -563,7 +563,7 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 	CMString ptszMsg;
 	if (flag == 0) {
 		ptszMsg.AppendFormat(TranslateT("Are you sure to delete %s from your friend list?"), IsEmpty(ptszNick) ? TranslateT("(Unknown contact)") : ptszNick);
-		if (IDNO == MessageBox(NULL, ptszMsg.GetBuffer(), TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+		if (IDNO == MessageBox(NULL, ptszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 			return 1;
 	}
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.delete.json", true, &CVkProto::OnReceiveDeleteFriend)
@@ -597,12 +597,12 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest*
 					msgformat = TranslateT("Friend request suggestion for the user %s deleted");
 				
 				msg.AppendFormat(msgformat, tszNick);
-				MsgPopup(param->hContact, msg.GetBuffer(), tszNick.GetBuffer());
+				MsgPopup(param->hContact, msg, tszNick);
 				setByte(param->hContact, "Auth", 1);			
 			}
 			else {
 				msg = TranslateT("User or request was not deleted");
-				MsgPopup(param->hContact, msg.GetBuffer(), tszNick.GetBuffer());
+				MsgPopup(param->hContact, msg, tszNick);
 			}	
 		}
 	}
@@ -656,9 +656,9 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 	ptszMsg.AppendFormat(TranslateT("Are you sure to ban %s? %s%sContinue?"), 
 		IsEmpty(ptszNick) ? TranslateT("(Unknown contact)") : ptszNick, 
 		tszVarWarning.IsEmpty() ? _T(" ") : TranslateT("\nIt will also"),
-		tszVarWarning.IsEmpty() ? _T("\n") : tszVarWarning.GetBuffer());
+		tszVarWarning.IsEmpty() ? _T("\n") : tszVarWarning);
 
-	if (IDNO == MessageBox(NULL, ptszMsg.GetBuffer(), TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+	if (IDNO == MessageBox(NULL, ptszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 1;
 	
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
@@ -682,7 +682,7 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 		tszNick = ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")),
 		ptszMsg;
 	ptszMsg.AppendFormat(formatstr, tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick);
-	if (IDNO == MessageBox(NULL, ptszMsg.GetBuffer(), TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+	if (IDNO == MessageBox(NULL, ptszMsg, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 1;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.report.json", true, &CVkProto::OnReceiveSmth)

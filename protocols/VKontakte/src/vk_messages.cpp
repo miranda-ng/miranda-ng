@@ -237,7 +237,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (chat_id != 0) {
 			debugLogA("CVkProto::OnReceiveMessages chat_id != 0");
 			CMString action_chat = jnMsg["action"].as_mstring();
-			int action_mid = _ttoi(jnMsg["action_mid"].as_mstring().GetBuffer());
+			int action_mid = _ttoi(jnMsg["action_mid"].as_mstring());
 			if ((action_chat == "chat_kick_user") && (action_mid == m_myUserId))
 				KickFromChat(chat_id, uid, jnMsg);
 			else
@@ -253,7 +253,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		else if (m_bUserForceOnlineOnActivity)
 			SetInvisible(hContact);
 
-		T2Utf pszBody(tszBody.GetBuffer());
+		T2Utf pszBody(tszBody);
 		recv.timestamp = m_bUseLocalTime ? time(NULL) : datetime;
 		recv.szMessage = pszBody;
 		recv.lParam = isOut;

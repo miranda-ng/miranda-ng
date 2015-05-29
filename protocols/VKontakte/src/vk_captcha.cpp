@@ -154,7 +154,7 @@ bool CVkProto::ApplyCaptcha(AsyncHttpRequest *pReq, const JSONNode &jnErrorNode)
 		return false;
 
 	CMStringA userReply;
-	if (!RunCaptchaForm(szUrl.GetBuffer(), userReply))
+	if (!RunCaptchaForm(szUrl, userReply))
 		return false;
 
 	pReq << CHAR_PARAM("captcha_sid", szSid) << CHAR_PARAM("captcha_key", userReply.GetString());

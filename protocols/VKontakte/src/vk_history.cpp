@@ -213,7 +213,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			tszBody += tszAttachmentDescr;
 		}
 
-		T2Utf pszBody(tszBody.GetBuffer());
+		T2Utf pszBody(tszBody);
 		MCONTACT hContact = FindUser(uid, true);
 		PROTORECVEVENT recv = { 0 };
 		if (isRead)

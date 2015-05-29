@@ -327,7 +327,7 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			ppro->setByte("MusicSendMetod", ppro->m_iMusicSendMetod);
 			CMStringA szListeningTo(ppro->m_szModuleName);
 			szListeningTo += "Enabled";
-			db_set_b(NULL, "ListeningTo", szListeningTo.GetBuffer(), ppro->m_iMusicSendMetod == 0 ? 0 : 1);
+			db_set_b(NULL, "ListeningTo", szListeningTo, ppro->m_iMusicSendMetod == 0 ? 0 : 1);
 
 			TCHAR buffer[5] = { 0 };
 			GetDlgItemText(hwndDlg, IDC_ED_INT_INVIS, buffer, SIZEOF(buffer));

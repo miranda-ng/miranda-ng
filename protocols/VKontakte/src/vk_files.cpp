@@ -50,7 +50,7 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 	CMStringA fn;
 	T2Utf pszFNAME(FNAME), pszEXT(EXT);
 	fn.AppendFormat("%s%s", pszFNAME, pszEXT);
-	fname = mir_strdup(fn.GetBuffer());
+	fname = mir_strdup(fn);
 
 	if (tlstrstr(img, EXT)) {
 		filetype = CVkFileUploadParam::typeImg;
@@ -112,7 +112,7 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, TCHAR *reason)
 	default:
 		tszError = TranslateT("Unknown error occurred");
 	}
-	MsgPopup(NULL, tszError.GetBuffer(), TranslateT("File upload error"), true);
+	MsgPopup(NULL, tszError, TranslateT("File upload error"), true);
 	delete fup;
 }
 
@@ -193,7 +193,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	}
 	fseek(pFile, 0, SEEK_SET);
 
-	AsyncHttpRequest *pUploadReq = new AsyncHttpRequest(this, REQUEST_POST, uri.GetBuffer(), false, &CVkProto::OnReciveUpload);
+	AsyncHttpRequest *pUploadReq = new AsyncHttpRequest(this, REQUEST_POST, uri, false, &CVkProto::OnReciveUpload);
 	pUploadReq->m_bApiReq = false;
 	pUploadReq->m_szParam = "";
 	CMStringA boundary, header;
@@ -205,8 +205,8 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	int iboundary = rand();
 	boundary.AppendFormat("Miranda%dNG%d", iboundary, time(NULL));
 	// Header
-	header.AppendFormat("multipart/form-data; boundary=%s", boundary.GetBuffer());
-	pUploadReq->AddHeader("Content-Type", header.GetBuffer());
+	header.AppendFormat("multipart/form-data; boundary=%s", boundary);
+	pUploadReq->AddHeader("Content-Type", header);
 	// Content-Disposition {
 	CMStringA DataBegin = "--";
 	DataBegin += boundary;
@@ -369,7 +369,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	AsyncHttpRequest *pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
 		<< INT_PARAM("user_id", userID)
 		<< TCHAR_PARAM("message", fup->Desc)
-		<< TCHAR_PARAM("attachment", Attachment.GetBuffer())
+		<< TCHAR_PARAM("attachment", Attachment)
 		<< VER_API;
 	pMsgReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	pMsgReq->pUserInfo = new CVkSendMsgParam(fup->hContact, -1, (int)pReq->pUserInfo);

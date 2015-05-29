@@ -50,7 +50,7 @@ static INT_PTR CALLBACK WallPostFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			SetDlgItemText(hwndDlg, IDC_ST_WARNING, _T(""));
 			CMString tszTitle;
 			tszTitle.AppendFormat(_T("%s %s"), TranslateT("Wall message for"), param->ptszNick);
-			SetWindowText(hwndDlg, tszTitle.GetBuffer());
+			SetWindowText(hwndDlg, tszTitle);
 		}		
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)param);
 		return TRUE;

@@ -157,7 +157,7 @@ void CVkProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
 	}
 	else {
-		setTString(hContact, "AvatarUrl", tszUrl.GetBuffer());
+		setTString(hContact, "AvatarUrl", tszUrl);
 		setByte(hContact,"NeedNewAvatar", 1);
 		PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
 		AI.hContact = hContact;

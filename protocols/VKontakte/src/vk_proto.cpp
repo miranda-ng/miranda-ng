@@ -83,7 +83,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_iSyncHistoryMetod = (SyncHistoryMetod)getByte("SyncHistoryMetod", syncOff);
 	CMStringA szListeningTo(m_szModuleName);
 	szListeningTo += "Enabled";
-	db_set_b(NULL, "ListeningTo", szListeningTo.GetBuffer(), m_iMusicSendMetod == 0 ? 0 : 1);
+	db_set_b(NULL, "ListeningTo", szListeningTo, m_iMusicSendMetod == 0 ? 0 : 1);
 	
 	m_bNewsEnabled = getBool("NewsEnabled", false);
 	m_iMaxLoadNewsPhoto = getByte("MaxLoadNewsPhoto", 5);
@@ -548,8 +548,8 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 					tszNick = ptrT(db_get_tsa(param->hContact, m_szModuleName, "Nick"));
 				if (tszNick.IsEmpty())
 					tszNick = TranslateT("(Unknown contact)");
-				msg.AppendFormat(TranslateT("User %s added as friend"), tszNick.GetBuffer());
-				MsgPopup(param->hContact, msg.GetBuffer(), tszNick.GetBuffer());
+				msg.AppendFormat(TranslateT("User %s added as friend"), tszNick);
+				MsgPopup(param->hContact, msg, tszNick);
 			}
 		} 
 		else {

@@ -42,8 +42,8 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	itoa(jnResponse["ts"].as_int(), ts, 10);
 
 	m_pollingTs = mir_strdup(ts);
-	m_pollingKey = mir_t2a(jnResponse["key"].as_mstring().GetBuffer());
-	m_pollingServer = mir_t2a(jnResponse["server"].as_mstring().GetBuffer());
+	m_pollingKey = mir_t2a(jnResponse["key"].as_mstring());
+	m_pollingServer = mir_t2a(jnResponse["server"].as_mstring());
 
 	if (!m_hPollingThread) {
 		debugLogA("CVkProto::OnReceivePollingInfo m_hPollingThread is NULL");
@@ -174,7 +174,7 @@ int CVkProto::PollServer()
 	// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
-	req.szUrl = mir_strdup(szReqUrl.GetBuffer());
+	req.szUrl = mir_strdup(szReqUrl);
 	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;
 	req.timeout = 30000;
 	req.nlc = m_pollingConn;
