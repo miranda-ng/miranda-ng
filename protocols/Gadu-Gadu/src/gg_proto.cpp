@@ -381,11 +381,11 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 {
 	gg_pubdir50_t req;
 	TCHAR text[64];
-	char data[800] = "\0";
 	unsigned long crc;
 
 	// Check if connected
-	if (!isonline()) return (HWND)0;
+	if (!isonline())
+		return (HWND)0;
 
 	if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH)))
 	{
@@ -396,42 +396,44 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 		return (HWND)1;
 	}
 
+	CMStringA szQuery;
+
 	// Fetch search data
 	GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, SIZEOF(text));
 	if (mir_tstrlen(text))
 	{
 		T2Utf firstName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstName_utf8);
-		mir_strncat(data, firstName_utf8, sizeof(data) - mir_strlen(data));
+		szQuery.Append(firstName_utf8);
 	}
-	/* 1 */ mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
+	/* 1 */ szQuery.AppendChar('.');
 
 	GetDlgItemText(hwndDlg, IDC_LASTNAME, text, SIZEOF(text));
 	if (mir_tstrlen(text))
 	{
 		T2Utf lastName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastName_utf8);
-		mir_strncat(data, lastName_utf8, sizeof(data) - mir_strlen(data));
+		szQuery.Append(lastName_utf8);
 	}
-	/* 2 */ mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
+	/* 2 */ szQuery.AppendChar('.');
 
 	GetDlgItemText(hwndDlg, IDC_NICKNAME, text, SIZEOF(text));
 	if (mir_tstrlen(text))
 	{
 		T2Utf nickName_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nickName_utf8);
-		mir_strncat(data, nickName_utf8, sizeof(data) - mir_strlen(data));
+		szQuery.Append(nickName_utf8);
 	}
-	/* 3 */ mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
+	/* 3 */ szQuery.AppendChar('.');
 
 	GetDlgItemText(hwndDlg, IDC_CITY, text, SIZEOF(text));
 	if (mir_tstrlen(text))
 	{
 		T2Utf city_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_CITY, city_utf8);
-		mir_strncat(data, city_utf8, sizeof(data) - mir_strlen(data));
+		szQuery.Append(city_utf8);
 	}
-	/* 4 */ mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
+	/* 4 */ szQuery.AppendChar('.');
 
 	GetDlgItemText(hwndDlg, IDC_AGEFROM, text, SIZEOF(text));
 	if (mir_tstrlen(text))
@@ -459,35 +461,36 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 
 		T2Utf age_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, age_utf8);
-		mir_strncat(data, age_utf8, sizeof(data) - mir_strlen(data));
+		szQuery.Append(age_utf8);
 	}
-	/* 5 */ mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
+	/* 5 */ szQuery.AppendChar('.');
 
 	switch(SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_GETCURSEL, 0, 0))
 	{
 		case 1:
 			gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_FEMALE);
-			mir_strncat(data, GG_PUBDIR50_GENDER_MALE, sizeof(data) - mir_strlen(data));
+			szQuery.Append(GG_PUBDIR50_GENDER_MALE);
 			break;
 		case 2:
 			gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_MALE);
-			mir_strncat(data, GG_PUBDIR50_GENDER_FEMALE, sizeof(data) - mir_strlen(data));
+			szQuery.Append(GG_PUBDIR50_GENDER_FEMALE);
 			break;
 	}
-	/* 6 */ mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
+	/* 6 */ szQuery.AppendChar('.');
 
 	if (IsDlgButtonChecked(hwndDlg, IDC_ONLYCONNECTED))
 	{
 		gg_pubdir50_add(req, GG_PUBDIR50_ACTIVE, GG_PUBDIR50_ACTIVE_TRUE);
-		mir_strncat(data, GG_PUBDIR50_ACTIVE_TRUE, sizeof(data) - mir_strlen(data));
+		szQuery.Append(GG_PUBDIR50_ACTIVE_TRUE);
 	}
-	/* 7 */ mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
+	/* 7 */ szQuery.AppendChar('.');
 
 	// No data entered
-	if (mir_strlen(data) <= 7 || (mir_strlen(data) == 8 && IsDlgButtonChecked(hwndDlg, IDC_ONLYCONNECTED))) return (HWND)0;
+	if (szQuery.GetLength() <= 7 || (szQuery.GetLength() == 8 && IsDlgButtonChecked(hwndDlg, IDC_ONLYCONNECTED)))
+		return (HWND)0;
 
 	// Count crc & check if the data was equal if yes do same search with shift
-	crc = crc_get(data);
+	crc = crc_get(szQuery.GetBuffer());
 
 	if (crc == last_crc && next_uin)
 		gg_pubdir50_add(req, GG_PUBDIR50_START, ditoa(next_uin));
