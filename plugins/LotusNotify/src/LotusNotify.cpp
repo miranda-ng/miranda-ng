@@ -64,6 +64,7 @@ BYTE settingIniCheck = 0;
 BYTE settingOnceOnly = 0;
 BYTE settingNonClickedOnly = 0;
 BYTE settingNewest = 0;
+BYTE settingEvenNonClicked = 0;
 BOOL settingStatus[STATUS_COUNT];
 BOOL bMirandaCall=FALSE;
 BYTE settingKeepConnection = 1;
@@ -704,8 +705,8 @@ void checkthread(void*)
 
 		log(L"checkthread: skiped-only newest option enabled, so if old id don't show it");
 
-		// remember newest id
-		if(settingNewest&&(noteID > settingNewestID) )
+		// remember newest id depending on options set
+		if(settingNewest&&settingEvenNonClicked&&(noteID > settingNewestID) )
 			db_set_dw(NULL, PLUGINNAME, "LNNewestID", settingNewestID=noteID);
 
 		//if(((!settingOnceOnly||(settingOnceOnly&&settingNonClickedOnly))&&existElem(noteID))||(settingNewest&&settingNewestID>=noteID))
@@ -1019,6 +1020,7 @@ void LoadSettings()
 	settingBgColor = (COLORREF)db_get_dw(NULL, PLUGINNAME, "LNBgColor", (DWORD)0xFFFFFF);
 	settingFgColor = (COLORREF)db_get_dw(NULL, PLUGINNAME, "LNFgColor", (DWORD)0x000000);
 	settingNewest = db_get_b(NULL, PLUGINNAME, "LNNewest", 0);
+	settingEvenNonClicked = db_get_b(NULL, PLUGINNAME, "LNEvenNonClicked", 0);
 	settingNewestID = (DWORD)db_get_dw(NULL, PLUGINNAME, "LNNewestID", 0);
 	settingIniAnswer = db_get_b(NULL, PLUGINNAME, "LNIniAnswer", 0);
 	settingIniCheck = db_get_b(NULL, PLUGINNAME, "LNIniCheck", 0);
@@ -1057,23 +1059,18 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				CheckDlgButton(hwndDlg, IDC_ONCEONLY, settingOnceOnly ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton(hwndDlg, IDC_SHOWERROR, settingShowError ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton(hwndDlg, IDC_NEWEST, settingNewest ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_REMEMBEREVENNONCLICKED, settingEvenNonClicked ? BST_CHECKED : BST_UNCHECKED);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_REMEMBEREVENNONCLICKED), settingNewest!=0);
 				CheckDlgButton(hwndDlg, IDC_NONCLICKEDONLY, settingNonClickedOnly ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton(hwndDlg, IDC_BUTTON_CHECK, settingIniCheck ? BST_CHECKED : BST_UNCHECKED);
 
-				if(!settingOnceOnly) {
-					HWND hwnd = GetDlgItem(hwndDlg, IDC_NONCLICKEDONLY);
-					EnableWindow(hwnd, FALSE);
-				}
+				EnableWindow(GetDlgItem(hwndDlg, IDC_NONCLICKEDONLY), settingOnceOnly!=0);
+
 				CheckDlgButton(hwndDlg, IDC_SETCOLOURS, settingSetColours ? BST_CHECKED : BST_UNCHECKED);
 				SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_SETCOLOUR, 0, (LPARAM)settingBgColor);
 				SendDlgItemMessage(hwndDlg, IDC_FGCOLOR, CPM_SETCOLOUR, 0, (LPARAM)settingFgColor);
-				if(!settingSetColours) {
-					HWND hwnd = GetDlgItem(hwndDlg, IDC_BGCOLOR);
-					CheckDlgButton(hwndDlg, IDC_SETCOLOURS, BST_UNCHECKED);
-					EnableWindow(hwnd, FALSE);
-					hwnd = GetDlgItem(hwndDlg, IDC_FGCOLOR);
-					EnableWindow(hwnd, FALSE);
-				}
+				EnableWindow(GetDlgItem(hwndDlg, IDC_BGCOLOR), settingSetColours!=0);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_FGCOLOR), settingSetColours!=0);
 
 
 				//SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_SELECTSTRING ,-1,(LPARAM)(LPCSTR)settingServer);
@@ -1178,23 +1175,25 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						case IDC_PARAMETERS: GetDlgItemTextA(hwndDlg, IDC_PARAMETERS, settingParameters, SIZEOF(settingParameters)); break;
 						case IDC_ONCEONLY:
 							{
-								HWND hwnd = GetDlgItem(hwndDlg, IDC_NONCLICKEDONLY);
 								settingOnceOnly=(BYTE) IsDlgButtonChecked(hwndDlg, IDC_ONCEONLY);
-								EnableWindow(hwnd, settingOnceOnly);
+								EnableWindow(GetDlgItem(hwndDlg, IDC_NONCLICKEDONLY), settingOnceOnly);
 								break;
 							}
-
 						case IDC_NONCLICKEDONLY: settingNonClickedOnly=(BYTE) IsDlgButtonChecked(hwndDlg, IDC_NONCLICKEDONLY); break;
-						case IDC_NEWEST: settingNewest =(BYTE) IsDlgButtonChecked(hwndDlg, IDC_NEWEST); break;
+						case IDC_NEWEST:
+							{
+								settingNewest =(BYTE) IsDlgButtonChecked(hwndDlg, IDC_NEWEST);
+								EnableWindow(GetDlgItem(hwndDlg, IDC_REMEMBEREVENNONCLICKED), settingNewest);
+								break;
+							}
+						case IDC_REMEMBEREVENNONCLICKED: settingEvenNonClicked=(BYTE) IsDlgButtonChecked(hwndDlg, IDC_REMEMBEREVENNONCLICKED); break;
 						case IDC_SHOWERROR: settingShowError=(BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWERROR); break;
 
 						case IDC_SETCOLOURS:
 						{
-							HWND hwnd = GetDlgItem(hwndDlg, IDC_BGCOLOR);
 							settingSetColours=IsDlgButtonChecked(hwndDlg, IDC_SETCOLOURS);
-							EnableWindow(hwnd,settingSetColours );
-							hwnd = GetDlgItem(hwndDlg, IDC_FGCOLOR);
-							EnableWindow(hwnd, settingSetColours);
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BGCOLOR), settingSetColours );
+							EnableWindow(GetDlgItem(hwndDlg, IDC_FGCOLOR), settingSetColours);
 							break;
 						}
 						case IDC_BGCOLOR: settingBgColor = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0);break;
@@ -1290,6 +1289,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 								db_set_dw(NULL, PLUGINNAME, "LNBgColor", (DWORD)settingBgColor);
 								db_set_dw(NULL, PLUGINNAME, "LNFgColor", (DWORD)settingFgColor);
 								db_set_b(NULL, PLUGINNAME, "LNNewest", settingNewest);
+								db_set_b(NULL, PLUGINNAME, "LNEvenNonClicked", settingEvenNonClicked);
 								db_set_b(NULL, PLUGINNAME, "LNIniCheck", settingIniCheck);
 								db_set_b(NULL, PLUGINNAME, "LNIniAnswer", settingIniAnswer);
 

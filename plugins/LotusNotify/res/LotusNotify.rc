@@ -38,89 +38,79 @@ IDI_ICON2               ICON                    "icon2.ico"
 // Dialog
 //
 
-IDD_OPT_DIALOG DIALOGEX 0, 0, 314, 239
+IDD_OPT_DIALOG DIALOGEX 0, 0, 315, 250
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    EDITTEXT        IDC_DATABASE,75,39,115,11,ES_AUTOHSCROLL
-    EDITTEXT        IDC_INTERVAL,250,17,21,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_COMMAND,91,116,80,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_PARAMETERS,91,128,80,12,ES_AUTOHSCROLL
-    CONTROL         "Show again if still unread",IDC_ONCEONLY,"Button",
-                    BS_AUTOCHECKBOX | BS_LEFT | BS_PUSHLIKE | WS_TABSTOP,177,
-                    68,130,10
-    CONTROL         "Show error messages",IDC_SHOWERROR,"Button",
-                    BS_AUTOCHECKBOX | BS_LEFT | BS_PUSHLIKE | WS_TABSTOP,177,
-                    92,130,10
-    EDITTEXT        IDC_SERVERSEC,75,28,115,11,ES_AUTOHSCROLL
-    CONTROL         "Set popup colors",IDC_SETCOLOURS,"Button",
-                    BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_GROUP | WS_TABSTOP,17,
-                    76,132,10
-    CONTROL         "Custom1",IDC_BGCOLOR,"ColourPicker",WS_GROUP | 
-                    WS_TABSTOP,15,87,10,10
-    CONTROL         "Custom1",IDC_FGCOLOR,"ColourPicker",WS_GROUP | 
-                    WS_TABSTOP,75,87,10,9
-    GROUPBOX        "Popup options",IDC_STATIC,7,66,167,80,WS_GROUP
-    LTEXT           "Background",IDC_STATIC,31,88,43,8
-    LTEXT           "Text",IDC_STATIC,91,89,41,8
-    EDITTEXT        IDC_INTERVAL1,57,97,21,12,ES_AUTOHSCROLL | WS_GROUP
-    RTEXT           "Close after:",IDC_STATIC,9,99,47,9
-    LTEXT           "sec (0 default,\n -1 disabled)",IDC_STATIC,81,99,89,15
-    CONTROL         "...but only if popup not clicked",IDC_NONCLICKEDONLY,
-                    "Button",BS_AUTOCHECKBOX | BS_LEFT | BS_PUSHLIKE | 
-                    WS_TABSTOP,177,80,130,10
-    LTEXT           "Left button click cmd:",IDC_STATIC,10,117,80,9
-    LTEXT           "Command parameters:",IDC_STATIC,10,130,80,9
-    CONTROL         "Remember newest message ID and don't show older",
-                    IDC_NEWEST,"Button",BS_AUTOCHECKBOX | BS_LEFT | 
-                    BS_PUSHLIKE | BS_MULTILINE | WS_TABSTOP,177,103,130,20
-    CTEXT           "",IDC_VERSION,39,222,52,9,0,WS_EX_STATICEDGE
-    RTEXT           "version:",IDC_VERSION2,7,223,31,9
-    PUSHBUTTON      "Clear popups history",IDC_BUTTON_CLEAR,7,204,197,14,
-                    BS_CENTER | BS_MULTILINE
-    GROUPBOX        "Filter messages contain below strings in:",IDC_STATIC,8,
-                    147,197,56
-    COMBOBOX        IDC_FILTER_SENDER,51,157,115,12,CBS_DROPDOWN | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Sender",IDC_STATIC,10,159,39,8
-    COMBOBOX        IDC_FILTER_SUBJECT,51,170,115,12,CBS_DROPDOWN | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Subject",IDC_STATIC,10,171,39,8
-    PUSHBUTTON      "+",IDC_BUTTON_ADD_SENDER_FILTER,169,158,16,11,BS_CENTER
-    PUSHBUTTON      "+",IDC_BUTTON_ADD_SUBJECT_FILTER,169,171,16,11,
-                    BS_CENTER
-    PUSHBUTTON      "-",IDC_BUTTON_REMOVE_SENDER_FILTER,185,158,16,11,
-                    BS_CENTER
-    PUSHBUTTON      "-",IDC_BUTTON_REMOVE_SUBJECT_FILTER,185,171,16,11,
-                    BS_CENTER
-    GROUPBOX        "Lotus connection settings",IDC_STATIC,7,7,237,57
-    LTEXT           "Primary server:",IDC_STATIC,10,18,65,9
-    COMBOBOX        IDC_SERVER,75,16,115,11,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+    GROUPBOX        "Lotus connection settings",IDC_STATIC,0,5,242,57
+    LTEXT           "Primary server:",IDC_STATIC,3,16,65,9
+    COMBOBOX        IDC_SERVER,67,14,115,11,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
                     CBS_SORT | CBS_DISABLENOSCROLL | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Database:",IDC_STATIC,10,40,65,9
-    PUSHBUTTON      "try detect",IDC_BUTTON_DETECT,191,14,51,36,BS_MULTILINE
-    LTEXT           "Secondary server:",IDC_STATIC,10,29,65,9
-    GROUPBOX        "Check interval:",IDC_STATIC,246,7,61,57
-    LTEXT           "(0-disabled)",IDC_STATIC,250,31,56,8
-    LTEXT           "min.",IDC_STATIC,273,19,19,8
-    EDITTEXT        IDC_PASSWORD,75,50,115,11,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "Password:",IDC_STATIC,10,51,65,9
-    GROUPBOX        "Offline status mean:",IDC_STATIC,206,123,101,110
+    LTEXT           "Secondary server:",IDC_STATIC,3,27,65,9
+    EDITTEXT        IDC_SERVERSEC,67,26,115,11,ES_AUTOHSCROLL
+    LTEXT           "Database:",IDC_STATIC,3,38,65,9
+    EDITTEXT        IDC_DATABASE,67,37,115,11,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,3,49,65,9
+    EDITTEXT        IDC_PASSWORD,67,48,115,11,ES_PASSWORD | ES_AUTOHSCROLL
+    PUSHBUTTON      "try detect",IDC_BUTTON_DETECT,188,15,50,30,BS_MULTILINE
+    CONTROL         "autoregister",IDC_BUTTON_CHECK,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,186,48,52,12
+    GROUPBOX        "Check interval:",IDC_STATIC,244,5,70,57
+    EDITTEXT        IDC_INTERVAL,247,14,21,11,ES_AUTOHSCROLL
+    LTEXT           "min.",IDC_STATIC,270,16,19,8
+    LTEXT           "(0-disabled)",IDC_STATIC,250,29,56,8
+    CONTROL         "Keep connection on error",IDC_KEEP_CONNEXION_ON_ERROR,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | 
+                    WS_TABSTOP,247,40,63,20
+    GROUPBOX        "Popup options",IDC_STATIC,0,63,315,75,WS_GROUP
+    CONTROL         "Set popup colors",IDC_SETCOLOURS,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,5,80,83,11
+    CONTROL         "Custom1",IDC_BGCOLOR,"ColourPicker",WS_GROUP | WS_TABSTOP,90,74,10,10
+    LTEXT           "Background",IDC_STATIC,105,75,43,8
+    CONTROL         "Custom1",IDC_FGCOLOR,"ColourPicker",WS_GROUP | WS_TABSTOP,90,87,10,10
+    LTEXT           "Text",IDC_STATIC,105,88,41,8
+    LTEXT           "Close after:",IDC_STATIC,3,102,44,9
+    EDITTEXT        IDC_INTERVAL1,48,101,21,11,ES_AUTOHSCROLL | WS_GROUP
+    LTEXT           "sec (0 default, -1 disabled)",IDC_STATIC,74,102,100,9
+    LTEXT           "Left button click cmd:",IDC_STATIC,3,115,80,9
+    EDITTEXT        IDC_COMMAND,83,114,103,11,ES_AUTOHSCROLL
+    LTEXT           "Command parameters:",IDC_STATIC,3,126,80,9
+    EDITTEXT        IDC_PARAMETERS,83,125,103,11,ES_AUTOHSCROLL
+    CONTROL         "Show again if still unread",IDC_ONCEONLY,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,198,69,115,10
+    CONTROL         "...but only if popup not clicked",IDC_NONCLICKEDONLY,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,198,80,115,10
+    CONTROL         "Show error messages",IDC_SHOWERROR,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,198,91,115,10
+    CONTROL         "Remember newest message ID and don't show older",IDC_NEWEST,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFT | BS_MULTILINE | WS_TABSTOP,198,102,115,16
+    CONTROL         "...even if popup not clicked",IDC_REMEMBEREVENNONCLICKED,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,198,120,115,10
+    PUSHBUTTON      "Clear popups history",IDC_BUTTON_CLEAR,20,140,140,12,BS_CENTER | BS_MULTILINE
+    GROUPBOX        "Filter messages contain below strings in:",IDC_STATIC,0,163,197,56
+    LTEXT           "Sender",IDC_STATIC,3,176,39,8
+    COMBOBOX        IDC_FILTER_SENDER,44,175,120,11,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "+",IDC_BUTTON_ADD_SENDER_FILTER,167,175,13,12,BS_CENTER
+    PUSHBUTTON      "-",IDC_BUTTON_REMOVE_SENDER_FILTER,181,175,13,12,BS_CENTER
+    LTEXT           "Subject",IDC_STATIC,3,188,39,8
+    COMBOBOX        IDC_FILTER_SUBJECT,44,187,120,11,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "+",IDC_BUTTON_ADD_SUBJECT_FILTER,167,187,13,12,BS_CENTER
+    PUSHBUTTON      "-",IDC_BUTTON_REMOVE_SUBJECT_FILTER,181,187,13,12,BS_CENTER
+    LTEXT           "To / CopyTo",IDC_STATIC,3,201,39,8
+    COMBOBOX        IDC_FILTER_TO,44,200,120,11,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "+",IDC_BUTTON_ADD_TO_FILTER,167,200,13,12,BS_CENTER
+    PUSHBUTTON      "-",IDC_BUTTON_REMOVE_TO_FILTER,181,200,13,12,BS_CENTER
+    GROUPBOX        "Offline status mean:",IDC_STATIC,213,140,101,110
     CONTROL         "",IDC_STATUS,"SysListView32",LVS_REPORT | 
                     LVS_NOLABELWRAP | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | 
-                    LVS_NOSORTHEADER | WS_TABSTOP,209,133,96,97,
+                    LVS_NOSORTHEADER | WS_TABSTOP,216,150,96,97,
                     WS_EX_CLIENTEDGE
-    COMBOBOX        IDC_FILTER_TO,51,183,115,12,CBS_DROPDOWN | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "To / CopyTo",IDC_STATIC,10,184,39,8
-    PUSHBUTTON      "+",IDC_BUTTON_ADD_TO_FILTER,169,184,16,11,BS_CENTER
-    PUSHBUTTON      "-",IDC_BUTTON_REMOVE_TO_FILTER,185,184,16,11,BS_CENTER
-    CONTROL         "autoregister",IDC_BUTTON_CHECK,"Button",BS_AUTOCHECKBOX | 
-                    BS_PUSHLIKE | WS_TABSTOP,191,50,51,12
-    CONTROL         "Keep connection on error",IDC_KEEP_CONNEXION_ON_ERROR,
-                    "Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | BS_MULTILINE | 
-                    WS_TABSTOP,248,42,57,20
+    RTEXT           "version:",IDC_VERSION2,5,234,35,9
+    CTEXT           "",IDC_VERSION,41,233,52,9,0,WS_EX_STATICEDGE
 END
 
 
@@ -134,10 +124,10 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPT_DIALOG, DIALOG
     BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 307
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 232
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 310
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 245
     END
 END
 #endif    // APSTUDIO_INVOKED
