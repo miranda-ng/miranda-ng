@@ -135,7 +135,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 	SOCKET maxfd;
 	DWORD tick;
 	list_t l;
-	char filename[MAX_PATH];
+	char szFilename[MAX_PATH];
 
 	// Zero up lists
 	watches = transfers = requests = l = NULL;
@@ -269,8 +269,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							{
 								PROTOFILETRANSFERSTATUS pfts;
 								local_dcc->tick = tick;
-								strncpy(filename, local_dcc->folder, sizeof(filename));
-								mir_strncat(filename, (char*)local_dcc->file_info.filename, sizeof(filename) - mir_strlen(filename));
+								mir_snprintf(szFilename, SIZEOF(szFilename), "%s%s", local_dcc->folder, local_dcc->file_info.filename);
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (MCONTACT)local_dcc->contact;
@@ -281,7 +280,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								pfts.totalBytes = local_dcc->file_info.size;
 								pfts.totalProgress = local_dcc->offset;
 								pfts.szWorkingDir = local_dcc->folder;
-								pfts.szCurrentFile = filename;
+								pfts.szCurrentFile = szFilename;
 								pfts.currentFileSize = local_dcc->file_info.size;
 								pfts.currentFileProgress = local_dcc->offset;
 								pfts.currentFileTime = 0;
@@ -300,8 +299,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							if (local_dcc->file_fd != -1)
 							{
 								PROTOFILETRANSFERSTATUS pfts;
-								strncpy(filename, local_dcc->folder, sizeof(filename));
-								mir_strncat(filename, (char*)local_dcc->file_info.filename, sizeof(filename) - mir_strlen(filename));
+								mir_snprintf(szFilename, SIZEOF(szFilename), "%s%s", local_dcc->folder, local_dcc->file_info.filename);
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (MCONTACT)local_dcc->contact;
@@ -312,7 +310,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								pfts.totalBytes = local_dcc->file_info.size;
 								pfts.totalProgress = local_dcc->file_info.size;
 								pfts.szWorkingDir = local_dcc->folder;
-								pfts.szCurrentFile = filename;
+								pfts.szCurrentFile = szFilename;
 								pfts.currentFileSize = local_dcc->file_info.size;
 								pfts.currentFileProgress = local_dcc->file_info.size;
 								pfts.currentFileTime = 0;
@@ -499,8 +497,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							{
 								PROTOFILETRANSFERSTATUS pfts;
 								local_dcc7->tick = tick;
-								strncpy(filename, local_dcc7->folder, sizeof(filename));
-								mir_strncat(filename, (char*)local_dcc7->filename, sizeof(filename) - mir_strlen(filename));
+								mir_snprintf(szFilename, SIZEOF(szFilename), "%s%s", local_dcc->folder, local_dcc7->filename);
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (MCONTACT)local_dcc7->contact;
@@ -511,7 +508,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								pfts.totalBytes = local_dcc7->size;
 								pfts.totalProgress = local_dcc7->offset;
 								pfts.szWorkingDir = local_dcc7->folder;
-								pfts.szCurrentFile = filename;
+								pfts.szCurrentFile = szFilename;
 								pfts.currentFileSize = local_dcc7->size;
 								pfts.currentFileProgress = local_dcc7->offset;
 								pfts.currentFileTime = 0;
@@ -530,8 +527,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							if (local_dcc7->file_fd != -1)
 							{
 								PROTOFILETRANSFERSTATUS pfts;
-								strncpy(filename, local_dcc7->folder, sizeof(filename));
-								mir_strncat(filename, (char*)local_dcc7->filename, sizeof(filename) - mir_strlen(filename));
+								mir_snprintf(szFilename, SIZEOF(szFilename), "%s%s", local_dcc->folder, local_dcc7->filename);
 								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (MCONTACT)local_dcc7->contact;
@@ -542,7 +538,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								pfts.totalBytes = local_dcc7->size;
 								pfts.totalProgress = local_dcc7->size;
 								pfts.szWorkingDir = local_dcc7->folder;
-								pfts.szCurrentFile = filename;
+								pfts.szCurrentFile = szFilename;
 								pfts.currentFileSize = local_dcc7->size;
 								pfts.currentFileProgress = local_dcc7->size;
 								pfts.currentFileTime = 0;
