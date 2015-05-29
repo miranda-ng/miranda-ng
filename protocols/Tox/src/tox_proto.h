@@ -96,7 +96,7 @@ private:
 	// tox network
 	bool IsOnline();
 
-	void BootstrapNode(const char *address, int port, const uint8_t *pubKey);
+	void BootstrapNode(const char *address, int port, const char *pubKey);
 	void BootstrapNodesFromDb(bool isIPv6);
 	void BootstrapNodesFromIni(bool isIPv6);
 	void BootstrapNodes();

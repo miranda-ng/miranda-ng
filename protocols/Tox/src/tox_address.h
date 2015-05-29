@@ -8,23 +8,36 @@ class ToxHexAddress
 {
 private:
 	std::string hexData;
-public:
-	ToxHexAddress(const ToxHexAddress &address) : hexData(address.hexData) { }
-	ToxHexAddress(const char *hex, size_t size = TOX_ADDRESS_SIZE * 2) : hexData(hex, hex + size) { }
-	ToxHexAddress(const std::string &hex)
+	void Init(const char *hex, size_t size)
 	{
-		this->ToxHexAddress::ToxHexAddress(hex.c_str(), hex.size());
+		hexData = std::string(hex, size);
 	}
-	ToxHexAddress(const uint8_t *bin, size_t size = TOX_ADDRESS_SIZE)
+	void Init(const uint8_t *bin, size_t size)
 	{
 		char *hex = (char*)mir_alloc(size * 2 + 1);
 		hexData = bin2hex(bin, size, hex);
 		std::transform(hexData.begin(), hexData.end(), hexData.begin(), ::toupper);
 		mir_free(hex);
 	}
+public:
+	ToxHexAddress(const ToxHexAddress &address) : hexData(address.hexData) { }
+	ToxHexAddress(const char *hex, size_t size = TOX_ADDRESS_SIZE * 2) : hexData(hex, hex + size) { }
+	ToxHexAddress(const std::string &hex)
+	{
+		Init(hex.c_str(), hex.size());
+	}
+	ToxHexAddress(const uint8_t *bin, size_t size = TOX_ADDRESS_SIZE)
+	{
+		Init(bin, size);
+	}
 	ToxHexAddress(const std::vector<uint8_t> &bin)
 	{
-		this->ToxHexAddress::ToxHexAddress(bin.data(), bin.size());
+		Init(bin.data(), bin.size());
+	}
+	ToxHexAddress& operator=(const char *hex)
+	{
+		Init(hex, mir_strlen(hex));
+		return *this;
 	}
 	const size_t GetLength() const
 	{
@@ -54,24 +67,34 @@ class ToxBinAddress
 {
 private:
 	std::vector<uint8_t> binData;
+	void Init(const char *hex, size_t size)
+	{
+		char *endptr;
+		const char *pos = hex;
+		size /= 2; binData.resize(size);
+		for (size_t i = 0; i < size; i++)
+		{
+			char buf[5] = { '0', 'x', pos[0], pos[1], 0 };
+			binData[i] = (uint8_t)strtol(buf, &endptr, 0);
+			pos += 2;
+		}
+	}
 public:
 	ToxBinAddress(const ToxBinAddress &address) : binData(address.binData) { }
 	ToxBinAddress(const uint8_t *bin, size_t size = TOX_ADDRESS_SIZE) : binData(bin, bin + size) { }
 	ToxBinAddress(const std::vector<uint8_t> &bin, size_t size = TOX_ADDRESS_SIZE) : binData(bin.begin(), bin.begin() + size) { }
 	ToxBinAddress(const char *hex, size_t size = TOX_ADDRESS_SIZE * 2)
 	{
-		char *endptr;
-		const char *pos = hex;
-		for (size_t i = 0; i < size / 2; i++)
-		{
-			char buf[5] = { '0', 'x', pos[0], pos[1], 0 };
-			binData.push_back((uint8_t)strtol(buf, &endptr, 0));
-			pos += 2;
-		}
+		Init(hex, size);
 	}
 	ToxBinAddress(const std::string &hex)
 	{
-		this->ToxBinAddress::ToxBinAddress(hex.c_str(), hex.size());
+		Init(hex.c_str(), hex.size());
+	}
+	ToxBinAddress& operator=(const char *hex)
+	{
+		Init(hex, mir_strlen(hex));
+		return *this;
 	}
 	const ToxBinAddress GetPubKey() const
 	{
