@@ -282,7 +282,7 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 
 	// check if directory exists
 	char szMask[MAX_PATH];
-	mir_snprintf(szMask, _countof(szMask), "%s%s", pszRealPath, "*");
+	mir_snprintf(szMask, _countof(szMask), "%s*", pszRealPath);
 
 	WIN32_FIND_DATAA fdFindFileData;
 	HANDLE hFind = FindFirstFile(szMask, &fdFindFileData);

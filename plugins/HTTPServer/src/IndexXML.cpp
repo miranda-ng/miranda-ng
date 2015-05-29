@@ -64,7 +64,7 @@ static void ReplaceSign(char* pszSrc, int MaxLength, const char pszReplace,
 bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const char * pszSrvPath, DWORD dwRemoteIP)
 {
 	char szMask[MAX_PATH+1];
-	mir_snprintf(szMask, _countof(szMask), "%s%s", pszRealPath, "*");
+	mir_snprintf(szMask, _countof(szMask), "%s*", pszRealPath);
 
 	WIN32_FIND_DATAA fdFindFileData;
 	HANDLE hFind = FindFirstFile(szMask, &fdFindFileData);
