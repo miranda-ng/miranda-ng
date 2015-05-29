@@ -129,10 +129,10 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		CMString Nick(jnRecord["nickname"].as_mstring());
 		CMString Domain(jnRecord["domain"].as_mstring());
 
-		psr.id = mir_tstrdup(Id.GetBuffer());
-		psr.firstName = mir_tstrdup(FirstName.GetBuffer());
-		psr.lastName = mir_tstrdup(LastName.GetBuffer());
-		psr.nick = Nick.IsEmpty() ? mir_tstrdup(Domain.GetBuffer()) : mir_tstrdup(Nick.GetBuffer());
+		psr.id = mir_tstrdup(Id);
+		psr.firstName = mir_tstrdup(FirstName);
+		psr.lastName = mir_tstrdup(LastName);
+		psr.nick = Nick.IsEmpty() ? mir_tstrdup(Domain) : mir_tstrdup(Nick);
 		
 		bool filter = true;
 		if (pParam) {
@@ -194,11 +194,11 @@ void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		CMString Email(jnRecord["contact"].as_mstring());
 
 
-		psr.id = mir_tstrdup(Id.GetBuffer());
-		psr.firstName = mir_tstrdup(FirstName.GetBuffer());
-		psr.lastName = mir_tstrdup(LastName.GetBuffer());
-		psr.nick = Nick.IsEmpty() ? mir_tstrdup(Email.GetBuffer()) : mir_tstrdup(Nick.GetBuffer());
-		psr.email = mir_tstrdup(Email.GetBuffer());
+		psr.id = mir_tstrdup(Id);
+		psr.firstName = mir_tstrdup(FirstName);
+		psr.lastName = mir_tstrdup(LastName);
+		psr.nick = Nick.IsEmpty() ? mir_tstrdup(Email) : mir_tstrdup(Nick);
+		psr.email = mir_tstrdup(Email);
 			
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 	}

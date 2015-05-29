@@ -44,7 +44,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				pReq->szUrl = str.GetBuffer();
 			}
 			else {
-				pReq->pData = mir_strdup(pReq->m_szParam.GetBuffer());
+				pReq->pData = mir_strdup(pReq->m_szParam);
 				pReq->dataLength = pReq->m_szParam.GetLength();
 			}
 		}
