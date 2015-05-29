@@ -536,8 +536,20 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 }
 
 static int sttCompareVKNewsItems(const CVKNewsItem *p1, const CVKNewsItem *p2)
+{	
+	int compareId = p1->tszId.Compare(p2->tszId);
+	LONG compareDate = (LONG)p1->tDate - (LONG)p2->tDate;
+
+	return compareId ? compareDate : 0;
+}
+
+static int sttCompareVKNotificationItems(const CVKNewsItem *p1, const CVKNewsItem *p2)
 {
-	return p1->tszId.Compare(p2->tszId) ? (LONG)p1->tDate - (LONG)p2->tDate : 0;
+	int compareType = p1->tszType.Compare(p2->tszType);
+	int compareId = p1->tszId.Compare(p2->tszId);
+	LONG compareDate = (LONG)p1->tDate - (LONG)p2->tDate;
+
+	return compareType ? compareDate : (compareId ? compareDate : 0);
 }
 
 void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -644,13 +656,11 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 	const JSONNode &jnGroupInvates = jnResponse["groupinvates"];
 
 	OBJLIST<CVkUserInfo> vkUsers(5, NumericKeySortT);
-	OBJLIST<CVKNewsItem> vkNotification(5, sttCompareVKNewsItems);
+	OBJLIST<CVKNewsItem> vkNotification(5, sttCompareVKNotificationItems);
 	
 	CreateVkUserInfoList(vkUsers, jnNotifications);
 	CreateVkUserInfoList(vkUsers, jnGroupInvates);
-
 	
-
 	if (!jnNotifications.isnull()) {
 		const JSONNode &jnItems = jnNotifications["items"];
 
