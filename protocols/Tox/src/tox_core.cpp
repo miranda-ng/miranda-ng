@@ -72,7 +72,7 @@ bool CToxProto::InitToxCore()
 
 		uint8_t data[TOX_ADDRESS_SIZE];
 		tox_self_get_address(tox, data);
-		ToxHexAddress address(data, TOX_ADDRESS_SIZE);
+		ToxHexAddress address(data);
 		setString(TOX_SETTINGS_ID, address);
 
 		uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };

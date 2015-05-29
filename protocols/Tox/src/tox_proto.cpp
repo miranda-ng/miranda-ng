@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
-	PROTO<CToxProto>(protoName, userName),
-	tox(NULL), toxAv(NULL), password(NULL),
-	isTerminated(false), isConnected(false),
-	hPollingThread(NULL), hOutDevice(NULL)
+PROTO<CToxProto>(protoName, userName),
+tox(NULL), toxAv(NULL), password(NULL),
+isTerminated(false), isConnected(false),
+hPollingThread(NULL), hOutDevice(NULL)
 {
 	InitNetlib();
 
@@ -70,14 +70,13 @@ MCONTACT CToxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		ShowNotification(TranslateT("You cannot add yourself to your contact list"), 0);
 		return NULL;
 	}
-	MCONTACT hContact = GetContact((char*)address);
-	if (hContact)
+	if (MCONTACT hContact = GetContact((char*)address))
 	{
 		ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
 		return NULL;
 	}
-	// set tox address as contact public key
-	return AddContact(address, _T(""), flags & PALF_TEMPORARY);
+	ptrT dnsId(mir_tstrdup(psr->email));
+	return AddContact(address, dnsId, flags & PALF_TEMPORARY);
 }
 
 int CToxProto::Authorize(MEVENT hDbEvent)

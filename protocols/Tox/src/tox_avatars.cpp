@@ -150,10 +150,12 @@ INT_PTR CToxProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 {
+	debugLogA("CToxProto::SetMyAvatar: setting avatar");
 	TCHAR *path = (TCHAR*)lParam;
 	std::tstring avatarPath = GetAvatarFilePath();
 	if (path != NULL)
 	{
+		debugLogA("CToxProto::SetMyAvatar: copy new avatar");
 		if (!CopyFile(path, avatarPath.c_str(), FALSE))
 		{
 			debugLogA("CToxProto::SetMyAvatar: failed to copy new avatar to avatar cache");

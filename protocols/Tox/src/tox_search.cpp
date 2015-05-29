@@ -51,7 +51,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 		char fileName[MAX_PATH];
 		mir_strcpy(fileName, VARS(TOX_INI_PATH));
 
-		char *section, sections[MAX_PATH], value[MAX_PATH];
+		char *section, sections[MAX_PATH], value[TOX_PUBLIC_KEY_SIZE * 2];
 		GetPrivateProfileSectionNamesA(sections, SIZEOF(sections), fileName);
 		section = sections;
 		while (*section != NULL)
@@ -61,7 +61,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 				GetPrivateProfileStringA(section, "Domain", NULL, value, SIZEOF(value), fileName);
 				ptrA dnsDomain(mir_strdup(value));
 				GetPrivateProfileStringA(section, "PubKey", NULL, value, SIZEOF(value), fileName);
-				ToxBinAddress dnsPubKey(value);
+				ToxBinAddress dnsPubKey = value;
 
 				if (domain == NULL || mir_strcmpi(domain, dnsDomain) == 0)
 				{

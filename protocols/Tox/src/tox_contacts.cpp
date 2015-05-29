@@ -87,9 +87,7 @@ MCONTACT CToxProto::AddContact(const char *address, const TCHAR *dnsId, bool isT
 		setByte(hContact, "Grant", 1);
 
 		if (isTemporary)
-		{
 			db_set_b(hContact, "CList", "NotOnList", 1);
-		}
 	}
 	return hContact;
 }
@@ -98,7 +96,7 @@ uint32_t CToxProto::GetToxFriendNumber(MCONTACT hContact)
 {
 	ToxBinAddress pubKey = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
 	TOX_ERR_FRIEND_BY_PUBLIC_KEY error;
-	uint32_t friendNumber = tox_friend_by_public_key(tox, pubKey, &error);
+	uint32_t friendNumber = tox_friend_by_public_key(tox, pubKey.GetPubKey(), &error);
 	if (error != TOX_ERR_FRIEND_BY_PUBLIC_KEY_OK)
 		debugLogA(__FUNCTION__": failed to get friend number (%d)", error);
 	return friendNumber;
@@ -151,13 +149,11 @@ void CToxProto::LoadFriendList(void*)
 INT_PTR CToxProto::OnRequestAuth(WPARAM hContact, LPARAM lParam)
 {
 	if (!IsOnline())
-	{
-		return -1; // ???
-	}
+		return 0;
 
 	char *reason = lParam ? (char*)lParam : " ";
 	size_t length = mir_strlen(reason);
-	ToxBinAddress address(ptrA(getStringA(hContact, TOX_SETTINGS_ID)));
+	ToxBinAddress address = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
 
 	TOX_ERR_FRIEND_ADD addFriendResult;
 	int32_t friendNumber = tox_friend_add(tox, address, (uint8_t*)reason, length, &addFriendResult);
@@ -185,12 +181,9 @@ INT_PTR CToxProto::OnRequestAuth(WPARAM hContact, LPARAM lParam)
 INT_PTR CToxProto::OnGrantAuth(WPARAM hContact, LPARAM)
 {
 	if (!IsOnline())
-	{
-		// TODO: warn
 		return 0;
-	}
 
-	ToxBinAddress pubKey(ptrA(getStringA(hContact, TOX_SETTINGS_ID)));
+	ToxBinAddress pubKey = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
 	TOX_ERR_FRIEND_ADD error;
 	tox_friend_add_norequest(tox, pubKey, &error);
 	if (error != TOX_ERR_FRIEND_ADD_OK)
@@ -226,6 +219,7 @@ int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 			debugLogA(__FUNCTION__": failed to delete friend (%d)", error);
 			return error;
 		}
+		SaveToxProfile();
 	}
 	/*else
 	{
@@ -244,7 +238,7 @@ void CToxProto::OnFriendRequest(Tox*, const uint8_t *pubKey, const uint8_t *mess
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	ToxHexAddress address(pubKey, TOX_ADDRESS_SIZE);
+	ToxHexAddress address(pubKey);
 	MCONTACT hContact = proto->AddContact(address, _T(""));
 	if (!hContact)
 	{

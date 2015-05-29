@@ -5,13 +5,16 @@ bool CToxProto::IsOnline()
 	return isConnected && m_iStatus > ID_STATUS_OFFLINE;
 }
 
-void CToxProto::BootstrapNode(const char *address, int port, const uint8_t *pubKey)
+void CToxProto::BootstrapNode(const char *address, int port, const char *hexKey)
 {
+	if (hexKey == NULL)
+		return;
+	ToxBinAddress binKey(hexKey, TOX_PUBLIC_KEY_SIZE * 2);
 	TOX_ERR_BOOTSTRAP error;
-	if (!tox_bootstrap(tox, address, port, pubKey, &error))
-	{
-		debugLogA("CToxProto::BootstrapNode: failed to bootstrap node %s:%d \"%s\" (%d)", address, port, (const char*)ToxHexAddress(pubKey), error);
-	}
+	if (!tox_bootstrap(tox, address, port, binKey, &error))
+		debugLogA(__FUNCTION__ ": failed to bootstrap node %s:%d \"%s\" (%d)", address, port, hexKey, error);
+	if (!tox_add_tcp_relay(tox, address, port, binKey, &error))
+		debugLogA(__FUNCTION__ ": failed to add tcp relay%s:%d \"%s\" (%d)", address, port, hexKey, error);
 }
 
 void CToxProto::BootstrapNodesFromDb(bool isIPv6)
@@ -29,7 +32,7 @@ void CToxProto::BootstrapNodesFromDb(bool isIPv6)
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i);
 			int port = db_get_w(NULL, module, setting, 33445);
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i);
-			ToxBinAddress pubKey(ptrA(db_get_sa(NULL, module, setting)));
+			ptrA pubKey(db_get_sa(NULL, module, setting));
 			BootstrapNode(address, port, pubKey);
 			if (isIPv6)
 			{
@@ -59,7 +62,7 @@ void CToxProto::BootstrapNodesFromIni(bool isIPv6)
 				ptrA address(mir_strdup(value));
 				int port = GetPrivateProfileIntA(section, "Port", 33445, fileName);
 				GetPrivateProfileStringA(section, "PubKey", NULL, value, SIZEOF(value), fileName);
-				ToxBinAddress pubKey(value);
+				ptrA pubKey(mir_strdup(value));
 				BootstrapNode(address, port, pubKey);
 				if (isIPv6)
 				{
