@@ -65,6 +65,8 @@
 Налаштувати кольори
 [Use &Windows colors]
 Кольори Windows
+[Use defa&ult colors]
+Кольори за замовчанням
 [Preview]
 Тест
 [Click action]

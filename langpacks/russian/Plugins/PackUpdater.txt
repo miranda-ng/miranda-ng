@@ -57,8 +57,8 @@
 На&строить цвета
 [Use &Windows colors]
 Цвета &Windows
-[Use Pop&up colors]
-Цвета Pop&up
+[Use defa&ult colors]
+Цвета по умолчанию
 [Preview]
 Тест
 [Click action]

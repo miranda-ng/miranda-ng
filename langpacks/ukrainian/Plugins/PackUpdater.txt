@@ -57,8 +57,6 @@
 Налаштувати кольори
 [Use &Windows colors]
 Кольори Windows
-[Use Pop&up colors]
-Кольори сплив. вікон
 [Preview]
 Тест
 [Click action]
