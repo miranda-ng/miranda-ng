@@ -43,6 +43,7 @@ char* GetRichTextRTF(HWND hwnd);
 char* GetRichTextUtf(HWND hwnd);
 TCHAR *GetRichTextWord(HWND hwnd, POINTL *pt);
 int SetRichText(HWND hwnd, const TCHAR *text);
+int SetRichTextRTF(HWND hwnd, const char *text);
 void SearchWord(TCHAR * word, int engine);
 HDWP ResizeToolbar(HWND hwnd, HDWP hdwp, int width, int vPos, int height, int cControls, const ToolbarButton * buttons, int controlVisibility);
 void ShowToolbarControls(HWND hwndDlg, int cControls, const ToolbarButton * buttons, int controlVisibility, int state);

@@ -230,7 +230,7 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, Common
 				if (cmdListNew != NULL) {
 					SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
 
-					int iLen = SetRichText(hwnd, ptrT(mir_utf8decodeT(cmdListNew->szCmd)));
+					int iLen = SetRichTextRTF(hwnd, cmdListNew->szCmd);
 
 					SendMessage(hwnd, EM_SCROLLCARET, 0, 0);
 					SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);

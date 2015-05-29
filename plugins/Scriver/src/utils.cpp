@@ -117,7 +117,18 @@ int SetRichText(HWND hwnd, const TCHAR *text)
 	st.flags = ST_DEFAULT;
 	st.codepage = 1200;
 	SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)text);
-	return GetRichTextLength(hwnd, st.codepage, FALSE);
+	
+	return GetRichTextLength(hwnd, 1200, FALSE);
+}
+
+int SetRichTextRTF(HWND hwnd, const char *text)
+{
+	SETTEXTEX st;
+	st.flags = ST_DEFAULT;
+	st.codepage = CP_UTF8;
+	SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)text);
+	
+	return GetRichTextLength(hwnd, 1200, FALSE);
 }
 
 static DWORD CALLBACK RichTextStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
