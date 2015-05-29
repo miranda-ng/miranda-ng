@@ -61,15 +61,13 @@ static void ReplaceSign(char* pszSrc, int MaxLength, const char pszReplace,
 // Developer       : Houdini
 /////////////////////////////////////////////////////////////////////
 
-bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, 
-										 const char * pszSrvPath, DWORD dwRemoteIP) {
+bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const char * pszSrvPath, DWORD dwRemoteIP)
+{
 	char szMask[MAX_PATH+1];
-	strncpy(szMask, pszRealPath, MAX_PATH);
-	mir_strncat(szMask, "*", SIZEOF(szMask) - mir_strlen(szMask));
+	mir_snprintf(szMask, _countof(szMask), "%s%s", pszRealPath, "*");
 
 	WIN32_FIND_DATAA fdFindFileData;
 	HANDLE hFind = FindFirstFile(szMask, &fdFindFileData);
-
 	if (hFind == INVALID_HANDLE_VALUE)
 		return FALSE;
 
@@ -102,8 +100,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 	WriteFile(hFile, szXmlHeader1, sizeof(szXmlHeader1) - 1, &dwBytesWritten, NULL);
 
 	// check if a index.xsl exists in the same directory otherwise use the global
-	strncpy(szMask, pszRealPath, MAX_PATH);
-	mir_strncat(szMask, "index.xsl", SIZEOF(szMask) - mir_strlen(szMask));
+	mir_snprintf(szMask, _countof(szMask), "%s%s", pszRealPath, "index.xsl");
 
 	HANDLE hFileExists = CreateFile(szMask, GENERIC_READ, 
 		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 
@@ -111,7 +108,8 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 
 	if (hFileExists == INVALID_HANDLE_VALUE) {
 		strncpy(szBuffer, "/index.xsl", BUFFER_SIZE);
-	} else {
+	}
+	else {
 		CloseHandle(hFileExists);
 		strncpy(szBuffer, "index.xsl", BUFFER_SIZE);
 	}

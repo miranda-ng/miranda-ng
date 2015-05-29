@@ -702,16 +702,14 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 {
 	struct gg_dcc7 *dcc7 = (struct gg_dcc7 *) hTransfer;
 	char fileName[MAX_PATH], *path = mir_t2a(szPath);
-	int iFtRemoveRes;
-	strncpy(fileName, path, sizeof(fileName));
-	mir_strncat(fileName, (char*)dcc7->filename, sizeof(fileName) - mir_strlen(fileName));
-	dcc7->folder = _strdup((char *) path);
+	mir_snprintf(fileName, _countof(fileName), "%s%s", path, dcc7->filename);
+	dcc7->folder = _strdup((char*)path);
 	dcc7->tick = 0;
 	mir_free(path);
 
 	// Remove transfer from waiting list
 	gg_EnterCriticalSection(&ft_mutex, "dcc7fileallow", 40, "ft_mutex", 1);
-	iFtRemoveRes = list_remove(&transfers, dcc7, 0);
+	int iFtRemoveRes = list_remove(&transfers, dcc7, 0);
 	gg_LeaveCriticalSection(&ft_mutex, "dcc7fileallow", 40, 1, "ft_mutex", 1);
 
 	if (iFtRemoveRes == -1)
