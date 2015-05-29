@@ -21,11 +21,11 @@ void CSkypeProto::ProcessEndpointPresenceRes(const JSONNode &node)
 {
 	debugLogA("CSkypeProto::ProcessEndpointPresenceRes");
 	std::string selfLink = node["selfLink"].as_string();
-	std::string skypename(ContactUrlToName(selfLink.c_str()));
-	if (skypename.empty())
+	ptrA skypename(ContactUrlToName(selfLink.c_str()));
+	if (skypename == NULL)
 		return;
 
-	MCONTACT hContact = FindContact(skypename.c_str());
+	MCONTACT hContact = FindContact(skypename);
 	if (hContact == NULL)
 		return;
 
@@ -106,7 +106,7 @@ void CSkypeProto::ProcessUserPresenceRes(const JSONNode &node)
 
 	std::string selfLink = node["selfLink"].as_string();
 	std::string status = node["status"].as_string();
-	std::string skypename;
+	ptrA skypename;
 
 	if (selfLink.find("/8:") != std::string::npos)
 	{
@@ -117,9 +117,9 @@ void CSkypeProto::ProcessUserPresenceRes(const JSONNode &node)
 		skypename = SelfUrlToName(selfLink.c_str());
 	}
 
-	if (!skypename.empty())
+	if (skypename != NULL)
 	{
-		if (IsMe(skypename.c_str()))
+		if (IsMe(skypename))
 		{
 			int iNewStatus = SkypeToMirandaStatus(status.c_str());
 			int old_status = m_iStatus;
@@ -131,7 +131,7 @@ void CSkypeProto::ProcessUserPresenceRes(const JSONNode &node)
 		}
 		else
 		{
-			MCONTACT hContact = FindContact(skypename.c_str());
+			MCONTACT hContact = FindContact(skypename);
 			if (hContact != NULL)
 				SetContactStatus(hContact, SkypeToMirandaStatus(status.c_str()));
 		}
@@ -160,7 +160,7 @@ void CSkypeProto::ProcessConversationUpdateRes(const JSONNode&)
 
 	if (strstr(convLink, "/8:") && IsMe(ContactUrlToName(fromLink)))
 	{
-		std::string skypename(ContactUrlToName(convLink));
+		ptrA skypename(ContactUrlToName(convLink));
 		MCONTACT hContact = FindContact(skypename);
 
 		if (hContact != NULL)
