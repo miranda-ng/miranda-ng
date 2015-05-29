@@ -103,38 +103,33 @@ void CSkypeProto::OnLoadChats(const NETLIBHTTPREQUEST *response)
 	if (response == NULL)
 		return;
 
-	JSONROOT root(response->pData);
-
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(response->pData);
+	if (!root)
 		return;
 
-	JSONNODE *metadata = json_get(root, "_metadata");
-	JSONNODE *conversations = json_as_array(json_get(root, "conversations"));
+	const JSONNode &metadata = root["_metadata"];
+	const JSONNode &conversations = root["conversations"].as_array();
 
-	int totalCount = json_as_int(json_get(metadata, "totalCount"));
-	ptrA syncState(mir_t2a(ptrT(json_as_string(json_get(metadata, "syncState")))));
+	int totalCount = metadata["totalCount"].as_int();
+	std::string syncState = metadata["syncState"].as_string();
 
-	if (totalCount >= 99 || json_size(conversations) >= 99)
-		PushRequest(new SyncHistoryFirstRequest(syncState, RegToken), &CSkypeProto::OnSyncHistory);
+	if (totalCount >= 99 || conversations.size() >= 99)
+		PushRequest(new SyncHistoryFirstRequest(syncState.c_str(), RegToken), &CSkypeProto::OnSyncHistory);
 
-	for (size_t i = 0; i < json_size(conversations); i++)
+	for (size_t i = 0; i < conversations.size(); i++)
 	{
-		JSONNODE *conversation = json_at(conversations, i);
-		JSONNODE *lastMessage = json_get(conversation, "lastMessage");
-		JSONNODE *threadProperties = json_get(conversation, "threadProperties");
-		if (json_empty(lastMessage))
+		const JSONNode &conversation = conversations.at(i);
+		const JSONNode &lastMessage = conversation["lastMessage"];
+		const JSONNode &threadProperties = conversation["threadProperties"];
+		if (!lastMessage)
 			continue;
 
-		char *conversationLink = mir_t2a(json_as_string(json_get(lastMessage, "conversationLink")));
-
-		ptrA skypename;
-		TCHAR *topic;
-
-		if (conversationLink != NULL && strstr(conversationLink, "/19:"))
+		std::string conversationLink = lastMessage["conversationLink"].as_string();
+		if (conversationLink.find("/19:") != -1)
 		{
-			skypename = ChatUrlToName(conversationLink);
-			topic = json_as_string(json_get(threadProperties, "topic"));
-			SendRequest(new GetChatInfoRequest(RegToken, skypename, Server), &CSkypeProto::OnGetChatInfo, topic);
+			ptrA skypename(ChatUrlToName(conversationLink.c_str()));
+			CMString topic(threadProperties["topic"].as_mstring());
+			SendRequest(new GetChatInfoRequest(RegToken, skypename, Server), &CSkypeProto::OnGetChatInfo, topic.Detach());
 		}
 	}
 }
@@ -265,37 +260,37 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 
 /* CHAT EVENT */
 
-void CSkypeProto::OnChatEvent(JSONNODE *node)
+void CSkypeProto::OnChatEvent(const JSONNode &node)
 {
-	ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(node, "clientmessageid")))));
-	ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(node, "skypeeditedid")))));
+	std::string clientMsgId = node["clientmessageid"].as_string();
+	std::string skypeEditedId = node["skypeeditedid"].as_string();
 
-	ptrA fromLink(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
-	ptrA from(ContactUrlToName(fromLink));
+	std::string fromLink = node["from"].as_string();
+	ptrA from(ContactUrlToName(fromLink.c_str()));
 
-	time_t timestamp = IsoToUnixTime(ptrT(json_as_string(json_get(node, "composetime"))));
+	time_t timestamp = IsoToUnixTime(node["composetime"].as_string().c_str());
 
-	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
-	int emoteOffset = atoi(ptrA(mir_t2a(ptrT(json_as_string(json_get(node, "skypeemoteoffset"))))));
+	std::string content = node["content"].as_string();
+	int emoteOffset = node["skypeemoteoffset"].as_int();
 
-	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
-	ptrA chatname(ChatUrlToName(conversationLink));
+	std::string conversationLink = node["conversationLink"].as_string();
+	ptrA chatname(ChatUrlToName(conversationLink.c_str()));
 
-	TCHAR *topic(json_as_string(json_get(node, "threadtopic")));
+	CMString topic(node["threadtopic"].as_mstring());
+	if (FindChatRoom(chatname) == NULL)
+		SendRequest(new GetChatInfoRequest(RegToken, chatname, Server), &CSkypeProto::OnGetChatInfo, topic.Detach());
 
-	if (FindChatRoom(chatname) == NULL) SendRequest(new GetChatInfoRequest(RegToken, chatname, Server), &CSkypeProto::OnGetChatInfo, topic);
-
-	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
-	if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
+	std::string messageType = node["messagetype"].as_string();
+	if (!mir_strcmpi(messageType.c_str(), "Text") || !mir_strcmpi(messageType.c_str(), "RichText"))
 	{
-		AddMessageToChat(_A2T(chatname), _A2T(from), content, emoteOffset != NULL, emoteOffset, timestamp);
+		AddMessageToChat(_A2T(chatname), _A2T(from), content.c_str(), emoteOffset != NULL, emoteOffset, timestamp);
 	}
-	else if (!mir_strcmpi(messageType, "ThreadActivity/AddMember"))
+	else if (!mir_strcmpi(messageType.c_str(), "ThreadActivity/AddMember"))
 	{
 		ptrA xinitiator, xtarget, initiator, target;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("addmember"));
+		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("addmember"));
 		if (xml == NULL)
 			return;
 
@@ -305,7 +300,7 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 			if (xmlNode == NULL)
 				break;
 
-			xtarget = xmlNode != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
+			xtarget = mir_t2a(xi.getText(xmlNode));
 
 			target = ParseUrl(xtarget, "8:");
 
@@ -313,12 +308,12 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		}
 		xi.destroyNode(xml);
 	}
-	else if (!mir_strcmpi(messageType, "ThreadActivity/DeleteMember"))
+	else if (!mir_strcmpi(messageType.c_str(), "ThreadActivity/DeleteMember"))
 	{
 		ptrA xinitiator, xtarget, initiator, target;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("deletemember"));
+		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("deletemember"));
 		if (xml != NULL) {
 			HXML xmlNode = xi.getChildByPath(xml, _T("initiator"), 0);
 			xinitiator = node != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
@@ -337,11 +332,11 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		RemoveChatContact(_A2T(chatname), target, target, true, initiator);
 
 	}
-	else if (!mir_strcmpi(messageType, "ThreadActivity/TopicUpdate"))
+	else if (!mir_strcmpi(messageType.c_str(), "ThreadActivity/TopicUpdate"))
 	{
 		//content=<topicupdate><eventtime>1429532702130</eventtime><initiator>8:user</initiator><value>test topic</value></topicupdate>
 		ptrA xinitiator, value, initiator;
-		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("topicupdate"));
+		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("topicupdate"));
 		if (xml != NULL) {
 			HXML xmlNode = xi.getChildByPath(xml, _T("initiator"), 0);
 			xinitiator = xmlNode != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
@@ -356,11 +351,11 @@ void CSkypeProto::OnChatEvent(JSONNODE *node)
 		RenameChat(chatname, value);
 		ChangeChatTopic(chatname, value, initiator);
 	}
-	else if (!mir_strcmpi(messageType, "ThreadActivity/RoleUpdate"))
+	else if (!mir_strcmpi(messageType.c_str(), "ThreadActivity/RoleUpdate"))
 	{
 		//content=<roleupdate><eventtime>1429551258363</eventtime><initiator>8:user</initiator><target><id>8:user1</id><role>admin</role></target></roleupdate>
 		ptrA xinitiator, xId, initiator, id, xRole;
-		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("roleupdate"));
+		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("roleupdate"));
 		if (xml != NULL) {
 			HXML xmlNode = xi.getChildByPath(xml, _T("initiator"), 0);
 			xinitiator = xmlNode != NULL ? mir_t2a(xi.getText(xmlNode)) : NULL;
@@ -439,23 +434,25 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 	if (response == NULL || response->pData == NULL)
 		return;
 
-	JSONROOT root(response->pData);
-	JSONNODE *members = json_get(root, "members");
-	JSONNODE *properties = json_get(root, "properties");
-
-	if (json_empty(json_get(properties, "capabilities")))
+	JSONNode root = JSONNode::parse(response->pData);
+	if (!root)
 		return;
 
-	ptrA chatId(ChatUrlToName(mir_t2a(ptrT(json_as_string(json_get(root, "messages"))))));
-	StartChatRoom(_A2T(chatId), mir_tstrdup(topic));
-	for (size_t i = 0; i < json_size(members); i++)
-	{
-		JSONNODE *member = json_at(members, i);
+	const JSONNode &members = root["members"];
+	const JSONNode &properties = root["properties"];
+	if (!properties["capabilities"])
+		return;
 
-		ptrA username(ContactUrlToName(ptrA(mir_t2a(ptrT(json_as_string(json_get(member, "userLink")))))));
-		ptrT role(json_as_string(json_get(member, "role")));
+	ptrA chatId(ChatUrlToName(root["messages"].as_string().c_str()));
+	StartChatRoom(_A2T(chatId), mir_tstrdup(topic));
+	for (size_t i = 0; i < members.size(); i++)
+	{
+		const JSONNode &member = members.at(i);
+
+		ptrA username(ContactUrlToName(member["userLink"].as_string().c_str()));
+		std::string role = member["role"].as_string();
 		if (!IsChatContact(_A2T(chatId), username))
-			AddChatContact(_A2T(chatId), username, username, role, true);
+			AddChatContact(_A2T(chatId), username, username, _A2T(role.c_str()), true);
 	}
 	PushRequest(new GetHistoryRequest(RegToken, chatId, 15, true, 0, Server), &CSkypeProto::OnGetServerHistory);
 	mir_free(topic);

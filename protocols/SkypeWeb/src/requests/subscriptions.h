@@ -29,24 +29,19 @@ public:
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
-		JSONNODE *node = json_new(5);
-		JSONNODE *interestedResources = json_new(4);
-		json_set_name(interestedResources, "interestedResources");
+		JSONNode interestedResources(JSON_ARRAY);
+		interestedResources.set_name("interestedResources");
+		interestedResources.push_back(JSONNode("", "/v1/users/ME/conversations/ALL/properties"));
+		interestedResources.push_back(JSONNode("", "/v1/users/ME/conversations/ALL/messages"));
+		interestedResources.push_back(JSONNode("", "/v1/users/ME/contacts/ALL"));
+		interestedResources.push_back(JSONNode("", "/v1/threads/ALL"));
 
-		json_push_back(node, json_new_a("channelType", "httpLongPoll"));
-		json_push_back(node, json_new_a("template", "raw"));
+		JSONNode node(JSON_NODE);
+		node.push_back(JSONNode("channelType", "httpLongPoll"));
+		node.push_back(JSONNode("template", "raw"));
+		node.push_back(interestedResources);
 
-		json_push_back(interestedResources, json_new_a(NULL, "/v1/users/ME/conversations/ALL/properties"));
-		json_push_back(interestedResources, json_new_a(NULL, "/v1/users/ME/conversations/ALL/messages"));
-		json_push_back(interestedResources, json_new_a(NULL, "/v1/users/ME/contacts/ALL"));
-		json_push_back(interestedResources, json_new_a(NULL, "/v1/threads/ALL"));
-		json_push_back(node, interestedResources);
-
-		T2Utf data(ptrT(json_write(node)));
-
-		Body << VALUE(data);
-
-		json_delete(node);
+		Body << VALUE(node.write().c_str());
 	}
 };
 

@@ -115,32 +115,22 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 	if (response == NULL)
 		return;
 
-
-	JSONROOT root(response->pData);
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(response->pData);
+	if (!root)
 		return;
 
-	JSONNODE *items = json_as_array(root), *item, *node;
-	for (size_t i = 0; i < json_size(items); i++)
+	const JSONNode &items = root.as_array();
+	for (size_t i = 0; i < items.size(); i++)
 	{
-		item = json_at(items, i);
-		if (item == NULL)
+		const JSONNode &item = items.at(i);
+		if (!item)
 			break;
 
-		node = json_get(item, "sender");
-		ptrA skypename(mir_t2a(ptrT(json_as_string(node))));
+		std::string skypename = item["sender"].as_string();
+		std::string reason = root["greeting"].as_string();
+		time_t eventTime = IsoToUnixTime(root["event_time_iso"].as_string().c_str());
 
-		node = json_get(root, "greeting");
-		CMStringA reason = ptrA(mir_t2a(ptrT(json_as_string(node))));
-
-		node = json_get(root, "event_time_iso");
-		ptrT eventTimeStr(json_as_string(node));
-		time_t eventTime = IsoToUnixTime(eventTimeStr);
-
-		//if (reason == "null")
-		//	reason.Empty();
-
-		MCONTACT hContact = AddContact(skypename);
+		MCONTACT hContact = AddContact(skypename.c_str());
 		if (hContact)
 		{
 			time_t lastEventTime = db_get_dw(hContact, m_szModuleName, "LastAuthRequestTime", 0);
@@ -152,7 +142,7 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 
 				PROTORECVEVENT pre = { 0 };
 				pre.timestamp = time(NULL);
-				pre.lParam = (DWORD)(sizeof(DWORD) * 2 + mir_strlen(skypename) + reason.GetLength() + 5);
+				pre.lParam = (DWORD)(sizeof(DWORD) * 2 + skypename.size() + reason.size() + 5);
 
 				/*blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), id(ASCIIZ), reason(ASCIIZ)*/
 				PBYTE pBlob, pCurBlob;
@@ -163,16 +153,15 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 				*((PDWORD)pCurBlob) = (DWORD)hContact;
 				pCurBlob += sizeof(DWORD);
 				pCurBlob += 3;
-				mir_strcpy((char*)pCurBlob, skypename);
-				pCurBlob += mir_strlen(skypename) + 1;
-				mir_strcpy((char*)pCurBlob, reason);
+				mir_strcpy((char*)pCurBlob, skypename.c_str());
+				pCurBlob += skypename.size() + 1;
+				mir_strcpy((char*)pCurBlob, reason.c_str());
 				pre.szMessage = (char*)pBlob;
 
 				ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 			}
 		}
 	}
-	json_delete(items);
 }
 
 //[{"username":"echo123", "firstname" : "Echo \/ Sound Test Service", "lastname" : null, "avatarUrl" : null, "mood" : null, "richMood" : null, "displayname" : null, "country" : null, "city" : null},...]
@@ -181,20 +170,19 @@ void CSkypeProto::LoadContactsInfo(const NETLIBHTTPREQUEST *response)
 	if (response == NULL)
 		return;
 
-	JSONROOT root(response->pData);
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(response->pData);
+	if (!root)
 		return;
 
-	JSONNODE *items = json_as_array(root), *item, *node;
-	for (size_t i = 0; i < json_size(items); i++)
+	const JSONNode &items = root.as_array();
+	for (size_t i = 0; i < items.size(); i++)
 	{
-		item = json_at(items, i);
-		if (item == NULL)
+		const JSONNode &item = items.at(i);
+		if (!item)
 			break;
 
-		node = json_get(item, "username");
-		ptrA skypename(mir_t2a(ptrT(json_as_string(node))));
-		MCONTACT hContact = AddContact(skypename);
+		std::string skypename = item["username"].as_string();
+		MCONTACT hContact = AddContact(skypename.c_str());
 		if (hContact)
 		{
 			UpdateProfileFirstName(item, hContact);
@@ -206,7 +194,6 @@ void CSkypeProto::LoadContactsInfo(const NETLIBHTTPREQUEST *response)
 			UpdateProfileAvatar(item, hContact);
 		}
 	}
-	json_delete(items);
 }
 
 //[{"skypename":"echo123", "authorized" : true, "blocked" : false, ...},...]
@@ -216,36 +203,31 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 	if (response == NULL)
 		return;
 
-	JSONROOT root(response->pData);
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(response->pData);
+	if (!root)
 		return;
 
 	LIST<char> skypenames(1);
 
-	JSONNODE *items = json_as_array(root), *item, *node;
-	for (size_t i = 0; i < json_size(items); i++)
+	const JSONNode &items = root.as_array();
+	for (size_t i = 0; i < items.size(); i++)
 	{
-		item = json_at(items, i);
-		if (item == NULL)
+		const JSONNode &item = items.at(i);
+		if (!item)
 			break;
 
-		node = json_get(item, "skypename");
-		ptrA skypename(mir_t2a(ptrT(json_as_string(node))));
-		MCONTACT hContact = AddContact(skypename);
+		std::string skypename = item["skypename"].as_string();
+		MCONTACT hContact = AddContact(skypename.c_str());
 		if (hContact)
 		{
-			node = json_get(item, "authorized");
-			if (json_as_bool(node))
+			if (item["authorized"].as_bool())
 			{
 				delSetting(hContact, "Auth");
 				delSetting(hContact, "Grant");
 			}
-			else
-				setByte(hContact, "Grant", 1);
+			else setByte(hContact, "Grant", 1);
 
-			node = json_get(item, "blocked");
-			bool isBlocked = (json_as_bool(node) != 0);
-			if (isBlocked)
+			if (item["blocked"].as_bool())
 			{
 				db_set_dw(hContact, "Ignore", "Mask1", 127);
 				db_set_b(hContact, "CList", "Hidden", 1);
@@ -261,10 +243,9 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 				}
 			}
 
-			skypenames.insert(mir_strdup(skypename));
+			skypenames.insert(mir_strdup(skypename.c_str()));
 		}
 	}
-	json_delete(items);
 
 	ptrA token(getStringA("TokenSecret"));
 	if (skypenames.getCount() > 0)

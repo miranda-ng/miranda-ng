@@ -243,27 +243,25 @@ void CSkypeProto::InitLanguages()
 	result[_T("zu")] = _T("Zulu");
 }
 
-void CSkypeProto::UpdateProfileFirstName(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileFirstName(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "firstname");
-	CMString firstname = ptrT(json_as_string(node));
+	CMString firstname = root["firstname"].as_mstring();
 	if (!firstname.IsEmpty() && firstname != "null")
 		setTString(hContact, "FirstName", firstname);
 	else
 		delSetting(hContact, "FirstName");
 }
 
-void CSkypeProto::UpdateProfileLastName(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileLastName(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "lastname");
-	CMString lastname = ptrT(json_as_string(node));
+	CMString lastname = root["lastname"].as_mstring();
 	if (!lastname.IsEmpty() && lastname != "null")
 		setTString(hContact, "LastName", lastname);
 	else
 		delSetting(hContact, "LastName");
 }
 
-void CSkypeProto::UpdateProfileDisplayName(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileDisplayName(const JSONNode &root, MCONTACT hContact)
 {
 	ptrT firstname(getTStringA(hContact, "FirstName"));
 	ptrT lastname(getTStringA(hContact, "LastName"));
@@ -276,10 +274,9 @@ void CSkypeProto::UpdateProfileDisplayName(JSONNODE *root, MCONTACT hContact)
 	else if (lastname)
 		setTString(hContact, "Nick", lastname);
 	else {
-		JSONNODE *node = json_get(root, "displayname");
-		if (node == NULL)
-			node = json_get(root, "username");
-		CMString displayname = ptrT(json_as_string(node));
+		
+		const JSONNode &node = root["displayname"];
+		CMString displayname((!node) ? root["username"].as_mstring() : node.as_mstring());
 		if (!displayname.IsEmpty() && displayname != "null")
 			setTString(hContact, "Nick", displayname);
 		else
@@ -287,20 +284,18 @@ void CSkypeProto::UpdateProfileDisplayName(JSONNODE *root, MCONTACT hContact)
 	}
 }
 
-void CSkypeProto::UpdateProfileGender(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileGender(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "gender");
-	CMString gender = ptrT(json_as_string(node));
+	CMString gender = root["gender"].as_mstring();
 	if (!gender.IsEmpty() && gender != "null")
 		setByte(hContact, "Gender", (BYTE)(_ttoi(gender) == 1 ? 'M' : 'F'));
 	else
 		delSetting(hContact, "Gender");
 }
 
-void CSkypeProto::UpdateProfileBirthday(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "birthday");
-	CMString birthday = ptrT(json_as_string(node));
+	CMString birthday = root["birthday"].as_mstring();
 	if (!birthday.IsEmpty() && birthday != "null")
 	{
 		int d, m, y;
@@ -317,86 +312,77 @@ void CSkypeProto::UpdateProfileBirthday(JSONNODE *root, MCONTACT hContact)
 	}
 }
 
-void CSkypeProto::UpdateProfileCountry(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileCountry(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "country");
-	CMStringA isocode = mir_t2a(ptrT(json_as_string(node)));
-	if (!isocode.IsEmpty() && isocode != "null")
+	std::string isocode = root["country"].as_string();
+	if (!isocode.empty() && isocode != "null")
 	{
-		char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)(char*)isocode.GetBuffer(), 0);
-		setTString(hContact, "Country", _A2T(country));
+		char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode.c_str(), 0);
+		setString(hContact, "Country", country);
 	}
-	else
-		delSetting(hContact, "Country");
+	else delSetting(hContact, "Country");
 }
 
-void CSkypeProto::UpdateProfileState(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileState(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "province");
-	CMString province = mir_t2a(ptrT(json_as_string(node)));
+	CMString province = root["province"].as_mstring();
 	if (!province.IsEmpty() && province != "null")
 		setTString(hContact, "State", province);
 	else
 		delSetting(hContact, "State");
 }
 
-void CSkypeProto::UpdateProfileCity(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileCity(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "city");
-	CMString city = ptrT(json_as_string(node));
+	CMString city = root["city"].as_mstring();
 	if (!city.IsEmpty() && city != "null")
 		setTString(hContact, "City", city);
 	else
 		delSetting(hContact, "City");
 }
 
-void CSkypeProto::UpdateProfileLanguage(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileLanguage(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "language");
-	CMString isocode = ptrT(json_as_string(node));
+	CMString isocode = root["language"].as_mstring();
 	if (!isocode.IsEmpty() && isocode != "null")
 		setTString(hContact, "Language0", languages[isocode.GetBuffer()].c_str());
 	else
 		delSetting(hContact, "Language0");
 }
 
-void CSkypeProto::UpdateProfileHomepage(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileHomepage(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "homepage");
-	CMString homepage = ptrT(json_as_string(node));
+	CMString homepage = root["homepage"].as_mstring();
 	if (!homepage.IsEmpty() && homepage != "null")
 		setTString(hContact, "Homepage", homepage);
 	else
 		delSetting(hContact, "Homepage");
 }
 
-void CSkypeProto::UpdateProfileAbout(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileAbout(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "about");
-	CMString about = ptrT(json_as_string(node));
+	CMString about = root["about"].as_mstring();
 	if (!about.IsEmpty() && about != "null")
 		setTString(hContact, "About", about);
 	else
 		delSetting(hContact, "About");
 }
 
-void CSkypeProto::UpdateProfileEmails(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileEmails(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "emails");
-	if (!json_empty(node))
+	const JSONNode &node = root["emails"];
+	if (node)
 	{
-		JSONNODE *items = json_as_array(node), *item;
-		for (size_t i = 0; i < min(json_size(items), 3); i++)
+		const JSONNode &items = node.as_array();
+		for (size_t i = 0; i < min(items.size(), 3); i++)
 		{
-			item = json_at(items, i);
-			if (item == NULL)
+			const JSONNode &item = items.at(i);
+			if (!item)
 				break;
 
 			CMStringA name(FORMAT, "e-mail%d", i);
-			CMString value = ptrT(json_as_string(item));
-			setTString(hContact, name, value);
+			setTString(hContact, name, item.as_mstring());
 		}
-		json_delete(items);
 	}
 	else
 	{
@@ -406,62 +392,57 @@ void CSkypeProto::UpdateProfileEmails(JSONNODE *root, MCONTACT hContact)
 	}
 }
 
-void CSkypeProto::UpdateProfilePhoneMobile(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfilePhoneMobile(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "phoneMobile");
-	CMString province = mir_t2a(ptrT(json_as_string(node)));
+	CMString province = root["phoneMobile"].as_mstring();
 	if (!province.IsEmpty() && province != "null")
 		setTString(hContact, "Cellular", province);
 	else
 		delSetting(hContact, "Cellular");
 }
 
-void CSkypeProto::UpdateProfilePhoneHome(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfilePhoneHome(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "phone");
-	CMString province = mir_t2a(ptrT(json_as_string(node)));
+	CMString province = root["phone"].as_mstring();
 	if (!province.IsEmpty() && province != "null")
 		setTString(hContact, "Phone", province);
 	else
 		delSetting(hContact, "Phone");
 }
 
-void CSkypeProto::UpdateProfilePhoneOffice(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfilePhoneOffice(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "phoneOffice");
-	CMString province = mir_t2a(ptrT(json_as_string(node)));
+	CMString province = root["phoneOffice"].as_mstring();
 	if (!province.IsEmpty() && province != "null")
 		setTString(hContact, "CompanyPhone", province);
 	else
 		delSetting(hContact, "CompanyPhone");
 }
 
-void CSkypeProto::UpdateProfileStatusMessage(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileStatusMessage(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "mood");
 	if (hContact == NULL)
 		return;
-	CMString province = mir_t2a(ptrT(json_as_string(node)));
+
+	CMString province = root["mood"].as_mstring();
 	if (!province.IsEmpty() && province != "null")
 		db_set_ts(hContact, "CList", "StatusMsg", province);
 	else
 		db_unset(hContact, "CList", "StatusMsg");
 }
 
-void CSkypeProto::UpdateProfileXStatusMessage(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileXStatusMessage(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "richMood");
-	CMString province = mir_t2a(ptrT(json_as_string(node)));
+	CMString province = root["richMood"].as_mstring();
 	if (!province.IsEmpty() && province != "null")
 		setTString(hContact, "XStatusMsg", province);
 	else
 		delSetting(hContact, "XStatusMsg");
 }
 
-void CSkypeProto::UpdateProfileAvatar(JSONNODE *root, MCONTACT hContact)
+void CSkypeProto::UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact)
 {
-	JSONNODE *node = json_get(root, "avatarUrl");
-	CMString province = mir_t2a(ptrT(json_as_string(node)));
+	CMString province = root["avatarUrl"].as_mstring();
 	if (!province.IsEmpty() && province != "null")
 	{
 		SetAvatarUrl(hContact, province);
@@ -475,13 +456,14 @@ void CSkypeProto::LoadProfile(const NETLIBHTTPREQUEST *response)
 	if (response == NULL)
 		return;
 
-	JSONROOT root(response->pData);
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(response->pData);
+	if (!root)
 		return;
-	ptrA username(mir_t2a(ptrT(json_as_string(json_get(root, "username")))));
+
+	std::string username = root["username"].as_string();
 	MCONTACT hContact = NULL;
-	if (!IsMe(username))
-		hContact = FindContact(username);
+	if (!IsMe(username.c_str()))
+		hContact = FindContact(username.c_str());
 
 	UpdateProfileFirstName(root, hContact);
 	UpdateProfileLastName(root, hContact);

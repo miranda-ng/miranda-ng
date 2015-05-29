@@ -28,16 +28,14 @@ public:
 			<< CHAR_VALUE("Accept", "application/json, text/javascript")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
-		JSONNODE *node = json_new(5);
-		json_push_back(node, json_new_i("clientmessageid", timestamp));
-		json_push_back(node, json_new_a("messagetype", "RichText"));
-		json_push_back(node, json_new_a("contenttype", "text"));
-		json_push_back(node, json_new_a("content", message));
 
-		T2Utf data(ptrT(json_write(node)));
-		Body << VALUE(data);
+		JSONNode node(JSON_NODE);
+		node.push_back(JSONNode("clientmessageid", (long)timestamp));
+		node.push_back(JSONNode("messagetype", "RichText"));
+		node.push_back(JSONNode("contenttype", "text"));
+		node.push_back(JSONNode("content", message));
 
-		json_delete(node);
+		Body << VALUE(node.write().c_str());
 	}
 };
 
@@ -55,17 +53,14 @@ public:
 		CMStringA content;
 		content.AppendFormat("%s %s", username, message);
 
-		JSONNODE *node = json_new(5);
-		json_push_back(node, json_new_i("clientmessageid", timestamp));
-		json_push_back(node, json_new_a("messagetype", "RichText"));
-		json_push_back(node, json_new_a("contenttype", "text"));
-		json_push_back(node, json_new_a("content", content));
-		json_push_back(node, json_new_i("skypeemoteoffset", (int)(mir_strlen(username) + 1)));
+		JSONNode node(JSON_NODE);
+		node.push_back(JSONNode("clientmessageid", (long)timestamp));
+		node.push_back(JSONNode("messagetype", "RichText"));
+		node.push_back(JSONNode("contenttype", "text"));
+		node.push_back(JSONNode("content", content));
+		node.push_back(JSONNode("skypeemoteoffset", (int)(mir_strlen(username) + 1)));
 
-		T2Utf data(ptrT(json_write(node)));
-		Body << VALUE(data);
-
-		json_delete(node);
+		Body << VALUE(node.write().c_str());
 	}
 };
 
@@ -82,23 +77,20 @@ public:
 
 		char *state = (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping";
 
-		JSONNODE *node = json_new(5);
-		json_push_back(node, json_new_i("clientmessageid", time(NULL)));
-		json_push_back(node, json_new_a("messagetype", state));
-		json_push_back(node, json_new_a("contenttype", "text"));
-		json_push_back(node, json_new_a("content", ""));
+		JSONNode node(JSON_NODE);
+		node.push_back(JSONNode("clientmessageid", (long)time(NULL)));
+		node.push_back(JSONNode("messagetype", state));
+		node.push_back(JSONNode("contenttype", "text"));
+		node.push_back(JSONNode("content", ""));
 
-		T2Utf data(ptrT(json_write(node)));
-		Body << VALUE(data);
-
-		json_delete(node);
+		Body << VALUE(node.write().c_str());
 	}
 };
 
 class MarkMessageReadRequest : public HttpRequest
 {
 public:
-	MarkMessageReadRequest(const char *username, const char *regToken, LONGLONG msgId = 0, LONGLONG msgTimestamp = 0, bool isChat = false, const char *server = SKYPE_ENDPOINTS_HOST) :
+	MarkMessageReadRequest(const char *username, const char *regToken, LONGLONG /*msgId*/ = 0, LONGLONG msgTimestamp = 0, bool isChat = false, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/conversations/%s:%s/properties?name=consumptionhorizon", server, !isChat ? "8" : "19", username)
 	{
 		Headers

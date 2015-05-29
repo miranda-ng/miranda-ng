@@ -17,6 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+#pragma warning(disable:4566)
+
 bool CSkypeProto::IsOnline()
 {
 	return m_iStatus > ID_STATUS_OFFLINE && m_hPollingThread;
@@ -40,15 +42,15 @@ void CSkypeProto::SetSrmmReadStatus(MCONTACT hContact)
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 }
 
-time_t CSkypeProto::IsoToUnixTime(const TCHAR *stamp)
+time_t CSkypeProto::IsoToUnixTime(const char *stamp)
 {
-	TCHAR date[9];
+	char date[9];
 	int i, y;
 
 	if (stamp == NULL)
 		return 0;
 
-	TCHAR *p = NEWTSTR_ALLOCA(stamp);
+	char *p = NEWSTR_ALLOCA(stamp);
 
 	// skip '-' chars
 	int si = 0, sj = 0;
@@ -89,7 +91,7 @@ time_t CSkypeProto::IsoToUnixTime(const TCHAR *stamp)
 	for (; *p != '\0' && !isdigit(*p); p++);
 
 	// Parse time
-	if (_stscanf(p, _T("%d:%d:%d"), &timestamp.tm_hour, &timestamp.tm_min, &timestamp.tm_sec) != 3)
+	if (sscanf(p, "%d:%d:%d", &timestamp.tm_hour, &timestamp.tm_min, &timestamp.tm_sec) != 3)
 		return (time_t)0;
 
 	timestamp.tm_isdst = 0;	// DST is already present in _timezone below
@@ -459,7 +461,7 @@ int CSkypeProto::SkypeToMirandaStatus(const char *status)
 		return ID_STATUS_OFFLINE;
 }
 
-void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, int flags, MCONTACT hContact, int type)
+void CSkypeProto::ShowNotification(const TCHAR *caption, const TCHAR *message, MCONTACT hContact, int type)
 {
 	if (Miranda_Terminated())
 		return;
@@ -516,9 +518,9 @@ LRESULT CSkypeProto::PopupDlgProcCall(HWND hPopup, UINT uMsg, WPARAM wParam, LPA
 	return DefWindowProc(hPopup, uMsg, wParam, lParam);
 }
 
-void CSkypeProto::ShowNotification(const TCHAR *message, int flags, MCONTACT hContact)
+void CSkypeProto::ShowNotification(const TCHAR *message, MCONTACT hContact)
 {
-	ShowNotification(_T(MODULE), message, flags, hContact);
+	ShowNotification(_T(MODULE), message, hContact);
 }
 
 bool CSkypeProto::IsFileExists(std::tstring path)
