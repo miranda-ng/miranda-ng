@@ -37,8 +37,7 @@ void CSkypeProto::SearchBasicThread(void* id)
 void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 {
 	debugLogA(__FUNCTION__);
-	if (response == NULL)
-	{
+	if (response == NULL) {
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;
 	}
@@ -49,29 +48,28 @@ void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	JSONROOT root(response->pData);
-	if (root == NULL)
-	{
+	JSONNode root = JSONNode::parse(response->pData);
+	if (!root) {
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;
 	}
 
-	JSONNODE *items = json_as_array(root);
-	for (size_t i = 0; i < json_size(items); i++)
+	const JSONNode &items = root.as_array();
+	for (size_t i = 0; i < items.size(); i++)
 	{
-		JSONNODE *item = json_at(items, i);
-		JSONNODE *ContactCards = json_get(item, "ContactCards");
-		JSONNODE *Skype = json_get(ContactCards, "Skype");
+		const JSONNode &item = items.at(i);
+		const JSONNode &ContactCards = item["ContactCards"];
+		const JSONNode &Skype = ContactCards["Skype"];
 
-		TCHAR *sDisplayName = json_as_string(json_get(Skype, "DisplayName"));
-		TCHAR *sSkypeName = json_as_string(json_get(Skype, "SkypeName"));
+		CMString tszDisplayName(Skype["DisplayName"].as_mstring());
+		CMString tszNick(Skype["SkypeName"].as_mstring());
 
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
-		psr.id = mir_wstrdup(sSkypeName);
-		psr.nick = mir_wstrdup(sDisplayName);
+		psr.id = tszDisplayName.GetBuffer();
+		psr.nick = tszNick.GetBuffer();
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 	}
-	json_free(items);
+	
 	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }

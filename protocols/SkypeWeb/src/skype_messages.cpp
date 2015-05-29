@@ -84,17 +84,16 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 
 	if (response == NULL || (response->resultCode != 200 && response->resultCode != 201))
 	{
-		CMStringA error = "Unknown error";
+		std::string error("Unknown error");
 		if (response)
 		{
-			JSONROOT root(response->pData);
-			JSONNODE *node = json_get(root, "errorCode");
-			error = _T2A(json_as_string(node));
+			JSONNode root = JSONNode::parse(response->pData);
+			const JSONNode &node = root["errorCode"];
+			error = node.as_string();
 		}
 		ptrT username(getTStringA(hContact, "Skypename"));
-		debugLogA(__FUNCTION__": failed to send message for %s (%s)", username, error);
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)error.GetBuffer());
-		return;
+		debugLogA(__FUNCTION__": failed to send message for %s (%s)", username, error.c_str());
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)error.c_str());
 	}
 }
 
@@ -123,51 +122,51 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 
 /* MESSAGE EVENT */
 
-void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
+void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 {
-	ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(node, "clientmessageid")))));
-	ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(node, "skypeeditedid")))));
+	std::string clientMsgId = node["clientmessageid"].as_string();
+	std::string skypeEditedId = node["skypeeditedid"].as_string();
 
-	bool isEdited = (json_get(node, "skypeeditedid") != NULL);
+	bool isEdited = node["skypeeditedid"];
 
-	ptrT composeTime(json_as_string(json_get(node, "composetime")));
-	time_t timestamp = getByte("UseLocalTime", 0) ? time(NULL) : IsoToUnixTime(composeTime);
+	std::string composeTime = node["composetime"].as_string();
+	time_t timestamp = getByte("UseLocalTime", 0) ? time(NULL) : IsoToUnixTime(composeTime.c_str());
 
-	ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(node, "conversationLink")))));
-	ptrA fromLink(mir_t2a(ptrT(json_as_string(json_get(node, "from")))));
+	std::string conversationLink = node["conversationLink"].as_string();
+	std::string fromLink = node["from"].as_string();
 
-	ptrA skypename(ContactUrlToName(conversationLink));
-	ptrA from(ContactUrlToName(fromLink));
+	ptrA skypename(ContactUrlToName(conversationLink.c_str()));
+	ptrA from(ContactUrlToName(fromLink.c_str()));
 
-	ptrA content(mir_t2a(ptrT(json_as_string(json_get(node, "content")))));
-	int emoteOffset = json_as_int(json_get(node, "skypeemoteoffset"));
+	std::string content = node["content"].as_string();
+	int emoteOffset = node["skypeemoteoffset"].as_int();
 
-	ptrA message(RemoveHtml(content));
+	ptrA message(RemoveHtml(content.c_str()));
 
-
-	ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(node, "messagetype")))));
+	std::string messageType= node["messagetype"].as_string();
 	MCONTACT hContact = AddContact(skypename, true);
 
-	if (HistorySynced) db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
+	if (HistorySynced)
+		db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
 
-	if (!mir_strcmpi(messageType, "Control/Typing"))
+	if (!mir_strcmpi(messageType.c_str(), "Control/Typing"))
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
 
-	else if (!mir_strcmpi(messageType, "Control/ClearTyping"))
+	else if (!mir_strcmpi(messageType.c_str(), "Control/ClearTyping"))
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
-	else if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
+	else if (!mir_strcmpi(messageType.c_str(), "Text") || !mir_strcmpi(messageType.c_str(), "RichText"))
 	{
 		if (IsMe(from))
 		{
-			int hMessage = atoi(clientMsgId);
+			int hMessage = atoi(clientMsgId.c_str());
 			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hMessage, 0);
 			debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-			AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId, message, emoteOffset);
+			AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_SENT, clientMsgId.c_str(), message, emoteOffset);
 			return;
 		}
 		debugLogA(__FUNCTION__" timestamp = %d clientmsgid = %s", timestamp, clientMsgId);
-		MEVENT dbevent = GetMessageFromDb(hContact, skypeEditedId);
+		MEVENT dbevent = GetMessageFromDb(hContact, skypeEditedId.c_str());
 		if (isEdited && dbevent != NULL)
 		{
 			DBEVENTINFO dbei = { sizeof(dbei) };
@@ -189,19 +188,18 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 
 			msg.AppendFormat("%s\n%s %s:\n%s", dbMsgText, Translate("Edited at"), _T2A(time), message);
 			db_event_delete(hContact, dbevent);
-			AddMessageToDb(hContact, dbEventTimestamp, DBEF_UTF, skypeEditedId, msg.GetBuffer());
+			AddMessageToDb(hContact, dbEventTimestamp, DBEF_UTF, skypeEditedId.c_str(), msg.GetBuffer());
 		}
-		else
-			OnReceiveMessage(clientMsgId, conversationLink, timestamp, message, emoteOffset);
+		else OnReceiveMessage(clientMsgId.c_str(), conversationLink.c_str(), timestamp, message, emoteOffset);
 	}
-	else if (!mir_strcmpi(messageType, "Event/SkypeVideoMessage")){}
-	else if (!mir_strcmpi(messageType, "Event/Call"))
+	else if (!mir_strcmpi(messageType.c_str(), "Event/SkypeVideoMessage")) {}
+	else if (!mir_strcmpi(messageType.c_str(), "Event/Call"))
 	{
 		//content=<partlist type="ended" alt=""><part identity="username"><name>user name</name><duration>6</duration></part>
 		//<part identity="echo123"><name>Echo / Sound Test Service</name><duration>6</duration></part></partlist>
 		//content=<partlist type="started" alt=""><part identity="username"><name>user name</name></part></partlist>
 		int iType = 3, iDuration = 0;
-		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("partlist"));
+		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("partlist"));
 		if (xml != NULL)
 		{
 
@@ -241,12 +239,12 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 		int flags = DBEF_UTF;
 		if (IsMe(from)) flags |= DBEF_SENT;
 
-		AddCallInfoToDb(hContact, timestamp, flags, clientMsgId, text.GetBuffer());
+		AddCallInfoToDb(hContact, timestamp, flags, clientMsgId.c_str(), text.GetBuffer());
 	}
-	else if (!mir_strcmpi(messageType, "RichText/Files"))
+	else if (!mir_strcmpi(messageType.c_str(), "RichText/Files"))
 	{
 		//content=<files alt="отправил (-а) файл &quot;run.bat&quot;"><file size="97" index="0" tid="4197760077">run.bat</file></files>
-		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("files"));
+		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("files"));
 		if (xml != NULL)
 		{
 			for (int i = 0; i < xi.getChildCount(xml); i++)
@@ -261,15 +259,15 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 					continue;
 
 				CMStringA msg(FORMAT, "%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize, Translate("bytes"));
-				AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_READ, clientMsgId, msg.GetBuffer());
+				AddMessageToDb(hContact, timestamp, DBEF_UTF | DBEF_READ, clientMsgId.c_str(), msg.GetBuffer());
 			}
 		}
 	}
-	else if (!mir_strcmpi(messageType, "RichText/Location")){}
-	else if (!mir_strcmpi(messageType, "RichText/UriObject"))
+	else if (!mir_strcmpi(messageType.c_str(), "RichText/Location")) {}
+	else if (!mir_strcmpi(messageType.c_str(), "RichText/UriObject"))
 	{
 		//content=<URIObject type="Picture.1" uri="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834" url_thumbnail="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834/views/imgt1"><Title></Title><Description></Description>Для просмотра этого общего фото перейдите по ссылке: https://api.asm.skype.com/s/i?0-weu-d1-262f0a1ee256d03b8e4b8360d9208834<meta type="photo" originalName="ysd7ZE4BqOg.jpg"/><OriginalName v="ysd7ZE4BqOg.jpg"/></URIObject>
-		HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("URIObject"));
+		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("URIObject"));
 		if (xml != NULL)
 		{
 			ptrA url(mir_t2a(xi.getAttrValue(xml, L"uri")));
@@ -277,10 +275,10 @@ void CSkypeProto::OnPrivateMessageEvent(JSONNODE *node)
 
 			CMStringA data(FORMAT, "%s: https://api.asm.skype.com/s/i?%s", Translate("Image"), object);
 
-			AddMessageToDb(hContact, timestamp, DBEF_UTF, clientMsgId, data.GetBuffer());
+			AddMessageToDb(hContact, timestamp, DBEF_UTF, clientMsgId.c_str(), data.GetBuffer());
 		}
 	}
-	else if (!mir_strcmpi(messageType, "RichText/Contacts")){}
+	else if (!mir_strcmpi(messageType.c_str(), "RichText/Contacts")) {}
 
 	//if (clientMsgId && (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText")))
 	//{

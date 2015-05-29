@@ -48,16 +48,13 @@ public:
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
-		JSONNODE *node = json_new(5);
-		json_push_back(node, json_new_i("clientmessageid", timestamp));
-		json_push_back(node, json_new_a("messagetype", "RichText"));
-		json_push_back(node, json_new_a("contenttype", "text"));
-		json_push_back(node, json_new_a("content", ptrA(mir_utf8encode(message))));
+		JSONNode node(JSON_NODE);
+		node.push_back(JSONNode("clientmessageid", (long)timestamp));
+		node.push_back(JSONNode("messagetype", "RichText"));
+		node.push_back(JSONNode("contenttype", "text"));
+		node.push_back(JSONNode("content", ptrA(mir_utf8encode(message))));
 
-		T2Utf data(ptrT(json_write(node)));
-		Body << VALUE(data);
-
-		json_delete(node);
+		Body << VALUE(node.write().c_str());
 	}
 };
 
@@ -72,17 +69,14 @@ public:
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
-		JSONNODE *node = json_new(5);
-		json_push_back(node, json_new_i("clientmessageid", timestamp));
-		json_push_back(node, json_new_a("messagetype", "RichText"));
-		json_push_back(node, json_new_a("contenttype", "text"));
-		json_push_back(node, json_new_a("content", ptrA(mir_utf8encode(message))));
-		json_push_back(node, json_new_i("skypeemoteoffset", 4));
+		JSONNode node(JSON_NODE);
+		node.push_back(JSONNode("clientmessageid", (long)timestamp));
+		node.push_back(JSONNode("messagetype", "RichText"));
+		node.push_back(JSONNode("contenttype", "text"));
+		node.push_back(JSONNode("content", ptrA(mir_utf8encode(message))));
+		node.push_back(JSONNode("skypeemoteoffset", 4));
 
-		T2Utf data(ptrT(json_write(node)));
-		Body << VALUE(data);
-
-		json_delete(node);
+		Body << VALUE(node.write().c_str());
 	}
 };
 

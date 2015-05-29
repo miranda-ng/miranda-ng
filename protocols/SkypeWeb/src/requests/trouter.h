@@ -38,11 +38,10 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< CHAR_VALUE("X-Skypetoken", token);
 
-		JSONNODE *node = json_new(5);
-		json_push_back(node, json_new_a("sr", sr));
+		JSONNode node(JSON_NODE);
+		node.push_back(JSONNode("sr", sr));
 
-		Body << VALUE(T2Utf(ptrT(json_write(node))));
-		json_delete(node);
+		Body << VALUE(node.write().c_str());
 	}
 	//{"sr":"AUKRNgA8_eKV0Ibsx037Gbd8GVrsDg8zLQRt1pH8sCyIAile3gtoWmlq2x1yZ_VNZ3tf","issuer":"edf","sp":"connect","st":"1430236511619","se":"1430318082619","sig":"nYczCdlBENCxoAFLy7lPkGELVV1w5TcUnpSUE2G7GLA"}
 };
@@ -57,37 +56,31 @@ public:
 			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml")
 			<< CHAR_VALUE("X-Skypetoken", token);
 
-		JSONNODE *node = json_new(5);
-		JSONNODE *clientDescription = json_new(5);
-		JSONNODE *transports = json_new(5);
-		JSONNODE *TRouter = json_new(5);
-		JSONNODE *TROUTER = json_new(4);
+		JSONNode clientDescription(JSON_NODE);
+		clientDescription.set_name("clientDescription");
+		clientDescription.push_back(JSONNode("aesKey", ""));
+		clientDescription.push_back(JSONNode("languageId", "en-US"));
+		clientDescription.push_back(JSONNode("platform", "SWX"));
+		clientDescription.push_back(JSONNode("templateKey", "SkypeWeb_1.0"));
 
-		json_set_name(clientDescription, "clientDescription");
-		json_set_name(transports, "transports");
-		json_set_name(TROUTER, "TROUTER");
+		JSONNode TRouter(JSON_NODE);
+		TRouter.push_back(JSONNode("context", ""));
+		TRouter.push_back(JSONNode("path", trouterUrl));
+		TRouter.push_back(JSONNode("ttl", 3600));
 
-		json_push_back(node, json_new_a("registrationId", id));
-		json_push_back(node, json_new_a("nodeId", ""));
+		JSONNode TROUTER (JSON_ARRAY); TROUTER.set_name("TROUTER");
+		TROUTER.push_back(TRouter);
 
-		json_push_back(clientDescription, json_new_a("aesKey", ""));
-		json_push_back(clientDescription, json_new_a("languageId", "en-US"));
-		json_push_back(clientDescription, json_new_a("platform", "SWX"));
-		json_push_back(clientDescription, json_new_a("templateKey", "SkypeWeb_1.0"));
-		json_push_back(node, clientDescription);
+		JSONNode transports(JSON_NODE); transports.set_name("transports");
+		transports.push_back(TROUTER);
 
-		json_push_back(TRouter, json_new_a("context", ""));
-		json_push_back(TRouter, json_new_a("path", trouterUrl));
-		json_push_back(TRouter, json_new_i("ttl", 3600));
-		json_push_back(TROUTER, TRouter);
-		json_push_back(transports, TROUTER);
-		json_push_back(node, transports);
+		JSONNode node(JSON_NODE);
+		node.push_back(JSONNode("registrationId", id));
+		node.push_back(JSONNode("nodeId", ""));
+		node.push_back(clientDescription);
+		node.push_back(transports);
 
-		T2Utf data(ptrT(json_write(node)));
-
-		Body << VALUE(data);
-
-		json_delete(node);
+		Body << VALUE(node.write().c_str());
 	}
 };
 
@@ -109,21 +102,21 @@ public:
 class GetTrouterRequest : public HttpRequest
 {
 public:
-	GetTrouterRequest(const char *socketio, const char *sr, const char *st, const char *se, const char *sig,
-		const char *instance, const char *ccid) :
-		HttpRequest(REQUEST_GET, FORMAT, "%ssocket.io/1/", socketio)
+	GetTrouterRequest(const std::string &socketio, const std::string &sr, const std::string &st, const std::string &se, const std::string &sig,
+		const std::string &instance, const std::string &ccid) :
+		HttpRequest(REQUEST_GET, FORMAT, "%ssocket.io/1/", socketio.c_str())
 	{
 		Url
-			<< CHAR_VALUE("sr", sr)
+			<< CHAR_VALUE("sr", sr.c_str())
 			<< CHAR_VALUE("issuer", "edf")
 			<< CHAR_VALUE("sp", "connect")
-			<< CHAR_VALUE("st", st)
-			<< CHAR_VALUE("se", se)
-			<< CHAR_VALUE("sig", sig)
-			<< CHAR_VALUE("r", instance)
+			<< CHAR_VALUE("st", st.c_str())
+			<< CHAR_VALUE("se", se.c_str())
+			<< CHAR_VALUE("sig", sig.c_str())
+			<< CHAR_VALUE("r", instance.c_str())
 			<< CHAR_VALUE("v", "v2")
 			<< INT_VALUE("p", 443)
-			<< CHAR_VALUE("ccid", ccid)
+			<< CHAR_VALUE("ccid", ccid.c_str())
 			<< CHAR_VALUE("tc", ptrA(mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}")))
 			<< INT_VALUE("t", time(NULL) * 1000);
 
@@ -135,23 +128,23 @@ public:
 class TrouterPollRequest : public HttpRequest
 {
 public:
-	TrouterPollRequest(const char *socketio, const char *sr, const char *st, const char *se, const char *sig,
-		const char *instance, const char *ccid, const char *sessId) :
-		HttpRequest(REQUEST_GET, FORMAT, "%ssocket.io/1/xhr-polling/%s", socketio, sessId)
+	TrouterPollRequest(const std::string &socketio, const std::string &sr, const std::string &st, const std::string &se, const std::string &sig,
+		const std::string &instance, const std::string &ccid, const std::string &sessId) :
+		HttpRequest(REQUEST_GET, FORMAT, "%ssocket.io/1/xhr-polling/%s", socketio.c_str(), sessId.c_str())
 	{
 		timeout = INFINITE;
 		flags |= NLHRF_PERSISTENT;
 		Url
-			<< CHAR_VALUE("sr", sr)
+			<< CHAR_VALUE("sr", sr.c_str())
 			<< CHAR_VALUE("issuer", "edf")
 			<< CHAR_VALUE("sp", "connect")
-			<< CHAR_VALUE("st", st)
-			<< CHAR_VALUE("se", se)
-			<< CHAR_VALUE("sig", sig)
-			<< CHAR_VALUE("r", instance)
+			<< CHAR_VALUE("st", st.c_str())
+			<< CHAR_VALUE("se", se.c_str())
+			<< CHAR_VALUE("sig", sig.c_str())
+			<< CHAR_VALUE("r", instance.c_str())
 			<< CHAR_VALUE("v", "v2")
 			<< INT_VALUE("p", 443)
-			<< CHAR_VALUE("ccid", ccid)
+			<< CHAR_VALUE("ccid", ccid.c_str())
 			<< CHAR_VALUE("tc", ptrA(mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}")))
 			<< INT_VALUE("t", time(NULL) * 1000);
 

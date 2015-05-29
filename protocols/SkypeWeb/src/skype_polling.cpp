@@ -17,40 +17,41 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CSkypeProto::ParsePollData(JSONNODE *data)
+void CSkypeProto::ParsePollData(const JSONNode &data)
 {
 	debugLogA("CSkypeProto::ParsePollData");
-	JSONNODE *node = json_get(data, "eventMessages");
-	if (node != NULL)
-	{
-		JSONNODE *messages = json_as_array(node);
-		for (size_t i = 0; i < json_size(messages); i++)
-		{
-			JSONNODE *message = json_at(messages, i);
-			JSONNODE *resType = json_get(message, "resourceType");
-			ptrA resourceType(mir_t2a(ptrT(json_as_string(resType))));
-			JSONNODE *resource = json_get(message, "resource");
 
-			if (!mir_strcmpi(resourceType, "NewMessage"))
-			{
-				ProcessNewMessageRes(resource);
-			}
-			else if (!mir_strcmpi(resourceType, "UserPresence"))
-			{
-				ProcessUserPresenceRes(resource);
-			}
-			else if (!mir_strcmpi(resourceType, "EndpointPresence"))
-			{
-				ProcessEndpointPresenceRes(resource);
-			}
-			else if (!mir_strcmpi(resourceType, "ConversationUpdate"))
-			{
-				ProcessConversationUpdateRes(resource);
-			}
-			else if (!mir_strcmpi(resourceType, "ThreadUpdate"))
-			{
-				ProcessThreadUpdateRes(resource);
-			}
+	const JSONNode &node = data["eventMessages"];
+	if (!node)
+		return;
+
+	const JSONNode &messages = node.as_array();
+	for (size_t i = 0; i < messages.size(); i++)
+	{
+		const JSONNode &message = messages.at(i);
+		const JSONNode &resType = message["resourceType"];
+		const JSONNode &resource = message["resource"];
+
+		std::string resourceType = resType.as_string();
+		if (!mir_strcmpi(resourceType.c_str(), "NewMessage"))
+		{
+			ProcessNewMessageRes(resource);
+		}
+		else if (!mir_strcmpi(resourceType.c_str(), "UserPresence"))
+		{
+			ProcessUserPresenceRes(resource);
+		}
+		else if (!mir_strcmpi(resourceType.c_str(), "EndpointPresence"))
+		{
+			ProcessEndpointPresenceRes(resource);
+		}
+		else if (!mir_strcmpi(resourceType.c_str(), "ConversationUpdate"))
+		{
+			ProcessConversationUpdateRes(resource);
+		}
+		else if (!mir_strcmpi(resourceType.c_str(), "ThreadUpdate"))
+		{
+			ProcessThreadUpdateRes(resource);
 		}
 	}
 }
@@ -78,9 +79,8 @@ void CSkypeProto::PollingThread(void*)
 		{
 			if (response->pData)
 			{
-				JSONROOT root(response->pData);
-				JSONNODE *events = json_get(root, "eventMessages");
-				if (events != NULL)
+				JSONNode root = JSONNode::parse(response->pData);
+				if (root["eventMessages"])
 				{
 					ParsePollData(root);
 				}
@@ -92,12 +92,11 @@ void CSkypeProto::PollingThread(void*)
 
 			if (response->pData)
 			{
-				JSONROOT root(response->pData);
-				JSONNODE *error = json_get(root, "errorCode");
+				JSONNode root = JSONNode::parse(response->pData);
+				const JSONNode &error = root["errorCode"];
 				if (error != NULL)
 				{
-					int errorCode = json_as_int(error);
-
+					int errorCode = error.as_int();
 					if (errorCode == 729)
 					{
 						SendRequest(new CreateEndpointRequest(TokenSecret), &CSkypeProto::OnEndpointCreated);

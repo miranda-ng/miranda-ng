@@ -25,15 +25,15 @@ typedef HRESULT(MarkupCallback)(IHTMLDocument3 *pHtmlDoc, BSTR &message);
 
 struct TRInfo
 {
-	char *socketIo;
-	char *connId;
-	char *st;
-	char *se;
-	char *instance;
-	char *ccid;
-	char *sessId;
-	char *sig;
-	char *url;
+	std::string socketIo;
+	std::string connId;
+	std::string st;
+	std::string se;
+	std::string instance;
+	std::string ccid;
+	std::string sessId;
+	std::string sig;
+	std::string url;
 };
 
 struct CSkypeProto : public PROTO < CSkypeProto >
@@ -184,28 +184,28 @@ private:
 	void OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response);
 	void OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p);
 	void OnHealth(const NETLIBHTTPREQUEST *response);
-	void OnTrouterEvent(JSONNODE *body, JSONNODE *headers);
+	void OnTrouterEvent(const JSONNode &body, const JSONNode &headers);
 	void __cdecl CSkypeProto::TRouterThread(void*);
 
 	// profile
-	void UpdateProfileFirstName(JSONNODE *root, MCONTACT hContact = NULL);
-	void UpdateProfileLastName(JSONNODE *root, MCONTACT hContact = NULL);
-	void UpdateProfileDisplayName(JSONNODE *root, MCONTACT hContact = NULL);
-	void UpdateProfileGender(JSONNODE *root, MCONTACT hContact = NULL);
-	void UpdateProfileBirthday(JSONNODE *root, MCONTACT hContact = NULL);
-	void UpdateProfileCountry(JSONNODE *node, MCONTACT hContact = NULL);
-	void UpdateProfileState(JSONNODE *node, MCONTACT hContact = NULL);
-	void UpdateProfileCity(JSONNODE *node, MCONTACT hContact = NULL);
-	void UpdateProfileLanguage(JSONNODE *root, MCONTACT hContact = NULL);
-	void UpdateProfileHomepage(JSONNODE *root, MCONTACT hContact = NULL);
-	void UpdateProfileAbout(JSONNODE *node, MCONTACT hContact = NULL);
-	void UpdateProfileEmails(JSONNODE *root, MCONTACT hContact = NULL);
-	void UpdateProfilePhoneMobile(JSONNODE *root, MCONTACT hContact = NULL);
-	void UpdateProfilePhoneHome(JSONNODE *root, MCONTACT hContact = NULL);
-	void UpdateProfilePhoneOffice(JSONNODE *root, MCONTACT hContact = NULL);
-	void UpdateProfileStatusMessage(JSONNODE *root, MCONTACT hContact = NULL);
-	void UpdateProfileXStatusMessage(JSONNODE *root, MCONTACT hContact = NULL);
-	void UpdateProfileAvatar(JSONNODE *root, MCONTACT hContact = NULL);
+	void UpdateProfileFirstName(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileLastName(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileDisplayName(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileGender(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileCountry(const JSONNode &node, MCONTACT hContact = NULL);
+	void UpdateProfileState(const JSONNode &node, MCONTACT hContact = NULL);
+	void UpdateProfileCity(const JSONNode &node, MCONTACT hContact = NULL);
+	void UpdateProfileLanguage(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileHomepage(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileAbout(const JSONNode &node, MCONTACT hContact = NULL);
+	void UpdateProfileEmails(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfilePhoneMobile(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfilePhoneHome(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfilePhoneOffice(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileStatusMessage(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileXStatusMessage(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact = NULL);
 
 	void LoadProfile(const NETLIBHTTPREQUEST *response);
 
@@ -251,7 +251,7 @@ private:
 
 	void MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent);
 
-	void OnPrivateMessageEvent(JSONNODE *node);
+	void OnPrivateMessageEvent(const JSONNode &node);
 
 	// sync
 	void OnGetServerHistory(const NETLIBHTTPREQUEST *response);
@@ -276,7 +276,7 @@ private:
 
 	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
-	void OnChatEvent(JSONNODE *node);
+	void OnChatEvent(const JSONNode &node);
 	void OnSendChatMessage(const TCHAR *chat_id, const TCHAR * tszMessage);
 	char *GetChatUsers(const TCHAR *chat_id);
 	bool IsChatContact(const TCHAR *chat_id, const char *id);
@@ -296,27 +296,27 @@ private:
 
 	//polling
 	void __cdecl PollingThread(void*);
-	void ParsePollData(JSONNODE *data);
-	void ProcessEndpointPresenceRes(JSONNODE *node);
-	void ProcessUserPresenceRes(JSONNODE *node);
-	void ProcessNewMessageRes(JSONNODE *node);
-	void ProcessConversationUpdateRes(JSONNODE *node);
-	void ProcessThreadUpdateRes(JSONNODE *node);
+	void ParsePollData(const JSONNode &data);
+	void ProcessEndpointPresenceRes(const JSONNode &node);
+	void ProcessUserPresenceRes(const JSONNode &node);
+	void ProcessNewMessageRes(const JSONNode &node);
+	void ProcessConversationUpdateRes(const JSONNode &node);
+	void ProcessThreadUpdateRes(const JSONNode &node);
 
 	// utils
 	bool IsOnline();
 	bool IsMe(const char *skypeName);
 
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
-	time_t IsoToUnixTime(const TCHAR *stamp);
+	time_t IsoToUnixTime(const char *stamp);
 	char *RemoveHtml(const char *text);
 	char *GetStringChunk(const char *haystack, size_t len, const char *start, const char *end);
 
 	int SkypeToMirandaStatus(const char *status);
 	char *MirandaToSkypeStatus(int status);
 
-	void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
-	void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL, int type = 0);
+	void ShowNotification(const TCHAR *message, MCONTACT hContact = NULL);
+	void ShowNotification(const TCHAR *caption, const TCHAR *message, MCONTACT hContact = NULL, int type = 0);
 	static bool IsFileExists(std::tstring path);
 
 	static LRESULT CALLBACK PopupDlgProcCall(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam);

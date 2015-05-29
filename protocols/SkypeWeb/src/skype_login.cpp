@@ -223,12 +223,10 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 
 	if (response == NULL || response->pData == NULL)
 		return;
-	JSONROOT root(response->pData);
-	if (root == NULL)
-		return;
 
-	ptrA SelfEndpointName(SelfUrlToName(mir_t2a(ptrT(json_as_string(json_get(root, "selfLink"))))));
-	setString("SelfEndpointName", SelfEndpointName);
+	JSONNode root = JSONNode::parse(response->pData);
+	if (root)
+		setString("SelfEndpointName", root["selfLink"].as_string().c_str());
 }
 
 void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)
@@ -241,7 +239,7 @@ void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	JSONROOT json(response->pData);
+	JSONNode json = JSONNode::parse(response->pData);
 	if (json == NULL)
 	{
 		debugLogA(__FUNCTION__ ": failed to change status");
@@ -250,8 +248,7 @@ void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	ptrT status(json_as_string(json_get(json, "status")));
-	int iNewStatus = SkypeToMirandaStatus(_T2A(status));
+	int iNewStatus = SkypeToMirandaStatus(json["status"].as_string().c_str());
 	if (iNewStatus == ID_STATUS_OFFLINE)
 	{
 		debugLogA(__FUNCTION__ ": failed to change status");

@@ -24,41 +24,39 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	if (response == NULL)
 		return;
 
-	JSONROOT root(response->pData);
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(response->pData);
+	if (!root)
 		return;
 
-	JSONNODE *metadata = json_get(root, "_metadata");
-	JSONNODE *conversations = json_as_array(json_get(root, "messages"));
+	const JSONNode &metadata = root["_metadata"];
+	const JSONNode &conversations = root["messages"].as_array();
 
-	int totalCount = json_as_int(json_get(metadata, "totalCount"));
-	ptrA syncState(mir_t2a(ptrT(json_as_string(json_get(metadata, "syncState")))));
+	int totalCount = metadata["totalCount"].as_int();
+	std::string syncState = metadata["syncState"].as_string();
 
 	bool markAllAsUnread = getBool("MarkMesUnread", false);
 
-	if (totalCount >= 99 || json_size(conversations) >= 99)
-		PushRequest(new GetHistoryOnUrlRequest(syncState, RegToken), &CSkypeProto::OnGetServerHistory);
+	if (totalCount >= 99 || conversations.size() >= 99)
+		PushRequest(new GetHistoryOnUrlRequest(syncState.c_str(), RegToken), &CSkypeProto::OnGetServerHistory);
 
-	for (int i = json_size(conversations); i >= 0; i--)
+	for (int i = (int)conversations.size(); i >= 0; i--)
 	{
-		JSONNODE *message = json_at(conversations, i);
+		const JSONNode &message = conversations.at(i);
 
-		ptrA clientMsgId(mir_t2a(ptrT(json_as_string(json_get(message, "clientmessageid")))));
-		ptrA skypeEditedId(mir_t2a(ptrT(json_as_string(json_get(message, "skypeeditedid")))));
-		ptrA messageType(mir_t2a(ptrT(json_as_string(json_get(message, "messagetype")))));
-		ptrA from(mir_t2a(ptrT(json_as_string(json_get(message, "from")))));
-		ptrA content(mir_t2a(ptrT(json_as_string(json_get(message, "content")))));
-		ptrT composeTime(json_as_string(json_get(message, "composetime")));
-		ptrA conversationLink(mir_t2a(ptrT(json_as_string(json_get(message, "conversationLink")))));
-		int emoteOffset = atoi(ptrA(mir_t2a(ptrT(json_as_string(json_get(message, "skypeemoteoffset"))))));
-		time_t timestamp = IsoToUnixTime(composeTime);
-		ptrA skypename(ContactUrlToName(from));
+		std::string clientMsgId = message["clientmessageid"].as_string();
+		std::string skypeEditedId = message["skypeeditedid"].as_string();
+		std::string messageType = message["messagetype"].as_string();
+		std::string from = message["from"].as_string();
+		std::string content = message["content"].as_string();
+		std::string conversationLink = message["conversationLink"].as_string();
+		int emoteOffset = message["skypeemoteoffset"].as_int();
+		time_t timestamp = IsoToUnixTime(message["composetime"].as_string().c_str());
+		ptrA skypename(ContactUrlToName(from.c_str()));
 
-		bool isEdited = (json_get(message, "skypeeditedid") != NULL);
+		bool isEdited = message["skypeeditedid"];
 
-		MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink)));
-
-
+		MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink.c_str())));
+			  
 		if (timestamp > db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0))
 			db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
 
@@ -70,13 +68,12 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		if (IsMe(skypename))
 			flags |= DBEF_SENT;
 
-		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
+		if (strstr(conversationLink.c_str(), "/8:"))
 		{
-			if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
+			if (!mir_strcmpi(messageType.c_str(), "Text") || !mir_strcmpi(messageType.c_str(), "RichText"))
 			{
-
-				ptrA message(RemoveHtml(content));
-				MEVENT dbevent = GetMessageFromDb(hContact, skypeEditedId);
+				ptrA message(RemoveHtml(content.c_str()));
+				MEVENT dbevent = GetMessageFromDb(hContact, skypeEditedId.c_str());
 
 				if (isEdited && dbevent != NULL)
 				{
@@ -100,20 +97,19 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 					msg.AppendFormat("%s\n%s %s:\n%s", dbMsgText, Translate("Edited at"), _T2A(time), message);
 					db_event_delete(hContact, dbevent);
-					AddMessageToDb(hContact, dbEventTimestamp, flags, clientMsgId, msg.GetBuffer(), emoteOffset);
+					AddMessageToDb(hContact, dbEventTimestamp, flags, clientMsgId.c_str(), msg.GetBuffer(), emoteOffset);
 				}
-				else
-					AddMessageToDb(hContact, timestamp, flags, clientMsgId, message, emoteOffset);
+				else AddMessageToDb(hContact, timestamp, flags, clientMsgId.c_str(), message, emoteOffset);
 			}
-			else if (!mir_strcmpi(messageType, "Event/Call"))
+			else if (!mir_strcmpi(messageType.c_str(), "Event/Call"))
 			{
 				//content=<partlist type="ended" alt=""><part identity="username"><name>user name</name><duration>6</duration></part>
 				//<part identity="echo123"><name>Echo / Sound Test Service</name><duration>6</duration></part></partlist>
 
 				//content=<partlist type="started" alt=""><part identity="username"><name>user name</name></part></partlist>
 				int iType = 3, iDuration = 0;
-				ptrA skypename(ContactUrlToName(from));
-				HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("partlist"));
+				ptrA skypename(ContactUrlToName(from.c_str()));
+				HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("partlist"));
 				if (xml != NULL)
 				{
 
@@ -148,12 +144,12 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 					csec.AppendFormat(sec < 10 ? "0%d" : "%d", sec);
 					text.AppendFormat("%s\n%s: %s:%s:%s", Translate("Call ended"), Translate("Duration"), chours, cmins, csec);
 				}
-				AddCallInfoToDb(hContact, timestamp, flags, clientMsgId, text.GetBuffer());
+				AddCallInfoToDb(hContact, timestamp, flags, clientMsgId.c_str(), text.GetBuffer());
 			}
-			else if (!mir_strcmpi(messageType, "RichText/Files"))
+			else if (!mir_strcmpi(messageType.c_str(), "RichText/Files"))
 			{
 				//content=<files alt="отправил (-а) файл &quot;run.bat&quot;"><file size="97" index="0" tid="4197760077">run.bat</file></files>
-				HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("files"));
+				HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("files"));
 				if (xml != NULL)
 				{
 					for (int i = 0; i < xi.getChildCount(xml); i++)
@@ -169,15 +165,14 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 						msg.Empty();
 						msg.AppendFormat("%s:\n\t%s: %s\n\t%s: %d %s", Translate("File transfer"), Translate("File name"), fileName, Translate("Size"), fileSize, Translate("bytes"));
-						AddMessageToDb(hContact, timestamp, flags, clientMsgId, msg.GetBuffer());
-
+						AddMessageToDb(hContact, timestamp, flags, clientMsgId.c_str(), msg.GetBuffer());
 					}
 				}
 			}
-			else if (!mir_strcmpi(messageType, "RichText/UriObject"))
+			else if (!mir_strcmpi(messageType.c_str(), "RichText/UriObject"))
 			{
 				//content=<URIObject type="Picture.1" uri="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834" url_thumbnail="https://api.asm.skype.com/v1//objects/0-weu-d1-262f0a1ee256d03b8e4b8360d9208834/views/imgt1"><Title></Title><Description></Description>Для просмотра этого общего фото перейдите по ссылке: https://api.asm.skype.com/s/i?0-weu-d1-262f0a1ee256d03b8e4b8360d9208834<meta type="photo" originalName="ysd7ZE4BqOg.jpg"/><OriginalName v="ysd7ZE4BqOg.jpg"/></URIObject>
-				HXML xml = xi.parseString(ptrT(mir_a2t(content)), 0, _T("URIObject"));
+				HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("URIObject"));
 				if (xml != NULL)
 				{
 					ptrA url(mir_t2a(xi.getAttrValue(xml, L"uri")));
@@ -185,17 +180,15 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 					CMStringA data(FORMAT, "%s: https://api.asm.skype.com/s/i?%s", Translate("Image"), object);
 
-					AddMessageToDb(hContact, timestamp, flags, clientMsgId, data.GetBuffer());
+					AddMessageToDb(hContact, timestamp, flags, clientMsgId.c_str(), data.GetBuffer());
 				}
 			} //Picture
 		}
-		else if (conversationLink != NULL && strstr(conversationLink, "/19:"))
+		else if (conversationLink.find("/19:") != -1)
 		{
-			ptrA chatname(ChatUrlToName(conversationLink));
-			if (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText"))
-			{
-				AddMessageToChat(_A2T(chatname), _A2T(skypename), content, emoteOffset != NULL, emoteOffset, timestamp, true);
-			}
+			ptrA chatname(ChatUrlToName(conversationLink.c_str()));
+			if (!mir_strcmpi(messageType.c_str(), "Text") || !mir_strcmpi(messageType.c_str(), "RichText"))
+				AddMessageToChat(_A2T(chatname), _A2T(skypename), content.c_str(), emoteOffset != NULL, emoteOffset, timestamp, true);
 		}
 	}
 }
@@ -210,35 +203,33 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL || response->pData == NULL)
 		return;
-	JSONROOT root(response->pData);
 
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(response->pData);
+	if (!root)
 		return;
 
-	JSONNODE *metadata = json_get(root, "_metadata");
-	JSONNODE *conversations = json_as_array(json_get(root, "conversations"));
+	const JSONNode &metadata = root["_metadata"];
+	const JSONNode &conversations = root["conversations"].as_array();
 
-	int totalCount = json_as_int(json_get(metadata, "totalCount"));
-	ptrA syncState(mir_t2a(ptrT(json_as_string(json_get(metadata, "syncState")))));
+	int totalCount = metadata["totalCount"].as_int();
+	std::string syncState = metadata["syncState"].as_string();
 
-	if (totalCount >= 99 || json_size(conversations) >= 99)
-		PushRequest(new SyncHistoryFirstRequest(syncState, RegToken), &CSkypeProto::OnSyncHistory);
+	if (totalCount >= 99 || conversations.size() >= 99)
+		PushRequest(new SyncHistoryFirstRequest(syncState.c_str(), RegToken), &CSkypeProto::OnSyncHistory);
 
-	for (size_t i = 0; i < json_size(conversations); i++)
+	for (size_t i = 0; i < conversations.size(); i++)
 	{
-		JSONNODE *conversation = json_at(conversations, i);
-		JSONNODE *lastMessage = json_get(conversation, "lastMessage");
-		if (json_empty(lastMessage))
+		const JSONNode &conversation = conversations.at(i);
+		const JSONNode &lastMessage = conversation["lastMessage"];
+		if (!lastMessage)
 			continue;
 
-		char *conversationLink = mir_t2a(json_as_string(json_get(lastMessage, "conversationLink")));
-		time_t composeTime(IsoToUnixTime(ptrT(json_as_string(json_get(lastMessage, "composetime")))));
+		std::string conversationLink = lastMessage["conversationLink"].as_string();
+		time_t composeTime(IsoToUnixTime(lastMessage["composetime"].as_string().c_str()));
 
-		ptrA skypename;
-
-		if (conversationLink != NULL && strstr(conversationLink, "/8:"))
+		if (conversationLink.find("/8:") != -1)
 		{
-			skypename = ContactUrlToName(conversationLink);
+			ptrA skypename(ContactUrlToName(conversationLink.c_str()));
 			MCONTACT hContact = FindContact(skypename);
 			if (hContact == NULL)
 				continue;

@@ -21,90 +21,85 @@ void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL || response->pData == NULL)
 	{
-		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."), 0, NULL, 1);
+		ShowNotification(m_tszUserName, TranslateT("Failed establish a TRouter connection."), NULL, 1);
 		return;
 	}
-	JSONROOT root(response->pData);
 
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(response->pData);
+	if (!root) {
+		ShowNotification(m_tszUserName, TranslateT("Failed establish a TRouter connection."), NULL, 1);
+		return;
+	}
+
+	const JSONNode &ccid = root["ccid"];
+	const JSONNode &connId = root["connId"];
+	const JSONNode &instance = root["instance"];
+	const JSONNode &socketio = root["socketio"];
+	const JSONNode &url = root["url"];
+
+	if (!ccid || !connId || !instance || !socketio || !url)
 	{
-		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."), 0, NULL, 1);
+		ShowNotification(m_tszUserName, TranslateT("Failed establish a TRouter connection."), NULL, 1);
 		return;
 	}
 
-	ptrA ccid(mir_t2a(ptrT(json_as_string(json_get(root, "ccid")))));
-	ptrA connId(mir_t2a(ptrT(json_as_string(json_get(root, "connId")))));
-	ptrA instance(mir_t2a(ptrT(json_as_string(json_get(root, "instance")))));
-	ptrA socketio(mir_t2a(ptrT(json_as_string(json_get(root, "socketio")))));
-	ptrA url(mir_t2a(ptrT(json_as_string(json_get(root, "url")))));
+	TRouter.ccid = ccid.as_string();
+	TRouter.connId = connId.as_string();
+	TRouter.instance = instance.as_string();
+	TRouter.socketIo = socketio.as_string();
+	TRouter.url = url.as_string();
 
-	if (ccid == NULL || connId == NULL || instance == NULL || socketio == NULL || url == NULL)
-	{
-		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."), 0, NULL, 1);
-		return;
-	}
-
-	TRouter.ccid = mir_strdup(ccid);
-	TRouter.connId = mir_strdup(connId);
-	TRouter.instance = mir_strdup(instance);
-	TRouter.socketIo = mir_strdup(socketio);
-	TRouter.url = mir_strdup(url);
-
-	SendRequest(new CreateTrouterPoliciesRequest(TokenSecret, TRouter.connId), &CSkypeProto::OnTrouterPoliciesCreated);
+	SendRequest(new CreateTrouterPoliciesRequest(TokenSecret, TRouter.connId.c_str()), &CSkypeProto::OnTrouterPoliciesCreated);
 }
 
 void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL || response->pData == NULL)
 	{
-		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."), 0, NULL, 1);
+		ShowNotification(m_tszUserName, TranslateT("Failed establish a TRouter connection."), NULL, 1);
 		return;
 	}
 
-	JSONROOT root(response->pData);
-
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(response->pData);
+	if (!root)
 	{
-		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."), 0, NULL, 1);
+		ShowNotification(m_tszUserName, TranslateT("Failed establish a TRouter connection."), NULL, 1);
 		return;
 	}
 
-	ptrA st(mir_t2a(ptrT(json_as_string(json_get(root, "st")))));
-	ptrA se(mir_t2a(ptrT(json_as_string(json_get(root, "se")))));
-	ptrA sig(mir_t2a(ptrT(json_as_string(json_get(root, "sig")))));
+	const JSONNode &st = root["st"];
+	const JSONNode &se = root["se"];
+	const JSONNode &sig = root["sig"];
 
-	if (st == NULL || se == NULL || sig == NULL)
+	if (!st || !se || !sig)
 	{
-		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."), 0, NULL, 1);
+		ShowNotification(m_tszUserName, TranslateT("Failed establish a TRouter connection."), NULL, 1);
 		return;
 	}
 
-	TRouter.st = mir_strdup(st);
-	TRouter.se = mir_strdup(se);
-	TRouter.sig = mir_strdup(sig);
+	TRouter.st = st.as_string();
+	TRouter.se = se.as_string();
+	TRouter.sig = sig.as_string();
 
-	SendRequest(new GetTrouterRequest
-		(
+	SendRequest(new GetTrouterRequest(
 		TRouter.socketIo,
 		TRouter.connId,
 		TRouter.st,
 		TRouter.se,
 		TRouter.sig,
 		TRouter.instance,
-		TRouter.ccid
-		), &CSkypeProto::OnGetTrouter, (void *)false);
-
-
+		TRouter.ccid), &CSkypeProto::OnGetTrouter, NULL);
 }
 
 void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p)
 {
 	if (response == NULL || response->pData == NULL)
 	{
-		ShowNotification(_A2T(m_szModuleName), TranslateT("Failed establish a TRouter connection."), 0, NULL, 1);
+		ShowNotification(m_tszUserName, TranslateT("Failed establish a TRouter connection."), NULL, 1);
 		return;
 	}
-	bool isHealth = (bool)p;
+
+	bool isHealth = p != NULL;
 
 	CMStringA data(response->pData);
 	int iStart = 0;
@@ -113,40 +108,40 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p)
 	m_hTrouterThread = ForkThreadEx(&CSkypeProto::TRouterThread, 0, NULL);
 
 	if (!isHealth)
-		SendRequest(new RegisterTrouterRequest(TokenSecret, TRouter.url, TRouter.sessId));
+		SendRequest(new RegisterTrouterRequest(TokenSecret, TRouter.url.c_str(), TRouter.sessId.c_str()));
 }
 
 void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST*)
 {
-
-	SendRequest(new GetTrouterRequest(TRouter.socketIo,
+	SendRequest(new GetTrouterRequest(
+		TRouter.socketIo,
 		TRouter.connId,
 		TRouter.st,
 		TRouter.se,
 		TRouter.sig,
 		TRouter.instance,
 		TRouter.ccid),
-		&CSkypeProto::OnGetTrouter, (void *)true);
+		&CSkypeProto::OnGetTrouter, (void *)1);
 }
 
-void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *)
+void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 {
-	ptrT displayname(json_as_string(json_get(body, "displayName")));
-	ptrT cuid(json_as_string(json_get(body, "callerId")));
-	ptrT uid(json_as_string(json_get(body, "conversationId")));
-	ptrT gp(json_as_string(json_get(body, "gp")));
-	int evt = json_as_int(json_get(body, "evt"));
+	std::string displayname = body["displayName"].as_string();
+	std::string cuid = body["callerId"].as_string();
+	std::string uid = body["conversationId"].as_string();
+	std::string gp = body["gp"].as_string();
+	int evt = body["evt"].as_int();
 
 	switch (evt)
 	{
 	case 100: //incoming call
 		{
-			ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "convoCallId")))));
-			if (uid != NULL)
+			std::string callId = body["convoCallId"].as_string();
+			if (!uid.empty())
 			{
-				MCONTACT hContact = AddContact(_T2A(uid), true);
+				MCONTACT hContact = AddContact(uid.c_str(), true);
 
-				MEVENT hEvent = AddCallToDb(hContact, time(NULL), DBEF_READ, callId, _T2A(gp));
+				MEVENT hEvent = AddCallToDb(hContact, time(NULL), DBEF_READ, callId.c_str(), gp.c_str());
 				SkinPlaySound("skype_inc_call");
 
 				CLISTEVENT cle = { sizeof(cle) };
@@ -164,16 +159,15 @@ void CSkypeProto::OnTrouterEvent(JSONNODE *body, JSONNODE *)
 
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 
-				ShowNotification(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Incoming call"), 0, hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL);
+				ShowNotification(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Incoming call"), hContact, SKYPE_DB_EVENT_TYPE_INCOMING_CALL);
 			}
-			break;
 		}
+		break;
+
 	case 104: //call canceled: callerId=""; conversationId=NULL; callId=call id
-		{
-			ptrA callId(mir_t2a(ptrT(json_as_string(json_get(body, "callId")))));
-			SkinPlaySound("skype_call_canceled");
-			break;
-		}
+		// std::string callId = body["callId"].as_string();
+		SkinPlaySound("skype_call_canceled");
+		break;
 	}
 }
 
@@ -203,17 +197,17 @@ void CSkypeProto::TRouterThread(void*)
 				char *json = strstr(response->pData, "{");
 				if (json != NULL)
 				{
-					JSONROOT  root(json);
-					ptrA szBody(mir_t2a(ptrT(json_as_string(json_get(root, "body")))));
-					JSONNODE *headers = json_get(root, "headers");
-					JSONNODE *body = json_parse(szBody);
+					JSONNode root = JSONNode::parse(json);
+					std::string szBody = root["body"].as_string();
+					const JSONNode &headers = root["headers"];
+					const JSONNode body = JSONNode::parse(szBody.c_str());
 					OnTrouterEvent(body, headers);
 				}
 			}
 		}
 		else
 		{
-			SendRequest(new HealthTrouterRequest(TRouter.ccid), &CSkypeProto::OnHealth);
+			SendRequest(new HealthTrouterRequest(TRouter.ccid.c_str()), &CSkypeProto::OnHealth);
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 			delete request;
 			break;
