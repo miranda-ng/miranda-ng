@@ -662,9 +662,8 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 {
 	struct gg_dcc *dcc = (struct gg_dcc *) hTransfer;
 	char fileName[MAX_PATH], *path = mir_t2a(szPath);
-	strncpy(fileName, path, sizeof(fileName));
-	mir_strncat(fileName, (char*)dcc->file_info.filename, sizeof(fileName) - mir_strlen(fileName));
-	dcc->folder = _strdup((char *) path);
+	mir_snprintf(fileName, _countof(fileName), "%s%s", path, dcc->file_info.filename);
+	dcc->folder = _strdup((char*)path);
 	dcc->tick = 0;
 	mir_free(path);
 

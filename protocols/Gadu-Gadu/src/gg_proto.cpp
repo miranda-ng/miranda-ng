@@ -303,10 +303,6 @@ HANDLE GGPROTO::SearchBasic(const PROTOCHAR *id)
 
 HANDLE GGPROTO::SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, const PROTOCHAR *lastName)
 {
-	gg_pubdir50_t req;
-	unsigned long crc;
-	char data[512] = "\0";
-
 	// Check if connected and if there's a search data
 	if (!isonline())
 		return 0;
@@ -314,8 +310,8 @@ HANDLE GGPROTO::SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, 
 	if (!nick && !firstName && !lastName)
 		return 0;
 
-	if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH)))
-	{
+	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
+	if (req == NULL) {
 #ifdef DEBUGMODE
 		debugLogA("SearchByName(): ForkThread 12 GGPROTO::searchthread");
 #endif
@@ -324,33 +320,33 @@ HANDLE GGPROTO::SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, 
 	}
 
 	// Add nick,firstName,lastName and search it
+	CMStringA szQuery;
 	if (nick)
 	{
 		T2Utf nick_utf8(nick);
 		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nick_utf8);
-		mir_strncat(data, nick_utf8, sizeof(data) - mir_strlen(data));
+		szQuery.Append(nick_utf8);
 	}
-	mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
+	szQuery.AppendChar('.');
 
 	if (firstName)
 	{
 		T2Utf firstName_utf8(firstName);
 		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstName_utf8);
-		mir_strncat(data, firstName_utf8, sizeof(data) - mir_strlen(data));
+		szQuery.Append(firstName_utf8);
 	}
-	mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
+	szQuery.AppendChar('.');
 
 	if (lastName)
 	{
 		T2Utf lastName_utf8(lastName);
 		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastName_utf8);
-		mir_strncat(data, lastName_utf8, sizeof(data) - mir_strlen(data));
+		szQuery.Append(lastName_utf8);
 	}
-	mir_strncat(data, ".", sizeof(data) - mir_strlen(data));
+	szQuery.AppendChar('.');
 
 	// Count crc & check if the data was equal if yes do same search with shift
-	crc = crc_get(data);
-
+	unsigned long crc = crc_get(szQuery.GetBuffer());
 	if (crc == last_crc && next_uin)
 		gg_pubdir50_add(req, GG_PUBDIR50_START, ditoa(next_uin));
 	else

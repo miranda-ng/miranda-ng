@@ -219,19 +219,15 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 	return 0;
 }
 
-char *oauth_generate_nonce()
+char* oauth_generate_nonce()
 {
-	char timestamp[22], randnum[16];
-	mir_snprintf(timestamp, SIZEOF(timestamp), "%ld", time(NULL)); 
+	char randnum[16];
 	CallService(MS_UTILS_GETRANDOM, (WPARAM)sizeof(randnum), (LPARAM)randnum);
 
-	int strSizeB = int(mir_strlen(timestamp) + sizeof(randnum));
-	ptrA str((char *)mir_calloc(strSizeB + 1));
-	mir_strcpy(str, timestamp);
-	mir_strncat(str, randnum, sizeof(randnum));
+	CMStringA str(FORMAT, "%ld%s", time(NULL), randnum);
 
 	BYTE digest[16];
-	mir_md5_hash((BYTE*)(char*)str, strSizeB, digest);
+	mir_md5_hash((BYTE*)str.GetString(), str.GetLength(), digest);
 	return bin2hex(digest, sizeof(digest), (char *)mir_alloc(32 + 1));
 }
 
@@ -240,7 +236,7 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 						const char *token, const char *token_secret)
 {
 	int i, size;
-	char *res, timestamp[22], *nonce;
+	char *res, timestamp[22];
 
 	if (httpmethod == NULL || url == NULL) return NULL;
 
@@ -254,9 +250,7 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 	};
 	mir_snprintf(timestamp, SIZEOF(timestamp), "%ld", time(NULL)); 
 	oauth_setparam(oauth_parameters, "oauth_timestamp", timestamp);
-	nonce = oauth_generate_nonce();
-	oauth_setparam(oauth_parameters, "oauth_nonce", nonce);
-	mir_free(nonce);
+	oauth_setparam(oauth_parameters, "oauth_nonce", ptrA(oauth_generate_nonce()));
 	if (token != NULL && *token)
 		oauth_setparam(oauth_parameters, "oauth_token", token);
 
