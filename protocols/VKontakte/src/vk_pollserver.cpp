@@ -78,6 +78,8 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 		const JSONNode &jnChild = (*it).as_array();
 		switch (jnChild[json_index_t(0)].as_int()) {
 		case VKPOLL_MSG_DELFLAGS:
+			if (jnChild.size() < 4)
+				break;
 			msgid = jnChild[1].as_int();
 			flags = jnChild[2].as_int();
 			uid = jnChild[3].as_int();
