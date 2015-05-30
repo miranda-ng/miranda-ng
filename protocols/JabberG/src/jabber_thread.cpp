@@ -1348,6 +1348,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 		return;
 
 	CMString tmp(szMessage);
+	tmp += ExtractImage(node);
 	tmp.Replace(_T("\n"), _T("\r\n"));
 	ptrA buf(mir_utf8encodeW(tmp));
 
