@@ -48,9 +48,8 @@ MCONTACT CDropbox::GetDefaultContact()
 			db_set_s(hDefaultContact, MODULE, "Nick", MODULE);
 			db_set_ws(hDefaultContact, "CList", "MyHandle", L"Dropbox");
 		}
+		db_set_w(hDefaultContact, MODULE, "Status", HasAccessToken() ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
 	}
-
-	db_set_w(hDefaultContact, MODULE, "Status", HasAccessToken() ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
 
 	return hDefaultContact;
 }
@@ -66,73 +65,62 @@ void CDropbox::RequestAccountInfo()
 
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	GetAccountInfoRequest request(token);
-	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(hNetlibConnection));
+	NetlibPtr response(request.Send(hNetlibConnection));
 	HandleHttpResponseError(response);
 
-	JSONROOT root(response->pData);
-	if (root)
+	JSONNode root = JSONNode::parse(response->pData);
+	if (root.empty())
+		return;
+
+	JSONNode referral_link = root.at("referral_link");
+	if (!referral_link.empty())
+		db_set_s(hContact, MODULE, "Homepage", referral_link.as_string().c_str());
+
+	JSONNode display_name = root.at("display_name");
+	if (!display_name.empty())
 	{
-		JSONNODE *node = json_get(root, "referral_link");
-		if (node)
+		ptrT display_name(mir_utf8decodeT(display_name.as_string().c_str()));
+		TCHAR *sep = _tcsrchr(display_name, _T(' '));
+		if (sep)
 		{
-			ptrW referral_link = ptrW(json_as_string(node));
-			db_set_ws(hContact, MODULE, "Homepage", referral_link);
+			db_set_ts(hContact, MODULE, "LastName", sep + 1);
+			display_name[mir_tstrlen(display_name) - mir_tstrlen(sep)] = '\0';
+			db_set_ts(hContact, MODULE, "FirstName", display_name);
 		}
-
-		node = json_get(root, "display_name");
-		if (node)
+		else
 		{
-			ptrW display_name = ptrW(json_as_string(node));
-			TCHAR *sep = _tcsrchr(display_name, L' ');
-			if (sep)
-			{
-				db_set_ws(hContact, MODULE, "LastName", sep + 1);
-				display_name[mir_tstrlen(display_name) - mir_tstrlen(sep)] = '\0';
-				db_set_ws(hContact, MODULE, "FirstName", display_name);
-			}
-			else
-			{
-				db_set_ws(hContact, MODULE, "FirstName", display_name);
-				db_unset(hContact, MODULE, "LastName");
-			}
+			db_set_ts(hContact, MODULE, "FirstName", display_name);
+			db_unset(hContact, MODULE, "LastName");
 		}
+	}
 
-		node = json_get(root, "country");
-		if (node)
+	JSONNode country = root.at("country");
+	if (!country.empty())
+	{
+		std::string isocode = country.as_string();
+
+		if (isocode.empty())
+			db_unset(hContact, MODULE, "Country");
+		else
 		{
-			ptrW isocodeW(json_as_string(node));
-			ptrA isocode(mir_u2a(isocodeW));
-
-			if (!mir_strlen(isocode))
-				db_unset(hContact, MODULE, "Country");
-			else
-			{
-				char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode, 0);
-				db_set_s(hContact, MODULE, "Country", country);
-			}
+			char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode.c_str(), 0);
+			db_set_s(hContact, MODULE, "Country", country);
 		}
+	}
 
-		node = json_get(root, "quota_info");
-		JSONNODE *nroot = json_as_node(node);
-		if (nroot)
-		{
-			node = json_get(nroot, "shared");
-			if (node)
-				db_set_dw(hContact, MODULE, "SharedQuota", json_as_int(node));
-			node = json_get(nroot, "normal");
-			if (node)
-				db_set_dw(hContact, MODULE, "NormalQuota", json_as_int(node));
-			node = json_get(nroot, "quota");
-			if (node)
-				db_set_dw(hContact, MODULE, "TotalQuota", json_as_int(node));
-		}
+	JSONNode quota_info = root.at("quota_info");
+	if (!quota_info.empty())
+	{
+		db_set_dw(hContact, MODULE, "SharedQuota", quota_info.at("shared").as_int());
+		db_set_dw(hContact, MODULE, "NormalQuota", quota_info.at("normal").as_int());
+		db_set_dw(hContact, MODULE, "TotalQuota", quota_info.at("quota").as_int());
 	}
 }
 
 void CDropbox::DestroyAccessToken()
 {
 	DisableAccessTokenRequest request;
-	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(hNetlibConnection));
+	NetlibPtr response(request.Send(hNetlibConnection));
 
 	db_unset(NULL, MODULE, "TokenSecret");
 	MCONTACT hContact = CDropbox::GetDefaultContact();
@@ -158,7 +146,7 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 	GetDlgItemTextA(hwndDlg, IDC_REQUEST_CODE, requestToken, SIZEOF(requestToken));
 
 	GetAccessTokenRequest request(requestToken);
-	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(instance->hNetlibConnection));
+	NetlibPtr response(request.Send(instance->hNetlibConnection));
 
 	if (response == NULL)
 	{
@@ -170,13 +158,22 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 		return 0;
 	}
 
-	JSONROOT root(response->pData);
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(response->pData);
+	if (root.empty())
 	{
-		JSONNODE *node = json_get(root, "error_description");
-		ptrW error_description(json_as_string(node));
+		Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, HttpStatusToText((HTTP_STATUS)response->resultCode));
+		if (hwndDlg)
+			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("server does not respond"));
+		/*else
+			ShowNotification((TCHAR*)error_description, MB_ICONERROR);*/
+		return 0;
+	}
 
-		Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, HttpStatusToText((HTTP_STATUS)response->resultCode)));
+	JSONNode node = root.at("error_description");
+	if (node != JSONNULL)
+	{
+		ptrT error_description(mir_a2t_cp(node.as_string().c_str(), CP_UTF8));
+		Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, HttpStatusToText((HTTP_STATUS)response->resultCode));
 		if (hwndDlg)
 			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, error_description);
 		/*else
@@ -184,9 +181,8 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 		return 0;
 	}
 
-	JSONNODE *node = json_get(root, "access_token");
-	ptrA access_token = ptrA(mir_u2a(json_as_string(node)));
-	db_set_s(NULL, MODULE, "TokenSecret", access_token);
+	node = root.at("access_token");
+	db_set_s(NULL, MODULE, "TokenSecret", node.as_string().c_str());
 	ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, (WPARAM)ID_STATUS_ONLINE);
 
 	MCONTACT hContact = instance->GetDefaultContact();

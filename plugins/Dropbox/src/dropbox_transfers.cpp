@@ -5,7 +5,7 @@ void CDropbox::SendFile(const char *path, const char *data, size_t size)
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	ptrA encodedPath(mir_utf8encode(path));
 	UploadFileRequest request(token, encodedPath, data, size);
-	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(hNetlibConnection));
+	NetlibPtr response(request.Send(hNetlibConnection));
 	HandleHttpResponseError(response);
 }
 
@@ -13,31 +13,34 @@ void CDropbox::SendFileChunkedFirst(const char *data, size_t size, char *uploadI
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	UploadFileChunkRequest request(token, data, size);
-	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(hNetlibConnection));
-	HandleHttpResponseError(response);
-	JSONROOT root(response->pData);
-	if (root)
-	{
-		JSONNODE *node = json_get(root, "upload_id");
-		mir_strcpy(uploadId, mir_u2a(json_as_string(node)));
+	NetlibPtr response(request.Send(hNetlibConnection));
 
-		node = json_get(root, "offset");
-		offset = json_as_int(node);
-	}
+	HandleHttpResponseError(response);
+
+	JSONNode root = JSONNode::parse(response->pData);
+	if (root.empty())
+		return;
+
+	JSONNode node = root.at("upload_id");
+	mir_strcpy(uploadId, node.as_string().c_str());
+
+	node = root.at("offset");
+	offset = node.as_int();
 }
 
 void CDropbox::SendFileChunkedNext(const char *data, size_t size, const char *uploadId, size_t &offset)
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	UploadFileChunkRequest request(token, uploadId, offset, data, size);
-	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(hNetlibConnection));
+	NetlibPtr response(request.Send(hNetlibConnection));
+
 	HandleHttpResponseError(response);
-	JSONROOT root(response->pData);
-	if (root)
-	{
-		JSONNODE *node = json_get(root, "offset");
-		offset = json_as_int(node);
-	}
+	
+	JSONNode root = JSONNode::parse(response->pData);
+	if (root.empty())
+		return;
+
+	offset = root.at("offset").as_int();
 }
 
 void CDropbox::SendFileChunkedLast(const char *path, const char *uploadId)
@@ -45,7 +48,7 @@ void CDropbox::SendFileChunkedLast(const char *path, const char *uploadId)
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	ptrA encodedPath(mir_utf8encode(path));
 	UploadFileChunkRequest request(token, uploadId, (char*)encodedPath);
-	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(hNetlibConnection));
+	NetlibPtr response(request.Send(hNetlibConnection));
 	HandleHttpResponseError(response);
 }
 
@@ -54,7 +57,7 @@ void CDropbox::CreateFolder(const char *path)
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	ptrA encodedPath(mir_utf8encode(path));
 	CreateFolderRequest request(token, encodedPath);
-	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(hNetlibConnection));
+	NetlibPtr response(request.Send(hNetlibConnection));
 
 	// forder exists on server
 	if (response->resultCode == HTTP_STATUS_FORBIDDEN)
@@ -69,14 +72,16 @@ void CDropbox::CreateDownloadUrl(const char *path, char *url)
 	ptrA encodedPath(mir_utf8encode(path));
 	bool useShortUrl = db_get_b(NULL, MODULE, "UseSortLinks", 1) > 0;
 	ShareRequest request(token, encodedPath, useShortUrl);
-	mir_ptr<NETLIBHTTPREQUEST> response(request.Send(hNetlibConnection));
+	NetlibPtr response(request.Send(hNetlibConnection));
+
 	HandleHttpResponseError(response);
-	JSONROOT root(response->pData);
-	if (root)
-	{
-		JSONNODE *node = json_get(root, "url");
-		mir_strcpy(url, _T2A(json_as_string(node)));
-	}
+
+	JSONNode root = JSONNode::parse(response->pData);
+	if (root.empty())
+		return;
+	
+	JSONNode node = root.at("url");
+	mir_strcpy(url, node.as_string().c_str());
 }
 
 UINT CDropbox::SendFilesAsync(void *owner, void *arg)
@@ -230,7 +235,7 @@ UINT CDropbox::SendFilesAndReportAsync(void *owner, void *arg)
 			if (CallContactService(ftp->hContact, PSS_MESSAGE, 0, (LPARAM)message) != ACKRESULT_FAILED)
 			{
 				DBEVENTINFO dbei = { sizeof(dbei) };
-				dbei.flags = DBEF_UTF | DBEF_SENT/* | DBEF_READ*/;
+				dbei.flags = DBEF_UTF | DBEF_SENT;
 				dbei.szModule = MODULE;
 				dbei.timestamp = time(NULL);
 				dbei.eventType = EVENTTYPE_MESSAGE;

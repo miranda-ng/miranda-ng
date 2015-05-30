@@ -7,6 +7,8 @@ enum
 	CMI_MAX   // this item shall be the last one
 };
 
+#define JSONNULL JSONNode(JSON_NULL)
+
 class CDropbox : public MZeroedObject
 {
 	friend CDropboxOptionsMain;
