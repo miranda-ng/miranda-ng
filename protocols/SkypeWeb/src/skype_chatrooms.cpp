@@ -412,7 +412,7 @@ void CSkypeProto::AddMessageToChat(const TCHAR *chat_id, const TCHAR *from, cons
 	gce.time = timestamp;
 	gce.ptszUID = from;
 	ptrA szHtml(RemoveHtml(content));
-	ptrT tszHtml(mir_a2t(szHtml));
+	ptrT tszHtml(mir_utf8decodeT(szHtml));
 	if (!isAction)
 	{
 		gce.ptszText = tszHtml;

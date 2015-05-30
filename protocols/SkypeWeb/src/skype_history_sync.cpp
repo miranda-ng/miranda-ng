@@ -236,8 +236,9 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 			if (db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) < composeTime)
 			{
 				PushRequest(new GetHistoryRequest(RegToken, skypename, 100, false, 0, Server), &CSkypeProto::OnGetServerHistory);
-				HistorySynced = true;
 			}
 		}
 	}
+
+	HistorySynced = true;
 }
