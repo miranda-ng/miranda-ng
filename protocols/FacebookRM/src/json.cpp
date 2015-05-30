@@ -206,7 +206,7 @@ int facebook_json_parser::parse_notifications(std::string *data, std::map< std::
 	if (!root)
 		return EXIT_FAILURE;
 
-	const JSONNode &list = root["payload"].at("notifications");
+	const JSONNode &list = root["payload"].at("nodes");
 	if (!list)
 		return EXIT_FAILURE;
 
@@ -214,24 +214,22 @@ int facebook_json_parser::parse_notifications(std::string *data, std::map< std::
 	proto->PrepareNotificationsChatRoom();
 
 	for (auto it = list.begin(); it != list.end(); ++it) {
-		const char *id = (*it).name();
-
-		const JSONNode &markup = (*it)["markup"];
-		const JSONNode &unread = (*it)["unread"];
-		const JSONNode &time = (*it)["time"];
+		const JSONNode &id_ = (*it)["alert_id"];
+		const JSONNode &state_ = (*it)["seen_state"];
+		const JSONNode &time_ = (*it)["timestamp"]["time"];
+		const JSONNode &text_ = (*it)["title"]["text"];
+		const JSONNode &url_ = (*it)["url"];
 
 		// Ignore empty and old notifications
-		if (!markup || !unread || !time || unread.as_int() == 0)
+		if (!text_ || !state_ || state_.as_string() == "SEEN_AND_READ" || !time_)
 			continue;
-
-		std::string text = utils::text::html_entities_decode(utils::text::slashu_to_utf8(markup.as_string()));
 
 		facebook_notification* notification = new facebook_notification();
 
-		notification->id = id;
-		notification->link = utils::text::source_get_value(&text, 3, "<a ", "href=\"", "\"");
-		notification->text = utils::text::remove_html(utils::text::source_get_value(&text, 1, "<abbr"));
-		notification->time = utils::time::from_string(time.as_string());
+		notification->id = id_.as_string();
+		notification->link = url_.as_string();
+		notification->text = utils::text::html_entities_decode(utils::text::slashu_to_utf8(text_.as_string()));
+		notification->time = utils::time::from_string(time_.as_string());
 
 		// Write notification to chatroom
 		proto->UpdateNotificationsChatRoom(notification);
