@@ -27,7 +27,7 @@ void facebook_client::client_notify(TCHAR* message)
 	parent->NotifyEvent(parent->m_tszUserName, message, NULL, FACEBOOK_EVENT_CLIENT);
 }
 
-http::response facebook_client::flap(RequestType request_type, std::string *post_data, std::string *get_data, int)
+http::response facebook_client::flap(RequestType request_type, std::string *post_data, std::string *get_data)
 {
 	http::response resp;
 
@@ -375,10 +375,15 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 	case REQUEST_NOTIFICATIONS:
 	{
-		std::string action = "/ajax/notifications/get.php?__a=1&user=%s&time=0&version=2&__user=%s";
-		// TODO: use better format notifications request
-		// std::string action = "/ajax/notifications/client/get.php?__a=1&user=%s&time=0&version=2&__user=%s";
-		utils::text::replace_all(&action, "%s", self_.user_id);
+		// __req=5  .. poèítá poèet všech rùzných požadavkù (asi možná jen na /ajax/...)
+		
+		std::string action = "/ajax/notifications/client/get.php?__a=1&__dyn=&__req=&__rev=";
+		action += "&__user=" + this->self_.user_id;
+		action += "&fb_dtsg=" + this->dtsg_;
+		action += "&cursor="; // when loading more
+		action += "&length=15"; // number of items to load
+		action += "&businessID="; // probably for pages? idk
+		action += "&ttstamp=" + ttstamp();
 		return action;
 	}
 
@@ -758,7 +763,7 @@ bool facebook_client::login(const char *username, const char *password)
 		// Check whether setting Machine name is required
 		if (location.find("/checkpoint/") != std::string::npos)
 		{
-			resp = flap(REQUEST_SETUP_MACHINE, NULL, NULL, REQUEST_GET);
+			resp = flap(REQUEST_SETUP_MACHINE, NULL, NULL);
 
 			if (resp.data.find("login_approvals_no_phones") != std::string::npos) {
 				// Code approval - but no phones in account

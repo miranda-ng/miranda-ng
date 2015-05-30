@@ -203,7 +203,7 @@ public:
 
 	// HTTP communication
 
-	http::response flap(RequestType request_type, std::string *post_data = NULL, std::string *get_data = NULL, int method = 0);
+	http::response flap(RequestType request_type, std::string *post_data = NULL, std::string *get_data = NULL);
 	bool save_url(const std::string &url,const std::tstring &filename, HANDLE &nlc);
 
 	bool notify_errors(RequestType);
