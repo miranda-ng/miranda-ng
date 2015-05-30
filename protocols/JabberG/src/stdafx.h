@@ -468,12 +468,6 @@ struct filetransfer
 	CJabberProto *ppro;
 };
 
-struct JABBER_SEARCH_RESULT
-{
-	PROTOSEARCHRESULT hdr;
-	TCHAR jid[JABBER_MAX_JID_LEN];
-};
-
 struct JABBER_GCLOG_FONT
 {
 	char face[LF_FACESIZE];		// LF_FACESIZE is from LOGFONT struct
