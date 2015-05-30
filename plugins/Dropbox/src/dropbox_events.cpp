@@ -58,9 +58,11 @@ int CDropbox::OnPreShutdown(WPARAM, LPARAM)
 int CDropbox::OnContactDeleted(WPARAM hContact, LPARAM)
 {
 	if (mir_strcmpi(GetContactProto(hContact), MODULE) == 0)
+	{
 		if (HasAccessToken())
 			DestroyAccessToken();
-
+		hDefaultContact = NULL;
+	}
 	return 0;
 }
 

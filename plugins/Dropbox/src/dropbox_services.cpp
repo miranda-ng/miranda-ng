@@ -151,14 +151,14 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 
 	char *szMessage = (char*)pccsd->lParam;
 
-	DBEVENTINFO dbei = { sizeof(dbei) };
+	/*DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = MODULE;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (int)mir_strlen(szMessage);
 	dbei.pBlob = (PBYTE)szMessage;
 	dbei.flags = DBEF_SENT | DBEF_READ | DBEF_UTF;
-	db_event_add(pccsd->hContact, &dbei);
+	db_event_add(pccsd->hContact, &dbei);*/
 
 	if (*szMessage == '/')
 	{
@@ -211,11 +211,12 @@ INT_PTR CDropbox::ProtoReceiveMessage(WPARAM, LPARAM lParam)
 	char *message = (char*)pccsd->lParam;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.flags = DBEF_UTF;
 	dbei.szModule = MODULE;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (int)mir_strlen(message);
-	dbei.pBlob = (PBYTE)message;
+	dbei.pBlob = (PBYTE)mir_strdup(message);
 	db_event_add(pccsd->hContact, &dbei);
 
 	return 0;

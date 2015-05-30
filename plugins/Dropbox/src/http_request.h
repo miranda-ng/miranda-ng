@@ -31,7 +31,7 @@ public:
 	}
 };
 
-class HttpRequest : protected NETLIBHTTPREQUEST//, public MZeroedObject
+class HttpRequest : protected NETLIBHTTPREQUEST
 {
 private:
 	CMStringA m_szUrl;
@@ -160,6 +160,28 @@ public:
 		m_szUrl.Replace('\\', '/');
 		szUrl = m_szUrl.GetBuffer();
 		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibConnection, (LPARAM)this);
+	}
+};
+
+class NetlibPtr
+{
+protected:
+	NETLIBHTTPREQUEST *_p;
+
+public:
+	__inline explicit NetlibPtr(NETLIBHTTPREQUEST *p) : _p(p) {}
+	__inline NETLIBHTTPREQUEST* operator=(NETLIBHTTPREQUEST *p)
+	{
+		if (p)
+			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)(NETLIBHTTPREQUEST*)p);
+		_p = p;
+		return _p;
+	}
+	__inline operator NETLIBHTTPREQUEST*() const { return _p; }
+	__inline NETLIBHTTPREQUEST* operator->() const { return _p; }
+	__inline ~NetlibPtr()
+	{
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)(NETLIBHTTPREQUEST*)this);
 	}
 };
 
