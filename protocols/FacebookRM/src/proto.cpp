@@ -876,25 +876,30 @@ void FacebookProto::OpenUrlThread(void *p) {
 std::string FacebookProto::PrepareUrl(std::string url) {
 	std::string::size_type pos = url.find(FACEBOOK_SERVER_DOMAIN);
 	bool isFacebookUrl = (pos != std::string::npos);
-	bool isRelativeUrl = (url.substr(0, 4) != "http");
+	bool isAbsoluteUrl = (url.find("://") != std::string::npos);
 
-	if (isFacebookUrl || isRelativeUrl) {
+	// Do nothing with absolute non-Facebook URLs
+	if (isAbsoluteUrl && !isFacebookUrl)
+		return url;
+	
+	// Transform absolute URL to relative
+	if (isAbsoluteUrl) {
+		// Check and ignore special subdomains
+		std::string subdomain = utils::text::source_get_value(&url, 2, "://", "."FACEBOOK_SERVER_DOMAIN);
+		if (subdomain == "developers")
+			return url;
+		
+		// Make relative url
+		url = url.substr(pos + mir_strlen(FACEBOOK_SERVER_DOMAIN));
 
-		// Make realtive url
-		if (!isRelativeUrl) {
-			url = url.substr(pos + mir_strlen(FACEBOOK_SERVER_DOMAIN));
-
-			// Strip eventual port
-			pos = url.find("/");
-			if (pos != std::string::npos && pos != 0)
-				url = url.substr(pos);
-		}
-
-		// Make absolute url
-		url = HTTP_PROTO_SECURE + facy.get_server_type() + url;
+		// Strip eventual port
+		pos = url.find("/");
+		if (pos != std::string::npos && pos != 0)
+			url = url.substr(pos);
 	}
 
-	return url;
+	// URL is relative now, make and return absolute
+	return HTTP_PROTO_SECURE + facy.get_server_type() + url;
 }
 
 void FacebookProto::OpenUrl(std::string url)
