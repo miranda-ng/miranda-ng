@@ -52,7 +52,7 @@ public:
 		node.push_back(JSONNode("clientmessageid", (long)timestamp));
 		node.push_back(JSONNode("messagetype", "RichText"));
 		node.push_back(JSONNode("contenttype", "text"));
-		node.push_back(JSONNode("content", (char*)ptrA(mir_utf8encode(message))));
+		node.push_back(JSONNode("content", message));
 
 		Body << VALUE(node.write().c_str());
 	}
@@ -73,7 +73,7 @@ public:
 		node.push_back(JSONNode("clientmessageid", (long)timestamp));
 		node.push_back(JSONNode("messagetype", "RichText"));
 		node.push_back(JSONNode("contenttype", "text"));
-		node.push_back(JSONNode("content", (char*)ptrA(mir_utf8encode(message))));
+		node.push_back(JSONNode("content", message));
 		node.push_back(JSONNode("skypeemoteoffset", 4));
 
 		Body << VALUE(node.write().c_str());
