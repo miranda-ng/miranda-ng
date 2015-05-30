@@ -1403,12 +1403,9 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		{
 			TCHAR *jid = pNode->GetJid();
 			MCONTACT hContact = HContactFromJID(pNode->GetJid());
-			if (!hContact) {
-				JABBER_SEARCH_RESULT jsr={0};
-				_tcsncpy_s(jsr.jid, jid, _TRUNCATE);
-				jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
-				hContact = (MCONTACT)CallProtoService(m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
-			}
+			if (!hContact)
+				hContact = AddToListByJID(jid, PALF_TEMPORARY);
+
 			if (ListGetItemPtr(LIST_VCARD_TEMP, pNode->GetJid()) == NULL) {
 				JABBER_LIST_ITEM *item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
 				item->bUseResource = TRUE;

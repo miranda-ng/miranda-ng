@@ -203,6 +203,8 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo*)
 //  The	pmFields is the pointer to map of <field Name, field Label> Not unical but ordered
 //	This can help to made result parser routines more simple
 
+static TCHAR *nickfields[] = { _T("nick"), _T("nickname"), _T("fullname"), _T("name"), _T("given"), _T("first"), _T("jid"), NULL };
+
 void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_MAP * pmAllFields)
 {
 	LIST<TCHAR> ListOfNonEmptyFields(20,(LIST<TCHAR>::FTSortFunc)TCharKeyCmp);
@@ -222,8 +224,8 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 
 	// now fill the ListOfFields but order is from pmAllFields
 	int nAllCount = pmAllFields->getCount();
-	for (i=0; i < nAllCount; i++) {
-		TCHAR * var=pmAllFields->getUnOrderedKeyName(i);
+	for (i = 0; i < nAllCount; i++) {
+		TCHAR *var = pmAllFields->getUnOrderedKeyName(i);
 		if (var && ListOfNonEmptyFields.getIndex(var) < 0)
 			continue;
 		ListOfFields.insert(var);
@@ -232,10 +234,10 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 	// now lets transfer field names
 	int nFieldCount = ListOfFields.getCount();
 
-	JABBER_CUSTOMSEARCHRESULTS Results={0};
-	Results.nSize=sizeof(Results);
-	Results.pszFields=(TCHAR**)mir_alloc(sizeof(TCHAR*)*nFieldCount);
-	Results.nFieldCount=nFieldCount;
+	JABBER_CUSTOMSEARCHRESULTS Results = { 0 };
+	Results.nSize = sizeof(Results);
+	Results.pszFields = (TCHAR**)mir_alloc(sizeof(TCHAR*)*nFieldCount);
+	Results.nFieldCount = nFieldCount;
 
 	/* Sending Columns Titles */
 	for (i=0; i < nFieldCount; i++) {
@@ -244,47 +246,41 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 			Results.pszFields[i] = pmAllFields->operator [](var);
 	}
 
-	Results.jsr.hdr.cbSize = 0; // sending column names
+	Results.jsr.cbSize = 0; // sending column names
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM) &Results);
 
 	/* Sending Users Data */
-	Results.jsr.hdr.cbSize = sizeof(Results.jsr); // sending user data
+	Results.jsr.cbSize = sizeof(Results.jsr); // sending user data
 
 	for (i=0; i < nUsersFound; i++) {
 		TCHAR buff[200];
 		buff[0] = 0;
-		Results.jsr.jid[0] = 0;
-		U_TCHAR_MAP * pmUserData = (U_TCHAR_MAP *) plUsersInfo->operator [](i);
+		U_TCHAR_MAP *pmUserData = (U_TCHAR_MAP *) plUsersInfo->operator [](i);
 		for (int j=0; j < nFieldCount; j++) {
-			TCHAR* var = ListOfFields[j];
-			TCHAR* value = pmUserData->operator [](var);
+			TCHAR *var = ListOfFields[j];
+			TCHAR *value = pmUserData->operator [](var);
 			Results.pszFields[j] = value ? value : (TCHAR *)_T(" ");
 			if (!mir_tstrcmpi(var,_T("jid")) && value)
-				_tcsncpy_s(Results.jsr.jid, value, _TRUNCATE);
+				Results.jsr.id = value;
 		}
-		{
-			TCHAR * nickfields[]={	_T("nick"), 	_T("nickname"),
-						_T("fullname"),	_T("name"),
-						_T("given"),	_T("first"),
-						_T("jid"), 	NULL };
-			TCHAR * nick = NULL;
-			int k = 0;
-			while (nickfields[k] && !nick) {
-				nick = pmUserData->operator [](nickfields[k++]);
-			}
-			if (nick) {
-				if (mir_tstrcmpi(nick, Results.jsr.jid)) {
-					mir_sntprintf(buff, SIZEOF(buff), _T("%s (%s)"), nick, Results.jsr.jid);
-				} else {
-					_tcsncpy_s(buff, nick, _TRUNCATE);
-				}
-				nick = buff;
-			}
-			Results.jsr.hdr.nick = nick;
-			Results.jsr.hdr.flags = PSR_TCHAR;
+
+		TCHAR *nick = NULL;
+		for (int k = 0; k < _countof(nickfields) && !nick; k++)
+			nick = pmUserData->operator [](nickfields[k]);
+
+		if (nick) {
+			if (mir_tstrcmpi(nick, Results.jsr.id))
+				mir_sntprintf(buff, SIZEOF(buff), _T("%s (%s)"), nick, Results.jsr.id);
+			else
+				_tcsncpy_s(buff, nick, _TRUNCATE);
+
+			nick = buff;
 		}
+		Results.jsr.nick = nick;
+		Results.jsr.flags = PSR_TCHAR;
+
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM) &Results);
-		Results.jsr.hdr.nick=NULL;
+		Results.jsr.nick=NULL;
 	}
 	mir_free(Results.pszFields);
 }

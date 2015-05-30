@@ -66,7 +66,7 @@ typedef struct tagJABBER_CUSTOMSEARCHRESULTS
 	size_t nSize;
 	int nFieldCount;
 	TCHAR ** pszFields;
-	JABBER_SEARCH_RESULT jsr;
+	PROTOSEARCHRESULT jsr;
 }JABBER_CUSTOMSEARCHRESULTS;
 
 static HWND searchHandleDlg=NULL;

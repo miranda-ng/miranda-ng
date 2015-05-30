@@ -1030,15 +1030,12 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 
 	case IDM_VCARD:
 		{
-			JABBER_SEARCH_RESULT jsr = { 0 };
-			mir_sntprintf(jsr.jid, SIZEOF(jsr.jid), _T("%s/%s"), item->jid, him->m_tszResourceName);
-			jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
+			CMString jid(FORMAT, _T("%s/%s"), item->jid, him->m_tszResourceName);
 
-			ppro->ListAdd(LIST_VCARD_TEMP, jsr.jid);
-			ppro->ListAddResource(LIST_VCARD_TEMP, jsr.jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
+			ppro->ListAdd(LIST_VCARD_TEMP, jid);
+			ppro->ListAddResource(LIST_VCARD_TEMP, jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
 
-			MCONTACT hContact = (MCONTACT)CallProtoService(ppro->m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
-			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
+			CallService(MS_USERINFO_SHOWDIALOG, ppro->AddToListByJID(jid, PALF_TEMPORARY), 0);
 		}
 		break;
 
@@ -1198,35 +1195,31 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 
 	case IDM_RJID_VCARD:
 		if (him->m_tszRealJid && *him->m_tszRealJid) {
-			MCONTACT hContact;
-			JABBER_SEARCH_RESULT jsr = { 0 };
-			jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
-			_tcsncpy_s(jsr.jid, him->m_tszRealJid, _TRUNCATE);
-			if (TCHAR *tmp = _tcschr(jsr.jid, _T('/')))
+			TCHAR *jid = NEWTSTR_ALLOCA(him->m_tszRealJid);
+			if (TCHAR *tmp = _tcschr(jid, _T('/')))
 				*tmp = 0;
 
-			ppro->ListAdd(LIST_VCARD_TEMP, jsr.jid);
-			ppro->ListAddResource(LIST_VCARD_TEMP, jsr.jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
+			ppro->ListAdd(LIST_VCARD_TEMP, jid);
+			ppro->ListAddResource(LIST_VCARD_TEMP, jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
 
-			hContact = (MCONTACT)CallProtoService(ppro->m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
-			CallService(MS_USERINFO_SHOWDIALOG, hContact, 0);
+			CallService(MS_USERINFO_SHOWDIALOG, ppro->AddToListByJID(jid, PALF_TEMPORARY), 0);
 		}
 		break;
 
 	case IDM_RJID_ADD:
 		if (him->m_tszRealJid && *him->m_tszRealJid) {
-			JABBER_SEARCH_RESULT jsr = { 0 };
-			jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
-			jsr.hdr.flags = PSR_TCHAR;
-			_tcsncpy_s(jsr.jid, him->m_tszRealJid, _TRUNCATE);
-			if (TCHAR *tmp = _tcschr(jsr.jid, _T('/')))
+			PROTOSEARCHRESULT jsr = { 0 };
+			jsr.cbSize = sizeof(jsr);
+			jsr.flags = PSR_TCHAR;
+			jsr.id = NEWTSTR_ALLOCA(him->m_tszRealJid);
+			if (TCHAR *tmp = _tcschr(jsr.id, _T('/')))
 				*tmp = 0;
-			jsr.hdr.nick = jsr.jid;
+			jsr.nick = jsr.id;
 
 			ADDCONTACTSTRUCT acs = { 0 };
 			acs.handleType = HANDLE_SEARCHRESULT;
 			acs.szProto = ppro->m_szModuleName;
-			acs.psr = (PROTOSEARCHRESULT *)&jsr;
+			acs.psr = &jsr;
 			CallService(MS_ADDCONTACT_SHOW, (WPARAM)CallService(MS_CLUI_GETHWND, 0, 0), (LPARAM)&acs);
 		}
 		break;
