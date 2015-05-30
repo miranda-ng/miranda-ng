@@ -499,3 +499,51 @@ void CJabberProto::MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *
 		MessageBox(NULL, szMsg, szTitle, mtype);
 	}
 }
+
+CMString CJabberProto::ExtractImage(HXML node)
+{
+	HXML nHtml, nBody, nImg;
+	LPCTSTR src;
+	CMString link;
+
+	if ((nHtml = xmlGetChild(node, "html")) != NULL &&
+		(nBody = xmlGetChild(nHtml, "body")) != NULL &&
+		(nImg = xmlGetChild(nBody, "img")) != NULL &&
+		(src = xmlGetAttrValue(nImg, _T("src"))) != NULL) {
+
+		CMString strSrc(src);
+		if (strSrc.Left(11).Compare(L"data:image/") == 0) {
+			int end = strSrc.Find(L';');
+			if (end != -1) {
+				CMString ext(strSrc.c_str() + 11, end - 11);
+				int comma = strSrc.Find(L',', end);
+				if (comma != -1) {
+					CMString image(strSrc.c_str() + comma + 1, strSrc.GetLength() - comma - 1);
+					image.Replace(L"%2B", L"+");
+					image.Replace(L"%2F", L"/");
+					image.Replace(L"%3D", L"=");
+
+					TCHAR tszTempPath[MAX_PATH], tszTempFile[MAX_PATH];
+					GetTempPath(_countof(tszTempPath), tszTempPath);
+					GetTempFileName(tszTempPath, _T("jab"), InterlockedIncrement(&g_nTempFileId), tszTempFile);
+
+					HANDLE h = CreateFile(tszTempFile, GENERIC_READ | GENERIC_WRITE,
+						FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
+						FILE_ATTRIBUTE_NORMAL, NULL);
+
+					if (h != INVALID_HANDLE_VALUE) {
+						DWORD n;
+						unsigned int bufferLen;
+						ptrA buffer((char*)mir_base64_decode(_T2A(image), &bufferLen));
+						WriteFile(h, buffer, bufferLen, &n, NULL);
+						CloseHandle(h);
+
+						link = _T(" file:///");
+						link += tszTempFile;
+					}
+				}
+			}
+		}
+	}
+	return link;
+}

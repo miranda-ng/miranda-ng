@@ -38,6 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HINSTANCE hInst;
 
 int hLangpack;
+unsigned int g_nTempFileId;
 
 int g_cbCountries;
 CountryListEntry *g_countries;
@@ -232,6 +233,15 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 	DestroyHookableEvent(hExtListInit);
 	DestroyHookableEvent(hDiscoInfoResult);
+
+	if (g_nTempFileId != 0) {
+		TCHAR tszTempPath[MAX_PATH], tszTempFile[MAX_PATH];
+		GetTempPath(_countof(tszTempPath), tszTempPath);
+		for (unsigned i = 1; i <= g_nTempFileId; i++) {
+			GetTempFileName(tszTempPath, _T("jab"), i, tszTempFile);
+			DeleteFile(tszTempFile);
+		}
+	}
 
 	g_MenuUninit();
 	return 0;

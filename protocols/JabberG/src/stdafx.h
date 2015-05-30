@@ -590,6 +590,7 @@ extern HANDLE hExtraActivity;
 
 extern TCHAR szCoreVersion[];
 
+extern unsigned int g_nTempFileId;
 extern int g_cbCountries;
 extern struct CountryListEntry* g_countries;
 
