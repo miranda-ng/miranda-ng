@@ -440,7 +440,7 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 
 	const JSONNode &members = root["members"];
 	const JSONNode &properties = root["properties"];
-	if (!properties["capabilities"])
+	if (!properties["capabilities"] || properties["capabilities"].empty())
 		return;
 
 	ptrA chatId(ChatUrlToName(root["messages"].as_string().c_str()));
