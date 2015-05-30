@@ -129,7 +129,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 				{
 					PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
 					psr.flags = PSR_TCHAR;
-					psr.id = mir_a2t(address);
+					psr.id = mir_utf8decodeT(address);
 					psr.nick = mir_utf8decodeT(name);
 
 					TCHAR email[MAX_PATH];
