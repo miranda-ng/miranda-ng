@@ -782,6 +782,10 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 
 bool NetlibReconnect(NetlibConnection *nlc)
 {
+	// a connection might be freed already
+	if (GetNetlibHandleType(nlc) != NLH_CONNECTION)
+		return false;
+
 	char buf[4];
 	bool opened = nlc->s != INVALID_SOCKET;
 	if (opened) {
