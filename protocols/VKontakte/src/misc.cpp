@@ -1123,7 +1123,7 @@ CMString CVkProto::GetFwdMessages(const JSONNode &jnMessages, BBCSupport iBBC)
 		return res;
 	}
 	
-	for (auto it = jnMessages.begin(); it != jnMessages.end(); --it) {
+	for (auto it = jnMessages.begin(); it != jnMessages.end(); ++it) {
 		const JSONNode &jnMsg = (*it);
 
 		int uid = jnMsg["user_id"].as_int();
