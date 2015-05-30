@@ -63,7 +63,7 @@ MCONTACT CToxProto::GetContact(const char *pubKey)
 	return hContact;
 }
 
-MCONTACT CToxProto::AddContact(const char *address, const TCHAR *dnsId, bool isTemporary)
+MCONTACT CToxProto::AddContact(const char *address, const TCHAR *nick, const TCHAR *dnsId, bool isTemporary)
 {
 	MCONTACT hContact = GetContact(address);
 	if (!hContact)
@@ -73,7 +73,10 @@ MCONTACT CToxProto::AddContact(const char *address, const TCHAR *dnsId, bool isT
 
 		setString(hContact, TOX_SETTINGS_ID, address);
 
-		if (dnsId && mir_tstrlen(dnsId))
+		if (mir_tstrlen(nick))
+			setTString(hContact, "Nick", dnsId);
+
+		if (mir_tstrlen(dnsId))
 			setTString(hContact, TOX_SETTINGS_DNS, dnsId);
 
 		DBVARIANT dbv;
@@ -121,7 +124,7 @@ void CToxProto::LoadFriendList(void*)
 				continue;
 			}
 			ToxHexAddress pubKey(data, TOX_PUBLIC_KEY_SIZE);
-			MCONTACT hContact = AddContact(pubKey, _T(""));
+			MCONTACT hContact = AddContact(pubKey);
 			if (hContact)
 			{
 				delSetting(hContact, "Auth");
@@ -130,7 +133,7 @@ void CToxProto::LoadFriendList(void*)
 				TOX_ERR_FRIEND_QUERY getNameResult;
 				uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
 				if (tox_friend_get_name(tox, friendNumber, nick, &getNameResult))
-					setWString(hContact, "Nick", ptrT(mir_utf8decodeW((char*)nick)));
+					setTString(hContact, "Nick", ptrT(mir_utf8decodeT((char*)nick)));
 				else
 					debugLogA(__FUNCTION__": failed to get friend name (%d)", getNameResult);
 
@@ -163,15 +166,13 @@ INT_PTR CToxProto::OnRequestAuth(WPARAM hContact, LPARAM lParam)
 		return addFriendResult;
 	}
 
-	// trim address to public key
-	setString(hContact, TOX_SETTINGS_ID, address.ToHex().GetPubKey());
 	db_unset(hContact, "CList", "NotOnList");
 	delSetting(hContact, "Grant");
 
 	uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
 	TOX_ERR_FRIEND_QUERY errorFriendQuery;
 	if (tox_friend_get_name(tox, friendNumber, nick, &errorFriendQuery))
-		setWString(hContact, "Nick", ptrT(mir_utf8decodeW((char*)nick)));
+		setTString(hContact, "Nick", ptrT(mir_utf8decodeT((char*)nick)));
 	else
 		debugLogA(__FUNCTION__": failed to get friend name (%d)", errorFriendQuery);
 
@@ -192,8 +193,6 @@ INT_PTR CToxProto::OnGrantAuth(WPARAM hContact, LPARAM)
 		return error;
 	}
 
-	// trim address to public key
-	// setString(hContact, TOX_SETTINGS_ID, pubKey.ToHex());
 	db_unset(hContact, "CList", "NotOnList");
 	delSetting(hContact, "Grant");
 
@@ -205,10 +204,7 @@ INT_PTR CToxProto::OnGrantAuth(WPARAM hContact, LPARAM)
 int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 {
 	if (!IsOnline())
-	{
-		// TODO: warn
 		return 0;
-	}
 
 	if (!isChatRoom(hContact))
 	{
@@ -239,7 +235,7 @@ void CToxProto::OnFriendRequest(Tox*, const uint8_t *pubKey, const uint8_t *mess
 	CToxProto *proto = (CToxProto*)arg;
 
 	ToxHexAddress address(pubKey);
-	MCONTACT hContact = proto->AddContact(address, _T(""));
+	MCONTACT hContact = proto->AddContact(address);
 	if (!hContact)
 	{
 		proto->debugLogA(__FUNCTION__": failed to create contact");

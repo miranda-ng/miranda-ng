@@ -154,7 +154,7 @@ private:
 	MCONTACT GetContact(const int friendNumber);
 	MCONTACT GetContact(const char *pubKey);
 
-	MCONTACT AddContact(const char *address, const TCHAR *dnsId = NULL, bool isTemporary = false);
+	MCONTACT AddContact(const char *address, const TCHAR *nick = NULL, const TCHAR *dnsId = NULL, bool isTemporary = false);
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
