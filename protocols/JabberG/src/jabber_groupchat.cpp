@@ -1033,6 +1033,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	HXML n, m;
 	const TCHAR *from, *type, *p, *nick, *resource;
 	JABBER_LIST_ITEM *item;
+	CMString imgLink;
 
 	if (!xmlGetName(node) || mir_tstrcmp(xmlGetName(node), _T("message"))) return;
 	if ((from = xmlGetAttrValue(node, _T("from"))) == NULL) return;
@@ -1073,6 +1074,8 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 		item->getTemp()->m_tszStatusMessage = mir_tstrdup(msgText);
 	}
 	else {
+		imgLink = ExtractImage(node);
+
 		if ((n = xmlGetChildByTag(node, "body", "xml:lang", m_tszSelectedLang)) == NULL)
 			if ((n = xmlGetChild(node, "body")) == NULL)
 				return;
@@ -1112,6 +1115,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 
 	CMString tszText(msgText);
 	tszText.Replace(_T("%"), _T("%%"));
+	tszText += imgLink;
 
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszUID = resource;

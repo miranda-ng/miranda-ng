@@ -598,6 +598,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   SetContactOfflineStatus(MCONTACT hContact);
 	void   InitPopups(void);
 	void   MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle);
+	CMString ExtractImage(HXML node);
 
 	//---- jabber_opt.cpp ----------------------------------------------------------------
 	INT_PTR  __cdecl OnMenuHandleRosterControl(WPARAM wParam, LPARAM lParam);
@@ -834,7 +835,7 @@ public:
 	DWORD     STDMETHODCALLTYPE GetFlags() const;                    // Set of JIF_* flags.
 	int       STDMETHODCALLTYPE GetVersion() const;                  // Returns version of IJabberInterface.
 	DWORD     STDMETHODCALLTYPE GetJabberVersion() const;            // Returns Jabber plugin version.
-			    
+
 	int       STDMETHODCALLTYPE CompareJIDs(LPCTSTR jid1, LPCTSTR jid2); // Strips resource names from given JIDs and returns result of comparison for these JIDs.
 	MCONTACT  STDMETHODCALLTYPE ContactFromJID(LPCTSTR jid);             // Returns contact handle for given JID.
 	LPTSTR    STDMETHODCALLTYPE ContactToJID(MCONTACT hContact);           // Returns JID of hContact. You must free the result using mir_free().
@@ -857,7 +858,7 @@ public:
 	int       STDMETHODCALLTYPE RemoveFeatures(LPCTSTR szFeatures); // Removes features from the list of features returned by the client.
 	LPTSTR    STDMETHODCALLTYPE GetResourceFeatures(LPCTSTR jid);   // Returns all features supported by JID in format "feature1\0feature2\0...\0featureN\0\0". You must free returned string using mir_free().
 	HANDLE    STDMETHODCALLTYPE GetHandle();                        // Returns connection handle
-			    
+
 private:
 	JabberFeatCapPairDynamic *FindFeature(LPCTSTR szFeature);
 };
