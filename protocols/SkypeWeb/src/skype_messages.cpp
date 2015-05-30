@@ -179,7 +179,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 
 			time_t dbEventTimestamp = dbei.timestamp;
 
-			ptrA dbMsgText(NEWSTR_ALLOCA((char *)dbei.pBlob));
+			char *dbMsgText = NEWSTR_ALLOCA((char *)dbei.pBlob);
 
 			TCHAR time[64];
 			_locale_t locale = _create_locale(LC_ALL, "");

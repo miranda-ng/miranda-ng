@@ -395,7 +395,7 @@ void CSkypeProto::OnSendChatMessage(const TCHAR *chat_id, const TCHAR * tszMessa
 	if (!IsOnline())
 		return;
 	ptrA szChatId(mir_t2a(chat_id));
-	ptrA szMessage(mir_t2a(tszMessage));
+	ptrA szMessage(mir_utf8encodeT(tszMessage));
 	if (strncmp(szMessage, "/me ", 4) == 0)
 		SendRequest(new SendChatActionRequest(RegToken, szChatId, time(NULL), szMessage, Server));
 	else
@@ -461,7 +461,7 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 void CSkypeProto::RenameChat(const char *chat_id, const char *name)
 {
 	ptrT tchat_id(mir_a2t(chat_id));
-	ptrT tname(mir_a2t_cp(name, CP_UTF8));
+	ptrT tname(mir_utf8decodeT(name));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_CHANGESESSIONAME };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -473,7 +473,7 @@ void CSkypeProto::ChangeChatTopic(const char *chat_id, const char *topic, const 
 {
 	ptrT tchat_id(mir_a2t(chat_id));
 	ptrT tname(mir_a2t(initiator));
-	ptrT ttopic(mir_a2t(topic));
+	ptrT ttopic(mir_utf8decodeT(topic));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_TOPIC };
 	GCEVENT gce = { sizeof(gce), &gcd };
