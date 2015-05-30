@@ -240,7 +240,7 @@ void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)
 	}
 
 	JSONNode json = JSONNode::parse(response->pData);
-	if (json == NULL)
+	if (!json)
 	{
 		debugLogA(__FUNCTION__ ": failed to change status");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
@@ -248,7 +248,13 @@ void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	int iNewStatus = SkypeToMirandaStatus(json["status"].as_string().c_str());
+	const JSONNode &nStatus = json["status"];
+	if (!nStatus) {
+		debugLogA(__FUNCTION__ ": result contains no valid status to switch to");
+		return;
+	}
+
+	int iNewStatus = SkypeToMirandaStatus(nStatus.as_string().c_str());
 	if (iNewStatus == ID_STATUS_OFFLINE)
 	{
 		debugLogA(__FUNCTION__ ": failed to change status");
