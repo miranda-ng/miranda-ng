@@ -375,16 +375,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 	case REQUEST_NOTIFICATIONS:
 	{
-		// __req=5  .. poèítá poèet všech rùzných požadavkù (asi možná jen na /ajax/...)
-		
-		std::string action = "/ajax/notifications/client/get.php?__a=1&__dyn=&__req=&__rev=";
-		action += "&__user=" + this->self_.user_id;
-		action += "&fb_dtsg=" + this->dtsg_;
-		action += "&cursor="; // when loading more
-		action += "&length=15"; // number of items to load
-		action += "&businessID="; // probably for pages? idk
-		action += "&ttstamp=" + ttstamp();
-		return action;
+		return "/ajax/notifications/client/get.php?__a=1";
 	}
 
 	case REQUEST_RECONNECT:
