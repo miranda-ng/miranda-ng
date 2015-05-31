@@ -63,7 +63,7 @@ MCONTACT CToxProto::GetContact(const char *pubKey)
 	return hContact;
 }
 
-MCONTACT CToxProto::AddContact(const char *address, const TCHAR *nick, const TCHAR *dnsId, bool isTemporary)
+MCONTACT CToxProto::AddContact(const char *address, const char *nick, const char *dnsId, bool isTemporary)
 {
 	MCONTACT hContact = GetContact(address);
 	if (!hContact)
@@ -73,11 +73,11 @@ MCONTACT CToxProto::AddContact(const char *address, const TCHAR *nick, const TCH
 
 		setString(hContact, TOX_SETTINGS_ID, address);
 
-		if (mir_tstrlen(nick))
-			setTString(hContact, "Nick", dnsId);
+		if (mir_strlen(nick))
+			setTString(hContact, "Nick", ptrT(mir_utf8decodeT(nick)));
 
-		if (mir_tstrlen(dnsId))
-			setTString(hContact, TOX_SETTINGS_DNS, dnsId);
+		if (mir_strlen(dnsId))
+			setTString(hContact, TOX_SETTINGS_DNS, ptrT(mir_utf8decodeT(dnsId)));
 
 		DBVARIANT dbv;
 		if (!getTString(TOX_SETTINGS_GROUP, &dbv))
