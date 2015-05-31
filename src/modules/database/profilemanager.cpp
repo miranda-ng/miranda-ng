@@ -592,8 +592,6 @@ public:
 		if (m_pd->noProfiles || shouldAutoCreate(m_pd->ptszProfile))
 			m_tab.ActivatePage(1);
 
-		m_btnOk.Enable(false);
-
 		// service mode combobox
 		if (servicePlugins.getCount() == 0) {
 			ShowWindow(m_warning.GetHwnd(), FALSE);
