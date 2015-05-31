@@ -34,18 +34,18 @@ BEGIN
     EDITTEXT        IDC_HANDLE,72,18,100,12,ES_AUTOHSCROLL
     RTEXT           "Password:",IDC_STATIC,16,36,52,8
     EDITTEXT        IDC_PASSWORD,72,34,100,12,ES_PASSWORD | ES_AUTOHSCROLL
-    RTEXT           "Nickname:",IDC_STATIC,16,52,52,8
-    EDITTEXT        IDC_HANDLE2,72,50,100,12,ES_AUTOHSCROLL
+    RTEXT           "Nickname:",IDC_STATIC,16,52,52,8,NOT WS_VISIBLE
+    EDITTEXT        IDC_HANDLE2,72,50,100,12,ES_AUTOHSCROLL | NOT WS_VISIBLE
     CONTROL         "Create a new Windows Live account",IDC_NEWMSNACCOUNTLINK,
                     "Hyperlink",WS_TABSTOP,21,68,208,8
     GROUPBOX        "Expert",IDC_STATIC,4,84,298,88,WS_GROUP
     CONTROL         "Send message font color/size info inside messages",IDC_SENDFONTINFO,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,95,280,10
     CONTROL         "Disable all contacts not included into my contact list",IDC_DISABLE_ANOTHER_CONTACTS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,106,280,10
+                    "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,12,106,280,10
     CONTROL         "Manage server groups",IDC_MANAGEGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,116,280,10
     CONTROL         "Allow people on my contact list send messages to mobile device",IDC_MOBILESEND,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,126,280,10
+                    "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,12,126,280,10
     CONTROL         "Run the following application when new Hotmail arrives",IDC_RUN_APP_ON_HOTMAIL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,137,280,10
     EDITTEXT        IDC_MAILER_APP,22,153,237,12,ES_AUTOHSCROLL

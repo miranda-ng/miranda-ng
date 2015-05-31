@@ -247,6 +247,7 @@ LBL_Continue:
 				proto->setString("Password", password);
 			}
 
+#ifdef OBSOLETE
 			GetDlgItemText(hwndDlg, IDC_HANDLE2, screenStr, SIZEOF(screenStr));
 			if (!proto->getTString("Nick", &dbv)) {
 				if (mir_tstrcmp(dbv.ptszVal, screenStr))
@@ -268,6 +269,7 @@ LBL_Continue:
 				proto->MSN_ABUpdateAttr(NULL, "MSN.IM.BLP", tValue ? "0" : "1");
 				break;
 			}
+#endif
 
 			proto->setByte("SendFontInfo", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SENDFONTINFO));
 			proto->setByte("RunMailerOnHotmail", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_RUN_APP_ON_HOTMAIL));

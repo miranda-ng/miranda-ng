@@ -200,7 +200,6 @@ static INT_PTR MsnMenuSendNetMeeting(WPARAM wParam, LPARAM lParam)
 	CMsnProto* ppro = GetProtoInstanceByHContact(wParam);
 	return (ppro) ? ppro->MsnSendNetMeeting(wParam, lParam) : 0;
 }
-#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	SetNicknameCommand - sets nick name
@@ -266,6 +265,7 @@ INT_PTR CMsnProto::SetNicknameUI(WPARAM, LPARAM)
 	ShowWindow(hwndSetNickname, SW_SHOW);
 	return 0;
 }
+#endif
 
 //////////////////////////////////////////////////////////////////////////////////////
 // Menus initialization
@@ -296,12 +296,14 @@ void CMsnProto::MsnInitMainMenu(void)
 	mi.hParentMenu = hRoot;
 	mi.pszService = servicefunction;
 
+#ifdef OBSOLETE
 	mir_strcpy(tDest, MS_SET_NICKNAME_UI);
 	CreateProtoService(MS_SET_NICKNAME_UI, &CMsnProto::SetNicknameUI);
 	mi.position = 201001;
 	mi.icolibItem = GetIconHandle(IDI_MSN);
 	mi.pszName = LPGEN("Set &Nickname");
 	menuItemsMain[0] = Menu_AddProtoMenuItem(&mi);
+#endif
 
 	mir_strcpy(tDest, MSN_INVITE);
 	CreateProtoService(MSN_INVITE, &CMsnProto::MsnInviteCommand);
