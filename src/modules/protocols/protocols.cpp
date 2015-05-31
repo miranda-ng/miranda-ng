@@ -343,115 +343,54 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 {
 	PROTOACCOUNT *pa = Proto_GetAccount(szModule);
 	if (pa && !pa->bOldProto) {
-		PROTO_INTERFACE *ppi;
-		if ((ppi = pa->ppro) == NULL)
-			return CALLSERVICE_NOTFOUND;
-
-		TServiceListItem *item = serviceItems.find((TServiceListItem*)&szService);
-		if (item) {
-			switch (item->id) {
-			case 1:
-				if (ppi->m_iVersion > 1 || !(((PROTOSEARCHRESULT*)lParam)->flags & PSR_UNICODE))
-					return (INT_PTR)ppi->AddToList(wParam, (PROTOSEARCHRESULT*)lParam);
-				else {
-					PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
-					PROTOSEARCHRESULT *psra = (PROTOSEARCHRESULT*)_alloca(psr->cbSize);
-					memcpy(psra, psr, psr->cbSize);
-					psra->nick.a = mir_u2a(psr->nick.t);
-					psra->firstName.a = mir_u2a(psr->firstName.t);
-					psra->lastName.a = mir_u2a(psr->lastName.t);
-					psra->email.a = mir_u2a(psr->email.t);
-
-					INT_PTR res = (INT_PTR)ppi->AddToList(wParam, psra);
-
-					mir_free(psra->nick.a);
-					mir_free(psra->firstName.a);
-					mir_free(psra->lastName.a);
-					mir_free(psra->email.a);
-					return res;
-				}
-
-			case 2: return (INT_PTR)ppi->AddToListByEvent(LOWORD(wParam), HIWORD(wParam), (MEVENT)lParam);
-			case 3: return (INT_PTR)ppi->Authorize((MEVENT)wParam);
-			case 4:
-				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, _A2T((char*)lParam));
-				return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, (PROTOCHAR*)lParam);
-			case 5: return (INT_PTR)ppi->AuthRecv(hContact, (PROTORECVEVENT*)lParam);
-			case 6:
-				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->AuthRequest(hContact, _A2T((char*)lParam));
-				return (INT_PTR)ppi->AuthRequest(hContact, (PROTOCHAR*)lParam);
-			case 8:
-				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, _A2T((char*)lParam));
-				return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, (PROTOCHAR*)lParam);
-			case 9: return (INT_PTR)ppi->FileCancel(hContact, (HANDLE)wParam);
-			case 10:
-				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, _A2T((char*)lParam));
-				return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, (PROTOCHAR*)lParam);
-			case 11:
-				{
-					PROTOFILERESUME* pfr = (PROTOFILERESUME*)lParam;
-					if (ppi->m_iVersion > 1) {
-						PROTOCHAR* szFname = mir_a2t((char*)pfr->szFilename);
-						INT_PTR res = (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action, (const PROTOCHAR**)&szFname);
-						mir_free((PROTOCHAR*)pfr->szFilename);
-						pfr->szFilename = (PROTOCHAR*)mir_t2a(szFname); mir_free(szFname);
+		PROTO_INTERFACE *ppi = pa->ppro;
+		if (ppi != NULL && ppi->m_iVersion > 1) {
+			TServiceListItem *item = serviceItems.find((TServiceListItem*)&szService);
+			if (item) {
+				switch (item->id) {
+				case  1: return (INT_PTR)ppi->AddToList(wParam, (PROTOSEARCHRESULT*)lParam);
+				case  2: return (INT_PTR)ppi->AddToListByEvent(LOWORD(wParam), HIWORD(wParam), (MEVENT)lParam);
+				case  3: return (INT_PTR)ppi->Authorize((MEVENT)wParam);
+				case  4: return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, (TCHAR*)lParam);
+				case  5: return (INT_PTR)ppi->AuthRecv(hContact, (PROTORECVEVENT*)lParam);
+				case  6: return (INT_PTR)ppi->AuthRequest(hContact, (TCHAR*)lParam);
+				case  8: return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, (TCHAR*)lParam);
+				case  9: return (INT_PTR)ppi->FileCancel(hContact, (HANDLE)wParam);
+				case 10: return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, (TCHAR*)lParam);
+				case 11: {
+						PROTOFILERESUME *pfr = (PROTOFILERESUME*)lParam;
+						return (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action, (const TCHAR**)&pfr->szFilename);
 					}
-					else return (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action, (const PROTOCHAR**)&pfr->szFilename);
-				}
 
-			case 12: return (INT_PTR)ppi->GetCaps(wParam, lParam);
-			case 13: return (INT_PTR)Proto_GetIcon(ppi, wParam);
-			case 14: return (INT_PTR)ppi->GetInfo(hContact, wParam);
-			case 15:
-				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->SearchBasic(_A2T((char*)lParam));
-				return (INT_PTR)ppi->SearchBasic((TCHAR*)lParam);
-			case 16:
-				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->SearchByEmail(_A2T((char*)lParam));
-				return (INT_PTR)ppi->SearchByEmail((TCHAR*)lParam);
-			case 17:
-				{
-					PROTOSEARCHBYNAME* psbn = (PROTOSEARCHBYNAME*)lParam;
-					if (ppi->m_iVersion > 1)
-						return (INT_PTR)ppi->SearchByName(_A2T((char*)psbn->pszNick), _A2T((char*)psbn->pszFirstName), _A2T((char*)psbn->pszLastName));
-					else
+				case 12: return (INT_PTR)ppi->GetCaps(wParam, lParam);
+				case 13: return (INT_PTR)Proto_GetIcon(ppi, wParam);
+				case 14: return (INT_PTR)ppi->GetInfo(hContact, wParam);
+				case 15: return (INT_PTR)ppi->SearchBasic((TCHAR*)lParam);
+				case 16:	return (INT_PTR)ppi->SearchByEmail((TCHAR*)lParam);
+				case 17: {
+						PROTOSEARCHBYNAME* psbn = (PROTOSEARCHBYNAME*)lParam;
 						return (INT_PTR)ppi->SearchByName(psbn->pszNick, psbn->pszFirstName, psbn->pszLastName);
+					}
+				case 18: return (INT_PTR)ppi->SearchAdvanced((HWND)lParam);
+				case 19: return (INT_PTR)ppi->CreateExtendedSearchUI((HWND)lParam);
+				case 20: return (INT_PTR)ppi->RecvContacts(hContact, (PROTORECVEVENT*)lParam);
+				case 21: return (INT_PTR)ppi->RecvFile(hContact, (PROTORECVFILET*)lParam);
+				case 22: return (INT_PTR)ppi->RecvMsg(hContact, (PROTORECVEVENT*)lParam);
+				case 23: return (INT_PTR)ppi->RecvUrl(hContact, (PROTORECVEVENT*)lParam);
+				case 24: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (MCONTACT*)lParam);
+				case 25: return (INT_PTR)ppi->SendFile(hContact, (TCHAR*)wParam, (TCHAR**)lParam);
+				case 26: return (INT_PTR)ppi->SendMsg(hContact, wParam, (const char*)lParam);
+				case 27: return (INT_PTR)ppi->SendUrl(hContact, wParam, (const char*)lParam);
+				case 28: return (INT_PTR)ppi->SetApparentMode(hContact, wParam);
+				case 29: return (INT_PTR)ppi->SetStatus(wParam);
+				case 30: return (INT_PTR)ppi->GetAwayMsg(hContact);
+				case 31: return (INT_PTR)ppi->RecvAwayMsg(hContact, wParam, (PROTORECVEVENT*)lParam);
+				case 33: return (INT_PTR)ppi->SetAwayMsg(wParam, (TCHAR*)lParam);
+				case 34: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
+				case 35: mir_strncpy((char*)lParam, ppi->m_szModuleName, wParam); return 0;
+				case 36:
+					return ppi->m_iStatus;
 				}
-			case 18: return (INT_PTR)ppi->SearchAdvanced((HWND)lParam);
-			case 19: return (INT_PTR)ppi->CreateExtendedSearchUI((HWND)lParam);
-			case 20: return (INT_PTR)ppi->RecvContacts(hContact, (PROTORECVEVENT*)lParam);
-			case 21: return (INT_PTR)ppi->RecvFile(hContact, (PROTOFILEEVENT*)lParam);
-			case 22: return (INT_PTR)ppi->RecvMsg(hContact, (PROTORECVEVENT*)lParam);
-			case 23: return (INT_PTR)ppi->RecvUrl(hContact, (PROTORECVEVENT*)lParam);
-			case 24: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (MCONTACT*)lParam);
-			case 25:
-				if (ppi->m_iVersion > 1) {
-					TCHAR** files = Proto_FilesMatrixU((char**)lParam);
-					INT_PTR res = (INT_PTR)ppi->SendFile(hContact, _A2T((char*)wParam), (TCHAR**)files);
-					if (res == 0) FreeFilesMatrix(&files);
-					return res;
-				}
-				return (INT_PTR)ppi->SendFile(hContact, (TCHAR*)wParam, (TCHAR**)lParam);
-
-			case 26: return (INT_PTR)ppi->SendMsg(hContact, wParam, (const char*)lParam);
-			case 27: return (INT_PTR)ppi->SendUrl(hContact, wParam, (const char*)lParam);
-			case 28: return (INT_PTR)ppi->SetApparentMode(hContact, wParam);
-			case 29: return (INT_PTR)ppi->SetStatus(wParam);
-			case 30: return (INT_PTR)ppi->GetAwayMsg(hContact);
-			case 31: return (INT_PTR)ppi->RecvAwayMsg(hContact, wParam, (PROTORECVEVENT*)lParam);
-			case 33:
-				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->SetAwayMsg(wParam, _A2T((char*)lParam));
-				return (INT_PTR)ppi->SetAwayMsg(wParam, (TCHAR*)lParam);
-			case 34: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
-			case 35: mir_strncpy((char*)lParam, ppi->m_szModuleName, wParam); return 0;
-			case 36:
-				return ppi->m_iStatus;
 			}
 		}
 	}

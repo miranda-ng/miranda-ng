@@ -25,37 +25,37 @@ struct CYahooProto : public PROTO<CYahooProto>
 	// PROTO_INTERFACE
 	//====================================================================================
 
-	virtual	MCONTACT  __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
-	virtual	MCONTACT  __cdecl AddToListByEvent( int flags, int iContact, MEVENT hDbEvent );
+	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
+	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
 
-	virtual	int       __cdecl Authorize( MEVENT hDbEvent );
-	virtual	int       __cdecl AuthDeny( MEVENT hDbEvent, const TCHAR* szReason );
-	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT* );
-	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage );
+	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
+	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR *szReason);
+	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR *szMessage );
 
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath );
+	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath );
 	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer );
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason );
-	virtual	int       __cdecl FileResume( HANDLE hTransfer, int* action, const PROTOCHAR** szFilename );
+	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason );
+	virtual	int       __cdecl FileResume( HANDLE hTransfer, int* action, const TCHAR **szFilename );
 
 	virtual	DWORD_PTR __cdecl GetCaps( int type, MCONTACT hContact = NULL);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType );
 
-	virtual	HANDLE    __cdecl SearchBasic( const PROTOCHAR* id );
-	virtual	HWND      __cdecl SearchAdvanced( HWND owner );
-	virtual	HWND      __cdecl CreateExtendedSearchUI( HWND owner );
+	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *id);
+	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
+	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
 	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET*);
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const PROTOCHAR *szDescription, PROTOCHAR **ppszFiles);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg );
 
 	virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode);
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg( int m_iStatus, const PROTOCHAR *msg);
+	virtual	int       __cdecl SetAwayMsg( int m_iStatus, const TCHAR *msg);
 	virtual INT_PTR    __cdecl GetMyAwayMsg(WPARAM wParam, LPARAM lParam);
 
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);

@@ -480,7 +480,7 @@ DWORD_PTR __cdecl CIrcProto::GetCaps(int type, MCONTACT)
 
 struct AckBasicSearchParam
 {
-	PROTOCHAR buf[50];
+	TCHAR buf[50];
 };
 
 void __cdecl CIrcProto::AckBasicSearch(void* param)
@@ -494,7 +494,7 @@ void __cdecl CIrcProto::AckBasicSearch(void* param)
 	delete param;
 }
 
-HANDLE __cdecl CIrcProto::SearchBasic(const PROTOCHAR* szId)
+HANDLE __cdecl CIrcProto::SearchBasic(const TCHAR* szId)
 {
 	if (szId) {
 		if (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING &&

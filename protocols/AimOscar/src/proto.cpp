@@ -153,7 +153,7 @@ int __cdecl CAimProto::AuthRequest(MCONTACT hContact, const TCHAR*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileAllow - starts a file transfer
 
-HANDLE __cdecl CAimProto::FileAllow(MCONTACT, HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE __cdecl CAimProto::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR* szPath)
 {
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (ft && ft_list.find_by_ft(ft))
@@ -204,7 +204,7 @@ int __cdecl CAimProto::FileCancel(MCONTACT, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileDeny - denies a file transfer
 
-int __cdecl CAimProto::FileDeny(MCONTACT, HANDLE hTransfer, const PROTOCHAR* /*szReason*/)
+int __cdecl CAimProto::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR* /*szReason*/)
 {
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (!ft_list.find_by_ft(ft)) return 0;
@@ -218,7 +218,7 @@ int __cdecl CAimProto::FileDeny(MCONTACT, HANDLE hTransfer, const PROTOCHAR* /*s
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileResume - processes file renaming etc
 
-int __cdecl CAimProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename)
+int __cdecl CAimProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename)
 {
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (!ft_list.find_by_ft(ft)) return 0;
@@ -322,7 +322,7 @@ void __cdecl CAimProto::basic_search_ack_success(void* p)
 	mir_free(p);
 }
 
-HANDLE __cdecl CAimProto::SearchBasic(const PROTOCHAR* szId)
+HANDLE __cdecl CAimProto::SearchBasic(const TCHAR* szId)
 {
 	if (state != 1)
 		return 0;
@@ -335,7 +335,7 @@ HANDLE __cdecl CAimProto::SearchBasic(const PROTOCHAR* szId)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SearchByEmail - searches the contact by its e-mail
 
-HANDLE __cdecl CAimProto::SearchByEmail(const PROTOCHAR* email)
+HANDLE __cdecl CAimProto::SearchByEmail(const TCHAR* email)
 {
 	// Maximum email size should really be 320, but the char string is limited to 255.
 	if (state != 1 || email == NULL || mir_tstrlen(email) >= 254)
@@ -371,7 +371,7 @@ int __cdecl CAimProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CAimProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
+HANDLE __cdecl CAimProto::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
 {
 	if (state != 1) return 0;
 

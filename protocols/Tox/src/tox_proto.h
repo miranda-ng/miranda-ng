@@ -25,12 +25,12 @@ public:
 
 	virtual	int      __cdecl Authorize(MEVENT hDbEvent);
 	virtual	int      __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage);
+	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage);
 
-	virtual	HANDLE   __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* tszPath);
+	virtual	HANDLE   __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* tszPath);
 	virtual	int      __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int      __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* tszReason);
-	virtual	int      __cdecl FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** tszFilename);
+	virtual	int      __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* tszReason);
+	virtual	int      __cdecl FileResume(HANDLE hTransfer, int* action, const TCHAR** tszFilename);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 	
@@ -40,12 +40,12 @@ public:
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR **ppszFiles);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles);
 
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg(int iStatus, const PROTOCHAR* msg);
+	virtual	int       __cdecl SetAwayMsg(int iStatus, const TCHAR* msg);
 
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 
@@ -222,10 +222,10 @@ private:
 
 	// transfer
 
-	HANDLE OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR *tszPath);
-	int OnFileResume(HANDLE hTransfer, int *action, const PROTOCHAR **szFilename);
+	HANDLE OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *tszPath);
+	int OnFileResume(HANDLE hTransfer, int *action, const TCHAR **szFilename);
 	int OnFileCancel(MCONTACT hContact, HANDLE hTransfer);
-	HANDLE OnSendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR **ppszFiles);
+	HANDLE OnSendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles);
 
 	static void OnFileRequest(Tox *tox, uint32_t friendNumber, uint32_t fileNumber, TOX_FILE_CONTROL control, void *arg);
 	static void OnFriendFile(Tox *tox, uint32_t friendNumber, uint32_t fileNumber, uint32_t kind, uint64_t fileSize, const uint8_t *fileName, size_t filenameLength, void *arg);

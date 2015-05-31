@@ -665,7 +665,7 @@ void __cdecl CYahooProto::send_filethread(void *psf)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendFile - sends a file
 
-HANDLE __cdecl CYahooProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles )
+HANDLE __cdecl CYahooProto::SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles)
 {
 	LOG(("[YahooSendFile]"));
 	
@@ -718,7 +718,7 @@ HANDLE __cdecl CYahooProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescr
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileAllow - starts a file transfer
 
-HANDLE __cdecl CYahooProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE __cdecl CYahooProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath)
 {
 	y_filetransfer *ft = (y_filetransfer *)hTransfer;
 
@@ -769,7 +769,7 @@ int __cdecl CYahooProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileDeny - denies a file transfer
 
-int __cdecl CYahooProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR*)
+int __cdecl CYahooProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR*)
 {
 	/* deny file receive request.. just ignore it! */
 	y_filetransfer *ft = (y_filetransfer *)hTransfer;
@@ -800,7 +800,7 @@ int __cdecl CYahooProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PRO
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileResume - processes file renaming etc
 
-int __cdecl CYahooProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename)
+int __cdecl CYahooProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename)
 {
 	y_filetransfer *ft = (y_filetransfer *)hTransfer;
 

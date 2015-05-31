@@ -32,19 +32,19 @@ struct CAimProto : public PROTO<CAimProto>
 
 	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage );
 
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath );
+	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath );
 	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer );
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason );
-	virtual	int       __cdecl FileResume( HANDLE hTransfer, int* action, const PROTOCHAR** szFilename );
+	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason );
+	virtual	int       __cdecl FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename );
 
 	virtual	DWORD_PTR __cdecl GetCaps( int type, MCONTACT hContact = NULL );
 
-	virtual	HANDLE    __cdecl SearchBasic( const PROTOCHAR* id );
-	virtual	HANDLE    __cdecl SearchByEmail( const PROTOCHAR* email );
+	virtual	HANDLE    __cdecl SearchBasic( const TCHAR* id );
+	virtual	HANDLE    __cdecl SearchByEmail( const TCHAR* email );
 
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT* );
 
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg );
 
 	virtual	int       __cdecl SetStatus( int iNewStatus );

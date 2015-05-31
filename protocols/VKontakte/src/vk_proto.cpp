@@ -511,7 +511,7 @@ MCONTACT CVkProto::AddToList(int, PROTOSEARCHRESULT* psr)
 	return hContact;
 }
 
-int CVkProto::AuthRequest(MCONTACT hContact,const PROTOCHAR* message)
+int CVkProto::AuthRequest(MCONTACT hContact,const TCHAR* message)
 {
 	debugLogA("CVkProto::AuthRequest");
 	if (!IsOnline())
@@ -582,7 +582,7 @@ int CVkProto::Authorize(MEVENT hDbEvent)
 	return AuthRequest(hContact, NULL);
 }
 
-int CVkProto::AuthDeny(MEVENT hDbEvent, const PROTOCHAR*)
+int CVkProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 {
 	debugLogA("CVkProto::AuthDeny");
 	if (!IsOnline())

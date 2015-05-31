@@ -442,7 +442,7 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 }
 
 
-HANDLE __cdecl CMsnProto::SearchBasic(const PROTOCHAR* id)
+HANDLE __cdecl CMsnProto::SearchBasic(const TCHAR* id)
 {
 	if (!msnLoggedIn) return 0;
 
@@ -452,7 +452,7 @@ HANDLE __cdecl CMsnProto::SearchBasic(const PROTOCHAR* id)
 	return email;
 }
 
-HANDLE __cdecl CMsnProto::SearchByEmail(const PROTOCHAR* email)
+HANDLE __cdecl CMsnProto::SearchByEmail(const TCHAR* email)
 {
 	return SearchBasic(email);
 }
@@ -571,7 +571,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 	}
 }
 
-HANDLE __cdecl CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE __cdecl CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR* szPath)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -634,7 +634,7 @@ int __cdecl CMsnProto::FileCancel(MCONTACT, HANDLE hTransfer)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnFileDeny - rejects the file transfer request
 
-int __cdecl CMsnProto::FileDeny(MCONTACT, HANDLE hTransfer, const PROTOCHAR* /*szReason*/)
+int __cdecl CMsnProto::FileDeny(MCONTACT, HANDLE hTransfer, const TCHAR* /*szReason*/)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -664,7 +664,7 @@ int __cdecl CMsnProto::FileDeny(MCONTACT, HANDLE hTransfer, const PROTOCHAR* /*s
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnFileResume - renames a file
 
-int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename)
+int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -847,7 +847,7 @@ int CMsnProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendFile - initiates a file transfer
 
-HANDLE __cdecl CMsnProto::SendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR** ppszFiles)
+HANDLE __cdecl CMsnProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppszFiles)
 {
 	if (!msnLoggedIn)
 		return 0;

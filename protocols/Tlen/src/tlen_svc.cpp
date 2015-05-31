@@ -85,7 +85,7 @@ void TlenResetSearchQuery(TlenProtocol *proto) {
 	proto->searchID = TlenSerialNext(proto);
 }
 
-HANDLE TlenProtocol::SearchBasic(const PROTOCHAR* id)
+HANDLE TlenProtocol::SearchBasic(const TCHAR* id)
 {
 	int iqId = 0;
 	if (!isOnline) return 0;
@@ -103,7 +103,7 @@ HANDLE TlenProtocol::SearchBasic(const PROTOCHAR* id)
 	return (HANDLE)iqId;
 }
 
-HANDLE TlenProtocol::SearchByEmail(const PROTOCHAR* email)
+HANDLE TlenProtocol::SearchByEmail(const TCHAR* email)
 {
 	int iqId = 0;
 
@@ -122,7 +122,7 @@ HANDLE TlenProtocol::SearchByEmail(const PROTOCHAR* email)
 	return (HANDLE)iqId;
 }
 
-HANDLE TlenProtocol::SearchByName(const PROTOCHAR* nickT, const PROTOCHAR* firstNameT, const PROTOCHAR* lastNameT)
+HANDLE TlenProtocol::SearchByName(const TCHAR* nickT, const TCHAR* firstNameT, const TCHAR* lastNameT)
 {
 	if (!isOnline) return 0;
 
@@ -309,7 +309,7 @@ int TlenProtocol::Authorize(MEVENT hDbEvent)
 	return 0;
 }
 
-int TlenProtocol::AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason)
+int TlenProtocol::AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
 {
 	if (!isOnline)
 		return 1;
@@ -411,7 +411,7 @@ INT_PTR TlenProtocol::GetStatus(WPARAM wParam, LPARAM lParam)
 	return m_iStatus;
 }
 
-int TlenProtocol::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
+int TlenProtocol::SetAwayMsg(int iStatus, const TCHAR* msg)
 {
 	char **szMsg;
 	char *newModeMsg;
@@ -708,12 +708,12 @@ int TlenProtocol::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt)
 	return 0;
 }
 
-HANDLE TlenProtocol::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE TlenProtocol::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath)
 {
 	if (!isOnline) return 0;
 
 	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *) hTransfer;
-	ft->szSavePath = mir_strdup(mir_t2a(szPath));	//TODO convert to PROTOCHAR*
+	ft->szSavePath = mir_strdup(mir_t2a(szPath));	//TODO convert to TCHAR*
 	TLEN_LIST_ITEM *item = TlenListAdd(this, LIST_FILE, ft->iqId);
 	if (item != NULL) {
 		item->ft = ft;
@@ -728,7 +728,7 @@ HANDLE TlenProtocol::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOC
 	return (HANDLE)hTransfer;
 }
 
-int TlenProtocol::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason)
+int TlenProtocol::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason)
 {
 	if (!isOnline) return 1;
 
@@ -744,7 +744,7 @@ int TlenProtocol::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR*
 	return 0;
 }
 
-int TlenProtocol::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename) {
+int TlenProtocol::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename) {
 	return 0;
 }
 
@@ -767,7 +767,7 @@ int TlenProtocol::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 	return 0;
 }
 
-HANDLE TlenProtocol::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
+HANDLE TlenProtocol::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
 {
 	int i, j;
 	struct _stat statbuf;
@@ -846,7 +846,7 @@ int TlenProtocol::RecvMsg(MCONTACT hContact, PROTORECVEVENT* evt)
 	return Proto_RecvMessage(hContact, evt);
 }
 
-int TlenProtocol::RecvFile(MCONTACT hContact, PROTOFILEEVENT* evt)
+int TlenProtocol::RecvFile(MCONTACT hContact, PROTORECVFILET* evt)
 {
 	return Proto_RecvFile(hContact, evt);
 }
@@ -1176,7 +1176,7 @@ int TlenProtocol::AuthRecv(MCONTACT hContact, PROTORECVEVENT* evt)
 }
 
 // PSS_AUTHREQUEST
-int TlenProtocol::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage)
+int TlenProtocol::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 {
 	return 1;
 }

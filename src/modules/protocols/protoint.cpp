@@ -78,15 +78,21 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 	int __cdecl AuthRequest(MCONTACT hContact, const TCHAR *szMessage)
 	{
 		CCSDATA ccs = { hContact, PSS_AUTHREQUEST, 0, (LPARAM)szMessage };
+		if (m_iVersion > 1)
+			return (int)ProtoCallService(m_szModuleName, PSS_AUTHREQUEST, 0, (LPARAM)&ccs);
+
 		ccs.lParam = (LPARAM)mir_t2a(szMessage);
 		int res = (int)ProtoCallService(m_szModuleName, PSS_AUTHREQUEST, 0, (LPARAM)&ccs);
 		mir_free((char*)ccs.lParam);
 		return res;
 	}
 
-	HANDLE __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
+	HANDLE __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath)
 	{
 		CCSDATA ccs = { hContact, PSS_FILEALLOW, (WPARAM)hTransfer, (LPARAM)szPath };
+		if (m_iVersion > 1)
+			return (HANDLE)ProtoCallService(m_szModuleName, PSS_FILEALLOW, 0, (LPARAM)&ccs);
+
 		ccs.lParam = (LPARAM)mir_t2a(szPath);
 		HANDLE res = (HANDLE)ProtoCallService(m_szModuleName, PSS_FILEALLOW, 0, (LPARAM)&ccs);
 		mir_free((char*)ccs.lParam);
@@ -99,22 +105,28 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PSS_FILECANCEL, 0, (LPARAM)&ccs);
 	}
 
-	int __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason)
+	int __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason)
 	{
 		CCSDATA ccs = { hContact, PSS_FILEDENY, (WPARAM)hTransfer, (LPARAM)szReason };
+		if (m_iVersion > 1)
+			return (int)ProtoCallService(m_szModuleName, PSS_FILEDENY, 0, (LPARAM)&ccs);
+
 		ccs.lParam = (LPARAM)mir_t2a(szReason);
 		int res = (int)ProtoCallService(m_szModuleName, PSS_FILEDENY, 0, (LPARAM)&ccs);
 		mir_free((char*)ccs.lParam);
 		return res;
 	}
 
-	int __cdecl FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename)
+	int __cdecl FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename)
 	{
 		PROTOFILERESUME pfr = { *action, *szFilename };
-		pfr.szFilename = (PROTOCHAR*)mir_t2a(pfr.szFilename);
+		if (m_iVersion > 1)
+			return (int)ProtoCallService(m_szModuleName, PS_FILERESUME, (WPARAM)hTransfer, (LPARAM)&pfr);
+
+		pfr.szFilename = (TCHAR*)mir_t2a(pfr.szFilename);
 		int res = (int)ProtoCallService(m_szModuleName, PS_FILERESUME, (WPARAM)hTransfer, (LPARAM)&pfr);
-		mir_free((PROTOCHAR*)*szFilename);
-		*action = pfr.action; *szFilename = (PROTOCHAR*)pfr.szFilename;
+		mir_free((TCHAR*)*szFilename);
+		*action = pfr.action; *szFilename = (TCHAR*)pfr.szFilename;
 
 		return res;
 	}
@@ -135,7 +147,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return ProtoCallService(m_szModuleName, PSS_GETINFO, 0, (LPARAM)&ccs);
 	}
 
-	HANDLE __cdecl SearchBasic(const PROTOCHAR* id)
+	HANDLE __cdecl SearchBasic(const TCHAR* id)
 	{
 		if (m_iVersion > 1)
 			return (HANDLE)ProtoCallService(m_szModuleName, PS_BASICSEARCH, 0, (LPARAM)id);
@@ -143,19 +155,19 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (HANDLE)ProtoCallService(m_szModuleName, PS_BASICSEARCH, 0, (LPARAM)StrConvA(id));
 	}
 
-	HANDLE __cdecl SearchByEmail(const PROTOCHAR* email)
+	HANDLE __cdecl SearchByEmail(const TCHAR* email)
 	{
 		if (m_iVersion > 1)
 			return (HANDLE)ProtoCallService(m_szModuleName, PS_SEARCHBYEMAIL, 0, (LPARAM)email);
 		return (HANDLE)ProtoCallService(m_szModuleName, PS_SEARCHBYEMAIL, 0, (LPARAM)StrConvA(email));
 	}
 
-	HANDLE __cdecl SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName)
+	HANDLE __cdecl SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
 	{
 		PROTOSEARCHBYNAME psn;
-		psn.pszNick = (PROTOCHAR*)mir_t2a(nick);
-		psn.pszFirstName = (PROTOCHAR*)mir_t2a(firstName);
-		psn.pszLastName = (PROTOCHAR*)mir_t2a(lastName);
+		psn.pszNick = (TCHAR*)mir_t2a(nick);
+		psn.pszFirstName = (TCHAR*)mir_t2a(firstName);
+		psn.pszLastName = (TCHAR*)mir_t2a(lastName);
 		HANDLE res = (HANDLE)ProtoCallService(m_szModuleName, PS_SEARCHBYNAME, 0, (LPARAM)&psn);
 		mir_free(psn.pszNick);
 		mir_free(psn.pszFirstName);
@@ -180,7 +192,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PSR_CONTACTS, 0, (LPARAM)&ccs);
 	}
 
-	int __cdecl RecvFile(MCONTACT hContact, PROTOFILEEVENT* evt)
+	int __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET* evt)
 	{
 		CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)evt };
 		return ProtoCallService(m_szModuleName, PSR_FILE, 0, (LPARAM)&ccs);
@@ -204,7 +216,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PSS_CONTACTS, 0, (LPARAM)&ccs);
 	}
 
-	HANDLE __cdecl SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
+	HANDLE __cdecl SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
 	{
 		CCSDATA ccs = { hContact, PSS_FILE, (WPARAM)szDescription, (LPARAM)ppszFiles };
 
@@ -275,7 +287,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 // creates the default protocol container for compatibility with the old plugins
 
-PROTO_INTERFACE* AddDefaultAccount(const char* szProtoName)
+PROTO_INTERFACE* AddDefaultAccount(const char *szProtoName)
 {
 	PROTO_INTERFACE* ppi = new DEFAULT_PROTO_INTERFACE;
 	ppi->m_szModuleName = mir_strdup(szProtoName);

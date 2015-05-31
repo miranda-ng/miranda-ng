@@ -202,7 +202,7 @@ void WhatsAppProto::SearchAckThread(void *targ)
 	delete param;
 }
 
-HANDLE WhatsAppProto::SearchBasic(const PROTOCHAR* id)
+HANDLE WhatsAppProto::SearchBasic(const TCHAR* id)
 {
 	if (isOffline())
 		return 0;

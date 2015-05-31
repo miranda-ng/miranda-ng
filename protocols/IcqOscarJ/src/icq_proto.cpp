@@ -732,7 +732,7 @@ void CIcqProto::CheekySearchThread(void*)
 }
 
 
-HANDLE __cdecl CIcqProto::SearchBasic(const PROTOCHAR *pszSearch)
+HANDLE __cdecl CIcqProto::SearchBasic(const TCHAR *pszSearch)
 {
 	if (mir_wstrlen(pszSearch) == 0)
 		return 0;
@@ -790,7 +790,7 @@ HANDLE __cdecl CIcqProto::SearchBasic(const PROTOCHAR *pszSearch)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SearchByEmail - searches the contact by its e-mail
 
-HANDLE __cdecl CIcqProto::SearchByEmail(const PROTOCHAR *email)
+HANDLE __cdecl CIcqProto::SearchByEmail(const TCHAR *email)
 {
 	if (email && icqOnline() && mir_wstrlen(email) > 0) {
 		char *szEmail = tchar_to_ansi(email);
@@ -813,7 +813,7 @@ HANDLE __cdecl CIcqProto::SearchByEmail(const PROTOCHAR *email)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_SearchByName - searches the contact by its first or last name, or by a nickname
 
-HANDLE __cdecl CIcqProto::SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, const PROTOCHAR *lastName)
+HANDLE __cdecl CIcqProto::SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName)
 {
 	if (icqOnline()) {
 		if (nick || firstName || lastName) {

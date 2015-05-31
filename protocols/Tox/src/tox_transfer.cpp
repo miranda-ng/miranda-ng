@@ -63,7 +63,7 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 }
 
 // file request is allowed
-HANDLE CToxProto::OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR *tszPath)
+HANDLE CToxProto::OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *tszPath)
 {
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 	transfer->pfts.tszWorkingDir = mir_tstrdup(tszPath);
@@ -87,7 +87,7 @@ HANDLE CToxProto::OnFileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCH
 }
 
 // if file is exists
-int CToxProto::OnFileResume(HANDLE hTransfer, int *action, const PROTOCHAR **szFilename)
+int CToxProto::OnFileResume(HANDLE hTransfer, int *action, const TCHAR **szFilename)
 {
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 
@@ -182,7 +182,7 @@ void CToxProto::OnDataReceiving(Tox*, uint32_t friendNumber, uint32_t fileNumber
 /* FILE SENDING */
 
 // outcoming file flow
-HANDLE CToxProto::OnSendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR **ppszFiles)
+HANDLE CToxProto::OnSendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles)
 {
 	int32_t friendNumber = GetToxFriendNumber(hContact);
 	if (friendNumber == UINT32_MAX)

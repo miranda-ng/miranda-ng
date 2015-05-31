@@ -262,7 +262,7 @@ void __cdecl GGPROTO::searchthread(void *)
 #endif
 }
 
-HANDLE GGPROTO::SearchBasic(const PROTOCHAR *id)
+HANDLE GGPROTO::SearchBasic(const TCHAR *id)
 {
 	if (!isonline())
 		return (HANDLE)0;
@@ -300,7 +300,7 @@ HANDLE GGPROTO::SearchBasic(const PROTOCHAR *id)
 //////////////////////////////////////////////////////////
 // search by details
 
-HANDLE GGPROTO::SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, const PROTOCHAR *lastName)
+HANDLE GGPROTO::SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName)
 {
 	// Check if connected and if there's a search data
 	if (!isonline())
@@ -646,7 +646,7 @@ HANDLE GGPROTO::GetAwayMsg(MCONTACT hContact)
 // when away message is being set
 // registered as ProtoService PS_SETAWAYMSGT
 
-int GGPROTO::SetAwayMsg(int iStatus, const PROTOCHAR *newMsg)
+int GGPROTO::SetAwayMsg(int iStatus, const TCHAR *newMsg)
 {
 	int status = gg_normalizestatus(iStatus);
 	TCHAR **msgPtr;

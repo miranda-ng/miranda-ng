@@ -540,7 +540,7 @@ HANDLE __cdecl CYahooProto::GetAwayMsg(MCONTACT hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SetAwayMsg - sets the away status message
 
-int __cdecl CYahooProto::SetAwayMsg(int status, const PROTOCHAR* msg)
+int __cdecl CYahooProto::SetAwayMsg(int status, const TCHAR* msg)
 {
 	char *c = msg && msg[0] ? mir_utf8encodeT(msg) : NULL;
 

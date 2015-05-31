@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const PROTOCHAR* _desc, PROTOCHAR** _files) :
+CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const TCHAR* _desc, TCHAR** _files) :
 	hContact(_hContact), 
 	filetype(typeInvalid), 
 	atr(NULL), 
@@ -68,7 +68,7 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 	return filetype;
 }
 
-HANDLE CVkProto::SendFile(MCONTACT hContact, const PROTOCHAR *desc, PROTOCHAR **files)
+HANDLE CVkProto::SendFile(MCONTACT hContact, const TCHAR *desc, TCHAR **files)
 {
 	debugLogA("CVkProto::SendFile");
 	LONG userID = getDword(hContact, "ID", -1);
