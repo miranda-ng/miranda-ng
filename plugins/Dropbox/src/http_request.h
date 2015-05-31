@@ -172,7 +172,7 @@ public:
 	__inline explicit NetlibPtr(NETLIBHTTPREQUEST *p) : _p(p) {}
 	__inline NETLIBHTTPREQUEST* operator=(NETLIBHTTPREQUEST *p)
 	{
-		if (p)
+		if (_p)
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)(NETLIBHTTPREQUEST*)_p);
 		_p = p;
 		return _p;
