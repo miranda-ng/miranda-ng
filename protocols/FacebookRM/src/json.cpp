@@ -272,29 +272,58 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 	std::string attachments_text;
 	const JSONNode &attachments = it["attachments"];
 	for (auto itAttachment = attachments.begin(); itAttachment != attachments.end(); ++itAttachment) {
-		const JSONNode &attach_type = (*itAttachment)["attach_type"]; // "sticker", "photo", "file"
+		const JSONNode &attach_type = (*itAttachment)["attach_type"]; // "sticker", "photo", "file", "share"
 		if (attach_type) {
 			// Get attachment type - "file" has priority over other types
 			if (type.empty() || type != "file")
 				type = attach_type.as_string();
 		}
-		const JSONNode &name = (*itAttachment)["name"];
-		const JSONNode &url = (*itAttachment)["url"];
-		if (url) {
-			std::string link = url.as_string();
 
-			if (link.find("/ajax/mercury/attachments/photo/view/") != std::string::npos)
-				link = utils::url::decode(utils::text::source_get_value(&link, 2, "?uri=", "&")); // fix photo url
-			else if (link.find("/") == 0)
+		std::string link;
+		std::string filename = (*itAttachment)["name"].as_string();
+
+		if ((*itAttachment)["hires_url"]) {
+			link = (*itAttachment)["hires_url"].as_string();
+		}
+		else if ((*itAttachment)["url"]) {
+			link = (*itAttachment)["url"].as_string();
+		}
+		else if ((*itAttachment)["uri"]) {
+			link = (*itAttachment)["uri"].as_string();
+		}
+
+		if (type == "photo") {			
+			const JSONNode &metadata = (*itAttachment)["metadata"];
+			if (metadata) {
+				std::string id = metadata["fbid"].as_string();
+				const JSONNode &data = it["attachment_map"][id.c_str()];
+				filename = data["filename"].as_string();
+			}
+		}
+		else if (type == "share") {
+			const JSONNode &share = (*itAttachment)["share"];
+			if (share) {
+				link = share["uri"].as_string();
+				if (link.find("l."FACEBOOK_SERVER_DOMAIN) != std::string::npos) {
+					// de-facebook this link
+					link = utils::url::decode(utils::text::source_get_value2(&link, "l.php?u=", "&", true));
+				}
+
+				std::string title = share["title"].as_string();
+				std::string description = share["description"].as_string();
+
+				filename = title;
+			}
+		}
+
+		if (filename == "null")
+			filename.clear();
+
+		if (!link.empty()) {
+			if (link.find("/") == 0)
 				link = HTTP_PROTO_SECURE FACEBOOK_SERVER_REGULAR + link; // make absolute url
 
 			if (!link.empty()) {
-				std::string filename;
-				if (name)
-					filename = name.as_string();
-				if (filename == "null")
-					filename.clear();
-
 				attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + link + "\n";
 
 				// Stickers as smileys
@@ -335,6 +364,8 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 		std::tstring newText;
 		if (type == "sticker")
 			newText = TranslateT("a sticker");
+		else if (type == "share")
+			newText = TranslateT("a link");
 		else if (type == "file")
 			newText = (attachments.size() > 1) ? TranslateT("files") : TranslateT("a file");
 		else if (type == "photo")
@@ -443,7 +474,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 				// inbox message (multiuser or direct)
 
 				const JSONNode &msg = (*it)["message"];
-				const JSONNode &folder = (*it)["folder"];
+				const JSONNode &folder = (*it)["folder"];				
 
 				if (inboxOnly && folder.as_string() != "inbox")
 					continue;
@@ -452,13 +483,17 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 				const JSONNode &sender_name = msg["sender_name"];
 				const JSONNode &body = msg["body"];
 
-				// looks like there is either "tid" or "other_user_fbid" - or "tid" is removed forever?
+				// looks like there is either "tid" or "other_user_fbid" (or both)
 				const JSONNode &tid = msg["tid"];
 				const JSONNode &mid = msg["mid"];
-				const JSONNode &timestamp = msg["timestamp"];
-				const JSONNode &filtered = (*it)["is_filtered_content"];
+				const JSONNode &timestamp = msg["timestamp"];				
 				if (!sender_fbid || !sender_name || !body || !mid || !timestamp)
 					continue;
+
+				const JSONNode &is_filtered = (*it)["is_filtered_content"]; // TODO: is it still here? perhaps it is replaced with msg["is_spoof_warning"] or something else?
+				//const JSONNode &is_spoof_warning = msg["is_spoof_warning"];				
+				//const JSONNode &is_silent = msg["is_silent"];
+				//const JSONNode &is_unread = msg["is_unread"];
 
 				std::string id = sender_fbid.as_string();
 				std::string message_id = mid.as_string();
@@ -474,7 +509,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 				if (!body || ignore_duplicits(proto, message_id, message_text))
 					continue;
 
-				if (filtered.as_bool() && message_text.empty())
+				if (is_filtered.as_bool() && message_text.empty())
 					message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
 
 				message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
