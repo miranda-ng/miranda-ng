@@ -532,6 +532,7 @@ static renameTable[] =
 	{ _T("dbx_tree.dll"),                   _T("Plugins\\dbx_mmap.dll") },
 	{ _T("rc4.dll"),                        NULL },
 	{ _T("athena.dll"),                     NULL },
+	{ _T("skypekit.exe"),                   NULL },
 #endif
 
 	{ _T("proto_newsaggr.dll"),             _T("Icons\\proto_newsaggregator.dll") },
