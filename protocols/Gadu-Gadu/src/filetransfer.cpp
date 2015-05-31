@@ -658,7 +658,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 	debugLogA("dccmainthread(): end. DCC Server Thread Ending");
 }
 
-HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const TCHAR* szPath)
 {
 	struct gg_dcc *dcc = (struct gg_dcc *) hTransfer;
 	char fileName[MAX_PATH], *path = mir_t2a(szPath);
@@ -698,7 +698,7 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 	return hTransfer;
 }
 
-HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const TCHAR* szPath)
 {
 	struct gg_dcc7 *dcc7 = (struct gg_dcc7 *) hTransfer;
 	char fileName[MAX_PATH], *path = mir_t2a(szPath);
@@ -849,7 +849,7 @@ int GGPROTO::dcc7filecancel(HANDLE hTransfer)
 ////////////////////////////////////////////////////////////
 // File receiving allowed
 
-HANDLE GGPROTO::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE GGPROTO::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath)
 {
 	// Check if its proper dcc
 	struct gg_common *c = (struct gg_common *) hTransfer;
@@ -881,7 +881,7 @@ int GGPROTO::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////
 // File receiving denied
 
-int GGPROTO::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason)
+int GGPROTO::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason)
 {
 	// Check if its proper dcc
 	struct gg_common *c = (struct gg_common *) hTransfer;
@@ -897,7 +897,7 @@ int GGPROTO::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szRe
 ////////////////////////////////////////////////////////////
 // Called when received an file
 
-int GGPROTO::RecvFile(MCONTACT hContact, PROTOFILEEVENT* pre)
+int GGPROTO::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
 {
 	return Proto_RecvFile(hContact, pre);
 }
@@ -905,7 +905,7 @@ int GGPROTO::RecvFile(MCONTACT hContact, PROTOFILEEVENT* pre)
 ////////////////////////////////////////////////////////////
 // Called when user sends a file
 
-HANDLE GGPROTO::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
+HANDLE GGPROTO::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
 {
 	char *bslash, *filename;
 	struct gg_dcc *dcc;

@@ -314,7 +314,7 @@ static INT_PTR stub4(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 static INT_PTR stub11(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {
 	PROTOFILERESUME* pfr = (PROTOFILERESUME*)lParam;
-	return (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action, (const PROTOCHAR**)&pfr->szFilename);
+	return (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action, (const TCHAR**)&pfr->szFilename);
 }
 
 static INT_PTR stub12(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)

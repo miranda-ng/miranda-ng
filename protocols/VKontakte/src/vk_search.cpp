@@ -17,19 +17,19 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE CVkProto::SearchBasic(const PROTOCHAR* id)
+HANDLE CVkProto::SearchBasic(const TCHAR* id)
 {
 	ForkThread(&CVkProto::SearchBasicThread, (void *)id);
 	return (HANDLE)1;
 }
 
-HANDLE CVkProto::SearchByEmail(const PROTOCHAR* email)
+HANDLE CVkProto::SearchByEmail(const TCHAR* email)
 {
 	ForkThread(&CVkProto::SearchByMailThread, (void *)email);
 	return (HANDLE)1;
 }
 
-HANDLE CVkProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName)
+HANDLE CVkProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
 {
 	PROTOSEARCHBYNAME * psr = new (PROTOSEARCHBYNAME);
 

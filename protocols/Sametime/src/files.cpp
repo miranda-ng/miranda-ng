@@ -276,7 +276,7 @@ mwFileTransferHandler mwFileTransfer_handler = {
 	mwFileTransfer_clear
 };
 
-HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, PROTOCHAR** files, const PROTOCHAR* ptszDesc)
+HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, TCHAR** files, const TCHAR* ptszDesc)
 {
 	debugLog(_T("CSametimeProto::SendFilesToUser() start"));
 

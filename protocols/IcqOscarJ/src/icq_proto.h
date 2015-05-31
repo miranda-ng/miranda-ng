@@ -70,9 +70,9 @@ struct CIcqProto : public PROTO<CIcqProto>
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
 
-	virtual	HANDLE    __cdecl SearchBasic(const PROTOCHAR *id);
-	virtual	HANDLE    __cdecl SearchByEmail(const PROTOCHAR *email);
-	virtual	HANDLE    __cdecl SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, const PROTOCHAR *lastName);
+	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *id);
+	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR *email);
+	virtual	HANDLE    __cdecl SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName);
 	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 

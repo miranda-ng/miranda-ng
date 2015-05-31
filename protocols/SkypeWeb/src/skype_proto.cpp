@@ -144,7 +144,7 @@ int CSkypeProto::Authorize(MEVENT hDbEvent)
 	return 0;
 }
 
-int CSkypeProto::AuthDeny(MEVENT hDbEvent, const PROTOCHAR*)
+int CSkypeProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 {
 	MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
 	if (hContact == INVALID_CONTACT_ID)
@@ -161,7 +161,7 @@ int CSkypeProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 	return Proto_AuthRecv(m_szModuleName, pre);
 }
 
-int CSkypeProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage)
+int CSkypeProto::AuthRequest(MCONTACT hContact, const TCHAR *szMessage)
 {
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;

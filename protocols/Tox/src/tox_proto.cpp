@@ -91,13 +91,13 @@ int CToxProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 	return Proto_AuthRecv(m_szModuleName, pre);
 }
 
-int CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage)
+int CToxProto::AuthRequest(MCONTACT hContact, const TCHAR *szMessage)
 {
 	ptrA reason(mir_utf8encodeW(szMessage));
 	return OnRequestAuth(hContact, (LPARAM)reason);
 }
 
-HANDLE CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR *tszPath)
+HANDLE CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *tszPath)
 {
 	return OnFileAllow(hContact, hTransfer, tszPath);
 }
@@ -107,12 +107,12 @@ int CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 	return OnFileCancel(hContact, hTransfer);
 }
 
-int CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR*)
+int CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR*)
 {
 	return FileCancel(hContact, hTransfer);
 }
 
-int CToxProto::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR **szFilename)
+int CToxProto::FileResume(HANDLE hTransfer, int *action, const TCHAR **szFilename)
 {
 	return OnFileResume(hTransfer, action, szFilename);
 }
@@ -137,7 +137,7 @@ int CToxProto::SendMsg(MCONTACT hContact, int, const char *msg)
 	return OnSendMessage(hContact, msg);
 }
 
-HANDLE CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR *msg, PROTOCHAR **ppszFiles)
+HANDLE CToxProto::SendFile(MCONTACT hContact, const TCHAR *msg, TCHAR **ppszFiles)
 {
 	return OnSendFile(hContact, msg, ppszFiles);
 }
@@ -212,7 +212,7 @@ int CToxProto::SetStatus(int iNewStatus)
 
 HANDLE CToxProto::GetAwayMsg(MCONTACT) { return 0; }
 
-int CToxProto::SetAwayMsg(int, const PROTOCHAR *msg)
+int CToxProto::SetAwayMsg(int, const TCHAR *msg)
 {
 	if (IsOnline())
 	{

@@ -326,7 +326,7 @@ int PROTO_INTERFACE::Authorize(MEVENT hDbEvent)
 	return 1; // error
 }
 
-int PROTO_INTERFACE::AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason)
+int PROTO_INTERFACE::AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
 {
 	return 1; // error
 }
@@ -336,12 +336,12 @@ int PROTO_INTERFACE::AuthRecv(MCONTACT hContact, PROTORECVEVENT*)
 	return 1; // error
 }
 
-int PROTO_INTERFACE::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage)
+int PROTO_INTERFACE::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 {
 	return 1; // error
 }
 
-HANDLE PROTO_INTERFACE::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE PROTO_INTERFACE::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath)
 {
 	return NULL; // error
 }
@@ -351,12 +351,12 @@ int PROTO_INTERFACE::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 	return 1; // error
 }
 
-int PROTO_INTERFACE::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason)
+int PROTO_INTERFACE::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason)
 {
 	return 1; // error
 }
 
-int PROTO_INTERFACE::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename)
+int PROTO_INTERFACE::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename)
 {
 	return 1; // error
 }
@@ -371,17 +371,17 @@ int PROTO_INTERFACE::GetInfo(MCONTACT hContact, int infoType)
 	return 1; // error
 }
 
-HANDLE PROTO_INTERFACE::SearchBasic(const PROTOCHAR* id)
+HANDLE PROTO_INTERFACE::SearchBasic(const TCHAR* id)
 {
 	return NULL; // error
 }
 
-HANDLE PROTO_INTERFACE::SearchByEmail(const PROTOCHAR* email)
+HANDLE PROTO_INTERFACE::SearchByEmail(const TCHAR* email)
 {
 	return NULL; // error
 }
 
-HANDLE PROTO_INTERFACE::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName)
+HANDLE PROTO_INTERFACE::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
 {
 	return NULL; // error
 }
@@ -401,7 +401,7 @@ int PROTO_INTERFACE::RecvContacts(MCONTACT hContact, PROTORECVEVENT*)
 	return 1; // error
 }
 
-int PROTO_INTERFACE::RecvFile(MCONTACT hContact, PROTOFILEEVENT *evt)
+int PROTO_INTERFACE::RecvFile(MCONTACT hContact, PROTORECVFILET *evt)
 {
 	return ::Proto_RecvFile(hContact, evt); // default file receiver
 }
@@ -422,7 +422,7 @@ int PROTO_INTERFACE::SendContacts(MCONTACT hContact, int flags, int nContacts, M
 	return 1; // error
 }
 
-HANDLE PROTO_INTERFACE::SendFile(MCONTACT hContact, const PROTOCHAR *szDescription, PROTOCHAR **ppszFiles)
+HANDLE PROTO_INTERFACE::SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles)
 {
 	return NULL; // error
 }
@@ -457,7 +457,7 @@ int PROTO_INTERFACE::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* ev
 	return 1; // error
 }
 
-int PROTO_INTERFACE::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
+int PROTO_INTERFACE::SetAwayMsg(int iStatus, const TCHAR* msg)
 {
 	return 1; // error
 }

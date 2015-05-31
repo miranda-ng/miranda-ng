@@ -315,7 +315,7 @@ int CSametimeProto::SetIdle(bool idle)
 	return 0;
 }
 
-void CSametimeProto::SetSessionAwayMessage(int status, const PROTOCHAR* msgT)
+void CSametimeProto::SetSessionAwayMessage(int status, const TCHAR* msgT)
 {
 	debugLog(_T("SetSessionAwayMessage() status=[%d], msgT:len=[%d]"), status, msgT == NULL ? -1 : mir_tstrlen(msgT));
 

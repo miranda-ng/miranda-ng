@@ -87,7 +87,7 @@ MCONTACT CSametimeProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return AddSearchedUser(sr, flags & PALF_TEMPORARY);
 }
 
-HANDLE CSametimeProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE CSametimeProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath)
 {
 	debugLog(_T("CSametimeProto::FileAllow()  hContact=[%x], szPath=[%s]"), hContact, szPath);
 	char* szPathA = mir_t2a(szPath);
@@ -103,14 +103,14 @@ int CSametimeProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 	return 0;
 }
 
-int CSametimeProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason)
+int CSametimeProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason)
 {
 	debugLog(_T("CSametimeProto::FileDeny()  hContact=[%x], szReason=[%s]"), hContact, szReason);
 	RejectFileTransfer(hTransfer);
 	return 0;
 }
 
-int CSametimeProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename)
+int CSametimeProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename)
 {
 	debugLog(_T("CSametimeProto::FileResume() action=[%d]"), &action);
 	return 0;
@@ -168,7 +168,7 @@ int CSametimeProto::GetInfo(MCONTACT hContact, int infoType)
 	return 0;
 }
 
-HANDLE CSametimeProto::SearchBasic(const PROTOCHAR* id)
+HANDLE CSametimeProto::SearchBasic(const TCHAR* id)
 {
 	debugLog(_T("CSametimeProto::SearchBasic()  id:len=[%d]"), id == NULL ? -1 : mir_tstrlen(id));
 	return (HANDLE)SearchForUser(T2Utf(id), FALSE);
@@ -192,7 +192,7 @@ HWND CSametimeProto::CreateExtendedSearchUI(HWND owner)
 }
 
 
-int CSametimeProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT* pre)
+int CSametimeProto::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
 {
 	debugLog(_T("CSametimeProto::RecvFile()  hContact=[%x]"), hContact);
 
@@ -212,7 +212,7 @@ int CSametimeProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 	return Proto_RecvMessage(hContact, pre);
 }
 
-HANDLE CSametimeProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
+HANDLE CSametimeProto::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
 {
 	debugLog(_T("CSametimeProto::SendFile()  hContact=[%x]"), hContact);
 	if (m_iStatus != ID_STATUS_OFFLINE) {
@@ -295,7 +295,7 @@ int CSametimeProto::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt
 	return 0;
 }
 
-int CSametimeProto::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
+int CSametimeProto::SetAwayMsg(int iStatus, const TCHAR* msg)
 {
 	debugLog(_T("CSametimeProto::SetAwayMsg()  iStatus=[%d], msg:len=[%d]"), iStatus, msg == NULL ? -1 : mir_tstrlen(msg));
 	SetSessionAwayMessage(iStatus, msg);

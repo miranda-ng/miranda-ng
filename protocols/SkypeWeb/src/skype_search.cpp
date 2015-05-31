@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE CSkypeProto::SearchBasic(const PROTOCHAR* id)
+HANDLE CSkypeProto::SearchBasic(const TCHAR* id)
 {
 	ForkThread(&CSkypeProto::SearchBasicThread, (void *)id);
 	return (HANDLE)1;

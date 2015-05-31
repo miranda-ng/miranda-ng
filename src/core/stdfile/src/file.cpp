@@ -27,8 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HANDLE hDlgSucceeded, hDlgCanceled;
 
-TCHAR* PFTS_StringToTchar(int flags, const PROTOCHAR* s);
-int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const PROTOCHAR* s, TCHAR *r);
+TCHAR* PFTS_StringToTchar(int flags, const TCHAR* s);
+int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const TCHAR* s, TCHAR *r);
 
 static HGENMENU hSRFileMenuItem;
 

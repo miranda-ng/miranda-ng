@@ -78,15 +78,15 @@ public:
 	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
 
 	virtual	int      __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int      __cdecl AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason);
-	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage);
+	virtual	int      __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR* szReason);
+	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
 
-	virtual	HANDLE    __cdecl SearchBasic(const PROTOCHAR* id);
-	virtual	HANDLE    __cdecl SearchByEmail(const PROTOCHAR* email);
-	virtual	HANDLE    __cdecl SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName);
+	virtual	HANDLE    __cdecl SearchBasic(const TCHAR* id);
+	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR* email);
+	virtual	HANDLE    __cdecl SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName);
 
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
@@ -94,7 +94,7 @@ public:
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl SetAwayMsg(int iStatus, const PROTOCHAR* msg);
+	virtual	int       __cdecl SetAwayMsg(int iStatus, const TCHAR* msg);
 
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 

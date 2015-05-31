@@ -223,7 +223,7 @@ int FacebookProto::SetStatus(int new_status)
 	return 0;
 }
 
-int FacebookProto::SetAwayMsg(int, const PROTOCHAR *msg)
+int FacebookProto::SetAwayMsg(int, const TCHAR *msg)
 {
 	if (!msg) {
 		last_status_msg_.clear();
@@ -255,7 +255,7 @@ void FacebookProto::SetAwayMsgWorker(void *p)
 	}
 }
 
-HANDLE FacebookProto::SearchBasic(const PROTOCHAR* id)
+HANDLE FacebookProto::SearchBasic(const TCHAR* id)
 {
 	if (isOffline())
 		return 0;
@@ -265,7 +265,7 @@ HANDLE FacebookProto::SearchBasic(const PROTOCHAR* id)
 	return tid;
 }
 
-HANDLE FacebookProto::SearchByEmail(const PROTOCHAR* email)
+HANDLE FacebookProto::SearchByEmail(const TCHAR* email)
 {
 	if (isOffline())
 		return 0;
@@ -275,7 +275,7 @@ HANDLE FacebookProto::SearchByEmail(const PROTOCHAR* email)
 	return temail;
 }
 
-HANDLE FacebookProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName)
+HANDLE FacebookProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
 {
 	TCHAR arg[200];
 	mir_sntprintf(arg, SIZEOF(arg), _T("%s %s %s"), nick, firstName, lastName);
@@ -317,7 +317,7 @@ MCONTACT FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return hContact;
 }
 
-int FacebookProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *)
+int FacebookProto::AuthRequest(MCONTACT hContact, const TCHAR *)
 {
 	return RequestFriendship(hContact, NULL);
 }
@@ -334,7 +334,7 @@ int FacebookProto::Authorize(MEVENT hDbEvent)
 	return ApproveFriendship(hContact, NULL);
 }
 
-int FacebookProto::AuthDeny(MEVENT hDbEvent, const PROTOCHAR *)
+int FacebookProto::AuthDeny(MEVENT hDbEvent, const TCHAR *)
 {
 	if (!hDbEvent || isOffline())
 		return 1;

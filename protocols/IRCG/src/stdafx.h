@@ -219,7 +219,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 
 	virtual	DWORD_PTR __cdecl GetCaps( int type, MCONTACT hContact = NULL);
 
-	virtual	HANDLE    __cdecl SearchBasic(const PROTOCHAR* id);
+	virtual	HANDLE    __cdecl SearchBasic(const TCHAR* id);
 
 	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);

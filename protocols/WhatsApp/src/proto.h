@@ -44,7 +44,7 @@ public:
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 
-	virtual	HANDLE    __cdecl SearchBasic(const PROTOCHAR* id);
+	virtual	HANDLE    __cdecl SearchBasic(const TCHAR* id);
 
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 

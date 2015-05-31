@@ -42,7 +42,7 @@ struct virusscanthreadstartinfo {
 	HWND hwndReply;
 };
 
-TCHAR* PFTS_StringToTchar(int flags, const PROTOCHAR* s)
+TCHAR* PFTS_StringToTchar(int flags, const TCHAR* s)
 {
 	if (flags & PFTS_UTF)
 		return Utf8DecodeW((char*)s);
@@ -51,7 +51,7 @@ TCHAR* PFTS_StringToTchar(int flags, const PROTOCHAR* s)
 	return mir_a2t((char*)s);
 }
 
-int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS *ft, const PROTOCHAR *s, TCHAR *r)
+int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS *ft, const TCHAR *s, TCHAR *r)
 {
 	if (ft->flags & PFTS_UTF) {
 		TCHAR *ts = Utf8DecodeW((char*)s);

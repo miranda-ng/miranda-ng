@@ -168,7 +168,7 @@ struct CVkFileUploadParam {
 	VKFileType filetype;
 	int iErrorCode;
 	
-	CVkFileUploadParam(MCONTACT _hContact, const PROTOCHAR* _desc, PROTOCHAR** _files);
+	CVkFileUploadParam(MCONTACT _hContact, const TCHAR* _desc, TCHAR** _files);
 	~CVkFileUploadParam();
 	VKFileType GetType();
 	__forceinline bool IsAccess() { return ::_taccess(FileName, 0) == 0; }

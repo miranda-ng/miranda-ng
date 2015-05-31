@@ -136,14 +136,14 @@ struct GGPROTO : public PROTO<GGPROTO>
 	void     __cdecl setavatarthread(void*);
 
 	/* File transfer functions */
-	HANDLE fileallow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath);
+	HANDLE fileallow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath);
 	int filecancel(MCONTACT hContact, HANDLE hTransfer);
-	int filedeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason);
-	int recvfile(MCONTACT hContact, PROTOFILEEVENT* pre);
-	HANDLE sendfile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles);
+	int filedeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason);
+	int recvfile(MCONTACT hContact, PROTORECVFILET* pre);
+	HANDLE sendfile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles);
 
-	HANDLE dccfileallow(HANDLE hTransfer, const PROTOCHAR* szPath);
-	HANDLE dcc7fileallow(HANDLE hTransfer, const PROTOCHAR* szPath);
+	HANDLE dccfileallow(HANDLE hTransfer, const TCHAR* szPath);
+	HANDLE dcc7fileallow(HANDLE hTransfer, const TCHAR* szPath);
 
 	int dccfiledeny(HANDLE hTransfer);
 	int dcc7filedeny(HANDLE hTransfer);
