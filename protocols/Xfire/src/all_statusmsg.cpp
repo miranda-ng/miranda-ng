@@ -259,14 +259,15 @@ BOOL SetGameStatusMsg()
 					XFireLog("-> SetStatusMsg of %s with Miranda with occupied status.", protoname->at(i).c_str());
 
 					//statusmsg für beschäftigt setzen
-					CallProtoService(temp[i]->szModuleName, PS_SETAWAYMSG, oltostatus->at(i), (LPARAM)statusMsg);
+					ptrW wszStatus(mir_a2u(statusMsg));
+					CallProtoService(temp[i]->szModuleName, PS_SETAWAYMSG, oltostatus->at(i), wszStatus);
 					//status auf beschäftigt wechseln
 					CallProtoService(temp[i]->szModuleName, PS_SETSTATUS, oltostatus->at(i), 0);
 					//statusmsg für beschäftigt setzen
 					if (CallProtoService(temp[i]->szModuleName, PS_GETSTATUS, 0, 0) != oltostatus->at(i))
 					{
 						XFireLog("Set StatusMsg again, Status was not succesfully set.");
-						CallProtoService(temp[i]->szModuleName, PS_SETAWAYMSG, oltostatus->at(i), (LPARAM)statusMsg);
+						CallProtoService(temp[i]->szModuleName, PS_SETAWAYMSG, oltostatus->at(i), wszStatus);
 					}
 				}
 			}
@@ -274,7 +275,8 @@ BOOL SetGameStatusMsg()
 			{
 				XFireLog("-> SetStatusMsg of %s.", protoname->at(i).c_str());
 
-				CallProtoService(temp[i]->szModuleName, PS_SETAWAYMSG, olstatus->at(i), (LPARAM)statusMsg);
+				ptrW wszStatus(mir_a2u(statusMsg));
+				CallProtoService(temp[i]->szModuleName, PS_SETAWAYMSG, olstatus->at(i), wszStatus);
 			}
 		}
 	}
@@ -293,18 +295,19 @@ BOOL SetOldStatusMsg()
 	{
 		if (olstatus->at(i) != -1)
 		{
+			ptrW wszStatus(mir_a2u(olstatusmsg->at(i).c_str()));
 			if (statustype)
 			{
 				//alten status setzen
 				CallProtoService(temp[i]->szModuleName, PS_SETSTATUS, olstatus->at(i), 0);
 				//status wurde nicht gewechselt, dann statusmsg nachträglich setzen
 				if (CallProtoService(temp[i]->szModuleName, PS_GETSTATUS, 0, 0) != olstatus->at(i))
-					CallProtoService(temp[i]->szModuleName, PS_SETAWAYMSG, olstatus->at(i), (LPARAM)olstatusmsg->at(i).c_str());
+					CallProtoService(temp[i]->szModuleName, PS_SETAWAYMSG, olstatus->at(i), wszStatus);
 			}
 			else
 			{
 				CallProtoService(temp[i]->szModuleName, PS_SETSTATUS, olstatus->at(i), 0);
-				CallProtoService(temp[i]->szModuleName, PS_SETAWAYMSG, olstatus->at(i), (LPARAM)olstatusmsg->at(i).c_str());
+				CallProtoService(temp[i]->szModuleName, PS_SETAWAYMSG, olstatus->at(i), wszStatus);
 			}
 		}
 	}

@@ -251,7 +251,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PSR_AWAYMSG, 0, (LPARAM)&ccs);
 	}
 
-	int __cdecl SetAwayMsg(int iStatus, const TCHAR* msg)
+	int __cdecl SetAwayMsg(int iStatus, const TCHAR *msg)
 	{
 		if (m_iVersion > 1)
 			return (int)ProtoCallService(m_szModuleName, PS_SETAWAYMSG, iStatus, (LPARAM)msg);

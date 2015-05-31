@@ -536,54 +536,52 @@ char *CreateServiceName(char *serviceName, char *functionName)
 
 int LoadServices()
 {
-    char serviceName[MAX_PATH + 30];
+	char serviceName[MAX_PATH + 30];
 
-    if (!icq.load()) return 1;
+	if (!icq.load()) return 1;
 
 	HookEvent(ME_DB_CONTACT_DELETED, icqContactDeleted);
-   	HookEvent(ME_OPT_INITIALISE, icqOptionsInitialise);
-    HookEvent(ME_SYSTEM_MODULESLOADED, icqModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, icqOptionsInitialise);
+	HookEvent(ME_SYSTEM_MODULESLOADED, icqModulesLoaded);
 
-    CreateServiceFunction(CreateServiceName(serviceName, PS_GETCAPS), icqGetCaps);
-    CreateServiceFunction(CreateServiceName(serviceName, PS_GETNAME), icqGetName);
-    CreateServiceFunction(CreateServiceName(serviceName, PS_LOADICON), icqLoadIcon);
-    CreateServiceFunction(CreateServiceName(serviceName, PS_SETSTATUS), icqSetStatus);
-    CreateServiceFunction(CreateServiceName(serviceName, PS_GETSTATUS), icqGetStatus);
-    CreateServiceFunction(CreateServiceName(serviceName, PS_SETAWAYMSG), icqSetAwayMsg);
-    CreateServiceFunction(CreateServiceName(serviceName, PS_AUTHALLOW), icqAuthAllow);
-    CreateServiceFunction(CreateServiceName(serviceName, PS_AUTHDENY), icqAuthDeny);
-    CreateServiceFunction(CreateServiceName(serviceName, PS_BASICSEARCH), icqBasicSearch);
-    CreateServiceFunction(CreateServiceName(serviceName, PS_SEARCHBYEMAIL), icqSearchByEmail);
-    CreateServiceFunction(CreateServiceName(serviceName, PS_SEARCHBYNAME), icqSearchByName);
-//    CreateServiceFunction(MS_ICQ_SEARCHBYDETAILS, icqSearchByDetails);
-    CreateServiceFunction(CreateServiceName(serviceName, PS_ADDTOLIST), icqAddToList);
-//    CreateServiceFunction(CreateServiceName(serviceName, PS_ADDTOLISTBYEVENT), icqAddToListByEvent);
-    CreateServiceFunction(CreateServiceName(serviceName, PS_FILERESUME), icqFileResume);
+	CreateServiceFunction(CreateServiceName(serviceName, PS_GETCAPS), icqGetCaps);
+	CreateServiceFunction(CreateServiceName(serviceName, PS_GETNAME), icqGetName);
+	CreateServiceFunction(CreateServiceName(serviceName, PS_LOADICON), icqLoadIcon);
+	CreateServiceFunction(CreateServiceName(serviceName, PS_SETSTATUS), icqSetStatus);
+	CreateServiceFunction(CreateServiceName(serviceName, PS_GETSTATUS), icqGetStatus);
+	CreateServiceFunction(CreateServiceName(serviceName, PS_SETAWAYMSG), icqSetAwayMsg);
+	CreateServiceFunction(CreateServiceName(serviceName, PS_AUTHALLOW), icqAuthAllow);
+	CreateServiceFunction(CreateServiceName(serviceName, PS_AUTHDENY), icqAuthDeny);
+	CreateServiceFunction(CreateServiceName(serviceName, PS_BASICSEARCH), icqBasicSearch);
+	CreateServiceFunction(CreateServiceName(serviceName, PS_SEARCHBYEMAIL), icqSearchByEmail);
+	CreateServiceFunction(CreateServiceName(serviceName, PS_SEARCHBYNAME), icqSearchByName);
+	CreateServiceFunction(CreateServiceName(serviceName, PS_ADDTOLIST), icqAddToList);
+	CreateServiceFunction(CreateServiceName(serviceName, PS_FILERESUME), icqFileResume);
 
-    CreateServiceFunction(CreateServiceName(serviceName, PSS_GETINFO), icqGetInfo);
-    CreateServiceFunction(CreateServiceName(serviceName, PSS_MESSAGE), icqSendMessage);
-    CreateServiceFunction(CreateServiceName(serviceName, PSS_URL), icqSendUrl);
-    CreateServiceFunction(CreateServiceName(serviceName, PSS_GETAWAYMSG), icqGetAwayMsg);
-    CreateServiceFunction(CreateServiceName(serviceName, PSS_FILE), icqSendFile);
-    CreateServiceFunction(CreateServiceName(serviceName, PSS_FILEALLOW), icqFileAllow);
-    CreateServiceFunction(CreateServiceName(serviceName, PSS_FILEDENY), icqFileDeny);
-    CreateServiceFunction(CreateServiceName(serviceName, PSS_FILECANCEL), icqFileCancel);
-    CreateServiceFunction(CreateServiceName(serviceName, PSS_SETAPPARENTMODE), icqSetApparentMode);
+	CreateServiceFunction(CreateServiceName(serviceName, PSS_GETINFO), icqGetInfo);
+	CreateServiceFunction(CreateServiceName(serviceName, PSS_MESSAGE), icqSendMessage);
+	CreateServiceFunction(CreateServiceName(serviceName, PSS_URL), icqSendUrl);
+	CreateServiceFunction(CreateServiceName(serviceName, PSS_GETAWAYMSG), icqGetAwayMsg);
+	CreateServiceFunction(CreateServiceName(serviceName, PSS_FILE), icqSendFile);
+	CreateServiceFunction(CreateServiceName(serviceName, PSS_FILEALLOW), icqFileAllow);
+	CreateServiceFunction(CreateServiceName(serviceName, PSS_FILEDENY), icqFileDeny);
+	CreateServiceFunction(CreateServiceName(serviceName, PSS_FILECANCEL), icqFileCancel);
+	CreateServiceFunction(CreateServiceName(serviceName, PSS_SETAPPARENTMODE), icqSetApparentMode);
 
-    CreateServiceFunction(CreateServiceName(serviceName, PSR_MESSAGE), icqRecvMessage);
-    CreateServiceFunction(CreateServiceName(serviceName, PSR_URL), icqRecvUrl);
+	CreateServiceFunction(CreateServiceName(serviceName, PSR_MESSAGE), icqRecvMessage);
+	CreateServiceFunction(CreateServiceName(serviceName, PSR_URL), icqRecvUrl);
 	CreateServiceFunction(CreateServiceName(serviceName, PSR_AWAYMSG), icqRecvAwayMsg);
 	CreateServiceFunction(CreateServiceName(serviceName, PSR_FILE), icqRecvFile);
 
-    return 0;
+	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 int UnloadServices()
 {
-    icq.unload();
-    return 0;
+	icq.unload();
+	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
