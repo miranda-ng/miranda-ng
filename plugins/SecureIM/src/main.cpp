@@ -221,7 +221,6 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_OPT_INITIALISE, onRegisterOptions);
 	if (bPopupExists)
 		HookEvent(ME_OPT_INITIALISE, onRegisterPopOptions);
-	HookEvent(ME_PROTO_ACK, onProtoAck);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 	HookEvent(ME_DB_CONTACT_ADDED, onContactAdded);
 	HookEvent(ME_DB_CONTACT_DELETED, onContactDeleted);
@@ -229,7 +228,6 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	// hook message transport
 	CreateProtoServiceFunction(MODULENAME, PSR_MESSAGE, onRecvMsg);
 	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, onSendMsg);
-	CreateProtoServiceFunction(MODULENAME, PSS_FILE, onSendFile);
 
 	// create a menu item for creating a secure im connection to the user.
 	g_hMenu[0] = AddMenuItem(sim301, 110000, g_hICO[ICO_CM_EST], MODULENAME"/SIM_EST", CMIF_NOTOFFLINE);
