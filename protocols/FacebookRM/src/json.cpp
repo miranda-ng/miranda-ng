@@ -260,6 +260,13 @@ bool ignore_duplicits(FacebookProto *proto, const std::string &mid, const std::s
 	return false;
 }
 
+std::string absolutizeUrl(std::string &url) {
+	if (url.find("/") == 0) {
+		url = HTTP_PROTO_SECURE FACEBOOK_SERVER_REGULAR + url;
+	}
+	return url;
+}
+
 void parseAttachments(FacebookProto *proto, std::string *message_text, const JSONNode &it, const std::string &thread_id, std::string other_user_fbid)
 {
 	// Process attachements and stickers
@@ -279,70 +286,74 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 				type = attach_type.as_string();
 		}
 
-		std::string link;
-		std::string filename = (*itAttachment)["name"].as_string();
-
-		if ((*itAttachment)["hires_url"]) {
-			link = (*itAttachment)["hires_url"].as_string();
-		}
-		else if ((*itAttachment)["url"]) {
-			link = (*itAttachment)["url"].as_string();
-		}
-		else if ((*itAttachment)["uri"]) {
-			link = (*itAttachment)["uri"].as_string();
-		}
-
 		if (type == "photo") {			
+			std::string filename = (*itAttachment)["name"].as_string();
+			std::string link = (*itAttachment)["hires_url"].as_string();
+
 			const JSONNode &metadata = (*itAttachment)["metadata"];
 			if (metadata) {
 				std::string id = metadata["fbid"].as_string();
 				const JSONNode &data = it["attachment_map"][id.c_str()];
 				filename = data["filename"].as_string();
+				link = data["image_data"]["url"].as_string();
+			}
+
+			if (!link.empty()) {
+				attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
+			}
+		}
+		else if (type == "file") {
+			std::string filename = (*itAttachment)["name"].as_string();
+			std::string link = (*itAttachment)["url"].as_string();
+
+			if (!link.empty()) {
+				attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
 			}
 		}
 		else if (type == "share") {
 			const JSONNode &share = (*itAttachment)["share"];
 			if (share) {
-				link = share["uri"].as_string();
+				std::string title = share["title"].as_string();
+				std::string description = share["description"].as_string();
+				std::string link = share["uri"].as_string();
+
 				if (link.find("l."FACEBOOK_SERVER_DOMAIN) != std::string::npos) {
 					// de-facebook this link
 					link = utils::url::decode(utils::text::source_get_value2(&link, "l.php?u=", "&", true));
 				}
 
-				std::string title = share["title"].as_string();
-				std::string description = share["description"].as_string();
-
-				filename = title;
+				if (!link.empty()) {
+					attachments_text += "\n";
+					if (!title.empty())
+						attachments_text += title + "\n";
+					if (!description.empty())
+						attachments_text += description + "\n";
+					attachments_text += absolutizeUrl(link) + "\n";
+				}
 			}
 		}
-
-		if (filename == "null")
-			filename.clear();
-
-		if (!link.empty()) {
-			if (link.find("/") == 0)
-				link = HTTP_PROTO_SECURE FACEBOOK_SERVER_REGULAR + link; // make absolute url
-
+		else if (type == "sticker") {
+			std::string link = (*itAttachment)["url"].as_string();
 			if (!link.empty()) {
-				attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + link + "\n";
+				attachments_text += "\n" + absolutizeUrl(link) + "\n";
+			}
 
-				// Stickers as smileys
-				if (type == "sticker" && proto->getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
-					const JSONNode &metadata = (*itAttachment)["metadata"];
-					if (metadata) {
-						const JSONNode &stickerId_ = metadata["stickerID"];
-						if (stickerId_) {
-							std::string sticker = "[[sticker:" + stickerId_.as_string() + "]]";
-							attachments_text += sticker;
+			// Stickers as smileys
+			if (proto->getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
+				const JSONNode &metadata = (*itAttachment)["metadata"];
+				if (metadata) {
+					const JSONNode &stickerId_ = metadata["stickerID"];
+					if (stickerId_) {
+						std::string sticker = "[[sticker:" + stickerId_.as_string() + "]]\n";
+						attachments_text += sticker;
 
-							if (other_user_fbid.empty() && !thread_id.empty())
-								other_user_fbid = proto->ThreadIDToContactID(thread_id);
+						if (other_user_fbid.empty() && !thread_id.empty())
+							other_user_fbid = proto->ThreadIDToContactID(thread_id);
 
-							// FIXME: rewrite smileyadd to use custom smileys per protocol and not per contact and then remove this ugliness
-							if (!other_user_fbid.empty()) {
-								MCONTACT hContact = proto->ContactIDToHContact(other_user_fbid);
-								proto->StickerAsSmiley(sticker, link, hContact);
-							}
+						// FIXME: rewrite smileyadd to use custom smileys per protocol and not per contact and then remove this ugliness
+						if (!other_user_fbid.empty()) {
+							MCONTACT hContact = proto->ContactIDToHContact(other_user_fbid);
+							proto->StickerAsSmiley(sticker, link, hContact);
 						}
 					}
 				}
@@ -380,7 +391,6 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 		*message_text += attachments_text;
 	}
 	else {
-		// TODO: better support for these attachments (parse it from "m_messaging" instead of "messaging"
 		*message_text += T2Utf(TranslateT("User sent an unsupported attachment. Open your browser to see it."));
 	}
 }
