@@ -524,16 +524,14 @@ static renameTable[] =
 	{ _T("rss.dll"),                        _T("Plugins\\newsaggregator.dll") },
 	{ _T("dbx_3x.dll"),                     _T("Plugins\\dbx_mmap.dll") },
 	{ _T("actman30.dll"),                   _T("Plugins\\actman.dll") },
+	{ _T("skype.dll"),                      _T("Plugins\\skypeweb.dll") },
+	{ _T("skypeclassic.dll"),               _T("Plugins\\skypeweb.dll") },
 
 #if MIRANDA_VER >= 0x0A00
 	{ _T("dbx_mmap_sa.dll"),                _T("Plugins\\dbx_mmap.dll") },
 	{ _T("dbx_tree.dll"),                   _T("Plugins\\dbx_mmap.dll") },
 	{ _T("rc4.dll"),                        NULL },
 	{ _T("athena.dll"),                     NULL },
-	{ _T("skype.dll"),                      NULL },
-	{ _T("skypekit.exe"),                   NULL },
-#else
-	{ _T("skype.dll"),                      _T("Plugins\\skypeclassic.dll") },
 #endif
 
 	{ _T("proto_newsaggr.dll"),             _T("Icons\\proto_newsaggregator.dll") },
