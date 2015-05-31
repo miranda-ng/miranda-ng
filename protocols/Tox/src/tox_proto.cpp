@@ -63,21 +63,18 @@ DWORD_PTR CToxProto::GetCaps(int type, MCONTACT)
 
 MCONTACT CToxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
-	ptrA address(mir_t2a(psr->id.t));
 	ptrA myAddress(getStringA(NULL, TOX_SETTINGS_ID));
-	if (strnicmp(address, myAddress, TOX_PUBLIC_KEY_SIZE) == 0)
+	if (strnicmp(psr->id.a, myAddress, TOX_PUBLIC_KEY_SIZE) == 0)
 	{
 		ShowNotification(TranslateT("You cannot add yourself to your contact list"), 0);
 		return NULL;
 	}
-	if (MCONTACT hContact = GetContact((char*)address))
+	if (MCONTACT hContact = GetContact(psr->id.a))
 	{
 		ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
 		return NULL;
 	}
-	ptrT nick(mir_tstrdup(psr->nick.t));
-	ptrT dnsId(mir_tstrdup(psr->email.t));
-	return AddContact(address, nick, dnsId, flags & PALF_TEMPORARY);
+	return AddContact(psr->id.a, psr->nick.a, psr->email.a, flags & PALF_TEMPORARY);
 }
 
 int CToxProto::Authorize(MEVENT hDbEvent)
