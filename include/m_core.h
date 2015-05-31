@@ -585,9 +585,8 @@ public:
 	__forceinline _A2T(const char* s, int cp) : buf(mir_a2t_cp(s, cp)) {}
 	~_A2T() { mir_free(buf); }
 
-	__forceinline operator TCHAR*() const
-	{	return buf;
-	}
+	__forceinline operator LPARAM() const { return (LPARAM)buf; }
+	__forceinline operator TCHAR*() const { return buf; }
 };
 
 class _T2A
@@ -599,9 +598,8 @@ public:
 	__forceinline _T2A(const TCHAR* s, int cp) : buf(mir_t2a_cp(s, cp)) {}
 	__forceinline ~_T2A() { mir_free(buf); }
 
-	__forceinline operator char*() const
-	{	return buf;
-	}
+	__forceinline operator LPARAM() const { return (LPARAM)buf; }
+	__forceinline operator char*() const {	return buf; }
 };
 
 #endif

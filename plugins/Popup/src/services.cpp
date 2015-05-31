@@ -263,7 +263,7 @@ INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam)
 	default: // No no no... you must give me a good value.
 		return -1;
 	}
-	return Popup_AddPopup2((WPARAM)&ppd2, (LPARAM)((lParam & 0x80000000) ? APF_NO_HISTORY : 0));
+	return Popup_AddPopup2((WPARAM)&ppd2, (lParam & 0x80000000) ? APF_NO_HISTORY : 0);
 }
 
 INT_PTR Popup_ShowMessage(WPARAM wParam, LPARAM lParam)

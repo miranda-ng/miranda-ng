@@ -355,7 +355,7 @@ public:
 		PD->pos = ((MenuItemOptData *)tvi.lParam)->pos - 1;
 
 		TVINSERTSTRUCT tvis = { 0 };
-		tvis.item.lParam = (LPARAM)(PD);
+		tvis.item.lParam = (LPARAM)PD;
 		tvis.item.pszText = PD->name;
 		tvis.item.iImage = tvis.item.iSelectedImage = 1;
 		tvis.hInsertAfter = hti;

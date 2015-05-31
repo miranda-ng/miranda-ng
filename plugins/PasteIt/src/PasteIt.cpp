@@ -164,7 +164,7 @@ void PasteIt(MCONTACT hContact, int mode)
 							gce.dwFlags = GCEF_ADDTOLOG;
 							gce.ptszText = mir_a2u_cp(pasteToWeb->szFileLink, CP_ACP);
 							gce.time = time(NULL);
-							CallService(MS_GC_EVENT, 0, (LPARAM)(GCEVENT *)&gce);
+							CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
 							mir_free((void*)gce.ptszText);
 							break;
 						}

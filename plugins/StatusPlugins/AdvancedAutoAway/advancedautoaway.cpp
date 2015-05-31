@@ -231,7 +231,7 @@ static int changeState(TAAAProtoSetting &setting, STATES newState)
 
 	log_debugA("%s state change: %s -> %s", setting.szName, status2descr(setting.oldState), status2descr(setting.curState));
 
-	NotifyEventHooks(hStateChangedEvent, 0, (LPARAM)(AUTOAWAYSETTING*)&setting);
+	NotifyEventHooks(hStateChangedEvent, 0, (LPARAM)&setting);
 	if (setting.curState != SET_ORGSTATUS && setting.curState != ACTIVE && setting.statusChanged) {
 		/* change the awaymessage */
 		if (setting.szMsg != NULL) {

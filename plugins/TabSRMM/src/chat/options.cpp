@@ -384,7 +384,7 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
 	GetClientRect(hwndParent, &ti.rect);
 	ti.rect.left = -65;
 
-	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
+	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM)&ti);
 	SendMessage(hwndTT, TTM_SETTITLE, 1, (LPARAM)ptszTitle);
 	SendMessage(hwndTT, TTM_SETMAXTIPWIDTH, 0, (LPARAM)640);
 	return hwndTT;

@@ -141,7 +141,7 @@ void __cdecl ChooseFilesThread(void* param)
 
 	TCHAR *buf = (TCHAR*)mir_alloc(sizeof(TCHAR) * 32767);
 	if (buf == NULL) {
-		PostMessage(hwndDlg, M_FILECHOOSEDONE, 0, (LPARAM)(TCHAR*)NULL);
+		PostMessage(hwndDlg, M_FILECHOOSEDONE, 0, NULL);
 		return;
 	}
 

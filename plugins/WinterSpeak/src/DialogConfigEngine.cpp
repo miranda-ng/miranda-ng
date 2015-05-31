@@ -109,7 +109,7 @@ void DialogConfigEngine::load(HWND window)
 	std::vector<std::wstring> engines = si.getAvailableEngines();
 	for (unsigned int i = 0; i < engines.size(); ++i)
 	{
-		SendDlgItemMessage(window, IDC_SELECT_ENGINE, CB_ADDSTRING, 0, (LPARAM)(engines[i].c_str()));
+		SendDlgItemMessage(window, IDC_SELECT_ENGINE, CB_ADDSTRING, 0, (LPARAM)engines[i].c_str());
 	}
 
 	VoiceDesc desc = m_db.getVoiceDesc();

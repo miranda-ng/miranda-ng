@@ -377,7 +377,7 @@ LBL_Def:
 			}
 			dat->needsResort = TRUE;
 			PostMessage(hwnd, INTM_SORTCLC, 0, recalcScrollBar);
-			PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)(contactRemoved ? 0 : wParam));
+			PostMessage(hwnd, INTM_INVALIDATE, 0, contactRemoved ? 0 : wParam);
 			if (recalcScrollBar)
 				pcli->pfnRecalcScrollBar(hwnd, dat);
 		}
@@ -479,7 +479,7 @@ LBL_Def:
 				szProto = contact->proto;
 			}
 			GetCachedStatusMsg(p, szProto);
-			PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)(contact ? contact->hContact : 0));
+			PostMessage(hwnd, INTM_INVALIDATE, 0, contact ? contact->hContact : 0);
 		}
 		goto LBL_Def;
 
@@ -591,7 +591,7 @@ LBL_Def:
 			}
 
 			GetCachedStatusMsg(p, szProto);
-			PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)(contact ? contact->hContact : 0));
+			PostMessage(hwnd, INTM_INVALIDATE, 0, contact ? contact->hContact : 0);
 		}
 		goto LBL_Def;
 

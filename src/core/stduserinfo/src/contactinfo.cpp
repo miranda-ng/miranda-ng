@@ -267,7 +267,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				LVITEM lvi;
 				lvi.mask = LVIF_TEXT|LVIF_PARAM;
-				lvi.lParam = (LPARAM)(-1);
+				lvi.lParam = -1;
 				lvi.iSubItem = 0;
 				lvi.iItem = 0;
 				for (i = -1;; i++) {
@@ -303,12 +303,12 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					lvi.iItem++;
 				}
 				lvi.mask = LVIF_PARAM;
-				lvi.lParam = (LPARAM)(-2);
+				lvi.lParam = -2;
 				ListView_InsertItem(GetDlgItem(hwndDlg, IDC_EMAILS), &lvi);
 				//phones
 				ListView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_PHONES));
 				lvi.mask = LVIF_TEXT|LVIF_PARAM;
-				lvi.lParam = (LPARAM)(-1);
+				lvi.lParam = -1;
 				lvi.iSubItem = 0;
 				lvi.iItem = 0;
 				if ( !db_get_ts(hContact, szProto, "Phone", &dbv)) {
@@ -368,7 +368,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					lvi.iItem++;
 				}
 				lvi.mask = LVIF_PARAM;
-				lvi.lParam = (LPARAM)(-2);
+				lvi.lParam = -2;
 				ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
 			}
 		}
@@ -410,9 +410,9 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							}
 
 							HICON hIcon = NULL;
-							if (nm->nmcd.lItemlParam == (LPARAM)(-2) && nm->iSubItem-3 == (nm->nmcd.hdr.idFrom == IDC_PHONES))
+							if (nm->nmcd.lItemlParam == -2 && nm->iSubItem-3 == (nm->nmcd.hdr.idFrom == IDC_PHONES))
 								hIcon = LoadSkinIcon(SKINICON_OTHER_ADDCONTACT);
-							else if (nm->iSubItem>1 && nm->nmcd.lItemlParam != (LPARAM)(-1) && nm->nmcd.lItemlParam != (LPARAM)(-2)) {
+							else if (nm->iSubItem>1 && nm->nmcd.lItemlParam != -1 && nm->nmcd.lItemlParam != -2) {
 								static int iconResources[3] = {SKINICON_OTHER_RENAME, SKINICON_OTHER_DELETE};
 								if (nm->iSubItem == 2 && nm->nmcd.hdr.idFrom == IDC_PHONES) {
 									TCHAR szText[2];
@@ -455,8 +455,8 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					lvi.iItem = hti.iItem;
 					lvi.iSubItem = 0;
 					ListView_GetItem(nm->hdr.hwndFrom, &lvi);
-					if (lvi.lParam == (LPARAM)(-1)) break;
-					if (lvi.lParam == (LPARAM)(-2)) {
+					if (lvi.lParam == -1) break;
+					if (lvi.lParam == -2) {
 						if (hti.iSubItem-3 == (nm->hdr.idFrom == IDC_PHONES)) {
 							//add
 							char szNewData[256] = "", idstr[33];

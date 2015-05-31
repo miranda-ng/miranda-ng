@@ -279,7 +279,7 @@ void mwServiceConf_on_text(mwConference* conf, mwLoginInfo* user, const char* wh
 	gce.ptszUID = tszUserId;
 	gce.time = (DWORD)time(0);
 
-	CallService(MS_GC_EVENT, 0, (LPARAM)(GCEVENT *) &gce);
+	CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
 
 	mir_free(textT);
 	mir_free(tszUserName);

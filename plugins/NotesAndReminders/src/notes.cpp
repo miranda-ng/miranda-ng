@@ -1463,7 +1463,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			if (id >= IDM_COLORPRESET_BG && id <= IDM_COLORPRESET_BG+SIZEOF(clrPresets))
 			{
 				SN->BgColor = clrPresets[id-IDM_COLORPRESET_BG].color | 0xff000000;
-				SendMessage(H, EM_SETBKGNDCOLOR, 0, (LPARAM)(SN->BgColor&0xffffff));
+				SendMessage(H, EM_SETBKGNDCOLOR, 0, SN->BgColor & 0xffffff);
 				RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
 				JustSaveNotes();
 				return FALSE;
@@ -1502,7 +1502,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 					if (ChooseColor(&cc) && cc.rgbResult != orgclr)
 					{
 						SN->BgColor = cc.rgbResult | 0xff000000;
-						SendMessage(H, EM_SETBKGNDCOLOR, 0, (LPARAM)(SN->BgColor&0xffffff));
+						SendMessage(H, EM_SETBKGNDCOLOR, 0, SN->BgColor&0xffffff);
 						RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
 						JustSaveNotes();
 					}

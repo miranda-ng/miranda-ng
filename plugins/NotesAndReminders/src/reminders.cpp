@@ -1150,7 +1150,7 @@ static void PopulateTimeCombo(HWND Dialog, UINT nIDTime, BOOL bRelative, const S
 		else
 			mir_snprintf(s, SIZEOF(s), "%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt/60, ((dt%60)*10)/60, lpszHours);
 		n = SendDlgItemMessage(Dialog,nIDTime,CB_ADDSTRING,0,(LPARAM)s);
-		SendDlgItemMessage(Dialog,nIDTime,CB_SETITEMDATA,n, (LPARAM)(dt*60));
+		SendDlgItemMessage(Dialog,nIDTime,CB_SETITEMDATA,n, dt*60);
 
 		li.QuadPart += (ULONGLONG)30 * MinutesToFileTime;
 	}
@@ -1181,39 +1181,39 @@ static void PopulateTimeOffsetCombo(HWND Dialog, UINT nIDCombo)
 	{
 		mir_snprintf(s, SIZEOF(s), "%d %s", i*5, lpszMinutes);
 		n = SendDlgItemMessage(Dialog,nIDCombo,CB_ADDSTRING,0,(LPARAM)s);
-		SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA,n, (LPARAM)(i*5));
+		SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA,n, i*5);
 	}
 
 	// 1 hour
 	mir_snprintf(s, SIZEOF(s), "1 %s", lpszHour);
 	n = SendDlgItemMessage(Dialog,nIDCombo,CB_ADDSTRING,0,(LPARAM)s);
-	SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA,n, (LPARAM)60);
+	SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA, n, 60);
 
 	// 2, 4, 8 hours
 	for (i = 2; i <= 8; i+=2)
 	{
 		mir_snprintf(s, SIZEOF(s), "%d %s", i, lpszHours);
 		n = SendDlgItemMessage(Dialog,nIDCombo,CB_ADDSTRING,0,(LPARAM)s);
-		SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA,n, (LPARAM)(i*60));
+		SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA, n, i*60);
 	}
 
 	// 1 day
 	mir_snprintf(s, SIZEOF(s), "1 %s", lpszDay);
 	n = SendDlgItemMessage(Dialog,nIDCombo,CB_ADDSTRING,0,(LPARAM)s);
-	SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA,n, (LPARAM)(24*60));
+	SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA, n, 24*60);
 
 	// 2-4 days
 	for (i = 2; i <= 4; i++)
 	{
 		mir_snprintf(s, SIZEOF(s), "%d %s", i, lpszDays);
 		n = SendDlgItemMessage(Dialog,nIDCombo,CB_ADDSTRING,0,(LPARAM)s);
-		SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA,n, (LPARAM)(i*24*60));
+		SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA, n, i*24*60);
 	}
 
 	// 1 week
 	mir_snprintf(s, SIZEOF(s), "1 %s", lpszWeek);
 	n = SendDlgItemMessage(Dialog,nIDCombo,CB_ADDSTRING,0,(LPARAM)s);
-	SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA,n, (LPARAM)(7*24*60));
+	SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA, n, 7*24*60);
 }
 
 // returns non-zero if specified time was inside "missing" hour of daylight saving

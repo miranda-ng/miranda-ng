@@ -303,7 +303,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 				pos.szModule = dbLastUC_ModuleName;
 				pos.szNamePrefix = dbLastUC_WindowPosPrefix;
 
-				CallService(MS_UTILS_RESTOREWINDOWPOSITION, 0, (LPARAM)(SAVEWINDOWPOS*)&pos);
+				CallService(MS_UTILS_RESTOREWINDOWPOSITION, 0, (LPARAM)&pos);
 			}
 
 			SendMessage(hDlg, WM_SIZE, 0, 0);
@@ -392,7 +392,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			pos.hwnd = hDlg;
 			pos.szModule = dbLastUC_ModuleName;
 			pos.szNamePrefix = dbLastUC_WindowPosPrefix;
-			CallService(MS_UTILS_SAVEWINDOWPOSITION, 0, (LPARAM)(SAVEWINDOWPOS*)&pos);
+			CallService(MS_UTILS_SAVEWINDOWPOSITION, 0, (LPARAM)&pos);
 			delete DlgDat->Contacts;
 			delete DlgDat;
 			// Remove entry from Window list

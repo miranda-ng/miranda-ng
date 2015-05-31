@@ -425,7 +425,7 @@ INT_PTR ServiceShutdown(WPARAM wParam,LPARAM lParam)
 	NotifyEventHooks(hEventShutdown,wParam,lParam);
 	/* show dialog */
 	if (lParam && db_get_b(NULL,"AutoShutdown","ShowConfirmDlg",SETTING_SHOWCONFIRMDLG_DEFAULT))
-		if (CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SHUTDOWNNOW), NULL, ShutdownDlgProc, (LPARAM)(BYTE)wParam) != NULL)
+		if (CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SHUTDOWNNOW), NULL, ShutdownDlgProc, (BYTE)wParam) != NULL)
 			return 0;
 	/* show error */
 

@@ -562,7 +562,7 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			CheckDlgButton(hwndDlg, IDC_INTURN, bFlashEffect == FLASH_INTURN ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_INSEQUENCE, bFlashEffect == FLASH_INSEQUENCE ? BST_CHECKED : BST_UNCHECKED);
 			for (i=0; i < 3; i++) {
-				int index = SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)(OrderName[i]));
+				int index = SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_INSERTSTRING, -1, (LPARAM)OrderName[i]);
 				if (index != CB_ERR && index != CB_ERRSPACE)
 					SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
 			}

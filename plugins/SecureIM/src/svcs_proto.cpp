@@ -234,7 +234,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			CallService(MS_PROTO_CHAINSEND, wParam, lParam); // send back cipher message
 
 			ptrA keyToSend(InitKeyA(ptr, 0)); // calculate public and private key
-			pccsd->lParam = (LPARAM)(char*)keyToSend;
+			pccsd->lParam = keyToSend;
 			CallService(MS_PROTO_CHAINSEND, wParam, lParam); // send new key
 
 			showPopup(sim005, NULL, g_hPOP[POP_PU_DIS], 0);
@@ -394,7 +394,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				Sent_NetLog("onRecvMsg: Sending KEYB %s", keyToSend);
 
 				pccsd->wParam |= PREF_METANODB;
-				pccsd->lParam = (LPARAM)keyToSend;
+				pccsd->lParam = keyToSend;
 				pccsd->szProtoService = PSS_MESSAGE;
 				CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 			}
@@ -450,7 +450,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 // SendMsg handler
 INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 {
-	CCSDATA *pccsd = (CCSDATA *)lParam;
+	CCSDATA *pccsd = (CCSDATA*)lParam;
 	pUinKey ptr = getUinKey(pccsd->hContact);
 	int ssig = getSecureSig((LPCSTR)pccsd->lParam);
 	int stat = getContactStatus(pccsd->hContact);
@@ -713,7 +713,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 		Sent_NetLog("onSend: encrypted msg '%s'", szNewMsg);
 
 		pccsd->wParam |= PREF_METANODB;
-		pccsd->lParam = (LPARAM)(char*)szNewMsg;
+		pccsd->lParam = szNewMsg;
 		pccsd->szProtoService = PSS_MESSAGE;
 		int ret = CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 

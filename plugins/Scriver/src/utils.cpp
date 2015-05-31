@@ -455,7 +455,7 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT* rec
 	ti.hinst = g_hInst;
 	ti.lpszText = ptszText;
 	ti.rect = *rect;
-	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
+	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM)&ti);
 	SendMessage(hwndTT, TTM_SETTITLE, TTI_NONE, (LPARAM)ptszTitle);
 	return hwndTT;
 }
@@ -466,7 +466,7 @@ void SetToolTipText(HWND hwndParent, HWND hwndTT, LPTSTR ptszText, LPTSTR ptszTi
 	ti.hinst = g_hInst;
 	ti.hwnd = hwndParent;
 	ti.lpszText = ptszText;
-	SendMessage(hwndTT, TTM_UPDATETIPTEXT, 0, (LPARAM)(LPTOOLINFO)&ti);
+	SendMessage(hwndTT, TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
 	SendMessage(hwndTT, TTM_SETTITLE, TTI_NONE, (LPARAM)ptszTitle);
 }
 
@@ -476,7 +476,7 @@ void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT* rect)
 	ti.hinst = g_hInst;
 	ti.hwnd = hwndParent;
 	ti.rect = *rect;
-	SendMessage(hwndTT, TTM_NEWTOOLRECT, 0, (LPARAM)(LPTOOLINFO)&ti);
+	SendMessage(hwndTT, TTM_NEWTOOLRECT, 0, (LPARAM)&ti);
 }
 
 /* toolbar-related stuff, to be moved to a separate file */

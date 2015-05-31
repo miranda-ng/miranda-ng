@@ -194,7 +194,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, 0, 0);
 				db_get_ts(NULL, ModuleName, OPT_OUTDEVICE, &dbv);
 				for (int i = 1; BASS_GetDeviceInfo(i + newBass, &info); i++) {
-					SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, (LPARAM)(TCHAR*)_A2T(info.name));
+					SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, _A2T(info.name));
 					if (!mir_tstrcmp(dbv.ptszVal, _A2T(info.name)))
 						SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, i, 0);
 				}

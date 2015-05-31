@@ -172,21 +172,6 @@ int  AssertInsideScreen(RECT &rc);
 
 HBITMAP ConvertIconToBitmap(HICON hIcon, HIMAGELIST hIml, int iconId);
 
-class StrConvA
-{
-private:
-	char* m_body;
-
-public:
-	StrConvA(const wchar_t* pSrc) :
-		m_body(mir_u2a(pSrc)) {}
-
-	~StrConvA() {  mir_free(m_body); }
-	operator const char*  () const { return m_body; }
-	operator const wchar_t* () const { return (wchar_t*)m_body; }  // type cast to fake the interface definition
-	operator const LPARAM () const { return (LPARAM)m_body; }
-};
-
 ///////////////////////////////////////////////////////////////////////////////
 
 extern "C"

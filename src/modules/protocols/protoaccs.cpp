@@ -418,7 +418,7 @@ static INT_PTR stub44(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 
 static INT_PTR stub45(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {
-	return CallProtoServiceInt(NULL, ppi->m_szModuleName, PS_SETMYAVATARW, wParam, (LPARAM)(LPCTSTR)_A2T((char*)lParam));
+	return CallProtoServiceInt(NULL, ppi->m_szModuleName, PS_SETMYAVATARW, wParam, _A2T((char*)lParam));
 }
 
 static HANDLE CreateProtoServiceEx(const char* szModule, const char* szService, MIRANDASERVICEOBJ pFunc, void* param)

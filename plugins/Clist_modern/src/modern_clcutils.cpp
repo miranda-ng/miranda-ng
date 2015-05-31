@@ -332,7 +332,7 @@ void cliBeginRenameSelection(HWND hwnd, ClcData *dat)
 	mir_subclassWindow(dat->hwndRenameEdit, RenameEditSubclassProc);
 	SendMessage(dat->hwndRenameEdit, WM_SETFONT, (WPARAM)(contact->type == CLCIT_GROUP ? dat->fontModernInfo[FONTID_OPENGROUPS].hFont : dat->fontModernInfo[FONTID_CONTACTS].hFont), 0);
 	SendMessage(dat->hwndRenameEdit, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN | EC_USEFONTINFO, 0);
-	SendMessage(dat->hwndRenameEdit, EM_SETSEL, 0, (LPARAM)(-1));
+	SendMessage(dat->hwndRenameEdit, EM_SETSEL, 0, -1);
 
 	r.top = 1;
 	r.bottom = h - 1;
@@ -341,7 +341,7 @@ void cliBeginRenameSelection(HWND hwnd, ClcData *dat)
 
 	//ES_MULTILINE
 
-	SendMessage(dat->hwndRenameEdit, EM_SETRECT, 0, (LPARAM)(&r));
+	SendMessage(dat->hwndRenameEdit, EM_SETRECT, 0, (LPARAM)&r);
 
 	CLUI_ShowWindowMod(dat->hwndRenameEdit, SW_SHOW);
 	SetWindowPos(dat->hwndRenameEdit, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
