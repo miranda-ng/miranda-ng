@@ -681,24 +681,18 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
         firstName = NULL;
         lastName = NULL;
         email = NULL;
-
-        packet >> checkUin
-               >> alias
-               >> firstName
-               >> lastName
-               >> email
-               >> auth;
-
-        ICQSEARCHRESULT isr;
-
-        isr.hdr.cbSize = sizeof(isr);
-        isr.hdr.nick = alias;
-        isr.hdr.firstName = firstName;
-        isr.hdr.lastName = lastName;
-        isr.hdr.email = email;
-        isr.uin = checkUin;
-        isr.auth = auth;
-        ProtoBroadcastAck(protoName, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&isr);
+        packet >> checkUin >> alias >> firstName >> lastName >> email >> auth;
+		  {
+			  ICQSEARCHRESULT psr = { 0 };
+			  psr.hdr.cbSize = sizeof(psr);
+			  psr.hdr.nick.a = alias;
+			  psr.hdr.firstName.a = firstName;
+			  psr.hdr.lastName.a = lastName;
+			  psr.hdr.email.a = email;
+			  psr.uin = checkUin;
+			  psr.auth = auth;
+			  ProtoBroadcastAck(protoName, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
+		  }
 
         delete [] alias;
         delete [] firstName;
@@ -1457,7 +1451,8 @@ bool ICQ::openConnection(TCPSocket &socket)
 
 ICQEvent *ICQ::sendTCP(ICQUser *u, unsigned short cmd, char *cmdStr, char *m)
 {
-    if (!u->socket.connected() && !openConnection(u->socket)) return NULL;
+    if (!u->socket.connected() && !openConnection(u->socket))
+		 return NULL;
 
     unsigned int status;
     if (accept)
