@@ -226,10 +226,10 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 				if (!mir_strcmp(xmli->name, "contacts")) {
 					ezxml_t c;
 					int cnt;
-					PROTOSEARCHRESULT **isr;
+					PROTOSEARCHRESULT **psr;
 
 					for (c = ezxml_child(xmli, "c"), cnt=0; c; c = c->next) cnt++;
-					if (isr = (PROTOSEARCHRESULT**)mir_calloc(sizeof(PROTOSEARCHRESULT*) * cnt)) {
+					if (psr = (PROTOSEARCHRESULT**)mir_calloc(sizeof(PROTOSEARCHRESULT*) * cnt)) {
 						cnt=0;
 						for (c = ezxml_child(xmli, "c"); c; c = c->next) {
 							const char *t = ezxml_attr(c, "t"), *wlid;
@@ -238,10 +238,10 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 								{
 								case 's':
 								case 'p':
-									isr[cnt] = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
-									isr[cnt]->cbSize = sizeof(isr);
-									isr[cnt]->flags = PSR_TCHAR;
-									isr[cnt]->id = isr[cnt]->nick = isr[cnt]->email = mir_a2t(wlid);
+									psr[cnt] = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
+									psr[cnt]->cbSize = sizeof(psr);
+									psr[cnt]->flags = PSR_TCHAR;
+									psr[cnt]->id.t = psr[cnt]->nick.t = psr[cnt]->email.t = mir_a2t(wlid);
 									cnt++;
 								}
 							}
@@ -249,15 +249,15 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 						if (cnt) {
 							PROTORECVEVENT pre = { 0 };
 							pre.timestamp = (DWORD)time(NULL);
-							pre.szMessage = (char *)isr;
+							pre.szMessage = (char *)psr;
 							pre.lParam = cnt;
 							ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
 							for (cnt=0; cnt<pre.lParam; cnt++) {
-								mir_free(isr[cnt]->email);
-								mir_free(isr[cnt]);
+								mir_free(psr[cnt]->email.t);
+								mir_free(psr[cnt]);
 							}
 						}
-						mir_free(isr);
+						mir_free(psr);
 					}
 				}
 				ezxml_free(xmli);
@@ -527,16 +527,15 @@ void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 	const char *szNetId = ezxml_attr(cont, "t");
 	if (msnSearchId != NULL) {
 		if (szNetId != NULL) {
-			TCHAR* szEmailT = mir_utf8decodeT(szEmail);
-			PROTOSEARCHRESULT isr = { 0 };
-			isr.cbSize = sizeof(isr);
-			isr.flags = PSR_TCHAR;
-			isr.id = szEmailT;
-			isr.nick = szEmailT;
-			isr.email = szEmailT;
+			ptrT szEmailT(mir_utf8decodeT(szEmail));
 
-			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, msnSearchId, (LPARAM)&isr);
-			mir_free(szEmailT);
+			PROTOSEARCHRESULT psr = { 0 };
+			psr.cbSize = sizeof(psr);
+			psr.flags = PSR_TCHAR;
+			psr.id.t = szEmailT;
+			psr.nick.t = szEmailT;
+			psr.email.t = szEmailT;
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, msnSearchId, (LPARAM)&psr);
 		}
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, msnSearchId, 0);
 

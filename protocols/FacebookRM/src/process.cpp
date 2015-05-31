@@ -1287,16 +1287,15 @@ void FacebookProto::SearchAckThread(void *targ)
 				ptrT tnick(mir_utf8decodeT(utils::text::html_entities_decode(nick).c_str()));
 				ptrT tcommon(mir_utf8decodeT(utils::text::html_entities_decode(common).c_str()));
 
-				PROTOSEARCHRESULT isr = { 0 };
-				isr.cbSize = sizeof(isr);
-				isr.flags = PSR_TCHAR;
-				isr.id = tid;
-				isr.nick = tnick;
-				isr.firstName = tname;
-				isr.lastName = tsurname;
-				isr.email = tcommon;
-
-				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&isr);
+				PROTOSEARCHRESULT psr = { 0 };
+				psr.cbSize = sizeof(psr);
+				psr.flags = PSR_TCHAR;
+				psr.id.t = tid;
+				psr.nick.t = tnick;
+				psr.firstName.t = tname;
+				psr.lastName.t = tsurname;
+				psr.email.t = tcommon;
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
 			}
 
 			ssid = utils::text::source_get_value(&items, 3, "id=\"more_objects\"", "ssid=", "&");
@@ -1349,14 +1348,13 @@ void FacebookProto::SearchIdAckThread(void *targ)
 				ptrT tname(mir_utf8decodeT(name.c_str()));
 				ptrT tsurname(mir_utf8decodeT(surname.c_str()));
 
-				PROTOSEARCHRESULT isr = { 0 };
-				isr.cbSize = sizeof(isr);
-				isr.flags = PSR_TCHAR;
-				isr.id = tid;
-				isr.firstName = tname;
-				isr.lastName = tsurname;
-
-				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&isr);
+				PROTOSEARCHRESULT psr = { 0 };
+				psr.cbSize = sizeof(psr);
+				psr.flags = PSR_TCHAR;
+				psr.id.t = tid;
+				psr.firstName.t = tname;
+				psr.lastName.t = tsurname;
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
 			}
 		}
 	}

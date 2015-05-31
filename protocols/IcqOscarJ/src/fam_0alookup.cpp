@@ -93,26 +93,26 @@ void CIcqProto::handleLookupEmailReply(BYTE* buf, size_t wLen, DWORD dwCookie)
 
 	sr.hdr.cbSize = sizeof(sr);
 	sr.hdr.flags = PSR_TCHAR;
-	sr.hdr.email = ansi_to_tchar(pCookie->szObject);
+	sr.hdr.email.t = ansi_to_tchar(pCookie->szObject);
 
 	// Syntax check, read chain
 	if (wLen >= 4 && (pChain = readIntoTLVChain(&buf, wLen, 0))) {
 		for (WORD i = 1; TRUE; i++) { // collect the results
 			char *szUid = pChain->getString(0x01, i);
 			if (!szUid) break;
-			sr.hdr.id = ansi_to_tchar(szUid);
-			sr.hdr.nick = sr.hdr.id;
+			sr.hdr.id.t = ansi_to_tchar(szUid);
+			sr.hdr.nick.t = sr.hdr.id.t;
 			// broadcast the result
 			if (pCookie->dwMainId)
 				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)pCookie->dwMainId, (LPARAM)&sr);
 			else
 				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)dwCookie, (LPARAM)&sr);
-			SAFE_FREE(&sr.hdr.id);
+			SAFE_FREE(&sr.hdr.id.t);
 			SAFE_FREE(&szUid);
 		}
 		disposeChain(&pChain);
 	}
-	SAFE_FREE(&sr.hdr.email);
+	SAFE_FREE(&sr.hdr.email.t);
 
 	ReleaseLookupCookie(dwCookie, pCookie);
 }

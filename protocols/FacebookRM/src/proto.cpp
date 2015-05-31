@@ -284,9 +284,9 @@ HANDLE FacebookProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* first
 
 MCONTACT FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	ptrA id(mir_t2a_cp(psr->id, CP_UTF8));
-	ptrA name(mir_t2a_cp(psr->firstName, CP_UTF8));
-	ptrA surname(mir_t2a_cp(psr->lastName, CP_UTF8));
+	ptrA id(mir_t2a_cp(psr->id.t, CP_UTF8));
+	ptrA name(mir_t2a_cp(psr->firstName.t, CP_UTF8));
+	ptrA surname(mir_t2a_cp(psr->lastName.t, CP_UTF8));
 
 	if (id == NULL)
 		return NULL;

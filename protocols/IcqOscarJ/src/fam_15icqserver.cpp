@@ -340,7 +340,7 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 			wPacketLen -= 4;
 			sr.uin = dwUin;
 			_itoa(dwUin, szUin, 10);
-			sr.hdr.id = (FNAMECHAR*)szUin;
+			sr.hdr.id.t = (TCHAR*)szUin;
 
 			// Nick
 			if (wPacketLen < 2)
@@ -350,11 +350,11 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 			if (wLen > 0) {
 				if (wPacketLen < wLen || (databuf[wLen - 1] != 0))
 					break;
-				sr.hdr.nick = (FNAMECHAR*)databuf;
+				sr.hdr.nick.t = (TCHAR*)databuf;
 				databuf += wLen;
 			}
 			else {
-				sr.hdr.nick = NULL;
+				sr.hdr.nick.t = NULL;
 			}
 
 			// First name
@@ -365,10 +365,10 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 			if (wLen > 0) {
 				if (wPacketLen < wLen || (databuf[wLen - 1] != 0))
 					break;
-				sr.hdr.firstName = (FNAMECHAR*)databuf;
+				sr.hdr.firstName.t = (TCHAR*)databuf;
 				databuf += wLen;
 			}
-			else sr.hdr.firstName = NULL;
+			else sr.hdr.firstName.t = NULL;
 
 			// Last name
 			if (wPacketLen < 2)
@@ -378,10 +378,10 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 			if (wLen > 0) {
 				if (wPacketLen < wLen || (databuf[wLen - 1] != 0))
 					break;
-				sr.hdr.lastName = (FNAMECHAR*)databuf;
+				sr.hdr.lastName.t = (TCHAR*)databuf;
 				databuf += wLen;
 			}
-			else sr.hdr.lastName = NULL;
+			else sr.hdr.lastName.t = NULL;
 
 			// E-mail name
 			if (wPacketLen < 2)
@@ -391,10 +391,10 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 			if (wLen > 0) {
 				if (wPacketLen < wLen || (databuf[wLen - 1] != 0))
 					break;
-				sr.hdr.email = (FNAMECHAR*)databuf;
+				sr.hdr.email.t = (TCHAR*)databuf;
 				databuf += wLen;
 			}
-			else sr.hdr.email = NULL;
+			else sr.hdr.email.t = NULL;
 
 			// Authentication needed flag
 			if (wPacketLen < 1)
@@ -933,7 +933,7 @@ void CIcqProto::parseDirectorySearchData(oscar_tlv_chain *cDetails, DWORD dwCook
 	ICQSEARCHRESULT isr = { 0 };
 	isr.hdr.cbSize = sizeof(ICQSEARCHRESULT);
 	isr.hdr.flags = PSR_TCHAR;
-	isr.hdr.id = ansi_to_tchar(szUid);
+	isr.hdr.id.t = ansi_to_tchar(szUid);
 
 	if (IsStringUIN(szUid))
 		isr.uin = atoi(szUid);
@@ -950,22 +950,22 @@ void CIcqProto::parseDirectorySearchData(oscar_tlv_chain *cDetails, DWORD dwCook
 	else
 		szData = cDetails->getString(0x55, 1); // Pending e-mail
 	if (mir_strlen(szData))
-		isr.hdr.email = ansi_to_tchar(szData);
+		isr.hdr.email.t = ansi_to_tchar(szData);
 	SAFE_FREE(&szData);
 
 	szData = cDetails->getString(0x64, 1); // First Name
 	if (mir_strlen(szData))
-		isr.hdr.firstName = utf8_to_tchar(szData);
+		isr.hdr.firstName.t = utf8_to_tchar(szData);
 	SAFE_FREE(&szData);
 
 	szData = cDetails->getString(0x6E, 1); // Last Name
 	if (mir_strlen(szData))
-		isr.hdr.lastName = utf8_to_tchar(szData);
+		isr.hdr.lastName.t = utf8_to_tchar(szData);
 	SAFE_FREE(&szData);
 
 	szData = cDetails->getString(0x78, 1); // Nick
 	if (mir_strlen(szData))
-		isr.hdr.nick = utf8_to_tchar(szData);
+		isr.hdr.nick.t = utf8_to_tchar(szData);
 	SAFE_FREE(&szData);
 
 	switch (cDetails->getNumber(0x82, 1)) // Gender
@@ -997,11 +997,11 @@ void CIcqProto::parseDirectorySearchData(oscar_tlv_chain *cDetails, DWORD dwCook
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)dwCookie, (LPARAM)&isr);
 
 	// Release memory
-	SAFE_FREE(&isr.hdr.id);
-	SAFE_FREE(&isr.hdr.nick);
-	SAFE_FREE(&isr.hdr.firstName);
-	SAFE_FREE(&isr.hdr.lastName);
-	SAFE_FREE(&isr.hdr.email);
+	SAFE_FREE(&isr.hdr.id.t);
+	SAFE_FREE(&isr.hdr.nick.t);
+	SAFE_FREE(&isr.hdr.firstName.t);
+	SAFE_FREE(&isr.hdr.lastName.t);
+	SAFE_FREE(&isr.hdr.email.t);
 
 	// Search is over, broadcast final ack
 	if (wReplySubType == META_DIRECTORY_RESPONSE)

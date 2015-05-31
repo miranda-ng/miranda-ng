@@ -716,10 +716,10 @@ void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg
 		ssr.hdr.cbSize = sizeof(STEAM_SEARCH_RESULT);
 		ssr.hdr.flags = PSR_TCHAR;
 	
-		ssr.hdr.id = (TCHAR*)arg;
+		ssr.hdr.id.t = (TCHAR*)arg;
 
 		node = json_get(nroot, "personaname");
-		ssr.hdr.nick  = mir_wstrdup(ptrT(json_as_string(node)));
+		ssr.hdr.nick.t  = mir_wstrdup(ptrT(json_as_string(node)));
 
 		node = json_get(nroot, "realname");
 		if (node != NULL)
@@ -730,11 +730,11 @@ void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg
 				size_t pos = realname.find(' ', 1);
 				if (pos != std::string::npos)
 				{
-					ssr.hdr.firstName = mir_wstrdup(realname.substr(0, pos).c_str());
-					ssr.hdr.lastName = mir_wstrdup(realname.substr(pos + 1).c_str());
+					ssr.hdr.firstName.t = mir_wstrdup(realname.substr(0, pos).c_str());
+					ssr.hdr.lastName.t = mir_wstrdup(realname.substr(pos + 1).c_str());
 				}
 				else
-					ssr.hdr.firstName = mir_wstrdup(realname.c_str());
+					ssr.hdr.firstName.t = mir_wstrdup(realname.c_str());
 			}
 		}
 	

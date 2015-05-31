@@ -252,10 +252,10 @@ MCONTACT CMsnProto::AddToListByEmail(const char *email, const char *nick, DWORD 
 
 MCONTACT __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	TCHAR *id = psr->id ? psr->id : psr->email;
+	TCHAR *id = psr->id.t ? psr->id.t : psr->email.t;
 	return AddToListByEmail(
 		psr->flags & PSR_UNICODE ? UTF8((wchar_t*)id) : UTF8((char*)id),
-		psr->flags & PSR_UNICODE ? UTF8((wchar_t*)psr->nick) : UTF8((char*)psr->nick),
+		psr->flags & PSR_UNICODE ? UTF8((wchar_t*)psr->nick.t) : UTF8((char*)psr->nick.t),
 		flags);
 }
 
@@ -411,18 +411,17 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 	case 0:
 	case 2:
 	case 3:
-	{
-		PROTOSEARCHRESULT isr = { 0 };
-		isr.cbSize = sizeof(isr);
-		isr.flags = PSR_TCHAR;
-		isr.id = (TCHAR*)emailT;
-		isr.nick = (TCHAR*)emailT;
-		isr.email = (TCHAR*)emailT;
-
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, arg, (LPARAM)&isr);
+		{
+			PROTOSEARCHRESULT psr = { 0 };
+			psr.cbSize = sizeof(psr);
+			psr.flags = PSR_TCHAR;
+			psr.id.t = (TCHAR*)emailT;
+			psr.nick.t = (TCHAR*)emailT;
+			psr.email.t = (TCHAR*)emailT;
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, arg, (LPARAM)&psr);
+		}
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
-	}
-	break;
+		break;
 
 	case 1:
 		if (strstr(email, "@yahoo.com") == NULL)
@@ -826,12 +825,12 @@ int CMsnProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 	int i;
 
 	for (i = 0; i < pre->lParam; i++)
-		dbei.cbBlob += int(mir_tstrlen(isrList[i]->nick) + 2 + mir_tstrlen(isrList[i]->id));
+		dbei.cbBlob += int(mir_tstrlen(isrList[i]->nick.t) + 2 + mir_tstrlen(isrList[i]->id.t));
 	dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
 	for (i = 0, pCurBlob = dbei.pBlob; i < pre->lParam; i++) {
-		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->nick));
+		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->nick.t));
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->id));
+		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->id.t));
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	}
 

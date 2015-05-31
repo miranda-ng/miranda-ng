@@ -80,7 +80,7 @@ void NotifyUser(Account *curAcc)
 
 			resultLink *prst = curAcc->results.next;
 			for (int i = 0; i < newMails; i++) {
-				dbei.cbBlob = mir_strlen(prst->content) + 1;
+				dbei.cbBlob = (DWORD)mir_strlen(prst->content) + 1;
 				dbei.pBlob = (PBYTE)prst->content;
 				db_event_add(curAcc->hContact, &dbei);
 				prst = prst->next;
@@ -177,7 +177,7 @@ void __cdecl Login_ThreadFunc(void *lpParam)
 				mir_strcat(buffer, "><input type=hidden name=password value=");
 				mir_strcat(buffer, curAcc->pass);
 				mir_strcat(buffer, "></form></body>");
-				WriteFile(hTempFile, buffer, mir_strlen(buffer), &dwBytesWritten, NULL);
+				WriteFile(hTempFile, buffer, (DWORD)mir_strlen(buffer), &dwBytesWritten, NULL);
 				CloseHandle(hTempFile);
 				mir_strcat(lpPathBuffer, szTempName);
 			}

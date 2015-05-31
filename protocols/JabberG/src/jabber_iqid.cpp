@@ -661,15 +661,15 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 
 		if ((vCardNode = xmlGetChild(iqNode , "vCard")) != NULL) {
 			if (!mir_tstrcmp(type, _T("result"))) {
-				PROTOSEARCHRESULT  jsr = { 0 };
-				jsr.cbSize = sizeof(jsr);
-				jsr.flags = PSR_TCHAR;
-				jsr.nick = sttGetText(vCardNode, "NICKNAME");
-				jsr.firstName = sttGetText(vCardNode, "FN");
-				jsr.lastName = _T("");
-				jsr.email = sttGetText(vCardNode, "EMAIL");
-				jsr.id = NEWTSTR_ALLOCA(jid);
-				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&jsr);
+				PROTOSEARCHRESULT  psr = { 0 };
+				psr.cbSize = sizeof(psr);
+				psr.flags = PSR_TCHAR;
+				psr.nick.t = sttGetText(vCardNode, "NICKNAME");
+				psr.firstName.t = sttGetText(vCardNode, "FN");
+				psr.lastName.t = _T("");
+				psr.email.t = sttGetText(vCardNode, "EMAIL");
+				psr.id.t = NEWTSTR_ALLOCA(jid);
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&psr);
 				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 			}
 			else if (!mir_tstrcmp(type, _T("error")))
@@ -1136,8 +1136,8 @@ void CJabberProto::OnIqResultSetSearch(HXML iqNode, CJabberIqInfo*)
 		if ((queryNode = xmlGetChild(iqNode, "query")) == NULL)
 			return;
 
-		PROTOSEARCHRESULT jsr = { 0 };
-		jsr.cbSize = sizeof(jsr);
+		PROTOSEARCHRESULT psr = { 0 };
+		psr.cbSize = sizeof(psr);
 		for (int i = 0;; i++) {
 			HXML itemNode = xmlGetChild(queryNode, i);
 			if (!itemNode)
@@ -1145,26 +1145,26 @@ void CJabberProto::OnIqResultSetSearch(HXML iqNode, CJabberIqInfo*)
 
 			if (!mir_tstrcmp(xmlGetName(itemNode), _T("item"))) {
 				if ((jid = xmlGetAttrValue(itemNode, _T("jid"))) != NULL) {
-					jsr.id = (TCHAR*)jid;
+					psr.id.t = (TCHAR*)jid;
 					debugLog(_T("Result jid = %s"), jid);
 					if ((n = xmlGetChild(itemNode, "nick")) != NULL && xmlGetText(n) != NULL)
-						jsr.nick = (TCHAR*)xmlGetText(n);
+						psr.nick.t = (TCHAR*)xmlGetText(n);
 					else
-						jsr.nick = _T("");
+						psr.nick.t = _T("");
 					if ((n = xmlGetChild(itemNode, "first")) != NULL && xmlGetText(n) != NULL)
-						jsr.firstName = (TCHAR*)xmlGetText(n);
+						psr.firstName.t = (TCHAR*)xmlGetText(n);
 					else
-						jsr.firstName = _T("");
+						psr.firstName.t = _T("");
 					if ((n = xmlGetChild(itemNode, "last")) != NULL && xmlGetText(n) != NULL)
-						jsr.lastName = (TCHAR*)xmlGetText(n);
+						psr.lastName.t = (TCHAR*)xmlGetText(n);
 					else
-						jsr.lastName = _T("");
+						psr.lastName.t = _T("");
 					if ((n = xmlGetChild(itemNode, "email")) != NULL && xmlGetText(n) != NULL)
-						jsr.email = (TCHAR*)xmlGetText(n);
+						psr.email.t = (TCHAR*)xmlGetText(n);
 					else
-						jsr.email = _T("");
-					jsr.flags = PSR_TCHAR;
-					ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&jsr);
+						psr.email.t = _T("");
+					psr.flags = PSR_TCHAR;
+					ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&psr);
 				}
 			}
 		}
@@ -1198,9 +1198,9 @@ void CJabberProto::OnIqResultExtSearch(HXML iqNode, CJabberIqInfo*)
 			if (mir_tstrcmp(xmlGetName(itemNode), _T("item")))
 				continue;
 
-			PROTOSEARCHRESULT  jsr = { 0 };
-			jsr.cbSize = sizeof(jsr);
-			jsr.flags = PSR_TCHAR;
+			PROTOSEARCHRESULT  psr = { 0 };
+			psr.cbSize = sizeof(psr);
+			psr.flags = PSR_TCHAR;
 
 			for (int j=0; ; j++) {
 				HXML fieldNode = xmlGetChild(itemNode ,j);
@@ -1219,22 +1219,22 @@ void CJabberProto::OnIqResultExtSearch(HXML iqNode, CJabberIqInfo*)
 					continue;
 
 				if (!mir_tstrcmp(fieldName, _T("jid"))) {
-					jsr.id = (TCHAR*)xmlGetText(n);
-					debugLog(_T("Result jid = %s"), jsr.id);
+					psr.id.t = (TCHAR*)xmlGetText(n);
+					debugLog(_T("Result jid = %s"), psr.id.t);
 				}
 				else if (!mir_tstrcmp(fieldName, _T("nickname")))
-					jsr.nick = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
+					psr.nick.t = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
 				else if (!mir_tstrcmp(fieldName, _T("fn")))
-					jsr.firstName = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
+					psr.firstName.t = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
 				else if (!mir_tstrcmp(fieldName, _T("given")))
-					jsr.firstName = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
+					psr.firstName.t = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
 				else if (!mir_tstrcmp(fieldName, _T("family")))
-					jsr.lastName = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
+					psr.lastName.t = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
 				else if (!mir_tstrcmp(fieldName, _T("email")))
-					jsr.email = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
+					psr.email.t = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
 			}
 
-			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&jsr);
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&psr);
 		}
 
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);

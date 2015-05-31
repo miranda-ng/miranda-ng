@@ -63,7 +63,7 @@ DWORD_PTR CToxProto::GetCaps(int type, MCONTACT)
 
 MCONTACT CToxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
-	ptrA address(mir_t2a(psr->id));
+	ptrA address(mir_t2a(psr->id.t));
 	ptrA myAddress(getStringA(NULL, TOX_SETTINGS_ID));
 	if (strnicmp(address, myAddress, TOX_PUBLIC_KEY_SIZE) == 0)
 	{
@@ -75,8 +75,8 @@ MCONTACT CToxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
 		return NULL;
 	}
-	ptrT nick(mir_tstrdup(psr->nick));
-	ptrT dnsId(mir_tstrdup(psr->email));
+	ptrT nick(mir_tstrdup(psr->nick.t));
+	ptrT dnsId(mir_tstrdup(psr->email.t));
 	return AddContact(address, nick, dnsId, flags & PALF_TEMPORARY);
 }
 

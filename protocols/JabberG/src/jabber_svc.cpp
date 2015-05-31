@@ -464,16 +464,16 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 	
 	if (!mir_tstrcmpi(szCommand, _T("roster"))) {
 		if (!HContactFromJID(szJid)) {
-			PROTOSEARCHRESULT jsr = { 0 };
-			jsr.cbSize = sizeof(jsr);
-			jsr.flags = PSR_TCHAR;
-			jsr.nick = szJid;
-			jsr.id = szJid;
+			PROTOSEARCHRESULT psr = { 0 };
+			psr.cbSize = sizeof(psr);
+			psr.flags = PSR_TCHAR;
+			psr.nick.t = szJid;
+			psr.id.t = szJid;
 
 			ADDCONTACTSTRUCT acs;
 			acs.handleType = HANDLE_SEARCHRESULT;
 			acs.szProto = m_szModuleName;
-			acs.psr = &jsr;
+			acs.psr = &psr;
 			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
 		}
 		return 0;

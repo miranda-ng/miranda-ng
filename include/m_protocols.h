@@ -105,8 +105,6 @@ typedef struct {
 // when type == ACKTYPE_FILE && (result == ACKRESULT_DATA || result == ACKRESULT_FILERESUME),
 // lParam points to this
 
-#define FNAMECHAR TCHAR
-
 #define PFTS_RECEIVING 0
 #define PFTS_SENDING   1
 #define PFTS_UNICODE   2

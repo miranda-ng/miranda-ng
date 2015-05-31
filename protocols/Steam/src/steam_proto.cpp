@@ -70,7 +70,7 @@ CSteamProto::~CSteamProto()
 MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT* psr)
 {
 	MCONTACT hContact = NULL;
-	ptrA steamId(mir_u2a(psr->id));
+	ptrA steamId(mir_u2a(psr->id.t));
 	if (psr->cbSize == sizeof(PROTOSEARCHRESULT))
 	{
 		if (!FindContact(steamId))
@@ -230,10 +230,10 @@ HANDLE CSteamProto::SearchBasic(const TCHAR* id)
 
 int CSteamProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
-	return (INT_PTR)AddDBEvent(hContact, EVENTTYPE_MESSAGE, pre->timestamp, DBEF_UTF, mir_strlen(pre->szMessage), (BYTE*)pre->szMessage);
+	return (INT_PTR)AddDBEvent(hContact, EVENTTYPE_MESSAGE, pre->timestamp, DBEF_UTF, (DWORD)mir_strlen(pre->szMessage), (BYTE*)pre->szMessage);
 }
 
-int CSteamProto::SendMsg(MCONTACT hContact, int flags, const char *message)
+int CSteamProto::SendMsg(MCONTACT hContact, int, const char *message)
 {
 	if (!IsOnline())
 	{

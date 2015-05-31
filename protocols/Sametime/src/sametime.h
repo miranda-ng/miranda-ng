@@ -70,24 +70,19 @@ typedef struct Options_tag {
 	bool idle_as_away;
 } SametimeOptions;
 
-typedef struct {
-	int cbSize;
-	char* nick;
-	char* firstName;
-	char* lastName;
-	char* email;
-	char reserved[16];
+struct MYPROTOSEARCHRESULT : public PROTOSEARCHRESULT
+{
 	char name[256];
 	char stid[256];
 	bool group;
-} MYPROTOSEARCHRESULT;
+};
 
-typedef struct {
-	size_t nSize;
-	int nFieldCount;
-	TCHAR** pszFields;
-	MYPROTOSEARCHRESULT psr;
-} MYCUSTOMSEARCHRESULTS;
+struct MYCUSTOMSEARCHRESULTS : public CUSTOMSEARCHRESULTS
+{
+	char name[256];
+	char stid[256];
+	bool group;
+};
 
 typedef struct FileTransferClientData_tag {
 	char* save_path;

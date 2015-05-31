@@ -166,12 +166,12 @@ int WhatsAppProto::SetStatus(int new_status)
 	return 0;
 }
 
-MCONTACT WhatsAppProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+MCONTACT WhatsAppProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
-	if (psr->id == NULL)
+	if (psr->id.t == NULL)
 		return NULL;
 
-	std::string phone(T2Utf(psr->id));
+	std::string phone(T2Utf(psr->id.t));
 	std::string jid(phone + "@s.whatsapp.net");
 
 	MCONTACT hContact = AddToContactList(jid, phone.c_str());
@@ -190,15 +190,13 @@ void WhatsAppProto::SearchAckThread(void *targ)
 	Sleep(100);
 
 	SearchParam *param = (SearchParam*)targ;
-	PROTOSEARCHRESULT sr = { 0 };
-	sr.cbSize = sizeof(sr);
-	sr.flags = PSR_TCHAR;
-	sr.nick = _T("");
-	sr.firstName = _T("");
-	sr.lastName = _T("");
-	sr.id = (TCHAR*)param->jid.c_str();
+	PROTOSEARCHRESULT psr = { 0 };
+	psr.cbSize = sizeof(psr);
+	psr.flags = PSR_TCHAR;
+	psr.nick.t = psr.firstName.t = psr.lastName.t = _T("");
+	psr.id.t = (TCHAR*)param->jid.c_str();
 
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)param->id, (LPARAM)&sr);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)param->id, (LPARAM)&psr);
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)param->id, 0);
 
 	delete param;

@@ -502,7 +502,7 @@ MCONTACT CVkProto::AddToList(int, PROTOSEARCHRESULT* psr)
 {
 	debugLogA("CVkProto::AddToList");
 
-	int uid = _ttoi(psr->id);
+	int uid = _ttoi(psr->id.t);
 	if (!uid)
 		return NULL;
 

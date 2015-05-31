@@ -304,7 +304,7 @@ INT_PTR BPLoadIcon(WPARAM wParam, LPARAM lParam)
 static void __cdecl BasicSearchTimerProc(void *pszNick)
 {
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
-	psr.nick = (TCHAR*) pszNick;
+	psr.nick.t = (TCHAR*) pszNick;
 
 	// broadcast the search result
 	ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
@@ -343,7 +343,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 
 	if (psr == NULL)
 		return 0;
-	if (psr->nick == NULL) {
+	if (psr->nick.t == NULL) {
 		WErrorPopup((MCONTACT)"ERROR", TranslateT("Please select site in Find/Add contacts..."));
 		return 0;
 	}   
@@ -355,7 +355,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 		// check ID to see if the contact already exist in the database
 		if (db_get_ts(hContact, MODULENAME, "URL", &dbv))
 			continue;
-		if (!mir_tstrcmpi(psr->nick, dbv.ptszVal)) {
+		if (!mir_tstrcmpi(psr->nick.t, dbv.ptszVal)) {
 			// remove the flag for not on list and hidden, thus make the
 			// contact visible
 			// and add them on the list
@@ -379,8 +379,8 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 
 	//Convert url into a name for contact
 	TCHAR Cnick[255];
-	if (psr->nick != NULL)
-		_tcsncpy(Cnick, psr->nick, SIZEOF(Cnick));
+	if (psr->nick.t != NULL)
+		_tcsncpy(Cnick, psr->nick.t, SIZEOF(Cnick));
 	else
 		Cnick[0] = 0;
 
@@ -436,8 +436,8 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 	db_set_ts(hContact, MODULENAME, "Nick", Newnick);
 	db_set_b(hContact, MODULENAME, CLEAR_DISPLAY_KEY, 1);
 	db_set_s(hContact, MODULENAME, START_STRING_KEY, "");
-	db_set_ts(hContact, MODULENAME, URL_KEY, psr->nick);
-	db_set_ts(hContact, MODULENAME, "Homepage", psr->nick);
+	db_set_ts(hContact, MODULENAME, URL_KEY, psr->nick.t);
+	db_set_ts(hContact, MODULENAME, "Homepage", psr->nick.t);
 	db_set_b(hContact, MODULENAME, U_ALLSITE_KEY, 1);
 	db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
 

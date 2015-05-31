@@ -99,7 +99,7 @@ int CYahooProto::OnModulesLoadedEx(WPARAM, LPARAM)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AddToList - adds a contact to the contact list
 
-MCONTACT CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
+MCONTACT CYahooProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
 	debugLogA("[YahooAddToList] Flags: %d", flags);
 
@@ -108,12 +108,13 @@ MCONTACT CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 		return 0;
 	}
 
-	if (psr == NULL || psr->cbSize != sizeof( PROTOSEARCHRESULT )) {
+	YAHOO_SEARCH_RESULT *ysr = (YAHOO_SEARCH_RESULT*)psr;
+	if (ysr == NULL || ysr->cbSize != sizeof(YAHOO_SEARCH_RESULT)) {
 		debugLogA("[YahooAddToList] Empty data passed?");
 		return 0;
 	}
 
-	char *id = psr->flags & PSR_UNICODE ? mir_utf8encodeW((wchar_t*)psr->id) : mir_utf8encode((char*)psr->id);
+	char *id = psr->flags & PSR_UNICODE ? mir_utf8encodeW((wchar_t*)psr->id.t) : mir_utf8encode((char*)psr->id.t);
 	MCONTACT hContact = getbuddyH(id);
 	if (hContact != NULL) {
 		if (db_get_b(hContact, "CList", "NotOnList", 0)) {
@@ -130,7 +131,7 @@ MCONTACT CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 		debugLogA("[YahooAddToList] Adding Temporary Buddy:%s ", id);
 	}
 
-	int protocol = psr->reserved[0];
+	int protocol = ysr->protocol;
 	debugLogA("Adding buddy:%s", id);
 	hContact = add_buddy(id, id, protocol, flags);
 	mir_free(id);

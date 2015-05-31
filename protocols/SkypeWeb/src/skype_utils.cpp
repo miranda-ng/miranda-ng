@@ -623,8 +623,8 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		if (hContact == NULL)
 		{
 			PROTOSEARCHRESULT psr = { 0 };
-			psr.id = mir_tstrdup(szJid);
-			psr.nick = mir_tstrdup(szJid);
+			psr.id.t = mir_tstrdup(szJid);
+			psr.nick.t = mir_tstrdup(szJid);
 			psr.flags = PSR_TCHAR;
 
 			ADDCONTACTSTRUCT acs;

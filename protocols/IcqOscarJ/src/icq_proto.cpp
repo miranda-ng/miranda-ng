@@ -293,17 +293,17 @@ MCONTACT CIcqProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		
 		// aim contact
 		if (isr->hdr.flags & PSR_UNICODE)
-			unicode_to_ansi_static((WCHAR*)isr->hdr.id, szUid, MAX_PATH);
+			unicode_to_ansi_static((WCHAR*)isr->hdr.id.t, szUid, MAX_PATH);
 		else
-			null_strcpy(szUid, (char*)isr->hdr.id, MAX_PATH);
+			null_strcpy(szUid, (char*)isr->hdr.id.t, MAX_PATH);
 
 		return (szUid[0] == 0) ? 0 : AddToListByUID(szUid, flags);
 	}
 
 	if (psr->flags & PSR_UNICODE)
-		unicode_to_ansi_static((WCHAR*)psr->id, szUid, MAX_PATH);
+		unicode_to_ansi_static((WCHAR*)psr->id.t, szUid, MAX_PATH);
 	else
-		null_strcpy(szUid, (char*)psr->id, MAX_PATH);
+		null_strcpy(szUid, (char*)psr->id.t, MAX_PATH);
 
 	if (szUid[0] == 0)
 		return 0;
@@ -719,10 +719,10 @@ void CIcqProto::CheekySearchThread(void*)
 
 	if (cheekySearchUin) {
 		_itoa(cheekySearchUin, szUin, 10);
-		isr.hdr.id = (FNAMECHAR*)szUin;
+		isr.hdr.id.t = (TCHAR*)szUin;
 	}
 	else {
-		isr.hdr.id = (FNAMECHAR*)cheekySearchUid;
+		isr.hdr.id.t = (TCHAR*)cheekySearchUid;
 	}
 	isr.uin = cheekySearchUin;
 
@@ -872,15 +872,15 @@ int __cdecl CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 	DWORD flags = DBEF_UTF;
 
 	for (i = 0; i < pre->lParam; i++) {
-		cbBlob += mir_strlen((char*)isrList[i]->hdr.nick) + 2; // both trailing zeros
+		cbBlob += mir_strlen((char*)isrList[i]->hdr.nick.t) + 2; // both trailing zeros
 		if (isrList[i]->uin)
 			cbBlob += getUINLen(isrList[i]->uin);
 		else
-			cbBlob += mir_strlen((char*)isrList[i]->hdr.id);
+			cbBlob += mir_strlen((char*)isrList[i]->hdr.id.t);
 	}
 	PBYTE pBlob = (PBYTE)_alloca(cbBlob), pCurBlob;
 	for (i = 0, pCurBlob = pBlob; i < pre->lParam; i++) {
-		mir_strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.nick);
+		mir_strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.nick.t);
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 		if (isrList[i]->uin) {
 			char szUin[UINMAXLEN];
@@ -888,7 +888,7 @@ int __cdecl CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 			mir_strcpy((char*)pCurBlob, szUin);
 		}
 		else // aim contact
-			mir_strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.id);
+			mir_strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.id.t);
 
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	}

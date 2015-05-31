@@ -96,8 +96,8 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 		if (hContact == NULL) {
 			PROTOSEARCHRESULT psr = { sizeof(psr) };
 			psr.flags = PSR_TCHAR;
-			psr.nick = email;
-			psr.email = email;
+			psr.nick.t = email;
+			psr.email.t = email;
 
 			ADDCONTACTSTRUCT acs = { 0 };
 			acs.handleType = HANDLE_SEARCHRESULT;

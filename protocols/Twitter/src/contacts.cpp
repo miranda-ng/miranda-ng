@@ -44,13 +44,13 @@ void TwitterProto::AddToListWorker(void *p)
 	mir_free(name);
 }
 
-MCONTACT TwitterProto::AddToList(int, PROTOSEARCHRESULT *result)
+MCONTACT TwitterProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
-	ForkThread(&TwitterProto::AddToListWorker, mir_utf8encodeT(result->nick));
-	return AddToClientList(_T2A(result->nick), "");
+	ForkThread(&TwitterProto::AddToListWorker, mir_utf8encodeT(psr->nick.t));
+	return AddToClientList(_T2A(psr->nick.t), "");
 }
 
 // *************************
@@ -124,14 +124,14 @@ void TwitterProto::DoSearch(void *p)
 	if (found) {
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
-		psr.nick = mir_a2t(info.username.c_str());
-		psr.firstName = mir_a2t(info.real_name.c_str());
+		psr.nick.t = mir_a2t(info.username.c_str());
+		psr.firstName.t = mir_a2t(info.real_name.c_str());
 
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 
-		mir_free(psr.nick);
-		mir_free(psr.firstName);
+		mir_free(psr.nick.t);
+		mir_free(psr.firstName.t);
 	}
 	else ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 

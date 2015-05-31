@@ -117,7 +117,7 @@ static int ServiceParseAimLink(WPARAM,LPARAM lParam)
             acs.psr=&psr;
             memset(&psr, 0, sizeof(PROTOSEARCHRESULT));
             psr.cbSize=sizeof(PROTOSEARCHRESULT);
-            psr.nick=sn;
+            psr.nick.t=sn;
             CallService(MS_ADDCONTACT_SHOW,0,(LPARAM)&acs);
         }
 		return 0;
@@ -436,7 +436,7 @@ static int ServiceParseYmsgrLink(WPARAM wParam,LPARAM lParam)
             acs.psr=&psr;
             memset(&psr, 0, sizeof(PROTOSEARCHRESULT));
             psr.cbSize=sizeof(PROTOSEARCHRESULT);
-            psr.nick=id;
+            psr.nick.t=id;
             CallService(MS_ADDCONTACT_SHOW,0,(LPARAM)&acs);
         }
 		return 0;
@@ -551,8 +551,8 @@ static int ServiceParseMsnimLink(WPARAM wParam,LPARAM lParam)
             acs.psr=&psr;
             memset(&psr, 0, sizeof(PROTOSEARCHRESULT));
             psr.cbSize=sizeof(PROTOSEARCHRESULT);
-            psr.nick=email;
-			psr.email=email;
+            psr.nick.t=email;
+			psr.email.t=email;
             CallService(MS_ADDCONTACT_SHOW,0,(LPARAM)&acs);
         }
 		return 0;
@@ -746,7 +746,7 @@ static int ServiceParseXmppURI(WPARAM wParam,LPARAM lParam)
             acs.psr=&psr;
             memset(&psr, 0, sizeof(PROTOSEARCHRESULT));
             psr.cbSize=sizeof(PROTOSEARCHRESULT);
-            psr.nick=jid;
+            psr.nick.t=jid;
             CallService(MS_ADDCONTACT_SHOW,0,(LPARAM)&acs);
         }
 		return 0;

@@ -223,16 +223,16 @@ void WhatsAppProto::AddChatUser(WAChatInfo *pInfo, const TCHAR *ptszJid)
 	if (hContact && !db_get_b(hContact, "CList", "NotInList", 0))
 		return;
 
-	PROTOSEARCHRESULT sr = { 0 };
-	sr.cbSize = sizeof(sr);
-	sr.flags = PSR_TCHAR;
-	sr.id = (TCHAR*)ptszJid;
-	sr.nick = GetChatUserNick(jid);
+	PROTOSEARCHRESULT psr = { 0 };
+	psr.cbSize = sizeof(psr);
+	psr.flags = PSR_TCHAR;
+	psr.id.t = (TCHAR*)ptszJid;
+	psr.nick.t = GetChatUserNick(jid);
 
 	ADDCONTACTSTRUCT acs = { 0 };
 	acs.handleType = HANDLE_SEARCHRESULT;
 	acs.szProto = m_szModuleName;
-	acs.psr = (PROTOSEARCHRESULT*)&sr;
+	acs.psr = &psr;
 	CallService(MS_ADDCONTACT_SHOW, (WPARAM)CallService(MS_CLUI_GETHWND, 0, 0), (LPARAM)&acs);
 }
 

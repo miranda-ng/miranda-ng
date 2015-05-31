@@ -264,7 +264,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 				}
 
 				psr->flags = PSR_TCHAR;
-				psr->id = mir_tstrdup(szUserId);
+				psr->id.t = mir_tstrdup(szUserId);
 				acs->psr = psr;
 
 				MCONTACT hContact = (MCONTACT)CallProtoService(acs->proto, PS_ADDTOLIST, IsDlgButtonChecked(hdlg, IDC_ADDTEMP) ? PALF_TEMPORARY : 0, (LPARAM)acs->psr);
@@ -340,10 +340,10 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		if (acs) {
 			db_set_s(NULL, "AddContact", "LastProto", acs->proto);
 			if (acs->psr) {
-				mir_free(acs->psr->nick);
-				mir_free(acs->psr->firstName);
-				mir_free(acs->psr->lastName);
-				mir_free(acs->psr->email);
+				mir_free(acs->psr->nick.t);
+				mir_free(acs->psr->firstName.t);
+				mir_free(acs->psr->lastName.t);
+				mir_free(acs->psr->email.t);
 				mir_free(acs->psr);
 			}
 			delete acs;

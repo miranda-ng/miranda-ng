@@ -99,7 +99,7 @@ MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	debugLogA("CSkypeProto::AddToList");
 
 
-	ptrA skypeName(mir_t2a(ptrT(psr->id)));
+	ptrA skypeName(mir_t2a(ptrT(psr->id.t)));
 	if (skypeName == NULL)
 		return NULL;
 

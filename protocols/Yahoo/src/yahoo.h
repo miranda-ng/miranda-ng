@@ -105,6 +105,11 @@ extern HINSTANCE		hInstance;
 extern int 				iHTTPGateway;
 #endif
 
+struct YAHOO_SEARCH_RESULT : public PROTOSEARCHRESULT
+{
+	yahoo_im_protocols protocol;
+};
+
 #define YAHOO_hasnotification() ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)
 
 int YAHOO_util_dbsettingchanged(WPARAM wParam, LPARAM lParam);

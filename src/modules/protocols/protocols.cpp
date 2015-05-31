@@ -356,21 +356,19 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 					return (INT_PTR)ppi->AddToList(wParam, (PROTOSEARCHRESULT*)lParam);
 				else {
 					PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
-					PROTOSEARCHRESULT *psra = (PROTOSEARCHRESULT*)mir_alloc(psr->cbSize);
+					PROTOSEARCHRESULT *psra = (PROTOSEARCHRESULT*)_alloca(psr->cbSize);
 					memcpy(psra, psr, psr->cbSize);
-					psra->nick = (PROTOCHAR*)mir_u2a(psr->nick);
-					psra->firstName = (PROTOCHAR*)mir_u2a(psr->firstName);
-					psra->lastName = (PROTOCHAR*)mir_u2a(psr->lastName);
-					psra->email = (PROTOCHAR*)mir_u2a(psr->email);
+					psra->nick.a = mir_u2a(psr->nick.t);
+					psra->firstName.a = mir_u2a(psr->firstName.t);
+					psra->lastName.a = mir_u2a(psr->lastName.t);
+					psra->email.a = mir_u2a(psr->email.t);
 
 					INT_PTR res = (INT_PTR)ppi->AddToList(wParam, psra);
 
-					mir_free(psra->nick);
-					mir_free(psra->firstName);
-					mir_free(psra->lastName);
-					mir_free(psra->email);
-					mir_free(psra);
-
+					mir_free(psra->nick.a);
+					mir_free(psra->firstName.a);
+					mir_free(psra->lastName.a);
+					mir_free(psra->email.a);
 					return res;
 				}
 
@@ -516,20 +514,19 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 	if (!mir_strcmp(szService, PS_ADDTOLIST)) {
 		PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
 		if (!(psr->flags & PSR_UNICODE)) {
-			PROTOSEARCHRESULT *psra = (PROTOSEARCHRESULT*)mir_alloc(psr->cbSize);
+			PROTOSEARCHRESULT *psra = (PROTOSEARCHRESULT*)_alloca(psr->cbSize);
 			memcpy(psra, psr, psr->cbSize);
-			psra->nick = (PROTOCHAR*)mir_u2a(psr->nick);
-			psra->firstName = (PROTOCHAR*)mir_u2a(psr->firstName);
-			psra->lastName = (PROTOCHAR*)mir_u2a(psr->lastName);
-			psra->email = (PROTOCHAR*)mir_u2a(psr->email);
+			psra->nick.a = mir_u2a(psr->nick.t);
+			psra->firstName.a = mir_u2a(psr->firstName.t);
+			psra->lastName.a = mir_u2a(psr->lastName.t);
+			psra->email.a = mir_u2a(psr->email.t);
 
 			INT_PTR res = ProtoCallService(szModule, szService, wParam, (LPARAM)psra);
 
-			mir_free(psra->nick);
-			mir_free(psra->firstName);
-			mir_free(psra->lastName);
-			mir_free(psra->email);
-			mir_free(psra);
+			mir_free(psra->nick.a);
+			mir_free(psra->firstName.a);
+			mir_free(psra->lastName.a);
+			mir_free(psra->email.a);
 			return res;
 		}
 	}

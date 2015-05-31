@@ -16,13 +16,12 @@
 
 class CMLan;
 
-typedef struct
+struct EMPSEARCHRESULT : public PROTOSEARCHRESULT
 {
-	PROTOSEARCHRESULT hdr;
 	u_long ipaddr;
 	WORD stat;
 	u_long ver;
-} EMPSEARCHRESULT;
+};
 
 struct TDataHolder
 {
