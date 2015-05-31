@@ -129,19 +129,19 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		CMString Nick(jnRecord["nickname"].as_mstring());
 		CMString Domain(jnRecord["domain"].as_mstring());
 
-		psr.id = mir_tstrdup(Id);
-		psr.firstName = mir_tstrdup(FirstName);
-		psr.lastName = mir_tstrdup(LastName);
-		psr.nick = Nick.IsEmpty() ? mir_tstrdup(Domain) : mir_tstrdup(Nick);
+		psr.id.t = mir_tstrdup(Id);
+		psr.firstName.t = mir_tstrdup(FirstName);
+		psr.lastName.t = mir_tstrdup(LastName);
+		psr.nick.t = Nick.IsEmpty() ? mir_tstrdup(Domain) : mir_tstrdup(Nick);
 		
 		bool filter = true;
 		if (pParam) {
-			if (psr.firstName && pParam->pszFirstName)
-				filter = tlstrstr(psr.firstName, pParam->pszFirstName) && filter;
-			if (psr.lastName && pParam->pszLastName)
-				filter = tlstrstr(psr.lastName, pParam->pszLastName) && filter;
-			if (psr.nick && pParam->pszNick)
-				filter = tlstrstr(psr.nick, pParam->pszNick) && filter;
+			if (psr.firstName.t && pParam->pszFirstName)
+				filter = tlstrstr(psr.firstName.t, pParam->pszFirstName) && filter;
+			if (psr.lastName.t && pParam->pszLastName)
+				filter = tlstrstr(psr.lastName.t, pParam->pszLastName) && filter;
+			if (psr.nick.t && pParam->pszNick)
+				filter = tlstrstr(psr.nick.t, pParam->pszNick) && filter;
 		}
 
 		if (filter)
@@ -194,11 +194,11 @@ void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		CMString Email(jnRecord["contact"].as_mstring());
 
 
-		psr.id = mir_tstrdup(Id);
-		psr.firstName = mir_tstrdup(FirstName);
-		psr.lastName = mir_tstrdup(LastName);
-		psr.nick = Nick.IsEmpty() ? mir_tstrdup(Email) : mir_tstrdup(Nick);
-		psr.email = mir_tstrdup(Email);
+		psr.id.t = mir_tstrdup(Id);
+		psr.firstName.t = mir_tstrdup(FirstName);
+		psr.lastName.t = mir_tstrdup(LastName);
+		psr.nick.t = Nick.IsEmpty() ? mir_tstrdup(Email) : mir_tstrdup(Nick);
+		psr.email.t = mir_tstrdup(Email);
 			
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 	}

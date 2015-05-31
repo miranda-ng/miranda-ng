@@ -156,7 +156,7 @@ MCONTACT CMraProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
 		return 0;
 
-	return AddToListByEmail(psr->email, psr->nick, psr->firstName, psr->lastName, flags);
+	return AddToListByEmail(psr->email.t, psr->nick.t, psr->firstName.t, psr->lastName.t, flags);
 }
 
 MCONTACT CMraProto::AddToListByEvent(int, int, MEVENT hDbEvent)

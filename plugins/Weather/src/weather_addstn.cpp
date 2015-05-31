@@ -35,8 +35,7 @@ static TCHAR name1[256];
 INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam) 
 {
 	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
-
-	if(!psr || !psr->email)
+	if(!psr || !psr->email.t)
 		return 0;
 
 	// search for existing contact
@@ -46,7 +45,7 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 			DBVARIANT dbv;
 			// check ID to see if the contact already exist in the database
 			if ( !db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
-				if ( !mir_tstrcmpi(psr->email, dbv.ptszVal)) {
+				if ( !mir_tstrcmpi(psr->email.t, dbv.ptszVal)) {
 					// remove the flag for not on list and hidden, thus make the contact visible
 					// and add them on the list
 					if (db_get_b(hContact, "CList", "NotOnList", 1)) {
@@ -71,10 +70,10 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 
 	// set contact info and settings
 	TCHAR svc[256];
-	_tcsncpy(svc, psr->email, SIZEOF(svc)); svc[SIZEOF(svc)-1] = 0;
+	_tcsncpy(svc, psr->email.t, SIZEOF(svc)); svc[SIZEOF(svc)-1] = 0;
 	GetSvc(svc);
 	// set settings by obtaining the default for the service 
-	if (psr->lastName[0] != 0) {
+	if (psr->lastName.t[0] != 0) {
 		WIDATA *sData = GetWIData(svc);
 		db_set_ts(hContact, WEATHERPROTONAME, "MapURL", sData->DefaultMap);
 		db_set_s(hContact, WEATHERPROTONAME, "InfoURL", sData->DefaultURL);
@@ -84,14 +83,14 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 		db_set_s(hContact, WEATHERPROTONAME, "InfoURL", "");
 	}
 	// write the other info and settings to the database
-	db_set_ts(hContact, WEATHERPROTONAME, "ID", psr->email);
-	db_set_ts(hContact, WEATHERPROTONAME, "Nick", psr->nick);
+	db_set_ts(hContact, WEATHERPROTONAME, "ID", psr->email.t);
+	db_set_ts(hContact, WEATHERPROTONAME, "Nick", psr->nick.t);
 	db_set_w(hContact, WEATHERPROTONAME, "Status", ID_STATUS_OFFLINE);
 
 	AvatarDownloaded(hContact);
 
 	TCHAR str[256];
-	mir_sntprintf(str, SIZEOF(str), TranslateT("Current weather information for %s."), psr->nick);
+	mir_sntprintf(str, SIZEOF(str), TranslateT("Current weather information for %s."), psr->nick.t);
 	db_set_ts(hContact, WEATHERPROTONAME, "About", str);
 
 	// make the last update tags to something invalid
@@ -256,10 +255,10 @@ int IDSearchProc(TCHAR *sID, const int searchId, WIIDSEARCH *sData, TCHAR *svc, 
 	// set the search result and broadcast it
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
 	psr.flags = PSR_TCHAR;
-	psr.nick = str;
-	psr.firstName = _T(" ");
-	psr.lastName = svcname;
-	psr.email = newID;
+	psr.nick.t = str;
+	psr.firstName.t = _T(" ");
+	psr.lastName.t = svcname;
+	psr.email.t = newID;
 	ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
 
 	return 0;
@@ -287,10 +286,10 @@ int IDSearch(TCHAR *sID, const int searchId)
 		// return an empty contact on "#"
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
-		psr.nick = TranslateT("<Enter station name here>");	// to be entered
-		psr.firstName = _T(" ");
-		psr.lastName = _T("");
-		psr.email = TranslateT("<Enter station ID here>");		// to be entered
+		psr.nick.t = TranslateT("<Enter station name here>");	// to be entered
+		psr.firstName.t = _T(" ");
+		psr.lastName.t = _T("");
+		psr.email.t = TranslateT("<Enter station ID here>");		// to be entered
 		ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
 	}
 
@@ -349,11 +348,11 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 				// set the data and broadcast it
 				PROTOSEARCHRESULT psr = { sizeof(psr) };
 				psr.flags = PSR_TCHAR;
-				psr.nick = Name;
-				psr.firstName = _T(" ");
-				psr.lastName = svcname;
-				psr.email = sID;
-				psr.id = sID;
+				psr.nick.t = Name;
+				psr.firstName.t = _T(" ");
+				psr.lastName.t = svcname;
+				psr.email.t = sID;
+				psr.id.t = sID;
 				ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
 				mir_free(szData);
 				return 0;
@@ -387,11 +386,11 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 
 					PROTOSEARCHRESULT psr = { sizeof(psr) };
 					psr.flags = PSR_TCHAR;
-					psr.nick = Name;
-					psr.firstName = _T("");
-					psr.lastName = svcname;
-					psr.email = sID;
-					psr.id = sID;
+					psr.nick.t = Name;
+					psr.firstName.t = _T("");
+					psr.lastName.t = svcname;
+					psr.email.t = sID;
+					psr.id.t = sID;
 					ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
 				}
 			}

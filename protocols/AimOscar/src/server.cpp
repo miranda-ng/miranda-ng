@@ -1889,10 +1889,10 @@ void CAimProto::snac_email_search_results(SNAC &snac)//family 0x000A
 		{
 			TLV tlv(snac.val(offset));
 			offset+=TLV_HEADER_SIZE;
-			psr.id = (TCHAR*)tlv.dup();
+			psr.id.t = (TCHAR*)tlv.dup();
 			offset+=tlv.len();
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
-			mir_free(psr.nick);
+			mir_free(psr.nick.t);
 		}
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 	}

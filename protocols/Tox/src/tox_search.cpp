@@ -88,12 +88,12 @@ void CToxProto::SearchByNameAsync(void *arg)
 								{
 									PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
 									psr.flags = PSR_TCHAR;
-									psr.id = mir_a2t(address);
-									psr.nick = mir_utf8decodeT(name);
+									psr.id.t = mir_a2t(address);
+									psr.nick.t = mir_utf8decodeT(name);
 
 									TCHAR email[MAX_PATH];
-									mir_sntprintf(email, SIZEOF(email), _T("%s@%s"), psr.nick, _A2T(dnsDomain));
-									psr.email = mir_tstrdup(email);
+									mir_sntprintf(email, SIZEOF(email), _T("%s@%s"), psr.nick.t, _A2T(dnsDomain));
+									psr.email.t = mir_tstrdup(email);
 
 									ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 
@@ -129,12 +129,12 @@ void CToxProto::SearchByNameAsync(void *arg)
 				{
 					PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
 					psr.flags = PSR_TCHAR;
-					psr.id = mir_utf8decodeT(address);
-					psr.nick = mir_utf8decodeT(name);
+					psr.id.t = mir_utf8decodeT(address);
+					psr.nick.t = mir_utf8decodeT(name);
 
 					TCHAR email[MAX_PATH];
-					mir_sntprintf(email, SIZEOF(email), _T("%s@%s"), psr.nick, _A2T(domain));
-					psr.email = mir_tstrdup(email);
+					mir_sntprintf(email, SIZEOF(email), _T("%s@%s"), psr.nick.t, _A2T(domain));
+					psr.email.t = mir_tstrdup(email);
 
 					ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 					break;
@@ -197,7 +197,7 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
-		psr.id = mir_a2t(query.c_str());
+		psr.id.t = mir_a2t(query.c_str());
 
 		ADDCONTACTSTRUCT acs = { HANDLE_SEARCHRESULT };
 		acs.szProto = m_szModuleName;

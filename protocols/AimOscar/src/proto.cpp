@@ -123,7 +123,7 @@ int CAimProto::OnModulesLoaded(WPARAM, LPARAM)
 MCONTACT CAimProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	if (state != 1) return 0;
-	TCHAR *id = psr->id ? psr->id : psr->nick;
+	TCHAR *id = psr->id.t ? psr->id.t : psr->nick.t;
 	char *sn = psr->flags & PSR_UNICODE ? mir_u2a((wchar_t*)id) : mir_strdup((char*)id);
 	MCONTACT hContact = contact_from_sn(sn, true, (flags & PALF_TEMPORARY) != 0);
 	mir_free(sn);
@@ -313,7 +313,7 @@ void __cdecl CAimProto::basic_search_ack_success(void* p)
 		{
 			PROTOSEARCHRESULT psr = {0};
 			psr.cbSize = sizeof(psr);
-			psr.id = (TCHAR*)sn;
+			psr.id.t = (TCHAR*)sn;
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 		}

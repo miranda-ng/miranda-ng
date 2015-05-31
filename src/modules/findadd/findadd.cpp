@@ -772,7 +772,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					PROTOSEARCHRESULT psr = { 0 };
 					psr.cbSize = sizeof(psr);
 					psr.flags = PSR_TCHAR;
-					psr.id = str;
+					psr.id.t = str;
 
 					acs.psr = &psr;
 					acs.szProto = (char*)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETITEMDATA,
@@ -872,19 +872,19 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					/* Next block is not needed but behavior will be kept */
 					bool isUnicode = (psr->flags & PSR_UNICODE) != 0;
-					if (psr->id) {
-						BOOL validPtr = isUnicode ? IsBadStringPtrW((wchar_t*)psr->id, 25) : IsBadStringPtrA((char*)psr->id, 25);
+					if (psr->id.t) {
+						BOOL validPtr = isUnicode ? IsBadStringPtrW((wchar_t*)psr->id.t, 25) : IsBadStringPtrA((char*)psr->id.t, 25);
 						if (!validPtr) {
 							isUnicode = false;
-							lsr->psr.id = NULL;
+							lsr->psr.id.t = NULL;
 						}
-						else lsr->psr.id = isUnicode ? mir_u2t((wchar_t*)psr->id) : mir_a2t((char*)psr->id);
+						else lsr->psr.id.t = isUnicode ? mir_u2t((wchar_t*)psr->id.t) : mir_a2t((char*)psr->id.t);
 					}
 
-					lsr->psr.nick = isUnicode ? mir_u2t((wchar_t*)psr->nick) : mir_a2t((char*)psr->nick);
-					lsr->psr.firstName = isUnicode ? mir_u2t((wchar_t*)psr->firstName) : mir_a2t((char*)psr->firstName);
-					lsr->psr.lastName = isUnicode ? mir_u2t((wchar_t*)psr->lastName) : mir_a2t((char*)psr->lastName);
-					lsr->psr.email = isUnicode ? mir_u2t((wchar_t*)psr->email) : mir_a2t((char*)psr->email);
+					lsr->psr.nick.t = isUnicode ? mir_u2t((wchar_t*)psr->nick.t) : mir_a2t((char*)psr->nick.t);
+					lsr->psr.firstName.t = isUnicode ? mir_u2t((wchar_t*)psr->firstName.t) : mir_a2t((char*)psr->firstName.t);
+					lsr->psr.lastName.t = isUnicode ? mir_u2t((wchar_t*)psr->lastName.t) : mir_a2t((char*)psr->lastName.t);
+					lsr->psr.email.t = isUnicode ? mir_u2t((wchar_t*)psr->email.t) : mir_a2t((char*)psr->email.t);
 					lsr->psr.flags = psr->flags & ~PSR_UNICODE | PSR_TCHAR;
 
 					LVITEM lvi = { 0 };
@@ -920,11 +920,11 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				dat->bFlexSearchResult = FALSE;
 
 				memcpy(&lsr->psr, psr, psr->cbSize);
-				lsr->psr.nick = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->nick) : mir_a2t((char*)psr->nick);
-				lsr->psr.firstName = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->firstName) : mir_a2t((char*)psr->firstName);
-				lsr->psr.lastName = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->lastName) : mir_a2t((char*)psr->lastName);
-				lsr->psr.email = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->email) : mir_a2t((char*)psr->email);
-				lsr->psr.id = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->id) : mir_a2t((char*)psr->id);
+				lsr->psr.nick.t = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->nick.t) : mir_a2t((char*)psr->nick.t);
+				lsr->psr.firstName.t = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->firstName.t) : mir_a2t((char*)psr->firstName.t);
+				lsr->psr.lastName.t = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->lastName.t) : mir_a2t((char*)psr->lastName.t);
+				lsr->psr.email.t = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->email.t) : mir_a2t((char*)psr->email.t);
+				lsr->psr.id.t = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->id.t) : mir_a2t((char*)psr->id.t);
 				lsr->psr.flags = psr->flags & ~PSR_UNICODE | PSR_TCHAR;
 
 				LVITEM lvi = { 0 };
@@ -944,11 +944,11 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 				int iItem = ListView_InsertItem(hwndList, &lvi);
 				int col = 1;
-				SetListItemText(hwndList, iItem, col++, lsr->psr.id);
-				SetListItemText(hwndList, iItem, col++, lsr->psr.nick);
-				SetListItemText(hwndList, iItem, col++, lsr->psr.firstName);
-				SetListItemText(hwndList, iItem, col++, lsr->psr.lastName);
-				SetListItemText(hwndList, iItem, col++, lsr->psr.email);
+				SetListItemText(hwndList, iItem, col++, lsr->psr.id.t);
+				SetListItemText(hwndList, iItem, col++, lsr->psr.nick.t);
+				SetListItemText(hwndList, iItem, col++, lsr->psr.firstName.t);
+				SetListItemText(hwndList, iItem, col++, lsr->psr.lastName.t);
+				SetListItemText(hwndList, iItem, col++, lsr->psr.email.t);
 				SetStatusBarResultInfo(hwndDlg);
 			}
 		}

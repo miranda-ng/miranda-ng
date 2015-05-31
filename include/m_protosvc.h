@@ -323,23 +323,14 @@ will pick this up and everything will be good.
 	#define PSR_TCHAR 0
 #endif
 
-
 typedef struct {
 	int cbSize;
-	FNAMECHAR *nick;
-	FNAMECHAR *firstName;
-	FNAMECHAR *lastName;
-	FNAMECHAR *email;
-	FNAMECHAR *id;
+	MAllStrings nick;
+	MAllStrings firstName;
+	MAllStrings lastName;
+	MAllStrings email;
+	MAllStrings id;
 	int flags;
-	char reserved[8*sizeof(HANDLE)/sizeof(DWORD)];
-	//Protocols may extend this structure with extra members at will and supply
-	//a larger cbSize to reflect the new information, but they must not change
-	//any elements above this comment
-	//The 'reserved' field is part of the basic structure, not space to
-	//overwrite with protocol-specific information.
-	//If modules do this, they should take steps to ensure that information
-	//they put there will be retained by anyone trying to save this structure.
 } PROTOSEARCHRESULT;
 #define PS_BASICSEARCH  "/BasicSearch"
 #define PS_BASICSEARCHW "/BasicSearchW"
@@ -395,7 +386,7 @@ typedef struct {
 typedef struct {
 	size_t nSize;
 	int nFieldCount;
-	TCHAR ** pszFields;
+	TCHAR **pszFields;
 	PROTOSEARCHRESULT psr;
 } CUSTOMSEARCHRESULTS;
 
@@ -446,7 +437,7 @@ typedef struct {
 #define FILERESUME_SKIP       4
 typedef struct {
 	int action;    //a FILERESUME_ flag
-	const FNAMECHAR *szFilename;  //full path. Only valid if action == FILERESUME_RENAME
+	const TCHAR *szFilename;  // full path. Only valid if action == FILERESUME_RENAME
 } PROTOFILERESUME;
 #define PS_FILERESUME     "/FileResume"
 #define PS_FILERESUMEW    "/FileResumeW"

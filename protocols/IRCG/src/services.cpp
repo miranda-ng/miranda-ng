@@ -744,8 +744,8 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 					PROTOSEARCHRESULT psr = { 0 };
 					psr.cbSize = sizeof(psr);
 					psr.flags = PSR_TCHAR;
-					psr.id = gch->ptszUID;
-					psr.nick = gch->ptszUID;
+					psr.id.t = gch->ptszUID;
+					psr.nick.t = gch->ptszUID;
 
 					ADDCONTACTSTRUCT acs = { 0 };
 					acs.handleType = HANDLE_SEARCHRESULT;

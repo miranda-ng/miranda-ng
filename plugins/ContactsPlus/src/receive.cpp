@@ -437,10 +437,10 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				fi.psz = wndData->haUin;
 				int iLPos = ListView_FindItem(hLV, -1, &fi);
 				if (iLPos == -1) iLPos = 0;
-				if (mir_tstrcmp(psr->nick, _T("")) && psr->nick)
-					ListView_SetItemText(hLV, iLPos, 1, psr->nick);
-				ListView_SetItemText(hLV, iLPos, 2, psr->firstName);
-				ListView_SetItemText(hLV, iLPos, 3, psr->lastName);
+				if (mir_tstrcmp(psr->nick.t, _T("")) && psr->nick.t)
+					ListView_SetItemText(hLV, iLPos, 1, psr->nick.t);
+				ListView_SetItemText(hLV, iLPos, 2, psr->firstName.t);
+				ListView_SetItemText(hLV, iLPos, 3, psr->lastName.t);
 				break;
 			}
 			mir_free(wndData->haUin);

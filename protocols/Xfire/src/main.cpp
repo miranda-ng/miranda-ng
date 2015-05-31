@@ -388,11 +388,11 @@ void XFireClient::receivedPacket(XFirePacket *packet) {
 		XFireFoundBuddys *fb = (XFireFoundBuddys*)content;
 		for (uint i = 0; i < fb->usernames->size(); i++) {
 			if ((char*)fb->usernames->at(i).c_str() != NULL)
-				psr.nick = _A2T((char*)fb->usernames->at(i).c_str());
+				psr.nick.t = _A2T((char*)fb->usernames->at(i).c_str());
 			if ((char*)fb->fname->at(i).c_str() != NULL)
-				psr.firstName = _A2T((char*)fb->fname->at(i).c_str());
+				psr.firstName.t = _A2T((char*)fb->fname->at(i).c_str());
 			if ((char*)fb->lname->at(i).c_str() != NULL)
-				psr.lastName = _A2T((char*)fb->lname->at(i).c_str());
+				psr.lastName.t = _A2T((char*)fb->lname->at(i).c_str());
 			ProtoBroadcastAck(protocolname, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)& psr);
 		}
 
@@ -3057,7 +3057,7 @@ INT_PTR SearchAddtoList(WPARAM wParam, LPARAM lParam)
 			if (myClient->client->connected)
 			{
 		InviteBuddyPacket invite;
-		invite.addInviteName(std::string(_T2A(psr->nick)), Translate("Add me to your friend list."));
+		invite.addInviteName(std::string(_T2A(psr->nick.t)), Translate("Add me to your friend list."));
 		myClient->client->send(&invite);
 			}
 

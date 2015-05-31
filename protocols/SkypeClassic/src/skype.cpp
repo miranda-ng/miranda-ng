@@ -377,21 +377,21 @@ void BasicSearchThread(char *nick) {
 			psr.cbSize = sizeof(psr);
 			char *nextoken = 0;
 			for (token = strtok_r(cmd + 5, ", ", &nextoken); token; token = strtok_r(NULL, ", ", &nextoken)) {
-				psr.nick = psr.id = _A2T(token);
-				psr.lastName = NULL;
-				psr.firstName = NULL;
-				psr.email = NULL;
+				psr.nick.t = psr.id.t = _A2T(token);
+				psr.lastName.t = NULL;
+				psr.firstName.t = NULL;
+				psr.email.t = NULL;
 				if (ptr = SkypeGet("USER", token, "FULLNAME")) {
 					// We cannot use strtok() to seperate first & last name here,
 					// because we already use it for parsing the user list
 					// So we use our own function
-					if (psr.lastName = _A2T(strchr(ptr, ' '))) {
-						*psr.lastName = 0;
-						psr.lastName++;
-						LOG(("BasicSearchThread: lastName=%s", psr.lastName));
+					if (psr.lastName.t = _A2T(strchr(ptr, ' '))) {
+						*psr.lastName.t = 0;
+						psr.lastName.t++;
+						LOG(("BasicSearchThread: lastName=%s", psr.lastName.t));
 					}
-					psr.firstName = _A2T(ptr);
-					LOG(("BasicSearchThread: firstName=%s", psr.firstName));
+					psr.firstName.t = _A2T(ptr);
+					LOG(("BasicSearchThread: firstName=%s", psr.firstName.t));
 				}
 				ProtoBroadcastAck(SKYPE_PROTONAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)hSearchThread, (LPARAM)(PROTOSEARCHRESULT*)&psr);
 				if (ptr) free(ptr);
@@ -2608,9 +2608,9 @@ INT_PTR SkypeGetInfo(WPARAM, LPARAM lParam) {
 INT_PTR SkypeAddToList(WPARAM wParam, LPARAM lParam) {
 	LOG(("SkypeAddToList Adding API function called"));
 	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
-	if (psr->cbSize != sizeof(PROTOSEARCHRESULT) || !psr->nick) return 0;
+	if (psr->cbSize != sizeof(PROTOSEARCHRESULT) || !psr->nick.t) return 0;
 	LOG(("SkypeAddToList OK"));
-	return (INT_PTR)add_contact(_T2A(psr->nick), (DWORD)wParam);
+	return (INT_PTR)add_contact(_T2A(psr->nick.t), (DWORD)wParam);
 }
 
 INT_PTR SkypeBasicSearch(WPARAM, LPARAM lParam) {

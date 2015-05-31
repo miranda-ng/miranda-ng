@@ -118,7 +118,7 @@ static INT_PTR ServiceParseYmsgrLink(WPARAM wParam, LPARAM lParam)
 			acs.psr = &psr;
 			
 			psr.cbSize = sizeof(PROTOSEARCHRESULT);
-			psr.id = (TCHAR*)id;
+			psr.id.t = (TCHAR*)id;
 			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
 		}
 

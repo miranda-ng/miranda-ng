@@ -1208,18 +1208,18 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 
 	case IDM_RJID_ADD:
 		if (him->m_tszRealJid && *him->m_tszRealJid) {
-			PROTOSEARCHRESULT jsr = { 0 };
-			jsr.cbSize = sizeof(jsr);
-			jsr.flags = PSR_TCHAR;
-			jsr.id = NEWTSTR_ALLOCA(him->m_tszRealJid);
-			if (TCHAR *tmp = _tcschr(jsr.id, _T('/')))
+			PROTOSEARCHRESULT psr = { 0 };
+			psr.cbSize = sizeof(psr);
+			psr.flags = PSR_TCHAR;
+			psr.id.t = NEWTSTR_ALLOCA(him->m_tszRealJid);
+			if (TCHAR *tmp = _tcschr(psr.id.t, _T('/')))
 				*tmp = 0;
-			jsr.nick = jsr.id;
+			psr.nick.t = psr.id.t;
 
 			ADDCONTACTSTRUCT acs = { 0 };
 			acs.handleType = HANDLE_SEARCHRESULT;
 			acs.szProto = ppro->m_szModuleName;
-			acs.psr = &jsr;
+			acs.psr = &psr;
 			CallService(MS_ADDCONTACT_SHOW, (WPARAM)CallService(MS_CLUI_GETHWND, 0, 0), (LPARAM)&acs);
 		}
 		break;

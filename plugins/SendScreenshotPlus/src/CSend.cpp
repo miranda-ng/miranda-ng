@@ -233,15 +233,15 @@ void CSend::svcSendMsgExit(const char* szMessage) {
 		Exit(res); return;
 	}else{
 		mir_freeAndNil(m_szEventMsg);
-		m_cbEventMsg=mir_strlen(szMessage)+1;
-		m_szEventMsg=(char*)mir_realloc(m_szEventMsg, (sizeof(char) * m_cbEventMsg));
+		m_cbEventMsg = (DWORD)mir_strlen(szMessage)+1;
+		m_szEventMsg = (char*)mir_realloc(m_szEventMsg, (sizeof(char) * m_cbEventMsg));
 		memset(m_szEventMsg, 0, (sizeof(char) * m_cbEventMsg));
 		mir_strcpy(m_szEventMsg,szMessage);
 		if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
 			char *temp = mir_t2a(m_pszFileDesc);
 			mir_stradd(m_szEventMsg, "\r\n");
 			mir_stradd(m_szEventMsg, temp);
-			m_cbEventMsg = mir_strlen(m_szEventMsg)+1;
+			m_cbEventMsg = (DWORD)mir_strlen(m_szEventMsg)+1;
 			mir_free(temp);
 		}
 		//create a HookEventObj on ME_PROTO_ACK
@@ -272,13 +272,13 @@ void CSend::svcSendFileExit() {
 	}
 	mir_freeAndNil(m_szEventMsg);
 	char* szFile = mir_t2a(m_pszFile);
-	m_cbEventMsg=mir_strlen(szFile)+2;
+	m_cbEventMsg = (DWORD)mir_strlen(szFile)+2;
 	m_szEventMsg=(char*)mir_realloc(m_szEventMsg, (sizeof(char) * m_cbEventMsg));
 	memset(m_szEventMsg, 0, (sizeof(char) * m_cbEventMsg));
 	mir_strcpy(m_szEventMsg,szFile);
 	if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
 		char* temp = mir_t2a(m_pszFileDesc);
-		m_cbEventMsg += mir_strlen(temp);
+		m_cbEventMsg += (DWORD)mir_strlen(temp);
 		m_szEventMsg=(char*)mir_realloc(m_szEventMsg, sizeof(char)*m_cbEventMsg);
 		mir_strcpy(m_szEventMsg+mir_strlen(szFile)+1,temp);
 		m_szEventMsg[m_cbEventMsg-1] = 0;
@@ -611,7 +611,7 @@ static void HTTPFormAppendData(NETLIBHTTPREQUEST* nlhr, size_t* dataMax, char** 
 	}
 	if(data){
 		memcpy(*dataPos,data,sizeof(char)*len); *dataPos+=len;
-		nlhr->dataLength+=len; // not necessary
+		nlhr->dataLength += (int)len; // not necessary
 	}
 }
 void CSend::HTTPFormDestroy(NETLIBHTTPREQUEST* nlhr)

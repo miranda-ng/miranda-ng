@@ -302,7 +302,7 @@ MCONTACT __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 	if (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)
 		return 0;
 
-	TCHAR *id = psr->id ? psr->id : psr->nick;
+	TCHAR *id = psr->id.t ? psr->id.t : psr->nick.t;
 	id = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)id) : mir_a2t((char*)id);
 
 	CONTACT user = { id, NULL, NULL, true, false, false };
@@ -487,8 +487,8 @@ void __cdecl CIrcProto::AckBasicSearch(void* param)
 {
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
 	psr.flags = PSR_TCHAR;
-	psr.id = ((AckBasicSearchParam*)param)->buf;
-	psr.nick = ((AckBasicSearchParam*)param)->buf;
+	psr.id.t = ((AckBasicSearchParam*)param)->buf;
+	psr.nick.t = ((AckBasicSearchParam*)param)->buf;
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)& psr);
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 	delete param;

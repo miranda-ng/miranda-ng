@@ -136,15 +136,15 @@ int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 		case COLUMNID_PROTO:
 			return mir_strcmp(lsr1->szProto, lsr2->szProto)*sortMultiplier;
 		case COLUMNID_HANDLE:
-			return mir_tstrcmpi(lsr1->psr.id, lsr2->psr.id)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.id.t, lsr2->psr.id.t)*sortMultiplier;
 		case COLUMNID_NICK:
-			return mir_tstrcmpi(lsr1->psr.nick, lsr2->psr.nick)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.nick.t, lsr2->psr.nick.t)*sortMultiplier;
 		case COLUMNID_FIRST:
-			return mir_tstrcmpi(lsr1->psr.firstName, lsr2->psr.firstName)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.firstName.t, lsr2->psr.firstName.t)*sortMultiplier;
 		case COLUMNID_LAST:
-			return mir_tstrcmpi(lsr1->psr.lastName, lsr2->psr.lastName)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.lastName.t, lsr2->psr.lastName.t)*sortMultiplier;
 		case COLUMNID_EMAIL:
-			return mir_tstrcmpi(lsr1->psr.email, lsr2->psr.email)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.email.t, lsr2->psr.email.t)*sortMultiplier;
 		}
 	}
 	else {
@@ -165,11 +165,11 @@ void FreeSearchResults(HWND hwndResults)
 		ListView_GetItem(hwndResults, &lvi);
 		struct ListSearchResult *lsr = (struct ListSearchResult*)lvi.lParam;
 		if (lsr == NULL) continue;
-		mir_free(lsr->psr.id);
-		mir_free(lsr->psr.email);
-		mir_free(lsr->psr.nick);
-		mir_free(lsr->psr.firstName);
-		mir_free(lsr->psr.lastName);
+		mir_free(lsr->psr.id.t);
+		mir_free(lsr->psr.email.t);
+		mir_free(lsr->psr.nick.t);
+		mir_free(lsr->psr.firstName.t);
+		mir_free(lsr->psr.lastName.t);
 		mir_free(lsr);
 	}
 	ListView_DeleteAllItems(hwndResults);

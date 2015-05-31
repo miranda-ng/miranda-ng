@@ -124,20 +124,20 @@ GGPROTO::~GGPROTO()
 //////////////////////////////////////////////////////////
 // when contact is added to list
 
-MCONTACT GGPROTO::AddToList(int flags, PROTOSEARCHRESULT *psr)
+MCONTACT GGPROTO::AddToList(int flags, PROTOSEARCHRESULT *pmsr)
 {
 #ifdef DEBUGMODE
 	debugLogA("AddToList(): id=%s");
 #endif
-	GGSEARCHRESULT *sr = (GGSEARCHRESULT *)psr;
+	GGSEARCHRESULT *psr = (GGSEARCHRESULT *)pmsr;
 	uin_t uin;
 
 	if (psr->cbSize == sizeof(GGSEARCHRESULT))
-		uin = sr->uin;
+		uin = psr->uin;
 	else
-		uin = _ttoi(psr->id);
+		uin = _ttoi(psr->id.t);
 
-	return getcontact(uin, 1, flags & PALF_TEMPORARY ? 0 : 1, sr->nick);
+	return getcontact(uin, 1, flags & PALF_TEMPORARY ? 0 : 1, psr->nick.t);
 }
 
 //////////////////////////////////////////////////////////

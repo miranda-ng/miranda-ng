@@ -651,17 +651,17 @@ retry:
 								}
 							}
 
-							GGSEARCHRESULT sr;
-							memset(&sr, 0, sizeof(sr));
-							sr.cbSize = sizeof(sr);
-							sr.flags = PSR_TCHAR;
-							sr.nick = __nickname;
-							sr.firstName = __firstname;
-							sr.lastName = __lastname;
-							sr.email = strFmt2;
-							sr.id = _ultot(uin, strFmt1, 10);
-							sr.uin = uin;
-							ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM)&sr);
+							GGSEARCHRESULT psr;
+							memset(&psr, 0, sizeof(psr));
+							psr.cbSize = sizeof(psr);
+							psr.flags = PSR_TCHAR;
+							psr.nick.t = __nickname;
+							psr.firstName.t = __firstname;
+							psr.lastName.t = __lastname;
+							psr.email.t = strFmt2;
+							psr.id.t = _ultot(uin, strFmt1, 10);
+							psr.uin = uin;
+							ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM)&psr);
 						}
 
 						if (((res->seq == GG_SEQ_INFO || res->seq == GG_SEQ_GETNICK) && hContact != NULL)

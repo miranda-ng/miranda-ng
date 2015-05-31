@@ -483,6 +483,12 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 ///////////////////////////////////////////////////////////////////////////////
 // text conversion functions
 
+typedef union {
+	char *a; // utf8 or ansi strings
+	TCHAR *t; // strings of TCHARs
+	wchar_t w; // strings of WCHARs
+} MAllStrings;
+
 #ifdef _UNICODE
 	#define mir_t2a(s) mir_u2a(s)
 	#define mir_a2t(s) mir_a2u(s)

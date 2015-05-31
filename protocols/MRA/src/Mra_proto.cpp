@@ -943,11 +943,11 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 
 				psr.cbSize = sizeof(psr);
 				psr.flags = PSR_UNICODE;
-				psr.nick = szNick;
-				psr.firstName = szFirstName;
-				psr.lastName = szLastName;
-				psr.email = szEmail;
-				psr.id = szEmail;
+				psr.nick.t = szNick;
+				psr.firstName.t = szFirstName;
+				psr.lastName.t = szLastName;
+				psr.email.t = szEmail;
+				psr.id.t = szEmail;
 
 				for (DWORD i = 0; i < dwFieldsNum; i++) {
 					CMStringA &fld = pmralpsFields[i];

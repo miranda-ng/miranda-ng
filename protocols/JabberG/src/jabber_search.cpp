@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 ///////////////////////////////////////////////////////////////////////////////
 // Subclassing of IDC_FRAME to implement more user-friendly fields scrolling
-//
+
 static int JabberSearchFrameProc(HWND hwnd, int msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_COMMAND && lParam != 0) {
@@ -84,7 +84,7 @@ static int JabberSearchFrameProc(HWND hwnd, int msg, WPARAM wParam, LPARAM lPara
 
 ///////////////////////////////////////////////////////////////////////////////
 //  Add Search field to form
-//
+
 static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat)
 {
 	if (!FieldDat || !FieldDat->Label || !FieldDat->Var)
@@ -234,7 +234,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 	// now lets transfer field names
 	int nFieldCount = ListOfFields.getCount();
 
-	JABBER_CUSTOMSEARCHRESULTS Results = { 0 };
+	CUSTOMSEARCHRESULTS Results = { 0 };
 	Results.nSize = sizeof(Results);
 	Results.pszFields = (TCHAR**)mir_alloc(sizeof(TCHAR*)*nFieldCount);
 	Results.nFieldCount = nFieldCount;
@@ -246,11 +246,11 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 			Results.pszFields[i] = pmAllFields->operator [](var);
 	}
 
-	Results.jsr.cbSize = 0; // sending column names
+	Results.psr.cbSize = 0; // sending column names
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM) &Results);
 
 	/* Sending Users Data */
-	Results.jsr.cbSize = sizeof(Results.jsr); // sending user data
+	Results.psr.cbSize = sizeof(Results.psr); // sending user data
 
 	for (i=0; i < nUsersFound; i++) {
 		TCHAR buff[200];
@@ -261,7 +261,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 			TCHAR *value = pmUserData->operator [](var);
 			Results.pszFields[j] = value ? value : (TCHAR *)_T(" ");
 			if (!mir_tstrcmpi(var,_T("jid")) && value)
-				Results.jsr.id = value;
+				Results.psr.id.t = value;
 		}
 
 		TCHAR *nick = NULL;
@@ -269,18 +269,18 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 			nick = pmUserData->operator [](nickfields[k]);
 
 		if (nick) {
-			if (mir_tstrcmpi(nick, Results.jsr.id))
-				mir_sntprintf(buff, SIZEOF(buff), _T("%s (%s)"), nick, Results.jsr.id);
+			if (mir_tstrcmpi(nick, Results.psr.id.t))
+				mir_sntprintf(buff, SIZEOF(buff), _T("%s (%s)"), nick, Results.psr.id.t);
 			else
 				_tcsncpy_s(buff, nick, _TRUNCATE);
 
 			nick = buff;
 		}
-		Results.jsr.nick = nick;
-		Results.jsr.flags = PSR_TCHAR;
+		Results.psr.nick.t = nick;
+		Results.psr.flags = PSR_TCHAR;
 
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM) &Results);
-		Results.jsr.nick=NULL;
+		Results.psr.nick.t = NULL;
 	}
 	mir_free(Results.pszFields);
 }

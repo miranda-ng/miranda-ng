@@ -332,10 +332,10 @@ MCONTACT CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 
 MCONTACT CJabberProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	if (psr->cbSize != sizeof(PROTOSEARCHRESULT) && psr->id == NULL)
+	if (psr->cbSize != sizeof(PROTOSEARCHRESULT) && psr->id.t == NULL)
 		return NULL;
 
-	return AddToListByJID(psr->id, flags);
+	return AddToListByJID(psr->id.t, flags);
 }
 
 MCONTACT __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEVENT hDbEvent)
@@ -681,15 +681,15 @@ void __cdecl CJabberProto::BasicSearchThread(JABBER_SEARCH_BASIC *jsb)
 {
 	Sleep(100);
 
-	PROTOSEARCHRESULT jsr = { 0 };
-	jsr.cbSize = sizeof(jsr);
-	jsr.flags = PSR_TCHAR;
-	jsr.nick = jsb->jid;
-	jsr.firstName = _T("");
-	jsr.lastName = _T("");
-	jsr.id = jsb->jid;
+	PROTOSEARCHRESULT psr = { 0 };
+	psr.cbSize = sizeof(psr);
+	psr.flags = PSR_TCHAR;
+	psr.nick.t = jsb->jid;
+	psr.firstName.t = _T("");
+	psr.lastName.t = _T("");
+	psr.id.t = jsb->jid;
 
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)jsb->hSearch, (LPARAM)&jsr);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)jsb->hSearch, (LPARAM)&psr);
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)jsb->hSearch, 0);
 	mir_free(jsb);
 }

@@ -655,11 +655,10 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 	CSametimeProto* proto = getProtoFromMwServiceResolve(srvc);
 	BOOL advanced = (BOOL)data;
 
-	MYCUSTOMSEARCHRESULTS mcsr = { 0 };
+	MYCUSTOMSEARCHRESULTS mcsr;
+	memset(&mcsr, 0, sizeof(mcsr));
 	mcsr.nSize = sizeof(MYCUSTOMSEARCHRESULTS);
-	//MYPROTOSEARCHRESULT mpsr = {0};
-	//mpsr.cbSize = sizeof(MYPROTOSEARCHRESULT);
-	mcsr.psr.nick = mcsr.psr.name;
+	mcsr.psr.nick.a = mcsr.name;
 
 	mcsr.nFieldCount = 4;
 	TCHAR fields[4][512];
@@ -687,22 +686,19 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 		for (; ri; ri = ri->next) {
 			mri = ((mwResolveResult *)ri->data)->matches;
 			for (; mri; mri = mri->next) {
-				strncpy(mcsr.psr.stid, ((mwResolveMatch *)mri->data)->id, 256);
-				mcsr.psr.stid[255] = 0;
-				MultiByteToWideChar(CP_UTF8, 0, mcsr.psr.stid, -1, mcsr.pszFields[0], 512);
+				strncpy_s(mcsr.stid, ((mwResolveMatch *)mri->data)->id, _TRUNCATE);
+				MultiByteToWideChar(CP_UTF8, 0, mcsr.stid, -1, mcsr.pszFields[0], 512);
 
-				strncpy(mcsr.psr.name, ((mwResolveMatch *)mri->data)->name, 256);
-				mcsr.psr.name[255] = 0;
-				MultiByteToWideChar(CP_UTF8, 0, mcsr.psr.name, -1, mcsr.pszFields[1], 512);
+				strncpy(mcsr.name, ((mwResolveMatch *)mri->data)->name, _TRUNCATE);
+				MultiByteToWideChar(CP_UTF8, 0, mcsr.name, -1, mcsr.pszFields[1], 512);
 
 				if (((mwResolveMatch *)mri->data)->desc)
 					MultiByteToWideChar(CP_UTF8, 0, ((mwResolveMatch *)mri->data)->desc, -1, mcsr.pszFields[2], 512);
 				else
 					mcsr.pszFields[2][0] = 0;
 
-				mcsr.psr.group = (((mwResolveMatch *)mri->data)->type == mwResolveMatch_GROUP);
-				//MultiByteToWideChar(CP_UTF8, 0, mcsr.psr.name, -1, mcsr.pszFields[1], 512);
-				_tcsncpy(mcsr.pszFields[3], mcsr.psr.group ? TranslateT("True") : TranslateT("False"), 512);
+				mcsr.group = (((mwResolveMatch *)mri->data)->type == mwResolveMatch_GROUP);
+				_tcsncpy_s(mcsr.pszFields[3], 512, mcsr.group ? TranslateT("True") : TranslateT("False"), _TRUNCATE);
 
 				if (advanced == TRUE)
 					proto->ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, (HANDLE)id, (LPARAM)&mcsr);
@@ -718,9 +714,10 @@ void mwResolve_handler_details_callback(mwServiceResolve* srvc, guint32 id, guin
 {
 	CSametimeProto* proto = getProtoFromMwServiceResolve(srvc);
 
-	MYPROTOSEARCHRESULT mpsr = { 0 };
+	MYPROTOSEARCHRESULT mpsr;
+	memset(&mpsr, 0, sizeof(mpsr));
 	mpsr.cbSize = sizeof(mpsr);
-	mpsr.nick = mpsr.name;
+	mpsr.nick.a = mpsr.name;
 
 	if (code == mwResolveCode_SUCCESS) {
 		GList *ri = results, *mri;
