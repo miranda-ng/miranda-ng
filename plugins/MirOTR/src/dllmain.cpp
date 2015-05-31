@@ -73,9 +73,10 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	db_set_resident(MODULENAME, "TrustLevel");
 
-	/////////////
-	////// init plugin
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	////////////////////////////////////////////////////////////////////////////
+	// init plugin
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = MODULENAME;
 	pd.type = PROTOTYPE_ENCRYPTION;
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);

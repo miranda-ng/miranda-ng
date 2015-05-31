@@ -487,11 +487,11 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.tszDescription = (desc = ezxml_child(xmli, "Description"))?mir_utf8decodeT(desc->txt):tComment;
-				pre.ptszFiles = &ft->std.tszCurrentFile;
+				pre.descr.t = (desc = ezxml_child(xmli, "Description"))?mir_utf8decodeT(desc->txt):tComment;
+				pre.files.t = &ft->std.tszCurrentFile;
 				pre.lParam = (LPARAM)ft;
 				ProtoChainRecvFile(ft->std.hContact, &pre);
-				if (desc) mir_free(pre.tszDescription);
+				if (desc) mir_free(pre.descr.t);
 			} else uri=NULL;
 		}
 
@@ -1439,8 +1439,8 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 		pre.dwFlags = PRFF_TCHAR;
 		pre.fileCount = 1;
 		pre.timestamp = time(NULL);
-		pre.tszDescription = tComment;
-		pre.ptszFiles = &ft->std.tszCurrentFile;
+		pre.descr.t = tComment;
+		pre.files.t = &ft->std.tszCurrentFile;
 		pre.lParam = (LPARAM)ft;
 		ProtoChainRecvFile(ft->std.hContact, &pre);
 		return;

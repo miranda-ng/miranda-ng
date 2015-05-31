@@ -115,7 +115,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = "MSN";
 	pd.fnInit = (pfnInitProto)msnProtoInit;
 	pd.fnUninit = (pfnUninitProto)msnProtoUninit;

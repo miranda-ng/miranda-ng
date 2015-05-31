@@ -236,7 +236,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		if (dat->send) {
 			if (db_mc_isMeta(dat->hContact))
 				dat->hContact = db_mc_getMostOnline(dat->hContact);
-			dat->fs = (HANDLE)CallContactService(dat->hContact, PSS_FILET, (WPARAM)dat->szMsg, (LPARAM)dat->files);
+			dat->fs = (HANDLE)CallContactService(dat->hContact, PSS_FILE, (WPARAM)dat->szMsg, (LPARAM)dat->files);
 			SetFtStatus(hwndDlg, LPGENT("Request sent, waiting for acceptance..."), FTS_TEXT);
 			SetOpenFileButtonStyle(GetDlgItem(hwndDlg, IDC_OPENFILE), 1);
 			dat->waitingForAcceptance = 1;
@@ -246,7 +246,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		else {	//recv
 			CreateDirectoryTreeT(dat->szSavePath);
-			dat->fs = (HANDLE)CallContactService(dat->hContact, PSS_FILEALLOWT, (WPARAM)dat->fs, (LPARAM)dat->szSavePath);
+			dat->fs = (HANDLE)CallContactService(dat->hContact, PSS_FILEALLOW, (WPARAM)dat->fs, (LPARAM)dat->szSavePath);
 			dat->transferStatus.tszWorkingDir = mir_tstrdup(dat->szSavePath);
 			if (db_get_b(dat->hContact, "CList", "NotOnList", 0)) dat->resumeBehaviour = FILERESUME_ASK;
 			else dat->resumeBehaviour = db_get_b(NULL, "SRFile", "IfExists", FILERESUME_ASK);
@@ -491,7 +491,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				break;
 			}
 			mir_free(szOriginalFilename);
-			CallProtoService(szProto, PS_FILERESUMET, (WPARAM)dat->fs, (LPARAM)pfr);
+			CallProtoService(szProto, PS_FILERESUME, (WPARAM)dat->fs, (LPARAM)pfr);
 			if (pfr->szFilename) mir_free((char*)pfr->szFilename);
 			mir_free(pfr);
 		}

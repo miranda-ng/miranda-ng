@@ -776,7 +776,7 @@ retry:
 					{
 						// Status was changed by the user simultaneously logged on using different Miranda account or IM client
 						int iStatus = status_gg2m(e->event.status60.status);
-						CallProtoService(m_szModuleName, PS_SETAWAYMSGT, iStatus, (LPARAM)descrT);
+						CallProtoService(m_szModuleName, PS_SETAWAYMSG, iStatus, (LPARAM)descrT);
 						CallProtoService(m_szModuleName, PS_SETSTATUS, iStatus, 0);
 					}
 					
@@ -1060,8 +1060,8 @@ retry:
 					pre.dwFlags = PRFF_TCHAR;
 					pre.fileCount = 1;
 					pre.timestamp = time(NULL);
-					pre.tszDescription = filenameT;
-					pre.ptszFiles = &filenameT;
+					pre.descr.t = filenameT;
+					pre.files.t = &filenameT;
 					pre.lParam = (LPARAM)dcc7;
 					ProtoChainRecvFile((MCONTACT)dcc7->contact, &pre);
 

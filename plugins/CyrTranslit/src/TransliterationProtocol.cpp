@@ -28,7 +28,8 @@ char *TransliterationProtocol::MODULE_NAME = "ProtoCyrTranslitByIKR";
 
 void TransliterationProtocol::initialize()
 {
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = MODULE_NAME;
 	pd.type = PROTOTYPE_TRANSLATION;
 	CallService(MS_PROTO_REGISTERMODULE, 0, reinterpret_cast<LPARAM>(&pd));

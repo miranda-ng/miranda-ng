@@ -68,10 +68,10 @@ void CreateServices(void)
 	CreateProtoService(PS_AUTHDENY, SkypeAuthDeny);
 	CreateProtoService(PSR_FILE, SkypeRecvFile);
 
-	CreateProtoService(PSS_FILEALLOWT, SkypeFileAllow);
+	CreateProtoService(PSS_FILEALLOW, SkypeFileAllow);
 	CreateProtoService(PSS_FILEDENY, SkypeFileCancel);
 	CreateProtoService(PSS_FILECANCEL, SkypeFileCancel);
-	CreateProtoService(PSS_FILET, SkypeSendFile);
+	CreateProtoService(PSS_FILE, SkypeSendFile);
 
 	CreateProtoService(PS_GETAVATARINFO, SkypeGetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, SkypeGetAvatarCaps);
@@ -79,7 +79,6 @@ void CreateServices(void)
 	CreateProtoService(PS_SETMYAVATAR, SkypeSetAvatar);
 
 	CreateProtoService(PS_SETAWAYMSG, SkypeSetAwayMessage);
-	CreateProtoService(PS_SETAWAYMSGW, SkypeSetAwayMessageW);
 	CreateProtoService(PSS_GETAWAYMSG, SkypeGetAwayMessage);
 	CreateProtoService(PS_SETMYNICKNAME, SkypeSetNick);
 

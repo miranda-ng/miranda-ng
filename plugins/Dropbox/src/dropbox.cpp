@@ -2,7 +2,8 @@
 
 CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 {
-	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = MODULE;
 	pd.type = PROTOTYPE_VIRTUAL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
@@ -19,7 +20,7 @@ CDropbox::CDropbox() : transfers(1, HandleKeySortT)
 	CreateProtoServiceFunction(MODULE, PS_GETNAME, ProtoGetName);
 	CreateProtoServiceFunction(MODULE, PS_LOADICON, ProtoLoadIcon);
 	CreateProtoServiceFunctionObj(PS_GETSTATUS, GlobalService<&CDropbox::ProtoGetStatus>, this);
-	CreateProtoServiceFunctionObj(PSS_FILEW, GlobalService<&CDropbox::ProtoSendFile>, this);
+	CreateProtoServiceFunctionObj(PSS_FILE, GlobalService<&CDropbox::ProtoSendFile>, this);
 	CreateProtoServiceFunctionObj(PSS_FILECANCEL, GlobalService<&CDropbox::ProtoCancelFile>, this);
 	CreateProtoServiceFunctionObj(PSS_MESSAGE, GlobalService<&CDropbox::ProtoSendMessage>, this);
 	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, ProtoReceiveMessage);

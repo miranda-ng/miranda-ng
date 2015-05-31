@@ -202,14 +202,8 @@ TCHAR* GetDefStatusMsg(unsigned uStatus, const char* szProto)
 void SetStatus(const char* szProto, unsigned status, TCHAR *tszAwayMsg)
 {
 	if (tszAwayMsg && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND)
-	{
-		if (CallProtoService(szProto, PS_SETAWAYMSGT, status, (LPARAM)tszAwayMsg) == CALLSERVICE_NOTFOUND)
-		{
-			char *szAwayMsg = mir_t2a(tszAwayMsg);
-			CallProtoService(szProto, PS_SETAWAYMSG, status, (LPARAM)szAwayMsg);
-			mir_free(szAwayMsg);
-		}
-	}
+		CallProtoService(szProto, PS_SETAWAYMSG, status, (LPARAM)tszAwayMsg);
+
 	CallProtoService(szProto, PS_SETSTATUS, status, 0);
 }
 

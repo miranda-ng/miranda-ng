@@ -386,8 +386,8 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								pre.dwFlags = PRFF_TCHAR;
 								pre.fileCount = 1;
 								pre.timestamp = time(NULL);
-								pre.tszDescription = filenameT;
-								pre.ptszFiles = &filenameT;
+								pre.descr.t = filenameT;
+								pre.files.t = &filenameT;
 								pre.lParam = (LPARAM)local_dcc;
 
 								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 7, "ft_mutex", 1);

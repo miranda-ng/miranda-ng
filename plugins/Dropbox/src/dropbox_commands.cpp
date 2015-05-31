@@ -49,8 +49,7 @@ void CDropbox::CommandContent(void *arg)
 	else
 	{
 		JSONNode content = root.at("contents").as_array();
-		int size = content.size();
-		for (int i = 0; i < content.size(); i++)
+		for (size_t i = 0; i < content.size(); i++)
 		{
 			JSONNode item = content[i];
 			if (item.empty())

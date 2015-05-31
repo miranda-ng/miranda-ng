@@ -301,7 +301,6 @@ const
              any requests.
   }
   PS_SETAWAYMSG  = '/SetAwayMsg';
-  PS_SETAWAYMSGW = '/SetAwayMsgW';
 
   {
     wParam : newMode from statusmodes.inc
@@ -370,7 +369,6 @@ const
     Notes  : Protocol modules must be able to cope with lParam=NULL(0)
   }
   PS_AUTHDENY  = '/AuthDeny';
-  PS_AUTHDENYW = '/AuthDenyW';
 
   {
     Send a "You were added" event
@@ -413,7 +411,6 @@ const
 
   }
   PS_BASICSEARCH  = '/BasicSearch';
-  PS_BASICSEARCHW = '/BasicSearchW';
 
   {
     wParam : 0
@@ -428,7 +425,6 @@ const
     Version: v0.1.2.1+
   }
   PS_SEARCHBYEMAIL  = '/SearchByEmail';
-  PS_SEARCHBYEMAILW = '/SearchByEmailW';
 
   {
     wParam : 0
@@ -440,7 +436,6 @@ const
     Version: v0.1.2.1+
   }
   PS_SEARCHBYNAME  = '/SearchByName';
-  PS_SEARCHBYNAMEW = '/SearchByNameW';
 
   {
     wParam : 0
@@ -541,7 +536,6 @@ const
     Version: v0.1.2.2+
   }
   PS_FILERESUME  = '/FileResume';
-  PS_FILERESUMEW = '/FileResumeW';
 
 {
   Asks a protocol to join the chatroom from contact  v0.8.0+
@@ -797,7 +791,6 @@ const
              filename(s), description: ASCIIZ
   }
   PSS_FILEALLOW  = '/FileAllow';
-  PSS_FILEALLOWW = '/FileAllowW';
 
   {
     CCSDATA: Yes
@@ -807,7 +800,6 @@ const
     Returns: 0 on success, [non zero] on failure
   }
   PSS_FILEDENY  = '/FileDeny';
-  PSS_FILEDENYW = '/FileDenyW';
 
   {
     CCSDATA: Yes
@@ -830,7 +822,6 @@ const
              lParam=null terminated string containing reason
   }
   PSS_FILE  = '/SendFile';
-  PSS_FILEW = '/SendFileW';
 
   {
     Send an auth request
@@ -839,7 +830,6 @@ const
     Returns 0 on success, nonzero on failure
   }
   PSS_AUTHREQUEST  = '/AuthRequest';
-  PSS_AUTHREQUESTW = '/AuthRequestW';
 
   {
     Send "User is Typing" (user is typing a message to the user) v0.3.3+

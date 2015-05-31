@@ -196,11 +196,7 @@ static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 		}
 	}
 	log_debugA("CommonStatus sets status message for %s directly", ps->szName);
-	if (CALLSERVICE_NOTFOUND == CallProtoService(ps->szName, PS_SETAWAYMSGT, newstatus, (LPARAM)tszMsg)) {
-		char* sMsg = mir_t2a(tszMsg);
-		CallProtoService(ps->szName, PS_SETAWAYMSG, newstatus, (LPARAM)sMsg);
-		mir_free(sMsg);
-	}
+	CallProtoService(ps->szName, PS_SETAWAYMSG, newstatus, (LPARAM)tszMsg);
 	mir_free(tszMsg);
 }
 

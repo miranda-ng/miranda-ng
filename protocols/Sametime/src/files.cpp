@@ -42,8 +42,8 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 	pre.dwFlags = PRFF_TCHAR;
 	pre.fileCount = 1;
 	pre.timestamp = time(NULL);
-	pre.tszDescription = descriptionT;
-	pre.ptszFiles = &filenameT;
+	pre.descr.t = descriptionT;
+	pre.files.t = &filenameT;
 	pre.lParam = (LPARAM)ft;
 
 	ProtoChainRecvFile(hContact, &pre);

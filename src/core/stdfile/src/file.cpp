@@ -392,13 +392,13 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	if (bUnicode) {
 		pszFiles = (char**)alloca(pre->fileCount * sizeof(char*));
 		for (int i = 0; i < pre->fileCount; i++)
-			pszFiles[i] = Utf8EncodeT(pre->ptszFiles[i]);
+			pszFiles[i] = Utf8EncodeT(pre->files.t[i]);
 		
-		szDescr = Utf8EncodeT(pre->tszDescription);
+		szDescr = Utf8EncodeT(pre->descr.t);
 	}
 	else {
-		pszFiles = pre->pszFiles;
-		szDescr = pre->szDescription;
+		pszFiles = pre->files.a;
+		szDescr = pre->descr.a;
 	}
 
 	dbei.cbBlob = sizeof(DWORD);

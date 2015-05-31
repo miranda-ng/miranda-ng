@@ -364,10 +364,10 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.ptszFiles = (TCHAR**)&filename;
+				pre.files.t = (TCHAR**)&filename;
 				pre.lParam = (LPARAM)ft;
 				if ((n = xmlGetChild(fileNode , "desc")) != NULL)
-					pre.tszDescription = (TCHAR*)xmlGetText(n);
+					pre.descr.t = (TCHAR*)xmlGetText(n);
 
 				ProtoChainRecvFile(ft->std.hContact, &pre);
 				return;

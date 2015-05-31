@@ -48,10 +48,8 @@ void CToxProto::OnFriendFile(Tox*, uint32_t friendNumber, uint32_t fileNumber, u
 				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.tszDescription = _T("");
-				pre.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*) * 2);
-				pre.ptszFiles[0] = name;
-				pre.ptszFiles[1] = NULL;
+				pre.descr.t = _T("");
+				pre.files.t = &name;
 				pre.lParam = (LPARAM)transfer;
 				ProtoChainRecvFile(hContact, &pre);
 			}

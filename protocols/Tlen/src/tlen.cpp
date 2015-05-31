@@ -369,7 +369,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	TlenRegisterIcons();
 
 	// Register protocol module
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = "TLEN";
 	pd.fnInit = ( pfnInitProto )tlenProtoInit;
 	pd.fnUninit = ( pfnUninitProto )tlenProtoUninit;

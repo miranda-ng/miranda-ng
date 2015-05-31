@@ -102,7 +102,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	_tzset();
 
 	// Register the module
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = ICQ_PROTOCOL_NAME;
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = icqProtoInit;

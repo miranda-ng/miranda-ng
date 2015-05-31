@@ -240,7 +240,7 @@ void Protocol::SetStatusMsg(int aStatus, const TCHAR *message)
 	if (!CanSetStatusMsg(aStatus))
 		return;
 
-	CallProtoService(name, PS_SETAWAYMSGT, (WPARAM)aStatus, (LPARAM)message);
+	CallProtoService(name, PS_SETAWAYMSG, (WPARAM)aStatus, (LPARAM)message);
 }
 
 bool Protocol::HasAvatar()

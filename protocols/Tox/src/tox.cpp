@@ -43,7 +43,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getCLI();
 	mir_getLP(&pluginInfo);
 
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = "TOX";
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = (pfnInitProto)CToxProto::InitAccount;

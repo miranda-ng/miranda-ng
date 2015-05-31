@@ -294,11 +294,11 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 					if (IsDlgButtonChecked(hdlg, IDC_AUTH)) {
 						DWORD flags = CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_4, 0);
 						if (flags & PF4_NOCUSTOMAUTH)
-							CallContactService(hContact, PSS_AUTHREQUESTT, 0, 0);
+							CallContactService(hContact, PSS_AUTHREQUEST, 0, 0);
 						else {
 							TCHAR szReason[512];
 							GetDlgItemText(hdlg, IDC_AUTHREQ, szReason, SIZEOF(szReason));
-							CallContactService(hContact, PSS_AUTHREQUESTT, 0, (LPARAM)szReason);
+							CallContactService(hContact, PSS_AUTHREQUEST, 0, (LPARAM)szReason);
 						}
 					}
 				}
