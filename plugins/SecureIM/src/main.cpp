@@ -344,7 +344,8 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	}
 
 	// register plugin module
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = (char*)MODULENAME;
 	pd.type = PROTOTYPE_ENCRYPTION;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);

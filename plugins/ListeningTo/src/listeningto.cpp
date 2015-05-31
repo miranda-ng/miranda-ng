@@ -211,7 +211,7 @@ void RebuildMenu()
 
 void RegisterProtocol(char *proto, TCHAR *account)
 {
-	if (!ProtoServiceExists(proto, PS_SET_LISTENINGTO) && !ProtoServiceExists(proto, PS_SETCUSTOMSTATUSEX) && !ProtoServiceExists(proto, PS_SETAWAYMSGT) && !ProtoServiceExists(proto, PS_SETAWAYMSG))
+	if (!ProtoServiceExists(proto, PS_SET_LISTENINGTO) && !ProtoServiceExists(proto, PS_SETCUSTOMSTATUSEX) && !ProtoServiceExists(proto, PS_SETAWAYMSG))
 		return;
 
 	size_t id = proto_items.size();
@@ -678,28 +678,15 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 			mir_free(fr[1]);
 		}
 	}
-	else if (db_get_b(0,MODULE_NAME,"UseStatusMessage",1) && (ProtoServiceExists(proto, PS_SETAWAYMSGT) || ProtoServiceExists(proto, PS_SETAWAYMSG)))
+	else if (db_get_b(0,MODULE_NAME,"UseStatusMessage",1) && ProtoServiceExists(proto, PS_SETAWAYMSG))
 	{
 		int status = CallProtoService(proto, PS_GETSTATUS, 0, 0);
 		if (lti == NULL)
-		{
-			INT_PTR ret = CallProtoService(proto, PS_SETAWAYMSGT, (WPARAM) status, 0);
-			if(ret == CALLSERVICE_NOTFOUND)
-			{
-				CallProtoService(proto, PS_SETAWAYMSG, (WPARAM)status, 0);
-			}
-		}
+			CallProtoService(proto, PS_SETAWAYMSG, status, 0);
 		else
 		{
-			TCHAR *fr = GetParsedFormat(lti);
-			INT_PTR ret = CallProtoService(proto, PS_SETAWAYMSGT, (WPARAM)status, (LPARAM)fr);
-			if(ret == CALLSERVICE_NOTFOUND)
-			{
-				char *info = mir_t2a(fr);
-				CallProtoService(proto, PS_SETAWAYMSG, (WPARAM)status, (LPARAM)info);
-				mir_free(info);
-			}
-			mir_free(fr);
+			ptrT fr(GetParsedFormat(lti));
+			CallProtoService(proto, PS_SETAWAYMSG, status, fr);
 		}
 	}
 }
@@ -713,16 +700,11 @@ INT_PTR EnableListeningTo(char *proto,BOOL enabled)
 	{
 		// For all protocols
 		for (unsigned int i = 1; i < proto_items.size(); ++i)
-		{
 			EnableListeningTo(proto_items[i].proto, enabled);
-		}
 	}
 	else
 	{
-		if (!ProtoServiceExists(proto, PS_SET_LISTENINGTO) &&
-			!ProtoServiceExists(proto, PS_SETCUSTOMSTATUSEX) &&
-			!ProtoServiceExists(proto, PS_SETAWAYMSGT) && // by yaho
-			!ProtoServiceExists(proto, PS_SETAWAYMSG))
+		if (!ProtoServiceExists(proto, PS_SET_LISTENINGTO) && !ProtoServiceExists(proto, PS_SETCUSTOMSTATUSEX) && !ProtoServiceExists(proto, PS_SETAWAYMSG))
 			return 0;
 
 		char setting[256];

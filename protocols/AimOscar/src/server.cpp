@@ -1343,12 +1343,12 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 				pre.dwFlags = PRFF_TCHAR;
 				pre.fileCount = 1;
 				pre.timestamp = time(NULL);
-				pre.tszDescription = mir_utf8decodeT(msg_buf);
-				pre.ptszFiles = &filenameT;
+				pre.descr.t = mir_utf8decodeT(msg_buf);
+				pre.files.t = &filenameT;
 				pre.lParam = (LPARAM)ft;
 				ProtoChainRecvFile(hContact, &pre);
 
-				mir_free(pre.tszDescription);
+				mir_free(pre.descr.t);
 				mir_free(filenameT);
 
 				char cip[20];

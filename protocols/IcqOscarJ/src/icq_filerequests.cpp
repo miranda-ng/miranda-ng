@@ -158,12 +158,12 @@ void CIcqProto::handleFileRequest(PBYTE buf, DWORD dwUin, DWORD dwCookie, DWORD 
 	pre.dwFlags = PRFF_TCHAR;
 	pre.fileCount = 1;
 	pre.timestamp = time(NULL);
-	pre.tszDescription = mir_utf8decodeT(pszDescription);
-	pre.ptszFiles = &ptszFileName;
+	pre.descr.t = mir_utf8decodeT(pszDescription);
+	pre.files.t = &ptszFileName;
 	pre.lParam = (LPARAM)ft;
 	ProtoChainRecvFile(hContact, &pre);
 
-	mir_free(pre.tszDescription);
+	mir_free(pre.descr.t);
 	mir_free(ptszFileName);
 }
 

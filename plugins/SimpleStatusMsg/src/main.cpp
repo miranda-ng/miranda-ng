@@ -624,16 +624,7 @@ int CheckProtoSettings(const char *szProto, int iInitialStatus)
 static void Proto_SetAwayMsgT(const char *szProto, int iStatus, TCHAR *tszMsg)
 {
 	if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_INDIVMODEMSG))
-	{
-
-		if (CallProtoService(szProto, PS_SETAWAYMSGW, (WPARAM)iStatus, (LPARAM)tszMsg) == CALLSERVICE_NOTFOUND)
-		{
-			char *szMsg = mir_u2a(tszMsg);
-			CallProtoService(szProto, PS_SETAWAYMSG, (WPARAM)iStatus, (LPARAM)szMsg);
-			mir_free(szMsg);
-		}
-
-	}
+		CallProtoService(szProto, PS_SETAWAYMSG, (WPARAM)iStatus, (LPARAM)tszMsg);
 }
 
 static void Proto_SetStatus(const char *szProto, int iInitialStatus, int iStatus, TCHAR *tszMsg)
@@ -644,14 +635,7 @@ static void Proto_SetStatus(const char *szProto, int iInitialStatus, int iStatus
 		if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_INDIVMODEMSG))
 		{
 			int iMsgStatus = CheckProtoSettings(szProto, iInitialStatus);
-
-			if (CallProtoService(szProto, PS_SETAWAYMSGW, (WPARAM)iMsgStatus, (LPARAM)tszMsg) == CALLSERVICE_NOTFOUND)
-			{
-				char *szMsg = mir_u2a(tszMsg);
-				CallProtoService(szProto, PS_SETAWAYMSG, (WPARAM)iMsgStatus, (LPARAM)szMsg);
-				mir_free(szMsg);
-			}
-
+			CallProtoService(szProto, PS_SETAWAYMSG, (WPARAM)iMsgStatus, (LPARAM)tszMsg);
 			CallProtoService(szProto, PS_SETSTATUS, (WPARAM)iMsgStatus, 0);
 		}
 		if (ServiceExists(MS_KS_ANNOUNCESTATUSCHANGE))

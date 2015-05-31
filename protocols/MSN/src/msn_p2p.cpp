@@ -1232,8 +1232,8 @@ void CMsnProto::p2p_InitFileTransfer(
 			pre.dwFlags = PRFF_TCHAR;
 			pre.fileCount = 1;
 			pre.timestamp = time(NULL);
-			pre.tszDescription = tComment;
-			pre.ptszFiles = &ft->std.tszCurrentFile;
+			pre.descr.t = tComment;
+			pre.files.t = &ft->std.tszCurrentFile;
 			pre.lParam = (LPARAM)ft;
 			ProtoChainRecvFile(ft->std.hContact, &pre);
 		}

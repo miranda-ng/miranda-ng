@@ -194,10 +194,10 @@ void ChangeAllProtoMessages(char *szProto, int statusMode, TCHAR *msg)
 				continue;
 
 			if ((CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) && !Proto_IsAccountLocked(pa))
-				CallProtoService(pa->szModuleName, PS_SETAWAYMSGT, statusMode, (LPARAM)msg);
+				CallProtoService(pa->szModuleName, PS_SETAWAYMSG, statusMode, (LPARAM)msg);
 		}
 	}
-	else CallProtoService(szProto, PS_SETAWAYMSGT, statusMode, (LPARAM)msg);
+	else CallProtoService(szProto, PS_SETAWAYMSG, statusMode, (LPARAM)msg);
 }
 
 struct SetAwayMsgData

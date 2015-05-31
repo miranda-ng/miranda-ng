@@ -57,7 +57,7 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
 	CreateProtoService(PS_SETMYAVATART, &GGPROTO::setmyavatar);
 
 	CreateProtoService(PS_GETMYAWAYMSG, &GGPROTO::getmyawaymsg);
-	CreateProtoService(PS_SETAWAYMSGT, (MyServiceFunc)&GGPROTO::SetAwayMsg);
+	CreateProtoService(PS_SETAWAYMSG, (MyServiceFunc)&GGPROTO::SetAwayMsg);
 	CreateProtoService(PS_CREATEACCMGRUI, &GGPROTO::get_acc_mgr_gui);
 
 	CreateProtoService(PS_LEAVECHAT, &GGPROTO::leavechat);

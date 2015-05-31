@@ -675,8 +675,8 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 		PROTORECVFILET pre;
 		pre.dwFlags = PRFF_TCHAR;
 		pre.timestamp = time(NULL);
-		pre.tszDescription = desc;
-		pre.ptszFiles = &str2;
+		pre.descr.t = desc;
+		pre.files.t = &str2;
 		pre.fileCount = 1;
 		pre.lParam = (LPARAM)ft;
 		ProtoChainRecvFile(ft->std.hContact, &pre);

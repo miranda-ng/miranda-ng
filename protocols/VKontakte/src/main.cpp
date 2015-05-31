@@ -83,7 +83,8 @@ extern "C" int __declspec(dllexport) Load()
 	InitIcons();
 
 	// Register protocol module
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = "VKontakte";
 	pd.fnInit = (pfnInitProto)vkProtoInit;
 	pd.fnUninit = (pfnUninitProto)vkProtoUninit;

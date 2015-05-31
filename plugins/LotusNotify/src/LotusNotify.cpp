@@ -1630,7 +1630,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 
 	//create protocol
-	PROTOCOLDESCRIPTOR pd = {PROTOCOLDESCRIPTOR_V3_SIZE};
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = PLUGINNAME;
 	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);

@@ -69,7 +69,8 @@ int LoadMetacontacts(void)
 
 	Meta_ReadOptions();
 
-	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = META_FILTER;
 	pd.type = PROTOTYPE_FILTER;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);

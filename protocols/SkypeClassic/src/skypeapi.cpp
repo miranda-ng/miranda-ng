@@ -1100,21 +1100,8 @@ INT_PTR SkypeSetNick(WPARAM wParam, LPARAM lParam) {
  * Returns: 0 - Success
  *		   -1 - Failure
  */
-INT_PTR SkypeSetAwayMessage(WPARAM wParam, LPARAM lParam) {
-	int retval = -1;
-	char *Mood = NULL;
-	
-	if (!lParam) lParam=(LPARAM)"";
-	if(utf8_encode((const char *)lParam, &Mood) == -1 ) return -1;
-	db_set_s(NULL, SKYPE_PROTONAME, "MoodText", (const char *)lParam);
-	 
-	if(AttachStatus == SKYPECONTROLAPI_ATTACH_SUCCESS)
-		retval = SkypeSend("SET PROFILE MOOD_TEXT %s", Mood);
-	free (Mood);
 
-	return retval;
-}
-INT_PTR SkypeSetAwayMessageW(WPARAM wParam, LPARAM lParam) {
+INT_PTR SkypeSetAwayMessage(WPARAM wParam, LPARAM lParam) {
 	int retval = -1;
 	char *Mood = NULL;
 	

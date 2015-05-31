@@ -265,7 +265,8 @@ static int sametime_proto_uninit(PROTO_INTERFACE* ppro)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.szName = "Sametime";
 	pd.fnInit = (pfnInitProto)sametime_proto_init;

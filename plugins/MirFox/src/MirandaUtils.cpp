@@ -370,20 +370,13 @@ void MirandaUtils::setStatusOnAccount(ActionThreadArgStruct* args)
 
 	INT_PTR result = -1;
 
-	if (!(CallProtoService(args->accountSzModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_INDIVMODEMSG)){
-		result = CallProtoService(args->accountSzModuleName, PS_SETAWAYMSGW, (WPARAM)status, (LPARAM)args->userActionSelection);
-		if (result == CALLSERVICE_NOTFOUND){
-			char *szMsg = mir_u2a(args->userActionSelection);
-			result = CallProtoService(args->accountSzModuleName, PS_SETAWAYMSG, (WPARAM)status, (LPARAM)szMsg);
-			mir_free(szMsg);
-		}
-	}
+	if (!(CallProtoService(args->accountSzModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_INDIVMODEMSG))
+		result = CallProtoService(args->accountSzModuleName, PS_SETAWAYMSG, (WPARAM)status, (LPARAM)args->userActionSelection);
 
 	MirandaAccount* mirandaAccount = args->mirfoxDataPtr->getMirandaAccountPtrBySzModuleName(args->accountSzModuleName);
 	TCHAR* tszAccountName = NULL;
-	if (mirandaAccount){
+	if (mirandaAccount)
 		tszAccountName = mirandaAccount->tszAccountName;
-	}
 
 	wchar_t* buffer = new wchar_t[1024 * sizeof(wchar_t)];
 	if(result == 0){

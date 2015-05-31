@@ -44,7 +44,6 @@ INT_PTR SkypeSendGuiFile(WPARAM wParam, LPARAM);
 INT_PTR SkypeBlockContact(WPARAM wParam, LPARAM lParam);
 INT_PTR SkypeSetAvatar(WPARAM wParam, LPARAM lParam);
 INT_PTR SkypeSetAwayMessage(WPARAM wParam, LPARAM lParam);
-INT_PTR SkypeSetAwayMessageW(WPARAM wParam, LPARAM lParam);
 INT_PTR SkypeSetNick(WPARAM wParam, LPARAM lParam);
 INT_PTR SkypeChatCreate(WPARAM wParam, LPARAM lParam);
 int SkypeSetProfile(char *szProperty, char *szValue);

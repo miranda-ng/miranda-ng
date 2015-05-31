@@ -2070,8 +2070,8 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 							*ptr = ' ';
 						}
 						else if (strncmp(ptr, " CHATMESSAGES ", 14) == 0) {
-							int iLen=mir_strlen(ptr+14)+1;
-							char *pParam=(char*)calloc(iLen+1, 1);
+							size_t iLen = mir_strlen(ptr+14)+1;
+							char *pParam = (char*)calloc(iLen+1, 1);
 							*pParam=TRUE;
 							memcpy(pParam+1, ptr+14, iLen);
 							pthread_create((pThreadFunc)MessageListProcessingThread, pParam);
@@ -2127,7 +2127,6 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 			}
 			if (!strncmp(szSkypeMsg, "MESSAGES", 8) || !strncmp(szSkypeMsg, "CHATMESSAGES", 12)) {
 				char *pMsgs;
-				int iLen;
 				if (mir_strlen(szSkypeMsg) <= (UINT)((pMsgs=strchr(szSkypeMsg, ' ')) - szSkypeMsg + 1))
 				{
 					LOG(("%s %d %s %d", szSkypeMsg, (UINT)(strchr(szSkypeMsg, ' ') - szSkypeMsg + 1),
@@ -2135,7 +2134,8 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 					break;
 				}
 				LOG(("MessageListProcessingThread launched"));
-				char *pParam=(char*)calloc((iLen=mir_strlen(pMsgs)+1)+1, 1);
+				size_t iLen = mir_strlen(pMsgs)+1;
+				char *pParam=(char*)calloc(iLen+1, 1);
 				memcpy(pParam+1, pMsgs, iLen);
 				pthread_create((pThreadFunc)MessageListProcessingThread, pParam);
 				break;

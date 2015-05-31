@@ -864,33 +864,30 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 	hInst = hinstDLL;
 	return TRUE;
 }
+
 extern "C" int __declspec(dllexport) Load(void)
 {
-	char service[100] = { "" };
-
-	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
-
 #ifdef _DEBUG
 	_OutputDebugString(_T("Entering Load dll"));
 #endif
 
 	mir_getLP(&pluginInfo);
-	//hCurrentEditMutex=CreateMutex(NULL,FALSE,_T("CurrentEditMutex"));
 	hExceptionsMutex = CreateMutex(NULL, FALSE, _T("ExceptionsMutex"));
 
 	LoadSettings();
 	connExceptions = LoadSettingsConnections();
-	//create protocol
-	//memset(&pd, 0, sizeof(pd));
-	//pd.cbSize=sizeof(pd);
+
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = PLUGINNAME;
 	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
-	//set all contacts to offline
 
+	//set all contacts to offline
 	for (MCONTACT hContact = db_find_first(PLUGINNAME); hContact != NULL; hContact = db_find_next(hContact, PLUGINNAME))
 		db_set_w(hContact, PLUGINNAME, "status", ID_STATUS_OFFLINE);
 
+	char service[100] = { "" };
 	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_GETCAPS);
 	CreateServiceFunction(service, GetCaps);
 	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_GETNAME);
@@ -901,7 +898,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(service, SetStatus);
 	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_GETSTATUS);
 	CreateServiceFunction(service, GetStatus);
-
 
 	SkinAddNewSoundEx(PLUGINNAME_NEWSOUND, PLUGINNAME, LPGEN("New Connection Notification"));
 	hOptInit = HookEvent(ME_OPT_INITIALISE, ConnectionNotifyOptInit);//register service to hook option call

@@ -402,7 +402,7 @@ INT_PTR CALLBACK AuthReqWndProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpara
 		{
 			TCHAR tszReason[256] = { 0 };
 			GetDlgItemText(hdlg, IDC_REASON, tszReason, SIZEOF(tszReason));
-			CallContactService(hcontact, PSS_AUTHREQUESTT, 0, (LPARAM)tszReason);
+			CallContactService(hcontact, PSS_AUTHREQUEST, 0, (LPARAM)tszReason);
 		} // fall through
 		case IDCANCEL:
 			DestroyWindow(hdlg);

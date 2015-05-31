@@ -207,8 +207,8 @@ void InitServices(void)
 	CreateProtoServiceFunction(WEATHERPROTONAME, PS_LOADICON, WeatherLoadIcon);
 	CreateProtoServiceFunction(WEATHERPROTONAME, PS_SETSTATUS, WeatherSetStatus);
 	CreateProtoServiceFunction(WEATHERPROTONAME, PS_GETSTATUS, WeatherGetStatus);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PS_BASICSEARCHT, WeatherBasicSearch);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PS_SEARCHBYEMAILT, WeatherBasicSearch);
+	CreateProtoServiceFunction(WEATHERPROTONAME, PS_BASICSEARCH, WeatherBasicSearch);
+	CreateProtoServiceFunction(WEATHERPROTONAME, PS_SEARCHBYEMAIL, WeatherBasicSearch);
 	CreateProtoServiceFunction(WEATHERPROTONAME, PS_ADDTOLIST, WeatherAddToList);
 	CreateProtoServiceFunction(WEATHERPROTONAME, PSS_GETINFO, WeatherGetInfo);
 	CreateProtoServiceFunction(WEATHERPROTONAME, PS_GETAVATARINFOT, WeatherGetAvatarInfo);

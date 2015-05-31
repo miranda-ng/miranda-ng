@@ -694,9 +694,9 @@ DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags
 	PROTORECVFILET prf;
 	prf.dwFlags = PRFF_UNICODE;
 	prf.timestamp = _time32(NULL);
-	prf.tszDescription = dat->pwszDescription;
-	prf.fileCount = 1;//dat->dwFilesCount;
-	prf.ptszFiles = &dat->pwszFilesList;
+	prf.descr.w = dat->pwszDescription;
+	prf.fileCount = 1;
+	prf.files.w = &dat->pwszFilesList;
 	prf.lParam = dwIDRequest;
 	ProtoChainRecvFile(hContact, &prf);
 	return NO_ERROR;

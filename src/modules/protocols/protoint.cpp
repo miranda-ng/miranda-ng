@@ -53,7 +53,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	MCONTACT __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
 	{
-		return (MCONTACT)ProtoCallService(m_szModuleName, PS_ADDTOLISTBYEVENT, MAKELONG(flags, iContact), (LPARAM)hDbEvent);
+		return (MCONTACT)ProtoCallService(m_szModuleName, PS_ADDTOLISTBYEVENT, MAKELONG(flags, iContact), hDbEvent);
 	}
 
 	int __cdecl Authorize(MEVENT hDbEvent)
@@ -61,18 +61,21 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PS_AUTHALLOW, (WPARAM)hDbEvent, 0);
 	}
 
-	int __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
+	int __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR *szReason)
 	{
-		return (int)ProtoCallService(m_szModuleName, PS_AUTHDENY, (WPARAM)hDbEvent, (LPARAM)StrConvA(szReason));
+		if (m_iVersion > 1)
+			return (int)ProtoCallService(m_szModuleName, PS_AUTHDENY, hDbEvent, (LPARAM)szReason);
+
+		return (int)ProtoCallService(m_szModuleName, PS_AUTHDENY, hDbEvent, (LPARAM)StrConvA(szReason));
 	}
 
-	int __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT* evt)
+	int __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT *evt)
 	{
 		CCSDATA ccs = { hContact, PSR_AUTH, 0, (LPARAM)evt };
 		return (int)ProtoCallService(m_szModuleName, PSR_AUTH, 0, (LPARAM)&ccs);
 	}
 
-	int __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
+	int __cdecl AuthRequest(MCONTACT hContact, const TCHAR *szMessage)
 	{
 		CCSDATA ccs = { hContact, PSS_AUTHREQUEST, 0, (LPARAM)szMessage };
 		ccs.lParam = (LPARAM)mir_t2a(szMessage);
@@ -134,11 +137,16 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	HANDLE __cdecl SearchBasic(const PROTOCHAR* id)
 	{
+		if (m_iVersion > 1)
+			return (HANDLE)ProtoCallService(m_szModuleName, PS_BASICSEARCH, 0, (LPARAM)id);
+
 		return (HANDLE)ProtoCallService(m_szModuleName, PS_BASICSEARCH, 0, (LPARAM)StrConvA(id));
 	}
 
 	HANDLE __cdecl SearchByEmail(const PROTOCHAR* email)
 	{
+		if (m_iVersion > 1)
+			return (HANDLE)ProtoCallService(m_szModuleName, PS_SEARCHBYEMAIL, 0, (LPARAM)email);
 		return (HANDLE)ProtoCallService(m_szModuleName, PS_SEARCHBYEMAIL, 0, (LPARAM)StrConvA(email));
 	}
 
@@ -245,6 +253,8 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	int __cdecl SetAwayMsg(int iStatus, const TCHAR* msg)
 	{
+		if (m_iVersion > 1)
+			return (int)ProtoCallService(m_szModuleName, PS_SETAWAYMSG, iStatus, (LPARAM)msg);
 		return (int)ProtoCallService(m_szModuleName, PS_SETAWAYMSG, iStatus, (LPARAM)StrConvA(msg));
 	}
 

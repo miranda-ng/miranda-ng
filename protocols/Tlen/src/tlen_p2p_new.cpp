@@ -263,8 +263,8 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 						pre.dwFlags = PRFF_TCHAR;
 						pre.fileCount = 1;
 						pre.timestamp = time(NULL);
-						pre.tszDescription = filenameT;
-						pre.ptszFiles = &filenameT;
+						pre.descr.t = filenameT;
+						pre.files.t = &filenameT;
 						pre.lParam = (LPARAM)ft;
 						ft->proto->debugLogA("sending chainrecv");
 						ProtoChainRecvFile(ft->hContact, &pre);

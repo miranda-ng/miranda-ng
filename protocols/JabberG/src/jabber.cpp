@@ -206,7 +206,8 @@ extern "C" int __declspec(dllexport) Load()
 	hDiscoInfoResult = CreateHookableEvent(ME_JABBER_SRVDISCOINFO);
 
 	// Register protocol module
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = "JABBER";
 	pd.fnInit = (pfnInitProto)jabberProtoInit;
 	pd.fnUninit = (pfnUninitProto)jabberProtoUninit;

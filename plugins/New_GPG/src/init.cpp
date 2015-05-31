@@ -154,7 +154,8 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	HookEvent(ME_MSG_WINDOWEVENT, onWindowEvent);
 	HookEvent(ME_MSG_ICONPRESSED, onIconPressed);
 
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	PROTOCOLDESCRIPTOR pd = { 0 };
+	pd.cbSize = sizeof(pd);
 	pd.szName = szGPGModuleName;
 	pd.type = PROTOTYPE_ENCRYPTION;
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);

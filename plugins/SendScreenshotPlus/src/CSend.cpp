@@ -296,7 +296,7 @@ void CSend::svcSendFileExit() {
 	TCHAR* pDesc = mir_tstrdup(m_pszFileDesc);
 	ppFile[0] = mir_tstrdup (m_pszFile);
 	ppFile[1] = NULL;
-	m_hSend = (HANDLE)CallContactService(m_hContact, PSS_FILET, (WPARAM)pDesc, (LPARAM)ppFile);
+	m_hSend = (HANDLE)CallContactService(m_hContact, PSS_FILE, (WPARAM)pDesc, (LPARAM)ppFile);
 	mir_free(pDesc);
 	mir_free(ppFile[0]);
 

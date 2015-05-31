@@ -213,7 +213,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 				};
 				// auto auth. reqwest with send congratulation
 				if(gbAutoReqAuth)
-					CallContactService(hContact,PSS_AUTHREQUESTW,0, (LPARAM)variables_parse(gbCongratulation, hContact).c_str());
+					CallContactService(hContact,PSS_AUTHREQUEST,0, (LPARAM)variables_parse(gbCongratulation, hContact).c_str());
 			}
 		}
 		return 0;
