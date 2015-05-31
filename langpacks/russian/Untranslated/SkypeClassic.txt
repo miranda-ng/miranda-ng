@@ -1,3 +1,0 @@
-﻿[Unable to register with group chat module!]
-[Cannot register window message.]
-[Skype ID]
