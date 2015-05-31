@@ -561,17 +561,17 @@ void FacebookProto::SyncThreads(void*)
 	if (isOffline())
 		return;
 
+	// Always load unread messages because syncthreads request is not reliable (probably doesn't load multi user chat messages at all)
+	ProcessUnreadMessages(NULL);
+
 	// Get timestamp of last action (message or other event)
 	time_t timestamp = getDword(FACEBOOK_KEY_LAST_ACTION_TS, 0);
 
-	// If last event is older than 1 day, we force sync to be 1 day old
-	time_t yesterday = ::time(NULL) - 24 * 60 * 60;
-	if (timestamp < yesterday) {
-		debugLogA("    Last action timestamp is too old: %d, use 24 hours old instead: %d", timestamp, yesterday);
-		timestamp = yesterday;
-
-		// And load older unread messages that we might not get otherwise
-		ProcessUnreadMessages(NULL);
+	// If last event is older than 2 day, we force sync to be max. 2 day old
+	time_t daysBefore = ::time(NULL) - 24 * 60 * 60 * 2;
+	if (timestamp < daysBefore) {
+		debugLogA("    Last action timestamp is too old: %d, use 24 hours old instead: %d", timestamp, daysBefore);
+		timestamp = daysBefore;
 	}
 
 	// Receive messages from all folders by default, use hidden setting to receive only inbox messages
