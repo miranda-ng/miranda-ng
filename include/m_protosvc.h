@@ -33,19 +33,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "m_protocols.h"
 
-/* *****  Unicode Services note   ********
-******************************************
+/////////////////////////////////////////////////////////////////////////////////////////
+// WARNING:
+// all services from this file should be called via CallProtoService()
 
-Only new style protocols (Miranda 0.9+) with m_iVersion set to 2 or higher
-support Unicode services documented below, all other support only ANSI.
-
-For all other that do not support Unicode services, Miranda core will
-convert Unicode to ANSI and call the appropriate service.
-*/
-
-/*************************** NON-CONTACT SERVICES ************************/
-// these should be called with CallProtoServiceInt(NULL,)
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // Get the capability flags of the module.
 // wParam = flagNum
 // lParam = 0
@@ -54,6 +46,7 @@ convert Unicode to ANSI and call the appropriate service.
 // Non-network-access modules should return flags to represent the things they
 // actually actively use, not the values that it is known to pass through
 // correctly
+
 #define PFLAGNUM_1   1
 #define PF1_IMSEND        0x00000001       // supports IM sending
 #define PF1_IMRECV        0x00000002       // supports IM receiving

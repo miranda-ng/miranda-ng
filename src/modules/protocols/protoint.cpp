@@ -208,6 +208,9 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 	{
 		CCSDATA ccs = { hContact, PSS_FILE, (WPARAM)szDescription, (LPARAM)ppszFiles };
 
+		if (m_iVersion > 1)
+			return (HANDLE)ProtoCallService(m_szModuleName, PSS_FILE, 0, (LPARAM)&ccs);
+
 		ccs.wParam = (WPARAM)mir_t2a(szDescription);
 		ccs.lParam = (LPARAM)Proto_FilesMatrixA(ppszFiles);
 		HANDLE res = (HANDLE)ProtoCallService(m_szModuleName, PSS_FILE, 0, (LPARAM)&ccs);
