@@ -939,7 +939,7 @@ void CConfig::FillTree(HWND hTree,bool bCList)
 	vector<CProtoFilter*>::iterator iter = m_ProtoList.begin();
 	while(iter != m_ProtoList.end())
 	{
-		tvis.item.lParam=(LPARAM)(*iter);
+		tvis.item.lParam = (LPARAM)(*iter);
 		tvis.item.pszText= (LPTSTR)(*iter)->strName.c_str();
 		if(!bCList)
 		{

@@ -332,7 +332,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 			if (bInactive && !(si->wState & STATE_TALK)) {
 				si->wState |= STATE_TALK;
-				db_set_w(si->hContact, si->pszModule, "ApparentMode", (LPARAM)(WORD)40071);
+				db_set_w(si->hContact, si->pszModule, "ApparentMode", ID_STATUS_OFFLINE);
 			}
 			if (ci.OnFlashWindow)
 				ci.OnFlashWindow(si, bInactive);

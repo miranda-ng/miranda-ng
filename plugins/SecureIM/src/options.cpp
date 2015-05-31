@@ -471,7 +471,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 
 			case LVN_COLUMNCLICK:
 				bChangeSortOrder = true;
-				ListView_Sort(hLV, (LPARAM)(LPNMLISTVIEW(lParam)->iSubItem + 0x01));
+				ListView_Sort(hLV, LPNMLISTVIEW(lParam)->iSubItem + 0x01);
 				bChangeSortOrder = false;
 			}
 			break;
@@ -735,7 +735,7 @@ INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 			switch (((LPNMHDR)lParam)->code) {
 			case LVN_COLUMNCLICK:
 				bChangeSortOrder = true;
-				ListView_Sort(hLV, (LPARAM)(LPNMLISTVIEW(lParam)->iSubItem + 0x11));
+				ListView_Sort(hLV, LPNMLISTVIEW(lParam)->iSubItem + 0x11);
 				bChangeSortOrder = false;
 				break;
 			}
@@ -858,7 +858,7 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 
 			case LVN_COLUMNCLICK:
 				bChangeSortOrder = true;
-				ListView_Sort(hLV, (LPARAM)(LPNMLISTVIEW(lParam)->iSubItem + 0x21));
+				ListView_Sort(hLV, LPNMLISTVIEW(lParam)->iSubItem + 0x21);
 				bChangeSortOrder = false;
 			}
 		}

@@ -83,7 +83,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			SendDlgItemMessageW(hwnd, IDC_CONTACTS, CB_SETITEMDATA, index, hContact);
 		}
 
-		index = (int)SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_INSERTSTRING, 0, (LPARAM)(char*)Translate("Settings"));
+		index = (int)SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_INSERTSTRING, 0, (LPARAM)Translate("Settings"));
 		SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_SETITEMDATA, index, 0);
 		SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_SETCURSEL, index, 0);
 

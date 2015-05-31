@@ -66,7 +66,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		if (m_iVersion > 1)
 			return (int)ProtoCallService(m_szModuleName, PS_AUTHDENY, hDbEvent, (LPARAM)szReason);
 
-		return (int)ProtoCallService(m_szModuleName, PS_AUTHDENY, hDbEvent, (LPARAM)StrConvA(szReason));
+		return (int)ProtoCallService(m_szModuleName, PS_AUTHDENY, hDbEvent, _T2A(szReason));
 	}
 
 	int __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT *evt)
@@ -152,14 +152,14 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		if (m_iVersion > 1)
 			return (HANDLE)ProtoCallService(m_szModuleName, PS_BASICSEARCH, 0, (LPARAM)id);
 
-		return (HANDLE)ProtoCallService(m_szModuleName, PS_BASICSEARCH, 0, (LPARAM)StrConvA(id));
+		return (HANDLE)ProtoCallService(m_szModuleName, PS_BASICSEARCH, 0, _T2A(id));
 	}
 
 	HANDLE __cdecl SearchByEmail(const TCHAR* email)
 	{
 		if (m_iVersion > 1)
 			return (HANDLE)ProtoCallService(m_szModuleName, PS_SEARCHBYEMAIL, 0, (LPARAM)email);
-		return (HANDLE)ProtoCallService(m_szModuleName, PS_SEARCHBYEMAIL, 0, (LPARAM)StrConvA(email));
+		return (HANDLE)ProtoCallService(m_szModuleName, PS_SEARCHBYEMAIL, 0, _T2A(email));
 	}
 
 	HANDLE __cdecl SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
@@ -270,7 +270,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 	{
 		if (m_iVersion > 1)
 			return (int)ProtoCallService(m_szModuleName, PS_SETAWAYMSG, iStatus, (LPARAM)msg);
-		return (int)ProtoCallService(m_szModuleName, PS_SETAWAYMSG, iStatus, (LPARAM)StrConvA(msg));
+		return (int)ProtoCallService(m_szModuleName, PS_SETAWAYMSG, iStatus, _T2A(msg));
 	}
 
 	int __cdecl UserIsTyping(MCONTACT hContact, int type)

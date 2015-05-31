@@ -280,7 +280,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 					HWND hWndFileDlg = GetParent(hDlg);
 
 					*szSelection = '/';
-					CommDlg_OpenSave_GetSpec(hWndFileDlg, (LPARAM)(&szSelection[1]), _MAX_PATH);
+					CommDlg_OpenSave_GetSpec(hWndFileDlg, (LPARAM)&szSelection[1], _MAX_PATH);
 
 					HWND hFileName = GetDlgItem(hWndFileDlg, edt1);
 					char pszFileName[MAX_PATH];

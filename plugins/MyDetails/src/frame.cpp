@@ -542,8 +542,8 @@ HWND CreateTooltip(HWND hwnd, RECT &rect)
 	ti.rect.bottom = rect.bottom;
 
 	/* SEND AN ADDTOOL MESSAGE TO THE TOOLTIP CONTROL WINDOW */
-	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
-	SendMessage(hwndTT, TTM_SETDELAYTIME, (WPARAM)(DWORD)TTDT_AUTOPOP, (LPARAM)MAKELONG(24 * 60 * 60 * 1000, 0));
+	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM)&ti);
+	SendMessage(hwndTT, TTM_SETDELAYTIME, TTDT_AUTOPOP, MAKELONG(24 * 60 * 60 * 1000, 0));
 
 	return hwndTT;
 }
@@ -971,8 +971,8 @@ void CalcRectangles(HWND hwnd)
 			else if (IsWindowVisible(hwnd)) {
 				int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
 				if (flags & F_VISIBLE) {
-					CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, frame_id), (LPARAM)(size));
-					CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)frame_id, (LPARAM)(FU_TBREDRAW | FU_FMREDRAW | FU_FMPOS));
+					CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, frame_id), size);
+					CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)frame_id, FU_TBREDRAW | FU_FMREDRAW | FU_FMPOS);
 				}
 			}
 		}

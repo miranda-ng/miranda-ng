@@ -89,11 +89,9 @@ static void sttFillJidList(HWND hwndDlg)
 	lvi.iSubItem = 0;
 	for (int i=0; i<count; i++) {
 		lvi.iItem = i;
-		if (ListView_GetItem(hwndList, &lvi) == TRUE) {
-			if (lvi.lParam!=(LPARAM)(-1) && lvi.lParam!=(LPARAM)(NULL)) {
+		if (ListView_GetItem(hwndList, &lvi) == TRUE)
+			if (lvi.lParam != -1 && lvi.lParam != NULL)
 				mir_free((void *) lvi.lParam);
-			}
-		}
 	}
 	ListView_DeleteAllItems(hwndList);
 
@@ -145,7 +143,7 @@ static void sttFillJidList(HWND hwndDlg)
 	}
 
 	lvi.mask = LVIF_PARAM;
-	lvi.lParam = (LPARAM)(-1);
+	lvi.lParam = -1;
 	ListView_InsertItem(hwndList, &lvi);
 
 	SendMessage(hwndList, WM_SETREDRAW, TRUE, 0);
@@ -297,7 +295,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 							ListView_GetSubItemRect(nm->nmcd.hdr.hwndFrom, nm->nmcd.dwItemSpec, nm->iSubItem, LVIR_LABEL, &rc);
 							if (nm->iSubItem == 1) {
 								HICON hIcon;
-								if (nm->nmcd.lItemlParam == (LPARAM)(-1))
+								if (nm->nmcd.lItemlParam == -1)
 									hIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_ADDCONTACT), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 								else
 									hIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_DELETE), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
@@ -335,7 +333,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 					lvi.pszText = text;
 					lvi.cchTextMax = SIZEOF(text);
 					ListView_GetItem(nm->hdr.hwndFrom, &lvi);
-					if (lvi.lParam == (LPARAM)(-1)) {
+					if (lvi.lParam == -1) {
 						CMString szBuffer(dat->type2str());
 						if (!dat->ppro->EnterString(szBuffer, NULL, ESF_COMBO, "gcAddNick_"))
 							break;
@@ -397,7 +395,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			for (int i=0; i<count; i++) {
 				lvi.iItem = i;
 				if (ListView_GetItem(hwndList, &lvi) == TRUE) {
-					if (lvi.lParam!=(LPARAM)(-1) && lvi.lParam!=(LPARAM)(NULL)) {
+					if (lvi.lParam != -1 && lvi.lParam != NULL) {
 						mir_free((void *) lvi.lParam);
 					}
 				}

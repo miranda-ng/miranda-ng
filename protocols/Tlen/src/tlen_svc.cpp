@@ -569,7 +569,7 @@ static void __cdecl TlenGetAwayMsgThread(void *ptr)
 		if (item != NULL) {
 			db_free(&dbv);
 			ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1,
-				item->statusMessage==NULL ? (LPARAM)NULL : (LPARAM)(TCHAR*)_A2T(item->statusMessage));
+				item->statusMessage == NULL ? NULL : _A2T(item->statusMessage));
 		} else {
 			ptrA ownJid(db_get_sa(NULL, data->proto->m_szModuleName, "jid"));
 			if (!mir_strcmp(ownJid, dbv.pszVal)){

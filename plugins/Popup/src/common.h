@@ -82,13 +82,12 @@ inline INT_PTR DBGetContactSettingStringX(MCONTACT hContact, const char *ModuleN
 
 inline void AddTooltipTranslated(HWND hwndToolTip, HWND hwnd, int id, RECT rc, char *text)
 {
-
 	TOOLINFO ti = { 0 };
 	ti.cbSize = sizeof(TOOLINFO);
 
 	ti.hwnd = hwnd;
 	ti.uId = id;
-	SendMessage(hwndToolTip, TTM_DELTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
+	SendMessage(hwndToolTip, TTM_DELTOOL, 0, (LPARAM)&ti);
 
 	LPTSTR wtext = mir_a2t(text);
 
@@ -98,7 +97,7 @@ inline void AddTooltipTranslated(HWND hwndToolTip, HWND hwnd, int id, RECT rc, c
 	ti.hinst = hInst;
 	ti.lpszText = TranslateTS(wtext);
 	ti.rect = rc;
-	SendMessage(hwndToolTip, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
+	SendMessage(hwndToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
 
 	mir_free(wtext);
 

@@ -93,7 +93,7 @@ void TSendContactsData::ShowErrorDlg(HWND hwndDlg, char* szMsg, bool bAllowRetry
 	ShowWindow(hwndDlg, SW_SHOWNORMAL);
 	EnableWindow(hwndDlg, FALSE);
 	if (!hError) {
-		hError = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MSGSENDERROR), hwndDlg, ErrorDlgProc, (LPARAM)(LPTSTR)_A2T(szMsg));
+		hError = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MSGSENDERROR), hwndDlg, ErrorDlgProc, _A2T(szMsg));
 		if (!bAllowRetry)
 			EnableDlgItem(hError, IDOK, FALSE); // do not allow again - fatal, could not be better
 	}

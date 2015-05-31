@@ -95,7 +95,7 @@ static int StatusChangeGetMessage(WPARAM wParam, LPARAM hDbEvent)
 	if (((DWORD)(dbe.flags & ((DWORD)DBEF_SENT))) == ((DWORD)(DBEF_SENT))) {
 		if (send) {
 			// change status
-			CallProtoService(dbe.szModule, PS_SETSTATUS, (LPARAM)(Options.ChangeTo), 0);
+			CallProtoService(dbe.szModule, PS_SETSTATUS, (LPARAM)Options.ChangeTo, 0);
 		}
 	}
 
@@ -103,7 +103,7 @@ static int StatusChangeGetMessage(WPARAM wParam, LPARAM hDbEvent)
 	else {
 		if (read) {
 			// change status
-			CallProtoService(dbe.szModule, PS_SETSTATUS, (LPARAM)(Options.ChangeTo), 0);
+			CallProtoService(dbe.szModule, PS_SETSTATUS, (LPARAM)Options.ChangeTo, 0);
 		}
 	}
       

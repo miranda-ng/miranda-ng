@@ -146,7 +146,7 @@ void TSAPI DM_InitTip(TWindowData *dat)
 
 LRESULT TSAPI DM_GenericHotkeysCheck(MSG *message, TWindowData *dat)
 {
-	LRESULT mim_hotkey_check = CallService(MS_HOTKEY_CHECK, (WPARAM)message, (LPARAM)(TABSRMM_HK_SECTION_GENERIC));
+	LRESULT mim_hotkey_check = CallService(MS_HOTKEY_CHECK, (WPARAM)message, (LPARAM)TABSRMM_HK_SECTION_GENERIC);
 	HWND	hwndDlg = dat->hwnd;
 
 	switch (mim_hotkey_check) {

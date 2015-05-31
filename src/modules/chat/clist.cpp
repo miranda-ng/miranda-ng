@@ -93,7 +93,7 @@ BOOL SetAllOffline(BOOL bHide, const char *pszModule)
 			continue;
 		int i = db_get_b(hContact, szProto, "ChatRoom", 0);
 		if (i != 0) {
-			db_set_w(hContact, szProto, "ApparentMode", (LPARAM)(WORD)0);
+			db_set_w(hContact, szProto, "ApparentMode", 0);
 			db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		}
 	}

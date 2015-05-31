@@ -304,7 +304,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 				}
 
 				if (GetAsyncKeyState(VK_CONTROL))
-					CallService(MS_MSG_SENDMESSAGE, hContact, (LPARAM)(const char*)NULL);
+					CallService(MS_MSG_SENDMESSAGE, hContact, NULL);
 			}
 			// fall through
 		case IDCANCEL:

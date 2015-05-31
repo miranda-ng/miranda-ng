@@ -355,7 +355,7 @@ static LRESULT CALLBACK AccListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			mir_subclassWindow(dat->hwndEdit, sttEditSubclassProc);
 			SendMessage(dat->hwndEdit, WM_SETFONT, (WPARAM)parentDat->hfntTitle, 0);
 			SendMessage(dat->hwndEdit, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN | EC_USEFONTINFO, 0);
-			SendMessage(dat->hwndEdit, EM_SETSEL, 0, (LPARAM)(-1));
+			SendMessage(dat->hwndEdit, EM_SETSEL, 0, -1);
 			ShowWindow(dat->hwndEdit, SW_SHOW);
 		}
 		SetFocus(dat->hwndEdit);

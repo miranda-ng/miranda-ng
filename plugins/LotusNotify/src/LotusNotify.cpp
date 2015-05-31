@@ -1072,10 +1072,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BGCOLOR), settingSetColours!=0);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_FGCOLOR), settingSetColours!=0);
 
-
-				//SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_SELECTSTRING ,-1,(LPARAM)(LPCSTR)settingServer);
-
-			// initialise and fill listbox
+				// initialise and fill listbox
 				hwndList = GetDlgItem(hwndDlg, IDC_STATUS);
 				ListView_DeleteAllItems(hwndList);
 

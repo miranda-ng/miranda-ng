@@ -279,7 +279,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 
 	if ( GetDlgItem(hDlg, IDC_MAIN) && GetDlgItem(hDlg, IDC_MESSAGE))
 	{
-		SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETEVENTMASK, 0, (LPARAM)(ENM_LINK));
+		SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETEVENTMASK, 0, (LPARAM)ENM_LINK);
 		SendDlgItemMessage( hDlg, IDC_MAIN, EM_AUTOURLDETECT, TRUE, 0 );
 		SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETBKGNDCOLOR, FALSE, colourSet.background);
 		
@@ -524,7 +524,7 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	pf.dwMask = PFM_ALIGNMENT;
 	pf.wAlignment = PFA_LEFT;
 	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETPARAFORMAT, FALSE, (LPARAM)&pf);
-	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETEVENTMASK, 0, (LPARAM)(ENM_LINK));
+	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETEVENTMASK, 0, (LPARAM)ENM_LINK);
 	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_AUTOURLDETECT, TRUE, 0);
 	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETBKGNDCOLOR, FALSE, BGColourSel);
 	SetDlgItemText(hDlg, IDC_OPTIONS_RE, NULL);

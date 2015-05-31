@@ -183,7 +183,7 @@ struct TSlotInfo
 
 int __cdecl SortContact(const void *Item1, const void *Item2)
 {
-	return CallService(MS_CLIST_CONTACTSCOMPARE, (WPARAM)((TSlotInfo*)Item1)->hContact, (LPARAM)((TSlotInfo*)Item2)->hContact);
+	return CallService(MS_CLIST_CONTACTSCOMPARE, ((TSlotInfo*)Item1)->hContact, ((TSlotInfo*)Item2)->hContact);
 }
 
 void ipcGetSkinIcons(THeaderIPC *ipch)

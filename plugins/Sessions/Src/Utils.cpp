@@ -302,11 +302,11 @@ int LoadSessionToCombobox(HWND hdlg, BOOL mode, int iLimit, char* pszSetting, in
 		if (pszBuffer) {
 			if (!IsMarkedUserDefSession(i + iFirstNum) || mode == 1) {
 				index = SendDlgItemMessage(hdlg, IDC_LIST, CB_ADDSTRING, 0, (LPARAM)pszBuffer);
-				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETITEMDATA, (WPARAM)index, (LPARAM)(i + iFirstNum));
+				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETITEMDATA, (WPARAM)index, i + iFirstNum);
 			}
 			else {
 				SendDlgItemMessage(hdlg, IDC_LIST, CB_INSERTSTRING, 0, (LPARAM)pszBuffer);
-				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETITEMDATA, 0, (LPARAM)(i + iFirstNum));
+				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETITEMDATA, 0, i + iFirstNum);
 			}
 			mir_free(pszBuffer);
 		}

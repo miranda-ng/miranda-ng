@@ -74,7 +74,7 @@ void mwIm_conversation_recv(mwConversation* conv, mwImSendType type, gconstpoint
 	proto->debugLog(_T("mwIm_conversation_recv() type=[%d] hContact=[%x]"), type, hContact);
 
 	if (type == mwImSend_TYPING) {
-		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)(GPOINTER_TO_UINT(msg) == 0 ? 0 : 2));
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, (GPOINTER_TO_UINT(msg) == 0 ? 0 : 2));
 		return;
 	}
 
