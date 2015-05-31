@@ -227,6 +227,12 @@ int facebook_json_parser::parse_notifications(std::string *data, std::map< std::
 		facebook_notification* notification = new facebook_notification();
 
 		notification->id = id_.as_string();
+
+		// Fix notification ID
+		std::string::size_type pos = notification->id.find(":");
+		if (pos != std::string::npos)
+			notification->id = notification->id.substr(pos + 1);
+
 		notification->link = url_.as_string();
 		notification->text = utils::text::html_entities_decode(utils::text::slashu_to_utf8(text_.as_string()));
 		notification->time = utils::time::from_string(time_.as_string());
@@ -581,6 +587,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 					notification->id = alert_id.as_string();
 					notification->time = timestamp;
 
+					// Fix notification ID
 					std::string::size_type pos = notification->id.find(":");
 					if (pos != std::string::npos)
 						notification->id = notification->id.substr(pos + 1);

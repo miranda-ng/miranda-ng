@@ -887,11 +887,13 @@ void FacebookProto::ProcessNotifications(void*)
 
 	facy.handle_entry("notifications");
 
-	std::string data = "/ajax/notifications/client/get.php?__a=1&__dyn=&__req=&__rev=";
+	int count = FACEBOOK_NOTIFICATIONS_LOAD_COUNT;
+
+	std::string data = "__dyn=&__req=&__rev=";
 	data += "&__user=" + facy.self_.user_id;
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&cursor="; // when loading more
-	data += "&length=" + FACEBOOK_NOTIFICATIONS_LOAD_COUNT; // number of items to load
+	data += "&length=" + utils::conversion::to_string(&count, UTILS_CONV_UNSIGNED_NUMBER); // number of items to load
 	data += "&businessID="; // probably for pages?
 	data += "&ttstamp=" + facy.ttstamp();
 
