@@ -91,11 +91,12 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 				UnhookEvent(awayData->hAwayMsgEvent);
 				awayData->hAwayMsgEvent = NULL;
 			}
-			SetDlgItemText(hwndDlg, IDC_READAWAYMSG_MSG, (const TCHAR*)ack->lParam);
+			const TCHAR *ptszStatusMsg = (const TCHAR*)ack->lParam;
+			SetDlgItemText(hwndDlg, IDC_READAWAYMSG_MSG, ptszStatusMsg);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_READAWAYMSG_RETRIEVE), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_READAWAYMSG_MSG), SW_SHOW);
 			SetDlgItemText(hwndDlg, IDOK, TranslateT("&Close"));
-			db_set_s(awayData->hContact, "CList", "StatusMsg", (const char*)ack->lParam);
+			db_set_ts(awayData->hContact, "CList", "StatusMsg", ptszStatusMsg);
 		}
 		break;
 
