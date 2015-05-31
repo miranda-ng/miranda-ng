@@ -387,8 +387,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VKontakte", "..\protocols\V
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartupSilence", "..\plugins\StartupSilence\StartupSilence_10.vcxproj", "{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeClassic", "..\protocols\SkypeClassic\SkypeClassic_10.vcxproj", "{5F9243AE-C6C9-4F42-B670-67A97767A50B}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirandaG15", "..\plugins\MirandaG15\MirandaG15_10.vcxproj", "{8ACA3C8B-BDFA-47B2-8578-069555BA05B3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemovePersonalSettings", "..\plugins\RemovePersonalSettings\rps_10.vcxproj", "{0D3EF7C4-B99C-E87E-D0D8-C6E003B7EB65}"
@@ -1769,14 +1767,6 @@ Global
 		{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}.Release|Win32.Build.0 = Release|Win32
 		{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}.Release|x64.ActiveCfg = Release|x64
 		{7B072B7F-E2AA-4935-AAF5-5BEF99665AD3}.Release|x64.Build.0 = Release|x64
-		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Debug|Win32.Build.0 = Debug|Win32
-		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Debug|x64.ActiveCfg = Debug|x64
-		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Debug|x64.Build.0 = Debug|x64
-		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Release|Win32.ActiveCfg = Release|Win32
-		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Release|Win32.Build.0 = Release|Win32
-		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Release|x64.ActiveCfg = Release|x64
-		{5F9243AE-C6C9-4F42-B670-67A97767A50B}.Release|x64.Build.0 = Release|x64
 		{8ACA3C8B-BDFA-47B2-8578-069555BA05B3}.Debug|Win32.ActiveCfg = Debug|Win32
 		{8ACA3C8B-BDFA-47B2-8578-069555BA05B3}.Debug|Win32.Build.0 = Debug|Win32
 		{8ACA3C8B-BDFA-47B2-8578-069555BA05B3}.Debug|x64.ActiveCfg = Debug|x64
