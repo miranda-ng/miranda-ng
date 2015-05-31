@@ -203,8 +203,10 @@ void CMsnProto::Lists_Populate(void)
 	while (hContact) {
 		MCONTACT hNext = db_find_next(hContact, m_szModuleName);
 		char szEmail[MSN_MAX_EMAIL_LEN] = "";
-		if (db_get_static(hContact, m_szModuleName, "wlid", szEmail, sizeof(szEmail)))
-			db_get_static(hContact, m_szModuleName, "e-mail", szEmail, sizeof(szEmail));
+		if (db_get_static(hContact, m_szModuleName, "wlid", szEmail, sizeof(szEmail))) {
+			if (db_get_static(hContact, m_szModuleName, "e-mail", szEmail, sizeof(szEmail)) == 0)
+				setString(hContact, "wlid", szEmail);
+		}
 		if (szEmail[0]) {
 			bool localList = getByte(hContact, "LocalList", 0) != 0;
 			int netId = getWord(hContact, "netId", localList?NETID_MSN:NETID_UNKNOWN);

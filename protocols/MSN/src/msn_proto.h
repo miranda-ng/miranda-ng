@@ -232,7 +232,9 @@ struct CMsnProto : public PROTO<CMsnProto>
 	void        MSN_ShowPopup(const MCONTACT hContact, const TCHAR* msg, int flags);
 	void        MSN_ShowError(const char* msgtext, ...);
 
+#ifdef OBSOLETE
 	void        MSN_SetNicknameUtf(const char* nickname);
+#endif
 	void        MSN_SendNicknameUtf(const char* nickname);
 
 	typedef struct { TCHAR *szName; const char *szMimeType; unsigned char *data; size_t dataSize; } StoreAvatarData;

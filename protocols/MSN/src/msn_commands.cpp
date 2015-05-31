@@ -921,7 +921,7 @@ LBL_InvalidCommand:
 				msnLoggedIn = true;
 				isConnectSuccess = true;
 				emailEnabled = MyOptions.netId==NETID_MSN; // Let's assume it?
-				MSN_SetServerStatus(m_iStatus);
+				MSN_SetServerStatus(m_iDesiredStatus);
 				MSN_EnableMenuItems(true);
 				// Fork refreshing and populating contact list to the background
 				ForkThread(&CMsnProto::msn_loginThread, NULL);
