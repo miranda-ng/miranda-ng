@@ -76,3 +76,39 @@ MEVENT CToxProto::AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DW
 	dbei.flags = flags;
 	return db_event_add(hContact, &dbei);
 }
+
+INT_PTR CToxProto::ParseToxUri(WPARAM, LPARAM lParam)
+{
+	TCHAR *uri = (TCHAR*)lParam;
+	if (mir_tstrlen(uri) <= 4)
+		return 1;
+
+	if (Accounts.getCount() == 0)
+		return 1;
+
+	CToxProto *proto = NULL;
+	for (size_t i = 0; i < Accounts.getCount(); i++)
+	{
+		if (Accounts[i]->IsOnline())
+		{
+			proto = Accounts[i];
+			break;
+		}
+	}
+	if (proto == NULL)
+		return 1;
+
+	if (_tcschr(uri, _T('@')) != NULL)
+		return 1;
+
+	PROTOSEARCHRESULT psr = { sizeof(psr) };
+	psr.flags = PSR_TCHAR;
+	psr.id = mir_tstrdup(&uri[4]);
+
+	ADDCONTACTSTRUCT acs = { HANDLE_SEARCHRESULT };
+	acs.szProto = proto->m_szModuleName;
+	acs.psr = &psr;
+
+	CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
+	return 0;
+}

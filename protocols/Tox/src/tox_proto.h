@@ -279,6 +279,8 @@ private:
 
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, PBYTE pBlob, size_t cbBlob);
 
+	static INT_PTR ParseToxUri(WPARAM, LPARAM lParam);
+
 	template<INT_PTR(__cdecl CToxProto::*Service)(WPARAM, LPARAM)>
 	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)
 	{
