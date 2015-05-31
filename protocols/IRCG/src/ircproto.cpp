@@ -692,8 +692,6 @@ int __cdecl CIrcProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 		return 0;
 	}
 
-	int codepage = getCodepage();
-
 	TCHAR *result;
 	mir_utf8decode(NEWSTR_ALLOCA(pszSrc), &result);
 	PostIrcMessageWnd(NULL, hContact, result);

@@ -356,27 +356,26 @@ extern "C" int __declspec(dllexport) __cdecl Load()
 	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
-	CreateServiceFunction(PROTONAME PS_GETCAPS, EMPGetCaps);
-	CreateServiceFunction(PROTONAME PS_GETNAME, EMPGetName);
-	CreateServiceFunction(PROTONAME PS_LOADICON, EMPLoadIcon);
-	CreateServiceFunction(PROTONAME PS_SETSTATUS, EMPSetStatus);
-	CreateServiceFunction(PROTONAME PS_GETSTATUS, EMPGetStatus);
-	CreateServiceFunction(PROTONAME PS_BASICSEARCH, EMPBasicSearch);
-	CreateServiceFunction(PROTONAME PS_ADDTOLIST, EMPAddToList);
-	CreateServiceFunction(PROTONAME PSS_MESSAGE, EMPSendMessage);
-	CreateServiceFunction(PROTONAME PSS_URL, EMPSendUrl);
-	CreateServiceFunction(PROTONAME PSR_MESSAGE, EMPRecvMessageUrl);
-	CreateServiceFunction(PROTONAME PSR_URL, EMPRecvMessageUrl);
-	CreateServiceFunction(PROTONAME PSS_GETAWAYMSG, EMPGetAwayMsg);
-	CreateServiceFunction(PROTONAME PS_SETAWAYMSG, EMPSetAwayMsg);
-	CreateServiceFunction(PROTONAME PSR_AWAYMSG, EMPRecvAwayMessage);
-
-	CreateServiceFunction(PROTONAME PS_FILERESUME, EMPFileResume);
-	CreateServiceFunction(PROTONAME PSS_FILEALLOW, EMPSendFileAllow);
-	CreateServiceFunction(PROTONAME PSS_FILEDENY, EMPSendFileDeny);
-	CreateServiceFunction(PROTONAME PSS_FILECANCEL, EMPSendFileCancel);
-	CreateServiceFunction(PROTONAME PSS_FILE, EMPSendFile);
-	CreateServiceFunction(PROTONAME PSR_FILE, EMPRecvFile);
+	CreateProtoServiceFunction(PROTONAME, PS_GETCAPS, EMPGetCaps);
+	CreateProtoServiceFunction(PROTONAME, PS_GETNAME, EMPGetName);
+	CreateProtoServiceFunction(PROTONAME, PS_LOADICON, EMPLoadIcon);
+	CreateProtoServiceFunction(PROTONAME, PS_SETSTATUS, EMPSetStatus);
+	CreateProtoServiceFunction(PROTONAME, PS_GETSTATUS, EMPGetStatus);
+	CreateProtoServiceFunction(PROTONAME, PS_BASICSEARCH, EMPBasicSearch);
+	CreateProtoServiceFunction(PROTONAME, PS_ADDTOLIST, EMPAddToList);
+	CreateProtoServiceFunction(PROTONAME, PSS_MESSAGE, EMPSendMessage);
+	CreateProtoServiceFunction(PROTONAME, PSS_URL, EMPSendUrl);
+	CreateProtoServiceFunction(PROTONAME, PSR_MESSAGE, EMPRecvMessageUrl);
+	CreateProtoServiceFunction(PROTONAME, PSR_URL, EMPRecvMessageUrl);
+	CreateProtoServiceFunction(PROTONAME, PSS_GETAWAYMSG, EMPGetAwayMsg);
+	CreateProtoServiceFunction(PROTONAME, PS_SETAWAYMSG, EMPSetAwayMsg);
+	CreateProtoServiceFunction(PROTONAME, PSR_AWAYMSG, EMPRecvAwayMessage);
+	CreateProtoServiceFunction(PROTONAME, PS_FILERESUME, EMPFileResume);
+	CreateProtoServiceFunction(PROTONAME, PSS_FILEALLOW, EMPSendFileAllow);
+	CreateProtoServiceFunction(PROTONAME, PSS_FILEDENY, EMPSendFileDeny);
+	CreateProtoServiceFunction(PROTONAME, PSS_FILECANCEL, EMPSendFileCancel);
+	CreateProtoServiceFunction(PROTONAME, PSS_FILE, EMPSendFile);
+	CreateProtoServiceFunction(PROTONAME, PSR_FILE, EMPRecvFile);
 
 	g_heOptions = HookEvent(ME_OPT_INITIALISE,EMPCreateOptionsDlg);
 

@@ -48,39 +48,14 @@ PLUGININFOEX pluginInfoEx = {
 /*****************************************************************************/
 void InitServices()
 {
-	char SvcFunc[100];
-
-	mir_strcpy(SvcFunc, MODULENAME);
-	mir_strcat(SvcFunc, PS_GETCAPS);
-	CreateServiceFunction(SvcFunc, GetCaps);
-
-	mir_strcpy(SvcFunc, MODULENAME);
-	mir_strcat(SvcFunc, PS_GETNAME);
-	CreateServiceFunction(SvcFunc, GetName);
-
-	mir_strcpy(SvcFunc, MODULENAME);
-	mir_strcat(SvcFunc, PS_LOADICON);
-	CreateServiceFunction(SvcFunc, BPLoadIcon);
-
-	mir_strcpy(SvcFunc, MODULENAME);
-	mir_strcat(SvcFunc, PS_SETSTATUS);
-	CreateServiceFunction(SvcFunc, SetStatus);
-
-	mir_strcpy(SvcFunc, MODULENAME);
-	mir_strcat(SvcFunc, PS_GETSTATUS);
-	CreateServiceFunction(SvcFunc, GetStatus);
-	// 
-	mir_strcpy(SvcFunc, MODULENAME);
-	mir_strcat(SvcFunc, PS_BASICSEARCH);
-	CreateServiceFunction(SvcFunc, BasicSearch);
-
-	mir_strcpy(SvcFunc, MODULENAME);
-	mir_strcat(SvcFunc, PS_ADDTOLIST);
-	CreateServiceFunction(SvcFunc, AddToList);
-
-	mir_strcpy(SvcFunc, MODULENAME);
-	mir_strcat(SvcFunc, PSS_GETINFO);
-	CreateServiceFunction(SvcFunc, GetInfo);
+	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, GetCaps);
+	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, GetName);
+	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, BPLoadIcon);
+	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, SetStatus);
+	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, GetStatus);
+	CreateProtoServiceFunction(MODULENAME, PS_BASICSEARCH, BasicSearch);
+	CreateProtoServiceFunction(MODULENAME, PS_ADDTOLIST, AddToList);
+	CreateProtoServiceFunction(MODULENAME, PSS_GETINFO, GetInfo);
 }
 
 /*****************************************************************************/

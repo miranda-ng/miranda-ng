@@ -46,7 +46,7 @@ void FreeFilesMatrix(TCHAR ***files)
 
 struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 {
-	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr)
+	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT *psr)
 	{
 		return (MCONTACT)ProtoCallService(m_szModuleName, PS_ADDTOLIST, flags, (LPARAM)psr);
 	}

@@ -128,10 +128,10 @@ extern "C" __declspec(dllexport) int Load()
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	//load services (the first 5 are the basic ones needed to make a new protocol)
-	CreateServiceFunction(MODNAME PS_GETCAPS, GetLCCaps);
-	CreateServiceFunction(MODNAME PS_GETNAME, GetLCName);
-	CreateServiceFunction(MODNAME PS_LOADICON, LoadLCIcon);
-	CreateServiceFunction(MODNAME PS_GETSTATUS, GetLCStatus);
+	CreateProtoServiceFunction(MODNAME, PS_GETCAPS, GetLCCaps);
+	CreateProtoServiceFunction(MODNAME, PS_GETNAME, GetLCName);
+	CreateProtoServiceFunction(MODNAME, PS_LOADICON, LoadLCIcon);
+	CreateProtoServiceFunction(MODNAME, PS_GETSTATUS, GetLCStatus);
 
 	CreateServiceFunction("AddLCcontact", addContact);
 	CreateServiceFunction("EditLCcontact", editContact);

@@ -61,20 +61,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //returns 0 on success, nonzero on failure
 #define MS_PROTO_REMOVEFROMCONTACT      "Proto/RemoveFromContact"
 
-//Create a protocol service
-//Protocol services are called with wParam and lParam as standard if they are
-//to be called with CallProtoServiceInt(NULL,) (as PS_ services are)
-//If they are called with CallContactService() (PSS_ and PSR_ services) then
-//they are called with lParam = (CCSDATA*)&ccs and wParam an opaque internal
-//reference that should be passed unchanged to MS_PROTO_CHAIN*.
-__forceinline HANDLE CreateProtoServiceFunction(const char *szModule, const char *szService, MIRANDASERVICE serviceProc)
-{
-	char str[MAXMODULELABELLENGTH];
-	mir_snprintf(str, sizeof(str), "%s%s", szModule, szService);
-	str[MAXMODULELABELLENGTH-1] = 0;
-	return CreateServiceFunction(str, serviceProc);
-}
-
 //Call the next service in the chain for this send operation
 //wParam = wParam
 //lParam = lParam

@@ -427,7 +427,7 @@ INT_PTR onSendAuthRequest(WPARAM wparam, LPARAM)
 
 	DWORD flags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 	if (flags&PF4_NOCUSTOMAUTH)
-		CallContactService(hContact, PSS_AUTHREQUEST, 0, (LPARAM)"");
+		CallContactService(hContact, PSS_AUTHREQUEST, 0, (LPARAM)_T(""));
 	else
 		CreateDialogParam(hinstance, MAKEINTRESOURCE(IDD_AUTHREQ), (HWND)CallService(MS_CLUI_GETHWND, 0, 0), AuthReqWndProc, (LPARAM)hContact);
 

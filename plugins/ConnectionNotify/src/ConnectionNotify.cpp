@@ -887,17 +887,11 @@ extern "C" int __declspec(dllexport) Load(void)
 	for (MCONTACT hContact = db_find_first(PLUGINNAME); hContact != NULL; hContact = db_find_next(hContact, PLUGINNAME))
 		db_set_w(hContact, PLUGINNAME, "status", ID_STATUS_OFFLINE);
 
-	char service[100] = { "" };
-	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_GETCAPS);
-	CreateServiceFunction(service, GetCaps);
-	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_GETNAME);
-	CreateServiceFunction(service, GetName);
-	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_LOADICON);
-	CreateServiceFunction(service, TMLoadIcon);
-	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_SETSTATUS);
-	CreateServiceFunction(service, SetStatus);
-	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_GETSTATUS);
-	CreateServiceFunction(service, GetStatus);
+	CreateProtoServiceFunction(PLUGINNAME, PS_GETCAPS, GetCaps);
+	CreateProtoServiceFunction(PLUGINNAME, PS_GETNAME, GetName);
+	CreateProtoServiceFunction(PLUGINNAME, PS_LOADICON, TMLoadIcon);
+	CreateProtoServiceFunction(PLUGINNAME, PS_SETSTATUS, SetStatus);
+	CreateProtoServiceFunction(PLUGINNAME, PS_GETSTATUS, GetStatus);
 
 	SkinAddNewSoundEx(PLUGINNAME_NEWSOUND, PLUGINNAME, LPGEN("New Connection Notification"));
 	hOptInit = HookEvent(ME_OPT_INITIALISE, ConnectionNotifyOptInit);//register service to hook option call

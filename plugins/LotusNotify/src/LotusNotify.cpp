@@ -1638,17 +1638,11 @@ extern "C" int __declspec(dllexport) Load(void)
 		db_set_w(hContact, PLUGINNAME, "status", ID_STATUS_OFFLINE);
 	}
 
-	char service[100] = {""};
-	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_GETCAPS);
-	CreateServiceFunction(service, GetCaps);
-	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_GETNAME);
-	CreateServiceFunction(service, GetName);
-	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_LOADICON);
-	CreateServiceFunction(service, TMLoadIcon);
-	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_SETSTATUS);
-	CreateServiceFunction(service, SetStatus);
-	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_GETSTATUS);
-	CreateServiceFunction(service, GetStatus);
+	CreateProtoServiceFunction(PLUGINNAME, PS_GETCAPS, GetCaps);
+	CreateProtoServiceFunction(PLUGINNAME, PS_GETNAME, GetName);
+	CreateProtoServiceFunction(PLUGINNAME, PS_LOADICON, TMLoadIcon);
+	CreateProtoServiceFunction(PLUGINNAME, PS_SETSTATUS, SetStatus);
+	CreateProtoServiceFunction(PLUGINNAME, PS_GETSTATUS, GetStatus);
 
 	LoadSettings(); //read from db to variables
 
