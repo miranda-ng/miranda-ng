@@ -121,8 +121,8 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 /////////////////////////////////////////////////////////////////////////////
 // Fonts
-									  
-static LPCTSTR s_fonts[FLT_FONTIDS]  = 
+
+static LPCTSTR s_fonts[FLT_FONTIDS]  =
 {
 	{ LPGENT("Standard contacts") },
 	{ LPGENT("Online contacts to whom you have a different visibility") },
@@ -243,6 +243,8 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	// Only on these 2 events we need to refresh
 	if (0 == _stricmp(pdbcws->szSetting, "Status"))
 		idStatus = pdbcws->value.wVal;
+	else if (0 == _stricmp(pdbcws->szSetting, "ApparentMode"))
+		idStatus = GetContactStatus(hContact);
 	else if (0 == _stricmp(pdbcws->szSetting, "Nick"))
 		idStatus = GetContactStatus(hContact);
 	else if (0 == _stricmp(pdbcws->szSetting, "MyHandle"))
@@ -536,7 +538,7 @@ static void CreateThumbsFont()
 		hFont[nFontId] = CreateFontIndirect(&lf);
 	}
 }
-									 
+
 static void CreateBackgroundBrush()
 {
 	bkColor = db_get_dw(NULL, MODULE, "BkColor", FLT_DEFAULT_BKGNDCOLOR);
@@ -568,7 +570,7 @@ static void CreateBackgroundBrush()
 		cr = (COLORREF)db_get_dw(NULL, MODULE, "RBEdgesColor", FLT_DEFAULT_RBEDGESCOLOR);
 		hRBEdgesPen = CreatePen(PS_SOLID, 1, cr);
 	}
-	
+
 	if (db_get_b(NULL, MODULE, "BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP)) {
 		DBVARIANT dbv;
 		if ( !db_get_ts(NULL, MODULE, "BkBitmap", &dbv)) {
@@ -874,7 +876,7 @@ static int OnModulesLoded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialize);
 	HookEvent(ME_CLIST_STATUSMODECHANGE, OnStatusModeChange);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
-	
+
 	hwndMiranda = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 	mir_subclassWindow(hwndMiranda, newMirandaWndProc);
 
