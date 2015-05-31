@@ -47,7 +47,7 @@ void __cdecl UpdateMsgsThreadProc(void *)
 					TCString CurMsg(GetDynamicStatMsg(INVALID_CONTACT_ID, p->szModuleName));
 					if ((TCString)g_ProtoStates[p->szModuleName].CurStatusMsg != (const TCHAR*)CurMsg) { // if the message has changed
 						g_ProtoStates[p->szModuleName].CurStatusMsg = CurMsg;
-						CallAllowedPS_SETAWAYMSG(p->szModuleName, Status, (char*)_T2A(CurMsg));
+						CallAllowedPS_SETAWAYMSG(p->szModuleName, Status, CurMsg);
 					}
 				}
 			}
@@ -86,7 +86,7 @@ void ChangeProtoMessages(char* szProto, int iMode, TCString &Msg)
 		if (Msg == NULL)
 			CurMsg = GetDynamicStatMsg(INVALID_CONTACT_ID, szProto);
 
-		CallAllowedPS_SETAWAYMSG(szProto, iMode, (char*)_T2A(CurMsg));
+		CallAllowedPS_SETAWAYMSG(szProto, iMode, CurMsg);
 		g_ProtoStates[szProto].CurStatusMsg = CurMsg;
 	}
 	else { // change message of all protocols
@@ -99,7 +99,7 @@ void ChangeProtoMessages(char* szProto, int iMode, TCString &Msg)
 				if (Msg == NULL)
 					CurMsg = GetDynamicStatMsg(INVALID_CONTACT_ID, p->szModuleName);
 
-				CallAllowedPS_SETAWAYMSG(p->szModuleName, iMode, (char*)_T2A(CurMsg));
+				CallAllowedPS_SETAWAYMSG(p->szModuleName, iMode, CurMsg);
 				g_ProtoStates[p->szModuleName].CurStatusMsg = CurMsg;
 			}
 		}

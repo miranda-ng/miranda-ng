@@ -143,13 +143,13 @@ int StatusMsgReq(WPARAM wParam, LPARAM lParam, CString &szProto)
 		return 0;
 	}
 	if (CContactSettings(iMode, hContactForSettings).Ignore) {
-		CallAllowedPS_SETAWAYMSG(szProto, iMode, ""); // currently NULL makes ICQ to ignore _any_ further status message requests until the next PS_SETAWAYMSG, so i can't use it here..
+		CallAllowedPS_SETAWAYMSG(szProto, iMode, _T("")); // currently NULL makes ICQ to ignore _any_ further status message requests until the next PS_SETAWAYMSG, so i can't use it here..
 		return 0; // move along, sir
 	}
 
-	if (iMode) { // if it's not an xstatus message request
-		CallAllowedPS_SETAWAYMSG(szProto, iMode, (char*)_T2A(GetDynamicStatMsg(hFoundContact, szProto, lParam)));
-	}
+	if (iMode) // if it's not an xstatus message request
+		CallAllowedPS_SETAWAYMSG(szProto, iMode, GetDynamicStatMsg(hFoundContact, szProto, lParam));
+
 	//	COptPage PopupNotifyData(g_PopupOptPage);
 	//	PopupNotifyData.DBToMem();
 	VarParseData.szProto = szProto;

@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (ñ) 2012-15 Miranda NG project (http:// miranda-ng.org)
+Copyright (ñ) 2012-15 Miranda NG project (http://miranda-ng.org)
 Copyright (c) 2000-09 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -96,7 +96,7 @@ convert Unicode to ANSI and call the appropriate service.
 ///////////////////////////////////////////////////////////////////////////////
 // the status modes that the protocol supports
 
-#define PFLAGNUM_2 2			 
+#define PFLAGNUM_2 2
 
 #define PF2_ONLINE        0x00000001   // an unadorned online mode
 #define PF2_INVISIBLE     0x00000002
@@ -139,7 +139,7 @@ static __inline unsigned long Proto_Status2Flag(int status)
 ///////////////////////////////////////////////////////////////////////////////
 // another bunch of flags
 
-#define PFLAGNUM_4           4          
+#define PFLAGNUM_4           4
 
 #define PF4_FORCEAUTH	     0x00000001 // forces auth requests to be sent when adding users
 #define PF4_FORCEADDED	     0x00000002 // forces "you were added" requests to be sent
@@ -160,21 +160,21 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PFLAG_MAXLENOFMESSAGE       400 // return the maximum length of an instant message, lParam = (LPARAM)hContact
 
 ///////////////////////////////////////////////////////////////////////////////
-// A protocol might not support this cap, it allows a protocol to say that 
-// PFLAGNUM_2 is for statuses contacts supports, and that PFLAGNUM_5 is for 
-// statuses a protocol can SET TO ITSELF, if this is not replied to, then 
-// PFLAGNUM_2 is alone in telling you which statuses a protocol can set to and 
+// A protocol might not support this cap, it allows a protocol to say that
+// PFLAGNUM_2 is for statuses contacts supports, and that PFLAGNUM_5 is for
+// statuses a protocol can SET TO ITSELF, if this is not replied to, then
+// PFLAGNUM_2 is alone in telling you which statuses a protocol can set to and
 // what statuses a contact can set to as well.
 //
-// E.g. A protocol might report 'wireless' users but a login of the protocol 
-// from Miranda can not set itself to 'wireless' so PFLAGNUM_2 would return 
-// PF2_ONTHEPHONE and PFLAGNUM_5 would return PF2_ONTHEPHONE as well, this 
-// means "I will get contacts who are on the phone but you can not set on the 
+// E.g. A protocol might report 'wireless' users but a login of the protocol
+// from Miranda can not set itself to 'wireless' so PFLAGNUM_2 would return
+// PF2_ONTHEPHONE and PFLAGNUM_5 would return PF2_ONTHEPHONE as well, this
+// means "I will get contacts who are on the phone but you can not set on the
 // phone" and so on.
 //
-// Do note that the reply here is a NEGATION of bitflags reported for 
-// PFLAGNUM_2, e.g. returning PF2_ONTHEPHONE for PFLAGNUM_2 and returning the 
-// same for PFLAGNUM_5 says that you DO NOT SUPPORT PF2_ONTHEPHONE for the user 
+// Do note that the reply here is a NEGATION of bitflags reported for
+// PFLAGNUM_2, e.g. returning PF2_ONTHEPHONE for PFLAGNUM_2 and returning the
+// same for PFLAGNUM_5 says that you DO NOT SUPPORT PF2_ONTHEPHONE for the user
 // to PS_SETSTATUS to, but you will expect other contacts to have that status,
 // e.g. you can get onthephone for users but can't go online with onthephone.
 //
@@ -873,7 +873,7 @@ __forceinline INT_PTR Proto_RecvFile(MCONTACT hContact, PROTORECVFILET *pcre)
 // ASCIIZ userId
 // }
 // userNick should be a human-readable description of the user. It need not
-// be the nick, or even confined to displaying just one type of information. 
+// be the nick, or even confined to displaying just one type of information.
 // The dbe.flags can contain DBEF_UTF defining userNick as utf-8 encoded.
 //
 // userId should be a machine-readable representation of the unique

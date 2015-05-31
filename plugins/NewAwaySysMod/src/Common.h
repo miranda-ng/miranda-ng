@@ -327,10 +327,10 @@ static __inline int LogMessage(const char *Format, ...)
 	return CallService(MS_NETLIB_LOG, NULL, (LPARAM)szText);
 }
 
-__inline int CallAllowedPS_SETAWAYMSG(const char *szProto, int iMode, const char *szMsg)
+__inline int CallAllowedPS_SETAWAYMSG(const char *szProto, int iMode, const TCHAR *szMsg)
 { // we must use this function everywhere we want to call PS_SETAWAYMSG, otherwise NAS won't allow to change the message!
-	LogMessage("PS_SETAWAYMSG called by NAS. szProto=%s, Status=%d, Msg:\n%s", szProto, iMode, szMsg ? szMsg : "NULL");
-	return CallProtoService(szProto, PS_SETAWAYMSG, (WPARAM)iMode, (LPARAM)szMsg);
+	LogMessage("PS_SETAWAYMSG called by NAS. szProto=%s, Status=%d, Msg:\n%S", szProto, iMode, szMsg ? szMsg : _T("NULL"));
+	return CallProtoService(szProto, PS_SETAWAYMSG, iMode, (LPARAM)szMsg);
 }
 
 static __inline int my_variables_showhelp(HWND hwndDlg, UINT uIDEdit, int flags = 0, char *szSubjectDesc = NULL, char *szExtraDesc = NULL)

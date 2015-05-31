@@ -371,7 +371,7 @@ void MirandaUtils::setStatusOnAccount(ActionThreadArgStruct* args)
 	INT_PTR result = -1;
 
 	if (!(CallProtoService(args->accountSzModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_INDIVMODEMSG))
-		result = CallProtoService(args->accountSzModuleName, PS_SETAWAYMSG, (WPARAM)status, (LPARAM)args->userActionSelection);
+		result = CallProtoService(args->accountSzModuleName, PS_SETAWAYMSG, status, (LPARAM)args->userActionSelection);
 
 	MirandaAccount* mirandaAccount = args->mirfoxDataPtr->getMirandaAccountPtrBySzModuleName(args->accountSzModuleName);
 	TCHAR* tszAccountName = NULL;
