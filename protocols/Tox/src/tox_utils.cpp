@@ -103,7 +103,7 @@ INT_PTR CToxProto::ParseToxUri(WPARAM, LPARAM lParam)
 
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
 	psr.flags = PSR_TCHAR;
-	psr.id = mir_tstrdup(&uri[4]);
+	psr.id.t = mir_tstrdup(&uri[4]);
 
 	ADDCONTACTSTRUCT acs = { HANDLE_SEARCHRESULT };
 	acs.szProto = proto->m_szModuleName;
