@@ -526,6 +526,8 @@ CMString CJabberProto::ExtractImage(HXML node)
 					TCHAR tszTempPath[MAX_PATH], tszTempFile[MAX_PATH];
 					GetTempPath(_countof(tszTempPath), tszTempPath);
 					GetTempFileName(tszTempPath, _T("jab"), InterlockedIncrement(&g_nTempFileId), tszTempFile);
+					_tcsncat_s(tszTempFile, _T("."), 1);
+					_tcsncat_s(tszTempFile, image, image.GetLength());
 
 					HANDLE h = CreateFile(tszTempFile, GENERIC_READ | GENERIC_WRITE,
 						FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
