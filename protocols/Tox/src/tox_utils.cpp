@@ -87,7 +87,7 @@ INT_PTR CToxProto::ParseToxUri(WPARAM, LPARAM lParam)
 		return 1;
 
 	CToxProto *proto = NULL;
-	for (size_t i = 0; i < Accounts.getCount(); i++)
+	for (int i = 0; i < Accounts.getCount(); i++)
 	{
 		if (Accounts[i]->IsOnline())
 		{
@@ -102,8 +102,8 @@ INT_PTR CToxProto::ParseToxUri(WPARAM, LPARAM lParam)
 		return 1;
 
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
-	psr.flags = PSR_TCHAR;
-	psr.id.t = mir_tstrdup(&uri[4]);
+	psr.flags = PSR_UTF8;
+	psr.id.a = mir_t2a(&uri[4]);
 
 	ADDCONTACTSTRUCT acs = { HANDLE_SEARCHRESULT };
 	acs.szProto = proto->m_szModuleName;

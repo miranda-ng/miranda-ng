@@ -38,6 +38,27 @@ ToxHexAddress ResolveToxAddressFromDnsRecordV3(void *dns, uint32_t requestId, co
 	return ToxHexAddress::Empty();
 }
 
+ToxHexAddress ResolveToxAddressFromDns(const char *dnsQuery)
+{
+	ToxHexAddress address = ToxHexAddress::Empty();
+
+	DNS_RECORDA *record = NULL;
+	DNS_STATUS status = DnsQuery_A(dnsQuery, DNS_TYPE_TEXT, DNS_QUERY_STANDARD, NULL, (PDNS_RECORD*)&record, NULL);
+	while (status == ERROR_SUCCESS && record)
+	{
+		DNS_TXT_DATAA *txt = &record->Data.Txt;
+		if (record->wType == DNS_TYPE_TEXT && txt->dwStringCount)
+		{
+			address = ResolveToxAddressFromDnsRecordV1(txt->pStringArray[0]);
+			break;
+		}
+		record = record->pNext;
+	}
+	DnsRecordListFree((PDNS_RECORD*)record, DnsFreeRecordList);
+
+	return address;
+}
+
 void CToxProto::SearchByNameAsync(void *arg)
 {
 	char *query = (char*)arg;
@@ -76,34 +97,21 @@ void CToxProto::SearchByNameAsync(void *arg)
 						char dnsQuery[MAX_PATH * 2];
 						mir_snprintf(dnsQuery, SIZEOF(dnsQuery), "_%s._tox.%s", dnsString, dnsDomain);
 
-						DNS_RECORDA *record = NULL;
-						DNS_STATUS status = DnsQuery_A(dnsQuery, DNS_TYPE_TEXT, 0, NULL, (PDNS_RECORD*)&record, NULL);
-						while (status == ERROR_SUCCESS && record)
+						ToxHexAddress address = ResolveToxAddressFromDns(dnsQuery);
+						if (!address.IsEmpty())
 						{
-							DNS_TXT_DATAA *txt = &record->Data.Txt;
-							if (record->wType == DNS_TYPE_TEXT && txt->dwStringCount)
-							{
-								ToxHexAddress address = ResolveToxAddressFromDnsRecordV3(dns, requestId, txt->pStringArray[0]);
-								if (!address.IsEmpty())
-								{
-									PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
-									psr.flags = PSR_TCHAR;
-									psr.id.t = mir_a2t(address);
-									psr.nick.t = mir_utf8decodeT(name);
+							PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
+							psr.flags = PSR_UTF8;
+							psr.id.a = mir_strdup(address);
+							psr.nick.a = mir_strdup(name);
 
-									TCHAR email[MAX_PATH];
-									mir_sntprintf(email, SIZEOF(email), _T("%s@%s"), psr.nick.t, _A2T(dnsDomain));
-									psr.email.t = mir_tstrdup(email);
+							char email[MAX_PATH];
+							mir_snprintf(email, SIZEOF(email), "%s@%s", name, domain);
+							psr.email.a = mir_strdup(email);
 
-									ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
-
-									resolved++;
-									break;
-								}
-							}
-							record = record->pNext;
+							ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
+							break;
 						}
-						DnsRecordListFree((PDNS_RECORD*)record, DnsFreeRecordList);
 					}
 					tox_dns3_kill(dns);
 				}
@@ -117,32 +125,20 @@ void CToxProto::SearchByNameAsync(void *arg)
 		char dnsQuery[MAX_PATH];
 		mir_snprintf(dnsQuery, SIZEOF(dnsQuery), "%s._tox.%s", name, domain);
 
-		DNS_RECORDA *record = NULL;
-		DNS_STATUS status = DnsQuery_A(dnsQuery, DNS_TYPE_TEXT, DNS_QUERY_STANDARD, NULL, (PDNS_RECORD*)&record, NULL);
-		while (status == ERROR_SUCCESS && record)
+		ToxHexAddress address = ResolveToxAddressFromDns(dnsQuery);
+		if (!address.IsEmpty())
 		{
-			DNS_TXT_DATAA *txt = &record->Data.Txt;
-			if (record->wType == DNS_TYPE_TEXT && txt->dwStringCount)
-			{
-				ToxHexAddress address = ResolveToxAddressFromDnsRecordV1(txt->pStringArray[0]);
-				if (!address.IsEmpty())
-				{
-					PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
-					psr.flags = PSR_TCHAR;
-					psr.id.t = mir_utf8decodeT(address);
-					psr.nick.t = mir_utf8decodeT(name);
+			PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
+			psr.flags = PSR_UTF8;
+			psr.id.a = mir_strdup(address);
+			psr.nick.a = mir_strdup(name);
 
-					TCHAR email[MAX_PATH];
-					mir_sntprintf(email, SIZEOF(email), _T("%s@%s"), psr.nick.t, _A2T(domain));
-					psr.email.t = mir_tstrdup(email);
+			char email[MAX_PATH];
+			mir_snprintf(email, SIZEOF(email), "%s@%s", name, domain);
+			psr.email.a = mir_strdup(email);
 
-					ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
-					break;
-				}
-			}
-			record = record->pNext;
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 		}
-		DnsRecordListFree((PDNS_RECORD*)record, DnsFreeRecordList);
 	}
 
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
@@ -196,8 +192,8 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 		std::string address = match[1];
 
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
-		psr.flags = PSR_TCHAR;
-		psr.id.t = mir_a2t(query.c_str());
+		psr.flags = PSR_UTF8;
+		psr.id.a = mir_strdup(query.c_str());
 
 		ADDCONTACTSTRUCT acs = { HANDLE_SEARCHRESULT };
 		acs.szProto = m_szModuleName;
@@ -211,13 +207,9 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 	{
 		regex = "^\\s*(([^ @/:;()\"']+)(@[A-Za-z]+.[A-Za-z]{2,6})?)\\s*$";
 		if (std::regex_search(query, match, regex))
-		{
 			ForkThread(&CToxProto::SearchByNameAsync, mir_strdup(query.c_str()));
-		}
 		else
-		{
 			ForkThread(&CToxProto::SearchFailedAsync, NULL);
-		}
 	}
 	return (HWND)1;
 }
