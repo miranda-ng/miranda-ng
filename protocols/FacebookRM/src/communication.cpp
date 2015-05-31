@@ -445,10 +445,10 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		action += "&cap=0"; // TODO: what's this item?
 		// action += "&wtc=0,0,0.000,0,0"; // TODO: what's this item? It's numbers grows with every new request...		
 
+		action += "&msgs_recv=" + utils::conversion::to_string(&this->chat_msgs_recv_, UTILS_CONV_UNSIGNED_NUMBER);
+
 		action += "&uid=" + self_.user_id;
 		action += "&viewer_uid=" + self_.user_id;
-
-		action += "&msgs_recv=" + utils::conversion::to_string(&this->chat_msgs_recv_, UTILS_CONV_UNSIGNED_NUMBER);
 
 		if (!this->chat_sticky_num_.empty())
 			action += "&sticky_token=" + this->chat_sticky_num_;
