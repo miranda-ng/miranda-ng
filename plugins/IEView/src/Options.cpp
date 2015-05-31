@@ -381,14 +381,11 @@ static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates)
 		tvi.hInsertAfter = TVI_LAST;
 		tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_IMAGE | TVIF_STATE | TVIF_SELECTEDIMAGE;
 		tvi.item.stateMask = TVIS_SELECTED | TVIS_STATEIMAGEMASK;
-		if (i == 0) {
+		if (i == 0)
 			mir_strcpy(protoName, Translate("Default"));
-		}
-		else {
+		else
 			CallProtoService(proto->getProtocolName(), PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
-			//			mir_strcat(protoName, " ");
-			//		mir_strcat(protoName, Translate("protocol"));
-		}
+
 		tvi.item.pszText = mir_a2t(protoName);
 		tvi.item.lParam = (LPARAM)proto;
 		tvi.item.iImage = i;

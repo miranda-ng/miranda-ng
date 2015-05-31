@@ -1169,23 +1169,6 @@ int TlenProtocol::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lPara
 	return 1;
 }
 
-// PSS_ADDED
-int TlenProtocol::AuthRecv(MCONTACT hContact, PROTORECVEVENT* evt)
-{
-	return 1;
-}
-
-// PSS_AUTHREQUEST
-int TlenProtocol::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
-{
-	return 1;
-}
-
-int TlenProtocol::RecvContacts(MCONTACT hContact, PROTORECVEVENT* evt)
-{
-	return 1;
-}
-
 extern INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 INT_PTR TlenProtocol::AccMgrUI(WPARAM wParam, LPARAM lParam)

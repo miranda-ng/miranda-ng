@@ -264,11 +264,11 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				db_event_get(hDbEvent, &dbei);
 
 				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_DENYREASON))) {
-					TCHAR szReason[256];
-					GetDlgItemText(hwndDlg, IDC_DENYREASON, szReason, SIZEOF(szReason));
-					CallProtoService(dbei.szModule, PS_AUTHDENY, (WPARAM)hDbEvent, (LPARAM)szReason);
+					TCHAR tszReason[256];
+					GetDlgItemText(hwndDlg, IDC_DENYREASON, tszReason, SIZEOF(tszReason));
+					CallProtoService(dbei.szModule, PS_AUTHDENY, hDbEvent, (LPARAM)tszReason);
 				}
-				else CallProtoService(dbei.szModule, PS_AUTHDENY, (WPARAM)hDbEvent, 0);
+				else CallProtoService(dbei.szModule, PS_AUTHDENY, hDbEvent, 0);
 			}
 			DestroyWindow(hwndDlg);
 			break;

@@ -95,9 +95,9 @@ extern "C" int __declspec(dllexport) Load()
 	pd.type = PROTOTYPE_VIRTUAL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
-	CreateServiceFunction(pluginName PS_GETCAPS, GetCaps);
-	CreateServiceFunction(pluginName PS_GETSTATUS, GetStatus);
-	CreateServiceFunction(pluginName PS_GETNAME, GetName);
+	CreateProtoServiceFunction(pluginName, PS_GETCAPS, GetCaps);
+	CreateProtoServiceFunction(pluginName, PS_GETSTATUS, GetStatus);
+	CreateProtoServiceFunction(pluginName, PS_GETNAME, GetName);
 	CreateServiceFunction("GmailMNotifier/Notifying", Notifying);
 
 	opt.circleTime = db_get_dw(NULL, pluginName, "circleTime", 30);

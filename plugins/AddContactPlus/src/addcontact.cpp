@@ -296,9 +296,9 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 						if (flags & PF4_NOCUSTOMAUTH)
 							CallContactService(hContact, PSS_AUTHREQUEST, 0, 0);
 						else {
-							TCHAR szReason[512];
-							GetDlgItemText(hdlg, IDC_AUTHREQ, szReason, SIZEOF(szReason));
-							CallContactService(hContact, PSS_AUTHREQUEST, 0, (LPARAM)szReason);
+							TCHAR tszReason[512];
+							GetDlgItemText(hdlg, IDC_AUTHREQ, tszReason, SIZEOF(tszReason));
+							CallContactService(hContact, PSS_AUTHREQUEST, 0, (LPARAM)tszReason);
 						}
 					}
 				}

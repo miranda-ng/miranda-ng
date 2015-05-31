@@ -489,6 +489,14 @@ MIR_CORE_DLL(HANDLE) CreateServiceFunctionObjParam(const char *name, MIRANDASERV
 	return CreateServiceInt(3, name, (MIRANDASERVICE)serviceProc, object, lParam);
 }
 
+MIR_CORE_DLL(HANDLE) CreateProtoServiceFunction(const char *szModule, const char *szService, MIRANDASERVICE serviceProc)
+{
+	char str[MAXMODULELABELLENGTH * 2];
+	strncpy_s(str, szModule, _TRUNCATE);
+	strncat_s(str, szService, _TRUNCATE);
+	return CreateServiceFunction(str, serviceProc);
+}
+
 MIR_CORE_DLL(int) DestroyServiceFunction(HANDLE hService)
 {
 	mir_cslock lck(csServices);
