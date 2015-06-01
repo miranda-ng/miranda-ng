@@ -126,8 +126,8 @@ void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST*)
 
 void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 {
-	std::string displayname = body["displayName"].as_string();
-	std::string cuid = body["callerId"].as_string();
+	//std::string displayname = body["displayName"].as_string();
+	//std::string cuid = body["callerId"].as_string();
 	std::string uid = body["conversationId"].as_string();
 	std::string gp = body["gp"].as_string();
 	int evt = body["evt"].as_int();

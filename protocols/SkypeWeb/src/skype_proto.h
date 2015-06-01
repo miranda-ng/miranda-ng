@@ -25,15 +25,16 @@ typedef HRESULT(MarkupCallback)(IHTMLDocument3 *pHtmlDoc, BSTR &message);
 
 struct TRInfo
 {
-	std::string socketIo;
-	std::string connId;
-	std::string st;
-	std::string se;
-	std::string instance;
-	std::string ccid;
-	std::string sessId;
-	std::string sig;
-	std::string url;
+	std::string 
+				socketIo,
+				connId,
+				st,
+				se,
+				instance,
+				ccid,
+				sessId,
+				sig,
+				url;
 };
 
 struct CSkypeProto : public PROTO < CSkypeProto >
@@ -99,7 +100,7 @@ public:
 	////////////////////////////////////////////
 	UINT_PTR m_timer;
 	static int CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2);
-	void CSkypeProto::ProcessTimer();
+	void ProcessTimer();
 	static INT_PTR EventGetIcon(WPARAM wParam, LPARAM lParam);
 	static INT_PTR GetCallEventText(WPARAM, LPARAM lParam);
 
@@ -185,7 +186,7 @@ private:
 	void OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p);
 	void OnHealth(const NETLIBHTTPREQUEST *response);
 	void OnTrouterEvent(const JSONNode &body, const JSONNode &headers);
-	void __cdecl CSkypeProto::TRouterThread(void*);
+	void __cdecl TRouterThread(void*);
 
 	// profile
 	void UpdateProfileFirstName(const JSONNode &root, MCONTACT hContact = NULL);
