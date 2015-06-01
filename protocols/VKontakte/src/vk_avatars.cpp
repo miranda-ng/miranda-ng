@@ -22,20 +22,20 @@ void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest* pReq)
 	if (reply->resultCode != 200)
 		return;
 
-	PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
-	GetAvatarFileName((MCONTACT)pReq->pUserInfo, AI.filename, SIZEOF(AI.filename));
-	AI.format = ProtoGetBufferFormat(reply->pData);
+	PROTO_AVATAR_INFORMATION ai = { 0 };
+	GetAvatarFileName((MCONTACT)pReq->pUserInfo, ai.filename, SIZEOF(ai.filename));
+	ai.format = ProtoGetBufferFormat(reply->pData);
 
-	FILE *out = _tfopen(AI.filename, _T("wb"));
+	FILE *out = _tfopen(ai.filename, _T("wb"));
 	if (out == NULL) {
-		ProtoBroadcastAck((MCONTACT)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
+		ProtoBroadcastAck((MCONTACT)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai, 0);
 		return;
 	}
 
 	fwrite(reply->pData, 1, reply->dataLength, out);
 	fclose(out);
 	setByte((MCONTACT)pReq->pUserInfo, "NeedNewAvatar", 0);
-	ProtoBroadcastAck((MCONTACT)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
+	ProtoBroadcastAck((MCONTACT)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
 }
 
 INT_PTR CVkProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
@@ -66,33 +66,33 @@ void CVkProto::ReloadAvatarInfo(MCONTACT hContact)
 		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 		return;
 	}
-	PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
-	AI.hContact = hContact;
-	SvcGetAvatarInfo(0, (LPARAM)&AI);
+	PROTO_AVATAR_INFORMATION ai = { 0 };
+	ai.hContact = hContact;
+	SvcGetAvatarInfo(0, (LPARAM)&ai);
 }
 
 INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATION* AI = (PROTO_AVATAR_INFORMATION*)lParam;
+	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
-	ptrA szUrl(getStringA(AI->hContact, "AvatarUrl"));
+	ptrA szUrl(getStringA(pai->hContact, "AvatarUrl"));
 	if (szUrl == NULL)
 		return GAIR_NOAVATAR;
 
 	TCHAR tszFileName[MAX_PATH];
-	GetAvatarFileName(AI->hContact, tszFileName, SIZEOF(tszFileName));
-	_tcsncpy(AI->filename, tszFileName, SIZEOF(AI->filename));
+	GetAvatarFileName(pai->hContact, tszFileName, SIZEOF(tszFileName));
+	_tcsncpy(pai->filename, tszFileName, SIZEOF(pai->filename));
 
-	AI->format = ProtoGetAvatarFormat(AI->filename);
+	pai->format = ProtoGetAvatarFormat(pai->filename);
 
-	if (::_taccess(AI->filename, 0) == 0 && !getBool(AI->hContact, "NeedNewAvatar", 0))
+	if (::_taccess(pai->filename, 0) == 0 && !getBool(pai->hContact, "NeedNewAvatar", 0))
 		return GAIR_SUCCESS;
 
 	if (IsOnline()) {
 		AsyncHttpRequest *pReq = new AsyncHttpRequest();
 		pReq->flags = NLHRF_NODUMP | NLHRF_REDIRECT;
 		pReq->m_szUrl = szUrl;
-		pReq->pUserInfo = (char*)AI->hContact;
+		pReq->pUserInfo = (char*)pai->hContact;
 		pReq->m_pFunc = &CVkProto::OnReceiveAvatar;
 		pReq->requestType = REQUEST_GET;
 		pReq->m_bApiReq = false;
@@ -109,15 +109,14 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 INT_PTR CVkProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	debugLogA("CVkProto::SvcGetMyAvatar");
-	PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
-	AI.hContact = NULL;
-	if (SvcGetAvatarInfo(0, (LPARAM)&AI) != GAIR_SUCCESS)
+	PROTO_AVATAR_INFORMATION ai = { 0 };
+	if (SvcGetAvatarInfo(0, (LPARAM)&ai) != GAIR_SUCCESS)
 		return 1;
 	
 	TCHAR* buf = (TCHAR*)wParam;
 	int size = (int)lParam;
 	
-	_tcsncpy(buf, AI.filename, size);
+	_tcsncpy(buf, ai.filename, size);
 	buf[size - 1] = 0;
 
 	return 0;
@@ -159,10 +158,10 @@ void CVkProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 	else {
 		setTString(hContact, "AvatarUrl", tszUrl);
 		setByte(hContact,"NeedNewAvatar", 1);
-		PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
-		AI.hContact = hContact;
-		GetAvatarFileName(AI.hContact, AI.filename, SIZEOF(AI.filename));
-		AI.format = ProtoGetAvatarFormat(AI.filename);
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&AI, 0);
+		PROTO_AVATAR_INFORMATION ai = { 0 };
+		ai.hContact = hContact;
+		GetAvatarFileName(ai.hContact, ai.filename, SIZEOF(ai.filename));
+		ai.format = ProtoGetAvatarFormat(ai.filename);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
 	}
 }

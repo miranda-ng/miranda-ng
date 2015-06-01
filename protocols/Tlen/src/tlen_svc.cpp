@@ -665,10 +665,10 @@ INT_PTR TlenProtocol::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	char *avatarHash = NULL;
 	TLEN_LIST_ITEM *item = NULL;
 	DBVARIANT dbv;
-	PROTO_AVATAR_INFORMATION* AI = ( PROTO_AVATAR_INFORMATION* )lParam;
+	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
-	if (AI->hContact != NULL) {
-		if (!db_get(AI->hContact, m_szModuleName, "jid", &dbv)) {
+	if (pai->hContact != NULL) {
+		if (!db_get(pai->hContact, m_szModuleName, "jid", &dbv)) {
 			item = TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal);
 			db_free(&dbv);
 			if (item != NULL) {
@@ -684,13 +684,13 @@ INT_PTR TlenProtocol::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		return GAIR_NOAVATAR;
 
 	if (avatarHash != NULL && !downloadingAvatar) {
-		TlenGetAvatarFileName(this, item, AI->filename, SIZEOF(AI->filename)-1);
-		AI->format = ( AI->hContact == NULL ) ? threadData->avatarFormat : item->avatarFormat;
+		TlenGetAvatarFileName(this, item, pai->filename, SIZEOF(pai->filename)-1);
+		pai->format = ( pai->hContact == NULL ) ? threadData->avatarFormat : item->avatarFormat;
 		return GAIR_SUCCESS;
 	}
 
 	/* get avatar */
-	if (( wParam & GAIF_FORCE ) != 0 && AI->hContact != NULL && isOnline)
+	if (( wParam & GAIF_FORCE ) != 0 && pai->hContact != NULL && isOnline)
 		return GAIR_WAITFOR;
 
 	return GAIR_NOAVATAR;

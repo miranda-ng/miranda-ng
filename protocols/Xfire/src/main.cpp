@@ -1782,17 +1782,15 @@ void SetAvatar(void *arg)
 	if (xsa->hContact == NULL)
 		return;
 
-	if (GetAvatar(xsa->username, &av))
-	{
-		PROTO_AVATAR_INFORMATION AI;
-		AI.format = av.type;
-		AI.hContact = xsa->hContact;
-		mir_tstrcpy(AI.filename, _A2T(av.file));
-		ProtoBroadcastAck(protocolname, xsa->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&AI, 0);
+	if (GetAvatar(xsa->username, &av)) {
+		PROTO_AVATAR_INFORMATION ai;
+		ai.format = av.type;
+		ai.hContact = xsa->hContact;
+		_tcsncpy_s(ai.filename, _A2T(av.file), _TRUNCATE);
+		ProtoBroadcastAck(protocolname, xsa->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
 	}
 
 	delete(xsa);
-	//ReleaseMutex(hMutex);
 
 	lasttime -= sleep;
 }

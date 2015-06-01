@@ -614,8 +614,8 @@ INT_PTR CMraProto::MraGetAvatarCaps(WPARAM wParam, LPARAM)
 INT_PTR CMraProto::MraGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam) {
-		PROTO_AVATAR_INFORMATION *ppai = (PROTO_AVATAR_INFORMATION*)lParam;
-		return (INT_PTR)MraAvatarsQueueGetAvatar(hAvatarsQueueHandle, (DWORD)wParam, ppai->hContact, NULL, (DWORD*)&ppai->format, ppai->filename);
+		PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
+		return (INT_PTR)MraAvatarsQueueGetAvatar(hAvatarsQueueHandle, (DWORD)wParam, pai->hContact, NULL, (DWORD*)&pai->format, pai->filename);
 	}
 	return GAIR_NOAVATAR;
 }

@@ -292,10 +292,8 @@ int Meta_HandleACK(WPARAM, LPARAM lParam)
 
 			// change avatar if the most online supporting avatars changes, or if we don't have one
 			MCONTACT hMostOnline = Meta_GetMostOnlineSupporting(cc, PFLAGNUM_4, PF4_AVATARS);
-			//if (AI.hContact == 0 || AI.hContact != hMostOnline) {
-			if (ack->hContact == 0 || ack->hContact != hMostOnline) {
+			if (ack->hContact == 0 || ack->hContact != hMostOnline)
 				return 0;
-			}
 
 			if (!db_get(ack->hContact, "ContactPhoto", "File", &dbv)) {
 				db_set_ts(cc->contactID, "ContactPhoto", "File", dbv.ptszVal);
@@ -303,12 +301,12 @@ int Meta_HandleACK(WPARAM, LPARAM lParam)
 			}
 
 			if (ack->hProcess) {
-				PROTO_AVATAR_INFORMATION AI;
-				memcpy(&AI, (PROTO_AVATAR_INFORMATION *)ack->hProcess, sizeof(PROTO_AVATAR_INFORMATION));
-				if (AI.hContact)
-					AI.hContact = cc->contactID;
+				PROTO_AVATAR_INFORMATION ai;
+				memcpy(&ai, (PROTO_AVATAR_INFORMATION*)ack->hProcess, sizeof(ai));
+				if (ai.hContact)
+					ai.hContact = cc->contactID;
 
-				return ProtoBroadcastAck(META_PROTO, cc->contactID, ack->type, ack->result, (HANDLE)&AI, ack->lParam);
+				return ProtoBroadcastAck(META_PROTO, cc->contactID, ack->type, ack->result, (HANDLE)&ai, ack->lParam);
 			}
 
 			return ProtoBroadcastAck(META_PROTO, cc->contactID, ack->type, ack->result, 0, ack->lParam);
@@ -442,12 +440,12 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		// most online contact with avatar support might have changed - update avatar
 		hMostOnline = Meta_GetMostOnlineSupporting(ccMeta, PFLAGNUM_4, PF4_AVATARS);
 		if (hMostOnline) {
-			PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
-			AI.hContact = ccMeta->contactID;
-			AI.format = PA_FORMAT_UNKNOWN;
-			_tcsncpy_s(AI.filename, _T("X"), _TRUNCATE);
-			if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&AI) == GAIR_SUCCESS)
-				db_set_ts(ccMeta->contactID, "ContactPhoto", "File", AI.filename);
+			PROTO_AVATAR_INFORMATION ai = { 0 };
+			ai.hContact = ccMeta->contactID;
+			ai.format = PA_FORMAT_UNKNOWN;
+			_tcsncpy_s(ai.filename, _T("X"), _TRUNCATE);
+			if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
+				db_set_ts(ccMeta->contactID, "ContactPhoto", "File", ai.filename);
 		}
 	}
 
@@ -748,8 +746,8 @@ INT_PTR Meta_GetAwayMsg(WPARAM wParam, LPARAM lParam)
 
 INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATION *AI = (PROTO_AVATAR_INFORMATION*)lParam;
-	DBCachedContact *cc = CheckMeta(AI->hContact);
+	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
+	DBCachedContact *cc = CheckMeta(pai->hContact);
 	if (cc == NULL)
 		return GAIR_NOAVATAR;
 
@@ -764,9 +762,9 @@ INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (!proto)
 		return GAIR_NOAVATAR;
 
-	AI->hContact = hSub;
+	pai->hContact = hSub;
 	INT_PTR result = CallProtoService(proto, PS_GETAVATARINFO, wParam, lParam);
-	AI->hContact = cc->contactID;
+	pai->hContact = cc->contactID;
 	if (result != CALLSERVICE_NOTFOUND)
 		return result;
 
@@ -791,12 +789,12 @@ INT_PTR Meta_GetInfo(WPARAM wParam, LPARAM lParam)
 	if (!proto)
 		return 0;
 
-	PROTO_AVATAR_INFORMATION AI;
-	AI.hContact = ccs->hContact;
-	AI.format = PA_FORMAT_UNKNOWN;
-	_tcsncpy_s(AI.filename, _T("X"), _TRUNCATE);
-	if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&AI) == GAIR_SUCCESS)
-		db_set_ts(ccs->hContact, "ContactPhoto", "File", AI.filename);
+	PROTO_AVATAR_INFORMATION ai;
+	ai.hContact = ccs->hContact;
+	ai.format = PA_FORMAT_UNKNOWN;
+	_tcsncpy_s(ai.filename, _T("X"), _TRUNCATE);
+	if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&ai) == GAIR_SUCCESS)
+		db_set_ts(ccs->hContact, "ContactPhoto", "File", ai.filename);
 
 	hMostOnline = Meta_GetMostOnline(cc);
 	Meta_CopyContactNick(cc, hMostOnline);

@@ -1401,9 +1401,9 @@ LBL_ErrFormat:
 	else if ((pictureType = ProtoGetBufferFormat(body, 0)) == PA_FORMAT_UNKNOWN)
 		goto LBL_ErrFormat;
 
-	PROTO_AVATAR_INFORMATION AI;
-	AI.format = pictureType;
-	AI.hContact = hContact;
+	PROTO_AVATAR_INFORMATION ai;
+	ai.format = pictureType;
+	ai.hContact = hContact;
 
 	TCHAR tszFileName[MAX_PATH];
 	if (getByte(hContact, "AvatarType", PA_FORMAT_UNKNOWN) != (unsigned char)pictureType) {
@@ -1420,7 +1420,7 @@ LBL_ErrFormat:
 	mir_sha1_finish(&sha, digest);
 
 	GetAvatarFileName(hContact, tszFileName, SIZEOF(tszFileName));
-	_tcsncpy_s(AI.filename, tszFileName, _TRUNCATE);
+	_tcsncpy_s(ai.filename, tszFileName, _TRUNCATE);
 
 	FILE *out = _tfopen(tszFileName, _T("wb"));
 	if (out != NULL) {
@@ -1429,10 +1429,10 @@ LBL_ErrFormat:
 
 		char buffer[41];
 		setString(hContact, "AvatarSaved", bin2hex(digest, sizeof(digest), buffer));
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&AI), NULL);
-		debugLog(_T("Broadcast new avatar: %s"),AI.filename);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai), NULL);
+		debugLog(_T("Broadcast new avatar: %s"),ai.filename);
 	}
-	else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&AI), NULL);
+	else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai), NULL);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -1586,15 +1586,14 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 		gg_add_notify_ex(sess, uin, (char)(inlist ? GG_USER_NORMAL : GG_USER_OFFLINE));
 		gg_LeaveCriticalSection(&sess_mutex, "getcontact", 32, 1, "sess_mutex", 1);
 
-		PROTO_AVATAR_INFORMATION pai = { 0 };
-		pai.hContact = hContact;
-		getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
+		PROTO_AVATAR_INFORMATION ai = { 0 };
+		ai.hContact = hContact;
+		getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&ai);
 
 		// Change status of the contact with our own UIN (if got yourself added to the contact list)
 		if (getDword(GG_KEY_UIN, 0) == uin) {
-			TCHAR *szMsg;
 			gg_EnterCriticalSection(&modemsg_mutex, "getcontact", 33, "modemsg_mutex", 1);
-			szMsg = mir_tstrdup(getstatusmsg(m_iStatus));
+			TCHAR *szMsg = mir_tstrdup(getstatusmsg(m_iStatus));
 			gg_LeaveCriticalSection(&modemsg_mutex, "getcontact", 33, 1, "modemsg_mutex", 1);
 			changecontactstatus(uin, status_m2gg(m_iStatus, szMsg != NULL), szMsg, 0, 0, 0, 0);
 			mir_free(szMsg);

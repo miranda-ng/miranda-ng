@@ -90,11 +90,11 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo, MCONTACT hcontact, c
 		{
 			db_set_dw(hcontact, "ContactPhoto", "XFireAvatarId", buddyinfo->avatarid);
 			db_set_b(hcontact, "ContactPhoto", "XFireAvatarMode", buddyinfo->avatarmode);
-			PROTO_AVATAR_INFORMATION AI;
-			AI.format = type;
-			AI.hContact = hcontact;
-			mir_tstrcpy(AI.filename, _A2T(filename));
-			ProtoBroadcastAck(protocolname, hcontact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&AI, 0);
+			PROTO_AVATAR_INFORMATION ai;
+			ai.format = type;
+			ai.hContact = hcontact;
+			_tcsncpy_s(ai.filename, _A2T(filename), _TRUNCATE);
+			ProtoBroadcastAck(protocolname, hcontact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
 		}
 		else //eigenen avatar setzen
 		{

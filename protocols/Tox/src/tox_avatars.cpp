@@ -232,14 +232,14 @@ void CToxProto::OnGotFriendAvatarData(AvatarTransferParam *transfer)
 {
 	db_set_blob(transfer->pfts.hContact, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, transfer->hash, TOX_HASH_LENGTH);
 
-	PROTO_AVATAR_INFORMATION pai = { sizeof(pai) };
-	pai.format = PA_FORMAT_PNG;
-	pai.hContact = transfer->pfts.hContact;
-	mir_tstrcpy(pai.filename, transfer->pfts.tszCurrentFile);
+	PROTO_AVATAR_INFORMATION ai = { 0 };
+	ai.format = PA_FORMAT_PNG;
+	ai.hContact = transfer->pfts.hContact;
+	mir_tstrcpy(ai.filename, transfer->pfts.tszCurrentFile);
 
 	fclose(transfer->hFile);
 	transfer->hFile = NULL;
 
-	ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+	ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
 	transfers.Remove(transfer);
 }

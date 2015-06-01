@@ -76,20 +76,20 @@ LBL_Error:
 	if (fmt == PA_FORMAT_UNKNOWN)
 		goto LBL_Error;
 
-	PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
-	AI.format = fmt;
-	AI.hContact = p->hContact;
-	MSN_GetAvatarFileName(AI.hContact, AI.filename, SIZEOF(AI.filename), szExt);
-	_tremove(AI.filename);
+	PROTO_AVATAR_INFORMATION ai = { 0 };
+	ai.format = fmt;
+	ai.hContact = p->hContact;
+	MSN_GetAvatarFileName(ai.hContact, ai.filename, SIZEOF(ai.filename), szExt);
+	_tremove(ai.filename);
 
-	int fileId = _topen(AI.filename, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
+	int fileId = _topen(ai.filename, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
 	if (fileId == -1)
 		goto LBL_Error;
 
 	_write(fileId, nlhrReply->pData, (unsigned)nlhrReply->dataLength);
 	_close(fileId);
 
-	ProtoBroadcastAck(p->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
+	ProtoBroadcastAck(p->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	return true;
 }

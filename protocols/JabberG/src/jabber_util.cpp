@@ -935,17 +935,17 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 			if (res->resultCode == 200 && res->dataLength) {
 				int pictureType = ProtoGetBufferFormat(res->pData);
 				if (pictureType != PA_FORMAT_UNKNOWN) {
-					PROTO_AVATAR_INFORMATION AI;
-					AI.format = pictureType;
-					AI.hContact = avs[i].hContact;
+					PROTO_AVATAR_INFORMATION ai;
+					ai.format = pictureType;
+					ai.hContact = avs[i].hContact;
 
-					if (getByte(AI.hContact, "AvatarType", PA_FORMAT_UNKNOWN) != (unsigned char)pictureType) {
+					if (getByte(ai.hContact, "AvatarType", PA_FORMAT_UNKNOWN) != (unsigned char)pictureType) {
 						TCHAR tszFileName[MAX_PATH];
-						GetAvatarFileName(AI.hContact, tszFileName, SIZEOF(tszFileName));
+						GetAvatarFileName(ai.hContact, tszFileName, SIZEOF(tszFileName));
 						DeleteFile(tszFileName);
 					}
 
-					setByte(AI.hContact, "AvatarType", pictureType);
+					setByte(ai.hContact, "AvatarType", pictureType);
 
 					char buffer[2 * MIR_SHA1_HASH_SIZE + 1];
 					BYTE digest[MIR_SHA1_HASH_SIZE];
@@ -955,20 +955,20 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					mir_sha1_finish(&sha, digest);
 					bin2hex(digest, sizeof(digest), buffer);
 
-					ptrA cmpsha(getStringA(AI.hContact, "AvatarSaved"));
+					ptrA cmpsha(getStringA(ai.hContact, "AvatarSaved"));
 					if (cmpsha == NULL || strnicmp(cmpsha, buffer, sizeof(buffer))) {
 						TCHAR tszFileName[MAX_PATH];
-						GetAvatarFileName(AI.hContact, tszFileName, SIZEOF(tszFileName));
-						_tcsncpy_s(AI.filename, tszFileName, _TRUNCATE);
+						GetAvatarFileName(ai.hContact, tszFileName, SIZEOF(tszFileName));
+						_tcsncpy_s(ai.filename, tszFileName, _TRUNCATE);
 						FILE* out = _tfopen(tszFileName, _T("wb"));
 						if (out != NULL) {
 							fwrite(res->pData, res->dataLength, 1, out);
 							fclose(out);
-							setString(AI.hContact, "AvatarSaved", buffer);
-							ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
-							debugLog(_T("Broadcast new avatar: %s"), AI.filename);
+							setString(ai.hContact, "AvatarSaved", buffer);
+							ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
+							debugLog(_T("Broadcast new avatar: %s"), ai.filename);
 						}
-						else ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
+						else ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai, 0);
 					}
 				}
 			}

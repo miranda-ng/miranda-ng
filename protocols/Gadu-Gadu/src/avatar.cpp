@@ -217,13 +217,13 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 					mir_free(AvatarURL); mir_free(AvatarTs);
 
 					if (iWaitFor) {
-						PROTO_AVATAR_INFORMATION pai = {0};
-						pai.hContact = hContact;
-						INT_PTR res = getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
+						PROTO_AVATAR_INFORMATION ai = { 0 };
+						ai.hContact = hContact;
+						INT_PTR res = getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&ai);
 						if (res == GAIR_NOAVATAR)
 							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
 						else if (res == GAIR_SUCCESS)
-							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
 					}
 					else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0, 0);
 					delSetting(hContact, GG_KEY_AVATARREQUESTED);
@@ -241,9 +241,9 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 
 			int result = 0;
 
-			PROTO_AVATAR_INFORMATION pai = { sizeof(pai) };
-			pai.hContact = data->hContact;
-			pai.format = getByte(pai.hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
+			PROTO_AVATAR_INFORMATION ai = { 0 };
+			ai.hContact = data->hContact;
+			ai.format = getByte(ai.hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
 
 			NETLIBHTTPREQUEST req = { sizeof(req) };
 			req.requestType = REQUEST_GET;
@@ -261,17 +261,17 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 					if (strncmp(resp->pData,"\x89\x50\x4E\x47\x0D\x0A\x1A\x0A",8) == 0) avatarType = PA_FORMAT_PNG;
 					setByte(data->hContact, GG_KEY_AVATARTYPE, (BYTE)avatarType);
 
-					getAvatarFilename(pai.hContact, pai.filename, sizeof(pai.filename));
-					file_fd = _topen(pai.filename, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);
+					getAvatarFilename(ai.hContact, ai.filename, SIZEOF(ai.filename));
+					file_fd = _topen(ai.filename, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);
 					if (file_fd != -1) {
 						_write(file_fd, resp->pData, resp->dataLength);
 						_close(file_fd);
 						result = 1;
-						debugLog(_T("avatarrequestthread() new avatar_transfers item. Saved data from url=%s to file=%s."), data->szAvatarURL, pai.filename);
+						debugLog(_T("avatarrequestthread() new avatar_transfers item. Saved data from url=%s to file=%s."), data->szAvatarURL, ai.filename);
 					} else {
-						debugLog(_T("avatarrequestthread(): _topen file %s error. errno=%d: %s"), pai.filename, errno, strerror(errno));
+						debugLog(_T("avatarrequestthread(): _topen file %s error. errno=%d: %s"), ai.filename, errno, strerror(errno));
 						TCHAR error[512];
-						mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot create avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai.filename);
+						mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot create avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), ai.filename);
 						showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 					}
 				}
@@ -280,9 +280,9 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			}
 			else debugLogA("avatarrequestthread(): No response from HTTP request");
 
-			ProtoBroadcastAck(pai.hContact, ACKTYPE_AVATAR, result ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&pai, 0);
+			ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, result ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&ai, 0);
 
-			if (!pai.hContact)
+			if (!ai.hContact)
 				CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 
 			mir_free(data);
@@ -334,8 +334,8 @@ void __cdecl GGPROTO::getOwnAvatarThread(void*)
 		}
 		setByte(GG_KEY_AVATARREQUESTED, 1);
 
-		PROTO_AVATAR_INFORMATION pai = { 0 };
-		getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
+		PROTO_AVATAR_INFORMATION ai = { 0 };
+		getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&ai);
 	}
 #ifdef DEBUGMODE
 	debugLogA("getOwnAvatarThread(): end");

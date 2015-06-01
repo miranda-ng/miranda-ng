@@ -121,34 +121,34 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (!m_options.EnableAvatars)
 		return GAIR_NOAVATAR;
 
-	PROTO_AVATAR_INFORMATION* AI = (PROTO_AVATAR_INFORMATION*)lParam;
+	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
-	ptrA szHashValue( getStringA(AI->hContact, "AvatarHash"));
+	ptrA szHashValue( getStringA(pai->hContact, "AvatarHash"));
 	if (szHashValue == NULL) {
 		debugLogA("No avatar");
 		return GAIR_NOAVATAR;
 	}
 
 	TCHAR tszFileName[MAX_PATH];
-	GetAvatarFileName(AI->hContact, tszFileName, SIZEOF(tszFileName));
-	_tcsncpy_s(AI->filename, tszFileName, _TRUNCATE);
+	GetAvatarFileName(pai->hContact, tszFileName, SIZEOF(tszFileName));
+	_tcsncpy_s(pai->filename, tszFileName, _TRUNCATE);
 
-	AI->format = (AI->hContact == NULL) ? PA_FORMAT_PNG : getByte(AI->hContact, "AvatarType", 0);
+	pai->format = (pai->hContact == NULL) ? PA_FORMAT_PNG : getByte(pai->hContact, "AvatarType", 0);
 
-	if (::_taccess(AI->filename, 0) == 0) {
-		ptrA szSavedHash( getStringA(AI->hContact, "AvatarSaved"));
+	if (::_taccess(pai->filename, 0) == 0) {
+		ptrA szSavedHash( getStringA(pai->hContact, "AvatarSaved"));
 		if (szSavedHash != NULL && !mir_strcmp(szSavedHash, szHashValue)) {
 			debugLogA("Avatar is Ok: %s == %s", szSavedHash, szHashValue);
 			return GAIR_SUCCESS;
 		}
 	}
 
-	if ((wParam & GAIF_FORCE) != 0 && AI->hContact != NULL && m_bJabberOnline) {
-		ptrT tszJid( getTStringA(AI->hContact, "jid"));
+	if ((wParam & GAIF_FORCE) != 0 && pai->hContact != NULL && m_bJabberOnline) {
+		ptrT tszJid( getTStringA(pai->hContact, "jid"));
 		if (tszJid != NULL) {
 			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, tszJid);
 			if (item != NULL) {
-				BOOL isXVcard = getByte(AI->hContact, "AvatarXVcard", 0);
+				BOOL isXVcard = getByte(pai->hContact, "AvatarXVcard", 0);
 
 				TCHAR szJid[JABBER_MAX_JID_LEN]; szJid[0] = 0;
 				if (item->arResources.getCount() != NULL && !isXVcard)

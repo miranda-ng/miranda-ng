@@ -22,9 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &ai, std::string *url)
+bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &pai, std::string *url)
 {
-	ptrA id(getStringA(ai.hContact, FACEBOOK_KEY_ID));
+	ptrA id(getStringA(pai.hContact, FACEBOOK_KEY_ID));
 	if (id == NULL)
 		return false;
 
@@ -35,9 +35,8 @@ bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &ai, std::string *u
 
 	std::tstring filename = GetAvatarFolder() + _T('\\') + std::tstring(_A2T(id)) + _T(".jpg");
 
-	_tcsncpy_s(ai.filename, filename.c_str(), _TRUNCATE);
-	ai.format = ProtoGetAvatarFormat(ai.filename);
-
+	_tcsncpy_s(pai.filename, filename.c_str(), _TRUNCATE);
+	pai.format = ProtoGetAvatarFormat(pai.filename);
 	return true;
 }
 
@@ -75,7 +74,7 @@ void FacebookProto::CheckAvatarChange(MCONTACT hContact, const std::string &imag
 		setString(hContact, FACEBOOK_KEY_AVATAR, image_name.c_str());
 
 	if (!hContact) {
-		PROTO_AVATAR_INFORMATION ai = { sizeof(ai) };
+		PROTO_AVATAR_INFORMATION ai = { 0 };
 		if (GetAvatarInfo(update_required ? GAIF_FORCE : 0, (LPARAM)&ai) != GAIR_WAITFOR)
 			CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 	}
@@ -96,7 +95,7 @@ void FacebookProto::UpdateAvatarWorker(void *)
 	for (;;)
 	{
 		std::string url;
-		PROTO_AVATAR_INFORMATION ai = { sizeof(ai) };
+		PROTO_AVATAR_INFORMATION ai = { 0 };
 		ai.hContact = avatar_queue[0];
 
 		if (Miranda_Terminated())
@@ -178,26 +177,26 @@ INT_PTR FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (!lParam)
 		return GAIR_NOAVATAR;
 
-	PROTO_AVATAR_INFORMATION* AI = (PROTO_AVATAR_INFORMATION*)lParam;
-	if (GetDbAvatarInfo(*AI, NULL))
+	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*)lParam;
+	if (GetDbAvatarInfo(*pai, NULL))
 	{
-		bool fileExist = _taccess(AI->filename, 0) == 0;
+		bool fileExist = _taccess(pai->filename, 0) == 0;
 
 		bool needLoad;
-		if (AI->hContact)
-			needLoad = (wParam & GAIF_FORCE) && (!fileExist || db_get_b(AI->hContact, "ContactPhoto", "NeedUpdate", 0));
+		if (pai->hContact)
+			needLoad = (wParam & GAIF_FORCE) && (!fileExist || db_get_b(pai->hContact, "ContactPhoto", "NeedUpdate", 0));
 		else
 			needLoad = (wParam & GAIF_FORCE) || !fileExist;
 
 		if (needLoad)
 		{
-			debugLogA("*** Starting avatar request thread for %s", _T2A(AI->filename));
+			debugLogA("*** Starting avatar request thread for %s", _T2A(pai->filename));
 			ScopedLock s(avatar_lock_);
 
-			if (std::find(avatar_queue.begin(), avatar_queue.end(), AI->hContact) == avatar_queue.end())
+			if (std::find(avatar_queue.begin(), avatar_queue.end(), pai->hContact) == avatar_queue.end())
 			{
 				bool is_empty = avatar_queue.empty();
-				avatar_queue.push_back(AI->hContact);
+				avatar_queue.push_back(pai->hContact);
 				if (is_empty)
 					ForkThread(&FacebookProto::UpdateAvatarWorker, NULL);
 			}
@@ -220,7 +219,7 @@ INT_PTR FacebookProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	TCHAR* buf = (TCHAR*)wParam;
 	int  size = (int)lParam;
 
-	PROTO_AVATAR_INFORMATION ai = { sizeof(ai) };
+	PROTO_AVATAR_INFORMATION ai = { 0 };
 	switch (GetAvatarInfo(0, (LPARAM)&ai)) {
 	case GAIR_SUCCESS:
 		_tcsncpy(buf, ai.filename, size);

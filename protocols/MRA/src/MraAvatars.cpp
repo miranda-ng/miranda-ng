@@ -87,12 +87,12 @@ void CMraProto::MraAvatarsQueueClear(HANDLE hAvatarsQueueHandle)
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
 	MRA_AVATARS_QUEUE_ITEM *pmraaqiAvatarsQueueItem;
 
-	PROTO_AVATAR_INFORMATION pai = { 0 };
-	pai.format = PA_FORMAT_UNKNOWN;
+	PROTO_AVATAR_INFORMATION ai = { 0 };
+	ai.format = PA_FORMAT_UNKNOWN;
 
 	while (FifoMTItemPop(pmraaqAvatarsQueue, NULL, (LPVOID*)&pmraaqiAvatarsQueueItem) == NO_ERROR) {
-		pai.hContact = pmraaqiAvatarsQueueItem->hContact;
-		ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&pai, 0);
+		ai.hContact = pmraaqiAvatarsQueueItem->hContact;
+		ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, 0);
 		mir_free(pmraaqiAvatarsQueueItem);
 	}
 }
@@ -302,21 +302,21 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 			}
 		}
 
-		PROTO_AVATAR_INFORMATION pai;
+		PROTO_AVATAR_INFORMATION ai;
 		if (bFailed) {
 			DeleteFile(wszFileName);
-			pai.hContact = pmraaqiAvatarsQueueItem->hContact;
-			pai.format = PA_FORMAT_UNKNOWN;
-			pai.filename[0] = 0;
-			ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&pai, 0);
+			ai.hContact = pmraaqiAvatarsQueueItem->hContact;
+			ai.format = PA_FORMAT_UNKNOWN;
+			ai.filename[0] = 0;
+			ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, 0);
 		}
 		else {
-			pai.hContact = pmraaqiAvatarsQueueItem->hContact;
-			pai.format = dwAvatarFormat;
+			ai.hContact = pmraaqiAvatarsQueueItem->hContact;
+			ai.format = dwAvatarFormat;
 			if (db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH))
-				mir_tstrncpy(pai.filename, wszFileName, SIZEOF(pai.filename));
+				_tcsncpy_s(ai.filename, wszFileName, _TRUNCATE);
 			else
-				PathToRelativeT(wszFileName, pai.filename);
+				PathToRelativeT(wszFileName, ai.filename);
 
 			SetContactAvatarFormat(pmraaqiAvatarsQueueItem->hContact, dwAvatarFormat);
 			MraAvatarsSetContactTime(pmraaqiAvatarsQueueItem->hContact, "AvatarLastModifiedTime", &itAvatarLastModifiedTimeServer.stTime);
@@ -324,7 +324,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 			if (pmraaqiAvatarsQueueItem->hContact == NULL) // proto avatar
 				CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 
-			ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+			ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
 		}
 		mir_free(pmraaqiAvatarsQueueItem);
 	}
@@ -551,16 +551,16 @@ DWORD CMraProto::MraAvatarsQueueGetAvatarSimple(HANDLE hAvatarsQueueHandle, DWOR
 	if ( !hAvatarsQueueHandle)
 		return GAIR_NOAVATAR;
 
-	PROTO_AVATAR_INFORMATION pai = { 0 };
-	pai.hContact = hContact;
-	DWORD dwRetCode = MraAvatarsQueueGetAvatar(hAvatarsQueueHandle, dwFlags, hContact, NULL, (DWORD*)&pai.format, pai.filename);
+	PROTO_AVATAR_INFORMATION ai = { 0 };
+	ai.hContact = hContact;
+	DWORD dwRetCode = MraAvatarsQueueGetAvatar(hAvatarsQueueHandle, dwFlags, hContact, NULL, (DWORD*)&ai.format, ai.filename);
 	if (dwRetCode != GAIR_SUCCESS)
 		return dwRetCode;
 	
 	// write owner avatar file name to DB
 	if (hContact == NULL)
 		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
-	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
 	return GAIR_SUCCESS;
 }
 
