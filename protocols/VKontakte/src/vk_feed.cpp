@@ -473,7 +473,7 @@ CVKNewsItem* CVkProto::GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUser
 	tszGLink.AppendFormat(_T("https://vk.com/%s"), jnItem["screen_name"].as_mstring());
 	tszGroupName = SetBBCString(tszGName, m_iBBCForNews, vkbbcUrl, tszGLink);
 
-	CMString tszUsers = SetBBCString(iUserId ? vkNotification->vkUser->m_tszUserNick : TranslateT("Unknown"), m_iBBCForNews, vkbbcUrl, vkNotification->vkUser->m_tszLink);
+	CMString tszUsers = SetBBCString(iUserId ? vkNotification->vkUser->m_tszUserNick : TranslateT("Unknown"), m_iBBCForNews, vkbbcUrl, iUserId ? vkNotification->vkUser->m_tszLink : _T("https://vk.com/"));
 
 	vkNotification->tszText.AppendFormat(_T("%s %s %s"), tszUsers, tszNotificationTranslate, tszGroupName);
 	
