@@ -262,8 +262,8 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 
 void CSkypeProto::OnChatEvent(const JSONNode &node)
 {
-	std::string clientMsgId = node["clientmessageid"].as_string();
-	std::string skypeEditedId = node["skypeeditedid"].as_string();
+	//std::string clientMsgId = node["clientmessageid"].as_string();
+	//std::string skypeEditedId = node["skypeeditedid"].as_string();
 
 	std::string fromLink = node["from"].as_string();
 	ptrA from(ContactUrlToName(fromLink.c_str()));

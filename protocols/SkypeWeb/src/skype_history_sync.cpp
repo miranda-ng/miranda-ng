@@ -78,7 +78,6 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				if (isEdited && dbevent != NULL)
 				{
 					DBEVENTINFO dbei = { sizeof(dbei) };
-					CMStringA msg;
 
 					dbei.cbBlob = db_event_getBlobSize(dbevent);
 					mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
@@ -94,7 +93,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 					_tcsftime_l(time, sizeof(time), L"%X %x", localtime(&timestamp), locale);
 					_free_locale(locale);
 
-					msg.AppendFormat("%s\n%s %s:\n%s", dbMsgText, Translate("Edited at"), _T2A(time), message);
+					CMStringA msg(FORMAT, "%s\n%s %s:\n%s", dbMsgText, Translate("Edited at"), _T2A(time), message);
 					db_event_delete(hContact, dbevent);
 					AddMessageToDb(hContact, dbEventTimestamp, flags, clientMsgId.c_str(), msg.GetBuffer(), emoteOffset);
 				}
