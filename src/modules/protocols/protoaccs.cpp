@@ -291,97 +291,6 @@ int LoadAccountsModule(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR stub1(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)ppi->AddToList(wParam, (PROTOSEARCHRESULT*)lParam);
-}
-
-static INT_PTR stub2(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)ppi->AddToListByEvent(HIWORD(wParam), LOWORD(wParam), (MEVENT)lParam);
-}
-
-static INT_PTR stub3(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM)
-{
-	return (INT_PTR)ppi->Authorize((MEVENT)wParam);
-}
-
-static INT_PTR stub4(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, _A2T((const char*)lParam));
-}
-
-static INT_PTR stub11(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{
-	PROTOFILERESUME* pfr = (PROTOFILERESUME*)lParam;
-	return (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action, (const TCHAR**)&pfr->szFilename);
-}
-
-static INT_PTR stub12(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)ppi->GetCaps(wParam, lParam);
-}
-
-static INT_PTR stub13(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM)
-{
-	return (INT_PTR)Proto_GetIcon(ppi, wParam);
-}
-
-static INT_PTR stub15(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
-{
-	return (INT_PTR)ppi->SearchBasic(_A2T((char*)lParam));
-}
-
-static INT_PTR stub16(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
-{
-	return (INT_PTR)ppi->SearchByEmail(_A2T((char*)lParam));
-}
-
-static INT_PTR stub17(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
-{
-	PROTOSEARCHBYNAME* psbn = (PROTOSEARCHBYNAME*)lParam;
-	return (INT_PTR)ppi->SearchByName(_A2T((char*)psbn->pszNick),
-		_A2T((char*)psbn->pszFirstName), _A2T((char*)psbn->pszLastName));
-}
-
-static INT_PTR stub18(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
-{
-	return (INT_PTR)ppi->SearchAdvanced((HWND)lParam);
-}
-
-static INT_PTR stub19(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
-{
-	return (INT_PTR)ppi->CreateExtendedSearchUI((HWND)lParam);
-}
-
-static INT_PTR stub22(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
-{
-	CCSDATA *ccs = (CCSDATA*)lParam;
-	ppi->RecvMsg(ccs->hContact, (PROTORECVEVENT*)ccs->lParam);
-	return 0;
-}
-
-static INT_PTR stub29(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM)
-{
-	return (INT_PTR)ppi->SetStatus(wParam);
-}
-
-static INT_PTR stub33(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{
-	return (INT_PTR)ppi->SetAwayMsg(wParam, _A2T((const char*)lParam));
-}
-
-static INT_PTR stub41(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{
-	mir_strncpy((char*)lParam, ppi->m_szModuleName, wParam);
-	return 0;
-}
-
-static INT_PTR stub42(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{
-	return ppi->m_iStatus;
-}
-
 static INT_PTR stub43(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION* p = (PROTO_AVATAR_INFORMATION*)lParam;
@@ -443,23 +352,6 @@ BOOL ActivateAccount(PROTOACCOUNT *pa)
 
 	pa->ppro = ppi;
 	ppi->m_iDesiredStatus = ppi->m_iStatus = ID_STATUS_OFFLINE;
-	CreateProtoServiceEx(pa->szModuleName, PS_ADDTOLIST, (MIRANDASERVICEOBJ)stub1, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_ADDTOLISTBYEVENT, (MIRANDASERVICEOBJ)stub2, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_AUTHALLOW, (MIRANDASERVICEOBJ)stub3, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_AUTHDENY, (MIRANDASERVICEOBJ)stub4, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_FILERESUME, (MIRANDASERVICEOBJ)stub11, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_GETCAPS, (MIRANDASERVICEOBJ)stub12, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_LOADICON, (MIRANDASERVICEOBJ)stub13, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_BASICSEARCH, (MIRANDASERVICEOBJ)stub15, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_SEARCHBYEMAIL, (MIRANDASERVICEOBJ)stub16, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_SEARCHBYNAME, (MIRANDASERVICEOBJ)stub17, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_SEARCHBYADVANCED, (MIRANDASERVICEOBJ)stub18, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_CREATEADVSEARCHUI, (MIRANDASERVICEOBJ)stub19, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PSR_MESSAGE, (MIRANDASERVICEOBJ)stub22, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_SETSTATUS, (MIRANDASERVICEOBJ)stub29, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_SETAWAYMSG, (MIRANDASERVICEOBJ)stub33, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_GETNAME, (MIRANDASERVICEOBJ)stub41, pa->ppro);
-	CreateProtoServiceEx(pa->szModuleName, PS_GETSTATUS, (MIRANDASERVICEOBJ)stub42, pa->ppro);
 
 	if (!ProtoServiceExists(pa->szModuleName, PS_GETAVATARINFO))
 		if (ProtoServiceExists(pa->szModuleName, PS_GETAVATARINFOW))
