@@ -27,8 +27,8 @@ void MinecraftDynmapProto::UpdateChat(const char *name, const char *message, con
 	std::string smessage = message;
 	utils::text::replace_all(&smessage, "%", "%%");
 
-	ptrT tmessage(mir_a2t(smessage.c_str()));
-	ptrT tname(mir_a2t(name));
+	ptrT tmessage(mir_a2t_cp(smessage.c_str(), CP_UTF8));
+	ptrT tname(mir_a2t_cp(name, CP_UTF8));
 
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -88,7 +88,7 @@ int MinecraftDynmapProto::OnChatEvent(WPARAM, LPARAM lParam)
 
 void MinecraftDynmapProto::AddChatContact(const char *name)
 {	
-	ptrT tname(mir_a2t(name));
+	ptrT tname(mir_a2t_cp(name, CP_UTF8));
 
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -108,7 +108,7 @@ void MinecraftDynmapProto::AddChatContact(const char *name)
 
 void MinecraftDynmapProto::DeleteChatContact(const char *name)
 {
-	ptrT tname(mir_a2t(name));
+	ptrT tname(mir_a2t_cp(name, CP_UTF8));
 
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -123,7 +123,7 @@ void MinecraftDynmapProto::DeleteChatContact(const char *name)
 
 INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 {	
-	ptrT tszTitle(mir_a2t(m_title.c_str()));
+	ptrT tszTitle(mir_a2t_cp(m_title.c_str(), CP_UTF8));
 
 	// Create the group chat session
 	GCSESSION gcw = {sizeof(gcw)};
@@ -155,7 +155,7 @@ INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 
 void MinecraftDynmapProto::SetTopic(const char *topic)
 {		
-	ptrT ttopic(mir_a2t(topic));
+	ptrT ttopic(mir_a2t_cp(topic, CP_UTF8));
 
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
 	GCEVENT gce = { sizeof(gce), &gcd };
