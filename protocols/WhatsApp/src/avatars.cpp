@@ -90,7 +90,7 @@ int WhatsAppProto::InternalSetAvatar(MCONTACT hContact, const char *szJid, const
 		return errno;
 
 	ResizeBitmap resize = { 0 };
-	if ((resize.hBmp = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)ptszFileName)) == NULL)
+	if ((resize.hBmp = Bitmap_Load(ptszFileName)) == NULL)
 		return 2;
 	resize.size = sizeof(resize);
 	resize.fit = RESIZEBITMAP_KEEP_PROPORTIONS;

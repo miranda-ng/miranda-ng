@@ -260,7 +260,7 @@ BOOL SendPicture(TlenProtocol *proto, MCONTACT hContact) {
 		char *jid = dbv.pszVal;
 		
 		TCHAR tszFilter[512], tszFileName[MAX_PATH];
-		BmpFilterGetStrings(tszFilter, SIZEOF(tszFilter));
+		Bitmap_GetFilter(tszFilter, SIZEOF(tszFilter));
 		tszFileName[0] = '\0';
 
 		OPENFILENAME ofn = {0};

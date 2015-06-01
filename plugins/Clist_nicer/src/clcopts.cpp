@@ -745,7 +745,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		if (LOWORD(wParam) == IDC_BROWSE) {
 			TCHAR str[MAX_PATH], filter[512];
 			GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
-			BmpFilterGetStrings(filter, SIZEOF(filter));
+			Bitmap_GetFilter(filter, SIZEOF(filter));
 
 			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;

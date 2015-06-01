@@ -100,7 +100,7 @@ static void RemoveProtoPic(const char *szProto)
 static void SetProtoPic(char *szProto)
 {
 	TCHAR FileName[MAX_PATH], filter[256];
-	BmpFilterGetStrings(filter, SIZEOF(filter));
+	Bitmap_GetFilter(filter, SIZEOF(filter));
 
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;

@@ -128,7 +128,7 @@ static INT_PTR avSetAvatar(MCONTACT hContact, TCHAR *tszPath)
 
 	if (tszPath == NULL) {
 		TCHAR filter[256];
-		BmpFilterGetStrings(filter, SIZEOF(filter));
+		Bitmap_GetFilter(filter, SIZEOF(filter));
 
 		OPENFILENAME ofn = { 0 };
 		ofn.lStructSize = sizeof(ofn);

@@ -260,15 +260,13 @@ static int  ehhEventAreaBackgroundSettingsChanged(WPARAM, LPARAM)
 		DeleteObject(event_area.hBmpBackground);
 		event_area.hBmpBackground = NULL;
 	}
-	if (g_CluiData.fDisableSkinEngine)
-	{
-		DBVARIANT dbv;
+
+	if (g_CluiData.fDisableSkinEngine) {
 		event_area.bkColour = sttGetColor("EventArea", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "EventArea", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			if (!db_get_s(NULL, "EventArea", "BkBitmap", &dbv)) {
-				event_area.hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
-				db_free(&dbv);
-			}
+			ptrT tszBitmap(db_get_tsa(NULL, "EventArea", "BkBitmap"));
+			if (tszBitmap != NULL)
+				event_area.hBmpBackground = Bitmap_Load(tszBitmap);
 		}
 		event_area.useWinColors = db_get_b(NULL, "EventArea", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 		event_area.backgroundBmpUse = db_get_w(NULL, "EventArea", "BkBmpUse", CLCDEFAULT_BKBMPUSE);

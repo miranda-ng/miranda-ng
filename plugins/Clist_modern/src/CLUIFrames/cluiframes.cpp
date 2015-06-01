@@ -2506,29 +2506,29 @@ int OnFrameTitleBarBackgroundChange(WPARAM, LPARAM)
 {
 	if (MirandaExiting()) return 0;
 	{
-		DBVARIANT dbv = { 0 };
-
 		AlignCOLLIconToLeft = db_get_b(NULL, "FrameTitleBar", "AlignCOLLIconToLeft", CLCDEFAULT_COLLICONTOLEFT);
 
 		bkColour = sttGetColor("FrameTitleBar", "BkColour", CLCDEFAULT_BKCOLOUR);
 		bkUseWinColours = db_get_b(NULL, "FrameTitleBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 		SelBkColour = sttGetColor("FrameTitleBar", "TextColour", CLCDEFAULT_TEXTCOLOUR);
-		if (hBmpBackground) { DeleteObject(hBmpBackground); hBmpBackground = NULL; }
+		
+		if (hBmpBackground) { 
+			DeleteObject(hBmpBackground);
+			hBmpBackground = NULL;
+		}
 		if (g_CluiData.fDisableSkinEngine) {
 			if (db_get_b(NULL, "FrameTitleBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-				if (!db_get_s(NULL, "FrameTitleBar", "BkBitmap", &dbv)) {
-					hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
-					db_free(&dbv);
-				}
+				ptrT tszBitmapName(db_get_tsa(NULL, "FrameTitleBar", "BkBitmap"));
+				if (tszBitmapName)
+					hBmpBackground = Bitmap_Load(tszBitmapName);
 			}
 			backgroundBmpUse = db_get_w(NULL, "FrameTitleBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 		}
-	};
+	}
 
 	CLUI__cliInvalidateRect(pcli->hwndContactList, 0, 0);
 
 	RedrawWindow(pcli->hwndContactList, NULL, NULL, RDW_UPDATENOW | RDW_ALLCHILDREN | RDW_ERASE | RDW_INVALIDATE);
-
 	return 0;
 }
 

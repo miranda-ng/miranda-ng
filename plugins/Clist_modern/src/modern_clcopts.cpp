@@ -1369,7 +1369,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_BROWSE) {
 			TCHAR str[MAX_PATH], filter[512];
-			BmpFilterGetStrings(filter, SIZEOF(filter));
+			Bitmap_GetFilter(filter, SIZEOF(filter));
 			GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
 
 			OPENFILENAME ofn = { 0 };

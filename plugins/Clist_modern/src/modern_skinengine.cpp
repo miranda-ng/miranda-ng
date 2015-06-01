@@ -86,7 +86,7 @@ static void ske_AddParseSkinFont(char * szFontID, char * szDefineString);
 static int  ske_GetSkinFromDB(char * szSection, SKINOBJECTSLIST * Skin);
 static LPSKINOBJECTDESCRIPTOR ske_FindObject(const char *szName, SKINOBJECTSLIST *Skin);
 static int  ske_LoadSkinFromResource(BOOL bOnlyObjects);
-static void ske_PreMultiplyChanells(HBITMAP hbmp, BYTE Mult);
+static void ske_PreMultiplyChannels(HBITMAP hbmp, BYTE Mult);
 static int  ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting);
 static INT_PTR ske_Service_UpdateFrameImage(WPARAM wParam, LPARAM lParam);
 static INT_PTR ske_Service_InvalidateFrameImage(WPARAM wParam, LPARAM lParam);
@@ -1411,7 +1411,7 @@ INT_PTR ske_Service_DrawGlyph(WPARAM wParam, LPARAM lParam)
 }
 
 
-void ske_PreMultiplyChanells(HBITMAP hbmp, BYTE Mult)
+void ske_PreMultiplyChannels(HBITMAP hbmp, BYTE Mult)
 {
 	BITMAP bmp;
 	BOOL flag = FALSE;
@@ -1476,237 +1476,33 @@ int ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder, BOOL m
 	return 0;
 }
 
-/*
-This function is required to load TGA to dib buffer myself
-Major part of routines is from http://tfcduke.developpez.com/tutoriel/format/tga/fichiers/tga.c
-*/
-
-static BOOL ske_ReadTGAImageData(void * From, DWORD fromSize, BYTE * destBuf, DWORD bufSize, BOOL RLE)
-{
-	BYTE * pos = destBuf;
-	BYTE * from = fromSize ? (BYTE*)From : NULL;
-	FILE * fp = !fromSize ? (FILE*)From : NULL;
-	DWORD destCount = 0;
-	DWORD fromCount = 0;
-	if (!RLE) {
-		while (((from && fromCount < fromSize) || (fp &&  fromCount < bufSize))
-			&& (destCount < bufSize)) {
-			BYTE r = from ? from[fromCount++] : (BYTE)fgetc(fp);
-			BYTE g = from ? from[fromCount++] : (BYTE)fgetc(fp);
-			BYTE b = from ? from[fromCount++] : (BYTE)fgetc(fp);
-			BYTE a = from ? from[fromCount++] : (BYTE)fgetc(fp);
-			pos[destCount++] = r;
-			pos[destCount++] = g;
-			pos[destCount++] = b;
-			pos[destCount++] = a;
-
-			if (destCount > bufSize) break;
-			if (from) 	if (fromCount < fromSize) break;
-		}
-	}
-	else {
-		BYTE rgba[4];
-		BYTE packet_header;
-		BYTE *ptr = pos;
-		BYTE size;
-		int i;
-		while (ptr < pos + bufSize) {
-			/* read first byte */
-			packet_header = from ? from[fromCount] : (BYTE)fgetc(fp);
-			if (from) from++;
-			size = 1 + (packet_header & 0x7f);
-			if (packet_header & 0x80) {
-				/* run-length packet */
-				if (from) {
-					*((DWORD*)rgba) = *((DWORD*)(from + fromCount));
-					fromCount += 4;
-				}
-				else fread(rgba, sizeof(BYTE), 4, fp);
-				for (i = 0; i < size; ++i, ptr += 4) {
-					ptr[2] = rgba[2];
-					ptr[1] = rgba[1];
-					ptr[0] = rgba[0];
-					ptr[3] = rgba[3];
-				}
-			}
-			else {	/* not run-length packet */
-				for (i = 0; i < size; ++i, ptr += 4) {
-					ptr[0] = from ? from[fromCount++] : (BYTE)fgetc(fp);
-					ptr[1] = from ? from[fromCount++] : (BYTE)fgetc(fp);
-					ptr[2] = from ? from[fromCount++] : (BYTE)fgetc(fp);
-					ptr[3] = from ? from[fromCount++] : (BYTE)fgetc(fp);
-				}
-			}
-		}
-	}
-	return TRUE;
-}
-
-static HBITMAP ske_LoadGlyphImage_TGA(const TCHAR *szFilename)
-{
-	BYTE *colormap = NULL;
-	int cx = 0, cy = 0;
-	BOOL err = FALSE;
-	tga_header_t header;
-	if (!szFilename) return NULL;
-	if (!wildcmpit(szFilename, _T("*\\*%.tga"))) {
-		//Loading TGA image from file
-		FILE *fp = _tfopen(szFilename, _T("rb"));
-		if (!fp) {
-			TRACEVAR("error: couldn't open \"%s\"!\n", szFilename);
-			return NULL;
-		}
-		/* read header */
-		fread(&header, sizeof(tga_header_t), 1, fp);
-		if ((header.pixel_depth != 32) || ((header.image_type != 10) && (header.image_type != 2))) {
-			fclose(fp);
-			return NULL;
-		}
-
-		/*memory allocation */
-		colormap = (BYTE*)malloc(header.width*header.height * 4);
-		cx = header.width;
-		cy = header.height;
-		fseek(fp, header.id_lenght, SEEK_CUR);
-		fseek(fp, header.cm_length, SEEK_CUR);
-		err = !ske_ReadTGAImageData((void*)fp, 0, colormap, header.width*header.height * 4, header.image_type == 10);
-		fclose(fp);
-	}
-	else {
-		/* reading from resources IDR_TGA_DEFAULT_SKIN */
-		HRSRC hRSrc = FindResourceA(g_hInst, MAKEINTRESOURCEA(IDR_TGA_DEFAULT_SKIN), "TGA");
-		if (!hRSrc) return NULL;
-		HGLOBAL hRes = LoadResource(g_hInst, hRSrc);
-		if (!hRes) return NULL;
-		DWORD size = SizeofResource(g_hInst, hRSrc);
-		BYTE *mem = (BYTE*)LockResource(hRes);
-		if (size > sizeof(header)) {
-			tga_header_t * header = (tga_header_t *)mem;
-			if (header->pixel_depth == 32 && (header->image_type == 2 || header->image_type == 10)) {
-				colormap = (BYTE*)malloc(header->width*header->height * 4);
-				cx = header->width;
-				cy = header->height;
-				ske_ReadTGAImageData((void*)(mem + sizeof(tga_header_t) + header->id_lenght + header->cm_length), size - (sizeof(tga_header_t) + header->id_lenght + header->cm_length), colormap, cx*cy * 4, header->image_type == 10);
-			}
-		}
-		FreeResource(hRes);
-	}
-
-	if (colormap) { //create dib section
-		BYTE * pt;
-		HBITMAP hbmp = ske_CreateDIB32Point(cx, cy, (void**)&pt);
-		if (hbmp)
-			memcpy(pt, colormap, cx*cy * 4);
-		free(colormap);
-		return hbmp;
-	}
-	return NULL;
-}
-
-
-//this function is required to load PNG to dib buffer myself
-static HBITMAP ske_LoadGlyphImage_Png2Dib(const TCHAR *tszFilename)
-{
-	HANDLE hFile, hMap = NULL;
-	BYTE* ppMap = NULL;
-	long  cbFileSize = 0;
-	BITMAPINFOHEADER* pDib = { 0 };
-	BYTE* pDibBits = NULL;
-
-	if (!ServiceExists(MS_PNG2DIB)) {
-		MessageBox(NULL, TranslateT("You need an image services plugin to process PNG images."), TranslateT("Error"), MB_OK);
-		return (HBITMAP)NULL;
-	}
-
-	if ((hFile = CreateFile(tszFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
-		if ((hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL)) != NULL)
-			if ((ppMap = (BYTE*)MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0)) != NULL)
-				cbFileSize = GetFileSize(hFile, NULL);
-
-	if (cbFileSize != 0) {
-		PNG2DIB param;
-		param.pSource = ppMap;
-		param.cbSourceSize = cbFileSize;
-		param.pResult = &pDib;
-		if (CallService(MS_PNG2DIB, 0, (LPARAM)&param))
-			pDibBits = (BYTE*)(pDib + 1);
-		else
-			cbFileSize = 0;
-	}
-
-	if (ppMap != NULL)	UnmapViewOfFile(ppMap);
-	if (hMap != NULL)	CloseHandle(hMap);
-	if (hFile != NULL) CloseHandle(hFile);
-
-	if (cbFileSize == 0)
-		return (HBITMAP)NULL;
-
-	HBITMAP hBitmap;
-	BITMAPINFO* bi = (BITMAPINFO*)pDib;
-	BYTE *pt = (BYTE*)bi;
-	pt += bi->bmiHeader.biSize;
-	if (bi->bmiHeader.biBitCount != 32) {
-		HDC sDC = GetDC(NULL);
-		hBitmap = CreateDIBitmap(sDC, pDib, CBM_INIT, pDibBits, bi, DIB_PAL_COLORS);
-		SelectObject(sDC, hBitmap);
-		DeleteDC(sDC);
-	}
-	else {
-		BYTE *ptPixels = pt;
-		hBitmap = CreateDIBSection(NULL, bi, DIB_RGB_COLORS, (void **)&ptPixels, NULL, 0);
-		memcpy(ptPixels, pt, bi->bmiHeader.biSizeImage);
-	}
-	GlobalFree(pDib);
-	return hBitmap;
-}
-
 static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 {
-	// Loading image from file by imgdecoder...
-	HBITMAP hBitmap = NULL;
-	TCHAR ext[5];
-	BYTE f = 0;
-
-	BITMAP bmpInfo;
-	{
-		size_t l = mir_tstrlen(tszFileName);
-		mir_tstrncpy(ext, tszFileName + (l - 4), 5);
-	}
 	if (!_tcschr(tszFileName, '%') && !PathFileExists(tszFileName))
 		return NULL;
 
-	if (!mir_tstrcmpi(ext, _T(".tga"))) {
-		hBitmap = ske_LoadGlyphImage_TGA(tszFileName);
-		f = 1;
-	}
-	else if (ServiceExists("Image/Png2Dib") && !mir_tstrcmpi(ext, _T(".png"))) {
-		hBitmap = ske_LoadGlyphImage_Png2Dib(tszFileName);
-		GetObject(hBitmap, sizeof(BITMAP), &bmpInfo);
-		f = (bmpInfo.bmBits != NULL);
-	}
-	else if (mir_tstrcmpi(ext, _T(".png"))) {
-		hBitmap = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)tszFileName);
-	}
+	HBITMAP hBitmap = Bitmap_Load(tszFileName);
+	if (hBitmap == NULL)
+		return NULL;
 
-	if (hBitmap) {
-		GetObject(hBitmap, sizeof(BITMAP), &bmpInfo);
-		if (bmpInfo.bmBitsPixel == 32)
-			ske_PreMultiplyChanells(hBitmap, f);
-		else {
-			HDC dc32 = CreateCompatibleDC(NULL);
-			HDC dc24 = CreateCompatibleDC(NULL);
-			HBITMAP hBitmap32 = ske_CreateDIB32(bmpInfo.bmWidth, bmpInfo.bmHeight);
-			HBITMAP obmp24 = (HBITMAP)SelectObject(dc24, hBitmap);
-			HBITMAP obmp32 = (HBITMAP)SelectObject(dc32, hBitmap32);
-			BitBlt(dc32, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, dc24, 0, 0, SRCCOPY);
-			SelectObject(dc24, obmp24);
-			SelectObject(dc32, obmp32);
-			DeleteDC(dc24);
-			DeleteDC(dc32);
-			DeleteObject(hBitmap);
-			hBitmap = hBitmap32;
-			ske_PreMultiplyChanells(hBitmap, 0);
-		}
+	BITMAP bmpInfo;
+	GetObject(hBitmap, sizeof(BITMAP), &bmpInfo);
+	if (bmpInfo.bmBitsPixel == 32)
+		ske_PreMultiplyChannels(hBitmap, 0);
+	else {
+		HDC dc32 = CreateCompatibleDC(NULL);
+		HDC dc24 = CreateCompatibleDC(NULL);
+		HBITMAP hBitmap32 = ske_CreateDIB32(bmpInfo.bmWidth, bmpInfo.bmHeight);
+		HBITMAP obmp24 = (HBITMAP)SelectObject(dc24, hBitmap);
+		HBITMAP obmp32 = (HBITMAP)SelectObject(dc32, hBitmap32);
+		BitBlt(dc32, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, dc24, 0, 0, SRCCOPY);
+		SelectObject(dc24, obmp24);
+		SelectObject(dc32, obmp32);
+		DeleteDC(dc24);
+		DeleteDC(dc32);
+		DeleteObject(hBitmap);
+		hBitmap = hBitmap32;
+		ske_PreMultiplyChannels(hBitmap, 0);
 	}
 	return hBitmap;
 }

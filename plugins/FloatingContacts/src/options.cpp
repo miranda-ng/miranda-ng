@@ -246,7 +246,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			{
 				TCHAR str[MAX_PATH], filter[512];
 				GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
-				BmpFilterGetStrings(filter, SIZEOF(filter));
+				Bitmap_GetFilter(filter, SIZEOF(filter));
 
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);

@@ -453,26 +453,26 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 			break;
 
 		case ID__VARIABLES_MOREVARIABLES:
-		{
-			VARHELPINFO vhi = {0};
-			vhi.cbSize = sizeof(vhi);
-			vhi.flags = VHF_FULLDLG | VHF_SETLASTSUBJECT;
-			vhi.hwndCtrl = edit_control;
-			vhi.szSubjectDesc = NULL;
-			vhi.szExtraTextDesc = NULL;
-			CallService(MS_VARS_SHOWHELPEX, (WPARAM)hwnd, (LPARAM)&vhi);
+			{
+				VARHELPINFO vhi = {0};
+				vhi.cbSize = sizeof(vhi);
+				vhi.flags = VHF_FULLDLG | VHF_SETLASTSUBJECT;
+				vhi.hwndCtrl = edit_control;
+				vhi.szSubjectDesc = NULL;
+				vhi.szExtraTextDesc = NULL;
+				CallService(MS_VARS_SHOWHELPEX, (WPARAM)hwnd, (LPARAM)&vhi);
+			}
 			break;
-		}
 
 		default:
 			if (!OpenClipboard(GetParent(hwnd)))
 				break;
+
 			if (EmptyClipboard()) {
 				TCHAR item_string[128];
-				int len;
-
 				GetMenuString(hmenu, m_selection, (LPTSTR)&item_string, 128, MF_BYCOMMAND);
-				len = mir_tstrlen(item_string);
+
+				int len = (int)mir_tstrlen(item_string);
 				if (len) {
 					LPTSTR lptstrCopy;
 					HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(TCHAR));
@@ -486,7 +486,6 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 					GlobalUnlock(hglbCopy);
 
 					SetClipboardData(CF_UNICODETEXT, hglbCopy);
-
 				}
 			}
 			CloseClipboard();

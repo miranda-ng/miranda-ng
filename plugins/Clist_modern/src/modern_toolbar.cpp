@@ -138,14 +138,13 @@ static int ehhToolBarBackgroundSettingsChanged(WPARAM, LPARAM)
 		DeleteObject(tbdat.mtb_hBmpBackground);
 		tbdat.mtb_hBmpBackground = NULL;
 	}
+
 	if (g_CluiData.fDisableSkinEngine) {
-		DBVARIANT dbv;
 		tbdat.mtb_bkColour = sttGetColor("ToolBar", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "ToolBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			if (!db_get_s(NULL, "ToolBar", "BkBitmap", &dbv, DBVT_TCHAR)) {
-				tbdat.mtb_hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.ptszVal);
-				db_free(&dbv);
-			}
+			ptrT tszBitmapName(db_get_tsa(NULL, "ToolBar", "BkBitmap"));
+			if (tszBitmapName)
+				tbdat.mtb_hBmpBackground = Bitmap_Load(tszBitmapName);
 		}
 		tbdat.mtb_useWinColors = db_get_b(NULL, "ToolBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 		tbdat.mtb_backgroundBmpUse = db_get_b(NULL, "ToolBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);

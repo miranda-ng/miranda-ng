@@ -651,7 +651,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 				if (item != NULL) {
 					if (item->photoFileName) {
 						photoInfo->ppro->debugLog(_T("Showing picture from %s"), item->photoFileName);
-						photoInfo->hBitmap = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)item->photoFileName);
+						photoInfo->hBitmap = Bitmap_Load(item->photoFileName);
 						FIP->FI_Premultiply(photoInfo->hBitmap);
 						ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_SHOW);
 					}
