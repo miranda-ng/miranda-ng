@@ -203,29 +203,29 @@ bool MinecraftDynmapProto::doSignOn()
 		return handleError(__FUNCTION__, "Can't load configuration", true);
 	}
 
-	JSONROOT root(resp.data.c_str());
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(resp.data.c_str());
+	if (!root)
 		return false;
 
 	/*
-	JSONNODE *allowchat_ = json_get(root, "allowchat"); // boolean
-	JSONNODE *allowwebchat_ = json_get(root, "allowwebchat"); // boolean
-	JSONNODE *loggedin_ = json_get(root, "loggedin"); // boolean
-	JSONNODE *loginEnabled_ = json_get(root, "login-enabled"); // boolean
-	JSONNODE *loginRequired_ = json_get(root, "webchat-requires-login"); // boolean
+	const JSONNode &allowchat_ = root["allowchat"]; // boolean
+	const JSONNode &allowwebchat_ = root["allowwebchat"]; // boolean
+	const JSONNode &loggedin_ = root["loggedin"]; // boolean
+	const JSONNode &loginEnabled_ = root["login-enabled"]; // boolean
+	const JSONNode &loginRequired_ = root["webchat-requires-login"]; // boolean
 	*/
 
-	JSONNODE *title_ = json_get(root, "title"); // name of server
-	JSONNODE *interval_ = json_get(root, "webchat-interval"); // limit in seconds for sending messages
-	JSONNODE *rate_ = json_get(root, "updaterate"); // probably update rate for events request
+	const JSONNode &title_ = root["title"]; // name of server
+	const JSONNode &interval_ = root["webchat-interval"]; // limit in seconds for sending messages
+	const JSONNode &rate_ = root["updaterate"]; // probably update rate for events request
 
-	if (title_ == NULL || interval_ == NULL || rate_ == NULL) {
+	if (!title_ || !interval_ || !rate_) {
 		return handleError(__FUNCTION__, "No title, interval or rate in configuration", true);
 	}
 
-	m_title = json_as_pstring(title_);
-	m_interval = json_as_int(interval_);
-	m_updateRate = json_as_int(rate_);
+	m_title = title_.as_string();
+	m_interval = interval_.as_int();
+	m_updateRate = rate_.as_int();
 	m_cookie.clear();
 
 	if (resp.headers.find("Set-Cookie") != resp.headers.end()) {
@@ -257,42 +257,40 @@ bool MinecraftDynmapProto::doEvents()
 	if (resp.code != HTTP_CODE_OK)
 		return handleError(__FUNCTION__, "Response is not code 200");
 
-	JSONROOT root(resp.data.c_str());
-	if (root == NULL)
+	JSONNode root = JSONNode::parse(resp.data.c_str());
+	if (!root)
 		return handleError(__FUNCTION__, "Invalid JSON response");
 
-	JSONNODE *timestamp_ = json_get(root, "timestamp");
-	if (timestamp_ == NULL)
+	const JSONNode &timestamp_ = root["timestamp"];
+	if (!timestamp_)
 		return handleError(__FUNCTION__, "Received no timestamp node");
 
-	m_timestamp = json_as_pstring(timestamp_);
+	m_timestamp = timestamp_.as_string();
 
-	JSONNODE *updates_ = json_get(root, "updates");
-	if (updates_ == NULL)
+	const JSONNode &updates_ = root["updates"];
+	if (!updates_)
 		return handleError(__FUNCTION__, "Received no updates node");
 
-	for (unsigned int i = 0; i < json_size(updates_); i++) {
-		JSONNODE *it = json_at(updates_, i);
-
-		JSONNODE *type_ = json_get(it, "type");
-		if (type_ != NULL && json_as_pstring(type_) == "chat") {
-			JSONNODE *time_ = json_get(it, "timestamp");
-			// JSONNODE *source_ = json_get(it, "source"); // e.g. "web"
-			JSONNODE *playerName_ = json_get(it, "playerName");
-			JSONNODE *message_ = json_get(it, "message");
+	for (auto it = updates_.begin(); it != updates_.end(); ++it) {
+		const JSONNode &type_ = (*it)["type"];
+		if (type_ && type_.as_string() == "chat") {
+			const JSONNode &time_ = (*it)["timestamp"];
+			// const JSONNode &source_ = (*it)["source"]; // e.g. "web"
+			const JSONNode &playerName_ = (*it)["playerName"];
+			const JSONNode &message_ = (*it)["message"];
 			// TODO: there are also "channel" and "account" elements
 
-			if (time_ == NULL || playerName_ == NULL || message_ == NULL) {
+			if (!time_ || !playerName_ || !message_) {
 				debugLog(_T("Error: No player name, time or text for message"));
 				continue;
 			}
 
-			time_t timestamp = utils::time::from_string(json_as_pstring(time_));
-			ptrT name(json_as_string(playerName_));
-			ptrT message(json_as_string(message_));
+			time_t timestamp = utils::time::from_string(time_.as_string());
+			std::string name = playerName_.as_string();
+			std::string message = message_.as_string();
 
-			debugLog(_T("Received message: [%d] %s -> %s"), timestamp, name, message);
-			UpdateChat(name, message, timestamp);
+			debugLog(_T("Received message: [%d] %s -> %s"), timestamp, name.c_str(), message.c_str());
+			UpdateChat(name.c_str(), message.c_str(), timestamp);
 		}
 	}
 
@@ -303,25 +301,24 @@ bool MinecraftDynmapProto::doSendMessage(const std::string &message_text)
 {
 	handleEntry(__FUNCTION__);
 
-	std::string data = "{\"name\":\"";
-	data += this->nick_;
-	data += "\", \"message\" : \"";
-	data += message_text;
-	data += "\"}";
+	JSONNode json(JSON_NODE);
+	json.push_back(JSONNode("name", m_nick.c_str()));
+	json.push_back(JSONNode("message", message_text.c_str()));
+	std::string data = json.write();
 
 	http::response resp = sendRequest(MINECRAFTDYNMAP_REQUEST_MESSAGE, &data);
 
 	if (resp.code == HTTP_CODE_OK) {
-		JSONROOT root(resp.data.c_str());
-		if (root != NULL) {
-			JSONNODE *error_ = json_get(root, "error");
-			if (error_ != NULL) {
-				std::string error = json_as_pstring(error_);
+		JSONNode root = JSONNode::parse(resp.data.c_str());
+		if (root) {
+			const JSONNode &error_ = root["error"];
+			if (error_) {
+				std::string error = error_.as_string();
 				if (error == "none") {
 					return handleSuccess(__FUNCTION__);
 				}
 				else if (error == "not-allowed") {
-					UpdateChat(NULL, TranslateT("Message was not sent. Probably you are sending them too fast or chat is disabled completely."));
+					UpdateChat(NULL, Translate("Message was not sent. Probably you are sending them too fast or chat is disabled completely."));
 				}
 			}
 		}
@@ -357,7 +354,7 @@ void MinecraftDynmapProto::SignOnWorker(void*)
 
 	// Load server from database
 	ptrA str(db_get_sa(NULL, m_szModuleName, MINECRAFTDYNMAP_KEY_SERVER));
-	if ((str== NULL) || *str==NULL) {
+	if (!str || !str[0]) {
 		MessageBox(NULL, TranslateT("Set server address to connect."), m_tszUserName, MB_OK);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;

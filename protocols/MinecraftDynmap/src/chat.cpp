@@ -21,28 +21,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void MinecraftDynmapProto::UpdateChat(const TCHAR *name, const TCHAR *message, const time_t timestamp, bool addtolog)
+void MinecraftDynmapProto::UpdateChat(const char *name, const char *message, const time_t timestamp, bool addtolog)
 {
 	// replace % to %% to not interfere with chat color codes
-	std::tstring smessage = message;
-	utils::text::treplace_all(&smessage, _T("%"), _T("%%"));
+	std::string smessage = message;
+	utils::text::replace_all(&smessage, "%", "%%");
+
+	ptrT tmessage(mir_a2t(smessage.c_str()));
+	ptrT tname(mir_a2t(name));
 
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = timestamp;
-	gce.ptszText = smessage.c_str();
+	gce.ptszText = tmessage;
 
-	if (name == NULL) {
+	if (tname == NULL) {
 		gcd.iType = GC_EVENT_INFORMATION;
-		name = TranslateT("Server");
+		tname = mir_tstrdup(TranslateT("Server"));
 		gce.bIsMe = false;
 	}
-	else gce.bIsMe = !mir_tstrcmp(name, this->nick_);
+	else gce.bIsMe = (m_nick == name);
 
 	if (addtolog)
 		gce.dwFlags  |= GCEF_ADDTOLOG;
 
-	gce.ptszNick = name;
+	gce.ptszNick = tname;
 	gce.ptszUID  = gce.ptszNick;
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 }
@@ -75,7 +78,7 @@ int MinecraftDynmapProto::OnChatEvent(WPARAM, LPARAM lParam)
 
 	case GC_USER_LEAVE:
 	case GC_SESSION_TERMINATE:
-		nick_ = NULL;
+		m_nick.clear();
 		SetStatus(ID_STATUS_OFFLINE);
 		break;
 	}
@@ -83,19 +86,17 @@ int MinecraftDynmapProto::OnChatEvent(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-void MinecraftDynmapProto::AddChatContact(const TCHAR *name)
+void MinecraftDynmapProto::AddChatContact(const char *name)
 {	
+	ptrT tname(mir_a2t(name));
+
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = DWORD(time(0));
 	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszNick = name;
+	gce.ptszNick = tname;
 	gce.ptszUID = gce.ptszNick;
-
-	if (name == NULL)
-		gce.bIsMe = false;
-	else 
-		gce.bIsMe = mir_tstrcmp(name, this->nick_);
+	gce.bIsMe = (m_nick == name);
 
 	if (gce.bIsMe)
 		gce.ptszStatus = _T("Admin");
@@ -105,18 +106,17 @@ void MinecraftDynmapProto::AddChatContact(const TCHAR *name)
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 }
 
-void MinecraftDynmapProto::DeleteChatContact(const TCHAR *name)
+void MinecraftDynmapProto::DeleteChatContact(const char *name)
 {
+	ptrT tname(mir_a2t(name));
+
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_PART };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszNick = name;
+	gce.ptszNick = tname;
 	gce.ptszUID = gce.ptszNick;
 	gce.time = DWORD(time(0));
-	if (name == NULL)
-		gce.bIsMe = false;
-	else 
-		gce.bIsMe = mir_tstrcmp(name, this->nick_);
+	gce.bIsMe = (m_nick == name);
 
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 }
@@ -153,12 +153,14 @@ INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 	return 0;
 }
 
-void MinecraftDynmapProto::SetTopic(const TCHAR *topic)
+void MinecraftDynmapProto::SetTopic(const char *topic)
 {		
+	ptrT ttopic(mir_a2t(topic));
+
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
-	gce.ptszText = topic;
+	gce.ptszText = ttopic;
 
 	CallServiceSync(MS_GC_EVENT,0,  reinterpret_cast<LPARAM>(&gce));
 }
@@ -184,14 +186,15 @@ void MinecraftDynmapProto::SetChatStatus(int status)
 	if (status == ID_STATUS_ONLINE)
 	{		
 		// Load actual name from database
-		nick_ = db_get_tsa(NULL, m_szModuleName, MINECRAFTDYNMAP_KEY_NAME);
-		if (nick_ == NULL) {
-			nick_ = mir_tstrdup(TranslateT("You"));
-			db_set_ts(NULL, m_szModuleName, MINECRAFTDYNMAP_KEY_NAME, nick_);
+		ptrA nick(db_get_sa(NULL, m_szModuleName, MINECRAFTDYNMAP_KEY_NAME));
+		if (!nick) {
+			nick = mir_strdup(Translate("You"));
+			db_set_s(NULL, m_szModuleName, MINECRAFTDYNMAP_KEY_NAME, nick);
 		}
+		m_nick = nick;
 
 		// Add self contact
-		AddChatContact(nick_);
+		AddChatContact(m_nick.c_str());
 
 		CallServiceSync(MS_GC_EVENT,SESSION_INITDONE,reinterpret_cast<LPARAM>(&gce));
 		CallServiceSync(MS_GC_EVENT,SESSION_ONLINE,  reinterpret_cast<LPARAM>(&gce));
