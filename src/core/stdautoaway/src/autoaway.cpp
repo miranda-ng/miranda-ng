@@ -45,12 +45,11 @@ static bool Proto_IsAccountLocked(PROTOACCOUNT *pa)
 	return pa && db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
 }
 
-static void Proto_SetStatus(const char* szProto, unsigned status)
+static void Proto_SetStatus(const char *szProto, unsigned status)
 {
 	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
-		TCHAR *awayMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGW, status, (LPARAM)szProto);
-		CallProtoService(szProto, PS_SETAWAYMSG, status, (LPARAM)awayMsg);
-		mir_free(awayMsg);
+		ptrT awayMsg((TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGW, status, (LPARAM)szProto));
+		CallProtoService(szProto, PS_SETAWAYMSG, status, awayMsg);
 	}
 
 	CallProtoService(szProto, PS_SETSTATUS, status, 0);

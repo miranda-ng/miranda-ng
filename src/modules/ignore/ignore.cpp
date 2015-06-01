@@ -425,10 +425,11 @@ int LoadIgnoreModule(void)
 	pd.type = PROTOTYPE_IGNORE;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
-	CreateServiceFunction("Ignore"PSR_MESSAGE, IgnoreRecvMessage);
-	CreateServiceFunction("Ignore"PSR_URL, IgnoreRecvUrl);
-	CreateServiceFunction("Ignore"PSR_FILE, IgnoreRecvFile);
-	CreateServiceFunction("Ignore"PSR_AUTH, IgnoreRecvAuth);
+	CreateProtoServiceFunction("Ignore", PSR_MESSAGE, IgnoreRecvMessage);
+	CreateProtoServiceFunction("Ignore", PSR_URL, IgnoreRecvUrl);
+	CreateProtoServiceFunction("Ignore", PSR_FILE, IgnoreRecvFile);
+	CreateProtoServiceFunction("Ignore", PSR_AUTH, IgnoreRecvAuth);
+	
 	CreateServiceFunction(MS_IGNORE_ISIGNORED, IsIgnored);
 	CreateServiceFunction(MS_IGNORE_IGNORE, Ignore);
 	CreateServiceFunction(MS_IGNORE_UNIGNORE, Unignore);

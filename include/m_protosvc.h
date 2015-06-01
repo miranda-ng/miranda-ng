@@ -257,7 +257,7 @@ static __inline unsigned long Proto_Status2Flag(int status)
 ///////////////////////////////////////////////////////////////////////////////
 // Sets the status-mode specific message for yourself
 // wParam = status mode
-// lParam = (LPARAM)(const char*)szMessage
+// lParam = (LPARAM)(const TCHAR*)szMessage
 // Returns 0 on success, nonzero on failure
 // Note that this service will not be available unless PF1_MODEMSGSEND is set
 // and PF1_INDIVMODEMSG is *not* set.

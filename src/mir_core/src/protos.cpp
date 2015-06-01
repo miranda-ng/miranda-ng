@@ -111,19 +111,6 @@ MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(INT_PTR) ProtoCallService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
-{
-	if (szModule == NULL || szService == NULL)
-		return false;
-
-	char str[MAXMODULELABELLENGTH * 2];
-	strncpy_s(str, szModule, _TRUNCATE);
-	strncat_s(str, szService, _TRUNCATE);
-	return CallService(str, wParam, lParam);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 MIR_CORE_DLL(int) ProtoServiceExists(const char *szModule, const char *szService)
 {
 	if (szModule == NULL || szService == NULL)

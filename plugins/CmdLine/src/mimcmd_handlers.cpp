@@ -370,7 +370,7 @@ void HandleAwayMsgCommand(PCommand command, TArgument *argv, int argc, PReply re
 				{
 					status = CallProtoService(protocol, PS_GETSTATUS, 0, 0);
 					ptrW wszAwayMsg(mir_a2u(awayMsg));
-					res = CallProtoService(protocol, PS_SETAWAYMSG, status, (LPARAM)wszAwayMsg);
+					res = CallProtoService(protocol, PS_SETAWAYMSG, status, wszAwayMsg);
 					PrettyStatusMode(status, pn, sizeof(pn));
 					if (res)
 						szReply.AppendFormat(Translate("Failed to set '%S' status message to '%s' (status is '%s')."), accounts[i]->tszAccountName , awayMsg, pn);
@@ -396,7 +396,7 @@ void HandleAwayMsgCommand(PCommand command, TArgument *argv, int argc, PReply re
 			if ((res & PF1_MODEMSGSEND) != 0) //if the protocol supports away messages
 			{
 				INT_PTR status = CallProtoService(protocol, PS_GETSTATUS, 0, 0);
-				res = CallProtoService(protocol, PS_SETAWAYMSG, status, (LPARAM) awayMsg);
+				res = CallProtoService(protocol, PS_SETAWAYMSG, status, (LPARAM)awayMsg);
 
 				PrettyStatusMode(status, pn, sizeof(pn));
 			}

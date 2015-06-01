@@ -204,7 +204,7 @@ void SetStatus(WORD code, StatusItem* item, char *szAccName)
 	else return;
 
 	ics.status = &statusToSet;
-	ProtoCallService(szAccName, PS_SETCUSTOMSTATUSEX, 0, (LPARAM)&ics);
+	CallProtoService(szAccName, PS_SETCUSTOMSTATUSEX, 0, (LPARAM)&ics);
 }
 
 INT_PTR showList(WPARAM, LPARAM, LPARAM param)

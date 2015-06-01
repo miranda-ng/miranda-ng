@@ -260,7 +260,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL) {
 			// does it support file sends?
-			DWORD dwCaps = ProtoCallService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+			DWORD dwCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 			if ((dwCaps & PF1_FILESEND) == 0)
 				continue;
 

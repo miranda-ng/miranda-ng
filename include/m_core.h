@@ -371,7 +371,6 @@ MIR_CORE_DLL(int)    mir_vsnwprintf(wchar_t *buffer, size_t count, const wchar_t
 
 struct PROTO_INTERFACE;
 
-MIR_CORE_DLL(INT_PTR) ProtoCallService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 MIR_CORE_DLL(int)     ProtoServiceExists(LPCSTR szModule, const char *szService);
 MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(LPCSTR szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 

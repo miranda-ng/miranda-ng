@@ -70,7 +70,7 @@ void StartSmsSend(HWND hWndDlg,size_t dwModuleIndex,LPWSTR lpwszPhone,size_t dwP
 			char *szProto = ssSMSSettings.ppaSMSAccounts[dwModuleIndex]->szModuleName;
 			if ( ProtoServiceExists(szProto, MS_ICQ_SENDSMS)) {
 				WideCharToMultiByte(CP_UTF8, 0, lpwszMessageXMLEncoded, dwMessageXMLEncodedSize, lpszMessageUTF, dwMessageUTFBuffSize, NULL, NULL);
-				hProcess = (HANDLE)ProtoCallService(szProto, MS_ICQ_SENDSMS, (WPARAM)szPhone, (LPARAM)lpszMessageUTF);
+				hProcess = (HANDLE)CallProtoService(szProto, MS_ICQ_SENDSMS, (WPARAM)szPhone, (LPARAM)lpszMessageUTF);
 				SendSMSWindowHProcessSet(hWndDlg, hProcess);
 			}
 			else MEMFREE(pdbei);

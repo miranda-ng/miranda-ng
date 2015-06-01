@@ -61,7 +61,7 @@ HICON cliGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int statu
 			// check status is online
 			if (status > ID_STATUS_OFFLINE) {
 				// get xicon
-				HICON hXIcon = (HICON)ProtoCallService(szProto, PS_GETCUSTOMSTATUSICON, 0, 0);
+				HICON hXIcon = (HICON)CallProtoService(szProto, PS_GETCUSTOMSTATUSICON, 0, 0);
 				if (hXIcon) {
 					// check overlay mode
 					if (trayOption & 2) {
@@ -102,7 +102,7 @@ int cli_IconFromStatusMode(const char *szProto, int nStatus, MCONTACT hContact)
 
 		int result = -1;
 		if (ProtoServiceExists(szActProto, PS_GETADVANCEDSTATUSICON))
-			result = ProtoCallService(szActProto, PS_GETADVANCEDSTATUSICON, (WPARAM)hActContact, 0);
+			result = CallProtoService(szActProto, PS_GETADVANCEDSTATUSICON, (WPARAM)hActContact, 0);
 
 		if (result == -1 || !(LOWORD(result))) {
 			//Get normal Icon
