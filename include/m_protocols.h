@@ -426,44 +426,24 @@ ProtoBroadcastAck(), listeners must hook ME_PROTO_ACK, note that lParam = ACKDAT
 #define PA_FORMAT_XML      7
 
 typedef struct {
-	int cbSize;                // sizeof()
-	MCONTACT hContact;           // this might have to be set by the caller too
-	int format;                // PA_FORMAT_*
-	char filename[MAX_PATH];   // full path to filename which contains the avatar
-} PROTO_AVATAR_INFORMATION;
-
-#ifdef _UNICODE
-typedef struct {
-	int cbSize;                // sizeof()
-	MCONTACT hContact;           // this might have to be set by the caller too
+	MCONTACT hContact;         // this might have to be set by the caller too
 	int format;                // PA_FORMAT_*
 	WCHAR filename[MAX_PATH];  // full path to filename which contains the avatar
-} PROTO_AVATAR_INFORMATIONW;
-#endif
+} PROTO_AVATAR_INFORMATION;
 
-#define GAIF_FORCE 1			// force an update of the avatar if there is none
+#define GAIF_FORCE 1          // force an update of the avatar if there is none
 
-#define GAIR_SUCCESS  0			// information about the avatar has been returned
-#define GAIR_WAITFOR  1			// you must hook ME_PROTO_ACK and wait for replies about avatar status
-#define GAIR_NOAVATAR 2			// sorry, this contact has no avatars
+#define GAIR_SUCCESS  0       // information about the avatar has been returned
+#define GAIR_WAITFOR  1       // you must hook ME_PROTO_ACK and wait for replies about avatar status
+#define GAIR_NOAVATAR 2       // sorry, this contact has no avatars
 
 /*
 	wParam : GAIF_*
 	lParam : (LPARAM) &PROTO_AVATAR_INFORMATION
 	Affect : Make a request to the protocol to return information about a hContact's avatar (or main user)
 			 it can return information, tell you there is none, or if forced start requesting an avatar.
-	Note:
-	Version: 0.3.4+ (2004/09/13)
 */
+
 #define PS_GETAVATARINFO "/GetAvatarInformation"
 
-#ifdef _UNICODE
-	#define PS_GETAVATARINFOW "/GetAvatarInformationW"
-	#define PS_GETAVATARINFOT PS_GETAVATARINFOW
-
-	#define PROTO_AVATAR_INFORMATIONT PROTO_AVATAR_INFORMATIONW
-#else
-	#define PS_GETAVATARINFOT PS_GETAVATARINFO
-	#define PROTO_AVATAR_INFORMATIONT PROTO_AVATAR_INFORMATION
-#endif
 #endif // M_PROTOCOLS_H

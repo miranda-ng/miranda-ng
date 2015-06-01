@@ -165,7 +165,7 @@ void WhatsAppProto::onSendGetPicture(const std::string &jid, const std::vector<u
 		size_t r = fwrite(std::string(data.begin(), data.end()).c_str(), 1, data.size(), f);
 		fclose(f);
 
-		PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai) };
+		PROTO_AVATAR_INFORMATION ai = { sizeof(ai) };
 		ai.hContact = hContact;
 		ai.format = PA_FORMAT_JPEG;
 		_tcsncpy_s(ai.filename, filename.c_str(), _TRUNCATE);

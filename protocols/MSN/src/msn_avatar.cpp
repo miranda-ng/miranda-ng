@@ -76,7 +76,7 @@ LBL_Error:
 	if (fmt == PA_FORMAT_UNKNOWN)
 		goto LBL_Error;
 
-	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
+	PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
 	AI.format = fmt;
 	AI.hContact = p->hContact;
 	MSN_GetAvatarFileName(AI.hContact, AI.filename, SIZEOF(AI.filename), szExt);

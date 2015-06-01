@@ -1746,7 +1746,7 @@ void CMsnProto::MSN_InitSB(ThreadData* info, const char* szEmail)
 			TranslateT("Chat session established by my request") :
 			TranslateT("Chat session established by contact request"), 0);
 
-	PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai), cont->hContact };
+	PROTO_AVATAR_INFORMATION ai = { sizeof(ai), cont->hContact };
 	GetAvatarInfo(GAIF_FORCE, (LPARAM)&ai);
 }
 

@@ -22,7 +22,7 @@ void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest* pReq)
 	if (reply->resultCode != 200)
 		return;
 
-	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
+	PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
 	GetAvatarFileName((MCONTACT)pReq->pUserInfo, AI.filename, SIZEOF(AI.filename));
 	AI.format = ProtoGetBufferFormat(reply->pData);
 
@@ -66,14 +66,14 @@ void CVkProto::ReloadAvatarInfo(MCONTACT hContact)
 		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 		return;
 	}
-	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
+	PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
 	AI.hContact = hContact;
 	SvcGetAvatarInfo(0, (LPARAM)&AI);
 }
 
 INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
+	PROTO_AVATAR_INFORMATION* AI = (PROTO_AVATAR_INFORMATION*)lParam;
 
 	ptrA szUrl(getStringA(AI->hContact, "AvatarUrl"));
 	if (szUrl == NULL)
@@ -109,7 +109,7 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 INT_PTR CVkProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	debugLogA("CVkProto::SvcGetMyAvatar");
-	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
+	PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
 	AI.hContact = NULL;
 	if (SvcGetAvatarInfo(0, (LPARAM)&AI) != GAIR_SUCCESS)
 		return 1;
@@ -159,7 +159,7 @@ void CVkProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 	else {
 		setTString(hContact, "AvatarUrl", tszUrl);
 		setByte(hContact,"NeedNewAvatar", 1);
-		PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
+		PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
 		AI.hContact = hContact;
 		GetAvatarFileName(AI.hContact, AI.filename, SIZEOF(AI.filename));
 		AI.format = ProtoGetAvatarFormat(AI.filename);

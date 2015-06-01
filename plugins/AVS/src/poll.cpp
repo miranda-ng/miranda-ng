@@ -140,7 +140,7 @@ void QueueAdd(MCONTACT hContact)
 	QueueAdd(hContact, waitTime);
 }
 
-void ProcessAvatarInfo(MCONTACT hContact, int type, PROTO_AVATAR_INFORMATIONT *pai, const char *szProto)
+void ProcessAvatarInfo(MCONTACT hContact, int type, PROTO_AVATAR_INFORMATION *pai, const char *szProto)
 {
 	QueueRemove(hContact);
 
@@ -201,24 +201,14 @@ int FetchAvatarFor(MCONTACT hContact, char *szProto)
 
 	if (szProto != NULL && PollProtocolCanHaveAvatar(szProto) && PollContactCanHaveAvatar(hContact, szProto)) {
 		// Can have avatar, but must request it?
-		if ((g_AvatarHistoryAvail && CallService(MS_AVATARHISTORY_ENABLED, hContact, 0)) ||
-			(PollCheckProtocol(szProto) && PollCheckContact(hContact)))
+		if ((g_AvatarHistoryAvail && CallService(MS_AVATARHISTORY_ENABLED, hContact, 0)) || (PollCheckProtocol(szProto) && PollCheckContact(hContact)))
 		{
 			// Request it
-			PROTO_AVATAR_INFORMATIONT pai_s = { 0 };
-			pai_s.cbSize = sizeof(pai_s);
+			PROTO_AVATAR_INFORMATION pai_s = { 0 };
 			pai_s.hContact = hContact;
-			INT_PTR res = CallProtoService(szProto, PS_GETAVATARINFOT, GAIF_FORCE, (LPARAM)&pai_s);
-			if (res == CALLSERVICE_NOTFOUND) {
-				PROTO_AVATAR_INFORMATION pai = { 0 };
-				pai.cbSize = sizeof(pai);
-				pai.hContact = hContact;
-				res = CallProtoService(szProto, PS_GETAVATARINFO, GAIF_FORCE, (LPARAM)&pai);
-				MultiByteToWideChar(CP_ACP, 0, pai.filename, -1, pai_s.filename, SIZEOF(pai_s.filename));
-				pai_s.format = pai.format;
-			}
-
-			if (res != CALLSERVICE_NOTFOUND) result = res;
+			INT_PTR res = CallProtoService(szProto, PS_GETAVATARINFO, GAIF_FORCE, (LPARAM)&pai_s);
+			if (res != CALLSERVICE_NOTFOUND)
+				result = res;
 			ProcessAvatarInfo(pai_s.hContact, result, &pai_s, szProto);
 		}
 	}

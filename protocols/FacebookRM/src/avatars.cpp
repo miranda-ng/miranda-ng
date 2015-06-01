@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *url)
+bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &ai, std::string *url)
 {
 	ptrA id(getStringA(ai.hContact, FACEBOOK_KEY_ID));
 	if (id == NULL)
@@ -75,7 +75,7 @@ void FacebookProto::CheckAvatarChange(MCONTACT hContact, const std::string &imag
 		setString(hContact, FACEBOOK_KEY_AVATAR, image_name.c_str());
 
 	if (!hContact) {
-		PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai) };
+		PROTO_AVATAR_INFORMATION ai = { sizeof(ai) };
 		if (GetAvatarInfo(update_required ? GAIF_FORCE : 0, (LPARAM)&ai) != GAIR_WAITFOR)
 			CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 	}
@@ -96,7 +96,7 @@ void FacebookProto::UpdateAvatarWorker(void *)
 	for (;;)
 	{
 		std::string url;
-		PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai) };
+		PROTO_AVATAR_INFORMATION ai = { sizeof(ai) };
 		ai.hContact = avatar_queue[0];
 
 		if (Miranda_Terminated())
@@ -178,7 +178,7 @@ INT_PTR FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (!lParam)
 		return GAIR_NOAVATAR;
 
-	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
+	PROTO_AVATAR_INFORMATION* AI = (PROTO_AVATAR_INFORMATION*)lParam;
 	if (GetDbAvatarInfo(*AI, NULL))
 	{
 		bool fileExist = _taccess(AI->filename, 0) == 0;
@@ -220,7 +220,7 @@ INT_PTR FacebookProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	TCHAR* buf = (TCHAR*)wParam;
 	int  size = (int)lParam;
 
-	PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai) };
+	PROTO_AVATAR_INFORMATION ai = { sizeof(ai) };
 	switch (GetAvatarInfo(0, (LPARAM)&ai)) {
 	case GAIR_SUCCESS:
 		_tcsncpy(buf, ai.filename, size);

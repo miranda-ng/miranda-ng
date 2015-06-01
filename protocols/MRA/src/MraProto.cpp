@@ -25,8 +25,8 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CMraProto::MraCreateAccMgrUI);
 	CreateProtoService(PS_GETAVATARCAPS, &CMraProto::MraGetAvatarCaps);
-	CreateProtoService(PS_GETAVATARINFOT, &CMraProto::MraGetAvatarInfo);
-	CreateProtoService(PS_GETMYAVATART, &CMraProto::MraGetMyAvatar);
+	CreateProtoService(PS_GETAVATARINFO, &CMraProto::MraGetAvatarInfo);
+	CreateProtoService(PS_GETMYAVATAR, &CMraProto::MraGetMyAvatar);
 
 	CreateProtoService(MS_ICQ_SENDSMS, &CMraProto::MraSendSMS);
 	CreateProtoService(PS_SEND_NUDGE, &CMraProto::MraSendNudge);

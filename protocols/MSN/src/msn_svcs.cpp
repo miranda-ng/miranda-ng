@@ -58,12 +58,12 @@ INT_PTR CMsnProto::GetAvatar(WPARAM wParam, LPARAM lParam)
 void CMsnProto::sttFakeAvatarAck(void* arg)
 {
 	Sleep(100);
-	ProtoBroadcastAck(((PROTO_AVATAR_INFORMATIONT*)arg)->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, arg, 0);
+	ProtoBroadcastAck(((PROTO_AVATAR_INFORMATION*)arg)->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, arg, 0);
 }
 
 INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATIONT *AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
+	PROTO_AVATAR_INFORMATION *AI = (PROTO_AVATAR_INFORMATION*)lParam;
 	TCHAR filename[MAX_PATH];
 	MsnContact *cont = NULL;
 
@@ -125,7 +125,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		WORD wStatus = getWord(AI->hContact, "Status", ID_STATUS_OFFLINE);
 		if (wStatus == ID_STATUS_OFFLINE) {
 			delSetting(AI->hContact, "AvatarHash");
-			PROTO_AVATAR_INFORMATIONT* fakeAI = new PROTO_AVATAR_INFORMATIONT;
+			PROTO_AVATAR_INFORMATION* fakeAI = new PROTO_AVATAR_INFORMATION;
 			*fakeAI = *AI;
 			ForkThread(&CMsnProto::sttFakeAvatarAck, fakeAI);
 		}

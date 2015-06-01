@@ -98,9 +98,7 @@ void CAimProto::avatar_request_handler(MCONTACT hContact, char* hash, unsigned c
 void CAimProto::avatar_retrieval_handler(const char* sn, const char* /*hash*/, const char* data, int data_len)
 {
 	bool res = false;
-	PROTO_AVATAR_INFORMATIONT AI = {0};
-	AI.cbSize = sizeof(AI);
-
+	PROTO_AVATAR_INFORMATION AI = {0};
 	AI.hContact = contact_from_sn(sn);
 
 	if (data_len > 0) {

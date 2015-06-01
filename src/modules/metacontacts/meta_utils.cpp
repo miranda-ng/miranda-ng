@@ -191,13 +191,12 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	// if the new contact is the most online contact with avatar support, get avatar info
 	most_online = Meta_GetMostOnlineSupporting(ccDest, PFLAGNUM_4, PF4_AVATARS);
 	if (most_online == hSub) {
-		PROTO_AVATAR_INFORMATIONT AI;
-		AI.cbSize = sizeof(AI);
+		PROTO_AVATAR_INFORMATION AI;
 		AI.hContact = hMeta;
 		AI.format = PA_FORMAT_UNKNOWN;
 		_tcsncpy_s(AI.filename, _T("X"), _TRUNCATE);
 
-		if (CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
+		if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&AI) == GAIR_SUCCESS)
 			db_set_ts(hMeta, "ContactPhoto", "File", AI.filename);
 	}
 

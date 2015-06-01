@@ -1582,13 +1582,11 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 	// Add to notify list and pull avatar for the new contact
 	if (isonline())
 	{
-		PROTO_AVATAR_INFORMATIONT pai = {0};
-
 		gg_EnterCriticalSection(&sess_mutex, "getcontact", 32, "sess_mutex", 1);
 		gg_add_notify_ex(sess, uin, (char)(inlist ? GG_USER_NORMAL : GG_USER_OFFLINE));
 		gg_LeaveCriticalSection(&sess_mutex, "getcontact", 32, 1, "sess_mutex", 1);
 
-		pai.cbSize = sizeof(pai);
+		PROTO_AVATAR_INFORMATION pai = { 0 };
 		pai.hContact = hContact;
 		getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
 

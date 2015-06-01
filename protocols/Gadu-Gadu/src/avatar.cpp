@@ -217,8 +217,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 					mir_free(AvatarURL); mir_free(AvatarTs);
 
 					if (iWaitFor) {
-						PROTO_AVATAR_INFORMATIONT pai = {0};
-						pai.cbSize = sizeof(pai);
+						PROTO_AVATAR_INFORMATION pai = {0};
 						pai.hContact = hContact;
 						INT_PTR res = getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
 						if (res == GAIR_NOAVATAR)
@@ -242,7 +241,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 
 			int result = 0;
 
-			PROTO_AVATAR_INFORMATIONT pai = { sizeof(pai) };
+			PROTO_AVATAR_INFORMATION pai = { sizeof(pai) };
 			pai.hContact = data->hContact;
 			pai.format = getByte(pai.hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
 
@@ -335,8 +334,7 @@ void __cdecl GGPROTO::getOwnAvatarThread(void*)
 		}
 		setByte(GG_KEY_AVATARREQUESTED, 1);
 
-		PROTO_AVATAR_INFORMATIONT pai = {0};
-		pai.cbSize = sizeof(pai);
+		PROTO_AVATAR_INFORMATION pai = { 0 };
 		getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
 	}
 #ifdef DEBUGMODE

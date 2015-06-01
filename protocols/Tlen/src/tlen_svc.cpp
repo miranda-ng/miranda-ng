@@ -665,7 +665,7 @@ INT_PTR TlenProtocol::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	char *avatarHash = NULL;
 	TLEN_LIST_ITEM *item = NULL;
 	DBVARIANT dbv;
-	PROTO_AVATAR_INFORMATIONT* AI = ( PROTO_AVATAR_INFORMATIONT* )lParam;
+	PROTO_AVATAR_INFORMATION* AI = ( PROTO_AVATAR_INFORMATION* )lParam;
 
 	if (AI->hContact != NULL) {
 		if (!db_get(AI->hContact, m_szModuleName, "jid", &dbv)) {
@@ -1179,11 +1179,11 @@ INT_PTR TlenProtocol::AccMgrUI(WPARAM wParam, LPARAM lParam)
 void TlenInitServicesVTbl(TlenProtocol *proto)
 {
 	proto->CreateProtoService(PS_GETNAME,        &TlenProtocol::GetName);
-	proto->CreateProtoService(PS_GETAVATARINFOT, &TlenProtocol::GetAvatarInfo);
+	proto->CreateProtoService(PS_GETAVATARINFO, &TlenProtocol::GetAvatarInfo);
 	proto->CreateProtoService(PS_SEND_NUDGE,     &TlenProtocol::SendAlert);
 	proto->CreateProtoService(PS_GETAVATARCAPS,  &TlenProtocol::GetAvatarCaps);
-	proto->CreateProtoService(PS_SETMYAVATART,   &TlenProtocol::SetMyAvatar);
-	proto->CreateProtoService(PS_GETMYAVATART,   &TlenProtocol::GetMyAvatar);
+	proto->CreateProtoService(PS_SETMYAVATAR,   &TlenProtocol::SetMyAvatar);
+	proto->CreateProtoService(PS_GETMYAVATAR,   &TlenProtocol::GetMyAvatar);
 	proto->CreateProtoService(PS_GETSTATUS,      &TlenProtocol::GetStatus);
 	proto->CreateProtoService(PS_CREATEACCMGRUI, &TlenProtocol::AccMgrUI);
 }

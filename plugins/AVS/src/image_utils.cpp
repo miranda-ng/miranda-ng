@@ -553,7 +553,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 
 int SaveAvatar(const char *protocol, const TCHAR *tszFileName)
 {
-	INT_PTR result = CallProtoService(protocol, PS_SETMYAVATART, 0, (LPARAM)tszFileName);
+	INT_PTR result = CallProtoService(protocol, PS_SETMYAVATAR, 0, (LPARAM)tszFileName);
 	if (result == CALLSERVICE_NOTFOUND)
 		result = CallProtoService(protocol, PS_SETMYAVATAR, 0, _T2A(tszFileName));
 

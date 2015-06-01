@@ -87,10 +87,10 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 			if (ack->hProcess == NULL)
 				ProcessAvatarInfo(ack->hContact, GAIR_NOAVATAR, NULL, ack->szModule);
 			else
-				ProcessAvatarInfo(ack->hContact, GAIR_SUCCESS, (PROTO_AVATAR_INFORMATIONT *)ack->hProcess, ack->szModule);
+				ProcessAvatarInfo(ack->hContact, GAIR_SUCCESS, (PROTO_AVATAR_INFORMATION *)ack->hProcess, ack->szModule);
 		}
 		else if (ack->result == ACKRESULT_FAILED) {
-			ProcessAvatarInfo(ack->hContact, GAIR_FAILED, (PROTO_AVATAR_INFORMATIONT *)ack->hProcess, ack->szModule);
+			ProcessAvatarInfo(ack->hContact, GAIR_FAILED, (PROTO_AVATAR_INFORMATION *)ack->hProcess, ack->szModule);
 		}
 		else if (ack->result == ACKRESULT_STATUS) {
 			char *szProto = GetContactProto(ack->hContact);

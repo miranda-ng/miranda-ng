@@ -1155,7 +1155,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 				}
 			}
 
-			PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai) };
+			PROTO_AVATAR_INFORMATION ai = { sizeof(ai) };
 			ai.format = PA_FORMAT_JPEG; // this is for error only
 			ai.hContact = pCookieData->hContact;
 			mir_tstrncpy(ai.filename, pCookieData->szFile, SIZEOF(ai.filename));

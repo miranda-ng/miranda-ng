@@ -206,7 +206,7 @@ protected:
 
 	// avatars
 	TCHAR* GetAvatarFilePath(MCONTACT hContact);
-	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &pai);
+	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &pai);
 	void CheckAvatarChange(MCONTACT hContact, std::string avatarUrl);
 
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);

@@ -52,18 +52,15 @@ BOOL IsContactMySelf(std::string buddyusername) {
 	return FALSE;
 }
 
-//liefert vollendateipfad vom eigenen avatar zurück, wenn definiert
-INT_PTR GetMyAvatar(WPARAM wparam, LPARAM lparam) {
-	DBVARIANT dbv;
+// liefert vollendateipfad vom eigenen avatar zurück, wenn definiert
+INT_PTR GetMyAvatar(WPARAM wparam, LPARAM lparam)
+{
+	ptrW wszFileName(db_get_wsa(NULL, protocolname, "MyAvatarFile"));
+	if (wszFileName == NULL)
+		return -1;
 
-	if (!db_get(NULL, protocolname, "MyAvatarFile", &dbv))
-	{
-		strncpy((char*)wparam, dbv.pszVal, (int)lparam);
-		db_free(&dbv);
-		return 0;
-	}
-
-	return -1;
+	wcsncpy_s((wchar_t*)wparam, (size_t)lparam, wszFileName, _TRUNCATE);
+	return 0;
 }
 
 //liefert vollendateipfad vom eigenen avatar zurück, wenn definiert

@@ -121,7 +121,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (!m_options.EnableAvatars)
 		return GAIR_NOAVATAR;
 
-	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
+	PROTO_AVATAR_INFORMATION* AI = (PROTO_AVATAR_INFORMATION*)lParam;
 
 	ptrA szHashValue( getStringA(AI->hContact, "AvatarHash"));
 	if (szHashValue == NULL) {

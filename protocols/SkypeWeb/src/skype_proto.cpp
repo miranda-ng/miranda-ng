@@ -34,10 +34,10 @@ PROTO<CSkypeProto>(protoName, userName), password(NULL)
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
 
-	CreateProtoService(PS_GETAVATARINFOT, &CSkypeProto::SvcGetAvatarInfo);
+	CreateProtoService(PS_GETAVATARINFO, &CSkypeProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CSkypeProto::SvcGetAvatarCaps);
-	CreateProtoService(PS_GETMYAVATART, &CSkypeProto::SvcGetMyAvatar);
-	CreateProtoService(PS_SETMYAVATART, &CSkypeProto::SvcSetMyAvatar);
+	CreateProtoService(PS_GETMYAVATAR, &CSkypeProto::SvcGetMyAvatar);
+	CreateProtoService(PS_SETMYAVATAR, &CSkypeProto::SvcSetMyAvatar);
 
 	CreateProtoService("/IncomingCallCLE", &CSkypeProto::OnIncomingCallCLE);
 	CreateProtoService("/IncomingCallPP", &CSkypeProto::OnIncomingCallPP);

@@ -257,8 +257,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 									LPCTSTR url = xi.getText(imageval);
 									db_set_ts(hContact, MODULE, "ImageURL", url);
 
-									PROTO_AVATAR_INFORMATIONT pai = { NULL };
-									pai.cbSize = sizeof(pai);
+									PROTO_AVATAR_INFORMATION pai = { NULL };
 									pai.hContact = hContact;
 
 									TCHAR *szNick = db_get_tsa(hContact, MODULE, "Nick");
@@ -388,8 +387,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 
 									TCHAR *szNick = db_get_tsa(hContact, MODULE, "Nick");
 									if (szNick) {
-										PROTO_AVATAR_INFORMATIONT pai = { NULL };
-										pai.cbSize = sizeof(pai);
+										PROTO_AVATAR_INFORMATION pai = { NULL };
 										pai.hContact = hContact;
 										TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
 										pai.format = ProtoGetAvatarFormat(ext);
@@ -532,8 +530,7 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 							LPCTSTR url = xi.getText(imageval);
 							db_set_ts(hContact, MODULE, "ImageURL", url);
 
-							PROTO_AVATAR_INFORMATIONT pai = { NULL };
-							pai.cbSize = sizeof(pai);
+							PROTO_AVATAR_INFORMATION pai = { NULL };
 							pai.hContact = hContact;
 
 							TCHAR *szNick = db_get_tsa(hContact, MODULE, "Nick");
@@ -568,8 +565,7 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 
 							TCHAR *szNick = db_get_tsa(hContact, MODULE, "Nick");
 							if (szNick) {
-								PROTO_AVATAR_INFORMATIONT pai = { NULL };
-								pai.cbSize = sizeof(pai);
+								PROTO_AVATAR_INFORMATION pai = { NULL };
 								pai.hContact = hContact;
 
 								TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;

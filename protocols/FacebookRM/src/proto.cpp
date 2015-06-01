@@ -59,8 +59,8 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 
 	CreateProtoService(PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_GETMYAWAYMSG, &FacebookProto::GetMyAwayMsg);
-	CreateProtoService(PS_GETMYAVATART, &FacebookProto::GetMyAvatar);
-	CreateProtoService(PS_GETAVATARINFOT, &FacebookProto::GetAvatarInfo);
+	CreateProtoService(PS_GETMYAVATAR, &FacebookProto::GetMyAvatar);
+	CreateProtoService(PS_GETAVATARINFO, &FacebookProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &FacebookProto::GetAvatarCaps);
 	CreateProtoService(PS_GETUNREADEMAILCOUNT, &FacebookProto::GetNotificationsCount);
 

@@ -395,22 +395,12 @@ const
   PA_FORMAT_XML     = 7;
 
 type
-  PPROTO_AVATAR_INFORMATIONW = ^TPROTO_AVATAR_INFORMATIONW;
-  TPROTO_AVATAR_INFORMATIONW = record
-    cbSize  : int;       // sizeof()
+  PPROTO_AVATAR_INFORMATION = ^TPROTO_AVATAR_INFORMATION;
+  TPROTO_AVATAR_INFORMATION = record
     hContact: TMCONTACT; // this might have to be set by the caller too
     format  : int;       // PA_FORMAT_*
     // full path to filename which contains the avatar
     filename: array[0..(MAX_PATH)-1] of WideChar;
-  end;
-
-  PPROTO_AVATAR_INFORMATION = ^TPROTO_AVATAR_INFORMATION;
-  TPROTO_AVATAR_INFORMATION = record
-    cbSize  : int;       // sizeof()
-    hContact: TMCONTACT; // this might have to be set by the caller too
-    format  : int;       // PA_FORMAT_*
-    // full path to filename which contains the avatar
-    filename: array[0..(MAX_PATH)-1] of AnsiChar;
   end;
 
 const
@@ -425,10 +415,7 @@ const
  lParam : (LPARAM) &PROTO_AVATAR_INFORMATION
  Affect : Make a request to the protocol to return information about a hContact's avatar (or main user)
       it can return information, tell you there is none, or if forced start requesting an avatar.
- Note:
- Version: 0.3.4+ (2004/09/13)
 }
   PS_GETAVATARINFO  = '/GetAvatarInformation';
-  PS_GETAVATARINFOW = '/GetAvatarInformationW';
 
 {$ENDIF}

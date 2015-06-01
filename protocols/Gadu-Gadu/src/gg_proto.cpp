@@ -52,9 +52,9 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
 
 	// Register services
 	CreateProtoService(PS_GETAVATARCAPS, &GGPROTO::getavatarcaps);
-	CreateProtoService(PS_GETAVATARINFOT, &GGPROTO::getavatarinfo);
-	CreateProtoService(PS_GETMYAVATART, &GGPROTO::getmyavatar);
-	CreateProtoService(PS_SETMYAVATART, &GGPROTO::setmyavatar);
+	CreateProtoService(PS_GETAVATARINFO, &GGPROTO::getavatarinfo);
+	CreateProtoService(PS_GETMYAVATAR, &GGPROTO::getmyavatar);
+	CreateProtoService(PS_SETMYAVATAR, &GGPROTO::setmyavatar);
 
 	CreateProtoService(PS_GETMYAWAYMSG, &GGPROTO::getmyawaymsg);
 	CreateProtoService(PS_CREATEACCMGRUI, &GGPROTO::get_acc_mgr_gui);

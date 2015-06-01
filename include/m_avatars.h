@@ -254,40 +254,25 @@ typedef struct _contactAvatarChangedNotification {
 
 /*
 wParam=0
-lParam=(const char *)Avatar file name or NULL to remove the avatar
+lParam=(const TCHAR*)Avatar file name or NULL to remove the avatar
 return=0 for sucess
 */
 #define PS_SETMYAVATAR "/SetMyAvatar"
 
 /*
-wParam=(char *)Buffer to file name
+wParam=(TCHAR*)Buffer to file name
 lParam=(int)Buffer size
 return=0 for sucess
 */
 #define PS_GETMYAVATAR "/GetMyAvatar"
 
-#ifdef _UNICODE
-
-#define PS_SETMYAVATARW "/SetMyAvatarW"
-#define PS_GETMYAVATARW "/GetMyAvatarW"
-
-#define PS_GETMYAVATART PS_GETMYAVATARW
-#define PS_SETMYAVATART PS_SETMYAVATARW
-
-#else
-
-#define PS_GETMYAVATART PS_GETMYAVATAR
-#define PS_SETMYAVATART PS_SETMYAVATAR
-
-#endif
-
-#define PIP_NONE				0
-#define PIP_SQUARE				1
+#define PIP_NONE    0
+#define PIP_SQUARE  1
 
 // Avatar image max size
 // lParam = (POINT*) maxSize (use -1 for no max)
 // return 0 for success
-#define AF_MAXSIZE 1
+#define AF_MAXSIZE  1
 
 // Avatar image proportion
 // lParam = 0

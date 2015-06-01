@@ -403,7 +403,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 	std::tstring filename = GetAvatarFolder() + _T('\\') + dbv.ptszVal + (TCHAR*)_A2T(ext.c_str()); // local filename and path
 	db_free(&dbv);
 
-	PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai) };
+	PROTO_AVATAR_INFORMATION ai = { sizeof(ai) };
 	ai.hContact = data->hContact;
 	ai.format = ProtoGetAvatarFormat(filename.c_str());
 
@@ -442,7 +442,7 @@ void TwitterProto::UpdateAvatar(MCONTACT hContact, const std::string &url, bool 
 	else {
 		// TODO: more defaults (configurable?)
 		if (url == "http://static.twitter.com/images/default_profile_normal.png") {
-			PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai), hContact };
+			PROTO_AVATAR_INFORMATION ai = { sizeof(ai), hContact };
 
 			db_set_s(hContact, m_szModuleName, TWITTER_KEY_AV_URL, url.c_str());
 			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);

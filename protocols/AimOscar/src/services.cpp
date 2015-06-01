@@ -339,7 +339,7 @@ INT_PTR CAimProto::ManageAccount(WPARAM, LPARAM)
 
 INT_PTR CAimProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
+	PROTO_AVATAR_INFORMATION* AI = (PROTO_AVATAR_INFORMATION*)lParam;
 	
 	AI->filename[0] = 0;
 	AI->format = PA_FORMAT_UNKNOWN;
@@ -410,7 +410,7 @@ INT_PTR CAimProto::GetAvatar(WPARAM wParam, LPARAM lParam)
 	if (buf == NULL || size <= 0)
 		return -1;
 
-	PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai) };
+	PROTO_AVATAR_INFORMATION ai = { sizeof(ai) };
 	if (GetAvatarInfo(0, (LPARAM)&ai) == GAIR_SUCCESS)
 	{
 		_tcsncpy(buf, ai.filename, size);

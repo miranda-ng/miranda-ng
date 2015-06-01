@@ -221,7 +221,7 @@ public:
 
 	// Helpers
 	std::tstring GetAvatarFolder();
-	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *url);
+	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &ai, std::string *url);
 	void CheckAvatarChange(MCONTACT hContact, const std::string &image_url);
 	void ToggleStatusMenuItems(BOOL bEnable);
 	void StickerAsSmiley(std::string stickerId, const std::string &url, MCONTACT hContact);

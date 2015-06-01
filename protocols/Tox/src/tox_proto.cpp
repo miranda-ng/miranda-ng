@@ -20,9 +20,9 @@ hPollingThread(NULL), hOutDevice(NULL)
 
 	// avatars
 	CreateProtoService(PS_GETAVATARCAPS, &CToxProto::GetAvatarCaps);
-	CreateProtoService(PS_GETAVATARINFOT, &CToxProto::GetAvatarInfo);
-	CreateProtoService(PS_GETMYAVATART, &CToxProto::GetMyAvatar);
-	CreateProtoService(PS_SETMYAVATART, &CToxProto::SetMyAvatar);
+	CreateProtoService(PS_GETAVATARINFO, &CToxProto::GetAvatarInfo);
+	CreateProtoService(PS_GETMYAVATAR, &CToxProto::GetMyAvatar);
+	CreateProtoService(PS_SETMYAVATAR, &CToxProto::SetMyAvatar);
 
 	// nick
 	CreateProtoService(PS_SETMYNICKNAME, &CToxProto::SetMyNickname);

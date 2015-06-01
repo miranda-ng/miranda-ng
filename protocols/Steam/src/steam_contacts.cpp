@@ -520,7 +520,7 @@ void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response)
 
 void CSteamProto::OnGotAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	PROTO_AVATAR_INFORMATIONW pai = { sizeof(pai) };
+	PROTO_AVATAR_INFORMATION pai = { sizeof(pai) };
 	pai.hContact = (MCONTACT)arg;
 	GetDbAvatarInfo(pai);
 
