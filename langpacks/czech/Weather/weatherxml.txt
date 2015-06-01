@@ -2,112 +2,72 @@
 ;  File: weatherxml.ini
 ;  Module: weather
 ;============================================================
-[Fair]
-pěkně
-[Mostly Sunny]
-převážně slunečno
-[Light Thunderstorm Rain]
-slabá bouřka / déšť
-[Thunderstorm Rain]
-bouřka a déšť
-[N/a]
-<neuvedeno>
-[Thunderstorm]
-bouřka
-[Overcast]
-zataženo
-[Fog]
-hustá mlha
-[Mist]
-mrholení
-[Light Rain]
-slabý déšť
-[Light Showers Rain]
-slabé přeháňky a déšť
-[Showers Rain]
-dešťová přeháňka
-[Shallow Fog]
-slabá mlha
-[Snow]
-sněžení
-[Partly Sunny]
-částečně slunečno
-[Partly Cloudy]
-částečně oblačno
-[Mostly Cloudy]
-převážně oblačno
-[Mostly Clear]
-převážně jasno
-[Showers]
-přeháňky
-[Sunny]
-slunečno
-[Light Rain Shower]
-slabá dešťová přeháňka
-[rising]
-stoupá
-[steady]
-ustálený
-[falling]
-klesá
-[Moderate]
-střední
-[N]
-S
-[W]
-Z
-[S]
-J
-[E]
-V
-[NW]
-SZ
-[NE]
-SV
-[SW]
-JZ
-[SE]
-JV
-[NNW]
-SSZ
-[NNE]
-SSV
-[SSW]
-JJZ
-[SSE]
-JJV
+[AM Rain]
+déšť (dop.)
+[Am Clouds / Pm Sun]
+oblačno (dop.) / slunečno (odp.)
+[Am Light Rain]
+slabý déšť (dop.)
+[Am Rain / Snow Showers]
+déšť / sněhové přeháňky (dop.)
+[Am Rain / Snow]
+déšť (dop.) / sněžení
+[Am Rain]
+déšť (dop.)
+[Am Showers / Wind]
+přeháňky (dop.) / vítr
+[Am Showers]
+přeháňky (dop.)
+[Am Snow Showers / Wind]
+sněhové přeháňky (dop.) / vítr
+[Am Snow Showers]
+sněhové přeháňky (dop.)
+[Am Snow]
+sněžení (dop.)
+[Am T-Storms]
+bouřky (dop.)
+[Clear / Wind]
+jasno / vítr
+[Clouds Early / Clearing Late]
+k ránu oblačno, později vyjasnění
+[Cloudy / Wind]
+oblačno / vítr
+[Cloudy / Windy]
+oblačno/větrno
+[Cloudy And Windy]
+oblačno a větrno
+[Cloudy]
+oblačno
+[Drifting Snow]
+poletující sníh
 [ENE]
 VSV
-[WSW]
-ZJZ
-[WNW]
-ZSZ
 [ESE]
 VJV
-[New Moon]
-nov
-[Last Quarter]
-poslední čtvrť
-[First Quarter]
-první čtvrť
-[Full Moon]
-úplněk
-[Waning Crescent]
-couvá (srpek)
-[Waning Gibbous]
-couvá
-[Waxing Crescent]
-dorůstá (srpek)
-[Waxing Gibbous]
-dorůstá
-[Night]
-noc
+[E]
+V
+[Fair And Windy]
+pěkně / větrno
+[Fair]
+pěkně
 [Feel]
 Subj.
-[Forecast Update]
-Aktualizace předpovědi
-[Forecast Update VAR]
-Aktualizace předpovědi VAR
+[Few Showers / Wind]
+několik přeháněk / vítr
+[Few Showers]
+několik přeháněk
+[Few Snow Showers]
+několik sněhových přeháněk
+[First Quarter]
+první čtvrť
+[Fog / Windy]
+hustá mlha/větrno
+[Fog And Windy]
+hustá mlha / větrno
+[Fog Late]
+později mlha
+[Fog]
+hustá mlha
 [Forecast Day 0]
 Předpověď na dnešní den
 [Forecast Day 1]
@@ -128,269 +88,319 @@ Předpověď na 7. den
 Předpověď na 8. den
 [Forecast Day 9]
 Předpověď na 9. den
-[N/A%]
-
+[Forecast Update VAR]
+Aktualizace předpovědi VAR
+[Forecast Update]
+Aktualizace předpovědi
+[Freezing Rain / Windy]
+mrznoucí déšť / větrno
+[Full Moon]
+úplněk
+[Haze]
+slabé mrholení
 [Heat Index]
 Teplotní index
+[Heavy Rain / Wind]
+průtrž mračen/vítr
+[Heavy Rain]
+průtrž mračen
+[Heavy Snow And Windy]
+silné sněžení / větrno
+[Heavy Snow Shower]
+silná sněhová přeháňka
+[Heavy Snow]
+silné sněžení
+[Isolated T-Storms / Wind]
+ojedinělé bouřky / vítr
+[Isolated T-Storms]
+ojedinělé bouřky
+[Jun]
+
+[Last Quarter]
+poslední čtvrť
 [Latitude]
 
-[Longitude]
-
+[Light Drizzle And Fog]
+slabé mrholení / hustá mlha
+[Light Drizzle And Windy]
+slabé mrholení / větrno
+[Light Drizzle]
+slabé mrholení
+[Light Freezing Rain / Fog]
+slabý mrznoucí déšť/hustá mlha
+[Light Freezing Rain / Windy]
+slabý mrznoucí déšť/větrno
+[Light Rain / Wind Early]
+slabý déšť/k ránu vítr
+[Light Rain / Wind]
+slabý déšť / vítr
+[Light Rain / Windy]
+slabý déšť / větrno
+[Light Rain And Windy]
+slabý déšť / větrno
+[Light Rain Early]
+k ránu slabý déšť
+[Light Rain Late]
+později slabý déšť
+[Light Rain Shower And Windy]
+slabá dešťová přeháňka / větrno
+[Light Rain Shower]
+slabá dešťová přeháňka
+[Light Rain With Thunder]
+slabý déšť s hřměním
+[Light Rain]
+slabý déšť
+[Light Showers Rain]
+slabé přeháňky a déšť
+[Light Snow And Windy]
+slabé sněžení / větrno
+[Light Snow Early]
+k ránu slabé sněžení
+[Light Snow Late]
+později slabé sněžení
+[Light Snow Shower And Windy]
+slabé sněhové přeháňky / větrno
+[Light Snow Shower]
+slabá sněhová přeháňka
+[Light Snow]
+slabé sněžení
+[Light Thunderstorm Rain]
+slabá bouřka / déšť
 [Local Time]
 Místní čas
+[Longitude]
+
+[Mist]
+mrholení
+[Moderate]
+střední
 [Moon]
 Měsíc
+[Mostly Clear]
+převážně jasno
+[Mostly Cloudy / Wind]
+převážně oblačno / vítr
+[Mostly Cloudy And Windy]
+převážně oblačno / větrno
+[Mostly Cloudy]
+převážně oblačno
+[Mostly Sunny / Wind]
+převážně slunečno / vítr
+[Mostly Sunny]
+převážně slunečno
+[N/A%]
+
+[N/a]
+<neuvedeno>
+[NE]
+SV
+[NNE]
+SSV
+[NNW]
+SSZ
+[NW]
+SZ
+[N]
+S
+[New Moon]
+nov
+[Night]
+noc
 [Observatory]
 
+[Overcast]
+zataženo
+[Partly Cloudy / Wind]
+částečně oblačno / vítr
+[Partly Cloudy / Windy]
+částečně oblačno/větrno
+[Partly Cloudy And Windy]
+částečně oblačno a větrno
+[Partly Cloudy]
+částečně oblačno
+[Partly Sunny]
+částečně slunečno
+[Pm Light Rain]
+slabý déšť (odp.)
+[Pm Rain / Wind]
+déšť/vítr (odp.)
+[Pm Rain]
+déšť (odp.)
+[Pm Showers / Wind]
+přeháňky (odp.) / vítr
+[Pm Showers]
+přeháňky (odp.)
+[Pm Snow Showers]
+Sněhové přeháňky (odp.)
+[Pm Snow]
+sněžení (odp.)
+[Pm T-Storms]
+bouřky (odp.)
 [Pressure Tendency]
 Tlaková tendence
-[Update VAR]
-Aktualizace VAR
-[UV]
-UV
+[Rain / Freezing Rain / Wind]
+déšť/mrznoucí déšť/vítr
+[Rain / Snow / Wind]
+déšť / sněžení / vítr
+[Rain / Snow Late]
+déšť / později sněžení
+[Rain / Snow Showers Early]
+déšť / k ránu sněhové přeháňky
+[Rain / Snow Showers Late]
+déšť, později sněhové přeháňky
+[Rain / Snow Showers]
+déšť / sněhové přeháňky
+[Rain / Snow]
+déšť / sněžení
+[Rain / Thunder]
+déšť / hřmění
+[Rain / Wind Early]
+k ránu déšť/vítr
+[Rain / Wind]
+déšť / vítr
+[Rain And Snow]
+déšť se sněhem
+[Rain Early]
+k ránu déšť
+[Rain Late]
+později déšť
+[Rain Shower]
+dešťová přeháňka
+[Rain To Snow]
+déšť se sněhem
+[Rain]
+déšť
+[SE]
+JV
+[SSE]
+JJV
+[SSW]
+JJZ
+[SW]
+JZ
+[S]
+J
+[Scattered Showers]
+proměnlivé přeháňky
+[Scattered Snow Showers]
+proměnlivé sněhové přeháňky
+[Scattered T-Storms / Wind]
+proměnlivé bouřky / vítr
+[Scattered T-Storms]
+proměnlivé bouřky
+[Shallow Fog]
+slabá mlha
+[Showers / Wind Late]
+přeháňky / později vítr
+[Showers / Wind]
+přeháňky / vítr
+[Showers Early]
+k ránu přeháňky
+[Showers Late]
+později přeháňky
+[Showers Rain]
+dešťová přeháňka
+[Showers]
+přeháňky
+[Sleet And Windy]
+déšť se sněhem / větrno
+[Sleet]
+déšť se sněhem
+[Smoke]
+kouř
+[Snow / Wind Early]
+k ránu sněžení/vítr
+[Snow / Wind]
+sněžení / vítr
+[Snow / Windy]
+sněžení/větrno
+[Snow And Sleet]
+sníh s deštěm
+[Snow Early]
+k ránu sněžení
+[Snow Shower / Wind]
+sněhová přeháňka / vítr
+[Snow Shower And Windy]
+sněhová přeháňka / větrno
+[Snow Shower]
+sněhová přeháňka
+[Snow Showers / Wind Early]
+sněhové přeháňky / k ránu vítr
+[Snow Showers Early]
+k ránu sněhové přeháňky
+[Snow Showers Late]
+později sněhové přeháňky
+[Snow To Rain]
+sníh s deštěm
+[Snow To Wintry Mix]
+sněžení s mrznoucím deštěm
+[Snow]
+sněžení
+[Sunny / Wind]
+slunečno/vítr
+[Sunny / Windy]
+slunečno/větrno
+[Sunny]
+slunečno
+[T-Storm]
+bouřka
+[T-Storms Early]
+k ránu bouřky
+[T-Storms Late]
+později bouřky
+[T-Storms]
+bouřky
+[Thunder In The Vicinity]
+bouře v okolí
+[Thunderstorm Rain]
+bouřka a déšť
+[Thunderstorm]
+bouřka
 [UV Index]
 UV index
 [UVI]
 UVI
-[Wind Direction]
-Směr větru
+[UV]
+UV
+[Update VAR]
+Aktualizace VAR
+[WNW]
+ZSZ
+[WSW]
+ZJZ
+[W]
+Z
+[Waning Crescent]
+couvá (srpek)
+[Waning Gibbous]
+couvá
+[Waxing Crescent]
+dorůstá (srpek)
+[Waxing Gibbous]
+dorůstá
 [Wind Direction DEG]
 Směr větru (stupně)
+[Wind Direction]
+Směr větru
 [Wind Speed]
 Rychlost větru
 [WindDir]
 Směr větru
-[Cloudy]
-oblačno
-[Scattered Snow Showers]
-proměnlivé sněhové přeháňky
-[Few Snow Showers]
-několik sněhových přeháněk
-[Snow Shower]
-sněhová přeháňka
-[Am Snow Showers]
-sněhové přeháňky (dop.)
-[Light Snow]
-slabé sněžení
-[Drifting Snow]
-poletující sníh
-[Pm Snow Showers]
-Sněhové přeháňky (odp.)
-[Am Clouds / Pm Sun]
-oblačno (dop.) / slunečno (odp.)
-[Snow Shower / Wind]
-sněhová přeháňka / vítr
-[Cloudy / Wind]
-oblačno / vítr
-[Heavy Snow And Windy]
-silné sněžení / větrno
-[Snow / Wind]
-sněžení / vítr
-[Snow Showers Early]
-k ránu sněhové přeháňky
-[Am Snow Showers / Wind]
-sněhové přeháňky (dop.) / vítr
-[Light Snow And Windy]
-slabé sněžení / větrno
-[Snow Showers / Wind Early]
-sněhové přeháňky / k ránu vítr
-[Partly Cloudy And Windy]
-částečně oblačno a větrno
-[Mostly Cloudy And Windy]
-převážně oblačno / větrno
-[Rain / Snow / Wind]
-déšť / sněžení / vítr
-[Rain / Snow]
-déšť / sněžení
-[Clouds Early / Clearing Late]
-k ránu oblačno, později vyjasnění
-[Snow Showers Late]
-později sněhové přeháňky
-[Rain / Snow Showers]
-déšť / sněhové přeháňky
-[Showers Late]
-později přeháňky
-[Scattered Showers]
-proměnlivé přeháňky
-[Am Showers]
-přeháňky (dop.)
-[Am Rain / Snow Showers]
-déšť / sněhové přeháňky (dop.)
-[Few Showers]
-několik přeháněk
-[Few Showers / Wind]
-několik přeháněk / vítr
-[Pm Light Rain]
-slabý déšť (odp.)
-[Mostly Cloudy / Wind]
-převážně oblačno / vítr
-[Rain]
-déšť
-[Light Rain Shower And Windy]
-slabá dešťová přeháňka / větrno
-[Am Showers / Wind]
-přeháňky (dop.) / vítr
-[Isolated T-Storms]
-ojedinělé bouřky
-[Showers Early]
-k ránu přeháňky
-[T-Storm]
-bouřka
-[Rain / Snow Showers Late]
-déšť, později sněhové přeháňky
-[Pm Showers]
-přeháňky (odp.)
-[Snow To Rain]
-sníh s deštěm
-[Light Snow Shower]
-slabá sněhová přeháňka
-[Fair And Windy]
-pěkně / větrno
-[Pm T-Storms]
-bouřky (odp.)
-[Scattered T-Storms]
-proměnlivé bouřky
-[Light Rain Late]
-později slabý déšť
-[Am Light Rain]
-slabý déšť (dop.)
-[Jun]
-
-[T-Storms]
-bouřky
-[Rain / Thunder]
-déšť / hřmění
-[Thunder In The Vicinity]
-bouře v okolí
-[Light Rain With Thunder]
-slabý déšť s hřměním
-[Light Rain Early]
-k ránu slabý déšť
-[Light Rain / Wind]
-slabý déšť / vítr
-[Light Drizzle]
-slabé mrholení
-[Haze]
-slabé mrholení
-[Smoke]
-kouř
-[Rain To Snow]
-déšť se sněhem
-[Rain And Snow]
-déšť se sněhem
-[Rain / Snow Showers Early]
-déšť / k ránu sněhové přeháňky
-[Heavy Snow Shower]
-silná sněhová přeháňka
-[Showers / Wind]
-přeháňky / vítr
-[Snow Shower And Windy]
-sněhová přeháňka / větrno
-[Light Snow Shower And Windy]
-slabé sněhové přeháňky / větrno
-[Light Rain And Windy]
-slabý déšť / větrno
-[Sleet]
-déšť se sněhem
-[Sleet And Windy]
-déšť se sněhem / větrno
-[Cloudy And Windy]
-oblačno a větrno
-[Light Drizzle And Windy]
-slabé mrholení / větrno
-[Light Drizzle And Fog]
-slabé mrholení / hustá mlha
-[Fog And Windy]
-hustá mlha / větrno
-[Light Snow Early]
-k ránu slabé sněžení
-[Heavy Snow]
-silné sněžení
-[Snow Early]
-k ránu sněžení
-[Light Snow Late]
-později slabé sněžení
-[Snow And Sleet]
-sníh s deštěm
-[Pm Rain / Wind]
-déšť/vítr (odp.)
-[Rain / Wind Early]
-k ránu déšť/vítr
-[Rain / Freezing Rain / Wind]
-déšť/mrznoucí déšť/vítr
-[Snow / Wind Early]
-k ránu sněžení/vítr
-[Sunny / Wind]
-slunečno/vítr
-[Heavy Rain]
-průtrž mračen
-[Rain Late]
-později déšť
-[Light Rain / Wind Early]
-slabý déšť/k ránu vítr
-[Heavy Rain / Wind]
-průtrž mračen/vítr
-[Cloudy / Windy]
-oblačno/větrno
 [Wintry Mix / Wind]
 mrznoucí déšť se sněhem/vítr
-[Rain Shower]
-dešťová přeháňka
-[Light Freezing Rain / Windy]
-slabý mrznoucí déšť/větrno
-[Light Freezing Rain / Fog]
-slabý mrznoucí déšť/hustá mlha
-[Snow / Windy]
-sněžení/větrno
-[Fog / Windy]
-hustá mlha/větrno
-[Partly Cloudy / Windy]
-částečně oblačno/větrno
-[Sunny / Windy]
-slunečno/větrno
-[Am Snow]
-sněžení (dop.)
-[Rain / Snow Late]
-déšť / později sněžení
-[Am Rain / Snow]
-déšť (dop.) / sněžení
-[Partly Cloudy / Wind]
-částečně oblačno / vítr
-[Mostly Sunny / Wind]
-převážně slunečno / vítr
-[Isolated T-Storms / Wind]
-ojedinělé bouřky / vítr
-[T-Storms Late]
-později bouřky
-[Scattered T-Storms / Wind]
-proměnlivé bouřky / vítr
-[Snow To Wintry Mix]
-sněžení s mrznoucím deštěm
-[T-Storms Early]
-k ránu bouřky
-[Am T-Storms]
-bouřky (dop.)
-[Fog Late]
-později mlha
-[Rain Early]
-k ránu déšť
-[AM Rain]
-déšť (dop.)
-[Pm Rain]
-déšť (odp.)
-[Pm Snow]
-sněžení (odp.)
-[Pm Showers / Wind]
-přeháňky (odp.) / vítr
-[Rain / Wind]
-déšť / vítr
-[Freezing Rain / Windy]
-mrznoucí déšť / větrno
-[Clear / Wind]
-jasno / vítr
-[Am Rain]
-déšť (dop.)
-[Showers / Wind Late]
-přeháňky / později vítr
-[Light Rain / Windy]
-slabý déšť / větrno
+[falling]
+klesá
+[rising]
+stoupá
+[steady]
+ustálený
+[Light Snow / Fog]
+slabé sněžení / mlha
+[Showers In The Vicinity]
+přeháňky v okolí
+[Rain / Snow Early]
+déšť / k ránu sněžení
+[Pm Rain / Snow]
+déšť (odp.) / sněžení
+[Fair / Windy]
+pěkně / větrno
