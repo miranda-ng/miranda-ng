@@ -69,14 +69,13 @@ public:
 	void __cdecl SendMsgWorker(void*);
 
 	// Chat handling
- 	void AddChat(const TCHAR *id,const TCHAR *name);
-	void UpdateChat(const TCHAR *name, const TCHAR *message, const time_t timestamp = time(NULL), bool addtochat = true);
-	void SendChatMessage(std::string message);
-	void AddChatContact(const TCHAR *nick);
-	void DeleteChatContact(const TCHAR *name);
+ 	void AddChat(const char *id, const char *name);
+	void UpdateChat(const char *name, const char *message, const time_t timestamp = time(NULL), bool addtochat = true);
+	void AddChatContact(const char *nick);
+	void DeleteChatContact(const char *name);
 	void SetChatStatus(int);
 	void ClearChat();
-	void SetTopic(const TCHAR *topic = NULL);
+	void SetTopic(const char *topic);
 	MCONTACT GetChatHandle();
 
 	// Locks
@@ -123,7 +122,7 @@ public:
 	std::string doGetPage(int);
 
 	// Configuration
-	ptrT nick_;
+	std::string m_nick;
 	std::string m_cookie;
 	std::string m_server;	
 	std::string m_title;	

@@ -59,7 +59,7 @@ MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const TCHAR* 
 	this->hEventsConnection = NULL;
 
 	// Client instantiation
-	this->nick_ = NULL;
+	this->m_nick = "";
 	this->error_count_ = 0;
 	this->chatHandle_ = NULL;
 	this->m_updateRate = 5000; // Some default update rate
