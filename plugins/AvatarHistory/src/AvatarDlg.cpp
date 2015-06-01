@@ -538,7 +538,7 @@ static INT_PTR ShowDialogSvc(WPARAM wParam, LPARAM lParam)
 int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
 {
 	TCHAR filter[MAX_PATH], file[MAX_PATH];
-	BmpFilterGetStrings(filter, SIZEOF(filter));
+	Bitmap_GetFilter(filter, SIZEOF(filter));
 
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);

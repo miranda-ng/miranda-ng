@@ -46,15 +46,9 @@ static void sttPreviewSkin(MODERNOPTOBJECT *obj, TCHAR *fn, LPDRAWITEMSTRUCT lps
 		return;
 	}
 
-	char *afn = mir_t2a(fn);
-	char *fnpreview = (char *)mir_alloc(mir_strlen(afn) + 10);
-	mir_strcpy(fnpreview, afn);
-	mir_strcat(fnpreview, ".png");
-	HBITMAP hbmPreview = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)fnpreview);
-	mir_free(afn);
-	mir_free(fnpreview);
-
-	if (!hbmPreview) return;
+	HBITMAP hbmPreview = Bitmap_Load(CMString(fn) + _T(".png"));
+	if (!hbmPreview)
+		return;
 
 	BITMAP bmp;
 	GetObject(hbmPreview, sizeof(bmp), &bmp);

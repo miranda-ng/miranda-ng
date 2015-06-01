@@ -625,7 +625,7 @@ static void CorrectBitmap32Alpha(HBITMAP hBitmap)
 
 static HBITMAP LoadPNG(const char *szFilename)
 {
-	HBITMAP hBitmap = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)szFilename);
+	HBITMAP hBitmap = Bitmap_Load(_A2T(szFilename));
 	if (hBitmap != 0)
 		CorrectBitmap32Alpha(hBitmap);
 

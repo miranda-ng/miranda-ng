@@ -293,7 +293,6 @@ INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 
 int LoadBackgroundOptions()
 {
-	//load options
 	bkColour = db_get_dw(NULL, TTB_OPTDIR, "BkColour", TTBDEFAULT_BKCOLOUR);
 	if (hBmpBackground) {
 		DeleteObject(hBmpBackground);
@@ -301,11 +300,9 @@ int LoadBackgroundOptions()
 	}
 
 	if (db_get_b(NULL, TTB_OPTDIR, "UseBitmap", TTBDEFAULT_USEBITMAP)) {
-		DBVARIANT dbv;
-		if (!db_get(NULL, TTB_OPTDIR, "BkBitmap", &dbv)) {
-			hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
-			db_free(&dbv);
-		}
+		ptrT tszBitmapName(db_get_tsa(NULL, TTB_OPTDIR, "BkBitmap"));
+		if (tszBitmapName != NULL)
+			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}
 	backgroundBmpUse = db_get_w(NULL, TTB_OPTDIR, "BkBmpUse", TTBDEFAULT_BKBMPUSE);
 

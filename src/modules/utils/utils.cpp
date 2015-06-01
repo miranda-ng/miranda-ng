@@ -33,7 +33,6 @@ int  InitWindowList(void);
 int  InitPathUtils(void);
 int  InitHyperlink(void);
 int  InitColourPicker(void);
-int  InitBitmapFilter(void);
 void InitXmlApi(void);
 
 void InitTimeZones(void);
@@ -482,7 +481,6 @@ int LoadUtilsModule(void)
 	InitHyperlink();
 	InitPathUtils();
 	InitColourPicker();
-	InitBitmapFilter();
 	InitXmlApi();
 	InitTimeZones();
 	InitCrypt();

@@ -295,7 +295,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			if (GetTempFileName(szTempPath, _T("jab"), 0, szTempFileName) > 0) {
 				dat->ppro->debugLog(_T("Temp file = %s"), szTempFileName);
 				if (CopyFile(szAvatarFileName, szTempFileName, FALSE) == TRUE) {
-					if ((dat->hBitmap = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)szTempFileName)) != NULL) {
+					if ((dat->hBitmap = Bitmap_Load(szTempFileName)) != NULL) {
 						FIP->FI_Premultiply(dat->hBitmap);
 						mir_tstrcpy(dat->ppro->m_szPhotoFileName, szTempFileName);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
@@ -334,7 +334,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		case IDC_LOAD:
 			TCHAR szFilter[512], szFileName[MAX_PATH];
-			BmpFilterGetStrings(szFilter, SIZEOF(szFilter));
+			Bitmap_GetFilter(szFilter, SIZEOF(szFilter));
 
 			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = sizeof(ofn);
@@ -356,11 +356,11 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				}
 				if (GetTempPath(SIZEOF(szTempPath), szTempPath) <= 0)
 					mir_tstrcpy(szTempPath, _T(".\\"));
+				
 				if (GetTempFileName(szTempPath, _T("jab"), 0, szTempFileName) > 0) {
 					dat->ppro->debugLog(_T("Temp file = %s"), szTempFileName);
 					if (CopyFile(szFileName, szTempFileName, FALSE) == TRUE) {
-						char* pszTemp = mir_t2a(szTempFileName);
-						if ((hNewBitmap = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)pszTemp)) != NULL) {
+						if ((hNewBitmap = Bitmap_Load(szTempFileName)) != NULL) {
 							if (dat->hBitmap) {
 								DeleteObject(dat->hBitmap);
 								DeleteFile(dat->ppro->m_szPhotoFileName);
@@ -376,8 +376,6 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 						}
 						else DeleteFile(szTempFileName);
-
-						mir_free(pszTemp);
 					}
 					else DeleteFile(szTempFileName);
 				}

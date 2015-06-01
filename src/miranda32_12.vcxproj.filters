@@ -396,9 +396,6 @@
     <ClCompile Include="modules\skin\sounds.cpp">
       <Filter>Modules\skin</Filter>
     </ClCompile>
-    <ClCompile Include="modules\utils\bmpfilter.cpp">
-      <Filter>Modules\utils</Filter>
-    </ClCompile>
     <ClCompile Include="modules\utils\colourpicker.cpp">
       <Filter>Modules\utils</Filter>
     </ClCompile>

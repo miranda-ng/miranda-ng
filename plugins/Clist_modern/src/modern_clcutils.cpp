@@ -673,9 +673,9 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		dat->MenuTextHiColor = sttGetColor("Menu", "SelTextColour", CLCDEFAULT_MODERN_SELTEXTCOLOUR);
 
 		if (db_get_b(NULL, "Menu", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrA szBitmap(db_get_sa(NULL, "Menu", "BkBitmap"));
-			if (szBitmap)
-				dat->hMenuBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, szBitmap);
+			ptrT tszBitmap(db_get_tsa(NULL, "Menu", "BkBitmap"));
+			if (tszBitmap != NULL)
+				dat->hMenuBackground = Bitmap_Load(tszBitmap);
 		}
 		dat->MenuBmpUse = db_get_w(NULL, "Menu", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}

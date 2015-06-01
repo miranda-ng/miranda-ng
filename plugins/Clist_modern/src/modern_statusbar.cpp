@@ -108,13 +108,11 @@ int LoadStatusBarData()
 	if (g_StatusBarData.hBmpBackground) { DeleteObject(g_StatusBarData.hBmpBackground); g_StatusBarData.hBmpBackground = NULL; }
 
 	if (g_CluiData.fDisableSkinEngine) {
-		DBVARIANT dbv;
 		g_StatusBarData.bkColour = sttGetColor("StatusBar", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "StatusBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			if (!db_get_s(NULL, "StatusBar", "BkBitmap", &dbv)) {
-				g_StatusBarData.hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
-				db_free(&dbv);
-			}
+			ptrT tszBitmapName(db_get_tsa(NULL, "StatusBar", "BkBitmap"));
+			if (tszBitmapName)
+				g_StatusBarData.hBmpBackground = Bitmap_Load(tszBitmapName);
 		}
 		g_StatusBarData.bkUseWinColors = db_get_b(NULL, "StatusBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 		g_StatusBarData.backgroundBmpUse = db_get_w(NULL, "StatusBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);

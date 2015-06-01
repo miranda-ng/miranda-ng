@@ -763,7 +763,7 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 		if (db_get_b(NULL, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
 			ptrT tszBitmap(db_get_tsa(NULL, "CLC", "BkBitmap"));
 			if (tszBitmap)
-				dat->hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, tszBitmap);
+				dat->hBmpBackground = Bitmap_Load(tszBitmap);
 		}
 		dat->backgroundBmpUse = db_get_w(NULL, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}

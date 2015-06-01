@@ -564,7 +564,7 @@ static void CreateBackgroundBrush()
 		hBkBrush = NULL;
 	}
 
-	if ( db_get_b(NULL, MODULE, "DrawBorder", FLT_DEFAULT_DRAWBORDER)) {
+	if (db_get_b(NULL, MODULE, "DrawBorder", FLT_DEFAULT_DRAWBORDER)) {
 		COLORREF cr = (COLORREF)db_get_dw(NULL, MODULE, "LTEdgesColor", FLT_DEFAULT_LTEDGESCOLOR);
 		hLTEdgesPen = CreatePen(PS_SOLID, 1, cr);
 		cr = (COLORREF)db_get_dw(NULL, MODULE, "RBEdgesColor", FLT_DEFAULT_RBEDGESCOLOR);
@@ -572,11 +572,9 @@ static void CreateBackgroundBrush()
 	}
 
 	if (db_get_b(NULL, MODULE, "BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP)) {
-		DBVARIANT dbv;
-		if ( !db_get_ts(NULL, MODULE, "BkBitmap", &dbv)) {
-			hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)dbv.ptszVal);
-			db_free(&dbv);
-		}
+		ptrT tszBitmapName(db_get_tsa(NULL, MODULE, "BkBitmap"));
+		if (tszBitmapName != NULL)
+			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}
 	nBackgroundBmpUse = (WORD)db_get_w(NULL, MODULE, "BkBitmapOpt", FLT_DEFAULT_BKGNDBITMAPOPT);
 

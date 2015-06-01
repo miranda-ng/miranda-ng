@@ -1237,5 +1237,6 @@ Proto_RegisterModule @1074 NONAME
 ?isnull@JSONNode@@QBE_NXZ @1245 NONAME
 ??BJSONNode@@QBE_NXZ @1246 NONAME
 ?as_mstring@JSONNode@@QBE?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@XZ @1247 NONAME
-BmpFilterGetStrings @1248
-CreateProtoServiceFunction @1249
+Bitmap_GetFilter @1248
+Bitmap_Load @1249
+CreateProtoServiceFunction @1250

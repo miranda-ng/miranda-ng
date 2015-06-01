@@ -318,35 +318,14 @@ __forceinline INT_PTR Utils_AssertInsideScreen(RECT *rc) {
 #define CPM_GETDEFAULTCOLOUR   0x1003	  //returns colour
 #define CPN_COLOURCHANGED	   1		  //sent through WM_COMMAND
 
-/***************************** Bitmap Filter (0.1.2.1+) *************************/
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Loads a bitmap								v0.1.2.1+
-// wParam = 0
-// lParam = (LPARAM)(const char*)filename
-// returns HBITMAP on success, NULL on failure
-// This function uses OleLoadPicturePath() so supports BMP, JPEG and GIF. It may
-// support PNG on future versions of Windows (or XP for that matter)
-// For speed, if the file extension is .bmp or .rle it'll use LoadImage() so as
-// to avoid the big lag loading OLE.
-// Remember to DeleteObject() when you're done
-
-#define MS_UTILS_LOADBITMAP "Utils/LoadBitmap"
-#define MS_UTILS_LOADBITMAPW "Utils/LoadBitmapW"
-
-#ifdef _UNICODE
-	#define MS_UTILS_LOADBITMAPT MS_UTILS_LOADBITMAPW
-#else
-	#define MS_UTILS_LOADBITMAPT MS_UTILS_LOADBITMAP
-#endif
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Gets the filter strings for use in the open file dialog
 // See the MSDN under OPENFILENAME.lpstrFilter for the formatting
 // An 'All Bitmaps' item is always first and 'All Files' is last.
 // The returned string is already translated.
 
-EXTERN_C MIR_CORE_DLL(void) BmpFilterGetStrings(TCHAR *dest, size_t destLen);
+EXTERN_C MIR_CORE_DLL(HBITMAP) Bitmap_Load(const TCHAR *ptszFileName);
+EXTERN_C MIR_CORE_DLL(void) Bitmap_GetFilter(TCHAR *dest, size_t destLen);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Saves a path to a relative path (from the miranda directory)

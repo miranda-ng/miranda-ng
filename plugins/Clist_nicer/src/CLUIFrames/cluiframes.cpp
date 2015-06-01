@@ -2332,10 +2332,7 @@ boolean AlignCOLLIconToLeft; //will hide frame icon
 
 int OnFrameTitleBarBackgroundChange()
 {
-	DBVARIANT dbv;
-
 	AlignCOLLIconToLeft = cfg::getByte("FrameTitleBar", "AlignCOLLIconToLeft", 0);
-
 	bkColour = cfg::getDword("FrameTitleBar", "BkColour", CLCDEFAULT_BKCOLOUR);
 
 	if (hBmpBackground) {
@@ -2343,10 +2340,9 @@ int OnFrameTitleBarBackgroundChange()
 		hBmpBackground = NULL;
 	}
 	if (cfg::getByte("FrameTitleBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-		if (!db_get(NULL, "FrameTitleBar", "BkBitmap", &dbv)) {
-			hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
-			mir_free(dbv.pszVal);
-		}
+		ptrT tszBitmapName(db_get_tsa(NULL, "FrameTitleBar", "BkBitmap"));
+		if (tszBitmapName != NULL)
+			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}
 	backgroundBmpUse = cfg::getWord("FrameTitleBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 

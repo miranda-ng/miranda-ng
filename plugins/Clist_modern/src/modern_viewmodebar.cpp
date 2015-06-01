@@ -1165,13 +1165,11 @@ static int  ehhViewModeBackgroundSettingsChanged(WPARAM, LPARAM)
 	}
 
 	if (g_CluiData.fDisableSkinEngine) {
-		DBVARIANT dbv;
 		view_mode.bkColour = sttGetColor("ViewMode", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (db_get_b(NULL, "ViewMode", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			if (!db_get_s(NULL, "ViewMode", "BkBitmap", &dbv)) {
-				view_mode.hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
-				db_free(&dbv);
-			}
+			ptrT tszBitmapName(db_get_tsa(NULL, "ViewMode", "BkBitmap"));
+			if (tszBitmapName)
+				view_mode.hBmpBackground = Bitmap_Load(tszBitmapName);
 		}
 		view_mode.useWinColors = db_get_b(NULL, "ViewMode", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 		view_mode.backgroundBmpUse = db_get_w(NULL, "ViewMode", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
