@@ -459,7 +459,7 @@ CVKNewsItem* CVkProto::GetVkGroupInvates(const JSONNode &jnItem, OBJLIST<CVkUser
 	if (tszIds.Find(tszId, 0) != -1)
 		return NULL;
 		
-	LONG iUserId = jnItem["invited_by"] ? 0 : jnItem["invited_by"].as_int();
+	LONG iUserId = !jnItem["invited_by"] ? 0 : jnItem["invited_by"].as_int();
 	CVKNewsItem *vkNotification = new CVKNewsItem();
 	vkNotification->tDate = time(NULL);
 	vkNotification->vkUser = GetVkUserInfo(iUserId, vkUsers);
