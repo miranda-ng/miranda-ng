@@ -204,12 +204,12 @@ int FetchAvatarFor(MCONTACT hContact, char *szProto)
 		if ((g_AvatarHistoryAvail && CallService(MS_AVATARHISTORY_ENABLED, hContact, 0)) || (PollCheckProtocol(szProto) && PollCheckContact(hContact)))
 		{
 			// Request it
-			PROTO_AVATAR_INFORMATION pai_s = { 0 };
-			pai_s.hContact = hContact;
-			INT_PTR res = CallProtoService(szProto, PS_GETAVATARINFO, GAIF_FORCE, (LPARAM)&pai_s);
+			PROTO_AVATAR_INFORMATION ai = { 0 };
+			ai.hContact = hContact;
+			INT_PTR res = CallProtoService(szProto, PS_GETAVATARINFO, GAIF_FORCE, (LPARAM)&ai);
 			if (res != CALLSERVICE_NOTFOUND)
 				result = res;
-			ProcessAvatarInfo(pai_s.hContact, result, &pai_s, szProto);
+			ProcessAvatarInfo(ai.hContact, result, &ai, szProto);
 		}
 	}
 

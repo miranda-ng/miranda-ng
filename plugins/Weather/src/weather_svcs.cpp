@@ -131,7 +131,7 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	TCHAR szSearchPath[MAX_PATH], *chop;
 	WORD status;
 	unsigned  i;
-	PROTO_AVATAR_INFORMATION* ai = ( PROTO_AVATAR_INFORMATION* )lParam;
+	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
 	GetModuleFileName(GetModuleHandle(NULL), szSearchPath, SIZEOF(szSearchPath));
 	chop = _tcsrchr(szSearchPath, '\\');
@@ -139,7 +139,7 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (chop) *chop = '\0';
 	else szSearchPath[0] = 0;
 
-	status = (WORD)db_get_w(ai->hContact, WEATHERPROTONAME, "StatusIcon",0);
+	status = (WORD)db_get_w(pai->hContact, WEATHERPROTONAME, "StatusIcon",0);
 	for (i=0; i<10; i++)
 		if (statusValue[i] == status)
 			break;
@@ -147,29 +147,29 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (i >= 10)
 		return GAIR_NOAVATAR;
 
-	ai->format = PA_FORMAT_PNG;
-	mir_sntprintf(ai->filename, SIZEOF(ai->filename), _T("%s\\Plugins\\Weather\\%s.png"), szSearchPath, statusStr[i]);
-	if ( _taccess(ai->filename, 4) == 0)
+	pai->format = PA_FORMAT_PNG;
+	mir_sntprintf(pai->filename, SIZEOF(pai->filename), _T("%s\\Plugins\\Weather\\%s.png"), szSearchPath, statusStr[i]);
+	if ( _taccess(pai->filename, 4) == 0)
 		return GAIR_SUCCESS;
 
-	ai->format = PA_FORMAT_GIF;
-	mir_sntprintf(ai->filename, SIZEOF(ai->filename), _T("%s\\Plugins\\Weather\\%s.gif"), szSearchPath, statusStr[i]);
-	if ( _taccess(ai->filename, 4) == 0)
+	pai->format = PA_FORMAT_GIF;
+	mir_sntprintf(pai->filename, SIZEOF(pai->filename), _T("%s\\Plugins\\Weather\\%s.gif"), szSearchPath, statusStr[i]);
+	if ( _taccess(pai->filename, 4) == 0)
 		return GAIR_SUCCESS;
 
-	ai->format = PA_FORMAT_UNKNOWN;
-	ai->filename[0] = 0;
+	pai->format = PA_FORMAT_UNKNOWN;
+	pai->filename[0] = 0;
 	return GAIR_NOAVATAR;
 }
 
 
 void AvatarDownloaded(MCONTACT hContact)
 {
-	PROTO_AVATAR_INFORMATION AI = {0};
-	AI.hContact = hContact;
+	PROTO_AVATAR_INFORMATION ai = { 0 };
+	ai.hContact = hContact;
 
-	if (WeatherGetAvatarInfo(GAIF_FORCE, (LPARAM)&AI) == GAIR_SUCCESS)
-		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
+	if (WeatherGetAvatarInfo(GAIF_FORCE, (LPARAM)&ai) == GAIR_SUCCESS)
+		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
 	else
 		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 }

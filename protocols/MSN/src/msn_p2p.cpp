@@ -194,11 +194,10 @@ void CMsnProto::p2p_pictureTransferFailed(filetransfer* ft)
 	case MSN_APPID_AVATAR:
 	case MSN_APPID_AVATAR2:
 	{
-		PROTO_AVATAR_INFORMATION AI = { 0 };
-		AI.cbSize = sizeof(AI);
-		AI.hContact = ft->std.hContact;
+		PROTO_AVATAR_INFORMATION ai = { 0 };
+		ai.hContact = ft->std.hContact;
 		delSetting(ft->std.hContact, "AvatarHash");
-		ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
+		ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai, 0);
 	}
 	break;
 	}
@@ -233,13 +232,12 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 		case MSN_APPID_AVATAR:
 		case MSN_APPID_AVATAR2:
 		{
-			PROTO_AVATAR_INFORMATION AI = { 0 };
-			AI.cbSize = sizeof(AI);
-			AI.format = format;
-			AI.hContact = ft->std.hContact;
-			MSN_GetAvatarFileName(AI.hContact, AI.filename, SIZEOF(AI.filename), ext);
+			PROTO_AVATAR_INFORMATION ai = { 0 };
+			ai.format = format;
+			ai.hContact = ft->std.hContact;
+			MSN_GetAvatarFileName(ai.hContact, ai.filename, SIZEOF(ai.filename), ext);
 
-			_trename(ft->std.tszCurrentFile, AI.filename);
+			_trename(ft->std.tszCurrentFile, ai.filename);
 
 			// Store also avatar hash
 			char *szAvatarHash = MSN_GetAvatarHash(ft->p2p_object);
@@ -247,9 +245,9 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 			mir_free(szAvatarHash);
 
 			setString(ft->std.hContact, "PictSavedContext", ft->p2p_object);
-			ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
+			ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
 
-			debugLogA("Avatar for contact %08x saved to file '%s'", AI.hContact, T2Utf(AI.filename));
+			debugLogA("Avatar for contact %08x saved to file '%s'", ai.hContact, T2Utf(ai.filename));
 		}
 		break;
 

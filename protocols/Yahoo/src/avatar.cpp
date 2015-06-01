@@ -242,15 +242,15 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 	free(avt->pic_url);
 	free(avt);
 	
-	PROTO_AVATAR_INFORMATION AI;
-	AI.format = PA_FORMAT_PNG;
-	AI.hContact = hContact;
-	_tcsncpy(AI.filename, buf, SIZEOF(AI.filename)-1);
+	PROTO_AVATAR_INFORMATION ai;
+	ai.format = PA_FORMAT_PNG;
+	ai.hContact = hContact;
+	_tcsncpy_s(ai.filename, buf, _TRUNCATE);
 
 	if (error)
 		setDword(hContact, "PictCK", 0);
 
-	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, !error ? ACKRESULT_SUCCESS:ACKRESULT_FAILED,(HANDLE) &AI, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, !error ? ACKRESULT_SUCCESS:ACKRESULT_FAILED,(HANDLE) &ai, 0);
 }
 
 void CYahooProto::ext_got_picture(const char *me, const char *who, const char *pic_url, int cksum, int type)
@@ -617,11 +617,11 @@ void CYahooProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, int cbLen
 
 INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATION* AI = ( PROTO_AVATAR_INFORMATION* )lParam;
+	PROTO_AVATAR_INFORMATION* pai = ( PROTO_AVATAR_INFORMATION* )lParam;
 	DBVARIANT dbv;
 	int avtType;
 
-	if (!getString(AI->hContact, YAHOO_LOGINID, &dbv)) {
+	if (!getString(pai->hContact, YAHOO_LOGINID, &dbv)) {
 		debugLogA("[YAHOO_GETAVATARINFO] For: %s", dbv.pszVal);
 		db_free(&dbv);
 	}else {
@@ -634,7 +634,7 @@ INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 		return GAIR_NOAVATAR;
 	}
 
-	avtType = getByte(AI->hContact, "AvatarType", 0);
+	avtType = getByte(pai->hContact, "AvatarType", 0);
 	debugLogA("[YAHOO_GETAVATARINFO] Avatar Type: %d", avtType);
 
 	if ( avtType != 2) {
@@ -644,26 +644,26 @@ INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 		return GAIR_NOAVATAR;
 	}
 
-	if (getDword(AI->hContact, "PictCK", 0) == 0)
+	if (getDword(pai->hContact, "PictCK", 0) == 0)
 		return GAIR_NOAVATAR;
 
-	GetAvatarFileName(AI->hContact, AI->filename, SIZEOF(AI->filename), getByte(AI->hContact, "AvatarType", 0));
-	AI->format = PA_FORMAT_PNG;
-	debugLogA("[YAHOO_GETAVATARINFO] filename: %s", AI->filename);
+	GetAvatarFileName(pai->hContact, pai->filename, SIZEOF(pai->filename), getByte(pai->hContact, "AvatarType", 0));
+	pai->format = PA_FORMAT_PNG;
+	debugLogA("[YAHOO_GETAVATARINFO] filename: %s", pai->filename);
 
-	if (_taccess( AI->filename, 0) == 0)
+	if (_taccess( pai->filename, 0) == 0)
 		return GAIR_SUCCESS;
 
-	if (( wParam & GAIF_FORCE ) != 0 && AI->hContact != NULL) {
+	if (( wParam & GAIF_FORCE ) != 0 && pai->hContact != NULL) {
 		/* need to request it again? */
-		if (getDword(AI->hContact, "PictLoading", 0) != 0 &&
-			(time(NULL) - getDword(AI->hContact, "PictLastCheck", 0) < 500)) {
+		if (getDword(pai->hContact, "PictLoading", 0) != 0 &&
+			(time(NULL) - getDword(pai->hContact, "PictLastCheck", 0) < 500)) {
 				debugLogA("[YAHOO_GETAVATARINFO] Waiting for avatar to load!");
 				return GAIR_WAITFOR;
 		} else if ( m_bLoggedIn ) {
 			DBVARIANT dbv;
 
-			if (!getString(AI->hContact, YAHOO_LOGINID, &dbv)) {
+			if (!getString(pai->hContact, YAHOO_LOGINID, &dbv)) {
 				debugLogA("[YAHOO_GETAVATARINFO] Requesting avatar!");
 
 				request_avatar(dbv.pszVal);

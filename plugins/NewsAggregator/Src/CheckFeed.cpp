@@ -257,23 +257,23 @@ void CheckCurrentFeed(MCONTACT hContact)
 									LPCTSTR url = xi.getText(imageval);
 									db_set_ts(hContact, MODULE, "ImageURL", url);
 
-									PROTO_AVATAR_INFORMATION pai = { NULL };
-									pai.hContact = hContact;
+									PROTO_AVATAR_INFORMATION ai = { 0 };
+									ai.hContact = hContact;
 
 									TCHAR *szNick = db_get_tsa(hContact, MODULE, "Nick");
 									if (szNick) {
 										TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
-										pai.format = ProtoGetAvatarFormat(url);
+										ai.format = ProtoGetAvatarFormat(url);
 
 										CMString filename = szNick;
 										filename.Replace(_T("/"), _T("_"));
-										mir_sntprintf(pai.filename, SIZEOF(pai.filename), _T("%s\\%s.%s"), tszRoot, filename.c_str(), ext);
+										mir_sntprintf(ai.filename, SIZEOF(ai.filename), _T("%s\\%s.%s"), tszRoot, filename.c_str(), ext);
 										CreateDirectoryTreeT(tszRoot);
-										if (DownloadFile(url, pai.filename)) {
-											db_set_ts(hContact, MODULE, "ImagePath", pai.filename);
-											ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, NULL);
+										if (DownloadFile(url, ai.filename)) {
+											db_set_ts(hContact, MODULE, "ImagePath", ai.filename);
+											ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
 										}
-										else ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&pai, NULL);
+										else ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
 										mir_free(szNick);
 										break;
 									}
@@ -385,21 +385,20 @@ void CheckCurrentFeed(MCONTACT hContact)
 									LPCTSTR url = xi.getText(imageval);
 									db_set_ts(hContact, MODULE, "ImageURL", url);
 
-									TCHAR *szNick = db_get_tsa(hContact, MODULE, "Nick");
+									ptrT szNick(db_get_tsa(hContact, MODULE, "Nick"));
 									if (szNick) {
-										PROTO_AVATAR_INFORMATION pai = { NULL };
-										pai.hContact = hContact;
+										PROTO_AVATAR_INFORMATION ai = { 0 };
+										ai.hContact = hContact;
 										TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
-										pai.format = ProtoGetAvatarFormat(ext);
+										ai.format = ProtoGetAvatarFormat(ext);
 
 										TCHAR *filename = szNick;
-										mir_sntprintf(pai.filename, SIZEOF(pai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
-										if (DownloadFile(url, pai.filename)) {
-											db_set_ts(hContact, MODULE, "ImagePath", pai.filename);
-											ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, NULL);
+										mir_sntprintf(ai.filename, SIZEOF(ai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
+										if (DownloadFile(url, ai.filename)) {
+											db_set_ts(hContact, MODULE, "ImagePath", ai.filename);
+											ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
 										}
-										else ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&pai, NULL);
-										mir_free(szNick);
+										else ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
 										break;
 									}
 								}
@@ -530,21 +529,21 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 							LPCTSTR url = xi.getText(imageval);
 							db_set_ts(hContact, MODULE, "ImageURL", url);
 
-							PROTO_AVATAR_INFORMATION pai = { NULL };
-							pai.hContact = hContact;
+							PROTO_AVATAR_INFORMATION ai = { 0 };
+							ai.hContact = hContact;
 
 							TCHAR *szNick = db_get_tsa(hContact, MODULE, "Nick");
 							if (szNick) {
 								TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
-								pai.format = ProtoGetAvatarFormat(ext);
+								ai.format = ProtoGetAvatarFormat(ext);
 
 								TCHAR *filename = szNick;
-								mir_sntprintf(pai.filename, SIZEOF(pai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
-								if (DownloadFile(url, pai.filename)) {
-									db_set_ts(hContact, MODULE, "ImagePath", pai.filename);
-									ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, NULL);
+								mir_sntprintf(ai.filename, SIZEOF(ai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
+								if (DownloadFile(url, ai.filename)) {
+									db_set_ts(hContact, MODULE, "ImagePath", ai.filename);
+									ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
 								}
-								else ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&pai, NULL);
+								else ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
 								mir_free(szNick);
 								break;
 							}
@@ -563,22 +562,21 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 							LPCTSTR url = xi.getText(imageval);
 							db_set_ts(hContact, MODULE, "ImageURL", url);
 
-							TCHAR *szNick = db_get_tsa(hContact, MODULE, "Nick");
+							ptrT szNick(db_get_tsa(hContact, MODULE, "Nick"));
 							if (szNick) {
-								PROTO_AVATAR_INFORMATION pai = { NULL };
-								pai.hContact = hContact;
+								PROTO_AVATAR_INFORMATION ai = { 0 };
+								ai.hContact = hContact;
 
 								TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
-								pai.format = ProtoGetAvatarFormat(ext);
+								ai.format = ProtoGetAvatarFormat(ext);
 
 								TCHAR *filename = szNick;
-								mir_sntprintf(pai.filename, SIZEOF(pai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
-								if (DownloadFile(url, pai.filename)) {
-									db_set_ts(hContact, MODULE, "ImagePath", pai.filename);
-									ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, NULL);
+								mir_sntprintf(ai.filename, SIZEOF(ai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
+								if (DownloadFile(url, ai.filename)) {
+									db_set_ts(hContact, MODULE, "ImagePath", ai.filename);
+									ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, NULL);
 								}
-								else ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&pai, NULL);
-								mir_free(szNick);
+								else ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, NULL);
 								break;
 							}
 						}

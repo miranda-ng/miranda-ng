@@ -339,21 +339,21 @@ INT_PTR CAimProto::ManageAccount(WPARAM, LPARAM)
 
 INT_PTR CAimProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATION* AI = (PROTO_AVATAR_INFORMATION*)lParam;
+	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*)lParam;
 	
-	AI->filename[0] = 0;
-	AI->format = PA_FORMAT_UNKNOWN;
+	pai->filename[0] = 0;
+	pai->format = PA_FORMAT_UNKNOWN;
 
 	if (getByte(AIM_KEY_DA, 0)) return GAIR_NOAVATAR;
 
-	switch (get_avatar_filename(AI->hContact, AI->filename, SIZEOF(AI->filename), NULL))
+	switch (get_avatar_filename(pai->hContact, pai->filename, SIZEOF(pai->filename), NULL))
 	{
 	case GAIR_SUCCESS:
 		if (!(wParam & GAIF_FORCE) || state != 1 ) 
 			return GAIR_SUCCESS;
 
 	case GAIR_WAITFOR:
-		AI->format = ProtoGetAvatarFormat(AI->filename);
+		pai->format = ProtoGetAvatarFormat(pai->filename);
 		break;
 
 	default:
@@ -362,7 +362,7 @@ INT_PTR CAimProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	if (state == 1)
 	{
-		ForkThread(&CAimProto::avatar_request_thread, (void*)AI->hContact);
+		ForkThread(&CAimProto::avatar_request_thread, (void*)pai->hContact);
 		return GAIR_WAITFOR;
 	}
 
@@ -405,16 +405,13 @@ INT_PTR CAimProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 INT_PTR CAimProto::GetAvatar(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR* buf = (TCHAR*)wParam;
-	int  size = (int)lParam;
-
+	size_t size = (size_t)lParam;
 	if (buf == NULL || size <= 0)
 		return -1;
 
-	PROTO_AVATAR_INFORMATION ai = { sizeof(ai) };
-	if (GetAvatarInfo(0, (LPARAM)&ai) == GAIR_SUCCESS)
-	{
-		_tcsncpy(buf, ai.filename, size);
-		buf[size-1] = 0;
+	PROTO_AVATAR_INFORMATION ai = { 0 };
+	if (GetAvatarInfo(0, (LPARAM)&ai) == GAIR_SUCCESS) {
+		_tcsncpy_s(buf, size, ai.filename, _TRUNCATE);
 		return 0;
 	}
 

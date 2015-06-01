@@ -98,15 +98,15 @@ void CAimProto::avatar_request_handler(MCONTACT hContact, char* hash, unsigned c
 void CAimProto::avatar_retrieval_handler(const char* sn, const char* /*hash*/, const char* data, int data_len)
 {
 	bool res = false;
-	PROTO_AVATAR_INFORMATION AI = {0};
-	AI.hContact = contact_from_sn(sn);
+	PROTO_AVATAR_INFORMATION ai = { 0 };
+	ai.hContact = contact_from_sn(sn);
 
 	if (data_len > 0) {
 		const TCHAR *type;
-		AI.format = ProtoGetBufferFormat(data, &type);
-		get_avatar_filename(AI.hContact, AI.filename, SIZEOF(AI.filename), type);
+		ai.format = ProtoGetBufferFormat(data, &type);
+		get_avatar_filename(ai.hContact, ai.filename, SIZEOF(ai.filename), type);
 
-		int fileId = _topen(AI.filename, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY,  _S_IREAD | _S_IWRITE);
+		int fileId = _topen(ai.filename, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY,  _S_IREAD | _S_IWRITE);
 		if (fileId >= 0) {
 			_write(fileId, data, data_len);
 			_close(fileId);
@@ -120,7 +120,7 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* /*hash*/, c
 	}
 	else debugLogA("AIM sent avatar of zero length for %s.(Usually caused by repeated request for the same icon)", sn);
 
-	ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, res ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &AI, 0);
+	ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, res ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &ai, 0);
 }
 
 int CAimProto::get_avatar_filename(MCONTACT hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext)

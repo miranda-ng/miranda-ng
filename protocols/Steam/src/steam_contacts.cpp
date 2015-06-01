@@ -520,28 +520,28 @@ void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response)
 
 void CSteamProto::OnGotAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	PROTO_AVATAR_INFORMATION pai = { sizeof(pai) };
-	pai.hContact = (MCONTACT)arg;
-	GetDbAvatarInfo(pai);
+	PROTO_AVATAR_INFORMATION ai = { 0 };
+	ai.hContact = (MCONTACT)arg;
+	GetDbAvatarInfo(ai);
 
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 	{
-		ptrA steamId(getStringA(pai.hContact, "SteamID"));
+		ptrA steamId(getStringA(ai.hContact, "SteamID"));
 		debugLogA("CSteamProto::OnGotAvatar: failed to get avatar %s", steamId);
 
-		if (pai.hContact)
-			ProtoBroadcastAck(pai.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&pai, 0);
+		if (ai.hContact)
+			ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, 0);
 		return;
 	}
 
-	FILE *fp = _tfopen(pai.filename, _T("wb"));
+	FILE *fp = _tfopen(ai.filename, _T("wb"));
 	if (fp)
 	{
 		fwrite(response->pData, sizeof(char), response->dataLength, fp);
 		fclose(fp);
 
-		if (pai.hContact)
-			ProtoBroadcastAck(pai.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+		if (ai.hContact)
+			ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
 		else
 			CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 	}

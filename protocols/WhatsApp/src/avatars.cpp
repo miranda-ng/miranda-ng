@@ -2,19 +2,19 @@
 
 INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATION* AI = (PROTO_AVATAR_INFORMATION*)lParam;
+	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
-	ptrA id(getStringA(AI->hContact, isChatRoom(AI->hContact) ? "ChatRoomID" : WHATSAPP_KEY_ID));
+	ptrA id(getStringA(pai->hContact, isChatRoom(pai->hContact) ? "ChatRoomID" : WHATSAPP_KEY_ID));
 	if (id == NULL)
 		return GAIR_NOAVATAR;
 
-	std::tstring tszFileName = GetAvatarFileName(AI->hContact);
-	_tcsncpy_s(AI->filename, tszFileName.c_str(), _TRUNCATE);
-	AI->format = PA_FORMAT_JPEG;
+	std::tstring tszFileName = GetAvatarFileName(pai->hContact);
+	_tcsncpy_s(pai->filename, tszFileName.c_str(), _TRUNCATE);
+	pai->format = PA_FORMAT_JPEG;
 
-	ptrA szAvatarId(getStringA(AI->hContact, WHATSAPP_KEY_AVATAR_ID));
+	ptrA szAvatarId(getStringA(pai->hContact, WHATSAPP_KEY_AVATAR_ID));
 	if (szAvatarId == NULL || (wParam & GAIF_FORCE) != 0)
-		if (AI->hContact != NULL && m_pConnection != NULL) {
+		if (pai->hContact != NULL && m_pConnection != NULL) {
 			m_pConnection->sendGetPicture(id, "image");
 			return GAIR_WAITFOR;
 		}

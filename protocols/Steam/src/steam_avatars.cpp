@@ -44,8 +44,8 @@ void CSteamProto::CheckAvatarChange(MCONTACT hContact, std::string avatarUrl)
 
 	if (!hContact)
 	{
-		PROTO_AVATAR_INFORMATION pai = { sizeof(pai) };
-		if (GetAvatarInfo(update_required ? GAIF_FORCE : 0, (LPARAM)&pai) != GAIR_WAITFOR)
+		PROTO_AVATAR_INFORMATION ai = { 0 };
+		if (GetAvatarInfo(update_required ? GAIF_FORCE : 0, (LPARAM)&ai) != GAIR_WAITFOR)
 			CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 	}
 	else if (update_required)
@@ -144,7 +144,7 @@ INT_PTR CSteamProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	TCHAR* buf = (TCHAR*)wParam;
 	int  size = (int)lParam;
 
-	PROTO_AVATAR_INFORMATION ai = { sizeof(ai) };
+	PROTO_AVATAR_INFORMATION ai = { 0 };
 	switch (GetAvatarInfo(0, (LPARAM)&ai)) {
 	case GAIR_SUCCESS:
 		_tcsncpy(buf, ai.filename, size);
