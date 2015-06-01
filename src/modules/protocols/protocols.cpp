@@ -31,19 +31,53 @@ HANDLE hAccListChanged;
 static HANDLE hTypeEvent;
 static BOOL bModuleInitialized = FALSE;
 
-typedef struct
+struct TServiceListItem
 {
-	const char* name;
+	const char *name;
 	int id;
-}
-TServiceListItem;
+};
 
-static int CompareServiceItems(const TServiceListItem* p1, const TServiceListItem* p2)
+static int __cdecl CompareServiceItems(const void *p1, const void *p2)
+{	return strcmp(((TServiceListItem*)p1)->name, ((TServiceListItem*)p2)->name);
+}
+
+static TServiceListItem serviceItems[] = 
 {
-	return mir_strcmp(p1->name, p2->name);
-}
-
-static LIST<TServiceListItem> serviceItems(10, CompareServiceItems);
+	{ PS_ADDTOLIST,          1 },
+	{ PS_ADDTOLISTBYEVENT,   2 },
+	{ PS_AUTHALLOW,          3 },
+	{ PS_AUTHDENY,           4 },
+	{ PSR_AUTH,              5 },
+	{ PSS_AUTHREQUEST,       6 },
+	{ PSS_FILEALLOW,         8 },
+	{ PSS_FILECANCEL,        9 },
+	{ PSS_FILEDENY,         10 },
+	{ PS_FILERESUME,        11 },
+	{ PS_GETCAPS,           12 },
+	{ PS_LOADICON,          13 },
+	{ PSS_GETINFO,          14 },
+	{ PS_BASICSEARCH,       15 },
+	{ PS_SEARCHBYEMAIL,     16 },
+	{ PS_SEARCHBYNAME,      17 },
+	{ PS_SEARCHBYADVANCED,  18 },
+	{ PS_CREATEADVSEARCHUI, 19 },
+	{ PSR_CONTACTS,         20 },
+	{ PSR_FILE,             21 },
+	{ PSR_MESSAGE,          22 },
+	{ PSR_URL,              23 },
+	{ PSS_CONTACTS,         24 },
+	{ PSS_FILE,             25 },
+	{ PSS_MESSAGE,          26 },
+	{ PSS_URL,              27 },
+	{ PSS_SETAPPARENTMODE,  28 },
+	{ PS_SETSTATUS,         29 },
+	{ PSS_GETAWAYMSG,       30 },
+	{ PSR_AWAYMSG,          31 },
+	{ PS_SETAWAYMSG,        33 },
+	{ PSS_USERISTYPING,     34 },
+	{ PS_GETNAME,           35 },
+	{ PS_GETSTATUS,         36 }
+};
 
 //------------------------------------------------------------------------------------
 
@@ -209,9 +243,8 @@ static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 void Proto_SetStatus(const char *szProto, unsigned status)
 {
 	if (CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
-		TCHAR *awayMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, status, (LPARAM)szProto);
-		CallProtoServiceInt(NULL, szProto, PS_SETAWAYMSG, status, (LPARAM)awayMsg);
-		mir_free(awayMsg);
+		ptrT tszAwayMsg((TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, status, (LPARAM)szProto));
+		CallProtoServiceInt(NULL, szProto, PS_SETAWAYMSG, status, tszAwayMsg);
 	}
 	CallProtoServiceInt(NULL, szProto, PS_SETSTATUS, status, 0);
 }
@@ -246,21 +279,20 @@ static wchar_t** __fastcall Proto_FilesMatrixU(char **files)
 
 HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex)
 {
-	if (LOWORD(iconIndex) == PLI_PROTOCOL) {
-		if (iconIndex & PLIF_ICOLIBHANDLE)
-			return (HICON)ppro->m_hProtoIcon;
+	if (LOWORD(iconIndex) != PLI_PROTOCOL)
+		return NULL;
 
-		bool big = (iconIndex & PLIF_SMALL) == 0;
-		HICON hIcon = Skin_GetIconByHandle(ppro->m_hProtoIcon, big);
+	if (iconIndex & PLIF_ICOLIBHANDLE)
+		return (HICON)ppro->m_hProtoIcon;
 
-		if (iconIndex & PLIF_ICOLIB)
-			return hIcon;
+	bool big = (iconIndex & PLIF_SMALL) == 0;
+	HICON hIcon = Skin_GetIconByHandle(ppro->m_hProtoIcon, big);
+	if (iconIndex & PLIF_ICOLIB)
+		return hIcon;
 
-		HICON hIcon2 = CopyIcon(hIcon);
-		Skin_ReleaseIcon(hIcon);
-		return hIcon2;
-	}
-	return NULL;
+	HICON hIcon2 = CopyIcon(hIcon);
+	Skin_ReleaseIcon(hIcon);
+	return hIcon2;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -345,7 +377,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 	if (pa && !pa->bOldProto) {
 		PROTO_INTERFACE *ppi = pa->ppro;
 		if (ppi != NULL && ppi->m_iVersion > 1) {
-			TServiceListItem *item = serviceItems.find((TServiceListItem*)&szService);
+			TServiceListItem *item = (TServiceListItem*)bsearch(&szService, serviceItems, _countof(serviceItems), sizeof(serviceItems[0]), CompareServiceItems);
 			if (item) {
 				switch (item->id) {
 				case  1: return (INT_PTR)ppi->AddToList(wParam, (PROTOSEARCHRESULT*)lParam);
@@ -398,15 +430,18 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 	return ProtoCallService(szModule, szService, wParam, lParam);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static void InsertServiceListItem(int id, const char* szName)
+INT_PTR ProtoCallService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
 {
-	TServiceListItem* p = (TServiceListItem*)mir_alloc(sizeof(TServiceListItem));
-	p->id = id;
-	p->name = szName;
-	serviceItems.insert(p);
+	if (szModule == NULL || szService == NULL)
+		return false;
+
+	char str[MAXMODULELABELLENGTH * 2];
+	strncpy_s(str, szModule, _TRUNCATE);
+	strncat_s(str, szService, _TRUNCATE);
+	return CallService(str, wParam, lParam);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int LoadProtocolsModule(void)
 {
@@ -415,40 +450,7 @@ int LoadProtocolsModule(void)
 	if (LoadProtoChains())
 		return 1;
 
-	InsertServiceListItem(1, PS_ADDTOLIST);
-	InsertServiceListItem(2, PS_ADDTOLISTBYEVENT);
-	InsertServiceListItem(3, PS_AUTHALLOW);
-	InsertServiceListItem(4, PS_AUTHDENY);
-	InsertServiceListItem(5, PSR_AUTH);
-	InsertServiceListItem(6, PSS_AUTHREQUEST);
-	InsertServiceListItem(8, PSS_FILEALLOW);
-	InsertServiceListItem(9, PSS_FILECANCEL);
-	InsertServiceListItem(10, PSS_FILEDENY);
-	InsertServiceListItem(11, PS_FILERESUME);
-	InsertServiceListItem(12, PS_GETCAPS);
-	InsertServiceListItem(13, PS_LOADICON);
-	InsertServiceListItem(14, PSS_GETINFO);
-	InsertServiceListItem(15, PS_BASICSEARCH);
-	InsertServiceListItem(16, PS_SEARCHBYEMAIL);
-	InsertServiceListItem(17, PS_SEARCHBYNAME);
-	InsertServiceListItem(18, PS_SEARCHBYADVANCED);
-	InsertServiceListItem(19, PS_CREATEADVSEARCHUI);
-	InsertServiceListItem(20, PSR_CONTACTS);
-	InsertServiceListItem(21, PSR_FILE);
-	InsertServiceListItem(22, PSR_MESSAGE);
-	InsertServiceListItem(23, PSR_URL);
-	InsertServiceListItem(24, PSS_CONTACTS);
-	InsertServiceListItem(25, PSS_FILE);
-	InsertServiceListItem(26, PSS_MESSAGE);
-	InsertServiceListItem(27, PSS_URL);
-	InsertServiceListItem(28, PSS_SETAPPARENTMODE);
-	InsertServiceListItem(29, PS_SETSTATUS);
-	InsertServiceListItem(30, PSS_GETAWAYMSG);
-	InsertServiceListItem(31, PSR_AWAYMSG);
-	InsertServiceListItem(33, PS_SETAWAYMSG);
-	InsertServiceListItem(34, PSS_USERISTYPING);
-	InsertServiceListItem(35, PS_GETNAME);
-	InsertServiceListItem(36, PS_GETSTATUS);
+	qsort(serviceItems, _countof(serviceItems), sizeof(serviceItems[0]), CompareServiceItems);
 
 	hTypeEvent = CreateHookableEvent(ME_PROTO_CONTACTISTYPING);
 	hAccListChanged = CreateHookableEvent(ME_PROTO_ACCLISTCHANGED);
@@ -481,10 +483,6 @@ void UnloadProtocolsModule()
 		DestroyHookableEvent(hAccListChanged);
 		hAccListChanged = NULL;
 	}
-
-	for (int i = 0; i < serviceItems.getCount(); i++)
-		mir_free(serviceItems[i]);
-	serviceItems.destroy();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -989,7 +989,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *si
 	USERINFO *ui = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, currentHovered);
 	if (ui) {
 		if (ProtoServiceExists(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
-			TCHAR *p = (TCHAR*)ProtoCallService(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)si->ptszID, (LPARAM)ui->pszUID);
+			TCHAR *p = (TCHAR*)CallProtoService(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)si->ptszID, (LPARAM)ui->pszUID);
 			if (p != NULL) {
 				_tcsncpy_s(tszBuf, p, _TRUNCATE);
 				mir_free(p);

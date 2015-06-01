@@ -209,7 +209,7 @@ INT_PTR Meta_SendNudge(WPARAM wParam, LPARAM lParam)
 		return 1;
 
 	MCONTACT hSubContact = Meta_GetMostOnline(cc);
-	return ProtoCallService(GetContactProto(hSubContact), PS_SEND_NUDGE, hSubContact, lParam);
+	return CallProtoService(GetContactProto(hSubContact), PS_SEND_NUDGE, hSubContact, lParam);
 }
 
 /** Send a message to the protocol specific network.
@@ -516,7 +516,7 @@ static INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 	char *proto = GetContactProto(hMostOnline);
 	if (proto)
 		if (ProtoServiceExists(proto, PSS_USERISTYPING))
-			ProtoCallService(proto, PSS_USERISTYPING, hMostOnline, lParam);
+			CallProtoService(proto, PSS_USERISTYPING, hMostOnline, lParam);
 
 	return 0;
 }
@@ -765,7 +765,7 @@ INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		return GAIR_NOAVATAR;
 
 	AI->hContact = hSub;
-	INT_PTR result = ProtoCallService(proto, PS_GETAVATARINFOT, wParam, lParam);
+	INT_PTR result = CallProtoService(proto, PS_GETAVATARINFOT, wParam, lParam);
 	AI->hContact = cc->contactID;
 	if (result != CALLSERVICE_NOTFOUND)
 		return result;

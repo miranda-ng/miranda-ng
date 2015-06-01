@@ -28,13 +28,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static void sttApplySkin(MODERNOPTOBJECT *obj, TCHAR *fn)
 {
-	ProtoCallService(obj->lpzThemeModuleName, TS_SKIN_APPLY, NULL, (LPARAM)fn);
+	CallProtoService(obj->lpzThemeModuleName, TS_SKIN_APPLY, NULL, (LPARAM)fn);
 }
 
 static TCHAR *sttGetActiveSkin(MODERNOPTOBJECT *obj)
 {
 	return ProtoServiceExists(obj->lpzThemeModuleName, TS_SKIN_ACTIVE) ?
-		(TCHAR*)ProtoCallService(obj->lpzThemeModuleName, TS_SKIN_ACTIVE, 0, 0) : 0;
+		(TCHAR*)CallProtoService(obj->lpzThemeModuleName, TS_SKIN_ACTIVE, 0, 0) : 0;
 }
 
 static void sttPreviewSkin(MODERNOPTOBJECT *obj, TCHAR *fn, LPDRAWITEMSTRUCT lps)
@@ -42,7 +42,7 @@ static void sttPreviewSkin(MODERNOPTOBJECT *obj, TCHAR *fn, LPDRAWITEMSTRUCT lps
 	if (!fn) return;
 
 	if ( ProtoServiceExists(obj->lpzThemeModuleName, TS_SKIN_PREVIEW)) {
-		ProtoCallService(obj->lpzThemeModuleName, TS_SKIN_PREVIEW, (WPARAM)lps, (LPARAM)fn);
+		CallProtoService(obj->lpzThemeModuleName, TS_SKIN_PREVIEW, (WPARAM)lps, (LPARAM)fn);
 		return;
 	}
 

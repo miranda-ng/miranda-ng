@@ -440,7 +440,7 @@ static void sttUpdateAccountInfo(HWND hwndDlg, struct TAccMgrData *dat)
 				SetDlgItemText(hwndDlg, IDC_TXT_INFO, TranslateT("Account is disabled. Please activate it to access options."));
 			}
 			else {
-				HWND hwnd = (HWND)ProtoCallService(pa->szModuleName, PS_CREATEACCMGRUI, 0, (LPARAM)hwndDlg);
+				HWND hwnd = (HWND)CallProtoService(pa->szModuleName, PS_CREATEACCMGRUI, 0, (LPARAM)hwndDlg);
 				if (hwnd && (hwnd != (HWND)CALLSERVICE_NOTFOUND)) {
 					RECT rc;
 

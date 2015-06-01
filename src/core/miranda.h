@@ -142,6 +142,8 @@ void KillModuleMenus(int hLangpack);
 
 extern LIST<PROTOACCOUNT> accounts;
 
+INT_PTR ProtoCallService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
+
 PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBaseProto, const TCHAR *tszAccountName);
 
 PROTOACCOUNT* __fastcall Proto_GetAccount(const char *accName);

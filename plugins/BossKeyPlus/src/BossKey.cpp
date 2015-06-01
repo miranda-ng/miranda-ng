@@ -221,7 +221,7 @@ static int ChangeAllProtoStatuses(unsigned statusMode, TCHAR *msg)
 			if (g_wMask & OPT_SETONLINEBACK){ // need to save old statuses & status messages
 				oldStatus[i] = status;
 				if (ProtoServiceExists(proto[i]->szModuleName, PS_GETMYAWAYMSG))
-					oldStatusMsg[i] = (TCHAR*)ProtoCallService(proto[i]->szModuleName, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
+					oldStatusMsg[i] = (TCHAR*)CallProtoService(proto[i]->szModuleName, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
 				else
 					oldStatusMsg[i] = GetDefStatusMsg(status, proto[i]->szModuleName);
 			}

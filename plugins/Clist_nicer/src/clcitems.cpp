@@ -275,7 +275,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 			CUSTOM_STATUS cst = { sizeof(cst) };
 			cst.flags = CSSF_MASK_STATUS;
 			cst.status = &xStatus;
-			if (ProtoServiceExists(szProto, PS_GETCUSTOMSTATUSEX) && !ProtoCallService(szProto, PS_GETCUSTOMSTATUSEX, hContact, (LPARAM)&cst) && xStatus > 0) {
+			if (ProtoServiceExists(szProto, PS_GETCUSTOMSTATUSEX) && !CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, hContact, (LPARAM)&cst) && xStatus > 0) {
 				cst.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
 				cst.wParam = &xStatus2;
 				cst.ptszName = xStatusName;

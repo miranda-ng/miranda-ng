@@ -1315,7 +1315,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 	USERINFO *ui1 = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
 	if (ui1) {
 		if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
-			TCHAR *p = (TCHAR*)ProtoCallService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
+			TCHAR *p = (TCHAR*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
 			if (p != NULL) {
 				_tcsncpy_s(tszBuf, p, _TRUNCATE);
 				mir_free(p);
@@ -1664,7 +1664,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			if (ui1) {
 				TCHAR tszBuf[1024]; tszBuf[0] = 0;
 				if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
-					TCHAR *p = (TCHAR*)ProtoCallService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
+					TCHAR *p = (TCHAR*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
 					if (p) {
 						_tcsncpy_s(tszBuf, p, _TRUNCATE);
 						mir_free(p);

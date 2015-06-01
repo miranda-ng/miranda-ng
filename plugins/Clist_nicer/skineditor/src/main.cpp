@@ -730,8 +730,7 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			}
 			else if (item) {
 				char *szName = item->szName[0] == '{' ? &item->szName[3] : item->szName;
-
-				TextOutA(dis->hDC, dis->rcItem.left, dis->rcItem.top, szName, mir_strlen(szName));
+				TextOutA(dis->hDC, dis->rcItem.left, dis->rcItem.top, szName, (int)mir_strlen(szName));
 			}
 			return TRUE;
 		}

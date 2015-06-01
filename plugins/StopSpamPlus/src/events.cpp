@@ -33,7 +33,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 
 			// ...send message
 			char *AuthRepl = mir_u2a(variables_parse(plSets->AuthRepl.Get(), hcntct).c_str());
-			ProtoCallService(dbei.szModule, PS_AUTHDENY, hDbEvent, (LPARAM)AuthRepl);
+			CallProtoService(dbei.szModule, PS_AUTHDENY, hDbEvent, (LPARAM)AuthRepl);
 			mir_free(AuthRepl);
 
 			db_set_b(hcntct, "CList", "NotOnList", 1);

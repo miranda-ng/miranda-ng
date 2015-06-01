@@ -1362,7 +1362,7 @@ skipbg:
 								if (contactOK) {
 									char *szProto = GetContactProto(hContact);
 									if (ProtoServiceExists(szProto, item->szService))
-										ProtoCallService(szProto, item->szService, wwParam, llParam);
+										CallProtoService(szProto, item->szService, wwParam, llParam);
 									else
 										serviceFailure = TRUE;
 								}
@@ -1691,7 +1691,7 @@ buttons_done:
 						CUSTOM_STATUS cst = { sizeof(cst) };
 						cst.flags = CSSF_MASK_STATUS;
 						cst.status = &xStatus;
-						if (ProtoServiceExists(pd->RealName, PS_GETCUSTOMSTATUSEX) && !ProtoCallService(pd->RealName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cst) && xStatus > 0)
+						if (ProtoServiceExists(pd->RealName, PS_GETCUSTOMSTATUSEX) && !CallProtoService(pd->RealName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cst) && xStatus > 0)
 							hIcon = (HICON)CallProtoService(pd->RealName, PS_GETCUSTOMSTATUSICON, 0, LR_SHARED); // get OWN xStatus icon (if set)
 						else
 							hIcon = LoadSkinnedProtoIcon(szProto, status);

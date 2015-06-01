@@ -434,9 +434,6 @@ function ProtoBroadcastAck(const szModule:PAnsiChar; hContact:TMCONTACT; type_:i
 function ProtoServiceExists(const szModule, szName:PAnsiChar):int; stdcall;
                  external CoreDLL name 'ProtoServiceExists';
 
-function ProtoCallService(const szModule, szName:PAnsiChar; wParam:WPARAM; lParam:LPARAM):int_ptr; stdcall;
-                 external CoreDLL name 'ProtoServiceExists';
-
 procedure ProtoWindowAdd(pThis:pointer; wnd:HWND); stdcall;
                  external CoreDLL name 'ProtoWindowAdd';
 

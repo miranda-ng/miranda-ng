@@ -603,21 +603,21 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 		if (szProto == NULL)
 			break;
 
-		iStatus = ProtoCallService(szProto, PS_GETSTATUS, 0, 0);
+		iStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 		if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szProto, 0);
 		else
-			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szProto, ProtoCallService(szProto, PS_GETSTATUS, 0, 0));
+			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szProto, CallProtoService(szProto, PS_GETSTATUS, 0, 0));
 
 		pcli->pfnTrayIconMakeTooltip(NULL, szProto);
 		break;
 
 	case TRAY_ICON_MODE_CYCLE:
-		iStatus = ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0);
+		iStatus = CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0);
 		if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 		else if (!bConn)
-			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szChangedProto, ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0));
+			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0));
 		pcli->pfnTrayIconMakeTooltip(NULL, NULL);
 		break;
 
@@ -627,11 +627,11 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 			if (!mir_strcmp(pcli->trayIcon[i].szProto, szChangedProto))
 				break;
 
-		iStatus = ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0);
+		iStatus = CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0);
 		if (g_StatusBarData.bConnectingIcon && IsStatusConnecting(iStatus))
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 		else
-			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szChangedProto, ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0));
+			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0));
 		pcli->pfnTrayIconMakeTooltip(NULL, pcli->trayIcon[i].szProto);
 		break;
 	}

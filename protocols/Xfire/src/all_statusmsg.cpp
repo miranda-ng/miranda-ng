@@ -63,11 +63,11 @@ BOOL BackupStatusMsg() {
 		statusid = CallProtoService(temp[i]->szModuleName, PS_GETSTATUS, 0, 0);
 		XFireLog("Get Status of %s ...", temp[i]->szModuleName);
 
-		char ttemp[128];
-		mir_snprintf(ttemp, SIZEOF(ttemp), "%s%s", temp[i]->szModuleName, PS_SETAWAYMSG);
-
 		//xfire wird geskipped, offline prots und invs prots auch, und locked status prots auch
-		if (!temp[i]->bIsEnabled || statusid == ID_STATUS_INVISIBLE || statusid == ID_STATUS_OFFLINE || !mir_strcmpi(temp[i]->szModuleName, protocolname) || !ServiceExists(ttemp) || db_get_b(NULL, temp[i]->szModuleName, "LockMainStatus", 0) == 1)
+		if (!temp[i]->bIsEnabled || statusid == ID_STATUS_INVISIBLE || statusid == ID_STATUS_OFFLINE || 
+			 !mir_strcmpi(temp[i]->szModuleName, protocolname) || 
+			 !ProtoServiceExists(temp[i]->szModuleName, PS_SETAWAYMSG) || 
+			 db_get_b(NULL, temp[i]->szModuleName, "LockMainStatus", 0) == 1)
 		{
 			XFireLog("-> Skip %s.", temp[i]->szModuleName);
 
@@ -87,7 +87,7 @@ BOOL BackupStatusMsg() {
 				int caps = CallProtoService(temp[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 				bool dndFirst = db_get_b(NULL, protocolname, "dndfirst", 0) > 0;
 
-				if (dndFirst ? caps&PF2_HEAVYDND : caps&PF2_LIGHTDND)
+				if (dndFirst ? caps & PF2_HEAVYDND : caps & PF2_LIGHTDND)
 				{
 					dummystatusid = dndFirst ? ID_STATUS_DND : ID_STATUS_OCCUPIED;
 					XFireLog("%s supports %s.", temp[i]->szModuleName, dndFirst ? "DND" : "OCCUPIED");

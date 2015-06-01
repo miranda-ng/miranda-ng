@@ -244,7 +244,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 		if (p->iProtoStatus > ID_STATUS_OFFLINE)
 			if (p->bShowProtoEmails == 1 && ProtoServiceExists(szProto, PS_GETUNREADEMAILCOUNT)) {
-				int nEmails = (int)ProtoCallService(szProto, PS_GETUNREADEMAILCOUNT, 0, 0);
+				int nEmails = (int)CallProtoService(szProto, PS_GETUNREADEMAILCOUNT, 0, 0);
 				if (nEmails > 0) {
 					TCHAR buf[40];
 					mir_sntprintf(buf, SIZEOF(buf), _T("[%d]"), nEmails);
@@ -360,7 +360,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				if ((p.xStatusMode & 3)) {
 					if (p.iProtoStatus > ID_STATUS_OFFLINE) {
 						if (ProtoServiceExists(p.szAccountName, PS_GETCUSTOMSTATUSICON))
-							p.extraIcon = (HICON)ProtoCallService(p.szAccountName, PS_GETCUSTOMSTATUSICON, 0, 0);
+							p.extraIcon = (HICON)CallProtoService(p.szAccountName, PS_GETCUSTOMSTATUSICON, 0, 0);
 						if (p.extraIcon && (p.xStatusMode & 3) == 3)
 							w += iconWidth + 1;
 					}

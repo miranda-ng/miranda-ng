@@ -584,7 +584,7 @@ LBL_Def:
 
 			if (contact) {
 				if (ProtoServiceExists(szProto, PS_GETADVANCEDSTATUSICON)) {
-					int iconId = ProtoCallService(szProto, PS_GETADVANCEDSTATUSICON, hContact, 0);
+					int iconId = CallProtoService(szProto, PS_GETADVANCEDSTATUSICON, hContact, 0);
 					if (iconId != -1)
 						contact->xStatusIcon = iconId >> 16;
 				}
