@@ -127,12 +127,9 @@ begin
             txt:=GetMacros(tmpl_stext,j);
           if uint_ptr(txt)<>uint_ptr(-1) then
           begin
-            if (txt=nil) or (txt^=#0) then
-              ls:=nil
-            else
-              WideToAnsi(txt,ls,UserCP);
-            SetStatus(proto,-status,ls);
-            mFreeMem(ls);
+            if (txt<>nil) and (txt^=#0) then
+              txt:=nil;
+            SetStatus(proto,-status,txt);
             mFreeMem(txt);
           end;
         end;
