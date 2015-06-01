@@ -607,18 +607,18 @@ public:
 		return _vscwprintf(pszFormat, args);
 	}
 
-	static int __stdcall Format(LPWSTR pszBuffer, LPCWSTR pszFormat, va_list args)
-	{
 #pragma warning (push)
 #pragma warning(disable : 4996)
-		return vswprintf(pszBuffer, pszFormat, args); //!!!!!!!!!
-#pragma warning (pop)
+	static int __stdcall Format(LPWSTR pszBuffer, LPCWSTR pszFormat, va_list args)
+	{
+		return vswprintf(pszBuffer, pszFormat, args);
 	}
 
 	static int __stdcall Format(LPWSTR pszBuffer, size_t nLength, LPCWSTR pszFormat, va_list args)
 	{
 		return _vsnwprintf(pszBuffer, nLength, pszFormat, args);
 	}
+#pragma warning (pop)
 
 	static int __stdcall GetBaseTypeLength(LPCSTR pszSrc)
 	{

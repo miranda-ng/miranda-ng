@@ -82,7 +82,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CJabberProto::SvcCreateAccMgrUI);
 
-	CreateProtoService(PS_GETAVATARINFOT, &CJabberProto::JabberGetAvatarInfo);
+	CreateProtoService(PS_GETAVATARINFO, &CJabberProto::JabberGetAvatarInfo);
 	CreateProtoService(PS_GETMYAWAYMSG, &CJabberProto::GetMyAwayMsg);
 	CreateProtoService(PS_SET_LISTENINGTO, &CJabberProto::OnSetListeningTo);
 
@@ -98,9 +98,9 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 	CreateProtoService(JS_INCOMING_NOTE_EVENT, &CJabberProto::OnIncomingNoteEvent);
 
 	CreateProtoService(JS_SENDXML, &CJabberProto::ServiceSendXML);
-	CreateProtoService(PS_GETMYAVATART, &CJabberProto::JabberGetAvatar);
+	CreateProtoService(PS_GETMYAVATAR, &CJabberProto::JabberGetAvatar);
 	CreateProtoService(PS_GETAVATARCAPS, &CJabberProto::JabberGetAvatarCaps);
-	CreateProtoService(PS_SETMYAVATART, &CJabberProto::JabberSetAvatar);
+	CreateProtoService(PS_SETMYAVATAR, &CJabberProto::JabberSetAvatar);
 	CreateProtoService(PS_SETMYNICKNAME, &CJabberProto::JabberSetNickname);
 
 	CreateProtoService(JS_DB_GETEVENTTEXT_CHATSTATES, &CJabberProto::OnGetEventTextChatStates);

@@ -160,12 +160,12 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 		// fix avatar
 		MCONTACT hContact = Meta_GetMostOnlineSupporting(ccMeta, PFLAGNUM_4, PF4_AVATARS);
 		if (hContact) {
-			PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
+			PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
 			AI.hContact = ccMeta->contactID;
 			AI.format = PA_FORMAT_UNKNOWN;
 			_tcsncpy_s(AI.filename, _T("X"), _TRUNCATE);
 
-			if (CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
+			if (CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&AI) == GAIR_SUCCESS)
 				db_set_ts(ccMeta->contactID, "ContactPhoto", "File", AI.filename);
 		}
 	}

@@ -242,8 +242,7 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 	free(avt->pic_url);
 	free(avt);
 	
-	PROTO_AVATAR_INFORMATIONT AI;
-	AI.cbSize = sizeof AI;
+	PROTO_AVATAR_INFORMATION AI;
 	AI.format = PA_FORMAT_PNG;
 	AI.hContact = hContact;
 	_tcsncpy(AI.filename, buf, SIZEOF(AI.filename)-1);
@@ -618,7 +617,7 @@ void CYahooProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, int cbLen
 
 INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATIONT* AI = ( PROTO_AVATAR_INFORMATIONT* )lParam;
+	PROTO_AVATAR_INFORMATION* AI = ( PROTO_AVATAR_INFORMATION* )lParam;
 	DBVARIANT dbv;
 	int avtType;
 

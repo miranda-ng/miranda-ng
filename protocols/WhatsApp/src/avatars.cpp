@@ -2,7 +2,7 @@
 
 INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
+	PROTO_AVATAR_INFORMATION* AI = (PROTO_AVATAR_INFORMATION*)lParam;
 
 	ptrA id(getStringA(AI->hContact, isChatRoom(AI->hContact) ? "ChatRoomID" : WHATSAPP_KEY_ID));
 	if (id == NULL)

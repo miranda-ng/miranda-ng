@@ -902,7 +902,7 @@ static void EnableDisableControls(HWND hwndDlg, char *proto)
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
 		}
 		else {
-			if (!ProtoServiceExists(proto, PS_SETMYAVATAR) && !ProtoServiceExists(proto, PS_SETMYAVATARW)) {
+			if (!ProtoServiceExists(proto, PS_SETMYAVATAR)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
 			}

@@ -23,10 +23,10 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 
 	CreateProtoService(PS_CREATEACCMGRUI, &WhatsAppProto::SvcCreateAccMgrUI);
 
-	CreateProtoService(PS_GETAVATARINFOT, &WhatsAppProto::GetAvatarInfo);
+	CreateProtoService(PS_GETAVATARINFO, &WhatsAppProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &WhatsAppProto::GetAvatarCaps);
-	CreateProtoService(PS_GETMYAVATART, &WhatsAppProto::GetMyAvatar);
-	CreateProtoService(PS_SETMYAVATART, &WhatsAppProto::SetMyAvatar);
+	CreateProtoService(PS_GETMYAVATAR, &WhatsAppProto::GetMyAvatar);
+	CreateProtoService(PS_SETMYAVATAR, &WhatsAppProto::SetMyAvatar);
 
 	HookProtoEvent(ME_DB_CONTACT_DELETED, &WhatsAppProto::OnDeleteChat);
 	HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);

@@ -32,9 +32,9 @@ CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	CreateProtoService(PS_GETMYAWAYMSG,   &CAimProto::GetMyAwayMsg);
 
-	CreateProtoService(PS_GETAVATARINFOT, &CAimProto::GetAvatarInfo);
-	CreateProtoService(PS_GETMYAVATART,   &CAimProto::GetAvatar);
-	CreateProtoService(PS_SETMYAVATART,   &CAimProto::SetAvatar);
+	CreateProtoService(PS_GETAVATARINFO, &CAimProto::GetAvatarInfo);
+	CreateProtoService(PS_GETMYAVATAR,   &CAimProto::GetAvatar);
+	CreateProtoService(PS_SETMYAVATAR,   &CAimProto::SetAvatar);
 	CreateProtoService(PS_GETAVATARCAPS,  &CAimProto::GetAvatarCaps);
 
 	CreateProtoService(PS_JOINCHAT,       &CAimProto::OnJoinChat);

@@ -508,9 +508,9 @@ void CYahooProto::LoadYahooServices( void )
 	//----| Service creation |------------------------------------------------------------
 	CreateProtoService(PS_CREATEACCMGRUI, &CYahooProto::SvcCreateAccMgrUI);
 
-	CreateProtoService(PS_GETAVATARINFOT, &CYahooProto::GetAvatarInfo);
-	CreateProtoService(PS_GETMYAVATART,   &CYahooProto::GetMyAvatar);
-	CreateProtoService(PS_SETMYAVATART,   &CYahooProto::SetMyAvatar);
+	CreateProtoService(PS_GETAVATARINFO, &CYahooProto::GetAvatarInfo);
+	CreateProtoService(PS_GETMYAVATAR,   &CYahooProto::GetMyAvatar);
+	CreateProtoService(PS_SETMYAVATAR,   &CYahooProto::SetMyAvatar);
 	CreateProtoService(PS_GETAVATARCAPS,  &CYahooProto::GetAvatarCaps);
 
 	CreateProtoService(PS_GETMYAWAYMSG,   &CYahooProto::GetMyAwayMsg);

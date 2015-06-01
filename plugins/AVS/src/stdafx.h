@@ -153,7 +153,7 @@ INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM lParam);
 
 MCONTACT GetContactThatHaveTheAvatar(MCONTACT hContact, int locked = -1);
 
-void ProcessAvatarInfo(MCONTACT hContact, int type, PROTO_AVATAR_INFORMATIONT *pai, const char *szProto);
+void ProcessAvatarInfo(MCONTACT hContact, int type, PROTO_AVATAR_INFORMATION *pai, const char *szProto);
 
 int  Proto_GetDelayAfterFail(const char *proto);
 BOOL Proto_NeedDelaysForAvatars(const char *proto);

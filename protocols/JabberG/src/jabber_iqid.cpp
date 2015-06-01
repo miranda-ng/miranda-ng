@@ -1401,8 +1401,7 @@ LBL_ErrFormat:
 	else if ((pictureType = ProtoGetBufferFormat(body, 0)) == PA_FORMAT_UNKNOWN)
 		goto LBL_ErrFormat;
 
-	PROTO_AVATAR_INFORMATIONT AI;
-	AI.cbSize = sizeof AI;
+	PROTO_AVATAR_INFORMATION AI;
 	AI.format = pictureType;
 	AI.hContact = hContact;
 

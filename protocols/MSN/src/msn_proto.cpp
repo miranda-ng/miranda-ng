@@ -57,13 +57,13 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CMsnProto::SvcCreateAccMgrUI);
 
-	CreateProtoService(PS_GETAVATARINFOT, &CMsnProto::GetAvatarInfo);
+	CreateProtoService(PS_GETAVATARINFO, &CMsnProto::GetAvatarInfo);
 	CreateProtoService(PS_GETMYAWAYMSG, &CMsnProto::GetMyAwayMsg);
 
 	CreateProtoService(PS_LEAVECHAT, &CMsnProto::OnLeaveChat);
 
-	CreateProtoService(PS_GETMYAVATART, &CMsnProto::GetAvatar);
-	CreateProtoService(PS_SETMYAVATART, &CMsnProto::SetAvatar);
+	CreateProtoService(PS_GETMYAVATAR, &CMsnProto::GetAvatar);
+	CreateProtoService(PS_SETMYAVATAR, &CMsnProto::SetAvatar);
 	CreateProtoService(PS_GETAVATARCAPS, &CMsnProto::GetAvatarCaps);
 
 	CreateProtoService(PS_SETMYNICKNAME, &CMsnProto::SetNickName);

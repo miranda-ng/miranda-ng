@@ -93,18 +93,6 @@ MIR_CORE_DLL(void) ProtoLogW(struct PROTO_INTERFACE *pThis, LPCWSTR wszFormat, v
 
 MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
-	if (type == ACKTYPE_AVATAR && hProcess) {
-		PROTO_AVATAR_INFORMATION* ai = (PROTO_AVATAR_INFORMATION*)hProcess;
-		if (ai->cbSize == sizeof(PROTO_AVATAR_INFORMATION)) {
-			PROTO_AVATAR_INFORMATIONW aiw = { sizeof(aiw), ai->hContact, ai->format };
-			MultiByteToWideChar(CP_ACP, 0, ai->filename, -1, aiw.filename, SIZEOF(aiw.filename));
-
-			hProcess = &aiw;
-			ACKDATA ack = { sizeof(ACKDATA), szModule, hContact, type, result, hProcess, lParam };
-			return NotifyEventHooks(hAckEvent, 0, (LPARAM)&ack);
-		}
-	}
-
 	ACKDATA ack = { sizeof(ACKDATA), szModule, hContact, type, result, hProcess, lParam };
 	return NotifyEventHooks(hAckEvent, 0, (LPARAM)&ack);
 }

@@ -54,9 +54,9 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	// services
 	CreateServiceFunction(MODULE"/MenuChoose", CSteamProto::MenuChooseService);
 	// avatar API
-	CreateProtoService(PS_GETAVATARINFOT, &CSteamProto::GetAvatarInfo);
+	CreateProtoService(PS_GETAVATARINFO, &CSteamProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CSteamProto::GetAvatarCaps);
-	CreateProtoService(PS_GETMYAVATART, &CSteamProto::GetMyAvatar);
+	CreateProtoService(PS_GETMYAVATAR, &CSteamProto::GetMyAvatar);
 	// custom status API
 	CreateProtoService(PS_GETCUSTOMSTATUSEX, &CSteamProto::OnGetXStatusEx);
 	CreateProtoService(PS_GETCUSTOMSTATUSICON, &CSteamProto::OnGetXStatusIcon);

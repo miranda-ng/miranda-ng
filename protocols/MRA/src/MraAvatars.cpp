@@ -87,8 +87,7 @@ void CMraProto::MraAvatarsQueueClear(HANDLE hAvatarsQueueHandle)
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
 	MRA_AVATARS_QUEUE_ITEM *pmraaqiAvatarsQueueItem;
 
-	PROTO_AVATAR_INFORMATIONT pai = { 0 };
-	pai.cbSize = sizeof(pai);
+	PROTO_AVATAR_INFORMATION pai = { 0 };
 	pai.format = PA_FORMAT_UNKNOWN;
 
 	while (FifoMTItemPop(pmraaqAvatarsQueue, NULL, (LPVOID*)&pmraaqiAvatarsQueueItem) == NO_ERROR) {
@@ -156,11 +155,9 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 	HANDLE hConnection = NULL;
 	NETLIBSELECT nls = { 0 };
 	INTERNET_TIME itAvatarLastModifiedTimeServer;
-	PROTO_AVATAR_INFORMATIONT pai;
 	WCHAR szErrorText[2048];
 
 	nls.cbSize = sizeof(nls);
-	pai.cbSize = sizeof(pai);
 
 	HANDLE hThreadEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	{
@@ -305,6 +302,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 			}
 		}
 
+		PROTO_AVATAR_INFORMATION pai;
 		if (bFailed) {
 			DeleteFile(wszFileName);
 			pai.hContact = pmraaqiAvatarsQueueItem->hContact;
@@ -553,8 +551,7 @@ DWORD CMraProto::MraAvatarsQueueGetAvatarSimple(HANDLE hAvatarsQueueHandle, DWOR
 	if ( !hAvatarsQueueHandle)
 		return GAIR_NOAVATAR;
 
-	PROTO_AVATAR_INFORMATIONT pai = { 0 };
-	pai.cbSize = sizeof(pai);
+	PROTO_AVATAR_INFORMATION pai = { 0 };
 	pai.hContact = hContact;
 	DWORD dwRetCode = MraAvatarsQueueGetAvatar(hAvatarsQueueHandle, dwFlags, hContact, NULL, (DWORD*)&pai.format, pai.filename);
 	if (dwRetCode != GAIR_SUCCESS)

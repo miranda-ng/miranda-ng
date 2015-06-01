@@ -121,7 +121,7 @@ INT_PTR CToxProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CToxProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATIONW *pai = (PROTO_AVATAR_INFORMATIONW *)lParam;
+	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
 
 	ptrA address(getStringA(pai->hContact, TOX_SETTINGS_ID));
 	if (address != NULL)
@@ -232,7 +232,7 @@ void CToxProto::OnGotFriendAvatarData(AvatarTransferParam *transfer)
 {
 	db_set_blob(transfer->pfts.hContact, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, transfer->hash, TOX_HASH_LENGTH);
 
-	PROTO_AVATAR_INFORMATIONT pai = { sizeof(pai) };
+	PROTO_AVATAR_INFORMATION pai = { sizeof(pai) };
 	pai.format = PA_FORMAT_PNG;
 	pai.hContact = transfer->pfts.hContact;
 	mir_tstrcpy(pai.filename, transfer->pfts.tszCurrentFile);

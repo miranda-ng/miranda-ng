@@ -131,7 +131,7 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	TCHAR szSearchPath[MAX_PATH], *chop;
 	WORD status;
 	unsigned  i;
-	PROTO_AVATAR_INFORMATIONT* ai = ( PROTO_AVATAR_INFORMATIONT* )lParam;
+	PROTO_AVATAR_INFORMATION* ai = ( PROTO_AVATAR_INFORMATION* )lParam;
 
 	GetModuleFileName(GetModuleHandle(NULL), szSearchPath, SIZEOF(szSearchPath));
 	chop = _tcsrchr(szSearchPath, '\\');
@@ -165,8 +165,7 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 void AvatarDownloaded(MCONTACT hContact)
 {
-	PROTO_AVATAR_INFORMATIONT AI = {0};
-	AI.cbSize = sizeof(AI);
+	PROTO_AVATAR_INFORMATION AI = {0};
 	AI.hContact = hContact;
 
 	if (WeatherGetAvatarInfo(GAIF_FORCE, (LPARAM)&AI) == GAIR_SUCCESS)
@@ -211,7 +210,7 @@ void InitServices(void)
 	CreateProtoServiceFunction(WEATHERPROTONAME, PS_SEARCHBYEMAIL, WeatherBasicSearch);
 	CreateProtoServiceFunction(WEATHERPROTONAME, PS_ADDTOLIST, WeatherAddToList);
 	CreateProtoServiceFunction(WEATHERPROTONAME, PSS_GETINFO, WeatherGetInfo);
-	CreateProtoServiceFunction(WEATHERPROTONAME, PS_GETAVATARINFOT, WeatherGetAvatarInfo);
+	CreateProtoServiceFunction(WEATHERPROTONAME, PS_GETAVATARINFO, WeatherGetAvatarInfo);
 	CreateProtoServiceFunction(WEATHERPROTONAME, PSS_GETAWAYMSG, WeatherGetAwayMsg);
 	CreateProtoServiceFunction(WEATHERPROTONAME, PS_CREATEADVSEARCHUI, WeatherCreateAdvancedSearchUI);
 	CreateProtoServiceFunction(WEATHERPROTONAME, PS_SEARCHBYADVANCED, WeatherAdvancedSearch);

@@ -935,8 +935,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 			if (res->resultCode == 200 && res->dataLength) {
 				int pictureType = ProtoGetBufferFormat(res->pData);
 				if (pictureType != PA_FORMAT_UNKNOWN) {
-					PROTO_AVATAR_INFORMATIONT AI;
-					AI.cbSize = sizeof(AI);
+					PROTO_AVATAR_INFORMATION AI;
 					AI.format = pictureType;
 					AI.hContact = avs[i].hContact;
 

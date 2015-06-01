@@ -1784,8 +1784,7 @@ void SetAvatar(void *arg)
 
 	if (GetAvatar(xsa->username, &av))
 	{
-		PROTO_AVATAR_INFORMATIONT AI;
-		AI.cbSize = sizeof(AI);
+		PROTO_AVATAR_INFORMATION AI;
 		AI.format = av.type;
 		AI.hContact = xsa->hContact;
 		mir_tstrcpy(AI.filename, _A2T(av.file));
@@ -3382,7 +3381,8 @@ int IconLibChanged(WPARAM wParam, LPARAM lParam) {
 }
 
 
-INT_PTR GetAvatarInfo(WPARAM wParam, LPARAM lParam) {
+INT_PTR GetAvatarInfo(WPARAM wParam, LPARAM lParam)
+{
 	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
 	if (db_get_b(NULL, protocolname, "noavatars", -1) != 0)
@@ -3392,14 +3392,10 @@ INT_PTR GetAvatarInfo(WPARAM wParam, LPARAM lParam) {
 	if (pai->format == 0)
 		return GAIR_NOAVATAR;
 
-	DBVARIANT dbv;
-	if (!db_get(pai->hContact, "ContactPhoto", "File", &dbv))
-	{
-		strncpy(pai->filename, dbv.pszVal, sizeof(pai->filename)-1);
-		db_free(&dbv);
-	}
-	else
+	ptrW pwszPath(db_get_wsa(pai->hContact, "ContactPhoto", "File"));
+	if (pwszPath == NULL)
 		return GAIR_NOAVATAR;
 
+	wcsncpy_s(pai->filename, pwszPath, _TRUNCATE);
 	return GAIR_SUCCESS;
 }

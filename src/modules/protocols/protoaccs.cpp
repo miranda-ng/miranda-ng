@@ -291,45 +291,6 @@ int LoadAccountsModule(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR stub43(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{
-	PROTO_AVATAR_INFORMATION* p = (PROTO_AVATAR_INFORMATION*)lParam;
-
-	PROTO_AVATAR_INFORMATIONW tmp = { 0 };
-	tmp.cbSize = sizeof(tmp);
-	tmp.hContact = p->hContact;
-	int result = CallProtoServiceInt(NULL, ppi->m_szModuleName, PS_GETAVATARINFOW, wParam, (LPARAM)&tmp);
-
-	p->format = tmp.format;
-
-	wchar_t filename[MAX_PATH];
-	mir_wstrcpy(filename, tmp.filename);
-	GetShortPathNameW(tmp.filename, filename, SIZEOF(filename));
-
-	WideCharToMultiByte(CP_ACP, 0, filename, -1, p->filename, MAX_PATH, 0, 0);
-	return result;
-}
-
-static INT_PTR stub44(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{
-	wchar_t* buf = (wchar_t*)_alloca(sizeof(wchar_t) * (lParam + 1));
-	int result = CallProtoServiceInt(NULL, ppi->m_szModuleName, PS_GETMYAVATARW, WPARAM(buf), lParam);
-	if (result == 0) {
-		wchar_t* filename = (wchar_t*)_alloca(sizeof(wchar_t) * (lParam + 1));
-		mir_wstrcpy(filename, buf);
-		GetShortPathNameW(buf, filename, lParam + 1);
-
-		WideCharToMultiByte(CP_ACP, 0, filename, -1, (char*)wParam, lParam, 0, 0);
-	}
-
-	return result;
-}
-
-static INT_PTR stub45(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{
-	return CallProtoServiceInt(NULL, ppi->m_szModuleName, PS_SETMYAVATARW, wParam, _A2T((char*)lParam));
-}
-
 static HANDLE CreateProtoServiceEx(const char* szModule, const char* szService, MIRANDASERVICEOBJ pFunc, void* param)
 {
 	char tmp[100];
@@ -352,19 +313,6 @@ BOOL ActivateAccount(PROTOACCOUNT *pa)
 
 	pa->ppro = ppi;
 	ppi->m_iDesiredStatus = ppi->m_iStatus = ID_STATUS_OFFLINE;
-
-	if (!ProtoServiceExists(pa->szModuleName, PS_GETAVATARINFO))
-		if (ProtoServiceExists(pa->szModuleName, PS_GETAVATARINFOW))
-			CreateProtoServiceEx(pa->szModuleName, PS_GETAVATARINFO, (MIRANDASERVICEOBJ)stub43, pa->ppro);
-
-	if (!ProtoServiceExists(pa->szModuleName, PS_GETMYAVATAR))
-		if (ProtoServiceExists(pa->szModuleName, PS_GETMYAVATARW))
-			CreateProtoServiceEx(pa->szModuleName, PS_GETMYAVATAR, (MIRANDASERVICEOBJ)stub44, pa->ppro);
-
-	if (!ProtoServiceExists(pa->szModuleName, PS_SETMYAVATAR))
-		if (ProtoServiceExists(pa->szModuleName, PS_SETMYAVATARW))
-			CreateProtoServiceEx(pa->szModuleName, PS_SETMYAVATAR, (MIRANDASERVICEOBJ)stub45, pa->ppro);
-
 	return TRUE;
 }
 

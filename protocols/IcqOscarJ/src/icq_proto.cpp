@@ -120,10 +120,10 @@ CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
 	CreateProtoService(PS_CHANGEINFOEX, &CIcqProto::ChangeInfoEx);
 
 	// Avatar API
-	CreateProtoService(PS_GETAVATARINFOT, &CIcqProto::GetAvatarInfo);
+	CreateProtoService(PS_GETAVATARINFO, &CIcqProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CIcqProto::GetAvatarCaps);
-	CreateProtoService(PS_GETMYAVATART, &CIcqProto::GetMyAvatar);
-	CreateProtoService(PS_SETMYAVATART, &CIcqProto::SetMyAvatar);
+	CreateProtoService(PS_GETMYAVATAR, &CIcqProto::GetMyAvatar);
+	CreateProtoService(PS_SETMYAVATAR, &CIcqProto::SetMyAvatar);
 
 	// Custom Status API
 	CreateProtoService(PS_SETCUSTOMSTATUSEX, &CIcqProto::SetXStatusEx);

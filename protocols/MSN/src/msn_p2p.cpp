@@ -194,7 +194,7 @@ void CMsnProto::p2p_pictureTransferFailed(filetransfer* ft)
 	case MSN_APPID_AVATAR:
 	case MSN_APPID_AVATAR2:
 	{
-		PROTO_AVATAR_INFORMATIONT AI = { 0 };
+		PROTO_AVATAR_INFORMATION AI = { 0 };
 		AI.cbSize = sizeof(AI);
 		AI.hContact = ft->std.hContact;
 		delSetting(ft->std.hContact, "AvatarHash");
@@ -233,7 +233,7 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 		case MSN_APPID_AVATAR:
 		case MSN_APPID_AVATAR2:
 		{
-			PROTO_AVATAR_INFORMATIONT AI = { 0 };
+			PROTO_AVATAR_INFORMATION AI = { 0 };
 			AI.cbSize = sizeof(AI);
 			AI.format = format;
 			AI.hContact = ft->std.hContact;

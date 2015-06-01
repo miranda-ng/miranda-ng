@@ -119,8 +119,8 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 				else
 					return -10;
 			}
-			else if (ProtoServiceExists(szProto, PS_GETMYAVATART)) {
-				if (CallProtoService(szProto, PS_GETMYAVATART, (WPARAM)tszFilename, (LPARAM)MAX_PATH))
+			else if (ProtoServiceExists(szProto, PS_GETMYAVATAR)) {
+				if (CallProtoService(szProto, PS_GETMYAVATAR, (WPARAM)tszFilename, (LPARAM)MAX_PATH))
 					tszFilename[0] = '\0';
 			}
 			else if (ProtoServiceExists(szProto, PS_GETMYAVATAR)) {

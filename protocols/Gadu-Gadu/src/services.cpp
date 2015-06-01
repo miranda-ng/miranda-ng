@@ -167,11 +167,11 @@ INT_PTR GGPROTO::getavatarcaps(WPARAM wParam, LPARAM lParam)
 
 //////////////////////////////////////////////////////////
 // gets avatar information
-// registered as ProtoService PS_GETAVATARINFOT
+// registered as ProtoService PS_GETAVATARINFO
 
 INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATIONT *pai = (PROTO_AVATAR_INFORMATIONT *)lParam;
+	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
 	pai->filename[0] = 0;
 	pai->format = PA_FORMAT_UNKNOWN;
 
@@ -278,7 +278,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 
 //////////////////////////////////////////////////////////
 // gets avatar
-// registered as ProtoService PS_GETMYAVATART
+// registered as ProtoService PS_GETMYAVATAR
 
 INT_PTR GGPROTO::getmyavatar(WPARAM wParam, LPARAM lParam)
 {
@@ -308,7 +308,7 @@ INT_PTR GGPROTO::getmyavatar(WPARAM wParam, LPARAM lParam)
 
 //////////////////////////////////////////////////////////
 // sets avatar
-// registered as ProtoService PS_SETMYAVATART
+// registered as ProtoService PS_SETMYAVATAR
 
 INT_PTR GGPROTO::setmyavatar(WPARAM wParam, LPARAM lParam)
 {

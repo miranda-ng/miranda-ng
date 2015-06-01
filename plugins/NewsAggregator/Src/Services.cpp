@@ -202,7 +202,7 @@ INT_PTR CheckFeed(WPARAM hContact, LPARAM)
 
 INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATIONT *pai = (PROTO_AVATAR_INFORMATIONT *)lParam;
+	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
 	if (!IsMyContact(pai->hContact))
 		return GAIR_NOAVATAR;
 

@@ -47,7 +47,7 @@ void CSkypeProto::ReloadAvatarInfo(MCONTACT hContact)
 		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 		return;
 	}
-	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
+	PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
 	AI.hContact = hContact;
 	SvcGetAvatarInfo(0, (LPARAM)&AI);
 }
@@ -60,7 +60,7 @@ void CSkypeProto::OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 	if (response->resultCode != 200)
 		return;
 
-	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
+	PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
 	AI.format = ProtoGetBufferFormat(response->pData);
 	setByte(hContact, "AvatarType", AI.format);
 	GetAvatarFileName(hContact, AI.filename, SIZEOF(AI.filename));
@@ -89,7 +89,7 @@ void CSkypeProto::OnSentAvatar(const NETLIBHTTPREQUEST *response)
 
 INT_PTR CSkypeProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
+	PROTO_AVATAR_INFORMATION* AI = (PROTO_AVATAR_INFORMATION*)lParam;
 
 	ptrA szUrl(getStringA(AI->hContact, "AvatarUrl"));
 	if (szUrl == NULL)
@@ -152,7 +152,7 @@ void CSkypeProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 	else {
 		setTString(hContact, "AvatarUrl", tszUrl.GetBuffer());
 		setByte(hContact, "NeedNewAvatar", 1);
-		PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
+		PROTO_AVATAR_INFORMATION AI = { sizeof(AI) };
 		AI.hContact = hContact;
 		GetAvatarFileName(AI.hContact, AI.filename, SIZEOF(AI.filename));
 		AI.format = ProtoGetAvatarFormat(AI.filename);
