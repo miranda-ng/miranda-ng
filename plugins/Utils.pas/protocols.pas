@@ -29,7 +29,7 @@ procedure CheckStatusList(list:HWND;ProtoNum:uint_ptr);
 function  CreateProtoList(deepscan:boolean=false):integer;
 procedure FreeProtoList;
 
-function SetStatus(proto:PAnsiChar;status:integer;txt:PAnsiChar=pointer(-1)):integer;
+function SetStatus(proto:PAnsiChar;status:integer;txt:PWideChar=pointer(-1)):integer;
 function SetXStatus(proto:PAnsiChar;newstatus:integer;
                     txt:PWideChar=nil;title:PWideChar=nil):integer;
 function GetXStatus(proto:PAnsiChar;txt:pointer=nil;title:pointer=nil):integer;
@@ -495,33 +495,15 @@ begin
   NumProto:=0;
 end;
 
-function SetStatus(proto:PAnsiChar;status:integer;txt:PAnsiChar=pointer(-1)):integer;
-//var  nas:TNAS_PROTOINFO;
+function SetStatus(proto:PAnsiChar;status:integer;txt:PWideChar=pointer(-1)):integer;
 begin
   if status>0 then
     result:=CallProtoService(proto,PS_SETSTATUS,status,0)
   else
     result:=-1;
-  if txt<>PAnsiChar(-1) then
+  if txt<>PWideChar(-1) then
   begin
-//    if ServiceExists(MS_NAS_SETSTATEA)=0 then
-      result:=CallProtoService(proto,PS_SETAWAYMSG,abs(status),lparam(txt))
-(*
-    else
-    begin
-  {
-      nas.Msg.w:=mmi.malloc((StrLenW(txt)+1)*SizeOf(WideChar));
-      nas.Msg.w^:=#0;
-      StrCopyW(nas.Msg.w,txt);
-  }
-      StrDup(nas.Msg.a,txt);
-      nas.Flags  :=0;
-      nas.cbSize :=SizeOf(nas);
-      nas.szProto:=proto;
-      nas.status :=abs(status){0};
-      result:=CallService(MS_NAS_SETSTATEA,LPARAM(@nas),1);
-    end;
-*)
+    result:=CallProtoService(proto,PS_SETAWAYMSG,abs(status),lparam(txt))
   end;
 end;
 
