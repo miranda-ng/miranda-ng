@@ -29,8 +29,10 @@ public:
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken)
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
-		CMStringA data(::FORMAT, "{\"status\":\"%s\"}", status);
-		Body << VALUE(data);
+		JSONNode node(JSON_NODE);
+		node.push_back(JSONNode("status", status));
+
+		Body << VALUE(node.write().c_str());
 	}
 };
 

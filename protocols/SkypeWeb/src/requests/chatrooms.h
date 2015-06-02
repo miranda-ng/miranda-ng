@@ -93,13 +93,21 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
 
-		CMStringA data = "{\"members\":[";
-		for (int i = 0; i < skypenames.getCount(); i++)
-			data.AppendFormat("{\"id\":\"8:%s\",\"role\":\"%s\"},", skypenames[i], !mir_strcmpi(skypenames[i], selfname) ? "Admin" : "User");
-		data.Truncate(data.GetLength() - 1);
-		data.Append("]}");
+		JSONNode node(JSON_NODE);
+		JSONNode members(JSON_ARRAY);
 
-		Body << VALUE(data);
+		members.set_name("members");
+
+		for (int i = 0; i < skypenames.getCount(); i++)
+		{
+			JSONNode member(JSON_NODE);
+			member.push_back(JSONNode("id", CMStringA(::FORMAT, "8:%s", skypenames[i]).GetBuffer()));
+			member.push_back(JSONNode("role", !mir_strcmpi(skypenames[i], selfname) ? "Admin" : "User"));
+			members.push_back(member);
+		}
+		node.push_back(members);
+
+		Body << VALUE(node.write().c_str());
 	}
 };
 
@@ -129,8 +137,11 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
 
-		CMStringA data(::FORMAT, "{\"role\":\"%s\"}", role);
-		Body << VALUE(data);
+		JSONNode node(JSON_NODE);
+
+		node.push_back(JSONNode("role", role));
+
+		Body << VALUE(node.write().c_str());
 	}
 };
 

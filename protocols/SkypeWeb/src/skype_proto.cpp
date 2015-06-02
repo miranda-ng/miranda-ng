@@ -174,9 +174,10 @@ int CSkypeProto::AuthRequest(MCONTACT hContact, const TCHAR *szMessage)
 
 int CSkypeProto::GetInfo(MCONTACT hContact, int)
 {
-	PushRequest(
-		new GetProfileRequest(ptrA(getStringA("TokenSecret")), ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))),
-		&CSkypeProto::LoadProfile);
+	if (!isChatRoom(hContact))
+		PushRequest(
+			new GetProfileRequest(ptrA(getStringA("TokenSecret")), ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))),
+			&CSkypeProto::LoadProfile);
 	return 0;
 }
 

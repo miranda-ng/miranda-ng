@@ -99,8 +99,11 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
 
 		//"lastReadMessageTimestamp;modificationTime;lastReadMessageId"
-		CMStringA data(::FORMAT, "{\"consumptionhorizon\":\"%lld000;%lld000;%lld000\"}", msgTimestamp, time(NULL), msgTimestamp);
-		Body << VALUE(data);
+
+		JSONNode node(JSON_NODE);
+		node.push_back(JSONNode("consumptionhorizon", CMStringA(::FORMAT, "%lld000;%lld000;%lld000", msgTimestamp, time(NULL), msgTimestamp).GetBuffer()));
+
+		Body << VALUE(node.write().c_str());
 	}
 };
 

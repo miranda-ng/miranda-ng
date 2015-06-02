@@ -56,13 +56,21 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
 
-		CMStringA data = "{\"contacts\":[";
-		for (int i = 0; i < skypenames.getCount(); i++)
-			data.AppendFormat("{\"id\":\"8:%s\"},", skypenames[i]);
-		data.Truncate(data.GetLength() - 1);
-		data.Append("]}");
 
-		Body << VALUE(data);
+		JSONNode node(JSON_NODE);
+		JSONNode contacts(JSON_ARRAY);
+
+		contacts.set_name("contacts");
+
+		for (int i = 0; i < skypenames.getCount(); i++)
+		{
+			JSONNode contact(JSON_NODE);
+			contact.push_back(JSONNode("id", CMStringA(::FORMAT, "8:%s", skypenames[i]).GetBuffer()));
+			contacts.push_back(contact);
+		}
+		node.push_back(contacts);
+
+		Body << VALUE(node.write().c_str());
 	}
 };
 

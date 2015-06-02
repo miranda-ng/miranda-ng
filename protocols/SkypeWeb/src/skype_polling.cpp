@@ -99,7 +99,6 @@ void CSkypeProto::PollingThread(void*)
 					int errorCode = error.as_int();
 					if (errorCode == 729)
 					{
-						SendRequest(new CreateEndpointRequest(TokenSecret), &CSkypeProto::OnEndpointCreated);
 						CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 						delete request;
 						break;
