@@ -32,112 +32,97 @@ extern ImageItem *g_glyphItem;
 
 BYTE __forceinline percent_to_byte(UINT32 percent)
 {
-    return(BYTE) ((FLOAT) (((FLOAT) percent) / 100) * 255);
+	return(BYTE)((FLOAT)(((FLOAT)percent) / 100) * 255);
 }
 
 COLORREF __forceinline revcolref(COLORREF colref)
 {
-    return RGB(GetBValue(colref), GetGValue(colref), GetRValue(colref));
+	return RGB(GetBValue(colref), GetGValue(colref), GetRValue(colref));
 }
 
 DWORD __forceinline argb_from_cola(COLORREF col, UINT32 alpha)
 {
-    return((BYTE) percent_to_byte(alpha) << 24 | col);
+	return((BYTE)percent_to_byte(alpha) << 24 | col);
 }
 
 
 void __forceinline DrawBorderStyle(HDC hdcwnd, RECT *rc, DWORD BORDERSTYLE)
 {
-    HPEN hPenOld = 0;
-    POINT pt;
+	HPEN hPenOld = 0;
+	POINT pt;
 
-    switch(BORDERSTYLE) {
-        case BDR_RAISEDOUTER:                 // raised
-            MoveToEx(hdcwnd, rc->left, rc->bottom - 1, &pt);
-            hPenOld = reinterpret_cast<HPEN>(SelectObject(hdcwnd, cfg::dat.hPen3DBright));
-            LineTo(hdcwnd, rc->left, rc->top);
-            LineTo(hdcwnd, rc->right, rc->top);
-            SelectObject(hdcwnd, cfg::dat.hPen3DDark);
-            MoveToEx(hdcwnd, rc->right - 1, rc->top + 1, &pt);
-            LineTo(hdcwnd, rc->right - 1, rc->bottom - 1);
-            LineTo(hdcwnd, rc->left - 1, rc->bottom - 1);
-            break;
-        case BDR_SUNKENINNER:
-            MoveToEx(hdcwnd, rc->left, rc->bottom - 1, &pt);
-            hPenOld = reinterpret_cast<HPEN>(SelectObject(hdcwnd, cfg::dat.hPen3DDark));
-            LineTo(hdcwnd, rc->left, rc->top);
-            LineTo(hdcwnd, rc->right, rc->top);
-            MoveToEx(hdcwnd, rc->right - 1, rc->top + 1, &pt);
-            SelectObject(hdcwnd, cfg::dat.hPen3DBright);
-            LineTo(hdcwnd, rc->right - 1, rc->bottom - 1);
-            LineTo(hdcwnd, rc->left, rc->bottom - 1);
-            break;
-        default:
-            DrawEdge(hdcwnd, rc, BORDERSTYLE, BF_RECT | BF_SOFT);
-            break;
-    }
-    if (hPenOld)
-        SelectObject(hdcwnd, hPenOld);
+	switch (BORDERSTYLE) {
+	case BDR_RAISEDOUTER:                 // raised
+		MoveToEx(hdcwnd, rc->left, rc->bottom - 1, &pt);
+		hPenOld = reinterpret_cast<HPEN>(SelectObject(hdcwnd, cfg::dat.hPen3DBright));
+		LineTo(hdcwnd, rc->left, rc->top);
+		LineTo(hdcwnd, rc->right, rc->top);
+		SelectObject(hdcwnd, cfg::dat.hPen3DDark);
+		MoveToEx(hdcwnd, rc->right - 1, rc->top + 1, &pt);
+		LineTo(hdcwnd, rc->right - 1, rc->bottom - 1);
+		LineTo(hdcwnd, rc->left - 1, rc->bottom - 1);
+		break;
+	case BDR_SUNKENINNER:
+		MoveToEx(hdcwnd, rc->left, rc->bottom - 1, &pt);
+		hPenOld = reinterpret_cast<HPEN>(SelectObject(hdcwnd, cfg::dat.hPen3DDark));
+		LineTo(hdcwnd, rc->left, rc->top);
+		LineTo(hdcwnd, rc->right, rc->top);
+		MoveToEx(hdcwnd, rc->right - 1, rc->top + 1, &pt);
+		SelectObject(hdcwnd, cfg::dat.hPen3DBright);
+		LineTo(hdcwnd, rc->right - 1, rc->bottom - 1);
+		LineTo(hdcwnd, rc->left, rc->bottom - 1);
+		break;
+	default:
+		DrawEdge(hdcwnd, rc, BORDERSTYLE, BF_RECT | BF_SOFT);
+		break;
+	}
+	if (hPenOld)
+		SelectObject(hdcwnd, hPenOld);
 }
 void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor2, BOOL transparent, BYTE FLG_GRADIENT, BYTE FLG_CORNER, DWORD BORDERSTYLE, ImageItem *imageItem)
 {
-    if (rc == NULL)
-        return;
+	if (rc == NULL)
+		return;
 
-    BLENDFUNCTION bf;
-    HBITMAP hbitmap;
-    HBITMAP holdbitmap;
-    BITMAPINFO bmi;
-    VOID *pvBits;
-    UINT32 x, y;
-    ULONG ulBitmapWidth, ulBitmapHeight;
-    UCHAR ubAlpha = 0xFF;
-    UCHAR ubRedFinal = 0xFF;
-    UCHAR ubGreenFinal = 0xFF;
-    UCHAR ubBlueFinal = 0xFF;
-    UCHAR ubRed;
-    UCHAR ubGreen;
-    UCHAR ubBlue;
-    UCHAR ubRed2;
-    UCHAR ubGreen2;
-    UCHAR ubBlue2;
+	BLENDFUNCTION bf;
+	int ulBitmapWidth, ulBitmapHeight;
+	UCHAR ubAlpha = 0xFF;
+	UCHAR ubRedFinal = 0xFF;
+	UCHAR ubGreenFinal = 0xFF;
+	UCHAR ubBlueFinal = 0xFF;
 
-    int realx;
+	LONG realHeight = (rc->bottom - rc->top);
+	LONG realWidth = (rc->right - rc->left);
+	LONG realHeightHalf = realHeight >> 1;
 
-    FLOAT fAlphaFactor;
-    LONG realHeight = (rc->bottom - rc->top);
-    LONG realWidth = (rc->right - rc->left);
-    LONG realHeightHalf = realHeight >> 1;
-
-    if (g_hottrack && g_inCLCpaint) {
-        StatusItems_t *ht = arStatusItems[ID_EXTBKHOTTRACK - ID_STATUS_OFFLINE];
-        if (ht->IGNORED == 0) {
-            basecolor = ht->COLOR;
-            basecolor2 = ht->COLOR2;
-            alpha = ht->ALPHA;
-            FLG_GRADIENT = ht->GRADIENT;
-            transparent = ht->COLOR2_TRANSPARENT;
-            BORDERSTYLE = ht->BORDERSTYLE;
-            imageItem = ht->imageItem;
-        }
+	if (g_hottrack && g_inCLCpaint) {
+		StatusItems_t *ht = arStatusItems[ID_EXTBKHOTTRACK - ID_STATUS_OFFLINE];
+		if (ht->IGNORED == 0) {
+			basecolor = ht->COLOR;
+			basecolor2 = ht->COLOR2;
+			alpha = ht->ALPHA;
+			FLG_GRADIENT = ht->GRADIENT;
+			transparent = ht->COLOR2_TRANSPARENT;
+			BORDERSTYLE = ht->BORDERSTYLE;
+			imageItem = ht->imageItem;
+		}
 		g_hottrack_done = 1;
-    }
+	}
 
-    if (imageItem) {
-        IMG_RenderImageItem(hdcwnd, imageItem, rc);
-        return;
-    }
+	if (imageItem) {
+		IMG_RenderImageItem(hdcwnd, imageItem, rc);
+		return;
+	}
 
-
-    if (rc->right < rc->left || rc->bottom < rc->top || (realHeight <= 0) || (realWidth <= 0))
-        return;
+	if (rc->right < rc->left || rc->bottom < rc->top || (realHeight <= 0) || (realWidth <= 0))
+		return;
 
 	if (cfg::dat.bUseFastGradients && !(FLG_CORNER & CORNER_ACTIVE)) {
 		GRADIENT_RECT grect;
 		TRIVERTEX tvtx[2];
 		int orig = 1, dest = 0;
 
-		if ( !(FLG_GRADIENT & GRADIENT_ACTIVE)) {
+		if (!(FLG_GRADIENT & GRADIENT_ACTIVE)) {
 			tvtx[0].Red = tvtx[1].Red = (COLOR16)GetRValue(basecolor) << 8;
 			tvtx[0].Blue = tvtx[1].Blue = (COLOR16)GetBValue(basecolor) << 8;
 			tvtx[0].Green = tvtx[1].Green = (COLOR16)GetGValue(basecolor) << 8;
@@ -162,7 +147,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 		grect.UpperLeft = 0;
 		grect.LowerRight = 1;
 
-	    saved_alpha = (UCHAR) (basecolor >> 24);
+		saved_alpha = (UCHAR)(basecolor >> 24);
 
 		if (alpha < 100) {
 			LONG width = rc->right - rc->left, height = rc->bottom - rc->top;
@@ -179,12 +164,12 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 			bf.SourceConstantAlpha = percent_to_byte((UINT32)alpha);
 			bf.AlphaFormat = 0; // so it will use our specified alpha value
 			HDC hdc = CreateCompatibleDC(hdcwnd);
-			if ( !hdc)
+			if (!hdc)
 				return;
 			HBITMAP hbm = CreateCompatibleBitmap(hdcwnd, width, height);
 			HBITMAP hbmOld = reinterpret_cast<HBITMAP>(SelectObject(hdc, hbm));
 			GdiGradientFill(hdc, tvtx, 2, &grect, 1, (FLG_GRADIENT & GRADIENT_TB || FLG_GRADIENT & GRADIENT_BT) ? GRADIENT_FILL_RECT_V : GRADIENT_FILL_RECT_H);
-		    GdiAlphaBlend(hdcwnd, rc->left, rc->top, width, height, hdc, 0, 0, width, height, bf);
+			GdiAlphaBlend(hdcwnd, rc->left, rc->top, width, height, hdc, 0, 0, width, height, bf);
 
 			SelectObject(hdc, hbmOld);
 			DeleteObject(hbm);
@@ -202,233 +187,244 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 		return;
 	}
 
-    HDC hdc = CreateCompatibleDC(hdcwnd);
-    if (!hdc)
-        return;
+	HDC hdc = CreateCompatibleDC(hdcwnd);
+	if (!hdc)
+		return;
 
-    memset(&bmi, 0, sizeof(BITMAPINFO));
+	BITMAPINFO bmi;
+	memset(&bmi, 0, sizeof(BITMAPINFO));
+	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 
-    bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+	if (FLG_GRADIENT & GRADIENT_ACTIVE && (FLG_GRADIENT & GRADIENT_LR || FLG_GRADIENT & GRADIENT_RL)) {
+		bmi.bmiHeader.biWidth = ulBitmapWidth = realWidth;
+		bmi.bmiHeader.biHeight = ulBitmapHeight = 1;
+	}
+	else if (FLG_GRADIENT & GRADIENT_ACTIVE && (FLG_GRADIENT & GRADIENT_TB || FLG_GRADIENT & GRADIENT_BT)) {
+		bmi.bmiHeader.biWidth = ulBitmapWidth = 1;
+		bmi.bmiHeader.biHeight = ulBitmapHeight = realHeight;
+	}
+	else {
+		bmi.bmiHeader.biWidth = ulBitmapWidth = 1;
+		bmi.bmiHeader.biHeight = ulBitmapHeight = 1;
+	}
 
-    if (FLG_GRADIENT & GRADIENT_ACTIVE && (FLG_GRADIENT & GRADIENT_LR || FLG_GRADIENT & GRADIENT_RL)) {
-        bmi.bmiHeader.biWidth = ulBitmapWidth = realWidth;
-        bmi.bmiHeader.biHeight = ulBitmapHeight = 1;
-    } else if (FLG_GRADIENT & GRADIENT_ACTIVE && (FLG_GRADIENT & GRADIENT_TB || FLG_GRADIENT & GRADIENT_BT)) {
-        bmi.bmiHeader.biWidth = ulBitmapWidth = 1;
-        bmi.bmiHeader.biHeight = ulBitmapHeight = realHeight;
-    } else {
-        bmi.bmiHeader.biWidth = ulBitmapWidth = 1;
-        bmi.bmiHeader.biHeight = ulBitmapHeight = 1;
-    }
+	bmi.bmiHeader.biPlanes = 1;
+	bmi.bmiHeader.biBitCount = 32;
+	bmi.bmiHeader.biCompression = BI_RGB;
+	bmi.bmiHeader.biSizeImage = ulBitmapWidth * ulBitmapHeight * 4;
 
-    bmi.bmiHeader.biPlanes = 1;
-    bmi.bmiHeader.biBitCount = 32;
-    bmi.bmiHeader.biCompression = BI_RGB;
-    bmi.bmiHeader.biSizeImage = ulBitmapWidth * ulBitmapHeight * 4;
+	void *pvBits;
+	HBITMAP hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
+	if (hbitmap == NULL || pvBits == NULL) {
+		DeleteDC(hdc);
+		return;
+	}
 
-    hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
-    if (hbitmap == NULL || pvBits == NULL) {
-        DeleteDC(hdc);
-        return;
-    }
+	HBITMAP holdbitmap = reinterpret_cast<HBITMAP>(SelectObject(hdc, hbitmap));
 
-    holdbitmap = reinterpret_cast<HBITMAP>(SelectObject(hdc, hbitmap));
+	// convert basecolor to RGB and then merge alpha so its ARGB
+	basecolor = argb_from_cola(revcolref(basecolor), alpha);
+	basecolor2 = argb_from_cola(revcolref(basecolor2), alpha);
 
-    // convert basecolor to RGB and then merge alpha so its ARGB
-    basecolor = argb_from_cola(revcolref(basecolor), alpha);
-    basecolor2 = argb_from_cola(revcolref(basecolor2), alpha);
+	UCHAR ubRed = (UCHAR)(basecolor >> 16);
+	UCHAR ubGreen = (UCHAR)(basecolor >> 8);
+	UCHAR ubBlue = (UCHAR)basecolor;
 
-    ubRed = (UCHAR) (basecolor >> 16);
-    ubGreen = (UCHAR) (basecolor >> 8);
-    ubBlue = (UCHAR) basecolor;
+	UCHAR ubRed2 = (UCHAR)(basecolor2 >> 16);
+	UCHAR ubGreen2 = (UCHAR)(basecolor2 >> 8);
+	UCHAR ubBlue2 = (UCHAR)basecolor2;
 
-    ubRed2 = (UCHAR) (basecolor2 >> 16);
-    ubGreen2 = (UCHAR) (basecolor2 >> 8);
-    ubBlue2 = (UCHAR) basecolor2;
+	//DRAW BASE - make corner space 100% transparent
+	for (int y = 0; y < ulBitmapHeight; y++) {
+		for (int x = 0; x < ulBitmapWidth; x++) {
+			if (FLG_GRADIENT & GRADIENT_ACTIVE) {
+				if (FLG_GRADIENT & GRADIENT_LR || FLG_GRADIENT & GRADIENT_RL) {
+					int realx = x + realHeightHalf;
+					realx = realx > ulBitmapWidth ? ulBitmapWidth : realx;
+					gradientHorizontal(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, ulBitmapWidth, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, FLG_GRADIENT, transparent, realx, &ubAlpha);
+				}
+				else if (FLG_GRADIENT & GRADIENT_TB || FLG_GRADIENT & GRADIENT_BT)
+					gradientVertical(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, ulBitmapHeight, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, FLG_GRADIENT, transparent, y, &ubAlpha);
 
-    //DRAW BASE - make corner space 100% transparent
-    for (y = 0; y < ulBitmapHeight; y++) {
-        for (x = 0 ; x < ulBitmapWidth ; x++) {
-            if (FLG_GRADIENT & GRADIENT_ACTIVE) {
-                if (FLG_GRADIENT & GRADIENT_LR || FLG_GRADIENT & GRADIENT_RL) {
-                    realx = x + realHeightHalf;
-                    realx = (ULONG) realx > ulBitmapWidth ? ulBitmapWidth : realx;
-                    gradientHorizontal(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, ulBitmapWidth, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, FLG_GRADIENT, transparent, realx, &ubAlpha);
-                } else if (FLG_GRADIENT & GRADIENT_TB || FLG_GRADIENT & GRADIENT_BT)
-                    gradientVertical(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, ulBitmapHeight, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, FLG_GRADIENT, transparent, y, &ubAlpha);
+				float fAlphaFactor = (float)ubAlpha / (float)0xff;
+				((UINT32 *)pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
+			}
+			else {
+				ubAlpha = percent_to_byte(alpha);
+				ubRedFinal = ubRed;
+				ubGreenFinal = ubGreen;
+				ubBlueFinal = ubBlue;
 
-                fAlphaFactor = (float) ubAlpha / (float) 0xff;
-                ((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR) (ubRedFinal * fAlphaFactor) << 16) | ((UCHAR) (ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR) (ubBlueFinal * fAlphaFactor));
-            } else {
-                ubAlpha = percent_to_byte(alpha);
-                ubRedFinal = ubRed;
-                ubGreenFinal = ubGreen;
-                ubBlueFinal = ubBlue;
-                fAlphaFactor = (float) ubAlpha / (float) 0xff;
+				float fAlphaFactor = (float)ubAlpha / (float)0xff;
+				((UINT32 *)pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
+			}
+		}
+	}
+	bf.BlendOp = AC_SRC_OVER;
+	bf.BlendFlags = 0;
+	bf.SourceConstantAlpha = (UCHAR)(basecolor >> 24);
+	bf.AlphaFormat = AC_SRC_ALPHA; // so it will use our specified alpha value
 
-                ((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR) (ubRedFinal * fAlphaFactor) << 16) | ((UCHAR) (ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR) (ubBlueFinal * fAlphaFactor));
-            }
-        }
-    }
-    bf.BlendOp = AC_SRC_OVER;
-    bf.BlendFlags = 0;
-    bf.SourceConstantAlpha = (UCHAR) (basecolor >> 24);
-    bf.AlphaFormat = AC_SRC_ALPHA; // so it will use our specified alpha value
+	GdiAlphaBlend(hdcwnd, rc->left + realHeightHalf, rc->top, (realWidth - realHeightHalf * 2), realHeight, hdc, 0, 0, ulBitmapWidth, ulBitmapHeight, bf);
 
-    GdiAlphaBlend(hdcwnd, rc->left + realHeightHalf, rc->top, (realWidth - realHeightHalf * 2), realHeight, hdc, 0, 0, ulBitmapWidth, ulBitmapHeight, bf);
+	SelectObject(hdc, holdbitmap);
+	DeleteObject(hbitmap);
 
-    SelectObject(hdc, holdbitmap);
-    DeleteObject(hbitmap);
+	saved_alpha = (UCHAR)(basecolor >> 24);
 
-    saved_alpha = (UCHAR) (basecolor >> 24);
+	// corners
+	HBRUSH holdbrush;
+	HBRUSH BrMask = CreateSolidBrush(RGB(0xFF, 0x00, 0xFF));
+	{
+		bmi.bmiHeader.biWidth = ulBitmapWidth = realHeightHalf;
+		bmi.bmiHeader.biHeight = ulBitmapHeight = realHeight;
+		bmi.bmiHeader.biSizeImage = ulBitmapWidth * ulBitmapHeight * 4;
 
-    // corners
-    HBRUSH holdbrush;
-    HBRUSH BrMask = CreateSolidBrush(RGB(0xFF, 0x00, 0xFF));
-    {
-        bmi.bmiHeader.biWidth = ulBitmapWidth = realHeightHalf;
-        bmi.bmiHeader.biHeight = ulBitmapHeight = realHeight;
-        bmi.bmiHeader.biSizeImage = ulBitmapWidth * ulBitmapHeight * 4;
+		if (ulBitmapWidth <= 0 || ulBitmapHeight <= 0) {
+			DeleteDC(hdc);
+			DeleteObject(BrMask);
+			return;
+		}
 
-        if (ulBitmapWidth <= 0 || ulBitmapHeight <= 0) {
-            DeleteDC(hdc);
-            DeleteObject(BrMask);
-            return;
-        }
+		// TL+BL CORNER
+		hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
 
-        // TL+BL CORNER
-        hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
+		if (hbitmap == 0 || pvBits == NULL) {
+			DeleteObject(BrMask);
+			DeleteDC(hdc);
+			return;
+		}
 
-        if (hbitmap == 0 || pvBits == NULL)  {
-            DeleteObject(BrMask);
-            DeleteDC(hdc);
-            return;
-        }
+		holdbrush = reinterpret_cast<HBRUSH>(SelectObject(hdc, BrMask));
+		holdbitmap = reinterpret_cast<HBITMAP>(SelectObject(hdc, hbitmap));
+		RoundRect(hdc, -1, -1, ulBitmapWidth * 2 + 1, (realHeight + 1), cfg::dat.cornerRadius << 1, cfg::dat.cornerRadius << 1);
 
-        holdbrush = reinterpret_cast<HBRUSH>(SelectObject(hdc, BrMask));
-        holdbitmap = reinterpret_cast<HBITMAP>(SelectObject(hdc, hbitmap));
-        RoundRect(hdc, -1, -1, ulBitmapWidth * 2 + 1, (realHeight + 1), cfg::dat.cornerRadius << 1, cfg::dat.cornerRadius << 1);
+		for (int y = 0; y < ulBitmapHeight; y++) {
+			for (int x = 0; x < ulBitmapWidth; x++) {
+				if (((((UINT32 *)pvBits)[x + y * ulBitmapWidth]) << 8) == 0xFF00FF00 || (y< ulBitmapHeight >> 1 && !(FLG_CORNER & CORNER_BL && FLG_CORNER & CORNER_ACTIVE)) || (y > ulBitmapHeight >> 2 && !(FLG_CORNER & CORNER_TL && FLG_CORNER & CORNER_ACTIVE))) {
+					if (FLG_GRADIENT & GRADIENT_ACTIVE) {
+						if (FLG_GRADIENT & GRADIENT_LR || FLG_GRADIENT & GRADIENT_RL)
+							gradientHorizontal(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, realWidth, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, FLG_GRADIENT, transparent, x, &ubAlpha);
+						else if (FLG_GRADIENT & GRADIENT_TB || FLG_GRADIENT & GRADIENT_BT)
+							gradientVertical(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, ulBitmapHeight, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, FLG_GRADIENT, transparent, y, &ubAlpha);
 
-        for (y = 0; y < ulBitmapHeight; y++) {
-            for (x = 0; x < ulBitmapWidth; x++) {
-                if (((((UINT32 *) pvBits)[x + y * ulBitmapWidth]) << 8) == 0xFF00FF00 || (y< ulBitmapHeight >> 1 && !(FLG_CORNER & CORNER_BL && FLG_CORNER & CORNER_ACTIVE)) || (y > ulBitmapHeight >> 2 && !(FLG_CORNER & CORNER_TL && FLG_CORNER & CORNER_ACTIVE))) {
-                    if (FLG_GRADIENT & GRADIENT_ACTIVE) {
-                        if (FLG_GRADIENT & GRADIENT_LR || FLG_GRADIENT & GRADIENT_RL)
-                            gradientHorizontal(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, realWidth, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, FLG_GRADIENT, transparent, x, &ubAlpha);
-                        else if (FLG_GRADIENT & GRADIENT_TB || FLG_GRADIENT & GRADIENT_BT)
-                            gradientVertical(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, ulBitmapHeight, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, FLG_GRADIENT, transparent, y, &ubAlpha);
+						float fAlphaFactor = (float)ubAlpha / (float)0xff;
+						((UINT32 *)pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
+					}
+					else {
+						ubAlpha = percent_to_byte(alpha);
+						ubRedFinal = ubRed;
+						ubGreenFinal = ubGreen;
+						ubBlueFinal = ubBlue;
+						float fAlphaFactor = (float)ubAlpha / (float)0xff;
+						((UINT32 *)pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
+					}
+				}
+			}
+		}
+		GdiAlphaBlend(hdcwnd, rc->left, rc->top, ulBitmapWidth, ulBitmapHeight, hdc, 0, 0, ulBitmapWidth, ulBitmapHeight, bf);
+		SelectObject(hdc, holdbitmap);
+		DeleteObject(hbitmap);
 
-                        fAlphaFactor = (float) ubAlpha / (float) 0xff;
-                        ((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR) (ubRedFinal * fAlphaFactor) << 16) | ((UCHAR) (ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR) (ubBlueFinal * fAlphaFactor));
-                    } else {
-                        ubAlpha = percent_to_byte(alpha);
-                        ubRedFinal = ubRed;
-                        ubGreenFinal = ubGreen;
-                        ubBlueFinal = ubBlue;
-                        fAlphaFactor = (float) ubAlpha / (float) 0xff;
+		// TR+BR CORNER
+		hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
 
-                        ((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR) (ubRedFinal * fAlphaFactor) << 16) | ((UCHAR) (ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR) (ubBlueFinal * fAlphaFactor));
-                    }
-                }
-            }
-        }
-        GdiAlphaBlend(hdcwnd, rc->left, rc->top, ulBitmapWidth, ulBitmapHeight, hdc, 0, 0, ulBitmapWidth, ulBitmapHeight, bf);
-        SelectObject(hdc, holdbitmap);
-        DeleteObject(hbitmap);
+		//SelectObject(hdc, BrMask); // already BrMask?
+		holdbitmap = reinterpret_cast<HBITMAP>(SelectObject(hdc, hbitmap));
+		RoundRect(hdc, -1 - ulBitmapWidth, -1, ulBitmapWidth + 1, (realHeight + 1), cfg::dat.cornerRadius << 1, cfg::dat.cornerRadius << 1);
 
-        // TR+BR CORNER
-        hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
+		for (int y = 0; y < ulBitmapHeight; y++) {
+			for (int x = 0; x < ulBitmapWidth; x++) {
+				if (((((UINT32 *)pvBits)[x + y * ulBitmapWidth]) << 8) == 0xFF00FF00 || (y< ulBitmapHeight >> 1 && !(FLG_CORNER & CORNER_BR && FLG_CORNER & CORNER_ACTIVE)) || (y > ulBitmapHeight >> 1 && !(FLG_CORNER & CORNER_TR && FLG_CORNER & CORNER_ACTIVE))) {
+					if (FLG_GRADIENT & GRADIENT_ACTIVE) {
+						if (FLG_GRADIENT & GRADIENT_LR || FLG_GRADIENT & GRADIENT_RL) {
+							int realx = x + realWidth;
+							realx = realx > realWidth ? realWidth : realx;
+							gradientHorizontal(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, realWidth, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, FLG_GRADIENT, transparent, realx, &ubAlpha);
+						}
+						else if (FLG_GRADIENT & GRADIENT_TB || FLG_GRADIENT & GRADIENT_BT)
+							gradientVertical(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, ulBitmapHeight, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, FLG_GRADIENT, transparent, y, &ubAlpha);
 
-        //SelectObject(hdc, BrMask); // already BrMask?
-        holdbitmap = reinterpret_cast<HBITMAP>(SelectObject(hdc, hbitmap));
-        RoundRect(hdc, -1 - ulBitmapWidth, -1, ulBitmapWidth + 1, (realHeight + 1), cfg::dat.cornerRadius << 1, cfg::dat.cornerRadius << 1);
+						float fAlphaFactor = (float)ubAlpha / (float)0xff;
+						((UINT32 *)pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
+					}
+					else {
+						ubAlpha = percent_to_byte(alpha);
+						ubRedFinal = ubRed;
+						ubGreenFinal = ubGreen;
+						ubBlueFinal = ubBlue;
 
-        for (y = 0; y < ulBitmapHeight; y++) {
-            for (x = 0; x < ulBitmapWidth; x++) {
-                if (((((UINT32 *) pvBits)[x + y * ulBitmapWidth]) << 8) == 0xFF00FF00 || (y< ulBitmapHeight >> 1 && !(FLG_CORNER & CORNER_BR && FLG_CORNER & CORNER_ACTIVE)) || (y > ulBitmapHeight >> 1 && !(FLG_CORNER & CORNER_TR && FLG_CORNER & CORNER_ACTIVE))) {
-                    if (FLG_GRADIENT & GRADIENT_ACTIVE) {
-                        if (FLG_GRADIENT & GRADIENT_LR || FLG_GRADIENT & GRADIENT_RL) {
-                            realx = x + realWidth;
-                            realx = realx > realWidth ? realWidth : realx;
-                            gradientHorizontal(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, realWidth, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, FLG_GRADIENT, transparent, realx, &ubAlpha);
-                        } else if (FLG_GRADIENT & GRADIENT_TB || FLG_GRADIENT & GRADIENT_BT)
-                            gradientVertical(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, ulBitmapHeight, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, FLG_GRADIENT, transparent, y, &ubAlpha);
-
-                        fAlphaFactor = (float) ubAlpha / (float) 0xff;
-                        ((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR) (ubRedFinal * fAlphaFactor) << 16) | ((UCHAR) (ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR) (ubBlueFinal * fAlphaFactor));
-                    } else {
-                        ubAlpha = percent_to_byte(alpha);
-                        ubRedFinal = ubRed;
-                        ubGreenFinal = ubGreen;
-                        ubBlueFinal = ubBlue;
-                        fAlphaFactor = (float) ubAlpha / (float) 0xff;
-
-                        ((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR) (ubRedFinal * fAlphaFactor) << 16) | ((UCHAR) (ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR) (ubBlueFinal * fAlphaFactor));
-                    }
-                }
-            }
-        }
-        GdiAlphaBlend(hdcwnd, rc->right - realHeightHalf, rc->top, ulBitmapWidth, ulBitmapHeight, hdc, 0, 0, ulBitmapWidth, ulBitmapHeight, bf);
-    }
+						float fAlphaFactor = (float)ubAlpha / (float)0xff;
+						((UINT32 *)pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
+					}
+				}
+			}
+		}
+		GdiAlphaBlend(hdcwnd, rc->right - realHeightHalf, rc->top, ulBitmapWidth, ulBitmapHeight, hdc, 0, 0, ulBitmapWidth, ulBitmapHeight, bf);
+	}
 	DrawBorderStyle(hdcwnd, rc, BORDERSTYLE);
 
-    SelectObject(hdc, holdbitmap);
-    DeleteObject(hbitmap);
-    SelectObject(hdc, holdbrush);
-    DeleteObject(BrMask);
-    DeleteDC(hdc);
+	SelectObject(hdc, holdbitmap);
+	DeleteObject(hbitmap);
+	SelectObject(hdc, holdbrush);
+	DeleteObject(BrMask);
+	DeleteDC(hdc);
 }
 
 void __inline gradientHorizontal(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ubBlueFinal, ULONG ulBitmapWidth, UCHAR ubRed, UCHAR ubGreen, UCHAR ubBlue, UCHAR ubRed2, UCHAR ubGreen2, UCHAR ubBlue2, DWORD FLG_GRADIENT, BOOL transparent, UINT32 x, UCHAR *ubAlpha)
 {
-    FLOAT fSolidMulti, fInvSolidMulti;
+	FLOAT fSolidMulti, fInvSolidMulti;
 
-    // solid to transparent
-    if (transparent) {
-        *ubAlpha = (UCHAR) ((float) x / (float) ulBitmapWidth * 255);
-        *ubAlpha = FLG_GRADIENT & GRADIENT_LR ? 0xFF - (*ubAlpha) : (*ubAlpha);
-        *ubRedFinal = ubRed; *ubGreenFinal = ubGreen; *ubBlueFinal = ubBlue;
-    } else { // solid to solid2
-        if (FLG_GRADIENT & GRADIENT_LR) {
-            fSolidMulti = ((float) x / (float) ulBitmapWidth);
-            fInvSolidMulti = 1 - fSolidMulti;
-        } else {
-            fInvSolidMulti = ((float) x / (float) ulBitmapWidth);
-            fSolidMulti = 1 - fInvSolidMulti;
-        }
+	// solid to transparent
+	if (transparent) {
+		*ubAlpha = (UCHAR)((float)x / (float)ulBitmapWidth * 255);
+		*ubAlpha = FLG_GRADIENT & GRADIENT_LR ? 0xFF - (*ubAlpha) : (*ubAlpha);
+		*ubRedFinal = ubRed; *ubGreenFinal = ubGreen; *ubBlueFinal = ubBlue;
+	}
+	else { // solid to solid2
+		if (FLG_GRADIENT & GRADIENT_LR) {
+			fSolidMulti = ((float)x / (float)ulBitmapWidth);
+			fInvSolidMulti = 1 - fSolidMulti;
+		}
+		else {
+			fInvSolidMulti = ((float)x / (float)ulBitmapWidth);
+			fSolidMulti = 1 - fInvSolidMulti;
+		}
 
-        *ubRedFinal = (UCHAR) (((float) ubRed * (float) fInvSolidMulti) + ((float) ubRed2 * (float) fSolidMulti));
-        *ubGreenFinal = (UCHAR) (((float) ubGreen * (float) fInvSolidMulti) + ((float) ubGreen2 * (float) fSolidMulti));
-        *ubBlueFinal = (UCHAR) (((float) ubBlue * (float) fInvSolidMulti) + ((float) ubBlue2 * (float) fSolidMulti));
+		*ubRedFinal = (UCHAR)(((float)ubRed * (float)fInvSolidMulti) + ((float)ubRed2 * (float)fSolidMulti));
+		*ubGreenFinal = (UCHAR)(((float)ubGreen * (float)fInvSolidMulti) + ((float)ubGreen2 * (float)fSolidMulti));
+		*ubBlueFinal = (UCHAR)(((float)ubBlue * (float)fInvSolidMulti) + ((float)ubBlue2 * (float)fSolidMulti));
 
-        *ubAlpha = 0xFF;
-    }
+		*ubAlpha = 0xFF;
+	}
 }
 
 void __inline gradientVertical(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ubBlueFinal, ULONG ulBitmapHeight, UCHAR ubRed, UCHAR ubGreen, UCHAR ubBlue, UCHAR ubRed2, UCHAR ubGreen2, UCHAR ubBlue2, DWORD FLG_GRADIENT, BOOL transparent, UINT32 y, UCHAR *ubAlpha)
 {
-    FLOAT fSolidMulti, fInvSolidMulti;
+	FLOAT fSolidMulti, fInvSolidMulti;
 
-    // solid to transparent
-    if (transparent) {
-        *ubAlpha = (UCHAR) ((float) y / (float) ulBitmapHeight * 255);
-        *ubAlpha = FLG_GRADIENT & GRADIENT_BT ? 0xFF - *ubAlpha : *ubAlpha;
-        *ubRedFinal = ubRed; *ubGreenFinal = ubGreen; *ubBlueFinal = ubBlue;
-    } else { // solid to solid2
-        if (FLG_GRADIENT & GRADIENT_BT) {
-            fSolidMulti = ((float) y / (float) ulBitmapHeight);
-            fInvSolidMulti = 1 - fSolidMulti;
-        } else {
-            fInvSolidMulti = ((float) y / (float) ulBitmapHeight);
-            fSolidMulti = 1 - fInvSolidMulti;
-        }
+	// solid to transparent
+	if (transparent) {
+		*ubAlpha = (UCHAR)((float)y / (float)ulBitmapHeight * 255);
+		*ubAlpha = FLG_GRADIENT & GRADIENT_BT ? 0xFF - *ubAlpha : *ubAlpha;
+		*ubRedFinal = ubRed; *ubGreenFinal = ubGreen; *ubBlueFinal = ubBlue;
+	}
+	else { // solid to solid2
+		if (FLG_GRADIENT & GRADIENT_BT) {
+			fSolidMulti = ((float)y / (float)ulBitmapHeight);
+			fInvSolidMulti = 1 - fSolidMulti;
+		}
+		else {
+			fInvSolidMulti = ((float)y / (float)ulBitmapHeight);
+			fSolidMulti = 1 - fInvSolidMulti;
+		}
 
-        *ubRedFinal = (UCHAR) (((float) ubRed * (float) fInvSolidMulti) + ((float) ubRed2 * (float) fSolidMulti));
-        *ubGreenFinal = (UCHAR) (((float) ubGreen * (float) fInvSolidMulti) + ((float) ubGreen2 * (float) fSolidMulti));
-        *ubBlueFinal = (UCHAR) (((float) ubBlue * (float) fInvSolidMulti) + ((float) ubBlue2 * (float) fSolidMulti));
+		*ubRedFinal = (UCHAR)(((float)ubRed * (float)fInvSolidMulti) + ((float)ubRed2 * (float)fSolidMulti));
+		*ubGreenFinal = (UCHAR)(((float)ubGreen * (float)fInvSolidMulti) + ((float)ubGreen2 * (float)fSolidMulti));
+		*ubBlueFinal = (UCHAR)(((float)ubBlue * (float)fInvSolidMulti) + ((float)ubBlue2 * (float)fSolidMulti));
 
-        *ubAlpha = 0xFF;
-    }
+		*ubAlpha = 0xFF;
+	}
 }
 
 /*
@@ -480,39 +476,39 @@ void __fastcall IMG_RenderImageItem(HDC hdc, ImageItem *item, RECT *rc)
 		switch (item->bStretch) {
 		case IMAGE_STRETCH_H:
 			// tile image vertically, stretch to width
-		{
-			LONG top = rc->top;
+			{
+				LONG top = rc->top;
 
-			do {
-				if (top + item->height <= rc->bottom) {
-					GdiAlphaBlend(hdc, rc->left, top, width, item->height, hdcSrc, srcOrigX, srcOrigY, item->width, item->height, item->bf);
-					top += item->height;
-				}
-				else {
-					GdiAlphaBlend(hdc, rc->left, top, width, rc->bottom - top, hdcSrc, srcOrigX, srcOrigY, item->width, rc->bottom - top, item->bf);
-					break;
-				}
+				do {
+					if (top + item->height <= rc->bottom) {
+						GdiAlphaBlend(hdc, rc->left, top, width, item->height, hdcSrc, srcOrigX, srcOrigY, item->width, item->height, item->bf);
+						top += item->height;
+					}
+					else {
+						GdiAlphaBlend(hdc, rc->left, top, width, rc->bottom - top, hdcSrc, srcOrigX, srcOrigY, item->width, rc->bottom - top, item->bf);
+						break;
+					}
+				} while (true);
 			}
-				while (true);
 			break;
-		}
+
 		case IMAGE_STRETCH_V: // tile horizontally, stretch to height
-		{
-			LONG left = rc->left;
+			{
+				LONG left = rc->left;
 
-			do {
-				if (left + item->width <= rc->right) {
-					GdiAlphaBlend(hdc, left, rc->top, item->width, height, hdcSrc, srcOrigX, srcOrigY, item->width, item->height, item->bf);
-					left += item->width;
-				}
-				else {
-					GdiAlphaBlend(hdc, left, rc->top, rc->right - left, height, hdcSrc, srcOrigX, srcOrigY, rc->right - left, item->height, item->bf);
-					break;
-				}
+				do {
+					if (left + item->width <= rc->right) {
+						GdiAlphaBlend(hdc, left, rc->top, item->width, height, hdcSrc, srcOrigX, srcOrigY, item->width, item->height, item->bf);
+						left += item->width;
+					}
+					else {
+						GdiAlphaBlend(hdc, left, rc->top, rc->right - left, height, hdcSrc, srcOrigX, srcOrigY, rc->right - left, item->height, item->bf);
+						break;
+					}
+				} while (true);
 			}
-				while (TRUE);
 			break;
-		}
+
 		case IMAGE_STRETCH_B:
 			// stretch the image in both directions...
 			GdiAlphaBlend(hdc, rc->left, rc->top, width, height, hdcSrc, srcOrigX, srcOrigY, item->width, item->height, item->bf);

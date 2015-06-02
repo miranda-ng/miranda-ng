@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <commonheaders.h>
 
-TCluiData cfg::dat = {0};
+TCluiData cfg::dat = { 0 };
 ClcData* cfg::clcdat = 0;
 
 static mir_cs cachecs;
@@ -32,14 +32,14 @@ LIST<TExtraCache> cfg::arCache(100, NumericKeySortT);
 
 bool cfg::shutDown = false;
 
-TSysConfig API::sysConfig = {0};
-TSysState  API::sysState = {0};
+TSysConfig API::sysConfig = { 0 };
+TSysState  API::sysState = { 0 };
 
 pfnDwmExtendFrameIntoClientArea_t API::pfnDwmExtendFrameIntoClientArea = 0;
 pfnDwmIsCompositionEnabled_t API::pfnDwmIsCompositionEnabled = 0;
 
-EXCEPTION_RECORD API::exRecord = {0};
-CONTEXT API::exCtx = {0};
+EXCEPTION_RECORD API::exRecord = { 0 };
+CONTEXT API::exCtx = { 0 };
 LRESULT API::exLastResult = 0;
 char    API::exSzFile[MAX_PATH] = "";
 TCHAR   API::exReason[256] = _T("");
@@ -241,7 +241,7 @@ void API::updateState()
 void API::Ex_CopyEditToClipboard(HWND hWnd)
 {
 	SendMessage(hWnd, EM_SETSEL, 0, 65535L);
-	SendMessage(hWnd, WM_COPY, 0 , 0);
+	SendMessage(hWnd, WM_COPY, 0, 0);
 	SendMessage(hWnd, EM_SETSEL, 0, 0);
 }
 
@@ -250,41 +250,41 @@ INT_PTR CALLBACK API::Ex_DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 	WORD wNotifyCode, wID;
 
 	switch (uMsg) {
-		case WM_INITDIALOG: {
-				char szBuffer[2048];
+	case WM_INITDIALOG: {
+			char szBuffer[2048];
 #ifdef _WIN64
-				mir_snprintf(szBuffer, SIZEOF(szBuffer),
-						"Exception %16.16X at address %16.16X occured in %s at line %d.\r\n\r\nEAX=%16.16X EBX=%16.16X ECX=%16.16X\r\nEDX=%16.16X ESI=%16.16X EDI=%16.16X\r\nEBP=%16.16X ESP=%16.16X EIP=%16.16X",
-						exRecord.ExceptionCode, exRecord.ExceptionAddress, exSzFile, exLine,
-						exCtx.Rax,exCtx.Rbx, exCtx.Rcx, exCtx.Rdx,
-						exCtx.Rsi, exCtx.Rdi, exCtx.Rbp, exCtx.Rsp, exCtx.Rip);
+			mir_snprintf(szBuffer, SIZEOF(szBuffer),
+				"Exception %16.16X at address %16.16X occured in %s at line %d.\r\n\r\nEAX=%16.16X EBX=%16.16X ECX=%16.16X\r\nEDX=%16.16X ESI=%16.16X EDI=%16.16X\r\nEBP=%16.16X ESP=%16.16X EIP=%16.16X",
+				exRecord.ExceptionCode, exRecord.ExceptionAddress, exSzFile, exLine,
+				exCtx.Rax, exCtx.Rbx, exCtx.Rcx, exCtx.Rdx,
+				exCtx.Rsi, exCtx.Rdi, exCtx.Rbp, exCtx.Rsp, exCtx.Rip);
 #else
-				mir_snprintf(szBuffer, SIZEOF(szBuffer),
-						"Exception %8.8X at address %8.8X occured in %s at line %d.\r\n\r\nEAX=%8.8X EBX=%8.8X ECX=%8.8X\r\nEDX=%8.8X ESI=%8.8X EDI=%8.8X\r\nEBP=%8.8X ESP=%8.8X EIP=%8.8X",
-						exRecord.ExceptionCode, exRecord.ExceptionAddress, exSzFile, exLine,
-						exCtx.Eax,exCtx.Ebx, exCtx.Ecx, exCtx.Edx,
-						exCtx.Esi, exCtx.Edi, exCtx.Ebp, exCtx.Esp, exCtx.Eip);
+			mir_snprintf(szBuffer, SIZEOF(szBuffer),
+				"Exception %8.8X at address %8.8X occured in %s at line %d.\r\n\r\nEAX=%8.8X EBX=%8.8X ECX=%8.8X\r\nEDX=%8.8X ESI=%8.8X EDI=%8.8X\r\nEBP=%8.8X ESP=%8.8X EIP=%8.8X",
+				exRecord.ExceptionCode, exRecord.ExceptionAddress, exSzFile, exLine,
+				exCtx.Eax,exCtx.Ebx, exCtx.Ecx, exCtx.Edx,
+				exCtx.Esi, exCtx.Edi, exCtx.Ebp, exCtx.Esp, exCtx.Eip);
 #endif
-				SetDlgItemTextA(hwndDlg, IDC_EXCEPTION_DETAILS, szBuffer);
-				SetFocus(GetDlgItem(hwndDlg, IDC_EXCEPTION_DETAILS));
-				SendDlgItemMessage(hwndDlg, IDC_EXCEPTION_DETAILS, WM_SETFONT, (WPARAM)GetStockObject(OEM_FIXED_FONT), 0);
-				SetDlgItemText(hwndDlg, IDC_EX_REASON, exReason);
-				Utils::enableDlgControl(hwndDlg, IDOK, exAllowContinue ? TRUE : FALSE);
-			}
-			break;
+			SetDlgItemTextA(hwndDlg, IDC_EXCEPTION_DETAILS, szBuffer);
+			SetFocus(GetDlgItem(hwndDlg, IDC_EXCEPTION_DETAILS));
+			SendDlgItemMessage(hwndDlg, IDC_EXCEPTION_DETAILS, WM_SETFONT, (WPARAM)GetStockObject(OEM_FIXED_FONT), 0);
+			SetDlgItemText(hwndDlg, IDC_EX_REASON, exReason);
+			Utils::enableDlgControl(hwndDlg, IDOK, exAllowContinue ? TRUE : FALSE);
+		}
+							  break;
 
-		case WM_COMMAND:
-			wNotifyCode = HIWORD(wParam);
-			wID = LOWORD(wParam);
-			if (wNotifyCode == BN_CLICKED) {
-				if (wID == IDOK || wID == IDCANCEL)
-					EndDialog(hwndDlg, wID);
+	case WM_COMMAND:
+		wNotifyCode = HIWORD(wParam);
+		wID = LOWORD(wParam);
+		if (wNotifyCode == BN_CLICKED) {
+			if (wID == IDOK || wID == IDCANCEL)
+				EndDialog(hwndDlg, wID);
 
-				if (wID == IDC_COPY_EXCEPTION)
-					Ex_CopyEditToClipboard(GetDlgItem(hwndDlg, IDC_EXCEPTION_DETAILS));
-			}
+			if (wID == IDC_COPY_EXCEPTION)
+				Ex_CopyEditToClipboard(GetDlgItem(hwndDlg, IDC_EXCEPTION_DETAILS));
+		}
 
-			break;
+		break;
 	}
 	return FALSE;
 }
@@ -367,9 +367,9 @@ CRTException::CRTException(const char *szMsg, const TCHAR *szParam) : std::runti
 
 void CRTException::display() const
 {
-	TCHAR*	tszMsg = mir_a2t(what());
-	TCHAR  	tszBoxMsg[500];
+	TCHAR *tszMsg = mir_a2t(what());
 
+	TCHAR tszBoxMsg[500];
 	mir_sntprintf(tszBoxMsg, SIZEOF(tszBoxMsg), _T("%s\n\n(%s)"), tszMsg, m_szParam);
 	::MessageBox(0, tszBoxMsg, _T("Clist_nicer runtime error"), MB_OK | MB_ICONERROR);
 	mir_free(tszMsg);

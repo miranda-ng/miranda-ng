@@ -55,11 +55,11 @@ int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact, HICON
 	if (szProto != NULL && !mir_strcmp(szProto, META_PROTO) && hContact != 0 && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		szFinalProto = GetContactProto(hSubContact);
-		finalStatus = (status == 0) ? (WORD) cfg::getWord(hSubContact, szFinalProto, "Status", ID_STATUS_OFFLINE) : status;
+		finalStatus = (status == 0) ? (WORD)cfg::getWord(hSubContact, szFinalProto, "Status", ID_STATUS_OFFLINE) : status;
 		hContact = hSubContact;
 	}
 	else {
-		szFinalProto = (char*) szProto;
+		szFinalProto = (char*)szProto;
 		finalStatus = status;
 	}
 
@@ -98,7 +98,7 @@ static INT_PTR GetCaps(WPARAM wParam, LPARAM)
 	case CLUICAPS_FLAGS1:
 		return CLUIF_HIDEEMPTYGROUPS | CLUIF_DISABLEGROUPS | CLUIF_HASONTOPOPTION | CLUIF_HASAUTOHIDEOPTION;
 	case CLUICAPS_FLAGS2:
-		return MAKELONG(EXTRA_ICON_COUNT,1);
+		return MAKELONG(EXTRA_ICON_COUNT, 1);
 	}
 	return 0;
 }

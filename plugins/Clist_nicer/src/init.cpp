@@ -37,8 +37,6 @@ extern HICON overlayicons[10];
 extern int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
 extern int SetHideOffline(WPARAM wParam, LPARAM lParam);
 
-extern DWORD g_gdiplusToken;
-
 TIME_API tmi;
 
 HMENU BuildGroupPopupMenu(ClcGroup *group);
@@ -79,7 +77,7 @@ PLUGININFOEX pluginInfo =
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {8F79B4EE-EB48-4A03-873E-27BE6B7E9A25}
-	{0x8f79b4ee, 0xeb48, 0x4a03, {0x87, 0x3e, 0x27, 0xbe, 0x6b, 0x7e, 0x9a, 0x25}}
+	{ 0x8f79b4ee, 0xeb48, 0x4a03, { 0x87, 0x3e, 0x27, 0xbe, 0x6b, 0x7e, 0x9a, 0x25 } }
 };
 
 BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
@@ -127,7 +125,7 @@ static int fnIconFromStatusMode(const char *szProto, int status, MCONTACT hConta
 
 extern "C" int __declspec(dllexport) CListInitialise()
 {
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfo);
 	mir_getTMI(&tmi);
 
 	mir_getCLI();
