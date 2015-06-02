@@ -23,7 +23,6 @@
 {$include m_notify.inc}
 {$include m_nudge.inc}
 {$include m_nxsn.inc}
-{$include m_png.inc}
 {$include m_proto_listeningto.inc}
 {$include m_quickcontacts.inc}
 {$include m_quotes.inc}

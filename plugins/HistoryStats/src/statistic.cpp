@@ -1303,7 +1303,6 @@ bool Statistic::createStatistics()
 	/*
 	 * Cleanup.
 	 */
-	CloseHandle(hThread);
 	CloseHandle(m_hCancelEvent);
 	m_hCancelEvent = NULL;
 	m_hWndProgress = NULL;
@@ -1372,8 +1371,10 @@ bool Statistic::createStatisticsSteps()
 void __cdecl Statistic::threadProc(void *lpParameter)
 {
 	Statistic* pStats = reinterpret_cast<Statistic*>(lpParameter);
-
 	SetEvent(pStats->m_hThreadPushEvent);
+
+	// perform action
+	pStats->createStatistics();
 
 	// check for errors
 	if (!pStats->m_ErrorText.empty() && !mu::system::terminated())

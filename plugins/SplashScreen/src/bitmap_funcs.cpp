@@ -38,14 +38,14 @@ MyBitmap::MyBitmap(int w, int h)
 	allocate(w, h);
 }
 
-MyBitmap::MyBitmap(TCHAR *fn, TCHAR *fnAlpha)
+MyBitmap::MyBitmap(TCHAR *fn)
 {
 	dcBmp = 0;
 	hBmp = 0;
 	bits = 0;
 	width = height = 0;
 	bitsSave = 0;
-	loadFromFile(fn, fnAlpha);
+	loadFromFile(fn);
 }
 
 MyBitmap::~MyBitmap()
@@ -125,133 +125,40 @@ void MyBitmap::DrawText(TCHAR *str, int x, int y)
 	this->saveAlpha(x - 2, y - 2, sz.cx + 2, sz.cy + 2);
 	::DrawText(this->getDC(), str, -1, &rc, DT_LEFT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX);
 	this->restoreAlpha(x - 2, y - 2, sz.cx + 2, sz.cy + 2);
-	//(x,y,sz.cx,sz.cy);
 }
 
-bool MyBitmap::loadFromFile(TCHAR *fn, TCHAR *fnAlpha)
+bool MyBitmap::loadFromFile(TCHAR *fn)
 {
 	if (bits) free();
 
+	HBITMAP hBmpLoaded = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)fn, IMGL_TCHAR);
+	if (!hBmpLoaded) {
+#ifdef _DEBUG
+		logMessage(_T("MyBitmap::loadFromFile"), _T("Bitmap load failed"));
+#endif
+		return false;
+	}
+
+	BITMAP bm; GetObject(hBmpLoaded, sizeof(bm), &bm);
+	SetBitmapDimensionEx(hBmpLoaded, bm.bmWidth, bm.bmHeight, NULL);
+
 	SIZE sz;
+	HDC dcTmp = CreateCompatibleDC(0);
+	GetBitmapDimensionEx(hBmpLoaded, &sz);
+	HBITMAP hBmpDcSave = (HBITMAP)SelectObject(dcTmp, hBmpLoaded);
 
-	TCHAR *ext;
-	ext = &fn[mir_tstrlen(fn) - 4];
+	allocate(sz.cx, sz.cy);
+	BitBlt(dcBmp, 0, 0, width, height, dcTmp, 0, 0, SRCCOPY);
 
-	if (!mir_tstrcmpi(ext, _T(".png"))) {
-		HANDLE hFile, hMap = NULL;
-		BYTE *ppMap = NULL;
-		long  cbFileSize = 0;
-		BITMAPINFOHEADER *pDib = { 0 };
-		BYTE *pDibBits = 0;
+	DeleteObject(SelectObject(dcTmp, hBmpDcSave));
+	DeleteDC(dcTmp);
 
-		if (!png2dibConvertor) {
-			return false;
-		}
+	if (bm.bmBitsPixel == 32)
+		premultipleChannels();
+	else
+		makeOpaque();
 
-		if ((hFile = CreateFile(fn, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
-			if ((hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL)) != NULL)
-				if ((ppMap = (BYTE*)MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0)) != NULL)
-					cbFileSize = GetFileSize(hFile, NULL);
-		if (cbFileSize != 0) {
-			PNG2DIB param;
-			param.pSource = ppMap;
-			param.cbSourceSize = cbFileSize;
-			param.pResult = &pDib;
-
-			if (png2dibConvertor((char*)param.pSource, param.cbSourceSize, param.pResult))
-				pDibBits = (BYTE*)(pDib + 1);
-			else
-				cbFileSize = 0;
-#ifdef _DEBUG
-			logMessage(_T("Loading splash file"), _T("done"));
-#endif
-		}
-
-		if (ppMap) UnmapViewOfFile(ppMap);
-		if (hMap) CloseHandle(hMap);
-		if (hFile) CloseHandle(hFile);
-
-		if (!cbFileSize) return false;
-
-		BITMAPINFO *bi = (BITMAPINFO*)pDib;
-		BYTE *pt = (BYTE*)bi;
-		pt += bi->bmiHeader.biSize;
-		HBITMAP hBitmap = NULL;
-
-		if (bi->bmiHeader.biBitCount != 32) {
-			allocate(abs(bi->bmiHeader.biWidth), abs(bi->bmiHeader.biHeight));
-			HDC hdcTmp = CreateCompatibleDC(getDC());
-			HBITMAP hBitmap = CreateDIBitmap(getDC(), pDib, CBM_INIT, pDibBits, bi, DIB_PAL_COLORS);
-			SelectObject(hdcTmp, hBitmap);
-			BitBlt(this->getDC(), 0, 0, abs(bi->bmiHeader.biWidth), abs(bi->bmiHeader.biHeight), hdcTmp, 0, 0, SRCCOPY);
-			this->makeOpaque();
-			DeleteDC(hdcTmp);
-			DeleteObject(hBitmap);
-
-		}
-		else {
-			BYTE *ptPixels = pt;
-			hBitmap = CreateDIBSection(NULL, bi, DIB_RGB_COLORS, (void **)&ptPixels, NULL, 0);
-			memcpy(ptPixels, pt, bi->bmiHeader.biSizeImage);
-
-			allocate(abs(bi->bmiHeader.biWidth), abs(bi->bmiHeader.biHeight));
-			//memcpy(bits, pt, bi->bmiHeader.biSizeImage);
-
-			BYTE *p2 = (BYTE*)pt;
-			for (int y = 0; y < bi->bmiHeader.biHeight; ++y) {
-				BYTE *p1 = (BYTE*)bits + (bi->bmiHeader.biHeight - y - 1)*bi->bmiHeader.biWidth * 4;
-				for (int x = 0; x < bi->bmiHeader.biWidth; ++x) {
-					p1[0] = p2[0];
-					p1[1] = p2[1];
-					p1[2] = p2[2];
-					p1[3] = p2[3];
-					p1 += 4;
-					p2 += 4;
-				}
-			}
-
-			premultipleChannels();
-		}
-
-		GlobalFree(pDib);
-		DeleteObject(hBitmap);
-		return true;
-	}
-	else {
-		HBITMAP hBmpLoaded = (HBITMAP)LoadImage(NULL, fn, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-		if (!hBmpLoaded) {
-#ifdef _DEBUG
-			logMessage(_T("MyBitmap::loadFromFile"), _T("Bitmap load failed"));
-#endif
-			return false;
-		}
-
-		BITMAP bm; GetObject(hBmpLoaded, sizeof(bm), &bm);
-		SetBitmapDimensionEx(hBmpLoaded, bm.bmWidth, bm.bmHeight, NULL);
-
-		HDC dcTmp = CreateCompatibleDC(0);
-		GetBitmapDimensionEx(hBmpLoaded, &sz);
-		HBITMAP hBmpDcSave = (HBITMAP)SelectObject(dcTmp, hBmpLoaded);
-
-		allocate(sz.cx, sz.cy);
-		BitBlt(dcBmp, 0, 0, width, height, dcTmp, 0, 0, SRCCOPY);
-
-		DeleteObject(SelectObject(dcTmp, hBmpDcSave));
-		DeleteDC(dcTmp);
-
-		MyBitmap alpha;
-		if (fnAlpha && alpha.loadFromFile(fnAlpha) &&
-			(alpha.getWidth() == width) &&
-			(alpha.getHeight() == height)) {
-			for (int i = 0; i < width*height; i++)
-				bits[i] = (bits[i] & 0x00ffffff) | ((alpha.bits[i] & 0x000000ff) << 24);
-			premultipleChannels();
-		}
-		else {
-			makeOpaque();
-		}
-		return true;
-	}
+	return true;
 }
 
 void MyBitmap::allocate(int w, int h)

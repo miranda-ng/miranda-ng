@@ -286,14 +286,6 @@ void DlgOption::SubGlobal::loadSettings()
 
 		m_Options.checkItem(*i, localS.m_HideContactMenuProtos.find(protoName) != localS.m_HideContactMenuProtos.end());
 	}
-
-	// check for availability of 'libpng'
-	if (!Canvas::hasPNG()) {
-		if (m_Options.isItemChecked(m_hGraphicsModePNG))
-			m_Options.setRadioChecked(m_hGraphicsMode, Settings::gmHTML);
-
-		m_Options.enableItem(m_hGraphicsModePNG, false);
-	}
 }
 
 void DlgOption::SubGlobal::saveSettings()

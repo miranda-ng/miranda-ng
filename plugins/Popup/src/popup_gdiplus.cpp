@@ -43,7 +43,8 @@ void LoadGDIPlus()
 		if (g_gdiplusToken == 0)
 			Gdiplus::GdiplusStartup(&g_gdiplusToken, &gdiplusStartupInput, NULL);
 	}
-	__except (EXCEPTION_EXECUTE_HANDLER) {
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
 		gbGdiPlusLoaded = false;
 	}
 }
@@ -55,7 +56,8 @@ void UnloadGDIPlus()
 		if (g_gdiplusToken && gbGdiPlusLoaded)
 			Gdiplus::GdiplusShutdown(g_gdiplusToken);
 	}
-	__except (EXCEPTION_EXECUTE_HANDLER) {
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
 		//  do nothing
 	}
 	gbGdiPlusLoaded = true;
@@ -87,12 +89,10 @@ HBITMAP SkinEngine_CreateDIB32(int cx, int cy)
 
 	UINT *ptPixels;
 	HBITMAP DirectBitmap = CreateDIBSection(NULL, &RGB32BitsBITMAPINFO, DIB_RGB_COLORS, (void **)&ptPixels, NULL, 0);
-	if ((DirectBitmap == NULL || ptPixels == NULL) && cx != 0 && cy != 0)
-	{
+	if ((DirectBitmap == NULL || ptPixels == NULL) && cx != 0 && cy != 0) {
 		;
 	}
-	else
-	{
+	else {
 		memset(ptPixels, 0, cx*cy * 4);
 	}
 	return DirectBitmap;
@@ -172,9 +172,8 @@ void GDIPlus_ExtractAnimatedGIF(TCHAR *szName, int width, int height, HBITMAP &p
 	int * delays = (int*)mir_alloc(nFrameCount*sizeof(int));
 	memset(delays, 0, nFrameCount*sizeof(int));
 
-	for (int i = 1; i < nFrameCount + 1; i++)
-	{
-		GUID   pageGuid = FrameDimensionTime;
+	for (int i = 1; i < nFrameCount + 1; i++) {
+		GUID pageGuid = FrameDimensionTime;
 		RectF rect((float)(i - 1)*clipWidth, (float)0, (float)clipWidth, (float)clipHeight);
 		graphics.DrawImage(&image, rect, (float)0, (float)0, (float)imWidth, (float)imHeight, UnitPixel, &attr, NULL, NULL);
 		image.SelectActiveFrame(&pageGuid, i);

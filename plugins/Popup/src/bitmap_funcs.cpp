@@ -55,14 +55,14 @@ MyBitmap::MyBitmap(int w, int h)
 	allocate(w, h);
 }
 
-MyBitmap::MyBitmap(const TCHAR *fn, const TCHAR *fnAlpha)
+MyBitmap::MyBitmap(const TCHAR *fn)
 {
 	dcBmp = 0;
 	hBmp = 0;
 	bits = 0;
 	width = height = 0;
 	bitsSave = 0;
-	loadFromFile(fn, fnAlpha);
+	loadFromFile(fn);
 }
 
 MyBitmap::~MyBitmap()
@@ -720,78 +720,18 @@ bool MyBitmap::loadFromFile_gradient(const TCHAR *fn)
 	return true;
 }
 
-bool MyBitmap::loadFromFile_png(const TCHAR *fn)
+bool MyBitmap::loadFromFile(const TCHAR *fn)
 {
-	if (!ServiceExists(MS_PNG2DIB))
-		return false;
+	if (bits) freemem();
 
-	HANDLE hFile, hMap = 0;
-	BYTE *ppMap = 0;
-	long cbFileSize = 0;
-	BITMAPINFOHEADER *pDib = 0;
-	BYTE *pDibBits = 0;
-	if ((hFile = CreateFile(fn, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
-		if ((hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL)) != NULL)
-			if ((ppMap = (BYTE*)MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0)) != NULL)
-				cbFileSize = GetFileSize(hFile, NULL);
-	if (cbFileSize) {
-		PNG2DIB param;
-		param.pSource = ppMap;
-		param.cbSourceSize = cbFileSize;
-		param.pResult = &pDib;
-		if (CallService(MS_PNG2DIB, 0, (LPARAM)&param))
-			pDibBits = (BYTE*)(pDib + 1);
-		else
-			cbFileSize = 0;
-	}
+	if (!_tcsncmp(fn, _T("pixel:"), mir_tstrlen(_T("pixel:"))))
+		return loadFromFile_pixel(fn);
 
-	if (ppMap) UnmapViewOfFile(ppMap);
-	if (hMap) CloseHandle(hMap);
-	if (hFile) CloseHandle(hFile);
+	if (!_tcsncmp(fn, _T("gradient:"), mir_tstrlen(_T("gradient:"))))
+		return loadFromFile_gradient(fn);
 
-	if (!cbFileSize) return false;
-
-	BITMAPINFO *bi = (BITMAPINFO*)pDib;
-	BYTE *pt = (BYTE*)bi;
-	pt += bi->bmiHeader.biSize;
-
-	if (bi->bmiHeader.biBitCount != 32) {
-		allocate(abs(bi->bmiHeader.biWidth), abs(bi->bmiHeader.biHeight));
-		HDC hdcTmp = CreateCompatibleDC(getDC());
-		HBITMAP hBitmap = CreateDIBitmap(getDC(), pDib, CBM_INIT, pDibBits, bi, DIB_PAL_COLORS);
-		HBITMAP hOldBmp = (HBITMAP)SelectObject(hdcTmp, hBitmap);
-		BitBlt(this->getDC(), 0, 0, abs(bi->bmiHeader.biWidth), abs(bi->bmiHeader.biHeight), hdcTmp, 0, 0, SRCCOPY);
-		this->makeOpaque();
-		SelectObject(hdcTmp, hOldBmp);
-		DeleteDC(hdcTmp);
-		DeleteObject(hBitmap);
-	}
-	else {
-		allocate(abs(bi->bmiHeader.biWidth), abs(bi->bmiHeader.biHeight));
-		BYTE *p2 = (BYTE *)pt;
-		for (int y = 0; y < bi->bmiHeader.biHeight; ++y) {
-			BYTE *p1 = (BYTE *)bits + (bi->bmiHeader.biHeight - y - 1)*bi->bmiHeader.biWidth * 4;
-			for (int x = 0; x < bi->bmiHeader.biWidth; ++x) {
-				p1[0] = p2[0];
-				p1[1] = p2[1];
-				p1[2] = p2[2];
-				p1[3] = p2[3];
-				p1 += 4;
-				p2 += 4;
-			}
-		}
-
-		premultipleChannels();
-	}
-
-	GlobalFree(pDib);
-	return true;
-}
-
-bool MyBitmap::loadFromFile_default(const TCHAR *fn, const TCHAR *fnAlpha)
-{
 	SIZE sz;
-	HBITMAP hBmpLoaded = (HBITMAP)LoadImage(NULL, fn, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	HBITMAP hBmpLoaded = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)fn, IMGL_TCHAR);
 	if (!hBmpLoaded)
 		return false;
 
@@ -809,34 +749,12 @@ bool MyBitmap::loadFromFile_default(const TCHAR *fn, const TCHAR *fnAlpha)
 	DeleteDC(dcTmp);
 
 	MyBitmap alpha;
-	if (fnAlpha && alpha.loadFromFile(fnAlpha) &&
-		(alpha.getWidth() == width) &&
-		(alpha.getHeight() == height)) {
-		for (int i = 0; i < width*height; i++)
-			bits[i] = (bits[i] & 0x00ffffff) | ((alpha.bits[i] & 0x000000ff) << 24);
+	if (bm.bmBitsPixel == 32)
 		premultipleChannels();
-	}
-	else makeOpaque();
+	else
+		makeOpaque();
 
 	return true;
-}
-
-bool MyBitmap::loadFromFile(const TCHAR *fn, const TCHAR *fnAlpha)
-{
-	if (bits) freemem();
-
-	if (!_tcsncmp(fn, _T("pixel:"), mir_tstrlen(_T("pixel:"))))
-		return loadFromFile_pixel(fn);
-
-	if (!_tcsncmp(fn, _T("gradient:"), mir_tstrlen(_T("gradient:"))))
-		return loadFromFile_gradient(fn);
-
-	TCHAR ext[5];
-	mir_tstrncpy(ext, fn + (mir_tstrlen(fn) - 4), SIZEOF(ext));
-	if (!mir_tstrcmpi(ext, _T(".png")))
-		return loadFromFile_png(fn);
-
-	return loadFromFile_default(fn, fnAlpha);
 }
 
 void MyBitmap::allocate(int w, int h)

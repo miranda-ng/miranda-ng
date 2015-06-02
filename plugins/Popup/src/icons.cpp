@@ -29,14 +29,14 @@ static IconItem iconList[] =
 	{ LPGEN("Popups are enabled"), ICO_TB_POPUP_ON, IDI_POPUP },
 	{ LPGEN("Popups are disabled"), ICO_TB_POPUP_OFF, IDI_NOPOPUP },
 
-	//                               common popup
+	// common popup
 	{ LPGEN("Popups are enabled"), ICO_POPUP_ON, IDI_POPUP },
 	{ LPGEN("Popups are disabled"), ICO_POPUP_OFF, IDI_NOPOPUP },
 	{ LPGEN("With \"favorite\" overlay"), ICO_FAV, IDI_PU_FAVOURITE },
 	{ LPGEN("With \"fullscreen\" overlay"), ICO_FULLSCREEN, IDI_PU_FULLSCREEN },
 	{ LPGEN("Popup History"), ICO_HISTORY, IDI_HISTORY },
 
-	//                               option
+	// option
 	{ LPGEN("Refresh skin list"), ICO_OPT_RELOAD, IDI_RELOAD },
 	{ LPGEN("Popup placement"), ICO_OPT_RESIZE, IDI_RESIZE },
 	{ LPGEN("OK"), ICO_OPT_OK, IDI_ACT_OK },
@@ -47,7 +47,7 @@ static IconItem iconList[] =
 	{ LPGEN("Show in fullscreen"), ICO_OPT_FULLSCREEN, IDI_OPT_FULLSCREEN },
 	{ LPGEN("Blocked contact"), ICO_OPT_BLOCK, IDI_OPT_BLOCK },
 
-	//                               action
+	// action
 	{ LPGEN("Quick reply"), ICO_ACT_REPLY, IDI_ACT_REPLY },
 	{ LPGEN("Pin popup"), ICO_ACT_PIN, IDI_ACT_PIN },
 	{ LPGEN("Pinned popup"), ICO_ACT_PINNED, IDI_ACT_PINNED },
@@ -57,7 +57,6 @@ static IconItem iconList[] =
 	{ LPGEN("Add contact permanently"), ICO_ACT_ADD, IDI_ACT_ADD },
 	{ LPGEN("Dismiss popup"), ICO_ACT_CLOSE, IDI_ACT_CLOSE },
 	{ LPGEN("Copy to clipboard"), ICO_ACT_COPY, IDI_ACT_COPY }
-
 };
 
 /**

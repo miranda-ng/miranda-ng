@@ -21,7 +21,7 @@
 #include <m_options.h>
 #include <m_clistint.h>
 #include <m_hotkeys.h>
-#include <m_png.h>
+#include <m_imgsrvc.h>
 #include <win2k.h>
 
 #include "bitmap_funcs.h"

@@ -25,8 +25,6 @@ int hLangpack;
 
 static HMODULE hAdvaimg = NULL;
 
-pfnConvertPng2dib png2dibConvertor = NULL;
-
 BOOL bstartup = true; // startup?
 BOOL bserviceinvoked = false;
 BOOL bmodulesloaded = false; // modules are loaded
@@ -41,7 +39,6 @@ TCHAR szLogFile[MAX_PATH];
 #endif
 SPLASHOPTS options;
 HWND hwndSplash;
-HANDLE hSplashThread;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -87,32 +84,6 @@ void SplashMain()
 
 	if (bstartup & (options.active == 1))
 	{
-		if (hAdvaimg == NULL)
-		{
-			hAdvaimg = LoadLibrary(szhAdvaimgPath);
-			if (hAdvaimg == NULL)
-			{
-				png2dibavail = false;
-				bstartup = false;
-			}
-			if (hAdvaimg)
-			{
-				png2dibConvertor = (pfnConvertPng2dib)GetProcAddress(hAdvaimg, "mempng2dib");
-				if (png2dibConvertor == NULL)
-				{
-					FreeLibrary(hAdvaimg); hAdvaimg = NULL;
-					MessageBox(NULL,
-						TranslateT("Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds."),
-						TranslateT("Error"),
-						MB_OK | MB_ICONSTOP);
-				}
-#ifdef _DEBUG
-				if (png2dibConvertor)
-					logMessage(_T("Loading advaimg"), _T("done"));
-#endif
-			}
-		}
-
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ts(NULL, MODNAME, "VersionPrefix", &dbv))
 		{
@@ -315,9 +286,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	if (hSplashThread)
-		CloseHandle(hSplashThread);
-
 	UnregisterClass(_T(SPLASH_CLASS), hInst);
 
 	// Freeing loaded libraries

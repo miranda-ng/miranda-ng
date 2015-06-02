@@ -524,7 +524,7 @@ ext::string Settings::getOutputPrefix(DWORD timeStarted) const
 
 bool Settings::isPNGOutputActiveAndAvailable() const
 {
-	return (m_GraphicsMode == gmPNG && Canvas::hasPNG());
+	return (m_GraphicsMode == gmPNG);
 }
 
 DWORD Settings::getIgnoreBefore() const

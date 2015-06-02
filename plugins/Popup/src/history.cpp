@@ -124,100 +124,100 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
-		oldWidth = 0;
-		HWND hwndList = GetDlgItem(hwnd, IDC_POPUP_LIST);
-		for (int i = 0; i < arPopupHistory.getCount(); ++i)
-			ListBox_SetItemData(hwndList, ListBox_AddString(hwndList, _T("")), 0);
-		SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(ICO_HISTORY, 0));
-		SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(ICO_HISTORY, 1));
+		{
+			oldWidth = 0;
+			HWND hwndList = GetDlgItem(hwnd, IDC_POPUP_LIST);
+			for (int i = 0; i < arPopupHistory.getCount(); ++i)
+				ListBox_SetItemData(hwndList, ListBox_AddString(hwndList, _T("")), 0);
+			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)IcoLib_GetIcon(ICO_HISTORY, 0));
+			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)IcoLib_GetIcon(ICO_HISTORY, 1));
 
-		if (gbHppInstalled && PopupOptions.UseHppHistoryLog) {
-			logType = LOG_HPP;
-			ShowWindow(GetDlgItem(hwnd, IDC_POPUP_LIST), SW_HIDE);
+			if (gbHppInstalled && PopupOptions.UseHppHistoryLog) {
+				logType = LOG_HPP;
+				ShowWindow(GetDlgItem(hwnd, IDC_POPUP_LIST), SW_HIDE);
 
-			IEVIEWWINDOW ieWindow;
-			ieWindow.cbSize = sizeof(IEVIEWWINDOW);
-			ieWindow.iType = IEW_CREATE;
-			ieWindow.dwFlags = 0;
-			ieWindow.dwMode = IEWM_MUCC;
-			ieWindow.parent = hwnd;
-			ieWindow.x = 0;
-			ieWindow.y = 0;
-			ieWindow.cx = 100;
-			ieWindow.cy = 100;
-			CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
-			hwndLog = ieWindow.hwnd;
-			ShowWindow(hwndLog, SW_SHOW);
+				IEVIEWWINDOW ieWindow;
+				ieWindow.cbSize = sizeof(IEVIEWWINDOW);
+				ieWindow.iType = IEW_CREATE;
+				ieWindow.dwFlags = 0;
+				ieWindow.dwMode = IEWM_MUCC;
+				ieWindow.parent = hwnd;
+				ieWindow.x = 0;
+				ieWindow.y = 0;
+				ieWindow.cx = 100;
+				ieWindow.cy = 100;
+				CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
+				hwndLog = ieWindow.hwnd;
+				ShowWindow(hwndLog, SW_SHOW);
 
-			RECT rcLst; GetWindowRect(hwndList, &rcLst);
-			POINT pt;
-			pt.x = rcLst.left;
-			pt.y = rcLst.top;
-			ScreenToClient(hwnd, &pt);
+				RECT rcLst; GetWindowRect(hwndList, &rcLst);
+				POINT pt;
+				pt.x = rcLst.left;
+				pt.y = rcLst.top;
+				ScreenToClient(hwnd, &pt);
 
-			ieWindow.cbSize = sizeof(IEVIEWWINDOW);
-			ieWindow.iType = IEW_SETPOS;
-			ieWindow.parent = hwnd;
-			ieWindow.hwnd = hwndLog;
-			ieWindow.x = pt.x;
-			ieWindow.y = pt.y;
-			ieWindow.cx = rcLst.right - rcLst.left;
-			ieWindow.cy = rcLst.bottom - rcLst.top;
-			CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
+				ieWindow.cbSize = sizeof(IEVIEWWINDOW);
+				ieWindow.iType = IEW_SETPOS;
+				ieWindow.parent = hwnd;
+				ieWindow.hwnd = hwndLog;
+				ieWindow.x = pt.x;
+				ieWindow.y = pt.y;
+				ieWindow.cx = rcLst.right - rcLst.left;
+				ieWindow.cy = rcLst.bottom - rcLst.top;
+				CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
 
-			IEVIEWEVENTDATA ieData;
+				IEVIEWEVENTDATA ieData;
 
-			IEVIEWEVENT ieEvent;
-			ieEvent.cbSize = sizeof(ieEvent);
-			ieEvent.iType = IEE_LOG_MEM_EVENTS;
-			ieEvent.dwFlags = 0;
-			ieEvent.hwnd = hwndLog;
-			ieEvent.eventData = &ieData;
-			ieEvent.count = 1;
-			ieEvent.codepage = 0;
-			ieEvent.pszProto = NULL;
+				IEVIEWEVENT ieEvent;
+				ieEvent.cbSize = sizeof(ieEvent);
+				ieEvent.iType = IEE_LOG_MEM_EVENTS;
+				ieEvent.dwFlags = 0;
+				ieEvent.hwnd = hwndLog;
+				ieEvent.eventData = &ieData;
+				ieEvent.count = 1;
+				ieEvent.codepage = 0;
+				ieEvent.pszProto = NULL;
 
-			for (int i = 0; i < arPopupHistory.getCount(); ++i) {
-				POPUPDATA2* ppd = arPopupHistory[i];
-				ieData.cbSize = sizeof(ieData);
-				ieData.iType = IEED_EVENT_SYSTEM;
-				ieData.dwFlags = 0;
-				ieData.color = ppd->colorText;
-				if (ppd->flags & PU2_UNICODE) {
-					ieData.dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
-					ieData.pszNickW = ppd->lptzTitle;
-					ieData.pszTextW = ppd->lptzText;
-					ieData.pszText2W = NULL;
+				for (int i = 0; i < arPopupHistory.getCount(); ++i) {
+					POPUPDATA2* ppd = arPopupHistory[i];
+					ieData.cbSize = sizeof(ieData);
+					ieData.iType = IEED_EVENT_SYSTEM;
+					ieData.dwFlags = 0;
+					ieData.color = ppd->colorText;
+					if (ppd->flags & PU2_UNICODE) {
+						ieData.dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
+						ieData.pszNickW = ppd->lptzTitle;
+						ieData.pszTextW = ppd->lptzText;
+						ieData.pszText2W = NULL;
+					}
+					else {
+						ieData.dwFlags |= 0;
+						ieData.pszNick = ppd->lpzTitle;
+						ieData.pszText = ppd->lpzText;
+						ieData.pszText2 = NULL;
+					}
+					ieData.bIsMe = FALSE;
+					ieData.time = ppd->dwTimestamp;
+					ieData.dwData = 0;
+					ieData.next = NULL;
+					CallService(MS_HPP_EG_EVENT, 0, (WPARAM)&ieEvent);
 				}
-				else {
-					ieData.dwFlags |= 0;
-					ieData.pszNick = ppd->lpzTitle;
-					ieData.pszText = ppd->lpzText;
-					ieData.pszText2 = NULL;
-				}
-				ieData.bIsMe = FALSE;
-				ieData.time = ppd->dwTimestamp;
-				ieData.dwData = 0;
-				ieData.next = NULL;
-				CallService(MS_HPP_EG_EVENT, 0, (WPARAM)&ieEvent);
+			}
+			else {
+				logType = LOG_DEFAULT;
+				hwndLog = hwndList;
+
+				ShowWindow(hwndLog, SW_SHOW);
+			}
+
+			Utils_RestoreWindowPosition(hwnd, NULL, MODULNAME, "popupHistory_");
+
+			if (logType == LOG_DEFAULT) {
+				SendMessage(hwnd, UM_RESIZELIST, 0, 0);
+				ListBox_SetTopIndex(hwndLog, arPopupHistory.getCount() - 1);
 			}
 		}
-		else {
-			logType = LOG_DEFAULT;
-			hwndLog = hwndList;
-
-			ShowWindow(hwndLog, SW_SHOW);
-		}
-
-		Utils_RestoreWindowPosition(hwnd, NULL, MODULNAME, "popupHistory_");
-
-		if (logType == LOG_DEFAULT) {
-			SendMessage(hwnd, UM_RESIZELIST, 0, 0);
-			ListBox_SetTopIndex(hwndLog, arPopupHistory.getCount() - 1);
-		}
-	}
-	return TRUE;
+		return TRUE;
 
 	case WM_MEASUREITEM:
 		if (logType == LOG_DEFAULT) {
@@ -293,39 +293,40 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 		return TRUE;
 
 	case WM_SIZE:
-	{
-		RECT rcLst; GetClientRect(hwnd, &rcLst);
-		rcLst.left += 10;
-		rcLst.top += 10;
-		rcLst.right -= 10;
-		rcLst.bottom -= 10;
-		if (logType == LOG_HPP) {
-			SetWindowPos(hwndLog, NULL,
-				rcLst.left, rcLst.top, rcLst.right - rcLst.left, rcLst.bottom - rcLst.top,
-				SWP_NOZORDER | SWP_DEFERERASE | SWP_SHOWWINDOW);
+		{
+			RECT rcLst;
+			GetClientRect(hwnd, &rcLst);
+			rcLst.left += 10;
+			rcLst.top += 10;
+			rcLst.right -= 10;
+			rcLst.bottom -= 10;
+			if (logType == LOG_HPP) {
+				SetWindowPos(hwndLog, NULL,
+					rcLst.left, rcLst.top, rcLst.right - rcLst.left, rcLst.bottom - rcLst.top,
+					SWP_NOZORDER | SWP_DEFERERASE | SWP_SHOWWINDOW);
 
-			IEVIEWWINDOW ieWindow;
-			ieWindow.cbSize = sizeof(IEVIEWWINDOW);
-			ieWindow.iType = IEW_SETPOS;
-			ieWindow.parent = hwnd;
-			ieWindow.hwnd = hwndLog;
-			ieWindow.x = rcLst.left;
-			ieWindow.y = rcLst.top;
-			ieWindow.cx = rcLst.right - rcLst.left;
-			ieWindow.cy = rcLst.bottom - rcLst.top;
-			CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
-		}
-		else if (logType == LOG_DEFAULT) {
-			SetWindowPos(hwndLog, NULL,
-				rcLst.left, rcLst.top, rcLst.right - rcLst.left, rcLst.bottom - rcLst.top,
-				SWP_NOZORDER | SWP_DEFERERASE | SWP_SHOWWINDOW);
-			if (rcLst.right - rcLst.left != oldWidth) {
-				oldWidth = rcLst.right - rcLst.left;
-				PostMessage(hwnd, UM_RESIZELIST, 0, 0);
+				IEVIEWWINDOW ieWindow;
+				ieWindow.cbSize = sizeof(IEVIEWWINDOW);
+				ieWindow.iType = IEW_SETPOS;
+				ieWindow.parent = hwnd;
+				ieWindow.hwnd = hwndLog;
+				ieWindow.x = rcLst.left;
+				ieWindow.y = rcLst.top;
+				ieWindow.cx = rcLst.right - rcLst.left;
+				ieWindow.cy = rcLst.bottom - rcLst.top;
+				CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
+			}
+			else if (logType == LOG_DEFAULT) {
+				SetWindowPos(hwndLog, NULL,
+					rcLst.left, rcLst.top, rcLst.right - rcLst.left, rcLst.bottom - rcLst.top,
+					SWP_NOZORDER | SWP_DEFERERASE | SWP_SHOWWINDOW);
+				if (rcLst.right - rcLst.left != oldWidth) {
+					oldWidth = rcLst.right - rcLst.left;
+					PostMessage(hwnd, UM_RESIZELIST, 0, 0);
+				}
 			}
 		}
-	}
-	return TRUE;
+		return TRUE;
 
 	case UM_RESIZELIST:
 		if (logType == LOG_DEFAULT) {

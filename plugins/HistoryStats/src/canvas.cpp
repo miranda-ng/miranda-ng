@@ -137,53 +137,11 @@ bool Canvas::getDigest(Digest& digest)
 
 bool Canvas::writePNG(const TCHAR* szFileName)
 {
-	// read data from DIB
-	BYTE* pData = new BYTE[m_nLineLength * m_nHeight];
-
-	if (GetDIBits(m_hDC, m_hBmp, 0, m_nHeight, pData, reinterpret_cast<BITMAPINFO*>(m_pBMIH), DIB_RGB_COLORS) != m_nHeight) {
-		delete[] pData;
-		return false;
-	}
-
-	// apply transparency, if any
-	updateTrans(pData);
-
-	// calculate resulting image size
-	long png_len = 0;
-
-	if (!mu::png::dibToPng(m_pBMIH, pData, 0, &png_len) || png_len == 0) {
-		delete[] pData;
-		return false;
-	}
-
-	// get the resulting image data
-	BYTE* pRawPNG = new BYTE[png_len];
-
-	png_len = 0;
-
-	if (!mu::png::dibToPng(m_pBMIH, pData, pRawPNG, &png_len)) {
-		delete[] pData;
-		delete[] pRawPNG;
-
-		return false;
-	}
-
-	// write image data to file
-	FILE* fp = _tfopen(szFileName, _T("wb"));
-
-	if (!fp) {
-		delete[] pData;
-		delete[] pRawPNG;
-
-		return false;
-	}
-
-	fwrite(pRawPNG, 1, png_len, fp);
-	fclose(fp);
-
-	// free buffers
-	delete[] pRawPNG;
-	delete[] pData;
-
-	return true;
+	IMGSRVC_INFO img = { 0 };
+	img.cbSize = sizeof(img);
+	img.dwMask = IMGI_HBITMAP;
+	img.hbm = m_hBmp;
+	img.fif = FIF_PNG;
+	img.tszName = (TCHAR*)szFileName;
+	return CallService(MS_IMG_SAVE, (WPARAM)&img, IMGL_TCHAR) == 0;
 }

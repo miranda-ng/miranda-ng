@@ -932,78 +932,10 @@ bool MyBitmap::loadFromFile_gradient(const char *fn, const char *fnAlpha)
 	return true;
 }
 
-bool MyBitmap::loadFromFile_png(const char *fn, const char *fnAlpha)
-{
-	if (ServiceExists(MS_PNG2DIB)) {
-		HANDLE hFile, hMap = 0;
-		BYTE *ppMap = 0;
-		long cbFileSize = 0;
-		BITMAPINFOHEADER *pDib;
-		BYTE *pDibBits;
-		if ((hFile = CreateFileA(fn, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
-			if ((hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL)) != NULL)
-				if ((ppMap = (BYTE*)MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0)) != NULL)
-					cbFileSize = GetFileSize(hFile, NULL);
-
-		if (cbFileSize) {
-			PNG2DIB param;
-			param.pSource = ppMap;
-			param.cbSourceSize = cbFileSize;
-			param.pResult = &pDib;
-			if (CallService(MS_PNG2DIB, 0, (LPARAM)&param))
-				pDibBits = (BYTE*)(pDib + 1);
-			else
-				cbFileSize = 0;
-		}
-
-		if (ppMap) UnmapViewOfFile(ppMap);
-		if (hMap) CloseHandle(hMap);
-		if (hFile) CloseHandle(hFile);
-
-		if (!cbFileSize) return false;
-
-		BITMAPINFO *bi = (BITMAPINFO*)pDib;
-		BYTE *pt = (BYTE*)bi;
-		pt += bi->bmiHeader.biSize;
-
-		if (bi->bmiHeader.biBitCount != 32) {
-			allocate(abs(bi->bmiHeader.biWidth), abs(bi->bmiHeader.biHeight));
-			HDC hdcTmp = CreateCompatibleDC(getDC());
-			HBITMAP hBitmap = CreateDIBitmap(getDC(), pDib, CBM_INIT, pDibBits, bi, DIB_PAL_COLORS);
-			SelectObject(hdcTmp, hBitmap);
-			BitBlt(this->getDC(), 0, 0, abs(bi->bmiHeader.biWidth), abs(bi->bmiHeader.biHeight), hdcTmp, 0, 0, SRCCOPY);
-			this->makeOpaque();
-			DeleteDC(hdcTmp);
-			DeleteObject(hBitmap);
-		}
-		else {
-			allocate(abs(bi->bmiHeader.biWidth), abs(bi->bmiHeader.biHeight));
-			BYTE *p2 = (BYTE *)pt;
-			for (int y = 0; y < bi->bmiHeader.biHeight; ++y) {
-				BYTE *p1 = (BYTE *)bits + (bi->bmiHeader.biHeight - y - 1)*bi->bmiHeader.biWidth * 4;
-				for (int x = 0; x < bi->bmiHeader.biWidth; ++x) {
-					p1[0] = p2[0];
-					p1[1] = p2[1];
-					p1[2] = p2[2];
-					p1[3] = p2[3];
-					p1 += 4;
-					p2 += 4;
-				}
-			}
-			premultipleChannels();
-		}
-
-		GlobalFree(pDib);
-		return true;
-	}
-
-	return false;
-}
-
 bool MyBitmap::loadFromFile_default(const char *fn, const char *fnAlpha)
 {
 	SIZE sz;
-	HBITMAP hBmpLoaded = (HBITMAP)LoadImageA(NULL, fn, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	HBITMAP hBmpLoaded = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)fn, 0);
 	if (!hBmpLoaded)
 		return false;
 
@@ -1040,11 +972,6 @@ bool MyBitmap::loadFromFile(const char *fn, const char *fnAlpha)
 
 	if (!strncmp(fn, "gradient:", mir_strlen("gradient:")))
 		return loadFromFile_gradient(fn, fnAlpha);
-
-	char ext[5];
-	memcpy(ext, fn + (mir_strlen(fn) - 4), 5);
-	if (!mir_strcmpi(ext, ".png"))
-		return loadFromFile_png(fn, fnAlpha);
 
 	return loadFromFile_default(fn, fnAlpha);
 }
