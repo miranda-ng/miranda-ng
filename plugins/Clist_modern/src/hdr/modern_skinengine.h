@@ -60,29 +60,6 @@ struct EFFECTSSTACKITEM
 	DWORD SecondColor;
 };
 
-#pragma pack(push, 1)
-/* tga header */
-struct tga_header_t
-{
-	BYTE id_lenght;          /* size of image id */
-	BYTE colormap_type;      /* 1 is has a colormap */
-	BYTE image_type;         /* compression type */
-
-	short	cm_first_entry;       /* colormap origin */
-	short	cm_length;            /* colormap length */
-	BYTE cm_size;               /* colormap size */
-
-	short	x_origin;             /* bottom left x coord origin */
-	short	y_origin;             /* bottom left y coord origin */
-
-	short	width;                /* picture width (in pixels) */
-	short	height;               /* picture height (in pixels) */
-
-	BYTE pixel_depth;        /* bits per pixel: 8, 16, 24 or 32 */
-	BYTE image_descriptor;   /* 24 bits = 0x00; 32 bits = 0x80 */
-};
-#pragma pack(pop)
-
 class IniParser
 {
 public:
