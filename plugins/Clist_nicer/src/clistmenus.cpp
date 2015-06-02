@@ -39,8 +39,7 @@ void DestroyTrayMenu(HMENU hMenu)
 	int i, cnt;
 
 	cnt = GetMenuItemCount(hMenu);
-	for (i = 0; i < cnt; ++i)
-	{
+	for (i = 0; i < cnt; ++i) {
 		HMENU hSubMenu = GetSubMenu(hMenu, i);
 		if (hSubMenu == hMainStatusMenu || hSubMenu == hMainMenu)
 			RemoveMenu(hMenu, i--, MF_BYPOSITION);
@@ -191,7 +190,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 		case IDC_IGN_ADDPERMANENTLY:
 			{
-				ADDCONTACTSTRUCT acs = {0};
+				ADDCONTACTSTRUCT acs = { 0 };
 				acs.hContact = hContact;
 				acs.handleType = HANDLE_CONTACT;
 				CallService(MS_ADDCONTACT_SHOW, (WPARAM)hWnd, (LPARAM)&acs);
@@ -279,20 +278,19 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			break;
 		}
 		break;
+
 	case WM_USER + 100:	// fill dialog (wParam = hContact, lParam = mask)
-		{
-			CheckDlgButton(hWnd, IDC_IGN_MSGEVENTS, lParam & (1 << (IGNOREEVENT_MESSAGE - 1)) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_IGN_FILEEVENTS, lParam & (1 << (IGNOREEVENT_FILE - 1)) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_IGN_URLEVENTS, lParam & (1 << (IGNOREEVENT_URL - 1)) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_IGN_AUTH, lParam & (1 << (IGNOREEVENT_AUTHORIZATION - 1)) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_IGN_ADD, lParam & (1 << (IGNOREEVENT_YOUWEREADDED - 1)) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_IGN_ONLINE, lParam & (1 << (IGNOREEVENT_USERONLINE - 1)) ? BST_CHECKED : BST_UNCHECKED);
-			return 0;
-		}
+		CheckDlgButton(hWnd, IDC_IGN_MSGEVENTS, lParam & (1 << (IGNOREEVENT_MESSAGE - 1)) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_IGN_FILEEVENTS, lParam & (1 << (IGNOREEVENT_FILE - 1)) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_IGN_URLEVENTS, lParam & (1 << (IGNOREEVENT_URL - 1)) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_IGN_AUTH, lParam & (1 << (IGNOREEVENT_AUTHORIZATION - 1)) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_IGN_ADD, lParam & (1 << (IGNOREEVENT_YOUWEREADDED - 1)) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_IGN_ONLINE, lParam & (1 << (IGNOREEVENT_USERONLINE - 1)) ? BST_CHECKED : BST_UNCHECKED);
+		return 0;
+
 	case WM_USER + 110:	// retrieve value
 		{
 			DWORD *dwNewMask = (DWORD *)lParam, dwMask = 0;
-
 			dwMask = (IsDlgButtonChecked(hWnd, IDC_IGN_MSGEVENTS) ? (1 << (IGNOREEVENT_MESSAGE - 1)) : 0) |
 				(IsDlgButtonChecked(hWnd, IDC_IGN_FILEEVENTS) ? (1 << (IGNOREEVENT_FILE - 1)) : 0) |
 				(IsDlgButtonChecked(hWnd, IDC_IGN_URLEVENTS) ? (1 << (IGNOREEVENT_URL - 1)) : 0) |
@@ -302,8 +300,9 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 			if (dwNewMask)
 				*dwNewMask = dwMask;
-			return 0;
 		}
+		return 0;
+
 	case WM_USER + 120:	// set visibility status
 		{
 			ClcContact *contact = NULL;
@@ -315,8 +314,9 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					CheckDlgButton(hWnd, IDC_IGN_ALWAYSONLINE, wApparentMode == ID_STATUS_ONLINE ? BST_CHECKED : BST_UNCHECKED);
 				}
 			}
-			return 0;
 		}
+		return 0;
+
 	case WM_USER + 130:	// update apparent mode
 		{
 			ClcContact *contact = NULL;
@@ -334,8 +334,9 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					SendMessage(hWnd, WM_USER + 120, 0, 0);
 				}
 			}
-			return 0;
 		}
+		return 0;
+
 	case WM_DESTROY:
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, 0);
 		WindowList_Remove(hWindowListIGN, hWnd);
@@ -354,7 +355,8 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
  * of this type to the contacts database record).
  *
  * if dialog is already open, focus it.
-*/
+ */
+
 static INT_PTR SetContactIgnore(WPARAM wParam, LPARAM)
 {
 	HWND hWnd = 0;

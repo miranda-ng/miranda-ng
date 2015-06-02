@@ -61,7 +61,7 @@ int AvatarChanged(WPARAM wParam, LPARAM lParam)
 
 int __forceinline __strcmp(const char * src, const char * dst)
 {
-	int ret = 0 ;
+	int ret = 0;
 
 	while (!(ret = *(unsigned char *)src - *(unsigned char *)dst) && *dst)
 		++src, ++dst;
@@ -109,21 +109,21 @@ static int ClcMetamodeChanged(WPARAM bMetaEnabled, LPARAM)
 static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	char *szProto = NULL;
-	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 
 	if (hContact) {
-		if ( !__strcmp(cws->szModule, "CList")) {
-			if ( !__strcmp(cws->szSetting, "StatusMsg"))
+		if (!__strcmp(cws->szModule, "CList")) {
+			if (!__strcmp(cws->szSetting, "StatusMsg"))
 				SendMessage(pcli->hwndContactTree, INTM_STATUSMSGCHANGED, hContact, lParam);
 		}
-		else if ( !__strcmp(cws->szModule, "UserInfo")) {
-			if ( !__strcmp(cws->szSetting, "ANSIcodepage"))
+		else if (!__strcmp(cws->szModule, "UserInfo")) {
+			if (!__strcmp(cws->szSetting, "ANSIcodepage"))
 				pcli->pfnClcBroadcast(INTM_CODEPAGECHANGED, hContact, lParam);
-			else if ( !__strcmp(cws->szSetting, "Timezone") || !__strcmp(cws->szSetting, "TzName"))
+			else if (!__strcmp(cws->szSetting, "Timezone") || !__strcmp(cws->szSetting, "TzName"))
 				ReloadExtraInfo(hContact);
 		}
 		else if (hContact != 0 && (szProto = GetContactProto(hContact)) != NULL) {
-			if ( !__strcmp(cws->szModule, "Protocol") && !__strcmp(cws->szSetting, "p")) {
+			if (!__strcmp(cws->szModule, "Protocol") && !__strcmp(cws->szSetting, "p")) {
 				char *szProto_s;
 				pcli->pfnClcBroadcast(INTM_PROTOCHANGED, hContact, lParam);
 				if (cws->value.type == DBVT_DELETED)
@@ -133,10 +133,10 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 				pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(szProto_s, szProto_s == NULL ? ID_STATUS_OFFLINE : cfg::getWord(hContact, szProto_s, "Status", ID_STATUS_OFFLINE), hContact, NULL), 0);
 			}
 			// something is being written to a protocol module
-			if ( !__strcmp(szProto, cws->szModule)) {
+			if (!__strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
 				pcli->pfnInvalidateDisplayNameCacheEntry(hContact);
-				if ( !__strcmp(cws->szSetting, "Status")) {
+				if (!__strcmp(cws->szSetting, "Status")) {
 					if (!cfg::getByte(hContact, "CList", "Hidden", 0)) {
 						if (cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)) {
 							// User's state is changing, and we are hideOffline-ing
@@ -156,7 +156,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 					SendMessage(pcli->hwndContactTree, INTM_STATUSMSGCHANGED, hContact, lParam);
 				else if (strstr(cws->szSetting, "XStatus"))
 					SendMessage(pcli->hwndContactTree, INTM_XSTATUSCHANGED, hContact, lParam);
-				else if ( !__strcmp(cws->szSetting, "Timezone") || !__strcmp(cws->szSetting, "TzName"))
+				else if (!__strcmp(cws->szSetting, "Timezone") || !__strcmp(cws->szSetting, "TzName"))
 					ReloadExtraInfo(hContact);
 
 				if (!(cfg::dat.dwFlags & CLUI_USEMETAICONS) && !__strcmp(szProto, META_PROTO))
@@ -180,7 +180,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 		SetButtonToSkinned();
 	}
 	else if (szProto == NULL) {
-		if ( !__strcmp(cws->szSetting, "XStatusId"))
+		if (!__strcmp(cws->szSetting, "XStatusId"))
 			CluiProtocolStatusChanged(0, cws->szModule);
 	}
 	return 0;
@@ -206,7 +206,7 @@ int ClcShutdown(WPARAM, LPARAM)
 
 	CSH_Destroy();
 	IMG_DeleteItems();
-	for (int i=0; i < arStatusItems.getCount(); i++)
+	for (int i = 0; i < arStatusItems.getCount(); i++)
 		mir_free(arStatusItems[i]);
 	return 0;
 }
@@ -448,6 +448,7 @@ LBL_Def:
 
 			if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 				return 0;
+			
 			contact->ace = cEntry;
 			if (cEntry == NULL)
 				contact->cFlags &= ~ECF_AVATAR;
@@ -523,7 +524,7 @@ LBL_Def:
 			break;
 
 		if (contact && group) {
-			int iItem = pcli->pfnGetRowsPriorTo(&dat->list, group, List_IndexOf((SortedList*) & group->cl, contact));
+			int iItem = pcli->pfnGetRowsPriorTo(&dat->list, group, List_IndexOf((SortedList*)& group->cl, contact));
 			pcli->pfnInvalidateItem(hwnd, dat, iItem);
 			goto LBL_Def;
 		}
@@ -544,7 +545,7 @@ LBL_Def:
 
 	case INTM_IDLECHANGED:
 		if (FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
-			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
+			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 			char *szProto = (char*)cws->szModule;
 			if (szProto == NULL)
 				break;
@@ -560,7 +561,7 @@ LBL_Def:
 
 	case INTM_XSTATUSCHANGED:
 		{
-			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
+			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 			char *szProto = (char *)cws->szModule;
 			MCONTACT hContact = wParam;
 			TExtraCache *p;
@@ -638,7 +639,7 @@ LBL_Def:
 		dat->szQuickSearch[0] = 0;
 		{
 			DWORD hitFlags;
-			dat->selection = HitTest(hwnd, dat, (short) LOWORD(lParam), (short) HIWORD(lParam), &contact, NULL, &hitFlags);
+			dat->selection = HitTest(hwnd, dat, (short)LOWORD(lParam), (short)HIWORD(lParam), &contact, NULL, &hitFlags);
 			if (hitFlags & CLCHT_ONITEMEXTRA)
 				break;
 
@@ -696,9 +697,11 @@ LBL_Def:
 					CheckMenuItem(hMenu, POPUP_GROUPHIDEOFFLINE, contact->group->hideOffline ? MF_CHECKED : MF_UNCHECKED);
 					DestroyMenu(hMenu);
 					return 0;
-				} else if (contact->type == CLCIT_CONTACT)
-					hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) contact->hContact, 0);
-			} else {
+				}
+				else if (contact->type == CLCIT_CONTACT)
+					hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)contact->hContact, 0);
+			}
+			else {
 				//call parent for new group/hide offline menu
 				PostMessage(GetParent(hwnd), WM_CONTEXTMENU, wParam, lParam);
 				return 0;

@@ -32,7 +32,7 @@ extern ImageItem *g_glyphItem;
 extern int hClcProtoCount;
 
 extern HIMAGELIST hCListImages;
-static BYTE divide3[765] = {255};
+static BYTE divide3[765] = { 255 };
 extern char *im_clients[];
 extern HICON im_clienthIcons[];
 extern HICON overlayicons[];
@@ -1152,7 +1152,7 @@ bgskipped:
 					rcContent.right = min(clRect->right - dat->rightMargin, rc.left - 3);
 			}
 			else {
-			nodisplay:
+nodisplay:
 				verticalfit = (rowHeight - fontHeight >= g_cysmIcon + 1);
 				if (avatar_done) {
 					if (verticalfit && av_right)
@@ -1213,8 +1213,7 @@ bgskipped:
 							DrawTextEx(hdcMem, &szText[textCounter], -1, &rcContent, i_dtFlags, &dtp);
 							rcContent.top += statusFontHeight;
 							textCounter += dtp.uiLengthDrawn;
-						}
-						while (textCounter <= ulLen && dtp.uiLengthDrawn && rcContent.top + statusFontHeight <= old_bottom);
+						} while (textCounter <= ulLen && dtp.uiLengthDrawn && rcContent.top + statusFontHeight <= old_bottom);
 					}
 				}
 			}

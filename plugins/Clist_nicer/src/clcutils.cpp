@@ -37,7 +37,7 @@ extern void ( *saveRecalcScrollBar )(HWND hwnd, struct ClcData *dat);
 
 static int MY_pathIsAbsolute(const TCHAR *path)
 {
-	if ( !path || !(mir_tstrlen(path) > 2))
+	if (!path || !(mir_tstrlen(path) > 2))
 		return 0;
 
 	if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
@@ -146,12 +146,12 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, ClcContact *hitcontac
 
 	int rightOffset = hitcontact->extraIconRightBegin;
 	if (rightOffset) {
-		for (int i = dat->extraColumnsCount-1; i >= 0; i--) {
+		for (int i = dat->extraColumnsCount - 1; i >= 0; i--) {
 			if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 				continue;
 
 			rightOffset -= dat->extraColumnSpacing;
-			if (testx > rightOffset && testx < rightOffset + dat->extraColumnSpacing ) {
+			if (testx > rightOffset && testx < rightOffset + dat->extraColumnSpacing) {
 				if (flags)
 					*flags |= (CLCHT_ONITEMEXTRA | (i << 24));
 				return hit;
@@ -244,7 +244,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 	for (indent = 0; hitgroup->parent; indent++, hitgroup = hitgroup->parent)
 		;
 
-	if ( !dat->bisEmbedded) {
+	if (!dat->bisEmbedded) {
 		if (hitcontact->type == CLCIT_CONTACT) {
 			if (mirror_mode == 1 || (mirror_mode == 2 && hitcontact->pExtra->dwCFlags & ECF_RTLNICK))
 				return RTL_HitTest(hwnd, dat, testx, hitcontact, flags, indent, hit);
@@ -257,7 +257,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 
 	// avatar check
 	if (hitcontact->type == CLCIT_CONTACT && cfg::dat.dwFlags & CLUI_FRAME_AVATARS && hitcontact->ace != NULL && hitcontact->avatarLeft != -1) {
-		if (testx >hitcontact->avatarLeft && testx < hitcontact->avatarLeft + cfg::dat.avatarSize) {
+		if (testx > hitcontact->avatarLeft && testx < hitcontact->avatarLeft + cfg::dat.avatarSize) {
 			if (flags)
 				*flags |= CLCHT_ONAVATAR;
 		}
@@ -287,7 +287,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 
 	int rightOffset = hitcontact->extraIconRightBegin;
 	if (rightOffset) {
-		for (i = dat->extraColumnsCount-1; i >= 0; i--) {
+		for (i = dat->extraColumnsCount - 1; i >= 0; i--) {
 			if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 				continue;
 
@@ -340,7 +340,6 @@ void ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 	DWORD startTick, nowTick;
 	int oldy = dat->yScroll;
 	RECT clRect, rcInvalidate;
-	int maxy, previousy;
 
 	if (dat->iHotTrack != -1 && dat->yScroll != desty) {
 		pcli->pfnInvalidateItem(hwnd, dat, dat->iHotTrack);
@@ -350,23 +349,23 @@ void ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 	GetClientRect(hwnd, &clRect);
 	rcInvalidate = clRect;
 
-	maxy = RowHeight::getTotalHeight(dat)-clRect.bottom;
+	int maxy = RowHeight::getTotalHeight(dat) - clRect.bottom;
 	if (desty > maxy)
 		desty = maxy;
 	if (desty < 0)
 		desty = 0;
 	if (abs(desty - dat->yScroll) < 4)
 		noSmooth = 1;
-	if ( !noSmooth && dat->exStyle & CLS_EX_NOSMOOTHSCROLLING)
+	if (!noSmooth && dat->exStyle & CLS_EX_NOSMOOTHSCROLLING)
 		noSmooth = 1;
-	previousy = dat->yScroll;
-	if ( !noSmooth) {
+	int previousy = dat->yScroll;
+	if (!noSmooth) {
 		startTick = GetTickCount();
-		for (; ;) {
+		for (;;) {
 			nowTick = GetTickCount();
 			if (nowTick >= startTick + dat->scrollTime)
 				break;
-			dat->yScroll = oldy + (desty - oldy) * (int) (nowTick - startTick) / dat->scrollTime;
+			dat->yScroll = oldy + (desty - oldy) * (int)(nowTick - startTick) / dat->scrollTime;
 			if (dat->backgroundBmpUse & CLBF_SCROLL || dat->hBmpBackground == NULL)
 				ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, NULL, NULL, NULL, NULL, SW_INVALIDATE);
 			else
@@ -381,7 +380,7 @@ void ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 	}
 	dat->yScroll = desty;
 	if (dat->backgroundBmpUse & CLBF_SCROLL || dat->hBmpBackground == NULL) {
-		if ( !noSmooth)
+		if (!noSmooth)
 			ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, NULL, NULL, NULL, NULL, SW_INVALIDATE);
 		else
 			InvalidateRect(hwnd, NULL, FALSE);
@@ -408,7 +407,7 @@ void RecalcScrollBar(HWND hwnd, struct ClcData *dat)
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
-	si.nMax = pcli->pfnGetRowTotalHeight(dat)-1;
+	si.nMax = pcli->pfnGetRowTotalHeight(dat) - 1;
 	si.nPage = clRect.bottom;
 	si.nPos = dat->yScroll;
 
@@ -431,11 +430,11 @@ void RecalcScrollBar(HWND hwnd, struct ClcData *dat)
 	nm.hdr.hwndFrom = hwnd;
 	nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 	nm.pt.y = si.nMax;
-	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
+	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm);
 	//saveRecalcScrollBar(hwnd, dat);
 }
 
-void SetGroupExpand(HWND hwnd,struct ClcData *dat,ClcGroup *group,int newState)
+void SetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState)
 {
 	int contentCount;
 	int groupy;
@@ -451,28 +450,28 @@ void SetGroupExpand(HWND hwnd,struct ClcData *dat,ClcGroup *group,int newState)
 			return;
 		group->expanded = newState != 0;
 	}
-	InvalidateRect(hwnd,NULL,FALSE);
-	contentCount = pcli->pfnGetGroupContentsCount(group,1);
+	InvalidateRect(hwnd, NULL, FALSE);
+	contentCount = pcli->pfnGetGroupContentsCount(group, 1);
 
-	groupy=pcli->pfnGetRowsPriorTo(&dat->list,group,-1);
-	if (dat->selection>groupy && dat->selection<groupy+contentCount) dat->selection=groupy;
-	pcli->pfnRecalcScrollBar(hwnd,dat);
+	groupy = pcli->pfnGetRowsPriorTo(&dat->list, group, -1);
+	if (dat->selection > groupy && dat->selection < groupy + contentCount) dat->selection = groupy;
+	pcli->pfnRecalcScrollBar(hwnd, dat);
 
-	GetClientRect(hwnd,&clRect);
-	newy=dat->yScroll;
-	posy = RowHeight::getItemBottomY(dat, groupy+contentCount);
-	if (posy>=newy+clRect.bottom)
-		newy=posy-clRect.bottom;
+	GetClientRect(hwnd, &clRect);
+	newy = dat->yScroll;
+	posy = RowHeight::getItemBottomY(dat, groupy + contentCount);
+	if (posy >= newy + clRect.bottom)
+		newy = posy - clRect.bottom;
 	posy = RowHeight::getItemTopY(dat, groupy);
-	if (newy>posy) newy=posy;
-	ScrollTo(hwnd,dat,newy,0);
+	if (newy > posy) newy = posy;
+	ScrollTo(hwnd, dat, newy, 0);
 
-	nm.hdr.code=CLN_EXPANDED;
-	nm.hdr.hwndFrom=hwnd;
-	nm.hdr.idFrom=GetDlgCtrlID(hwnd);
-	nm.hItem=(HANDLE)group->groupId;
+	nm.hdr.code = CLN_EXPANDED;
+	nm.hdr.hwndFrom = hwnd;
+	nm.hdr.idFrom = GetDlgCtrlID(hwnd);
+	nm.hItem = (HANDLE)group->groupId;
 	nm.action = (group->expanded);
-	SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nm);
+	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 }
 
 static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -490,7 +489,7 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		break;
 	case WM_GETDLGCODE:
 		if (lParam) {
-			MSG *msg = (MSG *) lParam;
+			MSG *msg = (MSG *)lParam;
 			if (msg->message == WM_KEYDOWN && msg->wParam == VK_TAB)
 				return 0;
 			if (msg->message == WM_CHAR && msg->wParam == '\t')
@@ -519,19 +518,19 @@ void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
 		return;
 	if (contact->type != CLCIT_CONTACT && contact->type != CLCIT_GROUP)
 		return;
-	for (indent = 0; group->parent; indent++,group = group->parent) {
+	for (indent = 0; group->parent; indent++, group = group->parent) {
 		;
 	}
 	GetClientRect(hwnd, &clRect);
 	x = indent * dat->groupIndent + dat->iconXSpace - 2;
 	//y = dat->selection * dat->rowHeight - dat->yScroll;
-	y = RowHeight::getItemTopY(dat, dat->selection)-dat->yScroll;
+	y = RowHeight::getItemTopY(dat, dat->selection) - dat->yScroll;
 
-	h=dat->row_heights[dat->selection];
+	h = dat->row_heights[dat->selection];
 	{
 		int i;
-		for (i=0; i <= FONTID_LAST; i++)
-			if (h<dat->fontInfo[i].fontHeight+2) h=dat->fontInfo[i].fontHeight+2;
+		for (i = 0; i <= FONTID_LAST; i++)
+			if (h < dat->fontInfo[i].fontHeight + 2) h = dat->fontInfo[i].fontHeight + 2;
 	}
 
 	dat->hwndRenameEdit = CreateWindowEx(0, _T("RICHEDIT50W"), contact->szText, WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOHSCROLL, x, y, clRect.right - x, h, hwnd, NULL, g_hInst, NULL);
@@ -550,9 +549,9 @@ void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
 
 	//dat->hwndRenameEdit = CreateWindow(_T("EDIT"), contact->szText, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, x, y, clRect.right - x, dat->rowHeight, hwnd, NULL, g_hInst, NULL);
 	mir_subclassWindow(dat->hwndRenameEdit, RenameEditSubclassProc);
-	SendMessage(dat->hwndRenameEdit, WM_SETFONT, (WPARAM) (contact->type == CLCIT_GROUP ? dat->fontInfo[FONTID_GROUPS].hFont : dat->fontInfo[FONTID_CONTACTS].hFont), 0);
+	SendMessage(dat->hwndRenameEdit, WM_SETFONT, (WPARAM)(contact->type == CLCIT_GROUP ? dat->fontInfo[FONTID_GROUPS].hFont : dat->fontInfo[FONTID_CONTACTS].hFont), 0);
 	SendMessage(dat->hwndRenameEdit, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN | EC_USEFONTINFO, 0);
-	SendMessage(dat->hwndRenameEdit, EM_SETSEL, 0, (LPARAM) (-1));
+	SendMessage(dat->hwndRenameEdit, EM_SETSEL, 0, (LPARAM)(-1));
 	ShowWindow(dat->hwndRenameEdit, SW_SHOW);
 	SetFocus(dat->hwndRenameEdit);
 }
@@ -580,11 +579,11 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 	}
 	ReleaseDC(hwnd, hdc);
 
-	dat->min_row_heigh = (int)cfg::getByte("CLC","RowHeight",CLCDEFAULT_ROWHEIGHT);
-	dat->group_row_height = (int)cfg::getByte("CLC","GRowHeight",CLCDEFAULT_ROWHEIGHT);
+	dat->min_row_heigh = (int)cfg::getByte("CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
+	dat->group_row_height = (int)cfg::getByte("CLC", "GRowHeight", CLCDEFAULT_ROWHEIGHT);
 	dat->row_border = 0;
 	dat->rightMargin = cfg::getByte("CLC", "RightMargin", CLCDEFAULT_LEFTMARGIN);
-	dat->bkColour =  cfg::getByte("CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS) ?
+	dat->bkColour = cfg::getByte("CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS) ?
 		GetSysColor(COLOR_3DFACE) : cfg::getDword("CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
 
 	coreCli.pfnLoadClcOptions(hwnd, dat, bFirst);

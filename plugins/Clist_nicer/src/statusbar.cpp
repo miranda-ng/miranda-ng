@@ -46,7 +46,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			return 1;
 
 		ptMouse = pt;
-		if (tooltip_active){
+		if (tooltip_active) {
 			KillTimer(hwnd, TIMERID_HOVER);
 			if (!NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
 				CallService("mToolTip/HideTip", 0, 0);
@@ -87,7 +87,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			HDC hdc = BeginPaint(hwnd, &ps);
 			HDC hdcMem = CreateCompatibleDC(hdc);
 			RECT rcClient, rcWindow;
-			DRAWITEMSTRUCT dis = {0};
+			DRAWITEMSTRUCT dis = { 0 };
 			BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
 			LONG b_offset = cfg::dat.bClipBorder + (windowStyle == SETTING_WINDOWSTYLE_NOBORDER ? 2 : (windowStyle == SETTING_WINDOWSTYLE_THINBORDER ? 1 : 0));
 
@@ -148,7 +148,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				for (int i = 0; i < nParts; i++) {
 					RECT rc;
 					SendMessage(hwnd, SB_GETRECT, i, (LPARAM)&rc);
-					if (PtInRect(&rc,pt)) {
+					if (PtInRect(&rc, pt)) {
 						ProtocolData *PD = (ProtocolData *)SendMessageA(hwnd, SB_GETTEXTA, i, 0);
 						if (PD == NULL)
 							continue;

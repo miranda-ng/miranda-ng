@@ -71,14 +71,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 BOOL CheckItem(int item, HWND hwndDlg);
 BOOL isValidItem(void);
-void extbk_export(char *file);
-void extbk_import(char *file, HWND hwndDlg);
+void extbk_export(const TCHAR *file);
+void extbk_import(const TCHAR *file, HWND hwndDlg);
 
 void LoadExtBkSettingsFromDB();
 void IMG_LoadItems();
 void __fastcall IMG_RenderImageItem(HDC hdc, ImageItem *item, RECT *rc);
 void IMG_InitDecoder();
-void LoadPerContactSkins(TCHAR *file);
+void LoadPerContactSkins(const TCHAR *file);
 
 static void SaveCompleteStructToDB();
 StatusItems_t *GetProtocolStatusItem(const char *szProto);

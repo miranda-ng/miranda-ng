@@ -4,34 +4,24 @@
 
 #include <commonheaders.h>
 #include <shobjidl.h>
+#include "msapi/comptr.h"
 
 #define _CLN_GDIP
-
 
 #undef Translate
 
 void RemoveFromTaskBar(HWND hWnd)
 {
-    ITaskbarList *pTaskbarList = NULL;
-
-    if (SUCCEEDED(CoCreateInstance(CLSID_TaskbarList, 0, CLSCTX_INPROC_SERVER, IID_ITaskbarList,
-                                   (void **)(&pTaskbarList))) &&	pTaskbarList != NULL) {
-        if (SUCCEEDED(pTaskbarList->HrInit())) {
-            pTaskbarList->DeleteTab(hWnd);
-        }
-        pTaskbarList->Release();
-    }
+	CComPtr<ITaskbarList> pTaskbarList;
+	if (SUCCEEDED(pTaskbarList.CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER)))
+		if (SUCCEEDED(pTaskbarList->HrInit()))
+			pTaskbarList->DeleteTab(hWnd);
 }
 
 void AddToTaskBar(HWND hWnd)
 {
-    ITaskbarList *pTaskbarList = NULL;
-
-    if (SUCCEEDED(CoCreateInstance(CLSID_TaskbarList, 0, CLSCTX_INPROC_SERVER, IID_ITaskbarList,
-                                   (void **)(&pTaskbarList))) &&	pTaskbarList != NULL) {
-        if (SUCCEEDED(pTaskbarList->HrInit())) {
-            pTaskbarList->AddTab(hWnd);
-        }
-        pTaskbarList->Release();
-    }
+	CComPtr<ITaskbarList> pTaskbarList;
+	if (SUCCEEDED(pTaskbarList.CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER)))
+		if (SUCCEEDED(pTaskbarList->HrInit()))
+			pTaskbarList->AddTab(hWnd);
 }

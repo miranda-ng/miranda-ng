@@ -43,10 +43,10 @@ static void TZ_LoadTimeZone(MCONTACT hContact, struct TExtraCache *c)
 
 //routines for managing adding/removal of items in the list, including sorting
 
-ClcContact* CreateClcContact( void )
+ClcContact* CreateClcContact(void)
 {
-	ClcContact* p = (ClcContact*)mir_alloc( sizeof( ClcContact ));
-	if ( p != NULL ) {
+	ClcContact* p = (ClcContact*)mir_alloc(sizeof(ClcContact));
+	if (p != NULL) {
 		memset(p, 0, sizeof(ClcContact));
 		p->avatarLeft = p->extraIconRightBegin = p->xStatusIcon = -1;
 	}
@@ -70,8 +70,8 @@ int AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
 {
 	ClcGroup *p = coreCli.pfnAddGroup(hwnd, dat, szName, flags, groupId, calcTotalMembers);
-	if ( p && p->parent )
-		RTL_DetectGroupName( p->parent->cl.items[ p->parent->cl.count-1] );
+	if (p && p->parent)
+		RTL_DetectGroupName(p->parent->cl.items[p->parent->cl.count - 1]);
 
 	return p;
 }
@@ -99,7 +99,7 @@ void LoadAvatarForContact(ClcContact *p)
 			p->ace->t_lastAccess = cfg::dat.t_now;
 	}
 	if (p->ace == NULL)
-		 p->cFlags &= ~ECF_AVATAR;
+		p->cFlags &= ~ECF_AVATAR;
 }
 
 int AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
@@ -152,7 +152,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 {
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	ClcGroup *group;
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 
 	RowHeight::Clear(dat);
 	RowHeight::getMaxRowHeight(dat, hwnd);
@@ -164,7 +164,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 	dat->selection = -1;
 	dat->SelectMode = cfg::getByte("CLC", "SelectMode", 0);
 	{
-		for (int i = 1; ; i++) {
+		for (int i = 1;; i++) {
 			DWORD groupFlags;
 			TCHAR *szGroupName = pcli->pfnGetGroupName(i, &groupFlags);
 			if (szGroupName == NULL)
@@ -179,19 +179,19 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 			if (cfg::getTString(hContact, "CList", "Group", &dbv))
 				group = &dat->list;
 			else {
-				group = pcli->pfnAddGroup(hwnd, dat, dbv.ptszVal, (DWORD) - 1, 0, 0);
+				group = pcli->pfnAddGroup(hwnd, dat, dbv.ptszVal, (DWORD)-1, 0, 0);
 				mir_free(dbv.ptszVal);
 			}
 
 			if (group != NULL) {
 				group->totalMembers++;
-				if ( !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
+				if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 					char *szProto = GetContactProto(hContact);
 					if (szProto == NULL) {
-						if ( !pcli->pfnIsHiddenMode(dat, ID_STATUS_OFFLINE))
+						if (!pcli->pfnIsHiddenMode(dat, ID_STATUS_OFFLINE))
 							AddContactToGroup(dat, group, hContact);
 					}
-					else if ( !pcli->pfnIsHiddenMode(dat, (WORD) cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
+					else if (!pcli->pfnIsHiddenMode(dat, (WORD)cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
 						AddContactToGroup(dat, group, hContact);
 				}
 				else AddContactToGroup(dat, group, hContact);
@@ -202,7 +202,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 	if (style & CLS_HIDEEMPTYGROUPS) {
 		group = &dat->list;
 		group->scanIndex = 0;
-		for (; ;) {
+		for (;;) {
 			if (group->scanIndex == group->cl.count) {
 				group = group->parent;
 				if (group == NULL)

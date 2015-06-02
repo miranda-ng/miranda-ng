@@ -45,7 +45,7 @@ static int g_index = -1;
 
 static void InitDefaultButtons()
 {
-	for (int i = 0; i < SIZEOF(BTNS); i++ ) {
+	for (int i = 0; i < SIZEOF(BTNS); i++) {
 		TTBButton tbb = { sizeof(tbb) };
 
 		g_index = i;
@@ -352,7 +352,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 				ix++;
 				iy++;
 			}
-			DrawState(hdcMem, NULL, NULL, (LPARAM) ctl->hBitmap, 0, ix, iy, bminfo.bmWidth, bminfo.bmHeight, IsWindowEnabled(ctl->hwnd) ? DST_BITMAP : DST_BITMAP | DSS_DISABLED);
+			DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->hBitmap, 0, ix, iy, bminfo.bmWidth, bminfo.bmHeight, IsWindowEnabled(ctl->hwnd) ? DST_BITMAP : DST_BITMAP | DSS_DISABLED);
 		}
 		if (GetWindowTextLength(ctl->hwnd)) {
 			// Draw the text and optinally the arrow
@@ -403,27 +403,27 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		bct->hIml = 0;
 		bct->iIcon = 0;
 		if (wParam == IMAGE_ICON) {
-			ICONINFO ii = {0};
-			BITMAP bm = {0};
+			ICONINFO ii = { 0 };
+			BITMAP bm = { 0 };
 
 			if (bct->hIconPrivate) {
 				DestroyIcon(bct->hIconPrivate);
 				bct->hIconPrivate = 0;
 			}
 
-			GetIconInfo((HICON) lParam, &ii);
+			GetIconInfo((HICON)lParam, &ii);
 			GetObject(ii.hbmColor, sizeof(bm), &bm);
 			if (bm.bmWidth > g_cxsmIcon || bm.bmHeight > g_cysmIcon) {
 				HIMAGELIST hImageList;
 				hImageList = ImageList_Create(g_cxsmIcon, g_cysmIcon, ILC_COLOR32 | ILC_MASK, 1, 0);
-				ImageList_AddIcon(hImageList, (HICON) lParam);
+				ImageList_AddIcon(hImageList, (HICON)lParam);
 				bct->hIconPrivate = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
 				ImageList_RemoveAll(hImageList);
 				ImageList_Destroy(hImageList);
 				bct->hIcon = 0;
 			}
 			else {
-				bct->hIcon = (HICON) lParam;
+				bct->hIcon = (HICON)lParam;
 				bct->hIconPrivate = 0;
 			}
 
@@ -433,7 +433,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			InvalidateRect(bct->hwnd, NULL, TRUE);
 		}
 		else if (wParam == IMAGE_BITMAP) {
-			bct->hBitmap = (HBITMAP) lParam;
+			bct->hBitmap = (HBITMAP)lParam;
 			if (bct->hIconPrivate)
 				DestroyIcon(bct->hIconPrivate);
 			bct->hIcon = bct->hIconPrivate = NULL;
@@ -567,7 +567,7 @@ static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 		SetButtonToSkinned();
 		return;
 	}
-	
+
 	SendMessage(hWnd, BUTTONSETCUSTOMPAINT, sizeof(MButtonExtension), (LPARAM)PaintWorker);
 	mir_subclassWindow(hWnd, TSButtonWndProc);
 
@@ -597,13 +597,13 @@ void CustomizeButton(HWND hWnd, bool bIsSkinned, bool bIsThemed, bool bIsFlat, b
 }
 
 static int Nicer_CustomizeToolbar(WPARAM, LPARAM)
-{	
+{
 	TopToolbar_SetCustomProc(CustomizeToolbar, 0);
 	return 0;
 }
 
 static int Nicer_ReloadToolbar(WPARAM wParam, LPARAM)
-{	
+{
 	PLUGININFOEX *pInfo = (PLUGININFOEX*)wParam;
 	if (!_stricmp(pInfo->shortName, "TopToolBar"))
 		TopToolbar_SetCustomProc(CustomizeToolbar, 0);

@@ -83,7 +83,7 @@ int TrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCou
 				break;
 
 			case SETTING_TRAYICON_SINGLE:
-				ptrA szProto( db_get_sa(NULL, "CList", "PrimaryStatus"));
+				ptrA szProto(db_get_sa(NULL, "CList", "PrimaryStatus"));
 				iIcon = IconFromStatusMode(szProto, szProto ? CallProtoService(szProto, PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0), 0, &hIcon);
 				hIcon = (hIcon) ? CopyIcon(hIcon) : ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL);
 				return pcli->pfnTrayIconSetBaseInfo(hIcon, NULL);
@@ -104,7 +104,7 @@ int TrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCou
 INT_PTR TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 {
 	MSG *msg = (MSG*)wParam;
-	if (msg->message == TIM_CALLBACK && msg->lParam == WM_MOUSEMOVE ) {
+	if (msg->message == TIM_CALLBACK && msg->lParam == WM_MOUSEMOVE) {
 		if (cfg::dat.bNoTrayTips) {
 			*((LRESULT*)lParam) = 0;
 			return TRUE;
