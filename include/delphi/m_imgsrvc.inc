@@ -1,8 +1,8 @@
 {
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2007 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2007 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 -----------------------------------------------------------------------
 Miranda Image services plugin / API definitions
-Provides various services for image loading, saving and manipulations. 
+Provides various services for image loading, saving and manipulations.
 
 This module is based on the freeimage library, copyrighted by the FreeImage
 Project members.
@@ -86,9 +86,9 @@ typedef struct _tagFI_interface {
     FIBITMAP *(DLL_CALLCONV *FI__AllocateT)(FREE_IMAGE_TYPE type, int width, int height, int bpp FI_DEFAULT(8), unsigned red_mask FI_DEFAULT(0), unsigned green_mask FI_DEFAULT(0), unsigned blue_mask FI_DEFAULT(0));
     FIBITMAP *(DLL_CALLCONV *FI_Clone)(FIBITMAP *dib);
     void (DLL_CALLCONV *FI_Unload)(FIBITMAP *dib);
-    
+
     // Load / Save routines -----------------------------------------------------
-    
+
     FIBITMAP *(DLL_CALLCONV *FI_Load)(FREE_IMAGE_FORMAT fif, const AnsiChar *filename, int flags FI_DEFAULT(0));
     FIBITMAP *(DLL_CALLCONV *FI_LoadU)(FREE_IMAGE_FORMAT fif, const wchar_t *filename, int flags FI_DEFAULT(0));
     FIBITMAP *(DLL_CALLCONV *FI_LoadFromHandle)(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_handle handle, int flags FI_DEFAULT(0));
@@ -347,7 +347,7 @@ typedef struct _tagFI_interface {
 *)
 {
   image services
-  
+
   only basic functionality is wrapped around Miranda services, because otherwise we
   would get a huge load of services with complex parameter marshalling requirements.
 }
@@ -369,22 +369,22 @@ const
   is ready when Miranda calls the Load() handler of your plugin and you can return
   1 in your Load() to disable your plugin when it depends on the freeimage interface
   and the freeimage plugin is missing
-  
+
   example:
   var
     fif:PFI_INTERFACE;
    fif:=nil;
   result:=CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION,dword(fii));
-  
+
   if result<>S_OK then
     failed, in this case, fei will be NULL and your plugin will crash when using the interface,
-    so ALWAYS check it   
+    so ALWAYS check it
 }
   MS_IMG_GETINTERFACE:PAnsiChar = 'IMG/GetInterface';
 
   IMGL_RETURNDIB = 1; // will NOT return a HBITMAP but a FIBITMAP * instead (useful,
                       // if you want to do further image manipulations before
-                      // converting to a Win32 bitmap caller MUST then free the 
+                      // converting to a Win32 bitmap caller MUST then free the
                       // FIBITMAP * using fii->FI_Unload() or MS_IMG_UNLOAD (see below)
   IMGL_WCHAR     = 2; // filename is Unicode
 
@@ -410,30 +410,30 @@ const
   FIF_BMP     = 0;
   FIF_ICO     = 1;
   FIF_JPEG    = 2;
-  FIF_JNG     = 3;
-  FIF_KOALA   = 4;
-  FIF_LBM     = 5;
+  FIF_PNG     = 3;
+  FIF_GIF     = 4;
+  FIF_JNG     = 5;
+  FIF_KOALA   = 6;
+  FIF_LBM     = 7;
   FIF_IFF     = FIF_LBM;
-  FIF_MNG     = 6;
-  FIF_PBM     = 7;
-  FIF_PBMRAW  = 8;
-  FIF_PCD     = 9;
-  FIF_PCX     = 10;
-  FIF_PGM     = 11;
-  FIF_PGMRAW  = 12;
-  FIF_PNG     = 13;
-  FIF_PPM     = 14;
-  FIF_PPMRAW  = 15;
-  FIF_RAS     = 16;
-  FIF_TARGA   = 17;
-  FIF_TIFF    = 18;
-  FIF_WBMP    = 19;
-  FIF_PSD     = 20;
-  FIF_CUT     = 21;
-  FIF_XBM     = 22;
-  FIF_XPM     = 23;
-  FIF_DDS     = 24;
-  FIF_GIF     = 25;
+  FIF_MNG     = 8;
+  FIF_PBM     = 9;
+  FIF_PBMRAW  = 10;
+  FIF_PCD     = 11;
+  FIF_PCX     = 12;
+  FIF_PGM     = 13;
+  FIF_PGMRAW  = 14;
+  FIF_PPM     = 15;
+  FIF_PPMRAW  = 16;
+  FIF_RAS     = 17;
+  FIF_TARGA   = 18;
+  FIF_TIFF    = 19;
+  FIF_WBMP    = 20;
+  FIF_PSD     = 21;
+  FIF_CUT     = 22;
+  FIF_XBM     = 23;
+  FIF_XPM     = 24;
+  FIF_DDS     = 25;
   FIF_HDR     = 26;
   FIF_FAXG3   = 27;
   FIF_SGI     = 28;
@@ -554,10 +554,10 @@ const
 
 {
  * format conversion helpers
- * 
+ *
  * these helper macros allow converting HBITMAP to FIBITMAP * format and vice vera. In any case,
  * the caller is responsible for freeing or deleting the original object.
- * These macros wrap around the FI_CreateHBITMAPFromDib() and FI_CreateDIBFromHBITMAP() interface 
+ * These macros wrap around the FI_CreateHBITMAPFromDib() and FI_CreateDIBFromHBITMAP() interface
  * functions.
 }
 
