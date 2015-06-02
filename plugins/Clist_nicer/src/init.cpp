@@ -82,51 +82,6 @@ PLUGININFOEX pluginInfo =
 	{0x8f79b4ee, 0xeb48, 0x4a03, {0x87, 0x3e, 0x27, 0xbe, 0x6b, 0x7e, 0x9a, 0x25}}
 };
 
-
-void _DebugTraceW(const wchar_t *fmt, ...)
-{
-#ifdef _DEBUG
-	wchar_t debug[2048];
-	int ibsize = 2047;
-	va_list va;
-	va_start(va, fmt);
-
-	mir_wstrcpy(debug, L"CLN: ");
-
-	mir_vsnwprintf(&debug[5], ibsize - 10, fmt, va);
-	OutputDebugStringW(debug);
-#endif
-}
-
-
-void _DebugTraceA(const char *fmt, ...)
-{
-	char debug[2048];
-	int ibsize = 2047;
-	va_list va;
-	va_start(va, fmt);
-
-	mir_strcpy(debug, "CLN: ");
-	mir_vsnprintf(&debug[5], ibsize - 10, fmt, va);
-#ifdef _DEBUG
-	OutputDebugStringA(debug);
-#else
-	{
-		char szLogFileName[MAX_PATH], szDataPath[MAX_PATH];
-		FILE *f;
-
-		CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szDataPath);
-		mir_snprintf(szLogFileName, SIZEOF(szLogFileName), "%s\\%s", szDataPath, "clist_nicer.log");
-		f = fopen(szLogFileName, "a+");
-		if (f) {
-			fputs(debug, f);
-			fputs("\n", f);
-			fclose(f);
-		}
-	}
-#endif
-}
-
 BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
 {
 	g_hInst = hInstDLL;
