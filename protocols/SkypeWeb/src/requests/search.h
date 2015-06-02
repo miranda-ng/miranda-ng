@@ -25,8 +25,7 @@ public:
 		HttpRequest(REQUEST_GET, "api.skype.com/search/users/any")
 	{
 		Url
-			<< CHAR_VALUE("keyWord", string)
-			<< CHAR_VALUE("contactTypes[]", "skype");
+			<< CHAR_VALUE("keyWord", string);
 		Headers
 			<< CHAR_VALUE("Accept", "application/json")
 			<< CHAR_VALUE("Connection", "keep-alive")
