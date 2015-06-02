@@ -450,15 +450,6 @@ void CluiProtocolStatusChanged(int, const char*);
 
 void LoadSkinItemToCache(struct TExtraCache *cEntry);
 
-// debugging support
-
-void _DebugTraceW(const wchar_t *fmt, ...);
-#ifdef _CLN_GDIP
-extern "C" void _DebugTraceA(const char *fmt, ...);
-#else
-void _DebugTraceA(const char *fmt, ...);
-#endif
-
 // Docking.c
 
 int Docking_IsDocked(WPARAM wParam, LPARAM lParam);
