@@ -26,10 +26,10 @@ private:
 public:
 	MyBitmap();
 	MyBitmap(int w, int h);
-	MyBitmap(TCHAR *fn, TCHAR *fnAlpha = 0);
+	MyBitmap(TCHAR *fn);
 	~MyBitmap();
 
-	bool loadFromFile(TCHAR *fn, TCHAR *fnAlpha = 0);
+	bool loadFromFile(TCHAR *fn);
 
 	int getWidth() { return width; }
 	int getHeight() { return height; }

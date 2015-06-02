@@ -349,127 +349,121 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
-		HWND		hCtrl = NULL;
-		DWORD		dwIndex = 0;
-
-		// Skin List
-		hCtrl = GetDlgItem(hwndDlg, IDC_SKINLIST);
-		ListBox_ResetContent(hCtrl);
-		for (const Skins::SKINLIST *sl = skins.getSkinList(); sl; sl = sl->next)
 		{
-			dwIndex = ListBox_AddString(hCtrl, sl->name);
-			ListBox_SetItemData(hCtrl, dwIndex, sl->name);
+			// Skin List
+			HWND hCtrl = GetDlgItem(hwndDlg, IDC_SKINLIST);
+			ListBox_ResetContent(hCtrl);
+			for (const Skins::SKINLIST *sl = skins.getSkinList(); sl; sl = sl->next) {
+				DWORD dwIndex = ListBox_AddString(hCtrl, sl->name);
+				ListBox_SetItemData(hCtrl, dwIndex, sl->name);
+			}
+			ListBox_SetCurSel(hCtrl, ListBox_FindString(hCtrl, 0, PopupOptions.SkinPack));
+
+			// Skin List reload button
+			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BUTTONSETASFLATBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_OPT_RELOAD, 0));
+			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BUTTONADDTOOLTIP, (WPARAM)Translate("Refresh List"), 0);
+
+			// Skin Option List
+			SkinOptionList_Update(skinOptions, &skinOptionsCount, hwndDlg);
+
+			// PreviewBox
+			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_PREVIEWBOX), WndProcPreviewBox);
+			updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
+
+			// hooks
+			hhkFontsReload = HookEventMessage(ME_FONT_RELOAD, hwndDlg, WM_USER);
+
+			TranslateDialogDefault(hwndDlg);
+			bDlgInit = true;
 		}
-		ListBox_SetCurSel(hCtrl, ListBox_FindString(hCtrl, 0, PopupOptions.SkinPack));
-
-		// Skin List reload button
-		SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_OPT_RELOAD, 0));
-		SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BUTTONADDTOOLTIP, (WPARAM)Translate("Refresh List"), 0);
-
-		// Skin Option List
-		SkinOptionList_Update(skinOptions, &skinOptionsCount, hwndDlg);
-
-		// PreviewBox
-		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_PREVIEWBOX), WndProcPreviewBox);
-		updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
-
-		// hooks
-		hhkFontsReload = HookEventMessage(ME_FONT_RELOAD, hwndDlg, WM_USER);
-
-		TranslateDialogDefault(hwndDlg);
-		bDlgInit = true;
-	}
-	return TRUE;
+		return TRUE;
 
 	case WM_USER:
 		updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
 		return TRUE;
 
 	case WM_COMMAND:
-	{
-		HWND hCtrl = NULL;
-		UINT idCtrl = LOWORD(wParam);
-		switch (HIWORD(wParam)) {
-		case BN_KILLFOCUS:		// Button controls
-		case BN_SETFOCUS:		// Button controls
-			return TRUE;
-			break;
-		case BN_CLICKED:		// Button controls
-			switch (idCtrl) {
-			case IDC_PREVIEW:
-				PopupPreview();
-				break;
+		{
+			HWND hCtrl = NULL;
+			UINT idCtrl = LOWORD(wParam);
+			switch (HIWORD(wParam)) {
+			case BN_KILLFOCUS:		// Button controls
+			case BN_SETFOCUS:		// Button controls
+				return TRUE;
 
-			case IDC_BTN_RELOAD:
-			{
-				DWORD  dwIndex = 0;
-				TCHAR  szNewSkin[128];
-				LPTSTR pszOldSkin = mir_tstrdup(PopupOptions.SkinPack);
-				skins.load();
-				hCtrl = GetDlgItem(hwndDlg, IDC_SKINLIST);
-				ListBox_ResetContent(hCtrl);
-				for (const Skins::SKINLIST *sl = skins.getSkinList(); sl; sl = sl->next)
-				{
-					dwIndex = ListBox_AddString(hCtrl, sl->name);
-					ListBox_SetItemData(hCtrl, dwIndex, sl->name);
-				}
-				ListBox_SetCurSel(hCtrl, ListBox_FindString(hCtrl, 0, PopupOptions.SkinPack));
-				// make shure we have select skin (ListBox_SetCurSel may be fail)
-				ListBox_GetText(hCtrl, ListBox_GetCurSel(hCtrl), &szNewSkin);
-				if (mir_tstrcmp(pszOldSkin, szNewSkin) != 0) {
-					mir_free(PopupOptions.SkinPack);
-					PopupOptions.SkinPack = mir_tstrdup(szNewSkin);
-				}
-				mir_free(pszOldSkin);
+			case BN_CLICKED:		// Button controls
+				switch (idCtrl) {
+				case IDC_PREVIEW:
+					PopupPreview();
+					break;
 
-				const PopupSkin *skin = 0;
-				if (skin = skins.getSkin(PopupOptions.SkinPack)) {
-					// update Skin Option List from reload SkinPack
-					bDlgInit = false;
-					bDlgInit = SkinOptionList_Update(skinOptions, &skinOptionsCount, hwndDlg);
-				}
+				case IDC_GETSKINS:
+					CallService(MS_UTILS_OPENURL, 0, (LPARAM)"http://miranda-ng.org/addons/category/13");
+					break;
 
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			}// end IDC_BTN_RELOAD:
-			break;
-			case IDC_GETSKINS:
-				CallService(MS_UTILS_OPENURL, 0, (LPARAM)"http://miranda-ng.org/addons/category/13");
-				break;
-			}// end switch(idCtrl)
-			updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
-			break;
-		case CBN_SELCHANGE:		// combo box controls
-			switch (idCtrl) {
-			case IDC_SKINLIST:
-			{
-				// Skin list change
-				mir_free(PopupOptions.SkinPack);
-				PopupOptions.SkinPack = mir_tstrdup((TCHAR *)SendDlgItemMessage(
-					hwndDlg,
-					IDC_SKINLIST,
-					LB_GETITEMDATA,
-					(WPARAM)SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETCURSEL, 0, 0),
-					0));
-				const PopupSkin *skin = 0;
-				if (skin = skins.getSkin(PopupOptions.SkinPack)) {
-					mir_free(PopupOptions.SkinPack);
-					PopupOptions.SkinPack = mir_tstrdup(skin->getName());
+				case IDC_BTN_RELOAD:
+					LPTSTR pszOldSkin = NEWTSTR_ALLOCA(PopupOptions.SkinPack);
+					skins.load();
+					hCtrl = GetDlgItem(hwndDlg, IDC_SKINLIST);
+					ListBox_ResetContent(hCtrl);
+					for (const Skins::SKINLIST *sl = skins.getSkinList(); sl; sl = sl->next) {
+						DWORD dwIndex = ListBox_AddString(hCtrl, sl->name);
+						ListBox_SetItemData(hCtrl, dwIndex, sl->name);
+					}
+					ListBox_SetCurSel(hCtrl, ListBox_FindString(hCtrl, 0, PopupOptions.SkinPack));
 
-					// update Skin Option List
-					bDlgInit = false;
-					bDlgInit = SkinOptionList_Update(skinOptions, &skinOptionsCount, hwndDlg);
+					// make shure we have select skin (ListBox_SetCurSel may be fail)
+					TCHAR szNewSkin[128];
+					ListBox_GetText(hCtrl, ListBox_GetCurSel(hCtrl), &szNewSkin);
+					if (mir_tstrcmp(pszOldSkin, szNewSkin) != 0) {
+						mir_free(PopupOptions.SkinPack);
+						PopupOptions.SkinPack = mir_tstrdup(szNewSkin);
+					}
+
+					const PopupSkin *skin = 0;
+					if (skin = skins.getSkin(PopupOptions.SkinPack)) {
+						// update Skin Option List from reload SkinPack
+						bDlgInit = false;
+						bDlgInit = SkinOptionList_Update(skinOptions, &skinOptionsCount, hwndDlg);
+					}
+
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					break;
 				}
 				updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
-			}
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				break;
+
+			case CBN_SELCHANGE:		// combo box controls
+				switch (idCtrl) {
+				case IDC_SKINLIST:
+					{
+						// Skin list change
+						mir_free(PopupOptions.SkinPack);
+						PopupOptions.SkinPack = mir_tstrdup((TCHAR *)SendDlgItemMessage(
+							hwndDlg,
+							IDC_SKINLIST,
+							LB_GETITEMDATA,
+							(WPARAM)SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETCURSEL, 0, 0),
+							0));
+						const PopupSkin *skin = 0;
+						if (skin = skins.getSkin(PopupOptions.SkinPack)) {
+							mir_free(PopupOptions.SkinPack);
+							PopupOptions.SkinPack = mir_tstrdup(skin->getName());
+
+							// update Skin Option List
+							bDlgInit = false;
+							bDlgInit = SkinOptionList_Update(skinOptions, &skinOptionsCount, hwndDlg);
+						}
+						updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
+					}
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					break;
+				}// end switch(idCtrl)
+				break;
+			}// end switch (HIWORD(wParam))
 			break;
-			}// end switch(idCtrl)
-			break;
-		}// end switch (HIWORD(wParam))
-		break;
-	}//  end WM_COMMAND
+		}//  end WM_COMMAND
 
 	case WM_NOTIFY:
 		if (!bDlgInit) return FALSE;
@@ -481,22 +475,22 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				return TRUE;
 
 			case PSN_APPLY:
-			{
-				// skin pack
-				db_set_ts(NULL, MODULNAME, "SkinPack", PopupOptions.SkinPack);
-				// skin options
-				const PopupSkin *skin = 0;
-				if (skin = skins.getSkin(PopupOptions.SkinPack))
-					skin->saveOpts();
-				skins.freeAllButActive();
-				// more Skin options
-				db_set_b(NULL, MODULNAME, "DisplayTime", PopupOptions.DisplayTime);
-				db_set_b(NULL, MODULNAME, "DropShadow", PopupOptions.DropShadow);
-				db_set_b(NULL, MODULNAME, "EnableShadowRegion", PopupOptions.EnableFreeformShadows);
-				db_set_b(NULL, MODULNAME, "EnableAeroGlass", PopupOptions.EnableAeroGlass);
-				db_set_b(NULL, MODULNAME, "UseMText", PopupOptions.UseMText);
-			}// end PSN_APPLY:
-			return TRUE;
+				{
+					// skin pack
+					db_set_ts(NULL, MODULNAME, "SkinPack", PopupOptions.SkinPack);
+					// skin options
+					const PopupSkin *skin = 0;
+					if (skin = skins.getSkin(PopupOptions.SkinPack))
+						skin->saveOpts();
+					skins.freeAllButActive();
+					// more Skin options
+					db_set_b(NULL, MODULNAME, "DisplayTime", PopupOptions.DisplayTime);
+					db_set_b(NULL, MODULNAME, "DropShadow", PopupOptions.DropShadow);
+					db_set_b(NULL, MODULNAME, "EnableShadowRegion", PopupOptions.EnableFreeformShadows);
+					db_set_b(NULL, MODULNAME, "EnableAeroGlass", PopupOptions.EnableAeroGlass);
+					db_set_b(NULL, MODULNAME, "UseMText", PopupOptions.UseMText);
+				}// end PSN_APPLY:
+				return TRUE;
 			}// switch (((LPNMHDR)lParam)->code)
 			break;
 		}// end switch (((LPNMHDR)lParam)->idFrom)
@@ -529,72 +523,73 @@ static void BoxPreview_OnPaint(HWND hwnd, HDC mydc, int mode)
 
 	switch (mode) {
 	case 0:
-	{ //  Avatar
-		HDC hdcAvatar = CreateCompatibleDC(mydc);
-		HBITMAP hbmSave = (HBITMAP)SelectObject(hdcAvatar, hbmNoAvatar);
-		GetClientRect(hwnd, &rc);
-		BITMAP bmp;
-		GetObject(hbmNoAvatar, sizeof(bmp), &bmp);
-		StretchBlt(mydc, 0, 0, rc.right, rc.bottom, hdcAvatar, 0, 0, abs(bmp.bmWidth), abs(bmp.bmHeight), SRCCOPY);
-		SelectObject(hdcAvatar, hbmSave);
-		DeleteDC(hdcAvatar);
-		HRGN rgn = CreateRoundRectRgn(0, 0, rc.right, rc.bottom, 2 * PopupOptions.avatarRadius, 2 * PopupOptions.avatarRadius);
-		FrameRgn(mydc, rgn, (HBRUSH)GetStockObject(BLACK_BRUSH), 1, 1);
-		DeleteObject(rgn);
+		{ //  Avatar
+			HDC hdcAvatar = CreateCompatibleDC(mydc);
+			HBITMAP hbmSave = (HBITMAP)SelectObject(hdcAvatar, hbmNoAvatar);
+			GetClientRect(hwnd, &rc);
+			BITMAP bmp;
+			GetObject(hbmNoAvatar, sizeof(bmp), &bmp);
+			StretchBlt(mydc, 0, 0, rc.right, rc.bottom, hdcAvatar, 0, 0, abs(bmp.bmWidth), abs(bmp.bmHeight), SRCCOPY);
+			SelectObject(hdcAvatar, hbmSave);
+			DeleteDC(hdcAvatar);
+			HRGN rgn = CreateRoundRectRgn(0, 0, rc.right, rc.bottom, 2 * PopupOptions.avatarRadius, 2 * PopupOptions.avatarRadius);
+			FrameRgn(mydc, rgn, (HBRUSH)GetStockObject(BLACK_BRUSH), 1, 1);
+			DeleteObject(rgn);
+		}
 		break;
-	}
+
 	case 1:
-	{ //  Opacity
-		HBRUSH hbr = CreateSolidBrush(fonts.clBack);
-		HFONT hfnt = (HFONT)SelectObject(mydc, fonts.title);
-		GetClientRect(hwnd, &rc);
-		FillRect(mydc, &rc, hbr);
-		DrawIconEx(mydc, 10, (rc.bottom - rc.top - 16) / 2, IcoLib_GetIcon(ICO_POPUP_ON, 0), 16, 16, 0, hbr, DI_NORMAL);
-		SetBkMode(mydc, TRANSPARENT);
-		GetClientRect(hwnd, &rc);
-		rc.left += 30; //  10+16+4 -- icon
-		rc.right -= (rc.right - rc.left) / 3;
-		rc.bottom -= (rc.bottom - rc.top) / 3;
-		DrawText(mydc, _T(MODULNAME_LONG), -1, &rc, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
-		GetClientRect(hwnd, &rc);
-		rc.left += 30; //  10+16+4 -- icon
-		rc.left += (rc.right - rc.left) / 3;
-		rc.top += (rc.bottom - rc.top) / 3;
-		DrawText(mydc, _T(MODULNAME_LONG), -1, &rc, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
-		GetClientRect(hwnd, &rc);
-		FrameRect(mydc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
-		SelectObject(mydc, hfnt);
-		DeleteObject(hbr);
-	}
-	break;
+		{ //  Opacity
+			HBRUSH hbr = CreateSolidBrush(fonts.clBack);
+			HFONT hfnt = (HFONT)SelectObject(mydc, fonts.title);
+			GetClientRect(hwnd, &rc);
+			FillRect(mydc, &rc, hbr);
+			DrawIconEx(mydc, 10, (rc.bottom - rc.top - 16) / 2, IcoLib_GetIcon(ICO_POPUP_ON, 0), 16, 16, 0, hbr, DI_NORMAL);
+			SetBkMode(mydc, TRANSPARENT);
+			GetClientRect(hwnd, &rc);
+			rc.left += 30; //  10+16+4 -- icon
+			rc.right -= (rc.right - rc.left) / 3;
+			rc.bottom -= (rc.bottom - rc.top) / 3;
+			DrawText(mydc, _T(MODULNAME_LONG), -1, &rc, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
+			GetClientRect(hwnd, &rc);
+			rc.left += 30; //  10+16+4 -- icon
+			rc.left += (rc.right - rc.left) / 3;
+			rc.top += (rc.bottom - rc.top) / 3;
+			DrawText(mydc, _T(MODULNAME_LONG), -1, &rc, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
+			GetClientRect(hwnd, &rc);
+			FrameRect(mydc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
+			SelectObject(mydc, hfnt);
+			DeleteObject(hbr);
+		}
+		break;
 
 	case 2:
-	{ //  Position
-		HBRUSH hbr = CreateSolidBrush(GetSysColor(COLOR_WINDOW));
-		GetClientRect(hwnd, &rc);
-		FillRect(mydc, &rc, hbr);
-		DeleteObject(hbr);
+		{ //  Position
+			HBRUSH hbr = CreateSolidBrush(GetSysColor(COLOR_WINDOW));
+			GetClientRect(hwnd, &rc);
+			FillRect(mydc, &rc, hbr);
+			DeleteObject(hbr);
 
-		hbr = CreateSolidBrush(GetSysColor(COLOR_HIGHLIGHT));
-		GetClientRect(hwnd, &rc);
-		rc.right -= 100;
-		rc.top += 100;
-		FillRect(mydc, &rc, hbr);
-		DeleteObject(hbr);
+			hbr = CreateSolidBrush(GetSysColor(COLOR_HIGHLIGHT));
+			GetClientRect(hwnd, &rc);
+			rc.right -= 100;
+			rc.top += 100;
+			FillRect(mydc, &rc, hbr);
+			DeleteObject(hbr);
 
-		HPEN hpen = (HPEN)SelectObject(mydc, CreatePen(PS_DOT, 1, RGB(0, 0, 0)));
-		MoveToEx(mydc, 0, 100, NULL);
-		LineTo(mydc, 201, 100);
-		MoveToEx(mydc, 100, 0, NULL);
-		LineTo(mydc, 100, 201);
-		DeleteObject(SelectObject(mydc, hpen));
+			HPEN hpen = (HPEN)SelectObject(mydc, CreatePen(PS_DOT, 1, RGB(0, 0, 0)));
+			MoveToEx(mydc, 0, 100, NULL);
+			LineTo(mydc, 201, 100);
+			MoveToEx(mydc, 100, 0, NULL);
+			LineTo(mydc, 100, 201);
+			DeleteObject(SelectObject(mydc, hpen));
 
-		HRGN hrgn = CreateRectRgn(0, 0, 0, 0);
-		GetWindowRgn(hwnd, hrgn);
-		FrameRgn(mydc, hrgn, (HBRUSH)GetStockObject(BLACK_BRUSH), 1, 1);
-		DeleteObject(hrgn);
-	}
-	break;
+			HRGN hrgn = CreateRectRgn(0, 0, 0, 0);
+			GetWindowRgn(hwnd, hrgn);
+			FrameRgn(mydc, hrgn, (HBRUSH)GetStockObject(BLACK_BRUSH), 1, 1);
+			DeleteObject(hrgn);
+		}
+		break;
 	}
 }
 

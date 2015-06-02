@@ -45,18 +45,16 @@ private:
 
 	bool loadFromFile_pixel(const TCHAR *fn);
 	bool loadFromFile_gradient(const TCHAR *fn);
-	bool loadFromFile_png(const TCHAR *fn);
-	bool loadFromFile_default(const TCHAR *fn, const TCHAR *fnAlpha = 0);
 	void premultipleChannels();
 
 public:
 	MyBitmap();
 	MyBitmap(int w, int h);
-	MyBitmap(const TCHAR *fn, const TCHAR *fnAlpha = 0);
+	MyBitmap(const TCHAR *fn);
 	~MyBitmap();
 	void allocate(int w, int h);
 
-	bool loadFromFile(const TCHAR *fn, const TCHAR *fnAlpha = 0);
+	bool loadFromFile(const TCHAR *fn);
 
 	int getWidth() { return width; }
 	int getHeight() { return height; }

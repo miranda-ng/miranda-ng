@@ -50,24 +50,20 @@ public:
 		this->frame = frame;
 		stage = (frame * 2 > frameCount) ? 1 : 0;
 		if (stage == 0)
-		{
 			alpha = alpha0 + (alpha1 - alpha0) * frame * 2 / frameCount;
-		}
 		else
-		{
 			alpha = alpha0 + (alpha1 - alpha0) * (frame * 2 - frameCount) / frameCount;
-		}
 	}
 	virtual int getPixelAlpha(int x, int y)
 	{
-		if (stage == 0)
-		{
-			if ((x / 16 + y / 16) % 2) return alpha0;
+		if (stage == 0) {
+			if ((x / 16 + y / 16) % 2)
+				return alpha0;
 			return alpha;
 		}
-		else
-		{
-			if ((x / 16 + y / 16) % 2) return alpha;
+		else {
+			if ((x / 16 + y / 16) % 2)
+				return alpha;
 			return alpha1;
 		}
 	}

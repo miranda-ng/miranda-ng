@@ -23,14 +23,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "headers.h"
 
-SimpleAvatar::SimpleAvatar(HANDLE h, bool bUseBitmap) :
-PopupAvatar()
+SimpleAvatar::SimpleAvatar(HANDLE h, bool bUseBitmap)
+	: PopupAvatar()
 {
 	bIsAnimated = false;
 	bIsValid = true;
 
-	if (bUseBitmap)
-	{
+	if (bUseBitmap) {
 		BITMAP bmp;
 		GetObject((HBITMAP)h, sizeof(bmp), &bmp);
 		width = abs(bmp.bmWidth);
@@ -45,14 +44,11 @@ PopupAvatar()
 		return;
 	}
 
-	if (h && ServiceExists(MS_AV_GETAVATARBITMAP))
-	{
+	if (h && ServiceExists(MS_AV_GETAVATARBITMAP)) {
 		avNeedFree = false;
 		av = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)h, 0);
-		if (av)
-		{
-			if (av->hbmPic && (av->dwFlags&AVS_BITMAP_VALID) && !(av->dwFlags&AVS_HIDEONCLIST) && !(av->dwFlags&AVS_NOTREADY))
-			{
+		if (av) {
+			if (av->hbmPic && (av->dwFlags&AVS_BITMAP_VALID) && !(av->dwFlags&AVS_HIDEONCLIST) && !(av->dwFlags&AVS_NOTREADY)) {
 				width = av->bmWidth;
 				height = av->bmHeight;
 				return;
@@ -83,13 +79,11 @@ void SimpleAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS 
 	if (!av) return;
 
 	HRGN rgn;
-	if (options->avatarRadius)
-	{
+	if (options->avatarRadius) {
 		rgn = CreateRoundRectRgn(x, y, x + w, y + h, 2 * options->avatarRadius, 2 * options->avatarRadius);
 		SelectClipRgn(bmp->getDC(), rgn);
 	}
-	else
-	{
+	else {
 		rgn = CreateRectRgn(x, y, x + w, y + h);
 	}
 
@@ -98,8 +92,7 @@ void SimpleAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS 
 	SetStretchBltMode(bmp->getDC(), HALFTONE);
 
 
-	if (av->dwFlags & AVS_HASTRANSPARENCY)
-	{
+	if (av->dwFlags & AVS_HASTRANSPARENCY) {
 		BLENDFUNCTION bf;
 		bf.BlendOp = AC_SRC_OVER;
 		bf.BlendFlags = 0;
@@ -107,8 +100,7 @@ void SimpleAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS 
 		bf.AlphaFormat = AC_SRC_ALPHA;
 		AlphaBlend(bmp->getDC(), x, y, w, h, hdcTmp, 0, 0, av->bmWidth, av->bmHeight, bf);
 
-		if (options->avatarBorders && options->avatarPNGBorders)
-		{
+		if (options->avatarBorders && options->avatarPNGBorders) {
 			HBRUSH hbr = CreateSolidBrush(fonts.clAvatarBorder);
 			bmp->saveAlpha(x, y, w, h);
 			FrameRgn(bmp->getDC(), rgn, hbr, 1, 1);
@@ -119,7 +111,7 @@ void SimpleAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS 
 	else {
 		bmp->saveAlpha(x, y, w, h);
 		StretchBlt(bmp->getDC(), x, y, w, h, hdcTmp, 0, 0, av->bmWidth, av->bmHeight, SRCCOPY);
-		if (options->avatarBorders){
+		if (options->avatarBorders) {
 			HBRUSH hbr = CreateSolidBrush(fonts.clAvatarBorder);
 			FrameRgn(bmp->getDC(), rgn, hbr, 1, 1);
 			DeleteObject(hbr);

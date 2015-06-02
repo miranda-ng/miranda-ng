@@ -207,32 +207,6 @@ namespace mu
 	}
 
 	/*
-	 * png
-	 */
-
-	namespace png
-	{
-		bool _available()
-		{
-			return
-				true &&
-				ServiceExists(MS_DIB2PNG);
-		}
-
-		bool dibToPng(const BITMAPINFOHEADER* pBMIH, const BYTE* pDIData, BYTE* pImageData, long* pImageLen)
-		{
-			DIB2PNG info;
-
-			info.pbmi = const_cast<BITMAPINFO*>(reinterpret_cast<const BITMAPINFO*>(pBMIH));
-			info.pDiData = const_cast<BYTE*>(pDIData);
-			info.pResult = pImageData;
-			info.pResultLen = pImageLen;
-
-			return bool_(CallService(MS_DIB2PNG, 0, reinterpret_cast<LPARAM>(&info)));
-		}
-	}
-
-	/*
 	 * proto
 	 */
 

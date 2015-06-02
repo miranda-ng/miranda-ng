@@ -226,81 +226,81 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 		SIZE szNew = { 0, 0 };
 		switch (head->type & ST_TYPEMASK) {
 		case ST_TEXT:
-		{
-			int tmp = head->fw.eval(wnd->getArgs());
-			// this is used to measure and layout text
-			wnd->getRenderInfo()->textw = tmp ? tmp : (maxw - head->fx.eval(wnd->getArgs()));
-			szNew.cx = wnd->getRenderInfo()->textw;
-			if (wnd->isTextEmpty())
-				szNew.cx = szNew.cy = 0;
-			else {
-				HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.text);
-				switch (wnd->getTextType()) {
-				case PopupWnd2::TT_UNICODE:
-				{
-					RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
-					DrawTextEx(hdc, wnd->getText(), (int)mir_tstrlen(wnd->getText()), &rc,
-						DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
-					szNew.cx = rc.right;
-					szNew.cy = rc.bottom;
-				}
-				break;
-				case PopupWnd2::TT_MTEXT:
-					MText.Measure(hdc, &szNew, wnd->getTextM());
-					break;
-				}
-				SelectObject(hdc, hFntSave);
-			}
-
-			wnd->getRenderInfo()->texth = szNew.cy;
-
-			SIZE szActions = measureActionBar(hdc, wnd);
-			wnd->getRenderInfo()->actw = szActions.cx;
-			if (szActions.cy) {
-				szNew.cx = max(szNew.cx, szActions.cx);
-				szNew.cy += szActions.cy;
-				szNew.cy += 3;
-			}
-
-			wnd->getRenderInfo()->realtextw = szNew.cx;
-
-			if (szNew.cx > maxw - head->fx.eval(wnd->getArgs()))
-				szNew.cx = maxw - head->fx.eval(wnd->getArgs());
-			wnd->getArgs()->add("text.width", szNew.cx);
-			wnd->getArgs()->add("text.height", szNew.cy);
-		}
-		break;
-
-		case ST_TITLE:
-		{
-			int tmp = head->fw.eval(wnd->getArgs());
-			// this is used to measure and layout text
-			wnd->getRenderInfo()->titlew = tmp ? tmp : (maxw - head->fx.eval(wnd->getArgs()) - STYLE_SZ_CLOCK);
-			szNew.cx = wnd->getRenderInfo()->titlew;
-			HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
-			switch (wnd->getTextType()) {
-			case PopupWnd2::TT_UNICODE:
 			{
-				RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
-				DrawTextEx(hdc, wnd->getTitle(), (int)mir_tstrlen(wnd->getTitle()), &rc,
-					DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
-				szNew.cx = rc.right;
-				szNew.cy = rc.bottom;
+				int tmp = head->fw.eval(wnd->getArgs());
+				// this is used to measure and layout text
+				wnd->getRenderInfo()->textw = tmp ? tmp : (maxw - head->fx.eval(wnd->getArgs()));
+				szNew.cx = wnd->getRenderInfo()->textw;
+				if (wnd->isTextEmpty())
+					szNew.cx = szNew.cy = 0;
+				else {
+					HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.text);
+					switch (wnd->getTextType()) {
+					case PopupWnd2::TT_UNICODE:
+						{
+							RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
+							DrawTextEx(hdc, wnd->getText(), (int)mir_tstrlen(wnd->getText()), &rc,
+								DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
+							szNew.cx = rc.right;
+							szNew.cy = rc.bottom;
+						}
+						break;
+					case PopupWnd2::TT_MTEXT:
+						MText.Measure(hdc, &szNew, wnd->getTextM());
+						break;
+					}
+					SelectObject(hdc, hFntSave);
+				}
+
+				wnd->getRenderInfo()->texth = szNew.cy;
+
+				SIZE szActions = measureActionBar(hdc, wnd);
+				wnd->getRenderInfo()->actw = szActions.cx;
+				if (szActions.cy) {
+					szNew.cx = max(szNew.cx, szActions.cx);
+					szNew.cy += szActions.cy;
+					szNew.cy += 3;
+				}
+
+				wnd->getRenderInfo()->realtextw = szNew.cx;
+
+				if (szNew.cx > maxw - head->fx.eval(wnd->getArgs()))
+					szNew.cx = maxw - head->fx.eval(wnd->getArgs());
+				wnd->getArgs()->add("text.width", szNew.cx);
+				wnd->getArgs()->add("text.height", szNew.cy);
 			}
 			break;
-			case PopupWnd2::TT_MTEXT:
-				MText.Measure(hdc, &szNew, wnd->getTitleM());
-				break;
-			}
 
-			SelectObject(hdc, hFntSave);
-			if (szNew.cx > maxw - head->fx.eval(wnd->getArgs()) - STYLE_SZ_CLOCK)
-				szNew.cx = maxw - head->fx.eval(wnd->getArgs()) - STYLE_SZ_CLOCK;
-			szNew.cx += STYLE_SZ_CLOCK;
-			wnd->getArgs()->add("title.width", szNew.cx);
-			wnd->getArgs()->add("title.height", szNew.cy);
-		}
-		break;
+		case ST_TITLE:
+			{
+				int tmp = head->fw.eval(wnd->getArgs());
+				// this is used to measure and layout text
+				wnd->getRenderInfo()->titlew = tmp ? tmp : (maxw - head->fx.eval(wnd->getArgs()) - STYLE_SZ_CLOCK);
+				szNew.cx = wnd->getRenderInfo()->titlew;
+				HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
+				switch (wnd->getTextType()) {
+				case PopupWnd2::TT_UNICODE:
+					{
+						RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
+						DrawTextEx(hdc, wnd->getTitle(), (int)mir_tstrlen(wnd->getTitle()), &rc,
+							DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
+						szNew.cx = rc.right;
+						szNew.cy = rc.bottom;
+					}
+					break;
+				case PopupWnd2::TT_MTEXT:
+					MText.Measure(hdc, &szNew, wnd->getTitleM());
+					break;
+				}
+
+				SelectObject(hdc, hFntSave);
+				if (szNew.cx > maxw - head->fx.eval(wnd->getArgs()) - STYLE_SZ_CLOCK)
+					szNew.cx = maxw - head->fx.eval(wnd->getArgs()) - STYLE_SZ_CLOCK;
+				szNew.cx += STYLE_SZ_CLOCK;
+				wnd->getArgs()->add("title.width", szNew.cx);
+				wnd->getArgs()->add("title.height", szNew.cy);
+			}
+			break;
 
 		case ST_ICON:
 			szNew.cx = szNew.cy = 16;
@@ -499,12 +499,12 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, DW
 					bmp->saveAlpha();
 					switch (wnd->getTextType()) {
 					case PopupWnd2::TT_UNICODE:
-					{
-						RECT rc; SetRect(&rc, pos.x, pos.y, pos.x + sz.cx, pos.y + sz.cy);
-						DrawTextEx(hdc, wnd->getText(), (int)mir_tstrlen(wnd->getText()), &rc,
-							DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
-					}
-					break;
+						{
+							RECT rc; SetRect(&rc, pos.x, pos.y, pos.x + sz.cx, pos.y + sz.cy);
+							DrawTextEx(hdc, wnd->getText(), (int)mir_tstrlen(wnd->getText()), &rc,
+								DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
+						}
+						break;
 					case PopupWnd2::TT_MTEXT:
 						MText.Display(hdc, pos, sz, wnd->getTextM());
 						break;
@@ -547,14 +547,14 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, DW
 
 				switch (wnd->getTextType()) {
 				case PopupWnd2::TT_UNICODE:
-				{
-					HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
-					RECT rc; SetRect(&rc, pos.x, pos.y, pos.x + sz.cx, pos.y + sz.cy);
-					DrawTextEx(hdc, wnd->getTitle(), (int)mir_tstrlen(wnd->getTitle()), &rc,
-						DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
-					SelectObject(hdc, hFntSave);
-				}
-				break;
+					{
+						HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
+						RECT rc; SetRect(&rc, pos.x, pos.y, pos.x + sz.cx, pos.y + sz.cy);
+						DrawTextEx(hdc, wnd->getTitle(), (int)mir_tstrlen(wnd->getTitle()), &rc,
+							DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
+						SelectObject(hdc, hFntSave);
+					}
+					break;
 				case PopupWnd2::TT_MTEXT:
 					HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
 					MText.Display(hdc, pos, sz, wnd->getTitleM());
@@ -956,12 +956,8 @@ PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::wistream &f)
 		}
 		else if (!mir_tstrcmp(buf, _T("source"))) {
 			f >> buf;
-			if (((element->type & ST_TYPEMASK) == ST_MYBITMAP) || ((element->type & ST_TYPEMASK) == ST_CLOCK)) {
-				TCHAR *alpha = mir_tstrdup(buf);
-				alpha[mir_tstrlen(alpha) - 1] = 'a';
-				element->myBmp = new MyBitmap(buf, alpha);
-				mir_free(alpha);
-			}
+			if (((element->type & ST_TYPEMASK) == ST_MYBITMAP) || ((element->type & ST_TYPEMASK) == ST_CLOCK))
+				element->myBmp = new MyBitmap(buf);
 		}
 		else if (!mir_tstrcmp(buf, _T("mono"))) {
 			element->type |= ST_MONO;

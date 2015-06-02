@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "headers.h"
 #include <process.h>
 
-//  globals
+// globals
 static int    gIdleRequests = 0;
 static bool   gTerminating = false;
 static HWND   gHwndManager = 0;
@@ -34,7 +34,7 @@ static HANDLE hThread = 0;
 
 static LIST<PopupWnd2> popupList(3);
 
-//  forwards
+// forwards
 enum
 {
 	//  message id's
@@ -178,15 +178,14 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 		break;
 
 	case UTM_REMOVE_WINDOW:
-	{
 		for (int i = popupList.getCount() - 1; i >= 0; i--)
 			if (popupList[i] == wnd)
 				popupList.remove(i);
-	}
-	RepositionPopups();
-	--nPopups;
-	delete wnd;
-	break;
+
+		RepositionPopups();
+		--nPopups;
+		delete wnd;
+		break;
 
 	case UTM_LOCK_QUEUE:
 		++gLockCount;

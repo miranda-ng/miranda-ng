@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commdlg.h>
 #include <malloc.h>
 
-#include <m_png.h>
 #include <m_clui.h>
 
 #include <m_imgsrvc.h>
@@ -328,479 +327,34 @@ static INT_PTR serviceBmpFilterResizeBitmap(WPARAM wParam,LPARAM lParam)
 	}
 }
 
-
-FIBITMAP *
-FreeImage_LoadFromMem(FREE_IMAGE_FORMAT fif, fiio_mem_handle *handle, int flags) {
-	//FreeImageIO io;
-	//SetMemIO(&io);
-
+FIBITMAP* FreeImage_LoadFromMem(FREE_IMAGE_FORMAT fif, fiio_mem_handle *handle, int flags)
+{
 	if (handle && handle->data) {
-        FIMEMORY *hmem = FreeImage_OpenMemory((BYTE *)handle->data, handle->datalen);
-        FREE_IMAGE_FORMAT _fif = (fif != FIF_UNKNOWN) ? fif : FreeImage_GetFileTypeFromMemory(hmem, 0);
-        FIBITMAP *dib = FreeImage_LoadFromMemory(_fif, hmem, flags);
-        FreeImage_CloseMemory(hmem);
-		//handle->curpos = 0;
-		//return FreeImage_LoadFromHandle(fif, &io, (fi_handle)handle, flags);
+		FIMEMORY *hmem = FreeImage_OpenMemory((BYTE *)handle->data, handle->datalen);
+		FREE_IMAGE_FORMAT _fif = (fif != FIF_UNKNOWN) ? fif : FreeImage_GetFileTypeFromMemory(hmem, 0);
+		FIBITMAP *dib = FreeImage_LoadFromMemory(_fif, hmem, flags);
+		FreeImage_CloseMemory(hmem);
 	}
 
 	return NULL;
 }
 
-FIMEMORY
-*FreeImage_SaveToMem(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, fiio_mem_handle *handle, int flags) {
-	//FreeImageIO io;
-	//SetMemIO(&io);
-
+FIMEMORY* FreeImage_SaveToMem(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, fiio_mem_handle *handle, int flags)
+{
 	if (handle) {
-        FIMEMORY *hmem = FreeImage_OpenMemory(NULL, 0);
-        if(fif == FIF_UNKNOWN)
-            fif = FIF_BMP;
-        handle->curpos = 0;
-        FreeImage_SaveToMemory(fif, dib, hmem, flags);
-        FreeImage_AcquireMemory(hmem, (BYTE **)&handle->data, (DWORD *)&handle->datalen);
-        return hmem;
-		//handle->filelen = 0;
-		//handle->curpos = 0;
-		//return FreeImage_SaveToHandle(fif, dib, &io, (fi_handle)handle, flags);
+		FIMEMORY *hmem = FreeImage_OpenMemory(NULL, 0);
+		if(fif == FIF_UNKNOWN)
+			fif = FIF_BMP;
+		handle->curpos = 0;
+		FreeImage_SaveToMemory(fif, dib, hmem, flags);
+		FreeImage_AcquireMemory(hmem, (BYTE **)&handle->data, (DWORD *)&handle->datalen);
+		return hmem;
 	}
 	return NULL;
-}
-
-// ----------------------------------------------------------
-
-/*
-void
-SetMemIO(FreeImageIO *io) {
-	io->read_proc  = fiio_mem_ReadProc;
-	io->seek_proc  = fiio_mem_SeekProc;
-	io->tell_proc  = fiio_mem_TellProc;
-	io->write_proc = fiio_mem_WriteProc;
-}
-
-// ----------------------------------------------------------
-
-#define FIIOMEM(member) (((fiio_mem_handle *)handle)->member)
-
-unsigned __stdcall fiio_mem_ReadProc(void *buffer, unsigned size, unsigned count, fi_handle handle) {
-	unsigned x;
-	for ( x=0; x<count; x++ ) {
-		//if there isnt size bytes left to read, set pos to eof and return a short count
-		if ( FIIOMEM(filelen)-FIIOMEM(curpos) < (long)size ) {
-			FIIOMEM(curpos) = FIIOMEM(filelen);
-			break;
-		}
-		//copy size bytes count times
-		memcpy( buffer, (char *)FIIOMEM(data) + FIIOMEM(curpos), size );
-		FIIOMEM(curpos) += size;
-		buffer = (char *)buffer + size;
-	}
-	return x;
-}
-
-unsigned __stdcall fiio_mem_WriteProc(void *buffer, unsigned size, unsigned count, fi_handle handle) {
-	void *newdata;
-	long newdatalen;
-	//double the data block size if we need to
-	while( FIIOMEM(curpos)+(long)(size*count) >= FIIOMEM(datalen)) {
-		//if we are at or above 1G, we cant double without going negative
-		if ( FIIOMEM(datalen) & 0x40000000 ) {
-			//max 2G
-			if ( FIIOMEM(datalen) == 0x7FFFFFFF ) {
-				return 0;
-			}
-			newdatalen = 0x7FFFFFFF;
-		} else if ( FIIOMEM(datalen) == 0 ) {
-			//default to 4K if nothing yet
-			newdatalen = 4096;
-		} else {
-			//double size
-			newdatalen = FIIOMEM(datalen) << 1;
-		}
-		newdata = realloc( FIIOMEM(data), newdatalen );
-		if ( !newdata ) {
-			return 0;
-		}
-		FIIOMEM(data) = newdata;
-		FIIOMEM(datalen) = newdatalen;
-	}
-	memcpy( (char *)FIIOMEM(data) + FIIOMEM(curpos), buffer, size*count );
-	FIIOMEM(curpos) += size*count;
-	if ( FIIOMEM(curpos) > FIIOMEM(filelen)) {
-		FIIOMEM(filelen) = FIIOMEM(curpos);
-	}
-	return count;
-}
-
-int __stdcall fiio_mem_SeekProc(fi_handle handle, long offset, int origin) {
-	switch(origin) { //0 to filelen-1 are 'inside' the file
-	default:
-	case SEEK_SET: //can fseek() to 0-7FFFFFFF always
-		if ( offset >= 0 ) {
-			FIIOMEM(curpos) = offset;
-			return 0;
-		}
-		break;
-
-	case SEEK_CUR:
-		if ( FIIOMEM(curpos)+offset >= 0 ) {
-			FIIOMEM(curpos) += offset;
-			return 0;
-		}
-		break;
-
-	case SEEK_END:
-		if ( FIIOMEM(filelen)+offset >= 0 ) {
-			FIIOMEM(curpos) = FIIOMEM(filelen)+offset;
-			return 0;
-		}
-		break;
-	}
-
-	return -1;
-}
-
-long __stdcall fiio_mem_TellProc(fi_handle handle) {
-	return FIIOMEM(curpos);
-}
-
-*/
-
-// PNG image handler functions
-
-typedef struct {
-	char*		mBuffer;
-	png_size_t	mBufSize;
-	png_size_t	mBufPtr;
-}
-HMemBufInfo;
-
-static void png_read_data( png_structp png_ptr, png_bytep data, png_size_t length )
-{
-	HMemBufInfo* io = ( HMemBufInfo* )png_get_io_ptr(png_ptr);
-	if ( length + io->mBufPtr > io->mBufSize )
-		length = io->mBufSize - io->mBufPtr;
-
-	if ( length > 0 ) {
-		memcpy( data, io->mBuffer + io->mBufPtr, length );
-		io->mBufPtr += length;
-	}
-	else png_error(png_ptr, "Read Error");
-}
-
-static void png_write_data( png_structp png_ptr, png_bytep data, png_size_t length )
-{
-	HMemBufInfo* io = ( HMemBufInfo* )png_get_io_ptr(png_ptr);
-	if ( io->mBuffer != NULL )
-		memcpy( io->mBuffer + io->mBufPtr, data, length );
-
-	io->mBufPtr += length;
-}
-
-static void png_flush( png_structp png_ptr )
-{
-}
-
-/*
-*		Converting a *in memory* png image into a bitmap
-*/
-
-extern "C" BOOL __declspec(dllexport) mempng2dib(BYTE* pSource, DWORD cbSourceSize, BITMAPINFOHEADER** ppDibData )
-{
-	png_structp png_ptr	= NULL;
-	png_infop info_ptr	= NULL;
-	HMemBufInfo				sBuffer = { (char*)pSource, cbSourceSize, 8 };
-
-	BOOL						bResult = FALSE;
-	png_uint_32				iWidth;
-	png_uint_32				iHeight;
-	png_color				pBkgColor;
-	int						iBitDepth;
-	int						iColorType;
-	double					dGamma;
-	png_color_16*			pBackground;
-	png_byte				ulChannels;
-	png_size_t				ulRowBytes;
-	png_byte*				pbImageData;
-	png_byte**				ppbRowPointers = NULL;
-	int						i;
-	png_uint_32				j;
-	int						wDIRowBytes;
-	BYTE*                pImageData;
-
-	*ppDibData = NULL;
-
-	if ( pSource == NULL || cbSourceSize == 0 )
-		return FALSE;
-
-	if ( !png_check_sig( pSource, 8 ))
-		return FALSE;
-
-	// create the two png(-info) structures
-	png_ptr = png_create_read_struct( PNG_LIBPNG_VER_STRING, NULL, NULL, NULL );
-	if (!png_ptr)
-		return FALSE;
-
-	info_ptr = png_create_info_struct(png_ptr);
-	if ( !info_ptr ) {
-		png_destroy_read_struct(&png_ptr, NULL, NULL);
-		return FALSE;
-	}
-
-	// initialize the png structure
-	png_set_read_fn(png_ptr, (png_voidp)&sBuffer, png_read_data);
-	png_set_sig_bytes(png_ptr, 8);
-
-	// read all PNG info up to image data
-	png_read_info(png_ptr, info_ptr);
-
-	// get width, height, bit-depth and color-type
-
-	png_get_IHDR(png_ptr, info_ptr, &iWidth, &iHeight, &iBitDepth, &iColorType, NULL, NULL, NULL);
-
-	// expand images of all color-type and bit-depth to 3x8 bit RGB images
-	// let the library process things like alpha, transparency, background
-
-	if ( iBitDepth == 16 )
-		png_set_strip_16( png_ptr );
-	if ( iColorType == PNG_COLOR_TYPE_PALETTE )
-		png_set_expand( png_ptr );
-	if ( iBitDepth < 8 )
-		png_set_expand( png_ptr );
-	if (png_get_valid( png_ptr, info_ptr, PNG_INFO_tRNS ))
-		png_set_expand( png_ptr );
-	if ( iColorType == PNG_COLOR_TYPE_GRAY || iColorType == PNG_COLOR_TYPE_GRAY_ALPHA )
-		png_set_gray_to_rgb( png_ptr );
-
-	// set the background color to draw transparent and alpha images over.
-	if (png_get_bKGD( png_ptr, info_ptr, &pBackground )) {
-		png_set_background(png_ptr, pBackground, PNG_BACKGROUND_GAMMA_FILE, 1, 1.0);
-		pBkgColor.red   = (byte) pBackground->red;
-		pBkgColor.green = (byte) pBackground->green;
-		pBkgColor.blue  = (byte) pBackground->blue;
-	}
-
-	// if required set gamma conversion
-	if ( png_get_gAMA( png_ptr, info_ptr, &dGamma ))
-		png_set_gamma( png_ptr, (double) 2.2, dGamma );
-
-	// after the transformations have been registered update info_ptr data
-	png_read_update_info(png_ptr, info_ptr);
-
-	// get again width, height and the new bit-depth and color-type
-	png_get_IHDR(png_ptr, info_ptr, &iWidth, &iHeight, &iBitDepth, &iColorType, NULL, NULL, NULL);
-
-	// row_bytes is the width x number of channels
-	ulRowBytes = png_get_rowbytes(png_ptr, info_ptr);
-	ulChannels = png_get_channels(png_ptr, info_ptr);
-	wDIRowBytes = (WORD) (( ulChannels * iWidth + 3L) >> 2) << 2;
-
-	// now we can allocate memory to store the image
-	{	DWORD cbMemSize = sizeof( BITMAPINFOHEADER );
-		cbMemSize += wDIRowBytes * iHeight;
-		if (( pbImageData = ( png_byte* )GlobalAlloc( LPTR, cbMemSize )) == NULL ) {
-			png_destroy_read_struct( &png_ptr, &info_ptr, NULL );
-			return FALSE;
-	}	}
-
-	// initialize the dib-structure
-	{	BITMAPINFOHEADER* pbmih = ( BITMAPINFOHEADER* )pbImageData;
-		*ppDibData = pbmih;
-
-		pbmih->biSize = sizeof( BITMAPINFOHEADER );
-		pbmih->biWidth = iWidth;
-		pbmih->biHeight = iHeight;
-		pbmih->biPlanes = 1;
-		pbmih->biBitCount = ( WORD )( ulChannels * 8 );
-		pbmih->biCompression = 0;
-		pbmih->biSizeImage = iWidth * iHeight * ulChannels;
-
-		pbImageData += sizeof( BITMAPINFOHEADER );
-	}
-
-	pImageData = (BYTE*)malloc( ulRowBytes * iHeight );
-	if ( pImageData == NULL ) {
-		png_destroy_read_struct(&png_ptr, NULL, NULL);
-		return FALSE;
-	}
-
-	// and allocate memory for an array of row-pointers
-	ppbRowPointers = ( png_bytepp )alloca( iHeight * sizeof( png_bytep ));
-
-	// set the individual row-pointers to point at the correct offsets
-	for ( j = 0; j < iHeight; j++ )
-		ppbRowPointers[j] = ( png_bytep )&pImageData[ j*ulRowBytes ];
-
-	// now we can go ahead and just read the whole image
-	png_read_image( png_ptr, ppbRowPointers );
-	png_read_end(png_ptr, NULL);
-
-	// repack bytes to fill the bitmap
-	for ( i = iHeight-1; i >= 0; i-- )
-	{
-		png_byte a;
-		png_bytep s = ppbRowPointers[i];
-		BYTE* dest = pbImageData; pbImageData += wDIRowBytes;
-
-		for ( j = 0; j < iWidth; j++ ) {
-			png_byte r = *s++;
-			png_byte g = *s++;
-			png_byte b = *s++;
-			if ( ulChannels == 4 )
-				a = *s++;
-
-			*dest++ = b;
-			*dest++ = g;
-			*dest++ = r;
-			if ( ulChannels == 4 )
-				*dest++ = a;
-	}	}
-
-	free( pImageData );
-	png_destroy_read_struct( &png_ptr, &info_ptr, NULL );
-	return TRUE;
-}
-
-/*
-*		Converting a bitmap into a png image
-*/
-
-static BOOL sttCheckAlphaIsValid( BITMAPINFO* pbmi, png_byte* pDiData )
-{
-	int ciChannels = pbmi->bmiHeader.biBitCount / 8, i, j;
-	int ulSrcRowBytes = ((( pbmi->bmiHeader.biWidth * ciChannels + 3 ) >> 2 ) << 2 );
-	byte value = pDiData[ 3 ];
-
-	if ( ciChannels < 4 )
-		return FALSE;
-
-	if ( value != 0 && value != 0xFF )
-		return TRUE;
-
-	for ( i=0; i < pbmi->bmiHeader.biHeight; i++ ) {
-		png_byte* p = pDiData; pDiData += ulSrcRowBytes;
-
-		for ( j=0; j < pbmi->bmiHeader.biWidth; j++, p += 4 )
-			if ( p[3] != value )
-				return TRUE;
-	}
-
-	return FALSE;
-}
-
-extern "C" BOOL __declspec(dllexport) dib2mempng( BITMAPINFO* pbmi, png_byte* pDiData, BYTE* pResult, long* pResultLen )
-{
-	int ciBitDepth = 8;
-	int ciChannels = pbmi->bmiHeader.biBitCount / 8;
-
-	png_uint_32 ulSrcRowBytes, ulDstRowBytes;
-	int         i;
-	png_structp png_ptr = NULL;
-	png_infop   info_ptr = NULL;
-	png_bytepp  ppbRowPointers;
-	png_bytep	pTempBuffer;
-	BOOL        bIsAlphaValid;
-
-	HMemBufInfo sBuffer = { (char *)pResult, 0, 0 };
-
-	png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, (png_error_ptr)NULL, (png_error_ptr)NULL);
-	if (!png_ptr)
-		return FALSE;
-
-	info_ptr = png_create_info_struct(png_ptr);
-	if (!info_ptr) {
-		png_destroy_write_struct(&png_ptr, (png_infopp) NULL);
-		return FALSE;
-	}
-
-	// initialize the png structure
-	bIsAlphaValid = sttCheckAlphaIsValid( pbmi, pDiData );
-	png_set_write_fn(png_ptr, (png_voidp)&sBuffer, png_write_data, png_flush);
-
-	png_set_IHDR(png_ptr, info_ptr, pbmi->bmiHeader.biWidth, pbmi->bmiHeader.biHeight, ciBitDepth,
-		( bIsAlphaValid ) ? PNG_COLOR_TYPE_RGB_ALPHA : PNG_COLOR_TYPE_RGB,
-		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
-
-	// write the file header information
-	png_write_info(png_ptr, info_ptr);
-
-	// swap the BGR pixels in the DiData structure to RGB
-	png_set_bgr(png_ptr);
-
-	// row_bytes is the width x number of channels
-	ulSrcRowBytes = ((( pbmi->bmiHeader.biWidth * ciChannels + 3 ) >> 2 ) << 2 );
-	ulDstRowBytes = ((( pbmi->bmiHeader.biWidth * ( ciChannels == 4 && bIsAlphaValid ? 4 : 3 ) + 3 ) >> 2 ) << 2 );
-
-	ppbRowPointers = (png_bytepp)alloca( pbmi->bmiHeader.biHeight * sizeof(png_bytep));
-
-	pTempBuffer = ( png_bytep )malloc( pbmi->bmiHeader.biHeight * ulDstRowBytes );
-	if ( pTempBuffer != NULL ) {
-		png_bytep pDest = pTempBuffer;
-		for ( i = pbmi->bmiHeader.biHeight-1; i >= 0; i--) {
-			BYTE *s, *d;
-			int j;
-			s = pDiData; pDiData += ulSrcRowBytes;
-			d = ppbRowPointers[i] = pDest; pDest += ulDstRowBytes;
-
-			if ( ciChannels >= 3 ) {
-				for ( j = 0; j < pbmi->bmiHeader.biWidth; j++ ) {
-					png_byte b = *s++;
-					png_byte g = *s++;
-					png_byte r = *s++;
-					png_byte a = 0;
-
-					if ( ciChannels == 4 )
-						a = *s++;
-
-					*d++ = b;
-					*d++ = g;
-					*d++ = r;
-					if ( ciChannels == 4 && bIsAlphaValid )
-						*d++ = a;
-				}	}
-			else {
-				for ( j = 0; j < pbmi->bmiHeader.biWidth; j++ ) {
-					DWORD point = 0;
-					if ( ciChannels == 1 ) {
-						*d++ = ( BYTE )( point & 0x03 ) << 6;
-						*d++ = ( BYTE )(( point & 0x0C ) >> 2 ) << 6;
-						*d++ = ( BYTE )(( point & 0x30 ) >> 4 ) << 6;
-						point = *s++;
-					}
-					else {
-						point = *( WORD* )s;
-						s += sizeof( WORD );
-						*d++ = ( BYTE )(( point & 0x001F ) << 3 );
-						*d++ = ( BYTE )((( point & 0x07e0 ) >> 6 ) << 3 );
-						*d++ = ( BYTE )((( point & 0xF800 ) >> 11 ) << 3 );
-		}	}	}	}
-
-		png_write_image (png_ptr, ppbRowPointers);
-		png_write_end(png_ptr, info_ptr);
-
-		if ( pResultLen != NULL )
-			*pResultLen = (long)sBuffer.mBufPtr;
-
-		free( pTempBuffer );
-	}
-
-	png_destroy_write_struct(&png_ptr, &info_ptr );
-	return TRUE;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // Load - initializes the plugin instance
-
-static INT_PTR serviceDib2Png( WPARAM wParam, LPARAM lParam )
-{
-	DIB2PNG* param = ( DIB2PNG* )lParam;
-	return dib2mempng( param->pbmi, param->pDiData, param->pResult, param->pResultLen );
-}
-
-static INT_PTR servicePng2Dib( WPARAM wParam, LPARAM lParam )
-{
-	PNG2DIB* param = ( PNG2DIB* )lParam;
-	return mempng2dib( param->pSource, param->cbSourceSize, param->pResult );
-}
 
 FI_INTERFACE feif = {0};
 
@@ -866,21 +420,13 @@ static INT_PTR serviceLoad(WPARAM wParam, LPARAM lParam)
 static INT_PTR serviceLoadFromMem(WPARAM wParam, LPARAM lParam)
 {
 	IMGSRVC_MEMIO *mio = (IMGSRVC_MEMIO *)wParam;
-	//fiio_mem_handle fiio;
-
 	if(mio->iLen == 0 || mio->pBuf == NULL)
 		return 0;
 
-	//fiio.curpos = 0;
-	//fiio.data = mio->pBuf;
-	//fiio.datalen = fiio.filelen = mio->iLen;
-
-    FIMEMORY *hmem = FreeImage_OpenMemory((BYTE *)mio->pBuf, mio->iLen);
-    FREE_IMAGE_FORMAT fif = (mio->fif != FIF_UNKNOWN) ? mio->fif : mio->fif = FreeImage_GetFileTypeFromMemory(hmem, 0);
-    FIBITMAP *dib = FreeImage_LoadFromMemory(fif, hmem, mio->flags);
-    FreeImage_CloseMemory(hmem);
-
-	//FIBITMAP *dib = FreeImage_LoadFromMem(mio->fif, &fiio, mio->flags);
+	FIMEMORY *hmem = FreeImage_OpenMemory((BYTE *)mio->pBuf, mio->iLen);
+	FREE_IMAGE_FORMAT fif = (mio->fif != FIF_UNKNOWN) ? mio->fif : mio->fif = FreeImage_GetFileTypeFromMemory(hmem, 0);
+	FIBITMAP *dib = FreeImage_LoadFromMemory(fif, hmem, mio->flags);
+	FreeImage_CloseMemory(hmem);
 
 	if(dib == NULL || (lParam & IMGL_RETURNDIB))
 		return (INT_PTR)dib;
@@ -1185,8 +731,6 @@ static int IMGSERVICE_Load()
 {
 	FI_Populate();
 
-	CreateServiceFunction(MS_DIB2PNG, serviceDib2Png);
-	CreateServiceFunction(MS_PNG2DIB, servicePng2Dib);
 	CreateServiceFunction(MS_IMG_GETINTERFACE, serviceGetInterface);
 	CreateServiceFunction(MS_IMG_LOAD, serviceLoad);
 	CreateServiceFunction(MS_IMG_LOADFROMMEM, serviceLoadFromMem);

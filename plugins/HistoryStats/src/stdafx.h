@@ -56,7 +56,6 @@
 #include <m_message.h>     // not used
 #include <m_netlib.h>      // not used
 #include <m_options.h>
-#include <m_png.h>
 #include <m_popup.h>       // not used
 #include <m_protocols.h>
 #include <m_protomod.h>    // not used
@@ -67,6 +66,7 @@
 #include <m_url.h>         // not used
 #include <m_userinfo.h>    // not used
 #include <m_utils.h>
+#include <m_imgsrvc.h>
 
 #include <m_addcontact.h>  // not used, depends on m_protosvc.h
 #include <m_icq.h>         // depends on m_protosvc.h

@@ -20,9 +20,6 @@ public:
 		bool operator <(const Digest& other) const { return (memcmp(m_Digest, other.m_Digest, 20) < 0); }
 	};
 
-public:
-	static bool hasPNG() { return mu::png::_available(); }
-
 private:
 	int m_nChannels;
 	int m_nWidth;

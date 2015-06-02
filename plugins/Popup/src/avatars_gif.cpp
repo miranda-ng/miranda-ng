@@ -60,8 +60,7 @@ void GifAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *op
 {
 	if (!av || (w <= 0) || (h <= 0)) return;
 
-	if (!frameCount || !frameDelays || !hBitmap || (cachedWidth != w) || (cachedHeight != h))
-	{
+	if (!frameCount || !frameDelays || !hBitmap || (cachedWidth != w) || (cachedHeight != h)) {
 		cachedWidth = w;
 		cachedHeight = h;
 		if (frameDelays) {
@@ -75,13 +74,11 @@ void GifAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *op
 	if (!frameCount) return;
 
 	HRGN rgn;
-	if (options->avatarRadius)
-	{
+	if (options->avatarRadius) {
 		rgn = CreateRoundRectRgn(x, y, x + w, y + h, 2 * options->avatarRadius, 2 * options->avatarRadius);
 		SelectClipRgn(bmp->getDC(), rgn);
 	}
-	else
-	{
+	else {
 		rgn = CreateRectRgn(x, y, x + w, y + h);
 	}
 
@@ -89,9 +86,7 @@ void GifAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *op
 	SelectObject(hdcTmp, hBitmap);
 	SetStretchBltMode(bmp->getDC(), HALFTONE);
 
-
-	if (av->dwFlags & AVS_PREMULTIPLIED)
-	{
+	if (av->dwFlags & AVS_PREMULTIPLIED) {
 		BLENDFUNCTION bf;
 		bf.BlendOp = AC_SRC_OVER;
 		bf.BlendFlags = 0;
@@ -99,8 +94,7 @@ void GifAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *op
 		bf.AlphaFormat = AC_SRC_ALPHA;
 		AlphaBlend(bmp->getDC(), x, y, w, h, hdcTmp, frameSize.cx*activeFrame, 0, frameSize.cx, frameSize.cy, bf);
 
-		if (options->avatarBorders && options->avatarPNGBorders)
-		{
+		if (options->avatarBorders && options->avatarPNGBorders) {
 			HBRUSH hbr = CreateSolidBrush(fonts.clAvatarBorder);
 			bmp->saveAlpha(x, y, w, h);
 			FrameRgn(bmp->getDC(), rgn, hbr, 1, 1);

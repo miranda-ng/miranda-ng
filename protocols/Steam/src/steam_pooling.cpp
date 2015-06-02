@@ -41,7 +41,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			}
 			else
 			{
-				AddDBEvent(hContact, EVENTTYPE_MESSAGE, timestamp, DBEF_UTF | DBEF_SENT, mir_strlen(szMessage) + 1, (PBYTE)(char*)szMessage);
+				AddDBEvent(hContact, EVENTTYPE_MESSAGE, timestamp, DBEF_UTF | DBEF_SENT, (int)mir_strlen(szMessage) + 1, (PBYTE)(char*)szMessage);
 			}
 		}
 		else if (!lstrcmpi(type, _T("typing")))

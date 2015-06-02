@@ -143,7 +143,8 @@ DWORD MouseOverride(HWND hCombo, int number)
 
 // options
 
-void LoadOption_Actions() {
+void LoadOption_Actions()
+{
 	PopupOptions.actions = db_get_dw(NULL, MODULNAME, "Actions",
 		ACT_ENABLE | ACT_RIGHTICONS | ACT_DEF_KEEPWND | ACT_DEF_IMONLY |
 		ACT_DEF_NOGLOBAL | ACT_DEF_MESSAGE | ACT_DEF_DETAILS | ACT_DEF_MENU |
@@ -238,9 +239,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				mir_strncpy(szGroup, gActions[i]->lpzTitle, szName - gActions[i]->lpzTitle);
 
 				int grpId = 0;
-
-				if ((grpId = groups.getIndex(szGroup)) < 0)
-				{
+				if ((grpId = groups.getIndex(szGroup)) < 0) {
 					LVGROUP group = { 0 };
 					group.cbSize = sizeof(group);
 					group.mask = LVGF_HEADER | LVGF_GROUPID;

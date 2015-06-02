@@ -68,14 +68,15 @@ HRESULT(WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBeh
 // ====== Common Vars ========================
 
 //  common funcs
-void LoadOptions() {
+void LoadOptions()
+{
 	memset(&PopupOptions, 0, sizeof(PopupOptions));
 #if defined(_DEBUG)
 	PopupOptions.debug = db_get_b(NULL, MODULNAME, "debug", FALSE);
 #endif
 
 	// Load Popup Options
-	if (!OptionLoaded){
+	if (!OptionLoaded) {
 		LoadOption_General();
 		LoadOption_Skins();
 		LoadOption_Actions();

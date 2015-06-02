@@ -284,27 +284,28 @@ INT_PTR Popup_Query(WPARAM wParam, LPARAM)
 		return 0;
 
 	switch (wParam) {
-	case PUQS_ENABLEPOPUPS: {
-		if (PopupOptions.ModuleIsEnabled) return 1; // They're already ON!!!
-		else { // Module was disabled.
-			svcEnableDisableMenuCommand(0, 0);
-			return 0;
-		}
-	}
-	case PUQS_DISABLEPOPUPS: {
-		if (!(PopupOptions.ModuleIsEnabled)) return 1; // They're already OFF!!!
-		else {
-			svcEnableDisableMenuCommand(0, 0);
-			return 0;
-		}
-	}
+	case PUQS_ENABLEPOPUPS:
+		if (PopupOptions.ModuleIsEnabled)
+			return 1; // They're already ON!!!
+		
+		// Module was disabled.
+		svcEnableDisableMenuCommand(0, 0);
+		return 0;
+
+	case PUQS_DISABLEPOPUPS:
+		if (!(PopupOptions.ModuleIsEnabled))
+			return 1; // They're already OFF!!!
+
+		svcEnableDisableMenuCommand(0, 0);
+		return 0;
+
 	case PUQS_GETSTATUS:
 		return (PopupOptions.ModuleIsEnabled);
+
 	default:
 		return -1;
 	}
 }
-
 
 //===== Popup/RegisterActions
 INT_PTR Popup_RegisterActions(WPARAM wParam, LPARAM lParam)
@@ -427,9 +428,11 @@ INT_PTR Popup_UnregisterPopupClass(WPARAM, LPARAM lParam)
 }
 
 //===== Popup/AddPopupClass		(for core class api support)
-INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
+INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam)
+{
 	POPUPDATACLASS *pdc = (POPUPDATACLASS *)lParam;
-	if (!pdc || (pdc->cbSize != sizeof(POPUPDATACLASS))) return 1;
+	if (!pdc || (pdc->cbSize != sizeof(POPUPDATACLASS)))
+		return 1;
 
 	POPUPCLASS *pc;
 	if (wParam)
@@ -443,27 +446,27 @@ INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
 			pc = NULL;
 		mir_free(group);
 	}
-	if (pc) {
-		POPUPDATA2 ppd2 = { sizeof(ppd2) };
-		ppd2.colorBack = pc->colorBack;
-		ppd2.colorText = pc->colorText;
-		ppd2.lchIcon = pc->hIcon;
-		ppd2.iSeconds = pc->iSeconds;
-		ppd2.PluginWindowProc = pc->PluginWindowProc;
-		if (pc->flags & PCF_UNICODE) {
-			ppd2.flags = PU2_UNICODE;
-			ppd2.lptzTitle = (TCHAR*)pdc->ptszTitle;
-			ppd2.lptzText = (TCHAR*)pdc->ptszText;
-		}
-		else {
-			ppd2.flags = PU2_ANSI;
-			ppd2.lpzTitle = (char *)pdc->pszTitle;
-			ppd2.lpzText = (char *)pdc->pszText;
-		}
-		ppd2.lchContact = pdc->hContact;
-		ppd2.PluginData = pdc->PluginData;
+	if (pc == NULL)
+		return 1;
 
-		return Popup_AddPopup2((WPARAM)&ppd2, pc->lParam);
+	POPUPDATA2 ppd2 = { sizeof(ppd2) };
+	ppd2.colorBack = pc->colorBack;
+	ppd2.colorText = pc->colorText;
+	ppd2.lchIcon = pc->hIcon;
+	ppd2.iSeconds = pc->iSeconds;
+	ppd2.PluginWindowProc = pc->PluginWindowProc;
+	if (pc->flags & PCF_UNICODE) {
+		ppd2.flags = PU2_UNICODE;
+		ppd2.lptzTitle = (TCHAR*)pdc->ptszTitle;
+		ppd2.lptzText = (TCHAR*)pdc->ptszText;
 	}
-	return 1;
+	else {
+		ppd2.flags = PU2_ANSI;
+		ppd2.lpzTitle = (char *)pdc->pszTitle;
+		ppd2.lpzText = (char *)pdc->pszText;
+	}
+	ppd2.lchContact = pdc->hContact;
+	ppd2.PluginData = pdc->PluginData;
+
+	return Popup_AddPopup2((WPARAM)&ppd2, pc->lParam);
 }

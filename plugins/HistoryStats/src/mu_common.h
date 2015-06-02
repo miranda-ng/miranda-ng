@@ -72,16 +72,6 @@ namespace mu
 	}
 
 	/*
-	 * png
-	 */
-
-	namespace png
-	{
-		bool _available();
-		bool dibToPng(const BITMAPINFOHEADER* pBMIH, const BYTE* pDIData, BYTE* pImageData, long* pImageLen);
-	}
-
-	/*
 	 * proto
 	 */
 
