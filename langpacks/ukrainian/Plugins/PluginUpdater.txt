@@ -173,7 +173,7 @@
 Помилка оновлення
 [Plugin info]
 Інформація
-[Plugin Updater HTTP connection]
+[Plugin Updater HTTP connections]
 HTTP-з'єднання PluginUpdater
 [An error occurred while checking for new updates.]
 Під час перевірки оновлень сталася помилка.

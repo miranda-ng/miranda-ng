@@ -1514,7 +1514,7 @@ Web-службы
 [%s server connection]
 %s подключение к серверу
 [%s client-to-client connections]
-%s подключения между клиентами
+%s соединения между клиентами
 [User ID]
 ID пользователя
 [You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]

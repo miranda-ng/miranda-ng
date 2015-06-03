@@ -43,7 +43,7 @@ void InitNetlib()
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;	// | NUF_HTTPGATEWAY;
-	nlu.ptszDescriptiveName = TranslateT("Plugin Updater HTTP connection");
+	nlu.ptszDescriptiveName = TranslateT("Plugin Updater HTTP connections");
 	nlu.szSettingsModule = MODNAME;
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 }

@@ -704,7 +704,7 @@ Miranda не смогла загрузить встроенную систему
 [Show icon in tray for status changes]
 Смены статусов
 [Show popups only when the chat room is not active]
-Смена темы
+Показывать всплывающие окна если окно чата не активено
 [Show popup for topic changes]
 Смена темы
 [Show popup for users joining]
