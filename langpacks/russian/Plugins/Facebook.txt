@@ -57,6 +57,8 @@
 Уведомления клиента
 [Friendship notifications]
 Уведомления о дружбе
+[Ticker feeds]
+Тиккер
 [Use this server for opening links:]
 Тип сайта для открытия ссылок:
 [Use balloon notifications in system tray instead of popups]
@@ -213,6 +215,8 @@ Facebook потребовал чистки компьютера и плагин 
 Пример уведомления
 [Sample friendship]
 Пример уведомления о дружбе
+[Sample ticker]
+Образец тиккера
 [a sticker]
 стикер
 [files]
@@ -238,7 +242,7 @@ Facebook потребовал чистки компьютера и плагин 
 [Contact is no longer on server-list.]
 Контакта больше нет в списке на сервере.
 [%s server connection]
-%s подключение к серверу
+Подключение к серверу %s
 [Unable to initialize Netlib for %s.]
 Невозможно создать подключение Netlib для %s.
 [Video call]

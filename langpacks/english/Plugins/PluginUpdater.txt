@@ -98,6 +98,6 @@
 [Update failed]
 ;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
-[Plugin Updater HTTP connection]
+[Plugin Updater HTTP connections]
 [An error occurred while checking for new updates.]
 ;file \plugins\PluginUpdater\src\Compat\compat.h

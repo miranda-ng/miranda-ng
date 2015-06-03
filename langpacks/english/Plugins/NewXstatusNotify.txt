@@ -53,7 +53,7 @@
 [Colors]
 [Use custom colors]
 [Use Windows colors]
-[Use Popup colors]
+[Use default colors]
 [Popup text]
 [Show contact group name]
 [Show status description]

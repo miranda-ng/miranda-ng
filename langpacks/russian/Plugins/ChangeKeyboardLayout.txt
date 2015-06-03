@@ -43,8 +43,8 @@
 Менять активную раскладку клавиатуры
 [Colors]
 Цвета
-[Popup colors]
-Цвета вспл.окон
+[Use default colors]
+Цвета по умолчанию
 [Windows colors]
 Цвета Windows
 [Custom colors]

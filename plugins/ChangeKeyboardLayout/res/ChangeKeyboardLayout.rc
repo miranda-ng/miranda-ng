@@ -184,7 +184,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Colors",IDC_GROUP_COLOURS,2,2,91,72,WS_GROUP
-    CONTROL         "Popup colors",IDC_RADIO_COLOURS_POPUP,"Button",
+    CONTROL         "Use default colors",IDC_RADIO_COLOURS_POPUP,"Button",
                     BS_AUTORADIOBUTTON,6,12,82,10
     CONTROL         "Windows colors",IDC_RADIO_COLOURS_WINDOWS,"Button",
                     BS_AUTORADIOBUTTON,6,23,82,10

@@ -99,8 +99,8 @@ xСтатуси
 Вказати кольори
 [Use Windows colors]
 Кольори Windows
-[Use Popup colors]
-Кольори спливаючих вікон
+[Use default colors]
+Кольори за замовчанням
 [Popup text]
 Текст спливаючих вікон
 [Show contact group name]

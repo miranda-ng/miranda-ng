@@ -99,8 +99,8 @@ xСтатус
 Задать цвета
 [Use Windows colors]
 Цвета Windows
-[Use Popup colors]
-Цвета всплывающих окон
+[Use default colors]
+Цвета по умолчанию
 [Popup text]
 Текст всплывающих окон
 [Show contact group name]

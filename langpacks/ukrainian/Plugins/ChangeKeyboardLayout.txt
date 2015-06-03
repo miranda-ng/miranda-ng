@@ -43,8 +43,8 @@
 Змінювати активну розкладку клавіатури
 [Colors]
 Кольори
-[Popup colors]
-Кольори сплив. вікон
+[Use default colors]
+Кольори за замовчанням
 [Windows colors]
 Кольори Windows
 [Custom colors]

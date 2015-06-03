@@ -173,7 +173,7 @@
 Сбой обновления
 [Plugin info]
 Информация о плагинах
-[Plugin Updater HTTP connection]
-HTTP подключение Plugin Updater
+[Plugin Updater HTTP connections]
+HTTP подключения Plugin Updater
 [An error occurred while checking for new updates.]
 Во время проверки обновления произошла ошибка.

@@ -422,7 +422,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Select the extra icons to be shown in the contact list:]
 Выберите, какие экстра значки будут отображаться в списке контактов:
 [*only the first %d icons will be shown]
-*будут отображаться только первые %d значков
+* будут отображаться только первые %d значков
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Вы можете группировать/разгруппировывать значки, выделяя их (CTRL+клик левой кнопкой мыши) и вызывая меню с помощью правой кнопки мыши.
 [Add to existing metacontact]
