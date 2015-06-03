@@ -29,8 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <security.h>
 #include <rpcdce.h>
 
-static HMODULE g_hSecurity = NULL;
-static PSecurityFunctionTable g_pSSPI = NULL;
+#pragma comment(lib, "secur32.lib")
 
 struct NtlmHandleType
 {
@@ -60,7 +59,7 @@ struct NtlmType2packet
 	NTLM_String targetInfo;
 };
 
-static unsigned secCnt = 0, ntlmCnt = 0;
+static unsigned ntlmCnt = 0;
 static mir_cs csSec;
 
 static void ReportSecError(SECURITY_STATUS scRet, int line)
@@ -72,34 +71,6 @@ static void ReportSecError(SECURITY_STATUS scRet, int line)
 	char *p = strchr(szMsgBuf, 13); if (p) *p = 0;
 
 	NetlibLogf(NULL, "Security error 0x%x on line %u (%s)", scRet, line, szMsgBuf);
-}
-
-static void LoadSecurityLibrary(void)
-{
-	INIT_SECURITY_INTERFACE pInitSecurityInterface;
-
-	g_hSecurity = LoadLibraryA("secur32.dll");
-	if (g_hSecurity == NULL)
-		g_hSecurity = LoadLibraryA("security.dll");
-
-	if (g_hSecurity == NULL)
-		return;
-
-	pInitSecurityInterface = (INIT_SECURITY_INTERFACE)GetProcAddress(g_hSecurity, SECURITY_ENTRYPOINT_ANSI);
-	if (pInitSecurityInterface != NULL)
-		g_pSSPI = pInitSecurityInterface();
-
-	if (g_pSSPI == NULL) {
-		FreeLibrary(g_hSecurity);
-		g_hSecurity = NULL;
-	}
-}
-
-static void FreeSecurityLibrary(void)
-{
-	FreeLibrary(g_hSecurity);
-	g_hSecurity = NULL;
-	g_pSSPI = NULL;
 }
 
 HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrincipal)
@@ -118,30 +89,22 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 
 	mir_cslock lck(csSec);
 
-	if (secCnt == 0) {
-		LoadSecurityLibrary();
-		secCnt += g_hSecurity != NULL;
-	}
-	else secCnt++;
+	PSecPkgInfo ntlmSecurityPackageInfo;
+	bool isGSSAPI = mir_tstrcmpi(szProvider, _T("GSSAPI")) == 0;
+	const TCHAR *szProviderC = isGSSAPI ? _T("Kerberos") : szProvider;
+	SECURITY_STATUS sc = QuerySecurityPackageInfo((LPTSTR)szProviderC, &ntlmSecurityPackageInfo);
+	if (sc == SEC_E_OK) {
+		NtlmHandleType* hNtlm;
 
-	if (g_pSSPI != NULL) {
-		PSecPkgInfo ntlmSecurityPackageInfo;
-		bool isGSSAPI = mir_tstrcmpi(szProvider, _T("GSSAPI")) == 0;
-		const TCHAR *szProviderC = isGSSAPI ? _T("Kerberos") : szProvider;
-		SECURITY_STATUS sc = g_pSSPI->QuerySecurityPackageInfo((LPTSTR)szProviderC, &ntlmSecurityPackageInfo);
-		if (sc == SEC_E_OK) {
-			NtlmHandleType* hNtlm;
+		hSecurity = hNtlm = (NtlmHandleType*)mir_calloc(sizeof(NtlmHandleType));
+		hNtlm->cbMaxToken = ntlmSecurityPackageInfo->cbMaxToken;
+		FreeContextBuffer(ntlmSecurityPackageInfo);
 
-			hSecurity = hNtlm = (NtlmHandleType*)mir_calloc(sizeof(NtlmHandleType));
-			hNtlm->cbMaxToken = ntlmSecurityPackageInfo->cbMaxToken;
-			g_pSSPI->FreeContextBuffer(ntlmSecurityPackageInfo);
-
-			hNtlm->szProvider = mir_tstrdup(szProvider);
-			hNtlm->szPrincipal = mir_tstrdup(szPrincipal ? szPrincipal : _T(""));
-			SecInvalidateHandle(&hNtlm->hClientContext);
-			SecInvalidateHandle(&hNtlm->hClientCredential);
-			ntlmCnt++;
-		}
+		hNtlm->szProvider = mir_tstrdup(szProvider);
+		hNtlm->szPrincipal = mir_tstrdup(szPrincipal ? szPrincipal : _T(""));
+		SecInvalidateHandle(&hNtlm->hClientContext);
+		SecInvalidateHandle(&hNtlm->hClientCredential);
+		ntlmCnt++;
 	}
 	return hSecurity;
 }
@@ -161,8 +124,10 @@ void NetlibDestroySecurityProvider(HANDLE hSecurity)
 	if (ntlmCnt != 0) {
 		NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
 		if (hNtlm != NULL) {
-			if (SecIsValidHandle(&hNtlm->hClientContext)) g_pSSPI->DeleteSecurityContext(&hNtlm->hClientContext);
-			if (SecIsValidHandle(&hNtlm->hClientCredential)) g_pSSPI->FreeCredentialsHandle(&hNtlm->hClientCredential);
+			if (SecIsValidHandle(&hNtlm->hClientContext))
+				DeleteSecurityContext(&hNtlm->hClientContext);
+			if (SecIsValidHandle(&hNtlm->hClientCredential))
+				FreeCredentialsHandle(&hNtlm->hClientCredential);
 			mir_free(hNtlm->szProvider);
 			mir_free(hNtlm->szPrincipal);
 			mir_free(hNtlm);
@@ -170,9 +135,6 @@ void NetlibDestroySecurityProvider(HANDLE hSecurity)
 
 		--ntlmCnt;
 	}
-
-	if (secCnt && --secCnt == 0)
-		FreeSecurityLibrary();
 }
 
 char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chlsz)
@@ -191,7 +153,7 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 	SecBufferDesc inBuffersDesc = { SECBUFFER_VERSION, 2, inBuffers };
 
 	unsigned long qop = 0;
-	SECURITY_STATUS sc = g_pSSPI->DecryptMessage(&hNtlm->hClientContext, &inBuffersDesc, 0, &qop);
+	SECURITY_STATUS sc = DecryptMessage(&hNtlm->hClientContext, &inBuffersDesc, 0, &qop);
 	if (sc != SEC_E_OK) {
 		ReportSecError(sc, __LINE__);
 		return NULL;
@@ -201,7 +163,7 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 	unsigned int MaxMessageSize = htonl(*(unsigned*)&inDataBuffer[1]);
 
 	SecPkgContext_Sizes sizes;
-	sc = g_pSSPI->QueryContextAttributes(&hNtlm->hClientContext, SECPKG_ATTR_SIZES, &sizes);
+	sc = QueryContextAttributes(&hNtlm->hClientContext, SECPKG_ATTR_SIZES, &sizes);
 	if (sc != SEC_E_OK) {
 		ReportSecError(sc, __LINE__);
 		return NULL;
@@ -220,7 +182,7 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 	};
 	SecBufferDesc outBuffersDesc = { SECBUFFER_VERSION, 3, outBuffers };
 
-	sc = g_pSSPI->EncryptMessage(&hNtlm->hClientContext, SECQOP_WRAP_NO_ENCRYPT, &outBuffersDesc, 0);
+	sc = EncryptMessage(&hNtlm->hClientContext, SECQOP_WRAP_NO_ENCRYPT, &outBuffersDesc, 0);
 	if (sc != SEC_E_OK) {
 		ReportSecError(sc, __LINE__);
 		return NULL;
@@ -303,8 +265,10 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 			}
 		}
 		else {
-			if (SecIsValidHandle(&hNtlm->hClientContext)) g_pSSPI->DeleteSecurityContext(&hNtlm->hClientContext);
-			if (SecIsValidHandle(&hNtlm->hClientCredential)) g_pSSPI->FreeCredentialsHandle(&hNtlm->hClientCredential);
+			if (SecIsValidHandle(&hNtlm->hClientContext))
+				DeleteSecurityContext(&hNtlm->hClientContext);
+			if (SecIsValidHandle(&hNtlm->hClientCredential))
+				FreeCredentialsHandle(&hNtlm->hClientCredential);
 
 			SEC_WINNT_AUTH_IDENTITY auth;
 
@@ -340,7 +304,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 				hNtlm->hasDomain = domainLen != 0;
 			}
 
-			SECURITY_STATUS sc = g_pSSPI->AcquireCredentialsHandle(NULL, szProvider,
+			SECURITY_STATUS sc = AcquireCredentialsHandle(NULL, szProvider,
 				SECPKG_CRED_OUTBOUND, NULL, hNtlm->hasDomain ? &auth : NULL, NULL, NULL,
 				&hNtlm->hClientCredential, &tokenExpiration);
 			if (sc != SEC_E_OK) {
@@ -356,7 +320,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		outputSecurityToken.cbBuffer = hNtlm->cbMaxToken;
 		outputSecurityToken.pvBuffer = alloca(outputSecurityToken.cbBuffer);
 
-		SECURITY_STATUS sc = g_pSSPI->InitializeSecurityContext(&hNtlm->hClientCredential,
+		SECURITY_STATUS sc = InitializeSecurityContext(&hNtlm->hClientCredential,
 			hasChallenge ? &hNtlm->hClientContext : NULL,
 			hNtlm->szPrincipal, isGSSAPI ? ISC_REQ_MUTUAL_AUTH | ISC_REQ_STREAM : 0, 0, SECURITY_NATIVE_DREP,
 			hasChallenge ? &inputBufferDescriptor : NULL, 0, &hNtlm->hClientContext,
@@ -365,7 +329,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		complete = (sc != SEC_I_COMPLETE_AND_CONTINUE && sc != SEC_I_CONTINUE_NEEDED);
 
 		if (sc == SEC_I_COMPLETE_NEEDED || sc == SEC_I_COMPLETE_AND_CONTINUE)
-			sc = g_pSSPI->CompleteAuthToken(&hNtlm->hClientContext, &outputBufferDescriptor);
+			sc = CompleteAuthToken(&hNtlm->hClientContext, &outputBufferDescriptor);
 
 		if (sc != SEC_E_OK && sc != SEC_I_CONTINUE_NEEDED) {
 			ReportSecError(sc, __LINE__);
