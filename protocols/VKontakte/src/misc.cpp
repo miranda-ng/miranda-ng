@@ -992,7 +992,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 		}
 		else if (tszType ==_T("video")) {
 			const JSONNode &jnVideo = jnAttach["video"];
-			if (jnVideo)
+			if (!jnVideo)
 				continue;
 
 			CMString tszTitle(jnVideo["title"].as_mstring());
@@ -1081,7 +1081,7 @@ CMString CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport 
 				else
 					res.AppendFormat(_T("\n\t%s: %s"), TranslateT("Image"), tszImage);
 
-			if (tszDescription)
+			if (!tszDescription.IsEmpty())
 				res.AppendFormat(_T("\n\t%s"), tszDescription);
 		}
 		else if (tszType == _T("gift")) {
