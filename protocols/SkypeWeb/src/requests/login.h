@@ -18,41 +18,25 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_LOGIN_H_
 #define _SKYPE_REQUEST_LOGIN_H_
 
-class LoginRequest : public HttpRequest
+class LoginOAuthRequest : public HttpRequest
 {
 public:
-	LoginRequest() :
-		HttpRequest(REQUEST_POST, "login.skype.com/login")
+	LoginOAuthRequest(const char *username, const char *password) :
+		HttpRequest(REQUEST_POST, "api.skype.com/login/skypetoken")
 	{
-		Url
-			<< INT_VALUE("client_id", 578134)
-			<< CHAR_VALUE("redirect_uri", "https%3A%2F%2Fweb.skype.com");
-	}
+		CMStringA str(::FORMAT, "%s\nskyper\n%s", username, password);
 
-	LoginRequest(const char *skypename, const char *password, const char *pie, const char *etm) :
-		HttpRequest(REQUEST_POST, "login.skype.com/login")
-	{
-		Url
-			<< INT_VALUE("client_id", 578134)
-			<< CHAR_VALUE("redirect_uri", "https%3A%2F%2Fweb.skype.com");
+		BYTE digest[16];
 
-		Headers
-			<< CHAR_VALUE("Referer", "https://login.skype.com/login?method=skype&client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com");
+		mir_md5_hash((BYTE*)str.GetString(), str.GetLength(), digest);
 
-		LPTIME_ZONE_INFORMATION tzi = tmi.getTziByContact(NULL);
-		char sign = tzi->Bias > 0 ? '-' : '+';
-		int hours = tzi->Bias / -60;
-		int minutes = tzi->Bias % -60;
+		char *hash = mir_base64_encode(digest, sizeof(digest));
 
 		Body
-			<< CHAR_VALUE("username", skypename)
-			<< CHAR_VALUE("password", password)
-			<< CHAR_VALUE("pie", ptrA(mir_urlEncode(pie)))
-			<< CHAR_VALUE("etm", ptrA(mir_urlEncode(etm)))
-			<< FORMAT_VALUE("timezone_field", "%c%02d|%02d", sign, hours, minutes)
-			<< FORMAT_VALUE("js_time", "%d.00", time(NULL))
-			<< INT_VALUE("client_id", 578134)
-			<< CHAR_VALUE("redirect_uri", "https%3A%2F%2Fweb.skype.com");
+			<< CHAR_VALUE("scopes", "client")
+			<< CHAR_VALUE("clientVersion", "0/7.4.85.102/259/")
+			<< CHAR_VALUE("username", username)
+			<< CHAR_VALUE("passwordHash", hash);
 	}
 };
 

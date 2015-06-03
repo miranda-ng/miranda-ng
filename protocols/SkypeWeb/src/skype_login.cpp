@@ -17,94 +17,42 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CSkypeProto::OnLoginFirst(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
 	{
-		debugLogA(__FUNCTION__ ": failed to get login page");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
 
-	std::regex regex;
-	std::smatch match;
-
-	std::string content = response->pData;
-	regex = "<input type=\"hidden\" name=\"pie\" id=\"pie\" value=\"(.+?)\"/>";
-	if (!std::regex_search(content, match, regex))
+	JSONNode json = JSONNode::parse(response->pData);
+	if (!json)
 	{
-		debugLogA(__FUNCTION__ ": failed to get pie");
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
-		SetStatus(ID_STATUS_OFFLINE);
-	}
-	std::string pie = match[1];
-
-	regex = "<input type=\"hidden\" name=\"etm\" id=\"etm\" value=\"(.+?)\"/>";
-	if (!std::regex_search(content, match, regex))
-	{
-		debugLogA(__FUNCTION__ ": failed to get etm");
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-	std::string etm = match[1];
-
-	ptrA skypename(getStringA(SKYPE_SETTINGS_ID));
-	ptrA password(getStringA(SKYPE_SETTINGS_PASSWORD));
-	SendRequest(new LoginRequest(skypename, password, pie.c_str(), etm.c_str()), &CSkypeProto::OnLoginSecond);
-}
-
-void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
-{
-	m_iStatus++;
-
-	if (response == NULL)
-	{
-		debugLogA(__FUNCTION__ ": failed to login");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
 
-	std::regex regex;
-	std::smatch match;
-
-	std::string content = response->pData;
-	regex = "<input type=\"hidden\" name=\"skypetoken\" value=\"(.+?)\"/>";
-	if (!std::regex_search(content, match, regex))
+	if (response->resultCode != 200 || !json["skypetoken"] || !json["expiresIn"])
 	{
-		debugLogA(__FUNCTION__ ": failed to get skype token");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
-	std::string token = match[1];
+
+	std::string token = json["skypetoken"].as_string();
 	setString("TokenSecret", token.c_str());
 
-	regex = "<input type=\"hidden\" name=\"expires_in\" value=\"(.+?)\"/>";
-	if (std::regex_search(content, match, regex))
-	{
-		std::string expiresIn = match[1];
-		int seconds = atoi(expiresIn.c_str());
-		setDword("TokenExpiresIn", time(NULL) + seconds);
-	}
+	int expiresIn = json["expiresIn"].as_int();
+	setDword("TokenExpiresIn", time(NULL) + expiresIn);
 
-	for (int i = 0; i < response->headersCount; i++)
-	{
-		if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
-			continue;
-
-		regex = "^(.+?)=(.+?);";
-		content = response->headers[i].szValue;
-		if (std::regex_search(content, match, regex))
-			cookies[match[1]] = match[2];
-	}
 	OnLoginSuccess();
 }
 
 void CSkypeProto::OnLoginSuccess()
 {
+	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_SUCCESS, NULL, 0);
 	SelfSkypeName = getStringA(SKYPE_SETTINGS_ID);
 	TokenSecret = getStringA("TokenSecret");
 	Server = getStringA("Server") != NULL ? getStringA("Server") : SKYPE_ENDPOINTS_HOST;
@@ -166,7 +114,7 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		if (response->resultCode == 401)
 		{
 			delSetting("TokenExpiresIn");
-			SendRequest(new LoginRequest(), &CSkypeProto::OnLoginFirst);
+			SendRequest(new LoginOAuthRequest(SelfSkypeName, ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
 			return;
 		}
 		else //it should be rewritten
@@ -266,5 +214,4 @@ void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)
 	int oldStatus = m_iStatus;
 	m_iStatus = m_iDesiredStatus = iNewStatus;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_SUCCESS, NULL, 0);
 }
