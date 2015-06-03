@@ -235,6 +235,9 @@ private:
 
 	void OnTransferCompleted(FileTransferParam *transfer);
 
+	void PauseOutgoingTransfers(uint32_t friendNumber);
+	void ResumeIncomingTransfers(uint32_t friendNumber);
+
 	// avatars
 	std::tstring GetAvatarFilePath(MCONTACT hContact = NULL);
 	void SetToxAvatar(std::tstring path);
