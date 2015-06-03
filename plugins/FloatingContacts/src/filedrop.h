@@ -20,7 +20,5 @@ public:
 	HRESULT STDMETHODCALLTYPE Drop(IDataObject *pData,DWORD fKeyState,POINTL pt,DWORD *pdwEffect);
 };
 
-void InitFileDropping();
-void FreeFileDropping(void);
 void RegisterFileDropping( HWND hwnd, CDropTarget* pdropTarget );
 void UnregisterFileDropping( HWND hwnd );
