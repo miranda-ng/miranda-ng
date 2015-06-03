@@ -17,9 +17,79 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+void CSkypeProto::OnLoginMSFirst(const NETLIBHTTPREQUEST *response)
+{
+	if (response == NULL || response->pData == NULL)
+	{
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+
+	std::regex regex;
+	std::smatch match;
+	std::string content = response->pData;
+
+	regex = "<input type=\"hidden\" name=\"PPFT\" id=\"i0327\" value=\"(.+?)\"/>";
+	if (!std::regex_search(content, match, regex))
+	{
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
+	}
+	std::string pie = match[1];
+
+	for (int i = 0; i < response->headersCount; i++)
+	{
+		if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
+			continue;
+
+		regex = "^(.+?)=(.+?);";
+		content = response->headers[i].szValue;
+
+		if (std::regex_search(content, match, regex))
+			cookies[match[1]] = match[2];
+	}
+
+	CMStringA allCookies; 
+	if (!cookies.empty()) 
+	{
+		for (std::map<std::string, std::string>::iterator cookie = cookies.begin(); cookie != cookies.end(); ++cookie) 
+			allCookies.AppendFormat("%s=%s; ", cookie->first.c_str(), cookie->second.c_str()); 
+	}
+
+	SendRequest(new LoginMSRequest(pie.c_str(), ptrA(getStringA(SKYPE_SETTINGS_ID)), ptrA(getStringA(SKYPE_SETTINGS_PASSWORD)), allCookies.GetBuffer()), &CSkypeProto::OnLoginMSSecond);
+}
+
+void CSkypeProto::OnLoginMSSecond(const NETLIBHTTPREQUEST *response)
+{
+	if (response == NULL || response->pData == NULL)
+	{
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+
+	std::regex regex;
+	std::smatch match;
+	std::string content = response->pData, token;
+
+	for (int i = 0; i < response->headersCount; i++)
+	{
+		if (!mir_strcmpi(response->headers[i].szName, "Location"))
+		{
+			regex = "access_token=(.+?)&";
+			content = response->headers[i].szValue;
+
+			if (std::regex_search(content, match, regex))
+				token = urlDecode(match[1]);
+		}
+	}
+	SendRequest(new LoginOAuthRPSRequest(token.c_str()), &CSkypeProto::OnLoginOAuth);
+}
+
 void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (response == NULL || response->pData == NULL)
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
