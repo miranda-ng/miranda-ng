@@ -40,4 +40,45 @@ public:
 	}
 };
 
+class LoginOAuthRPSRequest : public HttpRequest
+{
+public:
+	LoginOAuthRPSRequest(const char *token) :
+		HttpRequest(REQUEST_POST, "api.skype.com/login/skypetoken")
+	{
+		Body
+			<< CHAR_VALUE("scopes", "client")
+			<< CHAR_VALUE("clientVersion", "0/7.4.85.102/259/")
+			<< CHAR_VALUE("access_token", token)
+			<< INT_VALUE("partner", 999);
+	}
+};
+
+class LoginMSRequest : public HttpRequest
+{
+public:
+	LoginMSRequest() : HttpRequest(REQUEST_GET, "login.live.com/oauth20_authorize.srf")
+	{
+
+		Url
+			<< CHAR_VALUE("client_id", "00000000480BC46C")
+			<< CHAR_VALUE("scope", "service::skype.com::MBI_SSL")	
+			<< CHAR_VALUE("response_type", "token")
+			<< CHAR_VALUE("redirect_uri", ptrA(mir_urlEncode("https://login.live.com/oauth20_desktop.srf")));
+	}
+
+	LoginMSRequest(const char *ppft, const char* login, const char* password, const char *cookies) : 
+		HttpRequest(REQUEST_POST, "https://login.live.com/ppsecure/post.srf")
+	{
+		Headers 
+			<< CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded")
+			<< CHAR_VALUE("Cookie", cookies);
+
+		Body 
+			<< CHAR_VALUE("PPFT", ptrA(mir_urlEncode(ppft)))
+			<< CHAR_VALUE("login", ptrA(mir_urlEncode(login)))
+			<< CHAR_VALUE("passwd", ptrA(mir_urlEncode(password)));
+	}
+};
+
 #endif //_SKYPE_REQUEST_LOGIN_H_
