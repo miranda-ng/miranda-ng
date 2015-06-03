@@ -119,6 +119,16 @@ static void removeHook(MSubclassData *p, int idx)
 	p->m_iHooks--;
 }
 
+static WNDPROC finalizeSubclassing(HWND hWnd, MSubclassData *p)
+{
+	WNDPROC saveProc = p->m_origWndProc;
+	arSubclass.remove(p);
+	delete p;
+
+	SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)saveProc);
+	return saveProc;
+}
+
 MIR_CORE_DLL(void) mir_unsubclassWindow(HWND hWnd, WNDPROC wndProc)
 {
 	MSubclassData *p = arSubclass.find((MSubclassData*)&hWnd);
@@ -132,10 +142,8 @@ MIR_CORE_DLL(void) mir_unsubclassWindow(HWND hWnd, WNDPROC wndProc)
 		}
 	}
 
-	if (p->m_iHooks == 0) {
-		arSubclass.remove(p);
-		delete p;
-	}
+	if (p->m_iHooks == 0)
+		finalizeSubclassing(hWnd, p);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -158,11 +166,7 @@ MIR_CORE_DLL(LRESULT) mir_callNextSubclass(HWND hWnd, WNDPROC wndProc, UINT uMsg
 		if (uMsg != WM_NCDESTROY)
 			return p->m_origWndProc(hWnd, uMsg, wParam, lParam);
 
-		WNDPROC saveProc = p->m_origWndProc;
-		arSubclass.remove(p);
-		delete p;
-
-		SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)saveProc);
+		WNDPROC saveProc = finalizeSubclassing(hWnd, p);
 		return saveProc(hWnd, uMsg, wParam, lParam);
 	}
 
@@ -183,9 +187,7 @@ MIR_CORE_DLL(void) KillModuleSubclassing(HMODULE hInst)
 			}
 		}
 
-		if (p->m_iHooks == 0) {
-			arSubclass.remove(p);
-			delete p;
-		}
+		if (p->m_iHooks == 0)
+			finalizeSubclassing(p->m_hWnd, p);
 	}
 }
