@@ -1,3 +1,4 @@
 ﻿[URL:]
 [Ticker feeds]
 [Sample ticker]
+[a link]

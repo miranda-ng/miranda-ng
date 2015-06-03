@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.12.1.2
+;  Version: 2.12.2.1
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -325,10 +325,6 @@ Google Карты
 Пишет сообщение
 [Typing notification off]
 "Уведомление о наборе" выкл.
-[Unicode is on]
-Юникод включён
-[Unicode is off]
-Юникод выключен
 [Sending]
 Отправка сообщения
 [Quote button]

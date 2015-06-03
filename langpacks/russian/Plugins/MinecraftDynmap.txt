@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MinecraftDynmap.dll
 ;  Plugin: Minecraft Dynmap protocol
-;  Version: 0.0.0.1
+;  Version: 0.0.0.2
 ;  Authors: Robert Pösel
 ;============================================================
 [Minecraft Dynmap support for Miranda NG.]
