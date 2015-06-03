@@ -10,7 +10,7 @@
 
 static INT_PTR APIENTRY OptWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch ( uMsg ) {
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
@@ -25,7 +25,7 @@ static INT_PTR APIENTRY OptWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		EnableWindow(GetDlgItem(hwndDlg, IDC_TXT_WIDTH), fcOpt.bFixedWidth);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_WIDTHSPIN), fcOpt.bFixedWidth);
 
-		SendDlgItemMessage(hwndDlg, IDC_WIDTHSPIN, UDM_SETRANGE, 0, MAKELONG(255,0));
+		SendDlgItemMessage(hwndDlg, IDC_WIDTHSPIN, UDM_SETRANGE, 0, MAKELONG(255, 0));
 		SendDlgItemMessage(hwndDlg, IDC_WIDTHSPIN, UDM_SETPOS, 0, fcOpt.nThumbWidth);
 
 		CheckDlgButton(hwndDlg, IDC_CHK_TIP, (fcOpt.bShowTip ? BST_CHECKED : BST_UNCHECKED));
@@ -37,7 +37,7 @@ static INT_PTR APIENTRY OptWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		EnableWindow(GetDlgItem(hwndDlg, IDC_TXT_TIMEIN), bEnableTip && fcOpt.bShowTip);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_TIMEINSPIN), bEnableTip && fcOpt.bShowTip);
 
-		SendDlgItemMessage(hwndDlg, IDC_TIMEINSPIN, UDM_SETRANGE, 0, MAKELONG(5000,0));
+		SendDlgItemMessage(hwndDlg, IDC_TIMEINSPIN, UDM_SETRANGE, 0, MAKELONG(5000, 0));
 		SendDlgItemMessage(hwndDlg, IDC_TIMEINSPIN, UDM_SETPOS, 0, fcOpt.TimeIn);
 
 		CheckDlgButton(hwndDlg, IDC_CHK_TOTOP, (fcOpt.bToTop ? BST_CHECKED : BST_UNCHECKED));
@@ -46,7 +46,7 @@ static INT_PTR APIENTRY OptWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		EnableWindow(GetDlgItem(hwndDlg, IDC_TXT_TOTOPTIME), fcOpt.bToTop);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_TOTOPTIMESPIN), fcOpt.bToTop);
 
-		SendDlgItemMessage(hwndDlg, IDC_TOTOPTIMESPIN, UDM_SETRANGE, 0, MAKELONG(TOTOPTIME_MAX,1));
+		SendDlgItemMessage(hwndDlg, IDC_TOTOPTIMESPIN, UDM_SETRANGE, 0, MAKELONG(TOTOPTIME_MAX, 1));
 		SendDlgItemMessage(hwndDlg, IDC_TOTOPTIMESPIN, UDM_SETPOS, 0, fcOpt.ToTopTime);
 
 		CheckDlgButton(hwndDlg, IDC_CHK_HIDE_WHEN_CLISTSHOW, (fcOpt.bHideWhenCListShow ? BST_CHECKED : BST_UNCHECKED));
@@ -61,8 +61,8 @@ static INT_PTR APIENTRY OptWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			if (BN_CLICKED == HIWORD(wParam)) {
 				BOOL bChecked = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_WIDTH);
 
-				EnableWindow(GetDlgItem(hwndDlg, IDC_LBL_WIDTH ), bChecked);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_TXT_WIDTH ), bChecked);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_LBL_WIDTH), bChecked);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_TXT_WIDTH), bChecked);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_WIDTHSPIN), bChecked);
 			}
 			break;
@@ -78,9 +78,9 @@ static INT_PTR APIENTRY OptWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			if (BN_CLICKED == HIWORD(wParam)) {
 				BOOL bChecked = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_TIP);
 
-				EnableWindow(GetDlgItem(hwndDlg, IDC_LBL_TIMEIN ), bChecked);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_LBL_TIMEIN_CMT ), bChecked);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_TXT_TIMEIN ), bChecked);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_LBL_TIMEIN), bChecked);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_LBL_TIMEIN_CMT), bChecked);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_TXT_TIMEIN), bChecked);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_TIMEINSPIN), bChecked);
 			}
 			break;
@@ -89,8 +89,8 @@ static INT_PTR APIENTRY OptWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			if (BN_CLICKED == HIWORD(wParam)) {
 				BOOL bChecked = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_TOTOP);
 
-				EnableWindow(GetDlgItem(hwndDlg, IDC_LBL_TOTOP ), bChecked);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_TXT_TOTOPTIME ), bChecked);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_LBL_TOTOP), bChecked);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_TXT_TOTOPTIME), bChecked);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_TOTOPTIMESPIN), bChecked);
 			}
 			break;
@@ -119,20 +119,20 @@ static INT_PTR APIENTRY OptWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 				fcOpt.bFixedWidth = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_WIDTH);
 				db_set_b(NULL, MODULE, "FixedWidth", (BYTE)fcOpt.bFixedWidth);
-				fcOpt.nThumbWidth	 = GetDlgItemInt(hwndDlg, IDC_TXT_WIDTH, &bSuccess, FALSE);
-				db_set_dw(NULL, MODULE, "Width", fcOpt.nThumbWidth );
+				fcOpt.nThumbWidth = GetDlgItemInt(hwndDlg, IDC_TXT_WIDTH, &bSuccess, FALSE);
+				db_set_dw(NULL, MODULE, "Width", fcOpt.nThumbWidth);
 
 				if (bEnableTip) {
 					fcOpt.bShowTip = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_TIP);
 					db_set_b(NULL, MODULE, "ShowTip", (BYTE)fcOpt.bShowTip);
-					fcOpt.TimeIn	 = GetDlgItemInt(hwndDlg, IDC_TXT_TIMEIN, &bSuccess, FALSE);
-					db_set_w(NULL, MODULE, "TimeIn", fcOpt.TimeIn );
+					fcOpt.TimeIn = GetDlgItemInt(hwndDlg, IDC_TXT_TIMEIN, &bSuccess, FALSE);
+					db_set_w(NULL, MODULE, "TimeIn", fcOpt.TimeIn);
 				}
 
 				fcOpt.bToTop = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_TOTOP);
 				db_set_b(NULL, MODULE, "ToTop", (BYTE)fcOpt.bToTop);
-				fcOpt.ToTopTime	 = GetDlgItemInt(hwndDlg, IDC_TXT_TOTOPTIME, &bSuccess, FALSE);
-				db_set_w(NULL, MODULE, "ToTopTime", fcOpt.ToTopTime );
+				fcOpt.ToTopTime = GetDlgItemInt(hwndDlg, IDC_TXT_TOTOPTIME, &bSuccess, FALSE);
+				db_set_w(NULL, MODULE, "ToTopTime", fcOpt.ToTopTime);
 
 				fcOpt.bHideWhenCListShow = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_WHEN_CLISTSHOW);
 				db_set_b(NULL, MODULE, "HideWhenCListShow", (BYTE)fcOpt.bHideWhenCListShow);
@@ -160,7 +160,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 	BOOL bEnable;
 	char szPercent[20];
 
-	switch ( uMsg ) {
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		// Border
@@ -180,7 +180,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 		SendMessage(hwndDlg, M_REFRESHBKGBOXES, 0, 0);
 		{
 			DBVARIANT dbv;
-			if ( !db_get_ts(NULL, MODULE, "BkBitmap", &dbv)) {
+			if (!db_get_ts(NULL, MODULE, "BkBitmap", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_FILENAME, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -198,7 +198,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			BYTE btOpacity = (BYTE)db_get_b(NULL, MODULE, "Opacity", 100);
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_SETRANGE, TRUE, MAKELONG(0, 100));
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_SETPOS, TRUE, btOpacity);
-				
+
 			mir_snprintf(szPercent, SIZEOF(szPercent), "%d%%", btOpacity);
 			SetDlgItemTextA(hwndDlg, IDC_OPACITY, szPercent);
 
@@ -227,7 +227,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 	case WM_HSCROLL:
 		if (wParam != TB_ENDTRACK) {
 			int nPos = (int)SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_GETPOS, 0, 0);
-			fcOpt.thumbAlpha = (BYTE)(( nPos * 255 ) / 100 );
+			fcOpt.thumbAlpha = (BYTE)((nPos * 255) / 100);
 			SetThumbsOpacity(fcOpt.thumbAlpha);
 
 			mir_snprintf(szPercent, SIZEOF(szPercent), "%d%%", nPos);
@@ -248,7 +248,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
 				Bitmap_GetFilter(filter, SIZEOF(filter));
 
-				OPENFILENAME ofn = {0};
+				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);
 				ofn.hwndOwner = hwndDlg;
 				ofn.lpstrFilter = filter;
@@ -333,18 +333,18 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 int OnOptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance   = hInst;
+	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FLTCONT);
-	odp.pszTitle    = LPGEN("Floating Contacts");
-	odp.pszGroup    = LPGEN("Contact list");
-	odp.pszTab      = LPGEN("Main Features");
-	odp.flags       = ODPF_BOLDGROUPS;
-	odp.pfnDlgProc  = OptWndProc;
+	odp.pszTitle = LPGEN("Floating Contacts");
+	odp.pszGroup = LPGEN("Contact list");
+	odp.pszTab = LPGEN("Main Features");
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pfnDlgProc = OptWndProc;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
-	odp.pszTab      = LPGEN("Appearance");
-	odp.pfnDlgProc  = OptSknWndProc;
+	odp.pszTab = LPGEN("Appearance");
+	odp.pfnDlgProc = OptSknWndProc;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
