@@ -255,7 +255,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			if ((tokenExpires - 1800) > time(NULL))
 				OnLoginSuccess();
 			else
-				SendRequest(new LoginRequest(), &CSkypeProto::OnLoginFirst);
+				SendRequest(new LoginOAuthRequest(ptrA(getStringA(SKYPE_SETTINGS_ID)), ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
 		}
 		else
 		{
