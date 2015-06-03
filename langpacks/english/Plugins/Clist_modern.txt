@@ -447,9 +447,6 @@
 [lines]
 [%s, contain %s]
 [ layered]
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
-[You need an image services plugin to process PNG images.]
-[Error]
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]

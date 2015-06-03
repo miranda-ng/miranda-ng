@@ -867,10 +867,6 @@ Clist Modern требует наличия плагина AVS. Установи�
 %s, содержит %s
 [ layered]
  слои
-[You need an image services plugin to process PNG images.]
-Для поддержки PNG вам нужен плагин службы изображений.
-[Error]
-Ошибка
 [( unknown )]
 ( неизвестно )
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]

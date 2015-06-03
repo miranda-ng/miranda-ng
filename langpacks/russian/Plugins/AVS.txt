@@ -115,19 +115,19 @@
 Глобальный аватар
 [Avatar]
 Аватар
-[All Files]
+[All files]
 Все файлы
-[Windows Bitmaps]
+[Windows bitmaps]
 Изображения Windows Bitmap
-[JPEG Bitmaps]
+[JPEG bitmaps]
 Изображения JPEG
-[GIF Bitmaps]
+[GIF bitmaps]
 Изображения GIF
-[PNG Bitmaps]
+[PNG bitmaps]
 Изображения PNG
-[Flash Animations]
+[Flash animations]
 Flash анимация
-[XML Files]
+[XML files]
 XML файлы
 [Grow avatar to fit max allowed protocol size]
 Увеличивать аватар до максимального размера

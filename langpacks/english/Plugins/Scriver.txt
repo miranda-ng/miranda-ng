@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.12.1.2
+;  Version: 2.12.2.1
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -172,8 +172,6 @@
 [Smiley button]
 [User is typing]
 [Typing notification off]
-[Unicode is on]
-[Unicode is off]
 [Sending]
 [Quote button]
 [Close button]

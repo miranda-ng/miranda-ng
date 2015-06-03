@@ -1006,6 +1006,12 @@
 [View/change my &details...]
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
+;file \src\mir_core\src\bitmaps.cpp
+[All Files]
+[Windows bitmaps]
+[JPEG bitmaps]
+[GIF bitmaps]
+[PNG bitmaps]
 ;file \src\mir_core\src\ui_utils.cpp
 [Account]
 ;file \src\modules\addcontact\addcontact.cpp
@@ -1412,13 +1418,6 @@
 ;file \src\modules\skin\sounds.cpp
 [Sound files]
 [WAV files]
-;file \src\modules\utils\bmpfilter.cpp
-[You need an image services plugin to process PNG images.]
-[All bitmaps]
-[Windows bitmaps]
-[JPEG bitmaps]
-[GIF bitmaps]
-[PNG bitmaps]
 ;file \src\modules\utils\path.cpp
 [Avatars]
 [Avatars root folder]

@@ -37,10 +37,6 @@
 Не найден плагин AdvaImg. Скачайте его по адресу http://miranda-ng.org/p/AdvaImg/, чтобы использовать изображения.
 [Preview...]
 Просмотр...
-[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-Библиотека advaimg.dll устарела или повреждена. Скачайте последнюю версию с сайта Miranda NG.
-[Error]
-Ошибка
 [Graphic files]
 Графические файлы
 [Sound Files]
