@@ -127,13 +127,12 @@ BOOL InitAvaUnit(BOOL init)
 		hAvaChanged = HookEvent(ME_AV_AVATARCHANGED, AvaChanged);
 		return hAvaChanged != 0;
 	}
-	else {
-		if (hAvaChanged) {
-			UnhookEvent(hAvaChanged);
-			hAvaChanged = 0;
-		}
-		return TRUE;
+
+	if (hAvaChanged) {
+		UnhookEvent(hAvaChanged);
+		hAvaChanged = 0;
 	}
+	return TRUE;
 }
 
 void SetAvatar(MCONTACT hContact)
