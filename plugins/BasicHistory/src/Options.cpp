@@ -311,20 +311,20 @@ void Options::Load(void)
 	for (int i = 0; i < filtersCount; ++i) {
 		char buf[256];
 		FilterOptions fo;
-		mir_snprintf(buf, SIZEOF(buf), "filterName_%d", i);
+		mir_snprintf(buf, "filterName_%d", i);
 		DBVARIANT nameV;
 		if (!db_get_ws(0, MODULE, buf, &nameV)) {
 			fo.name = nameV.pwszVal;
 			db_free(&nameV);
 		}
 		else break;
-		mir_snprintf(buf, SIZEOF(buf), "filterInOut_%d", i);
+		mir_snprintf(buf, "filterInOut_%d", i);
 		int inOut = db_get_b(0, MODULE, buf, 0);
 		if (inOut == 1)
 			fo.onlyIncomming = true;
 		else if (inOut == 2)
 			fo.onlyOutgoing = true;
-		mir_snprintf(buf, SIZEOF(buf), "filterEvents_%d", i);
+		mir_snprintf(buf, "filterEvents_%d", i);
 		DBVARIANT eventsV;
 		if (!db_get_s(0, MODULE, buf, &eventsV)) {
 			int k = 0;
@@ -467,9 +467,9 @@ void Options::Save()
 	db_set_dw(0, MODULE, "customFiltersCount", (DWORD)customFilters.size());
 	for (int i = 0 ; i < (int)customFilters.size(); ++i) {
 		char buf[256];
-		mir_snprintf(buf, SIZEOF(buf), "filterName_%d", i);
+		mir_snprintf(buf, "filterName_%d", i);
 		db_set_ws(0, MODULE, buf, customFilters[i].name.c_str());
-		mir_snprintf(buf, SIZEOF(buf), "filterInOut_%d", i);
+		mir_snprintf(buf, "filterInOut_%d", i);
 		db_set_b(0, MODULE, buf, customFilters[i].onlyIncomming ? 1 : (customFilters[i].onlyOutgoing ? 2 : 0));
 		std::string events;
 		for (std::vector<int>::iterator it = customFilters[i].events.begin(); it != customFilters[i].events.end(); ++it) {
@@ -478,7 +478,7 @@ void Options::Save()
 			events += ";";
 		}
 
-		mir_snprintf(buf, SIZEOF(buf), "filterEvents_%d", i);
+		mir_snprintf(buf, "filterEvents_%d", i);
 		db_set_s(0, MODULE, buf, events.c_str());
 	}
 
@@ -507,54 +507,54 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 	int i = 0;
 	char buf[256];
 	for (std::list<TaskOptions>::iterator it = tasks->begin(); it != tasks->end(); ++it) {
-		mir_snprintf(buf, SIZEOF(buf), "Task_compress_%d", i);
+		mir_snprintf(buf, "Task_compress_%d", i);
 		db_set_b(0, MODULE, buf, it->compress);
-		mir_snprintf(buf, SIZEOF(buf), "Task_useFtp_%d", i);
+		mir_snprintf(buf, "Task_useFtp_%d", i);
 		db_set_b(0, MODULE, buf, it->useFtp);
-		mir_snprintf(buf, SIZEOF(buf), "Task_isSystem_%d", i);
+		mir_snprintf(buf, "Task_isSystem_%d", i);
 		db_set_b(0, MODULE, buf, it->isSystem);
-		mir_snprintf(buf, SIZEOF(buf), "Task_active_%d", i);
+		mir_snprintf(buf, "Task_active_%d", i);
 		db_set_b(0, MODULE, buf, it->active);
-		mir_snprintf(buf, SIZEOF(buf), "Task_exportImported_%d", i);
+		mir_snprintf(buf, "Task_exportImported_%d", i);
 		db_set_b(0, MODULE, buf, it->exportImported);
-		mir_snprintf(buf, SIZEOF(buf), "Task_type_%d", i);
+		mir_snprintf(buf, "Task_type_%d", i);
 		db_set_b(0, MODULE, buf, it->type);
-		mir_snprintf(buf, SIZEOF(buf), "Task_eventUnit_%d", i);
+		mir_snprintf(buf, "Task_eventUnit_%d", i);
 		db_set_b(0, MODULE, buf, it->eventUnit);
-		mir_snprintf(buf, SIZEOF(buf), "Task_trigerType_%d", i);
+		mir_snprintf(buf, "Task_trigerType_%d", i);
 		db_set_b(0, MODULE, buf, it->trigerType);
-		mir_snprintf(buf, SIZEOF(buf), "Task_exportType_%d", i);
+		mir_snprintf(buf, "Task_exportType_%d", i);
 		db_set_b(0, MODULE, buf, it->exportType);
-		mir_snprintf(buf, SIZEOF(buf), "Task_importType_%d", i);
+		mir_snprintf(buf, "Task_importType_%d", i);
 		db_set_b(0, MODULE, buf, it->importType);
-		mir_snprintf(buf, SIZEOF(buf), "Task_eventDeltaTime_%d", i);
+		mir_snprintf(buf, "Task_eventDeltaTime_%d", i);
 		db_set_dw(0, MODULE, buf, it->eventDeltaTime);
-		mir_snprintf(buf, SIZEOF(buf), "Task_filterId_%d", i);
+		mir_snprintf(buf, "Task_filterId_%d", i);
 		db_set_dw(0, MODULE, buf, it->filterId);
-		mir_snprintf(buf, SIZEOF(buf), "Task_dayTime_%d", i);
+		mir_snprintf(buf, "Task_dayTime_%d", i);
 		db_set_dw(0, MODULE, buf, it->dayTime);
-		mir_snprintf(buf, SIZEOF(buf), "Task_dayOfWeek_%d", i);
+		mir_snprintf(buf, "Task_dayOfWeek_%d", i);
 		db_set_dw(0, MODULE, buf, it->dayOfWeek);
-		mir_snprintf(buf, SIZEOF(buf), "Task_dayOfMonth_%d", i);
+		mir_snprintf(buf, "Task_dayOfMonth_%d", i);
 		db_set_dw(0, MODULE, buf, it->dayOfMonth);
-		mir_snprintf(buf, SIZEOF(buf), "Task_deltaTime_%d", i);
+		mir_snprintf(buf, "Task_deltaTime_%d", i);
 		db_set_dw(0, MODULE, buf, it->deltaTime);
-		mir_snprintf(buf, SIZEOF(buf), "Task_lastExport_low_%d", i);
+		mir_snprintf(buf, "Task_lastExport_low_%d", i);
 		db_set_dw(0, MODULE, buf, (int)it->lastExport);
-		mir_snprintf(buf, SIZEOF(buf), "Task_lastExport_hi_%d", i);
+		mir_snprintf(buf, "Task_lastExport_hi_%d", i);
 		db_set_dw(0, MODULE, buf, ((unsigned long long int)it->lastExport) >> 32);
-		mir_snprintf(buf, SIZEOF(buf), "Task_ftpName_%d", i);
+		mir_snprintf(buf, "Task_ftpName_%d", i);
 		db_set_ws(0, MODULE, buf, it->ftpName.c_str());
-		mir_snprintf(buf, SIZEOF(buf), "Task_filterName_%d", i);
+		mir_snprintf(buf, "Task_filterName_%d", i);
 		db_set_ws(0, MODULE, buf, it->filterName.c_str());
-		mir_snprintf(buf, SIZEOF(buf), "Task_filePath_%d", i);
+		mir_snprintf(buf, "Task_filePath_%d", i);
 		db_set_ws(0, MODULE, buf, it->filePath.c_str());
-		mir_snprintf(buf, SIZEOF(buf), "Task_taskName_%d", i);
+		mir_snprintf(buf, "Task_taskName_%d", i);
 		db_set_ws(0, MODULE, buf, it->taskName.c_str());
-		mir_snprintf(buf, SIZEOF(buf), "Task_zipPassword_%d", i);
+		mir_snprintf(buf, "Task_zipPassword_%d", i);
 		db_set_s(0, MODULE, buf, it->zipPassword.c_str());
 
-		mir_snprintf(buf, SIZEOF(buf), "IsInTask_%d", i);
+		mir_snprintf(buf, "IsInTask_%d", i);
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			db_unset(hContact, MODULE, buf);
 
@@ -568,48 +568,48 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 	db_set_dw(0, MODULE, "Task_count", i);
 	
 	for (i = (int)tasks->size(); i < oldTaskNr; ++i) {
-		mir_snprintf(buf, SIZEOF(buf), "Task_compress_%d", i);
+		mir_snprintf(buf, "Task_compress_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_useFtp_%d", i);
+		mir_snprintf(buf, "Task_useFtp_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_isSystem_%d", i);
+		mir_snprintf(buf, "Task_isSystem_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_active_%d", i);
+		mir_snprintf(buf, "Task_active_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_type_%d", i);
+		mir_snprintf(buf, "Task_type_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_eventUnit_%d", i);
+		mir_snprintf(buf, "Task_eventUnit_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_trigerType_%d", i);
+		mir_snprintf(buf, "Task_trigerType_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_exportType_%d", i);
+		mir_snprintf(buf, "Task_exportType_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_eventDeltaTime_%d", i);
+		mir_snprintf(buf, "Task_eventDeltaTime_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_filterId_%d", i);
+		mir_snprintf(buf, "Task_filterId_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_dayTime_%d", i);
+		mir_snprintf(buf, "Task_dayTime_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_dayOfWeek_%d", i);
+		mir_snprintf(buf, "Task_dayOfWeek_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_dayOfMonth_%d", i);
+		mir_snprintf(buf, "Task_dayOfMonth_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_deltaTime_%d", i);
+		mir_snprintf(buf, "Task_deltaTime_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_lastExport_low_%d", i);
+		mir_snprintf(buf, "Task_lastExport_low_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_lastExport_hi_%d", i);
+		mir_snprintf(buf, "Task_lastExport_hi_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_ftpName_%d", i);
+		mir_snprintf(buf, "Task_ftpName_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_filterName_%d", i);
+		mir_snprintf(buf, "Task_filterName_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_filePath_%d", i);
+		mir_snprintf(buf, "Task_filePath_%d", i);
 		db_unset(NULL, MODULE, buf);
-		mir_snprintf(buf, SIZEOF(buf), "Task_taskName_%d", i);
+		mir_snprintf(buf, "Task_taskName_%d", i);
 		db_unset(NULL, MODULE, buf);
 
-		mir_snprintf(buf, SIZEOF(buf), "IsInTask_%d", i);
+		mir_snprintf(buf, "IsInTask_%d", i);
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			db_unset(hContact, MODULE, buf);
 	}
@@ -619,9 +619,9 @@ void Options::SaveTaskTime(TaskOptions& to)
 {
 	int i = to.orderNr;
 	char buf[256];
-	mir_snprintf(buf, SIZEOF(buf), "Task_lastExport_low_%d", i);
+	mir_snprintf(buf, "Task_lastExport_low_%d", i);
 	db_set_dw(0, MODULE, buf, (int)to.lastExport);
-	mir_snprintf(buf, SIZEOF(buf), "Task_lastExport_hi_%d", i);
+	mir_snprintf(buf, "Task_lastExport_hi_%d", i);
 	db_set_dw(0, MODULE, buf, ((unsigned long long int)to.lastExport) >> 32);
 }
 
@@ -631,71 +631,71 @@ void Options::LoadTasks()
 	char buf[256];
 	for (int i = 0; i < taskCount; ++i) {
 		TaskOptions to;
-		mir_snprintf(buf, SIZEOF(buf), "Task_compress_%d", i);
+		mir_snprintf(buf, "Task_compress_%d", i);
 		to.compress = db_get_b(0, MODULE, buf, to.compress) != 0;
-		mir_snprintf(buf, SIZEOF(buf), "Task_useFtp_%d", i);
+		mir_snprintf(buf, "Task_useFtp_%d", i);
 		to.useFtp = db_get_b(0, MODULE, buf, to.useFtp) != 0;
-		mir_snprintf(buf, SIZEOF(buf), "Task_isSystem_%d", i);
+		mir_snprintf(buf, "Task_isSystem_%d", i);
 		to.isSystem = db_get_b(0, MODULE, buf, to.isSystem) != 0;
-		mir_snprintf(buf, SIZEOF(buf), "Task_active_%d", i);
+		mir_snprintf(buf, "Task_active_%d", i);
 		to.active = db_get_b(0, MODULE, buf, to.active) != 0;
-		mir_snprintf(buf, SIZEOF(buf), "Task_exportImported_%d", i);
+		mir_snprintf(buf, "Task_exportImported_%d", i);
 		to.exportImported = db_get_b(0, MODULE, buf, to.exportImported) != 0;
-		mir_snprintf(buf, SIZEOF(buf), "Task_type_%d", i);
+		mir_snprintf(buf, "Task_type_%d", i);
 		to.type = (TaskOptions::TaskType)db_get_b(0, MODULE, buf, to.type);
-		mir_snprintf(buf, SIZEOF(buf), "Task_eventUnit_%d", i);
+		mir_snprintf(buf, "Task_eventUnit_%d", i);
 		to.eventUnit = (TaskOptions::EventUnit)db_get_b(0, MODULE, buf, to.eventUnit);
-		mir_snprintf(buf, SIZEOF(buf), "Task_trigerType_%d", i);
+		mir_snprintf(buf, "Task_trigerType_%d", i);
 		to.trigerType = (TaskOptions::TrigerType)db_get_b(0, MODULE, buf, to.trigerType);
-		mir_snprintf(buf, SIZEOF(buf), "Task_exportType_%d", i);
+		mir_snprintf(buf, "Task_exportType_%d", i);
 		to.exportType = (IExport::ExportType)db_get_b(0, MODULE, buf, to.exportType);
-		mir_snprintf(buf, SIZEOF(buf), "Task_importType_%d", i);
+		mir_snprintf(buf, "Task_importType_%d", i);
 		to.importType = (IImport::ImportType)db_get_b(0, MODULE, buf, to.importType);
-		mir_snprintf(buf, SIZEOF(buf), "Task_eventDeltaTime_%d", i);
+		mir_snprintf(buf, "Task_eventDeltaTime_%d", i);
 		to.eventDeltaTime = db_get_dw(0, MODULE, buf, to.eventDeltaTime);
-		mir_snprintf(buf, SIZEOF(buf), "Task_filterId_%d", i);
+		mir_snprintf(buf, "Task_filterId_%d", i);
 		to.filterId = db_get_dw(0, MODULE, buf, to.filterId);
-		mir_snprintf(buf, SIZEOF(buf), "Task_dayTime_%d", i);
+		mir_snprintf(buf, "Task_dayTime_%d", i);
 		to.dayTime = db_get_dw(0, MODULE, buf, to.dayTime);
-		mir_snprintf(buf, SIZEOF(buf), "Task_dayOfWeek_%d", i);
+		mir_snprintf(buf, "Task_dayOfWeek_%d", i);
 		to.dayOfWeek = db_get_dw(0, MODULE, buf, to.dayOfWeek);
-		mir_snprintf(buf, SIZEOF(buf), "Task_dayOfMonth_%d", i);
+		mir_snprintf(buf, "Task_dayOfMonth_%d", i);
 		to.dayOfMonth = db_get_dw(0, MODULE, buf, to.dayOfMonth);
-		mir_snprintf(buf, SIZEOF(buf), "Task_deltaTime_%d", i);
+		mir_snprintf(buf, "Task_deltaTime_%d", i);
 		to.deltaTime = db_get_dw(0, MODULE, buf, to.deltaTime);
 		unsigned long long int le = to.lastExport;
-		mir_snprintf(buf, SIZEOF(buf), "Task_lastExport_low_%d", i);
+		mir_snprintf(buf, "Task_lastExport_low_%d", i);
 		to.lastExport = db_get_dw(0, MODULE, buf, (int)le) & 0xffffffff;
-		mir_snprintf(buf, SIZEOF(buf), "Task_lastExport_hi_%d", i);
+		mir_snprintf(buf, "Task_lastExport_hi_%d", i);
 		to.lastExport |= ((unsigned long long int)db_get_dw(0, MODULE, buf, le >> 32)) << 32;
-		mir_snprintf(buf, SIZEOF(buf), "Task_ftpName_%d", i);
+		mir_snprintf(buf, "Task_ftpName_%d", i);
 		DBVARIANT var;
 		if (!db_get_ws(0, MODULE, buf, &var)) {
 			to.ftpName = var.ptszVal;
 			db_free(&var);
 		}
-		mir_snprintf(buf, SIZEOF(buf), "Task_filterName_%d", i);
+		mir_snprintf(buf, "Task_filterName_%d", i);
 		if (!db_get_ws(0, MODULE, buf, &var)) {
 			to.filterName = var.ptszVal;
 			db_free(&var);
 		}
-		mir_snprintf(buf, SIZEOF(buf), "Task_filePath_%d", i);
+		mir_snprintf(buf, "Task_filePath_%d", i);
 		if (!db_get_ws(0, MODULE, buf, &var)) {
 			to.filePath = var.ptszVal;
 			db_free(&var);
 		}
-		mir_snprintf(buf, SIZEOF(buf), "Task_taskName_%d", i);
+		mir_snprintf(buf, "Task_taskName_%d", i);
 		if (!db_get_ws(0, MODULE, buf, &var)) {
 			to.taskName = var.ptszVal;
 			db_free(&var);
 		}
-		mir_snprintf(buf, SIZEOF(buf), "Task_zipPassword_%d", i);
+		mir_snprintf(buf, "Task_zipPassword_%d", i);
 		if (!db_get_s(0, MODULE, buf, &var)) {
 			to.zipPassword = var.pszVal;
 			db_free(&var);
 		}
 
-		mir_snprintf(buf, SIZEOF(buf), "IsInTask_%d", i);
+		mir_snprintf(buf, "IsInTask_%d", i);
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			if (db_get_b(hContact, MODULE, buf, 0) == 1)
 				to.contacts.push_back(hContact);

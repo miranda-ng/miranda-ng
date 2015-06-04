@@ -14,7 +14,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		CheckDlgButton(hwndDlg, IDC_HIDEOFFLINE, (LastUCOpt.HideOffline ? BST_CHECKED : BST_UNCHECKED));
 		CheckDlgButton(hwndDlg, IDC_WINDOWAUTOSIZE, (LastUCOpt.WindowAutoSize ? BST_CHECKED : BST_UNCHECKED));
 
-		mir_snprintf(str, SIZEOF(str), "%d", LastUCOpt.MaxShownContacts);
+		mir_snprintf(str, "%d", LastUCOpt.MaxShownContacts);
 		SetDlgItemTextA(hwndDlg, IDC_SHOWNCONTACTS, str);
 
 		strncpy_s(str, LastUCOpt.DateTimeFormat.c_str(), _TRUNCATE);

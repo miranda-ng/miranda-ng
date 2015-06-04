@@ -486,7 +486,7 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 
 	DBVARIANT dbv;
 	char szSetting[10];
-	mir_snprintf(szSetting, SIZEOF(szSetting), "Col_%d", newStatus - ID_STATUS_OFFLINE);
+	mir_snprintf(szSetting, "Col_%d", newStatus - ID_STATUS_OFFLINE);
 	DWORD sett = db_get_dw(NULL, S_MOD, szSetting, StatusColors15bits[newStatus - ID_STATUS_OFFLINE]);
 
 	POPUPDATAT ppd = { 0 };
@@ -591,7 +591,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 			{
 				char str[MAXMODULELABELLENGTH + 9];
 
-				mir_snprintf(str, SIZEOF(str), "OffTime-%s", szProto);
+				mir_snprintf(str, "OffTime-%s", szProto);
 				DWORD t = db_get_dw(NULL, S_MOD, str, 0);
 				if (!t)
 					t = time(NULL);
@@ -672,7 +672,7 @@ static void cleanThread(void *param)
 		}
 
 		char str[MAXMODULELABELLENGTH + 9];
-		mir_snprintf(str, SIZEOF(str), "OffTime-%s", infoParam->sProtoName);
+		mir_snprintf(str, "OffTime-%s", infoParam->sProtoName);
 		db_unset(NULL, S_MOD, str);
 	}
 	free(infoParam);
@@ -711,7 +711,7 @@ int ModeChange(WPARAM wparam, LPARAM lparam)
 			time_t t;
 
 			time(&t);
-			mir_snprintf(str, SIZEOF(str), "OffTime-%s", ack->szModule);
+			mir_snprintf(str, "OffTime-%s", ack->szModule);
 			db_set_dw(NULL, S_MOD, str, t);
 		}
 	}

@@ -2086,17 +2086,17 @@ void TSAPI DeleteContainer(int iIndex)
 	}
 
 	char szSetting[CONTAINER_NAMELEN + 30];
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s%d_Flags", CONTAINER_PREFIX, iIndex);
+	mir_snprintf(szSetting, "%s%d_Flags", CONTAINER_PREFIX, iIndex);
 	db_unset(NULL, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s%d_Trans", CONTAINER_PREFIX, iIndex);
+	mir_snprintf(szSetting, "%s%d_Trans", CONTAINER_PREFIX, iIndex);
 	db_unset(NULL, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s%dwidth", CONTAINER_PREFIX, iIndex);
+	mir_snprintf(szSetting, "%s%dwidth", CONTAINER_PREFIX, iIndex);
 	db_unset(NULL, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s%dheight", CONTAINER_PREFIX, iIndex);
+	mir_snprintf(szSetting, "%s%dheight", CONTAINER_PREFIX, iIndex);
 	db_unset(NULL, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s%dx", CONTAINER_PREFIX, iIndex);
+	mir_snprintf(szSetting, "%s%dx", CONTAINER_PREFIX, iIndex);
 	db_unset(NULL, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s%dy", CONTAINER_PREFIX, iIndex);
+	mir_snprintf(szSetting, "%s%dy", CONTAINER_PREFIX, iIndex);
 	db_unset(NULL, SRMSGMOD_T, szSetting);
 }
 

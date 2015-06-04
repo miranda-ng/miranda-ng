@@ -53,7 +53,7 @@ void ReadAvailableGroups()
 	
 	while (ok)
 	{
-		mir_snprintf(tmp, SIZEOF(tmp), "%d", index);
+		mir_snprintf(tmp, "%d", index);
 		GetStringFromDatabase(NULL, CLIST_GROUPS, tmp, NULL, group, sizeof(group));
 		if (mir_strlen(group) > 0)
 		{
@@ -76,7 +76,7 @@ int GetNextGroupIndex()
 	
 	while (!found)
 	{
-		mir_snprintf(tmp, SIZEOF(tmp), "%d", index++);
+		mir_snprintf(tmp, "%d", index++);
 		
 		if (GetStringFromDatabase(NULL, CLIST_GROUPS, tmp, NULL, buffer, sizeof(buffer)))
 		{
@@ -97,7 +97,7 @@ void AddNewGroup(const char *newGroup)
 	*group = 1;
 	strncpy_s((group + 1), (SIZEOF(group) - 1), newGroup, _TRUNCATE);
 	
-	mir_snprintf(tmp, SIZEOF(tmp), "%d", index);
+	mir_snprintf(tmp, "%d", index);
 	const int MAX_SIZE = 1024;
 	wchar_t wide[MAX_SIZE] = {0};
 	*wide = 1;

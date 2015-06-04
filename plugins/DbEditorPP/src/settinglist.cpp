@@ -32,7 +32,7 @@ void saveListSettings(HWND hwnd2List)
 
 	for (int i = 0; i <= 3; i++)
 		if (ListView_GetColumn(hwnd2List, i, &sLC)) {
-			mir_snprintf(tmp, SIZEOF(tmp), "Column%dwidth", i);
+			mir_snprintf(tmp, "Column%dwidth", i);
 			db_set_w(NULL, modname, tmp, (WORD)sLC.cx);
 		}
 }
@@ -122,7 +122,7 @@ void additem(HWND hwnd2Settings, MCONTACT hContact, char* module, char* setting,
 			data[0] = '\0';
 			for (int j = 0; j < dbv.cpbVal; j++) {
 				char tmp[16];
-				mir_snprintf(tmp, SIZEOF(tmp), "%02X ", (BYTE)dbv.pbVal[j]);
+				mir_snprintf(tmp, "%02X ", (BYTE)dbv.pbVal[j]);
 				mir_strcat(data, tmp);
 			}
 			lvi.iImage = 0;
@@ -624,7 +624,7 @@ void EditLabel(HWND hwnd2List, int item, int subitem)
 			data[0] = '\0';
 
 			for (j = 0; j < dbv.cpbVal; j++) {
-				mir_snprintf(tmp, SIZEOF(tmp), "%02X ", (BYTE)dbv.pbVal[j]);
+				mir_snprintf(tmp, "%02X ", (BYTE)dbv.pbVal[j]);
 				mir_strcat(data, tmp);
 			}
 

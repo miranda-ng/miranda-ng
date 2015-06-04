@@ -39,7 +39,7 @@ MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconIte
 	for (unsigned i = 0; i < iCount; i++) {
 		char szSetting[100];
 		if (prefix) {
-			mir_snprintf(szSetting, SIZEOF(szSetting), "%s_%s", prefix, pIcons[i].szName);
+			mir_snprintf(szSetting, "%s_%s", prefix, pIcons[i].szName);
 			sid.pszName = szSetting;
 		}
 		else sid.pszName = pIcons[i].szName;
@@ -64,7 +64,7 @@ MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR *szSection, IconI
 	for (unsigned i = 0; i < iCount; i++) {
 		char szSetting[100];
 		if (prefix) {
-			mir_snprintf(szSetting, SIZEOF(szSetting), "%s_%s", prefix, pIcons[i].szName);
+			mir_snprintf(szSetting, "%s_%s", prefix, pIcons[i].szName);
 			sid.pszName = szSetting;
 		}
 		else sid.pszName = pIcons[i].szName;

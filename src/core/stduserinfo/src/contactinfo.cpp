@@ -277,7 +277,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						lvi.pszText = TranslateT("Primary");
 					}
 					else {
-						mir_snprintf(idstr, SIZEOF(idstr), "e-mail%d", i);
+						mir_snprintf(idstr, "e-mail%d", i);
 						if (db_get_ts(hContact, szProto, idstr, &dbv))
 							break;
 
@@ -292,7 +292,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				lvi.iSubItem = 0;
 				for (i=0;;i++) {
 					lvi.lParam = i;
-					mir_snprintf(idstr, SIZEOF(idstr), "Mye-mail%d", i);
+					mir_snprintf(idstr, "Mye-mail%d", i);
 					if (db_get_ts(hContact, "UserInfo", idstr, &dbv))
 						break;
 					lvi.pszText = idstr2;
@@ -353,7 +353,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				lvi.iSubItem = 0;
 				for (i=0;; i++) {
 					lvi.lParam = i;
-					mir_snprintf(idstr, SIZEOF(idstr), "MyPhone%d", i);
+					mir_snprintf(idstr, "MyPhone%d", i);
 					if (db_get_ts(hContact, "UserInfo", idstr, &dbv))
 						break;
 					lvi.pszText = idstr2;
@@ -464,7 +464,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							if (IDOK != DialogBoxParam(hInst, MAKEINTRESOURCE(nm->hdr.idFrom == IDC_PHONES?IDD_ADDPHONE:IDD_ADDEMAIL), hwndDlg, nm->hdr.idFrom == IDC_PHONES?EditUserPhoneDlgProc:EditUserEmailDlgProc, (LPARAM)szNewData))
 								break;
 							for (int i=0;; i++) {
-								mir_snprintf(idstr, SIZEOF(idstr), szIdTemplate, i);
+								mir_snprintf(idstr, szIdTemplate, i);
 								if (db_get_s(hContact, "UserInfo", idstr, &dbv)) break;
 								db_free(&dbv);
 							}
@@ -477,13 +477,13 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						char idstr[33];
 						DBVARIANT dbv;
 						for (i = lvi.lParam;;i++) {
-							mir_snprintf(idstr, SIZEOF(idstr), szIdTemplate, i+1);
+							mir_snprintf(idstr, szIdTemplate, i+1);
 							if (db_get_s(hContact, "UserInfo", idstr, &dbv)) break;
-							mir_snprintf(idstr, SIZEOF(idstr), szIdTemplate, i);
+							mir_snprintf(idstr, szIdTemplate, i);
 							db_set_s(hContact, "UserInfo", idstr, dbv.pszVal);
 							db_free(&dbv);
 						}
-						mir_snprintf(idstr, SIZEOF(idstr), szIdTemplate, i);
+						mir_snprintf(idstr, szIdTemplate, i);
 						db_unset(hContact, "UserInfo", idstr);
 						SendMessage(hwndDlg, M_REMAKELISTS, 0, 0);
 					}
@@ -491,7 +491,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						//edit
 						char szText[256], idstr[33];
 						DBVARIANT dbv;
-						mir_snprintf(idstr, SIZEOF(idstr), szIdTemplate, lvi.lParam);
+						mir_snprintf(idstr, szIdTemplate, lvi.lParam);
 						if (db_get_s(hContact, "UserInfo", idstr, &dbv)) break;
 						mir_strncpy(szText, dbv.pszVal, SIZEOF(szText));
 						db_free(&dbv);

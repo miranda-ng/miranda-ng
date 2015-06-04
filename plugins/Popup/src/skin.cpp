@@ -210,7 +210,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 
 	for (int i = 0; i < 32; ++i) {
 		char buf[10];
-		mir_snprintf(buf, SIZEOF(buf), "opt%d", i);
+		mir_snprintf(buf, "opt%d", i);
 		wnd->getArgs()->add(buf, (m_flags&(1L << i)) ? 1 : 0);
 	}
 
@@ -1042,14 +1042,14 @@ void PopupSkin::freeSkin(SKINELEMENT *head)
 void PopupSkin::saveOpts() const
 {
 	char buf[128];
-	mir_snprintf(buf, SIZEOF(buf), "skin.%.120S", m_name);
+	mir_snprintf(buf, "skin.%.120S", m_name);
 	db_set_dw(NULL, MODULNAME, buf, m_flags);
 }
 
 void PopupSkin::loadOpts() const
 {
 	char buf[128];
-	mir_snprintf(buf, SIZEOF(buf), "skin.%.120S", m_name);
+	mir_snprintf(buf, "skin.%.120S", m_name);
 	m_flags = db_get_dw(NULL, MODULNAME, buf, m_flags);
 }
 

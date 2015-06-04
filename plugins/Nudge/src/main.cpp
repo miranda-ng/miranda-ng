@@ -505,7 +505,7 @@ void Nudge_ShowStatus(CNudgeElement *n, MCONTACT hContact, DWORD timestamp)
 void Nudge_AddAccount(PROTOACCOUNT *proto)
 {
 	char str[MAXMODULELABELLENGTH + 10];
-	mir_snprintf(str, SIZEOF(str), "%s/Nudge", proto->szModuleName);
+	mir_snprintf(str, "%s/Nudge", proto->szModuleName);
 	HANDLE hevent = HookEvent(str, NudgeReceived);
 	if (hevent == NULL)
 		return;

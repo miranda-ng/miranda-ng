@@ -231,7 +231,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 				for (j = 0; j < len; j++)
 				{
-					mir_snprintf(tmp, SIZEOF(tmp), "%02X ", (BYTE)p[j]);
+					mir_snprintf(tmp, "%02X ", (BYTE)p[j]);
 					mir_strcat(data, tmp);
 				}
 

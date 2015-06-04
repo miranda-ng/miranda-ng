@@ -612,11 +612,11 @@ void __cdecl FindSettings(LPVOID di)
 
 	if (mode) {
 		if (!replace[0])
-			mir_snprintf(szTmp, SIZEOF(szTmp), Translate("Finished. %d items were found, %d items were deleted."), foundCount, replaceCount);
+			mir_snprintf(szTmp, Translate("Finished. %d items were found, %d items were deleted."), foundCount, replaceCount);
 		else
-			mir_snprintf(szTmp, SIZEOF(szTmp), Translate("Finished. %d items were found, %d items were replaced."), foundCount, replaceCount);
+			mir_snprintf(szTmp, Translate("Finished. %d items were found, %d items were replaced."), foundCount, replaceCount);
 	}
-	else mir_snprintf(szTmp, SIZEOF(szTmp), Translate("Finished. %d items were found."), foundCount);
+	else mir_snprintf(szTmp, Translate("Finished. %d items were found."), foundCount);
 
 	SendDlgItemMessage(prnthwnd, IDC_SBAR, SB_SETTEXT, 0, (LPARAM)szTmp);
 

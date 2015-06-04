@@ -181,7 +181,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				if (data && data->action & AAF_SOUND) {
 					if (data->sound_num <= 3) {
 						char buff[128];
-						mir_snprintf(buff, SIZEOF(buff), "Triggered%d", data->sound_num);
+						mir_snprintf(buff, "Triggered%d", data->sound_num);
 						SkinPlaySound(buff);
 					}
 					else if (data->sound_num == 4) {

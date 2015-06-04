@@ -27,16 +27,16 @@ void CToxProto::BootstrapNodesFromDb(bool isIPv6)
 		char setting[MAX_PATH];
 		for (int i = 0; i < nodeCount; i++)
 		{
-			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i);
+			mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, i);
 			ptrA address(db_get_sa(NULL, module, setting));
-			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i);
+			mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, i);
 			int port = db_get_w(NULL, module, setting, 33445);
-			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i);
+			mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, i);
 			ptrA pubKey(db_get_sa(NULL, module, setting));
 			BootstrapNode(address, port, pubKey);
 			if (isIPv6)
 			{
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, i);
+				mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, i);
 				address = db_get_sa(NULL, module, setting);
 				BootstrapNode(address, port, pubKey);
 			}

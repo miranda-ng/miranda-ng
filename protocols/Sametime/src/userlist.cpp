@@ -154,15 +154,15 @@ void CSametimeProto::ImportContactsFromList(mwSametimeList* user_list, bool temp
 		group_type = mwSametimeGroup_getType(stgroup);
 		group_open = (mwSametimeGroup_isOpen(stgroup) != 0);
 
-		mir_snprintf(buff, SIZEOF(buff), "GN_%s", group_alias);
+		mir_snprintf(buff, "GN_%s", group_alias);
 		db_set_utf(0, szProtoGroups, buff, group_name);
-		mir_snprintf(buff, SIZEOF(buff), "GT_%s", group_alias);
+		mir_snprintf(buff, "GT_%s", group_alias);
 		db_set_b(0, szProtoGroups, buff, (BYTE)group_type);
-		mir_snprintf(buff, SIZEOF(buff), "GO_%s", group_alias);
+		mir_snprintf(buff, "GO_%s", group_alias);
 		db_set_b(0, szProtoGroups, buff, (BYTE)(group_open ? 1 : 0));
 
 		// inverse mapping
-		mir_snprintf(buff, SIZEOF(buff), "GA_%s", group_name);
+		mir_snprintf(buff, "GA_%s", group_name);
 		db_set_utf(0, szProtoGroups, buff, group_alias);
 
 		AddGroup(group_alias, group_open);
@@ -223,7 +223,7 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 						group_alias = _strdup(Translate("None"));
 
 					if (group_alias) {
-						mir_snprintf(buff, SIZEOF(buff), "GT_%s", group_alias);
+						mir_snprintf(buff, "GT_%s", group_alias);
 						group_type = (mwSametimeGroupType)db_get_b(0, szProtoGroups, buff, (BYTE)mwSametimeGroup_NORMAL);
 						// apparently we don't want to upload contacts in dynamic groups - see gaim sametime plugin comments
 						if (group_type == mwSametimeGroup_DYNAMIC) {
@@ -234,7 +234,7 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 							continue;
 						}
 
-						mir_snprintf(buff, SIZEOF(buff), "GN_%s", group_alias);
+						mir_snprintf(buff, "GN_%s", group_alias);
 						if (!db_get_utf(0, szProtoGroups, buff, &dbv2)) {
 							group_name = _strdup(dbv2.pszVal);
 							db_free(&dbv2);
@@ -252,7 +252,7 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 							group_open = (expanded != 0);
 						}
 						else {
-							mir_snprintf(buff, SIZEOF(buff), "GO_%s", group_alias);
+							mir_snprintf(buff, "GO_%s", group_alias);
 							group_open = (db_get_b(0, szProtoGroups, buff, 0) == 1);
 						}
 
@@ -505,7 +505,7 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 		mwSametimeList* user_list = mwSametimeList_new();
 		mwSametimeGroup* stgroup = mwSametimeGroup_new(user_list, mwSametimeGroup_DYNAMIC, aware->group);
 		char buff[256];
-		mir_snprintf(buff, SIZEOF(buff), "GA_%s", aware->group);
+		mir_snprintf(buff, "GA_%s", aware->group);
 		if (!db_get_utf(0, proto->szProtoGroups, buff, &dbv)) {
 			mwSametimeGroup_setAlias(stgroup, dbv.pszVal);
 			db_free(&dbv);

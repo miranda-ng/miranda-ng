@@ -45,9 +45,9 @@ void SaveColumnSizes(HWND hwndResults)
 	ListView_GetColumnOrderArray(hwndResults, columnCount, columnOrder);
 	for (int i = 0; i < NUM_COLUMNID; i++) {
 		char szSetting[32];
-		mir_snprintf(szSetting, SIZEOF(szSetting), "ColOrder%d", i);
+		mir_snprintf(szSetting, "ColOrder%d", i);
 		db_set_b(NULL, "FindAdd", szSetting, (BYTE)columnOrder[i]);
-		mir_snprintf(szSetting, SIZEOF(szSetting), "ColWidth%d", i);
+		mir_snprintf(szSetting, "ColWidth%d", i);
 		db_set_w(NULL, "FindAdd", szSetting, (WORD)ListView_GetColumnWidth(hwndResults, i));
 	}
 	db_set_b(NULL, "FindAdd", "SortColumn", (BYTE)dat->iLastColumnSortIndex);
@@ -84,14 +84,14 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 				else lvc.pszText = _T("ID");
 			}
 			else lvc.mask &= ~LVCF_TEXT;
-			mir_snprintf(szSetting, SIZEOF(szSetting), "ColWidth%d", i);
+			mir_snprintf(szSetting, "ColWidth%d", i);
 			lvc.cx = db_get_w(NULL, "FindAdd", szSetting, defaultColumnSizes[i]);
 			ListView_InsertColumn(hwndResults, i, (LPARAM)&lvc);
 
 			if (bNeedsFree)
 				mir_free(lvc.pszText);
 		}
-		mir_snprintf(szSetting, SIZEOF(szSetting), "ColOrder%d", i);
+		mir_snprintf(szSetting, "ColOrder%d", i);
 		columnOrder[i] = db_get_b(NULL, "FindAdd", szSetting, -1);
 		if (columnOrder[i] == -1 || columnOrder[i] >= NUM_COLUMNID)
 			colOrdersValid = false;

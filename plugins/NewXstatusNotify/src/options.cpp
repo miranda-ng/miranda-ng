@@ -135,9 +135,9 @@ void SaveTemplates()
 	for (int i = 0; i < ProtoTemplates.getCount(); i++) {
 		PROTOTEMPLATE *prototemplate = ProtoTemplates[i];
 		char str[MAX_PATH];
-		mir_snprintf(str, SIZEOF(str), "%s_TPopupSMsgChanged", prototemplate->ProtoName);
+		mir_snprintf(str, "%s_TPopupSMsgChanged", prototemplate->ProtoName);
 		db_set_ts(0, MODULE, str, prototemplate->ProtoTemplateMsg);
-		mir_snprintf(str, SIZEOF(str), "%s_TPopupSMsgRemoved", prototemplate->ProtoName);
+		mir_snprintf(str, "%s_TPopupSMsgRemoved", prototemplate->ProtoName);
 		db_set_ts(0, MODULE, str, prototemplate->ProtoTemplateRemoved);
 	}
 }
@@ -428,12 +428,12 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++) {
 				ctlColour = SendDlgItemMessage(hwndDlg, (i + 2000), CPM_GETCOLOUR, 0, 0);
 				StatusList[Index(i)].colorBack = SendDlgItemMessage(hwndDlg, (i + 2000), CPM_GETCOLOUR, 0, 0);
-				mir_snprintf(str, SIZEOF(str), "%ibg", i);
+				mir_snprintf(str, "%ibg", i);
 				db_set_dw(0, MODULE, str, ctlColour);
 
 				ctlColour = SendDlgItemMessage(hwndDlg, (i + 1000), CPM_GETCOLOUR, 0, 0);
 				StatusList[Index(i)].colorText = ctlColour;
-				mir_snprintf(str, SIZEOF(str), "%itx", i);
+				mir_snprintf(str, "%itx", i);
 				db_set_dw(0, MODULE, str, ctlColour);
 			}
 
@@ -480,13 +480,13 @@ INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
 			char str[8];
-			mir_snprintf(str, SIZEOF(str), "p%d", i);
+			mir_snprintf(str, "p%d", i);
 			CheckDlgButton(hwndDlg, i, db_get_b(0, MODULE, str, 0) ? BST_CHECKED : BST_UNCHECKED);
 		}
 
 		for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
 			char str[8];
-			mir_snprintf(str, SIZEOF(str), "s%d", i);
+			mir_snprintf(str, "s%d", i);
 			CheckDlgButton(hwndDlg, (i + 2000), db_get_b(NULL, MODULE, str, 0) ? BST_CHECKED : BST_UNCHECKED);
 		}
 
@@ -500,13 +500,13 @@ INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
 				char str[8];
-				mir_snprintf(str, SIZEOF(str), "p%d", i);
+				mir_snprintf(str, "p%d", i);
 				db_set_b(NULL, MODULE, str, IsDlgButtonChecked(hwndDlg, i));
 			}
 
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
 				char str[8];
-				mir_snprintf(str, SIZEOF(str), "s%d", i);
+				mir_snprintf(str, "s%d", i);
 				db_set_b(NULL, MODULE, str, IsDlgButtonChecked(hwndDlg, i + 2000));
 			}
 

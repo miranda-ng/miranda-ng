@@ -588,23 +588,23 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 			if (icon) {
 				char tmp[64];
 				if (icon == ID_STATUS_ONLINE)
-					mir_snprintf(tmp, SIZEOF(tmp), "Icon: Online\r\n");
+					mir_snprintf(tmp, "Icon: Online\r\n");
 				else if (icon == ID_STATUS_AWAY)
-					mir_snprintf(tmp, SIZEOF(tmp), "Icon: Away\r\n");
+					mir_snprintf(tmp, "Icon: Away\r\n");
 				else if (icon == ID_STATUS_NA)
-					mir_snprintf(tmp, SIZEOF(tmp), "Icon: NA\r\n");
+					mir_snprintf(tmp, "Icon: NA\r\n");
 				else if (icon == ID_STATUS_DND)
-					mir_snprintf(tmp, SIZEOF(tmp), "Icon: DND\r\n");
+					mir_snprintf(tmp, "Icon: DND\r\n");
 				else if (icon == ID_STATUS_OCCUPIED)
-					mir_snprintf(tmp, SIZEOF(tmp), "Icon: Occupied\r\n");
+					mir_snprintf(tmp, "Icon: Occupied\r\n");
 				else if (icon == ID_STATUS_FREECHAT)
-					mir_snprintf(tmp, SIZEOF(tmp), "Icon: Free For Chat\r\n");
+					mir_snprintf(tmp, "Icon: Free For Chat\r\n");
 				else if (icon == ID_STATUS_INVISIBLE)
-					mir_snprintf(tmp, SIZEOF(tmp), "Icon: Invisible\r\n");
+					mir_snprintf(tmp, "Icon: Invisible\r\n");
 				else if (icon == ID_STATUS_ONTHEPHONE)
-					mir_snprintf(tmp, SIZEOF(tmp), "Icon: On The Phone\r\n");
+					mir_snprintf(tmp, "Icon: On The Phone\r\n");
 				else if (icon == ID_STATUS_OUTTOLUNCH)
-					mir_snprintf(tmp, SIZEOF(tmp), "Icon: Out To Lunch\r\n");
+					mir_snprintf(tmp, "Icon: Out To Lunch\r\n");
 				else {
 					free(msg);
 					continue;
@@ -620,7 +620,7 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 				if (minutes)
 					mir_strcpy(tmp2, "Minutes");
 				else mir_strcpy(tmp2, "Seconds");
-				mir_snprintf(tmp, SIZEOF(tmp), "UseTimer: Yes\r\nTimer: %d %s", timer, tmp2);
+				mir_snprintf(tmp, "UseTimer: Yes\r\nTimer: %d %s", timer, tmp2);
 				char *msgtemp = (char*)realloc(msg, mir_strlen(msg) + mir_strlen(tmp) + 1);
 				if (msgtemp) {
 					msg = msgtemp;

@@ -60,7 +60,7 @@ int AddIcons()
 	hDTB[0] = AddIcon("DTB0", LPGEN("Birthday today"), tszPath, IDI_DTB0);
 	hDTB[1] = AddIcon("DTB1", LPGEN("1 day to birthday"), tszPath, IDI_DTB1);
 	for (int i = 2; i < cDTB; i++) {
-		mir_snprintf(name, SIZEOF(name), "DTB%d", i);
+		mir_snprintf(name, "DTB%d", i);
 		mir_snprintf(description, SIZEOF(description), Translate("%d days to birthday"), i);
 		hDTB[i] = AddIcon(name, description, tszPath, IDI_DTB0 + i);
 	}

@@ -111,25 +111,25 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 	// remove the last one
 	int id = ccMeta->nSubs - 1;
 	char buffer[512];
-	mir_snprintf(buffer, SIZEOF(buffer), "Handle%d", id);
+	mir_snprintf(buffer, "Handle%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
-	mir_snprintf(buffer, SIZEOF(buffer), "Protocol%d", id);
+	mir_snprintf(buffer, "Protocol%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
-	mir_snprintf(buffer, SIZEOF(buffer), "Status%d", id);
+	mir_snprintf(buffer, "Status%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
-	mir_snprintf(buffer, SIZEOF(buffer), "StatusString%d", id);
+	mir_snprintf(buffer, "StatusString%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
-	mir_snprintf(buffer, SIZEOF(buffer), "Login%d", id);
+	mir_snprintf(buffer, "Login%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
-	mir_snprintf(buffer, SIZEOF(buffer), "Nick%d", id);
+	mir_snprintf(buffer, "Nick%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
-	mir_snprintf(buffer, SIZEOF(buffer), "CListName%d", id);
+	mir_snprintf(buffer, "CListName%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
 	if (ccSub != NULL) {
@@ -425,7 +425,7 @@ void InitMenus()
 		mi.pszName = "";
 
 		char buffer[512];
-		mir_snprintf(buffer, SIZEOF(buffer), "MetaContacts/MenuFunc%d", i);
+		mir_snprintf(buffer, "MetaContacts/MenuFunc%d", i);
 		mi.pszService = buffer;
 		mi.position++;
 		hMenuContact[i] = Menu_AddContactMenuItem(&mi);

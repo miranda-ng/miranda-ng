@@ -152,7 +152,7 @@ static int TlenMUCSendPresence(TlenProtocol *proto, const char *roomID, const ch
 		return 1;
 	}
 	if (nick != NULL) {
-		mir_snprintf(str, SIZEOF(str), "%s/%s", roomID, nick);
+		mir_snprintf(str, "%s/%s", roomID, nick);
 	} else {
 		strncpy_s(str, roomID, _TRUNCATE);
 	}

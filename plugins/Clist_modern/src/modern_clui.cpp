@@ -2477,7 +2477,7 @@ LRESULT CLUI::OnDrawItem(UINT, WPARAM wParam, LPARAM lParam)
 			HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_MAINMENU);
 
 			CLUI_DrawMenuBackGround(m_hWnd, dis->hDC, 1, dis->itemState);
-			mir_snprintf(buf, SIZEOF(buf), "Main,ID=MainMenu,Selected=%s,Hot=%s", (dis->itemState&ODS_SELECTED) ? "True" : "False", (dis->itemState&ODS_HOTLIGHT) ? "True" : "False");
+			mir_snprintf(buf, "Main,ID=MainMenu,Selected=%s,Hot=%s", (dis->itemState&ODS_SELECTED) ? "True" : "False", (dis->itemState&ODS_HOTLIGHT) ? "True" : "False");
 			SkinDrawGlyph(dis->hDC, &dis->rcItem, &dis->rcItem, buf);
 
 			int x = (dis->rcItem.right + dis->rcItem.left - GetSystemMetrics(SM_CXSMICON)) / 2 + offset;
@@ -2511,7 +2511,7 @@ LRESULT CLUI::OnDrawItem(UINT, WPARAM wParam, LPARAM lParam)
 			}
 			CLUI_DrawMenuBackGround(m_hWnd, dis->hDC, 2, dis->itemState);
 			SetBkMode(dis->hDC, TRANSPARENT);
-			mir_snprintf(buf, SIZEOF(buf), "Main,ID=StatusMenu,Selected=%s,Hot=%s", (dis->itemState&ODS_SELECTED) ? "True" : "False", (dis->itemState&ODS_HOTLIGHT) ? "True" : "False");
+			mir_snprintf(buf, "Main,ID=StatusMenu,Selected=%s,Hot=%s", (dis->itemState&ODS_SELECTED) ? "True" : "False", (dis->itemState&ODS_HOTLIGHT) ? "True" : "False");
 			SkinDrawGlyph(dis->hDC, &dis->rcItem, &dis->rcItem, buf);
 			SetTextColor(dis->hDC, (dis->itemState&ODS_SELECTED/*|dis->itemState&ODS_HOTLIGHT*/) ? dat->MenuTextHiColor : dat->MenuTextColor);
 			DrawText(dis->hDC, TranslateT("Status"), -1, &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
@@ -2530,7 +2530,7 @@ LRESULT CLUI::OnDrawItem(UINT, WPARAM wParam, LPARAM lParam)
 		short dx = 1 + (dis->itemState&ODS_SELECTED ? 1 : 0) - (dis->itemState&ODS_HOTLIGHT ? 1 : 0);
 		HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 		CLUI_DrawMenuBackGround(m_hWnd, dis->hDC, 3, dis->itemState);
-		mir_snprintf(buf, SIZEOF(buf), "Main,ID=MainMenu,Selected=%s,Hot=%s", (dis->itemState&ODS_SELECTED) ? "True" : "False", (dis->itemState&ODS_HOTLIGHT) ? "True" : "False");
+		mir_snprintf(buf, "Main,ID=MainMenu,Selected=%s,Hot=%s", (dis->itemState&ODS_SELECTED) ? "True" : "False", (dis->itemState&ODS_HOTLIGHT) ? "True" : "False");
 		SkinDrawGlyph(dis->hDC, &dis->rcItem, &dis->rcItem, buf);
 		DrawState(dis->hDC, NULL, NULL, (LPARAM)hIcon, 0, (dis->rcItem.right + dis->rcItem.left - GetSystemMetrics(SM_CXSMICON)) / 2 + dx, (dis->rcItem.bottom + dis->rcItem.top - GetSystemMetrics(SM_CYSMICON)) / 2 + dx, 0, 0, DST_ICON);
 		Skin_ReleaseIcon(hIcon);

@@ -30,11 +30,8 @@
 #include "libyahoo2/yahoo2_callbacks.h"
 #include "libyahoo2/yahoo_util.h"
 
-extern "C"
-{
-	#include <newpluginapi.h>
-	#include <m_system.h>
-};
+#include <newpluginapi.h>
+#include <m_system.h>
 
 #include <m_system_cpp.h>
 #include <m_database.h>

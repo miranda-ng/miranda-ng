@@ -602,9 +602,9 @@ INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
 
 		if (!pa->bOldProto)
-			mir_snprintf(buffer, SIZEOF(buffer), "%s: %s", pa->szProtoName, szID);
+			mir_snprintf(buffer, "%s: %s", pa->szProtoName, szID);
 		else
-			mir_snprintf(buffer, SIZEOF(buffer), "%s: %s", szProto, szID);
+			mir_snprintf(buffer, "%s: %s", szProto, szID);
 	}
 	else
 		strncpy(buffer, szID, SIZEOF(buffer)-1);

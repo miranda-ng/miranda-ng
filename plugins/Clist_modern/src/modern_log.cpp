@@ -31,7 +31,7 @@ void Log(const char *file, int line, const char *fmt, ...)
 			tmp++;
 		}
 	}
-	mir_snprintf(buf, SIZEOF(buf), "clist_modern:[%u - %u]: %s \t\t(%s Ln %d)\n", GetCurrentThreadId(), GetTickCount(), str, file_tmp, line);
+	mir_snprintf(buf, "clist_modern:[%u - %u]: %s \t\t(%s Ln %d)\n", GetCurrentThreadId(), GetTickCount(), str, file_tmp, line);
 #ifdef _FILELOG_
 	{
 		FILE *fp;

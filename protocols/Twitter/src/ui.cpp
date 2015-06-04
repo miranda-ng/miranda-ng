@@ -138,7 +138,7 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 		else if (LOWORD(wParam) == IDC_TWEETMSG && HIWORD(wParam) == EN_CHANGE) {
 			size_t len = SendDlgItemMessage(hwndDlg, IDC_TWEETMSG, WM_GETTEXTLENGTH, 0, 0);
 			char str[16];
-			mir_snprintf(str, SIZEOF(str), "%d", 140 - len);
+			mir_snprintf(str, "%d", 140 - len);
 			SetDlgItemTextA(hwndDlg, IDC_CHARACTERS, str);
 
 			return true;
@@ -154,7 +154,7 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 		SendDlgItemMessage(hwndDlg, IDC_TWEETMSG, EM_SETSEL, len, len);
 
 		char str[16];
-		mir_snprintf(str, SIZEOF(str), "%d", 140 - len);
+		mir_snprintf(str, "%d", 140 - len);
 		SetDlgItemTextA(hwndDlg, IDC_CHARACTERS, str);
 
 		return true;
@@ -393,7 +393,7 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			CheckAndUpdateDlgButton(hwndDlg, IDC_TIMEOUT_PERMANENT, true);
 		else {
 			char str[32];
-			mir_snprintf(str, SIZEOF(str), "%d", timeout);
+			mir_snprintf(str, "%d", timeout);
 			SetDlgItemTextA(hwndDlg, IDC_TIMEOUT, str);
 			CheckAndUpdateDlgButton(hwndDlg, IDC_TIMEOUT_CUSTOM, true);
 		}

@@ -28,16 +28,16 @@ bool LoadMessageFont(LOGFONT *lf, COLORREF *colour)
 	int i = 8; // MSGFONTID_MESSAGEAREA
 
 	if (colour) {
-		mir_snprintf(str, SIZEOF(str), "SRMFont%dCol", i);
+		mir_snprintf(str, "SRMFont%dCol", i);
 		*colour = db_get_dw(NULL, "SRMM", str, 0);
 	}
 	if (lf) {
-		mir_snprintf(str, SIZEOF(str), "SRMFont%dSize", i);
+		mir_snprintf(str, "SRMFont%dSize", i);
 		lf->lfHeight = (char)db_get_b(NULL, "SRMM", str, -12);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
-		mir_snprintf(str, SIZEOF(str), "SRMFont%dSty", i);
+		mir_snprintf(str, "SRMFont%dSty", i);
 		int style = db_get_b(NULL, "SRMM", str, 0);
 		lf->lfWeight = style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
 		lf->lfItalic = style & DBFONTF_ITALIC ? 1 : 0;
@@ -47,7 +47,7 @@ bool LoadMessageFont(LOGFONT *lf, COLORREF *colour)
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-		mir_snprintf(str, SIZEOF(str), "SRMFont%d", i);
+		mir_snprintf(str, "SRMFont%d", i);
 
 		DBVARIANT dbv;
 		if (db_get_ts(NULL, "SRMM", str, &dbv))
@@ -56,7 +56,7 @@ bool LoadMessageFont(LOGFONT *lf, COLORREF *colour)
 			mir_tstrncpy(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
 			db_free(&dbv);
 		}
-		mir_snprintf(str, SIZEOF(str), "SRMFont%dSet", i);
+		mir_snprintf(str, "SRMFont%dSet", i);
 		lf->lfCharSet = db_get_b(NULL, "SRMM", str, DEFAULT_CHARSET);
 	}
 	return true;

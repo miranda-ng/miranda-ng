@@ -170,7 +170,7 @@ class CGenMenuOptionsPage : public CDlgBase
 			GetMenuItemName(p, menuItemName, sizeof(menuItemName));
 			{
 				DBVARIANT dbv;
-				mir_snprintf(buf, SIZEOF(buf), "%s_name", menuItemName);
+				mir_snprintf(buf, "%s_name", menuItemName);
 
 				if (!db_get_ts(NULL, MenuNameItems, buf, &dbv)) {
 					PD->name = mir_tstrdup(dbv.ptszVal);
@@ -182,11 +182,11 @@ class CGenMenuOptionsPage : public CDlgBase
 			PD->pimi = p;
 			PD->defname = mir_tstrdup(GetMenuItemText(p));
 
-			mir_snprintf(buf, SIZEOF(buf), "%s_visible", menuItemName);
+			mir_snprintf(buf, "%s_visible", menuItemName);
 			PD->bShow = db_get_b(NULL, MenuNameItems, buf, 1) != 0;
 
 			if (bReread) {
-				mir_snprintf(buf, SIZEOF(buf), "%s_pos", menuItemName);
+				mir_snprintf(buf, "%s_pos", menuItemName);
 				PD->pos = db_get_dw(NULL, MenuNameItems, buf, 1);
 			}
 			else PD->pos = (PD->pimi) ? PD->pimi->originalPosition : 0;

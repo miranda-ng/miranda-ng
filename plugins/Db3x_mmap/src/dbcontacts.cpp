@@ -423,7 +423,7 @@ void CDb3Mmap::FillContacts()
 			cc->pSubs = (MCONTACT*)mir_alloc(cc->nSubs*sizeof(MCONTACT));
 			for (int i = 0; i < cc->nSubs; i++) {
 				char setting[100];
-				mir_snprintf(setting, SIZEOF(setting), "Handle%d", i);
+				mir_snprintf(setting, "Handle%d", i);
 				cc->pSubs[i] = (0 != GetContactSetting(dwContactID, META_PROTO, setting, &dbv)) ? NULL : dbv.dVal;
 			}
 		}
@@ -461,7 +461,7 @@ void CDb3Mmap::FillContacts()
 			ccMeta->pSubs[dbv.dVal] = hh;
 
 			char setting[100];
-			mir_snprintf(setting, SIZEOF(setting), "Handle%d", dbv.dVal);
+			mir_snprintf(setting, "Handle%d", dbv.dVal);
 			dbws.szSetting = setting;
 			dbws.value.dVal = hh;
 			WriteContactSetting(ccMeta->contactID, &dbws);

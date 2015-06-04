@@ -441,14 +441,14 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		int count = getDword("discoWnd_favCount", 0);
 		for (int i=0; i < count; i++) {
 			char setting[MAXMODULELABELLENGTH];
-			mir_snprintf(setting, SIZEOF(setting), "discoWnd_favName_%d", i);
+			mir_snprintf(setting, "discoWnd_favName_%d", i);
 			ptrT tszName( getTStringA(setting));
 			if (tszName == NULL)
 				continue;
 					
-			mir_snprintf(setting, SIZEOF(setting), "discoWnd_favJID_%d", i);
+			mir_snprintf(setting, "discoWnd_favJID_%d", i);
 			ptrT dbvJid( getTStringA(setting));
-			mir_snprintf(setting, SIZEOF(setting), "discoWnd_favNode_%d", i);
+			mir_snprintf(setting, "discoWnd_favNode_%d", i);
 			ptrT dbvNode( getTStringA(setting));
 			CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(dbvJid, dbvNode, tszName);
 			SendBothRequests(pNode, NULL);
@@ -798,7 +798,7 @@ void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 	int count = m_proto->getDword("discoWnd_favCount", 0);
 	for (int i=0; i < count; i++) {
 		char setting[MAXMODULELABELLENGTH];
-		mir_snprintf(setting, SIZEOF(setting), "discoWnd_favName_%d", i);
+		mir_snprintf(setting, "discoWnd_favName_%d", i);
 		ptrT tszName( m_proto->getTStringA(setting));
 		if (tszName != NULL) {
 			HMENU hSubMenu = CreatePopupMenu();
@@ -832,11 +832,11 @@ void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 		if (res % 10) {
 			res /= 10;
 			char setting[MAXMODULELABELLENGTH];
-			mir_snprintf(setting, SIZEOF(setting), "discoWnd_favName_%d", res);
+			mir_snprintf(setting, "discoWnd_favName_%d", res);
 			m_proto->delSetting(setting);
-			mir_snprintf(setting, SIZEOF(setting), "discoWnd_favJID_%d", res);
+			mir_snprintf(setting, "discoWnd_favJID_%d", res);
 			m_proto->delSetting(setting);
-			mir_snprintf(setting, SIZEOF(setting), "discoWnd_favNode_%d", res);
+			mir_snprintf(setting, "discoWnd_favNode_%d", res);
 			m_proto->delSetting(setting);
 		}
 		else {
@@ -846,11 +846,11 @@ void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 			SetDlgItemText(m_hwnd, IDC_COMBO_NODE, _T(""));
 
 			char setting[MAXMODULELABELLENGTH];
-			mir_snprintf(setting, SIZEOF(setting), "discoWnd_favJID_%d", res);
+			mir_snprintf(setting, "discoWnd_favJID_%d", res);
 			ptrT dbv( m_proto->getTStringA(setting));
 			if (dbv) SetDlgItemText(m_hwnd, IDC_COMBO_JID, dbv);
 
-			mir_snprintf(setting, SIZEOF(setting), "discoWnd_favNode_%d", res);
+			mir_snprintf(setting, "discoWnd_favNode_%d", res);
 			dbv = m_proto->getTStringA(setting);
 			if (dbv) SetDlgItemText(m_hwnd, IDC_COMBO_NODE, dbv);
 
@@ -861,11 +861,11 @@ void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 		int count = m_proto->getDword("discoWnd_favCount", 0);
 		for (int i=0; i < count; i++) {
 			char setting[MAXMODULELABELLENGTH];
-			mir_snprintf(setting, SIZEOF(setting), "discoWnd_favName_%d", i);
+			mir_snprintf(setting, "discoWnd_favName_%d", i);
 			m_proto->delSetting(setting);
-			mir_snprintf(setting, SIZEOF(setting), "discoWnd_favJID_%d", i);
+			mir_snprintf(setting, "discoWnd_favJID_%d", i);
 			m_proto->delSetting(setting);
-			mir_snprintf(setting, SIZEOF(setting), "discoWnd_favNode_%d", i);
+			mir_snprintf(setting, "discoWnd_favNode_%d", i);
 			m_proto->delSetting(setting);
 		}
 		m_proto->delSetting("discoWnd_favCount");
@@ -1334,11 +1334,11 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		{
 			char setting[MAXMODULELABELLENGTH];
 			int count = getDword("discoWnd_favCount", 0);
-			mir_snprintf(setting, SIZEOF(setting), "discoWnd_favName_%d", count);
+			mir_snprintf(setting, "discoWnd_favName_%d", count);
 			setTString(setting, pNode->GetName() ? pNode->GetName() : pNode->GetJid());
-			mir_snprintf(setting, SIZEOF(setting), "discoWnd_favJID_%d", count);
+			mir_snprintf(setting, "discoWnd_favJID_%d", count);
 			setTString(setting, pNode->GetJid());
-			mir_snprintf(setting, SIZEOF(setting), "discoWnd_favNode_%d", count);
+			mir_snprintf(setting, "discoWnd_favNode_%d", count);
 			setTString(setting, pNode->GetNode() ? pNode->GetNode() : _T(""));
 			setDword("discoWnd_favCount", ++count);
 		}

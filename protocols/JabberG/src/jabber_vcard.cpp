@@ -552,12 +552,12 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SetWindowText(hwndDlg, TranslateT("Jabber vCard: Edit Email Address"));
 
 			char idstr[33];
-			mir_snprintf(idstr, SIZEOF(idstr), "e-mail%d", dat->id);
+			mir_snprintf(idstr, "e-mail%d", dat->id);
 			ptrA email(dat->ppro->getStringA(idstr));
 			if (email != NULL)
 				SetDlgItemTextA(hwndDlg, IDC_EMAIL, email);
 
-			mir_snprintf(idstr, SIZEOF(idstr), "e-mailFlag%d", lParam);
+			mir_snprintf(idstr, "e-mailFlag%d", lParam);
 			WORD nFlag = dat->ppro->getWord(idstr, 0);
 			if (nFlag & JABBER_VCEMAIL_HOME) CheckDlgButton(hwndDlg, IDC_HOME, BST_CHECKED);
 			if (nFlag & JABBER_VCEMAIL_WORK) CheckDlgButton(hwndDlg, IDC_WORK, BST_CHECKED);
@@ -573,14 +573,14 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			if (dat->id < 0)
 				for (dat->id = 0;; dat->id++) {
-					mir_snprintf(idstr, SIZEOF(idstr), "e-mail%d", dat->id);
+					mir_snprintf(idstr, "e-mail%d", dat->id);
 					if (ptrA(dat->ppro->getStringA(idstr)) == NULL)
 						break;
 				}
 
 			TCHAR text[128];
 			GetDlgItemText(hwndDlg, IDC_EMAIL, text, SIZEOF(text));
-			mir_snprintf(idstr, SIZEOF(idstr), "e-mail%d", dat->id);
+			mir_snprintf(idstr, "e-mail%d", dat->id);
 			dat->ppro->setTString(idstr, text);
 			{
 				WORD nFlag = 0;
@@ -588,7 +588,7 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				if (IsDlgButtonChecked(hwndDlg, IDC_WORK)) nFlag |= JABBER_VCEMAIL_WORK;
 				if (IsDlgButtonChecked(hwndDlg, IDC_INTERNET)) nFlag |= JABBER_VCEMAIL_INTERNET;
 				if (IsDlgButtonChecked(hwndDlg, IDC_X400)) nFlag |= JABBER_VCEMAIL_X400;
-				mir_snprintf(idstr, SIZEOF(idstr), "e-mailFlag%d", dat->id);
+				mir_snprintf(idstr, "e-mailFlag%d", dat->id);
 				dat->ppro->setWord(idstr, nFlag);
 			}
 			// fall through
@@ -614,12 +614,12 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SetWindowText(hwndDlg, TranslateT("Jabber vCard: Edit Phone Number"));
 
 			char idstr[33];
-			mir_snprintf(idstr, SIZEOF(idstr), "Phone%d", dat->id);
+			mir_snprintf(idstr, "Phone%d", dat->id);
 			ptrA phone(dat->ppro->getStringA(idstr));
 			if (phone != NULL)
 				SetDlgItemTextA(hwndDlg, IDC_PHONE, phone);
 
-			mir_snprintf(idstr, SIZEOF(idstr), "PhoneFlag%d", dat->id);
+			mir_snprintf(idstr, "PhoneFlag%d", dat->id);
 			int nFlag = dat->ppro->getWord(idstr, 0);
 			if (nFlag & JABBER_VCTEL_HOME)  CheckDlgButton(hwndDlg, IDC_HOME, BST_CHECKED);
 			if (nFlag & JABBER_VCTEL_WORK)  CheckDlgButton(hwndDlg, IDC_WORK, BST_CHECKED);
@@ -644,14 +644,14 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			if (dat->id < 0)
 				for (dat->id = 0;; dat->id++) {
-					mir_snprintf(idstr, SIZEOF(idstr), "Phone%d", dat->id);
+					mir_snprintf(idstr, "Phone%d", dat->id);
 					if (ptrA(dat->ppro->getStringA(idstr)) == NULL)
 						break;
 				}
 
 			char text[128];
 			GetDlgItemTextA(hwndDlg, IDC_PHONE, text, SIZEOF(text));
-			mir_snprintf(idstr, SIZEOF(idstr), "Phone%d", dat->id);
+			mir_snprintf(idstr, "Phone%d", dat->id);
 			dat->ppro->setString(idstr, text);
 
 			WORD nFlag = 0;
@@ -667,7 +667,7 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (IsDlgButtonChecked(hwndDlg, IDC_MODEM)) nFlag |= JABBER_VCTEL_MODEM;
 			if (IsDlgButtonChecked(hwndDlg, IDC_ISDN))  nFlag |= JABBER_VCTEL_ISDN;
 			if (IsDlgButtonChecked(hwndDlg, IDC_PCS))   nFlag |= JABBER_VCTEL_PCS;
-			mir_snprintf(idstr, SIZEOF(idstr), "PhoneFlag%d", dat->id);
+			mir_snprintf(idstr, "PhoneFlag%d", dat->id);
 			dat->ppro->setWord(idstr, nFlag);
 		}
 		// fall through
@@ -729,7 +729,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 			lvi.iSubItem = 0;
 			lvi.iItem = 0;
 			for (i=0;;i++) {
-				mir_snprintf(idstr, SIZEOF(idstr), "e-mail%d", i);
+				mir_snprintf(idstr, "e-mail%d", i);
 				ptrT email( ppro->getTStringA(idstr));
 				if (email == NULL) break;
 
@@ -750,7 +750,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 			lvi.iSubItem = 0;
 			lvi.iItem = 0;
 			for (i=0;;i++) {
-				mir_snprintf(idstr, SIZEOF(idstr), "Phone%d", i);
+				mir_snprintf(idstr, "Phone%d", i);
 				ptrT phone( ppro->getTStringA(idstr));
 				if (phone == NULL) break;
 
@@ -860,20 +860,20 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 
 						int i;
 						for (i = lvi.lParam;; i++) {
-							mir_snprintf(idstr, SIZEOF(idstr), szIdTemplate, i + 1);
+							mir_snprintf(idstr, szIdTemplate, i + 1);
 							ptrA fieldVal(ppro->getStringA(idstr));
 							if (fieldVal == NULL) break;
-							mir_snprintf(idstr, SIZEOF(idstr), szIdTemplate, i);
+							mir_snprintf(idstr, szIdTemplate, i);
 							ppro->setString(idstr, fieldVal);
 
-							mir_snprintf(idstr, SIZEOF(idstr), szFlagTemplate, i + 1);
+							mir_snprintf(idstr, szFlagTemplate, i + 1);
 							WORD nFlag = ppro->getWord(idstr, 0);
-							mir_snprintf(idstr, SIZEOF(idstr), szFlagTemplate, i);
+							mir_snprintf(idstr, szFlagTemplate, i);
 							ppro->setWord(idstr, nFlag);
 						}
-						mir_snprintf(idstr, SIZEOF(idstr), szIdTemplate, i);
+						mir_snprintf(idstr, szIdTemplate, i);
 						ppro->delSetting(idstr);
-						mir_snprintf(idstr, SIZEOF(idstr), szFlagTemplate, i);
+						mir_snprintf(idstr, szFlagTemplate, i);
 						ppro->delSetting(idstr);
 						SendMessage(hwndDlg, M_REMAKELISTS, 0, 0);
 						ppro->m_vCardUpdates |= (1UL << iPageId);
@@ -1032,7 +1032,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 	AppendVcardFromDB(v, "GENDER", "GenderString");
 
 	for (i = 0;; i++) {
-		mir_snprintf(idstr, SIZEOF(idstr), "e-mail%d", i);
+		mir_snprintf(idstr, "e-mail%d", i);
 		ptrT email(getTStringA(idstr));
 		if (email == NULL)
 			break;
@@ -1040,7 +1040,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 		HXML e = v << XCHILD(_T("EMAIL"), email);
 		AppendVcardFromDB(e, "USERID", idstr);
 
-		mir_snprintf(idstr, SIZEOF(idstr), "e-mailFlag%d", i);
+		mir_snprintf(idstr, "e-mailFlag%d", i);
 		WORD nFlag = getWord(idstr, 0);
 		if (nFlag & JABBER_VCEMAIL_HOME)     e << XCHILD(_T("HOME"));
 		if (nFlag & JABBER_VCEMAIL_WORK)     e << XCHILD(_T("WORK"));
@@ -1080,7 +1080,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 	AppendVcardFromDB(v, "DESC", "About");
 
 	for (i = 0;; i++) {
-		mir_snprintf(idstr, SIZEOF(idstr), "Phone%d", i);
+		mir_snprintf(idstr, "Phone%d", i);
 		ptrT phone(getTStringA(idstr));
 		if (phone == NULL)
 			break;
@@ -1088,7 +1088,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 		n = v << XCHILD(_T("TEL"));
 		AppendVcardFromDB(n, "NUMBER", idstr);
 
-		mir_snprintf(idstr, SIZEOF(idstr), "PhoneFlag%d", i);
+		mir_snprintf(idstr, "PhoneFlag%d", i);
 		WORD nFlag = getWord(idstr, 0);
 		if (nFlag & JABBER_VCTEL_HOME)  n << XCHILD(_T("HOME"));
 		if (nFlag & JABBER_VCTEL_WORK)  n << XCHILD(_T("WORK"));

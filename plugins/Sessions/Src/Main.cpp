@@ -491,7 +491,7 @@ int SaveSessionDate()
 		mir_sntprintf(szSessionTime, lenn, _T("%s - %s"), szTimeBuf, szDateBuf);
 
 		char szSetting[256];
-		mir_snprintf(szSetting, SIZEOF(szSetting), "%s_%d", "SessionDate", 0);
+		mir_snprintf(szSetting, "%s_%d", "SessionDate", 0);
 		TCHAR *ptszSaveSessionDate = db_get_tsa(NULL, MODNAME, szSetting);
 
 		db_set_ts(NULL, MODNAME, szSetting, szSessionTime);
@@ -516,7 +516,7 @@ int SaveUserSessionName(TCHAR *szUSessionName)
 		return 1;
 
 	char szSetting[256];
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s_%u", "UserSessionDsc", 0);
+	mir_snprintf(szSetting, "%s_%u", "UserSessionDsc", 0);
 	TCHAR *ptszUserSessionName = db_get_tsa(NULL, MODNAME, szSetting);
 	if (ptszUserSessionName)
 		ResaveSettings("UserSessionDsc", 1, 255, ptszUserSessionName);

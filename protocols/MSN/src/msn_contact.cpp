@@ -113,13 +113,13 @@ void CMsnProto::AddDelUserContList(const char* email, const int list, const int 
 	if (list < LIST_RL) {
 		const char* dom = strchr(email, '@');
 		if (dom == NULL) {
-			sz = mir_snprintf(buf, SIZEOF(buf),
+			sz = mir_snprintf(buf,
 				"<ml><t><c n=\"%s\" l=\"%d\"/></t></ml>",
 				email, list);
 		}
 		else {
 			*(char*)dom = 0;
-			sz = mir_snprintf(buf, SIZEOF(buf),
+			sz = mir_snprintf(buf,
 				"<ml><d n=\"%s\"><c n=\"%s\" l=\"%d\" t=\"%d\"/></d></ml>",
 				dom + 1, email, list, netId);
 			*(char*)dom = '@';
@@ -257,7 +257,7 @@ void CMsnProto::MSN_FindYahooUser(const char* email)
 		size_t sz;
 
 		*(char*)dom = '\0';
-		sz = mir_snprintf(buf, SIZEOF(buf), "<ml><d n=\"%s\"><c n=\"%s\"/></d></ml>", dom + 1, email);
+		sz = mir_snprintf(buf, "<ml><d n=\"%s\"><c n=\"%s\"/></d></ml>", dom + 1, email);
 		*(char*)dom = '@';
 		msnNsThread->sendPacket("FQY", "%d\r\n%s", sz, buf);
 	}

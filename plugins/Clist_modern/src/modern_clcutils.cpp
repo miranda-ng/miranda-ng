@@ -524,7 +524,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		int defItemsOrder[NUM_ITEM_TYPE] = SETTINS_ROWITEMORDER_DEFAULT;
 		for (int i = 0; i < NUM_ITEM_TYPE; i++) {
 			char tmp[128];
-			mir_snprintf(tmp, SIZEOF(tmp), "RowPos%d", i);
+			mir_snprintf(tmp, "RowPos%d", i);
 			dat->row_items[i] = db_get_w(NULL, "CList", tmp, defItemsOrder[i]);
 		}
 	}

@@ -138,7 +138,7 @@ bool MakeZip(TCHAR *tszSource, TCHAR *tszDest, TCHAR *dbname, HWND progress_dial
 		zipCloseFileInZip(hZip);
 	}
 	if (ret) {
-		mir_snprintf(buf, SIZEOF(buf), "%s\r\n%s %s %d.%d.%d.%d\r\n",
+		mir_snprintf(buf, "%s\r\n%s %s %d.%d.%d.%d\r\n",
 			Translate("Miranda NG database"), Translate("Created by:"),
 			__PLUGIN_NAME, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
 	}

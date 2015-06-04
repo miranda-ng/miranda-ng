@@ -212,7 +212,7 @@ static void SaveOptionsTreeState(HWND hdlg)
 	tvi.hItem = TreeView_GetRoot(GetDlgItem(hdlg, IDC_PAGETREE));
 	while (tvi.hItem != NULL) {
 		if (SendDlgItemMessageA(hdlg, IDC_PAGETREE, TVM_GETITEMA, 0, (LPARAM)&tvi)) {
-			mir_snprintf(buf, SIZEOF(buf), "%s%s", OPTSTATE_PREFIX, str);
+			mir_snprintf(buf, "%s%s", OPTSTATE_PREFIX, str);
 			db_set_b(NULL, "Options", buf, (BYTE)((tvi.state & TVIS_EXPANDED) ? 1 : 0));
 		}
 		tvi.hItem = TreeView_GetNextSibling(GetDlgItem(hdlg, IDC_PAGETREE), tvi.hItem);
@@ -656,7 +656,7 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 	while (tvi.hItem != NULL) {
 		if (SendMessageA(hwndTree, TVM_GETITEMA, 0, (LPARAM)&tvi)) {
 			char buf[130];
-			mir_snprintf(buf, SIZEOF(buf), "%s%s", OPTSTATE_PREFIX, str);
+			mir_snprintf(buf, "%s%s", OPTSTATE_PREFIX, str);
 			if (!db_get_b(NULL, "Options", buf, 1))
 				TreeView_Expand(hwndTree, tvi.hItem, TVE_COLLAPSE);
 		}

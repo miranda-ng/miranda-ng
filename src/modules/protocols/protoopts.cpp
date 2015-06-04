@@ -74,7 +74,7 @@ PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBasePr
 		char buf[100];
 		int count = 1;
 		while (true) {
-			mir_snprintf(buf, SIZEOF(buf), "%s_%d", szBaseProto, count++);
+			mir_snprintf(buf, "%s_%d", szBaseProto, count++);
 			if (ptrA(db_get_sa(NULL, buf, "AM_BaseProto")) == NULL)
 				break;
 		}

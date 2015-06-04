@@ -596,7 +596,7 @@ void TlenIqResultInfo(TlenProtocol *proto, XmlNode *iqNode)
 					if (hContact != NULL) {
 						if (item->software == NULL) {
 							char str[128];
-							mir_snprintf(str, SIZEOF(str), "Tlen Protocol %s", item->protocolVersion);
+							mir_snprintf(str, "Tlen Protocol %s", item->protocolVersion);
 							db_set_s(hContact, proto->m_szModuleName, "MirVer", str);
 						}
 					}

@@ -120,7 +120,7 @@ void TraceTreeLevel(NodeList * node)
 	PrintIdent();
 	{
 		char buf[255];
-		mir_snprintf(buf, SIZEOF(buf), "%d\n", node->pData);
+		mir_snprintf(buf, "%d\n", node->pData);
 		TRACE(buf);
 	}
 	ident += 5;
@@ -134,7 +134,7 @@ void TraceTreeLevel(NodeList * node)
 			PrintIdent();
 			{
 				char buf[255];
-				mir_snprintf(buf, SIZEOF(buf), "%d\n", node->childNodes[i].pData);
+				mir_snprintf(buf, "%d\n", node->childNodes[i].pData);
 				TRACE(buf);
 			}
 		}

@@ -405,7 +405,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 
 	if (!opt.FromOffline || oldStatus != ID_STATUS_OFFLINE) { // Either it wasn't a change from Offline or we didn't enable that.
 		char buff[8];
-		mir_snprintf(buff, SIZEOF(buff), "%d", newStatus);
+		mir_snprintf(buff, "%d", newStatus);
 		if (db_get_b(0, MODULE, buff, 1) == 0)
 			return 0; // "Notify when a contact changes to one of..." is unchecked
 	}
@@ -803,7 +803,7 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 	if (opt.AutoDisable && (!opt.OnlyGlobalChanges || szProto == NULL)) {
 		if (opt.DisablePopupGlobally && ServiceExists(MS_POPUP_QUERY)) {
 			char szSetting[12];
-			mir_snprintf(szSetting, SIZEOF(szSetting), "p%d", wParam);
+			mir_snprintf(szSetting, "p%d", wParam);
 			BYTE hlpDisablePopup = db_get_b(0, MODULE, szSetting, 0);
 
 			if (hlpDisablePopup != opt.PopupAutoDisabled) {
@@ -827,7 +827,7 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 
 		if (opt.DisableSoundGlobally) {
 			char szSetting[12];
-			mir_snprintf(szSetting, SIZEOF(szSetting), "s%d", wParam);
+			mir_snprintf(szSetting, "s%d", wParam);
 			BYTE hlpDisableSound = db_get_b(0, MODULE, szSetting, 0);
 
 			if (hlpDisableSound != opt.SoundAutoDisabled) {

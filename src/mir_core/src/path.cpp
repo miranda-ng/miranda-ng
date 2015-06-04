@@ -77,7 +77,7 @@ MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, const char *base)
 
 	if (pSrc[0] == '\\')
 		pSrc++;
-	mir_snprintf(buf, SIZEOF(buf), "%s%s", base, pSrc);
+	mir_snprintf(buf, "%s%s", base, pSrc);
 	return GetFullPathNameA(buf, SIZEOF(buf), pOut, NULL);
 }
 

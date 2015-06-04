@@ -29,7 +29,7 @@ int myDebugFilter(unsigned int code, PEXCEPTION_POINTERS ep)
 		PDelayLoadInfo dlld = (PDelayLoadInfo)ep->ExceptionRecord->ExceptionInformation[0];
 
 		char str[256];
-		int off = mir_snprintf(str, SIZEOF(str), "dbghelp.dll v.5.0 or later required to provide a crash report\n");
+		int off = mir_snprintf(str, "dbghelp.dll v.5.0 or later required to provide a crash report\n");
 		off += mir_snprintf(str + off, SIZEOF(str) - off, "Missing Module: %s ", dlld->szDll);
 
 		if (dlld->dlp.fImportByName)

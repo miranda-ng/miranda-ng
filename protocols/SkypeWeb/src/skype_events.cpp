@@ -94,8 +94,8 @@ void CSkypeProto::InitPopups()
 	POPUPCLASS ppc = { sizeof(ppc) };
 	ppc.flags = PCF_TCHAR;
 
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Calls"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Call");
+	mir_sntprintf(desc, _T("%s %s"), m_tszUserName, TranslateT("Calls"));
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Call");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("inc_call"));
@@ -105,8 +105,8 @@ void CSkypeProto::InitPopups()
 	ppc.PluginWindowProc = PopupDlgProcCall;
 	m_hPopupClassCall = Popup_RegisterClass(&ppc);
 
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Notifications"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Notification");
+	mir_sntprintf(desc, _T("%s %s"), m_tszUserName, TranslateT("Notifications"));
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("notify"));
@@ -115,8 +115,8 @@ void CSkypeProto::InitPopups()
 	ppc.iSeconds = 5;
 	m_hPopupClassNotify = Popup_RegisterClass(&ppc);
 
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Errors"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
+	mir_sntprintf(desc, _T("%s %s"), m_tszUserName, TranslateT("Errors"));
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("error"));

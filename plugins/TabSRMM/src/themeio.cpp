@@ -192,19 +192,19 @@ void TSAPI WriteThemeToINI(const TCHAR *szIniFilenameT, TWindowData *dat)
 		char *szModule = fontBlocks[n].szModule;
 		WritePrivateProfileStringA(fontBlocks[n].szBLockname, "Valid", "1", szIniFilename);
 		for (i = 0; i < fontBlocks[n].iCount; i++) {
-			mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", firstIndex + i);
+			mir_snprintf(szTemp, "Font%d", firstIndex + i);
 			mir_snprintf(szAppname, SIZEOF(szAppname), fontBlocks[n].szIniTemp, firstIndex + i);
 			if (!db_get_s(NULL, szModule, szTemp, &dbv)) {
 				WritePrivateProfileStringA(szAppname, "Face", dbv.pszVal, szIniFilename);
 				db_free(&dbv);
 			}
-			mir_snprintf(szTemp, SIZEOF(szTemp), "Font%dCol", firstIndex + i);
+			mir_snprintf(szTemp, "Font%dCol", firstIndex + i);
 			WritePrivateProfileStringA(szAppname, "Color", _itoa(M.GetDword(szModule, szTemp, 0), szBuf, 10), szIniFilename);
-			mir_snprintf(szTemp, SIZEOF(szTemp), "Font%dSty", firstIndex + i);
+			mir_snprintf(szTemp, "Font%dSty", firstIndex + i);
 			WritePrivateProfileStringA(szAppname, "Style", _itoa(M.GetByte(szModule, szTemp, 0), szBuf, 10), szIniFilename);
-			mir_snprintf(szTemp, SIZEOF(szTemp), "Font%dSize", firstIndex + i);
+			mir_snprintf(szTemp, "Font%dSize", firstIndex + i);
 			WritePrivateProfileStringA(szAppname, "Size", _itoa(M.GetByte(szModule, szTemp, 0), szBuf, 10), szIniFilename);
-			mir_snprintf(szTemp, SIZEOF(szTemp), "Font%dSet", firstIndex + i);
+			mir_snprintf(szTemp, "Font%dSet", firstIndex + i);
 			WritePrivateProfileStringA(szAppname, "Set", _itoa(M.GetByte(szModule, szTemp, 0), szBuf, 10), szIniFilename);
 		}
 		n++;
@@ -232,7 +232,7 @@ void TSAPI WriteThemeToINI(const TCHAR *szIniFilenameT, TWindowData *dat)
 		WritePrivateProfileStringA("RTLTemplates", TemplateNames[i], szRTL, szIniFilename);
 	}
 	for (i = 0; i < CUSTOM_COLORS; i++) {
-		mir_snprintf(szTemp, SIZEOF(szTemp), "cc%d", i + 1);
+		mir_snprintf(szTemp, "cc%d", i + 1);
 		if (dat == 0)
 			WritePrivateProfileStringA("Custom Colors", szTemp, _itoa(M.GetDword(szTemp, 0), szBuf, 10), szIniFilename);
 		else
@@ -275,7 +275,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 				continue;
 			}
 			for (i = 0; i < fontBlocks[n].iCount; i++) {
-				mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", firstIndex + i);
+				mir_snprintf(szTemp, "Font%d", firstIndex + i);
 				mir_snprintf(szAppname, SIZEOF(szAppname), fontBlocks[n].szIniTemp, firstIndex + i);
 				if (GetPrivateProfileStringA(szAppname, "Face", "Verdana", szBuf, sizeof(szBuf), szIniFilename) != 0) {
 					if (i == MSGFONTID_SYMBOLS_IN || i == MSGFONTID_SYMBOLS_OUT)
@@ -283,19 +283,19 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 					db_set_s(NULL, szModule, szTemp, szBuf);
 				}
 
-				mir_snprintf(szTemp, SIZEOF(szTemp), "Font%dCol", firstIndex + i);
+				mir_snprintf(szTemp, "Font%dCol", firstIndex + i);
 				db_set_dw(0, szModule, szTemp, GetPrivateProfileIntA(szAppname, "Color", GetSysColor(COLOR_WINDOWTEXT), szIniFilename));
 
-				mir_snprintf(szTemp, SIZEOF(szTemp), "Font%dSty", firstIndex + i);
+				mir_snprintf(szTemp, "Font%dSty", firstIndex + i);
 				db_set_b(0, szModule, szTemp, (BYTE)(GetPrivateProfileIntA(szAppname, "Style", 0, szIniFilename)));
 
-				mir_snprintf(szTemp, SIZEOF(szTemp), "Font%dSize", firstIndex + i);
+				mir_snprintf(szTemp, "Font%dSize", firstIndex + i);
 				bSize = (char)GetPrivateProfileIntA(szAppname, "Size", -10, szIniFilename);
 				if (bSize > 0)
 					bSize = -MulDiv(bSize, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 				db_set_b(0, szModule, szTemp, bSize);
 
-				mir_snprintf(szTemp, SIZEOF(szTemp), "Font%dSet", firstIndex + i);
+				mir_snprintf(szTemp, "Font%dSet", firstIndex + i);
 				charset = GetPrivateProfileIntA(szAppname, "Set", 0, szIniFilename);
 				if (i == MSGFONTID_SYMBOLS_IN || i == MSGFONTID_SYMBOLS_OUT)
 					charset = 0;
@@ -325,7 +325,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 			db_set_b(0, SRMSGMOD_T, "extramicrolf", (BYTE)(GetPrivateProfileIntA("Message Log", "ExtraMicroLF", 0, szIniFilename)));
 
 			for (i = 0; i < CUSTOM_COLORS; i++) {
-				mir_snprintf(szTemp, SIZEOF(szTemp), "cc%d", i + 1);
+				mir_snprintf(szTemp, "cc%d", i + 1);
 				db_set_dw(0, SRMSGMOD_T, szTemp, GetPrivateProfileIntA("Custom Colors", szTemp, RGB(224, 224, 224), szIniFilename));
 			}
 			for (i = 0; i <= 7; i++) {
@@ -336,7 +336,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 				else
 					defclr = g_Settings.UserListColors[CHAT_STATUS_NORMAL];
 				g_Settings.nickColors[i] = GetPrivateProfileIntA("Nick Colors", _itoa(i, szTemp, 10), defclr, szIniFilename);
-				mir_snprintf(szTemp, SIZEOF(szTemp), "NickColor%d", i);
+				mir_snprintf(szTemp, "NickColor%d", i);
 				db_set_dw(0, CHAT_MODULE, szTemp, g_Settings.nickColors[i]);
 			}
 		}
@@ -347,7 +347,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 		ReleaseDC(NULL, hdc);
 		if (!noAdvanced) {
 			for (i = 0; i < MSGDLGFONTCOUNT; i++) {
-				mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i);
+				mir_snprintf(szTemp, "Font%d", i);
 				LoadLogfontFromINI(i, szTemp, &dat->theme.logFonts[i], &dat->theme.fontColors[i], szIniFilename);
 				wsprintfA(dat->theme.rtfFonts + (i * RTFCACHELINESIZE), "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", i, i, dat->theme.logFonts[i].lfWeight >= FW_BOLD ? 1 : 0, dat->theme.logFonts[i].lfItalic, dat->theme.logFonts[i].lfUnderline, 2 * abs(dat->theme.logFonts[i].lfHeight) * 74 / SY); //!!!!!!!!
 			}
@@ -371,7 +371,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 		dat->theme.right_indent = GetPrivateProfileIntA("Message Log", "RightIndent", 0, szIniFilename);
 
 		for (i = 0; i < CUSTOM_COLORS; i++) {
-			mir_snprintf(szTemp, SIZEOF(szTemp), "cc%d", i + 1);
+			mir_snprintf(szTemp, "cc%d", i + 1);
 			dat->theme.custom_colors[i] = GetPrivateProfileIntA("Custom Colors", szTemp, RGB(224, 224, 224), szIniFilename);
 		}
 	}

@@ -374,12 +374,12 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 	}
 	else if (!mir_strcmp(dcws->szSetting, "Nick") && dcws->value.type != DBVT_DELETED) {
 		// subcontact nick has changed - update metacontact
-		mir_snprintf(buffer, SIZEOF(buffer), "Nick%d", contact_number);
+		mir_snprintf(buffer, "Nick%d", contact_number);
 		db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
 
 		ptrT tszMyhandle(db_get_tsa(hContact, "CList", "MyHandle"));
 		if (tszMyhandle == NULL) {
-			mir_snprintf(buffer, SIZEOF(buffer), "CListName%d", contact_number);
+			mir_snprintf(buffer, "CListName%d", contact_number);
 			db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
 		}
 
@@ -402,7 +402,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 	else if (!mir_strcmp(dcws->szModule, "CList") && !mir_strcmp(dcws->szSetting, "MyHandle")) {
 		if (dcws->value.type == DBVT_DELETED) {
 			char *proto = GetContactProto(hContact);
-			mir_snprintf(buffer, SIZEOF(buffer), "CListName%d", contact_number);
+			mir_snprintf(buffer, "CListName%d", contact_number);
 
 			DBVARIANT dbv;
 			if (proto && !db_get_ts(hContact, proto, "Nick", &dbv)) {
@@ -413,7 +413,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 		else {
 			// subcontact clist displayname has changed - update metacontact
-			mir_snprintf(buffer, SIZEOF(buffer), "CListName%d", contact_number);
+			mir_snprintf(buffer, "CListName%d", contact_number);
 			db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
 		}
 
@@ -423,10 +423,10 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 	// subcontact changing status
 	else if (!mir_strcmp(dcws->szSetting, "Status") && dcws->value.type != DBVT_DELETED) {
 		// update subcontact status setting
-		mir_snprintf(buffer, SIZEOF(buffer), "Status%d", contact_number);
+		mir_snprintf(buffer, "Status%d", contact_number);
 		db_set_w(ccMeta->contactID, META_PROTO, buffer, dcws->value.wVal);
 
-		mir_snprintf(buffer, SIZEOF(buffer), "StatusString%d", contact_number);
+		mir_snprintf(buffer, "StatusString%d", contact_number);
 		db_set_ts(ccMeta->contactID, META_PROTO, buffer, cli.pfnGetStatusModeDescription(dcws->value.wVal, 0));
 
 		// set status to that of most online contact

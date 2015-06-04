@@ -462,10 +462,10 @@ void CJabberProto::SetContactOfflineStatus(MCONTACT hContact)
 void CJabberProto::InitPopups(void)
 {
 	TCHAR desc[256];
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Errors"));
+	mir_sntprintf(desc, _T("%s %s"), m_tszUserName, TranslateT("Errors"));
 
 	char name[256];
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 
 	POPUPCLASS ppc = { sizeof(ppc) };
 	ppc.flags = PCF_TCHAR;
@@ -490,7 +490,7 @@ void CJabberProto::MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *
 		ppd.ptszText = szMsg;
 		ppd.pszClassName = name;
 		ppd.hContact = hContact;
-		mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
+		mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 
 		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 	}

@@ -80,11 +80,11 @@ char* BinToHex(int size, PBYTE data)
 	int maxSize = size * 2 + HEX_SIZE + 1;
 	szresult = (char *) new char[maxSize];
 	memset(szresult, 0, maxSize);
-	mir_snprintf(buffer, SIZEOF(buffer), "%0*X", HEX_SIZE, size);
+	mir_snprintf(buffer, "%0*X", HEX_SIZE, size);
 	mir_strcpy(szresult, buffer);
 
 	for (int i = 0; i < size; i++) {
-		mir_snprintf(buffer, SIZEOF(buffer), "%02X", data[i]);
+		mir_snprintf(buffer, "%02X", data[i]);
 		mir_strcpy(szresult + (HEX_SIZE + i * 2), buffer);
 	}
 	return szresult;

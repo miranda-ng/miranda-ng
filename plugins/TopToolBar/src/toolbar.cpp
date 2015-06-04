@@ -151,12 +151,12 @@ static void Icon2button(TTBButton *but, HANDLE &hIcoLib, HICON &hIcon, bool bIsU
 	hIcoLib = (HANDLE)CallService(MS_SKIN2_ISMANAGEDICON, WPARAM(hSrc), 0);
 	if (!hIcoLib) {
 		char buf[256];
-		mir_snprintf(buf, SIZEOF(buf), "toptoolbar_%s%s", but->name, bIsUp ? (but->hIconDn ? "%s_up" : "%s") : "%s_dn");
+		mir_snprintf(buf, "toptoolbar_%s%s", but->name, bIsUp ? (but->hIconDn ? "%s_up" : "%s") : "%s_dn");
 		SKINICONDESC sid = { sizeof(sid) };
 		sid.pszSection = "Toolbar";
 		sid.pszName = buf;
 		sid.pszDefaultFile = NULL;
-		mir_snprintf(buf, SIZEOF(buf), "%s%s", but->name, bIsUp ? "" : " (pressed)");
+		mir_snprintf(buf, "%s%s", but->name, bIsUp ? "" : " (pressed)");
 		sid.pszDescription = buf;
 		sid.hDefaultIcon = bIsUp ? but->hIconUp : but->hIconDn;
 		hIcoLib = Skin_AddIcon(&sid);
@@ -598,7 +598,7 @@ static int OnModulesLoad(WPARAM, LPARAM)
 
 	if (HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnBGChange)) {
 		char buf[256];
-		mir_snprintf(buf, SIZEOF(buf), "%s/%s", LPGEN("TopToolBar background"), TTB_OPTDIR);
+		mir_snprintf(buf, "%s/%s", LPGEN("TopToolBar background"), TTB_OPTDIR);
 		CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)buf, 0);
 	}
 	return 0;

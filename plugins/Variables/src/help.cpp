@@ -322,12 +322,12 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 	}
 
 	if (tr->flags&TRF_FIELD)
-		mir_sntprintf(desc, len, _T("%c%s%c"), FIELD_CHAR, tr->szTokenString, FIELD_CHAR);
+		mir_sntprintf(desc,  len, _T("%c%s%c"), FIELD_CHAR, tr->szTokenString, FIELD_CHAR);
 	else {
 		if (args != NULL)
 			tArgs = mir_a2t(args);
 
-		mir_sntprintf(desc, len, _T("%c%s%s"), FUNC_CHAR, tr->tszTokenString, (tArgs!=NULL?tArgs:_T("")));
+		mir_sntprintf(desc,  len, _T("%c%s%s"), FUNC_CHAR, tr->tszTokenString, (tArgs!=NULL?tArgs:_T("")));
 	}
 
 	mir_free(tArgs);

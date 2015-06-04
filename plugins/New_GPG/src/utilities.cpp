@@ -1412,21 +1412,21 @@ void ExportGpGKeysFunc(int type)
 			case DBVT_BYTE:
 				{
 					char _id[64];
-					mir_snprintf(_id, SIZEOF(_id), "%d", dbv.bVal);
+					mir_snprintf(_id, "%d", dbv.bVal);
 					id += _id;
 				}
 				break;
 			case DBVT_WORD:
 				{
 					char _id[64];
-					mir_snprintf(_id, SIZEOF(_id), "%d", dbv.wVal);
+					mir_snprintf(_id, "%d", dbv.wVal);
 					id += _id;
 				}
 				break;
 			case DBVT_DWORD:
 				{
 					char _id[64];
-					mir_snprintf(_id, SIZEOF(_id), "%d", dbv.dVal);
+					mir_snprintf(_id, "%d", dbv.dVal);
 					id += _id;
 				}
 				break;
@@ -1463,21 +1463,21 @@ void ExportGpGKeysFunc(int type)
 			case DBVT_BYTE:
 				{
 					char _id[64];
-					mir_snprintf(_id, SIZEOF(_id), "%d", dbv.bVal);
+					mir_snprintf(_id, "%d", dbv.bVal);
 					id += _id;
 				}
 				break;
 			case DBVT_WORD:
 				{
 					char _id[64];
-					mir_snprintf(_id, SIZEOF(_id), "%d", dbv.wVal);
+					mir_snprintf(_id, "%d", dbv.wVal);
 					id += _id;
 				}
 				break;
 			case DBVT_DWORD:
 				{
 					char _id[64];
-					mir_snprintf(_id, SIZEOF(_id), "%d", dbv.dVal);
+					mir_snprintf(_id, "%d", dbv.dVal);
 					id += _id;			
 				}
 				break;
@@ -1616,7 +1616,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 				case DBVT_BYTE:
 					{
 						char _id[64];
-						mir_snprintf(_id, SIZEOF(_id), "%d", dbv.bVal);
+						mir_snprintf(_id, "%d", dbv.bVal);
 						id += _id;
 						if(id == login)
 							acc = accs[i]->szModuleName;
@@ -1625,7 +1625,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 				case DBVT_WORD:
 					{
 						char _id[64];
-						mir_snprintf(_id, SIZEOF(_id), "%d", dbv.wVal);
+						mir_snprintf(_id, "%d", dbv.wVal);
 						id += _id;
 						if(id == login)
 							acc = accs[i]->szModuleName;
@@ -1634,7 +1634,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 				case DBVT_DWORD:
 					{
 						char _id[64];
-						mir_snprintf(_id, SIZEOF(_id), "%d", dbv.dVal);
+						mir_snprintf(_id, "%d", dbv.dVal);
 						id += _id;
 						if(id == login)
 							acc = accs[i]->szModuleName;
@@ -1685,7 +1685,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 					case DBVT_BYTE:
 						{
 							char _id[64];
-							mir_snprintf(_id, SIZEOF(_id), "%d", dbv.bVal);
+							mir_snprintf(_id, "%d", dbv.bVal);
 							id += _id;
 							if(id == contact_id)
 								found = true;
@@ -1694,7 +1694,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 					case DBVT_WORD:
 						{
 							char _id[64];
-							mir_snprintf(_id, SIZEOF(_id), "%d", dbv.wVal);
+							mir_snprintf(_id, "%d", dbv.wVal);
 							id += _id;
 							if(id == contact_id)
 								found = true;
@@ -1703,7 +1703,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 					case DBVT_DWORD:
 						{
 							char _id[64];
-							mir_snprintf(_id, SIZEOF(_id), "%d", dbv.dVal);
+							mir_snprintf(_id, "%d", dbv.dVal);
 							id += _id;
 							if(id == contact_id)
 								found = true;

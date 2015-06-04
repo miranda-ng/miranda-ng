@@ -202,7 +202,7 @@ int GetInSessionOrder(MCONTACT hContact, int mode, int count)
 void SetInSessionOrder(MCONTACT hContact, int mode, int count, unsigned int ordernum)
 {
 	char szTemp[3];
-	mir_snprintf(szTemp, SIZEOF(szTemp), "%02u", ordernum);
+	mir_snprintf(szTemp, "%02u", ordernum);
 
 	if (mode == 0) {
 		ptrA szValue(db_get_sa(hContact, MODNAME, "LastSessionsOrder"));
@@ -385,18 +385,18 @@ void SavePosition(HWND hwnd, char *wndName)
 	RECT rc;
 	GetWindowRect(hwnd, &rc);
 	char buffer[512];
-	mir_snprintf(buffer, SIZEOF(buffer), "%sPosX", wndName);
+	mir_snprintf(buffer, "%sPosX", wndName);
 	db_set_dw(0, MODNAME, buffer, rc.left);
-	mir_snprintf(buffer, SIZEOF(buffer), "%sPosY", wndName);
+	mir_snprintf(buffer, "%sPosY", wndName);
 	db_set_dw(0, MODNAME, buffer, rc.top);
 }
 
 void LoadPosition(HWND hWnd, char *wndName)
 {
 	char buffer[512];
-	mir_snprintf(buffer, SIZEOF(buffer), "%sPosX", wndName);
+	mir_snprintf(buffer, "%sPosX", wndName);
 	int x = db_get_dw(0, MODNAME, buffer, ((GetSystemMetrics(SM_CXSCREEN)) / 2) - 130);
-	mir_snprintf(buffer, SIZEOF(buffer), "%sPosY", wndName);
+	mir_snprintf(buffer, "%sPosY", wndName);
 	int y = db_get_dw(0, MODNAME, buffer, ((GetSystemMetrics(SM_CYSCREEN)) / 2) - 80);
 	SetWindowPos(hWnd, NULL, x, y, 0, 0, SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOSIZE);
 }

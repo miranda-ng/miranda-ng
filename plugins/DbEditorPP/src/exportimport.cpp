@@ -91,7 +91,7 @@ void exportModule(MCONTACT hContact, char *module, FILE *file)
 				data[0] = '\0';
 				for (int j = 0; j < dbv.cpbVal; j++) {
 					char tmp[16];
-					mir_snprintf(tmp, SIZEOF(tmp), "%02X ", (BYTE)dbv.pbVal[j]);
+					mir_snprintf(tmp, "%02X ", (BYTE)dbv.pbVal[j]);
 					mir_strcat(data, tmp);
 				}
 				fprintf(file, "\n%s=n%s", setting->name, data);

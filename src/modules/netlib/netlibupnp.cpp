@@ -517,7 +517,7 @@ static bool getUPnPURLs(char* szUrl, size_t sizeUrl)
 		strncpy(szCtlUrl, szTemp[0] ? szTemp : szUrl, sizeof(szCtlUrl));
 		szCtlUrl[sizeof(szCtlUrl) - 1] = 0;
 
-		mir_snprintf(szTemp, SIZEOF(szTemp), search_device, szDev);
+		mir_snprintf(szTemp, search_device, szDev);
 		txtParseParam(szData, szTemp, "<controlURL>", "</controlURL>", szUrl, sizeUrl);
 
 		// URL combining per RFC 2396

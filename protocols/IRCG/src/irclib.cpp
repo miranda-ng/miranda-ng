@@ -1430,18 +1430,18 @@ LBL_Parse:
 		char buf[1024 * 4];
 
 		if (iParamCnt != 2)
-			cbLen = mir_snprintf(buf, SIZEOF(buf), "%s : ERROR : UNKNOWN-ERROR\r\n", szBuf);
+			cbLen = mir_snprintf(buf, "%s : ERROR : UNKNOWN-ERROR\r\n", szBuf);
 		else {
 			for (int i = 0; i < g_Instances.getCount(); i++) {
 				if (PeerPortNrRcvd == g_Instances[i]->m_info.iPort && LocalPortNrRcvd == g_Instances[i]->m_myLocalPort) {
-					cbLen = mir_snprintf(buf, SIZEOF(buf), "%s : USERID : %S : %S\r\n",
+					cbLen = mir_snprintf(buf, "%s : USERID : %S : %S\r\n",
 						szBuf, g_Instances[i]->m_info.sIdentServerType.c_str(), g_Instances[i]->m_info.sUserID.c_str());
 					break;
 				}
 			}
 
 			if (cbLen == 0)
-				cbLen = mir_snprintf(buf, SIZEOF(buf), "%s : ERROR : INVALID-PORT\r\n", szBuf);
+				cbLen = mir_snprintf(buf, "%s : ERROR : INVALID-PORT\r\n", szBuf);
 		}
 
 		if (Netlib_Send(hConnection, (const char*)buf, cbLen, 0) > 0)

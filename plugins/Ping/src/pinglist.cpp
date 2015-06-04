@@ -55,7 +55,7 @@ INT_PTR GetListSize(WPARAM, LPARAM)
 void write_ping_address(PINGADDRESS &i)
 {
 	char buff[16];
-	mir_snprintf(buff, SIZEOF(buff), "PING_DEST_%d", i.index);
+	mir_snprintf(buff, "PING_DEST_%d", i.index);
 
 	if (i.item_id == 0) {
 		i.item_id = NextID++;
@@ -97,7 +97,7 @@ void write_ping_addresses()
 
 	do {
 		found = false;
-		mir_snprintf(buff, SIZEOF(buff), "PING_DEST_%d", index++);
+		mir_snprintf(buff, "PING_DEST_%d", index++);
 		if (db_get_dw(0, buff, "Id", 0) != 0) {
 			found = true;
 			db_set_dw(0, buff, "Id", 0);
@@ -109,7 +109,7 @@ bool read_ping_address(PINGADDRESS &pa) {
 	int index = pa.index;
 
 	char buff[16];
-	mir_snprintf(buff, SIZEOF(buff), "PING_DEST_%d", index);
+	mir_snprintf(buff, "PING_DEST_%d", index);
 
 	// return if not more contacts, or only deleted contacts remaining
 	if ((pa.item_id = db_get_dw(0, buff, "Id", 0)) == 0)	return false;

@@ -231,7 +231,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		WindowData *wd = (WindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		{
 			char buff[30];
-			mir_snprintf(buff, SIZEOF(buff), "pinggraphwnd%d", wd->item_id);
+			mir_snprintf(buff, "pinggraphwnd%d", wd->item_id);
 			Utils_SaveWindowPosition(hwnd, 0, PLUG, buff);
 		}
 	}
@@ -241,7 +241,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		WindowData *wd = (WindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		{
 			char buff[30];
-			mir_snprintf(buff, SIZEOF(buff), "WindowHandle%d", wd->item_id);
+			mir_snprintf(buff, "WindowHandle%d", wd->item_id);
 			db_set_dw(0, PLUG, buff, 0);
 		}
 		delete wd;
@@ -254,7 +254,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	char buff[30];
-	mir_snprintf(buff, SIZEOF(buff), "WindowHandle%d", (DWORD)wParam);
+	mir_snprintf(buff, "WindowHandle%d", (DWORD)wParam);
 	HWND hGraphWnd = (HWND)db_get_dw(0, PLUG, buff, 0);
 	if (hGraphWnd) {
 		ShowWindow(hGraphWnd, SW_SHOW);
@@ -298,7 +298,7 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 
 	SetWindowLongPtr(hGraphWnd, GWLP_USERDATA, (LONG_PTR)wd);
 
-	mir_snprintf(buff, SIZEOF(buff), "pinggraphwnd%d", wd->item_id);
+	mir_snprintf(buff, "pinggraphwnd%d", wd->item_id);
 	Utils_RestoreWindowPosition(hGraphWnd, 0, PLUG, buff);
 
 	if (!IsWindowVisible(hGraphWnd))
@@ -314,11 +314,11 @@ void graphs_cleanup() {
 	HWND hwnd;
 
 	for (int i = 0; i < list_size; i++) {
-		mir_snprintf(buff, SIZEOF(buff), "WindowHandle%d", i);
+		mir_snprintf(buff, "WindowHandle%d", i);
 		if (hwnd = (HWND)db_get_dw(0, PLUG, buff, 0)) {
 			DestroyWindow(hwnd);
 			db_set_dw(0, PLUG, buff, 0);
-			mir_snprintf(buff, SIZEOF(buff), "WindowWasOpen%d", i);
+			mir_snprintf(buff, "WindowWasOpen%d", i);
 			db_set_b(0, PLUG, buff, 1);
 		}
 	}
@@ -330,9 +330,9 @@ void graphs_init() {
 	char buff[64];
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
-		mir_snprintf(buff, SIZEOF(buff), "WindowHandle%d", i->item_id); // clean up from possible crash
+		mir_snprintf(buff, "WindowHandle%d", i->item_id); // clean up from possible crash
 		db_set_dw(0, PLUG, buff, 0);
-		mir_snprintf(buff, SIZEOF(buff), "WindowWasOpen%d", i->item_id); // restore windows that were open on shutdown
+		mir_snprintf(buff, "WindowWasOpen%d", i->item_id); // restore windows that were open on shutdown
 		if (db_get_b(0, PLUG, buff, 0)) {
 			db_set_b(0, PLUG, buff, 0);
 			ShowGraph((WPARAM)i->item_id, (LPARAM)i->pszLabel);

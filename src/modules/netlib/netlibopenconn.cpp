@@ -302,11 +302,11 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	nlhrSend.requestType = REQUEST_CONNECT;
 	nlhrSend.flags = NLHRF_GENERATEHOST | NLHRF_DUMPPROXY | NLHRF_SMARTAUTHHEADER | NLHRF_HTTP11 | NLHRF_NOPROXY | NLHRF_REDIRECT;
 	if (nlc->dnsThroughProxy)
-		mir_snprintf(szUrl, SIZEOF(szUrl), "%s:%u", nloc->szHost, nloc->wPort);
+		mir_snprintf(szUrl, "%s:%u", nloc->szHost, nloc->wPort);
 	else {
 		DWORD ip = DnsLookup(nlu, nloc->szHost);
 		if (ip == 0) return false;
-		mir_snprintf(szUrl, SIZEOF(szUrl), "%s:%u", inet_ntoa(*(PIN_ADDR)&ip), nloc->wPort);
+		mir_snprintf(szUrl, "%s:%u", inet_ntoa(*(PIN_ADDR)&ip), nloc->wPort);
 	}
 	nlhrSend.szUrl = szUrl;
 

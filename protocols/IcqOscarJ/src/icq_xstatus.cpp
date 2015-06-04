@@ -705,7 +705,7 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 			char buf[MAX_PATH];
 			char *format = GetWindowTextUtf(hwndDlg);
 
-			mir_snprintf(str, SIZEOF(str), format, dat->bXStatus?ICQTranslateUtfStatic(nameXStatus[dat->bXStatus-1], buf, MAX_PATH):"");
+			mir_snprintf(str, format, dat->bXStatus?ICQTranslateUtfStatic(nameXStatus[dat->bXStatus-1], buf, MAX_PATH):"");
 			SetWindowTextUtf(hwndDlg, str);
 			SAFE_FREE(&format);
 		}
@@ -743,14 +743,14 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 
 			dat->ppro->setByte(DBSETTING_XSTATUS_ID, dat->bXStatus);
 			char *szValue = GetDlgItemTextUtf(hwndDlg,IDC_XMSG);
-			mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dMsg", dat->bXStatus);
+			mir_snprintf(szSetting, "XStatus%dMsg", dat->bXStatus);
 			db_set_utf(NULL, dat->ppro->m_szModuleName, szSetting, szValue);
 			db_set_utf(NULL, dat->ppro->m_szModuleName, DBSETTING_XSTATUS_MSG, szValue);
 			SAFE_FREE(&szValue);
 
 			if (dat->ppro->m_bXStatusEnabled) {
 				szValue = GetDlgItemTextUtf(hwndDlg,IDC_XTITLE);
-				mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dName", dat->bXStatus);
+				mir_snprintf(szSetting, "XStatus%dName", dat->bXStatus);
 				db_set_utf(NULL, dat->ppro->m_szModuleName, szSetting, szValue);
 				db_set_utf(NULL, dat->ppro->m_szModuleName, DBSETTING_XSTATUS_NAME, szValue);
 				SAFE_FREE(&szValue);
@@ -796,13 +796,13 @@ void CIcqProto::setXStatusEx(BYTE bXStatus, BYTE bQuiet)
 		char *szName = NULL, *szMsg = NULL;
 
 		if (m_bXStatusEnabled) {
-			mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dName", bXStatus);
+			mir_snprintf(szSetting, "XStatus%dName", bXStatus);
 			szName = getSettingStringUtf(NULL, szSetting, ICQTranslateUtfStatic(nameXStatus[bXStatus-1], str, MAX_PATH));
 		}
-		mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dMsg", bXStatus);
+		mir_snprintf(szSetting, "XStatus%dMsg", bXStatus);
 		szMsg = getSettingStringUtf(NULL, szSetting, "");
 
-		mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dStat", bXStatus);
+		mir_snprintf(szSetting, "XStatus%dStat", bXStatus);
 		if (!bQuiet && !getByte(szSetting, 0)) {
 			InitXStatusData init;
 			init.ppro = this;
@@ -897,7 +897,7 @@ void InitXStatusIcons()
 
 	for (int i = 0; i < XSTATUS_COUNT; i++) {
 		char szTemp[100];
-		mir_snprintf(szTemp, SIZEOF(szTemp), "icq_xstatus%d", i);
+		mir_snprintf(szTemp, "icq_xstatus%d", i);
 		sid.pszName = szTemp;
 		sid.pszDescription = (LPSTR)nameXStatus[i];
 		sid.iDefaultIndex = -(IDI_XSTATUS1+i);

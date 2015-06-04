@@ -159,7 +159,7 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buff
 
 					col = _ttoi(szTemp3);
 					col += (OPTIONS_FONTCOUNT + 1);
-					mir_snprintf(szTemp, SIZEOF(szTemp), (c == 'c') ? "\\cf%u " : "\\highlight%u ", col);
+					mir_snprintf(szTemp, (c == 'c') ? "\\cf%u " : "\\highlight%u ", col);
 				}
 				break;
 			case 'C':
@@ -167,23 +167,23 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buff
 				if (!g_Settings->bStripFormat && !streamData->bStripFormat) {
 					int j = streamData->lin->bIsHighlighted ? 16 : EventToIndex(streamData->lin);
 					if (*line == 'C')
-						mir_snprintf(szTemp, SIZEOF(szTemp), "\\cf%u ", j + 1);
+						mir_snprintf(szTemp, "\\cf%u ", j + 1);
 					else
-						mir_snprintf(szTemp, SIZEOF(szTemp), "\\highlight0 ");
+						mir_snprintf(szTemp, "\\highlight0 ");
 				}
 				break;
 			case 'b':
 			case 'u':
 			case 'i':
 				if (!streamData->bStripFormat)
-					mir_snprintf(szTemp, SIZEOF(szTemp), (*line == 'u') ? "\\%cl " : "\\%c ", *line);
+					mir_snprintf(szTemp, (*line == 'u') ? "\\%cl " : "\\%c ", *line);
 				break;
 
 			case 'B':
 			case 'U':
 			case 'I':
 				if (!streamData->bStripFormat) {
-					mir_snprintf(szTemp, SIZEOF(szTemp), (*line == 'U') ? "\\%cl0 " : "\\%c0 ", *line);
+					mir_snprintf(szTemp, (*line == 'U') ? "\\%cl0 " : "\\%c0 ", *line);
 					CharLowerA(szTemp);
 				}
 				break;
@@ -191,7 +191,7 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buff
 			case 'r':
 				if (!streamData->bStripFormat) {
 					int index = EventToIndex(streamData->lin);
-					mir_snprintf(szTemp, SIZEOF(szTemp), "%s ", Log_SetStyle(index));
+					mir_snprintf(szTemp, "%s ", Log_SetStyle(index));
 				}
 				break;
 			}

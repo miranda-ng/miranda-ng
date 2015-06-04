@@ -73,7 +73,7 @@ void RegisterCListFonts()
 		_tcsncpy(fontid.name, clistFontDescr[i].tszName, SIZEOF(fontid.name));
 
 		char idstr[10];
-		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", i);
+		mir_snprintf(idstr, "Font%d", i);
 		strncpy(fontid.prefix, idstr, SIZEOF(fontid.prefix));
 		fontid.order = i;
 		FontRegisterT(&fontid);

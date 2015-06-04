@@ -75,7 +75,7 @@ static const char *StatusModeToDbSetting(int status, const char *suffix)
 		case ID_STATUS_IDLE:		prefix = "Idl";			break;
 		default: return NULL;
 	}
-	mir_snprintf(str, SIZEOF(str), "%s%s", prefix, suffix);
+	mir_snprintf(str, "%s%s", prefix, suffix);
 	return str;
 }
 

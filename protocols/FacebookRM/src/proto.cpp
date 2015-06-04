@@ -991,8 +991,8 @@ void FacebookProto::InitPopups()
 	char name[256];
 
 	// Client
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("Client notifications"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Client");
+	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Client notifications"));
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Client");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("facebook"));
@@ -1002,8 +1002,8 @@ void FacebookProto::InitPopups()
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Newsfeeds
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("News feeds"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Newsfeed");
+	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("News feeds"));
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Newsfeed");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("newsfeed"));
@@ -1013,8 +1013,8 @@ void FacebookProto::InitPopups()
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Notifications
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("Notifications"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Notification");
+	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Notifications"));
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Notification");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("notification"));
@@ -1024,8 +1024,8 @@ void FacebookProto::InitPopups()
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Others
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("Other events"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Other");
+	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Other events"));
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Other");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("facebook"));
@@ -1035,8 +1035,8 @@ void FacebookProto::InitPopups()
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Friendship changes
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("Friendship events"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Friendship");
+	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Friendship events"));
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Friendship");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("friendship"));
@@ -1046,8 +1046,8 @@ void FacebookProto::InitPopups()
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
 
 	// Ticker
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("Ticker feeds"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Ticker");
+	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Ticker feeds"));
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Ticker");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("newsfeed"));

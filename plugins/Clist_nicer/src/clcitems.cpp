@@ -480,7 +480,7 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, str
 	}
 	// check the proto, use it as a base filter result for all further checks
 	if (cfg::dat.bFilterEffective & CLVM_FILTER_PROTOS) {
-		mir_snprintf(szTemp, SIZEOF(szTemp), "%s|", szProto);
+		mir_snprintf(szTemp, "%s|", szProto);
 		filterResult = strstr(cfg::dat.protoFilter, szTemp) ? 1 : 0;
 	}
 	if (cfg::dat.bFilterEffective & CLVM_FILTER_GROUPS) {

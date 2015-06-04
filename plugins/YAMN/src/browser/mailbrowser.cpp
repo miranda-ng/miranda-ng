@@ -808,7 +808,7 @@ void DoMailActions(HWND hDlg, HACCOUNT ActualAccount, struct CMailNumbers *MN, D
 			if (MN->Real.PopupTC + MN->Virtual.PopupTC)
 			{
 				char tmp[255];
-				mir_snprintf(tmp, SIZEOF(tmp), Translate("%d new mail message(s), %d total"), MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
+				mir_snprintf(tmp, Translate("%d new mail message(s), %d total"), MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
 				db_set_s(ActualAccount->hContact, "CList", "StatusMsg", tmp);
 			}
 			else db_set_s(ActualAccount->hContact, "CList", "StatusMsg", Translate("No new mail message"));

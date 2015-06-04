@@ -96,17 +96,17 @@ void saveSettingsConnections(struct CONNECTION *connHead)
 	while (tmp != NULL)
 	{
 
-		mir_snprintf(buff, SIZEOF(buff), "%dFilterIntIp", i);
+		mir_snprintf(buff, "%dFilterIntIp", i);
 		db_set_ts(NULL, PLUGINNAME, buff, tmp->strIntIp);
-		mir_snprintf(buff, SIZEOF(buff), "%dFilterExtIp", i);
+		mir_snprintf(buff, "%dFilterExtIp", i);
 		db_set_ts(NULL, PLUGINNAME, buff, tmp->strExtIp);
-		mir_snprintf(buff, SIZEOF(buff), "%dFilterPName", i);
+		mir_snprintf(buff, "%dFilterPName", i);
 		db_set_ws(NULL, PLUGINNAME, buff, tmp->PName);
-		mir_snprintf(buff, SIZEOF(buff), "%dFilterIntPort", i);
+		mir_snprintf(buff, "%dFilterIntPort", i);
 		db_set_dw(NULL, PLUGINNAME, buff, tmp->intIntPort);
-		mir_snprintf(buff, SIZEOF(buff), "%dFilterExtPort", i);
+		mir_snprintf(buff, "%dFilterExtPort", i);
 		db_set_dw(NULL, PLUGINNAME, buff, tmp->intExtPort);
-		mir_snprintf(buff, SIZEOF(buff), "%dFilterAction", i);
+		mir_snprintf(buff, "%dFilterAction", i);
 		db_set_dw(NULL, PLUGINNAME, buff, tmp->Pid);
 		i++;
 		tmp = tmp->next;
@@ -126,26 +126,26 @@ struct CONNECTION* LoadSettingsConnections()
 	for (i = settingFiltersCount - 1; i >= 0; i--)
 	{
 		struct CONNECTION *conn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
-		mir_snprintf(buff, SIZEOF(buff), "%dFilterIntIp", i);
+		mir_snprintf(buff, "%dFilterIntIp", i);
 		if (!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
 			wcsncpy(conn->strIntIp, dbv.ptszVal, _countof(conn->strIntIp));
 		db_free(&dbv);
-		mir_snprintf(buff, SIZEOF(buff), "%dFilterExtIp", i);
+		mir_snprintf(buff, "%dFilterExtIp", i);
 		if (!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
 			wcsncpy(conn->strExtIp, dbv.ptszVal, _countof(conn->strExtIp));
 		db_free(&dbv);
-		mir_snprintf(buff, SIZEOF(buff), "%dFilterPName", i);
+		mir_snprintf(buff, "%dFilterPName", i);
 		if (!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
 			wcsncpy(conn->PName, dbv.ptszVal, _countof(conn->PName));
 		db_free(&dbv);
 
-		mir_snprintf(buff, SIZEOF(buff), "%dFilterIntPort", i);
+		mir_snprintf(buff, "%dFilterIntPort", i);
 		conn->intIntPort = db_get_dw(0, PLUGINNAME, buff, -1);
 
-		mir_snprintf(buff, SIZEOF(buff), "%dFilterExtPort", i);
+		mir_snprintf(buff, "%dFilterExtPort", i);
 		conn->intExtPort = db_get_dw(0, PLUGINNAME, buff, -1);
 
-		mir_snprintf(buff, SIZEOF(buff), "%dFilterAction", i);
+		mir_snprintf(buff, "%dFilterAction", i);
 		conn->Pid = db_get_dw(0, PLUGINNAME, buff, 0);
 
 		conn->next = connHead;
@@ -169,7 +169,7 @@ void LoadSettings()
 	for (int i = 0; i < STATUS_COUNT; i++)
 	{
 		char buff[128];
-		mir_snprintf(buff, SIZEOF(buff), "Status%d", i);
+		mir_snprintf(buff, "Status%d", i);
 		settingStatus[i] = (db_get_b(0, PLUGINNAME, buff, 0) == 1);
 	}
 	//lookupLotusDefaultSettings();
@@ -534,7 +534,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 				for (int i = 0; i < STATUS_COUNT; i++) {
 					char buff[128];
-					mir_snprintf(buff, SIZEOF(buff), "Status%d", i);
+					mir_snprintf(buff, "Status%d", i);
 					settingStatus[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_STATUS), i) ? TRUE : FALSE);
 					db_set_b(0, PLUGINNAME, buff, settingStatus[i] ? 1 : 0);
 				}

@@ -350,7 +350,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam)
 				int offset = tzi->Bias + tzi->StandardBias;
 
 				char str[80];
-				mir_snprintf(str, SIZEOF(str), offset ? "UTC%+d:%02d" : "UTC", offset / -60, abs(offset % 60));
+				mir_snprintf(str, offset ? "UTC%+d:%02d" : "UTC", offset / -60, abs(offset % 60));
 				ci->pszVal = ci->dwFlag & CNF_UNICODE ? (TCHAR*)mir_a2u(str) : (TCHAR*)mir_strdup(str);
 				ci->type = CNFT_ASCIIZ;
 				return 0;

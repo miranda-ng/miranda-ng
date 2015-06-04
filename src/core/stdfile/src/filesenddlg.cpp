@@ -256,7 +256,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 						break;
 					case CNFT_DWORD:
 						hasName = 1;
-						mir_snprintf(buf, SIZEOF(buf), "%u", ci.dVal);
+						mir_snprintf(buf, "%u", ci.dVal);
 						break;
 					}
 				}

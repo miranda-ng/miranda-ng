@@ -1292,7 +1292,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 
 				for (int i = 0; i < nCount; i++)
 				{
-					mir_snprintf(szTemp, SIZEOF(szTemp), "DisableProt_%s", proto[i]->szModuleName);
+					mir_snprintf(szTemp, "DisableProt_%s", proto[i]->szModuleName);
 					sItem.pszText = proto[i]->szModuleName;
 					sItem.iImage = db_get_b(NULL, MODULE, szTemp, 1);
 					::SendMessage(hMapUser, LVM_INSERTITEMA, 0, (LPARAM)&sItem);

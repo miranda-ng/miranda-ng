@@ -342,7 +342,7 @@ public:
 			}
 			else {
 				char name[128];
-				mir_snprintf(name, SIZEOF(name), "__group_%d", groups.getCount());
+				mir_snprintf(name, "__group_%d", groups.getCount());
 
 				ExtraIconGroup *group = new ExtraIconGroup(name);
 
@@ -365,10 +365,10 @@ public:
 			BaseExtraIcon *extra = registeredExtraIcons[i];
 
 			char setting[512];
-			mir_snprintf(setting, SIZEOF(setting), "Position_%s", extra->getName());
+			mir_snprintf(setting, "Position_%s", extra->getName());
 			db_set_w(NULL, MODULE_NAME, setting, extra->getPosition());
 
-			mir_snprintf(setting, SIZEOF(setting), "Slot_%s", extra->getName());
+			mir_snprintf(setting, "Slot_%s", extra->getName());
 			db_set_w(NULL, MODULE_NAME, setting, extra->getSlot());
 		}
 
@@ -378,13 +378,13 @@ public:
 			ExtraIconGroup *group = groups[k];
 
 			char setting[512];
-			mir_snprintf(setting, SIZEOF(setting), "%d_count", k);
+			mir_snprintf(setting, "%d_count", k);
 			db_set_w(NULL, MODULE_NAME "Groups", setting, (WORD)group->items.getCount());
 
 			for (int j = 0; j < group->items.getCount(); j++) {
 				BaseExtraIcon *extra = group->items[j];
 
-				mir_snprintf(setting, SIZEOF(setting), "%d_%d", k, j);
+				mir_snprintf(setting, "%d_%d", k, j);
 				db_set_s(NULL, MODULE_NAME "Groups", setting, extra->getName());
 			}
 		}

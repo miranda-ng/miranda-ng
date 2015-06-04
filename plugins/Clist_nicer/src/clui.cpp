@@ -1851,7 +1851,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			char str[64];
 			DWORD v = pluginInfo.version;
-			mir_snprintf(str, SIZEOF(str), "%s %d.%d.%d.%d", Translate("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
+			mir_snprintf(str, "%s %d.%d.%d.%d", Translate("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
 			SetDlgItemTextA(hwndDlg, IDC_VERSION, str);
 		}
 		{
@@ -2033,7 +2033,7 @@ void FS_RegisterFonts()
 		_tcsncpy(fid.name, clistFontDescr[i].tszName, SIZEOF(fid.name));
 
 		char idstr[10];
-		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", i);
+		mir_snprintf(idstr, "Font%d", i);
 		strncpy(fid.prefix, idstr, SIZEOF(fid.prefix));
 		fid.order = i;
 		FontRegisterT(&fid);

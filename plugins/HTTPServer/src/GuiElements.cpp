@@ -201,7 +201,7 @@ unsigned long GetExternIP(const char *szURL, const char *szPattern) {
 string sCreateLink(const char * pszSrvPath) {
 	char szTemp[30];
 	string sLink = DBGetString(NULL, MODULE, "ExternalSrvName", szDefaultExternalSrvName);
-	mir_snprintf(szTemp, SIZEOF(szTemp), "%d.%d.%d.%d", SplitIpAddress(dwLocalIpAddress));
+	mir_snprintf(szTemp, "%d.%d.%d.%d", SplitIpAddress(dwLocalIpAddress));
 	ReplaceAll(sLink, "%LocalIP%", szTemp);
 
 	if (sLink.find("%ExternalIP%") != sLink.npos) {
@@ -214,11 +214,11 @@ string sCreateLink(const char * pszSrvPath) {
 			dwExternalIpAddressGenerated = GetTickCount();
 		}
 
-		mir_snprintf(szTemp, SIZEOF(szTemp), "%d.%d.%d.%d", SplitIpAddress(dwExternalIpAddress));
+		mir_snprintf(szTemp, "%d.%d.%d.%d", SplitIpAddress(dwExternalIpAddress));
 		ReplaceAll(sLink, "%ExternalIP%", szTemp);
 	}
 
-	mir_snprintf(szTemp, SIZEOF(szTemp), "%d", dwLocalPortUsed, szTemp);
+	mir_snprintf(szTemp, "%d", dwLocalPortUsed, szTemp);
 	ReplaceAll(sLink, "%Port%", szTemp);
 
 	string sSrvPath = pszSrvPath;
@@ -463,7 +463,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare) {
 		DWORD dwError = CommDlgExtendedError();
 		if (dwError) {
 			char szTemp[200];
-			mir_snprintf(szTemp, SIZEOF(szTemp), "Failed to create File Open dialog the error returned was %d", dwError);
+			mir_snprintf(szTemp, "Failed to create File Open dialog the error returned was %d", dwError);
 			MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_OK);
 		}
 		return false;
@@ -560,7 +560,7 @@ void UpdateStatisticView(HWND hwndDlg, bool bRefressUsersOnly = false) {
 			ListView_InsertItem(hShareList, &sItem);
 
 
-			mir_snprintf(szTmp, SIZEOF(szTmp), "%d", pclCur->st.nMaxDownloads);
+			mir_snprintf(szTmp, "%d", pclCur->st.nMaxDownloads);
 			sItem.iSubItem = 1;
 			sItem.pszText = szTmp;
 			ListView_SetItem(hShareList, &sItem);
@@ -600,7 +600,7 @@ void UpdateStatisticView(HWND hwndDlg, bool bRefressUsersOnly = false) {
 			ListView_SetItem(hUserList, &sItem);
 
 			if (pclCurUser->dwTotalSize) {
-				mir_snprintf(szTmp, SIZEOF(szTmp), "%d %%", (pclCurUser->dwCurrentDL * 100) / pclCurUser->dwTotalSize);
+				mir_snprintf(szTmp, "%d %%", (pclCurUser->dwCurrentDL * 100) / pclCurUser->dwTotalSize);
 			} else {
 				mir_strcpy(szTmp, "? %%");
 			}
@@ -612,9 +612,9 @@ void UpdateStatisticView(HWND hwndDlg, bool bRefressUsersOnly = false) {
 			if (dwSpeed > 10000) {
 				dwSpeed += 512; // make sure we round ot down correctly.
 				dwSpeed /= 1024;
-				mir_snprintf(szTmp, SIZEOF(szTmp), "%d KB/Sec", dwSpeed);
+				mir_snprintf(szTmp, "%d KB/Sec", dwSpeed);
 			} else {
-				mir_snprintf(szTmp, SIZEOF(szTmp), "%d B/Sec", dwSpeed);
+				mir_snprintf(szTmp, "%d B/Sec", dwSpeed);
 			}
 			sItem.iSubItem = 4;
 			sItem.pszText = szTmp;

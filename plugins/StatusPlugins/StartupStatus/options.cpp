@@ -812,7 +812,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 			char setting[128];
 			int i, oldCount = db_get_w(NULL, MODULENAME, SETTING_PROFILECOUNT, 0);
 			for (i=0; i < oldCount; i++) {
-				mir_snprintf(setting, SIZEOF(setting), "%d_", i);
+				mir_snprintf(setting, "%d_", i);
 				ClearDatabase(setting);
 			}
 			for (i=0; i < arProfiles.getCount(); i++) {
@@ -828,7 +828,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				TSettingsList& ar = *po.ps;
 				for (int j=0; j < ar.getCount(); j++) {
 					if ( ar[j].szMsg != NULL ) {
-						mir_snprintf(setting, SIZEOF(setting), "%s_%s", ar[j].szName, SETTING_PROFILE_STSMSG);
+						mir_snprintf(setting, "%s_%s", ar[j].szName, SETTING_PROFILE_STSMSG);
 						db_set_ts(NULL, MODULENAME, OptName(i, setting), ar[j].szMsg);
 					}
 					db_set_w(NULL, MODULENAME, OptName(i, ar[j].szName), ar[j].status);
@@ -955,6 +955,6 @@ static int DeleteSetting(const char *szSetting,LPARAM lParam)
 char* OptName(int i, const char* setting)
 {
 	static char buf[100];
-	mir_snprintf(buf, SIZEOF(buf), "%d_%s", i, setting);
+	mir_snprintf(buf, "%d_%s", i, setting);
 	return buf;
 }

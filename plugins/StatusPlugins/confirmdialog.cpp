@@ -69,7 +69,7 @@ static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 		{
 			TCHAR desc[512];
-			mir_sntprintf(desc, SIZEOF(desc), TranslateT("Set %s message for %s."),
+			mir_sntprintf(desc,   TranslateT("Set %s message for %s."),
 				pcli->pfnGetStatusModeDescription(GetActualStatus(protoSetting), 0), protoSetting->tszAccName);
 			SetDlgItemText(hwndDlg, IDC_DESCRIPTION, desc);
 		}

@@ -222,8 +222,8 @@ void OpenContactInbox(LPCSTR szModuleName)
 
 	TCHAR buf[1024];
 	if (mir_tstrcmpi(host, COMMON_GMAIL_HOST1) && mir_tstrcmpi(host, COMMON_GMAIL_HOST2))
-		mir_sntprintf(buf, SIZEOF(buf), INBOX_URL_FORMAT, _T("a/"), host);   // hosted
+		mir_sntprintf(buf, INBOX_URL_FORMAT, _T("a/"), host);   // hosted
 	else
-		mir_sntprintf(buf, SIZEOF(buf), INBOX_URL_FORMAT, _T(""), _T("mail")); // common
+		mir_sntprintf(buf, INBOX_URL_FORMAT, _T(""), _T("mail")); // common
 	OpenUrl(szModuleName, tszJid, buf);
 }
