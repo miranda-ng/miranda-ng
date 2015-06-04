@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "msn_global.h"
+#include "stdafx.h"
 
 static TCHAR* a2tf(const TCHAR* str, bool unicode)
 {
@@ -330,6 +330,8 @@ TCHAR* UnEscapeChatTags(TCHAR* str_in)
 	*d = 0;
 	return str_in;
 }
+
+#pragma comment(lib, "Rpcrt4.lib")
 
 char* getNewUuid(void)
 {

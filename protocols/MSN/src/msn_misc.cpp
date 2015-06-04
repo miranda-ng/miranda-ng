@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "msn_global.h"
+#include "stdafx.h"
 #include "msn_proto.h"
 #include "version.h"
 
@@ -432,7 +432,7 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 
 	if ((parFlags & MSG_DISABLE_HDR) == 0) {
 		char  tFontName[100], tFontStyle[3], *pszMsgType, *pszContType;
-		DWORD tFontColor;
+		DWORD tFontColor = 0;
 
 		if (parFlags & MSG_CONTACT) {
 			pszMsgType = "RichText/Contacts";
@@ -471,10 +471,7 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 
 				tFontColor = db_get_dw(NULL, "SRMsg", "Font0Col", 0);
 			}
-			else {
-				tFontColor = 0;
-				tFontStyle[0] = 0;
-			}
+			else tFontStyle[0] = 0;
 
 #ifdef OBSOLETE
 			if (parFlags & MSG_OFFLINE)
@@ -495,17 +492,13 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 			pszNick = dbv.pszVal;
 
 		buf.AppendFormat(
-		"Messaging: 2.0\r\n"
-		"Client-Message-ID: %llu\r\n"
-		"Message-Type: %s\r\n"
-		"IM-Display-Name: %s\r\n"
-		"Content-Type: %s\r\n"
-		"Content-Length: %d\r\n",
-		msgid,
-		pszMsgType,
-		pszNick,
-		pszContType,
-		mir_strlen(parMsg));
+			"Messaging: 2.0\r\n"
+			"Client-Message-ID: %llu\r\n"
+			"Message-Type: %s\r\n"
+			"IM-Display-Name: %s\r\n"
+			"Content-Type: %s\r\n"
+			"Content-Length: %d\r\n",
+			msgid, pszMsgType, pszNick, pszContType, mir_strlen(parMsg));
 
 		if (*tFontName) buf.AppendFormat("X-MMS-IM-Format: FN=%s; EF=%s; CO=%x; CS=0; PF=31%s\r\n",
 			tFontName, tFontStyle, tFontColor, (parFlags & MSG_RTL) ? ";RL=1" : "");

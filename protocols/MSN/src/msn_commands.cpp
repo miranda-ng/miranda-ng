@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "msn_global.h"
+#include "stdafx.h"
 #include "msn_proto.h"
 
 void CMsnProto::MSN_SetMirVer(MCONTACT hContact, DWORD dwValue, bool always)
@@ -463,7 +463,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 
 			if (fileSize) {
 				filetransfer* ft = new filetransfer(this);
-				char *pszFile;
+				char *pszFile = "";
 				ezxml_t originalName, desc;
 
 				ft->std.hContact = hContact;
@@ -903,7 +903,7 @@ LBL_InvalidCommand:
 			}
 
 			HReadBuffer buf(info, 0);
-			char* msgBody = (char*)buf.surelyRead(atol(data.strMsgBytes));
+			buf.surelyRead(atol(data.strMsgBytes));
 
 			if (!bSentBND)
 			{
