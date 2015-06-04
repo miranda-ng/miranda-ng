@@ -147,7 +147,7 @@ static BOOL ExportSettings(HWND hwndDlg, const TCHAR *filename, OBJLIST<FontInte
 	for (int i = 0; i < flist.getCount(); i++) {
 		FontInternal& F = flist[i];
 
-		mir_snprintf(buff, SIZEOF(buff), "\n[%s]", F.dbSettingsGroup);
+		mir_snprintf(buff, "\n[%s]", F.dbSettingsGroup);
 		if (mir_strcmp(buff, header) != 0) {
 			strncpy(header, buff, SIZEOF(header));
 			WriteLine(out, buff);
@@ -193,7 +193,7 @@ static BOOL ExportSettings(HWND hwndDlg, const TCHAR *filename, OBJLIST<FontInte
 	for (int i = 0; i < clist.getCount(); i++) {
 		ColourInternal& C = clist[i];
 
-		mir_snprintf(buff, SIZEOF(buff), "\n[%s]", C.dbSettingsGroup);
+		mir_snprintf(buff, "\n[%s]", C.dbSettingsGroup);
 		if (mir_strcmp(buff, header) != 0) {
 			strncpy_s(header, buff, _TRUNCATE);
 			WriteLine(out, buff);
@@ -205,7 +205,7 @@ static BOOL ExportSettings(HWND hwndDlg, const TCHAR *filename, OBJLIST<FontInte
 	for (int i = 0; i < elist.getCount(); i++) {
 		EffectInternal& E = elist[i];
 
-		mir_snprintf(buff, SIZEOF(buff), "\n[%s]", E.dbSettingsGroup);
+		mir_snprintf(buff, "\n[%s]", E.dbSettingsGroup);
 		if (mir_strcmp(buff, header) != 0) {
 			strncpy_s(header, buff, _TRUNCATE);
 			WriteLine(out, buff);
@@ -504,7 +504,7 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 	char str[128];
 
 	if (F.flags & FIDF_APPENDNAME)
-		mir_snprintf(str, SIZEOF(str), "%sName", F.prefix);
+		mir_snprintf(str, "%sName", F.prefix);
 	else
 		strncpy_s(str, F.prefix, _TRUNCATE);
 
@@ -514,7 +514,7 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 		db_set_s(NULL, F.dbSettingsGroup, str, buff);
 	}
 
-	mir_snprintf(str, SIZEOF(str), "%sSize", F.prefix);
+	mir_snprintf(str, "%sSize", F.prefix);
 	if (F.flags & FIDF_SAVEACTUALHEIGHT) {
 		SIZE size;
 		CreateFromFontSettings(&F.value, &lf);
@@ -535,17 +535,17 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 	}
 	else db_set_b(NULL, F.dbSettingsGroup, str, F.value.size);
 
-	mir_snprintf(str, SIZEOF(str), "%sSty", F.prefix);
+	mir_snprintf(str, "%sSty", F.prefix);
 	db_set_b(NULL, F.dbSettingsGroup, str, F.value.style);
-	mir_snprintf(str, SIZEOF(str), "%sSet", F.prefix);
+	mir_snprintf(str, "%sSet", F.prefix);
 	db_set_b(NULL, F.dbSettingsGroup, str, F.value.charset);
-	mir_snprintf(str, SIZEOF(str), "%sCol", F.prefix);
+	mir_snprintf(str, "%sCol", F.prefix);
 	db_set_dw(NULL, F.dbSettingsGroup, str, F.value.colour);
 	if (F.flags & FIDF_NOAS) {
-		mir_snprintf(str, SIZEOF(str), "%sAs", F.prefix);
+		mir_snprintf(str, "%sAs", F.prefix);
 		db_set_w(NULL, F.dbSettingsGroup, str, (WORD)0x00FF);
 	}
-	mir_snprintf(str, SIZEOF(str), "%sFlags", F.prefix);
+	mir_snprintf(str, "%sFlags", F.prefix);
 	db_set_w(NULL, F.dbSettingsGroup, str, (WORD)F.flags);
 }
 
@@ -1139,13 +1139,13 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			for (i = 0; i < effect_id_list_w2.getCount(); i++) {
 				EffectInternal& E = effect_id_list_w2[i];
 
-				mir_snprintf(str, SIZEOF(str), "%sEffect", E.setting);
+				mir_snprintf(str, "%sEffect", E.setting);
 				db_set_b(NULL, E.dbSettingsGroup, str, E.value.effectIndex);
 
-				mir_snprintf(str, SIZEOF(str), "%sEffectCol1", E.setting);
+				mir_snprintf(str, "%sEffectCol1", E.setting);
 				db_set_dw(NULL, E.dbSettingsGroup, str, E.value.baseColour);
 
-				mir_snprintf(str, SIZEOF(str), "%sEffectCol2", E.setting);
+				mir_snprintf(str, "%sEffectCol2", E.setting);
 				db_set_dw(NULL, E.dbSettingsGroup, str, E.value.secondaryColour);
 			}
 

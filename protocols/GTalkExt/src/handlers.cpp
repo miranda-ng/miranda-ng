@@ -189,7 +189,7 @@ void RequestMail(LPCTSTR jidWithRes, IJabberInterface *ji)
 		lastThreadId(ReadJidSetting(LAST_THREAD_ID_FROM_JID, jid));
 
 	TCHAR id[30];
-	mir_sntprintf(id, SIZEOF(id), JABBER_IQID_FORMAT, uID);
+	mir_sntprintf(id, JABBER_IQID_FORMAT, uID);
 	xi.addAttr(node, ATTRNAME_ID, id);
 
 	child = xi.addChild(node, NODENAME_QUERY, NULL);
@@ -249,7 +249,7 @@ void SetNotificationSetting(LPCTSTR jidWithResource, IJabberInterface *ji)
 	xi.addAttr(node, ATTRNAME_TO, jid);
 
 	TCHAR id[30];
-	mir_sntprintf(id, SIZEOF(id), JABBER_IQID_FORMAT, ji->SerialNext());
+	mir_sntprintf(id, JABBER_IQID_FORMAT, ji->SerialNext());
 	xi.addAttr(node, ATTRNAME_ID, id);
 
 	child = xi.addChild(node, NODENAME_USERSETTING, NULL);

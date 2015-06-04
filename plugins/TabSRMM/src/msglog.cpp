@@ -236,7 +236,7 @@ static int AppendUnicodeToBuffer(CMStringA &str, const TCHAR *line, int mode)
 					else {
 						char szTemp[10];
 						int colindex = GetColorIndex(GetRTFFont(LOWORD(mode) ? (MSGFONTID_MYMSG + (HIWORD(mode) ? 8 : 0)) : (MSGFONTID_YOURMSG + (HIWORD(mode) ? 8 : 0))));
-						mir_snprintf(szTemp, SIZEOF(szTemp), "%02d", colindex);
+						mir_snprintf(szTemp, "%02d", colindex);
 						str.Append(szTemp);
 					}
 					str.AppendChar(' ');

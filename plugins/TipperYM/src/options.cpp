@@ -95,7 +95,7 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 	char setting[512];
 	DBVARIANT dbv;
 
-	mir_snprintf(setting, SIZEOF(setting), "Name%d", index);
+	mir_snprintf(setting, "Name%d", index);
 	ds->swzName[0] = 0;
 	if (db_get_ts(0, MODULE_ITEMS, setting, &dbv))
 		return false;
@@ -104,10 +104,10 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 	ds->swzName[SIZEOF(ds->swzName) - 1] = 0;
 	db_free(&dbv);
 
-	mir_snprintf(setting, SIZEOF(setting), "Type%d", index);
+	mir_snprintf(setting, "Type%d", index);
 	ds->type = (DisplaySubstType)db_get_b(0, MODULE_ITEMS, setting, DVT_PROTODB);
 
-	mir_snprintf(setting, SIZEOF(setting), "Module%d", index);
+	mir_snprintf(setting, "Module%d", index);
 	ds->szModuleName[0] = 0;
 	if (!db_get(0, MODULE_ITEMS, setting, &dbv)) {
 		strncpy(ds->szModuleName, dbv.pszVal, MODULE_NAME_LEN);
@@ -115,7 +115,7 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 		db_free(&dbv);
 	}
 
-	mir_snprintf(setting, SIZEOF(setting), "Setting%d", index);
+	mir_snprintf(setting, "Setting%d", index);
 	ds->szSettingName[0] = 0;
 	if (!db_get(0, MODULE_ITEMS, setting, &dbv)) {
 		strncpy(ds->szSettingName, dbv.pszVal, SETTING_NAME_LEN);
@@ -123,12 +123,12 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 		db_free(&dbv);
 	}
 
-	mir_snprintf(setting, SIZEOF(setting), "TransFuncId%d", index);
+	mir_snprintf(setting, "TransFuncId%d", index);
 	ds->iTranslateFuncId = db_get_dw(0, MODULE_ITEMS, setting, (DWORD)-1);
 
 	// a little backward compatibility
 	if ((DWORD)ds->iTranslateFuncId == (DWORD)-1) {
-		mir_snprintf(setting, SIZEOF(setting), "TransFunc%d", index);
+		mir_snprintf(setting, "TransFunc%d", index);
 		ds->iTranslateFuncId = (DWORD)db_get_w(0, MODULE_ITEMS, setting, 0);
 	}
 
@@ -139,15 +139,15 @@ void SaveDS(DISPLAYSUBST *ds, int index)
 {
 	char setting[512];
 
-	mir_snprintf(setting, SIZEOF(setting), "Name%d", index);
+	mir_snprintf(setting, "Name%d", index);
 	db_set_ts(0, MODULE_ITEMS, setting, ds->swzName);
-	mir_snprintf(setting, SIZEOF(setting), "Type%d", index);
+	mir_snprintf(setting, "Type%d", index);
 	db_set_b(0, MODULE_ITEMS, setting, (BYTE)ds->type);
-	mir_snprintf(setting, SIZEOF(setting), "Module%d", index);
+	mir_snprintf(setting, "Module%d", index);
 	db_set_s(0, MODULE_ITEMS, setting, ds->szModuleName);
-	mir_snprintf(setting, SIZEOF(setting), "Setting%d", index);
+	mir_snprintf(setting, "Setting%d", index);
 	db_set_s(0, MODULE_ITEMS, setting, ds->szSettingName);
-	mir_snprintf(setting, SIZEOF(setting), "TransFuncId%d", index);
+	mir_snprintf(setting, "TransFuncId%d", index);
 	db_set_dw(0, MODULE_ITEMS, setting, (WORD)ds->iTranslateFuncId);
 }
 
@@ -156,7 +156,7 @@ bool LoadDI(DISPLAYITEM *di, int index)
 	char setting[512];
 	DBVARIANT dbv;
 
-	mir_snprintf(setting, SIZEOF(setting), "DILabel%d", index);
+	mir_snprintf(setting, "DILabel%d", index);
 	di->swzLabel[0] = 0;
 	if (db_get_ts(0, MODULE_ITEMS, setting, &dbv))
 		return false;
@@ -165,7 +165,7 @@ bool LoadDI(DISPLAYITEM *di, int index)
 	di->swzLabel[SIZEOF(di->swzLabel) - 1] = 0;
 	db_free(&dbv);
 
-	mir_snprintf(setting, SIZEOF(setting), "DIValue%d", index);
+	mir_snprintf(setting, "DIValue%d", index);
 	di->swzValue[0] = 0;
 	if (!db_get_ts(0, MODULE_ITEMS, setting, &dbv)) {
 		_tcsncpy(di->swzValue, dbv.ptszVal, SIZEOF(di->swzValue));
@@ -173,15 +173,15 @@ bool LoadDI(DISPLAYITEM *di, int index)
 		db_free(&dbv);
 	}
 
-	mir_snprintf(setting, SIZEOF(setting), "DIType%d", index);
+	mir_snprintf(setting, "DIType%d", index);
 	di->type = (DisplayItemType)db_get_b(0, MODULE_ITEMS, setting, DIT_ALL);
-	mir_snprintf(setting, SIZEOF(setting), "DILineAbove%d", index);
+	mir_snprintf(setting, "DILineAbove%d", index);
 	di->bLineAbove = (db_get_b(0, MODULE_ITEMS, setting, 0) == 1);
-	mir_snprintf(setting, SIZEOF(setting), "DIValNewline%d", index);
+	mir_snprintf(setting, "DIValNewline%d", index);
 	di->bValueNewline = (db_get_b(0, MODULE_ITEMS, setting, 0) == 1);
-	mir_snprintf(setting, SIZEOF(setting), "DIVisible%d", index);
+	mir_snprintf(setting, "DIVisible%d", index);
 	di->bIsVisible = (db_get_b(0, MODULE_ITEMS, setting, 1) == 1);
-	mir_snprintf(setting, SIZEOF(setting), "DITipperVarsFirst%d", index);
+	mir_snprintf(setting, "DITipperVarsFirst%d", index);
 	di->bParseTipperVarsFirst = (db_get_b(0, MODULE_ITEMS, setting, 0) == 1);
 
 	return true;
@@ -191,29 +191,29 @@ void SaveDI(DISPLAYITEM *di, int index)
 {
 	char setting[512];
 
-	mir_snprintf(setting, SIZEOF(setting), "DILabel%d", index);
+	mir_snprintf(setting, "DILabel%d", index);
 	if (db_set_ts(0, MODULE_ITEMS, setting, di->swzLabel)) {
 		char buff[LABEL_LEN];
 		t2a(di->swzLabel, buff, LABEL_LEN);
 		db_set_s(0, MODULE_ITEMS, setting, buff);
 	}
 
-	mir_snprintf(setting, SIZEOF(setting), "DIValue%d", index);
+	mir_snprintf(setting, "DIValue%d", index);
 	if (db_set_ts(0, MODULE_ITEMS, setting, di->swzValue)) {
 		char buff[VALUE_LEN];
 		t2a(di->swzValue, buff, VALUE_LEN);
 		db_set_s(0, MODULE_ITEMS, setting, buff);
 	}
 
-	mir_snprintf(setting, SIZEOF(setting), "DIType%d", index);
+	mir_snprintf(setting, "DIType%d", index);
 	db_set_b(0, MODULE_ITEMS, setting, (BYTE)di->type);
-	mir_snprintf(setting, SIZEOF(setting), "DILineAbove%d", index);
+	mir_snprintf(setting, "DILineAbove%d", index);
 	db_set_b(0, MODULE_ITEMS, setting, di->bLineAbove ? 1 : 0);
-	mir_snprintf(setting, SIZEOF(setting), "DIValNewline%d", index);
+	mir_snprintf(setting, "DIValNewline%d", index);
 	db_set_b(0, MODULE_ITEMS, setting, di->bValueNewline ? 1 : 0);
-	mir_snprintf(setting, SIZEOF(setting), "DIVisible%d", index);
+	mir_snprintf(setting, "DIVisible%d", index);
 	db_set_b(0, MODULE_ITEMS, setting, di->bIsVisible ? 1 : 0);
-	mir_snprintf(setting, SIZEOF(setting), "DITipperVarsFirst%d", index);
+	mir_snprintf(setting, "DITipperVarsFirst%d", index);
 	db_set_b(0, MODULE_ITEMS, setting, di->bParseTipperVarsFirst ? 1 : 0);
 }
 
@@ -304,15 +304,15 @@ void LoadObsoleteSkinSetting()
 	DBVARIANT dbv;
 
 	for (int i = 0; i < SKIN_ITEMS_COUNT; i++) {
-		mir_snprintf(setting, SIZEOF(setting), "SPaintMode%d", i);
+		mir_snprintf(setting, "SPaintMode%d", i);
 		opt.transfMode[i] = (TransformationMode)db_get_b(0, MODULE, setting, 0);
-		mir_snprintf(setting, SIZEOF(setting), "SImgFile%d", i);
+		mir_snprintf(setting, "SImgFile%d", i);
 		if (!db_get_ts(NULL, MODULE, setting, &dbv)) {
 			opt.szImgFile[i] = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
 
-		mir_snprintf(setting, SIZEOF(setting), "SGlyphMargins%d", i);
+		mir_snprintf(setting, "SGlyphMargins%d", i);
 		DWORD margins = db_get_dw(NULL, MODULE, setting, 0);
 		opt.margins[i].top = LOBYTE(LOWORD(margins));
 		opt.margins[i].right = HIBYTE(LOWORD(margins));

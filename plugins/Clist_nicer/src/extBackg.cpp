@@ -302,7 +302,7 @@ void LoadExtBkSettingsFromDB()
 			continue;
 
 		p->imageItem = 0;
-		char buffer[255], *pszEnd = buffer + mir_snprintf(buffer, SIZEOF(buffer), "%s_", p->szDBname);
+		char buffer[255], *pszEnd = buffer + mir_snprintf(buffer, "%s_", p->szDBname);
 		mir_strcpy(pszEnd, "IGNORE"); p->IGNORED = (BYTE)cfg::getByte("CLCExt", buffer, p->IGNORED);
 		mir_strcpy(pszEnd, "GRADIENT"); p->GRADIENT = (BYTE)cfg::getDword("CLCExt", buffer, p->GRADIENT);
 		mir_strcpy(pszEnd, "CORNER"); p->CORNER = (BYTE)cfg::getDword("CLCExt", buffer, p->CORNER);
@@ -338,31 +338,31 @@ static void SaveCompleteStructToDB()
 		StatusItems_t *p = arStatusItems[n];
 		if (p->statusID != ID_EXTBKSEPARATOR) {
 			char buffer[255];
-			mir_snprintf(buffer, SIZEOF(buffer), "%s_IGNORE", p->szDBname);
+			mir_snprintf(buffer, "%s_IGNORE", p->szDBname);
 			cfg::writeByte("CLCExt", buffer, p->IGNORED);
-			mir_snprintf(buffer, SIZEOF(buffer), "%s_GRADIENT", p->szDBname);
+			mir_snprintf(buffer, "%s_GRADIENT", p->szDBname);
 			cfg::writeDword("CLCExt", buffer, p->GRADIENT);
-			mir_snprintf(buffer, SIZEOF(buffer), "%s_CORNER", p->szDBname);
+			mir_snprintf(buffer, "%s_CORNER", p->szDBname);
 			cfg::writeDword("CLCExt", buffer, p->CORNER);
-			mir_snprintf(buffer, SIZEOF(buffer), "%s_COLOR", p->szDBname);
+			mir_snprintf(buffer, "%s_COLOR", p->szDBname);
 			cfg::writeDword("CLCExt", buffer, p->COLOR);
-			mir_snprintf(buffer, SIZEOF(buffer), "%s_COLOR2", p->szDBname);
+			mir_snprintf(buffer, "%s_COLOR2", p->szDBname);
 			cfg::writeDword("CLCExt", buffer, p->COLOR2);
-			mir_snprintf(buffer, SIZEOF(buffer), "%s_COLOR2_TRANSPARENT", p->szDBname);
+			mir_snprintf(buffer, "%s_COLOR2_TRANSPARENT", p->szDBname);
 			cfg::writeByte("CLCExt", buffer, p->COLOR2_TRANSPARENT);
-			mir_snprintf(buffer, SIZEOF(buffer), "%s_TEXTCOLOR", p->szDBname);
+			mir_snprintf(buffer, "%s_TEXTCOLOR", p->szDBname);
 			cfg::writeDword("CLCExt", buffer, p->TEXTCOLOR);
-			mir_snprintf(buffer, SIZEOF(buffer), "%s_ALPHA", p->szDBname);
+			mir_snprintf(buffer, "%s_ALPHA", p->szDBname);
 			cfg::writeByte("CLCExt", buffer, (BYTE)p->ALPHA);
-			mir_snprintf(buffer, SIZEOF(buffer), "%s_MRGN_LEFT", p->szDBname);
+			mir_snprintf(buffer, "%s_MRGN_LEFT", p->szDBname);
 			cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_LEFT);
-			mir_snprintf(buffer, SIZEOF(buffer), "%s_MRGN_TOP", p->szDBname);
+			mir_snprintf(buffer, "%s_MRGN_TOP", p->szDBname);
 			cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_TOP);
-			mir_snprintf(buffer, SIZEOF(buffer), "%s_MRGN_RIGHT", p->szDBname);
+			mir_snprintf(buffer, "%s_MRGN_RIGHT", p->szDBname);
 			cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_RIGHT);
-			mir_snprintf(buffer, SIZEOF(buffer), "%s_MRGN_BOTTOM", p->szDBname);
+			mir_snprintf(buffer, "%s_MRGN_BOTTOM", p->szDBname);
 			cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_BOTTOM);
-			mir_snprintf(buffer, SIZEOF(buffer), "%s_BDRSTYLE", p->szDBname);
+			mir_snprintf(buffer, "%s_BDRSTYLE", p->szDBname);
 			cfg::writeDword("CLCExt", buffer, p->BORDERSTYLE);
 		}
 	}
@@ -470,7 +470,7 @@ void extbk_export(char *file)
 		if (p->statusID == ID_EXTBKSEPARATOR)
 			continue;
 
-		char *pszEnd = buffer + mir_snprintf(buffer, SIZEOF(buffer), "%s_", p->szDBname);
+		char *pszEnd = buffer + mir_snprintf(buffer, "%s_", p->szDBname);
 		mir_strcpy(pszEnd, "ALPHA"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->ALPHA), sizeof(p->ALPHA), file);
 		mir_strcpy(pszEnd, "COLOR"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR), sizeof(p->COLOR), file);
 		mir_strcpy(pszEnd, "COLOR2"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2), sizeof(p->COLOR2), file);
@@ -1331,31 +1331,31 @@ void extbk_import(char *file, HWND hwndDlg)
 		if (p->statusID == ID_EXTBKSEPARATOR)
 			continue;
 
-		mir_snprintf(buffer, SIZEOF(buffer), "%s_ALPHA", p->szDBname);
+		mir_snprintf(buffer, "%s_ALPHA", p->szDBname);
 		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->ALPHA), sizeof(p->ALPHA), file);
-		mir_snprintf(buffer, SIZEOF(buffer), "%s_COLOR", p->szDBname);
+		mir_snprintf(buffer, "%s_COLOR", p->szDBname);
 		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR), sizeof(p->COLOR), file);
-		mir_snprintf(buffer, SIZEOF(buffer), "%s_COLOR2", p->szDBname);
+		mir_snprintf(buffer, "%s_COLOR2", p->szDBname);
 		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2), sizeof(p->COLOR2), file);
-		mir_snprintf(buffer, SIZEOF(buffer), "%s_COLOR2_TRANSPARENT", p->szDBname);
+		mir_snprintf(buffer, "%s_COLOR2_TRANSPARENT", p->szDBname);
 		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2_TRANSPARENT), sizeof(p->COLOR2_TRANSPARENT), file);
-		mir_snprintf(buffer, SIZEOF(buffer), "%s_TEXTCOLOR", p->szDBname);
+		mir_snprintf(buffer, "%s_TEXTCOLOR", p->szDBname);
 		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->TEXTCOLOR), sizeof(p->TEXTCOLOR), file);
-		mir_snprintf(buffer, SIZEOF(buffer), "%s_CORNER", p->szDBname);
+		mir_snprintf(buffer, "%s_CORNER", p->szDBname);
 		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->CORNER), sizeof(p->CORNER), file);
-		mir_snprintf(buffer, SIZEOF(buffer), "%s_GRADIENT", p->szDBname);
+		mir_snprintf(buffer, "%s_GRADIENT", p->szDBname);
 		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->GRADIENT), sizeof(p->GRADIENT), file);
-		mir_snprintf(buffer, SIZEOF(buffer), "%s_IGNORED", p->szDBname);
+		mir_snprintf(buffer, "%s_IGNORED", p->szDBname);
 		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->IGNORED), sizeof(p->IGNORED), file);
-		mir_snprintf(buffer, SIZEOF(buffer), "%s_MARGIN_BOTTOM", p->szDBname);
+		mir_snprintf(buffer, "%s_MARGIN_BOTTOM", p->szDBname);
 		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_BOTTOM), sizeof(p->MARGIN_BOTTOM), file);
-		mir_snprintf(buffer, SIZEOF(buffer), "%s_MARGIN_LEFT", p->szDBname);
+		mir_snprintf(buffer, "%s_MARGIN_LEFT", p->szDBname);
 		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_LEFT), sizeof(p->MARGIN_LEFT), file);
-		mir_snprintf(buffer, SIZEOF(buffer), "%s_MARGIN_RIGHT", p->szDBname);
+		mir_snprintf(buffer, "%s_MARGIN_RIGHT", p->szDBname);
 		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_RIGHT), sizeof(p->MARGIN_RIGHT), file);
-		mir_snprintf(buffer, SIZEOF(buffer), "%s_MARGIN_TOP", p->szDBname);
+		mir_snprintf(buffer, "%s_MARGIN_TOP", p->szDBname);
 		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_TOP), sizeof(p->MARGIN_TOP), file);
-		mir_snprintf(buffer, SIZEOF(buffer), "%s_BORDERSTYLE", p->szDBname);
+		mir_snprintf(buffer, "%s_BORDERSTYLE", p->szDBname);
 		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->BORDERSTYLE), sizeof(p->BORDERSTYLE), file);
 	}
 

@@ -205,7 +205,7 @@ void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 			mir_free(ci.pszVal);
 			break;
 		case CNFT_DWORD:
-			mir_snprintf(buf, SIZEOF(buf), "%u", ci.dVal);
+			mir_snprintf(buf, "%u", ci.dVal);
 			break;
 		}
 	}
@@ -219,7 +219,7 @@ void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 			mir_free(ci.pszVal);
 			break;
 		case CNFT_DWORD:
-			mir_snprintf(buf, SIZEOF(buf), "%u", ci.dVal);
+			mir_snprintf(buf, "%u", ci.dVal);
 			break;
 		}
 	}

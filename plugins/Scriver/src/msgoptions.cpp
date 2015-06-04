@@ -114,7 +114,7 @@ void RegisterFontServiceFonts()
 		fid.order = i;
 
 		char szTemp[100];
-		mir_snprintf(szTemp, SIZEOF(szTemp), "SRMFont%d", i);
+		mir_snprintf(szTemp, "SRMFont%d", i);
 		strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
 		_tcsncpy(fid.name, fontOptionsList[i].szDescr, SIZEOF(fid.name));
 		fid.deffontsettings.colour = fontOptionsList[i].defColour;
@@ -166,17 +166,17 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 	char str[32];
 
 	if (colour) {
-		mir_snprintf(str, SIZEOF(str), "%s%dCol", "SRMFont", i);
+		mir_snprintf(str, "%s%dCol", "SRMFont", i);
 		*colour = db_get_dw(NULL, SRMMMOD, str, fontOptionsList[i].defColour);
 	}
 
 	if (lf) {
-		mir_snprintf(str, SIZEOF(str), "%s%dSize", "SRMFont", i);
+		mir_snprintf(str, "%s%dSize", "SRMFont", i);
 		lf->lfHeight = (char)db_get_b(NULL, SRMMMOD, str, fontOptionsList[i].defSize);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
-		mir_snprintf(str, SIZEOF(str), "%s%dSty", "SRMFont", i);
+		mir_snprintf(str, "%s%dSty", "SRMFont", i);
 		int style = db_get_b(NULL, SRMMMOD, str, fontOptionsList[i].defStyle);
 		lf->lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
 		lf->lfItalic = style & FONTF_ITALIC ? 1 : 0;
@@ -186,7 +186,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-		mir_snprintf(str, SIZEOF(str), "%s%d", "SRMFont", i);
+		mir_snprintf(str, "%s%d", "SRMFont", i);
 
 		ptrT tszFace(db_get_tsa(NULL, SRMMMOD, str));
 		if (tszFace == NULL)
@@ -194,7 +194,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 		else
 			_tcsncpy(lf->lfFaceName, tszFace, SIZEOF(lf->lfFaceName));
 
-		mir_snprintf(str, SIZEOF(str), "%s%dSet", "SRMFont", i);
+		mir_snprintf(str, "%s%dSet", "SRMFont", i);
 		lf->lfCharSet = db_get_b(NULL, SRMMMOD, str, DEFAULT_CHARSET);
 	}
 }
@@ -407,9 +407,9 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_SETPOS, TRUE, db_get_dw(NULL, SRMMMOD, SRMSGSET_ACTIVEALPHA, SRMSGDEFSET_ACTIVEALPHA));
 			SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_SETRANGE, FALSE, MAKELONG(0,255));
 			SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_SETPOS, TRUE, db_get_dw(NULL, SRMMMOD, SRMSGSET_INACTIVEALPHA, SRMSGDEFSET_INACTIVEALPHA));
-			mir_snprintf(str, SIZEOF(str), "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 255));
+			mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 255));
 			SetDlgItemTextA(hwndDlg, IDC_ATRANSPARENCYPERC, str);
-			mir_snprintf(str, SIZEOF(str), "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 255));
+			mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 255));
 			SetDlgItemTextA(hwndDlg, IDC_ITRANSPARENCYPERC, str);
 			SendDlgItemMessage(hwndDlg, IDC_INPUTLINESSPIN, UDM_SETRANGE, 0, MAKELONG(100, 1));
 			SendDlgItemMessage(hwndDlg, IDC_INPUTLINESSPIN, UDM_SETPOS, 0, db_get_w(NULL, SRMMMOD, SRMSGSET_AUTORESIZELINES, SRMSGDEFSET_AUTORESIZELINES));
@@ -451,9 +451,9 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 	case WM_HSCROLL:
 		{
 			char str[10];
-			mir_snprintf(str, SIZEOF(str), "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 256));
+			mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 256));
 			SetDlgItemTextA(hwndDlg, IDC_ATRANSPARENCYPERC, str);
-			mir_snprintf(str, SIZEOF(str), "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 256));
+			mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 256));
 			SetDlgItemTextA(hwndDlg, IDC_ITRANSPARENCYPERC, str);
 			MarkChanges(16, hwndDlg);
 		}

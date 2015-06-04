@@ -64,7 +64,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		}
 		else {
 			for (int i = 1; i < POPUPS; i++) {
-				mir_snprintf(str, SIZEOF(str), "Popups%dM", i);
+				mir_snprintf(str, "Popups%dM", i);
 				CheckDlgButton(hwndDlg, (i + 1029), (db_get_b(NULL, MODNAME, str, DEFAULT_MESSAGE_ENABLED)) ? BST_CHECKED : BST_UNCHECKED);
 			}
 		}
@@ -148,7 +148,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			db_set_b(NULL, MODNAME, "Reminder", Reminder);
 			if (!ServiceExists(MS_POPUP_ADDPOPUPT)) {
 				for (int i = 1; i < POPUPS; i++) {
-					mir_snprintf(str, SIZEOF(str), "Popups%dM", i);
+					mir_snprintf(str, "Popups%dM", i);
 					db_set_b(NULL, MODNAME, str, (BYTE)(IsDlgButtonChecked(hwndDlg, (i + 1029))));
 				}
 			}
@@ -203,7 +203,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		SendDlgItemMessage(hdlg, IDC_RC, CB_SETCURSEL, MyOptions.RightClickAction, 0);
 		//Popups nitified
 		for (i = 0; i < POPUPS; i++) {
-			mir_snprintf(str, SIZEOF(str), "Popups%d", i);
+			mir_snprintf(str, "Popups%d", i);
 			mir_snprintf(str2, SIZEOF(str2), "Popups%dM", i);
 			CheckDlgButton(hdlg, (i + 40071), (db_get_b(NULL, MODNAME, str, DEFAULT_POPUP_ENABLED)) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hdlg, (i + 1024), (db_get_b(NULL, MODNAME, str2, DEFAULT_MESSAGE_ENABLED)) ? BST_CHECKED : BST_UNCHECKED);
@@ -353,11 +353,11 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			for (i = 0; i <= POPUPS - 1; i++) {
 				ctlColor = SendDlgItemMessage(hdlg, (i + 42071), CPM_GETCOLOUR, 0, 0);
 				PopupsList[i].colorBack = ctlColor;
-				mir_snprintf(szSetting, SIZEOF(szSetting), "Popups%iBg", i);
+				mir_snprintf(szSetting, "Popups%iBg", i);
 				db_set_dw(NULL, MODNAME, szSetting, ctlColor);
 				ctlColor = SendDlgItemMessage(hdlg, (i + 41071), CPM_GETCOLOUR, 0, 0);
 				PopupsList[i].colorText = ctlColor;
-				mir_snprintf(szSetting, SIZEOF(szSetting), "Popups%iTx", i);
+				mir_snprintf(szSetting, "Popups%iTx", i);
 				db_set_dw(NULL, MODNAME, szSetting, ctlColor);
 			}
 			//Colors
@@ -371,7 +371,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			db_set_b(NULL, MODNAME, "RightClickAction", MyOptions.RightClickAction);
 			//Notified popups
 			for (i = 0; i < POPUPS; i++) {
-				mir_snprintf(str, SIZEOF(str), "Popups%d", i);
+				mir_snprintf(str, "Popups%d", i);
 				db_set_b(NULL, MODNAME, str, (BYTE)(IsDlgButtonChecked(hdlg, (i + 40071))));
 				mir_snprintf(str2, SIZEOF(str2), "Popups%dM", i);
 				db_set_b(NULL, MODNAME, str2, (BYTE)(IsDlgButtonChecked(hdlg, (i + 1024))));

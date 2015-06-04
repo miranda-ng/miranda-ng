@@ -36,7 +36,7 @@ HANDLE RegisterNLClient(const char *name)
 	static NETLIBUSER nlu={0};
 	char desc[128];
 
-	mir_snprintf(desc, SIZEOF(desc), Translate("%s connection"), name);
+	mir_snprintf(desc, Translate("%s connection"), name);
 
 #ifdef DEBUG_COMM
 	DebugLog(CommFile,"<Register PROXY support>");

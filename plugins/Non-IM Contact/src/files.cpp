@@ -75,7 +75,7 @@ void reloadFiles(HWND fileList)
 	char file[MAX_PATH], fn[6];
 	SendMessage(fileList, CB_RESETCONTENT, 0, 0);
 	for (i = 0;; i++) {
-		mir_snprintf(fn, SIZEOF(fn), "fn%d", i);
+		mir_snprintf(fn, "fn%d", i);
 		if (db_get_static(NULL, MODNAME, fn, file, SIZEOF(file))) {
 			index = SendMessageA(fileList, CB_ADDSTRING, 0, (LPARAM)file);
 			SendMessage(fileList, CB_SETITEMDATA, index, (LPARAM)i);
@@ -104,7 +104,7 @@ void readFile(HWND hwnd)
 	int lineNumber, fileLength = 0, width = 0;
 	char temp[MAX_STRING_LENGTH], szFileName[512], temp1[MAX_STRING_LENGTH], fn[8];
 	int fileNumber = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCURSEL, 0, 0);
-	mir_snprintf(fn, SIZEOF(fn), "fn%d", fileNumber);
+	mir_snprintf(fn, "fn%d", fileNumber);
 	if (!db_get_static(NULL, MODNAME, fn, szFileName, SIZEOF(szFileName))) {
 		msg(Translate("File couldn't be opened"), fn);
 		return;
@@ -147,12 +147,12 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		reloadFiles(GetDlgItem(hwnd, IDC_FILE_LIST));
 		{
 			int i = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCURSEL, 0, 0);
-			mir_snprintf(fn, SIZEOF(fn), "fn%d", i);
+			mir_snprintf(fn, "fn%d", i);
 			SendDlgItemMessage(hwnd, IDC_FILE_CONTENTS, LB_RESETCONTENT, 0, 0);
 			if (db_get_static(NULL, MODNAME, fn, string, SIZEOF(string))) {
 				if ((!strncmp("http://", string, mir_strlen("http://"))) || (!strncmp("https://", string, mir_strlen("https://")))) {
 					SetDlgItemTextA(hwnd, IDC_URL, string);
-					mir_snprintf(fn, SIZEOF(fn), "fn%d_timer", i);
+					mir_snprintf(fn, "fn%d_timer", i);
 					SetDlgItemTextA(hwnd, IDC_WWW_TIMER, _itoa(db_get_w(NULL, MODNAME, fn, 60), tmp, 10));
 				}
 				readFile(hwnd);
@@ -176,13 +176,13 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				mir_strcpy(url, text);
 				if (!InternetDownloadFile(text)) {
 					for (i = 0;; i++) {
-						mir_snprintf(fn, SIZEOF(fn), "fn%d", i);
+						mir_snprintf(fn, "fn%d", i);
 						if (!db_get_static(NULL, MODNAME, fn, text, SIZEOF(text)))
 							break;
 					}
 					mir_snprintf(szFileName, SIZEOF(szFileName), "%s\\plugins\\%s.html", getMimDir(temp), fn);
 					if (savehtml(szFileName)) {
-						mir_snprintf(fn, SIZEOF(fn), "fn%d", i);
+						mir_snprintf(fn, "fn%d", i);
 						db_set_s(NULL, MODNAME, fn, url);
 						if (!GetWindowTextLength(GetDlgItem(hwnd, IDC_WWW_TIMER)))
 							timer = 60;
@@ -190,7 +190,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							GetDlgItemTextA(hwnd, IDC_WWW_TIMER, text, SIZEOF(text));
 							timer = atoi(text);
 						}
-						mir_snprintf(fn, SIZEOF(fn), "fn%d_timer", i);
+						mir_snprintf(fn, "fn%d_timer", i);
 						db_set_w(NULL, MODNAME, fn, (WORD)timer);
 						SendMessage(hwnd, WM_RELOADWINDOW, 0, 0);
 					}
@@ -206,7 +206,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			int i, index;
 			char file[MAX_PATH], fn[6];
 			for (i = 0;; i++) {
-				mir_snprintf(fn, SIZEOF(fn), "fn%d", i);
+				mir_snprintf(fn, "fn%d", i);
 				if (!db_get_static(NULL, MODNAME, fn, file, SIZEOF(file)))
 					break;
 			}
@@ -216,7 +216,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_SETITEMDATA, index, (LPARAM)i);
 				SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_SETCURSEL, index, 0);
 				SetDlgItemTextA(hwnd, IDC_FN, _itoa(i, fn, 10));
-				mir_snprintf(fn, SIZEOF(fn), "fn%d", index);
+				mir_snprintf(fn, "fn%d", index);
 				readFile(hwnd);
 			}
 			break;
@@ -227,7 +227,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				int index = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCURSEL, 0, 0), i = (int)SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETITEMDATA, index, 0);
 				int count = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCOUNT, 0, 0) - 1;
 				if (index == count) {
-					mir_snprintf(fn, SIZEOF(fn), "fn%d", index);
+					mir_snprintf(fn, "fn%d", index);
 					db_unset(NULL, MODNAME, fn);
 					SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_DELETESTRING, index, 0);
 					SendMessage(hwnd, WM_RELOADWINDOW, 0, 0);
@@ -238,13 +238,13 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 				}
 				else {
-					mir_snprintf(fn, SIZEOF(fn), "fn%d", i);
+					mir_snprintf(fn, "fn%d", i);
 					while (db_get_static(NULL, MODNAME, fn, tmp, SIZEOF(tmp))) {
-						mir_snprintf(fn1, SIZEOF(fn1), "fn%d", i - 1);
+						mir_snprintf(fn1, "fn%d", i - 1);
 						db_set_s(NULL, MODNAME, fn1, tmp);
-						mir_snprintf(fn, SIZEOF(fn), "fn%d", ++i);
+						mir_snprintf(fn, "fn%d", ++i);
 					}
-					mir_snprintf(fn, SIZEOF(fn), "fn%d", --i);
+					mir_snprintf(fn, "fn%d", --i);
 					db_unset(NULL, MODNAME, fn);
 					SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_DELETESTRING, index, 0);
 					SendMessage(hwnd, WM_RELOADWINDOW, 0, 0);
@@ -257,11 +257,11 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				int index = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCURSEL, 0, 0);
 				char fn[20], tmp[MAX_PATH];
 				SetDlgItemTextA(hwnd, IDC_FN, _itoa(index, fn, 10));
-				mir_snprintf(fn, SIZEOF(fn), "fn%d", index);
+				mir_snprintf(fn, "fn%d", index);
 				if (db_get_static(NULL, MODNAME, fn, tmp, SIZEOF(tmp))) {
 					if (!strncmp("http://", tmp, mir_strlen("http://")) || !strncmp("https://", tmp, mir_strlen("https://"))) {
 						SetDlgItemTextA(hwnd, IDC_URL, tmp);
-						mir_snprintf(fn, SIZEOF(fn), "fn%d_timer", index);
+						mir_snprintf(fn, "fn%d_timer", index);
 						SetDlgItemTextA(hwnd, IDC_WWW_TIMER, _itoa(db_get_w(NULL, MODNAME, fn, 60), tmp, 10));
 					}
 					else {
@@ -287,7 +287,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				int i = SendDlgItemMessage(hwnd, IDC_FILE_LIST, CB_GETCURSEL, 0, 0);
 				int timer;
 				char fn[MAX_PATH], string[1000];
-				mir_snprintf(fn, SIZEOF(fn), "fn%d", i);
+				mir_snprintf(fn, "fn%d", i);
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_WWW_TIMER))) {
 					TCHAR text[5];
 					GetDlgItemText(hwnd, IDC_WWW_TIMER, text, SIZEOF(text));
@@ -297,7 +297,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 				if (db_get_static(NULL, MODNAME, fn, string, SIZEOF(string)))
 					if (!strncmp("http://", string, mir_strlen("http://")) || !strncmp("https://", string, mir_strlen("https://"))) {
-						mir_snprintf(fn, SIZEOF(fn), "fn%d_timer", i);
+						mir_snprintf(fn, "fn%d_timer", i);
 						db_set_w(NULL, MODNAME, fn, (WORD)timer);
 					}
 

@@ -443,7 +443,7 @@ void FILEECHO::incomeRequest(char *param)
 	chunkCountx = atoi(p);
 	fileSize = atoi(param);
 
-	mir_snprintf(buf, SIZEOF(buf), Translate("Size: %d bytes"), fileSize);
+	mir_snprintf(buf, Translate("Size: %d bytes"), fileSize);
 	SetDlgItemText(hDlg, IDC_FILENAME, filename);
 	SetDlgItemText(hDlg, IDC_FILESIZE, buf);
 
@@ -1167,7 +1167,7 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			int size = RetrieveFileSize(str);
 			if (size != -1)
-				mir_snprintf(str, SIZEOF(str), Translate("Size: %d bytes"), size);
+				mir_snprintf(str, Translate("Size: %d bytes"), size);
 			else
 				mir_strncpy(str, Translate("Can't get a file size"), SIZEOF(str));
 			SetDlgItemText(hDlg, IDC_FILESIZE, str);

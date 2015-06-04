@@ -146,7 +146,7 @@ void RegisterCLUIFonts(void)
 
 		mir_tstrncpy(fontid.group, fontOptionsList[i].szGroup, SIZEOF(fontid.group));
 		mir_tstrncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
-		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", fontOptionsList[i].fontID);
+		mir_snprintf(idstr, "Font%d", fontOptionsList[i].fontID);
 		mir_strncpy(fontid.prefix, idstr, SIZEOF(fontid.prefix));
 		fontid.order = i + 1;
 
@@ -160,7 +160,7 @@ void RegisterCLUIFonts(void)
 
 		mir_tstrncpy(effectid.group, fontOptionsList[i].szGroup, SIZEOF(effectid.group));
 		mir_tstrncpy(effectid.name, fontOptionsList[i].szDescr, SIZEOF(effectid.name));
-		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", fontOptionsList[i].fontID);
+		mir_snprintf(idstr, "Font%d", fontOptionsList[i].fontID);
 		mir_strncpy(effectid.setting, idstr, SIZEOF(effectid.setting));
 		effectid.order = i + 1;
 
@@ -220,11 +220,11 @@ void GetFontSetting(int i, LOGFONT *lf, COLORREF *colour, BYTE *effect, COLORREF
 		*colour = col;
 
 	if (effect) {
-		mir_snprintf(idstr, SIZEOF(idstr), "Font%dEffect", i);
+		mir_snprintf(idstr, "Font%dEffect", i);
 		*effect = db_get_b(NULL, "CLC", idstr, 0);
-		mir_snprintf(idstr, SIZEOF(idstr), "Font%dEffectCol1", i);
+		mir_snprintf(idstr, "Font%dEffectCol1", i);
 		*eColour1 = db_get_dw(NULL, "CLC", idstr, 0);
-		mir_snprintf(idstr, SIZEOF(idstr), "Font%dEffectCol2", i);
+		mir_snprintf(idstr, "Font%dEffectCol2", i);
 		*eColour2 = db_get_dw(NULL, "CLC", idstr, 0);
 	}
 }
@@ -1111,9 +1111,9 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 	case WM_HSCROLL:
 	{
 		char str[10];
-		mir_snprintf(str, SIZEOF(str), "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0) / 255);
+		mir_snprintf(str, "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0) / 255);
 		SetDlgItemTextA(hwndDlg, IDC_INACTIVEPERC, str);
-		mir_snprintf(str, SIZEOF(str), "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0) / 255);
+		mir_snprintf(str, "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0) / 255);
 		SetDlgItemTextA(hwndDlg, IDC_ACTIVEPERC, str);
 	}
 	if (wParam != 0x12345678)
@@ -1695,9 +1695,9 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		break;
 
 	case WM_HSCROLL:
-		mir_snprintf(str, SIZEOF(str), "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0) / 255);
+		mir_snprintf(str, "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0) / 255);
 		SetDlgItemTextA(hwndDlg, IDC_INACTIVEPERC, str);
-		mir_snprintf(str, SIZEOF(str), "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0) / 255);
+		mir_snprintf(str, "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0) / 255);
 		SetDlgItemTextA(hwndDlg, IDC_ACTIVEPERC, str);
 		if (wParam != 0x12345678 && !bInit)
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);

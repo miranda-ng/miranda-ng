@@ -276,14 +276,14 @@ void CJabberDlgPepSimple::cbModes_OnChange(CCtrlData *)
 
 	if ((m_prevSelected >= 0) && (m_modes[m_cbModes.GetItemData(m_prevSelected)].m_id >= 0)) {
 		TCHAR *txt = m_txtDescription.GetText();
-		mir_snprintf(szSetting, SIZEOF(szSetting), "PepMsg_%s", m_modes[m_cbModes.GetItemData(m_prevSelected)].m_name);
+		mir_snprintf(szSetting, "PepMsg_%s", m_modes[m_cbModes.GetItemData(m_prevSelected)].m_name);
 		m_proto->setTString(szSetting, txt);
 		mir_free(txt);
 	}
 
 	m_prevSelected = m_cbModes.GetCurSel();
 	if ((m_prevSelected >= 0) && (m_modes[m_cbModes.GetItemData(m_prevSelected)].m_id >= 0)) {
-		mir_snprintf(szSetting, SIZEOF(szSetting), "PepMsg_%s", m_modes[m_cbModes.GetItemData(m_prevSelected)].m_name);
+		mir_snprintf(szSetting, "PepMsg_%s", m_modes[m_cbModes.GetItemData(m_prevSelected)].m_name);
 
 		ptrT szDescr( m_proto->getTStringA(szSetting));
 		m_txtDescription.SetText((szDescr != NULL) ? szDescr : _T(""));
@@ -447,7 +447,7 @@ CPepGuiService::~CPepGuiService()
 void CPepGuiService::InitGui()
 {
 	char szService[128];
-	mir_snprintf(szService, SIZEOF(szService), "%s/AdvStatusSet/%s", m_proto->m_szModuleName, m_name);
+	mir_snprintf(szService, "%s/AdvStatusSet/%s", m_proto->m_szModuleName, m_name);
 
 	int(__cdecl CPepGuiService::*serviceProc)(WPARAM, LPARAM);
 	serviceProc = &CPepGuiService::OnMenuItemClick;
@@ -463,7 +463,7 @@ void CPepGuiService::RebuildMenu()
 		return;
 
 	char szService[128];
-	mir_snprintf(szService, SIZEOF(szService), "%s/AdvStatusSet/%s", m_proto->m_szModuleName, m_name);
+	mir_snprintf(szService, "%s/AdvStatusSet/%s", m_proto->m_szModuleName, m_name);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.hParentMenu = hJabberRoot;
@@ -1446,7 +1446,7 @@ INT_PTR __cdecl CJabberProto::OnSetXStatusEx(WPARAM, LPARAM lParam)
 void CJabberProto::RegisterAdvStatusSlot(const char *pszSlot)
 {
 	char szSetting[256];
-	mir_snprintf(szSetting, SIZEOF(szSetting), "AdvStatus/%s/%s", m_szModuleName, pszSlot);
+	mir_snprintf(szSetting, "AdvStatus/%s/%s", m_szModuleName, pszSlot);
 	db_set_resident(szSetting, "id");
 	db_set_resident(szSetting, "icon");
 	db_set_resident(szSetting, "title");
@@ -1456,16 +1456,16 @@ void CJabberProto::RegisterAdvStatusSlot(const char *pszSlot)
 void CJabberProto::ResetAdvStatus(MCONTACT hContact, const char *pszSlot)
 {
 	char szSetting[128];
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/id", m_szModuleName, pszSlot);
+	mir_snprintf(szSetting, "%s/%s/id", m_szModuleName, pszSlot);
 	db_unset(hContact, "AdvStatus", szSetting);
 
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/icon", m_szModuleName, pszSlot);
+	mir_snprintf(szSetting, "%s/%s/icon", m_szModuleName, pszSlot);
 	db_unset(hContact, "AdvStatus", szSetting);
 
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/title", m_szModuleName, pszSlot);
+	mir_snprintf(szSetting, "%s/%s/title", m_szModuleName, pszSlot);
 	db_unset(hContact, "AdvStatus", szSetting);
 
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/text", m_szModuleName, pszSlot);
+	mir_snprintf(szSetting, "%s/%s/text", m_szModuleName, pszSlot);
 	db_unset(hContact, "AdvStatus", szSetting);
 }
 
@@ -1473,16 +1473,16 @@ void CJabberProto::WriteAdvStatus(MCONTACT hContact, const char *pszSlot, const 
 {
 	char szSetting[128];
 
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/id", m_szModuleName, pszSlot);
+	mir_snprintf(szSetting, "%s/%s/id", m_szModuleName, pszSlot);
 	db_set_ts(hContact, "AdvStatus", szSetting, pszMode);
 
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/icon", m_szModuleName, pszSlot);
+	mir_snprintf(szSetting, "%s/%s/icon", m_szModuleName, pszSlot);
 	db_set_s(hContact, "AdvStatus", szSetting, pszIcon);
 
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/title", m_szModuleName, pszSlot);
+	mir_snprintf(szSetting, "%s/%s/title", m_szModuleName, pszSlot);
 	db_set_ts(hContact, "AdvStatus", szSetting, pszTitle);
 
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/text", m_szModuleName, pszSlot);
+	mir_snprintf(szSetting, "%s/%s/text", m_szModuleName, pszSlot);
 	if (pszText)
 		db_set_ts(hContact, "AdvStatus", szSetting, pszText);
 	else
@@ -1492,14 +1492,14 @@ void CJabberProto::WriteAdvStatus(MCONTACT hContact, const char *pszSlot, const 
 char* CJabberProto::ReadAdvStatusA(MCONTACT hContact, const char *pszSlot, const char *pszValue)
 {
 	char szSetting[128];
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", m_szModuleName, pszSlot, pszValue);
+	mir_snprintf(szSetting, "%s/%s/%s", m_szModuleName, pszSlot, pszValue);
 	return db_get_sa(hContact, "AdvStatus", szSetting);
 }
 
 TCHAR* CJabberProto::ReadAdvStatusT(MCONTACT hContact, const char *pszSlot, const char *pszValue)
 {
 	char szSetting[128];
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", m_szModuleName, pszSlot, pszValue);
+	mir_snprintf(szSetting, "%s/%s/%s", m_szModuleName, pszSlot, pszValue);
 	return db_get_tsa(hContact, "AdvStatus", szSetting);
 }
 

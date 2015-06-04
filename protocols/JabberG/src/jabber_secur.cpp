@@ -297,7 +297,7 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 
 	char buf[4096];
 	ptrA encproof(mir_base64_encode((PBYTE)clientProof, sizeof(clientProof)));
-	int cbLen = mir_snprintf(buf, SIZEOF(buf), "c=biws,r=%s,p=%s", snonce, encproof);
+	int cbLen = mir_snprintf(buf, "c=biws,r=%s,p=%s", snonce, encproof);
 	return mir_base64_encode((PBYTE)buf, cbLen);
 }
 
@@ -310,7 +310,7 @@ char* TScramAuth::getInitialRequest()
 	cnonce = mir_base64_encode((PBYTE)nonce, sizeof(nonce));
 
 	char buf[4096];
-	int cbLen = mir_snprintf(buf, SIZEOF(buf), "n,,n=%s,r=%s", uname, cnonce);
+	int cbLen = mir_snprintf(buf, "n,,n=%s,r=%s", uname, cnonce);
 	msg1 = mir_strdup(buf + 3);
 	return mir_base64_encode((PBYTE)buf, cbLen);
 }

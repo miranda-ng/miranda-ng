@@ -161,7 +161,7 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 
 	DBVARIANT dbv;
 	char setting[80];
-	mir_snprintf(setting, SIZEOF(setting), "%d_%s", profile, SETTING_PROFILENAME);
+	mir_snprintf(setting, "%d_%s", profile, SETTING_PROFILENAME);
 	if ( db_get_ts(NULL, MODULENAME, setting, &dbv))
 		return -1;
 
@@ -264,7 +264,7 @@ INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam)
 		profile = (profile >= 0)?profile:db_get_w(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);
 
 		char setting[64];
-		mir_snprintf(setting, SIZEOF(setting), "%d_%s", profile, SETTING_SHOWCONFIRMDIALOG);
+		mir_snprintf(setting, "%d_%s", profile, SETTING_SHOWCONFIRMDIALOG);
 		if (!db_get_b(NULL, MODULENAME, setting, 0))
 			CallService(MS_CS_SETSTATUSEX,(WPARAM)&profileSettings, 0);
 		else

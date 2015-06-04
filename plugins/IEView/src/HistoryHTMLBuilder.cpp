@@ -100,34 +100,34 @@ void HistoryHTMLBuilder::loadMsgDlgFont(const char *dbSetting, LOGFONTA * lf, CO
 	int style;
 	DBVARIANT dbv;
 	if (bkgColour) {
-		mir_snprintf(str, SIZEOF(str), "Back.%s", dbSetting);
+		mir_snprintf(str, "Back.%s", dbSetting);
 		*bkgColour = db_get_dw(NULL, HPPMOD, str, 0xFFFFFF);
 	}
 	if (colour) {
-		mir_snprintf(str, SIZEOF(str), "Font.%s.Color", dbSetting);
+		mir_snprintf(str, "Font.%s.Color", dbSetting);
 		*colour = db_get_dw(NULL, HPPMOD, str, 0x000000);
 	}
 	if (lf) {
-		mir_snprintf(str, SIZEOF(str), "Font.%s.Size", dbSetting);
+		mir_snprintf(str, "Font.%s.Size", dbSetting);
 		lf->lfHeight = (char)db_get_b(NULL, HPPMOD, str, 10);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
-		mir_snprintf(str, SIZEOF(str), "Font.%s.Style.Bold", dbSetting);
+		mir_snprintf(str, "Font.%s.Style.Bold", dbSetting);
 		style = db_get_b(NULL, HPPMOD, str, 0);
 		lf->lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
-		mir_snprintf(str, SIZEOF(str), "Font.%s.Style.Italic", dbSetting);
+		mir_snprintf(str, "Font.%s.Style.Italic", dbSetting);
 		style = db_get_b(NULL, HPPMOD, str, 0) << 1;
 		lf->lfItalic = style & FONTF_ITALIC ? 1 : 0;
 		lf->lfUnderline = style & FONTF_UNDERLINE ? 1 : 0;
 		lf->lfStrikeOut = 0;
-		mir_snprintf(str, SIZEOF(str), "Font.%s.Charset", dbSetting);
+		mir_snprintf(str, "Font.%s.Charset", dbSetting);
 		lf->lfCharSet = db_get_b(NULL, HPPMOD, str, DEFAULT_CHARSET);
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-		mir_snprintf(str, SIZEOF(str), "Font.%s.Name", dbSetting);
+		mir_snprintf(str, "Font.%s.Name", dbSetting);
 		if (db_get(NULL, HPPMOD, str, &dbv))
 			mir_strcpy(lf->lfFaceName, "Verdana");
 		else {

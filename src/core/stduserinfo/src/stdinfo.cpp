@@ -97,7 +97,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				if (dbv.cVal == -100) unspecified = 1;
 				else {
 					pstr = str;
-					mir_snprintf(str, SIZEOF(str), dbv.cVal ? "UTC%+d:%02d" : "UTC", -dbv.cVal / 2, (dbv.cVal & 1) * 30);
+					mir_snprintf(str, dbv.cVal ? "UTC%+d:%02d" : "UTC", -dbv.cVal / 2, (dbv.cVal & 1) * 30);
 				}
 			}
 			else {
@@ -406,11 +406,11 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					lvi.iSubItem = 0;
 					lvi.iItem = 0;
 					for (i=0;;i++) {
-						mir_snprintf(idstr, SIZEOF(idstr), "Past%d", i);
+						mir_snprintf(idstr, "Past%d", i);
 						if ((proto_service && Proto_GetContactInfoSetting(hContact, szProto, szProto, idstr, &dbv, DBVT_TCHAR)) ||
 							( !proto_service && db_get_ts(hContact, szProto, idstr, &dbv)))
 							break;
-						mir_snprintf(idstr, SIZEOF(idstr), "Past%dText", i);
+						mir_snprintf(idstr, "Past%dText", i);
 						if (db_get_ts(hContact, szProto, idstr, &dbvText))
 						{if (proto_service) Proto_FreeInfoVariant(&dbv); else db_free(&dbv); break;}
 						lvi.pszText = dbv.ptszVal;
@@ -425,11 +425,11 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 
 					for (i=0;;i++) {
-						mir_snprintf(idstr, SIZEOF(idstr), "Affiliation%d", i);
+						mir_snprintf(idstr, "Affiliation%d", i);
 						if ((proto_service && Proto_GetContactInfoSetting(hContact, szProto, szProto, idstr, &dbv, DBVT_TCHAR)) ||
 							( !proto_service && db_get_ts(hContact, szProto, idstr, &dbv)))
 							break;
-						mir_snprintf(idstr, SIZEOF(idstr), "Affiliation%dText", i);
+						mir_snprintf(idstr, "Affiliation%dText", i);
 						if (db_get_ts(hContact, szProto, idstr, &dbvText))
 						{if (proto_service) Proto_FreeInfoVariant(&dbv); else db_free(&dbv); break;}
 						lvi.pszText = dbv.ptszVal;
@@ -451,11 +451,11 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					lvi.iSubItem = 0;
 					lvi.iItem = 0;
 					for (i=0;;i++) {
-						mir_snprintf(idstr, SIZEOF(idstr), "Interest%dCat", i);
+						mir_snprintf(idstr, "Interest%dCat", i);
 						if ((proto_service && Proto_GetContactInfoSetting(hContact, szProto, szProto, idstr, &dbv, DBVT_TCHAR)) ||
 							( !proto_service && db_get_ts(hContact, szProto, idstr, &dbv)))
 							break;
-						mir_snprintf(idstr, SIZEOF(idstr), "Interest%dText", i);
+						mir_snprintf(idstr, "Interest%dText", i);
 						if (db_get_ts(hContact, szProto, idstr, &dbvText))
 						{if (proto_service) Proto_FreeInfoVariant(&dbv); else db_free(&dbv); break;}
 						lvi.pszText = dbv.ptszVal;

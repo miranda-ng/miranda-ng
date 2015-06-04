@@ -88,7 +88,7 @@ static bool NetlibHttpGatewaySend(NetlibConnection *nlc, RequestType reqType, co
 		nlhrSend.timeout = -1;
 		if ((nlc->nlhpi.flags & NLHPIF_USEGETSEQUENCE) && (nlc->nlhpi.szHttpGetUrl != NULL)) {
 			mir_cslock lck(nlc->csHttpSequenceNums);
-			mir_snprintf(szUrl, SIZEOF(szUrl), "%s%u", nlc->nlhpi.szHttpGetUrl, nlc->nlhpi.firstGetSequence++);
+			mir_snprintf(szUrl, "%s%u", nlc->nlhpi.szHttpGetUrl, nlc->nlhpi.firstGetSequence++);
 			if (nlc->nlhpi.flags & NLHPIF_GETPOSTSAMESEQUENCE)
 				nlc->nlhpi.firstPostSequence++;
 			nlhrSend.szUrl = szUrl;
@@ -99,7 +99,7 @@ static bool NetlibHttpGatewaySend(NetlibConnection *nlc, RequestType reqType, co
 	case reqOldPost:
 		nlhrSend.requestType = REQUEST_POST;
 		if ((nlc->nlhpi.flags & NLHPIF_USEPOSTSEQUENCE) && (nlc->nlhpi.szHttpPostUrl != NULL)) {
-			mir_snprintf(szUrl, SIZEOF(szUrl), "%s%u", nlc->nlhpi.szHttpPostUrl, nlc->nlhpi.firstPostSequence);
+			mir_snprintf(szUrl, "%s%u", nlc->nlhpi.szHttpPostUrl, nlc->nlhpi.firstPostSequence);
 			nlhrSend.szUrl = szUrl;
 		}
 		else nlhrSend.szUrl = nlc->nlhpi.szHttpPostUrl;

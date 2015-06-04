@@ -476,7 +476,7 @@ static void TlenProcessStreamClosing(XmlNode *node, ThreadData *info)
 	Netlib_CloseHandle(info->proto);
 	if (node->name && !mir_strcmp(node->name, "stream:error") && node->text){
 		char buffer[1024];
-		mir_snprintf(buffer, SIZEOF(buffer), "%s\n%s", Translate("Tlen Connection Error"), Translate(node->text));
+		mir_snprintf(buffer, "%s\n%s", Translate("Tlen Connection Error"), Translate(node->text));
 		PUShowMessage(buffer, SM_WARNING);
 	} else if (!mir_strcmp(node->name, "s")){
 		info->proto->debugLogA("Disconnected server message");

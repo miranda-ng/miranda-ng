@@ -159,7 +159,7 @@ void TlenP2PEstablishOutgoingConnection(TLEN_FILE_TRANSFER *ft, BOOL sendAck)
 		TlenP2PPacketSetType(packet, TLEN_FILE_PACKET_CONNECTION_REQUEST);
 		TlenP2PPacketPackDword(packet, 1);
 		TlenP2PPacketPackDword(packet, (DWORD) atoi(ft->iqId));
-		size_t srt_len = mir_snprintf(str, SIZEOF(str), "%08X%s%d", atoi(ft->iqId), proto->threadData->username, atoi(ft->iqId));
+		size_t srt_len = mir_snprintf(str, "%08X%s%d", atoi(ft->iqId), proto->threadData->username, atoi(ft->iqId));
 		char *hash = TlenSha1(str, (int)srt_len);
 		TlenP2PPacketPackBuffer(packet, hash, 20);
 		mir_free(hash);
@@ -202,12 +202,12 @@ TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, HAND
 	while ((i=TlenListFindNext(proto, list, i)) >= 0) {
 		item = TlenListGetItemPtrFromIndex(proto, i);
 		if (item != NULL) {
-			mir_snprintf(str, SIZEOF(str), "%d", iqId);
+			mir_snprintf(str, "%d", iqId);
 			if (!mir_strcmp(item->ft->iqId, str)) {
 				char *hash, *nick;
 				int j;
 				nick = TlenNickFromJID(item->ft->jid);
-				j = mir_snprintf(str, SIZEOF(str), "%08X%s%d", iqId, nick, iqId);
+				j = mir_snprintf(str, "%08X%s%d", iqId, nick, iqId);
 				mir_free(nick);
 				hash = TlenSha1(str, j);
 				for (j=0;j<20;j++) {

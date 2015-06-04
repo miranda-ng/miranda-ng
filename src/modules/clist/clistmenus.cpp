@@ -283,12 +283,12 @@ static INT_PTR AddContactMenuItem(WPARAM, LPARAM lParam)
 	PMO_IntMenuItem menuHandle = MO_AddNewMenuItem(hContactMenuObject, &tmi);
 	char buf[256];
 	if (mi->pszService)
-		mir_snprintf(buf, SIZEOF(buf), "%s/%s", (mi->pszContactOwner) ? mi->pszContactOwner : "", (mi->pszService) ? mi->pszService : "");
+		mir_snprintf(buf, "%s/%s", (mi->pszContactOwner) ? mi->pszContactOwner : "", (mi->pszService) ? mi->pszService : "");
 	else if (mi->ptszName) {
 		if (tmi.flags & CMIF_UNICODE)
-			mir_snprintf(buf, SIZEOF(buf), "%s/NoService/%s", (mi->pszContactOwner) ? mi->pszContactOwner : "", _T2A(mi->ptszName));
+			mir_snprintf(buf, "%s/NoService/%s", (mi->pszContactOwner) ? mi->pszContactOwner : "", _T2A(mi->ptszName));
 		else
-			mir_snprintf(buf, SIZEOF(buf), "%s/NoService/%s", (mi->pszContactOwner) ? mi->pszContactOwner : "", mi->ptszName);
+			mir_snprintf(buf, "%s/NoService/%s", (mi->pszContactOwner) ? mi->pszContactOwner : "", mi->ptszName);
 	}
 	else buf[0] = '\0';
 	if (buf[0]) MO_SetOptionsMenuItem(menuHandle, OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
@@ -426,7 +426,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 				XStatus = 0;
 
 			char buf[255];
-			mir_snprintf(buf, SIZEOF(buf), "*XStatus%d", XStatus);
+			mir_snprintf(buf, "*XStatus%d", XStatus);
 
 			bool check = wildcmp(smep->svc, buf) != 0;
 			bool reset = wildcmp(smep->svc, "*XStatus0") != 0;
@@ -902,7 +902,7 @@ void RebuildMenuOrder(void)
 		cli.menuProtoCount++;
 
 		char buf[256];
-		mir_snprintf(buf, SIZEOF(buf), "RootProtocolIcon_%s", pa->szModuleName);
+		mir_snprintf(buf, "RootProtocolIcon_%s", pa->szModuleName);
 		MO_SetOptionsMenuItem(menuHandle, OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
 
 		DestroyIcon(ic);
@@ -936,7 +936,7 @@ void RebuildMenuOrder(void)
 			hStatusMenuHandles[i].menuhandle[j] = MO_AddNewMenuItem(hStatusMenuObject, &tmi);
 
 			char buf[256];
-			mir_snprintf(buf, SIZEOF(buf), "ProtocolIcon_%s_%s", pa->szModuleName, tmi.pszName);
+			mir_snprintf(buf, "ProtocolIcon_%s_%s", pa->szModuleName, tmi.pszName);
 			MO_SetOptionsMenuItem(hStatusMenuHandles[i].menuhandle[j], OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
 
 			IcoLib_ReleaseIcon(tmi.hIcon, 0);
@@ -982,7 +982,7 @@ void RebuildMenuOrder(void)
 			}
 
 			char buf[256];
-			mir_snprintf(buf, SIZEOF(buf), "Root2ProtocolIcon_%s_%s", pa->szModuleName, tmi.pszName);
+			mir_snprintf(buf, "Root2ProtocolIcon_%s_%s", pa->szModuleName, tmi.pszName);
 			MO_SetOptionsMenuItem(hStatusMainMenuHandles[j], OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
 
 			IcoLib_ReleaseIcon(tmi.hIcon, 0);
@@ -1206,7 +1206,7 @@ static INT_PTR AddStatusMenuItem(WPARAM wParam, LPARAM lParam)
 
 	char buf[MAX_PATH + 64];
 	char *p = (pRoot) ? mir_t2a(pRoot->mi.ptszName) : NULL;
-	mir_snprintf(buf, SIZEOF(buf), "%s/%s", (p) ? p : "", mi->pszService ? mi->pszService : "");
+	mir_snprintf(buf, "%s/%s", (p) ? p : "", mi->pszService ? mi->pszService : "");
 	mir_free(p);
 
 	MO_SetOptionsMenuItem(menuHandle, OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);

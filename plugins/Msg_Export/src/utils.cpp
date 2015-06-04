@@ -1426,7 +1426,7 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 
 	if (!db_event_get(hDbEvent, &dbei)) {
 		char szTemp[500];
-		mir_snprintf(szTemp, SIZEOF(szTemp), "DisableProt_%s", dbei.szModule);
+		mir_snprintf(szTemp, "DisableProt_%s", dbei.szModule);
 		if (db_get_b(NULL, MODULE, szTemp, 1))
 			ExportDBEventInfo(hContact, dbei);
 	}

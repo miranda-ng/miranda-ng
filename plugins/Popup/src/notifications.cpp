@@ -92,32 +92,32 @@ void SaveNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 	if (ptd->typ == 1) {
 		char setting[2 * MAXMODULELABELLENGTH];
 
-		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}Timeout",
+		mir_snprintf(setting, "{%s/%s}Timeout",
 			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
 		db_set_w(NULL, szModul, setting, ptd->notification.iSeconds);
 
-		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}enabled",
+		mir_snprintf(setting, "{%s/%s}enabled",
 			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
 		db_set_b(NULL, szModul, setting, ptd->enabled);
 
-		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}TimeoutVal",
+		mir_snprintf(setting, "{%s/%s}TimeoutVal",
 			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
 		db_set_w(NULL, szModul, setting, ptd->timeoutValue);
 
-		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}disableWhen",
+		mir_snprintf(setting, "{%s/%s}disableWhen",
 			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
 		db_set_b(NULL, szModul, setting, ptd->disableWhen);
 
-		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}leftAction",
+		mir_snprintf(setting, "{%s/%s}leftAction",
 			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
 		db_set_s(NULL, szModul, setting, ptd->leftAction);
 
-		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}rightAction",
+		mir_snprintf(setting, "{%s/%s}rightAction",
 			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
 		db_set_s(NULL, szModul, setting, ptd->rightAction);
@@ -139,29 +139,29 @@ void LoadNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 		char setting[2 * MAXMODULELABELLENGTH];
 		char *szTmp = NULL;
 
-		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}enabled", ptd->notification.lpzGroup, ptd->notification.lpzName);
+		mir_snprintf(setting, "{%s/%s}enabled", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		ptd->enabled =
 			(signed char)db_get_b(NULL, szModul, setting, TRUE);
 
-		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}Timeout", ptd->notification.lpzGroup, ptd->notification.lpzName);
+		mir_snprintf(setting, "{%s/%s}Timeout", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		ptd->notification.iSeconds =
 			(signed char)db_get_w(NULL, szModul, setting, ptd->notification.iSeconds);
 
-		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}TimeoutVal", ptd->notification.lpzGroup, ptd->notification.lpzName);
+		mir_snprintf(setting, "{%s/%s}TimeoutVal", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		ptd->timeoutValue =
 			(signed char)db_get_w(NULL, szModul, setting,
 			ptd->notification.iSeconds ? ptd->notification.iSeconds : 0);
 
-		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}disableWhen", ptd->notification.lpzGroup, ptd->notification.lpzName);
+		mir_snprintf(setting, "{%s/%s}disableWhen", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		ptd->disableWhen =
 			db_get_b(NULL, szModul, setting, 0);
 
-		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}leftAction", ptd->notification.lpzGroup, ptd->notification.lpzName);
+		mir_snprintf(setting, "{%s/%s}leftAction", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		szTmp = db_get_s(NULL, szModul, setting, ptd->notification.lpzLAction);
 		mir_strncpy(ptd->leftAction, szTmp, sizeof(ptd->leftAction));
 		mir_free(szTmp); szTmp = NULL;
 
-		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}rightAction", ptd->notification.lpzGroup, ptd->notification.lpzName);
+		mir_snprintf(setting, "{%s/%s}rightAction", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		szTmp = db_get_s(NULL, szModul, setting, ptd->notification.lpzRAction);
 		mir_strncpy(ptd->rightAction, szTmp, sizeof(ptd->rightAction));
 		mir_free(szTmp); szTmp = NULL;
@@ -209,7 +209,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 
 	char section[MAXMODULELABELLENGTH], setting[MAXMODULELABELLENGTH];
 	mir_snprintf(section, SIZEOF(section), "Popups/%s", notification->lpzGroup);
-	mir_snprintf(setting, SIZEOF(setting), MODULNAME"_%s_%s", notification->lpzGroup, notification->lpzName);
+	mir_snprintf(setting, MODULNAME"_%s_%s", notification->lpzGroup, notification->lpzName);
 
 	SKINICONDESC sid = { sizeof(sid) };
 	sid.pszSection = section;
@@ -259,7 +259,7 @@ void FillNotificationData(POPUPDATA2 *ppd, DWORD *disableWhen)
 	ppd->colorBack = (COLORREF)CallService(MS_COLOUR_GET, (WPARAM)&colourid, 0);
 
 	char setting[MAXMODULELABELLENGTH];
-	mir_snprintf(setting, SIZEOF(setting), MODULNAME"_%s_%s", ptd->notification.lpzGroup, ptd->notification.lpzName);
+	mir_snprintf(setting, MODULNAME"_%s_%s", ptd->notification.lpzGroup, ptd->notification.lpzName);
 	ppd->lchIcon = Skin_GetIcon(setting);
 }
 

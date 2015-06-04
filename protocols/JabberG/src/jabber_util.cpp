@@ -692,7 +692,7 @@ void CJabberProto::ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *par
 {
 	for (int i = 0; i < recentCount; i++) {
 		char setting[MAXMODULELABELLENGTH];
-		mir_snprintf(setting, SIZEOF(setting), "%s%d", param, i);
+		mir_snprintf(setting, "%s%d", param, i);
 		ptrT tszRecent(getTStringA(setting));
 		if (tszRecent != NULL)
 			SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, tszRecent);
@@ -716,7 +716,7 @@ void CJabberProto::ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param
 
 	id = getByte(param, 0);
 	char setting[MAXMODULELABELLENGTH];
-	mir_snprintf(setting, SIZEOF(setting), "%s%d", param, id);
+	mir_snprintf(setting, "%s%d", param, id);
 	setTString(setting, string);
 	setByte(param, (id + 1) % recentCount);
 }
@@ -769,7 +769,7 @@ static VOID CALLBACK sttRebuildInfoFrameApcProc(void* param)
 
 					char name[128];
 					char *jid_copy = mir_t2a(item->jid);
-					mir_snprintf(name, SIZEOF(name), "$/Transports/%s", jid_copy);
+					mir_snprintf(name, "$/Transports/%s", jid_copy);
 					ppro->m_pInfoFrame->CreateInfoItem(name, true, hContact);
 					ppro->m_pInfoFrame->UpdateInfoItem(name, ppro->GetIconHandle(IDI_TRANSPORTL), (TCHAR *)item->jid);
 					ppro->m_pInfoFrame->SetInfoItemCallback(name, &CJabberProto::InfoFrame_OnTransport);

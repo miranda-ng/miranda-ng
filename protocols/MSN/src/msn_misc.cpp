@@ -154,7 +154,7 @@ char* MSN_GetAvatarHash(char* szContext, char** pszUrl)
 				if (i == 0)
 					mir_strcpy(szSetting, "Url");
 				else
-					mir_snprintf(szSetting, SIZEOF(szSetting), "Url%d", i);
+					mir_snprintf(szSetting, "Url%d", i);
 				pszUrlAttr = ezxml_attr(xmli, szSetting);
 				if (pszUrlAttr == NULL)
 					break;
@@ -1021,15 +1021,15 @@ void CMsnProto::InitPopups(void)
 	ppc.colorBack = RGB(173, 206, 247);
 	ppc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	ppc.iSeconds = 3;
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("Hotmail"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Hotmail");
+	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Hotmail"));
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Hotmail");
 	hPopupHotmail = Popup_RegisterClass(&ppc);
 
 	ppc.colorBack = RGB(173, 206, 247);
 	ppc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	ppc.iSeconds = 3;
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("Notify"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Notify");
+	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Notify"));
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Notify");
 	hPopupNotify = Popup_RegisterClass(&ppc);
 
 	ppc.hIcon = (HICON)LoadImage(NULL, IDI_WARNING, IMAGE_ICON, 0, 0, LR_SHARED);
@@ -1037,8 +1037,8 @@ void CMsnProto::InitPopups(void)
 	ppc.colorText = RGB(255, 245, 225); //Yellow
 	ppc.iSeconds = 60;
 
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("Error"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
+	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("Error"));
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 	hPopupError = Popup_RegisterClass(&ppc);
 }
 
@@ -1073,11 +1073,11 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	ppd.pszClassName = name;
 
 	if (pud->flags & MSN_SHOW_ERROR)
-		mir_snprintf(name, SIZEOF(name), "%s_%s", pud->proto->m_szModuleName, "Error");
+		mir_snprintf(name, "%s_%s", pud->proto->m_szModuleName, "Error");
 	else if (pud->flags & (MSN_HOTMAIL_POPUP | MSN_ALERT_POPUP))
-		mir_snprintf(name, SIZEOF(name), "%s_%s", pud->proto->m_szModuleName, "Hotmail");
+		mir_snprintf(name, "%s_%s", pud->proto->m_szModuleName, "Hotmail");
 	else
-		mir_snprintf(name, SIZEOF(name), "%s_%s", pud->proto->m_szModuleName, "Notify");
+		mir_snprintf(name, "%s_%s", pud->proto->m_szModuleName, "Notify");
 
 	CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 }

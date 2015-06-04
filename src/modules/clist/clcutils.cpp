@@ -688,18 +688,18 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 	cli.pfnGetDefaultFontSetting(i, lf, colour);
 
 	char idstr[20];
-	mir_snprintf(idstr, SIZEOF(idstr), "Font%dName", i);
+	mir_snprintf(idstr, "Font%dName", i);
 	ptrT tszFace(db_get_tsa(NULL, "CLC", idstr));
 	if (tszFace)
 		mir_tstrcpy(lf->lfFaceName, tszFace);
 
-	mir_snprintf(idstr, SIZEOF(idstr), "Font%dCol", i);
+	mir_snprintf(idstr, "Font%dCol", i);
 	*colour = db_get_dw(NULL, "CLC", idstr, *colour);
 	
-	mir_snprintf(idstr, SIZEOF(idstr), "Font%dSize", i);
+	mir_snprintf(idstr, "Font%dSize", i);
 	lf->lfHeight = (char)db_get_b(NULL, "CLC", idstr, lf->lfHeight);
 	
-	mir_snprintf(idstr, SIZEOF(idstr), "Font%dSty", i);
+	mir_snprintf(idstr, "Font%dSty", i);
 	BYTE style = (BYTE)db_get_b(NULL, "CLC", idstr, (lf->lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf->lfItalic ? DBFONTF_ITALIC : 0) | (lf->lfUnderline ? DBFONTF_UNDERLINE : 0));
 	lf->lfWidth = lf->lfEscapement = lf->lfOrientation = 0;
 	lf->lfWeight = style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
@@ -707,7 +707,7 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 	lf->lfUnderline = (style & DBFONTF_UNDERLINE) != 0;
 	lf->lfStrikeOut = 0;
 	
-	mir_snprintf(idstr, SIZEOF(idstr), "Font%dSet", i);
+	mir_snprintf(idstr, "Font%dSet", i);
 	lf->lfCharSet = db_get_b(NULL, "CLC", idstr, lf->lfCharSet);
 	lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 	lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;

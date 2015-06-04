@@ -178,7 +178,7 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 	item->lParam = desc->lParam;
 
 	char buf[256];
-	mir_snprintf(buf, SIZEOF(buf), "mir_hotkey_%d_%d", g_pid, g_hkid++);
+	mir_snprintf(buf, "mir_hotkey_%d_%d", g_pid, g_hkid++);
 	item->idHotkey = GlobalAddAtomA(buf);
 	if (item->type == HKT_GLOBAL) {
 		if (item->Enabled) {
@@ -192,10 +192,10 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 	if (!item->rootHotkey) {
 		/* try to load alternatives from db */
 		int count, i;
-		mir_snprintf(buf, SIZEOF(buf), "%s$count", item->pszName);
+		mir_snprintf(buf, "%s$count", item->pszName);
 		count = (int)db_get_dw(NULL, DBMODULENAME, buf, -1);
 		for (i=0; i < count; i++) {
-			mir_snprintf(buf, SIZEOF(buf), "%s$%d", item->pszName, i);
+			mir_snprintf(buf, "%s$%d", item->pszName, i);
 			if (!db_get_w(NULL, DBMODULENAME, buf, 0))
 				continue;
 
@@ -371,7 +371,7 @@ int LoadSkinHotkeys(void)
 
 	for (int i=0; i < SIZEOF(oldSettings); i++) {
 		char szSetting[ 100 ];
-		mir_snprintf(szSetting, SIZEOF(szSetting), "HK%s", oldSettings[i]);
+		mir_snprintf(szSetting, "HK%s", oldSettings[i]);
 
 		WORD key;
 		if ((key = db_get_w(NULL, "Clist", szSetting, 0))) {
@@ -379,7 +379,7 @@ int LoadSkinHotkeys(void)
 			db_set_w(NULL, DBMODULENAME, newSettings[i], key);
 		}
 
-		mir_snprintf(szSetting, SIZEOF(szSetting), "HKEn%s", oldSettings[i]);
+		mir_snprintf(szSetting, "HKEn%s", oldSettings[i]);
 		if ((key = db_get_b(NULL, "Clist", szSetting, 0))) {
 			db_unset(NULL, "Clist", szSetting);
 			db_set_b(NULL, DBMODULENAME "Off", newSettings[i], (BYTE)(key == 0));

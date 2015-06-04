@@ -242,7 +242,7 @@ void RegisterFontServiceFonts()
 	for (int i = 0; i < SIZEOF(fontOptionsList); i++)
 	{
 		fontid.order = i;
-		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i);
+		mir_snprintf(szTemp, "Font%d", i);
 		strncpy(fontid.prefix, szTemp, SIZEOF(fontid.prefix));
 		_tcsncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
 		fontid.deffontsettings.colour = fontOptionsList[i].defColour;

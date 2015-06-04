@@ -294,7 +294,7 @@ int LoadAccountsModule(void)
 static HANDLE CreateProtoServiceEx(const char* szModule, const char* szService, MIRANDASERVICEOBJ pFunc, void* param)
 {
 	char tmp[100];
-	mir_snprintf(tmp, SIZEOF(tmp), "%s%s", szModule, szService);
+	mir_snprintf(tmp, "%s%s", szModule, szService);
 	return CreateServiceFunctionObj(tmp, pFunc, param);
 }
 

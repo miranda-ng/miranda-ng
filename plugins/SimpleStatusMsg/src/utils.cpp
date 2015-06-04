@@ -126,7 +126,7 @@ const char *StatusModeToDbSetting(int status, const char *suffix)
 	case ID_STATUS_IDLE: prefix = "Idl"; break;
 	default: return NULL;
 	}
-	mir_snprintf(str, SIZEOF(str), "%s%s", prefix, suffix);
+	mir_snprintf(str, "%s%s", prefix, suffix);
 	return str;
 }
 
@@ -134,7 +134,7 @@ int GetCurrentStatus(const char *szProto)
 {
 	if (szProto) {
 		char szSetting[80];
-		mir_snprintf(szSetting, SIZEOF(szSetting), "Cur%sStatus", szProto);
+		mir_snprintf(szSetting, "Cur%sStatus", szProto);
 		return (int)db_get_w(NULL, "SimpleStatusMsg", szSetting, ID_STATUS_OFFLINE);
 
 	}
@@ -147,11 +147,11 @@ int GetStartupStatus(const char *szProto)
 		int status_mode;
 		char szSetting[80];
 
-		mir_snprintf(szSetting, SIZEOF(szSetting), "Startup%sStatus", szProto);
+		mir_snprintf(szSetting, "Startup%sStatus", szProto);
 		status_mode = db_get_w(NULL, "SimpleStatusMsg", szSetting, ID_STATUS_CURRENT);
 		if (status_mode == ID_STATUS_CURRENT) {
 			// load status used for this proto last time
-			mir_snprintf(szSetting, SIZEOF(szSetting), "Last%sStatus", szProto);
+			mir_snprintf(szSetting, "Last%sStatus", szProto);
 			status_mode = db_get_w(NULL, "SimpleStatusMsg", szSetting, ID_STATUS_OFFLINE);
 		}
 		return status_mode;

@@ -1622,7 +1622,7 @@ void TSAPI LoadThemeDefaults(TContainerData *pContainer)
 
 	for (int i = 1; i <= 5; i++) {
 		char szTemp[40];
-		mir_snprintf(szTemp, SIZEOF(szTemp), "cc%d", i);
+		mir_snprintf(szTemp, "cc%d", i);
 		COLORREF	colour = M.GetDword(szTemp, RGB(224, 224, 224));
 		if (colour == 0)
 			colour = RGB(1, 1, 1);

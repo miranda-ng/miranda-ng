@@ -59,16 +59,16 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 	char str[32];
 
 	if (colour) {
-		mir_snprintf(str, SIZEOF(str), "SRMFont%dCol", i);
+		mir_snprintf(str, "SRMFont%dCol", i);
 		*colour = db_get_dw(NULL, SRMMMOD, str, fontOptionsList[i].defColour);
 	}
 	if (lf) {
-		mir_snprintf(str, SIZEOF(str), "SRMFont%dSize", i);
+		mir_snprintf(str, "SRMFont%dSize", i);
 		lf->lfHeight = (char)db_get_b(NULL, SRMMMOD, str, fontOptionsList[i].defSize);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
-		mir_snprintf(str, SIZEOF(str), "SRMFont%dSty", i);
+		mir_snprintf(str, "SRMFont%dSty", i);
 		int style = db_get_b(NULL, SRMMMOD, str, fontOptionsList[i].defStyle);
 		lf->lfWeight = style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
 		lf->lfItalic = style & DBFONTF_ITALIC ? 1 : 0;
@@ -78,7 +78,7 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-		mir_snprintf(str, SIZEOF(str), "SRMFont%d", i);
+		mir_snprintf(str, "SRMFont%d", i);
 
 		DBVARIANT dbv;
 		if (db_get_ts(NULL, SRMMMOD, str, &dbv))
@@ -87,7 +87,7 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 			mir_tstrncpy(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
 			db_free(&dbv);
 		}
-		mir_snprintf(str, SIZEOF(str), "SRMFont%dSet", i);
+		mir_snprintf(str, "SRMFont%dSet", i);
 		lf->lfCharSet = db_get_b(NULL, SRMMMOD, str, MsgDlgGetFontDefaultCharset(lf->lfFaceName));
 	}
 	return true;
@@ -103,7 +103,7 @@ void RegisterSRMMFonts(void)
 		strncpy_s(fontid.dbSettingsGroup, SRMMMOD, _TRUNCATE);
 		_tcsncpy_s(fontid.group, LPGENT("Message log"), _TRUNCATE);
 		_tcsncpy_s(fontid.name, fontOptionsList[i].szDescr, _TRUNCATE);
-		mir_snprintf(idstr, SIZEOF(idstr), "SRMFont%d", i);
+		mir_snprintf(idstr, "SRMFont%d", i);
 		strncpy_s(fontid.prefix, idstr, _TRUNCATE);
 		fontid.order = i;
 

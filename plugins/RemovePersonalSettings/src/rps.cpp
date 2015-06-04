@@ -579,7 +579,7 @@ void DeleteFileOrFolder(const char *name)
 	else if (attibs & FILE_ATTRIBUTE_DIRECTORY)	{ // Is a directory
 												  // Get all files and delete then
 		char tmp[MAX_PATH];
-		mir_snprintf(tmp, SIZEOF(tmp), "%s\\*.*", name);
+		mir_snprintf(tmp, "%s\\*.*", name);
 
 		// Delete files
 		WIN32_FIND_DATAA findData;
@@ -587,7 +587,7 @@ void DeleteFileOrFolder(const char *name)
 		if (hwnd != INVALID_HANDLE_VALUE) {
 			do {
 				if (mir_strcmp(findData.cFileName, ".") && mir_strcmp(findData.cFileName, "..")) {
-					mir_snprintf(tmp, SIZEOF(tmp), "%s\\%s", name, findData.cFileName);
+					mir_snprintf(tmp, "%s\\%s", name, findData.cFileName);
 					DeleteFileOrFolder(tmp);
 				}
 			}

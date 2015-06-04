@@ -234,7 +234,7 @@ void addProtoStatusMenuItem(char *protoName)
 		return;
 
 	char buf[200];
-	mir_snprintf(buf, SIZEOF(buf), "CSList/ShowList/%s", protoName);
+	mir_snprintf(buf, "CSList/ShowList/%s", protoName);
 	if (!ServiceExists(buf))
 		CreateServiceFunctionParam(buf, showList, (LPARAM)protoName);
 

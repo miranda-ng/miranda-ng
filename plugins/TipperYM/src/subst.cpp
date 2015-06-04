@@ -814,7 +814,7 @@ TCHAR *GetJabberAdvStatusText(char *szProto, const char *szSlot, const char *szV
 		return NULL;
 
 	char szSetting[128];
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", szProto, szSlot, szValue);
+	mir_snprintf(szSetting, "%s/%s/%s", szProto, szSlot, szValue);
 	if (!db_get_ts(0, "AdvStatus", szSetting, &dbv)) {
 		if (mir_tstrlen(dbv.ptszVal) != 0)
 			swzText = mir_tstrdup(dbv.ptszVal);
@@ -836,7 +836,7 @@ HICON GetJabberActivityIcon(MCONTACT hContact, char *szProto)
 		return NULL;
 
 	char szSetting[128];
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", szProto, "activity", "icon");
+	mir_snprintf(szSetting, "%s/%s/%s", szProto, "activity", "icon");
 	if (!db_get_s(hContact, "AdvStatus", szSetting, &dbv)) {
 		hIcon = Skin_GetIcon(dbv.pszVal);
 		db_free(&dbv);

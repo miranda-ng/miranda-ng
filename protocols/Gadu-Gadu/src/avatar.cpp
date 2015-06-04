@@ -61,7 +61,7 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 	*avatarurl = *avatarts = NULL;
 
 	char szUrl[128];
-	mir_snprintf(szUrl, SIZEOF(szUrl), "http://api.gadu-gadu.pl/avatars/%d/0.xml", uin);
+	mir_snprintf(szUrl, "http://api.gadu-gadu.pl/avatars/%d/0.xml", uin);
 
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;

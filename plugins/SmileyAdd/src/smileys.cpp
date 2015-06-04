@@ -190,7 +190,7 @@ void SmileyType::CallSmileyService(MCONTACT hContact)
 		proto = (const char*)GetContactProto(hContact);
 		if (proto == NULL) return;
 	}
-	mir_snprintf(str, SIZEOF(str), "%s%s", proto, T2A_SM(name.c_str()));
+	mir_snprintf(str, "%s%s", proto, T2A_SM(name.c_str()));
 	CallService(str,
 		ConvertServiceParam(hContact, par1.c_str()), 
 		ConvertServiceParam(hContact, par2.c_str()));

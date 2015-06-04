@@ -219,7 +219,7 @@ INT_PTR DblClick(WPARAM wParam, LPARAM lParam) {
 void import_ping_address(int index, PINGADDRESS &pa) {
 	DBVARIANT dbv;
 	char buf[256];
-	mir_snprintf(buf, SIZEOF(buf), "Address%d", index);
+	mir_snprintf(buf, "Address%d", index);
 	if (!db_get_ts(0, "PingPlug", buf, &dbv)) {
 		mir_tstrncpy(pa.pszName, dbv.ptszVal, SIZEOF(pa.pszName));
 		db_free(&dbv);
@@ -227,7 +227,7 @@ void import_ping_address(int index, PINGADDRESS &pa) {
 	else
 		mir_tstrncpy(pa.pszName, TranslateT("Unknown Address"), SIZEOF(pa.pszName));
 
-	mir_snprintf(buf, SIZEOF(buf), "Label%d", index);
+	mir_snprintf(buf, "Label%d", index);
 	if (!db_get_ts(0, "PingPlug", buf, &dbv)) {
 		mir_tstrncpy(pa.pszLabel, dbv.ptszVal, SIZEOF(pa.pszLabel));
 		db_free(&dbv);
@@ -235,16 +235,16 @@ void import_ping_address(int index, PINGADDRESS &pa) {
 	else
 		mir_tstrncpy(pa.pszLabel, TranslateT("Unknown"), SIZEOF(pa.pszLabel));
 
-	mir_snprintf(buf, SIZEOF(buf), "Port%d", index);
+	mir_snprintf(buf, "Port%d", index);
 	pa.port = (int)db_get_dw(0, "PingPlug", buf, -1);
 
-	mir_snprintf(buf, SIZEOF(buf), "Proto%d", index);
+	mir_snprintf(buf, "Proto%d", index);
 	if (!db_get_s(0, "PingPlug", buf, &dbv)) {
 		mir_strncpy(pa.pszProto, dbv.pszVal, SIZEOF(pa.pszProto));
 		db_free(&dbv);
-		mir_snprintf(buf, SIZEOF(buf), "Status%d", index);
+		mir_snprintf(buf, "Status%d", index);
 		pa.set_status = db_get_w(0, "PingPlug", buf, ID_STATUS_ONLINE);
-		mir_snprintf(buf, SIZEOF(buf), "Status2%d", index);
+		mir_snprintf(buf, "Status2%d", index);
 		pa.get_status = db_get_w(0, "PingPlug", buf, ID_STATUS_OFFLINE);
 	}
 	else
@@ -259,7 +259,7 @@ void import_ping_address(int index, PINGADDRESS &pa) {
 	pa.pszParams[0] = '\0';
 
 	pa.item_id = 0;
-	mir_snprintf(buf, SIZEOF(buf), "Enabled%d", index);
+	mir_snprintf(buf, "Enabled%d", index);
 	if (db_get_b(0, "PingPlug", buf, 1) == 1)
 		pa.status = PS_NOTRESPONDING;
 	else

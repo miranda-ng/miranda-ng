@@ -169,11 +169,11 @@ bool NetlibGetIeProxyConn(NetlibConnection *nlc, bool forceHttps)
 	if ((nlc->nloc.flags & (NLOCF_HTTP | NLOCF_HTTPGATEWAY) && nlc->nloc.flags & NLOCF_SSL) ||
 		nlc->nloc.wPort == 443 || forceHttps)
 	{
-		mir_snprintf(szUrl, SIZEOF(szUrl), "https://%s", nlc->nloc.szHost);
+		mir_snprintf(szUrl, "https://%s", nlc->nloc.szHost);
 		usingSsl = true;
 	}
 	else if (nlc->nloc.flags & (NLOCF_HTTPGATEWAY | NLOCF_HTTP) || nlc->usingHttpGateway)
-		mir_snprintf(szUrl, SIZEOF(szUrl), "http://%s", nlc->nloc.szHost);
+		mir_snprintf(szUrl, "http://%s", nlc->nloc.szHost);
 	else
 	{
 		strncpy_s(szUrl, nlc->nloc.szHost, _TRUNCATE);

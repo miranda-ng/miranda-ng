@@ -487,7 +487,7 @@ INT_PTR CMraProto::MraGetXStatusEx(WPARAM hContact, LPARAM lParam)
 	// fill status message member
 	if (pData->flags & CSSF_MASK_MESSAGE) {
 		char szSetting[100];
-		mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dMsg", m_iXStatus);
+		mir_snprintf(szSetting, "XStatus%dMsg", m_iXStatus);
 		if (pData->flags & CSSF_UNICODE)
 			mraGetStaticStringW(hContact, szSetting, pData->pwszMessage, (STATUS_DESC_MAX + 1), NULL);
 		else

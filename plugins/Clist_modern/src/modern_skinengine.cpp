@@ -3300,7 +3300,7 @@ static DWORD ske_HexToARGB(char * Hex)
 {
 	char buf[10] = { 0 };
 	char buf2[11] = { 0 };
-	mir_snprintf(buf, SIZEOF(buf), "%s\n", Hex);
+	mir_snprintf(buf, "%s\n", Hex);
 	if (buf[1] == 'x' || buf[1] == 'X')
 		mir_snprintf(buf2, SIZEOF(buf2), "0x%s\n", buf + 2);
 	else

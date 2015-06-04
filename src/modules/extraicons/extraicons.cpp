@@ -133,16 +133,16 @@ static void LoadGroups(LIST<ExtraIconGroup> &groups)
 	int count = db_get_w(NULL, MODULE_NAME "Groups", "Count", 0);
 	for (int i=0; i < count; i++) {
 		char setting[512];
-		mir_snprintf(setting, SIZEOF(setting), "%d_count", i);
+		mir_snprintf(setting, "%d_count", i);
 		unsigned int items = db_get_w(NULL, MODULE_NAME "Groups", setting, 0);
 		if (items < 1)
 			continue;
 
-		mir_snprintf(setting, SIZEOF(setting), "__group_%d", i);
+		mir_snprintf(setting, "__group_%d", i);
 		ExtraIconGroup *group = new ExtraIconGroup(setting);
 
 		for (unsigned int j = 0; j < items; j++) {
-			mir_snprintf(setting, SIZEOF(setting), "%d_%d", i, j);
+			mir_snprintf(setting, "%d_%d", i, j);
 			ptrA szIconName(db_get_sa(NULL, MODULE_NAME "Groups", setting));
 			if (IsEmpty(szIconName))
 				continue;
@@ -408,10 +408,10 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 	}
 
 	char setting[512];
-	mir_snprintf(setting, SIZEOF(setting), "Position_%s", ei->name);
+	mir_snprintf(setting, "Position_%s", ei->name);
 	extra->setPosition(db_get_w(NULL, MODULE_NAME, setting, 1000));
 
-	mir_snprintf(setting, SIZEOF(setting), "Slot_%s", ei->name);
+	mir_snprintf(setting, "Slot_%s", ei->name);
 	int slot = db_get_w(NULL, MODULE_NAME, setting, 1);
 	if (slot == (WORD)-1)
 		slot = -1;

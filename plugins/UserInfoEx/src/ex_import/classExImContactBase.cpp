@@ -292,9 +292,9 @@ void CExImContactBase::toIni(FILE* file, int modCount)
 		if (_pszProto == NULL || !loaded) {
 			if (_pszProto){
 				if (_pszNick)
-					mir_snprintf(name, SIZEOF(name),"%s (%s)", _pszNick, _pszProto);
+					mir_snprintf(name,"%s (%s)", _pszNick, _pszProto);
 				else
-					mir_snprintf(name, SIZEOF(name),"(UNKNOWN) (%s)", _pszProto);
+					mir_snprintf(name,"(UNKNOWN) (%s)", _pszProto);
 			}
 			else
 				strncpy_s(name, "(UNKNOWN)", _TRUNCATE);
@@ -316,9 +316,9 @@ void CExImContactBase::toIni(FILE* file, int modCount)
 			}
 			LPSTR pszUID = uid2String(FALSE);
 			if (_pszUIDKey && pszUID)
-				mir_snprintf(name, SIZEOF(name), "%s *(%s)*<%s>*{%s}*", pszCI, _pszProto, _pszUIDKey, pszUID);
+				mir_snprintf(name, "%s *(%s)*<%s>*{%s}*", pszCI, _pszProto, _pszUIDKey, pszUID);
 			else 
-				mir_snprintf(name, SIZEOF(name), "%s (%s)", pszCI, _pszProto);
+				mir_snprintf(name, "%s (%s)", pszCI, _pszProto);
 
 			mir_free(pszCI);
 			mir_free(pszUID);

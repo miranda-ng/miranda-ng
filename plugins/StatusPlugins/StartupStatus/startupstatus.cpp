@@ -47,14 +47,14 @@ TSSSetting::TSSSetting(int profile, PROTOACCOUNT *pa)
 
 	// load status
 	char setting[80];
-	mir_snprintf(setting, SIZEOF(setting), "%d_%s", profile, pa->szModuleName);
+	mir_snprintf(setting, "%d_%s", profile, pa->szModuleName);
 	int iStatus = db_get_w(NULL, MODULENAME, setting, 0);
 	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
 		iStatus = DEFAULT_STATUS;
 	status = iStatus;
 
 	// load last status
-	mir_snprintf(setting, SIZEOF(setting), "%s%s", PREFIX_LAST, szName);
+	mir_snprintf(setting, "%s%s", PREFIX_LAST, szName);
 	iStatus = db_get_w(NULL, MODULENAME, setting, 0);
 	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
 		iStatus = DEFAULT_STATUS;

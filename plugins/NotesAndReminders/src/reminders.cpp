@@ -1257,9 +1257,9 @@ static int ReformatTimeInputEx(HWND Dialog, UINT nIDTime, UINT nIDRefTime, int h
 			dt = (UINT)((li.QuadPart/MinutesToFileTime) - (ref/MinutesToFileTime));
 
 			if (dt < 60)
-				mir_snprintf(buf, SIZEOF(buf), "%02d:%02d (%d %s)", h, m, dt, Translate("Minutes"));
+				mir_snprintf(buf, "%02d:%02d (%d %s)", h, m, dt, Translate("Minutes"));
 			else
-				mir_snprintf(buf, SIZEOF(buf), "%02d:%02d (%d.%d %s)", h, m, dt/60, ((dt%60)*10)/60, Translate("Hours"));
+				mir_snprintf(buf, "%02d:%02d (%d.%d %s)", h, m, dt/60, ((dt%60)*10)/60, Translate("Hours"));
 
 			// search for preset
 			n = SendDlgItemMessage(Dialog, nIDTime, CB_FINDSTRING, (WPARAM)-1, (LPARAM)buf);
@@ -1282,7 +1282,7 @@ static int ReformatTimeInputEx(HWND Dialog, UINT nIDTime, UINT nIDRefTime, int h
 
 	//
 
-	mir_snprintf(buf, SIZEOF(buf), "%02d:%02d", h, m);
+	mir_snprintf(buf, "%02d:%02d", h, m);
 
 	// search for preset first
 	n = SendDlgItemMessage(Dialog, nIDTime, CB_FINDSTRING, (WPARAM)-1, (LPARAM)buf);
@@ -1368,9 +1368,9 @@ output_result:
 			dt = (UINT)((li.QuadPart/MinutesToFileTime) - (ref/MinutesToFileTime));
 
 			if (dt < 60)
-				mir_snprintf(buf, SIZEOF(buf), "%02d:%02d (%d %s)", h, m, dt, Translate("Minutes"));
+				mir_snprintf(buf, "%02d:%02d (%d %s)", h, m, dt, Translate("Minutes"));
 			else
-				mir_snprintf(buf, SIZEOF(buf), "%02d:%02d (%d.%d %s)", h, m, dt/60, ((dt%60)*10)/60, Translate("Hours"));
+				mir_snprintf(buf, "%02d:%02d (%d.%d %s)", h, m, dt/60, ((dt%60)*10)/60, Translate("Hours"));
 		}
 	}
 	else
@@ -1389,7 +1389,7 @@ output_result:
 
 		if ((int)Date.wHour != h || (int)Date.wMinute != m)
 		{
-			mir_snprintf(buf, SIZEOF(buf), "%02d:%02d", (UINT)Date.wHour, (UINT)Date.wMinute);
+			mir_snprintf(buf, "%02d:%02d", (UINT)Date.wHour, (UINT)Date.wMinute);
 
 			// search for preset again
 			n = SendDlgItemMessage(Dialog, nIDTime, CB_FINDSTRING, (WPARAM)-1, (LPARAM)buf);
@@ -1684,12 +1684,12 @@ INT_PTR CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,WPARAM wParam,LP
 							if (h)
 							{
 								LPCSTR lpszHours = Translate("Hours");
-								mir_snprintf(buf, SIZEOF(buf), "%d:%02d %s", h, m, lpszHours);
+								mir_snprintf(buf, "%d:%02d %s", h, m, lpszHours);
 							}
 							else
 							{
 								LPCSTR lpszMinutes = Translate("Minutes");
-								mir_snprintf(buf, SIZEOF(buf), "%d %s", m, lpszMinutes);
+								mir_snprintf(buf, "%d %s", m, lpszMinutes);
 							}
 							SetDlgItemText(Dialog, IDC_REMINDAGAININ, buf);
 						}

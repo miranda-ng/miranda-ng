@@ -845,7 +845,7 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			else {
 				fv = 0;
 			}
-			mir_snprintf(str, SIZEOF(str), "%.1f kB/s", fv / 1024);
+			mir_snprintf(str, "%.1f kB/s", fv / 1024);
 			SetDlgItemTextA(hwndDlg, IDC_BYTESOUT, str);
 			if (proto->playbackControl != NULL) {
 				fv = (float)proto->playbackControl->bytesSum;
@@ -854,7 +854,7 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			else {
 				fv = 0;
 			}
-			mir_snprintf(str, SIZEOF(str), "%.1f kB/s", fv / 1024);
+			mir_snprintf(str, "%.1f kB/s", fv / 1024);
 			SetDlgItemTextA(hwndDlg, IDC_BYTESIN, str);
 		}
 		break;

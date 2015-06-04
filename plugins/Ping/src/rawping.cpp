@@ -198,7 +198,7 @@ extern int raw_ping(char *host, int timeout)
 
 		if (reply->type == PT_ICMP_SOURCE_QUENCH) {
 			char buff[1024];
-			mir_snprintf(buff, SIZEOF(buff), Translate("Host %s requests that you reduce the amount of traffic you are sending."), host);
+			mir_snprintf(buff, Translate("Host %s requests that you reduce the amount of traffic you are sending."), host);
 			MessageBoxA(0, buff, Translate(PLUG " Warning"), MB_OK | MB_ICONWARNING);
 		}
 

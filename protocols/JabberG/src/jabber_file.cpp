@@ -48,7 +48,7 @@ void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 		ft->s = info.s;
 
 		char buffer[JABBER_NETWORK_BUFFER_SIZE];
-		int datalen = mir_snprintf(buffer, SIZEOF(buffer), "GET /%s HTTP/1.1\r\nHost: %s\r\n\r\n", ft->httpPath, ft->httpHostName);
+		int datalen = mir_snprintf(buffer, "GET /%s HTTP/1.1\r\nHost: %s\r\n\r\n", ft->httpPath, ft->httpHostName);
 		info.send(buffer, datalen);
 		ft->state = FT_CONNECTING;
 

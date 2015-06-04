@@ -321,7 +321,7 @@ INT_PTR CToxProto::OnRecvAudioCall(WPARAM hContact, LPARAM lParam)
 	cle.ptszTooltip = szTooltip;
 
 	char szService[MAX_PATH];
-	mir_snprintf(szService, SIZEOF(szService), "%s/Audio/Ring", GetContactProto(hContact));
+	mir_snprintf(szService, "%s/Audio/Ring", GetContactProto(hContact));
 	cle.pszService = szService;
 
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);

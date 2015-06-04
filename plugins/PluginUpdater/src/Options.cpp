@@ -235,7 +235,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		//Popups notified
 		for (int i = 0; i < POPUPS; i++) {
 			char str[20] = {0};
-			mir_snprintf(str, SIZEOF(str), "Popups%d", i);
+			mir_snprintf(str, "Popups%d", i);
 			CheckDlgButton(hdlg, (i+40071), (db_get_b(NULL, MODNAME, str, DEFAULT_POPUP_ENABLED)) ? BST_CHECKED: BST_UNCHECKED);
 		}
 		return TRUE;
@@ -361,11 +361,11 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				for (int i = 0; i < POPUPS; i++) {
 					ctlColor = SendDlgItemMessage(hdlg, (i+42071), CPM_GETCOLOUR, 0, 0);
 					PopupsList[i].colorBack = ctlColor;
-					mir_snprintf(szSetting, SIZEOF(szSetting), "Popups%iBg", i);
+					mir_snprintf(szSetting, "Popups%iBg", i);
 					db_set_dw(NULL, MODNAME, szSetting, ctlColor);
 					ctlColor = SendDlgItemMessage(hdlg, (i+41071), CPM_GETCOLOUR, 0, 0);
 					PopupsList[i].colorText = ctlColor;
-					mir_snprintf(szSetting, SIZEOF(szSetting), "Popups%iTx", i);
+					mir_snprintf(szSetting, "Popups%iTx", i);
 					db_set_dw(NULL, MODNAME, szSetting, ctlColor);
 				}
 				//Colors
@@ -380,7 +380,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				//Notified popups
 				for (int i = 0; i < POPUPS; i++) {
 					char str[20] = {0};
-					mir_snprintf(str, SIZEOF(str), "Popups%d", i);
+					mir_snprintf(str, "Popups%d", i);
 					db_set_b(NULL, MODNAME, str, (BYTE)(IsDlgButtonChecked(hdlg, (i+40071))));
 				}
 				return TRUE;

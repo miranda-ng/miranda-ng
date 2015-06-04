@@ -187,17 +187,17 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 	}
 
 	if (colour) {
-		mir_snprintf(str, SIZEOF(str), "Font%dCol", i);
+		mir_snprintf(str, "Font%dCol", i);
 		*colour = M.GetDword(szMod, str, fol[j].defColour);
 	}
 
 	if (lf) {
-		mir_snprintf(str, SIZEOF(str), "Font%dSize", i);
+		mir_snprintf(str, "Font%dSize", i);
 		lf->lfHeight = (char)M.GetByte(szMod, str, fol[j].defSize);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
-		mir_snprintf(str, SIZEOF(str), "Font%dSty", i);
+		mir_snprintf(str, "Font%dSty", i);
 		style = M.GetByte(szMod, str, fol[j].defStyle);
 		if (i == MSGFONTID_MESSAGEAREA && section == FONTSECTION_IM && M.GetByte("inputFontFix", 1) == 1) {
 			lf->lfWeight = FW_NORMAL;
@@ -211,13 +211,13 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 			lf->lfUnderline = style & FONTF_UNDERLINE ? 1 : 0;
 			lf->lfStrikeOut = style & FONTF_STRIKEOUT ? 1 : 0;
 		}
-		mir_snprintf(str, SIZEOF(str), "Font%dSet", i);
+		mir_snprintf(str, "Font%dSet", i);
 		lf->lfCharSet = M.GetByte(szMod, str, fol[j].defCharset);
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-		mir_snprintf(str, SIZEOF(str), "Font%d", i);
+		mir_snprintf(str, "Font%d", i);
 		if ((i == 17 && !mir_strcmp(szMod, CHATFONT_MODULE)) || ((i == 20 || i == 21) && !mir_strcmp(szMod, FONTMODULE))) {
 			lf->lfCharSet = SYMBOL_CHARSET;
 			_tcsncpy_s(lf->lfFaceName, _T("Webdings"), _TRUNCATE);
@@ -349,7 +349,7 @@ void Chat_AddIcons(void)
 HICON LoadIconEx(char *pszIcoLibName)
 {
 	char szTemp[256];
-	mir_snprintf(szTemp, SIZEOF(szTemp), "chat_%s", pszIcoLibName);
+	mir_snprintf(szTemp, "chat_%s", pszIcoLibName);
 	return Skin_GetIcon(szTemp);
 }
 
@@ -499,7 +499,7 @@ void RegisterFontServiceFonts()
 	for (int i = 0; i < SIZEOF(IM_fontOptionsList); i++) {
 		fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
 		LoadMsgDlgFont(FONTSECTION_IM, i, &lf, &fontOptionsList[i].colour, FONTMODULE);
-		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i);
+		mir_snprintf(szTemp, "Font%d", i);
 		strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
 		fid.order = i;
 		_tcsncpy(fid.name, fontOptionsList[i].szDescr, SIZEOF(fid.name));
@@ -562,7 +562,7 @@ void RegisterFontServiceFonts()
 	_tcsncpy(fid.backgroundName, LPGENT("Fields background"), SIZEOF(fid.backgroundName));
 	for (int i = 0; i < IPFONTCOUNT; i++) {
 		LoadMsgDlgFont(FONTSECTION_IP, i + 100, &lf, &fontOptionsList[i].colour, FONTMODULE);
-		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i + 100);
+		mir_snprintf(szTemp, "Font%d", i + 100);
 		strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
 		fid.order = i + 100;
 		_tcsncpy(fid.name, fontOptionsList[i].szDescr, SIZEOF(fid.name));
@@ -584,7 +584,7 @@ void RegisterFontServiceFonts()
 	_tcsncpy(cid.group, LPGENT("Message Sessions")_T("/")LPGENT("Group chats"), SIZEOF(cid.group));
 	strncpy(cid.dbSettingsGroup, CHAT_MODULE, SIZEOF(cid.dbSettingsGroup));
 	for (int i = 0; i <= 7; i++) {
-		mir_snprintf(szTemp, SIZEOF(szTemp), "NickColor%d", i);
+		mir_snprintf(szTemp, "NickColor%d", i);
 		_tcsncpy(cid.name, chatcolorsnames[i], SIZEOF(cid.name));
 		cid.order = i + 1;
 		strncpy(cid.setting, szTemp, SIZEOF(cid.setting));

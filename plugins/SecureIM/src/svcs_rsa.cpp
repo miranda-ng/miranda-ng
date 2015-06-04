@@ -118,7 +118,7 @@ void __cdecl rsa_notify(HANDLE context, int state)
 	case -0x60:
 	{
 		char buf[1024];
-		mir_snprintf(buf, SIZEOF(buf), sim510, -state);
+		mir_snprintf(buf, sim510, -state);
 		showPopupDCmsg(ptr->hContact, buf);
 		ShowStatusIconNotify(ptr->hContact);
 		if (ptr->cntx) deleteRSAcntx(ptr);

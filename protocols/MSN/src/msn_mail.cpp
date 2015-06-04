@@ -295,7 +295,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 			cle.hIcon = LoadSkinnedIcon(SKINICON_OTHER_SENDEMAIL);
 			cle.ptszTooltip = tBuffer2;
 			char buf[64];
-			mir_snprintf(buf, SIZEOF(buf), "%s%s", m_szModuleName, MS_GOTO_INBOX);
+			mir_snprintf(buf, "%s%s", m_szModuleName, MS_GOTO_INBOX);
 			cle.pszService = buf;
 
 			CallService(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
@@ -317,7 +317,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 			msgurl = "inbox";
 
 		char szUrl[256];
-		mir_snprintf(szUrl, SIZEOF(szUrl), "http://mail.live.com?rru=%s", msgurl);
+		mir_snprintf(szUrl, "http://mail.live.com?rru=%s", msgurl);
 
 		MSN_ShowPopup(tBuffer, tBuffer2,
 			MSN_ALLOW_ENTER | MSN_ALLOW_MSGBOX | MSN_HOTMAIL_POPUP,

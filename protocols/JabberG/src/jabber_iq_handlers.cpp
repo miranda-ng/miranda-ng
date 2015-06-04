@@ -741,7 +741,7 @@ BOOL CJabberProto::OnHandleDiscoItemsRequest(HXML iqNode, CJabberIqInfo *pInfo)
 BOOL CJabberProto::AddClistHttpAuthEvent(CJabberHttpAuthParams *pParams)
 {
 	char szService[256];
-	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, JS_HTTP_AUTH);
+	mir_snprintf(szService, "%s%s", m_szModuleName, JS_HTTP_AUTH);
 
 	CLISTEVENT cle = { 0 };
 	cle.cbSize = sizeof(CLISTEVENT);

@@ -47,7 +47,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 		EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups);
 		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 			char szSetting[100];
-			mir_snprintf(szSetting, SIZEOF(szSetting), "Col_%d", i - ID_STATUS_OFFLINE);
+			mir_snprintf(szSetting, "Col_%d", i - ID_STATUS_OFFLINE);
 			DWORD sett = db_get_dw(NULL, S_MOD, szSetting, StatusColors15bits[i - ID_STATUS_OFFLINE]);
 
 			COLORREF back, text;
@@ -147,7 +147,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 					DWORD sett = GetDWordFromColors(back, text);
 
 					char szSetting[100];
-					mir_snprintf(szSetting, SIZEOF(szSetting), "Col_%d", i - ID_STATUS_OFFLINE);
+					mir_snprintf(szSetting, "Col_%d", i - ID_STATUS_OFFLINE);
 					if (sett != StatusColors15bits[i - ID_STATUS_OFFLINE])
 						db_set_dw(NULL, S_MOD, szSetting, sett);
 					else

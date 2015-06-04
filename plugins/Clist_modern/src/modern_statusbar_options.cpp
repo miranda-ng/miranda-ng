@@ -180,31 +180,31 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				SendMessage(hwndComboBox, CB_SETITEMDATA, dwNewId, (LPARAM)dat);
 
 				char buf[256];
-				mir_snprintf(buf, SIZEOF(buf), "SBarAccountIsCustom_%s", szName);
+				mir_snprintf(buf, "SBarAccountIsCustom_%s", szName);
 				dat->AccountIsCustomized = db_get_b(NULL, "CLUI", buf, SETTING_SBARACCOUNTISCUSTOM_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "HideAccount_%s", szName);
+				mir_snprintf(buf, "HideAccount_%s", szName);
 				dat->HideAccount = db_get_b(NULL, "CLUI", buf, SETTING_SBARHIDEACCOUNT_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "SBarShow_%s", szName);
+				mir_snprintf(buf, "SBarShow_%s", szName);
 				dat->SBarShow = db_get_b(NULL, "CLUI", buf, SETTING_SBARSHOW_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "SBarRightClk_%s", szName);
+				mir_snprintf(buf, "SBarRightClk_%s", szName);
 				dat->SBarRightClk = db_get_b(NULL, "CLUI", buf, SETTING_SBARRIGHTCLK_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "ShowUnreadEmails_%s", szName);
+				mir_snprintf(buf, "ShowUnreadEmails_%s", szName);
 				dat->ShowUnreadEmails = db_get_b(NULL, "CLUI", buf, SETTING_SHOWUNREADEMAILS_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "ShowXStatus_%s", szName);
+				mir_snprintf(buf, "ShowXStatus_%s", szName);
 				dat->ShowXStatus = db_get_b(NULL, "CLUI", buf, SETTING_SHOWXSTATUS_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "UseConnectingIcon_%s", szName);
+				mir_snprintf(buf, "UseConnectingIcon_%s", szName);
 				dat->UseConnectingIcon = db_get_b(NULL, "CLUI", buf, SETTING_USECONNECTINGICON_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "PaddingLeft_%s", szName);
+				mir_snprintf(buf, "PaddingLeft_%s", szName);
 				dat->PaddingLeft = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGLEFT_DEFAULT);
 
-				mir_snprintf(buf, SIZEOF(buf), "PaddingRight_%s", szName);
+				mir_snprintf(buf, "PaddingRight_%s", szName);
 				dat->PaddingRight = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGRIGHT_DEFAULT);
 			}
 

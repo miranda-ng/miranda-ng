@@ -428,15 +428,15 @@ void CToxOptionsNodeList::OnInitDialog()
 	int nodeCount = db_get_w(NULL, module, TOX_SETTINGS_NODE_COUNT, 0);
 	for (int i = 0; i < nodeCount; i++)
 	{
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i);
+		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, i);
 		ptrT value(db_get_tsa(NULL, module, setting));
 		iItem = m_nodes.AddItem(value, -1, NULL, 1);
 
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, i);
+		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, i);
 		value = db_get_tsa(NULL, module, setting);
 		m_nodes.SetItem(iItem, 1, value);
 
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i);
+		mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, i);
 		int port = db_get_w(NULL, module, setting, 0);
 		if (port > 0)
 		{
@@ -445,7 +445,7 @@ void CToxOptionsNodeList::OnInitDialog()
 			m_nodes.SetItem(iItem, 2, mir_a2t(portNum));
 		}
 
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i);
+		mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, i);
 		value = db_get_tsa(NULL, module, setting);
 		m_nodes.SetItem(iItem, 3, value);
 
@@ -547,22 +547,22 @@ void CToxOptionsNodeList::OnApply()
 		lvi.mask = LVIF_TEXT;
 		lvi.iSubItem = 0;
 		m_nodes.GetItem(&lvi);
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, iItem);
+		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, iItem);
 		db_set_s(NULL, module, setting, _T2A(lvi.pszText));
 
 		lvi.iSubItem = 1;
 		m_nodes.GetItem(&lvi);
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, iItem);
+		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, iItem);
 		db_set_s(NULL, module, setting, _T2A(lvi.pszText));
 
 		lvi.iSubItem = 2;
 		m_nodes.GetItem(&lvi);
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, iItem);
+		mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, iItem);
 		db_set_w(NULL, module, setting, _ttoi(lvi.pszText));
 
 		lvi.iSubItem = 3;
 		m_nodes.GetItem(&lvi);
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, iItem);
+		mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, iItem);
 		db_set_s(NULL, module, setting, _T2A(lvi.pszText));
 
 		iItem++;
@@ -571,13 +571,13 @@ void CToxOptionsNodeList::OnApply()
 	int nodeCount = db_get_b(NULL, module, TOX_SETTINGS_NODE_COUNT, 0);
 	for (iItem = itemCount; iItem < nodeCount; iItem++)
 	{
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, iItem);
+		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, iItem);
 		db_unset(NULL, module, setting);
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, iItem);
+		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, iItem);
 		db_unset(NULL, module, setting);
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, iItem);
+		mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, iItem);
 		db_unset(NULL, module, setting);
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, iItem);
+		mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, iItem);
 		db_unset(NULL, module, setting);
 	}
 	db_set_b(NULL, module, TOX_SETTINGS_NODE_COUNT, itemCount);

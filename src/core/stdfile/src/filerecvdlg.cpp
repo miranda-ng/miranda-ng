@@ -221,7 +221,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			for (int i = 0; i < MAX_MRU_DIRS; i++) {
 				char idstr[32];
-				mir_snprintf(idstr, SIZEOF(idstr), "MruDir%d", i);
+				mir_snprintf(idstr, "MruDir%d", i);
 
 				DBVARIANT dbv;
 				if (db_get_ts(NULL, "SRFile", idstr, &dbv))
@@ -276,7 +276,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 						break;
 					case CNFT_DWORD:
 						hasName = 1;
-						mir_snprintf(buf, SIZEOF(buf), "%u", ci.dVal);
+						mir_snprintf(buf, "%u", ci.dVal);
 						break;
 					}
 				}
@@ -348,9 +348,9 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					int i;
 					DBVARIANT dbv;
 					for (i = MAX_MRU_DIRS-2;i>=0;i--) {
-						mir_snprintf(idstr, SIZEOF(idstr), "MruDir%d", i);
+						mir_snprintf(idstr, "MruDir%d", i);
 						if (db_get_ts(NULL, "SRFile", idstr, &dbv)) continue;
-						mir_snprintf(idstr, SIZEOF(idstr), "MruDir%d", i+1);
+						mir_snprintf(idstr, "MruDir%d", i+1);
 						db_set_ts(NULL, "SRFile", idstr, dbv.ptszVal);
 						db_free(&dbv);
 					}

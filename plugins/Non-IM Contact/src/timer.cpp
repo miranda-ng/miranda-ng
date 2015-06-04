@@ -23,12 +23,12 @@ void timerFunc(void *di)
 
 	/* update the web pages*/
 	for (int i = 0;; i++) {
-		mir_snprintf(fn, SIZEOF(fn), "fn%d", i);
+		mir_snprintf(fn, "fn%d", i);
 		if (!db_get_static(NULL, MODNAME, fn, text, SIZEOF(text)))
 			break;
 
 		if (!strncmp("http://", text, mir_strlen("http://")) || !strncmp("https://", text, mir_strlen("https://"))) {
-			mir_snprintf(fn, SIZEOF(fn), "fn%d_timer", i);
+			mir_snprintf(fn, "fn%d_timer", i);
 			int timer = db_get_w(NULL, MODNAME, fn, 60);
 			if (timer && !(timerCount % timer)) {
 				if (!InternetDownloadFile(text)) {

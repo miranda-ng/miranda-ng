@@ -1027,7 +1027,7 @@ void LoadSettings()
 	
 	for(int i = 0; i < STATUS_COUNT; i++) {
 		char buff[128];
-		mir_snprintf(buff, SIZEOF(buff), "LNStatus%d", i);
+		mir_snprintf(buff, "LNStatus%d", i);
 		settingStatus[i] = (db_get_b(0, PLUGINNAME, buff, 0) == 1);
 	}
 	//lookupLotusDefaultSettings();
@@ -1291,7 +1291,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 								db_set_b(NULL, PLUGINNAME, "LNIniAnswer", settingIniAnswer);
 
 								for(int i = 0; i < STATUS_COUNT ; i++){
-									mir_snprintf(buff, SIZEOF(buff), "LNStatus%d", i);
+									mir_snprintf(buff, "LNStatus%d", i);
 									settingStatus[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_STATUS), i) ? TRUE : FALSE);
 									db_set_b(0, PLUGINNAME, buff, settingStatus[i] ? 1 : 0);
 								}

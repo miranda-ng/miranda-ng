@@ -37,7 +37,7 @@ void LoadOptions()
 
 	char buff[128];
 	for (int i = 0; i < 10; i++) {
-		mir_snprintf(buff, SIZEOF(buff), "DisableStatus%d", i - 1); // -1 because i forgot offline status earlier!
+		mir_snprintf(buff, "DisableStatus%d", i - 1); // -1 because i forgot offline status earlier!
 		options.disable_status[i] = (db_get_b(0, MODULE, buff, 0) == 1);
 	}
 
@@ -71,7 +71,7 @@ void SaveOptions()
 
 	char buff[128];
 	for (int i = 0; i < 9; i++) {
-		mir_snprintf(buff, SIZEOF(buff), "DisableStatus%d", i - 1);
+		mir_snprintf(buff, "DisableStatus%d", i - 1);
 		db_set_b(0, MODULE, buff, options.disable_status[i] ? 1 : 0);
 	}
 	db_set_b(0, MODULE, "DisableFullScreen", (options.disable_full_screen ? 1 : 0));
@@ -453,11 +453,11 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 			char setting[256];
 			for (int i = 0; i < arClasses.getCount(); i++) {
 				POPUPCLASS *pc = arClasses[i];
-				mir_snprintf(setting, SIZEOF(setting), "%s/Timeout", pc->pszName);
+				mir_snprintf(setting, "%s/Timeout", pc->pszName);
 				db_set_w(0, MODULE, setting, pc->iSeconds);
-				mir_snprintf(setting, SIZEOF(setting), "%s/TextCol", pc->pszName);
+				mir_snprintf(setting, "%s/TextCol", pc->pszName);
 				db_set_dw(0, MODULE, setting, (DWORD)pc->colorText);
-				mir_snprintf(setting, SIZEOF(setting), "%s/BgCol", pc->pszName);
+				mir_snprintf(setting, "%s/BgCol", pc->pszName);
 				db_set_dw(0, MODULE, setting, (DWORD)pc->colorBack);
 			}
 			return TRUE;

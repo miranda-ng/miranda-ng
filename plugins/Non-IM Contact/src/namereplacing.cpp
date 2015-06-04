@@ -398,7 +398,7 @@ int lastChecked(CMStringA &szNewStr, const char *str)
 		int file;
 		char tszFileName[MAX_PATH], temp[MAX_PATH], szSetting[20];
 		sscanf(&str[cbPattern], "%d", &file);
-		mir_snprintf(szSetting, SIZEOF(szSetting), "fn%d", file);
+		mir_snprintf(szSetting, "fn%d", file);
 
 		char *szVar = db_get_sa(NULL, MODNAME, szSetting);
 		if (szVar == NULL)

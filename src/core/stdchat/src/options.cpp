@@ -309,7 +309,7 @@ void AddIcons(void)
 HICON LoadIconEx(char* pszIcoLibName, BOOL big)
 {
 	char szTemp[256];
-	mir_snprintf(szTemp, SIZEOF(szTemp), "chat_%s", pszIcoLibName);
+	mir_snprintf(szTemp, "chat_%s", pszIcoLibName);
 	return Skin_GetIcon(szTemp, big);
 }
 

@@ -187,18 +187,18 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			continue;
 
 		char buf[256];
-		mir_snprintf(buf, SIZEOF(buf), "SBarAccountIsCustom_%s", szProto);
+		mir_snprintf(buf, "SBarAccountIsCustom_%s", szProto);
 
 		ProtoItemData *p = NULL;
 
 		if (g_StatusBarData.perProtoConfig && db_get_b(NULL, "CLUI", buf, SETTING_SBARACCOUNTISCUSTOM_DEFAULT)) {
-			mir_snprintf(buf, SIZEOF(buf), "HideAccount_%s", szProto);
+			mir_snprintf(buf, "HideAccount_%s", szProto);
 			if (db_get_b(NULL, "CLUI", buf, SETTING_SBARHIDEACCOUNT_DEFAULT)) {
 				iProtoInStatusMenu++;
 				continue;
 			}
 
-			mir_snprintf(buf, SIZEOF(buf), "SBarShow_%s", szProto);
+			mir_snprintf(buf, "SBarShow_%s", szProto);
 
 			BYTE showOps = db_get_b(NULL, "CLUI", buf, SETTING_SBARSHOW_DEFAULT);
 			p = new ProtoItemData;
@@ -206,22 +206,22 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			p->bShowProtoName = (showOps & 2) != 0;
 			p->bShowStatusName = (showOps & 4) != 0;
 
-			mir_snprintf(buf, SIZEOF(buf), "ShowXStatus_%s", szProto);
+			mir_snprintf(buf, "ShowXStatus_%s", szProto);
 			p->xStatusMode = db_get_b(NULL, "CLUI", buf, SETTING_SBARSHOW_DEFAULT);
 
-			mir_snprintf(buf, SIZEOF(buf), "UseConnectingIcon_%s", szProto);
+			mir_snprintf(buf, "UseConnectingIcon_%s", szProto);
 			p->bConnectingIcon = db_get_b(NULL, "CLUI", buf, SETTING_USECONNECTINGICON_DEFAULT) != 0;
 
-			mir_snprintf(buf, SIZEOF(buf), "ShowUnreadEmails_%s", szProto);
+			mir_snprintf(buf, "ShowUnreadEmails_%s", szProto);
 			p->bShowProtoEmails = db_get_b(NULL, "CLUI", buf, SETTING_SHOWUNREADEMAILS_DEFAULT) != 0;
 
-			mir_snprintf(buf, SIZEOF(buf), "SBarRightClk_%s", szProto);
+			mir_snprintf(buf, "SBarRightClk_%s", szProto);
 			p->SBarRightClk = db_get_b(NULL, "CLUI", buf, SETTING_SBARRIGHTCLK_DEFAULT) != 0;
 
-			mir_snprintf(buf, SIZEOF(buf), "PaddingLeft_%s", szProto);
+			mir_snprintf(buf, "PaddingLeft_%s", szProto);
 			p->PaddingLeft = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGLEFT_DEFAULT);
 
-			mir_snprintf(buf, SIZEOF(buf), "PaddingRight_%s", szProto);
+			mir_snprintf(buf, "PaddingRight_%s", szProto);
 			p->PaddingRight = db_get_dw(NULL, "CLUI", buf, SETTING_PADDINGRIGHT_DEFAULT);
 		}
 		else {
@@ -258,7 +258,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		p->bIsDimmed = 0;
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_PROTOS) {
 			char szTemp[2048];
-			mir_snprintf(szTemp, SIZEOF(szTemp), "%s|", p->szAccountName);
+			mir_snprintf(szTemp, "%s|", p->szAccountName);
 			p->bIsDimmed = strstr(g_CluiData.protoFilter, szTemp) ? 0 : 1;
 		}
 

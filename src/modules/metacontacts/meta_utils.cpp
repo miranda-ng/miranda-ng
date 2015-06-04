@@ -116,7 +116,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 
 	// write the contact's protocol
 	char buffer[512];
-	mir_snprintf(buffer, SIZEOF(buffer), "Protocol%d", ccDest->nSubs);
+	mir_snprintf(buffer, "Protocol%d", ccDest->nSubs);
 	if (db_set_s(hMeta, META_PROTO, buffer, szProto)) {
 		MessageBox(0, TranslateT("Could not write contact protocol to metacontact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
@@ -124,7 +124,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	}
 
 	// write the login
-	mir_snprintf(buffer, SIZEOF(buffer), "Login%d", ccDest->nSubs);
+	mir_snprintf(buffer, "Login%d", ccDest->nSubs);
 	if (db_set(hMeta, META_PROTO, buffer, &dbv)) {
 		MessageBox(0, TranslateT("Could not write unique ID of contact to metacontact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
@@ -136,7 +136,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	// If we can get the nickname of the subcontact...
 	if (!db_get(hSub, szProto, "Nick", &dbv)) {
 		// write the nickname
-		mir_snprintf(buffer, SIZEOF(buffer), "Nick%d", ccDest->nSubs);
+		mir_snprintf(buffer, "Nick%d", ccDest->nSubs);
 		if (db_set(hMeta, META_PROTO, buffer, &dbv)) {
 			MessageBox(0, TranslateT("Could not write nickname of contact to metacontact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 			db_free(&dbv);
@@ -147,22 +147,22 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	}
 
 	// write the display name
-	mir_snprintf(buffer, SIZEOF(buffer), "CListName%d", ccDest->nSubs);
+	mir_snprintf(buffer, "CListName%d", ccDest->nSubs);
 	db_set_ts(hMeta, META_PROTO, buffer, cli.pfnGetContactDisplayName(hSub, 0));
 
 	// Get the status
 	WORD status = db_get_w(hSub, szProto, "Status", ID_STATUS_OFFLINE);
 
 	// write the status
-	mir_snprintf(buffer, SIZEOF(buffer), "Status%d", ccDest->nSubs);
+	mir_snprintf(buffer, "Status%d", ccDest->nSubs);
 	db_set_w(hMeta, META_PROTO, buffer, status);
 
 	// write the handle
-	mir_snprintf(buffer, SIZEOF(buffer), "Handle%d", ccDest->nSubs);
+	mir_snprintf(buffer, "Handle%d", ccDest->nSubs);
 	db_set_dw(hMeta, META_PROTO, buffer, hSub);
 
 	// write status string
-	mir_snprintf(buffer, SIZEOF(buffer), "StatusString%d", ccDest->nSubs);
+	mir_snprintf(buffer, "StatusString%d", ccDest->nSubs);
 
 	TCHAR *szStatus = cli.pfnGetStatusModeDescription(status, 0);
 	db_set_ts(hMeta, META_PROTO, buffer, szStatus);
@@ -362,7 +362,7 @@ int Meta_HideLinkedContacts(void)
 			continue;
 
 		// update metacontact's record of status for this contact
-		mir_snprintf(buffer, SIZEOF(buffer), "Status%d",contact_number);
+		mir_snprintf(buffer, "Status%d",contact_number);
 
 		// prepare to update metacontact record of subcontat status
 		char *szProto = GetContactProto(hContact);
@@ -372,10 +372,10 @@ int Meta_HideLinkedContacts(void)
 
 		// update metacontact's record of nick for this contact
 		if (szProto && !db_get(hContact, szProto, "Nick", &dbv)) {
-			mir_snprintf(buffer, SIZEOF(buffer), "Nick%d",contact_number);
+			mir_snprintf(buffer, "Nick%d",contact_number);
 			db_set(ccMeta->contactID, META_PROTO, buffer, &dbv);
 
-			mir_snprintf(buffer, SIZEOF(buffer), "CListName%d",contact_number);
+			mir_snprintf(buffer, "CListName%d",contact_number);
 			if (db_get(hContact, "CList", "MyHandle", &dbv2))
 				db_set(ccMeta->contactID, META_PROTO, buffer, &dbv);
 			else {
@@ -387,7 +387,7 @@ int Meta_HideLinkedContacts(void)
 		}
 		else {
 			if (!db_get(hContact, "CList", "MyHandle", &dbv)) {
-				mir_snprintf(buffer, SIZEOF(buffer),"CListName%d",contact_number);
+				mir_snprintf(buffer,"CListName%d",contact_number);
 				db_set(ccMeta->contactID, META_PROTO, buffer, &dbv);
 				db_free(&dbv);
 			}

@@ -307,7 +307,7 @@ static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lP
 static void sttOptionsAddHotkey(HWND hwndList, THotkeyItem *item)
 {
 	char buf[256];
-	mir_snprintf(buf, SIZEOF(buf), "mir_hotkey_%d_%d", g_pid, g_hkid++);
+	mir_snprintf(buf, "mir_hotkey_%d_%d", g_pid, g_hkid++);
 
 	THotkeyItem *newItem = (THotkeyItem *)mir_alloc(sizeof(THotkeyItem));
 	newItem->pszName = NULL;
@@ -369,7 +369,7 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 			subItem->Hotkey = subItem->OptHotkey;
 			subItem->type = subItem->OptType;
 
-			mir_snprintf(buf, SIZEOF(buf), "%s$%d", item->pszName, item->nSubHotkeys);
+			mir_snprintf(buf, "%s$%d", item->pszName, item->nSubHotkeys);
 			db_set_w(NULL, DBMODULENAME, buf, subItem->Hotkey);
 			if (subItem->type != HKT_MANUAL)
 				db_set_b(NULL, DBMODULENAME "Types", buf, (BYTE)subItem->type);
@@ -377,7 +377,7 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 			++item->nSubHotkeys;
 	}	}
 
-	mir_snprintf(buf, SIZEOF(buf), "%s$count", item->pszName);
+	mir_snprintf(buf, "%s$count", item->pszName);
 	db_set_dw(NULL, DBMODULENAME, buf, item->nSubHotkeys);
 }
 

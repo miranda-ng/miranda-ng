@@ -401,7 +401,7 @@ bool CMsnProto::MSN_SharingAddDelMember(const char* szEmail, const int listId, c
 		ezxml_set_txt(node, "MSN.IM.BuddyType");
 		node = ezxml_add_child(anot, "Value", 0);
 
-		mir_snprintf(buf, SIZEOF(buf), "%02d:", netId);
+		mir_snprintf(buf, "%02d:", netId);
 		ezxml_set_txt(node, buf);
 	}
 

@@ -643,7 +643,7 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/) {
 		hDirectBoundPort = (HANDLE) CallService(MS_NETLIB_BINDPORT, (WPARAM) hNetlibUser, (LPARAM) & nlb);
 		if (!hDirectBoundPort) {
 			TCHAR szTemp[200];
-			mir_snprintf(szTemp, SIZEOF(szTemp), TranslateT("Failed to bind to port %s\r\nThis is most likely because another program or service is using this port") ,
+			mir_snprintf(szTemp, TranslateT("Failed to bind to port %s\r\nThis is most likely because another program or service is using this port") ,
 			    nlb.wPort == 80 ? "80" : nus.szIncomingPorts);
 			MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_OK);
 			return 1001;

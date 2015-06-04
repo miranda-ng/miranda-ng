@@ -93,7 +93,7 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 				if (dbv.wVal != 0) {
 					char szExtra[80];
 
-					mir_snprintf(str, SIZEOF(str), "%d", dbv.wVal);
+					mir_snprintf(str, "%d", dbv.wVal);
 					pstr = str;
 
 					if (hContact && ppro->IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 1)) {
@@ -114,7 +114,7 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 					if (pXName == NULL) // give default name
 						pXName = ICQTranslateUtf(nameXStatus[bXStatus - 1]);
 
-					mir_snprintf(str, SIZEOF(str), "%s (%s)", pszStatus, pXName);
+					mir_snprintf(str, "%s (%s)", pszStatus, pXName);
 					SAFE_FREE((void**)&pXName);
 				}
 				else strncpy_s(str, pszStatus, _TRUNCATE);
@@ -235,7 +235,7 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					char str[MAX_PATH];
 					WORD v[4];
 					CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)&v);
-					mir_snprintf(str, SIZEOF(str), "Miranda NG %d.%d.%d.%d (ICQ %s)", v[0], v[1], v[2], v[3], __VERSION_STRING_DOTS);
+					mir_snprintf(str, "Miranda NG %d.%d.%d.%d (ICQ %s)", v[0], v[1], v[2], v[3], __VERSION_STRING_DOTS);
 
 					SetValue(ppro, hwndDlg, IDC_PORT, hContact, (char*)DBVT_WORD, (char*)ppro->wListenPort, SVS_ZEROISUNSPEC);
 					SetValue(ppro, hwndDlg, IDC_VERSION, hContact, (char*)DBVT_WORD, (char*)ICQ_VERSION, SVS_ICQVERSION);

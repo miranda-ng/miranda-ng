@@ -172,7 +172,7 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 	case TYPE_JABBER_ACTIVITY:
 		DBVARIANT dbv;
 		char szSetting[64];
-		mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/icon", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity");
+		mir_snprintf(szSetting, "%s/%s/icon", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity");
 		if (!db_get_s(xsc->hContact, "AdvStatus", szSetting, &dbv)) {
 			hIcon = Skin_GetIcon(dbv.pszVal);
 			db_free(&dbv);
@@ -235,7 +235,7 @@ void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 		switch (xsc->type) {
 		case TYPE_JABBER_MOOD:
 		case TYPE_JABBER_ACTIVITY:
-			mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/icon", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity");
+			mir_snprintf(szSetting, "%s/%s/icon", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity");
 			if (!db_get_s(xsc->hContact, "AdvStatus", szSetting, &dbv)) {
 				hIcon = Skin_GetIcon(dbv.pszVal);
 				db_free(&dbv);
@@ -351,7 +351,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	BOOL bEnablePopup = true, bEnableSound = true, bEnableLog = opt.XLogToDB;
 
 	char buff[12] = { 0 };
-	mir_snprintf(buff, SIZEOF(buff), "%d", ID_STATUS_EXTRASTATUS);
+	mir_snprintf(buff, "%d", ID_STATUS_EXTRASTATUS);
 	if ((db_get_b(0, MODULE, buff, 1) == 0)
 		|| (db_get_w(xsc->hContact, xsc->szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 		|| (!opt.HiddenContactsToo && (db_get_b(xsc->hContact, "CList", "Hidden", 0) == 1))
@@ -452,7 +452,7 @@ TCHAR* GetJabberAdvStatusText(MCONTACT hContact, char *szProto, char *szSlot, ch
 	char szSetting[128];
 	buff[0] = 0;
 
-	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", szProto, szSlot, szValue);
+	mir_snprintf(szSetting, "%s/%s/%s", szProto, szSlot, szValue);
 	if (!db_get_ts(hContact, "AdvStatus", szSetting, &dbv)) {
 		_tcsncpy(buff, dbv.ptszVal, bufflen);
 		buff[bufflen - 1] = 0;

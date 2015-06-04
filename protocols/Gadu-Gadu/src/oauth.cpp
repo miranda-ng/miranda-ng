@@ -338,7 +338,7 @@ int GGPROTO::oauth_receivetoken()
 	mir_free(str);
 	str = oauth_uri_escape("http://www.mojageneracja.pl");
 
-	mir_snprintf(szUrl, SIZEOF(szUrl), "callback_url=%s&request_token=%s&uin=%s&password=%s",
+	mir_snprintf(szUrl, "callback_url=%s&request_token=%s&uin=%s&password=%s",
 			str, token, uin, password); 
 	mir_free(str);
 	str = mir_strdup(szUrl);

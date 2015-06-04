@@ -92,7 +92,7 @@ void addwatchtolist(HWND hwnd2list, struct DBsetting *lParam)
 		for (j = 0; j < dbv->cpbVal; j++)
 		{
 			char tmp[16];
-			mir_snprintf(tmp, SIZEOF(tmp), "%02X ", (BYTE)dbv->pbVal[j]);
+			mir_snprintf(tmp, "%02X ", (BYTE)dbv->pbVal[j]);
 			mir_strcat(data, tmp);
 		}
 		ListView_SetItemText(hwnd2list, index, 4, data);

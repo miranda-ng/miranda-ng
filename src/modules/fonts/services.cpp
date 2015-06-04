@@ -137,7 +137,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORR
 
 	char idstr[256];
 	if (flags & FIDF_APPENDNAME)
-		mir_snprintf(idstr, SIZEOF(idstr), "%sName", prefix);
+		mir_snprintf(idstr, "%sName", prefix);
 	else
 		strncpy_s(idstr, prefix, _TRUNCATE);
 
@@ -149,14 +149,14 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORR
 		retval = 1;
 
 	if (colour) {
-		mir_snprintf(idstr, SIZEOF(idstr), "%sCol", prefix);
+		mir_snprintf(idstr, "%sCol", prefix);
 		*colour = db_get_dw(NULL, settings_group, idstr, *colour);
 	}
 
-	mir_snprintf(idstr, SIZEOF(idstr), "%sSize", prefix);
+	mir_snprintf(idstr, "%sSize", prefix);
 	lf->lfHeight = (char)db_get_b(NULL, settings_group, idstr, lf->lfHeight);
 
-	mir_snprintf(idstr, SIZEOF(idstr), "%sSty", prefix);
+	mir_snprintf(idstr, "%sSty", prefix);
 	BYTE style = (BYTE)db_get_b(NULL, settings_group, idstr,
 		(lf->lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf->lfItalic ? DBFONTF_ITALIC : 0) | (lf->lfUnderline ? DBFONTF_UNDERLINE : 0) | lf->lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
 
@@ -166,7 +166,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORR
 	lf->lfUnderline = (style & DBFONTF_UNDERLINE) != 0;
 	lf->lfStrikeOut = (style & DBFONTF_STRIKEOUT) != 0;
 
-	mir_snprintf(idstr, SIZEOF(idstr), "%sSet", prefix);
+	mir_snprintf(idstr, "%sSet", prefix);
 	lf->lfCharSet = db_get_b(NULL, settings_group, idstr, lf->lfCharSet);
 
 	lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
@@ -250,7 +250,7 @@ static int sttRegisterFontWorker(FontIDW *font_id, int hLangpack)
 	}
 
 	char idstr[256];
-	mir_snprintf(idstr, SIZEOF(idstr), "%sFlags", font_id->prefix);
+	mir_snprintf(idstr, "%sFlags", font_id->prefix);
 	db_set_dw(0, font_id->dbSettingsGroup, idstr, font_id->flags);
 
 	FontInternal* newItem = new FontInternal;
@@ -413,13 +413,13 @@ void KillModuleColours(int hLangpack)
 void UpdateEffectSettings(EffectIDW *effect_id, FONTEFFECT *effectsettings)
 {
 	char str[256];
-	mir_snprintf(str, SIZEOF(str), "%sEffect", effect_id->setting);
+	mir_snprintf(str, "%sEffect", effect_id->setting);
 	effectsettings->effectIndex = db_get_b(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.effectIndex);
 
-	mir_snprintf(str, SIZEOF(str), "%sEffectCol1", effect_id->setting);
+	mir_snprintf(str, "%sEffectCol1", effect_id->setting);
 	effectsettings->baseColour = db_get_dw(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.baseColour);
 
-	mir_snprintf(str, SIZEOF(str), "%sEffectCol2", effect_id->setting);
+	mir_snprintf(str, "%sEffectCol2", effect_id->setting);
 	effectsettings->secondaryColour = db_get_dw(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.secondaryColour);
 }
 

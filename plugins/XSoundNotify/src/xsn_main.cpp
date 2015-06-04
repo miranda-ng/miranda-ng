@@ -89,7 +89,7 @@ static int ProtoAck(WPARAM, LPARAM lParam)
 		for (int i = 0; i < SIZEOF(selfSounds); i++) {
 			if (selfSounds[i].iStatus == ack->lParam) {
 				char buf[128];
-				mir_snprintf(buf, SIZEOF(buf), "%s%s", ack->szModule, selfSounds[i].szName);
+				mir_snprintf(buf, "%s%s", ack->szModule, selfSounds[i].szName);
 				SkinPlaySound(buf);
 				break;
 			}

@@ -45,7 +45,7 @@ LPTSTR CreateAvaFile(HANDLE *hFile)
 		return NULL;
 
 	TCHAR full[MAX_PATH + 2];
-	mir_sntprintf(full, SIZEOF(full), AVA_FILE_NAME_FORMAT, path, name);
+	mir_sntprintf(full, AVA_FILE_NAME_FORMAT, path, name);
 	CreateDirectoryTreeT(full);
 
 	HANDLE h = CreateFile(full, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);

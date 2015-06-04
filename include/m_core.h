@@ -61,8 +61,6 @@ typedef uint32_t MCONTACT;
 
 typedef uint32_t MEVENT;
 
-
-
 ///////////////////////////////////////////////////////////////////////////////
 // events, hooks & services
 
@@ -733,6 +731,35 @@ MIR_CORE_DLL(void) UnloadCoreModule(void);
 
 #if defined(__cplusplus)
 }
+
+template <size_t _Size>
+inline int mir_snprintf(char(&buffer)[_Size], const char* fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	return mir_vsnprintf(buffer, _Size, fmt, args);
+}
+
+template <size_t _Size>
+inline int mir_snwprintf(wchar_t(&buffer)[_Size], const wchar_t* fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	return mir_vsnwprintf(buffer, _Size, fmt, args);
+}
+
+template <size_t _Size>
+inline int mir_vsnprintf(char(&buffer)[_Size], const char* fmt, va_list va)
+{
+	return mir_vsnprintf(buffer, _Size, fmt, va);
+}
+
+template <size_t _Size>
+inline int mir_vsnwprintf(wchar_t(&buffer)[_Size], const wchar_t* fmt, va_list va)
+{
+	return mir_vsnwprintf(buffer, _Size, fmt, va);
+}
+
 #endif
 
 #ifndef MIR_CORE_EXPORTS

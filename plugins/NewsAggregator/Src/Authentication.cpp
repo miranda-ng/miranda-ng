@@ -36,7 +36,7 @@ void CreateAuthString(char *auth, MCONTACT hContact, HWND hwndDlg)
 	char *user = mir_t2a(tlogin), *pass = mir_t2a(tpass);
 
 	char str[MAX_PATH];
-	int len = mir_snprintf(str, SIZEOF(str), "%s:%s", user, pass);
+	int len = mir_snprintf(str, "%s:%s", user, pass);
 	mir_free(user);
 	mir_free(pass);
 	mir_free(tlogin);

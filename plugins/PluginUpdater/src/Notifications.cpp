@@ -97,7 +97,7 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
 		char setting[100];
-		mir_snprintf(setting, SIZEOF(setting), "Popups%d", Number);
+		mir_snprintf(setting, "Popups%d", Number);
 		if (db_get_b(NULL, MODNAME, setting, DEFAULT_POPUP_ENABLED)) {
 			POPUPDATAT pd = { 0 };
 			pd.lchContact = NULL;
