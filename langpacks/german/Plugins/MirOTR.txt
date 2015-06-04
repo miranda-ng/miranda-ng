@@ -127,8 +127,6 @@ OTR-verschlüsselte Sitzung mit '%s' konnte nicht gestartet werden.
 OTR konnte nicht verschlüsseln, als eine Nachricht gesendet wurde
 [OTR Information]
 OTR-Informationen
-[[OTR INFO] ]
-\[OTR-INFO]\s
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 OTR-verschlüsselte Sitzung mit '%s' verwendet nun einen ÜBERPRÜFTEN Fingerabdruck
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]

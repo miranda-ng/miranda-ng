@@ -127,8 +127,6 @@ Non
 
 [OTR Information]
 TOR - Informations
-[[OTR INFO] ]
-
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]

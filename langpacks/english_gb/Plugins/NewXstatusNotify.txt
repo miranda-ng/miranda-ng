@@ -13,5 +13,5 @@ Colours
 Use custom colours
 [Use Windows colors]
 Use Windows colours
-[Use Popup colors]
-Use Popup colours
+[Use default colors]
+Use default colours

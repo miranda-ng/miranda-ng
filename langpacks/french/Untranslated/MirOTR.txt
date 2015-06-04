@@ -44,7 +44,6 @@
 [OTR encrypted session has been terminated by '%s'. You should do that, too!]
 [OTR encrypted session with '%s' could not be started]
 [OTR could not encrypt when sending message]
-[[OTR INFO] ]
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 [OTR unverified]

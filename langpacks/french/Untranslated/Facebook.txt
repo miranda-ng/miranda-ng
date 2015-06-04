@@ -66,6 +66,7 @@
 [Sample notification]
 [Sample friendship]
 [Sample ticker]
+[a link]
 [User sent %s:]
 [User sent an unsupported attachment. Open your browser to see it.]
 [Contact is back on server-list.]

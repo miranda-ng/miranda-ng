@@ -850,11 +850,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 %s, утрымлівае %s
 [ layered]
 слаіста
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
-[You need an image services plugin to process PNG images.]
-Вам патрэбны плагін службы малюнкаў для падтрымкі PNG.
-[Error]
-Памылка
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 ( невядома )

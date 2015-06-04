@@ -38,11 +38,6 @@ Ausblenden:
 Advaimg.dll nicht gefunden. Bitte entnehmen Sie die Datei aus der aktuellen Stable-/Testing-Version.
 [Preview...]
 Vorschau...
-;file \plugins\SplashScreen\src\main.cpp
-[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-Ihre advaimg.dll ist entweder veraltet oder beschädigt. Laden Sie sich die neuste aus den Miranda-Entwicklungsversionen.
-[Error]
-Fehler
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Grafikdateien

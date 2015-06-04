@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.6
+;  Version: 0.11.1.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -105,6 +105,8 @@ Date :
 
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
+
+[Tox URI scheme]
 
 [Action]
 

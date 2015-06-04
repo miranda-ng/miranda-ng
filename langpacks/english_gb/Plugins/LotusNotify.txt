@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.21.0
+;  Version: 0.1.22.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Set popup colors]

@@ -1959,6 +1959,17 @@ Mein Profil än&dern...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s ist online
+;file \src\mir_core\src\bitmaps.cpp
+[All Files]
+Alle Dateien
+[Windows bitmaps]
+BMP-Bilder
+[JPEG bitmaps]
+JPEG-Bilder
+[GIF bitmaps]
+GIF-Bilder
+[PNG bitmaps]
+PNG-Bilder
 ;file \src\mir_core\src\ui_utils.cpp
 [Account]
 Konto
@@ -2719,19 +2730,6 @@ Allgemeine Icons
 Klangdateien
 [WAV files]
 WAV-Dateien
-;file \src\modules\utils\bmpfilter.cpp
-[You need an image services plugin to process PNG images.]
-Sie benötigen ein Bilddiensteplugin, um PNG-Grafiken zu verarbeiten.
-[All bitmaps]
-Alle Bilder
-[Windows bitmaps]
-BMP-Bilder
-[JPEG bitmaps]
-JPEG-Bilder
-[GIF bitmaps]
-GIF-Bilder
-[PNG bitmaps]
-PNG-Bilder
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Avatare

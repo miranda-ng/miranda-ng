@@ -38,11 +38,6 @@ ms
 
 [Preview...]
 Aperçu...
-;file \plugins\SplashScreen\src\main.cpp
-[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-
-[Error]
-Erreur
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 

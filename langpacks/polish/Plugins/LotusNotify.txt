@@ -2,38 +2,60 @@
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.21.0
+;  Version: 0.1.22.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Notify about new mail in Lotus Database]
 Powiadamiaj o nowej poczcie w bazie Lotusa
 ;file \plugins\LotusNotify\res\LotusNotify.rc
-[Show again if still unread]
-Pokazuj ponownie wszystkie nieczytane
-[Show error messages]
-Pokazuj błędy połączeń
-[Set popup colors]
-Ustaw kolory komunikatów
+[Lotus connection settings]
+Ustawienia połączenia z serwerem Lotus
+[Primary server:]
+Serwer główny:
+[Secondary server:]
+Serwer zapasowy:
+[Database:]
+Baza:
+[Password:]
+Hasło:
+[try detect]
+wykryj
+[autoregister]
+Zarejestruj
+[Check interval:]
+Sprawdź co:
+[min.]
+min.
+[(0-disabled)]
+(0 - wyłączone)
+[Keep connection on error]
+Utrzymuj połączenie po wystąpieniu błędu
 [Popup options]
 Opcje komunikatów
+[Set popup colors]
+Ustaw kolory komunikatów
 [Background]
 Tło
 [Text]
 Tekst
 [Close after:]
 Zamknij po:
-[sec (0 default,\n -1 disabled)]
-s (0 - domyślnie,\n -1 - nie chowaj)
-[...but only if popup not clicked]
-...ale tylko te niekliknięte
+[sec (0 default, -1 disabled)]
+s (0 - domyślnie, -1 nie chowaj)
 [Left button click cmd:]
 Polecenie po kliknięciu:
 [Command parameters:]
 Argumenty polecenia:
+[Show again if still unread]
+Pokazuj ponownie wszystkie nieczytane
+[...but only if popup not clicked]
+...ale tylko te niekliknięte
+[Show error messages]
+Pokazuj błędy połączeń
 [Remember newest message ID and don't show older]
 Zapamiętaj najnowszą wiadomość i nie pokazuj starszych od niej
-[version:]
-wersja:
+[...even if popup not clicked]
+
 [Clear popups history]
 Wyczyść historię powiadomień
 [Filter messages contain below strings in:]
@@ -42,32 +64,12 @@ Filtruj powiadomienia zawierające napisy w:
 Nadawca
 [Subject]
 Temat
-[Lotus connection settings]
-Ustawienia połączenia z serwerem Lotus
-[Primary server:]
-Serwer główny:
-[Database:]
-Baza:
-[try detect]
-wykryj
-[Secondary server:]
-Serwer zapasowy:
-[Check interval:]
-Sprawdź co:
-[(0-disabled)]
-(0 - wyłączone)
-[min.]
-min.
-[Password:]
-Hasło:
-[Offline status mean:]
-Status niepołączony gdy:
 [To / CopyTo]
 Do/Kopia do
-[autoregister]
-Zarejestruj
-[Keep connection on error]
-Utrzymuj połączenie po wystąpieniu błędu
+[Offline status mean:]
+Status niepołączony gdy:
+[version:]
+wersja:
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 Załadowanie wymaganych funkcji API biblioteki Lotus nie powiodło się.

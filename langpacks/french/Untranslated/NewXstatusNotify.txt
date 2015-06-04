@@ -18,7 +18,6 @@
 [Status message notify]
 [Status message logging]
 [Popups when status changes to:]
-[Use Popup colors]
 [Show contact group name]
 [Show status description]
 [Use alternative descriptions]

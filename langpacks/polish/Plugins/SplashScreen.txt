@@ -38,11 +38,6 @@ Przygasanie końcowe:
 Nie znaleziono wtyczki AdvaImg.. Pobierz ją z http://miranda-ng.org/p/AdvaImg/, aby móc używać obrazków.
 [Preview...]
 Podgląd...
-;file \plugins\SplashScreen\src\main.cpp
-[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-Twoja kopia Advaimg.dll jest przestarzała lub uszkodzona. Zdobądź najnowszą wersję z kompilacji Alfa Mirandy.
-[Error]
-Błąd
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Pliki graficzne

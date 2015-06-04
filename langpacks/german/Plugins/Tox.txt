@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.6
+;  Version: 0.11.1.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -106,6 +106,8 @@ Gruppenchat
 ;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 Profilverzeichnis
+[Tox URI scheme]
+
 [Action]
 Aktion
 ;file \protocols\Tox\src\tox_icons.cpp

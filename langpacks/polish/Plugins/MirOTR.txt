@@ -127,8 +127,6 @@ Szyfrowana sesja OTR z "%s" nie mogła zostać rozpoczęta
 OTR nie mogło zaszyfrować wiadomości podczas jej wysyłania
 [OTR Information]
 Informacje OTR
-[[OTR INFO] ]
-Info OTR
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 Szyfrowana sesja OTR z "%s" używa teraz zweryfikowanego odcisku palca
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]

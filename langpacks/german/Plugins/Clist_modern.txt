@@ -878,11 +878,6 @@ Linien
 %s, enthält %s
 [ layered]
  layered
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
-[You need an image services plugin to process PNG images.]
-Sie benötigen ein Bilddienste-Plugin, um PNG-Grafiken zu verarbeiten.
-[Error]
-Fehler
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 ( unbekannt )

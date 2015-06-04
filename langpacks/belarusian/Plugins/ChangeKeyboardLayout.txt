@@ -44,8 +44,8 @@
 Змяняць актыўную раскладку клавіятуры
 [Colors]
 Колеры
-[Popup colors]
-Колеры успл. вокнаў
+[Use default colors]
+Колеры па змаўчанні
 [Windows colors]
 Колеры Windows
 [Custom colors]

@@ -120,19 +120,19 @@ Globalny Awatar
 [Avatar]
 Awatar
 ;file \plugins\AVS\src\services.cpp
-[All Files]
+[All files]
 Wszystkie pliki
-[Windows Bitmaps]
+[Windows bitmaps]
 Mapa bitowa Windows
-[JPEG Bitmaps]
+[JPEG bitmaps]
 Mapa bitowa JPEG
-[GIF Bitmaps]
+[GIF bitmaps]
 Mapa bitowa GIF
-[PNG Bitmaps]
+[PNG bitmaps]
 Mapa bitowa PNG
-[Flash Animations]
+[Flash animations]
 Animacja Flash
-[XML Files]
+[XML files]
 Pliki XML
 [Grow avatar to fit max allowed protocol size]
 Dopasuj awatar do maksymalnego dozwolonego rozmiaru protokołu

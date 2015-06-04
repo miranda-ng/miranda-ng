@@ -1959,6 +1959,17 @@ Voir/Changer mes &détails...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s est en ligne
+;file \src\mir_core\src\bitmaps.cpp
+[All Files]
+Tous les fichiers
+[Windows bitmaps]
+Bitmap Windows
+[JPEG bitmaps]
+Images JPEG
+[GIF bitmaps]
+Images GIF
+[PNG bitmaps]
+Images PNG
 ;file \src\mir_core\src\ui_utils.cpp
 [Account]
 Compte
@@ -2719,19 +2730,6 @@ Icônes principales
 Fichiers son
 [WAV files]
 Fichiers WAV
-;file \src\modules\utils\bmpfilter.cpp
-[You need an image services plugin to process PNG images.]
-Vous avez besoin d'un plugin d'imagerie pour gérer les images PNG.
-[All bitmaps]
-Toutes les images
-[Windows bitmaps]
-Bitmap Windows
-[JPEG bitmaps]
-Images JPEG
-[GIF bitmaps]
-Images GIF
-[PNG bitmaps]
-Images PNG
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Avatars

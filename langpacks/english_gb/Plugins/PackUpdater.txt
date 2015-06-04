@@ -13,5 +13,5 @@ Colours
 Use cus&tom colours
 [Use &Windows colors]
 Use &Windows colours
-[Use Pop&up colors]
-Use Pop&up colours
+[Use defa&ult colors]
+Use defa&ult colours

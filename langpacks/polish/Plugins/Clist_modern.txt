@@ -878,11 +878,6 @@ linie
 %s, zawiera %s
 [ layered]
  skórkowane
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
-[You need an image services plugin to process PNG images.]
-Potrzebujesz wtyczki do przetworzenia obrazu .PNG.
-[Error]
-Błąd
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 ( nieznany )

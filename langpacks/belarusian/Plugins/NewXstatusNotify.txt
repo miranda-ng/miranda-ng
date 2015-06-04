@@ -92,8 +92,8 @@
 Задаць колеры
 [Use Windows colors]
 Колеры Windows
-[Use Popup colors]
-Колеры ўсплывальных вокнаў
+[Use default colors]
+Колеры па змаўчанні
 [Popup text]
 Тэкст усплывальных вокнаў
 [Show contact group name]

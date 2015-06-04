@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.11.1
+;  Version: 0.2.11.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -230,6 +230,8 @@ Beispielticker
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 ein Sticker
+[a link]
+
 [files]
 Dateien
 [a file]

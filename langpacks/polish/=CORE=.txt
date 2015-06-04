@@ -1959,6 +1959,17 @@ Pokaż/Zmień moje &dane...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s jest Dostępny
+;file \src\mir_core\src\bitmaps.cpp
+[All Files]
+Wszystkie pliki
+[Windows bitmaps]
+Mapa bitowa Windows
+[JPEG bitmaps]
+Mapa bitowa JPEG
+[GIF bitmaps]
+Mapa bitowa GIF
+[PNG bitmaps]
+Mapa bitowa PNG
 ;file \src\mir_core\src\ui_utils.cpp
 [Account]
 Konto
@@ -2719,19 +2730,6 @@ Główne ikony
 Dźwięki
 [WAV files]
 Pliki WAV
-;file \src\modules\utils\bmpfilter.cpp
-[You need an image services plugin to process PNG images.]
-Potrzebujesz wtyczki do przetworzenia obrazu PNG.
-[All bitmaps]
-Wszystkie mapy bitowe
-[Windows bitmaps]
-Mapa bitowa Windows
-[JPEG bitmaps]
-Mapa bitowa JPEG
-[GIF bitmaps]
-Mapa bitowa GIF
-[PNG bitmaps]
-Mapa bitowa PNG
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Awatary

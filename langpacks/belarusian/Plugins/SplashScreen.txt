@@ -38,11 +38,6 @@
 AdvaImg плагін не знойдзены. Калі ласка, уключыце яго, каб мець магчымасць выкарыстоўваць выявы.
 [Preview...]
 Прагляд...
-;file \plugins\SplashScreen\src\main.cpp
-[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-Ваша advaimg.dll састарэлла, ці пашкоджана. Яна ёсць у апошніх зборках Miranda NG.
-[Error]
-Памылка
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Графічныя файлы
