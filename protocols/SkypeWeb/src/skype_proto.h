@@ -129,8 +129,7 @@ private:
 		*RegToken,
 		*TokenSecret,
 		*EndpointId,
-		*SelfSkypeName,
-		*pie;
+		*SelfSkypeName;
 
 	static CSkypeProto* GetContactAccount(MCONTACT hContact);
 

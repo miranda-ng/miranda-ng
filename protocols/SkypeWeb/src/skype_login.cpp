@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (response == NULL || response->pData == NULL)
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
@@ -94,7 +94,7 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		}
 		else if (!mir_strcmpi(response->headers[i].szName, "Location"))
 		{
-			CMStringA szValue = response->headers[i].szValue, szCookieName, szCookieVal;
+			CMStringA szValue = response->headers[i].szValue;
 			Server = GetServerFromUrl(szValue);
 			setString("Server", Server);
 		}
