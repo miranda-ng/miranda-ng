@@ -394,3 +394,13 @@
 Растет
 [steady]
 Не изм.
+[Light Snow / Fog]
+Слабый снег / туман
+[Showers In The Vicinity]
+Дожди в окрестностях
+[Rain / Snow Early]
+Дождь / снег в первой половине дня
+[Pm Rain / Snow]
+Дождь во второй половине дня / снег
+[Fair / Windy]
+Ясно / ветрено

@@ -199,6 +199,10 @@ AIM Установить Instant Idle
 Не удалось загрузить аватар. (Забанен)
 [Error uploading avatar. (Unknown error)]
 Не удалось загрузить аватар. (Неизвестная ошибка)
+[A confirmation message has been sent to the new email address. Please follow its instructions.]
+Письмо с подтверждением было отправлено на новый адрес электронной почты. Следуйте инструкциям в нём.
+[A confirmation message has been sent to your email address. Please follow its instructions.]
+Письмо с подтверждением было отправлено на ваш адрес электронной почты. Следуйте инструкциям в нём.
 [Block]
 Заблокировать
 [Profile]

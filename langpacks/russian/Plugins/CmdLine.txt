@@ -129,6 +129,8 @@ Miranda была закрыта или произошла ошибка при о
 Отправлена команда проверки почты для плагина YAMN.
 [YAMN plugin is not running.]
 Плагин YAMN не запущен.
+[CallService call successful: service '%s' returned %p.]
+Успешный вызов CallService: служба '%s' вернула %p.
 [Invalid parameter '%s' passed to CallService command.]
 Неправильный аргумент '%s' отправлен команде CallService.
 [Service '%s' does not exist.]
