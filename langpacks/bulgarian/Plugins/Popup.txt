@@ -193,22 +193,22 @@ Popup действията са малките бутони под текста.
 Режим на цял екран
 [Debug]
 Дебъг
-[No overwrite]
-без подмяна
-[Send message]
-Изпращане на съобщение
 [Quick reply]
 Бърз отговор
+[Send message]
+Изпращане на съобщение
 [User details]
 Подробности за потребителя
 [Contact menu]
 Меню на контактите
-[Dismiss popup]
-Затваряне на Popup
 [Pin popup]
 Прилепване на popup-а
+[Dismiss popup]
+Затваряне на Popup
 [Copy to clipboard]
 Запис в клипборда
+[No overwrite]
+без подмяна
 [Action]
 Действие
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]

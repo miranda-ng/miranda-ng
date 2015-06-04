@@ -99,19 +99,19 @@
 Общ аватар
 [Avatar]
 Аватар
-[All Files]
+[All files]
 Всички файлове
-[Windows Bitmaps]
+[Windows bitmaps]
 BMP изображения
-[JPEG Bitmaps]
+[JPEG bitmaps]
 JPEG изображения
-[GIF Bitmaps]
+[GIF bitmaps]
 GIF изображения
-[PNG Bitmaps]
+[PNG bitmaps]
 PNG изображения
-[Flash Animations]
+[Flash animations]
 Flash анимации
-[XML Files]
+[XML files]
 XML файлове
 [Grow avatar to fit max allowed protocol size]
 Увеличаване на аватара до максималния размер за протокола

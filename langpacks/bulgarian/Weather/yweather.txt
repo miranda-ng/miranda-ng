@@ -2,10 +2,16 @@
 ;  File: yweather.ini
 ;  Module: weather
 ;============================================================
+[ENE]
+ИСИ
+[ESE]
+ИЮИ
+[E]
+И
+[East]
+изток
 [Feel]
 Усеща се като
-[Forecast Day 1]
-Днес: _Прогноза
 [Forecast Day 1 Condition]
 Днес: условия
 [Forecast Day 1 Date]
@@ -16,85 +22,79 @@
 Днес: максимална
 [Forecast Day 1 Low]
 Днес: минимална
-[Wind Direction]
-Вятър (посока)
-[Wind Speed]
-Вятър (скорост)
-[Wind Direction Degrees]
-Вятър (посока в градуси)
-[Mon]
-пон
-[Tue]
-вто
-[Wed]
-сря
-[Thu]
-чет
+[Forecast Day 1]
+Днес: _Прогноза
 [Fri]
 пет
+[Mon]
+пон
+[Mostly Clear]
+Предимно ясно
+[Mostly Cloudy]
+Значителна облачност
+[Mostly Sunny]
+Предимно слънчево
+[NE]
+СИ
+[NNE]
+ССИ
+[NNW]
+ССЗ
+[NW]
+СЗ
+[N]
+С
+[North]
+север
+[Northeast]
+североизток
+[Northwest]
+северозапад
+[Partly Cloudy]
+Незначителна облачност
+[Partly Sunny]
+Частично слънчево
+[SE]
+ЮИ
+[SSE]
+ЮЮИ
+[SSW]
+ЮЮЗ
+[SW]
+ЮЗ
+[S]
+Ю
 [Sat]
 съб
+[Scattered Clouds]
+Променлива облачност
+[South]
+юг
+[Southeast]
+югоизток
+[Southwest]
+югозапад
 [Sun]
 нед
 [Sunny]
 Слънчево
-[Partly Sunny]
-Частично слънчево
-[Mostly Sunny]
-Предимно слънчево
-[Partly Cloudy]
-Незначителна облачност
-[Mostly Cloudy]
-Значителна облачност
-[Mostly Clear]
-Предимно ясно
-[N]
-С
-[W]
-З
-[S]
-Ю
-[E]
-И
-[NW]
-СЗ
-[NE]
-СИ
-[SW]
-ЮЗ
-[SE]
-ЮИ
-[NNW]
-ССЗ
-[NNE]
-ССИ
-[SSW]
-ЮЮЗ
-[SSE]
-ЮЮИ
-[ENE]
-ИСИ
-[WSW]
-ЗЮЗ
+[Thu]
+чет
+[Tue]
+вто
 [WNW]
 ЗНЗ
-[ESE]
-ИЮИ
-[Scattered Clouds]
-Променлива облачност
-[North]
-север
-[East]
-изток
-[South]
-юг
+[WSW]
+ЗЮЗ
+[W]
+З
+[Wed]
+сря
 [West]
 запад
-[Northwest]
-северозапад
-[Northeast]
-североизток
-[Southwest]
-югозапад
-[Southeast]
-югоизток
+[Wind Direction Degrees]
+Вятър (посока в градуси)
+[Wind Direction]
+Вятър (посока)
+[Wind Speed]
+Вятър (скорост)

@@ -57,8 +57,8 @@
 Избор на цветове
 [Use &Windows colors]
 Цветове от Windows
-[Use Pop&up colors]
-От Popup приставката
+[Use defa&ult colors]
+Стандартни цветове
 [Preview]
 Образец
 [Click action]

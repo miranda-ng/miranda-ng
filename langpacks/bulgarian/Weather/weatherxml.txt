@@ -2,108 +2,52 @@
 ;  File: weatherxml.ini
 ;  Module: weather
 ;============================================================
-[Fair]
-Ясно с малко облаци
-[Mostly Sunny]
-Предимно слънчево
-[Light Thunderstorm Rain]
-Лек дъжд с гръмотевична буря
-[Thunderstorm Rain]
-Дъжд с гръмотевична буря
-[N/a]
-НД
-[Thunderstorm]
-Гръмотевична буря
-[Overcast]
-Плътна облачност
-[Fog]
-Мъгла
-[Mist]
-Лека мъгла
-[Light Rain]
-Слаб дъжд
-[Light Showers Rain]
-Слаб и краткотраен дъжд
-[Showers Rain]
-Краткотраен дъжд
-[Shallow Fog]
-Слаба мъгла
-[Snow]
-Снеговалеж
-[Partly Sunny]
-Частично слънчево
-[Partly Cloudy]
-Незначителна облачност
-[Mostly Cloudy]
-Значителна облачност
-[Mostly Clear]
-Предимно ясно
-[Showers]
-Краткотрайни превалявания
-[Sunny]
-Слънчево
-[Light Rain Shower]
-Слаб краткотраен дъжд
-[rising]
-покачване
-[steady]
-без промяна
-[falling]
-понижаване
-[Moderate]
-Умерено
-[N]
-С
-[W]
-З
-[S]
-Ю
-[E]
-И
-[NW]
-СЗ
-[NE]
-СИ
-[SW]
-ЮЗ
-[SE]
-ЮИ
-[NNW]
-ССЗ
-[NNE]
-ССИ
-[SSW]
-ЮЮЗ
-[SSE]
-ЮЮИ
+[Am Clouds / Pm Sun]
+Облаци сутрин / Слънце следобед
+[Am Light Rain]
+Слаб дъжд сутрин
+[Am Rain / Snow Showers]
+Дъжд сутрин / Снежни превалявания
+[Am Showers / Wind]
+Превалявания от дъжд сутрин / Вятър
+[Am Showers]
+Превалявания от дъжд сутрин
+[Am Snow Showers / Wind]
+Снежни превалявания сутрин / Вятър
+[Am Snow Showers]
+Снежни превалявания сутрин
+[Clouds Early / Clearing Late]
+Денем облачно / Нощем ясно
+[Cloudy / Wind]
+Облачно / Вятър
+[Cloudy And Windy]
+Облачно и ветровито
+[Cloudy]
+Облачно
+[Drifting Snow]
+Снегонавяване
 [ENE]
 ИСИ
-[WSW]
-ЗЮЗ
-[WNW]
-ЗНЗ
 [ESE]
 ИЮИ
-[New Moon]
-Новолуние
-[Last Quarter]
-Последна четвърт
-[First Quarter]
-Първа четвърт
-[Full Moon]
-Пълнолуние
-[Waning Crescent]
-Намаляващ полумесец
-[Waning Gibbous]
-Намаляваща полупълна
-[Waxing Crescent]
-Нарастващ полумесец
-[Waxing Gibbous]
-Нарастваща полупълна
-[Night]
-Вечер
+[E]
+И
+[Fair]
+Ясно с малко облаци
 [Feel]
 Усеща се като
+[Few Showers / Wind]
+Няколко превалявания / Вятър
+[Few Showers]
+Няколко превалявания
+[Few Snow Showers]
+Няколко снежни превалявания
+[First Quarter]
+Първа четвърт
+[Fog And Windy]
+Мъгливо и ветровито
+[Fog]
+Мъгла
 [Forecast Day 0]
 Ден 10: _Прогноза
 [Forecast Day 1]
@@ -124,157 +68,213 @@
 Ден 8: _Прогноза
 [Forecast Day 9]
 Ден 9: _Прогноза
-[Latitude]
-Геогр. ширина
-[Longitude]
-Геогр. дължина
-[Local Time]
-Местно време
-[Moon]
-Лунна фаза
-[Observatory]
-Обсерватория
-[Pressure Tendency]
-Налягането (тенденция)
-[Wind Direction]
-Вятър (посока)
-[Wind Direction DEG]
-Вятър (посока в градуси)
-[Wind Speed]
-Вятър (скорост)
-[Cloudy]
-Облачно
-[Scattered Snow Showers]
-Разпръснати снежни превалявания
-[Few Snow Showers]
-Няколко снежни превалявания
-[Snow Shower]
-Снежни превалявания
-[Am Snow Showers]
-Снежни превалявания сутрин
-[Light Snow]
-Слаб снеговалеж
-[Drifting Snow]
-Снегонавяване
-[Pm Snow Showers]
-Снежни превалявания следобед
-[Am Clouds / Pm Sun]
-Облаци сутрин / Слънце следобед
-[Snow Shower / Wind]
-Снежни превалявания / Вятър
-[Cloudy / Wind]
-Облачно / Вятър
-[Heavy Snow And Windy]
-Обилен снеговалеж и вятър
-[Snow / Wind]
-Сняг / Вятър
-[Snow Showers Early]
-Снежни превалявания денем
-[Am Snow Showers / Wind]
-Снежни превалявания сутрин / Вятър
-[Light Snow And Windy]
-Лек снеговалеж и вятър
-[Snow Showers / Wind Early]
-Снежни превалявания / Вятър денем
-[Partly Cloudy And Windy]
-Незначителна облачност и вятър
-[Mostly Cloudy And Windy]
-Значителна облачност и вятър
-[Rain / Snow / Wind]
-Дъжд / Сняг / Вятър
-[Rain / Snow]
-Дъжд/Сняг
-[Clouds Early / Clearing Late]
-Денем облачно / Нощем ясно
-[Snow Showers Late]
-Снежни превалявания нощем
-[Rain / Snow Showers]
-Дъжд / Снежни превалявания
-[Showers Late]
-Превалявания нощем
-[Scattered Showers]
-Разпръснати превалявания
-[Am Showers]
-Превалявания от дъжд сутрин
-[Am Rain / Snow Showers]
-Дъжд сутрин / Снежни превалявания
-[Few Showers]
-Няколко превалявания
-[Few Showers / Wind]
-Няколко превалявания / Вятър
-[Pm Light Rain]
-Слаб дъжд следобед
-[Mostly Cloudy / Wind]
-Значителна облачност / Вятър
-[Rain]
-Дъжд
-[Light Rain Shower And Windy]
-Слаб краткотраен дъжд и вятър
-[Am Showers / Wind]
-Превалявания от дъжд сутрин / Вятър
-[Isolated T-Storms]
-Отделни гръмотевична буря
-[Showers Early]
-Превалявания денем
-[T-Storm]
-Гръмотевична буря
-[Rain / Snow Showers Late]
-Дъжд / Снежни превалявания нощем
-[Pm Showers]
-Превалявания следобед
-[Snow To Rain]
-Сняг към дъжд
-[Light Snow Shower]
-Слабо снежно преваляване
-[Pm T-Storms]
-Гръмотевична буря следобед
-[Scattered T-Storms]
-Разпръснати гръмотевична буря
-[Light Rain Late]
-Слаб дъжд нощем
-[Am Light Rain]
-Слаб дъжд сутрин
-[T-Storms]
-Гръмотевична буря
-[Rain / Thunder]
-Дъжд / Гръмотевици
-[Light Rain With Thunder]
-Слаб дъжд и гръмотевици
-[Light Rain Early]
-Слаб дъжд денем
-[Light Rain / Wind]
-Слаб дъжд / Вятър
-[Light Drizzle]
-Слаб ръмеж
+[Full Moon]
+Пълнолуние
 [Haze]
 Мараня
-[Rain To Snow]
-Дъжд към сняг
-[Rain And Snow]
-Дъжд и сняг
-[Rain / Snow Showers Early]
-Дъжд / Снежни превалявания сутрин
+[Heavy Snow And Windy]
+Обилен снеговалеж и вятър
 [Heavy Snow Shower]
 Обилни снежни превалявания
-[Snow Shower And Windy]
-Снежни превалявания и вятър
-[Light Snow Shower And Windy]
-Слабо снежно преваляване и вятър
-[Light Rain And Windy]
-Слаб дъжд и вятър
-[Cloudy And Windy]
-Облачно и ветровито
-[Light Drizzle And Windy]
-Слаб ръмеж и вятър
-[Light Drizzle And Fog]
-Слаб ръмеж и мъгла
-[Fog And Windy]
-Мъгливо и ветровито
-[Light Snow Early]
-Слаб снеговалеж денем
 [Heavy Snow]
 Обилен снеговалеж
-[Snow Early]
-Снеговалеж денем
+[Isolated T-Storms]
+Отделни гръмотевична буря
+[Last Quarter]
+Последна четвърт
+[Latitude]
+Геогр. ширина
+[Light Drizzle And Fog]
+Слаб ръмеж и мъгла
+[Light Drizzle And Windy]
+Слаб ръмеж и вятър
+[Light Drizzle]
+Слаб ръмеж
+[Light Rain / Wind]
+Слаб дъжд / Вятър
+[Light Rain And Windy]
+Слаб дъжд и вятър
+[Light Rain Early]
+Слаб дъжд денем
+[Light Rain Late]
+Слаб дъжд нощем
+[Light Rain Shower And Windy]
+Слаб краткотраен дъжд и вятър
+[Light Rain Shower]
+Слаб краткотраен дъжд
+[Light Rain With Thunder]
+Слаб дъжд и гръмотевици
+[Light Rain]
+Слаб дъжд
+[Light Showers Rain]
+Слаб и краткотраен дъжд
+[Light Snow And Windy]
+Лек снеговалеж и вятър
+[Light Snow Early]
+Слаб снеговалеж денем
 [Light Snow Late]
 Слаб снеговалеж нощем
+[Light Snow Shower And Windy]
+Слабо снежно преваляване и вятър
+[Light Snow Shower]
+Слабо снежно преваляване
+[Light Snow]
+Слаб снеговалеж
+[Light Thunderstorm Rain]
+Лек дъжд с гръмотевична буря
+[Local Time]
+Местно време
+[Longitude]
+Геогр. дължина
+[Mist]
+Лека мъгла
+[Moderate]
+Умерено
+[Moon]
+Лунна фаза
+[Mostly Clear]
+Предимно ясно
+[Mostly Cloudy / Wind]
+Значителна облачност / Вятър
+[Mostly Cloudy And Windy]
+Значителна облачност и вятър
+[Mostly Cloudy]
+Значителна облачност
+[Mostly Sunny]
+Предимно слънчево
+[N/a]
+НД
+[NE]
+СИ
+[NNE]
+ССИ
+[NNW]
+ССЗ
+[NW]
+СЗ
+[N]
+С
+[New Moon]
+Новолуние
+[Night]
+Вечер
+[Observatory]
+Обсерватория
+[Overcast]
+Плътна облачност
+[Partly Cloudy And Windy]
+Незначителна облачност и вятър
+[Partly Cloudy]
+Незначителна облачност
+[Partly Sunny]
+Частично слънчево
+[Pm Light Rain]
+Слаб дъжд следобед
+[Pm Showers]
+Превалявания следобед
+[Pm Snow Showers]
+Снежни превалявания следобед
+[Pm T-Storms]
+Гръмотевична буря следобед
+[Pressure Tendency]
+Налягането (тенденция)
+[Rain / Snow / Wind]
+Дъжд / Сняг / Вятър
+[Rain / Snow Showers Early]
+Дъжд / Снежни превалявания сутрин
+[Rain / Snow Showers Late]
+Дъжд / Снежни превалявания нощем
+[Rain / Snow Showers]
+Дъжд / Снежни превалявания
+[Rain / Snow]
+Дъжд/Сняг
+[Rain / Thunder]
+Дъжд / Гръмотевици
+[Rain And Snow]
+Дъжд и сняг
+[Rain To Snow]
+Дъжд към сняг
+[Rain]
+Дъжд
+[SE]
+ЮИ
+[SSE]
+ЮЮИ
+[SSW]
+ЮЮЗ
+[SW]
+ЮЗ
+[S]
+Ю
+[Scattered Showers]
+Разпръснати превалявания
+[Scattered Snow Showers]
+Разпръснати снежни превалявания
+[Scattered T-Storms]
+Разпръснати гръмотевична буря
+[Shallow Fog]
+Слаба мъгла
+[Showers Early]
+Превалявания денем
+[Showers Late]
+Превалявания нощем
+[Showers Rain]
+Краткотраен дъжд
+[Showers]
+Краткотрайни превалявания
+[Snow / Wind]
+Сняг / Вятър
+[Snow Early]
+Снеговалеж денем
+[Snow Shower / Wind]
+Снежни превалявания / Вятър
+[Snow Shower And Windy]
+Снежни превалявания и вятър
+[Snow Shower]
+Снежни превалявания
+[Snow Showers / Wind Early]
+Снежни превалявания / Вятър денем
+[Snow Showers Early]
+Снежни превалявания денем
+[Snow Showers Late]
+Снежни превалявания нощем
+[Snow To Rain]
+Сняг към дъжд
+[Snow]
+Снеговалеж
+[Sunny]
+Слънчево
+[T-Storm]
+Гръмотевична буря
+[T-Storms]
+Гръмотевична буря
+[Thunderstorm Rain]
+Дъжд с гръмотевична буря
+[Thunderstorm]
+Гръмотевична буря
+[WNW]
+ЗНЗ
+[WSW]
+ЗЮЗ
+[W]
+З
+[Waning Crescent]
+Намаляващ полумесец
+[Waning Gibbous]
+Намаляваща полупълна
+[Waxing Crescent]
+Нарастващ полумесец
+[Waxing Gibbous]
+Нарастваща полупълна
+[Wind Direction DEG]
+Вятър (посока в градуси)
+[Wind Direction]
+Вятър (посока)
+[Wind Speed]
+Вятър (скорост)
+[falling]
+понижаване
+[rising]
+покачване
+[steady]
+без промяна

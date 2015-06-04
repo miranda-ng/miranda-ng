@@ -49,6 +49,8 @@
 Ако не желаете контактите Ви да бъдат изобразявани с прякора им можете да изберете друг тип име. Влачете за да промените подредбата:
 [Miranda NG profile manager]
 Miranda NG - диспечер на профили
+[Manage your Miranda NG profile]
+Управление профилите за Miranda NG
 [&Run]
 Изпълнение
 [&Exit]
@@ -321,8 +323,8 @@ Copyright:
 Стандарт
 [Set]
 Задай
-[Disable icons]
-Изключи иконите
+[Enable icons]
+Включи иконите
 [Show accounts in the following order,\ndrag to choose another order:]
 Показване на акаунтите в следния ред,\nвлачете, за да промените реда:
 [Account order and visibility]
@@ -1855,6 +1857,16 @@ URL
 Преглед/Промяна на личните данни
 [%s is online]
 %s е на линия
+[All Files]
+Всички файлове
+[Windows bitmaps]
+BMP изображения
+[JPEG bitmaps]
+JPEG изображения
+[GIF bitmaps]
+GIF изображения
+[PNG bitmaps]
+PNG изображения
 [Account]
 Акаунт
 [Add %s]
@@ -2125,8 +2137,6 @@ URL
 Създаден
 [Modified]
 Променен
-[Manage your Miranda NG profile]
-Управление профилите за Miranda NG
 [My profiles]
 Моите профили
 [New profile]
@@ -2509,18 +2519,6 @@ ANSI приставка
 Файлове със звуци
 [WAV files]
 WAV файлове
-[You need an image services plugin to process PNG images.]
-Необходима е услуга за изображенията за обработка на PNG изображения.
-[All bitmaps]
-Всички изображения
-[Windows bitmaps]
-BMP изображения
-[JPEG bitmaps]
-JPEG изображения
-[GIF bitmaps]
-GIF изображения
-[PNG bitmaps]
-PNG изображения
 [Avatars]
 Аватари
 [Avatars root folder]

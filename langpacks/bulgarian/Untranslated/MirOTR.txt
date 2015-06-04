@@ -3,7 +3,6 @@
 [Socialist Millionaires Protocol]
 [Socialist Millionaires Protocol\r\nVerification progress]
 [Socialist Millionaires Protocol\r\nVerification]
-[[OTR INFO] ]
 [Private Data]
 [\nusing older protocol version %i]
 [Attempting to start a private conversation...]
