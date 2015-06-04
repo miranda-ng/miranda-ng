@@ -620,7 +620,7 @@ void CConnectPrefsDlg::OnDeleteServer(CCtrlButton*)
 
 	SERVER_INFO *pData = (SERVER_INFO*)m_serverCombo.GetItemData(i);
 	TCHAR temp[200];
-	mir_sntprintf(temp, SIZEOF(temp), TranslateT("Do you want to delete\r\n%s"), (TCHAR*)_A2T(pData->m_name));
+	mir_sntprintf(temp, TranslateT("Do you want to delete\r\n%s"), (TCHAR*)_A2T(pData->m_name));
 	if (MessageBox(m_hwnd, temp, TranslateT("Delete server"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 		g_servers.remove(pData);
 
@@ -850,7 +850,7 @@ void CCtcpPrefsDlg::OnInitDialog()
 	m_combo.AddStringA("8192");
 
 	TCHAR szTemp[10];
-	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%u"), m_proto->m_DCCPacketSize);
+	mir_sntprintf(szTemp, _T("%u"), m_proto->m_DCCPacketSize);
 	int i = m_combo.SelectString(szTemp);
 	if (i == CB_ERR)
 		m_combo.SelectString(_T("4096"));
@@ -1338,7 +1338,7 @@ static LRESULT CALLBACK ListviewSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 void CIrcProto::InitIgnore(void)
 {
 	TCHAR szTemp[MAX_PATH];
-	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%miranda_path%%\\Plugins\\%S_ignore.ini"), m_szModuleName);
+	mir_sntprintf(szTemp, _T("%%miranda_path%%\\Plugins\\%S_ignore.ini"), m_szModuleName);
 	TCHAR *szLoadFileName = Utils_ReplaceVarsT(szTemp);
 	char* pszIgnoreData = IrcLoadFile(szLoadFileName);
 	if (pszIgnoreData != NULL) {

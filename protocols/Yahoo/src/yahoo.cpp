@@ -670,7 +670,7 @@ void CYahooProto::ext_rejected(const char *who, const char *msg)
 	ptrT tszMsg( mir_utf8decodeT(msg));
 
 	TCHAR buff[1024];
-	mir_sntprintf(buff, SIZEOF(buff), TranslateT("%s has rejected your request and sent the following message:"), (TCHAR*)tszWho);
+	mir_sntprintf(buff, TranslateT("%s has rejected your request and sent the following message:"), (TCHAR*)tszWho);
 	MessageBox(NULL, tszMsg, buff, MB_OK | MB_ICONINFORMATION );
 }
 
@@ -1056,33 +1056,33 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 	}
 	
 	if (succ == YAHOO_LOGIN_UNAME) {
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed."));
+		mir_sntprintf(buff, TranslateT("Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed."));
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 	}
 	else if (succ == YAHOO_LOGIN_PASSWD) {
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed."));
+		mir_sntprintf(buff, TranslateT("Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed."));
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 	}
 	else if (succ == YAHOO_LOGIN_LOCK) {
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it."), _A2T(url));
+		mir_sntprintf(buff, TranslateT("Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it."), _A2T(url));
 	}
 	else if (succ == YAHOO_LOGIN_DUPL) {
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("You have been logged out of the Yahoo service, possibly due to a duplicate login."));
+		mir_sntprintf(buff, TranslateT("You have been logged out of the Yahoo service, possibly due to a duplicate login."));
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
 	}
 	else if (succ == YAHOO_LOGIN_LOGOFF) {
-		//mir_sntprintf(buff, SIZEOF(buff), TranslateT("You have been logged out of the Yahoo service."));
+		//mir_sntprintf(buff, TranslateT("You have been logged out of the Yahoo service."));
 		//ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
 		return; // we logged out.. so just sign-off..
 	}
 	else if (succ == -1) {
 		/// Can't Connect or got disconnected.
 		if (m_iStatus == ID_STATUS_CONNECTING)
-			mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not connect to the Yahoo service. Check your server/port and proxy settings."));	
+			mir_sntprintf(buff, TranslateT("Could not connect to the Yahoo service. Check your server/port and proxy settings."));	
 		else
 			return;
 	} 
-	else mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log in, unknown reason: %d."), succ);
+	else mir_sntprintf(buff, TranslateT("Could not log in, unknown reason: %d."), succ);
 
 	delSetting(YAHOO_PWTOKEN);
 	
@@ -1108,28 +1108,28 @@ void CYahooProto::ext_error(const char *err, int fatal, int num)
         
 	switch(num) {
 	case E_UNKNOWN:
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Unknown error %s"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("Unknown error %s"), (TCHAR*)tszErr);
 		break;
 	case E_CUSTOM:
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Custom error %s"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("Custom error %s"), (TCHAR*)tszErr);
 		break;
 	case E_CONFNOTAVAIL:
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("%s is not available for the conference"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("%s is not available for the conference"), (TCHAR*)tszErr);
 		break;
 	case E_IGNOREDUP:
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("%s is already ignored"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("%s is already ignored"), (TCHAR*)tszErr);
 		break;
 	case E_IGNORENONE:
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("%s is not in the ignore list"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("%s is not in the ignore list"), (TCHAR*)tszErr);
 		break;
 	case E_IGNORECONF:
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("%s is in buddy list - cannot ignore"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("%s is in buddy list - cannot ignore"), (TCHAR*)tszErr);
 		break;
 	case E_SYSTEM:
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("System Error: %s"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("System Error: %s"), (TCHAR*)tszErr);
 		break;
 	case E_CONNECTION:
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Server Connection Error: %s"), (TCHAR*)tszErr);
+		mir_sntprintf(buff, TranslateT("Server Connection Error: %s"), (TCHAR*)tszErr);
 		debugLogA("Error: %S", buff);
 		return;
 	}

@@ -645,7 +645,7 @@ void EventList::AddImporter(MCONTACT hContact, IImport::ImportType type, const s
 	mir_cslock lck(csEventList);
 
 	TCHAR buf[32];
-	mir_sntprintf(buf, SIZEOF(buf), _T("%016llx"), (unsigned long long int)hContact);
+	mir_sntprintf(buf, _T("%016llx"), (unsigned long long int)hContact);
 	ImportDiscData data;
 	data.file = contactFileDir + buf;
 	data.type = type;

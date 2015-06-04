@@ -166,12 +166,12 @@ static void AddToFileList(TCHAR ***pppFiles, int *totalCount, const TCHAR* szFil
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
 		TCHAR szPath[MAX_PATH];
-		mir_sntprintf(szPath, SIZEOF(szPath), _T("%s\\*"), szFilename);
+		mir_sntprintf(szPath, _T("%s\\*"), szFilename);
 		HANDLE hFind = FindFirstFile(szPath, &fd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
 				if (!mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T(".."))) continue;
-				mir_sntprintf(szPath, SIZEOF(szPath), _T("%s\\%s"), szFilename, fd.cFileName);
+				mir_sntprintf(szPath, _T("%s\\%s"), szFilename, fd.cFileName);
 				AddToFileList(pppFiles, totalCount, szPath);
 			} while (FindNextFile(hFind, &fd));
 			FindClose(hFind);
@@ -561,7 +561,7 @@ static void UpdateReadChars(HWND hwndDlg, SrmmWindowData *dat)
 		sbd.iFlags = SBDF_TEXT | SBDF_ICON;
 		sbd.hIcon = NULL;
 		sbd.pszText = szText;
-		mir_sntprintf(szText, SIZEOF(szText), _T("%d"), len);
+		mir_sntprintf(szText, _T("%d"), len);
 		SendMessage(dat->hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)hwndDlg);
 	}
 }
@@ -1360,13 +1360,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (dat->messagesInProgress && (g_dat.flags & SMF_SHOWPROGRESS)) {
 				sbd.hIcon = GetCachedIcon("scriver_DELIVERING");
 				sbd.pszText = szText;
-				mir_sntprintf(szText, SIZEOF(szText), TranslateT("Sending in progress: %d message(s) left..."), dat->messagesInProgress);
+				mir_sntprintf(szText, TranslateT("Sending in progress: %d message(s) left..."), dat->messagesInProgress);
 			}
 			else if (dat->nTypeSecs) {
 				TCHAR *szContactName = GetNickname(dat->hContact, dat->szProto);
 				sbd.hIcon = GetCachedIcon("scriver_TYPING");
 				sbd.pszText = szText;
-				mir_sntprintf(szText, SIZEOF(szText), TranslateT("%s is typing a message..."), szContactName);
+				mir_sntprintf(szText, TranslateT("%s is typing a message..."), szContactName);
 				mir_free(szContactName);
 				dat->nTypeSecs--;
 			}
@@ -1374,7 +1374,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				TCHAR date[64], time[64];
 				tmi.printTimeStamp(NULL, dat->lastMessage, _T("d"), date, SIZEOF(date), 0);
 				tmi.printTimeStamp(NULL, dat->lastMessage, _T("t"), time, SIZEOF(time), 0);
-				mir_sntprintf(szText, SIZEOF(szText), TranslateT("Last message received on %s at %s."), date, time);
+				mir_sntprintf(szText, TranslateT("Last message received on %s at %s."), date, time);
 				sbd.pszText = szText;
 			}
 			else sbd.pszText = _T("");

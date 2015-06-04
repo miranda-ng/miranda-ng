@@ -57,12 +57,12 @@ INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM lParam)
 		hContact = hSub;
 
 	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", hContact, 0) != 0 ) {
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_SECUREIM_STARTED), contact_get_nameT(hContact));
+		mir_sntprintf(buff, TranslateT(LANG_OTR_SECUREIM_STARTED), contact_get_nameT(hContact));
 		ShowError(buff);
 		return 0;
 	}
 
-	mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_REQUEST_OTR), contact_get_nameT(hContact));
+	mir_sntprintf(buff, TranslateT(LANG_SESSION_REQUEST_OTR), contact_get_nameT(hContact));
 	ShowMessage(hContact, buff);
 
 	return StartOTR(hContact);
@@ -82,7 +82,7 @@ INT_PTR SVC_RefreshOTR(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 	
-	mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_TRY_CONTINUE_OTR), contact_get_nameT(hContact));
+	mir_sntprintf(buff, TranslateT(LANG_SESSION_TRY_CONTINUE_OTR), contact_get_nameT(hContact));
 	ShowMessage(hContact, buff);
 
 	int res = StartOTR(hContact);
@@ -116,7 +116,7 @@ INT_PTR SVC_StopOTR(WPARAM hContact, LPARAM lParam)
 	SetEncryptionStatus(hContact, TRUST_NOT_PRIVATE);
 
 	TCHAR buff[512];
-	mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_TERMINATED_OTR), contact_get_nameT(hContact));
+	mir_sntprintf(buff, TranslateT(LANG_SESSION_TERMINATED_OTR), contact_get_nameT(hContact));
 	ShowMessage(hContact, buff);
 	return 0;
 }

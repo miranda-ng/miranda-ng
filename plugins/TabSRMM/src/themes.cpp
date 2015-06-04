@@ -1677,9 +1677,9 @@ void CSkin::setupAeroSkins()
 
 	// load unknown avatar..
 	if (0 == PluginConfig.g_hbmUnknown) {
-		mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%scustom_unknown.png"), tszBasePath);
+		mir_sntprintf(tszFilename, _T("%scustom_unknown.png"), tszBasePath);
 		if (!PathFileExists(tszFilename))
-			mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%sunknown.png"), tszBasePath);
+			mir_sntprintf(tszFilename, _T("%sunknown.png"), tszBasePath);
 		PluginConfig.g_hbmUnknown = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR);
 		if (PluginConfig.g_hbmUnknown == 0) {
 			HDC dc = GetDC(0);
@@ -1688,9 +1688,9 @@ void CSkin::setupAeroSkins()
 		}
 	}
 
-	mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%scustom_tabskin_aero.png"), tszBasePath);
+	mir_sntprintf(tszFilename, _T("%scustom_tabskin_aero.png"), tszBasePath);
 	if (!PathFileExists(tszFilename))
-		mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%stabskin_aero.png"), tszBasePath);
+		mir_sntprintf(tszFilename, _T("%stabskin_aero.png"), tszBasePath);
 
 	BOOL isOpaque = false;
 	if (CMimAPI::m_pfnDwmGetColorizationColor && M.isAero())
@@ -1775,9 +1775,9 @@ void CSkin::setupAeroSkins()
 	m_tabBottom->setMetrics(bm.bmWidth, bm.bmHeight);
 
 
-	mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%scustom_tabskin_aero_glow.png"), tszBasePath);
+	mir_sntprintf(tszFilename, _T("%scustom_tabskin_aero_glow.png"), tszBasePath);
 	if (!PathFileExists(tszFilename))
-		mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%stabskin_aero_glow.png"), tszBasePath);
+		mir_sntprintf(tszFilename, _T("%stabskin_aero_glow.png"), tszBasePath);
 
 	fib = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR | IMGL_RETURNDIB);
 
@@ -1808,9 +1808,9 @@ void CSkin::setupAeroSkins()
 	m_tabGlowBottom->setMetrics(bm.bmWidth, bm.bmHeight);
 
 	// background item for the button switch bar
-	mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%scustom_tabskin_aero_button.png"), tszBasePath);
+	mir_sntprintf(tszFilename, _T("%scustom_tabskin_aero_button.png"), tszBasePath);
 	if (!PathFileExists(tszFilename))
-		mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%stabskin_aero_button.png"), tszBasePath);
+		mir_sntprintf(tszFilename, _T("%stabskin_aero_button.png"), tszBasePath);
 
 	hbm = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR);
 

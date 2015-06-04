@@ -123,11 +123,11 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				GetPrivateProfileString(_T("Skin_Description_Section"), _T("URL"), _T(""), URL, SIZEOF(URL), sd->File);
 				GetPrivateProfileString(_T("Skin_Description_Section"), _T("Contact"), _T(""), Contact, SIZEOF(Contact), sd->File);
 				GetPrivateProfileString(_T("Skin_Description_Section"), _T("Description"), _T(""), Description, SIZEOF(Description), sd->File);
-				mir_sntprintf(text, SIZEOF(text), TranslateT("%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
+				mir_sntprintf(text, TranslateT("%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
 					sd->Name, Description, Author, Contact, URL, sd->File);
 			}
 			else {
-				mir_sntprintf(text, SIZEOF(text), TranslateT("%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
+				mir_sntprintf(text, TranslateT("%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
 					TranslateT("reVista for Modern v0.5"),
 					TranslateT("This is second default Modern Contact list skin in Vista Aero style"),
 					TranslateT("Angeli-Ka (graphics), FYR (template)"),
@@ -279,11 +279,11 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							GetPrivateProfileString(_T("Skin_Description_Section"), _T("URL"), _T(""), URL, SIZEOF(URL), sd->File);
 							GetPrivateProfileString(_T("Skin_Description_Section"), _T("Contact"), _T(""), Contact, SIZEOF(Contact), sd->File);
 							GetPrivateProfileString(_T("Skin_Description_Section"), _T("Description"), _T(""), Description, SIZEOF(Description), sd->File);
-							mir_sntprintf(text, SIZEOF(text), TranslateT("Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s"),
+							mir_sntprintf(text, TranslateT("Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s"),
 								sd->Name, Description, Author, Contact, URL);
 						}
 						else {
-							mir_sntprintf(text, SIZEOF(text), TranslateT("%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n"),
+							mir_sntprintf(text, TranslateT("%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n"),
 								TranslateT("reVista for Modern v0.5"),
 								TranslateT("This is second default Modern Contact list skin in Vista Aero style"),
 								TranslateT("graphics by Angeli-Ka\ntemplate by FYR"),

@@ -322,12 +322,12 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 		}
 		else {
 			TCHAR text[128];
-			mir_sntprintf(text, SIZEOF(text), TranslateT("size: %d x %d"),
+			mir_sntprintf(text, TranslateT("size: %d x %d"),
 				db_get_dw(NULL, MODULE_CLIST, SETTING_WIDTH, 0),
 				db_get_dw(NULL, MODULE_CLIST, SETTING_HEIGHT, 0));
 			SetDlgItemText(hwndDlg, IDC_CURWINSIZE, text);
 
-			mir_sntprintf(text, SIZEOF(text), TranslateT("loc: %d x %d"),
+			mir_sntprintf(text, TranslateT("loc: %d x %d"),
 				db_get_dw(NULL, MODULE_CLIST, SETTING_XPOS, 0),
 				db_get_dw(NULL, MODULE_CLIST, SETTING_YPOS, 0));
 			SetDlgItemText(hwndDlg, IDC_CURWINLOC, text);

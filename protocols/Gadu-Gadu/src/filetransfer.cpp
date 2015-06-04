@@ -677,7 +677,7 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const TCHAR* szPath)
 	{
 		debugLogA("dccfileallow(): Failed to create file \"%s\". errno=%d: %s", fileName, errno, strerror(errno));
 		TCHAR error[512];
-		mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot create transfer file. ERROR: %d: %s (dcc)\n%s"), errno, _tcserror(errno), szPath);
+		mir_sntprintf(error, TranslateT("Cannot create transfer file. ERROR: %d: %s (dcc)\n%s"), errno, _tcserror(errno), szPath);
 		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 		ProtoBroadcastAck((MCONTACT)dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc, 0);
 		// Free transfer
@@ -726,7 +726,7 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const TCHAR* szPath)
 	{
 		debugLogA("dcc7fileallow(): Failed to create file \"%s\". errno=%d: %s", fileName, errno, strerror(errno));
 		TCHAR error[512];
-		mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s"), errno, _tcserror(errno), szPath);
+		mir_sntprintf(error, TranslateT("Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s"), errno, _tcserror(errno), szPath);
 		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 		gg_dcc7_reject(dcc7, GG_DCC7_REJECT_USER);
 		ProtoBroadcastAck((MCONTACT)dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);

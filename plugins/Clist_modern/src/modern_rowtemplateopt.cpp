@@ -315,7 +315,7 @@ void RefreshTree(HWND hwndDlg, HTREEITEM hti)
 			if (!cell->child)
 			{
 				if (cell->type == 0)
-					mir_sntprintf(buf, SIZEOF(buf), TranslateT("Empty %s cell"), cell->cont == TC_COL ? TranslateT("column") : TranslateT("line"));
+					mir_sntprintf(buf, TranslateT("Empty %s cell"), cell->cont == TC_COL ? TranslateT("column") : TranslateT("line"));
 				else
 					mir_tstrncpy(buf, TranslateTS(types[cell->type]), SIZEOF(buf));
 			}
@@ -324,7 +324,7 @@ void RefreshTree(HWND hwndDlg, HTREEITEM hti)
 				if (cell->type == 0)
 					mir_tstrncpy(buf, (cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines")), SIZEOF(buf));
 				else
-					mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s, contain %s"), TranslateTS(types[cell->type]), cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines"));
+					mir_sntprintf(buf, TranslateT("%s, contain %s"), TranslateTS(types[cell->type]), cell->cont != TC_COL ? TranslateT("columns") : TranslateT("lines"));
 			}
 			if (cell->layer) mir_tstrncat(buf, TranslateT(" layered"), SIZEOF(buf) - mir_tstrlen(buf));
 			tvi.mask = TVIF_HANDLE | TVIF_TEXT;

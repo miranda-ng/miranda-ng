@@ -68,7 +68,7 @@ void CJabberDlgPepBase::OnInitDialog()
 	SetTimer(m_hwnd, 1, 1000, NULL);
 
 	TCHAR buf[128];
-	mir_sntprintf(buf, SIZEOF(buf), TranslateT("OK (%d)"), m_time);
+	mir_sntprintf(buf, TranslateT("OK (%d)"), m_time);
 	m_btnOk.SetText(buf);
 }
 
@@ -89,7 +89,7 @@ INT_PTR CJabberDlgPepBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_TIMER:
 		if (wParam == 1) {
 			TCHAR buf[128];
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("OK (%d)"), --m_time);
+			mir_sntprintf(buf, TranslateT("OK (%d)"), --m_time);
 			m_btnOk.SetText(buf);
 
 			if (m_time < 0) {
@@ -341,7 +341,7 @@ BOOL CJabberDlgPepSimple::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 		if (mode->m_subitem) {
 			for (int i = lpdis->itemData; i >= 0; --i)
 				if (!m_modes[i].m_subitem) {
-					mir_sntprintf(text, SIZEOF(text), _T("%s [%s]"), m_modes[i].m_title, mode->m_title);
+					mir_sntprintf(text, _T("%s [%s]"), m_modes[i].m_title, mode->m_title);
 					break;
 				}
 		}
@@ -352,7 +352,7 @@ BOOL CJabberDlgPepSimple::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 	}
 	else {
 		TCHAR text[128];
-		mir_sntprintf(text, SIZEOF(text), _T("...%s"), mode->m_title);
+		mir_sntprintf(text, _T("...%s"), mode->m_title);
 		DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2, mode->m_hIcon, 16, 16, 0, NULL, DI_NORMAL);
 		TextOut(lpdis->hDC, lpdis->rcItem.left + 44, (lpdis->rcItem.top + lpdis->rcItem.bottom - tm.tmHeight) / 2, text, (int)mir_tstrlen(text));
 	}

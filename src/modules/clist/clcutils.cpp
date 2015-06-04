@@ -59,7 +59,7 @@ TCHAR* fnGetGroupCountsText(struct ClcData *dat, ClcContact *contact)
 		return _T("");
 
 	static TCHAR szName[32];
-	mir_sntprintf(szName, SIZEOF(szName), _T("(%u/%u)"), onlineCount, totalCount);
+	mir_sntprintf(szName, _T("(%u/%u)"), onlineCount, totalCount);
 	return szName;
 }
 

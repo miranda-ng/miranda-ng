@@ -408,13 +408,13 @@ int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
 
 		if (pPsh->_dwFlags & PSF_PROTOPAGESONLY) {
 			if (_dwFlags & ODPF_USERINFOTAB)
-				mir_sntprintf(szTitle, SIZEOF(szTitle), _T("%s %d\\%s"), odp->ptszTitle, pPsh->_nSubContact+1, odp->ptszTab);
+				mir_sntprintf(szTitle, _T("%s %d\\%s"), odp->ptszTitle, pPsh->_nSubContact+1, odp->ptszTab);
 			else
-				mir_sntprintf(szTitle, SIZEOF(szTitle), _T("%s %d"), odp->ptszTitle, pPsh->_nSubContact+1);
+				mir_sntprintf(szTitle, _T("%s %d"), odp->ptszTitle, pPsh->_nSubContact+1);
 		}
 		else {
 			if (_dwFlags & ODPF_USERINFOTAB)
-				mir_sntprintf(szTitle, SIZEOF(szTitle), _T("%s\\%s"), odp->ptszTitle, odp->ptszTab);
+				mir_sntprintf(szTitle, _T("%s\\%s"), odp->ptszTitle, odp->ptszTab);
 			else
 				mir_tstrcpy(szTitle, odp->ptszTitle);
 		}

@@ -504,9 +504,9 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 			TCHAR	temp[256];
 			ptrT szVersion(db_get_tsa(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer"));
 			if (szVersion)
-				mir_sntprintf(temp, SIZEOF(temp), TranslateT("  Client: %s"), szVersion);
+				mir_sntprintf(temp, TranslateT("  Client: %s"), szVersion);
 			else
-				mir_sntprintf(temp, SIZEOF(temp), TranslateT("  Client not cached yet"));
+				mir_sntprintf(temp, TranslateT("  Client not cached yet"));
 			_tcscat_s(szBuf, 256, temp);
 		}
 
@@ -1507,7 +1507,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			LONG cy = rc.bottom;
 			HANDLE hTheme = 0;
 
-			mir_sntprintf(szTitle, SIZEOF(szTitle), m_szTitle ? _T("%s (%s)") : _T("%s%s"), c->getNick(), m_szTitle ? m_szTitle : _T(""));
+			mir_sntprintf(szTitle, m_szTitle ? _T("%s (%s)") : _T("%s%s"), c->getNick(), m_szTitle ? m_szTitle : _T(""));
 
 			if (m_panel) {
 				HDC hdcMem = ::CreateCompatibleDC(hdc);

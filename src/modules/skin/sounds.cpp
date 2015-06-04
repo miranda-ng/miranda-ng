@@ -385,7 +385,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 					else {
 						TCHAR buf[256];
-						mir_sntprintf(buf, SIZEOF(buf), _T("%s: %s"), arSounds[tvi.lParam].getSection(), arSounds[tvi.lParam].getDescr());
+						mir_sntprintf(buf, _T("%s: %s"), arSounds[tvi.lParam].getSection(), arSounds[tvi.lParam].getDescr());
 						SetDlgItemText(hwndDlg, IDC_NAMEVAL, buf);
 						if (arSounds[tvi.lParam].ptszTempFile)
 							SetDlgItemText(hwndDlg, IDC_LOCATION, arSounds[tvi.lParam].ptszTempFile);

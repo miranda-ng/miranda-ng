@@ -246,7 +246,7 @@ void CJabberProto::GroupchatJoinRoom(const TCHAR *server, const TCHAR *room, con
 	}
 
 	TCHAR text[JABBER_MAX_JID_LEN + 1];
-	mir_sntprintf(text, SIZEOF(text), _T("%s@%s/%s"), room, server, nick);
+	mir_sntprintf(text, _T("%s@%s/%s"), room, server, nick);
 
 	JABBER_LIST_ITEM *item = ListAdd(LIST_CHATROOM, text);
 	item->bAutoJoin = autojoin;
@@ -1011,7 +1011,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 			if (++item->iChatState == 1 && newNick != NULL && newNick[0] != 0) {
 				replaceStrT(item->nick, newNick);
 				TCHAR text[1024] = { 0 };
-				mir_sntprintf(text, SIZEOF(text), _T("%s/%s"), item->jid, newNick);
+				mir_sntprintf(text, _T("%s/%s"), item->jid, newNick);
 				SendPresenceTo(m_iStatus, text, NULL);
 			}
 			else {
@@ -1164,7 +1164,7 @@ public:
 		CSuper::OnInitDialog();
 
 		TCHAR buf[256];
-		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Group chat invitation to\n%s"), m_info->roomJid);
+		mir_sntprintf(buf, TranslateT("Group chat invitation to\n%s"), m_info->roomJid);
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, buf);
 
 		SetDlgItemText(m_hwnd, IDC_FROM, m_info->from);

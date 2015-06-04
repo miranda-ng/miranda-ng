@@ -545,7 +545,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	else if (iIndex == 0) {
 		TCHAR szTemp[50];
 		if (pszWordText)
-			mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("&Message %s"), pszWordText);
+			mir_sntprintf(szTemp, TranslateT("&Message %s"), pszWordText);
 		else
 			_tcsncpy_s(szTemp, TranslateT("&Message"), _TRUNCATE);
 

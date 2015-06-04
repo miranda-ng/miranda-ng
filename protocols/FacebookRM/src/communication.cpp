@@ -696,7 +696,7 @@ void loginError(FacebookProto *proto, std::string error_str) {
 	proto->debugLogA("!!! Login error: %s", !error_str.empty() ? error_str.c_str() : "Unknown error");
 
 	TCHAR buf[200];
-	mir_sntprintf(buf, SIZEOF(buf), TranslateT("Login error: %s"),
+	mir_sntprintf(buf, TranslateT("Login error: %s"),
 		(error_str.empty()) ? TranslateT("Unknown error") : ptrT(mir_utf8decodeT(error_str.c_str())));
 	proto->facy.client_notify(buf);
 }

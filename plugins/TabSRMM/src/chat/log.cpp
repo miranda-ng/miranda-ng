@@ -115,7 +115,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **
 						szTemp3[1] = line[2];
 						szTemp3[2] = '\0';
 						col = _ttoi(szTemp3);
-						mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%%c#%02X%02X%02X"), c, GetRValue(mi->crColors[col]), GetGValue(mi->crColors[col]), GetBValue(mi->crColors[col]));
+						mir_sntprintf(szTemp, _T("%%%c#%02X%02X%02X"), c, GetRValue(mi->crColors[col]), GetGValue(mi->crColors[col]), GetBValue(mi->crColors[col]));
 					}
 				}
 				line += 2;
@@ -123,7 +123,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **
 			case 'C':
 			case 'F':
 				if (!g_Settings.bStripFormat && !streamData->bStripFormat) {
-					mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%%c"), *line);
+					mir_sntprintf(szTemp, _T("%%%c"), *line);
 				}
 				break;
 			case 'b':
@@ -134,7 +134,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **
 			case 'I':
 			case 'r':
 				if (!streamData->bStripFormat) {
-					mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%%c"), *line);
+					mir_sntprintf(szTemp, _T("%%%c"), *line);
 				}
 				break;
 			}
@@ -542,7 +542,7 @@ static void AddEventToBuffer(CMStringA &str, LOGSTREAMDATA *streamData)
 			_tcsncpy_s(szTemp2, szTemp, _TRUNCATE);
 
 		if (streamData->lin->ptszUserInfo && streamData->lin->iType != GC_EVENT_TOPIC)
-			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s (%s)"), szTemp2, streamData->lin->ptszUserInfo);
+			mir_sntprintf(szTemp, _T("%s (%s)"), szTemp2, streamData->lin->ptszUserInfo);
 		else
 			_tcsncpy_s(szTemp, szTemp2, _TRUNCATE);
 		pszNick = szTemp;

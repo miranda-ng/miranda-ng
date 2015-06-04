@@ -748,11 +748,11 @@ void CJabberProto::MenuInit()
 
 		mir_snprintf(srvFce, SIZEOF(srvFce), "%s/menuSetPriority/%d", m_szModuleName, steps[i]);
 		if (steps[i] > 0) {
-			mir_sntprintf(szName, SIZEOF(szName), TranslateT("Increase priority by %d"), steps[i]);
+			mir_sntprintf(szName, TranslateT("Increase priority by %d"), steps[i]);
 			mi.icolibItem = GetIconHandle(IDI_ARROW_UP);
 		}
 		else {
-			mir_sntprintf(szName, SIZEOF(szName), TranslateT("Decrease priority by %d"), -steps[i]);
+			mir_sntprintf(szName, TranslateT("Decrease priority by %d"), -steps[i]);
 			mi.icolibItem = GetIconHandle(IDI_ARROW_DOWN);
 		}
 
@@ -796,7 +796,7 @@ void CJabberProto::UpdatePriorityMenu(short priority)
 		return;
 
 	TCHAR szName[128];
-	mir_sntprintf(szName, SIZEOF(szName), TranslateT("Resource priority [%d]"), (int)priority);
+	mir_sntprintf(szName, TranslateT("Resource priority [%d]"), (int)priority);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR | CMIM_NAME | CMIF_KEEPUNTRANSLATED;
@@ -1036,7 +1036,7 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM hContact, LPARAM lParam)
 	HMENU hMenu = CreatePopupMenu();
 	TCHAR buf[256];
 
-	mir_sntprintf(buf, SIZEOF(buf), TranslateT("Last active (%s)"),
+	mir_sntprintf(buf, TranslateT("Last active (%s)"),
 		LI->m_pLastSeenResource ? LI->m_pLastSeenResource->m_tszResourceName : TranslateT("No activity yet, use server's choice"));
 	AppendMenu(hMenu, MF_STRING, MENUITEM_LASTSEEN, buf);
 
@@ -1121,7 +1121,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM hContact, LPARAM
 		if (item == NULL)
 			return 0;
 
-		mir_sntprintf(text, SIZEOF(text), _T("%s/%s"), item->jid, item->nick);
+		mir_sntprintf(text, _T("%s/%s"), item->jid, item->nick);
 		jid = text;
 	}
 	else jid = tszJid;

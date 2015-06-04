@@ -239,7 +239,7 @@ void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo*)
 		m_ThreadInfo->send("</stream:stream>");
 
 		TCHAR text[128];
-		mir_sntprintf(text, SIZEOF(text), TranslateT("Authentication failed for %s."), m_ThreadInfo->conn.username);
+		mir_sntprintf(text, TranslateT("Authentication failed for %s."), m_ThreadInfo->conn.username);
 		MsgPopup(NULL, text, TranslateT("Jabber Authentication"));
 		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		m_ThreadInfo = NULL;	// To disallow auto reconnect
@@ -266,7 +266,7 @@ void CJabberProto::OnIqResultSetAuth(HXML iqNode, CJabberIqInfo*)
 		TCHAR text[128];
 
 		m_ThreadInfo->send("</stream:stream>");
-		mir_sntprintf(text, SIZEOF(text), TranslateT("Authentication failed for %s."), m_ThreadInfo->conn.username);
+		mir_sntprintf(text, TranslateT("Authentication failed for %s."), m_ThreadInfo->conn.username);
 		MsgPopup(NULL, text, TranslateT("Jabber Authentication"));
 		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		m_ThreadInfo = NULL;	// To disallow auto reconnect
@@ -815,9 +815,9 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 						hasHomeStreet = true;
 						if (hContact != NULL) {
 							if ((o=xmlGetChild(n, "EXTADR")) != NULL && xmlGetText(o) != NULL)
-								mir_sntprintf(text, SIZEOF(text), _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
+								mir_sntprintf(text, _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
 							else if ((o=xmlGetChild(n, "EXTADD")) != NULL && xmlGetText(o) != NULL)
-								mir_sntprintf(text, SIZEOF(text), _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
+								mir_sntprintf(text, _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
 							else
 								_tcsncpy_s(text, xmlGetText(m), _TRUNCATE);
 							text[SIZEOF(text)-1] = '\0';
@@ -858,9 +858,9 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 						hasWorkStreet = true;
 						if (hContact != NULL) {
 							if ((o=xmlGetChild(n, "EXTADR")) != NULL && xmlGetText(o) != NULL)
-								mir_sntprintf(text, SIZEOF(text), _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
+								mir_sntprintf(text, _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
 							else if ((o=xmlGetChild(n, "EXTADD")) != NULL && xmlGetText(o) != NULL)
-								mir_sntprintf(text, SIZEOF(text), _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
+								mir_sntprintf(text, _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
 							else
 								_tcsncpy_s(text, xmlGetText(m), _TRUNCATE);
 							text[SIZEOF(text)-1] = '\0';

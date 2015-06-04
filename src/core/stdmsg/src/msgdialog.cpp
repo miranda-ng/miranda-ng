@@ -96,12 +96,12 @@ static void AddToFileList(TCHAR ***pppFiles, int *totalCount, const TCHAR* szFil
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
 		TCHAR szPath[MAX_PATH];
-		mir_sntprintf(szPath, SIZEOF(szPath), _T("%s\\*"), szFilename);
+		mir_sntprintf(szPath, _T("%s\\*"), szFilename);
 		HANDLE hFind = FindFirstFile(szPath, &fd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
 				if (!mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T(".."))) continue;
-				mir_sntprintf(szPath, SIZEOF(szPath), _T("%s\\%s"), szFilename, fd.cFileName);
+				mir_sntprintf(szPath, _T("%s\\%s"), szFilename, fd.cFileName);
 				AddToFileList(pppFiles, totalCount, szPath);
 			}
 			while (FindNextFile(hFind, &fd));
@@ -122,7 +122,7 @@ static void UpdateReadChars(HWND hwndDlg, HWND hwndStatus)
 		TCHAR buf[32];
 		int len = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
 
-		mir_sntprintf(buf, SIZEOF(buf), _T("%d"), len);
+		mir_sntprintf(buf, _T("%d"), len);
 		SendMessage(hwndStatus, SB_SETTEXT, 1, (LPARAM)buf);
 	}
 }
@@ -955,7 +955,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					break;
 
 				case CNFT_DWORD:
-					mir_sntprintf(buf, SIZEOF(buf), _T("%u"), ci.dVal);
+					mir_sntprintf(buf, _T("%u"), ci.dVal);
 					break;
 				}
 			}
@@ -1061,7 +1061,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							mir_free(ci.pszVal);
 							break;
 						case CNFT_DWORD:
-							mir_sntprintf(buf, SIZEOF(buf), _T("%u"), ci.dVal);
+							mir_sntprintf(buf, _T("%u"), ci.dVal);
 							break;
 						}
 					}

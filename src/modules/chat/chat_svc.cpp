@@ -233,7 +233,7 @@ static INT_PTR Service_NewChat(WPARAM, LPARAM lParam)
 
 		TCHAR szTemp[256];
 		if (si->iType == GCW_SERVER)
-			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("Server: %s"), si->ptszName);
+			mir_sntprintf(szTemp, _T("Server: %s"), si->ptszName);
 		else
 			_tcsncpy_s(szTemp, si->ptszName, _TRUNCATE);
 		si->hContact = ci.AddRoom(gcw->pszModule, gcw->ptszID, szTemp, si->iType);

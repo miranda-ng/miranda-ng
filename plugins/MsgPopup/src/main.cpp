@@ -135,7 +135,7 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, PVOID lpOrigFunc, PVOID
 					TCHAR buf[200];
 
 					g_HookError = TRUE;
-					mir_sntprintf(buf, SIZEOF(buf), TranslateT("VirtualProtect failed. Code %d\nTry to call the author"), GetLastError());
+					mir_sntprintf(buf, TranslateT("VirtualProtect failed. Code %d\nTry to call the author"), GetLastError());
 					prevMessageBox(0, buf, TranslateT("Error"), MB_OK);
 				}
 			}

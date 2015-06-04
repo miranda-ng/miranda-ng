@@ -224,7 +224,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 		CallChatEvent(WINDOW_HIDDEN, (LPARAM)&gce);
 
 	TCHAR szTemp[MAX_PATH];
-	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%miranda_path%%\\Plugins\\%S_perform.ini"), m_szModuleName);
+	mir_sntprintf(szTemp, _T("%%miranda_path%%\\Plugins\\%S_perform.ini"), m_szModuleName);
 	TCHAR *szLoadFileName = Utils_ReplaceVarsT(szTemp);
 	char* pszPerformData = IrcLoadFile(szLoadFileName);
 	if (pszPerformData != NULL) {
@@ -595,13 +595,13 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 				PostIrcMessage(_T("/CTCP %s DCC SEND %s 200 0 %I64u %u"),
 					dci->sContactName.c_str(), sFileWithQuotes.c_str(), dci->dwSize, dcc->iToken);
 
-				mir_sntprintf(szTemp, SIZEOF(szTemp),
+				mir_sntprintf(szTemp,
 					TranslateT("DCC reversed file transfer request sent to %s [%s]"),
 					dci->sContactName.c_str(), sFileCorrect.c_str());
 				DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
 
 				if (m_sendNotice) {
-					mir_sntprintf(szTemp, SIZEOF(szTemp),
+					mir_sntprintf(szTemp,
 						_T("/NOTICE %s I am sending the file '\002%s\002' (%I64u kB) to you, please accept it. [Reverse transfer]"),
 						dci->sContactName.c_str(), sFileCorrect.c_str(), dci->dwSize / 1024);
 					PostIrcMessage(szTemp);
@@ -614,13 +614,13 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 					PostIrcMessage(_T("/CTCP %s DCC SEND %s %u %u %I64u"),
 						dci->sContactName.c_str(), sFileWithQuotes.c_str(), ulAdr, iPort, dci->dwSize);
 
-					mir_sntprintf(szTemp, SIZEOF(szTemp),
+					mir_sntprintf(szTemp,
 						TranslateT("DCC file transfer request sent to %s [%s]"),
 						dci->sContactName.c_str(), sFileCorrect.c_str());
 					DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
 
 					if (m_sendNotice) {
-						mir_sntprintf(szTemp, SIZEOF(szTemp),
+						mir_sntprintf(szTemp,
 							_T("/NOTICE %s I am sending the file '\002%s\002' (%I64u kB) to you, please accept it. [IP: %s]"),
 							dci->sContactName.c_str(), sFileCorrect.c_str(), dci->dwSize / 1024, (TCHAR*)_A2T(ConvertIntegerToIP(ulAdr)));
 						PostIrcMessage(szTemp);

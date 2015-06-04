@@ -305,7 +305,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 #ifdef _WIN64
 		mir_sntprintf(buff,SIZEOF(buff),_T("%d.%d.%d.%d/64"), HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
 #else
-		mir_sntprintf(buff, SIZEOF(buff), _T("%d.%d.%d.%d/32"), HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
+		mir_sntprintf(buff, _T("%d.%d.%d.%d/32"), HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
 #endif
 		SetDlgItemText(hwndDlg, IDC_VERSION, buff);
 		LoadSettings();

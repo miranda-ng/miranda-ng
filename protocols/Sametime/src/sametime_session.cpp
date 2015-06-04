@@ -213,7 +213,7 @@ void __cdecl SessionSetUserStatus(struct mwSession* session)
 
 	default:
 		TCHAR buff[512];
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Unknown user status: %d"), us.status);
+		mir_sntprintf(buff, TranslateT("Unknown user status: %d"), us.status);
 		proto->showPopup(buff, SAMETIME_POPUP_ERROR);
 		proto->debugLog(buff);
 

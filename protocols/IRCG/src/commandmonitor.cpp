@@ -530,7 +530,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage* pmsg)
 
 			if (m_oldStyleModes) {
 				TCHAR temp[256];
-				mir_sntprintf(temp, SIZEOF(temp), TranslateT("%s sets mode %s"),
+				mir_sntprintf(temp, TranslateT("%s sets mode %s"),
 					pmsg->prefix.sNick.c_str(), pmsg->parameters[1].c_str());
 
 				CMString sMessage = temp;
@@ -544,7 +544,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage* pmsg)
 					sParams += _T(" ") + pmsg->parameters[i];
 
 				TCHAR temp[4000];
-				mir_sntprintf(temp, SIZEOF(temp), TranslateT("%s sets mode %s%s"), pmsg->prefix.sNick.c_str(), sModes.c_str(), sParams.c_str());
+				mir_sntprintf(temp, TranslateT("%s sets mode %s%s"), pmsg->prefix.sNick.c_str(), sModes.c_str(), sParams.c_str());
 				DoEvent(GC_EVENT_INFORMATION, pmsg->parameters[0].c_str(), pmsg->prefix.sNick.c_str(), temp, NULL, NULL, NULL, true, false);
 			}
 
@@ -553,7 +553,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage* pmsg)
 		}
 		else {
 			TCHAR temp[256];
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%s sets mode %s"), pmsg->prefix.sNick.c_str(), pmsg->parameters[1].c_str());
+			mir_sntprintf(temp, TranslateT("%s sets mode %s"), pmsg->prefix.sNick.c_str(), pmsg->parameters[1].c_str());
 
 			CMString sMessage = temp;
 			for (int i = 2; i < (int)pmsg->parameters.getCount(); i++)
@@ -741,7 +741,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 	// exploit???
 	if (mess.Find(1) != -1 || mess.Find(_T("%newl")) != -1) {
 		TCHAR temp[4096];
-		mir_sntprintf(temp, SIZEOF(temp), TranslateT("CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered"), pmsg->prefix.sNick.c_str(), pmsg->prefix.sUser.c_str(), pmsg->prefix.sHost.c_str());
+		mir_sntprintf(temp, TranslateT("CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered"), pmsg->prefix.sNick.c_str(), pmsg->prefix.sUser.c_str(), pmsg->prefix.sHost.c_str());
 		DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), temp, NULL, NULL, NULL, true, false);
 		return true;
 	}
@@ -799,7 +799,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 			PostIrcMessage(_T("/NOTICE %s \001FINGER %s (%s)\001"), pmsg->prefix.sNick.c_str(), m_name, m_userID);
 
 			TCHAR temp[300];
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("CTCP FINGER requested by %s"), pmsg->prefix.sNick.c_str());
+			mir_sntprintf(temp, TranslateT("CTCP FINGER requested by %s"), pmsg->prefix.sNick.c_str());
 			DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, temp, NULL, NULL, NULL, true, false);
 		}
 
@@ -808,7 +808,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 			PostIrcMessage(_T("/NOTICE %s \001VERSION Miranda NG %%mirver (IRC v.%%version), (c) 2003-2014 J.Persson, G.Hazan\001"), pmsg->prefix.sNick.c_str());
 
 			TCHAR temp[300];
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("CTCP VERSION requested by %s"), pmsg->prefix.sNick.c_str());
+			mir_sntprintf(temp, TranslateT("CTCP VERSION requested by %s"), pmsg->prefix.sNick.c_str());
 			DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, temp, NULL, NULL, NULL, true, false);
 		}
 
@@ -817,7 +817,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 			PostIrcMessage(_T("/NOTICE %s \001SOURCE Get Miranda IRC here: http://miranda-ng.org/ \001"), pmsg->prefix.sNick.c_str());
 
 			TCHAR temp[300];
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("CTCP SOURCE requested by %s"), pmsg->prefix.sNick.c_str());
+			mir_sntprintf(temp, TranslateT("CTCP SOURCE requested by %s"), pmsg->prefix.sNick.c_str());
 			DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, temp, NULL, NULL, NULL, true, false);
 		}
 
@@ -826,7 +826,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 			PostIrcMessage(_T("/NOTICE %s \001USERINFO %s\001"), pmsg->prefix.sNick.c_str(), m_userInfo);
 
 			TCHAR temp[300];
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("CTCP USERINFO requested by %s"), pmsg->prefix.sNick.c_str());
+			mir_sntprintf(temp, TranslateT("CTCP USERINFO requested by %s"), pmsg->prefix.sNick.c_str());
 			DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, temp, NULL, NULL, NULL, true, false);
 		}
 
@@ -835,7 +835,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 			PostIrcMessage(_T("/NOTICE %s \001%s\001"), pmsg->prefix.sNick.c_str(), mess.c_str());
 
 			TCHAR temp[300];
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("CTCP PING requested by %s"), pmsg->prefix.sNick.c_str());
+			mir_sntprintf(temp, TranslateT("CTCP PING requested by %s"), pmsg->prefix.sNick.c_str());
 			DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, temp, NULL, NULL, NULL, true, false);
 		}
 
@@ -846,7 +846,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 			mir_tstrncpy(temp, _tctime(&tim), 25);
 			PostIrcMessage(_T("/NOTICE %s \001TIME %s\001"), pmsg->prefix.sNick.c_str(), temp);
 
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("CTCP TIME requested by %s"), pmsg->prefix.sNick.c_str());
+			mir_sntprintf(temp, TranslateT("CTCP TIME requested by %s"), pmsg->prefix.sNick.c_str());
 			DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, temp, NULL, NULL, NULL, true, false);
 		}
 
@@ -1014,16 +1014,16 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 					ulAdr = ConvertIPToInteger(m_IPFromServer ? m_myHost : m_myLocalHost);
 
 				if (bIsChat && !m_DCCChatEnabled)
-					mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("DCC: Chat request from %s denied"), pmsg->prefix.sNick.c_str());
+					mir_sntprintf(szTemp, TranslateT("DCC: Chat request from %s denied"), pmsg->prefix.sNick.c_str());
 
 				else if (type == _T("send") && !m_DCCFileEnabled)
-					mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("DCC: File transfer request from %s denied"), pmsg->prefix.sNick.c_str());
+					mir_sntprintf(szTemp, TranslateT("DCC: File transfer request from %s denied"), pmsg->prefix.sNick.c_str());
 
 				else if (type == _T("send") && !iPort && ulAdr == 0)
-					mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("DCC: Reverse file transfer request from %s denied [No local IP]"), pmsg->prefix.sNick.c_str());
+					mir_sntprintf(szTemp, TranslateT("DCC: Reverse file transfer request from %s denied [No local IP]"), pmsg->prefix.sNick.c_str());
 
 				if (sFile.IsEmpty() || dwAdr == 0 || dwSize == 0 || iPort == 0 && sToken.IsEmpty())
-					mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("DCC ERROR: Malformed CTCP request from %s [%s]"), pmsg->prefix.sNick.c_str(), mess.c_str());
+					mir_sntprintf(szTemp, TranslateT("DCC ERROR: Malformed CTCP request from %s [%s]"), pmsg->prefix.sNick.c_str(), mess.c_str());
 
 				if (szTemp[0]) {
 					DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
@@ -1042,10 +1042,10 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 				szTemp[0] = '\0';
 
 				if (type == _T("resume") && !m_DCCFileEnabled)
-					mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("DCC: File transfer resume request from %s denied"), pmsg->prefix.sNick.c_str());
+					mir_sntprintf(szTemp, TranslateT("DCC: File transfer resume request from %s denied"), pmsg->prefix.sNick.c_str());
 
 				if (sToken.IsEmpty() && iPort == 0 || sFile.IsEmpty())
-					mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("DCC ERROR: Malformed CTCP request from %s [%s]"), pmsg->prefix.sNick.c_str(), mess.c_str());
+					mir_sntprintf(szTemp, TranslateT("DCC ERROR: Malformed CTCP request from %s [%s]"), pmsg->prefix.sNick.c_str(), mess.c_str());
 
 				if (szTemp[0]) {
 					DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
@@ -1077,7 +1077,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 				}
 				else {
 					TCHAR szTemp[512];
-					mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("DCC: Chat request from %s denied"), pmsg->prefix.sNick.c_str());
+					mir_sntprintf(szTemp, TranslateT("DCC: Chat request from %s denied"), pmsg->prefix.sNick.c_str());
 					DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
 				}
 			}
@@ -1174,7 +1174,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 		}
 		else if (pmsg->m_bIncoming) {
 			TCHAR temp[300];
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("CTCP %s requested by %s"), ocommand.c_str(), pmsg->prefix.sNick.c_str());
+			mir_sntprintf(temp, TranslateT("CTCP %s requested by %s"), ocommand.c_str(), pmsg->prefix.sNick.c_str());
 			DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, temp, NULL, NULL, NULL, true, false);
 		}
 	}
@@ -1206,9 +1206,9 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 					int s = (int)time(0) - (int)_ttol(GetWordAddress(mess.c_str(), 1));
 					TCHAR szTemp[30];
 					if (s == 1)
-						mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%u second"), s);
+						mir_sntprintf(szTemp, _T("%u second"), s);
 					else
-						mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%u seconds"), s);
+						mir_sntprintf(szTemp, _T("%u seconds"), s);
 
 					m_whoisDlg->m_Reply.SetText(DoColorCodes(szTemp, TRUE, FALSE));
 					return true;
@@ -1219,11 +1219,11 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 		//... else show the reply in the current window
 		if (pmsg->m_bIncoming && command == _T("ping")) {
 			int s = (int)time(0) - (int)_ttol(GetWordAddress(mess.c_str(), 1));
-			mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("CTCP PING reply from %s: %u sec(s)"), pmsg->prefix.sNick.c_str(), s);
+			mir_sntprintf(szTemp, TranslateT("CTCP PING reply from %s: %u sec(s)"), pmsg->prefix.sNick.c_str(), s);
 			DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
 		}
 		else {
-			mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("CTCP %s reply from %s: %s"), ocommand.c_str(), pmsg->prefix.sNick.c_str(), GetWordAddress(mess.c_str(), 1));
+			mir_sntprintf(szTemp, TranslateT("CTCP %s reply from %s: %s"), ocommand.c_str(), pmsg->prefix.sNick.c_str(), GetWordAddress(mess.c_str(), 1));
 			DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
 		}
 	}
@@ -1542,9 +1542,9 @@ bool CIrcProto::OnIrc_LIST(const CIrcMessage* pmsg)
 
 		TCHAR text[100];
 		if (percent < 100)
-			mir_sntprintf(text, SIZEOF(text), TranslateT("Downloading list (%u%%) - %u channels"), percent, m_channelNumber);
+			mir_sntprintf(text, TranslateT("Downloading list (%u%%) - %u channels"), percent, m_channelNumber);
 		else
-			mir_sntprintf(text, SIZEOF(text), TranslateT("Downloading list - %u channels"), m_channelNumber);
+			mir_sntprintf(text, TranslateT("Downloading list - %u channels"), m_channelNumber);
 		m_listDlg->m_status.SetText(text);
 	}
 
@@ -1562,7 +1562,7 @@ bool CIrcProto::OnIrc_LISTEND(const CIrcMessage* pmsg)
 		m_listDlg->UpdateList();
 
 		TCHAR text[100];
-		mir_sntprintf(text, SIZEOF(text), TranslateT("Done: %u channels"), m_channelNumber);
+		mir_sntprintf(text, TranslateT("Done: %u channels"), m_channelNumber);
 		int percent = 100;
 		if (m_noOfChannels > 0)
 			percent = (int)(m_channelNumber * 100) / m_noOfChannels;
@@ -1712,13 +1712,13 @@ bool CIrcProto::OnIrc_WHOIS_IDLE(const CIrcMessage* pmsg)
 
 		TCHAR temp[100];
 		if (D)
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%ud, %uh, %um, %us"), D, H, M, S);
+			mir_sntprintf(temp, TranslateT("%ud, %uh, %um, %us"), D, H, M, S);
 		else if (H)
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%uh, %um, %us"), H, M, S);
+			mir_sntprintf(temp, TranslateT("%uh, %um, %us"), H, M, S);
 		else if (M)
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%um, %us"), M, S);
+			mir_sntprintf(temp, TranslateT("%um, %us"), M, S);
 		else if (S)
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%us"), S);
+			mir_sntprintf(temp, TranslateT("%us"), S);
 		else
 			temp[0] = 0;
 

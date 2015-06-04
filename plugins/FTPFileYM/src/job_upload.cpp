@@ -248,7 +248,7 @@ INT_PTR CALLBACK UploadJob::DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wPa
 		{
 			TCHAR buff[256];
 			TCHAR *fileName = mir_a2t((char *)lParam);
-			mir_sntprintf(buff, SIZEOF(buff), TranslateT("File exists - %s"), fileName);
+			mir_sntprintf(buff, TranslateT("File exists - %s"), fileName);
 			SetWindowText(hwndDlg, buff);
 			FREE(fileName);
 		}
@@ -406,8 +406,8 @@ void UploadJob::updateStats()
 		s = s - (d * 24 * 60 * 60) - (h * 60 * 60) - (m * 60);
 
 		TCHAR buff[256];
-		if (d > 0) mir_sntprintf(buff, SIZEOF(buff), _T("%dd %02d:%02d:%02d"), d, h, m, s);
-		else mir_sntprintf(buff, SIZEOF(buff), _T("%02d:%02d:%02d"), h, m, s);
+		if (d > 0) mir_sntprintf(buff, _T("%dd %02d:%02d:%02d"), d, h, m, s);
+		else mir_sntprintf(buff, _T("%02d:%02d:%02d"), h, m, s);
 		mir_sntprintf(this->tab->stzRemain, SIZEOF(this->tab->stzRemain), _T("%s (%d kB/%d kB)"), buff, (this->uiFileSize - this->uiTotalSent)/1024, this->uiFileSize/1024);
 
 		this->refreshTab(false);

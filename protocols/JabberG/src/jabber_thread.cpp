@@ -77,7 +77,7 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 			TCHAR text[512];
-			mir_sntprintf(text, SIZEOF(text), TranslateT("Enter password for %s"), param->ptszJid);
+			mir_sntprintf(text, TranslateT("Enter password for %s"), param->ptszJid);
 			SetDlgItemText(hwndDlg, IDC_JID, text);
 
 			int bSavePassword = param->pro->getByte("SaveSessionPassword", 0);
@@ -651,7 +651,7 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 		}
 
 		TCHAR text[1024];
-		mir_sntprintf(text, SIZEOF(text), TranslateT("Authentication failed for %s@%S."), info->conn.username, info->conn.server);
+		mir_sntprintf(text, TranslateT("Authentication failed for %s@%S."), info->conn.username, info->conn.server);
 		MsgPopup(NULL, text, TranslateT("Jabber Authentication"));
 		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		info->send("</stream:stream>");

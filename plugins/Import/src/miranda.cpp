@@ -50,7 +50,7 @@ static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *
 			continue;
 
 		TCHAR buf[MAX_PATH], profile[MAX_PATH];
-		mir_sntprintf(buf, SIZEOF(buf), _T("%s\\%s\\%s.dat"), mirandaPath, fd.cFileName, fd.cFileName);
+		mir_sntprintf(buf, _T("%s\\%s\\%s.dat"), mirandaPath, fd.cFileName, fd.cFileName);
 		if (_taccess(buf, 0) == 0) {
 			mir_sntprintf(profile, SIZEOF(profile), _T("%s.dat"), fd.cFileName);
 
@@ -123,7 +123,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 
 			TCHAR str[MAX_PATH], text[256];
 			GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
-			mir_sntprintf(text, SIZEOF(text), _T("%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c"), TranslateT("Miranda NG database"), 0, 0, TranslateT("All Files"), 0, 0, 0);
+			mir_sntprintf(text, _T("%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c"), TranslateT("Miranda NG database"), 0, 0, TranslateT("All Files"), 0, 0, 0);
 
 			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;

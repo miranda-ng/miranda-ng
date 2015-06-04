@@ -589,9 +589,9 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 				if ((int)mir_strlen((char*)hClip) > mwdat->nMax) {
 					TCHAR szBuffer[512];
 					if (M.GetByte("autosplit", 0))
-						mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), mwdat->nMax - 10);
+						mir_sntprintf(szBuffer, TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), mwdat->nMax - 10);
 					else
-						mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent."), mwdat->nMax);
+						mir_sntprintf(szBuffer, TranslateT("The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent."), mwdat->nMax);
 					SendMessage(hwndParent, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)szBuffer);
 				}
 			}

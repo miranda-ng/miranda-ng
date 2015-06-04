@@ -266,8 +266,8 @@ void PackerJob::updateStats()
 		int m = (s  - d * 60 * 60 * 24 - h * 60 * 60) / 60;
 		s = s - (d * 24 * 60 * 60) - (h * 60 * 60) - (m * 60);
 
-		if (d > 0) mir_sntprintf(buff, SIZEOF(buff), _T("%dd %02d:%02d:%02d"), d, h, m, s);
-		else mir_sntprintf(buff, SIZEOF(buff), _T("%02d:%02d:%02d"), h, m, s);
+		if (d > 0) mir_sntprintf(buff, _T("%dd %02d:%02d:%02d"), d, h, m, s);
+		else mir_sntprintf(buff, _T("%02d:%02d:%02d"), h, m, s);
 		mir_sntprintf(this->tab->stzRemain, SIZEOF(this->tab->stzRemain), TranslateT("%s (%d kB/%d kB)"), buff, (this->uiFileSize - this->uiReaded)/1024, this->uiFileSize/1024);
 
 		this->refreshTab(false);		

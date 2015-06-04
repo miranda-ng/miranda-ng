@@ -243,7 +243,7 @@ protected:
 	void OnInitDialog()
 	{
 		TCHAR text[256];
-		mir_sntprintf(text, SIZEOF(text), STR_FORMAT, TranslateT("Register"), m_regInfo->username, m_regInfo->server, m_regInfo->port);
+		mir_sntprintf(text, STR_FORMAT, TranslateT("Register"), m_regInfo->username, m_regInfo->server, m_regInfo->port);
 		SetDlgItemText(m_hwnd, IDC_REG_STATUS, text);
 	}
 

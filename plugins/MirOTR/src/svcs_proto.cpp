@@ -112,7 +112,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 	if (tlv && !Miranda_Terminated()) {
 		/* Notify the user that the other side disconnected. */
 		TCHAR buff[256];
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT(ccs->hContact));
+		mir_sntprintf(buff, TranslateT(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT(ccs->hContact));
 		SetEncryptionStatus(ccs->hContact, otr_context_get_trust(context)); // required since libotr 4!?
 		ShowMessage(ccs->hContact, buff);
 	}

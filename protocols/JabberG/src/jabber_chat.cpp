@@ -763,7 +763,7 @@ public:
 		CLCINFOITEM cii = { 0 };
 		cii.cbSize = sizeof(cii);
 		cii.flags = CLCIIF_CHECKBOX;
-		mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s (not on roster)"), jidData->jid);
+		mir_sntprintf(buf, TranslateT("%s (not on roster)"), jidData->jid);
 		cii.pszText = buf;
 		jidData->hItem = SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 		SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, jidData->hItem, 1);
@@ -858,7 +858,7 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		SendDlgItemMessage(hwndDlg, IDC_ICO_STATUS, STM_SETICON, (WPARAM)LoadSkinnedProtoIcon(dat->ppro->m_szModuleName, dat->him->m_iStatus), 0);
 
 		TCHAR buf[256];
-		mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s from\n%s"), dat->him->m_tszResourceName, dat->item->jid);
+		mir_sntprintf(buf, TranslateT("%s from\n%s"), dat->him->m_tszResourceName, dat->item->jid);
 		SetDlgItemText(hwndDlg, IDC_HEADERBAR, buf);
 
 		SetDlgItemText(hwndDlg, IDC_TXT_NICK, dat->him->m_tszResourceName);
@@ -1017,7 +1017,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			// do not use snprintf to avoid possible problems with % symbol
 			if (TCHAR *p = _tcsstr(szMessage, _T("%s"))) {
 				*p = 0;
-				mir_sntprintf(buf, SIZEOF(buf), _T("%s%s%s"), szMessage, him->m_tszResourceName, p + 2);
+				mir_sntprintf(buf, _T("%s%s%s"), szMessage, him->m_tszResourceName, p + 2);
 			}
 			else mir_tstrncpy(buf, szMessage, SIZEOF(buf));
 			UnEscapeChatTags(buf);
@@ -1272,7 +1272,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		if (ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_")) {
 			if (ppro->ListGetItemPtr(LIST_CHATROOM, gch->pDest->ptszID) != NULL) {
 				TCHAR text[1024];
-				mir_sntprintf(text, SIZEOF(text), _T("%s/%s"), gch->pDest->ptszID, szBuffer);
+				mir_sntprintf(text, _T("%s/%s"), gch->pDest->ptszID, szBuffer);
 				ppro->SendPresenceTo(ppro->m_iStatus == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : ppro->m_iStatus, text, NULL);
 			}
 		}

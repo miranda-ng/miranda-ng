@@ -182,7 +182,7 @@ static void BeginSearchFailed(void * arg)
 	TCHAR buf[128];
 	if (arg != NULL) {
 		const TCHAR* protoName = (TCHAR*)arg;
-		mir_sntprintf(buf, SIZEOF(buf),
+		mir_sntprintf(buf,
 			TranslateT("Could not start a search on '%s', there was a problem - is %s connected?"),
 			protoName, protoName);
 		mir_free((char*)arg);

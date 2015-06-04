@@ -931,7 +931,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 static HICON CLUI_LoadIconFromExternalFile(TCHAR *filename, int i)
 {
 	TCHAR szPath[MAX_PATH], szFullPath[MAX_PATH];
-	mir_sntprintf(szPath, SIZEOF(szPath), _T("Icons\\%s"), filename);
+	mir_sntprintf(szPath, _T("Icons\\%s"), filename);
 	PathToAbsoluteT(szPath, szFullPath);
 	if (_taccess(szPath, 0))
 		return NULL;

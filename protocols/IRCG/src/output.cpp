@@ -28,7 +28,7 @@ static CMString FormatOutput(const CIrcMessage* pmsg)
 	if (pmsg->m_bIncoming) { // Is it an incoming message?
 		if (pmsg->sCommand == _T("WALLOPS") && pmsg->parameters.getCount() > 0) {
 			TCHAR temp[200]; *temp = '\0';
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("WallOps from %s: "), pmsg->prefix.sNick.c_str());
+			mir_sntprintf(temp, TranslateT("WallOps from %s: "), pmsg->prefix.sNick.c_str());
 			sMessage = temp;
 			for (int i = 0; i < (int)pmsg->parameters.getCount(); i++) {
 				sMessage += pmsg->parameters[i];
@@ -40,7 +40,7 @@ static CMString FormatOutput(const CIrcMessage* pmsg)
 
 		if (pmsg->sCommand == _T("INVITE") && pmsg->parameters.getCount() > 1) {
 			TCHAR temp[256]; *temp = '\0';
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%s invites you to %s"), pmsg->prefix.sNick.c_str(), pmsg->parameters[1].c_str());
+			mir_sntprintf(temp, TranslateT("%s invites you to %s"), pmsg->prefix.sNick.c_str(), pmsg->parameters[1].c_str());
 			sMessage = temp;
 			for (int i = 2; i < (int)pmsg->parameters.getCount(); i++) {
 				sMessage += _T(": ") + pmsg->parameters[i];
@@ -53,7 +53,7 @@ static CMString FormatOutput(const CIrcMessage* pmsg)
 		int index = _ttoi(pmsg->sCommand.c_str());
 		if (index == 301 && pmsg->parameters.getCount() > 0) {
 			TCHAR temp[500]; *temp = '\0';
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%s is away"), pmsg->parameters[1].c_str());
+			mir_sntprintf(temp, TranslateT("%s is away"), pmsg->parameters[1].c_str());
 			sMessage = temp;
 			for (int i = 2; i < (int)pmsg->parameters.getCount(); i++) {
 				sMessage += _T(": ") + pmsg->parameters[i];
@@ -90,13 +90,13 @@ static CMString FormatOutput(const CIrcMessage* pmsg)
 			tempstr.Delete(tempstr.GetLength() - 1, 1);
 			CMString type = GetWord(tempstr.c_str(), 0);
 			if (mir_tstrcmpi(type.c_str(), _T("ping")) == 0)
-				mir_sntprintf(temp, SIZEOF(temp), TranslateT("CTCP %s reply sent to %s"), type.c_str(), pmsg->parameters[0].c_str());
+				mir_sntprintf(temp, TranslateT("CTCP %s reply sent to %s"), type.c_str(), pmsg->parameters[0].c_str());
 			else
-				mir_sntprintf(temp, SIZEOF(temp), TranslateT("CTCP %s reply sent to %s: %s"), type.c_str(), pmsg->parameters[0].c_str(), GetWordAddress(tempstr.c_str(), 1));
+				mir_sntprintf(temp, TranslateT("CTCP %s reply sent to %s: %s"), type.c_str(), pmsg->parameters[0].c_str(), GetWordAddress(tempstr.c_str(), 1));
 			sMessage = temp;
 		}
 		else {
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("Notice to %s: "), pmsg->parameters[0].c_str());
+			mir_sntprintf(temp, TranslateT("Notice to %s: "), pmsg->parameters[0].c_str());
 			sMessage = temp;
 			for (int i = 1; i < (int)pmsg->parameters.getCount(); i++) {
 				sMessage += pmsg->parameters[i];

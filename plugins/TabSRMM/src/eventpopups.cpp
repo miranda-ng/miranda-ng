@@ -468,13 +468,13 @@ static TCHAR* GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 				if (szDescr && Utils::safe_strlen(szDescr, dbe->cbBlob - sizeof(DWORD) - namelength - 1) > 0) {
 					ptrT tszDescr(DbGetEventStringT(dbe, szDescr));
 					if (tszFileName && tszDescr) {
-						mir_sntprintf(buf, SIZEOF(buf), _T("%s: %s (%s)"), TranslateT("Incoming file"), tszFileName, tszDescr);
+						mir_sntprintf(buf, _T("%s: %s (%s)"), TranslateT("Incoming file"), tszFileName, tszDescr);
 						return mir_tstrdup(buf);
 					}
 				}
 
 				if (tszFileName) {
-					mir_sntprintf(buf, SIZEOF(buf), _T("%s: %s (%s)"), TranslateT("Incoming file"), tszFileName, TranslateT("No description given"));
+					mir_sntprintf(buf, _T("%s: %s (%s)"), TranslateT("Incoming file"), tszFileName, TranslateT("No description given"));
 					return mir_tstrdup(buf);
 				}
 			}

@@ -50,7 +50,7 @@ static INT_PTR CALLBACK JabberChangePasswordDlgProc(HWND hwndDlg, UINT msg, WPAR
 		TranslateDialogDefault(hwndDlg);
 		if (ppro->m_bJabberOnline && ppro->m_ThreadInfo != NULL) {
 			TCHAR text[1024];
-			mir_sntprintf(text, SIZEOF(text), TranslateT("Set New Password for %s@%S"), ppro->m_ThreadInfo->conn.username, ppro->m_ThreadInfo->conn.server);
+			mir_sntprintf(text, TranslateT("Set New Password for %s@%S"), ppro->m_ThreadInfo->conn.username, ppro->m_ThreadInfo->conn.server);
 			SetWindowText(hwndDlg, text);
 		}
 		return TRUE;

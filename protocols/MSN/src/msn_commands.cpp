@@ -1501,7 +1501,7 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 	// netmeeting receive 1
 	if (Appname != NULL && !_stricmp(Appname, "NetMeeting")) {
 		TCHAR text[512], *tszEmail = mir_a2t(email);
-		mir_sntprintf(text, SIZEOF(text), TranslateT("Accept NetMeeting request from %s?"), tszEmail);
+		mir_sntprintf(text, TranslateT("Accept NetMeeting request from %s?"), tszEmail);
 		mir_free(tszEmail);
 
 		if (MessageBox(NULL, text, TranslateT("MSN Protocol"), MB_YESNO | MB_ICONQUESTION) == IDYES) {

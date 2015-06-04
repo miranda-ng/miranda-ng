@@ -453,14 +453,10 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	}
 
 	// if we have a max # of tabs/container set and want to open something in the default container...
-	if (hContact != 0 && M.GetByte("limittabs", 0) && !_tcsncmp(pContainer->szName, _T("default"), 6)) {
-		if ((pContainer = FindMatchingContainer(_T("default"))) == NULL) {
-			TCHAR szName[CONTAINER_NAMELEN + 1];
-			mir_sntprintf(szName, SIZEOF(szName), _T("default"));
-			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact)) == NULL)
+	if (hContact != 0 && M.GetByte("limittabs", 0) && !_tcsncmp(pContainer->szName, _T("default"), 6))
+		if ((pContainer = FindMatchingContainer(_T("default"))) == NULL)
+			if ((pContainer = CreateContainer(_T("default"), CNT_CREATEFLAG_CLONED, hContact)) == NULL)
 				return 0;
-		}
-	}
 
 	TNewWindowData newData = { 0 };
 	newData.hContact = hContact;

@@ -58,7 +58,7 @@ INT_PTR CALLBACK GenKeyDlgBoxProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM 
 		SetClassLongPtr(hWndDlg, GCLP_HICON, (LONG_PTR)LoadIcon(ICON_OTR, 1));
 		TCHAR buff[256];
 		TCHAR *proto = mir_a2t((char*)lParam);
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_GENERATE_KEY), proto);
+		mir_sntprintf(buff, TranslateT(LANG_GENERATE_KEY), proto);
 		mir_free(proto);
 		SetDlgItemText(hWndDlg, IDC_GENERATE, buff);
 		GenKeyData *data = (GenKeyData *)mir_calloc(sizeof(GenKeyData));
@@ -170,14 +170,14 @@ extern "C" {
 		SetEncryptionStatus(hContact, trusted);
 		TCHAR buff[512];
 		if (trusted == TRUST_PRIVATE) {
-			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_START_OTR), contact_get_nameT(hContact));
+			mir_sntprintf(buff, TranslateT(LANG_SESSION_START_OTR), contact_get_nameT(hContact));
 		}
 		else if (trusted == TRUST_UNVERIFIED) {
 			if (options.autoshow_verify) SMPInitDialog(context); //VerifyContextDialog(context);
-			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_START_OTR_VERIFY), contact_get_nameT(hContact));
+			mir_sntprintf(buff, TranslateT(LANG_SESSION_START_OTR_VERIFY), contact_get_nameT(hContact));
 		}
 		else { // should never happen
-			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
+			mir_sntprintf(buff, TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
 		}
 		if (context->protocol_version < MIROTR_PROTO_LATEST){
 			size_t remaining = mir_tstrlen(buff);
@@ -194,7 +194,7 @@ extern "C" {
 		MCONTACT hContact = (MCONTACT)opdata;
 		DEBUGOUT_T("OTR_GUI_GONE_INSECURE\n");
 		TCHAR buff[512];
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT(hContact));
+		mir_sntprintf(buff, TranslateT(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT(hContact));
 		//MessageBox(0, buff, Translate("OTR Information"), MB_OK);
 		if (!Miranda_Terminated()) {
 			ShowMessage(hContact, buff);
@@ -214,27 +214,27 @@ extern "C" {
 		TCHAR buff[1024];
 		if (!is_reply) {
 			if (trusted == TRUST_PRIVATE) {
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_CONTINUE_OTR), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateT(LANG_SESSION_CONTINUE_OTR), contact_get_nameT(hContact));
 			}
 			else if (trusted == TRUST_UNVERIFIED) {
 				if (options.autoshow_verify) SMPInitDialog(context); //VerifyContextDialog(context);
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_CONTINUE_OTR_VERIFY), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateT(LANG_SESSION_CONTINUE_OTR_VERIFY), contact_get_nameT(hContact));
 			}
 			else { // should never happen
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
 			}
 			// opdata is hContact
 			ShowMessage(hContact, buff);
 		}
 		else {
 			if (trusted == TRUST_PRIVATE) {
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_HAS_CONTINUE_OTR), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateT(LANG_SESSION_HAS_CONTINUE_OTR), contact_get_nameT(hContact));
 			}
 			else if (trusted == TRUST_UNVERIFIED) {
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_HAS_CONTINUE_OTR_VERIFY), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateT(LANG_SESSION_HAS_CONTINUE_OTR_VERIFY), contact_get_nameT(hContact));
 			}
 			else { // should never happen
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
 			}
 
 		}

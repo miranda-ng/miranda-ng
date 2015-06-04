@@ -257,7 +257,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 			keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
 		}
 		TCHAR buf[128] = {0};
-		mir_sntprintf(buf, SIZEOF(buf), _T("%s: %s"), TranslateT("Send public key"), toUTF16(keyid).c_str());
+		mir_sntprintf(buf, _T("%s: %s"), TranslateT("Send public key"), toUTF16(keyid).c_str());
 		mir_free(keyid);
 		mi2.ptszName = buf;
 		mi2.flags = CMIM_NAME | CMIF_TCHAR;

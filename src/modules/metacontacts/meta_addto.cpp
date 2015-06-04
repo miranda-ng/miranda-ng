@@ -154,7 +154,7 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 			// ... and set it to the Window title.
 			TCHAR buf[256];
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Adding %s..."), ptszCDN);
+			mir_sntprintf(buf, TranslateT("Adding %s..."), ptszCDN);
 			SetWindowText(hwndDlg, buf);
 		}
 		ShowWindow(hwndDlg, SW_SHOWNORMAL);

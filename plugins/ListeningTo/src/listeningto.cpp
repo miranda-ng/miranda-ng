@@ -191,7 +191,7 @@ void RebuildMenu()
 			CallService(MO_REMOVEMENUITEM, (WPARAM) info->hMenu, 0);
 
 		TCHAR text[512];
-		mir_sntprintf(text, SIZEOF(text), TranslateT("Send to %s"), info->account);
+		mir_sntprintf(text, TranslateT("Send to %s"), info->account);
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = 100000 + i;
@@ -243,7 +243,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 			mir_tstrncpy(info->account, proto->tszAccountName, SIZEOF(info->account));
 
 			TCHAR text[512];
-			mir_sntprintf(text, SIZEOF(text), TranslateT("Send to %s"), info->account);
+			mir_sntprintf(text, TranslateT("Send to %s"), info->account);
 
 			CLISTMENUITEM clmi = { sizeof(clmi) };
 			clmi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;

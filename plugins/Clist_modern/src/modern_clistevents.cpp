@@ -131,7 +131,7 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 				TCHAR szwProto[64];
 				MultiByteToWideChar(CP_ACP, 0, szProto, -1, szwProto, 64);
 				szwProto[63] = 0;
-				mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s: %s (%s)"), szwProto, szName, szStatus);
+				mir_sntprintf(szBuffer, _T("%s: %s (%s)"), szwProto, szName, szStatus);
 				szBuffer[127] = 0;
 				AppendMenu(g_CluiData.hMenuNotify, MF_BYCOMMAND | MF_STRING, g_CluiData.wNextMenuID, szBuffer);
 				mii.hbmpItem = HBMMENU_CALLBACK;

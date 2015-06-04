@@ -528,7 +528,7 @@ void CJabberProto::SendPresence(int status, bool bSendToAll)
 			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
 			if (item != NULL) {
 				TCHAR text[1024];
-				mir_sntprintf(text, SIZEOF(text), _T("%s/%s"), item->jid, item->nick);
+				mir_sntprintf(text, _T("%s/%s"), item->jid, item->nick);
 				SendPresenceTo(status == ID_STATUS_INVISIBLE ? ID_STATUS_ONLINE : status, text, NULL);
 			}
 		}
@@ -551,7 +551,7 @@ int __stdcall JabberGetPacketID(HXML n)
 TCHAR* __stdcall JabberId2string(int id)
 {
 	TCHAR text[100];
-	mir_sntprintf(text, SIZEOF(text), _T(JABBER_IQID) _T("%d"), id);
+	mir_sntprintf(text, _T(JABBER_IQID) _T("%d"), id);
 	return mir_tstrdup(text);
 }
 

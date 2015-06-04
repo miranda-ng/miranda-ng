@@ -159,7 +159,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
 	// Register netlib users
 	NETLIBUSER nlu = { 0 };
 	TCHAR szBuffer[MAX_PATH + 64];
-	mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s server connection"), m_tszUserName);
+	mir_sntprintf(szBuffer, TranslateT("%s server connection"), m_tszUserName);
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.ptszDescriptiveName = szBuffer;
@@ -174,7 +174,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	char szP2PModuleName[MAX_PATH];
 	mir_snprintf(szP2PModuleName, SIZEOF(szP2PModuleName), "%sP2P", m_szModuleName);
-	mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s client-to-client connections"), m_tszUserName);
+	mir_sntprintf(szBuffer, TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_TCHAR;
 	nlu.ptszDescriptiveName = szBuffer;
 	nlu.szSettingsModule = szP2PModuleName;

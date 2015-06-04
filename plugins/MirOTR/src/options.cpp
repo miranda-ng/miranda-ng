@@ -242,7 +242,7 @@ static unsigned int CALLBACK regen_key_thread(void* param)
 	PROTOREGENKEYOPTIONS *opts = (PROTOREGENKEYOPTIONS *)param;
 	TCHAR buff[512];
 
-	mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_ASK_NEWKEY), opts->proto);
+	mir_sntprintf(buff, TranslateT(LANG_OTR_ASK_NEWKEY), opts->proto);
 	EnableWindow(opts->refresh, FALSE);
 	if (IDYES == MessageBox(opts->refresh, buff, TranslateT(LANG_OTR_INFO), MB_ICONQUESTION|MB_YESNO)) {
 		char* proto = mir_t2a(opts->proto);
@@ -363,7 +363,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 					TCHAR buff_proto[128];
 					ListView_GetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 0, buff_proto, SIZEOF(buff_proto));
 					TCHAR buff[512];
-					mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_ASK_REMOVEKEY), buff_proto);
+					mir_sntprintf(buff, TranslateT(LANG_OTR_ASK_REMOVEKEY), buff_proto);
 					if (IDYES == MessageBox(hwndDlg, buff, TranslateT(LANG_OTR_INFO), MB_ICONQUESTION | MB_YESNO)) {
 						char *proto = GetProtoName(lv, sel);
 						if (proto == NULL)

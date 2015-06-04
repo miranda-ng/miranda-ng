@@ -304,7 +304,7 @@ void GetStatusText(MCONTACT hContact, WORD newStatus, WORD oldStatus, TCHAR *stz
 
 	if (opt.ShowPreviousStatus) {
 		TCHAR buff[MAX_STATUSTEXT];
-		mir_sntprintf(buff, SIZEOF(buff), TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(oldStatus)].lpzStandardText);
+		mir_sntprintf(buff, TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(oldStatus)].lpzStandardText);
 		mir_tstrcat(mir_tstrcat(stzStatusText, _T(" ")), buff);
 	}
 }
@@ -631,11 +631,11 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	//don't show popup when mradio connecting and disconnecting
 	if (_stricmp(szProto, "mRadio") == 0 && !cws->value.type == DBVT_DELETED) {
 		TCHAR buf[MAX_PATH];
-		mir_sntprintf(buf, SIZEOF(buf), _T(" (%s)"), TranslateT("connecting"));
+		mir_sntprintf(buf, _T(" (%s)"), TranslateT("connecting"));
 		T2Utf pszUtf(buf);
-		mir_sntprintf(buf, SIZEOF(buf), _T(" (%s)"), TranslateT("aborting"));
+		mir_sntprintf(buf, _T(" (%s)"), TranslateT("aborting"));
 		T2Utf pszUtf2(buf);
-		mir_sntprintf(buf, SIZEOF(buf), _T(" (%s)"), TranslateT("playing"));
+		mir_sntprintf(buf, _T(" (%s)"), TranslateT("playing"));
 		T2Utf pszUtf3(buf);
 		if (_stricmp(cws->value.pszVal, pszUtf) == 0 || _stricmp(cws->value.pszVal, pszUtf2) == 0 || _stricmp(cws->value.pszVal, pszUtf3) == 0)
 			goto skip_notify;

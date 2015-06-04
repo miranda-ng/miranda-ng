@@ -396,7 +396,7 @@ LBL_NewLine:
 			break;
 		default:
 			TCHAR buf[250];
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n."), _A2T(szName));
+			mir_sntprintf(buf, TranslateT("Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n."), _A2T(szName));
 			MessageBox(NULL, buf, TranslateT("Install database settings"), MB_ICONWARNING | MB_OK);
 			break;
 		}

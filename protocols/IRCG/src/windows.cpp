@@ -923,7 +923,7 @@ void CManagerDlg::OnClose()
 	}
 
 	if (!S.IsEmpty() && m_proto->IsConnected()) {
-		mir_sntprintf(temp, SIZEOF(temp), _T("Topic%s%s"), window, m_proto->m_info.sNetwork.c_str());
+		mir_sntprintf(temp, _T("Topic%s%s"), window, m_proto->m_info.sNetwork.c_str());
 		char* p = mir_t2a(temp);
 		m_proto->setTString(p, S.c_str());
 		mir_free(p);
@@ -1189,9 +1189,9 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 			mir_tstrcat(temp, window);
 			mir_tstrcat(temp, _T(" "));
 			if (mir_tstrlen(toremove))
-				mir_sntprintf(temp, SIZEOF(temp), _T("%s-%s"), temp, toremove);
+				mir_sntprintf(temp, _T("%s-%s"), temp, toremove);
 			if (mir_tstrlen(toadd))
-				mir_sntprintf(temp, SIZEOF(temp), _T("%s+%s"), temp, toadd);
+				mir_sntprintf(temp, _T("%s+%s"), temp, toadd);
 			if (!appendixremove.IsEmpty())
 				mir_tstrcat(temp, appendixremove.c_str());
 			if (!appendixadd.IsEmpty())
@@ -1278,7 +1278,7 @@ void CManagerDlg::InitManager(int mode, const TCHAR* window)
 	if (wi) {
 		if (m_proto->IsConnected()) {
 			TCHAR temp[1000];
-			mir_sntprintf(temp, SIZEOF(temp), _T("Topic%s%s"), window, m_proto->m_info.sNetwork.c_str());
+			mir_sntprintf(temp, _T("Topic%s%s"), window, m_proto->m_info.sNetwork.c_str());
 
 			char* p = mir_t2a(temp);
 

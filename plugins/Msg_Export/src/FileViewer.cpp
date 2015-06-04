@@ -992,7 +992,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (n != sPath.npos)
 					sPath.erase(0, n + 1);
 
-				if (mir_sntprintf(szTitle, SIZEOF(szTitle), szFormat, pszNick, sPath.c_str(), (pclDlg->bUtf8File ? _T("UTF8") : _T("ANSI"))) > 0)
+				if (mir_sntprintf(szTitle, szFormat, pszNick, sPath.c_str(), (pclDlg->bUtf8File ? _T("UTF8") : _T("ANSI"))) > 0)
 					SetWindowText(hwndDlg, szTitle);
 			}
 

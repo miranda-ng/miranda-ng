@@ -334,7 +334,7 @@ bool bWriteConfigurationFile() {
 	HANDLE hFile = CreateFile(szBuf, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) {
 		TCHAR temp[200];
-		mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to open or create file "), _T(szConfigFile));
+		mir_sntprintf(temp, _T("%s%s"), TranslateT("Failed to open or create file "), _T(szConfigFile));
 		MessageBox(NULL, temp , MSG_BOX_TITEL, MB_OK);
 		return false;
 	}
@@ -342,7 +342,7 @@ bool bWriteConfigurationFile() {
 	DWORD dwBytesWriten = 0;
 	if (! WriteFile(hFile, szXmlHeader, sizeof(szXmlHeader) - 1, &dwBytesWriten, NULL)) {
 		TCHAR temp[200];
-		mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to write xml header to file "), _T(szConfigFile));
+		mir_sntprintf(temp, _T("%s%s"), TranslateT("Failed to write xml header to file "), _T(szConfigFile));
 		MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 	} else {
 		CLFileShareNode * pclCur = pclFirstNode;
@@ -356,7 +356,7 @@ bool bWriteConfigurationFile() {
 
 			if (! WriteFile(hFile, szBuf, dwBytesToWrite, &dwBytesWriten, NULL)) {
 				TCHAR temp[200];
-				mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to write xml data to file "), _T(szConfigFile));
+				mir_sntprintf(temp, _T("%s%s"), TranslateT("Failed to write xml data to file "), _T(szConfigFile));
 				MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 				break;
 			}
@@ -365,7 +365,7 @@ bool bWriteConfigurationFile() {
 
 		if (! WriteFile(hFile, szXmlTail, sizeof(szXmlTail) - 1, &dwBytesWriten, NULL)) {
 				TCHAR temp[200];
-				mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to write xml tail to file "), _T(szConfigFile));
+				mir_sntprintf(temp, _T("%s%s"), TranslateT("Failed to write xml tail to file "), _T(szConfigFile));
 				MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 		}
 	}

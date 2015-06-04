@@ -84,7 +84,7 @@ void RefreshInfobar(InfobarWindowData* idat)
 	TCHAR szText[2048];
 	SETTEXTEX st;
 	if ( szXStatusMsg && *szXStatusMsg )
-		mir_sntprintf(szText, SIZEOF(szText), _T("%s (%s)"), TranslateTS(szXStatusName), szXStatusMsg);
+		mir_sntprintf(szText, _T("%s (%s)"), TranslateTS(szXStatusName), szXStatusMsg);
 	else
 		_tcsncpy_s(szText, TranslateTS(szXStatusName), _TRUNCATE);
 	st.flags = ST_DEFAULT;

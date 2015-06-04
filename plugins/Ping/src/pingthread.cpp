@@ -66,7 +66,7 @@ void SetProtoStatus(TCHAR *pszLabel, char *pszProto, int if_status, int new_stat
 			if (CallProtoService(pszProto, PS_GETSTATUS, 0, 0) == if_status) {
 				if (options.logging) {
 					TCHAR buf[1024];
-					mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s - setting status of protocol '%S' (%d)"), pszLabel, pszProto, new_status);
+					mir_sntprintf(buf, TranslateT("%s - setting status of protocol '%S' (%d)"), pszLabel, pszProto, new_status);
 					CallService(PLUG "/Log", (WPARAM)buf, 0);
 				}
 				CallProtoService(pszProto, PS_SETSTATUS, new_status, 0);
@@ -198,7 +198,7 @@ void __cdecl sttCheckStatusThreadProc(void *vp)
 					}
 					if (pa.miss_count == -1 - options.retries && options.logging) {
 						TCHAR buf[512];
-						mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s - reply, %d"), pa.pszLabel, pa.round_trip_time);
+						mir_sntprintf(buf, TranslateT("%s - reply, %d"), pa.pszLabel, pa.round_trip_time);
 						CallService(PLUG "/Log", (WPARAM)buf, 0);
 					}
 					SetProtoStatus(pa.pszLabel, pa.pszProto, pa.get_status, pa.set_status);
@@ -214,7 +214,7 @@ void __cdecl sttCheckStatusThreadProc(void *vp)
 					}
 					if (pa.miss_count == 1 + options.retries && options.logging) {
 						TCHAR buf[512];
-						mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s - timeout"), pa.pszLabel);
+						mir_sntprintf(buf, TranslateT("%s - timeout"), pa.pszLabel);
 						CallService(PLUG "/Log", (WPARAM)buf, 0);
 					}
 				}
@@ -410,12 +410,12 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				if (itemData.status != PS_DISABLED) {
 					TCHAR buf[256];
 					if (itemData.responding) {
-						mir_sntprintf(buf, SIZEOF(buf), TranslateT("%d ms"), itemData.round_trip_time);
+						mir_sntprintf(buf, TranslateT("%d ms"), itemData.round_trip_time);
 						GetTextExtentPoint32(dis->hDC, buf, (int)mir_tstrlen(buf), &textSize);
 						TextOut(dis->hDC, dis->rcItem.right - textSize.cx - 2, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, buf, (int)mir_tstrlen(buf));
 					}
 					else if (itemData.miss_count > 0) {
-						mir_sntprintf(buf, SIZEOF(buf), _T("[%d]"), itemData.miss_count);
+						mir_sntprintf(buf, _T("[%d]"), itemData.miss_count);
 						GetTextExtentPoint32(dis->hDC, buf, (int)mir_tstrlen(buf), &textSize);
 						TextOut(dis->hDC, dis->rcItem.right - textSize.cx - 2, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, buf, (int)mir_tstrlen(buf));
 					}
@@ -777,7 +777,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 						if (options.logging) {
 							TCHAR buf[1024];
-							mir_sntprintf(buf, SIZEOF(buf), _T("%s - %s"), pItemData->pszLabel, (wake ? TranslateT("enabled") : TranslateT("double clicked")));
+							mir_sntprintf(buf, _T("%s - %s"), pItemData->pszLabel, (wake ? TranslateT("enabled") : TranslateT("double clicked")));
 							CallService(PLUG "/Log", (WPARAM)buf, 0);
 						}
 
