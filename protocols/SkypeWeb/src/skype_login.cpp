@@ -141,8 +141,21 @@ void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
+	char *cName;
+	ptrT place(getTStringA("Place"));
 
-	PushRequest(new SendCapabilitiesRequest(RegToken, EndpointId, Server), &CSkypeProto::OnCapabilitiesSended);
+	if (place && *place)
+		cName = mir_utf8encodeT(place);
+	else
+	{
+		char compName[MAX_COMPUTERNAME_LENGTH + 1];
+		DWORD size = SIZEOF(compName);
+		GetComputerNameA(compName, &size);
+		cName = compName;
+	}
+	PushRequest(new SendCapabilitiesRequest(RegToken, EndpointId, cName, Server), &CSkypeProto::OnCapabilitiesSended);
+
+	mir_free(cName);
 }
 
 void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)

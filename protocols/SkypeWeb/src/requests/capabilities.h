@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class SendCapabilitiesRequest : public HttpRequest
 {
 public:
-	SendCapabilitiesRequest(const char *regToken, const char *endpointID, const char *server = SKYPE_ENDPOINTS_HOST) :
+	SendCapabilitiesRequest(const char *regToken, const char *endpointID, const char *hostname, const char *server = SKYPE_ENDPOINTS_HOST) :
 		HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/endpoints/%s/presenceDocs/messagingService", server, ptrA(mir_urlEncode(endpointID)))
 	{
 		Headers
@@ -29,14 +29,9 @@ public:
 			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
 			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
 
-
-		TCHAR compName[MAX_COMPUTERNAME_LENGTH + 1];
-		DWORD size = SIZEOF(compName);
-		GetComputerName(compName, &size);
-
 		JSONNode privateInfo(JSON_NODE);
 		privateInfo.set_name("privateInfo");
-		privateInfo.push_back(JSONNode("epname", (char*)T2Utf(compName)));
+		privateInfo.push_back(JSONNode("epname", hostname));
 
 		JSONNode publicInfo(JSON_NODE);
 		publicInfo.set_name("publicInfo");
