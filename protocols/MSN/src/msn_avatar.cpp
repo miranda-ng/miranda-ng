@@ -119,11 +119,10 @@ void __cdecl CMsnProto::MSN_AvatarsThread(void*)
 			ProtoBroadcastAck(p->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, 0, 0);
 		delete p;
 	}
-	{
-		mir_cslock lck(csAvatarQueue);
-		while (lsAvatarQueue.getCount() > 0) {
-			delete lsAvatarQueue[0];
-			lsAvatarQueue.remove(0);
-		}
+
+	mir_cslock lck(csAvatarQueue);
+	while (lsAvatarQueue.getCount() > 0) {
+		delete lsAvatarQueue[0];
+		lsAvatarQueue.remove(0);
 	}
 }
