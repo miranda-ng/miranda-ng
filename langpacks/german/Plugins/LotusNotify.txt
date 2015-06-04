@@ -2,38 +2,60 @@
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.21.0
+;  Version: 0.1.22.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Notify about new mail in Lotus Database]
 Benachrichtigung über Mails in Lotus Datenbank
 ;file \plugins\LotusNotify\res\LotusNotify.rc
-[Show again if still unread]
-Zeige erneut falls ungelesen
-[Show error messages]
-Fehlermeldungen anzeigen
-[Set popup colors]
-Popupfarben bestimmen
+[Lotus connection settings]
+Lotus Verbindungseinstellungen
+[Primary server:]
+Hauptserver:
+[Secondary server:]
+Zweiter Server:
+[Database:]
+Datenbank:
+[Password:]
+Passwort:
+[try detect]
+Erkennen
+[autoregister]
+Registrierung
+[Check interval:]
+Prüfintervall:
+[min.]
+Min.
+[(0-disabled)]
+(0-deaktiviert)
+[Keep connection on error]
+Verbindung bei Fehler beibehalten
 [Popup options]
 Popup-Einstellungen
+[Set popup colors]
+Popupfarben bestimmen
 [Background]
 Hintergrund
 [Text]
 Text
 [Close after:]
 Schließe nach:
-[sec (0 default,\n -1 disabled)]
-Sek. (0 Standard\n-1 deaktiviert)
-[...but only if popup not clicked]
-... nur falls Popup nicht angeklickt
+[sec (0 default, -1 disabled)]
+Sek. (0 Standard, -1 deaktiviert)
 [Left button click cmd:]
 Linker Button Klick Befehl:
 [Command parameters:]
 Kommando Parameter:
+[Show again if still unread]
+Zeige erneut falls ungelesen
+[...but only if popup not clicked]
+... nur falls Popup nicht angeklickt
+[Show error messages]
+Fehlermeldungen anzeigen
 [Remember newest message ID and don't show older]
 Neuste Nachricht-ID merken\nund keine älteren anzeigen
-[version:]
-Version:
+[...even if popup not clicked]
+
 [Clear popups history]
 Lösche Popup-Verlauf
 [Filter messages contain below strings in:]
@@ -42,32 +64,12 @@ Gefilterte Nachrichten enthalten untere Wörter:
 Sender
 [Subject]
 Betreff
-[Lotus connection settings]
-Lotus Verbindungseinstellungen
-[Primary server:]
-Hauptserver:
-[Database:]
-Datenbank:
-[try detect]
-Erkennen
-[Secondary server:]
-Zweiter Server:
-[Check interval:]
-Prüfintervall:
-[(0-disabled)]
-(0-deaktiviert)
-[min.]
-Min.
-[Password:]
-Passwort:
-[Offline status mean:]
-Offline-Status bedeutet:
 [To / CopyTo]
 An / Kopiere An
-[autoregister]
-Registrierung
-[Keep connection on error]
-Verbindung bei Fehler beibehalten
+[Offline status mean:]
+Offline-Status bedeutet:
+[version:]
+Version:
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 Konnte nicht alle benötigten Lotus-API-Funktionen laden.

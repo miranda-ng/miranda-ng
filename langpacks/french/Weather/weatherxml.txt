@@ -394,3 +394,13 @@
 
 [steady]
 
+[Light Snow / Fog]
+
+[Showers In The Vicinity]
+
+[Rain / Snow Early]
+
+[Pm Rain / Snow]
+
+[Fair / Windy]
+

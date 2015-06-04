@@ -120,19 +120,19 @@
 [Avatar]
 Аватар
 ;file \plugins\AVS\src\services.cpp
-[All Files]
+[All files]
 Усе файлы
-[Windows Bitmaps]
+[Windows bitmaps]
 Малюнкі Windows Bitmap
-[JPEG Bitmaps]
+[JPEG bitmaps]
 Выявы JPEG
-[GIF Bitmaps]
+[GIF bitmaps]
 Малюнкі GIF
-[PNG Bitmaps]
+[PNG bitmaps]
 Выявы PNG
-[Flash Animations]
+[Flash animations]
 Flash анімацыя
-[XML Files]
+[XML files]
 XML файлы
 [Grow avatar to fit max allowed protocol size]
 Павялічваць аватар да максімальнага памеру

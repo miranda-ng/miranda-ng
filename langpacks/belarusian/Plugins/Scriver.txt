@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.12.1.2
+;  Version: 2.12.2.1
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -323,10 +323,6 @@ KB
 Піша паведамленне
 [Typing notification off]
 "Абвесткі пра набор" выкл.
-[Unicode is on]
-Юнікод уключаны
-[Unicode is off]
-Юнікод выключаны
 [Sending]
 Адпраўка паведамлення
 [Quote button]

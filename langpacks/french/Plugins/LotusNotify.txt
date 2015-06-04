@@ -2,19 +2,37 @@
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.21.0
+;  Version: 0.1.22.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Notify about new mail in Lotus Database]
 
 ;file \plugins\LotusNotify\res\LotusNotify.rc
-[Show again if still unread]
+[Lotus connection settings]
 
-[Show error messages]
+[Primary server:]
 
-[Set popup colors]
+[Secondary server:]
+
+[Database:]
+Base de données :
+[Password:]
+Passe :
+[try detect]
+
+[autoregister]
+
+[Check interval:]
+
+[min.]
+
+[(0-disabled)]
+
+[Keep connection on error]
 
 [Popup options]
+
+[Set popup colors]
 
 [Background]
 Arrière-plan
@@ -22,17 +40,21 @@ Arrière-plan
 Texte
 [Close after:]
 
-[sec (0 default,\n -1 disabled)]
-
-[...but only if popup not clicked]
+[sec (0 default, -1 disabled)]
 
 [Left button click cmd:]
 
 [Command parameters:]
 
+[Show again if still unread]
+
+[...but only if popup not clicked]
+
+[Show error messages]
+
 [Remember newest message ID and don't show older]
 
-[version:]
+[...even if popup not clicked]
 
 [Clear popups history]
 
@@ -42,31 +64,11 @@ Texte
 
 [Subject]
 
-[Lotus connection settings]
-
-[Primary server:]
-
-[Database:]
-Base de données :
-[try detect]
-
-[Secondary server:]
-
-[Check interval:]
-
-[(0-disabled)]
-
-[min.]
-
-[Password:]
-Passe :
-[Offline status mean:]
-
 [To / CopyTo]
 
-[autoregister]
+[Offline status mean:]
 
-[Keep connection on error]
+[version:]
 
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]

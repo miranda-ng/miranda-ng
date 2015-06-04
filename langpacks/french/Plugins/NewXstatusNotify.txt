@@ -100,8 +100,8 @@ Couleurs
 Couleurs personnalisées
 [Use Windows colors]
 Utiliser les couleurs Windows
-[Use Popup colors]
-
+[Use default colors]
+Couleurs par défaut
 [Popup text]
 Texte des popups
 [Show contact group name]

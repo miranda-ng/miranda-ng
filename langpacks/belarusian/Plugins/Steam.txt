@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.4.0
+;  Version: 0.11.4.1
 ;  Authors: unsane, Robert Pösel
 ;============================================================
 ;file \protocols\Steam\res\Resource.rc
@@ -15,7 +15,6 @@
 [Cancel]
 Скасаваць
 ;file \protocols\Steam\src\main.cpp
-;file \protocols\Steam\src\steam_account.cpp
 ;file \protocols\Steam\src\steam_contacts.cpp
 ;file \protocols\Steam\src\steam_dialogs.cpp
 [Name]
@@ -23,6 +22,7 @@
 ;file \protocols\Steam\src\steam_events.cpp
 [Network]
 Сеціва
+;file \protocols\Steam\src\steam_login.cpp
 ;file \protocols\Steam\src\steam_menus.cpp
 [Request authorization]
 Запытаць аўтарызацыю

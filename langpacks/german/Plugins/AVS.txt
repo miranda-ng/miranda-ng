@@ -120,19 +120,19 @@ Globaler Avatar
 [Avatar]
 Avatar
 ;file \plugins\AVS\src\services.cpp
-[All Files]
+[All files]
 Alle Dateien
-[Windows Bitmaps]
+[Windows bitmaps]
 BMP-Bilder
-[JPEG Bitmaps]
-JPEG-/JPG-Bilder
-[GIF Bitmaps]
+[JPEG bitmaps]
+JPEG-Bilder
+[GIF bitmaps]
 GIF-Bilder
-[PNG Bitmaps]
+[PNG bitmaps]
 PNG-Bilder
-[Flash Animations]
+[Flash animations]
 Flash-Animationen
-[XML Files]
+[XML files]
 XML-Dateien
 [Grow avatar to fit max allowed protocol size]
 Avatargröße an maximale Protokollgröße anpassen

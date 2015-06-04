@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.12.1.2
+;  Version: 2.12.2.1
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -337,10 +337,6 @@ Przycisk emotikon
 Kontakt pisze...
 [Typing notification off]
 Kontakt przestał pisać...
-[Unicode is on]
-Unicode jest włączony
-[Unicode is off]
-Unicode jest wyłączony
 [Sending]
 Wysyłanie
 [Quote button]

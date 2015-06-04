@@ -44,8 +44,8 @@ Caps Lock Status bei Umkehrung der Groß-/Kleinschreibung ändern:
 Aktives Tastaturlayout im System ändern
 [Colors]
 Farben
-[Popup colors]
-Popupfarben
+[Use default colors]
+Standardfarben verwenden
 [Windows colors]
 Windowsfarben
 [Custom colors]

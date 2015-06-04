@@ -44,8 +44,8 @@ Défaut
 
 [Colors]
 Couleurs
-[Popup colors]
-Couleurs des popups
+[Use default colors]
+Couleurs par défaut
 [Windows colors]
 
 [Custom colors]

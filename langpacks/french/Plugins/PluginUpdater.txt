@@ -67,7 +67,7 @@ Utiliser des couleurs &personnalisées
 [Use &Windows colors]
 Utiliser les couleurs &Windows
 [Use defa&ult colors]
-
+Couleurs par défa&ut
 [Preview]
 Aperçu
 [Click action]
@@ -182,8 +182,8 @@ Montrer la liste complète des plugins
 ;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Informations sur le plugin
-[Plugin Updater HTTP connection]
-Connection HTTP du plugin de mise à jour
+[Plugin Updater HTTP connections]
+
 [An error occurred while checking for new updates.]
 Une erreur est survenue lors de la vérification des mises à jour.
 ;file \plugins\PluginUpdater\src\Compat\compat.h

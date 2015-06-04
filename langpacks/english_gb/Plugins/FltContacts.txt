@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FltContacts.dll
 ;  Plugin: Floating contacts
-;  Version: 0.7.0.1
+;  Version: 0.7.0.2
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 [Left-top edge's color:]

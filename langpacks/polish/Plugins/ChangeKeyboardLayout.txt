@@ -44,8 +44,8 @@ Ustaw stan Caps Locka zamieniając wielkość liter:
 Zmień aktywny układ klawiatury w systemie
 [Colors]
 Kolory
-[Popup colors]
-Z wtyczki Popup
+[Use default colors]
+Użyj domyślnych kolorów
 [Windows colors]
 Windows
 [Custom colors]

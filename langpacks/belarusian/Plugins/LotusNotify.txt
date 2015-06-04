@@ -2,38 +2,54 @@
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.21.0
+;  Version: 0.1.22.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Notify about new mail in Lotus Database]
 Паведаміце аб новай пошце ў базе Lotus
 ;file \plugins\LotusNotify\res\LotusNotify.rc
-[Show again if still unread]
-Паказаць зноў, калі яшчэ непрачытаныя
-[Show error messages]
-Паказаць паведамленне памылкі
-[Set popup colors]
-Колер вакна
+[Lotus connection settings]
+Налады далучэння Lotus
+[Primary server:]
+Галоўны сервер:
+[Secondary server:]
+Другі сервер:
+[Database:]
+База дадзеных:
+[Password:]
+Пароль:
+[try detect]
+спрабаваць выявіць
+[autoregister]
+Аўтарэгістрацыя
+[Check interval:]
+Інтэрвал праверкі:
+[min.]
+хв.
+[(0-disabled)]
+0-выключана
 [Popup options]
 Налады ўсплывальных вокнаў
+[Set popup colors]
+Колер вакна
 [Background]
 Фон
 [Text]
 Тэкст
 [Close after:]
 Закрыць пасля:
-[sec (0 default,\n -1 disabled)]
-с (0 змаўчанне,\n -1 выключана)
-[...but only if popup not clicked]
-... Але толькі калі не націснута вакно
 [Left button click cmd:]
 Каманда па левай пстрычцы мышы:
 [Command parameters:]
 Параметры каманды:
+[Show again if still unread]
+Паказаць зноў, калі яшчэ непрачытаныя
+[...but only if popup not clicked]
+... Але толькі калі не націснута вакно
+[Show error messages]
+Паказаць паведамленне памылкі
 [Remember newest message ID and don't show older]
 Запамінаць найноўшы ID паведамлення і не паказваць старэй
-[version:]
-версія:
 [Clear popups history]
 Выдаліць гісторыю усплывальных вокнаў
 [Filter messages contain below strings in:]
@@ -42,30 +58,12 @@
 Адпраўшчык
 [Subject]
 Тэма
-[Lotus connection settings]
-Налады далучэння Lotus
-[Primary server:]
-Галоўны сервер:
-[Database:]
-База дадзеных:
-[try detect]
-спрабаваць выявіць
-[Secondary server:]
-Другі сервер:
-[Check interval:]
-Інтэрвал праверкі:
-[(0-disabled)]
-0-выключана
-[min.]
-хв.
-[Password:]
-Пароль:
-[Offline status mean:]
-Аўтаномны статус:
 [To / CopyTo]
 Каму / Копія
-[autoregister]
-Аўтарэгістрацыя
+[Offline status mean:]
+Аўтаномны статус:
+[version:]
+версія:
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
 [Unable to load all required Lotus API functions]
 Не ўдалося загрузіць усе неабходныя функцыі Lotus API

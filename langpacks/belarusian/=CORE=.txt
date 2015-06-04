@@ -1947,6 +1947,17 @@ URL ад %s
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s далучаны
+;file \src\mir_core\src\bitmaps.cpp
+[All Files]
+Усе файлы
+[Windows bitmaps]
+BMP
+[JPEG bitmaps]
+Выявы JPEG
+[GIF bitmaps]
+Выявы GIF
+[PNG bitmaps]
+Выявы PNG
 ;file \src\mir_core\src\ui_utils.cpp
 ;file \src\modules\addcontact\addcontact.cpp
 [Add %s]
@@ -2641,19 +2652,6 @@ ANSI плагін
 Файлы гукаў
 [WAV files]
 Файлы гукаў
-;file \src\modules\utils\bmpfilter.cpp
-[You need an image services plugin to process PNG images.]
-Вам патрэбны плагін службы малюнкаў для падтрымкі PNG.
-[All bitmaps]
-Усе выявы
-[Windows bitmaps]
-BMP
-[JPEG bitmaps]
-Выявы JPEG
-[GIF bitmaps]
-Выявы GIF
-[PNG bitmaps]
-Выявы PNG
 ;file \src\modules\utils\path.cpp
 [Avatars]
 Аватары

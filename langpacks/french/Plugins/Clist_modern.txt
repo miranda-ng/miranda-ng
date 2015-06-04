@@ -878,11 +878,6 @@ lignes
 /s, contient /s
 [ layered]
 
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
-[You need an image services plugin to process PNG images.]
-Vous avez besoin d'un plugin d'imagerie pour gérer les images PNG.
-[Error]
-Erreur
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 
