@@ -122,7 +122,9 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\*.cpp" />
-    <ClCompile Include="src\*.c" />
+    <ClCompile Include="src\*.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClInclude Include="src\*.hpp" />
     <ClInclude Include="src\*.h" />
     <ResourceCompile Include="res\*.rc" />
