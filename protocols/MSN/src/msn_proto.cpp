@@ -406,11 +406,13 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 		return;
 	}
 
-	unsigned res = MSN_ABContactAdd(email, NULL, NETID_MSN, NULL, 1, true);
-	switch (res) {
-	case 0:
-	case 2:
-	case 3:
+	if (MyOptions.netId == NETID_SKYPE) MSN_SKYABSearch(email, arg);
+	else {
+		unsigned res = MSN_ABContactAdd(email, NULL, NETID_MSN, NULL, 1, true);
+		switch (res) {
+		case 0:
+		case 2:
+		case 3:
 		{
 			PROTOSEARCHRESULT psr = { 0 };
 			psr.cbSize = sizeof(psr);
@@ -418,25 +420,27 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 			psr.id.t = (TCHAR*)emailT;
 			psr.nick.t = (TCHAR*)emailT;
 			psr.email.t = (TCHAR*)emailT;
+
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, arg, (LPARAM)&psr);
-		}
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
-		break;
-
-	case 1:
-		if (strstr(email, "@yahoo.com") == NULL)
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
-#ifdef OBSOLETE
-		else {
-			msnSearchId = arg;
-			MSN_FindYahooUser(email);
 		}
-#endif
 		break;
 
-	default:
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
-		break;
+		case 1:
+			if (strstr(email, "@yahoo.com") == NULL)
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
+	#ifdef OBSOLETE
+			else {
+				msnSearchId = arg;
+				MSN_FindYahooUser(email);
+			}
+	#endif
+			break;
+
+		default:
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
+			break;
+		}
 	}
 	mir_free(arg);
 }
@@ -813,6 +817,20 @@ int __cdecl CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 
 	return Proto_RecvMessage(hContact, pre);
 }
+
+int CMsnProto::GetInfo(MCONTACT hContact, int infoType)
+{
+	if (MyOptions.netId == NETID_SKYPE) {
+		char tEmail[MSN_MAX_EMAIL_LEN];
+		if (db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail)))
+			db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail));
+
+		MSN_SKYABGetProfile(tEmail);
+		return 1;
+	}
+	return 0;
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnRecvContacts - creates a database event from the contacts received

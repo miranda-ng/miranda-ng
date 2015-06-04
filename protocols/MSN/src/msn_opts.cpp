@@ -231,7 +231,7 @@ LBL_Continue:
 				mir_strcpy(proto->MyOptions.szEmail, szEmail);
 				proto->setString("e-mail", szEmail);
 				proto->setString("wlid", szEmail);
-				proto->setDword("netId", proto->GetMyNetID());
+				proto->setDword("netId", (proto->MyOptions.netId = proto->GetMyNetID()));
 			}
 
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, SIZEOF(password));
@@ -558,7 +558,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				mir_strcpy(proto->MyOptions.szEmail, szEmail);
 				proto->setString("e-mail", szEmail);
 				proto->setString("wlid", szEmail);
-				proto->setDword("netId", proto->GetMyNetID());
+				proto->setDword("netId", (proto->MyOptions.netId = proto->GetMyNetID()));
 			}
 
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, SIZEOF(password));
