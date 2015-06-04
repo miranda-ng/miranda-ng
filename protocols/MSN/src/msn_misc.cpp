@@ -385,7 +385,7 @@ void CMsnProto::MSN_GoOffline(void)
 	msnPreviousUUX = NULL;
 	msnSearchId = NULL;
 
-	if (!Miranda_Terminated())
+	if (!g_bTerminated)
 		MSN_EnableMenuItems(false);
 
 	MSN_FreeGroups();
@@ -394,7 +394,7 @@ void CMsnProto::MSN_GoOffline(void)
 #endif
 	clearCachedMsg();
 
-	if (!Miranda_Terminated()) {
+	if (!g_bTerminated) {
 		int msnOldStatus = m_iStatus; m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)msnOldStatus, ID_STATUS_OFFLINE);
 		isIdle = false;
@@ -1084,7 +1084,7 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 
 void CMsnProto::MSN_ShowPopup(const TCHAR* nickname, const TCHAR* msg, int flags, const char* url)
 {
-	if (Miranda_Terminated()) return;
+	if (g_bTerminated) return;
 
 	PopupData *pud = (PopupData*)mir_calloc(sizeof(PopupData));
 	pud->flags = flags;

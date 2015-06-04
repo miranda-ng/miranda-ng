@@ -38,6 +38,7 @@ void MsnLinks_Destroy(void);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Global variables
 
+bool g_bTerminated = false;
 int avsPresent = -1;
 
 static const PLUGININFOEX pluginInfo =
