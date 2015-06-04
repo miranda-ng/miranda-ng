@@ -849,10 +849,6 @@ xСтатус: xПовідомлення
 Показати/сховати відключених
 [%s, contain %s]
 %s, містить %s
-[You need an image services plugin to process PNG images.]
-Для обробки зображень PNG вам потрібен модуль служби зображень.
-[Error]
-Помилка
 [( unknown )]
 (невідомо)
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]

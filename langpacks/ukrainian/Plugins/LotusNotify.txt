@@ -2,69 +2,71 @@
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.21.0
+;  Version: 0.1.22.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Notify about new mail in Lotus Database]
 Сповіщає про нову пошту в Lotus Database
-[Show again if still unread]
-Показувати непрочитане ще раз
-[Show error messages]
-Повідомляти про помилки
-[Set popup colors]
-Кольори
+[Lotus connection settings]
+Налаштування з'єднання Lotus
+[Primary server:]
+Основний сервер:
+[Secondary server:]
+Вторинний сервер:
+[Database:]
+База даних:
+[Password:]
+Пароль:
+[try detect]
+спробувати виявити
+[autoregister]
+Автореєстрація
+[Check interval:]
+Інтервал:
+[min.]
+хв
+[(0-disabled)]
+0 - вимкнено
+[Keep connection on error]
+Підтримувати з'єднання
 [Popup options]
 Спливаючі вікна
+[Set popup colors]
+Кольори
 [Background]
 Фон
 [Text]
 Текст
 [Close after:]
 Затримка:
-[sec (0 default,\n -1 disabled)]
-с (0 замовчання,\n-1 вимкнути)
-[...but only if popup not clicked]
-...тільки якщо спл. вікно не натиснуте
+[sec (0 default, -1 disabled)]
+с (0 замовчання, -1 вимк.)
 [Left button click cmd:]
 Команда ЛКМ:
 [Command parameters:]
 Параметри команди:
+[Show again if still unread]
+Показати непрочитане ще раз
+[...but only if popup not clicked]
+...тільки якщо не натиснуте
+[Show error messages]
+Повідомляти про помилки
 [Remember newest message ID and don't show older]
-Пам'ятати ID останнього повідомлення і не показувати старі
-[version:]
-Версія:
+Пам'ятати ID останнього повідмл. і не показувати старі
+[...even if popup not clicked]
+...навіть якщо не натиснуте
 [Clear popups history]
 Очистити історію спливаючих вікон
 [Sender]
 Відправник
 [Subject]
 Тема
-[Lotus connection settings]
-Налаштування з'єднання Lotus
-[Primary server:]
-Основний сервер:
-[Database:]
-База даних:
-[try detect]
-спробувати виявити
-[Secondary server:]
-Вторинний сервер:
-[Check interval:]
-Інтервал:
-[(0-disabled)]
-0 - вимкнено
-[min.]
-хв
-[Password:]
-Пароль:
-[Offline status mean:]
-Автономний статус:
 [To / CopyTo]
 Кому / Копія Кому
-[autoregister]
-Автореєстрація
-[Keep connection on error]
-Підтримувати з'єднання
+[Offline status mean:]
+Автономний статус:
+[version:]
+Версія:
 [Unable to load all required Lotus API functions]
 Не вдається завантажити всі необхідні функцій Lotus API
 [Lotus Notes Client not detected. Check plugin configuration description on install.txt]

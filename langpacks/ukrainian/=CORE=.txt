@@ -1905,6 +1905,16 @@ URL від %s
 Особисті дані...
 [%s is online]
 %s в мережі
+[All Files]
+Усі файли
+[Windows bitmaps]
+Зображення BMP
+[JPEG bitmaps]
+Зображення JPEG
+[GIF bitmaps]
+Зображення GIF
+[PNG bitmaps]
+Зображення PNG
 [Account]
 Обліковий запис
 [Add %s]
@@ -2567,18 +2577,6 @@ ANSI-плагін
 Звукові файли
 [WAV files]
 Файли WAV
-[You need an image services plugin to process PNG images.]
-Для обробки зображень PNG вам потрібен модуль служби зображень.
-[All bitmaps]
-Усі зображення
-[Windows bitmaps]
-Зображення BMP
-[JPEG bitmaps]
-Зображення JPEG
-[GIF bitmaps]
-Зображення GIF
-[PNG bitmaps]
-Зображення PNG
 [Avatars]
 Аватари
 [Avatars root folder]

@@ -37,10 +37,6 @@
 Бібліотека AdvaImg.dll не знайдена. Будь ласка, встановіть її для використання зображень.
 [Preview...]
 Перегляд...
-[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-Ваш AdvaImg.dll застарів або пошкоджений. Встановіть останню версію з сайту Miranda NG.
-[Error]
-Помилка
 [Graphic files]
 Графічні файли
 [Sound Files]
