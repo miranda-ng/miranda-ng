@@ -69,7 +69,7 @@ TopToolBar бутон (изисква се рестарт на Miranda)
 Тишина при стартиране - Изключено
 [Toggle Silence At Startup]
 Вкл/Изкл Silence At Startup
-[You have to install TopToolBar to use this option.]
+[You have to install "TopToolBar" to use this option.]
 Необходимо е да инсталирате "TopToolBar" за да ползвате опцията.
 [You have to install "YAPP" or "Popup+" to use this option.]
 Необходимо е да инсталирате "YAPP" или "Popup+" за да ползвате опцията.

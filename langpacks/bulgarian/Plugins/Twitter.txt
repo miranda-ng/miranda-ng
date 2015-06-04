@@ -57,8 +57,6 @@
 Рopups
 [%s server connection]
 %s връзка със сървъра
-[Twitter]
-Twitter
 [%s avatar connection]
 %s връзки за аватари
 [%s Protocol]

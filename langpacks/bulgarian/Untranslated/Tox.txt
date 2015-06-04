@@ -1,4 +1,5 @@
-﻿[Audio ring]
+﻿[Tox URI scheme]
+[Audio ring]
 [Audio start]
 [Audio end]
 [Call canceled]

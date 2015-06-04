@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.11.1.2
-;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
+;  Version: 0.12.1.1
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Microsoft Network (MSN) в Miranda NG.
@@ -57,10 +57,6 @@ Live ID:
 Обновяване
 [Hotmail]
 Hotmail
-[Disable Popup notifications]
-Без уведомяване с Popup
-[Disable Tray notifications]
-Без уведомяване в трея
 [Ignore new messages not in Inbox folder]
 Игнориране на писмата в папки различни от Inbox
 [Other]
@@ -71,8 +67,6 @@ Hotmail
 popup при установяване на разговор
 [Enable 'Contact left channel' popup]
 popup при излизане на контакт от канал
-[Disable Contact List notifications]
-Без уведомяване в списъка с контакти
 [Set Nickname]
 Задаване на прякор
 [Cancel]
@@ -113,10 +107,6 @@ Live ID
 Добавяне
 [Chat #]
 Чат №
-[Me]
-Аз
-[Others]
-Други
 [&Invite user...]
 Покани потребител...
 [&Leave chat session]
@@ -125,16 +115,14 @@ Live ID
 Подробности за потребителя
 [User &history]
 История на потребителя
+[MSN Alert]
+MSN уведовяване
 [Contact tried to open an audio conference (not currently supported)]
 Контактът опита да стартира гласов разговор (не се поддържа)
-[%I64u bytes]
-%I64u bytes
 [Accept NetMeeting request from %s?]
 Приемате ли молбата NetMeeting от %s?
 [MSN Protocol]
 MSN протокол
-[MSN Alert]
-MSN уведовяване
 [Chat session established by my request]
 Установен е разговор по моя заявка
 [Chat session established by contact request]
@@ -149,6 +137,8 @@ MSN уведовяване
 В чата е останал само един участник, желаете ли да бъде използван стандартният прозорец за съобщения?
 [MSN Chat]
 MSN чат
+[Others]
+Други
 [Message delivery failed]
 Неуспешно доставяне на съобщение
 [User not online]

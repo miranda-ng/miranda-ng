@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.12.1.2
+;  Version: 2.12.2.1
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -335,10 +335,6 @@ Foodnetwork
 Потребителя пише
 [Typing notification off]
 Уведомяването при писане е изключено
-[Unicode is on]
-Unicode e включен
-[Unicode is off]
-Unicode е изключен
 [Sending]
 Изпращане
 [Quote button]

@@ -805,10 +805,6 @@ Modern contact list
 колони
 [lines]
 линии
-[You need an image services plugin to process PNG images.]
-Необходима е услуга за изображенията за обработка на PNG изображения.
-[Error]
-Грешка
 [( unknown )]
 (неизвестно)
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]

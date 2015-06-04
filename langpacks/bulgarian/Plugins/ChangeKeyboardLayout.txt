@@ -43,8 +43,8 @@
 Сменяване на клавиатурната подредба на ОС
 [Colors]
 Цветове
-[Popup colors]
-Popup цветове
+[Use default colors]
+Стандартни цветове
 [Windows colors]
 Цветове от Windows
 [Custom colors]

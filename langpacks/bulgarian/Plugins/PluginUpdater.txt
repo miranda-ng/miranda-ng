@@ -47,8 +47,6 @@
 Персонализирана версия
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Някои компоненти са актуализирани.\nНеобхдимо е да рестартирате Miranda за да бъдат приложени актуализациите.
-[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
-Преминаването към стабилна версия за момента не е възможно поради несъвместимост с текущата развойна версия.
 [Notifications]
 Уведомявания
 [Restart]
@@ -67,8 +65,8 @@
 Избор на цветове
 [Use &Windows colors]
 Цветове от Windows
-[Use Pop&up colors]
-От Popup приставката
+[Use defa&ult colors]
+Стандартни цветове
 [Preview]
 Образец
 [Click action]
@@ -155,6 +153,8 @@ Plugin Updater
 часа
 [days]
 дни
+[Stable version (incompatible with current development version)]
+Стабилна версия (несъвместимо с текущата развойна версия)
 [Test]
 Тест
 [Services]
@@ -169,7 +169,7 @@ Plugin Updater
 Провалено актуализиране
 [Plugin info]
 Инф. за приставката
-[Plugin Updater HTTP connection]
+[Plugin Updater HTTP connections]
 HTTP връзки на приставката Plugin Updater
 [An error occurred while checking for new updates.]
 Възникна грешка при проверката за актуализации.

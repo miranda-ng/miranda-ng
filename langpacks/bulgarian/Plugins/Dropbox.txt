@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
-;  Version: 0.11.0.3
-;  Authors: unsane
+;  Version: 0.12.0.6
+;  Authors: Miranda NG Team
 ;============================================================
 [Authorization]
 Упълномощаване
@@ -11,9 +11,7 @@
 Упълномощаване
 [Autosend download link to contact]
 Автоизпращане на връзка за сваляне на контакта
-[Network]
-Мрежа
-[Protocols]
-Протоколи
 [Protocol icon]
 Икона на протокола
+[Network]
+Мрежа

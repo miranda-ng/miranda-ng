@@ -81,8 +81,8 @@
 Зададени цветове
 [Use Windows colors]
 Цветове от Windows
-[Use Popup colors]
-От Popup приставката
+[Use default colors]
+Стандартни цветове
 [Popup text]
 Текст на Popup-а
 [Show contact group name]
