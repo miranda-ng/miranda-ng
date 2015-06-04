@@ -46,6 +46,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
+	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
 
 	virtual	HANDLE    __cdecl SearchBasic(const TCHAR* id);
 	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR* email);
@@ -528,6 +529,19 @@ struct CMsnProto : public PROTO<CMsnProto>
 	void processMailData(char* mailData);
 	void sttNotificationMessage(char* msgBody, bool isInitial);
 	void displayEmailCount(MCONTACT hContact);
+
+	/////////////////////////////////////////////////////////////////////////////////////////
+	//	SKYPE JSON Address Book
+	bool MSN_SKYABRefreshClist(void);
+	bool MSN_SKYABBlockContact(const char *wlid, const char *pszAction);
+	bool MSN_SKYABAuthRq(const char *wlid, const char *pszGreeting);
+	bool MSN_SKYABAuthRsp(const char *wlid, const char *pszAction);
+	bool MSN_SKYABDeleteContact(const char *wlid);
+	bool MSN_SKYABSearch(const char *keyWord, HANDLE hSearch);
+	bool MSN_SKYABGetProfiles(const char *pszPOST);
+	bool MSN_SKYABGetProfile(const char *wlid);
+
+	bool APISkypeComRequest(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *headers);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	//	MSN SOAP Address Book

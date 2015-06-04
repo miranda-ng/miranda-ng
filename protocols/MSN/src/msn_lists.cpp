@@ -280,7 +280,7 @@ void CMsnProto::MSN_CreateContList(void)
 
 	CMStringA cxml;
 
-	cxml.Append("<ml l=\"1\">");
+	cxml.AppendFormat("<ml l=\"%d\">", MyOptions.netId == NETID_MSN?1:0);
 	{
 		mir_cslock lck(m_csLists);
 

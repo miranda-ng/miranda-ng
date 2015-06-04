@@ -1019,7 +1019,7 @@ LBL_InvalidCommand:
 			}
 
 			bSentBND = false;
-			ForkThread(&CMsnProto::msn_keepAliveThread, NULL);
+			if (!hKeepAliveThreadEvt) ForkThread(&CMsnProto::msn_keepAliveThread, NULL);
 #ifdef OBSOLETE
 			/* FIXME: Currently disabled, as P2P maybe not working anymore in MSNP24? */
 			ForkThread(&CMsnProto::MSNConnDetectThread, NULL);
@@ -1122,6 +1122,7 @@ LBL_InvalidCommand:
 										MSN_ProcessURIObject(hContact, xmlact);
 										ezxml_free(xmlact);
 									}
+									continue;
 								} else if (mir_strcmp(msgtype->txt, "Text")) continue;								/* TODO: Implement i.e. RichText/Files for announcement of file transfers */
 							}
 

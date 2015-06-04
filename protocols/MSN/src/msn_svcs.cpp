@@ -449,7 +449,7 @@ int CMsnProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
 
-	if (!msnLoggedIn)
+	if (!msnLoggedIn || MyOptions.netId != NETID_MSN)
 		return 0;
 
 	if (hContact == NULL) {

@@ -941,18 +941,10 @@ const char *CMsnProto::GetSkypeToken(bool bAsAuthHeader)
 	char szToken[1024];
 
 	// Ensure that token isn't expired
-	MSN_AuthOAuth();
+	if (MyOptions.netId == NETID_MSN) MSN_AuthOAuth();
 
 	// No token available, fetch it
 	if (!authSkypeToken) {
-		// Get skype.com OAuth token needed to acquire skype_token
-		if (!authSkypeComToken) {
-			if (RefreshOAuth(authRefreshToken, "service::skype.com::MBI_SSL", szToken))
-				replaceStr(authSkypeComToken, szToken);
-			else return NULL;
-		}
-
-		// Get skype_token
 		NETLIBHTTPREQUEST nlhr = { 0 };
 		NETLIBHTTPREQUEST *nlhrReply;
 		NETLIBHTTPHEADER headers[1];
@@ -966,12 +958,33 @@ const char *CMsnProto::GetSkypeToken(bool bAsAuthHeader)
 		nlhr.headers = headers;
 		nlhr.headers[0].szName = "User-Agent";
 		nlhr.headers[0].szValue = (char*)MSN_USER_AGENT;
-		nlhr.szUrl = "https://api.skype.com/rps/skypetoken";
-		mir_snprintf(szPOST, sizeof(szPOST), "scopes=client&clientVersion=%s&access_token=%s&partner=999", 
-			msnProductVer, authSkypeComToken);
-		nlhr.dataLength = (int)strlen(szPOST);
-		nlhr.pData = (char*)(const char*)szPOST;
+		nlhr.pData = szPOST;
 
+		if (MyOptions.netId == NETID_SKYPE) {
+			BYTE digest[16];
+			int cbPasswd;
+			char szPassword[100]={0};
+
+			cbPasswd=mir_snprintf(szPassword, sizeof(szPassword), "%s\nskyper\n", MyOptions.szEmail);
+			db_get_static(NULL, m_szModuleName, "Password", szPassword+cbPasswd, sizeof(szPassword)-cbPasswd-1);
+			mir_md5_hash((BYTE*)szPassword, mir_strlen(szPassword), digest);
+			mir_base64_encodebuf(digest, sizeof(digest), szPassword, sizeof(szPassword));
+			nlhr.szUrl = "https://api.skype.com/login/skypetoken";
+			nlhr.dataLength = mir_snprintf(szPOST, sizeof(szPOST), "scopes=client&clientVersion=%s&username=%s&passwordHash=%s", 
+				msnProductVer, MyOptions.szEmail, szPassword);
+		} else {
+			// Get skype.com OAuth token needed to acquire skype_token
+			if (!authSkypeComToken) {
+				if (RefreshOAuth(authRefreshToken, "service::skype.com::MBI_SSL", szToken))
+					replaceStr(authSkypeComToken, szToken);
+				else return NULL;
+			}
+
+			// Get skype_token
+			nlhr.szUrl = "https://api.skype.com/rps/skypetoken";
+			nlhr.dataLength = mir_snprintf(szPOST, sizeof(szPOST), "scopes=client&clientVersion=%s&access_token=%s&partner=999", 
+				msnProductVer, authSkypeComToken);
+		}
 
 		mHttpsTS = clock();
 		nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);

@@ -253,13 +253,13 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const TCHAR *mChatID)
 				MCONTACT hContTarget = MSN_HContactFromEmail(pszTarget);
 				gce.ptszNick =GetContactNameT(hContTarget);
 				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+				mir_free((TCHAR*)gce.ptszUID);
 				if ((gcd.iType == GC_EVENT_PART || gcd.iType == GC_EVENT_KICK) && gce.bIsMe) {
 					GCDEST gcd = { m_szModuleName, mChatID, GC_EVENT_CONTROL };
 					GCEVENT gce = { sizeof(gce), &gcd };
 					CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
 					break;
 				}
-				mir_free((TCHAR*)gce.ptszUID);
 				target = ezxml_next(target);
 			}
 		}
