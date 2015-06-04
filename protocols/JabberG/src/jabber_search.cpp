@@ -192,7 +192,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo*)
 			code = xmlGetAttrValue(errorNode, _T("code"));
 			description = xmlGetText(errorNode);
 		}
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Error %s %s\r\nPlease select other server"), code ? code : _T(""), description ? description : _T(""));
+		mir_sntprintf(buff, TranslateT("Error %s %s\r\nPlease select other server"), code ? code : _T(""), description ? description : _T(""));
 		SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, buff);
 	}
 	else SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, TranslateT("Error: unknown reply received\r\nPlease select other server"));
@@ -271,7 +271,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 
 		if (nick) {
 			if (mir_tstrcmpi(nick, Results.psr.id.t))
-				mir_sntprintf(buff, SIZEOF(buff), _T("%s (%s)"), nick, Results.psr.id.t);
+				mir_sntprintf(buff, _T("%s (%s)"), nick, Results.psr.id.t);
 			else
 				_tcsncpy_s(buff, nick, _TRUNCATE);
 
@@ -389,7 +389,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 			description = xmlGetText(errorNode);
 		}
 
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Error %s %s\r\nTry to specify more detailed"), code ? code : _T(""), description ? description : _T(""));
+		mir_sntprintf(buff, TranslateT("Error %s %s\r\nTry to specify more detailed"), code ? code : _T(""), description ? description : _T(""));
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 		if (searchHandleDlg)
 			SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, buff);

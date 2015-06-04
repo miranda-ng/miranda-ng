@@ -377,7 +377,7 @@ public:
 		SelectObject(hdc, m_hfntNormal);
 		if (pNote->GetFrom()) {
 			TCHAR buf[256];
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("From: %s"), pNote->GetFrom());
+			mir_sntprintf(buf, TranslateT("From: %s"), pNote->GetFrom());
 			rc.top += DrawText(hdc, buf, -1, &rc, DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS);
 		}
 		rc.top += DrawText(hdc, pNote->GetText(), -1, &rc, DT_NOPREFIX | DT_WORDBREAK | DT_EXPANDTABS | DT_END_ELLIPSIS);
@@ -412,7 +412,7 @@ public:
 		SelectObject(hdc, m_hfntNormal);
 		if (pNote->GetFrom()) {
 			TCHAR buf[256];
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("From: %s"), pNote->GetFrom());
+			mir_sntprintf(buf, TranslateT("From: %s"), pNote->GetFrom());
 			rcTmp = rc;
 			DrawText(hdc, buf, -1, &rcTmp, DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS | DT_CALCRECT);
 			lps->itemHeight += rcTmp.bottom;
@@ -729,7 +729,7 @@ void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 	}
 
 	TCHAR buf[1024];
-	mir_sntprintf(buf, SIZEOF(buf), _T("Incoming note: %s\n\n%s\nTags: %s"),
+	mir_sntprintf(buf, _T("Incoming note: %s\n\n%s\nTags: %s"),
 		pNote->GetTitle(), pNote->GetText(), pNote->GetTagsStr());
 
 	JabberCapsBits jcb = GetResourceCapabilites(pNote->GetFrom(), TRUE);

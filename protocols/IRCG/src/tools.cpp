@@ -342,7 +342,7 @@ TCHAR* __stdcall DoColorCodes(const TCHAR* text, bool bStrip, bool bReplacePerce
 					*p++ = '%';
 					*p++ = 'c';
 
-					mir_sntprintf(buf, SIZEOF(buf), _T("%02u"), iFG);
+					mir_sntprintf(buf, _T("%02u"), iFG);
 					for (int i = 0; i < 2; i++)
 						*p++ = buf[i];
 				}
@@ -355,7 +355,7 @@ TCHAR* __stdcall DoColorCodes(const TCHAR* text, bool bStrip, bool bReplacePerce
 					*p++ = '%';
 					*p++ = 'f';
 
-					mir_sntprintf(buf, SIZEOF(buf), _T("%02u"), iBG);
+					mir_sntprintf(buf, _T("%02u"), iBG);
 					for (int i = 0; i < 2; i++)
 						*p++ = buf[i];
 				}
@@ -548,7 +548,7 @@ int CIrcProto::SetChannelSBText(CMString sWindow, CHANNELINFO * wi)
 CMString CIrcProto::MakeWndID(const TCHAR* sWindow)
 {
 	TCHAR buf[200];
-	mir_sntprintf(buf, SIZEOF(buf), _T("%s - %s"), sWindow, (IsConnected()) ? m_info.sNetwork.c_str() : TranslateT("Offline"));
+	mir_sntprintf(buf, _T("%s - %s"), sWindow, (IsConnected()) ? m_info.sNetwork.c_str() : TranslateT("Offline"));
 	return CMString(buf);
 }
 

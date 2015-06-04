@@ -785,7 +785,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 						DWORD dwStatus = CallProtoServiceInt(NULL, pa->szModuleName, PS_GETSTATUS, 0, 0);
 						if (dwStatus >= ID_STATUS_ONLINE) {
 							TCHAR buf[200];
-							mir_sntprintf(buf, SIZEOF(buf), TranslateT("Account %s is being disabled"), pa->tszAccountName);
+							mir_sntprintf(buf, TranslateT("Account %s is being disabled"), pa->tszAccountName);
 							if (IDNO == ::MessageBox(hwndDlg,
 								TranslateT("Account is online. Disable account?"),
 								buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO)) {
@@ -845,7 +845,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			if (idx != -1) {
 				pa = (PROTOACCOUNT*)ListBox_GetItemData(hwndList, idx);
 				TCHAR buf[200];
-				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Account %s is being deleted"), pa->tszAccountName);
+				mir_sntprintf(buf, TranslateT("Account %s is being deleted"), pa->tszAccountName);
 				if (pa->bOldProto) {
 					MessageBox(hwndDlg, TranslateT("You need to disable plugin to delete this account"), buf, MB_ICONERROR | MB_OK);
 					break;

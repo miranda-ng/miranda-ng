@@ -55,7 +55,7 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 	TCHAR szName[512];
 	InterlockedIncrement(&m_chatID);
 	if (*pszTopic) _tcsncpy(szName, _A2T(pszTopic), SIZEOF(szName));
-	else mir_sntprintf(szName, SIZEOF(szName), _T("%s %s%d"),
+	else mir_sntprintf(szName, _T("%s %s%d"),
 		m_tszUserName, TranslateT("Chat #"), m_chatID);
 
 	GCSESSION gcw = { sizeof(gcw) };

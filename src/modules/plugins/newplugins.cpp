@@ -467,7 +467,7 @@ int isPluginOnWhiteList(const TCHAR* pluginname)
 	int rc = db_get_b(NULL, PLUGINDISABLELIST, _strlwr(_T2A(pluginname)), 0);
 	if (rc != 0 && askAboutIgnoredPlugins) {
 		TCHAR buf[256];
-		mir_sntprintf(buf, SIZEOF(buf), TranslateT("'%s' is disabled, re-enable?"), pluginname);
+		mir_sntprintf(buf, TranslateT("'%s' is disabled, re-enable?"), pluginname);
 		if (MessageBox(NULL, buf, TranslateT("Re-enable Miranda plugin?"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 			SetPluginOnWhiteList(pluginname, 1);
 			rc = 0;

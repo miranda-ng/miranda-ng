@@ -1315,17 +1315,17 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			TCHAR szTemp[100];
 			switch(si->iType) {
 			case GCW_CHATROOM:
-				mir_sntprintf(szTemp, SIZEOF(szTemp),
+				mir_sntprintf(szTemp,
 					(si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"),
 					si->ptszName, si->nUsersInNicklist);
 				break;
 			case GCW_PRIVMESS:
-				mir_sntprintf(szTemp, SIZEOF(szTemp),
+				mir_sntprintf(szTemp,
 					(si->nUsersInNicklist == 1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"),
 					si->ptszName, si->nUsersInNicklist);
 				break;
 			case GCW_SERVER:
-				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s: Server"), si->ptszName);
+				mir_sntprintf(szTemp, _T("%s: Server"), si->ptszName);
 				break;
 			}
 			SetWindowText(hwndDlg, szTemp);
@@ -2436,7 +2436,7 @@ LABEL_SHOWWINDOW:
 					ValidateFilename(szName);
 
 					mir_sntprintf(szFolder, SIZEOF(szFolder), _T("%s\\%s"), g_Settings.pszLogDir, szName);
-					mir_sntprintf(szName, SIZEOF(szName), _T("%s.log"), si->ptszID);
+					mir_sntprintf(szName, _T("%s.log"), si->ptszID);
 					ValidateFilename(szName);
 
 					mir_sntprintf(szFile, SIZEOF(szFile), _T("%s\\%s"), szFolder, szName);

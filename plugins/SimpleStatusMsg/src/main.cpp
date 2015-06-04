@@ -1489,7 +1489,7 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 		TCHAR szBuffer[256];
 		if (CallService(MS_PROTO_ISACCOUNTLOCKED,0,(LPARAM)pa[i]->szModuleName))
 		{
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s (locked)"), pa[i]->tszAccountName);
+			mir_sntprintf(szBuffer, TranslateT("%s (locked)"), pa[i]->tszAccountName);
 			mi.ptszPopupName = szBuffer;
 		}
 		else

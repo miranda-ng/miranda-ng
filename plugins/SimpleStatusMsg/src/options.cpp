@@ -1251,7 +1251,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 
 			if (!ServiceExists(MS_SS_GETPROFILECOUNT)) {
 				TCHAR szText[100];
-				mir_sntprintf(szText, SIZEOF(szText), _T("%s *"), TranslateT("Show status profiles in status list"));
+				mir_sntprintf(szText, _T("%s *"), TranslateT("Show status profiles in status list"));
 				SetDlgItemText(hwndDlg, IDC_CPROFILES, szText);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CPROFILES), FALSE);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_NOTE1), SW_SHOW);

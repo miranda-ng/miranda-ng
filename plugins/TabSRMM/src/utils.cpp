@@ -146,7 +146,7 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 
 						TCHAR szTemp[5];
 						message.insert(beginmark, _T("cxxx "));
-						mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%02d"), MSGDLGFONTCOUNT + 13 + ii);
+						mir_sntprintf(szTemp, _T("%02d"), MSGDLGFONTCOUNT + 13 + ii);
 						message[beginmark + 3] = szTemp[0];
 						message[beginmark + 4] = szTemp[1];
 						clr_found = true;
@@ -1277,7 +1277,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_AUTOURLDETECT, TRUE, 0);
 		::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
 
-		mir_sntprintf(temp, SIZEOF(temp), RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
+		mir_sntprintf(temp, RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
 		tstring *str = new tstring(temp);
 
 		str->append(m_szText);

@@ -894,7 +894,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			return -1;
 
 		hIcon = LoadSkinnedProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
-		mir_sntprintf(text, SIZEOF(text), TranslateT("%s connected from another location"), GetHumanName(lParam));
+		mir_sntprintf(text, TranslateT("%s connected from another location"), GetHumanName(lParam));
 		break;
 
 	case KS_CONN_STATE_LOGINERROR:	// lParam = 1 proto
@@ -903,9 +903,9 @@ static int ProcessPopup(int reason, LPARAM lParam)
 
 		hIcon = LoadSkinnedProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
 		if (db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_CANCEL)
-			mir_sntprintf(text, SIZEOF(text), TranslateT("%s login error, cancel reconnecting"), GetHumanName(lParam));
+			mir_sntprintf(text, TranslateT("%s login error, cancel reconnecting"), GetHumanName(lParam));
 		else if (db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_SETDELAY)
-			mir_sntprintf(text, SIZEOF(text), TranslateT("%s login error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount + 1, db_get_dw(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
+			mir_sntprintf(text, TranslateT("%s login error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount + 1, db_get_dw(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
 		else
 			return -1;
 		break;
@@ -916,9 +916,9 @@ static int ProcessPopup(int reason, LPARAM lParam)
 
 		if (lParam) { // ”казатель на им€ модул€. 
 			hIcon = LoadSkinnedProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
-			mir_sntprintf(text, SIZEOF(text), TranslateT("%s status error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount + 1, currentDelay / 1000);
+			mir_sntprintf(text, TranslateT("%s status error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount + 1, currentDelay / 1000);
 		}
-		else mir_sntprintf(text, SIZEOF(text), TranslateT("Status error (next retry (%d) in %d s)"), retryCount + 1, currentDelay / 1000);
+		else mir_sntprintf(text, TranslateT("Status error (next retry (%d) in %d s)"), retryCount + 1, currentDelay / 1000);
 		break;
 
 	case KS_CONN_STATE_RETRY:  // lParam = PROTOCOLSETTINGEX**
@@ -942,9 +942,9 @@ static int ProcessPopup(int reason, LPARAM lParam)
 
 			rtrimt(protoInfo);
 			if (retryCount == (maxRetries - 1))
-				mir_sntprintf(text, SIZEOF(text), TranslateT("Resetting status... (last try (%d))%s"), retryCount + 1, protoInfo);
+				mir_sntprintf(text, TranslateT("Resetting status... (last try (%d))%s"), retryCount + 1, protoInfo);
 			else
-				mir_sntprintf(text, SIZEOF(text), TranslateT("Resetting status... (next retry (%d) in %d s)%s"), retryCount + 2, currentDelay / 1000, protoInfo);
+				mir_sntprintf(text, TranslateT("Resetting status... (next retry (%d) in %d s)%s"), retryCount + 2, currentDelay / 1000, protoInfo);
 		}
 		break;
 
@@ -953,9 +953,9 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			return -1;
 
 		if (retryCount == maxRetries - 1)
-			mir_sntprintf(text, SIZEOF(text), TranslateT("No internet connection seems available... (last try (%d))"), retryCount + 1);
+			mir_sntprintf(text, TranslateT("No internet connection seems available... (last try (%d))"), retryCount + 1);
 		else
-			mir_sntprintf(text, SIZEOF(text), TranslateT("No internet connection seems available... (next retry (%d) in %d s)"), retryCount + 2, currentDelay / 1000);
+			mir_sntprintf(text, TranslateT("No internet connection seems available... (next retry (%d) in %d s)"), retryCount + 2, currentDelay / 1000);
 		break;
 
 	case KS_CONN_STATE_STOPPEDCHECKING: // lParam == BOOL succes
@@ -964,9 +964,9 @@ static int ProcessPopup(int reason, LPARAM lParam)
 
 		if (lParam) {
 			hIcon = LoadSkinnedIcon(SKINICON_STATUS_ONLINE);
-			mir_sntprintf(text, SIZEOF(text), TranslateT("Status was set ok"));
+			mir_sntprintf(text, TranslateT("Status was set ok"));
 		}
-		else mir_sntprintf(text, SIZEOF(text), TranslateT("Giving up"));
+		else mir_sntprintf(text, TranslateT("Giving up"));
 		break;
 	}
 	if (hIcon == NULL)

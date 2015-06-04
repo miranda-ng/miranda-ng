@@ -182,14 +182,14 @@ INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			smp_for_contact[context->app_data].responder = data->responder;
 
 			TCHAR buff[512], *proto = mir_a2t(GetContactProto(hContact));
-			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SMP_VERIFY_TITLE), contact_get_nameT(hContact), proto);
+			mir_sntprintf(buff, TranslateT(LANG_SMP_VERIFY_TITLE), contact_get_nameT(hContact), proto);
 			mir_free(proto);
 			SetWindowText(hwndDlg, buff);
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_HEAD, buff);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)context);
 
 			if (data->question) {
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_SMPQUESTION_RESPOND_DESC), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateT(LANG_OTR_SMPQUESTION_RESPOND_DESC), contact_get_nameT(hContact));
 
 				SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
@@ -208,7 +208,7 @@ INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				mir_free(data->question);
 			} else {
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_SMPPASSWORD_RESPOND_DESC), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateT(LANG_OTR_SMPPASSWORD_RESPOND_DESC), contact_get_nameT(hContact));
 
 				SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
@@ -382,9 +382,9 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			}
 			TCHAR buff[1024];
 			if (!fp->trust || fp->trust[0] == '\0')
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_SMPQUESTION_VERIFY_DESC), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateT(LANG_OTR_SMPQUESTION_VERIFY_DESC), contact_get_nameT(hContact));
 			else
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_SMPQUESTION_VERIFIED_DESC), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateT(LANG_OTR_SMPQUESTION_VERIFIED_DESC), contact_get_nameT(hContact));
 
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
@@ -488,9 +488,9 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							GetDlgItemText(hwndDlg, IDC_CBO_SMP_CHOOSE, buff, 255);
 							if (_tcsncmp(buff, TranslateT(LANG_SMPTYPE_QUESTION), 255)==0) {
 								if (trusted)
-									mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_SMPQUESTION_VERIFIED_DESC), contact_get_nameT(hContact));
+									mir_sntprintf(buff, TranslateT(LANG_OTR_SMPQUESTION_VERIFIED_DESC), contact_get_nameT(hContact));
 								else
-									mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_SMPQUESTION_VERIFY_DESC), contact_get_nameT(hContact));
+									mir_sntprintf(buff, TranslateT(LANG_OTR_SMPQUESTION_VERIFY_DESC), contact_get_nameT(hContact));
 
 								SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
@@ -508,9 +508,9 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 								ShowWindow(GetDlgItem(hwndDlg, IDNO), SW_HIDE);
 							} else if (_tcsncmp(buff, TranslateT(LANG_SMPTYPE_PASSWORD), 255)==0) {
 								if (trusted)
-									mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_SMPPASSWORD_VERIFIED_DESC), contact_get_nameT(hContact));
+									mir_sntprintf(buff, TranslateT(LANG_OTR_SMPPASSWORD_VERIFIED_DESC), contact_get_nameT(hContact));
 								else
-									mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_SMPPASSWORD_VERIFY_DESC), contact_get_nameT(hContact));
+									mir_sntprintf(buff, TranslateT(LANG_OTR_SMPPASSWORD_VERIFY_DESC), contact_get_nameT(hContact));
 
 								SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
@@ -528,9 +528,9 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 								ShowWindow(GetDlgItem(hwndDlg, IDNO), SW_HIDE);
 							} else if (_tcsncmp(buff, TranslateT(LANG_SMPTYPE_FINGERPRINT), 255)==0) {
 								if (trusted)
-									mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_FPVERIFIED_DESC), contact_get_nameT(hContact));
+									mir_sntprintf(buff, TranslateT(LANG_OTR_FPVERIFIED_DESC), contact_get_nameT(hContact));
 								else
-									mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_FPVERIFY_DESC), contact_get_nameT(hContact));
+									mir_sntprintf(buff, TranslateT(LANG_OTR_FPVERIFY_DESC), contact_get_nameT(hContact));
 
 								SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
@@ -672,9 +672,9 @@ INT_PTR CALLBACK DlgBoxProcVerifyContext(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			TCHAR buff[512];
 			if (!fp->trust || fp->trust[0] == '\0')
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_FPVERIFY_DESC), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateT(LANG_OTR_FPVERIFY_DESC), contact_get_nameT(hContact));
 			else
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_FPVERIFIED_DESC), contact_get_nameT(hContact));
+				mir_sntprintf(buff, TranslateT(LANG_OTR_FPVERIFIED_DESC), contact_get_nameT(hContact));
 
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 

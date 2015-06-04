@@ -361,7 +361,7 @@ void __cdecl GGPROTO::mainthread(void *)
 			if (!(p.external_addr = gg_dnslookup(this, dbv.pszVal))) {
 				TCHAR error[128];
 				TCHAR* forwardHostT = mir_a2t(dbv.pszVal);
-				mir_sntprintf(error, SIZEOF(error), TranslateT("External direct connections hostname %s is invalid. Disabling external host forwarding."), forwardHostT);
+				mir_sntprintf(error, TranslateT("External direct connections hostname %s is invalid. Disabling external host forwarding."), forwardHostT);
 				mir_free(forwardHostT);
 				showpopup(m_tszUserName, error, GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
 			}
@@ -392,7 +392,7 @@ retry:
 		{
 			TCHAR error[128];
 			TCHAR* hostnameT = mir_a2t(hosts[hostnum].hostname);
-			mir_sntprintf(error, SIZEOF(error), TranslateT("Server hostname %s is invalid. Using default hostname provided by the network."), hostnameT);
+			mir_sntprintf(error, TranslateT("Server hostname %s is invalid. Using default hostname provided by the network."), hostnameT);
 			mir_free(hostnameT);
 			showpopup(m_tszUserName, error, GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
 		}
@@ -423,7 +423,7 @@ retry:
 				}
 			}
 			if (!perror) {
-				mir_sntprintf(error, SIZEOF(error), TranslateT("Connection cannot be established. errno=%d: %s"),errno, strerror(errno));
+				mir_sntprintf(error, TranslateT("Connection cannot be established. errno=%d: %s"),errno, strerror(errno));
 				perror = error;
 			}
 			debugLogA("mainthread() (%x): %s", this, perror);

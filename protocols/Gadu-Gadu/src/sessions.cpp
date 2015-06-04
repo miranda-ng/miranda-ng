@@ -330,7 +330,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 						ListView_GetItemText(hList, lvhti.iItem, 0, szClientName, SIZEOF(szClientName));
 						ListView_GetItemText(hList, lvhti.iItem, 1, szIP, SIZEOF(szIP));
 						ListView_GetItemText(hList, lvhti.iItem, 2, szLoginTime, SIZEOF(szLoginTime));
-						mir_sntprintf(szText, SIZEOF(szText), _T("%s\t%s\t%s"), szClientName, szIP, szLoginTime);
+						mir_sntprintf(szText, _T("%s\t%s\t%s"), szClientName, szIP, szLoginTime);
 						if ((hData = GlobalAlloc(GMEM_MOVEABLE, mir_tstrlen(szText) + 1)) != NULL)
 						{
 							mir_tstrcpy((TCHAR*)GlobalLock(hData), szText);

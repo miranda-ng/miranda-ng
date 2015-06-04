@@ -154,7 +154,7 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, HXML iqNode, Jabbe
 			code = xmlGetAttrValue(errorNode, _T("code"));
 			description = xmlGetText(errorNode);
 		}
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Error %s %s"), (code) ? code : _T(""), (description) ? description : _T(""));
+		mir_sntprintf(buff, TranslateT("Error %s %s"), (code) ? code : _T(""), (description) ? description : _T(""));
 		JabberFormSetInstruction(hwndDlg, buff);
 	}
 	else if (!mir_tstrcmp(type, _T("result"))) {
@@ -282,7 +282,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, HXML workNode, JabberA
 			code = xmlGetAttrValue(errorNode, _T("code"));
 			description = xmlGetText(errorNode);
 		}
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Error %s %s"), code ? code : _T(""), description ? description : _T(""));
+		mir_sntprintf(buff, TranslateT("Error %s %s"), code ? code : _T(""), description ? description : _T(""));
 		JabberFormSetInstruction(hwndDlg,buff);
 	}
 	JabberAdHoc_RefreshFrameScroll(hwndDlg, dat);

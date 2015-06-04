@@ -1181,17 +1181,17 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 		switch (si->iType) {
 		case GCW_CHATROOM:
-			mir_sntprintf(szTemp, SIZEOF(szTemp),
+			mir_sntprintf(szTemp,
 				(si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"),
 				si->ptszName, si->nUsersInNicklist);
 			break;
 		case GCW_PRIVMESS:
-			mir_sntprintf(szTemp, SIZEOF(szTemp),
+			mir_sntprintf(szTemp,
 				(si->nUsersInNicklist == 1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"),
 				si->ptszName, si->nUsersInNicklist);
 			break;
 		case GCW_SERVER:
-			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s: Server"), si->ptszName);
+			mir_sntprintf(szTemp, _T("%s: Server"), si->ptszName);
 			break;
 		}
 		tbd.iFlags = TBDF_TEXT | TBDF_ICON;
@@ -1204,7 +1204,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		{
 			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
 			hIcon = si->wStatus == ID_STATUS_ONLINE ? mi->hOnlineIcon : mi->hOfflineIcon;
-			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s : %s"), mi->ptszModDispName, si->ptszStatusbarText ? si->ptszStatusbarText : _T(""));
+			mir_sntprintf(szTemp, _T("%s : %s"), mi->ptszModDispName, si->ptszStatusbarText ? si->ptszStatusbarText : _T(""));
 
 			StatusBarData sbd;
 			sbd.iItem = 0;

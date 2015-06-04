@@ -120,7 +120,7 @@ void ShowWumfPopup(PWumf w)
 
 	if (!WumfOptions.AlertFolders && (w->dwAttr & FILE_ATTRIBUTE_DIRECTORY)) return;
 	mir_sntprintf(title, SIZEOF(title), _T("%s (%s)"), w->szComp, w->szUser);
-	mir_sntprintf(text, SIZEOF(text), _T("%s (%s)"), w->szPath, w->szPerm);
+	mir_sntprintf(text, _T("%s (%s)"), w->szPath, w->szPerm);
 	ShowThePopup(w, title, text);
 }
 

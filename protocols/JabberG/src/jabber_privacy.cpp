@@ -58,9 +58,9 @@ void CJabberProto::OnIqResultPrivacyListModify(HXML, CJabberIqInfo *pInfo)
 	if (!pParam->m_dwCount) {
 		TCHAR szText[ 512 ];
 		if (!pParam->m_bAllOk)
-			mir_sntprintf(szText, SIZEOF(szText), TranslateT("Error occurred while applying changes"));
+			mir_sntprintf(szText, TranslateT("Error occurred while applying changes"));
 		else
-			mir_sntprintf(szText, SIZEOF(szText), TranslateT("Privacy lists successfully saved"));
+			mir_sntprintf(szText, TranslateT("Privacy lists successfully saved"));
 		if (m_pDlgPrivacyLists)
 			m_pDlgPrivacyLists->SetStatusText(szText);
 		// FIXME: enable apply button
@@ -226,14 +226,14 @@ void CJabberProto::OnIqResultPrivacyListDefault(HXML iqNode, CJabberIqInfo *pInf
 			CPrivacyList *pList = (CPrivacyList *)pInfo->GetUserData();
 			if (pList) {
 				m_privacyListManager.SetDefaultListName(pList->GetListName());
-				mir_sntprintf(szText, SIZEOF(szText), TranslateT("Privacy list %s set as default"), pList->GetListName());
+				mir_sntprintf(szText, TranslateT("Privacy list %s set as default"), pList->GetListName());
 			}
 			else {
 				m_privacyListManager.SetDefaultListName(NULL);
-				mir_sntprintf(szText, SIZEOF(szText), TranslateT("Default privacy list successfully declined"));
+				mir_sntprintf(szText, TranslateT("Default privacy list successfully declined"));
 			}
 		}
-		else mir_sntprintf(szText, SIZEOF(szText), TranslateT("Error occurred while setting default list"));
+		else mir_sntprintf(szText, TranslateT("Error occurred while setting default list"));
 	}
 
 	if (m_pDlgPrivacyLists) {

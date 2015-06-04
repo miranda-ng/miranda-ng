@@ -554,7 +554,7 @@ int GetWeatherData(MCONTACT hContact)
 					db_set_ts(NULL, DEFCURRENTWEATHER, _T2A(Item->Item.Name), DataValue);
 				if ( !mir_tstrcmp(Item->Item.Name, _T("Condition"))) {
 					TCHAR buf[128], *cbuf;
-					mir_sntprintf(buf, SIZEOF(buf), _T("#%s Weather"), DataValue);
+					mir_sntprintf(buf, _T("#%s Weather"), DataValue);
 					cbuf = TranslateTS(buf);
 					if (cbuf[0] == '#')
 						cbuf = TranslateTS(DataValue);
@@ -564,7 +564,7 @@ int GetWeatherData(MCONTACT hContact)
 				}
 				else if ( mir_tstrcmpi(Item->Item.Unit, _T("Cond")) == 0) {
 					TCHAR buf[128], *cbuf;
-					mir_sntprintf(buf, SIZEOF(buf), _T("#%s Weather"), DataValue);
+					mir_sntprintf(buf, _T("#%s Weather"), DataValue);
 					cbuf = TranslateTS(buf);
 					if (cbuf[0] == '#')
 						cbuf = TranslateTS(DataValue);

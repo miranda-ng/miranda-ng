@@ -518,7 +518,7 @@ LRESULT CALLBACK OwnerProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			int errors = TimerCheck(dlg, TRUE);
 			if (errors > 0) {
 				TCHAR text[500];
-				mir_sntprintf(text, SIZEOF(text), TranslateT("There are %d spelling errors. Are you sure you want to send this message?"), errors);
+				mir_sntprintf(text, TranslateT("There are %d spelling errors. Are you sure you want to send this message?"), errors);
 				if (MessageBox(hwnd, text, TranslateT("Spell Checker"), MB_ICONQUESTION | MB_YESNO) == IDNO)
 					return TRUE;
 			}
@@ -1134,7 +1134,7 @@ void AddMenuForWord(Dialog *dlg, TCHAR *word, CHARRANGE &pos, HMENU hMenu, BOOL 
 		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
 
 		TCHAR text[128];
-		mir_sntprintf(text, SIZEOF(text), TranslateT("Wrong word: %s"), word);
+		mir_sntprintf(text, TranslateT("Wrong word: %s"), word);
 		InsertMenu(hMenu, 0, MF_BYPOSITION, 0, text);
 	}
 }

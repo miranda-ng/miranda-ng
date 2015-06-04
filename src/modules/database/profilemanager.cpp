@@ -55,7 +55,7 @@ static int findProfiles(TCHAR *szProfileDir, ENUMPROFILECALLBACK callback, LPARA
 		// find all subfolders except "." and ".."
 		if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && mir_tstrcmp(ffd.cFileName, _T(".")) && mir_tstrcmp(ffd.cFileName, _T(".."))) {
 			TCHAR buf[MAX_PATH], profile[MAX_PATH];
-			mir_sntprintf(buf, SIZEOF(buf), _T("%s\\%s\\%s.dat"), szProfileDir, ffd.cFileName, ffd.cFileName);
+			mir_sntprintf(buf, _T("%s\\%s\\%s.dat"), szProfileDir, ffd.cFileName, ffd.cFileName);
 			if (_taccess(buf, 0) == 0) {
 				mir_sntprintf(profile, SIZEOF(profile), _T("%s.dat"), ffd.cFileName);
 				if (!callback(buf, profile, lParam))
@@ -93,7 +93,7 @@ class CCreateProfileDlg : public CDlgBase
 		if (file) file++;
 		if (_taccess(profile, 0) == 0) {
 			// file already exists!
-			mir_sntprintf(buf, SIZEOF(buf),
+			mir_sntprintf(buf,
 				TranslateT("The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted."),
 				file);
 			if (MessageBox(m_hwnd, buf, TranslateT("The profile already exists"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) != IDYES)
@@ -104,9 +104,9 @@ class CCreateProfileDlg : public CDlgBase
 			sf.wFunc = FO_DELETE;
 			sf.pFrom = buf;
 			sf.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
-			mir_sntprintf(buf, SIZEOF(buf), _T("%s\0"), profile);
+			mir_sntprintf(buf, _T("%s\0"), profile);
 			if (SHFileOperation(&sf) != 0) {
-				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Couldn't move '%s' to the Recycle Bin. Please select another profile name."), file);
+				mir_sntprintf(buf, TranslateT("Couldn't move '%s' to the Recycle Bin. Please select another profile name."), file);
 				MessageBox(m_hwnd, buf, TranslateT("Problem moving profile"), MB_ICONINFORMATION | MB_OK);
 				return 0;
 			}
@@ -115,7 +115,7 @@ class CCreateProfileDlg : public CDlgBase
 		// ask the database to create the profile
 		CreatePathToFileT(profile);
 		if ((err = link->makeDatabase(profile)) != ERROR_SUCCESS) {
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Unable to create the profile '%s', the error was %x"), file, err);
+			mir_sntprintf(buf, TranslateT("Unable to create the profile '%s', the error was %x"), file, err);
 			MessageBox(m_hwnd, buf, TranslateT("Problem creating profile"), MB_ICONERROR | MB_OK);
 			return 0;
 		}

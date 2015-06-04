@@ -832,7 +832,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 							ptrT tszDescr(DbGetEventStringT(&dbei, szDescr));
 
 							TCHAR buf[1000];
-							mir_sntprintf(buf, SIZEOF(buf), _T("%s (%s)"), tszFileName, tszDescr);
+							mir_sntprintf(buf, _T("%s (%s)"), tszFileName, tszDescr);
 							AppendUnicodeToBuffer(str, buf, 0);
 						}
 						else AppendUnicodeToBuffer(str, tszFileName, 0);

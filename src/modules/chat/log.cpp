@@ -232,7 +232,7 @@ static void AddEventToBuffer(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 		else mir_tstrncpy(szTemp2, streamData->lin->ptszNick, 511);
 
 		if (streamData->lin->ptszUserInfo)
-			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s (%s)"), szTemp2, streamData->lin->ptszUserInfo);
+			mir_sntprintf(szTemp, _T("%s (%s)"), szTemp2, streamData->lin->ptszUserInfo);
 		else
 			_tcsncpy_s(szTemp, szTemp2, _TRUNCATE);
 		pszNick = szTemp;

@@ -299,9 +299,9 @@ static LRESULT CALLBACK OptionsFilterSubclassProc(HWND hWnd, UINT message, WPARA
 
 	TCHAR buf[255];
 	if (bSearchState == 1 && FilterLoadProgress < 100 && FilterLoadProgress > 0)
-		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Loading... %d%%"), FilterLoadProgress);
+		mir_sntprintf(buf, TranslateT("Loading... %d%%"), FilterLoadProgress);
 	else
-		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Search"));
+		mir_sntprintf(buf, TranslateT("Search"));
 
 	bool bDrawnByTheme = false;
 

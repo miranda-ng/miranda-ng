@@ -269,7 +269,7 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 		if (ERROR_FILE_NOT_FOUND != GetLastError())
 		{
 			TCHAR temp[1024] = { 0 };
-			mir_sntprintf(temp, SIZEOF(temp), _T("%s\n%s"), TranslateT("Reading file error. File already in use?"), FileName);
+			mir_sntprintf(temp, _T("%s\n%s"), TranslateT("Reading file error. File already in use?"), FileName);
 			MessageBox(NULL, temp, TranslateT("YAMN (internal POP3) read error"), MB_OK);
 			CallService(MS_YAMN_DELETEFILENAME, (WPARAM)FileName, 0);
 			FileName = NULL;
@@ -344,7 +344,7 @@ DWORD WINAPI WritePOP3Accounts()
 	DWORD ReturnValue = CallService(MS_YAMN_WRITEACCOUNTS, (WPARAM)POP3Plugin, (LPARAM)FileName);
 	if (ReturnValue == EACC_SYSTEM) {
 		TCHAR temp[1024] = { 0 };
-		mir_sntprintf(temp, SIZEOF(temp), _T("%s\n%s"), TranslateT("Error while copying data to disk occurred. Is file in use?"), FileName);
+		mir_sntprintf(temp, _T("%s\n%s"), TranslateT("Error while copying data to disk occurred. Is file in use?"), FileName);
 		MessageBox(NULL, temp, TranslateT("POP3 plugin - write file error"), MB_OK);
 	}
 

@@ -116,7 +116,7 @@ int DoRtfToTags(CMString &pszText, int iNumColors, COLORREF *pColors)
 			else if (!_tcsncmp(p, _T("\\highlight"), 10)) { //background color
 				TCHAR szTemp[20];
 				int iCol = _ttoi(p + 10);
-				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d"), iCol);
+				mir_sntprintf(szTemp, _T("%d"), iCol);
 			}
 			else if (!_tcsncmp(p, _T("\\line"), 5)) { // soft line break;
 				res.AppendChar('\n');

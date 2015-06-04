@@ -350,7 +350,7 @@ BOOL bApplyChanges(HWND hwndDlg)
 	int nTmp = GetDlgItemInt(hwndDlg, IDC_MAX_CLOUMN_WIDTH, &bTrans, TRUE);
 	if (!bTrans || nTmp < 5)
 	{
-		mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("Max line width must be at least %d"), 5);
+		mir_sntprintf(szTemp, TranslateT("Max line width must be at least %d"), 5);
 		MessageBox(hwndDlg, szTemp, MSG_BOX_TITEL, MB_OK);
 		bRet = false;
 	}
@@ -899,7 +899,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			ofn.hwndOwner = hwndDlg;
 			ofn.lpstrFile = szFile;
 			ofn.nMaxFile = SIZEOF(szFile);
-			mir_sntprintf(buf, SIZEOF(buf), _T("%s (*.exe;*.com;*.bat;*.cmd)%c*.exe;*.com;*.bat;*.cmd%c%s (*.*)%c*.*%c%c"), TranslateT("Executable files"), 0, 0, TranslateT("All files"), 0, 0, 0);
+			mir_sntprintf(buf, _T("%s (*.exe;*.com;*.bat;*.cmd)%c*.exe;*.com;*.bat;*.cmd%c%s (*.*)%c*.*%c%c"), TranslateT("Executable files"), 0, 0, TranslateT("All files"), 0, 0, 0);
 			ofn.lpstrFilter = buf;
 			ofn.nFilterIndex = 1;
 			//ofn.lpstrFileTitle = NULL;

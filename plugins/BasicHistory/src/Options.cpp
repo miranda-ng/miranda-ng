@@ -722,7 +722,7 @@ void SetEventCB(HWND hwndCB, int eventId)
 
 	if (selCpIdx == -1) {
 		TCHAR buf[24];
-		mir_sntprintf(buf, SIZEOF(buf), _T("%d"), eventId);
+		mir_sntprintf(buf, _T("%d"), eventId);
 		ComboBox_SetText(hwndCB, buf);	
 	}
 	else ComboBox_SetCurSel(hwndCB, selCpIdx);	
@@ -777,7 +777,7 @@ void ReloadEventLB(HWND hwndLB, const FilterOptions &sel)
 
 		if (selCpIdx == -1) {
 			TCHAR buf[24];
-			mir_sntprintf(buf, SIZEOF(buf), _T("%d"), *it);
+			mir_sntprintf(buf, _T("%d"), *it);
 			ListBox_AddString(hwndLB, buf);	
 		}
 		else ListBox_AddString(hwndLB, TranslateTS(EventNames[selCpIdx].name));	
@@ -1283,7 +1283,7 @@ void InitCodepageCB(HWND hwndCB, unsigned int codepage, const std::wstring& name
 
 	if (selCpIdx == -1) {
 		TCHAR buf[300];
-		mir_sntprintf(buf, SIZEOF(buf), _T("%d;%s"), codepage, name.c_str());
+		mir_sntprintf(buf, _T("%d;%s"), codepage, name.c_str());
 		ComboBox_SetText(hwndCB, buf);	
 	}
 	else ComboBox_SetCurSel(hwndCB, selCpIdx);	

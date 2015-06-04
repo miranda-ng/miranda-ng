@@ -321,12 +321,12 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 	nlu.szSettingsModule = m_szModuleName;
 
 	// Create standard network connection
-	mir_sntprintf(descr, SIZEOF(descr), TranslateT("%s server connection"), m_tszUserName);
+	mir_sntprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	if (m_hNetlibUser == NULL) {
 		TCHAR error[200];
-		mir_sntprintf(error, SIZEOF(error), TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
+		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
 		MessageBox(NULL, error, _T("Miranda NG"), MB_OK | MB_ICONERROR);
 	}
 
@@ -334,12 +334,12 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 	char module[512];
 	mir_snprintf(module, SIZEOF(module), "%sAv", m_szModuleName);
 	nlu.szSettingsModule = module;
-	mir_sntprintf(descr, SIZEOF(descr), TranslateT("%s avatar connection"), m_tszUserName);
+	mir_sntprintf(descr, TranslateT("%s avatar connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
 	hAvatarNetlib_ = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	if (hAvatarNetlib_ == NULL) {
 		TCHAR error[200];
-		mir_sntprintf(error, SIZEOF(error), TranslateT("Unable to initialize Netlib for %s."), TranslateT("Twitter (avatars)"));
+		mir_sntprintf(error, TranslateT("Unable to initialize Netlib for %s."), TranslateT("Twitter (avatars)"));
 		MessageBox(NULL, error, _T("Miranda NG"), MB_OK | MB_ICONERROR);
 	}
 

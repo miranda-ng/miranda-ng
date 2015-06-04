@@ -239,7 +239,7 @@ void CMsnProto::MSN_CleanupLists(void)
 			if (count) {
 				TCHAR text[256];
 				TCHAR *sze = mir_a2t(p.email);
-				mir_sntprintf(text, SIZEOF(text), TranslateT("Contact %s has been removed from the server.\nWould you like to keep it as \"Local Only\" contact to preserve history?"), sze);
+				mir_sntprintf(text, TranslateT("Contact %s has been removed from the server.\nWould you like to keep it as \"Local Only\" contact to preserve history?"), sze);
 				mir_free(sze);
 
 				TCHAR title[128];

@@ -275,12 +275,12 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 	else if (data->m_iDlgFlags & DLG_SHOW_BUTTONS_INLIST) {
 		if (found) {
 			if (data->m_iDlgFlags & DLG_SHOW_LIST_ICONS) {
-				mir_sntprintf(text, SIZEOF(text), TranslateT("Clear history"));
+				mir_sntprintf(text, TranslateT("Clear history"));
 				cbei.iImage = I_ICON_CLEAR;
 				cbei.iSelectedImage = I_ICON_CLEAR;
 			}
 			else {
-				mir_sntprintf(text, SIZEOF(text), _T("## %s ##"), TranslateT("Clear history"));
+				mir_sntprintf(text, _T("## %s ##"), TranslateT("Clear history"));
 				cbei.iIndent = 1;
 			}
 			cbei.iItem = -1;
@@ -292,12 +292,12 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 
 		cbei.iItem = -1;
 		if (data->m_iDlgFlags & DLG_SHOW_LIST_ICONS) {
-			mir_sntprintf(text, SIZEOF(text), TranslateT("Add to predefined"));
+			mir_sntprintf(text, TranslateT("Add to predefined"));
 			cbei.iImage = I_ICON_ADD;
 			cbei.iSelectedImage = I_ICON_ADD;
 		}
 		else {
-			mir_sntprintf(text, SIZEOF(text), _T("## %s ##"), TranslateT("Add to predefined"));
+			mir_sntprintf(text, _T("## %s ##"), TranslateT("Add to predefined"));
 			cbei.iIndent = 1;
 		}
 		cbei.pszText = (LPTSTR)text;
@@ -306,13 +306,13 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		SendMessage(handle, CBEM_INSERTITEM, 0, (LPARAM)&cbei);
 
 		if (data->m_iDlgFlags & DLG_SHOW_LIST_ICONS) {
-			mir_sntprintf(text, SIZEOF(text), TranslateT("Delete selected"));
+			mir_sntprintf(text, TranslateT("Delete selected"));
 			cbei.iImage = I_ICON_DEL;
 			cbei.iSelectedImage = I_ICON_DEL;
 		}
 		else {
 			cbei.iIndent = 1;
-			mir_sntprintf(text, SIZEOF(text), _T("## %s ##"), TranslateT("Delete selected"));
+			mir_sntprintf(text, _T("## %s ##"), TranslateT("Delete selected"));
 		}
 		cbei.iItem = -1;
 		cbei.pszText = (LPTSTR)text;
@@ -783,9 +783,9 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 	mir_sntprintf(szProtoName, SIZEOF(szProtoName), msgbox_data->m_szProto ? ProtoGetAccount(msgbox_data->m_szProto)->tszAccountName : TranslateT("global"));
 	if (iStatus == ID_STATUS_CURRENT) {
 		if (msgbox_data->m_bOnStartup)
-			mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s message (%s)"), TranslateT("<startup>"), szProtoName);
+			mir_sntprintf(szTitle, TranslateT("%s message (%s)"), TranslateT("<startup>"), szProtoName);
 		else
-			mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s message (%s)"), TranslateT("<current>"), szProtoName);
+			mir_sntprintf(szTitle, TranslateT("%s message (%s)"), TranslateT("<current>"), szProtoName);
 	}
 	else if (iStatus > ID_STATUS_CURRENT) {
 		TCHAR buff[128];
@@ -794,10 +794,10 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 		CallService(MS_SS_GETPROFILENAME, iStatus - 40083, (LPARAM)buff1);
 		MultiByteToWideChar(CallService(MS_LANGPACK_GETCODEPAGE, 0, 0), 0, buff1, -1, buff, 128);
 
-		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s message (%s)"), (TCHAR *)buff, szProtoName);
+		mir_sntprintf(szTitle, TranslateT("%s message (%s)"), (TCHAR *)buff, szProtoName);
 	}
 	else
-		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s message (%s)"), pcli->pfnGetStatusModeDescription(iStatus, 0), szProtoName);
+		mir_sntprintf(szTitle, TranslateT("%s message (%s)"), pcli->pfnGetStatusModeDescription(iStatus, 0), szProtoName);
 	SetWindowText(hwndDlg, szTitle);
 
 	if (iStatus == ID_STATUS_CURRENT)
@@ -909,12 +909,12 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			if (init_data->m_iStatus == ID_STATUS_CURRENT) {
 				if (init_data->m_bOnStartup)
-					mir_sntprintf(szTitle, SIZEOF(szTitle), szFormat, TranslateT("<startup>"), szProtoName);
+					mir_sntprintf(szTitle, szFormat, TranslateT("<startup>"), szProtoName);
 				else
-					mir_sntprintf(szTitle, SIZEOF(szTitle), szFormat, TranslateT("<current>"), szProtoName);
+					mir_sntprintf(szTitle, szFormat, TranslateT("<current>"), szProtoName);
 			}
 			else
-				mir_sntprintf(szTitle, SIZEOF(szTitle), szFormat, pcli->pfnGetStatusModeDescription(init_data->m_iStatus, 0), szProtoName);
+				mir_sntprintf(szTitle, szFormat, pcli->pfnGetStatusModeDescription(init_data->m_iStatus, 0), szProtoName);
 			SetWindowText(hwndDlg, szTitle);
 
 			int icoStatus = ID_STATUS_OFFLINE;

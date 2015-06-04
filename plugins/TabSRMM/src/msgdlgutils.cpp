@@ -450,7 +450,7 @@ void TSAPI UpdateReadChars(const TWindowData *dat)
 		if (dat->fInsertMode || fCaps || fNum)
 			mir_tstrcat(szBuf, _T(" | "));
 
-		mir_sntprintf(buf, SIZEOF(buf), _T("%s%s %d/%d"), szBuf, dat->lcID, dat->iOpenJobs, len);
+		mir_sntprintf(buf, _T("%s%s %d/%d"), szBuf, dat->lcID, dat->iOpenJobs, len);
 		SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 1, (LPARAM)buf);
 		if (PluginConfig.m_visualMessageSizeIndicator)
 			InvalidateRect(dat->pContainer->hwndStatus, NULL, FALSE);
@@ -930,7 +930,7 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 			else if (!_tcsncmp(p, _T("\\highlight"), 10)) { //background color
 				TCHAR szTemp[20];
 				int iCol = _ttoi(p + 10);
-				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d"), iCol);
+				mir_sntprintf(szTemp, _T("%d"), iCol);
 			}
 			else if (!_tcsncmp(p, _T("\\line"), 5)) { // soft line break;
 				res.AppendChar('\n');

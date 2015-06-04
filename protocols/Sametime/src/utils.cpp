@@ -144,7 +144,7 @@ void CSametimeProto::showPopup(guint32 code)
 
 	SametimePopupEnum flag = (rcDesc->type == mwReturnCodeError ? SAMETIME_POPUP_ERROR : SAMETIME_POPUP_INFO);
 	TCHAR buff[512];
-	mir_sntprintf(buff, SIZEOF(buff), TranslateT("%s\n\nSametime error %S\n%s"), TranslateTS(_A2T(rcDesc->name)), rcDesc->codeString, TranslateTS(_A2T(rcDesc->description)));
+	mir_sntprintf(buff, TranslateT("%s\n\nSametime error %S\n%s"), TranslateTS(_A2T(rcDesc->name)), rcDesc->codeString, TranslateTS(_A2T(rcDesc->description)));
 
 	showPopup(buff, flag);
 	debugLog(buff);

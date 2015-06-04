@@ -235,7 +235,7 @@ void DisplayLastError(const TCHAR *pszError)
 	DWORD error = GetLastError();
 
 	TCHAR szTemp[50];
-	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("\r\nErrorCode: %d\r\n"), error);
+	mir_sntprintf(szTemp, _T("\r\nErrorCode: %d\r\n"), error);
 	sError += szTemp;
 	sError += sGetErrorString(error);
 	MessageBox(NULL, sError.c_str(), MSG_BOX_TITEL, MB_OK);
@@ -651,7 +651,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 					if (enRenameAction != eDAAutomatic)
 					{
 						tstring sRemoteUser = NickFromHandle(hContact);
-						mir_sntprintf(szTemp, SIZEOF(szTemp),
+						mir_sntprintf(szTemp,
 							TranslateT("File name for the user \"%s\" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?"),
 							sRemoteUser.c_str(),
 							sPrevFileName.c_str(),
@@ -672,7 +672,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 
 							while (!MoveFile(sPrevFileName.c_str(), sFilePath.c_str()))
 							{
-								mir_sntprintf(szTemp, SIZEOF(szTemp),
+								mir_sntprintf(szTemp,
 									TranslateT("Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s"),
 									sPrevFileName.c_str(),
 									sFilePath.c_str(),
@@ -1108,10 +1108,10 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 				ReplaceAll(output, pszReplaceList[nCur], _DBGetString(hContact, sProto.c_str(), pszReplaceListA[nCur], _T("")));
 			}
 
-			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d"), db_get_dw(hContact, sProto.c_str(), "UIN", 0));
+			mir_sntprintf(szTemp, _T("%d"), db_get_dw(hContact, sProto.c_str(), "UIN", 0));
 			ReplaceAll(output, _T("%UIN%"), szTemp);
 
-			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d"), db_get_w(hContact, sProto.c_str(), "Age", 0));
+			mir_sntprintf(szTemp, _T("%d"), db_get_w(hContact, sProto.c_str(), "Age", 0));
 			ReplaceAll(output, _T("%Age%"), szTemp);
 
 			szTemp[0] = (TCHAR)db_get_b(hContact, sProto.c_str(), "Gender", 0);
@@ -1130,7 +1130,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 	int nIndent;
 	{  // Get time stamp 
 
-		nIndent = mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%-*s"),
+		nIndent = mir_sntprintf(szTemp, _T("%-*s"),
 			nFirstColumnWidth,
 			dbei.flags & DBEF_SENT ? sLocalUser.c_str() : sRemoteUser.c_str());
 
@@ -1253,7 +1253,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 
 			if (dbei.cbBlob < 8 || dbei.cbBlob > 5000)
 			{
-				int n = mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("Invalid Database event received. Type %d, size %d"), dbei.eventType, dbei.cbBlob);
+				int n = mir_sntprintf(szTemp, TranslateT("Invalid Database event received. Type %d, size %d"), dbei.eventType, dbei.cbBlob);
 				if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n))
 					DisplayErrorDialog(LPGENT("Failed to write Invalid Database event the file :\n"), sFilePath, &dbei);
 				break;
@@ -1284,7 +1284,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 				bWriteTextToFile(hFile, LPGENT("UIN       :"), bWriteUTF8Format))
 			{
 				DWORD uin = *((PDWORD)(dbei.pBlob));
-				int n = mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d"), uin);
+				int n = mir_sntprintf(szTemp, _T("%d"), uin);
 				if (bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n))
 				{
 					char *pszEnd = (char *)(dbei.pBlob + dbei.cbSize);
@@ -1372,7 +1372,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 		}
 		default:
 		{
-			int n = mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("Unknown event type %d, size %d"), dbei.eventType, dbei.cbBlob);
+			int n = mir_sntprintf(szTemp, TranslateT("Unknown event type %d, size %d"), dbei.eventType, dbei.cbBlob);
 			if (!bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n))
 			{
 				DisplayErrorDialog(LPGENT("Failed to write Unknown event to the file :\n"), sFilePath, &dbei);
@@ -1383,7 +1383,7 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei)
 	}
 	else
 	{
-		int n = mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("Unknown event type %d, size %d"), dbei.eventType, dbei.cbBlob);
+		int n = mir_sntprintf(szTemp, TranslateT("Unknown event type %d, size %d"), dbei.eventType, dbei.cbBlob);
 		bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n);
 	}
 	bWriteToFile(hFile, bAppendNewLine ? "\r\n\r\n" : "\r\n");
@@ -1612,7 +1612,7 @@ int nContactDeleted(WPARAM wparam, LPARAM /*lparam*/)
 		CloseHandle(hPrevFile);
 
 		TCHAR szTemp[500];
-		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s\r\n%s"),
+		mir_sntprintf(szTemp, _T("%s\r\n%s"),
 			TranslateT("User has been deleted. Do you want to delete the file?"), sFilePath.c_str());
 
 		if (enDeleteAction == eDAAutomatic ||
@@ -1620,7 +1620,7 @@ int nContactDeleted(WPARAM wparam, LPARAM /*lparam*/)
 		{
 			if (!DeleteFile(sFilePath.c_str()))
 			{
-				mir_sntprintf(szTemp, SIZEOF(szTemp),
+				mir_sntprintf(szTemp,
 					_T("%s\r\n%s"),
 					TranslateT("Failed to delete the file"),
 					sFilePath.c_str());

@@ -201,7 +201,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	con = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&ncon);
 	if (con == NULL) {
 		TCHAR szTemp[300];
-		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("\0035%s \002%s\002 (%S: %u)."),
+		mir_sntprintf(szTemp, _T("\0035%s \002%s\002 (%S: %u)."),
 			TranslateT("Failed to connect to"), si.sNetwork.c_str(), si.sServer.c_str(), si.iPort);
 		DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
 		return false;

@@ -44,7 +44,7 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData *dat)
 	}
 	else if (dat) {
 		TCHAR szFilter[MAX_PATH], szFilename[MAX_PATH];
-		mir_sntprintf(szFilter, SIZEOF(szFilter), _T("%s%c*.rtf%c%c"), TranslateT("Rich Edit file"), 0, 0, 0);
+		mir_sntprintf(szFilter, _T("%s%c*.rtf%c%c"), TranslateT("Rich Edit file"), 0, 0, 0);
 		mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s.rtf"), dat->cache->getNick());
 
 		Utils::sanitizeFilename(szFilename);

@@ -391,7 +391,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 						if (opt.ShowPreviousStatus) {
 							TCHAR buff[MAX_STATUSTEXT];
-							mir_sntprintf(buff, SIZEOF(buff), TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(i)].lpzStandardText);
+							mir_sntprintf(buff, TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(i)].lpzStandardText);
 							mir_tstrcat(str, _T(" "));
 							mir_tstrcat(str, buff);
 						}

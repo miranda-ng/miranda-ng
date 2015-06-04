@@ -1254,7 +1254,7 @@ BOOL SaveEditAsStream( HWND hDlg )
 	ofn.lStructSize = sizeof(OPENFILENAME);      
 	ofn.hwndOwner = hDlg;
 	TCHAR temp[MAX_PATH]; 
-	mir_sntprintf(temp, SIZEOF(temp), _T("%s (*.rtf)%c*.rtf%c%s (*.*)%c*.*%c%c"), TranslateT("RTF file"), 0, 0, TranslateT("All files"), 0, 0, 0);
+	mir_sntprintf(temp, _T("%s (*.rtf)%c*.rtf%c%s (*.*)%c*.*%c%c"), TranslateT("RTF file"), 0, 0, TranslateT("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 	ofn.lpstrFile = szFilename;
 	ofn.nMaxFile = SIZEOF(szFilename);

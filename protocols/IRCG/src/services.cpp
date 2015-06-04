@@ -199,7 +199,7 @@ INT_PTR __cdecl CIrcProto::OnDoubleclicked(WPARAM, LPARAM lParam)
 		dlg->Show();
 		HWND hWnd = dlg->GetHwnd();
 		TCHAR szTemp[500];
-		mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("%s (%s) is requesting a client-to-client chat connection."),
+		mir_sntprintf(szTemp, TranslateT("%s (%s) is requesting a client-to-client chat connection."),
 			pdci->sContactName.c_str(), pdci->sHostmask.c_str());
 		SetDlgItemText(hWnd, IDC_TEXT, szTemp);
 		ShowWindow(hWnd, SW_SHOW);
@@ -532,7 +532,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 			case GC_USER_PRIVMESS:
 			{
 				TCHAR szTemp[4000];
-				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("/QUERY %s"), gch->ptszUID);
+				mir_sntprintf(szTemp, _T("/QUERY %s"), gch->ptszUID);
 				PostIrcMessageWnd(p1, NULL, szTemp);
 			}
 				break;
@@ -1069,7 +1069,7 @@ void CIrcProto::ConnectToServer(void)
 		InterlockedIncrement((long *)&m_bConnectRequested);
 
 	TCHAR szTemp[300];
-	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("\033%s \002%s\002 (%S: %u)"),
+	mir_sntprintf(szTemp, _T("\033%s \002%s\002 (%S: %u)"),
 		TranslateT("Connecting to"), si.sNetwork.c_str(), si.sServer.c_str(), si.iPort);
 	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
 }

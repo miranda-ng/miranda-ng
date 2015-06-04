@@ -501,7 +501,7 @@ static void UpdateFilters()
 	T2Utf szBuf(szTempBuf);
 	mir_strncpy(g_szModename, szBuf, SIZEOF(g_szModename));
 
-	mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("Configuring view mode: %s"), szTempBuf);
+	mir_sntprintf(szTemp, TranslateT("Configuring view mode: %s"), szTempBuf);
 	SetDlgItemText(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
 
 	mir_snprintf(szSetting, "%c%s_PF", 246, szBuf);

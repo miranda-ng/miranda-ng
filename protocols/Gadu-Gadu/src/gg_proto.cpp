@@ -68,7 +68,7 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
 	db_set_resident(m_szModuleName, GG_KEY_AVATARREQUESTED);
 
 	TCHAR szPath[MAX_PATH];
-	mir_sntprintf(szPath, SIZEOF(szPath), _T("%s\\%s\\ImageCache"), (TCHAR*)VARST( _T("%miranda_userdata%")), m_tszUserName);
+	mir_sntprintf(szPath, _T("%s\\%s\\ImageCache"), (TCHAR*)VARST( _T("%miranda_userdata%")), m_tszUserName);
 	hImagesFolder = FoldersRegisterCustomPathT(LPGEN("Images"), m_szModuleName, szPath, m_tszUserName);
 
 	DWORD dwVersion;
@@ -452,7 +452,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 			yearFrom = 0;
 		else
 			yearFrom = ay - yearFrom;
-		mir_sntprintf(text, SIZEOF(text), _T("%d %d"), yearFrom, yearTo);
+		mir_sntprintf(text, _T("%d %d"), yearFrom, yearTo);
 
 		T2Utf age_utf8(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, age_utf8);

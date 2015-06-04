@@ -174,7 +174,7 @@ static HTREEITEM sttFillInfoLine(HWND hwndTree, HTREEITEM htiRoot, HICON hIcon, 
 
 	TCHAR buf[256];
 	if (title)
-		mir_sntprintf(buf, SIZEOF(buf), _T("%s: %s"), title, value);
+		mir_sntprintf(buf, _T("%s: %s"), title, value);
 	else
 		mir_tstrncpy(buf, value, SIZEOF(buf));
 
@@ -227,7 +227,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	HICON hIcon = NULL;
 	if ( ServiceExists(MS_FP_GETCLIENTICONT)) {
 		if (r->m_tszSoftware != NULL) {
-			mir_sntprintf(buf, SIZEOF(buf), _T("%s %s"), r->m_tszSoftware, r->m_tszSoftwareVersion);
+			mir_sntprintf(buf, _T("%s %s"), r->m_tszSoftware, r->m_tszSoftwareVersion);
 			hIcon = Finger_GetClientIcon(buf, 0);
 		}
 	}
@@ -269,7 +269,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("Idle since"), buf, sttInfoLineId(resource, INFOLINE_IDLE));
 
 	// caps
-	mir_sntprintf(buf, SIZEOF(buf), _T("%s/%s"), item->jid, r->m_tszResourceName);
+	mir_sntprintf(buf, _T("%s/%s"), item->jid, r->m_tszResourceName);
 	JabberCapsBits jcb = ppro->GetResourceCapabilites(buf, TRUE);
 
 	if (!(jcb & JABBER_RESOURCE_CAPS_ERROR)) {
@@ -320,7 +320,7 @@ static void sttFillAdvStatusInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM ht
 	if (szAdvStatusIcon && szAdvStatusTitle && *szAdvStatusTitle) {
 		TCHAR szText[2048];
 		if (szAdvStatusText && *szAdvStatusText)
-			mir_sntprintf(szText, SIZEOF(szText), _T("%s (%s)"), TranslateTS(szAdvStatusTitle), szAdvStatusText);
+			mir_sntprintf(szText, _T("%s (%s)"), TranslateTS(szAdvStatusTitle), szAdvStatusText);
 		else
 			_tcsncpy_s(szText, TranslateTS(szAdvStatusTitle), _TRUNCATE);
 		sttFillInfoLine(hwndTree, htiRoot, Skin_GetIcon(szAdvStatusIcon), szTitle, szText, dwInfoLine);
@@ -678,19 +678,19 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 
 			switch (ProtoGetAvatarFileFormat(item->photoFileName)) {
 			case PA_FORMAT_BMP:
-				mir_sntprintf(szFilter, SIZEOF(szFilter), _T("BMP %s (*.bmp)%c*.BMP"), TranslateT("format"), 0);
+				mir_sntprintf(szFilter, _T("BMP %s (*.bmp)%c*.BMP"), TranslateT("format"), 0);
 				break;
 
 			case PA_FORMAT_GIF:
-				mir_sntprintf(szFilter, SIZEOF(szFilter), _T("GIF %s (*.gif)%c*.GIF"), TranslateT("format"), 0);
+				mir_sntprintf(szFilter, _T("GIF %s (*.gif)%c*.GIF"), TranslateT("format"), 0);
 				break;
 
 			case PA_FORMAT_JPEG:
-				mir_sntprintf(szFilter, SIZEOF(szFilter), _T("JPEG %s (*.jpg;*.jpeg)%c*.JPG;*.JPEG"), TranslateT("format"), 0);
+				mir_sntprintf(szFilter, _T("JPEG %s (*.jpg;*.jpeg)%c*.JPG;*.JPEG"), TranslateT("format"), 0);
 				break;
 
 			default:
-				mir_sntprintf(szFilter, SIZEOF(szFilter), _T("%s (*.*)%c*.*"), TranslateT("Unknown format"), 0);
+				mir_sntprintf(szFilter, _T("%s (*.*)%c*.*"), TranslateT("Unknown format"), 0);
 			}
 
 			TCHAR szFileName[MAX_PATH]; szFileName[0] = '\0';

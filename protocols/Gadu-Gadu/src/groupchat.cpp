@@ -282,7 +282,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 			TCHAR *senderName = unknownSender ?
 				TranslateT("Unknown") : pcli->pfnGetContactDisplayName(getcontact(sender, 0, 0, NULL), 0);
 			TCHAR error[256];
-			mir_sntprintf(error, SIZEOF(error), TranslateT("%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?"),
+			mir_sntprintf(error, TranslateT("%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?"),
 				senderName, recipients_count + 1, unknown);
 			chat->ignore = MessageBox(NULL, error, m_tszUserName, MB_OKCANCEL | MB_ICONEXCLAMATION) != IDOK;
 		}

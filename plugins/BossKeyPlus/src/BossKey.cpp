@@ -503,7 +503,7 @@ static TCHAR *GetBossKeyText(void)
 	BYTE shift = HIBYTE(wHotKey);
 	static TCHAR buf[128] = { 0 };
 
-	mir_sntprintf(buf, SIZEOF(buf), _T("%s%s%s%s%s"),
+	mir_sntprintf(buf, _T("%s%s%s%s%s"),
 		(shift & HOTKEYF_CONTROL) ? _T("Ctrl + ") : _T(""),
 		(shift & HOTKEYF_SHIFT) ? _T("Shift + ") : _T(""),
 		(shift & HOTKEYF_ALT) ? _T("Alt + ") : _T(""),
@@ -522,7 +522,7 @@ static int GenMenuInit(WPARAM, LPARAM) // Modify menu item text before to show t
 {
 	if (g_hMenuItem) {
 		TCHAR buf[128] = { 0 };
-		mir_sntprintf(buf, SIZEOF(buf), _T("%s [%s]"), TranslateT("Hide"), GetBossKeyText());
+		mir_sntprintf(buf, _T("%s [%s]"), TranslateT("Hide"), GetBossKeyText());
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_FLAGS | CMIF_TCHAR | CMIM_NAME;

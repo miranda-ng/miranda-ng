@@ -44,9 +44,9 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pI
 			TCHAR buf[512];
 			HXML bodyNode = xmlGetChild(node, "body");
 			if (bodyNode)
-				mir_sntprintf(buf, SIZEOF(buf), _T("%s:\n%s\n%s"), pInfo->GetFrom(), xmlGetText(bodyNode), szErrText);
+				mir_sntprintf(buf, _T("%s:\n%s\n%s"), pInfo->GetFrom(), xmlGetText(bodyNode), szErrText);
 			else
-				mir_sntprintf(buf, SIZEOF(buf), _T("%s:\n%s"), pInfo->GetFrom(), szErrText);
+				mir_sntprintf(buf, _T("%s:\n%s"), pInfo->GetFrom(), szErrText);
 
 			 MsgPopup(NULL, buf, TranslateT("Jabber Error"));
 		}

@@ -307,11 +307,11 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 									AppendMenu(hTimeMenu, MF_SEPARATOR, 0, 0);
 
 								if (i < 3)
-									mir_sntprintf(buff, SIZEOF(buff), TranslateT("%d minutes"), times[i]);
+									mir_sntprintf(buff, TranslateT("%d minutes"), times[i]);
 								else if (i < 7)
-									mir_sntprintf(buff, SIZEOF(buff), TranslateT("%d hours"), times[i] / 60);
+									mir_sntprintf(buff, TranslateT("%d hours"), times[i] / 60);
 								else 
-									mir_sntprintf(buff, SIZEOF(buff), TranslateT("%d days"), times[i] / 60 / 24);
+									mir_sntprintf(buff, TranslateT("%d days"), times[i] / 60 / 24);
 
 								UINT check = MF_UNCHECKED;
 								if (!bChecked && tab->iOptAutoDelete == times[i])
@@ -327,9 +327,9 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 							{
 								switch (opt.timeRange) 
 								{
-									case Options::TR_MINUTES: mir_sntprintf(buff, SIZEOF(buff), TranslateT("%d minutes"), opt.iDeleteTime); break;
-									case Options::TR_HOURS: mir_sntprintf(buff, SIZEOF(buff), TranslateT("%d hours"), opt.iDeleteTime); break;
-									case Options::TR_DAYS: mir_sntprintf(buff, SIZEOF(buff), TranslateT("%d days"), opt.iDeleteTime); break;
+									case Options::TR_MINUTES: mir_sntprintf(buff, TranslateT("%d minutes"), opt.iDeleteTime); break;
+									case Options::TR_HOURS: mir_sntprintf(buff, TranslateT("%d hours"), opt.iDeleteTime); break;
+									case Options::TR_DAYS: mir_sntprintf(buff, TranslateT("%d days"), opt.iDeleteTime); break;
 								}
 
 								AppendMenu(hTimeMenu, MF_SEPARATOR, 0, 0);

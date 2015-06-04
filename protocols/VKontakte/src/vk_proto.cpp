@@ -52,7 +52,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	HookProtoEvent(ME_OPT_INITIALISE, &CVkProto::OnOptionsInit);
 
 	TCHAR descr[512];
-	mir_sntprintf(descr, SIZEOF(descr), TranslateT("%s server connection"), m_tszUserName);
+	mir_sntprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 
 	NETLIBUSER nlu = {sizeof(nlu)};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;

@@ -32,7 +32,7 @@ int m_log(const TCHAR *function, const TCHAR *fmt, ...)
     TCHAR text[1024];
 	size_t len;
 
-	len = mir_sntprintf(text, SIZEOF(text), _T("[%08u - %08u] [%s] "), 
+	len = mir_sntprintf(text, _T("[%08u - %08u] [%s] "), 
 				 GetCurrentThreadId(), GetTickCount(), function);
 
     va_start(va, fmt);

@@ -61,7 +61,7 @@ static LIST<PluginListItemData> arPluginList(10, sttSortPlugins);
 static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM lParam)
 {
 	TCHAR buf[MAX_PATH];
-	mir_sntprintf(buf, SIZEOF(buf), _T("%s\\Plugins\\%s"), path, fd->cFileName);
+	mir_sntprintf(buf, _T("%s\\Plugins\\%s"), path, fd->cFileName);
 	HINSTANCE hInst = GetModuleHandle(buf);
 
 	BASIC_PLUGIN_INFO pi;
@@ -136,12 +136,12 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM l
 			void *pVerInfo = mir_alloc(verInfoSize);
 			GetFileVersionInfo(buf, 0, verInfoSize, pVerInfo);
 			VerQueryValue(pVerInfo, _T("\\"), (LPVOID*)&fi, &blockSize);
-			mir_sntprintf(buf, SIZEOF(buf), _T("%d.%d.%d.%d"), HIWORD(fi->dwProductVersionMS),
+			mir_sntprintf(buf, _T("%d.%d.%d.%d"), HIWORD(fi->dwProductVersionMS),
 				LOWORD(fi->dwProductVersionMS), HIWORD(fi->dwProductVersionLS), LOWORD(fi->dwProductVersionLS));
 			mir_free(pVerInfo);
 		}
 		else
-			mir_sntprintf(buf, SIZEOF(buf), _T("%d.%d.%d.%d"), HIBYTE(HIWORD(pi.pluginInfo->version)),
+			mir_sntprintf(buf, _T("%d.%d.%d.%d"), HIBYTE(HIWORD(pi.pluginInfo->version)),
 				LOBYTE(HIWORD(pi.pluginInfo->version)), HIBYTE(LOWORD(pi.pluginInfo->version)),
 				LOBYTE(LOWORD(pi.pluginInfo->version)));
 

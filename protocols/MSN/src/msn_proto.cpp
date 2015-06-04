@@ -130,7 +130,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	nlu1.ptszDescriptiveName = szBuffer;
 
 	mir_snprintf(szDbsettings, SIZEOF(szDbsettings), "%s_HTTPS", m_szModuleName);
-	mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s plugin HTTPS connections"), m_tszUserName);
+	mir_sntprintf(szBuffer, TranslateT("%s plugin HTTPS connections"), m_tszUserName);
 	hNetlibUserHttps = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu1);
 
 	NETLIBUSER nlu = { 0 };
@@ -144,7 +144,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	nlu.pfnHttpGatewayWrapSend = msn_httpGatewayWrapSend;
 	nlu.pfnHttpGatewayUnwrapRecv = msn_httpGatewayUnwrapRecv;
 
-	mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s plugin connections"), m_tszUserName);
+	mir_sntprintf(szBuffer, TranslateT("%s plugin connections"), m_tszUserName);
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	m_DisplayNameCache = NULL;

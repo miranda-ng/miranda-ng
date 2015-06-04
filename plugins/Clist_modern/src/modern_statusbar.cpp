@@ -244,7 +244,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				int nEmails = (int)CallProtoService(szProto, PS_GETUNREADEMAILCOUNT, 0, 0);
 				if (nEmails > 0) {
 					TCHAR buf[40];
-					mir_sntprintf(buf, SIZEOF(buf), _T("[%d]"), nEmails);
+					mir_sntprintf(buf, _T("[%d]"), nEmails);
 					p->szProtoEMailCount = mir_tstrdup(buf);
 				}
 			}

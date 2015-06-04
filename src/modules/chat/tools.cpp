@@ -487,7 +487,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 		else mir_tstrncpy(szTemp2, gce->ptszNick, 511);
 
 		if (gce->ptszUserInfo)
-			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s (%s)"), szTemp2, gce->ptszUserInfo);
+			mir_sntprintf(szTemp, _T("%s (%s)"), szTemp2, gce->ptszUserInfo);
 		else
 			_tcsncpy_s(szTemp, szTemp2, _TRUNCATE);
 		pszNick = szTemp;
@@ -497,52 +497,52 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
 		p = '*';
-		mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s: %s"), gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
+		mir_sntprintf(szBuffer, _T("%s: %s"), gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_ACTION:
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
 		p = '*';
-		mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s %s"), gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
+		mir_sntprintf(szBuffer, _T("%s %s"), gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_JOIN:
 		p = '>';
-		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has joined"), pszNick);
+		mir_sntprintf(szBuffer, TranslateT("%s has joined"), pszNick);
 		break;
 	case GC_EVENT_PART:
 		p = '<';
 		if (!gce->ptszText)
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has left"), pszNick);
+			mir_sntprintf(szBuffer, TranslateT("%s has left"), pszNick);
 		else
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has left (%s)"), pszNick, ci.RemoveFormatting(gce->ptszText));
+			mir_sntprintf(szBuffer, TranslateT("%s has left (%s)"), pszNick, ci.RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_QUIT:
 		p = '<';
 		if (!gce->ptszText)
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has disconnected"), pszNick);
+			mir_sntprintf(szBuffer, TranslateT("%s has disconnected"), pszNick);
 		else
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s has disconnected (%s)"), pszNick, ci.RemoveFormatting(gce->ptszText));
+			mir_sntprintf(szBuffer, TranslateT("%s has disconnected (%s)"), pszNick, ci.RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_NICK:
 		p = '^';
-		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s is now known as %s"), gce->ptszNick, gce->ptszText);
+		mir_sntprintf(szBuffer, TranslateT("%s is now known as %s"), gce->ptszNick, gce->ptszText);
 		break;
 	case GC_EVENT_KICK:
 		p = '~';
 		if (!gce->ptszText)
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s kicked %s"), gce->ptszStatus, gce->ptszNick);
+			mir_sntprintf(szBuffer, TranslateT("%s kicked %s"), gce->ptszStatus, gce->ptszNick);
 		else
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s kicked %s (%s)"), gce->ptszStatus, gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
+			mir_sntprintf(szBuffer, TranslateT("%s kicked %s (%s)"), gce->ptszStatus, gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_NOTICE:
 		p = 'o';
-		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("Notice from %s: %s"), gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
+		mir_sntprintf(szBuffer, TranslateT("Notice from %s: %s"), gce->ptszNick, ci.RemoveFormatting(gce->ptszText));
 		break;
 	case GC_EVENT_TOPIC:
 		p = '#';
 		if (!gce->ptszNick)
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("The topic is '%s'"), ci.RemoveFormatting(gce->ptszText));
+			mir_sntprintf(szBuffer, TranslateT("The topic is '%s'"), ci.RemoveFormatting(gce->ptszText));
 		else
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("The topic is '%s' (set by %s)"), ci.RemoveFormatting(gce->ptszText), gce->ptszNick);
+			mir_sntprintf(szBuffer, TranslateT("The topic is '%s' (set by %s)"), ci.RemoveFormatting(gce->ptszText), gce->ptszNick);
 		break;
 	case GC_EVENT_INFORMATION:
 		p = '!';
@@ -550,11 +550,11 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 		break;
 	case GC_EVENT_ADDSTATUS:
 		p = '+';
-		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s enables '%s' status for %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick);
+		mir_sntprintf(szBuffer, TranslateT("%s enables '%s' status for %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick);
 		break;
 	case GC_EVENT_REMOVESTATUS:
 		p = '-';
-		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s disables '%s' status for %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick);
+		mir_sntprintf(szBuffer, TranslateT("%s disables '%s' status for %s"), gce->ptszText, gce->ptszStatus, gce->ptszNick);
 		break;
 	}
 
