@@ -250,7 +250,22 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 	ptrA token(getStringA("TokenSecret"));
 	if (skypenames.getCount() > 0)
 	{
-		PushRequest(new GetContactsInfoRequest(token, skypenames), &CSkypeProto::LoadContactsInfo);
+		int i = 0;
+		do
+		{
+			LIST<char> users(1);
+			for (; i < skypenames.getCount() && users.getCount() < 20; i++)
+			{
+				users.insert(skypenames[i]);
+			}
+
+			PushRequest(new GetContactsInfoRequest(token, users), &CSkypeProto::LoadContactsInfo);
+
+			for (int j = 0; i < users.getCount(); j++)
+				mir_free(users[j]);
+			users.destroy();
+		}
+		while(i < skypenames.getCount());
 
 		for (int i = 0; i < skypenames.getCount(); i++)
 			mir_free(skypenames[i]);
