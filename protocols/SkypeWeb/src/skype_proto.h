@@ -129,7 +129,8 @@ private:
 		*RegToken,
 		*TokenSecret,
 		*EndpointId,
-		*SelfSkypeName;
+		*SelfSkypeName,
+		*pie;
 
 	static CSkypeProto* GetContactAccount(MCONTACT hContact);
 
@@ -171,8 +172,6 @@ private:
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
 	// login
-	void OnLoginMSFirst(const NETLIBHTTPREQUEST *response);
-	void OnLoginMSSecond(const NETLIBHTTPREQUEST *response);
 	void OnLoginOAuth(const NETLIBHTTPREQUEST *response);
 	void OnLoginSuccess();
 	void OnEndpointCreated(const NETLIBHTTPREQUEST *response);
@@ -338,8 +337,6 @@ private:
 	void CALLBACK SkypeSetTimer(void*);
 
 	time_t GetLastMessageTime(MCONTACT hContact);
-
-	std::string urlDecode(std::string SRC);
 
 	//events
 	void InitDBEvents();
