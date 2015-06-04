@@ -100,7 +100,7 @@ void __cdecl CMsnProto::MSN_AvatarsThread(void*)
 		if (WaitForSingleObject(hevAvatarQueue, INFINITE) != WAIT_OBJECT_0)
 			break;
 
-		if (Miranda_Terminated())
+		if (g_bTerminated)
 			break;
 
 		AvatarQueueEntry *p = NULL;

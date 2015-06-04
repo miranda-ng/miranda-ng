@@ -1876,7 +1876,7 @@ LBL_InvalidCommand:
 					CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 				}
 				else {
-					if (!Miranda_Terminated() && MessageBox(NULL,
+					if (!g_bTerminated && MessageBox(NULL,
 						TranslateT("There is only 1 person left in the chat, do you want to switch back to standard message window?"),
 						TranslateT("MSN Chat"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 						// kill chat dlg and open srmm dialog

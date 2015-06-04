@@ -288,7 +288,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 	}
 
 	if (retVal != 0) {
-		if (!Miranda_Terminated()) {
+		if (!g_bTerminated) {
 			switch (retVal) {
 			case 3:
 				MSN_ShowError("Your username or password is incorrect");
