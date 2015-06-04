@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.12.1.2
+;  Version: 2.12.2.1
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -327,10 +327,6 @@
 Пише повідомлення
 [Typing notification off]
 Сповіщення про друк вимк.
-[Unicode is on]
-Unicode увімкнено
-[Unicode is off]
-Unicode вимкнено
 [Sending]
 Прогрес надсилання
 [Quote button]

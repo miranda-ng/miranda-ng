@@ -351,7 +351,7 @@
 [T-Storms]
 Грози
 [Thunder In The Vicinity]
-Грім
+Грім поблизу
 [Thunderstorm Rain]
 Дощ з грозою
 [Thunderstorm]
@@ -394,3 +394,13 @@
 Зростає
 [steady]
 Не змін.
+[Light Snow / Fog]
+Слабкий сніг / туман
+[Showers In The Vicinity]
+Зливи поблизу
+[Rain / Snow Early]
+Дощ / сніг у першій половині дня
+[Pm Rain / Snow]
+Дощ у другій половині дня / сніг
+[Fair / Windy]
+Ясно / вітряно
