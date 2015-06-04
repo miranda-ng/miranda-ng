@@ -67,9 +67,9 @@ void MarkEventRead(MCONTACT hCnt, MEVENT hEvt)
 {
 	DWORD settings = (DWORD)TlsGetValue(itlsSettings);
 	if (ReadCheckbox(0, IDC_POPUPSENABLED, settings) &&
-		 ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, settings) &&
-		 ReadCheckbox(0, IDC_MARKEVENTREAD, settings) &&
-		 db_event_markRead(hCnt, hEvt) != -1)
+		ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, settings) &&
+		ReadCheckbox(0, IDC_MARKEVENTREAD, settings) &&
+		db_event_markRead(hCnt, hEvt) != -1)
 		CallService(MS_CLIST_REMOVEEVENT, hCnt, hEvt);
 }
 
@@ -107,20 +107,20 @@ LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case UM_FREEPLUGINDATA:
-	{
-		HANDLE hHook = GetProp(wnd, EVT_DELETED_HOOK_PROP_NAME);
-		RemoveProp(wnd, EVT_DELETED_HOOK_PROP_NAME);
-		UnhookEvent(hHook);
-	}
+		{
+			HANDLE hHook = GetProp(wnd, EVT_DELETED_HOOK_PROP_NAME);
+			RemoveProp(wnd, EVT_DELETED_HOOK_PROP_NAME);
+			UnhookEvent(hHook);
+		}
 
-	if (ppdh->MarkRead && ppdh->hDbEvent && (acc = GetJidAcc(ppdh->jid))) {
-		ReadNotificationSettings(acc);
-		MarkEventRead(ppdh->hContact, ppdh->hDbEvent);
-		CallService(MS_CLIST_REMOVEEVENT, (WPARAM)ppdh->hContact, (LPARAM)ppdh->hDbEvent);
-	}
-	RemoveProp(wnd, PLUGIN_DATA_PROP_NAME);
-	free(ppdh);
-	return 0;
+		if (ppdh->MarkRead && ppdh->hDbEvent && (acc = GetJidAcc(ppdh->jid))) {
+			ReadNotificationSettings(acc);
+			MarkEventRead(ppdh->hContact, ppdh->hDbEvent);
+			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)ppdh->hContact, (LPARAM)ppdh->hDbEvent);
+		}
+		RemoveProp(wnd, PLUGIN_DATA_PROP_NAME);
+		free(ppdh);
+		return 0;
 
 	case WM_LBUTTONUP:
 		acc = NULL;
@@ -262,25 +262,24 @@ void UnreadMailNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unread
 void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unreadCount, const MAIL_THREAD_NOTIFICATION *mtn)
 {
 	POPUPDATAT data = { 0 };
-
 	FormatPseudocontactDisplayName(&data.lptzContactName[0], jid, unreadCount);
-	LPTSTR senders = (LPTSTR)malloc(SENDER_COUNT * 100 * sizeof(TCHAR));
-	LPTSTR currSender = senders;
 
-	for (int i = 0; i < SENDER_COUNT && mtn->senders[i].addr; i++) {
-		if (mtn->senders[i].name)
-			mir_sntprintf(currSender, SENDER_COUNT * 100, _T("    %s <%s>\n"), mtn->senders[i].name, mtn->senders[i].addr);
+	CMString tszSenders;
+	for (int i = 0; i < SENDER_COUNT; i++) {
+		const SENDER &p = mtn->senders[i];
+		if (p.addr == NULL)
+			break;
+
+		if (p.name)
+			tszSenders.AppendFormat(_T("    %s <%s>\n"), p.name, p.addr);
 		else
-			mir_sntprintf(currSender, SENDER_COUNT * 100, _T("    %s\n"), mtn->senders[i].addr);
-		currSender += mir_tstrlen(currSender);
+			tszSenders.AppendFormat(_T("    %s\n"), p.addr);
 	}
 
 	if (ReadCheckbox(0, IDC_ADDSNIP, (DWORD)TlsGetValue(itlsSettings)))
-		mir_sntprintf(data.lptzText, SIZEOF(data.lptzText), TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, senders, mtn->snip);
+		mir_sntprintf(data.lptzText, SIZEOF(data.lptzText), TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, tszSenders.c_str(), mtn->snip);
 	else
-		mir_sntprintf(data.lptzText, SIZEOF(data.lptzText), TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, senders);
-
-	free(senders);
+		mir_sntprintf(data.lptzText, SIZEOF(data.lptzText), TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, tszSenders.c_str());
 
 	ShowNotification(acc, &data, jid, url, unreadCount);
 }

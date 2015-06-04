@@ -23,8 +23,7 @@ COLORREF sttGetColor(char * module, char * color, COLORREF defColor);
 struct ProtoItemData : public MZeroedObject
 {
 	~ProtoItemData()
-	{
-	}
+	{}
 
 	HICON  icon;
 	HICON  extraIcon;
@@ -754,7 +753,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 		tooltipshoing = FALSE;
 		for (int i = 0; i < ProtosData.getCount(); i++) {
-			ProtoItemData& p = ProtosData[i];
+			ProtoItemData &p = ProtosData[i];
 			bool isOnExtra = false;
 
 			rc = p.protoRect;
