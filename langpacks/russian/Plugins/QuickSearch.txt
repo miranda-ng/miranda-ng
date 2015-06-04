@@ -249,6 +249,8 @@ ID клиента
 Содержит информацию метаконтакта.
 [Content is count of ALL contact events (not messages only)]
 Содержит количество ВСЕХ событий контакта (не только сообщений)
+[Other info]
+Прочие сведения
 [Change setting through QS]
 Изменить с помощью QuickSearch
 [default]
