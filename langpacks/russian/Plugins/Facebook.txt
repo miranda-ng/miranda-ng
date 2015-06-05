@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.11.2
+;  Version: 0.2.11.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -283,11 +283,9 @@ Facebook потребовал чистки компьютера и плагин 
 Сообщение статуса Facebook
 [Notification]
 Уведомление
-[News Feed]
-Новости
-[Other Event]
+[Other event]
 Другое событие
-[Friendship Event]
+[Friendship event]
 Событие дружбы
 [Message read: %s by %s]
 Сообщение прочтено в: %s пользователем %s
