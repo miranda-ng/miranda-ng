@@ -7,6 +7,8 @@
 ;============================================================
 [ICQ corporate protocol support for Miranda NG.]
 Поддержка протокола ICQ corporate в Miranda NG.
+[UIN:]
+Номер:
 [External IP:]
 Внешний IP:
 [Internal IP:]

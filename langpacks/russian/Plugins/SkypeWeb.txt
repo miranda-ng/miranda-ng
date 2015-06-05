@@ -33,6 +33,8 @@
 Локальное время для принятых сообщений
 [Always notify as unread for all incoming message]
 Помечать все входящие сообщения как "Непрочитанное"
+[Place:]
+Место:
 [Enter password]
 Введите пароль
 [Save password]

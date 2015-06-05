@@ -33,6 +33,8 @@
 Текст
 [Close after:]
 Задержка:
+[sec (0 default, -1 disabled)]
+секунд (0 - по умолчанию, -1 - постоянно)
 [Left button click cmd:]
 Команда ЛКМ:
 [Command parameters:]
