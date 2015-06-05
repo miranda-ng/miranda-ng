@@ -34,7 +34,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	int totalCount = metadata["totalCount"].as_int();
 	std::string syncState = metadata["syncState"].as_string();
 
-	bool markAllAsUnread = getBool("MarkMesUnread", false);
+	bool markAllAsUnread = getBool("MarkMesUnread", true);
 
 	if (totalCount >= 99 || conversations.size() >= 99)
 		PushRequest(new GetHistoryOnUrlRequest(syncState.c_str(), RegToken), &CSkypeProto::OnGetServerHistory);

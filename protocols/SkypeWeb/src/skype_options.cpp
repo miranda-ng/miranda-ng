@@ -30,7 +30,7 @@ CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog)
 	CreateLink(m_group, SKYPE_SETTINGS_GROUP, _T("Skype"));
 	CreateLink(m_autosync, "AutoSync", DBVT_BYTE, 1);
 	CreateLink(m_localtime, "UseLocalTime", DBVT_BYTE, 0);
-	CreateLink(m_allasunread, "MarkMesUnread", DBVT_BYTE, 0);
+	CreateLink(m_allasunread, "MarkMesUnread", DBVT_BYTE, 1);
 	CreateLink(m_place, "Place", _T(""));
 }
 
