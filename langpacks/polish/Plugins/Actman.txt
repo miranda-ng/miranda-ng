@@ -39,7 +39,7 @@ N&ie dla wszystkich
 [Export]
 Eksportuj
 [Reload/Refresh]
-
+Przeładuj/Odśwież
 [Registered actions]
 Zarejestrowane akcje
 ;Actions
@@ -122,9 +122,9 @@ parametry
 [structure]
 struktura
 [Ansi message]
-
+Wiadomość Ansi
 [Ansi caption]
-
+Opis Ansi
 [Structure]
 Struktura
 [Structure editor]
@@ -178,7 +178,7 @@ V
 [Structure size]
 Rozmiar struktury
 [Use MMI]
-
+Używaj MMI
 [Structure help]
 Pomoc struktury
 [Name]
@@ -716,7 +716,7 @@ wParam to Ansi
 [Reserved]
 Zarezerwowany
 [Open main QuickSearch window with text filter]
-
+Otwórz główne okno QuickSearchz filtrowaniem tekstu
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 Odtwarza dźwięk dodany przez Skin/Sounds/Addnew. W przypadku nie znalezienia dźwięku, odtwarzany jest domyślny dźwięk Windows.
 [Send Email to contact]
@@ -862,4 +862,4 @@ Dodano nowy kontakt do bazy danych
 [Contact deleting]
 Usuwanie kontaktu
 [Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message, such as status or error information.]
-
+Wyświetla modalne okno dialogowe zawierające ikonę systemową, zestaw przycisków oraz krótki komunikat stosowny do aplikacji taki jak informacja o statusie lub błędzie.

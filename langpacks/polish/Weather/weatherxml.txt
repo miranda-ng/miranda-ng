@@ -395,12 +395,12 @@ Wschodzące
 [steady]
 Stały
 [Light Snow / Fog]
-
+Przelotne Opady Śniegu / Mgła
 [Showers In The Vicinity]
-
+Ulewy W Okolicy
 [Rain / Snow Early]
-
+Deszcz / Śnieg Wcześnie
 [Pm Rain / Snow]
-
+Popołudniu Deszcz / Śnieg
 [Fair / Windy]
-
+Pogodnie / Wietrznie
