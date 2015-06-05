@@ -193,6 +193,10 @@ HTTP-з'єднання Quotes
 Файл XML (*.xml)
 [All files (*.*)]
 Усі файли (*.*)
+[Miranda could not load Quotes plugin. XML parser is missing.]
+Не вдалося завантажити плагін Quotes. Відсутній парсер XML.
+[Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
+Не вдалося завантажити плагін Quotes. Відсутній парсер Microsoft HTML.
 [Log File]
 Журнал
 [Miranda's History]

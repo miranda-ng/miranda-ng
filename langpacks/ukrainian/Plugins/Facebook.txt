@@ -59,6 +59,10 @@
 Сповіщення клієнта
 [Friendship notifications]
 Сповіщення про дружбу
+[Ticker feeds]
+Тікер
+[Show "On this day" posts at login]
+Показувати події "Цього дня" при вході
 [Use this server for opening links:]
 Тип сайту для відкриття посилань:
 [Use balloon notifications in system tray instead of popups]
@@ -215,6 +219,10 @@
 Приклад сповіщення
 [Sample friendship]
 Приклад сповіщення про дружбу
+[Sample ticker]
+Приклад тікера
+[Sample on this day]
+Приклад події "Цього дня"
 [a sticker]
 стікер
 [a link]
@@ -241,6 +249,8 @@
 Контакт доданий у список на сервері.
 [Contact is no longer on server-list.]
 Контакт видалений зі списку на сервері.
+[On this day]
+Цього дня
 [%s server connection]
 З'єднання з сервером %s
 [Unable to initialize Netlib for %s.]
@@ -273,6 +283,8 @@
 Новини
 [Friendship events]
 Події дружби
+[On this day posts]
+Події "Цього дня"
 [Visit profile]
 Профіль
 [Visit notifications]
@@ -287,6 +299,10 @@
 Інша подія
 [Friendship event]
 Подія дружби
+[Ticker event]
+Тікер
+[On this day event]
+Подія "Цього дня"
 [Message read: %s by %s]
 Повідомлення прочитане о %s користувачем %s
 [Message read: %s]

@@ -33,6 +33,8 @@
 Локальний час для прийнятих повідомлень
 [Always notify as unread for all incoming message]
 Позначати всі вхідні повідомлення непрочитаними
+[Place:]
+Місце:
 [Enter password]
 Введіть пароль
 [Save password]

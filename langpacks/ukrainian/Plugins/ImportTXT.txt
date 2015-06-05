@@ -90,6 +90,6 @@
 [Show duplicates]
 Виводити дублікати
 [Error at initialization XML parser]
-Помилка ініціалізації XML-парсера
+Помилка ініціалізації парсера XML
 [Import history to %s (%s)]
 Імпортувати історію в %s (%s)

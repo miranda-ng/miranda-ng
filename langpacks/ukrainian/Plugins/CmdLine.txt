@@ -132,7 +132,7 @@ Miranda була закрита або сталася помилка при оч
 [YAMN plugin is not running.]
 Плагiн YAMN не запущений.
 [CallService call successful: service '%s' returned %p.]
-Успiшний виклик команди CallService: команда '%s' повернула %p.
+Успiшний виклик CallService: служба '%s' повернула %p.
 [Invalid parameter '%s' passed to CallService command.]
 Неправильний аргумент '%s' для команди CallService.
 [Service '%s' does not exist.]
