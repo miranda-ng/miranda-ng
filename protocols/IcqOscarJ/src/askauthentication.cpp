@@ -25,68 +25,57 @@
 
 #include "stdafx.h"
 
-struct AskAuthParam
+class AskAuthProcDlg : public CProtoDlgBase<CIcqProto>
 {
-	CIcqProto* ppro;
-	MCONTACT hContact;
-};
+	MCONTACT m_hContact;
 
-static INT_PTR CALLBACK AskAuthProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	AskAuthParam* dat = (AskAuthParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CCtrlEdit m_auth;
+	CCtrlButton m_btnOk;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		dat = (AskAuthParam*)lParam;
-		if (!dat->hContact || !dat->ppro->icqOnline())
-			EndDialog(hwndDlg, 0);
-
-		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		SendDlgItemMessage(hwndDlg, IDC_EDITAUTH, EM_LIMITTEXT, (WPARAM)255, 0);
-		SetDlgItemText(hwndDlg, IDC_EDITAUTH, TranslateT("Please authorize me to add you to my contact list."));
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			if (dat->ppro->icqOnline())
-			{
-				DWORD dwUin;
-				uid_str szUid;
-				if ( dat->ppro->getContactUid(dat->hContact, &dwUin, &szUid))
-					return TRUE; // Invalid contact
-
-				char* szReason = GetDlgItemTextUtf(hwndDlg, IDC_EDITAUTH);
-				dat->ppro->icq_sendAuthReqServ(dwUin, szUid, szReason);
-				SAFE_FREE((void**)&szReason);
-
-				// auth bug fix (thx Bio)
-				if (dat->ppro->m_bSsiEnabled && dwUin)
-					dat->ppro->resetServContactAuthState(dat->hContact);
-
-				EndDialog(hwndDlg, 0);
-			}
-			return TRUE;
-
-		case IDCANCEL:
-			EndDialog(hwndDlg, 0);
-			return TRUE;
-		}
-
-		break;
-
-	case WM_CLOSE:
-		EndDialog(hwndDlg,0);
-		return TRUE;
+public:
+	AskAuthProcDlg(CIcqProto *_ppro, MCONTACT _hContact) :
+		CProtoDlgBase<CIcqProto>(_ppro, IDD_ASKAUTH, false),
+		m_hContact(_hContact),
+		m_auth(this, IDC_EDITAUTH),
+		m_btnOk(this, IDOK)
+	{
+		m_autoClose = CLOSE_ON_CANCEL; // let onOk() to close window manually
+		m_btnOk.OnClick = Callback(this, &AskAuthProcDlg::onOk);
 	}
 
-	return FALSE;
-}
+	virtual void OnInitDialog()
+	{
+		if (!m_hContact || !m_proto->icqOnline())
+			EndDialog(m_hwnd, 0);
+
+		m_auth.SendMsg(EM_LIMITTEXT, 255, 0);
+		m_auth.SetText(TranslateT("Please authorize me to add you to my contact list."));
+	}
+
+	void onOk(CCtrlButton*)
+	{
+		if (!m_proto->icqOnline())
+			return;
+
+		DWORD dwUin;
+		uid_str szUid;
+		if (m_proto->getContactUid(m_hContact, &dwUin, &szUid))
+			return; // Invalid contact
+
+		char *szReason = GetWindowTextUtf(m_auth.GetHwnd());
+		m_proto->icq_sendAuthReqServ(dwUin, szUid, szReason);
+		SAFE_FREE((void**)&szReason);
+
+		// auth bug fix (thx Bio)
+		if (m_proto->m_bSsiEnabled && dwUin)
+			m_proto->resetServContactAuthState(m_hContact);
+
+		EndDialog(m_hwnd, 0);
+	}
+};
 
 INT_PTR CIcqProto::RequestAuthorization(WPARAM wParam, LPARAM)
 {
-	AskAuthParam param = { this, wParam };
-	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ASKAUTH), NULL, AskAuthProc, (LPARAM)&param);
+	AskAuthProcDlg(this, wParam).DoModal();
 	return 0;
 }
