@@ -38,7 +38,7 @@
 [Changes will be applied after protocol restart]
 [server]
 [Message received: %s by %s]
-[Unable to get Netlib connection for WhatsApp]
+[Unable to initialize Netlib for %s.]
 [Network connection error.]
 [Registration failed. Invalid server response.]
 [Registration failed due to stale code. Please request a new code]

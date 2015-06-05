@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.11.2
+;  Version: 0.2.11.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -62,6 +62,8 @@ Clientbenachrichtigungen
 Freundschaftsbenachrichtigungen
 [Ticker feeds]
 Ticker-Feeds
+[Show "On this day" posts at login]
+
 [Use this server for opening links:]
 Öffne Links auf diesem Server:
 [Use balloon notifications in system tray instead of popups]
@@ -227,6 +229,8 @@ Beispielbenachrichtigung
 Beispielfreundschaft
 [Sample ticker]
 Beispielticker
+[Sample on this day]
+
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 ein Sticker
@@ -256,6 +260,8 @@ Nachrichten senden ist nicht möglich, wenn Sie offline sind.
 Kontakt ist wieder in Ihrer Server-Liste.
 [Contact is no longer on server-list.]
 Kontakt ist nicht mehr in Ihrer Server-Liste.
+[On this day]
+
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s Serververbindung
@@ -289,6 +295,8 @@ Möchten Sie Ihre Freundschaft mit "%s" beenden?
 Newsfeeds
 [Friendship events]
 Freundschaftsereignisse
+[On this day posts]
+
 [Visit profile]
 Profil besuchen
 [Visit notifications]
@@ -297,12 +305,16 @@ Benachrichtigungen besuchen
 'Status teilen'-Fenster anzeigen
 [Notification]
 Benachrichtigung
-[News Feed]
-Newsfeed
-[Other Event]
-Andere Ereignisse
-[Friendship Event]
+[Newsfeed event]
+
+[Other event]
+Anderes Ereignis
+[Friendship event]
 Freundschaftsereignis
+[Ticker event]
+
+[On this day event]
+
 [Message read: %s by %s]
 Nachricht gelesen: %s von %s
 [Message read: %s]

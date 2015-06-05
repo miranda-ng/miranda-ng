@@ -469,10 +469,6 @@ Iconos adicionales
 &Opciones
 [Main]
 Principal
-[You need an image services plugin to process PNG images.]
-Usted necesita un plugin de servicios de imagen para procesar imágenes PNG.
-[Error]
-Error
 [Angeli-Ka (graphics), FYR (template)]
 Angeli-Ka (gráficos), FYR (plantilla)
 [Inside library]

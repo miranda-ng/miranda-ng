@@ -7,6 +7,7 @@
 [Automatic messages synchronization]
 [Use local time for received messages]
 [Always notify as unread for all incoming message]
+[Place:]
 [Enter the password to continue.]
 [Skype Link Protocol]
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]

@@ -2,10 +2,12 @@
 ;  File: yweather.ini
 ;  Module: weather
 ;============================================================
+[E]
+E
+[East]
+Este
 [Feel]
 Tocar
-[Forecast Day 1]
-pronóstico día 1
 [Forecast Day 1 Condition]
 Pronóstico día 1 Condición
 [Forecast Day 1 Date]
@@ -16,71 +18,69 @@ Pronóstico día 1 Día
 Pronóstico día 1 Alto
 [Forecast Day 1 Low]
 Pronóstico día 1 Bajo
-[Heat Index]
-Índice de calor
-[Wind Direction]
-Dirección del viento
-[Wind Speed]
-Velocidad del viento
-[Wind Direction Degrees]
-Grados de dirección del viento
-[Mon]
-Lun
-[Tue]
-Mar
-[Wed]
-Mié
-[Thu]
-Jue
+[Forecast Day 1]
+pronóstico día 1
 [Fri]
 Vie
+[Heat Index]
+Índice de calor
+[Mon]
+Lun
+[Mostly Clear]
+Despejado
+[Mostly Cloudy]
+Mayormente nublado
+[Mostly Sunny]
+Mayormente soleado
+[NE]
+NE
+[NW]
+NO
+[N]
+N
+[North]
+Norte
+[Northeast]
+Nordeste
+[Northwest]
+Noroeste
+[Partly Cloudy]
+Parcialmente nublado
+[Partly Sunny]
+Parcialmente soleado
+[SE]
+SE
+[SW]
+SO
+[S]
+S
 [Sat]
 Sab
+[Scattered Clouds]
+Nubes dispersas
+[South]
+Sur
+[Southeast]
+Sudeste
+[Southwest]
+Suroeste
 [Sun]
 Dom
 [Sunny]
 Soleado
-[Partly Sunny]
-Parcialmente soleado
-[Mostly Sunny]
-Mayormente soleado
-[Partly Cloudy]
-Parcialmente nublado
-[Mostly Cloudy]
-Mayormente nublado
-[Mostly Clear]
-Despejado
-[N]
-N
+[Thu]
+Jue
+[Tue]
+Mar
 [W]
 O
-[S]
-S
-[E]
-E
-[NW]
-NO
-[NE]
-NE
-[SW]
-SO
-[SE]
-SE
-[Scattered Clouds]
-Nubes dispersas
-[North]
-Norte
-[East]
-Este
-[South]
-Sur
+[Wed]
+Mié
 [West]
 Oeste
-[Northwest]
-Noroeste
-[Northeast]
-Nordeste
-[Southwest]
-Suroeste
-[Southeast]
-Sudeste
+[Wind Direction Degrees]
+Grados de dirección del viento
+[Wind Direction]
+Dirección del viento
+[Wind Speed]
+Velocidad del viento

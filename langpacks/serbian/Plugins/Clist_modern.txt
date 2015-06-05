@@ -283,10 +283,6 @@ Dodatne ikonice
 %Pretraži/dodaj kontakte...
 [&Options...]
 &Podešavanja...
-[You need an image services plugin to process PNG images.]
-Potreban je plug-in za baratanje PNG slikama.
-[Error]
-Greška
 [Main menu]
 Glavni meni
 [Status menu]

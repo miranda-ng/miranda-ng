@@ -31,9 +31,9 @@ Protokol
 Kontakt
 [Contacts]
 Kontakti
-[Error]
-Greška
 [All Files]
 Sve datoteke
+[Error]
+Greška
 [Warning]
 Upozorenje

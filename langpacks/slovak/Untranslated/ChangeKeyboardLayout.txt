@@ -13,7 +13,7 @@
 [Leave as it is]
 [Set Caps Lock state when inverting lettercase:]
 [Change active keyboard layout in system]
-[Popup colors]
+[Use default colors]
 [Windows colors]
 [Custom colors]
 [From Popup plugin]

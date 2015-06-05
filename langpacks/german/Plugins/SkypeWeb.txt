@@ -34,6 +34,8 @@ Automatische Nachrichtensynchronisierung
 Lokale Zeit für empfangene Nachrichten verwenden
 [Always notify as unread for all incoming message]
 Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
+[Place:]
+Ort:
 [Enter password]
 Passwort eingeben
 [Save password]

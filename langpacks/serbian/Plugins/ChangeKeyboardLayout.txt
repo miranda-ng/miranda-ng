@@ -11,6 +11,8 @@ Dostupne skraćenice
 Podešavanja
 [Default]
 Standardno
+[Use default colors]
+Standardne boje
 [Text]
 Tekst
 [Custom]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.11.2
+;  Version: 0.2.11.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -281,11 +281,11 @@
 Повідомлення статусу Facebook
 [Notification]
 Сповіщення
-[News Feed]
+[Newsfeed event]
 Новини
-[Other Event]
+[Other event]
 Інша подія
-[Friendship Event]
+[Friendship event]
 Подія дружби
 [Message read: %s by %s]
 Повідомлення прочитане о %s користувачем %s

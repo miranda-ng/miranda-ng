@@ -51,6 +51,8 @@ Podešavanja vidljivosti kontakta
 Umesto po redosledu slova nadimaka, \nručno podesiti redosled u listi:
 [Miranda NG profile manager]
 Odabir profila programa Miranda NG
+[Manage your Miranda NG profile]
+Kontrole Miranda NG profila
 [&Run]
 &Započeti
 [&Exit]
@@ -339,8 +341,6 @@ Služi za:
 Standardno
 [Set]
 Izbor
-[Disable icons]
-Ukloniti ikonice
 [Show accounts in the following order,\ndrag to choose another order:]
 Nalozi će biti prikazani ovim redom,\nručno podesiti redosled u listi:
 [Account order and visibility]
@@ -1903,6 +1903,16 @@ Vlasnik
 Pregledaj/menjaj &detalje...
 [%s is online]
 %s je prisutan
+[All Files]
+Sve datoteke
+[Windows bitmaps]
+Bitmap slike Windows OS-a
+[JPEG bitmaps]
+JPEG slike
+[GIF bitmaps]
+GIF slike
+[PNG bitmaps]
+PNG slike
 [Add %s]
 Dodaj %s
 [Please authorize my request and add me to your contact list.]
@@ -2173,8 +2183,6 @@ Veličina
 Napravljeno
 [Modified]
 Izmenjeno
-[Manage your Miranda NG profile]
-Kontrole Miranda NG profila
 [My profiles]
 Moji profili
 [New profile]
@@ -2565,18 +2573,6 @@ Glavne ikonice
 Zvučne datoteke
 [WAV files]
 WAV datoteke
-[You need an image services plugin to process PNG images.]
-Potreban je plug-in za baratanje PNG slikama.
-[All bitmaps]
-Sve bitmap slike
-[Windows bitmaps]
-Bitmap slike Windows OS-a
-[JPEG bitmaps]
-JPEG slike
-[GIF bitmaps]
-GIF slike
-[PNG bitmaps]
-PNG slike
 [Avatars]
 Avatari
 [Avatars root folder]

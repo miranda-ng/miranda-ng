@@ -36,6 +36,7 @@
 [Outgoing call]
 [Groupchat]
 [Profiles folder]
+[Tox URI scheme]
 [Action]
 [Protocol icon]
 [Audio call]

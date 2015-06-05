@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.11.2
+;  Version: 0.2.11.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -61,6 +61,8 @@ Autres événements
 [Friendship notifications]
 
 [Ticker feeds]
+
+[Show "On this day" posts at login]
 
 [Use this server for opening links:]
 Utiliser ce serveur pour ouvrir les liens :
@@ -227,6 +229,8 @@ Défaut
 
 [Sample ticker]
 
+[Sample on this day]
+
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 un autocollant
@@ -256,6 +260,8 @@ Vous ne pouvez pas envoyer de message si vous êtes Hors ligne.
 
 [Contact is no longer on server-list.]
 Le contact n'est plus sur la liste du serveur.
+[On this day]
+
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s serveur connexion
@@ -289,6 +295,8 @@ Partager le statut
 Fil d'actualité
 [Friendship events]
 
+[On this day posts]
+
 [Visit profile]
 Visiter le profil
 [Visit notifications]
@@ -297,11 +305,15 @@ Visiter le profil
 
 [Notification]
 
-[News Feed]
+[Newsfeed event]
 
-[Other Event]
+[Other event]
 Autre événement
-[Friendship Event]
+[Friendship event]
+
+[Ticker event]
+
+[On this day event]
 
 [Message read: %s by %s]
 

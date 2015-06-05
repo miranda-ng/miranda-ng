@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.8
+;  Version: 0.2.11.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -165,8 +165,6 @@ El contacto regresa a la lista del servidor.
 El contacto ya no está en la lista del servidor.
 [%s server connection]
 %s conexión al servidor
-[Unable to get Netlib connection for Facebook]
-No se puede obtener la conexión Netlib para Facebook
 [Facebook ID must be numeric value.]
 Facebook ID debe ser un valor numérico.
 [Network]
@@ -197,9 +195,7 @@ Visitar perfil
 Mostrar ventana "Compartir estado'
 [Notification]
 Notificación
-[News Feed]
-Nuevas noticias
-[Other Event]
+[Other event]
 Otros eventos
 [Message read: %s by %s]
 Leer mensaje: %s por %s

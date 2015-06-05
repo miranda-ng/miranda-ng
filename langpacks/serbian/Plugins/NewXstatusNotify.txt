@@ -41,6 +41,8 @@ Tekst
 Naknadno odabrane boje
 [Use Windows colors]
 Boje operativnog sistema
+[Use default colors]
+Standardne boje
 [Sec]
 sek
 [Reset]

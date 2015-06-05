@@ -37,10 +37,6 @@ Desaparecer
 Biblioteca Advaimg no encontrada. Por favor obtengalo desde nigtlies para poder usar imágenes.
 [Preview...]
 Vista previa...
-[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-Su advaimg.dll es obsoleta o dañada. Obtenga reciente a partir de construcciones alfa de Miranda.
-[Error]
-Error
 [Graphic files]
 Archivos gráficos
 [Sound Files]

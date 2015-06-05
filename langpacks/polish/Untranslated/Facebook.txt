@@ -1,1 +1,7 @@
-﻿[a link]
+﻿[Show "On this day" posts at login]
+[Sample on this day]
+[a link]
+[On this day]
+[On this day posts]
+[Ticker event]
+[On this day event]

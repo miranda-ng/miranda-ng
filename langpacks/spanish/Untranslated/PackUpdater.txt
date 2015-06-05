@@ -5,6 +5,7 @@
 [Pack update options]
 [Remind about not installed pack update]
 [Message boxes]
+[Use defa&ult colors]
 [Check for pack updates]
 [Pack Updater]
 [An error occurred while downloading the update.]

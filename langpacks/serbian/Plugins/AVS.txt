@@ -21,13 +21,13 @@ Izbor
 Avatari
 [Contacts]
 Kontakti
-[All Files]
+[All files]
 Sve datoteke
-[Windows Bitmaps]
+[Windows bitmaps]
 Bitmap slike Windows OS-a
-[JPEG Bitmaps]
+[JPEG bitmaps]
 JPEG slike
-[GIF Bitmaps]
+[GIF bitmaps]
 GIF slike
-[PNG Bitmaps]
+[PNG bitmaps]
 PNG slike
