@@ -1,7 +1,6 @@
 ﻿[try detect]
 [autoregister]
 [Keep connection on error]
-[sec (0 default, -1 disabled)]
 [...even if popup not clicked]
 [Filter messages contain below strings in:]
 [To / CopyTo]

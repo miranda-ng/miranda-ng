@@ -59,6 +59,8 @@
 Уведомления о дружбе
 [Ticker feeds]
 Тиккер
+[Show "On this day" posts at login]
+При входе показывать события "В этот день"
 [Use this server for opening links:]
 Тип сайта для открытия ссылок:
 [Use balloon notifications in system tray instead of popups]
@@ -216,7 +218,9 @@ Facebook потребовал чистки компьютера и плагин 
 [Sample friendship]
 Пример уведомления о дружбе
 [Sample ticker]
-Образец тиккера
+Пример тиккера
+[Sample on this day]
+Пример события "В этот день"
 [a sticker]
 стикер
 [a link]
@@ -243,6 +247,8 @@ Facebook потребовал чистки компьютера и плагин 
 Контакт снова в списке на сервере.
 [Contact is no longer on server-list.]
 Контакта больше нет в списке на сервере.
+[On this day]
+В этот день
 [%s server connection]
 Подключение к серверу %s
 [Unable to initialize Netlib for %s.]
@@ -275,6 +281,8 @@ Facebook потребовал чистки компьютера и плагин 
 Новости
 [Friendship events]
 События дружбы
+[On this day posts]
+События "В этот день"
 [Visit profile]
 Профиль на сайте
 [Visit notifications]
@@ -283,10 +291,16 @@ Facebook потребовал чистки компьютера и плагин 
 Сообщение статуса Facebook
 [Notification]
 Уведомление
+[Newsfeed event]
+Новости
 [Other event]
 Другое событие
 [Friendship event]
 Событие дружбы
+[Ticker event]
+Тиккер
+[On this day event]
+Событие "В этот день"
 [Message read: %s by %s]
 Сообщение прочтено в: %s пользователем %s
 [Message read: %s]
