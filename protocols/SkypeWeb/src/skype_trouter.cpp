@@ -104,7 +104,7 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response, void *p)
 	CMStringA data(response->pData);
 	int iStart = 0;
 	CMStringA szToken = data.Tokenize(":", iStart).Trim();
-	TRouter.sessId = mir_strdup(szToken.GetBuffer());
+	TRouter.sessId = szToken.GetString();
 	m_hTrouterThread = ForkThreadEx(&CSkypeProto::TRouterThread, 0, NULL);
 
 	if (!isHealth)

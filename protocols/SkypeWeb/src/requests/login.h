@@ -24,7 +24,10 @@ public:
 	LoginOAuthRequest(const char *username, const char *password) :
 		HttpRequest(REQUEST_POST, "api.skype.com/login/skypetoken")
 	{
-		CMStringA str(::FORMAT, "%s\nskyper\n%s", username, password);
+		CMStringA user(username);
+		user.MakeLower();
+
+		CMStringA str(::FORMAT, "%s\nskyper\n%s", user, password);
 
 		BYTE digest[16];
 
@@ -34,8 +37,8 @@ public:
 
 		Body
 			<< CHAR_VALUE("scopes", "client")
-			<< CHAR_VALUE("clientVersion", "0/7.4.85.102/259/")
-			<< CHAR_VALUE("username", ptrA(mir_urlEncode(username)))
+			<< CHAR_VALUE("clientVersion", ptrA(mir_urlEncode("0/7.4.85.102/259/")))
+			<< CHAR_VALUE("username", ptrA(mir_urlEncode(user.GetBuffer())))
 			<< CHAR_VALUE("passwordHash", ptrA(mir_urlEncode(hash)));
 	}
 };
