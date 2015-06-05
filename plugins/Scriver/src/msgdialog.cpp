@@ -1854,6 +1854,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			ptrA szText(GetRichTextUtf(GetDlgItem(hwndDlg, IDC_MESSAGE)));
 			if (szText)
 				db_set_utf(dat->hContact, "SRMM", "SavedMsg", szText);
+			else
+				db_unset(dat->hContact, "SRMM", "SavedMsg");
 		}
 
 		tcmdlist_free(dat->cmdList);
