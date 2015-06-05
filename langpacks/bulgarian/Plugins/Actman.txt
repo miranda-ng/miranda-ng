@@ -1,74 +1,94 @@
 ﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
-;  File: Actman.dll, Actman30.dll
+;  File: Actman.dll
 ;  Plugin: Action manager
-;  Version: 0.2.0.1 - 0.3.0.1
+;  Version: 0.3.0.1
 ;  Authors: Awkward
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Приставка за управление на клавишните комбинации за отваряне на прозореца за съобщения, вмъкване на текст, стартиране на програми и извикване на услуги
-[Actions]
-Действия
-[No description]
-Няма описание
+;Icons
+[Apply]
+Прилагане
 [New]
 Нов
+[Delete]
+Изтриване
 [Up]
 Нагоре
 [Down]
 Надолу
-[Reload]
-Обновяване
-[Delete]
-Изтриване
 [Test]
 Тест
-[Export]
-Износ
 [Import]
 Внос
+[Choose action]
+Изберете действие
+[&Yes]
+Да
+[&No]
+Не
+[A&ppend]
+Добавяне
+[Yes to &All]
+Да за всички
+[N&o to All]
+Не за всички
+[Export]
+Износ
+[Registered actions]
+Регистрирани действия
+;Actions
+[Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
+Настройките на Actman са от стара версия. За надграждането натиснете ОК. В противен случай ОТКАЗ и се върнете ръчно към стара версия  на Actman (или направете копие на настройките). За да запазите стари макроси (които сте експортирали) моля импортирайте ги преди да продължите с надграждането.
+[Actman settings converted to new version]
+Настройките на Actman са надградени
+[Actions]
+Действия
+[No description]
+Няма описание
+[Reload]
+Обновяване
 [Help]
 Помощ
 [Action]
 Действие
-[Contact]
-Контакт
-[Service]
-Услуга
-[Program]
-Програма
-[Text]
-Текст
-[Advanced]
-Разширени
-[Profile]
-Профил
-[Message]
-Съобщение
-[Choose contact]
-Изберете контакт
-[Active accounts only]
-Изброяване само на активни акаунти
-[Dropdown list format]
-Падащ списък
-[You can use %name%, %uid%, %account% and %group% macros]
-Можете да използвате %name%, %uid%, %account% и %group%
-[Contacts]
-Контакти
-[Show in popup]
-Показване в popup
-[Show in messagebox]
-Показване в текстова кутия
-[Insert into message]
-Вмъкване в съобщение
-[Hexadecimal]
-Шестнадесетичнa
-[String]
-String
-[Structure]
-Структура
-[Free memory]
-Свободна памет
+[Notes]
+Бележки
+[INI]
+INI
+[Read]
+Прочитане
+[Write]
+Записване
+[INI file name]
+име на INI файла
+[Text Editor]
+Текстови редактор
+[Script]
+Скрипт
+[C&ancel]
+Отказ
+[Section]
+Секция
+[Parameter]
+Параметър
+[Value]
+Стойност
+[Use LastResult]
+Ползване на последния резултат
+[UTF8 encoding]
+Кодиране UTF8
+[Function name]
+Име на функция
+[DLL name]
+Име на DLL
+[Arguments]
+Аргументи
+[Number of arguments]
+Брой аргументи
+[Argument]
+Аргумент
 [number value]
 числова стойност
 [ANSI string]
@@ -83,26 +103,256 @@ Unicode низ
 параметър
 [structure]
 структура
-[Service name]
-Име на услугата
+[Structure]
+Структура
+[Structure editor]
+Редактор на структурата
+[type]
+тип
+[data]
+Данни
+[2 bytes]
+2 байта
+[4 bytes]
+4 байта
+[8 bytes]
+8 байта
+[Byte]
+BYTE
+[Word]
+WORD
+[DWord]
+DWORD
+[Last result]
+Последен резултат
+[Data length]
+Дължина на данните
 [Use Variables]
 Ползване на променливи
-[Don't use Variables]
-Без променливи
 [Name]
 Име
 [Plugin]
 Приставка
+[Descr]
+Описание
+[&Change]
+Промяна
+[Result]
+Резултат
+[Free memory]
+Свободна памет
+[Contact]
+Контакт
+[Choose contact]
+Изберете контакт
+[Refresh]
+Обновяване
+[Other Action groups]
+Друга група действия
+[Program]
+Програма
+[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
+Текст <last> се заменя\r\nот последния резултат.\r\n\r\nТекст <param> се заменя\r\nот параметър.
+[Process options]
+Настройки на процеса
+[Current path]
+Текущ път
+[Window option]
+Настройки на прозореца
+[Start normal]
+Нормално стартиране
+[Start hidden]
+Скриване при стартиране
+[Start minimized]
+Минимизиране при стартиране
+[Start maximized]
+Максимизиране при стартиране
+[Service]
+Услуга
 [Return]
 Връща
 [Effect]
 Ефект
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
 '<proto>' в името на услугата ще бъде заменено с името на протокола за съответния контакт
-[Undefined]
-Неуточнено
-[Manage Jabber Bookmarks]
-Управление на Jabber отметки
+[Service:]
+Услуга:
+[In/Out]
+Входящи/Изходящи
+[Clipboard]
+Клипборд
+[Copy to]
+Копиране в
+[Paste from]
+Поставяне от
+[File]
+Файл
+[Append]
+Добавяне
+[Message window]
+Прозорец за съобщения
+[Condition]
+Условия
+[> greater]
+> по-голямо
+[< lesser]
+< по-малко
+[= equ]
+= равно
+[Text]
+Текст
+[empty]
+празно
+[contains]
+съдържа
+[starts with]
+започва с
+[ends with]
+завършва на
+[Operation]
+Операция
+[Message title]
+Заглавие на съобщението
+[Message text]
+Текст на съобщението
+[RTL]
+Л<Д
+[Right justified text]
+Дясно подравнен текст
+[Icons]
+Икони
+[Error]
+Грешка
+[Question]
+Въпрос
+[Warning]
+Предупреждение
+[Info]
+Информация
+[Buttons]
+Бутони
+[OK, Cancel]
+ОК, Отказ
+[Abort, Retry, Ignore]
+Прекратяване, Повтаряне, Игнориране
+[Yes, No, Cancel]
+Да, Не, Отказ
+[Yes, No]
+Да, Не
+[Retry, Cancel]
+Повтаряне, Отказ
+[Database]
+База данни
+[Contact type]
+Тип контакт
+[Own settings]
+Собствени настройки
+[Manual]
+Ръчно
+[Module]
+Модул
+[Setting]
+Настройка
+[Settings]
+Настройки
+[Contact list]
+Списък с контакти
+[Active accounts only]
+Изброяване само на активни акаунти
+[Contact list format]
+Формат на списъка с контакти
+[You can use %name%, %uid%, %account% and %group% substitutes]
+Можете да използвате %name%, %uid%, %account% и %group%
+[value]
+Стойност
+[name]
+име
+[value (name)]
+стойност (име)
+[name 'value']
+име 'стойност'
+;Scheduler
+[Start]
+Начало
+[Days]
+Дни
+[Time]
+Час
+[Date]
+Дата
+[Repeat]
+Повтаряне
+[Repeat, times]
+Повторение (пъти)
+[Interval]
+Интервал
+[Break on non-zero result]
+Прекъсни при резултат различен от 0
+[Send event on start time]
+Изпрати събитието при стартиране
+[Send event just once]
+Изпрати събитието само веднъж
+;Hooks
+[Description]
+Описание
+[Event]
+Събитие
+;Use Actions
+[Action list]
+Списък с действия
+[Where to use]
+Къде да се ползва
+[TopToolbar]
+TopToolBar
+[Core Hotkey]
+Клавишна комбинация
+[Main menu]
+Главно меню
+[Contact menu]
+Меню на контактите
+[Tray menu]
+Трей меню
+[Protocol menus]
+Менюта на протоколите
+[Status menu]
+Меню на състоянието
+[Common]
+Общи
+[2 state button/item]
+Елемент/бутон с 2 състояния
+[Save button/item state]
+Запис на състоянието на елемента/бутона
+[Contact related]
+Свързани с контакт
+[Normal button tooltip]
+Подсказка
+[Pressed button tooltip]
+Подсказка при натиснат бутон
+[Show only if variables return 1]
+Покажи само ако променливата върне "1"
+[Main settings]
+Главни настройки
+[Root popup:]
+Основен popup:
+[Menu item name:]
+Име на елемента в гл. меню:
+[Custom settings]
+Персонални настройки
+[Separated]
+Разделен(а)
+[Do not translate]
+Без превеждане
+;services.ini
+[Hide All Titlebars]
+Скриване на всички заглавни ленти
+[Show All Frames]
+Показване на всички рамки
+[Show All Titlebars]
+Показване на всички заглавни ленти
+[Show All Users]
+Показване на всички контакти
+[Show only Online Users]
+Показване само на контактите "На линия"
 [Offline]
 Извън линия
 [Online]
@@ -123,6 +373,100 @@ Unicode низ
 На телефона
 [Out to Lunch]
 На обяд
+[Set global status]
+Задаване на глобално състояние
+[Closes Miranda]
+Затваря Miranda
+[Ansi Text]
+Ansi текст
+[Removes all settings for the specified module]
+Премахва всички настройки от избрания модул
+[Import settings/contacts from file]
+Импортиране на настройки/контакти от файл
+[Opens or activate database editor]
+Отваряне или активиране на редактора за бази данни
+[Opens or activate user search dialog]
+Отваря или активира прозореца за търсене на потребители
+[displays File Transfer window]
+показва прозореца за обмен на файлове
+[on Desktop]
+на десктопа
+[Show "About..." window]
+Показва прозореца "Относно..."
+[Go to Miranda Homepage]
+Отваряне страницата на Miranda
+[System]
+Система
+[Ignore all]
+Игнорирай всичко
+[Ignore messages]
+Игнорирай съобщения
+[Ignore URLs]
+Игнорирай URL адреси
+[Ignore files]
+Игнорирай файлове
+[Ignore Contact]
+Игнориране на контакта
+[restart in default profile or profile manager]
+рестарт със стандартния профил или диспечера на профили
+[restart with current profile]
+рестарт с текущия профил
+[Restarts Miranda]
+Рестартира Miranda
+[Station name]
+Име на станцията
+[Starting or stopping radio station]
+Пускане или спиране на радио станция
+[All protocols]
+Всички протоколи
+[Protocol]
+Протокол
+[Shows a dialog to set the avatar for all possible protocols]
+Показване на прозорец за избор на аватар за всички протоколи
+[Shows the next protocol in the frame]
+Показване на следващия протокол в рамката
+[Shows the previous protocol in the frame]
+Показване на предишния протокол в рамката
+[Open Options dialog]
+Отваряне на прозореца за настройки
+[Check for updates]
+Проверка за актуализации
+[with confirmation]
+с потвърждение
+[without confirmation]
+без потвърждение
+[Empty updater download folder]
+Изпразване папката за сваляния на Updater
+[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
+Popup Plus (popup.dll) посл. YAPP (yapp.dll)
+[Enables or disables Popup windows]
+Включва или изключва Popup прозорците
+[Warning]
+Предупреждение
+[Notify]
+Уведомяване
+[Error]
+Грешка
+[YAPP or Popup]
+YAPP или Popup
+[Popup window]
+Рopup прозорец
+[Unicode Text]
+Unicode текст
+[Enables or disables Popup windows (maybe deprecated)]
+Включва или изключва Popup прозорците (стар метод)
+[displays the Account Manager]
+показва диспечера на акаунти
+[Show the dialog to select the contact]
+Показва прозорец за избор на контакт
+[Send Email to contact]
+Изпращане на имейл до контакт
+[Send file to contact.]
+Изпращане на файл до контакт
+[Filename]
+Име на файл
+[Manage Jabber Bookmarks]
+Управление на Jabber отметки
 [text]
 Текст
 [Set status message]
@@ -191,385 +535,15 @@ Unicode низ
 Гледа pro7
 [Love]
 Любов
-[Show All Users]
-Показване на всички контакти
-[Show only Online Users]
-Показване само на контактите "На линия"
-[Set global status]
-Задаване на глобално състояние
-[Hide All Titlebars]
-Скриване на всички заглавни ленти
-[Show All Frames]
-Показване на всички рамки
-[Show All Titlebars]
-Показване на всички заглавни ленти
-[Closes Miranda]
-Затваря Miranda
-[Ansi Text]
-Ansi текст
-[Removes all settings for the specified module]
-Премахва всички настройки от избрания модул
-[Import settings/contacts from file]
-Импортиране на настройки/контакти от файл
-[Opens or activate database editor]
-Отваряне или активиране на редактора за бази данни
-[Opens or activate user search dialog]
-Отваря или активира прозореца за търсене на потребители
-[displays File Transfer window]
-показва прозореца за обмен на файлове
-[on Desktop]
-на десктопа
-[Show "About..." window]
-Показва прозореца "Относно..."
-[Go to Miranda Homepage]
-Отваряне страницата на Miranda
-[System]
-Система
-[Ignore all]
-Игнорирай всичко
-[Ignore messages]
-Игнорирай съобщения
-[Ignore URLs]
-Игнорирай URL адреси
-[Ignore files]
-Игнорирай файлове
-[Ignore Contact]
-Игнориране на контакта
-[restart in default profile or profile manager]
-рестарт със стандартния профил или диспечера на профили
-[restart with current profile]
-рестарт с текущия профил
-[Restarts Miranda]
-Рестартира Miranda
-[Station name]
-Име на станцията
-[Starting or stopping radio station]
-Пускане или спиране на радио станция
-[All protocols]
-Всички протоколи
-[Protocol]
-Протокол
-[Shows a dialog to set the avatar for all possible protocols]
-Показване на прозорец за избор на аватар за всички протоколи
-[Shows the next protocol in the frame]
-Показване на следващия протокол в рамката
-[Shows the previous protocol in the frame]
-Показване на предишния протокол в рамката
-[Open Options dialog]
-Отваряне на прозореца за настройки
-[Check for updates]
-Проверка за актуализации
-[with confirmation]
-с потвърждение
-[without confirmation]
-без потвърждение
-[Empty updater download folder]
-Изпразване папката за сваляния на Updater
-[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
-Popup Plus (popup.dll) посл. YAPP (yapp.dll)
-[Enables or disables Popup windows]
-Включва или изключва Popup прозорците
-[YAPP or Popup]
-YAPP или Popup
-[Warning]
-Предупреждение
-[Notify]
-Уведомяване
-[Error]
-Грешка
-[Popup window]
-Рopup прозорец
-[YAPP only]
-само YAPP
-[Unicode Text]
-Unicode текст
-[Enables or disables Popup windows (maybe deprecated)]
-Включва или изключва Popup прозорците (стар метод)
-[displays the Account Manager]
-показва диспечера на акаунти
-[Show the dialog to select the contact]
-Показва прозорец за избор на контакт
-[Send Email to contact]
-Изпращане на имейл до контакт
-[Send file to contact.]
-Изпращане на файл до контакт
-[Avatar service (AVS.dll)]
-Услуга за аватари (AVS.dll)
-[Filename]
-Име на файл
-[Structure editor]
-Редактор на структурата
-[type]
-тип
-[data]
-Данни
-[2 bytes]
-2 байта
-[4 bytes]
-4 байта
-[8 bytes]
-8 байта
-[Byte]
-BYTE
-[Word]
-WORD
-[DWord]
-DWORD
-[Last result]
-Последен резултат
-[Parameter]
-Параметър
-[Data length]
-Дължина на данните
-[Descr]
-Описание
-[&Change]
-Промяна
-[C&ancel]
-Отказ
-[Process options]
-Настройки на процеса
-[Current path]
-Текущ път
-[Window option]
-Настройки на прозореца
-[Start normal]
-Нормално стартиране
-[Start hidden]
-Скриване при стартиране
-[Start minimized]
-Минимизиране при стартиране
-[Start maximized]
-Максимизиране при стартиране
-[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
-Текст <last> се заменя\r\nот последния резултат.\r\n\r\nТекст <param> се заменя\r\nот параметър.
-[Clipboard]
-Клипборд
-[Copy to]
-Копиране в
-[Paste from]
-Поставяне от
-[File]
-Файл
-[Read]
-Прочитане
-[Write]
-Записване
-[Append]
-Добавяне
-[Message window]
-Прозорец за съобщения
-[Text to insert]
-Текст за внасяне
-[Condition]
-Условия
-[Value]
-Стойност
-[Variables]
-Променливи
-[Operation]
-Операция
-[Other Action groups]
-Друга група действия
-[Own settings]
-Собствени настройки
-[Manual]
-Ръчно
-[Module]
-Модул
-[Setting]
-Настройка
-[Unicode]
-UNICODE
-[Message title]
-Заглавие на съобщението
-[Message text]
-Текст на съобщението
-[Keep last result]
-Запазване на последния резултат
-[Icons]
-Икони
-[Question]
-Въпрос
-[Info]
-Информация
-[Buttons]
-Бутони
-[OK, Cancel]
-ОК, Отказ
-[Abort, Retry, Ignore]
-Прекратяване, Повтаряне, Игнориране
-[Yes, No, Cancel]
-Да, Не, Отказ
-[Yes, No]
-Да, Не
-[Retry, Cancel]
-Повтаряне, Отказ
-[Start]
-Начало
-[Days]
-Дни
-[Time]
-Час
-[Date]
-Дата
-[Repeat]
-Повтаряне
-[Repeat, times]
-Повторение (пъти)
-[Interval]
-Интервал
-[Break on non-zero result]
-Прекъсни при резултат различен от 0
-[Send event on start time]
-Изпрати събитието при стартиране
-[Send event just once]
-Изпрати събитието само веднъж
-[Description]
-Описание
-[Apply]
-Прилагане
-[Event]
-Събитие
+[Undefined]
+Неуточнено
+[contact list]
+списък с контакти
 [Double click on the contact list]
 Двойно кликване върху списъка с контакти
+[database driver]
+драйвър за базата данни
 [New contact added to database]
 Добавяне на нов контакт към базата данни
 [Contact deleting]
 Изтриване на контакт
-[Action list]
-Списък с действия
-[Where to use]
-Къде да се ползва
-[TopToolbar]
-TopToolBar
-[Core Hotkey]
-Клавишна комбинация
-[Main menu]
-Главно меню
-[Contact menu]
-Меню на контактите
-[Tray menu]
-Трей меню
-[Protocol menus]
-Менюта на протоколите
-[Status menu]
-Меню на състоянието
-[Common]
-Общи
-[2 state button/item]
-Елемент/бутон с 2 състояния
-[Save button/item state]
-Запис на състоянието на елемента/бутона
-[Contact related]
-Свързани с контакт
-[Normal button tooltip]
-Подсказка
-[Pressed button tooltip]
-Подсказка при натиснат бутон
-[Separated]
-Разделен(а)
-[Root popup:]
-Основен popup:
-[Menu item name:]
-Име на елемента в гл. меню:
-[Show only if variables return 1]
-Покажи само ако променливата върне "1"
-[Choose action]
-Изберете действие
-[&Yes]
-Да
-[&No]
-Не
-[A&ppend]
-Добавяне
-[Yes to &All]
-Да за всички
-[N&o to All]
-Не за всички
-[Registered actions]
-Регистрирани действия
-; Actman30
-[Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
-Настройките на Actman са от стара версия. За надграждането натиснете ОК. В противен случай ОТКАЗ и се върнете ръчно към стара версия  на Actman (или направете копие на настройките). За да запазите стари макроси (които сте експортирали) моля импортирайте ги преди да продължите с надграждането.
-[Actman settings converted to new version]
-Настройките на Actman са надградени
-[INI]
-INI
-[INI file name]
-име на INI файла
-[Section]
-Секция
-[Use LastResult]
-Ползване на последния резултат
-[UTF8 encoding]
-Кодиране UTF8
-[Function name]
-Име на функция
-[DLL name]
-Име на DLL
-[Arguments]
-Аргументи
-[Number of arguments]
-Брой аргументи
-[Argument]
-Аргумент
-[Result]
-Резултат
-[Refresh]
-Обновяване
-[In/Out]
-Входящи/Изходящи
-[> greater]
-> по-голямо
-[< lesser]
-< по-малко
-[= equ]
-= равно
-[empty]
-празно
-[contains]
-съдържа
-[starts with]
-започва с
-[ends with]
-завършва на
-[RTL]
-Л<Д
-[Right justified text]
-Дясно подравнен текст
-[Database]
-База данни
-[Contact type]
-Тип контакт
-[Settings]
-Настройки
-[Contact list]
-Списък с контакти
-[Contact list format]
-Формат на списъка с контакти
-[You can use %name%, %uid%, %account% and %group% substitutes]
-Можете да използвате %name%, %uid%, %account% и %group%
-[value]
-Стойност
-[name]
-име
-[value (name)]
-стойност (име)
-[name 'value']
-име 'стойност'
-[contact list]
-списък с контакти
-[database driver]
-драйвър за базата данни
-[Main settings]
-Главни настройки
-[Custom settings]
-Персонални настройки
-[Do not translate]
-Без превеждане
-; these lines are not present in the sources, but they are present in compiled plugin
-[Text Editor]
-Текстови редактор
-[Script]
-Скрипт

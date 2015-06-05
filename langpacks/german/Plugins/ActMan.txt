@@ -1,106 +1,112 @@
 ﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
-;  File: Actman.dll, Actman30.dll
+;  File: Actman.dll
 ;  Plugin: Action manager
-;  Version: 0.2.0.1 - 0.3.0.1
+;  Version: 0.3.0.1
 ;  Authors: Awkward
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Plugin zum Verwalten von Hotkeys, Einfügen von Texten sowie Ausführen von Programmen und Diensten
-[Actions]
-Aktionen
-[No description]
-Keine Beschreibung
+;Icons
+[Apply]
+Übernehmen
 [New]
 Neu
+[Delete]
+Löschen
 [Up]
 Auf
 [Down]
 Ab
-[Reload]
-Neu laden
-[Delete]
-Löschen
 [Test]
 Testen
-[Export]
-Exportieren
-[Append data to file?]
-Daten an Datei anhängen?
 [Import]
 Importieren
+[Action "$" exists, do you want to rewrite it?]
+Aktion "$" existiert, möchten Sie sie neu erstellen?
+[Choose action]
+Aktion auswählen
+[&Yes]
+&Ja
+[&No]
+&Nein
+[A&ppend]
+Anf&ügen
+[Yes to &All]
+Ja zu &Allem
+[N&o to All]
+N&ein zu allem
+[Export]
+Exportieren
+[Reload/Refresh]
+
+[Registered actions]
+Eingetragene Aktionen
+;Actions
+[Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
+Ihre Actman-Einstellungen sind für eine alte Version. Wenn Sie bereit für eine Umwandlung Ihrer Einstellungen sind dann klicken Sie auf OK. Sonst klicken Sie auf Abbrechen und verwenden Sie die alte Version von ActMan, oder sichern Sie Ihre Einstellungen. Um Ihre bereits exportierten Makros beizubehalten importieren Sie diese bitte bevor Sie Ihre Einstellungen umwandeln.
+[Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
+Bitte testen Sie keine nicht-gespeicherten Makros. Wenn Sie "Erweiterte" oder Daten-Schreiben-Aktionen verwendet haben dann überprüfen Sie diese bitte - ihre Logik wurde geändert.
+[Actman settings converted to new version]
+Actman-Einstellungen wurden zur neuen Version umgewandelt.
+[Actions]
+Aktionen
+[No description]
+Keine Beschreibung
+[Reload]
+Neu laden
+[Append data to file?]
+Daten an Datei anhängen?
 [Help]
 Hilfe
 [Action]
 Aktion
-[Open contact window]
-Kontaktfenster öffnen
-[Contact]
-Kontakt
-[Call service]
-Dienst aufrufen
-[Service]
-Dienst
-[Execute program]
-Programm ausführen
-[Program]
-Programm
-[Insert text]
-Text einfügen
-[Text]
-Text
-[Advanced]
-Erweitert
-[Link to action]
-Verknüpfung zu Aktion
-[Profile]
-Profil
-[MessageBox]
-Meldung
-[Message]
-Nachricht
-[Choose contact]
-Kontakt wählen
-[Keep handle only]
-Nur Handle speichern
-[Active accounts only]
-Nur aktive Konten
-[Dropdown list format]
-Auswahllistenformat
-[Apply format]
-Format anwenden
-[You can use %name%, %uid%, %account% and %group% macros]
-Sie können die Makros %name%, %uid%, %account% und %group% verwenden
-[Contacts]
-Kontakte
-[Select contact to open its window]
-Kontakte auswählen um deren Fenster zu öffnen
-[Result action]
-Ergebnisaktion
-[Show in popup]
-Popup zeigen
-[Show in messagebox]
-In Meldungsfelder anzeigen
-[Insert into message]
-In Nachricht einfügen
-[Service result]
-Ergebnis des Dienstes
-[Integer]
-Integer
-[Hexadecimal]
-Hexadezimal
-[String]
-String
-[Structure]
-Struktur
-[Free memory]
-Speicher freigeben
-[Signed value]
-Positive und negative Werte
-[wParam type]
-wParam-Typ
-[lParam type]
-lParam-Typ
+[Notes]
+Notizen
+[INI]
+INI
+[Read]
+Lesen
+[Write]
+Schreiben
+[INI file name]
+INI-Dateiname
+[Text Editor]
+Texteditor
+[Script]
+Skript
+[Wrap Text]
+Text umbrechen
+[C&ancel]
+&Abbrechen
+[Section]
+Sektion
+[Parameter]
+Parameter
+[Value]
+Wert
+[Use LastResult]
+Letztes Ergebnis verwenden
+[UTF8 encoding]
+UTF8-Kodierung
+[Function call]
+Funktion aufrufen
+[Function name]
+Funktionsname
+[DLL name]
+DLL-Name
+[Call type]
+Aufrufart
+[Arguments]
+Argumente
+[Number of arguments]
+Anzahl Argumente
+[Argument]
+Argument
+[Param]
+Param
+[Param type]
+Parametertyp
 [number value]
 Nummernwert
 [ANSI string]
@@ -115,30 +121,432 @@ Letztes Ergebnis
 Parameter
 [structure]
 Struktur
-[Service name]
-Dienstname
+[Ansi message]
+
+[Ansi caption]
+
+[Structure]
+Struktur
+[Structure editor]
+Struktureditor
+[alias]
+Alias
+[type]
+Typ
+[length]
+Länge
+[data]
+Daten
+[Data align]
+Datenausrichtung
+[Native]
+Nativ
+[Packed]
+Gepackt
+[2 bytes]
+2 Byte
+[4 bytes]
+4 Byte
+[8 bytes]
+8 Byte
+[Byte]
+Byte
+[Word]
+Word
+[DWord]
+DWord
+[QWord]
+QWord
+[NativeInt]
+Nativer Int
+[Byte Array]
+Byte-Array
+[Word Array]
+Word-Array
+[Pointer to bytes]
+Zeiger zu Bytes
+[Pointer to words]
+Zeiger zu Words
+[Last result]
+Letztes Ergebnis
+[Data length]
+Datenlänge
 [Use Variables]
 Variablen verwenden
-[Don't use Variables]
-Variablen nicht verwenden
-[Miranda service help]
-Mirandadiensthilfe
+[V]
+V
+[Structure size]
+Strukturgröße
+[Use MMI]
+
+[Structure help]
+Strukturhilfe
 [Name]
 Name
-[Alias]
-Alias
 [Plugin]
 Plugin
+[Descr]
+Beschr.
+[&Change]
+Ändern
+[Result]
+Ergebnis
+[Result type]
+Ergebnistyp
+[Free memory]
+Speicher freigeben
+[DLL Handle Cache]
+DLL Handle Cache
+[Keep to end]
+Am Ende behalten
+[Close immediately]
+Sofort schließen
+[Close for macro]
+Für Makro schließen
+[Contact]
+Kontakt
+[Choose contact]
+Kontakt wählen
+[Refresh]
+Aktualisieren
+[Keep handle only]
+Nur Handle speichern
+[Get from active window]
+Vom aktiven Fenster beziehen
+[Chain]
+Ablauf
+[Other Action groups]
+Andere Aktionsgruppen
+[not defined]
+Nicht definiert
+[Keep old result]
+Altes Ergebnis behalten
+[Same thread]
+Selber Thread
+[Do not wait until the end of execution]
+Nicht auf das Ende der Ausführung warten
+[Program]
+Programm
+[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
+Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nText <param> wird\r\ndurch Parameter ersetzt
+[Process options]
+Prozesseinstellungen
+[Parallel]
+Parallel
+[Continued]
+Kontinuierlich
+[Process time, ms]
+Prozesszeit, ms
+[Current path]
+Momentaner Pfad
+[Window option]
+Fenstereinstellungen
+[Start normal]
+Normal starten
+[Start hidden]
+Versteckt starten
+[Start minimized]
+Minimiert starten
+[Start maximized]
+Maximiert starten
+[Program path]
+Programmpfad
+[Program args]
+Programmargumente
+[Service]
+Dienst
+[Miranda service help]
+Mirandadiensthilfe
+[Alias]
+Alias
 [Return]
 Rückgabewert
 [Effect]
 Effekt
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
 '<proto>' im Dienstnamen wird durch den Namen des aktuellen Protokolls eines Kontakts abhängig vom Kontext ersetzt.
-[Undefined]
-Undefiniert
-[Manage Jabber Bookmarks]
-Jabber-Lesezeichen verwalten
+[Service:]
+Dienst:
+[In/Out]
+Ein/Aus
+[Clipboard]
+Zwischenablage
+[Copy to]
+Kopieren nach
+[Paste from]
+Einfügen von
+[File]
+Datei
+[Append]
+Anhängen
+[UTF8+sign]
+UTF8+Sign.
+[UTF16+sign]
+UTF16+Sign.
+[Message window]
+Nachrichtenfenster
+[Autosend]
+Autosend
+[Jump]
+Sprung
+[Condition]
+Bedingung
+[Math]
+Mathe
+[> greater]
+> größer
+[< lesser]
+< kleiner
+[= equ]
+= gleich
+[& and]
+& und
+[Text]
+Text
+[Case sensitive]
+Groß-/Kleinschreibung beachten
+[Opposite order]
+Umgekehrte Reihenfolge
+[empty]
+leer
+[contains]
+beinhaltet
+[starts with]
+beginnt mit
+[ends with]
+endet mit
+[NOT]
+Nicht
+[Operation]
+Vorgang
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - ausgewählter (und ersetzter) teil\r\n^e - durch leeren String ersetzt\r\n^v - Text aus zwischenablage einfügen\r\n^t - durch Tabulatoren ersetzt\r\n^l - durch letztes Ergebnis als Unicode ersetzt\r\n^h - durch letztes Ergebnis als Hex ersetzt\r\n^f(name[,str])\r\n     Zeile aus Textdatei einfügen.\r\n   Inhalt in Klammern ohne Leerzeichen.
+[Process script after]
+Skript ausführen nach
+[MessageBox]
+Meldung
+[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
+Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nRückgabewerte:\r\n--------\r\nOK\t\t= 1\r\nAbbrechen\t= 2\r\nAbbruch\t\t= 3\r\nWiederholen\t= 4\r\nIgnorieren\t= 5\r\nJa\t\t= 6\r\nNein\t\t= 7\r\nSchließen\t\t= 8
+[Message title]
+Nachrichtentitel
+[Message text]
+Nachrichtentext
+[RTL]
+RTL
+[Right justified text]
+Rechts ausgerichteter Text
+[Icons]
+Icons
+[Error]
+Fehler
+[Question]
+Frage
+[Warning]
+Warnung
+[Info]
+Info
+[Buttons]
+Schaltflächen
+[OK, Cancel]
+OK, Abbrechen
+[Abort, Retry, Ignore]
+Abbrechen, Wiederholen, Ignorieren
+[Yes, No, Cancel]
+Ja, Nein, Abbrechen
+[Yes, No]
+Ja, Nein
+[Retry, Cancel]
+Wiederholen, Abbrechen
+[Database]
+Datenbank
+[Contact type]
+Kontakttyp
+[Own settings]
+Eigene Einstellungen
+[Manual]
+Manuell
+[Module]
+Modul
+[Setting]
+Einstellung
+[Save value]
+Wert speichern
+[Storage]
+Speicherung
+[LastResult to ]
+Letztes Ergebnis zu\s
+[LastResult from]
+Letztes Ergebnis von
+[Slot 0]
+Slot 0
+[Slot 1]
+Slot 1
+[Slot 2]
+Slot 2
+[Slot 3]
+Slot 3
+[Slot 4]
+Slot 4
+[Slot 5]
+Slot 5
+[Slot 6]
+Slot 6
+[Slot 7]
+Slot 7
+[Slot 8]
+Slot 8
+[Slot 9]
+Slot 9
+[Settings]
+Einstellungen
+[Contact list]
+Kontaktliste
+[Active accounts only]
+Nur aktive Konten
+[Contact list format]
+Kontaktlistenformat
+[You can use %name%, %uid%, %account% and %group% substitutes]
+Sie können die Makros %name%, %uid%, %account% und %group% verwenden
+[Service list format]
+Dienstlistenformat
+[value]
+Wert
+[name]
+Name
+[value (name)]
+Wert (Name)
+[name 'value']
+Name 'Wert'
+[Current Macro]
+Ausgewähltes Makro
+[Select for FirstRun]
+Für FirstRun auswählen
+[Mark as Volatile]
+Als flüchtig markieren
+[Single instance]
+Einzelne Instanz
+;Scheduler
+[Scheduler]
+Zeitplaner
+[Task sample]
+Aufgabenbeispiel
+[Start]
+Starten
+[Starting after]
+Starte nach
+[Starting from]
+Starte am
+[Start immediately]
+Starte sofort
+[Days]
+Tage
+[Time]
+Zeit
+[Date]
+Datum
+[Repeat]
+Wiederholen
+[Repeat, times]
+Anz. Wiederh.
+[Interval]
+Intervall
+[Break on non-zero result]
+Bei Nicht-Null-Ergebnis abbrechen
+[Send event on start time]
+Ereignis zur Startzeit senden
+[Send event just once]
+Ereignis nur einmalig senden
+;Hooks
+[Hooks]
+Hooks
+[Description]
+Beschreibung
+[hook sample]
+Hookbeispiel
+[Event]
+Ereignis
+[Miranda event help]
+Miranda-Ereignishilfe
+;Use Actions
+[Use Actions]
+Aktionen verwenden
+[Action list]
+Aktionsliste
+[Where to use]
+Wo anzuwenden?
+[TopToolbar]
+TopToolbar
+[TabSRMM toolbar]
+TabSRMM-Toolbar
+[Core Hotkey]
+Core-Hotkey
+[Main menu]
+Hauptmenü
+[Contact menu]
+Kontaktmenü
+[Tray menu]
+Traymenü
+[Protocol menus]
+Protokollmenüs
+[Status menu]
+Statusmenü
+[Common]
+Allgemein
+[2 state button/item]
+Zwei-Zustand-Schaltfläche/Element
+[Save button/item state]
+Schaltfläche/Elementzustand speichern
+[Contact related]
+Kontaktbezogen
+[Normal button tooltip]
+Tooltip normale Schaltfläche
+[Pressed button tooltip]
+Tooltip gedrückte Schaltfläche
+[Show only if variables return 1]
+Zeige nur, falls Variable 1 zurückgibt
+[Main settings]
+Haupteinstellungen
+[Root popup:]
+Unterpunkt:
+[Menu item name:]
+Menüpunkt Name:
+[Custom settings]
+Eigene Einstellungen
+[Separated]
+Getrennt
+[Do not translate]
+Nicht übersetzen
+;services.ini
+[Show window for new/changed profile password]
+Zeigt ein Fenster für ein neues/geändertes Profilpasswort an.
+[int 0, if successful]
+int 0, falls erfolgreich
+[Hide All Titlebars]
+Alle Titelleisten verstecken
+[Show All Frames]
+Alle Frames anzeigen
+[Show All Titlebars]
+Alle Titelleisten anzeigen
+[will never return the user's custom name]
+Gibt niemals den benutzerdefinierten Namen zurück
+[will return Unicode instead of AnsiChar]
+Gibt Unicode statt AnstChar zurück
+[will not use the cache]
+Verwendet nicht den Cache
+[Gets the string that the contact list will use to represent a contact]
+Gibt den Namen zurück, der in der Kontaktliste angezeigt wird
+[int hMenu handle]
+int hMenu handle
+[Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
+Errichtet das Kontextmenü für einen bestimmten Kontakt. Menü sollte danach mit DestroyMenu() zerstört werden.
+[Show All Users]
+Alle Kontakte anzeigen
+[Show only Online Users]
+Nur Online-Kontakte anzeigen
+[Toggle status]
+Status umschalten
+[Change 'hide offline contacts' option value]
+"Offline Kontakte ausblenden"-Einstellung ändern
 [Offline]
 Offline
 [Online]
@@ -159,10 +567,210 @@ Unsichtbar
 Am Telefon
 [Out to Lunch]
 Zum Essen
+[Set global status]
+Globalen Status setzen
+[Switch contact list status]
+Kontaktlistenstatus umschalten
+[Closes Miranda]
+Schließt Miranda
+[Show or hide netlog console window]
+Zeigt oder versteckt Netlib-Konsolenfenster
+[int Value]
+int Wert
+[Returns contact amount, excluding user account]
+Gibt Anzahl Kontakte, ohne Benutzerkonto, zurück
+[Ansi Text]
+Ansi-Text
+[Removes all settings for the specified module]
+Entfernt alle Einstellungen im angegebenen Modul
+[int 0]
+int 0
+[Import settings/contacts from file]
+Einstellungen/Kontakte aus Datei importieren
+[Opens or activate database editor]
+Öffnet oder aktiviert den Datenbankeditor
+[Opens or activate user search dialog]
+Öffnet oder aktiviert die Suche nach Benutzern
+[displays File Transfer window]
+Zeigt Dateiübertragungsfenster an
+[on Desktop]
+auf dem Desktop
+[parent window handle]
+Elternfensterhandle
+[Show "About..." window]
+Zeigt "Über..." Fenster
+[Open support (originally - Miranda wiki) page]
+Öffnet Support (ursprünglich Miranda Wiki) Seite
+[Go to Miranda Homepage]
+Geht zu Miranda-Webseite
+[Open bug report page]
+Öffnet Bug-Report-Seite
+[System]
+System
+[Shows contact history or (wParam=0) system history]
+Zeigt Verlauf des Kontaktes oder (wParam=0) Systemverlauf
+[Erases contact's history. hContact can be NULL(0) to empty system history]
+Löscht den Verlauf eines Kontaktes. hContact kann NULL(0) sein um Systemverlauf zu löschen
+[Show Global history search window. If already opened, bring it to front.]
+Zeigt Suchfenster für globalen Verlauf. Wenn schon geöffnet wird er nach vorne gebracht.
+[Ignore all]
+Alles ignorieren
+[Ignore messages]
+Nachrichten ignorieren
+[Ignore URLs]
+URLs ignorieren
+[Ignore files]
+Dateien ignorieren
+[Ignore User Online]
+Statusbenachrichtigungen ignorieren
+[Ignore requests]
+Anfragen ignorieren
+[Ignore 'You were added']
+'Sie wurden hinzugefügt' ignorieren
+[Ignore Contact]
+Kontakt ignorieren
+[Unignore Contact]
+Kontakt nicht mehr ignorieren
+[restart in default profile or profile manager]
+Neustart mit Standardprofil oder Profilmanager
+[restart with current profile]
+Neustart mit aktuellem Profil
+[Restarts Miranda]
+Startet Miranda neu
+[Station name]
+Stationsname
+[wParam is Handle]
+wParam ist Handle
+[wParam is Ansi station name]
+wParam ist Stationsname (Ansi)
+[wParam is Unicode station name]
+wParam ist Stationsname (Unicode)
+[Starting or stopping radio station]
+Startet oder stoppt Radiostation
+[Stop cycle]
+Wechseln stoppen
+[Start cycle]
+Wechseln starten
+[Start/stops the cycling through protocols]
+Startet/Stoppt das Wechseln der Protokolle
+[All protocols]
+Alle Protokolle
+[Protocol]
+Protokoll
+[signed -2 if proto can't set this, -1 on protocol not found, else 0]
+Mit Vorzeichen, -2 falls das Protokoll dies nicht machen kann, -1 falls Protokoll nicht gefunden, sonst 0
+[Shows a dialog to set the avatar for all possible protocols]
+Zeigt den Dialog um Ihr Avatar für alle möglichen Konten zu setzen.
+[Shows the next protocol in the frame]
+Zeigt das nächste Protokoll im Frame
+[Shows the previous protocol in the frame]
+Zeigt das vorherige Protokoll im Frame
+[Open Options dialog]
+Einstellungsdialog öffnen
+[Opens the options dialog, optionally at the specified page]
+Öffnet den Einstellungsdialog, optional an der angegebenen Seite
+[Check for updates]
+Auf Updates prüfen
+[with confirmation]
+mit Bestätigung
+[without confirmation]
+ohne Bestätigung
+[Empty updater download folder]
+Updater-Downloadverzeichnis leeren
+[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
+Popup Plus (popup.dll), neustes YAPP (yapp.dll)
+[Enables or disables Popup windows]
+Aktiviert oder deaktiviert Popupfenster
+[Warning]
+Warnung
+[Notify]
+Benachrichtigung
+[Error]
+Fehler
+[YAPP or Popup]
+YAPP oder Popup
+[Popup window]
+Popupfenster
+[Unicode Text]
+Unicode-Text
+[Enables or disables Popup windows (maybe deprecated)]
+Aktiviert oder deaktiviert Popups (vielleicht veraltet)
+[result of protocol service call]
+Ergebnis des Protokollserviceaufrufes
+[Send a general request through the protocol chain for a contact]
+Stellt eine generelle Anfrage durch die Protokollkette für einen Kontakt
+[str, account name]
+str, Kontenname
+[Return account name associated to contact (no need to free it)]
+Gibt den Kontennamen zu dem Kontakt an (muss nicht freigegeben werden).
+[displays the Account Manager]
+Zeigt den Kontenmanager an
+[Show the dialog to select the contact]
+Zeigt den Dialog um einen Kontakt auszuwählen
+[filter text]
+Text filtern
+[wParam is unicode]
+wParam ist Unicode
+[wParam is Ansi]
+wParam ist Ansi
+[Reserved]
+Reserviert
+[Open main QuickSearch window with text filter]
+
+[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
+Spielt Sound durch Skin/Sounds/AddNew. Wenn Sound nicht gefunden wird wird Standard-Windows-Sound gespielt.
+[Send Email to contact]
+E-Mail an Kontakt senden
+[struct]
+Struktur
+[Returns the received files folder for a contact]
+Gibt den Pfad für empfangene Dateien von einem Kontakt zurück.
+[Open contact received file directory]
+Öffnet das Verzeichnis für empfangene Dateien von einem Kontakt.
+[Send file to contact.]
+Datei an Kontakt senden.
+[Opens message window for contact with handle in wparam]
+Öffnet das nachrichtenfenster für den Kontakt mit Handle im wParam
+[remove all temporary contacts from db]
+Entfernt alle temporären Kontakte aus der Datenbank
+[Call avatar option dialog for contact]
+Ruft Avatareinstellungen für einen Kontakt auf.
+[Filename]
+Dateiname
+[Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
+Setzt (und beschützt optional) ein lokales Bild für den gegebenen hContact. Falls hContact = NULL öffnet der Dienst einen Dateiauswahldialog.
+[Shows contact property window.]
+Zeigt Eigenschaftsfenster des Kontaktes.
+[Open URL in current window]
+Öffnet URL in aktuellem Fenster
+[0 - Open URL in current window]
+0 - Öffnet URL in aktuellem Fenster
+[Open URL in default browser]
+Öffnet URL im Standardbrowser
+[With formating]
+Mit Formatierung
+[Don't use formating]
+Keine Formatierung verwenden
+[Returns a string containing the versioninfo post]
+Gibt einen String zum Versionsinfobericht zurück
+[Show or save (call default action) Modules version Info]
+Zeigt oder speichert (Standardaktion bei Aufruf) Versionsinfo des Moduls
+[Show popup or Info window with current music information.]
+Zeigt Popup oder Info mir aktueller Musikinformation.
+[log filename]
+Log Dateiname
+[report filename]
+Report Dateiname
+[int 0, if unsuccessful]
+int 0, falls erfolglos
+[Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
+Erstellt Report aus Log und führt es aus (falls Einstellung gesetzt). Falls wParam oder lParam leer ist dann werden die Dateinamen aus den Einstellungen verwendet.
+[display birthdays window]
+Zeigt Geburtstagsfenster
+[Manage Jabber Bookmarks]
+Jabber-Lesezeichen verwalten
 [text]
 Text
-[int 0, if successful]
-int 0, falls erfolgreich
 [Set status message]
 Statusnachricht setzen
 [Set protocol status]
@@ -237,677 +845,21 @@ Liebe
 Aktuellen eigenen Custom Status setzen
 [Display xStatus detail]
 xStatus-Detail anzeigen
-[int hMenu handle]
-int hMenu handle
-[Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
-Errichtet das Kontextmenü für einen bestimmten Kontakt. Menü sollte danach mit DestroyMenu() zerstört werden.
-[Show All Users]
-Alle Kontakte anzeigen
-[Show only Online Users]
-Nur Online-Kontakte anzeigen
-[Toggle status]
-Status umschalten
-[Change 'hide offline contacts' option value]
-"Offline Kontakte ausblenden"-Einstellung ändern
-[Set global status]
-Globalen Status setzen
-[Switch contact list status]
-Kontaktlistenstatus umschalten
-[Hide All Titlebars]
-Alle Titelleisten verstecken
-[Show All Frames]
-Alle Frames anzeigen
-[Show All Titlebars]
-Alle Titelleisten anzeigen
-[will never return the user's custom name]
-Gibt niemals den benutzerdefinierten Namen zurück
-[will return Unicode instead of AnsiChar]
-Gibt Unicode statt AnstChar zurück
-[will not use the cache]
-Verwendet nicht den Cache
-[Gets the string that the contact list will use to represent a contact]
-Gibt den Namen zurück, der in der Kontaktliste angezeigt wird
-[Closes Miranda]
-Schließt Miranda
-[Show or hide netlog console window]
-Zeigt oder versteckt Netlib-Konsolenfenster
-[int Value]
-int Wert
-[Returns contact amount, excluding user account]
-Gibt Anzahl Kontakte, ohne Benutzerkonto, zurück
-[Ansi Text]
-Ansi-Text
-[Removes all settings for the specified module]
-Entfernt alle Einstellungen im angegebenen Modul
-[Show window for new/changed profile password]
-Zeigt ein Fenster für ein neues/geändertes Profilpasswort an.
-[int 0]
-int 0
-[Import settings/contacts from file]
-Einstellungen/Kontakte aus Datei importieren
-[Opens or activate database editor]
-Öffnet oder aktiviert den Datenbankeditor
-[Opens or activate user search dialog]
-Öffnet oder aktiviert die Suche nach Benutzern
-[displays File Transfer window]
-Zeigt Dateiübertragungsfenster an
-[on Desktop]
-auf dem Desktop
-[parent window handle]
-Elternfensterhandle
-[Show "About..." window]
-Zeigt "Über..." Fenster
-[Open bug report page]
-Öffnet Bug-Report-Seite
-[Open support (originaly - Miranda wiki) page]
-Öffnet Support (ursprünglich Miranda Wiki) Seite
-[Go to Miranda Homepage]
-Geht zu Miranda-Webseite
-[System]
-System
-[Shows contact history or (wParam=0) system history]
-Zeigt Verlauf des Kontaktes oder (wParam=0) Systemverlauf
-[Erases contact's history. hContact can be NULL(0) to empty system history]
-Löscht den Verlauf eines Kontaktes. hContact kann NULL(0) sein um Systemverlauf zu löschen
-[Show Global history search window. If already opened, bring it to front.]
-Zeigt Suchfenster für globalen Verlauf. Wenn schon geöffnet wird er nach vorne gebracht.
-[Ignore all]
-Alles ignorieren
-[Ignore messages]
-Nachrichten ignorieren
-[Ignore URLs]
-URLs ignorieren
-[Ignore files]
-Dateien ignorieren
-[Ignore User Online]
-Statusbenachrichtigungen ignorieren
-[Ignore requests]
-Anfragen ignorieren
-[Ignore 'You were added']
-'Sie wurden hinzugefügt' ignorieren
-[Ignore Contact]
-Kontakt ignorieren
-[Unignore Contact]
-Kontakt nicht mehr ignorieren
-[restart in default profile or profile manager]
-Neustart mit Standardprofil oder Profilmanager
-[restart with current profile]
-Neustart mit aktuellem Profil
-[Restarts Miranda]
-Startet Miranda neu
-[Station name]
-Stationsname
-[wParam is Handle]
-wParam ist Handle
-[wParam is Ansi station name]
-wParam ist Stationsname (Ansi)
-[wParam is Unicode station name]
-wParam ist Stationsname (Unicode)
-[Starting or stopping radio station]
-Startet oder stoppt Radiostation
-[Stop cycle]
-Wechseln stoppen
-[Start cycle]
-Wechseln starten
-[Start/stops the cycling throught protocols]
-Startet/Stoppt das Wechseln der Protokolle
-[All protocols]
-Alle Protokolle
-[Protocol]
-Protokoll
-[signed -2 if proto can't set this, -1 on protocol not found, else 0]
-Mit Vorzeichen, -2 falls das Protokoll dies nicht machen kann, -1 falls Protokoll nicht gefunden, sonst 0
-[Shows a dialog to set the avatar for all possible protocols]
-Zeigt den Dialog um Ihr Avatar für alle möglichen Konten zu setzen.
-[Shows the next protocol in the frame]
-Zeigt das nächste Protokoll im Frame
-[Shows the previous protocol in the frame]
-Zeigt das vorherige Protokoll im Frame
-[Opens the options dialog, optionally at the specified page]
-Öffnet den Einstellungsdialog, optional an der angegebenen Seite
-[Open Options dialog]
-Einstellungsdialog öffnen
-[Check for updates]
-Auf Updates prüfen
-[with confirmation]
-mit Bestätigung
-[without confirmation]
-ohne Bestätigung
-[Empty updater download folder]
-Updater-Downloadverzeichnis leeren
-[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
-Popup Plus (popup.dll), neustes YAPP (yapp.dll)
-[Enables or disables Popup windows]
-Aktiviert oder deaktiviert Popupfenster
-[YAPP or Popup]
-YAPP oder Popup
-[Warning]
-Warnung
-[Notify]
-Benachrichtigung
-[Error]
-Fehler
-[Popup window]
-Popupfenster
-[YAPP only]
-Nur YAPP
-[Unicode Text]
-Unicode-Text
-[Enables or disables Popup windows (maybe deprecated)]
-Aktiviert oder deaktiviert Popups (vielleicht veraltet)
-[result of protocol service call]
-Ergebnis des Protokollserviceaufrufes
-[Send a general request through the protocol chain for a contact]
-Stellt eine generelle Anfrage durch die Protokollkette für einen Kontakt
-[str, account name]
-str, Kontenname
-[Return account name associated to contact (no need to free it)]
-Gibt den Kontennamen zu dem Kontakt an (muss nicht freigegeben werden).
-[displays the Account Manager]
-Zeigt den Kontenmanager an
-[Show the dialog to select the contact]
-Zeigt den Dialog um einen Kontakt auszuwählen
-[filter text]
-Text filtern
-[wParam is unicode]
-wParam ist Unicode
-[wParam is Ansi]
-wParam ist Ansi
-[Reserved]
-Reserviert
-[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
-Spielt Sound durch Skin/Sounds/AddNew. Wenn Sound nicht gefunden wird wird Standard-Windows-Sound gespielt.
-[Send Email to contact]
-E-Mail an Kontakt senden
-[struct]
-Struktur
-[Returns the received files folder for a contact]
-Gibt den Pfad für empfangene Dateien von einem Kontakt zurück.
-[Open contact received file directory]
-Öffnet das Verzeichnis für empfangene Dateien von einem Kontakt.
-[Send file to contact.]
-Datei an Kontakt senden.
-[hContact;parameter]
-hContact;Parameter
-[Opens message window for contact with handle in wparam]
-Öffnet das nachrichtenfenster für den Kontakt mit Handle im wParam
-[remove all temporary contacts from db]
-Entfernt alle temporären Kontakte aus der Datenbank
-[Call avatar option dialog for contact]
-Ruft Avatareinstellungen für einen Kontakt auf.
-[Avatar service (AVS.dll)]
-Avatar Service (AVS.dll)
-[Filename]
-Dateiname
-[Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
-Setzt (und beschützt optional) ein lokales Bild für den gegebenen hContact. Falls hContact = NULL öffnet der Dienst einen Dateiauswahldialog.
-[Shows contact property window.]
-Zeigt Eigenschaftsfenster des Kontaktes.
-[Open URL in current window]
-Öffnet URL in aktuellem Fenster
-[Open URL in default browser]
-Öffnet URL im Standardbrowser
-[With formating]
-Mit Formatierung
-[Don't use formating]
-Keine Formatierung verwenden
-[Returns a string containing the versioninfo post]
-Gibt einen String zum Versionsinfobericht zurück
-[Show or save (call default action) Modules version Info]
-Zeigt oder speichert (Standardaktion bei Aufruf) Versionsinfo des Moduls
-[log filename]
-Log Dateiname
-[report filename]
-Report Dateiname
-[int 0, if unsuccessful]
-int 0, falls erfolglos
-[Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
-Erstellt Report aus Log und führt es aus (falls Einstellung gesetzt). Falls wParam oder lParam leer ist dann werden die Dateinamen aus den Einstellungen verwendet.
-[Show popup or Info window with current music information.]
-Zeigt Popup oder Info mir aktueller Musikinformation.
-[WhenWasIt Birthday Reminder (whenwasit.dll)]
-WhenWasIt Birthday Reminder (whenwasit.dll)
-[display birthdays window]
-Zeigt Geburtstagsfenster
-[Structure editor]
-Struktureditor
-[alias]
-Alias
-[type]
-Typ
-[length]
-Länge
-[data]
-Daten
-[Data align]
-Datenausrichtung
-[Native]
-Nativ
-[Packed]
-Gepackt
-[2 bytes]
-2 Byte
-[4 bytes]
-4 Byte
-[8 bytes]
-8 Byte
-[Byte]
-Byte
-[Word]
-Word
-[DWord]
-DWord
-[QWord]
-QWord
-[NativeInt]
-Nativer Int
-[Byte Array]
-Byte-Array
-[Word Array]
-Word-Array
-[Pointer to bytes]
-Zeiger zu Bytes
-[Pointer to words]
-Zeiger zu Words
-[Last result]
-Letztes Ergebnis
-[Parameter]
-Parameter
-[Data length]
-Datenlänge
-[Structure help]
-Strukturhilfe
-[Descr]
-Beschr.
-[&Change]
-Ändern
-[C&ancel]
-&Abbrechen
-[Process options]
-Prozesseinstellungen
-[Parallel]
-Parallel
-[Continued]
-Kontinuierlich
-[Process time, ms]
-Prozesszeit, ms
-[Current path]
-Momentaner Pfad
-[Window option]
-Fenstereinstellungen
-[Start normal]
-Normal starten
-[Start hidden]
-Versteckt starten
-[Start minimized]
-Minimiert starten
-[Start maximized]
-Maximiert starten
-[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
-Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nText <param> wird\r\ndurch Parameter ersetzt
-[Program path]
-Programmpfad
-[Program args]
-Programmargumente
-[Clipboard]
-Zwischenablage
-[Copy to]
-Kopieren nach
-[Paste from]
-Einfügen von
-[File]
-Datei
-[Read]
-Lesen
-[Write]
-Schreiben
-[Append]
-Anhängen
-[UTF8+sign]
-UTF8+Sign.
-[UTF16+sign]
-UTF16+Sign.
-[Message window]
-Nachrichtenfenster
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - ausgewählter (und ersetzter) Teil\r\n^e - ersetzt durch leere Zeichenkette\r\n^v - Text aus Zwischenablage einfügen\r\n^t - ersetzt durch Zeilenvorschub\r\n^l - ersetzt durch letztes Ergebnis als Unicode\r\n^h - ersetzt durch letztes Ergebnis als Hex\r\n^a - am Ende: automatisch senden\r\n^f(name\[,str])\r\n     fügt Zeile aus Textdatei ein.\r\n     Klammerinhalte dürfen keine Leerzeichen enthalten
-[Text to insert]
-Text, der eingefügt werden soll
-[Condition]
-Bedingung
-[NOT]
-Nicht
-[Value]
-Wert
-[Math]
-Mathe
-[Variables]
-Variablen
-[Result as integer]
-Ergebnis als Integer
-[Operation]
-Vorgang
-[Other Action groups]
-Andere Aktionsgruppen
-[not defined]
-Nicht definiert
-[You can select another group from combobox, then it will be executed, after that current action group will be continued.]
-Sie können eine andere Gruppe aus der Combobox auswählen, dann wird diese ausgeführt, danach wird die aktuelle Gruppe fortgesetzt.
-[Macros]
-Makros
-[Own settings]
-Eigene Einstellungen
-[Manual]
-Manuell
-[Module]
-Modul
-[Setting]
-Einstellung
-[Unicode]
-Unicode
-[Message title]
-Nachrichtentitel
-[Message text]
-Nachrichtentext
-[Keep last result]
-Letztes Ergebnis speichern
-[Icons]
-Icons
-[Question]
-Frage
-[Info]
-Info
-[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
-Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nRückgabewerte:\r\n--------\r\nOK\t\t= 1\r\nAbbrechen\t= 2\r\nAbbruch\t\t= 3\r\nWiederholen\t= 4\r\nIgnorieren\t= 5\r\nJa\t\t= 6\r\nNein\t\t= 7\r\nSchließen\t\t= 8
-[Buttons]
-Schaltflächen
-[OK, Cancel]
-OK, Abbrechen
-[Abort, Retry, Ignore]
-Abbrechen, Wiederholen, Ignorieren
-[Yes, No, Cancel]
-Ja, Nein, Abbrechen
-[Yes, No]
-Ja, Nein
-[Retry, Cancel]
-Wiederholen, Abbrechen
-[Scheduler]
-Zeitplaner
-[Task sample]
-Aufgabenbeispiel
-[Start]
-Starten
-[Starting after]
-Starte nach
-[Starting from]
-Starte am
-[Start immediately]
-Starte sofort
-[Days]
-Tage
-[Time]
-Zeit
-[Date]
-Datum
-[Repeat]
-Wiederholen
-[Repeat, times]
-Anz. Wiederh.
-[Interval]
-Intervall
-[Break on non-zero result]
-Bei Nicht-Null-Ergebnis abbrechen
-[Send event on start time]
-Ereignis zur Startzeit senden
-[Send event just once]
-Ereignis nur einmalig senden
-[Hooks]
-Hooks
-[Description]
-Beschreibung
-[hook sample]
-Hookbeispiel
-[Apply]
-Übernehmen
-[Event]
-Ereignis
+[Undefined]
+Undefiniert
 [Action group list was changed: some was added or deleted]
 Aktionsgruppenliste wurde geändert: Etwas wurde hinzugefügt oder gelöscht
-[Double click on the contact list]
-Doppelklick auf die Kontaktliste
+[contact list]
+Kontaktliste
 [The context menu for a contact is about to be built]
 Das Kontextmenü für einen Kontakt wird gerade gebaut
+[Double click on the contact list]
+Doppelklick auf die Kontaktliste
+[database driver]
+Datenbanktreiber
 [New contact added to database]
 Neuer Kontakt zur Datenbank hinzugefügt
 [Contact deleting]
 Kontakt löschen
-[Use Actions]
-Aktionen verwenden
-[Action list]
-Aktionsliste
-[Where to use]
-Wo anzuwenden?
-[TopToolbar]
-TopToolbar
-[TabSRMM toolbar]
-TabSRMM-Toolbar
-[Core Hotkey]
-Core-Hotkey
-[Main menu]
-Hauptmenü
-[Contact menu]
-Kontaktmenü
-[Tray menu]
-Traymenü
-[Protocol menus]
-Protokollmenüs
-[Status menu]
-Statusmenü
-[Common]
-Allgemein
-[2 state button/item]
-Zwei-Zustand-Schaltfläche/Element
-[Save button/item state]
-Schaltfläche/Elementzustand speichern
-[Contact related]
-Kontaktbezogen
-[Normal button tooltip]
-Tooltip normale Schaltfläche
-[Pressed button tooltip]
-Tooltip gedrückte Schaltfläche
-[Separated]
-Getrennt
-[Root popup:]
-Unterpunkt:
-[Menu item name:]
-Menüpunkt Name:
-[Show only if variables return 1]
-Zeige nur, falls Variable 1 zurückgibt
-[Choose action]
-Aktion auswählen
-[&Yes]
-&Ja
-[&No]
-&Nein
-[A&ppend]
-Anf&ügen
-[Yes to &All]
-Ja zu &Allem
-[N&o to All]
-N&ein zu allem
-[Action "$" exists, do you want to rewrite it?]
-Aktion "$" existiert, möchten Sie sie neu erstellen?
-[Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
-Verwenden Sie Byte-Array/-Zeiger für ANSI-Strings\nVerwenden Sie Word-Array/-Zeiger für Unicode-Strings\n\n$## ersetzt Byte- durch Hex-Wert ##\n$#### ersetzt Word- durch Hex-Wert ### (nur für Unicode-Strings)\n\nAlle Datenlängen werden in Byte gemessen.
-[Packed structure]
-Gepackte Struktur
-[Registered actions]
-Eingetragene Aktionen
-; Actman30
-[Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
-Ihre Actman-Einstellungen sind für eine alte Version. Wenn Sie bereit für eine Umwandlung Ihrer Einstellungen sind dann klicken Sie auf OK. Sonst klicken Sie auf Abbrechen und verwenden Sie die alte Version von ActMan, oder sichern Sie Ihre Einstellungen. Um Ihre bereits exportierten Makros beizubehalten importieren Sie diese bitte bevor Sie Ihre Einstellungen umwandeln.
-[Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
-Bitte testen Sie keine nicht-gespeicherten Makros. Wenn Sie "Erweiterte" oder Daten-Schreiben-Aktionen verwendet haben dann überprüfen Sie diese bitte - ihre Logik wurde geändert.
-[Actman settings converted to new version]
-Actman-Einstellungen wurden zur neuen Version umgewandelt.
-[INI]
-INI
-[INI file name]
-INI-Dateiname
-[Section]
-Sektion
-[Use LastResult]
-Letztes Ergebnis verwenden
-[UTF8 encoding]
-UTF8-Kodierung
-[Function call]
-Funktion aufrufen
-[Function name]
-Funktionsname
-[DLL name]
-DLL-Name
-[Call type]
-Aufrufart
-[Arguments]
-Argumente
-[Number of arguments]
-Anzahl Argumente
-[Argument]
-Argument
-[Result]
-Ergebnis
-[DLL Handle Cache]
-DLL Handle Cache
-[Keep to end]
-Am Ende behalten
-[Close immediately]
-Sofort schließen
-[Close for macro]
-Für Makro schließen
-[Refresh]
-Aktualisieren
-[Get from active window]
-Vom aktiven Fenster beziehen
-[Chain]
-Ablauf
-[Keep old result]
-Altes Ergebnis behalten
-[Same thread]
-Selber Thread
-[Do not wait until the end of execution]
-Nicht auf das Ende der Ausführung warten
-[In/Out]
-Ein/Aus
-[Autosend]
-Autosend
-[Jump]
-Sprung
-[> greater]
-> größer
-[< lesser]
-< kleiner
-[= equ]
-= gleich
-[& and]
-& und
-[Case sensitive]
-Groß-/Kleinschreibung beachten
-[Opposite order]
-Umgekehrte Reihenfolge
-[empty]
-leer
-[contains]
-beinhaltet
-[starts with]
-beginnt mit
-[ends with]
-endet mit
-[Process script after]
-Skript ausführen nach
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - ausgewählter (und ersetzter) teil\r\n^e - durch leeren String ersetzt\r\n^v - Text aus zwischenablage einfügen\r\n^t - durch Tabulatoren ersetzt\r\n^l - durch letztes Ergebnis als Unicode ersetzt\r\n^h - durch letztes Ergebnis als Hex ersetzt\r\n^f(name[,str])\r\n     Zeile aus Textdatei einfügen.\r\n   Inhalt in Klammern ohne Leerzeichen.
-[RTL]
-RTL
-[Right justified text]
-Rechts ausgerichteter Text
-[Database]
-Datenbank
-[Contact type]
-Kontakttyp
-[Save value]
-Wert speichern
-[Storage]
-Speicherung
-[LastResult to ]
-Letztes Ergebnis zu\s
-[LastResult from]
-Letztes Ergebnis von
-[Slot 0]
-Slot 0
-[Slot 1]
-Slot 1
-[Slot 2]
-Slot 2
-[Slot 3]
-Slot 3
-[Slot 4]
-Slot 4
-[Slot 5]
-Slot 5
-[Slot 6]
-Slot 6
-[Slot 7]
-Slot 7
-[Slot 8]
-Slot 8
-[Slot 9]
-Slot 9
-[Settings]
-Einstellungen
-[Contact list]
-Kontaktliste
-[Contact list format]
-Kontaktlistenformat
-[You can use %name%, %uid%, %account% and %group% substitutes]
-Sie können die Makros %name%, %uid%, %account% und %group% verwenden
-[Service list format]
-Dienstlistenformat
-[value]
-Wert
-[name]
-Name
-[value (name)]
-Wert (Name)
-[name 'value']
-Name 'Wert'
-[Current Macro]
-Ausgewähltes Makro
-[Select for FirstRun]
-Für FirstRun auswählen
-[Mark as Volatile]
-Als flüchtig markieren
-[Single instance]
-Einzelne Instanz
-[Miranda event help]
-Miranda-Ereignishilfe
-[contact list]
-Kontaktliste
-[database driver]
-Datenbanktreiber
-[Main settings]
-Haupteinstellungen
-[Custom settings]
-Eigene Einstellungen
-[Do not translate]
-Nicht übersetzen
-; these lines are not present in the sources, but they are present in compiled plugin
-[Param type]
-Parametertyp
-[Text Editor]
-Texteditor
-[Script]
-Skript
-[Wrap Text]
-Text umbrechen
-[Structure size]
-Strukturgröße
+[Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message, such as status or error information.]
+

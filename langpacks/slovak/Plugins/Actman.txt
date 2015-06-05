@@ -1,24 +1,62 @@
 ﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
-;  File: Actman.dll, Actman30.dll
+;  File: Actman.dll
 ;  Plugin: Action manager
-;  Version: 0.2.0.1 - 0.3.0.1
+;  Version: 0.3.0.1
 ;  Authors: Awkward
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Doplnok pre manažovanie rôznych činností Mirandy.
+;Icons
+[Apply]
+Aplikovať
+[&Yes]
+Áno
+[&No]
+Nie
+[Yes to &All]
+Áno pre všetko
+;Actions
 [Help]
 Pomoc
-[Contact]
-Kontakt
-[Text]
-Text
-[Advanced]
-Podrobne
-[Contacts]
-Kontakty
+[Notes]
+Poznámky
+[type]
+typ
+[data]
+dáta
 [Name]
 Meno
+[&Change]
+Zmeniť
+[Contact]
+Kontakt
+[File]
+Súbor
+[Text]
+Text
+[Icons]
+Ikony
+[Error]
+Chyba
+[Warning]
+Varovanie
+[Contact list]
+Zoznam kontaktov
+[name]
+meno
+;Scheduler
+[Time]
+Čas
+[Date]
+Dátum
+;Hooks
+[Description]
+Udalosť
+;Use Actions
+[Status menu]
+Menu stavov
+;services.ini
 [Offline]
 Odpojený
 [Online]
@@ -39,12 +77,6 @@ Neviditelný
 Telefonuje
 [Out to Lunch]
 Na obede
-[text]
-text
-[None]
-Žiadne
-[On the phone]
-Telefonuje
 [Ignore all]
 Všetko ignorovať
 [Ignore messages]
@@ -61,37 +93,11 @@ Notifikácia
 Chyba
 [Filename]
 Meno súboru
-[type]
-typ
-[data]
-dáta
-[&Change]
-Zmeniť
-[File]
-Súbor
-[Icons]
-Ikony
-[Time]
-Čas
-[Date]
-Dátum
-[Description]
-Udalosť
-[Apply]
-Aplikovať
-[Status menu]
-Menu stavov
-[&Yes]
-Áno
-[&No]
-Nie
-[Yes to &All]
-Áno pre všetko
-; Actman30
-[Contact list]
-Zoznam kontaktov
-[name]
-meno
+[text]
+text
+[None]
+Žiadne
+[On the phone]
+Telefonuje
 [contact list]
 zoznam kontaktov
-; these lines are not present in the sources, but they are present in compiled plugin
