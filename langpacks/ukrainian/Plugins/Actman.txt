@@ -38,11 +38,13 @@
 Ні в&сім
 [Export]
 Експортувати
+[Reload/Refresh]
+Перезавантажити/Оновити
 [Registered actions]
 Зареєстровані дії
 ;Actions
 [Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
-Ваші налаштування Actman призначені для застарілої версії плагіна. Натисніть "OK" для конвертування налаштувань у новий формат, або "Скасувати", щоб повернути попередню версію плагіна вручну чи зробити резервну копію налаштувань. Якщо ви експортували макроси раніше, не забудьте імпортувати їх назад перед конвертуванням у новый формат, оскільки новая версія плагіна не може імпортувати макроси, експортовані попередньою версією.
+Ваші налаштування Actman призначені для застарілої версії плагіна. Натисніть "OK" для конвертування налаштувань у новий формат, або "Скасувати", щоб повернути попередню версію плагіна вручну чи зробити резервну копію налаштувань. Якщо ви експортували макроси раніше, не забудьте імпортувати їх назад перед конвертуванням у новий формат, оскільки новая версія плагіна не може імпортувати макроси, експортовані попередньою версією.
 [Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
 Не користуйтеся перевіркою макросів, якщо є незбережені макроси. Якщо макроси містять дії з категорії "Розширене" або операції запису у файл, не забудьте перевірити правильність їх роботи, оскільки логіку цих дій було змінено.
 [Actman settings converted to new version]
@@ -101,6 +103,8 @@
 Кількість аргументів
 [Argument]
 Аргумент
+[Param]
+Параметр
 [Param type]
 Тип параметра
 [number value]
@@ -117,6 +121,10 @@
 параметр
 [structure]
 структура
+[Ansi message]
+Повідомлення ANSI
+[Ansi caption]
+Заголовок ANSI
 [Structure]
 Структура
 [Structure editor]
@@ -181,6 +189,8 @@
 &Змінити
 [Result]
 Результат
+[Result type]
+Тип результату
 [Free memory]
 очищати пам'ять
 [DLL Handle Cache]
@@ -519,6 +529,8 @@ UTF16+сигнатури
 Показує всіх користувачів
 [Show only Online Users]
 Ховає відключених
+[Toggle status]
+Перемикає стан
 [Change 'hide offline contacts' option value]
 Змінює значення "Сховати відключених"
 [Offline]
@@ -544,7 +556,7 @@ UTF16+сигнатури
 [Set global status]
 Встановлює глобальний статус
 [Switch contact list status]
-Перемикає статус списку контактів
+Перемикає стан списку контактів
 [Closes Miranda]
 Завершує роботу програми
 [Show or hide netlog console window]
@@ -593,6 +605,8 @@ UTF16+сигнатури
 Усі протоколи
 [Protocol]
 Протокол
+[Check for updates]
+Перевіряє наявність оновлень
 [with confirmation]
 з підтвердженням
 [without confirmation]
@@ -605,14 +619,26 @@ UTF16+сигнатури
 Помилка
 [YAPP or Popup]
 YAPP або Popup
+[Popup window]
+Спливаюче вікно
 [Unicode Text]
 Текст Unicode
 [displays the Account Manager]
-відкриває менеджер облікових записів
+Відкриває менеджер облікових записів
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 Програє звук, доданий за допомогою Skin/Sounds/AddNew. Якщо звук не знайдено, буде програватися стандартний звук Windows.
+[struct]
+структура
+[remove all temporary contacts from db]
+Видаляє з бази всі тимчасові контакти
 [Filename]
 Ім'я файлу
+[Open URL in current window]
+Відкриває посилання в поточному вікні
+[0 - Open URL in current window]
+0 - Відкриває посилання в поточному вікні
+[Open URL in default browser]
+Відкриває посилання в браузері за замовчанням
 [With formating]
 З форматуванням
 [Don't use formating]

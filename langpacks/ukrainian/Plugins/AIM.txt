@@ -191,6 +191,10 @@ AIM Встановити Instant Idle
 Невідома помилка при додаванні до списку. Код %#x
 [Unknown error when attempting to modify a group. Error code %#x]
 Невідома помилка при спробі модифікувати групу. Код %#x
+[A confirmation message has been sent to the new email address. Please follow its instructions.]
+Лист з підтвердженням відправлено на нову адресу електронної пошти. Дотримуйтесь інструкцій у ньому.
+[A confirmation message has been sent to your email address. Please follow its instructions.]
+Лист з підтвердженням відправлено на вашу адресу електронної пошти. Дотримуйтесь інструкцій у ньому.
 [Block]
 Заблокувати
 [Profile]
