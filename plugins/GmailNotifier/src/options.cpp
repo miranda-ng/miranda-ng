@@ -1,31 +1,12 @@
 #include "gmail.h"
 
-LRESULT WINAPI FlatComboProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	WNDPROC	OldComboProc = (WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	RECT rect;
-	HDC hDcCombo;
-	switch (msg) {
-	case WM_PAINT:
-		CallWindowProc(OldComboProc, hwnd, msg, wParam, lParam);
-		hDcCombo = GetWindowDC(hwnd);
-		GetClientRect(hwnd, &rect);
-		FrameRect(hDcCombo, &rect, GetSysColorBrush(COLOR_3DFACE));
-		InflateRect(&rect, -1, -1);
-		DrawEdge(hDcCombo, &rect, BDR_RAISEDOUTER, BF_FLAT | BF_TOPLEFT);
-		InflateRect(&rect, -1, -1);
-		FrameRect(hDcCombo, &rect, 0);
-		return 0;
-	}
-	return CallWindowProc(OldComboProc, hwnd, msg, wParam, lParam);
-}
-
 static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int ShowControl;
 	char str[MAX_PATH] = { 0 };
 	char *tail;
 	static int curIndex = 0;
+	static bool bInit = false;
 	HWND hwndCombo = GetDlgItem(hwndDlg, IDC_NAME);
 
 	if (acc_num) {
@@ -43,16 +24,13 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	switch (msg) {
 	case WM_INITDIALOG:
+		bInit = true;
 		TranslateDialogDefault(hwndDlg);
 		optionWindowIsOpen = TRUE;
 		BuildList();
-		// Remember old window procedure
-		SetWindowLongPtr(hwndCombo, GWLP_USERDATA, GetWindowLongPtr(hwndCombo, GWLP_WNDPROC));
-		// Perform the subclass
-		SetWindowLongPtr(hwndCombo, GWLP_WNDPROC, (LONG_PTR)FlatComboProc);
 
 		for (int i = 0; i < acc_num; i++)
-			SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LONG)acc[i].name);
+			SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LONG_PTR)acc[i].name);
 		SendMessage(hwndCombo, CB_SETCURSEL, curIndex, 0);
 		if (curIndex < acc_num)
 			SetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass);
@@ -106,6 +84,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		if (opt.LogThreads)
 			CheckDlgButton(hwndDlg, IDC_LOGTHREADS, BST_CHECKED);
 
+		bInit = false;
 		return TRUE;
 
 	case WM_COMMAND:
@@ -152,7 +131,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case IDC_BTNADD:
 			acc_num++;
 			acc = (Account *)realloc(acc, acc_num * sizeof(Account));
-			curIndex = SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LONG)"");
+			curIndex = SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LPARAM)"");
 			memset(&acc[curIndex], 0, sizeof(Account));
 			SendMessage(hwndCombo, CB_SETCURSEL, curIndex, 0);
 			SetDlgItemTextA(hwndDlg, IDC_PASS, "");
@@ -168,7 +147,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				if (tail && mir_strcmp(tail + 1, "gmail.com") != 0)
 					mir_strcpy(acc[curIndex].hosted, tail + 1);
 				SendMessageA(hwndCombo, CB_DELETESTRING, curIndex, 0);
-				SendMessageA(hwndCombo, CB_INSERTSTRING, curIndex, (LONG_PTR)acc[curIndex].name);
+				SendMessageA(hwndCombo, CB_INSERTSTRING, curIndex, (LPARAM)acc[curIndex].name);
 				SendMessageA(hwndCombo, CB_SETCURSEL, curIndex, 0);
 				db_set_s(acc[curIndex].hContact, pluginName, "name", acc[curIndex].name);
 				db_set_s(acc[curIndex].hContact, pluginName, "Nick", acc[curIndex].name);
@@ -198,6 +177,11 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				SetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
+			break;
+		case IDC_CIRCLE:
+		case IDC_DURATION:
+			if (!bInit && (HIWORD(wParam) == EN_CHANGE))
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_ONLINE:
 		case IDC_SHOWICON:
