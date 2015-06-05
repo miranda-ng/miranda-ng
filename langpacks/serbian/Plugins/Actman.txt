@@ -1,32 +1,60 @@
 ﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
-;  File: Actman.dll, Actman30.dll
+;  File: Actman.dll
 ;  Plugin: Action manager
-;  Version: 0.2.0.1 - 0.3.0.1
+;  Version: 0.3.0.1
 ;  Authors: Awkward
 ;============================================================
-[Actions]
-Akcije
+;Icons
+[Apply]
+Primeni
 [Delete]
 Briši
+[&Yes]
+&Da
+[&No]
+&Ne
+;Actions
+[Actions]
+Akcije
 [Help]
 Pomoć
-[Contact]
-Kontakt
-[Text]
-Tekst
-[Advanced]
-Napredno
-[Profile]
-Profil
-[Message]
-Poruka
-[Contacts]
-Kontakti
+[Notes]
+Beleške
 [Name]
 Naziv
 [Plugin]
 Plug-in
+[Contact]
+Kontakt
+[Service:]
+Služi za:
+[File]
+Datoteka
+[Text]
+Tekst
+[Icons]
+Ikonice
+[Error]
+Greška
+[Warning]
+Upozorenje
+[Contact list]
+Spisak kontakata
+[name]
+Naziv
+;Scheduler
+;Hooks
+;Use Actions
+[Main menu]
+Glavni meni
+[Contact menu]
+Meni kontakta
+[Protocol menus]
+Meni Protokola
+[Status menu]
+Izbor statusa
+;services.ini
 [Offline]
 Odsutan
 [Online]
@@ -47,14 +75,6 @@ Nevidljiv
 Telefoniram
 [Out to Lunch]
 Na ručku
-[text]
-Tekst
-[None]
-Nema
-[On the phone]
-Telefoniram
-[Typing]
-Kucanje
 [System]
 Sistem
 [Protocol]
@@ -63,29 +83,13 @@ Protokol
 Upozorenje
 [Error]
 Greška
-[File]
-Datoteka
-[Icons]
-Ikonice
-[Apply]
-Primeni
-[Main menu]
-Glavni meni
-[Contact menu]
-Meni kontakta
-[Protocol menus]
-Meni Protokola
-[Status menu]
-Izbor statusa
-[&Yes]
-&Da
-[&No]
-&Ne
-; Actman30
-[Contact list]
-Spisak kontakata
-[name]
-Naziv
+[text]
+Tekst
+[None]
+Nema
+[On the phone]
+Telefoniram
+[Typing]
+Kucanje
 [contact list]
 Spisak kontakata
-; these lines are not present in the sources, but they are present in compiled plugin

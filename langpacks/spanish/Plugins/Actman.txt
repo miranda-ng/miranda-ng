@@ -1,82 +1,48 @@
 ﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
-;  File: Actman.dll, Actman30.dll
+;  File: Actman.dll
 ;  Plugin: Action manager
-;  Version: 0.2.0.1 - 0.3.0.1
+;  Version: 0.3.0.1
 ;  Authors: Awkward
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Plugin de gestión de teclas de acceso rápido para abrir la ventana de contactos, insertar texto, ejecutar programa y llamar servicios
-[Actions]
-Acciones
-[No description]
-Sin descripción
+;Icons
+[Apply]
+Aplicar
 [New]
 Nuevo
 [Delete]
 Eliminar
 [Test]
 Prueba
+[Action "$" exists, do you want to rewrite it?]
+Acción "$" existe, ¿quieres volver a escribir?
+[Choose action]
+Elija acción
+[&Yes]
+&Sí
+[&No]
+&No
+[A&ppend]
+&Añadir
+[Registered actions]
+Acciones registradas
+;Actions
+[Actions]
+Acciones
+[No description]
+Sin descripción
 [Append data to file?]
 Añadir datos al archivo?
 [Help]
 Ayuda
-[Open contact window]
-Abrir ventana de contactos
-[Contact]
-Contacto
-[Call service]
-Llamar servicio
-[Execute program]
-Ejecutar programa
-[Insert text]
-Insertar texto
-[Text]
-Texto
-[Advanced]
-Avanzado
-[Link to action]
-Enlace a acción
-[Profile]
-Perfil
-[Message]
-Mensaje
-[Choose contact]
-Elija contacto
-[Keep handle only]
-Mantener sólo manejar
-[Active accounts only]
-Sólo cuentas activas
-[Dropdown list format]
-Formato de lista desplegable
-[Apply format]
-Aplicar formato
-[You can use %name%, %uid%, %account% and %group% macros]
-Puede usar macros %name%, %uid%, %account% y %group%
-[Contacts]
-Contactos
-[Result action]
-Acción resultado
-[Show in popup]
-Mostrar en ventana emergente
-[Show in messagebox]
-Mostrar en Mostrar en messagebox
-[Insert into message]
-Insertar en mensaje
-[Service result]
-Resultado de servicio
-[Integer]
-Entero
-[Structure]
-Estructura
-[Free memory]
-Memoria libre
-[Signed value]
-Valor con signo
-[wParam type]
-Tipo wParam
-[lParam type]
-Tipo lParam
+[Notes]
+Notas
+[C&ancel]
+C&ancelar
+[Parameter]
+Parámetro
 [number value]
 valor numérico
 [ANSI string]
@@ -91,64 +57,8 @@ contacto actual
 Parámetro
 [structure]
 estructura
-[Service name]
-Nombre del servicio
-[Use Variables]
-Usar variables
-[Don't use Variables]
-No usar variables
-[Miranda service help]
-Miranda servicio de ayuda
-[Name]
-Nombre
-[Alias]
-Alias
-[Plugin]
-Plugin
-[Return]
-Volver
-[Effect]
-Efecto
-['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
-'<proto>' en el servicio de nombres será reemplazado por el nombre del protocolo para el manejo de contacto en el parámetro
-[Offline]
-Fuera de línea
-[Online]
-En línea
-[Away]
-Fuera
-[DND]
-No molestar
-[NA]
-No disponible
-[Occupied]
-Ocupado
-[Free for Chat]
-Libre para el chat
-[Invisible]
-Invisible
-[On the Phone]
-En el teléfono
-[Out to Lunch]
-Salí a comer
-[text]
-texto
-[None]
-Ninguno
-[On the phone]
-En el teléfono
-[Typing]
-Escribiendo
-[System]
-Sistema
-[Protocol]
-Protocolo
-[Warning]
-Advertencia
-[Notify]
-Notificar
-[Error]
-Error
+[Structure]
+Estructura
 [Structure editor]
 Editor de estructura
 [alias]
@@ -187,16 +97,32 @@ Puntero a bytes
 Puntero a palabras
 [Last result]
 Último resultado
-[Parameter]
-Parámetro
 [Data length]
 Longitud de dato
+[Use Variables]
+Usar variables
 [Structure help]
 Estructura de ayuda
+[Name]
+Nombre
+[Plugin]
+Plugin
 [Descr]
 Descr
-[C&ancel]
-C&ancelar
+[Free memory]
+Memoria libre
+[Contact]
+Contacto
+[Choose contact]
+Elija contacto
+[Keep handle only]
+Mantener sólo manejar
+[Other Action groups]
+Otro grupo de acciónes
+[not defined]
+no definido
+[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
+Texto <último> se reemplaza\r\npor el último resultado\r\n\r\nTexto <param> se reemplaza\r\npor el parámetro
 [Process options]
 Opciones de proceso
 [Parallel]
@@ -215,8 +141,18 @@ Iniciar normal
 Iniciar oculto
 [Start maximized]
 Iniciar maximizado
-[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
-Texto <último> se reemplaza\r\npor el último resultado\r\n\r\nTexto <param> se reemplaza\r\npor el parámetro
+[Miranda service help]
+Miranda servicio de ayuda
+[Alias]
+Alias
+[Return]
+Volver
+[Effect]
+Efecto
+['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
+'<proto>' en el servicio de nombres será reemplazado por el nombre del protocolo para el manejo de contacto en el parámetro
+[Service:]
+Servicio:
 [Copy to]
 Copiar a
 [Paste from]
@@ -225,32 +161,24 @@ Pegar desde
 Archivo
 [Append]
 Añadir
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - parte seleccionada (y reemplazada)\r\n^e - reemplazado por cadena vacía\r\n^v - pega texto desde el portapapeles\r\n^t - reemplazado por tabulación\r\n^l - reemplazado por el último resultado como unicode\r\n^h - reemplazado por el último resultado como hex\r\n^a - al final: enviar automaticamente\r\n^f(name\[,str\])\r\n     pegar línea de archivo de texto.\r\n     contenidos soportados deben estar w/o espacios
 [Condition]
 Condición
 [Math]
 Matemática
-[Variables]
-Variables
-[Result as integer]
-Resultado como entero
+[Text]
+Texto
 [Operation]
 Operación
-[Other Action groups]
-Otro grupo de acciónes
-[not defined]
-no definido
-[Own settings]
-Valores propios
-[Message title]
-Titulo del mensaje
-[Keep last result]
-Mantener último resultado
-[Icons]
-Iconos
 [Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
 Texto <last> reemplazado\r\npor último resultado\r\n\r\nRetornos:\r\n--------\r\nAceptar\t= 1\r\nCANCELAR\t= 2\r\nABORTAR\t= 3\r\nREINTENTAR\t= 4\r\nIGNORAR\t= 5\r\nSÍ\t= 6\r\nNO\t= 7\r\nCERRAR\t= 8
+[Message title]
+Titulo del mensaje
+[Icons]
+Iconos
+[Error]
+Error
+[Warning]
+Advertencia
 [OK, Cancel]
 Aceptar, Cancelar
 [Abort, Retry, Ignore]
@@ -261,6 +189,19 @@ Sí, No, Cancelar
 Sí, No
 [Retry, Cancel]
 Reintentar, Cancelar
+[Own settings]
+Valores propios
+[Contact list]
+Lista de contactos
+[Active accounts only]
+Sólo cuentas activas
+[Contact list format]
+Formato de lista de contacto
+[You can use %name%, %uid%, %account% and %group% substitutes]
+Puede usar macros %name%, %uid%, %account% y %group%
+[name]
+nombre
+;Scheduler
 [Task sample]
 Tarea de ejemplo
 [Start]
@@ -281,24 +222,14 @@ Romper el resultado no es cero
 Enviar tiempo de inicio del evento
 [Send event just once]
 Enviar evento una sola vez
+;Hooks
 [Hooks]
 Ganchos
 [hook sample]
 Gancho de ejemplo
-[Apply]
-Aplicar
 [Event]
 Evento
-[Action group list was changed: some was added or deleted]
-Lista de grupos de acción fue cambiado: algunos se agregan o eliminan
-[Double click on the contact list]
-Doble clic en lista de contactos
-[The context menu for a contact is about to be built]
-El menú contextual para un contacto está a punto de ser construido
-[New contact added to database]
-Nuevo contacto añadido a la base de datos
-[Contact deleting]
-Eliminando contacto
+;Use Actions
 [Use Actions]
 Usar acciones
 [Action list]
@@ -327,39 +258,62 @@ Contacto relacionado
 Botón de información sobre herramientas normal
 [Pressed button tooltip]
 Botón pulsado sobre herramientas
-[Separated]
-Separado
+[Show only if variables return 1]
+Mostrar sólo si las variables devuelven 1
 [Root popup:]
 Raíz emergente:
 [Menu item name:]
 Nombre del ítem del menú:
-[Show only if variables return 1]
-Mostrar sólo si las variables devuelven 1
-[Choose action]
-Elija acción
-[&Yes]
-&Sí
-[&No]
-&No
-[A&ppend]
-&Añadir
-[Action "$" exists, do you want to rewrite it?]
-Acción "$" existe, ¿quieres volver a escribir?
-[Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
-Usar matriz de bytes/puntero de cadenas ANSI\n\Usar orden de palabra/puntero a cadenas Unicode\n\n\$## reemplaza por byte con valor hexadecimal ##\n\$#### reemplaza por palabra con valor hexadecimal #### (sólo por cadenas Unicode)\n\n\Todos los datos de cálculo de la longitud en bytes
-[Packed structure]
-Estructura de empaquetado
-[Registered actions]
-Acciones registradas
-; Actman30
-[Contact list]
-Lista de contactos
-[Contact list format]
-Formato de lista de contacto
-[You can use %name%, %uid%, %account% and %group% substitutes]
-Puede usar macros %name%, %uid%, %account% y %group%
-[name]
-nombre
+[Separated]
+Separado
+;services.ini
+[Offline]
+Fuera de línea
+[Online]
+En línea
+[Away]
+Fuera
+[DND]
+No molestar
+[NA]
+No disponible
+[Occupied]
+Ocupado
+[Free for Chat]
+Libre para el chat
+[Invisible]
+Invisible
+[On the Phone]
+En el teléfono
+[Out to Lunch]
+Salí a comer
+[System]
+Sistema
+[Protocol]
+Protocolo
+[Warning]
+Advertencia
+[Notify]
+Notificar
+[Error]
+Error
+[text]
+texto
+[None]
+Ninguno
+[On the phone]
+En el teléfono
+[Typing]
+Escribiendo
+[Action group list was changed: some was added or deleted]
+Lista de grupos de acción fue cambiado: algunos se agregan o eliminan
 [contact list]
 lista de contactos
-; these lines are not present in the sources, but they are present in compiled plugin
+[The context menu for a contact is about to be built]
+El menú contextual para un contacto está a punto de ser construido
+[Double click on the contact list]
+Doble clic en lista de contactos
+[New contact added to database]
+Nuevo contacto añadido a la base de datos
+[Contact deleting]
+Eliminando contacto

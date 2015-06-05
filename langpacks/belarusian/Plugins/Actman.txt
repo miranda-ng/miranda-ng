@@ -1,106 +1,88 @@
 ﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
-;  File: Actman.dll, Actman30.dll
+;  File: Actman.dll
 ;  Plugin: Action manager
-;  Version: 0.2.0.1 - 0.3.0.1
+;  Version: 0.3.0.1
 ;  Authors: Awkward
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Плагiн для кіравання "гарачымі" клавішамі і дзеяннямі, такімі як адкрыццё гутаркі, устаўка тэксту, запуск іншых праграм і выклік сэрвісаў.
-[Actions]
-Дзеянні
-[No description]
-Няма апісання
+;Icons
+[Apply]
+Ужыць
 [New]
 Стварыць
+[Delete]
+Выдаліць
 [Up]
 Уверх
 [Down]
 Уніз
-[Reload]
-Перагрузіць
-[Delete]
-Выдаліць
 [Test]
 Прагляд
-[Export]
-Экспарт
-[Append data to file?]
-Дапісаць у файл?
 [Import]
 Імпартаваць
+[Action "$" exists, do you want to rewrite it?]
+Дзеянне "$" ужо існуе, ці жадаеце вы перапісаць яго?
+[Choose action]
+Абярыце аперацыю
+[&Yes]
+&Так
+[&No]
+&Не
+[A&ppend]
+Дадаць
+[Yes to &All]
+Да для ўсіх
+[N&o to All]
+Не для ўсіх
+[Export]
+Экспарт
+[Registered actions]
+Зарэгістраваныя дзеянні
+;Actions
+[Actions]
+Дзеянні
+[No description]
+Няма апісання
+[Reload]
+Перагрузіць
+[Append data to file?]
+Дапісаць у файл?
 [Help]
 Дапамога
 [Action]
 Дзеянне
-[Open contact window]
-Адчыніць вакно кантакту
-[Contact]
-Адчыніць гутарку
-[Call service]
-Выклік службы
-[Service]
-Служба
-[Execute program]
-Выканаць
-[Program]
-Выканаць
-[Insert text]
-Уставіць тэкст
-[Text]
-Уставіць тэкст
-[Advanced]
-Пашыранае
-[Link to action]
-Спасылка на дзеянне
-[Profile]
-Профіль
-[MessageBox]
-Вакно звесткі
-[Message]
-Паведамленне
-[Choose contact]
-Абраць кантакт
-[Keep handle only]
-Захоўваць handle, не адкрываючы вокны
-[Active accounts only]
-Толькі дзейсныя конты
-[Dropdown list format]
-Выгляд выпадальнага спісу
-[Apply format]
-Ужыць фармат
-[You can use %name%, %uid%, %account% and %group% macros]
-Вы можаце выкарыстоўваць зменныя %name%, %uid%, %account% і %group%
-[Contacts]
-Гутарка з кантактам
-[Select contact to open its window]
-Абярыце кантакт, каб пачаць з ім гутарку
-[Result action]
-Вынік дзеяння
-[Show in popup]
-Паказваць ва ўспл. вакне
-[Show in messagebox]
-Паказваць у звычайным вакне
-[Insert into message]
-Уставіць у паведамленне
-[Service result]
-Вынік выкліку службы
-[Integer]
-Цэлае
-[Hexadecimal]
-Шаснадцаткавы
-[String]
-Радок
-[Structure]
-Структура
-[Free memory]
-чысціць памяць
-[Signed value]
-Значэнне са знакам
-[wParam type]
-Тып wParam
-[lParam type]
-Тып lParam
+[Notes]
+Нататкі
+[Read]
+Чытанне
+[Write]
+Запіс
+[Text Editor]
+Тэкставы рэдактар
+[Script]
+Скрыпт
+[Wrap Text]
+Перанос радкоў
+[C&ancel]
+Скасаваць
+[Parameter]
+Параметр
+[Value]
+Значэнне
+[Function call]
+Вызаў функцыі
+[Function name]
+Імя функцыі
+[DLL name]
+Імя DLL
+[Call type]
+Тып вызаву
+[Arguments]
+Аргументы
+[Number of arguments]
+Колькасць аргументаў
 [number value]
 лік
 [ANSI string]
@@ -115,30 +97,382 @@
 параметр
 [structure]
 структура
-[Service name]
-Імя службы
+[Structure]
+Структура
+[Structure editor]
+Рэдактар структур
+[alias]
+імя
+[type]
+тып
+[length]
+даўжыня
+[data]
+дадзеныя
+[Data align]
+Выраўнаванне дадзеных
+[Native]
+Убудаваны
+[Packed]
+Спакаваныя
+[2 bytes]
+2 байта
+[4 bytes]
+4 байта
+[8 bytes]
+8 байт
+[Byte]
+Байт
+[Word]
+Слова
+[DWord]
+Двойкавы
+[QWord]
+Чвэрт.
+[NativeInt]
+Сістэмнае цэлае
+[Byte Array]
+Масіў байт
+[Word Array]
+Масіў слоў
+[Pointer to bytes]
+Паказальнік на байты
+[Pointer to words]
+Паказальнік на словы
+[Last result]
+Апошні вынік
+[Data length]
+даўжыня
 [Use Variables]
 Уключыць зменныя
-[Don't use Variables]
-Выключыць зменныя
-[Miranda service help]
-Дапамога па сэрвісам
+[Structure help]
+Дапамога па структуры
 [Name]
 Імя
-[Alias]
-Аліас
 [Plugin]
 Плагін
+[Descr]
+Апісанне
+[&Change]
+Змяніць
+[Result]
+Вынік
+[Free memory]
+чысціць памяць
+[DLL Handle Cache]
+Кэш дэскрыптараў DLL
+[Keep to end]
+Трымаць да канца
+[Close immediately]
+Зачыніць адразу
+[Close for macro]
+Зачыніць да макраса
+[Contact]
+Адчыніць гутарку
+[Choose contact]
+Абраць кантакт
+[Refresh]
+Абнавіць
+[Keep handle only]
+Захоўваць handle, не адкрываючы вокны
+[Get from active window]
+З актыўнага вакна
+[Chain]
+Спасылка
+[Other Action groups]
+Іншыя гурты дзеянняў
+[not defined]
+не вызначана
+[Keep old result]
+Захаваць папярэдні вынік
+[Same thread]
+У тым жа патоке
+[Do not wait until the end of execution]
+Не чакаць сканчэння выканання
+[Program]
+Выканаць
+[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
+Тэкст <last> замяняецца\r\nапошнім вынікам\r\n\r\nТэкст <param> замяняецца\r\nпараметрам
+[Process options]
+Налады працэсу
+[Parallel]
+Паралельны
+[Continued]
+Працягнуты
+[Process time, ms]
+Час працэсу, мсек
+[Current path]
+Цяперашні шлях
+[Window option]
+Налады вакна
+[Start normal]
+Звычайны запуск
+[Start hidden]
+Запуск утоеным
+[Start minimized]
+Запуск згорнутым
+[Start maximized]
+Запуск разгорнутым
+[Program path]
+Пуць
+[Program args]
+Аргументы
+[Service]
+Служба
+[Miranda service help]
+Дапамога па сэрвісам
+[Alias]
+Аліас
 [Return]
 Якое вяртаецца
 [Effect]
 Эффект
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
 '<proto>' у назве службы будзе замяняцца імем пратаколу з параметраў кантакту
-[Undefined]
-Не вызначана
-[Manage Jabber Bookmarks]
-Упраўляе закладкамі Jabber
+[Service:]
+Cлужба:
+[In/Out]
+Увод/Вывад
+[Clipboard]
+Буфер абмену
+[Copy to]
+Капіяваць у
+[Paste from]
+Уставіць з
+[File]
+Файл
+[Append]
+Даданне
+[UTF8+sign]
+UTF8+сігнатура
+[UTF16+sign]
+UTF16+сігнатура
+[Message window]
+Гутарка
+[Autosend]
+Аўтаадпраўка
+[Jump]
+Пераход
+[Condition]
+Умовы
+[Math]
+Матэм.
+[> greater]
+> больш
+[< lesser]
+< меньш
+[= equ]
+= экв.
+[& and]
+& і
+[Text]
+Уставіць тэкст
+[Case sensitive]
+Улік рэгістра
+[Opposite order]
+Зваротны парадак
+[empty]
+пуста
+[contains]
+улучае
+[starts with]
+пачынаецца з
+[ends with]
+скончваецца на
+[NOT]
+НЕ
+[Operation]
+Аперацыя
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - вылучаная (і замененая) частка\r\n^e - заменена пустым радком\r\n^v - уставіць тэкст з буфера абмену\r\n^t - заменена табуляцыяй\r\n^l - заменена апошнім вынікам, як юнікод\r\n^h - заменена апошнім вынікам, як шаснаццатковае\r\n^f(імя[,str])\r\n     уставіць радок з тэкставага файла.\r\n     змесціва пасярод дужак абавязана быць без прабелаў
+[Process script after]
+Скрыпт пасля макраса
+[MessageBox]
+Вакно звесткі
+[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
+Тэкст <last> замяняецца\r\nапошнім вынікам\r\n\r\nЯкое вяртаецца:\r\n--------\r\nOK\t\t= 1\r\nАдмена\t\t= 2\r\nПерапыніць\t= 3\r\nПаўтор\t\t= 4\r\nПрапусціць\t= 5\r\nТак\t\t= 6\r\nНе\t\t= 7\r\nЗачыніць\t\t= 8
+[Message title]
+Загаловак вакна
+[Message text]
+Тэкст паведамлення
+[Right justified text]
+Выраўноўванне па праваму краі
+[Icons]
+Абразкі
+[Error]
+Памылка
+[Question]
+Пытанне
+[Warning]
+Увага
+[Info]
+Інфа
+[Buttons]
+Кнопкі
+[OK, Cancel]
+ОК, Скасаваць
+[Abort, Retry, Ignore]
+Спыніць, Паўтор, Прапусціць
+[Yes, No, Cancel]
+Так, Не, Скасаваць
+[Yes, No]
+Так, Не
+[Retry, Cancel]
+Паўтор, Скасаваць
+[Database]
+Профіль
+[Own settings]
+Свае налады
+[Manual]
+Ручны
+[Module]
+Плагiн
+[Setting]
+Налада
+[Save value]
+Захаваць значэнне
+[Storage]
+Хранілішча
+[LastResult to ]
+Апошні вынік ў\s
+[LastResult from]
+Апошні вынік з
+[Slot 0]
+Слот 0
+[Slot 1]
+Слот 1
+[Slot 2]
+Слот 2
+[Slot 3]
+Слот 3
+[Slot 4]
+Слот 4
+[Slot 5]
+Слот 5
+[Slot 6]
+Слот 6
+[Slot 7]
+Слот 7
+[Slot 8]
+Слот 8
+[Slot 9]
+Слот 9
+[Settings]
+Налады
+[Contact list]
+Спіс кантактаў
+[Active accounts only]
+Толькі дзейсныя конты
+[Contact list format]
+Фармат спісу кантактаў
+[You can use %name%, %uid%, %account% and %group% substitutes]
+Вы можаце выкарыстоўваць зменныя %name%, %uid%, %account% і %group%
+[Service list format]
+Фармат ліста служб
+[value]
+значэнне
+[name]
+імя
+[value (name)]
+значэнне (імя)
+[name 'value']
+'імя' значэнне
+[Current Macro]
+Цяперашні макрас
+[Select for FirstRun]
+Абраць для першага запуска
+;Scheduler
+[Scheduler]
+Планоўшчык
+[Task sample]
+Прыклад задання
+[Start]
+Пачаць
+[Starting after]
+Пачаць пасля
+[Starting from]
+Пачаць з
+[Start immediately]
+Пачаць неадкладна
+[Days]
+Дзён
+[Time]
+Час
+[Date]
+Дата
+[Repeat]
+Паўтарыць
+[Repeat, times]
+Кольк. паўтораў
+[Interval]
+Затрымка
+[Break on non-zero result]
+Спыніць пры ненулявым выніку
+[Send event on start time]
+Адсылаць падзею пры старце задання
+[Send event just once]
+Адсылаць толькі пры першым запуску
+;Hooks
+[Hooks]
+Хукі
+[Description]
+Апісанне
+[hook sample]
+прыклад хука
+[Event]
+Падзея
+;Use Actions
+[Use Actions]
+Выкарыстанне дзеянняў
+[Action list]
+Спіс дзеянняў
+[Where to use]
+Месца выкарыстання
+[TopToolbar]
+Панэль кнопак
+[TabSRMM toolbar]
+Панэль кнопак TabSRMM
+[Core Hotkey]
+Гарачая клавіша
+[Main menu]
+Галоўнае меню
+[Contact menu]
+Меню кантакту
+[Tray menu]
+Меню трэя
+[Protocol menus]
+Меню пратаколаў
+[Status menu]
+Меню статусаў
+[Common]
+Агульныя
+[2 state button/item]
+2 становішчы кнопкі/пункта
+[Save button/item state]
+Захоўваць становішча кнопкі/пункта
+[Contact related]
+Па кантактам
+[Normal button tooltip]
+Падказка да кнопкі ў звычайным становішчы
+[Pressed button tooltip]
+Падказка да кнопкі ў націснутым становішчы
+[Show only if variables return 1]
+Паказваць толькі пры вяртанні 1
+[Root popup:]
+Корань падменю:
+[Menu item name:]
+Назва пункта меню:
+[Separated]
+Падзельнік
+;services.ini
+[int 0, if successful]
+0 у выніку поспеху
+[Show All Frames]
+Паказаць усе
+[Show All Users]
+Паказваць усе кантакты
+[Show only Online Users]
+Схаваць адключаных
 [Offline]
 Адключаны
 [Online]
@@ -159,10 +493,46 @@
 На тэлефоне
 [Out to Lunch]
 Абедаю
+[Ansi Text]
+Тэкст Ansi
+[Removes all settings for the specified module]
+Выдаляе ўсе налады пазначанага модуля
+[int 0]
+цэлая частка 0
+[Import settings/contacts from file]
+Імпарт налад/кантактаў у файл
+[System]
+Сістэма
+[Ignore all]
+Ігнараваць усё
+[Ignore messages]
+Паведамленні
+[Ignore URLs]
+Адрасы (URL)
+[Ignore files]
+Перадачы файлаў
+[Ignore Contact]
+Ігнараваць кантакт
+[Protocol]
+Пратакол
+[Check for updates]
+Праверыць абнаўленні
+[Warning]
+Увага
+[Notify]
+Абвестка
+[Error]
+Памылка
+[Popup window]
+Усплывальнае вакно
+[Filename]
+Імя файла
+[display birthdays window]
+паказвае вакно дзён нараджэння
+[Manage Jabber Bookmarks]
+Упраўляе закладкамі Jabber
 [text]
 тэкст
-[int 0, if successful]
-0 у выніку поспеху
 [Set status message]
 Усталяваць статуснае паведамленне
 [Set protocol status]
@@ -237,449 +607,17 @@
 Усталюе xСтатус
 [Display xStatus detail]
 Паказвае падрабязны xСтатус
-[Show All Users]
-Паказваць усе кантакты
-[Show only Online Users]
-Схаваць адключаных
-[Show All Frames]
-Паказаць усе
-[Ansi Text]
-Тэкст Ansi
-[Removes all settings for the specified module]
-Выдаляе ўсе налады пазначанага модуля
-[int 0]
-цэлая частка 0
-[Import settings/contacts from file]
-Імпарт налад/кантактаў у файл
-[System]
-Сістэма
-[Ignore all]
-Ігнараваць усё
-[Ignore messages]
-Паведамленні
-[Ignore URLs]
-Адрасы (URL)
-[Ignore files]
-Перадачы файлаў
-[Ignore Contact]
-Ігнараваць кантакт
-[Protocol]
-Пратакол
-[Check for updates]
-Праверыць абнаўленні
-[Warning]
-Увага
-[Notify]
-Абвестка
-[Error]
-Памылка
-[Popup window]
-Усплывальнае вакно
-[Avatar service (AVS.dll)]
-Служба аватараў (AVS.dll)
-[Filename]
-Імя файла
-[WhenWasIt Birthday Reminder (whenwasit.dll)]
-Абвестка пра дні нараджэння (whenwasit.dll)
-[display birthdays window]
-паказвае вакно дзён нараджэння
-[Structure editor]
-Рэдактар структур
-[alias]
-імя
-[type]
-тып
-[length]
-даўжыня
-[data]
-дадзеныя
-[Data align]
-Выраўнаванне дадзеных
-[Native]
-Убудаваны
-[Packed]
-Спакаваныя
-[2 bytes]
-2 байта
-[4 bytes]
-4 байта
-[8 bytes]
-8 байт
-[Byte]
-Байт
-[Word]
-Слова
-[DWord]
-Двойкавы
-[QWord]
-Чвэрт.
-[NativeInt]
-Сістэмнае цэлае
-[Byte Array]
-Масіў байт
-[Word Array]
-Масіў слоў
-[Pointer to bytes]
-Паказальнік на байты
-[Pointer to words]
-Паказальнік на словы
-[Last result]
-Апошні вынік
-[Parameter]
-Параметр
-[Data length]
-даўжыня
-[Structure help]
-Дапамога па структуры
-[Descr]
-Апісанне
-[&Change]
-Змяніць
-[C&ancel]
-Скасаваць
-[Process options]
-Налады працэсу
-[Parallel]
-Паралельны
-[Continued]
-Працягнуты
-[Process time, ms]
-Час працэсу, мсек
-[Current path]
-Цяперашні шлях
-[Window option]
-Налады вакна
-[Start normal]
-Звычайны запуск
-[Start hidden]
-Запуск утоеным
-[Start minimized]
-Запуск згорнутым
-[Start maximized]
-Запуск разгорнутым
-[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
-Тэкст <last> замяняецца\r\nапошнім вынікам\r\n\r\nТэкст <param> замяняецца\r\nпараметрам
-[Program path]
-Пуць
-[Program args]
-Аргументы
-[Clipboard]
-Буфер абмену
-[Copy to]
-Капіяваць у
-[Paste from]
-Уставіць з
-[File]
-Файл
-[Read]
-Чытанне
-[Write]
-Запіс
-[Append]
-Даданне
-[UTF8+sign]
-UTF8+сігнатура
-[UTF16+sign]
-UTF16+сігнатура
-[Message window]
-Гутарка
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - вылучаемая (і заменная) частка\r\n^e - замяняецца пустым радком\r\n^v - устаўка тэксту з буфера абмену\r\n^t - замяняецца на табуляцыю\r\n^l - замяняецца апошнім вынікам у Юнікодзе\r\n^h - замяняецца апошнім вынікам у hex\r\n^a - у канцы: аўтаадпраўка\r\n^f(name\[,str\])\r\n     устаўка радка з тэкставага файла.\r\n     утрыманне дужак павінна быць без прабелаў
-[Text to insert]
-Тэкст для ўстаўкі
-[Condition]
-Умовы
-[NOT]
-НЕ
-[Value]
-Значэнне
-[Math]
-Матэм.
-[Variables]
-Зменныя
-[Result as integer]
-Вынік як цэлае
-[Operation]
-Аперацыя
-[Other Action groups]
-Іншыя гурты дзеянняў
-[not defined]
-не вызначана
-[Macros]
-Спасылка на дзеянне
-[Own settings]
-Свае налады
-[Manual]
-Ручны
-[Module]
-Плагiн
-[Setting]
-Налада
-[Unicode]
-Юнікод
-[Message title]
-Загаловак вакна
-[Message text]
-Тэкст паведамлення
-[Keep last result]
-Захоўваць апошні вынік
-[Icons]
-Абразкі
-[Question]
-Пытанне
-[Info]
-Інфа
-[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
-Тэкст <last> замяняецца\r\nапошнім вынікам\r\n\r\nЯкое вяртаецца:\r\n--------\r\nOK\t\t= 1\r\nАдмена\t\t= 2\r\nПерапыніць\t= 3\r\nПаўтор\t\t= 4\r\nПрапусціць\t= 5\r\nТак\t\t= 6\r\nНе\t\t= 7\r\nЗачыніць\t\t= 8
-[Buttons]
-Кнопкі
-[OK, Cancel]
-ОК, Скасаваць
-[Abort, Retry, Ignore]
-Спыніць, Паўтор, Прапусціць
-[Yes, No, Cancel]
-Так, Не, Скасаваць
-[Yes, No]
-Так, Не
-[Retry, Cancel]
-Паўтор, Скасаваць
-[Scheduler]
-Планоўшчык
-[Task sample]
-Прыклад задання
-[Start]
-Пачаць
-[Starting after]
-Пачаць пасля
-[Starting from]
-Пачаць з
-[Start immediately]
-Пачаць неадкладна
-[Days]
-Дзён
-[Time]
-Час
-[Date]
-Дата
-[Repeat]
-Паўтарыць
-[Repeat, times]
-Кольк. паўтораў
-[Interval]
-Затрымка
-[Break on non-zero result]
-Спыніць пры ненулявым выніку
-[Send event on start time]
-Адсылаць падзею пры старце задання
-[Send event just once]
-Адсылаць толькі пры першым запуску
-[Hooks]
-Хукі
-[Description]
-Апісанне
-[hook sample]
-прыклад хука
-[Apply]
-Ужыць
-[Event]
-Падзея
+[Undefined]
+Не вызначана
 [Action group list was changed: some was added or deleted]
 Спіс гуртоў дзеянняў змяніўся: некаторыя былі дададзены ці прыбраныя
-[Double click on the contact list]
-Падвойная пстрычка па спісу кантактаў
+[contact list]
+спіс кантактаў
 [The context menu for a contact is about to be built]
 Пабудова кантэкстнага меню для кантакту
+[Double click on the contact list]
+Падвойная пстрычка па спісу кантактаў
 [New contact added to database]
 Новы кантакт дададзены ў базу
 [Contact deleting]
 Выдаліць кантакт
-[Use Actions]
-Выкарыстанне дзеянняў
-[Action list]
-Спіс дзеянняў
-[Where to use]
-Месца выкарыстання
-[TopToolbar]
-Панэль кнопак
-[TabSRMM toolbar]
-Панэль кнопак TabSRMM
-[Core Hotkey]
-Гарачая клавіша
-[Main menu]
-Галоўнае меню
-[Contact menu]
-Меню кантакту
-[Tray menu]
-Меню трэя
-[Protocol menus]
-Меню пратаколаў
-[Status menu]
-Меню статусаў
-[Common]
-Агульныя
-[2 state button/item]
-2 становішчы кнопкі/пункта
-[Save button/item state]
-Захоўваць становішча кнопкі/пункта
-[Contact related]
-Па кантактам
-[Normal button tooltip]
-Падказка да кнопкі ў звычайным становішчы
-[Pressed button tooltip]
-Падказка да кнопкі ў націснутым становішчы
-[Separated]
-Падзельнік
-[Root popup:]
-Корань падменю:
-[Menu item name:]
-Назва пункта меню:
-[Show only if variables return 1]
-Паказваць толькі пры вяртанні 1
-[Choose action]
-Абярыце аперацыю
-[&Yes]
-&Так
-[&No]
-&Не
-[A&ppend]
-Дадаць
-[Yes to &All]
-Да для ўсіх
-[N&o to All]
-Не для ўсіх
-[Action "$" exists, do you want to rewrite it?]
-Дзеянне "$" ужо існуе, ці жадаеце вы перапісаць яго?
-[Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
-Выкарыстоўваць масіў байт/паказальнік на байты для радкоў у ANSI\n Выкарыстоўваць масіў слоў/паказальнік на словы для радкоў у Unicode\n$## замяняецца байтам з шаснаццатковым значэннем ##\n$#### замяняецца словам з шаснаццатковым значэннем #### (толькі для радкоў у Unicode)\n Уся даўжыня дадзеных вылічаецца ў байтах
-[Packed structure]
-Пакаваная структура
-[Registered actions]
-Зарэгістраваныя дзеянні
-; Actman30
-[Function call]
-Вызаў функцыі
-[Function name]
-Імя функцыі
-[DLL name]
-Імя DLL
-[Call type]
-Тып вызаву
-[Arguments]
-Аргументы
-[Number of arguments]
-Колькасць аргументаў
-[Result]
-Вынік
-[DLL Handle Cache]
-Кэш дэскрыптараў DLL
-[Keep to end]
-Трымаць да канца
-[Close immediately]
-Зачыніць адразу
-[Close for macro]
-Зачыніць да макраса
-[Refresh]
-Абнавіць
-[Get from active window]
-З актыўнага вакна
-[Chain]
-Спасылка
-[Keep old result]
-Захаваць папярэдні вынік
-[Same thread]
-У тым жа патоке
-[Do not wait until the end of execution]
-Не чакаць сканчэння выканання
-[In/Out]
-Увод/Вывад
-[Autosend]
-Аўтаадпраўка
-[Jump]
-Пераход
-[> greater]
-> больш
-[< lesser]
-< меньш
-[= equ]
-= экв.
-[& and]
-& і
-[Case sensitive]
-Улік рэгістра
-[Opposite order]
-Зваротны парадак
-[empty]
-пуста
-[contains]
-улучае
-[starts with]
-пачынаецца з
-[ends with]
-скончваецца на
-[Process script after]
-Скрыпт пасля макраса
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - вылучаная (і замененая) частка\r\n^e - заменена пустым радком\r\n^v - уставіць тэкст з буфера абмену\r\n^t - заменена табуляцыяй\r\n^l - заменена апошнім вынікам, як юнікод\r\n^h - заменена апошнім вынікам, як шаснаццатковае\r\n^f(імя[,str])\r\n     уставіць радок з тэкставага файла.\r\n     змесціва пасярод дужак абавязана быць без прабелаў
-[Right justified text]
-Выраўноўванне па праваму краі
-[Database]
-Профіль
-[Save value]
-Захаваць значэнне
-[Storage]
-Хранілішча
-[LastResult to ]
-Апошні вынік ў\s
-[LastResult from]
-Апошні вынік з
-[Slot 0]
-Слот 0
-[Slot 1]
-Слот 1
-[Slot 2]
-Слот 2
-[Slot 3]
-Слот 3
-[Slot 4]
-Слот 4
-[Slot 5]
-Слот 5
-[Slot 6]
-Слот 6
-[Slot 7]
-Слот 7
-[Slot 8]
-Слот 8
-[Slot 9]
-Слот 9
-[Settings]
-Налады
-[Contact list]
-Спіс кантактаў
-[Contact list format]
-Фармат спісу кантактаў
-[You can use %name%, %uid%, %account% and %group% substitutes]
-Вы можаце выкарыстоўваць зменныя %name%, %uid%, %account% і %group%
-[Service list format]
-Фармат ліста служб
-[value]
-значэнне
-[name]
-імя
-[value (name)]
-значэнне (імя)
-[name 'value']
-'імя' значэнне
-[Current Macro]
-Цяперашні макрас
-[Select for FirstRun]
-Абраць для першага запуска
-[contact list]
-спіс кантактаў
-; these lines are not present in the sources, but they are present in compiled plugin
-[Text Editor]
-Тэкставы рэдактар
-[Script]
-Скрыпт
-[Wrap Text]
-Перанос радкоў

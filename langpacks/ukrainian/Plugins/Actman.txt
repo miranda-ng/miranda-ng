@@ -1,106 +1,108 @@
 ﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
-;  File: Actman.dll, Actman30.dll
+;  File: Actman.dll
 ;  Plugin: Action manager
-;  Version: 0.2.0.1 - 0.3.0.1
+;  Version: 0.3.0.1
 ;  Authors: Awkward
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Керування "гарячими клавішами" і діями, такими як відкриття вікна контакту, вставка тексту, запуск інших програм та виклик служб.
-[Actions]
-Дії
-[No description]
-Немає опису
+;Icons
+[Apply]
+Застосувати
 [New]
 Новий
+[Delete]
+Видалити
 [Up]
 Вище
 [Down]
 Нижче
-[Reload]
-Оновити
-[Delete]
-Видалити
 [Test]
 Тест
-[Export]
-Експортувати
-[Append data to file?]
-Дописати дані у файл?
 [Import]
 Імпортувати
+[Action "$" exists, do you want to rewrite it?]
+Дія "$" вже існує, бажаєте її переписати?
+[Choose action]
+Виберіть операцію
+[&Yes]
+&Так
+[&No]
+&Ні
+[A&ppend]
+Д&одати
+[Yes to &All]
+Так &усім
+[N&o to All]
+Ні в&сім
+[Export]
+Експортувати
+[Registered actions]
+Зареєстровані дії
+;Actions
+[Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
+Ваші налаштування Actman призначені для застарілої версії плагіна. Натисніть "OK" для конвертування налаштувань у новий формат, або "Скасувати", щоб повернути попередню версію плагіна вручну чи зробити резервну копію налаштувань. Якщо ви експортували макроси раніше, не забудьте імпортувати їх назад перед конвертуванням у новый формат, оскільки новая версія плагіна не може імпортувати макроси, експортовані попередньою версією.
+[Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
+Не користуйтеся перевіркою макросів, якщо є незбережені макроси. Якщо макроси містять дії з категорії "Розширене" або операції запису у файл, не забудьте перевірити правильність їх роботи, оскільки логіку цих дій було змінено.
+[Actman settings converted to new version]
+Налаштування Actman конвертовано
+[Actions]
+Дії
+[No description]
+Немає опису
+[Reload]
+Оновити
+[Append data to file?]
+Дописати дані у файл?
 [Help]
 Довідка
 [Action]
 Дія
-[Open contact window]
-Відкрити вікно контакту
-[Contact]
-Відкрити вікно контакту
-[Call service]
-Виклик служби
-[Service]
-Виклик служби
-[Execute program]
-Виконати
-[Program]
-Виконати
-[Insert text]
-Вставити текст
-[Text]
-Текст
-[Advanced]
-Розширене
-[Link to action]
-Посилання на дію
-[Profile]
-Профіль
-[MessageBox]
-Вікно сповіщення
-[Message]
-Вікно сповіщення
-[Choose contact]
-Вибрати контакт
-[Keep handle only]
-Зберігати handle, не відкриваючи вікна
-[Active accounts only]
-Тільки діючі облікові записи
-[Dropdown list format]
-Вигляд списку
-[Apply format]
-Застосувати формат
-[You can use %name%, %uid%, %account% and %group% macros]
-Ви можете використовувати змінні %name%, %uid%, %account% та %group%
-[Contacts]
-Відкрити вікно контакту
-[Select contact to open its window]
-Виберіть контакт, для якого відкрити вікно повідомлень
-[Result action]
-Результат дії
-[Show in popup]
-Показувати в спливаючому вікні
-[Show in messagebox]
-Показувати у звичайному вікні
-[Insert into message]
-Вставити в повідомлення
-[Service result]
-Результат виклику служби
-[Integer]
-Ціле
-[Hexadecimal]
-Шістнадцяткове
-[String]
-Рядок
-[Structure]
-Структура
-[Free memory]
-очищати пам'ять
-[Signed value]
-Значення зі знаком
-[wParam type]
-Тип wParam
-[lParam type]
-Тип lParam
+[Notes]
+Нотатки
+[INI]
+Файл INI
+[Read]
+Читати
+[Write]
+Записати
+[INI file name]
+Ім'я файлу INI
+[Text Editor]
+Текстовий редактор
+[Script]
+Скрипт
+[Wrap Text]
+Перенос рядків
+[C&ancel]
+С&касувати
+[Section]
+Розділ
+[Parameter]
+Параметр
+[Value]
+Значення
+[Use LastResult]
+Використ. останній результат
+[UTF8 encoding]
+В кодуванні UTF-8
+[Function call]
+Виклик функції
+[Function name]
+Ім'я функції
+[DLL name]
+Ім'я DLL
+[Call type]
+Тип виклику
+[Arguments]
+Аргументи
+[Number of arguments]
+Кількість аргументів
+[Argument]
+Аргумент
+[Param type]
+Тип параметра
 [number value]
 число
 [ANSI string]
@@ -115,30 +117,410 @@
 параметр
 [structure]
 структура
-[Service name]
-Ім'я служби
+[Structure]
+Структура
+[Structure editor]
+Редактор структур
+[alias]
+ім'я
+[type]
+тип
+[length]
+довжина
+[data]
+дані
+[Data align]
+Вирівнювання даних
+[Native]
+Стандартно
+[Packed]
+Запаковані
+[2 bytes]
+2 байти
+[4 bytes]
+4 байти
+[8 bytes]
+8 байт
+[Byte]
+Байт
+[Word]
+Слово
+[DWord]
+Подв. слово
+[QWord]
+Четв.слово
+[NativeInt]
+Системне ціле
+[Byte Array]
+Масив байтів
+[Word Array]
+Масив слів
+[Pointer to bytes]
+Вказівник на байти
+[Pointer to words]
+Вказівник на слова
+[Last result]
+Останній результат
+[Data length]
+Довжина
 [Use Variables]
 Увімкнути змінні
-[Don't use Variables]
-Вимкнути змінні
-[Miranda service help]
-Допомога по службам
+[V]
+Змін.
+[Structure size]
+Размір структури
+[Structure help]
+Допомога по структурі
 [Name]
 Ім'я
-[Alias]
-Аліас
 [Plugin]
 Плагін
+[Descr]
+Опис
+[&Change]
+&Змінити
+[Result]
+Результат
+[Free memory]
+очищати пам'ять
+[DLL Handle Cache]
+Кеш дескрипторів DLL
+[Keep to end]
+Тримати до кінця
+[Close immediately]
+Закрити негайно
+[Close for macro]
+Закрити для макроса
+[Contact]
+Відкрити вікно контакту
+[Choose contact]
+Вибрати контакт
+[Refresh]
+Оновити
+[Keep handle only]
+Зберігати handle, не відкриваючи вікна
+[Get from active window]
+З активного вікна
+[Chain]
+Посилання
+[Other Action groups]
+Інші групи дій
+[not defined]
+не визначена
+[Keep old result]
+Зберегти попередній результат
+[Same thread]
+У тому ж потоці
+[Do not wait until the end of execution]
+Не чекати до закінчення виконання
+[Program]
+Виконати
+[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
+Текст <last> замінюється\r\nостаннім результатом\r\n\r\nТекст <param> замінюється\r\nпараметром
+[Process options]
+Налаштування процесу
+[Parallel]
+Паралельний
+[Continued]
+Продовжений
+[Process time, ms]
+Час процесу, мс
+[Current path]
+Поточний шлях
+[Window option]
+Налаштування вікна
+[Start normal]
+Звичайний запуск
+[Start hidden]
+Запускати прихованим
+[Start minimized]
+Запуск згорнутим
+[Start maximized]
+Запуск розгорнутим
+[Program path]
+Шлях
+[Program args]
+Аргументи
+[Service]
+Виклик служби
+[Miranda service help]
+Допомога по службам
+[Alias]
+Аліас
 [Return]
 Повертає
 [Effect]
 Ефект
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
 '<proto>' в назві служби буде замінятися ім'ям протоколу з параметрів контакту
-[Undefined]
-Не визначено
-[Manage Jabber Bookmarks]
-Керує закладками Jabber
+[Service:]
+Служба:
+[In/Out]
+Ввід/Вивід
+[Clipboard]
+Буфер обміну
+[Copy to]
+Копіювати в
+[Paste from]
+Вставити з
+[File]
+Файл
+[Append]
+Додати
+[UTF8+sign]
+UTF8+сигнатури
+[UTF16+sign]
+UTF16+сигнатури
+[Message window]
+Вікно повідомлень
+[Autosend]
+Надсилати автоматично
+[Jump]
+Перейти
+[Condition]
+Умови
+[Math]
+Матем.
+[> greater]
+> більше
+[< lesser]
+< меньше
+[= equ]
+= дорівнює
+[& and]
+& і
+[Text]
+Текст
+[Case sensitive]
+Врахов. регістр
+[Opposite order]
+Зворотний порядок
+[empty]
+порожній
+[contains]
+містить
+[starts with]
+починається з
+[ends with]
+закінчується на
+[NOT]
+НЕ
+[Operation]
+Операція
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^f(name[,str])\r\n     вставка рядка з текстового файлу.\r\n     вміст дужок має бути без пробілів
+[Process script after]
+Скрипт після макроса
+[MessageBox]
+Вікно сповіщення
+[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
+Текст <last> замінюється\r\nостаннім результатом\r\n\r\nПовертає:\r\n--------\r\nOK\t\t= 1\r\nСкасувати\t\t= 2\r\nПерервати\t= 3\r\nПовтор\t\t= 4\r\nПропустити\t= 5\r\nТак\t\t= 6\r\nНі\t\t= 7\r\nЗакрити\t\t= 8
+[Message title]
+Заголовок вікна
+[Message text]
+Текст повідомлення
+[RTL]
+Справа наліво
+[Right justified text]
+Вирівнювання праворуч
+[Icons]
+Значки
+[Error]
+Помилка
+[Question]
+Запитання
+[Warning]
+Попередження
+[Info]
+Інформація
+[Buttons]
+Кнопки
+[OK, Cancel]
+ОК, Скасувати
+[Abort, Retry, Ignore]
+Перервати, Повтор, Пропустити
+[Yes, No, Cancel]
+Так, Ні, Скасувати
+[Yes, No]
+Так, Ні
+[Retry, Cancel]
+Повтор, Скасувати
+[Database]
+Профіль
+[Contact type]
+Тип контакту
+[Own settings]
+Свої налаштування
+[Manual]
+Вручну
+[Module]
+Модуль
+[Setting]
+Налаштування
+[Save value]
+Збер. значення
+[Storage]
+Сховище
+[LastResult to ]
+Останній результат в\s
+[LastResult from]
+Останній результат із
+[Slot 0]
+Слот 0
+[Slot 1]
+Слот 1
+[Slot 2]
+Слот 2
+[Slot 3]
+Слот 3
+[Slot 4]
+Слот 4
+[Slot 5]
+Слот 5
+[Slot 6]
+Слот 6
+[Slot 7]
+Слот 7
+[Slot 8]
+Слот 8
+[Slot 9]
+Слот 9
+[Settings]
+Налаштування
+[Contact list]
+Список контактів
+[Active accounts only]
+Тільки діючі облікові записи
+[Contact list format]
+Формат списку контактів
+[You can use %name%, %uid%, %account% and %group% substitutes]
+Ви можете використовувати змінні %name%, %uid%, %account% та %group%
+[Service list format]
+Формат списку служб
+[value]
+значення
+[name]
+ім'я
+[value (name)]
+значення (ім'я)
+[name 'value']
+ім'я 'значення'
+[Current Macro]
+Поточний макрос
+[Select for FirstRun]
+Вибрати для першого запуску
+[Mark as Volatile]
+Позначити як змінюване
+[Single instance]
+Один екземпляр
+;Scheduler
+[Scheduler]
+Планувальник
+[Task sample]
+Приклад завдання
+[Start]
+Почати
+[Starting after]
+Почати після
+[Starting from]
+Почати з
+[Start immediately]
+Почати негайно
+[Days]
+Днів
+[Time]
+Час
+[Date]
+Дата
+[Repeat]
+Повтор
+[Repeat, times]
+К-ть повторів
+[Interval]
+Інтервал
+[Break on non-zero result]
+Зупинити при ненульовому результаті
+[Send event on start time]
+Надсилати подію при старті завдання
+[Send event just once]
+Надсилати тільки при першому запуску
+;Hooks
+[Hooks]
+Хуки
+[Description]
+Опис
+[hook sample]
+приклад хуку
+[Event]
+Подія
+[Miranda event help]
+Допомога по подіям
+;Use Actions
+[Use Actions]
+Використання дій
+[Action list]
+Список дій
+[Where to use]
+Місце використання
+[TopToolbar]
+Панель кнопок
+[TabSRMM toolbar]
+Панель кнопок вікна повідомлень TabSRMM
+[Core Hotkey]
+Гаряча клавіша
+[Main menu]
+Головне меню
+[Contact menu]
+Меню контакта
+[Tray menu]
+Меню трею
+[Protocol menus]
+Меню протоколів
+[Status menu]
+Меню статусів
+[Common]
+Загальний
+[2 state button/item]
+2 положення кнопки/пункту
+[Save button/item state]
+Зберігати положення кнопки/пункту
+[Contact related]
+Поконтактно
+[Normal button tooltip]
+Підказка до кнопки в нормальному положенні
+[Pressed button tooltip]
+Підказка до кнопки в натиснутому положенні
+[Show only if variables return 1]
+Показувати тільки при поверненні 1
+[Main settings]
+Основні налаштування
+[Root popup:]
+Корінь підменю:
+[Menu item name:]
+Назва пункту меню:
+[Custom settings]
+Додаткові налаштування
+[Separated]
+Роздільник
+[Do not translate]
+Без перекладу
+;services.ini
+[Show window for new/changed profile password]
+Показує вікно для установки/зміни пароля профілю
+[int 0, if successful]
+0 якщо успішно
+[Hide All Titlebars]
+Ховає назви
+[Show All Frames]
+Показує всі фрейми
+[Show All Titlebars]
+Показує назви
+[Show All Users]
+Показує всіх користувачів
+[Show only Online Users]
+Ховає відключених
+[Change 'hide offline contacts' option value]
+Змінює значення "Сховати відключених"
 [Offline]
 Не в мережі
 [Online]
@@ -159,10 +541,88 @@
 Телефоную
 [Out to Lunch]
 Обідаю
+[Set global status]
+Встановлює глобальний статус
+[Switch contact list status]
+Перемикає статус списку контактів
+[Closes Miranda]
+Завершує роботу програми
+[Show or hide netlog console window]
+Показує або ховає мережеву консоль
+[Returns contact amount, excluding user account]
+Повертає к-ть контактів (без облікового запису користувача)
+[Ansi Text]
+Текст ANSI
+[Removes all settings for the specified module]
+Видаляє всі налаштування вказаного модуля
+[Show "About..." window]
+Показує вікно "Про Miranda NG"
+[Open support (originally - Miranda wiki) page]
+Відкриває сторінку підтримки (вікі)
+[Open bug report page]
+Відкриває сторінку для створення повідомлення про помилку
+[System]
+Система
+[Ignore all]
+Ігнорувати все
+[Ignore messages]
+Ігнорувати повідомлення
+[Ignore URLs]
+Ігнорувати URL
+[Ignore files]
+Ігнорувати файли
+[Ignore User Online]
+Ігнорувати "Користувач у мережі"
+[Ignore requests]
+Ігнорувати запити
+[Ignore 'You were added']
+Ігнорувати "Вас додали"
+[Ignore Contact]
+Ігнорувати контакт
+[Unignore Contact]
+Зняти ігнорування
+[restart in default profile or profile manager]
+з профілем за замовчанням або менеджером профілів
+[restart with current profile]
+з поточним профілем
+[Restarts Miranda]
+Перезапускає Miranda
+[Station name]
+Ім'я станції
+[All protocols]
+Усі протоколи
+[Protocol]
+Протокол
+[with confirmation]
+з підтвердженням
+[without confirmation]
+без підтвердження
+[Warning]
+Попередження
+[Notify]
+Сповіщення
+[Error]
+Помилка
+[YAPP or Popup]
+YAPP або Popup
+[Unicode Text]
+Текст Unicode
+[displays the Account Manager]
+відкриває менеджер облікових записів
+[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
+Програє звук, доданий за допомогою Skin/Sounds/AddNew. Якщо звук не знайдено, буде програватися стандартний звук Windows.
+[Filename]
+Ім'я файлу
+[With formating]
+З форматуванням
+[Don't use formating]
+Без форматування
+[int 0, if unsuccessful]
+0 якщо невдало
+[Manage Jabber Bookmarks]
+Керує закладками Jabber
 [text]
 текст
-[int 0, if successful]
-0 якщо успішно
 [Set status message]
 Встановлює статусне повідомлення
 [Set protocol status]
@@ -237,539 +697,19 @@
 Встановлює xСтатус
 [Display xStatus detail]
 Показує докладний xСтатус
-[Show All Users]
-Показує всіх користувачів
-[Show only Online Users]
-Ховає відключених
-[Change 'hide offline contacts' option value]
-Змінює значення "Сховати відключених"
-[Set global status]
-Встановлює глобальний статус
-[Switch contact list status]
-Перемикає статус списку контактів
-[Hide All Titlebars]
-Ховає назви
-[Show All Frames]
-Показує всі фрейми
-[Show All Titlebars]
-Показує назви
-[Closes Miranda]
-Завершує роботу програми
-[Show or hide netlog console window]
-Показує або ховає мережеву консоль
-[Returns contact amount, excluding user account]
-Повертає к-ть контактів (без облікового запису користувача)
-[Ansi Text]
-Текст ANSI
-[Removes all settings for the specified module]
-Видаляє всі налаштування вказаного модуля
-[Show window for new/changed profile password]
-Показує вікно для установки/зміни пароля профілю
-[Show "About..." window]
-Показує вікно "Про Miranda NG"
-[Open bug report page]
-Відкриває сторінку для створення повідомлення про помилку
-[Open support (originaly - Miranda wiki) page]
-Відкриває сторінку підтримки (вікі)
-[System]
-Система
-[Ignore all]
-Ігнорувати все
-[Ignore messages]
-Ігнорувати повідомлення
-[Ignore URLs]
-Ігнорувати URL
-[Ignore files]
-Ігнорувати файли
-[Ignore User Online]
-Ігнорувати "Користувач у мережі"
-[Ignore requests]
-Ігнорувати запити
-[Ignore 'You were added']
-Ігнорувати "Вас додали"
-[Ignore Contact]
-Ігнорувати контакт
-[Unignore Contact]
-Зняти ігнорування
-[restart in default profile or profile manager]
-з профілем за замовчанням або менеджером профілів
-[restart with current profile]
-з поточним профілем
-[Restarts Miranda]
-Перезапускає Miranda
-[Station name]
-Ім'я станції
-[All protocols]
-Усі протоколи
-[Protocol]
-Протокол
-[with confirmation]
-з підтвердженням
-[without confirmation]
-без підтвердження
-[YAPP or Popup]
-YAPP або Popup
-[Warning]
-Попередження
-[Notify]
-Сповіщення
-[Error]
-Помилка
-[YAPP only]
-Тільки YAPP
-[Unicode Text]
-Текст Unicode
-[displays the Account Manager]
-відкриває менеджер облікових записів
-[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
-Програє звук, доданий за допомогою Skin/Sounds/AddNew. Якщо звук не знайдено, буде програватися стандартний звук Windows.
-[Avatar service (AVS.dll)]
-Служба аватарів (AVS.dll)
-[Filename]
-Ім'я файлу
-[With formating]
-З форматуванням
-[Don't use formating]
-Без форматування
-[int 0, if unsuccessful]
-0 якщо невдало
-[Structure editor]
-Редактор структур
-[alias]
-ім'я
-[type]
-тип
-[length]
-довжина
-[data]
-дані
-[Data align]
-Вирівнювання даних
-[Native]
-Стандартно
-[Packed]
-Запаковані
-[2 bytes]
-2 байти
-[4 bytes]
-4 байти
-[8 bytes]
-8 байт
-[Byte]
-Байт
-[Word]
-Слово
-[DWord]
-Подв. слово
-[QWord]
-Четв.слово
-[NativeInt]
-Системне ціле
-[Byte Array]
-Масив байтів
-[Word Array]
-Масив слів
-[Pointer to bytes]
-Вказівник на байти
-[Pointer to words]
-Вказівник на слова
-[Last result]
-Останній результат
-[Parameter]
-Параметр
-[Data length]
-Довжина
-[Structure help]
-Допомога по структурі
-[Descr]
-Опис
-[&Change]
-&Змінити
-[C&ancel]
-С&касувати
-[Process options]
-Налаштування процесу
-[Parallel]
-Паралельний
-[Continued]
-Продовжений
-[Process time, ms]
-Час процесу, мс
-[Current path]
-Поточний шлях
-[Window option]
-Налаштування вікна
-[Start normal]
-Звичайний запуск
-[Start hidden]
-Запускати прихованим
-[Start minimized]
-Запуск згорнутим
-[Start maximized]
-Запуск розгорнутим
-[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
-Текст <last> замінюється\r\nостаннім результатом\r\n\r\nТекст <param> замінюється\r\nпараметром
-[Program path]
-Шлях
-[Program args]
-Аргументи
-[Clipboard]
-Буфер обміну
-[Copy to]
-Копіювати в
-[Paste from]
-Вставити з
-[File]
-Файл
-[Read]
-Читати
-[Write]
-Записати
-[Append]
-Додати
-[UTF8+sign]
-UTF8+сигнатури
-[UTF16+sign]
-UTF16+сигнатури
-[Message window]
-Вікно повідомлень
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^a - в кінці: автовідправка\r\n^f(name\[,str\])\r\n     вставка рядка з текстового файлу.\r\n     вміст дужок має бути без пробілів
-[Text to insert]
-Текст для вставки
-[Condition]
-Умови
-[NOT]
-НЕ
-[Value]
-Значення
-[Math]
-Матем.
-[Variables]
-Змінні
-[Result as integer]
-Результат як ціле
-[Operation]
-Операція
-[Other Action groups]
-Інші групи дій
-[not defined]
-не визначена
-[You can select another group from combobox, then it will be executed, after that current action group will be continued.]
-У випадаючому списку можна вибрати іншу групу дій, яку буде виконано, після чого продовжиться виконання поточної групи дій.
-[Macros]
-Посилання на дію
-[Own settings]
-Свої налаштування
-[Manual]
-Вручну
-[Module]
-Модуль
-[Setting]
-Налаштування
-[Message title]
-Заголовок вікна
-[Message text]
-Текст повідомлення
-[Keep last result]
-Зберігати останній результат
-[Icons]
-Значки
-[Question]
-Запитання
-[Info]
-Інформація
-[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
-Текст <last> замінюється\r\nостаннім результатом\r\n\r\nПовертає:\r\n--------\r\nOK\t\t= 1\r\nСкасувати\t\t= 2\r\nПерервати\t= 3\r\nПовтор\t\t= 4\r\nПропустити\t= 5\r\nТак\t\t= 6\r\nНі\t\t= 7\r\nЗакрити\t\t= 8
-[Buttons]
-Кнопки
-[OK, Cancel]
-ОК, Скасувати
-[Abort, Retry, Ignore]
-Перервати, Повтор, Пропустити
-[Yes, No, Cancel]
-Так, Ні, Скасувати
-[Yes, No]
-Так, Ні
-[Retry, Cancel]
-Повтор, Скасувати
-[Scheduler]
-Планувальник
-[Task sample]
-Приклад завдання
-[Start]
-Почати
-[Starting after]
-Почати після
-[Starting from]
-Почати з
-[Start immediately]
-Почати негайно
-[Days]
-Днів
-[Time]
-Час
-[Date]
-Дата
-[Repeat]
-Повтор
-[Repeat, times]
-К-ть повторів
-[Interval]
-Інтервал
-[Break on non-zero result]
-Зупинити при ненульовому результаті
-[Send event on start time]
-Надсилати подію при старті завдання
-[Send event just once]
-Надсилати тільки при першому запуску
-[Hooks]
-Хуки
-[Description]
-Опис
-[hook sample]
-приклад хуку
-[Apply]
-Застосувати
-[Event]
-Подія
+[Undefined]
+Не визначено
 [Action group list was changed: some was added or deleted]
 Список груп подій змінився: є додані або видалені події
-[Double click on the contact list]
-Подвійний клік у КЛ
+[contact list]
+список контактів
 [The context menu for a contact is about to be built]
 Побудова контекстного меню для контакту
+[Double click on the contact list]
+Подвійний клік у КЛ
+[database driver]
+драйвер бази
 [New contact added to database]
 Додавання нового контакту до бази
 [Contact deleting]
 Контакт видалено
-[Use Actions]
-Використання дій
-[Action list]
-Список дій
-[Where to use]
-Місце використання
-[TopToolbar]
-Панель кнопок
-[TabSRMM toolbar]
-Панель кнопок вікна повідомлень TabSRMM
-[Core Hotkey]
-Гаряча клавіша
-[Main menu]
-Головне меню
-[Contact menu]
-Меню контакта
-[Tray menu]
-Меню трею
-[Protocol menus]
-Меню протоколів
-[Status menu]
-Меню статусів
-[Common]
-Загальний
-[2 state button/item]
-2 положення кнопки/пункту
-[Save button/item state]
-Зберігати положення кнопки/пункту
-[Contact related]
-Поконтактно
-[Normal button tooltip]
-Підказка до кнопки в нормальному положенні
-[Pressed button tooltip]
-Підказка до кнопки в натиснутому положенні
-[Separated]
-Роздільник
-[Root popup:]
-Корінь підменю:
-[Menu item name:]
-Назва пункту меню:
-[Show only if variables return 1]
-Показувати тільки при поверненні 1
-[Choose action]
-Виберіть операцію
-[&Yes]
-&Так
-[&No]
-&Ні
-[A&ppend]
-Д&одати
-[Yes to &All]
-Так &усім
-[N&o to All]
-Ні в&сім
-[Action "$" exists, do you want to rewrite it?]
-Дія "$" вже існує, бажаєте її переписати?
-[Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
-Використовуйте масив байтів/вказівник на байти для рядків у ANSI\nВикористовуйте масив слів/вказівник на слова для рядків у Unicode\n\$## замінюється байтом з шістнадцятковим значенням ##\n\$#### замінюється словом з шістнадцятковим значенням #### (тільки для рядків у Unicode)\nВся довжина даних обчислюється в байтах
-[Packed structure]
-Упакована структура
-[Registered actions]
-Зареєстровані дії
-; Actman30
-[Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
-Ваші налаштування Actman призначені для застарілої версії плагіна. Натисніть "OK" для конвертування налаштувань у новий формат, або "Скасувати", щоб повернути попередню версію плагіна вручну чи зробити резервну копію налаштувань. Якщо ви експортували макроси раніше, не забудьте імпортувати їх назад перед конвертуванням у новый формат, оскільки новая версія плагіна не може імпортувати макроси, експортовані попередньою версією.
-[Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
-Не користуйтеся перевіркою макросів, якщо є незбережені макроси. Якщо макроси містять дії з категорії "Розширене" або операції запису у файл, не забудьте перевірити правильність їх роботи, оскільки логіку цих дій було змінено.
-[Actman settings converted to new version]
-Налаштування Actman конвертовано
-[INI]
-Файл INI
-[INI file name]
-Ім'я файлу INI
-[Section]
-Розділ
-[Use LastResult]
-Використ. останній результат
-[UTF8 encoding]
-В кодуванні UTF-8
-[Function call]
-Виклик функції
-[Function name]
-Ім'я функції
-[DLL name]
-Ім'я DLL
-[Call type]
-Тип виклику
-[Arguments]
-Аргументи
-[Number of arguments]
-Кількість аргументів
-[Argument]
-Аргумент
-[Result]
-Результат
-[DLL Handle Cache]
-Кеш дескрипторів DLL
-[Keep to end]
-Тримати до кінця
-[Close immediately]
-Закрити негайно
-[Close for macro]
-Закрити для макроса
-[Refresh]
-Оновити
-[Get from active window]
-З активного вікна
-[Chain]
-Посилання
-[Keep old result]
-Зберегти попередній результат
-[Same thread]
-У тому ж потоці
-[Do not wait until the end of execution]
-Не чекати до закінчення виконання
-[In/Out]
-Ввід/Вивід
-[Autosend]
-Надсилати автоматично
-[Jump]
-Перейти
-[> greater]
-> більше
-[< lesser]
-< меньше
-[= equ]
-= дорівнює
-[& and]
-& і
-[Case sensitive]
-Врахов. регістр
-[Opposite order]
-Зворотний порядок
-[empty]
-порожній
-[contains]
-містить
-[starts with]
-починається з
-[ends with]
-закінчується на
-[Process script after]
-Скрипт після макроса
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^f(name[,str])\r\n     вставка рядка з текстового файлу.\r\n     вміст дужок має бути без пробілів
-[RTL]
-Справа наліво
-[Right justified text]
-Вирівнювання праворуч
-[Database]
-Профіль
-[Contact type]
-Тип контакту
-[Save value]
-Збер. значення
-[Storage]
-Сховище
-[LastResult to ]
-Останній результат в\s
-[LastResult from]
-Останній результат із
-[Slot 0]
-Слот 0
-[Slot 1]
-Слот 1
-[Slot 2]
-Слот 2
-[Slot 3]
-Слот 3
-[Slot 4]
-Слот 4
-[Slot 5]
-Слот 5
-[Slot 6]
-Слот 6
-[Slot 7]
-Слот 7
-[Slot 8]
-Слот 8
-[Slot 9]
-Слот 9
-[Settings]
-Налаштування
-[Contact list]
-Список контактів
-[Contact list format]
-Формат списку контактів
-[You can use %name%, %uid%, %account% and %group% substitutes]
-Ви можете використовувати змінні %name%, %uid%, %account% та %group%
-[Service list format]
-Формат списку служб
-[value]
-значення
-[name]
-ім'я
-[value (name)]
-значення (ім'я)
-[name 'value']
-ім'я 'значення'
-[Current Macro]
-Поточний макрос
-[Select for FirstRun]
-Вибрати для першого запуску
-[Mark as Volatile]
-Позначити як змінюване
-[Single instance]
-Один екземпляр
-[Miranda event help]
-Допомога по подіям
-[contact list]
-список контактів
-[database driver]
-драйвер бази
-[Main settings]
-Основні налаштування
-[Custom settings]
-Додаткові налаштування
-[Do not translate]
-Без перекладу
-; these lines are not present in the sources, but they are present in compiled plugin
-[Param type]
-Тип параметра
-[Text Editor]
-Текстовий редактор
-[Script]
-Скрипт
-[Wrap Text]
-Перенос рядків
-[Structure size]
-Размір структури
