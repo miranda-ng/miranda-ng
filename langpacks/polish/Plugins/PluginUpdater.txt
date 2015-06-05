@@ -183,7 +183,7 @@ Aktualizacja nie powiodła się
 [Plugin info]
 Informacje o wtyczkach
 [Plugin Updater HTTP connections]
-
+Połączenia http Plugin Updater
 [An error occurred while checking for new updates.]
 Wystąpił błąd podczas sprawdzania aktualizacji.
 ;file \plugins\PluginUpdater\src\Compat\compat.h

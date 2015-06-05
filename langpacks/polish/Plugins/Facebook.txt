@@ -63,7 +63,7 @@ Powiadomienia o znajomości
 [Ticker feeds]
 Aktualności paska aktywności
 [Show "On this day" posts at login]
-
+Pokazuj posty "Tego Dnia" po zalogowaniu
 [Use this server for opening links:]
 Użyj tego serwera do otwierania linków:
 [Use balloon notifications in system tray instead of popups]
@@ -230,12 +230,12 @@ Przykładowa znajomość
 [Sample ticker]
 Przykładowy pasek aktywności
 [Sample on this day]
-
+Przykład tego dnia
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 naklejka
 [a link]
-
+link
 [files]
 pliki
 [a file]
@@ -261,7 +261,7 @@ Kontakt powrócił na listę na serwerze.
 [Contact is no longer on server-list.]
 Kontakt nie jest już na liście serwera.
 [On this day]
-
+Tego dnia
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 Połączenie %s
@@ -296,7 +296,7 @@ Aktualności
 [Friendship events]
 Zdarzenia znajomości
 [On this day posts]
-
+Posty tego dnia
 [Visit profile]
 Odwiedź profil
 [Visit notifications]
@@ -312,9 +312,9 @@ Inne zdarzenie
 [Friendship event]
 Zdarzenie Znajomości
 [Ticker event]
-
+Wydarzenie paska
 [On this day event]
-
+Wydarzenie tego dnia
 [Message read: %s by %s]
 Wiadomość odczytana: %s przez %s
 [Message read: %s]

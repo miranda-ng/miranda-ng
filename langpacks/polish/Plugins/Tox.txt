@@ -107,7 +107,7 @@ Czat grupowy
 [Profiles folder]
 Folder profili
 [Tox URI scheme]
-
+Schemat URI Tox
 [Action]
 Działanie
 ;file \protocols\Tox\src\tox_icons.cpp
