@@ -2495,6 +2495,13 @@ LABEL_SHOWWINDOW:
 					}
 				}
 
+				if (msg == WM_KEYDOWN && ((NMHDR*)lParam)->idFrom != IDC_CHAT_MESSAGE) {
+					if ((wp == VK_NEXT && isCtrl && !isShift) || (wp == VK_TAB && isCtrl && !isShift)) // CTRL-TAB (switch tab/window)
+						SendMessage(dat->pContainer->hwnd, DM_SELECTTAB, DM_SELECT_NEXT, 0);
+					else if ((wp == VK_PRIOR && isCtrl && !isShift) || (wp == VK_TAB && isCtrl && isShift)) // CTRL_SHIFT-TAB (switch tab/window)
+						SendMessage(dat->pContainer->hwnd, DM_SELECTTAB, DM_SELECT_PREV, 0);
+				}					
+
 				if (msg == WM_KEYDOWN && wp == VK_TAB) {
 					if (((NMHDR*)lParam)->idFrom == IDC_CHAT_LOG) {
 						SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
