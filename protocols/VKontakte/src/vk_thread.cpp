@@ -294,7 +294,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 		ReloadAvatarInfo(hContact);
 	}
 
-	int iNewStatus = (jnItem["online"] == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
+	int iNewStatus = (jnItem["online"].as_int() == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
 	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != iNewStatus)
 		setWord(hContact, "Status", iNewStatus);
 
