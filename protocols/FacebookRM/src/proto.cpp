@@ -1055,6 +1055,17 @@ void FacebookProto::InitPopups()
 	ppc.colorText = RGB(0, 0, 0); // black
 	ppc.iSeconds = 0;
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
+
+	// On this day
+	mir_sntprintf(desc, _T("%s/%s"), m_tszUserName, TranslateT("On this day posts"));
+	mir_snprintf(name, "%s_%s", m_szModuleName, "OnThisDay");
+	ppc.ptszDescription = desc;
+	ppc.pszName = name;
+	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("newsfeed"));
+	ppc.colorBack = RGB(255, 255, 255); // white
+	ppc.colorText = RGB(0, 0, 0); // black
+	ppc.iSeconds = 0;
+	popupClasses.push_back(Popup_RegisterClass(&ppc));
 }
 
 /**
@@ -1092,9 +1103,11 @@ void FacebookProto::InitHotkeys()
 void FacebookProto::InitSounds()
 {
 	SkinAddNewSoundExT("Notification", m_tszUserName, LPGENT("Notification"));
-	SkinAddNewSoundExT("NewsFeed", m_tszUserName, LPGENT("News Feed"));
-	SkinAddNewSoundExT("OtherEvent", m_tszUserName, LPGENT("Other Event"));
-	SkinAddNewSoundExT("Friendship", m_tszUserName, LPGENT("Friendship Event"));
+	SkinAddNewSoundExT("NewsFeed", m_tszUserName, LPGENT("Newsfeed event"));
+	SkinAddNewSoundExT("OtherEvent", m_tszUserName, LPGENT("Other event"));
+	SkinAddNewSoundExT("Friendship", m_tszUserName, LPGENT("Friendship event"));
+	SkinAddNewSoundExT("Ticker", m_tszUserName, LPGENT("Ticker event"));
+	SkinAddNewSoundExT("OnThisDay", m_tszUserName, LPGENT("On this day event"));
 }
 
 /**

@@ -96,6 +96,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_EVENT_CLIENT_ENABLE				1
 #define DEFAULT_EVENT_FRIENDSHIP_ENABLE			1
 #define DEFAULT_EVENT_TICKER_ENABLE				0
+#define DEFAULT_EVENT_ON_THIS_DAY_ENABLE		0
 
 // Event flags
 #define FACEBOOK_EVENT_CLIENT					0x10000000 // Facebook error or info message
@@ -104,6 +105,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_EVENT_OTHER					0x80000000 // Facebook other event (poke sent, status update, ...)
 #define FACEBOOK_EVENT_FRIENDSHIP				0x01000000 // Facebook friendship event
 #define FACEBOOK_EVENT_TICKER					0x02000000 // Facebook ticker message
+#define FACEBOOK_EVENT_ON_THIS_DAY				0x04000000 // Facebook on this day posts
 
 // Send message return values
 #define SEND_MESSAGE_OK							0
@@ -129,6 +131,7 @@ enum RequestType {
 	REQUEST_NOTIFICATIONS,		// getting notifications
 	REQUEST_LOAD_FRIENDSHIPS,	// getting friendship requests
 	REQUEST_PAGES,				// getting pages list
+	REQUEST_ON_THIS_DAY,		// getting on this day posts
 
 	REQUEST_POST_STATUS,		// posting status to our or friends's wall
 	REQUEST_LINK_SCRAPER,		// getting data for some url link

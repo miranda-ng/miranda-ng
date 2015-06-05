@@ -261,6 +261,7 @@ std::string facebook_client::choose_server(RequestType request_type)
 		//	case REQUEST_CANCEL_FRIENDSHIP:
 		//	case REQUEST_FRIENDSHIP:
 		//	case REQUEST_UNREAD_THREADS:
+		//	case REQUEST_ON_THIS_DAY:
 	default:
 		return FACEBOOK_SERVER_REGULAR;
 	}
@@ -487,6 +488,15 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 	case REQUEST_TYPING_SEND:
 		return "/ajax/messaging/typ.php?__a=1";
+
+	case REQUEST_ON_THIS_DAY:
+	{
+		std::string action = "/onthisday/story/query/?__a=1";
+		if (get_data != NULL) {
+			action += "&" + (*get_data);
+		}
+		return action;
+	}
 
 	default:
 		return "/?_fb_noscript=1";

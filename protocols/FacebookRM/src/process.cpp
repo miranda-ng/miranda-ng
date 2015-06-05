@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-15 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-15 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -620,6 +620,184 @@ void FacebookProto::SyncThreads(void*)
 	facy.handle_success("SyncThreads");
 }
 
+void parseFeeds(const std::string &text, std::vector<facebook_newsfeed *> &news, DWORD &last_post_time, bool filterAds = true) {
+	std::string::size_type pos = 0;
+	UINT limit = 0;
+
+	DWORD new_time = last_post_time;
+
+	while ((pos = text.find("<div class=\"userContentWrapper", pos)) != std::string::npos && limit <= 25)
+	{
+		/*std::string::size_type pos2 = text.find("<div class=\"userContentWrapper", pos+5);
+		if (pos2 == std::string::npos)
+		pos2 = text.length();
+
+		std::string post = text.substr(pos, pos2 - pos);*/
+		std::string post = text.substr(pos, text.find("</form>", pos) - pos);
+		pos += 5;
+
+		std::string post_header = utils::text::source_get_value(&post, 3, "<h5", ">", "</h5>");
+		std::string post_message = utils::text::source_get_value(&post, 3, " userContent\"", ">", "<form");
+		std::string post_link = utils::text::source_get_value(&post, 4, "</h5>", "<a", "href=\"", "\"");
+		//std::string post_attach = utils::text::source_get_value(&post, 4, "<div class=", "uiStreamAttachments", ">", "<form");
+
+		std::string post_time = utils::text::source_get_value(&post, 3, "</h5>", "<abbr", "</a>");
+
+		std::string time = utils::text::source_get_value(&post_time, 2, "data-utime=\"", "\"");
+		std::string time_text = utils::text::source_get_value(&post_time, 2, ">", "</abbr>");
+
+		if (time.empty()) {
+			// alternative parsing (probably page like or advertisement)
+			time = utils::text::source_get_value(&post, 2, "content_timestamp&quot;:&quot;", "&quot;");
+		}
+
+		DWORD ttime;
+		if (!utils::conversion::from_string<DWORD>(ttime, time, std::dec)) {
+			//debugLogA("!!! - Newsfeed with wrong/empty time (probably wrong parsing)\n%s", post.c_str());
+			continue;
+		}
+
+		if (ttime > new_time) {
+			new_time = ttime; // remember newest time from all these posts
+			//debugLogA("    - Newsfeed time: %d (new)", ttime);
+		}
+		else if (ttime <= last_post_time) {
+			//debugLogA("    - Newsfeed time: %d (ignored)", ttime);
+			continue; // ignore posts older than newest post of previous check
+		}
+		else {
+			//debugLogA("    - Newsfeed time: %d (normal)", ttime);
+		}
+
+		std::string post_place = utils::text::source_get_value(&post, 4, "</abbr>", "<a", ">", "</a>");
+
+		std::string premsg = "\n" + time_text;
+
+		post_place = utils::text::trim(
+			utils::text::remove_html(post_place));
+		if (!post_place.empty()) {
+			premsg += " - " + post_place;
+		}
+		premsg += "\n";
+
+		// in title keep only name, end of events like "X shared link" put into message
+		std::string::size_type pos2 = post_header.find("?");
+
+		if (pos2 != std::string::npos) {
+			utils::text::replace_first(&post_header, "?", " ï¿½ ");
+		}
+		else {
+			pos2 = post_header.find("</a></");
+			if (pos2 != std::string::npos) {
+				pos2 += 4;
+				std::string a = utils::text::trim(utils::text::remove_html(post_header.substr(pos2, post_header.length() - pos2)));
+				if (a.length() > 2)
+					premsg += a;
+				post_header = post_header.substr(0, pos2);
+			}
+		}
+
+		// Strip "Translate" link
+		pos2 = post_message.find("role=\"button\">");
+		if (pos2 != std::string::npos) {
+			post_message = post_message.substr(0, pos2 + 14);
+		}
+
+		post_message = premsg + post_message;
+
+		// append attachement to message (if any)
+		//post_message += utils::text::trim(post_attach);
+
+		facebook_newsfeed* nf = new facebook_newsfeed;
+
+		nf->title = utils::text::trim(
+			utils::text::html_entities_decode(
+			utils::text::remove_html(post_header)));
+
+		nf->user_id = utils::text::source_get_value(&post_header, 2, "user.php?id=", "&amp;");
+
+		nf->link = utils::text::html_entities_decode(post_link);
+
+		// Check if we don't want to show ads posts
+		bool filtered = filterAds && (nf->link.find("/about/ads") != std::string::npos
+			|| post.find("class=\"uiStreamSponsoredLink\"") != std::string::npos
+			|| post.find("href=\"/about/ads\"") != std::string::npos);
+
+		nf->text = utils::text::trim(
+			utils::text::html_entities_decode(
+			utils::text::remove_html(
+			utils::text::edit_html(post_message))));
+
+		if (filtered || nf->title.empty() || nf->text.empty()) {
+			//debugLogA("    \\ Newsfeed (time: %d) is filtered: %s", ttime, filtered ? "advertisement" : (nf->title.empty() ? "title empty" : "text empty"));
+			delete nf;
+			continue;
+		}
+		else {
+			//debugLogA("    Got newsfeed (time: %d)", ttime);
+		}
+
+		news.push_back(nf);
+		pos++;
+		limit++;
+	}
+
+	last_post_time = new_time;
+}
+
+void FacebookProto::ProcessOnThisDay(void*)
+{
+	if (isOffline() || !getBool(FACEBOOK_KEY_EVENT_ON_THIS_DAY_ENABLE, DEFAULT_EVENT_ON_THIS_DAY_ENABLE))
+		return;
+
+	facy.handle_entry(__FUNCTION__);
+
+	time_t timestamp = ::time(NULL);
+	
+	std::string get_data = "&start_index=0&num_stories=20&last_section_header=0";
+	get_data += "&timestamp=" + utils::conversion::to_string((void*)&timestamp, UTILS_CONV_TIME_T);
+	get_data += "&__dyn=&__req=&__rev=&__user=" + facy.self_.user_id;
+
+	http::response resp = facy.flap(REQUEST_ON_THIS_DAY, NULL, &get_data);
+
+	if (resp.code != HTTP_CODE_OK) {
+		facy.handle_error(__FUNCTION__);
+		return;
+	}
+
+	std::string jsonData = resp.data.substr(9);
+	JSONNode root = JSONNode::parse(jsonData.c_str());
+	if (root) {
+		const JSONNode &html_ = root["domops"].at((json_index_t)0).at((json_index_t)3).at("__html");
+		if (html_) {
+			std::string html = utils::text::html_entities_decode(utils::text::slashu_to_utf8(html_.as_string()));
+
+			std::vector<facebook_newsfeed *> news;
+			DWORD new_time = 0;
+
+			parseFeeds(html, news, new_time, true);
+
+			debugLogA("    Last feeds update (new): %d", new_time);
+
+			for (std::vector<facebook_newsfeed*>::size_type i = 0; i < news.size(); i++)
+			{
+				// Truncate text of newsfeed when it's too long
+				std::tstring text = ptrT(mir_utf8decodeT(news[i]->text.c_str()));
+				if (text.length() > MAX_NEWSFEED_LEN)
+					text = text.substr(0, MAX_NEWSFEED_LEN) + _T("...");
+
+				ptrT tszTitle(mir_utf8decodeT(news[i]->title.c_str()));
+				ptrT tszText(mir_tstrdup(text.c_str()));
+
+				NotifyEvent(TranslateT("On this day"), tszText, NULL, FACEBOOK_EVENT_ON_THIS_DAY, &news[i]->link);
+				delete news[i];
+			}
+			news.clear();
+		}
+	}
+
+	facy.handle_success(__FUNCTION__);
+}
 
 void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, bool check_duplicates)
 {
@@ -1022,137 +1200,11 @@ void FacebookProto::ProcessFeeds(void*)
 		return;
 	}
 
-	CODE_BLOCK_TRY
-
-		debugLogA("*** Starting processing feeds");
-
-	std::vector< facebook_newsfeed* > news;
-
-	std::string::size_type pos = 0;
-	UINT limit = 0;
-
+	std::vector<facebook_newsfeed *> news;
 	DWORD new_time = facy.last_feeds_update_;
 	bool filterAds = getBool(FACEBOOK_KEY_FILTER_ADS, DEFAULT_FILTER_ADS);
 
-	debugLogA("    Last feeds update (old): %d", facy.last_feeds_update_);
-
-	while ((pos = resp.data.find("<div class=\"userContentWrapper", pos)) != std::string::npos && limit <= 25)
-	{
-		/*std::string::size_type pos2 = resp.data.find("<div class=\"userContentWrapper", pos+5);
-		if (pos2 == std::string::npos)
-		pos2 = resp.data.length();
-
-		std::string post = resp.data.substr(pos, pos2 - pos);*/
-		std::string post = resp.data.substr(pos, resp.data.find("</form>", pos) - pos);
-		pos += 5;
-
-		std::string post_header = utils::text::source_get_value(&post, 3, "<h5", ">", "</h5>");
-		std::string post_message = utils::text::source_get_value(&post, 3, " userContent\"", ">", "<form");
-		std::string post_link = utils::text::source_get_value(&post, 4, "</h5>", "<a", "href=\"", "\"");
-		//std::string post_attach = utils::text::source_get_value(&post, 4, "<div class=", "uiStreamAttachments", ">", "<form");
-
-		std::string post_time = utils::text::source_get_value(&post, 3, "</h5>", "<abbr", "</a>");
-
-		std::string time = utils::text::source_get_value(&post_time, 2, "data-utime=\"", "\"");
-		std::string time_text = utils::text::source_get_value(&post_time, 2, ">", "</abbr>");
-
-		if (time.empty()) {
-			// alternative parsing (probably page like or advertisement)
-			time = utils::text::source_get_value(&post, 2, "content_timestamp&quot;:&quot;", "&quot;");
-		}
-
-		DWORD ttime;
-		if (!utils::conversion::from_string<DWORD>(ttime, time, std::dec)) {
-			debugLogA("!!! - Newsfeed with wrong/empty time (probably wrong parsing)\n%s", post.c_str());
-			continue;
-		}
-
-		if (ttime > new_time) {
-			new_time = ttime; // remember newest time from all these posts
-			debugLogA("    - Newsfeed time: %d (new)", ttime);
-		}
-		else if (ttime <= facy.last_feeds_update_) {
-			debugLogA("    - Newsfeed time: %d (ignored)", ttime);
-			continue; // ignore posts older than newest post of previous check
-		}
-		else {
-			debugLogA("    - Newsfeed time: %d (normal)", ttime);
-		}
-
-		std::string post_place = utils::text::source_get_value(&post, 4, "</abbr>", "<a", ">", "</a>");
-
-		std::string premsg = "\n" + time_text;
-
-		post_place = utils::text::trim(
-			utils::text::remove_html(post_place));
-		if (!post_place.empty()) {
-			premsg += " - " + post_place;
-		}
-		premsg += "\n";
-
-		// in title keep only name, end of events like "X shared link" put into message
-		std::string::size_type pos2 = post_header.find("?");
-
-		if (pos2 != std::string::npos) {
-			utils::text::replace_first(&post_header, "?", " › ");
-		}
-		else {
-			pos2 = post_header.find("</a></");
-			if (pos2 != std::string::npos) {
-				pos2 += 4;
-				std::string a = utils::text::trim(utils::text::remove_html(post_header.substr(pos2, post_header.length() - pos2)));
-				if (a.length() > 2)
-					premsg += a;
-				post_header = post_header.substr(0, pos2);
-			}
-		}
-
-		// Strip "Translate" link
-		pos2 = post_message.find("role=\"button\">");
-		if (pos2 != std::string::npos) {
-			post_message = post_message.substr(0, pos2 + 14);
-		}
-
-		post_message = premsg + post_message;
-
-		// append attachement to message (if any)
-		//post_message += utils::text::trim(post_attach);
-
-		facebook_newsfeed* nf = new facebook_newsfeed;
-
-		nf->title = utils::text::trim(
-			utils::text::html_entities_decode(
-			utils::text::remove_html(post_header)));
-
-		nf->user_id = utils::text::source_get_value(&post_header, 2, "user.php?id=", "&amp;");
-
-		nf->link = utils::text::html_entities_decode(post_link);
-
-		// Check if we don't want to show ads posts
-		bool filtered = filterAds && (nf->link.find("/about/ads") != std::string::npos
-			|| post.find("class=\"uiStreamSponsoredLink\"") != std::string::npos
-			|| post.find("href=\"/about/ads\"") != std::string::npos);
-
-		nf->text = utils::text::trim(
-			utils::text::html_entities_decode(
-			utils::text::remove_html(
-			utils::text::edit_html(post_message))));
-
-		if (filtered || nf->title.empty() || nf->text.empty()) {
-			debugLogA("    \\ Newsfeed (time: %d) is filtered: %s", ttime, filtered ? "advertisement" : (nf->title.empty() ? "title empty" : "text empty"));
-			delete nf;
-			continue;
-		}
-		else {
-			debugLogA("    Got newsfeed (time: %d)", ttime);
-		}
-
-		news.push_back(nf);
-		pos++;
-		limit++;
-	}
-
-	debugLogA("    Last feeds update (new): %d", new_time);
+	parseFeeds(resp.data, news, new_time, filterAds);
 
 	for (std::vector<facebook_newsfeed*>::size_type i = 0; i < news.size(); i++)
 	{
@@ -1172,15 +1224,7 @@ void FacebookProto::ProcessFeeds(void*)
 	// Set time of last update to time of newest post
 	this->facy.last_feeds_update_ = new_time;
 
-	debugLogA("*** Feeds processed");
-
-	CODE_BLOCK_CATCH
-
-		debugLogA("*** Error processing feeds: %s", e.what());
-
-	CODE_BLOCK_END
-
-		facy.handle_success("feeds");
+	facy.handle_success("feeds");
 }
 
 void FacebookProto::ProcessPages(void*)
