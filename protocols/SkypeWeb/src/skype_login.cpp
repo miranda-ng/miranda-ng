@@ -84,9 +84,9 @@ void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 void CSkypeProto::OnLoginSuccess()
 {
 	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_SUCCESS, NULL, 0);
-	SelfSkypeName = getStringA(SKYPE_SETTINGS_ID);
-	TokenSecret = getStringA("TokenSecret");
-	Server = getStringA("Server") != NULL ? getStringA("Server") : SKYPE_ENDPOINTS_HOST;
+	replaceStr(SelfSkypeName, getStringA(SKYPE_SETTINGS_ID));
+	replaceStr(TokenSecret, getStringA("TokenSecret"));
+	replaceStr(Server, getStringA("Server") != NULL ? getStringA("Server") : SKYPE_ENDPOINTS_HOST);
 	SendRequest(new CreateEndpointRequest(TokenSecret, Server), &CSkypeProto::OnEndpointCreated);
 	PushRequest(new GetProfileRequest(TokenSecret), &CSkypeProto::LoadProfile);
 
@@ -155,8 +155,8 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		}
 	}
 
-	RegToken = getStringA("registrationToken");
-	EndpointId = getStringA("endpointId");
+	replaceStr(RegToken, getStringA("registrationToken"));
+	replaceStr(EndpointId, getStringA("endpointId"));
 	SendRequest(new CreateSubscriptionsRequest(RegToken, Server), &CSkypeProto::OnSubscriptionsCreated);
 	SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
 }
