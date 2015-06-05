@@ -77,6 +77,14 @@ HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 		SkinPlaySound("Ticker");
 		flags |= NIIF_INFO;
 		break;
+
+	case FACEBOOK_EVENT_ON_THIS_DAY:
+		if (!getByte(FACEBOOK_KEY_EVENT_ON_THIS_DAY_ENABLE, DEFAULT_EVENT_ON_THIS_DAY_ENABLE))
+			return NULL;
+		mir_snprintf(name, "%s_%s", m_szModuleName, "OnThisDay");
+		SkinPlaySound("OnThisDay");
+		flags |= NIIF_INFO;
+		break;
 	}
 
 	if (!getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY, DEFAULT_SYSTRAY_NOTIFY))

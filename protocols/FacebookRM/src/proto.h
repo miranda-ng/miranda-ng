@@ -169,6 +169,7 @@ public:
 	void __cdecl ProcessPages(void*);
 	void __cdecl LoadLastMessages(void*);
 	void __cdecl SyncThreads(void*);
+	void __cdecl ProcessOnThisDay(void*);
 
 	// Worker threads
 	void __cdecl SignOn(void*);

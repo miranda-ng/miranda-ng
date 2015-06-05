@@ -126,23 +126,25 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Event notifications",IDC_STATIC,6,7,292,126
+    GROUPBOX        "Event notifications",IDC_STATIC,6,7,292,137
     CONTROL         "Notifications",IDC_NOTIFICATIONS_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,23,272,8
     CONTROL         "News feeds (WARNING: Causes excessive network traffic!)",IDC_FEEDS_ENABLE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,37,272,8
-    RTEXT           "News feed types to notify:",IDC_STATIC,26,49,117,8
-    COMBOBOX        IDC_FEED_TYPE,150,47,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Don't show advertising posts",IDC_FILTER_ADS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,65,138,8
-    CONTROL         "Other events",IDC_OTHER_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,75,272,8
-    CONTROL         "Client notifications",IDC_CLIENT_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,89,272,8
-    CONTROL         "Friendship notifications",IDC_FRIENDSHIP_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,104,272,8
-    CONTROL         "Ticker feeds",IDC_TICKER_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,119,272,8
-    RTEXT           "Use this server for opening links:",IDC_STATIC,13,148,139,8
-    COMBOBOX        IDC_URL_SERVER,156,145,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,36,272,8
+    RTEXT           "News feed types to notify:",IDC_STATIC,26,48,117,8
+    COMBOBOX        IDC_FEED_TYPE,150,46,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Don't show advertising posts",IDC_FILTER_ADS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,63,138,8
+    CONTROL         "Other events",IDC_OTHER_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,72,272,8
+    CONTROL         "Client notifications",IDC_CLIENT_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,85,272,8
+    CONTROL         "Friendship notifications",IDC_FRIENDSHIP_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,99,272,8
+    CONTROL         "Ticker feeds",IDC_TICKER_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,113,272,8
+    CONTROL         "Show ""On this day"" posts at login",IDC_ON_THIS_DAY_ENABLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,128,272,8    
+    RTEXT           "Use this server for opening links:",IDC_STATIC,13,154,139,8
+    COMBOBOX        IDC_URL_SERVER,156,151,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Use balloon notifications in system tray instead of popups",IDC_SYSTRAY_NOTIFY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,167,272,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,170,272,8
     CONTROL         "Use logging notifications into special chatroom",IDC_NOTIFICATIONS_CHATROOM,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,181,272,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,184,272,8
     PUSHBUTTON      "Preview",IDC_PREVIEW,116,199,68,14
 END
 
