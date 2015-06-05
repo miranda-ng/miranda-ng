@@ -34,13 +34,44 @@ void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	if (response->resultCode != 200 || !json["skypetoken"] || !json["expiresIn"])
+	if (response->resultCode != 200)
 	{
+		if (!json["status"].isnull())
+		{
+			const JSONNode &status = json["status"];
+			if (!status["code"].isnull())
+			{
+				switch(status["code"].as_int())
+				{
+				case 40120:
+					{
+						ShowNotification(_T("Skype"), TranslateT("Authentication failed. Bad username or password."), NULL, 1);
+						break;
+					}
+				case 40121:
+					{
+						ShowNotification(_T("Skype"), TranslateT("Too many failed authentication attempts with given username or IP."), NULL, 1);
+						break;
+					}
+				default: 
+					{
+						ShowNotification(_T("Skype"), !status["text"].isnull() ? status["text"].as_mstring().GetBuffer() : TranslateT("Authentication failed. Unknown error."), NULL, 1);
+					}
+				}
+			}
+		}
+
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
 
+	if (!json["skypetoken"] || !json["expiresIn"])
+	{
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
 	std::string token = json["skypetoken"].as_string();
 	setString("TokenSecret", token.c_str());
 
