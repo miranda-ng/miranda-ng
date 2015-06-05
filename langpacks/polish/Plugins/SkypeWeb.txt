@@ -34,6 +34,8 @@ Automatyczna synchronizacja wiadomości
 Używaj czasu lokalnego dla odebranych wiadomości
 [Always notify as unread for all incoming message]
 Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodzących
+[Place:]
+Miejsce:
 [Enter password]
 Wprowadź hasło
 [Save password]

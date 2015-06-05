@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.11.2
+;  Version: 0.2.11.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -217,9 +217,9 @@ Facebook ID павінна быць лічбавым значэннем.
 Паведамленне статуса Facebook
 [Notification]
 Абвестка
-[News Feed]
+[Newsfeed event]
 Навіны
-[Other Event]
+[Other event]
 Іншая падзея
 [Message read: %s by %s]
 Паведамленне прачытана ў: %s карытальнікам %s

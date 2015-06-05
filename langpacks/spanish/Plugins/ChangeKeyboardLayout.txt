@@ -13,6 +13,8 @@ Opciones
 Por defecto
 [Colors]
 Colores
+[Use default colors]
+Usar colores predeterminados
 [Back]
 Atras
 [Text]

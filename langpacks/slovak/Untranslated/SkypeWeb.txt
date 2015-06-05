@@ -10,6 +10,7 @@
 [Automatic messages synchronization]
 [Use local time for received messages]
 [Always notify as unread for all incoming message]
+[Place:]
 [Enter password]
 [Enter the password to continue.]
 [Skype Link Protocol]

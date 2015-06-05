@@ -13,7 +13,6 @@
 [Fade out:]
 [AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.]
 [Preview...]
-[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
 [Graphic files]
 [Sound Files]
 [Skins]

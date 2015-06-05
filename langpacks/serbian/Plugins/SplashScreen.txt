@@ -5,7 +5,5 @@
 ;  Version: 0.1.2.3
 ;  Authors: nullbie, Thief
 ;============================================================
-[Error]
-Greška
 [Sound Files]
 Zvučne datoteke

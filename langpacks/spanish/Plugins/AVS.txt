@@ -25,13 +25,13 @@ Avatares
 Contactos
 [Protocols]
 Protocolos
-[All Files]
+[All files]
 Todos los archivos
-[Windows Bitmaps]
+[Windows bitmaps]
 Mapas de bits de Windows
-[JPEG Bitmaps]
+[JPEG bitmaps]
 Mapas de bits JPEG
-[GIF Bitmaps]
+[GIF bitmaps]
 Mapas de bits GIF
-[PNG Bitmaps]
+[PNG bitmaps]
 Mapas de bits PNG

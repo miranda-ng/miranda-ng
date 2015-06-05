@@ -47,6 +47,8 @@ Colores
 Usar colores personalizados
 [Use Windows colors]
 Usar colores de Windows
+[Use default colors]
+Usar colores predeterminados
 [Timeout]
 Tiempo de espera
 [Sec]

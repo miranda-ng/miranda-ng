@@ -7,5 +7,3 @@
 ;============================================================
 [Shows a splash at Miranda startup.]
 Zobrazí okno s logom pri spustení Mirandy.
-[Error]
-Chyba

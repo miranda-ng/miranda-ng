@@ -43,8 +43,6 @@ Colores
 Usar colores &personalizados
 [Use &Windows colors]
 Usar colores de &Windows
-[Use Pop&up colors]
-Usar colores de &ventanas emergentes
 [Preview]
 Previsualizar
 [Click action]

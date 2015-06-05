@@ -14,7 +14,6 @@
 [Set Caps Lock state when inverting lettercase:]
 [Change active keyboard layout in system]
 [Colors]
-[Popup colors]
 [Windows colors]
 [Custom colors]
 [Back]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.11.2
+;  Version: 0.2.11.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -143,9 +143,9 @@ URL:
 Новини
 [Notification]
 Уведомяване
-[News Feed]
+[Newsfeed event]
 Новина
-[Other Event]
+[Other event]
 Друго събитие
 [Mind]
 Мисли си

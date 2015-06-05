@@ -18,7 +18,7 @@
 [Message boxes (*)]
 [Use cus&tom colors]
 [Use &Windows colors]
-[Use Pop&up colors]
+[Use defa&ult colors]
 [Preview]
 [Click action]
 [0 = Default]

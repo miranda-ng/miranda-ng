@@ -15,11 +15,11 @@ Storno
 Pozadie
 [Contacts]
 Kontakty
-[All Files]
+[All files]
 Všetky súbory
-[Windows Bitmaps]
+[Windows bitmaps]
 Windows obrázky
-[JPEG Bitmaps]
+[JPEG bitmaps]
 JPEG obrázky
-[GIF Bitmaps]
+[GIF bitmaps]
 GIF obrázky

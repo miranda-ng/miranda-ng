@@ -29,9 +29,9 @@ neznáme
 Kontakt
 [Contacts]
 Kontakty
-[Error]
-Chyba
 [All Files]
 Všetky súbory
+[Error]
+Chyba
 [Warning]
 Varovanie

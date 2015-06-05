@@ -130,8 +130,6 @@
 [Smiley button]
 [User is typing]
 [Typing notification off]
-[Unicode is on]
-[Unicode is off]
 [Sending]
 [Quote button]
 [Close button]

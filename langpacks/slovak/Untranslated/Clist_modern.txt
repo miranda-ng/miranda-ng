@@ -309,7 +309,6 @@
 [lines]
 [%s, contain %s]
 [ layered]
-[You need an image services plugin to process PNG images.]
 [( unknown )]
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]

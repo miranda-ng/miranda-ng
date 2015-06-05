@@ -59,8 +59,6 @@ Colores
 &Personalizados
 [Use &Windows colors]
 Usar colores de &Windows
-[Use Pop&up colors]
-Usar colores de &ventanas emergentes
 [Preview]
 Previsualizar
 [Click action]
@@ -141,7 +139,5 @@ Buscar actualizaciones de plugin
 Mostrar lista de plugins completa
 [Plugin info]
 Información del plugin
-[Plugin Updater HTTP connection]
-Plugin actualizador conexión HTTP
 [An error occurred while checking for new updates.]
 Se ha producido un error al comprobar nuevas actualizaciones.

@@ -1,4 +1,5 @@
-﻿[Add to existing metacontact]
+﻿[Enable icons]
+[Add to existing metacontact]
 [Please select a metacontact:]
 [Sort alphabetically]
 [Editing]

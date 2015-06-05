@@ -811,6 +811,14 @@ Poznámky
 Zobraziť/Zmeniť moje informácie...
 [%s is online]
 %s je pripojený
+[All Files]
+Všetky súbory
+[Windows bitmaps]
+Windows obrázky
+[JPEG bitmaps]
+JPEG obrázky
+[GIF bitmaps]
+GIF obrázky
 [Status menu]
 Menu stavov
 [Connecting]
@@ -923,11 +931,3 @@ Varovanie
 %s ikon
 [Main icons]
 Moje ikony
-[All bitmaps]
-Všetky obrázky
-[Windows bitmaps]
-Windows obrázky
-[JPEG bitmaps]
-JPEG obrázky
-[GIF bitmaps]
-GIF obrázky

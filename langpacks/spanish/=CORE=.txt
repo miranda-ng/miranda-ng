@@ -51,6 +51,8 @@ Opciones de visualización de contacto
 En lugar de mostrar los contactos por su apodo,\narrastre para seleccionar otro orden:
 [Miranda NG profile manager]
 Administrador de perfiles de Miranda NG
+[Manage your Miranda NG profile]
+Administre su perfil Miranda NG
 [&Run]
 Ejecuta&r
 [&Exit]
@@ -339,8 +341,6 @@ Servicio:
 Por defecto
 [Set]
 Establecer
-[Disable icons]
-Desactivar iconos
 [Show accounts in the following order,\ndrag to choose another order:]
 Mostrar cuentas en el siguiente orden,\narrastre para seleccionar otro orden:
 [Account order and visibility]
@@ -1857,6 +1857,16 @@ Propietario
 Ver/cambiar mis &datos...
 [%s is online]
 %s está en línea
+[All Files]
+Todos los archivos
+[Windows bitmaps]
+Mapas de bits de Windows
+[JPEG bitmaps]
+Mapas de bits JPEG
+[GIF bitmaps]
+Mapas de bits GIF
+[PNG bitmaps]
+Mapas de bits PNG
 [Add %s]
 Añadir %s
 [Please authorize my request and add me to your contact list.]
@@ -2105,8 +2115,6 @@ Tamaño
 Creado
 [Modified]
 Modificado
-[Manage your Miranda NG profile]
-Administre su perfil Miranda NG
 [My profiles]
 Mis perfiles
 [New profile]
@@ -2407,18 +2415,6 @@ Iconos principales
 Archivos de sonido
 [WAV files]
 Archivos WAV
-[You need an image services plugin to process PNG images.]
-Usted necesita un plugin de servicios de imagen para procesar imágenes PNG.
-[All bitmaps]
-Todos los mapas de bits
-[Windows bitmaps]
-Mapas de bits de Windows
-[JPEG bitmaps]
-Mapas de bits JPEG
-[GIF bitmaps]
-Mapas de bits GIF
-[PNG bitmaps]
-Mapas de bits PNG
 [Avatars]
 Avatares
 [Avatars root folder]

@@ -47,9 +47,9 @@ Protocolo
 Contacto
 [Contacts]
 Contactos
-[Error]
-Error
 [All Files]
 Todos los archivos
+[Error]
+Error
 [Warning]
 Advertencia

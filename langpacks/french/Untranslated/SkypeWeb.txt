@@ -6,6 +6,7 @@
 [Skypename:]
 [Automatic messages synchronization]
 [Always notify as unread for all incoming message]
+[Place:]
 [Enter the password to continue.]
 [Skype Link Protocol]
 [Admin]

@@ -1,4 +1,5 @@
-﻿[Remove status (10x10)]
+﻿[Enable icons]
+[Remove status (10x10)]
 [&E-mail]
 [Account]
 [ID]
