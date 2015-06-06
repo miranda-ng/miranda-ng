@@ -766,8 +766,9 @@ BOOL checkCommandLine(HANDLE hProcess, char * mustcontain, char * mustnotcontain
 	char * buffer2;
 	PPEB peb = NULL;
 	PPROCESS_PARAMETERS proc_params = NULL;
-	PVOID UserPool = (PVOID)LocalAlloc(LPTR, 8192);
+	HLOCAL UserPool = LocalAlloc(LPTR, 8192);
 	PROCESS_BASIC_INFORMATION ProcessInfo;
+	HMODULE hNt = GetModuleHandle(_T("ntdll.dll"));
 
 	//strings leer abbruch
 	if (!mustcontain&&!mustnotcontain)
@@ -776,17 +777,19 @@ BOOL checkCommandLine(HANDLE hProcess, char * mustcontain, char * mustnotcontain
 	//prüfe und lade nötige funktionen
 	if (_ZwQueryInformationProcess == NULL)
 	{
-		_ZwQueryInformationProcess = (pZwQueryInformationProcess)GetProcAddress(GetModuleHandle(_T("ntdll.dll")), "ZwQueryInformationProcess");
+		_ZwQueryInformationProcess = (pZwQueryInformationProcess)GetProcAddress(hNt, "ZwQueryInformationProcess");
 		if (_ZwQueryInformationProcess == NULL)
 		{
+			LocalFree(UserPool);
 			return TRUE;
 		}
 	}
 	if (_ZwReadVirtualMemory == NULL)
 	{
-		_ZwReadVirtualMemory = (pZwReadVirtualMemory)GetProcAddress(GetModuleHandle(_T("ntdll.dll")), "ZwReadVirtualMemory");
+		_ZwReadVirtualMemory = (pZwReadVirtualMemory)GetProcAddress(hNt, "ZwReadVirtualMemory");
 		if (_ZwReadVirtualMemory == NULL)
 		{
+			LocalFree(UserPool);
 			return TRUE;
 		}
 	}
@@ -839,24 +842,21 @@ BOOL checkCommandLine(HANDLE hProcess, char * mustcontain, char * mustnotcontain
 	//lowercase mustcontain/mustnotcontain
 	if (mustcontain)
 		for (unsigned int i = 0; i < mir_strlen(mustcontain); i++)
-		{
-		mustcontain[i] = tolower(mustcontain[i]);
-		}
+			mustcontain[i] = tolower(mustcontain[i]);
+
 	if (mustnotcontain)
 		for (unsigned int i = 0; i < mir_strlen(mustnotcontain); i++)
-		{
-		mustnotcontain[i] = tolower(mustnotcontain[i]);
-		}
+			mustnotcontain[i] = tolower(mustnotcontain[i]);
 
 	string cmdline = buffer2;
 
 	if (mustcontain)
 		if (cmdline.find(mustcontain) != string::npos)
 		{
-		delete[] buffer;
-		delete[] buffer2;
-		LocalFree(UserPool);
-		return TRUE;
+			delete[] buffer;
+			delete[] buffer2;
+			LocalFree(UserPool);
+			return TRUE;
 		}
 		else
 		{

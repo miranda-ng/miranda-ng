@@ -140,9 +140,6 @@ char* Varxfirevoiceip(ARGUMENTSINFO *ai) {
 		ai->flags = AIF_FALSE;
 		return mir_strdup("");
 	}
-
-	ai->flags = AIF_FALSE;
-	return mir_strdup("");
 }
 
 char* Varmyxfirevoice(ARGUMENTSINFO *ai)
