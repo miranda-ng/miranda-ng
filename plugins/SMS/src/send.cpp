@@ -49,7 +49,7 @@ void StartSmsSend(HWND hWndDlg,size_t dwModuleIndex,LPWSTR lpwszPhone,size_t dwP
 	lpszMessageUTF = (LPSTR)MEMALLOC(dwMessageUTFBuffSize);
 	if (lpszMessageUTF)
 	{
-		dwBuffSize = (dwPhoneSize + MAX_PATH+WideCharToMultiByte(CP_UTF8, 0, lpwszMessage, dwMessageSize, lpszMessageUTF, dwMessageUTFBuffSize, NULL, NULL));
+		dwBuffSize = (dwPhoneSize + MAX_PATH+WideCharToMultiByte(CP_UTF8, 0, lpwszMessage, (int)dwMessageSize, lpszMessageUTF, (int)dwMessageUTFBuffSize, NULL, NULL));
 		pdbei = (DBEVENTINFO*)MEMALLOC((sizeof(DBEVENTINFO) + dwBuffSize));
 		if (pdbei)
 		{
@@ -57,7 +57,7 @@ void StartSmsSend(HWND hWndDlg,size_t dwModuleIndex,LPWSTR lpwszPhone,size_t dwP
 			LPSTR lpszBuff = (LPSTR)(pdbei + 1);
 			HANDLE hProcess;
 
-			WideCharToMultiByte(CP_UTF8, 0, lpwszPhone, dwPhoneSize, szPhone, MAX_PHONE_LEN, NULL, NULL);
+			WideCharToMultiByte(CP_UTF8, 0, lpwszPhone, (int)dwPhoneSize, szPhone, MAX_PHONE_LEN, NULL, NULL);
 			dwPhoneSize=CopyNumberA(szPhone, szPhone, dwPhoneSize);
 
 			pdbei->timestamp = time(NULL);
@@ -68,8 +68,8 @@ void StartSmsSend(HWND hWndDlg,size_t dwModuleIndex,LPWSTR lpwszPhone,size_t dwP
 			SendSMSWindowDbeiSet(hWndDlg, pdbei);
 
 			char *szProto = ssSMSSettings.ppaSMSAccounts[dwModuleIndex]->szModuleName;
-			if ( ProtoServiceExists(szProto, MS_ICQ_SENDSMS)) {
-				WideCharToMultiByte(CP_UTF8, 0, lpwszMessageXMLEncoded, dwMessageXMLEncodedSize, lpszMessageUTF, dwMessageUTFBuffSize, NULL, NULL);
+			if (ProtoServiceExists(szProto, MS_ICQ_SENDSMS)) {
+				WideCharToMultiByte(CP_UTF8, 0, lpwszMessageXMLEncoded, (int)dwMessageXMLEncodedSize, lpszMessageUTF, (int)dwMessageUTFBuffSize, NULL, NULL);
 				hProcess = (HANDLE)CallProtoService(szProto, MS_ICQ_SENDSMS, (WPARAM)szPhone, (LPARAM)lpszMessageUTF);
 				SendSMSWindowHProcessSet(hWndDlg, hProcess);
 			}

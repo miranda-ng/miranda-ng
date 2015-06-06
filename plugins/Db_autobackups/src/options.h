@@ -30,7 +30,7 @@ typedef struct Options_tag {
 	unsigned int period;
 	PeriodType period_type;
 	TCHAR	folder[MAX_PATH];
-	size_t	num_backups;
+	int   num_backups;
 	BOOL	disable_progress;
 	BOOL	disable_popups;
 	BOOL	use_zip;

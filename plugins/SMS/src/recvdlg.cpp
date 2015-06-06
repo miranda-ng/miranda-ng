@@ -166,7 +166,7 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 
 //This function create a new SMS receive window, and insert it to the list.
 //The function gets void and return the window HWND
-HWND RecvSMSWindowAdd(MCONTACT hContact,DWORD dwEventType,LPWSTR lpwszPhone,size_t dwPhoneSize,LPSTR lpszMessage,size_t dwMessageSize)
+HWND RecvSMSWindowAdd(MCONTACT hContact, DWORD dwEventType, LPWSTR lpwszPhone, size_t dwPhoneSize, LPSTR lpszMessage, size_t dwMessageSize)
 {
 	HWND hRet = NULL;
 
@@ -207,22 +207,21 @@ HWND RecvSMSWindowAdd(MCONTACT hContact,DWORD dwEventType,LPWSTR lpwszPhone,size
 				hIcon=(HICON)LoadImage(ssSMSSettings.hInstance,MAKEINTRESOURCE(iIcon),IMAGE_ICON,0,0,LR_SHARED);
 				break;
 			default:
-				lpwszTitlepart=_T("Unknown event type");
+				lpwszTitlepart = _T("Unknown event type");
 				hIcon = 0;
 			}
 
-			wszPhoneLocal[0]='+';
+			wszPhoneLocal[0] = '+';
 			if (dwPhoneSize)
-			{
-				dwPhoneSize=CopyNumberW((wszPhoneLocal+1),lpwszPhone,dwPhoneSize);
-			}else{
+				dwPhoneSize = CopyNumberW((wszPhoneLocal+1),lpwszPhone,dwPhoneSize);
+			else {
 				GetDataFromMessage(lpszMessage,dwMessageSize,NULL,(wszPhoneLocal+1),(SIZEOF(wszPhoneLocal)-1),&dwPhoneSize,NULL);
 				dwPhoneSize++;
 			}
 
-			lpwszContactDisplayName=GetContactNameW(hContact);
-			mir_sntprintf(wszTitle,SIZEOF(wszTitle),_T("%s - %s"),lpwszContactDisplayName,lpwszTitlepart);
-			MultiByteToWideChar(CP_UTF8,0,lpszMessage,dwMessageSize,lpwszMessage,(dwMessageSize+MAX_PATH));
+			lpwszContactDisplayName = GetContactNameW(hContact);
+			mir_sntprintf(wszTitle, SIZEOF(wszTitle),_T("%s - %s"), lpwszContactDisplayName, lpwszTitlepart);
+			MultiByteToWideChar(CP_UTF8, 0, lpszMessage, (int)dwMessageSize, lpwszMessage, (int)dwMessageSize+MAX_PATH);
 
 			SetWindowText(prswdWindowData->hWnd, wszTitle);
 			SetDlgItemText(prswdWindowData->hWnd,IDC_NAME,lpwszContactDisplayName);
@@ -232,9 +231,8 @@ HWND RecvSMSWindowAdd(MCONTACT hContact,DWORD dwEventType,LPWSTR lpwszPhone,size
 
 			SetFocus(GetDlgItem(prswdWindowData->hWnd,IDC_MESSAGE));
 			hRet=prswdWindowData->hWnd;
-		}else{
-			MEMFREE(prswdWindowData);
 		}
+		else MEMFREE(prswdWindowData);
 	}
 	MEMFREE(lpwszMessage);
 	return(hRet);

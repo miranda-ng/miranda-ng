@@ -290,29 +290,29 @@ MIR_CORE_DLL(void) mir_md5_init(mir_md5_state_t *pms)
 	pms->abcd[3] = 0x10325476;
 }
 
-MIR_CORE_DLL(void) mir_md5_append(mir_md5_state_t *pms, const BYTE *data, int nbytes)
+MIR_CORE_DLL(void) mir_md5_append(mir_md5_state_t *pms, const BYTE *data, size_t nBytes)
 {
 	const BYTE *p = data;
-	int left = nbytes;
-	int offset = (pms->count[0] >> 3) & 63;
-	UINT32 nbits = (UINT32)(nbytes << 3);
+	size_t left = nBytes;
+	size_t offset = (pms->count[0] >> 3) & 63;
+	UINT32 nbits = (UINT32)(nBytes << 3);
 
-	if (nbytes <= 0)
+	if (nBytes == 0)
 		return;
 
 	/* Update the message length. */
-	pms->count[1] += nbytes >> 29;
+	pms->count[1] += (UINT32)nBytes >> 29;
 	pms->count[0] += nbits;
 	if (pms->count[0] < nbits)
 		pms->count[1]++;
 
 	/* Process an initial partial block. */
 	if (offset) {
-		int copy = (offset + nbytes > 64 ? 64 - offset : nbytes);
-
+		size_t copy = (offset + nBytes > 64 ? 64 - offset : nBytes);
 		memcpy(pms->buf + offset, p, copy);
 		if (offset + copy < 64)
 			return;
+
 		p += copy;
 		left -= copy;
 		md5_process(pms, pms->buf);
@@ -349,7 +349,7 @@ MIR_CORE_DLL(void) mir_md5_finish(mir_md5_state_t *pms, BYTE digest[16])
 		digest[i] = (BYTE)(pms->abcd[i >> 2] >> ((i & 3) << 3));
 }
 
-MIR_CORE_DLL(void) mir_md5_hash(const BYTE *data, int len, BYTE digest[16])
+MIR_CORE_DLL(void) mir_md5_hash(const BYTE *data, size_t len, BYTE digest[16])
 {
 	mir_md5_state_t state;
 	mir_md5_init(&state);

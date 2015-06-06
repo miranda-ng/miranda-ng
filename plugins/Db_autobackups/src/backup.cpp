@@ -174,7 +174,6 @@ int Comp(const void *i, const void *j)
 
 int RotateBackups(TCHAR *backupfolder, TCHAR *dbname)
 {
-	size_t i = 0;
 	backupFile *bf = NULL, *bftmp;
 	HANDLE hFind;
 	TCHAR backupfolderTmp[MAX_PATH];
@@ -186,6 +185,8 @@ int RotateBackups(TCHAR *backupfolder, TCHAR *dbname)
 	hFind = FindFirstFile(backupfolderTmp, &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE)
 		return 0;
+
+	int i = 0;
 	do {
 		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			continue;

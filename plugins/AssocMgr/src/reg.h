@@ -31,7 +31,7 @@ BOOL AddRegFileExt(const char *pszFileExt,const char *pszClassName,const char *p
 void RemoveRegFileExt(const char *pszFileExt,const char *pszClassName);
 BOOL IsRegFileExt(const char *pszFileExt,const char *pszClassName);
 /* Mime Type */
-BOOL AddRegMimeType(const char *pszMimeType,const char *pszFileExt,const TCHAR *pszDescription);
+BOOL AddRegMimeType(const char *pszMimeType,const char *pszFileExt);
 void RemoveRegMimeType(const char *pszMimeType,const char *pszFileExt);
 /* Open-With App */
 void AddRegOpenWith(const TCHAR *pszAppFileName,BOOL fAllowOpenWith,const TCHAR *pszAppName,const TCHAR *pszIconLoc,const TCHAR *pszRunCmd,const TCHAR *pszDdeCmd,const TCHAR *pszDdeApp,const TCHAR *pszDdeTopic);
