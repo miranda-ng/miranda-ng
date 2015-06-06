@@ -1,10 +1,23 @@
 #include "gmail.h"
 
+static void SaveButton(HWND hwndDlg,HWND hwndCombo, int curIndex) {
+	if (GetDlgItemTextA(hwndDlg, IDC_NAME, acc[curIndex].name, SIZEOF(acc[curIndex].name))) {
+		char *tail = strstr(acc[curIndex].name, "@");
+		if (tail && mir_strcmp(tail + 1, "gmail.com") != 0)
+			mir_strcpy(acc[curIndex].hosted, tail + 1);
+		SendMessageA(hwndCombo, CB_DELETESTRING, curIndex, 0);
+		SendMessageA(hwndCombo, CB_INSERTSTRING, curIndex, (LPARAM)acc[curIndex].name);
+		SendMessageA(hwndCombo, CB_SETCURSEL, curIndex, 0);
+		db_set_s(acc[curIndex].hContact, pluginName, "name", acc[curIndex].name);
+		db_set_s(acc[curIndex].hContact, pluginName, "Nick", acc[curIndex].name);
+		GetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass, SIZEOF(acc[curIndex].pass));
+		db_set_s(acc[curIndex].hContact, pluginName, "Password", acc[curIndex].pass);
+	}
+}
 static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int ShowControl;
 	char str[MAX_PATH] = { 0 };
-	char *tail;
 	static int curIndex = 0;
 	static bool bInit = false;
 	HWND hwndCombo = GetDlgItem(hwndDlg, IDC_NAME);
@@ -142,19 +155,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			break;
 		
 		case IDC_BTNSAV:
-			if (GetDlgItemTextA(hwndDlg, IDC_NAME, acc[curIndex].name, SIZEOF(acc[curIndex].name))) {
-				tail = strstr(acc[curIndex].name, "@");
-				if (tail && mir_strcmp(tail + 1, "gmail.com") != 0)
-					mir_strcpy(acc[curIndex].hosted, tail + 1);
-				SendMessageA(hwndCombo, CB_DELETESTRING, curIndex, 0);
-				SendMessageA(hwndCombo, CB_INSERTSTRING, curIndex, (LPARAM)acc[curIndex].name);
-				SendMessageA(hwndCombo, CB_SETCURSEL, curIndex, 0);
-				db_set_s(acc[curIndex].hContact, pluginName, "name", acc[curIndex].name);
-				db_set_s(acc[curIndex].hContact, pluginName, "Nick", acc[curIndex].name);
-				GetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass, SIZEOF(acc[curIndex].pass));
-				db_set_s(acc[curIndex].hContact, pluginName, "Password", acc[curIndex].pass);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			}
+			SaveButton(hwndDlg,hwndCombo, curIndex);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
 		case IDC_BTNDEL:
@@ -195,7 +197,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			SendMessage(hwndDlg, WM_COMMAND, IDC_BTNSAV, 0);
+			SaveButton(hwndDlg,hwndCombo, curIndex);
 			opt.circleTime = GetDlgItemInt(hwndDlg, IDC_CIRCLE, NULL, FALSE);
 			if (opt.circleTime > 0) {
 				KillTimer(NULL, hTimer);
