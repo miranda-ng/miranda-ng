@@ -93,9 +93,9 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 					_tcsftime_l(time, sizeof(time), L"%X %x", localtime(&timestamp), locale);
 					_free_locale(locale);
 
-					CMStringA msg(FORMAT, "%s\n%s %s:\n%s", dbMsgText, Translate("Edited at"), _T2A(time), message);
+					CMStringA msg(FORMAT, "%s\n%s %s:\n%s", mir_utf8decodeA(dbMsgText), Translate("Edited at"), T2Utf(time), mir_utf8decodeA(message));
 					db_event_delete(hContact, dbevent);
-					AddMessageToDb(hContact, dbEventTimestamp, flags, clientMsgId.c_str(), msg.GetBuffer(), emoteOffset);
+					AddMessageToDb(hContact, dbEventTimestamp, flags, clientMsgId.c_str(), mir_utf8encode(msg.GetBuffer()), emoteOffset);
 				}
 				else AddMessageToDb(hContact, timestamp, flags, clientMsgId.c_str(), message, emoteOffset);
 			}
