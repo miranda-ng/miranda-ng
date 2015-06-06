@@ -17,6 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+UINT_PTR CSkypeProto::m_timer;
+
 void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL || response->pData == NULL)
@@ -80,7 +82,6 @@ void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 
 	OnLoginSuccess();
 }
-
 void CSkypeProto::OnLoginSuccess()
 {
 	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_SUCCESS, NULL, 0);
@@ -172,21 +173,27 @@ void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
-	char *cName;
+	SendPresence(true);
+}
+
+void CSkypeProto::SendPresence(bool isLogin)
+{
+	ptrA epname;
 	ptrT place(getTStringA("Place"));
 
-	if (place && *place)
-		cName = mir_utf8encodeT(place);
+	if (!getBool("UseHostName", false) && place && *place)
+		epname = mir_utf8encodeT(place);
 	else
 	{
-		char compName[MAX_COMPUTERNAME_LENGTH + 1];
+		TCHAR compName[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD size = SIZEOF(compName);
-		GetComputerNameA(compName, &size);
-		cName = compName;
+		GetComputerName(compName, &size);
+		epname = mir_utf8encodeT(compName);
 	}
-	PushRequest(new SendCapabilitiesRequest(RegToken, EndpointId, cName, Server), &CSkypeProto::OnCapabilitiesSended);
-
-	mir_free(cName);
+	if (isLogin)
+		PushRequest(new SendCapabilitiesRequest(RegToken, EndpointId, epname, Server), &CSkypeProto::OnCapabilitiesSended);
+	else 
+		PushRequest(new SendCapabilitiesRequest(RegToken, EndpointId, epname, Server));
 }
 
 void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
