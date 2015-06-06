@@ -25,13 +25,15 @@ CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog)
 	m_autosync(this, IDC_AUTOSYNC),
 	m_localtime(this, IDC_LOCALTIME),
 	m_allasunread(this, IDC_MESASUREAD),
-	m_place(this, IDC_PLACE)
+	m_place(this, IDC_PLACE),
+	m_usehostname(this, IDC_USEHOST)
 {
 	CreateLink(m_group, SKYPE_SETTINGS_GROUP, _T("Skype"));
 	CreateLink(m_autosync, "AutoSync", DBVT_BYTE, 1);
 	CreateLink(m_localtime, "UseLocalTime", DBVT_BYTE, 0);
 	CreateLink(m_allasunread, "MarkMesUnread", DBVT_BYTE, 1);
 	CreateLink(m_place, "Place", _T(""));
+	CreateLink(m_usehostname, "UseHostName", DBVT_BYTE, 0);
 }
 
 void CSkypeOptionsMain::OnInitDialog()
@@ -40,7 +42,6 @@ void CSkypeOptionsMain::OnInitDialog()
 
 	m_skypename.SetTextA(ptrA(m_proto->getStringA(SKYPE_SETTINGS_ID)));
 	m_password.SetTextA(ptrA(m_proto->getStringA("Password")));
-
 	SendMessage(m_skypename.GetHwnd(), EM_LIMITTEXT, 32, 0);
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 20, 0);
 	SendMessage(m_group.GetHwnd(), EM_LIMITTEXT, 64, 0);

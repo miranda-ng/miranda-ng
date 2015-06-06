@@ -171,10 +171,13 @@ BEGIN
     EDITTEXT        IDC_GROUP,81,49,217,12,ES_AUTOHSCROLL
     GROUPBOX        "Others",IDC_STATIC,5,79,298,65
     CONTROL         "Automatic messages synchronization",IDC_AUTOSYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,89,282,10
-    CONTROL         "Use local time for received messages",IDC_LOCALTIME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,100,282,10
-    CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,112,209,10
+    CONTROL         "Use local time for received messages",IDC_LOCALTIME,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,100,282,10
+    CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,112,209,10
     EDITTEXT        IDC_PLACE,81,124,109,14,ES_AUTOHSCROLL
     LTEXT           "Place:",IDC_STATIC,13,127,33,9
+    CONTROL         "Use hostname",IDC_USEHOST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,203,126,89,10
 END
 
 IDD_PASSWORD_EDITOR DIALOGEX 0, 0, 209, 75

@@ -27,6 +27,8 @@
 #define IDC_CONTACT                     1032
 #define IDC_MESASUREAD                  1033
 #define IDC_PLACE                       1034
+#define IDC_CHECK1                      1035
+#define IDC_USEHOST                     1035
 
 // Next default values for new objects
 // 
@@ -34,7 +36,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        124
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1035
+#define _APS_NEXT_CONTROL_VALUE         1036
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -28,6 +28,7 @@ private:
 	CCtrlCheck m_autosync;
 	CCtrlCheck m_localtime;
 	CCtrlCheck m_allasunread;
+	CCtrlCheck m_usehostname;
 
 protected:
 	CSkypeOptionsMain(CSkypeProto *proto, int idDialog);
