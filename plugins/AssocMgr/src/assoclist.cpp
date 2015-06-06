@@ -320,7 +320,7 @@ static BOOL EnsureAssocRegistered(const ASSOCDATA *assoc)
 			if(fSuccess && !fIsUrl) {
 				/* register mime type */
 				if(assoc->pszMimeType!= NULL)
-					if(AddRegMimeType(assoc->pszMimeType, assoc->pszFileExt, assoc->pszDescription))
+					if(AddRegMimeType(assoc->pszMimeType, assoc->pszFileExt))
 						RememberMimeTypeAdded(assoc->pszMimeType, assoc->pszFileExt, TRUE);
 				/* register file ext */
 				fSuccess = AddRegFileExt(assoc->pszFileExt, assoc->pszClassName, assoc->pszMimeType, assoc->flags&FTDF_ISTEXT);

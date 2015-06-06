@@ -56,7 +56,7 @@ int LoadOptions(void)
 		else
 			mir_sntprintf(options.folder, SIZEOF(options.folder), _T("%s%s"), DIR, SUB_DIR);
 	}
-	options.num_backups = (unsigned int)db_get_w(0, "AutoBackups", "NumBackups", 3);
+	options.num_backups = db_get_w(0, "AutoBackups", "NumBackups", 3);
 
 	options.disable_progress = (BOOL)db_get_b(0, "AutoBackups", "NoProgress", 0);
 	options.disable_popups = (BOOL)db_get_b(0, "AutoBackups", "NoPopups", 0);
@@ -92,7 +92,7 @@ int SaveOptions(void)
 		mir_sntprintf(options.folder, SIZEOF(options.folder), _T("%s\\%s"), profilePath, prof_dir);
 	}
 	mir_free(tmp);
-	db_set_w(0, "AutoBackups", "NumBackups", (WORD)options.num_backups);
+	db_set_w(0, "AutoBackups", "NumBackups", options.num_backups);
 	db_set_b(0, "AutoBackups", "NoProgress", (BYTE)options.disable_progress);
 	db_set_b(0, "AutoBackups", "NoPopups", (BYTE)options.disable_popups);
 	db_set_b(0, "AutoBackups", "UseZip", (BYTE)options.use_zip);

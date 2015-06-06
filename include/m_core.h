@@ -278,9 +278,9 @@ typedef struct mir_md5_state_s {
 } mir_md5_state_t;
 
 MIR_CORE_DLL(void) mir_md5_init(mir_md5_state_t *pms);
-MIR_CORE_DLL(void) mir_md5_append(mir_md5_state_t *pms, const BYTE *data, int nbytes);
+MIR_CORE_DLL(void) mir_md5_append(mir_md5_state_t *pms, const BYTE *data, size_t nbytes);
 MIR_CORE_DLL(void) mir_md5_finish(mir_md5_state_t *pms, BYTE digest[16]);
-MIR_CORE_DLL(void) mir_md5_hash(const BYTE *data, int len, BYTE digest[16]);
+MIR_CORE_DLL(void) mir_md5_hash(const BYTE *data, size_t len, BYTE digest[16]);
 
 ///////////////////////////////////////////////////////////////////////////////
 // memory functions
