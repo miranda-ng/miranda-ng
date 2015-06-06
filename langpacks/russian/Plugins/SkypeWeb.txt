@@ -35,6 +35,8 @@
 Помечать все входящие сообщения как "Непрочитанное"
 [Place:]
 Место:
+[Use hostname]
+Использовать имя хоста
 [Enter password]
 Введите пароль
 [Save password]
@@ -117,6 +119,12 @@
 Значок действия
 [Protocols]
 Протоколы
+[Authentication failed. Bad username or password.]
+Не удалось авторизоваться, указано неверное имя пользователя или пароль.
+[Too many failed authentication attempts with given username or IP.]
+Превышено допустимое количество неудачных попыток авторизации с этим именем пользователя или с этого IP-адреса.
+[Authentication failed. Unknown error.]
+Не удалось авторизоваться из-за неизвестной ошибки.
 [Request authorization]
 Запросить авторизацию
 [Grant authorization]
