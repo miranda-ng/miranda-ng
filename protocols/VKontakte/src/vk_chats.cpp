@@ -138,7 +138,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	const JSONNode &jnInfo = jnResponse["info"];
 	if (!jnInfo.isnull()) {
 		CMString tszTitle(jnInfo["title"].as_mstring());
-		if (tszTitle == cc->m_tszTopic ? cc->m_tszTopic : _T("")) {		
+		if (tszTitle == (cc->m_tszTopic ? cc->m_tszTopic : _T(""))) {		
 			cc->m_tszTopic = mir_tstrdup(tszTitle);
 			setTString(cc->m_hContact, "Nick", tszTitle);
 
