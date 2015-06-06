@@ -21,8 +21,8 @@ void CSkypeProto::ProcessEndpointPresenceRes(const JSONNode &node)
 {
 	debugLogA("CSkypeProto::ProcessEndpointPresenceRes");
 	std::string selfLink = node["selfLink"].as_string();
-	ptrA skypename(ContactUrlToName(selfLink.c_str()));
-	if (skypename == NULL)
+	CMStringA skypename(ContactUrlToName(selfLink.c_str()));
+	if (skypename.IsEmpty())
 		return;
 
 	MCONTACT hContact = FindContact(skypename);
@@ -83,10 +83,11 @@ void CSkypeProto::ProcessEndpointPresenceRes(const JSONNode &node)
 					break;
 				}
 			}
+			MirVer.AppendChar(' ');
 			if (iTyp == 125)
-				MirVer.AppendFormat(" %s", version);
+				MirVer.Append(version.c_str());
 			else
-				MirVer.AppendFormat(" %s", ParseUrl(skypeNameVersion.c_str(), "/"));	
+				MirVer.Append(ParseUrl(skypeNameVersion.c_str(), "/"));
 		}
 	}
 	if (privateInfo != NULL)
@@ -106,7 +107,7 @@ void CSkypeProto::ProcessUserPresenceRes(const JSONNode &node)
 
 	std::string selfLink = node["selfLink"].as_string();
 	std::string status = node["status"].as_string();
-	ptrA skypename;
+	CMStringA skypename;
 
 	if (selfLink.find("/8:") != std::string::npos)
 	{
@@ -117,7 +118,7 @@ void CSkypeProto::ProcessUserPresenceRes(const JSONNode &node)
 		skypename = SelfUrlToName(selfLink.c_str());
 	}
 
-	if (skypename != NULL)
+	if (!skypename.IsEmpty())
 	{
 		if (IsMe(skypename))
 		{

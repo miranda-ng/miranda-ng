@@ -37,7 +37,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	bool markAllAsUnread = getBool("MarkMesUnread", true);
 
 	if (totalCount >= 99 || conversations.size() >= 99)
-		PushRequest(new GetHistoryOnUrlRequest(syncState.c_str(), RegToken), &CSkypeProto::OnGetServerHistory);
+		PushRequest(new GetHistoryOnUrlRequest(syncState.c_str(), m_szRegToken), &CSkypeProto::OnGetServerHistory);
 
 	for (int i = (int)conversations.size(); i >= 0; i--)
 	{
@@ -51,11 +51,11 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		std::string conversationLink = message["conversationLink"].as_string();
 		int emoteOffset = message["skypeemoteoffset"].as_int();
 		time_t timestamp = IsoToUnixTime(message["composetime"].as_string().c_str());
-		ptrA skypename(ContactUrlToName(from.c_str()));
+		CMStringA skypename(ContactUrlToName(from.c_str()));
 
 		bool isEdited = message["skypeeditedid"];
 
-		MCONTACT hContact = FindContact(ptrA(ContactUrlToName(conversationLink.c_str())));
+		MCONTACT hContact = FindContact(ContactUrlToName(conversationLink.c_str()));
 			  
 		if (timestamp > db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0))
 			db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
@@ -106,7 +106,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 				//content=<partlist type="started" alt=""><part identity="username"><name>user name</name></part></partlist>
 				int iType = 3, iDuration = 0;
-				ptrA skypename(ContactUrlToName(from.c_str()));
+				CMStringA skypename(ContactUrlToName(from.c_str()));
 				HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("partlist"));
 				if (xml != NULL)
 				{
@@ -173,10 +173,8 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 				HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("URIObject"));
 				if (xml != NULL)
 				{
-					ptrA url(mir_t2a(xi.getAttrValue(xml, L"uri")));
-					ptrA object(ParseUrl(url, "/objects/"));
-
-					CMStringA data(FORMAT, "%s: https://api.asm.skype.com/s/i?%s", Translate("Image"), object);
+					CMStringA object(ParseUrl(_T2A(xi.getAttrValue(xml, L"uri")), "/objects/"));
+					CMStringA data(FORMAT, "%s: https://api.asm.skype.com/s/i?%s", Translate("Image"), object.c_str());
 
 					AddMessageToDb(hContact, timestamp, flags, clientMsgId.c_str(), data.GetBuffer());
 				}
@@ -184,7 +182,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		}
 		else if (conversationLink.find("/19:") != -1)
 		{
-			ptrA chatname(ChatUrlToName(conversationLink.c_str()));
+			CMStringA chatname(ChatUrlToName(conversationLink.c_str()));
 			if (!mir_strcmpi(messageType.c_str(), "Text") || !mir_strcmpi(messageType.c_str(), "RichText"))
 				AddMessageToChat(_A2T(chatname), _A2T(skypename), content.c_str(), emoteOffset != NULL, emoteOffset, timestamp, true);
 		}
@@ -193,7 +191,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM)
 {
-	PushRequest(new GetHistoryRequest(RegToken, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)), 100, false, 0, Server), &CSkypeProto::OnGetServerHistory);
+	PushRequest(new GetHistoryRequest(m_szRegToken, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)), 100, false, 0, m_szServer), &CSkypeProto::OnGetServerHistory);
 	return 0;
 }
 
@@ -213,7 +211,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 	std::string syncState = metadata["syncState"].as_string();
 
 	if (totalCount >= 99 || conversations.size() >= 99)
-		PushRequest(new SyncHistoryFirstRequest(syncState.c_str(), RegToken), &CSkypeProto::OnSyncHistory);
+		PushRequest(new SyncHistoryFirstRequest(syncState.c_str(), (char*)m_szRegToken), &CSkypeProto::OnSyncHistory);
 
 	for (size_t i = 0; i < conversations.size(); i++)
 	{
@@ -227,14 +225,14 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 
 		if (conversationLink.find("/8:") != -1)
 		{
-			ptrA skypename(ContactUrlToName(conversationLink.c_str()));
+			CMStringA skypename(ContactUrlToName(conversationLink.c_str()));
 			MCONTACT hContact = FindContact(skypename);
 			if (hContact == NULL)
 				continue;
 
 			if (db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) < composeTime)
 			{
-				PushRequest(new GetHistoryRequest(RegToken, skypename, 100, false, 0, Server), &CSkypeProto::OnGetServerHistory);
+				PushRequest(new GetHistoryRequest(m_szRegToken, skypename, 100, false, 0, m_szServer), &CSkypeProto::OnGetServerHistory);
 			}
 		}
 	}
