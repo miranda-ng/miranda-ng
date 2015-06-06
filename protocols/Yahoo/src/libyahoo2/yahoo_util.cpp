@@ -41,7 +41,7 @@ char *strchr (), *strrchr ();
 
 char * y_string_append(char * string, char * append)
 {
-	int size = strlen(string) + strlen(append) + 1;
+	int size = (int)strlen(string) + (int)strlen(append) + 1;
 	char * new_string = y_renew(char, string, size);
 
 	if (new_string == NULL) {
@@ -121,7 +121,7 @@ char ** y_strsplit(char * str, char * sep, int nelem)
 	char ** vector;
 	char *s, *p;
 	int i=0;
-	int l = strlen(sep);
+	int l = (int)strlen(sep);
 	if (nelem <= 0) {
 		char * s;
 		nelem=0;

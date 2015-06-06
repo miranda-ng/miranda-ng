@@ -759,7 +759,7 @@ static int yahoo_packet_length(struct yahoo_packet *pkt)
 			len++;
 		} while (tmp);
 		len += 2;
-		len += strlen(pair->value);
+		len += (int)strlen(pair->value);
 		len += 2;
 	}
 
@@ -797,7 +797,7 @@ static void yahoo_packet_read(struct yahoo_packet *pkt, unsigned char *data, int
 	
 	snprintf(z, sizeof(z), "%s ]=-", z);
 	
-	zl = strlen(z);
+	zl = (int)strlen(z);
 	DEBUG_MSG1((z));
 
 	while (pos + 1 < len) {
@@ -866,12 +866,12 @@ static void yahoo_packet_write(struct yahoo_packet *pkt, unsigned char *data)
 
 		snprintf((char *)buf, sizeof(buf), "%d", pair->key);
 		strcpy((char *)data + pos, (char *)buf);
-		pos += strlen((char *)buf);
+		pos += (int)strlen((char *)buf);
 		data[pos++] = 0xc0;
 		data[pos++] = 0x80;
 
 		strcpy((char *)data + pos, pair->value);
-		pos += strlen(pair->value);
+		pos += (int)strlen(pair->value);
 		data[pos++] = 0xc0;
 		data[pos++] = 0x80;
 	}
@@ -3629,7 +3629,7 @@ static void _yahoo_webcam_get_server_connected(INT_PTR fd, int error, void *d)
 		data = strdup("<RVWCFG>");
 	else
 		data = strdup("<RUPCFG>");
-	yahoo_add_to_send_queue(yid, data, strlen(data));
+	yahoo_add_to_send_queue(yid, data, (int)strlen(data));
 	FREE(data);
 
 	/* send data */
@@ -3641,7 +3641,7 @@ static void _yahoo_webcam_get_server_connected(INT_PTR fd, int error, void *d)
 	} else {
 		data = strdup("f=1\r\n");
 	}
-	len = strlen(data);
+	len = (int)strlen(data);
 	packet = y_new0(char, header_len + len);
 	packet[pos++] = header_len;
 	memcpy(packet + pos, magic_nr, sizeof(magic_nr));
@@ -4534,7 +4534,7 @@ static void _yahoo_webcam_connected(INT_PTR fd, int error, void *d)
 		default:
 			return;
 	}
-	yahoo_add_to_send_queue(yid, data, strlen(data));
+	yahoo_add_to_send_queue(yid, data, (int)strlen(data));
 	FREE(data);
 
 	/* send data */
@@ -4572,7 +4572,7 @@ static void _yahoo_webcam_connected(INT_PTR fd, int error, void *d)
 			break;
 	}
 
-	len = strlen(data);
+	len = (int)strlen(data);
 	packet = y_new0(char, header_len + len);
 	packet[pos++] = header_len;
 	packet[pos++] = 0;
@@ -5906,7 +5906,7 @@ void yahoo_webcam_accept_viewer(int id, const char* who, int accept)
 	data = strdup("u=");
 	data = y_string_append(data, (char*)who);
 	data = y_string_append(data, "\r\n");
-	len = strlen(data);
+	len = (int)strlen(data);
 
 	packet = y_new0(char, header_len + len);
 	packet[pos++] = header_len;
