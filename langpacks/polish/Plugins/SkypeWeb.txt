@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.0.1
+;  Version: 0.12.1.0
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -36,6 +36,8 @@ Używaj czasu lokalnego dla odebranych wiadomości
 Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodzących
 [Place:]
 Miejsce:
+[Use hostname]
+
 [Enter password]
 Wprowadź hasło
 [Save password]
@@ -124,6 +126,13 @@ Ikona błędu
 Ikona działania
 [Protocols]
 Protokoły
+;file \protocols\SkypeWeb\src\skype_login.cpp
+[Authentication failed. Bad username or password.]
+
+[Too many failed authentication attempts with given username or IP.]
+
+[Authentication failed. Unknown error.]
+
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
 Poproś o autoryzację
