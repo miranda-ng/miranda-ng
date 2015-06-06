@@ -156,7 +156,7 @@ char *yahoo_urlencode(const char *instr)
 {
 	int ipos=0, bpos=0;
 	char *str = NULL;
-	int len = strlen(instr);
+	int len = (int)strlen(instr);
 
 	if (!(str = y_new(char, 3*len + 1)))
 		return "";
@@ -174,7 +174,7 @@ char *yahoo_urlencode(const char *instr)
 	str[bpos]='\0';
 
 	/* free extra alloc'ed mem. */
-	len = strlen(str);
+	len = (int)strlen(str);
 	str = y_renew(char, str, len+1);
 
 	return (str);
@@ -186,7 +186,7 @@ char *yahoo_urldecode(const char *instr)
 	char *str = NULL;
 	char entity[3]={0,0,0};
 	unsigned dec;
-	int len = strlen(instr);
+	int len = (int)strlen(instr);
 
 	if (!(str = y_new(char, len+1)))
 		return "";
@@ -214,7 +214,7 @@ char *yahoo_urldecode(const char *instr)
 	str[bpos]='\0';
 
 	/* free extra alloc'ed mem. */
-	len = strlen(str);
+	len = (int)strlen(str);
 	str = y_renew(char, str, len+1);
 
 	return (str);
@@ -233,7 +233,7 @@ char *yahoo_xmldecode(const char *instr)
 		{"nbsp;", " "}
 	};
 	unsigned dec;
-	int len = strlen(instr);
+	int len = (int)strlen(instr);
 
 	if (!(str = y_new(char, len+1)))
 		return "";
@@ -257,13 +257,13 @@ char *yahoo_xmldecode(const char *instr)
 			sscanf(entity, "%u", &dec);
 			str[bpos++] = (char)dec;
 			ipos++;
-		} else {
+		}
+		else {
 			int i;
 			for (i=0; i<5; i++) 
-				if (!strncmp(instr+ipos, entitymap[i][0], 
-					       strlen(entitymap[i][0]))) {
-				       	str[bpos++] = entitymap[i][1][0];
-					ipos += strlen(entitymap[i][0]);
+				if (!strncmp(instr + ipos, entitymap[i][0], strlen(entitymap[i][0]))) {
+					str[bpos++] = entitymap[i][1][0];
+					ipos += (int)strlen(entitymap[i][0]);
 					break;
 				}
 		}
@@ -271,7 +271,7 @@ char *yahoo_xmldecode(const char *instr)
 	str[bpos]='\0';
 
 	/* free extra alloc'ed mem. */
-	len = strlen(str);
+	len = (int)strlen(str);
 	str = y_renew(char, str, len+1);
 
 	return (str);
@@ -291,7 +291,7 @@ static void connect_complete(INT_PTR fd, int error, void *data)
 	struct callback_data *ccd = (struct callback_data *) data;
 	
 	if (error == 0 && fd > 0)
-		write(fd, ccd->request, strlen(ccd->request));
+		write(fd, ccd->request, (int)strlen(ccd->request));
 	
 	FREE(ccd->request);
 	ccd->callback(ccd->id, fd, error, ccd->user_data);
