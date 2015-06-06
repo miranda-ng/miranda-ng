@@ -31,7 +31,7 @@ void CSkypeProto::SearchBasicThread(void* id)
 
 	ptrT idT((TCHAR *)id);
 	ptrA string(mir_urlEncode(T2Utf(idT)));
-	SendRequest(new GetSearchRequest(TokenSecret, string), &CSkypeProto::OnSearch);
+	SendRequest(new GetSearchRequest(m_szTokenSecret, string), &CSkypeProto::OnSearch);
 }
 
 void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)

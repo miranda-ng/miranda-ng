@@ -530,34 +530,35 @@ bool CSkypeProto::IsFileExists(std::tstring path)
 
 // url parsing
 
-char *CSkypeProto::ParseUrl(const char *url, const char *token)
+CMStringA CSkypeProto::ParseUrl(const char *url, const char *token)
 {
 	const char *start = strstr(url, token);
 	if (start == NULL)
-		return NULL;
+		return CMStringA();
+	
 	start = start + mir_strlen(token);
 	const char *end = strchr(start, '/');
 	if (end == NULL)
-		return mir_strdup(start);
-	return mir_strndup(start, end - start);
+		return CMStringA(start);
+	return CMStringA(start, end - start);
 }
 
-char *CSkypeProto::ContactUrlToName(const char *url)
+CMStringA CSkypeProto::ContactUrlToName(const char *url)
 {
 	return ParseUrl(url, "/8:");
 }
 
-char *CSkypeProto::SelfUrlToName(const char *url)
+CMStringA CSkypeProto::SelfUrlToName(const char *url)
 {
 	return ParseUrl(url, "/1:");
 }
 
-char *CSkypeProto::ChatUrlToName(const char *url)
+CMStringA CSkypeProto::ChatUrlToName(const char *url)
 {
 	return ParseUrl(url, "/19:");
 }
 
-char *CSkypeProto::GetServerFromUrl(const char *url)
+CMStringA CSkypeProto::GetServerFromUrl(const char *url)
 {
 	return ParseUrl(url, "://");
 }
@@ -759,7 +760,7 @@ void CSkypeProto::ProcessTimer()
 {
 	if (IsOnline())
 	{
-		PushRequest(new GetContactListRequest(TokenSecret), &CSkypeProto::LoadContactList);
+		PushRequest(new GetContactListRequest(m_szTokenSecret), &CSkypeProto::LoadContactList);
 		SendPresence(false);
 		if (!m_hTrouterThread)
 			SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);

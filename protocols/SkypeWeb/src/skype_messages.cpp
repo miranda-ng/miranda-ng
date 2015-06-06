@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 // incoming message flow
 int CSkypeProto::OnReceiveMessage(const char *messageId, const char *url, time_t timestamp, char *content, int emoteOffset, bool isRead)
 {
-	ptrA skypename(ContactUrlToName(url));
+	CMStringA skypename(ContactUrlToName(url));
 	debugLogA("Incoming message from %s", skypename);
 
 	MCONTACT hContact = AddContact(skypename, true);
@@ -68,9 +68,9 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 	debugLogA(__FUNCTION__ " clientmsgid = %d", param->hMessage);
 
 	if (strncmp(szMessage, "/me ", 4) == 0)
-		SendRequest(new SendActionRequest(RegToken, SelfSkypeName, param->hMessage, &szMessage[4], Server), &CSkypeProto::OnMessageSent, param);
+		SendRequest(new SendActionRequest(m_szRegToken, m_szSelfSkypeName, param->hMessage, &szMessage[4], m_szServer), &CSkypeProto::OnMessageSent, param);
 	else
-		SendRequest(new SendMessageRequest(RegToken, username, param->hMessage, szMessage, Server), &CSkypeProto::OnMessageSent, param);
+		SendRequest(new SendMessageRequest(m_szRegToken, username, param->hMessage, szMessage, m_szServer), &CSkypeProto::OnMessageSent, param);
 
 	return param->hMessage;
 }
@@ -135,8 +135,8 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	std::string conversationLink = node["conversationLink"].as_string();
 	std::string fromLink = node["from"].as_string();
 
-	ptrA skypename(ContactUrlToName(conversationLink.c_str()));
-	ptrA from(ContactUrlToName(fromLink.c_str()));
+	CMStringA skypename(ContactUrlToName(conversationLink.c_str()));
+	CMStringA from(ContactUrlToName(fromLink.c_str()));
 
 	std::string content = node["content"].as_string();
 	int emoteOffset = node["skypeemoteoffset"].as_int();
@@ -270,11 +270,8 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 		HXML xml = xi.parseString(ptrT(mir_a2t(content.c_str())), 0, _T("URIObject"));
 		if (xml != NULL)
 		{
-			ptrA url(mir_t2a(xi.getAttrValue(xml, L"uri")));
-			ptrA object(ParseUrl(url, "/objects/"));
-
-			CMStringA data(FORMAT, "%s: https://api.asm.skype.com/s/i?%s", Translate("Image"), object);
-
+			CMStringA object(ParseUrl(_T2A(xi.getAttrValue(xml, L"uri")), "/objects/"));
+			CMStringA data(FORMAT, "%s: https://api.asm.skype.com/s/i?%s", Translate("Image"), object.c_str());
 			AddMessageToDb(hContact, timestamp, DBEF_UTF, clientMsgId.c_str(), data.GetBuffer());
 		}
 	}
@@ -282,7 +279,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 
 	//if (clientMsgId && (!mir_strcmpi(messageType, "Text") || !mir_strcmpi(messageType, "RichText")))
 	//{
-	//	PushRequest(new MarkMessageReadRequest(skypename, RegToken, _ttoi(json_as_string(json_get(node, "id"))), timestamp, false, Server));
+	//	PushRequest(new MarkMessageReadRequest(skypename, m_szRegToken, _ttoi(json_as_string(json_get(node, "id"))), timestamp, false, m_szServer));
 	//}
 }
 
@@ -304,5 +301,5 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 
 	time_t timestamp = dbei.timestamp;
 
-	PushRequest(new MarkMessageReadRequest(username, RegToken, timestamp, timestamp, false, Server));
+	PushRequest(new MarkMessageReadRequest(username, m_szRegToken, timestamp, timestamp, false, m_szServer));
 }

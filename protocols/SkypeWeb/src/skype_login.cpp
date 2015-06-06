@@ -75,7 +75,7 @@ void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 	std::string token = json["skypetoken"].as_string();
-	setString("TokenSecret", token.c_str());
+	setString("m_szTokenSecret", token.c_str());
 
 	int expiresIn = json["expiresIn"].as_int();
 	setDword("TokenExpiresIn", time(NULL) + expiresIn);
@@ -85,11 +85,13 @@ void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 void CSkypeProto::OnLoginSuccess()
 {
 	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_SUCCESS, NULL, 0);
-	replaceStr(SelfSkypeName, getStringA(SKYPE_SETTINGS_ID));
-	replaceStr(TokenSecret, getStringA("TokenSecret"));
-	replaceStr(Server, getStringA("Server") != NULL ? getStringA("Server") : SKYPE_ENDPOINTS_HOST);
-	SendRequest(new CreateEndpointRequest(TokenSecret, Server), &CSkypeProto::OnEndpointCreated);
-	PushRequest(new GetProfileRequest(TokenSecret), &CSkypeProto::LoadProfile);
+	m_szSelfSkypeName = getStringA(SKYPE_SETTINGS_ID);
+	m_szTokenSecret = getStringA("TokenSecret");
+	m_szServer = getStringA("Server");
+	if (m_szServer == NULL)
+		m_szServer = mir_strdup(SKYPE_ENDPOINTS_HOST);
+	SendRequest(new CreateEndpointRequest(m_szTokenSecret, m_szServer), &CSkypeProto::OnEndpointCreated);
+	PushRequest(new GetProfileRequest(m_szTokenSecret), &CSkypeProto::LoadProfile);
 
 	if (!m_timer)
 		SkypeSetTimer(this);
@@ -127,8 +129,8 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		else if (!mir_strcmpi(response->headers[i].szName, "Location"))
 		{
 			CMStringA szValue = response->headers[i].szValue;
-			Server = GetServerFromUrl(szValue);
-			setString("Server", Server);
+			m_szServer = GetServerFromUrl(szValue).Detach();
+			setString("Server", m_szServer);
 		}
 
 	}
@@ -146,19 +148,19 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		if (response->resultCode == 401)
 		{
 			delSetting("TokenExpiresIn");
-			SendRequest(new LoginOAuthRequest(SelfSkypeName, ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
+			SendRequest(new LoginOAuthRequest(m_szSelfSkypeName, ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
 			return;
 		}
 		else //it should be rewritten
 		{
-			SendRequest(new CreateEndpointRequest(TokenSecret, Server), &CSkypeProto::OnEndpointCreated);
+			SendRequest(new CreateEndpointRequest(m_szTokenSecret, m_szServer), &CSkypeProto::OnEndpointCreated);
 			return;
 		}
 	}
 
-	replaceStr(RegToken, getStringA("registrationToken"));
-	replaceStr(EndpointId, getStringA("endpointId"));
-	SendRequest(new CreateSubscriptionsRequest(RegToken, Server), &CSkypeProto::OnSubscriptionsCreated);
+	m_szRegToken = getStringA("registrationToken");
+	m_szEndpointId = getStringA("endpointId");
+	SendRequest(new CreateSubscriptionsRequest(m_szRegToken, m_szServer), &CSkypeProto::OnSubscriptionsCreated);
 	SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
 }
 
@@ -173,14 +175,15 @@ void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
+
 	SendPresence(true);
 }
 
 void CSkypeProto::SendPresence(bool isLogin)
 {
 	ptrA epname;
-	ptrT place(getTStringA("Place"));
 
+	ptrT place(getTStringA("Place"));
 	if (!getBool("UseHostName", false) && place && *place)
 		epname = mir_utf8encodeT(place);
 	else
@@ -190,15 +193,16 @@ void CSkypeProto::SendPresence(bool isLogin)
 		GetComputerName(compName, &size);
 		epname = mir_utf8encodeT(compName);
 	}
+
 	if (isLogin)
-		PushRequest(new SendCapabilitiesRequest(RegToken, EndpointId, epname, Server), &CSkypeProto::OnCapabilitiesSended);
+		PushRequest(new SendCapabilitiesRequest(m_szRegToken, m_szEndpointId, epname, m_szServer), &CSkypeProto::OnCapabilitiesSended);
 	else 
-		PushRequest(new SendCapabilitiesRequest(RegToken, EndpointId, epname, Server));
+		PushRequest(new SendCapabilitiesRequest(m_szRegToken, m_szEndpointId, epname, m_szServer));
 }
 
 void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 {
-	SendRequest(new SetStatusRequest(RegToken, MirandaToSkypeStatus(m_iDesiredStatus), Server), &CSkypeProto::OnStatusChanged);
+	SendRequest(new SetStatusRequest(m_szRegToken, MirandaToSkypeStatus(m_iDesiredStatus), m_szServer), &CSkypeProto::OnStatusChanged);
 
 	LIST<char> skypenames(1);
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
@@ -206,7 +210,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 		if (!isChatRoom(hContact))
 			skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
 	}
-	SendRequest(new CreateContactsSubscriptionRequest(RegToken, skypenames, Server));
+	SendRequest(new CreateContactsSubscriptionRequest(m_szRegToken, skypenames, m_szServer));
 	for (int i = 0; i < skypenames.getCount(); i++)
 		mir_free(skypenames[i]);
 	skypenames.destroy();
@@ -214,18 +218,18 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
 
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
-	PushRequest(new GetContactListRequest(TokenSecret), &CSkypeProto::LoadContactList);
+	PushRequest(new GetContactListRequest(m_szTokenSecret), &CSkypeProto::LoadContactList);
 
-	SendRequest(new LoadChatsRequest(RegToken, Server), &CSkypeProto::OnLoadChats);
+	SendRequest(new LoadChatsRequest(m_szRegToken, m_szServer), &CSkypeProto::OnLoadChats);
 	if (getBool("AutoSync", true))
-		PushRequest(new SyncHistoryFirstRequest(RegToken, 100, Server), &CSkypeProto::OnSyncHistory);
+		PushRequest(new SyncHistoryFirstRequest(m_szRegToken, 100, m_szServer), &CSkypeProto::OnSyncHistory);
 
 	if (response == NULL || response->pData == NULL)
 		return;
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root)
-		setString("SelfEndpointName", ptrA(SelfUrlToName(root["selfLink"].as_string().c_str())));
+		setString("SelfEndpointName", SelfUrlToName(root["selfLink"].as_string().c_str()));
 }
 
 void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)

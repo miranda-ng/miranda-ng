@@ -224,7 +224,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 		if (m_iStatus > ID_STATUS_CONNECTING + 1)
 		{
-			SendRequest(new DeleteEndpointRequest(RegToken, EndpointId, Server));
+			SendRequest(new DeleteEndpointRequest(m_szRegToken, m_szEndpointId, m_szServer));
 			delSetting("registrationRoken");
 			delSetting("endpointId");
 			delSetting("expires");
@@ -259,7 +259,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		}
 		else
 		{
-			SendRequest(new SetStatusRequest(RegToken, MirandaToSkypeStatus(m_iDesiredStatus)), &CSkypeProto::OnStatusChanged);
+			SendRequest(new SetStatusRequest(m_szRegToken, MirandaToSkypeStatus(m_iDesiredStatus)), &CSkypeProto::OnStatusChanged);
 		}
 	}
 
@@ -269,7 +269,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	SendRequest(new SendTypingRequest(RegToken, ptrA(getStringA(hContact, SKYPE_SETTINGS_ID)), type, Server));
+	SendRequest(new SendTypingRequest(m_szRegToken, ptrA(getStringA(hContact, SKYPE_SETTINGS_ID)), type, m_szServer));
 	return 0;
 }
 

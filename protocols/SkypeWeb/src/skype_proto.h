@@ -52,12 +52,12 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions
 
-	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
-	virtual	MCONTACT __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
-	virtual int      __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage);
-	virtual	int      __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int      __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR* szReason);
-	virtual	int      __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
+	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
+	virtual  int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage);
+	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
+	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR* szReason);
+	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
@@ -123,13 +123,7 @@ private:
 		m_hPopupClassNotify;
 
 	// accounts
-
-	char
-		*Server,
-		*RegToken,
-		*TokenSecret,
-		*EndpointId,
-		*SelfSkypeName;
+	ptrA m_szServer, m_szRegToken, m_szTokenSecret, m_szEndpointId, m_szSelfSkypeName;
 
 	static CSkypeProto* GetContactAccount(MCONTACT hContact);
 
@@ -322,14 +316,14 @@ private:
 
 	static LRESULT CALLBACK PopupDlgProcCall(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	char *ParseUrl(const char *url, const char *token);
+	CMStringA ParseUrl(const char *url, const char *token);
 
 	void SetSrmmReadStatus(MCONTACT hContact);
 
-	char *ChatUrlToName(const char *url);
-	char *ContactUrlToName(const char *url);
-	char *SelfUrlToName(const char *url);
-	char *GetServerFromUrl(const char *url);
+	CMStringA ChatUrlToName(const char *url);
+	CMStringA ContactUrlToName(const char *url);
+	CMStringA SelfUrlToName(const char *url);
+	CMStringA GetServerFromUrl(const char *url);
 
 	LPCTSTR ClearText(CMString &value, const TCHAR *message);
 
