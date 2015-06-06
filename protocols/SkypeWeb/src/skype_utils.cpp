@@ -760,7 +760,7 @@ void CSkypeProto::ProcessTimer()
 	if (IsOnline())
 	{
 		PushRequest(new GetContactListRequest(TokenSecret), &CSkypeProto::LoadContactList);
-
+		SendPresence(false);
 		if (!m_hTrouterThread)
 			SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
 	}

@@ -98,7 +98,7 @@ public:
 	void __cdecl SearchBasicThread(void* id);
 
 	////////////////////////////////////////////
-	UINT_PTR m_timer;
+	static UINT_PTR m_timer;
 	static int CompareAccounts(const CSkypeProto *p1, const CSkypeProto *p2);
 	void ProcessTimer();
 	static INT_PTR EventGetIcon(WPARAM wParam, LPARAM lParam);
@@ -174,6 +174,7 @@ private:
 	void OnLoginOAuth(const NETLIBHTTPREQUEST *response);
 	void OnLoginSuccess();
 	void OnEndpointCreated(const NETLIBHTTPREQUEST *response);
+	void SendPresence(bool isLogin = false);
 	void OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response);
 	void OnCapabilitiesSended(const NETLIBHTTPREQUEST *response);
 	void OnStatusChanged(const NETLIBHTTPREQUEST *response);
