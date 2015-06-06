@@ -296,7 +296,6 @@ XFireClient::XFireClient(string username_, string password_, char protover, int 
 	client = new Client();
 	client->setGameResolver(new DummyXFireGameResolver());
 	client->protocolVersion = protover;
-	avatarloader = new Xfire_avatar_loader(client);
 	this->useproxy = useproxy;
 	this->proxyip = proxyip;
 	this->proxyport = proxyport;

@@ -517,7 +517,6 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		{
 		case PSN_APPLY:
 		{
-			int reconnectRequired = 0;
 			int ccc;
 
 			hwndTree = GetDlgItem(hwndDlg, IDC_TREE);
@@ -548,11 +547,6 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ccc = SendDlgItemMessage(hwndDlg, IDC_SCANUPDATECB, CB_GETCURSEL, 0, 0);
 			db_set_b(NULL, protocolname, "scanalways", (BYTE)ccc);
 
-			//protocolversion wird autoamtisch vergeben
-			//GetDlgItemTextA(hwndDlg,IDC_PVER,str,SIZEOF(str));
-			//db_set_b(NULL,protocolname,"protover",(char)atoi(str));
-
-			if (reconnectRequired) MessageBox(hwndDlg, TranslateT("The changes you have made require you to reconnect to the XFire network before they take effect"), TranslateT("XFire Options"), MB_OK | MB_ICONINFORMATION);
 			return TRUE;
 		}
 
