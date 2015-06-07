@@ -12,8 +12,8 @@ struct SearchParam
 	LONG id;
 };
 
-WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
-	PROTO<WhatsAppProto>(proto_name, username),
+WhatsAppProto::WhatsAppProto(const char *proto_name, const TCHAR *username)
+	: PROTO<WhatsAppProto>(proto_name, username),
 	m_tszDefaultGroup(getTStringA(WHATSAPP_KEY_DEF_GROUP))
 {
 	update_loop_lock_ = CreateEvent(NULL, false, false, NULL);
@@ -322,7 +322,7 @@ int WhatsAppProto::OnUserInfo(WPARAM, LPARAM hContact)
 	ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
 	if (jid && isOnline())
 		m_pConnection->sendQueryLastOnline((char*)jid);
-	
+
 	return 0;
 }
 

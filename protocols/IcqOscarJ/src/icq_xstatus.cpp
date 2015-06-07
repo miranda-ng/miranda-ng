@@ -890,16 +890,16 @@ void InitXStatusIcons()
 {
 	TCHAR lib[2*MAX_PATH] = {0};
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.pszSection = "Protocols/" ICQ_PROTOCOL_NAME "/"LPGEN("Custom Status");
+	SKINICONDESC sid = { 0 };
+	sid.section.a = "Protocols/" ICQ_PROTOCOL_NAME "/"LPGEN("Custom Status");
 	sid.flags = SIDF_PATH_TCHAR;
-	sid.ptszDefaultFile = InitXStatusIconLibrary(lib, SIZEOF(lib));
+	sid.defaultFile.t = InitXStatusIconLibrary(lib, SIZEOF(lib));
 
 	for (int i = 0; i < XSTATUS_COUNT; i++) {
 		char szTemp[100];
 		mir_snprintf(szTemp, "icq_xstatus%d", i);
 		sid.pszName = szTemp;
-		sid.pszDescription = (LPSTR)nameXStatus[i];
+		sid.description.a = (LPSTR)nameXStatus[i];
 		sid.iDefaultIndex = -(IDI_XSTATUS1+i);
 		hXStatusIcons[i] = Skin_AddIcon(&sid);
 	}

@@ -69,20 +69,17 @@ begin
     hIconDLL:=hInstance;
 
   FillChar(sid,SizeOf(TSKINICONDESC),0);
-  sid.cbSize:=SizeOf(TSKINICONDESC);
   sid.cx:=16;
   sid.cy:=16;
   sid.szSection.a:='WATrack';
 
-  sid.hDefaultIcon   :=LoadImage(hIconDLL,
-      MAKEINTRESOURCE(IDI_PLUGIN_ENABLE),IMAGE_ICON,16,16,0);
+  sid.hDefaultIcon   :=LoadImage(hIconDLL,MAKEINTRESOURCE(IDI_PLUGIN_ENABLE),IMAGE_ICON,16,16,0);
   sid.pszName        :=IcoBtnEnable;
   sid.szDescription.a:='Plugin Enabled';
   Skin_AddIcon(@sid);
   DestroyIcon(sid.hDefaultIcon);
 
-  sid.hDefaultIcon   :=LoadImage(hIconDLL,
-      MAKEINTRESOURCE(IDI_PLUGIN_DISABLE),IMAGE_ICON,16,16,0);
+  sid.hDefaultIcon   :=LoadImage(hIconDLL,MAKEINTRESOURCE(IDI_PLUGIN_DISABLE),IMAGE_ICON,16,16,0);
   sid.pszName        :=IcoBtnDisable;
   sid.szDescription.a:='Plugin Disabled';
   Skin_AddIcon(@sid);
@@ -165,7 +162,6 @@ begin
       FreeLibrary(hIconDLL);
       FillChar(sid,SizeOf(sid),0);
       sid.flags:=0;
-      sid.cbSize:=SizeOf(TSKINICONDESC);
       sid.cx:=16;
       sid.cy:=16;
 

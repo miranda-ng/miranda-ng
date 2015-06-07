@@ -211,11 +211,11 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	mir_snprintf(section, SIZEOF(section), "Popups/%s", notification->lpzGroup);
 	mir_snprintf(setting, MODULNAME"_%s_%s", notification->lpzGroup, notification->lpzName);
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.pszSection = section;
+	SKINICONDESC sid = { 0 };
+	sid.section.a = section;
 	sid.cx = sid.cy = 16;
 	sid.pszName = setting;
-	sid.pszDescription = notification->lpzName;
+	sid.description.a = notification->lpzName;
 	sid.hDefaultIcon = notification->lchIcon;
 	Skin_AddIcon(&sid);
 

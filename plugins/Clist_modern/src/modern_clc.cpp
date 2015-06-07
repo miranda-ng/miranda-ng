@@ -1637,28 +1637,28 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 	TCHAR szMyPath[MAX_PATH];
 	GetModuleFileName(g_hInst, szMyPath, SIZEOF(szMyPath));
 
-	SKINICONDESC sid = { sizeof(sid) };
+	SKINICONDESC sid = { 0 };
 	sid.cx = sid.cy = 16;
-	sid.ptszDefaultFile = szMyPath;
+	sid.defaultFile.t = szMyPath;
 	sid.flags = SIDF_PATH_TCHAR;
 
-	sid.pszSection = LPGEN("Contact list");
-	sid.pszDescription = LPGEN("Listening to");
+	sid.section.a = LPGEN("Contact list");
+	sid.description.a = LPGEN("Listening to");
 	sid.pszName = "LISTENING_TO_ICON";
 	sid.iDefaultIndex = -IDI_LISTENING_TO;
 	Skin_AddIcon(&sid);
 
-	sid.pszSection = LPGEN("Contact list") "/" LPGEN("Avatar overlay");
+	sid.section.a = LPGEN("Contact list") "/" LPGEN("Avatar overlay");
 	for (int i = 0; i < SIZEOF(g_pAvatarOverlayIcons); i++) {
-		sid.pszDescription = g_pAvatarOverlayIcons[i].description;
+		sid.description.a = g_pAvatarOverlayIcons[i].description;
 		sid.pszName = g_pAvatarOverlayIcons[i].name;
 		sid.iDefaultIndex = -g_pAvatarOverlayIcons[i].id;
 		Skin_AddIcon(&sid);
 	}
 
-	sid.pszSection = LPGEN("Contact list") "/" LPGEN("Status overlay");
+	sid.section.a = LPGEN("Contact list") "/" LPGEN("Status overlay");
 	for (int i = 0; i < SIZEOF(g_pStatusOverlayIcons); i++) {
-		sid.pszDescription = g_pStatusOverlayIcons[i].description;
+		sid.description.a = g_pStatusOverlayIcons[i].description;
 		sid.pszName = g_pStatusOverlayIcons[i].name;
 		sid.iDefaultIndex = -g_pStatusOverlayIcons[i].id;
 		Skin_AddIcon(&sid);

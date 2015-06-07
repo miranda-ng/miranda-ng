@@ -78,12 +78,12 @@ void __fastcall Prepare(KN_FP_MASK* mask, bool bEnable)
 	if (SectName == NULL)
 		return;
 
-	SKINICONDESC sid = { sizeof(sid) };
+	SKINICONDESC sid = { 0 };
 	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszSection = SectName;
+	sid.section.t = SectName;
 	sid.pszName = mask->szIconName;
-	sid.ptszDescription = mask->szClientDescription;
-	sid.ptszDefaultFile = destfile;
+	sid.description.t = mask->szClientDescription;
+	sid.defaultFile.t = destfile;
 	sid.iDefaultIndex = -mask->iIconIndex;
 	sid.cx = sid.cy = 16;
 	mask->hIcolibItem = Skin_AddIcon(&sid);

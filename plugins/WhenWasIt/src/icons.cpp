@@ -31,13 +31,13 @@ HANDLE hWWIExtraIcons = (HANDLE)-1;
 
 static HANDLE AddIcon(char *name, char *description, TCHAR *tszPath, int iDefaultIdx)
 {
-	SKINICONDESC sid = { sizeof(sid) };
+	SKINICONDESC sid = { 0 };
 	sid.flags = SIDF_PATH_TCHAR;
-	sid.pszSection = LPGEN("WhenWasIt");
+	sid.section.a = LPGEN("WhenWasIt");
 	sid.cx = sid.cy = 16;
-	sid.pszDescription = description;
+	sid.description.a = description;
 	sid.pszName = name;
-	sid.ptszDefaultFile = tszPath;
+	sid.defaultFile.t = tszPath;
 	sid.iDefaultIndex = -iDefaultIdx;
 	return Skin_AddIcon(&sid);
 }

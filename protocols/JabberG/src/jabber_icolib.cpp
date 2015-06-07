@@ -119,11 +119,11 @@ void CIconPool::RegisterIcon(const char *name, TCHAR *filename, int iconid, TCHA
 	item->m_name = mir_strdup(name);
 	item->m_szIcolibName = mir_strdup(szSettingName);
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = filename;
+	SKINICONDESC sid = { 0 };
+	sid.defaultFile.t = filename;
 	sid.pszName = szSettingName;
-	sid.ptszSection = szSection;
-	sid.ptszDescription = szDescription;
+	sid.section.t = szSection;
+	sid.description.t = szDescription;
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.iDefaultIndex = iconid;
 	item->m_hIcolibItem = Skin_AddIcon(&sid);
@@ -284,12 +284,12 @@ static HICON LoadTransportIcon(char *filename,int i,char *IconName,TCHAR *SectNa
 	if (hi) has_proto_icon=TRUE;
 	if (hi && nf) DestroyIcon(hi);
 	if (IconName != NULL && SectName != NULL)  {
-		SKINICONDESC sid = { sizeof(sid) };
+		SKINICONDESC sid = { 0 };
 		sid.hDefaultIcon = (has_proto_icon) ? NULL : LoadSkinnedProtoIcon(0, -internalidx);
-		sid.ptszSection = SectName;
+		sid.section.t = SectName;
 		sid.pszName = IconName;
-		sid.ptszDescription = Description;
-		sid.pszDefaultFile = szMyPath;
+		sid.description.t = Description;
+		sid.defaultFile.a = szMyPath;
 		sid.iDefaultIndex = i;
 		sid.flags = SIDF_TCHAR;
 		Skin_AddIcon(&sid);

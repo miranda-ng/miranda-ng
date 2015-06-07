@@ -141,14 +141,14 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		TCHAR path[MAX_PATH];
 		GetModuleFileName(hInst, path, MAX_PATH);
 
-		SKINICONDESC sid = { sizeof(sid) };
+		SKINICONDESC sid = { 0 };
 		sid.flags = SIDF_ALL_TCHAR | SIDF_SORTED;
-		sid.ptszSection = LPGENT("Spell Checker")_T("/")LPGENT("Flags");
+		sid.section.t = LPGENT("Spell Checker")_T("/")LPGENT("Flags");
 
 		// Get language flags
 		for (int i = 0; i < languages.getCount(); i++) {
 			Dictionary *p = languages[i];
-			sid.ptszDescription = p->full_name;
+			sid.description.t = p->full_name;
 
 			char lang[32];
 			mir_snprintf(lang, SIZEOF(lang), "spell_lang_%d", i);
@@ -160,13 +160,13 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 			if (hFlag != NULL) {
 				sid.hDefaultIcon = hFlag;
-				sid.ptszDefaultFile = NULL;
+				sid.defaultFile.t = NULL;
 				sid.iDefaultIndex = 0;
 			}
 			else {
 				hFlagIcoLib = Skin_GetIcon("spellchecker_unknown");
 				sid.hDefaultIcon = hFlagIcoLib;
-				sid.ptszDefaultFile = NULL;
+				sid.defaultFile.t = NULL;
 				sid.iDefaultIndex = 0;
 			}
 

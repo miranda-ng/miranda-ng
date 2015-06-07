@@ -1545,13 +1545,13 @@ HANDLE RegisterIcolibIconHandle(char *szIcoID, char *szSectionName, char *szDesc
 
 	TCHAR fileFull[MAX_PATH] = { 0 };
 
-	SKINICONDESC sid = { sizeof(sid) };
+	SKINICONDESC sid = { 0 };
 	sid.cx = sid.cy = 16;
-	sid.pszSection = szSectionName;
+	sid.section.a = szSectionName;
 	sid.pszName = szIcoID;
 	sid.flags |= SIDF_PATH_TCHAR;
-	sid.pszDescription = szDescription;
-	sid.ptszDefaultFile = fileFull;
+	sid.description.a = szDescription;
+	sid.defaultFile.t = fileFull;
 
 	if (tszDefaultFile) {
 		PathToAbsoluteT(tszDefaultFile, fileFull);

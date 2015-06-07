@@ -175,10 +175,10 @@ BOOL GetFormatedCountdown(TCHAR *pszOut,int nSize,time_t countdown)
 			if (pfnGetDurationFormat(locale,0,&st,0,NULL,pszOut,nSize))
 				return TRUE;
 		return FALSE;
-	} else
+	}
+
 	/* Win9x/NT/XP */
-		return StrFromTimeInterval(pszOut,nSize,(countdown>(MAXDWORD/1000))?MAXDWORD:(countdown*1000),10) != 0;
-	return FALSE;
+	return StrFromTimeInterval(pszOut,nSize,(countdown>(MAXDWORD/1000))?MAXDWORD:(countdown*1000),10) != 0;
 }
 
 BOOL GetFormatedDateTime(TCHAR *pszOut,int nSize,time_t timestamp,BOOL fShowDateEvenToday)
@@ -209,11 +209,11 @@ HANDLE IcoLib_AddIconRes(const char *pszDbName,const TCHAR *pszSection,const TCH
 	TCHAR szFileName[MAX_PATH];
 	GetModuleFileName(hInst,szFileName,SIZEOF(szFileName));
 
-	SKINICONDESC sid = { sizeof(sid) };
+	SKINICONDESC sid = { 0 };
 	sid.pszName = (char*)pszDbName;
-	sid.ptszSection = (TCHAR*)pszSection;
-	sid.ptszDescription = (TCHAR*)pszDesc;
-	sid.ptszDefaultFile = szFileName;
+	sid.section.t = (TCHAR*)pszSection;
+	sid.description.t = (TCHAR*)pszDesc;
+	sid.defaultFile.t = szFileName;
 	sid.iDefaultIndex = -idRes;
 	sid.cx = GetSystemMetrics(fLarge?SM_CXICON:SM_CXSMICON);
 	sid.cy = GetSystemMetrics(fLarge?SM_CYICON:SM_CYSMICON);

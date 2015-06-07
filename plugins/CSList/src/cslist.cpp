@@ -127,18 +127,18 @@ extern "C" __declspec(dllexport) int Load()
 	TCHAR tszFile[MAX_PATH];
 	GetModuleFileName(g_hInst, tszFile, MAX_PATH);
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = tszFile;
+	SKINICONDESC sid = { 0 };
+	sid.defaultFile.t = tszFile;
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.cx = sid.cy = 16;
-	sid.ptszSection = _T(MODULENAME);
+	sid.section.t = _T(MODULENAME);
 
 	for (int i = 0; i < SIZEOF(forms); i++) {
 		char szSettingName[64];
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODNAME, forms[i].pszIconIcoLib);
 
 		sid.pszName = szSettingName;
-		sid.ptszDescription = forms[i].ptszDescr;
+		sid.description.t = forms[i].ptszDescr;
 		sid.iDefaultIndex = -forms[i].iconNoIcoLib;
 		forms[i].hIcoLibItem = Skin_AddIcon(&sid);
 	}

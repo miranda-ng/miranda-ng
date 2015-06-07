@@ -33,27 +33,14 @@ extern int hLangpack;
 // Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
 
 typedef struct {
-  size_t cbSize;
-  union {
-    char *pszSection;         // section name used to group icons
-    TCHAR *ptszSection;       // [TRANSLATED-BY-CORE]
-    WCHAR *pwszSection;
-  };
-  union {
-    char *pszDescription;     // description for options dialog
-    TCHAR *ptszDescription;   // [TRANSLATED-BY-CORE]
-    WCHAR *pwszDescription;
-  };
-  char *pszName;              // name to refer to icon when playing and in db
-  union {
-    char *pszDefaultFile;     // default icon file to use
-    TCHAR *ptszDefaultFile;
-    WCHAR *pwszDefaultFile;
-  };
-  int  iDefaultIndex;         // index of icon in default file
-  HICON hDefaultIcon;         // handle to default icon
-  int cx,cy;                  // dimensions of icon (if 0 then standard size icon (big and small options available)
-  int flags;                  // combination of SIDF_*
+	MAllStrings section;     // section name used to group icons
+	MAllStrings description; // description for options dialog
+	char *pszName;           // name to refer to icon when playing and in db
+	MAllStrings defaultFile; // default icon file to use
+	int   iDefaultIndex;     // index of icon in default file
+	HICON hDefaultIcon;      // handle to default icon
+	int   cx,cy;             // dimensions of icon (if 0 then standard size icon (big and small options available)
+	int   flags;             // combination of SIDF_*
 } SKINICONDESC;
 
 #define SIDF_SORTED       0x01    // Icons in section are sorted by name

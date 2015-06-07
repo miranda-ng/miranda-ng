@@ -24,18 +24,17 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	char settingName[100];
 	mir_snprintf(settingName, SIZEOF(settingName), "%s_%s", MODULE, "main");
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { 0 };
 	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszDefaultFile = filePath;
+	sid.defaultFile.t = filePath;
 	sid.pszName = settingName;
-	sid.ptszSection = sectionName;
-	sid.ptszDescription = LPGENT("Protocol icon");
+	sid.section.t = sectionName;
+	sid.description.t = LPGENT("Protocol icon");
 	sid.iDefaultIndex = -IDI_STEAM;
 	Skin_AddIcon(&sid);
 
 	mir_snprintf(settingName, SIZEOF(settingName), "%s_%s", MODULE, "gaming");
-	sid.ptszDescription = LPGENT("Gaming icon");
+	sid.description.t = LPGENT("Gaming icon");
 	sid.iDefaultIndex = -IDI_GAMING;
 	Skin_AddIcon(&sid);
 

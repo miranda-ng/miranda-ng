@@ -7,7 +7,6 @@ type
 // Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
   PSKINICONDESC = ^TSKINICONDESC;
   TSKINICONDESC = record
-    cbSize         :int;
     szSection      :TChar; // [TRANSLATED-BY-CORE] section name used to group icons
     szDescription  :TChar; // [TRANSLATED-BY-CORE] description for options dialog
     pszName        :PAnsiChar; // name to refer to icon when playing and in db

@@ -421,14 +421,13 @@ function DlgProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT;
 var
   ServiceBlock:HWND;
   rc:TRECT;
-  b:bool;
 begin
   result:=0;
 
   case hMessage of
     WM_DESTROY: begin
     end;
-    
+
     WM_INITDIALOG: begin
       GetClientRect(Dialog,rc);
       ServiceBlock:=CreateServiceBlock(Dialog,0,0,rc.right,rc.bottom,
@@ -481,7 +480,7 @@ begin
     WM_COMMAND: begin
       case wParam shr 16 of
         CBN_EDITCHANGE,
-        BN_CLICKED: 
+        BN_CLICKED:
           SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);
       end;
     end;

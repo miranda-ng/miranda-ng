@@ -226,13 +226,13 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
 	HANDLE hIconHandle = NULL;
 
 	if (szIconID && szDescription && szSection) {
-		SKINICONDESC sid = { sizeof(sid) };
+		SKINICONDESC sid = { 0 };
 		sid.flags = SIDF_ALL_TCHAR;
 		sid.pszName = szIconID;
-		sid.ptszDescription = mir_a2t(szDescription);
-		sid.ptszSection = mir_a2t(szSection);
+		sid.description.t = mir_a2t(szDescription);
+		sid.section.t = mir_a2t(szSection);
 
-		if (sid.ptszDescription && sid.ptszSection) {
+		if (sid.description.t && sid.section.t) {
 			switch (Size) {
 			// small icons (16x16)
 			case 0:
@@ -252,8 +252,8 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
 				break;
 			}
 
-			sid.ptszDefaultFile = szDefaultFile;
-			if (sid.ptszDefaultFile && sid.ptszDefaultFile[0])
+			sid.defaultFile.t = szDefaultFile;
+			if (sid.defaultFile.t && sid.defaultFile.t[0])
 				sid.iDefaultIndex = -idIcon;
 			else {
 				sid.hDefaultIcon = hDefIcon;
@@ -261,8 +261,8 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
 			}
 			hIconHandle = Skin_AddIcon(&sid);
 		}
-		MIR_FREE(sid.ptszDescription);
-		MIR_FREE(sid.ptszSection);
+		MIR_FREE(sid.description.t);
+		MIR_FREE(sid.section.t);
 	}
 	return hIconHandle;
 }
