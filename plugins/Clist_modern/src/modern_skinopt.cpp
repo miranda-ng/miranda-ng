@@ -409,16 +409,16 @@ HTREEITEM AddSkinToList(HWND hwndDlg, TCHAR * path, TCHAR* file)
 		return 0;
 
 	if (!file || _tcschr(file, _T('%'))) {
-		mir_sntprintf(sd->File, SIZEOF(sd->File), _T("%%Default Skin%%"));
-		mir_sntprintf(sd->Name, SIZEOF(sd->Name), TranslateT("%Default Skin%"));
-		mir_tstrncpy(fullName, TranslateT("Default Skin"), SIZEOF(fullName));
+		mir_sntprintf(sd->File, _T("%%Default Skin%%"));
+		mir_sntprintf(sd->Name, TranslateT("%Default Skin%"));
+		_tcsncpy_s(fullName, TranslateT("Default Skin"), _TRUNCATE);
 	}
 	else {
 		mir_sntprintf(fullName, SIZEOF(fullName), _T("%s\\%s"), path, file);
-		memcpy(defskinname, file, (mir_tstrlen(file) - 4) * sizeof(TCHAR));
-		defskinname[mir_tstrlen(file) + 1] = _T('\0');
+		_tcsncpy_s(defskinname, file, _TRUNCATE);
+		TCHAR *p = _tcsrchr(defskinname, '.'); if (p) *p = 0;
 		GetPrivateProfileString(_T("Skin_Description_Section"), _T("Name"), defskinname, sd->Name, SIZEOF(sd->Name), fullName);
-		mir_tstrcpy(sd->File, fullName);
+		_tcsncpy_s(sd->File, fullName, _TRUNCATE);
 	}
 	return AddItemToTree(GetDlgItem(hwndDlg, IDC_TREE1), sd->Name, sd);
 }
