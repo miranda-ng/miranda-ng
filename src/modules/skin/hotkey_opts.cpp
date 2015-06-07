@@ -26,13 +26,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_hotkeys.h>
 #include "skin.h"
 
-static TCHAR *sttHokeyVkToName(WORD vkKey)
+static TCHAR* sttHokeyVkToName(WORD vkKey)
 {
-	static TCHAR buf[256] = {0};
+	static TCHAR buf[256] = { 0 };
 	DWORD code = MapVirtualKey(vkKey, 0) << 16;
 
-	switch (vkKey)
-	{
+	switch (vkKey) {
 	case 0:
 	case VK_CONTROL:
 	case VK_SHIFT:
@@ -103,10 +102,10 @@ static TCHAR *sttHokeyVkToName(WORD vkKey)
 void HotkeyToName(TCHAR *buf, int size, BYTE shift, BYTE key)
 {
 	mir_sntprintf(buf, size, _T("%s%s%s%s%s"),
-		(shift & HOTKEYF_CONTROL)	? TranslateT("Ctrl + ")  : _T(""),
-		(shift & HOTKEYF_ALT)		? TranslateT("Alt + ")   : _T(""),
-		(shift & HOTKEYF_SHIFT)		? TranslateT("Shift + ") : _T(""),
-		(shift & HOTKEYF_EXT)		? TranslateT("Win + ")   : _T(""),
+		(shift & HOTKEYF_CONTROL) ? TranslateT("Ctrl + ") : _T(""),
+		(shift & HOTKEYF_ALT) ? TranslateT("Alt + ") : _T(""),
+		(shift & HOTKEYF_SHIFT) ? TranslateT("Shift + ") : _T(""),
+		(shift & HOTKEYF_EXT) ? TranslateT("Win + ") : _T(""),
 		sttHokeyVkToName(key));
 }
 
@@ -125,7 +124,7 @@ static LRESULT CALLBACK sttHotkeyEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 	case HKM_SETHOTKEY:
 		{
-			TCHAR buf[256] = {0};
+			TCHAR buf[256] = { 0 };
 			data->key = (BYTE)LOWORD(wParam);
 			data->shift = (BYTE)HIWORD(wParam);
 			HotkeyToName(buf, SIZEOF(buf), data->shift, data->key);
@@ -152,7 +151,7 @@ static LRESULT CALLBACK sttHotkeyEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
 		{
-			TCHAR buf[256] = {0};
+			TCHAR buf[256] = { 0 };
 
 			BYTE shift = 0;
 			BYTE key = wParam;
@@ -208,11 +207,11 @@ enum { COL_NAME, COL_TYPE, COL_KEY, COL_RESET, COL_ADDREMOVE };
 static void sttOptionsSetupItem(HWND hwndList, int idx, THotkeyItem *item)
 {
 	TCHAR buf[256];
-	LVITEM lvi = {0};
+	LVITEM lvi = { 0 };
 	lvi.iItem = idx;
 
 	if (!item->rootHotkey) {
-		lvi.mask = LVIF_TEXT|LVIF_IMAGE;
+		lvi.mask = LVIF_TEXT | LVIF_IMAGE;
 		lvi.iSubItem = COL_NAME;
 		lvi.pszText = item->getDescr();
 		lvi.iImage = item->OptType;
@@ -239,7 +238,7 @@ static void sttOptionsSetupItem(HWND hwndList, int idx, THotkeyItem *item)
 	lvi.iImage = (item->Hotkey != item->OptHotkey) ? 5 : -1;
 	ListView_SetItem(hwndList, &lvi);
 
-	lvi.mask = LVIF_IMAGE|LVIF_TEXT;
+	lvi.mask = LVIF_IMAGE | LVIF_TEXT;
 	lvi.iSubItem = COL_ADDREMOVE;
 	if (item->rootHotkey) {
 		lvi.iImage = 4;
@@ -262,19 +261,19 @@ static void sttOptionsDeleteHotkey(HWND hwndList, int idx, THotkeyItem *item)
 
 static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
-	TCHAR title1[256] = {0}, title2[256] = {0};
+	TCHAR title1[256] = { 0 }, title2[256] = { 0 };
 	THotkeyItem *item1 = NULL, *item2 = NULL;
-	LVITEM lvi = {0};
+	LVITEM lvi = { 0 };
 	int res;
 
-	lvi.mask = LVIF_TEXT|LVIF_PARAM;
+	lvi.mask = LVIF_TEXT | LVIF_PARAM;
 	lvi.iItem = lParam1;
 	lvi.pszText = title1;
 	lvi.cchTextMax = SIZEOF(title1);
 	if (ListView_GetItem((HWND)lParamSort, &lvi))
 		item1 = (THotkeyItem *)lvi.lParam;
 
-	lvi.mask = LVIF_TEXT|LVIF_PARAM;
+	lvi.mask = LVIF_TEXT | LVIF_PARAM;
 	lvi.iItem = lParam2;
 	lvi.pszText = title2;
 	lvi.cchTextMax = SIZEOF(title2);
@@ -326,7 +325,7 @@ static void sttOptionsAddHotkey(HWND hwndList, THotkeyItem *item)
 
 	SendMessage(hwndList, WM_SETREDRAW, FALSE, 0);
 
-	LVITEM lvi = {0};
+	LVITEM lvi = { 0 };
 	lvi.mask |= LVIF_PARAM;
 	lvi.lParam = (LPARAM)newItem;
 	sttOptionsSetupItem(hwndList, ListView_InsertItem(hwndList, &lvi), newItem);
@@ -363,7 +362,7 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 		db_set_b(NULL, DBMODULENAME "Types", item->pszName, (BYTE)item->type);
 
 	item->nSubHotkeys = 0;
-	for (i=0; i < hotkeys.getCount(); i++) {
+	for (i = 0; i < hotkeys.getCount(); i++) {
 		THotkeyItem *subItem = hotkeys[i];
 		if (subItem->rootHotkey == item) {
 			subItem->Hotkey = subItem->OptHotkey;
@@ -375,7 +374,8 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 				db_set_b(NULL, DBMODULENAME "Types", buf, (BYTE)subItem->type);
 
 			++item->nSubHotkeys;
-	}	}
+		}
+	}
 
 	mir_snprintf(buf, "%s$count", item->pszName);
 	db_set_dw(NULL, DBMODULENAME, buf, item->nSubHotkeys);
@@ -386,15 +386,15 @@ static void sttBuildHotkeyList(HWND hwndList)
 	int i, nItems = 0;
 	ListView_DeleteAllItems(hwndList);
 
-	for (i=0; i < hotkeys.getCount(); i++) {
-		LVITEM lvi = {0};
+	for (i = 0; i < hotkeys.getCount(); i++) {
+		LVITEM lvi = { 0 };
 		THotkeyItem *item = hotkeys[i];
 
 		if (item->OptDeleted)
 			continue;
 
-		if (!i || mir_tstrcmp(item->ptszSection, hotkeys[i-1]->ptszSection)) {
-			lvi.mask = LVIF_TEXT|LVIF_PARAM;
+		if (!i || mir_tstrcmp(item->ptszSection, hotkeys[i - 1]->ptszSection)) {
+			lvi.mask = LVIF_TEXT | LVIF_PARAM;
 			lvi.iItem = nItems++;
 			lvi.iSubItem = 0;
 			lvi.lParam = 0;
@@ -415,7 +415,7 @@ static void sttBuildHotkeyList(HWND hwndList)
 		lvi.iItem = nItems++;
 		lvi.lParam = (LPARAM)item;
 		ListView_InsertItem(hwndList, &lvi);
-		sttOptionsSetupItem(hwndList, nItems-1, item);
+		sttOptionsSetupItem(hwndList, nItems - 1, item);
 	}
 
 	ListView_SortItemsEx(hwndList, sttOptionsSortList, (LPARAM)hwndList);
@@ -438,12 +438,12 @@ static void sttOptionsStartEdit(HWND hwndDlg, HWND hwndHotkey)
 		MapWindowPoints(hwndHotkey, hwndDlg, (LPPOINT)&rc, 2);
 		SendDlgItemMessage(hwndDlg, IDC_HOTKEY, HKM_SETHOTKEY, MAKELONG(LOBYTE(item->OptHotkey), HIBYTE(item->OptHotkey)), 0);
 
-		SetWindowPos(hwndHotkey, HWND_BOTTOM, 0, 0, 0, 0, SWP_SHOWWINDOW|SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE);
-		SetWindowPos( GetDlgItem(hwndDlg, IDC_HOTKEY), HWND_TOP, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, SWP_SHOWWINDOW);
-		RedrawWindow( GetDlgItem(hwndDlg, IDC_HOTKEY), NULL, NULL, RDW_INVALIDATE);
+		SetWindowPos(hwndHotkey, HWND_BOTTOM, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+		SetWindowPos(GetDlgItem(hwndDlg, IDC_HOTKEY), HWND_TOP, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_SHOWWINDOW);
+		RedrawWindow(GetDlgItem(hwndDlg, IDC_HOTKEY), NULL, NULL, RDW_INVALIDATE);
 
-		SetFocus( GetDlgItem(hwndDlg, IDC_HOTKEY));
-		RedrawWindow( GetDlgItem(hwndDlg, IDC_HOTKEY), NULL, NULL, RDW_INVALIDATE);
+		SetFocus(GetDlgItem(hwndDlg, IDC_HOTKEY));
+		RedrawWindow(GetDlgItem(hwndDlg, IDC_HOTKEY), NULL, NULL, RDW_INVALIDATE);
 	}
 }
 
@@ -470,7 +470,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 		TranslateDialogDefault(hwndDlg);
 
-		HotkeyEditCreate( GetDlgItem(hwndDlg, IDC_HOTKEY));
+		HotkeyEditCreate(GetDlgItem(hwndDlg, IDC_HOTKEY));
 		{
 			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 3, 1);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_WINDOWS);
@@ -483,11 +483,11 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_GROUPSHUT);
 			ListView_SetImageList(hwndHotkey, hIml, LVSIL_SMALL);
 		}
-		ListView_SetExtendedListViewStyle(hwndHotkey, LVS_EX_CHECKBOXES|LVS_EX_SUBITEMIMAGES|LVS_EX_FULLROWSELECT|LVS_EX_DOUBLEBUFFER|LVS_EX_INFOTIP);
+		ListView_SetExtendedListViewStyle(hwndHotkey, LVS_EX_CHECKBOXES | LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER | LVS_EX_INFOTIP);
 		{
 			RECT rc;
 			GetClientRect(hwndHotkey, &rc);
-			colWidth = rc.right - GetSystemMetrics(SM_CXHTHUMB) - 3*GetSystemMetrics(SM_CXSMICON) - 5;
+			colWidth = rc.right - GetSystemMetrics(SM_CXHTHUMB) - 3 * GetSystemMetrics(SM_CXSMICON) - 5;
 
 			LVCOLUMN lvc;
 			lvc.mask = LVCF_WIDTH;
@@ -502,7 +502,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			lvc.cx = GetSystemMetrics(SM_CXSMICON);
 			ListView_InsertColumn(hwndHotkey, COL_ADDREMOVE, &lvc);
 
-			for (int i=0; i < hotkeys.getCount(); i++) {
+			for (int i = 0; i < hotkeys.getCount(); i++) {
 				THotkeyItem *item = hotkeys[i];
 
 				item->OptChanged = FALSE;
@@ -521,7 +521,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			/* load group states */
 			int count = ListView_GetItemCount(hwndHotkey);
 			TCHAR buf[128];
-			LVITEM lvi = {0};
+			LVITEM lvi = { 0 };
 			lvi.pszText = buf;
 			lvi.cchTextMax = SIZEOF(buf);
 			for (lvi.iItem = 0; lvi.iItem < count; ++lvi.iItem) {
@@ -556,7 +556,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			int count = ListView_GetItemCount(hwndHotkey);
 
-			LVITEM lvi = {0};
+			LVITEM lvi = { 0 };
 			lvi.mask = LVIF_PARAM;
 			for (lvi.iItem = 0; lvi.iItem < count; ++lvi.iItem) {
 				ListView_GetItem(hwndHotkey, &lvi);
@@ -571,7 +571,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		{
 			int count = ListView_GetItemCount(hwndHotkey);
 
-			LVITEM lvi = {0};
+			LVITEM lvi = { 0 };
 			lvi.mask = LVIF_PARAM;
 			for (lvi.iItem = 0; lvi.iItem < count; ++lvi.iItem) {
 				ListView_GetItem(hwndHotkey, &lvi);
@@ -599,17 +599,17 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				sttOptionsDrawTextChunk(lpdis->hDC, TranslateT("Scope:"), &rc);
 
 				rc.left = prefix;
-				ImageList_Draw(hIml, 0, lpdis->hDC, rc.left, (rc.top+rc.bottom-16)/2, ILD_TRANSPARENT);
+				ImageList_Draw(hIml, 0, lpdis->hDC, rc.left, (rc.top + rc.bottom - 16) / 2, ILD_TRANSPARENT);
 				rc.left += 20;
 				sttOptionsDrawTextChunk(lpdis->hDC, TranslateT("System"), &rc);
 
 				rc.left = prefix + width;
-				ImageList_Draw(hIml, 1, lpdis->hDC, rc.left, (rc.top+rc.bottom-16)/2, ILD_TRANSPARENT);
+				ImageList_Draw(hIml, 1, lpdis->hDC, rc.left, (rc.top + rc.bottom - 16) / 2, ILD_TRANSPARENT);
 				rc.left += 20;
 				sttOptionsDrawTextChunk(lpdis->hDC, TranslateT("Miranda"), &rc);
 
 				rc.left = prefix + width * 2;
-				ImageList_Draw(hIml, 2, lpdis->hDC, rc.left, (rc.top+rc.bottom-16)/2, ILD_TRANSPARENT);
+				ImageList_Draw(hIml, 2, lpdis->hDC, rc.left, (rc.top + rc.bottom - 16) / 2, ILD_TRANSPARENT);
 				rc.left += 20;
 				sttOptionsDrawTextChunk(lpdis->hDC, TranslateT("Window"), &rc);
 				return TRUE;
@@ -619,17 +619,17 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				sttOptionsDrawTextChunk(lpdis->hDC, TranslateT("Actions:"), &rc);
 
 				rc.left = prefix;
-				ImageList_Draw(hIml, 5, lpdis->hDC, rc.left, (rc.top+rc.bottom-16)/2, ILD_TRANSPARENT);
+				ImageList_Draw(hIml, 5, lpdis->hDC, rc.left, (rc.top + rc.bottom - 16) / 2, ILD_TRANSPARENT);
 				rc.left += 20;
 				sttOptionsDrawTextChunk(lpdis->hDC, TranslateT("Undo"), &rc);
 
 				rc.left = prefix + width * 1;
-				ImageList_Draw(hIml, 3, lpdis->hDC, rc.left, (rc.top+rc.bottom-16)/2, ILD_TRANSPARENT);
+				ImageList_Draw(hIml, 3, lpdis->hDC, rc.left, (rc.top + rc.bottom - 16) / 2, ILD_TRANSPARENT);
 				rc.left += 20;
 				sttOptionsDrawTextChunk(lpdis->hDC, TranslateT("Add binding"), &rc);
 
 				rc.left = prefix + width * 2;
-				ImageList_Draw(hIml, 4, lpdis->hDC, rc.left, (rc.top+rc.bottom-16)/2, ILD_TRANSPARENT);
+				ImageList_Draw(hIml, 4, lpdis->hDC, rc.left, (rc.top + rc.bottom - 16) / 2, ILD_TRANSPARENT);
 				rc.left += 20;
 				sttOptionsDrawTextChunk(lpdis->hDC, TranslateT("Remove"), &rc);
 				return TRUE;
@@ -643,7 +643,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			THotkeyItem *item;
 			WORD wHotkey = (WORD)SendDlgItemMessage(hwndDlg, IDC_HOTKEY, HKM_GETHOTKEY, 0, 0);
 
-			ShowWindow( GetDlgItem(hwndDlg, IDC_HOTKEY), SW_HIDE);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_HOTKEY), SW_HIDE);
 			SetFocus(hwndHotkey);
 			if (!wHotkey || (wHotkey == VK_ESCAPE) || (HIWORD(wParam) != 0))
 				break;
@@ -658,14 +658,16 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					sttOptionsSetupItem(hwndHotkey, lvi.iItem, item);
 					sttOptionsSetChanged(item);
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		}	}	}
+				}
+			}
+		}
 		break;
 
 	case WM_CONTEXTMENU:
 		if (GetWindowLongPtr((HWND)wParam, GWL_ID) == IDC_LV_HOTKEYS) {
 			HWND hwndList = (HWND)wParam;
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-			LVITEM lvi = {0};
+			LVITEM lvi = { 0 };
 			THotkeyItem *item = NULL;
 
 			lvi.iItem = ListView_GetNextItem(hwndHotkey, -1, LVNI_SELECTED);
@@ -685,7 +687,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			enum { MI_CANCEL, MI_CHANGE, MI_SYSTEM, MI_LOCAL, MI_ADD, MI_REMOVE, MI_REVERT };
 
-			MENUITEMINFO mii = {0};
+			MENUITEMINFO mii = { 0 };
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_STATE;
 			mii.fState = MFS_DEFAULT;
@@ -695,10 +697,10 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SetMenuItemInfo(hMenu, (UINT_PTR)MI_CHANGE, FALSE, &mii);
 			if (item->type != HKT_MANUAL) {
 				AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
-				AppendMenu(hMenu, MF_STRING|
+				AppendMenu(hMenu, MF_STRING |
 					((item->OptType == HKT_GLOBAL) ? MF_CHECKED : 0),
 					(UINT_PTR)MI_SYSTEM, TranslateT("System scope"));
-				AppendMenu(hMenu, MF_STRING|
+				AppendMenu(hMenu, MF_STRING |
 					((item->OptType == HKT_LOCAL) ? MF_CHECKED : 0),
 					(UINT_PTR)MI_LOCAL, TranslateT("Miranda scope"));
 			}
@@ -759,23 +761,22 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 					UnregisterHotkeys();
 
-					for (i=0; i < hotkeys.getCount(); i++) {
+					for (i = 0; i < hotkeys.getCount(); i++) {
 						THotkeyItem *item = hotkeys[i];
-						if (item->OptNew && item->OptDeleted  ||
-							item->rootHotkey && !item->OptHotkey  ||
-							(lpnmhdr->code == PSN_APPLY) && item->OptDeleted  ||
-							(lpnmhdr->code == PSN_RESET) && item->OptNew)
-						{
+						if (item->OptNew && item->OptDeleted ||
+							item->rootHotkey && !item->OptHotkey ||
+							(lpnmhdr->code == PSN_APPLY) && item->OptDeleted ||
+							(lpnmhdr->code == PSN_RESET) && item->OptNew) {
 							FreeHotkey(item);
 							hotkeys.remove(i--);
 						}
 					}
 
 					if (lpnmhdr->code == PSN_APPLY) {
-						LVITEM lvi = {0};
+						LVITEM lvi = { 0 };
 						int count = ListView_GetItemCount(hwndHotkey);
 
-						for (i=0; i < hotkeys.getCount(); i++)
+						for (i = 0; i < hotkeys.getCount(); i++)
 							sttOptionsSaveItem(hotkeys[i]);
 
 						lvi.mask = LVIF_IMAGE;
@@ -797,10 +798,10 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					{
 						THotkeyItem *item = NULL;
 						LPNMITEMACTIVATE lpnmia = (LPNMITEMACTIVATE)lParam;
-						LVHITTESTINFO lvhti = {0};
-						LVITEM lvi = {0};
+						LVHITTESTINFO lvhti = { 0 };
+						LVITEM lvi = { 0 };
 
-						lvi.mask = LVIF_PARAM|LVIF_IMAGE;
+						lvi.mask = LVIF_PARAM | LVIF_IMAGE;
 						lvi.iItem = lpnmia->iItem;
 						ListView_GetItem(lpnmia->hdr.hwndFrom, &lvi);
 						item = (THotkeyItem *)lvi.lParam;
@@ -811,10 +812,9 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						ListView_HitTest(lpnmia->hdr.hwndFrom, &lvhti);
 
 						if (item &&
-							(!item->rootHotkey && (lpnmia->iSubItem == COL_NAME) && ((lvhti.flags & LVHT_ONITEM) == LVHT_ONITEMICON)  ||
+							(!item->rootHotkey && (lpnmia->iSubItem == COL_NAME) && ((lvhti.flags & LVHT_ONITEM) == LVHT_ONITEMICON) ||
 							item->rootHotkey && (lpnmia->iSubItem == COL_TYPE)) &&
-							((item->OptType == HKT_GLOBAL) || (item->OptType == HKT_LOCAL)))
-						{
+							((item->OptType == HKT_GLOBAL) || (item->OptType == HKT_LOCAL))) {
 							item->OptType = (item->OptType == HKT_GLOBAL) ? HKT_LOCAL : HKT_GLOBAL;
 							sttOptionsSetupItem(lpnmia->hdr.hwndFrom, lpnmia->iItem, item);
 							sttOptionsSetChanged(item);
@@ -841,7 +841,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					{
 						LPNMLVKEYDOWN param = (LPNMLVKEYDOWN)lParam;
 						if (param->wVKey == VK_SUBTRACT || param->wVKey == VK_LEFT || param->wVKey == VK_ADD || param->wVKey == VK_RIGHT) {
-							LVITEM lvi = {0};
+							LVITEM lvi = { 0 };
 							lvi.mask = LVIF_PARAM;
 							lvi.iItem = ListView_GetNextItem(lpnmhdr->hwndFrom, -1, LVNI_SELECTED);
 							if (lvi.iItem < 0)
@@ -865,7 +865,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				case LVN_ITEMACTIVATE:
 					{
-						LVITEM lvi = {0};
+						LVITEM lvi = { 0 };
 						lvi.mask = LVIF_PARAM;
 						lvi.iItem = ListView_GetNextItem(lpnmhdr->hwndFrom, -1, LVNI_SELECTED);
 						if (lvi.iItem < 0) break;
@@ -882,7 +882,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					{
 						LPNMLISTVIEW param = (LPNMLISTVIEW)lParam;
 						THotkeyItem *item = (THotkeyItem *)param->lParam;
-						if (!initialized || (param->uNewState>>12 == param->uOldState>>12))
+						if (!initialized || (param->uNewState >> 12 == param->uOldState >> 12))
 							break;
 
 						if (item && !item->rootHotkey) {
@@ -892,46 +892,47 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						}
 						else if (!item) {
 							TCHAR buf[256];
-							LVITEM lvi = {0};
+							LVITEM lvi = { 0 };
 							lvi.mask = LVIF_TEXT;
 							lvi.iItem = param->iItem;
 							lvi.pszText = buf;
 							lvi.cchTextMax = SIZEOF(buf);
 							ListView_GetItem(lpnmhdr->hwndFrom, &lvi);
 
-							if (param->uNewState>>12 == 1) {
+							if (param->uNewState >> 12 == 1) {
 								int count = ListView_GetItemCount(lpnmhdr->hwndFrom);
-								LVITEM lvi = {0};
+								LVITEM lvi = { 0 };
 								lvi.mask = LVIF_PARAM;
 								for (lvi.iItem = 0; lvi.iItem < count; ++lvi.iItem) {
 									THotkeyItem *item;
 									ListView_GetItem(lpnmhdr->hwndFrom, &lvi);
 									item = (THotkeyItem *)lvi.lParam;
 									if (!item) continue;
-									if (!mir_tstrcmp( item->getSection(), buf)) {
+									if (!mir_tstrcmp(item->getSection(), buf)) {
 										ListView_DeleteItem(lpnmhdr->hwndFrom, lvi.iItem);
 										--lvi.iItem;
 										--count;
-									}	}
+									}
+								}
 							}
-							else if (param->uNewState>>12 == 2) {
+							else if (param->uNewState >> 12 == 2) {
 								int i, nItems = ListView_GetItemCount(lpnmhdr->hwndFrom);
 								initialized = FALSE;
-								for (i=0; i < hotkeys.getCount(); i++) {
-									LVITEM lvi = {0};
+								for (i = 0; i < hotkeys.getCount(); i++) {
+									LVITEM lvi = { 0 };
 									THotkeyItem *item = hotkeys[i];
 
 									if (item->OptDeleted)
 										continue;
-									if ( mir_tstrcmp(buf, item->getSection()))
+									if (mir_tstrcmp(buf, item->getSection()))
 										continue;
 
-									lvi.mask = LVIF_PARAM|LVIF_INDENT;
+									lvi.mask = LVIF_PARAM | LVIF_INDENT;
 									lvi.iIndent = 1;
 									lvi.iItem = nItems++;
 									lvi.lParam = (LPARAM)item;
 									ListView_InsertItem(lpnmhdr->hwndFrom, &lvi);
-									sttOptionsSetupItem(lpnmhdr->hwndFrom, nItems-1, item);
+									sttOptionsSetupItem(lpnmhdr->hwndFrom, nItems - 1, item);
 								}
 								ListView_SortItemsEx(lpnmhdr->hwndFrom, sttOptionsSortList, (LPARAM)lpnmhdr->hwndFrom);
 								initialized = TRUE;
@@ -941,19 +942,19 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 				case NM_CUSTOMDRAW:
 					{
-						NMLVCUSTOMDRAW *param = (NMLVCUSTOMDRAW *) lParam;
+						NMLVCUSTOMDRAW *param = (NMLVCUSTOMDRAW *)lParam;
 						switch (param->nmcd.dwDrawStage) {
 						case CDDS_PREPAINT:
 						case CDDS_ITEMPREPAINT:
 							SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, CDRF_NOTIFYSUBITEMDRAW);
 							return TRUE;
 
-						case CDDS_SUBITEM|CDDS_ITEMPREPAINT:
+						case CDDS_SUBITEM | CDDS_ITEMPREPAINT:
 							{
 								THotkeyItem *item;
 								TCHAR buf[256];
-								LVITEM lvi = {0};
-								lvi.mask = LVIF_TEXT|LVIF_PARAM;
+								LVITEM lvi = { 0 };
+								lvi.mask = LVIF_TEXT | LVIF_PARAM;
 								lvi.iItem = param->nmcd.dwItemSpec;
 								lvi.pszText = buf;
 								lvi.cchTextMax = SIZEOF(buf);
@@ -973,10 +974,10 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 										HIMAGELIST hIml = ListView_GetImageList(hwndHotkey, LVSIL_SMALL);
 										ImageList_Draw(hIml,
 											ListView_GetCheckState(hwndHotkey, lvi.iItem) ? 6 : 7,
-											param->nmcd.hdc, rc.left, (rc.top+rc.bottom-16)/2, ILD_TRANSPARENT);
+											param->nmcd.hdc, rc.left, (rc.top + rc.bottom - 16) / 2, ILD_TRANSPARENT);
 										rc.left += 18;
 										hfnt = (HFONT)SelectObject(param->nmcd.hdc, (HFONT)SendMessage(GetParent(hwndDlg), PSM_GETBOLDFONT, 0, 0));
-										DrawText(param->nmcd.hdc, buf, -1, &rc, DT_LEFT|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER);
+										DrawText(param->nmcd.hdc, buf, -1, &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
 										SelectObject(param->nmcd.hdc, hfnt);
 									}
 
@@ -1011,7 +1012,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			KillTimer(hwndDlg, 1024);
 
 			TCHAR buf[128];
-			LVITEM lvi = {0};
+			LVITEM lvi = { 0 };
 			lvi.pszText = buf;
 			lvi.cchTextMax = SIZEOF(buf);
 			for (lvi.iItem = 0; lvi.iItem < count; ++lvi.iItem) {
