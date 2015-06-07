@@ -40,22 +40,22 @@ typedef struct {
 } yahoo_authorize_data;
 
 yahoo_idlabel yahoo_status_codes[] = {
-	{YAHOO_STATUS_AVAILABLE, ""},
-	{YAHOO_STATUS_BRB, "BRB"},
-	{YAHOO_STATUS_BUSY, "Busy"},
-	{YAHOO_STATUS_NOTATHOME, "Not At Home"},
-	{YAHOO_STATUS_NOTATDESK, "Not At my Desk"},
-	{YAHOO_STATUS_NOTINOFFICE, "Not In The Office"},
-	{YAHOO_STATUS_ONPHONE, "On The Phone"},
-	{YAHOO_STATUS_ONVACATION, "On Vacation"},
-	{YAHOO_STATUS_OUTTOLUNCH, "Out To Lunch"},
-	{YAHOO_STATUS_STEPPEDOUT, "Stepped Out"},
-	{YAHOO_STATUS_INVISIBLE, "Invisible"},
-	{YAHOO_STATUS_IDLE, "Idle"},
-	{YAHOO_STATUS_OFFLINE, "Offline"},
-	{YAHOO_STATUS_CUSTOM, "[Custom]"},
-//	{YAHOO_STATUS_NOTIFY, "Notify"},
-	{0, NULL}
+	{ YAHOO_STATUS_AVAILABLE, "" },
+	{ YAHOO_STATUS_BRB, "BRB" },
+	{ YAHOO_STATUS_BUSY, "Busy" },
+	{ YAHOO_STATUS_NOTATHOME, "Not At Home" },
+	{ YAHOO_STATUS_NOTATDESK, "Not At my Desk" },
+	{ YAHOO_STATUS_NOTINOFFICE, "Not In The Office" },
+	{ YAHOO_STATUS_ONPHONE, "On The Phone" },
+	{ YAHOO_STATUS_ONVACATION, "On Vacation" },
+	{ YAHOO_STATUS_OUTTOLUNCH, "Out To Lunch" },
+	{ YAHOO_STATUS_STEPPEDOUT, "Stepped Out" },
+	{ YAHOO_STATUS_INVISIBLE, "Invisible" },
+	{ YAHOO_STATUS_IDLE, "Idle" },
+	{ YAHOO_STATUS_OFFLINE, "Offline" },
+	{ YAHOO_STATUS_CUSTOM, "[Custom]" },
+	//	{YAHOO_STATUS_NOTIFY, "Notify"},
+	{ 0, NULL }
 };
 
 #define MAX_PREF_LEN 255
@@ -68,10 +68,10 @@ extern int poll_loop;
 
 char * yahoo_status_code(enum yahoo_status s)
 {
-	for(int i=0; yahoo_status_codes[i].label; i++)
+	for (int i = 0; yahoo_status_codes[i].label; i++)
 		if (yahoo_status_codes[i].id == s)
 			return yahoo_status_codes[i].label;
-		
+
 	return "Unknown";
 }
 
@@ -81,7 +81,7 @@ yahoo_status miranda_to_yahoo(int myyahooStatus)
 	case ID_STATUS_OFFLINE:
 		return YAHOO_STATUS_OFFLINE;
 	case ID_STATUS_FREECHAT:
-	case ID_STATUS_ONLINE: 
+	case ID_STATUS_ONLINE:
 		return YAHOO_STATUS_AVAILABLE;
 	case ID_STATUS_AWAY:
 		return YAHOO_STATUS_STEPPEDOUT;
@@ -105,7 +105,7 @@ yahoo_status miranda_to_yahoo(int myyahooStatus)
 int yahoo_to_miranda_status(int m_iStatus, int away)
 {
 	switch (m_iStatus) {
-	case YAHOO_STATUS_AVAILABLE: 
+	case YAHOO_STATUS_AVAILABLE:
 		return ID_STATUS_ONLINE;
 	case YAHOO_STATUS_BRB:
 		return ID_STATUS_NA;
@@ -125,7 +125,7 @@ int yahoo_to_miranda_status(int m_iStatus, int away)
 	case YAHOO_STATUS_IDLE:
 		return ID_STATUS_AWAY;
 	case YAHOO_STATUS_CUSTOM:
-		return (away ? ID_STATUS_AWAY:ID_STATUS_ONLINE);
+		return (away ? ID_STATUS_AWAY : ID_STATUS_ONLINE);
 	default:
 		return ID_STATUS_OFFLINE;
 	}
@@ -136,12 +136,12 @@ void CYahooProto::set_status(int myyahooStatus, char *msg, int away)
 	LOG(("[set_status] myyahooStatus: %d, msg: %s, away: %d", myyahooStatus, msg, away));
 
 	/* Safety check, don't dereference Invalid pointers */
-	if (m_id > 0)  {
-			
+	if (m_id > 0) {
+
 		if (YAHOO_CUSTOM_STATUS != myyahooStatus)
 			yahoo_set_away(m_id, miranda_to_yahoo(myyahooStatus), msg, away);
 		else
-			yahoo_set_away(m_id, ( yahoo_status )YAHOO_CUSTOM_STATUS, msg, away);
+			yahoo_set_away(m_id, (yahoo_status)YAHOO_CUSTOM_STATUS, msg, away);
 	}
 }
 
@@ -202,10 +202,10 @@ void CYahooProto::AddBuddy(MCONTACT hContact, const char *group, const TCHAR *ms
 {
 	/* We adding a buddy to our list.
 	  2 Stages.
-	1. We send add buddy packet.
-	2. We get a packet back from the server confirming add.
-	
-	No refresh needed. */
+	  1. We send add buddy packet.
+	  2. We get a packet back from the server confirming add.
+
+	  No refresh needed. */
 
 	ptrA who(getStringA(hContact, YAHOO_LOGINID));
 	if (who == NULL)
@@ -221,7 +221,7 @@ void CYahooProto::AddBuddy(MCONTACT hContact, const char *group, const TCHAR *ms
 	SetStringUtf(hContact, "YGroup", group);
 
 	debugLogA("Adding Permanently %s to list. Auth: %s", who, u_msg ? u_msg : "<None>");
- 	yahoo_add_buddy(m_id, ident, T2Utf(fname), T2Utf(lname), who, protocol, group, u_msg);
+	yahoo_add_buddy(m_id, ident, T2Utf(fname), T2Utf(lname), who, protocol, group, u_msg);
 }
 
 MCONTACT CYahooProto::getbuddyH(const char *yahoo_id)
@@ -231,9 +231,9 @@ MCONTACT CYahooProto::getbuddyH(const char *yahoo_id)
 		if (getString(hContact, YAHOO_LOGINID, &dbv))
 			continue;
 
-		int tCompareResult = mir_strcmpi( dbv.pszVal, yahoo_id );
+		int tCompareResult = mir_strcmpi(dbv.pszVal, yahoo_id);
 		db_free(&dbv);
-		if ( tCompareResult )
+		if (tCompareResult)
 			continue;
 
 		return hContact;
@@ -246,40 +246,40 @@ MCONTACT CYahooProto::add_buddy(const char *yahoo_id, const char *yahoo_name, in
 {
 	char *yid = NEWSTR_ALLOCA(yahoo_id);
 	strlwr(yid);
-	
+
 	MCONTACT hContact = getbuddyH(yid);
 	if (hContact != NULL) {
 		LOG(("[add_buddy] Found buddy id: %s, handle: %p", yid, hContact));
-		if ( !(flags & PALF_TEMPORARY) && db_get_b(hContact, "CList", "NotOnList", 1)) {
+		if (!(flags & PALF_TEMPORARY) && db_get_b(hContact, "CList", "NotOnList", 1)) {
 			LOG(("[add_buddy] Making Perm id: %s, flags: %lu", yahoo_id, flags));
-			db_unset( hContact, "CList", "NotOnList");
-			db_unset( hContact, "CList", "Hidden");
+			db_unset(hContact, "CList", "NotOnList");
+			db_unset(hContact, "CList", "Hidden");
 		}
-		
+
 		return hContact;
 	}
 
 	//not already there: add
 	LOG(("[add_buddy] Adding buddy id: %s (Nick: %s), flags: %lu", yid, yahoo_name, flags));
 	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-	CallService(MS_PROTO_ADDTOCONTACT, hContact,(LPARAM)m_szModuleName);
-	setString( hContact, YAHOO_LOGINID, yid );
-	Set_Protocol( hContact, protocol );
+	CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
+	setString(hContact, YAHOO_LOGINID, yid);
+	Set_Protocol(hContact, protocol);
 
 	if (mir_strlen(yahoo_name) > 0)
-		SetStringUtf( hContact, "Nick", yahoo_name );
+		SetStringUtf(hContact, "Nick", yahoo_name);
 	else
-		SetStringUtf( hContact, "Nick", yahoo_id );
+		SetStringUtf(hContact, "Nick", yahoo_id);
 
 	if (flags & PALF_TEMPORARY) {
-		db_set_b( hContact, "CList", "NotOnList", 1 );
-		db_set_b( hContact, "CList", "Hidden", 1 );
-	}	
-	
+		db_set_b(hContact, "CList", "NotOnList", 1);
+		db_set_b(hContact, "CList", "Hidden", 1);
+	}
+
 	return hContact;
 }
 
-const char* CYahooProto::find_buddy( const char *yahoo_id)
+const char* CYahooProto::find_buddy(const char *yahoo_id)
 {
 	static char nick[128];
 	DBVARIANT dbv;
@@ -289,7 +289,7 @@ const char* CYahooProto::find_buddy( const char *yahoo_id)
 		if (GetStringUtf(hContact, "Nick", &dbv))
 			return NULL;
 
-		strncpy(nick, dbv.pszVal, sizeof(nick)-1);
+		strncpy(nick, dbv.pszVal, sizeof(nick) - 1);
 		db_free(&dbv);
 		return nick;
 	}
@@ -302,27 +302,27 @@ const char* CYahooProto::find_buddy( const char *yahoo_id)
 /* Other handlers */
 void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, const char *msg, int away, int idle, int mobile, int utf8)
 {
-	debugLogA("[ext_status_changed] %s (prot: %d) with msg %s utf8: %d, stat: %s (%d), away: %d, idle: %d seconds", 
-						who, 
-						protocol, 
-						msg, 
-						utf8, 
-						(stat == 0) ? "Online" : yahoo_status_code( (yahoo_status)stat ),
-						stat, 
-						away, 
-						idle);
-	
+	debugLogA("[ext_status_changed] %s (prot: %d) with msg %s utf8: %d, stat: %s (%d), away: %d, idle: %d seconds",
+		who,
+		protocol,
+		msg,
+		utf8,
+		(stat == 0) ? "Online" : yahoo_status_code((yahoo_status)stat),
+		stat,
+		away,
+		idle);
+
 	MCONTACT hContact = getbuddyH(who);
 	if (hContact == NULL) {
 		debugLogA("Buddy Not Found. Adding...");
 		hContact = add_buddy(who, who, protocol, 0);
 	}
-	
+
 	if (!mobile)
-		setWord(hContact, "Status", yahoo_to_miranda_status(stat,away));
+		setWord(hContact, "Status", yahoo_to_miranda_status(stat, away));
 	else
 		setWord(hContact, "Status", ID_STATUS_ONTHEPHONE);
-	
+
 	setWord(hContact, "YStatus", stat);
 	setWord(hContact, "YAway", away);
 	setWord(hContact, "Mobile", mobile);
@@ -331,9 +331,9 @@ void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, co
 		debugLogA("[ext_status_changed] %s custom message '%s'", who, msg);
 
 		if (utf8)
-			db_set_utf( hContact, "CList", "StatusMsg", msg);
+			db_set_utf(hContact, "CList", "StatusMsg", msg);
 		else
-			db_set_s( hContact, "CList", "StatusMsg", msg);
+			db_set_s(hContact, "CList", "StatusMsg", msg);
 	}
 	else db_unset(hContact, "CList", "StatusMsg");
 
@@ -345,16 +345,16 @@ void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, co
 	}
 	else {
 		time_t idlets = 0;
-		if ( (away == 2) || (stat == YAHOO_STATUS_IDLE) || (idle > 0)) {
+		if ((away == 2) || (stat == YAHOO_STATUS_IDLE) || (idle > 0)) {
 			/* TODO: set Idle=-1, because of key 138=1 and don't set idlets then */
 			if (stat > 0) {
-				debugLogA("[ext_status_changed] %s idle for %d:%02d:%02d", who, idle/3600, (idle/60)%60, idle%60);
-				
+				debugLogA("[ext_status_changed] %s idle for %d:%02d:%02d", who, idle / 3600, (idle / 60) % 60, idle % 60);
+
 				time(&idlets);
 				idlets -= idle;
 			}
-		} 
-			
+		}
+
 		setDword(hContact, "IdleTS", idlets);
 	}
 
@@ -364,78 +364,78 @@ void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, co
 void CYahooProto::ext_status_logon(const char *who, int protocol, int stat, const char *msg, int away, int idle, int mobile, int cksum, int buddy_icon, long client_version, int utf8)
 {
 	debugLogA("[ext_status_logon] %s (prot: %d) with msg %s utf8: %d, (stat: %d, away: %d, idle: %d seconds, checksum: %d buddy_icon: %d client_version: %ld)", who, protocol, msg, utf8, stat, away, idle, cksum, buddy_icon, client_version);
-	
+
 	ext_status_changed(who, protocol, stat, msg, away, idle, mobile, utf8);
 
 	MCONTACT hContact = getbuddyH(who);
 	if (hContact == NULL) {
 		debugLogA("[ext_status_logon] Can't find handle for %s??? PANIC!!!", who);
 		return;
-	} 
+	}
 
 	/**
 	 * We only do real client detection when using Yahoo client. Other option is to fill in the protocol info
 	 */
 	if (protocol == 0) {
 		char *s = NULL;
-		
+
 		switch (client_version & 0x1FFFFBF) {
 		case 2:
 			s = "Yahoo Mobile";
 			break;
-		
+
 		case 6:
 			s = "Yahoo PingBox";
 			break;
-			
+
 		case 3075:
 		case 0x00880C03:
 			s = "Yahoo Web Messenger";
 			break;
-	
+
 		case 35846:
 			s = "Go!Chat for Android";
 			break;
-			
-		case 262651: 
-			s = "libyahoo2"; 
+
+		case 262651:
+			s = "libyahoo2";
 			break;
-			
-		case 262655: 
-			s = "< Yahoo 6.x (Yahoo 5.x?)"; 
+
+		case 262655:
+			s = "< Yahoo 6.x (Yahoo 5.x?)";
 			break;
-			
-		case 278527: 
-			s = "Yahoo 6.x"; 
+
+		case 278527:
+			s = "Yahoo 6.x";
 			break;
-			
-		case 524223: 
+
+		case 524223:
 			//Yahoo 7.4
 			//Yahoo 7.5
-			s = "Yahoo 7.x"; 
+			s = "Yahoo 7.x";
 			break;
-			
+
 		case 888327:
 			s = "Yahoo 9.0 for Vista";
 			break;
-	
+
 		case 822366: /* Yahoo! Messenger 2.1.37 by RIM */
 			s = "Yahoo for Blackberry";
 			break;
-	
+
 		case 822543:  /* ? "Yahoo Version 3.0 beta 1 (build 18274) OSX" */
-		case 1572799: /* 8.0.x ??  */ 
+		case 1572799: /* 8.0.x ??  */
 		case 2097087: /* 8.1.0.195 */
 		case 0x009FFFBF:
-			s = "Yahoo 8.x"; 
+			s = "Yahoo 8.x";
 			break;
-			
+
 		case 2088895:
 		case 4194239:
 		case 0x00BFFFBF:
 			s = "Yahoo 9.0";
 			break;
-			
+
 		case 8388543:
 			s = "Yahoo 10.0";
 			break;
@@ -457,57 +457,59 @@ void CYahooProto::ext_status_logon(const char *who, int protocol, int stat, cons
 			break;
 		}
 
-		if (s != NULL) 
-			setString( hContact, "MirVer", s);
+		if (s != NULL)
+			setString(hContact, "MirVer", s);
 		else
 			delSetting(hContact, "MirVer");
 	}
 	else Set_Protocol(hContact, protocol);
-	
+
 	/* Add the client_Version # to the contact DB entry */
-	setDword( hContact, "ClientVersion", client_version);
-	
+	setDword(hContact, "ClientVersion", client_version);
+
 	/* Last thing check the checksum and request new one if we need to */
 	if (buddy_icon == -1) {
 		debugLogA("[ext_status_logon] No avatar information in this packet? Not touching stuff!");
-	} else {
+	}
+	else {
 		// we got some avatartype info
 		setByte(hContact, "AvatarType", buddy_icon);
-		
+
 		if (cksum == 0 || cksum == -1) {
 			// no avatar
 			setDword(hContact, "PictCK", 0);
-		} else if (getDword(hContact, "PictCK", 0) != (unsigned)cksum) {
+		}
+		else if (getDword(hContact, "PictCK", 0) != (unsigned)cksum) {
 			//char szFile[MAX_PATH];
-			
+
 			// Save new Checksum
 			setDword(hContact, "PictCK", cksum);
-			
+
 			// Need to delete the Avatar File!!
 			//GetAvatarFileName(hContact, szFile, sizeof szFile, 0);
 			//DeleteFile(szFile);
 		}
-	
+
 		// Cleanup the type? and reset things...
 		reset_avatar(hContact);
 	}
-	
+
 	debugLogA("[ext_status_logon] exiting");
 }
 
 void CYahooProto::ext_got_audible(const char *me, const char *who, const char *aud, const char *msg, const char *aud_hash)
 {
-	/* aud = file class name 
+	/* aud = file class name
 					GAIM: the audible, in foo.bar.baz format
-			
+
 					Actually this is the filename.
 					Full URL:
-				
-					http://us.dl1.yimg.com/download.yahoo.com/dl/aud/us/aud.swf 
-					
+
+					http://us.dl1.yimg.com/download.yahoo.com/dl/aud/us/aud.swf
+
 					where aud in foo.bar.baz format
-	*/
-	
+					*/
+
 	LOG(("ext_got_audible for %s aud: %s msg:'%s' hash: %s", who, aud, msg, aud_hash));
 
 	MCONTACT hContact = getbuddyH(who);
@@ -515,18 +517,18 @@ void CYahooProto::ext_got_audible(const char *me, const char *who, const char *a
 		LOG(("Buddy Not Found. Skipping avatar update"));
 		return;
 	}
-	
+
 	char z[1028];
-	mir_snprintf(z, SIZEOF(z), "[miranda-audible] %s", msg ?msg:"");
+	mir_snprintf(z, SIZEOF(z), "[miranda-audible] %s", msg ? msg : "");
 	ext_got_im((char*)me, (char*)who, 0, z, 0, 0, 1, -1, NULL, 0);
 }
 
 void CYahooProto::ext_got_calendar(const char *url, int type, const char *msg, int svc)
 {
 	LOG(("[ext_got_calendar] URL:%s type: %d msg: %s svc: %d", url, type, msg, svc));
-	
+
 	ptrT tszMsg(mir_utf8decodeT(msg));
-	if (!ShowPopup( TranslateT("Calendar Reminder"), tszMsg, url))
+	if (!ShowPopup(TranslateT("Calendar Reminder"), tszMsg, url))
 		ShowNotification(TranslateT("Calendar Reminder"), tszMsg, NIIF_INFO);
 }
 
@@ -535,17 +537,17 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 	char **stealth = NULL;
 
 	LOG(("[ext_got_stealth] list: %s", stealthlist));
-	
+
 	if (stealthlist)
 		stealth = y_strsplit(stealthlist, ",", -1);
 
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
-		if (getString( hContact, YAHOO_LOGINID, &dbv))
+		if (getString(hContact, YAHOO_LOGINID, &dbv))
 			continue;
 
 		bool found = false;
-		for(char **s = stealth; s && *s; s++) {
+		for (char **s = stealth; s && *s; s++) {
 			if (mir_strcmpi(*s, dbv.pszVal) == 0) {
 				debugLogA("GOT id = %s", dbv.pszVal);
 				found = true;
@@ -560,7 +562,8 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 			if (ID_STATUS_OFFLINE != getWord(hContact, "ApparentMode", 0))
 				getWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
 
-		} else { /* he is not on the Stealth List */
+		}
+		else { /* he is not on the Stealth List */
 			//LOG(("Resetting STEALTH for id = %s", dbv.pszVal));
 			/* need to delete the ApparentMode thingy */
 			if (getWord(hContact, "ApparentMode", 0))
@@ -584,14 +587,14 @@ void CYahooProto::ext_got_buddies(YList * buds)
 	for (; buds; buds = buds->next) {
 		MCONTACT hContact;
 
-		yahoo_buddy *bud = ( yahoo_buddy* )buds->data;
+		yahoo_buddy *bud = (yahoo_buddy*)buds->data;
 		if (bud == NULL) {
 			LOG(("[ext_got_buddies] EMPTY BUDDY LIST??"));
 			continue;
 		}
 
 		debugLogA("[ext_got_buddies] id = %s, protocol = %d, group = %s, auth = %d", bud->id, bud->protocol, bud->group, bud->auth);
-		
+
 		hContact = getbuddyH(bud->id);
 		if (hContact == NULL)
 			hContact = add_buddy(bud->id, (bud->real_name != NULL) ? bud->real_name : bud->id, bud->protocol, 0);
@@ -606,9 +609,10 @@ void CYahooProto::ext_got_buddies(YList * buds)
 			debugLogA("Setting STEALTH for id = %s", bud->id);
 			/* need to set the ApparentMode thingy */
 			if (ID_STATUS_OFFLINE != getWord(hContact, "ApparentMode", 0))
-				setWord(hContact, "ApparentMode", (WORD) ID_STATUS_OFFLINE);
+				setWord(hContact, "ApparentMode", (WORD)ID_STATUS_OFFLINE);
 
-		} else { /* he is not on the Stealth List */
+		}
+		else { /* he is not on the Stealth List */
 			//LOG(("Resetting STEALTH for id = %s", dbv.pszVal));
 			/* need to delete the ApparentMode thingy */
 			if (getWord(hContact, "ApparentMode", 0))
@@ -621,34 +625,34 @@ void CYahooProto::ext_got_buddies(YList * buds)
 
 		if (bud->real_name) {
 			debugLogA("id = %s name = %s", bud->id, bud->real_name);
-			SetStringUtf( hContact, "Nick", bud->real_name);
+			SetStringUtf(hContact, "Nick", bud->real_name);
 		}
 
 		if (bud->yab_entry) {
 			//LOG(("YAB_ENTRY"));
 
-			if (bud->yab_entry->fname) 
-				SetStringUtf( hContact, "FirstName", bud->yab_entry->fname);
+			if (bud->yab_entry->fname)
+				SetStringUtf(hContact, "FirstName", bud->yab_entry->fname);
 
-			if (bud->yab_entry->lname) 
-				SetStringUtf( hContact, "LastName", bud->yab_entry->lname);
+			if (bud->yab_entry->lname)
+				SetStringUtf(hContact, "LastName", bud->yab_entry->lname);
 
-			if (bud->yab_entry->email) 
-				setString( hContact, "e-mail", bud->yab_entry->email);
+			if (bud->yab_entry->email)
+				setString(hContact, "e-mail", bud->yab_entry->email);
 
-			if (bud->yab_entry->mphone) 
-				setString( hContact, "Cellular", bud->yab_entry->mphone);
+			if (bud->yab_entry->mphone)
+				setString(hContact, "Cellular", bud->yab_entry->mphone);
 
-			if (bud->yab_entry->hphone) 
-				setString( hContact, "Phone", bud->yab_entry->hphone);
+			if (bud->yab_entry->hphone)
+				setString(hContact, "Phone", bud->yab_entry->hphone);
 
-			if (bud->yab_entry->wphone) 
-				setString( hContact, "CompanyPhone", bud->yab_entry->wphone);
+			if (bud->yab_entry->wphone)
+				setString(hContact, "CompanyPhone", bud->yab_entry->wphone);
 
-			setWord( hContact, "YabID", bud->yab_entry->dbid);
+			setWord(hContact, "YabID", bud->yab_entry->dbid);
 		}
 	}
-	
+
 	debugLogA(("[ext_got_buddies] buddy list Finished."));
 }
 
@@ -660,40 +664,40 @@ void CYahooProto::ext_rejected(const char *who, const char *msg)
 	if (hContact != NULL) {
 		/*
 		* Make sure the contact is temporary so we could delete it w/o extra traffic
-		*/ 
-		db_set_b( hContact, "CList", "NotOnList", 1 );
-		CallService(MS_DB_CONTACT_DELETE, hContact, 0);	
+		*/
+		db_set_b(hContact, "CList", "NotOnList", 1);
+		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 	}
 	else LOG(("[ext_rejected] Buddy not on our buddy list"));
 
-	ptrT tszWho( mir_utf8decodeT(who));
-	ptrT tszMsg( mir_utf8decodeT(msg));
+	ptrT tszWho(mir_utf8decodeT(who));
+	ptrT tszMsg(mir_utf8decodeT(msg));
 
 	TCHAR buff[1024];
 	mir_sntprintf(buff, TranslateT("%s has rejected your request and sent the following message:"), (TCHAR*)tszWho);
-	MessageBox(NULL, tszMsg, buff, MB_OK | MB_ICONINFORMATION );
+	MessageBox(NULL, tszMsg, buff, MB_OK | MB_ICONINFORMATION);
 }
 
 void CYahooProto::ext_buddy_added(char *myid, char *who, char *group, int status, int auth)
 {
-	MCONTACT hContact=getbuddyH(who);
-	
+	MCONTACT hContact = getbuddyH(who);
+
 	LOG(("[ext_buddy_added] %s authorized you as %s group: %s status: %d auth: %d", who, myid, group, status, auth));
-	
+
 	switch (status) {
 	case 0: /* we are ok */
 	case 2: /* seems that we ok, not sure what this means.. we already on buddy list? */
 	case 40: /* When adding MSN Live contacts we get this one? */
-		db_unset( hContact, "CList", "NotOnList");
-		db_unset( hContact, "CList", "Hidden");
+		db_unset(hContact, "CList", "NotOnList");
+		db_unset(hContact, "CList", "Hidden");
 		break;
 
 	case 1:  /* invalid ID? */
 	case 3:  /* invalid ID  */
 		if (hContact != NULL) {
-			ShowPopup( TranslateT("Invalid Contact"), TranslateT("The ID you tried to add is invalid."), NULL);
+			ShowPopup(TranslateT("Invalid Contact"), TranslateT("The ID you tried to add is invalid."), NULL);
 			/* Make it TEMP first, we don't want to send any extra packets for FALSE ids */
-			db_set_b( hContact, "CList", "NotOnList", 1 );
+			db_set_b(hContact, "CList", "NotOnList", 1);
 			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 		}
 		break;
@@ -701,9 +705,9 @@ void CYahooProto::ext_buddy_added(char *myid, char *who, char *group, int status
 	default:
 		/* ??? */
 		if (hContact != NULL) {
-			ShowPopup( TranslateT("Invalid Contact"), TranslateT("Unknown Error."), NULL);
+			ShowPopup(TranslateT("Invalid Contact"), TranslateT("Unknown Error."), NULL);
 			/* Make it TEMP first, we don't want to send any extra packets for FALSE ids */
-			db_set_b( hContact, "CList", "NotOnList", 1 );
+			db_set_b(hContact, "CList", "NotOnList", 1);
 			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 		}
 
@@ -721,7 +725,7 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 	/* NOTE: Msg is actually in UTF8 unless stated otherwise!! */
 	LOG(("[ext_contact_added] %s %s (%s:%d) added you as %s w/ msg '%s'", fname, lname, who, protocol, myid, msg));
 
-	if ( BuddyIgnored( who )) {
+	if (BuddyIgnored(who)) {
 		LOG(("User '%s' on our Ignore List. Dropping Authorization Request.", who));
 		return;
 	}
@@ -755,7 +759,7 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 	Set_Protocol(hContact, protocol);
 
 	pre.timestamp = time(NULL);
-	pre.lParam = sizeof(DWORD)+sizeof(HANDLE)+mir_strlen(who)+mir_strlen(nick)+5;
+	pre.lParam = sizeof(DWORD) + sizeof(HANDLE) + mir_strlen(who) + mir_strlen(nick) + 5;
 
 	if (fname != NULL)
 		pre.lParam += mir_strlen(fname);
@@ -774,25 +778,25 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 	pCurBlob += sizeof(DWORD);
 
 	// hContact
-	*(PDWORD)pCurBlob = (DWORD)hContact; 
+	*(PDWORD)pCurBlob = (DWORD)hContact;
 	pCurBlob += sizeof(DWORD);
 
 	// NICK
-	mir_strcpy((char*)pCurBlob, nick); 
+	mir_strcpy((char*)pCurBlob, nick);
 
-	pCurBlob+=mir_strlen((char *)pCurBlob)+1;
+	pCurBlob += mir_strlen((char *)pCurBlob) + 1;
 
 	// FIRST
-	mir_strcpy((char*)pCurBlob, (fname != NULL) ? fname : ""); 
-	pCurBlob+=mir_strlen((char *)pCurBlob)+1;
+	mir_strcpy((char*)pCurBlob, (fname != NULL) ? fname : "");
+	pCurBlob += mir_strlen((char *)pCurBlob) + 1;
 
 	// LAST
-	mir_strcpy((char*)pCurBlob, (lname != NULL) ? lname : ""); 
-	pCurBlob+=mir_strlen((char *)pCurBlob)+1;
+	mir_strcpy((char*)pCurBlob, (lname != NULL) ? lname : "");
+	pCurBlob += mir_strlen((char *)pCurBlob) + 1;
 
 	// E-mail    
-	mir_strcpy((char*)pCurBlob,who); 
-	pCurBlob+=mir_strlen((char *)pCurBlob)+1;
+	mir_strcpy((char*)pCurBlob, who);
+	pCurBlob += mir_strlen((char *)pCurBlob) + 1;
 
 	// Reason
 	mir_strcpy((char*)pCurBlob, (msg != NULL) ? msg : "");
@@ -805,37 +809,37 @@ void CYahooProto::ext_typing_notify(const char *me, const char *who, int protoco
 	LOG(("[ext_typing_notify] me: '%s' who: '%s' protocol: %d stat: %d ", me, who, protocol, stat));
 
 	MCONTACT hContact = getbuddyH(who);
-	
-	if (hContact) 
-		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)stat?10:0);
+
+	if (hContact)
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)stat ? 10 : 0);
 }
 
 void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, const char *msg)
 {
 	/* There's also game invite packet:
-	[17:36:44 YAHOO] libyahoo2/libyahoo2.c:3093: debug: 
-[17:36:44 YAHOO] Yahoo Service: (null) (0xb7) Status: YAHOO_STATUS_BRB (1)
-[17:36:44 YAHOO]  
-[17:36:44 YAHOO] libyahoo2/libyahoo2.c:863: debug: 
-[17:36:44 YAHOO] [Reading packet] len: 88
-[17:36:44 YAHOO]  
-[17:36:44 YAHOO] Key: From (4)  	Value: 'xxxxx'
-[17:36:44 YAHOO]  
-[17:36:44 YAHOO] Key: To (5)  	Value: 'zxzxxx'
-[17:36:44 YAHOO]  
-[17:36:44 YAHOO] Key: (null) (180)  	Value: 'pl'
-[17:36:44 YAHOO]  
-[17:36:44 YAHOO] Key: (null) (183)  	Value: ''
-[17:36:44 YAHOO]  
-[17:36:44 YAHOO] Key: (null) (181)  	Value: ''
-[17:36:44 YAHOO]  
-[17:36:44 YAHOO] Key: session (11)  	Value: 'o8114ik_lixyxtdfrxbogw--'
-[17:36:44 YAHOO]  
-[17:36:44 YAHOO] Key: stat/location (13)  	Value: '1'
-[17:36:44 YAHOO]  
-[17:36:44 YAHOO] libyahoo2/libyahoo2.c:908: debug: 
-[17:36:44 YAHOO] [Reading packet done]
-*/
+	[17:36:44 YAHOO] libyahoo2/libyahoo2.c:3093: debug:
+	[17:36:44 YAHOO] Yahoo Service: (null) (0xb7) Status: YAHOO_STATUS_BRB (1)
+	[17:36:44 YAHOO]
+	[17:36:44 YAHOO] libyahoo2/libyahoo2.c:863: debug:
+	[17:36:44 YAHOO] [Reading packet] len: 88
+	[17:36:44 YAHOO]
+	[17:36:44 YAHOO] Key: From (4)  	Value: 'xxxxx'
+	[17:36:44 YAHOO]
+	[17:36:44 YAHOO] Key: To (5)  	Value: 'zxzxxx'
+	[17:36:44 YAHOO]
+	[17:36:44 YAHOO] Key: (null) (180)  	Value: 'pl'
+	[17:36:44 YAHOO]
+	[17:36:44 YAHOO] Key: (null) (183)  	Value: ''
+	[17:36:44 YAHOO]
+	[17:36:44 YAHOO] Key: (null) (181)  	Value: ''
+	[17:36:44 YAHOO]
+	[17:36:44 YAHOO] Key: session (11)  	Value: 'o8114ik_lixyxtdfrxbogw--'
+	[17:36:44 YAHOO]
+	[17:36:44 YAHOO] Key: stat/location (13)  	Value: '1'
+	[17:36:44 YAHOO]
+	[17:36:44 YAHOO] libyahoo2/libyahoo2.c:908: debug:
+	[17:36:44 YAHOO] [Reading packet done]
+	*/
 	LOG(("[ext_game_notify] me: %s, who: %s, stat: %d, msg: %s", me, who, stat, msg));
 	/* FIXME - Not Implemented - this informs you someone else is playing on Yahoo! Games */
 	/* Also Stubbed in Sample Client */
@@ -843,32 +847,32 @@ void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, con
 	if (!hContact)
 		return;
 
-	if (stat == 2) 
+	if (stat == 2)
 		setString(hContact, "YGMsg", "");
 	else if (msg) {
 		const char *l = msg, *u = NULL;
 		char *z, *c;
 		int i = 0;
 
-		/* Parse and Set a custom Message 
+		/* Parse and Set a custom Message
 		*
-		* Format: 1 [09] ygamesp [09] 1 [09] 0 [09] ante?room=yahoo_1078798506&follow=rrrrrrr	
+		* Format: 1 [09] ygamesp [09] 1 [09] 0 [09] ante?room=yahoo_1078798506&follow=rrrrrrr
 		* [09] Yahoo! Poker\nRoom: Intermediate Lounge 2
 		*
 		* Sign-in:
-		* [17:13:42 YAHOO] [ext_yahoo_game_notify] id: 1, me: xxxxx, who: rrrrrrr, 
-		* stat: 1, msg: 1	ygamesa	1	0	ante?room=yahoo_1043183792&follow=lotesdelere	
-		* Yahoo! Backgammon Room: Social Lounge 12 
+		* [17:13:42 YAHOO] [ext_yahoo_game_notify] id: 1, me: xxxxx, who: rrrrrrr,
+		* stat: 1, msg: 1	ygamesa	1	0	ante?room=yahoo_1043183792&follow=lotesdelere
+		* Yahoo! Backgammon Room: Social Lounge 12
 		*
 		* Sign-out:
-		* [17:18:38 YAHOO] [ext_yahoo_game_notify] id: 1, me: xxxxx, who: rrrrr, 
+		* [17:18:38 YAHOO] [ext_yahoo_game_notify] id: 1, me: xxxxx, who: rrrrr,
 		*	stat: 2, msg: 1	ygamesa	2
 		*/
-		z = (char *) _alloca(mir_strlen(l) + 50);
+		z = (char *)_alloca(mir_strlen(l) + 50);
 
-		z[0]='\0';
-		do{
-			c = ( char* )strchr(l, 0x09);
+		z[0] = '\0';
+		do {
+			c = (char*)strchr(l, 0x09);
 			i++;
 			if (c != NULL) {
 				l = c;
@@ -880,15 +884,16 @@ void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, con
 
 		if (c != NULL) {
 			// insert \r before \n
-			do{
-				c = ( char* )strchr(l, '\n');
+			do {
+				c = (char*)strchr(l, '\n');
 
 				if (c != NULL) {
 					(*c) = '\0';
 					mir_strcat(z, l);
 					mir_strcat(z, "\r\n");
 					l = c + 1;
-				} else {
+				}
+				else {
 					mir_strcat(z, l);
 				}
 			} while (c != NULL);
@@ -901,7 +906,8 @@ void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, con
 
 		SetStringUtf(hContact, "YGMsg", z);
 
-	} else {
+	}
+	else {
 		/* ? no information / reset custom message */
 		setString(hContact, "YGMsg", "");
 	}
@@ -910,13 +916,13 @@ void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, con
 void CYahooProto::ext_mail_notify(const char *from, const char *subj, int cnt)
 {
 	LOG(("[ext_mail_notify] from: %s subject: %s count: %d", from, subj, cnt));
-	
+
 	if (cnt > 0) {
 		SkinPlaySound("mail");
-	
-		if (!getByte("DisableYahoomail", 0)) {    
+
+		if (!getByte("DisableYahoomail", 0)) {
 			TCHAR z[MAX_SECONDLINE], title[MAX_CONTACTNAME];
-			
+
 			if (from == NULL) {
 				mir_sntprintf(title, SIZEOF(title), _T("%s: %s"), m_tszUserName, TranslateT("New Mail"));
 				mir_sntprintf(z, SIZEOF(z), TranslateT("You have %i unread messages"), cnt);
@@ -924,76 +930,76 @@ void CYahooProto::ext_mail_notify(const char *from, const char *subj, int cnt)
 			else {
 				mir_sntprintf(title, SIZEOF(title), TranslateT("New Mail (%i messages)"), cnt);
 
-				ptrT tszFrom( mir_utf8decodeT(from));
-				ptrT tszSubj( mir_utf8decodeT(subj));
+				ptrT tszFrom(mir_utf8decodeT(from));
+				ptrT tszSubj(mir_utf8decodeT(subj));
 				mir_sntprintf(z, SIZEOF(z), TranslateT("From: %s\nSubject: %s"), (TCHAR*)tszFrom, (TCHAR*)tszSubj);
 			}
-	
-			if ( !ShowPopup(title, z, "http://mail.yahoo.com"))
+
+			if (!ShowPopup(title, z, "http://mail.yahoo.com"))
 				ShowNotification(title, z, NIIF_INFO);
 		}
 	}
-	
+
 	m_unreadMessages = cnt;
-	ProtoBroadcastAck( NULL, ACKTYPE_EMAIL, ACKRESULT_STATUS, NULL, 0);
-}    
-    
+	ProtoBroadcastAck(NULL, ACKTYPE_EMAIL, ACKRESULT_STATUS, NULL, 0);
+}
+
 void CYahooProto::ext_system_message(const char *me, const char *who, const char *msg)
 {
 	LOG(("[ext_system_message] System Message to: %s from: %s msg: %s", me, who, msg));
 
-	ptrT tszWho( mir_utf8decodeT(who));
-	ptrT tszMsg( mir_utf8decodeT(msg));
+	ptrT tszWho(mir_utf8decodeT(who));
+	ptrT tszMsg(mir_utf8decodeT(msg));
 	ShowPopup((who != NULL) ? tszWho : TranslateT("Yahoo System Message"), tszMsg, NULL);
 }
 
 void CYahooProto::ext_got_identities(const char *nick, const char *fname, const char *lname, YList * ids)
 {
-    LOG(("[ext_got_identities] First Name: %s, Last Name: %s", fname, lname));
-	
-    /* FIXME - Not implemented - Got list of Yahoo! identities */
-    /* We currently only use the default identity */
-    /* Also Stubbed in Sample Client */
+	LOG(("[ext_got_identities] First Name: %s, Last Name: %s", fname, lname));
+
+	/* FIXME - Not implemented - Got list of Yahoo! identities */
+	/* We currently only use the default identity */
+	/* Also Stubbed in Sample Client */
 	SetStringUtf(NULL, "FirstName", fname ? fname : "");
 	SetStringUtf(NULL, "LastName", lname ? lname : "");
 }
 
-void __cdecl yahoo_get_yab_thread(void *psf) 
+void __cdecl yahoo_get_yab_thread(void *psf)
 {
 	int id = (int)psf;
-	
+
 	yahoo_get_yab(id);
 }
 
 
 void ext_yahoo_got_cookies(int id)
 {
-//    char z[1024];
+	//    char z[1024];
 
-    LOG(("[ext_got_cookies] id: %d", id));
-/*    LOG(("Y Cookie: '%s'", yahoo_get_cookie(id, "y")));
-    LOG(("T Cookie: '%s'", yahoo_get_cookie(id, "t")));
-    LOG(("C Cookie: '%s'", yahoo_get_cookie(id, "c")));
-    LOG(("Login Cookie: '%s'", yahoo_get_cookie(id, "login")));
-    
-    //wsprintfA(z, "Cookie: %s; C=%s; Y=%s; T=%s", Bcookie, yahoo_get_cookie(id, "c"), yahoo_get_cookie(id, "y"), yahoo_get_cookie(id, "t"));
-    //wsprintfA(z, "Cookie: %s; Y=%s", Bcookie, yahoo_get_cookie(id, "y"), yahoo_get_cookie(id, "t"));    
-    mir_snprintf(z, SIZEOF(z), "Cookie: Y=%s; T=%s", yahoo_get_cookie(id, "y"), yahoo_get_cookie(id, "t"));    
-    LOG(("Our Cookie: '%s'", z));
-    CallService(MS_NETLIB_SETSTICKYHEADERS, (WPARAM)hnuMain, (LPARAM)z);*/
+	LOG(("[ext_got_cookies] id: %d", id));
+	/*    LOG(("Y Cookie: '%s'", yahoo_get_cookie(id, "y")));
+		 LOG(("T Cookie: '%s'", yahoo_get_cookie(id, "t")));
+		 LOG(("C Cookie: '%s'", yahoo_get_cookie(id, "c")));
+		 LOG(("Login Cookie: '%s'", yahoo_get_cookie(id, "login")));
+
+		 //wsprintfA(z, "Cookie: %s; C=%s; Y=%s; T=%s", Bcookie, yahoo_get_cookie(id, "c"), yahoo_get_cookie(id, "y"), yahoo_get_cookie(id, "t"));
+		 //wsprintfA(z, "Cookie: %s; Y=%s", Bcookie, yahoo_get_cookie(id, "y"), yahoo_get_cookie(id, "t"));
+		 mir_snprintf(z, SIZEOF(z), "Cookie: Y=%s; T=%s", yahoo_get_cookie(id, "y"), yahoo_get_cookie(id, "t"));
+		 LOG(("Our Cookie: '%s'", z));
+		 CallService(MS_NETLIB_SETSTICKYHEADERS, (WPARAM)hnuMain, (LPARAM)z);*/
 
 #ifdef HTTP_GATEWAY	
 	if (iHTTPGateway) {
 		char z[1024];
-		
+
 		// need to add Cookie header to our requests or we get booted w/ "Bad Cookie" message.
 		mir_snprintf(z, SIZEOF(z), "Cookie: Y=%s; T=%s; C=%s", yahoo_get_cookie(id, "y"), 
-				yahoo_get_cookie(id, "t"), yahoo_get_cookie(id, "c"));    
+			yahoo_get_cookie(id, "t"), yahoo_get_cookie(id, "c"));    
 		LOG(("Our Cookie: '%s'", z));
 		CallService(MS_NETLIB_SETSTICKYHEADERS, (WPARAM)hNetlibUser, (LPARAM)z);
 	}
 #endif
-	
+
 }
 
 void CYahooProto::ext_got_ping(const char *errormsg)
@@ -1002,30 +1008,31 @@ void CYahooProto::ext_got_ping(const char *errormsg)
 
 	if (errormsg) {
 		LOG(("[ext_got_ping] Error msg: %s", errormsg));
-		ptrT tszMsg( mir_utf8decodeT(errormsg));
-		ShowError( TranslateT("Yahoo Ping Error"), tszMsg);
+		ptrT tszMsg(mir_utf8decodeT(errormsg));
+		ShowError(TranslateT("Yahoo Ping Error"), tszMsg);
 		return;
 	}
 
 	if (m_iStatus == ID_STATUS_CONNECTING) {
 		LOG(("[ext_got_ping] We are connecting. Checking for different status. Start: %d, Current: %d", m_startStatus, m_iStatus));
 		if (m_startStatus != m_iStatus) {
-			LOG(("[COOKIES] Updating Status to %d ", m_startStatus));    
+			LOG(("[COOKIES] Updating Status to %d ", m_startStatus));
 
 			if (m_startStatus != ID_STATUS_INVISIBLE) {// don't generate a bogus packet for Invisible state
 				if (m_startMsg != NULL) {
 					set_status(YAHOO_STATUS_CUSTOM, m_startMsg, (m_startStatus != ID_STATUS_ONLINE) ? 1 : 0);
-				} else
+				}
+				else
 					set_status(m_startStatus, NULL, (m_startStatus != ID_STATUS_ONLINE) ? 1 : 0);
 			}
 
 			BroadcastStatus(m_startStatus);
-			m_bLoggedIn=TRUE;
+			m_bLoggedIn = TRUE;
 
 			/**
 			 * Now load the YAB.
 			 */
-			if (getByte("UseYAB", 1 )) {
+			if (getByte("UseYAB", 1)) {
 				LOG(("[ext_got_ping] GET YAB"));
 				if (m_iStatus != ID_STATUS_OFFLINE)
 					mir_forkthread(yahoo_get_yab_thread, (void *)m_id);
@@ -1040,21 +1047,21 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 	TCHAR buff[1024];
 
 	LOG(("[ext_login_response] succ: %d, url: %s", succ, url));
-	
+
 	if (succ == YAHOO_LOGIN_OK) {
 		const char *c;
-		
+
 		m_status = yahoo_current_status(m_id);
 		LOG(("logged in status-> %d", m_status));
-		
+
 		c = yahoo_get_pw_token(m_id);
-		
+
 		setString(YAHOO_PWTOKEN, c);
-		
+
 		LOG(("PW Token-> %s", c));
 		return;
 	}
-	
+
 	if (succ == YAHOO_LOGIN_UNAME) {
 		mir_sntprintf(buff, TranslateT("Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed."));
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
@@ -1078,21 +1085,21 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 	else if (succ == -1) {
 		/// Can't Connect or got disconnected.
 		if (m_iStatus == ID_STATUS_CONNECTING)
-			mir_sntprintf(buff, TranslateT("Could not connect to the Yahoo service. Check your server/port and proxy settings."));	
+			mir_sntprintf(buff, TranslateT("Could not connect to the Yahoo service. Check your server/port and proxy settings."));
 		else
 			return;
-	} 
+	}
 	else mir_sntprintf(buff, TranslateT("Could not log in, unknown reason: %d."), succ);
 
 	delSetting(YAHOO_PWTOKEN);
-	
+
 	debugLogA("ERROR: %s", buff);
-	
+
 	/*
 	 * Show Error Message
 	 */
-	ShowError( TranslateT("Yahoo Login Error"), buff);
-	
+	ShowError(TranslateT("Yahoo Login Error"), buff);
+
 	/*
 	 * Stop the server thread and let Server cleanup
 	 */
@@ -1101,12 +1108,12 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 
 void CYahooProto::ext_error(const char *err, int fatal, int num)
 {
-	ptrT tszErr( mir_utf8decodeT(err));
+	ptrT tszErr(mir_utf8decodeT(err));
 	TCHAR buff[1024];
-	
+
 	LOG(("[ext_error] Error: fatal: %d, num: %d, err: %s", fatal, num, err));
-        
-	switch(num) {
+
+	switch (num) {
 	case E_UNKNOWN:
 		mir_sntprintf(buff, TranslateT("Unknown error %s"), (TCHAR*)tszErr);
 		break;
@@ -1133,13 +1140,13 @@ void CYahooProto::ext_error(const char *err, int fatal, int num)
 		debugLogA("Error: %S", buff);
 		return;
 	}
-	
+
 	debugLogA("Error: %S", buff);
-	
+
 	/*
 	 * Show Error Message
 	 */
-	ShowError( TranslateT("Yahoo Error"), buff);
+	ShowError(TranslateT("Yahoo Error"), buff);
 }
 
 extern HANDLE g_hNetlibUser;
@@ -1148,75 +1155,76 @@ INT_PTR CYahooProto::ext_connect(const char *h, int p, int type)
 {
 	LOG(("[ext_connect] %s:%d type: %d", h, p, type));
 
-	HANDLE hUser=m_hNetlibUser;
-	NETLIBOPENCONNECTION ncon = {0};
-	ncon.cbSize = sizeof(ncon); 
+	HANDLE hUser = m_hNetlibUser;
+	NETLIBOPENCONNECTION ncon = { 0 };
+	ncon.cbSize = sizeof(ncon);
 	ncon.flags = NLOCF_V2;
 	ncon.szHost = h;
 	ncon.wPort = p;
-	ncon.timeout = 5;	
+	ncon.timeout = 5;
 
 	if (type != YAHOO_CONNECTION_PAGER) {
 		ncon.flags |= NLOCF_HTTP;
-		hUser		= g_hNetlibUser;
+		hUser = g_hNetlibUser;
 	}
 
-	HANDLE con = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hUser, (LPARAM)&ncon);
-	if (con == NULL)  {
+	HANDLE con = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hUser, (LPARAM)&ncon);
+	if (con == NULL) {
 		LOG(("ERROR: Connect Failed!"));
 		return -1;
 	}
 
 	LOG(("[ext_connect] Got: %d", (int)con));
-	
+
 	return (INT_PTR)con;
 }
 
-void CYahooProto::ext_send_http_request(enum yahoo_connection_type type, const char *method, const char *url, 
-		const char *cookies, long content_length, yahoo_get_fd_callback callback, void *callback_data)
+void CYahooProto::ext_send_http_request(enum yahoo_connection_type type, const char *method, const char *url,
+	const char *cookies, long content_length, yahoo_get_fd_callback callback, void *callback_data)
 {
-/*	if (mir_strcmpi(method, "GET") == 0) 
-		yahoo_http_get(id, url, cookies, callback, callback_data);
-	else if (mir_strcmpi(method, "POST") == 0) 
-		yahoo_http_post(id, url, cookies, content_length, callback, callback_data);
-	else 
-		LOG(("ERROR: Unknown method: %s", method));
-*/
-    NETLIBHTTPREQUEST 	nlhr={0};
+	/*	if (mir_strcmpi(method, "GET") == 0)
+			yahoo_http_get(id, url, cookies, callback, callback_data);
+			else if (mir_strcmpi(method, "POST") == 0)
+			yahoo_http_post(id, url, cookies, content_length, callback, callback_data);
+			else
+			LOG(("ERROR: Unknown method: %s", method));
+			*/
+	NETLIBHTTPREQUEST 	nlhr = { 0 };
 	NETLIBHTTPHEADER 	httpHeaders[5];
 	int 				error = 0;
 	INT_PTR				fd;
 	char 				host[255];
-	int 				port = 80, i=0;
+	int 				port = 80, i = 0;
 	char 				path[255];
 	char 				z[1024];
-	
+
 	LOG(("[ext_send_http_request] type: %d, method: %s, url: %s, cookies: %s, content length: %ld",
 		type, method, url, cookies, content_length));
-	
+
 	if (!url_to_host_port_path(url, host, &port, path))
 		return;
 
 	fd = ext_connect(host, port, type);
-	
+
 	if (fd < 0) {
 		LOG(("[ext_send_http_request] Can't connect?? Exiting..."));
 		//return;
-	} else {
-		nlhr.cbSize=sizeof(nlhr);
-		nlhr.requestType=(mir_strcmpi(method, "GET") == 0) ? REQUEST_GET : REQUEST_POST;
-		nlhr.flags=NLHRF_DUMPASTEXT|NLHRF_HTTP11;
-		nlhr.szUrl=(char *)path;
+	}
+	else {
+		nlhr.cbSize = sizeof(nlhr);
+		nlhr.requestType = (mir_strcmpi(method, "GET") == 0) ? REQUEST_GET : REQUEST_POST;
+		nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
+		nlhr.szUrl = (char *)path;
 		nlhr.headers = httpHeaders;
 		nlhr.headersCount = 3;
-		
+
 		if (cookies != NULL && cookies[0] != '\0') {
 			httpHeaders[i].szName = "Cookie";
 			httpHeaders[i].szValue = (char *)cookies;
 			nlhr.headersCount = 4;
 			i++;
 		}
-		
+
 		httpHeaders[i].szName = "User-Agent";
 		httpHeaders[i].szValue = NETLIB_USER_AGENT;
 		i++;
@@ -1226,20 +1234,20 @@ void CYahooProto::ext_send_http_request(enum yahoo_connection_type type, const c
 		i++;
 
 		if (nlhr.requestType == REQUEST_POST) {
-			httpHeaders[nlhr.headersCount].szName="Content-Length";
+			httpHeaders[nlhr.headersCount].szName = "Content-Length";
 			mir_snprintf(z, SIZEOF(z), "%d", content_length);
-			httpHeaders[nlhr.headersCount].szValue=z;
-	
+			httpHeaders[nlhr.headersCount].szValue = z;
+
 			nlhr.headersCount++;
 		}
-		
+
 		httpHeaders[i].szName = "Cache-Control";
 		httpHeaders[i].szValue = "no-cache";
 		i++;
-		
-		error = CallService(MS_NETLIB_SENDHTTPREQUEST,(WPARAM)fd,(LPARAM)&nlhr);
+
+		error = CallService(MS_NETLIB_SENDHTTPREQUEST, (WPARAM)fd, (LPARAM)&nlhr);
 	}
-	
+
 	callback(m_id, fd, error == SOCKET_ERROR, callback_data);
 }
 
@@ -1249,7 +1257,7 @@ void CYahooProto::ext_send_http_request(enum yahoo_connection_type type, const c
 unsigned int CYahooProto::ext_add_handler(int fd, yahoo_input_condition cond, void *data)
 {
 	struct _conn *c = y_new0(struct _conn, 1);
-	
+
 	c->tag = ++m_connection_tags;
 	c->id = m_id;
 	c->fd = fd;
@@ -1257,7 +1265,7 @@ unsigned int CYahooProto::ext_add_handler(int fd, yahoo_input_condition cond, vo
 	c->data = data;
 
 	LOG(("[ext_add_handler] fd:%d, id:%d, cond: %d, tag %d", fd, m_id, cond, c->tag));
-	
+
 	m_connections = y_list_prepend(m_connections, c);
 
 	return c->tag;
@@ -1265,12 +1273,10 @@ unsigned int CYahooProto::ext_add_handler(int fd, yahoo_input_condition cond, vo
 
 void CYahooProto::ext_remove_handler(unsigned int tag)
 {
-	YList *l;
-	
 	LOG(("[ext_remove_handler] id:%d tag:%d ", m_id, tag));
-	
-	for(l = m_connections; l; l = y_list_next(l)) {
-		struct _conn *c = ( _conn* )l->data;
+
+	for (YList *l = m_connections; l; l = y_list_next(l)) {
+		struct _conn *c = (_conn*)l->data;
 		if (c->tag == tag) {
 			/* don't actually remove it, just mark it for removal */
 			/* we'll remove when we start the next poll cycle */
@@ -1292,20 +1298,16 @@ void ext_yahoo_remove_handler(int id, unsigned int tag);
 
 static void connect_complete(void *data, int source, yahoo_input_condition condition)
 {
-	struct connect_callback_data *ccd = ( connect_callback_data* )data;
+	struct connect_callback_data *ccd = (connect_callback_data*)data;
 	int error = 0;//, err_size = sizeof(error);
-	NETLIBSELECT tSelect = {0};
+	NETLIBSELECT tSelect = { 0 };
 
 	ext_yahoo_remove_handler(ccd->id, ccd->tag);
-	
-	// We Need to read the Socket error
-	//getsockopt(source, SOL_SOCKET, SO_ERROR, &error, (socklen_t *)&err_size);
-	
-	tSelect.cbSize = sizeof( tSelect );
-	//tSelect.dwTimeout = T->mGatewayTimeout * 1000;
+
+	tSelect.cbSize = sizeof(tSelect);
 	tSelect.dwTimeout = 1;
-	tSelect.hReadConns[ 0 ] = ( HANDLE )source;
-	error = CallService(MS_NETLIB_SELECT, 0, (LPARAM)&tSelect );
+	tSelect.hReadConns[0] = (HANDLE)source;
+	error = CallService(MS_NETLIB_SELECT, 0, (LPARAM)&tSelect);
 
 	if (error) {
 		//close(source);
@@ -1321,24 +1323,23 @@ static void connect_complete(void *data, int source, yahoo_input_condition condi
 
 void yahoo_callback(struct _conn *c, yahoo_input_condition cond)
 {
-	int ret=1;
+	int ret = 1;
 
-	//LOG(("[yahoo_callback] id: %d, fd: %d tag: %d", c->id, c->fd, c->tag));
-	if (c->id < 0) {
+	if (c->id < 0)
 		connect_complete(c->data, c->fd, cond);
-	} else if (c->fd > 0) {
-	
+	else if (c->fd > 0) {
 		if (cond & YAHOO_INPUT_READ)
 			ret = yahoo_read_ready(c->id, c->fd, c->data);
-		if (ret>0 && cond & YAHOO_INPUT_WRITE)
+		if (ret > 0 && cond & YAHOO_INPUT_WRITE)
 			ret = yahoo_write_ready(c->id, c->fd, c->data);
 
 		if (ret == -1) {
 			LOG(("Yahoo read error (%d): %s", errno, strerror(errno)));
-		} else if (ret == 0)
+		}
+		else if (ret == 0)
 			LOG(("Yahoo read error: Server closed socket"));
 	}
-	
+
 	//LOG(("[yahoo_callback] id: %d exiting...", c->id));
 }
 
@@ -1346,23 +1347,23 @@ int CYahooProto::ext_connect_async(const char *host, int port, int type, yahoo_c
 {
 	int err = 0;
 	INT_PTR res;
-	
-    LOG(("[ext_connect_async] %s:%d type: %d", host, port, type));
-    
-    res = ext_connect(host, port, type);
+
+	LOG(("[ext_connect_async] %s:%d type: %d", host, port, type));
+
+	res = ext_connect(host, port, type);
 
 	LOG(("[ext_connect_async] %s:%d type: %d, result: %d", host, port, type, res));
-	
+
 	if (type == YAHOO_CONNECTION_PAGER && res < 1) {
 		err = 1;
-	} 
-		
+	}
+
 	/*
 	 * need to call the callback so we could handle the failure condition!!!
 	 * fd = -1 in case of an error
 	 */
 	callback(res, err, data);
-	
+
 	/*
 	 * Return proper thing: 0 - ok, -1 - failed, >0 - pending connect
 	 */
@@ -1373,57 +1374,59 @@ int CYahooProto::ext_connect_async(const char *host, int port, int type, yahoo_c
  ***********************************/
 char * CYahooProto::ext_send_https_request(struct yahoo_data *yd, const char *host, const char *path)
 {
-	NETLIBHTTPREQUEST nlhr={0},*nlhrReply;
-	char z[4096], *result=NULL;
+	NETLIBHTTPREQUEST nlhr = { 0 }, *nlhrReply;
+	char z[4096], *result = NULL;
 	int i;
-	
+
 	mir_snprintf(z, SIZEOF(z), "https://%s%s", host, path);
-	nlhr.cbSize		= sizeof(nlhr);
-	nlhr.requestType= REQUEST_GET;
-	nlhr.flags		= NLHRF_HTTP11 | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT; /* Use HTTP/1.1 and don't dump the requests to the log */
-	nlhr.szUrl		= z;
+	nlhr.cbSize = sizeof(nlhr);
+	nlhr.requestType = REQUEST_GET;
+	nlhr.flags = NLHRF_HTTP11 | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT; /* Use HTTP/1.1 and don't dump the requests to the log */
+	nlhr.szUrl = z;
 
 	nlhr.headersCount = 3;
-	nlhr.headers=(NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*(nlhr.headersCount+5));
-	nlhr.headers[0].szName   = "User-Agent";
+	nlhr.headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*(nlhr.headersCount + 5));
+	nlhr.headers[0].szName = "User-Agent";
 	nlhr.headers[0].szValue = NETLIB_USER_AGENT;
-	nlhr.headers[1].szName  = "Cache-Control";
+	nlhr.headers[1].szName = "Cache-Control";
 	nlhr.headers[1].szValue = "no-cache";
-	nlhr.headers[2].szName  = "Connection";
+	nlhr.headers[2].szName = "Connection";
 	nlhr.headers[2].szValue = "close"; /*"Keep-Alive";*/
-	
-	nlhrReply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)g_hNetlibUser,(LPARAM)&nlhr);
+
+	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)g_hNetlibUser, (LPARAM)&nlhr);
 	if (nlhrReply) {
-		
+
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData != NULL) {
 			result = strdup(nlhrReply->pData);
-		} else {
-			LOG(("[ext_send_https_request] Got result code: %d, content length: %d",  nlhrReply->resultCode, nlhrReply->dataLength));
 		}
-		
+		else {
+			LOG(("[ext_send_https_request] Got result code: %d, content length: %d", nlhrReply->resultCode, nlhrReply->dataLength));
+		}
+
 		LOG(("Got %d headers!", nlhrReply->headersCount));
-		
-		for (i=0; i < nlhrReply->headersCount; i++) {
+
+		for (i = 0; i < nlhrReply->headersCount; i++) {
 			//LOG(("%s: %s", nlhrReply->headers[i].szName, nlhrReply->headers[i].szValue));
-			
+
 			if (mir_strcmpi(nlhrReply->headers[i].szName, "Set-Cookie") == 0) {
 				//LOG(("Found Cookie... Yum yum..."));
-				
+
 				if (nlhrReply->headers[i].szValue[0] == 'B' && nlhrReply->headers[i].szValue[1] == '=') {
-						
+
 					FREE(yd->cookie_b);
 					yd->cookie_b = getcookie(nlhrReply->headers[i].szValue);
-					
+
 					LOG(("Got B Cookie: %s", yd->cookie_b));
 				}
 			}
 		}
-		
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)nlhrReply);
-	} else {
+
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+	}
+	else {
 		LOG(("No Response???"));
 	}
-	
+
 	mir_free(nlhr.headers);
 
 	return result;
@@ -1432,7 +1435,7 @@ char * CYahooProto::ext_send_https_request(struct yahoo_data *yd, const char *ho
 void CYahooProto::ext_login(enum yahoo_status login_mode)
 {
 	char host[128], fthost[128], login_host[128];
-	int port=0;
+	int port = 0;
 	DBVARIANT dbv;
 #ifdef HTTP_GATEWAY				
 	NETLIBUSERSETTINGS nlus = { 0 };
@@ -1441,63 +1444,65 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 	LOG(("[ext_login]"));
 
 	host[0] = '\0';
-	
+
 	/**
 	 * Implementing Yahoo 9 2 Stage Login using their VIP server/services
 	 */
-	NETLIBHTTPREQUEST nlhr={0},*nlhrReply;
+	NETLIBHTTPREQUEST nlhr = { 0 }, *nlhrReply;
 	char z[4096];
 
-	mir_snprintf(z, SIZEOF(z), "http://%s%s", getByte("YahooJapan",0) != 0 ? "cs1.msg.vip.ogk.yahoo.co.jp" : "vcs.msg.yahoo.com", "/capacity");
-	nlhr.cbSize		= sizeof(nlhr);
-	nlhr.requestType= REQUEST_GET;
-	nlhr.flags		= NLHRF_HTTP11;
-	nlhr.szUrl		= z;
+	mir_snprintf(z, SIZEOF(z), "http://%s%s", getByte("YahooJapan", 0) != 0 ? "cs1.msg.vip.ogk.yahoo.co.jp" : "vcs.msg.yahoo.com", "/capacity");
+	nlhr.cbSize = sizeof(nlhr);
+	nlhr.requestType = REQUEST_GET;
+	nlhr.flags = NLHRF_HTTP11;
+	nlhr.szUrl = z;
 
-	nlhrReply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)g_hNetlibUser,(LPARAM)&nlhr);
+	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)g_hNetlibUser, (LPARAM)&nlhr);
 	if (nlhrReply) {
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData != NULL) {
-			char *c = strstr(nlhrReply->pData,"CS_IP_ADDRESS=");
-			
+			char *c = strstr(nlhrReply->pData, "CS_IP_ADDRESS=");
+
 			if (c != NULL) {
-					char *t = c;
-				
-					while ( (*t) != '=') t++; /* scan until = */
-					t++;
-					
-					while ( (*c) != '\0' && (*c) != '\r' && (*c) != '\n') c++;
-					
-					memcpy(host, t, c - t);
-					host[c - t] = '\0';
-					
-					LOG(("Got Host: %s", host));
+				char *t = c;
+
+				while ((*t) != '=') t++; /* scan until = */
+				t++;
+
+				while ((*c) != '\0' && (*c) != '\r' && (*c) != '\n') c++;
+
+				memcpy(host, t, c - t);
+				host[c - t] = '\0';
+
+				LOG(("Got Host: %s", host));
 			}
-		} else {
+		}
+		else {
 			LOG(("Problem retrieving a response from VIP server."));
 		}
-		
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)nlhrReply);
-	} 
-	
-	if 	(host[0] == '\0') {
+
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+	}
+
+	if (host[0] == '\0') {
 		if (!getString(YAHOO_LOGINSERVER, &dbv)) {
 			strncpy_s(host, dbv.pszVal, _TRUNCATE);
 			db_free(&dbv);
-		} else {
-			strncpy_s(host, (getByte("YahooJapan",0) ? YAHOO_DEFAULT_JAPAN_LOGIN_SERVER : YAHOO_DEFAULT_LOGIN_SERVER), _TRUNCATE);
+		}
+		else {
+			strncpy_s(host, (getByte("YahooJapan", 0) ? YAHOO_DEFAULT_JAPAN_LOGIN_SERVER : YAHOO_DEFAULT_LOGIN_SERVER), _TRUNCATE);
 		}
 	}
-	
-	mir_strncpy(fthost,getByte("YahooJapan",0)?"filetransfer.msg.yahoo.co.jp":"filetransfer.msg.yahoo.com" , sizeof(fthost));
-	mir_strncpy(login_host,getByte("YahooJapan",0)?"login.yahoo.co.jp":"login.yahoo.com" , sizeof(login_host));	
+
+	mir_strncpy(fthost, getByte("YahooJapan", 0) ? "filetransfer.msg.yahoo.co.jp" : "filetransfer.msg.yahoo.com", sizeof(fthost));
+	mir_strncpy(login_host, getByte("YahooJapan", 0) ? "login.yahoo.co.jp" : "login.yahoo.com", sizeof(login_host));
 	port = getWord(NULL, YAHOO_LOGINPORT, YAHOO_DEFAULT_PORT);
-	
+
 #ifdef HTTP_GATEWAY			
 	nlus.cbSize = sizeof( nlus );
 	if (CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM) hNetlibUser, (LPARAM) &nlus) == 0) {
 		LOG(("ERROR: Problem retrieving miranda network settings!!!"));
 	}
-	
+
 	iHTTPGateway = (nlus.useProxy && nlus.proxyType == PROXYTYPE_HTTP) ? 1:0;
 	LOG(("Proxy Type: %d HTTP Gateway: %d", nlus.proxyType, iHTTPGateway));
 #endif
@@ -1512,13 +1517,13 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 #endif
 		"login_host", login_host,
 		NULL);
-	
+
 	m_status = YAHOO_STATUS_OFFLINE;
 	yahoo_login(m_id, login_mode);
 
 	if (m_id <= 0) {
 		LOG(("Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered."));
-		ShowError( TranslateT("Yahoo Login Error"), TranslateT("Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered."));
+		ShowError(TranslateT("Yahoo Login Error"), TranslateT("Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered."));
 		return;
 	}
 
@@ -1528,203 +1533,203 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 /////////////////////////////////////////////////////////////////////////////////////////
 // stubs
 
-CYahooProto* __fastcall getProtoById( int id )
+CYahooProto* __fastcall getProtoById(int id)
 {
-	for ( int i=0; i < g_instances.getCount(); i++ )
-		if ( g_instances[i]->m_id == id )
+	for (int i = 0; i < g_instances.getCount(); i++)
+		if (g_instances[i]->m_id == id)
 			return g_instances[i];
 
 	return NULL;
 }
 
 unsigned int ext_yahoo_add_handler(int id, INT_PTR fd, yahoo_input_condition cond, void *data)
-{	
-	CYahooProto* ppro = getProtoById( id ); 
-	if ( ppro ) 
+{
+	CYahooProto* ppro = getProtoById(id);
+	if (ppro)
 		return ppro->ext_add_handler(fd, cond, data);
-	
+
 	return 0;
 }
 
 void ext_yahoo_remove_handler(int id, unsigned int tag)
 {
-	GETPROTOBYID( id )->ext_remove_handler(tag); 
+	GETPROTOBYID(id)->ext_remove_handler(tag);
 }
 
 void ext_yahoo_status_changed(int id, const char *who, int protocol, int stat, const char *msg, int away, int idle, int mobile, int utf8)
-{	
-	GETPROTOBYID( id )->ext_status_changed(who, protocol, stat, msg, away, idle, mobile, utf8); 
+{
+	GETPROTOBYID(id)->ext_status_changed(who, protocol, stat, msg, away, idle, mobile, utf8);
 }
 
 void ext_yahoo_status_logon(int id, const char *who, int protocol, int stat, const char *msg, int away, int idle, int mobile, int cksum, int buddy_icon, long client_version, int utf8)
-{	
-	GETPROTOBYID( id )->ext_status_logon(who, protocol, stat, msg, away, idle, mobile, cksum, buddy_icon, client_version, utf8); 
+{
+	GETPROTOBYID(id)->ext_status_logon(who, protocol, stat, msg, away, idle, mobile, cksum, buddy_icon, client_version, utf8);
 }
 
 void ext_yahoo_got_audible(int id, const char *me, const char *who, const char *aud, const char *msg, const char *aud_hash)
-{	
-	GETPROTOBYID( id )->ext_got_audible(me, who, aud, msg, aud_hash); 
+{
+	GETPROTOBYID(id)->ext_got_audible(me, who, aud, msg, aud_hash);
 }
 
 void ext_yahoo_got_calendar(int id, const char *url, int type, const char *msg, int svc)
-{	
-	GETPROTOBYID( id )->ext_got_calendar(url, type, msg, svc); 
+{
+	GETPROTOBYID(id)->ext_got_calendar(url, type, msg, svc);
 }
 
 void ext_yahoo_got_stealth(int id, char *stealthlist)
-{	
-	GETPROTOBYID( id )->ext_got_stealth(stealthlist); 
+{
+	GETPROTOBYID(id)->ext_got_stealth(stealthlist);
 }
 
 void ext_yahoo_got_buddies(int id, YList * buds)
-{	
-	GETPROTOBYID( id )->ext_got_buddies(buds); 
+{
+	GETPROTOBYID(id)->ext_got_buddies(buds);
 }
 
 void ext_yahoo_rejected(int id, const char *who, const char *msg)
-{	
-	GETPROTOBYID( id )->ext_rejected(who, msg); 
+{
+	GETPROTOBYID(id)->ext_rejected(who, msg);
 }
 
 void ext_yahoo_buddy_added(int id, char *myid, char *who, char *group, int status, int auth)
-{	
-	GETPROTOBYID( id )->ext_buddy_added(myid, who, group, status, auth); 
+{
+	GETPROTOBYID(id)->ext_buddy_added(myid, who, group, status, auth);
 }
 
 void ext_yahoo_buddy_group_changed(int id, char *myid, char *who, char *old_group, char *new_group)
-{	
+{
 	LOG(("[ext_yahoo_buddy_group_changed] %s has been moved from group: %s to: %s", who, old_group, new_group));
 }
 
 void ext_yahoo_contact_added(int id, const char *myid, const char *who, const char *fname, const char *lname, const char *msg, int protocol)
-{	
-	GETPROTOBYID( id )->ext_contact_added(myid, who, fname, lname, msg, protocol); 
+{
+	GETPROTOBYID(id)->ext_contact_added(myid, who, fname, lname, msg, protocol);
 }
 
 void ext_yahoo_typing_notify(int id, const char *me, const char *who, int protocol, int stat)
-{	
-	GETPROTOBYID( id )->ext_typing_notify(me, who, protocol, stat); 
+{
+	GETPROTOBYID(id)->ext_typing_notify(me, who, protocol, stat);
 }
 
 void ext_yahoo_game_notify(int id, const char *me, const char *who, int stat, const char *msg)
-{	
-	GETPROTOBYID( id )->ext_game_notify(me, who, stat, msg); 
+{
+	GETPROTOBYID(id)->ext_game_notify(me, who, stat, msg);
 }
 
 void ext_yahoo_mail_notify(int id, const char *from, const char *subj, int cnt)
-{	
-	GETPROTOBYID( id )->ext_mail_notify(from, subj, cnt); 
+{
+	GETPROTOBYID(id)->ext_mail_notify(from, subj, cnt);
 }
 
 void ext_yahoo_system_message(int id, const char *me, const char *who, const char *msg)
-{	
-	GETPROTOBYID( id )->ext_system_message(me, who, msg); 
+{
+	GETPROTOBYID(id)->ext_system_message(me, who, msg);
 }
 
 void ext_yahoo_got_identities(int id, const char *nick, const char *fname, const char *lname, YList * ids)
-{	
-	GETPROTOBYID( id )->ext_got_identities(nick, fname, lname, ids); 
+{
+	GETPROTOBYID(id)->ext_got_identities(nick, fname, lname, ids);
 }
 
 void ext_yahoo_got_ping(int id, const char *errormsg)
-{	
-	GETPROTOBYID( id )->ext_got_ping(errormsg); 
+{
+	GETPROTOBYID(id)->ext_got_ping(errormsg);
 }
 
 void ext_yahoo_error(int id, const char *err, int fatal, int num)
-{	
-	GETPROTOBYID( id )->ext_error(err, fatal, num); 
+{
+	GETPROTOBYID(id)->ext_error(err, fatal, num);
 }
 
 void ext_yahoo_login_response(int id, int succ, const char *url)
-{	
-	GETPROTOBYID( id )->ext_login_response(succ, url); 
+{
+	GETPROTOBYID(id)->ext_login_response(succ, url);
 }
 
 void ext_yahoo_got_im(int id, const char *me, const char *who, int protocol, const char *msg, long tm, int stat, int utf8, int buddy_icon, const char *seqn, int sendn)
-{	
-	GETPROTOBYID( id )->ext_got_im(me, who, protocol, msg, tm, stat, utf8, buddy_icon, seqn, sendn); 
+{
+	GETPROTOBYID(id)->ext_got_im(me, who, protocol, msg, tm, stat, utf8, buddy_icon, seqn, sendn);
 }
 
 void ext_yahoo_got_search_result(int id, int found, int start, int total, YList *contacts)
-{	
-	GETPROTOBYID( id )->ext_got_search_result(found, start, total, contacts); 
+{
+	GETPROTOBYID(id)->ext_got_search_result(found, start, total, contacts);
 }
 
 void ext_yahoo_got_picture(int id, const char *me, const char *who, const char *pic_url, int cksum, int type)
-{	
-	GETPROTOBYID( id )->ext_got_picture(me, who, pic_url, cksum, type); 
+{
+	GETPROTOBYID(id)->ext_got_picture(me, who, pic_url, cksum, type);
 }
 
 void ext_yahoo_got_picture_checksum(int id, const char *me, const char *who, int cksum)
-{	
-	GETPROTOBYID( id )->ext_got_picture_checksum(me, who, cksum); 
+{
+	GETPROTOBYID(id)->ext_got_picture_checksum(me, who, cksum);
 }
 
 void ext_yahoo_got_picture_update(int id, const char *me, const char *who, int buddy_icon)
-{	
-	GETPROTOBYID( id )->ext_got_picture_update(me, who, buddy_icon); 
+{
+	GETPROTOBYID(id)->ext_got_picture_update(me, who, buddy_icon);
 }
 
 void ext_yahoo_got_picture_status(int id, const char *me, const char *who, int buddy_icon)
-{	
-	GETPROTOBYID( id )->ext_got_picture_status(me, who, buddy_icon); 
+{
+	GETPROTOBYID(id)->ext_got_picture_status(me, who, buddy_icon);
 }
 
-void ext_yahoo_got_picture_upload(int id, const char *me, const char *url,unsigned int ts)
-{	
-	GETPROTOBYID( id )->ext_got_picture_upload(me, url, ts); 
+void ext_yahoo_got_picture_upload(int id, const char *me, const char *url, unsigned int ts)
+{
+	GETPROTOBYID(id)->ext_got_picture_upload(me, url, ts);
 }
 
 void ext_yahoo_got_avatar_share(int id, int buddy_icon)
-{	
-	GETPROTOBYID( id )->ext_got_avatar_share(buddy_icon); 
+{
+	GETPROTOBYID(id)->ext_got_avatar_share(buddy_icon);
 }
 
 void ext_yahoo_got_file(int id, const char *me, const char *who, const char *url, long expires, const char *msg, const char *fname, unsigned long fesize, const char *ft_token, int y7)
-{	
-	GETPROTOBYID( id )->ext_got_file(me, who, url, expires, msg, fname, fesize, ft_token, y7); 
+{
+	GETPROTOBYID(id)->ext_got_file(me, who, url, expires, msg, fname, fesize, ft_token, y7);
 }
 
 void ext_yahoo_got_files(int id, const char *me, const char *who, const char *ft_token, int y7, YList* files)
-{	
-	GETPROTOBYID( id )->ext_got_files(me, who, ft_token, y7, files); 
+{
+	GETPROTOBYID(id)->ext_got_files(me, who, ft_token, y7, files);
 }
 
 void ext_yahoo_got_file7info(int id, const char *me, const char *who, const char *url, const char *fname, const char *ft_token)
-{	
-	GETPROTOBYID( id )->ext_got_file7info(me, who, url, fname, ft_token); 
+{
+	GETPROTOBYID(id)->ext_got_file7info(me, who, url, fname, ft_token);
 }
 
 void ext_yahoo_ft7_send_file(int id, const char *me, const char *who, const char *filename, const char *token, const char *ft_token)
-{	
-	GETPROTOBYID( id )->ext_ft7_send_file(me, who, filename, token, ft_token); 
+{
+	GETPROTOBYID(id)->ext_ft7_send_file(me, who, filename, token, ft_token);
 }
 
 int ext_yahoo_connect_async(int id, const char *host, int port, int type, yahoo_connect_callback callback, void *data)
-{	
-	CYahooProto* ppro = getProtoById( id ); 
-	if ( ppro ) 
+{
+	CYahooProto* ppro = getProtoById(id);
+	if (ppro)
 		return ppro->ext_connect_async(host, port, type, callback, data);
 	return SOCKET_ERROR;
 }
 
 void ext_yahoo_send_http_request(int id, enum yahoo_connection_type type, const char *method, const char *url, const char *cookies, long content_length, yahoo_get_fd_callback callback, void *callback_data)
-{	
-	GETPROTOBYID( id )->ext_send_http_request(type, method, url, cookies, content_length, callback, callback_data); 
+{
+	GETPROTOBYID(id)->ext_send_http_request(type, method, url, cookies, content_length, callback, callback_data);
 }
 
 char *ext_yahoo_send_https_request(struct yahoo_data *yd, const char *host, const char *path)
 {
-	CYahooProto* ppro = getProtoById( yd->client_id ); 
-	if ( ppro ) 
+	CYahooProto* ppro = getProtoById(yd->client_id);
+	if (ppro)
 		return ppro->ext_send_https_request(yd, host, path);
 	return NULL;
 }
 
 void ext_yahoo_got_ignore(int id, YList * igns)
-{	
-	GETPROTOBYID( id )->ext_got_ignore( igns );
+{
+	GETPROTOBYID(id)->ext_got_ignore(igns);
 }
 
 void register_callbacks()
@@ -1778,20 +1783,20 @@ void register_callbacks()
 	yc.ext_yahoo_send_http_request = ext_yahoo_send_http_request;
 
 	yc.ext_yahoo_got_stealthlist = ext_yahoo_got_stealth;
-	yc.ext_yahoo_got_ping  = ext_yahoo_got_ping;
-	yc.ext_yahoo_got_picture  = ext_yahoo_got_picture;
+	yc.ext_yahoo_got_ping = ext_yahoo_got_ping;
+	yc.ext_yahoo_got_picture = ext_yahoo_got_picture;
 	yc.ext_yahoo_got_picture_checksum = ext_yahoo_got_picture_checksum;
 	yc.ext_yahoo_got_picture_update = ext_yahoo_got_picture_update;
 	yc.ext_yahoo_got_avatar_share = ext_yahoo_got_avatar_share;
-	
+
 	yc.ext_yahoo_buddy_added = ext_yahoo_buddy_added;
 	yc.ext_yahoo_got_picture_upload = ext_yahoo_got_picture_upload;
 	yc.ext_yahoo_got_picture_status = ext_yahoo_got_picture_status;
 	yc.ext_yahoo_got_audible = ext_yahoo_got_audible;
 	yc.ext_yahoo_got_calendar = ext_yahoo_got_calendar;
 	yc.ext_yahoo_buddy_group_changed = ext_yahoo_buddy_group_changed;
-	
+
 	yc.ext_yahoo_send_https_request = ext_yahoo_send_https_request;
-	
+
 	yahoo_register_callbacks(&yc);
 }

@@ -21,12 +21,12 @@
 
 #include <commctrl.h>
 
-static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam )
+static INT_PTR CALLBACK YahooUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch ( msg ) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		// lParam is hContact
-		TranslateDialogDefault(hwndDlg );
+		TranslateDialogDefault(hwndDlg);
 
 		//SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS));
 
@@ -34,10 +34,10 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 		break;
 
 	case WM_NOTIFY:
-		if (( ( LPNMHDR )lParam )->idFrom == 0) {
-			switch (( ( LPNMHDR )lParam )->code ) {
+		if (((LPNMHDR)lParam)->idFrom == 0) {
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_PARAMCHANGED:
-				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (( PSHNOTIFY* )lParam )->lParam );
+				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, ((PSHNOTIFY*)lParam)->lParam);
 				break;
 			case PSN_INFOCHANGED:
 				{
@@ -51,7 +51,8 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 
 					if (hContact == NULL) {
 						szProto = ppro->m_szModuleName;
-					} else {
+					}
+					else {
 						szProto = GetContactProto(hContact);
 					}
 
@@ -62,34 +63,38 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 						DBVARIANT dbv;
 						char z[128];
 
-						if (ppro->getString( hContact,  YAHOO_LOGINID, &dbv) == 0) {
+						if (ppro->getString(hContact, YAHOO_LOGINID, &dbv) == 0) {
 							mir_strcpy(z, dbv.pszVal);
 							db_free(&dbv);
-						} else {
+						}
+						else {
 							mir_strcpy(z, "???");
 						}
 
 						SetDlgItemTextA(hwndDlg, IDC_SEARCH_ID, z);
 
-						if (ppro->getString( hContact,  "Transport", &dbv) == 0) {
+						if (ppro->getString(hContact, "Transport", &dbv) == 0) {
 							mir_strcpy(z, dbv.pszVal);
 							db_free(&dbv);
-						} else {
+						}
+						else {
 							mir_strcpy(z, "Yahoo");
 						}
 
 						SetDlgItemTextA(hwndDlg, IDC_SEARCH_PROTOCOL, z);
 
-						if (ppro->getString( hContact,  "MirVer", &dbv) == 0) {
+						if (ppro->getString(hContact, "MirVer", &dbv) == 0) {
 							mir_strcpy(z, dbv.pszVal);
 							db_free(&dbv);
-						} else {
+						}
+						else {
 							mir_strcpy(z, "???");
 						}
 
 						SetDlgItemTextA(hwndDlg, IDC_NFO_CLIENT, z);
 
-					} else {
+					}
+					else {
 					}
 				}
 				break;
@@ -111,7 +116,7 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnInfoInit - initializes user info option dialogs
 
-int __cdecl CYahooProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
+int __cdecl CYahooProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInstance;
@@ -119,10 +124,10 @@ int __cdecl CYahooProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
 	odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
 
 	MCONTACT hContact = lParam;
-	if ( IsMyContact(hContact)) {
+	if (IsMyContact(hContact)) {
 		odp.pfnDlgProc = YahooUserInfoDlgProc;
 		odp.position = -1900000000;
-		odp.pszTemplate = MAKEINTRESOURCEA( IDD_USER_INFO );
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_USER_INFO);
 		odp.ptszTitle = m_tszUserName;
 		UserInfo_AddPage(wParam, &odp);
 	}

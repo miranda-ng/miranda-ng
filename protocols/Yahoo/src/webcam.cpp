@@ -25,8 +25,8 @@
 
 /* WEBCAM callbacks */
 void ext_yahoo_got_webcam_image(int id, const char *who,
-		const unsigned char *image, unsigned int image_size, unsigned int real_size,
-		unsigned int timestamp)
+	const unsigned char *image, unsigned int image_size, unsigned int real_size,
+	unsigned int timestamp)
 {
 	LOG(("ext_yahoo_got_webcam_image"));
 }
@@ -50,7 +50,7 @@ void ext_yahoo_webcam_invite(int id, const char *me, const char *from)
 {
 	LOG(("ext_yahoo_webcam_invite"));
 
-	GETPROTOBYID( id )->ext_got_im(me, from, 0, Translate("[miranda] Got webcam invite. (not currently supported)"), 0, 0, 0, -1);
+	GETPROTOBYID(id)->ext_got_im(me, from, 0, Translate("[miranda] Got webcam invite. (not currently supported)"), 0, 0, 0, -1);
 }
 
 void ext_yahoo_webcam_invite_reply(int id, const char *me, const char *from, int accept)

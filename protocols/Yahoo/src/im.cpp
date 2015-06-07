@@ -23,13 +23,13 @@ void CYahooProto::send_msg(const char *id, int protocol, const char *msg, int ut
 {
 	LOG(("[send_msg] Who: %s: protocol: %d Msg: '%s', utf: %d", id, protocol, msg, utf8));
 
-	int buddy_icon = (getDword("AvatarHash", 0) != 0) ? 2: 0;
+	int buddy_icon = (getDword("AvatarHash", 0) != 0) ? 2 : 0;
 	yahoo_send_im(m_id, NULL, id, protocol, msg, utf8, buddy_icon);
 }
 
 void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, const char *msg,
-								long tm, int stat, int utf8, int buddy_icon,
-								const char *seqn, int sendn)
+	long tm, int stat, int utf8, int buddy_icon,
+	const char *seqn, int sendn)
 {
 	char 		*umsg;
 	const char	*c = msg;
@@ -42,7 +42,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 
 		mir_snprintf(z, SIZEOF(z), "Error sending message to %s", who);
 		LOG((z));
-		ShowError( TranslateT("Yahoo Error"), _A2T(z));
+		ShowError(TranslateT("Yahoo Error"), _A2T(z));
 		return;
 	}
 
@@ -62,27 +62,29 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 		}
 	}
 
-	if ( BuddyIgnored( who )) {
+	if (BuddyIgnored(who)) {
 		LOG(("User '%s' on our Ignore List. Dropping Message.", who));
 		return;
 	}
 
 	// make a bigger buffer for \n -> \r\n conversion (x2)
-	umsg = (char *) alloca(mir_strlen(msg) * 2 + 1);
+	umsg = (char *)alloca(mir_strlen(msg) * 2 + 1);
 
-	while ( *c != '\0') {
+	while (*c != '\0') {
 		// Strip the font tag
-		if (!_strnicmp(c,"<font ",6) || !_strnicmp(c,"</font>",6) ||
+		if (!_strnicmp(c, "<font ", 6) || !_strnicmp(c, "</font>", 6) ||
 			// strip the fade tag
-			!_strnicmp(c, "<FADE ",6) || !_strnicmp(c,"</FADE>",7) ||
+			!_strnicmp(c, "<FADE ", 6) || !_strnicmp(c, "</FADE>", 7) ||
 			// strip the alternate colors tag
-			!_strnicmp(c, "<ALT ",5) || !_strnicmp(c, "</ALT>",6)) {
-				while ((*c++ != '>') && (*c != '\0'));
-		} else
+			!_strnicmp(c, "<ALT ", 5) || !_strnicmp(c, "</ALT>", 6)) {
+			while ((*c++ != '>') && (*c != '\0'));
+		}
+		else
 			// strip ANSI color combination
-			if ((*c == 0x1b) && (*(c+1) == '[')) {
+			if ((*c == 0x1b) && (*(c + 1) == '[')) {
 				while ((*c++ != 'm') && (*c != '\0'));
-			} else
+			}
+			else
 
 				if (*c != '\0') {
 					umsg[oidx++] = *c;
@@ -95,7 +97,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 				}
 	}
 
-	umsg[oidx++]= '\0';
+	umsg[oidx++] = '\0';
 
 	/* Need to strip off formatting stuff first. Then do all decoding/converting */
 	LOG(("%s: %s", who, umsg));
@@ -110,7 +112,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 
 		if (hEvent) { // contact has events
 			DWORD dummy;
-			DBEVENTINFO dbei = { sizeof (dbei) };
+			DBEVENTINFO dbei = { sizeof(dbei) };
 			dbei.pBlob = (BYTE*)&dummy;
 			dbei.cbBlob = 2;
 			if (!db_event_get(hEvent, &dbei))

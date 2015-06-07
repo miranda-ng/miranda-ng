@@ -24,10 +24,10 @@
 
 #pragma warning(disable:4355)
 
-CYahooProto::CYahooProto( const char* aProtoName, const TCHAR* aUserName ) :
-	PROTO<CYahooProto>(aProtoName, aUserName),
-	m_bLoggedIn( FALSE ),
-	poll_loop( 0),
+CYahooProto::CYahooProto(const char *aProtoName, const TCHAR *aUserName)
+	: PROTO<CYahooProto>(aProtoName, aUserName),
+	m_bLoggedIn(FALSE),
+	poll_loop(0),
 	m_chatrooms(3, ChatRoom::compare)
 {
 	m_connections = NULL;
@@ -63,19 +63,19 @@ CYahooProto::~CYahooProto()
 
 int CYahooProto::OnModulesLoadedEx(WPARAM, LPARAM)
 {
-	HookProtoEvent( ME_USERINFO_INITIALISE, 		&CYahooProto::OnUserInfoInit );
-	HookProtoEvent( ME_IDLE_CHANGED, 				&CYahooProto::OnIdleEvent);
-	HookProtoEvent( ME_CLIST_PREBUILDCONTACTMENU, 	&CYahooProto::OnPrebuildContactMenu );
+	HookProtoEvent(ME_USERINFO_INITIALISE, &CYahooProto::OnUserInfoInit);
+	HookProtoEvent(ME_IDLE_CHANGED, &CYahooProto::OnIdleEvent);
+	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CYahooProto::OnPrebuildContactMenu);
 
-	TCHAR tModuleDescr[ 100 ];
+	TCHAR tModuleDescr[100];
 	mir_sntprintf(tModuleDescr, SIZEOF(tModuleDescr), TranslateT("%s plugin connections"), m_tszUserName);
 
-	NETLIBUSER nlu = {0};
+	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
 #ifdef HTTP_GATEWAY
 	nlu.flags = NUF_OUTGOING | NUF_HTTPGATEWAY| NUF_HTTPCONNS | NUF_TCHAR;
 #else
-  	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 #endif
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.ptszDescriptiveName = tModuleDescr;
@@ -84,7 +84,7 @@ int CYahooProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	// Here comes the Gateway Code!
 	nlu.szHttpGatewayHello = NULL;
 	nlu.szHttpGatewayUserAgent = "User-Agent: " + NETLIB_USER_AGENT;
- 	nlu.pfnHttpGatewayInit = YAHOO_httpGatewayInit;
+	nlu.pfnHttpGatewayInit = YAHOO_httpGatewayInit;
 	nlu.pfnHttpGatewayBegin = NULL;
 	nlu.pfnHttpGatewayWrapSend = YAHOO_httpGatewayWrapSend;
 	nlu.pfnHttpGatewayUnwrapRecv = YAHOO_httpGatewayUnwrapRecv;
@@ -138,20 +138,20 @@ MCONTACT CYahooProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	return hContact;
 }
 
-MCONTACT __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, MEVENT hDbEvent )
+MCONTACT __cdecl CYahooProto::AddToListByEvent(int flags, int /*iContact*/, MEVENT hDbEvent)
 {
 	debugLogA("[YahooAddToListByEvent]");
 	if (!m_bLoggedIn)
 		return 0;
 
-	DBEVENTINFO dbei = { sizeof( dbei ) };
-	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == -1 ) {
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == -1) {
 		debugLogA("[YahooAddToListByEvent] ERROR: Can't get blob size.");
 		return 0;
 	}
 
 	debugLogA("[YahooAddToListByEvent] Got blob size: %lu", dbei.cbBlob);
-	dbei.pBlob = ( PBYTE )_alloca( dbei.cbBlob );
+	dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
 	if (db_event_get(hDbEvent, &dbei)) {
 		debugLogA("[YahooAddToListByEvent] ERROR: Can't get event.");
 		return 0;
@@ -162,7 +162,7 @@ MCONTACT __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, MEV
 		return 0;
 	}
 
-	if ( mir_strcmp(dbei.szModule, m_szModuleName)) {
+	if (mir_strcmp(dbei.szModule, m_szModuleName)) {
 		debugLogA("[YahooAddToListByEvent] ERROR: Not Yahoo protocol.");
 		return 0;
 	}
@@ -182,31 +182,31 @@ MCONTACT __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, MEV
 int CYahooProto::Authorize(MEVENT hdbe)
 {
 	debugLogA("[YahooAuthAllow]");
-	if ( !m_bLoggedIn ) {
+	if (!m_bLoggedIn) {
 		debugLogA("[YahooAuthAllow] Not Logged In!");
 		return 1;
 	}
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	if (( dbei.cbBlob = db_event_getBlobSize(hdbe)) == -1 )
+	if ((dbei.cbBlob = db_event_getBlobSize(hdbe)) == -1)
 		return 1;
 
-	dbei.pBlob = ( PBYTE )_alloca( dbei.cbBlob );
+	dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
 	if (db_event_get(hdbe, &dbei))
 		return 1;
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return 1;
 
-	if ( mir_strcmp(dbei.szModule, m_szModuleName))
+	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return 1;
 
 	/* Need to remove the buddy from our Miranda Lists */
 	MCONTACT hContact = DbGetAuthEventContact(&dbei);
 	if (hContact != NULL) {
-		ptrA who( getStringA(hContact, YAHOO_LOGINID));
+		ptrA who(getStringA(hContact, YAHOO_LOGINID));
 		if (who) {
-			ptrA myid( getStringA(hContact, "MyIdentity"));
+			ptrA myid(getStringA(hContact, "MyIdentity"));
 			debugLogA("Accepting buddy:%s", who);
 			accept(myid, who, getWord(hContact, "yprotoid", 0));
 		}
@@ -221,16 +221,16 @@ int CYahooProto::Authorize(MEVENT hdbe)
 int CYahooProto::AuthDeny(MEVENT hdbe, const TCHAR *reason)
 {
 	debugLogA("[YahooAuthDeny]");
-	if ( !m_bLoggedIn )
+	if (!m_bLoggedIn)
 		return 1;
 
-	DBEVENTINFO dbei = { sizeof( dbei ) };
-	if (( dbei.cbBlob = db_event_getBlobSize(hdbe)) == -1 ) {
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(hdbe)) == -1) {
 		debugLogA("[YahooAuthDeny] ERROR: Can't get blob size");
 		return 1;
 	}
 
-	dbei.pBlob = ( PBYTE )alloca( dbei.cbBlob );
+	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
 	if (db_event_get(hdbe, &dbei)) {
 		debugLogA("YahooAuthDeny - Can't get db event!");
 		return 1;
@@ -241,7 +241,7 @@ int CYahooProto::AuthDeny(MEVENT hdbe, const TCHAR *reason)
 		return 1;
 	}
 
-	if (mir_strcmp( dbei.szModule, m_szModuleName)) {
+	if (mir_strcmp(dbei.szModule, m_szModuleName)) {
 		debugLogA("YahooAuthDeny - wrong module?");
 		return 1;
 	}
@@ -268,7 +268,7 @@ int CYahooProto::AuthDeny(MEVENT hdbe, const TCHAR *reason)
 int __cdecl CYahooProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	debugLogA("[YahooRecvAuth] ");
-	db_unset(hContact,"CList","Hidden");
+	db_unset(hContact, "CList", "Hidden");
 
 	Proto_AuthRecv(m_szModuleName, pre);
 	return 0;
@@ -277,7 +277,7 @@ int __cdecl CYahooProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
 
-int __cdecl CYahooProto::AuthRequest(MCONTACT hContact, const TCHAR* msg )
+int __cdecl CYahooProto::AuthRequest(MCONTACT hContact, const TCHAR* msg)
 {
 	debugLogA("[YahooSendAuthRequest]");
 
@@ -294,10 +294,10 @@ int __cdecl CYahooProto::AuthRequest(MCONTACT hContact, const TCHAR* msg )
 
 DWORD_PTR __cdecl CYahooProto::GetCaps(int type, MCONTACT hContact)
 {
-	switch ( type ) {
+	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM  | PF1_ADDED | PF1_AUTHREQ | PF1_MODEMSGRECV | PF1_MODEMSGSEND |  PF1_BASICSEARCH |
-			PF1_EXTSEARCH | PF1_FILESEND  | PF1_FILERECV| PF1_VISLIST | PF1_SERVERCLIST;
+		return PF1_IM | PF1_ADDED | PF1_AUTHREQ | PF1_MODEMSGRECV | PF1_MODEMSGSEND | PF1_BASICSEARCH |
+			PF1_EXTSEARCH | PF1_FILESEND | PF1_FILERECV | PF1_VISLIST | PF1_SERVERCLIST;
 
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_ONTHEPHONE |
@@ -305,15 +305,15 @@ DWORD_PTR __cdecl CYahooProto::GetCaps(int type, MCONTACT hContact)
 
 	case PFLAGNUM_3:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_ONTHEPHONE |
-			PF2_OUTTOLUNCH | PF2_LIGHTDND ;
+			PF2_OUTTOLUNCH | PF2_LIGHTDND;
 
 	case PFLAGNUM_4:
 		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_SUPPORTIDLE
-			|PF4_AVATARS | PF4_OFFLINEFILES | PF4_IMSENDOFFLINE /* for Meta plugin*/;
+			| PF4_AVATARS | PF4_OFFLINEFILES | PF4_IMSENDOFFLINE /* for Meta plugin*/;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR) Translate("ID");
+		return (DWORD_PTR)Translate("ID");
 	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR) YAHOO_LOGINID;
+		return (DWORD_PTR)YAHOO_LOGINID;
 	case PFLAG_MAXLENOFMESSAGE:
 		return 800; /* STUPID YAHOO!!! */
 	default:
@@ -330,7 +330,7 @@ void __cdecl CYahooProto::get_info_thread(void *hContact)
 	ProtoBroadcastAck((MCONTACT)hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
-int __cdecl CYahooProto::GetInfo(MCONTACT hContact, int /*infoType*/ )
+int __cdecl CYahooProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 {
 	ForkThread(&CYahooProto::get_info_thread, (void*)hContact);
 	return 0;
@@ -406,7 +406,7 @@ int __cdecl CYahooProto::SetStatus(int iNewStatus)
 
 				db_free(&dbv);
 			}
-			else  {
+			else {
 				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 				err++;
 			}
@@ -594,7 +594,7 @@ INT_PTR __cdecl CYahooProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 	if (!m_bLoggedIn || !m_startMsg)
 		return 0;
 
-	if (lParam & SGMA_UNICODE)  {
+	if (lParam & SGMA_UNICODE) {
 		return (INT_PTR)mir_utf8decodeW(m_startMsg);
 	}
 	else {
@@ -692,8 +692,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			return TRUE;
 		}
 
-		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
-		{
+		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {
 			switch (LOWORD(wParam)) {
 			case IDC_HANDLE:
 			case IDC_PASSWORD:
@@ -709,12 +708,12 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			bool reconnectRequired = false;
 
 			GetDlgItemTextA(hwndDlg, IDC_HANDLE, str, SIZEOF(str));
-			
+
 			if (ppro->getString(YAHOO_LOGINID, &dbv)) {
 				reconnectRequired = true;
 			}
 			else {
-				if(mir_strcmp(str, dbv.pszVal))
+				if (mir_strcmp(str, dbv.pszVal))
 					reconnectRequired = true;
 				db_free(&dbv);
 			}
@@ -726,7 +725,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				reconnectRequired = true;
 			}
 			else {
-				if(mir_strcmp(str, dbv.pszVal))
+				if (mir_strcmp(str, dbv.pszVal))
 					reconnectRequired = true;
 				db_free(&dbv);
 			}

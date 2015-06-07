@@ -10,6 +10,7 @@
  * I want to thank Robert Rainwater and George Hazan for their code and support
  * and for answering some of my questions during development of this plugin.
  */
+
 #include "yahoo.h"
 #include "resource.h"
 #include <m_protosvc.h>
@@ -53,7 +54,7 @@ void CALLBACK ConferenceRequestCB(PVOID dwParam);
 void ext_yahoo_got_conf_invite(int id, const char *me, const char *who, const char *room, const char *msg, YList *members)
 {
 	char z[1024];
-	mir_snprintf(z, SIZEOF(z), Translate("[miranda] Got conference invite to room: %s with msg: %s"), room ?room:"", msg ?msg:"");
+	mir_snprintf(z, SIZEOF(z), Translate("[miranda] Got conference invite to room: %s with msg: %s"), room ? room : "", msg ? msg : "");
 	LOG(("[ext_yahoo_got_conf_invite] %s", z));
 
 	CYahooProto* ppro = getProtoById(id);
@@ -61,10 +62,8 @@ void ext_yahoo_got_conf_invite(int id, const char *me, const char *who, const ch
 
 	bool freeList = true;
 	CYahooProto::ChatRoom *cm = ppro->m_chatrooms.find((CYahooProto::ChatRoom*)&room);
-	if (!cm)
-	{
-		if (mir_strcmp(who, me))
-		{
+	if (!cm) {
+		if (mir_strcmp(who, me)) {
 			cm = new CYahooProto::ChatRoom(room, members);
 			ppro->m_chatrooms.insert(cm);
 
@@ -72,8 +71,7 @@ void ext_yahoo_got_conf_invite(int id, const char *me, const char *who, const ch
 			CallFunctionAsync(ConferenceRequestCB, req);
 			freeList = false;
 		}
-		else
-		{
+		else {
 			cm = new CYahooProto::ChatRoom(room, NULL);
 			ppro->m_chatrooms.insert(cm);
 			ppro->ChatStart(room);
@@ -82,8 +80,7 @@ void ext_yahoo_got_conf_invite(int id, const char *me, const char *who, const ch
 		}
 	}
 
-	if (freeList)
-	{
+	if (freeList) {
 		for (YList *l = members; l; l = l->next) free(l->data);
 		y_list_free(members);
 	}
@@ -107,8 +104,7 @@ void ext_yahoo_conf_userjoin(int id, const char *me, const char *who, const char
 
 	CYahooProto::ChatRoom *cm = ppro->m_chatrooms.find((CYahooProto::ChatRoom*)&room);
 	if (!cm) return;
-	for (YList *l = cm->members; l; l = l->next)
-	{
+	for (YList *l = cm->members; l; l = l->next) {
 		if (!mir_strcmp(who, (char*)l->data))
 			return;
 	}
@@ -125,10 +121,8 @@ void ext_yahoo_conf_userleave(int id, const char *me, const char *who, const cha
 	CYahooProto::ChatRoom *cm = ppro->m_chatrooms.find((CYahooProto::ChatRoom*)&room);
 	if (!cm) return;
 
-	for (YList *l = cm->members; l; l = l->next)
-	{
-		if (mir_strcmp((char*)l->data, who) == 0)
-		{
+	for (YList *l = cm->members; l; l = l->next) {
+		if (mir_strcmp((char*)l->data, who) == 0) {
 			free(l->data);
 			y_list_remove_link(cm->members, l);
 			y_list_free_1(l);
@@ -148,8 +142,7 @@ void ext_yahoo_conf_message(int id, const char *me, const char *who, const char 
 
 /* chat handlers */
 void ext_yahoo_chat_cat_xml(int id, const char *xml)
-{
-}
+{}
 
 void ext_yahoo_chat_join(int id, const char *me, const char *room, const char * topic, YList *members, INT_PTR fd)
 {
@@ -158,26 +151,24 @@ void ext_yahoo_chat_join(int id, const char *me, const char *room, const char * 
 }
 
 void ext_yahoo_chat_userjoin(int id, const char *me, const char *room, struct yahoo_chat_member *who)
-{
-}
+{}
 
 void ext_yahoo_chat_userleave(int id, const char *me, const char *room, const char *who)
-{
-}
+{}
+
 void ext_yahoo_chat_message(int id, const char *me, const char *who, const char *room, const char *msg, int msgtype, int utf8)
-{
-}
+{}
 
 void ext_yahoo_chat_yahoologout(int id, const char *me)
 {
- 	LOG(("got chat logout"));
+	LOG(("got chat logout"));
 }
 void ext_yahoo_chat_yahooerror(int id, const char *me)
 {
- 	LOG(("got chat error"));
+	LOG(("got chat error"));
 }
 
-static const COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+static const COLORREF crCols[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
 void CYahooProto::ChatRegister(void)
 {
@@ -215,8 +206,8 @@ void CYahooProto::ChatStart(const char* room)
 
 	gcd.iType = GC_EVENT_CONTROL;
 	CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
-	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE,   (LPARAM)&gce);
-	CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE,   (LPARAM)&gce);
+	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
+	CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gce);
 
 	mir_free(idt);
 }
@@ -265,78 +256,73 @@ void CYahooProto::ChatEvent(const char* room, const char* who, int evt, const TC
 
 int __cdecl CYahooProto::OnGCEventHook(WPARAM, LPARAM lParam)
 {
-	GCHOOK *gch = (GCHOOK*) lParam;
+	GCHOOK *gch = (GCHOOK*)lParam;
 	if (!gch) return 1;
 
 	if (mir_strcmp(gch->pDest->pszModule, m_szModuleName)) return 0;
 
-	char* room = mir_t2a(gch->pDest->ptszID);
-	char* who = mir_t2a(gch->ptszUID);
+	char *room = mir_t2a(gch->pDest->ptszID);
+	char *who = mir_t2a(gch->ptszUID);
 
-	switch (gch->pDest->iType)
-	{
-		case GC_SESSION_TERMINATE:
-			{
-				ChatRoom *cm = m_chatrooms.find((ChatRoom*)&room);
-				if (cm)
-				{
-					yahoo_conference_logoff(m_id, NULL, cm->members, room);
-					m_chatrooms.remove((ChatRoom*)&room);
-				}
+	switch (gch->pDest->iType) {
+	case GC_SESSION_TERMINATE:
+		{
+			ChatRoom *cm = m_chatrooms.find((ChatRoom*)&room);
+			if (cm) {
+				yahoo_conference_logoff(m_id, NULL, cm->members, room);
+				m_chatrooms.remove((ChatRoom*)&room);
 			}
-			break;
+		}
+		break;
 
-		case GC_USER_MESSAGE:
-			if (gch->ptszText && gch->ptszText[0])
-			{
-				ChatRoom *cm = m_chatrooms.find((ChatRoom*)&room);
-				if (cm)
-					yahoo_conference_message(m_id, NULL, cm->members, room, T2Utf(gch->ptszText), 1);
-			}
-			break;
+	case GC_USER_MESSAGE:
+		if (gch->ptszText && gch->ptszText[0]) {
+			ChatRoom *cm = m_chatrooms.find((ChatRoom*)&room);
+			if (cm)
+				yahoo_conference_message(m_id, NULL, cm->members, room, T2Utf(gch->ptszText), 1);
+		}
+		break;
 
-		case GC_USER_CHANMGR:
+	case GC_USER_CHANMGR:
+		DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, InviteToChatDialog,
+			LPARAM(new InviteChatParam(room, this)));
+		break;
+
+	case GC_USER_PRIVMESS:
+		CallService(MS_MSG_SENDMESSAGE, (WPARAM)getbuddyH(who), 0);
+		break;
+
+	case GC_USER_LOGMENU:
+		switch (gch->dwData) {
+		case 10:
 			DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, InviteToChatDialog,
 				LPARAM(new InviteChatParam(room, this)));
 			break;
 
-		case GC_USER_PRIVMESS:
-			CallService(MS_MSG_SENDMESSAGE, (WPARAM)getbuddyH(who), 0);
+		case 20:
+			ChatLeave(room);
+			break;
+		}
+		break;
+
+	case GC_USER_NICKLISTMENU:
+		switch (gch->dwData) {
+		case 10:
+			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)getbuddyH(who), 0);
 			break;
 
-		case GC_USER_LOGMENU:
-			switch(gch->dwData)
-			{
-			case 10:
-				DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, InviteToChatDialog,
-					LPARAM(new InviteChatParam(room, this)));
-				break;
-
-			case 20:
-				ChatLeave(room);
-				break;
-			}
+		case 20:
+			CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)getbuddyH(who), 0);
 			break;
 
-		case GC_USER_NICKLISTMENU:
-			switch (gch->dwData)
-			{
-			case 10:
-				CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)getbuddyH(who), 0);
-				break;
-
-			case 20:
-				CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)getbuddyH(who), 0);
-				break;
-
-			case 110:
-				ChatLeave(room);
-				break;
-			}
+		case 110:
+			ChatLeave(room);
 			break;
+		}
+		break;
 
-		case GC_USER_TYPNOTIFY:
-			break;
+	case GC_USER_TYPNOTIFY:
+		break;
 	}
 	mir_free(who);
 	mir_free(room);
@@ -346,12 +332,11 @@ int __cdecl CYahooProto::OnGCEventHook(WPARAM, LPARAM lParam)
 
 int __cdecl CYahooProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 {
-	GCMENUITEMS *gcmi = (GCMENUITEMS*) lParam;
+	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
 
 	if (gcmi == NULL || _stricmp(gcmi->pszModule, m_szModuleName)) return 0;
 
-	if (gcmi->Type == MENU_ON_LOG)
-	{
+	if (gcmi->Type == MENU_ON_LOG) {
 		static const struct gc_item Items[] =
 		{
 			{ TranslateT("&Invite user..."), 10, MENU_ITEM, FALSE },
@@ -360,11 +345,9 @@ int __cdecl CYahooProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 		gcmi->nItems = SIZEOF(Items);
 		gcmi->Item = (gc_item*)Items;
 	}
-	else if (gcmi->Type == MENU_ON_NICKLIST)
-	{
+	else if (gcmi->Type == MENU_ON_NICKLIST) {
 		char* id = mir_t2a(gcmi->pszUID);
-		if (!_stricmp(m_yahoo_id, id))
-		{
+		if (!_stricmp(m_yahoo_id, id)) {
 			static const struct gc_item Items[] =
 			{
 				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
@@ -375,8 +358,7 @@ int __cdecl CYahooProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 			gcmi->nItems = SIZEOF(Items);
 			gcmi->Item = (gc_item*)Items;
 		}
-		else
-		{
+		else {
 			static const struct gc_item Items[] =
 			{
 				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
@@ -400,28 +382,22 @@ static void clist_chat_invite_send(MCONTACT hItem, HWND hwndList, YList* &who, c
 	if (root)
 		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
-	while (hItem)
-	{
-		if (IsHContactGroup(hItem))
-		{
+	while (hItem) {
+		if (IsHContactGroup(hItem)) {
 			MCONTACT hItemT = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
 				clist_chat_invite_send(hItemT, hwndList, who, room, ppro, msg);
 		}
-		else
-		{
+		else {
 			int chk = SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0);
-			if (chk)
-			{
-				if (IsHContactInfo(hItem))
-				{
+			if (chk) {
+				if (IsHContactInfo(hItem)) {
 					TCHAR buf[128] = _T("");
 					SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
 
 					who = y_list_append(who, mir_t2a(buf));
 				}
-				else
-				{
+				else {
 					DBVARIANT dbv;
 					if (!ppro->getString(hItem, YAHOO_LOGINID, &dbv))
 						who = y_list_append(who, dbv.pszVal);
@@ -431,8 +407,7 @@ static void clist_chat_invite_send(MCONTACT hItem, HWND hwndList, YList* &who, c
 		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 	}
 
-	if (root && who)
-	{
+	if (root && who) {
 		T2Utf msg8(msg);
 		CYahooProto::ChatRoom *cm = ppro->m_chatrooms.find((CYahooProto::ChatRoom*)&room);
 		if (cm) {
@@ -470,15 +445,14 @@ static void ClistChatPrepare(MCONTACT hItem, HWND hwndList, CYahooProto* ppro)
 			ClistValidateContact(hItem, hwndList, ppro);
 
 		hItem = hItemN;
-   }
+	}
 }
 
 INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	InviteChatParam* param = (InviteChatParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
@@ -503,37 +477,33 @@ INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_NOTIFY:
-	{
-		NMCLISTCONTROL* nmc = (NMCLISTCONTROL*)lParam;
-		if (nmc->hdr.idFrom == IDC_CCLIST)
 		{
-			switch (nmc->hdr.code)
-			{
-			case CLN_NEWCONTACT:
-				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
-					ClistValidateContact((MCONTACT)nmc->hItem, nmc->hdr.hwndFrom, param->ppro);
-				break;
+			NMCLISTCONTROL* nmc = (NMCLISTCONTROL*)lParam;
+			if (nmc->hdr.idFrom == IDC_CCLIST) {
+				switch (nmc->hdr.code) {
+				case CLN_NEWCONTACT:
+					if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
+						ClistValidateContact((MCONTACT)nmc->hItem, nmc->hdr.hwndFrom, param->ppro);
+					break;
 
-			case CLN_LISTREBUILT:
-				if (param)
-					ClistChatPrepare(NULL, nmc->hdr.hwndFrom, param->ppro);
-				break;
+				case CLN_LISTREBUILT:
+					if (param)
+						ClistChatPrepare(NULL, nmc->hdr.hwndFrom, param->ppro);
+					break;
+				}
 			}
 		}
-	}
-	break;
+		break;
 
 	case WM_COMMAND:
 		{
-			switch (LOWORD(wParam))
-			{
+			switch (LOWORD(wParam)) {
 			case IDC_ADDSCR:
-				if (param->ppro->m_bLoggedIn)
-				{
+				if (param->ppro->m_bLoggedIn) {
 					TCHAR sn[64];
 					GetDlgItemText(hwndDlg, IDC_EDITSCR, sn, SIZEOF(sn));
 
-					CLCINFOITEM cii = {0};
+					CLCINFOITEM cii = { 0 };
 					cii.cbSize = sizeof(cii);
 					cii.flags = CLCIIF_CHECKBOX | CLCIIF_BELOWCONTACTS;
 					cii.pszText = sn;
@@ -575,8 +545,7 @@ INT_PTR CALLBACK ChatRequestDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 {
 	InviteChatReqParam* param = (InviteChatReqParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
@@ -604,11 +573,9 @@ INT_PTR CALLBACK ChatRequestDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	case WM_COMMAND:
 		{
 			CYahooProto::ChatRoom *cm = param->ppro->m_chatrooms.find((CYahooProto::ChatRoom*)&param->room);
-			switch (LOWORD(wParam))
-			{
+			switch (LOWORD(wParam)) {
 			case IDOK:
-				if (cm)
-				{
+				if (cm) {
 					param->ppro->ChatStart(param->room);
 
 					for (YList *l = cm->members; l; l = l->next)
@@ -620,8 +587,7 @@ INT_PTR CALLBACK ChatRequestDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				break;
 
 			case IDCANCEL:
-				if (cm)
-				{
+				if (cm) {
 					TCHAR msg[1024];
 					GetDlgItemText(hwndDlg, IDC_MSG2, msg, SIZEOF(msg));
 					yahoo_conference_decline(param->ppro->m_id, NULL, cm->members, param->room, T2Utf(msg));
@@ -640,7 +606,7 @@ INT_PTR CALLBACK ChatRequestDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 static void CALLBACK ConferenceRequestCB(PVOID pParam)
 {
 	CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE_REQ),
-		 NULL, ChatRequestDialog, (LPARAM)pParam);
+		NULL, ChatRequestDialog, (LPARAM)pParam);
 }
 
 INT_PTR __cdecl CYahooProto::CreateConference(WPARAM /*wParam*/, LPARAM /*lParam*/)
