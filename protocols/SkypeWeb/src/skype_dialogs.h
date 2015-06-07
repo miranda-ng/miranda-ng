@@ -25,10 +25,9 @@ class CSkypePasswordEditor : public CSkypeDlgBase
 private:
 	typedef CSkypeDlgBase CSuper;
 
+	CCtrlButton m_ok;
 	CCtrlEdit m_password;
 	CCtrlCheck m_savePermanently;
-
-	CCtrlButton m_ok;
 
 protected:
 	void OnInitDialog()

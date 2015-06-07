@@ -22,10 +22,10 @@ CSkypeOptionsMain::CSkypeOptionsMain(CSkypeProto *proto, int idDialog)
 	m_skypename(this, IDC_SKYPENAME),
 	m_password(this, IDC_PASSWORD),
 	m_group(this, IDC_GROUP),
+	m_place(this, IDC_PLACE),
 	m_autosync(this, IDC_AUTOSYNC),
 	m_localtime(this, IDC_LOCALTIME),
 	m_allasunread(this, IDC_MESASUREAD),
-	m_place(this, IDC_PLACE),
 	m_usehostname(this, IDC_USEHOST)
 {
 	CreateLink(m_group, SKYPE_SETTINGS_GROUP, _T("Skype"));
