@@ -111,6 +111,32 @@ void CSkypeProto::OnMSLoginSecond(const NETLIBHTTPREQUEST *response)
 	}
 	std::string t = match[1];
 
+	SendRequest(new LoginMSRequest(t.c_str(), 0), &CSkypeProto::OnMSLoginThird);
+}
+
+void CSkypeProto::OnMSLoginThird(const NETLIBHTTPREQUEST *response)
+{
+	if (response == NULL || response->pData == NULL)
+	{
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+
+	std::regex regex;
+	std::smatch match;
+	std::string content = response->pData;
+
+	regex = "<input type=\"hidden\" name=\"t\" value=\"(.+?)\">";
+
+	if (!std::regex_search(content, match, regex))
+	{
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+	std::string t = match[1];
+
 	SendRequest(new LoginMSRequest(t.c_str()), &CSkypeProto::OnMSLoginEnd);
 }
 

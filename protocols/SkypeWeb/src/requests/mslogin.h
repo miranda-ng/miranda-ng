@@ -59,11 +59,28 @@ public:
 		Body
 			<< CHAR_VALUE ("t", ptrA(mir_urlEncode(t)))
 			<< INT_VALUE ("oauthPartner", 999)
-			<< INT_VALUE  ("client_id", 578134)
+			<< INT_VALUE ("client_id", 578134)
 			<< CHAR_VALUE ("redirect_uri", ptrA(mir_urlEncode("https://web.skype.com")));
 	}
 
-	LoginMSRequest(const char *url,const char *login, const char *cookies_str, const char *ppft, const char *code) :
+	LoginMSRequest(const char *t, int) :
+		HttpRequest(REQUEST_POST, "secure.skype.com/login/oauth/proxy")
+	{
+		Url
+			<< INT_VALUE  ("client_id", 578134)
+			<< CHAR_VALUE ("redirect_uri", ptrA(mir_urlEncode("https://web.skype.com")));
+
+		Headers
+			<< CHAR_VALUE ("Content-Type", "application/x-www-form-urlencoded");
+
+		Body
+			<< CHAR_VALUE ("t", ptrA(mir_urlEncode(t)))
+			<< INT_VALUE ("oauthPartner", 999)
+			<< INT_VALUE ("client_id", 578134)
+			<< CHAR_VALUE ("redirect_uri", ptrA(mir_urlEncode("https://web.skype.com")));
+	}
+
+	LoginMSRequest(const char *url, const char *login, const char *cookies_str, const char *ppft, const char *code) :
 		HttpRequest(REQUEST_POST, url)
 	{
 		Headers
