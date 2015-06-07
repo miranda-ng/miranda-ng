@@ -291,19 +291,28 @@ static void CheckSearchTypeRadioButton(HWND hwndDlg, int idControl)
 #define sttErrMsg TranslateT("You haven't filled in the search field. Please enter a search term and try again.")
 #define sttErrTitle TranslateT("Search")
 
-static void SetListItemText(HWND hwndList, int idx, int col, TCHAR* szText)
+static void SetListItemText(HWND hwndList, int idx, int col, TCHAR *szText)
 {
-	if (szText && szText[0]) {
-		ListView_SetItemText(hwndList, idx, col, szText);
-	}
-	else {
-		ListView_SetItemText(hwndList, idx, col, TranslateT("<not specified>"));
-	}
+	if (szText == NULL || *szText == 0)
+		szText = TranslateT("<not specified>");
+
+	ListView_SetItemText(hwndList, idx, col, szText);
+}
+
+static TCHAR* sttDecodeString(DWORD dwFlags, MAllStrings &src)
+{
+	if (dwFlags & PSR_UNICODE)
+		return mir_u2t(src.w);
+
+	if (dwFlags & PSR_UTF8)
+		return mir_utf8decodeT(src.a);
+
+	return mir_a2t(src.a);
 }
 
 static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	FindAddDlgData* dat = (FindAddDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	FindAddDlgData *dat = (FindAddDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_RESULTS);
 
 	switch (msg) {
@@ -610,7 +619,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDC_PROTOLIST:
 			if (HIWORD(wParam) == CBN_SELCHANGE) {
 				HideAdvancedSearchDlg(hwndDlg, dat);
@@ -752,7 +761,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_ADD:
 			{
-				ADDCONTACTSTRUCT acs = {0};
+				ADDCONTACTSTRUCT acs = { 0 };
 
 				if (ListView_GetSelectedCount(hwndList) == 1) {
 					LVITEM lvi;
@@ -793,8 +802,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		if (lParam && dat->hwndTinySearch == (HWND)lParam &&
 			HIWORD(wParam) == EN_SETFOCUS && LOWORD(wParam) == 0 &&
-			BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_BYCUSTOM))
-		{
+			BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_BYCUSTOM)) {
 			CheckSearchTypeRadioButton(hwndDlg, IDC_BYCUSTOM);
 		}
 		break;
@@ -851,40 +859,32 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				PROTOSEARCHRESULT *psr = &csr->psr;
 				// check if this is column names data (psr->cbSize == 0)
 				if (psr->cbSize == 0) { // blob contain info about columns
-					//firstly remove all exist items
+					// first remove all exist items
 					FreeSearchResults(hwndList);
 					ListView_DeleteAllItems(hwndList); //not sure if previous delete list items too
-					//secondly remove all columns
+
+					//second remove all columns
 					while (ListView_DeleteColumn(hwndList, 1)); //will delete fist column till it possible
-					//now will add columns and captions;
+
+					// now will add columns and captions;
 					LVCOLUMN lvc = { 0 };
 					lvc.mask = LVCF_TEXT;
 					for (int iColumn = 0; iColumn < csr->nFieldCount; iColumn++) {
 						lvc.pszText = TranslateTS(csr->pszFields[iColumn]);
 						ListView_InsertColumn(hwndList, iColumn + 1, &lvc);
 					}
-					// Column inserting Done
 				}
-				else {	//  blob contain info about found contacts
+				else { // blob contain info about found contacts
 					ListSearchResult *lsr = (ListSearchResult*)mir_alloc(offsetof(struct ListSearchResult, psr) + psr->cbSize);
 					lsr->szProto = ack->szModule;
 					memcpy(&lsr->psr, psr, psr->cbSize);
 
 					/* Next block is not needed but behavior will be kept */
-					bool isUnicode = (psr->flags & PSR_UNICODE) != 0;
-					if (psr->id.t) {
-						BOOL validPtr = isUnicode ? IsBadStringPtrW((wchar_t*)psr->id.t, 25) : IsBadStringPtrA((char*)psr->id.t, 25);
-						if (!validPtr) {
-							isUnicode = false;
-							lsr->psr.id.t = NULL;
-						}
-						else lsr->psr.id.t = isUnicode ? mir_u2t((wchar_t*)psr->id.t) : mir_a2t((char*)psr->id.t);
-					}
-
-					lsr->psr.nick.t = isUnicode ? mir_u2t((wchar_t*)psr->nick.t) : mir_a2t((char*)psr->nick.t);
-					lsr->psr.firstName.t = isUnicode ? mir_u2t((wchar_t*)psr->firstName.t) : mir_a2t((char*)psr->firstName.t);
-					lsr->psr.lastName.t = isUnicode ? mir_u2t((wchar_t*)psr->lastName.t) : mir_a2t((char*)psr->lastName.t);
-					lsr->psr.email.t = isUnicode ? mir_u2t((wchar_t*)psr->email.t) : mir_a2t((char*)psr->email.t);
+					lsr->psr.id.t = sttDecodeString(psr->flags, psr->id);
+					lsr->psr.nick.t = sttDecodeString(psr->flags, psr->nick);
+					lsr->psr.firstName.t = sttDecodeString(psr->flags, psr->firstName);
+					lsr->psr.lastName.t = sttDecodeString(psr->flags, psr->lastName);
+					lsr->psr.email.t = sttDecodeString(psr->flags, psr->email);
 					lsr->psr.flags = psr->flags & ~PSR_UNICODE | PSR_TCHAR;
 
 					LVITEM lvi = { 0 };
@@ -920,11 +920,11 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				dat->bFlexSearchResult = FALSE;
 
 				memcpy(&lsr->psr, psr, psr->cbSize);
-				lsr->psr.nick.t = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->nick.t) : mir_a2t((char*)psr->nick.t);
-				lsr->psr.firstName.t = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->firstName.t) : mir_a2t((char*)psr->firstName.t);
-				lsr->psr.lastName.t = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->lastName.t) : mir_a2t((char*)psr->lastName.t);
-				lsr->psr.email.t = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->email.t) : mir_a2t((char*)psr->email.t);
-				lsr->psr.id.t = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->id.t) : mir_a2t((char*)psr->id.t);
+				lsr->psr.nick.t = sttDecodeString(psr->flags, psr->nick);
+				lsr->psr.firstName.t = sttDecodeString(psr->flags, psr->firstName);
+				lsr->psr.lastName.t = sttDecodeString(psr->flags, psr->lastName);
+				lsr->psr.email.t = sttDecodeString(psr->flags, psr->email);
+				lsr->psr.id.t = sttDecodeString(psr->flags, psr->id);
 				lsr->psr.flags = psr->flags & ~PSR_UNICODE | PSR_TCHAR;
 
 				LVITEM lvi = { 0 };
@@ -942,13 +942,13 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						break;
 					}
 				}
+				
 				int iItem = ListView_InsertItem(hwndList, &lvi);
-				int col = 1;
-				SetListItemText(hwndList, iItem, col++, lsr->psr.id.t);
-				SetListItemText(hwndList, iItem, col++, lsr->psr.nick.t);
-				SetListItemText(hwndList, iItem, col++, lsr->psr.firstName.t);
-				SetListItemText(hwndList, iItem, col++, lsr->psr.lastName.t);
-				SetListItemText(hwndList, iItem, col++, lsr->psr.email.t);
+				SetListItemText(hwndList, iItem, 1, lsr->psr.id.t);
+				SetListItemText(hwndList, iItem, 2, lsr->psr.nick.t);
+				SetListItemText(hwndList, iItem, 3, lsr->psr.firstName.t);
+				SetListItemText(hwndList, iItem, 4, lsr->psr.lastName.t);
+				SetListItemText(hwndList, iItem, 5, lsr->psr.email.t);
 				SetStatusBarResultInfo(hwndDlg);
 			}
 		}
