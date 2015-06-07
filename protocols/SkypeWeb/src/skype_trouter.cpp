@@ -182,7 +182,7 @@ void CSkypeProto::TRouterThread(void*)
 	{
 		TrouterPollRequest *request = new TrouterPollRequest(TRouter.socketIo, TRouter.connId, TRouter.st, TRouter.se, TRouter.sig, TRouter.instance, TRouter.ccid, TRouter.sessId);
 		request->nlc = m_TrouterConnection;
-		NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
+		NLHR_PTR response(request->Send(m_hNetlibUser));
 
 		if (response == NULL)
 		{
@@ -209,12 +209,10 @@ void CSkypeProto::TRouterThread(void*)
 		else
 		{
 			SendRequest(new HealthTrouterRequest(TRouter.ccid.c_str()), &CSkypeProto::OnHealth);
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 			delete request;
 			break;
 		}
 		m_TrouterConnection = response->nlc;
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 		delete request;
 	}
 	m_hTrouterThread = NULL;
