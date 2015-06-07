@@ -50,7 +50,7 @@ static HHOOK hhkKeyboard = NULL;
 
 WORD GetHotkeyValue(INT_PTR idHotkey)
 {
-	for (int i=0; i < hotkeys.getCount(); i++)
+	for (int i = 0; i < hotkeys.getCount(); i++)
 		if (hotkeys[i]->idHotkey == idHotkey)
 			return hotkeys[i]->Enabled ? hotkeys[i]->Hotkey : 0;
 
@@ -70,7 +70,7 @@ static void sttWordToModAndVk(WORD w, BYTE *mod, BYTE *vk)
 static LRESULT CALLBACK sttHotkeyHostWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_HOTKEY) {
-		for (int i=0; i < hotkeys.getCount(); i++) {
+		for (int i = 0; i < hotkeys.getCount(); i++) {
 			THotkeyItem *item = hotkeys[i];
 			if (item->type != HKT_GLOBAL || !item->Enabled)
 				continue;
@@ -98,7 +98,7 @@ static LRESULT CALLBACK sttKeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 			if (GetAsyncKeyState(VK_SHIFT)) mod |= MOD_SHIFT;
 			if (GetAsyncKeyState(VK_LWIN) || GetAsyncKeyState(VK_RWIN)) mod |= MOD_WIN;
 
-			for (int i=0; i < hotkeys.getCount(); i++) {
+			for (int i = 0; i < hotkeys.getCount(); i++) {
 				THotkeyItem *item = hotkeys[i];
 				if (item->type != HKT_LOCAL || !item->Enabled)
 					continue;
@@ -109,7 +109,10 @@ static LRESULT CALLBACK sttKeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 				if (item->pszService && vk == hkVk && mod == hkMod) {
 					CallService(item->pszService, 0, item->lParam);
 					return TRUE;
-	}	}	}	}
+				}
+			}
+		}
+	}
 
 	return CallNextHookEx(hhkKeyboard, code, wParam, lParam);
 }
@@ -174,7 +177,7 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 	item->Hotkey = db_get_w(NULL, DBMODULENAME, item->pszName, item->DefHotkey);
 	item->type = item->pszService ?
 		(THotkeyType)db_get_b(NULL, DBMODULENAME "Types", item->pszName,
-			(desc->DefHotKey & HKF_MIRANDA_LOCAL) ? HKT_LOCAL : HKT_GLOBAL) : HKT_MANUAL;
+		(desc->DefHotKey & HKF_MIRANDA_LOCAL) ? HKT_LOCAL : HKT_GLOBAL) : HKT_MANUAL;
 	item->lParam = desc->lParam;
 
 	char buf[256];
@@ -185,7 +188,8 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 			BYTE mod, vk;
 			sttWordToModAndVk(item->Hotkey, &mod, &vk);
 			if (vk) RegisterHotKey(g_hwndHotkeyHost, item->idHotkey, mod, vk);
-	}	}
+		}
+	}
 
 	hotkeys.insert(item);
 
@@ -194,7 +198,7 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 		int count, i;
 		mir_snprintf(buf, "%s$count", item->pszName);
 		count = (int)db_get_dw(NULL, DBMODULENAME, buf, -1);
-		for (i=0; i < count; i++) {
+		for (i = 0; i < count; i++) {
 			mir_snprintf(buf, "%s$%d", item->pszName, i);
 			if (!db_get_w(NULL, DBMODULENAME, buf, 0))
 				continue;
@@ -220,22 +224,21 @@ static INT_PTR svcHotkeyUnregister(WPARAM, LPARAM lParam)
 	mir_snprintf(pszNamePrefix, SIZEOF(pszNamePrefix), "%s$", pszName);
 	cbNamePrefix = mir_strlen(pszNamePrefix);
 
-	for (i=0; i < hotkeys.getCount(); i++)
-	{
+	for (i = 0; i < hotkeys.getCount(); i++) {
 		char *pszCurrentName = hotkeys[i]->rootHotkey ?
 			hotkeys[i]->rootHotkey->pszName :
 			hotkeys[i]->pszName;
 		if (!pszCurrentName) continue;
 
 		hotkeys[i]->UnregisterHotkey =
-			!mir_strcmp(pszCurrentName, pszName)  ||
+			!mir_strcmp(pszCurrentName, pszName) ||
 			!strncmp(pszCurrentName, pszNamePrefix, cbNamePrefix);
 	}
 
 	if (g_hwndHkOptions)
 		SendMessage(g_hwndHkOptions, WM_HOTKEYUNREGISTERED, 0, 0);
 
-	for (i=0; i < hotkeys.getCount(); i++)
+	for (i = 0; i < hotkeys.getCount(); i++)
 		if (hotkeys[i]->UnregisterHotkey) {
 			FreeHotkey(hotkeys[i]);
 			List_Remove((SortedList *)&hotkeys, i);
@@ -260,7 +263,7 @@ static INT_PTR svcHotkeyCheck(WPARAM wParam, LPARAM lParam)
 			if (GetAsyncKeyState(VK_SHIFT)) mod |= MOD_SHIFT;
 			if (GetAsyncKeyState(VK_LWIN) || GetAsyncKeyState(VK_RWIN)) mod |= MOD_WIN;
 
-			for (i=0; i < hotkeys.getCount(); i++) {
+			for (i = 0; i < hotkeys.getCount(); i++) {
 				THotkeyItem *item = hotkeys[i];
 				BYTE hkMod, hkVk;
 				if ((item->type != HKT_MANUAL) || mir_tstrcmp(pszSection, item->ptszSection)) continue;
@@ -270,7 +273,10 @@ static INT_PTR svcHotkeyCheck(WPARAM wParam, LPARAM lParam)
 				if ((vk == hkVk) && (mod == hkMod)) {
 					mir_free(pszSection);
 					return item->lParam;
-	}	}	}	}
+				}
+			}
+		}
+	}
 
 	mir_free(pszSection);
 	return 0;
@@ -290,7 +296,7 @@ void FreeHotkey(THotkeyItem *item)
 
 void RegisterHotkeys()
 {
-	for (int i=0; i < hotkeys.getCount(); i++) {
+	for (int i = 0; i < hotkeys.getCount(); i++) {
 		THotkeyItem *item = hotkeys[i];
 		UnregisterHotKey(g_hwndHotkeyHost, item->idHotkey);
 		if (item->type != HKT_GLOBAL) continue;
@@ -298,11 +304,13 @@ void RegisterHotkeys()
 			BYTE mod, vk;
 			sttWordToModAndVk(item->Hotkey, &mod, &vk);
 			if (vk) RegisterHotKey(g_hwndHotkeyHost, item->idHotkey, mod, vk);
-}	}	}
+		}
+	}
+}
 
 void KillModuleHotkeys(int hLangpack)
 {
-	for (int i = hotkeys.getCount()-1; i >= 0; i--) {
+	for (int i = hotkeys.getCount() - 1; i >= 0; i--) {
 		THotkeyItem *item = hotkeys[i];
 		if (item->hLangpack == hLangpack) {
 			FreeHotkey(item);
@@ -313,7 +321,7 @@ void KillModuleHotkeys(int hLangpack)
 
 void UnregisterHotkeys()
 {
-	for (int i=0; i < hotkeys.getCount(); i++) {
+	for (int i = 0; i < hotkeys.getCount(); i++) {
 		THotkeyItem *item = hotkeys[i];
 		if (item->type == HKT_GLOBAL && item->Enabled)
 			UnregisterHotKey(g_hwndHotkeyHost, item->idHotkey);
@@ -334,7 +342,7 @@ static const char* newSettings[] = { "ShowHide", "ReadMessage", "SearchInWeb", "
 
 int LoadSkinHotkeys(void)
 {
-	WNDCLASSEX wcl = {0};
+	WNDCLASSEX wcl = { 0 };
 
 	bModuleInitialized = TRUE;
 
@@ -355,7 +363,7 @@ int LoadSkinHotkeys(void)
 	g_pid = GetCurrentProcessId();
 
 	g_hwndHotkeyHost = CreateWindow(_T("MirandaHotkeyHostWnd"), NULL, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, hInst, NULL);
-	SetWindowPos(g_hwndHotkeyHost, 0, 0, 0, 0, 0, SWP_NOZORDER|SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE|SWP_DEFERERASE|SWP_NOSENDCHANGING|SWP_HIDEWINDOW);
+	SetWindowPos(g_hwndHotkeyHost, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 
 	hhkKeyboard = SetWindowsHookEx(WH_KEYBOARD, sttKeyboardProc, NULL, hMainThreadId);
 
@@ -369,8 +377,8 @@ int LoadSkinHotkeys(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, sttModulesLoaded);
 
-	for (int i=0; i < SIZEOF(oldSettings); i++) {
-		char szSetting[ 100 ];
+	for (int i = 0; i < SIZEOF(oldSettings); i++) {
+		char szSetting[100];
 		mir_snprintf(szSetting, "HK%s", oldSettings[i]);
 
 		WORD key;
@@ -397,7 +405,7 @@ void UnloadSkinHotkeys(void)
 	DestroyHookableEvent(hEvChanged);
 	UnhookWindowsHookEx(hhkKeyboard);
 
-	for (int i=0; i < hotkeys.getCount(); i++)
+	for (int i = 0; i < hotkeys.getCount(); i++)
 		FreeHotkey(hotkeys[i]);
 
 	DestroyWindow(g_hwndHotkeyHost);
