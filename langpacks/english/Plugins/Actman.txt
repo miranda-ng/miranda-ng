@@ -6,7 +6,6 @@
 ;  Authors: Awkward
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
-;Icons
 [Apply]
 [New]
 [Delete]
@@ -24,7 +23,6 @@
 [Export]
 [Reload/Refresh]
 [Registered actions]
-;Actions
 [Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
 [Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
 [Actman settings converted to new version]
@@ -216,7 +214,6 @@
 [Select for FirstRun]
 [Mark as Volatile]
 [Single instance]
-;Scheduler
 [Scheduler]
 [Task sample]
 [Start]
@@ -232,13 +229,11 @@
 [Break on non-zero result]
 [Send event on start time]
 [Send event just once]
-;Hooks
 [Hooks]
 [Description]
 [hook sample]
 [Event]
 [Miranda event help]
-;Use Actions
 [Use Actions]
 [Action list]
 [Where to use]
@@ -263,7 +258,6 @@
 [Custom settings]
 [Separated]
 [Do not translate]
-;services.ini
 [Show window for new/changed profile password]
 [int 0, if successful]
 [Hide All Titlebars]
