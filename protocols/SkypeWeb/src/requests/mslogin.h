@@ -47,7 +47,7 @@ public:
 			<< CHAR_VALUE ("PPFT", ppft);
 	}
 	LoginMSRequest(const char *t) :
-		HttpRequest(REQUEST_POST, "login.skype.com/login/oauth/microsoft")
+		HttpRequest(REQUEST_POST, "login.skype.com/login/oauth")
 	{
 		Url
 			<< INT_VALUE  ("client_id", 578134)
@@ -57,7 +57,7 @@ public:
 			<< CHAR_VALUE ("Content-Type", "application/x-www-form-urlencoded");
 
 		Body
-			<< CHAR_VALUE ("t", t)
+			<< CHAR_VALUE ("t", ptrA(mir_urlEncode(t)))
 			<< INT_VALUE ("oauthPartner", 999)
 			<< INT_VALUE  ("client_id", 578134)
 			<< CHAR_VALUE ("redirect_uri", ptrA(mir_urlEncode("https://web.skype.com")));
