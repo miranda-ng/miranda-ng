@@ -309,7 +309,7 @@ private:
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 	time_t IsoToUnixTime(const char *stamp);
 	char *RemoveHtml(const char *text);
-	char *GetStringChunk(const char *haystack, size_t len, const char *start, const char *end);
+	CMStringA GetStringChunk(const char *haystack, const char *start, const char *end);
 
 	int SkypeToMirandaStatus(const char *status);
 	char *MirandaToSkypeStatus(int status);
@@ -335,7 +335,7 @@ private:
 	void CALLBACK SkypeSetTimer(void*);
 
 	time_t GetLastMessageTime(MCONTACT hContact);
-
+	CMString RunConfirmationCode();
 	//events
 	void InitDBEvents();
 	int __cdecl ProcessSrmmEvent(WPARAM, LPARAM);
