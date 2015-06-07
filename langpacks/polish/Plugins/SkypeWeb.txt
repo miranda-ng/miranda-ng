@@ -37,7 +37,7 @@ Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodząc
 [Place:]
 Miejsce:
 [Use hostname]
-
+Używaj nazwy hosta
 [Enter password]
 Wprowadź hasło
 [Save password]
@@ -128,11 +128,11 @@ Ikona działania
 Protokoły
 ;file \protocols\SkypeWeb\src\skype_login.cpp
 [Authentication failed. Bad username or password.]
-
+Autoryzacja nie powiodła sie. Błędna nazwa użytkownika lub hasło.
 [Too many failed authentication attempts with given username or IP.]
-
+Zbyt wiele nieudanych prób autoryzacji z podaną nazwą użytkownika lub IP.
 [Authentication failed. Unknown error.]
-
+Autoryzacja nie powiodła się. Nieznany błąd.
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
 [Request authorization]
 Poproś o autoryzację
