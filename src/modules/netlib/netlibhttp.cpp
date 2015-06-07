@@ -410,12 +410,12 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 	int bytesSent;
 	bool lastFirstLineFail = false;
 
-	if (nlhr == NULL || nlhr->cbSize < NETLIBHTTPREQUEST_V1_SIZE || nlhr->szUrl == NULL || nlhr->szUrl[0] == '\0') {
+	if (nlhr == NULL || nlhr->cbSize != sizeof(NETLIBHTTPREQUEST) || nlhr->szUrl == NULL || nlhr->szUrl[0] == '\0') {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return SOCKET_ERROR;
 	}
 
-	int hdrTimeout = nlhr->cbSize > NETLIBHTTPREQUEST_V1_SIZE && nlhr->timeout ? nlhr->timeout : HTTPRECVHEADERSTIMEOUT;
+	int hdrTimeout = (nlhr->timeout) ? nlhr->timeout : HTTPRECVHEADERSTIMEOUT;
 
 	const char *pszRequest;
 	switch(nlhr->requestType) {
@@ -831,10 +831,9 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 {
 	NetlibUser *nlu = (NetlibUser*)wParam;
 	NETLIBHTTPREQUEST *nlhr = (NETLIBHTTPREQUEST*)lParam, *nlhrReply;
-	DWORD dflags, hflags;
 
 	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_OUTGOING) ||
-		nlhr == NULL || nlhr->cbSize < NETLIBHTTPREQUEST_V1_SIZE ||
+		nlhr == NULL || nlhr->cbSize != sizeof(NETLIBHTTPREQUEST) ||
 		nlhr->szUrl == NULL || nlhr->szUrl[0] == 0)
 	{
 		SetLastError(ERROR_INVALID_PARAMETER);
@@ -891,11 +890,11 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 	if (!doneUserAgentHeader || !doneAcceptEncoding)
 		mir_free(nlhrSend.headers);
 
-	dflags = (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT:0) |
+	DWORD dflags = (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) |
 		(nlhr->flags & NLHRF_NODUMP ? MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
 		(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
 
-	hflags =
+	DWORD hflags =
 		(nlhr->flags & NLHRF_NODUMP ? MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
 		(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
 

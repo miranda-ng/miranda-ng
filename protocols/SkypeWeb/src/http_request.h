@@ -264,26 +264,4 @@ public:
 	}
 };
 
-class NLHR_PTR
-{
-protected:
-	NETLIBHTTPREQUEST *_p;
-
-public:
-	__inline explicit NLHR_PTR(NETLIBHTTPREQUEST *p) : _p(p) {}
-	__inline NETLIBHTTPREQUEST* operator=(NETLIBHTTPREQUEST *p)
-	{
-		if (_p)
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)(NETLIBHTTPREQUEST*)_p);
-		_p = p;
-		return _p;
-	}
-	__inline operator NETLIBHTTPREQUEST*() const { return _p; }
-	__inline NETLIBHTTPREQUEST* operator->() const { return _p; }
-	__inline ~NLHR_PTR()
-	{
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)(NETLIBHTTPREQUEST*)this);
-	}
-};
-
 #endif //_HTTP_REQUEST_H_
