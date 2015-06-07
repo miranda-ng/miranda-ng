@@ -62,8 +62,9 @@ bool ThreadData::isTimeout(void)
 		res = !proto->usingGateway;
 	}
 	else if (mJoinedContactsWLID.getCount() <= 1 || mChatID[0] == 0) {
+#ifdef OBSOLETE
 		MCONTACT hContact = getContactHandle();
-
+#endif
 		if (mJoinedContactsWLID.getCount() == 0 || termPending)
 			res = true;
 #ifdef OBSOLETE

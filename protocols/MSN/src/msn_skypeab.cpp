@@ -60,7 +60,6 @@ static TCHAR *get_json_str(JSONNODE *item, const char *pszValue)
 bool CMsnProto::MSN_SKYABRefreshClist(void)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[3];
 	CMStringA post;
 	bool bRet = false;
@@ -72,7 +71,7 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 
 	// Query addressbook
 	mHttpsTS = clock();
-	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
 	if (nlhrReply)  {
 		hHttpsConnection = nlhrReply->nlc;
@@ -116,7 +115,6 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 bool CMsnProto::MSN_SKYABGetProfiles(const char *pszPOST)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[4];
 	bool bRet = false;
 
@@ -128,7 +126,7 @@ bool CMsnProto::MSN_SKYABGetProfiles(const char *pszPOST)
 	nlhr.pData = (char*)pszPOST;
 
 	mHttpsTS = clock();
-	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
 	if (nlhrReply)  {
 		hHttpsConnection = nlhrReply->nlc;
@@ -171,7 +169,6 @@ bool CMsnProto::MSN_SKYABGetProfiles(const char *pszPOST)
 bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[4];
 	bool bRet = false;
 	char szURL[256];
@@ -183,7 +180,7 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 	nlhr.szUrl = szURL;
 
 	mHttpsTS = clock();
-	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
 	if (nlhrReply)  {
 		hHttpsConnection = nlhrReply->nlc;
@@ -244,7 +241,6 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 bool CMsnProto::MSN_SKYABBlockContact(const char *wlid, const char *pszAction)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[4];
 	bool bRet = false;
 	char szURL[256], szPOST[128];
@@ -261,7 +257,7 @@ bool CMsnProto::MSN_SKYABBlockContact(const char *wlid, const char *pszAction)
 	nlhr.pData = szPOST;
 
 	mHttpsTS = clock();
-	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
 	if (nlhrReply)  {
 		hHttpsConnection = nlhrReply->nlc;
@@ -274,7 +270,6 @@ bool CMsnProto::MSN_SKYABBlockContact(const char *wlid, const char *pszAction)
 bool CMsnProto::MSN_SKYABDeleteContact(const char *wlid)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[4];
 	bool bRet = false;
 	char szURL[256];
@@ -289,7 +284,7 @@ bool CMsnProto::MSN_SKYABDeleteContact(const char *wlid)
 	nlhr.headersCount++;
 
 	mHttpsTS = clock();
-	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
 	if (nlhrReply)  {
 		hHttpsConnection = nlhrReply->nlc;
@@ -303,7 +298,6 @@ bool CMsnProto::MSN_SKYABDeleteContact(const char *wlid)
 bool CMsnProto::MSN_SKYABAuthRsp(const char *wlid, const char *pszAction)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[3];
 	bool bRet = false;
 	char szURL[256];
@@ -315,7 +309,7 @@ bool CMsnProto::MSN_SKYABAuthRsp(const char *wlid, const char *pszAction)
 	nlhr.szUrl = szURL;
 
 	mHttpsTS = clock();
-	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
 	if (nlhrReply)  {
 		hHttpsConnection = nlhrReply->nlc;
@@ -328,7 +322,6 @@ bool CMsnProto::MSN_SKYABAuthRsp(const char *wlid, const char *pszAction)
 bool CMsnProto::MSN_SKYABAuthRq(const char *wlid, const char *pszGreeting)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[4];
 	bool bRet = false;
 	char szURL[256];
@@ -347,7 +340,7 @@ bool CMsnProto::MSN_SKYABAuthRq(const char *wlid, const char *pszGreeting)
 	nlhr.pData = (char*)(const char*)post;
 
 	mHttpsTS = clock();
-	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
 	if (nlhrReply)  {
 		hHttpsConnection = nlhrReply->nlc;
@@ -360,7 +353,6 @@ bool CMsnProto::MSN_SKYABAuthRq(const char *wlid, const char *pszGreeting)
 bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[4];
 	bool bRet = false;
 	char szURL[256];
@@ -378,7 +370,7 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 	nlhr.headersCount++;
 
 	mHttpsTS = clock();
-	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
 	if (nlhrReply)  {
 		hHttpsConnection = nlhrReply->nlc;

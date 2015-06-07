@@ -409,8 +409,8 @@ bool CMsnProto::MSN_SharingAddDelMember(const char* szEmail, const int listId, c
 
 	ezxml_free(xmlp);
 
-	unsigned status;
-	char *abUrl = NULL, *tResult;
+	unsigned status = 0;
+	char *abUrl = NULL, *tResult = NULL;
 
 	for (int k = 4; --k;) {
 		mir_free(abUrl);
@@ -872,7 +872,6 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 bool CMsnProto::MSN_ABRefreshClist(void)
 {
 	NETLIBHTTPREQUEST nlhr = { 0 };
-	NETLIBHTTPREQUEST *nlhrReply;
 	NETLIBHTTPHEADER headers[2];
 	bool bRet = false;
 
@@ -893,7 +892,7 @@ bool CMsnProto::MSN_ABRefreshClist(void)
 
 	// Query addressbook
 	mHttpsTS = clock();
-	nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 	mHttpsTS = clock();
 	if (nlhrReply)  {
 		hHttpsConnection = nlhrReply->nlc;
@@ -906,7 +905,7 @@ bool CMsnProto::MSN_ABRefreshClist(void)
 
 				for (ezxml_t pers = ezxml_get(abinf, "persons", 0, "Person", -1); pers != NULL; pers = ezxml_next(pers)) {
 					const char *cid = ezxml_txt(ezxml_child(pers, "cid"));
-					if (mycid && !mir_strcmp(cid, mycid)) continue;
+					if (!mir_strcmp(cid, mycid)) continue;
 
 					for (ezxml_t cont = ezxml_get(pers, "contacts", 0, "Contact", -1); cont != NULL; cont = ezxml_next(cont)) {
 						int netId;
@@ -1601,8 +1600,8 @@ void CMsnProto::MSN_ABUpdateDynamicItem(bool allowRecurse)
 	char* szData = ezxml_toxml(xmlp, true);
 	ezxml_free(xmlp);
 
-	unsigned status;
-	char *abUrl = NULL, *tResult;
+	unsigned status = 0;
+	char *abUrl = NULL, *tResult = NULL;
 
 	for (int k = 4; --k;) {
 		mir_free(abUrl);

@@ -165,10 +165,9 @@ bool CMsnProto::MSN_StoreShareItem(const char* id, bool allowRecurse)
 	ezxml_free(xmlp);
 
 	unsigned status = 0;
-	char *storeUrl, *tResult = NULL;
 
-	storeUrl = mir_strdup("https://storage.msn.com/storageservice/SchematizedStore.asmx");
-	tResult = getSslResult(&storeUrl, szData, reqHdr, status);
+	char *storeUrl = mir_strdup("https://storage.msn.com/storageservice/SchematizedStore.asmx");
+	char *tResult = getSslResult(&storeUrl, szData, reqHdr, status);
 
 	mir_free(reqHdr);
 	free(szData);
@@ -243,8 +242,10 @@ bool CMsnProto::MSN_StoreGetProfile(bool allowRecurse)
 		mir_free(storeUrl);
 		storeUrl = GetStoreHost("GetProfile");
 		tResult = getSslResult(&storeUrl, szData, reqHdr, status);
-		if (tResult == NULL) UpdateStoreHost("GetProfile", NULL);
-		else break;
+		if (tResult == NULL)
+			UpdateStoreHost("GetProfile", NULL);
+		else
+			break;
 	}
 
 	mir_free(reqHdr);
