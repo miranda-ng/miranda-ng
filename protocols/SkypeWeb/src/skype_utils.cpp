@@ -539,6 +539,19 @@ CMStringA CSkypeProto::ParseUrl(const char *url, const char *token)
 	return CMStringA(start, end - start);
 }
 
+CMStringA CSkypeProto::GetStringChunk(const char *haystack, const char *start, const char *end)
+{
+	const char *sstart = strstr(haystack, start);
+	if (sstart == NULL)
+		return CMStringA();
+	
+	sstart = sstart + mir_strlen(start);
+	const char *send = strstr(sstart, end);
+	if (send == NULL)
+		return CMStringA(sstart);
+	return CMStringA(sstart, send - sstart);
+}
+
 CMStringA CSkypeProto::ContactUrlToName(const char *url)
 {
 	return ParseUrl(url, "/8:");
