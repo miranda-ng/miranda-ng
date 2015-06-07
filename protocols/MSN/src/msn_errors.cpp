@@ -58,7 +58,7 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 	}
 
 	HReadBuffer buf(info, 0);
-	char* msgBody = (char*)buf.surelyRead(atol(data.strMsgBytes));
+//	char* msgBody = (char*)buf.surelyRead(atol(data.strMsgBytes));
 
 
 	debugLogA("Server error:%s", cmdString);

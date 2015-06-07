@@ -819,7 +819,7 @@ int __cdecl CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 	return Proto_RecvMessage(hContact, pre);
 }
 
-int CMsnProto::GetInfo(MCONTACT hContact, int infoType)
+int CMsnProto::GetInfo(MCONTACT hContact, int)
 {
 	if (MyOptions.netId == NETID_SKYPE) {
 		char tEmail[MSN_MAX_EMAIL_LEN];
@@ -1001,14 +1001,14 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 			ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
 		}
 		else {
+#ifdef OBSOLETE
 			const char msgType = MyOptions.SlowSend ? 'A' : 'N';
 			bool isOffline;
-			ThreadData* thread;
-#ifdef OBSOLETE
-			thread = MSN_StartSB(tEmail, isOffline);
+			ThreadData *thread = MSN_StartSB(tEmail, isOffline);
 #else
 			/* MSNP24 doesn't have a switchboard anymore */
-			thread = NULL; isOffline = true;
+			bool isOffline = true;
+			ThreadData *thread = NULL;
 #endif
 
 			if (thread == NULL) {
@@ -1042,7 +1042,7 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendContacts - sends contacts to a certain user
-int __cdecl CMsnProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
+int __cdecl CMsnProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hContactsList)
 {
 	if (!msnLoggedIn)
 		return 0;

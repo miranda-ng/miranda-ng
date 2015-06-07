@@ -378,7 +378,6 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY) {
-			bool reconnectRequired = false;
 			char str[MAX_PATH];
 
 			CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -403,8 +402,11 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 						TranslateT("MSN Protocol"), MB_OK | MB_ICONINFORMATION);
 				}
 			}
-
+			
+#ifdef OBSOLETE
 			unsigned gethst2 = proto->getByte("AutoGetHost", 1);
+
+#endif
 			unsigned gethst = SendDlgItemMessage(hwndDlg, IDC_HOSTOPT, CB_GETCURSEL, 0, 0);
 			if (gethst < 2) gethst = !gethst;
 			proto->setByte("AutoGetHost", (BYTE)gethst);
@@ -419,10 +421,6 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			if (gethst != gethst2)
 				proto->ForkThread(&CMsnProto::MSNConnDetectThread, NULL);
 #endif
-
-			if (reconnectRequired && proto->msnLoggedIn)
-				MessageBox(hwndDlg, TranslateT("The changes you have made require you to reconnect to the MSN Messenger network before they take effect"),
-				TranslateT("MSN Options"), MB_OK);
 
 			proto->LoadOptions();
 			return TRUE;

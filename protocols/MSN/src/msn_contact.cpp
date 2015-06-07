@@ -76,6 +76,8 @@ MCONTACT CMsnProto::MSN_HContactFromChatID(const char* wlid)
 void CMsnProto::MSN_SetContactDb(MCONTACT hContact, const char *szEmail)
 {
 	MsnContact *cont = Lists_Get(szEmail);
+	if (cont == NULL)
+		return;
 	const int listId = cont->list;
 
 	if (listId & LIST_FL) {

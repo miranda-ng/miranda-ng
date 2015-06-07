@@ -426,7 +426,11 @@ void CMsnProto::MSN_GoOffline(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MSN_SendMessage - formats and sends a MSG packet through the server
 
+#ifdef OBSOLETE
 int ThreadData::sendMessage(int msgType, const char* email, int netId, const char* parMsg, int parFlags)
+#else
+int ThreadData::sendMessage(int, const char *email, int netId, const char *parMsg, int parFlags)
+#endif
 {
 	CMStringA buf;
 
@@ -610,7 +614,11 @@ static char * HtmlEncodeUTF8T(const TCHAR *src)
 	return HtmlEncode(UTF8(src));
 }
 
+#ifdef OBSOLETE
 void CMsnProto::MSN_SendStatusMessage(const char* msg)
+#else
+void CMsnProto::MSN_SendStatusMessage(const char*)
+#endif
 {
 	if (!msnLoggedIn)
 		return;
@@ -743,7 +751,7 @@ int ThreadData::sendPacketPayload(const char* cmd, const char *param, const char
 
 	thisTrid = InterlockedIncrement(&mTrid);
 	int regSz = proto->msnRegistration ? (int)mir_strlen(proto->msnRegistration)+16 : 0;
-	int paramStart = mir_snprintf(str, strsize, "%s %d %s ", cmd, thisTrid, param), strszstart = 0, strSz;
+	int paramStart = mir_snprintf(str, strsize, "%s %d %s ", cmd, thisTrid, param), strSz;
 	while ((strSz = mir_vsnprintf(str + paramStart, strsize - paramStart - regSz - 10, fmt, vararg)) == -1)
 		str = (char*)mir_realloc(str, strsize += 512);
 	if (strSz) strSz+=2;
