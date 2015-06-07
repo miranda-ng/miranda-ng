@@ -280,8 +280,8 @@ HICON LoadSkinProtoIcon(const char *szProto, int status, bool big)
 			TCHAR tszSection[MAX_PATH];
 			mir_sntprintf(tszSection, SIZEOF(tszSection), _T(PROTOCOLS_PREFIX)_T("/%s"), pa->tszAccountName);
 
-			SKINICONDESC sid = { sizeof(sid) };
-			sid.ptszSection = tszSection;
+			SKINICONDESC sid = { 0 };
+			sid.section.t = tszSection;
 			sid.flags = SIDF_ALL_TCHAR;
 
 			str = _tcsrchr(szPath, '\\');
@@ -289,19 +289,19 @@ HICON LoadSkinProtoIcon(const char *szProto, int status, bool big)
 				*str = 0;
 			mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\Icons\\proto_%S.dll"), szPath, pa->szProtoName);
 			if (GetFileAttributes(szFullPath) != INVALID_FILE_ATTRIBUTES)
-				sid.ptszDefaultFile = szFullPath;
+				sid.defaultFile.t = szFullPath;
 			else {
 				mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\Plugins\\%S.dll"), szPath, szProto);
-				if ((int)ExtractIconEx(szFullPath, statusIcons[statusIndx].resource_id, NULL, &hIcon, 1) > 0) {
+				if (int(ExtractIconEx(szFullPath, statusIcons[statusIndx].resource_id, NULL, &hIcon, 1)) > 0) {
 					DestroyIcon(hIcon);
-					sid.ptszDefaultFile = szFullPath;
+					sid.defaultFile.t = szFullPath;
 					hIcon = NULL;
 				}
 
-				if (sid.pszDefaultFile == NULL) {
+				if (sid.defaultFile.a == NULL) {
 					if (str != NULL)
 						*str = '\\';
-					sid.ptszDefaultFile = szPath;
+					sid.defaultFile.t = szPath;
 			}	}
 
 			//
@@ -319,7 +319,7 @@ HICON LoadSkinProtoIcon(const char *szProto, int status, bool big)
 					// format: core_%s%d
 					mir_snprintf(iconName, SIZEOF(iconName), "%s%s%d", statusIconsFmt, szProto, i);
 					sid.pszName = iconName;
-					sid.ptszDescription = cli.pfnGetStatusModeDescription(statusIcons[i].id, 0);
+					sid.description.t = cli.pfnGetStatusModeDescription(statusIcons[i].id, 0);
 					sid.iDefaultIndex = statusIcons[i].resource_id;
 					IcoLib_AddNewIcon(0, &sid);
 				}
@@ -472,8 +472,8 @@ int LoadSkinIcons(void)
 	TCHAR modulePath[MAX_PATH];
 	GetModuleFileName(NULL, modulePath, SIZEOF(modulePath));
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = modulePath;
+	SKINICONDESC sid = { 0 };
+	sid.defaultFile.t = modulePath;
 	sid.flags = SIDF_PATH_TCHAR;
 	sid.pszName = iconName;
 
@@ -482,22 +482,22 @@ int LoadSkinIcons(void)
 	//
 	for (i=0; i < SIZEOF(mainIcons); i++) {
 		mir_snprintf(iconName, SIZEOF(iconName), "%s%d", mainIconsFmt, i);
-		sid.pszSection = mainIcons[i].section == NULL ? LPGEN("Main icons") : (char*)mainIcons[i].section;
-		sid.pszDescription = (char*)mainIcons[i].description;
+		sid.section.a = mainIcons[i].section == NULL ? LPGEN("Main icons") : (char*)mainIcons[i].section;
+		sid.description.a = (char*)mainIcons[i].description;
 		sid.iDefaultIndex = mainIcons[i].resource_id;
 		mainIcons[i].hIcolib = IcoLib_AddNewIcon(0, &sid);
 	}
 	//
 	// Add global icons to list
 	//
-	sid.pszSection = PROTOCOLS_PREFIX "/" LPGEN("Global");
+	sid.section.a = PROTOCOLS_PREFIX "/" LPGEN("Global");
 	//
 	// Asterisk is used, to avoid conflict with proto-plugins
 	// 'coz users can't rename it to name with '*'
 	for (i=0; i < SIZEOF(statusIcons); i++) {
 		mir_snprintf(iconName, SIZEOF(iconName), "%s%s%d", statusIconsFmt, GLOBAL_PROTO_NAME, i);
 		sid.pszName = iconName;
-		sid.pszDescription = (char*)statusIcons[i].description;
+		sid.description.a = (char*)statusIcons[i].description;
 		sid.iDefaultIndex = statusIcons[i].resource_id;
 		statusIcons[i].hIcolib = IcoLib_AddNewIcon(0, &sid);
 	}

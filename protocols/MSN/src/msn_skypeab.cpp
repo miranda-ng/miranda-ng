@@ -124,7 +124,7 @@ bool CMsnProto::MSN_SKYABGetProfiles(const char *pszPOST)
 	if (!APISkypeComRequest(&nlhr, headers)) return false;
 	nlhr.requestType = REQUEST_POST;
 	nlhr.szUrl = "https://api.skype.com/users/self/contacts/profiles";
-	nlhr.dataLength = mir_strlen(pszPOST);
+	nlhr.dataLength = (int)mir_strlen(pszPOST);
 	nlhr.pData = (char*)pszPOST;
 
 	mHttpsTS = clock();
@@ -343,7 +343,7 @@ bool CMsnProto::MSN_SKYABAuthRq(const char *wlid, const char *pszGreeting)
 	nlhr.headers[3].szValue = "application/x-www-form-urlencoded";
 	nlhr.headersCount++;
 	post.Format("greeting=%s", pszGreeting);
-	nlhr.dataLength = mir_strlen(post);
+	nlhr.dataLength = (int)mir_strlen(post);
 	nlhr.pData = (char*)(const char*)post;
 
 	mHttpsTS = clock();

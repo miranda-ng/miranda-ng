@@ -232,13 +232,13 @@ static HANDLE AddIcon(char* szIcoName)
 	TCHAR tszPath[MAX_PATH];
 	GetModuleFileName(hinstance, tszPath, SIZEOF(tszPath));
 
-	SKINICONDESC sid = { sizeof(sid) };
+	SKINICONDESC sid = { 0 };
 	sid.flags = SIDF_PATH_TCHAR;
-	sid.pszSection = "Quick Messages";
+	sid.section.a = "Quick Messages";
 	sid.cx = sid.cy = 16;
-	sid.pszDescription = szIcoName;
+	sid.description.a = szIcoName;
 	sid.pszName = szIcoName;
-	sid.ptszDefaultFile = tszPath;
+	sid.defaultFile.t = tszPath;
 	sid.iDefaultIndex = -IDI_QICON;
 	return Skin_AddIcon(&sid);
 }

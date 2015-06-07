@@ -701,7 +701,6 @@ var
   sid:TSKINICONDESC;
 begin
   FillChar(sid,SizeOf(TSKINICONDESC),0);
-  sid.cbSize     :=SizeOf(TSKINICONDESC);
   sid.cx         :=16;
   sid.cy         :=16;
   sid.flags      :=0;

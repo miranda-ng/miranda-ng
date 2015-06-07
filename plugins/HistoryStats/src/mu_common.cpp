@@ -125,15 +125,12 @@ namespace mu
 
 		void addIcon(const TCHAR* szSection, const TCHAR* szDescription, const char* szIconName, const char* szDefaultFile, int iDefaultIndex, int cx /* = 16 */, int cy /* = 16 */)
 		{
-			SKINICONDESC sid;
-
-			sid.cbSize = sizeof(sid);
-			sid.ptszSection = const_cast<TCHAR*>(szSection);
-			sid.ptszDescription = const_cast<TCHAR*>(szDescription);
+			SKINICONDESC sid = { 0 };
+			sid.section.t = const_cast<TCHAR*>(szSection);
+			sid.description.t = const_cast<TCHAR*>(szDescription);
 			sid.pszName = const_cast<char*>(szIconName);
-			sid.pszDefaultFile = const_cast<char*>(szDefaultFile);
+			sid.defaultFile.a = const_cast<char*>(szDefaultFile);
 			sid.iDefaultIndex = iDefaultIndex;
-			sid.hDefaultIcon = NULL;
 			sid.cx = cx;
 			sid.cy = cy;
 			sid.flags = SIDF_TCHAR;
@@ -142,13 +139,11 @@ namespace mu
 
 		void addIcon(const TCHAR* szSection, const TCHAR* szDescription, const char* szIconName, HICON hDefaultIcon, int cx /* = 16 */, int cy /* = 16 */)
 		{
-			SKINICONDESC sid;
-
-			sid.cbSize = sizeof(sid);
-			sid.ptszSection = const_cast<TCHAR*>(szSection);
-			sid.ptszDescription = const_cast<TCHAR*>(szDescription);
+			SKINICONDESC sid = { 0 };
+			sid.section.t = const_cast<TCHAR*>(szSection);
+			sid.description.t = const_cast<TCHAR*>(szDescription);
 			sid.pszName = const_cast<char*>(szIconName);
-			sid.pszDefaultFile = NULL;
+			sid.defaultFile.a = NULL;
 			sid.iDefaultIndex = 0;
 			sid.hDefaultIcon = hDefaultIcon;
 			sid.cx = cx;

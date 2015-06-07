@@ -122,7 +122,6 @@ var
 //  ii:tIconItem;
 begin
   FillChar(sid,SizeOf(sid),0);
-  sid.cbSize:=SizeOf(sid);
   sid.cx:=16;
   sid.cy:=16;
   sid.szSection.a:='Actions';
@@ -192,7 +191,7 @@ begin
 
   LoadMacros;
   RegisterIcons;
-  
+
   HookEvent(ME_OPT_INITIALISE ,@OnOptInitialise);
   HookEvent(ME_SYSTEM_PRESHUTDOWN{ME_SYSTEM_OKTOEXIT},@PreShutdown);
   NotifyEventHooks(hHookChanged,twparam(ACTM_LOADED),0);

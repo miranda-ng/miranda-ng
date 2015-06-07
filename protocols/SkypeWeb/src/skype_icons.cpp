@@ -37,18 +37,18 @@ void CSkypeProto::InitIcons()
 	char szSettingName[100];
 	TCHAR szSectionName[100];
 
-	SKINICONDESC sid = { sizeof(SKINICONDESC) };
+	SKINICONDESC sid = { 0 };
 	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszDefaultFile = szFile;
+	sid.defaultFile.t = szFile;
 	sid.pszName = szSettingName;
-	sid.ptszSection = szSectionName;
+	sid.section.t = szSectionName;
 
 	mir_sntprintf(szSectionName, SIZEOF(szSectionName), _T("%s/%s"), LPGENT("Protocols"), LPGENT(MODULE));
 	for (int i = 0; i < SIZEOF(Icons); i++)
 	{
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODULE, Icons[i].Name);
 
-		sid.ptszDescription = Icons[i].Description;
+		sid.description.t = Icons[i].Description;
 		sid.iDefaultIndex = -Icons[i].IconId;
 		Icons[i].Handle = Skin_AddIcon(&sid);
 	}

@@ -794,15 +794,15 @@ static int TSAPI SetupIconLibConfig()
 	FreeLibrary(g_hIconDLL);
 	g_hIconDLL = 0;
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFilename;
+	SKINICONDESC sid = { 0 };
+	sid.defaultFile.t = szFilename;
 	sid.flags = SIDF_PATH_TCHAR;
 
 	for (int n = 0; n < SIZEOF(ICONBLOCKS); n++) {
-		sid.pszSection = ICONBLOCKS[n].szSection;
+		sid.section.a = ICONBLOCKS[n].szSection;
 		for (int i = 0; i < ICONBLOCKS[n].nItems; i++) {
 			sid.pszName = ICONBLOCKS[n].idesc[i].szName;
-			sid.pszDescription = ICONBLOCKS[n].idesc[i].szDesc;
+			sid.description.a = ICONBLOCKS[n].idesc[i].szDesc;
 			sid.iDefaultIndex = ICONBLOCKS[n].idesc[i].uId == -IDI_HISTORY ? 0 : ICONBLOCKS[n].idesc[i].uId;        // workaround problem /w icoLib and a resource id of 1 (actually, a Windows problem)
 
 			if (n > 0 && n < 4)
@@ -812,21 +812,21 @@ static int TSAPI SetupIconLibConfig()
 		}
 	}
 
-	sid.pszSection = LPGEN("Message Sessions")"/"LPGEN("Default");
+	sid.section.a = LPGEN("Message Sessions")"/"LPGEN("Default");
 	sid.pszName = "tabSRMM_clock_symbol";
-	sid.pszDescription = LPGEN("Clock symbol (for the info panel clock)");
+	sid.description.a = LPGEN("Clock symbol (for the info panel clock)");
 	sid.iDefaultIndex = -IDI_CLOCK;
 	Skin_AddIcon(&sid);
 
 	_tcsncpy(szFilename, _T("plugins\\tabsrmm.dll"), MAX_PATH);
 
 	sid.pszName = "tabSRMM_overlay_disabled";
-	sid.pszDescription = LPGEN("Feature disabled (used as overlay)");
+	sid.description.a = LPGEN("Feature disabled (used as overlay)");
 	sid.iDefaultIndex = -IDI_FEATURE_DISABLED;
 	Skin_AddIcon(&sid);
 
 	sid.pszName = "tabSRMM_overlay_enabled";
-	sid.pszDescription = LPGEN("Feature enabled (used as overlay)");
+	sid.description.a = LPGEN("Feature enabled (used as overlay)");
 	sid.iDefaultIndex = -IDI_FEATURE_ENABLED;
 	Skin_AddIcon(&sid);
 	return 1;

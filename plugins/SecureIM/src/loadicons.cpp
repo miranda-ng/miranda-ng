@@ -96,14 +96,14 @@ void InitIcons(void)
 	TCHAR tszPath[MAX_PATH];
 	GetModuleFileName(g_hIconInst, tszPath, SIZEOF(tszPath));
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.pszSection = "SecureIM";
-	sid.ptszDefaultFile = tszPath;
+	SKINICONDESC sid = { 0 };
+	sid.section.a = "SecureIM";
+	sid.defaultFile.t = tszPath;
 
 	for (int i = 0; i < SIZEOF(icons); i++) {
-		sid.pszSection = icons[i].section;
+		sid.section.a = icons[i].section;
 		sid.pszName = icons[i].name;
-		sid.pszDescription = icons[i].text;
+		sid.description.a = icons[i].text;
 		sid.iDefaultIndex = -icons[i].key;
 		HANDLE hIcolib = Skin_AddIcon(&sid);
 

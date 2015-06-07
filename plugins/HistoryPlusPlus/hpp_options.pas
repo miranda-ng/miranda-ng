@@ -549,7 +549,6 @@ begin
   // Register in IcoLib
   hppIconPack := FindIconsDll(false);
   ZeroMemory(@sid, sizeof(sid));
-  sid.cbSize := sizeof(sid);
   sid.Flags:=SIDF_ALL_UNICODE;
 
   sid.szDefaultFile.w := PChar(hppIconPack);

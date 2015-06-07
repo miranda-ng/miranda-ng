@@ -1079,11 +1079,11 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 			}
 		}
 
-		SKINICONDESC sid = { sizeof(sid) };
+		SKINICONDESC sid = { 0 };
 		sid.flags = SIDF_TCHAR;
-		sid.ptszSection = sectionName;
+		sid.section.t = sectionName;
 		sid.pszName = iconame;
-		sid.ptszDescription = descr;
+		sid.description.t = descr;
 		sid.hDefaultIcon = hIcon;
 		pmi->hIcolibItem = IcoLib_AddNewIcon(0, &sid);
 

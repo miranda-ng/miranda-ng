@@ -153,7 +153,6 @@ begin
   begin
     // add icon for action to icolib
     fillChar(sid,SizeOf(sid),0);
-    sid.cbSize         :=sizeof(sid);
     sid.szSection    .w:=ICOLIB_ACTSECTION;
     sid.szDefaultFile.w:=szMyPath;
     sid.iDefaultIndex  :=-IDI_ACTION;
@@ -178,7 +177,6 @@ begin
   begin
     // add icon for action to icolib
     fillChar(sid,SizeOf(sid),0);
-    sid.cbSize         :=sizeof(sid);
     sid.szSection    .w:=ICOLIB_ACTSECTION;
     sid.szDefaultFile.w:=szMyPath;
     sid.iDefaultIndex  :=-IDI_ACTION;
@@ -259,7 +257,6 @@ var
 begin
   FillChar(sid,SizeOf(sid),0);
   //first - register icon for root popup
-  sid.cbSize         := sizeof(sid);
   sid.szSection.w    := ICOLIB_MNUSECTION;
   sid.flags          := SIDF_ALL_UNICODE;
   sid.cx             := 16;

@@ -499,17 +499,14 @@ static void IcoLib_FreeIcon(IcolibItem* icon)
 /////////////////////////////////////////////////////////////////////////////////////////
 // IcoLib_AddNewIcon
 
-HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC* sid)
+HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC *sid)
 {
-	if (sid->cbSize != sizeof(SKINICONDESC))
-		return NULL;
-
 	bool utf = (sid->flags & SIDF_UNICODE) != 0;
 	bool utf_path = (sid->flags & SIDF_PATH_UNICODE) != 0;
 
 	mir_cslock lck(csIconList);
 
-	IcolibItem* item = IcoLib_FindIcon(sid->pszName);
+	IcolibItem *item = IcoLib_FindIcon(sid->pszName);
 	if (!item) {
 		item = (IcolibItem*)mir_calloc(sizeof(IcolibItem));
 		item->name = sid->pszName;
@@ -519,12 +516,12 @@ HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC* sid)
 
 	item->name = mir_strdup(sid->pszName);
 	if (utf) {
-		item->description = mir_u2t(sid->pwszDescription);
-		item->section = IcoLib_AddSection(sid->pwszSection, TRUE);
+		item->description = mir_u2t(sid->description.w);
+		item->section = IcoLib_AddSection(sid->section.w, TRUE);
 	}
 	else {
-		item->description = mir_a2t(sid->pszDescription);
-		WCHAR* pwszSection = sid->pszSection ? mir_a2u(sid->pszSection) : NULL;
+		item->description = mir_a2t(sid->description.a);
+		WCHAR *pwszSection = sid->section.a ? mir_a2u(sid->section.a) : NULL;
 		item->section = IcoLib_AddSection(pwszSection, TRUE);
 		SAFE_FREE((void**)&pwszSection);
 	}
@@ -535,12 +532,12 @@ HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC* sid)
 	}
 	else item->orderID = 0;
 
-	if (sid->pszDefaultFile) {
+	if (sid->defaultFile.a) {
 		WCHAR fileFull[ MAX_PATH ];
 		if (utf_path)
-			PathToAbsoluteT(sid->pwszDefaultFile, fileFull);
+			PathToAbsoluteT(sid->defaultFile.w, fileFull);
 		else
-			PathToAbsoluteT(_A2T(sid->pszDefaultFile), fileFull);
+			PathToAbsoluteT(_A2T(sid->defaultFile.a), fileFull);
 		item->default_file = mir_wstrdup(fileFull);
 	}
 	item->default_indx = sid->iDefaultIndex;

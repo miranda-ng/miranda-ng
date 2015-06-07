@@ -31,9 +31,9 @@ MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconIte
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.pszSection = (char*)szSection;
+	SKINICONDESC sid = { 0 };
+	sid.defaultFile.t = szFile;
+	sid.section.a = (char*)szSection;
 	sid.flags = SIDF_PATH_TCHAR;
 
 	for (unsigned i = 0; i < iCount; i++) {
@@ -45,7 +45,7 @@ MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconIte
 		else sid.pszName = pIcons[i].szName;
 
 		sid.cx = sid.cy = pIcons[i].size;
-		sid.pszDescription = pIcons[i].szDescr;
+		sid.description.a = pIcons[i].szDescr;
 		sid.iDefaultIndex = -pIcons[i].defIconID;
 		pIcons[i].hIcolib = (HANDLE)CallService("Skin2/Icons/AddIcon", hLangpack, (LPARAM)&sid);
 	}
@@ -56,9 +56,9 @@ MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR *szSection, IconI
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.ptszSection = (TCHAR*)szSection;
+	SKINICONDESC sid = { 0 };
+	sid.defaultFile.t = szFile;
+	sid.section.t = (TCHAR*)szSection;
 	sid.flags = SIDF_ALL_TCHAR;
 
 	for (unsigned i = 0; i < iCount; i++) {
@@ -70,7 +70,7 @@ MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR *szSection, IconI
 		else sid.pszName = pIcons[i].szName;
 
 		sid.cx = sid.cy = pIcons[i].size;
-		sid.ptszDescription = pIcons[i].tszDescr;
+		sid.description.t = pIcons[i].tszDescr;
 		sid.iDefaultIndex = -pIcons[i].defIconID;
 		pIcons[i].hIcolib = (HANDLE)CallService("Skin2/Icons/AddIcon", hLangpack, (LPARAM)&sid);
 	}

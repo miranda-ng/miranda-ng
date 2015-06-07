@@ -388,15 +388,15 @@ void InitIcons()
 		phIconHandles = (HANDLE*)mir_alloc(nCountriesCount*sizeof(HANDLE));
 		if (phIconHandles != NULL) {
 			char szId[20];
-			SKINICONDESC sid = { sizeof(sid) };
-			sid.ptszSection = LPGENT("Country flags");
+			SKINICONDESC sid = { 0 };
+			sid.section.t = LPGENT("Country flags");
 			sid.pszName = szId;			// name to refer to icon when playing and in db
 			sid.cx = GetSystemMetrics(SM_CXSMICON); 
 			sid.cy = GetSystemMetrics(SM_CYSMICON);
 			sid.flags = SIDF_SORTED | SIDF_TCHAR;
 
 			for (int i=0; i < nCountriesCount; i++) {
-				sid.ptszDescription = mir_a2t(LPGEN(countries[i].szName));
+				sid.description.t = mir_a2t(LPGEN(countries[i].szName));
 				/* create identifier */
 				mir_snprintf(szId, SIZEOF(szId), (countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countries[i].id); /* buffer safe */
 				int index = CountryNumberToBitmapIndex(countries[i].id);
@@ -406,7 +406,7 @@ void InitIcons()
 
 				phIconHandles[index] = Skin_AddIcon(&sid);
 				if (sid.hDefaultIcon!=NULL) DestroyIcon(sid.hDefaultIcon);
-				mir_free(sid.ptszDescription); sid.ptszDescription = NULL;
+				mir_free(sid.description.t); sid.description.t = NULL;
 			}
 		}
 		ImageList_Destroy(himl);

@@ -92,7 +92,6 @@ begin
     exit;
 
   FillChar(sid,SizeOf(TSKINICONDESC),0);
-  sid.cbSize     :=SizeOf(TSKINICONDESC);
   sid.cx         :=16;
   sid.cy         :=16;
   sid.flags      :=SIDF_UNICODE;
@@ -442,7 +441,7 @@ var
   {$IFDEF Miranda}isScript:boolean;{$ENDIF}
 begin
   li.iItem:=item;
-  
+
   // result value check and element type
   li.mask      :=LVIF_PARAM or LVIF_STATE;
   li.iSubItem  :=0;
@@ -490,7 +489,7 @@ begin
   // type text (can skip and use type code)
   li.mask      :=LVIF_TEXT;
   li.cchTextMax:=HIGH(buf);
-  li.pszText   :=@buf; 
+  li.pszText   :=@buf;
   li.iSubItem  :=col_type;
   SendMessageW(list,LVM_GETITEMTEXTW,item,lparam(@li));
   dst:=StrEnd(FastWideToAnsiBuf(@buf,dst));
@@ -499,7 +498,7 @@ begin
   // alias
   li.mask      :=LVIF_TEXT;
   li.cchTextMax:=HIGH(buf);
-  li.pszText   :=@buf; 
+  li.pszText   :=@buf;
 
   li.iSubItem  :=col_alias;
   if SendMessageW(list,LVM_GETITEMTEXTW,item,lparam(@li))>0 then
@@ -839,7 +838,7 @@ begin
 {$ENDIF}
   buf[idx]:=#0;
   LV_SetItemW(list,@buf,item,col_flag);
-  
+
   // values
   tmp:=nil;
   case ltype of
@@ -1072,7 +1071,7 @@ begin
       GetWindowRect(wnd,rc1);
       SetWindowPos(wnd,0,0,0,rc.right-rc1.left-8,rc1.bottom-rc1.top,
           SWP_NOMOVE or SWP_NOZORDER or SWP_SHOWWINDOW);
-      
+
       wnd:=GetDlgItem(Dialog,IDC_DATA_FULL);
       GetWindowRect(wnd,rc1);
       SetWindowPos(wnd,0,0,0,rc1.right-rc1.left, rc.bottom-rc1.top-8,

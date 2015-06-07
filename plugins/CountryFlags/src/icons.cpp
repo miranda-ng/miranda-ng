@@ -227,12 +227,12 @@ void InitIcons(void)
 	char szId[20];
 
 	/* register icons */
-	SKINICONDESC sid = { sizeof(sid) };
+	SKINICONDESC sid = { 0 };
 	sid.pszName = szId;
 	sid.cx = GetSystemMetrics(SM_CXSMICON);
 	sid.cy = GetSystemMetrics(SM_CYSMICON);
 	sid.flags = SIDF_SORTED;
-	sid.pszSection = "Country Flags";
+	sid.section.a = "Country Flags";
 
 	/* all those flag icons do not need any transparency mask (flags are always opaque),
 	 * storing them in a large bitmap to reduce file size */
@@ -241,7 +241,7 @@ void InitIcons(void)
 		phIconHandles = (HANDLE*)mir_alloc(nCountriesCount*sizeof(HANDLE));
 		if (phIconHandles != NULL) {
 			for (int i=0; i < nCountriesCount; ++i) {
-				sid.pszDescription = (char*)countries[i].szName;
+				sid.description.a = (char*)countries[i].szName;
 
 				/* create identifier */
 				mir_snprintf(szId, SIZEOF(szId), (countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i","flags_", countries[i].id); /* buffer safe */

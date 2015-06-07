@@ -318,13 +318,13 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOn
 	if (!(hIcon = Skin_GetIcon(pszIconName))) {
 		bool bNeedFree = false;
 
-		SKINICONDESC sid = { sizeof(sid) };
+		SKINICONDESC sid = { 0 };
 		sid.flags = SIDF_ALL_TCHAR;
 		sid.cx = GetSystemMetrics(SM_CXSMICON);
 		sid.cy = GetSystemMetrics(SM_CYSMICON);
 		sid.pszName = (LPSTR)pszIconName;
-		sid.ptszDescription = _ptszLabel;
-		sid.ptszSection = LPGENT(SECT_TREE);
+		sid.description.t = _ptszLabel;
+		sid.section.t = LPGENT(SECT_TREE);
 
 		// the item to insert brings along an icon?
 		if (odp->flags & ODPF_ICON) {
@@ -332,10 +332,10 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOn
 			if (odp->hInstance == ghInst) {
 
 				// the pszGroup holds the iconfile for items added by uinfoex
-				sid.ptszDefaultFile = odp->ptszGroup;
+				sid.defaultFile.t = odp->ptszGroup;
 
 				// icon library exists?
-				if (sid.ptszDefaultFile)
+				if (sid.defaultFile.t)
 					sid.iDefaultIndex = (INT_PTR)odp->hIcon;
 				// no valid icon library
 				else {

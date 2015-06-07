@@ -100,9 +100,9 @@ void InitXStatusIcons()
 
 	GetModuleFileName((g_hDLLXStatusIcons != NULL) ? g_hDLLXStatusIcons : g_hInstance, szBuff, SIZEOF(szBuff));
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszSection = LPGENT("Protocols")_T("/")LPGENT("MRA")_T("/")LPGENT("Custom Status");
-	sid.ptszDefaultFile = szBuff;
+	SKINICONDESC sid = { 0 };
+	sid.section.t = LPGENT("Protocols")_T("/")LPGENT("MRA")_T("/")LPGENT("Custom Status");
+	sid.defaultFile.t = szBuff;
 	sid.cx = sid.cy = 16;
 	sid.flags = SIDF_ALL_TCHAR;
 
@@ -113,7 +113,7 @@ void InitXStatusIcons()
 		sid.pszName = szBuff;
 
 		int iCurIndex = i+IDI_XSTATUS1-1;
-		sid.ptszDescription = (TCHAR*)lpcszXStatusNameDef[i];
+		sid.description.t = (TCHAR*)lpcszXStatusNameDef[i];
 		sid.iDefaultIndex = -iCurIndex;
 
 		hXStatusAdvancedStatusIcons[i] = Skin_AddIcon(&sid);
