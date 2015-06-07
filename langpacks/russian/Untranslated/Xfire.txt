@@ -1,8 +1,6 @@
 ﻿[XFire]
 [xfire_games.ini]
 [icons.dll]
-[(manual added)]
-[Extra Command Line Parameters:]
 [IP:]
 [There is a new XFire game list online, do you want to update now?]
 [New supported games:]
