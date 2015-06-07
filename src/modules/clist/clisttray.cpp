@@ -169,27 +169,28 @@ int fnTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int s
 		if (cli.trayIcon[i].id == 0)
 			break;
 
-	cli.trayIcon[i].id = TRAYICON_ID_BASE + i;
-	cli.trayIcon[i].szProto = (char*)szProto;
-	cli.trayIcon[i].hBaseIcon = cli.pfnGetIconFromStatusMode(NULL, szIconProto ? szIconProto : cli.trayIcon[i].szProto, status);
+	trayIconInfo_t &p = cli.trayIcon[i];
+	p.id = TRAYICON_ID_BASE + i;
+	p.szProto = (char*)szProto;
+	p.hBaseIcon = cli.pfnGetIconFromStatusMode(NULL, szIconProto ? szIconProto : p.szProto, status);
 
 	NOTIFYICONDATA nid = { SIZEOFNID };
 	nid.hWnd = hwnd;
-	nid.uID = cli.trayIcon[i].id;
+	nid.uID = p.id;
 	nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 	nid.uCallbackMessage = TIM_CALLBACK;
-	nid.hIcon = cli.trayIcon[i].hBaseIcon;
+	nid.hIcon = p.hBaseIcon;
 
 	if (cli.shellVersion >= 5)
 		nid.uFlags |= NIF_INFO;
 
-	cli.pfnTrayIconMakeTooltip(NULL, cli.trayIcon[i].szProto);
+	cli.pfnTrayIconMakeTooltip(NULL, p.szProto);
 	if (!hasTips())
 		mir_tstrncpy(nid.szTip, cli.szTip, SIZEOF(nid.szTip));
-	cli.trayIcon[i].ptszToolTip = mir_tstrdup(cli.szTip);
+	replaceStrT(p.ptszToolTip, cli.szTip);
 
 	Shell_NotifyIcon(NIM_ADD, &nid);
-	cli.trayIcon[i].isBase = 1;
+	p.isBase = 1;
 
 	if (cli.trayIconCount == 1)
 		SetTaskBarIcon(cli.trayIcon[0].hBaseIcon, cli.szTip);

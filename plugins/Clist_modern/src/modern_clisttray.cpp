@@ -636,14 +636,15 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 		break;
 	}
 
-	DestroyIcon(pcli->trayIcon[i].hBaseIcon);
-	pcli->trayIcon[i].hBaseIcon = hIcon;
-	pcli->trayIcon[i].ptszToolTip = mir_tstrdup(pcli->szTip);
+	trayIconInfo_t &p = pcli->trayIcon[i];
+	DestroyIcon(p.hBaseIcon);
+	p.hBaseIcon = hIcon;
+	replaceStrT(p.ptszToolTip, pcli->szTip);
 
 	NOTIFYICONDATA nid = { sizeof(NOTIFYICONDATA) };
 	nid.hWnd = pcli->hwndContactList;
-	nid.uID = pcli->trayIcon[i].id;
-	nid.hIcon = pcli->trayIcon[i].hBaseIcon;
+	nid.uID = p.id;
+	nid.hIcon = p.hBaseIcon;
 	nid.uFlags = NIF_ICON | NIF_TIP;
 
 	// if Tipper is missing or turned off for tray, use system tooltips
