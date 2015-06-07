@@ -534,6 +534,12 @@ void LoadExtraIconsModule()
 
 void UnloadExtraIconsModule(void)
 {
-	for (int i=0; i < registeredExtraIcons.getCount(); i++)
+	for (int k = 0; k < extraIconsBySlot.getCount(); k++) {
+		ExtraIcon *extra = extraIconsBySlot[k];
+		if (extra->getType() == EXTRAICON_TYPE_GROUP)
+			delete extra;
+	}
+
+	for (int i = 0; i < registeredExtraIcons.getCount(); i++)
 		delete registeredExtraIcons[i];
 }
