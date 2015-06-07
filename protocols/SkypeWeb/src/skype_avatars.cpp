@@ -142,8 +142,9 @@ void CSkypeProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cb
 void CSkypeProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 {
 	ptrT oldUrl(getTStringA(hContact, "AvatarUrl"));
-	if (tszUrl == oldUrl)
-		return;
+	if (oldUrl != NULL)
+		if (tszUrl == oldUrl)
+			return;
 
 	if (tszUrl.IsEmpty()) {
 		delSetting(hContact, "AvatarUrl");
