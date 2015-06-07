@@ -5,7 +5,7 @@ void CDropbox::SendFile(const char *path, const char *data, size_t size)
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	ptrA encodedPath(mir_utf8encode(path));
 	UploadFileRequest request(token, encodedPath, data, size);
-	NetlibPtr response(request.Send(hNetlibConnection));
+	NLHR_PTR response(request.Send(hNetlibConnection));
 	HandleHttpResponseError(response);
 }
 
@@ -13,7 +13,7 @@ void CDropbox::SendFileChunkedFirst(const char *data, size_t size, char *uploadI
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	UploadFileChunkRequest request(token, data, size);
-	NetlibPtr response(request.Send(hNetlibConnection));
+	NLHR_PTR response(request.Send(hNetlibConnection));
 
 	HandleHttpResponseError(response);
 
@@ -32,7 +32,7 @@ void CDropbox::SendFileChunkedNext(const char *data, size_t size, const char *up
 {
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	UploadFileChunkRequest request(token, uploadId, offset, data, size);
-	NetlibPtr response(request.Send(hNetlibConnection));
+	NLHR_PTR response(request.Send(hNetlibConnection));
 
 	HandleHttpResponseError(response);
 	
@@ -48,7 +48,7 @@ void CDropbox::SendFileChunkedLast(const char *path, const char *uploadId)
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	ptrA encodedPath(mir_utf8encode(path));
 	UploadFileChunkRequest request(token, uploadId, (char*)encodedPath);
-	NetlibPtr response(request.Send(hNetlibConnection));
+	NLHR_PTR response(request.Send(hNetlibConnection));
 	HandleHttpResponseError(response);
 }
 
@@ -57,7 +57,7 @@ void CDropbox::CreateFolder(const char *path)
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	ptrA encodedPath(mir_utf8encode(path));
 	CreateFolderRequest request(token, encodedPath);
-	NetlibPtr response(request.Send(hNetlibConnection));
+	NLHR_PTR response(request.Send(hNetlibConnection));
 
 	// forder exists on server
 	if (response->resultCode == HTTP_STATUS_FORBIDDEN)
@@ -72,7 +72,7 @@ void CDropbox::CreateDownloadUrl(const char *path, char *url)
 	ptrA encodedPath(mir_utf8encode(path));
 	bool useShortUrl = db_get_b(NULL, MODULE, "UseSortLinks", 1) > 0;
 	ShareRequest request(token, encodedPath, useShortUrl);
-	NetlibPtr response(request.Send(hNetlibConnection));
+	NLHR_PTR response(request.Send(hNetlibConnection));
 
 	HandleHttpResponseError(response);
 

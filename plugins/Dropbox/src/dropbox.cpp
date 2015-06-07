@@ -66,7 +66,7 @@ void CDropbox::RequestAccountInfo()
 
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	GetAccountInfoRequest request(token);
-	NetlibPtr response(request.Send(hNetlibConnection));
+	NLHR_PTR response(request.Send(hNetlibConnection));
 	HandleHttpResponseError(response);
 
 	JSONNode root = JSONNode::parse(response->pData);
@@ -121,7 +121,7 @@ void CDropbox::RequestAccountInfo()
 void CDropbox::DestroyAccessToken()
 {
 	DisableAccessTokenRequest request;
-	NetlibPtr response(request.Send(hNetlibConnection));
+	NLHR_PTR response(request.Send(hNetlibConnection));
 
 	db_unset(NULL, MODULE, "TokenSecret");
 	MCONTACT hContact = CDropbox::GetDefaultContact();
@@ -147,7 +147,7 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 	GetDlgItemTextA(hwndDlg, IDC_REQUEST_CODE, requestToken, SIZEOF(requestToken));
 
 	GetAccessTokenRequest request(requestToken);
-	NetlibPtr response(request.Send(instance->hNetlibConnection));
+	NLHR_PTR response(request.Send(instance->hNetlibConnection));
 
 	if (response == NULL)
 	{

@@ -27,7 +27,7 @@ void CDropbox::CommandContent(void *arg)
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	ptrA encodedPath(mir_utf8encode(path));
 	GetMetadataRequest request(token, encodedPath);
-	NetlibPtr response(request.Send(param->instance->hNetlibConnection));
+	NLHR_PTR response(request.Send(param->instance->hNetlibConnection));
 
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 	{
@@ -86,7 +86,7 @@ void CDropbox::CommandShare(void *arg)
 	ptrA encodedPath(mir_utf8encode(path));
 	bool useShortUrl = db_get_b(NULL, MODULE, "UseSortLinks", 1) > 0;
 	ShareRequest request(token, encodedPath, useShortUrl);
-	NetlibPtr response(request.Send(param->instance->hNetlibConnection));
+	NLHR_PTR response(request.Send(param->instance->hNetlibConnection));
 
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 	{
@@ -122,7 +122,7 @@ void CDropbox::CommandDelete(void *arg)
 	ptrA token(db_get_sa(NULL, MODULE, "TokenSecret"));
 	ptrA encodedPath(mir_utf8encode(path));
 	DeleteRequest request(token, encodedPath);
-	NetlibPtr response(request.Send(param->instance->hNetlibConnection));
+	NLHR_PTR response(request.Send(param->instance->hNetlibConnection));
 
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 	{
