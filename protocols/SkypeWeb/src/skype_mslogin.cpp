@@ -101,7 +101,7 @@ void CSkypeProto::OnMSLoginSecond(const NETLIBHTTPREQUEST *response)
 	}
 
 
-	regex = "=\"t\" value=\"(.+?)\"/>";
+	regex = "<input type=\"hidden\" name=\"t\" id=\"t\" value=\"(.+?)\">";
 
 	if (!std::regex_search(content, match, regex))
 	{
