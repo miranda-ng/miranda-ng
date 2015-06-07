@@ -247,15 +247,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 		if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
 		{
-			// login
-			m_iStatus = ID_STATUS_CONNECTING;
-			requestQueue->Start();
-			int tokenExpires(getDword("TokenExpiresIn", 0));
-			HistorySynced = false;
-			if ((tokenExpires - 1800) > time(NULL))
-				OnLoginSuccess();
-			else
-				SendRequest(new LoginOAuthRequest(ptrA(getStringA(SKYPE_SETTINGS_ID)), ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
+			Login();
 		}
 		else
 		{

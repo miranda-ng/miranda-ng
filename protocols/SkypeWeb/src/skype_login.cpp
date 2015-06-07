@@ -19,6 +19,25 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 UINT_PTR CSkypeProto::m_timer;
 
+void CSkypeProto::Login()
+{
+	// login
+	m_iStatus = ID_STATUS_CONNECTING;
+	requestQueue->Start();
+	int tokenExpires(getDword("TokenExpiresIn", 0));
+	ptrA login(getStringA(SKYPE_SETTINGS_ID));
+	HistorySynced = false;
+	if ((tokenExpires - 1800) > time(NULL))
+		OnLoginSuccess();
+	else
+	{
+		if (strstr(login, "@"))
+			SendRequest(new LoginMSRequest(), &CSkypeProto::OnMSLoginFirst);
+		else
+			SendRequest(new LoginOAuthRequest(login, ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
+	}
+}
+
 void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL || response->pData == NULL)

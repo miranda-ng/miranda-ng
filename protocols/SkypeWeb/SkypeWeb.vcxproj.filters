@@ -53,5 +53,8 @@
     <ClInclude Include="src\requests\trouter.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
+	<ClInclude Include="src\requests\mslogin.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
