@@ -22,10 +22,10 @@
 
 void __cdecl CYahooProto::search_simplethread(void *snsearch)
 {
-	TCHAR *id = (TCHAR *) snsearch;
+	TCHAR *id = (TCHAR *)snsearch;
 
 	if (mir_tstrlen(id) < 4) {
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		MessageBoxA(NULL, "Please enter a valid ID to search for.", "Search", MB_OK);
 		return;
 	}
@@ -40,22 +40,22 @@ void __cdecl CYahooProto::search_simplethread(void *snsearch)
 	psr.id.t = (TCHAR*)_tcslwr(id);
 	psr.protocol = YAHOO_IM_YAHOO;
 
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)& psr);
 
 	//yahoo_search(m_id, YAHOO_SEARCH_YID, m, YAHOO_GENDER_NONE, YAHOO_AGERANGE_NONE, 0, 1);
 
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
-HANDLE __cdecl CYahooProto::SearchBasic( const TCHAR* nick )
+HANDLE __cdecl CYahooProto::SearchBasic(const TCHAR* nick)
 {
 	LOG(("[YahooBasicSearch] Searching for: %S", nick));
-	
-	if ( !m_bLoggedIn )
+
+	if (!m_bLoggedIn)
 		return 0;
 
-	ForkThread(&CYahooProto::search_simplethread, _tcsdup( nick ));
-	return ( HANDLE )1;
+	ForkThread(&CYahooProto::search_simplethread, _tcsdup(nick));
+	return (HANDLE)1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -63,61 +63,52 @@ HANDLE __cdecl CYahooProto::SearchBasic( const TCHAR* nick )
 
 void CYahooProto::ext_got_search_result(int found, int start, int total, YList *contacts)
 {
-	struct yahoo_found_contact *yct=NULL;
-	int i=start;
-	YList *en=contacts;
+	struct yahoo_found_contact *yct = NULL;
+	int i = start;
+	YList *en = contacts;
 
 	LOG(("got search result: "));
-	
+
 	LOG(("Found: %d", found));
 	LOG(("Start: %d", start));
 	LOG(("Total: %d", total));
-		
+
 	YAHOO_SEARCH_RESULT psr;
 	memset(&psr, 0, sizeof(psr));
 	psr.cbSize = sizeof(psr);
-	psr.flags = PSR_TCHAR;
+	psr.flags = PSR_UTF8;
 	psr.protocol = YAHOO_IM_YAHOO;
-	
-	while (en) {
-		yct = ( yahoo_found_contact* )en->data;
 
+	while (en) {
+		yct = (yahoo_found_contact*)en->data;
 		if (yct == NULL) {
-			LOG(("[%d] Empty record?",i++));
-		} else {
+			LOG(("[%d] Empty record?", i++));
+		}
+		else {
 			LOG(("[%d] id: '%s', online: %d, age: %d, sex: '%s', location: '%s'", i++, yct->id, yct->online, yct->age, yct->gender, yct->location));
-			psr.id.t = mir_utf8decodeT( yct->id );
-			
-			if (yct->gender[0] != 5)
-				psr.firstName.t = mir_utf8decodeT( yct->gender );
-			else
-				psr.firstName.t = NULL;
-			
-			TCHAR c[10];
-			if (yct->age > 0) {
-				_itot(yct->age, c,10);
-				psr.lastName.t = ( TCHAR* )c;
+			psr.id.a = yct->id;
+
+			if (yct->gender[0] != 5) {
+				psr.firstName.a = yct->gender;
+				psr.email.a = yct->location;
 			}
-			else
-				psr.lastName.t = NULL;
-			
-			if (yct->location[0] != 5)
-				psr.email.t = mir_utf8decodeT( yct->location );
-			else
-				psr.email.t = NULL;
-    
-			//void yahoo_search(int id, enum yahoo_search_type t, const char *text, enum yahoo_search_gender g, enum yahoo_search_agerange ar, 
+			else psr.firstName.a = psr.email.a = NULL;
+
+			char c[10];
+			if (yct->age > 0) {
+				_itoa(yct->age, c, 10);
+				psr.lastName.a = c;
+			}
+			else psr.lastName.a = NULL;
+
+			// void yahoo_search(int id, enum yahoo_search_type t, const char *text, enum yahoo_search_gender g, enum yahoo_search_agerange ar, 
 			//	int photo, int yahoo_only)
 
-			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
-
-			mir_free(psr.id.t);
-			mir_free(psr.firstName.t);
-			mir_free(psr.email.t);
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)& psr);
 		}
 		en = y_list_next(en);
 	}
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
 /*
@@ -128,25 +119,26 @@ void CYahooProto::ext_got_search_result(int found, int start, int total, YList *
 
 static INT_PTR CALLBACK YahooSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch ( msg ) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-			
+
 		SendDlgItemMessageA(hwndDlg, IDC_SEARCH_PROTOCOL, CB_ADDSTRING, 0, (LPARAM)"Yahoo! Messenger");
 		SendDlgItemMessageA(hwndDlg, IDC_SEARCH_PROTOCOL, CB_ADDSTRING, 0, (LPARAM)"Lotus Sametime");
 		SendDlgItemMessageA(hwndDlg, IDC_SEARCH_PROTOCOL, CB_ADDSTRING, 0, (LPARAM)"LCS");
 		SendDlgItemMessageA(hwndDlg, IDC_SEARCH_PROTOCOL, CB_ADDSTRING, 0, (LPARAM)"Windows Live (MSN)");
-		
+
 		// select the first one
 		SendDlgItemMessage(hwndDlg, IDC_SEARCH_PROTOCOL, CB_SETCURSEL, 0, 0);
 		return TRUE;
+
 	case WM_COMMAND:
-		if(LOWORD(wParam)==IDC_SEARCH_ID && HIWORD(wParam)==EN_CHANGE){
-			PostMessage(GetParent(hwndDlg),WM_COMMAND, MAKEWPARAM(0,EN_SETFOCUS), (LPARAM)hwndDlg);
+		if (LOWORD(wParam) == IDC_SEARCH_ID && HIWORD(wParam) == EN_CHANGE) {
+			PostMessage(GetParent(hwndDlg), WM_COMMAND, MAKEWPARAM(0, EN_SETFOCUS), (LPARAM)hwndDlg);
 			return TRUE;
 		}
-		if(LOWORD(wParam)==IDC_SEARCH_PROTOCOL && HIWORD(wParam)==CBN_SELCHANGE){
-			PostMessage(GetParent(hwndDlg),WM_COMMAND, MAKEWPARAM(0,EN_SETFOCUS), (LPARAM)hwndDlg);
+		if (LOWORD(wParam) == IDC_SEARCH_PROTOCOL && HIWORD(wParam) == CBN_SELCHANGE) {
+			PostMessage(GetParent(hwndDlg), WM_COMMAND, MAKEWPARAM(0, EN_SETFOCUS), (LPARAM)hwndDlg);
 			return TRUE;
 		}
 		break;
@@ -154,35 +146,35 @@ static INT_PTR CALLBACK YahooSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPARA
 	return FALSE;
 }
 
-HWND __cdecl CYahooProto::CreateExtendedSearchUI( HWND parent )
+HWND __cdecl CYahooProto::CreateExtendedSearchUI(HWND parent)
 {
-	if ( parent && hInstance )
-		return CreateDialogParam( hInstance, MAKEINTRESOURCE(IDD_SEARCHUSER), parent, YahooSearchAdvancedDlgProc, (LPARAM)this );
+	if (parent && hInstance)
+		return CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_SEARCHUSER), parent, YahooSearchAdvancedDlgProc, (LPARAM)this);
 
 	return 0;
 }
 
 void __cdecl CYahooProto::searchadv_thread(void *pHWND)
 {
-	HWND hwndDlg = (HWND) pHWND;
+	HWND hwndDlg = (HWND)pHWND;
 
 	TCHAR searchid[128];
 	GetDlgItemText(hwndDlg, IDC_SEARCH_ID, searchid, SIZEOF(searchid));
 
 	if (mir_tstrlen(searchid) == 0) {
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		MessageBoxA(NULL, "Please enter a valid ID to search for.", "Search", MB_OK);
 		return;
-	} 
+	}
 
 	YAHOO_SEARCH_RESULT psr;
 	memset(&psr, 0, sizeof(psr));
 	psr.cbSize = sizeof(psr);
-	psr.flags = PSR_TCHAR;
+	psr.flags = PSR_UNICODE;
 	psr.id.t = _tcslwr(searchid);
 
 	switch (SendDlgItemMessage(hwndDlg, IDC_SEARCH_PROTOCOL, CB_GETCURSEL, 0, 0)) {
-		case 0: psr.firstName.t = _T("<Yahoo >");  psr.protocol = YAHOO_IM_YAHOO; break;
+		case 0: psr.firstName.t = _T("<Yahoo>");  psr.protocol = YAHOO_IM_YAHOO; break;
 		case 1: psr.firstName.t = _T("<Lotus Sametime>"); psr.protocol = YAHOO_IM_SAMETIME; break;
 		case 2: psr.firstName.t = _T("<LCS>"); psr.protocol = YAHOO_IM_LCS; break;
 		case 3: psr.firstName.t = _T("<Windows Live (MSN)>"); psr.protocol = YAHOO_IM_MSN; break;
@@ -191,12 +183,12 @@ void __cdecl CYahooProto::searchadv_thread(void *pHWND)
 	/*
 	* Show this in results
 	*/
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE) 1, (LPARAM) & psr);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)& psr);
 
 	/*
 	* Done searching.
 	*/
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
 /*
@@ -205,13 +197,13 @@ void __cdecl CYahooProto::searchadv_thread(void *pHWND)
  * Returns: 0 on failure or HWND on success
  */
 
-HWND __cdecl CYahooProto::SearchAdvanced( HWND owner )
+HWND __cdecl CYahooProto::SearchAdvanced(HWND owner)
 {
 	LOG(("[YahooAdvancedSearch]"));
 
-	if ( !m_bLoggedIn )
+	if (!m_bLoggedIn)
 		return 0;
 
-	ForkThread( &CYahooProto::searchadv_thread, owner );
-	return ( HWND )1;
+	ForkThread(&CYahooProto::searchadv_thread, owner);
+	return (HWND)1;
 }

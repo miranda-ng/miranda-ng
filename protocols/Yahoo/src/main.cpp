@@ -27,7 +27,7 @@ HANDLE g_hNetlibUser;
 CLIST_INTERFACE *pcli;
 int hLangpack;
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -37,7 +37,7 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE, //not transient
-	{0xaa7bfea, 0x1fc7, 0x45f0, {0x90, 0x6e, 0x2a, 0x46, 0xb6, 0xe1, 0x19, 0xcf}} // {0AA7BFEA-1FC7-45f0-906E-2A46B6E119CF}
+	{ 0xaa7bfea, 0x1fc7, 0x45f0, { 0x90, 0x6e, 0x2a, 0x46, 0xb6, 0xe1, 0x19, 0xcf } } // {0AA7BFEA-1FC7-45f0-906E-2A46B6E119CF}
 };
 
 void YmsgrLinksInit(void);
@@ -45,15 +45,15 @@ void YmsgrLinksUninit(void);
 
 /*
  * WINAPI DllMain - main entry point into a DLL
- * Parameters: 
+ * Parameters:
  *          HINSTANCE hinst,
  *          DWORD fdwReason,
  *          LPVOID lpvReserved
- * Returns : 
+ * Returns :
  *           BOOL
- * 
+ *
  */
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinst,DWORD /*fdwReason*/,LPVOID /*lpvReserved*/)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinst, DWORD /*fdwReason*/, LPVOID /*lpvReserved*/)
 {
 	hInstance = hinst;
 	return TRUE;
@@ -62,7 +62,7 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinst,DWORD /*fdwReason*/,LPVOID /*lpvR
 /*
  *	Load - loads plugin into memory
  */
- 
+
 //=====================================================
 // Name : Load
 // Parameters: 
@@ -70,44 +70,44 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinst,DWORD /*fdwReason*/,LPVOID /*lpvR
 // Description : Called when plugin is loaded into Miranda
 //=====================================================
 
-static int CompareProtos( const CYahooProto* p1, const CYahooProto* p2 )
+static int CompareProtos(const CYahooProto* p1, const CYahooProto* p2)
 {
 	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
-LIST<CYahooProto> g_instances( 1, CompareProtos );
+LIST<CYahooProto> g_instances(1, CompareProtos);
 
-static CYahooProto* yahooProtoInit( const char* pszProtoName, const TCHAR* tszUserName )
+static CYahooProto* yahooProtoInit(const char* pszProtoName, const TCHAR* tszUserName)
 {
 	CYahooProto* ppro = new CYahooProto(pszProtoName, tszUserName);
-	
-	g_instances.insert( ppro );
-	
+
+	g_instances.insert(ppro);
+
 	return ppro;
 }
 
-static int yahooProtoUninit( CYahooProto* ppro )
+static int yahooProtoUninit(CYahooProto* ppro)
 {
-	g_instances.remove( ppro );
+	g_instances.remove(ppro);
 	delete ppro;
-	
+
 	return 0;
 }
 
 extern "C" int __declspec(dllexport)Load(void)
 {
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfo);
 	mir_getCLI();
-	
+
 	PROTOCOLDESCRIPTOR pd = { 0 };
 	pd.cbSize = sizeof(pd);
 	pd.szName = "YAHOO";
-	pd.type   = PROTOTYPE_PROTOCOL;
-	pd.fnInit = ( pfnInitProto )yahooProtoInit;
-	pd.fnUninit = ( pfnUninitProto )yahooProtoUninit;
+	pd.type = PROTOTYPE_PROTOCOL;
+	pd.fnInit = (pfnInitProto)yahooProtoInit;
+	pd.fnUninit = (pfnUninitProto)yahooProtoUninit;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
-	NETLIBUSER nlu = {0};
+	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_TCHAR | NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = "YAHOO/libyahoo2";
@@ -119,7 +119,7 @@ extern "C" int __declspec(dllexport)Load(void)
 	 * Register LibYahoo2 callback functions
 	 */
 	register_callbacks();
-	
+
 	return 0;
 }
 
@@ -131,9 +131,9 @@ extern "C" int __declspec(dllexport)Load(void)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	LOG(("Unload"));
-	
+
 	YmsgrLinksUninit();
-	Netlib_CloseHandle( g_hNetlibUser );
+	Netlib_CloseHandle(g_hNetlibUser);
 	return 0;
 }
 
@@ -150,4 +150,4 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
  * MirandaInterfaces - Notifies the core of interfaces implemented
  * Parameters: none
  */
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };

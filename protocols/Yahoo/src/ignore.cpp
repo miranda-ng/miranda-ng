@@ -17,7 +17,7 @@ const YList* CYahooProto::GetIgnoreList(void)
 {
 	if (m_id < 1)
 		return NULL;
-	
+
 	return yahoo_get_ignorelist(m_id);
 }
 
@@ -25,7 +25,7 @@ void CYahooProto::IgnoreBuddy(const char *buddy, int ignore)
 {
 	if (m_id < 1)
 		return;
-	
+
 	yahoo_ignore_buddy(m_id, buddy, ignore);
 	//yahoo_get_list(m_id);
 }
@@ -36,7 +36,7 @@ int CYahooProto::BuddyIgnored(const char *who)
 	const YList *l = GetIgnoreList();
 	while (l != NULL) {
 		struct yahoo_buddy *b = (struct yahoo_buddy *) l->data;
-			
+
 		if (mir_strcmpi(b->id, who) == 0) {
 			//LOG(("User '%s' on our Ignore List. Dropping Message.", who));
 			return 1;
@@ -48,19 +48,19 @@ int CYahooProto::BuddyIgnored(const char *who)
 }
 
 void CYahooProto::ext_got_ignore(YList * igns)
-{	
+{
 	YList *l = igns;
-	
-	LOG(("[ext_yahoo_got_ignore] Got Ignore List")); 
-	
+
+	LOG(("[ext_yahoo_got_ignore] Got Ignore List"));
+
 	while (l != NULL) {
 		struct yahoo_buddy *b = (struct yahoo_buddy *) l->data;
 
-		debugLogA("[ext_yahoo_got_ignore] Buddy: %s", b->id );
-		
+		debugLogA("[ext_yahoo_got_ignore] Buddy: %s", b->id);
+
 		l = l->next;
 	}
-	
-	debugLogA("[ext_yahoo_got_ignore] End Of Ignore List"); 
+
+	debugLogA("[ext_yahoo_got_ignore] End Of Ignore List");
 }
 

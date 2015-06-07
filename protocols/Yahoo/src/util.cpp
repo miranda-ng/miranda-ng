@@ -24,58 +24,60 @@
 
 extern HANDLE g_hNetlibUser;
 
-int debugLogA( const char *fmt, ... )
+int debugLogA(const char *fmt, ...)
 {
-	char str[ 4096 ];
+	char str[4096];
 	va_list vararg;
-	va_start( vararg, fmt );
-	
-	int tBytes = mir_vsnprintf(str, sizeof(str), fmt, vararg);
-	if ( tBytes > 0)
-		str[ tBytes ] = 0;
+	va_start(vararg, fmt);
 
-	va_end( vararg );
-	
+	int tBytes = mir_vsnprintf(str, sizeof(str), fmt, vararg);
+	if (tBytes > 0)
+		str[tBytes] = 0;
+
+	va_end(vararg);
+
 	return CallService(MS_NETLIB_LOG, (WPARAM)g_hNetlibUser, (LPARAM)str);
 }
 
-DWORD CYahooProto::Set_Protocol(MCONTACT hContact, int protocol )
+DWORD CYahooProto::Set_Protocol(MCONTACT hContact, int protocol)
 {
-	char *s=NULL;
-	
+	char *s = NULL;
+
 	setWord(hContact, "yprotoid", protocol);
-	
+
 	switch (protocol) {
-		case YAHOO_IM_YAHOO: s = "Yahoo"; break; /* Yahoo, nothing special here */
-		case YAHOO_IM_MSN: s = "Windows Live (MSN)"; break;
-		case YAHOO_IM_LCS: s = "LCS"; break;
-		case YAHOO_IM_SAMETIME: s = "Lotus Sametime"; break;
-	} 
-	
+	case YAHOO_IM_YAHOO: s = "Yahoo"; break; /* Yahoo, nothing special here */
+	case YAHOO_IM_MSN: s = "Windows Live (MSN)"; break;
+	case YAHOO_IM_LCS: s = "LCS"; break;
+	case YAHOO_IM_SAMETIME: s = "Lotus Sametime"; break;
+	}
+
 	if (protocol != YAHOO_IM_YAHOO)
 		setString(hContact, "MirVer", s);
-	
+
 	setString(hContact, "Transport", s);
 	return 0;
 }
 
 int CYahooProto::GetStringUtf(MCONTACT hContact, const char* name, DBVARIANT* result)
-{	return db_get_utf(hContact, m_szModuleName, name, result);
+{
+	return db_get_utf(hContact, m_szModuleName, name, result);
 }
 
 DWORD CYahooProto::SetStringUtf(MCONTACT hContact, const char* valueName, const char* parValue)
-{	return db_set_utf(hContact, m_szModuleName, valueName, parValue);
+{
+	return db_set_utf(hContact, m_szModuleName, valueName, parValue);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popups
 
-static LRESULT CALLBACK PopupWindowProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+static LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch(message) {
+	switch (message) {
 	case WM_COMMAND:
 		debugLogA("[PopupWindowProc] WM_COMMAND");
-		if ( HIWORD(wParam) == STN_CLICKED) {
+		if (HIWORD(wParam) == STN_CLICKED) {
 			char *szURL = (char*)PUGetPluginData(hWnd);
 			if (szURL != NULL)
 				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szURL);
@@ -87,14 +89,14 @@ static LRESULT CALLBACK PopupWindowProc( HWND hWnd, UINT message, WPARAM wParam,
 
 	case WM_CONTEXTMENU:
 		debugLogA("[PopupWindowProc] WM_CONTEXTMENU");
-		PUDeletePopup(hWnd); 
+		PUDeletePopup(hWnd);
 		return TRUE;
 
 	case UM_FREEPLUGINDATA:
 		debugLogA("[PopupWindowProc] UM_FREEPLUGINDATA");
 		{
 			char *szURL = (char *)PUGetPluginData(hWnd);
-			if (szURL != NULL) 
+			if (szURL != NULL)
 				free(szURL);
 		}
 
@@ -106,7 +108,7 @@ static LRESULT CALLBACK PopupWindowProc( HWND hWnd, UINT message, WPARAM wParam,
 
 int CYahooProto::ShowPopup(const TCHAR* nickname, const TCHAR* msg, const char *szURL)
 {
-	if ( !ServiceExists(MS_POPUP_ADDPOPUPT)) 
+	if (!ServiceExists(MS_POPUP_ADDPOPUPT))
 		return 0;
 
 	POPUPDATAT ppd = { 0 };
@@ -115,13 +117,13 @@ int CYahooProto::ShowPopup(const TCHAR* nickname, const TCHAR* msg, const char *
 	mir_tstrncpy(ppd.lptzText, msg, SIZEOF(ppd.lptzText));
 
 	if (szURL != NULL) {
-		ppd.lchIcon = LoadIconEx( !mir_strcmpi(szURL, "http://mail.yahoo.com") ? "mail" : "calendar");
+		ppd.lchIcon = LoadIconEx(!mir_strcmpi(szURL, "http://mail.yahoo.com") ? "mail" : "calendar");
 		ppd.PluginData = (void*)strdup(szURL);
 	}
 	else ppd.lchIcon = LoadIconEx("yahoo");
-	
+
 	debugLogA("[MS_POPUP_ADDPOPUP] Generating a popup for [%S] %S", nickname, msg);
-	
+
 	PUAddPopupT(&ppd);
 	return 1;
 }
@@ -136,10 +138,10 @@ int CYahooProto::ShowNotification(const TCHAR *title, const TCHAR *info, DWORD f
 		err.tszInfo = (TCHAR*)info;
 		err.dwInfoFlags = flags | NIIF_INTERN_UNICODE;
 		err.uTimeout = 1000 * 3;
-		INT_PTR ret = CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) & err);
+		INT_PTR ret = CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)& err);
 		if (ret == 0)
 			return 1;
-	} 
+	}
 
 	MessageBox(NULL, info, title, MB_OK | MB_ICONINFORMATION);
 	return 0;
@@ -147,8 +149,8 @@ int CYahooProto::ShowNotification(const TCHAR *title, const TCHAR *info, DWORD f
 
 void CYahooProto::ShowError(const TCHAR *title, const TCHAR *buff)
 {
-	if ( getByte("ShowErrors", 1)) 
-		if ( !ShowPopup(title, buff, NULL))
+	if (getByte("ShowErrors", 1))
+		if (!ShowPopup(title, buff, NULL))
 			ShowNotification(title, buff, NIIF_ERROR);
 }
 
@@ -158,7 +160,7 @@ int __cdecl CYahooProto::OnSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if ( !mir_strcmp(cws->szSetting, "ApparentMode")) {
+	if (!mir_strcmp(cws->szSetting, "ApparentMode")) {
 		debugLogA("DB Setting changed.  YAHOO user's visible setting changed.");
 
 		DBVARIANT dbv;
@@ -187,15 +189,15 @@ extern PLUGININFOEX pluginInfo;
  */
 void CYahooProto::YAHOO_utils_logversion()
 {
-    char str[256];
-    mir_snprintf(str, "Yahoo v%d.%d.%d.%d", (pluginInfo.version >> 24) & 0xFF, (pluginInfo.version >> 16) & 0xFF,
-              (pluginInfo.version >> 8) & 0xFF, pluginInfo.version & 0xFF);
-    debugLogA(str);
+	char str[256];
+	mir_snprintf(str, "Yahoo v%d.%d.%d.%d", (pluginInfo.version >> 24) & 0xFF, (pluginInfo.version >> 16) & 0xFF,
+		(pluginInfo.version >> 8) & 0xFF, pluginInfo.version & 0xFF);
+	debugLogA(str);
 }
 
 void SetButtonCheck(HWND hwndDlg, int CtrlID, BOOL bCheck)
 {
 	HWND hwndCtrl = GetDlgItem(hwndDlg, CtrlID);
-	
+
 	Button_SetCheck(hwndCtrl, (bCheck) ? BST_CHECKED : BST_UNCHECKED);
 }
