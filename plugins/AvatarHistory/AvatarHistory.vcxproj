@@ -23,7 +23,7 @@
     <ProjectGuid>{9D702039-F4A9-4978-92B3-3615E5C44BEE}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(ProjectDir)..\..\build\vc.common\common.props" />
+    <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
     <ClCompile Include="..\utils\mir_options.cpp">

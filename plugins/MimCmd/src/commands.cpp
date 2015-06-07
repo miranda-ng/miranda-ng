@@ -18,15 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "common.h"
-
-inline char *STRNCPY(char *output, const char *input, size_t size)
-{
-	char *res = strncpy(output, input, size);
-	output[size - 1] = 0;
-	
-	return res;
-}
+#include "stdafx.h"
 
 LISTCOMMANDS ListCommands = NULL;
 
@@ -37,9 +29,9 @@ HMODULE hCmdLineDLL = NULL;
 
 char *GetMirandaFolder(char *mimFolder, int size)
 {
-	STRNCPY(mimFolder, sdCmdLine->mimFolder, size);
+	strncpy_s(mimFolder, size, sdCmdLine->mimFolder, _TRUNCATE);
 	mimFolder[size - 1] = 0;
-	
+
 	return mimFolder;
 }
 
@@ -52,19 +44,19 @@ int ConnectToMiranda()
 
 	ListCommands = NULL;
 
-	hCmdLineDLL = LoadLibrary(pluginPath);
-	
+	hCmdLineDLL = LoadLibraryA(pluginPath);
+
 	int failure = 1;
 	if (hCmdLineDLL)
 	{
 		ListCommands = (LISTCOMMANDS) GetProcAddress(hCmdLineDLL, "ListCommands");
 	}
-	
+
 	if (ListCommands)
 	{
 		failure = 0;
 	}
-	
+
 	return failure;
 }
 
@@ -76,14 +68,14 @@ int DisconnectFromMiranda()
 int GetKnownCommands()
 {
 	ListCommands(&knownCommands, &cKnownCommands);
-	
+
 	return (knownCommands == NULL);
 }
 
 int DestroyKnownCommands()
 {
 
-	
+
 	return 0;
 }
 
@@ -91,9 +83,9 @@ PCommand GetCommand(char *command)
 {
 	int i;
 	char lower[512];
-	STRNCPY(lower, command, sizeof(lower));
+	strncpy_s(lower, command, _TRUNCATE);
 	_strlwr(lower);
-	
+
 	for (i = 0; i < cKnownCommands; i++)
 	{
 		if (mir_strcmp(knownCommands[i].command, lower) == 0)
@@ -101,7 +93,7 @@ PCommand GetCommand(char *command)
 			return &knownCommands[i];
 		}
 	}
-	
+
 	//allow more parameters to trigger the help command - /h -h /? --help
 	if ((mir_strcmp(lower, "/h") == 0) || (mir_strcmp(lower, "-h") == 0) || (mir_strcmp(lower, "/?") == 0) || (mir_strcmp(lower, "--help") == 0))
 	{
@@ -113,17 +105,17 @@ PCommand GetCommand(char *command)
 			}
 		}
 	}
-	
+
 	return NULL;
 }
 
-void HandleHelpCommand(PCommand helpCommand, char *argv[], int argc, PReply reply)
+void HandleHelpCommand(PCommand, char *argv[], int argc, PReply reply)
 {
 	CMStringA szReply;
-	
+
 	if (argc >= 3) {
 		PCommand command = GetCommand(argv[2]);
-		
+
 		if (command) {
 			reply->code = MIMRES_SUCCESS;
 			szReply.Append(Translate(command->help));
@@ -136,7 +128,7 @@ void HandleHelpCommand(PCommand helpCommand, char *argv[], int argc, PReply repl
 	else {
 		reply->code = MIMRES_SUCCESS;
 		szReply.Append(Translate("Available commands: "));
-		
+
 		for (int i = 0; i < cKnownCommands - 1; i++) {
 			szReply.Append(knownCommands[i].command);
 			szReply.Append(", ");
@@ -158,17 +150,15 @@ PReply ParseCommand(char *argv[], int argc)
 		HandleHelpCommand(command, argv, argc, reply);
 	else
 		ProcessConsoleCommand(command, argv, argc, reply);
-		
+
 	return reply;
 }
 
 void FillSharedDataStruct(PCommand command, char *arguments[], int count)
 {
 	for (int i = 0; i < count; i++)
-	{
-		STRNCPY(sdCmdLine->arguments[i], arguments[i], ARGUMENT_SIZE);
-	}
-	
+		strncpy_s(sdCmdLine->arguments[i], ARGUMENT_SIZE, arguments[i], _TRUNCATE);
+
 	sdCmdLine->cArguments = count;
 	sdCmdLine->command = *command;
 	*sdCmdLine->reply.message = 0;
@@ -179,12 +169,12 @@ void ProcessConsoleCommand(PCommand command, char *arguments[], int count, PRepl
 {
 	const HANDLE events[] = {heServerDone, heServerClose, heServerBufferFull};
 	const int cEvents = sizeof(events) / sizeof(events[0]);
-	
+
 	if (WaitForSingleObject(hmClient, INFINITE) == WAIT_OBJECT_0)
 	{//got the mutex, we're the only one who can talk to miranda now
 		FillSharedDataStruct(command, arguments, count);
 		SetEvent(heServerExec); //tell Miranda to process the request
-		
+
 		int done = FALSE;
 		while (!done)
 		{
@@ -193,37 +183,36 @@ void ProcessConsoleCommand(PCommand command, char *arguments[], int count, PRepl
 				case WAIT_OBJECT_0: //done event
 				{
 					done = TRUE;
-					
+
 					break; //nothing to do
 				}
-			
+
 				case WAIT_OBJECT_0 + 1: //close event
 				default:
 				{
 					mir_strcpy(sdCmdLine->reply.message, Translate("Miranda has been closed or an error has occurred while waiting for the result, could not process request."));
 					done = TRUE;
-					
+
 					break;
 				}
-				
+
 				case WAIT_OBJECT_0 + 2: //buffer full event
 				{
 					lpprintf("%s", reply->message);
-					
+
 					break;
 				}
 			}
 		}
-		
+
 		reply->code = sdCmdLine->reply.code;
-		STRNCPY(reply->message, sdCmdLine->reply.message, REPLY_SIZE);
-		
+		strncpy_s(reply->message, sdCmdLine->reply.message, _TRUNCATE);
+
 		ReleaseMutex(hmClient); //let other possible clients talk to the server
 	}
 	else{
-		int err = GetLastError();
 		reply->code = -1;
 		*reply->message = 0;
 	}
-	
+
 }

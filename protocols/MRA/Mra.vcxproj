@@ -23,7 +23,7 @@
     <ProjectName>MRA</ProjectName>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(ProjectDir)..\..\build\vc.common\common.props" />
+    <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
     <ProjectReference Condition="'$(VisualStudioVersion)' == '10.0'" Include="..\..\plugins\zlib\zlib_10.vcxproj">

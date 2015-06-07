@@ -18,12 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
-
-HANDLE hModulesLoaded;
-HANDLE hOptionsInitialize;
-HANDLE hShutdown;
-HANDLE hProtoAck;
+#include "stdafx.h"
 
 int bShouldProcessAcks = FALSE;
 
@@ -32,58 +27,46 @@ int cAcks = sizeof(acks) / sizeof(acks[0]);
 
 int HookEvents()
 {
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	hShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
-	hProtoAck = HookEvent(ME_PROTO_ACK, OnProtoAck);
-//	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
-	
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
+	HookEvent(ME_PROTO_ACK, OnProtoAck);
 	return 0;
 }
 
 int UnhookEvents()
 {
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hShutdown);
-	UnhookEvent(OnProtoAck);
-//	UnhookEvent(hOptionsInitialize);
-	
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+int OnModulesLoaded(WPARAM, LPARAM)
 {
 	StartServer();
-	
 	return 0;
 }
 
-int OnShutdown(WPARAM wParam, LPARAM lParam)
+int OnShutdown(WPARAM, LPARAM)
 {
 	SetEvent(heServerClose); //tell the listening server to stop
-	
 	return 0;
 }
 
 int QueueAck(ACKDATA *ack)
 {
 	for (int i = cAcks - 1; i > 0; i--)
-	{
 		acks[i] = acks[i - 1];
-	}
-	
+
 	acks[0] = *ack;
-	
 	return 0;
 }
 
 int ClearAckQueue()
 {
 	memset(acks, 0, cAcks * sizeof(ACKDATA));
-	
+
 	return 0;
 }
 
-ACKDATA *GetAck(HANDLE hProcess)
+ACKDATA* GetAck(HANDLE hProcess)
 {
 	for (int i = 0; i < cAcks; i++)
 	{
@@ -92,20 +75,18 @@ ACKDATA *GetAck(HANDLE hProcess)
 			return &acks[i];
 		}
 	}
-	
+
 	return NULL;
 }
 
-int OnProtoAck(WPARAM wParam, LPARAM lParam)
+int OnProtoAck(WPARAM, LPARAM lParam)
 {
 	if (bShouldProcessAcks)
 	{
-		ACKDATA *ack = (ACKDATA *) lParam;
+		ACKDATA *ack = (ACKDATA*)lParam;
 		if ((ack) && (ack->type == ACKTYPE_MESSAGE)) //if it's a message ack
-		{
 			QueueAck(ack);
-		}
 	}
-	
+
 	return 0;
 }

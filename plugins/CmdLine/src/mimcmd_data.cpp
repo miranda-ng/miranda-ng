@@ -18,26 +18,29 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
-TCommand mimCommands[] = {{MIMCMD_STATUS, "status", MIMCMD_HELP_STATUS},
-                       {MIMCMD_AWAYMSG, "awaymsg", MIMCMD_HELP_AWAYMSG},
-                       {MIMCMD_XSTATUS, "xstatus", MIMCMD_HELP_XSTATUS},
-                       {MIMCMD_POPUPS, "popups", MIMCMD_HELP_POPUPS},
-                       {MIMCMD_SOUNDS, "sounds", MIMCMD_HELP_SOUNDS},
-                       {MIMCMD_CLIST, "clist", MIMCMD_HELP_CLIST},
-                       {MIMCMD_QUIT, "quit", MIMCMD_HELP_QUIT},
-                       {MIMCMD_HELP, "help", MIMCMD_HELP_HELP},
-                       {MIMCMD_EXCHANGE, "exchange", MIMCMD_HELP_EXCHANGE},
-                       {MIMCMD_YAMN, "yamn", MIMCMD_HELP_YAMN},
-                       {MIMCMD_CALLSERVICE, "callservice", MIMCMD_HELP_CALLSERVICE},
-                       {MIMCMD_MESSAGE, "message", MIMCMD_HELP_MESSAGE},
-                       {MIMCMD_DATABASE, "db", MIMCMD_HELP_DATABASE},
-                       {MIMCMD_PROXY, "proxy", MIMCMD_HELP_PROXY},
-                       {MIMCMD_CONTACTS, "contacts", MIMCMD_HELP_CONTACTS},
-                       {MIMCMD_HISTORY, "history", MIMCMD_HELP_HISTORY},
-                       {MIMCMD_VERSION, "version", MIMCMD_HELP_VERSION},
-					   {MIMCMD_SETNICKNAME, "setnickname", MIMCMD_HELP_SETNICKNAME},
-					   {MIMCMD_IGNORE, "ignore", MIMCMD_HELP_IGNORE},
-                      };
+TCommand mimCommands[] =
+{
+	{ MIMCMD_STATUS,      "status",      MIMCMD_HELP_STATUS      },
+	{ MIMCMD_AWAYMSG,     "awaymsg",     MIMCMD_HELP_AWAYMSG     },
+   { MIMCMD_XSTATUS,     "xstatus",     MIMCMD_HELP_XSTATUS     },
+   { MIMCMD_POPUPS,      "popups",      MIMCMD_HELP_POPUPS      },
+   { MIMCMD_SOUNDS,      "sounds",      MIMCMD_HELP_SOUNDS      },
+   { MIMCMD_CLIST,       "clist",       MIMCMD_HELP_CLIST       },
+   { MIMCMD_QUIT,        "quit",        MIMCMD_HELP_QUIT        },
+   { MIMCMD_HELP,        "help",        MIMCMD_HELP_HELP        },
+   { MIMCMD_EXCHANGE,    "exchange",    MIMCMD_HELP_EXCHANGE    },
+   { MIMCMD_YAMN,        "yamn",        MIMCMD_HELP_YAMN        },
+   { MIMCMD_CALLSERVICE, "callservice", MIMCMD_HELP_CALLSERVICE },
+   { MIMCMD_MESSAGE,     "message",     MIMCMD_HELP_MESSAGE     },
+   { MIMCMD_DATABASE,    "db",          MIMCMD_HELP_DATABASE    },
+   { MIMCMD_PROXY,       "proxy",       MIMCMD_HELP_PROXY       },
+   { MIMCMD_CONTACTS,    "contacts",    MIMCMD_HELP_CONTACTS    },
+   { MIMCMD_HISTORY,     "history",     MIMCMD_HELP_HISTORY     },
+   { MIMCMD_VERSION,     "version",     MIMCMD_HELP_VERSION     },
+	{ MIMCMD_SETNICKNAME, "setnickname", MIMCMD_HELP_SETNICKNAME },
+	{ MIMCMD_IGNORE,      "ignore",      MIMCMD_HELP_IGNORE      },
+};
+
 int cMimCommands = sizeof(mimCommands) / sizeof(mimCommands[0]);

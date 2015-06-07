@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>AVS</ProjectName>
-    <ProjectGuid>{7711F563-6473-4ABD-B5E3-477CE8384AD6}</ProjectGuid>
+    <ProjectGuid>{73BA9CA5-640D-4F30-A157-A73557A25F98}</ProjectGuid>
+    <ProjectName>CmdLine</ProjectName>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />

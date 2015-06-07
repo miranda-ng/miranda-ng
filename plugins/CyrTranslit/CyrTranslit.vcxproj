@@ -23,7 +23,7 @@
     <ProjectGuid>{0BB52326-02D5-4698-A180-24078DA5DA0E}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(ProjectDir)..\..\build\vc.common\common.props" />
+    <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemDefinitionGroup>
     <ClCompile>

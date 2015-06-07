@@ -23,17 +23,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <stdarg.h>
 
-//#define USE_LOG
-#define LOG_FILE "cmdline.log"
-
 #define ANCHOR_LEFT     0x000001
 #define ANCHOR_RIGHT		0x000002
 #define ANCHOR_TOP      0x000004
 #define ANCHOR_BOTTOM   0x000008
 #define ANCHOR_ALL      ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM
 
-int LogInit();
-int Log(char *format, ...);
 int Info(char *title, char *format, ...);
 
 char *BinToHex(int size, PBYTE data);
@@ -48,15 +43,13 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, size_t size);
 int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, size_t count);
 
-TCHAR *GetContactName(MCONTACT hContact, char *szProto);
-TCHAR *GetContactID(MCONTACT hContact);
-TCHAR *GetContactID(MCONTACT hContact, char *szProto);
-MCONTACT GetContactFromID(TCHAR *szID, char *szProto);
-MCONTACT GetContactFromID(TCHAR *szID, wchar_t *szProto);
+char* GetContactName(MCONTACT hContact, char *szProto);
+char* GetContactID(MCONTACT hContact);
+char* GetContactID(MCONTACT hContact, char *szProto);
+MCONTACT GetContactFromID(char *szID, char *szProto);
+MCONTACT GetContactFromID(char *szID, wchar_t *szProto);
 void GetContactProto(MCONTACT hContact, char *szProto, size_t size);
 
 int MyPUShowMessage(char *lpzText, BYTE kind);
-
-inline char *STRNCPY(char *output, const char *input, size_t size);
 
 #endif

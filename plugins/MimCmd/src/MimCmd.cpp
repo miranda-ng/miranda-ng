@@ -18,7 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "common.h"
+#include "stdafx.h"
 
 int hLangpack = 0;
 
@@ -31,24 +31,21 @@ int lpprintf(const char *format, ...)
 	int len = mir_vsnprintf(buffer, MAX_SIZE - 1, format, va);
 	buffer[MAX_SIZE - 1] = 0;
 	va_end(va);
-	CharToOemBuff(buffer, buffer, len);
+	CharToOemBuffA(buffer, buffer, len);
 	printf("%s", buffer);
 
 	return len;
 }
 
-char *GetProgramName(char *programName, int size)
+char* GetProgramName(char *programName, int size)
 {
 	char name[512];
-	GetModuleFileName(GetModuleHandle(NULL), name, sizeof(name));
+	GetModuleFileNameA(GetModuleHandle(NULL), name, sizeof(name));
 	char *p = strrchr(name, '\\');
 	if (p)
-	{
-		STRNCPY(programName, p + 1, size);
-	}
-	else{
-		STRNCPY(programName, name, size);
-	}
+		strncpy_s(programName, size, p + 1, _TRUNCATE);
+	else
+		strncpy_s(programName, size, name, _TRUNCATE);
 
 	return programName;
 }

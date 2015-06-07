@@ -18,8 +18,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <stdio.h>
 #include <windows.h>
 
@@ -31,9 +29,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_system_cpp.h>
 #include <m_string.h>
 
-#include "..\..\src\mimcmd_ipc.h"
+#include "..\CmdLine\src\mimcmd_ipc.h"
 #include "version.h"
-#include "..\..\src\utils.h"
+#include "..\CmdLine\src\utils.h"
 #include "commands.h"
 
 int lpprintf(const char *format, ...);

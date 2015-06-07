@@ -18,7 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 int bWaitForUnload = 0;
 
@@ -37,12 +37,12 @@ extern "C" __declspec(dllexport) void ProcessConsoleCommand(PCommand command, TA
 	HandleCommand(command, arguments, count, reply);
 }
 
-void __cdecl ServerWorkerThread(void *data)
+void __cdecl ServerWorkerThread(void*)
 {
 	int done = FALSE;
 	const HANDLE events[] = {heServerExec, heServerClose};
 	const int cEvents = sizeof(events) / sizeof(events[0]);
-	
+
 	while (!done)
 	{
 		switch (WaitForMultipleObjects(cEvents, events, FALSE, INFINITE))
@@ -51,14 +51,14 @@ void __cdecl ServerWorkerThread(void *data)
 			{
 				ProcessConsoleCommand(&sdCmdLine->command, sdCmdLine->arguments, sdCmdLine->cArguments, &sdCmdLine->reply);
 				SetEvent(heServerDone); //notify the client we've finished
-			
+
 				break;
 			}
-			
+
 			case WAIT_OBJECT_0 + 1: //server is closing
 			{
 				done = TRUE; //stop the thread
-				
+
 				break;
 			}
 		}
@@ -76,23 +76,19 @@ int StartServer()
 			if (server)
 			{
 				char path[MIMFOLDER_SIZE];
-				GetModuleFileName(GetModuleHandle(NULL), path, sizeof(path));
+				GetModuleFileNameA(GetModuleHandle(NULL), path, sizeof(path));
 				char *p = strrchr(path, '\\');
 				if (p) { *p = 0; }
-				STRNCPY(sdCmdLine->mimFolder, path, MIMFOLDER_SIZE);
+				strncpy_s(sdCmdLine->mimFolder, path, _TRUNCATE);
 				sdCmdLine->instances++;
-			
+
 				failure = 0;
 			}
-			else{
-				PUShowMessage(Translate("Could not create CommandLine listening server!"), SM_WARNING);
-			}
+			else PUShowMessageT(TranslateT("Could not create CommandLine listening server!"), SM_WARNING);
 		}
-		else{
-			MessageBox(NULL, Translate("You can only run one instance of CmdLine plugin."), Translate("Error"), MB_ICONERROR | MB_OK);
-		}
+		else MessageBox(NULL, TranslateT("You can only run one instance of CmdLine plugin."), TranslateT("Error"), MB_ICONERROR | MB_OK);
 	}
-	
+
 	return failure;
 }
 
