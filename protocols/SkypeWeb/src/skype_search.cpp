@@ -61,13 +61,13 @@ void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 		const JSONNode &ContactCards = item["ContactCards"];
 		const JSONNode &Skype = ContactCards["Skype"];
 
-		CMString tszDisplayName(Skype["DisplayName"].as_mstring());
-		CMString tszNick(Skype["SkypeName"].as_mstring());
+		CMStringA displayName(Skype["DisplayName"].as_string().c_str());
+		CMStringA nick(Skype["SkypeName"].as_string().c_str());
 
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
-		psr.flags = PSR_TCHAR;
-		psr.id.t = tszDisplayName.GetBuffer();
-		psr.nick.t = tszNick.GetBuffer();
+		psr.flags = PSR_UTF8;
+		psr.id.a = displayName.GetBuffer();
+		psr.nick.a = nick.GetBuffer();
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 	}
 	
