@@ -298,6 +298,8 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 
 int CSkypeProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 {
+	if (!IsOnline()) return 1;
+
 	if (hContact && !isChatRoom(hContact))
 		PushRequest(new DeleteContactRequest(m_szTokenSecret, db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID)));
 	return 0;
@@ -305,7 +307,9 @@ int CSkypeProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 
 INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
 {
-	if (IDYES == MessageBox(NULL, TranslateT("Are you sure?"), TranslateT("Warning"), MB_YESNOCANCEL | MB_ICONQUESTION))
+	if (!IsOnline()) return 1;
+
+	if (IDYES == MessageBox(NULL, TranslateT("Are you sure?"), TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION))
 		SendRequest(new BlockContactRequest(m_szTokenSecret, ptrA(db_get_sa(hContact, m_szModuleName, SKYPE_SETTINGS_ID))), &CSkypeProto::OnBlockContact, (void *)hContact);
 	return 0;
 }
