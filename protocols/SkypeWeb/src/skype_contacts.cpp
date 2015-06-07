@@ -185,19 +185,16 @@ void CSkypeProto::LoadContactsInfo(const NETLIBHTTPREQUEST *response)
 		MCONTACT hContact = AddContact(skypename.c_str());
 		if (hContact)
 		{
-			UpdateProfileFirstName(item, hContact);
-			UpdateProfileLastName(item, hContact);
-			UpdateProfileDisplayName(item, hContact);
 			UpdateProfileCountry(item, hContact);
 			UpdateProfileCity(item, hContact);
 			UpdateProfileStatusMessage(item, hContact);
-			UpdateProfileAvatar(item, hContact);
 		}
 	}
 }
 
 //[{"skypename":"echo123", "authorized" : true, "blocked" : false, ...},...]
 // other properties is exists but empty
+
 void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
@@ -208,42 +205,85 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 		return;
 
 	LIST<char> skypenames(1);
-
-	const JSONNode &items = root.as_array();
+	bool loadAll = getBool("LoadAllContacts", false);
+	const JSONNode &items = root["contacts"].as_array();
 	for (size_t i = 0; i < items.size(); i++)
 	{
 		const JSONNode &item = items.at(i);
 		if (!item)
 			break;
 
-		std::string skypename = item["skypename"].as_string();
-		MCONTACT hContact = AddContact(skypename.c_str());
-		if (hContact)
+		const JSONNode &name = item["name"];
+		const JSONNode &phones = item["phones"];
+
+		std::string skypename = item["id"].as_string();
+		CMString display_name = item["display_name"].as_mstring();
+		CMString first_name = name["first"].as_mstring();
+		CMString last_name = name["surname"].as_mstring();
+		CMString avatar_url = item["avatar_url"].as_mstring();
+		std::string type = item["type"].as_string();
+		
+		if (type == "skype" || loadAll)
 		{
-			if (item["authorized"].as_bool())
+			MCONTACT hContact = AddContact(skypename.c_str());
+			if (hContact)
 			{
-				delSetting(hContact, "Auth");
-				delSetting(hContact, "Grant");
-			}
-			else setByte(hContact, "Grant", 1);
-
-			if (item["blocked"].as_bool())
-			{
-				db_set_dw(hContact, "Ignore", "Mask1", 127);
-				db_set_b(hContact, "CList", "Hidden", 1);
-				setByte(hContact, "IsBlocked", 1);
-			}
-			else
-			{
-				if (db_get_b(hContact, m_szModuleName, "IsBlocked", 0))
+				if (item["authorized"].as_bool())
 				{
-					db_set_dw(hContact, "Ignore", "Mask1", 0);
-					db_set_b(hContact, "CList", "Hidden", 0);
-					setByte(hContact, "IsBlocked", 0);
+					delSetting(hContact, "Auth");
+					delSetting(hContact, "Grant");
 				}
-			}
+				else setByte(hContact, "Grant", 1);
 
-			skypenames.insert(mir_strdup(skypename.c_str()));
+				if (item["blocked"].as_bool())
+				{
+					db_set_dw(hContact, "Ignore", "Mask1", 127);
+					db_set_b(hContact, "CList", "Hidden", 1);
+					setByte(hContact, "IsBlocked", 1);
+				}
+				else
+				{
+					if (db_get_b(hContact, m_szModuleName, "IsBlocked", 0))
+					{
+						db_set_dw(hContact, "Ignore", "Mask1", 0);
+						db_set_b(hContact, "CList", "Hidden", 0);
+						setByte(hContact, "IsBlocked", 0);
+					}
+				}
+
+				setString(hContact, "Type", type.c_str());
+
+				if (display_name) 
+					setTString(hContact, "Nick", display_name); 
+				if (first_name) 
+					setTString(hContact, "FirstName", first_name); 
+				if (last_name)
+					setTString(hContact, "LastName", last_name); 
+
+				SetAvatarUrl(hContact, avatar_url);
+				ReloadAvatarInfo(hContact);
+
+				for (size_t j = 0; j < phones.size(); j++)
+				{
+					const JSONNode &phone = phones.at(j);
+					if (!phone)
+						break;
+
+					CMString number = phone["number"].as_mstring();
+
+					switch (phone["type"].as_int())
+					{
+					case 0:
+						setTString(hContact, "Phone", number);
+						break;
+					case 2:
+						setTString(hContact, "Cellular", number);
+						break;
+					}
+				}
+
+				if (type == "skype" || type == "msn") skypenames.insert(mir_strdup(skypename.c_str()));
+			}
 		}
 	}
 
@@ -279,9 +319,8 @@ INT_PTR CSkypeProto::OnRequestAuth(WPARAM hContact, LPARAM)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	ptrA token(getStringA("TokenSecret"));
 	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new AddContactRequest(token, skypename));
+	PushRequest(new AddContactRequest(m_szTokenSecret, skypename));
 	return 0;
 }
 
@@ -290,9 +329,8 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	ptrA token(getStringA("TokenSecret"));
 	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
-	PushRequest(new AuthAcceptRequest(token, skypename));
+	PushRequest(new AuthAcceptRequest(m_szTokenSecret, skypename));
 	return 0;
 }
 

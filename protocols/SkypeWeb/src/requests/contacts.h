@@ -30,6 +30,18 @@ public:
 			<< CHAR_VALUE("X-Skypetoken", token)
 			<< CHAR_VALUE("Accept", "application/json");
 	}
+	GetContactListRequest(const char *token, const char *skypename, const char *filter) :
+		HttpRequest(REQUEST_GET, FORMAT, "contacts.skype.com/contacts/v1/users/%s/contacts", CMStringA(skypename).MakeLower().GetBuffer())
+	{
+		if (filter != NULL)
+		{
+			Url
+				<< CHAR_VALUE ("filter", filter); //?filter=contacts[?(@.type="skype" or @.type="msn")]
+		}
+
+		Headers 
+			<< CHAR_VALUE("X-SkypeToken", token);
+	}
 };
 
 class GetContactsInfoRequest : public HttpRequest

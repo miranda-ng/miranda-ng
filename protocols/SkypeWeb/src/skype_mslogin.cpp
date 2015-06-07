@@ -127,7 +127,7 @@ void CSkypeProto::OnMSLoginThird(const NETLIBHTTPREQUEST *response)
 	std::smatch match;
 	std::string content = response->pData;
 
-	regex = "<input type=\"hidden\" name=\"t\" value=\"(.+?)\">";
+	regex = "<input type=\"hidden\" name=\"t\" value=\"(.+?)\"/>";
 
 	if (!std::regex_search(content, match, regex))
 	{
