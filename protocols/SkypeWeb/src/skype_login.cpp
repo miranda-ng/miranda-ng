@@ -26,7 +26,7 @@ void CSkypeProto::Login()
 	requestQueue->Start();
 	int tokenExpires(getDword("TokenExpiresIn", 0));
 	ptrA login(getStringA(SKYPE_SETTINGS_ID));
-	HistorySynced = false;
+	HistorySynced = isTerminated = false;
 	if ((tokenExpires - 1800) > time(NULL))
 		OnLoginSuccess();
 	else
@@ -103,6 +103,7 @@ void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 }
 void CSkypeProto::OnLoginSuccess()
 {
+	isTerminated = false;
 	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_SUCCESS, NULL, 0);
 	m_szSelfSkypeName = getStringA(SKYPE_SETTINGS_ID);
 	m_szTokenSecret = getStringA("TokenSecret");
@@ -214,7 +215,7 @@ void CSkypeProto::SendPresence(bool isLogin)
 	}
 
 	if (isLogin)
-		PushRequest(new SendCapabilitiesRequest(m_szRegToken, m_szEndpointId, epname, m_szServer), &CSkypeProto::OnCapabilitiesSended);
+		SendRequest(new SendCapabilitiesRequest(m_szRegToken, m_szEndpointId, epname, m_szServer), &CSkypeProto::OnCapabilitiesSended);
 	else 
 		PushRequest(new SendCapabilitiesRequest(m_szRegToken, m_szEndpointId, epname, m_szServer));
 }
@@ -237,7 +238,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, 0, NULL);
 
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
-	PushRequest(new GetContactListRequest(m_szTokenSecret), &CSkypeProto::LoadContactList);
+	PushRequest(new GetContactListRequest(m_szTokenSecret, m_szSelfSkypeName, NULL), &CSkypeProto::LoadContactList);
 
 	SendRequest(new LoadChatsRequest(m_szRegToken, m_szServer), &CSkypeProto::OnLoadChats);
 	if (getBool("AutoSync", true))
