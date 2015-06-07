@@ -94,7 +94,7 @@ void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 	std::string token = json["skypetoken"].as_string();
-	setString("m_szTokenSecret", token.c_str());
+	setString("TokenSecret", token.c_str());
 
 	int expiresIn = json["expiresIn"].as_int();
 	setDword("TokenExpiresIn", time(NULL) + expiresIn);
