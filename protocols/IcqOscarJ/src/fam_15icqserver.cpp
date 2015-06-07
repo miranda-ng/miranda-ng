@@ -932,15 +932,13 @@ void CIcqProto::parseDirectorySearchData(oscar_tlv_chain *cDetails, DWORD dwCook
 
 	ICQSEARCHRESULT isr = { 0 };
 	isr.hdr.cbSize = sizeof(ICQSEARCHRESULT);
-	isr.hdr.flags = PSR_TCHAR;
-	isr.hdr.id.t = ansi_to_tchar(szUid);
+	isr.hdr.flags = PSR_UTF8;
+	isr.hdr.id.a = szUid;
 
 	if (IsStringUIN(szUid))
 		isr.uin = atoi(szUid);
 	else
 		isr.uin = 0;
-
-	SAFE_FREE(&szUid);
 
 	oscar_tlv *pTLV = cDetails->getTLV(0x50, 1);
 	char *szData = NULL;
@@ -949,27 +947,22 @@ void CIcqProto::parseDirectorySearchData(oscar_tlv_chain *cDetails, DWORD dwCook
 		szData = cDetails->getString(0x50, 1); // Verified e-mail
 	else
 		szData = cDetails->getString(0x55, 1); // Pending e-mail
-	if (mir_strlen(szData))
-		isr.hdr.email.t = ansi_to_tchar(szData);
-	SAFE_FREE(&szData);
+	if (szData != NULL)
+		isr.hdr.email.a = szData;
 
 	szData = cDetails->getString(0x64, 1); // First Name
-	if (mir_strlen(szData))
-		isr.hdr.firstName.t = utf8_to_tchar(szData);
-	SAFE_FREE(&szData);
+	if (szData != NULL)
+		isr.hdr.firstName.a = szData;
 
 	szData = cDetails->getString(0x6E, 1); // Last Name
-	if (mir_strlen(szData))
-		isr.hdr.lastName.t = utf8_to_tchar(szData);
-	SAFE_FREE(&szData);
+	if (szData != NULL)
+		isr.hdr.lastName.a = szData;
 
 	szData = cDetails->getString(0x78, 1); // Nick
-	if (mir_strlen(szData))
-		isr.hdr.nick.t = utf8_to_tchar(szData);
-	SAFE_FREE(&szData);
+	if (szData != NULL)
+		isr.hdr.nick.a = szData;
 
-	switch (cDetails->getNumber(0x82, 1)) // Gender
-	{
+	switch (cDetails->getNumber(0x82, 1)) { // Gender
 	case 1:
 		isr.gender = 'F';
 		break;
@@ -997,11 +990,11 @@ void CIcqProto::parseDirectorySearchData(oscar_tlv_chain *cDetails, DWORD dwCook
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)dwCookie, (LPARAM)&isr);
 
 	// Release memory
-	SAFE_FREE(&isr.hdr.id.t);
-	SAFE_FREE(&isr.hdr.nick.t);
-	SAFE_FREE(&isr.hdr.firstName.t);
-	SAFE_FREE(&isr.hdr.lastName.t);
-	SAFE_FREE(&isr.hdr.email.t);
+	SAFE_FREE(&isr.hdr.id.a);
+	SAFE_FREE(&isr.hdr.nick.a);
+	SAFE_FREE(&isr.hdr.firstName.a);
+	SAFE_FREE(&isr.hdr.lastName.a);
+	SAFE_FREE(&isr.hdr.email.a);
 
 	// Search is over, broadcast final ack
 	if (wReplySubType == META_DIRECTORY_RESPONSE)
