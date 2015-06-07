@@ -257,9 +257,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdSSL", "..\src\core\stdss
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdLine", "..\plugins\CmdLine\CmdLine_10.vcxproj", "{73BA9CA5-640D-4F30-A157-A73557A25F98}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdLine", "..\plugins\CmdLine\CmdLine.vcxproj", "{73BA9CA5-640D-4F30-A157-A73557A25F98}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MimCmd", "..\plugins\CmdLine\MimCmd\MimCmd_10.vcxproj", "{1E3BB48A-FFBC-4A03-8C43-9124A484BE51}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MimCmd", "..\plugins\MimCmd\MimCmd.vcxproj", "{1E3BB48A-FFBC-4A03-8C43-9124A484BE51}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PasteIt", "..\plugins\PasteIt\PasteIt_10.vcxproj", "{BAEBC482-CDA9-4053-A7D0-08222E85118E}"
 EndProject

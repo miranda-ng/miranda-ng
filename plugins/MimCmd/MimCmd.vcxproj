@@ -19,10 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>AVS</ProjectName>
-    <ProjectGuid>{7711F563-6473-4ABD-B5E3-477CE8384AD6}</ProjectGuid>
+    <ProjectGuid>{1E3BB48A-FFBC-4A03-8C43-9124A484BE51}</ProjectGuid>
+    <ProjectName>MimCmd</ProjectName>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
+    <Import Project="$(ProjectDir)..\..\build\vc.common\app.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="..\CmdLine\src\mimcmd_ipc.cpp" />
+  </ItemGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
 </Project>

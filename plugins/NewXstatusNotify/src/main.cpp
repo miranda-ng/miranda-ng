@@ -1049,7 +1049,7 @@ int ProtoAck(WPARAM, LPARAM lParam)
 		else if (oldStatus < ID_STATUS_ONLINE && newStatus >= ID_STATUS_ONLINE) {
 			//The protocol changed from a disconnected status to a connected status.
 			//Enable the popups for this protocol.
-			int idTimer = AddAtomA(szProto);
+			ATOM idTimer = AddAtomA(szProto);
 			if (idTimer)
 				SetTimer(SecretWnd, idTimer, (UINT)opt.PopupConnectionTimeout * 1000, ConnectionTimerProc);
 		}

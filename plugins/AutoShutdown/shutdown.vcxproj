@@ -23,7 +23,7 @@
     <ProjectGuid>{3F8EF54D-0593-4048-B0E5-C938F99B29F3}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(ProjectDir)..\..\build\vc.common\common.props" />
+    <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
     <ClCompile Include="..\Utils\mir_fonts.cpp">

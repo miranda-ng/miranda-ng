@@ -23,7 +23,7 @@
     <ProjectName>Steam</ProjectName>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(ProjectDir)..\..\build\vc.common\common.props" />
+    <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
     <ClInclude Include="src\api\*.h" />
