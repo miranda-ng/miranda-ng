@@ -27,10 +27,10 @@ struct RequestQueueItem
 	HttpResponseCallback responseCallback;
 
 	RequestQueueItem(HttpRequest *request, void *arg) :
-		request(request), responseCallback(NULL), arg(arg) { }
+		 arg(arg), request(request), responseCallback(NULL) { }
 
 	RequestQueueItem(HttpRequest *request, HttpResponseCallback response, void *arg) :
-		request(request), responseCallback(response), arg(arg) { }
+		 arg(arg), request(request), responseCallback(response) { }
 
 	~RequestQueueItem()
 	{
