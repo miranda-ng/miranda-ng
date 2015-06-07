@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Плагин для управления "горячими" клавишами и действиями, такими как открытие окна контакта, вставка текста, запуск сторонних программ и вызов сервисов.
-;Icons
 [Apply]
 Применить
 [New]
@@ -42,7 +41,6 @@
 Перезагрузить/Обновить
 [Registered actions]
 Зарегистрированные действия
-;Actions
 [Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
 Ваши настройки Actman предназначены для устаревшей версии плагина. Нажмите "ОК", чтобы преобразовать настройки в новый формат, либо нажмите "Отмена", если собираетесь самостоятельно вернуть прежнюю версию плагина или сделать резервную копию настроек. Если вы ранее экспортировали макросы, не забудьте импортировать их обратно перед преобразованием в новый формат, поскольку новая версия плагина не может импортировать макросы, экспортированные прежней версией
 [Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
@@ -425,7 +423,6 @@ UTF16+сигнатура
 Пометить как изменяемое
 [Single instance]
 Один экземпляр
-;Scheduler
 [Scheduler]
 Планировщик
 [Task sample]
@@ -456,7 +453,6 @@ UTF16+сигнатура
 Отправлять событие при старте задания
 [Send event just once]
 Отправлять только при первом запуске
-;Hooks
 [Hooks]
 Хуки
 [Description]
@@ -467,7 +463,6 @@ UTF16+сигнатура
 Событие
 [Miranda event help]
 Помощь по событиям
-;Use Actions
 [Use Actions]
 Использование действий
 [Action list]
@@ -516,7 +511,6 @@ UTF16+сигнатура
 С разделителем
 [Do not translate]
 Без перевода
-;services.ini
 [Show window for new/changed profile password]
 Показывает окно для установки/изменения пароля профиля
 [int 0, if successful]
@@ -571,6 +565,10 @@ UTF16+сигнатура
 Удаляет все настройки, относящиеся к указанному модулю
 [int 0]
 целочисленный 0
+[displays File Transfer window]
+показывает окно передачи файлов
+[on Desktop]
+на рабочем столе
 [Show "About..." window]
 Показывает окно "О программе"
 [Open support (originally - Miranda wiki) page]
@@ -579,6 +577,10 @@ UTF16+сигнатура
 Открывает страницу для создания сообщения об ошибке
 [System]
 Система
+[Shows contact history or (wParam=0) system history]
+Показывает историю контакта или системную историю (если wParam=0)
+[Erases contact's history. hContact can be NULL(0) to empty system history]
+Удаляет историю контакта. Если hContact NULL(0), то будет удалена системная история
 [Ignore all]
 Игнорировать все
 [Ignore messages]
@@ -629,14 +631,22 @@ YAPP или Popup
 Текст Unicode
 [displays the Account Manager]
 Открывает менеджер учётных записей
+[wParam is unicode]
+wParam в Unicode
+[wParam is Ansi]
+wParam в ANSI
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 Воспроизводит звук, добавленный с помощью Skin/Sounds/AddNew. Если звук не найден, будет воспроизведён стандартный звук Windows
 [struct]
 структура
+[Send file to contact.]
+Отправляет контакту файл
 [remove all temporary contacts from db]
 Удаляет из базы все временные контакты
 [Filename]
 Имя файла
+[Shows contact property window.]
+Показывает окно со свойствами контакта
 [Open URL in current window]
 Открывает ссылку в текущем окне
 [0 - Open URL in current window]
