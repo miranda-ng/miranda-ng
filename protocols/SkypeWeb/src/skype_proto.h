@@ -165,6 +165,10 @@ private:
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
 	// login
+	void Login();
+	void OnMSLoginFirst(const NETLIBHTTPREQUEST *response);
+	void OnMSLoginSecond(const NETLIBHTTPREQUEST *response);
+	void OnMSLoginEnd(const NETLIBHTTPREQUEST *response);
 	void OnLoginOAuth(const NETLIBHTTPREQUEST *response);
 	void OnLoginSuccess();
 	void OnEndpointCreated(const NETLIBHTTPREQUEST *response);

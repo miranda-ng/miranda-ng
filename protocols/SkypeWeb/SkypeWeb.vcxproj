@@ -46,5 +46,6 @@
     <ClInclude Include="src\requests\status.h" />
     <ClInclude Include="src\requests\subscriptions.h" />
     <ClInclude Include="src\requests\trouter.h" />
+	<ClInclude Include="src\requests\mslogin.h" />
   </ItemGroup>
 </Project>

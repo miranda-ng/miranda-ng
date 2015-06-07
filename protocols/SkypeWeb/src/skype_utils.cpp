@@ -419,11 +419,7 @@ char *CSkypeProto::RemoveHtml(const char *text)
 
 bool CSkypeProto::IsMe(const char *skypeName)
 {
-	ptrA mySkypeName(getStringA(SKYPE_SETTINGS_ID));
-	ptrA SelfEndpointName(getStringA("SelfEndpointName"));
-	if (!mir_strcmpi(skypeName, mySkypeName) || !mir_strcmp(skypeName, SelfEndpointName))
-		return true;
-	return false;
+	return (!mir_strcmpi(skypeName, m_szSelfSkypeName) || !mir_strcmp(skypeName, ptrA(getStringA("SelfEndpointName"))));
 }
 
 char *CSkypeProto::MirandaToSkypeStatus(int status)

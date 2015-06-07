@@ -87,6 +87,7 @@ extern LIST<CSkypeProto> Accounts;
 #include "requests\search.h"
 #include "requests\chatrooms.h"
 #include "requests\trouter.h"
+#include "requests\mslogin.h"
 #include "request_queue.h"
 #include "skype_proto.h"
 
