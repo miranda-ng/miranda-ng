@@ -994,7 +994,7 @@ void CLCDConnectionLogitech::SetKBDBacklight(EKBDBrightness eBrightness)
 
 	HidD_SetFeature(m_hHIDDeviceHandle, data, m_HIDCapabilities.FeatureReportByteLength);
 
-	free(data);
+	delete[] data;
 }
 
 void CLCDConnectionLogitech::SetVolumeWheelHook(bool bEnable)

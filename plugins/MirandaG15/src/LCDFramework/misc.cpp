@@ -40,7 +40,7 @@ toWideString( const char* pStr , int len )
         return L"" ;
 
     //ASSERT_PTR( pStr ) ; 
-    ASSERT( len >= 0 || len == -1 , _T("Invalid string length: ") << len ) ; 
+    ASSERT( len >= 0 || len == -1); 
 
     // figure out how many wide characters we are going to get 
     int nChars = MultiByteToWideChar( CP_ACP , 0 , pStr , len , NULL , 0 ) ; 
@@ -65,7 +65,7 @@ string
 toNarrowString( const wchar_t* pStr , int len )
 {
     //ASSERT_PTR( pStr ) ; 
-    ASSERT( len >= 0 || len == -1 , _T("Invalid string length: ") << len ) ; 
+    ASSERT( len >= 0 || len == -1) ; 
 
     // figure out how many narrow characters we are going to get 
     int nChars = WideCharToMultiByte( CP_ACP , 0 , 
@@ -113,14 +113,14 @@ tstring Utf8_Decode(const char *str)
 {
 	tstring strRes = _T("");
 
-	int i, len;
+	int i;
 	char *p;
 	WCHAR *wszTemp = NULL;
 
 	if (str == NULL)
 		return strRes;
 
-	len = mir_strlen(str);
+	size_t len = mir_strlen(str);
 
     if ((wszTemp = (WCHAR *) malloc(sizeof(TCHAR) * (len + 2))) == NULL)
 		return strRes;
