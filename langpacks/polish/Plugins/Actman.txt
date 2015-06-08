@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Wtyczka pozwala na zarządzanie skrótami do otwierania okna kontaktu, wstawiania tekstu, uruchamiania programów i wywoływania usług
-;Icons
 [Apply]
 Zastosuj
 [New]
@@ -42,7 +41,6 @@ Eksportuj
 Przeładuj/Odśwież
 [Registered actions]
 Zarejestrowane akcje
-;Actions
 [Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
 Twoje ustawienia Actman są kompatybilne ze starszą wersją wtyczki. Jeżeli jesteś gotów do aktualizacji, naciśnij OK. W przeciwnym razie naciśnij Anuluj i ręcznie zamień wtyczkę na jej starszą wersję bądź dokonaj kopii zapasowej ustawień. Aby pozostawić uprzednio wyeksportowane makra, zaimportuj je z powrotem przed dokonaniem konwersji.
 [Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
@@ -425,7 +423,6 @@ Wybierz dla pierwszego uruchomienia
 Oznacz jako Ulotną
 [Single instance]
 Pojedyncza instancja
-;Scheduler
 [Scheduler]
 Harmonogram
 [Task sample]
@@ -456,7 +453,6 @@ Przerwij jeśli wynik jest inny niż 0
 Wyślij zdarzenie w czasie startu
 [Send event just once]
 Wyślij zdarzenie tylko raz
-;Hooks
 [Hooks]
 Haki API
 [Description]
@@ -467,7 +463,6 @@ Przykładowy uchwyt
 Zdarzenie
 [Miranda event help]
 Pomoc zdarzeń Mirandy
-;Use Actions
 [Use Actions]
 Użyj akcji
 [Action list]
@@ -516,7 +511,6 @@ Ustawienia niestandardowe
 Oddzielone
 [Do not translate]
 Nie tłumacz
-;services.ini
 [Show window for new/changed profile password]
 Pokaż okno nowego/zmienionego hasła profilu
 [int 0, if successful]
